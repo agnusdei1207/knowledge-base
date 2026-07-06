@@ -9,8 +9,8 @@ weight: 19
 ## 미리 알고가기
 
 - Coherence: 같은 메모리 주소의 캐시 사본들이 모순된 값을 보이지 않게 하는 성질임
-- MESI: Modified, Exclusive, Shared, Invalid 상태로 캐시 line을 관리하는 프로토콜임
-- MOESI: MESI에 Owned 상태를 추가해 수정 데이터를 캐시 간 직접 공급할 수 있게 한 방식임
+- 수정·독점·공유·무효(Modified, Exclusive, Shared, Invalid, MESI): 네 상태로 캐시 line을 관리하는 프로토콜임
+- 수정·소유·독점·공유·무효(Modified, Owned, Exclusive, Shared, Invalid, MOESI): MESI에 Owned 상태를 추가해 수정 데이터를 캐시 간 직접 공급할 수 있게 한 방식임
 - Invalidate: 다른 캐시의 사본을 무효화해 쓰기 권한을 확보하는 동작임
 
 ## Ⅰ. 개요
@@ -78,21 +78,26 @@ MESI states:
 
 > 요약: 캐시 일관성은 요청, 상태 확인, 메시지 교환, 상태 전이의 반복으로 유지됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 coherence traffic 증가**: 공유 데이터 쓰기가 많으면 invalidate, ack, writeback 메시지가 급증함
-- **P2 false sharing**: 서로 다른 변수가 같은 cache line에 있으면 실제 공유가 없어도 invalidate가 반복됨
-- **P3 확장성 한계**: 코어 수가 많아질수록 snoop broadcast와 상태 추적 비용이 커짐
-
-> 요약: 일관성 비용은 공유 쓰기, cache line 단위 관리, 코어 수 증가에서 크게 나타남.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: read-mostly 데이터 분리, atomic 최소화, MOESI/MESIF 같은 cache-to-cache 최적화를 적용함 (확인: coherence miss, interconnect traffic)
+- **P2 false sharing**: 서로 다른 변수가 같은 cache line에 있으면 실제 공유가 없어도 invalidate가 반복됨
 - **P2 대응**: cache line padding, per-core data, 구조체 재배치로 false sharing을 제거함 (확인: invalidation rate, perf counter)
+- **P3 확장성 한계**: 코어 수가 많아질수록 snoop broadcast와 상태 추적 비용이 커짐
 - **P3 대응**: directory coherence, snoop filter, hierarchical coherence로 broadcast 범위를 줄임 (확인: snoop bandwidth, scalability)
 
-> 요약: 캐시 일관성 개선은 프로토콜만이 아니라 데이터 배치와 공유 패턴 최적화가 함께 필요함.
+> 요약: 일관성 비용은 공유 쓰기, cache line 단위 관리, 코어 수 증가에서 나타나므로 데이터 배치와 메시지 범위를 함께 최적화해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 공유 메모리 멀티코어 중앙처리장치(Central Processing Unit, CPU) | 수정·독점·공유·무효(Modified, Exclusive, Shared, Invalid, MESI)/수정·소유·독점·공유·무효(Modified, Owned, Exclusive, Shared, Invalid, MOESI) 상태 전이로 read-mostly 데이터는 Shared로 유지하고 write owner 획득 시 invalidate를 확정함 | coherence miss, invalidation ack, memory ordering test |
+| 고성능 서버 캐시 계층 | Modified line 공유가 잦은 workload는 MOESI 또는 cache-to-cache transfer로 메모리 writeback을 줄임 | writeback traffic, interconnect bandwidth, owner response latency |
+| false sharing 진단 | lock 변수와 hot counter를 cache line 단위로 분리하고 per-core data layout으로 invalidate 반복을 줄임 | invalidation rate, perf counter, throughput 변화 |
+
+> 요약: 캐시 일관성은 상태 프로토콜 선택뿐 아니라 공유 데이터 배치와 invalidate 트래픽 검증이 적용 성패를 좌우함.
 
 ## Ⅶ. 전망
 

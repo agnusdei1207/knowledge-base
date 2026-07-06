@@ -8,10 +8,10 @@ weight: 12
 
 ## 미리 알고가기
 
-- OoO: 데이터가 준비된 명령어를 프로그램 순서와 다르게 먼저 실행하는 방식임
-- Architectural register: ISA에 노출되는 논리 레지스터 이름임
+- 비순서 실행(Out-of-Order Execution, OoO): 데이터가 준비된 명령어를 프로그램 순서와 다르게 먼저 실행하는 방식임
+- Architectural register: 명령어 집합 구조(Instruction Set Architecture, ISA)에 노출되는 논리 레지스터 이름임
 - Physical register: 실제 CPU 내부에서 결과값을 보관하는 물리 저장소임
-- ROB: 비순서 실행 결과를 프로그램 순서대로 확정하는 reorder buffer임
+- 재정렬 버퍼(Reorder Buffer, ROB): 비순서 실행 결과를 프로그램 순서대로 확정하는 큐임
 
 ## Ⅰ. 개요
 
@@ -21,7 +21,7 @@ weight: 12
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 동적 스케줄링과 가짜 의존성 제거 설명 | RAW/WAR/WAW, RAT, reservation station, ROB | 비순서 실행을 결과 순서 변경으로 오해 |
+| 동적 스케줄링과 가짜 의존성 제거 설명 | 읽기 후 쓰기(Read After Write, RAW), 쓰기 후 읽기(Write After Read, WAR), 쓰기 후 쓰기(Write After Write, WAW), 레지스터 별칭 테이블(Register Alias Table, RAT), 재정렬 버퍼(Reorder Buffer, ROB) | 비순서 실행을 결과 순서 변경으로 오해 |
 
 > 요약: OoO는 실행 순서를 바꾸고 renaming은 가짜 레지스터 충돌을 제거하지만 commit은 프로그램 순서로 수행함.
 
@@ -50,11 +50,11 @@ weight: 12
 
 | 구성요소 | 설명 | 비유 |
 |:---|:---|:---|
-| RAT | architectural register를 physical register로 매핑하는 rename table임 | 이름표 교환대 |
-| Physical register file | speculative 결과와 확정 전 값을 보관하는 내부 레지스터 집합임 | 임시 보관함 |
-| Reservation station | operand 준비 상태를 추적하고 실행 가능한 명령을 대기시킴 | 작업 대기실 |
-| Load-store queue | 메모리 명령의 주소 의존성과 순서를 추적함 | 물류 순번표 |
-| ROB | 실행 결과를 원래 순서대로 commit해 정확한 예외를 보장함 | 최종 승인대 |
+| 레지스터 별칭 테이블(Register Alias Table, RAT) | architectural register를 physical register로 매핑하는 rename table임 | 이름표 교환대 |
+| 물리 레지스터 파일(Physical Register File, PRF) | speculative 결과와 확정 전 값을 보관하는 내부 레지스터 집합임 | 임시 보관함 |
+| 예약 스테이션(Reservation Station, RS) | operand 준비 상태를 추적하고 실행 가능한 명령을 대기시킴 | 작업 대기실 |
+| 로드-스토어 큐(Load-Store Queue, LSQ) | 메모리 명령의 주소 의존성과 순서를 추적함 | 물류 순번표 |
+| 재정렬 버퍼(Reorder Buffer, ROB) | 실행 결과를 원래 순서대로 commit해 정확한 예외를 보장함 | 최종 승인대 |
 
 > 요약: OoO 구조는 rename, 대기열, 실행 유닛, ROB가 협력해 비순서 실행과 순서 확정을 분리함.
 
@@ -73,21 +73,26 @@ weight: 12
 
 > 요약: 실행은 operand 준비 순서대로 먼저 수행하고 상태 반영은 원래 순서대로 해 IPC와 정확한 예외를 함께 확보함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 복잡도·전력 증가**: 큰 instruction window, wakeup/select, bypass, ROB가 면적과 동적 전력을 증가시킴
+- **P1 대응**: window 크기, issue width, power gating을 workload별로 조정하고 복잡도 대비 클록당 명령어 수(Instructions Per Cycle, IPC)를 검증함 (확인: IPC/area, perf/W)
 - **P2 메모리 순서 위험**: load/store 주소가 늦게 확정되면 잘못된 speculative load와 memory ordering 오류가 생길 수 있음
-- **P3 투기 실행 공격면**: 잘못된 경로의 실행 흔적이 cache나 predictor 상태에 남아 side channel이 될 수 있음
-
-> 요약: OoO의 성능 이득은 하드웨어 복잡도, 메모리 정합성, 보안 부작용을 동반함.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: window 크기, issue width, power gating을 workload별로 조정하고 복잡도 대비 IPC를 검증함 (확인: IPC/area, perf/W)
 - **P2 대응**: load-store queue, memory disambiguation, fence 명령, memory model 검증을 강화함 (확인: ordering test, replay 횟수)
+- **P3 투기 실행 공격면**: 잘못된 경로의 실행 흔적이 cache나 predictor 상태에 남아 side channel이 될 수 있음
 - **P3 대응**: speculation barrier, cache partitioning, predictor flush, 민감 코드의 constant-time 구현을 적용함 (확인: side-channel test)
 
-> 요약: OoO 개선은 더 크게 만드는 것이 아니라 speculation을 통제하고 검증 가능한 범위에서 병렬성을 활용하는 것임.
+> 요약: OoO의 성능 이득은 하드웨어 복잡도, 메모리 정합성, 보안 부작용을 동반하므로 병렬성 확대와 투기 통제를 함께 검증해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 서버·PC 고성능 코어 | 재정렬 버퍼(Reorder Buffer, ROB), 레지스터 별칭 테이블(Register Alias Table, RAT), 예약 스테이션(Reservation Station, RS) 크기를 workload의 memory stall과 명령어 수준 병렬성(Instruction-Level Parallelism, ILP)에 맞춰 정하고 정확한 예외와 rollback 경로를 검증함 | 클록당 명령어 수(Instructions Per Cycle, IPC), ROB occupancy, precise exception test |
+| 메모리 지연 은닉이 큰 데이터 처리 | 로드-스토어 큐(Load-Store Queue, LSQ)와 memory disambiguation으로 독립 load/store를 먼저 실행하되 fence와 ordering rule로 오실행을 회수함 | replay 횟수, ordering litmus test, load miss penalty |
+| 보안 민감 실행 환경 | 민감 코드 구간은 speculation barrier와 cache partitioning을 적용하고 co-runner 간 timing leak을 점검함 | side-channel test, predictor flush coverage, p99 latency 변화 |
+
+> 요약: OoO는 단일 스레드 성능이 중요한 코어에서 효과가 크지만 commit 순서, memory ordering, side-channel 검증이 적용 조건임.
 
 ## Ⅶ. 전망
 

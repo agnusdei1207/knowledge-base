@@ -8,9 +8,9 @@ weight: 16
 
 ## 미리 알고가기
 
-- SMT: 하나의 물리 코어가 여러 하드웨어 스레드의 명령어를 같은 cycle에 발행하는 방식임
-- Hyper-Threading: Intel의 SMT 구현 브랜드명임
-- Logical processor: OS가 독립 CPU처럼 보는 하드웨어 스레드 실행 문맥임
+- 동시 멀티스레딩(Simultaneous Multithreading, SMT): 하나의 물리 코어가 여러 하드웨어 스레드의 명령어를 같은 cycle에 발행하는 방식임
+- 하이퍼스레딩(Hyper-Threading): Intel의 SMT 구현 브랜드명임
+- Logical processor: 운영체제(Operating System, OS)가 독립 중앙처리장치(Central Processing Unit, CPU)처럼 보는 하드웨어 스레드 실행 문맥임
 - Resource contention: 여러 스레드가 cache, execution unit, queue를 공유하며 경쟁하는 현상임
 
 ## Ⅰ. 개요
@@ -31,7 +31,7 @@ weight: 16
 |:---|:---|:---|
 | 자원 구성 | 코어별 실행 유닛과 일부 캐시를 독립 보유함 | 하나의 코어 실행 유닛과 cache를 논리 스레드가 공유함 |
 | 성능 효과 | 병렬 작업이 충분하면 큰 처리량 증가가 가능함 | 유휴 슬롯을 채워 10~30% 수준의 처리량 개선이 흔함 |
-| 병목 요인 | 메모리 대역폭, coherence, 동기화 | shared cache, ROB, port, execution unit 경합 |
+| 병목 요인 | 메모리 대역폭, coherence, 동기화 | shared cache, 재정렬 버퍼(Reorder Buffer, ROB), port, execution unit 경합 |
 | 적용 기준 | thread 수가 많고 격리가 중요할 때 | latency를 조금 희생하고 throughput을 높일 때 |
 
 > 요약: 멀티코어는 물리 자원 확장이고 SMT는 기존 코어 자원 활용률 개선임.
@@ -80,21 +80,26 @@ weight: 16
 
 > 요약: SMT는 문맥은 분리하고 실행 자원은 공유하여 stall 시간을 다른 스레드로 메우는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 성능 간섭**: 두 스레드가 같은 cache, port, memory bandwidth를 쓰면 단일 스레드 성능이 크게 낮아질 수 있음
-- **P2 보안 취약면**: 공유 cache와 execution port 상태가 timing side channel로 악용될 수 있음
-- **P3 지연시간 예측 어려움**: 실시간 또는 latency-sensitive workload는 이웃 스레드 상태에 따라 지연이 흔들림
-
-> 요약: SMT는 처리량 이득 대신 성능 격리, 보안 격리, 지연시간 예측성을 약화시킬 수 있음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: OS core scheduling, cache allocation, workload pairing으로 경합이 큰 스레드를 분리함 (확인: IPC 변동, LLC miss)
+- **P2 보안 취약면**: 공유 cache와 execution port 상태가 timing side channel로 악용될 수 있음
 - **P2 대응**: 민감 workload는 SMT 비활성화, core isolation, predictor/cache flush 정책을 적용함 (확인: 보안 기준, 취약점 점검)
+- **P3 지연시간 예측 어려움**: 실시간 또는 latency-sensitive workload는 이웃 스레드 상태에 따라 지연이 흔들림
 - **P3 대응**: real-time task는 전용 물리 코어에 pinning하고 SMT sibling 배치를 제한함 (확인: p99 latency, jitter)
 
-> 요약: SMT는 무조건 켜는 기능이 아니라 workload별 처리량 이득과 격리 리스크를 비교해 운영해야 함.
+> 요약: SMT는 처리량 이득 대신 성능 격리, 보안 격리, 지연시간 예측성을 약화시키므로 workload 배치 정책이 핵심임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 웹 서버 고동시성 처리 | 메모리·입출력 대기가 큰 thread를 동시 멀티스레딩(Simultaneous Multithreading, SMT) sibling으로 배치하되 tail latency 목표가 낮으면 물리 코어 분리를 우선함 | throughput/core, p99 latency, 클록당 명령어 수(Instructions Per Cycle, IPC) 변동 |
+| 멀티테넌트 클라우드 | 서로 다른 tenant 또는 민감 workload는 SMT 비활성화나 core scheduling으로 공유 cache·port 노출을 줄임 | side-channel test, 취약점 완화 적용률, co-runner 간 간섭 |
+| 실시간·저지연 서비스 | latency-sensitive task를 전용 물리 코어에 pinning하고 SMT sibling 실행을 금지하거나 제한함 | jitter, deadline miss, p95/p99 latency |
+
+> 요약: SMT는 유휴 슬롯이 많고 격리 요구가 낮은 workload에서 켜고, 보안·tail latency가 중요하면 배치 제한이나 비활성화를 검토해야 함.
 
 ## Ⅶ. 전망
 

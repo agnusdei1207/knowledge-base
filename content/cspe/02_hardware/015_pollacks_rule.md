@@ -9,7 +9,7 @@ weight: 15
 ## 미리 알고가기
 
 - Die area: 칩 위에서 코어, 캐시, 인터커넥트가 차지하는 면적임
-- PPA: Power, Performance, Area를 함께 보는 반도체 설계 평가 축임
+- 전력·성능·면적(Power, Performance, Area, PPA): 반도체 설계에서 세 요소를 함께 보는 평가 축임
 - Diminishing return: 투입 자원 증가 대비 성능 증가가 점차 줄어드는 현상임
 - Throughput core: 단일 성능보다 전력 대비 처리량을 중시한 작은 코어 설계임
 
@@ -74,21 +74,26 @@ weight: 15
 
 > 요약: 폴락의 법칙은 workload별 PPA 대안을 비교해 단일 코어 확대의 한계를 판단하는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 경험 법칙의 단순화**: 공정, 캐시, 메모리, workload에 따라 관계가 달라져 절대 공식처럼 쓰면 오류가 큼
+- **P1 대응**: 실제 benchmark, cycle model, silicon telemetry로 면적-성능 가정을 보정함 (확인: 표준 성능 평가 협회(Standard Performance Evaluation Corporation, SPEC) benchmark, workload IPC)
 - **P2 병렬화 전제 부족**: 작은 코어 다수가 유리하려면 소프트웨어가 충분히 병렬화되어야 함
-- **P3 전력·메모리 무시 위험**: 면적만 보고 판단하면 thermal, memory bandwidth, interconnect 병목을 놓칠 수 있음
-
-> 요약: 폴락의 법칙은 방향성을 주지만 실제 설계는 workload와 PPA 전체로 검증해야 함.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: 실제 benchmark, cycle model, silicon telemetry로 면적-성능 가정을 보정함 (확인: SPEC, workload IPC)
 - **P2 대응**: Amdahl/Gustafson 분석과 병렬 런타임 검증으로 코어 수 확장성을 확인함 (확인: speedup, CPU utilization)
+- **P3 전력·메모리 무시 위험**: 면적만 보고 판단하면 thermal, memory bandwidth, interconnect 병목을 놓칠 수 있음
 - **P3 대응**: roofline model, thermal model, memory bandwidth model을 함께 적용함 (확인: bandwidth saturation, throttling)
 
-> 요약: 폴락의 법칙은 초기 판단에 쓰고 최종 결정은 벤치마크와 PPA 모델로 검증해야 함.
+> 요약: 폴락의 법칙은 방향성을 주지만 실제 설계는 workload와 PPA 전체로 보정·검증해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 중앙처리장치(Central Processing Unit, CPU) 코어 포트폴리오 | big core 확대와 throughput core 다수 배치를 단일 스레드 지연시간, 병렬화율, 전력·성능·면적(Power, Performance, Area, PPA) 목표로 비교함 | p95 latency, speedup, 와트당 성능(performance per watt, perf/W) |
+| 서버 many-core 설계 | 면적을 코어 수, 최종 단계 캐시(Last-Level Cache, LLC), 메모리 컨트롤러에 배분하기 전에 memory bandwidth와 interconnect 병목을 모델링함 | bandwidth saturation, LLC miss, 면적당 성능(performance per square millimeter, perf/mm2) |
+| 시스템온칩(System on Chip, SoC) 가속기 선택 | 범용 코어 확대보다 특정 kernel 전용 accelerator가 PPA를 개선하는지 workload별로 검증함 | area budget, accelerator utilization, energy/op |
+
+> 요약: 폴락의 법칙은 큰 코어 확대, 작은 코어 다수, 전용 가속기 중 무엇이 PPA 목표를 만족하는지 가르는 초기 판단 기준임.
 
 ## Ⅶ. 전망
 

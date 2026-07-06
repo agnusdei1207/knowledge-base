@@ -8,8 +8,8 @@ weight: 14
 
 ## 미리 알고가기
 
-- Core: 명령어 fetch, decode, execute가 가능한 독립 실행 단위임
-- Shared cache: 여러 코어가 함께 사용하는 LLC 같은 캐시 계층임
+- 코어(Core): 중앙처리장치(Central Processing Unit, CPU)에서 명령어 fetch, decode, execute가 가능한 독립 실행 단위임
+- Shared cache: 여러 코어가 함께 사용하는 최종 단계 캐시(Last-Level Cache, LLC) 같은 캐시 계층임
 - Coherence: 여러 캐시의 같은 주소 데이터가 모순되지 않도록 유지하는 규칙임
 - Amdahl's Law: 직렬 구간이 전체 병렬 성능 향상을 제한한다는 법칙임
 
@@ -81,21 +81,26 @@ weight: 14
 
 > 요약: 멀티코어 성능은 작업 분할, 코어 배치, 캐시 활용, 동기화 비용의 합으로 결정됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 병렬화 한계**: 직렬 구간과 lock 경합이 남으면 코어 수 증가만큼 성능이 늘지 않음
-- **P2 캐시 일관성 비용**: 공유 데이터 쓰기와 false sharing이 invalidate 트래픽을 증가시켜 지연을 키움
-- **P3 전력·열 밀도**: 모든 코어를 동시에 고클록으로 동작시키면 thermal throttling과 전력 예산 초과가 발생함
-
-> 요약: 멀티코어 확장은 소프트웨어 병렬성, 공유 데이터, 전력 예산의 세 조건을 만족해야 효과가 있음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: lock-free 구조, 작업 큐, 병렬 알고리즘 재설계, Amdahl 분석을 적용함 (확인: speedup, lock wait)
+- **P2 캐시 일관성 비용**: 공유 데이터 쓰기와 false sharing이 invalidate 트래픽을 증가시켜 지연을 키움
 - **P2 대응**: cache line padding, read-mostly 분리, NUMA/cache affinity, coherence-friendly data layout을 적용함 (확인: invalidation, LLC miss)
-- **P3 대응**: DVFS, core parking, big.LITTLE, workload consolidation으로 전력과 온도를 제어함 (확인: throttling, perf/W)
+- **P3 전력·열 밀도**: 모든 코어를 동시에 고클록으로 동작시키면 thermal throttling과 전력 예산 초과가 발생함
+- **P3 대응**: 동적 전압 주파수 조절(Dynamic Voltage and Frequency Scaling, DVFS), core parking, big.LITTLE, workload consolidation으로 전력과 온도를 제어함 (확인: throttling, perf/W)
 
-> 요약: 멀티코어 개선은 코어 증설보다 병렬 소프트웨어와 공유 자원 관리가 핵심임.
+> 요약: 멀티코어 확장은 소프트웨어 병렬성, 공유 데이터, 전력 예산의 세 조건을 개선해야 효과가 있음.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 웹·애플리케이션 서버 | 요청 독립성이 높고 공유 상태가 작은 서비스에 코어 증설과 운영체제(Operating System, OS) affinity를 적용함 | throughput, p95/p99 latency, lock wait |
+| 데이터베이스·분석 엔진 | 파티션 병렬 처리와 thread pool을 코어 수, 최종 단계 캐시(Last-Level Cache, LLC) 용량, 메모리 대역폭에 맞춰 조정함 | speedup curve, LLC miss, memory bandwidth |
+| 모바일 시스템온칩(System on Chip, SoC) | big.LITTLE과 동적 전압 주파수 조절(Dynamic Voltage and Frequency Scaling, DVFS)로 foreground 지연시간과 background 처리량을 분리해 전력 예산을 맞춤 | battery drain, thermal throttling, frame drop |
+
+> 요약: 멀티코어는 작업 독립성, 공유 자원 병목, 전력 제약을 지표로 확인할 수 있는 업무에서 효과가 큼.
 
 ## Ⅶ. 전망
 

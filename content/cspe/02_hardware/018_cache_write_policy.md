@@ -76,21 +76,26 @@ Write-back:
 
 > 요약: 캐시 쓰기는 hit 판정 후 정책에 따라 즉시 메모리 반영 또는 dirty 지연 반영으로 나뉨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 write-through 대역폭 부담**: 쓰기마다 메모리 traffic이 발생해 write buffer overflow와 CPU stall이 생길 수 있음
-- **P2 write-back 최신성 위험**: dirty data가 캐시에만 존재하므로 장애, DMA, 다른 코어 접근 시 정합성 관리가 복잡함
-- **P3 write miss 정책 충돌**: write-allocate와 no-write-allocate 선택이 workload에 맞지 않으면 캐시 오염이나 반복 miss가 발생함
-
-> 요약: 쓰기 정책의 문제는 메모리 traffic, dirty data 정합성, miss 시 캐시 적재 기준에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: write buffer, write combining, store coalescing으로 메모리 쓰기를 묶어 처리함 (확인: write stall, buffer occupancy)
-- **P2 대응**: MESI/MOESI, flush 명령, DMA coherency, ECC와 전원 보호 정책을 적용함 (확인: dirty eviction, coherency test)
+- **P2 write-back 최신성 위험**: dirty data가 캐시에만 존재하므로 장애, DMA, 다른 코어 접근 시 정합성 관리가 복잡함
+- **P2 대응**: MESI/MOESI, flush 명령, 직접 메모리 접근(Direct Memory Access, DMA) coherency, ECC와 전원 보호 정책을 적용함 (확인: dirty eviction, coherency test)
+- **P3 write miss 정책 충돌**: write-allocate와 no-write-allocate 선택이 workload에 맞지 않으면 캐시 오염이나 반복 miss가 발생함
 - **P3 대응**: streaming write는 no-write-allocate, 재사용 데이터는 write-allocate로 workload별 정책을 구분함 (확인: cache pollution, write miss rate)
 
-> 요약: 캐시 쓰기 개선은 대역폭과 정합성 요구를 기준으로 write policy와 miss policy를 함께 정해야 함.
+> 요약: 쓰기 정책의 문제는 메모리 traffic, dirty data 정합성, miss 시 캐시 적재 기준에서 발생하므로 정책별 검증 지표를 분리해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 임베디드 제어 시스템 | 직접 메모리 접근(Direct Memory Access, DMA) 장치가 메모리를 직접 읽는 구간은 write-through 또는 명시적 flush로 최신성을 보장함 | DMA coherency error, write stall, flush coverage |
+| 서버 중앙처리장치(Central Processing Unit, CPU) 데이터 캐시 | 반복 store가 많은 workload는 write-back과 dirty bit 관리로 메모리 대역폭을 줄이되 eviction 폭주를 감시함 | writeback traffic, dirty eviction, buffer occupancy |
+| 영속 메모리·컴퓨트 익스프레스 링크(Compute Express Link, CXL) 메모리 | 장애 복구 요구가 있는 영역은 cache line flush와 ordering fence로 지속성 경계를 명확히 함 | power-loss recovery, persist latency, ordering test |
+
+> 요약: 캐시 쓰기 정책은 DMA·장애 복구·대역폭 조건에 따라 즉시 반영과 지연 반영의 검증 기준을 달리 둬야 함.
 
 ## Ⅶ. 전망
 

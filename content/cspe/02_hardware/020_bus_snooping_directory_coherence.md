@@ -8,9 +8,9 @@ weight: 20
 
 ## 미리 알고가기
 
-- Bus snooping: 모든 캐시가 공유 버스의 coherence transaction을 감시하는 방식임
-- Directory: 어떤 코어가 특정 cache line 사본을 보유하는지 기록하는 관리 구조임
-- Sharer vector: line을 가진 코어 목록을 비트로 표시한 디렉터리 정보임
+- 버스 스누핑(Bus Snooping): 모든 캐시가 공유 버스의 coherence transaction을 감시하는 방식임
+- 디렉터리(Directory): 어떤 코어가 특정 cache line 사본을 보유하는지 기록하는 관리 구조임
+- 공유자 벡터(Sharer Vector): line을 가진 코어 목록을 비트로 표시한 디렉터리 정보임
 - Broadcast/Unicast: 모든 코어에 보내는 방식과 필요한 코어에만 보내는 방식임
 
 ## Ⅰ. 개요
@@ -76,21 +76,26 @@ Directory:
 
 > 요약: 일관성 전달 구조는 사본 위치를 찾고 필요한 코어에만 상태 변경을 확정하는 절차임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 스누핑 확장성 한계**: 소규모 공유 버스 전제의 스누핑을 코어 수가 많은 시스템에 적용하면 모든 캐시가 모든 transaction을 감시해 bus bandwidth와 전력이 급증함
-- **P2 디렉터리 저장·지연 비용**: sharer vector와 directory lookup이 메모리 오버헤드와 추가 지연을 만듦
-- **P3 메시지 순서·교착 위험**: NoC에서 invalidate, ack, data response 순서가 꼬이면 deadlock 또는 livelock이 발생할 수 있음
-
-> 요약: 스누핑은 broadcast 비용, 디렉터리는 메타데이터와 메시지 제어 비용이 핵심 문제임.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: snoop filter, hierarchical snooping, cluster 단위 broadcast로 감시 범위를 줄임 (확인: snoop traffic, bus utilization)
+- **P2 디렉터리 저장·지연 비용**: sharer vector와 directory lookup이 메모리 오버헤드와 추가 지연을 만듦
 - **P2 대응**: sparse directory, compressed sharer vector, distributed directory로 저장 공간과 지연을 줄임 (확인: directory miss, lookup latency)
+- **P3 메시지 순서·교착 위험**: NoC에서 invalidate, ack, data response 순서가 꼬이면 deadlock 또는 livelock이 발생할 수 있음
 - **P3 대응**: virtual channel, ordering rule, timeout/retry, formal protocol verification을 적용함 (확인: deadlock proof, protocol coverage)
 
-> 요약: 대규모 시스템의 일관성 개선은 broadcast 축소와 디렉터리 메타데이터 최적화를 함께 수행해야 함.
+> 요약: 스누핑은 broadcast 비용, 디렉터리는 메타데이터와 메시지 제어 비용이 핵심 문제이므로 코어 수와 fabric 구조에 맞춰 선택해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 소규모 대칭형 다중처리(Symmetric Multiprocessing, SMP) 시스템온칩(System on Chip, SoC) | 코어 수가 적고 공유 버스 지연이 낮은 구조에는 bus snooping으로 단순한 coherence를 구현함 | snoop traffic, bus utilization, invalidate latency |
+| 비균등 메모리 접근(Non-Uniform Memory Access, NUMA) 서버 | socket과 코어 수가 늘어나는 구조에는 directory와 sharer vector로 owner·sharer에게만 메시지를 전송함 | directory lookup latency, remote socket latency, broadcast 감소율 |
+| 칩렛·컴퓨트 익스프레스 링크(Compute Express Link, CXL) fabric | 패키지 경계와 장치까지 coherence domain이 확장되는 구간은 hierarchical directory와 snoop filter를 결합함 | protocol coverage, duplicate response, deadlock proof |
+
+> 요약: 스누핑과 디렉터리는 코어 수, 패키지 경계, 메시지 지연을 기준으로 선택하고 protocol 검증으로 확정해야 함.
 
 ## Ⅶ. 전망
 

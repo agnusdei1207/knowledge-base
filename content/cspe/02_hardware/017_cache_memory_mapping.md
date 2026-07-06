@@ -80,21 +80,26 @@ Address bits:
 
 > 요약: 캐시 접근은 주소 분해, 후보 선택, tag 비교, hit 반환 또는 miss fill 순서로 진행됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 conflict miss**: 직접 매핑에서는 자주 쓰는 여러 블록이 같은 index에 몰리면 반복 교체가 발생함
-- **P2 탐색 지연·전력**: 연관도가 높을수록 많은 way comparator가 동시에 동작해 hit latency와 전력이 증가함
-- **P3 주소 alias 문제**: 가상 주소 기반 캐시에서는 같은 물리 주소가 다른 index로 들어가는 synonym 문제가 생길 수 있음
-
-> 요약: 매핑 방식은 충돌을 줄일수록 탐색 비용과 주소 관리 복잡도가 증가하는 절충임.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: N-way set associative, victim cache, skewed associativity로 충돌 miss를 완화함 (확인: conflict miss, hit rate)
+- **P2 탐색 지연·전력**: 연관도가 높을수록 많은 way comparator가 동시에 동작해 hit latency와 전력이 증가함
 - **P2 대응**: way prediction, phased lookup, 적정 associativity 선정으로 전력과 지연을 줄임 (확인: hit latency, energy/access)
+- **P3 주소 alias 문제**: 가상 주소 기반 캐시에서는 같은 물리 주소가 다른 index로 들어가는 synonym 문제가 생길 수 있음
 - **P3 대응**: physically indexed cache, page coloring, synonym invalidation 정책을 적용함 (확인: alias fault, OS cache 관리)
 
-> 요약: 캐시 매핑 개선은 hit rate와 access latency를 동시에 측정해 연관도를 결정해야 함.
+> 요약: 매핑 방식은 충돌을 줄일수록 탐색 비용과 주소 관리 복잡도가 증가하므로 계층별 latency와 miss를 함께 봐야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 1단계 캐시(Level 1 Cache, L1) 설계 | hit latency가 우선인 instruction/data cache는 낮은 associativity와 짧은 tag compare 경로를 선택함 | hit latency, energy/access, L1 miss rate |
+| 최종 단계 캐시(Last-Level Cache, LLC) 설계 | working set 충돌이 큰 서버 workload는 set associative와 replacement state를 확대하되 접근 지연 증가를 제한함 | 천 명령어당 캐시 미스(Misses Per Kilo Instructions, MPKI), eviction rate, LLC occupancy |
+| 운영체제(Operating System, OS) 메모리 배치 | synonym 위험이나 set 충돌이 큰 workload는 page coloring과 cache partitioning으로 index 분포를 조정함 | conflict miss, alias fault, tenant 간 cache interference |
+
+> 요약: 캐시 매핑은 계층별 지연시간, workload 충돌 패턴, OS 주소 배치 조건을 함께 확인해 선택해야 함.
 
 ## Ⅶ. 전망
 

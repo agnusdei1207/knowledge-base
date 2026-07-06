@@ -8,10 +8,10 @@ weight: 13
 
 ## 미리 알고가기
 
-- ILP: 하나의 instruction stream 안에서 동시에 실행 가능한 독립 명령어의 정도임
+- 명령어 수준 병렬성(Instruction-Level Parallelism, ILP): 하나의 instruction stream 안에서 동시에 실행 가능한 독립 명령어의 정도임
 - Basic block: 분기 없이 순차 실행되는 명령어 구간임
 - Dependency graph: 명령어 사이의 데이터와 제어 의존성을 그래프로 표현한 구조임
-- IPC: 클록당 완료 명령어 수로 ILP 활용 결과를 보여주는 지표임
+- 클록당 명령어 수(Instructions Per Cycle, IPC): 클록당 완료 명령어 수로 ILP 활용 결과를 보여주는 지표임
 
 ## Ⅰ. 개요
 
@@ -21,13 +21,13 @@ weight: 13
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| CPU 병렬성의 원천과 한계 판단 | data/control dependency, compiler scheduling, OoO, IPC | ILP를 멀티스레딩과 혼동 |
+| CPU 병렬성의 원천과 한계 판단 | data/control dependency, compiler scheduling, 비순서 실행(Out-of-Order Execution, OoO), 클록당 명령어 수(Instructions Per Cycle, IPC) | ILP를 멀티스레딩과 혼동 |
 
 > 요약: ILP는 한 스레드 안에서 동시에 실행 가능한 명령어를 얼마나 찾고 활용하는지의 기준임.
 
 ## Ⅱ. 특징/비교
 
-| 판단 기준 | ILP | TLP/DLP |
+| 판단 기준 | 명령어 수준 병렬성(Instruction-Level Parallelism, ILP) | 스레드·데이터 수준 병렬성(Thread-Level Parallelism/Data-Level Parallelism, TLP/DLP) |
 |:---|:---|:---|
 | 병렬성 단위 | 하나의 스레드 안의 독립 명령어 | 여러 스레드 또는 여러 데이터 원소 |
 | 활용 장치 | pipeline, superscalar, OoO, VLIW | multicore, SMT, SIMD, GPU |
@@ -75,21 +75,26 @@ weight: 13
 
 > 요약: ILP 활용은 의존성을 줄이고 독립 명령어를 드러낸 뒤 실행 폭에 맞게 배치하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 실제 의존성 한계**: 알고리즘 자체에 긴 RAW chain이 있으면 하드웨어가 아무리 넓어도 병렬 실행할 수 없음
-- **P2 제어·메모리 불확실성**: branch 방향과 load/store alias가 늦게 확정되면 안전한 재배치가 어려움
-- **P3 수익 체감**: issue width와 window를 키울수록 추가 IPC는 줄고 전력·면적 비용은 증가함
-
-> 요약: ILP는 프로그램 구조와 불확실성 때문에 무한히 늘릴 수 없고 비용 대비 효과가 빠르게 줄어듦.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 알고리즘 재구성, loop unrolling, strength reduction, vectorization 전환을 검토함 (확인: dependency chain 길이, IPC)
+- **P2 제어·메모리 불확실성**: branch 방향과 load/store alias가 늦게 확정되면 안전한 재배치가 어려움
 - **P2 대응**: branch prediction, predication, memory disambiguation, profile-guided optimization을 적용함 (확인: branch miss, replay)
-- **P3 대응**: superscalar 폭, OoO window, cache 대역폭을 workload별 PPA 기준으로 제한함 (확인: IPC/area, perf/W)
+- **P3 수익 체감**: issue width와 window를 키울수록 추가 IPC는 줄고 전력·면적 비용은 증가함
+- **P3 대응**: superscalar 폭, OoO window, cache 대역폭을 workload별 전력·성능·면적(Power, Performance, Area, PPA) 기준으로 제한함 (확인: IPC/area, perf/W)
 
-> 요약: ILP 개선은 의존성 제거와 하드웨어 폭 확대의 비용 대비 효과를 함께 봐야 함.
+> 요약: ILP는 프로그램 구조와 불확실성 때문에 무한히 늘릴 수 없으므로 의존성 제거와 하드웨어 비용을 함께 판단해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 컴파일러 최적화 | loop unrolling, instruction scheduling, register renaming으로 basic block 안의 독립 명령어를 노출함 | 클록당 명령어 수(Instructions Per Cycle, IPC), dependency stall, issue slot utilization |
+| CPU 마이크로아키텍처 설계 | issue width, branch predictor, OoO window를 단일 스레드 지연시간과 전력·성능·면적(Power, Performance, Area, PPA) 목표에 맞춰 제한함 | IPC/area, branch miss, perf/W |
+| 병렬화 전략 선택 | ILP 한계가 dependency chain에서 확인되면 TLP/DLP 또는 전용 가속기 전환을 검토함 | speedup curve, vector utilization, memory stall |
+
+> 요약: ILP는 단일 스레드 성능 최적화의 1차 기준이며, 한계가 보이면 TLP/DLP로 병렬성 계층을 바꿔야 함.
 
 ## Ⅶ. 전망
 

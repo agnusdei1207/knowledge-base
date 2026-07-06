@@ -8,10 +8,10 @@ weight: 11
 
 ## 미리 알고가기
 
-- VLIW: Very Long Instruction Word로 여러 독립 연산을 하나의 긴 명령어 묶음에 담는 방식임
+- 매우 긴 명령어 워드(Very Long Instruction Word, VLIW): 여러 독립 연산을 하나의 긴 명령어 묶음에 담는 방식임
 - Static scheduling: 실행 순서를 컴파일러가 미리 결정하는 방식임
-- Functional unit: ALU, multiplier, load/store처럼 연산을 수행하는 실행 장치임
-- NOP: 해당 슬롯에서 수행할 연산이 없음을 나타내는 no operation 명령임
+- Functional unit: 산술논리연산장치(Arithmetic Logic Unit, ALU), multiplier, load/store처럼 연산을 수행하는 실행 장치임
+- 무연산(No Operation, NOP): 해당 슬롯에서 수행할 연산이 없음을 나타내는 명령임
 
 ## Ⅰ. 개요
 
@@ -75,21 +75,25 @@ weight: 11
 
 > 요약: VLIW 실행은 컴파일러가 만든 병렬 작업표를 하드웨어가 단순하게 수행하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 binary 호환성 취약**: functional unit 수나 latency가 바뀌면 기존 binary의 성능 또는 동작 보장이 어려워짐
+- **P1 대응**: 아키텍처 family별 호환 규칙, binary translation, recompile 전략을 제공함 (확인: 애플리케이션 바이너리 인터페이스(Application Binary Interface, ABI) 호환성, 재컴파일 비용)
 - **P2 코드 크기 증가**: 병렬성이 부족한 구간은 NOP slot이 많아져 instruction cache와 메모리 대역폭을 낭비함
+- **P2 대응**: instruction compression, predication, software pipelining으로 NOP와 분기 비용을 줄임 (확인: code size, 명령어 캐시(Instruction Cache, I-cache) miss)
 - **P3 동적 지연 대응 한계**: cache miss나 분기처럼 실행 시점에 달라지는 지연을 컴파일러가 완전히 예측하기 어려움
-
-> 요약: VLIW는 정적 계획이 정확할 때 강하지만 구현 변화와 동적 이벤트에 약함.
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: 아키텍처 family별 호환 규칙, binary translation, recompile 전략을 제공함 (확인: ABI 호환성, 재컴파일 비용)
-- **P2 대응**: instruction compression, predication, software pipelining으로 NOP와 분기 비용을 줄임 (확인: code size, I-cache miss)
 - **P3 대응**: profile-guided optimization, predicated execution, limited dynamic scheduling을 결합함 (확인: branch stall, cache miss 영향)
 
-> 요약: VLIW 개선은 컴파일러 최적화와 실행 환경 변화에 대한 보완 장치를 함께 제공해야 함.
+> 요약: VLIW는 정적 계획이 정확할 때 강하지만 구현 변화와 동적 이벤트에 약하므로 컴파일러 최적화와 호환성 검증을 함께 둬야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 디지털 신호 처리기(Digital Signal Processor, DSP) 필터·코덱 | 반복 루프 지연이 고정된 커널에 매우 긴 명령어 워드(Very Long Instruction Word, VLIW) bundle과 software pipelining을 적용함 | issue slot utilization, 무연산(No Operation, NOP) 비율, 명령어 캐시(Instruction Cache, I-cache) miss |
+| 통신 baseband 시스템온칩(System on Chip, SoC) | 채널 코딩·변조처럼 의존성이 낮은 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD) 연산을 컴파일러 스케줄러와 재컴파일 체계가 있는 코어에 배치함 | throughput/W, branch stall, 재컴파일 회귀 테스트 |
+
+> 요약: VLIW는 지연 모델이 예측 가능하고 재컴파일·성능 검증 체계가 있는 반복 커널에 적용할 때 효과가 큼.
 
 ## Ⅶ. 전망
 
