@@ -56,7 +56,7 @@ Rewrite tracker:
 
 | Area | Completed | Next Start |
 |:---|:---|:---|
-| `01_basic_theory` | 001~050, legacy quality varies | 051 |
+| `01_basic_theory` | 001~080, writing-method 기준 재작성 완료 | 완료 |
 | `02_hardware` | 001~015, legacy quality varies | 016 |
 | `03_software` | 001~015, legacy quality varies | 016 |
 | `04_network` | 001~015, legacy quality varies | 016 |
