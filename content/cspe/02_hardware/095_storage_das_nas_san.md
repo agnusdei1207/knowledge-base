@@ -79,21 +79,26 @@ weight: 95
 
 > 요약: 스토리지 설계는 요구 지표를 정리한 뒤 접근 단위와 공유 범위에 맞춰 계층을 선택함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 부적합 계층 선택**: 파일 공유 업무에 DAS를 쓰거나 DB 블록 I/O에 NAS를 무리하게 쓰면 성능과 운영성이 떨어짐
-- **P2 네트워크 병목**: NAS/SAN은 스토리지보다 Ethernet, FC fabric, multipath 설정이 병목이 될 수 있음
-- **P3 관리 분산**: DAS 중심 확장은 서버별 용량·백업·장애 대응이 흩어져 운영 비용을 높임
-
-> 요약: 스토리지 문제는 장치 성능보다 업무와 계층의 불일치, 경로 병목, 관리 분산에서 자주 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 업무별 I/O profile을 측정해 블록·파일·객체 접근 단위를 재선정함 (확인: workload latency)
+- **P2 네트워크 병목**: NAS/SAN은 스토리지보다 Ethernet, FC fabric, multipath 설정이 병목이 될 수 있음
 - **P2 대응**: 전용 VLAN(Virtual Local Area Network)/fabric, multipath, QoS(Quality of Service), queue depth 튜닝으로 경로 병목을 제거함 (확인: path utilization)
+- **P3 관리 분산**: DAS 중심 확장은 서버별 용량·백업·장애 대응이 흩어져 운영 비용을 높임
 - **P3 대응**: 중앙 백업, 용량 풀링, 표준 provisioning 정책으로 분산 관리를 줄임 (확인: storage admin effort)
 
 > 요약: 스토리지 개선은 계층 재선정과 경로 최적화, 관리 표준화가 함께 이루어져야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| DB 스토리지 설계 | 트랜잭션 DB는 블록 I/O 지연과 IOPS 요구를 기준으로 SAN 또는 NVMe DAS를 선정함 | p99 latency, IOPS, queue depth |
+| 파일 공유·백업 | 부서 공유, 로그 보관, 백업 업무는 NAS의 권한 관리와 스냅샷 정책을 중심으로 설계함 | throughput, snapshot success rate, restore time |
+| 전사 스토리지 표준화 | DAS 난립을 줄이고 용량 풀링, multipath, 백업 정책을 표준화해 운영 비용을 관리함 | capacity utilization, RTO/RPO, 운영 투입 시간 |
+
+> 요약: 실무에서는 DAS/NAS/SAN을 장비명으로 고르지 않고 접근 단위, 지연, 공유 범위, 복구 기준으로 선택해야 함.
 
 ## Ⅶ. 전망
 

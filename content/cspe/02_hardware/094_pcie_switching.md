@@ -77,21 +77,26 @@ weight: 94
 
 > 요약: PCIe 스위칭은 장치 열거 후 TLP 라우팅과 링크 관리로 다수 endpoint를 투명하게 연결함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 upstream 병목**: 하위 장치 총 대역폭이 상위 링크보다 크면 NVMe나 GPU 작업에서 oversubscription이 발생함
-- **P2 지연·순서 영향**: switch hop, 버퍼링, flow control이 latency 민감 I/O와 P2P 전송에 영향을 줌
-- **P3 격리 취약성**: ACS/IOMMU(Input-Output Memory Management Unit) 설정이 부정확하면 endpoint 간 DMA(Direct Memory Access) 접근 격리가 약해질 수 있음
-
-> 요약: PCIe 스위칭의 위험은 확장된 장치 수보다 공유 링크, 지연, DMA 격리 조건에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 장치별 요구 대역폭으로 oversubscription ratio를 설계하고 workload별 포트 배치를 조정함 (확인: upstream utilization)
+- **P2 지연·순서 영향**: switch hop, 버퍼링, flow control이 latency 민감 I/O와 P2P 전송에 영향을 줌
 - **P2 대응**: latency 민감 장치는 직접 연결하거나 switch hop 수와 P2P 경로를 제한함 (확인: p99 I/O latency)
+- **P3 격리 취약성**: ACS/IOMMU(Input-Output Memory Management Unit) 설정이 부정확하면 endpoint 간 DMA(Direct Memory Access) 접근 격리가 약해질 수 있음
 - **P3 대응**: ACS, ATS(Address Translation Services), IOMMU group, firmware 설정을 검증해 DMA 격리를 보장함 (확인: isolation test result)
 
 > 요약: PCIe 스위치 도입은 포트 수 확장보다 대역폭 계획과 DMA 보안 검증이 우선임.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| GPU·NVMe 서버 설계 | 하위 장치 총 대역폭과 upstream 링크를 비교해 슬롯 배치와 oversubscription 허용치를 정함 | upstream utilization, oversubscription ratio |
+| P2P 데이터 경로 최적화 | GPU Direct Storage, NVMe P2P 전송에서 switch hop 수와 ACS 설정이 지연에 미치는 영향을 측정함 | p99 I/O latency, P2P throughput |
+| DMA 격리 검증 | IOMMU group, ACS, firmware 설정을 점검해 테넌트·장치 간 무단 DMA 접근을 차단함 | isolation test result, unauthorized DMA 차단 |
+
+> 요약: 실무에서는 PCIe 스위치를 포트 확장 장치가 아니라 대역폭, 지연, DMA 격리를 함께 설계해야 하는 공유 패브릭으로 다뤄야 함.
 
 ## Ⅶ. 전망
 

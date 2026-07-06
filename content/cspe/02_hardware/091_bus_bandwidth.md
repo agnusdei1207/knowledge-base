@@ -78,21 +78,26 @@ weight: 91
 
 > 요약: 정확한 계산은 단위 정리, 이론치 산정, 효율 보정, 요구량 비교 순서로 수행함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 단위 혼동**: Gb/s와 GB/s, MHz와 MT/s, full-duplex와 half-duplex를 혼동하면 8배 이상 오차가 발생함
-- **P2 스펙 과신**: 최고 클럭과 최대 레인 수 기준 계산은 실제 패킷 크기와 대기시간을 반영하지 못함
-- **P3 병목 전이**: 버스 대역폭을 늘려도 메모리 컨트롤러, DMA(Direct Memory Access) 엔진, 소프트웨어 큐가 새 병목이 될 수 있음
-
-> 요약: 대역폭 계산 오류는 단위, 프로토콜 효율, 전체 경로 병목을 분리하지 못할 때 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 계산식에 단위를 명시하고 bit-to-Byte, lane, direction 변환을 표준 템플릿으로 검증함 (확인: 계산 단위 일치)
+- **P2 스펙 과신**: 최고 클럭과 최대 레인 수 기준 계산은 실제 패킷 크기와 대기시간을 반영하지 못함
 - **P2 대응**: 페이로드 효율, burst size, retry, flow control을 반영한 유효 대역폭을 별도 산정함 (확인: measured throughput)
+- **P3 병목 전이**: 버스 대역폭을 늘려도 메모리 컨트롤러, DMA(Direct Memory Access) 엔진, 소프트웨어 큐가 새 병목이 될 수 있음
 - **P3 대응**: end-to-end 경로의 CPU, DMA, 메모리, I/O 큐를 함께 프로파일링함 (확인: utilization by component)
 
 > 요약: 버스 성능 평가는 공식 하나보다 단위 검증과 실측 기반 병목 분해가 중요함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 서버 인터페이스 용량 산정 | GPU, NIC(Network Interface Card), NVMe 장치의 요구 대역폭을 lane 수와 세대별 유효 전송률로 비교함 | required bandwidth, oversubscription ratio |
+| 스토리지 병목 분석 | 이론 PCIe 대역폭과 실제 NVMe 처리량을 분리하고 queue depth, payload 효율, CPU 사용률을 함께 확인함 | measured throughput, queue depth, CPU utilization |
+| 구매·설계 검증 | 견적서의 Gb/s, GB/s, 단방향·양방향 표기를 계산식으로 검증해 과대 스펙 해석을 방지함 | 단위 검증 결과, effective bandwidth, p99 latency |
+
+> 요약: 실무에서는 단위와 방향을 명시한 계산식, 유효 전송률, 전체 경로 병목을 함께 보여야 성능 판단이 가능함.
 
 ## Ⅶ. 전망
 

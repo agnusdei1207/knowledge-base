@@ -77,21 +77,26 @@ weight: 100
 
 > 요약: 온디바이스 AI는 모델을 칩 제약에 맞게 변환하고 NPU 중심 파이프라인으로 실행함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 모델 호환성 제약**: NPU가 지원하지 않는 operator나 동적 shape가 있으면 CPU fallback으로 성능이 급락함
-- **P2 메모리·전력 병목**: TOPS가 높아도 가중치 이동과 activation 저장이 병목이면 실제 지연과 발열이 증가함
-- **P3 모델·데이터 보안**: 단말에 모델과 입력 데이터가 존재해 추출, 변조, 적대적 입력 위험이 커짐
-
-> 요약: 온디바이스 AI 칩의 성능은 연산 수보다 지원 연산, 메모리 이동, 보안 경계에 의해 결정됨.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: target NPU operator set 기준으로 모델을 설계하고 fallback 비율을 측정함 (확인: NPU execution coverage)
+- **P2 메모리·전력 병목**: TOPS가 높아도 가중치 이동과 activation 저장이 병목이면 실제 지연과 발열이 증가함
 - **P2 대응**: quantization, tiling, SRAM(Static Random-Access Memory) reuse, DVFS 정책으로 데이터 이동과 발열을 줄임 (확인: inferences per watt)
+- **P3 모델·데이터 보안**: 단말에 모델과 입력 데이터가 존재해 추출, 변조, 적대적 입력 위험이 커짐
 - **P3 대응**: secure boot, TEE(Trusted Execution Environment), model encryption, integrity check, adversarial test를 적용함 (확인: model tamper detection)
 
 > 요약: 온디바이스 AI 품질은 모델-하드웨어 공동 최적화와 단말 보안 설계로 확보함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 모바일 생성형 AI 기능 | 모델을 NPU 지원 operator와 메모리 예산에 맞춰 양자화하고 CPU fallback 비율을 제한함 | NPU execution coverage, latency, accuracy loss |
+| 엣지 카메라 분석 | 영상 전처리, NPU 추론, 후처리를 파이프라인화하고 발열에 따른 DVFS 영향을 측정함 | inferences per watt, thermal throttling rate |
+| 보안 업데이트 운영 | 모델 암호화, secure boot, 무결성 검증, adversarial test를 배포 게이트로 적용함 | model tamper detection, update success rate |
+
+> 요약: 실무에서는 TOPS 수치보다 실제 모델 coverage, 메모리 이동, 전력·발열, 모델 보안 지표를 기준으로 온디바이스 AI 칩을 평가해야 함.
 
 ## Ⅶ. 전망
 

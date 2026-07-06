@@ -77,21 +77,26 @@ weight: 93
 
 > 요약: AMBA 트랜잭션은 요청, 라우팅, 전송, 응답의 명확한 규칙으로 IP 간 호환성을 보장함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 인터커넥트 병목**: 여러 고성능 master가 같은 메모리나 인터커넥트 포트를 공유하면 지연과 starvation이 발생함
-- **P2 CDC(Clock Domain Crossing)·타이밍 복잡도**: IP별 클럭 도메인과 버스 폭이 다르면 bridge와 FIFO(First-In First-Out) 검증 부담이 증가함
-- **P3 QoS(Quality of Service) 설정 오류**: burst 길이, outstanding 수, priority 정책이 맞지 않으면 실시간 IP 성능이 흔들림
-
-> 요약: AMBA 설계의 위험은 프로토콜 자체보다 공유 경로, 클럭 경계, QoS 정책에서 주로 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 트래픽 모델 기반 interconnect sizing, 분리된 메모리 포트, arbitration 정책 검증을 수행함 (확인: bus utilization)
+- **P2 CDC(Clock Domain Crossing)·타이밍 복잡도**: IP별 클럭 도메인과 버스 폭이 다르면 bridge와 FIFO(First-In First-Out) 검증 부담이 증가함
 - **P2 대응**: clock domain crossing FIFO, formal protocol checker, timing constraint를 표준화함 (확인: CDC violation count)
+- **P3 QoS(Quality of Service) 설정 오류**: burst 길이, outstanding 수, priority 정책이 맞지 않으면 실시간 IP 성능이 흔들림
 - **P3 대응**: IP별 QoS class, burst 제한, latency budget을 문서화하고 시뮬레이션으로 검증함 (확인: worst-case latency)
 
 > 요약: AMBA 품질은 버스 프로토콜 준수와 함께 트래픽·클럭·QoS 검증 체계로 확보함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| SoC 인터커넥트 통합 | CPU, DMA, NPU, 디스플레이 IP별 AXI master 트래픽을 모델링하고 arbitration 정책을 검증함 | bus utilization, starvation count, worst-case latency |
+| 실시간 멀티미디어 IP | 카메라·디스플레이 경로에 QoS class와 burst 제한을 부여해 프레임 드롭을 방지함 | frame drop rate, latency budget 준수율 |
+| RTL 검증 환경 | AMBA protocol checker, CDC 검증, address map assertion을 회귀 테스트에 포함함 | protocol violation count, CDC violation count |
+
+> 요약: 실무에서는 AMBA 규격 암기가 아니라 트래픽 모델, QoS, CDC·프로토콜 검증 산출물을 제시해야 함.
 
 ## Ⅶ. 전망
 

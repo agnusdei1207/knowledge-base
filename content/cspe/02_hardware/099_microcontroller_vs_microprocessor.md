@@ -78,21 +78,26 @@ weight: 99
 
 > 요약: MCU/MPU 선택은 요구 지표를 하드웨어 구조와 소프트웨어 복잡도에 매핑하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 과소·과대 선정**: MCU로 복잡한 UI와 네트워크를 처리하거나 MPU를 단순 센서 제어에 쓰면 비용과 품질 문제가 생김
-- **P2 실시간성 저하**: MPU와 범용 OS는 인터럽트 지연과 스케줄링 변동으로 hard real-time 제어가 어려울 수 있음
-- **P3 보드 복잡도 증가**: MPU는 외부 DRAM, PMIC(Power Management Integrated Circuit), 고속 배선이 필요해 설계·검증 비용이 커짐
-
-> 요약: 임베디드 프로세서 선택 실패는 성능 부족보다 요구와 구조의 불일치에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: workload profile과 BOM target을 기준으로 MCU, MPU, hybrid SoC(System on Chip) 후보를 정량 비교함 (확인: cost-performance fit)
+- **P2 실시간성 저하**: MPU와 범용 OS는 인터럽트 지연과 스케줄링 변동으로 hard real-time 제어가 어려울 수 있음
 - **P2 대응**: real-time 요구는 RTOS MCU, MPU+real-time core, 실시간 Linux 커널 옵션 조합으로 분리 설계함 (확인: worst-case latency)
+- **P3 보드 복잡도 증가**: MPU는 외부 DRAM, PMIC(Power Management Integrated Circuit), 고속 배선이 필요해 설계·검증 비용이 커짐
 - **P3 대응**: reference design, SI(Signal Integrity)/PI(Power Integrity) 검증, production test point를 초기 설계에 포함함 (확인: board bring-up defect rate)
 
 > 요약: 선택 리스크는 요구 분석과 실시간 분리, 보드 검증 표준화로 낮출 수 있음.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 배터리 센서 노드 | 저전력 MCU와 RTOS(Real-Time Operating System)를 선택해 sleep current, 인터럽트 지연, BOM 비용을 최적화함 | sleep current, worst-case latency, BOM cost |
+| 산업용 게이트웨이 | Linux 기반 MPU로 네트워크, UI, 보안 업데이트를 처리하고 실시간 제어는 별도 MCU에 분리함 | update success rate, control latency, board defect rate |
+| 제품군 플랫폼화 | MCU/MPU reference design과 펌웨어 SDK를 표준화해 파생 제품의 인증·검증 비용을 낮춤 | reuse rate, certification effort, bring-up time |
+
+> 요약: 실무에서는 최고 성능보다 실시간성, 전력, 보드 복잡도, 수명주기 비용으로 MCU와 MPU를 선택해야 함.
 
 ## Ⅶ. 전망
 

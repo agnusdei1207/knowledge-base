@@ -77,21 +77,26 @@ weight: 92
 
 > 요약: 데이터 흐름 실행은 그래프에서 토큰이 이동하며 가능한 연산을 계속 활성화하는 과정임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 토큰 관리 오버헤드**: 값 이동과 준비 상태 추적 비용이 커지면 병렬성 이득을 상쇄함
-- **P2 메모리 부작용 처리**: 공유 메모리 읽기·쓰기 순서와 aliasing이 있으면 순수 데이터 의존성만으로 실행 순서를 정하기 어려움
-- **P3 불균형 병렬성**: 그래프의 특정 노드나 통신 간선에 부하가 몰리면 실행 유닛 활용률이 낮아짐
-
-> 요약: 데이터 흐름 구조는 병렬성은 높지만 토큰, 메모리 순서, 그래프 균형 관리가 어렵음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: coarse-grained dataflow, 토큰 압축, 로컬 버퍼링으로 관리 단위를 키움 (확인: token overhead ratio)
+- **P2 메모리 부작용 처리**: 공유 메모리 읽기·쓰기 순서와 aliasing이 있으면 순수 데이터 의존성만으로 실행 순서를 정하기 어려움
 - **P2 대응**: SSA(Static Single Assignment), memory dependence analysis, transactional memory 또는 명시적 동기화로 부작용 순서를 제한함 (확인: memory conflict rate)
+- **P3 불균형 병렬성**: 그래프의 특정 노드나 통신 간선에 부하가 몰리면 실행 유닛 활용률이 낮아짐
 - **P3 대응**: 그래프 파티셔닝, work stealing, 통신 locality 최적화로 부하를 분산함 (확인: execution unit utilization)
 
 > 요약: 데이터 흐름의 실용성은 병렬성 추출보다 토큰·메모리·스케줄링 비용을 낮추는 데 달려 있음.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| AI 데이터플로우 가속기 | 연산 그래프를 tile 단위로 나누고 activation 이동을 줄이도록 노드 배치와 버퍼 재사용을 최적화함 | execution unit utilization, memory traffic, token overhead |
+| 스트림 처리 파이프라인 | 이벤트가 도착한 노드부터 실행되도록 backpressure와 파티셔닝 정책을 설계함 | throughput, queue depth, hotspot node count |
+| 컴파일러·런타임 최적화 | SSA와 의존성 분석으로 병렬 실행 가능한 노드를 찾고 부작용이 있는 메모리 연산은 동기화함 | dependence conflict rate, parallelism extracted |
+
+> 요약: 실무에서는 데이터 의존 그래프가 명확한 워크로드에 한정하고, 토큰 관리와 메모리 부작용 비용을 수치로 관리해야 함.
 
 ## Ⅶ. 전망
 

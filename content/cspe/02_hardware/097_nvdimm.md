@@ -79,21 +79,26 @@ weight: 97
 
 > 요약: NVDIMM은 정상 시 빠른 메모리로 동작하고 장애 시 자동 보존·복구 절차를 수행함.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 플랫폼 의존성**: BIOS, 메모리 컨트롤러, OS 드라이버 지원이 맞지 않으면 장치 기능을 활용하기 어려움
-- **P2 일관성 보장 부담**: CPU cache에 남은 데이터가 flush되지 않으면 정전 후 저장 상태가 애플리케이션 기대와 달라질 수 있음
-- **P3 수명·전원 관리**: 백업 전원 노화와 비휘발 매체 쓰기 수명이 데이터 보존 신뢰성을 좌우함
-
-> 요약: NVDIMM은 하드웨어 장착만으로 충분하지 않고 플랫폼 지원과 지속성 프로그래밍이 함께 필요함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 서버 HCL(Hardware Compatibility List), BIOS 설정, OS namespace 지원, 드라이버 버전을 사전 검증함 (확인: platform compatibility matrix)
+- **P2 일관성 보장 부담**: CPU cache에 남은 데이터가 flush되지 않으면 정전 후 저장 상태가 애플리케이션 기대와 달라질 수 있음
 - **P2 대응**: cache flush, memory fence, journaling, persistent memory library를 적용함 (확인: crash consistency test)
+- **P3 수명·전원 관리**: 백업 전원 노화와 비휘발 매체 쓰기 수명이 데이터 보존 신뢰성을 좌우함
 - **P3 대응**: 배터리/슈퍼커패시터 상태 모니터링과 wear indicator 기반 교체 정책을 운영함 (확인: backup health)
 
 > 요약: NVDIMM 운영은 장치보다 crash consistency와 플랫폼 검증 체계를 중심으로 관리해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| DB 로그·메타데이터 보존 | redo log와 메타데이터를 NVDIMM에 배치하고 cache flush, fence, journaling을 적용함 | crash consistency pass rate, recovery time |
+| 서버 플랫폼 검증 | HCL, BIOS 설정, OS namespace, 드라이버 조합을 사전 검증해 장치 기능 미인식을 방지함 | compatibility matrix, boot validation result |
+| 전원 장애 대응 | 배터리 또는 슈퍼커패시터 상태를 모니터링하고 정전 복구 시험을 정기 수행함 | backup health, power-fail recovery success |
+
+> 요약: 실무에서는 NVDIMM을 빠른 메모리보다 장애 후 데이터 보존과 즉시 복구를 위한 플랫폼·일관성 기술로 적용해야 함.
 
 ## Ⅶ. 전망
 

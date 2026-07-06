@@ -78,21 +78,26 @@ weight: 98
 
 > 요약: 퍼시스턴트 메모리 사용은 할당보다 쓰기 순서와 장애 후 일관성 검증이 핵심임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 프로그래밍 복잡도**: 개발자가 cache flush, ordering, 원자성 문제를 잘못 처리하면 장애 후 데이터가 깨질 수 있음
-- **P2 성능 예측 어려움**: load/store 경로는 빠르지만 flush, write amplification, NUMA(Non-Uniform Memory Access) 배치에 따라 지연이 변동됨
-- **P3 보안·잔존 데이터**: 전원 차단 후에도 데이터가 남아 있어 폐기, 재할당, 권한 오류 시 정보 노출 위험이 있음
-
-> 요약: 퍼시스턴트 메모리는 빠른 저장보다 crash consistency와 데이터 잔존 관리가 더 큰 운영 과제임.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: PMDK 같은 라이브러리, transaction 패턴, crash test를 표준화함 (확인: recovery consistency pass rate)
+- **P2 성능 예측 어려움**: load/store 경로는 빠르지만 flush, write amplification, NUMA(Non-Uniform Memory Access) 배치에 따라 지연이 변동됨
 - **P2 대응**: NUMA-aware allocation, flush batching, profiling으로 지연 변동 원인을 분리함 (확인: p99 persist latency)
+- **P3 보안·잔존 데이터**: 전원 차단 후에도 데이터가 남아 있어 폐기, 재할당, 권한 오류 시 정보 노출 위험이 있음
 - **P3 대응**: namespace 암호화, secure erase, 재할당 시 zeroing 정책을 적용함 (확인: residual data scan)
 
 > 요약: 퍼시스턴트 메모리 개선은 프로그래밍 모델, 성능 계측, 데이터 생명주기 보안을 함께 다뤄야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 인메모리 DB 복구 | 데이터 구조를 persistent memory에 배치하고 transaction, flush, checksum으로 재시작 복구를 단축함 | recovery time, consistency pass rate |
+| 파일시스템·저널 최적화 | journal, metadata, checkpoint를 영속 메모리에 배치해 동기 쓰기 지연을 줄임 | p99 persist latency, write amplification |
+| 장비 폐기·재할당 | namespace 암호화, secure erase, zeroing 정책을 운영 절차에 포함해 잔존 데이터를 제거함 | residual data scan, erase verification |
+
+> 요약: 실무에서는 퍼시스턴트 메모리를 성능 장치가 아니라 장애 일관성과 데이터 생명주기 보안을 함께 요구하는 저장 계층으로 다뤄야 함.
 
 ## Ⅶ. 전망
 

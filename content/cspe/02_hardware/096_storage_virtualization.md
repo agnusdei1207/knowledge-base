@@ -78,21 +78,26 @@ weight: 96
 
 > 요약: 가상화된 스토리지는 물리 자원을 풀링한 뒤 논리 볼륨과 정책으로 업무에 제공됨.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 매핑 계층 병목**: 가상화 엔진의 CPU(Central Processing Unit), 캐시, 메타데이터 I/O가 전체 경로의 병목이 될 수 있음
-- **P2 용량 과할당 위험**: thin provisioning을 과도하게 사용하면 물리 용량 부족 시 쓰기 실패가 발생함
-- **P3 장애 영향 확대**: 중앙 가상화 계층 장애가 여러 업무 볼륨에 동시에 영향을 줄 수 있음
-
-> 요약: 스토리지 가상화의 핵심 위험은 편리한 추상화가 성능·용량·장애 범위를 숨기는 데 있음.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 가상화 엔진 이중화, 캐시 sizing, 메타데이터 분리, I/O profile 튜닝을 수행함 (확인: virtualization latency overhead)
+- **P2 용량 과할당 위험**: thin provisioning을 과도하게 사용하면 물리 용량 부족 시 쓰기 실패가 발생함
 - **P2 대응**: thin pool threshold, 자동 증설, quota, capacity forecasting을 적용함 (확인: physical free capacity)
+- **P3 장애 영향 확대**: 중앙 가상화 계층 장애가 여러 업무 볼륨에 동시에 영향을 줄 수 있음
 - **P3 대응**: controller HA(High Availability), multipath, 정기 failover test로 가상화 계층 장애 범위를 검증함 (확인: failover time)
 
 > 요약: 스토리지 가상화는 추상화 계층을 별도 운영 대상과 장애 도메인으로 관리해야 함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 통합 스토리지 풀 운영 | 이기종 스토리지를 논리 풀로 묶고 업무별 볼륨, QoS, tier 정책을 표준으로 제공함 | provisioning time, capacity utilization |
+| Thin provisioning 관리 | 물리 용량 임계치, 자동 증설, quota를 운영 정책으로 두어 쓰기 실패를 예방함 | physical free capacity, threshold breach count |
+| 재해복구·이중화 | controller HA, replication, multipath failover를 정기 시험해 가상화 계층 장애 범위를 확인함 | failover time, data loss, path recovery rate |
+
+> 요약: 실무에서는 추상화 편의보다 성능 오버헤드, 용량 위험, 장애 도메인을 운영 지표로 관리해야 함.
 
 ## Ⅶ. 전망
 
