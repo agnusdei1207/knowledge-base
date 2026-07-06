@@ -21,7 +21,7 @@ weight: 57
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| HPC/AI 클러스터 네트워크 구조 설명 | RDMA, HCA, Switch, Subnet Manager, QoS | 단순 빠른 LAN으로 설명 |
+| HPC/AI 클러스터 네트워크 구조 설명 | RDMA, HCA, Switch, Subnet Manager, 서비스 품질(Quality of Service, QoS) | 단순 빠른 근거리 통신망(Local Area Network, LAN)으로 설명 |
 
 > 요약: InfiniBand는 RDMA와 전용 패브릭으로 노드 간 통신 지연과 CPU 부담을 줄이는 클러스터 네트워크임.
 
@@ -72,21 +72,26 @@ weight: 57
 
 > 요약: InfiniBand는 패브릭 제어와 메모리 등록 후 HCA가 직접 전송을 수행하는 구조임.
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 운영 복잡도**: Subnet Manager, 펌웨어, 케이블, 라우팅 설정이 맞지 않으면 장애 원인 파악이 어려움
-- **P2 혼잡 핫스팟**: collective 통신과 스토리지 트래픽이 특정 링크에 집중되면 지연이 급증함
-- **P3 비용·생태계 제약**: 전용 HCA와 스위치, 전문 운영 역량이 필요해 초기 도입 비용이 큼
-
-> 요약: InfiniBand 문제는 저지연 성능을 얻기 위한 패브릭 운영 복잡도와 비용에서 발생함.
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 펌웨어 표준화, 포트 자동 점검, 토폴로지 문서화, 장애 runbook을 운영함 (확인: 링크 장애 탐지 시간)
+- **P2 혼잡 핫스팟**: collective 통신과 스토리지 트래픽이 특정 링크에 집중되면 지연이 급증함
 - **P2 대응**: fat-tree 설계, adaptive routing, QoS 분리, collective 알고리즘 튜닝을 적용함 (확인: 링크별 혼잡 카운터)
+- **P3 비용·생태계 제약**: 전용 HCA와 스위치, 전문 운영 역량이 필요해 초기 도입 비용이 큼
 - **P3 대응**: RDMA over Converged Ethernet(RoCE)/Ethernet 대안과 워크로드별 성능비를 비교해 단계적 도입을 계획함 (확인: 성능당 총비용)
 
-> 요약: 개선은 자동화된 패브릭 운영, 혼잡 제어, 비용 대비 성능 검증으로 수행함.
+> 요약: InfiniBand 개선은 자동화된 패브릭 운영, 혼잡 제어, 비용 대비 성능 검증으로 수행함.
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 메시지 전달 인터페이스(Message Passing Interface, MPI) 기반 슈퍼컴퓨터 | 애플리케이션 메시지 크기와 통신 패턴에 맞춰 fat-tree oversubscription과 adaptive routing을 설계함 | MPI latency, bisection bandwidth, 링크 혼잡 카운터 |
+| AI 학습 클러스터 | RDMA 기반 gradient 교환과 병렬 파일시스템 트래픽을 QoS로 분리해 collective 지연을 안정화함 | all-reduce 대역폭, 그래픽 처리 장치(Graphics Processing Unit, GPU) 유휴율, 패킷 폐기율 |
+| 스토리지 집약형 계산 | HCA 포트와 스토리지 경로를 분리하고 failover 경로를 사전 검증함 | I/O 지연, failover 시간, 링크 장애 탐지 시간 |
+
+> 요약: InfiniBand 적용은 저지연 통신 이득이 운영 복잡도와 비용을 상쇄하는 워크로드에서 타당함.
 
 ## Ⅶ. 전망
 
