@@ -24,7 +24,7 @@ weight: 78
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
 | 근사와 휴리스틱 차이 설명 | 근사비의 수학적 보장 | 경험적 성능만으로 근사 알고리즘이라 서술 |
-| PTAS/FPTAS 이해 | 정확도 `ε`와 시간 복잡도 관계 | PTAS와 FPTAS 구분 누락 |
+| 다항시간 근사 스킴(Polynomial-Time Approximation Scheme, PTAS)/완전 다항시간 근사 스킴(Fully Polynomial-Time Approximation Scheme, FPTAS) 이해 | 정확도 `ε`와 시간 복잡도 관계 | PTAS와 FPTAS 구분 누락 |
 
 > 요약: 근사 알고리즘은 최적해를 포기하는 대신 다항 시간과 품질 보장을 함께 제공하는 최적화 해법임
 
@@ -61,7 +61,7 @@ weight: 78
 | 구성요소 | 설명 | 비유 |
 |:---|:---|:---|
 | 목적 함수 | 최소화 또는 최대화할 비용·이익 기준을 수식으로 정의함 | 점수판 |
-| 하한·상한 | 최적해와 비교할 기준값을 LP relaxation, dual, greedy bound 등으로 확보함 | 기준선 |
+| 하한·상한 | 최적해와 비교할 기준값을 선형계획 완화(Linear Programming Relaxation, LP relaxation), dual, greedy bound 등으로 확보함 | 기준선 |
 | 다항 알고리즘 | greedy, LP rounding, primal-dual 등 제한 시간 안에 해를 만드는 절차임 | 풀이 도구 |
 | 근사해 | 알고리즘이 산출한 실제 실행 가능한 해임 | 제출 답안 |
 | 근사비 증명 | 최적해와 근사해의 차이가 일정 비율 이내임을 보이는 논리임 | 품질 보증서 |
@@ -87,21 +87,26 @@ ILP/graph          lower/upper        feasible sol       rho guarantee
 
 > 요약: 근사 알고리즘은 최적화 문제를 모델링하고 비교 기준을 세운 뒤 해를 구성하고 근사비로 품질을 증명함
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 근사비 증명 난도**: 문제 구조에 맞는 하한·상한을 찾지 못하면 알고리즘 품질을 수학적으로 보장할 수 없음
+- **P1 대응**: 선형계획 완화(Linear Programming Relaxation, LP relaxation), dual fitting, primal-dual, known reduction을 활용해 증명 기준을 확보함 (확인: 근사비 증명 완결성)
 - **P2 보장과 실성능 괴리**: 최악 근사비는 보수적이어서 실제 데이터의 성능 또는 서비스 품질을 충분히 설명하지 못할 수 있음
+- **P2 대응**: 최악 근사비와 함께 benchmark gap, 평균 성능, 도메인 제약 충족률을 같이 평가함 (확인: OPT gap, 서비스 수준 협약(Service Level Agreement, SLA))
 - **P3 대규모 운영 비용**: 다항 시간이라도 `O(n^3)` 이상이면 대규모 실시간 문제에서는 지연이 커질 수 있음
-
-> 요약: 근사 알고리즘은 이론 보장, 실제 성능, 대규모 실행 비용 사이의 간극을 관리해야 함
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: LP relaxation, dual fitting, primal-dual, known reduction을 활용해 증명 기준을 확보함 (확인: 근사비 증명 완결성)
-- **P2 대응**: 최악 근사비와 함께 benchmark gap, 평균 성능, 도메인 제약 충족률을 같이 평가함 (확인: OPT gap, SLA)
 - **P3 대응**: 스트리밍, 병렬화, 샘플링, 온라인 알고리즘으로 계산량을 낮춤 (확인: p95 실행 시간, 메모리)
 
 > 요약: 근사 알고리즘은 수학적 보장을 유지하되 실제 데이터와 운영 시간 기준으로 추가 검증해야 함
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 시설 입지·집합 커버 | 모든 수요를 덮어야 하지만 최적 조합 탐색이 큰 경우 greedy 또는 LP rounding을 적용하고 근사비를 품질 보장으로 제시함 | coverage ratio, 근사비, 비용 초과율 |
+| 배송·방문 경로 | 외판원 문제(Traveling Salesman Problem, TSP) 변형은 시간 제한 안에 근사 경로를 산출하고 실제 교통 제약은 후처리 검증으로 분리함 | OPT gap, route violation count, 재계산 시간 |
+| 클라우드 자원 배치 | 대규모 bin packing·스케줄링은 근사 알고리즘으로 초기 배치를 만들고 온라인 조정으로 서비스 수준 협약(Service Level Agreement, SLA)을 맞춤 | 자원 사용률, SLA 위반률, p95 배치 시간 |
+
+> 요약: 근사 알고리즘 적용은 근사비 보장, 실제 데이터 gap, 운영 시간 제한을 함께 검증하는 최적화 선택임
 
 ## Ⅶ. 전망
 

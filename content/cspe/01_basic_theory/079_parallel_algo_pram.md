@@ -9,28 +9,28 @@ weight: 79
 ## 미리 알고가기
 
 - 병렬 알고리즘: 여러 연산 자원을 동시에 사용해 전체 실행 시간을 줄이는 알고리즘임
-- PRAM: 여러 프로세서가 공유 메모리에 동시 접근한다고 가정하는 병렬 계산 추상 모델임
-- EREW: 동시 읽기와 동시 쓰기를 모두 금지하는 가장 엄격한 PRAM 접근 방식임
-- CREW: 동시 읽기는 허용하고 동시 쓰기는 금지하는 PRAM 접근 방식임
+- 병렬 랜덤 접근 기계(Parallel Random Access Machine, PRAM): 여러 프로세서가 공유 메모리에 동시 접근한다고 가정하는 병렬 계산 추상 모델임
+- 배타 읽기·배타 쓰기(Exclusive Read Exclusive Write, EREW): 동시 읽기와 동시 쓰기를 모두 금지하는 가장 엄격한 PRAM 접근 방식임
+- 동시 읽기·배타 쓰기(Concurrent Read Exclusive Write, CREW): 동시 읽기는 허용하고 동시 쓰기는 금지하는 PRAM 접근 방식임
 - CRCW: 동시 읽기와 동시 쓰기를 모두 허용하되 쓰기 충돌 규칙이 필요한 방식임
 - Work/Depth: 총 연산량과 최장 의존 경로 길이로 병렬 효율을 분석하는 기준임
 
 ## Ⅰ. 개요
 
 - **정의**: 병렬 알고리즘과 PRAM은 작업 분할과 공유 메모리 접근 규칙을 기준으로 여러 처리기의 계산 시간과 충돌을 분석하는 모델임
-- **배경/필요성**: CPU 클럭 향상만으로 성능을 높이기 어려워지면서 멀티코어, GPU, 분산 환경에서 알고리즘 자체의 병렬성이 중요해짐
+- **배경/필요성**: 중앙처리장치(Central Processing Unit, CPU) 클럭 향상만으로 성능을 높이기 어려워지면서 멀티코어, 그래픽 처리 장치(Graphics Processing Unit, GPU), 분산 환경에서 알고리즘 자체의 병렬성이 중요해짐
 - **비유**: 한 사람이 계산하던 표를 여러 사람이 같은 칠판을 보며 나누어 풀되, 동시에 같은 칸을 읽고 쓰는 규칙을 정하는 방식과 유사함
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| PRAM 접근 모델 비교 | EREW, CREW, CRCW의 read/write 동시성 | 모델 이름만 나열 |
+| 병렬 랜덤 접근 기계(Parallel Random Access Machine, PRAM) 접근 모델 비교 | 배타 읽기·배타 쓰기(Exclusive Read Exclusive Write, EREW), 동시 읽기·배타 쓰기(Concurrent Read Exclusive Write, CREW), 동시 읽기·동시 쓰기(Concurrent Read Concurrent Write, CRCW)의 read/write 동시성 | 모델 이름만 나열 |
 | 병렬 성능 분석 | work, depth, speedup, efficiency | 암달 법칙과 무제한 확장 혼동 |
 
 > 요약: PRAM은 공유 메모리 병렬 알고리즘을 읽기·쓰기 동시성 기준으로 추상화해 병렬 시간과 충돌 가능성을 분석하는 모델임
 
 ## Ⅱ. 특징/비교
 
-| 판단 기준 | EREW | CREW | CRCW |
+| 판단 기준 | 배타 읽기·배타 쓰기(Exclusive Read Exclusive Write, EREW) | 동시 읽기·배타 쓰기(Concurrent Read Exclusive Write, CREW) | 동시 읽기·동시 쓰기(Concurrent Read Concurrent Write, CRCW) |
 |:---|:---|:---|:---|
 | 읽기 규칙 | 같은 메모리 위치 동시 읽기 금지 | 같은 위치 동시 읽기 허용 | 같은 위치 동시 읽기 허용 |
 | 쓰기 규칙 | 같은 위치 동시 쓰기 금지 | 같은 위치 동시 쓰기 금지 | 같은 위치 동시 쓰기 허용 |
@@ -41,7 +41,7 @@ weight: 79
 
 - **Work 기준**: 전체 연산량이 순차 알고리즘 대비 선형 또는 준선형 범위에 머물러야 병렬 이득이 유지됨
 - **Depth 기준**: 의존성이 가장 긴 경로가 병렬 시간의 하한이므로 줄여야 함
-- **현실 기준**: 실제 시스템은 캐시, NUMA, 네트워크, 동기화 비용이 있어 PRAM 결과를 그대로 적용하면 안 됨
+- **현실 기준**: 실제 시스템은 캐시, 비균일 메모리 접근(Non-Uniform Memory Access, NUMA), 네트워크, 동기화 비용이 있어 PRAM 결과를 그대로 적용하면 안 됨
 
 ## Ⅲ. 구성요소
 
@@ -87,24 +87,29 @@ n/p chunks        local work        barrier/control    final answer
 
 > 요약: 병렬 알고리즘은 분할, 동시 계산, 동기화, 병합 과정을 거치며 work와 depth로 효율을 평가함
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
 - **P1 동기화 오버헤드**: barrier와 메모리 충돌 처리가 잦으면 프로세서가 대기하며 병렬 속도 향상이 줄어듦
-- **P2 순차 구간 한계**: 암달 법칙에 따라 병렬화할 수 없는 코드 비율이 전체 speedup의 상한을 제한함
-- **P3 현실 하드웨어와 괴리**: PRAM의 동일 비용 공유 메모리 가정은 캐시 계층, NUMA 지연, 네트워크 대역폭을 반영하지 못함
-
-> 요약: 병렬 알고리즘의 실제 성능은 계산 분할보다 동기화, 순차 의존성, 하드웨어 비용에서 제한되는 경우가 많음
-
-## Ⅵ. 개선방안
-
 - **P1 대응**: 충돌 없는 데이터 배치, lock-free 구조, tree reduction으로 동기화 횟수와 대기 시간을 줄임 (확인: idle time, contention)
+- **P2 순차 구간 한계**: 암달 법칙에 따라 병렬화할 수 없는 코드 비율이 전체 speedup의 상한을 제한함
 - **P2 대응**: 순차 구간을 재설계하고 구스타프슨 법칙 기준의 약한 스케일링까지 평가함 (확인: speedup, efficiency)
-- **P3 대응**: BSP, LogP, CUDA, MPI 등 현실 비용 모델로 보정하고 벤치마크 기반 튜닝을 수행함 (확인: 예측-실측 오차)
+- **P3 현실 하드웨어와 괴리**: PRAM의 동일 비용 공유 메모리 가정은 캐시 계층, NUMA 지연, 네트워크 대역폭을 반영하지 못함
+- **P3 대응**: 대량 동기 병렬(Bulk Synchronous Parallel, BSP), LogP, 쿠다(Compute Unified Device Architecture, CUDA), 메시지 전달 인터페이스(Message Passing Interface, MPI) 등 현실 비용 모델로 보정하고 벤치마크 기반 튜닝을 수행함 (확인: 예측-실측 오차)
 
 > 요약: PRAM 분석은 병렬성의 이론적 가능성을 보여주며, 실무 적용에는 동기화 최소화와 하드웨어 비용 모델 보정이 필요함
 
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 그래픽 처리 장치(Graphics Processing Unit, GPU) reduction | 덧셈·최댓값 집계는 tree reduction으로 depth를 줄이고 shared memory 충돌과 warp divergence를 함께 점검함 | speedup, occupancy, memory coalescing ratio |
+| 대규모 prefix sum | 병렬 랜덤 접근 기계(Parallel Random Access Machine, PRAM)의 parallel scan 구조로 이론 depth를 산정한 뒤 쿠다(Compute Unified Device Architecture, CUDA) 구현에서는 block 단위 scan과 병합 단계로 보정함 | work efficiency, p95 kernel time, 동기화 횟수 |
+| 분산 그래프 처리 | 너비 우선 탐색(Breadth-First Search, BFS) 같은 frontier 기반 알고리즘은 통신량이 병목이므로 메시지 전달 인터페이스(Message Passing Interface, MPI)/대량 동기 병렬(Bulk Synchronous Parallel, BSP) 모델로 비용을 재평가함 | network traffic, superstep count, 예측-실측 오차 |
+
+> 요약: 병렬 알고리즘 적용은 work/depth 가능성에 더해 메모리 충돌, 순차 구간, 실제 통신 비용으로 검증해야 함
+
 ## Ⅶ. 전망
 
-- **발전 방향**: 병렬 알고리즘은 GPU, 분산 데이터 처리, AI 가속기, exascale 컴퓨팅에서 기본 설계 역량으로 계속 중요해질 전망임
+- **발전 방향**: 병렬 알고리즘은 GPU, 분산 데이터 처리, 인공지능(Artificial Intelligence, AI) 가속기, exascale 컴퓨팅에서 기본 설계 역량으로 계속 중요해질 전망임
 - **기술사적 판단**: 병렬화는 프로세서 수를 늘리는 문제가 아니라 work, depth, 통신 비용, 순차 구간을 함께 줄이는 설계 문제임
 - **기술사 제언**: 답안에서는 PRAM 모델명을 나열하지 말고 동시 읽기·쓰기 규칙과 병렬 효율 지표를 함께 제시해야 함

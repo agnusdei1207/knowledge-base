@@ -11,7 +11,7 @@ weight: 73
 - 컴파일러: 고급 언어 소스 코드를 목적 코드나 실행 코드로 변환하는 번역 시스템임
 - 프론트엔드: 소스 언어를 분석해 토큰, AST, 의미 정보, IR을 만드는 영역임
 - 백엔드: IR을 최적화하고 타겟 기계어 또는 목적 코드로 바꾸는 영역임
-- IR: 소스 언어와 타겟 기계어 사이의 중간 표현이며 최적화와 이식성의 기준임
+- 중간 표현(Intermediate Representation, IR): 소스 언어와 타겟 기계어 사이의 표현이며 최적화와 이식성의 기준임
 - 심볼 테이블: 식별자, 타입, 스코프, 메모리 위치 같은 의미 정보를 저장하는 표임
 - 최적화 패스: IR이나 기계어를 더 빠르거나 작게 만들기 위해 반복 적용하는 변환 단계임
 
@@ -23,7 +23,7 @@ weight: 73
 
 | 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
 |:---|:---|:---|
-| 단계별 구조 설명 | Lexer, Parser, Semantic, IR, Optimizer, CodeGen | 인터프리터와 단순 혼동 |
+| 단계별 구조 설명 | 어휘 분석기(Lexer), 구문 분석기(Parser), 의미 분석(Semantic Analysis), 중간 표현(Intermediate Representation, IR), 최적화기(Optimizer), 코드 생성(Code Generation, CodeGen) | 인터프리터와 단순 혼동 |
 | 프론트엔드·백엔드 분리 이유 | IR 기반 모듈화와 다중 타겟 지원 | 최적화 위치 누락 |
 
 > 요약: 컴파일러는 소스 언어 분석과 타겟 코드 생성을 IR로 분리해 오류 검출, 최적화, 이식성을 달성하는 변환 파이프라인임
@@ -84,21 +84,26 @@ errors early       portable form      faster/smaller     object file
 
 > 요약: 컴파일 절차는 소스 분석, IR 생성, 최적화, 타겟 코드 생성으로 이어지는 단계별 품질 보증 흐름임
 
-## Ⅴ. 문제점
+## Ⅴ. 문제점 및 개선방안
 
-- **P1 다중 타겟 유지보수 부담**: CPU, GPU, NPU, RISC-V처럼 타겟이 늘어나면 백엔드 구현과 검증 비용이 증가함
+- **P1 다중 타겟 유지보수 부담**: 중앙처리장치(Central Processing Unit, CPU), 그래픽 처리 장치(Graphics Processing Unit, GPU), 신경망 처리장치(Neural Processing Unit, NPU), 축소 명령어 집합 컴퓨터 V(Reduced Instruction Set Computer V, RISC-V)처럼 타겟이 늘어나면 백엔드 구현과 검증 비용이 증가함
+- **P1 대응**: LLVM 중간 표현(Low Level Virtual Machine Intermediate Representation, LLVM IR), 다단계 중간 표현(Multi-Level Intermediate Representation, MLIR) 같은 공통 IR을 활용해 프론트엔드와 백엔드를 조합 가능한 구조로 설계함 (확인: 신규 타겟 지원 기간)
 - **P2 빌드 시간 증가**: 최적화 패스와 정적 분석이 많아질수록 대규모 프로젝트의 빌드 시간이 길어짐
-- **P3 정적 최적화 한계**: 컴파일 시점에는 실제 실행 입력과 핫 경로 정보를 모두 알 수 없어 최적화가 제한됨
-
-> 요약: 현대 컴파일러의 운영 문제는 타겟 다양성, 최적화 비용, 실행 시점 정보 부족에서 발생함
-
-## Ⅵ. 개선방안
-
-- **P1 대응**: LLVM IR, MLIR 같은 공통 IR을 활용해 프론트엔드와 백엔드를 조합 가능한 구조로 설계함 (확인: 신규 타겟 지원 기간)
 - **P2 대응**: 증분 컴파일, 캐시, 분산 빌드, 최적화 레벨 분리로 빌드 시간을 통제함 (확인: clean/incremental build 시간)
-- **P3 대응**: PGO, JIT, AOT+runtime profile 결합으로 실행 정보를 최적화에 반영함 (확인: benchmark 성능 개선율)
+- **P3 정적 최적화 한계**: 컴파일 시점에는 실제 실행 입력과 핫 경로 정보를 모두 알 수 없어 최적화가 제한됨
+- **P3 대응**: 프로파일 기반 최적화(Profile-Guided Optimization, PGO), 적시 컴파일(Just-In-Time Compilation, JIT), 사전 컴파일(Ahead-Of-Time Compilation, AOT)과 runtime profile 결합으로 실행 정보를 최적화에 반영함 (확인: benchmark 성능 개선율)
 
 > 요약: 공통 IR, 빌드 최적화, 프로파일 기반 최적화를 적용해야 컴파일러의 이식성과 성능을 동시에 확보할 수 있음
+
+## Ⅵ. 실무 적용 사례
+
+| 적용 영역 | 적용 방식 | 확인 지표 |
+|:---|:---|:---|
+| 임베디드 크로스 컴파일 | 프론트엔드는 언어별로 유지하고 백엔드는 명령어 집합 구조(Instruction Set Architecture, ISA)별로 분리해 신규 보드 지원 범위를 통제함 | 신규 타겟 지원 기간, generated code size |
+| 대규모 서비스 빌드 | 증분 컴파일과 원격 캐시를 적용하고 최적화 레벨을 개발·릴리스 빌드로 분리함 | clean build 시간, incremental build 시간, cache hit ratio |
+| 인공지능(Artificial Intelligence, AI) 가속기 컴파일 | 다단계 중간 표현(Multi-Level Intermediate Representation, MLIR), 가속 선형대수(Accelerated Linear Algebra, XLA), 텐서 가상 머신(Tensor Virtual Machine, TVM) 계열로 텐서 연산을 하드웨어별 kernel로 lowering함 | 연산 fusion 비율, benchmark speedup, fallback op 수 |
+
+> 요약: 컴파일러 구조 적용은 IR 분리, 타겟 도구 체인 성숙도, 빌드·실행 성능 지표를 함께 확인해야 함
 
 ## Ⅶ. 전망
 
