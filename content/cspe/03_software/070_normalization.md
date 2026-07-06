@@ -2,7 +2,7 @@
 title: 정규화 및 이상 현상 (Normalization)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 070
+weight: 70
 ---
 
 ## Ⅰ. 개요

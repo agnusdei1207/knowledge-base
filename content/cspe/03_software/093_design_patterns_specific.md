@@ -2,7 +2,7 @@
 title: 디자인 패턴 — 싱글톤·팩토리·옵저버 (Design Patterns Specific)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 093
+weight: 93
 ---
 
 ## Ⅰ. 개요

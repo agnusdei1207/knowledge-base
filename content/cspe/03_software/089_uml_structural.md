@@ -2,7 +2,7 @@
 title: UML 구조 다이어그램 — 클래스·객체 (UML Structural)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 089
+weight: 89
 ---
 
 ## Ⅰ. 개요

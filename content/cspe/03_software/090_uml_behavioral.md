@@ -2,7 +2,7 @@
 title: UML 행위 다이어그램 — 시퀀스·상태 (UML Behavioral)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 090
+weight: 90
 ---
 
 ## Ⅰ. 개요

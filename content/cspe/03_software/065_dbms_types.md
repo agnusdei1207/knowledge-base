@@ -2,7 +2,7 @@
 title: 데이터베이스 관리 시스템 DBMS 유형 (DBMS Types)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 065
+weight: 65
 ---
 
 ## Ⅰ. 개요

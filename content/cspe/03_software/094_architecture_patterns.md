@@ -2,7 +2,7 @@
 title: 소프트웨어 아키텍처 패턴 — 레이어드·파이프 (Architecture Patterns)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 094
+weight: 94
 ---
 
 ## Ⅰ. 개요

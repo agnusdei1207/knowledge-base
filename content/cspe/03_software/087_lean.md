@@ -2,7 +2,7 @@
 title: 린 Lean 소프트웨어 개발 (Lean Software Development)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 087
+weight: 87
 ---
 
 ## Ⅰ. 개요

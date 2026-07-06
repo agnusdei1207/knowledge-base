@@ -2,7 +2,7 @@
 title: 데이터 샤딩 및 파티셔닝 (Sharding and Partitioning)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 080
+weight: 80
 ---
 
 ## Ⅰ. 개요

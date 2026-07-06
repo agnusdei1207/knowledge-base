@@ -2,7 +2,7 @@
 title: 코드 리팩토링 및 클린 코드 (Refactoring and Clean Code)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 096
+weight: 96
 ---
 
 ## Ⅰ. 개요

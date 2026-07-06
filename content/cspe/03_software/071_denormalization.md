@@ -2,7 +2,7 @@
 title: 반정규화 De-normalization (Denormalization)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 071
+weight: 71
 ---
 
 ## Ⅰ. 개요

@@ -2,7 +2,7 @@
 title: NewSQL 및 분산 DB (NewSQL)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 068
+weight: 68
 ---
 
 ## Ⅰ. 개요

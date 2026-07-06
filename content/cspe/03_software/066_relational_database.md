@@ -2,7 +2,7 @@
 title: 관계형 데이터베이스 RDBMS (Relational Database)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 066
+weight: 66
 ---
 
 ## Ⅰ. 개요

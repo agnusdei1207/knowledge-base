@@ -2,7 +2,7 @@
 title: 쿼리 최적화 및 실행 계획 (Query Optimization)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 077
+weight: 77
 ---
 
 ## Ⅰ. 개요

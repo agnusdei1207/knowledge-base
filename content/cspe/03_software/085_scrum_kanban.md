@@ -2,7 +2,7 @@
 title: 스크럼 Scrum 및 칸반 Kanban (Scrum/Kanban)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 085
+weight: 85
 ---
 
 ## Ⅰ. 개요

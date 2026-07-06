@@ -2,7 +2,7 @@
 title: 폭포수 모델 vs 애자일 모델 (Waterfall vs Agile)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 084
+weight: 84
 ---
 
 ## Ⅰ. 개요

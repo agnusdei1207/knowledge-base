@@ -2,7 +2,7 @@
 title: 모듈화 및 결합도 vs 응집도 (Coupling and Cohesion)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 095
+weight: 95
 ---
 
 ## Ⅰ. 개요

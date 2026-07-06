@@ -2,7 +2,7 @@
 title: 소프트웨어 개발 생명주기 SDLC 모델 (SDLC Models)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 083
+weight: 83
 ---
 
 ## Ⅰ. 개요

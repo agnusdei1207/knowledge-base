@@ -2,7 +2,7 @@
 title: 트랜잭션 격리 수준 (Transaction Isolation Levels)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 073
+weight: 73
 ---
 
 ## Ⅰ. 개요

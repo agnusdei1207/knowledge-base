@@ -2,7 +2,7 @@
 title: 데이터 웨어하우스 vs 데이터 레이크 (DW vs Data Lake)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 078
+weight: 78
 ---
 
 ## Ⅰ. 개요

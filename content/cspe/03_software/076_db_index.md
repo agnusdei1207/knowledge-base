@@ -2,7 +2,7 @@
 title: 데이터베이스 인덱스 — B-Tree·Hash (DB Index)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 076
+weight: 76
 ---
 
 ## Ⅰ. 개요

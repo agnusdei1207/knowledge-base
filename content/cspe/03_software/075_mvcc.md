@@ -2,7 +2,7 @@
 title: MVCC 다중 버전 동시성 제어 (Multi-Version Concurrency Control)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 075
+weight: 75
 ---
 
 ## Ⅰ. 개요

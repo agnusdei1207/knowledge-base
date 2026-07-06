@@ -2,7 +2,7 @@
 title: 트랜잭션 및 ACID 속성 (Transaction ACID)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 072
+weight: 72
 ---
 
 ## Ⅰ. 개요

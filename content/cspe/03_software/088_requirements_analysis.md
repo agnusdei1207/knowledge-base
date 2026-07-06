@@ -2,7 +2,7 @@
 title: 소프트웨어 요구사항 분석 및 관리 (Requirements Analysis)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 088
+weight: 88
 ---
 
 ## Ⅰ. 개요

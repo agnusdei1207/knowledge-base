@@ -2,7 +2,7 @@
 title: 객체 지향 설계 원칙 SOLID (SOLID Principles)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 091
+weight: 91
 ---
 
 ## Ⅰ. 개요

@@ -2,7 +2,7 @@
 title: 데이터 모델링 및 개체-관계 모델 ERD (Data Modeling)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 069
+weight: 69
 ---
 
 ## Ⅰ. 개요

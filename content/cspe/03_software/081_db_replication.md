@@ -2,7 +2,7 @@
 title: 복제 Replication — Master-Slave (DB Replication)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 081
+weight: 81
 ---
 
 ## Ⅰ. 개요

@@ -2,7 +2,7 @@
 title: 디자인 패턴 — 생성·구조·행위 (Design Patterns)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 092
+weight: 92
 ---
 
 ## Ⅰ. 개요

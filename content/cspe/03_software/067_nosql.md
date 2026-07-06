@@ -2,7 +2,7 @@
 title: NoSQL — Key-Value·Document·Graph (NoSQL)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 067
+weight: 67
 ---
 
 ## Ⅰ. 개요

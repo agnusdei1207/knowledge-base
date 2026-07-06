@@ -2,7 +2,7 @@
 title: 데이터 베이스 보안 및 접근 제어 (DB Security)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 082
+weight: 82
 ---
 
 ## Ⅰ. 개요

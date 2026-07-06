@@ -2,7 +2,7 @@
 title: 동시성 제어 — 락킹·타임스탬프 (Concurrency Control)
 date: 2026-07-05
 tags: [cspe-software]
-weight: 074
+weight: 74
 ---
 
 ## Ⅰ. 개요
