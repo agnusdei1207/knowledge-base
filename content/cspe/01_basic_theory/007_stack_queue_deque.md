@@ -6,7 +6,7 @@ tags:
 weight: 7
 ---
 
-# 스택·큐·덱 (Stack, Queue, Deque)
+# 007. 스택·큐·덱 (Stack Queue Deque)
 
 ## 미리 알고가기
 

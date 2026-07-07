@@ -6,7 +6,7 @@ tags:
 weight: 9
 ---
 
-# 이진트리 순회 - 전위·중위·후위 (Binary Tree Traversal)
+# 009. 이진트리 순회 — 전위·중위·후위 (Binary Tree Traversal) [출제:126회]
 
 ## 1. 개요
 
