@@ -16,7 +16,7 @@ weight: 91
 - DDR(Double Data Rate): 클럭의 상승·하강 에지에서 모두 데이터를 전송하는 방식임
 - 전송 단위: Hz(Hertz), MHz(Megahertz), MT/s(Mega Transfers per second), Gb/s(Gigabits per second), GB/s(Gigabytes per second)를 구분해야 함
 
-## 1. 개요
+## Ⅰ. 개요
 
 - **정의/개념**: 버스 대역폭은 버스 폭, 클럭, 전송 횟수, 채널 수를 기준으로 단위 시간당 이동 가능한 데이터량을 계산하는 성능 지표임. CPU(Central Processing Unit)와 메모리, I/O(Input/Output), 스토리지, 가속기 연결에서 병목 여부와 인터페이스 선택을 판단하기 위해 사용함.
 - **배경/필요성**: 장치 성능이 높아져도 연결 버스가 충분한 데이터를 공급하지 못하면 전체 시스템 처리량이 제한됨. 이론 대역폭과 유효 전송률을 구분해야 실제 병목 위치를 설명할 수 있음.
@@ -28,7 +28,7 @@ weight: 91
 
 > 요약: 버스 대역폭 계산은 이론 최대치와 오버헤드를 뺀 유효치를 구분하는 것이 핵심임.
 
-## 2. 특징 및 비교
+## Ⅱ. 특징 및 비교
 
 | 판단 기준 | 이론 대역폭 | 유효 전송률 |
 |:---|:---|:---|
@@ -43,7 +43,7 @@ weight: 91
 - **선택 지표**: peak bandwidth, payload efficiency, p99 latency를 함께 확인해야 함
 - **운영 관점**: 링크 속도보다 end-to-end 경로의 가장 낮은 처리량이 병목 기준임
 
-## 3. 구성요소/구조
+## Ⅲ. 구성요소/구조
 
 ```text
 +----------+      +----------+      +----------+      +----------+
@@ -80,7 +80,7 @@ weight: 91
 
 > 요약: 정확한 계산은 단위 정리, 이론치 산정, 효율 보정, 요구량 비교 순서로 수행함.
 
-## 4. 문제점 및 개선방안
+## Ⅳ. 문제점 및 개선방안
 
 - **P1 단위 혼동**: Gb/s와 GB/s, MHz와 MT/s, full-duplex와 half-duplex를 혼동하면 8배 이상 오차가 발생함
 - **P1 대응**: 계산식에 단위를 명시하고 bit-to-Byte, lane, direction 변환을 표준 템플릿으로 검증함 (확인: 계산 단위 일치)
@@ -91,7 +91,7 @@ weight: 91
 
 > 요약: 버스 성능 평가는 공식 하나보다 단위 검증과 실측 기반 병목 분해가 중요함.
 
-## 5. 실무 적용 사례
+## Ⅴ. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
@@ -101,7 +101,7 @@ weight: 91
 
 > 요약: 실무에서는 단위와 방향을 명시한 계산식, 유효 전송률, 전체 경로 병목을 함께 보여야 성능 판단이 가능함.
 
-## 6. 결론
+## Ⅵ. 결론
 
 - **발전 방향**: PCIe(Peripheral Component Interconnect Express), CXL(Compute Express Link), HBM(High Bandwidth Memory), UCIe(Universal Chiplet Interconnect Express)처럼 고속 직렬·패키지 내부 연결이 확대되며 lane 수와 프로토콜 효율의 균형이 더 중요해짐
 - **기술사적 판단**: 인터페이스 선정은 peak bandwidth, latency, topology, power, software stack을 함께 고려해야 함

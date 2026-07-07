@@ -15,7 +15,7 @@ weight: 94
 - Endpoint: NVMe(Non-Volatile Memory Express) SSD(Solid-State Drive), NIC(Network Interface Card), GPU(Graphics Processing Unit)처럼 PCIe 버스에 연결되는 말단 장치임
 - Switch: 하나의 upstream port와 여러 downstream port 사이 패킷을 라우팅하는 PCIe 장치임
 
-## 1. 개요
+## Ⅰ. 개요
 
 - **정의/개념**: PCIe 스위칭 아키텍처는 Root Complex와 여러 Endpoint 사이에 PCIe switch를 배치해 lane, 주소 공간, 트래픽을 포트 단위로 분배하는 확장 구조임. 제한된 CPU PCIe 포트를 여러 고성능 장치에 연결하고 I/O 확장성과 구성 유연성을 확보하기 위해 사용함.
 - **배경/필요성**: 서버는 GPU, NVMe, NIC, DPU(Data Processing Unit) 등 PCIe 장치 수가 늘어나지만 CPU가 제공하는 lane 수와 물리 슬롯은 제한적임. 스위치는 장치 fan-out과 peer-to-peer 전송을 제공하지만 oversubscription과 지연을 함께 관리해야 함.
@@ -27,7 +27,7 @@ weight: 94
 
 > 요약: PCIe 스위치는 point-to-point 링크를 계층적으로 확장하지만 대역폭과 지연 설계가 핵심임.
 
-## 2. 특징 및 비교
+## Ⅱ. 특징 및 비교
 
 | 판단 기준 | 직접 연결 | PCIe 스위칭 |
 |:---|:---|:---|
@@ -41,7 +41,7 @@ weight: 94
 - **적용 조건**: 하위 장치 총 요구 대역폭과 upstream lane 용량의 비율이 허용 범위여야 함
 - **선택 지표**: oversubscription ratio, switch hop latency, ACS(Access Control Services) 지원 여부를 함께 봐야 함
 
-## 3. 구성요소/구조
+## Ⅲ. 구성요소/구조
 
 ```text
 +--------------+      +--------------+      +-------------+
@@ -79,7 +79,7 @@ weight: 94
 
 > 요약: PCIe 스위칭은 장치 열거 후 TLP 라우팅과 링크 관리로 다수 endpoint를 투명하게 연결함.
 
-## 4. 문제점 및 개선방안
+## Ⅳ. 문제점 및 개선방안
 
 - **P1 upstream 병목**: 하위 장치 총 대역폭이 상위 링크보다 크면 NVMe나 GPU 작업에서 oversubscription이 발생함
 - **P1 대응**: 장치별 요구 대역폭으로 oversubscription ratio를 설계하고 workload별 포트 배치를 조정함 (확인: upstream utilization)
@@ -90,7 +90,7 @@ weight: 94
 
 > 요약: PCIe 스위치 도입은 포트 수 확장보다 대역폭 계획과 DMA 보안 검증이 우선임.
 
-## 5. 실무 적용 사례
+## Ⅴ. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
@@ -100,7 +100,7 @@ weight: 94
 
 > 요약: 실무에서는 PCIe 스위치를 포트 확장 장치가 아니라 대역폭, 지연, DMA 격리를 함께 설계해야 하는 공유 패브릭으로 다뤄야 함.
 
-## 6. 결론
+## Ⅵ. 결론
 
 - **발전 방향**: PCIe 고속 세대와 CXL(Compute Express Link) switch, composable infrastructure가 결합되며 메모리와 가속기 자원의 동적 연결이 확대됨
 - **기술사적 판단**: 스위치 선택은 lane 수, 세대, latency, ACS/CXL 기능, 관리성, 장애 격리를 기준으로 해야 함

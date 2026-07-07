@@ -15,7 +15,7 @@ weight: 63
 - Vector Lane: SIMD 명령이 동시에 처리하는 데이터 요소별 실행 경로임
 - Synchronization: MIMD에서 여러 스레드나 프로세스의 실행 순서를 맞추는 제어임
 
-## 1. 개요
+## Ⅰ. 개요
 
 - **정의/개념**: SIMD와 MIMD 프로세서는 병렬 실행을 하나의 명령이 여러 데이터에 적용되는 데이터 병렬 구조로 묶을지, 여러 처리기가 독립 명령을 수행하는 작업 병렬 구조로 나눌지 판단하는 병렬 처리 구조임.
 - **배경/필요성**: 영상, 행렬, 신호처리처럼 같은 연산을 반복하는 작업과 서버, 시뮬레이션처럼 독립 작업이 많은 문제는 최적 구조가 다름. SIMD와 MIMD 비교는 병렬화 전략을 하드웨어 특성에 맞추게 함.
@@ -27,7 +27,7 @@ weight: 63
 
 > 요약: SIMD와 MIMD는 병렬성을 같은 명령의 반복 처리로 볼지 독립 작업의 동시 처리로 볼지 나누는 기준임.
 
-## 2. 특징 및 비교
+## Ⅱ. 특징 및 비교
 
 | 판단 기준 | SIMD | MIMD |
 |:---|:---|:---|
@@ -37,7 +37,7 @@ weight: 63
 
 > 요약: SIMD는 규칙적 데이터 병렬성, MIMD는 독립 작업 병렬성에 적합함.
 
-## 3. 구성요소/구조
+## Ⅲ. 구성요소/구조
 
 ```text
 +--------------+        +---------------+
@@ -75,7 +75,7 @@ weight: 63
 
 > 요약: SIMD/MIMD 적용은 작업 특성을 분석해 적합한 병렬 구조에 매핑하고 결과를 통합하는 과정임.
 
-## 4. 문제점 및 개선방안
+## Ⅳ. 문제점 및 개선방안
 
 - **P1 SIMD 분기·정렬 제약**: lane별 조건이 다르거나 데이터가 비연속이면 lane 유휴와 메모리 비효율이 발생함
 - **P1 대응**: 데이터 정렬, predication, mask 연산, gather/scatter 최소화를 적용함 (확인: lane utilization)
@@ -86,7 +86,7 @@ weight: 63
 
 > 요약: SIMD/MIMD 개선은 실행 구조보다 데이터 배치, 분기 제어, 동기화 비용을 먼저 최적화해야 효과가 큼.
 
-## 5. 실무 적용 사례
+## Ⅴ. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
@@ -96,7 +96,7 @@ weight: 63
 
 > 요약: 실무에서는 규칙적 반복은 SIMD, 독립 작업과 도메인 분할은 MIMD로 나누어 병렬 이득을 검증함.
 
-## 6. 결론
+## Ⅵ. 결론
 
 - **발전 방향**: SIMD/MIMD는 중앙처리장치(Central Processing Unit, CPU) vector extension, 그래픽 처리 장치(Graphics Processing Unit, GPU) 단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT), many-core 신경망 처리 장치(Neural Processing Unit, NPU)가 결합된 heterogeneous parallelism의 기본 판단 기준으로 남음
 - **기술사적 판단**: 데이터 규칙성, 분기 비율, 작업 독립성, 공유 메모리 경합, 스케줄러 비용을 기준으로 SIMD와 MIMD 영역을 나눔; vector lane utilization, branch divergence, thread imbalance, cache miss rate, synchronization wait를 같은 입력 규모에서 측정해 병렬화 효과를 검증함
