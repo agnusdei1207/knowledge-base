@@ -6,7 +6,6 @@ tags:
 weight: 75
 ---
 
-# 075. 재귀 알고리즘과 마스터 정리 (Recursive Algorithm Master Theorem)
 
 ## Ⅰ. 개요
 

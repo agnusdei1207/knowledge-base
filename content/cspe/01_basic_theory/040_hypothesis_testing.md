@@ -6,7 +6,6 @@ tags:
 weight: 40
 ---
 
-# 040. 가설 검정 및 신뢰 구간 (Hypothesis Testing & Confidence Interval)
 
 ## Ⅰ. Overview
 

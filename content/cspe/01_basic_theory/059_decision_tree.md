@@ -6,7 +6,6 @@ tags:
 weight: 59
 ---
 
-# 059. 결정 트리 (Decision Tree)
 
 ## Ⅰ. 개요
 

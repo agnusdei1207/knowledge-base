@@ -1,12 +1,11 @@
 ---
-title: "객체 탐지 — YOLO·R-CNN (Object Detection) [출제: 126회]"
+title: "객체 탐지 — YOLO·R-CNN (Object Detection)"
 date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 70
 ---
 
-# 070. 객체 탐지 — YOLO·R-CNN (Object Detection) [출제: 126회]
 
 ## Ⅰ. 개요
 

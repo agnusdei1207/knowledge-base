@@ -6,7 +6,6 @@ tags:
 weight: 32
 ---
 
-# 032. 허프만 코딩 (Huffman Coding)
 
 ## Ⅰ. Overview
 

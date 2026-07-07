@@ -6,7 +6,6 @@ tags:
 weight: 36
 ---
 
-# 036. 선형 변환 (Linear Transformation)
 
 ## Ⅰ. Overview
 

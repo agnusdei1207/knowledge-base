@@ -6,7 +6,6 @@ tags:
 weight: 65
 ---
 
-# 065. 추천 시스템 (Recommendation System)
 
 ## Ⅰ. 개요
 

@@ -1,12 +1,11 @@
 ---
-title: "이미지 분류 — ResNet·VGG·EfficientNet (Image Classification) [출제: 120회]"
+title: "이미지 분류 — ResNet·VGG·EfficientNet (Image Classification)"
 date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 71
 ---
 
-# 071. 이미지 분류 — ResNet·VGG·EfficientNet (Image Classification) [출제: 120회]
 
 ## Ⅰ. 개요
 

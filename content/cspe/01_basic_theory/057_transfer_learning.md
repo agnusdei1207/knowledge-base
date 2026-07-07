@@ -6,7 +6,6 @@ tags:
 weight: 57
 ---
 
-# 057. 전이 학습 (Transfer Learning)
 
 ## Ⅰ. 개요
 

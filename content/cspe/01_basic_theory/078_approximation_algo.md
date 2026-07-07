@@ -6,7 +6,6 @@ tags:
 weight: 78
 ---
 
-# 078. 근사 알고리즘과 휴리스틱 (Approximation Algorithm Heuristic)
 
 ## Ⅰ. 개요
 

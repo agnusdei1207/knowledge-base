@@ -6,7 +6,6 @@ tags:
 weight: 33
 ---
 
-# 033. 런랭스 인코딩 (Run-Length Encoding)
 
 ## Ⅰ. Overview
 

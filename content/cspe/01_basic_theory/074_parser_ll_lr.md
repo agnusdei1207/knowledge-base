@@ -6,7 +6,6 @@ tags:
 weight: 74
 ---
 
-# 074. 파싱 기법 — LL·LR 파서 (Parsing LL LR)
 
 ## Ⅰ. 개요
 

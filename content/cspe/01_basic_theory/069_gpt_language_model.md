@@ -1,12 +1,11 @@
 ---
-title: "GPT 언어 모델 (GPT Language Model) [출제: 124, 127회]"
+title: "GPT 언어 모델 (GPT Language Model)"
 date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 69
 ---
 
-# 069. GPT 언어 모델 (GPT Language Model) [출제: 124, 127회]
 
 ## Ⅰ. 개요
 

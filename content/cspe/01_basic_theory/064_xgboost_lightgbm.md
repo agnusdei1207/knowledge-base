@@ -6,7 +6,6 @@ tags:
 weight: 64
 ---
 
-# 064. XGBoost·LightGBM (XGBoost LightGBM)
 
 ## Ⅰ. 개요
 

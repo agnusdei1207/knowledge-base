@@ -6,7 +6,6 @@ tags:
 weight: 72
 ---
 
-# 072. 형식 언어 이론 (Formal Language Theory)
 
 ## Ⅰ. 개요
 

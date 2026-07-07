@@ -6,7 +6,6 @@ tags:
 weight: 62
 ---
 
-# 062. 나이브 베이즈 분류 (Naive Bayes Classifier)
 
 ## Ⅰ. 개요
 

@@ -1,12 +1,11 @@
 ---
-title: "P vs NP 문제 (P vs NP Problem) [출제: 128회]"
+title: "P vs NP 문제 (P vs NP Problem)"
 date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 77
 ---
 
-# 077. P vs NP 문제 (P vs NP Problem) [출제: 128회]
 
 ## Ⅰ. 개요
 

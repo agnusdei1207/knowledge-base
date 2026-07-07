@@ -1,12 +1,11 @@
 ---
-title: "BERT 사전학습 모델 (BERT Pre-trained Model) [출제: 121회]"
+title: "BERT 사전학습 모델 (BERT Pre-trained Model)"
 date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 68
 ---
 
-# 068. BERT 사전학습 모델 (BERT Pre-trained Model) [출제: 121회]
 
 ## Ⅰ. 개요
 

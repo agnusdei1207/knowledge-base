@@ -6,7 +6,6 @@ tags:
 weight: 80
 ---
 
-# 080. 양자 알고리즘 — 쇼어·그로버 (Quantum Algorithm Shor Grover)
 
 ## Ⅰ. 개요
 

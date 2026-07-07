@@ -6,7 +6,6 @@ tags:
 weight: 37
 ---
 
-# 037. 고유값·고유벡터 (Eigenvalue Eigenvector)
 
 ## Ⅰ. Overview
 

@@ -6,7 +6,6 @@ tags:
 weight: 58
 ---
 
-# 058. AI 학습 패러다임 분류 (Learning Paradigms)
 
 ## Ⅰ. 개요
 

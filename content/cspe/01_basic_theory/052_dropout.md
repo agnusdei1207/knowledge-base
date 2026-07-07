@@ -6,7 +6,6 @@ tags:
 weight: 52
 ---
 
-# 052. 드롭아웃 (Dropout)
 
 ## Ⅰ. 개요
 

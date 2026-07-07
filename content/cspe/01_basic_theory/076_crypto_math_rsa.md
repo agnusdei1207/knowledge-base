@@ -6,7 +6,6 @@ tags:
 weight: 76
 ---
 
-# 076. 암호 알고리즘 수학 — RSA·이산대수 (Cryptography Mathematics)
 
 ## Ⅰ. 개요
 

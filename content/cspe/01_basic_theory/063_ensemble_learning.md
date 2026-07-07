@@ -6,7 +6,6 @@ tags:
 weight: 63
 ---
 
-# 063. 앙상블 학습 (Ensemble Learning)
 
 ## Ⅰ. 개요
 

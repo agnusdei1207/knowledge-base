@@ -6,7 +6,6 @@ tags:
 weight: 67
 ---
 
-# 067. 단어 임베딩 — Word2Vec·GloVe (Word Embedding)
 
 ## Ⅰ. 개요
 

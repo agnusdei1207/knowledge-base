@@ -6,7 +6,6 @@ tags:
 weight: 35
 ---
 
-# 035. 행렬 연산 (Matrix Operations)
 
 ## Ⅰ. Overview
 

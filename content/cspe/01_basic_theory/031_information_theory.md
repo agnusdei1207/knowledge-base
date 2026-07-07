@@ -6,7 +6,6 @@ tags:
 weight: 31
 ---
 
-# 031. 정보이론 (Information Theory)
 
 ## Ⅰ. Overview
 

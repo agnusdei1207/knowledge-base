@@ -6,7 +6,6 @@ tags:
 weight: 55
 ---
 
-# 055. 오토인코더 (Autoencoder)
 
 ## Ⅰ. 개요
 

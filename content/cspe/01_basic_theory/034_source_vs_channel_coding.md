@@ -6,7 +6,6 @@ tags:
 weight: 34
 ---
 
-# 034. 소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)
 
 ## Ⅰ. Overview
 

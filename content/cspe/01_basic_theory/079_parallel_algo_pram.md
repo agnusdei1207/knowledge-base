@@ -6,7 +6,6 @@ tags:
 weight: 79
 ---
 
-# 079. 병렬 알고리즘 — PRAM 모델 (Parallel Algorithm PRAM)
 
 ## Ⅰ. 개요
 

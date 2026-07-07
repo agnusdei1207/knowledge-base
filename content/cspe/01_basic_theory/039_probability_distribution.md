@@ -6,7 +6,6 @@ tags:
 weight: 39
 ---
 
-# 039. 확률 분포 (Probability Distribution)
 
 ## Ⅰ. Overview
 

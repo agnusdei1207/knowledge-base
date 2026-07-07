@@ -6,7 +6,6 @@ tags:
 weight: 38
 ---
 
-# 038. 베이즈 정리 (Bayes' Theorem)
 
 ## Ⅰ. Overview
 

@@ -6,7 +6,6 @@ tags:
 weight: 51
 ---
 
-# 051. 배치 정규화 (Batch Normalization)
 
 ## Ⅰ. 개요
 

@@ -6,7 +6,6 @@ tags:
 weight: 60
 ---
 
-# 060. 랜덤 포레스트 (Random Forest)
 
 ## Ⅰ. 개요
 

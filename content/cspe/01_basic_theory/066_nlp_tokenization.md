@@ -6,7 +6,6 @@ tags:
 weight: 66
 ---
 
-# 066. 자연어 처리 — 토크나이징·형태소 분석 (NLP Tokenization)
 
 ## Ⅰ. 개요
 
