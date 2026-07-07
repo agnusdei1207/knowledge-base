@@ -6,6 +6,8 @@ tags:
 weight: 100
 ---
 
+# SoC AI 온디바이스 칩 (SoC On-Device AI Chip)
+
 ## 미리 알고가기
 
 - SoC(System on Chip): CPU(Central Processing Unit), GPU(Graphics Processing Unit), NPU(Neural Processing Unit), 메모리 컨트롤러, I/O(Input/Output) 등을 단일 칩에 통합한 시스템 반도체임
@@ -13,9 +15,9 @@ weight: 100
 - ISP(Image Signal Processor)·DSP(Digital Signal Processor): 센서 신호 처리와 전처리를 담당하는 SoC 내부 처리 블록임
 - TOPS(Tera Operations Per Second): AI 가속기의 초당 연산 수를 나타내는 지표이나 실제 성능과 동일하지는 않음
 
-## Ⅰ. 개요
+## 1. 개요
 
-- **정의**: SoC AI 온디바이스 칩은 CPU, GPU, NPU, ISP, 메모리, 보안 블록을 단일 칩에 통합해 단말 내부에서 AI 추론을 수행하도록 설계한 시스템 반도체임. 지연, 개인정보, 네트워크 비용, 전력 제한 기준에서 클라우드 의존을 줄이기 위해 사용함.
+- **정의/개념**: SoC AI 온디바이스 칩은 CPU, GPU, NPU, ISP, 메모리, 보안 블록을 단일 칩에 통합해 단말 내부에서 AI 추론을 수행하도록 설계한 시스템 반도체임. 지연, 개인정보, 네트워크 비용, 전력 제한 기준에서 클라우드 의존을 줄이기 위해 사용함.
 - **배경/필요성**: 모바일, 차량, IoT(Internet of Things) 단말은 실시간 반응과 개인정보 보호가 필요하지만 모든 데이터를 클라우드로 보내면 지연과 비용이 증가함. AI 연산을 단말에서 처리하려면 범용 CPU보다 전력 효율이 높은 전용 가속기가 필요함.
 - **비유**: 멀리 있는 본사에 매번 결재를 올리지 않고 현장 지점 안에 전문 분석팀을 두는 것과 같음.
 
@@ -25,7 +27,7 @@ weight: 100
 
 > 요약: 온디바이스 AI SoC는 AI 추론을 단말 조건에 맞게 저지연·저전력으로 수행하는 통합 칩임.
 
-## Ⅱ. 특징/비교
+## 2. 특징 및 비교
 
 | 판단 기준 | 클라우드 AI 처리 | 온디바이스 AI SoC |
 |:---|:---|:---|
@@ -40,7 +42,7 @@ weight: 100
 - **선택 지표**: NPU coverage, inferences per watt, thermal throttling을 함께 확인해야 함
 - **운영 관점**: 모델 업데이트와 보안 패치가 제품 수명 동안 유지되어야 함
 
-## Ⅲ. 구성요소
+## 3. 구성요소/구조
 
 ```text
 +---------+      +---------+      +---------+
@@ -62,7 +64,7 @@ weight: 100
 
 > 요약: 온디바이스 AI SoC는 연산 가속기뿐 아니라 메모리, 보안, 전력 관리가 함께 설계되어야 함.
 
-## Ⅳ. 절차
+### 원리/흐름도
 
 ```text
 +----------+      +----------+      +----------+      +----------+
@@ -77,7 +79,7 @@ weight: 100
 
 > 요약: 온디바이스 AI는 모델을 칩 제약에 맞게 변환하고 NPU 중심 파이프라인으로 실행함.
 
-## Ⅴ. 문제점 및 개선방안
+## 4. 문제점 및 개선방안
 
 - **P1 모델 호환성 제약**: NPU가 지원하지 않는 operator나 동적 shape가 있으면 CPU fallback으로 성능이 급락함
 - **P1 대응**: target NPU operator set 기준으로 모델을 설계하고 fallback 비율을 측정함 (확인: NPU execution coverage)
@@ -88,7 +90,7 @@ weight: 100
 
 > 요약: 온디바이스 AI 품질은 모델-하드웨어 공동 최적화와 단말 보안 설계로 확보함.
 
-## Ⅵ. 실무 적용 사례
+## 5. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
@@ -98,7 +100,7 @@ weight: 100
 
 > 요약: 실무에서는 TOPS 수치보다 실제 모델 coverage, 메모리 이동, 전력·발열, 모델 보안 지표를 기준으로 온디바이스 AI 칩을 평가해야 함.
 
-## Ⅶ. 전망
+## 6. 결론
 
 - **발전 방향**: 생성형 AI용 NPU, 메모리 근접 연산, chiplet SoC, CXL(Compute Express Link) 기반 확장과 결합해 단말 AI 처리 범위가 넓어짐
 - **기술사적 판단**: 도입 평가는 TOPS보다 실제 모델의 latency, accuracy loss, power, thermal throttling, 업데이트 가능성을 기준으로 해야 함
