@@ -6,7 +6,7 @@ tags:
 weight: 2
 ---
 
-# 002. 빅오 표기법 (Big-O Notation) [출제:131회]
+# 002. 빅오 표기법 (Big-O Notation) [출제: 131회]
 
 ## 미리 알고가기
 
@@ -58,11 +58,11 @@ weight: 2
 
 ```text
 [구조 유형]            [분석 방식]                  [예시 복잡도]
-순차 실행 (Sequence)   각 문장의 복잡도를 합산함      O(1) + O(n) = O(n)
-조건문 (Condition)     가장 비용이 큰 분기를 선택함    max(O(1), O(n)) = O(n)
-반복문 (Iteration)     (반복 횟수) * (내부 복잡도)     n * O(1) = O(n)
-중첩 반복 (Nested)     각 루프 횟수의 곱을 산출함      n * m = O(nm)
-재귀 호출 (Recursion)  마스터 정리 또는 재귀 트리 분석  T(n) = 2T(n/2) + O(n) = O(n log n)
+순차 실행 (Sequence)   각 문장의 복잡도를 합산함      $O(1) + O(n) = O(n)$
+조건문 (Condition)     가장 비용이 큰 분기를 선택함    $\max(O(1), O(n)) = O(n)$
+반복문 (Iteration)     (반복 횟수) * (내부 복잡도)     $n \cdot O(1) = O(n)$
+중첩 반복 (Nested)     각 루프 횟수의 곱을 산출함      $n \cdot m = O(nm)$
+재귀 호출 (Recursion)  마스터 정리 또는 재귀 트리 분석  $T(n) = 2T(n/2) + O(n) = O(n \log n)$
 ```
 
 ## Ⅳ. 문제점 및 개선방안

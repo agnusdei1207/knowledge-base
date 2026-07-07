@@ -6,13 +6,13 @@ tags:
 weight: 21
 ---
 
-# 021. 정규 언어·문법 (Regular Language and Grammar)
+# 021. 정규 언어·문법 (Regular Language and Grammar) [출제: -]
 
 ## 미리 알고가기
 
 - **형식 언어 (Formal Language)**: 특정한 규칙(문법)에 의해 생성된 문자열들의 집합임
 - **생성 규칙 (Production Rule)**: 언어 내의 유효한 문자열을 만들기 위한 치환 규칙 ($A \rightarrow \alpha$)
-- **촘스키 계층 (Chomsky Hierarchy)**: 언어의 생성 규칙에 제약을 두어 4단계(Type 0~3)로 분류한 체계이며, 정규 언어는 이 중 가장 제한적인 Type 3에 해당함
+- **촘스키 계층 (Chomsky Hierarchy)**: 언어의 생성 규칙에 제약을 두어 $4$단계(Type $0 \sim 3$)로 분류한 체계이며, 정규 언어는 이 중 가장 제한적인 Type $3$에 해당함
 
 ## Ⅰ. 개요
 
@@ -21,20 +21,20 @@ weight: 21
 
 ## Ⅱ. 특징 및 비교
 
-정규 언어는 촘스키 계층의 최하단에 위치하며, 계산 모델 중 가장 단순한 유한 오토마타와 1:1 대응됨.
+정규 언어는 촘스키 계층의 최하단에 위치하며, 계산 모델 중 가장 단순한 유한 오토마타와 $1:1$ 대응됨.
 
 | 계층 (Type) | 언어 명칭 | 인식 모델 | 문법 제약 (Production) | 예시 |
 |:---|:---|:---|:---|:---|
-| **Type 3** | **정규 언어** | **유한 오토마타 (FA)** | $A \rightarrow aB$ 또는 $A \rightarrow a$ (한쪽 방향) | 식별자, 숫자, 이메일 형식 |
-| **Type 2** | 문맥 자유 언어 | 푸시다운 오토마타 (PDA) | $A \rightarrow \gamma$ (좌변이 비단말 기호 하나) | 괄호 짝, 프로토콜 구조 |
-| **Type 1** | 문맥 의존 언어 | 선형 유한 오토마타 (LBA) | $\alpha A \beta \rightarrow \alpha \gamma \beta$ | 자연어 처리의 일부 |
-| **Type 0** | 무제약 언어 | 튜링 머신 (TM) | 제약 없음 | 모든 계산 가능한 문제 |
+| **Type $3$** | **정규 언어** | **유한 오토마타 (FA)** | $A \rightarrow aB$ 또는 $A \rightarrow a$ (한쪽 방향) | 식별자, 숫자, 이메일 형식 |
+| **Type $2$** | 문맥 자유 언어 | 푸시다운 오토마타 (PDA) | $A \rightarrow \gamma$ (좌변이 비단말 기호 하나) | 괄호 짝, 프로토콜 구조 |
+| **Type $1$** | 문맥 의존 언어 | 선형 유한 오토마타 (LBA) | $\alpha A \beta \rightarrow \alpha \gamma \beta$ | 자연어 처리의 일부 |
+| **Type $0$** | 무제약 언어 | 튜링 머신 (TM) | 제약 없음 | 모든 계산 가능한 문제 |
 
 > 요약: 정규 언어는 '상태'만 기억할 수 있고 '메모리(스택)'가 없어 중첩된 구조(예: $a^n b^n$)는 표현하지 못함.
 
 ## Ⅲ. 구성요소/구조
 
-정규 문법은 비단말 기호(Variables), 단말 기호(Terminals), 시작 기호(Start), 생성 규칙(Rules)의 4요소($G = (V, \Sigma, R, S)$)로 정의됨.
+정규 문법은 비단말 기호(Variables), 단말 기호(Terminals), 시작 기호(Start), 생성 규칙(Rules)의 $4$요소($G = (V, \Sigma, R, S)$)로 정의됨.
 
 - **정규 문법의 유형**:
   - **우측 정규 문법 (Right Linear)**: 생성 규칙이 $A \rightarrow aB$ 또는 $A \rightarrow a$ 형태임 (비단말 기호가 우측 끝에 위치)
