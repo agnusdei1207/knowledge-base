@@ -6,7 +6,7 @@ tags:
 weight: 3
 ---
 
-# 003. 정렬 알고리즘 비교 — 퀵·병합·힙·버블 (Sorting Algorithms) [출제:122,131회]
+# 003. 정렬 알고리즘 비교 (Sorting Algorithms) [출제: 122, 131회]
 
 ## 미리 알고가기
 
