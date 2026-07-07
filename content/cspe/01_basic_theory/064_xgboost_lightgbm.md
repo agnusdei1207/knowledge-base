@@ -1,70 +1,67 @@
 ---
-title: "XGBoost, LightGBM (Gradient Boosted Decision Trees)"
-date: "2026-07-06"
+title: "XGBoost·LightGBM (XGBoost LightGBM)"
+date: "2026-07-07"
 tags:
   - "cspe-basic-theory"
 weight: 64
 ---
 
-# XGBoost, LightGBM (Gradient Boosted Decision Trees)
+# 064. XGBoost·LightGBM (XGBoost LightGBM)
 
 ## 1. 개요
 
-- **정의/개념**: XGBoost와 LightGBM은 이전 트리의 오류를 다음 트리가 보정하도록 순차적으로 학습하는 Gradient Boosted Decision Tree 계열 알고리즘이다.
-- **배경/필요성**: 정형 데이터에서는 feature engineering과 비선형 관계가 중요하므로, 결정 트리의 표현력과 boosting의 오류 보정 구조를 결합한 강력한 모델이 필요하다.
-
-두 모델의 핵심은 boosting이라는 공통 원리 위에서 정규화, 분할 전략, 학습 속도 최적화가 다르다는 점이다.
+- **정의/개념**: 결정 트리(Decision Tree)를 기본 학습기로 사용하며, 이전 트리의 오차를 다음 트리가 보정하는 그라디언트 부스팅(Gradient Boosting) 기법을 병렬 연산과 효율적 알고리즘으로 최적화한 머신러닝 라이브러리임
+- **배경/필요성**: 기존 GBM(Gradient Boosting Machine)은 순차적 학습 방식으로 인해 속도가 매우 느리고 과적합에 취약하므로, 대규모 정형 데이터 처리를 위한 고성능, 고속, 고정밀의 부스팅 모델이 필요함
 
 ## 2. 특징 및 비교
 
-| 구분 | XGBoost | LightGBM |
-|---|---|---|
-| 분할 방식 | level-wise 중심 | leaf-wise 중심 |
-| 강점 | 정규화, 안정성, 범용성 | 빠른 학습, 대용량 처리 |
-| 주요 기법 | regularization, shrinkage | histogram, GOSS, EFB |
-| 위험 | 튜닝 복잡 | 과적합 가능성 |
-| 적합 상황 | 안정적 정형 데이터 모델 | 대규모·고차원 정형 데이터 |
+| 판단 기준 | XGBoost (eXtreme Gradient Boosting) | LightGBM (Light Gradient Boosting) |
+|:---|:---|:---|:---|
+| **분할 방식** | 수평적 (Level-wise) 성장 | 수직적 (Leaf-wise) 성장 |
+| **속도/메모리** | 빠름 (중간 수준 메모리) | 매우 빠름 (저용량 메모리) |
+| **주요 기법** | 정규화(L1, L2), 가중치 분위수 스케치 | 히스토그램 기반, GOSS, EFB |
+| **장점** | 학습 안정성 우수, 과적합 제어 강점 | 대용량 데이터 처리 속도 극대화 |
+| **단점** | 하이퍼파라미터 튜닝 시간 소요 | 적은 데이터에서 과적합 위험 높음 |
 
-선택 기준은 데이터 크기, feature 수, 과적합 위험, 학습 시간, 튜닝 가능성이다.
+> 요약: XGBoost는 안정적이고 강력한 성능을, LightGBM은 압도적인 속도와 효율성을 제공함
 
 ## 3. 구성요소/구조
 
-| 구성요소 | 설명 | 핵심 포인트 |
-|---|---|---|
-| Base Tree | 순차적으로 추가되는 결정 트리 | 약한 모델 |
-| Gradient | 손실 함수의 잔차 방향 | 다음 트리 학습 신호 |
-| Learning Rate | 트리 기여도 축소 | 과적합 완화 |
-| Regularization | 트리 복잡도 제어 | 일반화 |
-| Split Strategy | 노드 분할 방식 | 성능·속도 차이 |
+- **구성요소**:
+  - **Gradient Boosting**: 손실 함수(Loss Function)의 그라디언트(잔차)를 줄이는 방향으로 트리를 추가함
+  - **Level-wise Split (XGB)**: 균형 잡힌 트리를 만들기 위해 동일 레벨의 모든 노드를 동시에 분할함
+  - **Leaf-wise Split (LGBM)**: 손실 감소가 가장 큰 노드를 우선적으로 분할하여 깊이가 깊고 비대칭적인 트리를 형성함
+  - **Histogram-based Algorithm**: 연속형 피처를 이산적인 빈(Bin)으로 나누어 연산량을 대폭 절감함
+  - **GOSS (Gradient-based One-Side Sampling)**: 그라디언트가 큰 데이터 위주로 샘플링하여 효율을 높임
 
+- **동작 원리**:
 ```text
-예측 -> 손실/gradient 계산 -> 새 트리 학습 -> 예측 보정 -> 반복
+1. 초기 모델 생성 (단순 평균 등)
+2. 현재 모델의 예측값과 실제값의 차이(잔차/그라디언트) 계산
+3. [XGB/LGBM 최적화 전략 적용] -> 새로운 결정 트리 학습 (잔차 예측)
+4. 기존 모델에 새 트리의 예측값을 더해 업데이트 (f_new = f_old + η * tree)
+5. 설정된 트리 개수 또는 오차 수렴 시까지 반복
 ```
-
-boosting은 이전 오류를 계속 보정하므로 성능이 높지만, 과도하게 반복하면 학습 데이터에 민감해진다.
 
 ## 4. 문제점 및 개선방안
 
-1. **과적합**
-   - 트리 깊이, leaf 수, 반복 수가 커지면 학습 데이터에 과도하게 맞춰진다.
-   - **개선방안**: max depth, num leaves, early stopping, regularization을 조정한다.
-
-2. **튜닝 복잡성**
-   - 하이퍼파라미터가 많아 성능 재현이 어렵다.
-   - **개선방안**: 검증 전략, search space 제한, seed·버전 관리를 적용한다.
-
-3. **범주형·결측 처리 오해**
-   - 자동 처리 기능에만 의존하면 데이터 의미가 왜곡될 수 있다.
-   - **개선방안**: encoding 정책과 결측 원인을 검토하고 feature importance를 검증한다.
+1. **[하이퍼파라미터 튜닝의 복잡성]**: 트리 개수, 깊이, 학습률 등 조정해야 할 변수가 너무 많아 최적화가 어려움
+   - **개선방안**: 베이지안 최적화(Optuna 등)를 활용한 자동 튜닝을 수행하거나 조기 종료(Early Stopping)를 설정함 (확인: 수렴 속도)
+2. **[과적합 (Overfitting)]**: 학습 데이터에 지나치게 특화되어 새로운 데이터에서 성능이 급격히 저하될 수 있음
+   - **개선방안**: 정규화 계수(Lambda, Alpha)를 높이거나, 피처 샘플링(Colsample_bytree) 비율을 낮춤 (확인: Train/Val Loss Gap)
+3. **[범주형 변수의 직접 처리 한계]**: (XGB 기준) 범주형 변수를 수치형으로 변환해야 하는 번거로움과 정보 손실이 있음
+   - **개선방안**: LightGBM의 빌트인 범주형 변수 처리 기능을 활용하거나 CatBoost와 같은 대안 모델을 고려함 (확인: 인코딩 효율)
 
 ## 5. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
-|---|---|---|
-| 정형 데이터 예측 | 고객·거래 feature로 분류·회귀 모델 구성 | AUC, RMSE |
-| 리스크 스코어링 | 변수 중요도와 성능을 함께 고려 | KS, 안정성 |
-| 대용량 로그 분석 | LightGBM으로 빠른 학습과 feature 탐색 | 학습 시간, 메모리 |
+|:---|:---|:---|
+| **클릭률(CTR) 예측** | 수억 건의 사용자 로그 데이터를 LightGBM으로 고속 학습하여 광고 배치 최적화 | Log-Loss, AUC |
+| **금융 연체 예측** | 고객의 다양한 정형 피처를 XGBoost로 학습하여 부도 위험 관리 | Precision-Recall AUC |
+| **Kaggle 데이터 경진대회** | 정형 데이터 태스크에서 앙상블의 핵심 모델(Backbone)로 사용 | Private Leaderboard Score |
+
+> 요약: 정형 데이터가 주류인 기업 비즈니스 환경에서 가장 신뢰받는 'De facto standard' 알고리즘들임
 
 ## 6. 결론
 
-XGBoost와 LightGBM은 정형 데이터에서 강력한 성능을 내는 GBDT 계열 모델이다. boosting 원리, 분할 전략, regularization, early stopping을 함께 설명해야 높은 성능과 과적합 위험을 균형 있게 판단할 수 있다.
+XGBoost와 LightGBM은 정형 데이터 분석의 패러다임을 바꾼 혁신적인 기술로, 수만 개의 변수와 수억 건의 데이터를 처리할 수 있는 확장성을 증명해 왔음. 딥러닝이 비정형 데이터(이미지, 자연어)를 지배하고 있다면, 부스팅 모델은 여전히 정형 데이터와 표(Table) 형태의 비즈니스 데이터 분야에서 최고의 성능과 효율성을 제공하는 최전선의 무기임.
