@@ -6,6 +6,8 @@ tags:
 weight: 102
 ---
 
+# IOMMU (Input-Output Memory Management Unit)
+
 ## 미리 알고가기
 
 - DMA(Direct Memory Access): 장치가 CPU(Central Processing Unit) 개입 없이 메모리에 직접 읽기·쓰기를 수행하는 방식임
@@ -14,9 +16,9 @@ weight: 102
 - SR-IOV(Single Root I/O Virtualization): 하나의 물리 장치를 여러 가상 기능으로 나누어 VM(Virtual Machine)에 제공하는 기술임
 - IOTLB(Input/Output Translation Lookaside Buffer): IOMMU 주소 변환 결과를 캐시하는 버퍼임
 
-## Ⅰ. 개요
+## 1. 개요
 
-- **정의**: IOMMU(Input-Output Memory Management Unit)는 I/O 장치가 DMA로 접근하는 주소를 IOVA에서 물리 주소로 변환하고 장치별 접근 권한을 검사하는 메모리 관리 장치임.
+- **정의/개념**: IOMMU(Input-Output Memory Management Unit)는 I/O 장치가 DMA로 접근하는 주소를 IOVA에서 물리 주소로 변환하고 장치별 접근 권한을 검사하는 메모리 관리 장치임.
 - **배경/필요성**: DMA 장치는 CPU MMU(Memory Management Unit)를 거치지 않고 메모리에 접근하므로 악성 또는 오류 장치가 임의 메모리를 손상시킬 수 있음. IOMMU는 장치마다 허용된 메모리 범위를 제한해 성능과 보안을 함께 확보함.
 - **비유**: 물류 차량이 창고에 직접 들어가더라도 출입 가능한 구역과 경로를 게이트에서 검사하는 장치임.
 
@@ -26,7 +28,7 @@ weight: 102
 
 > 요약: IOMMU는 장치의 직접 메모리 접근을 주소 변환과 권한 검사로 통제하는 하드웨어임.
 
-## Ⅱ. 특징/비교
+## 2. 특징 및 비교
 
 | 판단 기준 | IOMMU 미사용 DMA | IOMMU 사용 DMA |
 |:---|:---|:---|
@@ -41,7 +43,7 @@ weight: 102
 - **선택 지표**: IOTLB miss rate, DMA fault count, isolation group을 함께 확인해야 함
 - **운영 관점**: IOMMU 설정은 BIOS(Basic Input/Output System), OS(Operating System), 하이퍼바이저, PCIe(Peripheral Component Interconnect Express) topology 전체에서 일관되어야 함
 
-## Ⅲ. 구성요소
+## 3. 구성요소/구조
 
 ```text
 +----------+      +----------+      +----------+      +----------+
@@ -63,7 +65,7 @@ weight: 102
 
 > 요약: IOMMU는 장치 요청을 페이지 테이블과 IOTLB로 검사해 허용된 메모리만 접근하게 함.
 
-## Ⅳ. 절차
+### 원리/흐름도
 
 ```text
 +----------+      +----------+      +----------+      +----------+
@@ -78,7 +80,7 @@ weight: 102
 
 > 요약: IOMMU는 DMA 요청마다 장치별 매핑과 권한을 확인해 메모리 접근을 중재함.
 
-## Ⅴ. 문제점 및 개선방안
+## 4. 문제점 및 개선방안
 
 - **P1 성능 오버헤드**: IOTLB miss, 페이지 테이블 walk, map/unmap 호출이 고속 I/O 지연을 늘릴 수 있음
 - **P1 대응**: large page, IOTLB sizing, batching map/unmap, passthrough mode를 워크로드별로 조정함 (확인: IOTLB miss rate)
@@ -89,7 +91,7 @@ weight: 102
 
 > 요약: IOMMU는 DMA 격리를 제공하지만 변환 비용 최적화와 장치·펌웨어 우회 경로 검증을 함께 수행해야 함.
 
-## Ⅵ. 실무 적용 사례
+## 5. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
@@ -99,7 +101,7 @@ weight: 102
 
 > 요약: IOMMU 적용은 장치 직접 할당의 성능 이득과 DMA 격리 검증을 같은 기준으로 평가해야 함.
 
-## Ⅶ. 전망
+## 6. 결론
 
 - **발전 방향**: confidential VM, CXL(Compute Express Link) device, DPU(Data Processing Unit), user-space driver 확산으로 장치 DMA 격리의 중요성이 더 커짐
 - **기술사적 판단**: 고성능 장치 패스스루는 throughput뿐 아니라 DMA threat model과 IOMMU group 분리를 기준으로 승인해야 함
