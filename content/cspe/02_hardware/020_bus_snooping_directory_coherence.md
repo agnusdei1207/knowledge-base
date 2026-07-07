@@ -1,104 +1,90 @@
 ---
-title: "버스 스누핑·디렉터리 기반 일관성 (Bus Snooping Directory Coherence)"
+title: "버스 스누핑·디렉터리 기반 일관성 (Bus Snooping Directory Coherence) [출제:123회]"
 date: "2026-07-06"
 tags:
   - "cspe-hardware"
 weight: 20
 ---
 
+# 020. 버스 스누핑·디렉터리 기반 일관성 (Bus Snooping Directory Coherence) [출제:123회]
+
 ## 미리 알고가기
 
-- 버스 스누핑(Bus Snooping): 모든 캐시가 공유 버스의 coherence transaction을 감시하는 방식임
-- 디렉터리(Directory): 어떤 코어가 특정 cache line 사본을 보유하는지 기록하는 관리 구조임
-- 공유자 벡터(Sharer Vector): line을 가진 코어 목록을 비트로 표시한 디렉터리 정보임
-- Broadcast/Unicast: 모든 코어에 보내는 방식과 필요한 코어에만 보내는 방식임
+- **버스 스누핑 (Bus Snooping)**: 모든 캐시가 공용 버스를 통해 오가는 데이터를 감시하며(Snoop) 자신의 사본 상태를 갱신하는 방식임
+- **디렉터리 (Directory)**: 별도의 중앙 관리 장치가 각 코어의 캐시 상태와 위치 정보를 기록하고 관리하는 방식임
+- **확장성 (Scalability)**: 시스템의 규모(코어 수 등)가 커짐에 따라 성능이나 자원 소모가 효율적으로 유지되는 정도임
 
 ## Ⅰ. 개요
 
-- **정의**: 버스 스누핑과 디렉터리 기반 일관성은 멀티코어 캐시 일관성을 유지하기 위해 coherence 요청을 어디로 보내고 누가 사본 보유 정보를 관리할지 정하는 통신 구조임. 코어 수, broadcast 비용, directory 저장 비용, 지연시간을 기준으로 선택함.
-- **배경/필요성**: MESI 같은 상태 프로토콜은 캐시 간 메시지가 필요하지만, 메시지 전달 구조가 코어 수에 따라 병목이 될 수 있음. 소규모 시스템은 스누핑이 단순하고, 대규모 many-core는 디렉터리가 불필요한 broadcast를 줄임.
-- **비유**: 스누핑은 건물 전체 안내 방송으로 공지하는 방식이고, 디렉터리는 담당자가 관련 사람 명단을 보고 필요한 사람에게만 연락하는 방식임.
+- **정의/개념**: 버스 스누핑과 디렉터리 방식은 멀티코어 환경에서 캐시 일관성 프로토콜(MESI 등)이 실제 하드웨어상에서 어떻게 구현되고 통신되는지를 결정하는 아키텍처 구조임
+- **배경/필요성**: 코어 수가 적을 때는 모두가 방송(Broadcast)을 듣는 방식이 빠르고 단순하지만, 코어 수가 수십 개 이상으로 늘어나면 방송 트래픽이 버스를 장악하여 성능이 마비됨. 따라서 시스템 규모에 맞는 통신 전략이 필수적임
 
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+## Ⅱ. 특징 및 비교
+
+스누핑은 '방송' 중심의 분산 관리이며, 디렉터리는 '대장' 중심의 집중 관리임.
+
+| 비교 항목 | 버스 스누핑 (Bus Snooping) | 디렉터리 기반 (Directory-based) |
 |:---|:---|:---|
-| 일관성 메시지 전달 구조의 확장성 비교 | snooping, directory, sharer vector, broadcast, invalidation ack | MESI 상태와 전달 구조를 혼동 |
+| **통신 방식** | **브로드캐스트 (Broadcast)** | **유니캐스트 (Unicast)** |
+| **정보 관리** | 각 코어의 캐시 제어기가 분산 관리 | **중앙 디렉터리**에서 집중 관리 |
+| **확장성** | 낮음 (코어 수 증가 시 트래픽 폭주) | **높음** (필요한 코어와만 통신) |
+| **지연 시간** | 짧음 (직접 버스 감시) | 비교적 김 (디렉터리 조회 과정 추가) |
+| **하드웨어 비용** | 낮음 (단순한 버스 구조) | 높음 (디렉터리 저장 공간 필요) |
 
-> 요약: 스누핑과 디렉터리는 같은 일관성 목표를 달성하지만 메시지 전파 범위와 관리 주체가 다름.
+> 요약: 소규모 시스템은 스누핑, 대규모 many-core 시스템은 디렉터리 방식이 유리함.
 
-## Ⅱ. 특징/비교
+## Ⅲ. 구성요소/구조
 
-| 판단 기준 | 버스 스누핑 | 디렉터리 기반 |
-|:---|:---|:---|
-| 정보 전달 | 모든 캐시가 bus transaction을 관찰함 | directory가 owner와 sharer에게만 메시지를 보냄 |
-| 장점 | 구조가 단순하고 작은 코어 수에서 지연이 낮음 | broadcast를 줄여 많은 코어로 확장하기 쉬움 |
-| 비용 | 코어 수 증가 시 버스와 snoop traffic이 병목이 됨 | directory 저장 공간, lookup 지연, ack 관리가 필요함 |
-| 적용 기준 | 단일 칩 소규모 SMP, 공유 버스 구조 | many-core, NUMA, 칩렛, NoC 기반 시스템 |
+두 방식은 정보를 전달하는 매개체(버스 vs 디렉터리)에서 결정적인 차이가 있음.
 
-> 요약: 코어 수가 적으면 스누핑, 코어 수와 패키지가 커지면 디렉터리 기반이 유리함.
+- **버스 스누핑 구조**:
+  - **Shared Bus**: 모든 코어가 연결된 공용 통로
+  - **Snoop Logic**: 버스에서 흐르는 주소를 자신의 캐시 태그와 대조하는 회로
+- **디렉터리 구조**:
+  - **Directory Controller**: 각 캐시 블록의 위치와 상태(M, S, I)를 기록한 표(Table) 관리
+  - **Interconnect Network**: 메시지를 특정 코어로 전달하는 복잡한 네트워크 (Mesh 등)
+  - **Point-to-Point Message**: 무효화(Invalidate) 메시지를 특정 코어에만 전송
 
-## Ⅲ. 구성요소
+- **통신 구조 개념도 (ASCII)**:
 
 ```text
-Snooping:
-+------+   broadcast bus   +------+
-|Core0 | <===============> |Core1 |
-+------+                   +------+
-
-Directory:
-+------+       +-----------+       +------+
-|Core0 | <---> | Directory | <---> |Core1 |
-+------+       | sharers   |       +------+
-               +-----------+
+[ Bus Snooping ]                [ Directory-based ]
++--------+  +--------+          +--------+  +--------+
+| Core A |  | Core B |          | Core A |  | Core B |
++---^----+  +---^----+          +---^----+  +---^----+
+    | (Snoop)   |                   |           |
++---+-----------+----+          +---v-----------v----+
+|    Shared Bus      |          | Directory Manager  |
++--------------------+          +--------------------+
+ (Broadcast All)                 (Targeted Message)
 ```
 
-| 구성요소 | 설명 | 비유 |
-|:---|:---|:---|
-| Snoop controller | 버스 transaction을 감시하고 local cache 상태를 갱신함 | 방송 청취자 |
-| Shared bus/NoC | coherence request, invalidate, data response를 전달함 | 공용 도로 |
-| Directory entry | tag별 owner, sharer vector, 상태 정보를 저장함 | 대출 장부 |
-| Invalidation ack | sharer가 사본 무효화를 완료했음을 알리는 응답임 | 확인 서명 |
+1. **스누핑**은 코어 $A$가 쓰기를 하면 버스에 알리고, 모든 코어가 이를 듣고 자신의 사본을 버림
+2. **디렉터리**는 코어 $A$의 쓰기 요청을 받으면, 해당 데이터를 가진 코어 $B$에게만 무효화 명령을 보냄
 
-> 요약: 스누핑은 관찰자가 많고, 디렉터리는 사본 보유 정보를 기록한 관리자가 중심이 됨.
+## Ⅳ. 문제점 및 개선방안
 
-## Ⅳ. 절차
+1. **스누핑의 대역폭 한계**: 코어가 늘어날수록 버스에 흐르는 일관성 유지 트래픽이 실제 데이터 트래픽보다 많아짐
+   - **개선방안**: **스누핑 필터(Snoop Filter)**를 도입하여 불필요한 방송을 차단하거나, 계층적 버스 구조를 사용하여 범위를 제한함 (확인: 버스 유효 대역폭 활용률)
 
-```text
-+----------+     +----------+     +-----------+     +----------+
-| Request  | --> | Locate   | --> | Invalidate| --> | Grant    |
-+----------+     +----------+     +-----------+     +----------+
- read/write       bus or dir       sharers         data/permission
-```
+2. **디렉터리의 메모리 오버헤드**: 모든 캐시 라인의 상태를 기록하려면 디렉터리 자체가 차지하는 메모리 용량이 커짐
+   - **개선방안**: 모든 라인이 아닌 캐시에 적재된 라인만 기록하는 **희소 디렉터리(Sparse Directory)** 기법이나 압축 기술을 사용함 (확인: 디렉터리 크기 대비 캐시 용량 비율)
 
-1. **요청 발생** - 코어가 read miss 또는 write permission 요청을 생성함
-2. **사본 위치 확인** - 스누핑은 버스 broadcast로, 디렉터리는 sharer vector 조회로 보유 코어를 찾음
-3. **무효화·응답** - 쓰기 요청이면 관련 sharer에게 invalidate를 보내고 ack를 수집함
-4. **권한 부여** - 요청 코어에 데이터와 읽기·쓰기 권한을 부여하고 상태 정보를 갱신함
+3. **디렉터리의 접근 지연**: 데이터를 읽기 전에 먼저 디렉터리를 거쳐야 하므로 지연 시간($Latency$)이 늘어남
+   - **개선방안**: 자주 사용하는 디렉터리 정보를 코어 근처에 캐싱하거나, 분산 디렉터리 구조를 통해 부하를 나눔 (확인: 디렉터리 조회 지연 시간)
 
-> 요약: 일관성 전달 구조는 사본 위치를 찾고 필요한 코어에만 상태 변경을 확정하는 절차임.
-
-## Ⅴ. 문제점 및 개선방안
-
-- **P1 스누핑 확장성 한계**: 소규모 공유 버스 전제의 스누핑을 코어 수가 많은 시스템에 적용하면 모든 캐시가 모든 transaction을 감시해 bus bandwidth와 전력이 급증함
-- **P1 대응**: snoop filter, hierarchical snooping, cluster 단위 broadcast로 감시 범위를 줄임 (확인: snoop traffic, bus utilization)
-- **P2 디렉터리 저장·지연 비용**: sharer vector와 directory lookup이 메모리 오버헤드와 추가 지연을 만듦
-- **P2 대응**: sparse directory, compressed sharer vector, distributed directory로 저장 공간과 지연을 줄임 (확인: directory miss, lookup latency)
-- **P3 메시지 순서·교착 위험**: NoC에서 invalidate, ack, data response 순서가 꼬이면 deadlock 또는 livelock이 발생할 수 있음
-- **P3 대응**: virtual channel, ordering rule, timeout/retry, formal protocol verification을 적용함 (확인: deadlock proof, protocol coverage)
-
-> 요약: 스누핑은 broadcast 비용, 디렉터리는 메타데이터와 메시지 제어 비용이 핵심 문제이므로 코어 수와 fabric 구조에 맞춰 선택해야 함.
-
-## Ⅵ. 실무 적용 사례
+## Ⅴ. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
-| 소규모 대칭형 다중처리(Symmetric Multiprocessing, SMP) 시스템온칩(System on Chip, SoC) | 코어 수가 적고 공유 버스 지연이 낮은 구조에는 bus snooping으로 단순한 coherence를 구현함 | snoop traffic, bus utilization, invalidate latency |
-| 비균등 메모리 접근(Non-Uniform Memory Access, NUMA) 서버 | socket과 코어 수가 늘어나는 구조에는 directory와 sharer vector로 owner·sharer에게만 메시지를 전송함 | directory lookup latency, remote socket latency, broadcast 감소율 |
-| 칩렛·컴퓨트 익스프레스 링크(Compute Express Link, CXL) fabric | 패키지 경계와 장치까지 coherence domain이 확장되는 구간은 hierarchical directory와 snoop filter를 결합함 | protocol coverage, duplicate response, deadlock proof |
+| 일반 데스크톱 CPU | 코어 수가 적으므로(4~16개) 설계가 단순하고 응답이 빠른 **스누핑** 방식 위주로 사용 | 단일 칩 내 코어 간 통신 지연 |
+| 고성능 서버 (NUMA) | 수백 개의 코어가 여러 소켓에 분산된 환경에서 방송 트래픽을 막기 위해 **디렉터리** 방식 필수 적용 | 노드 간 확장성 효율 |
+| 칩렛(Chiplet) 기반 SoC | 여러 다이(Die)를 연결하는 인체커넥트 환경에서 전력 소모를 줄이기 위해 하이브리드 방식 적용 | 다이 간 데이터 일관성 유지 비용 |
 
-> 요약: 스누핑과 디렉터리는 코어 수, 패키지 경계, 메시지 지연을 기준으로 선택하고 protocol 검증으로 확정해야 함.
+> 요약: 칩 내부(Intra-chip)는 스누핑, 칩 외부(Inter-chip)는 디렉터리 방식이 주를 이룸.
 
-## Ⅶ. 전망
+## Ⅵ. 결론
 
-- **발전 방향**: 칩렛, NUMA, CXL 환경에서는 계층형 directory와 coherence filter가 확대되고 장치까지 포함한 fabric coherence가 설계 대상이 됨
-- **기술사적 판단**: snooping은 소규모 공유 버스에 적합하고 directory는 다수 코어·패키지 경계에 적합하므로 코어 수, NoC 대역폭, directory 저장 비용으로 구분함; invalidation broadcast, directory entry overflow, owner migration, duplicate response, remote socket latency를 시나리오별로 확인함
-- **기술사 제언**: MESI는 cache line 상태 규칙이고 snooping/directory는 메시지 전달 구조라는 차이를 분명히 해야 함
+버스 스누핑과 디렉터리 방식은 '분산된 정보의 동기화'를 처리하는 두 가지 대조적인 철학임. 기술사는 시스템의 코어 수와 대역폭 예산을 고려하여, 단순하지만 확장이 어려운 스누핑과 복잡하지만 대규모에 강한 디렉터리 방식 중 최적의 솔루션을 선택할 수 있어야 함.
+
+향후 수천 개의 코어가 탑재되는 가속기나 거대한 데이터 센터 수준의 공유 메모리 환경에서는, 디렉터리 방식을 넘어선 지능형 메시지 라우팅과 하드웨어 기반의 자동화된 일관성 관리 기술이 더욱 중요해질 것임. 결국 효율적인 일관성 유지는 '누가 정보를 알고 있는가'를 얼마나 최소한의 통신으로 찾아내느냐에 달려 있음.

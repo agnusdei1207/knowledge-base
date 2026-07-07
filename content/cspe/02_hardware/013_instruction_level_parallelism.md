@@ -1,103 +1,86 @@
 ---
-title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
+title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism) [출제:136회]"
 date: "2026-07-06"
 tags:
   - "cspe-hardware"
 weight: 13
 ---
 
+# 013. 명령어 수준 병렬성 ILP (Instruction-Level Parallelism) [출제:136회]
+
 ## 미리 알고가기
 
-- 명령어 수준 병렬성(Instruction-Level Parallelism, ILP): 하나의 instruction stream 안에서 동시에 실행 가능한 독립 명령어의 정도임
-- Basic block: 분기 없이 순차 실행되는 명령어 구간임
-- Dependency graph: 명령어 사이의 데이터와 제어 의존성을 그래프로 표현한 구조임
-- 클록당 명령어 수(Instructions Per Cycle, IPC): 클록당 완료 명령어 수로 ILP 활용 결과를 보여주는 지표임
+- **의존성 (Dependency)**: 명령어 간의 선후 관계를 의미하며, 데이터 의존성(Data)과 제어 의존성(Control)으로 나뉨
+- **기본 블록 (Basic Block)**: 중간에 분기문이 없고 끝에만 분기문이 있는 연속된 명령어의 묶음임
+- **CPI (Cycles Per Instruction)**: 명령어 하나를 처리하는 데 걸리는 클록 수이며, ILP가 높을수록 $CPI$는 낮아지고 $IPC(1/CPI)$는 높아짐
 
 ## Ⅰ. 개요
 
-- **정의**: 명령어 수준 병렬성은 하나의 프로그램 흐름 안에서 데이터와 제어 의존성이 없어 같은 시간에 실행할 수 있는 명령어의 양을 나타내는 성능 기준임. 컴파일러 스케줄링, 파이프라인, 슈퍼스칼라, OoO 설계가 실제로 성능을 낼 수 있는지를 판단하는 데 쓰임.
-- **배경/필요성**: 클록 주파수 향상과 단일 pipeline만으로는 성능 확장이 제한됨. CPU는 프로그램 내부의 독립 명령어를 찾아 여러 실행 유닛에 배치해야 단일 스레드 처리량을 높일 수 있음.
-- **비유**: 한 요리 레시피에서 먼저 해야 하는 작업과 동시에 할 수 있는 작업을 구분해 여러 조리대에 나누는 정도임.
+- **정의/개념**: 명령어 수준 병렬성(ILP)은 하나의 명령어 흐름(Thread) 내에서 서로 독립적인 명령어들을 찾아내어 동시에 실행할 수 있는 잠재적인 병렬성의 정도를 의미함
+- **배경/필요성**: 클록 속도를 높이는 것만으로는 성능 향상에 한계가 있음. 따라서 한 클록에 최대한 많은 명령어를 병렬로 처리하여 단일 스레드의 성능을 극대화하기 위해 ILP 활용 기술이 필수적임
 
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| CPU 병렬성의 원천과 한계 판단 | data/control dependency, compiler scheduling, 비순서 실행(Out-of-Order Execution, OoO), 클록당 명령어 수(Instructions Per Cycle, IPC) | ILP를 멀티스레딩과 혼동 |
+## Ⅱ. 특징 및 비교
 
-> 요약: ILP는 한 스레드 안에서 동시에 실행 가능한 명령어를 얼마나 찾고 활용하는지의 기준임.
+ILP는 '하나의 스레드' 내부의 병렬성을 다루며, 다른 병렬성 계층과 구분됨.
 
-## Ⅱ. 특징/비교
+| 병렬성 계층 | 단위 (Unit) | 핵심 기술 | 특징 |
+|:---|:---|:---|:---|
+| **ILP** (명령어 수준) | **명령어 (Instruction)** | **파이프라이닝, 슈퍼스칼라** | 단일 스레드 성능 향상 |
+| **DLP** (데이터 수준) | 데이터 (Data) | **SIMD, GPU** | 대량의 단순 연산 병렬화 |
+| **TLP** (스레드 수준) | 스레드 (Thread) | **멀티코어, SMT** | 시스템 전체 처리량 향상 |
 
-| 판단 기준 | 명령어 수준 병렬성(Instruction-Level Parallelism, ILP) | 스레드·데이터 수준 병렬성(Thread-Level Parallelism/Data-Level Parallelism, TLP/DLP) |
-|:---|:---|:---|
-| 병렬성 단위 | 하나의 스레드 안의 독립 명령어 | 여러 스레드 또는 여러 데이터 원소 |
-| 활용 장치 | pipeline, superscalar, OoO, VLIW | multicore, SMT, SIMD, GPU |
-| 제한 요인 | RAW 의존성, branch, memory alias | 동기화, 데이터 분할, 메모리 대역폭 |
-| 선택 기준 | 단일 스레드 지연시간 개선이 필요할 때 | 처리량 확장과 대규모 병렬성이 필요할 때 |
+> 요약: ILP는 CPU 아키텍처가 명령어를 '겹쳐' 실행하거나 '동시' 실행하여 성능을 얻는 원천임.
 
-> 요약: ILP는 단일 스레드 성능의 원천이고, TLP/DLP는 작업 또는 데이터 단위 확장의 원천임.
+## Ⅲ. 구성요소/구조
 
-## Ⅲ. 구성요소
+ILP를 확보하기 위해서는 명령어 사이의 '벽(의존성)'을 허무는 것이 핵심임.
 
-```text
-+--------------+     +----------------+     +----------------+
-| Instruction  | --> | Dependency     | --> | Scheduler      |
-| Stream       |     | Graph          |     | HW or Compiler |
-+--------------+     +--------+-------+     +-------+--------+
-                              |                     |
-                              v                     v
-                         +---------+          +-------------+
-                         | ILP Set | -------> | Exec Units  |
-                         +---------+          +-------------+
-```
+- **병렬성을 제한하는 의존성 유형**:
+  - **데이터 의존성 (Data Dependency)**: 진짜 의존성(RAW)과 가짜 의존성(WAR, WAW)으로 구분
+  - **제어 의존성 (Control Dependency)**: 분기문 결과에 따라 뒤 명령어의 실행 여부가 결정되는 관계
+  - **자원 의존성 (Resource Dependency)**: 두 명령어가 동일한 ALU나 버스를 동시에 사용하려는 관계
 
-| 구성요소 | 설명 | 비유 |
-|:---|:---|:---|
-| 명령어 흐름 | 컴파일러 또는 CPU가 분석하는 순차 명령어 집합임 | 작업 목록 |
-| 의존성 그래프 | 어떤 명령어가 먼저 실행되어야 하는지 표현함 | 선후 관계표 |
-| 스케줄러 | 독립 명령어를 찾아 실행 순서와 실행 유닛을 배정함 | 배차 담당 |
-| 실행 유닛 | 독립 명령어를 실제로 병렬 실행하는 ALU, FPU, load/store 장치임 | 작업 설비 |
-
-> 요약: ILP는 의존성 분석으로 독립 작업을 찾고 스케줄러가 실행 유닛에 배치하는 구조로 활용됨.
-
-## Ⅳ. 절차
+- **ILP 향상을 위한 기술 체계 (ASCII)**:
 
 ```text
-+----------+     +----------+     +----------+     +----------+
-| Analyze  | --> | Expose   | --> | Schedule | --> | Measure  |
-+----------+     +----------+     +----------+     +----------+
- dependency       unroll/rename    issue order      IPC/stall
+[Instruction Stream] -> [ILP Analysis] -> [Parallel Execution]
+       |                      |                   |
+       |               +------v------+     +------v------+
+       |               | Compiler    |     | Hardware    |
+       |               | (Static)    |     | (Dynamic)   |
+       +-------------->+-------------+     +-------------+
+                       | - Unrolling |     | - Superscalar
+                       | - Scheduling|     | - OoO / Rename
+                       | - VLIW      |     | - Prediction
+                       +-------------+     +-------------+
 ```
 
-1. **의존성 분석** - RAW, WAR, WAW, memory dependency, branch dependency를 식별함
-2. **병렬성 노출** - loop unrolling, renaming, instruction reordering으로 독립 명령어를 드러냄
-3. **실행 배치** - compiler 또는 하드웨어가 실행 유닛과 cycle에 명령어를 배정함
-4. **효과 측정** - IPC, stall cycle, issue slot utilization으로 실제 활용률을 확인함
+1. **소프트웨어적 기법**: 컴파일러가 루프를 펼치거나(Loop Unrolling) 명령어 순서를 재배치함
+2. **하드웨어적 기법**: 슈퍼스칼라, 비순서 실행, 분기 예측기 등을 통해 실시간으로 병렬성 확보
 
-> 요약: ILP 활용은 의존성을 줄이고 독립 명령어를 드러낸 뒤 실행 폭에 맞게 배치하는 과정임.
+## Ⅳ. 문제점 및 개선방안
 
-## Ⅴ. 문제점 및 개선방안
+1. **데이터 의존성의 벽 (Data Wall)**: 앞선 연산 결과가 나와야만 다음 연산이 가능한 경우(RAW), 아무리 유닛이 많아도 병렬 처리가 불가능함
+   - **개선방안**: 알고리즘 수준에서 의존성을 줄이거나, **포워딩**을 통해 결과값을 미리 전달하여 대기 시간을 단축함 (확인: 데이터 의존성에 의한 스톨 비중)
 
-- **P1 실제 의존성 한계**: 알고리즘 자체에 긴 RAW chain이 있으면 하드웨어가 아무리 넓어도 병렬 실행할 수 없음
-- **P1 대응**: 알고리즘 재구성, loop unrolling, strength reduction, vectorization 전환을 검토함 (확인: dependency chain 길이, IPC)
-- **P2 제어·메모리 불확실성**: branch 방향과 load/store alias가 늦게 확정되면 안전한 재배치가 어려움
-- **P2 대응**: branch prediction, predication, memory disambiguation, profile-guided optimization을 적용함 (확인: branch miss, replay)
-- **P3 수익 체감**: issue width와 window를 키울수록 추가 IPC는 줄고 전력·면적 비용은 증가함
-- **P3 대응**: superscalar 폭, OoO window, cache 대역폭을 workload별 전력·성능·면적(Power, Performance, Area, PPA) 기준으로 제한함 (확인: IPC/area, perf/W)
+2. **제어 의존성의 벽 (Control Wall)**: 분기문이 너무 잦으면 파이프라인에 명령어를 미리 채우기가 어려워짐
+   - **개선방안**: **투기적 실행(Speculative Execution)**과 강력한 **분기 예측기**를 사용하여 분기 결과 확정 전에도 명령어를 지속적으로 투입함 (확인: 분기 오예측 플러시 횟수)
 
-> 요약: ILP는 프로그램 구조와 불확실성 때문에 무한히 늘릴 수 없으므로 의존성 제거와 하드웨어 비용을 함께 판단해야 함.
+3. **비용 대비 성능 하락**: 병렬성을 찾기 위해 하드웨어를 복잡하게 만들수록 전력 소모와 설계 비용이 기하급수적으로 증가함
+   - **개선방안**: 무리한 ILP 확장보다는 **SMT(하이퍼스레딩)**나 **멀티코어**로 전환하여 스레드 수준의 병렬성(TLP)을 활용하는 방향으로 설계함 (확인: 면적당 성능 이득)
 
-## Ⅵ. 실무 적용 사례
+## Ⅴ. 실무 적용 사례
 
 | 적용 영역 | 적용 방식 | 확인 지표 |
 |:---|:---|:---|
-| 컴파일러 최적화 | loop unrolling, instruction scheduling, register renaming으로 basic block 안의 독립 명령어를 노출함 | 클록당 명령어 수(Instructions Per Cycle, IPC), dependency stall, issue slot utilization |
-| CPU 마이크로아키텍처 설계 | issue width, branch predictor, OoO window를 단일 스레드 지연시간과 전력·성능·면적(Power, Performance, Area, PPA) 목표에 맞춰 제한함 | IPC/area, branch miss, perf/W |
-| 병렬화 전략 선택 | ILP 한계가 dependency chain에서 확인되면 TLP/DLP 또는 전용 가속기 전환을 검토함 | speedup curve, vector utilization, memory stall |
+| 컴파일러 최적화 옵션 | `gcc -O3` 등을 통해 루프를 자동으로 펼치고 명령어 순서를 파이프라인에 최적화하여 ILP 극대화 | 바이너리 실행 속도, CPI |
+| 고성능 프로세서 설계 | 넓은 발행 폭(Issue Width)과 큰 명령어 윈도우를 가진 슈퍼스칼라 엔진을 탑재하여 싱글 코어 성능 확보 | IPC (Instructions Per Cycle) |
+| 저전력 모바일 코어 | 복잡한 OoO 대신 In-order 방식을 유지하되, 컴파일러가 최적화해주는 VLIW 기술 등을 부분 적용 | 와트당 성능 (Perf/Watt) |
 
-> 요약: ILP는 단일 스레드 성능 최적화의 1차 기준이며, 한계가 보이면 TLP/DLP로 병렬성 계층을 바꿔야 함.
+> 요약: 하드웨어(CPU)와 소프트웨어(컴파일러)가 협력하여 보이지 않는 병렬성을 찾아내는 과정임.
 
-## Ⅶ. 전망
+## Ⅵ. 결론
 
-- **발전 방향**: 단일 스레드 ILP 확장은 전력과 복잡도 한계로 완만해지고, CPU는 ILP·TLP·DLP·전용 가속을 혼합해 성능을 확보함
-- **기술사적 판단**: issue width, pipeline depth, branch predictor, register renaming은 dependency chain 길이와 메모리 지연을 기준으로 함께 설계해야 함; peak issue width가 아니라 `IPC`, issue slot utilization, dependency stall, memory stall을 실제 workload에서 측정해 ILP 한계를 판단함
-- **기술사 제언**: ILP를 파이프라인, 슈퍼스칼라, VLIW, OoO를 묶는 상위 개념으로 설명하면 병렬성 계층 구조가 선명해짐
+명령어 수준 병렬성(ILP)은 단일 스레드 성능의 한계를 돌파하기 위한 가장 기초적이면서도 핵심적인 병렬성 계층임. 기술사는 단순히 '병렬로 실행한다'는 결과보다, 이를 가로막는 의존성(Data, Control)의 본질을 이해하고 이를 하드웨어와 소프트웨어가 어떻게 분담하여 해결하는지 설명할 수 있어야 함.
+
+최근 ILP의 효율이 한계에 다다름에 따라(ILP Wall), 현대 아키텍처는 멀티코어(TLP)와 전용 가속기(DLP)를 병행하는 구조로 진화하고 있음. 그럼에도 불구하고 개별 코어의 응답 속도를 결정하는 ILP는 여전히 CPU 아키텍처 설계의 가장 치열한 전쟁터임.
