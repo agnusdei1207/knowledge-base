@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 딥러닝 학습에서는 dropout과 early stopping으로 일반화를 높임, 확인 지표는 validation loss임
-- 탭уляр 데이터 모델링에서는 트리 깊이와 leaf 수를 제한함, 확인 지표는 CV score임
-- 추천 시스템에서는 희소 데이터에 정규화를 적용함, 확인 지표는 offline-online 성능 차이임
+- 딥러닝 학습에서는 dropout과 early stopping으로 일반화를 높이며, validation loss로 결과를 확인함
+- 탭уляр 데이터 모델링에서는 트리 깊이와 leaf 수를 제한하며, CV score로 결과를 확인함
+- 추천 시스템에서는 희소 데이터에 정규화를 적용하며, offline-online 성능 차이로 결과를 확인함
 
 ## Ⅷ. 결론
 

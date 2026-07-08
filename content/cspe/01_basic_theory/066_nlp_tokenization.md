@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 검색 질의 분석에서는 형태소 기반 키워드 추출을 수행함, 확인 지표는 검색 정확도임
-- 문서 분류에서는 subword tokenizer로 입력을 준비함, 확인 지표는 macro-F1임
-- 챗봇/NLU에서는 개체명과 의도를 인식함, 확인 지표는 intent accuracy와 slot F1임
+- 검색 질의 분석에서는 형태소 기반 키워드 추출을 수행하며, 검색 정확도로 결과를 확인함
+- 문서 분류에서는 subword tokenizer로 입력을 준비하며, macro-F1로 결과를 확인함
+- 챗봇/NLU에서는 개체명과 의도를 인식하며, intent accuracy와 slot F1로 결과를 확인함
 
 ## Ⅷ. 결론
 

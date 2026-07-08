@@ -68,7 +68,7 @@ extra:
 ## Ⅵ. 문제점 및 해결 방안
 
 1. 문제: 너무 큰 dropout은 underfitting을 유발해 표현력이 크게 줄어듦
-   - 해결방안: 층별 비율을 조정하고 validation으로 찾음 train/val loss로 검증함
+   - 해결방안: 층별 비율을 조정해 validation loss가 최소인 구간을 찾고 train/val loss로 검증함
 2. 문제: BatchNorm과 조합 시 효과가 약해질 수 있어 둘의 규제 방식이 충돌할 수 있음
    - 해결방안: 위치와 비율을 줄여 실험적으로 조정하고 accuracy delta로 검증함
 3. 문제: 추론과 학습 모드 혼동이 발생해 eval 모드 누락 시 결과가 흔들림
@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- MLP 분류기에서는 fully connected 층 과적합을 완화함, 확인 지표는 validation accuracy임
-- NLP 모델에서는 embedding 또는 classifier head에 적용함, 확인 지표는 F1과 일반화 차이임
-- 의료 영상 모델에서는 데이터 수가 적을 때 규제로 활용함, 확인 지표는 overfitting gap임
+- MLP 분류기에서는 fully connected 층 과적합을 완화하며, validation accuracy로 결과를 확인함
+- NLP 모델에서는 embedding 또는 classifier head에 적용하며, F1과 일반화 차이로 결과를 확인함
+- 의료 영상 모델에서는 데이터 수가 적을 때 규제로 활용하며, overfitting gap로 결과를 확인함
 
 ## Ⅷ. 결론
 

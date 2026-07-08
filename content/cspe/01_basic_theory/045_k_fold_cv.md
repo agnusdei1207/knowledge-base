@@ -77,9 +77,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모델 선택에서는 여러 알고리즘의 평균 성능을 비교함, 확인 지표는 mean score와 std임
-- 하이퍼파라미터 탐색에서는 grid/random search와 결합함, 확인 지표는 best CV score임
-- 불균형 데이터 분류에서는 stratified K-Fold로 클래스 비율을 유지함, 확인 지표는 F1과 ROC-AUC임
+- 모델 선택에서는 여러 알고리즘의 평균 성능을 비교하며, mean score와 std로 결과를 확인함
+- 하이퍼파라미터 탐색에서는 grid/random search와 결합하며, best CV score로 결과를 확인함
+- 불균형 데이터 분류에서는 stratified K-Fold로 클래스 비율을 유지하며, F1과 ROC-AUC로 결과를 확인함
 
 ## Ⅷ. 결론
 

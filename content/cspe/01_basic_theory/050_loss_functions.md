@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 회귀 예측에서는 자원 사용량, 매출 예측에 MSE를 사용함, 확인 지표는 RMSE임
-- 이미지 분류에서는 softmax + cross-entropy를 사용함, 확인 지표는 top-1 accuracy임
-- 불균형 탐지에서는 focal loss로 어려운 샘플에 가중치를 둠, 확인 지표는 F1과 recall임
+- 회귀 예측에서는 자원 사용량, 매출 예측에 MSE를 사용하며, RMSE로 결과를 확인함
+- 이미지 분류에서는 softmax + cross-entropy를 사용하며, top-1 accuracy로 결과를 확인함
+- 불균형 탐지에서는 focal loss로 어려운 샘플에 가중치를 두며, F1과 recall로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -72,13 +72,13 @@ extra:
 2. 문제: 메모리 충돌과 동기화가 병목이 되어 이론 모델보다 실제가 느려짐
    - 해결방안: local buffering과 reduction tree를 사용하고 synchronization overhead로 검증함
 3. 문제: 병렬화 가능한 비율이 제한되어 순차 구간이 전체 속도를 묶음
-   - 해결방안: Amdahl/Gustafson 관점으로 병목 구간을 줄임 speedup로 검증함
+   - 해결방안: Amdahl/Gustafson 관점으로 병목 구간을 줄이고 speedup으로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 대규모 정렬/검색에서는 병렬 prefix sum과 reduction을 사용함, 확인 지표는 speedup과 scalability임
-- 그래프 분석에서는 BFS, PageRank를 병렬 처리함, 확인 지표는 처리량임
-- GPU/멀티코어 연산에서는 병렬 행렬 계산에 활용함, 확인 지표는 work efficiency와 latency임
+- 대규모 정렬/검색에서는 병렬 prefix sum과 reduction을 사용하며, speedup과 scalability로 결과를 확인함
+- 그래프 분석에서는 BFS, PageRank를 병렬 처리하며, 처리량으로 결과를 확인함
+- GPU/멀티코어 연산에서는 병렬 행렬 계산에 활용하며, work efficiency와 latency로 결과를 확인함
 
 ## Ⅷ. 결론
 
