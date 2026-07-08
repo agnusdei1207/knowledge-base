@@ -1,5 +1,5 @@
 ---
-title: "Token Throughput (토큰 처리량)"
+title: "Token Throughput 토큰 처리량 (Token Throughput)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -45,6 +45,12 @@ extra:
 | Scheduler | batch 구성과 요청 순서를 조정해 동일 자원으로 더 많은 토큰을 처리하게 함 |
 | Execution Engine | attention kernel과 decode loop를 실행해 실제 토큰 처리량을 결정함 |
 | Capacity Monitor | GPU utilization과 queue length를 함께 관찰해 병목 구간을 식별함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Request Mix      | --> | Scheduler        | --> | Execution Engine | --> | Capacity Monitor |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

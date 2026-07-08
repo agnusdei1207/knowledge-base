@@ -1,5 +1,5 @@
 ---
-title: "LLM Serving (LLM 서빙)"
+title: "LLM Serving LLM 서빙 (LLM Serving)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -45,6 +45,12 @@ extra:
 | Scheduler | 요청 우선순위와 continuous batching을 관리해 GPU 자원을 효율적으로 배분함 |
 | Cache, Memory Manager | KV cache와 prefix cache와 paging을 통제해 OOM과 파편화를 줄임 |
 | Execution Engine | attention kernel과 병렬 실행과 스트리밍 출력을 담당하는 GPU 실행 계층임 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| API Frontend     | --> | Scheduler        | --> | Cache/Memory Mgr | --> | Execution Engine |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

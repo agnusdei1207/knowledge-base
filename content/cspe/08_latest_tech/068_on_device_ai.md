@@ -1,5 +1,5 @@
 ---
-title: "On-device AI (온디바이스 AI)"
+title: "On-Device AI 온디바이스 AI (On-Device AI)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Device Accelerator | NPU, GPU, DSP가 연산을 분담해 응답성과 전력 효율을 맞춤 |
 | Personal Context Store | 사진, 메일, 캘린더 같은 로컬 데이터를 기기 내에서만 활용해 개인화 품질을 높임 |
 | Routing Controller | 로컬 처리와 클라우드 오프로딩을 판단해 품질과 비용과 배터리 균형을 맞춤 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Local Model      | --> | Device Accel.    | --> | Personal Context | --> | Routing Control  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

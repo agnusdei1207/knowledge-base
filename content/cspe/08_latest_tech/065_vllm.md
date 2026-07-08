@@ -46,6 +46,12 @@ extra:
 | Execution Backend | attention kernel과 tensor parallelism을 사용해 실제 GPU 추론을 수행함 |
 | Extension Layer | prefix caching, multi-LoRA, speculative decoding 같은 기능을 서비스 정책에 맞게 확장함 |
 
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| API Server       | --> | Scheduler/Block  | --> | Exec Backend     | --> | Extension Layer  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text

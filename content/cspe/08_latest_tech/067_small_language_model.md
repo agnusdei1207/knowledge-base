@@ -1,5 +1,5 @@
 ---
-title: "Small Language Model (SLM)"
+title: "SLM 소형 언어모델 (Small Language Model)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Distillation, Fine-tuning Data | 고품질 학습 데이터와 교사 모델 지식을 주입해 작은 모델의 업무 성능을 끌어올림 |
 | Compression Package | quantization과 경량 포맷을 적용해 실제 장비에 탑재 가능한 크기로 줄임 |
 | Retrieval, Guardrail Layer | 부족한 지식 범위를 외부 검색과 정책 제어로 보완해 실서비스 안정성을 높임 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Backbone Model   | --> | Distill/Finetune | --> | Compression Pack | --> | Retrieval/Guard  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

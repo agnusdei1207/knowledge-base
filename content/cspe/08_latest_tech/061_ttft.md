@@ -1,5 +1,5 @@
 ---
-title: "TTFT (최초 토큰 지연)"
+title: "TTFT 최초 토큰 지연 (Time To First Token)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Queue Scheduler | GPU 슬롯이 비기 전까지 요청을 대기시키며 혼잡 시 TTFT를 크게 늘릴 수 있음 |
 | Prefill Engine | 전체 프롬프트를 처리해 초기 KV cache를 만드는 가장 무거운 계산 구간임 |
 | First-token Sampler | prefill 이후 첫 토큰을 선택해 스트리밍을 시작하며 TTFT 종료 지점을 형성함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Request Handler  | --> | Queue Scheduler  | --> | Prefill Engine   | --> | First-token Samp.|
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

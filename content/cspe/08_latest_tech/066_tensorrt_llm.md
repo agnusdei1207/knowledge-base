@@ -46,6 +46,12 @@ extra:
 | Runtime Scheduler | 요청 배치, KV cache, 병렬 실행을 조정해 실제 서빙 처리량과 지연 시간을 통제함 |
 | Deployment Layer | Triton, NIM, Kubernetes 같은 배포 환경과 연결되어 운영 표준화와 확장을 담당함 |
 
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Model Converter  | --> | Engine Builder   | --> | Runtime Scheduler| --> | Deployment Layer |
++------------------+     +------------------+     +------------------+     +------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
