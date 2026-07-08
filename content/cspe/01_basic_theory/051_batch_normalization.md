@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- CNN 학습: 각 합성곱 블록 사이에 BatchNorm을 둠, 확인 지표는 수렴 epoch 수임
-- 이미지 분류 대회 모델: 큰 학습률 전략과 함께 사용함, 확인 지표는 top-1 accuracy임
-- 분산 학습 환경: SyncBatchNorm으로 통계를 맞춤, 확인 지표는 멀티 GPU 일관성임
+- CNN 학습에서는 각 합성곱 블록 사이에 BatchNorm을 둠, 확인 지표는 수렴 epoch 수임
+- 이미지 분류 대회 모델에서는 큰 학습률 전략과 함께 사용함, 확인 지표는 top-1 accuracy임
+- 분산 학습 환경에서는 SyncBatchNorm으로 통계를 맞춤, 확인 지표는 멀티 GPU 일관성임
 
 ## Ⅷ. 결론
 

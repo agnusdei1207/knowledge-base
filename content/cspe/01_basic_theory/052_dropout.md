@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- MLP 분류기: fully connected 층 과적합을 완화함, 확인 지표는 validation accuracy임
-- NLP 모델: embedding 또는 classifier head에 적용함, 확인 지표는 F1과 일반화 차이임
-- 의료 영상 모델: 데이터 수가 적을 때 규제로 활용함, 확인 지표는 overfitting gap임
+- MLP 분류기에서는 fully connected 층 과적합을 완화함, 확인 지표는 validation accuracy임
+- NLP 모델에서는 embedding 또는 classifier head에 적용함, 확인 지표는 F1과 일반화 차이임
+- 의료 영상 모델에서는 데이터 수가 적을 때 규제로 활용함, 확인 지표는 overfitting gap임
 
 ## Ⅷ. 결론
 

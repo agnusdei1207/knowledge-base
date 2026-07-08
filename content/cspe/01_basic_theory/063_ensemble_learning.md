@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 사기 탐지: 여러 모델 출력을 결합함, 확인 지표는 ROC-AUC와 recall임
-- 추천/광고 예측: 트리와 선형 모델을 함께 사용함, 확인 지표는 CTR lift임
-- 대회형 모델링: stacking으로 최고 성능을 추구함, 확인 지표는 leaderboard score임
+- 금융 사기 탐지에서는 여러 모델 출력을 결합함, 확인 지표는 ROC-AUC와 recall임
+- 추천/광고 예측에서는 트리와 선형 모델을 함께 사용함, 확인 지표는 CTR lift임
+- 대회형 모델링에서는 stacking으로 최고 성능을 추구함, 확인 지표는 leaderboard score임
 
 ## Ⅷ. 결론
 

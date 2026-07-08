@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 딥러닝 학습 전반: CNN, RNN, Transformer 가중치 갱신에 사용함, 확인 지표는 loss 감소율임
-- 자동미분 프레임워크: PyTorch, TensorFlow 내부 핵심 메커니즘임, 확인 지표는 backward 시간임
-- 모델 디버깅: gradient check로 구현 오류를 찾음, 확인 지표는 numerical gradient 차이임
+- 딥러닝 학습 전반에서는 CNN, RNN, Transformer 가중치 갱신에 사용함, 확인 지표는 loss 감소율임
+- 자동미분 프레임워크에서는 PyTorch, TensorFlow 내부 핵심 메커니즘임, 확인 지표는 backward 시간임
+- 모델 디버깅에서는 gradient check로 구현 오류를 찾음, 확인 지표는 numerical gradient 차이임
 
 ## Ⅷ. 결론
 

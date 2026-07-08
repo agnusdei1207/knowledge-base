@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- CNN/Transformer 학습: AdamW와 스케줄러를 사용함, 확인 지표는 loss 수렴 속도임
-- 희소 특징 추천 모델: AdaGrad로 자주 업데이트되지 않는 파라미터를 보정함, 확인 지표는 CTR 개선폭임
-- 대규모 비전 모델: SGD with momentum을 사용함, 확인 지표는 최종 top-1 accuracy임
+- CNN/Transformer 학습에서는 AdamW와 스케줄러를 사용함, 확인 지표는 loss 수렴 속도임
+- 희소 특징 추천 모델에서는 AdaGrad로 자주 업데이트되지 않는 파라미터를 보정함, 확인 지표는 CTR 개선폭임
+- 대규모 비전 모델에서는 SGD with momentum을 사용함, 확인 지표는 최종 top-1 accuracy임
 
 ## Ⅷ. 결론
 

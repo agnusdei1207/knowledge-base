@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 정렬/검색: 병렬 prefix sum과 reduction을 사용함, 확인 지표는 speedup과 scalability임
-- 그래프 분석: BFS, PageRank를 병렬 처리함, 확인 지표는 처리량임
-- GPU/멀티코어 연산: 병렬 행렬 계산에 활용함, 확인 지표는 work efficiency와 latency임
+- 대규모 정렬/검색에서는 병렬 prefix sum과 reduction을 사용함, 확인 지표는 speedup과 scalability임
+- 그래프 분석에서는 BFS, PageRank를 병렬 처리함, 확인 지표는 처리량임
+- GPU/멀티코어 연산에서는 병렬 행렬 계산에 활용함, 확인 지표는 work efficiency와 latency임
 
 ## Ⅷ. 결론
 
