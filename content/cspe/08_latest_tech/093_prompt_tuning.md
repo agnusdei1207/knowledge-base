@@ -1,103 +1,79 @@
 ---
-title: "프롬프트 튜닝 (Prompt Tuning)"
-date: "2026-07-05"
-author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
+title: "Prompt Tuning (프롬프트 튜닝)"
+date: "2026-07-08"
 tags:
-  - "cspe-08_latest_tech"
+  - "cspe-latest-tech"
 weight: 93
+extra:
+  question_no: "093"
+  exam_status: "기출"
+  exam_history: "135회, 136회"
 ---
 
-### 🔑 핵심 용어 정리
+## 미리 알고가기
 
-| 용어 | 뜻 | 비유 |
-|:---|:---|:---|
-| **필요성** | 자연어 프롬프트 깎기(Prompt Engineering)는 사람이 일일이 단어를 바꿔가며 운에 의존해야 하고, 전체 모델 파인튜닝은 너무 무거움 | "돌에 새긴 글씨" |
-| **배경** | 구글(2021)에서 제안 | "핵심 기술 요소" |
-| **작동 원리** | 1. 모델의 전체 가중치(Transformer layers)는 학습 금지(Frozen) | "건물 층" |
-| **구체 예시** | 감정 분류 태스크 | "핵심 기술 요소" |
-| **흔한 오해/주의점** | Soft Prompt는 자연어 단어(Hard Prompt)가 아님 | "돌에 새긴 글씨" |
-| **Prompt Engineering** | 사람이 직접 단어를 고르는 것 (Hard Prompting) | "돌에 새긴 글씨" |
-| **Prefix Tuning** | 입력단이 아닌, 모든 레이어에 프롬프트(Prefix)를 박아넣는 심화 기법 | "핵심 기술 요소" |
+- prompt tuning은 사람이 쓰는 텍스트 프롬프트가 아니라 학습 가능한 soft prompt 임베딩을 최적화하는 방식임
+- base model은 고정되고 입력 앞쪽 임베딩만 조정됨
+- 파라미터 수는 매우 적지만 복잡한 적응 능력은 제한될 수 있음
 
----
+## Ⅰ. 개요
 
+- **정의/개념**: prompt tuning은 사전학습된 모델의 가중치를 고정한 채 입력 임베딩 앞부분에 붙는 학습 가능한 soft prompt 벡터만 최적화해 특정 업무에 적응시키는 PEFT 기법임
+- **배경/필요성**: 거대 모델을 수정하지 않고도 입력 조건만 바꿔 저비용으로 업무 성능을 높이려는 요구가 커지면서, 연속 벡터 형태의 프롬프트를 학습하는 방식이 등장함
 
-# 📖 【암기용】 개념 완전 이해
+## Ⅱ. 특징
 
-## 한눈에
-- **정의**: 모델의 가중치는 완전히 고정(Freeze)하고, 사용자가 넣는 텍스트 입력부(Input Embedding) 맨 앞에 '학습 가능한 연속적인 텐서(Soft Prompt)'만 추가하여 모델을 훈련하는 초경량 PEFT 기법.
-- **필요성**: 자연어 프롬프트 깎기(Prompt Engineering)는 사람이 일일이 단어를 바꿔가며 운에 의존해야 하고, 전체 모델 파인튜닝은 너무 무거움. 기계가 직접 최적의 프롬프트를 '벡터' 형태로 찾아주길 원함.
-- **핵심 직관**: 인간은 "요약해줘!"라는 말로 지시하지만, 모델이 가장 잘 알아듣는 형태의 지시어(인간은 읽을 수 없는 외계어 같은 벡터 뭉치)를 역전파를 통해 알아서 찾아내서 질문 앞에 붙여주는 방식.
+- 학습 대상이 극히 적어 비용과 저장 공간이 매우 낮음
+- hard prompt보다 자동 최적화가 가능해 수작업 프롬프트 설계 부담을 줄임
+- 복잡한 추론 규칙이나 도메인 적응을 깊게 반영하기에는 표현력이 제한될 수 있음
+- base model 규모가 클수록 soft prompt 효과가 더 잘 나타나는 경우가 많음
 
-## 깊이 이해
-- **배경**: 구글(2021)에서 제안. 거대 언어 모델(T5, GPT-3)의 사이즈가 커질수록 모델을 튜닝하는 대신 프롬프트만 잘 줘도 잘 작동한다는 점(In-context Learning)에 착안. 이 프롬프트를 딥러닝으로 최적화함.
-- **작동 원리**:
-  1. 모델의 전체 가중치(Transformer layers)는 학습 금지(Frozen).
-  2. 실제 입력 문장의 임베딩 벡터 앞단에 $N$개의 '가상 토큰(Soft Prompt)' 임베딩을 이어 붙임.
-  3. 순전파 후 정답과의 오차(Loss)를 구하고, 역전파하여 오직 이 '가상 토큰'들의 텐서 값만 업데이트.
-- **비유**: 훌륭한 탐정(Base Model)에게 사건 파일(Input)을 줄 때, 탐정이 가장 일하기 편하도록 암호화된 '수사 방향 메모(Soft Prompt)'를 서류 맨 앞장에 끼워주는 것.
-- **구체 예시**: 감정 분류 태스크. 입력 "이 영화 정말 최고야!" 앞에 20개의 학습된 가상 벡터(Soft Prompt)를 결합하여 모델에 넣으면, 모델 전체를 학습하지 않아도 분류 성능이 크게 올라감. 파라미터는 0.01% 이하만 학습.
-- **흔한 오해/주의점**: Soft Prompt는 자연어 단어(Hard Prompt)가 아님. 따라서 훈련된 벡터를 텍스트로 디코딩해보면 횡설수설한 무의미한 단어들로 보임. 사람이 직관적으로 그 내용을 해석하거나 통제(Audit)하기 매우 어려움.
+## Ⅲ. 종류 및 비교
 
-## 연결 개념
-- **Prompt Engineering**: 사람이 직접 단어를 고르는 것 (Hard Prompting).
-- **Prefix Tuning**: 입력단이 아닌, 모든 레이어에 프롬프트(Prefix)를 박아넣는 심화 기법.
-- **PEFT**: 파라미터 효율적 튜닝 기법 (이중에서 Prompt Tuning이 가장 파라미터가 적음).
+| 판단 기준 | Manual Prompting | Prompt Tuning | Prefix Tuning |
+|:---|:---|:---|:---|
+| 조정 대상 | 사람이 쓴 텍스트 | 입력 임베딩 | attention prefix |
+| 학습 비용 | 없음 | 매우 낮음 | 매우 낮음 |
+| 자동 최적화 | 없음 | 가능 | 가능 |
+| 제어 범위 | 제한적임 | 제한적임 | 중간 |
 
----
+## Ⅳ. 구성요소 및 구조
 
-# 📝 【답안용】 시험 답안 템플릿
-## 핵심 인사이트 (3줄 요약)
-- **본질**: 이산적인 자연어 공간(Discrete Space)의 프롬프트를 연속적인 벡터 공간(Continuous Space)으로 확장하여, 역전파를 통해 태스크별 최적의 'Soft Prompt'를 학습하는 기법.
-- **가치**: 가장 극단적인 파라미터 감축(전체의 0.01% 미만)을 달성하여, 거대 모델 한 대에 수천 개의 태스크(Task)를 비용 없이 올려서 서빙할 수 있는 극한의 유연성 제공.
-- **판단 포인트**: 모델 크기(Scale)에 따른 효율성 제고(모델이 클수록 Full FT와 성능 격차 감소), Soft Prompt 길이 최적화, 블랙박스화에 따른 해석 불가능성(Interpretability) 문제.
+| 구성요소 | 설명 |
+|:---|:---|
+| Soft Prompt Embeddings | 학습 가능한 연속 벡터로 입력 조건을 형성해 모델 출력을 유도함 |
+| Frozen Base Model | 원래 가중치를 유지한 채 soft prompt의 영향만 반영함 |
+| Task Dataset | 특정 업무의 입력과 정답을 제공해 soft prompt를 최적화함 |
+| Evaluation Harness | 작은 파라미터로 얻는 성능 향상과 일반화 한계를 함께 확인함 |
 
-## Ⅰ. 개요 및 필요성
-- **정의**: 대규모 사전 학습 언어 모델의 파라미터는 동결하고, 입력 시퀀스 층(Input Embedding Layer) 앞단에 부착된 훈련 가능한(Trainable) 텐서를 최적화하는 튜닝 방식.
-- **배경**: Prompt Design(프롬프트 엔지니어링)은 모델 내면에 도달하지 못해 성능 변동성이 크고 재현성이 낮음.
-- **필요성**: 모델 가중치 변경 제로(0), 추론 아키텍처 변경 제로(0)를 유지하면서, 데이터 기반으로 태스크 최적화를 달성하는 초경량 튜닝 아키텍처가 필요함.
+## Ⅴ. 원리 및 절차 흐름도
 
-## Ⅱ. 구조 및 메커니즘
 ```text
-[ Soft Prompt Embedding ] (Trainable: Gradient ON)
-           + (Concatenation)
-[ Input Text Embedding  ] (Frozen: Gradient OFF)
-           |
-           v
-[ Frozen LLM (Base Model) ]
-           |
-           v
-[ Task Output Prediction  ]
++-------------+     +-------------+     +-------------+     +-------------+
+| soft prompt 초기화 | --> | 입력 앞 임베딩 결합 | --> | prompt만 학습   | --> | 태스크별 적용    |
++-------------+     +-------------+     +-------------+     +-------------+
 ```
-- **Hard Prompt**: 사람이 작성하는 이산적(Discrete) 단어들의 집합 (예: "번역하시오:").
-- **Soft Prompt**: 사람이 읽을 수 없지만 기계가 연산하기 최적화된 연속적(Continuous) 텐서 파라미터 블록.
-- **Frozen LLM**: 언어 이해 지식을 그대로 활용하여, Gradient 업데이트 및 Optimizer State 메모리를 소모하지 않음.
 
-## Ⅲ. 학습 및 최적화 원리
-1. **Prompt Length 설정**: 태스크 복잡도에 따라 $10 \sim 100$개의 토큰 길이로 Soft Prompt를 할당 및 랜덤(또는 특정 단어 벡터로) 초기화.
-2. **입력 결합**: 배치(Batch) 입력이 들어오면, 항상 앞에 Soft Prompt 텐서를 이어 붙여(Concat) 전체 모델로 순전파(Forward).
-3. **Loss 연산 및 역전파**: 타겟 출력(Target)과의 Loss를 계산하여 백프로파게이션 수행. 이때 LLM 파라미터는 얼려두고 맨 앞의 Soft Prompt 텐서 값만 미세조정.
-4. **저장**: 학습이 완료되면 이 작은 Soft Prompt(수십 KB ~ 수 MB 수준)만 해당 태스크의 산출물로 저장.
+1. **soft prompt 초기화**: 학습 가능한 프롬프트 임베딩을 준비함
+2. **입력 앞 임베딩 결합**: 실제 입력 토큰 앞에 soft prompt를 붙임
+3. **prompt만 학습**: base model은 고정하고 soft prompt만 업데이트함
+4. **태스크별 적용**: 업무별 soft prompt를 선택해 추론에 사용함
 
-## Ⅳ. 모델 스케일(Scale)과의 관계 및 타 기법 비교
-- **스케일 법칙 (Scale of Models)**:
-  - 1B 이하 소형 모델에서는 Prompt Tuning이 Full FT보다 성능이 떨어짐.
-  - 하지만 **수백 B 규모(예: PaLM 540B)의 초거대 모델로 갈수록, Prompt Tuning만으로도 Full Fine-Tuning에 필적하는 성능(Accuracy)을 냄**이 입증됨.
-- **비교 (vs Prefix Tuning)**: Prefix Tuning은 '모든 층(Layer)'에 개입하지만, Prompt Tuning은 오직 '입력 층(Input)'에만 개입하여 구조적으로 가장 단순하고 오버헤드가 적음.
+## Ⅵ. 문제점 및 해결 방안
 
-## Ⅴ. 한계점 및 운영 리스크 해결방안
-- **리스크 1: 해석 불가 및 블랙박스 (Interpretability Issue)**:
-  - 학습된 Soft Prompt는 연속 텐서이므로 자연어로 해석할 수 없어, 모델이 왜 그런 답을 냈는지 감사(Audit)나 디버깅이 불가능.
-  - **대응 방안**: 금융/의료 등 규제 컴플라이언스가 필요한 업무에서는 시스템 프롬프트(Hard)와 Soft Prompt를 병행 사용하고, 엄격한 입력-출력 평가 로그를 기록.
-- **리스크 2: 모델 업데이트 시 호환성 파괴**:
-  - Soft Prompt는 Base Model의 Embedding 공간에 완벽히 종속됨. LLM 버전이 업데이트되면(예: v1 $\rightarrow$ v2) 기존 Soft Prompt는 완전히 고철이 됨.
-  - **대응 방안**: 프롬프트 레지스트리에 저장 시 반드시 종속된 Base Model의 Hash값과 버전을 매핑하여 형상 관리(Configuration Management) 수행.
+1. 문제: soft prompt 표현력이 제한적이면 복잡한 업무에서 full FT나 LoRA 수준의 성능 향상을 내기 어려울 수 있음
+   - 해결방안: 단순 태스크와 스타일 제어에 우선 적용하고 benchmark score와 parameter efficiency로 적합성을 검증함
+2. 문제: 입력 분포가 바뀌면 학습된 soft prompt가 쉽게 흔들려 일반화 성능이 낮아질 수 있음
+   - 해결방안: 다양한 입력 변형을 포함해 학습하고 held-out distribution score와 robustness metric으로 일반화를 검증함
+3. 문제: 사람이 보는 프롬프트가 아니라서 디버깅과 해석이 어려울 수 있음
+   - 해결방안: hard prompt baseline과 함께 비교 운영하고 ablation score와 failure taxonomy로 원인 분석 가능성을 검증함
 
-## Ⅵ. 실무 적용 및 결론
-- **판단 지표**: 도메인 성능 지표(Accuracy), 허용 가능한 Context Window 잠식률, 가용 훈련 리소스 한계.
-- **실무 설계**: 클라우드 AI 프로바이더가 단일 초거대 LLM 인프라 위에서 수만 명의 고객(Tenant)별 맞춤형 분류/요약 모델을 제공할 때. 고객별로 수십 KB에 불과한 Soft Prompt 텐서를 DB에 저장해두고, 추론 요청 시 토큰 앞에 붙여 연산하는 극단적 Multi-tenant 서빙 환경 구축.
-- **결론**: 프롬프트 튜닝은 기계에게 지시를 내리는 언어를 인간의 언어에서 기계의 텐서 언어로 진화시킨 패러다임 전환이며, 초거대 AI 시대에 비용과 유연성을 모두 잡는 궁극의 경량화 기술임.
+## Ⅶ. 적용 사례
 
-### 🔀 문제 유형별 목차 전환
-- **Ⅱ·Ⅲ 강조 (개념/원리형)**: Hard Prompt의 한계, 연속 공간(Continuous Space)에서의 미분 가능(Differentiable) 튜닝의 수학적/개념적 우위성 서술.
-- **Ⅴ·Ⅵ 강조 (실무/설계형)**: 모델 스케일 증가에 따른 성능 수렴(Convergence) 효과 부각, 거대 B2B 플랫폼에서의 멀티테넌트(Multi-tenant) 서빙 아키텍처 및 버전 관리 중심 작성.
+- 분류와 추출 태스크: 저비용으로 여러 업무를 빠르게 실험함, 확인 지표는 accuracy와 turnaround time임
+- 응답 톤 제어: 짧은 문체, 친절한 문체를 유도함, 확인 지표는 style adherence와 user preference임
+- 대규모 모델 벤치마크: 적은 파라미터로 태스크 적응 효과를 비교함, 확인 지표는 parameter efficiency와 benchmark score임
+
+## Ⅷ. 결론
+
+prompt tuning은 가장 가벼운 PEFT 방식 중 하나이므로, 높은 적응력보다 저비용 실험성과 빠른 태스크 전환이 중요한 환경에서 특히 유리함.
