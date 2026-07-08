@@ -1,6 +1,6 @@
 ---
-title: "vLLM (vLLM)"
-date: "2026-07-08"
+title: "vLLM (가상메모리 최적화 추론 엔진)"
+date: "2026-07-09"
 tags:
   - "cspe-latest-tech"
 weight: 65
@@ -12,74 +12,68 @@ extra:
 
 ## 미리 알고가기
 
-- vLLM은 PagedAttention을 핵심으로 하는 오픈소스 LLM 서빙 프레임워크임
-- OpenAI-compatible API는 기존 애플리케이션이 적은 수정으로 대체 엔진을 사용할 수 있게 해주는 인터페이스임
-- Tensor Parallelism은 큰 모델을 여러 GPU에 분산해 실행하는 대표 기법임
+- $vLLM$: 가상 메모리 $KV$ 캐싱 최적화 기술인 PagedAttention을 핵심 아키텍처로 삼는 업계 표준 오픈소스 LLM 서빙 프레임워크임
+- $vLLM$ 메모리 계수 ($gpu\_memory\_utilization$): GPU의 총 VRAM 중 모델 가중치 공간을 제외하고 $KV$ 캐시용 페이지 블록 풀로 할당할 비율(기본값 0.90)을 의미함
+- $OpenAI$ 호환 API ($OpenAI-compatible$): 외부 애플리케이션 변경 없이 엔드포인트를 그대로 승계할 수 있도록 `/v1/chat/completions` 규격을 준수하는 인터페이스임
+- 멀티 $LoRA$ ($Multi-LoRA$): 하나의 기저 모델 가중치에 여러 개의 경량 어댑터($LoRA$)들을 동적으로 주입하여 상황 맞춤형 답변을 다중 인출하는 기술임
 
 ## Ⅰ. 개요
 
-- **정의/개념**: vLLM은 PagedAttention과 continuous batching을 기반으로 LLM 추론 처리량과 메모리 효율을 높인 오픈소스 서빙 프레임워크로, OpenAI 호환 API와 다양한 추론 최적화 기능을 제공하는 실행 엔진임
-- **배경/필요성**: 기본 HuggingFace generate 방식은 동접 요청과 긴 컨텍스트에서 메모리 파편화와 낮은 처리량 문제를 드러내므로, 실제 프로덕션 환경에 맞는 전용 고성능 서빙 엔진이 필요함
+- **정의/개념**: vLLM은 PagedAttention의 메모리 블록 할당 방식과 연속 배칭($Continuous$ $Batching$) 기술을 결합하여, 유휴 GPU 연산 텐서를 동적으로 채워 넣고 OpenAI 호환 인터페이스로 간편한 서빙 배포를 돕는 현세대 사실상의 표준 오픈소스 LLM 서빙 프레임워크임
+- **배경/필요성**: 기존 HuggingFace 바닐라 추론 스택은 멀티 세션 요청 시 VRAM의 파편화가 $60\%$ 이상 발생해 OOM과 급격한 처리량 하락을 보였으므로, VRAM의 물리 메모리 가동률을 극대화하여 대규모 프로덕션 서비스 가성비를 사수하고자 제안됨
 
 ## Ⅱ. 특징
 
-- PagedAttention으로 메모리 효율을 높이고 continuous batching으로 처리량을 향상시킴
-- OpenAI API 호환 인터페이스를 제공해 서비스 전환 비용을 낮춤
-- prefix caching, multi-LoRA, tensor parallelism 같은 실무 기능을 빠르게 수용함
-- GPU 메모리 정책과 스케줄링 파라미터 튜닝에 따라 성능 차이가 크게 날 수 있음
+- 가상 페이지 테이블 매핑 기술을 내장하여, 여러 동접 세션이 동시 유입될 때 VRAM 누수 파편화율을 $0\%$ 근방으로 강제 고정함
+- $OpenAI$의 공식 웹 요청 규격인 `curl` 컴플라이언스를 완벽 호환하여, 기존 상용 백엔드 클라이언트 코드를 일절 안 바꾸고 온프레미스 모델로 즉시 핫스왑함
+- 최근 업계 기능인 접두 캐싱($Prefix$ $Caching$), 복수 LoRA 세션 처리($Multi-LoRA$), $Chunked$ $Prefill$ 옵션을 기본 커널 단위로 수용함
 
 ## Ⅲ. 종류 및 비교
 
-| 판단 기준 | 기본 Transformers 서빙 | vLLM | TensorRT-LLM, TGI |
+| 판단 기준 | HuggingFace Transformers 기본 | vLLM (오픈소스 범용 가속) | TensorRT-LLM (하드웨어 고정) |
 |:---|:---|:---|:---|
-| 메모리 관리 | 단순 | PagedAttention 중심 | 엔진별 상이 |
-| 배치 스케줄링 | 제한적임 | continuous batching | 엔진별 최적화 |
-| 호환성 | 높음 | 매우 높음 | 엔진별 차이 |
-| 대표 강점 | 연구 편의성 | 범용 고성능 서빙 | 특정 하드웨어 최적화 |
+| **메모리 가상화** | 없음 (정적 연속 VRAM 선점) | 있음 (PagedAttention 블록화) | 있음 (PagedAttention 및 전용 최적화) |
+| **스케줄링 기법** | 정적 배칭 (최악 지연 대기 동조) | 연속 배칭 (토큰 스텝 순환) | 연속 배칭 (최적화 런타임 내장) |
+| **하드웨어 유연성** | 매우 높음 (거의 모든 칩 구동) | 높음 (NVIDIA, AMD GPU 지원) | 낮음 (NVIDIA TensorRT 라이브러리 전용) |
+| **코드 전환 장벽** | 없음 (연구 기본형) | 없음 (OpenAI API 호환 규격 제공) | 있음 (엔진 컴파일 및 패키징 요구) |
+
+> 요약: Transformers는 프로토타입에, vLLM은 높은 이식성을 가진 범용 고성능 서빙에, TensorRT-LLM은 NVIDIA 전용 최고 가성비 밀착 서빙에 특화됨.
 
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
 |:---|:---|
-| API Server | OpenAI 호환 엔드포인트를 제공해 애플리케이션 연동 비용을 낮춤 |
-| Scheduler, Block Manager | continuous batching과 PagedAttention 블록 관리를 수행해 처리량과 메모리 효율을 높임 |
-| Execution Backend | attention kernel과 tensor parallelism을 사용해 실제 GPU 추론을 수행함 |
-| Extension Layer | prefix caching, multi-LoRA, speculative decoding 같은 기능을 서비스 정책에 맞게 확장함 |
+| 호환 API 게이트웨이 | $OpenAI$ 규격 메시지 핸들러로, 사용자 JSON 입력을 모델 토큰 구조로 언래핑하는 웹 레이어임 |
+| 물리 블록 관리자 | GPU 물리 페이지들을 모니터링하고, 가용 블록들의 매핑 맵을 조립 및 회수하는 자원 사령탑임 |
+| 분산 병렬 런타임 | NVLink 연결을 통해 복수의 카드를 하나의 거대 연산 풀로 묶는 텐서 병렬화($TP$) 브리지임 |
+| 어댑터 라우터 | $Multi-LoRA$ 호출 시 요청에 지정된 가중치 어댑터만을 동적으로 로딩 및 교체하는 모듈임 |
 
 ```text
-+------------------+     +------------------+     +------------------+     +------------------+
-| API Server       | --> | Scheduler/Block  | --> | Exec Backend     | --> | Extension Layer  |
-+------------------+     +------------------+     +------------------+     +------------------+
+[ vLLM 내부 소프트웨어 스택 구조 ]
+Incoming API -> [OpenAI Router] -> [Block Manager (PagedAttention)] 
+                                              ↓
+Outgoing Stream <- [Dynamic Scheduler] <- [TP/PP execution backend]
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-+-------------+     +-------------+     +-------------+     +-------------+
-| API 요청 수신 | --> | 배치/블록 관리 | --> | GPU 추론 실행 | --> | 스트리밍 응답 |
-+-------------+     +-------------+     +-------------+     +-------------+
++-------------+     +--------------+     +-------------+     +-------------+
+| REST API요청| --> | 물리블록 선점| --> | 배치 조립 및| --> | 완료 세션   |
+| 인입 및 해석|     | 및 가상매핑  |     | 분산 추론   |     | 페이지 회수 |
++-------------+     +--------------+     +-------------+     +-------------+
 ```
 
-1. **API 요청 수신**: OpenAI 호환 요청을 받아 인증과 파라미터 검증을 수행함
-2. **배치 및 블록 관리**: continuous batching과 block manager가 요청 상태와 메모리를 조정함
-3. **GPU 추론 실행**: attention 커널과 병렬 실행으로 토큰 생성과 캐시 관리를 수행함
-4. **스트리밍 응답 반환**: 생성 토큰을 실시간으로 반환하고 요청 종료 시 메모리를 회수함
+1. **연동 해석** — 사용자가 `/v1/chat/completions` 포트롤 통해 챗 토큰들을 밀어 넣으면, API 서버가 이를 순차 파싱하여 대기 큐에 적재함
+2. **페이지 인덱싱** — 블록 매니저가 $KV$ 캐시에 필요한 가용 VRAM 페이지들을 즉시 격리 확보하고 블록 테이블 인덱스를 갱신함
+3. **분산 배치 추론** — 연속 배칭 스케줄러가 여러 활성 세션을 배치로 감싸 분산 병렬 백엔드(Tensor Parallelism)로 밀어 넣어 GPU 순방향 계산을 구동함
+4. **회수 및 반환** — 생성된 스트림 데이터를 사용자에게 밀어 보내고, 문장 종료 수신 시 즉시 페이지 테이블 링크를 끊고 풀로 회수함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: `gpu_memory_utilization` 같은 파라미터를 높게 잡으면 캐시 공간은 늘어나지만 activation 공간 부족으로 OOM이 발생할 수 있음
-   - 해결방안: 모델 크기와 컨텍스트 길이에 맞춰 메모리 상한을 조정하고 OOM rate와 effective throughput으로 최적 값을 검증함
-2. 문제: 다양한 모델과 커널과 GPU 조합을 지원하는 만큼 특정 조합에서는 기대한 최적화가 제대로 작동하지 않을 수 있음
-   - 해결방안: 모델별 서빙 프로파일을 유지하고 benchmark 대비 production tokens/sec로 호환성을 검증함
-3. 문제: OpenAI 호환성이 높아도 프레임워크 기능이 계속 확장되면서 설정 복잡도가 올라가 운영 실수가 생길 수 있음
-   - 해결방안: 표준 서빙 템플릿과 canary rollout을 운영하고 config drift와 deployment failure rate로 운영 안정성을 검증함
+1. VRAM 용량을 많이 확보하려 `gpu_memory_utilization` 파라미터를 0.95 이상으로 과도하게 올리면 모델 추론 초기 활성화(Activation)를 위한 최소 공간까지 캐시로 선점되어 기동하자마자 OOM으로 서버가 크래시되므로, 기저 모델의 복잡도를 고려해 '0.85 ~ 0.90' 수준으로 조율하고 가동 안전성을 확인해야 함
+2. 실무 배포 시 동접자 폭증에 맞춰 여러 가상 페이지들이 CPU 메모리로 강제 스왑아웃($Eviction$)되면 호스트 전송 지연으로 TPOT이 극단적으로 늘어나므로, 서버의 p95 지연 한계선을 지키기 위해 CPU 메모리 스왑 공간 설정 크기를 VRAM 용량 대비 $1:1$ 비율로 보존하도록 인프라 매개변수를 최적 튜닝해야 함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 스타트업 자체 API 대체: 외부 API 비용을 줄이기 위해 오픈모델을 서빙함, 확인 지표는 cost per token과 throughput임
-- 사내 온프레미스 챗봇: 민감 데이터가 외부로 나가지 않도록 폐쇄망 배포를 수행함, 확인 지표는 security compliance와 p95 latency임
-- 다중 LoRA 서비스: 하나의 기반 모델에 여러 도메인 어댑터를 얹어 운영함, 확인 지표는 adapter switch latency와 memory usage임
-
-## Ⅷ. 결론
-
-vLLM의 가치는 단순 오픈소스 엔진이라는 점보다 PagedAttention과 continuous batching을 실서비스에서 바로 쓸 수 있는 형태로 묶어 LLM 서빙의 사실상 표준 운영 기반을 제공한다는 데 있음.
+- vLLM은 트랜스포머 추론의 물리 한계를 가상 OS 메모리 기하학으로 해소하고 OpenAI 규격의 뛰어난 이식성을 완성한 현대 LLM 서빙의 사실상 표준이며, 설계자는 지나친 VRAM 예약으로 인한 OOM 예방 설정과 CPU 스왑 공간 최적 분할을 적용하여 안정적인 엔터프라이즈 AI 서버를 구축해야 함
