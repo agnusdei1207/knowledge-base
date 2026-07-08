@@ -1,5 +1,6 @@
 node_modules/
 public/
+scratch/
 .DS_Store
 *.log
 npm-debug.log*
