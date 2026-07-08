@@ -1,107 +1,78 @@
 ---
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
-date: "2026-07-06"
+date: "2026-07-08"
 tags:
   - "cspe-hardware"
 weight: 94
+extra:
+  question_no: "094"
+  exam_status: "미출제"
 ---
-
-# PCIe 스위칭 아키텍처 (PCIe Switching)
 
 ## 미리 알고가기
 
-- PCIe(Peripheral Component Interconnect Express): point-to-point lane 기반 고속 직렬 I/O(Input/Output) 인터페이스임
-- Root Complex: CPU(Central Processing Unit)/칩셋 쪽에서 PCIe 계층과 주소 공간을 시작하는 루트 장치임
-- Endpoint: NVMe(Non-Volatile Memory Express) SSD(Solid-State Drive), NIC(Network Interface Card), GPU(Graphics Processing Unit)처럼 PCIe 버스에 연결되는 말단 장치임
-- Switch: 하나의 upstream port와 여러 downstream port 사이 패킷을 라우팅하는 PCIe 장치임
+- PCIe는 point-to-point 방식의 고속 직렬 I/O 인터페이스임
+- Root Complex는 CPU 쪽 PCIe 계층의 시작점임
+- Switch는 하나의 상위 링크를 여러 하위 장치로 확장하는 중간 장치임
 
 ## Ⅰ. 개요
 
-- **정의/개념**: PCIe 스위칭 아키텍처는 Root Complex와 여러 Endpoint 사이에 PCIe switch를 배치해 lane, 주소 공간, 트래픽을 포트 단위로 분배하는 확장 구조임. 제한된 CPU PCIe 포트를 여러 고성능 장치에 연결하고 I/O 확장성과 구성 유연성을 확보하기 위해 사용함.
-- **배경/필요성**: 서버는 GPU, NVMe, NIC, DPU(Data Processing Unit) 등 PCIe 장치 수가 늘어나지만 CPU가 제공하는 lane 수와 물리 슬롯은 제한적임. 스위치는 장치 fan-out과 peer-to-peer 전송을 제공하지만 oversubscription과 지연을 함께 관리해야 함.
-- **비유**: 큰 도로 하나를 여러 진입로로 나누는 나들목처럼, 제한된 상위 연결을 여러 장치 경로로 배분하는 구조임.
+- **정의/개념**: PCIe 스위칭 아키텍처는 Root Complex와 여러 endpoint 사이에 PCIe switch를 두어 제한된 상위 링크를 다수 장치로 분기하고 패킷을 라우팅하는 확장형 I/O 구조임
+- **배경/필요성**: 서버와 가속기 플랫폼은 GPU와 NVMe와 NIC 수요가 빠르게 늘지만 CPU가 제공하는 PCIe 레인 수는 제한적이므로, 장치 fan-out과 유연한 배치를 위해 스위치 기반 확장이 필요함
 
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 고속 I/O 확장 구조 판단 | Root Complex, switch, endpoint, lane, oversubscription | 허브처럼 단순 공유 버스로 설명 |
+## Ⅱ. 특징
 
-> 요약: PCIe 스위치는 point-to-point 링크를 계층적으로 확장하지만 대역폭과 지연 설계가 핵심임.
+- 상위 링크 하나로 여러 downstream 장치를 수용해 확장성이 높음
+- point-to-point 링크 구조를 유지하면서 패킷 라우팅과 오류 보고를 수행함
+- upstream 공유 구조이므로 oversubscription이 발생할 수 있음
+- P2P 전송과 hot-plug와 격리 기능 여부가 설계 품질에 큰 영향을 줌
 
-## Ⅱ. 특징 및 비교
+## Ⅲ. 종류 및 비교
 
 | 판단 기준 | 직접 연결 | PCIe 스위칭 |
 |:---|:---|:---|
-| 확장성 | CPU lane과 슬롯 수에 직접 제한됨 | downstream port로 장치 수를 확장함 |
-| 지연 | 경로가 짧아 latency가 낮음 | 스위치 hop과 버퍼링 지연이 추가됨 |
-| 대역폭 | 장치별 전용 lane 확보가 쉬움 | upstream 공유로 oversubscription 가능성이 있음 |
-| 기능 | 단순 연결 중심 | hot-plug, bifurcation, P2P(Peer-to-Peer), 관리 기능을 제공함 |
+| 확장성 | CPU 레인 수에 직접 제한됨 | 다수 endpoint로 fan-out 가능 |
+| 지연 | 가장 낮음 | switch hop만큼 추가 지연 발생 |
+| 대역폭 구조 | 장치별 전용 경로 확보가 쉬움 | 상위 링크 공유로 병목 가능 |
+| 운영 기능 | 단순 연결 중심 | P2P, hot-plug, AER, ACS 지원 가능 |
 
-> 요약: PCIe 스위칭은 장치 확장성과 연결 유연성을 얻는 대신 공유 상위 링크의 병목을 관리해야 함.
+## Ⅳ. 구성요소 및 구조
 
-- **적용 조건**: 하위 장치 총 요구 대역폭과 upstream lane 용량의 비율이 허용 범위여야 함
-- **선택 지표**: oversubscription ratio, switch hop latency, ACS(Access Control Services) 지원 여부를 함께 봐야 함
+| 구성요소 | 설명 |
+|:---|:---|
+| Root Complex | 시스템 메모리 공간과 PCIe 계층을 연결하며 전체 PCIe 트리의 상위 기준점이 됨 |
+| Upstream Port | 스위치가 CPU 쪽과 통신하는 단일 상위 경로로 전체 장치 집합의 공유 병목 지점이 될 수 있음 |
+| Downstream Port | NVMe와 GPU와 NIC 같은 endpoint를 개별 포트로 수용해 확장성과 배치를 결정함 |
+| Routing and Isolation Logic | TLP 라우팅과 ACS와 오류 보고를 담당해 성능뿐 아니라 DMA 격리 수준까지 좌우함 |
 
-## Ⅲ. 구성요소/구조
-
-```text
-+--------------+      +--------------+      +-------------+
-| Root Complex | ---> | PCIe Switch  | ---> | Endpoint A  |
-+--------------+      +--------------+      +-------------+
-                              |        ---> | Endpoint B  |
-                              |        ---> | Endpoint C  |
-                              v
-                       +--------------+
-                       | Mgmt/ACS     |
-                       +--------------+
-```
-
-| 구성요소 | 설명 | 비유 |
-|:---|:---|:---|
-| Root Complex | CPU 메모리 주소 공간과 PCIe hierarchy를 연결함 | 중앙 터미널 |
-| Upstream Port | switch가 root complex 쪽으로 연결되는 포트임 | 상행 진입로 |
-| Downstream Port | endpoint 장치로 나가는 포트와 lane 묶음임 | 하행 출구 |
-| Routing·관리 기능 | TLP(Transaction Layer Packet) 라우팅, ACS, error reporting, hot-plug를 처리함 | 교통 관제 센터 |
-
-> 요약: PCIe 스위치는 upstream 공유 링크와 downstream 장치 포트를 관리 기능으로 연결하는 계층 구조임.
-
-### 원리/흐름도
+## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-+----------+      +----------+      +----------+      +----------+
-| Enumerate| ---> | Route    | ---> | Forward  | ---> | Manage   |
-+----------+      +----------+      +----------+      +----------+
++-------------+     +-------------+     +-------------+     +-------------+
+| 장치 열거      | --> | 주소 라우팅    | --> | 패킷 전달      | --> | 오류/격리 관리 |
++-------------+     +-------------+     +-------------+     +-------------+
 ```
 
-1. **열거·설정** — BIOS(Basic Input/Output System)/OS(Operating System)가 switch 하위 장치를 탐색하고 bus/device/function 번호와 BAR(Base Address Register)를 할당함
-2. **주소 라우팅** — TLP 주소, ID, message 유형에 따라 upstream 또는 downstream 포트를 선택함
-3. **패킷 전달** — lane 속도, flow control credit, ordering rule에 맞춰 패킷을 버퍼링·전달함
-4. **오류·관리 처리** — AER(Advanced Error Reporting), hot-plug, ACS, 링크 상태를 감시하고 장애를 보고함
+1. **장치 열거**: 펌웨어와 OS가 스위치 하위 endpoint를 탐색하고 주소 공간을 할당함
+2. **주소 라우팅**: switch가 TLP 목적지에 따라 적절한 downstream 포트를 선택함
+3. **패킷 전달**: flow control과 레인 속도 규칙에 따라 데이터를 버퍼링하고 전달함
+4. **오류 및 격리 관리**: AER과 ACS와 링크 상태 감시로 장애와 DMA 경계를 통제함
 
-> 요약: PCIe 스위칭은 장치 열거 후 TLP 라우팅과 링크 관리로 다수 endpoint를 투명하게 연결함.
+## Ⅵ. 문제점 및 해결 방안
 
-## Ⅳ. 문제점 및 개선방안
+1. 문제: 하위 장치 총 요구 대역폭이 상위 링크를 초과하면 switch 구간에서 심한 oversubscription이 발생할 수 있음
+   - 해결방안: workload별 대역폭 모델로 포트 배치를 최적화하고 upstream utilization과 oversubscription ratio로 검증함
+2. 문제: switch hop과 버퍼링 지연이 쌓이면 지연 민감 I/O와 P2P 전송 성능이 눈에 띄게 저하될 수 있음
+   - 해결방안: latency 민감 장치는 직접 연결하거나 hop 수를 최소화하고 p99 I/O latency와 P2P throughput으로 검증함
+3. 문제: ACS와 IOMMU 설정이 부정확하면 endpoint 간 DMA 격리가 깨져 보안 위험이 커질 수 있음
+   - 해결방안: ACS와 IOMMU group 검증 절차를 운영하고 isolation test result와 unauthorized DMA block rate로 검증함
 
-- **P1 upstream 병목**: 하위 장치 총 대역폭이 상위 링크보다 크면 NVMe나 GPU 작업에서 oversubscription이 발생함
-- **P1 대응**: 장치별 요구 대역폭으로 oversubscription ratio를 설계하고 workload별 포트 배치를 조정함 (확인: upstream utilization)
-- **P2 지연·순서 영향**: switch hop, 버퍼링, flow control이 latency 민감 I/O와 P2P 전송에 영향을 줌
-- **P2 대응**: latency 민감 장치는 직접 연결하거나 switch hop 수와 P2P 경로를 제한함 (확인: p99 I/O latency)
-- **P3 격리 취약성**: ACS/IOMMU(Input-Output Memory Management Unit) 설정이 부정확하면 endpoint 간 DMA(Direct Memory Access) 접근 격리가 약해질 수 있음
-- **P3 대응**: ACS, ATS(Address Translation Services), IOMMU group, firmware 설정을 검증해 DMA 격리를 보장함 (확인: isolation test result)
+## Ⅶ. 적용 사례
 
-> 요약: PCIe 스위치 도입은 포트 수 확장보다 대역폭 계획과 DMA 보안 검증이 우선임.
+- GPU 확장 서버에서는 switch 하위에 가속기와 NVMe를 배치하고 확인 지표는 upstream utilization과 job throughput임
+- AI 스토리지 노드에서는 P2P 경로를 설계해 GPU와 NVMe 간 이동을 최적화하고 확인 지표는 P2P throughput과 p99 latency임
+- 멀티테넌트 장비에서는 ACS와 IOMMU를 함께 검증해 DMA 격리를 보장하고 확인 지표는 isolation test pass rate와 security incident count임
 
-## Ⅴ. 실무 적용 사례
+## Ⅷ. 결론
 
-| 적용 영역 | 적용 방식 | 확인 지표 |
-|:---|:---|:---|
-| GPU·NVMe 서버 설계 | 하위 장치 총 대역폭과 upstream 링크를 비교해 슬롯 배치와 oversubscription 허용치를 정함 | upstream utilization, oversubscription ratio |
-| P2P 데이터 경로 최적화 | GPU Direct Storage, NVMe P2P 전송에서 switch hop 수와 ACS 설정이 지연에 미치는 영향을 측정함 | p99 I/O latency, P2P throughput |
-| DMA 격리 검증 | IOMMU group, ACS, firmware 설정을 점검해 테넌트·장치 간 무단 DMA 접근을 차단함 | isolation test result, unauthorized DMA 차단 |
-
-> 요약: 실무에서는 PCIe 스위치를 포트 확장 장치가 아니라 대역폭, 지연, DMA 격리를 함께 설계해야 하는 공유 패브릭으로 다뤄야 함.
-
-## Ⅵ. 결론
-
-- **발전 방향**: PCIe 고속 세대와 CXL(Compute Express Link) switch, composable infrastructure가 결합되며 메모리와 가속기 자원의 동적 연결이 확대됨
-- **기술사적 판단**: 스위치 선택은 lane 수, 세대, latency, ACS/CXL 기능, 관리성, 장애 격리를 기준으로 해야 함
-- **기술사 제언**: 서버 설계 시 slot diagram뿐 아니라 실제 워크로드별 트래픽 행렬과 격리 정책을 함께 검증해야 함
+PCIe 스위칭은 포트 확장 장치가 아니라 공유 상위 링크와 격리 정책을 함께 설계해야 하는 패브릭이므로, 확장성보다 병목과 DMA 경계를 먼저 판단해야 함.
