@@ -1,5 +1,5 @@
 ---
-title: "Inference Scaling (추론 스케일링)"
+title: "Inference Scaling 추론 스케일링 (Inference Scaling)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -45,6 +45,12 @@ extra:
 | Search Policy | 얼마나 많은 경로를 생성하고 어떤 규칙으로 확장할지 결정함 |
 | Verification Layer | 추가 계산이 실제 정답률 향상으로 이어지도록 중간 결과를 점검함 |
 | Scaling Monitor | 계산 증가 대비 성능 향상을 측정해 한계효용 지점을 찾는 관측 계층임 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Compute Budget   | --> | Search Policy    | --> | Verification     | --> | Scaling Monitor  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

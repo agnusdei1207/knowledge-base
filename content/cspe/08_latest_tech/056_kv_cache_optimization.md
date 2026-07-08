@@ -1,5 +1,5 @@
 ---
-title: "KV Cache Optimization (KV 캐시 최적화)"
+title: "KV Cache 최적화 (KV Cache Optimization)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Decode Cache Reader | 새 토큰 생성 시 필요한 과거 Key, Value를 반복 참조해 디코딩 속도를 좌우함 |
 | Compression Strategy | GQA, FP8, INT8 같은 방식으로 캐시 크기를 줄여 메모리 사용량을 억제함 |
 | Cache Manager | paging, sharing, offloading을 통해 실제 GPU, CPU 메모리 배치를 제어함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Prefill Builder  | --> | Decode Reader    | --> | Compression      | --> | Cache Manager    |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

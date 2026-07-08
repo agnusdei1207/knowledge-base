@@ -1,5 +1,5 @@
 ---
-title: "Reasoning LLM (추론 특화 LLM)"
+title: "Reasoning LLM 추론 특화 LLM (Reasoning LLM)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Reasoning Policy | 어떤 경로를 탐색하고 언제 되돌아갈지 결정하는 추론 제어 계층임 |
 | Verifier, Critic | 중간 결과와 최종 답의 논리적 타당성을 점검해 오답 경로를 걸러냄 |
 | Budget, Routing Layer | 고난도 문제에만 reasoning model을 할당해 비용과 응답 시간을 제어함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Base LLM         | --> | Reasoning Policy | --> | Verifier/Critic  | --> | Budget Routing   |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

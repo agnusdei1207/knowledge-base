@@ -46,6 +46,12 @@ extra:
 | Acceptance Controller | 승인된 토큰 길이와 반려 시 fallback 지점을 계산해 생성 흐름을 이어감 |
 | Serving Router | 현재 부하와 batch 상태에 따라 speculative mode를 켜거나 끄는 운영 제어 계층임 |
 
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Draft Generator  | --> | Target Verifier  | --> | Acceptance Ctrl  | --> | Serving Router   |
++------------------+     +------------------+     +------------------+     +------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text

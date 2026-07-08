@@ -1,5 +1,5 @@
 ---
-title: "DeepSeek-R1 (DeepSeek-R1 추론 모델)"
+title: "DeepSeek-R1 추론 모델 (DeepSeek-R1)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Distilled Variant | 더 작은 배포 환경에서도 reasoning 능력을 일부 유지하도록 증류된 파생 모델 계층임 |
 | Open Deployment Stack | 자체 GPU, 서빙 엔진, 관측 체계 위에서 모델을 직접 운영할 수 있게 하는 배포 계층임 |
 | Governance Layer | 모델 안전성, 업데이트, 접근 통제, 로그 관리 책임을 조직 내부에서 통제하는 계층임 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Backbone         | --> | Distilled Model  | --> | Deployment Stack | --> | Governance       |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

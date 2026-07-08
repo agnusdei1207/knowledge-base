@@ -1,5 +1,5 @@
 ---
-title: "Continuous Batching (연속 배칭)"
+title: "Continuous Batching 연속 배칭 (Continuous Batching)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -45,6 +45,12 @@ extra:
 | Token Scheduler | 현재 배치에서 끝난 요청을 제거하고 빈 슬롯에 새 요청을 주입함 |
 | Slot Manager | 요청별 상태와 토큰 진행 위치를 추적해 디코딩 루프에서 재배치를 가능하게 함 |
 | Fairness Policy | 긴 요청과 짧은 요청 간 지연 편향을 줄이기 위한 우선순위 규칙을 담당함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Request Queue    | --> | Token Scheduler  | --> | Slot Manager     | --> | Fairness Policy  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

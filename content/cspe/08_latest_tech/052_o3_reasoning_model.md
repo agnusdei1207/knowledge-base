@@ -1,5 +1,5 @@
 ---
-title: "o3 Reasoning Model (o3 추론 모델)"
+title: "o3 추론 모델 (o3 Reasoning Model)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,12 @@ extra:
 | Effort Controller | 문제 난도와 정책에 따라 추론 깊이와 계산량을 조절함 |
 | Tool, Memory Interface | 필요 시 외부 도구나 컨텍스트를 연결해 reasoning 범위를 확장하는 계층임 |
 | Serving Policy | 어떤 요청에 o3를 배정할지와 비용 상한을 결정하는 운영 정책 계층임 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Reasoning Core   | --> | Effort Control   | --> | Tool/Memory If.  | --> | Serving Policy   |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

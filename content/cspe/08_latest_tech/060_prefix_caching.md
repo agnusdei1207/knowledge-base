@@ -1,5 +1,5 @@
 ---
-title: "Prefix Caching (접두 캐싱)"
+title: "Prefix Caching 접두 캐싱 (Prefix Caching)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -45,6 +45,12 @@ extra:
 | Cache Store | prefix별 KV cache와 메타데이터를 저장해 재사용 대상 풀을 형성함 |
 | Sharing Manager | 동일 prefix를 여러 요청이 함께 참조하도록 연결하고 분기 시 Copy-on-Write를 수행함 |
 | Eviction Policy | TTL, LRU 등으로 오래된 prefix cache를 정리해 메모리 예산을 유지함 |
+
+```text
++------------------+     +------------------+     +------------------+     +------------------+
+| Prefix Matcher   | --> | Cache Store      | --> | Sharing Manager  | --> | Eviction Policy  |
++------------------+     +------------------+     +------------------+     +------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
