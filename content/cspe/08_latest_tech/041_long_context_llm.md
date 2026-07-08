@@ -47,6 +47,12 @@ extra:
 | Memory, Cache Manager | 긴 입력의 KV cache와 prompt caching을 관리해 추론 지연과 비용을 통제함 |
 | Evaluation Layer | NIAH, retrieval accuracy, faithfulness 같은 지표로 실제 장문맥 활용 가능성을 검증하는 계층임 |
 
+```text
++------------------+     +-------------------+     +------------------+     +------------------+
+| Position Extend  | --> | Long Attention    | --> | KV/Prompt Cache  | --> | Evaluation Layer |
++------------------+     +-------------------+     +------------------+     +------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
