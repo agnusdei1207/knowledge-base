@@ -1,5 +1,5 @@
 ---
-title: "Citation-based Answering (출처 기반 답변)"
+title: "Citation-based Answering 출처 기반 답변 (Citation-based Answering)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -12,25 +12,25 @@ extra:
 
 ## 미리 알고가기
 
-- Citation-based Answering은 답변과 함께 근거 문서나 문단을 명시하는 응답 방식임
+- 출처 기반 답변은 생성 답변과 함께 근거 문서나 문단을 명시하는 응답 방식임
 - 신뢰성, 감사 추적성, 사용자 검증 가능성을 높이는 데 목적이 있음
-- RAG, groundedness, enterprise search와 강하게 연결됨
+- 단순 링크 첨부보다 주장과 근거의 정확한 매핑이 핵심임
 
 ## Ⅰ. 개요
 
-- **정의/개념**: Citation-based Answering은 생성 답변의 각 핵심 주장에 대응하는 출처 문서와 구간을 함께 제시해 사용자가 근거를 직접 검증할 수 있게 하는 응답 방식임
+- **정의/개념**: 출처 기반 답변은 생성 답변의 핵심 주장마다 대응하는 문서와 구간을 함께 제시해 사용자가 근거를 직접 검증할 수 있게 하는 응답 방식임
 - **배경/필요성**: 생성형 AI는 유창하지만 근거를 숨기기 쉬우므로, 신뢰성과 책임성을 확보하려면 답변과 출처를 함께 제공해야 함
 
 ## Ⅱ. 특징
 
 - 답변의 검증 가능성과 사용자 신뢰도를 동시에 높임
-- 법무, 금융, 의료처럼 근거 확인이 필요한 도메인에서 특히 중요함
-- 단순 링크 첨부보다 claim-to-source 매핑 정확도가 핵심 품질 요소임
-- groundedness 평가와 결합될 때 운영 개선 효과가 커짐
+- 법무와 금융과 의료처럼 근거 확인이 중요한 도메인에서 특히 유용함
+- claim-to-source 매핑 품질이 낮으면 링크가 있어도 거짓 신뢰를 만들 수 있음
+- Groundedness와 결합할 때 운영 개선 효과가 커짐
 
 ## Ⅲ. 종류 및 비교
 
-| 판단 기준 | Citation-based Answering | 일반 생성 답변 | 링크 목록형 응답 |
+| 판단 기준 | 출처 기반 답변 | 일반 생성 답변 | 링크 목록형 응답 |
 |:---|:---|:---|:---|
 | 출처 명시 | 문장 또는 문단 수준 | 없음 | 문서 수준 |
 | 검증 편의성 | 높음 | 낮음 | 중간 |
@@ -44,7 +44,18 @@ extra:
 | Retrieval Layer | 관련 문서를 검색하고 citation 후보가 될 문단과 span을 확보함 |
 | Claim Extraction | 답변의 핵심 주장 단위를 분리해 어떤 문장에 출처를 달지 결정함 |
 | Source Mapping | 주장과 근거 구간을 연결해 잘못된 출처 부착을 방지함 |
-| Rendering Layer | 사용자가 클릭하거나 펼쳐볼 수 있게 출처를 UI에 노출해 검증 경험을 완성함 |
+| Rendering Layer | 사용자가 클릭하거나 펼쳐볼 수 있게 출처를 노출해 검증 경험을 완성함 |
+
+```text
++-------------------+      +-------------------+      +-------------------+
+| Retrieval Layer   | ---> | Claim Extraction  | ---> | Source Mapping    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Rendering Layer   |
+                                                   +-------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -65,14 +76,14 @@ extra:
    - 해결방안: sentence-level citation과 evidence validation을 적용하고 citation accuracy와 groundedness score로 검증함
 2. 문제: 긴 문서 전체를 인용하면 출처 확인 비용이 커져 사용자 경험이 나빠질 수 있음
    - 해결방안: span highlighting과 snippet rendering을 적용하고 citation click efficiency와 UX satisfaction으로 검증함
-3. 문제: 검색 문서가 오래되거나 권한이 없는 자료이면 출처 기반 답변도 운영 위험을 남길 수 있음
+3. 문제: 검색 문서가 오래되었거나 권한이 없는 자료이면 출처 기반 답변도 운영 위험을 남길 수 있음
    - 해결방안: freshness check와 access control을 결합하고 stale citation rate와 authorization error rate로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 법률 검색 서비스에서는 조문과 판례 문단을 답변 옆에 제시하고 확인 지표는 citation accuracy와 trust score임
-- 사내 정책 챗봇에서는 사규 링크와 조항 번호를 함께 제공하고 확인 지표는 audit trace completeness와 CSAT임
-- 의료 문헌 QA에서는 논문 초록과 근거 문장을 보여주고 확인 지표는 evidence coverage와 expert approval rate임
+- 법률 검색 서비스가 조문과 판례 문단을 답변 옆에 제시하도록 출처 기반 답변을 적용하며 확인 지표는 citation accuracy와 trust score임
+- 사내 정책 챗봇이 사규 링크와 조항 번호를 함께 제공하도록 출처 기반 답변을 운영하며 확인 지표는 audit trace completeness와 CSAT임
+- 의료 문헌 QA가 논문 초록과 근거 문장을 보여주도록 출처 기반 답변을 활용하며 확인 지표는 evidence coverage와 expert approval rate임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Enterprise RAG (기업 RAG)"
+title: "Enterprise RAG 기업 RAG (Enterprise RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -13,8 +13,8 @@ extra:
 ## 미리 알고가기
 
 - Enterprise RAG는 일반 데모형 RAG를 기업 보안과 운영 요구에 맞게 확장한 아키텍처임
-- 핵심 축은 데이터 연결, 권한 통제, 품질 관리, 운영 자동화임
-- 단순 답변 성능보다 최신성, 감사 가능성, 비용 통제가 함께 중요함
+- 핵심 축은 데이터 연결과 권한 통제와 품질 관리와 운영 자동화임
+- 단순 답변 성능보다 최신성과 감사 가능성과 비용 통제가 더 중요함
 
 ## Ⅰ. 개요
 
@@ -26,7 +26,7 @@ extra:
 - 권한 인지 검색과 데이터 거버넌스를 통해 민감 정보 유출을 줄임
 - 다수 시스템 연동과 지속 동기화를 전제로 해 최신성 관리가 필수임
 - 평가 대시보드와 감사 로그를 포함해 운영 추적성이 높음
-- 품질뿐 아니라 비용과 지연시간과 규제 준수까지 함께 관리해야 함
+- 품질뿐 아니라 비용과 지연 시간과 규제 준수까지 함께 관리해야 함
 
 ## Ⅲ. 종류 및 비교
 
@@ -41,10 +41,21 @@ extra:
 
 | 구성요소 | 설명 |
 |:---|:---|
-| Ingestion Pipeline | 위키, 파일, DB, 협업 도구를 수집해 정제와 청킹과 메타데이터 부착까지 수행하며 최신성 유지의 출발점이 됨 |
+| Ingestion Pipeline | 위키와 파일과 DB와 협업 도구를 수집해 정제와 청킹과 메타데이터 부착까지 수행하며 최신성 유지의 출발점이 됨 |
 | Retrieval Layer | 벡터 검색과 키워드 검색과 리랭커를 결합해 정확도와 응답 속도 균형을 맞추며 ACL 필터를 함께 적용함 |
 | Generation, Guardrail Layer | LLM과 prompt constraint와 citation 정책으로 답변을 만들고 민감 정보와 환각을 통제함 |
 | Ops, Governance Layer | 평가 대시보드와 감사 로그와 비용 모니터링으로 운영 품질과 규제 준수 상태를 지속 검증함 |
+
+```text
++-------------------+      +-------------------+      +-------------------+
+| Ingestion Pipe    | ---> | Retrieval Layer   | ---> | Generation / GR   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Ops / Governance  |
+                                                   +-------------------+
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -56,7 +67,7 @@ extra:
 
 1. **데이터 동기화**: 사내 문서와 시스템 데이터를 주기적으로 수집하고 갱신함
 2. **권한 포함 검색**: 사용자 권한과 메타데이터를 반영해 허용된 문맥만 검색함
-3. **근거 기반 생성**: 검색 문맥 안에서 답변을 생성하고 citation과 가드레일을 적용함
+3. **근거 기반 생성**: 검색 문맥 안에서 답변을 생성하고 citation과 guardrail을 적용함
 4. **감사 및 평가 운영**: 로그와 품질 지표를 분석해 정책과 파이프라인을 개선함
 
 ## Ⅵ. 문제점 및 해결 방안
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 제조기업 기술 문서 검색에서는 설계 기준서와 장애 이력을 연결하고 확인 지표는 first answer resolution과 citation accuracy임
-- 금융권 사내 정책 챗봇에서는 권한별 규정 조회를 제공하고 확인 지표는 authorization miss rate와 hallucination rate임
-- 고객지원 지식 어시스턴트에서는 CRM과 FAQ를 통합 조회하고 확인 지표는 handle time reduction과 CSAT임
+- 제조기업 기술 문서 검색이 설계 기준서와 장애 이력을 연결하도록 Enterprise RAG를 적용하며 확인 지표는 first answer resolution과 citation accuracy임
+- 금융권 사내 정책 챗봇이 권한별 규정 조회를 제공하도록 Enterprise RAG를 운영하며 확인 지표는 authorization miss rate와 hallucination rate임
+- 고객지원 지식 어시스턴트가 CRM과 FAQ를 통합 조회하도록 Enterprise RAG를 활용하며 확인 지표는 handle time reduction과 CSAT임
 
 ## Ⅷ. 결론
 

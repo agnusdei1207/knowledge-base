@@ -1,5 +1,5 @@
 ---
-title: "Groundedness (근거성)"
+title: "Groundedness 근거성 (Groundedness)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Citation Layer | 사용자에게 근거 문서를 노출해 신뢰성과 검증성을 동시에 높임 |
 | Audit Trace | 운영 중 문제 답변이 발생했을 때 원문과 검색 경로를 역추적하는 기록 체계임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Source Context    | ---> | Claim-Source Map  | ---> | Citation Layer    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Audit Trace       |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 법률 문서 RAG에서는 판례와 조문 구간을 답변에 연결하고 확인 지표는 citation accuracy와 groundedness score임
-- 의료 문헌 검색에서는 근거 문단을 함께 제시하고 확인 지표는 evidence coverage와 expert trust score임
-- 기업 정책 도우미에서는 사규 원문 링크를 노출하고 확인 지표는 audit trace completeness와 CSAT임
+- 법률 문서 RAG가 판례와 조문 구간을 답변에 연결하도록 Groundedness를 관리하며 확인 지표는 citation accuracy와 groundedness score임
+- 의료 문헌 검색이 근거 문단을 함께 제시하도록 Groundedness를 활용하며 확인 지표는 evidence coverage와 expert trust score임
+- 기업 정책 도우미가 사규 원문 링크를 노출하도록 Groundedness를 적용하며 확인 지표는 audit trace completeness와 CSAT임
 
 ## Ⅷ. 결론
 

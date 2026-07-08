@@ -1,5 +1,5 @@
 ---
-title: "Context Recall (문맥 재현율)"
+title: "Context Recall 문맥 재현율 (Context Recall)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Coverage Check | 필요한 문맥이 검색 결과 안에 포함됐는지 판단해 누락 위치를 찾음 |
 | Tuning Lever | top-k, hybrid search, query expansion 같은 제어점이 recall 향상에 직접 연결됨 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Ground Context    | ---> | Coverage Check    | ---> | Recall Score      |
++-------------------+      +-------------------+      +-------------------+
+             ^
+             |
++-------------------+      +-------------------+
+| Retriever         | ---> | Tuning Lever      |
++-------------------+      +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 제품 매뉴얼 QA에서는 단계별 근거가 모두 검색되는지 확인하고 확인 지표는 Context Recall과 answer completeness임
-- 특허 검색 RAG에서는 관련 청구항 누락을 줄이고 확인 지표는 miss rate와 expert review score임
-- 사내 복합 질의 챗봇에서는 여러 부서 정책을 함께 찾고 확인 지표는 Context Recall과 retry rate임
+- 제품 매뉴얼 QA가 단계별 근거를 빠짐없이 검색하는지 확인하도록 Context Recall을 관리하며 확인 지표는 Context Recall과 answer completeness임
+- 특허 검색 RAG가 관련 청구항 누락을 줄이도록 Context Recall을 활용하며 확인 지표는 miss rate와 expert review score임
+- 사내 복합 질의 챗봇이 여러 부서 정책을 함께 찾도록 Context Recall을 적용하며 확인 지표는 Context Recall과 retry rate임
 
 ## Ⅷ. 결론
 
