@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **negative transfer가 발생함**: 원 도메인 지식이 오히려 방해가 됨
-   - **해결 방안**: 도메인 유사도가 높은 백본을 선택하고 baseline 대비 성능 차이로 검증함
-2. **과적합이 쉽게 생김**: 데이터가 적은데 파라미터가 많음
-   - **해결 방안**: head만 학습 후 점진적으로 unfreeze하고 validation gap로 검증함
-3. **학습률 설정이 까다로움**: 기존 표현을 깨뜨릴 수 있음
-   - **해결 방안**: discriminative learning rate와 warm-up을 적용하고 loss stability로 검증함
+1. 문제: negative transfer가 발생해 원 도메인 지식이 오히려 방해가 됨
+   - 해결방안: 도메인 유사도가 높은 백본을 선택하고 baseline 대비 성능 차이로 검증함
+2. 문제: 과적합이 쉽게 생겨 데이터가 적은데 파라미터가 많음
+   - 해결방안: head만 학습 후 점진적으로 unfreeze하고 validation gap로 검증함
+3. 문제: 학습률 설정이 까다로움 기존 표현을 깨뜨릴 수 있음
+   - 해결방안: discriminative learning rate와 warm-up을 적용하고 loss stability로 검증함
 
 ## Ⅶ. 적용 사례
 

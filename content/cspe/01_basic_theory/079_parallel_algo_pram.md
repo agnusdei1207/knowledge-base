@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **부하 불균형이 발생함**: 일부 처리기만 오래 일할 수 있음
-   - **해결 방안**: 균등 분할과 work-stealing을 적용하고 processor utilization로 검증함
-2. **메모리 충돌과 동기화가 병목이 됨**: 이론 모델보다 실제가 느려짐
-   - **해결 방안**: local buffering과 reduction tree를 사용하고 synchronization overhead로 검증함
-3. **병렬화 가능한 비율이 제한됨**: 순차 구간이 전체 속도를 묶음
-   - **해결 방안**: Amdahl/Gustafson 관점으로 병목 구간을 줄임 speedup로 검증함
+1. 문제: 부하 불균형이 발생해 일부 처리기만 오래 일할 수 있음
+   - 해결방안: 균등 분할과 work-stealing을 적용하고 processor utilization로 검증함
+2. 문제: 메모리 충돌과 동기화가 병목이 되어 이론 모델보다 실제가 느려짐
+   - 해결방안: local buffering과 reduction tree를 사용하고 synchronization overhead로 검증함
+3. 문제: 병렬화 가능한 비율이 제한되어 순차 구간이 전체 속도를 묶음
+   - 해결방안: Amdahl/Gustafson 관점으로 병목 구간을 줄임 speedup로 검증함
 
 ## Ⅶ. 적용 사례
 

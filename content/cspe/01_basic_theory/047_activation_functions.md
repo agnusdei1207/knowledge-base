@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **gradient saturation이 발생함**: Sigmoid, Tanh는 큰 절댓값 구간에서 학습이 느려짐
-   - **해결 방안**: ReLU 계열이나 정규화 기법을 사용하고 gradient norm로 검증함
-2. **ReLU dead neuron이 생김**: 음수 영역에서 계속 0이면 회복이 어려움
-   - **해결 방안**: Leaky ReLU, 적절한 초기화, learning rate 조정이 필요하고 active neuron ratio로 검증함
-3. **출력층 함수가 목적과 맞지 않을 수 있음**: 손실 함수와 불일치하면 학습이 불안정함
-   - **해결 방안**: 이진 분류는 Sigmoid, 다중 분류는 Softmax를 사용하고 loss convergence로 검증함
+1. 문제: gradient saturation이 발생해 Sigmoid, Tanh는 큰 절댓값 구간에서 학습이 느려짐
+   - 해결방안: ReLU 계열이나 정규화 기법을 사용하고 gradient norm로 검증함
+2. 문제: ReLU dead neuron이 생겨 음수 영역에서 계속 0이면 회복이 어려움
+   - 해결방안: Leaky ReLU, 적절한 초기화, learning rate 조정이 필요하고 active neuron ratio로 검증함
+3. 문제: 출력층 함수가 목적과 맞지 않을 수 있어 손실 함수와 불일치하면 학습이 불안정함
+   - 해결방안: 이진 분류는 Sigmoid, 다중 분류는 Softmax를 사용하고 loss convergence로 검증함
 
 ## Ⅶ. 적용 사례
 

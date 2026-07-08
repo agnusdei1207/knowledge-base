@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **데이터 불균형이 성능을 왜곡함**: 다수 클래스 위주로 학습될 수 있음
-   - **해결 방안**: class weighting, augmentation, re-sampling을 적용하고 macro-F1로 검증함
-2. **도메인 차이로 일반화가 낮아질 수 있음**: 실제 현장 이미지가 학습셋과 다를 수 있음
-   - **해결 방안**: transfer learning과 domain adaptation을 적용하고 domain gap로 검증함
-3. **설명 가능성이 부족함**: 왜 해당 클래스로 분류했는지 파악이 어려움
-   - **해결 방안**: Grad-CAM 등 시각화로 근거를 보조하고 explanation consistency로 검증함
+1. 문제: 데이터 불균형이 성능을 왜곡해 다수 클래스 위주로 학습될 수 있음
+   - 해결방안: class weighting, augmentation, re-sampling을 적용하고 macro-F1로 검증함
+2. 문제: 도메인 차이로 일반화가 낮아질 수 있어 실제 현장 이미지가 학습셋과 다를 수 있음
+   - 해결방안: transfer learning과 domain adaptation을 적용하고 domain gap로 검증함
+3. 문제: 설명 가능성이 부족해 왜 해당 클래스로 분류했는지 파악이 어려움
+   - 해결방안: Grad-CAM 등 시각화로 근거를 보조하고 explanation consistency로 검증함
 
 ## Ⅶ. 적용 사례
 

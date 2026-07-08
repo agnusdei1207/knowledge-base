@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **문법 충돌이 발생함**: LL은 first/follow 충돌, LR은 shift/reduce 충돌이 생김
-   - **해결 방안**: 문법 리팩터링과 우선순위 선언을 적용하고 conflict count로 검증함
-2. **오류 복구가 어렵다**: 하나의 토큰 오류가 뒤 전체를 무너뜨릴 수 있음
-   - **해결 방안**: panic mode와 동기화 토큰을 설계하고 recovery success rate로 검증함
-3. **문법 유지보수가 복잡해질 수 있음**: 기능 확장 때 규칙 영향 범위가 큼
-   - **해결 방안**: 모듈식 문법과 자동 생성기를 사용하고 grammar diff impact로 검증함
+1. 문제: 문법 충돌이 발생해 LL은 first/follow 충돌, LR은 shift/reduce 충돌이 생김
+   - 해결방안: 문법 리팩터링과 우선순위 선언을 적용하고 conflict count로 검증함
+2. 문제: 오류 복구가 어려워 하나의 토큰 오류가 뒤 전체를 무너뜨릴 수 있음
+   - 해결방안: panic mode와 동기화 토큰을 설계하고 recovery success rate로 검증함
+3. 문제: 문법 유지보수가 복잡해질 수 있어 기능 확장 때 규칙 영향 범위가 큼
+   - 해결방안: 모듈식 문법과 자동 생성기를 사용하고 grammar diff impact로 검증함
 
 ## Ⅶ. 적용 사례
 

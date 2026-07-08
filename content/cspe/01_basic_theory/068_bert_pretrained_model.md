@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **모델 크기와 추론 비용이 큼**: 실시간 서비스 배포가 부담됨
-   - **해결 방안**: DistilBERT, pruning, quantization을 적용하고 latency로 검증함
-2. **긴 문서 처리에 제약이 있음**: 입력 길이 제한이 존재함
-   - **해결 방안**: chunking, Longformer류 모델을 사용하고 context coverage로 검증함
-3. **도메인 특화 용어에 약할 수 있음**: 일반 말뭉치와 분포 차이가 큼
-   - **해결 방안**: domain adaptive pretraining을 수행하고 task F1로 검증함
+1. 문제: 모델 크기와 추론 비용이 커 실시간 서비스 배포가 부담됨
+   - 해결방안: DistilBERT, pruning, quantization을 적용하고 latency로 검증함
+2. 문제: 긴 문서 처리에 제약이 있음 입력 길이 제한이 존재함
+   - 해결방안: chunking, Longformer류 모델을 사용하고 context coverage로 검증함
+3. 문제: 도메인 특화 용어에 약할 수 있어 일반 말뭉치와 분포 차이가 큼
+   - 해결방안: domain adaptive pretraining을 수행하고 task F1로 검증함
 
 ## Ⅶ. 적용 사례
 

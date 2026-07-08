@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **gradient vanishing/exploding이 발생함**: 깊은 층에서 학습 신호가 사라지거나 폭증함
-   - **해결 방안**: ReLU, batch norm, residual connection, 초기화를 개선하고 gradient norm로 검증함
-2. **메모리 사용량이 큼**: backward를 위해 중간 activation을 저장해야 함
-   - **해결 방안**: gradient checkpointing, mixed precision을 사용하고 GPU memory usage로 검증함
-3. **미분 불가능하거나 불연속 연산에 약함**: direct gradient가 없을 수 있음
-   - **해결 방안**: surrogate gradient, differentiable relaxation을 적용하고 training stability로 검증함
+1. 문제: gradient vanishing/exploding이 발생해 깊은 층에서 학습 신호가 사라지거나 폭증함
+   - 해결방안: ReLU, batch norm, residual connection, 초기화를 개선하고 gradient norm로 검증함
+2. 문제: 메모리 사용량이 커 backward를 위해 중간 activation을 저장해야 함
+   - 해결방안: gradient checkpointing, mixed precision을 사용하고 GPU memory usage로 검증함
+3. 문제: 미분 불가능하거나 불연속 연산에 약해 direct gradient가 없을 수 있음
+   - 해결방안: surrogate gradient, differentiable relaxation을 적용하고 training stability로 검증함
 
 ## Ⅶ. 적용 사례
 

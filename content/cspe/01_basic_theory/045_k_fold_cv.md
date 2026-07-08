@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **데이터 누수가 발생할 수 있음**: 전처리를 전체 데이터에 먼저 하면 평가가 부풀려짐
-   - **해결 방안**: pipeline으로 fold 내부 전처리를 강제하고 validation gap로 검증함
-2. **시간 순서 데이터에 부적합함**: 미래 정보가 과거 학습에 섞일 수 있음
-   - **해결 방안**: time-series split을 사용하고 temporal leakage 여부로 검증함
-3. **계산 비용이 큼**: 대규모 모델은 학습 시간이 길어짐
-   - **해결 방안**: stratified sampling, early stopping, subset tuning을 적용하고 total training time로 검증함
+1. 문제: 데이터 누수가 발생할 수 있어 전처리를 전체 데이터에 먼저 하면 평가가 부풀려짐
+   - 해결방안: pipeline으로 fold 내부 전처리를 강제하고 validation gap로 검증함
+2. 문제: 시간 순서 데이터에 부적합해 미래 정보가 과거 학습에 섞일 수 있음
+   - 해결방안: time-series split을 사용하고 temporal leakage 여부로 검증함
+3. 문제: 계산 비용이 커 대규모 모델은 학습 시간이 길어짐
+   - 해결방안: stratified sampling, early stopping, subset tuning을 적용하고 total training time로 검증함
 
 ## Ⅶ. 적용 사례
 

@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **너무 큰 dropout은 underfitting을 유발함**: 표현력이 크게 줄어듦
-   - **해결 방안**: 층별 비율을 조정하고 validation으로 찾음 train/val loss로 검증함
-2. **BatchNorm과 조합 시 효과가 약해질 수 있음**: 둘의 규제 방식이 충돌할 수 있음
-   - **해결 방안**: 위치와 비율을 줄여 실험적으로 조정하고 accuracy delta로 검증함
-3. **추론과 학습 모드 혼동이 발생함**: eval 모드 누락 시 결과가 흔들림
-   - **해결 방안**: 추론 파이프라인에서 dropout off를 강제하고 inference reproducibility로 검증함
+1. 문제: 너무 큰 dropout은 underfitting을 유발해 표현력이 크게 줄어듦
+   - 해결방안: 층별 비율을 조정하고 validation으로 찾음 train/val loss로 검증함
+2. 문제: BatchNorm과 조합 시 효과가 약해질 수 있어 둘의 규제 방식이 충돌할 수 있음
+   - 해결방안: 위치와 비율을 줄여 실험적으로 조정하고 accuracy delta로 검증함
+3. 문제: 추론과 학습 모드 혼동이 발생해 eval 모드 누락 시 결과가 흔들림
+   - 해결방안: 추론 파이프라인에서 dropout off를 강제하고 inference reproducibility로 검증함
 
 ## Ⅶ. 적용 사례
 

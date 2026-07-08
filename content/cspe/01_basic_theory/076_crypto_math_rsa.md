@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **키 길이 증가로 성능 부담이 큼**: 공개키 연산은 대칭키보다 느림
-   - **해결 방안**: 하이브리드 암호와 세션키 구조를 사용하고 handshake latency로 검증함
-2. **구현 취약점이 수학 보안을 깨뜨릴 수 있음**: padding oracle, timing attack이 가능함
-   - **해결 방안**: OAEP, PSS, constant-time 구현을 적용하고 side-channel test로 검증함
-3. **양자 위협이 존재함**: Shor 알고리즘이 실용화되면 취약해짐
-   - **해결 방안**: PQC 전환 로드맵을 준비하고 crypto inventory coverage로 검증함
+1. 문제: 키 길이 증가로 성능 부담이 커 공개키 연산은 대칭키보다 느림
+   - 해결방안: 하이브리드 암호와 세션키 구조를 사용하고 handshake latency로 검증함
+2. 문제: 구현 취약점이 수학 보안을 깨뜨릴 수 있어 padding oracle, timing attack이 가능함
+   - 해결방안: OAEP, PSS, constant-time 구현을 적용하고 side-channel test로 검증함
+3. 문제: 양자 위협이 존재해 Shor 알고리즘이 실용화되면 취약해짐
+   - 해결방안: PQC 전환 로드맵을 준비하고 crypto inventory coverage로 검증함
 
 ## Ⅶ. 적용 사례
 

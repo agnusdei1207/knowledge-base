@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **과적합이 쉽게 발생할 수 있음**: 트리 수와 깊이가 커지면 훈련셋에 과도 적합함
-   - **해결 방안**: early stopping, max_depth, min_child_weight 등을 조정하고 validation score로 검증함
-2. **파라미터가 많아 튜닝 부담이 큼**: 탐색 비용이 높다
-   - **해결 방안**: 기본값에서 learning rate, depth, leaf 수를 우선 조정하고 tuning efficiency로 검증함
-3. **범주형/희소 처리 방식 차이로 성능 편차가 생김**: 데이터 전처리 영향이 큼
-   - **해결 방안**: 인코딩 전략과 histogram 설정을 함께 최적화하고 CV variance로 검증함
+1. 문제: 과적합이 쉽게 발생할 수 있어 트리 수와 깊이가 커지면 훈련셋에 과도 적합함
+   - 해결방안: early stopping, max_depth, min_child_weight 등을 조정하고 validation score로 검증함
+2. 문제: 파라미터가 많아 튜닝 부담이 커 탐색 비용이 높다
+   - 해결방안: 기본값에서 learning rate, depth, leaf 수를 우선 조정하고 tuning efficiency로 검증함
+3. 문제: 범주형/희소 처리 방식 차이로 성능 편차가 생겨 데이터 전처리 영향이 큼
+   - 해결방안: 인코딩 전략과 histogram 설정을 함께 최적화하고 CV variance로 검증함
 
 ## Ⅶ. 적용 사례
 

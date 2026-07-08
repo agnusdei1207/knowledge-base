@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **hallucination이 발생함**: 그럴듯하지만 틀린 내용을 생성할 수 있음
-   - **해결 방안**: RAG, tool use, 출처 검증을 결합하고 factual accuracy로 검증함
-2. **컨텍스트 길이와 비용이 커짐**: 긴 입력은 지연과 비용을 높임
-   - **해결 방안**: 요약, chunking, retrieval 기반 컨텍스트 최적화를 적용하고 latency, token cost로 검증함
-3. **안전성과 권한 통제가 필요함**: 부적절 응답, 데이터 유출 위험이 있음
-   - **해결 방안**: guardrail, 정책 필터, 로그 모니터링을 적용하고 policy violation rate로 검증함
+1. 문제: hallucination이 발생해 그럴듯하지만 틀린 내용을 생성할 수 있음
+   - 해결방안: RAG, tool use, 출처 검증을 결합하고 factual accuracy로 검증함
+2. 문제: 컨텍스트 길이와 비용이 커져 긴 입력은 지연과 비용을 높임
+   - 해결방안: 요약, chunking, retrieval 기반 컨텍스트 최적화를 적용하고 latency, token cost로 검증함
+3. 문제: 안전성과 권한 통제가 필요해 부적절 응답, 데이터 유출 위험이 있음
+   - 해결방안: guardrail, 정책 필터, 로그 모니터링을 적용하고 policy violation rate로 검증함
 
 ## Ⅶ. 적용 사례
 

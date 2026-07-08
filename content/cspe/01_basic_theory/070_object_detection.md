@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **작은 객체 탐지 성능이 낮을 수 있음**: 해상도 손실과 특징 약화가 큼
-   - **해결 방안**: FPN, 고해상도 입력, anchor 조정을 적용하고 small-object mAP로 검증함
-2. **실시간성과 정확도 trade-off가 큼**: 엣지 장비는 연산 제약이 강함
-   - **해결 방안**: 경량 모델, quantization, pruning을 적용하고 FPS, mAP로 검증함
-3. **데이터셋 편향과 라벨 품질 문제가 큼**: 박스 오차가 학습에 직접 악영향을 줌
-   - **해결 방안**: 라벨 검수와 augmentation을 강화하고 annotation consistency로 검증함
+1. 문제: 작은 객체 탐지 성능이 낮을 수 있어 해상도 손실과 특징 약화가 큼
+   - 해결방안: FPN, 고해상도 입력, anchor 조정을 적용하고 small-object mAP로 검증함
+2. 문제: 실시간성과 정확도 trade-off가 커 엣지 장비는 연산 제약이 강함
+   - 해결방안: 경량 모델, quantization, pruning을 적용하고 FPS, mAP로 검증함
+3. 문제: 데이터셋 편향과 라벨 품질 문제가 커 박스 오차가 학습에 직접 악영향을 줌
+   - 해결방안: 라벨 검수와 augmentation을 강화하고 annotation consistency로 검증함
 
 ## Ⅶ. 적용 사례
 

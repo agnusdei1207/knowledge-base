@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **문제 유형과 맞지 않는 손실을 선택할 수 있음**: 분류에 MSE를 쓰면 학습이 느릴 수 있음
-   - **해결 방안**: 출력층 활성화와 손실 함수를 쌍으로 설계하고 convergence speed로 검증함
-2. **클래스 불균형에 취약함**: 다수 클래스 위주로 학습될 수 있음
-   - **해결 방안**: weighted loss, focal loss를 적용하고 minority recall로 검증함
-3. **이상치에 민감할 수 있음**: MSE는 큰 오차에 과도하게 끌림
-   - **해결 방안**: MAE, Huber loss를 검토하고 robust error로 검증함
+1. 문제: 문제 유형과 맞지 않는 손실을 선택할 수 있어 분류에 MSE를 쓰면 학습이 느릴 수 있음
+   - 해결방안: 출력층 활성화와 손실 함수를 쌍으로 설계하고 convergence speed로 검증함
+2. 문제: 클래스 불균형에 취약해 다수 클래스 위주로 학습될 수 있음
+   - 해결방안: weighted loss, focal loss를 적용하고 minority recall로 검증함
+3. 문제: 이상치에 민감할 수 있어 MSE는 큰 오차에 과도하게 끌림
+   - 해결방안: MAE, Huber loss를 검토하고 robust error로 검증함
 
 ## Ⅶ. 적용 사례
 

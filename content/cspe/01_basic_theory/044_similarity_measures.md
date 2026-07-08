@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **척도 선택이 부적절할 수 있음**: 문서에 유클리드를 쓰면 길이 편향이 큼
-   - **해결 방안**: 데이터 의미와 희소성을 먼저 분석하고 retrieval precision로 검증함
-2. **스케일 차이로 거리 왜곡이 생김**: 큰 단위 변수가 지배함
-   - **해결 방안**: standardization, min-max scaling을 수행하고 silhouette score로 검증함
-3. **고차원 희소 벡터는 거리 집중 현상이 생김**: 구분력이 약해짐
-   - **해결 방안**: 차원 축소와 임베딩 품질 개선을 병행하고 nearest-neighbor quality로 검증함
+1. 문제: 척도 선택이 부적절할 수 있어 문서에 유클리드를 쓰면 길이 편향이 큼
+   - 해결방안: 데이터 의미와 희소성을 먼저 분석하고 retrieval precision로 검증함
+2. 문제: 스케일 차이로 거리 왜곡이 생겨 큰 단위 변수가 지배함
+   - 해결방안: standardization, min-max scaling을 수행하고 silhouette score로 검증함
+3. 문제: 고차원 희소 벡터는 거리 집중 현상이 생겨 구분력이 약해짐
+   - 해결방안: 차원 축소와 임베딩 품질 개선을 병행하고 nearest-neighbor quality로 검증함
 
 ## Ⅶ. 적용 사례
 

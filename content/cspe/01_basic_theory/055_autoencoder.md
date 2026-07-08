@@ -62,12 +62,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **단순 복사 학습으로 전락할 수 있음**: 잠재 공간이 너무 넓거나 모델이 과도하게 큼
-   - **해결 방안**: bottleneck, sparsity, denoising 제약을 적용하고 latent dimension efficiency로 검증함
-2. **잠재 표현 해석이 어렵다**: 특징 의미가 명확하지 않을 수 있음
-   - **해결 방안**: disentanglement 제약이나 시각화를 병행하고 cluster separability로 검증함
-3. **재구성 오차만으로 품질을 평가하면 한계가 있음**: 의미 보존 여부와 다를 수 있음
-   - **해결 방안**: downstream task 성능을 함께 평가하고 representation quality로 검증함
+1. 문제: 단순 복사 학습으로 전락할 수 있어 잠재 공간이 너무 넓거나 모델이 과도하게 큼
+   - 해결방안: bottleneck, sparsity, denoising 제약을 적용하고 latent dimension efficiency로 검증함
+2. 문제: 잠재 표현 해석이 어려워 특징 의미가 명확하지 않을 수 있음
+   - 해결방안: disentanglement 제약이나 시각화를 병행하고 cluster separability로 검증함
+3. 문제: 재구성 오차만으로 품질을 평가하면 한계가 있어 의미 보존 여부와 다를 수 있음
+   - 해결방안: downstream task 성능을 함께 평가하고 representation quality로 검증함
 
 ## Ⅶ. 적용 사례
 

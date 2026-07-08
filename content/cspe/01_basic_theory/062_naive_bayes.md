@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **독립 가정이 현실과 다를 수 있음**: 상관 높은 특징에서 성능이 떨어질 수 있음
-   - **해결 방안**: 특징 선택이나 상관 축소 전처리를 적용하고 validation accuracy로 검증함
-2. **0빈도 문제가 발생함**: 학습에 없던 특징이 확률 0을 만들 수 있음
-   - **해결 방안**: Laplace smoothing을 적용하고 unseen feature robustness로 검증함
-3. **확률 calibration이 부정확할 수 있음**: 점수는 맞지만 확률 해석이 약할 수 있음
-   - **해결 방안**: calibration 후 사용하고 log loss로 검증함
+1. 문제: 독립 가정이 현실과 다를 수 있어 상관 높은 특징에서 성능이 떨어질 수 있음
+   - 해결방안: 특징 선택이나 상관 축소 전처리를 적용하고 validation accuracy로 검증함
+2. 문제: 0빈도 문제가 발생해 학습에 없던 특징이 확률 0을 만들 수 있음
+   - 해결방안: Laplace smoothing을 적용하고 unseen feature robustness로 검증함
+3. 문제: 확률 calibration이 부정확할 수 있어 점수는 맞지만 확률 해석이 약할 수 있음
+   - 해결방안: calibration 후 사용하고 log loss로 검증함
 
 ## Ⅶ. 적용 사례
 

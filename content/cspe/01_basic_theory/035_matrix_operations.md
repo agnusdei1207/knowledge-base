@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **직접 역행렬 계산이 불안정함**: ill-conditioned matrix는 오차가 증폭됨
-   - **해결 방안**: 역행렬 대신 LU/QR 분해로 해를 구하고 condition number로 검증함
-2. **대규모 곱셈은 메모리 병목이 큼**: 연산량보다 데이터 이동이 느릴 수 있음
-   - **해결 방안**: block matrix와 BLAS, GPU를 사용하고 FLOPS utilization로 검증함
-3. **shape 오류가 자주 발생함**: 차원 불일치로 계산이 실패함
-   - **해결 방안**: 텐서 shape 검증과 타입 힌트를 적용하고 runtime error 수로 검증함
+1. 문제: 직접 역행렬 계산이 불안정해 ill-conditioned matrix는 오차가 증폭됨
+   - 해결방안: 역행렬 대신 LU/QR 분해로 해를 구하고 condition number로 검증함
+2. 문제: 대규모 곱셈은 메모리 병목이 커 연산량보다 데이터 이동이 느릴 수 있음
+   - 해결방안: block matrix와 BLAS, GPU를 사용하고 FLOPS utilization로 검증함
+3. 문제: shape 오류가 자주 발생해 차원 불일치로 계산이 실패함
+   - 해결방안: 텐서 shape 검증과 타입 힌트를 적용하고 runtime error 수로 검증함
 
 ## Ⅶ. 적용 사례
 

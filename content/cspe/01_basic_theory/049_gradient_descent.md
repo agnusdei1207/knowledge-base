@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **학습률이 너무 크면 발산함**: 최솟값 주변을 넘나들 수 있음
-   - **해결 방안**: warm-up, decay, scheduler를 적용하고 loss curve로 검증함
-2. **평평한 구간이나 saddle point에서 느려짐**: 진행 속도가 급감함
-   - **해결 방안**: momentum, Adam, gradient clipping을 사용하고 gradient norm로 검증함
-3. **optimizer 선택이 일반화에 영향 줌**: 빠른 수렴이 항상 좋은 최종 성능은 아님
-   - **해결 방안**: 후반에 SGD로 전환하거나 weight decay를 병행하고 validation accuracy로 검증함
+1. 문제: 학습률이 너무 크면 발산해 최솟값 주변을 넘나들 수 있음
+   - 해결방안: warm-up, decay, scheduler를 적용하고 loss curve로 검증함
+2. 문제: 평평한 구간이나 saddle point에서 느려져 진행 속도가 급감함
+   - 해결방안: momentum, Adam, gradient clipping을 사용하고 gradient norm로 검증함
+3. 문제: optimizer 선택이 일반화에 영향을 줘 빠른 수렴이 항상 좋은 최종 성능은 아님
+   - 해결방안: 후반에 SGD로 전환하거나 weight decay를 병행하고 validation accuracy로 검증함
 
 ## Ⅶ. 적용 사례
 

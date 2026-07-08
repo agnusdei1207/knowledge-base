@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **소배치에서 통계가 불안정함**: 분산 추정이 흔들림
-   - **해결 방안**: GroupNorm, LayerNorm으로 전환하고 training variance로 검증함
-2. **학습과 추론 동작이 다름**: running statistic 관리가 틀리면 성능 저하가 큼
-   - **해결 방안**: train/eval 모드를 엄격히 분리하고 inference accuracy gap로 검증함
-3. **분산 학습 시 통계 동기화 비용이 큼**: multi-GPU에서 배치 통계가 나뉨
-   - **해결 방안**: SyncBatchNorm 또는 큰 global batch를 사용하고 sync overhead로 검증함
+1. 문제: 소배치에서 통계가 불안정해 분산 추정이 흔들림
+   - 해결방안: GroupNorm, LayerNorm으로 전환하고 training variance로 검증함
+2. 문제: 학습과 추론 동작이 다름 running statistic 관리가 틀리면 성능 저하가 큼
+   - 해결방안: train/eval 모드를 엄격히 분리하고 inference accuracy gap로 검증함
+3. 문제: 분산 학습 시 통계 동기화 비용이 커 multi-GPU에서 배치 통계가 나뉨
+   - 해결방안: SyncBatchNorm 또는 큰 global batch를 사용하고 sync overhead로 검증함
 
 ## Ⅶ. 적용 사례
 

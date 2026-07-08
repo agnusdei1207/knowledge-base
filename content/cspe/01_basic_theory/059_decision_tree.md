@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **과적합이 쉽게 발생함**: 깊은 트리는 훈련 데이터를 외우기 쉬움
-   - **해결 방안**: max_depth, min_samples_leaf, pruning을 적용하고 validation score로 검증함
-2. **작은 데이터 변화에 구조가 크게 바뀜**: 분산이 높음
-   - **해결 방안**: 앙상블 방법으로 안정화하고 fold 간 성능 분산로 검증함
-3. **축 정렬 분할 한계가 있음**: 대각선 경계를 표현하려면 많은 분기가 필요함
-   - **해결 방안**: feature engineering 또는 boosting을 병행하고 decision boundary quality로 검증함
+1. 문제: 과적합이 쉽게 발생해 깊은 트리는 훈련 데이터를 외우기 쉬움
+   - 해결방안: max_depth, min_samples_leaf, pruning을 적용하고 validation score로 검증함
+2. 문제: 작은 데이터 변화에 구조가 크게 바뀜 분산이 높음
+   - 해결방안: 앙상블 방법으로 안정화하고 fold 간 성능 분산로 검증함
+3. 문제: 축 정렬 분할 한계가 있어 대각선 경계를 표현하려면 많은 분기가 필요함
+   - 해결방안: feature engineering 또는 boosting을 병행하고 decision boundary quality로 검증함
 
 ## Ⅶ. 적용 사례
 

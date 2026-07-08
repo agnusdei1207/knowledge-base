@@ -61,12 +61,12 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. **다의어를 하나의 벡터로 표현함**: 문맥별 의미 구분이 약함
-   - **해결 방안**: contextual embedding으로 전환하고 word sense accuracy로 검증함
-2. **희귀 단어 표현이 약함**: 충분한 문맥을 못 배우면 품질이 낮음
-   - **해결 방안**: subword embedding과 대규모 말뭉치를 사용하고 rare-word similarity로 검증함
-3. **편향이 학습될 수 있음**: 말뭉치의 사회적 편향이 반영됨
-   - **해결 방안**: bias audit와 debiasing 기법을 적용하고 bias metric로 검증함
+1. 문제: 다의어를 하나의 벡터로 표현해 문맥별 의미 구분이 약함
+   - 해결방안: contextual embedding으로 전환하고 word sense accuracy로 검증함
+2. 문제: 희귀 단어 표현이 약해 충분한 문맥을 못 배우면 품질이 낮음
+   - 해결방안: subword embedding과 대규모 말뭉치를 사용하고 rare-word similarity로 검증함
+3. 문제: 편향이 학습될 수 있어 말뭉치의 사회적 편향이 반영됨
+   - 해결방안: bias audit와 debiasing 기법을 적용하고 bias metric로 검증함
 
 ## Ⅶ. 적용 사례
 
