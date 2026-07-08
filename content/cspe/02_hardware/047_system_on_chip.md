@@ -75,21 +75,11 @@ extra:
 3. **전력과 클록 제어**: 블록별 DVFS와 power gating을 적용함
 4. **시스템 기능 제공**: 칩 단위로 완결된 플랫폼 동작을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 기능을 과도하게 집적하면 열 밀도와 전력 관리 복잡도가 커져 배터리 수명과 안정성이 함께 악화될 수 있음
-   - 해결방안: DVFS와 power gating과 thermal throttling을 설계하고 power efficiency와 junction temperature로 검증함
-2. 문제: 이기종 블록이 많아질수록 interconnect와 메모리 병목이 커져 통합 효과가 상쇄될 수 있음
-   - 해결방안: QoS-aware NoC와 메모리 대역폭 분배를 적용하고 latency와 bandwidth utilization으로 검증함
-3. 문제: 단일 칩 결함이 전체 시스템 재설계로 이어져 개발 리스크와 일정 지연이 커질 수 있음
-   - 해결방안: IP 재사용과 단계적 검증 체계를 적용하고 first-pass success rate와 verification coverage로 검증함
+1. 스마트폰이나 온디바이스 AI SoC에서는 CPU, GPU, NPU를 한 칩에 묶어 전력 효율을 높이되 NoC와 메모리 병목이 성능을 깎지 않도록 DVFS와 QoS 기반 대역폭 제어를 적용하고 performance per watt와 memory bandwidth utilization으로 확인함
+2. 자동차나 산업 SoC처럼 수명 주기가 긴 제품에서는 단일 칩 재설계 비용이 크므로 검증된 IP 재사용과 단계적 검증 계획을 적용하고 verification coverage와 first-pass success rate로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 스마트폰 AP에서는 CPU와 GPU와 NPU를 한 칩에 통합하고, performance per watt와 battery life로 결과를 확인함
-- 자동차 인포테인먼트 SoC에서는 영상 처리와 통신 제어를 집적하고, thermal envelope와 response latency로 결과를 확인함
-- 온디바이스 AI 칩에서는 카메라와 NPU와 메모리 경로를 최적화하고, inference latency와 TOPS/W로 결과를 확인함
-
-## Ⅷ. 결론
-
-SoC 설계의 본질은 기능을 많이 넣는 데 있지 않고 연산과 메모리와 전력을 한 칩 안에서 균형 있게 조합하는 데 있으므로, 통합 효과와 병목 비용을 함께 봐야 함.
+SoC는 기능을 많이 넣는 것이 목적이 아니라 연산과 메모리와 전력을 한 칩 안에서 균형 있게 묶는 구조이므로 통합 이익과 병목 비용을 함께 따져야 함.

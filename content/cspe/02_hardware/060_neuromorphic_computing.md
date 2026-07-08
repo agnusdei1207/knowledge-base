@@ -65,21 +65,11 @@ extra:
 3. **뉴런 누적 및 발화**: 뉴런이 임계값을 넘으면 다음 spike를 발생시킴
 4. **시냅스 적응 및 출력**: 연결 강도를 조정하고 외부 동작에 반영함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 프로그래밍 모델과 디버깅 도구가 성숙하지 않아 적용 비용이 예상보다 커질 수 있음
-   - 해결방안: ANN-to-SNN 변환과 시뮬레이터를 병행하고 model conversion accuracy와 development effort로 검증함
-2. 문제: 일반적인 정적 이미지나 대형 언어모델 문제에서는 기존 GPU, NPU 대비 성능 우위가 제한적일 수 있음
-   - 해결방안: 희소 이벤트 중심 문제를 우선 선정하고 accuracy per watt와 event sparsity로 적합성을 검증함
-3. 문제: 하드웨어 구조와 학습 규칙이 강하게 결합돼 co-design 실패 시 성능 이점이 사라질 수 있음
-   - 해결방안: 센서와 모델과 칩 구조를 함께 설계하고 energy per inference와 spike routing efficiency로 검증함
+1. 이벤트 카메라나 상시 감지 센서에서는 뉴로모픽 컴퓨팅이 희소 이벤트에서 전력을 크게 줄일 수 있지만 일반 텐서 작업에는 이점이 작으므로 event-driven 문제를 먼저 선별하고 reaction latency와 energy per inference로 확인함
+2. 웨어러블과 초저전력 이상 감지 장치에서는 ANN-to-SNN 변환과 하드웨어 공동 설계가 필요하지만 도구가 아직 미성숙하므로 시뮬레이터와 단계적 검증을 병행하고 model conversion accuracy와 development effort로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 이벤트 카메라 기반 로봇 제어에서는 spike 입력을 실시간 처리하고, reaction latency와 energy per inference로 결과를 확인함
-- 초저전력 이상 감지 센서에서는 이벤트 기반 분류를 수행하고, battery life와 detection recall로 결과를 확인함
-- 웨어러블 감지 장치에서는 상시 패턴 인식을 구현하고, on-device power와 false alarm rate로 결과를 확인함
-
-## Ⅷ. 결론
-
-뉴로모픽 컴퓨팅은 범용 AI 가속기 대체재가 아니라 희소 이벤트와 초저전력 조건에서 강점을 발휘하는 특수 구조이므로, 문제 특성과 센서 특성을 먼저 맞춰야 함.
+뉴로모픽 컴퓨팅은 범용 AI 가속기 대체재가 아니라 희소 이벤트와 초저전력 조건에서 강점을 보이는 구조이므로 문제 특성과 센서 특성을 먼저 맞춰야 함.

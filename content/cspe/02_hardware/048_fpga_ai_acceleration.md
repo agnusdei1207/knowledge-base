@@ -65,21 +65,11 @@ extra:
 3. **파이프라인 실행**: 입력 데이터를 고정 경로로 연속 처리함
 4. **출력 및 재구성**: 모델 변경 시 비트스트림을 갱신해 구조를 조정함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: HDL과 타이밍 클로저 중심 개발은 소프트웨어 기반 AI 팀에게 진입 장벽이 매우 높을 수 있음
-   - 해결방안: HLS와 전용 컴파일러 스택을 도입하고 compile turnaround time과 developer productivity로 개선 효과를 검증함
-2. 문제: 외부 메모리 대역폭이 부족하면 계산 자원이 남아도 실제 추론 성능이 기대보다 낮을 수 있음
-   - 해결방안: 온칩 데이터 재사용과 weight compression을 적용하고 memory bandwidth utilization과 latency로 검증함
-3. 문제: 대형 모델은 단일 FPGA 자원 한계를 넘기 쉬워 파티셔닝 복잡도가 커질 수 있음
-   - 해결방안: 모델 분할과 멀티 FPGA 연결을 설계하고 fit rate와 end-to-end throughput으로 적합성을 검증함
+1. 산업 비전이나 초저지연 제어에서는 FPGA가 일정한 지연을 만들기 좋지만 외부 메모리 대역폭이 부족하면 가속 효과가 줄어드므로 양자화와 온칩 데이터 재사용을 적용하고 frame latency와 memory bandwidth utilization으로 확인함
+2. 통신 장비나 맞춤형 추론 파이프라인에서는 모델 변화에 맞춰 재구성할 수 있지만 타이밍 클로저가 개발 일정을 흔들 수 있으므로 HLS와 기준 설계 흐름을 적용하고 compile turnaround time과 deterministic latency로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 산업 비전 검사에서는 저지연 추론 파이프라인을 FPGA에 구현하고, frame latency와 power efficiency로 결과를 확인함
-- 통신 장비 엣지 AI에서는 전처리와 추론을 한 칩에서 수행하고, throughput과 thermal envelope로 결과를 확인함
-- 금융 초저지연 분석에서는 맞춤 연산 경로를 구성하고, inference latency와 determinism로 결과를 확인함
-
-## Ⅷ. 결론
-
-FPGA AI 가속은 유연성과 저지연이 동시에 필요한 구간에서 가장 실용적이므로, 모델 안정성보다 응답 시간과 전력 제약이 중요한지 먼저 판단해 선택해야 함.
+FPGA AI 가속은 유연성과 저지연이 동시에 중요한 구간에 맞으므로 모델 변경 가능성과 메모리 병목을 함께 보고 선택해야 함.

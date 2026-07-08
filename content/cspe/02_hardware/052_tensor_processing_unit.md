@@ -65,21 +65,11 @@ extra:
 3. **MXU 연산 실행**: 텐서 연산을 배열 구조에서 병렬 실행함
 4. **결과 집계 및 동기화**: 다중 장치 환경에서는 collective 통신을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 지원되지 않는 연산이 많으면 그래프가 분할되어 fallback과 데이터 이동 비용이 크게 늘어날 수 있음
-   - 해결방안: 모델을 TPU 친화 연산자로 재구성하고 unsupported op count와 step time으로 적합성을 검증함
-2. 문제: MXU 계산 능력보다 HBM 공급과 장치 간 통신이 느리면 클러스터 활용률이 낮아질 수 있음
-   - 해결방안: sharding과 communication overlap을 조정하고 MXU utilization과 all-reduce time으로 병목을 검증함
-3. 문제: 특정 컴파일러와 클라우드 스택 의존성이 커서 운영 선택지가 좁아질 수 있음
-   - 해결방안: 비용 모델과 대체 경로를 함께 검토하고 TCO와 portability test로 전략을 검증함
+1. 대규모 언어모델 학습과 배치 추론에서는 TPU가 높은 처리량을 내지만 비지원 연산이 많으면 fallback 비용이 커지므로 XLA 친화 연산으로 그래프를 재구성하고 unsupported op count와 step time으로 확인함
+2. 다수 TPU를 묶은 클러스터에서는 계산보다 통신이 병목이 되기 쉬우므로 sharding과 communication overlap을 조정하고 MXU utilization과 all-reduce time으로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 대규모 언어모델 학습에서는 텐서 연산을 전용 배열에 배치하고, step time과 throughput per watt로 결과를 확인함
-- 추천 모델 서비스에서는 대량 배치 추론을 수행하고, inference throughput과 cost per inference로 결과를 확인함
-- 클라우드 AI 플랫폼에서는 다중 TPU 동기화를 운영하고, cluster utilization과 communication overhead로 결과를 확인함
-
-## Ⅷ. 결론
-
-TPU는 행렬 연산이 지배적인 대규모 AI 워크로드에서 강점을 가지므로, 모델 그래프가 전용 배열과 컴파일러에 얼마나 잘 맞는지가 선택 기준이 됨.
+TPU는 행렬 연산이 지배적인 대규모 AI 워크로드에 강하므로 모델 그래프가 전용 배열과 컴파일러에 얼마나 잘 맞는지가 핵심 선택 기준임.

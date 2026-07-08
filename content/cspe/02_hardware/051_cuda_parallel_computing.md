@@ -65,21 +65,11 @@ extra:
 3. **GPU 병렬 실행**: 워프 단위로 스레드가 같은 명령을 병렬 처리함
 4. **결과 회수 및 후처리**: 출력 데이터를 회수하고 상위 로직에 반영함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 글로벌 메모리 접근이 흩어지면 coalescing이 깨져 대역폭을 제대로 쓰지 못해 성능이 급락할 수 있음
-   - 해결방안: 데이터 레이아웃을 연속적으로 재배치하고 global memory throughput과 load efficiency로 검증함
-2. 문제: host와 device 간 전송이 많으면 커널 속도가 빨라도 end-to-end 지연은 줄지 않을 수 있음
-   - 해결방안: pinned memory와 stream overlap을 적용하고 PCIe transfer time과 total latency로 개선 효과를 검증함
-3. 문제: CUDA 전용 최적화는 높은 성능을 주지만 특정 벤더 종속으로 유지보수 부담이 커질 수 있음
-   - 해결방안: 핵심 커널만 CUDA 특화하고 나머지는 이식 가능한 계층으로 분리하며 portability cost와 speedup으로 전략을 검증함
+1. 딥러닝 학습과 비디오 분석에서 CUDA 커널을 사용할 때는 global memory 접근이 흩어지면 성능이 무너지므로 block 배치와 shared memory 활용을 조정하고 load efficiency와 GPU utilization으로 확인함
+2. 호스트와 GPU 사이 복사가 잦은 파이프라인에서는 커널만 최적화해도 전체 지연이 줄지 않으므로 pinned memory와 stream overlap을 적용하고 PCIe transfer time과 total latency로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 딥러닝 학습 파이프라인에서는 텐서 연산 커널을 GPU에서 실행하고, training throughput과 GPU utilization로 결과를 확인함
-- 과학 시뮬레이션에서는 격자 연산을 block 단위로 병렬화하고, time to solution과 scalability로 결과를 확인함
-- 비디오 분석 서비스에서는 전처리와 추론을 stream으로 중첩하고, frame latency와 throughput으로 결과를 확인함
-
-## Ⅷ. 결론
-
-CUDA의 핵심 가치는 GPU 코어 수 자체보다 메모리 계층과 스레드 배치를 얼마나 잘 맞추느냐에 있으므로, 커널 구조와 데이터 이동 최적화가 설계의 중심이 되어야 함.
+CUDA는 GPU 코어 수보다 메모리 계층과 스레드 배치를 얼마나 잘 맞추느냐가 성능을 좌우하므로 커널 구조와 데이터 이동을 함께 최적화해야 함.

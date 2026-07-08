@@ -66,21 +66,11 @@ extra:
 3. **가속기 선택**: 적합한 하드웨어 계열을 고름
 4. **성능 및 비용 검증**: 실제 모델과 운영 조건으로 결과를 검증함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 공개 TOPS나 FLOPS만 보고 선택하면 메모리 병목과 소프트웨어 제약 때문에 기대 성능과 실제 성능이 크게 다를 수 있음
-   - 해결방안: 실제 모델 벤치마크를 수행하고 end-to-end latency와 throughput per watt로 검증함
-2. 문제: 전용 가속기는 효율이 높아도 모델 변경이나 연산자 제약으로 유지보수 비용이 커질 수 있음
-   - 해결방안: roadmap과 portability를 함께 평가하고 model migration effort와 TCO로 전략을 검증함
-3. 문제: 학습과 추론을 같은 하드웨어에 몰아넣으면 비용이나 전력 최적점이 무너질 수 있음
-   - 해결방안: 학습용과 추론용을 분리 설계하고 utilization과 cost per workload로 구조를 검증함
+1. 대규모 학습 클러스터는 GPU가 기본 선택이지만 GPU 간 통신이 계산을 가리지 않도록 NVLink나 InfiniBand까지 함께 설계하고 training throughput과 cluster utilization으로 확인함
+2. 모바일과 엣지 추론은 NPU, FPGA, ASIC 가운데 전력과 지연과 모델 안정성을 함께 봐야 하므로 실제 모델 벤치마크와 이식성 평가를 수행하고 p95 latency와 throughput per watt, migration effort로 확인함
 
-## Ⅶ. 적용 사례
-
-- 대규모 모델 학습 인프라에서는 GPU 클러스터를 선택하고, training throughput과 cluster utilization로 결과를 확인함
-- 스마트폰 온디바이스 AI에서는 NPU를 활용하고, inference latency와 battery impact로 결과를 확인함
-- 대량 서비스 추론 백엔드에서는 ASIC 또는 TPU 계열을 검토하고, cost per inference와 throughput per watt로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 AI 가속기 선택의 핵심은 최고 성능 장비를 고르는 것이 아니라 워크로드와 전력과 운영비와 유연성의 균형점을 찾는 데 있음.

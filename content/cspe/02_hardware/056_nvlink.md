@@ -65,21 +65,11 @@ extra:
 3. **Collective 통신**: all-reduce 등 다중 GPU 통신을 수행함
 4. **결과 동기화**: 학습 결과와 상태를 일치시킴
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: GPU 수가 늘어날수록 토폴로지 불균형이 생기면 일부 링크에 통신이 집중돼 전체 학습 시간이 늘어날 수 있음
-   - 해결방안: 토폴로지 인지 통신 라이브러리를 적용하고 link utilization과 all-reduce time으로 병목을 검증함
-2. 문제: 전용 인터커넥트 의존성이 높아 장비 선택 폭과 비용 유연성이 줄어들 수 있음
-   - 해결방안: PCIe와 InfiniBand 구성과 함께 비교하고 TCO와 performance gain으로 투자 타당성을 검증함
-3. 문제: 링크 대역폭이 높아도 데이터 분할과 배치 전략이 나쁘면 통신량 자체가 과도해 이점이 희석될 수 있음
-   - 해결방안: model parallel과 pipeline parallel 전략을 최적화하고 communication ratio와 step time으로 검증함
+1. 대규모 LLM 학습 서버에서는 NVLink로 GPU 간 gradient 교환을 줄일 수 있지만 토폴로지 불균형이 생기면 일부 링크가 병목이 되므로 NCCL의 토폴로지 인지 설정과 병렬화 전략을 조정하고 link utilization과 all-reduce time으로 확인함
+2. 멀티 GPU 추론 서버에서는 peer memory access가 유리하지만 전용 인터커넥트 비용이 크므로 PCIe나 InfiniBand 구성과 함께 비교하고 request latency와 TCO로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 대규모 LLM 학습 서버에서는 GPU 간 gradient 교환에 NVLink를 사용하고, all-reduce time과 training throughput으로 결과를 확인함
-- 멀티 GPU 추론 서버에서는 peer memory access를 활용하고, request latency와 GPU memory copy time로 결과를 확인함
-- NVSwitch 기반 AI 슈퍼노드에서는 집적 연결을 구성하고, inter-GPU bandwidth와 cluster efficiency로 결과를 확인함
-
-## Ⅷ. 결론
-
-NVLink의 가치는 단순 대역폭 숫자보다 다중 GPU 통신 병목을 얼마나 줄이느냐에 있으므로, 토폴로지와 collective 전략을 함께 설계해야 효과가 극대화됨.
+NVLink의 가치는 대역폭 숫자보다 다중 GPU 통신 병목을 얼마나 줄이느냐에 있으므로 토폴로지와 collective 전략을 함께 설계해야 함.

@@ -65,21 +65,11 @@ extra:
 3. **버스 사용 허가**: 선택된 마스터가 전송을 수행함
 4. **전송 종료 및 반납**: 버스를 반환하고 다음 요청을 처리함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 고정 우선순위만 사용하면 낮은 우선순위 장치가 장시간 서비스받지 못해 기아 현상이 생길 수 있음
-   - 해결방안: round-robin이나 aging 정책을 도입하고 starvation count와 average wait time으로 공정성을 검증함
-2. 문제: 중재기가 중앙집중식일 때 요청 수가 늘어나면 중재 지연과 배선 복잡도가 함께 커질 수 있음
-   - 해결방안: 계층형 또는 분산 중재 구조를 적용하고 arbitration latency와 wiring complexity로 확장성을 검증함
-3. 문제: DMA burst가 긴 장치가 버스를 오래 점유하면 다른 지연 민감 장치의 응답 시간이 급격히 나빠질 수 있음
-   - 해결방안: burst 제한과 QoS 우선순위를 병행하고 tail latency와 real-time miss rate로 영향을 검증함
+1. DMA와 저장장치가 동시에 버스를 쓰는 SoC에서는 round-robin이나 QoS 중재가 유리하지만 긴 burst가 지연 민감 장치를 막을 수 있으므로 burst 길이 제한과 aging 정책을 적용하고 grant latency와 fairness index로 확인함
+2. 실시간 제어 버스에서는 고정 우선순위가 맞지만 낮은 우선순위 장치가 굶지 않도록 주기적 우선순위 재조정이나 예약 구간을 두고 deadline miss rate와 starvation count로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 멀티마스터 임베디드 버스에서는 round-robin 중재를 적용하고, average wait time과 fairness index로 결과를 확인함
-- 고속 저장장치 경로에서는 DMA 우선순위를 부여하고, grant latency와 storage throughput으로 결과를 확인함
-- SoC 내부 interconnect에서는 계층형 중재 구조를 사용하고, arbitration latency와 QoS violation rate로 결과를 확인함
-
-## Ⅷ. 결론
-
-버스 중재의 본질은 충돌 회피가 아니라 공정성과 긴급성을 어떤 정책으로 균형시킬지에 있으므로, 장치 특성과 실시간 요구를 반영한 우선순위 설계가 핵심임.
+버스 중재의 핵심은 충돌 회피보다 공정성과 긴급성의 균형을 잡는 데 있으므로 장치 특성과 실시간 요구에 맞는 우선순위 정책을 설계해야 함.

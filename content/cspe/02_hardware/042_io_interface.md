@@ -68,21 +68,11 @@ extra:
 3. **데이터 전송 수행**: CPU 또는 전용 하드웨어가 실제 전송을 처리함
 4. **완료 통지 및 후처리**: 인터럽트나 상태 갱신으로 완료를 알리고 상위 계층이 후속 처리를 함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 폴링 기반 제어를 고속 장치에 적용하면 CPU가 상태 확인에 시간을 소모해 전체 처리량이 급감할 수 있음
-   - 해결방안: 이벤트 중심 장치는 인터럽트나 DMA로 전환하고 CPU utilization과 device service time으로 효율을 검증함
-2. 문제: 고속 네트워크 장치에서 인터럽트가 과도하게 발생하면 문맥 전환 비용 때문에 시스템 지연이 커질 수 있음
-   - 해결방안: interrupt coalescing이나 adaptive polling을 적용하고 interrupt rate와 softirq time으로 개선 효과를 검증함
-3. 문제: DMA 전송은 CPU 부하를 줄이지만 캐시 일관성과 버스 점유 충돌을 함께 유발할 수 있음
-   - 해결방안: cache coherence 정책과 burst scheduling을 조정하고 DMA throughput과 cache miss impact로 안정성을 검증함
+1. NVMe SSD나 고속 NIC처럼 전송량이 큰 장치에는 DMA나 채널 I/O를 적용하되 인터럽트 폭주와 캐시 일관성 문제를 함께 관리해야 하므로 interrupt coalescing과 IOMMU, coherence 정책을 적용하고 IOPS와 CPU utilization, interrupt rate로 확인함
+2. 센서나 제어 신호처럼 데이터는 작고 즉시 반응해야 하는 장치에는 인터럽트를 적용하되 이벤트가 너무 잦으면 CPU가 바빠지므로 debounce와 버퍼링 또는 adaptive polling을 적용하고 interrupt latency와 CPU idle ratio로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- NVMe SSD 경로에서는 대용량 블록 전송에 DMA를 적용하고, IOPS와 average latency로 결과를 확인함
-- 임베디드 센서 제어에서는 저속 이벤트에 인터럽트를 적용하고, interrupt latency와 CPU idle ratio로 결과를 확인함
-- 메인프레임 입출력 경로에서는 채널 I/O로 복합 장치 작업을 오프로딩하고, CPU offload ratio와 throughput으로 결과를 확인함
-
-## Ⅷ. 결론
-
-I/O 인터페이스의 핵심은 장치 성격에 맞게 CPU 개입 수준을 조절하는 데 있으므로, 소량 제어는 인터럽트로 대량 전송은 DMA나 채널 I/O로 분리 설계해야 함.
+I/O 인터페이스는 장치 속도와 데이터 크기에 맞춰 CPU 개입 수준을 나누는 구조이므로 소량 제어는 인터럽트로, 대량 전송은 DMA나 채널 I/O로 설계해야 함.

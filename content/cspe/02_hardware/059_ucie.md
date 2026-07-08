@@ -65,21 +65,11 @@ extra:
 3. **PHY 전송**: 패키지 내부 링크를 통해 고속 전송함
 4. **수신 복원 및 해석**: 반대편 칩렛이 상위 의미로 다시 해석함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 표준이 있어도 벤더별 구현 차이와 패키지 조건 차이로 상호운용성 문제가 남을 수 있음
-   - 해결방안: compliance와 interoperability test를 강화하고 pass rate와 link compatibility matrix로 검증함
-2. 문제: 고밀도 패키지 연결은 신호 무결성과 전력 무결성 문제가 성능 저하로 이어질 수 있음
-   - 해결방안: package-aware PHY와 SI, PI 검증을 수행하고 BER과 eye margin으로 링크 품질을 검증함
-3. 문제: 표준 계층을 도입하면 특정 제품 전용 최적화보다 오버헤드가 늘 수 있음
-   - 해결방안: 표준 링크와 독자 최적화의 비용 대비 성능을 비교하고 reuse gain과 latency overhead로 전략을 검증함
+1. 멀티벤더 칩렛 플랫폼에서는 UCIe가 재사용성과 상호운용성을 높이지만 구현 차이와 패키지 품질 차이로 호환 문제가 남을 수 있으므로 compliance와 interoperability test를 적용하고 pass rate와 compatibility matrix로 확인함
+2. 서버 패키지에서 PCIe나 CXL 의미를 UCIe로 실어 보낼 때는 표준 계층 오버헤드가 생길 수 있으므로 표준 링크와 독자 최적화를 함께 비교하고 latency overhead와 reuse gain으로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 멀티벤더 칩렛 플랫폼에서는 공통 D2D 링크를 적용하고, interoperability pass rate와 integration lead time로 결과를 확인함
-- 차세대 서버 패키지에서는 CPU와 I/O 칩렛 연결에 활용하고, D2D bandwidth와 package power로 결과를 확인함
-- CXL 연계 칩렛 구조에서는 상위 프로토콜 매핑을 시험하고, protocol compatibility와 latency overhead로 결과를 확인함
-
-## Ⅷ. 결론
-
-UCIe의 핵심 가치는 링크 속도 자체보다 칩렛을 표준 부품처럼 조합할 수 있게 만드는 데 있으므로, 상호운용성과 패키지 검증 체계가 실질적 경쟁력이 됨.
+UCIe의 핵심 가치는 링크 속도보다 칩렛을 표준 부품처럼 조합하게 만드는 데 있으므로 상호운용성과 패키지 검증 체계가 경쟁력이 됨.

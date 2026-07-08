@@ -65,21 +65,11 @@ extra:
 3. **RDMA 전송 수행**: HCA가 패브릭을 통해 메모리를 직접 읽고 씀
 4. **완료 통지**: completion queue로 결과를 알려줌
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 다수 노드 collective 통신에서 특정 링크에 혼잡이 몰리면 전체 작업 시간이 크게 늘어날 수 있음
-   - 해결방안: adaptive routing과 job placement를 적용하고 congestion event와 step time으로 병목을 검증함
-2. 문제: 서브넷 관리와 펌웨어와 케이블 상태가 복잡해 운영 실수 하나가 패브릭 장애로 이어질 수 있음
-   - 해결방안: topology validation과 automated health check를 운영하고 link error rate와 failover time으로 안정성을 검증함
-3. 문제: 전용 장비와 운영 인력 비용이 높아 범용 워크로드에는 과투자가 될 수 있음
-   - 해결방안: Ethernet RDMA 대안과 비교하고 TCO와 latency benefit으로 도입 타당성을 검증함
+1. AI 학습 클러스터와 HPC 환경에서는 InfiniBand가 collective 통신을 줄이지만 특정 링크에 혼잡이 몰리면 GPU가 기다리게 되므로 adaptive routing과 job placement를 적용하고 step time과 GPU idle ratio로 확인함
+2. 패브릭 운영은 케이블과 펌웨어와 subnet 관리 실수에 민감하므로 자동 health check와 topology validation을 적용하고 link error rate와 failover time으로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 대규모 AI 학습 클러스터에서는 all-reduce 통신에 InfiniBand를 사용하고, communication time과 GPU idle ratio로 결과를 확인함
-- HPC 시뮬레이션에서는 MPI 메시지 지연을 줄이고, message latency와 job completion time로 결과를 확인함
-- 병렬 파일시스템 백엔드에서는 RDMA 전송을 활용하고, storage throughput과 CPU offload ratio로 결과를 확인함
-
-## Ⅷ. 결론
-
-InfiniBand의 본질은 빠른 네트워크가 아니라 CPU를 우회하는 저지연 패브릭에 있으므로, 통신이 계산 병목을 지배하는 클러스터에서 가장 높은 가치를 가짐.
+InfiniBand는 단순히 빠른 네트워크가 아니라 CPU를 우회하는 저지연 패브릭이므로 통신이 계산 병목을 지배하는 클러스터에서 가치가 큼.

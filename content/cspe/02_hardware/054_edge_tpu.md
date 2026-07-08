@@ -65,21 +65,11 @@ extra:
 3. **엣지 추론 실행**: Host CPU와 Edge TPU가 역할을 나눠 처리함
 4. **현장 동작 반영**: 경보, 제어, 저장 같은 후속 동작을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 지원되지 않는 연산자와 큰 모델은 Host CPU fallback을 유발해 지연과 전력 이점이 감소할 수 있음
-   - 해결방안: 장치 친화 모델 설계를 적용하고 compile success rate와 inference latency로 적합성을 검증함
-2. 문제: INT8 양자화 과정에서 작은 객체나 민감 클래스의 정확도가 떨어질 수 있음
-   - 해결방안: representative dataset calibration과 QAT를 적용하고 accuracy delta와 false negative rate로 검증함
-3. 문제: 현장 장비는 열과 전원과 업데이트 실패에 취약해 장시간 운영 안정성이 흔들릴 수 있음
-   - 해결방안: thermal budget과 remote update rollback을 설계하고 device uptime과 thermal throttling rate로 검증함
+1. 스마트 카메라와 산업 게이트웨이에서는 Edge TPU로 로컬 추론을 수행하되 지원되지 않는 연산자와 큰 모델은 Host CPU fallback을 키우므로 TFLite INT8 친화 모델로 재구성하고 compile success rate와 inference latency로 확인함
+2. 원격 현장 장비에서는 전력과 열과 업데이트 실패가 운영 리스크이므로 thermal budget과 rollback 가능한 원격 배포 체계를 적용하고 device uptime과 thermal throttling rate로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 스마트 카메라에서는 객체 탐지를 현장에서 수행하고, frame latency와 power draw로 결과를 확인함
-- 산업 게이트웨이에서는 이상 감지를 로컬 처리하고, network offload ratio와 alarm response time로 결과를 확인함
-- 리테일 키오스크에서는 개인화 추론을 단말에서 실행하고, inference latency와 privacy compliance로 결과를 확인함
-
-## Ⅷ. 결론
-
-Edge TPU는 모든 AI 모델을 돌리는 범용 가속기가 아니라 제약된 모델을 매우 낮은 전력으로 현장에서 처리하는 특화 장치이므로, 모델 적합성과 운영 환경을 함께 봐야 함.
+Edge TPU는 범용 AI 가속기가 아니라 제약된 모델을 매우 낮은 전력으로 현장에서 처리하는 장치이므로 모델 적합성과 운영 환경을 함께 봐야 함.

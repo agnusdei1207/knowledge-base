@@ -70,21 +70,11 @@ extra:
 3. **병렬 명령 실행**: 동일 명령을 다수 스레드가 각자 데이터에 적용함
 4. **결과 저장 및 복귀**: 계산 결과를 메모리에 기록하고 호스트로 반환함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 같은 워프의 스레드가 서로 다른 분기 경로로 나뉘면 순차 실행이 발생해 실제 처리량이 크게 떨어질 수 있음
-   - 해결방안: 데이터 배치와 커널 구조를 정렬해 분기 발산을 줄이고 warp execution efficiency와 branch divergence rate로 검증함
-2. 문제: 인접 스레드가 비연속 메모리를 읽으면 memory coalescing이 깨져 대역폭 효율이 급감할 수 있음
-   - 해결방안: 데이터 레이아웃을 연속적으로 재구성하고 global memory throughput과 cache hit rate로 검증함
-3. 문제: CPU와 GPU 사이 데이터 이동 비용이 크면 커널 연산보다 전송 시간이 병목이 될 수 있음
-   - 해결방안: 데이터 상주 전략과 고속 인터커넥트를 적용하고 host-device transfer time과 end-to-end latency로 검증함
+1. 딥러닝 학습과 과학 계산처럼 데이터 병렬성이 큰 작업에서는 GPU SIMT가 유리하지만 워프 분기 발산이 생기면 처리량이 급감하므로 데이터 배치와 커널 분기를 정리하고 warp execution efficiency와 branch divergence rate로 확인함
+2. 멀티 GPU 학습과 추론에서는 계산보다 전송이 병목이 되기 쉬우므로 데이터 상주 전략과 NVLink 같은 고속 링크를 적용하고 host-device transfer time과 end-to-end latency로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 딥러닝 학습에서는 대규모 행렬 연산을 병렬 처리하고, TFLOPS와 training throughput으로 결과를 확인함
-- 과학 시뮬레이션에서는 격자 기반 수치 계산을 분산 실행하고, time to solution과 scalability로 결과를 확인함
-- 영상 렌더링과 추론 서비스에서는 다수 프레임과 요청을 병렬 처리하고, frame rate와 inference latency로 결과를 확인함
-
-## Ⅷ. 결론
-
-GPU SIMT의 본질은 많은 코어보다 워프 단위 병렬성과 메모리 지연 은닉을 얼마나 잘 활용하느냐에 있으므로, 데이터 배치와 메모리 접근 최적화가 성능 설계의 핵심임.
+GPU SIMT는 코어 수 자체보다 워프 단위 병렬성과 메모리 지연 은닉을 얼마나 잘 살리느냐가 핵심이므로 데이터 배치와 메모리 접근을 함께 최적화해야 함.

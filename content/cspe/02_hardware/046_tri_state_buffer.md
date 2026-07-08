@@ -68,21 +68,11 @@ extra:
 3. **출력 또는 Z 전환**: 선택되면 값을 출력하고 아니면 Z 상태로 둠
 4. **공유 버스 전달**: 활성 버퍼만 버스를 구동함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 두 개 이상의 버퍼가 동시에 활성화되면 버스 충돌로 과전류와 데이터 오류가 발생할 수 있음
-   - 해결방안: one-hot enable 제어와 타이밍 검증을 적용하고 bus contention count와 peak current로 안전성을 검증함
-2. 문제: enable 전환 타이밍이 겹치면 짧은 순간의 glitch나 불안정한 논리값이 발생할 수 있음
-   - 해결방안: non-overlap timing과 register synchronization을 적용하고 glitch rate와 setup-hold violation으로 검증함
-3. 문제: 긴 버스와 다수 부하가 연결되면 신호 무결성과 전파 지연이 악화될 수 있음
-   - 해결방안: 버퍼 분할과 배선 길이 최적화를 적용하고 signal integrity와 propagation delay로 검증함
+1. 외부 메모리나 공유 데이터 버스에서 3-상태 버퍼를 쓸 때는 동시 enable이 과전류와 데이터 오류를 만들 수 있으므로 one-hot 제어와 non-overlap timing을 적용하고 bus contention count와 peak current로 확인함
+2. FPGA 보드나 레거시 인터페이스처럼 배선이 긴 환경에서는 Z 전환 순간의 글리치와 신호 열화가 생길 수 있으므로 버퍼 분할과 타이밍 동기화를 적용하고 glitch rate와 propagation delay로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 마이크로프로세서 외부 데이터 버스에서는 선택된 메모리만 선을 구동하게 하고, bus contention count와 read stability로 결과를 확인함
-- FPGA 기반 보드 설계에서는 GPIO 공유선 제어에 사용하고, output enable timing과 error rate로 결과를 확인함
-- 레거시 시스템 인터페이스에서는 멀티디바이스 버스 분리를 구현하고, signal integrity와 power noise로 결과를 확인함
-
-## Ⅷ. 결론
-
-3-상태 버퍼의 핵심은 논리 연산 자체보다 공유 버스를 안전하게 분리하는 데 있으므로, enable 제어의 상호배제와 타이밍 검증이 설계 성패를 가름함.
+3-상태 버퍼는 공유 버스를 전기적으로 분리하는 회로이므로 enable 상호배제와 전환 타이밍이 보장될 때만 안전하게 쓸 수 있음.

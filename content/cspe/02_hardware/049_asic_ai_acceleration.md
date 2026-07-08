@@ -65,21 +65,11 @@ extra:
 3. **전용 연산 수행**: 지정된 모델 경로를 고효율로 실행함
 4. **대량 배포 운영**: 안정된 워크로드에 반복 적용함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 모델 구조가 바뀌면 고정된 하드웨어 효율이 급격히 떨어져 수명 주기 리스크가 커질 수 있음
-   - 해결방안: 프로그래머블 제어층과 소프트웨어 컴파일러를 병행하고 model portability와 utilization으로 지속 가능성을 검증함
-2. 문제: 첨단 공정 ASIC은 설계와 검증과 마스크 제작 비용이 매우 커 실패 시 손실 규모가 치명적일 수 있음
-   - 해결방안: 칩렛 재사용과 단계적 검증을 적용하고 first-pass success rate와 NRE recovery period로 사업성을 검증함
-3. 문제: 연산기는 빠르지만 메모리 대역폭이 부족하면 memory wall 때문에 성능이 제한될 수 있음
-   - 해결방안: HBM 통합과 데이터 재사용 최적화를 적용하고 TOPS utilization과 bandwidth efficiency로 검증함
+1. 클라우드 추론이나 스마트폰 전용 엔진처럼 워크로드가 안정된 환경에서는 ASIC이 전력 효율이 높지만 모델 변화가 생기면 수명 주기 리스크가 커지므로 프로그래머블 제어층과 소프트웨어 추상화를 남기고 throughput per watt와 model portability로 확인함
+2. 대량 배포용 전용 칩에서는 NRE와 재테이프아웃 비용이 크므로 칩렛 재사용과 단계적 검증을 적용하고 first-pass success rate와 NRE recovery period로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 클라우드 AI 추론 칩에서는 특정 모델군을 고효율로 처리하고, throughput per watt와 service cost per query로 결과를 확인함
-- 스마트폰 Neural Engine 계열에서는 온디바이스 추론을 전용화하고, inference latency와 battery impact로 결과를 확인함
-- 자율주행 전용 칩에서는 반복되는 비전 연산을 가속하고, frame throughput과 thermal stability로 결과를 확인함
-
-## Ⅷ. 결론
-
-ASIC AI 가속은 워크로드가 안정되고 대량 배포 규모가 충분할 때 가장 강력한 선택지이므로, 유연성 손실보다 전력과 비용 절감 효과가 큰지 먼저 따져야 함.
+ASIC AI 가속은 워크로드가 안정되고 대량 배포 효과가 큰 환경에 맞으므로 유연성 손실보다 전력과 비용 이익이 큰지 먼저 따져야 함.

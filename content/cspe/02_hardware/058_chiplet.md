@@ -70,21 +70,11 @@ extra:
 3. **패키지 결합**: interposer, bridge로 고속 연결을 구성함
 4. **D2D 통합 동작**: 패키지 내부에서 하나의 시스템처럼 동작시킴
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 칩렛 간 통신량이 큰 기능을 잘못 분리하면 패키지 내부 링크가 병목이 되어 단일 다이보다 성능이 나빠질 수 있음
-   - 해결방안: 통신량 기반 partitioning을 수행하고 D2D latency와 bandwidth utilization으로 적합성을 검증함
-2. 문제: 여러 다이를 한 패키지에 넣으면 hotspot과 전력 무결성 문제가 커질 수 있음
-   - 해결방안: thermal과 SI, PI 시뮬레이션을 병행하고 hotspot temperature와 voltage droop로 안정성을 검증함
-3. 문제: 개별 다이가 정상이더라도 패키지 조립 후 연결 불량으로 최종 수율이 흔들릴 수 있음
-   - 해결방안: pre-bond와 post-bond test를 강화하고 package yield와 defect escape rate로 제조 품질을 검증함
+1. 서버 CPU나 AI 가속기 패키지에서는 칩렛으로 수율과 공정 최적화를 얻을 수 있지만 기능 분할이 잘못되면 D2D 링크가 병목이 되므로 통신량 기반 파티셔닝을 적용하고 D2D latency와 bandwidth utilization으로 확인함
+2. 멀티 다이 패키지는 열 밀도와 조립 수율이 핵심 리스크이므로 pre-bond와 post-bond test, thermal 시뮬레이션을 적용하고 hotspot temperature와 package yield로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 서버 CPU 제품군에서는 compute와 I/O 다이를 분리하고, die yield와 package performance로 결과를 확인함
-- AI 가속기 패키지에서는 HBM과 연산 다이를 조합하고, bandwidth per watt와 thermal stability로 결과를 확인함
-- 멀티벤더 시스템 통합에서는 재사용 칩렛을 조합하고, integration lead time과 interoperability pass rate로 결과를 확인함
-
-## Ⅷ. 결론
-
-칩렛은 단순 분할이 아니라 수율과 공정과 재사용성을 패키지 수준에서 다시 최적화하는 방식이므로, D2D 통신 비용보다 제조 이익이 큰지 판단해야 함.
+칩렛은 단순 분할이 아니라 수율과 공정과 재사용성을 패키지 수준에서 다시 최적화하는 방식이므로 D2D 통신 비용보다 제조 이익이 큰지 판단해야 함.

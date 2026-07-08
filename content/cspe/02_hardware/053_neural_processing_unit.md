@@ -65,21 +65,11 @@ extra:
 3. **NPU 연산 실행**: 전용 배열과 메모리 경로로 추론을 수행함
 4. **Fallback 및 후처리**: CPU나 GPU가 나머지 연산과 결과 처리를 담당함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 비지원 연산자가 많으면 CPU fallback과 메모리 이동이 반복돼 지연과 전력 이점이 줄어들 수 있음
-   - 해결방안: graph rewrite와 operator fusion을 적용하고 NPU execution ratio와 end-to-end latency로 검증함
-2. 문제: 과도한 양자화는 정확도를 낮춰 전력 이득보다 서비스 품질 손실이 커질 수 있음
-   - 해결방안: calibration과 QAT를 적용하고 accuracy delta와 power per inference로 균형을 검증함
-3. 문제: 공개 TOPS만 보고 장치를 선택하면 실제 모델 크기와 메모리 병목을 반영하지 못할 수 있음
-   - 해결방안: 실제 모델 기준 벤치마크를 수행하고 p95 latency와 throughput per watt로 실효 성능을 검증함
+1. 스마트폰이나 AI PC의 온디바이스 추론에서는 NPU가 전력 효율이 높지만 비지원 연산이 많으면 CPU fallback이 늘어나므로 graph rewrite와 operator fusion을 적용하고 NPU execution ratio와 end-to-end latency로 확인함
+2. 저전력 영상 판독이나 음성 비서에서는 양자화가 필수지만 정확도 손실이 과하면 장점이 사라지므로 calibration과 QAT를 적용하고 accuracy delta와 power per inference로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 스마트폰 음성 비서에서는 저전력 추론을 상시 수행하고, wake latency와 battery impact로 결과를 확인함
-- AI PC 로컬 추론에서는 LLM 보조 작업을 오프로딩하고, tokens per second와 system power로 결과를 확인함
-- 산업 엣지 장비에서는 영상 판독 모델을 실행하고, inference latency와 thermal stability로 결과를 확인함
-
-## Ⅷ. 결론
-
-NPU는 AI 전용 하드웨어라기보다 지원 연산자와 양자화와 메모리 구조를 함께 최적화한 추론 엔진이므로, TOPS보다 실제 모델 커버리지와 전력 효율로 판단해야 함.
+NPU는 TOPS 수치보다 실제 모델 커버리지와 양자화 효율과 메모리 구조가 더 중요하므로 추론 경로 전체를 기준으로 판단해야 함.
