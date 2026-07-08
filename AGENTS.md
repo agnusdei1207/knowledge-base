@@ -67,6 +67,56 @@ Rewrite tracker:
 
 The tracker records historical progress only. New or rewritten files must follow `writing-method.md`.
 
+### Latest Continuation Memo (2026-07-08)
+
+Use this memo to continue `08_latest_tech` rewrite work without re-discovery.
+
+- Recently rewritten and pushed in canonical `writing-method.md` format:
+  - `08_latest_tech` `191~200` commit `6e7f0fd33`
+  - `08_latest_tech` `201~210` commit `4288ae686`
+  - `08_latest_tech` `211~220` commit `cd1f346a6`
+  - `08_latest_tech` `221~230` commit `60c80df55`
+  - `08_latest_tech` `231~240` commit `51db9f096`
+  - `08_latest_tech` `241~250` commit `22e116c84`
+  - `08_latest_tech` `251~260` commit `a71c967df`
+  - `08_latest_tech` `261~270` commit `6639670ca`
+  - `08_latest_tech` `271~280` commit `a0c857c38`
+  - `08_latest_tech` `281~290` commit `87f88f6f8`
+  - `08_latest_tech` `291~300` commit `e7736e835`
+  - `08_latest_tech` `301~310` commit `8d6eba9ac`
+  - `08_latest_tech` `311~320` commit `14525c8ea`
+  - `08_latest_tech` `321~330` commit `2cdf4f2f1`
+  - `08_latest_tech` `331~340` commit `0708b7b55`
+  - `08_latest_tech` `341~350` commit `0c3f4217c`
+- Current practical next start for `08_latest_tech`: `351`
+- `351~360` file discovery already checked. Use these canonical files and leave duplicate same-`NNN` files untouched unless the user explicitly approves cleanup:
+  - `351_verifiable_credential.md`
+  - `352_zero_knowledge_proof.md`
+  - `353_nft_non_fungible_token.md` not `353_nft.md`
+  - `354_metaverse.md`
+  - `355_spatial_computing.md`
+  - `356_extended_reality.md`
+  - `357_web3.md` not `357_digital_twin.md`
+  - `358_decentralized_physical_infrastructure_network.md` not `358_hmi.md`
+  - `359_confidential_ai.md` not `359_bci.md`
+  - `360_ai_native_application.md` not `360_internet_of_behaviors.md`
+- Additional duplicate-file choices already used in prior batches and should be kept consistent:
+  - `315_change_data_capture.md` not `315_cdc.md`
+  - `318_lakehouse_medallion_architecture.md` not `318_medallion_architecture.md`
+  - `334_v2x_vehicle_to_everything.md` not `334_v2x.md`
+  - `335_adas_advanced_driver_assistance_system.md` not `335_adas.md`
+  - `336_ads_automated_driving_system.md` not `336_ads.md`
+  - `337_iso_pas_8800_ai_safety.md` not `337_iso_pas_8800.md`
+  - `347_qkd_quantum_key_distribution.md` not `347_qkd.md`
+  - `350_did_decentralized_identifier.md` not `350_did.md`
+- Validation loop used successfully for each 10-file batch:
+  - rewrite 10 canonical files
+  - run `zola build`
+  - verify rendered metadata in `public/cspe/08_latest_tech/.../index.html` for `문제 번호`, `기출 여부`, `기출 회차`, `비고`
+  - run `git fetch origin`
+  - run `git rev-list --left-right --count origin/main...HEAD`
+  - commit/push the 10 rewritten files only
+
 ---
 
 ## CSPE Work Rules
