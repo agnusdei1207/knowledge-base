@@ -4,6 +4,11 @@ date: "2026-07-08"
 tags:
   - "cspe-basic-theory"
 weight: 69
+
+extra:
+  question_no: "069"
+  exam_status: "기출"
+  exam_history: "124회, 127회"
 ---
 
 ## 미리 알고가기

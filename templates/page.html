@@ -32,6 +32,27 @@
         {% include "icons/chevron-left.html" %}
         Back
     </a>
+    <h1 class="post-title">
+      {% if page.extra.question_no %}<span class="post-title-no">{{ page.extra.question_no }}.</span> {% endif %}{{ page.title }}
+    </h1>
+    {% if page.extra.question_no or page.weight or page.extra.exam_status or page.extra.exam_history or page.extra.exam_note %}
+    <div class="post-facts">
+        {% if page.extra.question_no %}
+        <span class="post-fact"><strong>문제 번호</strong><span>{{ page.extra.question_no }}</span></span>
+        {% elif page.weight %}
+        <span class="post-fact"><strong>문제 번호</strong><span>{{ page.weight }}</span></span>
+        {% endif %}
+        {% if page.extra.exam_status %}
+        <span class="post-fact"><strong>기출 여부</strong><span>{{ page.extra.exam_status }}</span></span>
+        {% endif %}
+        {% if page.extra.exam_history %}
+        <span class="post-fact"><strong>기출 회차</strong><span>{{ page.extra.exam_history }}</span></span>
+        {% endif %}
+        {% if page.extra.exam_note %}
+        <span class="post-fact"><strong>비고</strong><span>{{ page.extra.exam_note }}</span></span>
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="post-meta">
         {% if page.date %}
         <span>{{ page.date | date(format="%B %d, %Y") }}</span>
