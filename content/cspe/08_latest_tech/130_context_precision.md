@@ -1,5 +1,5 @@
 ---
-title: "Context Precision (문맥 정밀도)"
+title: "Context Precision 문맥 정밀도 (Context Precision)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Relevance Judgement | 각 청크가 질문 해결에 실제로 필요한지 판정해 노이즈 비율을 계산함 |
 | Ranking Strategy | 리랭커와 필터와 chunking 설정이 precision 값을 결정하는 핵심 제어점임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Query             | ---> | Retrieved Context | ---> | Relevance Judge   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Ranking Strategy  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 법규 검색 RAG에서는 관련 조항만 상위에 올리는지 확인하고 확인 지표는 Context Precision과 top-3 hit purity임
-- 기술 문서 QA에서는 리랭커 도입 전후를 평가하고 확인 지표는 precision@k와 answer latency임
-- 사내 위키 검색에서는 부서별 메타데이터 필터 성능을 확인하고 확인 지표는 Context Precision과 click-through rate임
+- 법규 검색 RAG가 관련 조항만 상위에 올리는지 확인하도록 Context Precision을 관리하며 확인 지표는 Context Precision과 top-3 hit purity임
+- 기술 문서 QA가 리랭커 도입 전후를 평가하도록 Context Precision을 활용하며 확인 지표는 precision@k와 answer latency임
+- 사내 위키 검색이 부서별 메타데이터 필터 성능을 확인하도록 Context Precision을 적용하며 확인 지표는 Context Precision과 click-through rate임
 
 ## Ⅷ. 결론
 

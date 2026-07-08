@@ -1,5 +1,5 @@
 ---
-title: "Entity Linking (개체 연결)"
+title: "Entity Linking 개체 연결 (Entity Linking)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Disambiguation Model | 문맥과 후보 설명을 비교해 가장 적합한 엔티티를 선택함 |
 | NIL, Discovery Layer | KB에 없는 신규 개체는 NIL로 처리하거나 후속 등록 대상으로 분리함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Mention Detector  | ---> | Candidate Gen.    | ---> | Disambiguation    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | NIL / Discovery   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 뉴스 분석 그래프 구축: 인물과 조직을 KB ID로 통합함, 확인 지표는 linking accuracy와 duplicate rate임
-- 의료 문서 정규화: 약어와 질병 개체를 표준 코드에 연결함, 확인 지표는 coding accuracy와 safety incident rate임
-- enterprise RAG 사전 처리: 개체 기반 검색을 정교화함, 확인 지표는 graph consistency와 retrieval precision임
+- 뉴스 분석 그래프 구축이 인물과 조직을 KB ID로 통합하도록 entity linking을 적용하며 확인 지표는 linking accuracy와 duplicate rate임
+- 의료 문서 정규화가 약어와 질병 개체를 표준 코드에 연결하도록 entity linking을 활용하며 확인 지표는 coding accuracy와 safety incident rate임
+- enterprise RAG 사전 처리가 개체 기반 검색을 정교화하도록 entity linking을 적용하며 확인 지표는 graph consistency와 retrieval precision임
 
 ## Ⅷ. 결론
 

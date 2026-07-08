@@ -1,5 +1,5 @@
 ---
-title: "Faithfulness (충실성)"
+title: "Faithfulness 충실성 (Faithfulness)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Judge Logic | 문장별로 근거 가능 여부를 판정해 최종 충실성 점수로 집계함 |
 | Failure Analysis | unsupported claim을 따로 모아 프롬프트, 검색, 모델 문제를 분리 진단함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Answer Claim      | ---> | Context Evidence  | ---> | Judge Logic       |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Failure Analysis  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 상담 RAG에서는 규정 근거 없는 설명을 차단하고 확인 지표는 Faithfulness와 unsupported claim rate임
-- 의료 지식 QA에서는 근거 문헌 범위 내 답변만 허용하고 확인 지표는 citation coverage와 expert review score임
-- 사내 규정 챗봇에서는 최신 규정 문맥 기반 답변을 검증하고 확인 지표는 hallucination rate와 CSAT임
+- 금융 상담 RAG가 규정 근거 없는 설명을 차단하도록 Faithfulness를 관리하며 확인 지표는 Faithfulness와 unsupported claim rate임
+- 의료 지식 QA가 근거 문헌 범위 내 답변만 허용하도록 Faithfulness를 적용하며 확인 지표는 citation coverage와 expert review score임
+- 사내 규정 챗봇이 최신 규정 문맥 기반 답변을 검증하도록 Faithfulness를 활용하며 확인 지표는 hallucination rate와 CSAT임
 
 ## Ⅷ. 결론
 

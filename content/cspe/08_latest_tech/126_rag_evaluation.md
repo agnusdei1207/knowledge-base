@@ -1,5 +1,5 @@
 ---
-title: "RAG Evaluation (RAG 평가)"
+title: "RAG Evaluation RAG 평가 (RAG Evaluation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Generation Metric | 답변이 질문에 맞고 근거 문맥을 벗어나지 않는지 측정해 환각 통제 수준을 보여줌 |
 | Evaluation Pipeline | 배치 실행과 샘플링과 대시보드를 통해 모델 교체 전후 성능을 일관되게 검증함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Eval Dataset      | ---> | Retrieval Metric  | ---> | Generation Metric |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Eval Pipeline     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 지식검색 RAG에서는 청킹 전략 변경 전후를 평가하고 확인 지표는 Context Precision과 Faithfulness임
-- 고객지원 챗봇에서는 FAQ와 정책 문서를 기반으로 답변 품질을 점검하고 확인 지표는 Answer Relevancy와 CSAT임
-- 금융 문서 QA에서는 모델 교체 시 배치 평가 게이트를 두고 확인 지표는 hallucination rate와 recall@k임
+- 사내 지식검색 RAG가 청킹 전략 변경 전후를 평가하도록 RAG 평가 체계를 적용하며 확인 지표는 Context Precision과 Faithfulness임
+- 고객지원 챗봇이 FAQ와 정책 문서를 기반으로 답변 품질을 점검하도록 RAG 평가를 운영하며 확인 지표는 Answer Relevancy와 CSAT임
+- 금융 문서 QA가 모델 교체 시 배치 평가 게이트를 두도록 RAG 평가를 적용하며 확인 지표는 hallucination rate와 recall@k임
 
 ## Ⅷ. 결론
 

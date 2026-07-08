@@ -1,5 +1,5 @@
 ---
-title: "ColBERT (후기상호작용 검색)"
+title: "ColBERT 후기상호작용 검색 (ColBERT)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Late Interaction Scorer | 질의 토큰별로 가장 유사한 문서 토큰을 찾아 관련성 점수를 합산함 |
 | ANN Storage Optimization | 큰 인덱스를 다루기 위해 압축과 효율적 저장 전략이 필요함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Query Token Enc.  | ---> | Late Interaction  | ---> | Ranked Docs       |
++-------------------+      +-------------------+      +-------------------+
+             ^
+             |
++-------------------+      +-------------------+
+| Doc Token Index   | ---> | ANN Optimization  |
++-------------------+      +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고정밀 엔터프라이즈 검색: 유사한 문서 간 미세 차이를 구분함, 확인 지표는 precision@k와 user satisfaction임
-- RAG retriever 고도화: dense recall과 rerank 중간 계층으로 사용함, 확인 지표는 faithfulness와 retrieval quality임
-- 연구 검색 시스템: 긴 질의와 전문 용어 질의를 처리함, 확인 지표는 MRR와 answer relevance임
+- 고정밀 엔터프라이즈 검색이 유사한 문서 간 미세 차이를 구분하도록 ColBERT를 적용하며 확인 지표는 precision@k와 user satisfaction임
+- RAG retriever 고도화가 dense recall과 rerank 중간 계층으로 동작하도록 ColBERT를 활용하며 확인 지표는 faithfulness와 retrieval quality임
+- 연구 검색 시스템이 긴 질의와 전문 용어 질의를 처리하도록 ColBERT를 적용하며 확인 지표는 MRR와 answer relevance임
 
 ## Ⅷ. 결론
 

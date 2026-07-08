@@ -1,5 +1,5 @@
 ---
-title: "Knowledge Graph (지식그래프)"
+title: "Knowledge Graph 지식그래프 (Knowledge Graph)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Properties, Schema | 각 노드와 관계의 속성과 제약을 정의해 그래프 일관성을 유지함 |
 | Reasoning, Query Layer | graph traversal과 rule inference로 관계 기반 질의응답을 수행함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Entity Nodes      | ---> | Relations / Edges | ---> | Reason / Query    |
++-------------------+      +-------------------+      +-------------------+
+             |
+             v
++-------------------+
+| Props / Schema    |
++-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기업 조직도와 권한 관계 관리: 관계 기반 질의를 수행함, 확인 지표는 query accuracy와 update consistency임
-- 바이오, 법률 지식 탐색: 개체 간 관계망을 활용함, 확인 지표는 multi-hop QA accuracy와 explainability임
-- graph RAG 기반 연구: 문서 의미 검색과 관계 탐색을 결합함, 확인 지표는 insight discovery rate와 faithfulness임
+- 기업 조직도와 권한 관계 관리가 관계 기반 질의를 수행하도록 지식그래프를 적용하며 확인 지표는 query accuracy와 update consistency임
+- 바이오와 법률 지식 탐색이 개체 간 관계망을 활용하도록 지식그래프를 사용하며 확인 지표는 multi-hop QA accuracy와 explainability임
+- graph RAG 기반 연구가 문서 의미 검색과 관계 탐색을 결합하도록 지식그래프를 활용하며 확인 지표는 insight discovery rate와 faithfulness임
 
 ## Ⅷ. 결론
 

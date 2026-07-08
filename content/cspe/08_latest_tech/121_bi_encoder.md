@@ -1,5 +1,5 @@
 ---
-title: "Bi-Encoder (검색모델)"
+title: "Bi-Encoder 검색모델 (Bi-Encoder)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Vector Index | 문서 벡터를 저장해 빠른 nearest neighbor 탐색을 가능하게 함 |
 | Similarity Scorer | 질의 벡터와 문서 벡터의 cosine이나 dot score로 관련성을 계산함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Query Encoder     | ---> | Similarity Score  | ---> | Top-k Candidates  |
++-------------------+      +-------------------+      +-------------------+
+             ^
+             |
++-------------------+      +-------------------+
+| Document Encoder  | ---> | Vector Index      |
++-------------------+      +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 RAG 1차 검색: 대량 문서 후보를 빠르게 모음, 확인 지표는 recall@k와 query latency임
-- 의미 검색 포털: 자연어 질의 기반 문서 탐색을 수행함, 확인 지표는 click satisfaction과 retrieval quality임
-- 추천 후보 생성: 사용자와 콘텐츠 유사도를 계산함, 확인 지표는 CTR와 candidate coverage임
+- 엔터프라이즈 RAG 1차 검색이 대량 문서 후보를 빠르게 모으도록 bi-encoder를 적용하며 확인 지표는 recall@k와 query latency임
+- 의미 검색 포털이 자연어 질의 기반 문서 탐색을 수행하도록 bi-encoder를 활용하며 확인 지표는 click satisfaction과 retrieval quality임
+- 추천 후보 생성이 사용자와 콘텐츠 유사도를 계산하도록 bi-encoder를 적용하며 확인 지표는 CTR와 candidate coverage임
 
 ## Ⅷ. 결론
 

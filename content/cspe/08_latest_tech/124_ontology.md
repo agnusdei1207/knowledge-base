@@ -1,5 +1,5 @@
 ---
-title: "Ontology (온톨로지)"
+title: "Ontology 온톨로지 (Ontology)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Constraints, Axioms | 허용 가능한 값과 관계를 제한해 추론과 검증의 근거를 제공함 |
 | Reasoning Semantics | 서브클래스, 역관계, 전이성 같은 규칙으로 숨은 지식을 유추하게 함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Classes           | ---> | Props / Relations | ---> | Constraints       |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Reason Semantics  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 의료 개념 표준화: 질병, 처치, 약물 관계를 정의함, 확인 지표는 concept consistency와 query accuracy임
-- 제조 설비 지식 통합: 장비, 부품, 고장 관계를 정규화함, 확인 지표는 relation consistency와 maintenance efficiency임
-- graph RAG 기반 설계: 개체와 관계 규칙을 제공함, 확인 지표는 explainability와 multi-hop QA quality임
+- 의료 개념 표준화가 질병과 처치와 약물 관계를 정의하도록 온톨로지를 적용하며 확인 지표는 concept consistency와 query accuracy임
+- 제조 설비 지식 통합이 장비와 부품과 고장 관계를 정규화하도록 온톨로지를 활용하며 확인 지표는 relation consistency와 maintenance efficiency임
+- graph RAG 기반 설계가 개체와 관계 규칙을 제공하도록 온톨로지를 사용하며 확인 지표는 explainability와 multi-hop QA quality임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Answer Relevancy (답변 관련성)"
+title: "Answer Relevancy 답변 관련성 (Answer Relevancy)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Relevancy Judge | 질문과 답변을 의미 수준에서 비교해 누락과 과잉 설명을 판정함 |
 | Feedback Signal | 점수가 낮은 사례를 모아 프롬프트와 검색 의도 분해 로직을 개선하는 근거로 사용함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| User Intent       | ---> | Generated Answer  | ---> | Relevancy Judge   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Feedback Signal   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고객지원 챗봇에서는 환불 절차 질문에 핵심 단계만 정확히 답하는지 확인하고 확인 지표는 Answer Relevancy와 resolution rate임
-- 사내 업무 도우미에서는 정책 비교 질문의 누락 여부를 검사하고 확인 지표는 coverage score와 CSAT임
-- 교육용 QA에서는 개념 설명 수준이 질문 난이도에 맞는지 점검하고 확인 지표는 relevance score와 retry rate임
+- 고객지원 챗봇이 환불 절차 질문에 핵심 단계만 정확히 답하는지 확인하도록 Answer Relevancy를 관리하며 확인 지표는 Answer Relevancy와 resolution rate임
+- 사내 업무 도우미가 정책 비교 질문의 누락 여부를 검사하도록 Answer Relevancy를 활용하며 확인 지표는 coverage score와 CSAT임
+- 교육용 QA가 개념 설명 수준이 질문 난이도에 맞는지 점검하도록 Answer Relevancy를 적용하며 확인 지표는 relevance score와 retry rate임
 
 ## Ⅷ. 결론
 

@@ -47,6 +47,17 @@ extra:
 | Dataset Interface | 질문과 정답과 문맥을 구조화해 배치 평가와 반복 실험을 가능하게 함 |
 | Reporting Layer | 실행 결과를 점수와 실패 사례로 묶어 프롬프트, 임베딩, 리랭커 개선에 직접 연결함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Dataset IF        | ---> | Metric Module     | ---> | LLM Judge         |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Reporting Layer   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- RAG 실험 자동화에서는 프롬프트 버전별 성능을 일괄 비교하고 확인 지표는 Faithfulness와 Answer Relevancy임
-- 엔터프라이즈 검색 QA에서는 임베딩 모델 교체 전후를 검증하고 확인 지표는 Context Recall과 retrieval cost임
-- CI 품질 게이트에서는 배포 전 평가 임계치를 검사하고 확인 지표는 pass rate와 regression count임
+- RAG 실험 자동화가 프롬프트 버전별 성능을 일괄 비교하도록 RAGAS를 적용하며 확인 지표는 Faithfulness와 Answer Relevancy임
+- 엔터프라이즈 검색 QA가 임베딩 모델 교체 전후를 검증하도록 RAGAS를 활용하며 확인 지표는 Context Recall과 retrieval cost임
+- CI 품질 게이트가 배포 전 평가 임계치를 검사하도록 RAGAS를 적용하며 확인 지표는 pass rate와 regression count임
 
 ## Ⅷ. 결론
 
