@@ -46,6 +46,12 @@ extra:
 | Quantization Engine | INT8, INT4 같은 저정밀 실행을 지원해 성능과 전력 효율을 끌어올림 |
 | Compiler, Runtime | 모델을 NPU 실행 단위로 분할하고 fallback과 scheduling을 관리함 |
 
+```text
++-------------+     +-------------+     +------------------+     +-------------+
+| Model Graph | --> | Quant Engine| --> | MAC + On-chip Mem| --> | Runtime     |
++-------------+     +-------------+     +------------------+     +-------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text

@@ -46,6 +46,17 @@ extra:
 | D2D Interconnect | 칩렛 사이 대역폭과 지연을 결정하는 핵심 연결 구조임 |
 | Package, Test Flow | interposer와 bridge와 KGD 검증이 최종 수율과 신뢰성을 좌우함 |
 
+```text
++----------------+     +------------------+     +----------------+
+| Compute Chiplet| <-> | D2D Interconnect | <-> | I/O Cache Chip.|
++----------------+     +------------------+     +----------------+
+                              |
+                              v
+                       +--------------+
+                       | Package/Test |
+                       +--------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
