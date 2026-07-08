@@ -1,117 +1,79 @@
 ---
 title: "인터커넥트 토폴로지 — 팻트리·토러스 (Interconnect Topology Fat Tree Torus)"
-date: "2026-07-06"
+date: "2026-07-08"
 tags:
   - "cspe-hardware"
 weight: 110
+extra:
+  question_no: "110"
+  exam_status: "기출"
+  exam_history: "138회"
 ---
-
-# 인터커넥트 토폴로지 - 팻트리·토러스 (Interconnect Topology Fat Tree Torus)
 
 ## 미리 알고가기
 
-- 토폴로지: 노드와 링크가 어떤 구조로 연결되는지를 나타내는 네트워크 형태임
-- 팻트리: 상위 계층으로 갈수록 더 넓은 대역폭을 제공해 병목을 줄이는 트리형 구조임
-- 토러스: 노드를 격자로 배치하고 양 끝을 연결해 순환 경로를 만든 구조임
-- HPC(High Performance Computing): 대규모 병렬 계산을 수행하는 고성능 컴퓨팅 환경임
-- Bisection Bandwidth: 네트워크를 둘로 나눴을 때 양쪽 사이를 연결하는 총 대역폭임
+- 팻트리는 상위 계층으로 갈수록 더 넓은 대역폭을 제공하는 계층형 구조임
+- 토러스는 격자 노드의 양 끝을 연결해 순환 경로를 만드는 구조임
+- 토폴로지 선택은 통신 패턴과 bisection bandwidth에 직접 영향을 줌
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 인터커넥트 토폴로지는 서버, 스위치, 가속기, 노드가 링크로 연결되는 구조이며, 팻트리와 토러스는 각각 계층적 무차단 대역폭과 규칙적 근접 연결을 목표로 하는 대표 구조임.
-- **배경/필요성**: HPC, AI(Artificial Intelligence) 클러스터, 데이터센터의 대규모 병렬 시스템은 연산 성능보다 노드 간 통신 지연과 대역폭이 전체 처리 시간을 제한할 수 있음. 토폴로지 선택은 collective communication, shuffle, nearest-neighbor 계산의 성능과 비용을 직접 좌우함.
-- **비유**: 팻트리는 큰 간선도로를 계층적으로 넓히는 도시 도로망이고, 토러스는 격자형 골목을 순환 연결한 계획도시와 같음.
+- **정의/개념**: 인터커넥트 토폴로지는 서버와 스위치와 가속기 노드가 어떤 링크 구조로 연결되는지를 뜻하며, 팻트리와 토러스는 각각 전역 대역폭과 규칙적 근접 통신을 중시하는 대표 토폴로지임
+- **배경/필요성**: AI 클러스터와 HPC 시스템에서는 계산 성능보다 노드 간 통신 지연과 혼잡이 전체 처리 시간을 제한할 수 있으므로, 워크로드 통신 패턴에 맞는 토폴로지 선택이 필요함
 
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 대규모 병렬 시스템 네트워크 설계 | fat tree, torus, latency, bisection bandwidth, traffic pattern | 단순 네트워크 모양 설명 |
+## Ⅱ. 특징
 
-> 요약: 인터커넥트 토폴로지는 통신 패턴에 맞춰 지연, 대역폭, 비용, 장애 경로를 선택하는 설계 기준임.
+- 팻트리는 상위로 갈수록 링크를 넓혀 전역 통신 대역폭 확보에 유리함
+- 토러스는 인접 통신이 많은 격자형 계산에서 홉 예측과 배선 규칙성이 좋음
+- 팻트리는 포트 수와 케이블 비용이 커질 수 있고 토러스는 전역 통신 홉 수가 늘어날 수 있음
+- 토폴로지 가치는 모양 자체보다 실제 traffic pattern과 장애 우회 능력에서 결정됨
 
-## Ⅱ. 특징 및 비교
+## Ⅲ. 종류 및 비교
 
 | 판단 기준 | 팻트리 | 토러스 |
 |:---|:---|:---|
-| 구조 | edge-aggregation-core 계층으로 상위 대역폭 확장 | 2D/3D 격자 노드를 양 끝 순환 연결 |
-| 대역폭 특성 | 설계에 따라 높은 bisection bandwidth 제공 | 인접 통신에 강하지만 전역 통신은 hop 증가 |
-| 비용 | 스위치와 케이블 수가 많아질 수 있음 | 규칙적 배선으로 확장 예측이 쉬움 |
-| 적합 패턴 | AI all-reduce, 데이터센터 east-west traffic | stencil, mesh simulation, HPC 근접 통신 |
+| 구조 | 계층형 스위치 트리 | 2D 또는 3D 순환 격자 |
+| 대역폭 특성 | 높은 bisection bandwidth 확보 가능 | 인접 통신 효율 우수 |
+| 비용 구조 | 포트와 케이블 비용 증가 가능 | 규칙적 배선으로 확장 예측 쉬움 |
+| 적합 패턴 | all-reduce, east-west traffic | stencil, nearest-neighbor 연산 |
 
-> 요약: 팻트리는 전역 통신 대역폭, 토러스는 규칙적 근접 통신과 비용 효율을 우선함.
+## Ⅳ. 구성요소 및 구조
 
-## Ⅲ. 구성요소/구조
+| 구성요소 | 설명 |
+|:---|:---|
+| Compute Node | 서버와 GPU 노드가 실제 계산과 통신의 말단이 되어 트래픽 패턴을 형성함 |
+| Link | 노드와 스위치를 잇는 물리 경로로 지연과 혼잡과 장애 우회 능력을 결정함 |
+| Switch or Router | 패킷을 적절한 경로로 전달하며 팻트리에서는 계층 대역폭 구조를 형성함 |
+| Routing Policy | 경로 선택과 부하 분산과 장애 우회를 담당해 같은 토폴로지라도 성능 차이를 만듦 |
 
-```text
-Fat tree:
-              +------+
-              | Core |
-              +------+
-             /        \
-        +------+    +------+
-        | Agg  |    | Agg  |
-        +------+    +------+
-        /   \        /   \
-     +---+ +---+  +---+ +---+
-     |N1 | |N2 |  |N3 | |N4 |
-     +---+ +---+  +---+ +---+
-
-Torus:
-     +---+---+---+
-     |N1 |N2 |N3 |
-     +---+---+---+
-      |   |   |
-     +---+---+---+
-     |N4 |N5 |N6 |
-     +---+---+---+
-```
-
-| 구성요소 | 설명 | 비유 |
-|:---|:---|:---|
-| 노드 | 서버, GPU(Graphics Processing Unit), 스토리지, 계산 장치처럼 통신의 말단임 | 도시의 건물 |
-| 링크 | 노드와 스위치 사이 데이터가 이동하는 물리·논리 경로임 | 도로 |
-| 스위치·라우터 | 패킷을 목적지 방향으로 전달하고 혼잡을 제어함 | 교차로 관제 |
-| 라우팅 정책 | 경로 선택, 부하 분산, 장애 우회를 결정함 | 내비게이션 규칙 |
-
-> 요약: 토폴로지는 노드, 링크, 스위치, 라우팅 정책이 결합해 통신 성능을 결정하는 구조임.
-
-### 원리/흐름도
+## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-+----------+      +----------+      +----------+      +----------+
-| Profile  | ---> | Select   | ---> | Plan     | ---> | Validate |
-+----------+      +----------+      +----------+      +----------+
++-------------+     +-------------+     +-------------+     +-------------+
+| 패턴 분석      | --> | 토폴로지 선택 | --> | 용량 설계      | --> | 혼잡 검증      |
++-------------+     +-------------+     +-------------+     +-------------+
 ```
 
-1. **통신 패턴 분석** — all-to-all, all-reduce, nearest-neighbor, storage traffic 비중을 파악함
-2. **토폴로지 선택** — 전역 대역폭은 팻트리, 규칙적 근접 통신은 토러스 계열을 우선 검토함
-3. **경로·용량 설계** — bisection bandwidth, oversubscription, hop count, 케이블 길이를 산정함
-4. **운영 검증** — 장애 우회, 혼잡 제어, collective 성능, link utilization을 측정함
+1. **패턴 분석**: all-to-all과 all-reduce와 nearest-neighbor 비중을 파악함
+2. **토폴로지 선택**: 전역 통신이 크면 팻트리, 근접 통신이 크면 토러스를 우선 검토함
+3. **용량 설계**: bisection bandwidth와 hop count와 oversubscription을 산정함
+4. **혼잡 검증**: 실제 트래픽과 장애 시나리오로 링크 병목과 우회 성능을 측정함
 
-> 요약: 토폴로지 설계는 워크로드 통신 패턴을 기준으로 구조와 용량을 선택한 뒤 실측으로 검증함.
+## Ⅵ. 문제점 및 해결 방안
 
-## Ⅳ. 문제점 및 개선방안
+1. 문제: 워크로드 통신 패턴과 맞지 않는 토폴로지를 고르면 일부 링크에 혼잡이 집중될 수 있음
+   - 해결방안: trace 기반 시뮬레이션과 topology-aware scheduling을 적용하고 link hotspot count와 collective latency로 검증함
+2. 문제: 팻트리는 스위치 포트와 케이블 수가 급증해 구축 비용과 장애 지점이 커질 수 있음
+   - 해결방안: oversubscription과 증설 단위를 함께 설계하고 cost per effective bandwidth와 cable complexity로 검증함
+3. 문제: 토러스나 저오버헤드 구조는 일부 링크 장애 시 우회 경로 지연이 급격히 증가할 수 있음
+   - 해결방안: adaptive routing과 장애 훈련을 적용하고 degraded throughput과 failover reroute time으로 검증함
 
-- **P1 트래픽 패턴 불일치**: 토폴로지와 워크로드 통신 패턴이 맞지 않으면 특정 링크에 혼잡이 집중됨
-- **P1 대응**: workload trace 기반 시뮬레이션과 topology-aware scheduling으로 통신이 가까운 노드를 함께 배치함 (확인: link hotspot count)
-- **P2 케이블·포트 비용**: 고대역폭 팻트리는 스위치 포트와 케이블 수가 급증해 구축 비용과 장애 지점이 늘어남
-- **P2 대응**: oversubscription ratio, cable plan, port speed를 TCO(Total Cost of Ownership) 기준으로 최적화함 (확인: cost per effective bandwidth)
-- **P3 장애 영향 경로**: 토러스나 oversubscribed 구조에서는 일부 링크 장애가 우회 경로 지연과 혼잡을 크게 만들 수 있음
-- **P3 대응**: adaptive routing, redundant link, failure domain 설계와 장애 훈련을 적용함 (확인: degraded throughput)
+## Ⅶ. 적용 사례
 
-> 요약: 토폴로지 문제는 패턴 적합성, 물리 구축 비용, 장애 시 경로 변화에서 발생하므로 워크로드 배치와 우회 제어를 함께 설계해야 함.
+- AI 학습 클러스터에서는 팻트리 기반 fabric을 사용하고 확인 지표는 collective latency와 bisection bandwidth utilization임
+- HPC 시뮬레이션 환경에서는 토러스 구조를 배치하고 확인 지표는 hop count와 link hotspot count임
+- 데이터센터 증설 검토에서는 토폴로지별 비용과 장애 영향을 비교하고 확인 지표는 cost per effective bandwidth와 degraded throughput임
 
-## Ⅴ. 실무 적용 사례
+## Ⅷ. 결론
 
-| 적용 영역 | 적용 방식 | 확인 지표 |
-|:---|:---|:---|
-| AI(Artificial Intelligence) 학습 클러스터 | 팻트리 또는 계층형 fabric으로 all-reduce 트래픽의 bisection bandwidth를 확보함 | collective latency, link utilization |
-| HPC(High Performance Computing) 시뮬레이션 | 토러스 계열 구조와 topology-aware scheduling으로 nearest-neighbor 통신 노드를 가깝게 배치함 | hop count, link hotspot count |
-| 데이터센터 증설 계획 | oversubscription ratio, 케이블 길이, 장애 도메인을 증설 단위별로 비교함 | cost per effective bandwidth, degraded throughput |
-
-> 요약: 실무에서는 애플리케이션 통신 패턴과 장애 시 처리량을 기준으로 팻트리와 토러스 적용성을 판단함.
-
-## Ⅵ. 결론
-
-- **발전 방향**: InfiniBand, Ethernet fabric, NVLink/NVSwitch, optical interconnect가 결합해 AI 클러스터용 계층형 토폴로지가 고도화됨
-- **기술사적 판단**: 네트워크 설계는 포트 속도보다 collective 성능, bisection bandwidth, 장애 격리, 증설 단위를 기준으로 평가해야 함
-- **기술사 제언**: 대규모 클러스터는 애플리케이션 통신 trace를 기반으로 토폴로지를 선정하고, link utilization과 collective latency를 운영 SLO(Service Level Objective)로 관리해야 함
+인터커넥트 토폴로지는 네트워크 모양 선택이 아니라 통신 패턴과 비용과 장애 우회 능력을 함께 맞추는 시스템 설계 문제임.
