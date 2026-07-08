@@ -1,5 +1,5 @@
 ---
-title: "Parameter-Efficient Fine-Tuning (PEFT)"
+title: "PEFT 파라미터 효율 튜닝 (Parameter-Efficient Fine-Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Optimizer, Scheduler | 적은 파라미터만 안정적으로 업데이트해 빠른 수렴과 비용 절감을 유도함 |
 | Adapter Registry | 업무별 모듈을 분리 저장하고 배포 시 필요한 모듈만 로딩하게 함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Frozen Base       | ---> | PEFT Module       | ---> | Adapter Registry  |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Optimizer / Sch.  |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기업별 맞춤 챗봇: 고객사별 adapter를 분리 운영함, 확인 지표는 storage saving과 tenant isolation임
-- 빠른 실험 튜닝: 다양한 프롬프트 스타일을 저비용으로 검증함, 확인 지표는 experiment turnaround time과 benchmark score임
-- 온프레미스 소형 모델 적응: 제한된 GPU로 도메인 튜닝을 수행함, 확인 지표는 training cost와 domain accuracy임
+- 기업별 맞춤 챗봇이 고객사별 adapter를 분리 운영하도록 PEFT를 적용하며 확인 지표는 storage saving과 tenant isolation임
+- 빠른 실험 튜닝이 다양한 프롬프트 스타일을 저비용으로 검증하도록 PEFT를 활용하며 확인 지표는 experiment turnaround time과 benchmark score임
+- 온프레미스 소형 모델 적응이 제한된 GPU로 도메인 튜닝을 수행하도록 PEFT를 적용하며 확인 지표는 training cost와 domain accuracy임
 
 ## Ⅷ. 결론
 

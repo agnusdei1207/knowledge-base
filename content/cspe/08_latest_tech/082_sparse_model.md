@@ -1,5 +1,5 @@
 ---
-title: "Sparse Model (희소 모델)"
+title: "Sparse Model 희소 모델 (Sparse Model)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Index, Routing Metadata | 희소 구조의 위치와 선택 결과를 관리해 실행 순서를 맞춤 |
 | Sparse-aware Runtime | 희소 연산과 데이터 이동을 처리해 이론상 절감을 실제 성능으로 바꿈 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Sparsity Policy   | ---> | Active Structure  | ---> | Sparse Runtime    |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Index / Metadata  |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- MoE 언어 모델: 일부 expert만 활성화해 비용을 줄임, 확인 지표는 active FLOPs와 quality score임
-- 모바일 비전 모델: 구조적 희소성으로 연산을 축소함, 확인 지표는 FPS와 power usage임
-- 검색 가속 모델: sparse attention으로 긴 입력 비용을 낮춤, 확인 지표는 latency와 memory usage임
+- MoE 언어 모델이 일부 expert만 활성화해 비용을 줄이도록 희소 구조를 활용하며 확인 지표는 active FLOPs와 quality score임
+- 모바일 비전 모델이 구조적 희소성으로 연산을 축소하도록 설계하며 확인 지표는 FPS와 power usage임
+- 검색 가속 모델이 sparse attention으로 긴 입력 처리 비용을 낮추도록 적용하며 확인 지표는 latency와 memory usage임
 
 ## Ⅷ. 결론
 

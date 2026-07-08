@@ -1,5 +1,5 @@
 ---
-title: "Router Network (라우터 네트워크)"
+title: "Router Network 라우터 네트워크 (Router Network)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,18 @@ extra:
 | Capacity Controller | expert별 허용 토큰 수를 관리해 쏠림과 과부하를 완화함 |
 | Auxiliary Loss | 균형 잡힌 분배를 유도해 dead expert와 training collapse를 방지함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Scoring Layer     | ---> | Softmax / Top-k   | ---> | Expert Dispatch   |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                      +------------+------------+
+                      v                         v
+              +-------------------+     +-------------------+
+              | Capacity Control  |     | Auxiliary Loss    |
+              +-------------------+     +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 MoE 학습: top-2 routing으로 품질을 높임, 확인 지표는 benchmark score와 utilization balance임
-- 비용 민감 추론 서비스: top-1 routing으로 계산량을 제한함, 확인 지표는 cost per token과 latency임
-- 멀티도메인 expert 실험: 분야별 expert 선택 패턴을 분석함, 확인 지표는 domain routing entropy와 task accuracy임
+- 대형 MoE 학습이 top-2 routing으로 품질을 높이도록 router network를 설계하며 확인 지표는 benchmark score와 utilization balance임
+- 비용 민감 추론 서비스가 top-1 routing으로 계산량을 제한하도록 router network를 적용하며 확인 지표는 cost per token과 latency임
+- 멀티도메인 expert 실험이 분야별 expert 선택 패턴을 분석하도록 router network를 활용하며 확인 지표는 domain routing entropy와 task accuracy임
 
 ## Ⅷ. 결론
 

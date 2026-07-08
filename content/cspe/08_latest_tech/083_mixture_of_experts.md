@@ -1,5 +1,5 @@
 ---
-title: "Mixture of Experts (MoE)"
+title: "Mixture of Experts 전문가 혼합 (Mixture of Experts)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Shared Layers | attention 같은 공통 계층이 전체 문맥을 유지해 expert 선택 전후 흐름을 연결함 |
 | Load Balancing Mechanism | 특정 expert 쏠림을 완화해 dead expert와 token drop을 줄임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Shared Layers     | ---> | Router Network    | ---> | Expert Layers     |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Load Balancing    |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 초거대 LLM 학습: dense 모델보다 큰 총 파라미터를 운영함, 확인 지표는 active FLOPs와 benchmark score임
-- 멀티도메인 챗봇: 코딩, 번역, 일반 대화 패턴을 expert별로 분산 학습함, 확인 지표는 domain score와 utilization balance임
-- 비용 효율형 상용 추론: 활성 계산량을 제한해 비용을 제어함, 확인 지표는 cost per token과 throughput임
+- 초거대 LLM 학습이 dense 모델보다 큰 총 파라미터를 운영하도록 MoE를 적용하며 확인 지표는 active FLOPs와 benchmark score임
+- 멀티도메인 챗봇이 코딩과 번역과 일반 대화 패턴을 expert별로 분산 학습하도록 MoE를 활용하며 확인 지표는 domain score와 utilization balance임
+- 비용 효율형 상용 추론이 활성 계산량을 제한해 비용을 제어하도록 MoE를 적용하며 확인 지표는 cost per token과 throughput임
 
 ## Ⅷ. 결론
 

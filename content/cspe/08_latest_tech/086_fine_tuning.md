@@ -1,5 +1,5 @@
 ---
-title: "Fine-Tuning (파인튜닝)"
+title: "Fine-Tuning 파인튜닝 (Fine-Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Training Objective | SFT나 preference objective를 사용해 원하는 응답 패턴으로 가중치를 이동시킴 |
 | Evaluation, Serving | 도메인 정확도와 일반 성능을 함께 확인하고 실제 서비스에 배포함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Base Model        | ---> | Training Obj.     | ---> | Eval / Serving    |
++-------------------+      +-------------------+      +-------------------+
+                                   ^
+                                   |
+                           +-------------------+
+                           | Domain Dataset    |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 보고서 작성 보조: 조직 문체와 포맷을 모델에 학습시킴, 확인 지표는 format pass rate와 user edit rate임
-- 전문 상담 챗봇: 법률, 의료, 금융 도메인 표현을 적응시킴, 확인 지표는 domain accuracy와 hallucination rate임
-- 보안 코딩 어시스턴트: 사내 규칙에 맞는 코드 생성을 유도함, 확인 지표는 policy violation rate와 accepted suggestion rate임
+- 사내 보고서 작성 보조가 조직 문체와 포맷을 모델에 학습하도록 파인튜닝을 적용하며 확인 지표는 format pass rate와 user edit rate임
+- 전문 상담 챗봇이 법률과 의료와 금융 도메인 표현을 적응하도록 파인튜닝을 수행하며 확인 지표는 domain accuracy와 hallucination rate임
+- 보안 코딩 어시스턴트가 사내 규칙에 맞는 코드 생성을 유도하도록 파인튜닝을 적용하며 확인 지표는 policy violation rate와 accepted suggestion rate임
 
 ## Ⅷ. 결론
 

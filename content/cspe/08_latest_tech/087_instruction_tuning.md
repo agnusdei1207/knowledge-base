@@ -1,5 +1,5 @@
 ---
-title: "Instruction Tuning (지시 튜닝)"
+title: "Instruction Tuning 지시 튜닝 (Instruction Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | SFT Objective | 정답 응답을 기준으로 모델이 지시를 따르는 방향으로 가중치를 업데이트함 |
 | Evaluation Suite | unseen task, format pass rate, safety score를 함께 측정해 실제 assistant 품질을 판단함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Instruction Data  | ---> | Template Format   | ---> | SFT Objective     |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Evaluation Suite  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 업무 챗봇: 요약과 분류와 표 생성 지시를 수행함, 확인 지표는 task accuracy와 format pass rate임
-- 사내 문서 보조: 조직별 템플릿에 맞는 초안을 작성함, 확인 지표는 user edit rate와 adoption rate임
-- 코드 어시스턴트: 테스트 작성과 설명 생성 같은 지시를 처리함, 확인 지표는 accepted suggestion rate와 latency임
+- 범용 업무 챗봇이 요약과 분류와 표 생성 지시를 수행하도록 지시 튜닝을 적용하며 확인 지표는 task accuracy와 format pass rate임
+- 사내 문서 보조가 조직별 템플릿에 맞는 초안을 작성하도록 지시 튜닝을 활용하며 확인 지표는 user edit rate와 adoption rate임
+- 코드 어시스턴트가 테스트 작성과 설명 생성 같은 지시를 처리하도록 지시 튜닝을 적용하며 확인 지표는 accepted suggestion rate와 latency임
 
 ## Ⅷ. 결론
 

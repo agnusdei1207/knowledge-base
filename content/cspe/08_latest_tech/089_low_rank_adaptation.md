@@ -1,5 +1,5 @@
 ---
-title: "Low-Rank Adaptation (LoRA)"
+title: "LoRA 저랭크 적응 (Low-Rank Adaptation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Target Modules | attention과 projection 계층 중 어디에 LoRA를 삽입할지 결정해 효과와 비용을 좌우함 |
 | Merge, Serving Policy | 학습 후 가중치를 병합하거나 분리 유지해 배포 방식과 전환 속도를 결정함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Frozen Weight     | ---> | Low-rank Matrix   | ---> | Target Modules    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Merge / Serving   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 코드 보조 모델: 보안 규칙과 프레임워크 스타일을 학습함, 확인 지표는 accepted suggestion rate와 policy violation rate임
-- 고객사별 문체 모델: 같은 base model에 고객별 LoRA를 분리 운영함, 확인 지표는 storage saving과 tenant switch latency임
-- 연구용 모델 실험: 저비용으로 다양한 데이터셋을 빠르게 비교함, 확인 지표는 training time과 benchmark score임
+- 사내 코드 보조 모델이 보안 규칙과 프레임워크 스타일을 학습하도록 LoRA를 적용하며 확인 지표는 accepted suggestion rate와 policy violation rate임
+- 고객사별 문체 모델이 같은 base model에 고객별 LoRA를 분리 운영하도록 구성하며 확인 지표는 storage saving과 tenant switch latency임
+- 연구용 모델 실험이 저비용으로 다양한 데이터셋을 빠르게 비교하도록 LoRA를 활용하며 확인 지표는 training time과 benchmark score임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Quantized LoRA (QLoRA)"
+title: "QLoRA 양자화 LoRA (Quantized LoRA)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Memory Optimization | paged optimizer와 gradient checkpointing이 학습 중 메모리 급증을 억제함 |
 | Evaluation Path | 양자화와 적응을 함께 반영한 최종 품질을 benchmark와 실제 업무셋으로 확인함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Quantized Base    | ---> | LoRA Adapters     | ---> | Evaluation Path   |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Memory Opt.       |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 단일 GPU 도메인 튜닝: 대형 오픈모델을 저비용으로 적응시킴, 확인 지표는 peak VRAM과 training time임
-- 사내 문서 요약 모델: 중형 서버에서 QLoRA로 빠르게 튜닝함, 확인 지표는 domain accuracy와 cost per experiment임
-- 연구용 벤치마크 실험: 다양한 데이터셋을 반복 검증함, 확인 지표는 turnaround time과 benchmark score임
+- 단일 GPU 도메인 튜닝이 대형 오픈모델을 저비용으로 적응하도록 QLoRA를 적용하며 확인 지표는 peak VRAM과 training time임
+- 사내 문서 요약 모델이 중형 서버에서 빠르게 튜닝되도록 QLoRA를 활용하며 확인 지표는 domain accuracy와 cost per experiment임
+- 연구용 벤치마크 실험이 다양한 데이터셋을 반복 검증하도록 QLoRA를 적용하며 확인 지표는 turnaround time과 benchmark score임
 
 ## Ⅷ. 결론
 

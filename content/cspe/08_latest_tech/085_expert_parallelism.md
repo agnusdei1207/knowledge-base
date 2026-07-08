@@ -1,5 +1,5 @@
 ---
-title: "Expert Parallelism (전문가 병렬)"
+title: "Expert Parallelism 전문가 병렬 (Expert Parallelism)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Communication Fabric | NVLink, InfiniBand 같은 고속 네트워크가 병렬 효율을 좌우함 |
 | Result Combiner | expert 처리 결과를 원래 순서로 재조합해 다음 계층으로 전달함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Token Dispatcher  | ---> | Expert Shards     | ---> | Result Combiner   |
++-------------------+      +-------------------+      +-------------------+
+             |                        ^
+             v                        |
+   +-------------------+              |
+   | Comm. Fabric      |--------------+
+   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 초거대 MoE 학습: 수백 개 expert를 다중 노드에 분산함, 확인 지표는 throughput과 network utilization임
-- 상용 MoE 추론: 비용을 낮추면서 큰 모델을 서빙함, 확인 지표는 cost per token과 p95 latency임
-- 연구용 하이브리드 병렬화: TP와 EP를 조합해 확장성을 실험함, 확인 지표는 scaling efficiency와 communication overhead임
+- 초거대 MoE 학습이 수백 개 expert를 다중 노드에 분산하도록 expert parallelism을 적용하며 확인 지표는 throughput과 network utilization임
+- 상용 MoE 추론이 비용을 낮추면서 큰 모델을 서빙하도록 expert parallelism을 활용하며 확인 지표는 cost per token과 p95 latency임
+- 연구용 하이브리드 병렬화가 TP와 EP를 조합해 확장성을 실험하도록 expert parallelism을 적용하며 확인 지표는 scaling efficiency와 communication overhead임
 
 ## Ⅷ. 결론
 

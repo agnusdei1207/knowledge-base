@@ -1,5 +1,5 @@
 ---
-title: "Knowledge Distillation (지식 증류)"
+title: "Knowledge Distillation 지식증류 (Knowledge Distillation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Distillation Loss | soft target, hidden state, attention 정보를 반영해 단순 정답 이상을 학습하게 함 |
 | Task Data | 일반 데이터와 도메인 데이터를 함께 사용해 학생 모델의 실무 적합성을 높임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Teacher Model     | ---> | Distillation Loss | ---> | Student Model     |
++-------------------+      +-------------------+      +-------------------+
+                                   ^
+                                   |
+                           +-------------------+
+                           | Task Data         |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 소형 언어 모델 개발: 대형 LLM의 답변 패턴을 작은 모델에 이전함, 확인 지표는 benchmark score와 model size임
-- 모바일 비전 모델 경량화: 큰 이미지 모델의 분류 능력을 전수함, 확인 지표는 accuracy와 latency임
-- 사내 특화 챗봇: 도메인 질의응답 품질을 작은 모델로 이전함, 확인 지표는 answer quality와 cost per request임
+- 소형 언어 모델 개발이 대형 LLM의 답변 패턴을 작은 모델에 이전하도록 지식 증류를 적용하며 확인 지표는 benchmark score와 model size임
+- 모바일 비전 모델 경량화가 큰 이미지 모델의 분류 능력을 작은 모델에 전수하도록 지식 증류를 활용하며 확인 지표는 accuracy와 latency임
+- 사내 특화 챗봇이 도메인 질의응답 품질을 작은 모델로 이전하도록 지식 증류를 적용하며 확인 지표는 answer quality와 cost per request임
 
 ## Ⅷ. 결론
 
