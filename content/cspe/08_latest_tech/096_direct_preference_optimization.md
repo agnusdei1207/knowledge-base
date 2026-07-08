@@ -1,5 +1,5 @@
 ---
-title: "Direct Preference Optimization (DPO)"
+title: "DPO 직접 선호 최적화 (Direct Preference Optimization)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Preference Pairs | 같은 프롬프트에 대한 선호 답변과 비선호 답변을 제공해 직접 학습 신호를 만듦 |
 | DPO Objective | 선호 답변 확률은 높이고 비선호 답변 확률은 낮추도록 손실을 계산함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Preference Pairs  | ---> | Policy / Ref      | ---> | DPO Objective     |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Policy Update     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 상용 챗봇 정렬: RLHF 대신 단순한 선호 학습으로 정렬함, 확인 지표는 win rate와 refusal quality임
-- 사내 정책 준수 모델: 선호 응답 패턴을 빠르게 학습함, 확인 지표는 policy violation rate와 answer consistency임
-- 오픈소스 instruct 모델 개선: low-cost alignment를 수행함, 확인 지표는 benchmark score와 training cost임
+- 상용 챗봇 정렬이 RLHF 대신 단순한 선호 학습으로 정렬되도록 DPO를 적용하며 확인 지표는 win rate와 refusal quality임
+- 사내 정책 준수 모델이 선호 응답 패턴을 빠르게 학습하도록 DPO를 활용하며 확인 지표는 policy violation rate와 answer consistency임
+- 오픈소스 instruct 모델 개선이 저비용 alignment를 수행하도록 DPO를 적용하며 확인 지표는 benchmark score와 training cost임
 
 ## Ⅷ. 결론
 

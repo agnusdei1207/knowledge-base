@@ -1,5 +1,5 @@
 ---
-title: "AI Alignment (AI 정렬)"
+title: "Alignment 정렬 (AI Alignment)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Runtime Guardrails | 입력 차단, 출력 필터, 권한 제어로 서비스 단계 위험을 완화함 |
 | Evaluation, Red Teaming | jailbreak, bias, hallucination을 측정해 정렬 상태를 지속적으로 검증함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Value Framework   | ---> | Alignment Train   | ---> | Runtime Guardrail |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Eval / Red Team   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기업형 고객지원 챗봇: 금지 답변과 거절 정책을 정렬함, 확인 지표는 unsafe response rate와 customer satisfaction임
-- 의료, 법률 보조: 단정적 표현을 억제하고 주의 문구를 강화함, 확인 지표는 expert preference score와 risk incident rate임
-- 에이전트 시스템: 도구 사용 권한과 승인 정책을 적용함, 확인 지표는 unauthorized action rate와 human override frequency임
+- 기업형 고객지원 챗봇이 금지 답변과 거절 정책을 정렬하도록 설계하며 확인 지표는 unsafe response rate와 customer satisfaction임
+- 의료와 법률 보조가 단정적 표현을 억제하고 주의 문구를 강화하도록 정렬을 적용하며 확인 지표는 expert preference score와 risk incident rate임
+- 에이전트 시스템이 도구 사용 권한과 승인 정책을 적용하도록 alignment 체계를 운영하며 확인 지표는 unauthorized action rate와 human override frequency임
 
 ## Ⅷ. 결론
 

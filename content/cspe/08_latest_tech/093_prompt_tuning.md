@@ -1,5 +1,5 @@
 ---
-title: "Prompt Tuning (프롬프트 튜닝)"
+title: "Prompt Tuning 프롬프트 튜닝 (Prompt Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Task Dataset | 특정 업무의 입력과 정답을 제공해 soft prompt를 최적화함 |
 | Evaluation Harness | 작은 파라미터로 얻는 성능 향상과 일반화 한계를 함께 확인함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Soft Prompt       | ---> | Frozen Base Model | ---> | Eval Harness      |
++-------------------+      +-------------------+      +-------------------+
+                                   ^
+                                   |
+                           +-------------------+
+                           | Task Dataset      |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 분류와 추출 태스크: 저비용으로 여러 업무를 빠르게 실험함, 확인 지표는 accuracy와 turnaround time임
-- 응답 톤 제어: 짧은 문체, 친절한 문체를 유도함, 확인 지표는 style adherence와 user preference임
-- 대규모 모델 벤치마크: 적은 파라미터로 태스크 적응 효과를 비교함, 확인 지표는 parameter efficiency와 benchmark score임
+- 분류와 추출 태스크가 저비용으로 여러 업무를 빠르게 실험하도록 prompt tuning을 활용하며 확인 지표는 accuracy와 turnaround time임
+- 응답 톤 제어가 짧은 문체와 친절한 문체를 유도하도록 prompt tuning을 적용하며 확인 지표는 style adherence와 user preference임
+- 대규모 모델 벤치마크가 적은 파라미터로 태스크 적응 효과를 비교하도록 prompt tuning을 적용하며 확인 지표는 parameter efficiency와 benchmark score임
 
 ## Ⅷ. 결론
 

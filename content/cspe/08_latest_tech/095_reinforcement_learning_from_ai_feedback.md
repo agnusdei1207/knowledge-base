@@ -1,5 +1,5 @@
 ---
-title: "Reinforcement Learning from AI Feedback (RLAIF)"
+title: "RLAIF AI 피드백 강화학습 (Reinforcement Learning from AI Feedback)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Preference Pipeline | 생성된 선호 데이터를 정렬 학습용 형식으로 정제하고 저장함 |
 | Human Audit Layer | 고위험 샘플과 평가 일탈을 감사해 전체 파이프라인의 신뢰성을 통제함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Rubric / Const.   | ---> | AI Judge          | ---> | Preference Pipe   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Human Audit Layer |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 안전성 정렬: AI judge로 후보 응답을 빠르게 평가함, 확인 지표는 cost per pair와 safety score임
-- 기업 규정 준수 챗봇: 사내 정책을 rubric으로 반영함, 확인 지표는 policy violation rate와 audit agreement임
-- 헌법형 AI 실험: 비판과 수정 데이터를 자동 생성함, 확인 지표는 harmlessness score와 response utility임
+- 대규모 안전성 정렬이 AI judge로 후보 응답을 빠르게 평가하도록 RLAIF를 적용하며 확인 지표는 cost per pair와 safety score임
+- 기업 규정 준수 챗봇이 사내 정책을 rubric으로 반영하도록 RLAIF를 활용하며 확인 지표는 policy violation rate와 audit agreement임
+- 헌법형 AI 실험이 비판과 수정 데이터를 자동 생성하도록 RLAIF를 적용하며 확인 지표는 harmlessness score와 response utility임
 
 ## Ⅷ. 결론
 

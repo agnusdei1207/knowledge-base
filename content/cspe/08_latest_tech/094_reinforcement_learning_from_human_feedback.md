@@ -1,5 +1,5 @@
 ---
-title: "Reinforcement Learning from Human Feedback (RLHF)"
+title: "RLHF 인간 피드백 강화학습 (Reinforcement Learning from Human Feedback)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Reward Model | 인간 선호를 점수화해 강화학습에 사용할 보상 함수를 근사함 |
 | Policy Optimizer | PPO 등으로 보상을 높이되 원래 모델과의 괴리가 과도해지지 않게 조정함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Preference Data   | ---> | Reward Model      | ---> | Policy Optimizer  |
++-------------------+      +-------------------+      +-------------------+
+                                   ^
+                                   |
+                           +-------------------+
+                           | SFT Model         |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 상용 챗봇 정렬: 거절 정책과 도움성 톤을 조정함, 확인 지표는 win rate와 toxicity score임
-- 법률, 의료 보조: 위험 표현을 줄이고 보수적 답변을 유도함, 확인 지표는 unsafe response rate와 expert preference score임
-- 코드 어시스턴트 품질 향상: 더 유용한 수정안을 선호하도록 정렬함, 확인 지표는 accepted suggestion rate와 user preference임
+- 상용 챗봇 정렬이 거절 정책과 도움성 톤을 조정하도록 RLHF를 적용하며 확인 지표는 win rate와 toxicity score임
+- 법률과 의료 보조가 위험 표현을 줄이고 보수적 답변을 유도하도록 RLHF를 활용하며 확인 지표는 unsafe response rate와 expert preference score임
+- 코드 어시스턴트 품질 향상이 더 유용한 수정안을 선호하도록 RLHF로 정렬되며 확인 지표는 accepted suggestion rate와 user preference임
 
 ## Ⅷ. 결론
 

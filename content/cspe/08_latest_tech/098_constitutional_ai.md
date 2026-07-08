@@ -1,5 +1,5 @@
 ---
-title: "Constitutional AI (헌법형 AI)"
+title: "Constitutional AI 헌법형 AI (Constitutional AI)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Revision Engine | 자기비판 결과를 반영해 더 나은 응답으로 수정함 |
 | Preference, Audit Layer | 생성된 수정 전후 데이터를 정렬 학습에 쓰고 인간 감사로 규칙 적합성을 점검함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Constitution      | ---> | Self-critique     | ---> | Revision Engine   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Pref / Audit      |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 정책 민감 챗봇: 사내 보안, 윤리 규정을 헌법으로 정의함, 확인 지표는 policy violation rate와 audit pass rate임
-- 안전성 자동 정렬: AI가 응답을 비판하고 수정함, 확인 지표는 correction success rate와 harmful response rate임
-- 대규모 선호 데이터 생성: 인간 라벨링을 보완함, 확인 지표는 cost per pair와 judge agreement임
+- 정책 민감 챗봇이 사내 보안과 윤리 규정을 헌법으로 정의하도록 Constitutional AI를 적용하며 확인 지표는 policy violation rate와 audit pass rate임
+- 안전성 자동 정렬이 AI가 응답을 비판하고 수정하도록 Constitutional AI를 활용하며 확인 지표는 correction success rate와 harmful response rate임
+- 대규모 선호 데이터 생성이 인간 라벨링을 보완하도록 Constitutional AI를 적용하며 확인 지표는 cost per pair와 judge agreement임
 
 ## Ⅷ. 결론
 

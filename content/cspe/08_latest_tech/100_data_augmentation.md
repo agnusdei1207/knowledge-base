@@ -1,5 +1,5 @@
 ---
-title: "Data Augmentation (데이터 증강)"
+title: "Data Augmentation 데이터 증강 (Data Augmentation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Label Preservation Check | 변형 후에도 라벨 의미가 유지되는지 확인해 학습 오염을 막음 |
 | Mixing Strategy | 원본과 증강 샘플 비율을 조절해 과도한 변형 의존을 방지함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Source Samples    | ---> | Transform Rules   | ---> | Label Check       |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Mixing Strategy   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 문서 분류 태스크: 동의어 치환과 문장 순서 변형을 적용함, 확인 지표는 F1 score와 robustness score임
-- 비전 모델 학습: 회전, 크롭, 색상 변형을 적용함, 확인 지표는 top-1 accuracy와 generalization gap임
-- 음성 인식: 잡음과 속도 변형을 사용함, 확인 지표는 WER와 noise robustness임
+- 문서 분류 태스크가 동의어 치환과 문장 순서 변형을 적용하도록 데이터 증강을 활용하며 확인 지표는 F1 score와 robustness score임
+- 비전 모델 학습이 회전과 크롭과 색상 변형을 적용하도록 데이터 증강을 수행하며 확인 지표는 top-1 accuracy와 generalization gap임
+- 음성 인식이 잡음과 속도 변형을 사용하도록 데이터 증강을 적용하며 확인 지표는 WER와 noise robustness임
 
 ## Ⅷ. 결론
 

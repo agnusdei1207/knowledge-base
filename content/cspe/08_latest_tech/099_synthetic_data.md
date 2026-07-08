@@ -1,5 +1,5 @@
 ---
-title: "Synthetic Data (합성 데이터)"
+title: "Synthetic Data 합성 데이터 (Synthetic Data)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Filtering, Verification | 생성 오류와 중복과 유해 패턴을 제거해 실제 학습 품질을 보전함 |
 | Mixing Policy | 실제 데이터와 합성 데이터의 비율을 조정해 과적합과 분포 왜곡을 통제함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Generation Source | ---> | Prompt / Scenario | ---> | Filter / Verify   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Mixing Policy     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- instruction 데이터 생성: 챗봇 튜닝용 질의응답을 대량 생성함, 확인 지표는 format pass rate와 benchmark score임
-- 희귀 장애 시나리오 학습: 운영 로그가 적은 이상 상황을 증강함, 확인 지표는 tail-case accuracy와 incident recall임
-- 개인정보 대체 데이터셋: 민감 데이터 없이 테스트셋을 구성함, 확인 지표는 privacy compliance와 task fidelity임
+- instruction 데이터 생성이 챗봇 튜닝용 질의응답을 대량 생성하도록 합성 데이터를 활용하며 확인 지표는 format pass rate와 benchmark score임
+- 희귀 장애 시나리오 학습이 운영 로그가 적은 이상 상황을 증강하도록 합성 데이터를 적용하며 확인 지표는 tail-case accuracy와 incident recall임
+- 개인정보 대체 데이터셋이 민감 데이터 없이 테스트셋을 구성하도록 합성 데이터를 활용하며 확인 지표는 privacy compliance와 task fidelity임
 
 ## Ⅷ. 결론
 

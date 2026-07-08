@@ -1,5 +1,5 @@
 ---
-title: "Adapter Tuning (어댑터 튜닝)"
+title: "Adapter Tuning 어댑터 튜닝 (Adapter Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Task-specific Modules | 업무나 고객별 adapter를 분리 저장해 재사용성과 격리를 확보함 |
 | Adapter Manager | 어떤 adapter를 언제 로딩할지 제어해 서비스 전환과 배포를 관리함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Frozen Base       | ---> | Adapter Block     | ---> | Adapter Manager   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Task-specific Mod |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고객사별 응답 정책 분리: 같은 base model 위에 고객별 adapter를 운영함, 확인 지표는 tenant switch latency와 storage saving임
-- 문서 분류 전용 모델: 업무별 adapter를 빠르게 바꿔 실험함, 확인 지표는 experiment turnaround time과 accuracy임
-- 온프레미스 챗봇: 제한된 자원에서 도메인 적응을 수행함, 확인 지표는 training cost와 answer quality임
+- 고객사별 응답 정책 분리가 같은 base model 위에 고객별 adapter를 운영하도록 구성하며 확인 지표는 tenant switch latency와 storage saving임
+- 문서 분류 전용 모델이 업무별 adapter를 빠르게 바꿔 실험하도록 adapter tuning을 활용하며 확인 지표는 experiment turnaround time과 accuracy임
+- 온프레미스 챗봇이 제한된 자원에서 도메인 적응을 수행하도록 adapter tuning을 적용하며 확인 지표는 training cost와 answer quality임
 
 ## Ⅷ. 결론
 

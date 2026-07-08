@@ -1,5 +1,5 @@
 ---
-title: "Prefix Tuning (프리픽스 튜닝)"
+title: "Prefix Tuning 접두 튜닝 (Prefix Tuning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Frozen Transformer | 기반 모델은 고정되어 prefix가 유도하는 방향만 반영함 |
 | Task Data | 특정 출력 스타일이나 태스크 목적을 prefix에 학습시키는 입력 예시를 제공함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Virtual Prefix    | ---> | Prefix Projection | ---> | Frozen Transformer|
++-------------------+      +-------------------+      +-------------------+
+                                   ^
+                                   |
+                           +-------------------+
+                           | Task Data         |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 응답 스타일 제어: 간결 답변, 표 형식 답변 같은 패턴을 학습함, 확인 지표는 format pass rate와 edit rate임
-- 다국어 보조 태스크: 번역 방향과 톤을 조정함, 확인 지표는 BLEU류 점수와 latency임
-- 경량 실험 환경: 다양한 태스크를 빠르게 비교함, 확인 지표는 training time과 storage size임
+- 응답 스타일 제어가 간결 답변과 표 형식 답변 같은 패턴을 학습하도록 prefix tuning을 적용하며 확인 지표는 format pass rate와 edit rate임
+- 다국어 보조 태스크가 번역 방향과 톤을 조정하도록 prefix tuning을 활용하며 확인 지표는 BLEU류 점수와 latency임
+- 경량 실험 환경이 다양한 태스크를 빠르게 비교하도록 prefix tuning을 적용하며 확인 지표는 training time과 storage size임
 
 ## Ⅷ. 결론
 
