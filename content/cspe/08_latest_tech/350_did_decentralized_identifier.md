@@ -1,174 +1,88 @@
 ---
 title: "DID 분산신원 (Decentralized Identifier)"
-date: "2026-07-02"
+date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
 weight: 350
+extra:
+  question_no: "350"
+  exam_status: "기출"
+  exam_history: "132회"
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 미리 알고가기
 
-> 목적: DID를 중앙 ID 제공자에 종속되지 않는 식별자와 공개키 문서 체계로 이해하게 만든다.
+- DID는 중앙 신원 제공자에 종속되지 않는 식별자와 공개키 문서 체계임
+- DID는 VC와 지갑과 검증자 생태계와 함께 이해해야 실무 구조가 보임
+- 프라이버시 보호와 복구성과 상호운용성 설계가 실제 도입의 핵심 과제임
 
-## 한눈에
-- **개요**: W3C DID Core 기반의 분산형 식별자 체계
-- **왜 필요한가**: 기존 로그인은 플랫폼 계정과 중앙 ID 제공자에 의존해 계정 이동성, 프라이버시, 자격증명 검증에 제약이 있다.
-- **핵심 직관**: 주민등록번호처럼 기관이 부여한 번호가 아니라, 사용자가 관리하는 식별자와 공개키 주소록을 통해 신원을 증명한다.
+## Ⅰ. 개요
 
-## 깊이 이해
-- **배경·문제의식**: 중앙집중 ID는 유출 시 피해가 크고, 서비스 간 계정 이동성과 자격증명 상호운용이 낮다. DID는 식별자와 DID Document를 분리해 공개키, 서비스 엔드포인트, 검증 방법을 표현한다.
-- **작동 원리**: DID는 `did:method:specific-id` 형식을 가지며, resolver가 DID Document를 조회한다. 검증자는 문서의 공개키로 서명 또는 VC presentation을 검증한다.
-- **비유**: 전화번호부가 중앙 회사 서버에만 있는 것이 아니라, 각 사용자가 검증 가능한 명함과 공개키 위치를 제시하는 방식이다.
-- **구체 예시**: `did:web:example.com:user:alice`는 웹 도메인을 방법(method)으로 사용하고, HTTPS 위치의 DID Document에서 공개키를 조회할 수 있다.
-- **흔한 오해·주의점**: DID 자체가 신원 보증을 의미하지 않는다. 누가 어떤 사실을 보증했는지는 VC의 issuer와 신뢰 정책으로 판단해야 한다.
+- **정의/개념**: Decentralized Identifier는 사용자가 스스로 제어 가능한 식별자와 이에 연결된 공개키 및 서비스 엔드포인트 정보를 분산 방식으로 관리해 중앙 기관 없이도 신원 확인과 자격증명 검증을 가능하게 하는 식별 체계임
+- **배경/필요성**: 플랫폼 계정과 중앙 ID 제공자 중심 구조는 이동성과 프라이버시와 자격증명 재사용성에 한계가 있어 자기주권형 신원과 검증 가능한 디지털 자격 체계에 대한 요구가 커짐
 
-## 연결 개념
-- Verifiable Credential — DID로 식별되는 주체와 발급자를 연결
-- DID Document — 공개키와 검증 방법을 담는 문서
-- Self-Sovereign Identity — 사용자 중심 신원 관리 관점
+## Ⅱ. 특징
 
----
+- 식별자 제어권을 사용자나 조직이 직접 보유할 수 있음
+- VC와 결합해 필요한 정보만 선택적으로 제시하는 프라이버시 강화가 가능함
+- 특정 플랫폼 계정에 종속되지 않아 신원 이식성과 상호운용성이 높음
+- 키 분실 복구와 DID method 난립 문제가 해결되지 않으면 사용자 경험과 운영 일관성이 약해질 수 있음
 
-# 📝 【답안용】 시험 답안 템플릿
+## Ⅲ. 종류 및 비교
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식.
-> 핵심: DID는 식별자, DID Document, resolver, method로 구성되며, 신원 보증은 VC와 신뢰 프레임워크에서 완성된다.
+| 판단 기준 | Centralized ID | Federated ID | DID |
+|:---|:---|:---|:---|
+| 신원 제어권 | 서비스 사업자 | 연합 ID 제공자 | 사용자/보유자 |
+| 이동성 | 낮음 | 중간 | 높음 |
+| 프라이버시 | 사업자 수집 중심 | 제공자 의존 | 선택적 제시 가능 |
+| 대표 한계 | 종속성 | 제공자 집중 | 복구/상호운용 복잡성 |
 
-## 핵심 인사이트 (3줄 요약)
+## Ⅳ. 구성요소 및 구조
 
-> 1. **본질**: DID는 중앙 ID 제공자와 분리된 식별자이며 DID Document를 통해 공개키와 검증 방법을 제공한다.
-> 2. **가치**: 사용자·기관·사물 식별자를 서비스 밖에서도 검증 가능하게 만들어 VC와 전자지갑 생태계의 기반이 된다.
-> 3. **판단 포인트**: DID method, key rotation, resolver 신뢰성, 개인정보 노출, issuer 신뢰 정책을 함께 검토한다.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
-|:---|:---|:---|
-| 분산신원 구조 이해 확인 | DID, DID Document, resolver, method | 블록체인 주소로만 설명 |
-| VC와 관계 확인 | DID는 식별, VC는 주장·자격 증명 | DID가 신원 사실을 보증한다고 단정 |
-| 운영 리스크 확인 | 키 분실, 회전, method 폐기 | 사용자 주권을 구호로만 작성 |
-
-> 요약: 이 문제는 DID 자체와 VC 기반 신원 보증을 분리해 설명하는 것이 핵심이다.
-
----
-
-### 🔑 핵심 용어 정리
-
-| 용어 | 뜻 | 비유 |
-|:---|:---|:---|
-| **개요** | W3C DID Core 기반의 분산형 식별자 체계 | "일꾼 한 명" |
-| **왜 필요한가** | 기존 로그인은 플랫폼 계정과 중앙 ID 제공자에 의존해 계정 이동성, 프라이버시, 자격증명 검증에 제약이 있다 | "핵심 기술 요소" |
-| **핵심 직관** | 주민등록번호처럼 기관이 부여한 번호가 아니라, 사용자가 관리하는 식별자와 공개키 주소록을 통해 신원을 증명한다 | "핵심 기술 요소" |
-| **배경·문제의식** | 중앙집중 ID는 유출 시 피해가 크고, 서비스 간 계정 이동성과 자격증명 상호운용이 낮다 | "핵심 기술 요소" |
-| **작동 원리** | DID는 `did:method:specific-id` 형식을 가지며, resolver가 DID Document를 조회한다 | "자동 품질 검사 라인" |
-| **비유** | 전화번호부가 중앙 회사 서버에만 있는 것이 아니라, 각 사용자가 검증 가능한 명함과 공개키 위치를 제시하는 방식이다 | "핵심 기술 요소" |
-| **구체 예시** | `did:web:example | "핵심 기술 요소" |
-
----
-
-
-## Ⅰ. 개요 및 필요성
-
-- 개요: 분산형 식별자
-- 배경: 중앙 ID 제공자 기반 로그인은 계정 종속, 유출, 서비스 간 자격증명 재사용 제약을 가짐.
-- 필요성: W3C DID Core 기반 식별자와 공개키 검증 체계로 사용자 중심 신원과 기관 발급 자격증명을 연결해야 함.
-
----
-
-## Ⅱ. 구조 및 구성요소
+| 구성요소 | 설명 |
+|:---|:---|
+| DID Identifier | 사용자나 조직을 고유하게 식별하는 문자열로 분산 신원 체계의 기본 주소 역할을 수행함 |
+| DID Document | 공개키와 인증 방식과 서비스 엔드포인트를 담아 검증자가 신원 주체의 검증 방법을 해석하게 하는 메타데이터 계층임 |
+| Wallet or Agent | 보유자의 키와 자격증명을 저장하고 제시를 관리해 실제 사용자 경험을 담당하는 실행 계층임 |
+| Verifiable Credential and Presentation | 발급자와 보유자와 검증자 사이에서 자격증명 발급과 선택적 제시를 가능하게 하는 증명 계층임 |
+| Resolver and Registry Layer | DID method에 따라 문서를 찾고 검증해 분산 식별자를 실제 서비스와 연결하는 연계 계층임 |
 
 ```text
-DID Subject -> DID -> DID Method -> Resolver -> DID Document
-                                  +-> Verification Method / Service Endpoint
-Issuer / Holder / Verifier -> VC Presentation Verification
++-------------+    +-------------+    +-------------+    +-------------+
+| DID         | -> | DID Document| -> | Wallet / VC | -> | Verifier /  |
+| Identifier  |    | / Resolver  |    | Presentation|    | Service     |
++-------------+    +-------------+    +-------------+    +-------------+
 ```
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| DID | 주체를 식별하는 URI | did:method:id |
-| DID Method | 생성·조회·갱신·폐기 규칙 | did:web, did:key |
-| DID Document | 공개키·검증 방법·서비스 정보 표현 | JSON-LD/JSON |
-| Resolver | DID를 DID Document로 해석 | method별 구현 |
-
-> 요약: DID는 문자열 식별자만이 아니라 method와 resolver를 통해 검증 문서로 연결되는 체계다.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
+## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-DID 생성 -> DID Document 등록/게시 -> Resolver 조회
--> 공개키·검증방법 확인 -> 서명/VC 검증 -> 키 회전·폐기 관리
++-------------+    +-------------+    +-------------+    +-------------+    +-------------+
+| DID 생성      | -> | 문서 등록/해결 | -> | VC 발급       | -> | 선택 제시     | -> | 검증/접근 허용 |
++-------------+    +-------------+    +-------------+    +-------------+    +-------------+
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 주체가 DID method에 따라 식별자를 생성함 | method specification |
-| 2 | 공개키와 service endpoint를 DID Document에 기록함 | document validity |
-| 3 | 검증자가 resolver로 DID Document를 조회함 | resolution result |
-| 4 | 공개키로 서명 또는 VC presentation을 검증함 | signature verification |
+1. **DID 생성**: 사용자가 식별자와 키를 생성함
+2. **문서 등록과 해결**: DID document를 게시하고 resolver가 찾을 수 있게 함
+3. **VC 발급**: 기관이 자격증명을 발급함
+4. **선택 제시**: 사용자가 필요한 속성만 제시함
+5. **검증과 접근 허용**: 검증자가 문서와 자격증명을 확인함
 
-> 요약: DID 검증은 resolver가 가져온 DID Document의 공개키를 기준으로 서명 소유를 확인하는 절차다.
+## Ⅵ. 문제점 및 해결 방안
 
----
+1. 문제: 키 분실이나 지갑 손실 시 중앙 관리자 없이 복구가 어려우면 대중 사용성이 크게 떨어질 수 있음
+   - 해결방안: social recovery model과 enterprise recovery governance를 적용하고 successful recovery rate와 unrecoverable identity incident count로 검증함
+2. 문제: DID method와 지갑과 검증 포맷이 다양하면 상호운용성이 낮아 서비스 간 이동성이 제한될 수 있음
+   - 해결방안: interoperable credential profile과 conformance certification program을 적용하고 cross wallet verification success rate와 method interoperability coverage로 검증함
+3. 문제: 선택적 제시가 제대로 적용되지 않으면 분산신원이라도 서비스 간 추적 가능성이 남아 프라이버시 이점이 줄어들 수 있음
+   - 해결방안: privacy preserving presentation design과 correlation risk assessment를 적용하고 unnecessary attribute disclosure rate와 verifier correlation risk score로 검증함
 
-## Ⅳ. 특징
+## Ⅶ. 적용 사례
 
-| 구분 | 중앙집중 ID | DID | 판단 기준 |
-|:---|:---|:---|:---|
-| 식별자 관리 | IDP 계정 | controller 관리 | 계정 이동성 |
-| 검증 정보 | IDP API | DID Document | resolver 신뢰 |
-| 자격 증명 | 서비스 내부 속성 | VC와 결합 | issuer 신뢰 |
-| 위험 | IDP 장애·유출 | 키 분실·method 중단 | 복구 모델 |
+- 신원 플랫폼이 사회적 복구 모델을 운영하며 확인 지표는 successful recovery rate와 unrecoverable identity incident count임
+- DID 생태계가 적합성 인증 프로그램을 적용하며 확인 지표는 cross wallet verification success rate와 method interoperability coverage임
+- 개인정보 설계팀이 선택 제시 중심 구조를 적용하며 확인 지표는 unnecessary attribute disclosure rate와 verifier correlation risk score임
 
-> 요약: DID는 중앙 IDP 의존을 줄이지만 키 복구와 method 운영 신뢰를 별도로 설계해야 한다.
+## Ⅷ. 결론
 
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 로그인 | OAuth/OIDC | DIDAuth, VC presentation | 자격증명 이동성 |
-| 식별자 | 이메일·계정 ID | DID URI | 프라이버시 요구 |
-| 신뢰 근거 | IDP 약관 | issuer trust framework | 검증자 정책 |
-
-> 요약: DID는 기존 OAuth를 무조건 대체하기보다 VC 기반 자격증명 제출이 필요한 업무에서 결합한다.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| 키 분실 | 개인키 단독 보관 | social recovery, hardware wallet | recovery success |
-| 개인정보 노출 | DID 재사용 추적 | pairwise DID, selective disclosure | correlation test |
-| method 종속 | 특정 ledger·도메인 의존 | method risk review, portability | resolver availability |
-
-> 요약: DID 운영 리스크는 개인키 복구, 식별자 상관분석, method 지속성에서 발생한다.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 표준 준수 | W3C DID Core 표현 사용 | conformance test |
-| 검증성 | resolver 정상 응답 | resolution monitoring |
-| 프라이버시 | 서비스별 DID 분리 | wallet policy audit |
-
-> 요약: DID 도입은 식별자 발급 수보다 표준 준수, resolver 가용성, 상관분석 방지로 평가한다.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개:**
-1. 업무별 DID method를 선정하고 생성, 갱신, 폐기, 키 회전, resolver 운영 책임을 문서화함.
-2. DID는 식별과 공개키 검증에 사용하고, 학력·자격·권한 같은 사실은 VC issuer 신뢰 정책으로 검증함.
-3. 지갑에서 pairwise DID, key backup, recovery 절차를 제공하고 개인정보가 DID Document에 직접 노출되지 않게 함.
-
-**결론 (2줄):**
-- 기술사 판단: 서비스 간 자격증명 이동성과 사용자 통제가 필요하면 DID+VC를 적용하고, 단일 조직 내부 인증은 OIDC가 단순함.
-- 향후 방향: DID는 VC 2.0, selective disclosure, mobile wallet과 결합해 신원확인·자격증명 제출 인프라로 확장됨.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "DID를 설명하시오" | DID resolution과 서명 검증 흐름 | 중앙 ID와 차이 |
-| 요구사항 명시형 | "분산신원 구축 방안을 제시하시오" | method 선정과 키 회전 절차 | VC 신뢰·프라이버시 통제 |
-
-> 요약: 설명형은 구조를, 구축형은 method 운영과 VC 신뢰 정책을 중심으로 작성한다.
+DID는 중앙 ID 대체 기술이 아니라 제어권과 이동성과 프라이버시를 다시 설계하는 체계이므로 복구와 상호운용성과 선택 제시 품질이 도입 성패를 좌우함.
