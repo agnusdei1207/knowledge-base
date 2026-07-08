@@ -56,7 +56,7 @@ Rewrite tracker:
 
 | Area | Completed | Next Start |
 |:---|:---|:---|
-| `01_basic_theory` | 001~020, Ⅵ+Ⅶ 통합(실무 적용 및 유의점) 신규 골격 기준 재작성 완료. 021~080은 구 8단계(Ⅵ 문제점및해결방안/Ⅶ 적용사례/Ⅷ 결론) 구조로 남아 있어 신규 골격 재작성 필요 | 021 |
+| `01_basic_theory` | 001~080 전체 writing-method 기준 재작성 및 교정 완료 | 완료 |
 | `02_hardware` | 001~040, writing-method 기준 교정 완료 | 041 |
 | `03_software` | 001~015, legacy quality varies | 016 |
 | `04_network` | 001~015, legacy quality varies | 016 |
