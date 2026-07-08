@@ -1,5 +1,5 @@
 ---
-title: "Advanced RAG (고도화 RAG)"
+title: "Advanced RAG 고도화 RAG (Advanced RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Reranker | 후보 문서를 다시 채점해 최종 컨텍스트의 정밀도를 높임 |
 | Context Compressor | 최종 문서 길이를 줄여 비용과 lost-in-the-middle 문제를 완화함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Query Optimizer   | ---> | Hybrid Retriever  | ---> | Reranker          |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Context Compress  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 계약서 분석 서비스: hybrid search와 reranker를 적용함, 확인 지표는 precision@k와 hallucination rate임
-- 고객지원 지식봇: query rewrite로 질의 품질을 보완함, 확인 지표는 answer relevance와 first-response resolution rate임
-- 금융 컴플라이언스 QA: context compression으로 근거만 추출함, 확인 지표는 citation accuracy와 latency임
+- 계약서 분석 서비스가 hybrid search와 reranker를 적용하도록 Advanced RAG를 활용하며 확인 지표는 precision@k와 hallucination rate임
+- 고객지원 지식봇이 query rewrite로 질의 품질을 보완하도록 Advanced RAG를 적용하며 확인 지표는 answer relevance와 first-response resolution rate임
+- 금융 컴플라이언스 QA가 context compression으로 근거만 추출하도록 Advanced RAG를 활용하며 확인 지표는 citation accuracy와 latency임
 
 ## Ⅷ. 결론
 

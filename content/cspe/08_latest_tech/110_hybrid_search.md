@@ -1,5 +1,5 @@
 ---
-title: "Hybrid Search (하이브리드 검색)"
+title: "Hybrid Search 하이브리드 검색 (Hybrid Search)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Fusion Logic | 두 검색 결과를 가중치나 순위 융합으로 결합해 최종 순위를 만듦 |
 | Reranker, Evaluator | 결합 후보를 다시 평가해 최종 정밀도를 더 높일 수 있음 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Sparse Index      | ---> | Fusion Logic      | ---> | Reranker / Eval   |
++-------------------+      +-------------------+      +-------------------+
+             ^
+             |
++-------------------+
+| Dense Index       |
++-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 RAG 검색: 고유명사와 의미 질의를 동시에 처리함, 확인 지표는 recall@k와 faithfulness임
-- 장애 코드 검색: 일련번호는 sparse, 설명은 dense로 보완함, 확인 지표는 exact hit rate와 user satisfaction임
-- 금융 문서 QA: 약관 조항과 의미 질의를 함께 다룸, 확인 지표는 citation accuracy와 answer correctness임
+- 엔터프라이즈 RAG 검색이 고유명사와 의미 질의를 동시에 처리하도록 하이브리드 검색을 적용하며 확인 지표는 recall@k와 faithfulness임
+- 장애 코드 검색이 일련번호는 sparse로 처리하고 설명은 dense로 보완하도록 하이브리드 검색을 활용하며 확인 지표는 exact hit rate와 user satisfaction임
+- 금융 문서 QA가 약관 조항과 의미 질의를 함께 다루도록 하이브리드 검색을 적용하며 확인 지표는 citation accuracy와 answer correctness임
 
 ## Ⅷ. 결론
 

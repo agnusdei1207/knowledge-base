@@ -1,5 +1,5 @@
 ---
-title: "Graph RAG (그래프 RAG)"
+title: "Graph RAG 그래프 RAG (Graph Retrieval-Augmented Generation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Graph Traversal, Community Summary | 관련 노드 탐색과 상위 요약을 통해 local과 global 문맥을 함께 제공함 |
 | Generator, Evidence Layer | 서브그래프와 요약 근거를 사용해 다단계 관계를 설명하는 답변을 생성함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Entity / Relation | ---> | Knowledge Graph   | ---> | Graph Traversal   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Generator / Evid. |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 규제, 법률 문서 분석: 조항 간 연결 관계를 추적함, 확인 지표는 multi-hop QA accuracy와 citation quality임
-- 위협 인텔리전스 분석: 공격자, 인프라, 이벤트 관계를 연결함, 확인 지표는 relation recall과 analyst productivity임
-- 연구 지식 탐색: 논문 개념과 인용 관계를 구조화함, 확인 지표는 insight discovery rate와 answer explainability임
+- 규제와 법률 문서 분석이 조항 간 연결 관계를 추적하도록 Graph RAG를 적용하며 확인 지표는 multi-hop QA accuracy와 citation quality임
+- 위협 인텔리전스 분석이 공격자와 인프라와 이벤트 관계를 연결하도록 Graph RAG를 활용하며 확인 지표는 relation recall과 analyst productivity임
+- 연구 지식 탐색이 논문 개념과 인용 관계를 구조화하도록 Graph RAG를 적용하며 확인 지표는 insight discovery rate와 answer explainability임
 
 ## Ⅷ. 결론
 

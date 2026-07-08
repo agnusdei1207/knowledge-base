@@ -1,5 +1,5 @@
 ---
-title: "Multi-hop RAG (다중 홉 RAG)"
+title: "Multi-hop RAG 다중 홉 RAG (Multi-hop RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Query Rewriter | 중간 결과를 바탕으로 후속 검색 질의를 더 구체적으로 재작성함 |
 | Evidence Aggregator | 다단계 근거를 모아 최종 답변 근거 체계를 구성함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Hop Planner       | ---> | Intermediate Mem  | ---> | Query Rewriter    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Evidence Aggr.    |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 규정 질의응답: 규정 조항과 예외 조항을 연결함, 확인 지표는 multi-hop QA accuracy와 citation coverage임
-- 연구 문서 분석: 논문 간 인용 관계와 결과를 결합함, 확인 지표는 evidence coverage와 answer correctness임
-- 금융 리서치 보조: 기업 정보와 시장 지표를 순차 탐색함, 확인 지표는 average hops와 task completion rate임
+- 규정 질의응답이 규정 조항과 예외 조항을 연결하도록 Multi-hop RAG를 적용하며 확인 지표는 multi-hop QA accuracy와 citation coverage임
+- 연구 문서 분석이 논문 간 인용 관계와 결과를 결합하도록 Multi-hop RAG를 활용하며 확인 지표는 evidence coverage와 answer correctness임
+- 금융 리서치 보조가 기업 정보와 시장 지표를 순차 탐색하도록 Multi-hop RAG를 적용하며 확인 지표는 average hops와 task completion rate임
 
 ## Ⅷ. 결론
 

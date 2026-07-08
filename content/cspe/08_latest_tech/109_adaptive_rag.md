@@ -1,5 +1,5 @@
 ---
-title: "Adaptive RAG (적응형 RAG)"
+title: "Adaptive RAG 적응형 RAG (Adaptive RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Fallback Policy | 잘못 라우팅된 경우 더 무거운 경로로 재시도해 품질을 보정함 |
 | Cost, Quality Monitor | 경로별 latency와 정답률과 비용을 추적해 라우팅 정책을 조정함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Query Router      | ---> | Retrieval Profile | ---> | Fallback Policy   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Cost / Quality    |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고객지원 챗봇: FAQ는 빠른 경로, 복합 정책 질의는 고도화 경로를 사용함, 확인 지표는 route accuracy와 p95 latency임
-- 사내 규정 검색: 단순 조항 검색과 비교 분석 질의를 분리함, 확인 지표는 answer correctness와 cost per answer임
-- 엔터프라이즈 검색 포털: 검색 프로필을 업무별로 운영함, 확인 지표는 user satisfaction과 route efficiency임
+- 고객지원 챗봇이 FAQ는 빠른 경로를 쓰고 복합 정책 질의는 고도화 경로를 사용하도록 Adaptive RAG를 적용하며 확인 지표는 route accuracy와 p95 latency임
+- 사내 규정 검색이 단순 조항 검색과 비교 분석 질의를 분리하도록 Adaptive RAG를 활용하며 확인 지표는 answer correctness와 cost per answer임
+- 엔터프라이즈 검색 포털이 검색 프로필을 업무별로 운영하도록 Adaptive RAG를 적용하며 확인 지표는 user satisfaction과 route efficiency임
 
 ## Ⅷ. 결론
 

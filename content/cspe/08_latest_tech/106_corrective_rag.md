@@ -1,5 +1,5 @@
 ---
-title: "Corrective RAG (교정형 RAG)"
+title: "Corrective RAG 교정형 RAG (Corrective RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Correction Path | refinement, fallback web search, alternate retriever로 검색 공백을 보완함 |
 | Generator | 교정된 문맥만 사용해 최종 답변을 생성함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Primary Retriever | ---> | Relevance Eval.   | ---> | Correction Path   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Generator         |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고객지원 지식봇: 내부 매뉴얼 부족 시 공식 웹 FAQ로 보완함, 확인 지표는 fallback success rate와 hallucination rate임
-- 규정 문서 QA: 오래된 문서 검색 실패를 교정함, 확인 지표는 faithfulness와 outdated answer rate임
-- 폐쇄망 엔터프라이즈 챗봇: 외부 웹 대신 내부 API fallback을 사용함, 확인 지표는 correction accuracy와 response latency임
+- 고객지원 지식봇이 내부 매뉴얼 부족 시 공식 웹 FAQ로 보완하도록 Corrective RAG를 적용하며 확인 지표는 fallback success rate와 hallucination rate임
+- 규정 문서 QA가 오래된 문서 검색 실패를 교정하도록 Corrective RAG를 활용하며 확인 지표는 faithfulness와 outdated answer rate임
+- 폐쇄망 엔터프라이즈 챗봇이 외부 웹 대신 내부 API fallback을 사용하도록 Corrective RAG를 적용하며 확인 지표는 correction accuracy와 response latency임
 
 ## Ⅷ. 결론
 

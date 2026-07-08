@@ -1,5 +1,5 @@
 ---
-title: "Self-RAG (자기검색 RAG)"
+title: "Self-RAG 자기검색 RAG (Self-Reflective RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Evidence Scoring | 검색 문서와 생성 답변의 지지 관계를 평가해 품질을 통제함 |
 | Final Decoding Logic | 반성 신호를 반영해 최종 답변 경로와 출력 내용을 선택함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Reflection Policy | ---> | Retriever IF      | ---> | Evidence Scoring  |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Final Decoding    |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 혼합 질의형 금융 챗봇: 단순 질의는 바로 답하고 복합 규정 질의만 검색함, 확인 지표는 retrieval bypass rate와 hallucination rate임
-- 내부 지식 도우미: 검색 문서 지지 여부를 함께 판단함, 확인 지표는 faithfulness와 answer usefulness임
-- 오픈모델 연구 환경: self-reflection 기반 RAG 실험을 수행함, 확인 지표는 retrieval count와 benchmark score임
+- 혼합 질의형 금융 챗봇이 단순 질의는 바로 답하고 복합 규정 질의만 검색하도록 Self-RAG를 적용하며 확인 지표는 retrieval bypass rate와 hallucination rate임
+- 내부 지식 도우미가 검색 문서 지지 여부를 함께 판단하도록 Self-RAG를 활용하며 확인 지표는 faithfulness와 answer usefulness임
+- 오픈모델 연구 환경이 self-reflection 기반 RAG 실험을 수행하도록 Self-RAG를 적용하며 확인 지표는 retrieval count와 benchmark score임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Agentic RAG (에이전틱 RAG)"
+title: "Agentic RAG 에이전틱 RAG (Agentic RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Memory, Reflection | 중간 결과를 저장하고 정보가 충분한지 재평가해 다음 행동을 결정함 |
 | Guardrails, Budget Control | 최대 단계 수와 권한과 비용 상한을 통제해 자율성을 안전하게 제한함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Planner           | ---> | Tool Router       | ---> | Memory / Reflect  |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Guardrail / Budget|
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 재무 분석 보조: 문서 검색과 DB 조회와 계산을 연결함, 확인 지표는 task completion rate와 tool call accuracy임
-- 고객지원 업무자동화: 정책 문서와 주문 시스템을 함께 조회함, 확인 지표는 resolution rate와 average steps임
-- 연구 보조 에이전트: 여러 자료원을 순차 탐색함, 확인 지표는 evidence coverage와 answer faithfulness임
+- 재무 분석 보조가 문서 검색과 DB 조회와 계산을 연결하도록 Agentic RAG를 적용하며 확인 지표는 task completion rate와 tool call accuracy임
+- 고객지원 업무자동화가 정책 문서와 주문 시스템을 함께 조회하도록 Agentic RAG를 활용하며 확인 지표는 resolution rate와 average steps임
+- 연구 보조 에이전트가 여러 자료원을 순차 탐색하도록 Agentic RAG를 적용하며 확인 지표는 evidence coverage와 answer faithfulness임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Retrieval-Augmented Generation (RAG)"
+title: "RAG 검색증강생성 (Retrieval-Augmented Generation)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Prompt Builder | 검색 문서를 적절한 길이와 순서로 묶어 모델이 읽기 쉬운 컨텍스트를 만듦 |
 | Generator, Citation Layer | 근거 기반 답변을 생성하고 필요한 경우 출처를 함께 노출함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Document Store    | ---> | Retriever         | ---> | Prompt Builder    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Generator / Cite  |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 규정 챗봇: 최신 규정 문서를 검색해 답변함, 확인 지표는 faithfulness와 citation accuracy임
-- 금융 상품 상담: 설명서와 정책 문서를 근거로 응답함, 확인 지표는 compliance pass rate와 hallucination rate임
-- 기술 지원 봇: 매뉴얼과 장애 이력을 검색함, 확인 지표는 first-answer resolution rate와 search hit quality임
+- 사내 규정 챗봇이 최신 규정 문서를 검색해 답변하도록 RAG를 적용하며 확인 지표는 faithfulness와 citation accuracy임
+- 금융 상품 상담이 설명서와 정책 문서를 근거로 응답하도록 RAG를 활용하며 확인 지표는 compliance pass rate와 hallucination rate임
+- 기술 지원 봇이 매뉴얼과 장애 이력을 검색해 답변하도록 RAG를 적용하며 확인 지표는 first-answer resolution rate와 search hit quality임
 
 ## Ⅷ. 결론
 

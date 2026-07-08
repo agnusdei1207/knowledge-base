@@ -1,5 +1,5 @@
 ---
-title: "Naive RAG (기본 RAG)"
+title: "Naive RAG 기본 RAG (Naive RAG)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Prompt Composer | 검색 결과를 그대로 묶어 생성 모델에 전달함 |
 | LLM Generator | 검색 문맥을 참고해 최종 답변을 작성함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Chunked Docs      | ---> | Retriever         | ---> | Prompt Composer   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | LLM Generator     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 FAQ PoC: 단순 문답형 챗봇을 빠르게 구현함, 확인 지표는 answer relevance와 build time임
-- 문서 검색 보조: 매뉴얼 검색 후 요약 응답을 생성함, 확인 지표는 search hit rate와 user satisfaction임
-- 교육용 데모 시스템: RAG 구조 이해를 위한 기초 예제로 사용함, 확인 지표는 setup simplicity와 response latency임
+- 사내 FAQ PoC가 단순 문답형 챗봇을 빠르게 구현하도록 Naive RAG를 사용하며 확인 지표는 answer relevance와 build time임
+- 문서 검색 보조가 매뉴얼 검색 후 요약 응답을 생성하도록 Naive RAG를 적용하며 확인 지표는 search hit rate와 user satisfaction임
+- 교육용 데모 시스템이 RAG 구조 이해를 위한 기초 예제로 동작하도록 Naive RAG를 사용하며 확인 지표는 setup simplicity와 response latency임
 
 ## Ⅷ. 결론
 
