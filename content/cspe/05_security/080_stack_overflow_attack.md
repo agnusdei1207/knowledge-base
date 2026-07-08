@@ -1,175 +1,72 @@
 ---
 title: "스택 오버플로우 공격 (Stack Overflow Attack)"
-date: "2026-07-01"
+date: "2026-07-08"
 tags:
   - "cspe-security"
 weight: 80
+extra:
+  question_no: "080"
+  exam_status: "기출"
+  exam_history: "136회"
 ---
 
-# 📖 【암기용】 개념 완전 이해
+## 미리 알고가기
 
-> 목적: 스택 오버플로우 공격을 처음 봐도 완벽히 이해하게 만든다. 시험 답안 양식이 아니라, 이해를 위한 친절한 설명이다.
+- 스택은 함수 호출 시 지역 변수와 복귀 주소 같은 제어 정보를 잠시 저장하는 메모리 영역임
+- 스택 오버플로우는 지역 버퍼에 너무 긴 입력이 들어가 복귀 주소나 프레임 정보까지 덮어쓸 때 발생함
+- 버퍼 오버플로우 전체 중에서도 스택 오버플로우는 제어 흐름 탈취와 직접 연결되기 쉬워 별도로 자주 다뤄짐
 
-## 한눈에
-- **개요**: 스택 버퍼 경계를 초과해 반환주소나 제어 데이터를 덮어 실행 흐름을 탈취하는 공격
-- **왜 필요한가**: C/C++ 네이티브 코드, 드라이버, 임베디드, 시스템 데몬은 메모리 경계 검사가 누락되면 RCE와 권한 상승으로 이어짐.
-- **핵심 직관**: 서류함 한 칸에 넣을 수 있는 분량을 넘겨 밀어 넣어 옆 칸의 지시서까지 바꾸는 공격임.
+## Ⅰ. 개요
 
-## 깊이 이해
-- **배경·문제의식**: 함수 호출 시 스택에는 지역변수, saved frame pointer, return address가 저장된다. 크기 제한 없는 `strcpy`, `gets`, `sprintf` 등이 버퍼보다 긴 입력을 복사하면 인접 메모리를 덮는다.
-- **작동 원리**: 공격자는 입력 길이와 offset을 맞춰 return address를 shellcode, ROP gadget, libc 함수 주소로 바꾼다. 방어는 stack canary, DEP/NX, ASLR, PIE, CFI, safe language로 수행함.
-- **비유**: 택배 주소칸을 넘치게 써서 배송지 라벨의 목적지를 바꾸는 것과 같다. 시스템은 정상 절차로 복귀한다고 믿지만 조작된 주소로 이동함.
-- **구체 예시**: 64바이트 stack buffer에 80바이트 입력이 들어가면 64바이트 이후 canary, saved RBP, return address 영역이 덮일 수 있다. canary 검증 실패 시 프로세스를 종료함.
-- **흔한 오해·주의점**: DEP/NX만 있으면 끝나는 것이 아니다. ROP는 실행 불가 스택을 우회해 기존 코드 조각을 연결하므로 ASLR, CFI, bounds check가 함께 필요함.
+- **정의/개념**: 스택 오버플로우 공격은 크기 검사를 하지 않는 입력 복사로 스택 버퍼 경계를 넘겨 기록해 함수의 복귀 주소나 제어 데이터를 변조하고 실행 흐름을 탈취하는 메모리 공격임
+- **배경/필요성**: 시스템 소프트웨어와 임베디드 코드에는 메모리 안전성이 낮은 언어가 여전히 많아 입력 길이 검증 누락 하나가 원격 코드 실행과 권한 상승으로 이어질 수 있으므로 구조와 방어 원리를 이해해야 함
 
-## 연결 개념
-- Buffer Overflow - 스택·힙·정적 영역 경계 초과 취약점의 상위 개념
-- ROP - 실행 불가 스택을 우회하는 코드 재사용 공격
-- Secure Coding - bounds check, safe API, Rust/Go 같은 메모리 안전 언어 적용
+## Ⅱ. 특징
 
----
+- 지역 변수 영역을 넘어 저장된 복귀 주소나 스택 프레임 정보를 덮어쓰는 것이 핵심임
+- 단순 프로그램 종료로 끝날 수도 있지만 정교하면 임의 코드 실행으로 이어짐
+- 취약 함수 호출과 입력 길이와 메모리 배치가 공격 성공에 직접 영향을 줌
+- 카나리, NX, ASLR 같은 보호 기법이 있어도 정보 유출이나 ROP와 결합되면 우회될 수 있음
 
-# 📝 【답안용】 시험 답안 템플릿
+## Ⅲ. 종류 및 비교
 
-> 목적: 시험장에서 25분에 그대로 쓰는 답안 양식. 작성방식(추상표현 금지·수치·도식·문제유형 전환)을 엄격히 지킨다.
-> 핵심: 스택 오버플로우 답안은 공격 절차보다 stack frame, return address overwrite, 보호기법, 컴파일·런타임 검증을 연결해야 함.
-
-## 핵심 인사이트 (3줄 요약)
-
-> 1. **본질**: Stack Overflow Attack은 스택 버퍼 경계를 초과해 return address, saved frame pointer, canary 등 제어 데이터를 변조하는 메모리 공격임.
-> 2. **가치**: stack canary, DEP/NX, ASLR, PIE, CFI, safe language로 코드 실행과 제어 흐름 탈취를 차단함.
-> 3. **판단 포인트**: 입력 검증, 안전 함수, 컴파일 옵션, 런타임 보호, fuzzing 지표를 SDLC에 연결해 써야 함.
-
-## 출제 의도 및 답안 포인트
-
-| 출제 의도 | 반드시 짚을 핵심 | 감점 회피 포인트 |
+| 판단 기준 | 스택 오버플로우 | 힙 오버플로우 |
 |:---|:---|:---|
-| 메모리 구조 이해 확인 | stack frame, local buffer, return address overwrite | 버퍼 초과 정의만 쓰고 스택 구조 누락 |
-| 공격·방어 원리 확인 | shellcode, ROP, canary, DEP/NX, ASLR | 보호기법 이름만 나열 |
-| 개발·운영 통제 확인 | safe API, compiler hardening, fuzzing, crash triage | 코드 수정과 CI 검증 연결 누락 |
+| 주요 대상 | 지역 버퍼와 복귀 주소 | 동적 할당 객체와 메타데이터 |
+| 대표 영향 | 즉시 제어 흐름 탈취 | 객체 오염, 후속 실행 흐름 변조 |
+| 발생 위치 | 함수 호출 스택 프레임 | 힙 할당 영역 |
+| 방어 초점 | 경계 검사, 카나리, 제어 흐름 보호 | 할당기 보호, 객체 생명주기 통제 |
 
-> 요약: 이 문제는 공격 원리 암기보다 메모리 배치, 제어 흐름 변조, 보호기법과 검증 지표를 연결하는 능력을 묻는다.
+## Ⅳ. 구성요소 및 구조
 
----
-
-### 🔑 핵심 용어 정리
-
-| 용어 | 뜻 | 비유 |
-|:---|:---|:---|
-| **개요** | 스택 버퍼 경계를 초과해 반환주소나 제어 데이터를 덮어 실행 흐름을 탈취하는 공격 | "핵심 기술 요소" |
-| **왜 필요한가** | C/C++ 네이티브 코드, 드라이버, 임베디드, 시스템 데몬은 메모리 경계 검사가 누락되면 RCE와 권한 상승으로 이어짐 | "핵심 기술 요소" |
-| **핵심 직관** | 서류함 한 칸에 넣을 수 있는 분량을 넘겨 밀어 넣어 옆 칸의 지시서까지 바꾸는 공격임 | "핵심 기술 요소" |
-| **배경·문제의식** | 함수 호출 시 스택에는 지역변수, saved frame pointer, return address가 저장된다 | "칠판" |
-| **작동 원리** | 공격자는 입력 길이와 offset을 맞춰 return address를 shellcode, ROP gadget, libc 함수 주소로 바꾼다 | "재해 복구" |
-| **비유** | 택배 주소칸을 넘치게 써서 배송지 라벨의 목적지를 바꾸는 것과 같다 | "핵심 기술 요소" |
-| **구체 예시** | 64바이트 stack buffer에 80바이트 입력이 들어가면 64바이트 이후 canary, saved RBP, return address... | "완충 지대" |
-
----
-
-
-## Ⅰ. 개요 및 필요성
-
-- 개요: 스택 제어 흐름 변조 공격
-- 배경: 입력 길이 검증이 없는 C/C++ 코드에서 지역 버퍼를 초과해 쓰면 return address와 saved frame pointer가 공격자 값으로 변조될 수 있음.
-- 필요성: CERT C, CWE-121, stack canary, ASLR, NX, bounds checking을 빌드·테스트 기준에 포함해 시스템 SW와 드라이버의 RCE를 통제해야 함.
-
----
-
-## Ⅱ. 구조 및 구성요소
+| 구성요소 | 설명 |
+|:---|:---|
+| 취약 입력 함수 | 경계 검사 없는 복사나 포맷 함수가 원인이 됨 |
+| 스택 프레임 | 지역 변수와 저장된 프레임 정보와 복귀 주소가 놓임 |
+| 공격 페이로드 | 긴 입력, 주소 조작, 후속 ROP 체인 등이 포함됨 |
+| 방어 기법 | 카나리, NX, ASLR, 안전 함수, 퍼징 검증이 포함됨 |
 
 ```text
-함수 호출 -> stack frame 생성 -> local buffer 저장 -> 과다 입력 복사 -> canary/return address 변조
-  / saved RBP, return address, arguments
-  / shellcode, ROP, ret2libc
+입력 수신 -> 지역 버퍼 기록 -> 경계 초과 -> 복귀 주소 변조 -> 비정상 분기
 ```
 
-| 구성요소 | 역할 | 특이사항 |
-|:---|:---|:---|
-| Stack Frame | 함수 호출 상태 저장 | local variable, saved RBP, return address |
-| Vulnerable Buffer | 경계 검사가 없는 입력 저장소 | gets, strcpy, sprintf, scanf %s |
-| Control Data | 복귀 주소와 제어 흐름 결정 | overwrite 시 shellcode/ROP 이동 |
-| Mitigation | 공격 성공 조건 제거 | canary, DEP/NX, ASLR, CFI, bounds check |
-
-> 요약: 스택 오버플로우는 버퍼 초과가 제어 데이터 변조로 이어질 때 실행 흐름 탈취가 발생함.
-
----
-
-## Ⅲ. 동작원리 및 흐름도
+## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-입력 수신 -> 길이 검증 누락 -> stack buffer 초과 기록
-  / canary 손상 또는 return address overwrite
-함수 반환 -> 조작 주소 이동 시도 -> 보호기법 검증 -> 차단/침해
+취약 함수 호출 -> 과도한 입력 전달 -> 스택 프레임 침범 -> 제어 데이터 덮어쓰기 -> 반환 시 흐름 탈취
 ```
 
-| 단계 | 처리 내용 | 검증 기준 |
-|:---:|:---|:---|
-| 1 | 외부 입력이 고정 크기 stack buffer로 복사 | bounds check 존재 |
-| 2 | 입력 길이가 buffer 크기를 초과해 인접 영역 덮음 | ASan crash 재현 |
-| 3 | return address가 shellcode, ROP gadget, libc 주소로 변경 | canary, CFI 탐지 |
-| 4 | DEP/NX, ASLR, PIE가 실행·주소 예측을 제한 | hardening option 100% |
+1. **취약 함수 호출**: 경계 검사가 없는 코드가 사용자 입력을 받음
+2. **과도한 입력 전달**: 버퍼보다 긴 데이터가 전달됨
+3. **스택 프레임 침범**: 지역 버퍼를 넘어 인접 제어 정보를 덮음
+4. **흐름 탈취 시도**: 복귀 주소를 공격자가 원하는 위치로 바꿈
+5. **방어 및 검증**: 카나리나 NX가 동작하는지, 동일 입력이 차단되는지 확인함
 
-> 요약: 공격은 길이 검증 누락에서 시작해 return address overwrite로 이어지고, canary와 DEP/NX, ASLR이 성공 조건을 제한함.
+## Ⅵ. 실무 적용 및 유의점
 
----
+1. C/C++ 기반 에이전트와 드라이버와 임베디드 코드는 입력 길이 검증과 안전 함수 전환을 기본 규칙으로 묶고, 컴파일 하드닝과 퍼징을 함께 적용한 뒤 크래시 재현 여부와 보호 옵션 적용률과 취약 API 제거 상태로 확인함
+2. 레거시 바이너리는 코드 수정이 늦을 수 있으므로 카나리와 NX와 ASLR 같은 빌드 보호 기능부터 점검하고 동일 페이로드로 제어 흐름 탈취가 다시 되는지와 보호 기법 활성화 상태로 확인함
 
-## Ⅳ. 특징
+## Ⅶ. 결론
 
-| 구분 | 취약 구현 | 보호 적용 구현 | 수치·판단 포인트 |
-|:---|:---|:---|:---|
-| 입력 처리 | strcpy, gets, sprintf | strncpy, snprintf, bounds check | unsafe API 0건 |
-| 실행 보호 | executable stack | DEP/NX, W^X | NX enabled 100% |
-| 주소 예측 | 고정 주소 | ASLR, PIE | PIE binary 100% |
-| 검증 | 수동 테스트 | ASan, fuzzing, SAST | crash triage 24시간 |
-
-> 요약: 스택 오버플로우 방어는 안전 함수와 메모리 보호 옵션, fuzzing 검증을 함께 적용해야 함.
-
----
-
-## Ⅴ. 심화 비교 및 적용 판단
-
-| 구분 | 기존/대안 | 본 키워드 | 선택 기준 |
-|:---|:---|:---|:---|
-| 구조 | C/C++ 경계 수동관리 | safe API, Rust/Go, memory sanitizer | 신규 모듈은 safe language 우선 |
-| 비용/성능 | 보호 옵션 off | canary, PIE, RELRO, ASLR | latency 영향보다 RCE 위험이 큰 서비스 |
-| 운영/위험 | 릴리스 후 crash 대응 | fuzzing, SAST, ASan CI | 외부 입력 parser, protocol handler |
-
-> 요약: 외부 입력을 처리하는 네이티브 모듈은 성능보다 메모리 보호 옵션과 fuzzing 검증을 우선 적용해야 함.
-
-| 리스크 | 원인 | 대응 방안 | 확인 지표 |
-|:---|:---|:---|:---|
-| RCE | return address overwrite | canary, DEP/NX, ASLR, CFI | exploit 재현 0건 |
-| 보호 우회 | ROP, ret2libc | PIE, full RELRO, shadow stack | ROP gadget exploit 차단 |
-| 회귀 취약점 | unsafe API 재도입 | SAST rule, code review, CI fail | unsafe API 0건 |
-
-> 요약: RCE, 보호 우회, 회귀는 컴파일 옵션과 SAST·fuzzing을 배포 게이트로 걸어 통제함.
-
-| 점검 항목 | 목표 기준 | 측정 방법 |
-|:---|:---|:---|
-| 하드닝 | canary, NX, PIE, RELRO 100% | checksec, compiler flags |
-| 결함 탐지 | fuzzing 24시간 run, crash 0건 | libFuzzer, AFL++, ASan |
-| 코드 품질 | unsafe API 0건 | SAST, Semgrep, CodeQL |
-
-> 요약: 성공 여부는 binary hardening 적용률, fuzzing crash, unsafe API 검출 결과로 판단함.
-
----
-
-## Ⅵ. 실무 적용 및 결론
-
-**적용 방안 3개 (필수 — 단계별 또는 항목별):**
-1. 개발 통제: `gets`, `strcpy`, `sprintf` 사용을 SAST로 차단하고 `snprintf`, bounds check, length-prefixed protocol을 coding standard에 반영함.
-2. 빌드 하드닝: `-fstack-protector-strong`, PIE, full RELRO, DEP/NX, ASLR, CFI를 기본 옵션으로 두고 checksec 결과를 release gate에 연결함.
-3. 검증 운영: 외부 입력 parser는 ASan/UBSan과 libFuzzer/AFL++를 CI에서 수행하고 crash는 24시간 내 triage, 재현 exploit 0건을 종료 기준으로 둠.
-
-**결론 (2줄):**
-- 기술사 판단: 신규 외부 입력 모듈은 Rust/Go 등 메모리 안전 언어를 우선 적용하고, 레거시 C/C++는 하드닝·fuzzing·SAST를 필수 게이트로 둠.
-- 향후 방향: 스택 오버플로우 대응은 canary 중심에서 CFI, shadow stack, memory-safe rewrite로 이동해야 함.
-
-### 🔀 문제 유형별 목차 전환 (이 키워드 출제 시)
-
-| 유형 | 문제 신호어 | Ⅲ 강조 | Ⅳ 강조 |
-|:---|:---|:---|:---|
-| 포괄형 | "스택 오버플로우를 설명하시오" | stack frame, return address overwrite, 보호기법 흐름 | 취약 구현과 보호 구현 차이 |
-| 요구사항 명시형 | "방어 방안을 제시하시오", "보안 코딩을 설계하시오" | safe API, compiler hardening, fuzzing 절차 | canary, DEP/NX, ASLR, safe language 선택 기준 |
-
-> 요약: 설명형은 메모리 구조와 공격 흐름을, 방안형은 컴파일·런타임·SDLC 통제를 중심으로 구성함.
+- 스택 오버플로우 공격은 입력 길이 실수가 복귀 주소 변조로 바로 이어지는 문제이므로 안전한 입력 처리와 제어 흐름 보호를 함께 적용해야 함
