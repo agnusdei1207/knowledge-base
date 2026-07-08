@@ -58,21 +58,11 @@ extra:
 3. **commit 표시**: 트랜잭션이 안전하게 기록됐음을 표시함
 4. **checkpoint 반영**: 나중에 원래 데이터 구조에 반영하고 저널 공간을 회수함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 저널 기록이 추가 쓰기를 유발해 쓰기 증폭과 지연 증가를 만들 수 있음
-   - 해결방안: 저널 크기와 flush 주기를 조정하고 journal write amplification과 fs latency로 검증함
-2. 문제: 메타데이터만 보호하는 방식은 사용자 데이터 최신 상태까지 보장하지 못할 수 있음
-   - 해결방안: workload에 따라 ordered나 data journaling 모드를 선택하고 recovery data consistency와 write latency로 검증함
-3. 문제: 저널 영역 손상이나 장치 장애가 나면 복구 체계 전체가 무력화될 수 있음
-   - 해결방안: 저널 무결성 검사와 백업 정책을 운영하고 journal replay success rate와 fsck recovery time으로 검증함
+1. 일반 서버 파일 시스템에서는 ordered나 metadata journaling을 쓰되 저널 쓰기 증폭이 지연을 키우지 않도록 저널 크기와 flush 주기를 조정하고 fs latency와 journal write amplification으로 확인함
+2. 강한 무결성이 필요한 저장소에서는 data journaling까지 고려하되 데이터 최신성 보장만큼 쓰기 비용도 커지므로 보호 범위를 업무별로 구분하고 recovery data consistency와 write latency와 journal replay success rate로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 리눅스 서버에서는 ordered journaling을 기본 사용하고, fs latency와 journal replay success rate로 결과를 확인함
-- 중요 메타데이터 서버에서는 강한 보호 모드를 적용하고, recovery data consistency와 write latency로 결과를 확인함
-- 스토리지 장애 복구 훈련에서는 저널 재생 절차를 시험하고, fsck recovery time과 journal replay success rate로 결과를 확인함
-
-## Ⅷ. 결론
-
-파일 시스템 저널링은 성능 기능이 아니라 장애 후 일관성을 빠르게 회복하기 위한 구조이므로, 보호 범위와 쓰기 오버헤드 균형이 핵심 선택 기준임.
+파일 시스템 저널링은 성능 기능이 아니라 장애 후 일관성을 빠르게 회복하기 위한 구조이므로 보호 범위와 쓰기 오버헤드의 균형이 핵심 선택 기준임.

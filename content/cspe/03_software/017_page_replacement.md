@@ -59,21 +59,11 @@ extra:
 3. **희생 페이지 선택**: page fault 시 정책에 따라 내보낼 페이지를 고름
 4. **교체 및 갱신**: 신규 페이지를 적재하고 참조 이력을 갱신함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: locality를 잘 반영하지 못하는 정책은 page fault가 급증해 디스크 I/O 병목을 만들 수 있음
-   - 해결방안: workload에 맞는 LRU 계열이나 working set 기반 정책을 적용하고 page fault rate와 disk wait time으로 검증함
-2. 문제: 정확한 LRU 구현은 시간 정보 관리 비용이 커 커널 오버헤드를 증가시킬 수 있음
-   - 해결방안: clock 같은 근사 알고리즘을 사용하고 replacement overhead와 fault reduction ratio로 검증함
-3. 문제: 메모리 프레임 수를 무리하게 줄이면 좋은 정책도 스래싱 상태를 막지 못할 수 있음
-   - 해결방안: 최소 resident set과 admission control을 적용하고 working set miss rate와 swap I/O rate로 검증함
+1. 범용 서버 커널에서는 LRU 근사나 clock 계열 정책을 쓰되 locality를 놓치거나 참조 이력 관리 비용이 커지지 않도록 구현 복잡도를 제한하고 page fault rate와 disk wait time과 replacement overhead로 확인함
+2. 메모리 과점유 환경에서는 working set 기반 제어를 함께 두되 프레임 수를 과도하게 줄이면 스래싱을 막지 못하므로 resident set 하한과 admission control을 적용하고 swap I/O rate와 throughput stability로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 교육용 운영체제 실습에서는 FIFO와 LRU를 비교하고, page fault rate와 replacement overhead로 결과를 확인함
-- 서버 커널 튜닝에서는 clock 계열 정책을 사용하고, disk wait time과 swap I/O rate로 결과를 확인함
-- 메모리 과점유 환경에서는 working set 기반 제어를 도입하고, working set miss rate와 throughput stability로 결과를 확인함
-
-## Ⅷ. 결론
-
-페이지 교체 정책의 평가는 알고리즘 이름보다 locality 반영 정도와 구현 오버헤드와 스래싱 억제 효과를 함께 보는 것이 맞음.
+페이지 교체 정책은 이름보다 locality를 얼마나 잘 반영하면서도 구현 오버헤드와 스래싱 위험을 함께 줄이느냐로 판단해야 함.

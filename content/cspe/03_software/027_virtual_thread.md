@@ -59,21 +59,11 @@ extra:
 3. **carrier 실행**: 코드가 실행되다가 blocking 지점에서 중단될 수 있음
 4. **중단 및 재개 관리**: JVM이 다른 작업으로 전환하고 이후 다시 재개함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: synchronized 블록이나 native 호출이 길어지면 carrier thread가 고정되어 동시성 이점이 줄어들 수 있음
-   - 해결방안: pinning 구간을 줄이고 구조를 개선하며 pinned thread time과 carrier utilization으로 검증함
-2. 문제: CPU 집약 작업을 무분별하게 가상 스레드로 늘리면 scheduler 경쟁만 커지고 처리량 개선이 제한될 수 있음
-   - 해결방안: CPU bound 작업은 별도 executor로 분리하고 CPU saturation과 throughput stability로 검증함
-3. 문제: 기존 thread-local과 모니터링 도구가 대량 가상 스레드를 충분히 가시화하지 못할 수 있음
-   - 해결방안: observability 기준을 재설계하고 thread dump usability와 telemetry overhead로 검증함
+1. 대량 HTTP나 JDBC 중심 서비스에서는 가상 스레드로 동기 코드를 유지하되 pinning 구간이 carrier thread를 오래 붙잡지 않도록 synchronized와 native 호출을 줄이고 carrier utilization과 pinned thread time과 request latency로 확인함
+2. CPU 집약 작업은 가상 스레드에 무리하게 섞지 말고 별도 executor로 분리하되 관측 도구가 대량 스레드를 따라가지 못할 수 있으므로 thread dump와 telemetry 기준을 함께 정비하고 CPU saturation과 telemetry overhead로 확인함
 
-## Ⅶ. 적용 사례
-
-- 대량 HTTP 서버에서는 요청별 가상 스레드를 사용하고, carrier utilization과 request latency로 결과를 확인함
-- JDBC 중심 업무 서비스에서는 동기 코드를 유지한 채 적용하고, connection wait time과 throughput stability로 결과를 확인함
-- 성능 검증 환경에서는 pinning 이벤트를 추적하고, pinned thread time과 telemetry overhead로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 가상 스레드는 스레드 모델을 바꾸는 기술이 아니라 동기 코드의 생산성을 유지하면서 대기 중심 동시성을 확장하는 실행 구조임.

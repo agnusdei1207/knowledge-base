@@ -59,21 +59,11 @@ extra:
 3. **프레임 배분 조정**: 부족한 프로세스에는 프레임을 늘리고 과다 점유는 회수함
 4. **fault 감시**: page fault 추세로 메모리 압박과 스래싱 징후를 확인함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: working set 추정 창이 너무 짧거나 길면 실제 locality를 잘못 읽어 메모리 배분이 흔들릴 수 있음
-   - 해결방안: workload별 window를 조정하고 working set estimation error와 page fault trend로 검증함
-2. 문제: 프로세스 수가 많아 총 working set 합이 물리 메모리를 넘으면 스래싱이 빠르게 발생할 수 있음
-   - 해결방안: admission control과 swap pressure 제어를 적용하고 swap I/O rate와 throughput stability로 검증함
-3. 문제: page fault 수치만 보고 원인을 구분하지 않으면 파일 캐시 부족과 진짜 메모리 부족을 혼동할 수 있음
-   - 해결방안: fault 유형과 reclaim 통계를 함께 분석하고 major fault rate와 reclaim efficiency로 검증함
+1. 데이터베이스와 메모리 집약 서버에서는 working set 추정으로 resident set을 조정하되 시간 창이 맞지 않으면 locality를 잘못 읽을 수 있으므로 workload별 window를 조정하고 major fault rate와 working set estimation error와 throughput stability로 확인함
+2. 다중 배치 호스트에서는 총 working set이 물리 메모리를 넘지 않게 admission control을 두되 page fault 수치만으로 원인을 오판하지 않도록 reclaim 통계를 함께 보고 swap I/O rate와 reclaim efficiency로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 데이터베이스 서버에서는 working set 변화를 기준으로 메모리를 조정하고, major fault rate와 throughput stability로 결과를 확인함
-- 배치 작업 호스트에서는 admission control을 적용해 스래싱을 억제하고, swap I/O rate와 CPU utilization stability로 결과를 확인함
-- 커널 메모리 분석에서는 reclaim 통계를 함께 분석하며, working set estimation error와 reclaim efficiency로 결과를 확인함
-
-## Ⅷ. 결론
-
-working set과 page fault는 메모리 관리의 원인과 결과를 잇는 축이므로, 운영 판단은 fault 수치만이 아니라 현재 필요한 메모리 규모를 함께 봐야 정확함.
+working set과 페이지 폴트는 메모리 관리의 원인과 결과를 함께 보여주므로 운영 판단은 fault 수치만이 아니라 현재 필요한 메모리 규모를 같이 봐야 함.

@@ -58,21 +58,11 @@ extra:
 3. **블록 배치 또는 조회**: 데이터 블록을 할당하거나 기존 위치를 참조함
 4. **메타데이터 갱신**: 크기와 시간과 할당 정보를 기록함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 매체 특성과 맞지 않는 파일 시스템을 선택하면 성능과 수명과 복구성이 동시에 저하될 수 있음
-   - 해결방안: workload와 매체 특성을 기준으로 선택하고 fs latency와 device wear trend로 검증함
-2. 문제: 메타데이터 손상 시 전체 볼륨 가용성이 크게 떨어질 수 있음
-   - 해결방안: journaling 또는 snapshot 기능을 활용하고 fsck recovery time과 metadata corruption rate로 검증함
-3. 문제: 디렉터리와 작은 파일이 지나치게 많으면 메타데이터 탐색 비용이 커질 수 있음
-   - 해결방안: inode와 extent 튜닝을 수행하고 metadata IOPS와 directory lookup latency로 검증함
+1. 리눅스 서버와 범용 저장장치에서는 매체 특성에 맞는 파일 시스템을 고르되 메타데이터 손상과 복구 시간이 운영성에 직접 영향을 주므로 journaling 여부와 할당 구조를 함께 보고 fs latency와 fsck recovery time으로 확인함
+2. 이동식 매체나 플랫폼 고정 단말에서는 호환성 또는 스냅샷 같은 목적을 분명히 두되 작은 파일과 디렉터리 수가 많으면 메타데이터 탐색 비용이 커지므로 directory 구조와 allocation 튜닝을 적용하고 mount success rate와 directory lookup latency로 확인함
 
-## Ⅶ. 적용 사례
-
-- 이동식 저장장치에서는 FAT 계열을 사용하고, device compatibility rate와 mount success rate로 결과를 확인함
-- 리눅스 서버에서는 ext4를 기본으로 사용하고, fsck recovery time과 fs latency로 결과를 확인함
-- 모바일 및 개인 단말에서는 APFS 스냅샷을 활용하고, snapshot success rate와 clone efficiency로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 파일 시스템 선택은 저장장치 위에 파일을 놓는 문제가 아니라 매체 특성과 무결성과 복구 전략을 어떤 구조로 담을지 정하는 운영체제 설계 판단임.

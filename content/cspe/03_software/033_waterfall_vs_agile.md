@@ -59,21 +59,11 @@ extra:
 3. **검증 및 피드백**: 테스트와 사용자 검토로 결과를 확인함
 4. **다음 단계 또는 반복**: 폭포수는 다음 단계로, 애자일은 다음 iteration으로 넘어감
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 요구가 자주 바뀌는 프로젝트에 폭포수를 그대로 적용하면 뒤단계 재작업 비용이 크게 늘 수 있음
-   - 해결방안: 변경 빈도 기반으로 hybrid 모델을 선택하고 rework rate와 change lead time으로 검증함
-2. 문제: 애자일을 형식만 도입하고 우선순위와 정의된 완료 기준이 약하면 일정과 품질이 흔들릴 수 있음
-   - 해결방안: backlog governance와 DoD를 명확히 하고 sprint carryover rate와 defect escape rate로 검증함
-3. 문제: 규제형 프로젝트에 애자일만 강조하면 추적성과 승인 증적이 부족해질 수 있음
-   - 해결방안: 문서와 승인 산출물을 병행 관리하고 audit readiness와 traceability coverage로 검증함
+1. 요구가 자주 바뀌는 제품 개발은 애자일이 맞지만 backlog 기준과 완료 정의가 약하면 범위가 흔들리므로 DoD와 backlog governance를 두고 sprint carryover rate와 defect escape rate로 확인함
+2. 규제와 승인 증적이 중요한 구축형 사업은 폭포수나 hybrid가 맞지만 변경을 끝까지 닫아두면 재작업이 커지므로 변경 창과 추적성을 함께 운영하고 rework rate와 traceability coverage와 audit readiness로 확인함
 
-## Ⅶ. 적용 사례
-
-- 공공 구축형 프로젝트에서는 폭포수 중심으로 운영하고, traceability coverage와 audit readiness로 결과를 확인함
-- 디지털 제품 조직에서는 애자일 반복 개발을 적용하고, change lead time과 sprint carryover rate로 결과를 확인함
-- 금융권 대형 프로젝트에서는 hybrid 모델을 사용하고, rework rate와 defect escape rate로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 폭포수와 애자일의 선택은 문화 취향이 아니라 요구 안정성, 규제 수준, 변경 비용 구조에 맞는 리스크 관리 방식 선택임.

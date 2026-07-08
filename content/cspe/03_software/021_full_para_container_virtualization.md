@@ -59,21 +59,11 @@ extra:
 3. **격리 정책 적용**: 메모리와 CPU와 네트워크와 파일 시스템 경계를 설정함
 4. **서비스 실행**: 애플리케이션을 배포하고 성능과 보안 상태를 운영함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 강한 격리가 필요한 업무에 컨테이너만 사용하면 커널 공유로 인한 보안 경계 부족이 문제가 될 수 있음
-   - 해결방안: 데이터 민감도에 따라 VM과 컨테이너를 분리 적용하고 isolation incident count와 runtime hardening compliance로 검증함
-2. 문제: 반가상화는 게스트 협력 인터페이스 의존성이 커 이식성과 운영 복잡도가 높아질 수 있음
-   - 해결방안: 표준 paravirtual driver와 호환성 기준선을 유지하고 driver compatibility rate와 upgrade defect count로 검증함
-3. 문제: 전가상화는 이미지 크기와 부팅 시간과 자원 오버헤드가 커 대규모 배포 속도를 제한할 수 있음
-   - 해결방안: 경량 이미지와 템플릿 자동화를 적용하고 boot time과 density per host로 검증함
+1. 멀티테넌트나 규제형 서비스는 VM 중심 격리를 쓰되 전가상화 오버헤드와 반가상화 호환성 부담을 함께 봐야 하므로 표준 paravirtual driver와 자원 한도를 적용하고 I/O latency와 driver compatibility rate와 isolation incident count로 확인함
+2. 내부 플랫폼과 대량 배포 서비스는 컨테이너를 쓰되 커널 공유로 보안 경계가 약해질 수 있으므로 런타임 하드닝과 민감 워크로드 분리를 적용하고 startup time과 density per host와 runtime hardening compliance로 확인함
 
-## Ⅶ. 적용 사례
-
-- 멀티테넌트 금융 서비스에서는 VM 중심 격리를 사용하고, isolation incident count와 hardening compliance로 결과를 확인함
-- 내부 플랫폼 서비스에서는 컨테이너를 대량 배포하고, startup time과 density per host로 결과를 확인함
-- 성능 민감 가상화 환경에서는 paravirtual driver를 적용하고, I/O latency와 driver compatibility rate로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 전가상화와 반가상화와 컨테이너의 선택은 가볍고 무거움의 차이가 아니라 격리 경계와 성능 경로와 운영 자동화 요구를 어떻게 맞출지의 문제임.

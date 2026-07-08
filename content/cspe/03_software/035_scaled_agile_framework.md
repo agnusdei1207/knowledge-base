@@ -59,21 +59,11 @@ extra:
 3. **팀별 실행**: 각 팀이 sprint를 통해 계획 항목을 구현함
 4. **통합 검토 및 개선**: PI 결과와 리스크와 지표를 검토해 다음 주기를 조정함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: SAFe 구조를 형식적으로만 도입하면 회의와 역할만 늘고 실제 의사결정 속도는 오히려 떨어질 수 있음
-   - 해결방안: 가치 흐름 중심으로 최소 적용 범위를 설계하고 planning overhead ratio와 decision lead time으로 검증함
-2. 문제: 팀 간 의존성이 backlog에 명확히 드러나지 않으면 PI 계획이 반복적으로 깨질 수 있음
-   - 해결방안: dependency board와 architecture runway를 운영하고 dependency slip rate와 PI predictability로 검증함
-3. 문제: 포트폴리오 목표와 팀 실행이 분리되면 대규모 조직일수록 현장 민첩성과 전략 정렬이 동시에 무너질 수 있음
-   - 해결방안: portfolio sync와 objective tracing을 적용하고 strategic alignment score와 objective completion rate로 검증함
+1. 여러 팀이 같은 가치 흐름을 따라 움직이는 대형 조직에서는 SAFe가 유효하지만 회의와 역할만 늘면 속도가 느려지므로 최소 적용 범위와 ART 단위 목표를 분명히 하고 planning overhead ratio와 decision lead time과 PI predictability로 확인함
+2. 팀 간 의존성이 많은 프로그램에서는 PI Planning과 architecture runway가 핵심이므로 dependency board와 objective tracing을 함께 운영하고 dependency slip rate와 objective completion rate와 strategic alignment score로 확인함
 
-## Ⅶ. 적용 사례
-
-- 대형 금융 IT 조직에서는 ART 단위 운영을 적용하고, PI predictability와 dependency slip rate로 결과를 확인함
-- 공공 대규모 프로그램에서는 portfolio sync를 운영하고, strategic alignment score와 planning overhead ratio로 결과를 확인함
-- 플랫폼과 서비스 다팀 환경에서는 architecture runway를 관리하고, objective completion rate와 decision lead time로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 SAFe의 가치는 큰 조직에 애자일 용어를 붙이는 데 있지 않고 다수 팀의 의존성과 전략 정렬을 같은 cadence 위에 올려놓는 데 있음.

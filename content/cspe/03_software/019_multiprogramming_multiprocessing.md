@@ -58,21 +58,11 @@ extra:
 3. **교대 또는 병렬 실행**: 단일 CPU는 교대로 실행하고 다중처리는 여러 코어에서 동시에 실행함
 4. **동기화 및 완료**: 공유 자원 보호와 결과 회수를 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 다중프로그래밍에서 작업 수를 과도하게 늘리면 context switch와 메모리 압박이 커져 처리량이 오히려 떨어질 수 있음
-   - 해결방안: 적정 degree of multiprogramming을 유지하고 context switch rate와 swap I/O rate로 검증함
-2. 문제: 다중처리 환경에서는 lock 경쟁과 cache coherence traffic이 늘어 병렬 효율이 급감할 수 있음
-   - 해결방안: lock 분할과 데이터 지역성 설계를 적용하고 lock wait time과 parallel efficiency로 검증함
-3. 문제: I/O 중심 workload에 다중처리만 늘리면 CPU는 늘어도 전체 응답성이 개선되지 않을 수 있음
-   - 해결방안: workload별 CPU 대 I/O 병목 분석을 수행하고 CPU utilization과 device wait time으로 검증함
+1. I/O 대기가 많은 배치나 트랜잭션 시스템에서는 다중프로그래밍으로 CPU 유휴를 줄이되 작업 수를 과도하게 늘리면 문맥 교환과 메모리 압박이 커지므로 degree of multiprogramming을 조정하고 CPU utilization과 context switch rate와 swap I/O rate로 확인함
+2. 멀티코어 계산 서버에서는 다중처리를 쓰되 lock 경쟁과 캐시 일관성 비용이 병목이 되지 않게 데이터 지역성과 lock 분할을 설계하고 parallel efficiency와 lock wait time으로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 전통적인 배치 시스템에서는 다중프로그래밍으로 CPU 유휴를 줄이고, context switch rate와 CPU utilization로 결과를 확인함
-- 멀티코어 서버 애플리케이션에서는 다중처리 구조를 사용하고, parallel efficiency와 lock wait time로 결과를 확인함
-- 혼합형 업무 서버에서는 CPU와 I/O 병목을 함께 분석하고, device wait time과 throughput stability로 결과를 확인함
-
-## Ⅷ. 결론
-
-다중프로그래밍과 다중처리는 모두 처리량 향상을 노리지만, 전자는 유휴 시간 활용이고 후자는 실제 병렬 실행이므로 병목 원인에 맞춰 구분해 써야 함.
+다중프로그래밍과 다중처리는 모두 처리량 향상을 노리지만 전자는 유휴 시간 활용에, 후자는 실제 병렬 실행에 초점이 있으므로 병목 원인에 맞춰 구분해 써야 함.

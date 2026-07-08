@@ -59,21 +59,11 @@ extra:
 3. **구현 및 daily 운영**: 팀이 개발을 진행하고 장애를 조정함
 4. **review 및 회고**: 결과를 검증하고 다음 sprint 개선점을 도출함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: backlog 품질이 낮거나 우선순위 기준이 불명확하면 sprint 목표가 계속 흔들릴 수 있음
-   - 해결방안: refinement 기준과 수용 조건을 강화하고 sprint carryover rate와 backlog readiness로 검증함
-2. 문제: 데일리와 회고를 형식적으로 운영하면 이슈가 누적되어 팀 학습이 멈출 수 있음
-   - 해결방안: impediment 추적과 action item closure를 운영하고 blocker age와 retro action completion rate로 검증함
-3. 문제: velocity 수치만 목표화하면 품질 저하와 기술 부채 은폐가 발생할 수 있음
-   - 해결방안: defect와 lead time 지표를 함께 보고 defect escape rate와 cycle time으로 검증함
+1. SaaS나 제품팀에서 스크럼을 운영할 때는 backlog 품질이 sprint 성과를 좌우하므로 refinement와 수용 조건을 먼저 정비하고 backlog readiness와 sprint carryover rate와 cycle time으로 확인함
+2. 데일리와 회고는 형식 행사로 두지 말고 장애와 개선 항목을 끝까지 추적해야 하므로 impediment 관리와 action item closure를 운영하고 blocker age와 retro action completion rate와 defect escape rate로 확인함
 
-## Ⅶ. 적용 사례
-
-- SaaS 제품팀에서는 2주 sprint를 운영하고, sprint carryover rate와 cycle time로 결과를 확인함
-- 플랫폼 팀에서는 회고 action item을 관리하고, blocker age와 retro action completion rate로 결과를 확인함
-- 신규 기능 출시 팀에서는 backlog refinement를 강화하고, backlog readiness와 defect escape rate로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 스크럼의 성공 여부는 이벤트를 지키는 형식보다 backlog 품질과 sprint 목표 일관성과 회고 실행력을 얼마나 유지하느냐에 달림.

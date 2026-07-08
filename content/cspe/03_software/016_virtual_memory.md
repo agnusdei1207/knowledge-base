@@ -59,21 +59,11 @@ extra:
 3. **적재 여부 확인**: 메모리에 없으면 page fault 처리와 적재가 수행됨
 4. **메모리 접근**: 변환된 물리 주소로 실제 데이터를 읽거나 씀
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 주소 변환 테이블 접근이 많아지면 메모리 참조마다 추가 오버헤드가 누적될 수 있음
-   - 해결방안: TLB와 huge page를 활용하고 TLB hit rate와 address translation overhead로 검증함
-2. 문제: 페이징은 내부 단편화가 남고 세그멘테이션은 외부 단편화가 커져 메모리 활용률이 떨어질 수 있음
-   - 해결방안: workload 특성에 맞는 분할 방식과 compaction 또는 paging 기반 구조를 선택하고 memory utilization과 fragmentation ratio로 검증함
-3. 문제: 과도한 page fault가 발생하면 디스크 I/O가 폭증해 시스템 전체 응답성이 급격히 나빠질 수 있음
-   - 해결방안: 적정 working set 유지와 교체 정책 튜닝을 수행하고 page fault rate와 swap I/O rate로 검증함
+1. 범용 운영체제와 메모리 집약 서버에서는 페이징 기반 가상 메모리를 쓰되 주소 변환 오버헤드와 페이지 폴트가 함께 커지지 않도록 TLB와 huge page와 working set 튜닝을 적용하고 TLB hit rate와 page fault rate와 swap I/O rate로 확인함
+2. 논리 단위 보호나 구조 비교가 중요한 설계 검토에서는 세그멘테이션 관점도 함께 보되 외부 단편화와 관리 복잡도가 커질 수 있으므로 분할 기준과 memory utilization과 fragmentation ratio로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 범용 운영체제에서는 페이징 기반 가상 메모리를 사용하고, TLB hit rate와 page fault rate로 결과를 확인함
-- 메모리 집약 서버에서는 huge page를 적용해 변환 오버헤드를 줄이고, address translation overhead와 CPU stall rate로 결과를 확인함
-- 교육용 메모리 관리 설계에서는 페이징과 세그멘테이션을 비교 적용하고, fragmentation ratio와 memory utilization로 결과를 확인함
-
-## Ⅷ. 결론
-
-가상 메모리의 본질은 큰 논리 공간을 안전하게 제공하는 데 있으므로, 구현 선택은 단편화와 변환 비용과 page fault 통제를 얼마나 균형 있게 맞추느냐에 달림.
+가상 메모리의 선택은 큰 논리 주소 공간 제공 자체보다 변환 비용과 단편화와 페이지 폴트를 어떤 구조로 통제할지에 달림.

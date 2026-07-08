@@ -58,21 +58,11 @@ extra:
 3. **시험 및 배포**: 검증과 승인과 릴리스를 수행함
 4. **운영 및 개선**: 실측 데이터와 피드백으로 다음 주기를 시작함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 단계는 존재해도 산출물과 승인 기준이 모호하면 책임 공백이 반복될 수 있음
-   - 해결방안: 단계별 정의와 exit criteria를 명시하고 review escape count와 rework rate로 검증함
-2. 문제: 운영 단계가 분리되면 배포 후 장애와 사용자 피드백이 다음 개발에 반영되지 않을 수 있음
-   - 해결방안: 운영 지표를 생명주기에 연결하고 incident recurrence rate와 feedback lead time으로 검증함
-3. 문제: 모든 프로젝트에 동일한 절차를 강제하면 과도한 문서화나 통제 지연이 생길 수 있음
-   - 해결방안: 프로젝트 유형별 tailoring 기준을 적용하고 process overhead ratio와 delivery predictability로 검증함
+1. 공공과 금융 같은 규제형 프로젝트에서는 단계별 산출물과 승인 기준이 SDLC의 핵심이므로 exit criteria를 명확히 두고 rework rate와 review escape count와 audit readiness로 확인함
+2. SaaS나 제품 조직에서는 운영 지표가 다음 개발로 바로 이어져야 하므로 운영 단계와 backlog를 연결하되 절차가 과도해지지 않게 tailoring 기준을 두고 feedback lead time과 incident recurrence rate와 process overhead ratio로 확인함
 
-## Ⅶ. 적용 사례
-
-- 공공 SI 프로젝트에서는 단계별 승인 산출물을 관리하고, rework rate와 review escape count로 결과를 확인함
-- SaaS 제품 조직에서는 운영 지표를 다음 스프린트에 연결하고, feedback lead time과 incident recurrence rate로 결과를 확인함
-- 금융권 개발 표준에서는 프로젝트 유형별 SDLC tailoring을 운영하고, process overhead ratio와 delivery predictability로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 SDLC의 가치는 단계를 많이 두는 데 있지 않고 요구부터 운영 개선까지 책임과 피드백을 끊기지 않게 연결하는 데 있음.

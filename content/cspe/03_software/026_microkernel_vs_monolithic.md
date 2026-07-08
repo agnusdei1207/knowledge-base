@@ -59,21 +59,11 @@ extra:
 3. **직접 처리 또는 IPC**: 모놀리식은 직접 처리하고 마이크로커널은 사용자 공간 서버와 IPC를 수행함
 4. **결과 반환**: 처리 결과를 다시 응용 프로그램에 돌려줌
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 모놀리식 커널은 드라이버나 파일시스템 결함이 전체 시스템 장애로 확대될 수 있음
-   - 해결방안: 모듈화와 격리 테스트를 강화하고 kernel panic rate와 driver fault impact로 검증함
-2. 문제: 마이크로커널은 서비스 분리로 IPC가 잦아져 시스템 호출 지연이 커질 수 있음
-   - 해결방안: IPC 경로 최적화와 batching을 적용하고 IPC latency와 syscall overhead로 검증함
-3. 문제: 구조 선택을 목적 없이 따라가면 성능 요구와 신뢰성 요구를 모두 놓칠 수 있음
-   - 해결방안: 시스템 목적별 아키텍처 기준선을 세우고 availability target과 performance fit score로 검증함
+1. 범용 서버와 데스크톱 OS는 모놀리식 구조가 유리하지만 드라이버 결함이 커널 전체 장애로 번질 수 있으므로 모듈화와 격리 시험을 병행하고 kernel panic rate와 driver fault impact로 확인함
+2. 고신뢰 임베디드나 제어 OS는 마이크로커널이 맞지만 IPC 경로가 길어지면 지연이 커지므로 서비스 분리 범위와 IPC 최적화를 함께 설계하고 IPC latency와 recovery time으로 확인함
 
-## Ⅶ. 적용 사례
-
-- 범용 서버 OS 설계에서는 모놀리식 구조를 사용하고, syscall overhead와 throughput으로 결과를 확인함
-- 항공 및 산업 제어용 OS에서는 마이크로커널을 채택하고, service isolation rate와 recovery time로 결과를 확인함
-- 장치 드라이버 검증 환경에서는 구조별 장애 범위를 비교하고, kernel panic rate와 driver fault impact로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 커널 구조 선택은 철학 논쟁이 아니라 성능 경로와 장애 격리 경계를 어디에 둘지 정하는 운영체제 아키텍처 결정임.

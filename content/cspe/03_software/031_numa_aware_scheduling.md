@@ -59,21 +59,11 @@ extra:
 3. **접근 패턴 관찰**: 원격 접근과 interconnect 트래픽을 관측함
 4. **재배치 조정**: 필요 시 migration이나 memory rebinding을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 스레드와 메모리 페이지가 다른 소켓에 흩어지면 원격 메모리 지연이 누적될 수 있음
-   - 해결방안: first-touch와 memory binding을 적용하고 remote memory access ratio와 p99 latency로 검증함
-2. 문제: 자동 migration이 과도하면 캐시가 깨지고 스케줄러 오버헤드가 증가할 수 있음
-   - 해결방안: migration threshold와 affinity 정책을 조정하고 migration count와 cache miss delta로 검증함
-3. 문제: VM이나 컨테이너 배치가 NUMA를 무시하면 호스트 튜닝 효과가 크게 줄어들 수 있음
-   - 해결방안: 오케스트레이션 계층까지 NUMA 정책을 연동하고 locality compliance와 throughput stability로 검증함
+1. 멀티소켓 DB와 in-memory 서버에서는 스레드와 메모리를 같은 노드에 두되 first-touch가 깨지면 원격 접근이 늘어나므로 memory binding과 CPU affinity를 적용하고 remote memory access ratio와 p99 latency로 확인함
+2. 가상화나 오케스트레이션 환경에서는 호스트만 튜닝해도 효과가 제한되므로 VM과 컨테이너 배치 정책까지 NUMA를 연동하고 locality compliance와 throughput stability와 migration count로 확인함
 
-## Ⅶ. 적용 사례
-
-- 대형 DB 서버에서는 NUMA 메모리 바인딩을 적용하고, remote memory access ratio와 p99 latency로 결과를 확인함
-- 가상화 호스트에서는 VM을 소켓 단위로 묶어 배치하고, locality compliance와 throughput stability로 결과를 확인함
-- 메모리 집약 분석 노드에서는 migration 정책을 조정하고, migration count와 cache miss delta로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 NUMA 인지 스케줄링은 CPU를 고르게 쓰는 기술이 아니라 메모리와 실행 위치를 가깝게 두어 멀티소켓 비용을 상쇄하는 지역성 최적화 기술임.

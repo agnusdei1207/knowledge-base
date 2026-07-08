@@ -59,21 +59,11 @@ extra:
 3. **실행 및 격리**: 하이퍼바이저가 VM별 자원 접근을 통제하며 실행함
 4. **운영 자동화**: snapshot과 migration과 모니터링과 복구를 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 과도한 자원 overcommit과 I/O 에뮬레이션은 가상머신 응답성을 크게 떨어뜨릴 수 있음
-   - 해결방안: workload 기반 자원 한도를 설정하고 CPU ready time과 p99 latency로 검증함
-2. 문제: 하이퍼바이저와 관리 콘솔 보안이 약하면 전체 가상화 환경이 동시에 노출될 수 있음
-   - 해결방안: 관리망 분리와 RBAC를 적용하고 hardening compliance와 audit finding count로 검증함
-3. 문제: VM 수가 무분별하게 늘어나면 운영 복잡도와 라이선스 비용이 급증할 수 있음
-   - 해결방안: lifecycle policy와 표준 템플릿을 운영하고 orphan VM count와 provision time으로 검증함
+1. 데이터센터와 클라우드에서는 Type 1 하이퍼바이저를 쓰되 자원 overcommit과 관리면 보안이 동시에 흔들리지 않도록 CPU와 메모리 한도와 관리망 분리를 적용하고 CPU ready time과 p99 latency와 hardening compliance로 확인함
+2. 개발과 테스트 환경에서는 Type 2 하이퍼바이저를 제한적으로 쓰되 호스트 OS 장애와 자원 간섭이 커지지 않도록 표준 이미지와 호스트 영향 기준을 두고 provision time과 host impact rate로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 데이터센터 서버 통합에서는 Type 1 기반 가상화를 사용하고, CPU ready time과 consolidation ratio로 결과를 확인함
-- 개발 환경에서는 Type 2 하이퍼바이저를 제한적으로 사용하고, provision time과 host impact rate로 결과를 확인함
-- 클라우드 운영에서는 스냅샷과 마이그레이션을 자동화하고, migration success rate와 hardening compliance로 결과를 확인함
-
-## Ⅷ. 결론
-
-가상화의 핵심 가치는 물리 서버를 더 많이 쓰는 것이 아니라 격리와 자동화를 유지하며 자원을 논리 서비스 단위로 재구성하는 데 있음.
+가상화의 가치는 물리 서버를 많이 쓰는 데 있지 않고 격리와 자동화를 유지하며 자원을 논리 서비스 단위로 재구성하는 데 있음.

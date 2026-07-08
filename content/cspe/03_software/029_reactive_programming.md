@@ -59,21 +59,11 @@ extra:
 3. **수요 조절**: subscriber가 처리 가능한 양을 알려 backpressure를 형성함
 4. **구독 처리**: 최종 소비자가 결과를 받아 후속 동작을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: backpressure 설계가 약하면 느린 소비자가 전체 스트림을 막거나 메모리를 고갈시킬 수 있음
-   - 해결방안: bounded queue와 demand control을 적용하고 queue depth와 subscriber lag로 검증함
-2. 문제: 비동기 연산 체인이 길어질수록 오류 위치와 실행 문맥 추적이 어려워질 수 있음
-   - 해결방안: tracing과 공통 에러 연산자를 적용하고 debug resolution time과 unhandled error rate로 검증함
-3. 문제: 단순 CRUD 업무에 무리하게 적용하면 코드 복잡도만 늘고 실익이 적을 수 있음
-   - 해결방안: 적용 대상을 이벤트 중심 흐름으로 제한하고 developer productivity와 latency gain으로 검증함
+1. 실시간 알림과 스트림 처리에서는 리액티브 모델이 유리하지만 느린 subscriber가 전체 흐름을 막지 않도록 bounded queue와 demand control을 적용하고 subscriber lag와 queue depth와 message latency로 확인함
+2. API 조합이나 단순 CRUD에는 연산 체인이 오히려 추적을 어렵게 만들 수 있으므로 적용 범위를 이벤트 중심 흐름으로 제한하고 unhandled error rate와 debug resolution time으로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 실시간 알림 서비스에서는 publisher와 subscriber 구조를 사용하고, subscriber lag와 message latency로 결과를 확인함
-- 스트림 처리 파이프라인에서는 backpressure를 명시적으로 설계하고, queue depth와 drop rate로 결과를 확인함
-- API 게이트웨이 후단 비동기 조합에서는 operator chain을 활용하고, unhandled error rate와 debug resolution time로 결과를 확인함
-
-## Ⅷ. 결론
-
-리액티브 프로그래밍은 비동기 문법이 아니라 데이터 흐름과 처리량 조절을 구조로 다루는 모델이므로, backpressure 설계 없이는 가치가 반감됨.
+리액티브 프로그래밍은 비동기 문법이 아니라 데이터 흐름과 처리량 조절을 구조로 다루는 모델이므로 backpressure 설계 없이는 가치가 반감됨.

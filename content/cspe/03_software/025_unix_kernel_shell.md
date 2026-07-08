@@ -59,21 +59,11 @@ extra:
 3. **시스템 호출**: 필요한 파일 접근과 프로세스 생성과 장치 사용을 커널에 요청함
 4. **파일 및 프로세스 처리**: 커널과 파일시스템이 실제 자원 작업을 수행하고 결과를 반환함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 커널과 사용자 공간 경계를 잘못 이해하면 권한 문제와 자원 접근 오류가 반복될 수 있음
-   - 해결방안: 시스템 호출 경계와 권한 모델을 표준 교육에 포함하고 permission error rate와 syscall misuse count로 검증함
-2. 문제: 복잡한 쉘 스크립트는 파싱과 오류 처리 한계 때문에 운영 자동화 리스크가 커질 수 있음
-   - 해결방안: 공통 함수화와 검증 도구를 적용하고 script failure rate와 lint compliance로 검증함
-3. 문제: 파일시스템 권한과 경로 설계가 일관되지 않으면 운영 편의성과 보안이 동시에 흔들릴 수 있음
-   - 해결방안: 표준 디렉터리와 권한 정책을 운영하고 permission drift count와 access incident rate로 검증함
+1. 서버 운영 자동화에서는 쉘과 시스템 호출 경계를 이해한 뒤 스크립트를 표준화하되 복잡한 스크립트가 오류 처리 한계를 드러내지 않도록 공통 함수와 lint를 적용하고 script failure rate와 deployment success rate로 확인함
+2. 다중 사용자 UNIX 환경에서는 파일시스템 권한과 디렉터리 체계를 함께 설계하되 커널 권한 모델과 어긋나면 접근 사고가 반복되므로 표준 권한 정책을 운영하고 permission drift count와 access incident rate로 확인함
 
-## Ⅶ. 적용 사례
-
-- 리눅스 운영 교육에서는 커널과 쉘과 파일시스템 관계를 함께 설명하고, syscall misuse count와 script failure rate로 결과를 확인함
-- 배포 자동화 환경에서는 쉘 스크립트와 권한 정책을 표준화하고, lint compliance와 deployment success rate로 결과를 확인함
-- 서버 운영 기준선에서는 디렉터리와 권한 체계를 정비하고, permission drift count와 access incident rate로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 UNIX의 3요소는 기능 나열이 아니라 자원 제어와 사용자 인터페이스와 저장 구조를 분리해 시스템을 단순하고 강하게 만드는 기본 설계 철학임.

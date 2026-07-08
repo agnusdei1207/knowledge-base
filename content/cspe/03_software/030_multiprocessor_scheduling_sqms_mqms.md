@@ -59,21 +59,11 @@ extra:
 3. **실행 및 대기 반복**: 작업이 실행되거나 다시 큐로 돌아감
 4. **부하 재조정**: 편차가 크면 migration이나 stealing을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: SQMS는 전역 큐 락 경쟁이 심해질수록 스케줄러 자체가 병목이 될 수 있음
-   - 해결방안: lock 분산과 per-CPU 보조 구조를 적용하고 scheduler lock contention과 throughput scaling으로 검증함
-2. 문제: MQMS는 큐별 작업 편차가 커지면 일부 코어만 바쁘고 일부는 유휴 상태가 될 수 있음
-   - 해결방안: 주기적 load balancing과 work stealing을 적용하고 load imbalance ratio와 idle core time으로 검증함
-3. 문제: 잦은 task migration은 캐시 지역성을 깨서 실행 효율을 떨어뜨릴 수 있음
-   - 해결방안: affinity 정책과 migration threshold를 조정하고 cache miss delta와 migration count로 검증함
+1. 작업 편차가 큰 범용 서버는 SQMS나 hybrid 큐가 유리하지만 전역 큐 락이 병목이 되지 않도록 per-CPU 보조 구조를 두고 scheduler lock contention과 throughput scaling으로 확인함
+2. 캐시 지역성이 중요한 병렬 런타임은 MQMS가 맞지만 부하가 한쪽으로 몰리면 유휴 코어가 생기므로 work stealing과 affinity 정책을 함께 두고 load imbalance ratio와 idle core time과 migration count로 확인함
 
-## Ⅶ. 적용 사례
-
-- 범용 서버 커널에서는 hybrid 큐 구조를 사용하고, load imbalance ratio와 scheduler lock contention로 결과를 확인함
-- 병렬 계산 런타임에서는 MQMS 중심 정책을 적용하고, idle core time과 cache miss delta로 결과를 확인함
-- 웹 서비스 플랫폼에서는 affinity와 load balancing을 함께 조정하고, p99 latency와 migration count로 결과를 확인함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 다중 프로세서 스케줄링의 핵심은 공정성 자체보다 부하 분산과 캐시 지역성 사이 균형을 어떤 큐 구조로 구현하느냐에 있음.

@@ -58,21 +58,11 @@ extra:
 3. **장치 제출**: 드라이버가 장치 큐에 요청을 내려 실제 I/O를 실행함
 4. **완료 처리**: 완료 인터럽트를 받아 프로세스에 결과를 전달함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: HDD와 SSD에 동일한 정책을 적용하면 한쪽에서는 탐색 비용을, 다른 쪽에서는 병렬성을 제대로 활용하지 못할 수 있음
-   - 해결방안: 장치 특성별 스케줄러를 분리 적용하고 device wait time과 queue depth efficiency로 검증함
-2. 문제: 처리량 위주로 큐를 길게 유지하면 일부 요청의 tail latency가 크게 악화될 수 있음
-   - 해결방안: deadline 계열 정책과 latency budget을 적용하고 p99 I/O latency와 starvation count로 검증함
-3. 문제: 멀티큐 환경에서 CPU와 장치 큐 매핑이 어긋나면 lock 경쟁과 캐시 이동이 늘 수 있음
-   - 해결방안: CPU affinity와 multi-queue tuning을 적용하고 queue lock contention과 IOPS scaling efficiency로 검증함
+1. HDD 기반 백업이나 순차 작업 서버에서는 SCAN 계열 정책을 쓰되 탐색 거리만 줄이고 일부 요청이 오래 기다리지 않도록 deadline 기준을 함께 두고 average seek distance와 starvation count와 throughput으로 확인함
+2. NVMe와 고부하 SSD 서버에서는 멀티큐와 비동기 I/O를 쓰되 큐가 길어져 tail latency가 튀지 않도록 CPU affinity와 queue bound를 조정하고 p99 I/O latency와 queue lock contention과 IOPS scaling efficiency로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- HDD 기반 백업 서버에서는 SCAN 계열 정책을 사용하고, average seek distance와 throughput으로 결과를 확인함
-- NVMe 서버에서는 멀티큐 스케줄링을 조정하고, p99 I/O latency와 IOPS scaling efficiency로 결과를 확인함
-- 혼합 워크로드 스토리지에서는 deadline 계열 정책을 적용하고, starvation count와 device wait time로 결과를 확인함
-
-## Ⅷ. 결론
-
-I/O 관리의 핵심은 요청을 많이 받는 것이 아니라 장치 특성에 맞게 큐를 제어해 처리량과 tail latency를 함께 관리하는 데 있음.
+I/O 관리의 핵심은 요청을 많이 받는 데 있지 않고 장치 특성에 맞게 큐를 제어해 처리량과 tail latency를 함께 관리하는 데 있음.

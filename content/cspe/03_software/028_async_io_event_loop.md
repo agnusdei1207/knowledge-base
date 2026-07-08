@@ -59,21 +59,11 @@ extra:
 3. **준비 이벤트 처리**: 읽기와 쓰기와 완료 콜백을 실행함
 4. **완료 통지**: 결과를 후속 로직에 전달하고 다음 작업을 연결함
 
-## Ⅵ. 문제점 및 해결 방안
+## Ⅵ. 실무 적용 및 유의점
 
-1. 문제: 이벤트 루프 안에서 느린 연산이 실행되면 전체 연결의 응답성이 동시에 악화될 수 있음
-   - 해결방안: CPU bound 작업을 별도 worker pool로 분리하고 event loop lag와 p99 latency로 검증함
-2. 문제: 비동기 체인이 복잡해지면 오류 전파와 자원 해제가 누락되기 쉬움
-   - 해결방안: 구조화된 future 패턴과 공통 에러 핸들러를 적용하고 callback failure rate와 leak count로 검증함
-3. 문제: backpressure 없이 입력만 늘어나면 큐가 폭증해 메모리 사용량과 tail latency가 급등할 수 있음
-   - 해결방안: admission control과 queue bound를 적용하고 queue depth와 drop rate로 검증함
+1. 고동시성 API나 메시지 게이트웨이는 이벤트 루프 기반 비동기 I/O가 맞지만 루프 안에 느린 연산이 섞이면 전체 응답이 밀리므로 CPU 작업을 worker pool로 분리하고 event loop lag와 p99 latency로 확인함
+2. 입력 폭증이 잦은 실시간 시스템에서는 backpressure 없이 큐만 늘리면 메모리와 tail latency가 같이 악화되므로 admission control과 queue bound를 적용하고 queue depth와 drop rate로 확인함
 
-## Ⅶ. 적용 사례
+## Ⅶ. 결론
 
-- 고동시성 API 서버에서는 이벤트 루프 기반 네트워크 처리를 사용하고, event loop lag와 p99 latency로 결과를 확인함
-- 실시간 메시지 게이트웨이에서는 non-blocking 소켓을 적용하고, queue depth와 drop rate로 결과를 확인함
-- 비동기 배치 파이프라인에서는 future 체인을 표준화하고, callback failure rate와 throughput stability로 결과를 확인함
-
-## Ⅷ. 결론
-
-비동기 I/O와 이벤트 루프의 핵심은 많은 연결을 빠르게 처리하는 것이 아니라 느린 작업과 큐 폭증을 통제하며 응답성을 유지하는 데 있음.
+비동기 I/O와 이벤트 루프의 핵심은 많은 연결을 빠르게 처리하는 데 있지 않고 느린 작업과 큐 폭증을 통제하며 응답성을 유지하는 데 있음.
