@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 주문 처리 시스템에서는 격리 프로파일을 분리하고 확인 지표는 lock wait time과 transaction latency임
-- 재고 관리 서비스에서는 이상 현상 감시를 운영하고 확인 지표는 consistency incident count와 retry success rate임
-- 금융 이체 플랫폼에서는 재시도 정책을 정합성 기준과 연계하고 확인 지표는 deadlock retry effectiveness와 duplicate transaction rate임
+- 주문 처리 시스템에서는 격리 프로파일을 분리하고, lock wait time과 transaction latency로 결과를 확인함
+- 재고 관리 서비스에서는 이상 현상 감시를 운영하고, consistency incident count와 retry success rate로 결과를 확인함
+- 금융 이체 플랫폼에서는 재시도 정책을 정합성 기준과 연계하고, deadlock retry effectiveness와 duplicate transaction rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 전자상거래 주문 플랫폼에서는 서비스별 배포를 운영하고 확인 지표는 deployment coupling rate와 MTTR임
-- 금융 API 플랫폼에서는 데이터 소유를 분리하고 확인 지표는 consistency incident count와 compensation success rate임
-- 대규모 SaaS 조직에서는 공통 플랫폼 자동화를 구축하고 확인 지표는 operational overhead per service와 interservice dependency density임
+- 전자상거래 주문 플랫폼에서는 서비스별 배포를 운영하고, deployment coupling rate와 MTTR로 결과를 확인함
+- 금융 API 플랫폼에서는 데이터 소유를 분리하고, consistency incident count와 compensation success rate로 결과를 확인함
+- 대규모 SaaS 조직에서는 공통 플랫폼 자동화를 구축하고, operational overhead per service와 interservice dependency density로 결과를 확인함
 
 ## Ⅷ. 결론
 

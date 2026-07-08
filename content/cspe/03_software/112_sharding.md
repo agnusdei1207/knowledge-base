@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사용자 계정 대용량 서비스에서는 샤드 키 분포를 검증하고 확인 지표는 shard balance ratio와 hot shard request rate임
-- 분석성 조회가 많은 플랫폼에서는 읽기 모델을 분리하고 확인 지표는 cross-shard query ratio와 fan-out latency임
-- 빠르게 성장하는 SaaS에서는 온라인 재샤딩 절차를 준비하고 확인 지표는 resharding downtime과 migration success rate임
+- 사용자 계정 대용량 서비스에서는 샤드 키 분포를 검증하고, shard balance ratio와 hot shard request rate로 결과를 확인함
+- 분석성 조회가 많은 플랫폼에서는 읽기 모델을 분리하고, cross-shard query ratio와 fan-out latency로 결과를 확인함
+- 빠르게 성장하는 SaaS에서는 온라인 재샤딩 절차를 준비하고, resharding downtime과 migration success rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

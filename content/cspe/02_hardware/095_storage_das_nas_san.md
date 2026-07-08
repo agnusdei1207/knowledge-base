@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 트랜잭션 DB 설계에서는 SAN과 NVMe DAS를 비교해 지연 요구에 맞는 계층을 선택하고 확인 지표는 p99 latency와 IOPS임
-- 부서 파일 공유 환경에서는 NAS에 권한과 스냅샷 정책을 적용하고 확인 지표는 throughput과 restore success rate임
-- 전사 스토리지 표준화에서는 분산 DAS를 통합 관리 체계로 묶고 확인 지표는 capacity utilization과 backup compliance rate임
+- 트랜잭션 DB 설계에서는 SAN과 NVMe DAS를 비교해 지연 요구에 맞는 계층을 선택하고, p99 latency와 IOPS로 결과를 확인함
+- 부서 파일 공유 환경에서는 NAS에 권한과 스냅샷 정책을 적용하고, throughput과 restore success rate로 결과를 확인함
+- 전사 스토리지 표준화에서는 분산 DAS를 통합 관리 체계로 묶고, capacity utilization과 backup compliance rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

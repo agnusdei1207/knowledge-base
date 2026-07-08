@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 시스템 품질 명세에서는 ISO/IEC 25010을 사용하고 확인 지표는 measurable quality ratio와 acceptance ambiguity count임
-- 금융 플랫폼에서는 보안성과 신뢰성 우선순위를 명시하고 확인 지표는 quality priority alignment와 defect escape rate임
-- QA 조직 표준화에서는 품질 사전을 운영하고 확인 지표는 terminology consistency score와 review clarification count임
+- 공공 시스템 품질 명세에서는 ISO/IEC 25010을 사용하고, measurable quality ratio와 acceptance ambiguity count로 결과를 확인함
+- 금융 플랫폼에서는 보안성과 신뢰성 우선순위를 명시하고, quality priority alignment와 defect escape rate로 결과를 확인함
+- QA 조직 표준화에서는 품질 사전을 운영하고, terminology consistency score와 review clarification count로 결과를 확인함
 
 ## Ⅷ. 결론
 

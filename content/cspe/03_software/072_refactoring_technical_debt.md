@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 레거시 핵심 모듈에서는 기술부채 목록을 운영하고 확인 지표는 debt interest rate와 hotspot coverage임
-- 스프린트 내 개선 활동에서는 소규모 리팩터링을 수행하고 확인 지표는 refactoring batch size와 regression defect count임
-- 아키텍처 개선 제안에서는 부채 비용을 계량하고 확인 지표는 cycle time delta와 delivery impact score임
+- 레거시 핵심 모듈에서는 기술부채 목록을 운영하고, debt interest rate와 hotspot coverage로 결과를 확인함
+- 스프린트 내 개선 활동에서는 소규모 리팩터링을 수행하고, refactoring batch size와 regression defect count로 결과를 확인함
+- 아키텍처 개선 제안에서는 부채 비용을 계량하고, cycle time delta와 delivery impact score로 결과를 확인함
 
 ## Ⅷ. 결론
 

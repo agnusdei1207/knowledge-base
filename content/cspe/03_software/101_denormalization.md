@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대시보드 조회 DB에서는 병목 질의를 기준으로 반정규화를 적용하고 확인 지표는 latency improvement ratio와 unused denormalized field count임
-- 주문 집계 시스템에서는 동기화 계약을 운영하고 확인 지표는 inconsistency incident count와 sync lag임
-- 장기 운영 SaaS에서는 설계 근거를 문서화하고 확인 지표는 schema complexity score와 maintenance effort trend임
+- 대시보드 조회 DB에서는 병목 질의를 기준으로 반정규화를 적용하고, latency improvement ratio와 unused denormalized field count로 결과를 확인함
+- 주문 집계 시스템에서는 동기화 계약을 운영하고, inconsistency incident count와 sync lag로 결과를 확인함
+- 장기 운영 SaaS에서는 설계 근거를 문서화하고, schema complexity score와 maintenance effort trend로 결과를 확인함
 
 ## Ⅷ. 결론
 

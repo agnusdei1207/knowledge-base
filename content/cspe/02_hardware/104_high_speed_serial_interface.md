@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 업무용 노트북 도킹 표준화에서는 승인 독과 케이블만 허용하고 확인 지표는 compatibility matrix와 helpdesk incident count임
-- 외장 고속 스토리지 구성에서는 link training 결과를 점검하고 확인 지표는 negotiated speed와 link error rate임
-- 보안 구역 단말에서는 Thunderbolt 포트를 제한 정책으로 운영하고 확인 지표는 unauthorized DMA block rate와 policy compliance rate임
+- 업무용 노트북 도킹 표준화에서는 승인 독과 케이블만 허용하고, compatibility matrix와 helpdesk incident count로 결과를 확인함
+- 외장 고속 스토리지 구성에서는 link training 결과를 점검하고, negotiated speed와 link error rate로 결과를 확인함
+- 보안 구역 단말에서는 Thunderbolt 포트를 제한 정책으로 운영하고, unauthorized DMA block rate와 policy compliance rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

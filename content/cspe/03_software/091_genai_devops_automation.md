@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 장애 대응 센터에서는 원인 요약 자동화를 적용하고 확인 지표는 suggestion accuracy와 context completeness score임
-- 플랫폼 운영 조직에서는 승인 기반 실행을 운영하고 확인 지표는 auto-action approval compliance와 privileged action block rate임
-- CI/CD 운영팀에서는 피드백 루프를 반영하고 확인 지표는 accepted suggestion rate와 incident regression rate임
+- 장애 대응 센터에서는 원인 요약 자동화를 적용하고, suggestion accuracy와 context completeness score로 결과를 확인함
+- 플랫폼 운영 조직에서는 승인 기반 실행을 운영하고, auto-action approval compliance와 privileged action block rate로 결과를 확인함
+- CI/CD 운영팀에서는 피드백 루프를 반영하고, accepted suggestion rate와 incident regression rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

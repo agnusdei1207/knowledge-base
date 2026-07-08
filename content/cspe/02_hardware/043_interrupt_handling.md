@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 네트워크 카드 처리에서는 벡터 인터럽트로 장치 식별 시간을 줄이고 확인 지표는 interrupt latency와 packet drop rate임
-- 임베디드 제어 보드에서는 단순 장치 우선순위를 데이지체인으로 구성하고 확인 지표는 hardware cost와 service delay임
-- 실시간 운영체제에서는 짧은 ISR와 하위 작업 분리를 적용하고 확인 지표는 jitter와 deadline miss rate임
+- 네트워크 카드 처리에서는 벡터 인터럽트로 장치 식별 시간을 줄이고, interrupt latency와 packet drop rate로 결과를 확인함
+- 임베디드 제어 보드에서는 단순 장치 우선순위를 데이지체인으로 구성하고, hardware cost와 service delay로 결과를 확인함
+- 실시간 운영체제에서는 짧은 ISR와 하위 작업 분리를 적용하고, jitter와 deadline miss rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

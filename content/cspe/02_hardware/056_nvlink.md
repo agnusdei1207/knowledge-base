@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 LLM 학습 서버에서는 GPU 간 gradient 교환에 NVLink를 사용하고 확인 지표는 all-reduce time과 training throughput임
-- 멀티 GPU 추론 서버에서는 peer memory access를 활용하고 확인 지표는 request latency와 GPU memory copy time임
-- NVSwitch 기반 AI 슈퍼노드에서는 집적 연결을 구성하고 확인 지표는 inter-GPU bandwidth와 cluster efficiency임
+- 대규모 LLM 학습 서버에서는 GPU 간 gradient 교환에 NVLink를 사용하고, all-reduce time과 training throughput으로 결과를 확인함
+- 멀티 GPU 추론 서버에서는 peer memory access를 활용하고, request latency와 GPU memory copy time로 결과를 확인함
+- NVSwitch 기반 AI 슈퍼노드에서는 집적 연결을 구성하고, inter-GPU bandwidth와 cluster efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

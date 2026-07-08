@@ -85,9 +85,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터센터 SSD는 3D NAND를 활용해 랙당 저장 밀도를 높이고 확인 지표는 watts per TB와 drive capacity density임
-- 스마트폰 UFS 저장장치는 3D NAND로 용량과 전력 효율을 동시에 확보하고 확인 지표는 app launch latency와 battery impact임
-- 영상 기록 장치는 pSLC 또는 내구성 보강 구성을 적용해 지속 쓰기를 견디고 확인 지표는 TBW와 retention error count임
+- 데이터센터 SSD는 3D NAND를 활용해 랙당 저장 밀도를 높이고, watts per TB와 drive capacity density로 결과를 확인함
+- 스마트폰 UFS 저장장치는 3D NAND로 용량과 전력 효율을 동시에 확보하고, app launch latency와 battery impact로 결과를 확인함
+- 영상 기록 장치는 pSLC 또는 내구성 보강 구성을 적용해 지속 쓰기를 견디고, TBW와 retention error count로 결과를 확인함
 
 ## Ⅷ. 결론
 

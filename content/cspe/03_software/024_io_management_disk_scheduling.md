@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- HDD 기반 백업 서버에서는 SCAN 계열 정책을 사용하고 확인 지표는 average seek distance와 throughput임
-- NVMe 서버에서는 멀티큐 스케줄링을 조정하고 확인 지표는 p99 I/O latency와 IOPS scaling efficiency임
-- 혼합 워크로드 스토리지에서는 deadline 계열 정책을 적용하고 확인 지표는 starvation count와 device wait time임
+- HDD 기반 백업 서버에서는 SCAN 계열 정책을 사용하고, average seek distance와 throughput으로 결과를 확인함
+- NVMe 서버에서는 멀티큐 스케줄링을 조정하고, p99 I/O latency와 IOPS scaling efficiency로 결과를 확인함
+- 혼합 워크로드 스토리지에서는 deadline 계열 정책을 적용하고, starvation count와 device wait time로 결과를 확인함
 
 ## Ⅷ. 결론
 

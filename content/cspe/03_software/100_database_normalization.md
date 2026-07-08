@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 업무 DB 설계에서는 종속성 워크숍을 수행하고 확인 지표는 dependency completeness와 anomaly recurrence rate임
-- 전자상거래 조회 중심 DB에서는 정규화 수준을 조정하고 확인 지표는 join depth와 critical query latency임
-- SaaS 개발팀에서는 스키마 문서를 관리하고 확인 지표는 mapping defect count와 schema comprehension score임
+- 공공 업무 DB 설계에서는 종속성 워크숍을 수행하고, dependency completeness와 anomaly recurrence rate로 결과를 확인함
+- 전자상거래 조회 중심 DB에서는 정규화 수준을 조정하고, join depth와 critical query latency로 결과를 확인함
+- SaaS 개발팀에서는 스키마 문서를 관리하고, mapping defect count와 schema comprehension score로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 초기 제품 서비스에서는 모놀리식 구조를 유지하고 확인 지표는 build lead time과 change failure rate임
-- 대형 전자상거래 플랫폼에서는 점진적으로 MSA를 도입하고 확인 지표는 deployment coupling rate와 operational overhead per service임
-- 아키텍처 전환 검토 조직에서는 팀 역량을 함께 평가하고 확인 지표는 architecture fit score와 ownership clarity score임
+- 초기 제품 서비스에서는 모놀리식 구조를 유지하고, build lead time과 change failure rate로 결과를 확인함
+- 대형 전자상거래 플랫폼에서는 점진적으로 MSA를 도입하고, deployment coupling rate와 operational overhead per service로 결과를 확인함
+- 아키텍처 전환 검토 조직에서는 팀 역량을 함께 평가하고, architecture fit score와 ownership clarity score로 결과를 확인함
 
 ## Ⅷ. 결론
 

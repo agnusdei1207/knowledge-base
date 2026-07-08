@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- SaaS 제품팀에서는 trunk 기반 전략을 사용하고 확인 지표는 branch lifetime과 review lead time임
-- 다중 버전 유지 조직에서는 release branch를 운영하고 확인 지표는 release predictability와 rollback readiness score임
-- 규제형 프로젝트에서는 릴리스 기록을 강화하고 확인 지표는 traceability coverage와 merge conflict rate임
+- SaaS 제품팀에서는 trunk 기반 전략을 사용하고, branch lifetime과 review lead time로 결과를 확인함
+- 다중 버전 유지 조직에서는 release branch를 운영하고, release predictability와 rollback readiness score로 결과를 확인함
+- 규제형 프로젝트에서는 릴리스 기록을 강화하고, traceability coverage와 merge conflict rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

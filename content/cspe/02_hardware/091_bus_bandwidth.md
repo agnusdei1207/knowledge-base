@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- GPU 서버 슬롯 설계에서는 PCIe 세대와 레인 수를 계산해 장치별 요구 대역폭을 비교하고 확인 지표는 oversubscription ratio와 p99 transfer latency임
-- 메모리 채널 증설 검토에서는 채널 수 증가에 따른 이론 대역폭과 실측 처리량을 대조하고 확인 지표는 bandwidth scaling efficiency와 memory stall rate임
-- 스토리지 성능 분석에서는 NVMe 링크 상한과 실제 I/O 처리량을 비교하고 확인 지표는 payload efficiency와 measured throughput임
+- GPU 서버 슬롯 설계에서는 PCIe 세대와 레인 수를 계산해 장치별 요구 대역폭을 비교하고, oversubscription ratio와 p99 transfer latency로 결과를 확인함
+- 메모리 채널 증설 검토에서는 채널 수 증가에 따른 이론 대역폭과 실측 처리량을 대조하고, bandwidth scaling efficiency와 memory stall rate로 결과를 확인함
+- 스토리지 성능 분석에서는 NVMe 링크 상한과 실제 I/O 처리량을 비교하고, payload efficiency와 measured throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

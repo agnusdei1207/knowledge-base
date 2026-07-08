@@ -71,9 +71,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 연구용 양자 장비 비교 평가에서는 초전도와 이온 트랩을 함께 검토하고 확인 지표는 gate fidelity와 coherence time임
-- 양자 클라우드 로드맵에서는 집적성 중심 기술 선택을 수행하고 확인 지표는 usable qubit count와 scaling plan feasibility임
-- 오류 정정 실험 플랫폼에서는 고품질 물리 큐비트를 우선 적용하고 확인 지표는 logical error proxy와 calibration stability임
+- 연구용 양자 장비 비교 평가에서는 초전도와 이온 트랩을 함께 검토하고, gate fidelity와 coherence time로 결과를 확인함
+- 양자 클라우드 로드맵에서는 집적성 중심 기술 선택을 수행하고, usable qubit count와 scaling plan feasibility로 결과를 확인함
+- 오류 정정 실험 플랫폼에서는 고품질 물리 큐비트를 우선 적용하고, logical error proxy와 calibration stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

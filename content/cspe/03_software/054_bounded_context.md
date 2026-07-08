@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 전자상거래 플랫폼에서는 주문과 정산을 다른 컨텍스트로 분리하고 확인 지표는 terminology conflict count와 change overlap ratio임
-- 대형 조직 아키텍처 리뷰에서는 context map을 운영하고 확인 지표는 integration overhead와 ownership clarity score임
-- 서비스 재편 프로젝트에서는 경계와 팀 책임을 동시에 조정하고 확인 지표는 context granularity score와 dependency violation count임
+- 전자상거래 플랫폼에서는 주문과 정산을 다른 컨텍스트로 분리하고, terminology conflict count와 change overlap ratio로 결과를 확인함
+- 대형 조직 아키텍처 리뷰에서는 context map을 운영하고, integration overhead와 ownership clarity score로 결과를 확인함
+- 서비스 재편 프로젝트에서는 경계와 팀 책임을 동시에 조정하고, context granularity score와 dependency violation count로 결과를 확인함
 
 ## Ⅷ. 결론
 

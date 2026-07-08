@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 전자상거래 DB에서는 계획 추정 오차를 분석하고 확인 지표는 cardinality error ratio와 plan regression count임
-- 배치와 OLTP가 공존하는 환경에서는 힌트 의존을 줄이고 확인 지표는 hint dependency ratio와 post-growth latency임
-- 플랫폼 DBA 조직에서는 인덱스 예산을 관리하고 확인 지표는 index maintenance cost와 workload latency balance임
+- 대형 전자상거래 DB에서는 계획 추정 오차를 분석하고, cardinality error ratio와 plan regression count로 결과를 확인함
+- 배치와 OLTP가 공존하는 환경에서는 힌트 의존을 줄이고, hint dependency ratio와 post-growth latency로 결과를 확인함
+- 플랫폼 DBA 조직에서는 인덱스 예산을 관리하고, index maintenance cost와 workload latency balance로 결과를 확인함
 
 ## Ⅷ. 결론
 

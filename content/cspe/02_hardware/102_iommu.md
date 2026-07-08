@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- GPU passthrough 환경에서는 VM별 IOMMU group을 분리하고 확인 지표는 device isolation matrix와 DMA fault count임
-- 고속 NIC 운영에서는 large page 기반 DMA 매핑을 적용하고 확인 지표는 IOTLB miss rate와 packet p99 latency임
-- 외부 확장 포트 보안에서는 IOMMU와 장치 승인을 함께 적용하고 확인 지표는 unauthorized DMA block rate와 security incident count임
+- GPU passthrough 환경에서는 VM별 IOMMU group을 분리하고, device isolation matrix와 DMA fault count로 결과를 확인함
+- 고속 NIC 운영에서는 large page 기반 DMA 매핑을 적용하고, IOTLB miss rate와 packet p99 latency로 결과를 확인함
+- 외부 확장 포트 보안에서는 IOMMU와 장치 승인을 함께 적용하고, unauthorized DMA block rate와 security incident count로 결과를 확인함
 
 ## Ⅷ. 결론
 

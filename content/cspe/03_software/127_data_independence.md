@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 운영 DB 성능 튜닝에서는 추상 계층을 유지하고 확인 지표는 direct storage dependency count와 change ripple rate임
-- 스키마 진화가 잦은 SaaS에서는 호환성 리뷰를 운영하고 확인 지표는 backward compatibility rate와 consumer breakage count임
-- 데이터 플랫폼 조직에서는 계약 거버넌스를 적용하고 확인 지표는 contract compliance rate와 unauthorized coupling count임
+- 운영 DB 성능 튜닝에서는 추상 계층을 유지하고, direct storage dependency count와 change ripple rate로 결과를 확인함
+- 스키마 진화가 잦은 SaaS에서는 호환성 리뷰를 운영하고, backward compatibility rate와 consumer breakage count로 결과를 확인함
+- 데이터 플랫폼 조직에서는 계약 거버넌스를 적용하고, contract compliance rate와 unauthorized coupling count로 결과를 확인함
 
 ## Ⅷ. 결론
 

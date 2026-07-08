@@ -79,9 +79,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터베이스 로그 장치는 NVMe SSD를 사용해 낮은 쓰기 지연을 확보하고 확인 지표는 p99 latency와 steady-state IOPS임
-- 가상화 호스트는 멀티큐 NVMe 구성을 통해 VM 병렬 I/O를 수용하고 확인 지표는 CPU cycles per IOPS와 throughput stability임
-- AI 데이터 파이프라인은 고속 PCIe SSD를 캐시 계층으로 사용해 입력 병목을 줄이고 확인 지표는 data loader throughput과 accelerator idle ratio임
+- 데이터베이스 로그 장치는 NVMe SSD를 사용해 낮은 쓰기 지연을 확보하고, p99 latency와 steady-state IOPS로 결과를 확인함
+- 가상화 호스트는 멀티큐 NVMe 구성을 통해 VM 병렬 I/O를 수용하고, CPU cycles per IOPS와 throughput stability로 결과를 확인함
+- AI 데이터 파이프라인은 고속 PCIe SSD를 캐시 계층으로 사용해 입력 병목을 줄이고, data loader throughput과 accelerator idle ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

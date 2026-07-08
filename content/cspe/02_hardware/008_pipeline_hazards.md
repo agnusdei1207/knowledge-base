@@ -80,9 +80,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 컴파일러 최적화에서는 스케줄링을 적용하고 확인 지표는 data stall ratio와 CPI임
-- 고성능 CPU 설계에서는 분기 예측기를 강화하고 확인 지표는 misprediction rate와 flush penalty임
-- 임베디드 코어 설계에서는 선택적 자원 분리를 적용하고 확인 지표는 resource conflict rate와 area efficiency임
+- 컴파일러 최적화에서는 스케줄링을 적용하고, data stall ratio와 CPI로 결과를 확인함
+- 고성능 CPU 설계에서는 분기 예측기를 강화하고, misprediction rate와 flush penalty로 결과를 확인함
+- 임베디드 코어 설계에서는 선택적 자원 분리를 적용하고, resource conflict rate와 area efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

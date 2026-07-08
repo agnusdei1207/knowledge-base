@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 산업 비전 검사에서는 저지연 추론 파이프라인을 FPGA에 구현하고 확인 지표는 frame latency와 power efficiency임
-- 통신 장비 엣지 AI에서는 전처리와 추론을 한 칩에서 수행하고 확인 지표는 throughput과 thermal envelope임
-- 금융 초저지연 분석에서는 맞춤 연산 경로를 구성하고 확인 지표는 inference latency와 determinism임
+- 산업 비전 검사에서는 저지연 추론 파이프라인을 FPGA에 구현하고, frame latency와 power efficiency로 결과를 확인함
+- 통신 장비 엣지 AI에서는 전처리와 추론을 한 칩에서 수행하고, throughput과 thermal envelope로 결과를 확인함
+- 금융 초저지연 분석에서는 맞춤 연산 경로를 구성하고, inference latency와 determinism로 결과를 확인함
 
 ## Ⅷ. 결론
 

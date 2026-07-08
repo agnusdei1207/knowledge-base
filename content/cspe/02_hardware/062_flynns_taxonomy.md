@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- GPU 내부 구조 설명에서는 SIMD 계열 특성을 강조하고 확인 지표는 lane utilization과 branch efficiency임
-- 멀티코어 서버 분석에서는 MIMD 구조를 기준으로 설명하고 확인 지표는 core utilization과 synchronization overhead임
-- AI 클러스터 강의와 설계 문서에서는 계층별 Flynn 분류를 병행하고 확인 지표는 architecture clarity와 workload mapping accuracy임
+- GPU 내부 구조 설명에서는 SIMD 계열 특성을 강조하고, lane utilization과 branch efficiency로 결과를 확인함
+- 멀티코어 서버 분석에서는 MIMD 구조를 기준으로 설명하고, core utilization과 synchronization overhead로 결과를 확인함
+- AI 클러스터 강의와 설계 문서에서는 계층별 Flynn 분류를 병행하고, architecture clarity와 workload mapping accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

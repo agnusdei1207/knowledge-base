@@ -80,9 +80,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 소규모 멀티코어 CPU에서는 필터링된 스누핑을 적용하고 확인 지표는 broadcast traffic ratio와 effective bus bandwidth임
-- NUMA 서버에서는 희소 디렉터리를 적용하고 확인 지표는 directory overhead ratio와 metadata hit rate임
-- 칩렛 기반 시스템에서는 분산 디렉터리를 적용하고 확인 지표는 directory lookup latency와 coherence completion time임
+- 소규모 멀티코어 CPU에서는 필터링된 스누핑을 적용하고, broadcast traffic ratio와 effective bus bandwidth로 결과를 확인함
+- NUMA 서버에서는 희소 디렉터리를 적용하고, directory overhead ratio와 metadata hit rate로 결과를 확인함
+- 칩렛 기반 시스템에서는 분산 디렉터리를 적용하고, directory lookup latency와 coherence completion time로 결과를 확인함
 
 ## Ⅷ. 결론
 

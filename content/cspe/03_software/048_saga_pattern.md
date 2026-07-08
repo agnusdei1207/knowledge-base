@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 주문·결제·재고 연동에서는 saga를 적용하고 확인 지표는 compensation success rate와 residual inconsistency count임
-- 이벤트 중심 MSA에서는 choreography를 사용하고 확인 지표는 saga trace completeness와 duplicate execution rate임
-- 복잡한 승인 흐름에서는 orchestration을 사용하고 확인 지표는 MTTR와 idempotency miss count임
+- 주문·결제·재고 연동에서는 saga를 적용하고, compensation success rate와 residual inconsistency count로 결과를 확인함
+- 이벤트 중심 MSA에서는 choreography를 사용하고, saga trace completeness와 duplicate execution rate로 결과를 확인함
+- 복잡한 승인 흐름에서는 orchestration을 사용하고, MTTR와 idempotency miss count로 결과를 확인함
 
 ## Ⅷ. 결론
 

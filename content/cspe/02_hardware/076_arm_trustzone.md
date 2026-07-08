@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 결제 환경에서는 TEE와 키 저장을 TrustZone에 배치하고 확인 지표는 key extraction resistance와 transaction latency임
-- IoT 게이트웨이에서는 secure boot와 인증 서비스를 분리하고 확인 지표는 boot integrity와 device attestation success rate임
-- 자동차 보안 ECU에서는 민감 자격 증명을 secure world에서 관리하고 확인 지표는 unauthorized access count와 service overhead임
+- 모바일 결제 환경에서는 TEE와 키 저장을 TrustZone에 배치하고, key extraction resistance와 transaction latency로 결과를 확인함
+- IoT 게이트웨이에서는 secure boot와 인증 서비스를 분리하고, boot integrity와 device attestation success rate로 결과를 확인함
+- 자동차 보안 ECU에서는 민감 자격 증명을 secure world에서 관리하고, unauthorized access count와 service overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

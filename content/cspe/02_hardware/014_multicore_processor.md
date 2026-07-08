@@ -86,9 +86,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 병렬 처리 환경에서는 병렬 구간을 늘리고 확인 지표는 parallel fraction과 speedup efficiency임
-- 대용량 데이터 플랫폼에서는 공유 자원 관리를 적용하고 확인 지표는 LLC contention rate와 memory bandwidth utilization임
-- 모바일 SoC에서는 이종 스케줄링을 조정하고 확인 지표는 core placement accuracy와 perf per watt임
+- 서버 병렬 처리 환경에서는 병렬 구간을 늘리고, parallel fraction과 speedup efficiency로 결과를 확인함
+- 대용량 데이터 플랫폼에서는 공유 자원 관리를 적용하고, LLC contention rate와 memory bandwidth utilization로 결과를 확인함
+- 모바일 SoC에서는 이종 스케줄링을 조정하고, core placement accuracy와 perf per watt로 결과를 확인함
 
 ## Ⅷ. 결론
 

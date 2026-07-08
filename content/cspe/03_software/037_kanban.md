@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 운영 지원 조직에서는 칸반 보드를 사용하고 확인 지표는 cycle time과 blocked item age임
-- 플랫폼 팀에서는 WIP 제한과 expedite lane을 운영하고 확인 지표는 expedite ratio와 throughput trend임
-- 고객 요청 처리 조직에서는 병목 단계를 정기 점검하고 확인 지표는 flow efficiency와 bottleneck recurrence rate임
+- 운영 지원 조직에서는 칸반 보드를 사용하고, cycle time과 blocked item age로 결과를 확인함
+- 플랫폼 팀에서는 WIP 제한과 expedite lane을 운영하고, expedite ratio와 throughput trend로 결과를 확인함
+- 고객 요청 처리 조직에서는 병목 단계를 정기 점검하고, flow efficiency와 bottleneck recurrence rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

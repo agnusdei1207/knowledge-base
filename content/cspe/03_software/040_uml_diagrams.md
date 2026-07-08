@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 도메인 설계 리뷰에서는 class diagram을 사용하고 확인 지표는 review clarification count와 model drift count임
-- API 협력 구조 설명에서는 sequence diagram을 사용하고 확인 지표는 notation error rate와 integration defect count임
-- 운영 아키텍처 문서화에서는 component와 deployment diagram을 사용하고 확인 지표는 usage frequency와 review freshness임
+- 도메인 설계 리뷰에서는 class diagram을 사용하고, review clarification count와 model drift count로 결과를 확인함
+- API 협력 구조 설명에서는 sequence diagram을 사용하고, notation error rate와 integration defect count로 결과를 확인함
+- 운영 아키텍처 문서화에서는 component와 deployment diagram을 사용하고, usage frequency와 review freshness로 결과를 확인함
 
 ## Ⅷ. 결론
 

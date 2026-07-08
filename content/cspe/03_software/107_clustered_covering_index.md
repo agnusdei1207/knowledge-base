@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 시계열 주문 조회 DB에서는 안정적 클러스터드 키를 선택하고 확인 지표는 page split rate와 fragmentation ratio임
-- API 응답 최적화에서는 커버링 인덱스를 적용하고 확인 지표는 index size growth와 lookup elimination ratio임
-- 장기 운영 시스템에서는 질의 포트폴리오를 재검토하고 확인 지표는 unused covering index count와 critical query latency임
+- 시계열 주문 조회 DB에서는 안정적 클러스터드 키를 선택하고, page split rate와 fragmentation ratio로 결과를 확인함
+- API 응답 최적화에서는 커버링 인덱스를 적용하고, index size growth와 lookup elimination ratio로 결과를 확인함
+- 장기 운영 시스템에서는 질의 포트폴리오를 재검토하고, unused covering index count와 critical query latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

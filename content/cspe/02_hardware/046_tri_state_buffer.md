@@ -79,9 +79,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 마이크로프로세서 외부 데이터 버스에서는 선택된 메모리만 선을 구동하게 하고 확인 지표는 bus contention count와 read stability임
-- FPGA 기반 보드 설계에서는 GPIO 공유선 제어에 사용하고 확인 지표는 output enable timing과 error rate임
-- 레거시 시스템 인터페이스에서는 멀티디바이스 버스 분리를 구현하고 확인 지표는 signal integrity와 power noise임
+- 마이크로프로세서 외부 데이터 버스에서는 선택된 메모리만 선을 구동하게 하고, bus contention count와 read stability로 결과를 확인함
+- FPGA 기반 보드 설계에서는 GPIO 공유선 제어에 사용하고, output enable timing과 error rate로 결과를 확인함
+- 레거시 시스템 인터페이스에서는 멀티디바이스 버스 분리를 구현하고, signal integrity와 power noise로 결과를 확인함
 
 ## Ⅷ. 결론
 

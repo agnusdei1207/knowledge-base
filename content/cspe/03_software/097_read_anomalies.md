@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 재고 예약 시스템에서는 이상 현상 민감 트랜잭션을 분류하고 확인 지표는 consistency defect count와 reconciliation error rate임
-- 대량 집계 배치에서는 제어 정책을 구분하고 확인 지표는 serialization overhead와 prevented anomaly rate임
-- 사용자 조회 서비스에서는 보정 로직을 추가하고 확인 지표는 stale read incident count와 user-visible inconsistency rate임
+- 재고 예약 시스템에서는 이상 현상 민감 트랜잭션을 분류하고, consistency defect count와 reconciliation error rate로 결과를 확인함
+- 대량 집계 배치에서는 제어 정책을 구분하고, serialization overhead와 prevented anomaly rate로 결과를 확인함
+- 사용자 조회 서비스에서는 보정 로직을 추가하고, stale read incident count와 user-visible inconsistency rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

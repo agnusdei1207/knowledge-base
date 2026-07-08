@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 이동식 저장장치에서는 FAT 계열을 사용하고 확인 지표는 device compatibility rate와 mount success rate임
-- 리눅스 서버에서는 ext4를 기본으로 사용하고 확인 지표는 fsck recovery time과 fs latency임
-- 모바일 및 개인 단말에서는 APFS 스냅샷을 활용하고 확인 지표는 snapshot success rate와 clone efficiency임
+- 이동식 저장장치에서는 FAT 계열을 사용하고, device compatibility rate와 mount success rate로 결과를 확인함
+- 리눅스 서버에서는 ext4를 기본으로 사용하고, fsck recovery time과 fs latency로 결과를 확인함
+- 모바일 및 개인 단말에서는 APFS 스냅샷을 활용하고, snapshot success rate와 clone efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

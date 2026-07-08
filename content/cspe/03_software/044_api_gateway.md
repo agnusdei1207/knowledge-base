@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 백엔드에서는 API 게이트웨이를 사용하고 확인 지표는 gateway latency와 error schema consistency임
-- B2B API 플랫폼에서는 인증과 rate limiting을 게이트웨이에서 처리하고 확인 지표는 gateway availability와 policy violation block rate임
-- 마이크로서비스 통합 환경에서는 응답 조합을 제한적으로 적용하고 확인 지표는 gateway complexity score와 client retry failure rate임
+- 모바일 백엔드에서는 API 게이트웨이를 사용하고, gateway latency와 error schema consistency로 결과를 확인함
+- B2B API 플랫폼에서는 인증과 rate limiting을 게이트웨이에서 처리하고, gateway availability와 policy violation block rate로 결과를 확인함
+- 마이크로서비스 통합 환경에서는 응답 조합을 제한적으로 적용하고, gateway complexity score와 client retry failure rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

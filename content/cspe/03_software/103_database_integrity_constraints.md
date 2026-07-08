@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 멀티채널 업무 시스템에서는 핵심 규칙을 DB에 강제하고 확인 지표는 integrity violation count와 channel inconsistency rate임
-- 대규모 데이터 마이그레이션에서는 단계적 제약 적용을 수행하고 확인 지표는 migration failure rate와 backfill success rate임
-- 데이터 거버넌스 조직에서는 변경 이력을 관리하고 확인 지표는 constraint change traceability와 review lead time임
+- 멀티채널 업무 시스템에서는 핵심 규칙을 DB에 강제하고, integrity violation count와 channel inconsistency rate로 결과를 확인함
+- 대규모 데이터 마이그레이션에서는 단계적 제약 적용을 수행하고, migration failure rate와 backfill success rate로 결과를 확인함
+- 데이터 거버넌스 조직에서는 변경 이력을 관리하고, constraint change traceability와 review lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

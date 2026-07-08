@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- x86 보호 모드에서는 코드와 데이터 세그먼트를 분리해 권한을 통제하고 확인 지표는 protection fault accuracy와 privilege violation rate임
-- 임베디드 MPU 환경에서는 코드·데이터·스택 영역을 별도 세그먼트처럼 관리해 오동작을 격리하고 확인 지표는 fault isolation rate와 recovery time임
-- 특수 목적 RTOS는 태스크별 메모리 경계를 논리 영역으로 나눠 안전성을 확보하고 확인 지표는 memory protection fault count와 task latency임
+- x86 보호 모드에서는 코드와 데이터 세그먼트를 분리해 권한을 통제하고, protection fault accuracy와 privilege violation rate로 결과를 확인함
+- 임베디드 MPU 환경에서는 코드·데이터·스택 영역을 별도 세그먼트처럼 관리해 오동작을 격리하고, fault isolation rate와 recovery time로 결과를 확인함
+- 특수 목적 RTOS는 태스크별 메모리 경계를 논리 영역으로 나눠 안전성을 확보하고, memory protection fault count와 task latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

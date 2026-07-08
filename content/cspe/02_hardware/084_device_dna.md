@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- IoT 플랫폼 등록 단계에서는 Device DNA를 인증서와 결합하고 확인 지표는 enrollment accuracy와 counterfeit detection rate임
-- 자동차 부품 정품 인증에서는 하드웨어 식별자를 활용하고 확인 지표는 anti-cloning success rate와 supply chain traceability임
-- 산업 장비 원격 관리에서는 attestation 기반 신원 검증을 적용하고 확인 지표는 attestation pass rate와 unauthorized device rejection rate임
+- IoT 플랫폼 등록 단계에서는 Device DNA를 인증서와 결합하고, enrollment accuracy와 counterfeit detection rate로 결과를 확인함
+- 자동차 부품 정품 인증에서는 하드웨어 식별자를 활용하고, anti-cloning success rate와 supply chain traceability로 결과를 확인함
+- 산업 장비 원격 관리에서는 attestation 기반 신원 검증을 적용하고, attestation pass rate와 unauthorized device rejection rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

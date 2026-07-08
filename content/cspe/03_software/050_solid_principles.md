@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 핵심 도메인 모듈 리팩터링에서는 SOLID 기준을 적용하고 확인 지표는 change impact radius와 defect coupling rate임
-- 테스트 자동화 강화 프로젝트에서는 의존 역전을 적용하고 확인 지표는 mockability score와 test execution speed임
-- 프레임워크 추상화 설계에서는 과도 추상화를 경계하고 확인 지표는 abstraction overhead score와 maintenance lead time임
+- 핵심 도메인 모듈 리팩터링에서는 SOLID 기준을 적용하고, change impact radius와 defect coupling rate로 결과를 확인함
+- 테스트 자동화 강화 프로젝트에서는 의존 역전을 적용하고, mockability score와 test execution speed로 결과를 확인함
+- 프레임워크 추상화 설계에서는 과도 추상화를 경계하고, abstraction overhead score와 maintenance lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

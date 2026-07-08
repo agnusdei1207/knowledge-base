@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 다부서 공용 DB에서는 역할 기반 뷰를 제공하고 확인 지표는 exposed attribute ratio와 schema change impact scope임
-- DBA 조직에서는 스키마 매핑 카탈로그를 유지하고 확인 지표는 mapping completeness와 tuning defect count임
-- 스키마 변경이 잦은 서비스에서는 계층 거버넌스를 운영하고 확인 지표는 layer violation count와 backward compatibility rate임
+- 다부서 공용 DB에서는 역할 기반 뷰를 제공하고, exposed attribute ratio와 schema change impact scope로 결과를 확인함
+- DBA 조직에서는 스키마 매핑 카탈로그를 유지하고, mapping completeness와 tuning defect count로 결과를 확인함
+- 스키마 변경이 잦은 서비스에서는 계층 거버넌스를 운영하고, layer violation count와 backward compatibility rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

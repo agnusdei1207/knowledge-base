@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 CPU 설계에서는 단계 균형을 조정하고 확인 지표는 cycle time와 stage utilization임
-- 서버 프로세서에서는 해저드 완화 기법을 적용하고 확인 지표는 CPI와 stall ratio임
-- 저전력 코어 설계에서는 깊이를 조정하고 확인 지표는 branch misprediction penalty와 perf per watt임
+- 범용 CPU 설계에서는 단계 균형을 조정하고, cycle time와 stage utilization로 결과를 확인함
+- 서버 프로세서에서는 해저드 완화 기법을 적용하고, CPI와 stall ratio로 결과를 확인함
+- 저전력 코어 설계에서는 깊이를 조정하고, branch misprediction penalty와 perf per watt로 결과를 확인함
 
 ## Ⅷ. 결론
 

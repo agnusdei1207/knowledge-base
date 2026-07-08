@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 공공 SI 견적에서는 COCOMO를 활용하고 확인 지표는 forecast error와 local calibration fit임
-- 조직 추정 모델 개선에서는 과거 프로젝트를 재보정하고 확인 지표는 estimate accuracy와 size estimate variance임
-- 현대 플랫폼 개발에서는 재사용 보정을 반영하고 확인 지표는 reuse adjustment coverage와 schedule realism score임
+- 대형 공공 SI 견적에서는 COCOMO를 활용하고, forecast error와 local calibration fit로 결과를 확인함
+- 조직 추정 모델 개선에서는 과거 프로젝트를 재보정하고, estimate accuracy와 size estimate variance로 결과를 확인함
+- 현대 플랫폼 개발에서는 재사용 보정을 반영하고, reuse adjustment coverage와 schedule realism score로 결과를 확인함
 
 ## Ⅷ. 결론
 

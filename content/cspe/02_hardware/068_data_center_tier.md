@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 인터넷 서비스 기업 데이터센터에서는 핵심 업무에 Tier 3를 적용하고 확인 지표는 planned maintenance impact와 availability임
-- 금융권 주전산 센터에서는 고가용 요구에 맞춰 Tier 4 수준을 검토하고 확인 지표는 failover continuity와 SLA compliance임
-- 개발과 테스트 센터에서는 비용 절감을 위해 낮은 Tier를 채택하고 확인 지표는 capex savings와 acceptable downtime임
+- 인터넷 서비스 기업 데이터센터에서는 핵심 업무에 Tier 3를 적용하고, planned maintenance impact와 availability로 결과를 확인함
+- 금융권 주전산 센터에서는 고가용 요구에 맞춰 Tier 4 수준을 검토하고, failover continuity와 SLA compliance로 결과를 확인함
+- 개발과 테스트 센터에서는 비용 절감을 위해 낮은 Tier를 채택하고, capex savings와 acceptable downtime로 결과를 확인함
 
 ## Ⅷ. 결론
 

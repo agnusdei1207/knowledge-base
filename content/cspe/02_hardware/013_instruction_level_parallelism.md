@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 컴파일러 최적화에서는 코드 구조를 개선하고 확인 지표는 dependency stall ratio와 IPC임
-- 고성능 CPU 설계에서는 분기 예측을 강화하고 확인 지표는 branch limited CPI와 misprediction rate임
-- 병렬 플랫폼 설계에서는 병렬성 계층을 분산하고 확인 지표는 area efficiency와 perf per watt임
+- 컴파일러 최적화에서는 코드 구조를 개선하고, dependency stall ratio와 IPC로 결과를 확인함
+- 고성능 CPU 설계에서는 분기 예측을 강화하고, branch limited CPI와 misprediction rate로 결과를 확인함
+- 병렬 플랫폼 설계에서는 병렬성 계층을 분산하고, area efficiency와 perf per watt로 결과를 확인함
 
 ## Ⅷ. 결론
 

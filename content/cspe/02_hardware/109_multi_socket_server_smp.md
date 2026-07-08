@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 DB 서버에서는 프로세스와 버퍼 풀을 NUMA 노드별로 배치하고 확인 지표는 remote memory access ratio와 p99 latency임
-- 가상화 호스트에서는 VM과 PCIe 장치를 같은 소켓에 묶어 배치하고 확인 지표는 CPU ready time과 inter-socket bandwidth임
-- 상용 플랫폼 용량 계획에서는 소켓 수 증가 전후를 비교하고 확인 지표는 cost per transaction과 power draw임
+- 대형 DB 서버에서는 프로세스와 버퍼 풀을 NUMA 노드별로 배치하고, remote memory access ratio와 p99 latency로 결과를 확인함
+- 가상화 호스트에서는 VM과 PCIe 장치를 같은 소켓에 묶어 배치하고, CPU ready time과 inter-socket bandwidth로 결과를 확인함
+- 상용 플랫폼 용량 계획에서는 소켓 수 증가 전후를 비교하고, cost per transaction과 power draw로 결과를 확인함
 
 ## Ⅷ. 결론
 

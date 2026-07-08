@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 AP 포팅에서는 ABI를 고정하고 확인 지표는 compatibility defect count와 porting lead time임
-- 엣지 AI SoC에서는 벡터 확장을 조정하고 확인 지표는 perf per watt와 vector utilization임
-- 보안 민감 임베디드 장치에서는 권한 설계를 검토하고 확인 지표는 isolation violation count와 secure boot pass rate임
+- 모바일 AP 포팅에서는 ABI를 고정하고, compatibility defect count와 porting lead time로 결과를 확인함
+- 엣지 AI SoC에서는 벡터 확장을 조정하고, perf per watt와 vector utilization로 결과를 확인함
+- 보안 민감 임베디드 장치에서는 권한 설계를 검토하고, isolation violation count와 secure boot pass rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

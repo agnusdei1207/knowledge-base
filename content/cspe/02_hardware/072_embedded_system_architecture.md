@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자동차 제어 ECU에서는 센서와 액추에이터와 CAN 통신을 통합하고 확인 지표는 control latency와 fault tolerance임
-- 의료 웨어러블에서는 저전력 MCU 기반 구조를 사용하고 확인 지표는 battery life와 alarm reliability임
-- 산업 PLC 보조 제어기에서는 실시간 입력 처리를 구현하고 확인 지표는 deadline miss rate와 uptime임
+- 자동차 제어 ECU에서는 센서와 액추에이터와 CAN 통신을 통합하고, control latency와 fault tolerance로 결과를 확인함
+- 의료 웨어러블에서는 저전력 MCU 기반 구조를 사용하고, battery life와 alarm reliability로 결과를 확인함
+- 산업 PLC 보조 제어기에서는 실시간 입력 처리를 구현하고, deadline miss rate와 uptime로 결과를 확인함
 
 ## Ⅷ. 결론
 

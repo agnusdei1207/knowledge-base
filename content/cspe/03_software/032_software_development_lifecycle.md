@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 SI 프로젝트에서는 단계별 승인 산출물을 관리하고 확인 지표는 rework rate와 review escape count임
-- SaaS 제품 조직에서는 운영 지표를 다음 스프린트에 연결하고 확인 지표는 feedback lead time과 incident recurrence rate임
-- 금융권 개발 표준에서는 프로젝트 유형별 SDLC tailoring을 운영하고 확인 지표는 process overhead ratio와 delivery predictability임
+- 공공 SI 프로젝트에서는 단계별 승인 산출물을 관리하고, rework rate와 review escape count로 결과를 확인함
+- SaaS 제품 조직에서는 운영 지표를 다음 스프린트에 연결하고, feedback lead time과 incident recurrence rate로 결과를 확인함
+- 금융권 개발 표준에서는 프로젝트 유형별 SDLC tailoring을 운영하고, process overhead ratio와 delivery predictability로 결과를 확인함
 
 ## Ⅷ. 결론
 

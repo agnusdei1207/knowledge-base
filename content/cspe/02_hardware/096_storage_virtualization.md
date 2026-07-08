@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 통합 스토리지 운영에서는 이기종 장비를 논리 풀로 묶고 확인 지표는 provisioning time과 capacity utilization임
-- DR 환경에서는 replication과 snapshot 정책을 표준화하고 확인 지표는 failover time과 RPO 준수율임
-- 가상 서버 환경에서는 thin provisioning을 적용해 초기 할당량을 줄이고 확인 지표는 pool free capacity와 overcommit ratio임
+- 통합 스토리지 운영에서는 이기종 장비를 논리 풀로 묶고, provisioning time과 capacity utilization로 결과를 확인함
+- DR 환경에서는 replication과 snapshot 정책을 표준화하고, failover time과 RPO 준수율로 결과를 확인함
+- 가상 서버 환경에서는 thin provisioning을 적용해 초기 할당량을 줄이고, pool free capacity와 overcommit ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

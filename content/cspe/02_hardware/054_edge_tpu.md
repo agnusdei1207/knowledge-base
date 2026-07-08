@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트 카메라에서는 객체 탐지를 현장에서 수행하고 확인 지표는 frame latency와 power draw임
-- 산업 게이트웨이에서는 이상 감지를 로컬 처리하고 확인 지표는 network offload ratio와 alarm response time임
-- 리테일 키오스크에서는 개인화 추론을 단말에서 실행하고 확인 지표는 inference latency와 privacy compliance임
+- 스마트 카메라에서는 객체 탐지를 현장에서 수행하고, frame latency와 power draw로 결과를 확인함
+- 산업 게이트웨이에서는 이상 감지를 로컬 처리하고, network offload ratio와 alarm response time로 결과를 확인함
+- 리테일 키오스크에서는 개인화 추론을 단말에서 실행하고, inference latency와 privacy compliance로 결과를 확인함
 
 ## Ⅷ. 결론
 

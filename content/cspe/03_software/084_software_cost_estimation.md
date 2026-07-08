@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 SW 사업 견적에서는 대가산정을 수행하고 확인 지표는 estimate completeness score와 contract dispute count임
-- 기업 내부 투자 심사에서는 위험 보정을 반영하고 확인 지표는 cost overrun rate와 forecast error임
-- 조직 견적 체계 개선에서는 생산성 기준선을 축적하고 확인 지표는 productivity baseline quality와 change request ratio임
+- 공공 SW 사업 견적에서는 대가산정을 수행하고, estimate completeness score와 contract dispute count로 결과를 확인함
+- 기업 내부 투자 심사에서는 위험 보정을 반영하고, cost overrun rate와 forecast error로 결과를 확인함
+- 조직 견적 체계 개선에서는 생산성 기준선을 축적하고, productivity baseline quality와 change request ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

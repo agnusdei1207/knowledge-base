@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 언어모델 학습에서는 텐서 연산을 전용 배열에 배치하고 확인 지표는 step time과 throughput per watt임
-- 추천 모델 서비스에서는 대량 배치 추론을 수행하고 확인 지표는 inference throughput과 cost per inference임
-- 클라우드 AI 플랫폼에서는 다중 TPU 동기화를 운영하고 확인 지표는 cluster utilization과 communication overhead임
+- 대규모 언어모델 학습에서는 텐서 연산을 전용 배열에 배치하고, step time과 throughput per watt로 결과를 확인함
+- 추천 모델 서비스에서는 대량 배치 추론을 수행하고, inference throughput과 cost per inference로 결과를 확인함
+- 클라우드 AI 플랫폼에서는 다중 TPU 동기화를 운영하고, cluster utilization과 communication overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

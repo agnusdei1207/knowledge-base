@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 배터리 센서 노드에서는 MCU와 RTOS를 채택해 저전력 제어를 구현하고 확인 지표는 sleep current와 worst-case latency임
-- 산업용 게이트웨이에서는 MPU에 Linux를 올리고 제어부는 별도 MCU로 분리해 확인 지표는 update success rate와 control latency임
-- 제품 플랫폼 표준화에서는 MCU와 MPU 레퍼런스 보드를 분리 운영하고 확인 지표는 reuse rate와 bring-up time임
+- 배터리 센서 노드에서는 MCU와 RTOS를 채택해 저전력 제어를 구현하고, sleep current와 worst-case latency로 결과를 확인함
+- 산업용 게이트웨이에서는 MPU에 Linux를 올리고 제어부는 별도 MCU로 분리해, update success rate와 control latency로 결과를 확인함
+- 제품 플랫폼 표준화에서는 MCU와 MPU 레퍼런스 보드를 분리 운영하고, reuse rate와 bring-up time로 결과를 확인함
 
 ## Ⅷ. 결론
 

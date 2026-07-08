@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 복잡한 주문 도메인 서비스에서는 헥사고날 구조를 사용하고 확인 지표는 test isolation score와 adapter churn rate임
-- 외부 연동이 많은 금융 서비스에서는 포트 기반 교체를 설계하고 확인 지표는 port purity score와 integration defect count임
-- 아키텍처 규율이 중요한 플랫폼 팀에서는 의존성 테스트를 운영하고 확인 지표는 dependency rule violation count와 delivery lead time임
+- 복잡한 주문 도메인 서비스에서는 헥사고날 구조를 사용하고, test isolation score와 adapter churn rate로 결과를 확인함
+- 외부 연동이 많은 금융 서비스에서는 포트 기반 교체를 설계하고, port purity score와 integration defect count로 결과를 확인함
+- 아키텍처 규율이 중요한 플랫폼 팀에서는 의존성 테스트를 운영하고, dependency rule violation count와 delivery lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

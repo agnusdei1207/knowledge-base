@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 철도 신호 소프트웨어에서는 GAMAB 비교를 수행하고 확인 지표는 hazard coverage ratio와 residual risk gap임
-- 자율주행 제어 소프트웨어에서는 ALARP 완화 대책을 검토하고 확인 지표는 mitigation justification completeness와 review acceptance rate임
-- 산업 제어 운영 조직에서는 안전 사례를 주기적으로 갱신하고 확인 지표는 safety case freshness와 change impact traceability임
+- 철도 신호 소프트웨어에서는 GAMAB 비교를 수행하고, hazard coverage ratio와 residual risk gap으로 결과를 확인함
+- 자율주행 제어 소프트웨어에서는 ALARP 완화 대책을 검토하고, mitigation justification completeness와 review acceptance rate로 결과를 확인함
+- 산업 제어 운영 조직에서는 안전 사례를 주기적으로 갱신하고, safety case freshness와 change impact traceability로 결과를 확인함
 
 ## Ⅷ. 결론
 

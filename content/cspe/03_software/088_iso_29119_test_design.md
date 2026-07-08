@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 거래 시스템 테스트 설계에서는 추적 행렬을 운영하고 확인 지표는 trace completeness와 uncovered requirement count임
-- 의료기기 소프트웨어 검증에서는 위험 기반 우선순위를 적용하고 확인 지표는 high-risk coverage ratio와 design effort efficiency임
-- CI 기반 제품팀에서는 변경 연동 갱신을 자동화하고 확인 지표는 test artifact freshness와 stale procedure ratio임
+- 금융 거래 시스템 테스트 설계에서는 추적 행렬을 운영하고, trace completeness와 uncovered requirement count로 결과를 확인함
+- 의료기기 소프트웨어 검증에서는 위험 기반 우선순위를 적용하고, high-risk coverage ratio와 design effort efficiency로 결과를 확인함
+- CI 기반 제품팀에서는 변경 연동 갱신을 자동화하고, test artifact freshness와 stale procedure ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

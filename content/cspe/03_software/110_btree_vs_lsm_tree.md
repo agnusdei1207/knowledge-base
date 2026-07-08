@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 로그 수집 플랫폼에서는 LSM 계열을 검토하고 확인 지표는 page split rate와 write throughput임
-- 사용자 조회 중심 서비스에서는 LSM 읽기 경로를 튜닝하고 확인 지표는 read amplification와 p99 latency임
-- 저장 엔진 평가 조직에서는 증폭 예산을 관리하고 확인 지표는 write amplification와 storage overhead ratio임
+- 로그 수집 플랫폼에서는 LSM 계열을 검토하고, page split rate와 write throughput으로 결과를 확인함
+- 사용자 조회 중심 서비스에서는 LSM 읽기 경로를 튜닝하고, read amplification와 p99 latency로 결과를 확인함
+- 저장 엔진 평가 조직에서는 증폭 예산을 관리하고, write amplification와 storage overhead ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

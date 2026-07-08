@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터베이스 로그 저장에서는 NVDIMM에 redo log를 배치하고 확인 지표는 recovery time과 crash consistency pass rate임
-- 메타데이터 가속 영역에서는 장애 후 빠른 복구를 위해 영속 캐시를 운영하고 확인 지표는 cache restore time과 data loss count임
-- 플랫폼 검증 단계에서는 BIOS와 OS와 드라이버 조합을 시험하고 확인 지표는 compatibility matrix pass rate와 boot success rate임
+- 데이터베이스 로그 저장에서는 NVDIMM에 redo log를 배치하고, recovery time과 crash consistency pass rate로 결과를 확인함
+- 메타데이터 가속 영역에서는 장애 후 빠른 복구를 위해 영속 캐시를 운영하고, cache restore time과 data loss count로 결과를 확인함
+- 플랫폼 검증 단계에서는 BIOS와 OS와 드라이버 조합을 시험하고, compatibility matrix pass rate와 boot success rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

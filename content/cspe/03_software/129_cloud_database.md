@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 신규 SaaS 제품에서는 질의 호환성을 검토하고 확인 지표는 application rewrite rate와 workload fit score임
-- 고가용성 관계형 서비스에서는 서비스별 장애 훈련을 운영하고 확인 지표는 failover recovery time와 stale read incident count임
-- 트래픽 변동이 큰 API 플랫폼에서는 비용 가드레일을 적용하고 확인 지표는 cost per request와 budget breach frequency임
+- 신규 SaaS 제품에서는 질의 호환성을 검토하고, application rewrite rate와 workload fit score로 결과를 확인함
+- 고가용성 관계형 서비스에서는 서비스별 장애 훈련을 운영하고, failover recovery time와 stale read incident count로 결과를 확인함
+- 트래픽 변동이 큰 API 플랫폼에서는 비용 가드레일을 적용하고, cost per request와 budget breach frequency로 결과를 확인함
 
 ## Ⅷ. 결론
 

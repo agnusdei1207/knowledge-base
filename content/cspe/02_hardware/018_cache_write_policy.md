@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고성능 CPU 캐시에서는 write buffer를 활용하고 확인 지표는 buffer full rate와 memory traffic ratio임
-- DMA가 많은 시스템에서는 flush 정책을 강화하고 확인 지표는 stale memory read count와 flush latency임
-- 저장 패턴이 다양한 플랫폼에서는 allocate 정책을 튜닝하고 확인 지표는 write miss penalty와 cache pollution ratio임
+- 고성능 CPU 캐시에서는 write buffer를 활용하고, buffer full rate와 memory traffic ratio로 결과를 확인함
+- DMA가 많은 시스템에서는 flush 정책을 강화하고, stale memory read count와 flush latency로 결과를 확인함
+- 저장 패턴이 다양한 플랫폼에서는 allocate 정책을 튜닝하고, write miss penalty와 cache pollution ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

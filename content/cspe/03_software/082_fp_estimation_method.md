@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 제안 요청 대응 단계에서는 간이법을 사용하고 확인 지표는 estimation cycle time과 estimate accuracy band임
-- 계약 산정 단계에서는 정통법을 적용하고 확인 지표는 counting consistency와 contract dispute risk임
-- 측정 조직 표준화에서는 calibration review를 운영하고 확인 지표는 inter-rater variance와 re-estimation overhead임
+- 제안 요청 대응 단계에서는 간이법을 사용하고, estimation cycle time과 estimate accuracy band로 결과를 확인함
+- 계약 산정 단계에서는 정통법을 적용하고, counting consistency와 contract dispute risk로 결과를 확인함
+- 측정 조직 표준화에서는 calibration review를 운영하고, inter-rater variance와 re-estimation overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

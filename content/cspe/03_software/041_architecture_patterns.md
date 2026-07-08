@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 웹 포털 UI 설계에서는 MVC를 적용하고 확인 지표는 controller complexity와 unit test coverage임
-- 대형 주문 서비스에서는 MSA를 채택하고 확인 지표는 deployment independence rate와 operational overhead임
-- 실시간 이벤트 처리 플랫폼에서는 이벤트드리븐 구조를 사용하고 확인 지표는 contract break rate와 end-to-end latency임
+- 웹 포털 UI 설계에서는 MVC를 적용하고, controller complexity와 unit test coverage로 결과를 확인함
+- 대형 주문 서비스에서는 MSA를 채택하고, deployment independence rate와 operational overhead로 결과를 확인함
+- 실시간 이벤트 처리 플랫폼에서는 이벤트드리븐 구조를 사용하고, contract break rate와 end-to-end latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

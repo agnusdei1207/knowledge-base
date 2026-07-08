@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- DevOps 조직에서는 DORA 대시보드를 운영하고 확인 지표는 lead time과 change failure rate임
-- 배포 자동화 개선 프로젝트에서는 deployment frequency를 추적하고 확인 지표는 deployment frequency와 metric gaming signal임
-- SRE 운영팀에서는 incident 복구 체계를 연결하고 확인 지표는 restore time completeness와 MTTR accuracy임
+- DevOps 조직에서는 DORA 대시보드를 운영하고, lead time과 change failure rate로 결과를 확인함
+- 배포 자동화 개선 프로젝트에서는 deployment frequency를 추적하고, deployment frequency와 metric gaming signal로 결과를 확인함
+- SRE 운영팀에서는 incident 복구 체계를 연결하고, restore time completeness와 MTTR accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

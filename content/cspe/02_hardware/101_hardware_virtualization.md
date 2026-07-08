@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 클라우드 VM 호스트에서는 VT-x와 EPT를 기본 활성화하고 확인 지표는 VM exit rate와 CPU ready time임
-- 데이터베이스 가상화 환경에서는 huge page와 NUMA affinity를 함께 적용하고 확인 지표는 EPT miss rate와 p99 latency임
-- 다중 테넌트 보안 기준선에서는 speculative execution 완화 설정을 포함하고 확인 지표는 mitigation compliance와 isolation test pass rate임
+- 클라우드 VM 호스트에서는 VT-x와 EPT를 기본 활성화하고, VM exit rate와 CPU ready time로 결과를 확인함
+- 데이터베이스 가상화 환경에서는 huge page와 NUMA affinity를 함께 적용하고, EPT miss rate와 p99 latency로 결과를 확인함
+- 다중 테넌트 보안 기준선에서는 speculative execution 완화 설정을 포함하고, mitigation compliance와 isolation test pass rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트폰 음성 비서에서는 저전력 추론을 상시 수행하고 확인 지표는 wake latency와 battery impact임
-- AI PC 로컬 추론에서는 LLM 보조 작업을 오프로딩하고 확인 지표는 tokens per second와 system power임
-- 산업 엣지 장비에서는 영상 판독 모델을 실행하고 확인 지표는 inference latency와 thermal stability임
+- 스마트폰 음성 비서에서는 저전력 추론을 상시 수행하고, wake latency와 battery impact로 결과를 확인함
+- AI PC 로컬 추론에서는 LLM 보조 작업을 오프로딩하고, tokens per second와 system power로 결과를 확인함
+- 산업 엣지 장비에서는 영상 판독 모델을 실행하고, inference latency와 thermal stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

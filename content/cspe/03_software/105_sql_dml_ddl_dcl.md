@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 운영 DB 배포에서는 마이그레이션 파이프라인을 적용하고 확인 지표는 migration success rate와 compatibility defect count임
-- 데이터 정정 작업에서는 범위 검증 절차를 수행하고 확인 지표는 accidental update incident count와 rollback success rate임
-- 보안 감사 조직에서는 최소 권한 검토를 운영하고 확인 지표는 excessive privilege count와 access violation rate임
+- 운영 DB 배포에서는 마이그레이션 파이프라인을 적용하고, migration success rate와 compatibility defect count로 결과를 확인함
+- 데이터 정정 작업에서는 범위 검증 절차를 수행하고, accidental update incident count와 rollback success rate로 결과를 확인함
+- 보안 감사 조직에서는 최소 권한 검토를 운영하고, excessive privilege count와 access violation rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

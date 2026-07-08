@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 딥러닝 학습 파이프라인에서는 텐서 연산 커널을 GPU에서 실행하고 확인 지표는 training throughput과 GPU utilization임
-- 과학 시뮬레이션에서는 격자 연산을 block 단위로 병렬화하고 확인 지표는 time to solution과 scalability임
-- 비디오 분석 서비스에서는 전처리와 추론을 stream으로 중첩하고 확인 지표는 frame latency와 throughput임
+- 딥러닝 학습 파이프라인에서는 텐서 연산 커널을 GPU에서 실행하고, training throughput과 GPU utilization로 결과를 확인함
+- 과학 시뮬레이션에서는 격자 연산을 block 단위로 병렬화하고, time to solution과 scalability로 결과를 확인함
+- 비디오 분석 서비스에서는 전처리와 추론을 stream으로 중첩하고, frame latency와 throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

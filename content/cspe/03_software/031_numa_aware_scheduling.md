@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 DB 서버에서는 NUMA 메모리 바인딩을 적용하고 확인 지표는 remote memory access ratio와 p99 latency임
-- 가상화 호스트에서는 VM을 소켓 단위로 묶어 배치하고 확인 지표는 locality compliance와 throughput stability임
-- 메모리 집약 분석 노드에서는 migration 정책을 조정하고 확인 지표는 migration count와 cache miss delta임
+- 대형 DB 서버에서는 NUMA 메모리 바인딩을 적용하고, remote memory access ratio와 p99 latency로 결과를 확인함
+- 가상화 호스트에서는 VM을 소켓 단위로 묶어 배치하고, locality compliance와 throughput stability로 결과를 확인함
+- 메모리 집약 분석 노드에서는 migration 정책을 조정하고, migration count와 cache miss delta로 결과를 확인함
 
 ## Ⅷ. 결론
 

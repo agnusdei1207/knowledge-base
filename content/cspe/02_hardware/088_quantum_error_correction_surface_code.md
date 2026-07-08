@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 양자 오류 정정 실험에서는 표면 코드 격자를 구현하고 확인 지표는 logical error suppression과 syndrome stability임
-- 차세대 fault-tolerant 로드맵에서는 코드 거리 요구를 산정하고 확인 지표는 physical qubit overhead와 target failure probability임
-- 디코더 하드웨어 연구에서는 실시간 syndrome 해석을 구현하고 확인 지표는 decode latency와 throughput임
+- 양자 오류 정정 실험에서는 표면 코드 격자를 구현하고, logical error suppression과 syndrome stability로 결과를 확인함
+- 차세대 fault-tolerant 로드맵에서는 코드 거리 요구를 산정하고, physical qubit overhead와 target failure probability로 결과를 확인함
+- 디코더 하드웨어 연구에서는 실시간 syndrome 해석을 구현하고, decode latency와 throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

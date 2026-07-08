@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- SaaS 제품팀에서는 지속적 배포를 운영하고 확인 지표는 deployment frequency와 rollback time임
-- 고가용성 서비스에서는 점진 배포를 결합하고 확인 지표는 alert precision과 change failure rate임
-- 금융권 비핵심 채널 서비스에서는 위험 기반 정책을 적용하고 확인 지표는 high-risk auto-release ratio와 incident severity distribution임
+- SaaS 제품팀에서는 지속적 배포를 운영하고, deployment frequency와 rollback time로 결과를 확인함
+- 고가용성 서비스에서는 점진 배포를 결합하고, alert precision과 change failure rate로 결과를 확인함
+- 금융권 비핵심 채널 서비스에서는 위험 기반 정책을 적용하고, high-risk auto-release ratio와 incident severity distribution로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- AI 학습 클러스터에서는 팻트리 기반 fabric을 사용하고 확인 지표는 collective latency와 bisection bandwidth utilization임
-- HPC 시뮬레이션 환경에서는 토러스 구조를 배치하고 확인 지표는 hop count와 link hotspot count임
-- 데이터센터 증설 검토에서는 토폴로지별 비용과 장애 영향을 비교하고 확인 지표는 cost per effective bandwidth와 degraded throughput임
+- AI 학습 클러스터에서는 팻트리 기반 fabric을 사용하고, collective latency와 bisection bandwidth utilization로 결과를 확인함
+- HPC 시뮬레이션 환경에서는 토러스 구조를 배치하고, hop count와 link hotspot count로 결과를 확인함
+- 데이터센터 증설 검토에서는 토폴로지별 비용과 장애 영향을 비교하고, cost per effective bandwidth와 degraded throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

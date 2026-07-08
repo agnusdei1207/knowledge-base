@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- IoT 장치 인증에서는 PUF 기반 장치 식별을 사용하고 확인 지표는 authentication success rate와 clone resistance임
-- 보안 MCU에서는 저장형 키 대신 PUF 복원 키를 활용하고 확인 지표는 key reconstruction success rate와 secret storage reduction임
-- 공급망 위조 방지에서는 PUF 응답 등록을 운영하고 확인 지표는 counterfeit detection rate와 enrollment consistency임
+- IoT 장치 인증에서는 PUF 기반 장치 식별을 사용하고, authentication success rate와 clone resistance로 결과를 확인함
+- 보안 MCU에서는 저장형 키 대신 PUF 복원 키를 활용하고, key reconstruction success rate와 secret storage reduction로 결과를 확인함
+- 공급망 위조 방지에서는 PUF 응답 등록을 운영하고, counterfeit detection rate와 enrollment consistency로 결과를 확인함
 
 ## Ⅷ. 결론
 

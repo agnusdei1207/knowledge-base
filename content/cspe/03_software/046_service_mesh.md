@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 MSA 플랫폼에서는 서비스 메시를 도입하고 확인 지표는 proxy overhead ratio와 control plane availability임
-- 보안 민감 API 환경에서는 mTLS를 강제하고 확인 지표는 certificate compliance와 unauthorized traffic block rate임
-- 카나리 배포 운영에서는 메시 라우팅 정책을 활용하고 확인 지표는 canary success rate와 telemetry completeness임
+- 대형 MSA 플랫폼에서는 서비스 메시를 도입하고, proxy overhead ratio와 control plane availability로 결과를 확인함
+- 보안 민감 API 환경에서는 mTLS를 강제하고, certificate compliance와 unauthorized traffic block rate로 결과를 확인함
+- 카나리 배포 운영에서는 메시 라우팅 정책을 활용하고, canary success rate와 telemetry completeness로 결과를 확인함
 
 ## Ⅷ. 결론
 

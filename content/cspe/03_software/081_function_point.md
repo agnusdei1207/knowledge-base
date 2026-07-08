@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 SW 대가산정에서는 기능점수를 사용하고 확인 지표는 counting consistency와 estimate accuracy임
-- 대형 SI 제안 단계에서는 FP 기반 초기 견적을 수행하고 확인 지표는 estimation variance와 forecast error임
-- 조직 생산성 관리에서는 FP 기준선을 운영하고 확인 지표는 fp per effort baseline quality와 nonfunctional adjustment coverage임
+- 공공 SW 대가산정에서는 기능점수를 사용하고, counting consistency와 estimate accuracy로 결과를 확인함
+- 대형 SI 제안 단계에서는 FP 기반 초기 견적을 수행하고, estimation variance와 forecast error로 결과를 확인함
+- 조직 생산성 관리에서는 FP 기준선을 운영하고, fp per effort baseline quality와 nonfunctional adjustment coverage로 결과를 확인함
 
 ## Ⅷ. 결론
 

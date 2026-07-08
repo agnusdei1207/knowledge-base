@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 온라인 주문 DB에서는 장기 트랜잭션 제한을 운영하고 확인 지표는 version bloat ratio와 oldest snapshot age임
-- 동시 수정이 많은 업무 DB에서는 충돌 재시도 정책을 적용하고 확인 지표는 serialization failure rate와 retry success rate임
-- 대규모 SaaS DB에서는 정리 작업 스케줄을 최적화하고 확인 지표는 vacuum lag와 storage reclaim efficiency임
+- 온라인 주문 DB에서는 장기 트랜잭션 제한을 운영하고, version bloat ratio와 oldest snapshot age로 결과를 확인함
+- 동시 수정이 많은 업무 DB에서는 충돌 재시도 정책을 적용하고, serialization failure rate와 retry success rate로 결과를 확인함
+- 대규모 SaaS DB에서는 정리 작업 스케줄을 최적화하고, vacuum lag와 storage reclaim efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 계정계 시스템에서는 무결성 중심 설계를 적용하고 확인 지표는 integrity violation count와 duplicate record rate임
-- 전자상거래 주문 시스템에서는 질의 최적화를 수행하고 확인 지표는 slow query ratio와 index hit rate임
-- SaaS 제품팀에서는 스키마 변경 거버넌스를 운영하고 확인 지표는 migration success rate와 schema drift count임
+- 금융 계정계 시스템에서는 무결성 중심 설계를 적용하고, integrity violation count와 duplicate record rate로 결과를 확인함
+- 전자상거래 주문 시스템에서는 질의 최적화를 수행하고, slow query ratio와 index hit rate로 결과를 확인함
+- SaaS 제품팀에서는 스키마 변경 거버넌스를 운영하고, migration success rate와 schema drift count로 결과를 확인함
 
 ## Ⅷ. 결론
 

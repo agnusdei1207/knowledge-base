@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 CPU 설계에서는 front-end 최적화를 수행하고 확인 지표는 decode bandwidth와 front-end power임
-- 보안 운영에서는 투기 실행 제어를 적용하고 확인 지표는 vulnerability exposure count와 patch latency임
-- 레거시 시스템 현대화에서는 의존성을 정리하고 확인 지표는 legacy dependency ratio와 modernization effort임
+- 서버 CPU 설계에서는 front-end 최적화를 수행하고, decode bandwidth와 front-end power로 결과를 확인함
+- 보안 운영에서는 투기 실행 제어를 적용하고, vulnerability exposure count와 patch latency로 결과를 확인함
+- 레거시 시스템 현대화에서는 의존성을 정리하고, legacy dependency ratio와 modernization effort로 결과를 확인함
 
 ## Ⅷ. 결론
 

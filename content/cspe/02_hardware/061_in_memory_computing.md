@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 추천 모델 추론에서는 메모리 근처 MAC 연산을 적용하고 확인 지표는 energy per inference와 memory bandwidth reduction임
-- 데이터베이스 검색 가속에서는 배열 내부 비교를 활용하고 확인 지표는 query latency와 throughput임
-- 엣지 AI 가속기에서는 저전력 행렬 연산 경로를 구성하고 확인 지표는 TOPS/W와 thermal envelope임
+- 추천 모델 추론에서는 메모리 근처 MAC 연산을 적용하고, energy per inference와 memory bandwidth reduction로 결과를 확인함
+- 데이터베이스 검색 가속에서는 배열 내부 비교를 활용하고, query latency와 throughput으로 결과를 확인함
+- 엣지 AI 가속기에서는 저전력 행렬 연산 경로를 구성하고, TOPS/W와 thermal envelope로 결과를 확인함
 
 ## Ⅷ. 결론
 

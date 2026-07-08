@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 주문 조회 시스템에서는 hotspot query 기준으로 인덱스를 설계하고 확인 지표는 index hit rate와 write amplification ratio임
-- 복합 검색 서비스에서는 컬럼 순서를 최적화하고 확인 지표는 plan usage ratio와 filter residual rate임
-- 대규모 운영 DB에서는 통계 갱신 정책을 운영하고 확인 지표는 stale stats ratio와 plan misprediction count임
+- 주문 조회 시스템에서는 hotspot query 기준으로 인덱스를 설계하고, index hit rate와 write amplification ratio로 결과를 확인함
+- 복합 검색 서비스에서는 컬럼 순서를 최적화하고, plan usage ratio와 filter residual rate로 결과를 확인함
+- 대규모 운영 DB에서는 통계 갱신 정책을 운영하고, stale stats ratio와 plan misprediction count로 결과를 확인함
 
 ## Ⅷ. 결론
 

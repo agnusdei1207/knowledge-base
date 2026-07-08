@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 플랫폼 기술 선택 회의에서는 ADR을 작성하고 확인 지표는 adr completeness score와 reread usefulness score임
-- 레거시 개편 프로젝트에서는 과거 결정을 재검토하고 확인 지표는 stale adr ratio와 architecture drift count임
-- 아키텍처 리뷰 조직에서는 기록 중요도 기준을 운영하고 확인 지표는 adr signal-to-noise ratio와 authoring overhead임
+- 플랫폼 기술 선택 회의에서는 ADR을 작성하고, adr completeness score와 reread usefulness score로 결과를 확인함
+- 레거시 개편 프로젝트에서는 과거 결정을 재검토하고, stale adr ratio와 architecture drift count로 결과를 확인함
+- 아키텍처 리뷰 조직에서는 기록 중요도 기준을 운영하고, adr signal-to-noise ratio와 authoring overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

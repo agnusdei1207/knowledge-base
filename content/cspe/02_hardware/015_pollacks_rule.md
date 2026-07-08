@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- CPU 아키텍처 검토에서는 단일 스레드 요구를 분리하고 확인 지표는 single-thread gain과 tail latency임
-- 반도체 설계 팀에서는 PPA 균형을 맞추고 확인 지표는 perf per watt와 thermal density임
-- 서버 플랫폼 계획에서는 병렬 확장성을 검토하고 확인 지표는 parallel efficiency와 core utilization임
+- CPU 아키텍처 검토에서는 단일 스레드 요구를 분리하고, single-thread gain과 tail latency로 결과를 확인함
+- 반도체 설계 팀에서는 PPA 균형을 맞추고, perf per watt와 thermal density로 결과를 확인함
+- 서버 플랫폼 계획에서는 병렬 확장성을 검토하고, parallel efficiency와 core utilization로 결과를 확인함
 
 ## Ⅷ. 결론
 

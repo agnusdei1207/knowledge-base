@@ -97,9 +97,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- HPC 애플리케이션은 loop blocking과 NUMA 배치를 함께 사용해 상위 계층 재사용률을 높이고 확인 지표는 cache miss rate와 stalled cycle ratio임
-- 데이터베이스 엔진은 buffer pool과 storage tiering을 결합해 핫 데이터를 DRAM에 유지하고 확인 지표는 buffer hit ratio와 storage read latency임
-- AI 추론 서버는 HBM과 DRAM과 SSD 오프로딩을 계층적으로 운용해 비용을 낮추고 확인 지표는 tier hit ratio와 tokens per second임
+- HPC 애플리케이션은 loop blocking과 NUMA 배치를 함께 사용해 상위 계층 재사용률을 높이고, cache miss rate와 stalled cycle ratio로 결과를 확인함
+- 데이터베이스 엔진은 buffer pool과 storage tiering을 결합해 핫 데이터를 DRAM에 유지하고, buffer hit ratio와 storage read latency로 결과를 확인함
+- AI 추론 서버는 HBM과 DRAM과 SSD 오프로딩을 계층적으로 운용해 비용을 낮추고, tier hit ratio와 tokens per second로 결과를 확인함
 
 ## Ⅷ. 결론
 

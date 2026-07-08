@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- GPU 확장 서버에서는 switch 하위에 가속기와 NVMe를 배치하고 확인 지표는 upstream utilization과 job throughput임
-- AI 스토리지 노드에서는 P2P 경로를 설계해 GPU와 NVMe 간 이동을 최적화하고 확인 지표는 P2P throughput과 p99 latency임
-- 멀티테넌트 장비에서는 ACS와 IOMMU를 함께 검증해 DMA 격리를 보장하고 확인 지표는 isolation test pass rate와 security incident count임
+- GPU 확장 서버에서는 switch 하위에 가속기와 NVMe를 배치하고, upstream utilization과 job throughput으로 결과를 확인함
+- AI 스토리지 노드에서는 P2P 경로를 설계해 GPU와 NVMe 간 이동을 최적화하고, P2P throughput과 p99 latency로 결과를 확인함
+- 멀티테넌트 장비에서는 ACS와 IOMMU를 함께 검증해 DMA 격리를 보장하고, isolation test pass rate와 security incident count로 결과를 확인함
 
 ## Ⅷ. 결론
 

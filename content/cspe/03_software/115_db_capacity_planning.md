@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대용량 거래 DB에서는 전체 footprint 모델을 적용하고 확인 지표는 storage forecast error와 overhead coverage ratio임
-- 이벤트성 트래픽 서비스에서는 피크 기준 산정을 수행하고 확인 지표는 peak resource saturation rate와 headroom ratio임
-- 운영 DBA 조직에서는 정기 용량 리뷰를 운영하고 확인 지표는 capacity review cadence와 scale trigger accuracy임
+- 대용량 거래 DB에서는 전체 footprint 모델을 적용하고, storage forecast error와 overhead coverage ratio로 결과를 확인함
+- 이벤트성 트래픽 서비스에서는 피크 기준 산정을 수행하고, peak resource saturation rate와 headroom ratio로 결과를 확인함
+- 운영 DBA 조직에서는 정기 용량 리뷰를 운영하고, capacity review cadence와 scale trigger accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

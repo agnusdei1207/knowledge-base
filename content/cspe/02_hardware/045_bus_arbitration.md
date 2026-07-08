@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 멀티마스터 임베디드 버스에서는 round-robin 중재를 적용하고 확인 지표는 average wait time과 fairness index임
-- 고속 저장장치 경로에서는 DMA 우선순위를 부여하고 확인 지표는 grant latency와 storage throughput임
-- SoC 내부 interconnect에서는 계층형 중재 구조를 사용하고 확인 지표는 arbitration latency와 QoS violation rate임
+- 멀티마스터 임베디드 버스에서는 round-robin 중재를 적용하고, average wait time과 fairness index로 결과를 확인함
+- 고속 저장장치 경로에서는 DMA 우선순위를 부여하고, grant latency와 storage throughput으로 결과를 확인함
+- SoC 내부 interconnect에서는 계층형 중재 구조를 사용하고, arbitration latency와 QoS violation rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

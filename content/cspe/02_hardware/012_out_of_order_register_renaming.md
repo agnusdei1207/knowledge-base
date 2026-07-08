@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 CPU에서는 window 크기를 조정하고 확인 지표는 area efficiency와 perf per watt임
-- 보안 민감 플랫폼에서는 투기 제어를 강화하고 확인 지표는 rollback latency와 security exposure count임
-- 메모리 병목 워크로드에서는 의존성 예측을 최적화하고 확인 지표는 replay rate와 load-store conflict ratio임
+- 서버 CPU에서는 window 크기를 조정하고, area efficiency와 perf per watt로 결과를 확인함
+- 보안 민감 플랫폼에서는 투기 제어를 강화하고, rollback latency와 security exposure count로 결과를 확인함
+- 메모리 병목 워크로드에서는 의존성 예측을 최적화하고, replay rate와 load-store conflict ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기업용 패키지 제품에서는 알파 테스트를 먼저 수행하고 확인 지표는 phase exit adherence와 defect closure rate임
-- 일반 사용자 대상 앱에서는 베타 프로그램을 운영하고 확인 지표는 beta environment fidelity와 field defect discovery rate임
-- 공공 SI 사업에서는 인수 테스트를 계약 기준으로 수행하고 확인 지표는 acceptance dispute count와 sign-off lead time임
+- 기업용 패키지 제품에서는 알파 테스트를 먼저 수행하고, phase exit adherence와 defect closure rate로 결과를 확인함
+- 일반 사용자 대상 앱에서는 베타 프로그램을 운영하고, beta environment fidelity와 field defect discovery rate로 결과를 확인함
+- 공공 SI 사업에서는 인수 테스트를 계약 기준으로 수행하고, acceptance dispute count와 sign-off lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

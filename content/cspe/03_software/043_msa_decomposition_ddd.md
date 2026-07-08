@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 주문·결제·배송 도메인 분리에서는 bounded context를 사용하고 확인 지표는 change overlap ratio와 deployment coupling rate임
-- 대형 플랫폼 조직에서는 context map을 유지하고 확인 지표는 terminology conflict count와 integration defect rate임
-- 제품 조직 재편 시에는 서비스와 팀 책임을 함께 조정하고 확인 지표는 ownership clarity score와 cross-team dependency lead time임
+- 주문·결제·배송 도메인 분리에서는 bounded context를 사용하고, change overlap ratio와 deployment coupling rate로 결과를 확인함
+- 대형 플랫폼 조직에서는 context map을 유지하고, terminology conflict count와 integration defect rate로 결과를 확인함
+- 제품 조직 재편 시에는 서비스와 팀 책임을 함께 조정하고, ownership clarity score와 cross-team dependency lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

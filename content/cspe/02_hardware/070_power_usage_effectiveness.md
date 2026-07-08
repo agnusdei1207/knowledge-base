@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터센터 냉각 최적화 프로젝트에서는 공조 설정을 조정하고 확인 지표는 PUE와 inlet temperature임
-- UPS 교체 사업에서는 전력 변환 손실을 줄이고 확인 지표는 PUE improvement와 UPS efficiency임
-- 클라우드 운영 대시보드에서는 계절별 효율 추이를 관리하고 확인 지표는 monthly PUE와 energy cost per kWh IT load임
+- 데이터센터 냉각 최적화 프로젝트에서는 공조 설정을 조정하고, PUE와 inlet temperature로 결과를 확인함
+- UPS 교체 사업에서는 전력 변환 손실을 줄이고, PUE improvement와 UPS efficiency로 결과를 확인함
+- 클라우드 운영 대시보드에서는 계절별 효율 추이를 관리하고, monthly PUE와 energy cost per kWh IT load로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 AI 학습 클러스터에서는 all-reduce 통신에 InfiniBand를 사용하고 확인 지표는 communication time과 GPU idle ratio임
-- HPC 시뮬레이션에서는 MPI 메시지 지연을 줄이고 확인 지표는 message latency와 job completion time임
-- 병렬 파일시스템 백엔드에서는 RDMA 전송을 활용하고 확인 지표는 storage throughput과 CPU offload ratio임
+- 대규모 AI 학습 클러스터에서는 all-reduce 통신에 InfiniBand를 사용하고, communication time과 GPU idle ratio로 결과를 확인함
+- HPC 시뮬레이션에서는 MPI 메시지 지연을 줄이고, message latency와 job completion time로 결과를 확인함
+- 병렬 파일시스템 백엔드에서는 RDMA 전송을 활용하고, storage throughput과 CPU offload ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 가상화 팜에서는 블레이드 서버로 집적도를 높이고 확인 지표는 VM density와 power per rack임
-- 혼합 워크로드 데이터센터에서는 랙 서버를 사용해 유연성을 확보하고 확인 지표는 provisioning time과 hardware reuse rate임
-- 금융 전산실에서는 이중화된 섀시 또는 독립 랙 구조를 조합하고 확인 지표는 failure domain size와 MTTR임
+- 대규모 가상화 팜에서는 블레이드 서버로 집적도를 높이고, VM density와 power per rack로 결과를 확인함
+- 혼합 워크로드 데이터센터에서는 랙 서버를 사용해 유연성을 확보하고, provisioning time과 hardware reuse rate로 결과를 확인함
+- 금융 전산실에서는 이중화된 섀시 또는 독립 랙 구조를 조합하고, failure domain size와 MTTR로 결과를 확인함
 
 ## Ⅷ. 결론
 

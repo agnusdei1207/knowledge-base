@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 마이크로서비스 플랫폼에서는 카탈로그 기반 셀프서비스를 제공하고 확인 지표는 platform adoption rate와 workaround ratio임
-- 금융권 공통 배포 플랫폼에서는 정책 코드를 내장하고 확인 지표는 compliant deployment rate와 policy exception count임
-- 대규모 개발 조직에서는 개발자 포털 경험을 측정하고 확인 지표는 time-to-first-deploy와 developer satisfaction score임
+- 사내 마이크로서비스 플랫폼에서는 카탈로그 기반 셀프서비스를 제공하고, platform adoption rate와 workaround ratio로 결과를 확인함
+- 금융권 공통 배포 플랫폼에서는 정책 코드를 내장하고, compliant deployment rate와 policy exception count로 결과를 확인함
+- 대규모 개발 조직에서는 개발자 포털 경험을 측정하고, time-to-first-deploy와 developer satisfaction score로 결과를 확인함
 
 ## Ⅷ. 결론
 

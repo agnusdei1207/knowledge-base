@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 프로세서에서는 RISC 계열을 선택하고 확인 지표는 perf per watt와 i-cache hit rate임
-- 레거시 서버 플랫폼에서는 CISC 계열을 유지하고 확인 지표는 software porting effort와 single-thread performance임
-- 신규 SoC 설계에서는 압축 명령과 toolchain을 함께 검토하고 확인 지표는 binary size와 benchmark efficiency임
+- 모바일 프로세서에서는 RISC 계열을 선택하고, perf per watt와 i-cache hit rate로 결과를 확인함
+- 레거시 서버 플랫폼에서는 CISC 계열을 유지하고, software porting effort와 single-thread performance로 결과를 확인함
+- 신규 SoC 설계에서는 압축 명령과 toolchain을 함께 검토하고, binary size와 benchmark efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

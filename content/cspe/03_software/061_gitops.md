@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 쿠버네티스 운영 조직에서는 GitOps를 적용하고 확인 지표는 drift count와 deployment traceability score임
-- 보안 민감 환경에서는 승인 흐름을 강화하고 확인 지표는 manual change incident rate와 audit completeness임
-- 대규모 플랫폼 팀에서는 선언 템플릿을 표준화하고 확인 지표는 config reuse rate와 review lead time임
+- 쿠버네티스 운영 조직에서는 GitOps를 적용하고, drift count와 deployment traceability score로 결과를 확인함
+- 보안 민감 환경에서는 승인 흐름을 강화하고, manual change incident rate와 audit completeness로 결과를 확인함
+- 대규모 플랫폼 팀에서는 선언 템플릿을 표준화하고, config reuse rate와 review lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

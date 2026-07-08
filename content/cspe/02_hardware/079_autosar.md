@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 파워트레인 ECU 개발에서는 AUTOSAR Classic을 적용하고 확인 지표는 reuse rate와 timing determinism임
-- ADAS 중앙 컴퓨팅에서는 Adaptive Platform을 적용하고 확인 지표는 service scalability와 update flexibility임
-- 다수 공급사 통합 프로젝트에서는 ARXML 중심 협업을 운영하고 확인 지표는 integration defect count와 release predictability임
+- 파워트레인 ECU 개발에서는 AUTOSAR Classic을 적용하고, reuse rate와 timing determinism로 결과를 확인함
+- ADAS 중앙 컴퓨팅에서는 Adaptive Platform을 적용하고, service scalability와 update flexibility로 결과를 확인함
+- 다수 공급사 통합 프로젝트에서는 ARXML 중심 협업을 운영하고, integration defect count와 release predictability로 결과를 확인함
 
 ## Ⅷ. 결론
 

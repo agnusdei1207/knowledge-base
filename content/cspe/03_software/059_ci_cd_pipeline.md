@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 웹 서비스 개발팀에서는 CI/CD 파이프라인을 운영하고 확인 지표는 pipeline lead time과 deployment frequency임
-- 보안 민감 서비스에서는 품질 게이트를 강화하고 확인 지표는 gate effectiveness score와 defect escape rate임
-- 멀티환경 배포 조직에서는 immutable artifact를 적용하고 확인 지표는 environment drift count와 deployment rollback rate임
+- 웹 서비스 개발팀에서는 CI/CD 파이프라인을 운영하고, pipeline lead time과 deployment frequency로 결과를 확인함
+- 보안 민감 서비스에서는 품질 게이트를 강화하고, gate effectiveness score와 defect escape rate로 결과를 확인함
+- 멀티환경 배포 조직에서는 immutable artifact를 적용하고, environment drift count와 deployment rollback rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

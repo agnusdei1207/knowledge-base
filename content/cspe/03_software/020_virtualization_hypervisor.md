@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터센터 서버 통합에서는 Type 1 기반 가상화를 사용하고 확인 지표는 CPU ready time과 consolidation ratio임
-- 개발 환경에서는 Type 2 하이퍼바이저를 제한적으로 사용하고 확인 지표는 provision time과 host impact rate임
-- 클라우드 운영에서는 스냅샷과 마이그레이션을 자동화하고 확인 지표는 migration success rate와 hardening compliance임
+- 데이터센터 서버 통합에서는 Type 1 기반 가상화를 사용하고, CPU ready time과 consolidation ratio로 결과를 확인함
+- 개발 환경에서는 Type 2 하이퍼바이저를 제한적으로 사용하고, provision time과 host impact rate로 결과를 확인함
+- 클라우드 운영에서는 스냅샷과 마이그레이션을 자동화하고, migration success rate와 hardening compliance로 결과를 확인함
 
 ## Ⅷ. 결론
 

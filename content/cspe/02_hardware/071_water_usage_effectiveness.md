@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 물 부족 지역 데이터센터에서는 재생수 기반 냉각을 도입하고 확인 지표는 WUE와 freshwater withdrawal reduction임
-- 하이브리드 냉각 운영 센터에서는 계절별 냉각 모드를 조정하고 확인 지표는 WUE와 PUE 동시 추이임
-- 지속가능성 보고 체계에서는 수자원 사용량을 공개하고 확인 지표는 annual WUE와 water reuse ratio임
+- 물 부족 지역 데이터센터에서는 재생수 기반 냉각을 도입하고, WUE와 freshwater withdrawal reduction로 결과를 확인함
+- 하이브리드 냉각 운영 센터에서는 계절별 냉각 모드를 조정하고, WUE와 PUE 동시 추이로 결과를 확인함
+- 지속가능성 보고 체계에서는 수자원 사용량을 공개하고, annual WUE와 water reuse ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

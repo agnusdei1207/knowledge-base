@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 글로벌 SaaS DB에서는 지연·정합 예산을 정의하고 확인 지표는 p95 latency와 consistency violation rate임
-- 플랫폼 아키텍처 조직에서는 설계 결정을 기록하고 확인 지표는 decision traceability와 incident response consistency임
-- 멀티서비스 데이터 플랫폼에서는 workload tiering을 적용하고 확인 지표는 tier fit score와 over-constrained workload ratio임
+- 글로벌 SaaS DB에서는 지연·정합 예산을 정의하고, p95 latency와 consistency violation rate로 결과를 확인함
+- 플랫폼 아키텍처 조직에서는 설계 결정을 기록하고, decision traceability와 incident response consistency로 결과를 확인함
+- 멀티서비스 데이터 플랫폼에서는 workload tiering을 적용하고, tier fit score와 over-constrained workload ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

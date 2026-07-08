@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 서버는 SRAM 기반 L3 캐시와 DRAM 주기억장치를 조합해 평균 지연을 낮추고 확인 지표는 cache miss rate와 memory stall ratio임
-- 그래픽과 AI 가속기는 DRAM 대역폭을 넓힌 GDDR이나 HBM을 사용해 연산 유휴를 줄이고 확인 지표는 memory bandwidth utilization과 accelerator idle ratio임
-- 저전력 임베디드 장치는 소용량 SRAM 중심 구성을 채택해 단순성과 응답성을 확보하고 확인 지표는 standby power와 interrupt response time임
+- 범용 서버는 SRAM 기반 L3 캐시와 DRAM 주기억장치를 조합해 평균 지연을 낮추고, cache miss rate와 memory stall ratio로 결과를 확인함
+- 그래픽과 AI 가속기는 DRAM 대역폭을 넓힌 GDDR이나 HBM을 사용해 연산 유휴를 줄이고, memory bandwidth utilization과 accelerator idle ratio로 결과를 확인함
+- 저전력 임베디드 장치는 소용량 SRAM 중심 구성을 채택해 단순성과 응답성을 확보하고, standby power와 interrupt response time로 결과를 확인함
 
 ## Ⅷ. 결론
 

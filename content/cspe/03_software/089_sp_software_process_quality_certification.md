@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 SI 조직에서는 표준 프로세스를 정비하고 확인 지표는 process adoption rate와 documentation overhead ratio임
-- 다사업부 개발 조직에서는 tailoring 규칙을 운영하고 확인 지표는 tailoring compliance와 waiver recurrence rate임
-- 품질 보증 조직에서는 인증 이후 개선 회의를 지속하고 확인 지표는 corrective action closure rate와 process freshness index임
+- 공공 SI 조직에서는 표준 프로세스를 정비하고, process adoption rate와 documentation overhead ratio로 결과를 확인함
+- 다사업부 개발 조직에서는 tailoring 규칙을 운영하고, tailoring compliance와 waiver recurrence rate로 결과를 확인함
+- 품질 보증 조직에서는 인증 이후 개선 회의를 지속하고, corrective action closure rate와 process freshness index로 결과를 확인함
 
 ## Ⅷ. 결론
 

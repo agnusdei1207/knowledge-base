@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 코어 시스템 설계에서는 ATAM을 수행하고 확인 지표는 stakeholder coverage와 architecture risk burn-down임
-- 대규모 플랫폼 확장 검토에서는 품질 시나리오를 명시하고 확인 지표는 scenario clarity score와 review actionability임
-- 아키텍처 리뷰 위원회에서는 후속 조치를 추적하고 확인 지표는 action closure rate와 missed risk discovery count임
+- 금융 코어 시스템 설계에서는 ATAM을 수행하고, stakeholder coverage와 architecture risk burn-down로 결과를 확인함
+- 대규모 플랫폼 확장 검토에서는 품질 시나리오를 명시하고, scenario clarity score와 review actionability로 결과를 확인함
+- 아키텍처 리뷰 위원회에서는 후속 조치를 추적하고, action closure rate와 missed risk discovery count로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 계정계 갱신 트랜잭션에서는 잠금 순서를 표준화하고 확인 지표는 deadlock frequency와 victim retry success rate임
-- 대형 주문 시스템에서는 트랜잭션 범위를 줄이고 확인 지표는 lock hold time과 blocked transaction ratio임
-- 조회 중심 서비스에서는 혼합 제어 방식을 도입하고 확인 지표는 read wait ratio와 throughput gain임
+- 계정계 갱신 트랜잭션에서는 잠금 순서를 표준화하고, deadlock frequency와 victim retry success rate로 결과를 확인함
+- 대형 주문 시스템에서는 트랜잭션 범위를 줄이고, lock hold time과 blocked transaction ratio로 결과를 확인함
+- 조회 중심 서비스에서는 혼합 제어 방식을 도입하고, read wait ratio와 throughput gain으로 결과를 확인함
 
 ## Ⅷ. 결론
 

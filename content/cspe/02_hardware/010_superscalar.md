@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고성능 서버 CPU에서는 OoO를 강화하고 확인 지표는 issue slot utilization과 IPC임
-- 모바일 고성능 코어에서는 발행 폭을 조정하고 확인 지표는 area efficiency와 perf per watt임
-- 분기 많은 워크로드에서는 예측기를 강화하고 확인 지표는 misprediction penalty와 wasted uop ratio임
+- 고성능 서버 CPU에서는 OoO를 강화하고, issue slot utilization과 IPC로 결과를 확인함
+- 모바일 고성능 코어에서는 발행 폭을 조정하고, area efficiency와 perf per watt로 결과를 확인함
+- 분기 많은 워크로드에서는 예측기를 강화하고, misprediction penalty와 wasted uop ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

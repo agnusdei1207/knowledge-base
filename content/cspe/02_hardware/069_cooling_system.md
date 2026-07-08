@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 엔터프라이즈 서버실에서는 공랭과 hot-cold aisle을 적용하고 확인 지표는 inlet temperature와 PUE임
-- AI GPU 랙에서는 direct-to-chip 수랭을 적용하고 확인 지표는 rack power density와 throttling rate임
-- 초고밀도 HPC 센터에서는 액침냉각을 도입하고 확인 지표는 cooling power reduction과 thermal stability임
+- 범용 엔터프라이즈 서버실에서는 공랭과 hot-cold aisle을 적용하고, inlet temperature와 PUE로 결과를 확인함
+- AI GPU 랙에서는 direct-to-chip 수랭을 적용하고, rack power density와 throttling rate로 결과를 확인함
+- 초고밀도 HPC 센터에서는 액침냉각을 도입하고, cooling power reduction과 thermal stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

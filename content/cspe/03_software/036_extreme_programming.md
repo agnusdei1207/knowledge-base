@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스타트업 제품팀에서는 TDD와 짧은 배포 주기를 결합하고 확인 지표는 change failure rate와 build stability임
-- 신규 입사자 온보딩 팀에서는 페어 프로그래밍을 적용하고 확인 지표는 pair rotation coverage와 onboarding lead time임
-- 핵심 도메인 모듈 개발에서는 리팩터링과 자동 테스트를 강화하고 확인 지표는 mutation score와 defect escape rate임
+- 스타트업 제품팀에서는 TDD와 짧은 배포 주기를 결합하고, change failure rate와 build stability로 결과를 확인함
+- 신규 입사자 온보딩 팀에서는 페어 프로그래밍을 적용하고, pair rotation coverage와 onboarding lead time로 결과를 확인함
+- 핵심 도메인 모듈 개발에서는 리팩터링과 자동 테스트를 강화하고, mutation score와 defect escape rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

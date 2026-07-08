@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자동차 차체 제어 네트워크에서는 ECU 간 제어 메시지를 교환하고 확인 지표는 bus utilization과 message latency임
-- 산업 장비 제어선에서는 센서와 액추에이터를 CAN으로 연결하고 확인 지표는 error frame count와 uptime임
-- 차량 진단망에서는 CAN FD를 활용해 진단 데이터를 확장 전송하고 확인 지표는 payload efficiency와 diagnostic response time임
+- 자동차 차체 제어 네트워크에서는 ECU 간 제어 메시지를 교환하고, bus utilization과 message latency로 결과를 확인함
+- 산업 장비 제어선에서는 센서와 액추에이터를 CAN으로 연결하고, error frame count와 uptime로 결과를 확인함
+- 차량 진단망에서는 CAN FD를 활용해 진단 데이터를 확장 전송하고, payload efficiency와 diagnostic response time로 결과를 확인함
 
 ## Ⅷ. 결론
 

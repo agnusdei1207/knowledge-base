@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자동차 제어 ECU에서는 주기 제어 태스크를 RTOS로 운영하고 확인 지표는 deadline miss rate와 control jitter임
-- 산업 로봇 제어기에서는 인터럽트 기반 위치 제어를 수행하고 확인 지표는 interrupt latency와 cycle time stability임
-- 의료기기 펌웨어에서는 안전 알람 태스크를 우선 실행하고 확인 지표는 response time upper bound와 fault handling latency임
+- 자동차 제어 ECU에서는 주기 제어 태스크를 RTOS로 운영하고, deadline miss rate와 control jitter로 결과를 확인함
+- 산업 로봇 제어기에서는 인터럽트 기반 위치 제어를 수행하고, interrupt latency와 cycle time stability로 결과를 확인함
+- 의료기기 펌웨어에서는 안전 알람 태스크를 우선 실행하고, response time upper bound와 fault handling latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

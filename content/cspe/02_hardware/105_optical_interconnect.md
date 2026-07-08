@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터센터 spine 링크에서는 광 모듈을 적용해 장거리 대역폭을 확보하고 확인 지표는 optical power margin과 link availability임
-- AI 클러스터 스위치 설계에서는 CPO를 검토하고 확인 지표는 bandwidth per watt와 coupling loss임
-- HPC 운영 환경에서는 광 모듈 온도와 장애를 상시 감시하고 확인 지표는 module failure rate와 degraded throughput임
+- 데이터센터 spine 링크에서는 광 모듈을 적용해 장거리 대역폭을 확보하고, optical power margin과 link availability로 결과를 확인함
+- AI 클러스터 스위치 설계에서는 CPO를 검토하고, bandwidth per watt와 coupling loss로 결과를 확인함
+- HPC 운영 환경에서는 광 모듈 온도와 장애를 상시 감시하고, module failure rate와 degraded throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

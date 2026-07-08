@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- AI GPU 패키지에서는 HBM 스택을 사용해 메모리 병목을 줄이고 확인 지표는 memory bandwidth와 stack temperature임
-- HPC 노드 설계에서는 인터포저 기반 적층 메모리를 적용하고 확인 지표는 bandwidth per watt와 thermal throttling count임
-- 양산 검증 단계에서는 known good die와 burn-in 절차를 강화하고 확인 지표는 stack yield와 defect escape rate임
+- AI GPU 패키지에서는 HBM 스택을 사용해 메모리 병목을 줄이고, memory bandwidth와 stack temperature로 결과를 확인함
+- HPC 노드 설계에서는 인터포저 기반 적층 메모리를 적용하고, bandwidth per watt와 thermal throttling count로 결과를 확인함
+- 양산 검증 단계에서는 known good die와 burn-in 절차를 강화하고, stack yield와 defect escape rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

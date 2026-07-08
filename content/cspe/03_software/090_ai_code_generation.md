@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 백엔드 API 개발에서는 코드 초안 생성을 활용하고 확인 지표는 acceptance rate와 post-edit distance임
-- 보안 민감 조직에서는 생성 코드 게이트를 적용하고 확인 지표는 violation rate와 block effectiveness임
-- 플랫폼 팀에서는 리뷰 규칙을 운영하고 확인 지표는 review defect capture rate와 ownership confidence score임
+- 백엔드 API 개발에서는 코드 초안 생성을 활용하고, acceptance rate와 post-edit distance로 결과를 확인함
+- 보안 민감 조직에서는 생성 코드 게이트를 적용하고, violation rate와 block effectiveness로 결과를 확인함
+- 플랫폼 팀에서는 리뷰 규칙을 운영하고, review defect capture rate와 ownership confidence score로 결과를 확인함
 
 ## Ⅷ. 결론
 

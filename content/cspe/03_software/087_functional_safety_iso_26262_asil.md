@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- ADAS 제어기 개발에서는 HARA와 ASIL 산정을 수행하고 확인 지표는 scenario coverage ratio와 ASIL reclassification count임
-- ECU 소프트웨어 검증에서는 요구 추적성을 관리하고 확인 지표는 requirement trace completeness와 orphan requirement count임
-- 양산 이후 차량 업데이트 관리에서는 안전 사례를 재검토하고 확인 지표는 post-release safety review timeliness와 safety case freshness임
+- ADAS 제어기 개발에서는 HARA와 ASIL 산정을 수행하고, scenario coverage ratio와 ASIL reclassification count로 결과를 확인함
+- ECU 소프트웨어 검증에서는 요구 추적성을 관리하고, requirement trace completeness와 orphan requirement count로 결과를 확인함
+- 양산 이후 차량 업데이트 관리에서는 안전 사례를 재검토하고, post-release safety review timeliness와 safety case freshness로 결과를 확인함
 
 ## Ⅷ. 결론
 

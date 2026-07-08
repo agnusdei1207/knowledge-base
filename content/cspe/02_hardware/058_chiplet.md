@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 CPU 제품군에서는 compute와 I/O 다이를 분리하고 확인 지표는 die yield와 package performance임
-- AI 가속기 패키지에서는 HBM과 연산 다이를 조합하고 확인 지표는 bandwidth per watt와 thermal stability임
-- 멀티벤더 시스템 통합에서는 재사용 칩렛을 조합하고 확인 지표는 integration lead time과 interoperability pass rate임
+- 서버 CPU 제품군에서는 compute와 I/O 다이를 분리하고, die yield와 package performance로 결과를 확인함
+- AI 가속기 패키지에서는 HBM과 연산 다이를 조합하고, bandwidth per watt와 thermal stability로 결과를 확인함
+- 멀티벤더 시스템 통합에서는 재사용 칩렛을 조합하고, integration lead time과 interoperability pass rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

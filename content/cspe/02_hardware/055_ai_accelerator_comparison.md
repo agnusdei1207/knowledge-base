@@ -77,9 +77,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대규모 모델 학습 인프라에서는 GPU 클러스터를 선택하고 확인 지표는 training throughput과 cluster utilization임
-- 스마트폰 온디바이스 AI에서는 NPU를 활용하고 확인 지표는 inference latency와 battery impact임
-- 대량 서비스 추론 백엔드에서는 ASIC 또는 TPU 계열을 검토하고 확인 지표는 cost per inference와 throughput per watt임
+- 대규모 모델 학습 인프라에서는 GPU 클러스터를 선택하고, training throughput과 cluster utilization로 결과를 확인함
+- 스마트폰 온디바이스 AI에서는 NPU를 활용하고, inference latency와 battery impact로 결과를 확인함
+- 대량 서비스 추론 백엔드에서는 ASIC 또는 TPU 계열을 검토하고, cost per inference와 throughput per watt로 결과를 확인함
 
 ## Ⅷ. 결론
 

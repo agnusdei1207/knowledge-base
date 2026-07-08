@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 핵심 계산 모듈에서는 화이트박스 테스트를 강화하고 확인 지표는 path defect catch rate와 brittle test ratio임
-- 사용자 업무 흐름 검증에서는 블랙박스 테스트를 운영하고 확인 지표는 acceptance coverage와 defect escape rate임
-- 품질 조직에서는 두 관점의 책임을 분리하고 확인 지표는 uncovered branch ratio와 suite efficiency score임
+- 핵심 계산 모듈에서는 화이트박스 테스트를 강화하고, path defect catch rate와 brittle test ratio로 결과를 확인함
+- 사용자 업무 흐름 검증에서는 블랙박스 테스트를 운영하고, acceptance coverage와 defect escape rate로 결과를 확인함
+- 품질 조직에서는 두 관점의 책임을 분리하고, uncovered branch ratio와 suite efficiency score로 결과를 확인함
 
 ## Ⅷ. 결론
 

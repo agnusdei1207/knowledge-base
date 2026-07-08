@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 가상화 클러스터 서버에서는 멀티소켓과 대용량 메모리를 구성하고 확인 지표는 VM density와 host utilization임
-- AI 추론 서버에서는 GPU와 고속 NIC를 통합하고 확인 지표는 inference throughput과 rack power density임
-- 스토리지 노드 서버에서는 NVMe와 이중 전원을 강화하고 확인 지표는 IOPS와 failover success rate임
+- 가상화 클러스터 서버에서는 멀티소켓과 대용량 메모리를 구성하고, VM density와 host utilization로 결과를 확인함
+- AI 추론 서버에서는 GPU와 고속 NIC를 통합하고, inference throughput과 rack power density로 결과를 확인함
+- 스토리지 노드 서버에서는 NVMe와 이중 전원을 강화하고, IOPS와 failover success rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

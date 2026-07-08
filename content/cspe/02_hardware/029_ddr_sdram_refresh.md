@@ -82,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- DDR5 서버 메모리는 per-bank refresh를 활용해 대역폭 손실을 줄이고 확인 지표는 effective bandwidth와 refresh penalty임
-- LPDDR 모바일 기기는 self refresh와 partial array 제어를 사용해 대기 전력을 낮추고 확인 지표는 standby power와 resume latency임
-- 데이터센터 운영은 메모리 온도와 refresh 정책을 함께 관리해 안정성을 유지하고 확인 지표는 thermal margin과 corrected error count임
+- DDR5 서버 메모리는 per-bank refresh를 활용해 대역폭 손실을 줄이고, effective bandwidth와 refresh penalty로 결과를 확인함
+- LPDDR 모바일 기기는 self refresh와 partial array 제어를 사용해 대기 전력을 낮추고, standby power와 resume latency로 결과를 확인함
+- 데이터센터 운영은 메모리 온도와 refresh 정책을 함께 관리해 안정성을 유지하고, thermal margin과 corrected error count로 결과를 확인함
 
 ## Ⅷ. 결론
 

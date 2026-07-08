@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 협업 편집 서비스에서는 의미 검토를 수행하고 확인 지표는 semantic merge accuracy와 unexpected convergence count임
-- 모바일 오프라인 동기화에서는 델타 전파를 적용하고 확인 지표는 sync payload size와 convergence latency임
-- 실시간 공유 화면에서는 병합 가시성을 설계하고 확인 지표는 user merge confusion rate와 conflict resolution explainability score임
+- 협업 편집 서비스에서는 의미 검토를 수행하고, semantic merge accuracy와 unexpected convergence count로 결과를 확인함
+- 모바일 오프라인 동기화에서는 델타 전파를 적용하고, sync payload size와 convergence latency로 결과를 확인함
+- 실시간 공유 화면에서는 병합 가시성을 설계하고, user merge confusion rate와 conflict resolution explainability score로 결과를 확인함
 
 ## Ⅷ. 결론
 

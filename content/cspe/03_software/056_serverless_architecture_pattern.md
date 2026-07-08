@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 이벤트 기반 알림 서비스에서는 서버리스 함수를 사용하고 확인 지표는 cold start latency와 cost per invocation임
-- 내부 업무 자동화에서는 관리형 백엔드를 조합하고 확인 지표는 deployment consistency와 permission drift count임
-- 멀티클라우드 검토 환경에서는 이식성 기준을 관리하고 확인 지표는 vendor lock-in score와 migration effort estimate임
+- 이벤트 기반 알림 서비스에서는 서버리스 함수를 사용하고, cold start latency와 cost per invocation로 결과를 확인함
+- 내부 업무 자동화에서는 관리형 백엔드를 조합하고, deployment consistency와 permission drift count로 결과를 확인함
+- 멀티클라우드 검토 환경에서는 이식성 기준을 관리하고, vendor lock-in score와 migration effort estimate로 결과를 확인함
 
 ## Ⅷ. 결론
 

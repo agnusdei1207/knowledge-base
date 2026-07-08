@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 리눅스 운영 교육에서는 커널과 쉘과 파일시스템 관계를 함께 설명하고 확인 지표는 syscall misuse count와 script failure rate임
-- 배포 자동화 환경에서는 쉘 스크립트와 권한 정책을 표준화하고 확인 지표는 lint compliance와 deployment success rate임
-- 서버 운영 기준선에서는 디렉터리와 권한 체계를 정비하고 확인 지표는 permission drift count와 access incident rate임
+- 리눅스 운영 교육에서는 커널과 쉘과 파일시스템 관계를 함께 설명하고, syscall misuse count와 script failure rate로 결과를 확인함
+- 배포 자동화 환경에서는 쉘 스크립트와 권한 정책을 표준화하고, lint compliance와 deployment success rate로 결과를 확인함
+- 서버 운영 기준선에서는 디렉터리와 권한 체계를 정비하고, permission drift count와 access incident rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

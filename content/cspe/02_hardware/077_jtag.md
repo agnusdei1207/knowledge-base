@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 보드 양산 검사에서는 boundary scan으로 납땜 불량을 점검하고 확인 지표는 test coverage와 defect detection rate임
-- 펌웨어 개발 환경에서는 JTAG로 halt와 single-step을 수행하고 확인 지표는 debug turnaround time과 issue reproduction rate임
-- 보안 강화 제품에서는 출하 전 JTAG 잠금을 적용하고 확인 지표는 debug port lock coverage와 audit pass rate임
+- 보드 양산 검사에서는 boundary scan으로 납땜 불량을 점검하고, test coverage와 defect detection rate로 결과를 확인함
+- 펌웨어 개발 환경에서는 JTAG로 halt와 single-step을 수행하고, debug turnaround time과 issue reproduction rate로 결과를 확인함
+- 보안 강화 제품에서는 출하 전 JTAG 잠금을 적용하고, debug port lock coverage와 audit pass rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

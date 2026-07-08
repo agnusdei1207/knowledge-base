@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 제품 출시 압박 상황에서는 의도적 부채를 등록하고 확인 지표는 planned payoff adherence와 unowned debt ratio임
-- 아키텍처 회고에서는 부채 사분면을 사용하고 확인 지표는 debt prioritization accuracy와 recurrence debt rate임
-- 신규 팀 교육에서는 비의도적 부채 사례를 공유하고 확인 지표는 training coverage와 remediation lead time임
+- 제품 출시 압박 상황에서는 의도적 부채를 등록하고, planned payoff adherence와 unowned debt ratio로 결과를 확인함
+- 아키텍처 회고에서는 부채 사분면을 사용하고, debt prioritization accuracy와 recurrence debt rate로 결과를 확인함
+- 신규 팀 교육에서는 비의도적 부채 사례를 공유하고, training coverage와 remediation lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

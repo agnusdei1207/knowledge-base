@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터센터 랙 서버에서는 이중 PSU와 A, B 전원 경로를 적용하고 확인 지표는 power path redundancy와 failover success rate임
-- 금융 전산실 UPS 설계에서는 정전 지속시간 목표를 반영하고 확인 지표는 backup duration과 SLA compliance임
-- 산업 제어실에서는 순간 전압 강하 대응 UPS를 운영하고 확인 지표는 outage incident reduction과 control uptime임
+- 데이터센터 랙 서버에서는 이중 PSU와 A, B 전원 경로를 적용하고, power path redundancy와 failover success rate로 결과를 확인함
+- 금융 전산실 UPS 설계에서는 정전 지속시간 목표를 반영하고, backup duration과 SLA compliance로 결과를 확인함
+- 산업 제어실에서는 순간 전압 강하 대응 UPS를 운영하고, outage incident reduction과 control uptime로 결과를 확인함
 
 ## Ⅷ. 결론
 

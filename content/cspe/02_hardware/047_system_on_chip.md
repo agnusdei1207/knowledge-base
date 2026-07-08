@@ -86,9 +86,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트폰 AP에서는 CPU와 GPU와 NPU를 한 칩에 통합하고 확인 지표는 performance per watt와 battery life임
-- 자동차 인포테인먼트 SoC에서는 영상 처리와 통신 제어를 집적하고 확인 지표는 thermal envelope와 response latency임
-- 온디바이스 AI 칩에서는 카메라와 NPU와 메모리 경로를 최적화하고 확인 지표는 inference latency와 TOPS/W임
+- 스마트폰 AP에서는 CPU와 GPU와 NPU를 한 칩에 통합하고, performance per watt와 battery life로 결과를 확인함
+- 자동차 인포테인먼트 SoC에서는 영상 처리와 통신 제어를 집적하고, thermal envelope와 response latency로 결과를 확인함
+- 온디바이스 AI 칩에서는 카메라와 NPU와 메모리 경로를 최적화하고, inference latency와 TOPS/W로 결과를 확인함
 
 ## Ⅷ. 결론
 

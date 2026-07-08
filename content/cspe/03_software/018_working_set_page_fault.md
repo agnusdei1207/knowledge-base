@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터베이스 서버에서는 working set 변화를 기준으로 메모리를 조정하고 확인 지표는 major fault rate와 throughput stability임
-- 배치 작업 호스트에서는 admission control을 적용해 스래싱을 억제하고 확인 지표는 swap I/O rate와 CPU utilization stability임
-- 커널 메모리 분석에서는 reclaim 통계를 함께 본 뒤 확인 지표는 working set estimation error와 reclaim efficiency임
+- 데이터베이스 서버에서는 working set 변화를 기준으로 메모리를 조정하고, major fault rate와 throughput stability로 결과를 확인함
+- 배치 작업 호스트에서는 admission control을 적용해 스래싱을 억제하고, swap I/O rate와 CPU utilization stability로 결과를 확인함
+- 커널 메모리 분석에서는 reclaim 통계를 함께 분석하며, working set estimation error와 reclaim efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

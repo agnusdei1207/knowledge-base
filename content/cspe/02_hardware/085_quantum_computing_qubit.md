@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 양자 알고리즘 교육 환경에서는 큐비트 중첩과 측정을 실험하고 확인 지표는 state fidelity와 measurement distribution error임
-- NISQ 장비 운용에서는 큐비트 품질 추적을 수행하고 확인 지표는 coherence time과 gate fidelity임
-- 양자 클라우드 서비스에서는 큐비트 자원을 제공하고 확인 지표는 usable circuit depth와 job success probability임
+- 양자 알고리즘 교육 환경에서는 큐비트 중첩과 측정을 실험하고, state fidelity와 measurement distribution error로 결과를 확인함
+- NISQ 장비 운용에서는 큐비트 품질 추적을 수행하고, coherence time과 gate fidelity로 결과를 확인함
+- 양자 클라우드 서비스에서는 큐비트 자원을 제공하고, usable circuit depth와 job success probability로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 CPU 튜닝에서는 메모리 병목을 줄이고 확인 지표는 cache miss rate와 memory stall cycle임
-- 모바일 AP 설계에서는 제어 효율을 높이고 확인 지표는 branch accuracy와 issue utilization임
-- AI 가속기 설계에서는 데이터 경로를 확장하고 확인 지표는 bus utilization과 register port contention임
+- 서버 CPU 튜닝에서는 메모리 병목을 줄이고, cache miss rate와 memory stall cycle로 결과를 확인함
+- 모바일 AP 설계에서는 제어 효율을 높이고, branch accuracy와 issue utilization로 결과를 확인함
+- AI 가속기 설계에서는 데이터 경로를 확장하고, bus utilization과 register port contention로 결과를 확인함
 
 ## Ⅷ. 결론
 

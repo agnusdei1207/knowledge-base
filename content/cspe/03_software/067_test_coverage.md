@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 계산 로직에서는 분기 커버리지를 강화하고 확인 지표는 critical path coverage와 defect escape rate임
-- 안전성 높은 제어 모듈에서는 MC/DC를 적용하고 확인 지표는 mutation score와 test design effort임
-- 일반 서비스팀에서는 커버리지와 요구 검증을 함께 보고 확인 지표는 coverage-value ratio와 requirement coverage임
+- 금융 계산 로직에서는 분기 커버리지를 강화하고, critical path coverage와 defect escape rate로 결과를 확인함
+- 안전성 높은 제어 모듈에서는 MC/DC를 적용하고, mutation score와 test design effort로 결과를 확인함
+- 일반 서비스팀에서는 커버리지와 요구 검증을 함께 보고, coverage-value ratio와 requirement coverage로 결과를 확인함
 
 ## Ⅷ. 결론
 

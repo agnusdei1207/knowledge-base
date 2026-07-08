@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 양자 회로 교육에서는 Hadamard와 CNOT 실험으로 개념을 설명하고 확인 지표는 state fidelity와 measurement distribution임
-- 양자 통신 연구에서는 얽힘 분배를 실험하고 확인 지표는 entanglement fidelity와 decoherence time임
-- NISQ 알고리즘 설계에서는 얽힘 깊이를 제한하고 확인 지표는 circuit depth와 success probability임
+- 양자 회로 교육에서는 Hadamard와 CNOT 실험으로 개념을 설명하고, state fidelity와 measurement distribution로 결과를 확인함
+- 양자 통신 연구에서는 얽힘 분배를 실험하고, entanglement fidelity와 decoherence time로 결과를 확인함
+- NISQ 알고리즘 설계에서는 얽힘 깊이를 제한하고, circuit depth와 success probability로 결과를 확인함
 
 ## Ⅷ. 결론
 

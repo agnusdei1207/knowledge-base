@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- AI 데이터플로우 가속기에서는 연산 그래프를 타일 단위로 분할해 병렬 실행하고 확인 지표는 execution utilization과 memory traffic임
-- 스트림 처리 엔진에서는 이벤트 도착 기반으로 준비 노드를 실행하고 확인 지표는 throughput과 queue backlog임
-- 그래프 분석 가속 연구에서는 의존성이 약한 노드를 분산 배치하고 확인 지표는 parallelism extracted와 scheduler overhead임
+- AI 데이터플로우 가속기에서는 연산 그래프를 타일 단위로 분할해 병렬 실행하고, execution utilization과 memory traffic로 결과를 확인함
+- 스트림 처리 엔진에서는 이벤트 도착 기반으로 준비 노드를 실행하고, throughput과 queue backlog로 결과를 확인함
+- 그래프 분석 가속 연구에서는 의존성이 약한 노드를 분산 배치하고, parallelism extracted와 scheduler overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 서버 CPU에서는 수정 하버드 구조를 적용하고 확인 지표는 stall cycle ratio와 cache hit rate임
-- DSP 기반 신호처리 장치에서는 분리 경로를 사용하고 확인 지표는 bandwidth efficiency와 throughput per cycle임
-- 펌웨어 갱신이 많은 임베디드 장치에서는 일관성 절차를 운영하고 확인 지표는 coherence error count와 deployment failure rate임
+- 범용 서버 CPU에서는 수정 하버드 구조를 적용하고, stall cycle ratio와 cache hit rate로 결과를 확인함
+- DSP 기반 신호처리 장치에서는 분리 경로를 사용하고, bandwidth efficiency와 throughput per cycle로 결과를 확인함
+- 펌웨어 갱신이 많은 임베디드 장치에서는 일관성 절차를 운영하고, coherence error count와 deployment failure rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

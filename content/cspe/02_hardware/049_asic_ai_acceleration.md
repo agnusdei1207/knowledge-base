@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 클라우드 AI 추론 칩에서는 특정 모델군을 고효율로 처리하고 확인 지표는 throughput per watt와 service cost per query임
-- 스마트폰 Neural Engine 계열에서는 온디바이스 추론을 전용화하고 확인 지표는 inference latency와 battery impact임
-- 자율주행 전용 칩에서는 반복되는 비전 연산을 가속하고 확인 지표는 frame throughput과 thermal stability임
+- 클라우드 AI 추론 칩에서는 특정 모델군을 고효율로 처리하고, throughput per watt와 service cost per query로 결과를 확인함
+- 스마트폰 Neural Engine 계열에서는 온디바이스 추론을 전용화하고, inference latency와 battery impact로 결과를 확인함
+- 자율주행 전용 칩에서는 반복되는 비전 연산을 가속하고, frame throughput과 thermal stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

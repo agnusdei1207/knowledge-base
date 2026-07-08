@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 레거시 업무 DB 개선에서는 이상 패턴 점검을 수행하고 확인 지표는 anomaly recurrence rate와 redundant attribute count임
-- 운영 장애 대응팀에서는 구조 개선 백로그를 관리하고 확인 지표는 structural fix lead time와 workaround query count임
-- 스키마 개편 프로젝트에서는 계약 테스트를 운영하고 확인 지표는 mapping regression count와 deployment defect rate임
+- 레거시 업무 DB 개선에서는 이상 패턴 점검을 수행하고, anomaly recurrence rate와 redundant attribute count로 결과를 확인함
+- 운영 장애 대응팀에서는 구조 개선 백로그를 관리하고, structural fix lead time와 workaround query count로 결과를 확인함
+- 스키마 개편 프로젝트에서는 계약 테스트를 운영하고, mapping regression count와 deployment defect rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

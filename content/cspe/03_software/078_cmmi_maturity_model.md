@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 SI 조직에서는 CMMI 기준을 적용하고 확인 지표는 process adoption rate와 measurement completeness임
-- 대형 개발 조직에서는 공통 프로세스를 측정하고 확인 지표는 defect trend predictability와 delivery predictability임
-- 제품 조직 전환 환경에서는 tailoring을 운영하고 확인 지표는 process tailoring compliance와 documentation overhead ratio임
+- 공공 SI 조직에서는 CMMI 기준을 적용하고, process adoption rate와 measurement completeness로 결과를 확인함
+- 대형 개발 조직에서는 공통 프로세스를 측정하고, defect trend predictability와 delivery predictability로 결과를 확인함
+- 제품 조직 전환 환경에서는 tailoring을 운영하고, process tailoring compliance와 documentation overhead ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

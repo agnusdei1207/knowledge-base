@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 시스템 구축에서는 요구 워크숍을 운영하고 확인 지표는 requirement ambiguity count와 traceability coverage임
-- 플랫폼 개발에서는 비기능 요구를 초기 명세에 반영하고 확인 지표는 nonfunctional coverage와 late defect ratio임
-- 공공 프로젝트에서는 요구 변경 위원회를 운영하고 확인 지표는 scope creep ratio와 change lead time임
+- 금융 시스템 구축에서는 요구 워크숍을 운영하고, requirement ambiguity count와 traceability coverage로 결과를 확인함
+- 플랫폼 개발에서는 비기능 요구를 초기 명세에 반영하고, nonfunctional coverage와 late defect ratio로 결과를 확인함
+- 공공 프로젝트에서는 요구 변경 위원회를 운영하고, scope creep ratio와 change lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

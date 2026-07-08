@@ -86,9 +86,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 스케줄러에서는 SMT 인지 배치를 적용하고 확인 지표는 resource contention ratio와 throughput gain임
-- 멀티테넌트 보안 환경에서는 격리 정책을 운영하고 확인 지표는 leakage risk score와 secure tenant separation rate임
-- 지연 민감 서비스에서는 SMT 정책을 조정하고 확인 지표는 p99 latency와 core efficiency임
+- 서버 스케줄러에서는 SMT 인지 배치를 적용하고, resource contention ratio와 throughput gain으로 결과를 확인함
+- 멀티테넌트 보안 환경에서는 격리 정책을 운영하고, leakage risk score와 secure tenant separation rate로 결과를 확인함
+- 지연 민감 서비스에서는 SMT 정책을 조정하고, p99 latency와 core efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

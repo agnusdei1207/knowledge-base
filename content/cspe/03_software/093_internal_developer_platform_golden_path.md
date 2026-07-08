@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 서비스 템플릿 플랫폼에서는 권장 경로를 제공하고 확인 지표는 golden path completion rate와 bypass ratio임
-- 데이터 플랫폼 팀에서는 확장 포인트를 운영하고 확인 지표는 extension success rate와 unsupported request count임
-- 신규 입사자 온보딩 프로그램에서는 템플릿 최신화를 관리하고 확인 지표는 onboarding lead time과 stale template ratio임
+- 사내 서비스 템플릿 플랫폼에서는 권장 경로를 제공하고, golden path completion rate와 bypass ratio로 결과를 확인함
+- 데이터 플랫폼 팀에서는 확장 포인트를 운영하고, extension success rate와 unsupported request count로 결과를 확인함
+- 신규 입사자 온보딩 프로그램에서는 템플릿 최신화를 관리하고, onboarding lead time과 stale template ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

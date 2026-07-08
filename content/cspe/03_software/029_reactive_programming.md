@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 실시간 알림 서비스에서는 publisher와 subscriber 구조를 사용하고 확인 지표는 subscriber lag와 message latency임
-- 스트림 처리 파이프라인에서는 backpressure를 명시적으로 설계하고 확인 지표는 queue depth와 drop rate임
-- API 게이트웨이 후단 비동기 조합에서는 operator chain을 활용하고 확인 지표는 unhandled error rate와 debug resolution time임
+- 실시간 알림 서비스에서는 publisher와 subscriber 구조를 사용하고, subscriber lag와 message latency로 결과를 확인함
+- 스트림 처리 파이프라인에서는 backpressure를 명시적으로 설계하고, queue depth와 drop rate로 결과를 확인함
+- API 게이트웨이 후단 비동기 조합에서는 operator chain을 활용하고, unhandled error rate와 debug resolution time로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 레거시 서비스 리뷰에서는 스멜 목록을 수집하고 확인 지표는 smell hotspot ratio와 remediation throughput임
-- 팀 코드 리뷰 가이드에서는 스멜 기준을 공유하고 확인 지표는 review consistency score와 dispute rate임
-- 정적 분석 도입 조직에서는 스멜을 backlog와 연계하고 확인 지표는 smell recurrence rate와 delivery impact score임
+- 레거시 서비스 리뷰에서는 스멜 목록을 수집하고, smell hotspot ratio와 remediation throughput으로 결과를 확인함
+- 팀 코드 리뷰 가이드에서는 스멜 기준을 공유하고, review consistency score와 dispute rate로 결과를 확인함
+- 정적 분석 도입 조직에서는 스멜을 backlog와 연계하고, smell recurrence rate와 delivery impact score로 결과를 확인함
 
 ## Ⅷ. 결론
 

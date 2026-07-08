@@ -75,9 +75,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 기록 보관에서는 위변조 방지가 필요한 문서를 WORM 매체에 저장하고 확인 지표는 data integrity와 audit pass rate임
-- 재난 복구 체계에서는 네트워크와 분리된 오프라인 백업을 운영하고 확인 지표는 restore time과 backup verification success rate임
-- 의료 영상 아카이브에서는 장기 보존용 계층으로 활용하고 확인 지표는 media error rate와 retention compliance임
+- 공공 기록 보관에서는 위변조 방지가 필요한 문서를 WORM 매체에 저장하고, data integrity와 audit pass rate로 결과를 확인함
+- 재난 복구 체계에서는 네트워크와 분리된 오프라인 백업을 운영하고, restore time과 backup verification success rate로 결과를 확인함
+- 의료 영상 아카이브에서는 장기 보존용 계층으로 활용하고, media error rate와 retention compliance로 결과를 확인함
 
 ## Ⅷ. 결론
 

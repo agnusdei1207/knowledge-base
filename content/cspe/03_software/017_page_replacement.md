@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 교육용 운영체제 실습에서는 FIFO와 LRU를 비교하고 확인 지표는 page fault rate와 replacement overhead임
-- 서버 커널 튜닝에서는 clock 계열 정책을 사용하고 확인 지표는 disk wait time과 swap I/O rate임
-- 메모리 과점유 환경에서는 working set 기반 제어를 도입하고 확인 지표는 working set miss rate와 throughput stability임
+- 교육용 운영체제 실습에서는 FIFO와 LRU를 비교하고, page fault rate와 replacement overhead로 결과를 확인함
+- 서버 커널 튜닝에서는 clock 계열 정책을 사용하고, disk wait time과 swap I/O rate로 결과를 확인함
+- 메모리 과점유 환경에서는 working set 기반 제어를 도입하고, working set miss rate와 throughput stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

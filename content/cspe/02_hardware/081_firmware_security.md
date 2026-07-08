@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 펌웨어 관리 체계에서는 UEFI와 BMC 이미지를 추적하고 확인 지표는 firmware compliance rate와 patch lead time임
-- IoT 장치 OTA 체계에서는 서명 업데이트를 강제하고 확인 지표는 signed update success rate와 unauthorized image block rate임
-- 차량 ECU 보안 점검에서는 디버그 포트 잠금과 부트 검증을 확인하고 확인 지표는 debug exposure count와 boot integrity pass rate임
+- 서버 펌웨어 관리 체계에서는 UEFI와 BMC 이미지를 추적하고, firmware compliance rate와 patch lead time로 결과를 확인함
+- IoT 장치 OTA 체계에서는 서명 업데이트를 강제하고, signed update success rate와 unauthorized image block rate로 결과를 확인함
+- 차량 ECU 보안 점검에서는 디버그 포트 잠금과 부트 검증을 확인하고, debug exposure count와 boot integrity pass rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

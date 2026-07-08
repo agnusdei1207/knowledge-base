@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 운영 서버 통합 환경에서는 Type 1 하이퍼바이저를 사용하고 확인 지표는 CPU ready time과 HA failover success rate임
-- 개발 노트북 환경에서는 Type 2 하이퍼바이저를 제한적으로 사용하고 확인 지표는 VM provision time과 host impact rate임
-- 다중 테넌트 클라우드에서는 관리망 분리와 보안 기준선을 적용하고 확인 지표는 hardening compliance와 audit finding count임
+- 운영 서버 통합 환경에서는 Type 1 하이퍼바이저를 사용하고, CPU ready time과 HA failover success rate로 결과를 확인함
+- 개발 노트북 환경에서는 Type 2 하이퍼바이저를 제한적으로 사용하고, VM provision time과 host impact rate로 결과를 확인함
+- 다중 테넌트 클라우드에서는 관리망 분리와 보안 기준선을 적용하고, hardening compliance와 audit finding count로 결과를 확인함
 
 ## Ⅷ. 결론
 

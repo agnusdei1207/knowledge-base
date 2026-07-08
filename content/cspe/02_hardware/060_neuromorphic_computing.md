@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 이벤트 카메라 기반 로봇 제어에서는 spike 입력을 실시간 처리하고 확인 지표는 reaction latency와 energy per inference임
-- 초저전력 이상 감지 센서에서는 이벤트 기반 분류를 수행하고 확인 지표는 battery life와 detection recall임
-- 웨어러블 감지 장치에서는 상시 패턴 인식을 구현하고 확인 지표는 on-device power와 false alarm rate임
+- 이벤트 카메라 기반 로봇 제어에서는 spike 입력을 실시간 처리하고, reaction latency와 energy per inference로 결과를 확인함
+- 초저전력 이상 감지 센서에서는 이벤트 기반 분류를 수행하고, battery life와 detection recall로 결과를 확인함
+- 웨어러블 감지 장치에서는 상시 패턴 인식을 구현하고, on-device power와 false alarm rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 거래 이력 시스템에서는 이벤트 소싱을 적용하고 확인 지표는 replay success rate와 audit trace completeness임
-- 조회 부하가 큰 주문 시스템에서는 CQRS를 적용하고 확인 지표는 projection lag와 query latency임
-- 장기 운영 플랫폼에서는 이벤트 버전 전략을 운영하고 확인 지표는 schema compatibility coverage와 stale read ratio임
+- 금융 거래 이력 시스템에서는 이벤트 소싱을 적용하고, replay success rate와 audit trace completeness로 결과를 확인함
+- 조회 부하가 큰 주문 시스템에서는 CQRS를 적용하고, projection lag와 query latency로 결과를 확인함
+- 장기 운영 플랫폼에서는 이벤트 버전 전략을 운영하고, schema compatibility coverage와 stale read ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 읽기 부하가 큰 전자상거래 DB에서는 읽기 라우팅을 분리하고 확인 지표는 replication lag와 stale read rate임
-- 고가용성 금융 DB에서는 장애 전환 훈련을 운영하고 확인 지표는 failover recovery time과 split-brain incident count임
-- 글로벌 분산 서비스에서는 충돌 정책을 적용하고 확인 지표는 conflict resolution success rate와 divergence count임
+- 읽기 부하가 큰 전자상거래 DB에서는 읽기 라우팅을 분리하고, replication lag와 stale read rate로 결과를 확인함
+- 고가용성 금융 DB에서는 장애 전환 훈련을 운영하고, failover recovery time과 split-brain incident count로 결과를 확인함
+- 글로벌 분산 서비스에서는 충돌 정책을 적용하고, conflict resolution success rate와 divergence count로 결과를 확인함
 
 ## Ⅷ. 결론
 

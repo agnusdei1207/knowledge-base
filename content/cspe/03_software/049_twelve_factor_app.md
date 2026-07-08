@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 클라우드 네이티브 웹앱에서는 12 Factor 원칙을 적용하고 확인 지표는 stateless compliance와 rollout success rate임
-- 플랫폼 팀에서는 설정 관리 표준을 제공하고 확인 지표는 config drift count와 deployment rollback rate임
-- 신규 서비스 템플릿에서는 공통 실행 규칙을 내장하고 확인 지표는 onboarding lead time과 platform adoption rate임
+- 클라우드 네이티브 웹앱에서는 12 Factor 원칙을 적용하고, stateless compliance와 rollout success rate로 결과를 확인함
+- 플랫폼 팀에서는 설정 관리 표준을 제공하고, config drift count와 deployment rollback rate로 결과를 확인함
+- 신규 서비스 템플릿에서는 공통 실행 규칙을 내장하고, onboarding lead time과 platform adoption rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

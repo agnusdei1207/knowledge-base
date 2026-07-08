@@ -82,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 데이터베이스 서버는 RAID 10으로 낮은 write latency와 복원력을 동시에 확보하고 확인 지표는 transaction latency와 rebuild time임
-- 기업 파일 서버는 RAID 6으로 용량 효율과 이중 장애 허용을 확보하고 확인 지표는 usable capacity ratio와 unrecoverable read error exposure임
-- 가상화 스토리지는 SSD 기반 RAID와 write-back cache를 조합해 다중 VM 부하를 수용하고 확인 지표는 aggregate IOPS와 p99 latency임
+- 데이터베이스 서버는 RAID 10으로 낮은 write latency와 복원력을 동시에 확보하고, transaction latency와 rebuild time로 결과를 확인함
+- 기업 파일 서버는 RAID 6으로 용량 효율과 이중 장애 허용을 확보하고, usable capacity ratio와 unrecoverable read error exposure로 결과를 확인함
+- 가상화 스토리지는 SSD 기반 RAID와 write-back cache를 조합해 다중 VM 부하를 수용하고, aggregate IOPS와 p99 latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

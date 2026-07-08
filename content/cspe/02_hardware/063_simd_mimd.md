@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 이미지 처리 커널에서는 SIMD 벡터화를 적용하고 확인 지표는 lane utilization과 pixels per second임
-- 멀티코어 웹 서버에서는 MIMD 스레드 병렬을 적용하고 확인 지표는 throughput과 lock wait time임
-- HPC 코드 최적화에서는 루프는 SIMD로 태스크는 MIMD로 나누고 확인 지표는 speedup과 scaling efficiency임
+- 이미지 처리 커널에서는 SIMD 벡터화를 적용하고, lane utilization과 pixels per second로 결과를 확인함
+- 멀티코어 웹 서버에서는 MIMD 스레드 병렬을 적용하고, throughput과 lock wait time로 결과를 확인함
+- HPC 코드 최적화에서는 루프는 SIMD로 태스크는 MIMD로 나누고, speedup과 scaling efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

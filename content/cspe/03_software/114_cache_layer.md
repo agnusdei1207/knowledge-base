@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 상품 조회 서비스에서는 키와 TTL 정책을 표준화하고 확인 지표는 cache hit ratio와 stale read rate임
-- 대형 이벤트 시스템에서는 stampede 방지 기법을 적용하고 확인 지표는 stampede incident count와 backend surge ratio임
-- SaaS 운영 플랫폼에서는 장애 우회 경로를 마련하고 확인 지표는 cache failover success rate와 user-visible error rate임
+- 상품 조회 서비스에서는 키와 TTL 정책을 표준화하고, cache hit ratio와 stale read rate로 결과를 확인함
+- 대형 이벤트 시스템에서는 stampede 방지 기법을 적용하고, stampede incident count와 backend surge ratio로 결과를 확인함
+- SaaS 운영 플랫폼에서는 장애 우회 경로를 마련하고, cache failover success rate와 user-visible error rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

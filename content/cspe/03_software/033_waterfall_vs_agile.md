@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공공 구축형 프로젝트에서는 폭포수 중심으로 운영하고 확인 지표는 traceability coverage와 audit readiness임
-- 디지털 제품 조직에서는 애자일 반복 개발을 적용하고 확인 지표는 change lead time과 sprint carryover rate임
-- 금융권 대형 프로젝트에서는 hybrid 모델을 사용하고 확인 지표는 rework rate와 defect escape rate임
+- 공공 구축형 프로젝트에서는 폭포수 중심으로 운영하고, traceability coverage와 audit readiness로 결과를 확인함
+- 디지털 제품 조직에서는 애자일 반복 개발을 적용하고, change lead time과 sprint carryover rate로 결과를 확인함
+- 금융권 대형 프로젝트에서는 hybrid 모델을 사용하고, rework rate와 defect escape rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

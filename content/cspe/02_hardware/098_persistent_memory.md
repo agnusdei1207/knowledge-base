@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 인메모리 데이터베이스에서는 주요 자료구조를 퍼시스턴트 메모리에 배치하고 확인 지표는 recovery time과 consistency pass rate임
-- 파일시스템 메타데이터 최적화에서는 저널과 checkpoint를 영속 영역에 배치하고 확인 지표는 p99 persist latency와 write amplification ratio임
-- 장비 재할당 운영에서는 영속 영역의 암호화와 폐기 절차를 자동화하고 확인 지표는 residual data scan result와 erase verification rate임
+- 인메모리 데이터베이스에서는 주요 자료구조를 퍼시스턴트 메모리에 배치하고, recovery time과 consistency pass rate로 결과를 확인함
+- 파일시스템 메타데이터 최적화에서는 저널과 checkpoint를 영속 영역에 배치하고, p99 persist latency와 write amplification ratio로 결과를 확인함
+- 장비 재할당 운영에서는 영속 영역의 암호화와 폐기 절차를 자동화하고, residual data scan result와 erase verification rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

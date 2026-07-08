@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 인메모리 데이터베이스는 샤드와 작업 스레드를 같은 노드에 고정해 remote access를 줄이고 확인 지표는 remote memory access ratio와 transaction latency임
-- JVM 기반 대형 서비스는 GC 스레드와 heap 배치를 NUMA 인지형으로 조정해 locality를 높이고 확인 지표는 GC pause time과 interconnect utilization임
-- DPDK 네트워크 서버는 NIC와 같은 NUMA 노드에 worker를 배치해 패킷 경로를 짧게 만들고 확인 지표는 packets per second와 memory latency임
+- 인메모리 데이터베이스는 샤드와 작업 스레드를 같은 노드에 고정해 remote access를 줄이고, remote memory access ratio와 transaction latency로 결과를 확인함
+- JVM 기반 대형 서비스는 GC 스레드와 heap 배치를 NUMA 인지형으로 조정해 locality를 높이고, GC pause time과 interconnect utilization로 결과를 확인함
+- DPDK 네트워크 서버는 NIC와 같은 NUMA 노드에 worker를 배치해 패킷 경로를 짧게 만들고, packets per second와 memory latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

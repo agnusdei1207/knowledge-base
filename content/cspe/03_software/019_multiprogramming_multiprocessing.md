@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 전통적인 배치 시스템에서는 다중프로그래밍으로 CPU 유휴를 줄이고 확인 지표는 context switch rate와 CPU utilization임
-- 멀티코어 서버 애플리케이션에서는 다중처리 구조를 사용하고 확인 지표는 parallel efficiency와 lock wait time임
-- 혼합형 업무 서버에서는 CPU와 I/O 병목을 함께 분석하고 확인 지표는 device wait time과 throughput stability임
+- 전통적인 배치 시스템에서는 다중프로그래밍으로 CPU 유휴를 줄이고, context switch rate와 CPU utilization로 결과를 확인함
+- 멀티코어 서버 애플리케이션에서는 다중처리 구조를 사용하고, parallel efficiency와 lock wait time로 결과를 확인함
+- 혼합형 업무 서버에서는 CPU와 I/O 병목을 함께 분석하고, device wait time과 throughput stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

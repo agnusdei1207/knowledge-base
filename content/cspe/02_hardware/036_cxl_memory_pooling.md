@@ -79,9 +79,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 클라우드 인프라는 CXL 메모리 풀을 활용해 메모리 과잉 탑재를 줄이고 확인 지표는 memory utilization과 cost per GB used임
-- AI 추론 팜은 모델 캐시와 세션 상태를 tier로 분리해 유연성을 높이고 확인 지표는 local hit ratio와 tokens per second임
-- 인메모리 분석 클러스터는 급증하는 배치 작업에 임시 메모리를 동적 할당하고 확인 지표는 allocation time과 query completion time임
+- 클라우드 인프라는 CXL 메모리 풀을 활용해 메모리 과잉 탑재를 줄이고, memory utilization과 cost per GB used로 결과를 확인함
+- AI 추론 팜은 모델 캐시와 세션 상태를 tier로 분리해 유연성을 높이고, local hit ratio와 tokens per second로 결과를 확인함
+- 인메모리 분석 클러스터는 급증하는 배치 작업에 임시 메모리를 동적 할당하고, allocation time과 query completion time로 결과를 확인함
 
 ## Ⅷ. 결론
 

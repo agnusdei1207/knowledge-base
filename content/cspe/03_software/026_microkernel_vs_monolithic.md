@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 서버 OS 설계에서는 모놀리식 구조를 사용하고 확인 지표는 syscall overhead와 throughput임
-- 항공 및 산업 제어용 OS에서는 마이크로커널을 채택하고 확인 지표는 service isolation rate와 recovery time임
-- 장치 드라이버 검증 환경에서는 구조별 장애 범위를 비교하고 확인 지표는 kernel panic rate와 driver fault impact임
+- 범용 서버 OS 설계에서는 모놀리식 구조를 사용하고, syscall overhead와 throughput으로 결과를 확인함
+- 항공 및 산업 제어용 OS에서는 마이크로커널을 채택하고, service isolation rate와 recovery time로 결과를 확인함
+- 장치 드라이버 검증 환경에서는 구조별 장애 범위를 비교하고, kernel panic rate와 driver fault impact로 결과를 확인함
 
 ## Ⅷ. 결론
 

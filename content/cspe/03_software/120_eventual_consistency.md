@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 상품 카탈로그 서비스에서는 stale window를 관리하고 확인 지표는 stale window compliance와 stale read duration임
-- 사용자 설정 화면에서는 세션 기반 읽기 라우팅을 적용하고 확인 지표는 read-your-write success rate와 duplicate action rate임
-- 멀티리전 협업 데이터에서는 병합 정책을 적용하고 확인 지표는 conflict resolution loss rate와 reconciliation accuracy임
+- 상품 카탈로그 서비스에서는 stale window를 관리하고, stale window compliance와 stale read duration로 결과를 확인함
+- 사용자 설정 화면에서는 세션 기반 읽기 라우팅을 적용하고, read-your-write success rate와 duplicate action rate로 결과를 확인함
+- 멀티리전 협업 데이터에서는 병합 정책을 적용하고, conflict resolution loss rate와 reconciliation accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

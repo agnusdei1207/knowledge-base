@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 관측성 플랫폼에서는 태그 예산을 관리하고 확인 지표는 high-cardinality ratio와 memory usage per series임
-- IoT 센서 저장소에서는 보관 계층을 운영하고 확인 지표는 storage growth rate와 query value retention score임
-- 분산 수집 환경에서는 시간 정규화를 수행하고 확인 지표는 clock skew incident count와 aggregation accuracy임
+- 관측성 플랫폼에서는 태그 예산을 관리하고, high-cardinality ratio와 memory usage per series로 결과를 확인함
+- IoT 센서 저장소에서는 보관 계층을 운영하고, storage growth rate와 query value retention score로 결과를 확인함
+- 분산 수집 환경에서는 시간 정규화를 수행하고, clock skew incident count와 aggregation accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

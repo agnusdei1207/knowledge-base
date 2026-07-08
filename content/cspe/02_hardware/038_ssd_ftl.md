@@ -82,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 데이터베이스 SSD는 page 또는 hybrid mapping을 사용해 random write 성능을 높이고 확인 지표는 write amplification factor와 steady-state IOPS임
-- 모바일 저장장치는 제한된 DRAM 안에서 hybrid FTL을 운용해 효율을 맞추고 확인 지표는 app launch latency와 standby power임
-- 산업용 SSD는 PLP와 보수적 wear leveling을 적용해 내구성을 높이고 확인 지표는 TBW와 unsafe shutdown recovery time임
+- 엔터프라이즈 데이터베이스 SSD는 page 또는 hybrid mapping을 사용해 random write 성능을 높이고, write amplification factor와 steady-state IOPS로 결과를 확인함
+- 모바일 저장장치는 제한된 DRAM 안에서 hybrid FTL을 운용해 효율을 맞추고, app launch latency와 standby power로 결과를 확인함
+- 산업용 SSD는 PLP와 보수적 wear leveling을 적용해 내구성을 높이고, TBW와 unsafe shutdown recovery time로 결과를 확인함
 
 ## Ⅷ. 결론
 

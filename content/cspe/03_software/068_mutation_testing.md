@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 핵심 계산 엔진에서는 뮤테이션 테스트를 적용하고 확인 지표는 mutation score와 survivor remediation rate임
-- 야간 품질 배치에서는 비용을 통제하며 수행하고 확인 지표는 mutation runtime cost와 pipeline impact score임
-- 테스트 품질 개선 활동에서는 surviving mutant를 분석하고 확인 지표는 equivalent mutant ratio와 assertion quality score임
+- 핵심 계산 엔진에서는 뮤테이션 테스트를 적용하고, mutation score와 survivor remediation rate로 결과를 확인함
+- 야간 품질 배치에서는 비용을 통제하며 수행하고, mutation runtime cost와 pipeline impact score로 결과를 확인함
+- 테스트 품질 개선 활동에서는 surviving mutant를 분석하고, equivalent mutant ratio와 assertion quality score로 결과를 확인함
 
 ## Ⅷ. 결론
 

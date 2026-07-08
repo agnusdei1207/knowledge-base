@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 온라인 결제 서비스에서는 카나리 배포를 사용하고 확인 지표는 canary abort precision과 p99 latency임
-- 대형 웹 플랫폼에서는 블루-그린 환경을 운영하고 확인 지표는 rollback time과 release success rate임
-- 데이터 스키마 변경이 있는 릴리스에서는 호환성 전략을 병행하고 확인 지표는 schema rollback readiness와 false positive rollback rate임
+- 온라인 결제 서비스에서는 카나리 배포를 사용하고, canary abort precision과 p99 latency로 결과를 확인함
+- 대형 웹 플랫폼에서는 블루-그린 환경을 운영하고, rollback time과 release success rate로 결과를 확인함
+- 데이터 스키마 변경이 있는 릴리스에서는 호환성 전략을 병행하고, schema rollback readiness와 false positive rollback rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

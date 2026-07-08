@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 양자 하드웨어 로드맵 평가에서는 논리 큐비트 목표를 기준으로 잡고 확인 지표는 logical qubit count와 target algorithm feasibility임
-- 오류 정정 실험에서는 물리 대비 논리 성능 향상을 측정하고 확인 지표는 logical error suppression과 code distance scaling임
-- 투자와 기술 비교 보고서에서는 물리 수 대신 논리 품질을 비교하고 확인 지표는 logical gate fidelity와 overhead ratio임
+- 양자 하드웨어 로드맵 평가에서는 논리 큐비트 목표를 기준으로 잡고, logical qubit count와 target algorithm feasibility로 결과를 확인함
+- 오류 정정 실험에서는 물리 대비 논리 성능 향상을 측정하고, logical error suppression과 code distance scaling로 결과를 확인함
+- 투자와 기술 비교 보고서에서는 물리 수 대신 논리 품질을 비교하고, logical gate fidelity와 overhead ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

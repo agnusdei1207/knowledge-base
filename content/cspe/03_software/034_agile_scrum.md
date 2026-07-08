@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- SaaS 제품팀에서는 2주 sprint를 운영하고 확인 지표는 sprint carryover rate와 cycle time임
-- 플랫폼 팀에서는 회고 action item을 관리하고 확인 지표는 blocker age와 retro action completion rate임
-- 신규 기능 출시 팀에서는 backlog refinement를 강화하고 확인 지표는 backlog readiness와 defect escape rate임
+- SaaS 제품팀에서는 2주 sprint를 운영하고, sprint carryover rate와 cycle time로 결과를 확인함
+- 플랫폼 팀에서는 회고 action item을 관리하고, blocker age와 retro action completion rate로 결과를 확인함
+- 신규 기능 출시 팀에서는 backlog refinement를 강화하고, backlog readiness와 defect escape rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대형 금융 IT 조직에서는 ART 단위 운영을 적용하고 확인 지표는 PI predictability와 dependency slip rate임
-- 공공 대규모 프로그램에서는 portfolio sync를 운영하고 확인 지표는 strategic alignment score와 planning overhead ratio임
-- 플랫폼과 서비스 다팀 환경에서는 architecture runway를 관리하고 확인 지표는 objective completion rate와 decision lead time임
+- 대형 금융 IT 조직에서는 ART 단위 운영을 적용하고, PI predictability와 dependency slip rate로 결과를 확인함
+- 공공 대규모 프로그램에서는 portfolio sync를 운영하고, strategic alignment score와 planning overhead ratio로 결과를 확인함
+- 플랫폼과 서비스 다팀 환경에서는 architecture runway를 관리하고, objective completion rate와 decision lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

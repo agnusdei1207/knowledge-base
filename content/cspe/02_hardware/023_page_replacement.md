@@ -82,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- Linux 커널은 active와 inactive list를 이용한 LRU 근사 정책을 사용해 교체 비용을 제어하고 확인 지표는 major fault rate와 reclaim latency임
-- 데이터베이스 버퍼 캐시는 scan-resistant LRU 변형을 적용해 대량 순차 읽기 오염을 막고 확인 지표는 buffer hit ratio와 query latency임
-- 하이퍼바이저는 ballooning과 page reclaim 정책을 병행해 호스트 메모리 압박을 완화하고 확인 지표는 swap out rate와 guest stall time임
+- Linux 커널은 active와 inactive list를 이용한 LRU 근사 정책을 사용해 교체 비용을 제어하고, major fault rate와 reclaim latency로 결과를 확인함
+- 데이터베이스 버퍼 캐시는 scan-resistant LRU 변형을 적용해 대량 순차 읽기 오염을 막고, buffer hit ratio와 query latency로 결과를 확인함
+- 하이퍼바이저는 ballooning과 page reclaim 정책을 병행해 호스트 메모리 압박을 완화하고, swap out rate와 guest stall time로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융성 분산 저장소에서는 일관성 등급을 정의하고 확인 지표는 policy clarity score와 misrouted workload count임
-- 멀티리전 서비스에서는 분할 시나리오 훈련을 운영하고 확인 지표는 partition failover success rate와 unexpected behavior count임
-- 소셜 피드 시스템에서는 stale window를 명시하고 확인 지표는 stale window compliance와 user-visible inconsistency rate임
+- 금융성 분산 저장소에서는 일관성 등급을 정의하고, policy clarity score와 misrouted workload count로 결과를 확인함
+- 멀티리전 서비스에서는 분할 시나리오 훈련을 운영하고, partition failover success rate와 unexpected behavior count로 결과를 확인함
+- 소셜 피드 시스템에서는 stale window를 명시하고, stale window compliance와 user-visible inconsistency rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

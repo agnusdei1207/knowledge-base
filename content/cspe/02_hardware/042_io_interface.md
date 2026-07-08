@@ -79,9 +79,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- NVMe SSD 경로에서는 대용량 블록 전송에 DMA를 적용하고 확인 지표는 IOPS와 average latency임
-- 임베디드 센서 제어에서는 저속 이벤트에 인터럽트를 적용하고 확인 지표는 interrupt latency와 CPU idle ratio임
-- 메인프레임 입출력 경로에서는 채널 I/O로 복합 장치 작업을 오프로딩하고 확인 지표는 CPU offload ratio와 throughput임
+- NVMe SSD 경로에서는 대용량 블록 전송에 DMA를 적용하고, IOPS와 average latency로 결과를 확인함
+- 임베디드 센서 제어에서는 저속 이벤트에 인터럽트를 적용하고, interrupt latency와 CPU idle ratio로 결과를 확인함
+- 메인프레임 입출력 경로에서는 채널 I/O로 복합 장치 작업을 오프로딩하고, CPU offload ratio와 throughput으로 결과를 확인함
 
 ## Ⅷ. 결론
 

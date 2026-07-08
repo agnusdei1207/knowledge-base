@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 개발 파이프라인에서는 SAST를 적용하고 확인 지표는 alert precision과 remediation lead time임
-- 대규모 레거시 코드베이스에서는 규칙 우선순위를 운영하고 확인 지표는 developer acknowledgement rate와 open vulnerability age임
-- 보안 품질 리뷰에서는 DAST와 병행 검증을 수행하고 확인 지표는 exploitability confirmation rate와 defect escape rate임
+- 금융 개발 파이프라인에서는 SAST를 적용하고, alert precision과 remediation lead time로 결과를 확인함
+- 대규모 레거시 코드베이스에서는 규칙 우선순위를 운영하고, developer acknowledgement rate와 open vulnerability age로 결과를 확인함
+- 보안 품질 리뷰에서는 DAST와 병행 검증을 수행하고, exploitability confirmation rate와 defect escape rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

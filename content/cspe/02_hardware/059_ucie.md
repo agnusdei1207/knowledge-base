@@ -76,9 +76,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 멀티벤더 칩렛 플랫폼에서는 공통 D2D 링크를 적용하고 확인 지표는 interoperability pass rate와 integration lead time임
-- 차세대 서버 패키지에서는 CPU와 I/O 칩렛 연결에 활용하고 확인 지표는 D2D bandwidth와 package power임
-- CXL 연계 칩렛 구조에서는 상위 프로토콜 매핑을 시험하고 확인 지표는 protocol compatibility와 latency overhead임
+- 멀티벤더 칩렛 플랫폼에서는 공통 D2D 링크를 적용하고, interoperability pass rate와 integration lead time로 결과를 확인함
+- 차세대 서버 패키지에서는 CPU와 I/O 칩렛 연결에 활용하고, D2D bandwidth와 package power로 결과를 확인함
+- CXL 연계 칩렛 구조에서는 상위 프로토콜 매핑을 시험하고, protocol compatibility와 latency overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

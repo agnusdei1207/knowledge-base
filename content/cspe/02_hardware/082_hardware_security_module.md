@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 전자서명 PKI에서는 루트와 중간 CA 키를 HSM에 저장하고 확인 지표는 signing latency와 audit compliance임
-- 결제 승인 시스템에서는 카드 키 연산을 HSM에서 수행하고 확인 지표는 TPS와 tamper event count임
-- 코드 서명 인프라에서는 배포 키를 보호하고 확인 지표는 signing workflow integrity와 key exposure count임
+- 전자서명 PKI에서는 루트와 중간 CA 키를 HSM에 저장하고, signing latency와 audit compliance로 결과를 확인함
+- 결제 승인 시스템에서는 카드 키 연산을 HSM에서 수행하고, TPS와 tamper event count로 결과를 확인함
+- 코드 서명 인프라에서는 배포 키를 보호하고, signing workflow integrity와 key exposure count로 결과를 확인함
 
 ## Ⅷ. 결론
 

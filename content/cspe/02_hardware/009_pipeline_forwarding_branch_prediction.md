@@ -78,9 +78,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 컴파일러 최적화에서는 load-use 대기를 줄이고 확인 지표는 load-use stall rate와 memory latency hiding ratio임
-- 서버 CPU 설계에서는 예측기를 고도화하고 확인 지표는 branch accuracy와 MPKI임
-- 저전력 코어 설계에서는 핵심 경로만 최적화하고 확인 지표는 perf per watt와 verification effort임
+- 컴파일러 최적화에서는 load-use 대기를 줄이고, load-use stall rate와 memory latency hiding ratio로 결과를 확인함
+- 서버 CPU 설계에서는 예측기를 고도화하고, branch accuracy와 MPKI로 결과를 확인함
+- 저전력 코어 설계에서는 핵심 경로만 최적화하고, perf per watt와 verification effort로 결과를 확인함
 
 ## Ⅷ. 결론
 

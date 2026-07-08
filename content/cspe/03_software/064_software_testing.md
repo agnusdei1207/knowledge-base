@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 백엔드 모듈 개발에서는 단위 테스트를 강화하고 확인 지표는 suite execution time과 mutation score임
-- 서비스 통합 프로젝트에서는 통합 테스트를 운영하고 확인 지표는 integration defect rate와 environment stability score임
-- 고객 검수형 프로젝트에서는 인수 테스트를 조기 설계하고 확인 지표는 acceptance defect discovery timing과 rework rate임
+- 백엔드 모듈 개발에서는 단위 테스트를 강화하고, suite execution time과 mutation score로 결과를 확인함
+- 서비스 통합 프로젝트에서는 통합 테스트를 운영하고, integration defect rate와 environment stability score로 결과를 확인함
+- 고객 검수형 프로젝트에서는 인수 테스트를 조기 설계하고, acceptance defect discovery timing과 rework rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

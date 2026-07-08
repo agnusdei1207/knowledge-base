@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- DSP 설계에서는 정적 스케줄링을 활용하고 확인 지표는 recompilation effort와 throughput per watt임
-- 미디어 코덱 가속기에서는 NOP를 줄이는 최적화를 적용하고 확인 지표는 NOP ratio와 binary size임
-- 프로파일 기반 빌드 환경에서는 실행 피드백을 반영하고 확인 지표는 prediction miss impact와 throughput stability임
+- DSP 설계에서는 정적 스케줄링을 활용하고, recompilation effort와 throughput per watt로 결과를 확인함
+- 미디어 코덱 가속기에서는 NOP를 줄이는 최적화를 적용하고, NOP ratio와 binary size로 결과를 확인함
+- 프로파일 기반 빌드 환경에서는 실행 피드백을 반영하고, prediction miss impact와 throughput stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

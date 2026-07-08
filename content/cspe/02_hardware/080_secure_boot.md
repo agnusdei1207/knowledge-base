@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자동차 ECU 부팅 경로에서는 펌웨어 서명을 검증하고 확인 지표는 boot integrity pass rate와 rollback block rate임
-- 모바일 단말기에서는 secure boot와 TEE를 연계하고 확인 지표는 tamper resistance와 recovery success rate임
-- 산업 IoT 게이트웨이에서는 OTA 업데이트와 연동해 운영하고 확인 지표는 signed update success rate와 unauthorized boot count임
+- 자동차 ECU 부팅 경로에서는 펌웨어 서명을 검증하고, boot integrity pass rate와 rollback block rate로 결과를 확인함
+- 모바일 단말기에서는 secure boot와 TEE를 연계하고, tamper resistance와 recovery success rate로 결과를 확인함
+- 산업 IoT 게이트웨이에서는 OTA 업데이트와 연동해 운영하고, signed update success rate와 unauthorized boot count로 결과를 확인함
 
 ## Ⅷ. 결론
 

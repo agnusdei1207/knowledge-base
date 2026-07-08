@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 계좌 이체 시스템에서는 강한 정합성을 유지하고 확인 지표는 lock wait time과 transaction throughput임
-- 전자결제 플랫폼에서는 복구 훈련을 수행하고 확인 지표는 recovery time objective와 redo loss rate임
-- 주문 처리 서비스에서는 트랜잭션 범위를 최적화하고 확인 지표는 average transaction scope와 rollback rate임
+- 계좌 이체 시스템에서는 강한 정합성을 유지하고, lock wait time과 transaction throughput으로 결과를 확인함
+- 전자결제 플랫폼에서는 복구 훈련을 수행하고, recovery time objective와 redo loss rate로 결과를 확인함
+- 주문 처리 서비스에서는 트랜잭션 범위를 최적화하고, average transaction scope와 rollback rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

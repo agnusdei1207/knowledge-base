@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 딥러닝 학습에서는 대규모 행렬 연산을 병렬 처리하고 확인 지표는 TFLOPS와 training throughput임
-- 과학 시뮬레이션에서는 격자 기반 수치 계산을 분산 실행하고 확인 지표는 time to solution과 scalability임
-- 영상 렌더링과 추론 서비스에서는 다수 프레임과 요청을 병렬 처리하고 확인 지표는 frame rate와 inference latency임
+- 딥러닝 학습에서는 대규모 행렬 연산을 병렬 처리하고, TFLOPS와 training throughput으로 결과를 확인함
+- 과학 시뮬레이션에서는 격자 기반 수치 계산을 분산 실행하고, time to solution과 scalability로 결과를 확인함
+- 영상 렌더링과 추론 서비스에서는 다수 프레임과 요청을 병렬 처리하고, frame rate와 inference latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

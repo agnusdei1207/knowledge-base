@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모터 제어 펌웨어에서는 ISR 최소화와 우선순위 상속을 적용하고 확인 지표는 interrupt latency와 control jitter임
-- 항공 전자 제어 소프트웨어에서는 ceiling protocol을 적용하고 확인 지표는 blocking upper bound와 deadline miss rate임
-- 산업 로봇 태스크 스케줄링에서는 trace 분석을 운영하고 확인 지표는 max latency와 anomaly recurrence rate임
+- 모터 제어 펌웨어에서는 ISR 최소화와 우선순위 상속을 적용하고, interrupt latency와 control jitter로 결과를 확인함
+- 항공 전자 제어 소프트웨어에서는 ceiling protocol을 적용하고, blocking upper bound와 deadline miss rate로 결과를 확인함
+- 산업 로봇 태스크 스케줄링에서는 trace 분석을 운영하고, max latency와 anomaly recurrence rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

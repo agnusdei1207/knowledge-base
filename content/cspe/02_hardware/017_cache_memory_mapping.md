@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서버 캐시 설계에서는 연관도를 조정하고 확인 지표는 conflict miss ratio와 hit rate임
-- 저전력 코어에서는 접근 지연을 관리하고 확인 지표는 cache access time과 power per access임
-- 워크로드 튜닝에서는 구조를 최적화하고 확인 지표는 MPKI와 area efficiency임
+- 서버 캐시 설계에서는 연관도를 조정하고, conflict miss ratio와 hit rate로 결과를 확인함
+- 저전력 코어에서는 접근 지연을 관리하고, cache access time과 power per access로 결과를 확인함
+- 워크로드 튜닝에서는 구조를 최적화하고, MPKI와 area efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

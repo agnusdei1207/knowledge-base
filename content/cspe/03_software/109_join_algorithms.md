@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 복합 주문 조회 SQL에서는 계획 리뷰를 수행하고 확인 지표는 join plan regression count와 worst-query latency임
-- 대용량 배치 조인에서는 메모리 할당을 조정하고 확인 지표는 spill ratio와 hash join throughput임
-- 정렬 결과가 필요한 리포트 쿼리에서는 sort 회피 인덱스를 설계하고 확인 지표는 extra sort count와 merge join efficiency임
+- 복합 주문 조회 SQL에서는 계획 리뷰를 수행하고, join plan regression count와 worst-query latency로 결과를 확인함
+- 대용량 배치 조인에서는 메모리 할당을 조정하고, spill ratio와 hash join throughput으로 결과를 확인함
+- 정렬 결과가 필요한 리포트 쿼리에서는 sort 회피 인덱스를 설계하고, extra sort count와 merge join efficiency로 결과를 확인함
 
 ## Ⅷ. 결론
 

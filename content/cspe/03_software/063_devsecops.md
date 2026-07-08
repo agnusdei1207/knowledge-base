@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 금융 서비스 CI 파이프라인에서는 DevSecOps를 적용하고 확인 지표는 gate block rate와 security defect escape rate임
-- 오픈소스 의존성 많은 플랫폼에서는 SCA를 운영하고 확인 지표는 remediation lead time과 alert precision임
-- 운영 보안 이벤트 연동 체계에서는 개발 backlog까지 연결하고 확인 지표는 developer bypass rate와 recurrence vulnerability count임
+- 금융 서비스 CI 파이프라인에서는 DevSecOps를 적용하고, gate block rate와 security defect escape rate로 결과를 확인함
+- 오픈소스 의존성 많은 플랫폼에서는 SCA를 운영하고, remediation lead time과 alert precision로 결과를 확인함
+- 운영 보안 이벤트 연동 체계에서는 개발 backlog까지 연결하고, developer bypass rate와 recurrence vulnerability count로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 결제 연동 서비스에서는 서킷 브레이커를 적용하고 확인 지표는 protection hit rate와 thread pool saturation임
-- 외부 API 집계 서비스에서는 fallback 응답을 설계하고 확인 지표는 false open rate와 fallback correctness rate임
-- 서비스 메시 환경에서는 timeout과 차단을 함께 설정하고 확인 지표는 timeout effectiveness와 user impact severity임
+- 결제 연동 서비스에서는 서킷 브레이커를 적용하고, protection hit rate와 thread pool saturation로 결과를 확인함
+- 외부 API 집계 서비스에서는 fallback 응답을 설계하고, false open rate와 fallback correctness rate로 결과를 확인함
+- 서비스 메시 환경에서는 timeout과 차단을 함께 설정하고, timeout effectiveness와 user impact severity로 결과를 확인함
 
 ## Ⅷ. 결론
 

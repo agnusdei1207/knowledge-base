@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자동차 제동 제어에서는 하드 실시간으로 설계하고 확인 지표는 WCET bound와 fail-safe success rate임
-- 영상 스트리밍 서비스에서는 소프트 실시간으로 운영하고 확인 지표는 frame drop rate와 user QoE임
-- 산업 센서 샘플링에서는 firm 실시간으로 다루고 확인 지표는 stale sample rate와 control accuracy임
+- 자동차 제동 제어에서는 하드 실시간으로 설계하고, WCET bound와 fail-safe success rate로 결과를 확인함
+- 영상 스트리밍 서비스에서는 소프트 실시간으로 운영하고, frame drop rate와 user QoE로 결과를 확인함
+- 산업 센서 샘플링에서는 firm 실시간으로 다루고, stale sample rate와 control accuracy로 결과를 확인함
 
 ## Ⅷ. 결론
 

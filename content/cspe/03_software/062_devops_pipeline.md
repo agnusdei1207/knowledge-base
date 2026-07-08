@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- SaaS 제품팀에서는 DevOps 파이프라인을 운영하고 확인 지표는 pipeline lead time과 deployment frequency임
-- 공동 소유 조직 전환에서는 운영 책임을 통합하고 확인 지표는 ownership coverage와 incident handoff delay임
-- 운영 피드백 자동 연동 환경에서는 backlog 연결을 구축하고 확인 지표는 feedback lead time과 recurrence defect rate임
+- SaaS 제품팀에서는 DevOps 파이프라인을 운영하고, pipeline lead time과 deployment frequency로 결과를 확인함
+- 공동 소유 조직 전환에서는 운영 책임을 통합하고, ownership coverage와 incident handoff delay로 결과를 확인함
+- 운영 피드백 자동 연동 환경에서는 backlog 연결을 구축하고, feedback lead time과 recurrence defect rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

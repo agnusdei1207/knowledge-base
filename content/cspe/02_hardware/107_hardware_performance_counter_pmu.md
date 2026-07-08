@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 서비스 지연 분석에서는 perf로 cache miss와 CPI를 수집하고 확인 지표는 cache miss rate와 CPI임
-- 데이터베이스 튜닝에서는 코어 고정 후 branch miss와 memory stall을 비교하고 확인 지표는 IPC와 run-to-run variance임
-- 배포 전 성능 기준선 검증에서는 동일 워크로드의 PMU 프로파일을 비교하고 확인 지표는 baseline drift와 counter scaling error임
+- 서비스 지연 분석에서는 perf로 cache miss와 CPI를 수집하고, cache miss rate와 CPI로 결과를 확인함
+- 데이터베이스 튜닝에서는 코어 고정 후 branch miss와 memory stall을 비교하고, IPC와 run-to-run variance로 결과를 확인함
+- 배포 전 성능 기준선 검증에서는 동일 워크로드의 PMU 프로파일을 비교하고, baseline drift와 counter scaling error로 결과를 확인함
 
 ## Ⅷ. 결론
 

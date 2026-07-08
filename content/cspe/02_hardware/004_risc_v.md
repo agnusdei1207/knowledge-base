@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 국산 SoC 프로젝트에서는 적합성 검증을 강화하고 확인 지표는 conformance pass rate와 silicon bug count임
-- 산업용 MCU 설계에서는 표준 프로파일을 채택하고 확인 지표는 binary compatibility rate와 maintenance overhead임
-- 신규 플랫폼 포팅 프로젝트에서는 생태계를 사전 평가하고 확인 지표는 porting lead time과 debug turnaround time임
+- 국산 SoC 프로젝트에서는 적합성 검증을 강화하고, conformance pass rate와 silicon bug count로 결과를 확인함
+- 산업용 MCU 설계에서는 표준 프로파일을 채택하고, binary compatibility rate와 maintenance overhead로 결과를 확인함
+- 신규 플랫폼 포팅 프로젝트에서는 생태계를 사전 평가하고, porting lead time과 debug turnaround time로 결과를 확인함
 
 ## Ⅷ. 결론
 

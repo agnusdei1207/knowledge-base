@@ -82,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 서버 OS는 demand paging을 기반으로 필요한 시점에만 적재해 메모리 활용도를 높이고 확인 지표는 page fault frequency와 swap in rate임
-- 데이터베이스 서버는 huge page와 메모리 고정을 조합해 변환 비용을 줄이고 확인 지표는 TLB miss rate와 query latency임
-- 가상화 플랫폼은 nested paging을 활용해 guest 격리를 유지하면서 성능을 확보하고 확인 지표는 VM memory overhead와 VM exit latency임
+- 범용 서버 OS는 demand paging을 기반으로 필요한 시점에만 적재해 메모리 활용도를 높이고, page fault frequency와 swap in rate로 결과를 확인함
+- 데이터베이스 서버는 huge page와 메모리 고정을 조합해 변환 비용을 줄이고, TLB miss rate와 query latency로 결과를 확인함
+- 가상화 플랫폼은 nested paging을 활용해 guest 격리를 유지하면서 성능을 확보하고, VM memory overhead와 VM exit latency로 결과를 확인함
 
 ## Ⅷ. 결론
 

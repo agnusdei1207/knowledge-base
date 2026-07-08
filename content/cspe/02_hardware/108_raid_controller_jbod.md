@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 단일 서버 부트 볼륨에서는 RAID 1 구성을 사용하고 확인 지표는 rebuild time과 cache protection status임
-- 분산 스토리지 노드에서는 JBOD를 사용해 디스크를 직접 노출하고 확인 지표는 degraded recovery time과 disk visibility rate임
-- 장비 교체 훈련에서는 컨트롤러 교체와 메타데이터 복구 절차를 시험하고 확인 지표는 controller failover success rate와 recovery time임
+- 단일 서버 부트 볼륨에서는 RAID 1 구성을 사용하고, rebuild time과 cache protection status로 결과를 확인함
+- 분산 스토리지 노드에서는 JBOD를 사용해 디스크를 직접 노출하고, degraded recovery time과 disk visibility rate로 결과를 확인함
+- 장비 교체 훈련에서는 컨트롤러 교체와 메타데이터 복구 절차를 시험하고, controller failover success rate와 recovery time로 결과를 확인함
 
 ## Ⅷ. 결론
 

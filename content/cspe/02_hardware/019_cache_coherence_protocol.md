@@ -81,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 다코어 서버에서는 디렉터리 제어를 적용하고 확인 지표는 coherence traffic ratio와 bus utilization임
-- 고성능 병렬 코드에서는 패딩을 적용하고 확인 지표는 false sharing miss ratio와 write invalidate rate임
-- 프로토콜 검증 환경에서는 상태 검증을 강화하고 확인 지표는 protocol bug count와 validation coverage임
+- 다코어 서버에서는 디렉터리 제어를 적용하고, coherence traffic ratio와 bus utilization로 결과를 확인함
+- 고성능 병렬 코드에서는 패딩을 적용하고, false sharing miss ratio와 write invalidate rate로 결과를 확인함
+- 프로토콜 검증 환경에서는 상태 검증을 강화하고, protocol bug count와 validation coverage로 결과를 확인함
 
 ## Ⅷ. 결론
 

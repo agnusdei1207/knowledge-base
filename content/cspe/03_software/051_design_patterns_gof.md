@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 확장 가능한 결제 전략 설계에서는 Strategy 패턴을 사용하고 확인 지표는 pattern payoff score와 defect coupling rate임
-- 외부 시스템 연동 계층에서는 Adapter를 사용하고 확인 지표는 integration defect count와 redundancy pattern count임
-- 설계 리뷰에서는 패턴 의도를 문서화하고 확인 지표는 design rationale coverage와 onboarding comprehension time임
+- 확장 가능한 결제 전략 설계에서는 Strategy 패턴을 사용하고, pattern payoff score와 defect coupling rate로 결과를 확인함
+- 외부 시스템 연동 계층에서는 Adapter를 사용하고, integration defect count와 redundancy pattern count로 결과를 확인함
+- 설계 리뷰에서는 패턴 의도를 문서화하고, design rationale coverage와 onboarding comprehension time로 결과를 확인함
 
 ## Ⅷ. 결론
 

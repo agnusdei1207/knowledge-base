@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 코어 플랫폼 개선안 비교에서는 CBAM을 사용하고 확인 지표는 decision confidence score와 funding alignment rate임
-- 클라우드 전환 투자 검토에서는 lifecycle cost를 반영하고 확인 지표는 cost completeness ratio와 post-adoption cost delta임
-- 아키텍처 위원회에서는 품질 편익 점수를 통일하고 확인 지표는 benefit estimation variance와 action execution ratio임
+- 코어 플랫폼 개선안 비교에서는 CBAM을 사용하고, decision confidence score와 funding alignment rate로 결과를 확인함
+- 클라우드 전환 투자 검토에서는 lifecycle cost를 반영하고, cost completeness ratio와 post-adoption cost delta로 결과를 확인함
+- 아키텍처 위원회에서는 품질 편익 점수를 통일하고, benefit estimation variance와 action execution ratio로 결과를 확인함
 
 ## Ⅷ. 결론
 

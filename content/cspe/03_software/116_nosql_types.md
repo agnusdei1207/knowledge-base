@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 콘텐츠 플랫폼에서는 데이터 모델 적합성을 검토하고 확인 지표는 model fit score와 query rewrite rate임
-- 대규모 사용자 세션 서비스에서는 읽기 모델을 단순화하고 확인 지표는 cross-entity join ratio와 p95 latency임
-- 분산 상품 카탈로그에서는 정합성 계약을 명시하고 확인 지표는 stale data incident count와 expectation mismatch rate임
+- 콘텐츠 플랫폼에서는 데이터 모델 적합성을 검토하고, model fit score와 query rewrite rate로 결과를 확인함
+- 대규모 사용자 세션 서비스에서는 읽기 모델을 단순화하고, cross-entity join ratio와 p95 latency로 결과를 확인함
+- 분산 상품 카탈로그에서는 정합성 계약을 명시하고, stale data incident count와 expectation mismatch rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

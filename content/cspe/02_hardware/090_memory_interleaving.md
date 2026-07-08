@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 벡터 연산 시스템에서는 연속 배열 접근을 인터리빙 메모리에 배치하고 확인 지표는 sustained bandwidth와 vector stall reduction임
-- DMA 기반 스토리지 경로에서는 다중 뱅크 병렬 접근을 활용하고 확인 지표는 transfer throughput과 bank conflict rate임
-- NUMA 서버 메모리 구성에서는 인터리빙 정책을 조정하고 확인 지표는 socket memory bandwidth와 latency variance임
+- 벡터 연산 시스템에서는 연속 배열 접근을 인터리빙 메모리에 배치하고, sustained bandwidth와 vector stall reduction로 결과를 확인함
+- DMA 기반 스토리지 경로에서는 다중 뱅크 병렬 접근을 활용하고, transfer throughput과 bank conflict rate로 결과를 확인함
+- NUMA 서버 메모리 구성에서는 인터리빙 정책을 조정하고, socket memory bandwidth와 latency variance로 결과를 확인함
 
 ## Ⅷ. 결론
 

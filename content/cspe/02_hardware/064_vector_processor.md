@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기상 수치 해석에서는 대형 배열 연산을 벡터화하고 확인 지표는 FLOPS와 memory bandwidth utilization임
-- 영상 필터링에서는 연속 픽셀 계산을 벡터 명령으로 처리하고 확인 지표는 pixels per second와 vector efficiency임
-- 신호 처리 DSP 코드에서는 반복 MAC 연산을 벡터화하고 확인 지표는 throughput과 latency reduction임
+- 기상 수치 해석에서는 대형 배열 연산을 벡터화하고, FLOPS와 memory bandwidth utilization로 결과를 확인함
+- 영상 필터링에서는 연속 픽셀 계산을 벡터 명령으로 처리하고, pixels per second와 vector efficiency로 결과를 확인함
+- 신호 처리 DSP 코드에서는 반복 MAC 연산을 벡터화하고, throughput과 latency reduction로 결과를 확인함
 
 ## Ⅷ. 결론
 

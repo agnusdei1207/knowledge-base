@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 리눅스 서버에서는 ordered journaling을 기본 사용하고 확인 지표는 fs latency와 journal replay success rate임
-- 중요 메타데이터 서버에서는 강한 보호 모드를 적용하고 확인 지표는 recovery data consistency와 write latency임
-- 스토리지 장애 복구 훈련에서는 저널 재생 절차를 시험하고 확인 지표는 fsck recovery time과 journal replay success rate임
+- 리눅스 서버에서는 ordered journaling을 기본 사용하고, fs latency와 journal replay success rate로 결과를 확인함
+- 중요 메타데이터 서버에서는 강한 보호 모드를 적용하고, recovery data consistency와 write latency로 결과를 확인함
+- 스토리지 장애 복구 훈련에서는 저널 재생 절차를 시험하고, fsck recovery time과 journal replay success rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

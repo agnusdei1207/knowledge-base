@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 결제 시스템에서는 일관성 등급을 분리하고 확인 지표는 wrong-tier assignment count와 reconciliation loss rate임
-- 대규모 피드 서비스에서는 보정 흐름을 운영하고 확인 지표는 reconciliation completion rate와 user confusion rate임
-- 복합 서비스 플랫폼에서는 저장소를 분리하고 확인 지표는 average transaction cost와 workload fit score임
+- 결제 시스템에서는 일관성 등급을 분리하고, wrong-tier assignment count와 reconciliation loss rate로 결과를 확인함
+- 대규모 피드 서비스에서는 보정 흐름을 운영하고, reconciliation completion rate와 user confusion rate로 결과를 확인함
+- 복합 서비스 플랫폼에서는 저장소를 분리하고, average transaction cost와 workload fit score로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트폰 생성형 AI 기능에서는 모델을 NPU 친화적으로 양자화하고 확인 지표는 latency와 NPU execution coverage임
-- 엣지 카메라 분석 장치에서는 영상 전처리와 추론을 파이프라인화하고 확인 지표는 inferences per watt와 thermal throttling rate임
-- 차량용 보조 인식 장치에서는 보안 부팅과 OTA 모델 갱신을 결합하고 확인 지표는 update success rate와 model tamper detection rate임
+- 스마트폰 생성형 AI 기능에서는 모델을 NPU 친화적으로 양자화하고, latency와 NPU execution coverage로 결과를 확인함
+- 엣지 카메라 분석 장치에서는 영상 전처리와 추론을 파이프라인화하고, inferences per watt와 thermal throttling rate로 결과를 확인함
+- 차량용 보조 인식 장치에서는 보안 부팅과 OTA 모델 갱신을 결합하고, update success rate와 model tamper detection rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

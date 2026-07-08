@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 공개 웹 서비스 보안 점검에서는 DAST를 수행하고 확인 지표는 hidden endpoint discovery rate와 false positive rate임
-- 릴리스 전 스테이징 환경에서는 인증 시나리오를 포함하고 확인 지표는 auth coverage ratio와 reproduction success rate임
-- 보안 운영팀에서는 triage SLA를 관리하고 확인 지표는 remediation lead time과 environment parity score임
+- 공개 웹 서비스 보안 점검에서는 DAST를 수행하고, hidden endpoint discovery rate와 false positive rate로 결과를 확인함
+- 릴리스 전 스테이징 환경에서는 인증 시나리오를 포함하고, auth coverage ratio와 reproduction success rate로 결과를 확인함
+- 보안 운영팀에서는 triage SLA를 관리하고, remediation lead time과 environment parity score로 결과를 확인함
 
 ## Ⅷ. 결론
 

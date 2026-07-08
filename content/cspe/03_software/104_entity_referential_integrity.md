@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 회원·주문 시스템에서는 안정적 키 정책을 운영하고 확인 지표는 duplicate key incident count와 key change frequency임
-- 마스터 데이터 삭제 정책에서는 연쇄 영향 검토를 수행하고 확인 지표는 cascade impact predictability와 orphan record count임
-- 데이터 전환 프로젝트에서는 단계적 적재 검증을 적용하고 확인 지표는 load-time integrity error rate와 remediation lead time임
+- 회원·주문 시스템에서는 안정적 키 정책을 운영하고, duplicate key incident count와 key change frequency로 결과를 확인함
+- 마스터 데이터 삭제 정책에서는 연쇄 영향 검토를 수행하고, cascade impact predictability와 orphan record count로 결과를 확인함
+- 데이터 전환 프로젝트에서는 단계적 적재 검증을 적용하고, load-time integrity error rate와 remediation lead time로 결과를 확인함
 
 ## Ⅷ. 결론
 

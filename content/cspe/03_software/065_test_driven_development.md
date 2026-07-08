@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 핵심 도메인 로직 개발에서는 TDD를 적용하고 확인 지표는 defect escape rate와 feedback loop time임
-- 레거시 리팩터링 구간에서는 보호 테스트를 먼저 두고 확인 지표는 refactoring friction score와 brittle test ratio임
-- 신규 팀 온보딩 교육에서는 TDD 코칭을 수행하고 확인 지표는 assertion quality score와 flaky test rate임
+- 핵심 도메인 로직 개발에서는 TDD를 적용하고, defect escape rate와 feedback loop time로 결과를 확인함
+- 레거시 리팩터링 구간에서는 보호 테스트를 먼저 두고, refactoring friction score와 brittle test ratio로 결과를 확인함
+- 신규 팀 온보딩 교육에서는 TDD 코칭을 수행하고, assertion quality score와 flaky test rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

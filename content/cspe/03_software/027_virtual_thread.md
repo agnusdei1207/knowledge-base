@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 대량 HTTP 서버에서는 요청별 가상 스레드를 사용하고 확인 지표는 carrier utilization과 request latency임
-- JDBC 중심 업무 서비스에서는 동기 코드를 유지한 채 적용하고 확인 지표는 connection wait time과 throughput stability임
-- 성능 검증 환경에서는 pinning 이벤트를 추적하고 확인 지표는 pinned thread time과 telemetry overhead임
+- 대량 HTTP 서버에서는 요청별 가상 스레드를 사용하고, carrier utilization과 request latency로 결과를 확인함
+- JDBC 중심 업무 서비스에서는 동기 코드를 유지한 채 적용하고, connection wait time과 throughput stability로 결과를 확인함
+- 성능 검증 환경에서는 pinning 이벤트를 추적하고, pinned thread time과 telemetry overhead로 결과를 확인함
 
 ## Ⅷ. 결론
 

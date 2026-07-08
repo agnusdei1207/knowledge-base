@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 서버 커널에서는 hybrid 큐 구조를 사용하고 확인 지표는 load imbalance ratio와 scheduler lock contention임
-- 병렬 계산 런타임에서는 MQMS 중심 정책을 적용하고 확인 지표는 idle core time과 cache miss delta임
-- 웹 서비스 플랫폼에서는 affinity와 load balancing을 함께 조정하고 확인 지표는 p99 latency와 migration count임
+- 범용 서버 커널에서는 hybrid 큐 구조를 사용하고, load imbalance ratio와 scheduler lock contention로 결과를 확인함
+- 병렬 계산 런타임에서는 MQMS 중심 정책을 적용하고, idle core time과 cache miss delta로 결과를 확인함
+- 웹 서비스 플랫폼에서는 affinity와 load balancing을 함께 조정하고, p99 latency와 migration count로 결과를 확인함
 
 ## Ⅷ. 결론
 

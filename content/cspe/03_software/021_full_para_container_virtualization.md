@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 멀티테넌트 금융 서비스에서는 VM 중심 격리를 사용하고 확인 지표는 isolation incident count와 hardening compliance임
-- 내부 플랫폼 서비스에서는 컨테이너를 대량 배포하고 확인 지표는 startup time과 density per host임
-- 성능 민감 가상화 환경에서는 paravirtual driver를 적용하고 확인 지표는 I/O latency와 driver compatibility rate임
+- 멀티테넌트 금융 서비스에서는 VM 중심 격리를 사용하고, isolation incident count와 hardening compliance로 결과를 확인함
+- 내부 플랫폼 서비스에서는 컨테이너를 대량 배포하고, startup time과 density per host로 결과를 확인함
+- 성능 민감 가상화 환경에서는 paravirtual driver를 적용하고, I/O latency와 driver compatibility rate로 결과를 확인함
 
 ## Ⅷ. 결론
 

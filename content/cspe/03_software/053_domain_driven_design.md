@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 복잡한 보험 청약 시스템에서는 DDD를 적용하고 확인 지표는 terminology conflict count와 business impact score임
-- 도메인 탐색 워크숍에서는 이벤트 스토밍을 사용하고 확인 지표는 modeling effort ratio와 model drift rate임
-- 장기 운영 플랫폼에서는 모델 정합 리뷰를 운영하고 확인 지표는 dependency violation count와 integration defect count임
+- 복잡한 보험 청약 시스템에서는 DDD를 적용하고, terminology conflict count와 business impact score로 결과를 확인함
+- 도메인 탐색 워크숍에서는 이벤트 스토밍을 사용하고, modeling effort ratio와 model drift rate로 결과를 확인함
+- 장기 운영 플랫폼에서는 모델 정합 리뷰를 운영하고, dependency violation count와 integration defect count로 결과를 확인함
 
 ## Ⅷ. 결론
 

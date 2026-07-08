@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 범용 운영체제에서는 페이징 기반 가상 메모리를 사용하고 확인 지표는 TLB hit rate와 page fault rate임
-- 메모리 집약 서버에서는 huge page를 적용해 변환 오버헤드를 줄이고 확인 지표는 address translation overhead와 CPU stall rate임
-- 교육용 메모리 관리 설계에서는 페이징과 세그멘테이션을 비교 적용하고 확인 지표는 fragmentation ratio와 memory utilization임
+- 범용 운영체제에서는 페이징 기반 가상 메모리를 사용하고, TLB hit rate와 page fault rate로 결과를 확인함
+- 메모리 집약 서버에서는 huge page를 적용해 변환 오버헤드를 줄이고, address translation overhead와 CPU stall rate로 결과를 확인함
+- 교육용 메모리 관리 설계에서는 페이징과 세그멘테이션을 비교 적용하고, fragmentation ratio와 memory utilization로 결과를 확인함
 
 ## Ⅷ. 결론
 

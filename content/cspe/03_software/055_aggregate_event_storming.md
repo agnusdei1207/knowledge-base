@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 주문 도메인 설계에서는 이벤트 스토밍을 수행하고 확인 지표는 workshop-to-model conversion rate와 terminology alignment score임
-- 결제 승인 모델에서는 애그리게이트 경계를 조정하고 확인 지표는 transaction contention rate와 aggregate size score임
-- 현업 참여형 설계 워크숍에서는 비즈니스 담당자를 포함하고 확인 지표는 domain participation rate와 missed rule discovery count임
+- 주문 도메인 설계에서는 이벤트 스토밍을 수행하고, workshop-to-model conversion rate와 terminology alignment score로 결과를 확인함
+- 결제 승인 모델에서는 애그리게이트 경계를 조정하고, transaction contention rate와 aggregate size score로 결과를 확인함
+- 현업 참여형 설계 워크숍에서는 비즈니스 담당자를 포함하고, domain participation rate와 missed rule discovery count로 결과를 확인함
 
 ## Ⅷ. 결론
 

@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 로그성 대용량 테이블에서는 분할 키를 질의 조건에 맞추고 확인 지표는 pruning ratio와 scanned partition count임
-- 대규모 주문 DB에서는 편중 감시를 운영하고 확인 지표는 partition size variance와 hot partition rate임
-- 장기 보관 데이터 환경에서는 파티션 수 예산을 관리하고 확인 지표는 metadata overhead와 maintenance window duration임
+- 로그성 대용량 테이블에서는 분할 키를 질의 조건에 맞추고, pruning ratio와 scanned partition count로 결과를 확인함
+- 대규모 주문 DB에서는 편중 감시를 운영하고, partition size variance와 hot partition rate로 결과를 확인함
+- 장기 보관 데이터 환경에서는 파티션 수 예산을 관리하고, metadata overhead와 maintenance window duration로 결과를 확인함
 
 ## Ⅷ. 결론
 

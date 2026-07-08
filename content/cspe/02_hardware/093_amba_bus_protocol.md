@@ -69,9 +69,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 SoC 설계에서는 CPU와 NPU와 메모리 사이 AXI 경로를 분리하고 확인 지표는 bus utilization과 worst-case latency임
-- MCU 플랫폼에서는 APB에 저속 주변장치를 배치해 제어 경로를 단순화하고 확인 지표는 gate count와 register access latency임
-- RTL 검증 환경에서는 AMBA protocol checker와 CDC 검증을 회귀 테스트에 포함하고 확인 지표는 protocol violation count와 CDC defect count임
+- 모바일 SoC 설계에서는 CPU와 NPU와 메모리 사이 AXI 경로를 분리하고, bus utilization과 worst-case latency로 결과를 확인함
+- MCU 플랫폼에서는 APB에 저속 주변장치를 배치해 제어 경로를 단순화하고, gate count와 register access latency로 결과를 확인함
+- RTL 검증 환경에서는 AMBA protocol checker와 CDC 검증을 회귀 테스트에 포함하고, protocol violation count와 CDC defect count로 결과를 확인함
 
 ## Ⅷ. 결론
 

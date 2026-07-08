@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 고동시성 API 서버에서는 이벤트 루프 기반 네트워크 처리를 사용하고 확인 지표는 event loop lag와 p99 latency임
-- 실시간 메시지 게이트웨이에서는 non-blocking 소켓을 적용하고 확인 지표는 queue depth와 drop rate임
-- 비동기 배치 파이프라인에서는 future 체인을 표준화하고 확인 지표는 callback failure rate와 throughput stability임
+- 고동시성 API 서버에서는 이벤트 루프 기반 네트워크 처리를 사용하고, event loop lag와 p99 latency로 결과를 확인함
+- 실시간 메시지 게이트웨이에서는 non-blocking 소켓을 적용하고, queue depth와 drop rate로 결과를 확인함
+- 비동기 배치 파이프라인에서는 future 체인을 표준화하고, callback failure rate와 throughput stability로 결과를 확인함
 
 ## Ⅷ. 결론
 

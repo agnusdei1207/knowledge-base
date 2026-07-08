@@ -70,9 +70,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 점진 출시 환경에서는 피처 플래그를 사용하고 확인 지표는 rollout consistency와 stale flag count임
-- A/B 테스트 운영에서는 세그먼트 규칙을 적용하고 확인 지표는 experiment exposure accuracy와 branch complexity score임
-- 장애 대응 체계에서는 kill switch를 운영하고 확인 지표는 emergency disable time과 flag evaluation error rate임
+- 점진 출시 환경에서는 피처 플래그를 사용하고, rollout consistency와 stale flag count로 결과를 확인함
+- A/B 테스트 운영에서는 세그먼트 규칙을 적용하고, experiment exposure accuracy와 branch complexity score로 결과를 확인함
+- 장애 대응 체계에서는 kill switch를 운영하고, emergency disable time과 flag evaluation error rate로 결과를 확인함
 
 ## Ⅷ. 결론
 
