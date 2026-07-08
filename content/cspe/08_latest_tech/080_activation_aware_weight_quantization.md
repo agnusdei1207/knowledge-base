@@ -1,5 +1,5 @@
 ---
-title: "Activation-aware Weight Quantization (AWQ)"
+title: "AWQ 활성화 인지 양자화 (Activation-aware Weight Quantization)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Low-bit Quantizer | 보호 대상 외의 가중치를 저비트로 변환해 메모리 절감 효과를 확보함 |
 | Runtime Loader | 보호 값과 4비트 값을 함께 불러와 실제 추론 경로에서 결합 실행함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Activation Sample | ---> | Salient Selector  | ---> | Runtime Loader    |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Low-bit Quantizer |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 실서비스용 4비트 챗봇: 품질 저하를 줄이며 GPU 비용을 절감함, 확인 지표는 answer quality와 cost per token임
-- 로컬 에이전트 실행: 개인 장비에서 큰 모델을 구동함, 확인 지표는 VRAM usage와 response latency임
-- 모바일 보조 모델 연구: 중요 채널 보존 전략을 실험함, 확인 지표는 task accuracy와 model size임
+- 실서비스용 4비트 챗봇이 품질 저하를 줄이면서 GPU 비용을 절감하도록 AWQ를 적용하며 확인 지표는 answer quality와 cost per token임
+- 로컬 에이전트 실행이 개인 장비에서 큰 모델을 구동하도록 AWQ를 활용하며 확인 지표는 VRAM usage와 response latency임
+- 모바일 보조 모델 연구가 중요 채널 보존 전략을 실험하도록 AWQ를 적용하며 확인 지표는 task accuracy와 model size임
 
 ## Ⅷ. 결론
 

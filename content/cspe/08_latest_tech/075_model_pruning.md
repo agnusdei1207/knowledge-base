@@ -1,5 +1,5 @@
 ---
-title: "Model Pruning (모델 프루닝)"
+title: "Model Pruning 모델 프루닝 (Model Pruning)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Fine-tuning, Calibration | 제거 후 무너진 정확도를 복구해 실제 업무 품질을 다시 맞춤 |
 | Deployment Runtime | 희소 구조나 축소 구조를 하드웨어가 실제로 활용하는지 검증해 체감 성능을 결정함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Importance Score  | ---> | Pruning Policy    | ---> | Deployment RT     |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Fine-tuning / Cal |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 비전 모델 경량화: 구조적 pruning으로 CNN 크기를 축소함, 확인 지표는 FPS와 model size임
-- 산업용 카메라 추론: 채널 단위 pruning으로 현장 장비 속도를 높임, 확인 지표는 latency와 device power usage임
-- 특화 소형 모델 최적화: 제한된 도메인 모델에서 일부 헤드를 축소함, 확인 지표는 domain accuracy와 memory reduction임
+- 모바일 비전 모델 경량화가 구조적 pruning으로 CNN 크기를 축소하도록 적용하며 확인 지표는 FPS와 model size임
+- 산업용 카메라 추론이 채널 단위 pruning으로 현장 장비 속도를 높이도록 적용하며 확인 지표는 latency와 device power usage임
+- 특화 소형 모델 최적화가 제한된 도메인 모델의 일부 헤드를 축소하도록 pruning을 적용하며 확인 지표는 domain accuracy와 memory reduction임
 
 ## Ⅷ. 결론
 

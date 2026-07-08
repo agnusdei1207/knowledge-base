@@ -46,6 +46,17 @@ extra:
 | Quantized Weights, Activations | 메모리 점유를 줄이면서 정수 연산 경로를 가능하게 하는 실제 추론 데이터 형태임 |
 | INT8 Runtime | CPU, GPU, TPU의 저정밀 커널을 사용해 양자화 모델의 이점을 실성능으로 연결함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Calibration Pass  | ---> | Scale / ZP        | ---> | INT8 Runtime      |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Quantized W/A     |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 기업용 LLM API: FP16 대비 메모리를 줄여 동접을 늘림, 확인 지표는 GPU memory usage와 p95 latency임
-- 차량 비전 추론: TensorRT INT8 엔진으로 응답 속도를 높임, 확인 지표는 FPS와 inference latency임
-- CPU 기반 문서 분류: INT8 모델로 범용 서버 비용을 절감함, 확인 지표는 throughput과 cost per request임
+- 기업용 LLM API가 FP16 대비 메모리를 줄여 동시 접속을 늘리도록 INT8 양자화를 적용하며 확인 지표는 GPU memory usage와 p95 latency임
+- 차량 비전 추론이 TensorRT INT8 엔진으로 응답 속도를 높이도록 배포하며 확인 지표는 FPS와 inference latency임
+- CPU 기반 문서 분류가 INT8 모델로 범용 서버 비용을 절감하도록 운영하며 확인 지표는 throughput과 cost per request임
 
 ## Ⅷ. 결론
 

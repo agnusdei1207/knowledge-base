@@ -1,5 +1,5 @@
 ---
-title: "GPTQ (GPTQ)"
+title: "GPTQ 양자화 (GPTQ)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Error Compensation | Hessian 근사를 활용해 이후 가중치에 미치는 오차를 보정함 |
 | Runtime Format | 변환된 4비트 모델을 실제 추론 엔진에서 읽고 실행하는 배포 형식을 제공함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Calibration Set   | ---> | Block Quantizer   | ---> | Runtime Format    |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Error Comp.       |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 로컬 LLM 도구: 대형 오픈모델을 4비트로 배포함, 확인 지표는 VRAM usage와 tokens/sec임
-- 사내 실험용 챗봇: 재학습 없이 빠르게 비용을 줄임, 확인 지표는 setup time과 answer quality임
-- 연구용 모델 압축 비교: 여러 PTQ 기법을 비교 검증함, 확인 지표는 perplexity와 benchmark score임
+- 로컬 LLM 도구가 대형 오픈모델을 4비트로 배포하도록 GPTQ를 적용하며 확인 지표는 VRAM usage와 tokens/sec임
+- 사내 실험용 챗봇이 재학습 없이 빠르게 비용을 줄이도록 GPTQ를 적용하며 확인 지표는 setup time과 answer quality임
+- 연구용 모델 압축 비교가 여러 PTQ 기법을 검증하도록 GPTQ를 포함해 실험하며 확인 지표는 perplexity와 benchmark score임
 
 ## Ⅷ. 결론
 

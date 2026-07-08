@@ -47,6 +47,17 @@ extra:
 | DMA, Control Logic | 데이터 이동과 실행 순서를 통제해 계산 유닛의 유휴 시간을 줄임 |
 | Compiler, Runtime | 모델을 하드웨어 실행 형태로 변환하고 지원 연산자 범위 안에서 최적 경로를 생성함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Compiler, Runtime | ---> |   Compute Array   | ---> | App / CPU Output  |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           |  On-chip Memory   |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트폰 음성 비서: 상시 대기 상태에서 저전력 추론을 수행함, 확인 지표는 wake latency와 battery impact임
-- 차량 센서 융합 보조: 카메라와 레이더 데이터를 빠르게 처리함, 확인 지표는 inference latency와 thermal stability임
-- AI PC 로컬 기능: 문서 요약과 이미지 보정을 로컬 가속함, 확인 지표는 task response time과 NPU utilization임
+- 스마트폰 음성 비서가 상시 대기 상태에서 저전력 추론을 수행하도록 NPU를 활용하며 확인 지표는 wake latency와 battery impact임
+- 차량 센서 융합 보조가 카메라와 레이더 데이터를 빠르게 처리하도록 NPU를 적용하며 확인 지표는 inference latency와 thermal stability임
+- AI PC 로컬 기능이 문서 요약과 이미지 보정을 기기 내에서 가속하도록 NPU를 활용하며 확인 지표는 task response time과 NPU utilization임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Model Compression (모델 압축)"
+title: "Model Compression 모델 압축 (Model Compression)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Calibration, Fine-tuning | 압축으로 손상된 품질을 복구하고 도메인 정확도를 다시 맞추는 역할을 수행함 |
 | Runtime Engine | vLLM, TensorRT, Core ML 같은 실행 계층이 압축 결과를 실제 속도 향상으로 연결함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Baseline Model    | ---> | Compression Tech. | ---> | Runtime Engine    |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Calibration / FT  |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 모바일 AI 기능: 양자화와 증류로 모델을 기기 내에 탑재함, 확인 지표는 memory footprint와 battery impact임
-- 사내 추론 서버 비용 절감: GPU 메모리에 맞춘 압축 모델을 운영함, 확인 지표는 cost per token과 GPU utilization임
-- 산업 현장 비전 추론: 구조 축소와 런타임 최적화를 함께 적용함, 확인 지표는 FPS와 edge device temperature임
+- 모바일 AI 기능이 양자화와 증류를 통해 모델을 기기 내에 탑재하도록 압축을 적용하며 확인 지표는 memory footprint와 battery impact임
+- 사내 추론 서버가 GPU 메모리 제약에 맞춘 압축 모델로 비용을 줄이도록 운영하며 확인 지표는 cost per token과 GPU utilization임
+- 산업 현장 비전 추론이 구조 축소와 런타임 최적화를 함께 사용하도록 압축을 적용하며 확인 지표는 FPS와 edge device temperature임
 
 ## Ⅷ. 결론
 

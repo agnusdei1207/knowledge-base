@@ -46,6 +46,17 @@ extra:
 | Unified Memory | CPU, GPU, Neural Engine 간 데이터 이동 비용을 줄여 응답성을 높임 |
 | OS, App Framework | Vision, Natural Language, Apple Intelligence 계층이 실제 사용자 경험과 연결함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Core ML Model     | ---> | Neural Engine     | ---> | OS / App Feature  |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Unified Memory    |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사진 앱 장면 분석: 사람, 사물, 텍스트를 기기 내에서 분류함, 확인 지표는 inference latency와 battery impact임
-- 음성 인식 및 추천 기능: 로컬 언어 모델을 활용한 실시간 보조를 수행함, 확인 지표는 response time과 offline success rate임
-- 개인화 비서 기능: 메일과 일정 맥락을 기기 안에서 활용함, 확인 지표는 privacy compliance와 feature adoption rate임
+- 사진 앱 장면 분석이 사람과 사물과 텍스트를 기기 내에서 분류하도록 Neural Engine을 활용하며 확인 지표는 inference latency와 battery impact임
+- 음성 인식 및 추천 기능이 로컬 언어 모델 기반 실시간 보조를 수행하도록 Neural Engine을 적용하며 확인 지표는 response time과 offline success rate임
+- 개인화 비서 기능이 메일과 일정 맥락을 기기 안에서 처리하도록 Neural Engine을 활용하며 확인 지표는 privacy compliance와 feature adoption rate임
 
 ## Ⅷ. 결론
 

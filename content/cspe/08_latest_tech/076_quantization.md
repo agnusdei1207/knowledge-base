@@ -1,5 +1,5 @@
 ---
-title: "Quantization (양자화)"
+title: "Quantization 양자화 (Quantization)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Low-bit Model Artifact | 양자화된 가중치와 메타데이터를 포함해 실제 배포 대상으로 사용됨 |
 | Runtime, Kernel | INT8, INT4 연산 경로를 활용해 양자화 효과를 실제 추론 성능으로 연결함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Calibration Data  | ---> | Quantizer         | ---> | Runtime / Kernel  |
++-------------------+      +-------------------+      +-------------------+
+                                   |
+                                   v
+                           +-------------------+
+                           | Low-bit Artifact  |
+                           +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 온프레미스 LLM 서버: INT8 양자화로 동시 사용자 수를 늘림, 확인 지표는 GPU memory usage와 tokens/sec임
-- 모바일 AI 기능: INT4 양자화로 기기 내 탑재를 가능하게 함, 확인 지표는 memory footprint와 battery impact임
-- 비전 엣지 추론: QAT 기반 INT8 모델을 사용함, 확인 지표는 FPS와 task accuracy임
+- 온프레미스 LLM 서버가 INT8 양자화로 동시 사용자 수를 늘리도록 운영하며 확인 지표는 GPU memory usage와 tokens/sec임
+- 모바일 AI 기능이 INT4 양자화로 기기 내 탑재를 가능하게 하도록 적용하며 확인 지표는 memory footprint와 battery impact임
+- 비전 엣지 추론이 QAT 기반 INT8 모델을 사용하도록 배포하며 확인 지표는 FPS와 task accuracy임
 
 ## Ⅷ. 결론
 

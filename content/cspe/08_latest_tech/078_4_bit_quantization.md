@@ -46,6 +46,17 @@ extra:
 | Outlier Preservation | 민감한 채널이나 중요 가중치를 별도 보존해 품질 저하를 완화함 |
 | Specialized Runtime | GPTQ, AWQ, GGUF 같은 형식을 해석하는 런타임이 실제 추론 실행을 담당함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Group-wise Scale  | ---> | Low-bit Format    | ---> | Specialized RT    |
++-------------------+      +-------------------+      +-------------------+
+         |
+         v
++-------------------+
+| Outlier Preserve  |
++-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 로컬 LLM 데스크톱: 24GB 이하 GPU에 대형 모델을 탑재함, 확인 지표는 VRAM usage와 tokens/sec임
-- 온디바이스 보조 기능: 소형 모델을 모바일 기기에 배치함, 확인 지표는 memory footprint와 battery impact임
-- 비용 절감형 사내 챗봇: 중저가 서버에서 추론을 운영함, 확인 지표는 cost per token과 answer quality임
+- 로컬 LLM 데스크톱이 24GB 이하 GPU에 대형 모델을 탑재하도록 4비트 양자화를 적용하며 확인 지표는 VRAM usage와 tokens/sec임
+- 온디바이스 보조 기능이 소형 모델을 모바일 기기에 배치하도록 4비트 양자화를 사용하며 확인 지표는 memory footprint와 battery impact임
+- 비용 절감형 사내 챗봇이 중저가 서버에서 추론을 운영하도록 4비트 양자화를 적용하며 확인 지표는 cost per token과 answer quality임
 
 ## Ⅷ. 결론
 

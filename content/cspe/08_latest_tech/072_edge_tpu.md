@@ -47,6 +47,17 @@ extra:
 | Host Processor | 입력 수집과 전후처리와 제어를 담당하며 Edge TPU와 역할을 분담함 |
 | Deployment SDK | Coral와 TensorFlow Lite 도구가 모델 변환과 장비 배포와 모니터링을 지원함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Quantized Model   | ---> | Host Processor    | ---> | Edge TPU Accel.   |
++-------------------+      +-------------------+      +-------------------+
+        ^                                                       |
+        |                                                       v
++-------------------+                                  +-------------------+
+| Deployment SDK    |                                  | Result / Control  |
++-------------------+                                  +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 스마트 카메라 객체 탐지: 현장 영상에서 사람과 차량을 실시간 판별함, 확인 지표는 FPS와 false alarm rate임
-- 리테일 매장 센서 분석: 진열대 상태와 방문자 흐름을 로컬에서 분석함, 확인 지표는 event detection latency와 bandwidth saving임
-- 농업 모니터링 장비: 병충해나 작물 상태를 현장에서 판정함, 확인 지표는 device uptime과 accuracy임
+- 스마트 카메라 객체 탐지가 현장 영상에서 사람과 차량을 실시간 판별하도록 Edge TPU를 적용하며 확인 지표는 FPS와 false alarm rate임
+- 리테일 매장 센서 분석이 진열대 상태와 방문자 흐름을 로컬에서 처리하도록 Edge TPU를 활용하며 확인 지표는 event detection latency와 bandwidth saving임
+- 농업 모니터링 장비가 병충해와 작물 상태를 현장에서 판정하도록 Edge TPU를 탑재하며 확인 지표는 device uptime과 accuracy임
 
 ## Ⅷ. 결론
 
