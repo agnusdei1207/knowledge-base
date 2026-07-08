@@ -1,5 +1,5 @@
 ---
-title: "Dense Retrieval (밀집 검색)"
+title: "Dense Retrieval 밀집 검색 (Dense Retrieval)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Similarity Function | cosine이나 dot product가 가까운 문서를 선택하는 기준이 됨 |
 | Metadata, Rerank Layer | 필터링과 후처리 재정렬로 dense retrieval의 약점을 보완함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Bi-encoder Model  | ---> | Vector Store      | ---> | Similarity Fn.    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Meta / Rerank     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자연어 RAG 검색: 의미 기반으로 관련 문서를 찾음, 확인 지표는 recall@k와 faithfulness임
-- 고객지원 검색: 다양한 표현의 문의를 매칭함, 확인 지표는 resolution rate와 answer relevance임
-- 기업 지식 탐색: 방대한 문서에서 의미 근접 자료를 수집함, 확인 지표는 click satisfaction과 search quality임
+- 자연어 RAG 검색이 의미 기반으로 관련 문서를 찾도록 밀집 검색을 적용하며 확인 지표는 recall@k와 faithfulness임
+- 고객지원 검색이 다양한 표현의 문의를 매칭하도록 밀집 검색을 활용하며 확인 지표는 resolution rate와 answer relevance임
+- 기업 지식 탐색이 방대한 문서에서 의미 근접 자료를 수집하도록 밀집 검색을 적용하며 확인 지표는 click satisfaction과 search quality임
 
 ## Ⅷ. 결론
 

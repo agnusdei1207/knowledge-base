@@ -1,5 +1,5 @@
 ---
-title: "Vector Database (벡터 데이터베이스)"
+title: "Vector Database 벡터 데이터베이스 (Vector Database)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Similarity Engine | cosine, dot product, L2 같은 거리 계산으로 후보 순위를 산출함 |
 | Metadata, Filter Layer | tenant, ACL, 날짜, 카테고리 조건을 벡터 검색과 함께 적용해 실무 적합성을 높임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Embedding Store   | ---> | ANN Index         | ---> | Similarity Engine |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Metadata Filter   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 RAG 저장소: 사내 문서 임베딩을 보관함, 확인 지표는 recall@k와 query latency임
-- 멀티테넌트 검색 서비스: 고객별 벡터와 메타데이터를 분리함, 확인 지표는 tenant isolation과 cost per query임
-- 대규모 지식 탐색: 검색엔진과 결합해 의미 검색을 수행함, 확인 지표는 throughput과 search quality임
+- 엔터프라이즈 RAG 저장소가 사내 문서 임베딩을 보관하도록 벡터 데이터베이스를 적용하며 확인 지표는 recall@k와 query latency임
+- 멀티테넌트 검색 서비스가 고객별 벡터와 메타데이터를 분리하도록 벡터 데이터베이스를 활용하며 확인 지표는 tenant isolation과 cost per query임
+- 대규모 지식 탐색이 검색엔진과 결합해 의미 검색을 수행하도록 벡터 데이터베이스를 적용하며 확인 지표는 throughput과 search quality임
 
 ## Ⅷ. 결론
 

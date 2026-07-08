@@ -46,6 +46,17 @@ extra:
 | Scoring Head | 각 후보에 단일 relevance score를 부여해 재정렬 기준을 생성함 |
 | Batch Inference Policy | 후보 여러 개를 묶어 처리해 높은 비용을 완화함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Paired Input      | ---> | Cross-Encoder     | ---> | Scoring Head      |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Batch Inference   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 계약서 검색 RAG: 상위 후보 조항을 다시 정렬함, 확인 지표는 precision@3와 answer correctness임
-- 의료 문서 QA: 비슷한 표현의 문서를 정밀 구분함, 확인 지표는 citation accuracy와 expert preference임
-- 고객지원 검색: 해결 절차 후보를 재정렬함, 확인 지표는 first-hit relevance와 resolution rate임
+- 계약서 검색 RAG가 상위 후보 조항을 다시 정렬하도록 cross-encoder reranker를 적용하며 확인 지표는 precision@3와 answer correctness임
+- 의료 문서 QA가 비슷한 표현의 문서를 정밀 구분하도록 cross-encoder reranker를 활용하며 확인 지표는 citation accuracy와 expert preference임
+- 고객지원 검색이 해결 절차 후보를 재정렬하도록 cross-encoder reranker를 적용하며 확인 지표는 first-hit relevance와 resolution rate임
 
 ## Ⅷ. 결론
 

@@ -1,5 +1,5 @@
 ---
-title: "Embedding (임베딩)"
+title: "Embedding 임베딩 (Embedding)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Vector Dimension | 표현력과 저장 비용과 검색 성능 사이의 균형점을 결정하는 핵심 파라미터임 |
 | Normalization, Post-processing | cosine similarity 안정성과 검색 일관성을 높이기 위해 벡터를 후처리함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Encoder Model     | ---> | Pooling Strategy  | ---> | Vector Dimension  |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Normalization     |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 RAG: 문서 의미 검색용 벡터를 생성함, 확인 지표는 recall@k와 faithfulness임
-- 추천 시스템: 사용자와 상품 벡터를 매칭함, 확인 지표는 CTR와 conversion rate임
-- 문서 분류: 임베딩 기반 분류기를 구성함, 확인 지표는 F1 score와 latency임
+- 엔터프라이즈 RAG가 문서 의미 검색용 벡터를 생성하도록 임베딩을 활용하며 확인 지표는 recall@k와 faithfulness임
+- 추천 시스템이 사용자와 상품 벡터를 매칭하도록 임베딩을 적용하며 확인 지표는 CTR와 conversion rate임
+- 문서 분류가 임베딩 기반 분류기를 구성하도록 임베딩을 사용하며 확인 지표는 F1 score와 latency임
 
 ## Ⅷ. 결론
 

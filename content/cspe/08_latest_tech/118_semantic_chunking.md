@@ -1,5 +1,5 @@
 ---
-title: "Semantic Chunking (의미 기반 청킹)"
+title: "Semantic Chunking 의미 기반 청킹 (Semantic Chunking)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Boundary Detector | 유사도 급변 지점이나 구조 변화 지점을 경계로 선택함 |
 | Chunk Assembler | 경계를 기준으로 의미 흐름이 유지되는 범위를 청크로 조립함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Sentence Segment  | ---> | Similarity Est.   | ---> | Boundary Detect   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Chunk Assembler   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 정책 문서 RAG: 문단 의미 흐름을 유지해 분할함, 확인 지표는 context precision과 faithfulness임
-- 연구 보고서 검색: 섹션별 주제 변화를 반영함, 확인 지표는 retrieval recall과 answer coherence임
-- 긴 고객지원 매뉴얼: 세부 절차 경계를 의미 기준으로 조정함, 확인 지표는 first-hit relevance와 resolution rate임
+- 정책 문서 RAG가 문단 의미 흐름을 유지해 분할하도록 의미 기반 청킹을 적용하며 확인 지표는 context precision과 faithfulness임
+- 연구 보고서 검색이 섹션별 주제 변화를 반영하도록 의미 기반 청킹을 활용하며 확인 지표는 retrieval recall과 answer coherence임
+- 긴 고객지원 매뉴얼이 세부 절차 경계를 의미 기준으로 조정하도록 의미 기반 청킹을 적용하며 확인 지표는 first-hit relevance와 resolution rate임
 
 ## Ⅷ. 결론
 

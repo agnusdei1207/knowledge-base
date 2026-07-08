@@ -1,5 +1,5 @@
 ---
-title: "Chunking (청크 분할)"
+title: "Chunking 청크 분할 (Chunking)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Overlap Policy | 경계부 문맥을 중복시켜 문장 단절과 정보 손실을 줄임 |
 | Metadata Attachment | 문서명, 페이지, 절 번호를 붙여 검색 후 출처 추적과 병합을 가능하게 함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Parser            | ---> | Chunk Size Policy | ---> | Overlap Policy    |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Metadata Attach   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 사내 규정 문서 RAG: 절 단위와 토큰 기준을 혼합해 분할함, 확인 지표는 context precision과 citation accuracy임
-- 기술 매뉴얼 검색: 코드 블록과 표를 보존해 청킹함, 확인 지표는 first-hit relevance와 resolution rate임
-- 법률 QA: 조항 번호 메타데이터를 붙여 관리함, 확인 지표는 traceability와 answer correctness임
+- 사내 규정 문서 RAG가 절 단위와 토큰 기준을 혼합해 분할하도록 청킹을 설계하며 확인 지표는 context precision과 citation accuracy임
+- 기술 매뉴얼 검색이 코드 블록과 표를 보존해 청킹하도록 적용하며 확인 지표는 first-hit relevance와 resolution rate임
+- 법률 QA가 조항 번호 메타데이터를 붙여 관리하도록 청킹을 활용하며 확인 지표는 traceability와 answer correctness임
 
 ## Ⅷ. 결론
 

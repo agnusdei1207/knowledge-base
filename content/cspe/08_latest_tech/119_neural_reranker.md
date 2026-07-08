@@ -1,5 +1,5 @@
 ---
-title: "Neural Reranker (재순위화 모델)"
+title: "Reranker 재순위화 모델 (Neural Reranker)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -47,6 +47,17 @@ extra:
 | Ranking Score | 최종 정렬 기준이 되는 점수로 생성 단계에 들어갈 문서를 선별함 |
 | Serving Policy | top-k 크기와 동시성 정책을 정해 latency와 품질의 타협점을 관리함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Candidate Set     | ---> | Query-Doc Encoder | ---> | Ranking Score     |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Serving Policy    |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,9 +82,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 엔터프라이즈 RAG: 검색 후보를 다시 정렬해 근거 품질을 높임, 확인 지표는 context precision과 faithfulness임
-- 법률 QA: 미묘한 조항 차이를 반영해 순위를 조정함, 확인 지표는 precision@k와 citation accuracy임
-- 고객지원 검색: 긴 매뉴얼 중 정확한 해결 절차를 상위로 올림, 확인 지표는 first-hit relevance와 resolution rate임
+- 엔터프라이즈 RAG가 검색 후보를 다시 정렬해 근거 품질을 높이도록 reranker를 적용하며 확인 지표는 context precision과 faithfulness임
+- 법률 QA가 미묘한 조항 차이를 반영해 순위를 조정하도록 reranker를 활용하며 확인 지표는 precision@k와 citation accuracy임
+- 고객지원 검색이 긴 매뉴얼 중 정확한 해결 절차를 상위로 올리도록 reranker를 적용하며 확인 지표는 first-hit relevance와 resolution rate임
 
 ## Ⅷ. 결론
 

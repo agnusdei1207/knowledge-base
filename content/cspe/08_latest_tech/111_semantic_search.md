@@ -1,5 +1,5 @@
 ---
-title: "Semantic Search (의미 검색)"
+title: "Semantic Search 의미 검색 (Semantic Search)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Similarity Metric | cosine, dot product 같은 거리 계산 기준이 순위를 결정함 |
 | Metadata Filter | 의미 유사성과 함께 권한과 날짜 같은 조건을 결합해 실무 적합성을 높임 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Embedding Model   | ---> | Vector Index      | ---> | Similarity Metric |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Metadata Filter   |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 자연어 사내 검색: 질문형 질의에 맞는 문서를 찾음, 확인 지표는 recall@k와 user satisfaction임
-- 고객지원 검색: 표현이 다양한 문의를 처리함, 확인 지표는 first-hit relevance와 resolution rate임
-- RAG retriever: 생성 전 근거 문서를 수집함, 확인 지표는 faithfulness와 context precision임
+- 자연어 사내 검색이 질문형 질의에 맞는 문서를 찾도록 의미 검색을 적용하며 확인 지표는 recall@k와 user satisfaction임
+- 고객지원 검색이 표현이 다양한 문의를 처리하도록 의미 검색을 활용하며 확인 지표는 first-hit relevance와 resolution rate임
+- RAG retriever가 생성 전 근거 문서를 수집하도록 의미 검색을 사용하며 확인 지표는 faithfulness와 context precision임
 
 ## Ⅷ. 결론
 

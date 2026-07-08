@@ -1,5 +1,5 @@
 ---
-title: "Sparse Retrieval (희소 검색)"
+title: "Sparse Retrieval 희소 검색 (Sparse Retrieval)"
 date: "2026-07-08"
 tags:
   - "cspe-latest-tech"
@@ -46,6 +46,17 @@ extra:
 | Weighting Function | BM25 같은 가중치 함수가 토큰 중요도를 계산해 순위를 정함 |
 | Query Parser | 검색 연산자와 필드 조건을 해석해 실제 검색 실행을 제어함 |
 
+```text
++-------------------+      +-------------------+      +-------------------+
+| Tokenizer / Anlz. | ---> | Inverted Index    | ---> | Weight Function   |
++-------------------+      +-------------------+      +-------------------+
+                                                           |
+                                                           v
+                                                   +-------------------+
+                                                   | Query Parser      |
+                                                   +-------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,9 +81,9 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 에러 코드 검색: exact token match로 빠르게 문서를 찾음, 확인 지표는 first-hit accuracy와 latency임
-- 법률 조항 검색: 조항 번호와 용어 검색에 사용함, 확인 지표는 precision@k와 user trust임
-- 기업 검색 기본 레이어: dense 검색과 함께 sparse 축을 제공함, 확인 지표는 hybrid contribution rate와 retrieval recall임
+- 에러 코드 검색이 exact token match로 빠르게 문서를 찾도록 희소 검색을 적용하며 확인 지표는 first-hit accuracy와 latency임
+- 법률 조항 검색이 조항 번호와 용어 검색에 사용되도록 희소 검색을 활용하며 확인 지표는 precision@k와 user trust임
+- 기업 검색 기본 레이어가 dense 검색과 함께 sparse 축을 제공하도록 희소 검색을 적용하며 확인 지표는 hybrid contribution rate와 retrieval recall임
 
 ## Ⅷ. 결론
 
