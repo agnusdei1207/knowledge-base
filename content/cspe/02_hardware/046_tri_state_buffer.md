@@ -1,5 +1,5 @@
 ---
-title: "3-상태 버퍼 (Tri-State Buffer)"
+title: "3-상태 버퍼·트라이스테이트 (Tri-State Buffer)"
 date: "2026-07-08"
 tags:
   - "cspe-hardware"
@@ -45,6 +45,15 @@ extra:
 | Enable 제어 | 출력 활성화 여부를 결정하며 bus contention 방지의 핵심 조건임 |
 | Output Driver | enable이 켜지면 실제 버스를 구동하고 꺼지면 Z 상태로 전환함 |
 | 공유 버스 | 여러 버퍼 출력이 연결되는 공통선으로 동시 활성화 방지가 필수임 |
+
+```text
++-------------+     +-------------+     +-------------+     +-------------+
+| Input Signal| --> | Enable Ctrl | --> | Output Driver| --> | Shared Bus  |
++-------------+     +-------------+     +-------------+     +-------------+
+                                        |
+                                        v
+                                      Z State
+```
 
 ## Ⅴ. 원리 및 절차 흐름도
 

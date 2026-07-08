@@ -46,6 +46,12 @@ extra:
 | Dataflow, Scheduler | weight-stationary나 output-stationary 같은 전략으로 데이터 이동 병목을 줄임 |
 | Host Interface, NoC | CPU와 메모리와의 연결 경로를 담당하며 시스템 통합성과 확장성을 결정함 |
 
+```text
++-------------+     +-------------+     +-------------+     +-------------+
+| Host Input  | --> | Dataflow     | --> | PE Array    | --> | On-chip SRAM|
++-------------+     +-------------+     +-------------+     +-------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text

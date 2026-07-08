@@ -46,6 +46,22 @@ extra:
 | Memory, Cache Subsystem | DRAM 인터페이스와 캐시와 SRAM이 데이터 공급 효율과 전력 사용량을 결정함 |
 | Peripheral, Power Management | USB, PCIe, Display, PMIC 제어가 시스템 연결성과 배터리 지속시간을 함께 좌우함 |
 
+```text
++------------------+
+| Compute Cluster  |
++------------------+
+         |
+         v
++------------------+
+| On-chip NoC      |
++------------------+
+      |       |
+      v       v
++-----------+ +------------------+
+| Memory    | | Peripheral / PM  |
++-----------+ +------------------+
+```
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
