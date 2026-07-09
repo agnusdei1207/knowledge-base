@@ -23,7 +23,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 병렬 스레드가 충분하면 전체 처리량을 크게 높일 수 있음
+- 병렬 스레드가 충분하면 전체 처리량을 높일 수 있음
 - 동종 코어는 스케줄링이 단순하고 이종 코어는 작업별 전력 예산 배치에 유리함
 - 공유 캐시와 메모리 대역폭이 코어 수 증가의 병목이 될 수 있음
 - 소프트웨어 병렬화가 부족하면 코어 추가 효과가 제한됨
@@ -36,6 +36,8 @@ extra:
 | 장점 | 스케줄링 단순 | 작업별 코어 배치 |
 | 한계 | 작업별 전력 배치 제한 | 스케줄링 복잡 |
 | 대표 예 | 일반 서버 CPU | ARM big.LITTLE, hybrid CPU |
+
+> 요약: 동종 코어는 운영이 단순하고, 이종 코어는 작업 특성에 맞춰 전력과 성능을 배분함.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -62,6 +64,8 @@ extra:
        +-------------------+
 ```
 
+> 요약: 멀티코어 성능은 코어 수뿐 아니라 공유 캐시, 인터커넥트, 메모리 대역폭에 좌우됨.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -75,27 +79,19 @@ extra:
 3. **공유 자원 접근**: 캐시와 메모리를 함께 사용함
 4. **결과 동기화**: 병렬 결과를 병합하고 일관성을 유지함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 작업을 병렬로 나누고 코어에 배치한 뒤 공유 자원 병목과 동기화 비용을 관리함.
 
-1. 문제: 코어 수가 늘어도 병렬화되지 않은 구간 때문에 전체 처리량 증가가 제한될 수 있음
-   - 해결방안: hotspot parallelization과 Amdahl 분석을 수행하고 parallel fraction과 speedup efficiency로 검증함
-2. 문제: 코어 간 공유 캐시와 메모리 대역폭 경쟁이 심해지면 스케일업 효과가 급격히 떨어질 수 있음
-   - 해결방안: cache partitioning과 bandwidth QoS를 적용하고 LLC contention rate와 memory bandwidth utilization으로 검증함
-3. 문제: 이종 멀티코어에서는 스케줄러가 작업 특성을 잘못 배치하면 전력과 성능이 모두 손해를 볼 수 있음
-   - 해결방안: workload-aware scheduling을 운영하고 core placement accuracy와 perf per watt로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 병렬화되지 않은 구간이 크면 코어 수를 늘려도 처리량이 제한되므로 hotspot parallelization과 Amdahl 분석을 수행하고 parallel fraction, speedup efficiency로 확인함
+2. 공유 캐시·메모리 대역폭 경쟁이나 이종 코어 오배치가 생기면 성능·전력 이득이 줄어드므로 cache partitioning, bandwidth QoS, workload-aware scheduling을 적용하고 LLC contention rate, core placement accuracy, perf per watt로 확인함
 
-- 서버 병렬 처리 환경에서는 병렬 구간을 늘리고, parallel fraction과 speedup efficiency로 검증함
-- 대용량 데이터 플랫폼에서는 공유 자원 관리를 적용하고, LLC contention rate와 memory bandwidth utilization으로 검증함
-- 모바일 SoC에서는 이종 스케줄링을 조정하고, core placement accuracy와 perf per watt로 검증함
-
-## Ⅷ. 결론
+## Ⅶ. 결론
 
 멀티코어의 성패는 코어 수 자체보다 병렬화 가능한 소프트웨어 구조와 공유 자원 병목을 얼마나 함께 관리하느냐에 달려 있음.
 
 ## 작성 근거(검토용)
 
-- 멀티코어는 코어 수 증가가 아니라 TLP, 공유 캐시, 메모리 대역폭, 동기화 비용으로 답안 축을 잡음
-- 추상 표현은 작업별 코어 배치와 perf per watt 검증으로 의미를 좁힘
+- 멀티코어는 코어 수 증가가 아니라 TLP, 공유 캐시, 메모리 대역폭, 동기화 비용으로 판단 기준을 잡음
+- 모호한 표현은 작업별 코어 배치와 perf per watt 검증으로 의미를 좁힘
 - 결론은 코어 수와 성능을 단순 연결하지 않고 병렬화 가능 구간과 공유 자원 병목을 함께 보도록 작성함

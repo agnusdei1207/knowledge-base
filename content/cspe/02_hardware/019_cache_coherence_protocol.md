@@ -18,13 +18,13 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 캐시 일관성 프로토콜은 멀티코어 환경에서 각 코어 캐시에 존재하는 동일 주소 데이터의 상태를 관리해 모든 코어가 의미적으로 일관된 값을 보도록 하는 하드웨어 통신 규약임
+- **정의/개념**: 캐시 일관성 프로토콜은 멀티코어 환경에서 각 코어 캐시에 존재하는 동일 주소 데이터의 상태를 관리해 모든 코어가 논리적으로 일관된 값을 보도록 하는 하드웨어 통신 규약임
 - **배경/필요성**: 각 코어가 private cache를 가지면 한 코어가 수정한 데이터와 다른 코어가 읽는 데이터가 달라질 수 있으므로, 상태 전이와 무효화 규칙이 반드시 필요함
 
 ## Ⅱ. 특징
 
 - MESI는 단순하고 널리 쓰이는 기본 일관성 모델임
-- MOESI는 Owned 상태를 추가해 메모리 쓰기 없이 dirty data 공유를 줄일 수 있음
+- MOESI는 Owned 상태를 추가해 메모리 쓰기 없이 dirty 데이터 공유를 줄일 수 있음
 - 일관성 유지에는 invalidate와 snoop 메시지 비용이 수반됨
 - false sharing이 심하면 프로토콜 자체보다 데이터 배치가 더 큰 병목이 될 수 있음
 
@@ -36,6 +36,8 @@ extra:
 | 추가 상태 | 없음 | Owned |
 | 장점 | 구현 단순 | 메모리 트래픽 절감 |
 | 한계 | dirty 공유 시 메모리 트래픽 증가 | 상태 전이 복잡도 증가 |
+
+> 요약: MESI는 단순하고, MOESI는 Owned 상태로 dirty 데이터 공유 시 메모리 트래픽을 줄임.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -57,6 +59,8 @@ extra:
    +----------------------+
 ```
 
+> 요약: 캐시 라인 상태, 무효화, 데이터 전달 경로가 최신 데이터 공유 방식을 결정함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,20 @@ extra:
 3. **무효화 또는 전달 수행**: 필요한 메시지와 데이터 전송을 처리함
 4. **최신 상태 반영**: 각 캐시가 프로토콜 상태에 맞게 갱신됨
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 일관성 프로토콜은 공유 상태를 확인하고 상태 전이, 무효화, 데이터 전달로 최신성을 맞춤.
 
-1. 문제: 코어 수와 공유 데이터가 늘면 invalidate와 snoop 메시지가 급증해 버스와 네트워크 병목이 커짐
-   - 해결방안: directory 기반 제어와 snoop filter를 적용하고 coherence traffic ratio와 bus utilization으로 검증함
-2. 문제: false sharing이 심하면 실제 공유하지 않는 변수도 반복 무효화되어 성능이 떨어질 수 있음
-   - 해결방안: cache line aware padding을 적용하고 false sharing miss ratio와 write invalidate rate로 검증함
-3. 문제: MOESI처럼 상태가 늘어나면 구현과 검증 복잡도가 커져 corner case 오류가 생길 수 있음
-   - 해결방안: formal state verification을 수행하고 protocol bug count와 validation coverage로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 코어 수와 공유 데이터가 늘면 invalidate·snoop 메시지가 버스 병목을 만들 수 있으므로 directory 제어와 snoop filter를 적용하고 coherence traffic ratio, bus utilization으로 확인함
+2. false sharing은 실제로 공유하지 않는 변수까지 반복 무효화하므로 cache line aware padding을 적용하고 false sharing miss ratio, write invalidate rate로 확인함
+3. MOESI처럼 상태 수가 늘면 corner case 오류가 생기기 쉬우므로 formal state verification을 수행하고 protocol bug count, validation coverage로 확인함
 
-- 다코어 서버에서는 디렉터리 제어를 적용하고, coherence traffic ratio와 bus utilization으로 검증함
-- 고성능 병렬 코드에서는 패딩을 적용하고, false sharing miss ratio와 write invalidate rate로 검증함
-- 프로토콜 검증 환경에서는 상태 전이 검증 범위를 넓히고, protocol bug count와 validation coverage로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-캐시 일관성 프로토콜의 판단 기준은 상태 이름 암기가 아니라 최신 데이터를 낮은 통신 비용으로 공유하는 구조를 설계하는 데 있음.
+캐시 일관성 프로토콜은 상태 이름 암기가 아니라 최신 데이터 공유와 통신 비용 통제를 함께 설계하는 기준임.
 
 ## 작성 근거(검토용)
 
 - MESI/MOESI는 상태 이름 나열보다 상태 전이, 무효화, 데이터 전달 규칙이 답안 판단에 필요함
-- 추상 표현은 공유 패턴, invalidate 수, 프로토콜 상태 갱신으로 좁힘
+- 모호한 표현은 공유 패턴, invalidate 수, 프로토콜 상태 갱신으로 좁힘
 - 결론은 상태 암기가 아니라 최신 데이터와 통신 비용의 동시 관리로 정리함

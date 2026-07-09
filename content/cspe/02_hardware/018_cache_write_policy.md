@@ -13,7 +13,7 @@ extra:
 ## 미리 알고가기
 
 - 캐시 쓰기 정책은 수정 데이터를 언제 메모리에 반영할지 정하는 규칙임
-- Write-Through는 즉시 반영, Write-Back은 나중 반영 구조임
+- Write-Through는 즉시 반영, Write-Back은 교체 시 반영 구조임
 - Write miss 시 allocate 정책과 함께 봐야 함
 
 ## Ⅰ. 개요
@@ -37,6 +37,8 @@ extra:
 | 한계 | 메모리 트래픽 큼 | dirty 관리와 복구 복잡 |
 | 대표 조합 | no-write-allocate | write-allocate |
 
+> 요약: Write-Through는 최신성 관리가 쉽고, Write-Back은 메모리 트래픽을 줄임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -57,6 +59,8 @@ extra:
 +--------------+
 ```
 
+> 요약: dirty bit, write buffer, eviction logic이 메모리 반영 시점과 지연을 제어함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,20 @@ extra:
 3. **캐시와 메모리 갱신**: 정책에 맞게 즉시 또는 지연 반영함
 4. **교체와 반영 처리**: dirty 상태면 메모리에 기록함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 쓰기 정책은 요청 위치와 dirty 상태를 보고 즉시 반영할지 교체 시 반영할지 결정함.
 
-1. 문제: Write-Through는 잦은 메모리 쓰기로 버스와 대역폭 병목이 커짐
-   - 해결방안: write buffer를 두고 burst merge를 적용하며 buffer full rate와 memory traffic ratio로 검증함
-2. 문제: Write-Back은 전원 차단이나 DMA 접근 시 최신 데이터 가시성이 깨질 수 있음
-   - 해결방안: coherence protocol과 flush policy를 운영하고 stale memory read count와 flush latency로 검증함
-3. 문제: write miss 정책이 워크로드와 맞지 않으면 캐시 오염이나 지연이 불필요하게 증가함
-   - 해결방안: allocate policy를 workload에 맞춰 선택하고 write miss penalty와 cache pollution ratio로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. Write-Through는 잦은 메모리 쓰기로 버스 병목이 커지므로 write buffer와 burst merge를 적용하고 buffer full rate, memory traffic ratio로 확인함
+2. Write-Back은 전원 차단·DMA 접근 시 최신성 문제가 생길 수 있으므로 coherence protocol과 flush policy를 운영하고 stale memory read count, flush latency로 확인함
+3. write miss 정책이 접근 패턴과 맞지 않으면 캐시 오염과 지연이 늘어나므로 allocate policy를 조정하고 write miss penalty, cache pollution ratio로 확인함
 
-- 고성능 CPU 캐시에서는 write buffer를 활용하고, buffer full rate와 memory traffic ratio로 검증함
-- DMA가 많은 시스템에서는 flush 정책을 명시하고, stale memory read count와 flush latency로 검증함
-- 저장 패턴이 다양한 플랫폼에서는 allocate 정책을 조정하고, write miss penalty와 cache pollution ratio로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-캐시 쓰기 정책의 선택은 단순한 속도 비교가 아니라 메모리 트래픽과 일관성과 복구 비용 사이에서 어떤 균형을 택할지의 문제임.
+캐시 쓰기 정책은 속도보다 메모리 트래픽, 최신성, 복구 비용 중 무엇을 우선할지 정하는 선택 기준임.
 
 ## 작성 근거(검토용)
 
 - 쓰기 정책은 빠름/느림이 아니라 메모리 반영 시점, dirty bit, write buffer, eviction 절차로 설명함
-- 추상 표현은 메모리 최신성, 트래픽, dirty 관리로 구체화함
+- 모호한 표현은 메모리 최신성, 트래픽, dirty 관리로 구체화함
 - 결론은 속도 비교가 아니라 트래픽, 일관성, 복구 비용의 선택 문제로 유지함
