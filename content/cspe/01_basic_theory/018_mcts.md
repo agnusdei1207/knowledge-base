@@ -1,5 +1,5 @@
 ---
-title: "몬테카를로 트리탐색 MCTS (Monte Carlo Tree Search)"
+title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
