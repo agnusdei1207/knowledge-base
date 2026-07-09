@@ -37,6 +37,8 @@ extra:
 | 코드 밀도 | Thumb 등으로 보완 | 높은 편 |
 | 대표 시장 | 모바일·임베디드·확대 중인 서버 | PC·서버 |
 
+> 요약: ARM은 전력 효율과 SoC 통합, x86-64는 레거시 호환성과 고성능 범용성이 선택 기준임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -57,6 +59,8 @@ extra:
 +----------------+
 ```
 
+> 요약: ARM 구조는 실행 상태, 권한 레벨, 레지스터, 확장 명령이 함께 동작해 OS와 SoC 요구를 맞춤.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,19 @@ extra:
 3. **명령어 수행**: 일반 연산과 벡터 확장을 수행함
 4. **예외 처리**: 인터럽트와 예외를 해당 레벨에서 처리함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: ARM 실행은 상태와 권한 레벨을 먼저 정하고 명령 수행과 예외 처리를 연결해야 안정적으로 동작함.
 
-1. 문제: 32비트와 64비트 상태가 혼재하면 포팅과 ABI 호환성이 복잡해질 수 있음
-   - 해결방안: target ABI를 명확히 고정하고 compatibility defect count와 porting lead time으로 검증함
-2. 문제: 저전력 설계만 강조하면 고성능 워크로드에서 메모리와 벡터 처리 병목이 드러날 수 있음
-   - 해결방안: workload별 core type과 vector extension을 조정하고 perf per watt와 vector utilization으로 검증함
-3. 문제: 권한 모드와 보안 확장을 잘못 구성하면 하이퍼바이저와 보안 영역 분리가 약해질 수 있음
-   - 해결방안: privilege design review를 수행하고 isolation violation count와 secure boot pass rate로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 32비트와 64비트 상태가 혼재하는 포팅은 target ABI를 고정하고 compatibility defect count와 porting lead time으로 검증함
+2. 고성능·보안 민감 SoC는 core type, vector extension, 권한 설계를 함께 조정하고 perf per watt, vector utilization, isolation violation count로 확인함
 
-- 모바일 AP 포팅에서는 ABI를 고정하고, compatibility defect count와 porting lead time으로 검증함
-- 엣지 AI SoC에서는 벡터 확장을 조정하고, perf per watt와 vector utilization으로 검증함
-- 보안 민감 임베디드 장치에서는 권한 설계를 검토하고, isolation violation count와 secure boot pass rate로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-ARM 아키텍처의 판단 기준은 단순 RISC 여부가 아니라 전력 예산, 실행 모드, SoC 생태계를 장치 요구에 맞추는 데 있음.
+- ARM 아키텍처의 판단 기준은 단순 RISC 여부가 아니라 전력 예산, 실행 모드, SoC 생태계를 장치 요구에 맞추는 데 있음
 
 ## 작성 근거(검토용)
 
 - ARM을 단순히 저전력으로만 설명하지 않고 실행 상태, 예외 레벨, 확장 명령, SoC 통합으로 분해함
 - `성능보다`라는 이분법은 서버 ARM까지 포괄하지 못하므로 전력 예산과 IP 통합 조건으로 고침
-- 적용 사례는 ABI, 벡터 활용, 보안 격리처럼 ARM 도입 시 실제로 확인할 항목에 맞춤
+- 유의점은 ABI, 벡터 활용, 보안 격리처럼 ARM 도입 시 실제로 확인할 항목과 연결함

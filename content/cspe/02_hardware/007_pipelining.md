@@ -37,6 +37,8 @@ extra:
 | 한계 | 자원 활용 낮음 | 해저드 관리 필요 |
 | 적합 환경 | 단순 MCU | 범용 CPU 기본 구조 |
 
+> 요약: 파이프라인은 명령어 지연시간보다 단위 시간당 완료 명령 수를 높이는 구조임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -52,6 +54,8 @@ extra:
 +-----+     +-----+     +-----+     +-----+     +-----+
 ```
 
+> 요약: 5단계 파이프라인은 인출, 해독, 실행, 메모리, 기록을 나눠 서로 다른 명령어가 동시에 진행되게 함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -65,27 +69,19 @@ extra:
 3. **연산과 주소 계산**: EX가 연산 또는 주소 계산을 수행함
 4. **메모리와 기록**: MEM과 WB가 결과를 반영함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 파이프라인 성능은 단계 균형과 해저드 비용이 기대 처리량을 얼마나 보존하는지로 결정됨.
 
-1. 문제: 단계 시간 불균형이 크면 가장 느린 단계가 전체 처리량 상한을 결정함
-   - 해결방안: stage balancing과 latch 조정을 수행하고 cycle time과 stage utilization으로 검증함
-2. 문제: 명령어 의존성과 분기 때문에 파이프라인이 자주 멈추면 기대 처리량이 크게 감소함
-   - 해결방안: forwarding과 branch prediction을 적용하고 CPI와 stall ratio로 검증함
-3. 문제: 파이프라인이 깊어질수록 예측 실패와 flush 비용이 커짐
-   - 해결방안: pipeline depth를 workload에 맞게 조정하고 branch misprediction penalty와 perf per watt로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 단계 시간 불균형이나 명령어 의존성이 크면 stage balancing, latch 조정, forwarding을 적용하고 cycle time, stage utilization, CPI로 검증함
+2. 깊은 파이프라인은 분기 예측 실패와 flush 비용이 커지므로 pipeline depth와 branch prediction을 워크로드에 맞추고 branch misprediction penalty와 perf per watt로 확인함
 
-- 범용 CPU 설계에서는 단계 균형을 조정하고, cycle time과 stage utilization으로 검증함
-- 서버 프로세서에서는 해저드 완화 기법을 적용하고, CPI와 stall ratio로 검증함
-- 저전력 코어 설계에서는 깊이를 조정하고, branch misprediction penalty와 perf per watt로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-파이프라이닝의 판단 기준은 단계를 많이 나누는 데 있지 않고 각 단계를 균형 있게 겹쳐 하드웨어 유휴 시간을 줄이는 데 있음.
+- 파이프라이닝의 판단 기준은 단계를 많이 나누는 데 있지 않고 각 단계를 균형 있게 겹쳐 하드웨어 유휴 시간을 줄이는 데 있음
 
 ## 작성 근거(검토용)
 
 - 파이프라이닝의 판단 축을 속도 일반론이 아니라 처리량, 단계 균형, 해저드 비용으로 제한함
-- 추상 표현은 단위 시간당 완료 명령 수와 stage utilization으로 풀어 씀
+- 모호한 표현은 단위 시간당 완료 명령 수와 stage utilization으로 구체화함
 - 결론은 단계 수 자체가 아니라 단계 중첩과 유휴 시간 감소가 판단 대상임을 드러냄

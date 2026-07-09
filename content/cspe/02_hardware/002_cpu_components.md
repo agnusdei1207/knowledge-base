@@ -37,6 +37,8 @@ extra:
 | 조정 지점 | 병렬 연산기 | 분기 예측·OoO | 레지스터 파일 | 폭·포트 확장 |
 | 대표 지표 | IPC 기여도 | branch accuracy | register pressure | bus utilization |
 
+> 요약: CPU 병목은 연산, 제어, 저장, 전달 경로 중 어느 지점에서 대기가 생기는지로 구분함.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -57,6 +59,8 @@ extra:
            +----------------------+
 ```
 
+> 요약: ALU, CU, 레지스터 파일, 내부 버스는 명령어 실행 사이클을 나누어 담당함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,19 @@ extra:
 3. **연산 수행**: ALU가 필요한 산술·논리 연산을 처리함
 4. **결과 기록**: 결과를 레지스터나 메모리에 반영함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: CPU는 명령어 인출, 해독, 연산, 기록을 반복하며 각 단계의 대기가 전체 처리량을 제한함.
 
-1. 문제: 메모리 접근 속도가 ALU 처리 속도를 따라가지 못하면 CPU 유휴 시간이 커짐
-   - 해결방안: 캐시 계층과 prefetch 정책을 보강하고 cache miss rate와 memory stall cycle로 검증함
-2. 문제: 분기와 명령 해독 부담이 커지면 CU가 실행 유닛을 충분히 채우지 못함
-   - 해결방안: branch prediction과 out-of-order execution을 적용하고 branch accuracy와 issue utilization으로 검증함
-3. 문제: 내부 버스와 레지스터 포트가 부족하면 다수 유닛이 있어도 실제 병렬성이 제한될 수 있음
-   - 해결방안: datapath 폭과 port 설계를 조정하고 bus utilization과 register port contention으로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 메모리 접근 속도가 ALU 처리 속도를 따라가지 못하면 캐시 계층과 prefetch 정책을 보강하고 cache miss rate와 memory stall cycle로 검증함
+2. 분기·해독·내부 전달 경로가 실행 유닛을 충분히 채우지 못하면 branch prediction, out-of-order execution, datapath 폭과 port 설계를 조정하고 branch accuracy, issue utilization, bus utilization으로 확인함
 
-- 서버 CPU 튜닝에서는 메모리 병목을 줄이고, cache miss rate와 memory stall cycle로 검증함
-- 모바일 AP 설계에서는 분기 제어를 조정하고, branch accuracy와 issue utilization으로 검증함
-- AI 가속기 설계에서는 데이터 경로를 확장하고, bus utilization과 register port contention으로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-CPU 성능은 단일 클록 수치보다 ALU와 CU와 레지스터와 버스가 얼마나 균형 있게 협력하는지에서 결정됨.
+- CPU 성능은 단일 클록 수치보다 ALU, CU, 레지스터, 버스가 얼마나 균형 있게 협력하는지에서 결정됨
 
 ## 작성 근거(검토용)
 
 - CPU를 연산, 제어, 저장, 전달 경로로 나눠 병목 위치를 답안에서 바로 표시하도록 구성함
-- 추상 표현은 분기 제어, 실행 흐름, 대기 지표로 바꿈
-- 적용 사례는 각 구성요소의 병목을 어떤 지표로 확인하는지 연결되도록 수정함
+- 모호한 표현은 분기 제어, 실행 흐름, 대기 지표로 구체화함
+- 유의점은 각 구성요소의 병목을 어떤 지표로 확인하는지 연결되도록 수정함

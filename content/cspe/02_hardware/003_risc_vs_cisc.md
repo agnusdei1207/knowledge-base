@@ -37,6 +37,8 @@ extra:
 | 장점 | 규칙적 해독·파이프라인 구성 | 코드 밀도·생태계 호환성 |
 | 대표 계열 | ARM, RISC-V | x86 |
 
+> 요약: RISC는 단순 해독과 파이프라인, CISC는 코드 밀도와 호환성이 선택 기준임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -57,6 +59,8 @@ extra:
 +---------------+
 ```
 
+> 요약: ISA 형식은 해독 로직과 실행 경로를 거쳐 실제 마이크로아키텍처 비용으로 이어짐.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,19 @@ extra:
 3. **내부 실행 단위화**: 필요 시 복합 명령을 u-op로 분해함
 4. **연산 수행**: 실행 유닛이 실제 연산을 수행함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 현대 CPU는 외부 ISA 철학과 내부 실행 방식이 다를 수 있으므로 해독 비용과 실행 경로를 함께 판단해야 함.
 
-1. 문제: CISC는 가변 길이 해독과 u-op 분해 부담이 커서 전력과 지연 비용이 증가함
-   - 해결방안: u-op cache와 병렬 decoder를 적용하고 decode bandwidth와 perf per watt로 검증함
-2. 문제: RISC는 단순 명령어 중심이라 같은 기능을 위해 코드 크기가 커짐
-   - 해결방안: compressed instruction과 compiler optimization을 적용하고 binary size와 i-cache hit rate로 검증함
-3. 문제: ISA 철학만 보고 선택하면 실제 워크로드와 생태계 제약을 놓칠 수 있음
-   - 해결방안: workload fit과 toolchain maturity를 함께 평가하고 software porting effort와 benchmark score로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. CISC는 가변 길이 해독과 u-op 분해 부담이 크므로 u-op cache와 병렬 decoder를 적용하고 decode bandwidth와 perf per watt로 검증함
+2. RISC는 같은 기능의 코드 크기와 생태계 제약을 함께 판단해야 하므로 compressed instruction, compiler optimization, toolchain maturity를 평가하고 binary size, i-cache hit rate, benchmark score로 확인함
 
-- 모바일 프로세서에서는 RISC 계열을 선택하고, perf per watt와 i-cache hit rate로 검증함
-- 레거시 서버 플랫폼에서는 CISC 계열을 유지하고, software porting effort와 single-thread performance로 검증함
-- 신규 SoC 설계에서는 압축 명령과 toolchain을 함께 검토하고, binary size와 benchmark score로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-RISC와 CISC의 실무 선택 기준은 명령어 수 자체가 아니라 파이프라인 구성, 코드 밀도, 생태계 호환성 중 무엇을 우선할지에 있음.
+- RISC와 CISC의 실무 선택 기준은 명령어 수 자체가 아니라 파이프라인 구성, 코드 밀도, 생태계 호환성 중 무엇을 우선할지에 있음
 
 ## 작성 근거(검토용)
 
 - RISC/CISC를 속도 우열이 아니라 해독 규칙, 코드 밀도, 호환성의 선택 문제로 정리함
-- 넓은 단어는 ISA 형식과 파이프라인 구성이라는 판단 축으로 좁힘
+- 범위가 넓은 표현은 ISA 형식과 파이프라인 구성이라는 판단 기준으로 좁힘
 - 현대 CPU는 외부 ISA와 내부 u-op 실행이 다를 수 있으므로 구성요소에 decode와 execution path를 분리함

@@ -37,6 +37,8 @@ extra:
 | 장점 | 단순성 | 기존 바이너리 활용 | 하드웨어 단순화 |
 | 한계 | IPC 상한 낮음 | 회로 복잡도 높음 | 바이너리 유연성 낮음 |
 
+> 요약: 슈퍼스칼라는 하드웨어가 동적으로 ILP를 찾아 기존 바이너리의 IPC를 높이는 구조임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -57,6 +59,8 @@ extra:
                                          +---------------+
 ```
 
+> 요약: 슈퍼스칼라는 넓은 front-end, 의존성 검사, 복수 실행 유닛, ROB로 병렬 실행과 순차 확정을 함께 처리함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,27 +74,19 @@ extra:
 3. **병렬 발행**: 실행 유닛에 동시에 배치함
 4. **순차 retire**: 결과를 프로그램 순서대로 확정함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 슈퍼스칼라는 발행 폭보다 실제 코드의 독립 명령어와 의존성 검사 비용이 성능을 좌우함.
 
-1. 문제: 프로그램 내 독립 명령어가 부족하면 넓은 실행 유닛이 있어도 유휴 슬롯이 많아질 수 있음
-   - 해결방안: register renaming과 out-of-order execution을 적용하고 issue slot utilization과 IPC로 검증함
-2. 문제: 발행 폭 확대로 dependency check와 스케줄링 로직이 복잡해지면 전력과 면적이 급증함
-   - 해결방안: clustered design과 selective width를 적용하고 area efficiency와 perf per watt로 검증함
-3. 문제: 분기 예측 실패 시 여러 명령어가 한꺼번에 폐기되어 손실이 커짐
-   - 해결방안: front-end prediction 품질을 높이고 misprediction penalty와 wasted uop ratio로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 독립 명령어가 부족하면 넓은 실행 유닛도 유휴 슬롯이 늘어나므로 register renaming과 out-of-order execution을 적용하고 issue slot utilization과 IPC로 검증함
+2. 발행 폭 확대와 분기 실패는 전력·면적·폐기 비용을 키우므로 clustered design, selective width, front-end prediction을 조정하고 area efficiency, perf per watt, wasted uop ratio로 확인함
 
-- 고성능 서버 CPU에서는 OoO를 적용하고, issue slot utilization과 IPC로 검증함
-- 모바일 고성능 코어에서는 발행 폭을 조정하고, area cost와 perf per watt로 검증함
-- 분기 많은 워크로드에서는 예측기를 적용하고, misprediction penalty와 wasted uop ratio로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-슈퍼스칼라의 판단 기준은 실행 유닛 수가 아니라 실제 코드에서 병렬로 실행할 수 있는 명령어를 얼마나 찾아내는지에 있음.
+- 슈퍼스칼라의 판단 기준은 실행 유닛 수가 아니라 실제 코드에서 병렬 실행 가능한 명령어를 얼마나 찾아내는지에 있음
 
 ## 작성 근거(검토용)
 
 - 슈퍼스칼라는 실행 유닛 개수보다 동적 의존성 분석과 발행 폭의 제약을 설명해야 하므로 해당 흐름으로 구성함
-- 추상 표현은 기존 바이너리 활용, issue slot utilization, IPC처럼 채점자가 확인 가능한 말로 바꿈
+- 모호한 표현은 기존 바이너리 활용, issue slot utilization, IPC처럼 채점자가 확인 가능한 말로 구체화함
 - 결론은 하드웨어가 실제 코드에서 병렬 발행 가능한 명령을 찾는 절차에 초점을 둠

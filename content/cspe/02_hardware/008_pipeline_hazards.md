@@ -26,7 +26,7 @@ extra:
 - 구조적 해저드는 동일 자원 경쟁에서 발생함
 - 데이터 해저드는 결과가 준비되기 전에 다음 명령이 값을 필요로 할 때 생김
 - 제어 해저드는 분기 결과 미확정으로 다음 경로가 불분명할 때 발생함
-- 해저드 대응 회로는 CPI, 전력, 면적 비용을 함께 바꿈
+- 해저드 대응 회로는 CPI, 전력, 면적 비용을 함께 변화시킴
 
 ## Ⅲ. 종류 및 비교
 
@@ -36,6 +36,8 @@ extra:
 | 대표 사례 | 단일 메모리 포트 경쟁 | RAW | branch/jump |
 | 대표 대응 | 자원 분리·증설 | forwarding·stall | branch prediction |
 | 검증 지표 | resource conflict rate | data stall ratio | misprediction rate |
+
+> 요약: 구조적 해저드는 자원, 데이터 해저드는 값 의존성, 제어 해저드는 분기 경로가 원인임.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -56,6 +58,8 @@ extra:
             +--> Branch Control
 ```
 
+> 요약: 해저드 대응은 감지, 우회 전달, 자원 분리, 분기 제어가 함께 파이프라인 흐름을 복구함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -66,30 +70,22 @@ extra:
 
 1. **충돌 감지**: 단계별 명령어 상태를 비교함
 2. **유형 분류**: 구조적·데이터·제어 해저드로 구분함
-3. **stall 또는 bypass 결정**: 가장 비용이 낮은 대응을 고름
+3. **stall 또는 bypass 결정**: 비용이 낮은 대응을 선택함
 4. **실행 재개**: 파이프라인을 정상 흐름으로 되돌림
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 해저드 처리는 충돌 유형을 분류한 뒤 stall, bypass, 예측, 자원 분리 중 비용이 낮은 방법을 선택하는 절차임.
 
-1. 문제: 데이터 의존성이 많은 코드에서는 stall과 bubble이 누적되어 CPI가 급격히 악화될 수 있음
-   - 해결방안: forwarding과 instruction scheduling을 결합하고 data stall ratio와 CPI로 검증함
-2. 문제: 분기 예측 실패가 잦으면 깊은 파이프라인에서 flush 비용이 크게 확대될 수 있음
-   - 해결방안: 동적 branch predictor를 적용하고 misprediction rate와 flush penalty로 검증함
-3. 문제: 자원 충돌을 하드웨어 증설만으로 해결하면 면적과 전력 비용이 과도해질 수 있음
-   - 해결방안: modified Harvard 구조와 selective duplication을 적용하고 resource conflict rate와 area cost로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 데이터 의존성과 분기 예측 실패가 많으면 forwarding, instruction scheduling, 동적 branch predictor를 적용하고 data stall ratio, CPI, misprediction rate로 검증함
+2. 자원 충돌을 하드웨어 증설만으로 해결하면 면적과 전력이 커지므로 modified Harvard 구조와 selective duplication을 적용하고 resource conflict rate와 area cost로 확인함
 
-- 컴파일러 스케줄링에서는 명령 순서를 조정하고, data stall ratio와 CPI로 검증함
-- 고성능 CPU 설계에서는 분기 예측기를 적용하고, misprediction rate와 flush penalty로 검증함
-- 임베디드 코어 설계에서는 선택적 자원 분리를 적용하고, resource conflict rate와 area cost로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-파이프라인 해저드는 병렬화의 부작용이므로 처리량 개선은 해저드 자체를 없애는 것이 아니라 가장 낮은 비용으로 통제하는 구조 설계에 달려 있음.
+- 파이프라인 해저드는 병렬화의 부작용이므로 처리량 개선은 해저드 제거가 아니라 낮은 비용으로 통제하는 구조 설계에 달려 있음
 
 ## 작성 근거(검토용)
 
 - 해저드를 구조적, 데이터, 제어 원인으로 나눠 문제 원인과 대응 기법이 바로 연결되게 구성함
-- 추상 표현 대신 stall, flush, CPI, 면적 비용처럼 확인 가능한 단어를 사용함
+- 모호한 표현 대신 stall, flush, CPI, 면적 비용처럼 확인 가능한 단어를 사용함
 - 결론은 해저드 제거가 아니라 비용 대비 통제라는 파이프라인 설계 판단으로 정리함

@@ -19,14 +19,14 @@ extra:
 ## Ⅰ. 개요
 
 - **정의/개념**: 포워딩은 연산 결과를 레지스터 기록 전에 다음 명령어로 직접 우회 전달해 데이터 대기를 줄이는 기법이고, 분기 예측은 분기 결과가 확정되기 전에 다음 실행 경로를 추정해 파이프라인 정지를 줄이는 기법임
-- **배경/필요성**: 파이프라인이 깊어질수록 값 대기와 분기 대기로 인한 stall이 크게 늘어나므로, 대기 자체를 줄이기 위한 하드웨어 수준 개입이 필요함
+- **배경/필요성**: 파이프라인이 깊어질수록 값 대기와 분기 대기로 인한 stall이 늘어나므로, 대기 자체를 줄이는 하드웨어 개입이 필요함
 
 ## Ⅱ. 특징
 
 - 포워딩은 준비된 결과를 바로 전달해 RAW 해저드를 완화함
 - 분기 예측은 speculative execution 기반으로 제어 해저드를 줄임
 - 포워딩은 load-use 상황처럼 완전히 없애지 못하는 대기가 남을 수 있음
-- 분기 예측은 실패 시 flush 패널티가 크게 발생함
+- 분기 예측은 실패 시 flush 패널티가 발생함
 
 ## Ⅲ. 종류 및 비교
 
@@ -36,6 +36,8 @@ extra:
 | 동작 원리 | bypass 경로 전달 | 다음 경로 추정 |
 | 실패 형태 | 남은 stall | flush 발생 |
 | 검증 지표 | load-use stall | branch accuracy |
+
+> 요약: 포워딩은 값 대기를 줄이고, 분기 예측은 경로 대기를 줄이는 해저드 대응 기법임.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -54,6 +56,8 @@ extra:
             +--> Branch Predictor --> Recovery Logic
 ```
 
+> 요약: 포워딩은 우회 경로를, 분기 예측은 예측기와 복구 로직을 통해 파이프라인 정지를 줄임.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -67,27 +71,19 @@ extra:
 3. **투기 또는 우회 실행**: 파이프라인 진행을 유지함
 4. **결과 확정과 복구**: 올바르면 유지하고 틀리면 복구함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 포워딩·분기 예측은 파이프라인 진행을 유지하지만 값 준비 지연과 예측 실패는 별도 복구 비용을 남김.
 
-1. 문제: load-use 상황에서는 포워딩을 써도 메모리 값이 늦게 준비되어 stall이 남을 수 있음
-   - 해결방안: compiler scheduling과 prefetch를 병행하고 load-use stall rate와 memory latency hiding ratio로 검증함
-2. 문제: 분기 예측 실패가 많으면 speculative 실행 이점보다 flush 손실이 더 커짐
-   - 해결방안: predictor sophistication을 workload에 맞추고 branch accuracy와 MPKI로 검증함
-3. 문제: 우회 경로와 예측기가 복잡해질수록 전력과 검증 비용이 증가함
-   - 해결방안: 자주 쓰는 경로 위주로 조정하고 perf per watt와 verification effort로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. load-use 상황은 포워딩 후에도 stall이 남을 수 있으므로 compiler scheduling과 prefetch를 병행하고 load-use stall rate와 memory latency hiding ratio로 검증함
+2. 분기 예측기와 우회 경로는 복잡할수록 전력·검증 비용이 커지므로 워크로드에 맞는 predictor와 자주 쓰는 경로 위주로 조정하고 branch accuracy, MPKI, perf per watt로 확인함
 
-- 컴파일러 최적화에서는 load-use 대기를 줄이고, load-use stall rate와 memory latency hiding ratio로 검증함
-- 서버 CPU 설계에서는 예측기를 고도화하고, branch accuracy와 MPKI로 검증함
-- 저전력 코어 설계에서는 자주 쓰는 경로만 조정하고, perf per watt와 verification effort로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-포워딩과 분기 예측의 본질은 파이프라인을 멈추지 않게 만드는 적극적 개입이지만, 그 효과는 실패 비용까지 포함해 균형 있게 설계할 때만 유지됨.
+- 포워딩과 분기 예측은 파이프라인 정지를 줄이는 개입이지만, 효과는 잔여 stall과 flush 비용까지 포함해 설계할 때 유지됨
 
 ## 작성 근거(검토용)
 
 - 포워딩은 RAW 값 대기, 분기 예측은 제어 흐름 대기라는 서로 다른 해저드 대응으로 분리함
-- 근거가 약한 표현은 자주 쓰는 경로와 검증 노력으로 표현을 좁힘
+- 모호한 표현은 자주 쓰는 경로와 검증 노력으로 좁힘
 - 결론은 CPI 감소만이 아니라 load-use 잔여 stall과 misprediction flush 비용까지 포함해 판단하도록 작성함

@@ -23,7 +23,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 레거시 x86 생태계와의 호환성이 매우 강함
+- 레거시 x86 생태계와의 호환성이 강함
 - 가변 길이 명령어와 복합 해독 구조를 유지함
 - 64비트 주소 공간과 추가 레지스터로 대용량 메모리 접근과 register allocation이 쉬워짐
 - 내부적으로는 u-op 분해와 OoO 실행 같은 복잡한 마이크로아키텍처에 의존함
@@ -36,6 +36,8 @@ extra:
 | 범용 레지스터 | 상대적으로 적음 | 확장된 레지스터 집합 |
 | 장점 | 광범위한 레거시 호환 | 대용량 메모리와 추가 레지스터 |
 | 대표 시장 | 과거 PC 중심 | 현재 PC·서버 주류 |
+
+> 요약: x86-64는 x86 호환성을 유지하면서 주소 공간과 레지스터 모델을 확장한 구조임.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -57,6 +59,8 @@ extra:
 +-------------------+
 ```
 
+> 요약: x86-64는 가변 길이 ISA를 u-op로 변환해 복잡한 내부 실행 코어에 투입함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,24 +74,16 @@ extra:
 3. **u-op 분해**: 내부 실행 단위로 변환함
 4. **OoO 실행**: 실행 유닛이 재배치된 순서로 처리함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: x86-64 실행은 호환성 있는 바이트열을 해독해 내부 실행 단위로 바꾸는 front-end 비용이 핵심임.
 
-1. 문제: 가변 길이 해독과 호환성 유지 비용이 커서 front-end 전력과 복잡도가 증가함
-   - 해결방안: u-op cache와 decode prefetch를 활용하고 decode bandwidth와 front-end power로 검증함
-2. 문제: 복잡한 실행 코어는 보안 취약점과 검증 부담을 함께 키울 수 있음
-   - 해결방안: speculative execution 제어와 microcode patch를 운영하고 vulnerability exposure count와 patch latency로 검증함
-3. 문제: 레거시 호환성을 지나치게 끌고 가면 플랫폼 단순화와 구조 조정 여지가 줄어들 수 있음
-   - 해결방안: ABI와 deployment target을 정리하고 legacy dependency ratio와 modernization effort로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 가변 길이 해독과 호환성 유지 비용이 front-end 전력과 복잡도를 키우므로 u-op cache와 decode prefetch를 활용하고 decode bandwidth와 front-end power로 검증함
+2. 투기 실행과 레거시 호환성은 보안·현대화 부담을 키우므로 speculative execution 제어, microcode patch, ABI 정리를 적용하고 vulnerability exposure count, patch latency, legacy dependency ratio로 확인함
 
-- 서버 CPU 설계에서는 front-end를 조정하고, decode bandwidth와 front-end power로 검증함
-- 보안 운영에서는 투기 실행 제어를 적용하고, vulnerability exposure count와 patch latency로 검증함
-- 레거시 시스템 현대화에서는 의존성을 정리하고, legacy dependency ratio와 modernization effort로 검증함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
-
-x86-64의 본질은 단순한 64비트 전환이 아니라 호환성을 유지한 채 복잡한 내부 구조로 성능을 끌어올리는 타협의 아키텍처라는 데 있음.
+- x86-64의 본질은 단순한 64비트 전환이 아니라 호환성을 유지한 채 복잡한 내부 구조로 성능을 끌어올리는 설계 타협에 있음
 
 ## 작성 근거(검토용)
 
