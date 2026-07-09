@@ -59,6 +59,8 @@ send: Source -> Source Encoder -> Channel Encoder -> Noisy Channel
 recv: Sink   <- Source Decoder <- Channel Decoder <- Received Signal
 ```
 
+> 요약: 송신 측은 압축 후 보호 비트를 붙이고 수신 측은 오류 정정 후 압축을 해제함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,6 +73,8 @@ recv: Sink   <- Source Decoder <- Channel Decoder <- Received Signal
 2. 압축 비트열에 채널 상태에 맞는 오류 정정 부호를 붙임
 3. 수신 측은 신드롬이나 패리티로 오류 위치를 추정함
 4. 오류 정정 후 소스 복호를 수행해 원본 메시지를 복원함
+
+> 요약: 소스 코딩과 채널 코딩은 순서가 반대인 복호 절차까지 함께 설계해야 함.
 
 ## Ⅵ. 실무 적용 및 유의점
 

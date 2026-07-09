@@ -62,6 +62,8 @@ confidence interval:
 estimate +/- critical_value * standard_error
 ```
 
+> 요약: 검정은 기각 결정을 만들고 신뢰 구간은 추정값의 불확실성 폭을 보여줌.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -75,6 +77,8 @@ estimate +/- critical_value * standard_error
 3. 표본 데이터로 검정 통계량과 p-value를 계산함
 4. p-value와 유의 수준을 비교해 기각 여부를 판단함
 5. 신뢰 구간으로 효과 크기와 불확실성을 함께 해석함
+
+> 요약: 표본 판단은 p-value로 결정을 내리고 신뢰 구간으로 효과 크기를 해석할 때 완성됨.
 
 ## Ⅵ. 실무 적용 및 유의점
 
