@@ -13,7 +13,7 @@ extra:
 ## 미리 알고가기
 
 - RISC-V는 로열티 없는 개방형 ISA 표준임
-- Base ISA와 확장 모듈을 조합하는 구조가 핵심임
+- Base ISA와 표준 확장 모듈을 조합하는 구조임
 - 하드웨어 자율성은 크지만 소프트웨어 생태계 성숙도가 선택 변수임
 
 ## Ⅰ. 개요
@@ -24,9 +24,9 @@ extra:
 ## Ⅱ. 특징
 
 - 기본 ISA와 확장 모듈이 분리되어 설계 유연성이 큼
-- 라이선스 비용이 낮아 교육·연구·국산화 전략에 유리함
-- 벡터·압축·원자성 등 확장을 단계적으로 채택할 수 있음
-- 상용 툴체인과 검증 자산의 성숙도는 여전히 중요한 선택 조건임
+- 공개 표준이라 교육·연구·국산 SoC 검토에서 라이선스 부담이 작음
+- 벡터·압축·원자성 등 확장을 구현 범위에 맞춰 단계적으로 채택함
+- 상용 툴체인과 검증 자산의 성숙도는 도입 전 확인해야 할 조건임
 
 ## Ⅲ. 종류 및 비교
 
@@ -42,7 +42,7 @@ extra:
 | 구성요소 | 설명 |
 |:---|:---|
 | Base ISA | RV32I와 RV64I 같은 최소 실행 규격으로 모든 구현의 공통 기반이 됨 |
-| Standard Extension | M, A, F, D, C, V 등 기능 확장을 제공해 용도별 최적화를 가능하게 함 |
+| Standard Extension | M, A, F, D, C, V 등 기능 확장을 제공해 용도별 ISA 구성을 가능하게 함 |
 | Privileged Spec | 예외 처리와 인터럽트와 권한 모드를 정의해 OS 구동 기반을 만듦 |
 | Toolchain and Ecosystem | 컴파일러와 디버거와 OS 지원 수준이 실제 도입 가능성을 좌우함 |
 
@@ -72,19 +72,25 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. 문제: ISA가 개방형이라도 검증 자산과 구현 품질이 제각각이면 상용화 리스크가 커질 수 있음
+1. 문제: ISA가 개방형이라도 검증 자산과 구현 품질이 제각각이면 상용화 리스크가 커짐
    - 해결방안: compliance test와 formal verification을 병행하고 conformance pass rate와 silicon bug count로 검증함
-2. 문제: 확장 조합이 많아질수록 소프트웨어 호환성과 유지보수 복잡도가 커질 수 있음
+2. 문제: 확장 조합이 많아질수록 소프트웨어 호환성과 유지보수 복잡도가 커짐
    - 해결방안: profile 기반 표준 구성을 채택하고 binary compatibility rate와 maintenance overhead로 검증함
-3. 문제: 생태계 성숙도를 과소평가하면 포팅과 디버깅 비용이 기대보다 크게 증가할 수 있음
+3. 문제: 생태계 성숙도를 과소평가하면 포팅과 디버깅 비용이 기대보다 크게 증가함
    - 해결방안: toolchain readiness를 사전 평가하고 porting lead time과 debug turnaround time으로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 국산 SoC 프로젝트에서는 적합성 검증을 강화하고, conformance pass rate와 silicon bug count로 결과를 확인함
-- 산업용 MCU 설계에서는 표준 프로파일을 채택하고, binary compatibility rate와 maintenance overhead로 결과를 확인함
-- 신규 플랫폼 포팅 프로젝트에서는 생태계를 사전 평가하고, porting lead time과 debug turnaround time로 결과를 확인함
+- 국산 SoC 프로젝트에서는 적합성 시험 범위를 넓히고, conformance pass rate와 silicon bug count로 검증함
+- 산업용 MCU 설계에서는 표준 프로파일을 채택하고, binary compatibility rate와 maintenance overhead로 검증함
+- 신규 플랫폼 포팅 프로젝트에서는 생태계를 사전 평가하고, porting lead time과 debug turnaround time으로 검증함
 
 ## Ⅷ. 결론
 
-RISC-V의 가치는 무료 ISA 자체보다 필요한 기능만 조합해 자율적으로 설계하되 그 대가로 검증과 생태계 책임도 함께 져야 한다는 데 있음.
+RISC-V의 판단 기준은 무료 ISA 자체보다 필요한 기능만 조합해 자율적으로 설계하되 그 대가로 검증과 생태계 책임도 함께 지는 데 있음.
+
+## 작성 근거(검토용)
+
+- RISC-V의 판단 축을 무료 여부가 아니라 base ISA, 확장, privileged spec, toolchain 준비도로 잡음
+- 넓은 단어는 라이선스 부담, 적합성 검증, 포팅 시간처럼 확인 가능한 항목으로 바꿈
+- 결론은 오픈 ISA의 장점과 구현 책임이 동시에 존재한다는 구조로 정리함

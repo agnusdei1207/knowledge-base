@@ -18,13 +18,13 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 멀티코어 프로세서는 하나의 반도체 칩 안에 둘 이상의 독립 코어를 배치해 스레드 수준 병렬성을 활용하는 CPU 구조로, 단일 코어 고클록 전략의 전력 한계를 넘어 처리량을 높이는 방식임
-- **배경/필요성**: power wall과 thermal wall 때문에 단일 코어 주파수만 높이기 어려워지면서, 낮은 주파수의 코어 여러 개로 전체 성능과 전력 효율을 높이는 방향이 주류가 됨
+- **정의/개념**: 멀티코어 프로세서는 하나의 반도체 칩 안에 둘 이상의 독립 코어를 배치해 스레드 수준 병렬성을 활용하는 CPU 구조임
+- **배경/필요성**: power wall과 thermal wall 때문에 단일 코어 주파수만 높이기 어려워지면서, 여러 코어에 병렬 스레드를 배치하는 구조가 필요해짐
 
 ## Ⅱ. 특징
 
 - 병렬 스레드가 충분하면 전체 처리량을 크게 높일 수 있음
-- 동종 코어는 단순하고 이종 코어는 전력 효율 최적화에 유리함
+- 동종 코어는 스케줄링이 단순하고 이종 코어는 작업별 전력 예산 배치에 유리함
 - 공유 캐시와 메모리 대역폭이 코어 수 증가의 병목이 될 수 있음
 - 소프트웨어 병렬화가 부족하면 코어 추가 효과가 제한됨
 
@@ -33,8 +33,8 @@ extra:
 | 판단 기준 | 동종 멀티코어 | 이종 멀티코어 |
 |:---|:---|:---|
 | 코어 구성 | 동일 성능·구조 | 성능·전력 특성이 다름 |
-| 강점 | 스케줄링 단순 | perf per watt 최적화 |
-| 한계 | 전력 최적화 여지 제한 | 스케줄링 복잡 |
+| 장점 | 스케줄링 단순 | 작업별 코어 배치 |
+| 한계 | 작업별 전력 배치 제한 | 스케줄링 복잡 |
 | 대표 예 | 일반 서버 CPU | ARM big.LITTLE, hybrid CPU |
 
 ## Ⅳ. 구성요소 및 구조
@@ -77,19 +77,25 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. 문제: 코어 수가 늘어도 병렬화되지 않은 구간 때문에 전체 성능 향상이 제한될 수 있음
+1. 문제: 코어 수가 늘어도 병렬화되지 않은 구간 때문에 전체 처리량 증가가 제한될 수 있음
    - 해결방안: hotspot parallelization과 Amdahl 분석을 수행하고 parallel fraction과 speedup efficiency로 검증함
 2. 문제: 코어 간 공유 캐시와 메모리 대역폭 경쟁이 심해지면 스케일업 효과가 급격히 떨어질 수 있음
-   - 해결방안: cache partitioning과 bandwidth QoS를 적용하고 LLC contention rate와 memory bandwidth utilization로 검증함
+   - 해결방안: cache partitioning과 bandwidth QoS를 적용하고 LLC contention rate와 memory bandwidth utilization으로 검증함
 3. 문제: 이종 멀티코어에서는 스케줄러가 작업 특성을 잘못 배치하면 전력과 성능이 모두 손해를 볼 수 있음
    - 해결방안: workload-aware scheduling을 운영하고 core placement accuracy와 perf per watt로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 서버 병렬 처리 환경에서는 병렬 구간을 늘리고, parallel fraction과 speedup efficiency로 결과를 확인함
-- 대용량 데이터 플랫폼에서는 공유 자원 관리를 적용하고, LLC contention rate와 memory bandwidth utilization로 결과를 확인함
-- 모바일 SoC에서는 이종 스케줄링을 조정하고, core placement accuracy와 perf per watt로 결과를 확인함
+- 서버 병렬 처리 환경에서는 병렬 구간을 늘리고, parallel fraction과 speedup efficiency로 검증함
+- 대용량 데이터 플랫폼에서는 공유 자원 관리를 적용하고, LLC contention rate와 memory bandwidth utilization으로 검증함
+- 모바일 SoC에서는 이종 스케줄링을 조정하고, core placement accuracy와 perf per watt로 검증함
 
 ## Ⅷ. 결론
 
 멀티코어의 성패는 코어 수 자체보다 병렬화 가능한 소프트웨어 구조와 공유 자원 병목을 얼마나 함께 관리하느냐에 달려 있음.
+
+## 작성 근거(검토용)
+
+- 멀티코어는 코어 수 증가가 아니라 TLP, 공유 캐시, 메모리 대역폭, 동기화 비용으로 답안 축을 잡음
+- 추상 표현은 작업별 코어 배치와 perf per watt 검증으로 의미를 좁힘
+- 결론은 코어 수와 성능을 단순 연결하지 않고 병렬화 가능 구간과 공유 자원 병목을 함께 보도록 작성함

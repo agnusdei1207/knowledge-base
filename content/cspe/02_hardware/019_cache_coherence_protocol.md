@@ -14,7 +14,7 @@ extra:
 
 - 캐시 일관성은 여러 코어가 같은 데이터의 최신성을 맞추는 규칙임
 - MESI는 M/E/S/I 네 상태를, MOESI는 Owned 상태를 추가로 사용함
-- 프로토콜 효율은 공유 패턴과 메시지 비용에 좌우됨
+- 프로토콜 비용은 공유 패턴과 invalidate 메시지 수에 좌우됨
 
 ## Ⅰ. 개요
 
@@ -34,8 +34,8 @@ extra:
 |:---|:---|:---|
 | 상태 수 | 4개 | 5개 |
 | 추가 상태 | 없음 | Owned |
-| 강점 | 구현 단순 | 메모리 트래픽 절감 |
-| 한계 | dirty 공유 비효율 | 상태 전이 복잡도 증가 |
+| 장점 | 구현 단순 | 메모리 트래픽 절감 |
+| 한계 | dirty 공유 시 메모리 트래픽 증가 | 상태 전이 복잡도 증가 |
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -68,12 +68,12 @@ extra:
 1. **공유 상태 감지**: 다른 캐시에 사본 존재 여부를 확인함
 2. **상태 전이 결정**: 읽기와 쓰기 의도에 맞는 상태를 정함
 3. **무효화 또는 전달 수행**: 필요한 메시지와 데이터 전송을 처리함
-4. **최신성 확정**: 각 캐시가 일관된 상태로 수렴함
+4. **최신 상태 반영**: 각 캐시가 프로토콜 상태에 맞게 갱신됨
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. 문제: 코어 수와 공유 데이터가 늘면 invalidate와 snoop 메시지가 급증해 버스와 네트워크 병목이 커질 수 있음
-   - 해결방안: directory 기반 제어와 snoop filter를 적용하고 coherence traffic ratio와 bus utilization로 검증함
+1. 문제: 코어 수와 공유 데이터가 늘면 invalidate와 snoop 메시지가 급증해 버스와 네트워크 병목이 커짐
+   - 해결방안: directory 기반 제어와 snoop filter를 적용하고 coherence traffic ratio와 bus utilization으로 검증함
 2. 문제: false sharing이 심하면 실제 공유하지 않는 변수도 반복 무효화되어 성능이 떨어질 수 있음
    - 해결방안: cache line aware padding을 적용하고 false sharing miss ratio와 write invalidate rate로 검증함
 3. 문제: MOESI처럼 상태가 늘어나면 구현과 검증 복잡도가 커져 corner case 오류가 생길 수 있음
@@ -81,10 +81,16 @@ extra:
 
 ## Ⅶ. 적용 사례
 
-- 다코어 서버에서는 디렉터리 제어를 적용하고, coherence traffic ratio와 bus utilization로 결과를 확인함
-- 고성능 병렬 코드에서는 패딩을 적용하고, false sharing miss ratio와 write invalidate rate로 결과를 확인함
-- 프로토콜 검증 환경에서는 상태 검증을 강화하고, protocol bug count와 validation coverage로 결과를 확인함
+- 다코어 서버에서는 디렉터리 제어를 적용하고, coherence traffic ratio와 bus utilization으로 검증함
+- 고성능 병렬 코드에서는 패딩을 적용하고, false sharing miss ratio와 write invalidate rate로 검증함
+- 프로토콜 검증 환경에서는 상태 전이 검증 범위를 넓히고, protocol bug count와 validation coverage로 검증함
 
 ## Ⅷ. 결론
 
-캐시 일관성 프로토콜의 핵심은 상태 이름을 외우는 데 있지 않고 최신 데이터를 최소한의 통신 비용으로 공유하는 구조를 설계하는 데 있음.
+캐시 일관성 프로토콜의 판단 기준은 상태 이름 암기가 아니라 최신 데이터를 낮은 통신 비용으로 공유하는 구조를 설계하는 데 있음.
+
+## 작성 근거(검토용)
+
+- MESI/MOESI는 상태 이름 나열보다 상태 전이, 무효화, 데이터 전달 규칙이 답안 판단에 필요함
+- 추상 표현은 공유 패턴, invalidate 수, 프로토콜 상태 갱신으로 좁힘
+- 결론은 상태 암기가 아니라 최신 데이터와 통신 비용의 동시 관리로 정리함

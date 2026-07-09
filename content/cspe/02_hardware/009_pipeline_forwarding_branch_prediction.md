@@ -33,9 +33,9 @@ extra:
 | 판단 기준 | 포워딩 | 분기 예측 |
 |:---|:---|:---|
 | 해결 대상 | 데이터 해저드 | 제어 해저드 |
-| 핵심 원리 | bypass 경로 전달 | 다음 경로 추정 |
+| 동작 원리 | bypass 경로 전달 | 다음 경로 추정 |
 | 실패 형태 | 남은 stall | flush 발생 |
-| 핵심 지표 | load-use stall | branch accuracy |
+| 검증 지표 | load-use stall | branch accuracy |
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -71,17 +71,23 @@ extra:
 
 1. 문제: load-use 상황에서는 포워딩을 써도 메모리 값이 늦게 준비되어 stall이 남을 수 있음
    - 해결방안: compiler scheduling과 prefetch를 병행하고 load-use stall rate와 memory latency hiding ratio로 검증함
-2. 문제: 분기 예측 실패가 많으면 speculative 실행 이점보다 flush 손실이 더 커질 수 있음
+2. 문제: 분기 예측 실패가 많으면 speculative 실행 이점보다 flush 손실이 더 커짐
    - 해결방안: predictor sophistication을 workload에 맞추고 branch accuracy와 MPKI로 검증함
-3. 문제: 우회 경로와 예측기가 복잡해질수록 전력과 검증 비용이 증가할 수 있음
-   - 해결방안: hot path 위주로 최적화하고 perf per watt와 verification effort로 검증함
+3. 문제: 우회 경로와 예측기가 복잡해질수록 전력과 검증 비용이 증가함
+   - 해결방안: 자주 쓰는 경로 위주로 조정하고 perf per watt와 verification effort로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 컴파일러 최적화에서는 load-use 대기를 줄이고, load-use stall rate와 memory latency hiding ratio로 결과를 확인함
-- 서버 CPU 설계에서는 예측기를 고도화하고, branch accuracy와 MPKI로 결과를 확인함
-- 저전력 코어 설계에서는 핵심 경로만 최적화하고, perf per watt와 verification effort로 결과를 확인함
+- 컴파일러 최적화에서는 load-use 대기를 줄이고, load-use stall rate와 memory latency hiding ratio로 검증함
+- 서버 CPU 설계에서는 예측기를 고도화하고, branch accuracy와 MPKI로 검증함
+- 저전력 코어 설계에서는 자주 쓰는 경로만 조정하고, perf per watt와 verification effort로 검증함
 
 ## Ⅷ. 결론
 
 포워딩과 분기 예측의 본질은 파이프라인을 멈추지 않게 만드는 적극적 개입이지만, 그 효과는 실패 비용까지 포함해 균형 있게 설계할 때만 유지됨.
+
+## 작성 근거(검토용)
+
+- 포워딩은 RAW 값 대기, 분기 예측은 제어 흐름 대기라는 서로 다른 해저드 대응으로 분리함
+- 근거가 약한 표현은 자주 쓰는 경로와 검증 노력으로 표현을 좁힘
+- 결론은 CPI 감소만이 아니라 load-use 잔여 stall과 misprediction flush 비용까지 포함해 판단하도록 작성함

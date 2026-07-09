@@ -18,12 +18,12 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 명령어 수준 병렬성 ILP는 하나의 명령어 흐름 안에서 서로 독립적인 연산을 찾아 동시에 실행할 수 있는 정도를 의미하며, CPU가 단일 스레드 성능을 높이는 핵심 병렬성 자원임
+- **정의/개념**: 명령어 수준 병렬성 ILP는 하나의 명령어 흐름 안에서 서로 독립적인 연산을 찾아 동시에 실행할 수 있는 정도를 뜻함
 - **배경/필요성**: 클록만 높이는 방식은 전력과 발열 한계에 막히므로, 같은 스레드 안에서 더 많은 명령어를 겹치고 동시에 실행해 처리량을 높일 필요가 있음
 
 ## Ⅱ. 특징
 
-- 단일 스레드 성능 향상에 직접 기여함
+- 단일 스레드에서 IPC를 높일 수 있는 병렬 실행 여지를 나타냄
 - 파이프라인·슈퍼스칼라·OoO가 대표 활용 수단임
 - RAW와 분기 의존성이 높을수록 ILP를 찾기 어려워짐
 - 하드웨어 비용을 늘려도 코드 구조상 병렬성이 없으면 효과가 제한됨
@@ -33,7 +33,7 @@ extra:
 | 판단 기준 | ILP | TLP | DLP |
 |:---|:---|:---|:---|
 | 병렬 단위 | 명령어 | 스레드 | 데이터 |
-| 강점 | 단일 스레드 성능 | 시스템 처리량 | 대량 동일 연산 |
+| 장점 | 단일 스레드 IPC 개선 | 시스템 처리량 | 대량 동일 연산 |
 | 대표 기술 | pipeline, OoO | multicore, SMT | SIMD, GPU |
 | 한계 | 의존성 벽 | 동기화 비용 | 데이터 형태 제약 |
 
@@ -75,16 +75,22 @@ extra:
 1. 문제: RAW 의존성이 강한 코드에서는 실행 유닛을 늘려도 병렬 발행 이점이 제한될 수 있음
    - 해결방안: algorithm restructuring과 forwarding을 결합하고 dependency stall ratio와 IPC로 검증함
 2. 문제: 분기가 잦은 워크로드에서는 제어 의존성 때문에 ILP 탐색 성과가 크게 떨어질 수 있음
-   - 해결방안: branch prediction과 speculative execution을 강화하고 branch limited CPI와 misprediction rate로 검증함
+   - 해결방안: branch prediction과 speculative execution을 적용하고 branch limited CPI와 misprediction rate로 검증함
 3. 문제: ILP 확장만 추구하면 하드웨어 복잡도 대비 성능 이득이 급격히 줄어들 수 있음
    - 해결방안: TLP와 DLP로 병렬성 축을 분산하고 area efficiency와 perf per watt로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 컴파일러 최적화에서는 코드 구조를 개선하고, dependency stall ratio와 IPC로 결과를 확인함
-- 고성능 CPU 설계에서는 분기 예측을 강화하고, branch limited CPI와 misprediction rate로 결과를 확인함
-- 병렬 플랫폼 설계에서는 병렬성 계층을 분산하고, area efficiency와 perf per watt로 결과를 확인함
+- 컴파일러 스케줄링에서는 코드 구조를 바꾸고, dependency stall ratio와 IPC로 검증함
+- 고성능 CPU 설계에서는 분기 예측을 적용하고, branch limited CPI와 misprediction rate로 검증함
+- 병렬 플랫폼 설계에서는 TLP·DLP 활용 범위를 나누고, area cost와 perf per watt로 검증함
 
 ## Ⅷ. 결론
 
-ILP의 본질은 하드웨어를 복잡하게 만드는 데 있지 않고 단일 스레드 안에 숨어 있는 독립 연산을 얼마나 효율적으로 드러내는지에 있음.
+ILP의 판단 기준은 하드웨어를 복잡하게 만드는 것이 아니라 단일 스레드 안의 독립 연산을 얼마나 드러내는지에 있음.
+
+## 작성 근거(검토용)
+
+- ILP는 속도 일반론이 아니라 단일 명령어 흐름에서 독립 명령을 찾는 정도이므로 IPC와 의존성으로 설명함
+- 추상 표현은 병렬 실행 여지와 IPC 개선으로 좁힘
+- 결론은 하드웨어 복잡도보다 데이터·제어 의존성 제거 절차가 판단 기준임을 반영함

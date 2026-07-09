@@ -24,7 +24,7 @@ extra:
 ## Ⅱ. 특징
 
 - 병렬성 탐지를 컴파일러가 담당해 하드웨어가 단순함
-- 정형화된 반복 연산에서 전력 효율이 높음
+- 정형화된 반복 연산에서 동적 스케줄링 회로 부담이 작음
 - 병렬로 채울 명령어가 부족하면 NOP가 늘어 코드 밀도가 나빠짐
 - 구현이 바뀌면 재컴파일 부담이 커져 바이너리 호환성이 약함
 
@@ -33,7 +33,7 @@ extra:
 | 판단 기준 | 슈퍼스칼라 | VLIW |
 |:---|:---|:---|
 | 병렬성 탐지 | 하드웨어 동적 탐지 | 컴파일러 정적 탐지 |
-| 강점 | 기존 바이너리 호환성 | 하드웨어 단순성과 전력 효율 |
+| 장점 | 기존 바이너리 호환성 | 단순 실행 코어와 낮은 스케줄링 전력 |
 | 한계 | 회로 복잡도와 전력 부담 | 코드 팽창과 재컴파일 부담 |
 | 적합 환경 | 범용 CPU | DSP·특화 가속기 |
 
@@ -44,7 +44,7 @@ extra:
 | Compiler Scheduler | 의존성이 없는 명령어를 분석해 번들로 묶고 슬롯 배치를 결정함 |
 | Instruction Bundle | ALU와 메모리와 분기 슬롯을 하나의 긴 워드에 담아 병렬 실행 단위를 형성함 |
 | Functional Units | 번들 각 슬롯을 동시에 처리하며 하드웨어는 해석보다 실행에 집중함 |
-| Padding or NOP | 병렬성을 채우지 못한 빈 슬롯을 메워 코드 밀도와 효율에 영향을 줌 |
+| Padding or NOP | 병렬성을 채우지 못한 빈 슬롯을 메워 코드 크기와 i-cache 부담을 키움 |
 
 ```text
 +-------------------+     +-------------------+     +------------------+
@@ -73,18 +73,24 @@ extra:
 ## Ⅵ. 문제점 및 해결 방안
 
 1. 문제: 실행 유닛 수와 번들 형식이 바뀌면 기존 바이너리를 그대로 재사용하기 어려울 수 있음
-   - 해결방안: ISA profile과 binary translation 전략을 마련하고 recompilation effort와 compatibility rate로 검증함
-2. 문제: 병렬로 채울 명령어가 부족하면 NOP가 늘어 코드 크기와 캐시 부담이 커질 수 있음
+   - 해결방안: ISA profile과 binary translation 방안을 마련하고 recompilation effort와 compatibility rate로 검증함
+2. 문제: 병렬로 채울 명령어가 부족하면 NOP가 늘어 코드 크기와 캐시 부담이 커짐
    - 해결방안: trace scheduling과 compressed encoding을 적용하고 NOP ratio와 binary size로 검증함
-3. 문제: 실행 시점의 캐시 미스나 인터럽트 같은 동적 변수를 컴파일러가 완전히 예측하지 못할 수 있음
+3. 문제: 실행 시점의 캐시 미스나 인터럽트 같은 동적 변수를 컴파일러가 완전히 예측하지 못함
    - 해결방안: profile-guided optimization과 제한적 dynamic assist를 병행하고 prediction miss impact와 throughput stability로 검증함
 
 ## Ⅶ. 적용 사례
 
-- DSP 설계에서는 정적 스케줄링을 활용하고, recompilation effort와 throughput per watt로 결과를 확인함
-- 미디어 코덱 가속기에서는 NOP를 줄이는 최적화를 적용하고, NOP ratio와 binary size로 결과를 확인함
-- 프로파일 기반 빌드 환경에서는 실행 피드백을 반영하고, prediction miss impact와 throughput stability로 결과를 확인함
+- DSP 설계에서는 정적 스케줄링을 활용하고, recompilation effort와 throughput per watt로 검증함
+- 미디어 코덱 가속기에서는 NOP를 줄이는 배치를 적용하고, NOP ratio와 binary size로 검증함
+- 프로파일 기반 빌드 환경에서는 실행 피드백을 반영하고, prediction miss impact와 throughput stability로 검증함
 
 ## Ⅷ. 결론
 
 VLIW의 성패는 긴 명령어 형식보다 하드웨어 복잡도를 줄인 대신 컴파일러가 병렬성을 얼마나 잘 끌어내는지에 달려 있음.
+
+## 작성 근거(검토용)
+
+- VLIW는 하드웨어 동적 탐지가 아니라 컴파일러 정적 스케줄링이 선택 기준이므로 그 차이를 비교축으로 둠
+- 추상 표현은 동적 스케줄링 회로 부담, NOP 비율, 코드 크기로 구체화함
+- 결론은 긴 명령어 자체보다 컴파일러가 빈 슬롯을 얼마나 줄이는지가 판단 대상임을 드러냄

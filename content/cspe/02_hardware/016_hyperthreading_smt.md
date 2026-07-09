@@ -14,7 +14,7 @@ extra:
 
 - SMT는 하나의 물리 코어에서 여러 스레드를 동시에 실행하는 기술임
 - 하이퍼스레딩은 Intel의 SMT 구현 브랜드임
-- 실행 자원은 공유하고 아키텍처 상태 일부만 복제하는 구조가 핵심임
+- 실행 유닛과 캐시는 공유하고 PC·레지스터 상태는 스레드별로 유지함
 
 ## Ⅰ. 개요
 
@@ -26,14 +26,14 @@ extra:
 - 유휴 실행 슬롯을 다른 스레드로 채워 throughput을 높임
 - 멀티코어보다 면적 증가가 작고 구현 비용이 상대적으로 낮음
 - L1 캐시와 실행 유닛을 공유하므로 간섭이 발생하기 쉬움
-- latency보다 throughput 개선에 더 적합함
+- 단일 요청 지연 단축보다 전체 처리량 증가에 더 적합함
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | 멀티코어 | SMT |
 |:---|:---|:---|
-| 물리 자원 | 코어 분리 | 핵심 실행 자원 공유 |
-| 강점 | 안정적 성능 확장 | 낮은 면적 비용의 처리량 향상 |
+| 물리 자원 | 코어 분리 | 실행 유닛·캐시 공유 |
+| 장점 | 독립 자원으로 간섭 감소 | 낮은 면적 비용의 처리량 증가 |
 | 한계 | 면적 증가 큼 | 자원 간섭과 성능 변동 |
 | 적합 환경 | 병렬 독립 작업 | stall 많은 워크로드 |
 
@@ -43,7 +43,7 @@ extra:
 |:---|:---|
 | Thread Context | 각 스레드의 PC와 레지스터 상태를 별도로 보관해 독립 실행처럼 보이게 함 |
 | Shared Execution Units | ALU와 FPU와 load/store 유닛을 여러 스레드가 함께 사용함 |
-| Shared Cache | L1/L2 캐시 경쟁이 SMT 효율과 간섭의 핵심 원인이 됨 |
+| Shared Cache | L1/L2 캐시 경쟁이 SMT 간섭과 처리량 변동의 원인이 됨 |
 | Scheduler | 어떤 스레드의 명령을 먼저 발행할지 정해 공정성과 처리량을 조절함 |
 
 ```text
@@ -77,19 +77,25 @@ extra:
 
 ## Ⅵ. 문제점 및 해결 방안
 
-1. 문제: 두 스레드가 같은 실행 유닛과 캐시를 경쟁하면 기대한 처리량 향상보다 성능 간섭이 더 커질 수 있음
+1. 문제: 두 스레드가 같은 실행 유닛과 캐시를 경쟁하면 기대한 처리량 증가보다 성능 간섭이 더 커짐
    - 해결방안: SMT-aware scheduling을 적용하고 resource contention ratio와 throughput gain으로 검증함
-2. 문제: 보안 민감 환경에서는 같은 코어 공유로 side-channel 노출 가능성이 커질 수 있음
+2. 문제: 보안 민감 환경에서는 같은 코어 공유로 side-channel 노출 가능성이 커짐
    - 해결방안: workload isolation policy를 운영하고 leakage risk score와 secure tenant separation rate로 검증함
 3. 문제: 메모리 지연이 적은 워크로드에서는 SMT가 오히려 단일 스레드 성능을 흔들 수 있음
-   - 해결방안: workload-specific SMT on/off 정책을 두고 p99 latency와 core efficiency로 검증함
+   - 해결방안: workload-specific SMT on/off 정책을 두고 p99 latency와 core utilization으로 검증함
 
 ## Ⅶ. 적용 사례
 
-- 서버 스케줄러에서는 SMT 인지 배치를 적용하고, resource contention ratio와 throughput gain으로 결과를 확인함
-- 멀티테넌트 보안 환경에서는 격리 정책을 운영하고, leakage risk score와 secure tenant separation rate로 결과를 확인함
-- 지연 민감 서비스에서는 SMT 정책을 조정하고, p99 latency와 core efficiency로 결과를 확인함
+- 서버 스케줄러에서는 SMT 인지 배치를 적용하고, resource contention ratio와 throughput gain으로 검증함
+- 멀티테넌트 보안 환경에서는 격리 정책을 운영하고, leakage risk score와 secure tenant separation rate로 검증함
+- 지연 민감 서비스에서는 SMT 정책을 조정하고, p99 latency와 core utilization으로 검증함
 
 ## Ⅷ. 결론
 
-SMT의 가치는 코어를 늘리지 않고 처리량을 높이는 데 있지만, 그 효과는 워크로드 간 간섭과 보안 위험까지 함께 통제할 때만 유지됨.
+SMT의 판단 기준은 코어를 늘리지 않고 처리량을 높이는 이득과 워크로드 간 간섭, 보안 위험을 함께 보는 데 있음.
+
+## 작성 근거(검토용)
+
+- SMT는 물리 코어 추가가 아니라 아키텍처 상태 복제와 실행 자원 공유라는 구조 차이를 기준으로 설명함
+- 추상 표현은 공유 자원, 처리량 증가, p99 latency, resource contention으로 치환함
+- 결론은 처리량 이득과 자원 간섭·보안 노출을 동시에 판단해야 한다는 운영 기준으로 정리함
