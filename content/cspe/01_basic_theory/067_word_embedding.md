@@ -56,17 +56,17 @@ extra:
 > 요약: 말뭉치와 문맥 창이 학습 신호를 만들고 임베딩 행렬이 최종 산출물임.
 
 ```text
-Corpus tokens
-  -> Context window
-  -> Word-context pairs
-  -> Train prediction/statistics model
-  -> Embedding matrix
+말뭉치 토큰
+  -> 문맥 창
+  -> 단어-문맥 쌍
+  -> 예측/통계 모델 학습
+  -> 임베딩 행렬
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Tokenize corpus -> Build pairs/statistics -> Train vectors -> Measure similarity -> Reuse
+말뭉치 토큰화 -> 쌍/통계 구축 -> 벡터 학습 -> 유사도 측정 -> 재사용
 ```
 
 1. 말뭉치를 토큰화하고 저빈도 단어를 정리함

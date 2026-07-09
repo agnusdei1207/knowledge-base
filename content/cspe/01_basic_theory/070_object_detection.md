@@ -14,9 +14,9 @@ extra:
 ## 미리 알고가기
 
 - 바운딩 박스: 객체 위치를 사각형 좌표로 표현한 영역임
-- IoU: 예측 박스와 정답 박스의 겹침 정도를 나타내는 비율임
-- mAP: 여러 클래스와 IoU 기준에서 탐지 정밀도를 평균한 지표임
-- NMS: 겹친 예측 박스 중 신뢰도 높은 박스만 남기는 후처리임
+- IoU (Intersection over Union): 예측 박스와 정답 박스의 겹침 정도를 나타내는 비율임
+- mAP (mean Average Precision): 여러 클래스와 IoU 기준에서 탐지 정밀도를 평균한 지표임
+- NMS (Non-Maximum Suppression): 겹친 예측 박스 중 신뢰도 높은 박스만 남기는 후처리임
 - 앵커 박스: 사전에 정의한 후보 박스 크기와 비율 기준임
 
 ## Ⅰ. 개요
@@ -56,18 +56,18 @@ extra:
 > 요약: 백본, 넥, 헤드, 손실, NMS가 위치 탐지와 클래스 판정을 나눠 담당함.
 
 ```text
-Image
-  -> Backbone feature extraction
-  -> Neck feature fusion
-  -> Detection head
-  -> Box/class scores
+입력 이미지
+  -> 백본 특징 추출
+  -> 넥 특징 융합
+  -> 탐지 헤드
+  -> 박스/클래스 점수
   -> NMS
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Input image -> Feature maps -> Box/class prediction -> Confidence filtering -> NMS output
+입력 이미지 -> 특징 맵 -> 박스/클래스 예측 -> 신뢰도 필터링 -> NMS 결과
 ```
 
 1. 이미지를 백본에 넣어 공간 특징 맵을 생성함

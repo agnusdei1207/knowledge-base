@@ -56,16 +56,16 @@ extra:
 > 요약: 다양한 학습기와 결합 규칙, 검증 절차가 앙상블 효과를 결정함.
 
 ```text
-Input data
-  -> Model A ----\
-  -> Model B -----+-> Voting/Average/Meta model -> Final prediction
-  -> Model C ----/
+입력 데이터
+  -> 모델 A ----\
+  -> 모델 B -----+-> 투표/평균/메타 모델 -> 최종 예측
+  -> 모델 C ----/
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Prepare variants -> Train learners -> Collect predictions -> Combine outputs -> Validate
+변형 데이터 준비 -> 학습기 훈련 -> 예측 수집 -> 출력 결합 -> 검증
 ```
 
 1. 표본, 특징, 알고리즘을 달리해 학습기 다양성을 만듦

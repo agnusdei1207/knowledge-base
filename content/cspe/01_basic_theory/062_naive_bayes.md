@@ -56,17 +56,17 @@ extra:
 > 요약: 사전 확률과 우도를 결합하고 스무딩으로 예외 확률을 보정함.
 
 ```text
-Input features
-  -> Prior P(y)
-  -> Likelihood product P(x1|y) * ... * P(xn|y)
-  -> Posterior score
-  -> Class with max score
+입력 특징
+  -> 사전 확률 P(y)
+  -> 우도 곱 P(x1|y) * ... * P(xn|y)
+  -> 사후 점수
+  -> 최대 점수 클래스
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Training data -> Count class/features -> Estimate probabilities -> Score input -> Select class
+학습 데이터 -> 클래스/특징 집계 -> 확률 추정 -> 입력 점수 계산 -> 클래스 선택
 ```
 
 1. 학습 데이터에서 클래스별 표본 수와 특징 빈도를 집계함

@@ -17,7 +17,7 @@ extra:
 - 토큰: 모델이 처리하는 최소 입력 단위임
 - 형태소: 뜻을 가진 가장 작은 언어 단위임
 - 서브워드: 단어를 더 작은 빈도 기반 조각으로 나눈 단위임
-- OOV: 학습 사전에 없어 직접 표현하기 어려운 미등록 단어임
+- OOV (Out-Of-Vocabulary): 학습 사전에 없어 직접 표현하기 어려운 미등록 단어임
 - 어휘 사전: 토큰 문자열과 정수 ID를 연결한 목록임
 
 ## Ⅰ. 개요
@@ -57,17 +57,17 @@ extra:
 > 요약: 토크나이저는 정규화, 분절, 사전 매핑, 복원 기능으로 입력을 통제함.
 
 ```text
-Raw text
-  -> Normalize
-  -> Segment into tokens
-  -> Map tokens to IDs
-  -> Feed embedding layer
+원문 텍스트
+  -> 정규화
+  -> 토큰 분절
+  -> 토큰 ID 매핑
+  -> 임베딩 계층 입력
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Corpus -> Normalize -> Learn vocabulary -> Tokenize text -> Encode IDs
+코퍼스 -> 정규화 -> 어휘 사전 학습 -> 텍스트 토큰화 -> ID 인코딩
 ```
 
 1. 코퍼스의 문자 형식과 공백을 정규화함

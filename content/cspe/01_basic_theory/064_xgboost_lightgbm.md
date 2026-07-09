@@ -56,15 +56,15 @@ extra:
 > 요약: 목적 함수, 트리, 학습률, 검증 세트가 부스팅 반복을 통제함.
 
 ```text
-Current model -> Residual/gradient -> New tree -> Learning rate -> Updated model
-                     ^                                      |
-                     +------------- repeat ----------------+
+현재 모델 -> 잔차/그래디언트 -> 새 트리 -> 학습률 반영 -> 업데이트된 모델
+                  ^                                        |
+                  +---------------- 반복 ------------------+
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Initialize score -> Compute gradient -> Fit tree -> Add tree -> Stop by validation
+초기 점수 -> 그래디언트 계산 -> 트리 학습 -> 트리 추가 -> 검증으로 종료
 ```
 
 1. 초기 예측값을 만들고 손실 기준의 잔차나 그래디언트를 계산함

@@ -57,18 +57,18 @@ extra:
 > 요약: 추천 품질은 사용자·아이템 데이터, 후보 생성, 랭킹, 피드백 순환이 함께 결정함.
 
 ```text
-Logs/Profile + Item metadata
-       -> Candidate generation
-       -> Ranking model
-       -> Recommendation list
-       -> User feedback
-       -> Update logs
+로그/프로필 + 아이템 메타데이터
+         -> 후보 생성
+         -> 랭킹 모델
+         -> 추천 목록
+         -> 사용자 피드백
+         -> 로그 갱신
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Collect logs -> Build features -> Retrieve candidates -> Rank items -> Serve and learn
+로그 수집 -> 특징 구성 -> 후보 검색 -> 아이템 랭킹 -> 서빙 후 학습
 ```
 
 1. 사용자 행동, 아이템 속성, 컨텍스트 정보를 수집함

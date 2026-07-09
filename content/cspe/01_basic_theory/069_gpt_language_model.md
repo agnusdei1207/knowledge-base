@@ -18,7 +18,7 @@ extra:
 - 인과 마스크: 미래 토큰을 보지 못하도록 어텐션을 제한하는 장치임
 - 프롬프트: 모델에 작업 목적과 입력 조건을 전달하는 자연어 지시문임
 - 컨텍스트 윈도우: 한 번에 참조하는 토큰 범위임
-- RAG: 외부 지식을 검색해 생성 입력에 넣는 방식임
+- RAG (Retrieval-Augmented Generation): 외부 지식을 검색해 생성 입력에 넣는 방식임
 
 ## Ⅰ. 개요
 
@@ -58,17 +58,17 @@ extra:
 > 요약: GPT 생성은 토큰화, 인과 어텐션, 소프트맥스, 디코딩 전략의 반복 구조임.
 
 ```text
-Prompt tokens
-  -> Decoder blocks with causal mask
-  -> Next-token probability
-  -> Select token
-  -> Append token and repeat
+프롬프트 토큰
+  -> 인과 마스크가 있는 디코더 블록
+  -> 다음 토큰 확률
+  -> 토큰 선택
+  -> 토큰 추가 후 반복
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Prompt -> Tokenize -> Causal attention -> Next-token distribution -> Decode -> Repeat
+프롬프트 -> 토큰화 -> 인과 어텐션 -> 다음 토큰 분포 -> 디코딩 -> 반복
 ```
 
 1. 프롬프트를 토큰 ID와 위치 정보로 변환함

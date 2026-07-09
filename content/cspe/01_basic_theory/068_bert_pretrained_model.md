@@ -15,8 +15,8 @@ extra:
 
 - 트랜스포머 인코더: 입력 토큰 전체를 양방향 어텐션으로 표현하는 구조임
 - 셀프 어텐션: 문장 안 토큰끼리 중요도를 계산하는 연산임
-- MLM: 일부 토큰을 가리고 주변 문맥으로 복원하는 사전학습 과제임
-- NSP: 두 문장이 이어지는 관계인지 판정하는 사전학습 과제임
+- MLM (Masked Language Model): 일부 토큰을 가리고 주변 문맥으로 복원하는 사전학습 과제임
+- NSP (Next Sentence Prediction): 두 문장이 이어지는 관계인지 판정하는 사전학습 과제임
 - 파인튜닝: 사전학습 모델을 특정 업무 데이터로 미세 조정하는 과정임
 
 ## Ⅰ. 개요
@@ -57,17 +57,17 @@ extra:
 > 요약: BERT 입력은 세 임베딩의 합으로 만들고 인코더와 태스크 헤드가 의미를 변환함.
 
 ```text
-Token IDs + Segment IDs + Position IDs
-        -> Embedding sum
-        -> Transformer encoder stack
-        -> [CLS] or token vectors
-        -> Task head
+토큰 ID + 세그먼트 ID + 위치 ID
+        -> 임베딩 합
+        -> 트랜스포머 인코더 스택
+        -> [CLS] 또는 토큰 벡터
+        -> 태스크 헤드
 ```
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-Pretrain corpus -> MLM/NSP learning -> Context embeddings -> Fine-tune -> Serve task
+사전학습 말뭉치 -> MLM/NSP 학습 -> 문맥 임베딩 -> 파인튜닝 -> 태스크 적용
 ```
 
 1. 대규모 말뭉치를 WordPiece 토큰으로 변환함
