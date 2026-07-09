@@ -24,18 +24,20 @@ extra:
 ## Ⅱ. 특징
 
 - RDMA를 통해 CPU 개입과 커널 오버헤드를 줄임
-- 대역폭과 지연 특성이 뛰어나 MPI와 분산 학습에 적합함
+- 낮은 지연과 높은 대역폭으로 MPI와 분산 학습에 적합함
 - 전용 어댑터와 운영 노하우가 필요해 범용 네트워크보다 복잡함
-- congestion control과 subnet 관리 품질이 전체 성능에 직접 영향을 줌
+- congestion control과 subnet 관리 품질이 전체 성능을 좌우함
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | Ethernet TCP/IP | RoCE | InfiniBand |
 |:---|:---|:---|:---|
 | CPU 오프로드 | 낮음 | 중간 | 높음 |
-| 지연 | 중간 | 낮음 | 매우 낮음 |
+| 지연 | 중간 | 낮음 | 최저 수준 |
 | 운영 복잡도 | 낮음 | 중간 | 높음 |
 | 대표 용도 | 범용 서버 | RDMA 이더넷 | HPC, AI 클러스터 |
+
+> 요약: InfiniBand는 TCP/IP보다 CPU 오프로드와 지연 특성이 강하고, RoCE보다 전용 패브릭 성격이 뚜렷함.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -52,6 +54,8 @@ extra:
 +-------------+     +-------------+     +------------------+     +-------------+
 ```
 
+> 요약: InfiniBand는 HCA, queue pair, switch fabric, subnet manager가 RDMA 경로를 구성함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -65,11 +69,19 @@ extra:
 3. **RDMA 전송 수행**: HCA가 패브릭을 통해 메모리를 직접 읽고 씀
 4. **완료 통지**: completion queue로 결과를 알려줌
 
+> 요약: RDMA는 메모리 등록과 QP 작업 게시 뒤 HCA가 직접 전송하고 completion queue로 끝남.
+
 ## Ⅵ. 실무 적용 및 유의점
 
-1. AI 학습 클러스터와 HPC 환경에서는 InfiniBand가 collective 통신을 줄이지만 특정 링크에 혼잡이 몰리면 GPU가 기다리게 되므로 adaptive routing과 job placement를 적용하고 step time과 GPU idle ratio로 확인함
-2. 패브릭 운영은 케이블과 펌웨어와 subnet 관리 실수에 민감하므로 자동 health check와 topology validation을 적용하고 link error rate와 failover time으로 확인함
+1. AI 학습 클러스터·HPC는 링크 혼잡 시 GPU가 대기하므로 adaptive routing과 job placement를 적용하고 step time, GPU idle ratio로 확인함
+2. 패브릭 운영은 케이블·펌웨어·subnet 관리 실수에 민감하므로 health check와 topology validation을 자동화하고 link error rate, failover time으로 확인함
 
 ## Ⅶ. 결론
 
-InfiniBand는 단순히 빠른 네트워크가 아니라 CPU를 우회하는 저지연 패브릭이므로 통신이 계산 병목을 지배하는 클러스터에서 가치가 큼.
+InfiniBand는 단순히 빠른 네트워크가 아니라 CPU를 우회하는 저지연 패브릭이므로 통신이 계산 병목을 지배하는 클러스터에서 가치가 드러남.
+
+## 작성 근거(검토용)
+
+- InfiniBand는 RDMA, HCA, queue pair, switch fabric, subnet manager를 핵심 구조로 설명함
+- 비교표는 Ethernet TCP/IP, RoCE, InfiniBand의 CPU 오프로드와 지연 차이를 정리함
+- 실무 판단은 step time, GPU idle ratio, link error rate, failover time으로 검증 가능하게 작성함

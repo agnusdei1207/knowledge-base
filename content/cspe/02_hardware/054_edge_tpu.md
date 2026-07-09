@@ -13,7 +13,7 @@ extra:
 ## 미리 알고가기
 
 - Edge TPU는 엣지 환경의 저전력 INT8 추론에 특화된 ASIC임
-- TensorFlow Lite 기반 모델과 연산자 제약이 큼
+- TensorFlow Lite 기반 모델과 연산자 제약이 많음
 - 클라우드 회피, 실시간성, 전력 제약이 주요 도입 이유임
 
 ## Ⅰ. 개요
@@ -23,7 +23,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 작은 전력 예산 안에서 상시 추론을 수행하기 좋음
+- 작은 전력 예산 안에서 상시 추론을 수행할 수 있음
 - INT8과 지원 연산자 중심으로 모델 제약이 뚜렷함
 - Host CPU와의 역할 분담이 전체 응답 시간을 좌우함
 - 현장 배치형 장비에서 네트워크 단절에도 동작할 수 있음
@@ -37,11 +37,13 @@ extra:
 | 모델 유연성 | 중간 | 중간 | 낮음 |
 | 대표 용도 | 학습, 대규모 서비스 | 온디바이스 AI | 현장 실시간 판단 |
 
+> 요약: Edge TPU는 Cloud TPU보다 범용성은 낮지만 현장 저전력 추론에 맞음.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
 |:---|:---|
-| Host CPU | 입력 전처리와 장치 제어와 비지원 후처리를 담당해 전체 지연의 절반 이상에 영향을 줄 수 있음 |
+| Host CPU | 입력 전처리, 장치 제어, 비지원 후처리를 담당해 전체 응답 시간을 좌우할 수 있음 |
 | Edge TPU Core | 지원 연산을 저전력으로 가속해 현장 추론의 핵심 경로를 제공함 |
 | TFLite, Compiler | 모델을 장치 제약에 맞게 변환하며 compile report가 실행 가능성을 좌우함 |
 | Sensor, Runtime Stack | 실제 입력을 공급하고 결과를 장비 동작으로 연결하는 운영 계층임 |
@@ -51,6 +53,8 @@ extra:
 | Sensor Input| --> | Host CPU/TFLite  | --> | Edge TPU Core    | --> | Actuation   |
 +-------------+     +------------------+     +------------------+     +-------------+
 ```
+
+> 요약: Edge TPU 성능은 전용 core만 아니라 Host CPU, TFLite, sensor runtime이 함께 결정함.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -65,11 +69,19 @@ extra:
 3. **엣지 추론 실행**: Host CPU와 Edge TPU가 역할을 나눠 처리함
 4. **현장 동작 반영**: 경보, 제어, 저장 같은 후속 동작을 수행함
 
+> 요약: 모델은 TFLite·INT8 형태로 변환된 뒤 Edge TPU와 Host CPU가 나눠 처리함.
+
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 스마트 카메라와 산업 게이트웨이에서는 Edge TPU로 로컬 추론을 수행하되 지원되지 않는 연산자와 큰 모델은 Host CPU fallback을 키우므로 TFLite INT8 친화 모델로 재구성하고 compile success rate와 inference latency로 확인함
-2. 원격 현장 장비에서는 전력과 열과 업데이트 실패가 운영 리스크이므로 thermal budget과 rollback 가능한 원격 배포 체계를 적용하고 device uptime과 thermal throttling rate로 확인함
+1. 스마트 카메라·산업 게이트웨이는 비지원 연산자와 큰 모델이 Host CPU fallback을 늘리므로 TFLite INT8 모델로 재구성하고 compile success rate, inference latency로 확인함
+2. 원격 현장 장비는 전력·열·업데이트 실패가 리스크이므로 thermal budget과 rollback 가능한 원격 배포를 적용하고 device uptime, thermal throttling rate로 확인함
 
 ## Ⅶ. 결론
 
-Edge TPU는 범용 AI 가속기가 아니라 제약된 모델을 매우 낮은 전력으로 현장에서 처리하는 장치이므로 모델 적합성과 운영 환경을 함께 봐야 함.
+Edge TPU는 범용 AI 가속기가 아니라 제약된 모델을 낮은 전력으로 현장에서 처리하는 장치이므로 모델 적합성과 운영 환경을 함께 판단해야 함.
+
+## 작성 근거(검토용)
+
+- Edge TPU는 INT8 추론, TFLite, 지원 연산자 제약, Host CPU fallback을 핵심 축으로 설명함
+- 구성요소는 Host CPU, Edge TPU Core, TFLite/Compiler, Sensor/Runtime으로 정리함
+- 실무 판단은 compile success rate, inference latency, thermal throttling rate로 검증 가능하게 작성함

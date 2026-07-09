@@ -18,24 +18,26 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: NPU는 컨볼루션과 행렬 곱과 활성화 같은 신경망 연산을 전용 배열과 온칩 메모리와 저정밀 연산기로 처리해 모바일과 엣지와 서버의 AI 추론 효율을 높이는 프로세서임
+- **정의/개념**: NPU는 컨볼루션, 행렬 곱, 활성화 같은 신경망 연산을 전용 배열·온칩 메모리·저정밀 연산기로 처리하는 AI 추론 프로세서임
 - **배경/필요성**: 온디바이스 AI는 배터리와 열과 네트워크 제약이 크기 때문에, CPU나 GPU보다 낮은 전력으로 반복 추론을 수행할 수 있는 전용 장치가 필요함
 
 ## Ⅱ. 특징
 
-- 추론 중심 연산에 특화돼 전력 대비 성능이 높음
+- 추론 중심 연산에 특화돼 전력당 처리량이 높음
 - 지원 연산자와 모델 형식 제약이 있어 컴파일러 적합성이 중요함
 - INT8, INT4 같은 저정밀 연산과 메모리 재사용이 핵심 최적화 포인트임
-- CPU fallback이 많아지면 공개 TOPS와 달리 체감 성능이 크게 낮아질 수 있음
+- CPU fallback이 많아지면 공개 TOPS와 달리 체감 지연이 늘어날 수 있음
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | GPU | NPU | Edge TPU |
 |:---|:---|:---|:---|
 | 주 용도 | 범용 병렬, 학습 | 온디바이스 추론 | 제한된 엣지 추론 |
-| 전력 효율 | 중간 | 높음 | 매우 높음 |
+| 전력 효율 | 중간 | 높음 | 가장 높음 |
 | 모델 유연성 | 높음 | 중간 | 낮음 |
 | 운영 위치 | 서버, 워크스테이션 | 모바일, PC, 엣지 | 카메라, 게이트웨이 |
+
+> 요약: NPU는 온디바이스 추론에 맞지만 모델 유연성은 GPU보다 낮음.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -43,7 +45,7 @@ extra:
 |:---|:---|
 | MAC Array | 반복적인 신경망 연산을 병렬 처리하며 NPU의 핵심 계산 엔진 역할을 함 |
 | On-chip Memory | 가중치와 활성값을 가까이 저장해 외부 메모리 접근과 전력 소모를 줄임 |
-| Quantization Engine | INT8, INT4 같은 저정밀 실행을 지원해 성능과 전력 효율을 끌어올림 |
+| Quantization Engine | INT8, INT4 같은 저정밀 실행을 지원해 연산당 전력 소모를 줄임 |
 | Compiler, Runtime | 모델을 NPU 실행 단위로 분할하고 fallback과 scheduling을 관리함 |
 
 ```text
@@ -51,6 +53,8 @@ extra:
 | Model Graph | --> | Quant Engine| --> | MAC + On-chip Mem| --> | Runtime     |
 +-------------+     +-------------+     +------------------+     +-------------+
 ```
+
+> 요약: NPU는 MAC array, 온칩 메모리, 양자화, runtime이 맞아야 end-to-end 지연을 줄임.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -65,11 +69,19 @@ extra:
 3. **NPU 연산 실행**: 전용 배열과 메모리 경로로 추론을 수행함
 4. **Fallback 및 후처리**: CPU나 GPU가 나머지 연산과 결과 처리를 담당함
 
+> 요약: 모델은 변환·양자화 뒤 지원 구간은 NPU, 비지원 구간은 CPU·GPU로 나뉨.
+
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 스마트폰이나 AI PC의 온디바이스 추론에서는 NPU가 전력 효율이 높지만 비지원 연산이 많으면 CPU fallback이 늘어나므로 graph rewrite와 operator fusion을 적용하고 NPU execution ratio와 end-to-end latency로 확인함
-2. 저전력 영상 판독이나 음성 비서에서는 양자화가 필수지만 정확도 손실이 과하면 장점이 사라지므로 calibration과 QAT를 적용하고 accuracy delta와 power per inference로 확인함
+1. 스마트폰·AI PC 추론은 비지원 연산이 많으면 CPU fallback이 늘어나므로 graph rewrite와 operator fusion을 적용하고 NPU execution ratio, end-to-end latency로 확인함
+2. 저전력 영상·음성 추론은 양자화가 필요하지만 정확도 손실이 크면 이점이 줄어드므로 calibration과 QAT를 적용하고 accuracy delta, power per inference로 확인함
 
 ## Ⅶ. 결론
 
-NPU는 TOPS 수치보다 실제 모델 커버리지와 양자화 효율과 메모리 구조가 더 중요하므로 추론 경로 전체를 기준으로 판단해야 함.
+NPU는 TOPS 수치보다 모델 커버리지, 양자화 손실, 메모리 경로를 기준으로 판단해야 함.
+
+## 작성 근거(검토용)
+
+- NPU는 전용 배열, 온칩 메모리, 저정밀 연산, fallback 관리를 중심으로 설명함
+- 비교표는 GPU, NPU, Edge TPU의 전력 효율, 모델 유연성, 운영 위치를 대비함
+- 실무 판단은 NPU execution ratio, end-to-end latency, accuracy delta로 검증 가능하게 작성함

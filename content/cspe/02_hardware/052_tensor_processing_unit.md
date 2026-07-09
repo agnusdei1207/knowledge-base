@@ -23,19 +23,21 @@ extra:
 
 ## Ⅱ. 특징
 
-- 대규모 행렬 곱을 systolic array로 고효율 처리함
-- 프레임워크와 컴파일러 최적화가 실제 성능에 큰 영향을 줌
-- 규칙적인 텐서 연산에는 강하지만 비지원 연산이 많으면 fallback 비용이 커짐
-- 클러스터 단위 확장성과 collective 통신 효율이 중요함
+- 대규모 행렬 곱을 systolic array로 반복 처리함
+- 프레임워크와 컴파일러 최적화가 실제 성능을 좌우함
+- 규칙적인 텐서 연산에는 적합하지만 비지원 연산이 많으면 fallback 비용이 늘어남
+- 클러스터 단위 확장성과 collective 통신 효율이 step time을 좌우함
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | GPU | TPU | NPU |
 |:---|:---|:---|:---|
 | 최적화 대상 | 범용 병렬, AI 혼합 | 대규모 텐서 연산 | 온디바이스 추론 중심 |
-| 배치 처리 적합성 | 높음 | 매우 높음 | 중간 |
+| 배치 처리 적합성 | 높음 | 가장 적합 | 중간 |
 | 생태계 의존성 | CUDA 중심 | XLA, 프레임워크 중심 | 벤더 런타임 중심 |
 | 대표 배치 위치 | 서버, 학습 | 클라우드 AI 클러스터 | 모바일, 엣지 |
+
+> 요약: TPU는 텐서 연산과 배치 처리에 맞고, GPU는 범용 병렬성이 넓음.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -52,6 +54,8 @@ extra:
 +-------------+     +-------------+     +------------------+     +-------------+
 ```
 
+> 요약: TPU는 XLA가 그래프를 배열·메모리 경로에 맞게 바꾸고 collective network로 확장함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -65,11 +69,19 @@ extra:
 3. **MXU 연산 실행**: 텐서 연산을 배열 구조에서 병렬 실행함
 4. **결과 집계 및 동기화**: 다중 장치 환경에서는 collective 통신을 수행함
 
+> 요약: 모델 그래프는 XLA 최적화 뒤 MXU에서 실행되고 다중 장치에서는 동기화됨.
+
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 대규모 언어모델 학습과 배치 추론에서는 TPU가 높은 처리량을 내지만 비지원 연산이 많으면 fallback 비용이 커지므로 XLA 친화 연산으로 그래프를 재구성하고 unsupported op count와 step time으로 확인함
-2. 다수 TPU를 묶은 클러스터에서는 계산보다 통신이 병목이 되기 쉬우므로 sharding과 communication overlap을 조정하고 MXU utilization과 all-reduce time으로 확인함
+1. 대규모 언어모델 학습·배치 추론은 TPU 처리량이 높지만 비지원 연산이 많으면 fallback 비용이 커지므로 XLA 친화 연산으로 재구성하고 unsupported op count, step time으로 확인함
+2. TPU 클러스터는 계산보다 통신이 병목이 되기 쉬우므로 sharding과 communication overlap을 조정하고 MXU utilization, all-reduce time으로 확인함
 
 ## Ⅶ. 결론
 
 TPU는 행렬 연산이 지배적인 대규모 AI 워크로드에 강하므로 모델 그래프가 전용 배열과 컴파일러에 얼마나 잘 맞는지가 핵심 선택 기준임.
+
+## 작성 근거(검토용)
+
+- TPU는 MXU, systolic array, XLA, collective network를 핵심 구성으로 설명함
+- 비교표는 GPU, TPU, NPU의 최적화 대상과 배치 위치 차이를 중심으로 작성함
+- 실무 판단은 unsupported op count, step time, all-reduce time으로 검증 가능하게 정리함
