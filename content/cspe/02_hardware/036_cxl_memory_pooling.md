@@ -18,15 +18,15 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: CXL 메모리 풀링은 CXL 스위치와 메모리 장치와 패브릭 관리 기능을 이용해 여러 호스트가 공유 가능한 외부 메모리 자원을 하나의 논리 풀처럼 구성하고, 필요 시 용량을 동적으로 할당하는 데이터센터 메모리 확장 방식임
+- **정의/개념**: CXL 메모리 풀링은 CXL 스위치, 메모리 장치, 패브릭 관리 기능을 이용해 여러 호스트가 공유 가능한 외부 메모리 자원을 하나의 논리 풀처럼 구성하고, 필요 시 용량을 동적으로 할당하는 데이터센터 메모리 확장 방식임
 - **배경/필요성**: 서버마다 DRAM을 과잉 탑재하면 비용과 전력 낭비가 크고, 반대로 보수적으로 탑재하면 일부 워크로드가 메모리 부족에 걸리므로 메모리를 독립 자원으로 분리할 필요가 커짐
 
 ## Ⅱ. 특징
 
 - 메모리 용량을 서버 보드에 고정하지 않고 공유 자원으로 운영해 활용률을 높일 수 있음
-- CXL 스위치와 fabric manager를 통해 필요 시 용량을 재구성하는 유연성이 큼
+- CXL 스위치와 fabric manager를 통해 필요 시 용량을 재구성할 수 있음
 - 로컬 DRAM보다 지연이 크므로 모든 데이터를 풀 메모리에 두기보다 tier로 운영해야 함
-- RAS와 격리와 보안이 미흡하면 공유 자원 특성상 장애 파급 범위가 커질 수 있음
+- RAS·격리·보안이 미흡하면 공유 자원 특성상 장애 파급 범위가 커질 수 있음
 
 ## Ⅲ. 종류 및 비교
 
@@ -37,6 +37,8 @@ extra:
 | 한계 | 유휴 메모리가 생겨도 다른 서버와 공유하지 못함 | 원격 접근 지연과 관리 복잡도가 증가함 |
 | 적합 환경 | 지연 최우선 단일 노드 작업 | 용량 가변성이 큰 클라우드와 AI 인프라 |
 
+> 요약: 로컬 DRAM은 지연이 짧고, CXL 메모리 풀링은 공유 용량과 확장 유연성을 높임.
+
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
@@ -44,7 +46,7 @@ extra:
 | Host Servers | 워크로드를 실행하며 필요에 따라 풀 메모리를 요청하는 소비자 역할을 함 |
 | CXL Memory Devices | 확장 메모리 자원을 제공하며 풀 내에서 논리적으로 분할 또는 공유됨 |
 | CXL Switch Fabric | 여러 호스트와 메모리 장치를 fan-out해 풀 토폴로지를 형성함 |
-| Fabric Manager | 할당 정책과 접근 제어와 상태 관리를 수행해 실제 운영 가치를 결정함 |
+| Fabric Manager | 할당 정책·접근 제어·상태 관리를 수행해 실제 운영 가치를 결정함 |
 
 ```text
 +-------------+      +------------------+      +------------------+
@@ -53,6 +55,8 @@ extra:
 | Host B      |  \              |               | Memory Device 2  |
 +-------------+   \-------------+               +------------------+
 ```
+
+> 요약: CXL 메모리 풀링은 host, memory device, switch fabric, fabric manager가 함께 동작함.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -68,21 +72,20 @@ extra:
 4. **호스트 매핑 갱신**: 운영체제나 하이퍼바이저가 새 메모리 tier를 인식함
 5. **tier-aware 사용**: 핫 데이터는 로컬에 두고 용량성 데이터는 풀 메모리에 배치함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 수요 발생 후 fabric manager가 풀 자원을 배정하고 호스트는 tier-aware로 사용함.
 
-1. 문제: 풀 메모리를 로컬 DRAM처럼 사용하면 원격 지연 때문에 지연 민감 워크로드 성능이 크게 흔들릴 수 있음
-   - 해결방안: hot-cold tiering과 page placement 정책을 적용하고 local hit ratio와 end-to-end latency로 검증함
-2. 문제: 여러 호스트가 같은 풀을 경쟁적으로 쓰면 예측 불가능한 대역폭 경합이 생길 수 있음
-   - 해결방안: quota와 QoS 제어를 적용하고 fabric bandwidth contention과 throughput fairness로 검증함
-3. 문제: 공유 메모리 장치 장애가 여러 호스트에 동시에 영향을 주면 운영 복원력이 약해질 수 있음
-   - 해결방안: failover path와 device isolation 정책을 적용하고 blast radius와 recovery time objective로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 풀 메모리를 로컬 DRAM처럼 쓰면 원격 지연으로 지연 민감 작업이 흔들리므로 hot-cold tiering과 page placement를 적용하고 local hit ratio, end-to-end latency로 확인함
+2. 여러 호스트가 같은 풀을 경쟁적으로 쓰면 대역폭 경합이 생기므로 quota와 QoS 제어를 적용하고 fabric bandwidth contention, throughput fairness로 확인함
+3. 공유 메모리 장치 장애는 여러 호스트로 번질 수 있으므로 failover path와 device isolation을 적용하고 blast radius, recovery time objective로 확인함
 
-- 클라우드 인프라는 CXL 메모리 풀을 활용해 메모리 과잉 탑재를 줄이고, memory utilization과 cost per GB used로 결과를 확인함
-- AI 추론 팜은 모델 캐시와 세션 상태를 tier로 분리해 유연성을 높이고, local hit ratio와 tokens per second로 결과를 확인함
-- 인메모리 분석 클러스터는 급증하는 배치 작업에 임시 메모리를 동적 할당하고, allocation time과 query completion time로 결과를 확인함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
+CXL 메모리 풀링은 메모리 추가보다 서버에서 분리된 공용 메모리를 운영해 활용률과 확장성을 높이는 방식임.
 
-CXL 메모리 풀링의 가치는 메모리를 더 붙이는 데 있지 않고 메모리를 서버에서 분리된 공용 자원으로 운영해 활용률과 확장성을 함께 끌어올리는 데 있음.
+## 작성 근거(검토용)
+
+- CXL 메모리 풀링은 용량 추가가 아니라 공유 풀, fabric manager, tier-aware 배치 흐름으로 설명함
+- 모호한 표현은 local hit ratio, fabric bandwidth contention, blast radius로 구체화함
+- 결론은 메모리 증설보다 분리된 공용 자원 운영으로 정리함
