@@ -64,6 +64,8 @@ BFS: Start -> Queue -> Level 0 -> Level 1 -> Level 2
 DFS: Start -> Stack/Recur -> Path -> Backtrack -> Next Path
 ```
 
+> 요약: 후보 저장소와 방문 상태가 BFS·DFS의 방문 순서와 중복 방지를 결정함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -77,6 +79,8 @@ DFS: Start -> Stack/Recur -> Path -> Backtrack -> Next Path
 3. **인접 확인**: 현재 정점의 이웃 중 아직 발견되지 않은 정점을 고름
 4. **발견 삽입**: 발견 즉시 방문 표시하고 부모·거리 정보를 함께 갱신함
 5. **반복/재시작**: 후보가 남으면 반복하고, 비연결 그래프는 새 시작점을 잡음
+
+> 요약: 발견 시점에 방문 표시를 해야 큐·스택 중복 삽입과 순환 반복을 막음.
 
 ## Ⅵ. 실무 적용 및 유의점
 
