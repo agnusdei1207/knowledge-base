@@ -14,28 +14,30 @@ extra:
 
 - DDR은 클록의 상승과 하강 에지 모두에서 데이터를 전송하는 방식임
 - SDRAM은 클록에 동기화되어 동작하는 DRAM이며 bank 구조와 row buffer를 가짐
-- refresh는 커패시터 전하 누설로 인한 데이터 손실을 막기 위해 필수임
+- refresh는 커패시터 전하 누설로 인한 데이터 손실을 방지하기 위해 필수임
 
 ## Ⅰ. 개요
 
 - **정의/개념**: DDR SDRAM은 동기식 DRAM에 double data rate 전송 방식을 적용해 같은 기본 클록에서 더 높은 대역폭을 내는 메모리이고, refresh는 저장 전하를 주기적으로 복원해 데이터 무결성을 유지하는 제어 메커니즘임
-- **배경/필요성**: CPU와 가속기의 처리량이 커질수록 메모리 대역폭 요구도 급증하지만 DRAM 셀은 누설 특성을 피할 수 없으므로, 고속 전송과 데이터 보존을 동시에 만족하는 정교한 제어가 필요함
+- **배경/필요성**: CPU와 가속기의 처리량이 커질수록 메모리 대역폭 요구도 늘어나지만 DRAM 셀은 누설 특성을 피할 수 없으므로, 고속 전송과 데이터 보존을 동시에 만족하는 정교한 제어가 필요함
 
 ## Ⅱ. 특징
 
 - 양 에지 전송과 prefetch 구조로 기본 클록 대비 높은 실효 대역폭을 제공함
 - bank와 row buffer를 활용해 병렬성을 키우지만 접근 패턴에 따라 충돌 지연이 생길 수 있음
 - refresh는 필수라서 용량과 온도가 높아질수록 성능 손실과 전력 부담이 증가함
-- 성능 최적화는 순수 전송률보다 refresh 스케줄과 bank 활용 효율에 크게 좌우됨
+- 성능 최적화는 순수 전송률보다 refresh 스케줄과 bank 활용 효율에 좌우됨
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | Auto Refresh | Per-Bank Refresh | Self Refresh |
 |:---|:---|:---|:---|
 | 동작 방식 | 컨트롤러가 전체 칩 기준으로 주기적 갱신 명령을 보냄 | 특정 bank만 선택적으로 갱신해 나머지 bank 접근을 유지함 | 저전력 상태에서 DRAM 내부 로직이 스스로 갱신함 |
-| 강점 | 구현이 단순하고 표준 호환성이 높음 | 성능 손실을 분산해 병렬성을 높임 | 대기 전력을 크게 줄일 수 있음 |
+| 강점 | 구현이 단순하고 표준 호환성이 높음 | 성능 손실을 분산해 병렬성을 높임 | 대기 전력을 줄일 수 있음 |
 | 한계 | refresh 동안 접근 차단이 커짐 | 제어 로직이 복잡해짐 | 모드 전환 지연과 성능 제한이 있음 |
 | 적합 환경 | 일반 서버와 표준 메모리 경로 | 고성능 서버와 대역폭 민감 워크로드 | 모바일과 절전 중심 장치 |
+
+> 요약: Auto Refresh는 단순하고, Per-Bank Refresh는 접근 공백을 줄이며, Self Refresh는 대기 전력을 낮춤.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -57,6 +59,8 @@ extra:
                         +------------------+
 ```
 
+> 요약: DDR 컨트롤러는 bank·row 접근과 refresh 타이밍을 함께 스케줄링함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -71,21 +75,20 @@ extra:
 4. **데이터 전송**: DDR 방식으로 양 에지에서 데이터를 송수신함
 5. **다음 주기 예약**: 다음 refresh 시점과 bank 사용 순서를 다시 계산함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: DDR SDRAM은 접근 요청과 refresh를 bank 상태와 타이밍 규칙에 맞춰 배치함.
 
-1. 문제: 메모리 용량이 커질수록 refresh에 소모되는 시간이 늘어나 실제 접근 가능한 대역폭이 감소함
-   - 해결방안: per-bank refresh와 fine granularity refresh를 적용하고 refresh penalty와 effective bandwidth로 검증함
-2. 문제: 특정 row를 반복 활성화하면 인접 셀 간섭으로 RowHammer 위험이 커질 수 있음
-   - 해결방안: TRR과 ECC와 access throttling을 적용하고 row activation rate와 corrected error count로 검증함
-3. 문제: 온도 상승은 전하 누설을 빠르게 만들어 보존 주기와 전력 비용을 동시에 악화시킴
-   - 해결방안: temperature-compensated self refresh와 열 제어를 연동하고 refresh power와 thermal margin으로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 메모리 용량이 커지면 refresh 시간이 늘어 유효 대역폭이 줄어드므로 per-bank refresh와 fine granularity refresh를 적용하고 refresh penalty, effective bandwidth로 확인함
+2. 특정 row 반복 활성화는 RowHammer 위험을 키우므로 TRR, ECC, access throttling을 적용하고 row activation rate, corrected error count로 확인함
+3. 온도 상승은 전하 누설을 키워 보존 주기와 전력 비용을 악화시키므로 temperature-compensated self refresh와 열 제어를 연동하고 refresh power, thermal margin으로 확인함
 
-- DDR5 서버 메모리는 per-bank refresh를 활용해 대역폭 손실을 줄이고, effective bandwidth와 refresh penalty로 결과를 확인함
-- LPDDR 모바일 기기는 self refresh와 partial array 제어를 사용해 대기 전력을 낮추고, standby power와 resume latency로 결과를 확인함
-- 데이터센터 운영은 메모리 온도와 refresh 정책을 함께 관리해 안정성을 유지하고, thermal margin과 corrected error count로 결과를 확인함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
+DDR SDRAM의 판단 기준은 전송률 숫자보다 refresh 제약을 스케줄링으로 숨겨 유효 대역폭을 지키는 데 있음.
 
-DDR SDRAM의 경쟁력은 전송률 숫자보다도 refresh라는 물리 제약을 얼마나 영리하게 숨기면서 유효 대역폭을 지켜내는지에 달려 있음.
+## 작성 근거(검토용)
+
+- DDR SDRAM은 전송률뿐 아니라 bank, row buffer, refresh scheduler의 제어 흐름으로 설명함
+- 모호한 표현은 refresh penalty, effective bandwidth, row activation rate, thermal margin으로 구체화함
+- 결론은 최고 전송률보다 refresh 제약을 숨긴 유효 대역폭 유지로 정리함

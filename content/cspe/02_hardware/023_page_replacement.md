@@ -23,7 +23,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 지역성을 잘 반영할수록 재참조 가능성이 낮은 페이지를 골라 fault를 줄일 수 있음
+- 지역성을 잘 반영할수록 재참조 가능성이 낮은 페이지를 선택해 fault를 줄일 수 있음
 - 이상적인 성능은 미래 참조를 아는 OPT가 주지만 실제 시스템은 근사 알고리즘으로 구현함
 - 알고리즘이 정교해질수록 메타데이터 갱신 비용과 구현 복잡도가 커짐
 - 교체 비용은 fault 횟수만이 아니라 dirty write-back과 장기 tail latency까지 함께 봐야 함
@@ -33,9 +33,11 @@ extra:
 | 판단 기준 | FIFO | LRU | LFU | OPT |
 |:---|:---|:---|:---|:---|
 | 선택 기준 | 가장 먼저 들어온 페이지를 교체함 | 가장 오래 쓰지 않은 페이지를 교체함 | 가장 적게 참조된 페이지를 교체함 | 가장 나중에 다시 쓰일 페이지를 교체함 |
-| 강점 | 구현이 단순함 | 지역성을 잘 반영해 성능이 안정적임 | 반복 참조가 강한 데이터에 유리함 | 이론적으로 최저 fault를 제공함 |
+| 강점 | 구현이 단순함 | 지역성을 반영해 fault 변동을 줄임 | 반복 참조가 강한 데이터에 유리함 | 이론적으로 최저 fault를 제공함 |
 | 한계 | Belady anomaly가 발생할 수 있음 | 정확 구현 비용이 큼 | 오래된 참조 이력이 잔존해 왜곡될 수 있음 | 미래 정보를 몰라 실제 구현이 불가능함 |
 | 실무 활용 | 단독 사용은 드묾 | Clock 등 근사 형태로 널리 사용됨 | aging과 결합해 제한적으로 사용됨 | 다른 알고리즘 평가 기준으로 사용됨 |
+
+> 요약: FIFO는 단순하고, LRU·LFU는 지역성 근사, OPT는 실제 구현보다 평가 기준에 가깝음.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -57,6 +59,8 @@ extra:
                               +------------------+
 ```
 
+> 요약: 교체 정책은 참조 비트, dirty 상태, 메타데이터를 이용해 희생 페이지를 선택함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -67,25 +71,24 @@ extra:
 
 1. **page fault 발생**: 참조한 페이지가 메모리에 없음을 확인함
 2. **빈 프레임 확인**: 여유 프레임이 있으면 바로 적재하고 없으면 교체로 넘어감
-3. **희생 페이지 선정**: 정책에 따라 재사용 가능성이 낮은 페이지를 고름
+3. **희생 페이지 선정**: 정책에 따라 재사용 가능성이 낮은 페이지를 선택함
 4. **필요 시 write-back 수행**: dirty page면 backing store에 먼저 기록함
 5. **새 페이지 적재**: 요청한 페이지를 프레임에 올리고 메타데이터를 갱신함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: page fault 시 빈 프레임이 없으면 재사용 가능성과 dirty 비용을 보고 희생 페이지를 정함.
 
-1. 문제: FIFO는 참조 지역성을 반영하지 못해 프레임을 늘려도 fault가 늘어나는 비정상 현상이 생길 수 있음
-   - 해결방안: stack property를 갖는 LRU 계열이나 working-set 기반 정책을 적용하고 frame count별 page fault curve로 검증함
-2. 문제: 순수 LRU는 모든 참조 시각을 추적해야 해 메타데이터 갱신 비용이 과도해질 수 있음
-   - 해결방안: Clock이나 second-chance로 근사 구현하고 replacement overhead와 major fault rate로 검증함
-3. 문제: LFU는 과거에만 많이 쓰였던 페이지가 오래 남아 현재 작업 집합을 방해할 수 있음
-   - 해결방안: aging과 decay counter를 적용하고 stale hot page ratio와 re-reference interval로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. FIFO는 지역성을 반영하지 못해 Belady anomaly가 생길 수 있으므로 LRU 계열이나 working-set 정책을 적용하고 frame count별 page fault curve로 확인함
+2. 순수 LRU는 모든 참조 시각을 추적해 비용이 커지므로 Clock이나 second-chance로 근사하고 replacement overhead, major fault rate로 확인함
+3. LFU는 오래된 인기 페이지가 현재 작업 집합을 방해할 수 있으므로 aging과 decay counter를 적용하고 stale hot page ratio, re-reference interval로 확인함
 
-- Linux 커널은 active와 inactive list를 이용한 LRU 근사 정책을 사용해 교체 비용을 제어하고, major fault rate와 reclaim latency로 결과를 확인함
-- 데이터베이스 버퍼 캐시는 scan-resistant LRU 변형을 적용해 대량 순차 읽기 오염을 막고, buffer hit ratio와 query latency로 결과를 확인함
-- 하이퍼바이저는 ballooning과 page reclaim 정책을 병행해 호스트 메모리 압박을 완화하고, swap out rate와 guest stall time로 결과를 확인함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
+페이지 교체는 알고리즘 이름보다 현재 작업 집합을 보존하고 dirty write-back과 메타데이터 비용을 통제하는 것이 핵심임.
 
-페이지 교체의 품질은 알고리즘 이름보다도 현재 작업 집합을 얼마나 정확히 보존하면서 메타데이터 비용을 통제하는지에 의해 결정됨.
+## 작성 근거(검토용)
+
+- 페이지 교체는 정책 이름 나열보다 page fault, 희생 페이지, dirty write-back 비용 흐름으로 설명함
+- 모호한 표현은 page fault curve, replacement overhead, stale hot page ratio로 구체화함
+- 결론은 알고리즘 암기보다 작업 집합 보존과 교체 비용 통제로 정리함

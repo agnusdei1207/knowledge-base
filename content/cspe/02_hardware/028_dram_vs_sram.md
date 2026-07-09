@@ -14,16 +14,16 @@ extra:
 
 - DRAM은 커패시터 전하로 비트를 저장해 주기적 refresh가 필요함
 - SRAM은 플립플롭 회로로 상태를 유지해 refresh 없이 빠르게 동작함
-- 두 메모리는 속도와 집적도와 전력 특성이 달라 계층 구조에서 역할이 다름
+- 두 메모리는 속도·집적도·전력 특성이 달라 계층 구조에서 역할이 다름
 
 ## Ⅰ. 개요
 
-- **정의/개념**: DRAM은 1T1C 셀에 전하를 저장해 높은 집적도로 큰 용량을 제공하는 동적 메모리이고, SRAM은 플립플롭 기반 셀로 빠른 접근과 안정된 유지 특성을 제공하는 정적 메모리임
+- **정의/개념**: DRAM은 1T1C 셀에 전하를 저장해 높은 집적도로 큰 용량을 제공하는 동적 메모리이고, SRAM은 플립플롭 기반 셀로 빠른 접근과 refresh 없는 유지 특성을 제공하는 정적 메모리임
 - **배경/필요성**: 시스템은 CPU에 가까운 초저지연 저장층과 대용량 주기억장치를 동시에 요구하므로, 속도 중심의 SRAM과 용량 중심의 DRAM을 계층적으로 함께 사용함
 
 ## Ⅱ. 특징
 
-- DRAM은 집적도와 비용 효율이 좋아 주기억장치로 적합함
+- DRAM은 집적도와 비용 효율이 높아 주기억장치로 적합함
 - SRAM은 refresh가 없어 지연이 짧고 캐시로 쓰기에 유리함
 - DRAM은 refresh와 row access 제약 때문에 대역폭과 지연 최적화가 중요함
 - SRAM은 면적과 누설 전력이 커서 대용량 확장이 어렵고 비용 부담이 큼
@@ -33,9 +33,11 @@ extra:
 | 판단 기준 | DRAM | SRAM |
 |:---|:---|:---|
 | 저장 방식 | 커패시터 전하를 저장하고 주기적으로 refresh함 | 플립플롭 회로 상태를 유지해 refresh가 필요 없음 |
-| 속도 | 상대적으로 느리지만 대용량화가 쉬움 | 매우 빠르지만 면적당 용량이 작음 |
+| 속도 | 상대적으로 느리지만 대용량화가 쉬움 | 빠르지만 면적당 용량이 작음 |
 | 비용 | 비트당 비용이 낮음 | 비트당 비용이 높음 |
 | 대표 용도 | 메인 메모리와 대용량 버퍼 | L1, L2, L3 캐시와 소형 고속 버퍼 |
+
+> 요약: DRAM은 용량·비용, SRAM은 지연·캐시 응답에 강점이 있음.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -57,6 +59,8 @@ extra:
                                +----------------+
 ```
 
+> 요약: SRAM은 CPU 가까운 캐시에, DRAM은 refresh 제어를 받는 주기억장치에 배치됨.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,21 +74,20 @@ extra:
 3. **miss 시 DRAM 접근**: 없으면 메모리 컨트롤러가 DRAM row와 column을 열어 데이터를 읽음
 4. **데이터 상향 적재**: 읽은 데이터를 SRAM cache에 올려 이후 접근을 가속함
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: CPU 요청은 SRAM cache에서 먼저 찾고 miss 시 DRAM에서 읽어 다시 cache에 올림.
 
-1. 문제: DRAM은 refresh와 row conflict가 겹치면 지연이 길어져 CPU가 memory stall에 자주 빠질 수 있음
-   - 해결방안: bank interleaving과 row policy tuning을 적용하고 DRAM access latency와 row buffer hit rate로 검증함
-2. 문제: SRAM은 용량을 늘릴수록 칩 면적과 누설 전력이 급격히 커져 캐시 확장 효율이 떨어짐
-   - 해결방안: cache partitioning과 low-leakage design을 적용하고 cache energy per access와 area efficiency로 검증함
-3. 문제: AI와 HPC 워크로드는 DRAM의 대역폭 한계를 빠르게 드러내 상위 연산기의 활용률을 떨어뜨릴 수 있음
-   - 해결방안: HBM이나 3D stacked memory를 적용하고 memory bandwidth utilization과 accelerator idle ratio로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. DRAM은 refresh와 row conflict가 겹치면 memory stall이 늘어나므로 bank interleaving과 row policy tuning을 적용하고 DRAM access latency, row buffer hit rate로 확인함
+2. SRAM은 용량을 늘리면 면적과 누설 전력이 커지므로 cache partitioning과 low-leakage design을 적용하고 cache energy per access, area efficiency로 확인함
+3. AI·HPC는 DRAM 대역폭 한계로 연산기가 유휴 상태가 될 수 있으므로 HBM이나 3D stacked memory를 적용하고 memory bandwidth utilization, accelerator idle ratio로 확인함
 
-- 범용 서버는 SRAM 기반 L3 캐시와 DRAM 주기억장치를 조합해 평균 지연을 낮추고, cache miss rate와 memory stall ratio로 결과를 확인함
-- 그래픽과 AI 가속기는 DRAM 대역폭을 넓힌 GDDR이나 HBM을 사용해 연산 유휴를 줄이고, memory bandwidth utilization과 accelerator idle ratio로 결과를 확인함
-- 저전력 임베디드 장치는 소용량 SRAM 중심 구성을 채택해 단순성과 응답성을 확보하고, standby power와 interrupt response time로 결과를 확인함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
+DRAM·SRAM 선택은 우열이 아니라 속도·용량·비용을 어느 계층에 배치해야 전체 지연과 전력 비용이 줄어드는지의 문제임.
 
-DRAM과 SRAM의 선택은 어느 메모리가 더 우수한지의 문제가 아니라 속도와 용량과 비용을 어느 계층에 배치해야 전체 시스템이 가장 효율적으로 동작하는지의 문제임.
+## 작성 근거(검토용)
+
+- DRAM과 SRAM은 셀 구조, refresh, 캐시·주기억장치 배치 차이로 설명함
+- 모호한 표현은 DRAM access latency, row buffer hit rate, cache energy per access로 구체화함
+- 결론은 메모리 우열이 아니라 계층별 속도·용량·비용 배치로 정리함

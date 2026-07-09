@@ -12,13 +12,13 @@ extra:
 
 ## 미리 알고가기
 
-- 메모리 계층은 속도와 용량과 비용이 다른 저장 자원을 층으로 배치한 구조임
+- 메모리 계층은 속도·용량·비용이 다른 저장 자원을 층으로 배치한 구조임
 - 상위 계층일수록 빠르지만 비싸고 작으며 하위 계층일수록 느리지만 크고 저렴함
 - 지역성은 계층 구조가 평균 접근 시간을 낮출 수 있게 하는 전제임
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 메모리 계층 구조는 레지스터와 캐시와 주기억장치와 보조저장장치를 속도·용량·비용 특성에 따라 계층화하고, 자주 쓰는 데이터를 상위 층에 유지해 평균 접근 시간을 최소화하는 시스템 설계 원리임
+- **정의/개념**: 메모리 계층 구조는 레지스터·캐시·주기억장치·보조저장장치를 속도·용량·비용 특성에 따라 계층화하고, 자주 쓰는 데이터를 상위 층에 유지해 평균 접근 시간을 최소화하는 시스템 설계 원리임
 - **배경/필요성**: CPU 속도는 빠르게 증가했지만 대용량 메모리와 저장장치의 지연은 상대적으로 느려서, 단일 메모리만으로는 성능과 비용 요구를 동시에 만족할 수 없음
 
 ## Ⅱ. 특징
@@ -26,16 +26,18 @@ extra:
 - 상위 계층은 낮은 지연과 작은 용량을, 하위 계층은 높은 용량과 낮은 비용을 담당함
 - 데이터 이동 정책과 지역성 활용 수준이 평균 접근 시간과 처리량을 좌우함
 - miss penalty는 하위 계층으로 갈수록 커져 초기 상위 계층 설계 품질이 중요해짐
-- 최근에는 HBM과 CXL과 SSD 계층이 추가되어 단일 서버 안에서도 계층이 더 복합화됨
+- 최근에는 HBM·CXL·SSD 계층이 추가되어 단일 서버 안에서도 계층이 복잡해짐
 
 ## Ⅲ. 종류 및 비교
 
 | 판단 기준 | 상위 계층 | 하위 계층 |
 |:---|:---|:---|
 | 대표 자원 | 레지스터, L1/L2/L3 캐시 | DRAM, SSD, HDD, 원격 메모리 |
-| 접근 지연 | 매우 짧아 CPU 주기와 가깝게 동작함 | 상대적으로 길어 miss 시 벌점이 큼 |
+| 접근 지연 | 짧아 CPU 주기와 가깝게 동작함 | 상대적으로 길어 miss 시 벌점이 큼 |
 | 용량 | 작고 비쌈 | 크고 저렴함 |
 | 관리 전략 | 라인 교체와 prefetch가 중요함 | 배치, 압축, 캐싱, 계층 이동 정책이 중요함 |
+
+> 요약: 상위 계층은 지연을 줄이고, 하위 계층은 용량과 비용을 담당함.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -44,7 +46,7 @@ extra:
 | Registers | 현재 명령이 바로 쓰는 피연산자를 저장해 CPU와 가장 가까운 저장층을 형성함 |
 | Cache Levels | L1, L2, L3가 점진적으로 용량을 늘리며 DRAM 접근을 가리기 위한 완충층 역할을 함 |
 | Main Memory | 작업 집합 대부분을 담는 중심 저장층으로 캐시 miss 시 데이터를 공급함 |
-| Secondary or Extended Memory | SSD와 원격 메모리와 CXL 풀처럼 큰 용량을 제공하지만 지연 벌점이 큰 하위 계층임 |
+| Secondary or Extended Memory | SSD·원격 메모리·CXL 풀처럼 큰 용량을 제공하지만 지연 벌점이 큰 하위 계층임 |
 
 ```text
 +-----------+
@@ -72,6 +74,8 @@ extra:
 +-----------+
 ```
 
+> 요약: 레지스터, 캐시, DRAM, SSD/CXL은 용량과 지연을 나눠 맡아 평균 접근 시간을 낮춤.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -81,26 +85,25 @@ extra:
 ```
 
 1. **CPU 요청 발생**: 명령이 필요한 데이터를 우선 상위 계층에서 찾음
-2. **상위 계층 조회**: register와 cache에서 hit 여부를 판단함
+2. **상위 계층 조회**: 레지스터와 캐시에서 hit 여부를 판단함
 3. **miss 시 하위 계층 이동**: 없으면 DRAM이나 저장장치로 내려가 데이터를 찾음
 4. **데이터 상향 복귀**: 찾은 데이터를 다시 상위 계층에 적재함
 5. **다음 접근 가속**: 지역성이 유지되면 이후 접근은 더 짧은 지연으로 끝남
 
-## Ⅵ. 문제점 및 해결 방안
+> 요약: 요청은 상위 계층부터 찾고 miss 시 하위 계층에서 가져와 다음 접근을 가속함.
 
-1. 문제: 작업 집합이 상위 계층 용량을 넘어서면 cache miss와 memory stall이 급격히 증가함
-   - 해결방안: blocking과 cache-aware layout과 prefetch tuning을 적용하고 cache miss rate와 stalled cycle ratio로 검증함
-2. 문제: 잘못된 prefetch와 대량 순차 접근은 유효 데이터보다 불필요한 데이터를 올려 cache pollution을 유발함
-   - 해결방안: adaptive prefetch와 scan-resistant policy를 적용하고 prefetch accuracy와 useful cache residency로 검증함
-3. 문제: SSD와 CXL 같은 확장 계층이 늘어나면 어느 층에 무엇을 둘지 판단 복잡도가 크게 증가함
-   - 해결방안: hot-cold tiering과 latency-aware placement를 적용하고 tier hit ratio와 end-to-end latency로 검증함
+## Ⅵ. 실무 적용 및 유의점
 
-## Ⅶ. 적용 사례
+1. 작업 집합이 상위 계층을 넘으면 cache miss와 memory stall이 늘어나므로 blocking, cache-aware layout, prefetch tuning을 적용하고 cache miss rate, stalled cycle ratio로 확인함
+2. 잘못된 prefetch와 대량 순차 접근은 cache pollution을 만들 수 있으므로 adaptive prefetch와 scan-resistant policy를 적용하고 prefetch accuracy, useful cache residency로 확인함
+3. SSD와 CXL 같은 확장 계층은 배치 판단을 복잡하게 하므로 hot-cold tiering과 latency-aware placement를 적용하고 tier hit ratio, end-to-end latency로 확인함
 
-- HPC 애플리케이션은 loop blocking과 NUMA 배치를 함께 사용해 상위 계층 재사용률을 높이고, cache miss rate와 stalled cycle ratio로 결과를 확인함
-- 데이터베이스 엔진은 buffer pool과 storage tiering을 결합해 핫 데이터를 DRAM에 유지하고, buffer hit ratio와 storage read latency로 결과를 확인함
-- AI 추론 서버는 HBM과 DRAM과 SSD 오프로딩을 계층적으로 운용해 비용을 낮추고, tier hit ratio와 tokens per second로 결과를 확인함
+## Ⅶ. 결론
 
-## Ⅷ. 결론
+메모리 계층 구조는 빠른 저장장치 추가보다 데이터가 어느 층에 얼마나 머물러야 전체 지연이 줄어드는지 정하는 설계임.
 
-메모리 계층 구조의 핵심은 빠른 저장장치를 더 붙이는 것이 아니라 데이터가 어느 층에 얼마나 오래 머물러야 전체 지연이 최소화되는지 설계하는 데 있음.
+## 작성 근거(검토용)
+
+- 메모리 계층은 장치 나열보다 hit, miss, 상하위 계층 이동, 지역성 활용 흐름으로 설명함
+- 모호한 표현은 cache miss rate, stalled cycle ratio, tier hit ratio로 구체화함
+- 결론은 장치 추가보다 데이터 배치와 체류 시간 판단으로 정리함
