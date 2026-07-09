@@ -53,10 +53,10 @@ extra:
 
 ```text
 [ P != NP 가정의 관계 ]
-NP-Hard
+NP-Hard (NP 밖까지 확장, NP와는 NP-Complete에서만 겹침)
   NP
-    P
-    NP-Complete
+    P (NP-Complete와 분리된 부분집합)
+    NP-Complete (NP와 NP-Hard의 교집합)
 ```
 
 > 요약: P, NP, NP-완전, NP-난해는 해결·검증·환원 가능성으로 난도 위치가 갈림.
