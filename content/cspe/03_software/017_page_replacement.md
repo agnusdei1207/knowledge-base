@@ -62,7 +62,7 @@ extra:
 ## Ⅵ. 실무 적용 및 유의점
 
 1. 범용 서버 커널에서는 LRU 근사나 clock 계열 정책을 쓰되 locality를 놓치거나 참조 이력 관리 비용이 커지지 않도록 구현 복잡도를 제한하고 page fault rate와 disk wait time과 replacement overhead로 확인함
-2. 메모리 과점유 환경에서는 working set 기반 제어를 함께 두되 프레임 수를 과도하게 줄이면 스래싱을 막지 못하므로 resident set 하한과 admission control을 적용하고 swap I/O rate와 throughput stability로 확인함
+2. 메모리 과점유 환경에서는 working set 기반 제어를 함께 두되 프레임 수를 과도하게 줄이면 스래싱을 억제하지 못하므로 resident set 하한과 admission control을 적용하고 swap I/O rate와 throughput stability로 확인함
 
 ## Ⅶ. 결론
 
