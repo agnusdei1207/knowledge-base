@@ -57,6 +57,8 @@ extra:
 Problem -> Relaxation/Greedy -> Candidate -> Ratio Proof -> Deploy
 ```
 
+> 요약: 근사 알고리즘은 빠른 후보 해와 근사비 증명을 함께 제공해야 휴리스틱과 구분됨.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -69,6 +71,8 @@ Problem -> Relaxation/Greedy -> Candidate -> Ratio Proof -> Deploy
 2. **빠른 해 산출**: 탐욕, 완화, 라운딩으로 후보 해를 구함
 3. **품질 증명**: 후보 해와 최적해의 최악 비율을 계산함
 4. **운영 검증**: 실제 데이터에서 해 품질과 계산 시간을 확인함
+
+> 요약: 이론적 근사비는 운영 데이터의 계산 시간과 제약 위반률로 다시 검증해야 함.
 
 ## Ⅵ. 실무 적용 및 유의점
 

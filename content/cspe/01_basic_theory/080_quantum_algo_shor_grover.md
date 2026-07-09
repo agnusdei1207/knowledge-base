@@ -58,6 +58,8 @@ extra:
 Initialize -> Superposition -> Oracle/Transform -> Interference -> Measure
 ```
 
+> 요약: 양자 알고리즘은 중첩 상태를 변환하고 간섭으로 정답 진폭을 키운 뒤 측정함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,6 +72,8 @@ Initialize -> Superposition -> Oracle/Transform -> Interference -> Measure
 2. **양자 변환**: 문제 구조에 맞는 QFT 또는 오라클 연산을 적용함
 3. **진폭 조정**: 간섭으로 정답 확률을 높이고 오답 확률을 낮춤
 4. **측정 확정**: 측정 결과를 고전 값으로 읽고 필요한 후처리를 수행함
+
+> 요약: 양자 가속은 문제 구조가 QFT나 오라클 기반 진폭 증폭에 맞을 때만 의미가 있음.
 
 ## Ⅵ. 실무 적용 및 유의점
 

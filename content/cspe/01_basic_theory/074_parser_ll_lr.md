@@ -58,6 +58,8 @@ extra:
 Tokens -> Lookahead -> Parser Table -> Stack Action -> AST
 ```
 
+> 요약: 파서는 룩어헤드와 파싱 테이블로 스택 동작을 결정해 AST를 구성함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,6 +72,8 @@ Tokens -> Lookahead -> Parser Table -> Stack Action -> AST
 2. **동작 결정**: LL은 생성 규칙, LR은 Shift/Reduce 동작을 고름
 3. **스택 갱신**: 전개 또는 환원 결과를 파싱 스택에 반영함
 4. **AST 확정**: 시작 기호와 입력 끝이 맞으면 구문 트리를 반환함
+
+> 요약: LL·LR 선택은 문법 복잡도와 충돌 처리 방식에 맞춰 AST 생성 안정성을 확보하는 문제임.
 
 ## Ⅵ. 실무 적용 및 유의점
 

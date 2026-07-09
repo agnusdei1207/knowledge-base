@@ -58,6 +58,8 @@ extra:
 Source -> Lexer -> Tokens -> Parser -> AST -> Semantic -> IR -> Optimizer -> CodeGen -> Object
 ```
 
+> 요약: 컴파일러는 소스를 단계별 중간 표현으로 낮추며 오류 진단과 최적화를 분리함.
+
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
@@ -70,6 +72,8 @@ Source -> Lexer -> Tokens -> Parser -> AST -> Semantic -> IR -> Optimizer -> Cod
 2. **구조화**: 파서가 문법 규칙에 따라 AST를 만듦
 3. **검증/변환**: 타입·범위를 확인하고 IR로 낮춤
 4. **최적화/생성**: IR을 줄이고 타깃 기계 명령으로 변환함
+
+> 요약: 전단부 검증이 정확해야 후단부 최적화와 코드 생성이 의미 있는 목적 코드를 만듦.
 
 ## Ⅵ. 실무 적용 및 유의점
 
