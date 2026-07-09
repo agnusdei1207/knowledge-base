@@ -1,5 +1,5 @@
 ---
-title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
+title: "소스 코딩·채널 코딩 (Source Coding vs Channel Coding)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
@@ -55,8 +55,8 @@ extra:
 | 복호기 | 채널 오류를 먼저 고친 뒤 압축을 해제함 |
 
 ```text
-send: Source -> Source Encoder -> Channel Encoder -> Noisy Channel
-recv: Sink   <- Source Decoder <- Channel Decoder <- Received Signal
+송신: 정보원 -> 소스 부호기 -> 채널 부호기 -> 잡음 채널
+수신: 수신기 <- 소스 복호기 <- 채널 복호기 <- 수신 신호
 ```
 
 > 요약: 송신 측은 압축 후 보호 비트를 붙이고 수신 측은 오류 정정 후 압축을 해제함.

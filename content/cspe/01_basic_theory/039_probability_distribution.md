@@ -1,5 +1,5 @@
 ---
-title: "확률 분포 - 정규·이항·포아송 (Probability Distribution)"
+title: "확률 분포·정규·이항·포아송 (Probability Distribution)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
@@ -53,11 +53,11 @@ extra:
 | CDF | 특정 값 이하의 누적 확률을 나타냄 |
 
 ```text
-discrete: P(X=x) values are summed
-continuous: area under f(x) is probability
+이산 분포: P(X=x)를 직접 더함
+연속 분포: f(x) 아래 면적이 확률임
 
-E[X] -> center
-Var[X] -> spread
+E[X]   -> 중심 위치
+Var[X] -> 퍼짐 정도
 ```
 
 > 요약: 분포는 확률 계산 방식과 평균·분산 요약값으로 데이터 발생 패턴을 설명함.

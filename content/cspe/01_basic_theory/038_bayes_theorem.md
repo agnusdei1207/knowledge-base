@@ -1,5 +1,5 @@
 ---
-title: "확률 기초 - 베이즈 정리 (Bayes Theorem)"
+title: "확률 기초·베이즈 정리 (Bayes Theorem)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
@@ -56,7 +56,7 @@ extra:
 ```text
 P(H|E) = P(E|H) * P(H) / P(E)
 
-posterior = likelihood * prior / evidence
+사후 확률 = 우도 * 사전 확률 / 증거 확률
 ```
 
 > 요약: 베이즈 정리는 우도와 사전 확률을 증거 확률로 정규화해 사후 확률을 만듦.

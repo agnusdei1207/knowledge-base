@@ -1,5 +1,5 @@
 ---
-title: "가설 검정·신뢰 구간 (Hypothesis Testing Confidence Interval)"
+title: "가설 검정·신뢰 구간·p-value (Hypothesis Testing Confidence Interval)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
@@ -55,11 +55,11 @@ extra:
 | 표준 오차 | 표본 추정량의 흔들림 크기임 |
 
 ```text
-hypothesis test:
-statistic -> p-value -> compare with alpha -> reject or fail to reject
+가설 검정:
+검정통계량 -> p-value -> 유의수준과 비교 -> 기각 또는 기각 실패
 
-confidence interval:
-estimate +/- critical_value * standard_error
+신뢰 구간:
+추정값 +/- 임계값 * 표준오차
 ```
 
 > 요약: 검정은 기각 결정을 만들고 신뢰 구간은 추정값의 불확실성 폭을 보여줌.
@@ -67,9 +67,9 @@ estimate +/- critical_value * standard_error
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-+----------+   +----------+   +----------+   +----------+   +----------+
-| 가설 수립 | -> | alpha 설정 | -> | 통계량 계산 | -> | p-value 산출 | -> | 결론 |
-+----------+   +----------+   +----------+   +----------+   +----------+
++----------+   +-------------+   +----------+   +---------------+   +----------+
+| 가설 수립 | -> | 유의수준 α 설정 | -> | 통계량 계산 | -> | p-value 산출 | -> | 결론 |
++----------+   +-------------+   +----------+   +---------------+   +----------+
 ```
 
 1. 문제에 맞게 귀무 가설과 대립 가설을 정함
