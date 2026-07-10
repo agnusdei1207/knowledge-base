@@ -9,7 +9,7 @@ weight: 159
 | 구분 | 내용 |
 |---|---|
 | 정의 | 특정 언어로 작성된 바이트코드를 실제 하드웨어 명령으로 변환 실행하는 환경 |
-| 배경 | "Write Once, Run Anywhere" 실현 및 메모리 관리의 자동화 요구 |
+| 배경 | 중간 code의 platform별 실행, type·bytecode 검증, JIT, garbage collection 제공 요구 |
 | 출제 의도 | 중립적 언어(Bytecode, CIL), JIT 컴파일러, 가비지 컬렉션 구조 이해 |
 
 ## Ⅱ. 구성요소
@@ -30,7 +30,7 @@ weight: 159
 | 중간 언어 | Java Bytecode (.class) | Common Intermediate Lang (CIL) |
 | 컴파일 방식 | JIT (HotSpot) | JIT / AOT (Native Image) |
 | 실행 환경 | JRE / JDK | .NET Runtime / SDK |
-> 요약: 런타임은 하드웨어와 앱 사이의 추상화 계층으로 이식성과 보안을 제공함.
+> 요약: runtime은 intermediate code를 load·verify·interpret·JIT compile하고 memory와 thread·exception 실행 규칙을 제공함.
 
 ## Ⅲ. 절차
 ```text
@@ -39,10 +39,10 @@ Load Code -> Verify -> Interpret -> Profile -> JIT Compile -> Execute
 (로딩)     (검증)     (실행)     (분석)     (최적화)       (원어실행)
 ```
 1. 로딩 및 검증: 바이트코드를 메모리에 올리고 문법/보안 위반 사항을 사전 체크.
-2. 인터프리팅: 초기 실행 시 바이트코드를 한 줄씩 해석하여 즉시 실행.
+2. 인터프리팅: bytecode instruction을 decode하고 대응 operation을 실행함.
 3. 프로파일링: 런타임 중 자주 호출되는 'Hot Method'를 실시간 모니터링.
-4. JIT 컴파일: 분석된 핵심 코드를 기계어로 직접 번역 및 최적화하여 속도 향상.
-> 요약: 해석(Slow)으로 시작하여 컴파일(Fast)로 진화하는 동적 최적화 방식임.
+4. JIT compile: hot method·loop를 target machine code로 변환하고 runtime profile 기반 optimization을 적용함.
+> 요약: runtime은 초기 interpretation과 execution profile을 이용해 선택한 hot code를 JIT compile하고 필요 시 deoptimization함.
 
 ## Ⅳ. 문제점
 - 초기 구동 시 클래스 로딩 및 인터프리팅으로 인한 'Warm-up' 시간 소요.

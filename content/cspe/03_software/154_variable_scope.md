@@ -35,8 +35,8 @@ Function Call -> Call Stack Search -> Reference Check (Runtime)
 ```
 1. 심볼 등록: 컴파일러가 변수 선언을 발견하고 해당 스코프의 심볼 테이블에 기록.
 2. 식별자 해석: 변수 사용 시 현재 스코프부터 상위 스코프 방향으로 정의를 탐색.
-3. 메모리 할당: 수명에 따라 스택(자동) 또는 데이터 영역(정적)에 공간 배정.
-4. 자원 회수: 범위를 벗어나거나 수명이 다하면 가비지 컬렉션 또는 수동 해제.
+3. 저장 위치 결정: storage duration과 escape 여부에 따라 register·stack·static area·heap에 배치함.
+4. 수명 종료: stack frame 반환, destructor·owner 해제, GC 도달성 판정 등 언어별 규칙으로 자원을 회수함.
 > 요약: 대부분의 현대 언어는 코드 구조로 범위를 결정하는 정적 스코프를 사용함.
 
 ## Ⅳ. 문제점
@@ -48,5 +48,5 @@ Function Call -> Call Stack Search -> Reference Check (Runtime)
 - 모듈화 및 네임스페이스(Namespace)를 활용하여 전역 심볼 충돌 방지.
 
 ## Ⅵ. 전망
-- 불변성 강제: Rust 등 최신 언어의 소유권(Ownership) 개념을 통한 수명 관리 자동화.
+- Rust ownership·borrow checker는 compile time에 value lifetime과 aliasing 규칙을 검사함.
 - 지능형 린터: 사용되지 않는 변수나 위험한 수명 주기를 AI가 사전 탐지 및 수정 제안.

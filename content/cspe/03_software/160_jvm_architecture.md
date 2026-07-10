@@ -9,7 +9,7 @@ weight: 160
 | 구분 | 내용 |
 |---|---|
 | 정의 | 자바 바이트코드를 실행하기 위한 가상 컴퓨터 아키텍처 |
-| 필요성 | 플랫폼 독립성 보장 및 자동화된 메모리 관리(GC) 통한 안정성 확보 |
+| 필요성 | class file의 platform별 실행, bytecode 검증, JIT compilation, garbage collection 제공 |
 | 출제 의도 | 런타임 데이터 영역(Heap, Stack 등) 및 실행 엔진 작동 원리 측정 |
 
 ## Ⅱ. 구성요소
@@ -40,14 +40,14 @@ weight: 160
 2. 링크: 바이트코드 검증(Verify) 및 정적 변수 기본값 준비(Prepare).
 3. 초기화: 정적 블록 실행 및 정적 변수에 실제 값 할당.
 4. 실행: 인터프리터가 명령을 수행하며, 빈번한 코드는 JIT가 기계어로 변환.
-> 요약: 컴파일된 코드를 읽어 메모리에 배치하고 상황에 맞춰 최적으로 실행함.
+> 요약: JVM은 class를 load·link·initialize하고 bytecode를 interpret하며 hot code를 JIT compile해 실행함.
 
 ## Ⅳ. 문제점
 - 힙 영역의 과도한 객체 생성 시 GC 부하로 인한 애플리케이션 응답 지연.
 - 스택 크기 설정 오류 시 딥 재귀 호출 등에 의한 StackOverflowError 발생.
 
 ## Ⅴ. 개선방안
-- JVM 옵션(Xms, Xmx) 튜닝을 통해 워크로드에 최적화된 힙 크기 구성.
+- live set, allocation rate, pause 목표, container memory limit을 기준으로 Xms·Xmx와 GC를 조정함.
 - G1 GC 또는 ZGC 선택 및 세대별 가설(Generational Hypothesis) 기반 튜닝.
 
 ## Ⅵ. 전망

@@ -26,7 +26,7 @@ weight: 158
 | OpenMP | 지시어(Pragma) 기반, 다중 스레드 활용 | 공유 변수 접근 |
 | MPI | 명시적 메시지 전달, 다중 프로세스 활용 | Send / Receive API |
 | CUDA/OpenCL | GPU 가속기 활용 병렬 처리 | 커널 함수 실행 |
-> 요약: OpenMP는 단일 서버 내 구현이 쉽고, MPI는 클러스터 확장이 용이함.
+> 요약: OpenMP는 shared-memory thread에 loop·task를 배치하고, MPI는 process별 memory와 message로 cluster 연산을 구성함.
 
 ## Ⅲ. 절차
 ```text
@@ -37,8 +37,8 @@ Data Partitioning -> Task Mapping -> Parallel Execution -> Communication
 1. 영역 분할: 전체 연산 데이터를 코어 수에 맞춰 블록 또는 스트라이드 단위로 분해.
 2. 병렬 영역 진입: 마스터 스레드가 워커 스레드/프로세스를 포크(Fork)하여 분산.
 3. 부분 연산: 각 노드/코어가 할당된 데이터 범위 내에서 독립적으로 계산 수행.
-4. 동기화/리덕션: 연산 중간 결과를 수집하거나 전파하여 전역 일관성 유지.
-> 요약: 데이터와 계산의 독립성을 확보하여 병렬성을 극대화하는 것이 핵심임.
+4. 동기화·reduction: barrier·collective로 partial result를 결합하고 dependency 완료를 맞춤.
+> 요약: 병렬 프로그램은 data dependency를 분할하고 communication·synchronization·load imbalance 비용을 측정해 speedup을 검증함.
 
 ## Ⅳ. 문제점
 - 암달의 법칙(Amdahl's Law)에 따라 직렬 영역 존재 시 성능 향상폭이 제한됨.

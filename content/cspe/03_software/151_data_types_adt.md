@@ -26,7 +26,7 @@ weight: 151
 |---|---|---|
 | 자료형 | 컴퓨터가 처리하는 데이터의 형식과 범위 | 그릇의 크기와 종류 |
 | 연산 (Operation) | 해당 데이터로 할 수 있는 행동 (Read/Write) | 그릇 사용법 |
-| 캡슐화 | 내부 구현을 감추고 인터페이스만 제공 | 리모컨 버튼만 노출 |
+| 캡슐화 | 내부 representation을 숨기고 허용 operation과 invariant만 노출 | 구현 교체 경계 |
 > 요약: ADT는 '무엇(What)'을 수행하는지 정의하고, 구현은 '어떻게(How)'를 다룸.
 
 ## Ⅲ. 절차
@@ -39,7 +39,7 @@ Logical Design -> ADT Specification -> Concrete Data Structure -> Implementation
 2. ADT 설계: 데이터의 논리적 특성과 제약 조건(LIFO/FIFO 등)을 명세화.
 3. 자료구조 선택: 성능(O-notation)과 메모리 효율을 고려해 배열/연결리스트 결정.
 4. 구현 및 검증: 선택한 언어로 코드를 작성하고 명세 준수 여부 테스트.
-> 요약: ADT는 설계의 틀을 제공하여 코드의 재사용성과 유지보수성을 높임.
+> 요약: ADT는 값의 집합·operation·invariant를 명세하고 구현 representation을 interface 뒤에 분리함.
 
 ## Ⅳ. 문제점
 - 지나친 추상화는 런타임 시 불필요한 레이어 오버헤드를 발생시킬 수 있음.
@@ -50,5 +50,5 @@ Logical Design -> ADT Specification -> Concrete Data Structure -> Implementation
 - 성능이 중요한 영역에서는 추상화 레이어를 제거하는 'Zero-cost Abstraction' 적용.
 
 ## Ⅵ. 전망
-- 지능형 타입 추론: 개발자의 의도를 파악하여 최적의 ADT를 추천/선택하는 IDE 진화.
+- static type checker와 IDE는 generic type·interface contract·operation 사용 오류를 compile·editing 단계에서 검사함.
 - 대규모 분산 ADT: 네트워크 너머에 존재하는 대용량 데이터를 다루는 분산 자료형 대두.

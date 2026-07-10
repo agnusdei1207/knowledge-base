@@ -36,9 +36,9 @@ Task Start -> Thread Spawn / Async Call -> [Context Switch] -> Critical Section
 ```
 1. 작업 분리: 독립적으로 실행 가능한 단위를 스레드로 생성하거나 비동기 함수 호출.
 2. 동기화 설정: 여러 스레드가 동시에 접근하는 영역(Critical Section)에 Lock 적용.
-3. 비차단 실행: 비동기 방식의 경우 I/O 완료를 기다리지 않고 제어권을 즉시 반환.
-4. 결과 취합: 모든 스레드 종료 대기(Join) 또는 콜백을 통해 최종 결과 처리.
-> 요약: 공유 자원의 데이터 무결성을 유지하면서 실행 효율을 높이는 과정임.
+3. 비차단 실행: I/O 요청 등록 후 thread를 대기시키지 않고 상태·future를 반환하며 완료 event를 별도로 처리함.
+4. 결과 취합: join·future·callback·channel로 완료와 오류를 동기화함.
+> 요약: 동시성 설계는 task의 대기·취소·오류·공유 상태 접근 순서를 synchronization과 message passing으로 통제함.
 
 ## Ⅳ. 문제점
 - 두 개 이상의 스레드가 서로의 자원을 기다리며 멈추는 데드락(Deadlock) 위험.

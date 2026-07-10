@@ -28,7 +28,7 @@ weight: 155
 |---|---|---|
 | 힙 (Heap) | 동적 할당을 위해 비어 있는 거대 메모리 풀 | 공용 주차장 |
 | 프리 리스트 | 할당 가능한 빈 블록들의 주소를 관리하는 목록 | 주차 가능 구역도 |
-| 헤더 (Header) | 할당된 블록 앞에 붙어 크기 등 메타데이터 저장 | 주차권 정보 |
+| 헤더 (Header) | block size·allocation state 등 allocator metadata 저장 | 분할·병합 기준 |
 > 요약: 스택은 정적/자동 관리되지만, 힙은 개발자 또는 런타임이 명시적으로 관리함.
 
 ## Ⅲ. 절차
@@ -41,7 +41,7 @@ Request Size -> Search Free List -> Split Block -> Update Meta -> Return Addr
 2. 적합 블록 탐색: First-fit, Best-fit 등 정책에 따라 프리 리스트에서 탐색.
 3. 분할 및 할당: 큰 블록을 발견하면 필요한 만큼 쪼개고 나머지는 다시 리스트에 유지.
 4. 해제 및 통합: free() 호출 시 해당 블록을 빈 리스트에 넣고 인접 빈 블록과 합침.
-> 요약: 효율적인 탐색과 단편화 억제가 힙 관리의 핵심 성능 지표임.
+> 요약: heap allocator는 free block 탐색·분할·병합을 수행하며 allocation latency, fragmentation, metadata overhead로 평가함.
 
 ## Ⅳ. 문제점
 - 할당 후 해제 누락 시 발생하는 메모리 누수(Memory Leak)로 인한 시스템 고갈.
@@ -52,5 +52,5 @@ Request Size -> Search Free List -> Split Block -> Update Meta -> Return Addr
 - 스마트 포인터(RAII 패턴)를 사용하여 객체 소멸 시 메모리가 자동 해제되도록 설계.
 
 ## Ⅵ. 전망
-- 지능형 할당기: 머신러닝을 통해 앱의 할당 패턴을 학습하여 최적의 블록 크기 미리 준비.
+- size class·thread-local cache·arena를 workload의 allocation size와 concurrency profile에 맞춰 조정함.
 - 하드웨어 힙 보호: 태그된 메모리(MTE) 기술로 잘못된 힙 접근(UAF 등) 실시간 차단.

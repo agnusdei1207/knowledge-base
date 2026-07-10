@@ -29,7 +29,7 @@ weight: 153
 |---|---|---|
 | Return Addr | 함수 종료 후 돌아갈 명령의 위치 | 복귀 지점 표시 |
 | Saved EBP | 이전 함수의 스택 기준점 저장 | 되돌아갈 베이스캠프 |
-| Local Var | 함수 내에서만 유효한 임시 데이터 | 개인 사물함 |
+| Local Var | 호출 convention과 compiler 배치에 따라 register·stack slot에 저장되는 지역 값 | frame 저장 대상 |
 > 요약: 스택 프레임은 함수가 실행되는 동안의 '상태'를 캡슐화한 공간임.
 
 ## Ⅲ. 절차
@@ -42,7 +42,7 @@ Pop EBP <--- Leave (Move ESP, Pop EBP) <--- RET (Pop PC) <--- Work Done +
 2. 공간 할당: 로컬 변수 저장을 위해 ESP를 아래로 이동시켜 스택 공간 확보.
 3. 바디 실행: 함수 로직 수행 및 로컬 변수 접근(EBP 기준 상대 주소 활용).
 4. 에필로그(Epilogue): 할당 공간 해제, 이전 EBP 복구 및 RET 명령으로 복귀.
-> 요약: LIFO 구조의 스택을 활용하여 중첩된 함수 호출을 체계적으로 관리함.
+> 요약: call마다 return address·saved register·argument·local value를 frame에 배치하고 return 시 역순으로 복원함.
 
 ## Ⅳ. 문제점
 - 과도한 재귀 호출 시 스택 공간 부족으로 인한 스택 오버플로우(Stack Overflow) 발생.
