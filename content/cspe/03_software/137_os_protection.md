@@ -38,16 +38,16 @@ Request (User, Op) -> Kernel Check -> Lookup ACL for Object -> Match?
 2. 메타데이터 조회: OS 커널이 해당 객체의 보안 속성(ACL)을 디스크/메모리에서 로드.
 3. 규칙 매칭: 요청 주체의 ID와 ACL의 항목을 대조하여 허용 여부 판단.
 4. 실행 제어: 매칭 결과에 따라 작업을 허가하거나 권한 오류(EACCES) 반환.
-> 요약: 매 접근 시 권한을 검증하여 시스템의 기밀성과 무결성을 보장함.
+> 요약: 커널은 주체의 자격과 객체 ACL·permission을 비교해 요청한 read·write·execute를 허용하거나 거부함.
 
 ## Ⅳ. 문제점
 - 객체 수가 많아질 경우 ACL 관리가 복잡해지고 탐색 오버헤드 발생.
-- 권한 철회(Revocation) 시 모든 ACL을 수정해야 하는 비효율성.
+- 주체의 권한을 여러 객체 ACL에 기록하면 철회 시 관련 ACL 항목을 찾아 수정해야 함.
 
 ## Ⅴ. 개선방안
 - RBAC(Role-Based Access Control)을 도입하여 역할 기반 그룹 권한 관리.
 - ABAC(Attribute-Based) 적용으로 환경 속성(IP, 시간 등) 고려 동적 제어.
 
 ## Ⅵ. 전망
-- Zero Trust OS: 모든 프로세스 요청을 명시적으로 검증하는 커널 보안 강화.
+- 최소 권한과 sandbox를 적용하고 프로세스의 객체 접근을 시스템 호출 경계에서 검사함.
 - 하드웨어 격리: Intel SGX 등을 활용한 ACL 기반 메모리 격리 보호 기술 확대.

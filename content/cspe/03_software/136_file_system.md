@@ -9,7 +9,7 @@ weight: 136
 | 구분 | 내용 |
 |---|---|
 | 정의 | 보조기억장치에 데이터를 저장하고 관리하기 위한 논리적 구조 및 방법 |
-| 필요성 | 데이터 영구 저장, 계층적 관리, 보안/권한 제어 및 효율적 탐색 |
+| 필요성 | 파일·디렉터리 이름을 저장장치 block과 metadata에 매핑하고 권한·일관성을 관리함 |
 | 출제 의도 | 디렉터리 구조(Tree, DAG), 할당 기법(Linked, Indexed), 저널링 이해 |
 
 ## Ⅱ. 구성요소
@@ -35,7 +35,7 @@ Path Look-up -> Inode Check -> Access Control -> Block Allocation -> I/O
 2. 메타데이터 로드: 해당 i-node 정보를 메모리에 적재하여 위치/크기 확인.
 3. 권한 검증: 프로세스 소유자와 파일 권한(RWX)을 대조하여 승인.
 4. 데이터 접근: 인덱스 블록 등을 통해 실제 데이터가 저장된 물리 블록 I/O.
-> 요약: 계층적 디렉터리 탐색을 통해 최종 물리 블록에 도달하는 프로세스임.
+> 요약: 경로의 디렉터리 항목에서 inode를 찾고 inode의 block pointer·extent로 데이터 block에 접근함.
 
 ## Ⅳ. 문제점
 - 불의의 전원 차단 시 메타데이터와 데이터 간 불일치(Inconsistency) 발생.
@@ -43,7 +43,7 @@ Path Look-up -> Inode Check -> Access Control -> Block Allocation -> I/O
 
 ## Ⅴ. 개선방안
 - 저널링(Journaling) 기법 도입으로 변경 사항 선기록 후 비정상 종료 시 복구.
-- B-Tree 또는 Extent 기반 할당을 통해 대용량 파일 탐색 성능 최적화.
+- B-Tree directory index와 extent로 이름 탐색 횟수와 연속 block mapping 항목 수를 줄임.
 
 ## Ⅵ. 전망
 - 분산 파일 시스템: 클라우드 환경에서 PB급 데이터를 관리하는 HDFS, Ceph 확산.
