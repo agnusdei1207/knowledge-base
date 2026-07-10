@@ -1,4 +1,4 @@
----
+﻿---
 title: 보안성 및 신뢰성 강화 설계 (Security/Trust)
 date: 2026-07-05
 tags: [cspe-software]
@@ -39,5 +39,5 @@ weight: 304
 - 위험 기반 인증과 세션 정책을 적용하고 암호 연산은 HSM 등 전용 장치로 분리하여 지연을 측정함
 
 ## Ⅵ. 전망
-- 발전 방향: 제로 트러스트(Zero Trust) 아키텍처 및 AI 기반 지능형 보안 관제 고도화
+- 제로 트러스트(Zero Trust) 아키텍처 및 AI 기반 지능형 보안 관제 고도화
 - CSF: 설계 단계부터 보안을 고려하는 시큐어 SDLC(Security by Design) 정착이 핵심임

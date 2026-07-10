@@ -1,4 +1,4 @@
----
+﻿---
 title: 가용성 및 고장 복구 설계 (Availability/Recovery)
 date: 2026-07-05
 tags: [cspe-software]
@@ -40,5 +40,5 @@ weight: 303
 - 리더 선출과 쓰기 쿼럼을 적용하고 정족수를 확보하지 못한 노드의 쓰기를 차단함
 
 ## Ⅵ. 전망
-- 발전 방향: 카오스 엔지니어링(Chaos Engineering)을 통한 능동적 장애 내성 검증 확산
+- 카오스 엔지니어링(Chaos Engineering)을 통한 능동적 장애 내성 검증 확산
 - CSF: 단일 장애 지점(SPOF)의 완전 제거와 정기적인 재해 복구(DR) 훈련이 필수임

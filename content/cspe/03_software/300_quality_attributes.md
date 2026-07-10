@@ -1,4 +1,4 @@
----
+﻿---
 title: 소프트웨어 아키텍처 품질 속성 (Quality Attributes)
 date: 2026-07-05
 tags: [cspe-software]
@@ -41,5 +41,5 @@ weight: 300
 - 품질 시나리오별 중요도·위험도·응답 측정값을 비교하고 절충 결정과 근거를 ADR로 관리함
 
 ## Ⅵ. 전망
-- 발전 방향: 탄소 배출 저감(Sustainability) 등 ESG 경영을 반영한 신규 품질 속성 대두
+- 탄소 배출 저감(Sustainability) 등 ESG 경영을 반영한 신규 품질 속성 대두
 - CSF: 정량화 가능한 품질 측정 지표(Metric) 설정과 지속적인 모니터링 체계 구축이 관건임
