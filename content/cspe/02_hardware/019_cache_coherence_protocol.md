@@ -37,7 +37,7 @@ extra:
 | 장점 | 구현 단순 | 메모리 트래픽 절감 |
 | 한계 | dirty 공유 시 메모리 트래픽 증가 | 상태 전이 복잡도 증가 |
 
-> 요약: MESI는 단순하고, MOESI는 Owned 상태로 dirty 데이터 공유 시 메모리 트래픽을 줄임.
+> 요약: MESI는 Modified·Exclusive·Shared·Invalid 상태를 사용하고, MOESI는 Owned 상태를 추가해 수정 데이터를 메모리 기록 전 공유함.
 
 ## Ⅳ. 구성요소 및 구조
 

@@ -37,7 +37,7 @@ extra:
 | 한계 | 메모리 트래픽 큼 | dirty 관리와 복구 복잡 |
 | 대표 조합 | no-write-allocate | write-allocate |
 
-> 요약: Write-Through는 최신성 관리가 쉽고, Write-Back은 메모리 트래픽을 줄임.
+> 요약: Write-Through는 캐시와 메모리에 동시에 기록하고, Write-Back은 수정 라인이 교체될 때 메모리에 반영함.
 
 ## Ⅳ. 구성요소 및 구조
 
