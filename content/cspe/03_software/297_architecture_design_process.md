@@ -1,4 +1,4 @@
----
+﻿---
 title: 소프트웨어 아키텍처 설계 절차 (Architecture Design Process)
 date: 2026-07-05
 tags: [cspe-software]
@@ -40,5 +40,5 @@ weight: 297
 - 유틸리티 트리로 품질 시나리오의 중요도·위험도를 정하고 설계 대안별 응답 지표를 비교함
 
 ## Ⅵ. 전망
-- 발전 방향: 진화적 아키텍처(Evolutionary Architecture) 개념 도입 및 자동화 설계 도구 확산
+- 진화적 아키텍처(Evolutionary Architecture) 개념 도입 및 자동화 설계 도구 확산
 - CSF: 비즈니스 가치와 기술적 타당성 간의 균형 잡힌 의사결정(Decision Making)이 핵심임

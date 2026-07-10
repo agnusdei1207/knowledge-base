@@ -1,4 +1,4 @@
----
+﻿---
 title: 객체 모델링 — 클래스 다이어그램 (Object Modeling)
 date: 2026-07-05
 tags: [cspe-software]
@@ -41,5 +41,5 @@ weight: 291
 - 객체 책임을 재분배하고 인터페이스와 의존성 역전 원칙(DIP)으로 구체 클래스 간 의존을 줄임
 
 ## Ⅵ. 전망
-- 발전 방향: MDA(Model Driven Architecture) 기반의 클래스 다이어그램-코드 자동 양방향 동기화 확대
+- MDA(Model Driven Architecture) 기반의 클래스 다이어그램-코드 자동 양방향 동기화 확대
 - CSF: 응집도는 높이고 결합도는 낮추는(High Cohesion, Low Coupling) 기본 원칙 준수가 핵심임
