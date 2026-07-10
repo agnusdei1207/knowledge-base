@@ -25,7 +25,7 @@ weight: 149
 | 3세대 | 절차적, 구조적 코딩, 범용성 | C, Fortran, Pascal |
 | 4세대 | 비절차적, 특정 목적 지향, 생산성 | SQL, MATLAB, SAS |
 | 5세대 | 인공지능, 지식 기반, 제약 조건 해결 | Prolog, LISP |
-> 요약: 세대가 높아질수록 기계로부터 멀어지고 인간의 언어에 가까워짐.
+> 요약: 언어 세대 분류는 machine instruction·assembly symbol·high-level syntax·declarative constraint처럼 문제 표현 단위가 달라지는 흐름임.
 
 ## Ⅲ. 절차
 ```text
@@ -38,7 +38,7 @@ Machine-centric -> Structural -> OOP -> Functional -> Declarative
 2. 구조화/절차화: 고투(goto)문을 지양하고 루프와 조건문으로 흐름을 관리하는 시기.
 3. 데이터 중심(OOP): 데이터와 이를 처리하는 로직을 객체로 묶어 복잡도 극복.
 4. 추상화 고도화: 상태 변화를 최소화하거나 결과만 명시하는 선언적 코딩 확산.
-> 요약: 복잡성 관리와 소프트웨어 위기 극복을 위해 추상화 수준이 계속 상승함.
+> 요약: 언어는 memory·control flow·type·concurrency·domain rule을 서로 다른 abstraction으로 표현해 구현 세부의 직접 관리 범위를 줄임.
 
 ## Ⅳ. 문제점
 - 언어의 다양화로 인한 개발자 기술 파편화 및 레거시 시스템 마이그레이션 비용.
@@ -46,7 +46,7 @@ Machine-centric -> Structural -> OOP -> Functional -> Declarative
 
 ## Ⅴ. 개선방안
 - 멀티 패러다임 언어(Python, Rust 등)를 통해 효율성과 생산성의 균형 도모.
-- 트랜스파일러(Transpiler)를 활용하여 구형 언어를 최신 환경 코드로 자동 변환.
+- transpiler는 한 high-level language source를 호환되는 다른 language·version source로 변환함.
 
 ## Ⅵ. 전망
 - No-Code/Low-Code: 프로그래밍 언어를 몰라도 비즈니스 로직을 구축하는 환경 확대.

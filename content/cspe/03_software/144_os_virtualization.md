@@ -22,11 +22,11 @@ weight: 144
 +-----------+      +-----------+      +-----------+
 | Hypervisor|      | Hypervisor|      | Emulator  |  (ARM Host)
 ```
-| 구성요소 | 설명 | 비유 |
+| 구성요소 | 설명 | 실행 경로 |
 |---|---|---|
-| 전가상화 | 게스트 OS 수정 없이 그대로 실행 | 완벽한 위장 |
-| 반가상화 | 성능을 위해 OS 일부를 수정(Hypercall) | 협조적인 위장 |
-| 에뮬레이션 | 명령어 집합(ISA) 자체를 소프트웨어로 번역 | 실시간 통역기 |
+| 전가상화 | 수정하지 않은 guest OS를 virtual hardware에서 실행 | privileged instruction trap·hardware assist |
+| 반가상화 | guest kernel·driver가 hypercall interface 사용 | hypercall·paravirtual I/O |
+| 에뮬레이션 | guest ISA 명령을 host ISA 명령으로 해석·변환 | instruction interpretation·binary translation |
 > 요약: 가상화는 자원 공유가 목적, 에뮬레이션은 호환성 제공이 주 목적임.
 
 ## Ⅲ. 절차
@@ -39,7 +39,7 @@ Inst Exec -> Trap/Interception -> Handler Code -> Hardware Emulation
 2. 바이너리 변환: 비가상화 지원 명령을 가상화 가능 코드로 실시간 변환(Binary Trans).
 3. 하드웨어 시뮬레이션: 실제 물리 자원 대신 가상 장치의 상태를 변경하고 결과 생성.
 4. 결과 반환: 작업이 완료된 것처럼 게스트 OS에 알리고 다음 명령 수행.
-> 요약: 하드웨어 보조 가상화(Intel VT-x)를 통해 처리 속도를 획기적으로 개선함.
+> 요약: 하드웨어 보조 가상화는 guest·host 실행 mode와 privileged instruction trap을 CPU에서 지원해 software binary translation 범위를 줄임.
 
 ## Ⅳ. 문제점
 - 전가상화 시 발생하는 잦은 트랩 및 에뮬레이션의 CPU 번역 오버헤드로 성능 저하.

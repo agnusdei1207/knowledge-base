@@ -25,8 +25,8 @@ weight: 148
 |---|---|---|
 | 포함 시점 | 컴파일/링킹 시 | 실행(Runtime) 시 |
 | 실행 파일 크기 | 큼 (함수 코드 포함) | 작음 (참조 정보만 포함) |
-| 메모리 효율 | 낮음 (중복 적재) | 높음 (메모리 공유) |
-> 요약: 정적은 독립성을, 동적은 자원 효율성과 유연성을 강점으로 가짐.
+| 프로세스 공유 | executable마다 library code 포함 | 동일 shared library의 read-only page를 여러 process가 공유 가능 |
+> 요약: 정적 연결은 library code를 executable에 포함하고, 동적 연결은 load·run time에 shared object symbol을 resolve함.
 
 ## Ⅲ. 절차
 ```text
@@ -39,7 +39,7 @@ Load .exe -> Start Execution -> Call Function -> Find Lib on Disk
 2. 참조 기록: (동적 시) 실행 파일 내부에 외부 라이브러리 이름과 주소 정보를 기록.
 3. 런타임 탐색: 프로그램 실행 중 함수 호출 발생 시 OS가 라이브러리 위치 검색.
 4. 메모리 매핑: 해당 라이브러리를 메모리에 한 번만 올리고 호출 프로세스들이 공유.
-> 요약: 동적 연결은 주소 재배치 과정을 실행 시점에 수행하는 고도의 기술임.
+> 요약: dynamic loader는 필요한 shared object를 mapping하고 symbol resolution·relocation 후 호출 주소를 연결함.
 
 ## Ⅳ. 문제점
 - 동적 라이브러리의 버전 불일치로 인한 "DLL Hell" 및 실행 실패 위험.

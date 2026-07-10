@@ -8,8 +8,8 @@ weight: 143
 ## Ⅰ. 개요
 | 구분 | 내용 |
 |---|---|
-| 정의 | 범용 OS 시장의 양대 산맥인 Windows(Hybrid)와 Linux(Monolithic)의 핵심 비교 |
-| 배경 | 서버, 임베디드, PC 환경에 따른 최적 OS 선택 및 아키텍처 이해 필요 |
+| 정의 | Windows hybrid kernel과 Linux monolithic modular kernel의 구조·driver·설정·운영 모델 비교 |
+| 배경 | workload·hardware·driver·운영 도구 요구에 따른 OS architecture 선택 필요 |
 | 출제 의도 | 커널 구조적 차이, 드라이버 모델, 오픈소스 vs 상용 속성 분석 역량 |
 
 ## Ⅱ. 구성요소
@@ -26,7 +26,7 @@ weight: 143
 | 구조 | 하이브리드 커널 (Layered) | 모놀리식 커널 (LKM 지원) |
 | 라이선스 | 독점/상용 (Proprietary) | 오픈소스 (GPL) |
 | 설정 방식 | 레지스트리 (Registry) | 설정 파일 (Text, /etc) |
-> 요약: 윈도우는 모듈화와 안정성에, 리눅스는 통합 성능과 유연성에 중점을 둠.
+> 요약: Windows는 NT executive·kernel·driver model을 계층화하고, Linux는 core subsystem과 loadable module을 같은 kernel address space에서 실행함.
 
 ## Ⅲ. 절차
 ```text
@@ -35,7 +35,7 @@ weight: 143
 ```
 1. 시스템 콜 호출: 앱이 OS 기능을 요청 (Win API vs POSIX/System Call).
 2. 모드 전환: 사용자 모드에서 커널 모드로 하드웨어 트랩 발생.
-3. 처리 방식: 윈도우는 서브시스템 거쳐 전달, 리눅스는 커널 내 서비스 즉시 실행.
+3. 처리 방식: 두 OS 모두 system call dispatcher가 요청 번호와 인자를 검증한 뒤 해당 kernel service를 호출함.
 4. 드라이버 통신: 윈도우는 IRP(I/O Request Packet) 기반, 리눅스는 함수 포인터 기반.
 > 요약: 윈도우는 객체 중심 아키텍처, 리눅스는 파일 중심 아키텍처를 가짐.
 

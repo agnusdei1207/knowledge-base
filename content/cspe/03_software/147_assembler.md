@@ -9,7 +9,7 @@ weight: 147
 | 구분 | 내용 |
 |---|---|
 | 정의 | 기계어와 1:1 매핑되는 저급 언어를 실제 이진 코드로 변환하는 프로그램 |
-| 필요성 | 하드웨어 직접 제어, 고성능 최적화 및 부트로더/드라이버 개발 |
+| 필요성 | ISA 명령·register·addressing mode를 직접 지정하는 boot code·driver·context switch 구현 |
 | 출제 의도 | 2-Pass 어셈블러 작동 원리, 니모닉(Mnemonic) 매핑 이해 측정 |
 
 ## Ⅱ. 구성요소
@@ -19,11 +19,11 @@ MOV EAX, 1          --->  B8 01 00 00 00
 ADD EAX, EBX        --->  01 D8
 (Mnemonic/Operand)        (Opcode/Address)
 ```
-| 구성요소 | 설명 | 비유 |
+| 구성요소 | 설명 | 변환 기준 |
 |---|---|---|
-| 니모닉 | 기계어 비트 패턴을 인간이 읽기 쉽게 만든 기호 | 명령어 별명 |
-| 오피코드 (Opcode) | CPU가 수행할 연산의 종류를 나타내는 이진 코드 | 동작 지시서 |
-| 기호 표 (Symbol Table) | 소스 내 레이블과 상수의 주소 정보를 관리 | 명찰 관리함 |
+| 니모닉 | ISA opcode를 사람이 작성하는 instruction symbol로 표현함 | opcode mapping |
+| 오피코드 (Opcode) | CPU가 decode할 operation bit field임 | instruction encoding |
+| 기호 표 (Symbol Table) | label·constant와 address·value를 기록함 | forward reference resolution |
 > 요약: 기계어는 하드웨어가 실행하는 0과 1의 조합이며, 어셈블리어는 그 기호 표현임.
 
 ## Ⅲ. 절차 (2-Pass Assembler)

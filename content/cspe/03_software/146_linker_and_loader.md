@@ -26,7 +26,7 @@ weight: 146
 |---|---|---|
 | 링커 (Linker) | 여러 모듈 간의 외부 참조를 해결하여 연결함 | 조립 라인 |
 | 로더 (Loader) | 프로그램을 실제 메모리 주소에 올리고 제어권 이양 | 숙소 안내원 |
-| 심볼 테이블 | 변수나 함수의 이름과 주소 정보를 담은 자료구조 | 주소록 |
+| 심볼 테이블 | 정의·참조 symbol과 section·offset 정보를 기록해 symbol resolution에 사용함 | symbol 결합 기준 |
 > 요약: 링커는 실행 파일을 만들고, 로더는 실행 중인 상태로 만듦.
 
 ## Ⅲ. 절차
@@ -39,7 +39,7 @@ Allocation -> Linking -> Relocation -> Loading
 2. 연결(Linking): 각 목적 파일 간의 함수 호출 등 논리적 연결을 완성함.
 3. 재배치(Relocation): 보조기억장치 기준 주소를 실제 할당된 물리 주소로 변경함.
 4. 적재(Loading): 최종 주소 보정이 끝난 코드를 메모리 영역으로 전송함.
-> 요약: 4단계 과정을 통해 정적인 파일이 동적인 프로세스로 전환됨.
+> 요약: linker가 symbol resolution·relocation으로 executable을 만들고 loader가 segment mapping·dynamic linking 후 entry point로 제어를 넘김.
 
 ## Ⅳ. 문제점
 - 정적 링킹 시 동일한 라이브러리가 여러 실행 파일에 중복 포함되어 디스크 낭비.

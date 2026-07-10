@@ -33,8 +33,8 @@ Lexical Analysis -> Syntax -> Semantic -> Intermediate Code -> Optimize -> Targe
 1. 어휘 분석: 소스 코드를 토큰(Token) 단위로 분리하고 식별자 분류.
 2. 구문/의미 분석: 문법 규칙 준수 여부 확인 및 타입 체크, AST 생성.
 3. 중간 코드 생성: 특정 하드웨어에 종속되지 않는 형태의 코드로 변환.
-4. 최적화 및 생성: 불필요한 연산 제거 후 최종 기계어(목적 코드) 생성.
-> 요약: 다단계 분석 및 최적화 과정을 거쳐 효율적인 실행 파일을 도출함.
+4. 최적화 및 생성: 중간 표현에 최적화 pass를 적용하고 target ISA의 object code를 생성함.
+> 요약: compiler는 source를 분석해 intermediate representation과 object code를 만들고 linker가 실행 단위를 구성함.
 
 ## Ⅳ. 문제점
 - 컴파일러: 소스 수정 시마다 전체 재컴파일이 필요하여 개발 초기 생산성 저하.
@@ -45,5 +45,5 @@ Lexical Analysis -> Syntax -> Semantic -> Intermediate Code -> Optimize -> Targe
 - 증분 컴파일(Incremental Compilation)을 통해 수정된 모듈만 부분 번역하여 시간 단축.
 
 ## Ⅵ. 전망
-- AI 가속 컴파일러: 기계학습 모델을 활용하여 타겟 아키텍처별 최적의 명령 최적화 수행.
+- profile-guided·auto-tuning compiler는 실행 profile과 target 비용 모델로 optimization pass와 code generation을 조정함.
 - LLVM 기반 통합: 다양한 언어와 타겟 하드웨어를 유연하게 연결하는 모듈형 컴파일러 확산.

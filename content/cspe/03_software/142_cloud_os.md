@@ -9,7 +9,7 @@ weight: 142
 | 구분 | 내용 |
 |---|---|
 | 정의 | 대규모 데이터 센터의 자원을 가상화하여 통합 관리하는 소프트웨어 계층 |
-| 필요성 | 자원의 유연한 배분(Elasticity), 비용 절감 및 대규모 자동화 관리 |
+| 필요성 | compute·storage·network 자원 pool의 API 기반 할당·회수·격리·확장 관리 |
 | 출제 의도 | 가상화 기술(Type 1/2), 하이퍼바이저 vs 컨테이너 차이 이해 |
 
 ## Ⅱ. 구성요소
@@ -37,10 +37,10 @@ User Request -> Cloud Controller -> Compute Node Selection -> VM Provision
       +----- Resource Monitor <----- Workload Run <-------------+
 ```
 1. 서비스 요청: 사용자가 포털이나 API를 통해 특정 사양의 인프라 요청.
-2. 노드 선택: 스케줄러가 데이터 센터 내 최적의 물리 서버(Hypervisor 호스트) 결정.
+2. 노드 선택: 스케줄러가 요청 자원, affinity, 장애 domain, 현재 사용량을 기준으로 host를 선택함.
 3. VM 생성: 가상 이미지(VHD)를 로드하고 가상 CPU/Memory 할당 및 부팅.
 4. 오토 스케일링: 부하에 따라 VM을 복제(Scale-out)하거나 사양 변경(Scale-up).
-> 요약: 추상화된 자원 풀에서 사용자 요구에 맞춰 실시간으로 서비스를 구성함.
+> 요약: 제어 계층은 요청 사양과 배치 정책에 따라 자원을 선택·할당하고 lifecycle과 scale 정책을 실행함.
 
 ## Ⅳ. 문제점
 - VM 간 자원 경합 및 I/O 간섭(Noisy Neighbor)으로 인한 성능 불균형.
