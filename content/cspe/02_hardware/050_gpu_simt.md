@@ -78,7 +78,7 @@ extra:
 
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 딥러닝 학습·과학 계산은 데이터 병렬성이 커 GPU SIMT가 유리하지만 워프 분기 발산이 생기면 처리량이 줄어드므로 데이터 배치와 커널 분기를 정리하고 warp execution efficiency, branch divergence rate로 확인함
+1. 딥러닝 학습·과학 계산은 동일 연산을 여러 데이터에 적용하므로 GPU SIMT로 병렬 처리하되, 워프 분기 발산은 처리량을 낮추므로 데이터 배치와 커널 분기를 조정하고 warp execution efficiency, branch divergence rate로 확인함
 2. 멀티 GPU 학습·추론은 계산보다 전송이 병목이 되기 쉬우므로 데이터 상주 전략과 NVLink 같은 고속 링크를 적용하고 host-device transfer time, end-to-end latency로 확인함
 
 ## Ⅶ. 결론

@@ -44,7 +44,7 @@ extra:
 | 구성요소 | 설명 |
 |:---|:---|
 | Compute Chiplet | CPU, GPU, NPU 같은 계산 기능을 담당하며 고성능 공정 적용에 적합함 |
-| I/O, Cache Chiplet | 메모리 제어와 외부 인터페이스와 대용량 캐시를 담당해 성숙 공정 재사용에 유리함 |
+| I/O, Cache Chiplet | 메모리 제어·외부 인터페이스·대용량 캐시를 담당하며 검증된 성숙 공정으로 제작함 |
 | D2D Interconnect | 칩렛 사이 대역폭과 지연을 결정하는 핵심 연결 구조임 |
 | Package, Test Flow | interposer와 bridge와 KGD 검증이 최종 수율과 신뢰성을 좌우함 |
 

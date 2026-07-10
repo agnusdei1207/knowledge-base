@@ -74,7 +74,7 @@ extra:
 ## Ⅵ. 실무 적용 및 유의점
 
 1. 대규모 LLM 학습 서버는 토폴로지 불균형 시 일부 링크가 병목이 되므로 NCCL 토폴로지 설정과 병렬화 전략을 조정하고 link utilization, all-reduce time으로 확인함
-2. 멀티 GPU 추론 서버는 peer memory access가 유리하지만 전용 인터커넥트 비용이 크므로 PCIe·InfiniBand 구성과 비교하고 request latency, TCO로 확인함
+2. 멀티 GPU 추론 서버는 peer memory access로 호스트 경유 복사를 줄일 수 있으므로 전용 인터커넥트 비용을 PCIe·InfiniBand 구성과 비교하고 request latency, TCO로 확인함
 
 ## Ⅶ. 결론
 
