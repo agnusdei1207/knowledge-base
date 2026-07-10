@@ -34,8 +34,8 @@ extra:
 |:---|:---|:---|
 | 적용 범위 | 개별 팀 중심 | 다수 팀과 프로그램, 포트폴리오 |
 | 의존성 관리 | 제한적 | PI 단위로 체계화 |
-| 거버넌스 | 가벼움 | 비교적 무거움 |
-| 적합 환경 | 소규모 제품팀 | 대형 조직과 복합 프로그램 |
+| 조정 단위 | 단일 팀의 backlog·sprint | ART·PI 단위의 목표·의존성·architecture runway |
+| 대표 환경 | 독립 제품팀 | 여러 팀의 릴리스·의존성을 함께 조정하는 프로그램 |
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -61,7 +61,7 @@ extra:
 
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 여러 팀이 같은 가치 흐름을 따라 움직이는 대형 조직에서는 SAFe가 유효하지만 회의와 역할만 늘면 속도가 느려지므로 최소 적용 범위와 ART 단위 목표를 분명히 하고 planning overhead ratio와 decision lead time과 PI predictability로 확인함
+1. 여러 팀이 같은 가치 흐름을 개발하는 조직에서는 SAFe로 ART 단위 목표와 의존성을 조정하되, 회의와 역할만 늘면 의사결정 시간이 증가하므로 최소 적용 범위를 정하고 planning overhead ratio와 decision lead time과 PI predictability로 확인함
 2. 팀 간 의존성이 많은 프로그램에서는 PI Planning과 architecture runway가 핵심이므로 dependency board와 objective tracing을 함께 운영하고 dependency slip rate와 objective completion rate와 strategic alignment score로 확인함
 
 ## Ⅶ. 결론
