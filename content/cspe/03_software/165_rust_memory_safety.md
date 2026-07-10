@@ -19,8 +19,8 @@ weight: 165
 |----------|------|------|
 | Ownership | 변수가 메모리 해제의 유일한 책임을 가짐 | 소유권 증서 |
 | Borrowing | 소유권을 넘기지 않고 참조만 허용(mutable/immutable) | 대여 |
-| Borrow Checker | 컴파일 시 메모리 규칙 위반 여부 검사 | 검문소 |
-> 요약: 엄격한 컴파일 규칙을 통한 런타임 오버헤드 없는 안전성 확보
+| Borrow Checker | ownership·borrow·lifetime 규칙을 compile time에 검사함 | alias·lifetime 검증 |
+> 요약: Rust는 한 owner, shared·exclusive borrow 규칙, lifetime 검사를 통해 safe code의 UAF·double free·data race를 compile time에 차단함
 
 ## Ⅲ. 절차
   Define -> Move/Borrow -> Compile Check -> Zero-cost Free
@@ -28,7 +28,7 @@ weight: 165
 2. Move/Borrow: 소유권 이전 또는 읽기/쓰기 권한 대여
 3. Borrow Check: 대여 기간과 소유권 생명주기 일치 확인
 4. Drop: 스코프 종료 시 소유자가 자동으로 메모리 해제
-> 요약: 컴파일 단계에서의 철저한 검증을 통한 런타임 오류 원천 차단
+> 요약: borrow checker는 safe code의 ownership 위반을 거부하지만 unsafe block·FFI·logic error는 별도 검토와 시험이 필요함
 
 ## Ⅳ. 문제점
 - 학습 곡선(Learning Curve)이 높고 엄격한 규칙으로 개발 속도 저하

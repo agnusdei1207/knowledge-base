@@ -7,7 +7,7 @@ weight: 161
 
 ## Ⅰ. 개요
 - 정의: JVM 내 더 이상 사용되지 않는 객체를 식별하여 메모리를 해제하는 자동 관리 메커니즘
-- 배경: 메모리 누수 방지 및 개발자 생산성 향상, 대용량 힙 메모리 대응 필요성 증대
+- 배경: 도달할 수 없는 객체 회수, allocation 지속, heap 부족 방지, pause·throughput 목표 관리 필요
 | 구분 | 내용 |
 |------|------|
 | 출제 의도 | G1(Heap Region), ZGC(Colored Pointers) 알고리즘의 차이와 STW 최소화 원리 파악 |
@@ -20,8 +20,8 @@ weight: 161
 |----------|------|------|
 | Region | 힙을 고정 크기 단위로 분할 관리 | 아파트 단지 |
 | Colored Pointers | 객체 상태를 포인터 비트에 저장(ZGC) | 물건 꼬리표 |
-| SATB | 마킹 시점의 객체 스냅샷 보존(G1) | 사진 촬영 |
-> 요약: Heap의 논리적 분할과 지능적 마킹 시스템을 통한 효율적 메모리 회수
+| SATB | concurrent marking 시작 시점에 도달 가능했던 객체가 누락되지 않게 write barrier로 추적함 | marking 정확성 |
+> 요약: GC는 root에서 도달 가능한 객체를 식별하고 collector 정책에 따라 reclaim·compact·reference update를 수행함
 
 ## Ⅲ. 절차
   Marking -> Copying -> Relocation -> Remapping
@@ -30,7 +30,7 @@ weight: 161
 2. Concurrent Mark: 애플리케이션 중단 없이 생존 객체 파악
 3. Remark/Relocate: 마킹 완료 및 객체 재배치 수행
 4. Cleanup/Remap: 빈 영역 회수 및 참조 갱신
-> 요약: 마킹과 재배치의 병렬 처리를 통한 응답성 확보
+> 요약: concurrent·parallel 단계와 stop-the-world 구간을 나눠 live object를 mark·relocate하고 pause·throughput을 측정함
 
 ## Ⅳ. 문제점
 - GC 수행 중 애플리케이션이 멈추는 Stop-The-World 발생

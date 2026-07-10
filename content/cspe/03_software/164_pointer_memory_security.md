@@ -19,8 +19,8 @@ weight: 164
 |----------|------|------|
 | Pointer | 메모리 주소를 저장하는 변수 | 주소록 |
 | Stack/Heap | 데이터 저장 영역(정적/동적) | 창고 |
-| Canary | 버퍼 오버플로우 감지용 무작위 값 | 경보 장치 |
-> 요약: 직접적인 메모리 접근 권한에 따른 관리 책임과 보안 경계
+| Canary | return address 앞의 값을 함수 종료 시 검사해 stack overwrite를 탐지함 | stack corruption 탐지 |
+> 요약: pointer 사용은 allocation size·object lifetime·bounds·alias를 직접 관리하므로 out-of-bounds·UAF·double free를 통제해야 함
 
 ## Ⅲ. 절차
   Allocate -> Validate -> Access -> Deallocate
@@ -28,7 +28,7 @@ weight: 164
 2. Boundary Check: 접근 인덱스가 할당 범위를 넘는지 검사
 3. Secure Access: 스마트 포인터 등을 사용한 안전한 참조
 4. Free/Null: 메모리 해제 후 포인터를 NULL로 초기화
-> 요약: 할당부터 해제까지의 생명주기 제어 및 경계 검사 강화
+> 요약: allocation과 pointer 파생·접근·해제 전 과정에서 bounds와 lifetime을 검사하고 해제 후 참조 사용을 차단함
 
 ## Ⅳ. 문제점
 - 버퍼 범위를 벗어난 쓰기 작업으로 인한 복귀 주소 변조(Stack Overflow)

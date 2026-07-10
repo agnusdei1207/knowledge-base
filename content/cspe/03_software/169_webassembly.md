@@ -19,8 +19,8 @@ weight: 169
 |----------|------|------|
 | Module | Wasm 바이너리 코드 단위 | 기계 뭉치 |
 | Memory | JS와 공유 가능한 가변 길이 바이트 배열 | 공유 창고 |
-| Table | 함수 참조를 안전하게 저장하는 배열 | 인덱스 카드 |
-> 요약: 플랫폼 독립적인 고성능 실행 환경 및 샌드박스 보안 모델
+| Table | indirect call 대상 function reference를 index로 저장하는 runtime 구조 | indirect call 검증 |
+> 요약: WebAssembly는 validation된 binary module을 sandbox의 linear memory·table·import·export 경계에서 실행함
 
 ## Ⅲ. 절차
   Compile -> Fetch -> Instantiate -> Call Function
@@ -28,7 +28,7 @@ weight: 169
 2. Fetching: 브라우저에서 바이너리 데이터를 스트리밍 로드
 3. Instantiation: 메모리 및 임포트 객체와 결합하여 인스턴스 생성
 4. Execution: JS에서 Wasm 함수를 호출하거나 연산 수행
-> 요약: 컴파일된 바이너리를 브라우저 VM에서 직접 실행하여 성능 극대화
+> 요약: browser runtime은 Wasm module을 validate·compile·instantiate하고 JavaScript와 명시한 import·export로 호출함
 
 ## Ⅳ. 문제점
 - 직접적인 DOM 접근 불가로 JS와의 빈번한 데이터 교환 오버헤드

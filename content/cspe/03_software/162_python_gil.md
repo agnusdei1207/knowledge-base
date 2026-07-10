@@ -19,7 +19,7 @@ weight: 162
 |----------|------|------|
 | Global Lock | 인터프리터 수준의 단일 잠금 장치 | 단일 통행권 |
 | Bytecode | 파이썬 코드가 컴파일된 중간 형태 | 악보 |
-| Ref Count | 객체 참조 횟수 기반 메모리 해제 | 인원 체크 |
+| Ref Count | 객체 참조 횟수가 0이 되면 해제하고 cycle은 별도 GC가 탐지함 | 객체 수명 관리 |
 > 요약: 단일 락 기반 구조로 인한 멀티쓰레드 병렬 실행 제약
 
 ## Ⅲ. 절차
@@ -28,7 +28,7 @@ weight: 162
 2. Execution: 특정 시간(ticks) 또는 I/O 발생 전까지 실행
 3. Release: 실행 후 GIL 반납 및 대기 쓰레드 깨움
 4. Scheduling: 운영체제 스케줄러에 의한 쓰레드 교체
-> 요약: 시분할 방식의 쓰레드 실행으로 인한 CPU Bound 작업 성능 한계
+> 요약: CPython thread는 GIL을 교대 획득하므로 pure Python CPU-bound code는 여러 core에서 bytecode를 동시에 실행하지 못함
 
 ## Ⅳ. 문제점
 - 멀티코어 CPU 환경에서도 CPU 집중 작업 시 단일 코어만 활용

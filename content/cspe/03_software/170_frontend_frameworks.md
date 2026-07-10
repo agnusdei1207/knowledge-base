@@ -19,16 +19,16 @@ weight: 170
 |----------|------|------|
 | Component | 재사용 가능한 UI 및 로직 단위 | 레고 블록 |
 | Lifecycle | 생성, 갱신, 소멸의 단계별 훅 제공 | 성장 단계 |
-| Props/State | 컴포넌트 간 데이터 전달 및 내부 상태 | 유전자/기분 |
-> 요약: 선언적 UI 정의를 통한 상태 중심 개발 패러다임 구현
+| Props/State | parent input과 component 내부 data로 rendering 결과를 결정함 | data flow 기준 |
+> 요약: frontend framework는 component tree와 state·props를 선언하고 변경 시 rendering·DOM update를 scheduling함
 
 ## Ⅲ. 절차
   Define View -> Bind Data -> Event Trigger -> Re-render
 1. Design: 컴포넌트 계층 구조와 책임 분할 설계
 2. Development: JSX/Template을 사용하여 뷰와 로직 구현
 3. State Management: 전역/지역 상태 동기화 로직 구축
-4. Deployment: 빌드 도구(Vite, Webpack)를 통한 최적화 및 배포
-> 요약: 데이터 변경에 따른 자동 렌더링으로 일관된 UI 유지
+4. Deployment: build tool이 module graph를 bundle·split·minify하고 static asset을 배포함
+> 요약: state 변경은 framework update를 예약하며 component identity·key·effect 규칙을 지켜야 UI와 side effect가 일치함
 
 ## Ⅳ. 문제점
 - 프레임워크 버전 업데이트에 따른 파편화 및 마이그레이션 비용

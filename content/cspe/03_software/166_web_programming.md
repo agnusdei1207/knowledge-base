@@ -19,8 +19,8 @@ weight: 166
 |----------|------|------|
 | Semantic Tag | 의미 있는 태그(article, section) 사용 | 색인 태그 |
 | Flex/Grid | 반응형 레이아웃을 위한 배치 기술 | 격자 가이드 |
-| ES6+ | 최신 자바스크립트 문법 및 모듈화 | 최신 도구함 |
-> 요약: 구조, 표현, 동작의 분리 및 표준 준수를 통한 상호운용성 확보
+| ES6+ | module·class·promise·async function 등 JavaScript language 기능 | script 실행·모듈 경계 |
+> 요약: HTML은 document structure, CSS는 presentation, JavaScript는 event·state·network 동작을 담당하며 Web API로 연결됨
 
 ## Ⅲ. 절차
   Request -> DOM/CSSOM -> Render Tree -> Layout/Paint
@@ -28,7 +28,7 @@ weight: 166
 2. Styling: CSS를 해석하여 스타일 규칙(CSSOM) 생성
 3. Attachment: DOM과 CSSOM을 결합하여 렌더 트리 구성
 4. Painting: 화면의 각 픽셀에 요소의 색상과 형태 출력
-> 요약: 브라우저 엔진의 렌더링 파이프라인을 통한 웹 페이지 시각화
+> 요약: browser는 HTML·CSS를 DOM·CSSOM으로 구성하고 style·layout·paint·composite 단계로 화면을 갱신함
 
 ## Ⅳ. 문제점
 - 브라우저별 지원 사양 차이로 인한 크로스 브라우징 이슈
