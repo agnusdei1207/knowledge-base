@@ -1,4 +1,4 @@
----
+﻿---
 title: "B-Tree 인덱스 (B-Tree Index)"
 date: "2026-07-05"
 tags:
@@ -60,6 +60,6 @@ Search Key --> Root 비교 --> Branch 선택 --> Leaf 도달 --> Data 접근
 > 요약: Fill Factor 조정, 키 역순화, 인덱스 유형 전환으로 B-Tree 한계를 보완함
 
 ## Ⅵ. 전망
-- 발전 방향: LSM-Tree 기반 인덱스(쓰기 최적화)와의 하이브리드 구조 연구 확대
+- LSM-Tree 기반 인덱스(쓰기 최적화)와의 하이브리드 구조 연구 확대
 - 기술사적 판단: RDBMS 기본 인덱스로서 범위 검색·정렬 요구가 있는 한 대체 불가한 위치임
 - 기술사 제언: 워크로드별 B-Tree vs LSM-Tree 선택 기준을 정량적으로 수립할 필요

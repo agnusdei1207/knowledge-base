@@ -1,4 +1,4 @@
----
+﻿---
 title: "DB 인덱스 (Database Index)"
 date: "2026-07-05"
 tags:
@@ -58,6 +58,6 @@ SQL 수행 --> Optimizer 판단 --> Index Scan/Seek --> Data Page 접근
 > 요약: 인덱스 정리, 복합 설계, 유형별 선택 기준 수립으로 개선함
 
 ## Ⅵ. 전망
-- 발전 방향: AI 기반 자동 인덱스 추천(Auto-Index Tuning) 기술 확산 추세
+- AI 기반 자동 인덱스 추천(Auto-Index Tuning) 기술 확산 추세
 - 기술사적 판단: 쿼리 성능의 기본 수단으로 인덱스 설계 역량은 DB 설계의 핵심임
 - 기술사 제언: 워크로드 패턴(읽기/쓰기 비율)에 따른 인덱스 전략 차별화 필요
