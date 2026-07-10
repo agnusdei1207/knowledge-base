@@ -78,7 +78,7 @@ extra:
 
 ## Ⅵ. 실무 적용 및 유의점
 
-1. 고성능 CPU에서는 window size와 rename depth가 커질수록 면적·전력 비용이 늘어나므로 workload별 크기를 조정하고 area efficiency와 perf per watt로 확인함
+1. CPU의 명령어 윈도와 리네임 깊이를 늘리면 면적과 전력 사용량이 증가하므로 워크로드별 IPC 증가량, 면적당 성능, 전력당 성능을 비교해 크기를 조정함
 2. 투기 실행이나 메모리 의존성 예측이 틀리면 rollback·replay 비용과 보안 노출이 커지므로 speculation control, precise exception 검증, replay rate로 확인함
 
 ## Ⅶ. 결론
