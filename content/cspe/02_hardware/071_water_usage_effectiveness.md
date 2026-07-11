@@ -15,11 +15,12 @@ extra:
 - WUE는 데이터센터의 IT 에너지당 물 사용량을 나타내는 지표임
 - 냉각 방식과 지역 수자원 여건이 WUE 해석에 직접 영향을 줌
 - PUE와 WUE는 냉각 방식에 따라 서로 다른 방향으로 변할 수 있어 함께 비교함
+- CUE(Carbon Usage Effectiveness)는 IT 에너지당 탄소 배출량을 나타내는 지표로 비교표에서 함께 다룸
 
 ## 작성 근거(검토용)
 
 - WUE는 물 사용량, IT 에너지, 냉각 방식, 지역 수자원 위험을 핵심 축으로 설명함
-- 비교표는 PUE, WUE, CUE의 계산식, 단위, 영향 변수, 한계를 대비함
+- 비교표는 PUE, WUE, CUE의 계산식, 영향 변수, 한계를 대비함
 - 실무 판단은 일일 취수량, WUE, 계절별 PUE·WUE로 구체화함
 
 ## Ⅰ. 개요
@@ -38,8 +39,7 @@ extra:
 
 | 판단 기준 | PUE | WUE | CUE |
 |:---|:---|:---|:---|
-| 계산식 | $\mathrm{PUE}=\frac{\text{전체 시설 전력}}{\text{IT 장비 전력}}$ | $\mathrm{WUE}=\frac{\text{물 사용량}}{\text{IT 에너지}}$ | $\mathrm{CUE}=\frac{\text{탄소 배출량}}{\text{IT 에너지}}$ |
-| 단위 | 비율 | $\mathrm{L/kWh}$ | $\mathrm{kgCO2e/kWh}$ |
+| 계산식 | $\mathrm{PUE}=\frac{\text{전체 시설 전력}}{\text{IT 장비 전력}}$ (비율) | $\mathrm{WUE}=\frac{\text{물 사용량}}{\text{IT 에너지}}$ ($\mathrm{L/kWh}$) | $\mathrm{CUE}=\frac{\text{탄소 배출량}}{\text{IT 에너지}}$ ($\mathrm{kgCO2e/kWh}$) |
 | 주요 영향 변수 | 냉각·배전 손실, IT 부하율 | 냉각 방식·외기·재생수 사용 | 전력 배출계수·연료 사용 |
 | 설명하지 않는 항목 | 물 사용·탄소 배출 | 지역 물 부족도·탄소 배출 | 물 사용·IT 처리량 |
 
@@ -72,4 +72,4 @@ extra:
 
 ## Ⅶ. 결론
 
-WUE는 같은 계량 기간의 PUE와 함께 비교해 냉각 방식의 전력·물 사용 트레이드오프를 판단해야 함.
+- WUE는 같은 계량 기간의 PUE와 함께 비교해 냉각 방식의 전력·물 사용 트레이드오프를 판단해야 함

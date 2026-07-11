@@ -12,7 +12,7 @@ extra:
 
 ## 미리 알고가기
 
-- InfiniBand는 RDMA 전송과 전용 패브릭 관리를 결합한 서버 인터커넥트임
+- RDMA(Remote Direct Memory Access): CPU 개입과 커널 복사 없이 원격 서버 메모리를 직접 읽고 쓰는 전송 방식임
 - 호스트 채널 어댑터(HCA)는 등록 메모리의 RDMA 작업을 처리하는 서버 측 어댑터임
 - 스위치, 서브넷 관리자, 큐 페어가 전송 경로와 작업 큐를 구성함
 - HPC와 AI 클러스터에서 RDMA와 집단 통신 경로로 사용함
@@ -21,7 +21,7 @@ extra:
 ## 작성 근거(검토용)
 
 - InfiniBand는 RDMA, HCA, 큐 페어, 스위치 패브릭, 서브넷 관리자를 핵심 구조로 설명함
-- 비교표는 Ethernet TCP/IP, RoCE, InfiniBand의 전송 경로와 혼잡·패브릭 관리 차이를 정리함
+- 비교표는 Ethernet TCP/IP, RoCE, InfiniBand의 전송 경로, 손실·혼잡 제어, 패브릭 관리 차이를 정리함
 - 실무 판단은 학습 단계 시간, GPU 유휴율, 링크 오류율, 장애 전환 시간으로 구체화함
 
 ## Ⅰ. 개요
@@ -40,8 +40,7 @@ extra:
 
 | 판단 기준 | 이더넷 TCP/IP | RoCE | InfiniBand |
 |:---|:---|:---|:---|
-| 전송 경로 | 소켓·커널 TCP/IP | 이더넷 위 RDMA | InfiniBand 전송·RDMA |
-| 어댑터 | 일반 NIC·TCP 오프로드 NIC | RoCE 지원 RNIC | InfiniBand HCA |
+| 전송 경로 | 일반 NIC의 소켓·커널 TCP/IP | RoCE 지원 RNIC의 이더넷 위 RDMA | InfiniBand HCA의 전송·RDMA |
 | 손실·혼잡 제어 | TCP 재전송·혼잡 제어 | PFC·ECN·RoCE 혼잡 제어 | 링크 흐름 제어·IB 혼잡 제어 |
 | 패브릭 관리 | IP 라우팅·스위치 관리 | 이더넷·IP·RDMA 설정 | 서브넷 관리자가 주소·경로 관리 |
 

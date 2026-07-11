@@ -14,12 +14,13 @@ extra:
 
 - PUE는 데이터센터 전체 전력을 IT 장비 전력으로 나눈 시설 효율 지표임
 - 값이 1에 가까울수록 냉각과 배전 같은 부대 전력 손실이 작다는 뜻임
+- DCiE·WUE·CUE: PUE와 같은 계열의 시설 효율 지표로 각각 IT 전력 비율, 물 사용량, 탄소 배출량을 IT 에너지 기준으로 나타냄
 - PUE는 서버 성능 지표가 아니라 설비 운영 지표임
 
 ## 작성 근거(검토용)
 
 - PUE는 전체 시설 전력, IT 장비 전력, 지원 설비 부하, 계량 경계를 핵심 축으로 설명함
-- 비교표는 PUE, DCiE, WUE, CUE의 계산식, 단위, 측정 범위, 한계를 대비함
+- 비교표는 PUE, DCiE, WUE, CUE의 계산식·단위, 측정 범위, 한계를 대비함
 - 실무 판단은 월별 PUE, 냉각 전력 비중, 최대 흡입 온도, PUE 변화량으로 구체화함
 
 ## Ⅰ. 개요
@@ -38,8 +39,7 @@ extra:
 
 | 판단 기준 | PUE | DCiE | WUE | CUE |
 |:---|:---|:---|:---|:---|
-| 계산식 | $\mathrm{PUE}=\frac{\text{전체 시설 전력}}{\text{IT 장비 전력}}$ | $\mathrm{DCiE}=\frac{\text{IT 장비 전력}}{\text{전체 시설 전력}}$ | $\mathrm{WUE}=\frac{\text{물 사용량}}{\text{IT 에너지}}$ | $\mathrm{CUE}=\frac{\text{탄소 배출량}}{\text{IT 에너지}}$ |
-| 단위 | 1 이상의 비율 | 백분율 | $\mathrm{L/kWh}$ | $\mathrm{kgCO2e/kWh}$ |
+| 계산식·단위 | $\mathrm{PUE}=\frac{\text{전체 시설 전력}}{\text{IT 장비 전력}}$, 1 이상의 비율 | $\mathrm{DCiE}=\frac{\text{IT 장비 전력}}{\text{전체 시설 전력}}$, 백분율 | $\mathrm{WUE}=\frac{\text{물 사용량}}{\text{IT 에너지}}$, $\mathrm{L/kWh}$ | $\mathrm{CUE}=\frac{\text{탄소 배출량}}{\text{IT 에너지}}$, $\mathrm{kgCO2e/kWh}$ |
 | 측정 범위 | 냉각·배전 포함 시설 전력 | PUE와 같은 전력 계량 범위 | 물 공급·수처리 계량 범위 | 전력·연료의 탄소 배출 범위 |
 | 설명하지 않는 항목 | IT 처리량·물·탄소 | IT 처리량·물·탄소 | IT 처리량·탄소 | IT 처리량·물 사용량 |
 
