@@ -1,5 +1,5 @@
 ---
-title: "NVDIMM 비휘발성 메모리 (Non-Volatile Dual In-line Memory Module)"
+title: "NVDIMM 비휘발성 메모리 (NVDIMM Non-Volatile DIMM)"
 date: "2026-07-08"
 tags:
   - "cspe-hardware"
@@ -33,7 +33,7 @@ extra:
 - 정상 동작 시 CPU가 메모리 버스로 DRAM 영역에 접근함
 - 정전 시 백업 전원으로 DRAM 내용을 비휘발 매체에 저장함
 - 플랫폼 펌웨어와 OS와 애플리케이션이 함께 지원해야 의미가 있음
-- 백업 전원과 미디어 수명과 flush 규칙이 실질 신뢰성을 좌우함
+- 백업 전원과 미디어 수명과 플러시 규칙이 실질 신뢰성을 좌우함
 
 ## Ⅲ. 종류 및 비교
 
