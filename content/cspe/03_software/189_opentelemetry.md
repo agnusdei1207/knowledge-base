@@ -1,0 +1,93 @@
+---
+title: "OpenTelemetry (OpenTelemetry)"
+date: "2026-07-11"
+tags:
+  - "cspe-software"
+weight: 189
+extra:
+  question_no: "189"
+  exam_status: "기출"
+  exam_history: "135회"
+---
+
+## 미리 알고가기
+
+- OpenTelemetry는 텔레메트리 생성·수집·전송을 위한 벤더 중립 API·SDK·도구·규약을 제공함
+- API는 계측 호출 규약을 제공하고 SDK는 샘플링·집계·배치·내보내기를 구현함
+- 자동 계측은 런타임·프레임워크 훅으로 애플리케이션 수정 범위를 줄여 신호를 생성함
+- OTLP는 텔레메트리를 SDK·Collector·백엔드 사이에 전달하는 프로토콜임
+- 의미 규약은 HTTP·DB·메시징 같은 작업과 속성 이름을 공통으로 정의함
+- Collector 파이프라인은 Receiver·Processor·Exporter로 신호를 수신·처리·전송함
+
+## 작성 근거(검토용)
+
+- OpenTelemetry는 API·SDK, 계측, 문맥 전파, 의미 규약, OTLP, Collector를 핵심 축으로 설명함
+- 비교표는 SDK 직접 전송과 Collector 경유 전송의 처리 위치·자격증명·재시도·운영 조건을 대비함
+- 절차는 신호 생성부터 문맥 전파·SDK 처리·Collector 파이프라인·백엔드 전달 순서를 따름
+
+## Ⅰ. 개요
+
+- **정의/개념**: OpenTelemetry는 메트릭·로그·트레이스를 공통 API·SDK·의미 규약으로 계측하고 OTLP·Collector로 관측 백엔드에 전달하는 표준 생태계임
+- **배경/필요성**: 언어·프레임워크·관측 제품마다 다른 계측 형식과 수집 경로를 줄이기 위해 벤더 중립 텔레메트리 규약이 필요함
+
+## Ⅱ. 특징
+
+- 언어별 API·SDK와 자동 계측이 신호 생성 방식을 공통 모델에 맞춤
+- 문맥 전파가 서비스 경계를 지나 Trace ID·부모 Span ID·Baggage를 전달함
+- 의미 규약이 서비스·HTTP·DB·메시징 속성 이름과 의미를 통일함
+- Collector가 필터·배치·샘플링·속성 보강 후 여러 백엔드로 신호를 전달함
+
+## Ⅲ. 종류 및 비교
+
+| 판단 기준 | SDK 직접 전송 | Collector 경유 전송 |
+|:---|:---|:---|
+| 전송 경로 | 애플리케이션 SDK가 백엔드로 전송 | SDK가 Collector로 보내고 Collector가 백엔드로 전송 |
+| 신호 처리 | SDK 내부 집계·배치·샘플링 사용 | Processor에서 필터·보강·샘플링 수행 |
+| 자격증명 | 애플리케이션마다 백엔드 정보 보유 | Collector가 백엔드 자격증명 보유 |
+| 재시도·버퍼 | 애플리케이션 프로세스 자원 사용 | Collector의 큐·재시도 정책 사용 |
+| 백엔드 변경 | SDK 설정·배포 변경 필요 | Exporter·파이프라인 설정 변경 |
+| 적합 조건 | 개발 환경·단일 백엔드 | 운영 환경·다중 백엔드·중앙 정책 필요 |
+
+> 요약: Collector를 경유하면 텔레메트리 처리·자격증명·백엔드 연결을 애플리케이션에서 분리할 수 있음.
+
+## Ⅳ. 구성요소 및 구조
+
+| 구성요소 | 설명 |
+|:---|:---|
+| API·SDK | 계측 인터페이스와 신호 생성·샘플링·집계·전송 기능을 제공함 |
+| 계측 라이브러리·에이전트 | 애플리케이션·프레임워크·런타임 동작을 신호로 변환함 |
+| Context Propagator | 서비스 호출에 추적 문맥과 Baggage를 주입·추출함 |
+| 의미 규약 | 리소스·작업·속성의 공통 이름과 의미를 정의함 |
+| OTLP | 신호를 SDK·Collector·백엔드 사이에 전달함 |
+| Collector | Receiver·Processor·Exporter 파이프라인으로 신호를 중계함 |
+
+```text
+자동·수동 계측 -> API·SDK -> OTLP -> Collector -> 관측 백엔드
+                    ^                    |
+              문맥·의미 규약       필터·배치·내보내기
+```
+
+> 요약: API·SDK가 공통 문맥과 의미 규약으로 신호를 만들고 Collector가 처리 후 백엔드에 전달함.
+
+## Ⅴ. 원리 및 절차 흐름도
+
+```text
+신호 생성·문맥 연결 -> SDK 처리 -> OTLP 전송 -> Receiver -> Processor -> Exporter
+```
+
+1. **신호 생성·연결**: 계측기가 신호·리소스 속성을 만들고 Trace 문맥을 주입·추출함
+2. **SDK 처리**: SDK가 신호 종류에 따라 샘플링·집계·배치를 수행함
+3. **OTLP 전송**: SDK Exporter가 처리한 신호를 Collector Receiver로 보냄
+4. **Collector 처리**: Processor가 신호를 필터링·보강·샘플링함
+5. **내보내기**: Collector Exporter가 처리한 신호를 관측 백엔드로 전송함
+
+> 요약: 계측 신호는 문맥과 의미 규약을 유지한 채 SDK와 Collector 파이프라인을 거쳐 전송됨.
+
+## Ⅵ. 실무 사례
+
+1. 다중 언어 API는 OTel 의미 규약을 통일하고 Trace 연결률·속성 누락률을 확인함
+2. 클러스터 Collector는 테일 샘플링을 적용하고 Export 실패율·큐 사용량을 확인함
+
+## Ⅶ. 결론
+
+- OpenTelemetry는 계측·문맥·속성 규약을 통일하고 Collector 큐·샘플링·내보내기 실패를 관리함

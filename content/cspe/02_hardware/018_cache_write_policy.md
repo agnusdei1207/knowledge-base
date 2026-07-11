@@ -16,6 +16,12 @@ extra:
 - Write-Through는 즉시 반영, Write-Back은 교체 시 반영 구조임
 - Write miss 시 allocate 정책과 함께 봐야 함
 
+## 작성 근거(검토용)
+
+- 쓰기 정책을 빠름·느림이 아니라 메모리 반영 시점·dirty bit·write buffer·교체 동작으로 설명함
+- Write-Through와 Write-Back을 반영 시점·쓰기 경로·상태 정보·메모리 트래픽·DMA 조건으로 비교함
+- 두 정책의 쓰기 요청과 메모리 반영 경로를 별도 흐름으로 분리함
+
 ## Ⅰ. 개요
 
 - **정의/개념**: 캐시 쓰기 정책은 CPU가 캐시에 데이터를 갱신할 때 변경된 내용을 메모리에 즉시 반영할지, 캐시에만 유지하다가 추후 교체 시점에 반영할지 결정하는 캐시 제어 규칙임
@@ -23,7 +29,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- Write-Through는 메모리 최신성 유지가 쉽고 구조가 단순함
+- Write-Through는 캐시 쓰기마다 메모리 쓰기도 요청해 두 계층의 값을 함께 갱신함
 - Write-Back은 같은 라인의 반복 쓰기를 모아 메모리 트래픽을 줄임
 - Write-Back은 dirty bit와 eviction 관리가 필수임
 - write miss 처리와 DMA 일관성 요구에 따라 정책 적합성이 달라짐
@@ -33,8 +39,10 @@ extra:
 | 판단 기준 | Write-Through | Write-Back |
 |:---|:---|:---|
 | 메모리 반영 시점 | 즉시 | 교체 시점 |
-| 장점 | 메모리 최신성 관리 용이 | 메모리 트래픽 절감 |
-| 한계 | 메모리 트래픽 큼 | dirty 관리와 복구 복잡 |
+| 쓰기 경로 | 캐시와 메모리에 쓰기 요청 | 캐시에 쓰고 dirty bit 설정 |
+| 필요 상태·버퍼 | 메모리 지연을 흡수할 write buffer | dirty bit와 교체 시 write-back 경로 |
+| 메모리 트래픽 | 캐시 쓰기마다 발생 | 같은 라인의 반복 쓰기를 교체 시 한 번에 반영 |
+| 장애·DMA 조건 | write buffer 완료 상태 확인 | flush와 캐시 일관성 처리 필요 |
 | 대표 조합 | no-write-allocate | write-allocate |
 
 > 요약: Write-Through는 캐시와 메모리에 동시에 기록하고, Write-Back은 수정 라인이 교체될 때 메모리에 반영함.
@@ -43,51 +51,41 @@ extra:
 
 | 구성요소 | 설명 |
 |:---|:---|
-| Cache Line | 수정 대상 데이터가 저장되는 기본 단위이며 dirty 상태 여부를 함께 기록함 |
-| Dirty Bit | Write-Back에서 메모리에 아직 반영되지 않은 변경 여부를 표시함 |
-| Write Buffer | Write-Through의 메모리 지연을 흡수해 CPU 정지를 줄이는 완충 장치임 |
-| Eviction Logic | Write-Back 캐시 라인을 교체할 때 메모리 반영 여부를 결정함 |
+| 캐시 라인 | 수정 대상 데이터가 저장되는 기본 단위임 |
+| 더티 비트 | Write-Back에서 메모리에 반영되지 않은 변경 여부를 표시함 |
+| 쓰기 버퍼 | Write-Through 요청을 보관하고 메모리 쓰기 지연 동안 CPU 진행을 지원함 |
+| 교체 로직 | Write-Back 캐시 라인을 교체할 때 메모리 반영 여부를 결정함 |
 
 ```text
 +------------+     +-----------+     +--------------+
-| Cache Line | --> | Dirty Bit | --> | Eviction     |
+| 캐시 라인   | --> | 더티 비트  | --> | 교체 로직      |
 +------------+     +-----------+     +--------------+
       |
       v
 +--------------+
-| Write Buffer |
+| 쓰기 버퍼     |
 +--------------+
 ```
 
-> 요약: dirty bit, write buffer, eviction logic이 메모리 반영 시점과 지연을 제어함.
+> 요약: 더티 비트·쓰기 버퍼·교체 로직이 메모리 반영 시점과 쓰기 대기를 제어함.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-+-------------+     +-------------+     +-------------+     +-------------+
-| write 요청 수신 | --> | hit/miss 판정    | --> | 캐시/메모리 갱신 | --> | 교체·반영 처리  |
-+-------------+     +-------------+     +-------------+     +-------------+
+[Write-Through] 쓰기 요청 -> 캐시 갱신 -> Write Buffer -> 메모리 반영
+[Write-Back]    쓰기 요청 -> 캐시 갱신·Dirty 설정 -> 라인 교체 -> 메모리 반영
 ```
 
-1. **쓰기 요청 수신**: CPU가 데이터 갱신을 요청함
-2. **hit 또는 miss 판정**: 캐시 내 존재 여부를 확인함
-3. **캐시와 메모리 갱신**: 정책에 맞게 즉시 또는 지연 반영함
-4. **교체와 반영 처리**: dirty 상태면 메모리에 기록함
+1. **Write-Through**: 캐시 라인을 갱신하고 write buffer를 거쳐 메모리에도 쓰기를 전달함
+2. **Write-Back**: 캐시 라인만 갱신하고 dirty로 표시한 뒤 해당 라인이 교체될 때 메모리에 기록함
 
-> 요약: 쓰기 정책은 요청 위치와 dirty 상태를 보고 즉시 반영할지 교체 시 반영할지 결정함.
+> 요약: Write-Through는 쓰기마다 메모리에 반영하고, Write-Back은 더티 라인의 교체 시점에 반영함.
 
-## Ⅵ. 실무 적용 및 유의점
+## Ⅵ. 실무 사례
 
-1. Write-Through는 잦은 메모리 쓰기로 버스 병목이 커지므로 write buffer와 burst merge를 적용하고 buffer full rate, memory traffic ratio로 확인함
-2. Write-Back은 전원 차단·DMA 접근 시 최신성 문제가 생길 수 있으므로 coherence protocol과 flush policy를 운영하고 stale memory read count, flush latency로 확인함
-3. write miss 정책이 접근 패턴과 맞지 않으면 캐시 오염과 지연이 늘어나므로 allocate policy를 조정하고 write miss penalty, cache pollution ratio로 확인함
+1. Write-Through 캐시는 쓰기 버퍼에서 연속 요청을 병합하고, 버퍼 포화율과 메모리 쓰기 트래픽을 확인함
+2. DMA 장치와 Write-Back 캐시를 함께 사용하는 시스템은 캐시 플러시를 적용하고, 오래된 값 읽기 건수와 플러시 지연을 확인함
 
 ## Ⅶ. 결론
 
-캐시 쓰기 정책은 속도보다 메모리 트래픽, 최신성, 복구 비용 중 무엇을 우선할지 정하는 선택 기준임.
-
-## 작성 근거(검토용)
-
-- 쓰기 정책은 빠름/느림이 아니라 메모리 반영 시점, dirty bit, write buffer, eviction 절차로 설명함
-- 모호한 표현은 메모리 최신성, 트래픽, dirty 관리로 구체화함
-- 결론은 속도 비교가 아니라 트래픽, 일관성, 복구 비용의 선택 문제로 유지함
+- 캐시 쓰기 정책은 반복 쓰기 트래픽, 메모리 반영 시점, 장애·DMA 시 flush 조건을 기준으로 Write-Through와 Write-Back을 선택해야 함

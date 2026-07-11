@@ -12,30 +12,38 @@ extra:
 
 ## 미리 알고가기
 
-- InfiniBand는 RDMA 중심의 고성능 네트워크 패브릭임
-- HCA, switch, subnet manager, queue pair가 주요 구성요소임
-- HPC와 AI 클러스터의 저지연 통신 요구에 특화됨
+- InfiniBand는 RDMA 전송과 전용 패브릭 관리를 결합한 서버 인터커넥트임
+- 호스트 채널 어댑터(HCA)는 등록 메모리의 RDMA 작업을 처리하는 서버 측 어댑터임
+- 스위치, 서브넷 관리자, 큐 페어가 전송 경로와 작업 큐를 구성함
+- HPC와 AI 클러스터에서 RDMA와 집단 통신 경로로 사용함
+- 완료 큐(Completion Queue)는 게시한 RDMA 작업의 종료 상태를 응용에 전달함
+
+## 작성 근거(검토용)
+
+- InfiniBand는 RDMA, HCA, 큐 페어, 스위치 패브릭, 서브넷 관리자를 핵심 구조로 설명함
+- 비교표는 Ethernet TCP/IP, RoCE, InfiniBand의 전송 경로와 혼잡·패브릭 관리 차이를 정리함
+- 실무 판단은 학습 단계 시간, GPU 유휴율, 링크 오류율, 장애 전환 시간으로 구체화함
 
 ## Ⅰ. 개요
 
-- **정의/개념**: InfiniBand는 RDMA 기반 전송과 전용 패브릭 관리 구조를 사용해 서버 간 메모리 접근과 메시지 전달을 낮은 지연과 낮은 CPU 오버헤드로 수행하는 고성능 인터커넥트임
-- **배경/필요성**: 분산 학습과 HPC는 작은 메시지와 대량 collective 통신이 빈번하므로, TCP/IP 중심 네트워크보다 더 예측 가능하고 낮은 지연의 패브릭이 필요함
+- **정의/개념**: InfiniBand는 HCA가 등록 메모리를 RDMA로 전송하고 서브넷 관리자가 전용 스위치 경로를 설정하는 서버 인터커넥트임
+- **배경/필요성**: 분산 학습과 HPC의 반복 메시지·집단 통신에서 커널 처리와 CPU 복사를 줄이기 위해 RDMA 패브릭이 필요함
 
 ## Ⅱ. 특징
 
 - RDMA를 통해 CPU 개입과 커널 오버헤드를 줄임
-- 낮은 지연과 높은 대역폭으로 MPI와 분산 학습에 적합함
-- 전용 어댑터와 운영 노하우가 필요해 범용 네트워크보다 복잡함
-- congestion control과 subnet 관리 품질이 전체 성능을 좌우함
+- MPI와 분산 학습의 메시지·집단 통신을 전용 패브릭으로 처리함
+- 전용 어댑터와 서브넷 관리자가 필요해 이더넷과 별도 운영 체계를 구성함
+- 혼잡 제어와 서브넷 경로 설정이 링크별 대기 시간을 좌우함
 
 ## Ⅲ. 종류 및 비교
 
-| 판단 기준 | Ethernet TCP/IP | RoCE | InfiniBand |
+| 판단 기준 | 이더넷 TCP/IP | RoCE | InfiniBand |
 |:---|:---|:---|:---|
-| CPU 오프로드 | 낮음 | 중간 | 높음 |
-| 지연 | 중간 | 낮음 | 최저 수준 |
-| 운영 복잡도 | 낮음 | 중간 | 높음 |
-| 대표 용도 | 범용 서버 | RDMA 이더넷 | HPC, AI 클러스터 |
+| 전송 경로 | 소켓·커널 TCP/IP | 이더넷 위 RDMA | InfiniBand 전송·RDMA |
+| 어댑터 | 일반 NIC·TCP 오프로드 NIC | RoCE 지원 RNIC | InfiniBand HCA |
+| 손실·혼잡 제어 | TCP 재전송·혼잡 제어 | PFC·ECN·RoCE 혼잡 제어 | 링크 흐름 제어·IB 혼잡 제어 |
+| 패브릭 관리 | IP 라우팅·스위치 관리 | 이더넷·IP·RDMA 설정 | 서브넷 관리자가 주소·경로 관리 |
 
 > 요약: InfiniBand는 HCA가 RDMA 전송을 처리하고, 전용 스위치와 서브넷 관리자가 패브릭 경로를 제어함.
 
@@ -43,18 +51,18 @@ extra:
 
 | 구성요소 | 설명 |
 |:---|:---|
-| HCA | 서버 메모리와 패브릭을 연결하고 RDMA 작업을 수행해 CPU 부담을 줄임 |
-| Queue Pair | 송신과 수신 작업을 큐로 관리해 응용과 네트워크 간 비동기 통신을 가능하게 함 |
-| Switch Fabric | 고대역폭 경로를 제공하며 토폴로지와 혼잡 제어 성능이 중요함 |
-| Subnet Manager | 주소와 경로와 포트 상태를 관리해 패브릭 일관성을 유지함 |
+| 호스트 채널 어댑터(HCA) | 서버 메모리와 패브릭을 연결하고 RDMA 작업을 처리함 |
+| 큐 페어(QP) | 송신·수신 작업을 큐로 관리해 응용과 HCA 사이의 비동기 처리를 지원함 |
+| 스위치 패브릭 | 서버 간 전송 경로를 제공하며 토폴로지와 혼잡 제어가 링크별 대기 시간을 결정함 |
+| 서브넷 관리자 | 주소·경로·포트 상태를 관리해 패브릭 경로를 일관되게 설정함 |
 
 ```text
 +-------------+     +-------------+     +------------------+     +-------------+
-| Host Memory | <-> | HCA / QP    | <-> | IB Switch Fabric | <-> | Remote Node |
+| 호스트 메모리 | <-> | HCA·QP     | <-> | IB 스위치 패브릭 | <-> | 원격 노드   |
 +-------------+     +-------------+     +------------------+     +-------------+
 ```
 
-> 요약: InfiniBand는 HCA, queue pair, switch fabric, subnet manager가 RDMA 경로를 구성함.
+> 요약: HCA·큐 페어가 RDMA 작업을 게시하고 스위치 패브릭·서브넷 관리자가 원격 노드 경로를 구성함.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
@@ -65,23 +73,17 @@ extra:
 ```
 
 1. **메모리 등록**: RDMA 대상 버퍼를 등록함
-2. **QP 작업 게시**: 송수신 요청을 queue pair에 올림
+2. **QP 작업 게시**: 송수신 요청을 큐 페어에 올림
 3. **RDMA 전송 수행**: HCA가 패브릭을 통해 메모리를 직접 읽고 씀
-4. **완료 통지**: completion queue로 결과를 알려줌
+4. **완료 통지**: 완료 큐로 결과를 알려줌
 
-> 요약: RDMA는 메모리 등록과 QP 작업 게시 뒤 HCA가 직접 전송하고 completion queue로 끝남.
+> 요약: RDMA는 메모리 등록과 QP 작업 게시 뒤 HCA가 전송하고 완료 큐로 결과를 알림.
 
-## Ⅵ. 실무 적용 및 유의점
+## Ⅵ. 실무 사례
 
-1. AI 학습 클러스터·HPC는 링크 혼잡 시 GPU가 대기하므로 adaptive routing과 job placement를 적용하고 step time, GPU idle ratio로 확인함
-2. 패브릭 운영은 케이블·펌웨어·subnet 관리 실수에 민감하므로 health check와 topology validation을 자동화하고 link error rate, failover time으로 확인함
+1. AI 학습 클러스터는 적응형 라우팅과 작업 배치로 통신 경로를 분산하고 학습 단계 시간·GPU 유휴율을 확인함
+2. 패브릭 운영은 서브넷 관리자로 토폴로지·경로 검증을 자동화하고 링크 오류율·장애 전환 시간을 확인함
 
 ## Ⅶ. 결론
 
-InfiniBand는 HCA의 RDMA 처리와 전용 패브릭으로 CPU 개입과 통신 지연을 줄이므로, 집단 통신이 계산 시간을 지연시키는 클러스터에 적용함.
-
-## 작성 근거(검토용)
-
-- InfiniBand는 RDMA, HCA, queue pair, switch fabric, subnet manager를 핵심 구조로 설명함
-- 비교표는 Ethernet TCP/IP, RoCE, InfiniBand의 CPU 오프로드와 지연 차이를 정리함
-- 실무 판단은 step time, GPU idle ratio, link error rate, failover time으로 검증 가능하게 작성함
+InfiniBand는 HCA의 RDMA 처리와 전용 패브릭을 사용하므로 집단 통신 시간이 계산 시간을 제한하는 클러스터에 적용함.

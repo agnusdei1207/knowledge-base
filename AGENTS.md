@@ -57,8 +57,8 @@ Rewrite tracker:
 | Area | Completed | Next Start |
 |:---|:---|:---|
 | `01_basic_theory` | 001~080 전체 writing-method 기준 재작성 및 교정 완료 | 완료 |
-| `02_hardware` | 001~040, writing-method 기준 교정 완료 | 041 |
-| `03_software` | 001~015, legacy quality varies | 016 |
+| `02_hardware` | 001~110 전체 교정 완료(현재 미커밋 작업) | 완료 |
+| `03_software` | 001~135 교정 완료, 136~222 신규 작성 상태(현재 미커밋·최종 검증 전) | 136~222 검증 후 223 |
 | `04_network` | 001~015, legacy quality varies | 016 |
 | `05_security` | 001~015, legacy quality varies | 016 |
 | `06_evaluation` | 001~015, legacy quality varies | 016 |
@@ -66,6 +66,37 @@ Rewrite tracker:
 | `08_latest_tech` | 001~035, legacy quality varies | 036 |
 
 The tracker records historical progress only. New or rewritten files must follow `writing-method.md`.
+
+### Current Pause Memo (2026-07-11 13:30:42 KST)
+
+사용자 요청에 따라 이 지점에서 작업을 중단했다. 현재 변경 사항은 커밋하거나 푸시하지 않았으며, dirty worktree를 그대로 보존해야 한다.
+
+- 진행·중단·재개 메모에는 특별한 사유가 없으면 `YYYY-MM-DD HH:mm:ss KST` 형식으로 초 단위 시각을 기록한다.
+
+- 실행 중이던 병렬 작업은 모두 중단됨:
+  - `software_137_160`
+  - `software_161_180`
+  - `software_181_198`
+- 완료 및 확인 상태:
+  - `01_basic_theory` `001~080`: 전체 교정 완료, Docker Zola 빌드 통과
+  - `02_hardware` `001~110`: 전체 교정 완료, Docker Zola 빌드 통과
+  - `03_software` `001~135`: 교정 완료 및 구조 검증 완료
+  - `03_software` `136`: 신규 작성 완료
+  - `03_software` `137~198`: 중단된 병렬 작업 결과가 파일로 존재하나 범위 전체의 최종 검수는 미완료
+  - `03_software` `199~222`: 신규 작성 및 기본 구조 검증 완료
+- 재개 순서:
+  1. `03_software` `136~222`를 `_keywords.md`와 대조하여 제목·번호·핵심 내용·문장 자연스러움·표 비교축·절 구성·실무 사례를 최종 검수한다.
+  2. 특히 중단된 병렬 범위 `137~198`은 누락·절단·형식 불일치 여부를 먼저 확인한다.
+  3. 이상이 없으면 `03_software` `223`부터 직접 작성·교정을 재개한다.
+  4. `03_software` 완료 후 나머지 과목을 같은 관점으로 교정한다.
+  5. 전체 작업 완료 시 `git diff --check`, Docker Zola 전체 빌드, `git fetch origin`, divergence 확인 후 한 번만 커밋·푸시한다.
+- 보존 주의 사항:
+  - 같은 번호의 기존 중복 파일은 삭제·이름 변경·병합하지 않는다.
+  - `.claude/`는 사용자 소유 미추적 항목이므로 건드리지 않는다.
+  - `04_network/129~132`의 기존 미커밋 변경은 보존하되 이번 완료 범위로 계산하지 않는다.
+  - `writing-method.md`, `writing-examples.md`에는 이번 문장 교정 원칙과 예시가 미커밋 상태로 반영되어 있다.
+
+현재의 안전한 재개 지점은 **`03_software` 136~222 최종 검수**, 이후 신규 작성 시작 번호는 **223**이다.
 
 ### Latest Continuation Memo (2026-07-08)
 

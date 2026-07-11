@@ -55,7 +55,7 @@ weight: 1
 038. 애자일 DORA 메트릭 (DORA Metrics) [출제:124회]
 039. 요구사항 분석·명세 (Requirements Analysis)
 040. UML 다이어그램 유형 (UML Diagrams)
-041. 소프트웨어 아키텍처 패턴 — MVC·MSA·이벤트드리블 (Architecture Patterns) [출제:120회]
+041. 소프트웨어 아키텍처 패턴 — MVC·MSA·이벤트드리븐 (Architecture Patterns) [출제:120회]
 042. 마이크로서비스 아키텍처 MSA (Microservice Architecture) [출제:120,121,123,135회]
 043. MSA 분해 전략 — 도메인 주도 설계 (MSA Decomposition DDD) [출제:136회]
 044. API 게이트웨이 (API Gateway) [출제:120회]

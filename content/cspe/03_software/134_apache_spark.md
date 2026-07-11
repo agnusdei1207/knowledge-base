@@ -1,5 +1,5 @@
 ---
-title: "Apache Spark (Apache Spark)"
+title: "Apache Spark"
 date: "2026-07-08"
 tags:
   - "cspe-software"
@@ -12,64 +12,81 @@ extra:
 
 ## 미리 알고가기
 
-- Spark는 메모리 기반 분산 처리 엔진으로 배치와 스트림과 ML 작업을 함께 다룸
-- Driver는 작업 계획을 세우고 Executor는 각 노드에서 실제 연산을 수행함
-- DataFrame은 구조화 데이터를 다루는 대표 API이고 Catalyst는 질의 최적화 엔진임
+- Spark는 변환 연산의 의존성을 DAG로 구성하고 파티션별 Task를 Executor에서 병렬 실행하는 분산 처리 엔진임
+- Transformation은 지연 평가되며 Action이 호출될 때 Driver가 Job·Stage·Task 실행 계획을 생성함
+- DataFrame·SQL 질의는 Catalyst가 논리 계획을 최적화하고 AQE가 실행 중 통계로 물리 계획을 조정함
+- Cache·Persist는 반복 사용 데이터를 재활용하지만 메모리가 부족하면 축출·디스크 저장·재계산이 발생함
+- Structured Streaming은 DataFrame API로 연속 입력을 증분 처리하며 체크포인트와 상태 저장소로 복구를 지원함
+
+## 작성 근거(검토용)
+
+- Spark는 DAG 실행, Catalyst·AQE 최적화, 메모리·Shuffle 관리와 스트림 상태 복구를 핵심 축으로 설명함
+- 비교표는 MapReduce와 실행 그래프·중간 데이터·반복 처리·질의 최적화·장애 복구·적합 작업을 대비함
+- 실무 사례는 편향 조인과 상태 기반 스트림 집계를 Shuffle 전송량·최장 Task 시간·복구 시간으로 검증함
 
 ## Ⅰ. 개요
 
-- **정의/개념**: Apache Spark는 변환 연산을 DAG로 구성하고 partition별 task를 executor에서 실행하며 중간 데이터를 메모리·디스크에 유지하는 분산 처리 엔진임
-- **배경/필요성**: MapReduce는 대규모 배치에는 강했지만 중간 결과를 디스크에 자주 쓰는 탓에 반복 분석과 빠른 데이터 탐색이 느려 메모리 중심 처리 엔진이 필요해짐
+- **정의/개념**: Apache Spark는 변환 연산을 DAG로 구성하고 파티션별 Task를 Executor에서 실행하며 구조화 질의와 스트림을 같은 실행 엔진으로 처리하는 분산 컴퓨팅 플랫폼임
+- **배경/필요성**: 여러 MapReduce Job 사이의 디스크 기록과 반복 입력 읽기를 줄이고 SQL·반복 분석·스트림 처리를 하나의 분산 실행 모델로 운영하기 위해 필요함
 
 ## Ⅱ. 특징
 
-- 메모리 캐시를 활용해 반복 연산과 대화형 분석에 강함
-- SQL과 스트리밍과 머신러닝과 그래프 처리를 한 엔진으로 다루기 쉬움
-- Driver와 Executor 구조로 다양한 클러스터 자원 관리자와 연동함
-- partition 크기·cache 데이터가 executor memory를 넘거나 shuffle이 증가하면 spill·network I/O·GC 시간이 늘어남
+- Transformation을 지연 평가하고 Action 호출 시 의존성을 Job·Stage·Task로 변환함
+- Shuffle이 필요한 넓은 의존성에서 Stage를 나누고 파티션별 Task를 Executor에 배치함
+- Catalyst가 DataFrame·SQL의 논리 계획을 최적화하고 AQE가 실행 통계로 조인·파티션 계획을 조정함
+- Cache·Persist와 계보(Lineage) 재계산으로 반복 처리와 장애 복구를 지원하지만 Shuffle·데이터 편향·메모리 압박은 성능 저하 요인임
+- Structured Streaming이 체크포인트·상태 저장소·워터마크로 상태 기반 증분 처리를 관리함
 
 ## Ⅲ. 종류 및 비교
 
-| 판단 기준 | Hadoop MapReduce | Spark |
+| 판단 기준 | Hadoop MapReduce | Apache Spark |
 |:---|:---|:---|
-| 실행 방식 | 디스크 중심 단계 처리 | 메모리 중심 DAG 처리 |
-| 강한 영역 | 대규모 일괄 배치 | 반복 분석, SQL, 스트림, ML |
-| 응답성 | 상대적으로 느림 | 더 빠른 상호작용 가능 |
-| 주의점 | 반복 작업 비효율 | 메모리와 셔플 튜닝 필요 |
+| 실행 그래프 | Map·Shuffle·Reduce 단계의 Job을 연결 | 연산 의존성을 DAG의 Job·Stage·Task로 구성 |
+| 중간 데이터 | Job 사이 결과를 분산 파일시스템에 기록 | Shuffle 파일과 메모리·디스크 Persist를 선택 사용 |
+| 반복 처리 | 이전 Job 출력을 다시 읽어 다음 Job 실행 | Cache·Persist한 파티션을 반복 연산에 재사용 |
+| 구조화 질의 | 응용이 Job 순서와 최적화를 직접 설계 | Catalyst·AQE가 논리·물리 실행 계획을 최적화 |
+| 장애 복구 | 복제 블록과 실패 Task 재실행 | 계보 기반 파티션 재계산과 스트림 체크포인트 복구 |
+| 적합 작업 | 파일 기반 대용량 일괄 정렬·집계 | SQL·반복 분석·상태 기반 스트림 처리 |
+
+> 요약: MapReduce는 Job 사이 결과를 파일로 연결하고, Spark는 DAG·Cache·Catalyst로 반복 분석과 구조화 처리를 통합함.
 
 ## Ⅳ. 구성요소 및 구조
 
 | 구성요소 | 설명 |
 |:---|:---|
-| Driver | 작업 계획과 DAG를 만들고 전체 실행을 조정함 |
-| Executor | 각 노드에서 태스크를 실행하고 메모리를 사용함 |
-| Cluster Manager | 자원 할당과 노드 관리를 담당함 |
-| DataFrame / Dataset | 구조화 데이터를 다루는 상위 API임 |
-| Shuffle / Cache | 데이터 재분배와 반복 연산 가속을 담당함 |
+| Driver·SparkSession | 응용 진입점에서 Job을 생성하고 전체 실행을 조정함 |
+| Catalyst·AQE | 논리 계획을 최적화하고 실행 통계로 물리 계획을 조정함 |
+| DAG Scheduler·Task Scheduler | Shuffle 경계로 Stage를 나누고 파티션별 Task를 Executor에 배치함 |
+| Cluster Manager | Standalone·YARN·Kubernetes 환경에서 Executor 자원을 할당함 |
+| Executor·Partition | Task를 실행하고 파티션 데이터·Cache·Shuffle 블록을 관리함 |
+| Checkpoint·State Store | 스트림 진행 위치와 상태를 저장해 재시작 시 처리를 복구함 |
 
 ```text
-사용자 코드 -> Driver 계획 수립 -> Executor 분산 실행
-                           |
-                    Cache / Shuffle
+Action -> Driver 실행 계획 -> Stage·Task -> Executor 파티션 처리 -> 결과
+                              └-> Shuffle·Cache·State Store
 ```
+
+> 요약: Driver가 최적화된 DAG를 Stage·Task로 나누고 Executor가 파티션·Shuffle·상태를 처리함.
 
 ## Ⅴ. 원리 및 절차 흐름도
 
 ```text
-데이터 로드 -> 변환 연산 정의 -> DAG 생성 -> 태스크 분배 -> 셔플/캐시 -> 결과 저장
+Transformation 정의 -> Action 호출 -> 논리·물리 계획 최적화 -> Stage·Task 실행 -> 결과 반환
 ```
 
-1. **데이터 로드**: 파일이나 DB나 스트림에서 데이터를 읽음
-2. **변환 정의**: 필터와 조인과 집계 같은 연산을 선언함
-3. **DAG 생성**: Driver가 transformation 의존성을 stage와 task 실행 계획으로 구성함
-4. **태스크 분배**: Executor들이 병렬로 작업을 수행함
-5. **결과 저장**: 분석 결과를 파일이나 테이블에 기록함
+1. **Transformation 정의**: DataFrame·RDD에 필터·조인·집계 등 지연 연산을 구성함
+2. **Action 호출**: 결과 조회·저장 요청이 들어오면 Driver가 Job 생성을 시작함
+3. **계획 최적화**: Catalyst가 질의 계획을 변환하고 AQE가 실행 통계로 물리 계획을 보정함
+4. **Stage·Task 실행**: Shuffle 경계별 Stage와 파티션별 Task를 Executor에 분배함
+5. **결과 반환**: Executor가 Shuffle·Cache·상태 저장을 거쳐 결과를 Driver나 저장소에 전달함
 
-## Ⅵ. 실무 적용 및 유의점
+> 요약: Action이 지연 연산을 실행 계획으로 확정하면 Driver가 Stage·Task를 배치하고 Executor가 파티션을 처리함.
 
-1. 대화형 분석과 반복 집계는 Spark가 유리하지만 셔플이 과하면 네트워크와 메모리가 병목이 되므로 파티션 수와 조인 전략을 조정하고 셔플 데이터량과 작업 완료 시간과 메모리 사용률로 확인함
-2. 스트리밍과 배치를 한 플랫폼에서 함께 운영할 때는 체크포인트와 상태 크기 관리가 중요하므로 상태 저장소 크기와 지연 시간과 재시작 복구 시간으로 확인함
+## Ⅵ. 실무 사례
+
+1. 편향 조인은 AQE와 파티션 재분배를 적용하고 Shuffle 전송량·최장 Task 시간을 확인함
+2. 상태 기반 스트림 집계는 워터마크·체크포인트를 적용하고 상태 저장소 크기·재시작 시간을 확인함
 
 ## Ⅶ. 결론
 
-- Spark는 메모리 기반 분산 처리로 빠른 분석에 강하지만 셔플과 메모리 관리가 성능을 좌우하므로 작업 특성에 맞는 튜닝이 필수임
+- Spark는 반복 처리·구조화 질의·상태 기반 스트림 요구에 맞춰 DAG·파티션·Shuffle·상태 복구 방식을 설계해야 함
