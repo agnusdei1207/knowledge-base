@@ -13,13 +13,15 @@ extra:
 
 ## 미리 알고가기
 
-- LIFO(Last-In, First-Out): 마지막 삽입 데이터가 먼저 제거되는 후입선출 규칙임
-- FIFO(First-In, First-Out): 먼저 삽입된 데이터가 먼저 제거되는 선입선출 규칙임
-- Deque(Double-Ended Queue): $Front$와 $Rear$ 양쪽에서 삽입·삭제를 허용하는 구조임
+- 후입선출(LIFO, Last-In First-Out): 마지막에 삽입한 데이터가 먼저 제거되는 규칙임
+- 선입선출(FIFO, First-In First-Out): 먼저 삽입한 데이터가 먼저 제거되는 규칙임
+- 양방향 큐(Deque, Double-Ended Queue): 앞(Front)과 뒤(Rear)에서 삽입·삭제를 허용하는 구조임
 - 슬라이딩 윈도우: 연속 구간을 이동하며 구간 내 최댓값 같은 집계값을 갱신하는 기법임
 - 오버플로(Overflow): 가득 찬 저장체에 삽입을 요청한 상태임
 - 언더플로(Underflow): 비어 있는 저장체에 삭제를 요청한 상태임
 - 원형 큐: 배열의 끝과 시작을 연결해 빈 공간을 재사용하는 큐 구현임
+- 기본 연산: $Push$·$Enqueue$는 삽입, $Pop$·$Dequeue$는 삭제 연산임
+- 끝점 포인터: $Top$은 스택 상단, $Front$·$Rear$는 큐와 덱의 앞·뒤 위치를 나타냄
 
 ## 작성 근거(검토용)
 
