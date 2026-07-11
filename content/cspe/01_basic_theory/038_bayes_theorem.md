@@ -1,5 +1,5 @@
 ---
-title: "확률 기초·베이즈 정리 (Bayes Theorem)"
+title: "확률 기초 — 베이즈 정리 (Bayes Theorem)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"

@@ -1,5 +1,5 @@
 ---
-title: "소스 코딩·채널 코딩 (Source Coding vs Channel Coding)"
+title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"

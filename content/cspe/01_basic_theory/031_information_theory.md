@@ -1,5 +1,5 @@
 ---
-title: "정보이론 — 엔트로피·채널 용량·섀넌 한계 (Information Theory and Shannon Limit)"
+title: "정보이론 — 엔트로피·채널 용량·섀넌 한계 (Information Theory Shannon)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
@@ -40,7 +40,7 @@ extra:
 
 - 정보의 의미가 아니라 발생 확률의 불확실성을 수치화함
 - 엔트로피는 평균 코드 길이의 이론적 하한을 제시함
-- 채널 용량은 잡음 환경의 최대 전송률을 제시함
+- 채널 용량은 대역폭과 SNR로 정해지는 잡음 채널의 최대 전송률을 제시함
 - 실제 부호화 성능을 섀넌 한계와 비교해 평가함
 
 ## Ⅲ. 종류 및 비교

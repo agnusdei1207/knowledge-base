@@ -1,5 +1,5 @@
 ---
-title: "확률 분포·정규·이항·포아송 (Probability Distribution)"
+title: "확률 분포 — 정규·이항·포아송 (Probability Distribution)"
 date: "2026-07-09"
 tags:
   - "cspe-basic-theory"
