@@ -83,8 +83,7 @@ The tracker records historical progress only. New or rewritten files must follow
 - `01_basic_theory` `001~080`: 전체 재검수·재교정 완료, 커밋 `1db6fbaa5` 푸시 완료 (49개 파일 수정)
 - `02_hardware` `001~110`: 전체 재검수·재교정 완료, 커밋 `ce2345046` / `eff6d1dfb` / `4a448c43f` 푸시 완료
 - `03_software` `135~165`: 재검수·3축 교정 완료, 커밋 `c824b97b1` 푸시 완료
-- `03_software` `001~010`: 재검수·재교정 완료(미커밋, 다음 커밋 배치에 포함 예정)
-- `03_software` `011~040`: 서브에이전트 작업 진행 중이었음 — 재개 시 git status로 실제 완료 여부 확인 필요
+- `03_software` `001~040`: 재검수·재교정 완료, 커밋 `297edb396` 푸시 완료
 
 **미착수 상태**:
 - `03_software` `041~135`: 과거 "교정 완료" 표시가 있으나 다른 영역과 동일한 결함 패턴이 있을 가능성이 높음 — 신뢰하지 말고 재검수 필요
@@ -94,12 +93,10 @@ The tracker records historical progress only. New or rewritten files must follow
 - `04_network`, `05_security`, `06_evaluation`, `07_law_policy`, `08_latest_tech`: 전 영역 미착수(과거 부분 진행 이력은 아래 "Latest Continuation Memo" 참조, 단 신뢰하지 말고 재검수 대상으로 취급)
 
 **재개 순서**:
-1. `03_software` `011~040`이 실제로 완료됐는지 git status/diff로 확인 후, 안 됐으면 이어서 완료
-2. `zola build` 검증 후 `001~040` 커밋·푸시
-3. `041~135`를 10개 단위 배치로 순서대로 재검수(위 6개 결함 패턴 기준 적용)
-4. `166~320`을 같은 기준으로 검수·신규 작성
-5. `03_software` 완료 후 우선순위대로 `04_network → 05_security → 06_evaluation → 07_law_policy → 08_latest_tech` 재검수(각 영역도 001부터 전수, 완료 표시 불신)
-6. 전체 완료 후 `git diff --check`, 전체 `zola build`, `git fetch origin`, divergence 확인 후 최종 커밋·푸시
+1. `041~135`를 10개 단위 배치로 순서대로 재검수(위 6개 결함 패턴 기준 적용)
+2. `166~320`을 같은 기준으로 검수·신규 작성
+3. `03_software` 완료 후 우선순위대로 `04_network → 05_security → 06_evaluation → 07_law_policy → 08_latest_tech` 재검수(각 영역도 001부터 전수, 완료 표시 불신)
+4. 전체 완료 후 `git diff --check`, 전체 `zola build`, `git fetch origin`, divergence 확인 후 최종 커밋·푸시
 
 **보존 주의 사항**:
 - 같은 번호의 기존 중복 파일은 삭제·이름 변경·병합하지 않는다. 확인된 중복: `03_software` 107(`_clustered_covering_index` vs `_software_quality_model`), 122·123·124번, 136~236 구간 다수(예: `136_file_system.md` 등 구식 OS/프로그래밍 잔존 파일)
