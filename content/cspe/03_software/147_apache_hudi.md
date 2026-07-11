@@ -18,11 +18,14 @@ extra:
 - File Slice는 한 시점의 Base File과 이후 Log File을 묶은 조회 단위임
 - Copy-on-Write(CoW)는 갱신 시 새 Base File을 작성해 읽기 시 병합을 줄임
 - Merge-on-Read(MoR)는 변경을 Log File에 추가하고 조회 또는 Compaction에서 Base File과 병합함
+- Record Key는 레코드를 식별하고 Precombine 값은 같은 키로 들어온 변경의 적용 순서를 정함
+- Index는 Record Key를 해당 File Group에 매핑해 갱신 대상 파일을 찾음
+- Snapshot Query는 최신 Base·Log 상태를, Read Optimized Query는 Base File을, Incremental Query는 변경분을 조회함
 
 ## 작성 근거(검토용)
 
 - Hudi는 레코드 키·Timeline·File Group·Index·CoW·MoR 갱신 경로를 핵심으로 선정함
-- 비교표는 CoW와 MoR의 쓰기·저장·조회·Compaction·최신성·적합 업무를 동일 기준에서 대비함
+- 비교표는 CoW와 MoR의 갱신 방식·조회 비용·유지관리를 동일 기준에서 대비함
 - 절차는 레코드 키로 파일 그룹을 찾고 쓰기 결과를 Timeline에 커밋하는 Upsert 흐름을 설명함
 - 제목부터 결론까지 모든 문장·표 셀·요약을 5회 전수 검수해 파일·로그 병합 시점을 구분함
 
@@ -43,14 +46,11 @@ extra:
 
 | 판단 기준 | Copy-on-Write | Merge-on-Read |
 |:---|:---|:---|
-| 갱신 방식 | 변경 레코드를 반영한 새 Base File 작성 | 변경 레코드를 Log File에 우선 추가 |
-| 저장 구성 | 조회 시 Base File 중심 | Base File과 이후 Log File 공존 |
-| 조회 비용 | 최신 Base File을 읽어 병합 비용이 작음 | Snapshot 조회 시 Base·Log 병합 가능 |
-| 유지관리 | Clustering·Cleaning 중심 | Compaction으로 Log를 Base File에 병합 |
-| 데이터 최신성 | 커밋된 Base File 작성 후 조회 | Delta Commit 후 Log 변경분 조회 가능 |
-| 적합 조건 | 읽기 비중이 높고 갱신 주기를 허용 | 갱신 빈도가 높고 최신 변경 조회 필요 |
+| 갱신 방식 | 변경 레코드를 반영한 새 Base File을 즉시 작성 | 변경 레코드를 Log File에 추가하고 Base File은 보존 |
+| 조회 비용 | 최신 Base File만 읽어 병합 없이 조회 | Snapshot 조회는 Base·Log를 병합, Read Optimized는 Base만 조회 |
+| 유지관리 | Clustering·Cleaning 중심, Compaction 불필요 | Compaction으로 Log를 Base File에 주기적으로 병합 |
 
-> 요약: Hudi는 CoW의 Base File 재작성과 MoR의 Log File 선기록을 선택해 쓰기 지연과 조회 병합 비용을 조정함.
+> 요약: Hudi는 CoW의 즉시 Base 재작성과 MoR의 Log 선기록 중에서 선택해 쓰기 지연, 조회 병합 비용, Compaction 부담을 조정함.
 
 ## Ⅳ. 구성요소 및 구조
 
@@ -87,9 +87,9 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. 주문 CDC 레이크는 MoR Upsert를 적용하고 쓰기 지연·Snapshot 조회 시간을 확인함
+1. 주문 변경 데이터 레이크는 MoR Upsert를 적용하고 쓰기 지연·스냅샷 조회 시간을 확인함
 2. 조회 중심 고객 테이블은 CoW를 적용하고 파일 재작성량·분석 질의 시간을 확인함
 
 ## Ⅶ. 결론
 
-- Hudi는 변경 빈도·키 기반 Upsert·최신성 요구·조회 병합과 Table Service 실행 비용으로 선택해야 함
+- Hudi는 변경 빈도·키 기반 Upsert·최신성 요구·조회 시 병합 비용과 Table Service 실행 비용을 기준으로 선택해야 함
