@@ -1,6 +1,6 @@
 ---
 title: "유사도 측정 — 코사인·자카드·유클리드 (Similarity Measures)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 44

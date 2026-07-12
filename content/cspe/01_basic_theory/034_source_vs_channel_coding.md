@@ -1,6 +1,6 @@
 ---
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 34

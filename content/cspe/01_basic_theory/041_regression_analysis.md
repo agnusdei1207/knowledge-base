@@ -1,6 +1,6 @@
 ---
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 41

@@ -1,6 +1,6 @@
 ---
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 14

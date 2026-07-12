@@ -1,6 +1,6 @@
 ---
 title: "튜링 머신 (Turing Machine)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 23

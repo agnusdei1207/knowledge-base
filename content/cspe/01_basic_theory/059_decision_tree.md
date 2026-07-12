@@ -1,6 +1,6 @@
 ---
 title: "결정 트리 (Decision Tree)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 59

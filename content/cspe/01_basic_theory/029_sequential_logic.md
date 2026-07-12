@@ -1,6 +1,6 @@
 ---
 title: "순서 논리 회로 — 플립플롭·레지스터 (Sequential Logic)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 29

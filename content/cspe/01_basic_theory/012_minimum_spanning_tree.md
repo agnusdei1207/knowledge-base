@@ -1,6 +1,6 @@
 ---
 title: "최소 신장 트리 — 크루스칼·프림 (Minimum Spanning Tree)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 12

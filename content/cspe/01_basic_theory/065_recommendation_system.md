@@ -1,6 +1,6 @@
 ---
 title: "추천 시스템 — 협업 필터링·콘텐츠 기반 (Recommendation System)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 65

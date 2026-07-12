@@ -1,6 +1,6 @@
 ---
 title: "정렬 알고리즘 비교 — 퀵·병합·힙·버블 (Sorting Algorithms)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 3

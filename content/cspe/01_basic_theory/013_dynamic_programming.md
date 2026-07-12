@@ -1,6 +1,6 @@
 ---
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 13

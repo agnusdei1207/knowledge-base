@@ -1,6 +1,6 @@
 ---
 title: "암호 수학 — 이산 대수·RSA 원리 (Cryptography Mathematics)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 76

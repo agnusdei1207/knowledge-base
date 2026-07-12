@@ -1,6 +1,6 @@
 ---
 title: "정규 언어·문법 (Regular Language and Grammar)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 21

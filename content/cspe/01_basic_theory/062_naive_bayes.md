@@ -1,6 +1,6 @@
 ---
 title: "나이브 베이즈 분류 (Naive Bayes Classifier)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 62

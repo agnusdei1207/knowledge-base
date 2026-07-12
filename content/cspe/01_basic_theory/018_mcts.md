@@ -1,6 +1,6 @@
 ---
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 18

@@ -1,6 +1,6 @@
 ---
 title: "컴파일러 구조 — 어휘·구문·의미 분석 (Compiler Structure)"
-date: "2026-07-09"
+date: "2026-07-12T13:44:16+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 73
