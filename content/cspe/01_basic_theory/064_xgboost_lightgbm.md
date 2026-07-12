@@ -1,6 +1,6 @@
 ---
 title: "XGBoost·LightGBM (XGBoost LightGBM)"
-date: "2026-07-12T16:19:02+09:00"
+date: "2026-07-12T16:55:00+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 64
@@ -81,8 +81,8 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. 장애 로그 분류는 전처리 조건을 고정하고 AUC로 XGBoost와 LightGBM을 비교함
-2. 대용량 로그 분류는 LightGBM의 리프 수·최소 표본 수·조기 종료를 조정하고 훈련-검증 손실 격차로 과적합 정도를 가늠함
+1. 장애 로그 분류기는 XGBoost로 이전 예측 오류를 줄이는 새 트리를 순차적으로 추가함
+2. 대용량 로그 분류기는 LightGBM의 리프 수와 최소 표본 수를 제한해 한 리프의 과적합을 줄임
 
 ## Ⅶ. 결론
 

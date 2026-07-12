@@ -1,6 +1,6 @@
 ---
 title: "손실 함수 — Cross-Entropy·MSE (Loss Functions)"
-date: "2026-07-12T16:19:02+09:00"
+date: "2026-07-12T16:55:00+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 50
@@ -73,8 +73,8 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. 서버 지연 예측은 Huber Loss를 적용하고 MAE·p95 절대 오차로 검증함
-2. 보안 이벤트 분류는 클래스 가중치·Focal Loss를 적용하고 정밀도·재현율로 검증함
+1. 서버 지연 예측은 Huber Loss로 극단적인 지연값이 학습을 지배하지 않게 함
+2. 보안 이벤트 분류는 Focal Loss로 드문 공격 표본의 학습 비중을 높임
 
 ## Ⅶ. 결론
 

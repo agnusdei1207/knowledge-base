@@ -1,6 +1,6 @@
 ---
 title: "이미지 분류 — ResNet·VGG·EfficientNet (Image Classification)"
-date: "2026-07-12T16:19:02+09:00"
+date: "2026-07-12T16:55:00+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 71
@@ -67,8 +67,8 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. 제조 불량 이미지 분류는 클래스 가중치를 적용하고 F1·불량 클래스 재현율로 배포 승인 기준을 정함
-2. 엣지 비전 장비는 EfficientNet·양자화를 적용하고 정확도·p95 추론 지연으로 검증함
+1. 제조 불량 이미지 분류는 불량 클래스에 더 큰 손실 가중치를 적용함
+2. 엣지 비전 장비는 EfficientNet을 양자화해 단말에서 분류함
 
 ## Ⅶ. 결론
 
