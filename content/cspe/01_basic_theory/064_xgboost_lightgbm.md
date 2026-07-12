@@ -1,6 +1,6 @@
 ---
 title: "XGBoost·LightGBM (XGBoost LightGBM)"
-date: "2026-07-12T14:54:09+09:00"
+date: "2026-07-12T16:19:02+09:00"
 tags:
   - "cspe-basic-theory"
 weight: 64
@@ -87,3 +87,4 @@ extra:
 ## Ⅶ. 결론
 
 - XGBoost와 LightGBM은 이전 트리의 오류를 다음 트리가 보완하며, 데이터 규모와 학습 속도·과적합 위험에 따라 선택해야 함
+- 메모리와 학습 시간이 제한된 대용량 데이터는 LightGBM을 우선 검토하되, 리프 성장을 조기 종료·최소 표본 수로 통제해야 함
