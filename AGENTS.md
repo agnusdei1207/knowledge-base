@@ -57,7 +57,7 @@ Rewrite tracker:
 | Area | Completed | Next Start |
 |:---|:---|:---|
 | `01_basic_theory` | 001~080 전체 writing-method 기준 재작성 및 교정 완료 | 완료 |
-| `02_hardware` | 001~110 전체 교정 완료(현재 미커밋 작업) | 완료 |
+| `02_hardware` | 001~110 전체 정본 준수(쉽게 이해하기 학습용 포함) 재작성 완료, 커밋 `73da2e9f5` 푸시 완료 (2026-07-13) | 완료 |
 | `03_software` | 001~135 교정 완료, 136~222 신규 작성 상태(현재 미커밋·최종 검증 전) | 136~222 검증 후 223 |
 | `04_network` | 001~015, legacy quality varies | 016 |
 | `05_security` | 001~015, legacy quality varies | 016 |
