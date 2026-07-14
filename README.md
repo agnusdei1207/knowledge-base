@@ -211,6 +211,8 @@ npm run dev           # 로컬 개발 서버 (http://localhost:8080/study)
 
 `npm run build`는 성공·실패와 관계없이 `public/`, `public_new/`, `public_temp/`, `temp_public/`, `temp_public_vN/`을 정리한다. `npm run build:keep`으로 결과를 보존했다면 필요할 때만 `npm run build:search`를 실행하고, 확인이 끝난 직후 `npm run clean`으로 정리한다. Pagefind 전체 색인은 배포 워크플로에서 자동 생성하므로 일반 콘텐츠 검증에는 포함하지 않는다. 이 경로들은 생성 산출물 전용이며 소스 파일을 두지 않는다.
 
+Windows PowerShell에서 `npm.ps1` 실행이 정책으로 차단되면 같은 명령을 `npm.cmd run build`, `npm.cmd run clean`처럼 실행한다.
+
 ---
 
 ## ⚙️ 기술 스택

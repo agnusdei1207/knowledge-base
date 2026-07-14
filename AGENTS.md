@@ -188,6 +188,7 @@ npm run build
 - Use `npm run build:keep` only when rendered files must be inspected locally.
 - Run `npm run build:search` only when the retained output also needs a local Pagefind index.
 - After inspection, run `npm run clean`; do not leave generated output through commit or push.
+- If Windows PowerShell blocks `npm.ps1`, use `npm.cmd run build`, `npm.cmd run build:keep`, and `npm.cmd run clean`.
 - Do not store source or user-owned files in the reserved build-output directories.
 
 If CI fails:
