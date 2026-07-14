@@ -69,7 +69,7 @@ The tracker records historical progress only. New or rewritten files must follow
 
 ### Current Pause Memo (2026-07-12, 작업 계속 진행 중)
 
-사용자가 "1과목부터 하세요. 다시 전체"로 지시해, 완료 표시를 신뢰하지 않고 01_basic_theory부터 순서대로 writing-method.md 기준 전수 재검수를 다시 시작했다. 배치당 10개 파일, 서브에이전트 위임 후 `zola build` 검증 → 커밋·푸시 패턴을 사용한다(로컬 zola 바이너리는 `.tools/zola.exe`에 다운로드해 사용, Docker 불필요 확인).
+사용자가 "1과목부터 하세요. 다시 전체"로 지시해, 완료 표시를 신뢰하지 않고 01_basic_theory부터 순서대로 writing-method.md 기준 전수 재검수를 다시 시작했다. 배치당 10개 파일, 서브에이전트 위임 후 `npm run build` 검증 → 커밋·푸시 패턴을 사용한다.
 
 **재검수에서 반복 확인된 핵심 결함 패턴** (표본 조사 결과 거의 모든 기존 "완료" 파일에서 발견됨, 향후 모든 영역 재검수 시 기본 점검 항목으로 포함할 것):
 1. Ⅲ절 비교표가 3축이 아니라 4~7축을 사용(writing-method.md 7절 "정확히 3개" 위반) — 압도적으로 가장 흔한 결함
@@ -96,7 +96,7 @@ The tracker records historical progress only. New or rewritten files must follow
 1. `041~135`를 10개 단위 배치로 순서대로 재검수(위 6개 결함 패턴 기준 적용)
 2. `166~320`을 같은 기준으로 검수·신규 작성
 3. `03_software` 완료 후 우선순위대로 `04_network → 05_security → 06_evaluation → 07_law_policy → 08_latest_tech` 재검수(각 영역도 001부터 전수, 완료 표시 불신)
-4. 전체 완료 후 `git diff --check`, 전체 `zola build`, `git fetch origin`, divergence 확인 후 최종 커밋·푸시
+4. 전체 완료 후 `git diff --check`, 전체 `npm run build`, `git fetch origin`, divergence 확인 후 최종 커밋·푸시
 
 **보존 주의 사항**:
 - 같은 번호의 기존 중복 파일은 삭제·이름 변경·병합하지 않는다. 확인된 중복: `03_software` 107(`_clustered_covering_index` vs `_software_quality_model`), 122·123·124번, 136~236 구간 다수(예: `136_file_system.md` 등 구식 OS/프로그래밍 잔존 파일)
@@ -148,8 +148,9 @@ Use this memo to continue `08_latest_tech` rewrite work without re-discovery.
   - `350_did_decentralized_identifier.md` not `350_did.md`
 - Validation loop used successfully for each 10-file batch:
   - rewrite 10 canonical files
-  - run `zola build`
+  - run `npm run build:keep`
   - verify rendered metadata in `public/cspe/08_latest_tech/.../index.html` for `문제 번호`, `기출 여부`, `기출 회차`, `비고`
+  - run `npm run clean`
   - run `git fetch origin`
   - run `git rev-list --left-right --count origin/main...HEAD`
   - commit/push the 10 rewritten files only
@@ -164,7 +165,7 @@ Use this memo to continue `08_latest_tech` rewrite work without re-discovery.
 - Use YAML frontmatter with `---`; do not introduce another build chain.
 - Do not generate keyword files with scripts. Write each note directly.
 - Existing duplicate `NNN` files require user confirmation before deletion, renumbering, or merge.
-- Before pushing, run `zola build`.
+- Before pushing, run `npm run build`.
 - For rewrite batches, commit and push every 10 files.
 - Push after `git fetch` and diverge check.
 
@@ -179,8 +180,15 @@ Priority order for large batches:
 Baseline build command:
 
 ```bash
-zola build
+npm run build
 ```
+
+`npm run build` runs Zola, then removes local generated output even when validation fails. The cleanup is limited to repository-root build directories: `public/`, `public_new/`, `public_temp/`, `temp_public/`, and versioned `temp_public_vN/`. Pagefind indexing remains in the deploy workflow and is not part of routine local content validation.
+
+- Use `npm run build:keep` only when rendered files must be inspected locally.
+- Run `npm run build:search` only when the retained output also needs a local Pagefind index.
+- After inspection, run `npm run clean`; do not leave generated output through commit or push.
+- Do not store source or user-owned files in the reserved build-output directories.
 
 If CI fails:
 

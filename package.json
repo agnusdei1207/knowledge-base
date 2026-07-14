@@ -11,11 +11,12 @@
     "url": "https://github.com/agnusdei1207/study.git"
   },
   "scripts": {
-    "build": "zola build",
+    "build": "node scripts/build-and-clean.mjs",
+    "build:keep": "zola build",
     "dev": "zola serve",
     "check": "zola check",
-    "build:search": "pagefind --site public --glob \"**/*.html\" --force-language ko",
-    "postbuild": "npm run build:search"
+    "clean": "node scripts/cleanup-build-output.mjs",
+    "build:search": "pagefind --site public --glob \"**/*.html\" --force-language ko"
   },
   "dependencies": {
     "pagefind": "^1.3.0"

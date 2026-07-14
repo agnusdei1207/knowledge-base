@@ -201,10 +201,15 @@ weight: 50
 ## 🛠️ 개발 명령어
 
 ```bash
-npm ci              # 의존성 설치
-npm run build       # 프로덕션 빌드
-npm run dev         # 로컬 개발 서버 (http://localhost:8080/study)
+npm ci                # 의존성 설치
+npm run build         # Zola 검증 후 빌드 출력 자동 삭제
+npm run build:keep    # 결과 확인이 필요할 때 public/ 유지
+npm run build:search  # 보존한 public/에 Pagefind 검색 색인 생성
+npm run clean         # 모든 로컬 빌드·임시 출력 삭제
+npm run dev           # 로컬 개발 서버 (http://localhost:8080/study)
 ```
+
+`npm run build`는 성공·실패와 관계없이 `public/`, `public_new/`, `public_temp/`, `temp_public/`, `temp_public_vN/`을 정리한다. `npm run build:keep`으로 결과를 보존했다면 필요할 때만 `npm run build:search`를 실행하고, 확인이 끝난 직후 `npm run clean`으로 정리한다. Pagefind 전체 색인은 배포 워크플로에서 자동 생성하므로 일반 콘텐츠 검증에는 포함하지 않는다. 이 경로들은 생성 산출물 전용이며 소스 파일을 두지 않는다.
 
 ---
 
@@ -242,4 +247,4 @@ npm run dev         # 로컬 개발 서버 (http://localhost:8080/study)
 - [ ] keyword_list.md 에 링크를 추가/수정했는가?
 - [ ] YAML frontmatter (`---`)를 사용했는가?
 - [ ] 태그가 과목에 맞는 `studynote-{과목태그}` 인가?
-- [ ] `npm run build` 가 오류 없이 통과하는가?
+- [ ] `npm run build`가 오류 없이 통과하고 빌드 출력이 자동 정리됐는가?
