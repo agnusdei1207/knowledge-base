@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "활성화 함수 — ReLU·Sigmoid·Tanh (Activation Functions)"
-date: "2026-07-25T22:45:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 40
@@ -91,7 +91,7 @@ sequenceDiagram
 | 출력 오차 기울기 전달 | 다음 층 **출력 오차** 수신 |
 | 입력 오차 기울기 전달 | 출력 오차에 **도함수** 곱한 값 역전달 |
 
-> 요약: 변환값은 순전파, **오차 기울기**는 역전파 전달
+> 요약: 변환값은 순전파로, **오차 기울기**는 역전파로 전달
 
 ### 쉽게 이해하기 (학습용)
 

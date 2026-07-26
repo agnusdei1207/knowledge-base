@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이미지 분류 — ResNet·VGG·EfficientNet(Image Classification)"
-date: "2026-07-25T23:30:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -109,7 +109,7 @@ sequenceDiagram
 | 핵심 특징 | 합성곱의 단순 **반복 적층** | **잔차 연결**로 학습 신호 우회 | **컴파운드 스케일링**으로 깊이·폭·해상도 확장 |
 | 한계 | **기울기 소실**로 19층 부근 깊이 한계 | 깊은 층 **활성값 메모리** 점유 | **깊이별 분리 합성곱**의 낮은 연산 효율 |
 
-> 요약: VGG 깊이는 **ResNet**, 연산량은 **EfficientNet**
+> 요약: 깊은 망의 학습 안정성은 **ResNet**, 연산 효율은 **EfficientNet**
 
 ### 쉽게 이해하기 (학습용)
 

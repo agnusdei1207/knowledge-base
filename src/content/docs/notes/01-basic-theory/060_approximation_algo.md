@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 30%"
     variant: note
 title: "근사 알고리즘 (Approximation Algorithm)"
-date: "2026-07-26T00:42:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 60
@@ -28,7 +28,7 @@ extra:
 - **근사값·최적값 기호($\mathrm{ALG}$·$\mathrm{OPT}$)**: $\mathrm{ALG}$는 ‘에이엘지’, $\mathrm{OPT}$는 ‘오피티’로 읽고 Algorithm과 Optimum을 줄인 표기로, 같은 입력에서 근사 알고리즘이 구한 목적값과 최적 목적값을 비교
 - **허용 오차($\varepsilon$)**: $\varepsilon$은 그리스 문자 ‘엡실론’으로 읽고 작은 양의 오차를 나타내는 분야 관례에 따라 붙인 표기로, 근사해가 최적해에 얼마나 가까워야 하는지를 정함
 - **이하 기호($\le$)**: $\le$는 ‘작거나 같다’로 읽고 상한 관계를 나타내는 표준 부등호로, 근사 목적값과 최적 목적값의 비가 $\rho$를 넘지 않는다는 품질 보장에 사용
-- **다항 시간 근사 스킴(Polynomial-Time Approximation Scheme, PTAS)·완전 다항 시간 근사 스킴(Fully Polynomial-Time Approximation Scheme, FPTAS)**: ‘피티에이에스·에프피티에이에스’로 읽고 영문 머리글자를 딴 약어이며, PTAS는 고정 $\varepsilon$에서 $n$, FPTAS는 $n$·$1/\varepsilon$에 다항 시간
+- **다항 시간 근사 스킴(Polynomial-Time Approximation Scheme, PTAS)·완전 다항 시간 근사 스킴(Fully Polynomial-Time Approximation Scheme, FPTAS)**: ‘피티에이에스·에프피티에이에스’로 읽고 영문 머리글자를 딴 약어이며, PTAS는 $\varepsilon$을 고정했을 때 $n$에 대해 다항 시간이고 FPTAS는 $n$과 $1/\varepsilon$ 모두에 대해 다항 시간인 근사 스킴
 - **휴리스틱(Heuristic)**: 경험 규칙으로 빠르게 해를 찾지만 일반적인 최악 품질 경계는 보장하지 않는 방법
 - **목적 함수·제약 조건(Objective Function·Constraint)**: 목적 함수는 최소화·최대화할 값을 정하고 제약 조건은 허용되는 해의 범위를 제한함
 - **실행 가능 해(Feasible Solution)**: 원래 문제의 모든 제약 조건을 만족하는 후보 해
@@ -75,7 +75,7 @@ flowchart LR
 
 $$\text{최소화}: \mathrm{ALG}/\mathrm{OPT}\le\rho,\quad \text{최대화}: \mathrm{OPT}/\mathrm{ALG}\le\rho$$
 
-> 요약: 해 구성과 최적해 하한 비교로 **품질 경계** 확정
+> 요약: 구성한 해를 최적해 하한과 비교해 **품질 경계** 확정
 
 ### 쉽게 이해하기 (학습용)
 - 해 구성기가 규칙대로 후보를 하나 뽑아 오면 그 후보가 원래 제약을 정말 지키는지 먼저 확인하고, 최적해를 직접 구하지 않은 채 ‘최적값이 아무리 좋아도 이만큼은 된다’는 하한만 잡아 두 값을 나누면 최악의 경우 품질이 숫자로 나온다
@@ -115,7 +115,7 @@ sequenceDiagram
 | 핵심 특징 | **근사비** 보장 탐색 | **최적해** 탐색 | **경험 규칙** 탐색 |
 | 한계 | 증명 상한이 실제보다 **느슨한 경계** | 입력 증가 시 **지수 시간** 폭증 | **최악 품질** 보장 부재 |
 
-> 요약: 증명 가능한 **성능 보장** 필요 여부로 선택
+> 요약: 증명 가능한 **성능 보장**이 필요한지에 따라 방법 선택
 
 ### 쉽게 이해하기 (학습용)
 - 근사는 품질 경계가 있는 해, 정확 알고리즘은 최적해, 휴리스틱은 경계 없는 빠른 해를 구한다

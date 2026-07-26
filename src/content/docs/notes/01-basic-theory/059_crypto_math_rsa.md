@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "암호 수학 — 이산 대수·RSA 원리(Cryptography Mathematics)"
-date: "2026-07-25T23:35:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 59
@@ -118,7 +118,7 @@ sequenceDiagram
 | PSS 서명 생성 | 메시지 **해시**에 **솔트**를 섞어 개인 지수 서명 |
 | 공개키 검증 | 공개 지수 복원값과 **해시 재계산** 대조 |
 
-> 요약: 같은 키 쌍에 **OAEP** 암호화와 **PSS** 서명 역할 분리
+> 요약: 같은 키 쌍을 사용하되 **OAEP**는 암호화, **PSS**는 서명 역할 담당
 
 ### 쉽게 이해하기 (학습용)
 

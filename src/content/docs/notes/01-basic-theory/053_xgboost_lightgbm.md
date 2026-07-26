@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "XGBoost·LightGBM (XGBoost and LightGBM)"
-date: "2026-07-26T00:34:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 53
@@ -110,7 +110,7 @@ sequenceDiagram
 | 핵심 특징 | **레벨 단위** 균형 성장 | **리프 단위** 성장·GOSS·EFB |
 | 한계 | 대용량에서 **학습 시간**·메모리 급증 | 소량 데이터의 **깊은 리프** 과적합 |
 
-> 요약: XGBoost를 **GOSS·EFB**로 경량화한 **LightGBM**
+> 요약: **GOSS·EFB**로 그래디언트 부스팅 학습을 경량화한 **LightGBM**
 
 ### 쉽게 이해하기 (학습용)
 - XGBoost는 같은 층의 노드를 고르게 펼쳐 트리 모양이 균형 잡히는 대신 데이터가 커지면 느려지고, LightGBM은 이득이 가장 큰 리프 한쪽만 깊게 파고들며 이미 잘 맞히는 표본을 솎아 내 훨씬 빠른 대신 데이터가 적으면 그 깊은 가지가 곧 과적합이 된다

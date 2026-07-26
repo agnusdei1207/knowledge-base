@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 70%"
     variant: note
 title: "과적합·과소적합·편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-07-26T00:22:00+09:00"
+date: "2026-07-26T22:16:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
@@ -127,7 +127,7 @@ sequenceDiagram
 | 모델 용량 확대 요청 | 두 오차 클 때 **특징**·용량 확대 |
 | 복잡도 조정 반영 | 조정 모델의 **검증 오차** 재측정 |
 
-> 요약: 오차 높이와 격차가 가르는 **용량**·**규제** 조정 방향
+> 요약: 오차의 크기와 격차에 따라 **용량**·**규제** 조정 방향 결정
 
 ### 쉽게 이해하기 (학습용)
 
