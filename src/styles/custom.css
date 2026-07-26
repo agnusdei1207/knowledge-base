@@ -85,6 +85,28 @@ strong {
   border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
 }
 
+/* 모바일 헤더에 라이트·다크 전환을 노출한다.
+   Starlight 기본값은 이 그룹을 50rem 미만에서 숨기고 햄버거 메뉴 안에만 두는데,
+   테마를 바꾸려고 매번 메뉴를 여는 동선이 모바일에서 불편하다. */
+@media (max-width: 49.9375rem) {
+  .header .right-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* 좁은 화면에서는 제목과 검색 영역을 지키려고 소셜 아이콘과 구분선을 숨긴다. */
+  .header .right-group .social-icons {
+    display: none;
+  }
+
+  /* 햄버거 메뉴 안의 중복 토글을 제거해 전환 지점을 헤더 하나로 통일한다.
+     소셜 아이콘은 메뉴에 그대로 남는다. */
+  .mobile-preferences starlight-theme-select {
+    display: none;
+  }
+}
+
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
