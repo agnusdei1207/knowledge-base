@@ -1,0 +1,87 @@
+---
+import MobileMenuFooter from '@astrojs/starlight/components/MobileMenuFooter.astro';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from './SidebarSublist.astro';
+
+const { sidebar } = Astro.locals.starlightRoute;
+---
+
+<SidebarPersister>
+  <SidebarSublist sublist={sidebar} />
+</SidebarPersister>
+
+<script is:inline aria-hidden="true">
+  (() => {
+    const storageKey = 'study:last-read-note:v1';
+
+    const noteLinks = () =>
+      Array.from(document.querySelectorAll("a[data-note-link='true']"));
+
+    const normalizePath = (href) => {
+      try {
+        const pathname = new URL(href, window.location.href).pathname;
+        return pathname.replace(/\/+$/, '') || '/';
+      } catch {
+        return null;
+      }
+    };
+
+    const openAncestors = (link) => {
+      let details = link.closest('details');
+      while (details) {
+        details.open = true;
+        details = details.parentElement?.closest('details') ?? null;
+      }
+    };
+
+    const applyLastRead = (lastReadPath) => {
+      for (const link of noteLinks()) {
+        const isLastRead = Boolean(
+          lastReadPath && normalizePath(link.href) === lastReadPath
+        );
+        const indicator = link.querySelector('.last-read-indicator');
+
+        if (isLastRead) {
+          link.dataset.lastRead = 'true';
+          openAncestors(link);
+        } else {
+          delete link.dataset.lastRead;
+        }
+
+        if (indicator) indicator.hidden = !isLastRead;
+      }
+    };
+
+    const syncLastRead = () => {
+      const links = noteLinks();
+      const current = links.find((link) => link.getAttribute('aria-current') === 'page');
+      let lastReadPath = current ? normalizePath(current.href) : null;
+
+      try {
+        if (lastReadPath) {
+          localStorage.setItem(storageKey, lastReadPath);
+        } else {
+          lastReadPath = localStorage.getItem(storageKey);
+        }
+      } catch {
+        // The current page still receives the marker when storage is unavailable.
+      }
+
+      applyLastRead(lastReadPath);
+    };
+
+    syncLastRead();
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === storageKey) applyLastRead(event.newValue);
+    });
+
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) syncLastRead();
+    });
+  })();
+</script>
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

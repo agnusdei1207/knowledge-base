@@ -1,0 +1,92 @@
+@import 'katex/dist/katex.min.css';
+
+:root {
+  --sl-color-accent-low: #3b2a22;
+  --sl-color-accent: #e2a06e;
+  --sl-color-accent-high: #f5d0a9;
+  --sl-color-white: #f2ece4;
+  --sl-color-gray-1: #e8e2da;
+  --sl-color-gray-2: #d4cec5;
+  --sl-color-gray-3: #b6afa6;
+  --sl-color-gray-4: #8c867e;
+  --sl-color-gray-5: #514c47;
+  --sl-color-gray-6: #2d2a27;
+  --sl-color-black: #191715;
+  --sl-color-bg: #191715;
+  --sl-color-bg-nav: #191715;
+  --sl-color-bg-sidebar: #191715;
+  --sl-color-hairline-light: #514c47;
+  --sl-color-hairline-shade: #2d2a27;
+  --sl-color-bg-inline-code: #2d2a27;
+  --sl-content-width: 55rem;
+  --sl-text-5xl: 3rem;
+  --sl-font: "Source Sans 3", "Noto Sans KR", system-ui, sans-serif;
+  --sl-font-mono: "IBM Plex Mono", "Cascadia Code", ui-monospace, monospace;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #eadbc8;
+  --sl-color-accent: #a65b32;
+  --sl-color-accent-high: #71391f;
+  --sl-color-white: #191715;
+  --sl-color-gray-1: #383228;
+  --sl-color-gray-2: #5e574c;
+  --sl-color-gray-3: #756d61;
+  --sl-color-gray-4: #8e8575;
+  --sl-color-gray-5: #c5bcaa;
+  --sl-color-gray-6: #e5dec9;
+  --sl-color-gray-7: #eee7d9;
+  --sl-color-black: #f4efe3;
+  --sl-color-bg: #f4efe3;
+  --sl-color-bg-nav: #f4efe3;
+  --sl-color-bg-sidebar: #f4efe3;
+  --sl-color-hairline-light: #c5bcaa;
+  --sl-color-hairline-shade: #e5dec9;
+  --sl-color-bg-inline-code: #e5dec9;
+}
+
+::selection {
+  color: var(--sl-color-white);
+  background: color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
+}
+
+a:not([class]) {
+  text-decoration-color: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+/* 실제 답안(Ⅰ~Ⅶ)의 채점 키워드와 미리 알고가기의 선행 용어를 한눈에 회수하기 위한 강조.
+   두 표기 모두 같은 굵은 글씨로 렌더링되는 것이 의도된 동작이다. */
+strong {
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+}
+
+.sl-markdown-content strong {
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* 표 셀 안의 키워드도 본문과 같은 강조를 유지한다. */
+.sl-markdown-content table strong {
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+}
+
+/* 인용 요약(> 요약:) 안의 키워드가 흐려지지 않게 대비를 유지한다. */
+.sl-markdown-content blockquote strong {
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+}
+
+.sl-badge {
+  font-variant-numeric: tabular-nums;
+  border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.25rem;
+}

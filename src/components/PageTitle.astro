@@ -1,0 +1,81 @@
+---
+import { Badge } from '@astrojs/starlight/components';
+
+const { title, extra } = Astro.locals.starlightRoute.entry.data;
+const questionNo = extra?.question_no;
+const status = extra?.source_status;
+const probability = extra?.priority;
+---
+
+{
+  questionNo && (
+    <p class="note-number">
+      <span>노트</span>
+      <strong>{questionNo}</strong>
+    </p>
+  )
+}
+
+<h1 id="_top">{title}</h1>
+
+{
+  (status || probability !== undefined) && (
+    <div class="note-badges" aria-label="출제 정보">
+      {status && (
+        <Badge
+          variant={status === '기출' ? 'success' : 'caution'}
+          size="medium"
+          text={status}
+        />
+      )}
+      {probability !== undefined && (
+        <Badge variant="note" size="medium" text={`예상 ${probability}%`} />
+      )}
+    </div>
+  )
+}
+
+<style>
+  @layer starlight.core {
+    .note-number {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.45rem;
+      margin: 1rem 0 0;
+      border: 1px solid color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+      border-radius: 999px;
+      padding: 0.2rem 0.65rem;
+      color: var(--sl-color-gray-2);
+      background: color-mix(in srgb, var(--sl-color-accent) 12%, transparent);
+      font-size: var(--sl-text-sm);
+      line-height: 1.35;
+    }
+
+    .note-number strong {
+      color: var(--sl-color-accent-high);
+      font-family: var(--sl-font-mono);
+      font-size: var(--sl-text-base);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin-top: 1rem;
+      font-size: var(--sl-text-h1);
+      line-height: var(--sl-line-height-headings);
+      font-weight: 600;
+      color: var(--sl-color-white);
+    }
+
+    .note-number + h1 {
+      margin-top: 0.65rem;
+    }
+
+    .note-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+  }
+</style>
