@@ -27,7 +27,7 @@ extra:
 - **인증서(Certificate)**: 긍정 답을 검증할 수 있는 보조 정보
 - **다항 환원(Polynomial-Time Reduction)**: 한 문제를 답이 보존되게 다른 문제로 바꿔 난도를 전달하는 변환
 - **비결정론적 다항 시간 난해(Nondeterministic Polynomial-Time Hard, NP-Hard)**: ‘엔피 하드’로 읽고 NP와 난해성 수식어를 붙임표(-)로 연결하는 관례에 따라 모든 NP 문제를 다항 환원받아 적어도 NP만큼 어려운 문제 부류를 나타냄
-- **불 논리식 충족 가능성 문제(Boolean Satisfiability Problem, SAT)**: ‘새트’로 읽고 영문명의 머리글자를 쓰며 불 논리식을 참으로 만드는 변수 할당이 존재하는지 판정하는 결정 문제
+- **불 논리식 충족 가능성 문제(Boolean Satisfiability Problem, SAT)**: 불 논리식을 참으로 만드는 변수 할당이 존재하는지 판정하는 결정 문제
 - **비결정론적 다항 시간 완전(Nondeterministic Polynomial-Time Complete, NP-Complete)**: ‘엔피 컴플리트’로 읽고 NP와 완전성 수식어를 붙임표(-)로 연결하는 관례에 따라 NP에 속하면서 모든 NP 문제를 환원받는 대표 결정 문제를 나타냄
 - **집합 덮개 근사(Set Cover Approximation)**: 전체 대상을 덮는 부분집합을 반복 선택해 작은 덮개를 구하는 방식
 - **교집합 기호($\cap$)**: ‘교집합’으로 읽고 두 집합에 동시에 속하는 원소를 나타내는 집합론 관례 기호이며 NP와 NP-난해의 교집합이 NP-완전 문제군임을 표시함

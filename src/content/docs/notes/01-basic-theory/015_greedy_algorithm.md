@@ -29,7 +29,7 @@ extra:
 - **선택 함수(Selection Function)**: 남은 후보 중 가장 유리한 대상을 선택
 - **타당성 함수(Feasibility Function)**: 후보가 제약을 지키는지 검사
 - **최소 연결(Least Connections)**: 활성 연결이 가장 적은 서버 선택
-- **동적 계획법(Dynamic Programming, DP, 디피)**: 영문명 Dynamic Programming을 줄인 공식 약어로, 중복 부분 문제의 상태값을 저장·재사용하는 기법
+- **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장·재사용하여 계산량을 줄이는 알고리즘 설계 기법
 - **메모이제이션(Memoization)**: 한 번 계산한 상태값을 적어 두었다가 같은 상태가 다시 나오면 계산 없이 꺼내 쓰는 동적 계획법의 저장 방식
 - **완전 탐색(Exhaustive Search)**: 가능한 해를 모두 생성·검사하는 기법
 - **파드(Pod)**: 함께 배치되는 하나 이상의 컨테이너 묶음

@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **동적 계획법(Dynamic Programming, DP, 디피)**: 영문명 Dynamic Programming을 줄인 공식 약어로, 중복 부분 문제의 상태값을 저장·재사용해 계산을 줄이는 설계 기법
+- **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장·재사용하여 계산량을 줄이는 알고리즘 설계 기법
 - **중복 부분 문제(Overlapping Subproblems)**: 같은 작은 문제가 반복해 나타나는 성질
 - **최적 부분 구조(Optimal Substructure)**: 부분 문제의 최적해로 전체 최적해를 구성하는 성질
 - **상태(State)**: 부분 문제를 구분하는 최소 변수 조합

@@ -33,7 +33,7 @@ extra:
 - **동적 배열(Dynamic Array)**: 연속 공간을 재할당해 크기를 늘리는 배열
 - **해시 테이블(Hash Table)**: 키로 항목 위치를 찾는 자료구조
 - **이중 연결 리스트(Doubly Linked List)**: 앞·뒤 노드 참조를 모두 가진 연결 리스트
-- **최소 최근 사용(Least Recently Used, LRU, 엘알유)**: 영문명 Least Recently Used를 줄인 공식 약어로, 가장 오래 사용하지 않은 항목을 먼저 제거하는 정책
+- **최소 최근 사용(Least Recently Used, LRU)**: 가장 오랫동안 참조되지 않은 항목을 우선 제거하는 캐시 교체 정책
 - **데이터 필드(Data Field)**: 노드가 관리할 실제 값을 저장하는 영역
 - **링크 필드(Link Field)**: 다음 노드나 이전 노드의 메모리 위치 또는 널을 저장해 노드 순서를 만드는 영역
 - **선행·후속 노드(Predecessor/Successor Node)**: 현재 노드의 바로 앞과 뒤에 연결된 노드이며 삽입·삭제 때 링크를 다시 연결하는 대상

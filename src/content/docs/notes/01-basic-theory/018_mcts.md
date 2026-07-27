@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **몬테카를로 트리 탐색(Monte Carlo Tree Search, MCTS, 엠시티에스)**: 영문명 Monte Carlo Tree Search를 줄인 공식 약어로, 바둑의 유망한 수를 반복 모의해 얻은 보상을 트리에 반영하고 탐색을 집중하는 기법
+- **몬테카를로 트리 탐색(Monte Carlo Tree Search, MCTS)**: 선택·확장·시뮬레이션·역전파를 반복하여 보상 추정치가 높은 경로에 탐색을 집중하는 의사결정 기법
 - **상태 공간 트리(State Space Tree)**: 상태를 노드, 행동을 간선으로 표현한 탐색 공간이며, MCTS가 반복하며 실제로 키워 나가는 부분을 탐색 트리라고 부른다.
 - **분기 계수(Branching Factor)**: 한 노드에서 생성되는 자식 노드 수
 - **보상(Reward)**: 행동 결과의 목표 달성도를 나타내는 값
 - **롤아웃(Rollout)**: 현재 상태부터 종료까지 모의 진행해 행동 보상을 추정하는 절차
-- **트리 적용 신뢰 상한(Upper Confidence Bound applied to Trees, UCT, 유시티)**: 영문명의 핵심 머리글자를 조합한 공식 약어로, 평균 보상과 방문 횟수를 결합해 활용 가치가 높거나 덜 방문한 자식 노드를 선택하는 경로 선택식
+- **트리 적용 신뢰 상한(Upper Confidence Bound applied to Trees, UCT)**: 평균 보상과 방문 횟수를 결합하여 활용 가치와 탐색 필요성을 함께 반영하는 MCTS 노드 선택식
 - **탐색·활용(Exploration·Exploitation)**: 저방문 후보와 고평균 보상 후보의 선택 균형
 - **역전파(Backpropagation)**: 롤아웃 보상을 선택 경로의 통계에 반영해 다음 선택을 개선하는 절차
 - **미니맥스(Minimax)**: 상대의 최선 대응을 가정한 결정 규칙

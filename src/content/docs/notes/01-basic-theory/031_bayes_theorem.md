@@ -23,7 +23,7 @@ extra:
 - **베이즈 정리(Bayes Theorem)**: 사전 확률과 우도로 증거 관측 후의 가설 확률을 구하는 정리
 - **조건부 확률(Conditional Probability)**: 사건 B가 주어졌을 때 A의 확률
 - **사전 확률(Prior Probability)**: 증거 관측 전 가설 확률
-- **우도(Likelihood)**: ‘라이클리후드’로 읽으며, 가설·모수가 주어졌을 때 현재 데이터가 관측될 가능성을 나타내는 값
+- **우도(Likelihood)**: 관측된 결과 데이터에 대한 가설의 적합도를 나타내는 수치
 - **주변 확률(Marginal Probability)**: 특정 가설에 조건화하지 않은 증거 확률
 - **사후 확률(Posterior Probability)**: 증거 반영 뒤 가설 확률
 - **기저율(Base Rate)**: 모집단의 사건 발생률

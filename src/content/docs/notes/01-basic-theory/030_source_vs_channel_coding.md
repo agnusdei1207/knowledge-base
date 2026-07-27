@@ -28,7 +28,7 @@ extra:
 - **코드율(Code Rate)**: 전체 비트 중 원본 정보 비트의 비율
 - **코드워드(Codeword)**: 채널 부호화로 만든 정보·보호 비트 묶음
 - **이레이저 코딩(Erasure Coding)**: 데이터·여분 조각 기반 일부 손실 복원
-- **전방 오류 정정(Forward Error Correction, FEC, 에프이씨)**: 영문명의 머리글자를 조합한 공식 약어로, 중복 비트를 이용해 재전송 없이 오류를 정정하는 방식
+- **전방 오류 정정(Forward Error Correction, FEC)**: 송신 데이터에 중복 정보를 추가하여 수신 측에서 재전송 없이 오류를 정정하는 방식
 - **무손실·손실 압축(Lossless·Lossy Compression)**: 원본을 완전히 복원하는 압축과 허용한 정보 손실로 비트를 더 줄이는 압축
 - **소스-채널 분리 정리(Source-Channel Separation Theorem)**: 충분히 긴 블록과 지연을 허용하면 압축과 오류 보호를 따로 최적화해도 이론 한계에 도달할 수 있다는 원리
 - **결합 소스-채널 코딩(Joint Source-Channel Coding)**: 짧은 지연·블록 조건에서 압축과 오류 보호를 하나의 설계로 함께 조정하는 방식

@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **근사 알고리즘(Approximation Algorithm)**: 모든 배송 경로를 다 따져 보려면 끝이 나지 않는 문제에서 몇 초 만에 경로를 뽑되 ‘최적 경로보다 두 배를 넘지는 않는다’처럼 품질 한계를 함께 증명해 주는 다항 시간 알고리즘
+- **근사 알고리즘(Approximation Algorithm)**: 최적해를 다항 시간에 구하기 어려운 최적화 문제에서 해의 품질 한계를 보장하며 근사해를 구하는 다항 시간 알고리즘
 - **완전 탐색(Exhaustive Search)**: 가능한 모든 후보 해를 하나도 빠짐없이 만들어 보고 그중 최적을 고르는 방식으로, 후보 수가 입력 크기에 따라 지수적으로 늘어나 큰 입력에서는 끝나지 않음
 - **최적해 하한(Lower Bound of OPT)**: 최적값을 실제로 구하지 않고도 ‘적어도 이 값보다는 크다’고 말할 수 있는 기준값으로, 근사비를 증명할 때 최적값 대신 이 값과 비교함
 - **다항 시간(Polynomial Time)**: $n$은 ‘엔’으로 읽고 입력 크기를 나타내는 분야 관례에 따라 붙인 표기로, $n$의 고정 차수 다항식으로 실행 시간 상한을 나타낼 수 있는 계산 시간
@@ -28,7 +28,7 @@ extra:
 - **근사값·최적값 기호($\mathrm{ALG}$·$\mathrm{OPT}$)**: $\mathrm{ALG}$는 ‘에이엘지’, $\mathrm{OPT}$는 ‘오피티’로 읽고 Algorithm과 Optimum을 줄인 표기로, 같은 입력에서 근사 알고리즘이 구한 목적값과 최적 목적값을 비교
 - **허용 오차($\varepsilon$)**: $\varepsilon$은 그리스 문자 ‘엡실론’으로 읽고 작은 양의 오차를 나타내는 분야 관례에 따라 붙인 표기로, 근사해가 최적해에 얼마나 가까워야 하는지를 정함
 - **이하 기호($\le$)**: $\le$는 ‘작거나 같다’로 읽고 상한 관계를 나타내는 표준 부등호로, 근사 목적값과 최적 목적값의 비가 $\rho$를 넘지 않는다는 품질 보장에 사용
-- **다항 시간 근사 스킴(Polynomial-Time Approximation Scheme, PTAS)·완전 다항 시간 근사 스킴(Fully Polynomial-Time Approximation Scheme, FPTAS)**: ‘피티에이에스·에프피티에이에스’로 읽고 영문 머리글자를 딴 약어이며, PTAS는 $\varepsilon$을 고정했을 때 $n$에 대해 다항 시간이고 FPTAS는 $n$과 $1/\varepsilon$ 모두에 대해 다항 시간인 근사 스킴
+- **다항 시간 근사 스킴(Polynomial-Time Approximation Scheme, PTAS)·완전 다항 시간 근사 스킴(Fully Polynomial-Time Approximation Scheme, FPTAS)**: PTAS는 오차 한계 $\varepsilon$을 고정했을 때 입력 크기에 대해 다항 시간이고, FPTAS는 입력 크기와 $1/\varepsilon$ 모두에 대해 다항 시간인 근사 스킴
 - **휴리스틱(Heuristic)**: 경험 규칙으로 빠르게 해를 찾지만 일반적인 최악 품질 경계는 보장하지 않는 방법
 - **목적 함수·제약 조건(Objective Function·Constraint)**: 목적 함수는 최소화·최대화할 값을 정하고 제약 조건은 허용되는 해의 범위를 제한함
 - **실행 가능 해(Feasible Solution)**: 원래 문제의 모든 제약 조건을 만족하는 후보 해
