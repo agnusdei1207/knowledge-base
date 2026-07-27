@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-07-25T01:05:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -20,25 +20,26 @@ extra:
 
 ## 미리 알고가기
 
-- **NGFW(Next-Generation Firewall)**: [읽기: 엔지에프더블유; 표기 이유: 영문 머리글자와 구분 기호] 앱과 위협을 식별하는 방화벽임
-- **WAF(Web Application Firewall)**: [읽기: 더블유에이에프; 표기 이유: 영문 머리글자와 구분 기호] 웹 요청의 공격 문맥을 검사함
-- **CASB(Cloud Access Security Broker)**: [읽기: 씨에이에스비; 표기 이유: 영문 머리글자와 구분 기호] 클라우드 서비스 이용을 중개·통제함
-- **App-ID(Application Identification)**: [읽기: 아이디; 표기 이유: 영문 머리글자와 구분 기호] 포트와 무관하게 앱을 식별함
-- **SaaS(Software as a Service)**: [읽기: 에스에이에이에스; 표기 이유: 영문 머리글자와 구분 기호] 인터넷으로 사용하는 응용 서비스임
-- **API(Application Programming Interface)**: [읽기: 에이피아이; 표기 이유: 영문 머리글자와 구분 기호] 서비스 간 요청과 응답 규약임
-- **HTTP(Hypertext Transfer Protocol)**: [읽기: 에이치티티피; 표기 이유: 영문 머리글자와 구분 기호] 웹 요청과 응답을 전달하는 규약임
-- **URL(Uniform Resource Locator)**: [읽기: 유알엘; 표기 이유: 영문 머리글자와 구분 기호] 웹 자원의 위치를 나타내는 주소임
-- **DLP(Data Loss Prevention)**: [읽기: 디엘피; 표기 이유: 영문 머리글자와 구분 기호] 민감 데이터의 이동과 유출을 통제함
-- **TLS(Transport Layer Security)**: [읽기: 티엘에스; 표기 이유: 영문 머리글자와 구분 기호] 웹과 API 통신을 암호화하는 규약임
-- **IdP(Identity Provider)**: [읽기: 아이디피; 표기 이유: 영문 머리글자와 구분 기호] 사용자 인증 정보를 제공하는 시스템임
-- **섀도 IT(Shadow IT)**: [읽기: 아이티; 표기 이유: 영문 머리글자와 구분 기호] 조직 승인 없이 사용하는 정보기술임
+- **NGFW(Next-Generation Firewall, 엔지에프더블유)**: 영문 머리글자를 딴 명칭으로, 네트워크 흐름에서 앱·사용자·위협을 식별해 통제
+- **WAF(Web Application Firewall, 와프)**: 머리글자를 한 단어처럼 읽으며, HTTP 요청에서 웹·API 공격 문맥을 검사
+- **CASB(Cloud Access Security Broker, 캐스비)**: 머리글자를 한 단어처럼 읽으며, SaaS 계정·이용·데이터 정책을 중개
+- **App-ID(Application Identification, 앱 아이디)**: 응용프로그램 식별을 뜻하며, 포트와 무관하게 앱을 식별
+- **SaaS(Software as a Service, 사스)**: 머리글자를 한 단어처럼 읽으며, 인터넷으로 제공하는 응용 서비스
+- **API(Application Programming Interface, 에이피아이)**: 서비스 간 요청과 응답 형식을 정한 인터페이스
+- **HTTP(Hypertext Transfer Protocol, 에이치티티피)**: 웹 요청과 응답을 전달하는 규약
+- **URL(Uniform Resource Locator, 유알엘)**: 웹 자원의 위치를 나타내는 주소
+- **DLP(Data Loss Prevention, 디엘피)**: 민감 데이터의 이동과 유출을 탐지·통제
+- **TLS(Transport Layer Security, 티엘에스)**: 웹·API 통신 내용을 암호화하는 규약
+- **IdP(Identity Provider, 아이디피)**: 사용자 인증과 신원 정보를 제공하는 시스템
+- **섀도 IT(Shadow IT, 섀도 아이티)**: 조직 승인 없이 사용하는 정보기술·클라우드 서비스
 
 
-- **흐름 기호(↓·→·-->)**: [읽기: 아래로·다음으로·연결; 표기 이유: 절차 방향 기호] 순서와 연결 방향을 나타냄
+- **흐름 기호(↓·→·-->)**: 아래·다음 단계로 이어지는 절차 방향을 표시
 ## Ⅰ. 개요
 
-- **정의**: 서로 다른 경계의 보안 통제를 비교함
-- **배경/필요성**: 보호 대상별 통제 지점 선택
+- **정의/개념**: NGFW·WAF·CASB의 보호 대상과 통제 지점 비교
+- **기존 한계**: 단일 보안제품은 모든 경계·공격을 통제 불가
+- **배경/필요성**: 보호 대상별 제품 선택과 상호 보완 배치
 
 ### 쉽게 이해하기 (학습용)
 
@@ -117,11 +118,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 비교축 | NGFW | WAF | CASB |
+| 판단 기준 | NGFW | WAF | CASB |
 |:---|:---|:---|:---|
-| 핵심 특징 | 사용자·앱 흐름 판단 | 웹 요청 문맥 판단 | SaaS 계정·데이터 판단 |
 | 적용 기준 | 구역·앱 흐름 통제 | 웹·API 공격 통제 | SaaS 이용·공유 통제 |
-| 주요 위험 | 암호화 가시성 부족 | 우회 경로 노출 | 비연계 앱 사각지대 |
+| 핵심 특징 | 사용자·앱 흐름 판단 | 웹 요청 문맥 판단 | SaaS 계정·데이터 판단 |
+| 한계 | 암호화 가시성 부족 | 우회 경로 노출 | 비연계 앱 사각지대 |
 
 > 요약: 문맥에 맞춰 솔루션 보완 배치함
 
