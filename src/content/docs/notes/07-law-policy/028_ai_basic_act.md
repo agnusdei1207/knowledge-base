@@ -20,13 +20,13 @@ extra:
 
 ## 미리 알고가기
 
-- **인공지능(Artificial Intelligence, AI)**: `AI`는 “에이아이”로 읽고 영문명의 머리글자를 조합한 표기이며, 학습·추론·판단으로 결과를 만들어 이 법의 지원·규율 대상이 되는 기술이다.
-- **인공지능기본법(Artificial Intelligence Basic Act, AI Basic Act)**: `AI Basic Act`는 “에이아이 베이식 액트”로 읽고 법의 대상과 기본 성격을 나타낸 영문 표기이며, 인공지능 산업 진흥과 신뢰 기반을 함께 규율한다.
-- **고영향 인공지능(High-impact Artificial Intelligence, High-impact AI)**: “하이 임팩트 에이아이”로 읽고 사람의 생명·신체·기본권에 큰 영향을 주는 정도를 강조한 표기이며, 확인·안전·설명 의무의 대상이다.
-- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**: “제너러티브 에이아이”로 읽고 새로운 결과물을 생성하는 기능을 나타낸 표기이며, 이용자 고지와 생성물 표시 의무의 대상이다.
-- **인공지능 영향평가(AI Impact Assessment)**: “에이아이 임팩트 어세스먼트”로 읽고 국내법상 별도 공식 약어 없이 영문 뜻을 병기하며, 고영향 인공지능이 기본권에 미치는 영향을 사전에 확인하는 권고 절차다.
-- **워터마크(Watermark)**: “워터마크”로 읽고 결과물의 출처를 드러내는 표식을 뜻하며, 생성형 인공지능이 만든 결과임을 이용자가 식별하게 한다.
-- **딥페이크(Deepfake)**: “딥페이크”로 읽고 딥러닝과 위조를 결합한 관용 표기이며, 실제처럼 합성된 음성·영상이 오인되지 않도록 표시할 대상이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습·추론·판단을 통해 분류·예측·생성 등의 결과를 만드는 기술이다.
+- **인공지능기본법(Artificial Intelligence Basic Act, AI Basic Act)**: 인공지능 산업 진흥과 안전·신뢰 확보를 함께 규율하는 법률이다.
+- **고영향 인공지능(High-impact Artificial Intelligence, High-impact AI)**: 사람의 생명·신체·기본권에 중대한 영향을 미쳐 안전·설명 의무가 적용되는 인공지능이다.
+- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**: 학습한 데이터의 구조를 바탕으로 텍스트·이미지·음성 등의 새로운 결과물을 생성하는 인공지능이다.
+- **인공지능 영향평가(AI Impact Assessment)**: 인공지능이 기본권과 안전에 미치는 영향을 도입 전에 식별·평가하는 절차다.
+- **워터마크(Watermark)**: 결과물의 출처나 생성 방식을 식별할 수 있도록 삽입하는 표시다.
+- **딥페이크(Deepfake)**: 딥러닝으로 실제와 유사하게 합성·변조한 음성·영상이다.
 
 ## Ⅰ. 개요
 

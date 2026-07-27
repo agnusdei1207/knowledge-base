@@ -20,17 +20,17 @@ extra:
 
 ## 미리 알고가기
 
-- **디지털 운영 복원력법(Digital Operational Resilience Act, DORA)**: '도라'로 읽고 금융 ICT 복원력 규정을 명칭 머리글자로 표시
-- **유럽연합(European Union, EU)**: '이유'로 읽고 DORA가 직접 적용되는 경제 연합을 표시
-- **정보통신기술(Information and Communications Technology, ICT)**: '아이시티'로 읽고 금융 서비스를 지원하는 정보통신 기술을 표시
-- **위협 기반 모의침투(Threat-Led Penetration Testing, TLPT)**: '티엘피티'로 읽고 실제 위협 전술 기반 침투시험을 표시
-- **핵심 ICT 제3자 서비스 제공자(Critical ICT Third-Party Provider, CTPP)**: '시티피피'로 읽고 EU 감독 대상 핵심 공급자를 표시
+- **디지털 운영 복원력법(Digital Operational Resilience Act, DORA)**: EU 금융기관의 ICT 위험관리와 운영 복원력 확보 의무를 규정한 법률
+- **유럽연합(European Union, EU)**: DORA를 제정하고 회원국에 공통 적용하는 정치·경제 공동체
+- **정보통신기술(Information and Communications Technology, ICT)**: 금융 서비스의 정보 처리와 통신을 지원하는 기술
+- **위협 기반 모의침투(Threat-Led Penetration Testing, TLPT)**: 실제 공격자의 전술·기법·절차를 반영해 중요 시스템의 방어력을 검증하는 시험
+- **핵심 ICT 제3자 서비스 제공자(Critical ICT Third-Party Provider, CTPP)**: 금융권의 중요 기능에 미치는 영향이 커 EU의 직접 감독을 받는 ICT 공급자
 - **경영기구(Management Body)**: 금융기관의 ICT 위험관리 전략·예산·역할을 승인하고 최종 책임을 지는 의사결정 조직
 - **중대 ICT 사고**: 서비스·고객·거래·데이터에 큰 영향을 미쳐 감독기관 보고 대상이 되는 ICT 사건
 - **정보 등록부(Register of Information)**: 금융기관이 사용하는 ICT 제3자 계약·서비스·중요 기능 의존성을 기록한 목록
 - **집중 위험**: 다수 중요 기능이 하나의 공급자·기술·지역에 의존해 장애 영향이 함께 커지는 위험
 - **위협정보 공유**: 금융기관이 신뢰할 수 있는 공동체 안에서 공격 징후·전술·대응 정보를 교환하는 활동
-- **네트워크·정보시스템 지침 2(Network and Information Systems Directive 2, NIS2)**: '니스 투'로 읽고 범산업 사이버보안 지침의 개정판을 표시
+- **네트워크·정보시스템 지침 2(Network and Information Systems Directive 2, NIS2)**: EU 핵심·중요 기관의 사이버보안 위험관리와 사고 보고 의무를 규정한 지침
 
 ## Ⅰ. 개요
 

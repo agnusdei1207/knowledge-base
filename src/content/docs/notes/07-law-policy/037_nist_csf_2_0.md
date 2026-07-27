@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: '니스트'로 읽고 미국 표준·기술 연구기관을 영문 머리글자로 표시
-- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: '시에스에프'로 읽고 사이버보안 성과 분류체계를 영문 머리글자로 표시
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 측정·표준·기술 지침을 연구하고 개발하는 연방기관
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 조직의 사이버보안 위험관리 성과를 기능·범주·하위범주로 구성한 프레임워크
 - **거버넌스(Govern)**: 사이버보안 위험관리를 조직의 전략 및 정책과 연결하는 기능
 - **조직 프로파일(Organizational Profile)**: 조직의 현재 및 목표 사이버보안 성과를 나타내는 명세서
 - **구현 등급(Implementation Tier)**: 조직의 위험관리 성숙도와 엄격성을 나타내는 등급
@@ -33,7 +33,7 @@ extra:
 - **범주·하위범주**: 기능을 보안 성과 영역과 구체적인 결과 문장으로 세분화한 CSF Core 구조
 - **정보 참조(Informative Reference)**: CSF 성과를 표준·규정·통제 문서의 세부 항목과 연결하는 매핑
 - **구현 예시(Implementation Example)**: 하위범주의 성과를 달성할 수 있는 대표 행동을 설명한 비규범 예시
-- **ISO/IEC 27001**: '아이에스오 아이이씨 이칠공공일'로 읽고 정보보안 경영시스템 요구사항의 표준 번호를 표시
+- **ISO/IEC 27001**: 정보보호 관리체계의 수립·운영·유지·개선 요구사항을 규정한 국제표준
 
 ## Ⅰ. 개요
 

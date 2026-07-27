@@ -20,18 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **제안요청서(Request for Proposal, RFP)**: ‘알에프피’로
-  읽는 머리글자 표기다. 요구사항과 평가 조건을 제시한다.
+- **제안요청서(Request for Proposal, RFP)**: 발주기관이 사업 요구사항과 제안·평가 조건을 제시하는 문서다.
 - **협상에 의한 계약(Negotiated Contract)**: 기술과 가격을
   종합 평가해 협상 대상자를 정하는 계약 방식이다.
 - **기술능력 평가(Technical Capability Evaluation)**:
   제안·개발·관리 역량을 심사한다.
 - **차등점수제(Differential Scoring System)**: 기술점수 차이를
   확대해 제안사 간 변별력을 높이는 방식이다.
-- **벤치마크 테스트(Benchmark Test, BMT)**: ‘비엠티’로
-  읽는 머리글자 표기다. 동일 조건의 제품 성능을 비교한다.
-- **개념검증(Proof of Concept, PoC)**: ‘피오시’로 읽으며
-  개념의 실현 가능성을 줄인 표기다. 기술 적용성을 검증한다.
+- **벤치마크 테스트(Benchmark Test, BMT)**: 동일한 조건에서 후보 제품의 성능과 기능을 비교하는 시험이다.
+- **개념검증(Proof of Concept, PoC)**: 제안 기술이 목표 환경에서 구현 가능한지 사전에 검증하는 활동이다.
 
 ## Ⅰ. 개요
 

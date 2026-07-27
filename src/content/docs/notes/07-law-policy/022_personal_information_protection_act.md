@@ -26,11 +26,9 @@ extra:
   사람이며 열람·정정·삭제 등 권리를 행사한다.
 - **가명정보(Pseudonymized Information)**: 추가 정보 없이는
   개인을 알아볼 수 없도록 가명처리한 정보다.
-- **개인정보보호위원회(Personal Information Protection Commission,
-  PIPC)**: ‘피아이피씨’로 읽는 머리글자 표기다. 법 집행을 총괄한다.
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로
-  읽는 머리글자 표기다. 자동화된 결정에 활용된다.
-- **72시간(칠십이 시간)**: 일정한 개인정보 유출 시 통지·신고에 적용되는 법정 시간 기준이며, 구체 요건을 함께 확인
+- **개인정보보호위원회(Personal Information Protection Commission, PIPC)**: 개인정보 보호 정책과 법 집행을 총괄하는 중앙행정기관이다.
+- **인공지능(Artificial Intelligence, AI)**: 개인정보를 학습·추론하여 자동화된 결정에 활용하는 기술이다.
+- **72시간**: 일정한 개인정보 유출 시 정보주체 통지와 관계기관 신고에 적용되는 법정 기한이다.
 
 ## Ⅰ. 개요
 

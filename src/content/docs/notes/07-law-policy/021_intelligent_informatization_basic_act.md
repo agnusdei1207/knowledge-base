@@ -20,8 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로
-  읽는 머리글자 표기다. 데이터 학습으로 지능 서비스를 구현한다.
+- **인공지능(Artificial Intelligence, AI)**: 데이터 학습과 추론을 통해 분류·예측·생성 등의 지능형 기능을 수행하는 기술이다.
 - **지능정보화(Intelligent Informatization)**: 데이터와 AI를
   활용해 사회·산업의 판단과 서비스를 지능화하는 정책이다.
 - **디지털 포용(Digital Inclusion)**: 취약계층도 디지털

@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: '에스비오엠', 흔히 '에스봄'으로 읽고 제품 구성·버전·관계를 기록한 명세를 표시
-- **오픈소스 프로그램 사무국(Open Source Program Office, OSPO)**: '오스포'로 읽고 영문 머리글자로 조직의 오픈소스 정책·승인·준수를 맡는 전담 조직을 표시
-- **취약점 영향 정보 교환(Vulnerability Exploitability eXchange, VEX)**: '벡스'로 읽고 가운데 대문자 X가 정보 교환을 강조하며 SBOM 취약점의 실제 영향 상태를 전달
-- **공개 소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)**: '에스피디엑스'로 읽고 영문 머리글자로 패키지·라이선스 정보를 교환하는 SBOM 표준을 표시
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: '에스시에이'로 읽고 영문 머리글자로 오픈소스 구성·취약점·라이선스를 분석하는 도구를 표시
-- **공통 취약점 및 노출(Common Vulnerabilities and Exposures, CVE)**: '씨브이이'로 읽고 영문 머리글자로 공개 취약점의 공통 식별 체계를 표시
-- **패키지 URL(Package URL, PURL)**: '피유알엘'로 읽고 패키지 생태계·이름·버전을 식별하는 표준 URL임을 표시
-- **통합 자원 위치 지정자(Uniform Resource Locator, URL)**: '유알엘'로 읽고 자원의 위치·접근 형식을 나타내는 영문 머리글자를 표시
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 컴포넌트의 이름·버전·공급자·의존관계를 기록한 명세서
+- **오픈소스 프로그램 사무국(Open Source Program Office, OSPO)**: 조직의 오픈소스 활용·기여·라이선스 준수 정책을 총괄하는 전담 조직
+- **취약점 영향 정보 교환(Vulnerability Exploitability eXchange, VEX)**: SBOM에 포함된 취약점이 해당 제품에 실제 영향을 미치는지 전달하는 문서 형식
+- **소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)**: 소프트웨어 구성요소·라이선스·저작권 정보를 교환하는 표준 형식
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 소프트웨어의 오픈소스 구성요소와 취약점·라이선스 위험을 식별하는 분석
+- **공통 취약점 및 노출(Common Vulnerabilities and Exposures, CVE)**: 공개된 보안 취약점에 공통 식별번호를 부여하는 체계
+- **패키지 URL(Package URL, PURL)**: 패키지의 생태계·이름·버전·배포 위치를 일관되게 식별하는 표준 주소
+- **통합 자원 위치 지정자(Uniform Resource Locator, URL)**: 인터넷 자원의 위치와 접근 방법을 나타내는 주소
 
 ## Ⅰ. 개요
 

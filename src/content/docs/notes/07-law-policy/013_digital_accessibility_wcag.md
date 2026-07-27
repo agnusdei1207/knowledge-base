@@ -23,7 +23,6 @@ extra:
 - **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 장애인과 고령자 등 모든 사용자가 웹 사이트 콘텐츠에 쉽고 동등하게 접근할 수 있도록 권고안을 모아 둔 국제 표준 웹 기술 지침
 - **POUR 4대 원칙(Perceivable, Operable, Understandable, Robust)**: 웹 접근성을 달성하기 위한 네 가지 필수 품질 요소로 인식성, 운용성, 이해성, 견고성을 의미하는 약어
 - **WAI-ARIA(Web Accessibility Initiative - Accessible Rich Internet Applications)**: 시각 장애인이 화면 낭독기를 사용할 때, 웹 브라우저의 동적 스크립트와 복잡한 사용자 인터페이스 요소의 기능과 상태를 쉽게 인지하도록 도와주는 기술 마크업 표준
-- **약어 읽기·표기**: WCAG는 ‘더블유캐그’, POUR는 ‘포어’, WAI-ARIA는 ‘웨이 아리아’로 읽으며 영문 정식명 축약으로 지침·원칙·보조기술 마크업을 구분함
 
 ## Ⅰ. 개요
 

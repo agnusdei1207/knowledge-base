@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **기업 지속가능성 보고 지침(Corporate Sustainability Reporting Directive, CSRD)**: '시에스알디'로 읽고 EU 지속가능성 공시 지침을 영문 머리글자로 표시
-- **유럽연합(European Union, EU)**: '이유'로 읽고 CSRD를 제정한 경제 연합을 표시
-- **유럽 지속가능성 보고 표준(European Sustainability Reporting Standards, ESRS)**: '이에스알에스'로 읽고 CSRD 세부 공시 기준을 표시
-- **환경·사회·지배구조(Environmental, Social, and Governance, ESG)**: '이에스지'로 읽고 지속가능성 주제의 세 영역을 표시
+- **기업 지속가능성 보고 지침(Corporate Sustainability Reporting Directive, CSRD)**: EU 기업의 지속가능성 정보 공시 의무를 규정한 지침
+- **유럽연합(European Union, EU)**: CSRD를 제정하고 회원국에 공통 정책을 적용하는 정치·경제 공동체
+- **유럽 지속가능성 보고 표준(European Sustainability Reporting Standards, ESRS)**: CSRD에 따라 기업이 공시할 지속가능성 정보와 작성 기준을 정한 표준
+- **환경·사회·지배구조(Environmental, Social, and Governance, ESG)**: 기업의 지속가능성을 평가하는 환경·사회·지배구조 영역
 - **이중 중대성(Double Materiality)**: 기업이 사회에 미치는 영향과 환경이 기업 재무에 미치는 위험을 동시에 평가하는 개념
-- **영향·위험·기회(Impacts, Risks and Opportunities, IRO)**: '아이알오'로 읽고 사람·환경 영향과 기업 위험·기회를 표시
+- **영향·위험·기회(Impacts, Risks and Opportunities, IRO)**: 기업 활동이 사람·환경에 미치는 영향과 지속가능성 요인이 기업에 주는 위험·기회
 - **가치사슬(Value Chain)**: 원재료·공급자부터 판매·사용·폐기까지 기업 활동과 연결된 상·하류 관계
 - **제한적 확신(Limited Assurance)**: 중요 왜곡이 발견되지 않았다는 소극적 결론을 제시하는 외부 검증 수준
 - **디지털 태깅**: 공시 항목에 기계 판독 표식을 붙여 데이터 검색·비교·자동 처리를 가능하게 하는 방식

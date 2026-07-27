@@ -20,10 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **개인정보보호법(Personal Information Protection Act, PIPA)**:
-  ‘피파’로 읽는 머리글자 표기다. 개인정보 권리를 보장하는 일반법이다.
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로
-  읽는 머리글자 표기다. 자동화된 결정의 학습과 추론을 수행한다.
+- **개인정보보호법(Personal Information Protection Act, PIPA)**: 개인정보 처리 원칙과 정보주체의 권리를 규정한 일반법이다.
+- **인공지능(Artificial Intelligence, AI)**: 데이터를 학습·추론하여 자동화된 결정을 수행하는 기술이다.
 - **개인정보 전송요구권(Right to Data Portability)**: 정보주체가
   본인 정보를 본인이나 제3자에게 전송하도록 요구하는 권리다.
 - **자동화된 결정(Automated Decision)**: 사람의 개입 없이

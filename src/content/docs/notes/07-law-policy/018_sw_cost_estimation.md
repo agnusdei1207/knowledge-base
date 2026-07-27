@@ -20,24 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **소프트웨어(Software, SW)**: ‘에스더블유’로 읽는
-  머리글자 표기다. 대가를 산정할 개발·서비스 대상을 뜻한다.
-- **기능점수(Function Point, FP)**: ‘에프피’로 읽는
-  머리글자 표기다. 사용자 기능의 규모를 잰다.
-- **내부논리파일(Internal Logical File, ILF)**과
-  **외부연계파일(External Interface File, EIF)**: 각각
-  ‘아이엘에프’, ‘이아이에프’로 읽는다. 데이터 기능을 구분한다.
-- **외부입력(External Input, EI)**, **외부출력(External Output, EO)**,
-  **외부조회(External Inquiry, EQ)**: ‘이아이·이오·이큐’로 읽는
-  머리글자 표기다. 트랜잭션 기능을 분류한다.
-- **보정계수(Adjustment Factor, AF)**: ‘에이에프’로 읽는
-  머리글자 표기다. 복잡도와 비기능 요구를 반영한다.
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로
-  읽는 머리글자 표기다. 모델 학습 대가를 구분한다.
-- **서비스형 소프트웨어(Software as a Service, SaaS)**:
-  ‘사스’로 읽는 축약 표기다. 구독 비용을 산정한다.
-- **인월(Person-Month, M/M)**: ‘맨먼스’로 읽으며
-  사람과 월을 결합한 단위다. 한 사람의 한 달 작업량이다.
+- **소프트웨어(Software, SW)**: 개발·운영 대가를 산정하는 프로그램과 관련 서비스다.
+- **기능점수(Function Point, FP)**: 사용자가 인식하는 데이터·처리 기능을 기준으로 소프트웨어 규모를 측정하는 단위다.
+- **내부논리파일·외부연계파일(Internal Logical File·External Interface File, ILF·EIF)**: 시스템이 직접 관리하는 데이터와 외부 시스템이 관리하는 참조 데이터를 구분한다.
+- **외부입력·외부출력·외부조회(External Input·External Output·External Inquiry, EI·EO·EQ)**: 데이터의 입력, 가공 결과의 출력, 단순 조회 기능을 구분한다.
+- **보정계수(Adjustment Factor, AF)**: 시스템 복잡도와 비기능 요구를 규모 또는 대가에 반영하는 계수다.
+- **인공지능(Artificial Intelligence, AI)**: 데이터 학습을 통해 분류·예측·생성 기능을 수행하는 시스템이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 소프트웨어를 설치하지 않고 네트워크를 통해 구독하는 서비스 방식이다.
+- **인월(Person-Month, M/M)**: 한 사람이 한 달 동안 수행하는 작업량을 나타내는 투입 단위다.
 
 ## Ⅰ. 개요
 

@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **유럽연합(European Union, EU)**: '이유'로 읽고 법령이 적용되는 경제 연합을 영문 머리글자로 표시
-- **인공지능(Artificial Intelligence, AI)**: '에이아이'로 읽고 예측·콘텐츠·추천·결정을 생성하는 시스템을 표시
+- **유럽연합(European Union, EU)**: 회원국에 공통 법과 정책을 적용하는 정치·경제 공동체
+- **인공지능(Artificial Intelligence, AI)**: 입력 데이터를 분석해 예측·추천·콘텐츠·의사결정 결과를 생성하는 기술
 - **유럽연합 AI법(EU AI Act)**: AI 시스템의 위험도에 따라 법적 의무를 부과하는 규제법
-- **범용 인공지능(General-Purpose AI, GPAI)**: '지피에이아이'로 읽고 다양한 작업에 적용 가능한 모델을 영문 머리글자로 표시
+- **범용 인공지능(General-Purpose AI, GPAI)**: 다양한 용도와 작업에 적용할 수 있도록 학습한 AI 모델
 - **고위험 AI(High-Risk AI)**: 안전·기본권에 악영향을 미칠 가능성이 높은 AI 시스템
-- **유럽 적합성(Conformité Européenne, CE)**: '시에'로 읽고 EU 요구사항 적합 선언을 프랑스어 머리글자로 표시
+- **유럽 적합성(Conformité Européenne, CE)**: 제품이 EU의 안전·보건·환경보호 요구사항을 충족함을 나타내는 표시
 - **EU AI 사무국(EU AI Office)**: GPAI 관련 규정을 감독하는 EU 내부 조직
 - **EU AI 위원회(EU AI Board)**: 회원국 간 일관된 법 적용을 조율하는 협의체
 - **제공자(Provider)**: AI 시스템·GPAI 모델을 개발해 자신의 이름으로 EU 시장에 출시하거나 서비스하는 주체

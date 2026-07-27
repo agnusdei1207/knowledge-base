@@ -20,16 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **소프트웨어 사업 영향평가(SW Business Impact Assessment)**:
-  SW는 ‘에스더블유’로 읽는 머리글자 표기다. 민간 영향을 검토한다.
-- **민간시장 침해(Market Infringement)**: 공공 서비스가
-  민간과 경쟁해 시장을 위축시키는 상황이다.
-- **디지털플랫폼정부(Digital Platform Government, DPG)**:
-  ‘디피지’로 읽는 머리글자 표기다. 공공·민간 서비스를 연결한다.
-- **응용 프로그램 인터페이스(Application Programming Interface, API)**:
-  ‘에이피아이’로 읽는 머리글자 표기다. 기능과 데이터를 연결한다.
-- **자체평가(Self-Assessment)**: 발주기관이 사업 전
-  민간 영향과 직접 구축 필요성을 점검하는 절차다.
+- **소프트웨어 사업 영향평가(SW Business Impact Assessment)**: 공공 소프트웨어 사업이 민간시장에 미치는 영향을 사전에 평가하는 제도다.
+- **민간시장 침해(Market Infringement)**: 공공 서비스가 민간 제품·서비스와 경쟁하여 민간의 사업 기회를 제한하는 상황이다.
+- **디지털플랫폼정부(Digital Platform Government, DPG)**: 공공 데이터와 서비스를 플랫폼으로 연계하여 국민 맞춤형 서비스를 제공하는 정부 운영 모델이다.
+- **응용 프로그램 인터페이스(Application Programming Interface, API)**: 서로 다른 시스템이 기능과 데이터를 정해진 방식으로 교환하는 연결 규약이다.
+- **자체평가(Self-Assessment)**: 발주기관이 사업 추진 전에 민간 영향과 직접 구축의 필요성을 점검하는 절차다.
 
 ## Ⅰ. 개요
 

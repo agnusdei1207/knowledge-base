@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **5세대 이동통신(5th-Generation, 5G)**: '파이브지'로 읽고 숫자와 G로 세대를 표시하며 초고속·저지연·초연결 이동통신을 의미
-- **국제 이동통신 표준(International Mobile Telecommunications, IMT)**: '아이엠티'로 읽고 영문 머리글자로 ITU의 세대별 이동통신 규격군을 표시
-- **국제전기통신연합 무선통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: '아이티유 아르'로 읽고 하이픈 뒤 R로 무선통신 부문을 구분해 성능 요구와 권고를 관리
-- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: '쓰리지피피'로 읽고 숫자와 머리글자로 이동통신 상세 규격을 개발하는 협력체를 표시
-- **5G 신규 무선 접속 기술(New Radio, NR)**: '엔아르'로 읽고 영문 머리글자로 5G용 무선 접속 규격을 표시
-- **무선 접속망(Radio Access Network, RAN)**: '랜'으로 읽고 영문 머리글자로 단말과 코어망 사이의 무선 접속 영역을 표시
-- **비독립모드(Non-Standalone, NSA)**: '엔에스에이'로 읽고 영문 머리글자로 기존 LTE 코어에 5G 기지국을 결합한 과도기 구성을 표시
-- **독립모드(Standalone, SA)**: '에스에이'로 읽고 영문 머리글자로 5G 전용 코어와 기지국만 쓰는 구성을 표시
-- **기술 규격·기술 보고서(Technical Specification·Technical Report, TS·TR)**: '티에스·티아르'로 읽고 영문 머리글자로 구현 규격과 검토 보고서를 구분
+- **5세대 이동통신(5th-Generation, 5G)**: 초고속·초저지연·초연결 서비스를 지원하는 이동통신 기술
+- **국제 이동통신 표준(International Mobile Telecommunications, IMT)**: ITU가 세대별 이동통신의 성능 요구와 무선 인터페이스를 정의한 국제표준 체계
+- **국제전기통신연합 무선통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: 국제 주파수 이용을 조정하고 무선통신 표준 권고를 개발하는 ITU 부문
+- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 이동통신 시스템의 무선·코어망 상세 규격을 개발하는 국제 표준협력체
+- **5G 신규 무선 접속 기술(New Radio, NR)**: 5G 단말과 기지국 사이의 무선 전송을 정의한 접속 규격
+- **무선 접속망(Radio Access Network, RAN)**: 단말을 기지국을 통해 이동통신 코어망에 연결하는 무선 네트워크 영역
+- **비독립모드(Non-Standalone, NSA)**: 기존 LTE 코어망과 제어 기능을 활용하면서 5G 무선망을 함께 사용하는 구성
+- **독립모드(Standalone, SA)**: 5G 전용 코어망과 무선망으로 모든 기능을 제공하는 구성
+- **기술 규격·기술 보고서(Technical Specification·Technical Report, TS·TR)**: 구현에 필요한 규범 요구사항과 기술 조사·검토 결과를 각각 담는 3GPP 문서
 
 ## Ⅰ. 개요
 

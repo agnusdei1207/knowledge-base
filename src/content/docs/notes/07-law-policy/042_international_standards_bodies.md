@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **표준화 기구(Standards Development Organization, SDO)**: '에스디오'로 읽고 영문 머리글자로 기술 규격을 개발·배포하는 조직임을 표시
-- **국제전기통신연합(International Telecommunication Union, ITU)**: '아이티유'로 읽고 영문 머리글자로 전기통신 국제 표준을 관장하는 유엔 기구를 표시
-- **국제표준화기구(International Organization for Standardization, ISO)**: '아이에스오'로 읽고 영문 머리글자로 국가 표준기관이 참여하는 국제 표준 기구를 표시
-- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: '아이이시'로 읽고 영문 머리글자로 전기·전자 국제 규격을 개발하는 기구를 표시
-- **국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE)**: '아이 트리플 이'로 읽고 E 세 글자를 묶어 전기·전자·컴퓨터 기술 협회를 표시
-- **인터넷 엔지니어링 태스크 포스(Internet Engineering Task Force, IETF)**: '아이이티에프'로 읽고 영문 머리글자로 인터넷 규격을 공개 합의하는 공동체를 표시
-- **의견 요청서(Request for Comments, RFC)**: '아르에프시'로 읽고 영문 머리글자로 IETF가 발행하는 인터넷 기술 문서를 표시
-- **합리적·비차별적 조건(Reasonable and Non-Discriminatory, RAND)**: '랜드'로 읽고 영문 머리글자로 표준특허를 합리적이고 차별 없이 허락하는 조건을 표시
+- **표준화 기구(Standards Development Organization, SDO)**: 이해관계자의 합의를 통해 기술 규격을 개발·승인·배포하는 조직
+- **국제전기통신연합(International Telecommunication Union, ITU)**: 전기통신과 전파 분야의 국제표준·주파수·위성궤도를 조정하는 유엔 전문기구
+- **국제표준화기구(International Organization for Standardization, ISO)**: 국가 표준기관이 참여해 산업 전반의 국제표준을 제정하는 기구
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: 전기·전자·정보기술 분야의 국제표준을 제정하는 기구
+- **국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기·전자·컴퓨터 분야의 연구와 기술표준 개발을 수행하는 전문기관
+- **인터넷 엔지니어링 태스크 포스(Internet Engineering Task Force, IETF)**: 공개 논의와 합의를 통해 인터넷 기술표준을 개발하는 공동체
+- **의견 요청서(Request for Comments, RFC)**: 인터넷 프로토콜·절차·기술 정보를 정의해 IETF가 공개하는 문서군
+- **합리적·비차별적 조건(Reasonable and Non-Discriminatory, RAND)**: 표준필수특허를 합리적이고 차별 없는 조건으로 허락하는 원칙
 
 ## Ⅰ. 개요
 

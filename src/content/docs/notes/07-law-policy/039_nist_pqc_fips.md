@@ -20,21 +20,21 @@ extra:
 
 ## 미리 알고가기
 
-- **양자내성암호(Post-Quantum Cryptography, PQC)**: '피큐씨'로 읽고 양자 공격에 견디는 공개키 암호를 영문 머리글자로 표시
-- **연방정보처리표준(Federal Information Processing Standards, FIPS)**: '핍스'로 읽고 미국 연방 정보처리 표준을 표시
-- **지금 수집, 나중 해독(Harvest Now, Decrypt Later, HNDL)**: '에이치엔디엘'로 읽고 현재 수집한 암호문을 미래에 해독하는 위협을 표시
-- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: '켐'으로 읽고 공개 채널에서 공유 비밀을 설정하는 방식을 표시
-- **디지털 서명 알고리즘(Digital Signature Algorithm, DSA)**: '디에스에이'로 읽고 서명자 인증·무결성 검증 알고리즘을 표시
-- **ML-KEM**: '엠엘 켐'으로 읽고 Module-Lattice-Based KEM의 머리글자로 FIPS 203 키 설정 알고리즘을 표시
-- **ML-DSA**: '엠엘 디에스에이'로 읽고 Module-Lattice-Based DSA의 머리글자로 FIPS 204 서명을 표시
-- **SLH-DSA**: '에스엘에이치 디에스에이'로 읽고 Stateless Hash-Based DSA의 머리글자로 FIPS 205 서명을 표시
+- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계한 공개키 암호기술
+- **연방정보처리표준(Federal Information Processing Standards, FIPS)**: 미국 연방기관이 정보시스템에 적용하는 기술 표준
+- **지금 수집, 나중 해독(Harvest Now, Decrypt Later, HNDL)**: 현재 암호문을 수집해 두었다가 양자컴퓨터가 실용화된 뒤 해독하는 위협
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공개키를 이용해 공유 비밀키를 안전하게 설정하는 방식
+- **디지털 서명 알고리즘(Digital Signature Algorithm, DSA)**: 서명자의 신원과 데이터 무결성을 검증하는 공개키 알고리즘
+- **ML-KEM**: 모듈 격자 문제를 기반으로 공유 비밀키를 설정하는 FIPS 203 양자내성 알고리즘
+- **ML-DSA**: 모듈 격자 문제를 기반으로 서명과 검증을 수행하는 FIPS 204 양자내성 알고리즘
+- **SLH-DSA**: 해시 함수를 기반으로 서명과 검증을 수행하는 FIPS 205 양자내성 알고리즘
 - **모듈 격자**: 다차원 격자의 모듈 구조에서 어려운 수학 문제를 보안 근거로 사용하는 방식
 - **무상태 해시 서명**: 이전 서명 횟수나 상태를 저장하지 않고 해시 함수로 만드는 디지털 서명
 - **암호 민첩성(Crypto Agility)**: 프로토콜·데이터 형식을 크게 바꾸지 않고 알고리즘과 매개변수를 교체하는 능력
 - **하이브리드 전환**: 기존 공개키 알고리즘과 PQC를 함께 적용해 한쪽 실패에도 보안을 유지하는 과도기 방식
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: '에이치에스엠'으로 읽고 암호키를 보호하는 전용 장치를 표시
-- **RSA(Rivest-Shamir-Adleman)**: '알에스에이'로 읽고 세 발명자 성의 머리글자로 정수 인수분해 기반 공개키 암호를 표시
-- **타원곡선암호(Elliptic Curve Cryptography, ECC)**: '이씨씨'로 읽고 타원곡선 기반 공개키 암호를 영문 머리글자로 표시
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 암호키를 안전하게 생성·저장하고 암호 연산을 수행하는 전용 장치
+- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난도를 보안 근거로 사용하는 공개키 암호 알고리즘
+- **타원곡선암호(Elliptic Curve Cryptography, ECC)**: 타원곡선 이산대수 문제의 난도를 보안 근거로 사용하는 공개키 암호기술
 
 ## Ⅰ. 개요
 

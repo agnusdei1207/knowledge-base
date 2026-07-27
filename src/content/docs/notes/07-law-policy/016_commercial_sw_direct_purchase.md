@@ -20,23 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **상용 소프트웨어(Commercial Software, SW)**: SW는
-  ‘에스더블유’로 읽는 머리글자 표기다. 완제품을 뜻한다.
-- **나라장터(Korea ON-line E-Procurement System, KONEPS)**:
-  ‘코넵스’로 읽는 머리글자 표기다. 공공 조달 창구다.
-- **벤치마크 테스트(Benchmark Test, BMT)**: ‘비엠티’로
-  읽는 머리글자 표기다. 후보 제품의 성능을 비교한다.
-- **시스템 통합(System Integration, SI)**: ‘에스아이’로
-  읽는 머리글자 표기다. 제품과 시스템을 연계한다.
-- **서비스형 소프트웨어(Software as a Service, SaaS)**:
-  ‘사스’로 읽는 축약 표기다. 구독형 소프트웨어를 뜻한다.
-- **총소유비용(Total Cost of Ownership, TCO)**: ‘티씨오’로
-  읽는 머리글자 표기다. 도입부터 폐기까지의 비용이다.
-- **데이터베이스 관리 시스템(Database Management System, DBMS)**:
-  ‘디비엠에스’로 읽는 머리글자 표기다. 데이터베이스를 관리한다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: ‘에스엘에이’로
-  읽는 머리글자 표기다. 성능·보안 책임 기준을 정한다.
-- **2단계 경쟁**: 숫자 2는 기술과 가격의 두 평가 단계를 뜻한다.
+- **상용 소프트웨어(Commercial Software, SW)**: 시장에서 구매하여 사용할 수 있도록 개발된 완제품 소프트웨어다.
+- **나라장터(Korea ON-line E-Procurement System, KONEPS)**: 공공기관의 입찰·계약·구매를 처리하는 전자조달 시스템이다.
+- **벤치마크 테스트(Benchmark Test, BMT)**: 동일한 조건에서 후보 제품의 성능과 기능을 비교하는 시험이다.
+- **시스템 통합(System Integration, SI)**: 소프트웨어·하드웨어·데이터를 연계하여 하나의 정보시스템을 구축하는 사업이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 소프트웨어를 설치하지 않고 네트워크를 통해 구독하는 서비스 방식이다.
+- **총소유비용(Total Cost of Ownership, TCO)**: 도입부터 운영·유지보수·폐기까지 발생하는 전체 비용이다.
+- **데이터베이스 관리 시스템(Database Management System, DBMS)**: 데이터베이스의 저장·조회·변경·접근을 관리하는 소프트웨어다.
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스의 성능·가용성·보안과 미달 시 책임을 정한 협약이다.
+- **2단계 경쟁**: 기술 적격성을 먼저 평가한 뒤 가격으로 낙찰자를 정하는 조달 방식이다.
 
 ## Ⅰ. 개요
 

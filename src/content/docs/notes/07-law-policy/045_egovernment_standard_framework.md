@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **전자정부 표준 프레임워크(e-Government Standard Framework, eGovFrame)**: '이거브프레임'으로 읽고 e는 전자정부, Gov와 Frame의 대문자는 정부용 개발 틀임을 표시
+- **전자정부 표준 프레임워크(e-Government Standard Framework, eGovFrame)**: 공공 정보시스템 개발에 필요한 실행환경·개발환경·공통 컴포넌트를 제공하는 표준 개발 기반
 - **실행환경(Runtime Environment)**: 애플리케이션 실행 시 화면, 업무 로직, 데이터 처리를 지원하는 핵심 공통 라이브러리 및 런타임 서비스
 - **개발환경(Development Environment)**: 소스 코드 구현, 빌드, 디버깅 및 형상 관리를 지원하는 개발자 전용 도구 모음
-- **소프트웨어(Software, SW)**: '에스더블유'로 읽고 영문 머리글자로 프로그램과 관련 산출물을 표시
-- **웹 응용 서버(Web Application Server, WAS)**: '와스'로 읽고 영문 머리글자로 웹 요청의 업무 로직을 실행하는 서버를 표시
+- **소프트웨어(Software, SW)**: 컴퓨터에서 기능을 수행하도록 작성한 프로그램과 관련 데이터·문서
+- **웹 응용 서버(Web Application Server, WAS)**: 웹 요청을 받아 업무 로직을 실행하고 처리 결과를 반환하는 서버
 - **스프링 프레임워크(Spring Framework)**: 자바 응용의 객체·웹·데이터 처리를 지원하는 기반 프레임워크
 
 ## Ⅰ. 개요
