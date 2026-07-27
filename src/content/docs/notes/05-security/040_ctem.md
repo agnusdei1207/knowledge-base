@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-07-25T21:40:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -20,18 +20,19 @@ extra:
 
 ## 미리 알고가기
 
-- **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM)**: 공격자가 실제 이용할 노출을 찾아 검증하고 담당자 조치와 재검증으로 반복 감축하는 관리 체계이다.
-- **침해·공격 시뮬레이션(Breach and Attack Simulation, BAS)**: 실제 피해 없이 공격 기법을 자동 재현해 보안 통제와 공격 경로를 검증하는 기법이다.
-- **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV)**: 실제 공격에 악용된 사실이 확인돼 조치 우선도가 높은 취약점 목록이다.
-- **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS)**: 취약점이 단기간에 실제 악용될 가능성을 확률로 예측하는 점수 체계이다.
-- **공통 취약점 점수 체계(Common Vulnerability Scoring System, CVSS)**: 취약점의 기술적 심각도를 공통 기준으로 평가하는 점수 체계이다.
+- **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM, 씨템)**: 영문 머리글자를 한 단어처럼 읽으며, 실제 공격 가능한 노출을 검증·조치·재검증해 지속 감축하는 체계
+- **침해·공격 시뮬레이션(Breach and Attack Simulation, BAS, 비에이에스)**: 공격 기법을 안전하게 자동 재현해 통제와 공격 경로를 검증
+- **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV, 케이이브이)**: 실제 악용이 확인돼 조치 우선도가 높은 취약점 목록
+- **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS, 이피에스에스)**: 단기간 실제 악용 가능성을 확률로 예측하는 점수
+- **공통 취약점 점수 체계(Common Vulnerability Scoring System, CVSS, 씨브이에스에스)**: 취약점의 기술적 심각도를 공통 기준으로 평가하는 점수
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 응용 기능을 인터넷으로 빌려 쓰는 서비스 형태이다.
 - **공격 표면 관리(Attack Surface Management)**: 외부에 드러난 자산·서비스·설정 오류를 지속해서 발견하는 활동이다.
 - **폐루프(Closed Loop)**: 노출 발견부터 담당자 조치·재검증까지 결과가 다시 관리 상태에 반영되는 순환이다.
 ## Ⅰ. 개요
 
 - **정의/개념**: 노출을 발견·우선화·검증·감축함
-- **배경/필요성**: 점수만으로 실제 공격 경로를 알기 어려움
+- **기존 한계**: 취약점 점수만으로 실제 공격 가능성 판단 곤란
+- **배경/필요성**: 공격 경로·업무 영향 기반 노출 감축
 
 ### 쉽게 이해하기 (학습용)
 
@@ -115,11 +116,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 비교축 | CTEM | 공격 표면 관리 | 취약점 관리 |
+| 판단 기준 | CTEM | 공격 표면 관리 | 취약점 관리 |
 |:---|:---|:---|:---|
-| 핵심 특징 | 공격 경로·업무 영향 기반 감축 | 외부 미관리 자산·서비스 발견 | 취약점과 패치 상태 관리 |
 | 적용 기준 | 실제 공격 가능 경로 감축 | 인터넷 노출 자산 발견 | 소프트웨어 결함 조치 |
-| 주요 위험 | 검증·담당자 동원 실패 | 위험 문맥 부족 | 점수 중심 자원 낭비 |
+| 핵심 특징 | 공격 경로·업무 영향 기반 감축 | 외부 미관리 자산·서비스 발견 | 취약점과 패치 상태 관리 |
+| 한계 | 검증·담당자 동원 실패 | 위험 문맥 부족 | 점수 중심 자원 낭비 |
 
 > 요약: CTEM은 노출을 경로와 업무 영향으로 연결함
 
