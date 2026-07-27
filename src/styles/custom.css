@@ -159,6 +159,15 @@ strong {
   display: contents;
 }
 
+.right-sidebar {
+  position: static;
+  width: auto;
+  height: auto;
+  padding-top: 0;
+  border-inline-start: 0;
+  overflow: visible;
+}
+
 .right-sidebar .lg\:sl-hidden {
   display: block;
 }
@@ -177,6 +186,9 @@ strong {
 
 mobile-starlight-toc nav {
   inset-inline-start: 0;
+  background-color: var(--sl-color-bg-nav);
+  opacity: 1;
+  isolation: isolate;
 }
 
 .katex-display {
