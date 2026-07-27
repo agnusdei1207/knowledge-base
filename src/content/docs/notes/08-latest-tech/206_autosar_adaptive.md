@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive (AUTOSAR Adaptive)"
-date: "2026-07-25T03:35:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -20,117 +20,125 @@ extra:
 
 ## 미리 알고가기
 
-- **AUTOSAR Adaptive (AUTOSAR Adaptive) Platform**: 서비스 지향 고성능 차량 SW 플랫폼
-- **Classic AUTOSAR (Classic AUTOSAR) Control**: 실시간 MCU 제어용 SW 표준 플랫폼
-- **POSIX (Portable Operating System Interface) Runtime**: Adaptive 구동 기반 OS 환경
-- **ARA (AUTOSAR Runtime for Adaptive) Service**: Adaptive 플랫폼의 통신·실행·관리 API
-- **SDV (Software Defined Vehicle) Architecture**: SW 중심 차량 아키텍처 환경
-- **Mixed-criticality (Mixed-criticality) Separation**: 중요도 기반 SW 격리 설계
-
-
+- **AUTOSAR(오토사)**: AUTomotive Open System ARchitecture에서 만든 명칭으로, 차량 소프트웨어 구조와 인터페이스를 표준화하는 개발 협력체·표준
+- **Adaptive Platform(어댑티브 플랫폼)**: 고성능 ECU에서 동적 서비스와 애플리케이션을 실행하는 AUTOSAR 플랫폼
+- **Classic Platform(클래식 플랫폼)**: MCU 기반의 정적·결정적 실시간 제어에 적합한 AUTOSAR 플랫폼
+- **POSIX(포직스)**: Portable Operating System Interface의 약자로, 운영체제 API의 호환 기준
+- **ARA(아라)**: AUTOSAR Runtime for Adaptive Applications의 약자로, Adaptive 앱이 플랫폼 기능을 쓰는 C++ 인터페이스
 
 ## Ⅰ. 개요
 
-- **정의/개념**: 고성능 ECU용 서비스 지향 차량 SW 플랫폼
-- **배경/필요성**: 자율주행·센서 융합의 연산·변경 요구를 수용
+- **정의/개념**: 고성능 차량 앱을 서비스 단위로 실행·관리하는 플랫폼
+- **기존 한계**: Classic 정적 구조로 동적 기능 수용 제한
 
 ### 쉽게 이해하기 (학습용)
 
-- 차량용 고성능 컴퓨터에서 앱이 공통 통신·저장·보안 서비스를 사용하게 하는 표준 설계도임
+- 정해진 제어를 반복하는 Classic과 달리, Adaptive는 고성능 컴퓨터에서 여러 앱과 서비스를 동적으로 연결·갱신한다.
 
 ## Ⅱ. 특징
 
-- Adaptive 앱이 POSIX 프로세스로 독립 실행된다.
-- ARA가 통신·상태·암호 서비스 API를 제공한다.
-- 동적 발견·바인딩이 서비스 변경을 유연화한다.
-- Classic 연계가 고성능·실시간 제어를 분리한다.
+- **프로세스 기반 실행**: POSIX에서 앱을 독립 격리
+- **서비스 지향 통신**: ara::com으로 서비스 탐색·메시지 교환 지원
+- **생명주기 관리**: 실행·상태·건강·업데이트를 플랫폼 서비스로 통합
 
 ### 쉽게 이해하기 (학습용)
 
-- 앱은 실행 설명서에 따라 차량 컴퓨터에서 구동하고 필요한 서비스를 찾아 쓰며, 새 앱은 업데이트 관리자로 설치함
+- 고성능 차량 앱을 독립 프로세스로 실행하고 표준 서비스로 통신·상태·갱신을 관리한다.
 
 ## Ⅲ. 아키텍처 및 구성요소
 
-```text
-[Adaptive Applications]
-      ↓ ara::com
-[Management Services]
-      ↓ POSIX API
-[POSIX OS Partition]
-      ↓
-[Classic Control]
+```mermaid
+flowchart TB
+  APP["Adaptive Applications"]
+  ARA["ARA APIs"]
+  COM["Communication Management"]
+  EXEC["Execution Management"]
+  UCM["Update and Configuration"]
+  PHM["Platform Health Management"]
+  OS["POSIX OS"]
+  HPC["고성능 ECU"]
+  CP["Classic Platform"]
+  APP --> ARA
+  ARA --> COM
+  ARA --> EXEC
+  ARA --> UCM
+  ARA --> PHM
+  COM --> OS
+  EXEC --> OS
+  UCM --> OS
+  PHM --> OS
+  OS --> HPC
+  COM <--> CP
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
-| POSIX OS·machine·partition | 앱의 격리 실행 환경을 제공함 |
-| Adaptive Application·manifest | 앱 요구·배포·실행 정보를 선언함 |
-| ara::com·service interface | 서비스를 발견하고 통신함 |
-| platform management services | 실행·상태·업데이트를 관리함 |
-| Classic·safety/security boundary | 강실시간 제어와 안전하게 연계함 |
+| Adaptive App | 인지·경로·서비스 기능 실행 |
+| ara::com | 서비스 탐색과 통신 |
+| Execution Management | 프로세스 시작·중지·상태 관리 |
+| UCM | SW 설치·갱신·구성 관리 |
+| PHM | 건강 감시와 오류 대응 |
+| POSIX OS | 프로세스·자원·격리 제공 |
 
-> 요약: 서비스 플랫폼이 앱 수명주기와 통신을 관리
+> 요약: 표준 ARA 서비스로 고성능 앱의 통신과 생명주기를 관리
 
 ### 쉽게 이해하기 (학습용)
 
-- 앱은 실행 명세에 따라 동작하고 운영체제가 자원을 격리하며 제동 제어기는 별도 권한을 거쳐 보호됨
+- ARA가 앱과 실행·통신·진단·갱신 서비스를 연결해 하드웨어 차이를 감춘다.
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 처리 절차 및 흐름
 
-```text
-[기능 안전 설계]
-       ↓
-[Manifest 명세화]
-       ↓
-[UCM 패키지 설치]
-       ↓
-[프로세스 실행]
-       ↓
-[상태 관리·복구]
+```mermaid
+flowchart LR
+  A["안전·프로세스 경계"] --> B["Manifest·서비스 설계"]
+  B --> C["UCM 설치·검증"]
+  C --> D["프로세스 실행"]
+  D --> E["서비스 탐색·통신"]
+  E --> F["상태·건강 감시"]
+  F --> G["갱신·오류 대응"]
 ```
 
-| 절차 | 설명 |
+| 단계 | 핵심 활동 |
 |:---|:---|
-| 기능·안전 분할 | 기능·안전 분할을 수행하고 결과를 검증함 |
-| service·manifest 설계 | service·manifest 설계을 수행하고 결과를 검증함 |
-| package 설치 | package 설치을 수행하고 결과를 검증함 |
-| 실행·발견 | 실행·발견을 수행하고 결과를 검증함 |
-| 상태·갱신 관리 | 상태·갱신 관리을 수행하고 결과를 검증함 |
-
-> 요약: manifest로 설치·실행·상태를 관리
+| 경계 정의 | 안전 등급과 프로세스 격리 |
+| 설계 | Manifest·서비스 계약 정의 |
+| 설치·검증 | UCM으로 패키지 검증·설치 |
+| 실행 | Execution Management가 기동 |
+| 통신 | ara::com으로 서비스 연결 |
+| 감시 | 상태·건강·자원 이상 확인 |
+| 대응 | 재시작·저하·안전 상태 전환 |
 
 ### 쉽게 이해하기 (학습용)
 
-- 역할 분담 후 명세 기반 패키지를 설치하여 안전하게 앱을 운영함
+- 플랫폼이 앱을 시작해 서비스를 찾게 하고 상태를 감시하며 갱신 후 안전하게 재시작한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. AUTOSAR 플랫폼 비교
 
-| 판단 기준 | AUTOSAR Classic | AUTOSAR Adaptive | 혼합 E/E 역할 분담 |
+| 판단 기준 | Classic Platform | Adaptive Platform | 혼합 아키텍처 |
 |:---|:---|:---|:---|
-| 핵심 특징 | 정적 구성·강실시간 MCU 제어 | POSIX 기반 동적 서비스·HPC 처리 | Classic·Adaptive 역할 분담 |
-| 적용 기준 | chassis·powertrain 안전 제어 | 인지·융합·데이터·서비스 | gateway·E2E로 두 플랫폼 연계 |
-| 주요 위험 | 동적 변경·고성능 처리 제약 | 자원·상태·업데이트 복잡성 | 경계 통신·안전 책임 불명확 |
-
-> 요약: Adaptive와 Classic의 역할·안전 경계 구분
+| 적용 기준 | 결정적 MCU 제어 | 고성능·동적 서비스 | 제어와 고성능 기능 공존 |
+| 핵심 특징 | 정적 구성·실시간 실행 | POSIX·서비스·프로세스 | 플랫폼 간 역할 분리 |
+| 한계 | 동적 기능·연산 확장 제한 | 엄격한 실시간 제어에 부적합 | 게이트웨이·안전 통합 필요 |
 
 ### 쉽게 이해하기 (학습용)
 
-- Adaptive가 데이터를 처리하고 Classic이 실시간 제어를 수행함
+- 빠르고 결정적인 제어는 Classic, 고성능 동적 앱은 Adaptive가 담당한다.
 
 ## Ⅵ. 실무 사례
 
-1. 대상 환경의 도입 조건과 설계를 검증함
-2. 운영 위험과 성과 지표를 검증함
+1. **중앙 ADAS 역할 분리**: 인지는 AP, 제동은 CP
+2. **인포테인먼트 갱신**: UCM 설치 후 서비스 상태 감시
 
 ### 쉽게 이해하기 (학습용)
 
-- 중앙 ADAS ECU는 Adaptive Application으로 카메라·레이더 융합과 주행 목표를 계산하고 Classic 제동 ECU는 hard real-time 제어를 수행하며 E2E 보호 service로 목표값을 전달함
-- cockpit HPC는 진단·차량 데이터 service의 provider를 ara::com으로 발견하고 새 application package를 UCM으로 설치하되 service instance ID·manifest와 safety partition 회귀 검증 후 활성화함
+- 중앙 인지는 Adaptive에서 수행하되 최종 제동 같은 안전 제어는 Classic에 분리한다.
 
 ## Ⅶ. 결론
 
-- 동적 서비스는 Adaptive, 강실시간 제어는 Classic
+- **결정적 제어는 Classic Platform**
+- **고성능 동적 기능은 Adaptive Platform**
+- **혼합 시 통신·안전 경계를 명확히 분리**
 
 ### 쉽게 이해하기 (학습용)
 
-- 고성능 앱의 유연함은 제어기와의 분리와 안전한 연결을 전제로 함
+- 플랫폼 선택보다 두 플랫폼 사이 통신·시간·안전 책임을 명확히 나누는 것이 중요하다.
