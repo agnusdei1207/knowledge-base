@@ -114,17 +114,15 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. **양자 화학**: VQE 에너지 오차·실행 시간을 고전 계산과 비교
-2. **암호 영향 평가**: 쇼어 알고리즘의 논리 큐비트 자원을 산정해 PQC 전환
+1. 양자 화학의 **VQE와 고전 계산 비교**
 
 ### 쉽게 이해하기 (학습용)
 
-- quantum chemistry 연구팀은 작은 molecule Hamiltonian을 VQE circuit로 측정하고 classical optimizer와 error mitigation을 반복하되 exact diagonalization·고성능 classical chemistry와 energy accuracy·shot·runtime을 비교해 scientific utility만 보고함
-- 보안 조직은 Shor algorithm이 fault-tolerant logical qubit와 대규모 error-corrected gate를 요구한다는 resource estimate를 전제로 cryptographic inventory와 PQC migration을 수행하며, 현재 noisy device가 즉시 RSA를 깨는 것으로 오해하지 않음
+- 연구팀은 작은 분자의 VQE 에너지 오차·샷 수·전체 실행시간을 정확 대각화와 고성능 고전 계산에 비교해 실제 과학적 이득이 있는지 평가한다.
 
 ## Ⅶ. 결론
 
-- 고전 대비 전체 비용·정확도로 양자 적용 여부 결정
+- 큐비트 수 중심의 과장된 기대를 피하기 위해 문제 구조·정확도·오류 보정·전체 실행시간·고전 기준선을 검토하여, 검증된 계산 이득이 있는 문제에만 양자컴퓨팅을 적용해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

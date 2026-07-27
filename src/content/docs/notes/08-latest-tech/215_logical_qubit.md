@@ -114,17 +114,15 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. **논리 메모리**: 동일 주기에서 물리·논리 메모리 오류율 비교
-2. **논리 CNOT**: 격자 수술의 오류 전파·논리 게이트율 검증
+1. 물리·논리 메모리의 **주기당 오류율 비교**
 
 ### 쉽게 이해하기 (학습용)
 
-- logical memory benchmark: 양자 hardware 팀이 distance가 다른 encoded patch에 동일한 횟수의 QEC cycle을 적용하고 logical memory error per cycle을 matched physical idle baseline과 비교해, 보호 비용이 실제 정보 보존 이득으로 이어지는지 판단함
-- fault-tolerant logical CNOT 제공: runtime 팀이 lattice surgery의 merge·split 중 syndrome을 반복 추출하고 decoder·feedforward를 연결해 correlated fault propagation과 logical CNOT error를 측정한 뒤 compiler에 검증된 logical gate primitive로 노출함
+- 동일 주기 동안 인코딩된 패치와 물리 큐비트의 메모리 오류율을 비교해 다수 물리 큐비트의 보호 비용이 실제 정보 보존 이득으로 이어지는지 판단한다.
 
 ## Ⅶ. 결론
 
-- 논리 오류율·게이트 비용으로 논리 큐비트 규모 결정
+- 취약한 물리 큐비트로 신뢰 가능한 연산을 수행하기 위해 논리 오류율·보호 자원·복호 지연·논리 게이트 비용을 검토하여, 실제 오류 감소가 입증된 규모의 논리 큐비트를 구성해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

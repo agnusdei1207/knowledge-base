@@ -113,17 +113,15 @@ Prover(Statement, Witness) ── Proof ──> Verifier(Statement)
 
 ## Ⅵ. 실무 사례
 
-1. **소득 기준 증명**: 실제 소득을 숨기고 기준 이상임만 입증
-2. **ZK 롤업**: 거래 원본으로 계산한 상태 전이의 유효성 입증
+1. 실제 소득을 숨기는 **소득 기준 충족 증명**
 
 ### 쉽게 이해하기 (학습용)
 
-- 소득 기준 충족 증명: 금융기관이 공인 소득 credential의 signature와 기준값을 circuit에 포함하고 신청자는 실제 소득액을 공개하지 않은 채 ‘기준 이상’ proof를 제출하며, 은행은 proof와 credential issuer·신청자 인증을 함께 확인함
-- zk-rollup state transition 검증: operator가 off-chain transaction batch와 이전 state root를 witness로 실행해 새 state root가 규칙대로 계산됐다는 proof를 L1 contract에 제출하지만, user가 state를 재구성·출금할 수 있도록 transaction data availability와 sequencer failure 대응은 별도 설계함
+- 신청자는 공인 소득 자격과 기준값을 회로에 넣어 실제 금액을 공개하지 않고 기준 이상임을 증명하며 은행은 증명·발행자·신청자 결합을 함께 확인한다.
 
 ## Ⅶ. 결론
 
-- 회로·준비 방식·데이터 가용성으로 ZKP 유형 선택
+- 원본 비밀 공개 없이 계산의 유효성을 확인하기 위해 증명 명제·회로·신뢰 설정·증명 비용·외부 입력 신뢰를 검토하여, 최소 정보 검증이 필요한 업무에 적합한 ZKP를 선택해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

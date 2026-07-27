@@ -116,17 +116,15 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. **보행자 탐지 AI**: 역광·가림 조건별 누락률을 검증하고 불확실 시 센서 융합·감속 적용
-2. **운전자 감시 AI**: 안경·피부톤별 데이터 범위를 검증하고 모델 변경 시 재승인
+1. 보행자 탐지 AI의 **역광·가림 조건 안전성 검증**
 
 ### 쉽게 이해하기 (학습용)
 
-- 전방 camera 보행자 detector는 역광·가림·희귀 자세를 input subdomain으로 나눠 known miss와 confidence limitation을 검증하고, 불확실하면 sensor fusion·감속 fallback을 작동시키며 field near-miss를 수집해 assurance argument를 재평가함
-- driver monitoring model은 안경·피부톤·좌석 위치별 dataset coverage와 false-negative safety requirement를 trace하고, fleet drift나 model update 때 shadow evaluation·rollback·독립 승인 후에만 새 version을 배포함
+- 전방 카메라 모델은 역광·가림·희귀 자세별 누락률과 불확실성을 검증하고 신뢰가 낮으면 센서 융합과 감속 fallback을 작동시키며 현장 근접사고를 안전 증거에 환류한다.
 
 ## Ⅶ. 결론
 
-- AI 한계·안전 증거로 배포와 현장 재평가 결정
+- 차량 AI의 불확실성이 안전사고로 이어지는 것을 막기 위해 데이터 범위·알려진 한계·경계 성능·fallback·현장 증거를 검토하여, ISO/PAS 8800 안전 케이스로 배포와 재평가를 결정해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

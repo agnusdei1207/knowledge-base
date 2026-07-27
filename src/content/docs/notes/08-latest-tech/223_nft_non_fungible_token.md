@@ -105,17 +105,15 @@ Smart Contract (Owner 상태 기록)
 
 ## Ⅵ. 실무 사례
 
-1. **공연 입장권**: 좌석 NFT의 소유·미사용 상태 확인 후 입장 처리
-2. **디지털 아트**: 원본 해시·보존 위치·이용 허락 범위를 계약에 연결
+1. 공연 입장권의 **NFT 소유·미사용 상태 확인**
 
 ### 쉽게 이해하기 (학습용)
 
-- 공연 입장권 운영: 주최사가 좌석·공연일을 metadata에 담은 NFT를 발행하고 authorized marketplace·transfer window를 contract policy로 제한하며, 현장에서는 current owner와 미사용 상태를 확인한 뒤 check-in 상태를 소비 처리하고 wallet 분실 recovery 절차를 제공함
-- 디지털 아트·license certificate: gallery가 검증된 creator만 mint하게 하고 content hash와 다중 pinning URI, 구매자가 받는 display·commercial license 범위를 약관에 연결하며, EIP-2981 royalty는 이를 지원하는 marketplace에서만 지급될 수 있음을 고지함
+- 주최사는 좌석·공연일 NFT를 발행하고 공식 거래소와 양도기간을 제한하며 현장에서는 현재 소유자와 미사용 상태를 확인한 뒤 입장권을 사용 처리한다.
 
 ## Ⅶ. 결론
 
-- 원본 보존·권리 계약·키 복구 후 NFT 적용 결정
+- 디지털 소유 증표와 실제 권리를 혼동하는 문제를 막기 위해 발행자·원본 보존·메타데이터·이용권 계약·지갑 복구를 검토하여, 고유 증표가 필요한 거래에만 NFT를 적용해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

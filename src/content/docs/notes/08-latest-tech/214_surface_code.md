@@ -114,17 +114,15 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. **논리 메모리**: 거리 3·5 패치의 주기당 논리 오류율 비교
-2. **격자 수술 CNOT**: 패치 병합·분할의 논리 게이트 오류 검증
+1. 거리 3·5 패치의 **논리 메모리 오류율 비교**
 
 ### 쉽게 이해하기 (학습용)
 
-- logical memory scaling 검증: 양자 hardware 팀이 동일한 noise 환경에서 distance-3·distance-5 patch를 여러 QEC cycle 운용하고 logical error per cycle을 비교해, 큰 patch가 작은 patch보다 실제로 낮아질 때만 below-threshold scaling을 확인함
-- lattice-surgery logical CNOT: compiler·control 팀이 두 logical patch의 boundary를 merge·split하며 joint parity를 반복 측정하고, decoder latency·correlated fault·logical gate error를 검증해 physical CNOT 집합이 아닌 fault-tolerant logical CNOT을 제공함
+- 동일한 물리 잡음에서 거리 3과 5 패치를 여러 QEC 주기 운용해 큰 패치의 논리 오류율이 실제로 더 낮고 복호기가 주기 안에 동작하는지 검증한다.
 
 ## Ⅶ. 결론
 
-- 물리 오류율·해독 지연으로 surface code 거리 선택
+- 2차원 큐비트에서 내결함 논리 연산을 구현하기 위해 물리 오류율·임계값·코드 거리·상관 오류·복호 지연을 검토하여, 논리 오류 억제 이득이 확인된 Surface Code를 적용해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

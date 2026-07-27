@@ -114,17 +114,15 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. **코드 거리 실험**: 거리 3·5·7의 주기당 논리 오류율 비교
-2. **내결함 자원 산정**: 목표 실패율로 코드 거리·해독 처리량 계산
+1. 코드 거리별 **주기당 논리 오류율 비교**
 
 ### 쉽게 이해하기 (학습용)
 
-- Google Quantum AI의 surface-code experiment는 physical qubit lattice를 distance 3·5·7로 키우며 repeated parity check와 decoder를 적용해 below-threshold에서 code size 증가에 따른 logical error suppression을 보였지만 useful algorithm까지의 logical gate·error·resource 격차는 별도로 남음
-- fault-tolerant architecture 팀은 chemistry phase-estimation의 target failure probability에서 logical T-state 수와 cycle을 역산해 code distance·logical qubit·magic-state factory·decoder throughput을 산정하고 correlated burst·leakage를 포함한 sensitivity analysis로 hardware roadmap을 정함
+- 동일한 잡음에서 거리 3·5·7 코드를 반복 측정·복호해 코드가 커질수록 주기당 논리 오류율이 실제로 감소하는지와 해독 지연을 함께 확인한다.
 
 ## Ⅶ. 결론
 
-- 물리 오류율·자원 예산으로 코드 거리와 QEC 선택
+- 물리 큐비트 오류가 유용한 연산을 무너뜨리는 것을 막기 위해 임계값·논리 오류율·코드 거리·상관 오류·해독 처리량·자원 예산을 검토하여, 목표 실패율에 맞는 QEC를 선택해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 
