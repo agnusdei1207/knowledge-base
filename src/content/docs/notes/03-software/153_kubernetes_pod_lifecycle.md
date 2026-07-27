@@ -140,7 +140,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 시작 보호는 **Startup**, 복구는 **Liveness**, 트래픽은 **Readiness**
+- Pod의 오재시작과 장애 트래픽 유입을 방지하기 위해 **기동시간·자체 복구 가능성·요청 처리 준비 상태**를 검토하고, Startup·Liveness·Readiness Probe를 목적별로 설정한다
 
 ### 쉽게 이해하기 (학습용)
 
