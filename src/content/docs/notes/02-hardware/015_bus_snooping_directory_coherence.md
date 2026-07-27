@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "버스 스누핑·디렉터리 기반 일관성 (Bus Snooping Directory Coherence)"
-date: "2026-07-25T18:15:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-hardware"
 weight: 15
@@ -40,8 +40,8 @@ extra:
 - **버스 포화(Bus Saturation)**: 방송량이 공유 버스의 전송 한계에 닿아 코어를 더 붙여도 대기만 늘어나는 상태
 - **디렉터리 조회 지연(Directory Lookup Latency)**: 명단에서 소유자·공유자를 찾는 데 드는 추가 시간이며 지정 전달 방식이 치르는 값이다
 - **소켓(Socket)**: 프로세서 패키지가 보드에 꽂히는 물리 단위이며, 여러 소켓이면 캐시와 메모리가 물리적으로 떨어져 놓인다
-- **불균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 어느 메모리를 읽느냐에 따라 접근 지연이 달라지는 구조이며 다중 소켓 서버의 기본 형태다
-- **시스템온칩(System on Chip, SoC)**: 프로세서·메모리 제어기·주변 장치를 한 칩에 담은 시스템이며 코어 수가 적어 공유 버스가 아직 버티는 대표 사례다
+- **불균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: ‘누마’로 읽고 영문 머리글자를 단어처럼 읽는 약어이며, 메모리 위치에 따라 접근 지연이 달라지는 다중 소켓 구조다
+- **시스템온칩(System on Chip, SoC)**: ‘에스오씨’로 읽고 영문 핵심 글자를 딴 약어이며, 프로세서·메모리 제어기·주변 장치를 한 칩에 통합한 시스템이다
 
 ## Ⅰ. 개요
 
@@ -93,7 +93,7 @@ flowchart TB
 sequenceDiagram
     participant R as 요청 캐시
     participant C as 일관성 순서점
-    participant T as 대상 캐시
+    participant T as 대상 캐시 집합
     R->>C: 쓰기 권한 요청
     alt 버스 스누핑
         C->>T: 전체 방송

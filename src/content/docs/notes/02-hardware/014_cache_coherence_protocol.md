@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "캐시 일관성 프로토콜 — MESI·MOESI (Cache Coherence Protocol)"
-date: "2026-07-25T18:00:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-hardware"
 weight: 14
@@ -98,7 +98,9 @@ sequenceDiagram
     N->>B: 무효화 요청
     B-->>N: 무효화 완료
     N-->>A: 쓰기 권한 부여
-    A->>M: 더티 라인 반영
+    opt 축출·메모리 반영 전이
+        A->>M: 더티 라인 반영
+    end
 ```
 
 | 절차 | 설명 |
