@@ -125,7 +125,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 소수 고정 피어는 **NVLink**, 다수 GPU는 **NVSwitch** 선택
+- GPU 통신을 위해 피어 수·대역폭을 검토하여 **NVLink** 활용
 
 ### 쉽게 이해하기 (학습용)
 
