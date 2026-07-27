@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
-date: "2026-07-25T12:00:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -34,8 +34,9 @@ extra:
 - **계층 기호(L2·L3, 엘투·엘쓰리)**: Layer의 L과 계층 번호를 결합한 표기이며, L2는 이더넷 전달, L3는 IP 라우팅 계층을 뜻함
 
 ## Ⅰ. 개요
-- 정의: 이더넷 프레임을 UDP/IP로 감싼 오버레이다
-- 배경: VLAN 식별자와 L2 장애 범위 한계를 넘는다
+
+- **정의/개념**: 이더넷 프레임을 **UDP/IP로 캡슐화한 L2 오버레이**
+- **배경/필요성**: VLAN은 **12비트 식별자·L2 장애 범위 확장 한계**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -43,10 +44,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- 언더레이 MTU 부족은 단편화·패킷 손실을 만든다
-- EVPN 위치 배포는 BUM 복제와 탐색 지연을 줄인다
-- 24비트 VNI는 대규모 테넌트 충돌을 막는다
-- UDP 캡슐화는 ECMP를 활용해 경로 병목을 줄인다
+- **24비트 VNI**로 대규모 테넌트 논리망을 분리한다.
+- **VTEP의 UDP/IP 캡슐화**로 L3 언더레이·ECMP를 활용한다.
+- **EVPN 위치 배포**는 BUM을 줄이나 캡슐화 MTU가 필요하다.
 
 ### 쉽게 이해하기 (학습용)
 
@@ -76,10 +76,10 @@ flowchart LR
 
 | 설계 요소 | 설명 |
 |:---|:---|
-| VTEP | VNI별 프레임 캡슐화·역캡슐화 |
-| IP 언더레이 | VTEP 간 IP 도달성과 ECMP 제공 |
-| EVPN 제어 평면 | MAC·IP와 VTEP 위치 정보 배포 |
-| VXLAN 게이트웨이 | 서로 다른 VNI 사이 패킷 라우팅 |
+| VTEP | **VNI별 캡슐화·역캡슐화** |
+| IP 언더레이 | **VTEP 도달성·ECMP 제공** |
+| EVPN 제어 평면 | **MAC·IP·VTEP 위치 배포** |
+| VXLAN 게이트웨이 | **VNI 간 패킷 라우팅** |
 
 > 요약: VTEP가 캡슐화하고 EVPN이 위치를 관리한다
 
@@ -96,21 +96,21 @@ sequenceDiagram
     participant E as EVPN 제어 평면
     participant V2 as 수신 VTEP
     participant D as 수신 호스트
-    V2->>E: MAC·IP 위치 광고
+    V2->>E: EVPN MAC·IP 경로 광고
+    E-->>V1: 원격 MAC·VTEP 경로 배포
     S->>V1: 이더넷 프레임 전달
-    V1->>E: 목적 VTEP 조회
-    E->>V1: 위치 정보 반환
-    V1->>V2: VXLAN 캡슐화 전송
+    V1->>V1: VNI·목적 MAC 조회
+    V1->>V2: UDP/IP VXLAN 캡슐화
     V2->>D: 역캡슐화 전달
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| MAC·IP 위치 광고 | 수신 VTEP가 종단 위치를 EVPN에 광고 |
+| EVPN MAC·IP 경로 광고 | 수신 VTEP가 종단 위치를 광고 |
+| 원격 MAC·VTEP 경로 배포 | EVPN이 송신 VTEP에 경로 전달 |
 | 이더넷 프레임 전달 | 송신 호스트가 원래 프레임 전송 |
-| 목적 VTEP 조회 | 목적 MAC·IP의 원격 VTEP 확인 |
-| 위치 정보 반환 | EVPN 경로에서 터널 목적지 획득 |
-| VXLAN 캡슐화 전송 | VNI·UDP·IP 헤더를 붙여 전달 |
+| VNI·목적 MAC 조회 | 설치된 경로로 원격 VTEP 확인 |
+| UDP/IP VXLAN 캡슐화 | VNI·UDP·IP 헤더를 붙여 전달 |
 | 역캡슐화 전달 | 수신 VTEP가 헤더를 벗겨 호스트 전달 |
 
 > 요약: VTEP 위치를 찾아 캡슐화해 언더레이로 보낸다
@@ -121,11 +121,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 판단 기준 | VXLAN | VLAN |
+| 네트워크 세그먼트 | VXLAN | VLAN |
 |:---|:---|:---|
-| 핵심 특징 | 24비트 VNI·L3 터널 | 12비트 VID·L2 구간 |
 | 적용 기준 | 대규모 테넌트·다중 경로 | 소규모 단일 L2 영역 |
-| 주요 위험 | MTU·BUM·제어 평면 복잡성 | 식별자·장애 영역 확장 한계 |
+| 핵심 특징 | 24비트 VNI·L3 터널 | 12비트 VID·L2 구간 |
+| 한계 | MTU·BUM·제어 평면 복잡성 | 식별자·장애 범위 확장 한계 |
 
 > 요약: 소규모는 VLAN, 대규모 오버레이는 VXLAN이다
 
@@ -135,8 +135,8 @@ sequenceDiagram
 
 ## Ⅵ. 실무 사례
 
-1. VXLAN 헤더만큼 언더레이 MTU를 확대한다
-2. EVPN 경로 정책으로 테넌트 VNI를 격리한다
+1. VXLAN 헤더만큼 **언더레이 MTU 확대**
+2. EVPN 경로 정책으로 **테넌트 VNI 격리**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -145,7 +145,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 세그먼트 규모·MTU·BUM 비용으로 VXLAN을 택한다
+- 소규모 L2는 **VLAN**, 대규모 오버레이는 **VXLAN**
 
 ### 쉽게 이해하기 (학습용)
 

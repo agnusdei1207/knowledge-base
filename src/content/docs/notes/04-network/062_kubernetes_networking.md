@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI·Ingress (Kubernetes Networking)"
-date: "2026-07-25T12:06:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -40,8 +40,8 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의: 파드 연결·분산·외부 진입을 추상화한다
-- 배경: 변하는 파드에도 고정 서비스 경로를 제공한다
+- **정의/개념**: CNI·Service·Ingress로 **파드 연결·분산·외부 진입 추상화**
+- **배경/필요성**: 파드 IP 변동은 **고정 접근점·정책 유지 곤란**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -49,10 +49,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- CNI는 파드 경로를 구성해 노드 간 통신을 만든다
-- Service는 파드 교체에도 고정 접근점을 유지한다
-- 프록시·eBPF는 준비된 파드로 부하를 분산한다
-- CNI가 정책을 미지원하면 차단 선언이 무효가 된다
+- **CNI**가 파드 인터페이스·IP·노드 간 경로를 구성한다.
+- **Service·EndpointSlice**가 준비된 파드로 VIP 트래픽을 분산한다.
+- **Ingress·NetworkPolicy**는 외부 경로·허용 통신을 선언한다.
 
 ### 쉽게 이해하기 (학습용)
 
@@ -67,11 +66,13 @@ flowchart LR
         ING[인그레스 컨트롤러]
         SVC[Service]
         EP[EndpointSlice]
+        NP[NetworkPolicy]
         DP[프록시·eBPF 데이터 경로]
         POD[파드·CNI]
         ING -->|호스트·경로 규칙| SVC
         SVC -->|VIP·포트| DP
         EP -->|준비된 파드 IP| DP
+        NP -->|허용 수신·송신| DP
         DP -->|선택된 종단| POD
     end
     CLIENT -->|HTTP·HTTPS| ING
@@ -79,11 +80,12 @@ flowchart LR
 
 | 설계 요소 | 설명 |
 |:---|:---|
-| 인그레스 컨트롤러 | 외부 호스트·경로·TLS 규칙 실행 |
-| Service | VIP로 파드 집합의 고정 접근점 제공 |
-| EndpointSlice | 준비된 파드 IP·포트 목록 관리 |
-| 프록시·eBPF 데이터 경로 | VIP 트래픽을 선택한 종단으로 변환 |
-| 파드·CNI | 파드 인터페이스·IP·경로 구성 |
+| 인그레스 컨트롤러 | **호스트·경로·TLS 규칙 실행** |
+| Service | **VIP 기반 고정 접근점 제공** |
+| EndpointSlice | **준비 파드 IP·포트 관리** |
+| NetworkPolicy | **허용 수신·송신 대상 선언** |
+| 프록시·eBPF 데이터 경로 | **분산·정책 규칙 실행** |
+| 파드·CNI | **인터페이스·IP·경로 구성** |
 
 > 요약: 외부 규칙과 준비 종단을 데이터 경로로 연결한다
 
@@ -95,29 +97,30 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
-    participant C as 외부 클라이언트
+    participant A as API 서버
     participant I as 인그레스 컨트롤러
-    participant S as Service
     participant D as 프록시·eBPF
-    participant E as EndpointSlice
+    participant C as 외부 클라이언트
     participant P as 파드
-    C->>I: 외부 요청 전달
-    I->>S: 서비스 경로 선택
-    S->>D: VIP 전달
-    D->>E: 준비 종단 조회
-    E->>D: 파드 IP 반환
-    D->>P: 선택 파드 전달
+    A-->>I: Ingress·Service 규칙 통지
+    I->>I: 프록시 경로 구성
+    A-->>D: EndpointSlice·정책 통지
+    D->>D: 종단·정책 규칙 설치
+    C->>I: HTTP·HTTPS 요청
+    I->>D: Service 백엔드 전달
+    D->>P: 준비된 파드 선택·전달
     P->>C: 응답 반환
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| 외부 요청 전달 | 호스트·경로·TLS 규칙과 일치 확인 |
-| 서비스 경로 선택 | Ingress 백엔드 Service 결정 |
-| VIP 전달 | 서비스 가상 IP·포트로 요청 전달 |
-| 준비 종단 조회 | EndpointSlice에서 정상 파드 조회 |
-| 파드 IP 반환 | 선택 가능한 파드 주소 제공 |
-| 선택 파드 전달 | 데이터 경로가 목적 IP로 변환·전송 |
+| Ingress·Service 규칙 통지 | API 서버가 외부 경로 객체 전달 |
+| 프록시 경로 구성 | 컨트롤러가 실제 전달 규칙 생성 |
+| EndpointSlice·정책 통지 | 준비 종단·허용 통신 전달 |
+| 종단·정책 규칙 설치 | 데이터 경로에 분산·차단 반영 |
+| HTTP·HTTPS 요청 | 외부 호스트·경로·TLS 요청 |
+| Service 백엔드 전달 | Ingress가 대상 Service 선택 |
+| 준비된 파드 선택·전달 | 정상 종단으로 변환·전송 |
 | 응답 반환 | 역변환 경로로 클라이언트에 응답 |
 
 > 요약: 외부 요청을 준비된 파드 종단까지 전달한다
@@ -128,11 +131,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 판단 기준 | Ingress | Gateway API |
+| 외부 트래픽 API | Ingress | Gateway API |
 |:---|:---|:---|
-| 핵심 특징 | HTTP·HTTPS 경로 객체 | 역할 분리형 다중 프로토콜 API |
 | 적용 기준 | 단순 웹 서비스 외부 노출 | 다중 팀·고급 경로 정책 |
-| 주요 위험 | 구현별 확장 기능 종속 | 객체·권한 설계 복잡성 |
+| 핵심 특징 | HTTP·HTTPS 경로 객체 | 역할 분리·다중 프로토콜 |
+| 한계 | 구현별 확장 기능 종속 | 객체·권한 설계 복잡성 |
 
 > 요약: 단순 웹은 Ingress, 역할 분리는 Gateway API다
 
@@ -142,8 +145,8 @@ sequenceDiagram
 
 ## Ⅵ. 실무 사례
 
-1. Ingress부터 EndpointSlice까지 장애를 추적한다
-2. Gateway API로 멀티팀 경로 권한을 분리한다
+1. 장애는 **Ingress부터 EndpointSlice까지 추적**
+2. 멀티팀은 **Gateway API로 경로 권한 분리**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -152,7 +155,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 종단 준비·정책 집행으로 서비스 경로를 검증한다
+- 단순 웹은 **Ingress**, 역할·권한 분리는 **Gateway API**
 
 ### 쉽게 이해하기 (학습용)
 
