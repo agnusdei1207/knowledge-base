@@ -94,7 +94,7 @@ sequenceDiagram
     S->>S: 전송 한도 계산
     S->>N: 한도 내 전송
     N->>R: 데이터 전달
-    R-->>S: ACK·rwnd 갱신
+    R-->>S: ACK·rwnd 전달
     alt 정상 ACK
         S->>S: cwnd 증가
     else 손실·ECN
@@ -108,7 +108,7 @@ sequenceDiagram
 | 전송 한도 계산 | rwnd·cwnd 중 작은 값 선택 |
 | 한도 내 전송 | 상한 안에서 여러 데이터 전송 |
 | 데이터 전달 | 네트워크 경로가 수신 측에 전달 |
-| ACK·rwnd 갱신 | 수신 범위·새 버퍼 여유를 알림 |
+| ACK·rwnd 전달 | 수신 범위·새 버퍼 여유를 알림 |
 | cwnd 증가 | 정상 ACK에 따라 전송 한도 확대 |
 | cwnd 감소 | 손실·ECN에 따라 전송 한도 축소 |
 
