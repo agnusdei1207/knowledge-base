@@ -153,7 +153,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 단순 웹은 **Ingress**, 역할·권한 분리는 **Gateway API**
+- 동적 파드 환경의 서비스 연결 장애를 줄이기 위해 Service·EndpointSlice·CNI·정책·외부 라우팅 상태를 검토하여, 단순 웹은 Ingress, 역할 분리는 Gateway API를 활용해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 
