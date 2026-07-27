@@ -133,7 +133,6 @@ sequenceDiagram
 ## Ⅵ. 실무 사례
 
 1. Deployment는 **ReplicaSet 컨트롤러**로 Pod 수 유지
-2. 스케줄러는 **자원 요청·노드 제약**으로 실행 노드 선택
 
 ### 쉽게 이해하기 (학습용)
 

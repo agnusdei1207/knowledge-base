@@ -119,11 +119,9 @@ sequenceDiagram
 ## Ⅵ. 실무 사례
 
 1. 내부 API는 ClusterIP로 준비된 Pod만 연결
-2. 웹 서비스는 Ingress에서 호스트별 TLS·경로 분기
 
 ### 쉽게 이해하기 (학습용)
 - 내부 API는 바뀌는 Pod 대신 고정 Service 주소를 사용한다.
-- 외부 웹 요청은 도메인과 경로에 따라 알맞은 Service로 보낸다.
 
 ## Ⅶ. 결론
 

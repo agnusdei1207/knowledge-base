@@ -133,7 +133,6 @@ sequenceDiagram
 ## Ⅵ. 실무 사례
 
 1. 느린 Java 기동은 **Startup Probe**로 조기 재시작 방지
-2. DB 연결 장애는 **Readiness Probe**로 트래픽 대상 제외
 
 ### 쉽게 이해하기 (학습용)
 
