@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-07-25T17:41:00+09:00"
+date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **NVLink**: NVIDIA GPU·CPU 사이 전용 고대역폭 링크
-- **NVSwitch**: NVLink 엔드포인트를 다대다로 잇는 스위치
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: CPU와 범용 장치를 잇는 계층형 연결망
-- **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: GPU 집단 통신 경로·연산 실행
+- **NVLink**: ‘엔브이링크’로 읽는 NVIDIA의 링크 제품명이며, GPU·CPU 사이 전용 고대역폭 연결
+- **NVSwitch**: ‘엔브이스위치’로 읽는 NVIDIA의 스위치 제품명이며, NVLink 엔드포인트를 다대다로 연결
+- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: ‘피시아이 익스프레스’로 읽는 표준 약칭이며, CPU와 범용 장치를 잇는 계층형 연결망
+- **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: ‘엔씨씨엘’로 읽고 영문 머리글자를 딴 약어이며, GPU 집단 통신 경로·연산 실행
 - **피어 메모리 접근(Peer Memory Access)**: 한 GPU가 다른 GPU 메모리에 직접 접근
 - **집단 통신(Collective Communication)**: 여러 GPU의 데이터 교환·집계
 - **전체 축소(All-Reduce)**: 각 GPU 값을 집계해 모든 GPU에 배포
@@ -40,8 +40,8 @@ extra:
 
 ## Ⅰ. 개요
 
-- **정의/개념**: NVIDIA 프로세서 간 전용 고대역폭 인터커넥트
-- **배경/필요성**: 모델 병렬 통신량 증가로 GPU 전용 링크 필요
+- **정의/개념**: NVIDIA 프로세서 간 **전용 고대역폭 인터커넥트**
+- **기존 한계**: PCIe 공유 경로는 **GPU 간 집단 통신 대역폭**에 한계
 
 ### 쉽게 이해하기 (학습용)
 
@@ -49,8 +49,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- 링크 묶음은 GPU 쌍의 양방향 대역폭을 늘린다.
-- 직접 연결·NVSwitch 홉·통신 패턴이 지연을 좌우한다.
+- **다중 링크 결합**으로 GPU 쌍의 대역폭 확장
+- **NVSwitch 패브릭**으로 다수 GPU의 다대다 연결
+- **토폴로지·통신 패턴**이 실제 집단 통신 성능 결정
 
 ### 쉽게 이해하기 (학습용)
 
@@ -104,11 +105,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 판단 기준 | 직접 NVLink | NVSwitch | PCIe |
+| GPU 연결 방식 | 직접 NVLink | NVSwitch | PCIe |
 |:---|:---|:---|:---|
-| 핵심 특징 | GPU 간 점대점 링크 | 다대다 스위치 패브릭 | 범용 계층형 패브릭 |
-| 적용 기준 | 소수 GPU의 빈번한 피어 통신 | 다수 GPU의 집단 통신 | 범용 장치·호스트 연결 |
-| 주요 위험 | 링크 수·토폴로지·세대 호환 | 시스템 비용·전력·구성 범위 | 공유 대역폭·스위치 홉 |
+| 적용 기준 | 소수 GPU의 **빈번한 피어 통신** | 다수 GPU의 **집단 통신** | 범용 장치·**호스트 연결** |
+| 핵심 특징 | GPU 간 **점대점 링크** | 다대다 **스위치 패브릭** | 범용 **계층형 패브릭** |
+| 한계 | 링크 수·토폴로지·**세대 호환** | 시스템 비용·**전력·구성 범위** | 공유 대역폭·**스위치 홉** |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -116,7 +117,7 @@ sequenceDiagram
 
 ## Ⅵ. 실무 사례
 
-1. DGX 학습: NCCL All-Reduce를 NVLink에 배치
+1. DGX 학습은 **NCCL All-Reduce**를 NVLink에 배치
 
 ### 쉽게 이해하기 (학습용)
 
@@ -124,7 +125,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 고정 소수 피어는 NVLink, 다수는 NVSwitch
+- 소수 고정 피어는 **NVLink**, 다수 GPU는 **NVSwitch** 선택
 
 ### 쉽게 이해하기 (학습용)
 
