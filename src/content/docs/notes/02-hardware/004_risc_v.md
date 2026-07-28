@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **RISC-V(Reduced Instruction Set Computer Five)**: 공개된 기본 명령어 집합에 필요한 표준 확장을 조합해 프로세서를 설계할 수 있는 개방형 ISA다
+- **RISC-V**: 기본 명령어 집합과 확장을 조합하는 개방형 ISA
 - **명령어 집합 구조(Instruction Set Architecture, ISA)**: 소프트웨어가 사용할 명령어·레지스터·데이터 형식과 실행 동작을 정의한 하드웨어 인터페이스
 - **마이크로아키텍처(Microarchitecture)**: 같은 ISA 계약을 실제 회로로 어떻게 구현할지에 대한 내부 설계이며, 파이프라인 단수나 캐시 구성처럼 업체마다 다르게 만드는 부분이다
 - **기본 ISA(Base ISA)**: 프로파일과 XLEN에 따라 구현이 채택하는 최소 정수 명령 집합
@@ -83,15 +83,14 @@ flowchart TB
 ```mermaid
 sequenceDiagram
     participant D as 코어 설계자
-    participant P as 프로파일 정의기
     participant E as ISA 확장 집합
     participant C as 코어 구현
     participant T as 적합성 시험기
     participant S as 툴체인·소프트웨어
-    D->>P: ① 목표 프로파일 선택
-    P->>E: ② ISA·확장 조합 확정
-    E->>C: ③ 마이크로아키텍처 구현
-    C->>T: ④ ISA 적합성 검증
+    D->>E: ① 목표 프로파일 선택
+    E->>C: ② ISA·확장 조합 확정
+    C->>T: ③ 마이크로아키텍처 구현
+    T-->>C: ④ ISA 적합성 검증
     alt 규격 불일치
         T-->>C: 구현 수정 요청
     else 적합성 통과

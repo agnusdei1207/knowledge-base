@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **컴퓨터 아키텍처(Computer Architecture)**: CPU·메모리·입출력장치의 구성과 명령어·데이터의 저장·전송 방식을 정의한 시스템 구조
-- **중앙처리장치(Central Processing Unit, CPU)**: 메모리에서 명령어와 데이터를 가져와 해독하고 연산을 수행하는 핵심 제어·연산 장치
-- **폰 노이만 구조(Von Neumann Architecture)**: 명령어와 데이터를 구분 없이 하나의 메모리와 버스로 처리하는 통합 경로 컴퓨터 아키텍처
-- **하버드 구조(Harvard Architecture)**: 명령어 전용 메모리·버스와 데이터 전용 메모리·버스를 물리적으로 분리해 동시 접근을 가능하게 한 구조
-- **수정 하버드 구조(Modified Harvard Architecture)**: 주기억장치는 하나로 통합하되 CPU 내부의 L1 캐시를 명령어 캐시와 데이터 캐시로 분리한 현대 CPU 구조
-- **폰 노이만 병목(Von Neumann Bottleneck)**: 명령어 인출과 데이터 읽기·쓰기가 단일 버스를 공유하여 CPU 연산 속도보다 메모리 전송 속도가 늦어 성능이 제약되는 현상
+- **컴퓨터 아키텍처(Computer Architecture)**: CPU·메모리·입출력장치의 구성과 동작 구조
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 해독하고 데이터를 연산하는 장치
+- **폰 노이만 구조(Von Neumann Architecture)**: 명령어·데이터가 메모리와 버스를 공유하는 구조
+- **하버드 구조(Harvard Architecture)**: 명령어·데이터 메모리와 버스를 분리한 구조
+- **수정 하버드 구조(Modified Harvard Architecture)**: 주기억은 통합하고 L1 명령·데이터 캐시는 분리한 구조
+- **폰 노이만 병목(Von Neumann Bottleneck)**: 단일 버스 공유로 메모리 전송이 성능을 제약하는 현상
 - **주소 공간(Address Space)**: CPU 또는 메모리 제어기가 개별 데이터나 명령어를 식별하고 접근할 수 있는 고유 메모리 위치의 전체 범위
 - **1단계 캐시(Level 1 Cache, L1 Cache)**: CPU 코어에 가장 가깝게 위치하여 명령어와 데이터의 접근 지연을 최소화하는 최고속 소용량 캐시
 - **디지털 신호 처리기(Digital Signal Processor, DSP)**: 음성·영상 신호의 반복 연산을 빠르게 수행하도록 명령·데이터 경로를 분리한 전용 프로세서
@@ -79,29 +79,26 @@ flowchart TB
 
 ```mermaid
 sequenceDiagram
-    participant C as CPU 접근 제어부
-    participant P as 경로 제어기
-    participant K as 경로 구성 정보
+    participant C as CPU
+    participant P as 경로 구성·제어기
     participant I as 명령어 메모리·버스
     participant D as 데이터 메모리·버스
     participant M as 통합 메모리·버스
-    participant E as CPU 실행부
     C->>P: ① 접근 요청 생성
-    P->>K: ② 경로 구성 판정
-    K-->>P: 통합·분리 구성
+    P-->>C: ② 경로 구성 판정
     alt 폰 노이만 통합 경로
         P->>M: ③ 명령어·데이터 전송
-        M-->>E: 명령어·데이터
-        C->>E: ④ 실행 입력 반영
+        M-->>C: 명령어·데이터
+        P-->>C: ④ 실행 입력 반영
     else 하버드 분리 경로
         par 명령어 인출
             P->>I: ③ 명령어·데이터 전송
-            I-->>E: 명령어
+            I-->>C: 명령어
         and 데이터 접근
             P->>D: ③ 명령어·데이터 전송
-            D-->>E: 데이터
+            D-->>C: 데이터
         end
-        C->>E: ④ 실행 입력 반영
+        P-->>C: ④ 실행 입력 반영
     end
 ```
 
@@ -134,7 +131,7 @@ sequenceDiagram
 > 요약: 하버드의 **공간 고정**을 주기억 통합으로 해소한 수정 하버드
 
 ### 쉽게 이해하기 (학습용)
-- 폰 노이만 구조는 명령어와 데이터가 한 길을 다퉈 대역폭이 제한되고, 하버드 구조는 길을 나눠 동시 접근을 얻는 대신 한쪽 메모리의 빈 공간을 다른 쪽에 쓰기 어렵기 때문에, 수정 하버드는 큰 주기억장치는 합치고 코어 앞 캐시만 나눠 두 조건을 절충한다.
+- 폰 노이만은 한 경로를 공유하고 하버드는 두 경로를 분리하며, 수정 하버드는 주기억을 합치고 L1 캐시만 나눠 절충한다.
 
 ## Ⅴ. 실무 고려사항 및 대책
 

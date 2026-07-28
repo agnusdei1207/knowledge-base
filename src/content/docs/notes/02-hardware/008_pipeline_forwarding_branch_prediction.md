@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **포워딩·분기 예측(Forwarding and Branch Prediction)**: 포워딩은 연산 결과를 후속 명령에 직접 전달하고, 분기 예측은 분기 결과를 미리 추정하여 데이터·제어 해저드의 대기 시간을 줄이는 기법이다
-- **명령어 파이프라인(Instruction Pipeline)**: 여러 명령의 처리 단계를 겹쳐 실행해 처리량을 높이는 구조이며, 이 두 기법이 줄이려는 대기가 바로 여기서 생긴다
+- **포워딩·분기 예측(Forwarding and Branch Prediction)**: 값 우회와 경로 예측으로 데이터·제어 대기를 줄이는 기법
+- **명령어 파이프라인(Instruction Pipeline)**: 여러 명령의 처리 단계를 겹쳐 실행하는 구조
 - **포워딩(Forwarding)**: 앞 명령의 결과를 레지스터 기록 전에 뒤 명령의 실행 입력으로 전달해 대기를 줄이는 기법
 - **분기 예측(Branch Prediction)**: 분기 결과가 확정되기 전에 방향과 갈 주소를 미리 찍어 명령 인출을 멈추지 않게 하는 기법
 - **쓰기 후 읽기(Read After Write, RAW)**: 앞 명령어의 결과를 뒤 명령어가 피연산자로 읽어야 하는 실제 데이터 의존성
 - **적재-사용 의존(Load-Use Dependency)**: 일반적인 5단계 파이프라인에서 적재값 생성 전 후속 명령이 이를 요구해 포워딩 후에도 정체가 남는 의존성
 - **원천·목적 레지스터(Source/Destination Register)**: 명령이 읽을 값이 담긴 레지스터가 원천, 결과를 적을 레지스터가 목적이며 두 번호가 겹치는지로 의존을 판정한다
-- **분기 방향·분기 대상(Branch Direction/Target)**: 분기를 실제로 뛰는지 여부와 뛴다면 갈 명령 주소이며, 예측기가 찍은 값과 실행부가 확정한 값을 이 둘로 맞대어 본다
-- **분기 이력(Branch History)**: 같은 분기가 지난번에 어느 쪽으로 갔는지를 적어 둔 기록이며 다음 예측의 근거가 된다
+- **분기 방향·분기 대상(Branch Direction/Target)**: 분기 여부와 이동할 명령 주소
+- **분기 이력(Branch History)**: 과거 분기 결과를 저장한 예측 근거
 - **오예측(Misprediction)**: 예측한 방향·대상이 실제와 달라 이미 인출해 둔 명령이 전부 헛일이 되는 상황
 - **플러시(Flush)**: 오예측 경로에서 인출한 명령을 무효화하고 올바른 주소부터 다시 채우는 동작
 - **우회 선택기(Bypass Multiplexer)**: 레지스터에서 읽은 값과 앞 단계에서 막 나온 결과 중 어느 쪽을 실행부에 넣을지 고르는 회로
@@ -79,29 +79,26 @@ flowchart LR
 ```mermaid
 sequenceDiagram
     participant C as 파이프라인 제어기
-    participant H as 해저드 판정기
-    participant F as 포워딩 장치
-    participant M as 우회 선택기
+    participant D as 포워딩·우회 장치
     participant E as 실행부
     participant B as 분기 예측기
-    participant I as 인출 제어기
-    participant R as 복구 로직
-    C->>H: ① 해저드 문맥 수집
-    alt RAW 데이터 의존
-        H->>F: ② 완화 경로 선택
-        F->>M: ③ 파이프라인 입력 공급
-        M->>E: 우회 피연산자
+    participant I as 인출·복구 제어기
+    alt RAW 데이터 해저드
+        C->>D: ① 해저드 문맥 수집
+        D-->>C: ② 완화 경로 선택
+        C->>E: ③ 파이프라인 입력 공급
         opt 적재값 미준비
-            H-->>C: 1주기 정체
+            D-->>C: 1주기 정체
         end
-    else 분기 제어 의존
-        H->>B: ② 완화 경로 선택
-        B->>I: ③ 파이프라인 입력 공급
-        E->>R: ④ 실제 분기 결과 비교
+    else 분기 제어 해저드
+        C->>B: ① 해저드 문맥 수집
+        B-->>C: ② 완화 경로 선택
+        C->>I: ③ 파이프라인 입력 공급
+        E->>B: ④ 실제 분기 결과 비교
         alt 방향·대상 오예측
-            R->>I: ⑤ 오예측 복구
+            B->>I: ⑤ 오예측 복구
         end
-        R->>B: ⑥ 예측 상태 갱신
+        B-->>C: ⑥ 예측 상태 갱신
     end
 ```
 
