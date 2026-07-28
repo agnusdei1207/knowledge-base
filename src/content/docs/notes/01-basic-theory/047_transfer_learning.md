@@ -75,20 +75,6 @@ flowchart LR
 
 ## Ⅳ. 원리 및 절차 흐름도
 
-```mermaid
-sequenceDiagram
-    participant T as 학습 파이프라인
-    participant B as 사전 학습 백본
-    participant H as 태스크 헤드
-    T->>T: 전이 적합성 판단
-    T->>B: 동결 범위 설정
-    T->>H: 태스크 헤드 구성·학습
-    T->>T: 일반화 성능 검증
-    opt 성능 개선 필요
-        T->>B: 점진 동결 해제·미세 조정
-    end
-```
-
 | 절차 | 설명 |
 |:---|:---|
 | 전이 적합성 판단 | **도메인 유사성**·타깃 **라벨 데이터** 규모 평가 |
