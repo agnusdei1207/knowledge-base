@@ -92,18 +92,7 @@ flowchart TB
     DE --> R["수신자"]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    S[정보원] -->|① 중복 제거| SE[소스 부호기]
-    SE -->|② 정정 비트 추가| CE[채널 부호기]
-    CE -->|③ 잡음 채널 전송| CH[잡음 채널]
-    CH -->|④ 코드워드 복원| DE[복호기]
-    DE --> R[수신자]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

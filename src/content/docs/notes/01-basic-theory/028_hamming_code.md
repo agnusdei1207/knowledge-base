@@ -90,19 +90,7 @@ flowchart TB
     DEC --> OUT["복구 데이터"]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    E[해밍 부호기] -->|① 패리티 삽입| M[전송·저장 매체]
-    M -->|② 코드워드 수신| D[해밍 복호기]
-    D -->|③ 신드롬 계산| S{오류 위치}
-    S -->|0| O[정상 데이터]
-    S -->|비트 위치| C[④ 오류 비트 반전]
-    C --> O
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

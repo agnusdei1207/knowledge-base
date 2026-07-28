@@ -95,19 +95,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    M[학습 모델] -->|① 훈련·검증 오차 측정| E[오차 측정기]
-    E -->|② 적합 상태 진단| D[적합 진단기]
-    D -->|③ 복잡도 조정| C[복잡도 조정기]
-    C --> R{검증 오차 개선}
-    R -->|아니요| M
-    R -->|예| O[적정 적합 모델]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

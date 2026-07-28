@@ -94,18 +94,7 @@ flowchart TB
     CI --> R2["신뢰구간"]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    D[표본 데이터] -->|① 검정 통계량 산출| T[통계량·표준오차]
-    N[귀무분포] -->|② 유의확률 계산| J[기각 판정기]
-    T --> J
-    J -->|③ 유의수준 비교| R[기각·기각하지 않음]
-    T -->|④ 신뢰구간 산출| C[효과 범위]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

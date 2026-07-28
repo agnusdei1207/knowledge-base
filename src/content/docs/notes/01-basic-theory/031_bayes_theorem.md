@@ -87,18 +87,7 @@ flowchart TB
     O["증거원"] -->|관측값| L
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    E[관측 증거] -->|① 가설별 우도| L[우도 모형]
-    P[사전 확률] -->|② 사전·우도 결합| U[갱신 연산기]
-    L --> U
-    U -->|③ 주변 확률 정규화| N[사후 확률]
-    N -->|④ 확률 상태 저장| P
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
