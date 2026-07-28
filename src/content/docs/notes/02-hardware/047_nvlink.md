@@ -43,7 +43,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: NVIDIA 프로세서 간 **전용 고대역폭 인터커넥트**
-- 기존 한계: PCIe 공유 경로는 **GPU 간 집단 통신 대역폭**에 한계
+- 기존 한계: PCIe 계층 경로는 **GPU 간 집단 통신 대역폭·홉**에 한계
 
 ### 쉽게 이해하기 (학습용)
 
@@ -59,14 +59,39 @@ extra:
 
 - 여러 NVLink 레인을 결합해 대역폭을 확장하고 원격 GPU 메모리에 직접 접근한다
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 아키텍처
 
-### 도표안 A. NVLink·NVSwitch 정적 구조
+**도표안 A — 구조도**
 
 ```mermaid
 flowchart TB
     G[GPU·NCCL 엔드포인트 집합] <--> L[NVLink 물리 링크]
     L <--> S[NVSwitch 패브릭]
+```
+
+**도표안 B — sequenceDiagram**
+
+```mermaid
+sequenceDiagram
+    participant A as 학습 런타임
+    participant N as NCCL
+    participant G1 as GPU i
+    participant S as NVLink·NVSwitch
+    participant G2 as GPU i+1·축소 커널
+
+    A->>N: ① 기울기 텐서 All-Reduce 요청
+    N->>G1: ② 토폴로지 기반 링·조각 일정 전달
+    loop Reduce-Scatter GPU 수−1단계
+        G1->>S: ③ 담당 텐서 조각 전송
+        S->>G2: ④ 다음 GPU 메모리에 조각 전달
+        G2->>S: ⑤ 로컬 값과 축소한 조각 전달
+    end
+    loop All-Gather GPU 수−1단계
+        G2->>S: ⑥ 담당 축소 조각 전송
+        S-->>G1: ⑦ 모든 GPU에 결과 조각 배포
+    end
+    G1-->>N: ⑧ 통신 이벤트 완료
+    N-->>A: ⑨ 전체 축소 완료 통지
 ```
 
 | 설계 요소 | 입력·상태 | 역할 |
@@ -77,49 +102,21 @@ flowchart TB
 
 > 요약: GPU 엔드포인트를 NVLink·NVSwitch로 연결
 
-### 도표안 B. NCCL 링 All-Reduce 시퀀스
+**동작 원리**
 
-```mermaid
-sequenceDiagram
-    participant A as 학습 런타임
-    participant N as NCCL
-    participant G1 as GPU i
-    participant S as NVLink·NVSwitch
-    participant K as GPU i+1 축소 커널
-    participant G2 as GPU i+1
-
-    A->>N: ① 기울기 텐서 All-Reduce 요청
-    N->>G1: ② 토폴로지 기반 링·조각 일정 전달
-    loop Reduce-Scatter N-1단계
-        G1->>S: ③ 담당 텐서 조각 전송
-        S->>G2: ④ 다음 GPU 메모리에 조각 전달
-        G2->>K: ⑤ 수신 조각·로컬 조각 축소
-        K-->>G2: ⑥ 축소된 담당 조각 반환
-    end
-    loop All-Gather N-1단계
-        G2->>S: ⑦ 담당 축소 조각 전송
-        S-->>G1: ⑧ 모든 GPU에 결과 조각 배포
-    end
-    G1-->>N: ⑨ 통신 이벤트 완료
-    N-->>A: ⑩ 전체 축소 완료 통지
-```
-
-### 동작 원리
-
-1. **① 기울기 텐서 All-Reduce 요청**: 데이터 병렬 학습 런타임은 각 GPU가 계산한 기울기를 합산해 모두에게 배포하도록 NCCL에 요청한다.
-2. **② 토폴로지 기반 링·조각 일정 전달**: NCCL은 GPU 간 NVLink 수, NVSwitch 경로와 혼잡을 탐색해 링 순서와 텐서 조각 크기를 정한다.
-3. **③ 담당 텐서 조각 전송**: 각 단계에서 GPU i는 현재 담당 조각을 NVLink 전송 큐에 넣는다.
-4. **④ 다음 GPU 메모리에 조각 전달**: NVLink 또는 NVSwitch는 링의 다음 GPU 메모리로 조각을 직접 운반한다.
-5. **⑤ 수신 조각·로컬 조각 축소**: 다음 GPU의 통신 커널은 받은 값과 같은 위치의 로컬 기울기를 더한다.
-6. **⑥ 축소된 담당 조각 반환**: N-1번 순환하면 각 GPU는 전체 GPU 값이 합산된 서로 다른 조각 하나를 소유한다.
-7. **⑦ 담당 축소 조각 전송**: 전체-수집 단계에서 각 GPU는 자신이 가진 최종 조각을 다시 링의 다음 GPU로 보낸다.
-8. **⑧ 모든 GPU에 결과 조각 배포**: N-1번 전송 후 모든 GPU가 모든 최종 조각을 받아 동일한 축소 텐서를 갖는다.
-9. **⑨ 통신 이벤트 완료**: GPU는 마지막 데이터 의존성이 충족됐음을 NCCL 이벤트에 기록해 버퍼를 재사용할 수 있게 한다.
-10. **⑩ 전체 축소 완료 통지**: NCCL은 모든 경로의 완료를 확인하고 학습 런타임에 다음 최적화 단계를 진행할 수 있음을 알린다.
+- **① 기울기 텐서 All-Reduce 요청**: GPU별 기울기의 합산·배포 요청
+- **② 토폴로지 기반 링·조각 일정 전달**: 링크·경로·혼잡으로 순서와 크기 결정
+- **③ 담당 텐서 조각 전송**: 현재 조각을 NVLink 전송 큐에 등록
+- **④ 다음 GPU 메모리에 조각 전달**: 링의 다음 GPU로 직접 전송
+- **⑤ 로컬 값과 축소한 조각 전달**: 수신값을 로컬 기울기와 합산해 순환
+- **⑥ 담당 축소 조각 전송**: 완성 조각을 전체-수집 단계로 전달
+- **⑦ 모든 GPU에 결과 조각 배포**: 각 GPU가 동일한 축소 텐서 확보
+- **⑧ 통신 이벤트 완료**: 데이터 의존성 해제와 버퍼 재사용 허용
+- **⑨ 전체 축소 완료 통지**: 모든 경로 완료 후 다음 학습 단계 허용
 
 ### 쉽게 이해하기 (학습용)
 
-- GPU 메모리·NVLink·NVSwitch를 연결하고 NCCL이 집단 통신의 경로와 연산 순서를 선택한다
+- NCCL은 토폴로지에 맞춰 조각을 순환 합산한 뒤 완성 조각을 모든 GPU에 배포한다
 
 ## Ⅳ. 종류 및 비교
 
@@ -133,7 +130,7 @@ sequenceDiagram
 
 - NVLink는 직통 다리, NVSwitch는 전용 교차로, PCIe는 범용 도로에 가깝다
 
-## Ⅴ. 실무 고려사항 및 대응 방안
+## Ⅴ. 실무 고려사항 및 대책
 
 | 운영 위험 | 대응 | 기대 효과 |
 |:---|:---|:---|
@@ -146,8 +143,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 런타임이 통신 경로를 선택해 데이터 조각을 보내고 도착을 동기화한다.
-- 여러 작업자의 값을 전용 통로에서 합쳐 모두에게 다시 나눠 준다
+- GPU 배치를 NVLink·NVSwitch 경로에 맞추고 통신 조각을 조정해 All-Reduce의 느린 구간을 줄인다
 
 ## Ⅵ. 결론
 
