@@ -60,7 +60,25 @@ extra:
 
 ## Ⅲ. 아키텍처
 
-**도표안 A — 동작 흐름도**
+**도표안 A — 구조도**
+
+```mermaid
+flowchart TB
+    subgraph G[탐욕 알고리즘]
+        direction TB
+        C[(후보 집합)]
+        S[선택 함수]
+        F[타당성 함수]
+        P[(부분 해)]
+        H[해 판정 함수]
+        C -. 후보 제공 .-> S
+        S -. 선택 기준 .-> F
+        F -. 제약 통과분 .-> P
+        P -. 완성 상태 .-> H
+    end
+```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -82,7 +100,7 @@ flowchart TB
     H -->|완성 해| O[계산 결과]
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

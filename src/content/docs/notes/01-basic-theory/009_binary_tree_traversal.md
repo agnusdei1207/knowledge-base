@@ -55,6 +55,20 @@ extra:
 - 전체 노드 **1회 방문**으로 시간복잡도 $O(n)$
 - **재귀 깊이**가 트리 높이에 비례해 스택 사용량 증가
 
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
+xychart-beta
+    title "트리 형태별 순회 스택 깊이"
+    x-axis "노드 수 n" [1, 2, 4, 8, 16]
+    y-axis "상대 스택 깊이" 0 --> 16
+    line [0, 1, 2, 3, 4]
+    line [1, 2, 4, 8, 16]
+```
+
+<span style="color:#3080dd">■</span> **균형 트리** &nbsp;&nbsp; <span style="color:#d95926">■</span> **편향 트리**
+
+> 편향 트리는 노드 수만큼 복귀 문맥이 누적
+
 ### 쉽게 이해하기 (학습용)
 
 - 모든 노드를 한 번씩 방문하며, 편향 트리에서는 높이만큼 순회 스택이 커진다.

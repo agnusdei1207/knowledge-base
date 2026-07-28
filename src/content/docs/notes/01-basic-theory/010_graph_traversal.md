@@ -52,6 +52,20 @@ extra:
 - **방문 상태** 관리 기반의 중복·**순환 탐색** 방지
 - **인접 리스트** 기준 시간복잡도 $O(V+E)$
 
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
+xychart-beta
+    title "이진 분기 깊이별 프런티어 크기 개념도"
+    x-axis "탐색 깊이" [1, 2, 3, 4, 5]
+    y-axis "상대 보관 노드 수" 0 --> 32
+    line [2, 4, 8, 16, 32]
+    line [1, 2, 3, 4, 5]
+```
+
+<span style="color:#3080dd">■</span> **BFS 큐** &nbsp;&nbsp; <span style="color:#d95926">■</span> **DFS 스택**
+
+> 넓은 그래프는 BFS 프런티어가 빠르게 증가
+
 ### 쉽게 이해하기 (학습용)
 
 - 프런티어의 추출 순서가 탐색 모양을 정하고 방문 표시는 중복 처리를 막는다.
