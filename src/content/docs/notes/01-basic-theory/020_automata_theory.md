@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "오토마타 이론 — DFA·NFA (Automata Theory)"
-date: "2026-07-28T19:39:00+09:00"
+date: "2026-07-28T17:08:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -91,6 +91,23 @@ flowchart TB
     C -->|아니요| I
     C -->|예| F{③ 수용 상태 판정}
     F --> R[수용·거부]
+```
+
+**도표안 C — sequenceDiagram**
+
+```mermaid
+sequenceDiagram
+    participant I as 입력 문자열
+    participant D as 전이 함수
+    participant Q as 현재 상태·상태 집합
+    participant F as 수용 상태 판정기
+    loop 입력 기호가 남아 있는 동안
+        I->>D: ① 입력 기호 소비
+        Q->>D: 현재 상태·상태 집합
+        D-->>Q: ② 다음 상태 전이
+    end
+    Q->>F: ③ 최종 상태 전달
+    F-->>I: 수용·거부
 ```
 
 | 구성요소 | 책임 |
