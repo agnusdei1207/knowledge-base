@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "스택·큐·덱 (Stack Queue Deque)"
-date: "2026-07-28T21:35:04+09:00"
+date: "2026-07-28T22:10:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 7
@@ -31,6 +31,8 @@ extra:
 - **상수 시간(Constant Time)**: 입력 크기와 무관한 연산 시간
 - **연결 리스트(Linked List)**: 노드를 링크로 이어 순서를 만든 자료구조
 - **연산 인터페이스(Operation Interface)**: 호출자가 자료구조의 내부 저장 방식을 몰라도 허용된 삽입·삭제 연산을 요청하게 하는 접점
+- **선두 차단(Head-of-Line Blocking)**: 큐의 첫 작업이 지연되어 뒤의 처리 가능한 작업까지 대기하는 현상
+- **원자적 인덱스 갱신(Atomic Index Update)**: 동시 실행 중에도 끝점 인덱스 변경이 나뉘지 않은 한 연산처럼 완료되게 하는 방식
 
 ## Ⅰ. 개요
 

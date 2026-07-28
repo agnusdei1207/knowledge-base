@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "그래프 탐색 — BFS·DFS (Graph Traversal)"
-date: "2026-07-28T21:36:10+09:00"
+date: "2026-07-28T22:20:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -55,14 +55,17 @@ extra:
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
-    title "이진 분기 깊이별 프런티어 크기 개념도"
-    x-axis "탐색 깊이" [1, 2, 3, 4, 5]
-    y-axis "상대 보관 노드 수" 0 --> 32
+    title "이진 분기 깊이별 프런티어 크기"
+    x-axis "탐색 깊이 d" [1, 2, 3, 4, 5]
+    y-axis "보관 노드 수" 0 --> 32
     line [2, 4, 8, 16, 32]
     line [1, 2, 3, 4, 5]
 ```
 
-<span style="color:#3080dd">■</span> **BFS 큐** &nbsp;&nbsp; <span style="color:#d95926">■</span> **DFS 스택**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **BFS $2^d$**: 이진 분기에서 깊이별 큐 후보 수 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **DFS $d$**: 한 경로를 추적할 때의 스택 깊이 |
 
 > 넓은 그래프는 BFS 프런티어가 빠르게 증가
 

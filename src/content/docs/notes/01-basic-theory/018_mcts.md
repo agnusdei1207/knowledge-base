@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-07-28T22:30:00+09:00"
+date: "2026-07-28T22:42:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -26,6 +26,7 @@ extra:
 - **보상(Reward)**: 행동 결과의 목표 달성도를 나타내는 값
 - **롤아웃(Rollout)**: 현재 상태부터 종료까지 모의 진행해 행동 보상을 추정하는 절차
 - **트리 적용 신뢰 상한(Upper Confidence Bound applied to Trees, UCT)**: 평균 보상과 방문 횟수를 결합하여 활용 가치와 탐색 필요성을 함께 반영하는 MCTS 노드 선택식
+- **UCT 선택 점수**: 평균 보상 $\bar X_i$와 탐색 보너스 $c\sqrt{\ln N/n_i}$를 더한 값이며, $N$은 부모 방문 수, $n_i$는 자식 방문 수
 - **탐색·활용(Exploration·Exploitation)**: 저방문 후보와 고평균 보상 후보의 선택 균형
 - **역전파(Backpropagation)**: 롤아웃 보상을 선택 경로의 통계에 반영해 다음 선택을 개선하는 절차
 - **미니맥스(Minimax)**: 상대의 최선 대응을 가정한 결정 규칙
@@ -63,14 +64,17 @@ extra:
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
-    title "자식 방문 수별 UCT 항의 영향 개념도"
+    title "자식 방문 수별 UCT 구성항 개념도"
     x-axis "자식 방문 수" [1, 2, 4, 8, 16]
-    y-axis "상대 선택 점수" 0 --> 100
+    y-axis "정규화 선택 점수(개념도)" 0 --> 100
     line [100, 71, 50, 35, 25]
     line [60, 60, 60, 60, 60]
 ```
 
-<span style="color:#3080dd">■</span> **탐색 보너스** &nbsp;&nbsp; <span style="color:#d95926">■</span> **평균 보상**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **탐색 보너스 $\propto 1/\sqrt{n_i}$**: 부모 방문 수·탐색 상수 고정 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **평균 보상 $\bar X_i$**: 비교를 위한 고정 예시값 |
 
 > 저방문 행동은 탐색 보너스로 선택 기회를 확보
 

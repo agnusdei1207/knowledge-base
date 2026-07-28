@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-07-28T21:30:30+09:00"
+date: "2026-07-28T22:32:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -60,12 +60,15 @@ extra:
 xychart-beta
     title "분할 균형별 최대 호출 깊이"
     x-axis "입력 크기 n" [1, 2, 4, 8, 16]
-    y-axis "상대 호출 깊이" 0 --> 16
+    y-axis "호출 깊이 증가율" 0 --> 16
     line [0, 1, 2, 3, 4]
     line [1, 2, 4, 8, 16]
 ```
 
-<span style="color:#3080dd">■</span> **균형 분할** &nbsp;&nbsp; <span style="color:#d95926">■</span> **불균형 분할**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **균형 분할 $\log_2 n$**: 입력을 절반씩 줄이는 호출 깊이 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **최악 불균형 $n$**: 한 원소씩 줄이는 호출 깊이 |
 
 > 불균형 분할은 호출 깊이와 스택 사용량 증가
 
@@ -93,7 +96,7 @@ flowchart TB
 sequenceDiagram
     participant Q as 호출자
     participant R as 재귀 제어기
-    participant P as 부분 문제 집합
+    participant P as 부분 문제 실행기
     participant S as 호출 스택
     participant C as 결합기
     Q->>R: 전체 문제
@@ -101,9 +104,11 @@ sequenceDiagram
         R->>P: ① 부분 문제 분할
         P-->>R: 독립 부분 문제
         R->>S: ② 복귀 문맥 저장
-        S-->>R: 복귀 문맥·부분 해
+        R->>P: ③ 부분 문제 해결
+        P-->>R: 부분 해
+        S-->>R: 복귀 문맥
     end
-    R->>C: ③ 부분 해 결합
+    R->>C: ④ 부분 해 결합
     C-->>R: 결합 결과
     R-->>Q: 전체 해
 ```
@@ -111,7 +116,7 @@ sequenceDiagram
 | 구성요소 | 책임 |
 |:---|:---|
 | 재귀 제어기 | **종료 조건** 판정·재귀 흐름 통제 |
-| 부분 문제 집합 | 상호 비의존 **부분 문제** 보관 |
+| 부분 문제 실행기 | 상호 비의존 **부분 문제** 분할·해결 |
 | 호출 스택 | **복귀 위치·부분 해** 보관 |
 | 결합기 | 부분 해로 **전체 해** 구성 |
 
@@ -119,7 +124,8 @@ sequenceDiagram
 
 - **① 부분 문제 분할**: 입력을 독립된 작은 문제로 분해
 - **② 복귀 문맥 저장**: 호출 위치와 결합 정보 보관
-- **③ 부분 해 결합**: 종료 조건에서 반환된 해를 전체로 구성
+- **③ 부분 문제 해결**: 종료 조건까지 같은 해법 반복 적용
+- **④ 부분 해 결합**: 반환된 해를 전체 결과로 구성
 
 ### 쉽게 이해하기 (학습용)
 

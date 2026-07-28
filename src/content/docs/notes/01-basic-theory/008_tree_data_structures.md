@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트리 구조 — B-Tree·AVL·Red-Black (Tree Data Structures)"
-date: "2026-07-28T21:29:34+09:00"
+date: "2026-07-28T22:14:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -32,6 +32,8 @@ extra:
 - **AVL 트리(Adelson-Velsky and Landis Tree, AVL)**: 각 노드의 좌우 서브트리 높이 차를 1 이하로 유지하는 높이 균형 이진 탐색 트리
 - **레드블랙 트리(Red-Black Tree)**: 노드 색상 규칙으로 높이를 제한한 이진 트리
 - **다진 분기(Multiway Branching)**: 한 노드가 셋 이상의 자식을 가질 수 있어 트리 높이와 저장소 페이지 접근 횟수를 줄이는 구조
+- **AVL 높이 상한**: 키가 $n$개일 때 높이가 약 $1.44\log_2(n+2)-0.328$ 이하인 강한 균형 한계
+- **레드블랙 높이 상한**: 키가 $n$개일 때 높이가 $2\log_2(n+1)$ 이하인 색상 균형 한계
 
 ## Ⅰ. 개요
 
@@ -51,14 +53,17 @@ extra:
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
-    title "키 증가별 이진 균형 트리 높이 상한 개념도"
+    title "키 증가별 이진 균형 트리 높이 상한"
     x-axis "키 수 n" [2, 4, 8, 16, 32]
-    y-axis "상대 최대 높이" 0 --> 10
-    line [2, 3, 4, 6, 7]
-    line [3, 4, 6, 8, 10]
+    y-axis "높이 상한" 0 --> 11
+    line [2.55, 3.39, 4.46, 5.68, 7.00]
+    line [3.17, 4.64, 6.34, 8.17, 10.09]
 ```
 
-<span style="color:#3080dd">■</span> **AVL** &nbsp;&nbsp; <span style="color:#d95926">■</span> **레드블랙**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **AVL**: $1.44\log_2(n+2)-0.328$ 근사 상한 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **레드블랙**: $2\log_2(n+1)$ 상한 |
 
 > AVL은 더 강한 균형으로 최대 탐색 경로를 단축
 

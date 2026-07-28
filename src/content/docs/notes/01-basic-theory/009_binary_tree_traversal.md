@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이진 트리 순회 — 전위·중위·후위 (Binary Tree Traversal)"
-date: "2026-07-28T21:29:48+09:00"
+date: "2026-07-28T22:17:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 9
@@ -58,14 +58,17 @@ extra:
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
-    title "트리 형태별 순회 스택 깊이"
+    title "트리 형태별 순회 스택 공간 증가율"
     x-axis "노드 수 n" [1, 2, 4, 8, 16]
-    y-axis "상대 스택 깊이" 0 --> 16
+    y-axis "성장 함수값" 0 --> 16
     line [0, 1, 2, 3, 4]
     line [1, 2, 4, 8, 16]
 ```
 
-<span style="color:#3080dd">■</span> **균형 트리** &nbsp;&nbsp; <span style="color:#d95926">■</span> **편향 트리**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **균형 트리 $\log_2 n$**: 높이에 비례한 복귀 문맥 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **편향 트리 $n$**: 노드 수에 비례한 복귀 문맥 |
 
 > 편향 트리는 노드 수만큼 복귀 문맥이 누적
 

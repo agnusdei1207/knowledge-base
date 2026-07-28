@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "오토마타 이론 — DFA·NFA (Automata Theory)"
-date: "2026-07-28T21:40:32+09:00"
+date: "2026-07-28T22:49:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -40,6 +40,7 @@ extra:
 - **정규 표현식(Regular Expression)**: 문자열 패턴을 정규 언어 규칙으로 표현하며 유한 오토마타로 변환해 입력 일치 여부를 판정할 수 있는 표기
 - **어휘 분석기(Lexical Analyzer)**: 소스 코드의 문자 흐름을 식별자·숫자·연산자 같은 토큰으로 나누며 DFA로 정규 패턴을 판정하는 컴파일러 구성요소
 - **토큰(Token)**: 어휘 분석기가 같은 문법 역할을 가진 문자 묶음에 부여하는 최소 분류 단위
+- **입력 스트림(Input Stream)**: 오토마타 실행기에 문자열의 기호를 순서대로 제공하는 입력 경계
 
 ## Ⅰ. 개요
 
@@ -66,7 +67,10 @@ xychart-beta
     line [2, 4, 8, 16, 32]
 ```
 
-<span style="color:#3080dd">■</span> **NFA 상태 수** &nbsp;&nbsp; <span style="color:#d95926">■</span> **DFA 최대 상태 수**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **NFA $n$**: 원래 상태 수 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **DFA $2^n$**: 부분집합 구성의 최대 상태 수 |
 
 > 결정화는 상태 부분집합 조합으로 최대 $2^n$개 증가
 
@@ -99,13 +103,15 @@ flowchart TB
 sequenceDiagram
     participant C as 호출자
     participant A as 오토마타 실행기
+    participant I as 입력 스트림
     participant D as 전이 함수
     participant F as 수용 상태 판정기
     C->>A: 입력 문자열
     loop 입력 기호가 남아 있는 동안
-        A->>A: ① 입력 기호 소비
-        A->>D: 현재 상태·입력 기호
-        D-->>A: ② 다음 상태 전이
+        A->>I: ① 다음 입력 기호
+        I-->>A: 입력 기호
+        A->>D: ② 상태 전이 요청
+        D-->>A: 다음 상태·상태 집합
     end
     A->>F: ③ 수용 상태 판정
     F-->>A: 수용·거부
@@ -122,8 +128,8 @@ sequenceDiagram
 
 **동작 원리**
 
-- **① 입력 기호 소비**: 문자열에서 다음 기호 하나 선택
-- **② 다음 상태 전이**: 전이 함수로 상태 또는 상태 집합 갱신
+- **① 다음 입력 기호**: 입력 스트림에서 기호 하나 소비
+- **② 상태 전이 요청**: 전이 함수로 상태 또는 상태 집합 갱신
 - **③ 수용 상태 판정**: 입력 소진 후 최종 상태의 수용 여부 결정
 
 ### 쉽게 이해하기 (학습용)

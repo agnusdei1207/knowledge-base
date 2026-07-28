@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
-date: "2026-07-28T21:39:14+09:00"
+date: "2026-07-28T22:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 19
@@ -34,6 +34,8 @@ extra:
 - **특화 솔버(Specialized Solver)**: SAT처럼 특정 문제 구조에 맞춘 탐색·전파·학습 기법으로 실제 입력의 결정 가능성을 판정하는 풀이 프로그램
 - **패키지 해석기(Package Resolver)**: 여러 소프트웨어 패키지의 버전·의존 조건을 논리식으로 바꿔 함께 설치 가능한 조합을 찾는 도구
 - **근사해(Approximate Solution)**: 최적해와 같음을 보장하지 않지만 다항 시간에 구하며 증명된 품질 경계로 최적해와의 차이를 제한하는 해
+- **결정론적 튜링 머신(Deterministic Turing Machine)**: 각 상태와 기호에서 다음 동작이 하나로 정해지는 계산 모형
+- **정지 문제(Halting Problem)**: 임의 프로그램이 입력에서 멈추는지 판정하는 일반 알고리즘이 존재하지 않는 비판정 문제
 
 ## Ⅰ. 개요
 
