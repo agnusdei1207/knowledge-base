@@ -55,12 +55,7 @@ extra:
 - **통계적 유의성**이 실무 의미를 보장하지 않는 한계
 
 ```mermaid
----
-config:
-  themeVariables:
-    xyChart:
-      plotColorPalette: "#2563EB, #DC2626"
----
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
     title "기각 임계값에 따른 오류 상충 개념도"
     x-axis "기각 임계값 엄격성" [1, 2, 3, 4, 5]
@@ -94,7 +89,24 @@ flowchart TB
     CI --> R2["신뢰구간"]
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 B — 동작 흐름도**
+
+```mermaid
+flowchart TB
+    D[표본 데이터]
+    T[통계량 산출기]
+    N[귀무분포]
+    J[기각 판정기]
+    C[구간 추정기]
+    D -->|① 검정 통계량 산출| T
+    T -->|관측 통계량| N
+    N -->|② 유의확률 계산| J
+    J -->|③ 유의수준 비교| D
+    T -->|④ 신뢰구간 산출| C
+    C -->|효과 범위| D
+```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
