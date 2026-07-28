@@ -29,8 +29,8 @@ extra:
 - **동일 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 비용이 같은 여러 IP 경로로 흐름을 분산하는 방식
 - **방송·미상 유니캐스트·멀티캐스트(Broadcast, Unknown Unicast, Multicast, BUM)**: 목적 VTEP를 하나로 정할 수 없어 복제 전달이 필요한 트래픽
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크에서 분할 없이 보낼 수 있는 최대 패킷 크기
-- **핵심 약어 읽기와 표기**: VXLAN은 브이엑스랜으로 읽고 확장성을 뜻하는 eXtensible의 X를 강조한 머리글자 표기이며, VNI는 브이엔아이, VTEP는 브이텝, EVPN은 이브이피엔으로 읽고 각각 논리망 식별·터널 종단·위치 정보 배포 역할을 나타냄
-- **전송 약어 읽기와 표기**: UDP·IP·BGP·MAC·ECMP·BUM·MTU는 유디피·아이피·비지피·맥·이씨엠피·범·엠티유로 읽고, 영문 머리글자로 캡슐화 전송·경로 배포·주소·다중 경로·복제 트래픽·패킷 크기 역할을 구분함
+- **VXLAN·VNI·VTEP·EVPN**: VXLAN은 L2 프레임을 L3망에 캡슐화하고, VNI는 논리망을 식별하며, VTEP는 터널을 종단하고, EVPN은 단말 위치와 경로를 배포함
+- **UDP·IP·BGP·MAC·ECMP·BUM·MTU**: VXLAN의 캡슐화 전송·경로 배포·주소 식별·다중 경로·복제 트래픽·패킷 크기를 구성하는 기반 요소
 - **계층 기호(L2·L3, 엘투·엘쓰리)**: Layer의 L과 계층 번호를 결합한 표기이며, L2는 이더넷 전달, L3는 IP 라우팅 계층을 뜻함
 
 ## Ⅰ. 개요

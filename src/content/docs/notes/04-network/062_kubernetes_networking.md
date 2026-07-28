@@ -35,8 +35,8 @@ extra:
 - **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청과 응답을 교환하는 응용 계층 프로토콜
 - **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: HTTP를 TLS로 보호해 웹 요청과 응답을 암호화하는 방식
 - **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터를 암호화하는 보안 프로토콜
-- **핵심 약어 읽기와 표기**: CNI·VIP·API는 씨엔아이·브이아이피·에이피아이로 읽고 영문 머리글자를 딴 표기이며, 파드 접속 구성·고정 가상 주소·객체 호출 계약 역할을 함
-- **웹 보안 약어 읽기와 표기**: HTTP·HTTPS·TLS는 에이치티티피·에이치티티피에스·티엘에스로 읽고, HTTPS의 S는 Secure를 뜻하며 외부 웹 요청과 암호화 연결 역할을 나타냄
+- **CNI·VIP·API**: CNI는 Pod 네트워크를 구성하고, VIP는 안정적인 서비스 주소를 제공하며, API는 쿠버네티스 객체의 조회·변경 규약을 제공함
+- **HTTP·HTTPS·TLS**: HTTP는 웹 요청을 전달하고, HTTPS는 TLS로 서버 인증과 전송 암호화를 적용한 웹 통신을 제공함
 
 ## Ⅰ. 개요
 
