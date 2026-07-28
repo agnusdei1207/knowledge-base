@@ -21,7 +21,7 @@ extra:
 ## 미리 알고가기
 
 - **모델 추출 공격(Model Extraction Attack)**: 대상 모델의 입출력을 수집해 기능이나 판단 경계를 모방하는 모델을 만드는 공격
-- **API(Application Programming Interface, 에이피아이)**: 영문 머리글자를 딴 프로그램 간 모델 호출·응답 규격
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 외부 프로그램이 모델을 호출하고 응답을 받는 규격과 접점이다.
 - **대상 모델(Target Model)**: 공격자가 기능을 복제하려는 원래 모델
 - **대리 모델(Surrogate Model)**: 대상 모델과 비슷한 판단을 하도록 응답 데이터로 학습한 모방 모델
 - **결정 경계(Decision Boundary)**: 입력을 서로 다른 예측 결과로 나누는 모델의 판단 기준

@@ -20,18 +20,17 @@ extra:
 
 ## 미리 알고가기
 
-- **보안 운영 센터(Security Operations Center, SOC)**: [읽기: 에스오씨; 표기 이유: 영문 머리글자와 구분 기호] 사람·절차·기술로 탐지·대응 운영
-- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: [읽기: 에스아이이엠; 표기 이유: 영문 머리글자와 구분 기호] 로그 상관 분석
-- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: [읽기: 에스오에이알; 표기 이유: 영문 머리글자와 구분 기호] 조사·조치 자동화
-- **종단 탐지·대응(Endpoint Detection and Response, EDR)**: [읽기: 이디알; 표기 이유: 영문 머리글자와 구분 기호] 단말 행위 탐지·격리
-- **네트워크 탐지·대응(Network Detection and Response, NDR)**: [읽기: 엔디알; 표기 이유: 영문 머리글자와 구분 기호] 네트워크 행위 탐지
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: [읽기: 씨티아이; 표기 이유: 영문 머리글자와 구분 기호] 탐지·헌팅 맥락 제공
-- **에스컬레이션**: [읽기: 에스컬레이션; 표기 이유: 한국어 통용어 표기] 분석가 권한을 넘는 사건을 상위 책임자·전문팀으로 신속히 넘기는 절차
+- **보안 운영 센터(Security Operations Center, SOC)**: 사람·절차·기술을 통합하여 보안 이벤트를 상시 탐지·분석·대응하는 조직
+- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 여러 보안 로그를 정규화·상관분석하여 경보와 조사 근거를 생성하는 시스템
+- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연계하여 사건 조사·승인·조치 절차를 자동화하는 플랫폼
+- **종단 탐지·대응(Endpoint Detection and Response, EDR)**: 단말의 행위를 수집·분석하여 위협 프로세스를 탐지·격리하는 기술
+- **네트워크 탐지·대응(Network Detection and Response, NDR)**: 네트워크 트래픽과 행위를 분석하여 위협 통신을 탐지·대응하는 기술
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 탐지 규칙과 위협 헌팅에 공격자·전술·지표의 맥락을 제공하는 정보
+- **에스컬레이션(Escalation)**: 분석가의 권한이나 역량을 넘는 보안 사건을 상위 책임자나 전문 대응팀으로 신속히 이관하는 절차이다.
 
 
 
 
-- **흐름 기호(↓·→·-->)**: [읽기: 아래로·다음으로·연결; 표기 이유: 절차 방향 기호] 순서와 연결 방향을 나타냄
 ## Ⅰ. 개요
 
 - 정의: 사람·절차·기술을 통합한 **보안 운영 조직**

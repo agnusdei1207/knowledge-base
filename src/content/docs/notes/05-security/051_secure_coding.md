@@ -22,9 +22,9 @@ extra:
 
 - **시큐어 코딩(Secure Coding)**: 구현 단계에서 입력·권한·암호·오류·자원 처리 결함을 예방하는 코딩 규칙·검증 활동임
 - **위협 모델(Threat Model)**: 보호 자산·신뢰 경계·공격 경로·통제를 식별해 구현 우선순위를 정하는 모델임
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 소프트웨어 기능의 호출 방식을 정의함
-- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: ‘에스에이에스티’로 읽고 네 영문 핵심어의 머리글자를 딴 표기이며 실행 없이 코드의 취약 패턴·데이터 흐름을 분석함
-- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: ‘디에이에스티’로 읽고 네 영문 핵심어의 머리글자를 딴 표기이며 실행 중인 응용에 입력을 보내 취약 동작을 확인함
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어가 기능과 데이터를 정해진 규격으로 호출하는 접점이다.
+- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 프로그램을 실행하지 않고 소스 코드의 취약 패턴과 데이터 흐름을 분석하는 시험이다.
+- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션에 입력을 보내 실제 취약 동작을 확인하는 시험이다.
 - **배포 게이트(Deployment Gate)**: 필수 보안 검사·승인 기준에 미달한 변경의 배포를 차단하는 관문임
 - **보상 통제(Compensating Control)**: 원래 통제를 적용할 수 없을 때 동등한 위험 감소를 제공하는 대체 통제임
 - **안전 기본값(Secure Default)**: 별도 설정이 없어도 최소 권한·거부·보호 상태를 적용하는 기본 동작임

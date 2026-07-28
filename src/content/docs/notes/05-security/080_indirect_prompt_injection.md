@@ -22,11 +22,11 @@ extra:
 
 - **간접 프롬프트 인젝션(Indirect Prompt Injection)**: 문서·웹·메일 등 외부 콘텐츠의 지시가 모델 문맥에 들어와 행동을 교란하는 공격
 - **직접 프롬프트 인젝션(Direct Prompt Injection)**: 사용자가 공격 지시를 모델 입력에 직접 넣는 공격
-- **RAG(Retrieval-Augmented Generation, 래그)**: 머리글자를 한 단어처럼 읽으며, 검색한 외부 문서를 모델 입력 문맥에 결합하는 생성 방식
+- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색한 외부 문서를 모델의 입력 문맥에 결합하여 생성 결과를 보강하는 방식이다.
 - **검색기(Retriever)**: 사용자 질의와 관련된 외부 문서 조각을 찾아 모델에 전달하는 기능
 - **청크(Chunk)**: 검색과 처리를 위해 문서를 작게 나눈 단위
-- **HTML(HyperText Markup Language, 에이치티엠엘)**: 영문 머리글자를 딴 웹 문서 구조·내용 표현 언어
-- **ACL(Access Control List, 에이씨엘)**: 영문 머리글자를 딴 사용자·그룹별 자원 접근 허용·거부 목록
+- **하이퍼텍스트 마크업 언어(HyperText Markup Language, HTML)**: 웹 문서의 구조와 내용을 표현하는 마크업 언어이다.
+- **접근 제어 목록(Access Control List, ACL)**: 사용자·그룹별 자원 접근의 허용·거부 권한을 기록한 목록이다.
 - **읽기 전용 에이전트(Read-Only Agent)**: 외부 자료를 조회할 수 있지만 변경 작업은 수행하지 않는 에이전트
 - **행동 에이전트(Action Agent)**: 모델 판단에 따라 메일 전송·삭제·거래 같은 외부 작업을 수행하는 에이전트
 - **Egress Control**: 시스템에서 외부 네트워크로 나가는 통신 대상을 제한하는 통제

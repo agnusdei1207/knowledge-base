@@ -20,21 +20,20 @@ extra:
 
 ## 미리 알고가기
 
-- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: [읽기: 엠아이에스피; 표기 이유: 영문 머리글자와 구분 기호] CTI 분석·상관·공유 플랫폼
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: [읽기: 씨티아이; 표기 이유: 영문 머리글자와 구분 기호] 데이터에 맥락·신뢰도 부여
-- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: [읽기: 에스티아이엑스; 표기 이유: 영문 머리글자와 구분 기호] CTI 객체·관계 표현 표준
-- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: [읽기: 티에이엑스아이아이; 표기 이유: 영문 머리글자와 구분 기호] CTI 자동 교환 표준
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: [읽기: 에이피아이; 표기 이유: 영문 머리글자와 구분 기호] MISP 자동 연동 규약
-- **분류체계(Taxonomy)**: [읽기: 분류체계; 표기 이유: 한글명 뒤 영문 원어 병기] 취급·신뢰 태그 분류
-- **갤럭시(Galaxy)**: [읽기: 갤럭시; 표기 이유: 한글명 뒤 영문 원어 병기] 행위자·기법·산업 문맥 부여
-- **관측(Sighting)**: [읽기: 관측; 표기 이유: 한글명 뒤 영문 원어 병기] 실제 관측·오탐 기록
-- **경고목록(Warninglist)**: [읽기: 경고목록; 표기 이유: 한글명 뒤 영문 원어 병기] 정상 지표 오사용 방지
-- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: [읽기: 아이피; 표기 이유: 영문 머리글자와 구분 기호] 통신 지표 식별
+- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: 사이버 위협 정보를 수집·상관분석하고 조직 간 공유하는 플랫폼
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자·전술·신뢰도·영향 등의 맥락을 부여한 정보
+- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: 위협 객체와 객체 간 관계를 구조화하여 표현하는 표준
+- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: STIX 기반 위협 정보를 서버 간 자동 교환하는 전송 표준
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: MISP와 외부 보안 시스템이 위협 정보를 자동 조회·등록하는 연동 규격
+- **분류체계(Taxonomy)**: 위협 정보에 취급 등급과 신뢰 수준을 일관되게 부여하는 태그 체계이다.
+- **갤럭시(Galaxy)**: 위협 행위자·공격 기법·산업군 정보를 구조화하여 지표에 문맥을 부여하는 지식 집합이다.
+- **관측(Sighting)**: 공유된 위협 지표의 실제 탐지 여부와 오탐 결과를 기록하는 정보이다.
+- **경고목록(Warninglist)**: 정상 서비스 주소처럼 위협 지표로 오인하기 쉬운 값을 관리하여 오탐을 줄이는 목록이다.
+- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 위협 통신의 출발지·목적지를 식별하는 네트워크 지표
 
 
 
 
-- **흐름 기호(↓·→·-->)**: [읽기: 아래로·다음으로·연결; 표기 이유: 절차 방향 기호] 순서와 연결 방향을 나타냄
 ## Ⅰ. 개요
 
 - 정의: 사건·지표·관측의 **상관·공유 플랫폼**

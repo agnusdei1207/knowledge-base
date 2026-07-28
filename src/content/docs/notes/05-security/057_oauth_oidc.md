@@ -20,22 +20,22 @@ extra:
 
 ## 미리 알고가기
 
-- **OAuth 2.0(OAuth 2.0 Authorization Framework, OAuth 2.0)**: 약어 확장형이 아닌 공식 프로토콜명이라 “오어스 이점영”으로 읽으며, 자원 소유자의 제한된 권한을 클라이언트에 위임한다
-- **오픈아이디 연결(OpenID Connect, OIDC)**: 영문명 머리글자를 딴 공식 표기라 “오아이디시”로 읽으며, OAuth 2.0 위에서 사용자 인증 결과를 전달한다
+- **OAuth 2.0(OAuth 2.0 Authorization Framework)**: 자원 소유자의 제한된 접근 권한을 클라이언트에 위임하는 인가 프레임워크이다.
+- **오픈아이디 연결(OpenID Connect, OIDC)**: OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달하는 인증 프로토콜이다.
 - **자원 소유자(Resource Owner)**: 보호 자원에 대한 권한을 가진 사용자
 - **클라이언트(Client)**: 사용자의 위임을 받아 보호 자원에 접근하는 애플리케이션
 - **인가 서버(Authorization Server)**: 사용자를 인증하고 코드와 토큰을 발급하는 서버
 - **자원 서버(Resource Server)**: 접근 토큰을 검증하고 보호 API를 제공하는 서버
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 영문 머리글자를 딴 공식 표기라 “에이피아이”로 읽으며, 자원 서버가 권한에 따라 제공하는 기능 접점
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 자원 서버가 접근 권한에 따라 기능과 데이터를 제공하는 호출 접점이다.
 - **권한 코드(Authorization Code)**: 인가 결과를 토큰으로 교환하기 위한 짧은 수명의 일회용 값
 - **접근 토큰(Access Token)**: 보호 자원에 대한 제한 권한을 나타내는 증표
 - **갱신 토큰(Refresh Token)**: 새 접근 토큰을 받는 데 사용하는 장기 자격 증명
-- **신원 토큰(Identity Token, ID Token)**: `Identity`를 `ID`로 줄인 공식 표기라 “아이디 토큰”으로 읽으며, 인증된 사용자에 관한 주장을 클라이언트에 전달한다
-- **코드 교환 증명 키(Proof Key for Code Exchange, PKCE)**: 영문 머리글자를 딴 공식 표기라 “픽시”로 읽으며, 권한 코드와 일회성 검증값을 묶어 탈취 코드의 재사용을 방지한다
-- **일회 값(Number Used Once, Nonce)**: 한 번만 쓰는 수를 뜻하는 관례적 합성어라 “논스”로 읽으며, 인증 요청과 ID 토큰을 한 거래로 결속한다
-- **리다이렉트 통합 자원 식별자(Redirect Uniform Resource Identifier, Redirect URI)**: `Uniform Resource Identifier`를 줄인 공식 표기라 “리다이렉트 유알아이”로 읽으며, 인가 결과가 돌아갈 클라이언트 주소를 지정한다
+- **신원 토큰(Identity Token, ID Token)**: 인증된 사용자와 인증 시점에 관한 주장을 클라이언트에 전달하는 서명 토큰이다.
+- **코드 교환 증명 키(Proof Key for Code Exchange, PKCE)**: 권한 코드와 일회성 검증값을 결합하여 탈취된 코드의 재사용을 막는 보안 확장이다.
+- **일회 값(Number Used Once, Nonce)**: 인증 요청과 신원 토큰을 같은 거래에 결속하여 재전송을 막는 일회성 값이다.
+- **리다이렉트 통합 자원 식별자(Redirect Uniform Resource Identifier, Redirect URI)**: 인가 결과가 전달될 클라이언트의 반환 주소이다.
 - **범위(Scope)**: 접근 토큰이 허용하는 자원과 행위의 범위
-- **단일 페이지 애플리케이션(Single-Page Application, SPA)**: 영문 머리글자를 딴 공식 표기라 “에스피에이”로 읽으며, 한 웹 문서에서 화면을 동적으로 갱신하는 클라이언트 유형
+- **단일 페이지 애플리케이션(Single-Page Application, SPA)**: 하나의 웹 문서에서 화면을 동적으로 갱신하는 클라이언트 애플리케이션이다.
 
 ## Ⅰ. 개요
 

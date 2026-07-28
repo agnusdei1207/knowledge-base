@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **OWASP(Open Worldwide Application Security Project, 오와스프)**: 머리글자를 한 단어처럼 읽으며, 공개 애플리케이션 보안 지침과 도구를 개발하는 비영리 프로젝트
+- **OWASP(Open Worldwide Application Security Project)**: 애플리케이션 보안 지침과 시험 도구를 공개하여 안전한 개발을 지원하는 비영리 프로젝트이다.
 - **OWASP Top 10(오와스프 톱 텐)**: 가장 중요한 웹 애플리케이션 위험 범주 10개를 제시하는 인식 자료
 - **ASVS(Application Security Verification Standard, 에이에스브이에스)**: 애플리케이션 보안 요구사항과 검증 수준을 제시하는 표준
 - **WSTG(Web Security Testing Guide, 더블유에스티지)**: 웹 보안 시험 항목과 절차를 제시하는 지침

@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM, 씨템)**: 영문 머리글자를 한 단어처럼 읽으며, 실제 공격 가능한 노출을 검증·조치·재검증해 지속 감축하는 체계
-- **침해·공격 시뮬레이션(Breach and Attack Simulation, BAS, 비에이에스)**: 공격 기법을 안전하게 자동 재현해 통제와 공격 경로를 검증
-- **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV, 케이이브이)**: 실제 악용이 확인돼 조치 우선도가 높은 취약점 목록
-- **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS, 이피에스에스)**: 단기간 실제 악용 가능성을 확률로 예측하는 점수
-- **공통 취약점 점수 체계(Common Vulnerability Scoring System, CVSS, 씨브이에스에스)**: 취약점의 기술적 심각도를 공통 기준으로 평가하는 점수
+- **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM)**: 실제 공격 가능한 노출을 지속해서 식별·검증·조치·재검증하여 공격 표면을 줄이는 관리 체계이다.
+- **침해·공격 시뮬레이션(Breach and Attack Simulation, BAS)**: 공격 기법을 안전하게 자동 재현하여 보안 통제와 공격 경로의 유효성을 검증하는 기술이다.
+- **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV)**: 실제 악용이 확인되어 우선 조치가 필요한 취약점 목록이다.
+- **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS)**: 취약점이 단기간에 실제 악용될 가능성을 확률로 예측하는 점수 체계이다.
+- **공통 취약점 점수 체계(Common Vulnerability Scoring System, CVSS)**: 취약점의 기술적 심각도를 공통 기준으로 평가하는 점수 체계이다.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 응용 기능을 인터넷으로 빌려 쓰는 서비스 형태이다.
 - **공격 표면 관리(Attack Surface Management)**: 외부에 드러난 자산·서비스·설정 오류를 지속해서 발견하는 활동이다.
 - **폐루프(Closed Loop)**: 노출 발견부터 담당자 조치·재검증까지 결과가 다시 관리 상태에 반영되는 순환이다.

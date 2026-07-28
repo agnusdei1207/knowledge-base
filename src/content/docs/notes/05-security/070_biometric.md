@@ -26,9 +26,9 @@ extra:
 - **특징 추출기(Feature Extractor)**: 원시 표본을 비교 가능한 템플릿으로 변환하는 기능
 - **매처(Matcher)**: 새 템플릿과 등록 템플릿의 유사도를 계산하는 기능
 - **판정 임계값(Decision Threshold)**: 유사도 점수를 수락 또는 거부로 나누는 기준
-- **오일치율(False Match Rate, FMR)**: 영문 머리글자를 딴 공식 표기라 “에프엠알”로 읽으며, 다른 사람을 등록 사용자로 잘못 수락하는 비율
-- **오불일치율(False Non-Match Rate, FNMR)**: 영문 머리글자를 딴 공식 표기라 “에프엔엠알”로 읽으며, 등록 사용자를 본인이 아니라고 잘못 거부하는 비율
-- **제시 공격 탐지(Presentation Attack Detection, PAD)**: 영문 머리글자를 딴 공식 표기라 “패드”로 읽으며, 사진·모형·복제 지문 같은 위조 표본을 탐지한다
+- **오일치율(False Match Rate, FMR)**: 다른 사람의 생체 정보를 등록 사용자의 것으로 잘못 수락하는 비율이다.
+- **오불일치율(False Non-Match Rate, FNMR)**: 등록 사용자의 생체 정보를 본인의 것이 아니라고 잘못 거부하는 비율이다.
+- **제시 공격 탐지(Presentation Attack Detection, PAD)**: 사진·모형·복제 지문처럼 센서에 제시된 위조 생체 표본을 탐지하는 기술이다.
 - **취소 가능 템플릿(Cancelable Template)**: 유출되면 변환 방식을 바꿔 다시 등록할 수 있는 생체 템플릿
 - **로컬 비교(Local Matching)**: 생체 표본이나 템플릿을 외부 서버로 보내지 않고 단말 안에서 비교하는 방식
 - **대체 인증(Fallback Authentication)**: 생체 인식 실패·불가 때 사용하는 다른 인증 수단

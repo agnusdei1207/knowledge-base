@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **패스키(Passkey, 패스키)**: 열쇠를 뜻하는 이름처럼 서비스별 공개키 자격 증명으로 비밀번호를 대신하는 인증 수단
-- **온라인 신속 신원 확인 2(Fast IDentity Online 2, FIDO2)**: `FIDO`는 영문 머리글자를 딴 공식 표기라 “파이도 투”로 읽으며, WebAuthn과 인증자 통신 규격을 결합해 패스키 인증 기반을 이룬다
-- **웹 인증(Web Authentication, WebAuthn)**: `Web Authentication`을 줄인 공식 표기라 “웹오슨”으로 읽으며, 서비스가 공개키 자격 증명을 생성·사용하게 하는 표준
-- **신뢰 당사자(Relying Party, RP)**: 영문 머리글자를 딴 공식 표기라 “알피”로 읽으며, 패스키 서명을 검증하고 서비스를 제공하는 서버
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 영문 머리글자를 딴 공식 표기라 “에이피아이”로 읽으며, WebAuthn 기능을 브라우저와 서비스가 호출하는 접점
-- **인증자(Authenticator, 어센티케이터)**: 개인키를 보호하고 사용자 승인 후 서명하는 장치나 기능
-- **개인 식별 번호(Personal Identification Number, PIN)**: 영문 머리글자를 딴 공식 표기라 “핀”으로 읽으며, 인증자에서 개인키 사용자를 확인하는 비밀 번호
-- **신뢰 당사자 식별자(Relying Party Identifier, RP ID)**: `RP`와 `Identifier`를 줄인 공식 표기라 “알피 아이디”로 읽으며, 서명을 특정 서비스 원본에 결속한다
+- **패스키(Passkey)**: 서비스별 공개키 자격 증명으로 비밀번호를 대신하는 피싱 저항 인증 수단이다.
+- **온라인 신속 신원 확인 2(Fast IDentity Online 2, FIDO2)**: WebAuthn과 인증자 통신 규격을 결합하여 패스키 인증 기반을 제공하는 표준이다.
+- **웹 인증(Web Authentication, WebAuthn)**: 서비스가 브라우저를 통해 공개키 자격 증명을 생성·사용하도록 정의한 표준이다.
+- **신뢰 당사자(Relying Party, RP)**: 패스키 서명을 검증하고 인증 결과에 따라 서비스를 제공하는 서버이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 브라우저와 서비스가 WebAuthn 기능을 호출하는 접점이다.
+- **인증자(Authenticator)**: 개인키를 보호하고 사용자 승인 후 인증 서명을 생성하는 장치나 기능이다.
+- **개인 식별 번호(Personal Identification Number, PIN)**: 인증자에서 개인키를 사용할 주체를 확인하는 비밀 번호이다.
+- **신뢰 당사자 식별자(Relying Party Identifier, RP ID)**: 패스키 서명을 특정 서비스 도메인에 결속하는 식별자이다.
 - **사용자 검증(User Verification, 유저 베리피케이션)**: PIN이나 생체 정보로 개인키 사용자를 로컬 확인하는 절차
 - **동기화 패스키(Synced Passkey)**: 신뢰 플랫폼을 통해 여러 기기에서 사용할 수 있는 패스키
 - **기기 결합 패스키(Device-Bound Passkey)**: 개인키가 특정 인증자에서 이동하지 않는 패스키

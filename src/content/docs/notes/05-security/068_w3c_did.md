@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 세 개의 `W`를 숫자 3으로 줄인 공식 표기라 “더블유쓰리시”로 읽으며, 웹 기술의 상호운용 표준을 만드는 국제 조직
-- **분산 식별자(Decentralized Identifier, DID)**: 영문 머리글자를 딴 공식 표기라 “디아이디”로 읽으며, 중앙 등록기관 없이 검증 키와 제어 관계를 찾게 한다
-- **검증 가능 자격 증명(Verifiable Credential, VC)**: 영문 머리글자를 딴 공식 표기라 “브이시”로 읽으며, 발급자가 주체에 관한 주장을 디지털 서명한 자격 증명
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 기술의 상호운용 표준을 개발하는 국제 표준화 조직이다.
+- **분산 식별자(Decentralized Identifier, DID)**: 중앙 등록기관 없이 검증 키와 제어 관계를 확인할 수 있는 식별자이다.
+- **검증 가능 자격 증명(Verifiable Credential, VC)**: 발급자가 주체에 관한 주장을 디지털 서명한 기계 판독형 자격 증명이다.
 - **DID 주체(DID Subject)**: DID가 식별하는 사람·조직·사물·데이터
 - **제어자(Controller)**: DID 문서를 변경할 권한을 가진 주체
 - **DID 문서(DID Document)**: 제어자·검증 방법·키 용도·서비스 접점을 담은 문서

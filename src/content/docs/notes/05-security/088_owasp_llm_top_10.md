@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: ‘오와스프’로 읽고 영문 핵심어의 머리글자를 딴 표기이며 공개 응용 보안 지침을 개발함
-- **거대 언어 모델(Large Language Model, LLM)**: ‘엘엘엠’으로 읽고 세 영문 단어의 머리글자를 딴 표기이며 대규모 데이터로 언어를 생성·처리함
-- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: ‘래그’로 읽고 세 영문 핵심어의 머리글자를 딴 표기이며 검색 결과를 생성 문맥에 결합함
-- **하이퍼텍스트 전송 규약(Hypertext Transfer Protocol, HTTP)**: “에이치티티피”로 읽고 영문 머리글자로 웹 요청과 응답을 전달하는 규약을 나타냄
+- **오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 공개 애플리케이션 보안 지침과 시험 도구를 개발하는 비영리 프로젝트이다.
+- **거대 언어 모델(Large Language Model, LLM)**: 대규모 데이터에서 언어 패턴을 학습하여 입력을 처리하고 응답을 생성하는 모델이다.
+- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색 결과를 모델의 입력 문맥에 결합하여 생성 결과의 근거와 최신성을 보완하는 방식이다.
+- **하이퍼텍스트 전송 규약(Hypertext Transfer Protocol, HTTP)**: 웹에서 요청과 응답을 전달하는 응용 계층 통신 규약이다.
 - **에이전트**: 외부 도구를 호출해 실제 행동하는 구조
 - **임베딩**: 의미를 벡터로 표현해 검색에 사용
 - **OWASP LLM Top 10 2025**: LLM 응용의 주요 위험 열 가지를 2025판 번호·이름으로 분류한 지침임

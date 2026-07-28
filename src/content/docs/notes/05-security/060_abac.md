@@ -20,16 +20,16 @@ extra:
 
 ## 미리 알고가기
 
-- **속성 기반 접근 제어(Attribute-Based Access Control, ABAC)**: 영문 머리글자를 딴 공식 표기라 “에이백”으로 읽으며, 주체·객체·행위·환경 속성을 정책으로 평가하는 접근 제어 모델
-- **역할 기반 접근 제어(Role-Based Access Control, RBAC)**: 영문 머리글자를 딴 공식 표기라 “알백”으로 읽으며, 권한을 역할에 묶어 사용자에게 배정하는 비교 모델
+- **속성 기반 접근 제어(Attribute-Based Access Control, ABAC)**: 주체·객체·행위·환경 속성을 정책으로 평가하여 접근을 결정하는 제어 모델이다.
+- **역할 기반 접근 제어(Role-Based Access Control, RBAC)**: 권한을 역할에 묶어 사용자에게 배정하는 접근 제어 모델이다.
 - **속성(Attribute)**: 접근 조건을 판단하는 데 쓰는 주체·객체·환경의 특성값
 - **주체(Subject)**: 자원 접근을 요청하는 사용자·서비스·장치
 - **객체(Object)**: 접근 제어 대상이 되는 데이터나 시스템 자원
 - **환경(Environment)**: 시간·위치·기기 위험처럼 요청 당시의 외부 조건
 - **속성 권위자(Attribute Authority)**: 신뢰할 수 있는 속성값을 생성·관리하는 주체
-- **정책 정보점(Policy Information Point, PIP)**: 영문 머리글자를 딴 공식 표기라 “피아이피”로 읽으며, 정책 결정에 필요한 속성값을 제공한다
-- **정책 결정점(Policy Decision Point, PDP)**: 영문 머리글자를 딴 공식 표기라 “피디피”로 읽으며, 속성과 정책을 평가해 허용·거부를 결정한다
-- **정책 집행점(Policy Enforcement Point, PEP)**: 영문 머리글자를 딴 공식 표기라 “피이피”로 읽으며, PDP의 결정을 실제 자원 접근에 적용한다
+- **정책 정보점(Policy Information Point, PIP)**: 정책 결정에 필요한 주체·객체·환경 속성값을 제공하는 구성요소이다.
+- **정책 결정점(Policy Decision Point, PDP)**: 속성과 정책을 평가하여 접근의 허용·거부를 결정하는 구성요소이다.
+- **정책 집행점(Policy Enforcement Point, PEP)**: 정책 결정점의 결과를 실제 자원 접근에 적용하는 구성요소이다.
 - **정책 저장소(Policy Repository)**: 접근 규칙과 조합 방식을 보관하는 장소
 - **기본 거부(Default Deny)**: 명시적으로 허용되지 않은 요청을 거부하는 원칙
 - **속성 신선도(Attribute Freshness)**: 속성값이 현재 상태를 반영하는 정도

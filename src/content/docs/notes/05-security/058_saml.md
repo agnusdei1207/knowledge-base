@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **보안 주장 마크업 언어 2.0(Security Assertion Markup Language 2.0, SAML 2.0)**: 영문 머리글자를 딴 공식 표기라 “새멀 이점영”으로 읽으며, 인증 결과와 사용자 속성을 XML 주장으로 전달하는 연합 인증 표준
-- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 영문 머리글자를 딴 공식 표기라 “엑스엠엘”로 읽으며, SAML 주장과 요청을 계층형 태그로 표현한다
-- **신원 제공자(Identity Provider, IdP)**: 영문 각 단어를 줄인 공식 표기라 “아이디피”로 읽으며, 사용자를 인증하고 SAML 주장을 발급한다
-- **서비스 제공자(Service Provider, SP)**: 영문 머리글자를 딴 공식 표기라 “에스피”로 읽으며, SAML 주장을 검증하고 서비스를 제공한다
-- **통합 인증(Single Sign-On, SSO)**: 영문 머리글자를 딴 공식 표기라 “에스에스오”로 읽으며, 한 번의 인증으로 여러 연계 서비스에 접속하게 한다
+- **보안 주장 마크업 언어 2.0(Security Assertion Markup Language 2.0, SAML 2.0)**: 인증 결과와 사용자 속성을 XML 주장으로 전달하는 연합 인증 표준이다.
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: SAML의 주장과 요청을 계층형 태그로 표현하는 마크업 언어이다.
+- **신원 제공자(Identity Provider, IdP)**: 사용자를 인증하고 그 결과를 담은 SAML 주장을 발급하는 주체이다.
+- **서비스 제공자(Service Provider, SP)**: SAML 주장을 검증하고 인증된 사용자에게 서비스를 제공하는 주체이다.
+- **통합 인증(Single Sign-On, SSO)**: 한 번의 인증으로 여러 연계 서비스에 접속하게 하는 인증 방식이다.
 - **주장(Assertion, 어서션)**: 사용자·인증·속성·대상·시간 조건을 담아 SP의 로그인 판단 근거가 되는 SAML 문서 요소
-- **인증 요청(Authentication Request, AuthnRequest)**: `Authentication`을 `Authn`으로 줄인 공식 요소명이라 “오슨 리퀘스트”로 읽으며, SP가 IdP에 사용자 인증을 요구한다
+- **인증 요청(Authentication Request, AuthnRequest)**: 서비스 제공자가 신원 제공자에게 사용자 인증을 요구하는 SAML 메시지이다.
 - **메타데이터(Metadata)**: 기관 식별자·수신 주소·인증서 등 신뢰 설정을 담은 문서
 - **수신자(Recipient)**: SAML 응답을 받도록 지정된 서비스 주소
 - **재전송 공격(Replay Attack)**: 이미 사용한 정상 응답을 다시 제출해 인증을 우회하는 공격
 - **XML 서명 래핑 공격**: 서명된 요소와 실제 처리 요소의 차이를 악용하는 공격
-- **식별자(Identifier, ID)**: `Identifier`를 줄인 공식 표기라 “아이디”로 읽으며, 요청·응답의 중복 사용과 상호 결합을 판별한다
+- **식별자(Identifier, ID)**: SAML 요청과 응답을 상호 결합하고 중복 사용 여부를 판별하는 고유값이다.
 - **로컬 세션(Local Session, 로컬 세션)**: SP가 SAML 검증 후 자체적으로 발급하는 로그인 상태
 
 ## Ⅰ. 개요

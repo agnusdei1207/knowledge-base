@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 소어로 읽고 영문 머리글자를 딴 표기이며, 보안 도구를 연결해 사건 조사·승인·조치를 자동화
-- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 심으로 읽고 영문 머리글자를 딴 표기이며, 로그를 상관분석해 탐지 경보를 생성
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: '에이피아이'로 읽고 영문 머리글자로 외부 보안 시스템을 호출하는 연동 계약을 표시
+- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연결하여 사건 조사·승인·조치 절차를 자동화하는 플랫폼
+- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 여러 로그를 상관분석하여 탐지 경보와 조사 근거를 생성하는 시스템
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: SOAR가 외부 보안 시스템의 조회·차단·격리 기능을 호출하는 연동 규격
 - **플레이북(Playbook)**: 사건의 조사·판단·승인·조치 순서와 분기 조건을 정의한 절차
 - **멱등성(Idempotency)**: 같은 조치 요청이 반복돼도 결과가 한 번 실행한 상태와 같게 유지되는 성질
 - **롤백(Rollback)**: 자동 조치가 실패하거나 오조치로 판명될 때 이전 상태로 되돌리는 복구

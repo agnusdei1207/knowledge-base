@@ -20,17 +20,17 @@ extra:
 
 ## 미리 알고가기
 
-- **클라우드 접근 보안 브로커(Cloud Access Security Broker, CASB)**: 영문 머리글자를 딴 공식 표기라 “캐스비”로 읽으며, 사용자와 클라우드 서비스 사이에서 접근·데이터·위협·준수 정책을 중개한다
-- **서비스형 소프트웨어(Software as a Service, SaaS)**: 영문 주요 글자를 딴 공식 표기라 “사스”로 읽으며, CASB가 통제할 완성형 응용 소프트웨어 서비스
-- **그림자 정보기술(Shadow Information Technology, Shadow IT)**: `Information Technology`를 줄인 공식 표기라 “섀도 아이티”로 읽으며, 조직 승인과 관리 없이 사용하는 클라우드 서비스나 기술
+- **클라우드 접근 보안 브로커(Cloud Access Security Broker, CASB)**: 사용자와 클라우드 서비스 사이에서 접근·데이터·위협·준수 정책을 중개하는 보안 통제 지점이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 완성된 애플리케이션을 인터넷으로 제공하는 서비스 모델이다.
+- **그림자 정보기술(Shadow Information Technology, Shadow IT)**: 조직의 승인과 관리 없이 사용하는 클라우드 서비스나 정보기술이다.
 - **발견(Discovery)**: 로그와 트래픽에서 사용 중인 클라우드 서비스를 식별·분류하는 기능
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 영문 머리글자를 딴 공식 표기라 “에이피아이”로 읽으며, CASB가 클라우드의 저장 데이터와 관리 기능을 점검하는 호출 접점
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: CASB가 클라우드의 저장 데이터와 관리 기능을 점검하는 호출 접점이다.
 - **인라인 프록시(Inline Proxy)**: 사용자 트래픽 경로에서 요청을 실시간 검사·통제하는 중계 방식
-- **데이터 유출 방지(Data Loss Prevention, DLP)**: 영문 머리글자를 딴 공식 표기라 “디엘피”로 읽으며, 민감정보의 저장·전송·반출을 탐지하고 차단한다
-- **사용자·개체 행동 분석(User and Entity Behavior Analytics, UEBA)**: 영문 머리글자를 딴 공식 표기라 “유이비에이”로 읽으며, 사용자와 시스템의 행위 패턴을 분석해 이상을 탐지한다
+- **데이터 유출 방지(Data Loss Prevention, DLP)**: 민감정보의 저장·전송·반출을 탐지하고 정책에 따라 차단하는 통제이다.
+- **사용자·개체 행동 분석(User and Entity Behavior Analytics, UEBA)**: 사용자와 시스템의 정상 행위 기준선을 학습하고 편차를 분석하여 이상을 탐지하는 기술이다.
 - **토큰화(Tokenization)**: 민감한 값을 의미 없는 대체값으로 바꾸고 원본을 별도 보호하는 기술
-- **전송 계층 보안(Transport Layer Security, TLS)**: 영문 머리글자를 딴 공식 표기라 “티엘에스”로 읽으며, CASB가 중계하는 통신의 기밀성과 무결성을 보호한다
-- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 영문 머리글자를 딴 공식 표기라 “엠에프에이”로 읽으며, 고위험 SaaS 요청에 추가 인증 요소를 요구한다
+- **전송 계층 보안(Transport Layer Security, TLS)**: CASB가 중계하는 통신의 기밀성과 무결성을 보호하는 암호 통신 규약이다.
+- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 고위험 SaaS 요청에서 서로 다른 종류의 인증 요소를 추가로 확인하는 인증 방식이다.
 - **관리되지 않은 기기(Unmanaged Device)**: 조직의 보안 정책과 상태 점검을 받지 않는 단말
 - **역방향 프록시(Reverse Proxy)**: 서비스 앞에서 외부 요청을 받아 내부 서비스로 전달하는 중계 방식
 - **순방향 프록시(Forward Proxy)**: 사용자 앞에서 외부 서비스 요청을 대신 전달하는 중계 방식

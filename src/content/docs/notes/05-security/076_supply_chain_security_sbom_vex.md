@@ -34,7 +34,6 @@ extra:
 - **재현 가능한 빌드(Reproducible Build)**: 같은 소스와 조건에서 동일한 산출물을 다시 만들 수 있는 빌드
 - **단명 자격 증명(Ephemeral Credential)**: 한 작업이나 짧은 시간만 유효한 인증 정보
 - **승격(Promotion)**: 검증을 통과한 산출물을 다음 저장소나 배포 단계로 이동시키는 절차
-- **명세 약어 읽기와 표기**: SBOM은 에스봄으로 읽고 Software Bill of Materials의 머리글자를 딴 구성 명세이며, VEX는 벡스로 읽고 Vulnerability Exploitability eXchange에서 교환을 뜻하는 X를 강조한 영향 판정 문서
 - **보증 단계(Supply-chain Levels for Software Artifacts, SLSA·살사)**: 영문 핵심 글자를 딴 공식 프레임워크명이며, 소스·빌드 산출물의 무결성 보증 수준을 높이는 역할
 
 ## Ⅰ. 개요

@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **서비스 거부(Denial of Service, DoS, 디오에스)**: 영문 머리글자를 딴 명칭으로, 자원을 고갈시켜 서비스 가용성을 저하
+- **서비스 거부(Denial of Service, DoS)**: 과도한 요청이나 연산으로 자원을 고갈시켜 서비스 가용성을 저하하는 공격이다.
 - **거대 언어 모델(Large Language Model, LLM, 엘엘엠)**: 대규모 언어 데이터를 학습한 생성 모델
 - **그래픽 처리 장치(Graphics Processing Unit, GPU, 지피유)**: 모델 추론 연산과 메모리를 제공하는 장치
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API, 에이피아이)**: 모델·도구 호출 규칙과 경계

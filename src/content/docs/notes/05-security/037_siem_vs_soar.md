@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 심으로 읽고 영문 머리글자를 딴 표기이며, 로그 상관분석으로 경보와 조사 근거를 생성
-- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 소어로 읽고 영문 머리글자를 딴 표기이며, 사건 조사·승인·조치를 자동화
-- **종단 탐지·대응(Endpoint Detection and Response, EDR)**: '이디알'로 읽고 영문 머리글자로 단말 위협 탐지·격리를 수행하는 도구를 표시
-- **신원 제공자(Identity Provider, IdP)**: '아이디피'로 읽고 영문 머리글자로 계정 인증과 잠금을 제공하는 시스템을 표시
-- **사건 식별자(Incident Identifier, Incident ID)**: '인시던트 아이디'로 읽고 영문 머리글자로 SIEM 경보와 SOAR 대응을 같은 사건으로 연결하는 값을 표시
+- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 로그 상관분석으로 경보와 조사 근거를 생성하는 탐지·분석 시스템
+- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연계하여 사건 조사·승인·조치를 자동화하는 대응 플랫폼
+- **종단 탐지·대응(Endpoint Detection and Response, EDR)**: 단말 행위를 탐지하고 위협 프로세스·호스트를 격리하는 보안 도구
+- **신원 제공자(Identity Provider, IdP)**: 사용자 인증과 계정 잠금·세션 회수를 제공하는 신원 시스템
+- **사건 식별자(Incident Identifier, Incident ID)**: SIEM 경보와 SOAR 대응 기록을 동일 사건으로 연결하는 고유 값
 - **폐쇄 루프(Closed Loop)**: 조치 결과를 탐지 규칙에 되돌려 다음 경보 판단을 개선하는 순환
 ## Ⅰ. 개요
 

@@ -21,18 +21,18 @@ extra:
 ## 미리 알고가기
 
 - **공유 책임 모델(Shared Responsibility Model)**: 클라우드 제공자와 고객이 계층별 보안 책임을 나누는 원칙
-- **서비스형 인프라(Infrastructure as a Service, IaaS)**: 영문 주요 글자를 딴 공식 표기라 “아이아스”로 읽으며, 서버·저장소·네트워크 인프라를 서비스로 제공한다
-- **서비스형 플랫폼(Platform as a Service, PaaS)**: 영문 주요 글자를 딴 공식 표기라 “파스”로 읽으며, 응용 개발·실행 플랫폼을 서비스로 제공한다
-- **서비스형 소프트웨어(Software as a Service, SaaS)**: 영문 주요 글자를 딴 공식 표기라 “사스”로 읽으며, 완성된 응용 소프트웨어를 서비스로 제공한다
+- **서비스형 인프라(Infrastructure as a Service, IaaS)**: 서버·저장소·네트워크 같은 컴퓨팅 인프라를 서비스로 제공하는 모델이다.
+- **서비스형 플랫폼(Platform as a Service, PaaS)**: 애플리케이션의 개발·배포·실행 환경을 서비스로 제공하는 모델이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 완성된 애플리케이션을 인터넷으로 제공하는 모델이다.
 - **클라우드 제공자(Cloud Service Provider)**: 클라우드 인프라·플랫폼·소프트웨어를 운영해 제공하는 사업자
 - **클라우드 고객(Cloud Customer)**: 제공된 서비스를 구성하고 계정·데이터·업무를 운영하는 이용 조직
 - **통제(Control)**: 위험을 줄이기 위한 정책·절차·기술 조치
 - **상속 통제(Inherited Control)**: 제공자가 수행한 결과를 고객 통제의 일부로 활용하는 통제
 - **공동 통제(Shared Control)**: 제공자와 고객이 서로 다른 부분을 함께 수행해야 완성되는 통제
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 영문 머리글자를 딴 공식 표기라 “에스엘에이”로 읽으며, 서비스 가용성·지원·복구 수준을 정한 계약
-- **수행·최종 책임·협의·통보(Responsible, Accountable, Consulted, Informed, RACI)**: 네 역할의 영문 머리글자를 딴 공식 표기라 “레이시”로 읽으며, 통제별 책임 주체를 구분하는 행렬
-- **신원·접근 관리(Identity and Access Management, IAM)**: 영문 머리글자를 딴 공식 표기라 “아이에이엠”으로 읽으며, 고객 계정과 접근 권한의 생성·변경·회수를 관리한다
-- **운영체제(Operating System, OS)**: 영문 머리글자를 딴 공식 표기라 “오에스”로 읽으며, IaaS에서 고객이 패치·구성을 맡는 소프트웨어 계층
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스의 가용성·지원·복구 수준과 책임 범위를 정한 계약이다.
+- **수행·최종 책임·협의·통보(Responsible, Accountable, Consulted, Informed, RACI)**: 통제별 수행자·최종 책임자·협의자·통보 대상을 구분하는 책임 행렬이다.
+- **신원·접근 관리(Identity and Access Management, IAM)**: 고객 계정과 접근 권한의 생성·변경·검토·회수를 관리하는 체계이다.
+- **운영체제(Operating System, OS)**: 하드웨어 자원을 관리하고 애플리케이션 실행 환경을 제공하며, IaaS에서는 고객이 패치와 구성을 담당하는 소프트웨어 계층이다.
 - **포렌식(Forensics)**: 사고 원인과 행위 증거를 보존·분석하는 활동
 
 ## Ⅰ. 개요

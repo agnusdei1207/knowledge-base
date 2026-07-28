@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **클라우드 네이티브 애플리케이션 보호 플랫폼(Cloud-Native Application Protection Platform, CNAPP)**: 영문 머리글자를 딴 공식 표기라 “씨냅”으로 읽으며, 개발 코드부터 런타임까지 형상·권한·취약점·위협을 연결한다
+- **클라우드 네이티브 애플리케이션 보호 플랫폼(Cloud-Native Application Protection Platform, CNAPP)**: 개발 코드부터 런타임까지 형상·권한·취약점·위협을 연결하여 공격 경로를 분석하는 통합 보안 플랫폼이다.
 - **클라우드 네이티브(Cloud Native)**: 컨테이너·자동화·관리형 서비스를 활용해 클라우드 특성에 맞게 개발·운영하는 방식
-- **코드형 인프라(Infrastructure as Code, IaC)**: 영문 주요 글자를 딴 공식 표기라 “아이에이시”로 읽으며, 인프라 설정을 코드 파일로 정의·배포한다
-- **클라우드 보안 태세 관리(Cloud Security Posture Management, CSPM)**: 영문 머리글자를 딴 공식 표기라 “씨에스피엠”으로 읽으며, 클라우드 자원 설정 오류와 준수 상태를 지속 점검한다
-- **클라우드 인프라 권한 관리(Cloud Infrastructure Entitlement Management, CIEM)**: 영문 머리글자를 딴 공식 표기라 “씨아이이엠”으로 읽으며, 사람과 워크로드의 실제 클라우드 권한을 분석한다
-- **클라우드 워크로드 보호 플랫폼(Cloud Workload Protection Platform, CWPP)**: 영문 머리글자를 딴 공식 표기라 “씨더블유피피”로 읽으며, 가상 머신·컨테이너·서버리스 워크로드를 보호한다
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 설정을 코드 파일로 정의하고 형상 관리와 자동 배포를 적용하는 방식이다.
+- **클라우드 보안 태세 관리(Cloud Security Posture Management, CSPM)**: 클라우드 자원의 설정 오류와 규제 준수 상태를 지속해서 점검하는 기능이다.
+- **클라우드 인프라 권한 관리(Cloud Infrastructure Entitlement Management, CIEM)**: 사람과 워크로드에 부여된 실제 클라우드 권한을 분석하고 과도한 권한을 줄이는 기능이다.
+- **클라우드 워크로드 보호 플랫폼(Cloud Workload Protection Platform, CWPP)**: 가상 머신·컨테이너·서버리스 워크로드의 취약점과 런타임 위협을 보호하는 기능이다.
 - **이미지(Image)**: 컨테이너 실행에 필요한 파일과 설정을 묶은 불변 배포 패키지
 - **런타임(Runtime)**: 배포된 응용과 워크로드가 실제 실행되는 환경
 - **드리프트(Drift)**: 배포된 실제 설정이 승인된 코드나 기준과 달라진 상태
 - **자산 관계 그래프(Asset Relationship Graph)**: 자원·권한·네트워크·취약점 관계를 연결한 모델
 - **공격 경로(Attack Path)**: 공격자가 노출 지점에서 중요 자산까지 도달할 수 있는 연결 경로
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 영문 머리글자를 딴 공식 표기라 “에이피아이”로 읽으며, 비밀 키가 클라우드 기능 호출을 인증하는 접점
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 비밀 키나 토큰으로 인증하여 클라우드 기능과 데이터를 호출하는 접점이다.
 - **비밀(Secret)**: 비밀번호·API 키·토큰처럼 인증과 암호화에 쓰는 민감 정보
 - **오탐(False Positive)**: 실제 위험이 아닌 상태를 위험으로 잘못 경보하는 결과
 
@@ -136,7 +136,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 클라우드 경보가 분산되면 공격 경로로 통합한다.
+- 클라우드 위험의 실제 침해 가능성을 줄이기 위해 코드·형상·권한·취약점·런타임의 연계성과 센서 공백을 검토하여, 공격 경로를 원본 코드의 조치와 재검증으로 연결하는 CNAPP를 활용해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

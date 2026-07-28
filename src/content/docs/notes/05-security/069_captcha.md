@@ -20,16 +20,16 @@ extra:
 
 ## 미리 알고가기
 
-- **컴퓨터와 인간을 구별하는 완전 자동화된 공개 튜링 테스트(Completely Automated Public Turing Test to Tell Computers and Humans Apart, CAPTCHA)**: 영문 주요 글자를 딴 공식 표기라 “캡차”로 읽으며, 사람과 자동화 요청을 구분해 봇의 처리 비용을 높이는 시험
-- **리캡차(reCAPTCHA, 리캡차)**: `re`를 앞에 붙인 공식 서비스명이라 “리캡차”로 읽으며, 문제 풀이와 행위 신호로 CAPTCHA를 구현한다
+- **컴퓨터와 인간을 구별하는 완전 자동화된 공개 튜링 테스트(Completely Automated Public Turing Test to Tell Computers and Humans Apart, CAPTCHA)**: 사람과 자동화 요청을 구분하여 봇의 서비스 남용 비용을 높이는 시험이다.
+- **리캡차(reCAPTCHA)**: 문제 풀이와 사용자 행위 신호를 분석하여 자동화 요청을 판별하는 CAPTCHA 서비스이다.
 - **봇(Bot)**: 정해진 작업을 대량으로 자동 수행하는 프로그램
 - **크리덴셜 스터핑(Credential Stuffing)**: 다른 서비스에서 유출된 계정·비밀번호 조합으로 대량 로그인을 시도하는 공격
 - **위험 엔진(Risk Engine)**: 기기·행위·요청 맥락을 분석해 자동화 가능성을 점수화하는 기능
 - **도전 문제(Challenge)**: 이미지·문자·동작처럼 사용자가 수행해야 하는 시험
 - **검증 토큰(Verification Token)**: CAPTCHA 통과 결과와 짧은 유효 시간을 나타내는 증표
 - **호출률 제한(Rate Limiting)**: 일정 시간 동안 허용할 요청 수를 제한하는 통제
-- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 영문 머리글자를 딴 공식 표기라 “엠에프에이”로 읽으며, 위험한 CAPTCHA 요청에서 서로 다른 인증 요소를 둘 이상 확인한다
-- **인공지능(Artificial Intelligence, AI)**: 영문 머리글자를 딴 공식 표기라 “에이아이”로 읽으며, 문제 풀이형 CAPTCHA를 자동 해석하는 비교 위험
+- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 고위험 요청에서 서로 다른 종류의 인증 요소를 둘 이상 확인하는 인증 방식이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습된 패턴을 이용하여 문제 풀이형 CAPTCHA를 자동 해석할 수 있는 우회 기술이다.
 - **적응형 통제(Adaptive Control)**: 요청 위험에 따라 추가 검증의 강도를 바꾸는 방식
 - **접근성(Accessibility)**: 장애나 사용 환경과 관계없이 서비스를 이용할 수 있는 성질
 - **오탐(False Positive)**: 정상 사용자를 자동화 공격으로 잘못 판단하는 결과
