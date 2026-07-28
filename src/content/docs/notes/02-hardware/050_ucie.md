@@ -21,18 +21,18 @@ extra:
 ## 미리 알고가기
 
 - **칩렛(Chiplet)**: 특정 기능을 맡아 패키지에서 결합하는 다이
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: ‘유씨아이이’로 읽고 영문 머리글자에 express의 e를 붙인 약어이며, 칩렛 간 계층형 D2D 표준
-- **다이 간 연결(Die-to-Die, D2D)**: ‘디투디’로 읽고 두 다이 사이를 숫자 2로 축약한 표기이며, 한 패키지의 다이를 직접 연결
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 서로 다른 칩렛을 물리·프로토콜 계층에서 연결하는 표준 D2D 인터페이스
+- **다이 간 연결(Die-to-Die, D2D)**: 하나의 패키지 안에서 서로 다른 다이를 직접 연결하는 인터페이스
 - **프로토콜 계층(Protocol Layer)**: 상위 트랜잭션의 의미와 형식 제공
 - **D2D 어댑터(D2D Adapter)**: 플릿·오류·링크 상태 관리
-- **물리 계층(Physical Layer, PHY)**: ‘파이’로 읽고 Physical을 줄인 공식 표기이며, 패키지 전기 신호를 송수신
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: ‘피시에이아이 익스프레스’로 읽고 영문 머리글자에 express의 e를 붙인 약어이며, 장치 트랜잭션을 전달
-- **컴퓨트 익스프레스 링크(Compute Express Link, CXL)**: ‘시엑스엘’로 읽고 영문 핵심 글자를 딴 약어이며, 캐시·메모리 일관성 트랜잭션을 전달
+- **물리 계층(Physical Layer, PHY)**: 패키지 배선을 통해 전기 신호를 송수신하고 링크 타이밍을 맞추는 계층
+- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 칩렛 사이에서 장치 입출력 트랜잭션을 전달하는 상위 프로토콜
+- **컴퓨트 익스프레스 링크(Compute Express Link, CXL)**: 칩렛 사이에서 캐시·메모리 일관성 트랜잭션을 전달하는 상위 프로토콜
 - **플릿(Flit)**: 어댑터가 전송하는 고정 형식 단위
-- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: ‘시알시’로 읽고 영문 머리글자를 딴 약어이며, 플릿의 전송 오류를 검출
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 전송 플릿의 비트 오류를 검출하는 오류 검출 코드
 - **주대역·측대역(Mainband·Sideband)**: 데이터 경로와 관리 신호 경로
 - **링크 훈련(Link Training)**: 양단 역량·레인 상태를 맞추는 과정
-- **비트 오류율(Bit Error Rate, BER)**: ‘비이알’로 읽고 영문 머리글자를 딴 약어이며, 전송 비트 중 오류 비율
+- **비트 오류율(Bit Error Rate, BER)**: 전체 전송 비트 중 오류가 발생한 비트의 비율
 - **스트리밍 프로토콜(Streaming Protocol)**: 주소 기반 요청 대신 연속 데이터 흐름을 순서대로 전달하는 상위 전송 방식
 - **레인(Lane)**: 한 방향의 고속 직렬 데이터를 전달하는 차동 신호 경로
 - **마이크로범프(Microbump)**: 칩렛과 인터포저 사이를 매우 짧은 거리로 전기 연결하는 미세 접점
@@ -152,4 +152,4 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 표준 나사라도 실제 부품을 조립해 헐겁지 않은 조합만 제품에 쓴다
+- 표준 준수 여부와 실제 다이 간 상호운용성을 검증한 조합만 제품에 적용한다

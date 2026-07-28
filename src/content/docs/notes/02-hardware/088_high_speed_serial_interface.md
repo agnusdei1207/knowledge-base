@@ -22,16 +22,16 @@ extra:
 
 - **고속 직렬 인터페이스(High-Speed Serial Interface)**: 적은 차동 신호선으로 비트를 순차 고속 전송하는 연결 규격
 - **차동 신호(Differential Signaling)**: 두 선의 전압 차이로 비트를 표현해 공통 잡음 영향을 줄이는 전송 방식
-- **범용 직렬 버스(Universal Serial Bus, USB)**: USB는 ‘유에스비’로 읽고 영문 머리글자를 딴 약어이며, 범용 주변장치의 데이터·전력 연결을 제공
+- **범용 직렬 버스(Universal Serial Bus, USB)**: 범용 주변장치에 데이터 전송과 전력 공급을 함께 제공하는 직렬 인터페이스
 - **Thunderbolt**: PCIe·DisplayPort 패킷을 하나의 직렬 링크로 터널링하는 고속 인터페이스
 - **터널링(Tunneling)**: 한 프로토콜의 패킷을 다른 링크의 전송 형식 안에 실어 전달하는 방식
-- **USB 타입-C(USB Type-C, USB-C)**: USB-C는 ‘유에스비 타입 시’로 읽고 USB 커넥터 형상을 C로 구분한 표기이며, 단자 모양만으로 전송 기능을 보장하지 않음
+- **USB 타입-C(USB Type-C, USB-C)**: 상하 구분 없는 커넥터 규격으로, 커넥터 형상만으로 지원 전송 속도와 대체 모드를 보장하지는 않음
 - **레인(Lane)**: 차동 신호선 쌍을 쓰는 송수신 경로
-- **USB 전력 전송(USB Power Delivery, USB PD)**: USB PD는 ‘유에스비 피디’로 읽고 Power Delivery의 머리글자를 붙인 약어이며, 전력 방향·전압·전류를 협상
-- **PCI 익스프레스(PCI Express, PCIe)**: PCIe는 ‘피시아이 익스프레스’로 읽고 PCI에 Express를 붙인 규격명이며, 주변장치용 고속 직렬 버스를 제공
+- **USB 전력 전송(USB Power Delivery, USB PD)**: USB 연결에서 전력 공급 방향·전압·전류를 장치 간 협상하는 규격
+- **PCI 익스프레스(PCI Express, PCIe)**: 프로세서와 주변장치를 고속 직렬 점대점 링크로 연결하는 인터커넥트
 - **디스플레이포트(DisplayPort)**: 영상·음성 전송 인터페이스
-- **직접 메모리 접근(Direct Memory Access, DMA)**: DMA는 ‘디엠에이’로 읽고 영문 머리글자를 딴 약어이며, 장치가 프로세서를 거치지 않고 메모리에 접근
-- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: IOMMU는 ‘아이오엠엠유’로 읽고 영문 머리글자를 딴 약어이며, 장치별 DMA 주소 범위를 제한
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 프로세서의 데이터 복사 없이 메모리에 직접 접근하는 방식
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: 장치의 DMA 주소를 변환하고 장치별 접근 가능한 메모리 범위를 제한하는 하드웨어
 - **기능 탐색(Capability Discovery)**: 호스트·장치·케이블이 지원 속도·전력·영상 모드를 교환해 공통 기능을 찾는 절차
 - **도킹 스테이션(Docking Station)**: 노트북의 단일 포트를 전원·화면·네트워크·주변장치 연결로 확장하는 장치
 

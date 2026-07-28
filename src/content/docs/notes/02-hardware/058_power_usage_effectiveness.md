@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **전력 사용 효율(Power Usage Effectiveness, PUE)**: ‘피유이’로 읽고 영문 머리글자를 딴 약어이며, 전체 에너지의 IT 장비 에너지 대비 비율
-- **전체 데이터센터 에너지($E_{DC}$)**: $E_{DC}$는 '이 서브 디시'로 읽고 에너지(E)에 데이터센터(DC) 아래첨자를 붙인 표기이며, 본문 PUE 산식의 분자로서 IT 장비와 지원 설비가 쓴 총에너지를 뜻함
-- **정보기술(Information Technology, IT) 장비 에너지($E_{IT}$)**: IT는 ‘아이티’, $E_{IT}$는 ‘이 서브 아이티’로 읽고 영문 머리글자를 에너지 E의 아래첨자로 붙였으며, PUE 분모인 서버·스토리지·네트워크 에너지
+- **전력 사용 효율(Power Usage Effectiveness, PUE)**: 데이터센터 전체 에너지를 IT 장비 에너지로 나눈 전력 효율 지표
+- **전체 데이터센터 에너지($E_{DC}$)**: '이 서브 디시'로 읽으며, PUE 산식의 분자로서 IT 장비와 전력·냉각 등 지원 설비가 사용한 총에너지
+- **정보기술(Information Technology, IT) 장비 에너지($E_{IT}$)**: '이 서브 아이티'로 읽으며, PUE 산식의 분모인 서버·스토리지·네트워크 장비의 에너지 사용량
 - **지원 설비 에너지(Infrastructure Energy)**: 냉각·배전·조명 등이 쓴 에너지
 - **계량 경계(Metering Boundary)**: 산식에 포함할 설비와 계량 지점
-- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: ‘유피에스’로 읽고 영문 머리글자를 딴 약어이며, 정전 시 저장 전력을 공급
-- **물 사용 효율(Water Usage Effectiveness, WUE)**: ‘더블유유이’로 읽고 영문 머리글자를 딴 약어이며, IT 에너지당 물 사용량
-- **탄소 사용 효율(Carbon Usage Effectiveness, CUE)**: ‘시유이’로 읽고 영문 머리글자를 딴 약어이며, IT 에너지당 온실가스 배출량
+- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: 정전 시 배터리의 저장 전력을 IT 장비에 공급하는 장치
+- **물 사용 효율(Water Usage Effectiveness, WUE)**: IT 장비 에너지 사용량 대비 데이터센터의 물 사용량
+- **탄소 사용 효율(Carbon Usage Effectiveness, CUE)**: IT 장비 에너지 사용량 대비 데이터센터의 온실가스 배출량
 - **무차원 비율(Dimensionless Ratio)**: 같은 에너지 단위를 나누어 단위가 사라진 값으로 PUE는 1에 가까울수록 지원 설비 비중이 작음
 - **시설 에너지 오버헤드(Facility Energy Overhead)**: 서버 작업 외에 냉각·배전·조명·전력 변환이 추가로 소비한 에너지
 - **외기 조건(Outdoor Air Condition)**: 데이터센터 밖의 온도·습도로 냉각 설비의 에너지 사용량을 바꾸는 환경 조건

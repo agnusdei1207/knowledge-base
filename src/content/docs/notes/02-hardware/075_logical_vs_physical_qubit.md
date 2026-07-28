@@ -24,7 +24,7 @@ extra:
 - **논리 큐비트(Logical Qubit)**: 여러 물리 큐비트에 부호화한 보호 계산 단위
 - **코드 공간(Code Space)**: 오류 정정 코드의 제약을 만족하며 논리 상태를 표현하는 물리 큐비트 상태 영역
 - **패리티(Parity)**: 여러 물리 큐비트 상태의 짝수·홀수 관계로 오류를 드러내는 검사값
-- **양자 오류 정정(Quantum Error Correction, QEC)**: QEC는 ‘큐이씨’로 읽고 영문 머리글자를 딴 약어이며, 물리 오류를 검출·보정해 논리 정보를 보호
+- **양자 오류 정정(Quantum Error Correction, QEC)**: 여러 물리 큐비트의 오류를 검출·보정하여 논리 큐비트의 정보를 보호하는 기술
 - **코드 거리(Code Distance)**: 검출되지 않는 논리 연산의 최소 물리 오류 수
 - **오류 증후군(Error Syndrome)**: 안정자 측정값으로 얻는 오류 위치·시간 단서
 - **안정자 측정(Stabilizer Measurement)**: 논리 정보를 직접 읽지 않고 패리티를 측정
@@ -32,7 +32,7 @@ extra:
 - **보조 큐비트(Ancilla Qubit)**: 데이터 큐비트와 상호작용해 안정자 값을 획득
 - **디코더(Decoder)**: 증후군 이력에서 가능한 오류 경로를 추정
 - **파울리 프레임(Pauli Frame)**: 물리 보정 대신 논리 보정 상태를 추적
-- **내결함 양자 컴퓨팅(Fault-Tolerant Quantum Computing, FTQC)**: FTQC는 ‘에프티큐씨’로 읽고 영문 머리글자를 딴 약어이며, 일부 물리 오류가 논리 오류로 확산되지 않게 연산을 구성
+- **내결함 양자 컴퓨팅(Fault-Tolerant Quantum Computing, FTQC)**: 일부 물리 오류가 논리 오류로 확산되지 않도록 게이트·측정·오류 정정을 구성하는 방식
 - **오류 임계값(Error Threshold)**: 거리 증가가 논리 오류를 줄이는 물리 오류 경계
 - **물리 오류율(Physical Error Rate)**: 물리 게이트·측정·유휴 상태의 실패 비율
 - **논리 오류율(Logical Error Rate)**: 오류 정정 뒤 논리 연산·주기의 실패 비율

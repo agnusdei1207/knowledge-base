@@ -24,17 +24,17 @@ extra:
 - **2×2 분류 행렬**: 2×2는 '이 곱하기 이'로 읽고 두 분류 축에 각각 두 경우가 있어 쓰며, 명령·데이터 스트림 수의 조합으로 본문의 네 구조를 구분하는 표임
 - **명령 스트림(Instruction Stream)**: 독립 제어 장치가 내보내는 명령 흐름
 - **데이터 스트림(Data Stream)**: 동시에 연산되는 독립 데이터 흐름
-- **단일 명령 단일 데이터(Single Instruction Single Data, SISD)**: ‘에스아이에스디’로 읽고 영문 머리글자를 딴 약어이며, 단일 명령·단일 데이터 구조
-- **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**: ‘에스아이엠디’로 읽고 영문 머리글자를 딴 약어이며, 단일 명령·다중 데이터 구조
-- **다중 명령 단일 데이터(Multiple Instruction Single Data, MISD)**: ‘엠아이에스디’로 읽고 영문 머리글자를 딴 약어이며, 다중 명령·단일 데이터 구조
-- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: ‘엠아이엠디’로 읽고 영문 머리글자를 딴 약어이며, 다중 명령·다중 데이터 구조
+- **단일 명령 단일 데이터(Single Instruction Single Data, SISD)**: 하나의 명령 스트림이 하나의 데이터 스트림을 처리하는 순차 구조
+- **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**: 하나의 명령 스트림이 여러 데이터 스트림을 동시에 처리하는 병렬 구조
+- **다중 명령 단일 데이터(Multiple Instruction Single Data, MISD)**: 여러 명령 스트림이 하나의 데이터 스트림을 처리하는 병렬 구조
+- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: 여러 명령 스트림이 서로 다른 데이터 스트림을 독립적으로 처리하는 병렬 구조
 - **데이터 병렬성(Data Parallelism)**: 같은 연산을 여러 데이터에 적용
 - **작업 병렬성(Task Parallelism)**: 서로 다른 작업을 독립 실행
 - **분석 경계(Analysis Boundary)**: 코어·칩·노드 중 분류할 계층
 - **코어·칩·노드(Core·Chip·Node)**: 코어는 독립 명령 실행 단위, 칩은 여러 코어를 담은 반도체, 노드는 메모리와 운영체제를 갖춘 한 컴퓨터
 - **스칼라 처리(Scalar Processing)**: 한 명령이 한 번에 데이터 값 하나를 처리하는 방식
 - **벡터 처리(Vector Processing)**: 한 명령이 고정 폭의 여러 데이터 원소를 동시에 처리하는 방식
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: ‘지피유’로 읽고 영문 머리글자를 딴 약어이며, 많은 스레드로 데이터 병렬 연산을 수행
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 스레드로 데이터 병렬 연산을 수행하는 SIMD·SIMT 계열 프로세서
 - **워프(Warp)**: NVIDIA GPU에서 공통 명령을 함께 실행하는 스레드 묶음
 - **멀티코어(Multicore)**: 한 칩에 독립 명령 흐름을 실행하는 여러 코어를 통합한 구조
 - **클러스터(Cluster)**: 여러 컴퓨터 노드를 네트워크로 연결해 작업을 분산하는 시스템

@@ -21,21 +21,21 @@ extra:
 ## 미리 알고가기
 
 - **서버 노드(Server Node)**: CPU·메모리·스토리지·NIC를 한 운영 단위로 관리하는 서버
-- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: ‘누마’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, CPU별 근접 메모리의 접근 지연 차이를 나타내는 구조
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: ‘피시에이아이 익스프레스’로 읽고 영문 머리글자와 express의 e를 결합한 약어이며, CPU·가속기·NVMe를 연결
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: ‘엔브이엠 익스프레스’로 읽고 영문 머리글자와 express의 e를 결합한 약어이며, PCIe 기반 스토리지 명령 규격
-- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: ‘닉’으로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 서비스·클러스터 트래픽을 송수신
-- **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: ‘비엠시’로 읽고 영문 머리글자를 딴 약어이며, 운영체제 밖에서 전원·센서를 관리
+- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 프로세서 소켓별 로컬·원격 메모리의 접근 지연이 달라지는 서버 구조
+- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: CPU와 가속기·NVMe 장치를 연결하는 고속 직렬 인터커넥트
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 기반 SSD의 병렬 큐와 명령 형식을 정의한 저장장치 규격
+- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 서버의 서비스·클러스터 네트워크 트래픽을 송수신하는 장치
+- **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: 운영체제와 독립적으로 서버의 전원·온도·센서·원격 관리를 담당하는 제어기
 - **장애 범위(Failure Domain)**: 한 고장이 영향을 미치는 노드·섀시·랙 범위
 - **랙 전력 밀도(Rack Power Density)**: 랙당 전력·냉각 용량의 수용 한계
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘시피유’로 읽고 영문 머리글자를 딴 약어이며, 범용 명령 실행과 서버 제어를 담당
-- **입출력(Input/Output, I/O)**: ‘아이오’로 읽고 입력과 출력을 빗금으로 구분한 표기이며, 서버와 장치 사이의 명령·데이터를 전달
-- **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: ‘디램’으로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 실행 중인 작업 데이터·상태를 보관
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: ‘지피유’로 읽고 영문 머리글자를 딴 약어이며, 병렬 코어로 인공지능·과학 연산을 처리
-- **고대역폭 메모리(High Bandwidth Memory, HBM)**: ‘에이치비엠’으로 읽고 영문 머리글자를 딴 약어이며, GPU 가까이에서 데이터를 병렬 공급
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로 읽고 영문 머리글자를 딴 약어이며, 가속 서버의 학습·추론 작업 대상
-- **고성능 컴퓨팅(High-Performance Computing, HPC)**: ‘에이치피시’로 읽고 영문 머리글자를 딴 약어이며, 여러 노드·가속기로 과학 계산을 병렬 처리
-- **가상 중앙 처리 장치(Virtual Central Processing Unit, vCPU)**: ‘브이시피유’로 읽고 virtual의 v를 CPU 앞에 붙인 약어이며, 가상 머신에 할당한 실행 자원 단위
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령어 실행과 서버 자원 제어를 담당하는 프로세서
+- **입출력(Input/Output, I/O)**: 서버와 주변장치 사이에서 명령과 데이터를 전달하는 작업
+- **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: 실행 중인 프로그램의 데이터와 상태를 저장하는 주기억장치
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 병렬 코어로 AI·과학 연산을 처리하는 가속기
+- **고대역폭 메모리(High Bandwidth Memory, HBM)**: GPU 가까이에서 가중치·활성값을 병렬 공급하는 적층 메모리
+- **인공지능(Artificial Intelligence, AI)**: 가속 서버가 학습·추론으로 처리하는 대표 워크로드
+- **고성능 컴퓨팅(High-Performance Computing, HPC)**: 여러 노드와 가속기를 병렬 연결하여 대규모 과학 계산을 수행하는 컴퓨팅 방식
+- **가상 중앙 처리 장치(Virtual Central Processing Unit, vCPU)**: 가상 머신에 할당되고 물리 CPU 시간에 스케줄되는 논리 실행 자원
 - **가상화(Virtualization)**: 한 물리 서버의 CPU·메모리·장치를 여러 격리된 가상 머신에 나눠 제공하는 기술
 - **펌웨어(Firmware)**: BMC·장치에 내장되어 전원·초기화·하드웨어 제어를 수행하는 소프트웨어
 - **처리량·지연·가용성**: 처리량은 단위 시간당 완료량, 지연은 요청 완료 시간, 가용성은 서비스가 정상 제공되는 시간 비율

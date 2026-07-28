@@ -20,21 +20,21 @@ extra:
 
 ## 미리 알고가기
 
-- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: ‘오토사’로 읽고 영문 핵심 글자를 단어처럼 만든 약어이며, 차량 소프트웨어 구조·인터페이스·방법론을 표준화
-- **전자제어장치(Electronic Control Unit, ECU)**: ‘이시유’로 읽고 영문 머리글자를 딴 약어이며, 차량 기능을 실행하는 내장 제어 컴퓨터
+- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어의 구조·인터페이스·개발 방법론을 표준화한 플랫폼
+- **전자제어장치(Electronic Control Unit, ECU)**: 센서 입력과 제어 소프트웨어로 차량 기능을 실행하는 내장 컴퓨터
 - **Classic Platform**: 정적 구성과 결정적 제어 중심의 플랫폼
 - **Adaptive Platform**: 서비스 지향 고성능 응용 중심의 플랫폼
-- **소프트웨어 구성요소(Software Component, SWC)**: ‘에스더블유시’로 읽고 영문 머리글자를 딴 약어이며, 포트와 러너블로 차량 기능을 분리
+- **소프트웨어 구성요소(Software Component, SWC)**: 차량 기능을 포트·러너블 단위로 캡슐화한 AUTOSAR 응용 구성요소
 - **포트·러너블(Port·Runnable)**: 포트는 SWC의 통신 접점이고 러너블은 이벤트에 따라 실행되는 내부 코드 단위
-- **서비스 지향 아키텍처(Service-Oriented Architecture, SOA)**: ‘에스오에이’로 읽고 영문 머리글자를 딴 약어이며, 기능을 독립 서비스로 탐색·호출
-- **런타임 환경(Runtime Environment, RTE)**: ‘알티이’로 읽고 영문 머리글자를 딴 약어이며, Classic SWC와 하부 서비스를 중개
-- **기본 소프트웨어(Basic Software, BSW)**: ‘비에스더블유’로 읽고 영문 머리글자를 딴 약어이며, 운영체제·통신·진단·하드웨어 추상화를 제공
-- **마이크로컨트롤러 추상화 계층(Microcontroller Abstraction Layer, MCAL)**: ‘엠캘’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, BSW에서 하드웨어를 추상화
-- **AUTOSAR XML(ARXML)**: ‘에이알엑스엠엘’로 읽고 AUTOSAR와 XML을 결합한 공식 약어이며, 설계 정보를 교환
-- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: ‘엑스엠엘’로 읽고 영문 머리글자를 딴 약어이며, 태그로 구조화한 데이터를 교환
+- **서비스 지향 아키텍처(Service-Oriented Architecture, SOA)**: 차량 기능을 독립 서비스로 제공하고 동적으로 탐색·호출하는 구조
+- **런타임 환경(Runtime Environment, RTE)**: AUTOSAR Classic의 소프트웨어 구성요소와 기본 소프트웨어 사이 통신을 중개하는 계층
+- **기본 소프트웨어(Basic Software, BSW)**: 운영체제·통신·진단·메모리·하드웨어 추상화 서비스를 제공하는 AUTOSAR 계층
+- **마이크로컨트롤러 추상화 계층(Microcontroller Abstraction Layer, MCAL)**: 상위 기본 소프트웨어가 특정 마이크로컨트롤러에 의존하지 않도록 하드웨어를 추상화하는 계층
+- **AUTOSAR XML(ARXML)**: AUTOSAR의 시스템·소프트웨어·통신 설계 정보를 도구 사이에서 교환하는 XML 형식
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 태그와 계층 구조로 데이터를 표현·교환하는 마크업 형식
 - **기능 클러스터(Function Cluster)**: Adaptive 응용에 통신·실행·진단 같은 플랫폼 서비스를 제공하는 모듈 집합
-- **적응형 응용 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: ‘에이라’로 읽고 영문 핵심 글자를 딴 약어이며, 기능 클러스터를 호출하는 표준 인터페이스
-- **이식형 운영체제 인터페이스(Portable Operating System Interface, POSIX)**: ‘파직스’로 읽고 영문 핵심 글자를 결합한 표준명이며, Adaptive 운영체제 기반 규격
+- **적응형 응용 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: Adaptive 응용이 통신·진단·상태 관리 기능 클러스터를 호출하는 표준 인터페이스
+- **이식형 운영체제 인터페이스(Portable Operating System Interface, POSIX)**: AUTOSAR Adaptive가 운영체제 이식성을 확보하기 위해 사용하는 표준 시스템 인터페이스
 - **실행 매니페스트(Execution Manifest)**: 프로세스 시작·수명주기 설정
 
 ## Ⅰ. 개요

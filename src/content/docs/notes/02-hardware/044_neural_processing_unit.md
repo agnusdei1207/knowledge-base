@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: ‘엔피유’로 읽고 영문 머리글자를 딴 약어이며, 신경망 연산에 특화한 저전력 병렬 가속기
-- **곱셈 누산(Multiply-Accumulate, MAC) 배열**: ‘맥 배열’로 읽고 영문 머리글자를 딴 약어이며, 곱셈·누산 연산기를 규칙적으로 배치한 배열
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산에 특화된 저전력 병렬 가속기
+- **곱셈 누산(Multiply-Accumulate, MAC) 배열**: 곱셈·누산 연산기를 규칙적으로 배치하여 텐서 연산을 병렬 처리하는 배열
 - **온칩 정적 임의 접근 메모리(On-Chip Static Random-Access Memory, On-Chip SRAM)**: 중간값을 가까이 보관해 외부 전송을 줄이는 고속 메모리
 - **양자화(Quantization)**: 부동소수점 값을 저비트 정수로 근사
 - **보정(Calibration)**: 대표 데이터로 양자화 범위와 정확도를 조정
 - **연산자 지원 범위(Operator Coverage)**: NPU 코드로 변환 가능한 신경망 연산 범위
 - **서브그래프 분할(Subgraph Partitioning)**: 지원·비지원 연산을 장치별 실행 구간으로 분리
 - **폴백(Fallback)**: 비지원 연산을 CPU·GPU에서 실행
-- **초당 조 연산(Tera Operations Per Second, TOPS)**: ‘톱스’로 읽고 영문 머리글자를 딴 약어이며, 특정 정밀도·조건의 초당 최대 연산 수
+- **초당 조 연산(Tera Operations Per Second, TOPS)**: 특정 데이터 정밀도와 조건에서 장치가 수행할 수 있는 초당 최대 연산 수
 - **중앙 처리 장치(Central Processing Unit, CPU)**: 동적 분기와 전후처리처럼 범용 명령 실행을 맡는 프로세서
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 병렬 코어로 가변 신경망 연산을 처리하는 프로세서
 - **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 워프의 활성 스레드에 공통 명령을 발행하는 GPU 실행 모델
@@ -36,7 +36,7 @@ extra:
 - **온디바이스 추론(On-device Inference)**: 원격 서버로 보내지 않고 단말 안에서 모델 예측을 실행하는 방식
 - **런타임(Runtime)**: 컴파일한 모델의 버퍼·실행 순서·장치 전환을 관리하는 실행 소프트웨어
 - **희소성(Sparsity)**: 가중치·활성값 중 0인 값의 비율이며 지원 하드웨어는 0 연산을 생략할 수 있음
-- **8비트 정수(Integer 8-bit, INT8)**: ‘인트 에이트’로 읽고 정수형과 비트 수를 붙인 표기이며, 값을 8비트 정수로 표현해 메모리와 연산량을 줄이는 양자화 형식
+- **8비트 정수(Integer 8-bit, INT8)**: 값을 8비트 정수로 표현하여 메모리 사용량과 연산 비용을 줄이는 양자화 형식
 - **종단 검증(End-to-End Validation)**: NPU와 폴백 구간을 모두 포함한 전체 모델의 정확도·지연·전력을 측정하는 검증
 
 ## Ⅰ. 개요

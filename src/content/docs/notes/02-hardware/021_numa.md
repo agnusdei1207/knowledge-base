@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **불균일 메모리 접근(Non-Uniform Memory Access, NUMA, 누마)**: 영문 각 단어의 첫 글자를 따 NUMA로 표기하며 메모리를 노드별 분산해 위치별 접근 지연이 달라지는 구조
+- **불균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 메모리를 노드별로 분산하여 로컬·원격 메모리의 접근 지연이 달라지는 다중 프로세서 구조
 - **NUMA 노드(NUMA Node)**: CPU·메모리를 묶은 운영체제 지역성 도메인
 - **중앙처리장치(Central Processing Unit, CPU, 시피유)**: 영문 각 단어의 첫 글자를 따 CPU로 표기하며 명령을 실행하고 NUMA에서 스레드의 실행 노드를 정하는 장치
 - **로컬·원격 메모리**: 실행 노드의 직접 메모리와 다른 노드 메모리
 - **최초 접근 정책(First-Touch Policy)**: 처음 접근한 노드에 물리 페이지를 배치하는 정책
 - **CPU 친화도(CPU Affinity)**: 스레드 실행 코어를 특정 노드에 제한하는 정책
 - **페이지 마이그레이션(Page Migration)**: 페이지를 접근 코어에 가까운 노드로 이동
-- **캐시 일관 비균일 메모리 접근(Cache-Coherent Non-Uniform Memory Access, ccNUMA)**: ‘시시 누마’로 읽고 캐시 일관성을 뜻하는 소문자 cc를 NUMA 앞에 붙이는 관례 표기이며 노드 사이에서 공유 주소 공간의 최신 캐시 값을 유지하는 NUMA 하위 유형
+- **캐시 일관 비균일 메모리 접근(Cache-Coherent Non-Uniform Memory Access, ccNUMA)**: 노드별 메모리 접근 지연은 다르지만 공유 주소 공간의 캐시 일관성을 하드웨어로 유지하는 NUMA 구조
 - **균일 메모리 접근(Uniform Memory Access, UMA, 우마)**: 영문 각 단어의 첫 글자를 따 UMA로 표기하며 모든 프로세서가 같은 지연으로 공유 메모리에 접근하는 구조
 - **동적 랜덤 접근 메모리(Dynamic Random-Access Memory, DRAM, 디램)**: 영문 각 단어의 첫 글자를 따 DRAM으로 표기하며 전하를 주기적으로 복원하는 주기억장치용 메모리
 - **노드 간 인터커넥트(Inter-node Interconnect)**: 서로 다른 NUMA 노드의 원격 메모리 요청과 응답을 운반하는 연결망

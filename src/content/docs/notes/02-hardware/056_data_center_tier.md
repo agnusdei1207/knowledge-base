@@ -22,7 +22,7 @@ extra:
 
 - **데이터센터 등급(Data Center Rating)**: 설비 정비·장애 시 서비스 지속 수준
 - **Uptime Institute Tier**: Tier I~IV의 설비 복원력 평가 체계
-- **통신산업협회(Telecommunications Industry Association, TIA)**: ‘티아이에이’로 읽고 영문 머리글자를 딴 약어이며, TIA-942 Rated 1~4 평가 체계를 제정
+- **통신산업협회(Telecommunications Industry Association, TIA)**: 데이터센터 통신·시설 기준인 TIA-942와 Rated 1~4 평가 체계를 제정한 표준화 기관
 - **필요 용량(N)**: N은 '엔'으로 읽고 필요한 수량을 나타내는 관례적 변수라서 쓰며, 본문에서 정상 운영에 필요한 설비 용량을 뜻함
 - **N+1 구성**: N+1은 '엔 플러스 원'으로 읽고 필요 용량 N에 예비 설비 하나를 더한다는 표기이며, 본문에서 단일 설비 고장에 대비하는 중복 구성을 뜻함
 - **동시 유지보수(Concurrent Maintainability)**: 서비스 중단 없는 계획 정비

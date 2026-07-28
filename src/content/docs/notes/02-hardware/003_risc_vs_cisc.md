@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC, 리스크)·복합 명령어 집합 컴퓨터(Complex Instruction Set Computer, CISC, 시스크)**: 두 영문 명칭의 각 단어 첫 글자를 따 RISC·CISC로 표기하며 명령 복잡도·형식을 달리한 설계 계열
+- **축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC)·복합 명령어 집합 컴퓨터(Complex Instruction Set Computer, CISC)**: 명령어의 복잡도와 형식에 따라 구분한 프로세서 명령어 집합 구조
 - **명령어 집합 구조(Instruction Set Architecture, ISA, 아이에스에이)**: 영문 각 단어의 첫 글자를 따 ISA로 표기하며 소프트웨어가 사용하는 명령·레지스터 규약
 - **RISC**: 규칙적 인코딩과 로드/스토어로 해독을 단순화한 ISA 계열
 - **CISC**: 복합 연산과 메모리 피연산자로 명령 표현력을 높인 ISA 계열
-- **로드·스토어 구조(Load/Store Architecture)**: ‘로드 스토어’로 읽고 두 메모리 명령을 빗금(/)으로 묶어 부르는 관례 표기를 사용하며 메모리 접근은 로드·스토어로 제한하고 나머지 연산은 레지스터에서 수행하는 구조
+- **로드·스토어 구조(Load/Store Architecture)**: 메모리 접근을 로드·스토어 명령으로 제한하고 나머지 연산은 레지스터 사이에서 수행하는 구조
 - **피연산자(Operand)**: 명령어가 읽거나 쓰는 레지스터·메모리 값
 - **마이크로연산(Micro-operation)**: ISA 명령을 내부에서 실행하는 단순 연산 단위
 - **마이크로아키텍처(Microarchitecture)**: ISA를 실제 회로로 구현하는 내부 조직
 - **코드 밀도(Code Density)**: 같은 메모리에 담기는 프로그램 명령의 양
 - **압축 명령어(Compressed Instruction)**: 자주 쓰는 연산의 짧은 인코딩
 - **바이너리 호환성(Binary Compatibility)**: 기존 실행 파일을 재컴파일 없이 실행하는 성질
-- **엑스86 계열(x86 Family)**: ‘엑스 에이티식스’로 읽고 8086 계열 명칭의 끝 두 자리를 계승한 관례 표기를 사용하며 가변 길이·복합 명령과 기존 바이너리 호환성을 유지하는 대표 CISC ISA
+- **엑스86 계열(x86 Family)**: 가변 길이·복합 명령어와 이전 세대 바이너리 호환성을 유지하는 대표적인 CISC ISA
 - **명령어 인코딩(Instruction Encoding)**: 연산 종류·피연산자·주소 지정 정보를 명령 비트의 길이와 필드 위치로 표현하는 규칙
 - **연산 부호(Operation Code, Opcode)**: 명령어가 수행할 연산 종류를 나타내며 해독부가 실행 동작을 결정하는 비트 필드
 - **실행 백엔드(Execution Backend)**: 해독된 내부 연산을 대기열에서 선택해 실행 유닛에 발행하고 결과를 기록하는 코어 영역

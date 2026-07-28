@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)**: ‘쿠다’로 읽고 영문 머리글자를 딴 약어이며, NVIDIA GPU 병렬 컴퓨팅 플랫폼·프로그래밍 모델
+- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)**: NVIDIA GPU에서 병렬 연산을 구현하는 플랫폼이자 프로그래밍 모델
 - **호스트(Host)**: CUDA 작업을 제출하는 CPU 측 실행 환경
 - **장치(Device)**: CUDA 커널과 메모리를 실행하는 GPU
 - **커널(Kernel)**: GPU의 여러 스레드가 병렬 실행하는 함수
@@ -29,13 +29,13 @@ extra:
 - **고정 호스트 메모리(Pinned Host Memory)**: 비동기 호스트 전송을 위한 페이지 고정 메모리
 - **공유 메모리(Shared Memory)**: 블록 스레드가 재사용하는 온칩 메모리
 - **이벤트(Event)**: 스트림 간 의존성과 완료를 표시하는 동기화 객체
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘씨피유’로 읽고 영문 머리글자를 딴 약어이며, CUDA 작업 준비·제출과 결과 처리를 맡는 호스트 프로세서
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: ‘지피유’로 읽고 영문 머리글자를 딴 약어이며, 많은 스레드로 CUDA 커널을 병렬 실행하는 장치 프로세서
-- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: ‘에스아이엠티’로 읽고 영문 머리글자를 딴 약어이며, 워프의 활성 스레드에 공통 명령을 발행하는 GPU 실행 모델
-- **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: ‘에스엠’으로 읽고 영문 머리글자를 딴 약어이며, 스레드 블록을 배치해 워프를 실행하는 GPU 연산 단위
+- **중앙 처리 장치(Central Processing Unit, CPU)**: CUDA 작업을 준비·제출하고 결과를 처리하는 호스트 프로세서
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 스레드로 CUDA 커널을 병렬 실행하는 장치 프로세서
+- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령어를 워프의 활성 스레드에 공통 발행하는 GPU 실행 모델
+- **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 스레드 블록을 배치하고 워프를 실행하는 GPU 연산 단위
 - **연산 집약도(Arithmetic Intensity)**: 이동한 데이터 양에 비해 수행한 연산량의 비율
 - **병합 접근(Coalesced Access)**: 인접 스레드의 메모리 요청을 적은 전송으로 합치는 접근
-- **SYCL(사이클)**: ‘사이클’로 읽는 공식 명칭이며, 여러 제조사의 가속기를 표준 C++ 코드로 제어하는 크로노스 그룹의 이식형 프로그래밍 모델
+- **SYCL**: 여러 제조사의 가속기를 표준 C++ 코드로 제어하는 크로노스 그룹의 이식형 병렬 프로그래밍 모델
 - **다차원 실행 범위(N-Dimensional Range, ND-range)**: SYCL에서 전체 작업 항목과 작업 그룹의 다차원 배치를 나타내는 실행 범위
 - **통합 공유 메모리(Unified Shared Memory, USM)**: 호스트와 장치가 같은 포인터 주소로 접근하도록 메모리를 관리하는 SYCL 기능
 - **불균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 프로세서와 메모리의 물리적 위치에 따라 접근 시간이 달라지는 구조

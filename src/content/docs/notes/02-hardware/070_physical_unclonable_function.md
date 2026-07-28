@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **물리적 복제 불가 함수(Physical Unclonable Function, PUF)**: ‘퍼프’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 제조 편차를 장치별 응답으로 변환
+- **물리적 복제 불가 함수(Physical Unclonable Function, PUF)**: 반도체 제조 편차를 장치마다 고유한 응답으로 변환하는 하드웨어 보안 기술
 - **질의(Challenge)**: PUF 응답 생성을 지정하는 입력값
 - **응답(Response)**: 질의가 지정한 물리 상태의 출력값
-- **질의·응답 쌍(Challenge-Response Pair, CRP)**: ‘시알피’로 읽고 영문 머리글자를 딴 약어이며, PUF 질의와 그 응답의 묶음
+- **질의·응답 쌍(Challenge-Response Pair, CRP)**: PUF에 입력한 질의와 제조 편차로 생성된 고유 응답의 대응 관계
 - **약한 PUF(Weak PUF)**: 제한된 CRP로 장치 키를 재생하는 유형
 - **강한 PUF(Strong PUF)**: 대규모 CRP로 장치를 인증하는 유형
 - **고유성(Uniqueness)**: 장치 간 응답이 구별되는 정도
@@ -33,10 +33,10 @@ extra:
 - **보조 데이터(Helper Data)**: 키 복원을 돕는 오류 정정 정보
 - **응답 오류율(Response Error Rate)**: 같은 질의를 다시 측정했을 때 기준 응답과 달라진 비트의 비율
 - **안정 비트(Stable Bit)**: 온도·전압·노화 변화에서도 같은 값으로 반복 측정되는 응답 비트
-- **정적 임의 접근 메모리 기반 PUF(Static Random-Access Memory PUF, SRAM PUF)**: ‘에스램 퍼프’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 메모리 시작값 편차를 이용
-- **진난수 생성기(True Random Number Generator, TRNG)**: ‘티알엔지’로 읽고 영문 머리글자를 딴 약어이며, 물리 잡음에서 새 난수를 생성
+- **정적 임의 접근 메모리 기반 PUF(Static Random-Access Memory PUF, SRAM PUF)**: SRAM 셀의 전원 인가 초기값 편차로 장치 고유 응답을 생성하는 PUF
+- **진난수 생성기(True Random Number Generator, TRNG)**: 열잡음·발진기 지터 등의 물리적 엔트로피로 예측하기 어려운 난수를 생성하는 장치
 - **일회 프로그래밍 메모리(One-Time Programmable Memory)**: 한 번 기록한 비밀값을 유지하는 메모리
-- **사물인터넷(Internet of Things, IoT)**: ‘아이오티’로 읽고 영문 머리글자를 딴 약어이며, 연결 장치가 정보를 주고받는 환경
+- **사물인터넷(Internet of Things, IoT)**: 센서·제어 장치가 네트워크로 상태와 명령을 주고받는 연결 환경
 - **등록(Enrollment)**: 기준 응답과 보조 정보를 생성하는 단계
 - **재생(Reconstruction)**: 현장 응답으로 같은 키를 복원하는 단계
 - **모델링 공격(Modeling Attack)**: CRP로 PUF 동작을 예측하는 공격

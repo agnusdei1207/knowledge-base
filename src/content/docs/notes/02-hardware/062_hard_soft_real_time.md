@@ -27,7 +27,7 @@ extra:
 - **하드 실시간(Hard Real-Time)**: 미스를 시스템 실패로 보는 유형
 - **펌 실시간(Firm Real-Time)**: 늦은 결과 가치가 0이 되는 유형
 - **소프트 실시간(Soft Real-Time)**: 지연에 따라 결과 가치가 낮아지는 유형
-- **최악 실행시간(Worst-Case Execution Time, WCET)**: ‘더블유시이티’로 읽고 영문 머리글자를 딴 약어이며, 태스크 실행시간의 최댓값
+- **최악 실행시간(Worst-Case Execution Time, WCET)**: 태스크가 실행을 시작한 뒤 종료될 때까지 필요한 최대 CPU 실행시간
 - **지터(Jitter)**: 실행·응답 시각의 변동 폭
 - **스케줄 가능성 분석(Schedulability Analysis)**: 최악 조건의 데드라인 충족 여부 판정
 - **차단·간섭(Block·Interference)**: 차단은 자원 대기로 멈추는 시간이고 간섭은 다른 태스크 실행 때문에 밀리는 시간

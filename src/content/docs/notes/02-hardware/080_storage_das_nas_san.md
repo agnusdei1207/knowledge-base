@@ -21,21 +21,21 @@ extra:
 ## 미리 알고가기
 
 - **스토리지 연결 구조**: 서버와 저장장치 사이의 I/O 경계
-- **입출력(Input/Output, I/O)**: I/O는 ‘아이오’로 읽고 입력과 출력 사이를 슬래시로 묶은 표기이며, 서버와 저장장치 사이의 읽기·쓰기를 나타냄
+- **입출력(Input/Output, I/O)**: 서버와 저장장치 사이에서 읽기·쓰기 명령과 데이터를 전달하는 작업
 - **블록·파일 저장(Block·File Storage)**: 블록 저장은 고정 크기 주소 단위를 제공하고 파일 저장은 경로와 파일 이름 단위를 제공함
 - **파일시스템(File System)**: 블록 저장 공간을 파일·디렉터리 이름과 권한으로 조직하는 소프트웨어
-- **직접 연결 스토리지(Direct Attached Storage, DAS)**: DAS는 ‘다스’로 읽고 영문 머리글자를 딴 약어이며, 서버에 직접 연결된 블록 저장장치를 뜻함
-- **네트워크 연결 스토리지(Network Attached Storage, NAS)**: NAS는 ‘나스’로 읽고 영문 머리글자를 딴 약어이며, 네트워크로 파일을 제공하는 저장장치를 뜻함
-- **스토리지 영역 네트워크(Storage Area Network, SAN)**: SAN은 ‘산’으로 읽고 영문 머리글자를 딴 약어이며, 서버와 블록 저장장치를 잇는 전용망을 뜻함
-- **서버 메시지 블록(Server Message Block, SMB)**: SMB는 ‘에스엠비’로 읽고 영문 머리글자를 딴 약어이며, NAS 파일 공유에 쓰는 네트워크 프로토콜
-- **네트워크 파일 시스템(Network File System, NFS)**: NFS는 ‘엔에프에스’로 읽고 영문 머리글자를 딴 약어이며, NAS 파일 공유에 쓰는 네트워크 프로토콜
-- **인터넷 프로토콜(Internet Protocol, IP)**: IP는 ‘아이피’로 읽고 영문 머리글자를 딴 약어이며, NAS·iSCSI가 쓰는 주소 기반 전달 규약
-- **파이버 채널(Fibre Channel, FC)**: FC는 ‘에프시’로 읽고 영문 머리글자를 딴 약어이며, 블록 명령을 전달하는 스토리지 전송망
-- **인터넷 소형 컴퓨터 시스템 인터페이스(Internet Small Computer Systems Interface, iSCSI)**: iSCSI는 ‘아이 스커지’로 읽고 인터넷 기반 SCSI를 뜻하도록 만든 표기이며, 블록 명령을 IP망으로 전송
+- **직접 연결 스토리지(Direct Attached Storage, DAS)**: 하나의 서버에 직접 연결하여 블록 장치로 사용하는 저장장치
+- **네트워크 연결 스토리지(Network Attached Storage, NAS)**: 네트워크를 통해 여러 클라이언트에 파일 단위 접근을 제공하는 저장장치
+- **스토리지 영역 네트워크(Storage Area Network, SAN)**: 서버와 블록 저장장치를 전용 스토리지 네트워크로 연결하는 구조
+- **서버 메시지 블록(Server Message Block, SMB)**: Windows 계열 환경에서 NAS 파일·프린터 공유에 사용하는 네트워크 프로토콜
+- **네트워크 파일 시스템(Network File System, NFS)**: Unix·Linux 계열 환경에서 NAS 파일 공유에 사용하는 네트워크 프로토콜
+- **인터넷 프로토콜(Internet Protocol, IP)**: NAS와 iSCSI 트래픽을 주소 기반으로 전달하는 네트워크 계층 프로토콜
+- **파이버 채널(Fibre Channel, FC)**: 서버와 스토리지 사이의 블록 명령을 전달하는 전용 고속 네트워크
+- **인터넷 소형 컴퓨터 시스템 인터페이스(Internet Small Computer Systems Interface, iSCSI)**: SCSI 블록 명령을 TCP/IP 네트워크로 전송하는 프로토콜
 - **스토리지 패브릭(Storage Fabric)**: SAN의 블록 명령을 중계하는 연결망
 - **스토리지 배열(Storage Array)**: 여러 물리 드라이브를 묶어 호스트에 논리 저장 공간을 제공하는 장치
 - **이름공간(Namespace)**: 파일과 디렉터리의 경로 이름을 조직하고 식별하는 체계
-- **논리 장치 번호(Logical Unit Number, LUN)**: LUN은 ‘런’으로 읽고 영문 머리글자를 딴 약어이며, SAN이 제공하는 논리 블록 장치를 식별
+- **논리 장치 번호(Logical Unit Number, LUN)**: SAN 스토리지가 서버에 제공하는 논리 블록 장치를 식별하는 번호
 - **파일 오프셋(File Offset)**: 파일 시작점부터 떨어진 바이트 위치
 - **다중 경로(Multipathing)**: 경로 장애 시 다른 I/O 경로로 전환
 

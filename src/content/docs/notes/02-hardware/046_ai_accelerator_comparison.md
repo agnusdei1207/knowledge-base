@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **인공지능(Artificial Intelligence, AI)**: ‘에이아이’로 읽고 영문 머리글자를 딴 약어이며, 학습한 모델로 분류·예측하는 기술
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘씨피유’로 읽고 영문 머리글자를 딴 약어이며, 제어·분기와 비지원 연산 처리
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: ‘지피유’로 읽고 영문 머리글자를 딴 약어이며, 다수 스레드로 행렬 연산을 병렬 처리
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: ‘엔피유’로 읽고 영문 머리글자를 딴 약어이며, 신경망 연산을 전용 배열에서 실행
+- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 분류·예측·생성 등의 지능형 작업을 수행하는 기술
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 복잡한 제어·분기와 가속기가 지원하지 않는 범용 연산을 처리하는 프로세서
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 스레드로 행렬·벡터 연산을 병렬 처리하는 범용 가속기
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산을 전용 배열과 온칩 메모리에서 실행하는 AI 가속기
 - **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 논리·배선을 현장에서 재구성
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 고정 연산 경로를 실리콘에 구현
 - **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 한 명령으로 여러 GPU 스레드를 실행

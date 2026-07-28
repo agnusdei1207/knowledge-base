@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: ‘에프피지에이’로 읽고 영문 머리글자를 딴 약어이며, 제조 후 논리와 배선을 다시 구성하는 반도체
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리와 배선을 재구성할 수 있는 반도체
 - **비트스트림(Bitstream)**: FPGA 논리·배선 구성을 담은 설정 파일
-- **룩업 테이블(Look-Up Table, LUT)**: ‘엘유티’로 읽고 영문 머리글자를 딴 약어이며, 사용자 정의 논리를 구현하는 기본 블록
-- **플립플롭(Flip-Flop, FF)**: ‘에프에프’로 읽고 영문 머리글자를 딴 약어이며, 파이프라인 상태를 저장하는 순차 회로
+- **룩업 테이블(Look-Up Table, LUT)**: 진리표 기반으로 사용자 정의 조합 논리를 구현하는 FPGA의 기본 블록
+- **플립플롭(Flip-Flop, FF)**: 파이프라인과 상태 값을 저장하는 FPGA의 순차 논리 소자
 - **디지털 신호 처리(Digital Signal Processing, DSP) 슬라이스**: 곱셈·누산 전용 연산 블록
 - **블록 램·울트라램(Block RAM·UltraRAM, BRAM·URAM)**: 가중치·특징맵용 온칩 메모리
-- **직접 메모리 접근(Direct Memory Access, DMA)**: ‘디엠에이’로 읽고 영문 머리글자를 딴 약어이며, 프로세서 개입 없이 장치·메모리 사이 전송
-- **개시 간격(Initiation Interval, II)**: ‘아이아이’로 읽고 영문 머리글자를 딴 약어이며, 파이프라인이 새 입력을 받는 사이클 간격
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서의 데이터 복사 없이 장치와 메모리 사이에서 직접 전송하는 방식
+- **개시 간격(Initiation Interval, II)**: 파이프라인이 연속된 새 입력을 받아들이는 사이의 클록 간격
 - **타이밍 클로저(Timing Closure)**: 모든 배치·배선 경로가 목표 클록 주기를 만족한 상태
 - **양자화(Quantization)**: 가중치·활성값의 수치 정밀도를 낮추는 변환
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 프로그램으로 병렬 연산을 수행하는 프로세서

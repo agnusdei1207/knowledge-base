@@ -21,10 +21,10 @@ extra:
 ## 미리 알고가기
 
 - **디바이스 DNA(Device DNA)**: 장치 특성을 조합해 만든 식별 지문
-- **디옥시리보핵산(Deoxyribonucleic Acid, DNA)**: ‘디엔에이’로 읽고 영문 머리글자를 딴 약어이며, 장치별 특성 조합이 고유 지문이라는 비유에 사용
+- **디바이스 DNA(Device DNA)**: 하드웨어·소프트웨어·행동 특성을 조합하여 장치를 지속적으로 식별하는 고유 지문
 - **장치 지문(Device Fingerprint)**: 여러 관측값을 결합한 장치 식별값
 - **하드웨어 특성(Hardware Attribute)**: 모델·화면·센서·CPU 등 물리 속성
-- **소프트웨어 특성(Software Attribute)**: 운영체제(Operating System, OS)의 OS는 ‘오에스’로 읽고 영문 머리글자를 딴 약어이며, 운영체제·브라우저·설정 같은 논리 속성
+- **소프트웨어 특성(Software Attribute)**: 운영체제·브라우저·펌웨어 버전·설정과 같이 장치에서 수집하는 논리 속성
 - **행동 특성(Behavioral Attribute)**: 접속·입력·통신 패턴 등 동적 속성
 - **특성 벡터(Feature Vector)**: 비교 가능한 형태로 정규화한 특성 집합
 - **정규화(Normalization)**: 단위와 범위가 다른 특성값을 같은 비교 척도로 변환하는 처리
@@ -34,9 +34,9 @@ extra:
 - **위험 기반 인증(Risk-Based Authentication)**: 지문 일치도와 접속 상황의 위험 점수에 따라 추가 인증 여부를 정하는 방식
 - **오탐(False Positive)**: 정상 장치를 위장·이상 장치로 잘못 판정하는 오류
 - **재전송 공격(Replay Attack)**: 이전에 가로챈 정상 식별값이나 인증 메시지를 다시 보내 인증을 우회하는 공격
-- **고정 식별자(Static Identifier, ID)**: ‘아이디’로 읽고 Identifier를 줄인 표기이며, 장치에 저장된 고정 번호로 자산을 조회
-- **물리적 복제 불가 함수(Physical Unclonable Function, PUF)**: ‘퍼프’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 제조 편차로 응답·키를 생성
-- **사물인터넷(Internet of Things, IoT)**: ‘아이오티’로 읽고 영문 머리글자를 딴 약어이며, 연결 장치의 등록·위장 지문을 비교하는 적용 환경
+- **고정 식별자(Static Identifier, ID)**: 장치에 저장한 고정 번호로 자산을 조회하는 식별 정보
+- **물리적 복제 불가 함수(Physical Unclonable Function, PUF)**: 반도체 제조 편차로 장치 고유 응답과 암호키를 생성하는 하드웨어 보안 기술
+- **사물인터넷(Internet of Things, IoT)**: 다수 연결 장치의 등록 정보와 현재 지문을 비교하여 위장 여부를 판정하는 적용 환경
 
 ## Ⅰ. 개요
 

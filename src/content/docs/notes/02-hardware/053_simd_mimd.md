@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**: ‘에스아이엠디’로 읽고 영문 머리글자를 딴 약어이며, 한 명령을 여러 데이터 원소에 적용
-- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: ‘엠아이엠디’로 읽고 영문 머리글자를 딴 약어이며, 독립 명령 흐름이 각 데이터를 처리
+- **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**: 하나의 명령을 여러 데이터 원소에 동시에 적용하는 병렬 처리 방식
+- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: 여러 독립 명령 흐름이 서로 다른 데이터를 동시에 처리하는 병렬 구조
 - **데이터 병렬성(Data Parallelism)**: 같은 연산을 여러 데이터에 동시 적용
 - **작업 병렬성(Task Parallelism)**: 독립 작업을 서로 다른 코어에서 실행
 - **연산 레인(Execution Lane)**: SIMD 명령 하나의 데이터 원소 처리
@@ -72,7 +72,7 @@ flowchart TB
 
 ### 쉽게 이해하기 (학습용)
 
-- 공동 창고가 프레스 라인과 독립 작업대에 재료를 대고 신호등이 충돌을 방지한다
+- 공유 메모리가 SIMD 벡터 유닛과 MIMD 코어에 데이터를 공급하고 동기화 장치가 접근 충돌을 제어한다
 
 ## Ⅳ. 원리 및 절차 흐름도
 

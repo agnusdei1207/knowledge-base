@@ -20,21 +20,21 @@ extra:
 
 ## 미리 알고가기
 
-- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: ‘제이태그’로 읽고 표준화 작업 그룹의 영문 머리글자를 단어처럼 만든 약어이며, IEEE 1149.1 직렬 시험 인터페이스를 지칭
-- **집적회로(Integrated Circuit, IC)·인쇄회로기판(Printed Circuit Board, PCB)**: ‘아이시·피시비’로 읽고 영문 머리글자를 딴 약어이며, 반도체 회로 부품과 그 부품을 장착·배선하는 기판
-- **중앙처리장치(Central Processing Unit, CPU)**: ‘시피유’로 읽고 영문 머리글자를 딴 약어이며, 명령 실행과 시스템 연산을 제어
-- **전기전자공학자협회 1149.1(Institute of Electrical and Electronics Engineers 1149.1, IEEE 1149.1)**: ‘아이 트리플 이 십일사구 점 일’로 읽고 협회명 머리글자와 표준 번호를 결합했으며, TAP·경계 스캔을 정의
-- **테스트 접근 포트(Test Access Port, TAP)**: ‘탭’으로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 명령·시험 데이터를 직렬 전달
-- **테스트 클록(Test Clock, TCK)·테스트 모드 선택(Test Mode Select, TMS)**: ‘티시케이·티엠에스’로 읽고 영문 머리글자를 딴 약어이며, TAP 상태 전이를 제어
-- **테스트 데이터 입력(Test Data In, TDI)·출력(Test Data Out, TDO)**: ‘티디아이·티디오’로 읽고 영문 머리글자를 딴 약어이며, 선택 레지스터의 직렬 입출력을 담당
-- **명령 레지스터(Instruction Register, IR)**: ‘아이알’로 읽고 영문 머리글자를 딴 약어이며, 실행할 시험 명령을 보관
-- **데이터 레지스터(Data Register, DR)**: ‘디알’로 읽고 영문 머리글자를 딴 약어이며, 경계·바이패스 시험 데이터를 이동
+- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: 경계 스캔과 칩 디버깅에 사용하는 IEEE 1149.1 직렬 시험 인터페이스
+- **집적회로(Integrated Circuit, IC)·인쇄회로기판(Printed Circuit Board, PCB)**: IC는 반도체 회로 부품이고 PCB는 여러 IC를 장착하고 전기적으로 연결하는 기판
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하고 시스템의 연산·제어를 담당하는 처리장치
+- **전기전자공학자협회 1149.1(Institute of Electrical and Electronics Engineers 1149.1, IEEE 1149.1)**: 테스트 접근 포트와 경계 스캔 절차를 정의한 JTAG 인터페이스 표준
+- **테스트 접근 포트(Test Access Port, TAP)**: 시험 명령과 데이터를 직렬 전송하고 상태 머신을 제어하는 JTAG 포트
+- **테스트 클록(Test Clock, TCK)·테스트 모드 선택(Test Mode Select, TMS)**: TCK는 시험 동작을 동기화하고 TMS는 TAP 상태 전이를 선택하는 JTAG 신호
+- **테스트 데이터 입력(Test Data In, TDI)·출력(Test Data Out, TDO)**: 선택된 JTAG 레지스터의 시험 데이터를 직렬 입력·출력하는 신호
+- **명령 레지스터(Instruction Register, IR)**: 현재 실행할 JTAG 시험 명령을 저장하는 레지스터
+- **데이터 레지스터(Data Register, DR)**: 경계 스캔·바이패스 등의 시험 데이터를 직렬 이동하는 레지스터
 - **TAP 상태(Test-Logic-Reset·Shift-IR·Update-IR·Shift-DR·Update-DR·Capture-DR)**: Test-Logic-Reset은 제어기를 초기화하고 Shift는 직렬 이동, Update는 적용, Capture는 입력 저장을 뜻하며 IR·DR의 명령·데이터 이동 순서를 제어
 - **경계 스캔 레지스터(Boundary-Scan Register)**: IC 핀 값을 캡처·구동하는 경계 셀 체인
-- **외부 검사(External Test, EXTEST)**: ‘엑스테스트’로 읽고 External Test를 줄인 명령명이며, 경계 셀로 PCB 연결을 검사
-- **우회(Bypass, BYPASS)**: ‘바이패스’로 읽고 기능명을 대문자로 쓴 명령 표기이며, 비대상 IC를 1비트 레지스터로 건너뜀
-- **직렬 와이어 디버그(Serial Wire Debug, SWD)**: ‘에스더블유디’로 읽고 영문 머리글자를 딴 약어이며, Arm용 2선 패킷 디버그 인터페이스
-- **범용 비동기 송수신기(Universal Asynchronous Receiver-Transmitter, UART)**: ‘유아트’로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 로그·콘솔용 비동기 직렬 통신을 담당
+- **외부 검사(External Test, EXTEST)**: 경계 스캔 셀을 구동·관측하여 PCB의 IC 간 연결을 검사하는 JTAG 명령
+- **우회(Bypass, BYPASS)**: 시험 대상이 아닌 IC를 1비트 우회 레지스터로 통과시키는 JTAG 명령
+- **직렬 와이어 디버그(Serial Wire Debug, SWD)**: Arm 프로세서의 메모리·레지스터를 제어하는 2선 패킷 디버그 인터페이스
+- **범용 비동기 송수신기(Universal Asynchronous Receiver-Transmitter, UART)**: 로그·콘솔 데이터를 비동기 직렬 방식으로 송수신하는 장치
 
 ## Ⅰ. 개요
 

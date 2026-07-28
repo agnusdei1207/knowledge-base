@@ -21,15 +21,15 @@ extra:
 ## 미리 알고가기
 
 - **광 인터커넥트(Optical Interconnect)**: 전기 데이터를 광 신호로 변환·전송·복원
-- **전기-광 변환(Electrical-to-Optical Conversion, E/O)**: E/O는 ‘이 투 오’로 읽고 Electrical과 Optical의 첫 글자를 변환 방향 순서로 적은 표기로, 송신 전기 데이터를 광 신호로 변환
-- **광-전기 변환(Optical-to-Electrical Conversion, O/E)**: O/E는 ‘오 투 이’로 읽고 Optical과 Electrical의 첫 글자를 변환 방향 순서로 적은 표기로, 수신 광 신호를 전기 데이터로 복원
-- **직병렬 변환기(Serializer/Deserializer, SerDes)**: SerDes는 ‘서데스’로 읽고 직렬화·역직렬화 명칭을 결합한 약어이며, 양단에서 병렬·직렬 데이터를 변환
+- **전기-광 변환(Electrical-to-Optical Conversion, E/O)**: 송신기의 전기 데이터를 광섬유로 전송할 광 신호로 변환하는 과정
+- **광-전기 변환(Optical-to-Electrical Conversion, O/E)**: 수신한 광 신호를 디지털 회로가 처리할 전기 데이터로 복원하는 과정
+- **직병렬 변환기(Serializer/Deserializer, SerDes)**: 송신단에서 병렬 데이터를 직렬화하고 수신단에서 다시 병렬 데이터로 복원하는 회로
 - **등화기(Equalizer)**: 전기 경로 손실로 흐려진 파형 보정
-- **파장 다중화(Wavelength Division Multiplexing, WDM)**: WDM은 ‘더블유디엠’으로 읽고 영문 머리글자를 딴 약어이며, 여러 파장을 한 광섬유로 전송
-- **공동 패키지 광학(Co-Packaged Optics, CPO)**: CPO는 ‘시피오’로 읽고 영문 머리글자를 딴 약어이며, 광 엔진을 스위치 칩 가까이에 배치
+- **파장 다중화(Wavelength Division Multiplexing, WDM)**: 서로 다른 파장의 광 신호를 하나의 광섬유로 동시에 전송하는 기술
+- **공동 패키지 광학(Co-Packaged Optics, CPO)**: 광 엔진을 스위치 ASIC과 같은 패키지에 배치하여 전기 신호 경로를 줄이는 구조
 - **링크 버짓(Link Budget)**: 송신 출력·경로 손실·수신 감도 간 여유
 - **감쇠·누화(Attenuation·Crosstalk)**: 감쇠는 전송 거리에서 신호 세기가 줄어드는 현상이고 누화는 이웃 채널 신호가 섞이는 간섭
-- **전자기 간섭(Electromagnetic Interference, EMI)**: EMI는 ‘이엠아이’로 읽고 영문 머리글자를 딴 약어이며, 외부 전자기장이 전기 신호에 잡음을 더하는 현상
+- **전자기 간섭(Electromagnetic Interference, EMI)**: 외부 전자기장이 전기 신호에 잡음을 유도하여 신호 무결성을 저하하는 현상
 - **레이저·변조기(Laser·Modulator)**: 레이저는 광 반송파를 만들고 변조기는 전기 데이터에 따라 빛의 세기·위상을 바꿈
 - **수광기·증폭기(Photodetector·Amplifier)**: 수광기는 빛을 전류로 바꾸고 증폭기는 약한 전기 신호를 판독 가능한 크기로 키움
 - **비트당 에너지(Energy per Bit)**: 데이터 한 비트를 전송·복원하는 데 소비되는 에너지
@@ -82,7 +82,7 @@ flowchart LR
 
 ### 쉽게 이해하기 (학습용)
 
-- 송신기가 전기 데이터를 빛으로 바꾸고 광섬유가 나르면 수신기가 다시 전기 데이터로 읽는다.
+- 송신 광 엔진이 전기 데이터를 광 신호로 변환하고 광섬유가 전송하면 수신 광 엔진이 다시 전기 데이터로 복원한다.
 
 ## Ⅳ. 원리 및 절차 흐름도
 

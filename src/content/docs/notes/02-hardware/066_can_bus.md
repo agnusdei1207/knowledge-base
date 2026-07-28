@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **제어기 영역 네트워크(Controller Area Network, CAN)**: ‘캔’으로 읽고 영문 머리글자를 단어처럼 만든 약어이며, 제어 메시지를 공유 차동 선로로 방송
-- **전자 제어 장치(Electronic Control Unit, ECU)**: ‘이시유’로 읽고 영문 머리글자를 딴 약어이며, 차량 기능을 제어
-- **메시지 식별자(Message Identifier, ID)**: ‘아이디’로 읽고 Identifier를 줄인 표기이며, 메시지 의미와 중재 우선순위를 표시
+- **제어기 영역 네트워크(Controller Area Network, CAN)**: 제어 메시지를 공유 차동 선로로 방송하는 차량용 통신 버스
+- **전자 제어 장치(Electronic Control Unit, ECU)**: 센서 입력과 제어 로직에 따라 차량 기능을 제어하는 내장 컴퓨터
+- **메시지 식별자(Message Identifier, ID)**: CAN 프레임의 메시지 의미와 버스 중재 우선순위를 나타내는 필드
 - **우성·열성 비트(Dominant·Recessive Bit)**: 중재 중 우성 비트가 선로를 점유하는 신호
 - **비파괴 중재(Non-Destructive Arbitration)**: 승자 프레임을 손상하지 않는 중재
 - **비트 스터핑(Bit Stuffing)**: 같은 비트 5개 뒤 반대 비트 삽입
-- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: ‘시알시’로 읽고 영문 머리글자를 딴 약어이며, 프레임 오류를 검출
-- **수신 확인(Acknowledgement, ACK)**: ‘액’으로 읽고 Acknowledgement를 줄인 공식 표기이며, 정상 프레임 수신을 표시
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: CAN 프레임 전송 중 발생한 비트 오류를 검출하는 코드
+- **수신 확인(Acknowledgement, ACK)**: 하나 이상의 수신 노드가 프레임을 정상 수신했음을 표시하는 필드
 - **오류 격리(Error Confinement)**: 오류 누적 노드의 송신 권한 제한
-- **가변 데이터 전송률 CAN(CAN Flexible Data Rate, CAN FD)**: ‘캔 에프디’로 읽고 CAN과 Flexible Data Rate의 머리글자를 결합했으며, 최대 64바이트와 빠른 데이터 구간을 지원
+- **가변 데이터 전송률 CAN(CAN Flexible Data Rate, CAN FD)**: 데이터 필드를 최대 64바이트로 확장하고 데이터 구간의 전송률을 높인 CAN 규격
 - **버스 오프(Bus-off)**: 송신 오류 누적 노드의 버스 분리 상태
-- **차동 신호선(CAN High·CAN Low, CAN_H·CAN_L)**: CAN_H·CAN_L은 ‘캔 하이·캔 로’로 읽고 High·Low의 첫 글자를 아래 첨자로 붙인 표기로, 두 선의 전압 차로 비트를 전달해 공통 잡음 영향을 줄임
+- **차동 신호선(CAN High·CAN Low, CAN_H·CAN_L)**: 두 신호선의 전압 차로 비트를 전달하여 공통 모드 잡음의 영향을 줄이는 CAN 물리 계층 신호
 - **다중 마스터(Multi-master)**: 여러 노드가 중앙 제어기 없이 버스 사용을 요청하고 중재 결과에 따라 송신하는 구조
 - **발행·구독(Publish·Subscribe)**: 송신자는 ID로 메시지를 방송하고 수신자는 필요한 ID만 필터링하는 통신 방식
 - **CAN 컨트롤러·트랜시버(CAN Controller·Transceiver)**: 컨트롤러는 프레임·중재·오류를 처리하고 트랜시버는 논리 비트와 차동 신호를 변환함

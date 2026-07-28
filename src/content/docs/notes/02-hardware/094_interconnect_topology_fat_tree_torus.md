@@ -35,8 +35,8 @@ extra:
 - **패킷 주입(Packet Injection)**: 연산 노드가 목적지·데이터를 담은 패킷을 로컬 네트워크 장비에 넣는 동작
 - **스텐실 연산(Stencil Computation)**: 격자 이웃값으로 새 값을 반복 계산하는 연산
 - **토폴로지 인지 배치(Topology-Aware Mapping)**: 통신량이 큰 작업을 가까운 노드에 배치하는 기법
-- **인공지능(Artificial Intelligence, AI)**: AI는 ‘에이아이’로 읽고 영문 머리글자를 딴 약어이며, 학습 기반 판단·생성 기술을 뜻함
-- **고성능 컴퓨팅(High-Performance Computing, HPC)**: HPC는 ‘에이치피시’로 읽고 영문 머리글자를 딴 약어이며, 병렬 자원으로 대규모 연산을 수행
+- **인공지능(Artificial Intelligence, AI)**: 대규모 모델의 학습·추론에서 노드 간 집단 통신을 발생시키는 대표 워크로드
+- **고성능 컴퓨팅(High-Performance Computing, HPC)**: 다수 노드와 가속기를 병렬 연결하여 대규모 과학·공학 연산을 수행하는 컴퓨팅 방식
 
 ## Ⅰ. 개요
 

@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **명령어 수준 병렬성(Instruction-Level Parallelism, ILP, 아이엘피)**: 영문 각 단어의 첫 글자를 따 ILP로 표기하며 한 스레드의 독립 명령을 중첩 실행하는 병렬성
+- **명령어 수준 병렬성(Instruction-Level Parallelism, ILP)**: 한 스레드에서 데이터 의존성이 없는 여러 명령어를 중첩 또는 동시 실행하는 병렬성
 - **사이클당 명령어 수(Instructions Per Cycle, IPC, 아이피시)**: 영문 각 단어의 첫 글자를 따 IPC로 표기하며 한 사이클에 처리한 평균 명령 수를 나타내는 지표
 - **기록 후 읽기(Read After Write, RAW, 로)**: 영문 각 단어의 첫 글자를 따 RAW로 표기하며 앞 명령 결과를 뒤 명령이 읽는 실제 의존성
 - **읽기 후 기록(Write After Read, WAR, 워)·기록 후 기록(Write After Write, WAW, 와우)**: 영문 각 단어의 첫 글자를 따 WAR·WAW로 표기하며 레지스터 이름 재사용으로 생기는 가짜 의존성

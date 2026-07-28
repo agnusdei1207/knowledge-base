@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **고급 마이크로컨트롤러 버스 아키텍처(Advanced Microcontroller Bus Architecture, AMBA)**: AMBA는 ‘암바’로 읽고 영문 머리글자를 딴 약어이며, 성능·용도별 온칩 인터페이스를 표준화
-- **시스템 온 칩(System on Chip, SoC)**: SoC는 ‘에스오시’로 읽고 영문 머리글자를 딴 약어이며, 처리기·메모리·주변 기능을 한 칩에 통합
-- **고급 확장 인터페이스(Advanced eXtensible Interface, AXI)**: AXI는 ‘악시’로 읽고 영문 명칭의 핵심 글자를 딴 약어이며, 5개 독립 채널로 다중 트랜잭션을 처리
-- **고급 고성능 버스(Advanced High-performance Bus, AHB)**: AHB는 ‘에이에이치비’로 읽고 영문 머리글자를 딴 약어이며, 주소·데이터 단계를 파이프라인 처리
-- **고급 주변장치 버스(Advanced Peripheral Bus, APB)**: APB는 ‘에이피비’로 읽고 영문 머리글자를 딴 약어이며, SETUP·ACCESS 단계로 제어 레지스터에 접근
+- **고급 마이크로컨트롤러 버스 아키텍처(Advanced Microcontroller Bus Architecture, AMBA)**: 성능과 용도에 따라 SoC 내부 인터페이스를 표준화한 Arm 버스 규격군
+- **시스템 온 칩(System on Chip, SoC)**: 처리기·메모리 제어·주변 기능을 하나의 칩에 통합한 시스템
+- **고급 확장 인터페이스(Advanced eXtensible Interface, AXI)**: 읽기·쓰기 주소·데이터·응답의 5개 독립 채널로 다중 트랜잭션을 처리하는 고성능 인터페이스
+- **고급 고성능 버스(Advanced High-performance Bus, AHB)**: 주소와 데이터 단계를 파이프라인으로 처리하는 시스템 버스
+- **고급 주변장치 버스(Advanced Peripheral Bus, APB)**: 설정·접근 단계로 저속 주변장치의 제어 레지스터에 접근하는 단순 인터페이스
 - **매니저·서보디네이트(Manager·Subordinate)**: 요청 발행자와 요청 처리자
 - **트랜잭션(Transaction)**: 주소·제어·데이터·응답으로 완결되는 한 번의 버스 읽기나 쓰기
 - **AXI 5개 채널**: 읽기 주소·읽기 데이터·쓰기 주소·쓰기 데이터·쓰기 응답을 독립적으로 전달하는 경로
@@ -32,8 +32,8 @@ extra:
 - **파이프라인(Pipeline)**: 앞 요청의 데이터 전송과 다음 요청의 주소 전송을 겹쳐 처리하는 방식
 - **인터커넥트·중재(Interconnect·Arbitration)**: 인터커넥트는 기능 블록 사이의 연결망이고 중재는 동시 요청 중 사용할 경로와 순서를 결정함
 - **주소 디코딩(Address Decoding)**: 요청 주소 범위를 해석해 대상 서보디네이트를 선택하는 동작
-- **클럭 도메인 교차(Clock Domain Crossing, CDC)**: CDC는 ‘시디시’로 읽고 영문 머리글자를 딴 약어이며, 서로 다른 클럭으로 동작하는 회로 사이에 신호를 안전하게 전달
-- **APB 제어 신호(PSEL·PENABLE·PREADY)**: PSEL·PENABLE·PREADY는 ‘피셀·피이네이블·피레디’로 읽고 APB 표준이 Select·Enable·Ready 역할에 붙인 신호명으로, 각각 대상 선택·ACCESS 진입·전송 완료를 표시
+- **클럭 도메인 교차(Clock Domain Crossing, CDC)**: 서로 다른 클록으로 동작하는 회로 사이에서 메타안정성을 방지하며 신호를 전달하는 기술
+- **APB 제어 신호(PSEL·PENABLE·PREADY)**: 각각 대상 주변장치 선택·접근 단계 진입·전송 완료를 표시하는 APB 제어 신호
 
 ## Ⅰ. 개요
 

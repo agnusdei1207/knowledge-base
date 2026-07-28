@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: ‘에지 티피유’로 읽고 영문 머리글자를 딴 TPU 계열명이며, 현장 장치의 정수 추론용 전용 반도체
-- **텐서플로 라이트(TensorFlow Lite, TFLite)**: ‘티에프 라이트’로 읽는 TensorFlow Lite의 축약 표기이며, 단말 추론 모델 형식과 런타임
+- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: 에지 장치의 정수 양자화 추론에 특화된 전용 반도체
+- **텐서플로 라이트(TensorFlow Lite, TFLite)**: 모바일·에지 장치용 추론 모델 형식과 경량 실행 런타임
 - **완전 정수 양자화(Full Integer Quantization)**: 가중치·활성값·입출력의 정수 변환
 - **Edge TPU 컴파일러(Edge TPU Compiler)**: 지원 연산을 Edge TPU 실행 코드로 변환
 - **중앙 처리 장치(Central Processing Unit, CPU)**: 전후처리와 비지원 연산 담당

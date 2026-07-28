@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: ‘에이식’으로 읽고 영문 머리글자를 딴 약어이며, 연산·정밀도·데이터 경로를 회로에 고정한 반도체
-- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: ‘엔알이’로 읽고 영문 머리글자를 딴 약어이며, 설계·검증·마스크의 일회성 초기 비용
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 용도에 맞춰 연산·정밀도·데이터 경로를 회로로 고정한 반도체
+- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 반도체 설계·검증·마스크 제작에 한 번 발생하는 초기 개발 비용
 - **손익분기 수량(Break-Even Volume)**: NRE를 칩당 단가 절감으로 회수하는 수량
-- **처리 요소(Processing Element, PE)**: ‘피이’로 읽고 영문 머리글자를 딴 약어이며, 행렬 연산 일부를 병렬 실행하는 단위
-- **곱셈-누산(Multiply-Accumulate, MAC)**: ‘맥’으로 읽고 영문 머리글자를 딴 약어이며, 곱셈 결과를 부분합에 누적하는 연산
+- **처리 요소(Processing Element, PE)**: 행렬 연산의 일부를 병렬 실행하는 가속기 내부 연산 단위
+- **곱셈-누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 부분합에 누적하는 행렬 연산의 기본 단위
 - **데이터플로우(Dataflow)**: 피연산자 배치·이동·재사용 순서
 - **고정형 데이터플로우(Stationary Dataflow)**: 재사용 값을 PE 가까이에 유지하는 방식
 - **온칩 정적 임의 접근 메모리(On-Chip Static Random-Access Memory, On-Chip SRAM)**: 가중치·활성값·부분합 재사용용 고속 메모리

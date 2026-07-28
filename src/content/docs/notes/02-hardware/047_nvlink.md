@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **NVLink**: ‘엔브이링크’로 읽는 NVIDIA의 링크 제품명이며, GPU·CPU 사이 전용 고대역폭 연결
-- **NVSwitch**: ‘엔브이스위치’로 읽는 NVIDIA의 스위치 제품명이며, NVLink 엔드포인트를 다대다로 연결
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: ‘피시아이 익스프레스’로 읽는 표준 약칭이며, CPU와 범용 장치를 잇는 계층형 연결망
-- **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: ‘엔씨씨엘’로 읽고 영문 머리글자를 딴 약어이며, GPU 집단 통신 경로·연산 실행
+- **NVLink**: GPU·CPU 사이에 고대역폭·저지연 연결을 제공하는 NVIDIA의 전용 인터커넥트
+- **NVSwitch**: 여러 NVLink 엔드포인트를 다대다로 연결하는 NVIDIA의 전용 스위치
+- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: CPU와 범용 주변장치를 계층형 점대점 링크로 연결하는 표준 인터커넥트
+- **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: GPU 간 집단 통신의 경로를 선택하고 전송 연산을 실행하는 라이브러리
 - **피어 메모리 접근(Peer Memory Access)**: 한 GPU가 다른 GPU 메모리에 직접 접근
 - **집단 통신(Collective Communication)**: 여러 GPU의 데이터 교환·집계
 - **전체 축소(All-Reduce)**: 각 GPU 값을 집계해 모든 GPU에 배포
@@ -45,7 +45,7 @@ extra:
 
 ### 쉽게 이해하기 (학습용)
 
-- 두 창고 사이에 전용 다리를 놓아 공용 도로를 거치지 않고 짐을 옮기는 것과 같다
+- GPU·CPU 사이에 전용 고대역폭 링크를 구성하여 PCIe 경유 없이 데이터를 직접 전송한다
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,7 @@ extra:
 
 ### 쉽게 이해하기 (학습용)
 
-- 여러 차선을 묶어 짐을 보내고 옆 창고 선반을 직접 쓰는 모습이다
+- 여러 NVLink 레인을 결합해 대역폭을 확장하고 원격 GPU 메모리에 직접 접근한다
 
 ## Ⅲ. 아키텍처 및 구성요소
 
@@ -75,7 +75,7 @@ flowchart TB
 
 ### 쉽게 이해하기 (학습용)
 
-- 창고·전용 다리·교차로가 이어지고 내비게이션이 경로를 선택한다
+- GPU 메모리·NVLink·NVSwitch를 연결하고 NCCL이 집단 통신의 경로와 연산 순서를 선택한다
 
 ## Ⅳ. 원리 및 절차 흐름도
 
@@ -129,4 +129,4 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 두 창고면 직통 다리, 여러 창고면 전용 교차로를 둔다
+- 소수 GPU는 NVLink로 직접 연결하고 다수 GPU의 전대역 연결에는 NVSwitch를 적용한다

@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **낸드 플래시(NAND Flash)**: ‘낸드 플래시’로 읽고 논리 연산 NOT-AND의 결합을 NAND로 줄여 셀 직렬 구조를 부르는 관례 명칭이며 페이지 기록과 블록 삭제로 비휘발성 데이터를 저장함
-- **삼차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)**: ‘쓰리디 브이 낸드’로 읽고 공간 차원을 뜻하는 3D와 수직의 머리글자 V를 NAND 앞에 붙이는 관례 표기이며 워드라인 층과 채널을 수직 적층한 구조를 나타냄
-- **이차원 평면 낸드(Two-Dimensional Planar NAND, 2D NAND)**: ‘투디 낸드’로 읽고 평면의 두 공간 차원을 숫자 2와 Dimension의 D로 나타내는 관례 표기이며 기판 위 셀 간격을 줄여 집적하는 구조를 나타냄
+- **낸드 플래시(NAND Flash)**: 페이지 단위 기록과 블록 단위 삭제로 데이터를 비휘발성 저장하는 플래시 메모리
+- **삼차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)**: 워드라인 층과 채널을 수직으로 적층하여 집적도를 높인 NAND 구조
+- **이차원 평면 낸드(Two-Dimensional Planar NAND, 2D NAND)**: 기판 평면에서 셀 간격을 줄여 집적도를 높이는 NAND 구조
 - **임계 전압(Threshold Voltage, $V_t$)**: ‘브이 서브 티’로 읽고 전압을 뜻하는 $V$의 아래 첨자에 threshold의 머리글자 $t$를 붙이는 반도체 관례 표기이며 NAND 셀의 전하 상태를 구분하는 문턱 전압을 나타냄
 - **전하 트랩층(Charge Trap Layer)**: 3D 셀에서 전자를 가두는 절연막
 - **워드라인(Word Line)**: 같은 층의 셀 게이트를 선택하는 배선
@@ -30,13 +30,13 @@ extra:
 - **페이지(Page)**: 같은 워드라인에서 읽고 프로그램하는 단위
 - **블록(Block)**: 여러 스트링을 묶은 NAND 삭제 단위
 - **셀당 비트(Bits per Cell)**: SLC 1·MLC 2·TLC 3·QLC 4비트
-- **단일 수준 셀(Single-Level Cell, SLC)**: ‘에스엘씨’로 읽고 영문 머리글자를 딴 약어이며, 셀 하나에 1비트를 저장해 전압 여유와 수명이 크다.
-- **다중 수준 셀(Multi-Level Cell, MLC)**: ‘엠엘씨’로 읽고 영문 머리글자를 딴 약어이며, 셀 하나에 2비트를 저장한다.
-- **삼중 수준 셀(Triple-Level Cell, TLC)**: ‘티엘씨’로 읽고 영문 머리글자를 딴 약어이며, 셀 하나에 3비트를 저장한다.
-- **사중 수준 셀(Quad-Level Cell, QLC)**: ‘큐엘씨’로 읽고 영문 머리글자를 딴 약어이며, 셀 하나에 4비트를 저장한다.
-- **증분 단계 펄스 프로그래밍(Incremental Step Pulse Programming, ISPP)**: ‘아이에스피피’로 읽고 영문 머리글자를 딴 약어이며, 펄스·검증을 반복해 목표 임계 전압에 도달한다.
-- **오류 정정 코드(Error-Correcting Code, ECC)**: ‘이씨씨’로 읽고 영문 머리글자를 딴 약어이며, NAND 원시 비트 오류를 탐지·교정한다.
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: ‘에스에스디’로 읽고 영문 머리글자를 딴 약어이며, NAND와 컨트롤러로 구성한 저장장치다.
+- **단일 수준 셀(Single-Level Cell, SLC)**: 셀 하나에 1비트를 저장하여 전압 여유와 쓰기 수명이 큰 NAND 셀
+- **다중 수준 셀(Multi-Level Cell, MLC)**: 셀 하나에 2비트를 저장하는 NAND 셀
+- **삼중 수준 셀(Triple-Level Cell, TLC)**: 셀 하나에 3비트를 저장하는 NAND 셀
+- **사중 수준 셀(Quad-Level Cell, QLC)**: 셀 하나에 4비트를 저장하는 NAND 셀
+- **증분 단계 펄스 프로그래밍(Incremental Step Pulse Programming, ISPP)**: 프로그램 펄스와 검증을 반복하여 셀을 목표 임계 전압에 도달시키는 방식
+- **오류 정정 코드(Error-Correcting Code, ECC)**: NAND에서 발생한 원시 비트 오류를 탐지하고 허용 범위 안에서 교정하는 부호
+- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: NAND 플래시와 컨트롤러를 결합한 비휘발성 저장장치
 - **비트라인(Bit Line)**: 수직 채널 스트링의 전류를 감지 회로와 연결하는 배선
 - **고종횡비 식각(High-Aspect-Ratio Etching)**: 깊이에 비해 폭이 매우 좁은 수직 구멍을 여러 적층에 균일하게 뚫는 공정
 - **SLC 캐시(SLC Cache)**: NAND 일부를 셀당 1비트처럼 사용해 짧은 구간의 쓰기 속도를 높이는 버퍼 영역

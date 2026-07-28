@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **물 사용 효율(Water Usage Effectiveness, WUE)**: ‘더블유유이’로 읽고 영문 머리글자를 딴 약어이며, 정보기술 장비 에너지당 현장 물 사용량
-- **현장 물 사용량($V_W$)**: $V_W$는 '브이 서브 더블유'로 읽고 부피(Volume)의 V에 물(Water)의 W 아래첨자를 붙인 표기이며, 본문 WUE 산식의 분자로서 냉각·가습 등 계량 경계 안의 물 사용량을 뜻함
-- **정보기술(Information Technology, IT) 장비 에너지($E_{IT}$)**: IT는 ‘아이티’, $E_{IT}$는 ‘이 서브 아이티’로 읽고 영문 머리글자를 에너지 E의 아래첨자로 붙였으며, WUE 분모인 서버·스토리지·네트워크 에너지
+- **물 사용 효율(Water Usage Effectiveness, WUE)**: IT 장비 에너지 사용량 대비 데이터센터의 현장 물 사용량
+- **현장 물 사용량($V_W$)**: '브이 서브 더블유'로 읽으며, WUE 산식의 분자로서 냉각·가습 등 계량 경계 안에서 사용한 물의 부피
+- **정보기술(Information Technology, IT) 장비 에너지($E_{IT}$)**: '이 서브 아이티'로 읽으며, WUE 산식의 분모인 서버·스토리지·네트워크 장비의 에너지 사용량
 - **물 부족도(Water Stress)**: 취수 수요가 지역 가용 수자원에 주는 압박
 - **증발 냉각(Evaporative Cooling)**: 물의 증발 잠열로 장비 열을 방출
 - **건식 냉각(Dry Cooling)**: 물 증발 없이 공기로 장비 열을 방출
 - **재생수(Reclaimed Water)**: 처리한 폐수를 냉각 보충수로 재사용
-- **전력 사용 효율(Power Usage Effectiveness, PUE)**: ‘피유이’로 읽고 영문 머리글자를 딴 약어이며, 전체 에너지의 IT 장비 에너지 대비 비율
-- **탄소 사용 효율(Carbon Usage Effectiveness, CUE)**: ‘시유이’로 읽고 영문 머리글자를 딴 약어이며, IT 에너지당 온실가스 배출량
+- **전력 사용 효율(Power Usage Effectiveness, PUE)**: 데이터센터 전체 에너지를 IT 장비 에너지로 나눈 전력 효율 지표
+- **탄소 사용 효율(Carbon Usage Effectiveness, CUE)**: IT 장비 에너지 사용량 대비 데이터센터의 온실가스 배출량
 - **물 사용 집약도(Water Use Intensity)**: 같은 IT 에너지를 공급할 때 현장에서 소비하는 물의 양
 - **증발 잠열(Latent Heat of Vaporization)**: 물이 온도 상승 없이 액체에서 기체로 바뀌며 흡수하는 열
 - **상수(Mains Water)**: 수도 사업자가 공급하는 처리된 물로 재생수와 구분해 수원별 사용량을 계량함

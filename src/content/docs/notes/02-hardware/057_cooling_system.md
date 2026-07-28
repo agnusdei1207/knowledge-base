@@ -25,7 +25,7 @@ extra:
 - **공랭(Air Cooling)**: 차가운 공기로 장비 열을 운반
 - **직접 수랭(Direct Liquid Cooling)**: 콜드플레이트 냉각수로 칩 열을 흡수
 - **콜드플레이트(Cold Plate)**: 칩에 붙어 냉각수로 열을 전달하는 금속판
-- **냉각수 분배 장치(Coolant Distribution Unit, CDU)**: ‘시디유’로 읽고 영문 머리글자를 딴 약어이며, 서버·시설 냉각수의 열교환과 유량을 제어
+- **냉각수 분배 장치(Coolant Distribution Unit, CDU)**: 시설 냉각수와 서버 냉각수 사이의 열교환·유량·압력을 제어하는 장치
 - **액침냉각(Immersion Cooling)**: 장비를 절연액에 담가 열을 흡수
 - **절연액(Dielectric Fluid)**: 전기가 통하지 않는 액체 냉각 매체
 - **유량(Flow Rate)**: 단위 시간에 냉각 경로를 통과하는 공기·액체의 양

@@ -23,10 +23,10 @@ extra:
 - **멀티소켓 서버(Multi-Socket Server)**: 운영체제·주소 공간을 공유하고 소켓별 로컬 메모리를 쓰는 서버
 - **프로세서 소켓(Processor Socket)**: CPU 패키지를 장착하고 메모리 채널·인터커넥트에 연결하는 메인보드 접점
 - **공유 주소 공간(Shared Address Space)**: 모든 프로세서가 같은 주소값으로 시스템 메모리를 참조하는 구조
-- **중앙처리장치(Central Processing Unit, CPU)**: CPU는 ‘시피유’로 읽고 영문 머리글자를 딴 약어이며, 명령 실행·메모리 요청을 담당
-- **대칭형 다중처리(Symmetric Multiprocessing, SMP)**: SMP는 ‘에스엠피’로 읽고 영문 머리글자를 딴 약어이며, 여러 프로세서가 운영체제·메모리를 대칭적으로 공유
-- **캐시 일관성 비균일 메모리 접근(Cache-Coherent Non-Uniform Memory Access, ccNUMA)**: ccNUMA는 ‘캐시 코히어런트 누마’로 읽고 cache-coherent를 소문자 cc로 NUMA 앞에 붙인 표기이며, 주소는 공유하되 노드 거리에 따라 접근 비용이 다름
-- **비균일 메모리 접근 노드(Non-Uniform Memory Access Node, NUMA Node)**: NUMA는 ‘누마’로 읽고 영문 머리글자를 딴 약어이며, 프로세서·캐시·제어기·로컬 메모리의 근접 자원 묶음을 나타냄
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하고 캐시·메모리 접근 요청을 생성하는 처리장치
+- **대칭형 다중처리(Symmetric Multiprocessing, SMP)**: 여러 프로세서가 하나의 운영체제와 공유 주소 공간을 대등하게 사용하는 다중처리 구조
+- **캐시 일관성 비균일 메모리 접근(Cache-Coherent Non-Uniform Memory Access, ccNUMA)**: 공유 주소 공간의 캐시 일관성을 유지하면서 노드 거리에 따라 메모리 접근 비용이 달라지는 구조
+- **비균일 메모리 접근 노드(Non-Uniform Memory Access Node, NUMA Node)**: 프로세서 소켓·캐시·메모리 제어기·로컬 메모리로 구성된 근접 자원 단위
 - **비균일 메모리 접근 노드 0·1(Non-Uniform Memory Access Node 0·1, NUMA Node 0·1, 누마 노드 영·일)**: 0·1은 컴퓨터의 0 기반 순번으로 두 근접 자원 묶음을 구분하며, 본문에서 로컬·원격 메모리 경로와 CPU·페이지 배치 대상을 나타냄
 - **로컬·원격 메모리(Local·Remote Memory)**: 실행 노드 내 메모리와 인터커넥트 너머 메모리
 - **CPU·메모리 선호도(CPU and Memory Affinity)**: 스레드·페이지를 지정 NUMA 노드에 묶는 정책
@@ -34,7 +34,7 @@ extra:
 - **메모리 채널(Memory Channel)**: 메모리 제어기와 메모리 모듈 사이의 독립 명령·데이터 전송 경로
 - **캐시 라인·일관성 트래픽(Cache Line·Coherence Traffic)**: 캐시 라인은 캐시 전송 단위이고 일관성 트래픽은 소켓별 사본을 같은 값으로 유지하는 메시지
 - **페이지·페이지 폴트(Page·Page Fault)**: 페이지는 가상 메모리 관리 단위이고 페이지 폴트는 필요한 주소 매핑이 없어 운영체제가 개입하는 예외
-- **가상 CPU(Virtual CPU, vCPU)**: vCPU는 ‘브이시피유’로 읽고 virtual을 소문자 v로 CPU 앞에 붙인 표기이며, 가상 머신에 제공되어 물리 CPU 시간에 스케줄되는 논리 처리기
+- **가상 CPU(Virtual CPU, vCPU)**: 가상 머신에 할당되고 하이퍼바이저가 물리 CPU 시간에 스케줄하는 논리 처리기
 - **버퍼 풀(Buffer Pool)**: 데이터베이스가 자주 쓰는 데이터 페이지를 메모리에 보관하는 캐시 영역
 
 ## Ⅰ. 개요
@@ -143,7 +143,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 창고 작업자와 자주 꺼내는 물품을 같은 층에 둔다.
+- 스레드와 해당 스레드가 자주 접근하는 메모리를 같은 NUMA 노드에 배치한다.
 
 ## Ⅶ. 결론
 

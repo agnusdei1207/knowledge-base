@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **InfiniBand**: ‘인피니밴드’로 읽는 기술명이며, RDMA와 저지연 스위칭을 제공하는 전용 패브릭
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: ‘알디엠에이’로 읽고 영문 머리글자를 딴 약어이며, 등록 뒤 원격 CPU를 거치지 않고 메모리에 접근
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: ‘에이치씨에이’로 읽고 영문 머리글자를 딴 약어이며, 호스트 메모리와 패브릭 사이 RDMA 처리
+- **InfiniBand**: RDMA와 저지연 스위칭을 제공하는 고성능 컴퓨팅용 네트워크 패브릭
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 사전 등록한 원격 메모리에 상대 CPU의 데이터 복사 없이 직접 접근하는 통신 방식
+- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 호스트 메모리와 InfiniBand 패브릭 사이에서 RDMA 전송을 처리하는 어댑터
 - **메모리 등록(Memory Registration)**: 장치 접근용 키와 주소 범위를 HCA에 등록
 - **큐 페어(Queue Pair, QP)**: 송신·수신 작업 큐로 구성된 통신 종단점
 - **완료 큐(Completion Queue, CQ)**: 작업 완료 상태를 응용에 전달하는 큐
@@ -135,7 +135,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- GPU 창고끼리 바로 보내 계산조의 대기를 줄인다
+- GPUDirect RDMA로 GPU 메모리 사이를 직접 전송하여 CPU 복사와 학습 통신 대기를 줄인다
 
 ## Ⅶ. 결론
 

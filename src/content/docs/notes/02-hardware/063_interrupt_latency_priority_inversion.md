@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **인터럽트 요청(Interrupt Request, IRQ)**: ‘아이알큐’로 읽고 영문 머리글자를 딴 약어이며, 장치가 처리를 요구하는 비동기 신호
+- **인터럽트 요청(Interrupt Request, IRQ)**: 장치가 프로세서에 처리를 요구하는 비동기 신호
 - **인터럽트 레이턴시(Interrupt Latency)**: IRQ 인가부터 ISR 시작까지의 지연
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: ‘아이에스알’로 읽고 영문 머리글자를 딴 약어이며, IRQ에 대응하는 짧은 처리 코드
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 요청의 원인을 확인하고 긴급한 처리를 수행하는 짧은 코드
 - **인터럽트 마스킹(Interrupt Masking)**: 프로세서의 특정 IRQ 처리를 잠시 억제
 - **예외 진입(Exception Entry)**: 상태 저장·벡터 조회 후 ISR로 전환
 - **인터럽트 컨트롤러(Interrupt Controller)**: 여러 장치의 IRQ를 보류·우선순위화해 프로세서에 전달하는 하드웨어

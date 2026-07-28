@@ -20,23 +20,23 @@ extra:
 
 ## 미리 알고가기
 
-- **PCI 익스프레스(Peripheral Component Interconnect Express, PCIe)**: PCIe는 ‘피시아이 익스프레스’로 읽고 PCI에 Express를 붙인 규격명이며, 직렬 점대점 링크로 주변장치를 연결
+- **PCI 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 직렬 점대점 링크로 프로세서와 주변장치를 연결하는 고속 인터커넥트
 - **점대점 링크(Point-to-Point Link)**: 송신 포트와 수신 포트 한 쌍이 전용 전송 경로를 사용하는 연결
 - **패브릭(Fabric)**: 여러 포트 사이에서 패킷의 목적지 경로와 전송 순서를 결정하는 내부 연결망
 - **루트 컴플렉스·루트 포트(Root Complex·Root Port)**: PCIe 계층의 시작점과 장치 연결 포트
 - **엔드포인트(Endpoint)**: PCIe 계층 끝에서 요청을 처리하는 장치
 - **업스트림·다운스트림 포트(Upstream·Downstream Port)**: 루트 방향 포트와 장치 방향 포트
-- **트랜잭션 계층 패킷(Transaction Layer Packet, TLP)**: TLP는 ‘티엘피’로 읽고 영문 머리글자를 딴 약어이며, 요청·데이터·완료 정보를 운반
+- **트랜잭션 계층 패킷(Transaction Layer Packet, TLP)**: PCIe 링크에서 메모리·입출력 요청과 데이터·완료 정보를 전달하는 패킷
 - **요청자·완료자(Requester·Completer)**: 요청 패킷 발행자와 완료 응답자
-- **동료 간 통신(Peer-to-Peer, P2P)**: P2P는 ‘피투피’로 읽고 두 Peer 사이 연결을 숫자 2로 줄인 표기이며, 엔드포인트끼리 스위치 경로로 직접 통신
+- **동료 간 통신(Peer-to-Peer, P2P)**: 두 PCIe 엔드포인트가 호스트 메모리를 경유하지 않고 스위치 경로로 직접 통신하는 방식
 - **오버서브스크립션(Oversubscription)**: 하위 요구량 합이 업스트림 용량 초과
 - **흐름 제어(Flow Control)**: 수신 버퍼 여유에 맞춰 송신량을 제한해 패킷 손실을 피하는 제어
-- **링크 폭(Link Width)**: x1·x4·x8은 ‘엑스 원·엑스 포·엑스 에이트’로 읽고 x 뒤 숫자로 레인 수를 나타내는 PCIe 표준 표기로, 한 링크의 병렬 전송 경로 수와 전송 용량을 구분
+- **링크 폭(Link Width)**: x1·x4·x8처럼 링크를 구성하는 레인 수로 병렬 전송 경로와 총대역폭을 나타내는 PCIe 속성
 - **홉(Hop)**: 패킷이 목적지까지 이동하며 통과하는 스위치 한 단계
-- **접근 제어 서비스(Access Control Services, ACS)**: ACS는 ‘에이시에스’로 읽고 영문 머리글자를 딴 약어이며, P2P 요청 허용·업스트림 리디렉션을 제어
-- **직접 메모리 접근(Direct Memory Access, DMA)**: DMA는 ‘디엠에이’로 읽고 영문 머리글자를 딴 약어이며, 장치가 프로세서를 거치지 않고 메모리에 접근
-- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: IOMMU는 ‘아이오엠엠유’로 읽고 영문 머리글자를 딴 약어이며, 장치 DMA 주소를 변환하고 접근 범위를 제한
-- **가상 머신(Virtual Machine, VM)**: VM은 ‘브이엠’으로 읽고 영문 머리글자를 딴 약어이며, 물리 자원을 격리된 가상 하드웨어로 제공받아 운영체제를 실행
+- **접근 제어 서비스(Access Control Services, ACS)**: P2P 요청의 허용 여부와 업스트림 리디렉션을 제어하는 PCIe 보안 기능
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 프로세서의 데이터 복사 없이 메모리에 직접 접근하는 방식
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: 장치의 DMA 주소를 변환하고 접근 가능한 메모리 범위를 제한하는 하드웨어
+- **가상 머신(Virtual Machine, VM)**: 격리된 가상 하드웨어 자원을 할당받아 독립 운영체제를 실행하는 환경
 
 ## Ⅰ. 개요
 
@@ -45,7 +45,7 @@ extra:
 
 ### 쉽게 이해하기 (학습용)
 
-- 한 고속도로 진입로 뒤에 분기 교차로를 두어 여러 장치 길로 나누는 구조다.
+- 하나의 루트 포트 아래에 PCIe 스위치를 배치하여 여러 엔드포인트로 계층적 연결을 확장하는 구조다.
 
 ## Ⅱ. 특징
 

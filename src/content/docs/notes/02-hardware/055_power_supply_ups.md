@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **전원 공급 장치(Power Supply Unit, PSU)**: ‘피에스유’로 읽고 영문 머리글자를 딴 약어이며, 교류를 장비용 직류로 변환
-- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: ‘유피에스’로 읽고 영문 머리글자를 딴 약어이며, 정전 때 배터리로 부하 전원을 유지
+- **전원 공급 장치(Power Supply Unit, PSU)**: 교류 전원을 장비가 사용하는 직류 전원으로 변환하는 장치
+- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: 정전이나 입력 전원 이상 시 배터리로 부하 전원을 유지하는 장치
 - **온라인 UPS(Online UPS)**: 정류기와 인버터를 거쳐 상시 전원 공급
-- **직류 버스(Direct Current Bus, DC Bus)**: ‘디시 버스’로 읽고 직류의 영문 머리글자를 딴 약어이며, 정류기·배터리·인버터를 연결
-- **전력 분배 장치(Power Distribution Unit, PDU)**: ‘피디유’로 읽고 영문 머리글자를 딴 약어이며, 랙별 전력을 분배·계측
+- **직류 버스(Direct Current Bus, DC Bus)**: 정류기·배터리·인버터 사이에서 직류 전력을 전달하는 공통 전력 경로
+- **전력 분배 장치(Power Distribution Unit, PDU)**: 전원을 랙과 장비별로 분배하고 전압·전류·전력을 계측하는 장치
 - **A/B 이중 경로**: 독립 전원 입력으로 단일 장애를 격리
 - **정비 바이패스(Maintenance Bypass)**: UPS 점검 때 부하를 상용 전원으로 우회
 - **절체(Transfer)**: 부하를 예비·우회 경로로 전환
-- **교류·직류(Alternating Current·Direct Current, AC·DC)**: ‘에이시·디시’로 읽고 각 영문 머리글자를 딴 약어이며, 방향이 바뀌는 상용 전력과 한 방향의 장비 전력을 구분
+- **교류·직류(Alternating Current·Direct Current, AC·DC)**: 주기적으로 방향이 바뀌는 상용 전력과 한 방향으로 흐르는 장비 내부 전력을 구분하는 전류 방식
 - **정류기·인버터(Rectifier·Inverter)**: 정류기는 교류를 직류로 바꾸고 인버터는 직류를 부하용 교류로 되돌리는 전력 변환기
 - **런타임(Runtime)**: 정전 후 UPS 배터리가 현재 부하에 전력을 공급할 수 있는 예상 시간
 - **부하율(Load Factor)**: UPS·PSU 정격 용량 중 장비가 실제로 사용하는 전력의 비율

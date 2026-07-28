@@ -24,8 +24,8 @@ extra:
 - **중앙처리장치(Central Processing Unit, CPU)**: 명령 실행·주소 변환을 담당하는 처리기
 - **가상머신(Virtual Machine, VM)**: 격리된 가상 하드웨어에서 실행하는 시스템
 - **하이퍼바이저(Hypervisor)**: VM 자원·실행 상태를 중재하는 제어 계층
-- **인텔 가상화 기술(Intel Virtualization Technology for x86, VT-x)**: ‘브이티 엑스’로 읽고 Virtualization Technology의 머리글자와 x86의 x를 붙인 제품 표기이며 인텔 CPU의 게스트 실행·전환을 지원함
-- **AMD 가상화(AMD Virtualization, AMD-V)**: ‘에이엠디 브이’로 읽고 제조사명 AMD와 Virtualization의 머리글자 V를 붙인 제품 표기이며 AMD CPU의 게스트 실행·전환을 지원함
+- **인텔 가상화 기술(Intel Virtualization Technology for x86, VT-x)**: 인텔 x86 프로세서에서 게스트 실행 모드와 하이퍼바이저 전환을 지원하는 하드웨어 기능
+- **AMD 가상화(AMD Virtualization, AMD-V)**: AMD x86 프로세서에서 게스트 실행 모드와 하이퍼바이저 전환을 지원하는 하드웨어 기능
 - **가상머신 제어 구조(Virtual-Machine Control Structure, VMCS)**: 인텔의 게스트 상태·전환 제어 구조
 - **가상머신 제어 블록(Virtual Machine Control Block, VMCB)**: AMD의 게스트 상태·전환 제어 구조
 - **가상머신 진입(VM Entry)**: 하이퍼바이저에서 게스트로 제어권 전환
@@ -70,7 +70,7 @@ xychart-beta
 
 ### 쉽게 이해하기 (학습용)
 
-- 방 안에서는 빠르게 일하지만 관리실 호출과 주소 장부 조회가 잦으면 느려진다.
+- 게스트 명령은 직접 실행되지만 VM Exit와 중첩 페이지 테이블 조회가 잦으면 가상화 오버헤드가 증가한다.
 
 ## Ⅲ. 아키텍처 및 구성요소
 
@@ -107,7 +107,7 @@ flowchart LR
 
 ### 쉽게 이해하기 (학습용)
 
-- 관리실은 손님 상태와 주소 장부와 장치 통로를 각각 분리해 관리한다.
+- 하이퍼바이저는 게스트 실행 상태·메모리 주소 변환·장치 접근 경로를 가상머신별로 분리해 관리한다.
 
 ## Ⅳ. 원리 및 절차 흐름도
 

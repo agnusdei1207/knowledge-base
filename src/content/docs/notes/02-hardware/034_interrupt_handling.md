@@ -21,20 +21,20 @@ extra:
 ## 미리 알고가기
 
 - **인터럽트 처리(Interrupt Handling)**: 비동기 요청으로 실행을 전환해 원인을 처리한 뒤 이전 문맥으로 복귀하는 절차
-- **인터럽트 요청(Interrupt Request, IRQ)**: ‘아이알큐’로 읽고 영문 머리글자를 딴 약어이며, 장치가 CPU 서비스를 요구하는 신호다.
+- **인터럽트 요청(Interrupt Request, IRQ)**: 장치가 프로세서에 비동기 처리를 요구하는 신호
 - **인터럽트 제어기(Interrupt Controller)**: 요청 마스킹·중재 후 CPU 전달
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: ‘아이에스알’로 읽고 영문 머리글자를 딴 약어이며, 인터럽트 원인을 확인하고 최소 처리를 수행한다.
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 원인을 확인하고 긴급한 최소 처리를 수행하는 전용 코드
 - **인터럽트 벡터(Interrupt Vector)**: ISR 위치를 찾는 식별 번호
 - **벡터 테이블(Vector Table)**: 벡터별 ISR 진입 주소 저장
 - **데이지체인(Daisy Chain)**: 승인 신호가 연결 순서대로 요청자 탐색
 - **인터럽트 지연(Interrupt Latency)**: 요청부터 ISR 시작까지의 시간
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘씨피유’로 읽고 영문 머리글자를 딴 약어이며, 인터럽트 수락·문맥 저장·서비스 루틴 진입을 담당한다.
-- **프로그램 카운터(Program Counter, PC)**: ‘피시’로 읽고 영문 머리글자를 딴 약어이며, 다음 명령 주소를 담아 인터럽트 복귀 때 복원한다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 인터럽트를 수락하고 실행 문맥을 저장한 뒤 서비스 루틴으로 진입하는 처리장치
+- **프로그램 카운터(Program Counter, PC)**: 다음 명령어 주소를 저장하며 인터럽트 복귀 시 이전 실행 위치로 복원하는 레지스터
 - **마스킹(Masking)**: 특정 인터럽트 요청을 일시적으로 수락하지 않도록 차단하는 제어
 - **중첩 인터럽트(Nested Interrupt)**: 서비스 루틴 실행 중 더 높은 우선순위 인터럽트의 진입을 허용하는 방식
 - **기아(Starvation)**: 낮은 우선순위 요청이 높은 우선순위 요청에 계속 밀려 처리되지 못하는 상태
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: ‘엔브이엠이’로 읽고 영문 머리글자를 딴 약어이며, 여러 명령·완료 큐를 병렬 처리하는 저장장치 인터페이스다.
-- **확장 메시지 신호 인터럽트(Message Signaled Interrupts Extended, MSI-X)**: ‘엠에스아이 엑스’로 읽고 MSI의 확장을 X로 표시한 이름이며, 여러 벡터의 메모리 쓰기 메시지로 인터럽트를 전달한다.
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 여러 명령·완료 큐를 병렬 처리하는 PCIe 저장장치 인터페이스
+- **확장 메시지 신호 인터럽트(Message Signaled Interrupts Extended, MSI-X)**: 다수의 독립 벡터를 메모리 쓰기 메시지로 전달하는 PCIe 인터럽트 방식
 - **유로카드 모듈 버스(Versa Module Europa Bus, VMEbus)**: 산업·임베디드 장치 모듈을 연결하며 데이지체인 인터럽트 승인을 지원하는 병렬 버스
 - **멀티큐(Multiqueue)**: 요청을 여러 독립 큐로 나눠 CPU 코어별 병렬 처리를 가능하게 하는 구조
 

@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **입출력 인터페이스(Input/Output Interface, I/O Interface)**: ‘아이오 인터페이스’로 읽고 입력·출력의 영문 머리글자를 빗금으로 구분한 표기이며, CPU·메모리·장치 사이의 명령·상태·데이터를 중계한다.
+- **입출력 인터페이스(Input/Output Interface, I/O Interface)**: CPU·메모리·장치 사이에서 명령·상태·데이터를 중계하는 연결 규격이다.
 - **장치 제어기(Device Controller)**: 장치 신호를 레지스터·데이터로 변환
 - **폴링(Polling)**: CPU가 장치 상태를 반복 확인
 - **인터럽트(Interrupt)**: 장치가 CPU에 상태 변화를 통지
-- **직접 메모리 접근(Direct Memory Access, DMA)**: ‘디엠에이’로 읽고 영문 머리글자를 딴 약어이며, 장치·메모리 간 블록을 직접 전송한다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 전용 제어기가 프로세서의 데이터 복사 없이 장치와 메모리 사이의 블록을 직접 전송하는 방식
 - **채널 입출력(Channel I/O)**: 채널 프로세서의 I/O 명령열 실행
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: ‘아이에스알’로 읽고 영문 머리글자를 딴 약어이며, 인터럽트 원인·완료 상태를 처리한다.
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: ‘엔브이엠이’로 읽고 영문 머리글자를 딴 약어이며, 병렬 명령·완료 큐를 사용하는 저장장치 인터페이스다.
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘씨피유’로 읽고 영문 머리글자를 딴 약어이며, 입출력 요청 설정과 완료 처리를 맡는다.
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 원인과 장치 완료 상태를 확인하고 후속 처리를 예약하는 코드
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 병렬 명령·완료 큐로 PCIe SSD의 입출력을 처리하는 저장장치 인터페이스
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 입출력 요청을 설정하고 인터럽트 또는 폴링으로 완료를 처리하는 프로세서
 - **버퍼(Buffer)**: 속도가 다른 장치 사이에서 데이터를 임시 저장해 전송 속도 차이를 흡수하는 공간
 - **핸드셰이크(Handshake)**: 송수신 측이 준비·완료 신호를 교환해 전송 시점을 맞추는 절차
 - **장치 드라이버(Device Driver)**: 운영체제의 입출력 요청을 장치 제어기의 명령으로 바꾸는 소프트웨어

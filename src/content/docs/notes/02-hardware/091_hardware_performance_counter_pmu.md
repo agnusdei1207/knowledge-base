@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **하드웨어 성능 카운터(Hardware Performance Counter)·성능 모니터링 장치(Performance Monitoring Unit, PMU)**: PMU는 ‘피엠유’로 읽고 영문 머리글자를 딴 약어이며, 프로세서 사건을 선택·계수하는 내장 기능
-- **중앙처리장치(Central Processing Unit, CPU)**: CPU는 ‘시피유’로 읽고 영문 머리글자를 딴 약어이며, 명령을 실행하면서 PMU가 계수할 사건을 생성
+- **하드웨어 성능 카운터(Hardware Performance Counter)·성능 모니터링 장치(Performance Monitoring Unit, PMU)**: 프로세서 내부 사건을 선택하여 하드웨어 카운터로 계수하는 성능 분석 기능
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하면서 사이클·명령 은퇴·캐시 미스·분기 오예측 등의 성능 사건을 생성하는 처리장치
 - **하드웨어 이벤트(Hardware Event)**: CPU 블록에서 발생해 PMU가 세는 사건
 - **명령어 은퇴(Instruction Retirement)**: 명령 실행 결과가 확정된 상태
-- **사이클당 명령어 수(Instructions Per Cycle, IPC)**: IPC는 ‘아이피시’로 읽고 영문 머리글자를 딴 약어이며, 사이클당 은퇴 명령 수로 파이프라인 처리 효율을 판단
+- **사이클당 명령어 수(Instructions Per Cycle, IPC)**: 클록 사이클당 완료한 명령어 수로 프로세서 파이프라인의 처리 효율을 나타내는 지표
 - **카운터 오버플로(Counter Overflow)**: 임계값 도달 시 인터럽트가 발생하는 상태
 - **샘플링(Sampling)**: 카운터 오버플로 때 실행 위치 기록
 - **카운터 다중화(Multiplexing)**: 이벤트를 시간 분할해 물리 카운터를 공유
