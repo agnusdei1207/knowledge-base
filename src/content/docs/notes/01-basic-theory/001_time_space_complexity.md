@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "알고리즘 시간복잡도·공간복잡도 (Time/Space Complexity)"
-date: "2026-07-28T17:34:43+09:00"
+date: "2026-07-28T21:10:15+09:00"
 tags:
   - "notes-basic-theory"
 weight: 1
@@ -77,25 +77,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    I[알고리즘·입력 조건]
-    subgraph A[복잡도 분석 경계]
-        direction TB
-        M[계산 모델]
-        C[비용 산정기]
-        G[점근 분석기]
-        M -->|① 단위 비용 기준| C
-        C -->|② 시간·공간 비용 함수| G
-    end
-    O[시간·공간 복잡도]
-    I -->|분석 대상| M
-    G -->|지배항·점근 차수| O
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
