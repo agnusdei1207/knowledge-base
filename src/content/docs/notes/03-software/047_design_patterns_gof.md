@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **4인방(Gang of Four, GoF)**: ‘고프’로 읽고 Gang of Four의 핵심 머리글자를 조합한 표기이며 객체지향 디자인 패턴 23개를 체계화한 네 저자
-- **4인방 디자인 패턴(Gang of Four Design Patterns, GoF Patterns)**: ‘고프 패턴’으로 읽고 네 저자를 뜻하는 Gang of Four의 머리글자와 패턴 수 23을 쓰는 관례 명칭이며 반복 객체 설계 문제의 역할·협력을 생성·구조·행위로 분류한 스물세 설계 지침
+- **4인방(Gang of Four, GoF)**: 객체지향 디자인 패턴 23개를 체계화한 네 명의 저자
+- **4인방 디자인 패턴(Gang of Four Design Patterns, GoF Patterns)**: 반복되는 객체 설계 문제의 역할·협력을 생성·구조·행위로 분류한 23개 설계 지침
 - **패턴 의도(Intent)**: 패턴이 해결하려는 설계 문제와 보호할 변동 지점
 - **적용 조건(Applicability)**: 패턴의 역할 분리가 현재 문제를 실제로 단순하게 만드는 상황과 제약
 - **참여자·협력(Participants and Collaboration)**: 패턴을 이루는 객체의 책임과 객체 사이의 호출 관계

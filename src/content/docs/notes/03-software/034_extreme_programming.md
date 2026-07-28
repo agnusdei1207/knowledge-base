@@ -20,14 +20,14 @@ extra:
 
 ## 미리 알고가기
 
-- **익스트림 프로그래밍(Extreme Programming, XP)**: ‘엑스피’로 읽고 Extreme Programming의 머리글자를 딴 표기이며 짧은 반복과 기술 실천으로 피드백을 강화
+- **익스트림 프로그래밍(Extreme Programming, XP)**: 짧은 반복과 공학적 실천으로 고객 피드백을 신속하게 반영하는 애자일 방법론
 - **사용자 스토리(User Story)**: 사용자 관점의 작은 가치 단위 요구사항
 - **페어 프로그래밍(Pair Programming)**: 두 개발자가 한 작업을 함께 구현·검토하는 실천
 - **드라이버(Driver)**: 코드와 테스트를 직접 작성하는 페어 역할
 - **내비게이터(Navigator)**: 설계·결함·다음 단계를 검토하는 페어 역할
-- **테스트 주도 개발(Test-Driven Development, TDD)**: ‘티디디’로 읽고 Test-Driven Development의 머리글자를 딴 표기이며 실패 테스트·구현·리팩터링을 반복
+- **테스트 주도 개발(Test-Driven Development, TDD)**: 실패 테스트 작성·구현·리팩터링을 반복하는 개발 방식
 - **리팩터링(Refactoring)**: 외부 동작을 유지하며 내부 구조를 개선하는 활동
-- **지속 통합(Continuous Integration, CI)**: ‘시아이’로 읽고 Continuous Integration의 머리글자를 딴 표기이며 작은 변경을 자주 합쳐 자동 빌드·테스트로 회귀를 검증
+- **지속 통합(Continuous Integration, CI)**: 작은 변경을 자주 통합하고 자동 빌드·테스트로 회귀 오류를 검증하는 방식
 - **회귀 결함(Regression Defect)**: 새 변경으로 이전에 정상 동작하던 기능이 다시 실패하는 결함으로서 자동 테스트와 지속 통합이 조기에 탐지함
 - **단순 설계·공동 소유(Simple Design·Collective Ownership)**: 단순 설계는 현재 요구를 만족하는 최소 구조를 유지하고 공동 소유는 모든 개발자가 코드 전반을 수정할 책임을 공유함
 - **결합도(Coupling)**: 한 코드 요소의 변경이 다른 요소에 미치는 의존 정도로서 리팩터링이 불필요한 결합을 줄임

@@ -24,8 +24,8 @@ extra:
 - **페이징(Paging)**: 가상 페이지를 물리 프레임에 매핑하는 고정 크기 분할
 - **세그멘테이션(Segmentation)**: 코드·데이터·스택을 가변 크기 논리 영역으로 분할
 - **페이지(Page)·프레임(Frame)**: 가상·물리 메모리의 같은 크기 블록
-- **메모리 관리 장치(Memory Management Unit, MMU, 엠엠유)**: 영문 각 단어의 첫 글자를 따 MMU로 표기하며 가상 주소를 변환하고 접근 권한을 검사하는 장치
-- **변환 색인 버퍼(Translation Lookaside Buffer, TLB, 티엘비)**: 영문 각 단어의 첫 글자를 따 TLB로 표기하며 최근 페이지 변환 결과를 보관하는 캐시
+- **메모리 관리 장치(Memory Management Unit, MMU)**: 가상 주소를 물리 주소로 변환하고 접근 권한을 검사하는 장치
+- **변환 색인 버퍼(Translation Lookaside Buffer, TLB)**: 최근 가상·물리 주소 변환 결과를 보관하는 캐시
 - **페이지 테이블(Page Table)**: 가상 페이지의 프레임·권한·상주 상태 저장
 - **페이지 폴트(Page Fault)**: 페이지 부재·권한 위반 시 발생하는 예외
 - **후면 저장소(Backing Store)**: 비상주 페이지를 보관하는 보조기억장치

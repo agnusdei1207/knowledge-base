@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **ATAM(Architecture Tradeoff Analysis Method)**: ‘에이탬’으로 읽고 영문 머리글자를 딴 약어이며, 품질속성 시나리오로 아키텍처의 위험·절충점을 분석하는 방법
-- **SEI(Software Engineering Institute)**: ‘에스이아이’로 읽고 영문 머리글자를 딴 약어이며, ATAM을 개발한 소프트웨어 공학 연구기관
+- **ATAM(Architecture Tradeoff Analysis Method)**: 품질속성 시나리오로 아키텍처의 위험·민감점·절충점을 분석하는 평가 방법
+- **SEI(Software Engineering Institute)**: ATAM을 개발한 소프트웨어 공학 연구기관
 - **품질속성 시나리오(Quality Attribute Scenario)**: 자극원·자극·환경·대상·응답·응답 측정값으로 품질 요구를 검증 가능하게 표현한 상황
 - **아키텍처 접근법(Architectural Approach)**: 품질 목표를 달성하기 위해 선택한 구조·전술과 근거
 - **유틸리티 트리(Utility Tree)**: 품질 목표를 시나리오로 세분하고 중요도·난이도로 우선순위를 정한 트리

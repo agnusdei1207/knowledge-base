@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **ACID(Atomicity, Consistency, Isolation, Durability)**: ‘애시드’로 읽고 네 속성의 영문 머리글자를 딴 약어이며, 트랜잭션 정확성을 보장함
-- **BASE(Basically Available, Soft State, Eventual Consistency)**: ‘베이스’로 읽고 세 원칙의 영문 핵심 글자를 딴 약어이며, 가용성과 분산 상태 수렴을 우선함
+- **ACID(Atomicity, Consistency, Isolation, Durability)**: 트랜잭션의 원자성·일관성·격리성·지속성을 보장하는 성질
+- **BASE(Basically Available, Soft State, Eventual Consistency)**: 즉시 일관성보다 가용성과 분산 상태의 최종 수렴을 우선하는 원칙
 - **최종 일관성 (Eventual Consistency)**: 시간이 지나면 사본이 같은 상태로 수렴함
 - **보상 트랜잭션 (Compensating Transaction)**: 완료한 작업을 반대 업무로 상쇄함
-- **DB(Database)**: ‘디비’로 읽고 영문 머리글자를 딴 약어이며, 데이터를 구조화해 저장·관리하는 시스템임
+- **DB(Database)**: 데이터를 구조화해 저장·관리하는 시스템
 - **불변식(Invariant)**: 처리 전후에 항상 참이어야 하는 잔액·합계 등의 업무 규칙임
 - **롤백(Rollback)**: 실패한 트랜잭션의 변경을 시작 전 상태로 되돌리는 연산임
 - **비동기 전파(Asynchronous Propagation)**: 원본 변경을 기다리지 않고 이후에 다른 사본이나 서비스로 전달하는 방식임

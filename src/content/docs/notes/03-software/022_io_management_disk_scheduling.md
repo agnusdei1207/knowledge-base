@@ -20,24 +20,24 @@ extra:
 
 ## 미리 알고가기
 
-- **입출력 요청(Input/Output Request, I/O Request)**: ‘아이오 요청’으로 읽고 Input과 Output의 머리글자를 빗금(/)으로 묶는 관례 표기이며 프로세스가 장치에 요구하는 읽기·쓰기 작업
+- **입출력 요청(Input/Output Request, I/O Request)**: 프로세스가 저장장치에 요구하는 읽기·쓰기 작업
 - **요청 큐(Request Queue)**: 제출 전 입출력 요청을 보관하는 대기열
-- **I/O 스케줄러(I/O Scheduler)**: ‘아이오 스케줄러’로 읽고 Input과 Output의 머리글자를 빗금으로 묶은 표기이며 요청 병합·순서·제출 시점을 정하는 계층
+- **I/O 스케줄러(I/O Scheduler)**: 입출력 요청의 병합 여부·처리 순서·제출 시점을 결정하는 계층
 - **장치 드라이버(Device Driver)**: 요청을 장치 명령으로 변환하는 소프트웨어
 - **탐색 거리(Seek Distance)**: HDD 헤드가 목표 실린더까지 이동하는 거리
 - **큐 깊이(Queue Depth)**: 동시에 대기하거나 실행 중인 요청 수
 - **꼬리 지연(Tail Latency)**: 상위 백분위 요청이 겪는 긴 응답 시간
 - **멀티큐(Multi-Queue)**: 여러 대기열을 뜻하며 CPU·장치 큐로 요청을 병렬 처리하는 구조
-- **운영체제(Operating System, OS)**: ‘오에스’로 읽고 Operating System의 머리글자를 딴 표기이며 프로세스·메모리·장치를 관리하고 입출력 요청을 중재
-- **선입 선처리(First-Come, First-Served, FCFS)**: ‘에프시에프에스’로 읽고 First-Come, First-Served의 머리글자를 딴 표기이며 도착 순서대로 디스크 요청을 처리
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: ‘에스에스디’로 읽고 Solid-State Drive의 머리글자를 딴 표기이며 플래시 메모리로 비휘발 데이터를 저장
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: ‘엔브이엠이’로 읽고 Non-Volatile Memory Express를 줄인 표기이며 PCIe 저장장치의 다중 큐 명령 인터페이스
-- **하드 디스크 드라이브(Hard Disk Drive, HDD)**: ‘에이치디디’로 읽고 Hard Disk Drive의 머리글자를 딴 표기이며 회전 원판과 이동 헤드로 데이터를 읽고 쓰는 저장장치
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: ‘피시아이 익스프레스’로 읽고 PCI에 고속 규격을 뜻하는 e를 붙인 표기이며 NVMe SSD를 다중 레인 직렬 링크로 연결
-- **중앙처리장치(Central Processing Unit, CPU)**: ‘시피유’로 읽고 Central Processing Unit의 머리글자를 딴 표기이며 입출력 제출·완료 처리를 실행하고 멀티큐의 코어별 경합을 분산
+- **운영체제(Operating System, OS)**: 프로세스·메모리·장치를 관리하고 입출력 요청을 중재하는 시스템 소프트웨어
+- **선입 선처리(First-Come, First-Served, FCFS)**: 도착 순서대로 디스크 요청을 처리하는 스케줄링 방식
+- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 플래시 메모리에 비휘발성 데이터를 저장하는 장치
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 저장장치를 위한 다중 큐 기반 명령 인터페이스
+- **하드 디스크 드라이브(Hard Disk Drive, HDD)**: 회전 원판과 이동 헤드로 데이터를 읽고 쓰는 저장장치
+- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: NVMe SSD 등을 다중 레인 직렬 링크로 연결하는 고속 인터페이스
+- **중앙처리장치(Central Processing Unit, CPU)**: 입출력 제출·완료 처리를 실행하며 멀티큐를 통해 코어 간 경합을 분산하는 처리장치
 - **회전 지연(Rotational Latency)**: HDD 원판이 돌아 목표 섹터가 헤드 아래에 올 때까지 기다리는 시간
 - **처리량·평균 지연(Throughput·Average Latency)**: 처리량은 단위 시간당 완료 요청 수이고 평균 지연은 모든 요청 응답시간의 평균으로서 꼬리 지연과 함께 정책 상충을 평가함
-- **스캔(SCAN)**: ‘스캔’으로 읽는 디스크 스케줄링의 공식 알고리즘 이름으로 별도 영문 확장어를 만들지 않으며 헤드가 한 방향의 실린더 요청을 처리한 뒤 방향을 바꿈
+- **스캔(SCAN)**: 디스크 헤드가 한 방향의 실린더 요청을 처리한 뒤 이동 방향을 바꾸는 스케줄링 방식
 - **데드라인 스케줄링(Deadline Scheduling)**: 요청에 만료 시각을 부여해 위치 최적화 중에도 오래 기다린 요청을 기한 안에 제출하는 방식
 - **인터럽트·완료 큐(Interrupt·Completion Queue)**: 인터럽트는 장치 완료를 CPU에 알리는 신호이고 완료 큐는 끝난 명령의 상태를 기록해 대기 작업을 재개하게 하는 저장소
 - **논리 블록·버퍼(Logical Block·Buffer)**: 논리 블록은 연속 번호로 지정한 저장 단위이고 버퍼는 입출력 데이터를 메모리에 임시 보관해 장치 명령에 전달하는 영역

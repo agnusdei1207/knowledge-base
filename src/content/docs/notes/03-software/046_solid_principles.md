@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **솔리드 원칙(SOLID Principles)**: ‘솔리드’로 읽고 SRP·OCP·LSP·ISP·DIP의 머리글자를 단어처럼 결합한 관례 명칭이며 객체의 책임·확장·치환·인터페이스·의존 방향을 통제하는 다섯 설계 원칙
-- **단일 책임 원칙(Single Responsibility Principle, SRP)**: ‘에스알피’로 읽고 영문 머리글자를 딴 표기이며 한 변경 주체와 이유의 책임을 한 모듈에 모음
-- **개방·폐쇄 원칙(Open-Closed Principle, OCP)**: ‘오시피’로 읽고 영문 머리글자를 딴 표기이며 기존 코드 수정 없이 새 구현을 추가해 동작 확장
-- **리스코프 치환 원칙(Liskov Substitution Principle, LSP)**: ‘엘에스피’로 읽고 영문 머리글자를 딴 표기이며 하위 타입이 상위 계약을 지켜 대체 가능하게 함
-- **인터페이스 분리 원칙(Interface Segregation Principle, ISP)**: ‘아이에스피’로 읽고 영문 머리글자를 딴 표기이며 쓰지 않는 기능에 의존하지 않도록 계약 분리
-- **의존 역전 원칙(Dependency Inversion Principle, DIP)**: ‘디아이피’로 읽고 영문 머리글자를 딴 표기이며 상위 정책과 하위 구현이 추상화에 의존
+- **솔리드 원칙(SOLID Principles)**: 객체의 책임·확장·치환·인터페이스·의존 방향을 통제하는 다섯 가지 객체지향 설계 원칙
+- **단일 책임 원칙(Single Responsibility Principle, SRP)**: 하나의 변경 주체와 변경 이유에 관한 책임을 한 모듈에 모으는 원칙
+- **개방·폐쇄 원칙(Open-Closed Principle, OCP)**: 기존 코드를 수정하지 않고 새 구현을 추가해 동작을 확장하는 원칙
+- **리스코프 치환 원칙(Liskov Substitution Principle, LSP)**: 하위 타입이 상위 타입의 계약을 지켜 대체 가능하도록 하는 원칙
+- **인터페이스 분리 원칙(Interface Segregation Principle, ISP)**: 클라이언트가 사용하지 않는 기능에 의존하지 않도록 인터페이스를 분리하는 원칙
+- **의존 역전 원칙(Dependency Inversion Principle, DIP)**: 상위 정책과 하위 구현이 모두 추상화에 의존하도록 하는 원칙
 - **결합도·응집도(Coupling and Cohesion)**: 모듈 사이 의존 정도와 한 모듈 내부 책임의 관련 정도
 - **선행조건·후행조건·불변식(Precondition·Postcondition·Invariant)**: 선행조건은 호출 전 요구, 후행조건은 호출 후 보장, 불변식은 객체 수명 동안 유지할 규칙으로서 하위 타입이 강화·약화해 상위 계약을 깨면 LSP를 위반함
 - **상위·하위 타입(Supertype·Subtype)**: 상위 타입은 공통 계약을 정의하고 하위 타입은 이를 확장해도 호출자가 같은 계약으로 안전하게 대체할 수 있어야 함

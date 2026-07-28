@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **통합 모델링 언어(Unified Modeling Language, UML)**: ‘유엠엘’로 읽고 Unified Modeling Language의 머리글자를 딴 표기이며 시스템 구조·행위·상호작용을 정해진 기호로 표현
+- **통합 모델링 언어(Unified Modeling Language, UML)**: 시스템의 구조·행위·상호작용을 표준 기호로 표현하는 모델링 언어
 - **구조 다이어그램(Structure Diagram)**: 시스템의 정적 요소와 요소 간 관계, 실행 배치를 표현하는 UML 다이어그램
 - **행위 다이어그램(Behavior Diagram)**: 시스템의 동작과 상태 변화, 처리 흐름을 표현하는 UML 다이어그램
 - **상호작용 다이어그램(Interaction Diagram)**: 객체 간 메시지 교환을 표현하는 행위 유형

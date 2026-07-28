@@ -20,13 +20,13 @@ extra:
 
 ## 미리 알고가기
 
-- **개발·보안·운영(Development, Security and Operations, DevSecOps)**: ‘데브섹옵스’로 읽고 세 영역의 영문 명칭을 결합한 표기이며, 개발 수명주기 전반에 보안을 공동 책임으로 내재화함
+- **개발·보안·운영(Development, Security and Operations, DevSecOps)**: 개발 수명주기 전반에 보안을 공동 책임과 자동화된 통제로 내재화하는 방식
 - **시프트 레프트(Shift Left)**: 보안 검증을 개발 수명주기의 앞단인 설계·코딩 단계로 이동하는 전략
-- **정적 애플리케이션 보안 테스트(Static Application Security Testing, SAST)**: ‘새스트’로 읽고 영문 머리글자를 딴 약어이며, 실행하지 않은 소스·바이트코드의 취약 패턴을 분석함
-- **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: ‘대스트’로 읽고 영문 머리글자를 딴 약어이며, 실행 중인 애플리케이션의 외부 인터페이스를 공격 관점에서 검사함
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: ‘에스시에이’로 읽고 영문 머리글자를 딴 약어이며, 오픈소스 구성요소의 취약점·라이선스를 식별함
-- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: ‘에스봄’으로 읽고 영문 머리글자를 딴 약어이며, 소프트웨어를 구성하는 패키지·버전·의존성 목록을 제공함
-- **대화형 애플리케이션 보안 테스트(Interactive Application Security Testing, IAST)**: ‘아이애스트’로 읽고 영문 머리글자를 딴 약어이며, 실행 중 내부 계측 정보와 테스트 입력을 결합해 취약점을 탐지함
+- **정적 애플리케이션 보안 테스트(Static Application Security Testing, SAST)**: 프로그램을 실행하지 않고 소스·바이트코드의 취약 패턴을 분석하는 테스트
+- **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션의 외부 인터페이스를 공격 관점에서 검사하는 테스트
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스 구성요소의 알려진 취약점과 라이선스를 식별하는 분석
+- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 패키지·버전·의존성 목록
+- **대화형 애플리케이션 보안 테스트(Interactive Application Security Testing, IAST)**: 실행 중 내부 계측 정보와 테스트 입력을 결합해 취약점을 탐지하는 테스트
 - **비밀정보 검사(Secret Scanning)**: 소스·이력에 포함된 비밀번호·토큰·개인키를 탐지하는 검사
 - **정책 코드화(Policy as Code)**: 보안·규정 준수 기준을 기계가 실행할 수 있는 코드로 선언하고 자동 판정하는 방식
 - **위협 모델링(Threat Modeling)**: 자산·공격 경로·위협·대응책을 설계 단계에서 식별하는 활동

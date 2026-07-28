@@ -20,16 +20,16 @@ extra:
 
 ## 미리 알고가기
 
-- **단일 큐 다중 프로세서 스케줄링(Single Queue Multiprocessor Scheduling, SQMS)**: ‘에스큐엠에스’로 읽고 영문 머리글자를 딴 표기이며 모든 코어가 전역 실행 큐를 공유
-- **다중 큐 다중 프로세서 스케줄링(Multi-Queue Multiprocessor Scheduling, MQMS)**: ‘엠큐엠에스’로 읽고 영문 머리글자를 딴 표기이며 코어별 로컬 실행 큐를 사용
+- **단일 큐 다중 프로세서 스케줄링(Single Queue Multiprocessor Scheduling, SQMS)**: 모든 코어가 하나의 전역 실행 큐를 공유하는 스케줄링 방식
+- **다중 큐 다중 프로세서 스케줄링(Multi-Queue Multiprocessor Scheduling, MQMS)**: 코어별 로컬 실행 큐를 사용하는 스케줄링 방식
 - **실행 큐(Run Queue)**: 실행 가능한 작업을 대기시키는 스케줄러 큐
 - **부하 분산(Load Balancing)**: 코어별 실행 부하 편차를 줄이는 작업 이동
 - **작업 훔치기(Work Stealing)**: 유휴 코어가 바쁜 코어 큐의 작업을 가져오는 방식
 - **밀기 이동(Push Migration)**: 바쁜 코어의 작업을 덜 바쁜 큐로 이동
-- **CPU 친화도(CPU Affinity)**: ‘시피유 친화도’로 읽고 Central Processing Unit의 머리글자를 딴 표기이며 작업이 실행할 수 있거나 선호하는 코어 집합
+- **CPU 친화도(CPU Affinity)**: 작업이 실행할 수 있거나 우선 배정되는 프로세서 코어의 범위
 - **캐시 지역성(Cache Locality)**: 같은 코어의 캐시 데이터를 재사용하는 성질
-- **대칭형 다중처리(Symmetric Multiprocessing, SMP)**: ‘에스엠피’로 읽고 Symmetric Multiprocessing의 머리글자를 딴 표기이며 여러 동등 프로세서가 메모리와 운영체제를 공유
-- **중앙처리장치(Central Processing Unit, CPU) 코어**: ‘시피유 코어’로 읽고 Central Processing Unit의 머리글자를 딴 표기이며 독립 명령 흐름을 실행하는 처리 단위
+- **대칭형 다중처리(Symmetric Multiprocessing, SMP)**: 여러 동등한 프로세서가 메모리와 운영체제를 공유하는 처리 구조
+- **중앙처리장치(Central Processing Unit, CPU) 코어**: 독립된 명령 흐름을 실행하는 처리 단위
 - **전역·로컬 실행 큐(Global·Local Run Queue)**: 전역 큐는 모든 코어가 공유하고 로컬 큐는 특정 코어가 주로 소비해 경합과 캐시 이동을 줄임
 - **스케줄러(Scheduler)**: 실행 가능 작업을 큐에 배치하고 우선순위·할당량에 따라 코어에서 실행할 대상을 선택하는 운영체제 구성요소
 - **재큐잉(Requeueing)**: 선점되거나 대기에서 깨어난 미완료 작업을 실행 큐에 다시 삽입하는 동작

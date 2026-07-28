@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **확장형 애자일 프레임워크(Scaled Agile Framework, SAFe)**: ‘세이프’로 읽고 Scaled Agile Framework를 공식 대소문자로 줄인 표기이며 린·애자일을 가치 흐름과 전사로 확장
-- **린 포트폴리오 관리(Lean Portfolio Management, LPM)**: ‘엘피엠’으로 읽고 영문 머리글자를 딴 표기이며 기업 전략과 투자를 가치 흐름에 연결
-- **개발 가치 흐름(Development Value Stream, DVS)**: ‘디브이에스’로 읽고 영문 머리글자를 딴 표기이며 아이디어를 고객 가치로 바꾸는 개발 활동의 흐름
-- **애자일 릴리스 트레인(Agile Release Train, ART)**: ‘에이알티’로 읽고 영문 머리글자를 딴 표기이며 여러 팀을 공통 임무·주기로 묶은 장기 조직
-- **계획 주기(Planning Interval, PI)**: ‘피아이’로 읽고 Planning Interval의 머리글자를 딴 표기이며 ART가 공통 목표를 수행하는 시간 상자
-- **PI 계획(PI Planning)**: ‘피아이 플래닝’으로 읽고 계획 주기의 약어 PI에 Planning을 붙인 표기이며 참여 팀이 목표·용량·의존성을 정렬
+- **확장형 애자일 프레임워크(Scaled Agile Framework, SAFe)**: 린·애자일 원칙을 가치 흐름과 전사 조직으로 확장한 프레임워크
+- **린 포트폴리오 관리(Lean Portfolio Management, LPM)**: 기업 전략과 투자를 개발 가치 흐름에 연결하는 관리 방식
+- **개발 가치 흐름(Development Value Stream, DVS)**: 아이디어를 고객 가치로 전환하는 개발 활동의 흐름
+- **애자일 릴리스 트레인(Agile Release Train, ART)**: 여러 팀을 공통 임무와 개발 주기로 묶은 장기 조직
+- **계획 주기(Planning Interval, PI)**: ART가 공통 목표를 수행하는 시간 단위
+- **PI 계획(PI Planning)**: 참여 팀이 계획 주기의 목표·용량·의존성을 정렬하는 공동 계획 활동
 - **시스템 데모(System Demo)**: 여러 팀의 통합 결과를 함께 검토하는 이벤트
 - **린·애자일(Lean·Agile)**: 린은 가치 흐름의 낭비와 지연을 줄이고 애자일은 짧은 증분 피드백으로 변화에 적응하며 SAFe가 두 원칙을 여러 팀에 확장함
 - **시간 상자(Timebox)**: 시작·종료 시각을 고정한 기간으로서 PI와 팀 반복의 계획·검토 리듬을 맞춤

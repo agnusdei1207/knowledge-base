@@ -25,8 +25,8 @@ extra:
 - **공통 언어(Ubiquitous Language)**: 경계 안의 대화·모델·코드에서 같은 뜻으로 쓰는 업무 용어
 - **컨텍스트 맵(Context Map)**: 바운디드 컨텍스트 사이의 의존·협력·번역 관계를 나타낸 지도
 - **업스트림·다운스트림(Upstream and Downstream)**: 모델 계약을 제공하는 경계와 그 계약을 소비하는 경계의 의존 관계
-- **오염 방지 계층(Anti-Corruption Layer, ACL)**: ‘에이시엘’로 읽고 Anti-Corruption Layer의 머리글자를 딴 표기이며 외부 모델과 용어가 내부 모델에 퍼지지 않도록 번역
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 Application Programming Interface의 머리글자를 딴 표기이며 컨텍스트 사이의 요청·응답 규칙과 데이터 계약
+- **오염 방지 계층(Anti-Corruption Layer, ACL)**: 외부 모델과 용어가 내부 도메인 모델에 침투하지 않도록 변환하는 계층
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 바운디드 컨텍스트 사이의 요청·응답 규칙과 데이터 계약
 - **공개 계약(Published Contract)**: 업스트림이 외부 컨텍스트에 제공하는 API·이벤트의 의미·필드·버전 규칙
 - **계약 이벤트(Contract Event)**: 업스트림의 상태 변경 사실을 공개 계약 형식으로 표현해 다운스트림에 전달하는 메시지
 - **불변 조건(Invariant)**: 다운스트림 모델이 상태 변경 전후에 반드시 유지해야 하며 번역 결과를 반영하기 전에 검증하는 업무 규칙

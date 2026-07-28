@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **SAST(Static Application Security Testing)**: ‘새스트’로 읽고 영문 머리글자를 딴 약어이며, 프로그램을 실행하지 않고 소스·바이너리의 보안 결함을 찾는 테스트
-- **AST(Abstract Syntax Tree)**: ‘에이에스티’로 읽고 영문 머리글자를 딴 약어이며, 소스의 문법 구조를 트리로 표현해 코드 의미 분석에 사용
-- **CFG(Control Flow Graph)**: ‘시에프지’로 읽고 영문 머리글자를 딴 약어이며, 실행 가능한 제어 경로를 그래프로 표현
-- **DFG(Data Flow Graph)**: ‘디에프지’로 읽고 영문 머리글자를 딴 약어이며, 값의 정의·사용·전파 관계를 표현
+- **SAST(Static Application Security Testing)**: 프로그램을 실행하지 않고 소스·바이너리의 보안 결함을 찾는 정적 보안 테스트
+- **AST(Abstract Syntax Tree)**: 소스 코드의 문법 구조를 트리로 표현해 의미 분석에 사용하는 자료구조
+- **CFG(Control Flow Graph)**: 프로그램에서 실행 가능한 제어 경로를 그래프로 표현한 구조
+- **DFG(Data Flow Graph)**: 값의 정의·사용·전파 관계를 그래프로 표현한 구조
 - **소스(Source)**: 외부 입력이 데이터 흐름에 들어오는 지점
 - **싱크(Sink)**: 명령 실행·데이터베이스 질의처럼 오염값이 위험을 일으키는 지점
 - **새니타이저(Sanitizer)**: 오염값을 검증·변환해 위험을 제거하는 처리

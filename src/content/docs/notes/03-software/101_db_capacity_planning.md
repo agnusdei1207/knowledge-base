@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **데이터베이스(Database, DB)**: ‘디비’로 읽고 영문 머리글자를 딴 약어이며, 구조화 데이터를 저장·조회·관리하는 시스템
+- **데이터베이스(Database, DB)**: 구조화된 데이터를 저장·조회·관리하는 시스템
 - **용량 계획(Capacity Planning)**: 예상 수요에 필요한 저장·처리 자원 규모와 증설 시점을 정하는 활동
-- **초당 트랜잭션 수(Transactions Per Second, TPS)**: ‘티피에스’로 읽고 영문 머리글자를 딴 약어이며, 시스템이 초당 처리하는 트랜잭션 수
-- **초당 입출력 작업 수(Input/Output Operations Per Second, IOPS)**: ‘아이옵스’로 읽고 영문 머리글자를 딴 약어이며, 저장장치가 초당 처리하는 읽기·쓰기 작업 수
-- **중앙 처리 장치(Central Processing Unit, CPU)**: ‘시피유’로 읽고 영문 머리글자를 딴 약어이며, 질의 계산·정렬·집계를 수행하는 장치
+- **초당 트랜잭션 수(Transactions Per Second, TPS)**: 시스템이 1초 동안 처리하는 트랜잭션 수
+- **초당 입출력 작업 수(Input/Output Operations Per Second, IOPS)**: 저장장치가 1초 동안 처리하는 읽기·쓰기 작업 수
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 질의의 계산·정렬·집계를 수행하는 처리장치
 - **헤드룸(Headroom)**: 수요 급증·장애·예측 오차에 대응하도록 남겨 둔 여유 자원
 - **보관 기간(Retention Period)**: 데이터를 삭제하지 않고 유지해야 하는 기간
 - **운영 오버헤드(Operational Overhead)**: 원본 외에 인덱스·로그·복제본·임시 작업이 추가로 사용하는 자원

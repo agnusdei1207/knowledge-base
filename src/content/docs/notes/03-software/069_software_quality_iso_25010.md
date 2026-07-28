@@ -20,10 +20,10 @@ extra:
 
 ## 미리 알고가기
 
-- **ISO(International Organization for Standardization)**: ‘아이에스오’로 읽고 영문 명칭을 나타내는 국제 표준화 기구 표기이며, 산업 전반의 국제표준을 제정
-- **IEC(International Electrotechnical Commission)**: ‘아이이씨’로 읽고 영문 머리글자를 딴 약어이며, 전기·전자 분야 국제표준을 제정
+- **ISO(International Organization for Standardization)**: 산업 전반의 국제표준을 제정하는 국제표준화기구
+- **IEC(International Electrotechnical Commission)**: 전기·전자 분야의 국제표준을 제정하는 국제전기기술위원회
 - **ISO/IEC 25010**: ‘아이에스오 아이이씨 이오공일공’으로 읽으며, 두 기구의 공동표준 번호로 제품 품질 모델을 정의
-- **ICT(Information and Communication Technology)**: ‘아이시티’로 읽고 영문 머리글자를 딴 약어이며, 정보의 처리·저장·전송 기술을 통칭
+- **ICT(Information and Communication Technology)**: 정보의 처리·저장·전송에 필요한 정보통신기술
 - **품질 특성(Quality Characteristic)**: 제품 품질을 평가 관점별로 나눈 상위 분류
 - **부특성(Subcharacteristic)**: 상위 품질 특성을 측정 가능한 요구 단위로 세분한 분류
 - **품질 측정값(Quality Measure)**: 품질 특성의 충족 정도를 수치나 판정값으로 표현한 결과

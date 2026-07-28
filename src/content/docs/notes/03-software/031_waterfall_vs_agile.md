@@ -25,7 +25,7 @@ extra:
 - **요구 기준선(Requirements Baseline)**: 승인된 요구의 변경 통제 기준
 - **제품 백로그(Product Backlog)**: 제품에 필요한 요구와 작업을 가치와 위험에 따라 정렬한 단일 목록
 - **제품 증분(Product Increment)**: 반복마다 통합해 검토 가능한 결과
-- **소프트웨어 개발 생명주기(Software Development Lifecycle, SDLC)**: ‘에스디엘시’로 읽고 Software Development Lifecycle의 머리글자를 딴 표기이며 요구부터 운영까지 활동·산출물 흐름을 관리
+- **소프트웨어 개발 생명주기(Software Development Lifecycle, SDLC)**: 요구분석부터 운영까지 개발 활동과 산출물의 흐름을 관리하는 체계
 - **이해관계자(Stakeholder)**: 제품의 요구·승인·사용 결과에 영향을 주거나 영향을 받으며 증분 검토에 피드백을 제공하는 사람이나 조직
 - **제품 책임자(Product Owner)**: 제품 가치와 위험을 기준으로 백로그 순서를 정하고 반복에 반영할 요구를 선택하는 책임자
 - **반복(Iteration)**: 짧은 기간에 요구 선택·구현·검토를 완료하고 피드백을 다음 주기에 반영하는 개발 주기

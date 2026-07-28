@@ -23,20 +23,20 @@ extra:
 - **플랫폼 스레드(Platform Thread)**: 운영체제 스레드와 연결된 Java 스레드
 - **캐리어 스레드(Carrier Thread)**: 가상 스레드를 실행하는 플랫폼 스레드
 - **탑재·분리(Mount·Unmount)**: 가상 스레드를 캐리어에 연결·해제
-- **JVM 스케줄러**: ‘제이브이엠 스케줄러’로 읽고 Java Virtual Machine의 머리글자를 딴 표기이며 실행 가능 가상 스레드를 캐리어에 배정
+- **JVM 스케줄러**: 실행 가능한 가상 스레드를 캐리어 스레드에 배정하는 구성요소
 - **고정(Pinning)**: 차단 중 가상 스레드가 캐리어에서 분리되지 못함
 - **스레드별 요청 처리(Thread-per-Request)**: 요청 수명 동안 전용 스레드 사용
-- **블로킹 입출력(Blocking I/O)**: ‘블로킹 아이오’로 읽고 Input과 Output의 머리글자를 빗금으로 묶은 표기이며 완료 전 호출 스레드의 진행을 멈추는 입출력
-- **자바 개발 키트(Java Development Kit, JDK)**: ‘제이디케이’로 읽고 Java Development Kit의 머리글자를 딴 표기이며 Java 개발·실행 도구와 가상 스레드 구현을 제공
-- **자바 가상 머신(Java Virtual Machine, JVM)**: ‘제이브이엠’으로 읽고 Java Virtual Machine의 머리글자를 딴 표기이며 Java 바이트코드를 실행하고 가상 스레드를 스케줄링
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 Application Programming Interface의 머리글자를 딴 표기이며 소프트웨어 기능을 호출하기 위한 규약
-- **중앙처리장치(Central Processing Unit, CPU)**: ‘시피유’로 읽고 Central Processing Unit의 머리글자를 딴 표기이며 명령을 실행하고 실제 병렬 처리 한도를 결정
-- **자바 프로젝트 룸(Java Project Loom)**: ‘프로젝트 룸’으로 읽는 OpenJDK의 공식 프로젝트 이름으로 별도 약어를 만들지 않으며 가상 스레드와 경량 동시성 기능을 개발함
-- **스레드 식별자 `Thread`**: ‘스레드’로 읽고 Java 클래스 이름의 첫 글자를 대문자로 쓰는 코드 표기 관례를 따르며 가상·플랫폼 스레드를 생성하고 제어하는 API 형식을 나타냄
-- **동기화 식별자 `synchronized`**: ‘싱크로나이즈드’로 읽고 Java 예약어를 소문자 코드로 쓰는 언어 관례 표기이며 객체 모니터를 획득해 임계 구역의 상호 배제를 제공함
+- **블로킹 입출력(Blocking I/O)**: 작업이 완료될 때까지 호출 스레드의 진행을 멈추는 입출력 방식
+- **자바 개발 키트(Java Development Kit, JDK)**: Java 개발·실행 도구와 가상 스레드 구현을 제공하는 개발 도구
+- **자바 가상 머신(Java Virtual Machine, JVM)**: Java 바이트코드를 실행하고 가상 스레드를 스케줄링하는 실행 환경
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능을 호출하고 결과를 받기 위한 규약
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령을 실행하며 실제 병렬 처리 한도를 결정하는 처리장치
+- **자바 프로젝트 룸(Java Project Loom)**: 가상 스레드와 경량 동시성 기능을 개발한 OpenJDK 프로젝트
+- **스레드 식별자 `Thread`**: 가상·플랫폼 스레드를 생성하고 제어하는 Java API 클래스
+- **동기화 식별자 `synchronized`**: 객체 모니터를 획득해 임계 구역의 상호 배제를 보장하는 Java 예약어
 - **다중화(Multiplexing)**: 많은 가상 스레드의 실행을 소수 캐리어 스레드에 번갈아 탑재해 플랫폼 스레드를 재사용하는 방식
 - **호출 스택(Call Stack)**: 함수 호출 위치·지역 변수·반환 주소를 쌓아 가상 스레드가 분리된 뒤 같은 지점에서 재개하게 하는 실행 상태
-- **운영체제(Operating System, OS)**: ‘오에스’로 읽고 Operating System의 머리글자를 딴 표기이며 캐리어 플랫폼 스레드를 실제 프로세서 코어에 배정
+- **운영체제(Operating System, OS)**: 캐리어 플랫폼 스레드를 실제 프로세서 코어에 배정하는 시스템 소프트웨어
 - **네이티브·외부 함수(Native·Foreign Function)**: Java 가상 머신 밖의 기계어 코드나 외부 인터페이스를 호출하며 일부 차단 구간에서 가상 스레드가 캐리어를 점유하게 할 수 있는 함수
 - **데이터베이스 연결 한도(Database Connection Limit)**: 동시에 빌릴 수 있는 외부 연결 수의 상한으로서 가상 스레드 수와 별도로 제한해 데이터베이스 자원 고갈을 방지함
 - **플랫폼 스레드 풀(Platform Thread Pool)**: 실제 CPU 계산 병렬도에 맞춘 수의 플랫폼 스레드를 재사용해 계산 작업을 실행하는 구조

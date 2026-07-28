@@ -20,21 +20,21 @@ extra:
 ## 미리 알고가기
 
 - **파일 시스템(File System)**: 저장 블록을 파일·디렉터리로 조직
-- **가상 파일 시스템(Virtual File System, VFS)**: ‘브이에프에스’로 읽고 Virtual File System의 머리글자를 딴 표기이며 파일 시스템별 차이를 공통 인터페이스로 추상화
+- **가상 파일 시스템(Virtual File System, VFS)**: 파일 시스템별 구현 차이를 공통 파일 인터페이스로 추상화하는 계층
 - **메타데이터(Metadata)**: 파일 크기·위치·권한·시간 정보
 - **블록·클러스터(Block·Cluster)**: 파일에 할당하는 저장장치 공간 단위
 - **익스텐트(Extent)**: 연속 블록의 시작 위치·길이 표현
 - **저널링(Journaling)**: 변경 의도를 로그에 기록해 장애 후 재실행·복구
-- **쓰기 시 복사(Copy-on-Write, COW)**: ‘카우’로 읽고 Copy-on-Write의 머리글자를 딴 표기이며 변경 데이터를 새 블록에 쓰고 참조 전환
+- **쓰기 시 복사(Copy-on-Write, COW)**: 변경 데이터를 새 블록에 기록한 뒤 참조를 전환하는 갱신 방식
 - **스냅샷(Snapshot)**: 특정 시점의 파일 시스템 참조 상태 보존
-- **접근 제어 목록(Access Control List, ACL)**: ‘에이시엘’로 읽고 Access Control List의 머리글자를 딴 표기이며 사용자·그룹별 파일 접근 권한을 기록하는 목록
-- **마스터 파일 테이블(Master File Table, MFT)**: ‘엠에프티’로 읽고 Master File Table의 머리글자를 딴 표기이며 NTFS가 파일·디렉터리 메타데이터를 저장하는 핵심 테이블
-- **파일 할당 테이블(File Allocation Table, FAT)**: ‘팻’으로 읽고 File Allocation Table의 머리글자를 딴 표기이며 파일의 클러스터 연결을 할당표에 기록하는 파일 시스템 계열
-- **신기술 파일 시스템(New Technology File System, NTFS)**: ‘엔티에프에스’로 읽고 New Technology File System의 머리글자를 딴 표기이며 MFT·ACL·저널로 Windows의 메타데이터·권한·복구를 제공
-- **제4 확장 파일 시스템(Fourth Extended File System, ext4)**: ‘이엑스티 포’로 읽고 extended의 축약어 ext와 네 번째 세대를 뜻하는 숫자 4를 결합한 관례 표기이며 Linux에서 아이노드·익스텐트·저널을 제공하는 범용 파일 시스템
-- **애플 파일 시스템(Apple File System, APFS)**: ‘에이피에프에스’로 읽고 Apple File System의 머리글자를 딴 표기이며 쓰기 시 복사·스냅샷·암호화로 Apple 장치의 시점 복구를 관리
-- **아이노드(Index Node, inode)**: ‘아이노드’로 읽는 유닉스 계열의 관례 이름으로 파일 이름을 제외한 유형·권한·크기·블록 위치를 저장하는 메타데이터 구조
-- **운영체제(Operating System, OS)**: ‘오에스’로 읽고 Operating System의 머리글자를 딴 표기이며 파일 경로를 해석하고 저장 블록·권한·장애 복구를 관리
+- **접근 제어 목록(Access Control List, ACL)**: 사용자·그룹별 파일 접근 권한을 기록하는 목록
+- **마스터 파일 테이블(Master File Table, MFT)**: NTFS의 파일·디렉터리 메타데이터를 저장하는 핵심 테이블
+- **파일 할당 테이블(File Allocation Table, FAT)**: 파일을 구성하는 클러스터의 연결 관계를 할당표에 기록하는 파일 시스템
+- **신기술 파일 시스템(New Technology File System, NTFS)**: MFT·ACL·저널로 Windows의 메타데이터·권한·장애 복구를 지원하는 파일 시스템
+- **제4 확장 파일 시스템(Fourth Extended File System, ext4)**: 아이노드·익스텐트·저널을 제공하는 Linux 범용 파일 시스템
+- **애플 파일 시스템(Apple File System, APFS)**: 쓰기 시 복사·스냅샷·암호화를 지원하는 Apple 장치용 파일 시스템
+- **아이노드(Index Node, inode)**: 파일 이름을 제외한 유형·권한·크기·블록 위치를 저장하는 유닉스 계열 메타데이터 구조
+- **운영체제(Operating System, OS)**: 파일 경로를 해석하고 저장 블록·권한·장애 복구를 관리하는 시스템 소프트웨어
 - **블록 장치(Block Device)**: 데이터를 고정 크기 블록 단위로 읽고 쓰며 파일 시스템의 영구 저장 공간을 제공하는 장치
 - **경로 해석(Path Resolution)**: 디렉터리 이름을 순서대로 따라가 대상 파일의 메타데이터를 찾는 과정
 - **커밋(Commit)**: 데이터·메타데이터 변경이 정한 일관성 범위에서 영구 저장됐음을 확정하는 동작

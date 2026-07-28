@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **개발·운영(Development and Operations, DevOps)**: ‘데브옵스’로 읽고 Development와 Operations를 결합한 명칭이며, 개발부터 운영 피드백까지 공동 책임지는 문화·방법론
-- **지속적 통합(Continuous Integration, CI)**: ‘시아이’로 읽고 영문 머리글자를 딴 약어이며, 작은 코드 변경을 자주 병합해 자동 검증함
-- **지속적 전달(Continuous Delivery, CD)**: ‘시디’로 읽고 영문 머리글자를 딴 약어이며, 검증한 변경을 언제든 배포 가능한 상태로 준비함
+- **개발·운영(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동으로 책임지는 협업 문화와 방법론
+- **지속적 통합(Continuous Integration, CI)**: 작은 코드 변경을 자주 병합하고 자동 빌드·테스트로 검증하는 활동
+- **지속적 전달(Continuous Delivery, CD)**: 검증한 변경을 언제든 운영에 배포할 수 있는 상태로 준비하는 활동
 - **피드백 루프(Feedback Loop)**: 운영 지표와 장애 원인을 다음 개발·운영 정책에 반영하는 순환
 - **점진적 전달(Progressive Delivery)**: 새 버전이나 기능의 운영 노출 범위를 단계적으로 확대하는 방식
-- **개발·운영 연구 및 평가(DevOps Research and Assessment, DORA)**: ‘도라’로 읽고 영문 머리글자를 딴 명칭이며, 배포 빈도·변경 리드 타임·변경 실패율·복구 시간을 측정하는 연구 체계
-- **평균 복구 시간(Mean Time to Recovery, MTTR)**: ‘엠티티알’로 읽고 영문 머리글자를 딴 약어이며, 장애 발생부터 서비스 복구까지의 평균 시간을 나타냄
+- **개발·운영 연구 및 평가(DevOps Research and Assessment, DORA)**: 배포 빈도·변경 리드 타임·변경 실패율·복구 시간을 측정해 소프트웨어 전달 성과를 평가하는 체계
+- **평균 복구 시간(Mean Time to Recovery, MTTR)**: 장애 발생부터 서비스 정상 복구까지 걸린 평균 시간
 - **관측 가능성(Observability)**: 외부 출력인 로그·메트릭·트레이스로 시스템 내부 상태를 추론하는 능력
-- **인프라 코드화(Infrastructure as Code, IaC)**: ‘아이에이씨’로 읽고 영문 머리글자를 딴 약어이며, 인프라 구성을 코드로 선언해 버전 관리·자동 적용함
+- **인프라 코드화(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언해 버전 관리하고 자동 적용하는 방식
 - **가드레일(Guardrail)**: 운영 지표의 허용 한계로 배포 확대·중단·복귀를 자동 판정하는 안전 기준
 
 ## Ⅰ. 개요

@@ -27,7 +27,7 @@ extra:
 - **AP(에이피, Availability and Partition Tolerance)**: A와 P를 붙여 분할 중 가용성을 우선한다는 조합을 나타내며 CAP 비교의 한 선택지임
 - **CAP 정리(캡, Consistency, Availability, Partition Tolerance Theorem)**: 세 영어 핵심어의 첫 글자를 붙여 네트워크 분할 중 일관성과 가용성을 동시에 완전히 보장할 수 없음을 나타내며 분산 정책 선택의 기준임
 - **PACELC 정리(파셀크, Partition: Availability/Consistency, Else: Latency/Consistency)**: 분할 시 P와 A/C, 정상 시 Else와 L/C를 나눠 적어 두 상태의 절충을 나타내며 CAP를 확장한 판단 틀임
-- **DB(Database)**: ‘디비’로 읽고 영문 머리글자를 딴 약어이며, 데이터를 구조화해 저장·관리하는 시스템임
+- **DB(Database)**: 데이터를 구조화해 저장·관리하는 시스템
 - **네트워크 분할(Network Partition)**: 노드 일부가 서로 통신하지 못해 독립된 집단처럼 동작하는 장애임
 - **정족수(Quorum)**: 분산 읽기나 쓰기를 확정하기 위해 필요한 최소 노드 응답 수임
 - **충돌 해결(Conflict Resolution)**: 서로 다른 사본의 변경을 규칙에 따라 하나의 상태로 합치는 처리임

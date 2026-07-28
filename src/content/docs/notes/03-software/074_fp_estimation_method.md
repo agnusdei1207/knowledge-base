@@ -20,12 +20,12 @@ extra:
 
 ## 미리 알고가기
 
-- **소프트웨어(Software, SW)**: ‘에스더블유’로 읽고 영문 첫 글자를 딴 약어이며, 기능점수로 논리 규모를 산정할 구현 대상
-- **기능점수(Function Point, FP)**: ‘에프피’로 읽고 영문 첫 글자를 딴 약어이며, 사용자 기능의 논리 규모를 측정하는 단위
-- **제안요청서(Request for Proposal, RFP)**: ‘알에프피’로 읽고 영문 첫 글자를 딴 약어이며, 발주 범위·조건을 제시하는 개략 견적 근거
+- **소프트웨어(Software, SW)**: 기능점수로 사용자 기능의 논리 규모를 산정하는 구현 대상
+- **기능점수(Function Point, FP)**: 구현 기술과 무관하게 사용자 기능의 논리 규모를 측정하는 단위
+- **제안요청서(Request for Proposal, RFP)**: 발주 범위와 조건을 제시해 초기 기능점수 산정의 근거가 되는 문서
 - **간이 기능점수(Estimated Function Point)**: 기능 유형별 평균 복잡도 가중치로 초기 요구의 규모를 빠르게 추정하는 방법
 - **정통 기능점수(Detailed Function Point)**: 기능마다 데이터 요소와 참조 파일 수를 세어 복잡도 가중치를 판정하는 상세 측정 방법
-- **미조정 기능점수(Unadjusted Function Point, UFP)**: ‘유에프피’로 읽고 영문 첫 글자를 딴 약어이며, 기능 수와 복잡도 가중치를 합산한 보정 전 규모
+- **미조정 기능점수(Unadjusted Function Point, UFP)**: 기능 유형별 개수와 복잡도 가중치를 합산한 보정 전 기능 규모
 - **다섯 기능 유형(Five Function Types)**: External Input(EI, 이아이)·External Output(EO, 이오)·External Inquiry(EQ, 이큐)·Internal Logical File(ILF, 아이엘에프)·External Interface File(EIF, 이아이에프)의 첫 글자를 쓴 약어이며, 기능점수 산정 대상을 거래·데이터 기능으로 구분
 - **데이터요소유형(Data Element Type, DET)**: ‘디이티’로 읽고 영문 첫 글자를 딴 약어이며, 사용자 식별 데이터 필드 수로 기능 복잡도를 판정
 - **레코드요소유형(Record Element Type, RET)**: ‘알이티’로 읽고 영문 첫 글자를 딴 약어이며, 논리 파일의 사용자 식별 하위 그룹 수로 ILF·EIF 복잡도를 판정

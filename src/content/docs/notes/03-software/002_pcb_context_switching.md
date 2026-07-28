@@ -20,13 +20,13 @@ extra:
 ## 미리 알고가기
 
 - **컨텍스트 스위칭(Context Switching)**: 현재 실행 문맥 저장 후 다음 문맥 복원
-- **프로세스 제어 블록(Process Control Block, PCB, 피시비)**: 영문 각 단어의 첫 글자를 따 PCB로 표기하며 프로세스 상태·주소 공간·자원 참조를 저장하는 구조
-- **스레드 제어 블록(Thread Control Block, TCB, 티시비)**: 영문 각 단어의 첫 글자를 따 TCB로 표기하며 스레드별 레지스터·스택 포인터·스케줄 상태를 저장하는 구조
-- **중앙처리장치(Central Processing Unit, CPU, 시피유) 문맥**: 영문 각 단어의 첫 글자를 따 CPU로 표기하며 프로그램 카운터·레지스터·스택 포인터 상태를 묶은 정보
+- **프로세스 제어 블록(Process Control Block, PCB)**: 프로세스 상태·주소 공간·자원 참조를 저장하는 운영체제 자료구조
+- **스레드 제어 블록(Thread Control Block, TCB)**: 스레드별 레지스터·스택 포인터·스케줄 상태를 저장하는 자료구조
+- **중앙처리장치(Central Processing Unit, CPU) 문맥**: 프로그램 카운터·레지스터·스택 포인터를 묶은 실행 상태
 - **스케줄러(Scheduler)**: 실행 가능 주체 중 다음 실행 대상 선택
 - **시간 할당량(Time Quantum)**: 선점 전 연속 실행을 허용하는 시간
 - **페이지 테이블(Page Table)**: 가상·물리 주소 대응 정보를 저장한 표
-- **변환 색인 버퍼(Translation Lookaside Buffer, TLB, 티엘비)**: 영문 각 단어의 첫 글자를 따 TLB로 표기하며 가상·물리 주소 변환 결과를 저장하는 캐시
+- **변환 색인 버퍼(Translation Lookaside Buffer, TLB)**: 가상 주소에서 물리 주소로의 변환 결과를 저장하는 캐시
 - **프로세서 친화도(Processor Affinity)**: 스레드의 실행 프로세서 범위 제한
 - **운영체제 커널(Operating System Kernel)**: 선점·대기 시 문맥 저장과 다음 스레드 선택을 수행하는 운영체제 핵심
 - **선점(Preemption)**: 할당 시간이 끝나거나 더 높은 우선순위 작업이 도착했을 때 실행 중인 스레드의 CPU를 회수하는 동작

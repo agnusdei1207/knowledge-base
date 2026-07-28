@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **소프트웨어 개발 생명주기(Software Development Lifecycle, SDLC)**: ‘에스디엘시’로 읽고 Software Development Lifecycle의 머리글자를 딴 표기이며 요구 식별부터 운영·폐기까지 활동·산출물·승인을 관리
+- **소프트웨어 개발 생명주기(Software Development Lifecycle, SDLC)**: 요구 식별부터 운영·폐기까지 개발 활동·산출물·승인을 관리하는 체계
 - **산출물(Artifact)**: 단계 완료와 승인 근거를 담은 결과물
 - **단계 게이트(Stage Gate)**: 다음 단계 진입을 허용하는 승인 기준
 - **추적성(Traceability)**: 요구와 설계·코드·시험 결과 간 연결
@@ -28,7 +28,7 @@ extra:
 - **수용 기준(Acceptance Criteria)**: 요구가 충족됐다고 승인할 수 있는 검증 조건으로서 범위와 시험 결과를 연결함
 - **기능·비기능 요구(Functional·Non-functional Requirement)**: 기능 요구는 시스템이 수행할 동작이고 비기능 요구는 성능·보안·가용성 같은 품질 조건
 - **백로그(Backlog)**: 아직 구현하지 않은 요구·결함·개선 작업을 우선순위와 함께 보관하는 목록
-- **데브옵스(Development and Operations, DevOps)**: ‘데브옵스’로 읽고 Development와 Operations를 결합한 표기이며 개발·운영 협업과 자동화로 변경을 검증·배포
+- **데브옵스(Development and Operations, DevOps)**: 개발·운영 협업과 자동화로 소프트웨어 변경을 지속적으로 검증·배포하는 방식
 - **자동화 파이프라인(Automation Pipeline)**: 코드 변경을 빌드·시험·배포 단계로 연속 처리하고 각 결과를 통제 증적으로 남기는 자동 흐름
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: ‘사스’로 읽고 Software as a Service의 핵심 머리글자를 조합한 표기이며 인터넷으로 응용 기능을 제공하는 서비스 모델
 - **릴리스(Release)**: 검증된 소프트웨어 버전을 사용자나 운영 환경에 제공하는 배포 단위

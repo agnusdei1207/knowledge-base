@@ -23,8 +23,8 @@ extra:
 - **칸반(Kanban)**: 작업 흐름을 시각화하고 당김으로 관리하는 방법
 - **작업 카드(Work Item)**: 업무의 가치와 우선순위, 현재 처리 상태를 보드에 표현하는 단위
 - **워크플로(Workflow)**: 요청부터 완료까지 작업이 거치는 단계
-- **진행 중 작업(Work in Progress, WIP)**: ‘더블유아이피’로 읽고 Work in Progress의 머리글자를 딴 표기이며 착수했지만 아직 완료하지 않은 작업
-- **진행 중 작업 한도(Work in Progress Limit, WIP Limit)**: ‘더블유아이피 리밋’으로 읽고 WIP에 상한을 뜻하는 Limit을 붙인 표기이며 단계별 동시 진행 작업 수의 상한
+- **진행 중 작업(Work in Progress, WIP)**: 착수했지만 아직 완료하지 않은 작업
+- **진행 중 작업 한도(Work in Progress Limit, WIP Limit)**: 공정 단계별로 동시에 진행할 수 있는 작업 수의 상한
 - **당김 시스템(Pull System)**: 다음 단계에 여유가 생길 때 작업을 가져오는 방식
 - **리드타임(Lead Time)**: 요청 접수부터 완료까지 걸린 시간
 - **사이클타임(Cycle Time)**: 작업 착수부터 완료까지 걸린 시간

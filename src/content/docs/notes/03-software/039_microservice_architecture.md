@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **마이크로서비스 아키텍처(Microservice Architecture, MSA)**: ‘엠에스에이’로 읽고 Microservice Architecture의 머리글자를 딴 표기이며 업무별 서비스가 데이터와 배포 경계를 소유
+- **마이크로서비스 아키텍처(Microservice Architecture, MSA)**: 업무별 서비스가 데이터와 배포 경계를 독립적으로 소유하는 아키텍처
 - **모듈러 모놀리스(Modular Monolith)**: 하나의 애플리케이션으로 배포하면서 내부 업무를 모듈 경계로 분리한 구조
 - **서비스 경계(Service Boundary)**: 하나의 업무와 데이터, 담당 팀의 책임을 함께 묶는 서비스 단위
 - **데이터 소유권(Data Ownership)**: 특정 데이터를 변경할 권한과 책임을 하나의 서비스에만 부여하는 원칙
-- **응용 프로그래밍 인터페이스 게이트웨이(Application Programming Interface Gateway, API Gateway)**: ‘에이피아이 게이트웨이’로 읽고 API에 진입점을 뜻하는 Gateway를 붙인 표기이며 외부 요청 라우팅·공통 정책 적용
+- **응용 프로그래밍 인터페이스 게이트웨이(Application Programming Interface Gateway, API Gateway)**: 외부 요청을 내부 서비스로 라우팅하고 인증·제한 등 공통 정책을 적용하는 진입점
 - **이벤트 브로커(Event Broker)**: 비동기 이벤트를 라우팅하는 중개자
 - **최종 일관성(Eventual Consistency)**: 비동기 처리 후 상태가 수렴하는 성질
 - **분산 모놀리스(Distributed Monolith)**: 서비스를 나눴지만 서로 강하게 결합돼 함께 변경하고 배포해야 하는 구조

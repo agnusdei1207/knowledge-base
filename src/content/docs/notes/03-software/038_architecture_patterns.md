@@ -21,10 +21,10 @@ extra:
 ## 미리 알고가기
 
 - **아키텍처 패턴(Architecture Pattern)**: 반복되는 설계 문제에 검증된 책임·관계 구조를 재사용하는 해법
-- **모델-뷰-컨트롤러(Model-View-Controller, MVC)**: ‘엠브이시’로 읽고 Model-View-Controller의 머리글자를 딴 표기이며 화면·입력 제어·업무 상태 책임을 분리
-- **마이크로서비스 아키텍처(Microservice Architecture, MSA)**: ‘엠에스에이’로 읽고 Microservice Architecture의 머리글자를 딴 표기이며 업무별 서비스가 데이터·배포 경계를 소유
-- **이벤트 주도 아키텍처(Event-Driven Architecture, EDA)**: ‘이디에이’로 읽고 Event-Driven Architecture의 머리글자를 딴 표기이며 이벤트로 생산자와 소비자를 분리
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 Application Programming Interface의 머리글자를 딴 표기이며 서비스가 요청·응답을 주고받는 규칙
+- **모델-뷰-컨트롤러(Model-View-Controller, MVC)**: 화면·입력 제어·업무 상태의 책임을 분리하는 아키텍처 패턴
+- **마이크로서비스 아키텍처(Microservice Architecture, MSA)**: 업무별 서비스가 데이터와 배포 경계를 독립적으로 소유하는 아키텍처
+- **이벤트 주도 아키텍처(Event-Driven Architecture, EDA)**: 이벤트 발행과 구독으로 생산자와 소비자를 분리하는 아키텍처
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스가 요청과 응답을 교환하기 위한 규약
 - **이벤트 계약(Event Contract)**: 생산자와 소비자가 공유하는 이벤트 이름과 필드, 버전 호환 규칙
 - **최종 일관성(Eventual Consistency)**: 비동기 갱신이 모두 전달되면 분산된 상태가 같은 값으로 수렴하는 성질
 - **결합도(Coupling)**: 한 구성요소의 변경이 다른 요소에 미치는 의존 정도로서 패턴 경계와 계약이 변경 전파 범위를 좌우함

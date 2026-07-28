@@ -23,7 +23,7 @@ extra:
 - **마이크로커널(Microkernel)**: 최소 기능만 커널에 두고 서비스를 사용자 공간에 분리
 - **모놀리식 커널(Monolithic Kernel)**: 운영체제 서비스를 한 커널 주소 공간에 통합
 - **사용자 공간 서버(User-space Server)**: 파일·장치·네트워크 서비스를 격리 실행
-- **프로세스 간 통신(Inter-Process Communication, IPC)**: ‘아이피시’로 읽고 Inter-Process Communication의 머리글자를 딴 표기이며 분리된 주소 공간 사이의 메시지 교환
+- **프로세스 간 통신(Inter-Process Communication, IPC)**: 분리된 프로세스의 주소 공간 사이에서 메시지를 교환하는 방식
 - **결함 격리(Fault Isolation)**: 서비스 오류의 전파 범위를 주소 공간으로 제한
 - **커널 주소 공간(Kernel Address Space)**: 운영체제 핵심 코드와 서비스가 특권으로 실행되는 가상 주소 범위로서 모놀리식 커널의 결함이 시스템 전체로 전파될 수 있음
 - **시스템 호출(System Call)**: 응용이 파일·장치·네트워크 같은 운영체제 서비스를 커널에 요청하는 공식 진입 경로

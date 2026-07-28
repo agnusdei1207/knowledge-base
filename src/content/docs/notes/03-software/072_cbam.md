@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **비용 편익 분석 방법(Cost Benefit Analysis Method, CBAM)**: ‘씨뱀’으로 읽고 영문 첫 글자를 딴 약어이며, 품질 효익과 전략 비용으로 아키텍처 투자 순위를 정하는 방법
-- **소프트웨어공학연구소(Software Engineering Institute, SEI)**: ‘에스이아이’로 읽고 영문 첫 글자를 딴 약어이며, CBAM과 ATAM을 개발한 연구기관
-- **아키텍처 트레이드오프 분석 방법(Architecture Tradeoff Analysis Method, ATAM)**: ‘에이탬’으로 읽고 영문 첫 글자를 딴 약어이며, 품질 속성의 민감점·상충점·위험을 찾는 평가 방법
+- **비용 편익 분석 방법(Cost Benefit Analysis Method, CBAM)**: 품질 효익과 실행 비용을 비교해 아키텍처 투자 우선순위를 정하는 방법
+- **소프트웨어공학연구소(Software Engineering Institute, SEI)**: CBAM과 ATAM을 개발한 소프트웨어 공학 연구기관
+- **아키텍처 트레이드오프 분석 방법(Architecture Tradeoff Analysis Method, ATAM)**: 품질속성 시나리오로 민감점·절충점·위험을 식별하는 아키텍처 평가 방법
 - **품질 속성 시나리오(Quality Attribute Scenario)**: 자극·환경·응답·응답 측정값으로 검증 가능한 품질 요구를 표현한 상황
 - **효용 함수(Utility Function)**: 응답시간·복구시간 같은 품질 응답 수준을 이해관계자가 평가한 가치 점수로 변환하는 함수
 - **시나리오 가중치(Scenario Weight)**: 사업 목표에서 각 품질 시나리오가 차지하는 상대적 중요도를 나타내 전략 효익 계산에 반영하는 값

@@ -27,7 +27,7 @@ extra:
 - **기능 플래그(Feature Flag)**: 배포된 코드의 기능 공개 여부를 설정으로 제어해 코드 배포와 기능 출시를 분리하는 장치
 - **가드레일 지표(Guardrail Metric)**: 오류율·지연·업무 실패율로 배포 확대·중단·복귀를 판정하는 안전 기준
 - **확장-축소 변경(Expand-Contract Change)**: 새·구 구조를 함께 지원한 뒤 이전 구조를 제거하는 호환 변경 방식
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 영문 머리글자를 딴 약어이며, 서비스 기능과 데이터를 정해진 형식으로 호출하는 규약
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 기능과 데이터를 정해진 형식으로 호출하는 규약
 - **롤아웃·롤백(Rollout·Rollback)**: 롤아웃은 새 버전 노출을 확대하고 롤백은 이전 버전으로 되돌리는 배포 동작
 - **운영 기준선(Production Baseline)**: 전체 트래픽을 안정적으로 처리하는 현재 운영 버전
 

@@ -19,9 +19,9 @@ extra:
 
 ## 미리 알고가기
 
-- **멀티레벨 피드백 큐(Multilevel Feedback Queue, MLFQ, 엠엘에프큐)**: 영문 각 단어의 첫 글자를 따 MLFQ로 표기하며 CPU 사용 이력으로 우선순위를 바꾸는 스케줄링 기법
-- **멀티레벨 큐(Multilevel Queue, MLQ, 엠엘큐)**: 영문 각 단어의 첫 글자를 따 MLQ로 표기하며 프로세스를 고정 우선순위 큐에 분류하는 스케줄링 기법
-- **중앙처리장치(Central Processing Unit, CPU, 시피유)**: 영문 각 단어의 첫 글자를 따 CPU로 표기하며 프로세스 명령을 실행하는 연산 장치
+- **멀티레벨 피드백 큐(Multilevel Feedback Queue, MLFQ)**: CPU 사용 이력에 따라 프로세스의 우선순위를 바꾸는 스케줄링 기법
+- **멀티레벨 큐(Multilevel Queue, MLQ)**: 프로세스를 고정 우선순위 큐에 분류하는 스케줄링 기법
+- **중앙처리장치(Central Processing Unit, CPU)**: 프로세스의 명령을 실행하는 처리장치
 - **준비 큐(Ready Queue)**: CPU 실행을 기다리는 프로세스 대기열
 - **CPU 버스트(CPU Burst)**: 프로세스가 CPU를 연속 사용하는 구간
 - **시간 할당량(Time Quantum)**: 한 차례 CPU를 연속 사용할 수 있는 시간

@@ -21,7 +21,7 @@ extra:
 
 - **스핀락과 뮤텍스(Spinlock and Mutex)**: 경합 시 반복 검사와 수면으로 대기하는 두 락
 - **락 경합(Lock Contention)**: 여러 스레드가 같은 락을 동시에 요청
-- **중앙처리장치(Central Processing Unit, CPU, 시피유)**: 영문 각 단어의 첫 글자를 따 CPU로 표기하며 스핀 대기 중 반복 검사 명령을 실행하는 장치
+- **중앙처리장치(Central Processing Unit, CPU)**: 스핀 대기 중 잠금 상태를 반복 검사하는 명령을 실행하는 장치
 - **바쁜 대기(Busy Waiting)**: 조건 충족까지 CPU에서 상태를 반복 검사
 - **수면 대기(Sleeping Wait)**: 스레드를 대기 큐로 옮겨 CPU를 반납
 - **임계 구역(Critical Section)**: 공유 상태를 한 번에 한 스레드만 다루는 코드

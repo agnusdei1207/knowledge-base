@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **CMMI(Capability Maturity Model Integration)**: ‘씨엠엠아이’로 읽고 영문 머리글자를 딴 약어이며, 조직의 프로세스 역량을 진단·개선하는 통합 모델
+- **CMMI(Capability Maturity Model Integration)**: 조직의 개발·서비스 프로세스 역량을 진단하고 단계적으로 개선하는 통합 모델
 - **프로세스(Process)**: 활동·역할·입력·산출물을 정해 업무를 반복 수행하는 방식
 - **실천 영역(Practice Area)**: 특정 역량을 달성하기 위한 관련 실천의 묶음
 - **성숙도 수준(Maturity Level)**: 조직 전체의 실천 영역 집합을 0~5단계로 평가한 수준

@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: ‘에이피아이’로 읽고 Application Programming Interface의 머리글자를 딴 표기이며 기능 호출 규칙과 데이터 계약
-- **API 게이트웨이(API Gateway)**: ‘에이피아이 게이트웨이’로 읽고 API에 진입점을 뜻하는 Gateway를 붙인 표기이며 외부 요청을 내부 서비스로 전달하고 공통 정책 적용
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능을 호출하기 위한 요청·응답 규칙과 데이터 계약
+- **API 게이트웨이(API Gateway)**: 외부 요청을 내부 서비스로 전달하고 인증·제한 등 공통 정책을 적용하는 진입점
 - **역방향 프록시(Reverse Proxy)**: 서버를 대신해 요청을 받아 내부로 중계하는 프록시
-- **7계층 라우팅(Layer 7 Routing, L7 Routing)**: ‘레이어 세븐·엘 세븐 라우팅’으로 읽고 네트워크 계층 번호 7을 L 뒤에 붙이는 관례 표기이며 응용 계층의 호스트·경로·메서드로 목적 서비스를 선택함
+- **7계층 라우팅(Layer 7 Routing, L7 Routing)**: 호스트·경로·HTTP 메서드 등 응용 계층 정보를 기준으로 목적 서비스를 선택하는 방식
 - **인증(Authentication)**: 요청 주체의 신원을 확인하는 절차
 - **인가(Authorization)**: 인증된 주체가 특정 자원에 요청한 동작을 수행할 권한이 있는지 판정하는 절차
 - **요청률 제한(Rate Limiting)**: 시간 단위별 허용 요청 수를 제한하는 정책
 - **응답 조합(Response Aggregation)**: 여러 내부 서비스의 처리 결과를 클라이언트용 하나의 응답으로 결합하는 기능
-- **프런트엔드 전용 백엔드(Backend for Frontend, BFF)**: ‘비에프에프’로 읽고 Backend for Frontend의 핵심 머리글자를 딴 표기이며 클라이언트 유형별 전용 백엔드 진입 계층
+- **프런트엔드 전용 백엔드(Backend for Frontend, BFF)**: 웹·모바일 등 클라이언트 유형별 요구에 맞춘 전용 백엔드 계층
 - **호스트·경로·메서드(Host·Path·Method)**: 호스트는 요청 대상 도메인, 경로는 API 자원 위치, 메서드는 조회·생성 같은 동작 유형으로서 라우팅 규칙의 입력
 - **헤더·상태·본문(Header·Status·Body)**: 헤더는 요청·응답 부가정보, 상태는 처리 결과 코드, 본문은 실제 데이터로서 게이트웨이가 외부·내부 계약 사이에서 변환함
-- **신원 제공자(Identity Provider, IdP)**: ‘아이디피’로 읽고 Identity의 Id와 Provider의 P를 결합한 표기이며 신원을 인증하고 검증 가능한 토큰을 발급
+- **신원 제공자(Identity Provider, IdP)**: 사용자의 신원을 인증하고 검증 가능한 인증 토큰을 발급하는 시스템
 - **키·토큰(Key·Token)**: 키는 제휴 클라이언트를 식별하는 비밀값이고 토큰은 인증된 주체와 권한 정보를 담아 요청마다 검증하는 자격 증명
 - **접근 출처·전송 보안(Request Origin·Transport Security)**: 접근 출처는 요청이 온 사이트·네트워크이고 전송 보안은 암호화 채널로 요청의 도청·변조를 방지하는 정책
 - **상관 식별자(Correlation Identifier)**: 하나의 외부 요청이 여러 서비스 호출로 이어질 때 로그·메트릭·추적을 같은 요청으로 연결하는 고유 값
