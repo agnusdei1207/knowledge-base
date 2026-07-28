@@ -20,20 +20,20 @@ extra:
 
 ## 미리 알고가기
 
-- **운영기술(Operational Technology, OT)**: 영문 머리글자를 딴 공식 표기라 “오티”로 읽으며, 물리 공정과 설비를 감시·제어하는 기술
-- **정보기술(Information Technology, IT)**: 영문 머리글자를 딴 공식 표기라 “아이티”로 읽으며, 업무 데이터와 컴퓨팅 자원을 처리하는 비교 영역
+- **운영기술(Operational Technology, OT)**: 물리 공정과 산업 설비를 실시간으로 감시·제어하는 기술 영역이다.
+- **정보기술(Information Technology, IT)**: 업무 데이터와 컴퓨팅 자원을 처리·저장·전송하는 기술 영역이다.
 - **스마트팩토리(Smart Factory)**: 센서·제어 장치·MES·분석을 연결해 생산 공정을 자동화하는 제조 체계
-- **프로그래머블 논리 제어기(Programmable Logic Controller, PLC)**: 영문 머리글자를 딴 공식 표기라 “피엘시”로 읽으며, 입력 신호에 따라 실시간 공정 제어 논리를 실행한다
-- **제조 실행 시스템(Manufacturing Execution System, MES)**: 영문 머리글자를 딴 공식 표기라 “엠이에스”로 읽으며, 생산 계획과 현장 작업·실적을 연결한다
-- **산업 사물인터넷(Industrial Internet of Things, IIoT)**: 영문 머리글자를 딴 공식 표기라 “아이아이오티”로 읽으며, 산업 장치 데이터를 플랫폼과 연결한다
-- **영역·통로(Zone and Conduit)**: “존 앤드 콘듀잇”으로 읽으며, 자산을 보안 수준별 영역으로 묶고 영역 간 허용 통신 경로를 통제한다
-- **안전 계장 시스템(Safety Instrumented System, SIS)**: 영문 머리글자를 딴 공식 표기라 “에스아이에스”로 읽으며, 위험 조건에서 공정을 안전 상태로 전환한다
-- **비무장지대(Demilitarized Zone, DMZ)**: 영문 머리글자를 딴 공식 표기라 “디엠지”로 읽으며, IT와 OT의 직접 연결을 차단하고 필요한 서비스를 중계한다
-- **감시 제어·데이터 수집(Supervisory Control and Data Acquisition, SCADA)**: 영문 머리글자를 딴 공식 표기라 “스카다”로 읽으며, 분산 설비의 상태를 원격 감시·제어한다
-- **분산 제어 시스템(Distributed Control System, DCS)**: 영문 머리글자를 딴 공식 표기라 “디시에스”로 읽으며, 공정 제어 기능을 여러 제어기에 분산한다
-- **인간·기계 인터페이스(Human-Machine Interface, HMI)**: 영문 머리글자를 딴 공식 표기라 “에이치엠아이”로 읽으며, 작업자가 공정 상태를 확인하고 제어 명령을 입력한다
+- **프로그래머블 논리 제어기(Programmable Logic Controller, PLC)**: 입력 신호와 제어 논리에 따라 산업 공정을 실시간으로 제어하는 장치이다.
+- **제조 실행 시스템(Manufacturing Execution System, MES)**: 생산 계획을 현장 작업과 연결하고 공정 실적·품질·자원을 관리하는 시스템이다.
+- **산업 사물인터넷(Industrial Internet of Things, IIoT)**: 산업 장치와 센서의 데이터를 네트워크와 분석 플랫폼에 연결하는 기술이다.
+- **영역·통로(Zone and Conduit)**: 자산을 보안 수준별 영역으로 묶고 영역 사이의 허용 통신 경로를 통제하는 분리 모델이다.
+- **안전 계장 시스템(Safety Instrumented System, SIS)**: 위험 조건을 감지하면 공정을 사전에 정의한 안전 상태로 전환하는 독립 안전 시스템이다.
+- **비무장지대(Demilitarized Zone, DMZ)**: IT와 OT의 직접 연결을 차단하고 필요한 교환 서비스만 중계하는 완충 네트워크이다.
+- **감시 제어·데이터 수집(Supervisory Control and Data Acquisition, SCADA)**: 지리적으로 분산된 산업 설비의 상태를 원격으로 수집·감시·제어하는 시스템이다.
+- **분산 제어 시스템(Distributed Control System, DCS)**: 연속 공정의 제어 기능을 여러 제어기에 분산하여 운영하는 시스템이다.
+- **인간·기계 인터페이스(Human-Machine Interface, HMI)**: 작업자가 공정 상태를 확인하고 제어 명령을 입력하는 사용자 인터페이스이다.
 - **보상 통제**: 패치처럼 원래 통제를 적용하기 어려울 때 같은 위험을 낮추도록 대신 적용하는 통제
-- **무선 업데이트(Over-the-Air Update, OTA)**: 영문 주요 글자를 딴 공식 표기라 “오티에이”로 읽으며, 네트워크를 통해 장치 소프트웨어를 원격 갱신한다
+- **무선 업데이트(Over-the-Air Update, OTA)**: 통신망을 통해 장치의 펌웨어와 소프트웨어를 원격 배포·갱신하는 방식이다.
 
 ## Ⅰ. 개요
 

@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **정보보호 관리체계(Information Security Management System, ISMS)**: “아이에스엠에스”로 읽고 영문 머리글자로 표기하며, 정보보호 위험을 식별해 통제를 운영·개선하는 인증 체계임
-- **정보보호 및 개인정보보호 관리체계(Personal Information & Information Security Management System, ISMS-P)**: “아이에스엠에스피”로 읽고 P는 개인정보 보호 범위를 나타내며, ISMS에 개인정보 처리단계 요구사항을 결합한 인증임
+- **정보보호 관리체계(Information Security Management System, ISMS)**: 정보보호 위험을 식별하고 통제를 수립·운영·점검·개선하는 관리체계이다.
+- **정보보호 및 개인정보보호 관리체계(Personal Information & Information Security Management System, ISMS-P)**: 정보보호 관리체계에 개인정보 처리단계별 보호 요구사항을 결합한 인증 체계이다.
 - **인증 범위**: 심사할 서비스·조직·시스템 경계
 - **보호대책**: 식별한 정보보호 위험을 낮추기 위해 적용하는 관리적·물리적·기술적 통제
 - **개인정보 처리단계**: 개인정보의 수집·이용·제공·위탁·보유·파기 과정

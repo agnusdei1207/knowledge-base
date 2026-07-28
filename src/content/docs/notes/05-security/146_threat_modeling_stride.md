@@ -21,16 +21,16 @@ extra:
 ## 미리 알고가기
 
 - **위협 모델링**: 위협·대응·범위를 구조화해 설계 시 보안 결정을 지원함
-- **데이터 흐름도(Data Flow Diagram, DFD)**: '디에프디'로 읽고 영문 머리글자로 데이터 흐름과 신뢰 경계를 표현한 도식을 표시
-- **스트라이드(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: '스트라이드'로 읽고 여섯 위협의 영문 머리글자를 단어처럼 묶어 신원·무결성·부인·노출·가용성·권한 위협을 분류
+- **데이터 흐름도(Data Flow Diagram, DFD)**: 프로세스·데이터 저장소·외부 주체 사이의 데이터 흐름과 신뢰 경계를 표현한 도식이다.
+- **스트라이드(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: 신원 위조·변조·부인·정보 노출·서비스 거부·권한 상승으로 위협을 분류하는 기법이다.
 - **Spoofing**: 타인·장치·서비스의 신원을 가장하는 위협임
 - **Tampering**: 데이터·코드·메시지를 비인가 변경하는 위협임
 - **Repudiation**: 행위자가 작업 사실을 부인해 책임 추적이 어려워지는 위협
 - **Information Disclosure**: 권한 없는 주체에게 민감정보가 노출되는 위협
-- **서비스 거부(Denial of Service, DoS)**: '도스'로 읽고 영문 머리글자로 자원 고갈·차단에 따른 가용성 위협을 표시
+- **서비스 거부(Denial of Service, DoS)**: 자원 고갈이나 통신 차단으로 서비스 가용성을 저하하는 위협이다.
 - **Elevation of Privilege**: 낮은 권한의 주체가 허용되지 않은 높은 권한을 얻는 위협
-- **드레드(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: '드레드'로 읽고 다섯 평가축의 머리글자를 단어처럼 묶어 위험 점수화 기준을 표시
-- **파스타(Process for Attack Simulation and Threat Analysis, PASTA)**: '파스타'로 읽고 영문 머리글자를 단어처럼 묶어 업무 영향 중심 공격 시뮬레이션 절차를 표시
+- **드레드(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: 피해·재현성·악용 가능성·영향 사용자·발견 가능성을 기준으로 위협 위험을 평가하는 기법이다.
+- **파스타(Process for Attack Simulation and Threat Analysis, PASTA)**: 사업 영향과 공격 시뮬레이션을 연결하여 위협과 통제를 분석하는 위험 중심 방법론이다.
 - **완화(Mitigation)**: 가능성·영향·경로를 줄여 설계·통제·검증함
 
 
@@ -127,10 +127,7 @@ sequenceDiagram
 
 ## Ⅵ. 실무 사례
 
-- DREAD는 척도·근거·평가자를 고정
-- STRIDE는 자산·경로별 요구로 전환
-- 내부·공급망·물리 위협은 별도 보완
-- 설계 변경·위험 감소·검증 통과 측정
+1. 결제 API의 데이터 흐름도와 신뢰 경계를 작성하고 STRIDE로 위협을 식별한 뒤, 인증·무결성·감사·가용성 통제와 검증 시험으로 추적한다.
 
 ### 쉽게 이해하기 (학습용)
 
@@ -141,7 +138,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- STRIDE 위협을 대응·검증으로 추적
+- 설계 단계에서 공격 경로와 통제 누락을 줄이기 위해 자산·데이터 흐름·신뢰 경계·공격자 능력·업무 영향을 검토하여, STRIDE로 식별한 위협을 보안 요구사항과 검증 시험까지 추적해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

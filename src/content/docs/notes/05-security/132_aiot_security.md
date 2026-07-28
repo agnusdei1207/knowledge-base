@@ -20,17 +20,17 @@ extra:
 
 ## 미리 알고가기
 
-- **인공지능(Artificial Intelligence, AI)**: 영문 머리글자를 딴 공식 표기라 “에이아이”로 읽으며, 데이터에서 학습한 모델로 센서 입력을 추론한다
-- **사물인터넷(Internet of Things, IoT)**: 영문 머리글자를 딴 공식 표기라 “아이오티”로 읽으며, 센서·장치를 네트워크에 연결해 데이터를 교환한다
-- **지능형 사물인터넷(Artificial Intelligence of Things, AIoT)**: `AI`와 `IoT`를 결합한 통용 표기라 “에이아이오티”로 읽으며, 연결 장치에 AI 학습·추론을 결합한다
-- **엣지 인공지능(Edge Artificial Intelligence, Edge AI)**: `Artificial Intelligence`를 `AI`로 줄인 표기라 “엣지 에이아이”로 읽으며, 장치나 근거리 게이트웨이에서 추론한다
+- **인공지능(Artificial Intelligence, AI)**: 데이터에서 학습한 모델로 센서 입력을 분석하고 판단하는 기술이다.
+- **사물인터넷(Internet of Things, IoT)**: 센서와 장치를 네트워크에 연결하여 데이터를 수집·교환·제어하는 기술이다.
+- **지능형 사물인터넷(Artificial Intelligence of Things, AIoT)**: 연결된 사물인터넷 장치에 인공지능 학습·추론 기능을 결합한 기술이다.
+- **엣지 인공지능(Edge Artificial Intelligence, Edge AI)**: 데이터를 클라우드로 보내지 않고 장치나 근거리 게이트웨이에서 인공지능 추론을 수행하는 방식이다.
 - **센서 스푸핑(Sensor Spoofing)**: 물리 신호나 센서 입력을 위조해 AI 모델과 제어기의 오판을 유도하는 공격
 - **적대적 예제(Adversarial Example)**: 사람이 알아채기 어려운 입력 변형으로 AI 모델이 의도한 오판을 내게 하는 표본
 - **모델 추출(Model Extraction)**: 반복 질의와 출력 관찰로 대상 모델의 기능이나 파라미터를 복제하는 공격
 - **모델 드리프트(Model Drift)**: 학습 데이터와 운영 데이터의 분포 차이로 모델의 판단 품질이 변하는 현상
-- **무선 업데이트(Over-the-Air Update, OTA)**: 영문 주요 글자를 딴 공식 표기라 “오티에이”로 읽으며, 서명된 펌웨어·모델을 원격으로 갱신한다
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 영문 머리글자를 딴 공식 표기라 “에스봄”으로 읽으며, 펌웨어·AI 구성요소와 의존성의 취약점을 추적한다
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 영문 머리글자를 딴 공식 표기라 “에이피아이”로 읽으며, AIoT 장치와 플랫폼의 데이터·제어 호출을 중개한다
+- **무선 업데이트(Over-the-Air Update, OTA)**: 서명된 펌웨어와 모델을 통신망을 통해 원격 배포·갱신하는 방식이다.
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 펌웨어·인공지능 구성요소의 버전·출처·의존성을 기록하여 취약점을 추적하는 명세서이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: AIoT 장치와 플랫폼 사이의 데이터와 제어 명령을 정해진 형식으로 교환하는 접점이다.
 - **액추에이터**: 디지털 제어 명령을 모터·밸브 등 물리 동작으로 바꾸는 장치
 - **강건성**: 잡음·조작·환경 변화가 있어도 모델이 허용 범위의 결과를 내는 성질
 - **테넌트 격리**: 같은 클라우드 자원을 쓰는 고객의 데이터·권한·연산이 서로 섞이지 않게 분리하는 통제

@@ -20,11 +20,11 @@ extra:
 
 ## 미리 알고가기
 
-- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: '새스트'로 읽고 영문 머리글자로 실행 전 소스·바이트코드의 데이터 흐름 검사를 표시
-- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: '대스트'로 읽고 영문 머리글자로 실행 응용에 외부 요청을 보내는 취약점 검사를 표시
-- **상호작용 응용 보안 시험(Interactive Application Security Testing, IAST)**: '아이애스트'로 읽고 영문 머리글자로 테스트 중 내부 에이전트의 코드·요청 관찰을 표시
-- **런타임 응용 자기 보호(Runtime Application Self-Protection, RASP)**: '라스프'로 읽고 영문 머리글자로 운영 응용 내부의 공격 탐지·차단을 표시
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: '에스시에이'로 읽고 영문 머리글자로 오픈소스·제3자 구성요소 검사를 표시
+- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 프로그램을 실행하지 않고 소스 코드나 바이트코드의 취약 패턴과 데이터 흐름을 분석하는 시험이다.
+- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션에 외부 요청을 보내 실제 취약 동작을 확인하는 시험이다.
+- **상호작용 응용 보안 시험(Interactive Application Security Testing, IAST)**: 시험 중인 애플리케이션 내부의 에이전트가 코드 실행과 요청 흐름을 함께 관찰하여 취약점을 찾는 시험이다.
+- **런타임 응용 자기 보호(Runtime Application Self-Protection, RASP)**: 운영 중인 애플리케이션 내부에서 실행 문맥을 분석하여 공격을 탐지·차단하는 보호 기술이다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스와 제3자 구성요소의 버전·라이선스·알려진 취약점을 분석하는 시험이다.
 - **도달 가능성(Reachability)**: 취약 코드가 실제 실행 경로에서 호출되는지를 나타내는 속성
 - **보안 회귀 검증**: 수정한 취약점과 관련 공격 경로가 다시 나타나지 않는지 반복 확인하는 활동
 - **오탐(False Positive)**: 실제 취약점이 아닌 대상을 취약하다고 잘못 보고한 결과

@@ -21,25 +21,25 @@ extra:
 ## 미리 알고가기
 
 - **정보공유분석센터(Information Sharing and Analysis Center, ISAC, 아이색)**: 머리글자를 한 단어처럼 읽으며, 특정 산업의 위협·취약점·사고 정보를 공동 분석해 회원에게 공유
-- **회원 신뢰 모델(Member Trust Model)**: 멤버 트러스트 모델로 읽으며, 회원 사이 신뢰 구조라는 영문 표기를 쓰고 본문에서는 참여 자격·공유 범위·비밀 보호·책임을 합의해 민감한 정보 제공을 촉진합니다.
-- **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: 트래픽 라이트 프로토콜, 티엘피로 읽으며, 각 영단어의 머리글자를 딴 표기이고 본문에서는 신호등 색상처럼 표시해 정보 수신자와 추가 공유 범위를 제한합니다.
-- **침해 지표(Indicator of Compromise, IoC)**: 인디케이터 오브 컴프로마이즈, 아이오시로 읽으며, 핵심 영단어의 머리글자를 딴 표기이고 본문에서는 악성 인터넷 주소·도메인·해시로 침해를 탐지하고 조사합니다.
-- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 인터넷 프로토콜 어드레스, 아이피 주소로 읽으며, 핵심 영단어의 머리글자를 딴 표기이고 본문에서는 악성 통신 출발지나 목적지를 식별하는 침해 지표입니다.
-- **전술·기법·절차(Tactics, Techniques and Procedures, TTP)**: 택틱스 테크닉스 앤드 프로시저스, 티티피로 읽으며, 각 영단어의 머리글자를 딴 표기이고 본문에서는 위협 행위자의 공격 행동을 구조화해 공유합니다.
-- **구조화된 위협정보 표현(Structured Threat Information Expression, STIX)**: 스트럭처드 스렛 인포메이션 익스프레션, 스틱스로 읽으며, 각 영단어의 머리글자를 딴 표기이고 본문에서는 침해 지표와 공격 관계를 기계가 처리할 수 있게 표현합니다.
-- **신뢰 자동화 위협정보 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 트러스티드 오토메이티드 익스체인지 오브 인텔리전스 인포메이션, 택시로 읽으며, 핵심 영단어의 머리글자를 딴 표기이고 본문에서는 STIX 위협정보를 자동 교환합니다.
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: 하이퍼텍스트 트랜스퍼 프로토콜 시큐어, 에이치티티피에스로 읽으며, HTTP에 Secure의 S를 붙인 표기이고 본문에서는 TAXII 교환 구간을 암호화합니다.
-- **구조화 정보표준 발전기구(Organization for the Advancement of Structured Information Standards, OASIS)**: 오거나이제이션 포 디 어드밴스먼트 오브 스트럭처드 인포메이션 스탠더즈, 오아시스로 읽으며, 핵심 영단어의 머리글자를 딴 단체명이고 본문에서는 STIX·TAXII 표준을 관리합니다.
-- **컴퓨터 보안 사고대응팀(Computer Security Incident Response Team, CSIRT)**: 컴퓨터 시큐리티 인시던트 리스폰스 팀, 시서트로 읽으며, 각 영단어의 머리글자를 딴 표기이고 본문에서는 조직 내부 사고를 분석·대응·복구합니다.
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 사이버 스렛 인텔리전스, 씨티아이로 읽으며, 각 영단어의 머리글자를 딴 표기이고 본문에서는 공격 주체·행위·지표를 분석해 방어 결정을 지원합니다.
-- **익명·비식별 공유(Anonymous and De-identified Sharing)**: 어나니머스 앤드 디아이덴티파이드 셰어링으로 읽으며, 이름과 식별자를 제거한다는 영문 표기를 쓰고 본문에서는 제공기관·피해자·개인정보 노출을 줄입니다.
+- **회원 신뢰 모델(Member Trust Model)**: 참여 자격·공유 범위·비밀 보호·책임을 회원 간에 합의하여 민감한 위협정보 공유를 촉진하는 신뢰 구조이다.
+- **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: 색상 등급으로 정보 수신자와 추가 공유 가능 범위를 제한하는 정보 취급 규칙이다.
+- **침해 지표(Indicator of Compromise, IoC)**: 악성 IP 주소·도메인·파일 해시처럼 침해 탐지와 조사에 사용하는 관측 가능한 증거이다.
+- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 네트워크 통신의 출발지와 목적지를 식별하며 악성 통신 추적에 사용하는 주소이다.
+- **전술·기법·절차(Tactics, Techniques and Procedures, TTP)**: 위협 행위자의 목표·공격 방식·수행 절차를 구조화한 행동 정보이다.
+- **구조화된 위협정보 표현(Structured Threat Information Expression, STIX)**: 침해 지표·위협 행위자·공격 기법과 관계를 기계가 처리할 수 있게 표현하는 표준이다.
+- **신뢰 자동화 위협정보 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: STIX 형식의 위협정보를 HTTPS 기반으로 자동 교환하는 프로토콜이다.
+- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: HTTP 통신에 암호화와 서버 인증을 적용하여 TAXII 교환 구간을 보호하는 프로토콜이다.
+- **구조화 정보표준 발전기구(Organization for the Advancement of Structured Information Standards, OASIS)**: STIX·TAXII를 포함한 정보 교환 표준을 개발·관리하는 국제 표준화 기구이다.
+- **컴퓨터 보안 사고대응팀(Computer Security Incident Response Team, CSIRT)**: 조직 내부의 보안 사고를 분석·대응·복구하고 관련 정보를 공유하는 전담 조직이다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체·의도·행위·지표를 분석하여 탐지와 대응 의사결정을 지원하는 정보이다.
+- **익명·비식별 공유(Anonymous and De-identified Sharing)**: 제공기관·피해자·개인정보를 식별할 수 있는 요소를 제거하거나 대체하여 노출 위험을 줄이는 공유 방식이다.
 
 
 ## Ⅰ. 개요
 
 - 정의/개념: 산업 위협정보를 공동 분석·공유
 - 기존 한계: 단일 기관 관측만으로 산업 공통 공격 식별 곤란
-- **배경/필요성**: 회원 관측의 공동 분석과 산업 조기경보
+- **배경/필요성**: 개별 기관의 제한된 관측 정보만으로는 산업 전반에 확산되는 공격 징후를 조기에 식별하기 어려움
 
 ### 쉽게 이해하기 (학습용)
 

@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **정보보호 및 개인정보보호 관리체계(Personal Information & Information Security Management System, ISMS-P)**: “아이에스엠에스피”로 읽고 P는 개인정보 보호 범위를 나타내며, 정보보호와 개인정보 처리단계 보호조치를 통합한 인증임
-- **한국인터넷진흥원(Korea Internet & Security Agency, KISA)**: “키사”로 읽고 영문 머리글자로 표기하며, ISMS-P 제도 운영을 지원하는 기관임
+- **정보보호 및 개인정보보호 관리체계(Personal Information & Information Security Management System, ISMS-P)**: 정보보호와 개인정보 처리단계별 보호조치를 통합하여 인증하는 관리체계이다.
+- **한국인터넷진흥원(Korea Internet & Security Agency, KISA)**: ISMS-P 제도 운영과 인터넷·정보보호 정책의 기술적 지원을 수행하는 기관이다.
 - **인증기관**: 심사 접수·위원회 운영·인증서 발급
 - **인증심사기관**: 심사 계약·심사팀 운영
 - **심사팀**: 문서·현장 증거 및 결함 확인

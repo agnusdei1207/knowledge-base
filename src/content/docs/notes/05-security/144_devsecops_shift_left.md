@@ -21,16 +21,16 @@ extra:
 ## 미리 알고가기
 
 - **개발·보안·운영(Development, Security, and Operations, DevSecOps, 데브섹옵스)**: 세 역할 이름을 결합한 표기로, 보안 책임·자동화·피드백의 공동 운영을 의미
-- **시프트 레프트(Shift Left)**: '왼쪽 이동'으로 읽고 수명주기 도식의 앞단을 왼쪽에 놓는 관례에서 요구·설계·코딩 단계의 예방을 표시
-- **시프트 라이트(Shift Right)**: '오른쪽 이동'으로 읽고 배포 뒤 운영 단계를 오른쪽에 놓는 관례에서 관측·공격 검증·사고 피드백을 표시
+- **시프트 레프트(Shift Left)**: 보안 활동을 요구·설계·코딩 단계로 앞당겨 결함을 조기에 예방·탐지하는 접근 방식이다.
+- **시프트 라이트(Shift Right)**: 배포 후 운영 환경의 관측·공격 검증·사고 피드백을 개발 단계의 개선으로 연결하는 접근 방식이다.
 - **코드형 보안(Security as Code)**: 정책·검사·구성·증거를 코드와 버전관리로 반복 실행하는 방식
-- **지속 통합·지속 전달(Continuous Integration/Continuous Delivery, CI/CD)**: '시아이 슬래시 시디'로 읽고 슬래시로 통합·전달 자동화를 연결한 파이프라인
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: '에스봄'으로 읽고 영문 머리글자로 구성요소·버전·의존성 명세를 표시
+- **지속 통합·지속 전달(Continuous Integration/Continuous Delivery, CI/CD)**: 코드 통합·시험·배포 준비를 자동화하여 변경을 신속하고 일관되게 전달하는 파이프라인이다.
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 소프트웨어 구성요소의 버전·출처·의존성을 기록하여 공급망 위험을 추적하는 명세서이다.
 - **보안 게이트**: 위험·환경·예외 기준에 따라 빌드·배포의 진행 여부를 결정하는 통제점임
-- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: '새스트'로 읽고 영문 머리글자로 실행 전 소스·데이터 흐름 검사를 표시
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: '에스시에이'로 읽고 영문 머리글자로 오픈소스·제3자 구성요소 검사를 표시
-- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: '대스트'로 읽고 영문 머리글자로 실행 중 외부 요청 검사를 표시
-- **코드형 인프라(Infrastructure as Code, IaC)**: '아이에이시'로 읽고 영문 머리글자로 인프라 구성을 코드로 정의하는 방식을 표시
+- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 프로그램을 실행하지 않고 소스 코드와 데이터 흐름의 취약점을 분석하는 시험이다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스와 제3자 구성요소의 버전·라이선스·알려진 취약점을 분석하는 시험이다.
+- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션에 외부 요청을 보내 실제 취약 동작을 확인하는 시험이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 정의하고 형상 관리와 자동 배포를 적용하는 방식이다.
 - **가드레일**: 안전한 기본 설정과 허용 범위를 자동 제공하는 정책
 - **백로그**: 제품팀이 우선순위와 담당자를 정해 처리할 작업 목록
 

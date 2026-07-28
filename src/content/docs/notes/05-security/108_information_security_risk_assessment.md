@@ -20,9 +20,9 @@ extra:
 
 ## 미리 알고가기
 
-- **국제표준화기구(International Organization for Standardization, ISO)**: “아이에스오”로 읽고 국제 표준을 제정하는 기구의 영문 명칭을 약칭한 표기임
-- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: “아이이시”로 읽고 영문 머리글자로 표기하며, ISO와 함께 정보보호 표준을 제정함
-- **연간 예상 손실액(Annualized Loss Expectancy, ALE)**: “에이엘이”로 읽고 영문 머리글자로 표기하며, 발생 빈도와 손실액을 이용해 위험의 연간 기대 손실을 추정함
+- **국제표준화기구(International Organization for Standardization, ISO)**: 산업·기술·경영 분야의 국제 표준을 제정하는 비정부 국제기구이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: ISO와 함께 정보보호·전기·전자 분야의 국제 표준을 제정하는 기관이다.
+- **연간 예상 손실액(Annualized Loss Expectancy, ALE)**: 사고 발생 빈도와 건당 손실액을 이용하여 위험의 연간 기대 손실을 추정한 값이다.
 - **위험 시나리오(Risk Scenario)**: 위협이 취약점을 이용해 사건과 업무 피해를 일으키는 인과를 기술한 상황임
 
 ## Ⅰ. 개요

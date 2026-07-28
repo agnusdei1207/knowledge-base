@@ -20,13 +20,13 @@ extra:
 
 ## 미리 알고가기
 
-- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: 영문 머리글자를 딴 공식 표기라 “제이태그”로 읽으며, 칩의 경계 스캔과 디버그 접속 규격을 가리킨다
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 영문 머리글자를 딴 공식 표기라 “아이 트리플 이”로 읽으며, JTAG의 IEEE 1149.1 표준을 제정한다
-- **테스트 접근 포트(Test Access Port, TAP)**: 영문 머리글자를 딴 공식 표기라 “탭”으로 읽으며, JTAG 명령과 테스트 데이터를 칩에 전달하는 포트
-- **TAP 제어기(TAP Controller)**: “탭 컨트롤러”로 읽으며, 테스트 모드와 명령·데이터 레지스터의 상태 전이를 제어한다
+- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: 칩의 경계 스캔과 디버그 접근을 정의한 하드웨어 시험 인터페이스 규격이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: JTAG을 포함한 전기·전자·컴퓨팅 분야의 기술 표준을 제정하는 전문기관이다.
+- **테스트 접근 포트(Test Access Port, TAP)**: JTAG 명령과 시험 데이터를 칩에 전달하는 물리·논리 인터페이스이다.
+- **TAP 제어기(TAP Controller)**: JTAG 테스트 모드와 명령·데이터 레지스터의 상태 전이를 제어하는 상태 기계이다.
 - **경계 스캔(Boundary Scan)**: 칩 입출력 핀의 셀을 직렬로 연결해 보드 배선과 핀 상태를 관측·제어하는 시험 기법
-- **중앙처리장치(Central Processing Unit, CPU)**: 영문 머리글자를 딴 공식 표기라 “씨피유”로 읽으며, JTAG 디버그 명령이 제어할 핵심 연산 자원
-- **반품 승인(Return Material Authorization, RMA)**: 영문 머리글자를 딴 공식 표기라 “알엠에이”로 읽으며, 고장 제품을 회수해 승인된 수리 권한을 부여하는 절차
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령을 실행하며 JTAG 디버그 기능으로 상태 조회와 실행 제어가 가능한 핵심 연산 장치이다.
+- **반품 승인(Return Material Authorization, RMA)**: 고장 제품을 회수하여 승인된 진단·수리를 수행하도록 예외 접근을 부여하는 절차이다.
 - **디버그 인증(Debug Authentication)**: 장치·작업자·명령 범위를 검증한 뒤 디버그 잠금을 제한적으로 해제하는 통제
 - **수명주기 상태(Lifecycle State)**: 제조·운영·수리 단계별로 허용할 JTAG 기능과 전이 조건을 구분한 장치 상태
 - **디버그 잠금(Debug Lock)**: 운영 단계에서 CPU·메모리 접근 같은 위험한 디버그 명령을 비활성화하는 통제
