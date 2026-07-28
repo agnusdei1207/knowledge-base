@@ -91,7 +91,6 @@ sequenceDiagram
     participant P as 시험 프로브
     participant T as TAP 제어기
     participant B as 경계 스캔 셀
-    P->>T: TAP 초기화
     P->>T: EXTEST 명령 갱신
     P->>T: 시험 패턴 이동
     T->>B: 출력 핀 갱신
@@ -101,7 +100,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| TAP 초기화 | TMS로 Test-Logic-Reset 진입 |
 | EXTEST 명령 갱신 | Shift-IR·Update-IR로 EXTEST 선택 |
 | 시험 패턴 이동 | Shift-DR로 출력 시험값 입력 |
 | 출력 핀 갱신 | Update-DR로 시험값을 핀에 적용 |

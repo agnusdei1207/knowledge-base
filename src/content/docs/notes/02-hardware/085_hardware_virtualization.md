@@ -116,7 +116,6 @@ sequenceDiagram
     participant H as 하이퍼바이저
     participant C as CPU 가상화 확장
     participant G as 게스트 VM
-    H->>C: 실행 상태 설정
     H->>C: VM Entry
     C->>G: 게스트 직접 실행
     G-->>H: VM Exit
@@ -126,7 +125,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 실행 상태 설정 | VMCS/VMCB·EPT/NPT·Exit 조건 구성 |
 | VM Entry | 저장 상태를 적재해 게스트로 전환 |
 | 게스트 직접 실행 | 일반 명령을 CPU에서 직접 처리 |
 | VM Exit | 지정 사건·예외에서 제어권 회수 |

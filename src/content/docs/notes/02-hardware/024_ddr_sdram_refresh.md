@@ -91,11 +91,9 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
-    participant H as 호스트
     participant C as 메모리 컨트롤러
     participant P as DDR 채널·PHY
     participant B as 뱅크·행 버퍼
-    H->>C: 요청 수신
     C->>C: 기한·타이밍 판정
     alt 접근 가능
         C->>P: 행 활성화
@@ -113,7 +111,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 요청 수신 | 물리 주소의 **채널·랭크·뱅크·행·열** 매핑 |
 | 기한·타이밍 판정 | **tREFI** 잔여와 명령 간 타이밍 제약 확인 |
 | 행 활성화 | 행 미적중 시 **ACT**로 대상 행 개방 |
 | ACT 전달 | PHY가 행 활성화 명령을 뱅크에 전달 |

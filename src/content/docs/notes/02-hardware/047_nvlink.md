@@ -84,7 +84,6 @@ sequenceDiagram
     participant R as NCCL 런타임
     participant G as GPU 메모리
     participant N as NVLink·NVSwitch
-    R->>R: 토폴로지 탐색
     R->>N: 경로 선택
     G->>N: 피어·집단 전송
     N-->>R: 완료 통지·동기화
@@ -92,7 +91,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 토폴로지 탐색 | GPU·링크·스위치 연결 상태 확인 |
 | 경로 선택 | 통신 패턴에 맞는 직접·스위치 경로 결정 |
 | 피어·집단 전송 | 데이터 조각을 NVLink 경로로 교환 |
 | 완료 통지·동기화 | 전송 완료 후 버퍼 재사용 허용 |
@@ -101,7 +99,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 내비게이션이 연결 지도를 읽고 길을 선택한 뒤 짐의 도착을 확인한다
+- 런타임이 통신 경로를 선택해 데이터 조각을 보내고 도착을 동기화한다
 
 ## Ⅴ. 종류 및 비교
 

@@ -91,11 +91,9 @@ flowchart TB
 
 ```mermaid
 sequenceDiagram
-    participant N as NIC
     participant C as CPU·메모리
     participant I as PCIe·장치
     participant B as BMC
-    N->>C: 요청 수신
     C->>C: 메모리 접근·연산
     C->>I: I/O 요청
     I-->>C: I/O 완료
@@ -105,7 +103,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 요청 수신 | NIC가 서비스 요청을 CPU에 전달 |
 | 메모리 접근·연산 | CPU가 데이터와 명령을 처리 |
 | I/O 요청 | CPU가 PCIe 장치에 작업 전달 |
 | I/O 완료 | 장치가 처리 결과를 CPU에 반환 |

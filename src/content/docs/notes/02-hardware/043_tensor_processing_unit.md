@@ -89,11 +89,8 @@ flowchart LR
 ```mermaid
 sequenceDiagram
     participant H as 호스트
-    participant X as XLA
     participant T as TPU
     participant I as ICI·다른 TPU
-    H->>X: 그래프·텐서 모양 확정
-    X-->>H: XLA 컴파일·샤딩
     H->>T: 텐서 HBM 적재
     T->>T: MXU·벡터 연산
     opt 다중 칩
@@ -104,18 +101,16 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 그래프·텐서 모양 확정 | 텐서 모양·연산 그래프·장치 수 결정 |
-| XLA 컴파일·샤딩 | 연산 융합·타일링·샤딩과 장치 코드 생성 |
 | 텐서 HBM 적재 | 가중치·활성값을 HBM에 배치 |
 | MXU·벡터 연산 | MXU와 벡터 유닛으로 연산 실행 |
 | ICI 집단 통신 | 다중 칩 부분 결과 교환·집계 |
 | 결과 반환 | 완성 결과를 호스트에 반환 |
 
-> 요약: XLA가 계산을 배치하고 다중 칩이면 ICI로 결과를 모은다
+> 요약: HBM이 텐서를 공급하고 다중 칩이면 ICI로 결과를 모은다
 
 ### 쉽게 이해하기 (학습용)
 
-- 설계도를 계산판에 맞추고 여러 공장이면 연락망으로 결과를 모은다
+- HBM의 텐서를 MXU가 처리하고 여러 TPU는 ICI로 중간값을 모은다
 
 ## Ⅴ. 종류 및 비교
 

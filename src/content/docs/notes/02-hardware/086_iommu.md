@@ -100,7 +100,6 @@ sequenceDiagram
     participant I as IOMMU
     participant T as 도메인·페이지 테이블
     participant M as 물리 메모리
-    O->>I: 도메인·매핑 설정
     D->>I: IOVA DMA 요청
     I->>I: IOTLB 조회
     opt IOTLB 미스
@@ -115,7 +114,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 도메인·매핑 설정 | 장치별 IOVA 범위·물리 버퍼·권한 구성 |
 | IOVA DMA 요청 | 장치가 IOVA·길이·읽기·쓰기 속성 전송 |
 | IOTLB 조회 | 캐시된 주소·권한으로 접근 판정 |
 | 페이지 테이블 순회 | 미스 시 변환표 조회·IOTLB 채움 |

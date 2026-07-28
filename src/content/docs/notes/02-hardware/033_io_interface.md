@@ -89,7 +89,6 @@ sequenceDiagram
     participant C as CPU·드라이버
     participant I as 장치 제어기
     participant E as DMA·채널 엔진
-    C->>I: 요청 설정
     alt 폴링
         C->>I: 상태 반복 조회
         I-->>C: 상태 응답
@@ -106,7 +105,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 요청 설정 | 명령·주소·길이를 제어기에 기록 |
 | 상태 반복 조회 | CPU가 장치의 **준비·완료 상태** 직접 확인 |
 | 상태 응답 | 장치 제어기가 현재 **상태 레지스터** 반환 |
 | 인터럽트 통지 | 장치가 상태 변화를 CPU에 **비동기 통지** |
