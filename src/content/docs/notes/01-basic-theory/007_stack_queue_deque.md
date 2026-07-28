@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "스택·큐·덱 (Stack Queue Deque)"
-date: "2026-07-28T19:02:00+09:00"
+date: "2026-07-28T21:35:04+09:00"
 tags:
   - "notes-basic-theory"
 weight: 7
@@ -73,26 +73,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph ADT[스택·큐·덱]
-        direction TB
-        I[연산 인터페이스]
-        E[끝점 상태]
-        S[(저장소)]
-        I -->|① 경계 상태 조회| E
-        E -->|허용 끝점·공백·포화| I
-        I -->|② 원소 입출력| S
-        I -->|③ 끝점 갱신| E
-    end
-    Q -->|삽입·삭제 요청| I
-    I -->|처리 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

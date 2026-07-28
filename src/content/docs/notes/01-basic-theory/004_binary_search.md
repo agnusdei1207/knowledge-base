@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-07-28T18:47:00+09:00"
+date: "2026-07-28T21:33:59+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -80,27 +80,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph BS[이진 탐색]
-        direction TB
-        B[이진 탐색기]
-        A[정렬 배열]
-        R{후보 구간}
-        B -->|① 중앙 원소 조회| A
-        A -->|중앙 원소| B
-        B -->|② 후보 구간 갱신| R
-        R -->|미완성 반복| B
-    end
-    Q -->|목표값| B
-    B -->|일치 위치| Q
-    R -->|탐색 실패| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
@@ -166,4 +146,4 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 정렬 상태를 유지하면서 범위나 경계를 자주 찾으면 이진 탐색을 쓰고, 정확한 키 한 건의 조회와 갱신이 중심이면 해시를 고른다.
+- 정렬 상태를 유지하면서 범위나 경계를 자주 찾으면 이진 탐색을 쓰고, 정확한 키 한 건의 조회와 갱신이 중심이면 해시를 선택한다.

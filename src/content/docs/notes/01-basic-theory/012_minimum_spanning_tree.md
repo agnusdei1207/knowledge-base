@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "최소 신장 트리 — 크루스칼·프림 (Minimum Spanning Tree)"
-date: "2026-07-28T19:16:00+09:00"
+date: "2026-07-28T21:38:06+09:00"
 tags:
   - "notes-basic-theory"
 weight: 12
@@ -69,41 +69,22 @@ flowchart TB
     C ---|4| E((E))
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    G[가중 무방향 그래프]
-    subgraph M[최소 신장 트리 계산]
-        direction TB
-        A[MST 알고리즘]
-        C[(간선 후보 집합)]
-        S[(연결 상태 집합)]
-        A -->|① 최소 후보 요청| C
-        C -->|② 최소 가중치 간선| A
-        A -->|③ 안전 간선 판정| S
-        S -->|사이클·방문 상태| A
-    end
-    G -->|연결망 생성 요청| A
-    A -->|선택 간선 집합| O[최소 연결망]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
-    participant G as 가중 그래프
+    participant Q as 호출자
     participant A as MST 알고리즘
     participant C as 간선 후보 집합
     participant S as 연결 상태 집합
-    G->>A: 연결망 생성 요청
+    Q->>A: 가중 그래프·연결망 생성 요청
     loop 선택 간선이 V-1개 미만
         A->>C: ① 최소 후보 요청
         C-->>A: ② 최소 가중치 간선
         A->>S: ③ 안전 간선 판정
         S-->>A: 사이클·방문 상태
     end
-    A-->>G: 선택 간선 집합
+    A-->>Q: 선택 간선 집합
 ```
 
 | 구성요소 | 책임 |

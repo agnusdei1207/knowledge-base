@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "그래프 탐색 — BFS·DFS (Graph Traversal)"
-date: "2026-07-28T19:12:00+09:00"
+date: "2026-07-28T21:36:10+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -68,7 +68,7 @@ xychart-beta
 
 ### 쉽게 이해하기 (학습용)
 
-- 프런티어의 추출 순서가 탐색 모양을 정하고 방문 표시는 중복 처리를 막는다.
+- 프런티어의 추출 순서가 탐색 모양을 정하고 방문 표시는 중복 처리를 방지한다.
 
 ## Ⅲ. 아키텍처
 
@@ -84,28 +84,7 @@ flowchart TB
     E --- B
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph G[그래프 탐색기]
-        direction TB
-        CTRL[탐색 제어기]
-        FRONT[(탐색 프런티어)]
-        ADJ[(인접 정보)]
-        VISIT[(방문 상태)]
-        CTRL -->|① 후보 삽입| FRONT
-        FRONT -->|② 다음 노드| CTRL
-        CTRL -->|③ 이웃 조회| ADJ
-        ADJ -->|이웃 목록| CTRL
-        CTRL -->|④ 방문 상태 갱신| VISIT
-    end
-    Q -->|시작 노드·탐색 요청| CTRL
-    CTRL -->|도달성·경로 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

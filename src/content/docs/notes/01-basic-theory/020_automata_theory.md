@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "오토마타 이론 — DFA·NFA (Automata Theory)"
-date: "2026-07-28T17:08:00+09:00"
+date: "2026-07-28T21:40:32+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -35,14 +35,11 @@ extra:
 - **시작 상태 $q_0$**: 입력 처리 전에 오토마타가 놓이는 최초 상태
 - **수용 상태 집합 $F$**: 입력 소진 뒤 문자열 수용을 확정하는 상태 집합
 - **오토마타 5튜플(Five-Tuple)**: 상태 집합·입력 알파벳·전이 함수·시작 상태·수용 상태 집합의 다섯 요소를 순서 있는 한 묶음으로 정의한 오토마타의 형식 구조
-- **소속 판정 $q\in F$**: ‘큐는 에프에 속한다’로 읽으며 DFA 최종 상태가 수용 상태인지 판정
-- **NFA 수용 기호($\cap,\ne,\varnothing$)**: ‘교집합’, ‘같지 않다’, ‘공집합’으로 읽으며 가능한 상태 중 수용 상태가 있는지 판정
 - **결정화(Determinization)**: NFA의 가능한 상태 집합 하나를 DFA 상태 하나로 대응시켜 같은 정규 언어를 인식하는 DFA로 변환하는 절차
 - **상태 폭증(State Explosion)**: 결정화할 때 NFA 상태 조합이 DFA의 개별 상태가 되어 상태 수가 지수적으로 늘어날 수 있는 현상
 - **정규 표현식(Regular Expression)**: 문자열 패턴을 정규 언어 규칙으로 표현하며 유한 오토마타로 변환해 입력 일치 여부를 판정할 수 있는 표기
 - **어휘 분석기(Lexical Analyzer)**: 소스 코드의 문자 흐름을 식별자·숫자·연산자 같은 토큰으로 나누며 DFA로 정규 패턴을 판정하는 컴파일러 구성요소
 - **토큰(Token)**: 어휘 분석기가 같은 문법 역할을 가진 문자 묶음에 부여하는 최소 분류 단위
-- **침입 탐지 시스템(Intrusion Detection System, IDS)**: 네트워크나 시스템 활동에서 공격 패턴을 탐지하며 NFA 상태 집합으로 여러 정규식 경로를 추적하는 보안 시스템
 
 ## Ⅰ. 개요
 
@@ -96,34 +93,23 @@ flowchart TB
     F -->|부분집합| Q
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    I[입력 문자열] -->|① 입력 기호 소비| D[전이 함수 δ]
-    Q[현재 상태·상태 집합] --> D
-    D -->|② 다음 상태 전이| Q
-    Q --> C{입력 소진}
-    C -->|아니요| I
-    C -->|예| F{③ 수용 상태 판정}
-    F --> R[수용·거부]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
-    participant I as 입력 문자열
+    participant C as 호출자
+    participant A as 오토마타 실행기
     participant D as 전이 함수
-    participant Q as 현재 상태·상태 집합
     participant F as 수용 상태 판정기
+    C->>A: 입력 문자열
     loop 입력 기호가 남아 있는 동안
-        I->>D: ① 입력 기호 소비
-        Q->>D: 현재 상태·상태 집합
-        D-->>Q: ② 다음 상태 전이
+        A->>A: ① 입력 기호 소비
+        A->>D: 현재 상태·입력 기호
+        D-->>A: ② 다음 상태 전이
     end
-    Q->>F: ③ 수용 상태 판정
-    F-->>I: 수용·거부
+    A->>F: ③ 수용 상태 판정
+    F-->>A: 수용·거부
+    A-->>C: 수용·거부
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-07-28T18:50:00+09:00"
+date: "2026-07-28T21:34:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -83,26 +83,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph HT[해시 테이블]
-        direction TB
-        H[해시 함수]
-        B[(버킷 배열)]
-        C[충돌 해결 구조]
-        H -->|① 인덱스 산출| B
-        B -->|② 버킷 후보| C
-        C -->|③ 다음 후보 요청| B
-        B -->|후보 엔트리| C
-    end
-    Q -->|조회 키| H
-    C -->|값·실패| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
@@ -111,7 +92,7 @@ sequenceDiagram
     participant B as 버킷 배열
     participant C as 충돌 해결 구조
     Q->>H: 조회 키
-    H->>B: ① 인덱스 산출
+    H->>B: ① 버킷 인덱스
     B->>C: ② 버킷 후보
     loop 원본 키 불일치·후보 존재
         C->>B: ③ 다음 후보 요청
@@ -128,7 +109,7 @@ sequenceDiagram
 
 **동작 원리**
 
-- **① 인덱스 산출**: 조회 키를 버킷 배열 위치로 변환
+- **① 버킷 인덱스**: 조회 키를 버킷 배열 위치로 변환
 - **② 버킷 후보**: 해당 위치의 첫 키·값 후보 전달
 - **③ 다음 후보 요청**: 불일치 시 체인·탐사 순서 진행
 
@@ -169,4 +150,4 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 정확 키 한 건을 반복 조회하고 키 순서가 필요 없을 때 해시를 쓰되, 적재율과 충돌 분포를 통제해 긴 후보 탐색을 막는다.
+- 정확 키 한 건을 반복 조회하고 키 순서가 필요 없을 때 해시를 쓰되, 적재율과 충돌 분포를 통제해 긴 후보 탐색을 방지한다.

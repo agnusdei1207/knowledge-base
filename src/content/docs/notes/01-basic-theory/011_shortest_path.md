@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "최단 경로 — 다익스트라·벨만-포드·플로이드-워셜 (Shortest Path)"
-date: "2026-07-28T19:14:00+09:00"
+date: "2026-07-28T21:37:02+09:00"
 tags:
   - "notes-basic-theory"
 weight: 11
@@ -73,30 +73,7 @@ flowchart TB
     B -->|7| T
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph P[최단 경로 계산]
-        direction TB
-        S[최단 경로 계산기]
-        G[(가중 그래프)]
-        D[(거리값)]
-        R[(선행 정점)]
-        C{완화 후보 존재?}
-        S -->|① 간선 조회| G
-        G -->|정점·간선·가중치| S
-        S -->|② 거리값 갱신| D
-        S -->|③ 선행 정점 갱신| R
-        R --> C
-        C -->|예| S
-    end
-    Q -->|경로 요청| S
-    C -->|아니오·거리·경로| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

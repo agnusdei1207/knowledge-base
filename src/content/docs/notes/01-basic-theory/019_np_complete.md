@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
-date: "2026-07-28T17:08:00+09:00"
+date: "2026-07-28T21:39:14+09:00"
 tags:
   - "notes-basic-theory"
 weight: 19
@@ -66,22 +66,7 @@ flowchart TB
     NPC -->|부분집합| NPH[NP-난해]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    P[완전성 증명자]
-    V[인증서 검증기]
-    R[다항 환원기]
-    T[대상 결정 문제]
-    P -->|① NP 소속 검증| V
-    V -->|다항 검증 가능| P
-    P -->|② 환원 구성| R
-    R -->|③ 답 보존 변환| T
-    T -->|NP-완전 판정| P
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
@@ -93,7 +78,8 @@ sequenceDiagram
     V-->>P: 다항 검증 가능
     P->>R: ② 환원 구성
     R->>T: ③ 답 보존 변환
-    T-->>P: NP-완전 판정
+    T-->>R: 변환 인스턴스 결과
+    R-->>P: 답 동치·다항 시간 증명
 ```
 
 | 구성요소 | 책임 |
