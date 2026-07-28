@@ -23,7 +23,7 @@ extra:
 - **Pod 단계(Pod Phase)**: Pending·Running·Succeeded·Failed·Unknown으로 구분하는 Pod의 상위 실행 상태
 - **컨테이너 상태(Container State)**: Waiting·Running·Terminated로 구분하는 개별 컨테이너의 현재 실행 상태
 - **Pod 조건(Pod Condition)**: 스케줄·초기화·준비 상태의 참·거짓과 변경 이유를 기록한 값
-- **재시작 정책(restartPolicy)**: ‘리스타트 폴리시’로 읽는 공식 명세 필드이며, Always·OnFailure·Never 중 컨테이너 재시작 조건을 정함
+- **재시작 정책(restartPolicy)**: Always·OnFailure·Never 중 컨테이너를 다시 시작할 조건을 정하는 Pod 명세
 - **지수 백오프(Exponential Backoff)**: 반복 실패할수록 재시도 대기 시간을 배수로 늘리는 제어
 - **시작 프로브(Startup Probe)**: 느린 애플리케이션의 시작 완료 여부를 검사하고 완료 전 활성·준비 검사를 유예함
 - **활성 프로브(Liveness Probe)**: 컨테이너가 복구 불가능한 비정상 상태인지 검사해 실패 시 재시작하게 함
