@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-07-28T21:29:15+09:00"
+date: "2026-07-28T22:06:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -52,13 +52,16 @@ extra:
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
     title "위치 증가별 원소 접근 단계"
-    x-axis "목표 위치" [1, 2, 4, 8, 16]
-    y-axis "상대 접근 단계" 0 --> 16
+    x-axis "목표 위치 k" [1, 2, 4, 8, 16]
+    y-axis "접근 단계" 0 --> 16
     line [1, 2, 4, 8, 16]
     line [1, 1, 1, 1, 1]
 ```
 
-<span style="color:#3080dd">■</span> **연결 리스트** &nbsp;&nbsp; <span style="color:#d95926">■</span> **동적 배열**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **연결 리스트 $k$**: 헤드부터 목표 위치까지 링크 추적 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **동적 배열 $1$**: 인덱스로 목표 위치 직접 접근 |
 
 > 연결 리스트는 목표 위치까지 링크를 순차 추적
 
@@ -89,7 +92,7 @@ sequenceDiagram
     participant L as 링크 필드
     Q->>H: 순회 요청
     H->>N: ① 첫 노드 참조
-    loop 다음 링크가 널이 아닐 동안
+    loop 현재 노드가 널이 아닐 동안
         N->>D: ② 데이터 조회
         D-->>N: 데이터
         N->>L: ③ 다음 링크 조회

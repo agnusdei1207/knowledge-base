@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-07-28T21:34:20+09:00"
+date: "2026-07-28T22:02:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -33,6 +33,7 @@ extra:
 - **정렬 배열(Sorted Array)**: 키 순서의 연속 공간에 원소를 저장해 이진 탐색을 지원하는 배열
 - **무작위 해시 시드(Randomized Hash Seed)**: 실행마다 해시 결과를 바꿔 의도적 충돌 예측을 어렵게 하는 값
 - **해시 충돌 서비스 거부(Hash Collision DoS)**: 공격자가 같은 버킷에 몰리는 키를 보내 조회를 선형 탐색으로 퇴화시키는 공격
+- **균등 해싱 가정(Uniform Hashing Assumption)**: 각 키가 버킷에 독립적이고 같은 확률로 배정된다고 보는 평균 분석 전제
 
 ## Ⅰ. 개요
 
@@ -52,14 +53,17 @@ extra:
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
-    title "적재율별 실패 조회 후보 수 개념도"
-    x-axis "적재율(%)" [20, 40, 60, 80, 90]
-    y-axis "상대 후보 수" 0 --> 10
+    title "적재율별 실패 조회 후보 수"
+    x-axis "적재율 α(%)" [20, 40, 60, 80, 90]
+    y-axis "기대 후보 엔트리 수" 0 --> 10
     line [0.2, 0.4, 0.6, 0.8, 0.9]
     line [1.25, 1.67, 2.5, 5, 10]
 ```
 
-<span style="color:#3080dd">■</span> **체이닝** &nbsp;&nbsp; <span style="color:#d95926">■</span> **개방 주소법**
+| 계열 | 수식·의미 |
+|:---|:---|
+| <span style="color:#3080dd">■</span> 파란색 1계열 | **체이닝 $\alpha$**: 실패 조회의 평균 체인 후보 수 |
+| <span style="color:#d95926">■</span> 주황색 2계열 | **개방 주소법 $1/(1-\alpha)$**: 균등 해싱 가정의 실패 탐사 기대값 |
 
 > 개방 주소법은 높은 적재율에서 탐사 길이가 급증
 

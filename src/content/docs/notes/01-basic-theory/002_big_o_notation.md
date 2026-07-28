@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "빅오 표기법 (Big-O Notation)"
-date: "2026-07-28T21:28:41+09:00"
+date: "2026-07-28T21:54:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 2
@@ -99,12 +99,37 @@ $$
 T(n) \in O(g(n)) \iff \exists c>0,n_0>0,\ \forall n\ge n_0:\ 0\le T(n)\le c g(n)
 $$
 
+**도표안 B — sequenceDiagram**
+
+```mermaid
+sequenceDiagram
+    participant P as 점근 분석 절차
+    participant T as 비용 함수 분석
+    participant G as 기준 함수 비교
+    participant W as 상한 조건 검증
+    P->>T: ① 비용 함수 T(n)
+    T->>G: ② 지배항
+    P->>G: 기준 함수 g(n)
+    G->>W: ③ 상한 증인 후보
+    loop 모든 n ≥ n₀
+        W-->>G: ④ 부등식 성립 여부
+    end
+    G-->>P: 점근 상한 O(g(n))
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 비용 함수 $T(n)$ | 입력 크기별 알고리즘 **연산량** 표현 |
 | 기준 함수 $g(n)$ | 비교할 **점근 증가율** 표현 |
 | 상한 증인 $c,n_0$ | 부등식의 배율·성립 시작점 지정 |
 | 판정 조건 | 모든 $n\ge n_0$에서 **점근 상한** 확인 |
+
+**동작 원리**
+
+- **① 비용 함수 $T(n)$**: 입력 크기별 연산 횟수 함수 도출
+- **② 지배항**: 상수·하위항을 제외한 증가율 추출
+- **③ 상한 증인 후보**: 기준 함수의 배율 $c$와 시작점 $n_0$ 설정
+- **④ 부등식 성립 여부**: 모든 $n\ge n_0$에서 상한 관계 검증
 
 > 요약: **비용 함수**를 덮는 기준 함수와 **상한 증인** 제시
 
