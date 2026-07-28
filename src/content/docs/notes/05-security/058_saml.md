@@ -84,26 +84,20 @@ sequenceDiagram
     participant U as 사용자 브라우저
     participant S as SP
     participant I as IdP
-    U->>S: 서비스 접속 요청
-    S-->>U: AuthnRequest 전달
-    U->>I: 인증 요청 중계
-    I->>U: 사용자 인증 요청
-    U->>I: 사용자 인증 응답
-    I-->>U: SAML 응답 반환
-    U->>S: SAML 응답 제출
+    U->>S: 서비스 접근
+    S->>I: AuthnRequest 전송
+    I->>U: 사용자 인증
+    I-->>S: 서명된 SAML 응답
     S->>S: SAML 주장 검증
     S-->>U: 로컬 세션 발급
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| 서비스 접속 요청 | 인증되지 않은 사용자 접근 |
-| AuthnRequest 전달 | 요청 ID와 목적지 생성 |
-| 인증 요청 중계 | 브라우저가 IdP로 전달 |
-| 사용자 인증 요청 | IdP가 사용자 자격 요구 |
-| 사용자 인증 응답 | 사용자가 자격·추가 인증 제시 |
-| SAML 응답 반환 | 인증 후 주장에 서명 |
-| SAML 응답 제출 | 브라우저가 SP 수신 주소로 전달 |
+| 서비스 접근 | SP가 인증되지 않은 접근을 식별 |
+| AuthnRequest 전송 | SP가 요청 ID·목적지·반환 주소를 결합 |
+| 사용자 인증 | IdP가 요청을 검증하고 사용자 자격을 확인 |
+| 서명된 SAML 응답 | 인증 결과·대상·시간 조건을 주장에 서명 |
 | SAML 주장 검증 | 서명·대상·시간·요청 ID 확인 |
 | 로컬 세션 발급 | SP가 자체 로그인 세션 생성 |
 
