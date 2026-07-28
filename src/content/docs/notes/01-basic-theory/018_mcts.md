@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-07-28T19:31:00+09:00"
+date: "2026-07-28T22:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -37,6 +37,9 @@ extra:
 - **탐색 예산(Search Budget)**: MCTS가 반복할 수 있는 시간·롤아웃 횟수·계산량의 한도이며 소진 시 현재 최선 행동을 반환하는 종료 조건
 - **루트 행동(Root Action)**: 현재 상태를 나타내는 탐색 트리의 루트에서 직접 이어지는 행동이며 반복 종료 후 최다 방문 기준으로 선택하는 최종 결정
 - **롤아웃 편향(Rollout Bias)**: 롤아웃 정책이 특정 행동이나 결과를 치우치게 표본화하여 노드의 보상 추정을 왜곡하는 위험
+- **탐색 상수(Exploration Constant)**: UCT에서 저방문 행동의 탐색 보너스 크기를 조절하는 계수
+- **가상 손실(Virtual Loss)**: 병렬 탐색 작업자가 같은 경로에 몰리지 않도록 선택 중인 노드의 가치를 일시적으로 낮추는 값
+- **사전확률(Prior Probability)**: 정책 신경망이 탐색 전에 각 행동에 부여하여 유망 분기의 우선순위를 정하는 확률
 - **지평선 효과(Horizon Effect)**: 제한된 탐색 깊이 밖의 중요한 결과를 보지 못해 미니맥스의 현재 행동 평가가 왜곡되는 현상
 - **정책 신경망(Policy Network)·가치 신경망(Value Network)**: 정책 신경망은 유망 행동의 확률을, 가치 신경망은 현재 상태의 예상 결과를 추정해 AlphaZero의 MCTS 선택과 평가를 안내함
 - **로봇 작업 계획(Robot Task Planning)**: 로봇의 가능한 동작 순서를 상태와 행동으로 표현하고 롤아웃 보상으로 충돌 없이 목표를 마칠 순서를 선택하는 작업
@@ -90,22 +93,7 @@ flowchart TB
     B --> B2[미확장 노드]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[현재 상태·탐색 예산] -->|행동 선택 요청| T
-    subgraph M[MCTS]
-        direction TB
-        T[트리 정책] -->|① 경로 선택| R[탐색 트리]
-        R -->|② 노드 확장| P[롤아웃 정책]
-        P -->|③ 롤아웃 보상| S[노드 통계]
-        S -->|④ 통계 역전파| T
-    end
-    T -->|루트 최다 방문 행동| O[선택 결과]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
