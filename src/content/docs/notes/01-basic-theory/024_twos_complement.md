@@ -78,17 +78,20 @@ flowchart TB
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant R as 피연산자 레지스터
     participant C as 보수기
     participant A as 가산기
     participant V as 오버플로 검출기
+    Q->>R: 피연산자·연산 종류 전달
     opt 뺄셈
-        R->>C: ① 뺄 수
+        R->>C: ① 보수 변환 요청
         C->>A: ② 2의 보수
     end
     R->>A: 원래 수
     A->>V: ③ n비트 합
-    V-->>R: ④ 오버플로 판정
+    V-->>Q: ④ 오버플로 판정
+    A-->>Q: n비트 연산 결과
 ```
 
 | 구성요소 | 책임 |
@@ -103,7 +106,7 @@ sequenceDiagram
 >
 **동작 원리**
 
-- **① 뺄 수**: 보수 변환 대상의 전달
+- **① 보수 변환 요청**: 뺄셈일 때 뺄 수를 보수기로 전달
 - **② 2의 보수**: 반전·1 가산 결과 전달
 - **③ n비트 합**: 동일 가산기로 덧셈·뺄셈 결과 산출
 - **④ 오버플로 판정**: 입력·결과 부호 관계 검사

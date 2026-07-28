@@ -35,6 +35,7 @@ extra:
 - **푸시다운 오토마타(Pushdown Automaton, PDA)**: 스택을 보조 기억장치로 사용하여 중첩 구조를 포함한 문맥 자유 언어를 인식하는 계산 모델
 - **유한 오토마타(Finite Automaton, FA)**: 별도 기억장치 없이 유한한 상태와 전이 규칙으로 정규 언어를 인식하는 계산 모델
 - **정규 언어(Regular Language)**: 유한 오토마타가 인식할 수 있는 반복·선택 패턴의 언어
+- **문맥 의존 언어(Context-Sensitive Language)**: 기호 주변 문맥에 따라 생성 규칙 적용 여부가 달라지는 문법으로 표현하는 언어
 - **샌드박스(Sandbox)**: 실행 시간·메모리·권한을 제한해 프로그램을 격리하는 환경
 
 ## Ⅰ. 개요
@@ -85,13 +86,14 @@ sequenceDiagram
     participant T as 전이 함수
     participant H as 헤드
     participant P as 테이프
-    Q->>H: 실행 요청
+    Q->>S: 실행 요청
     loop 정지 상태가 아닐 동안
         H->>P: ① 현재 기호 읽기
         P-->>H: 현재 기호
         S->>T: 현재 상태
         H->>T: 읽은 기호
-        T->>P: ② 기호 기록
+        T->>H: ② 기호 기록
+        H->>P: 현재 칸 갱신
         T->>H: ③ 헤드 이동
         T->>S: ④ 상태 갱신
     end
