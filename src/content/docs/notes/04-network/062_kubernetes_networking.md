@@ -109,7 +109,6 @@ sequenceDiagram
     C->>I: HTTP·HTTPS 요청
     I->>D: Service 백엔드 전달
     D->>P: 준비된 파드 선택·전달
-    P->>C: 응답 반환
 ```
 
 | 절차 | 설명 |
@@ -121,7 +120,6 @@ sequenceDiagram
 | HTTP·HTTPS 요청 | 외부 호스트·경로·TLS 요청 |
 | Service 백엔드 전달 | Ingress가 대상 Service 선택 |
 | 준비된 파드 선택·전달 | 정상 종단으로 변환·전송 |
-| 응답 반환 | 역변환 경로로 클라이언트에 응답 |
 
 > 요약: 외부 요청을 준비된 파드 종단까지 전달한다
 
