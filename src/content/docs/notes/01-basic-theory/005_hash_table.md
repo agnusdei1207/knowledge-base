@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-07-28T16:16:18+09:00"
+date: "2026-07-28T18:50:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -55,7 +55,21 @@ extra:
 
 ## Ⅲ. 아키텍처
 
-**도표안 A — flowchart**
+**도표안 A — 구조도**
+
+```mermaid
+flowchart TB
+    subgraph HT[해시 테이블]
+        direction TB
+        H[해시 함수]
+        B[(버킷 배열)]
+        C[충돌 해결 구조]
+        H -->|버킷 주소| B
+        B -->|체인·탐사 공간| C
+    end
+```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -74,7 +88,7 @@ flowchart TB
     C -->|값·실패| Q
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

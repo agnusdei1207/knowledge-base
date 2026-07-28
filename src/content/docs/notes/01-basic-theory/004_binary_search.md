@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-07-28T16:15:14+09:00"
+date: "2026-07-28T18:47:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -52,7 +52,22 @@ extra:
 
 ## Ⅲ. 아키텍처
 
-**도표안 A — flowchart**
+**도표안 A — 구조도**
+
+```mermaid
+flowchart TB
+    subgraph BS[이진 탐색]
+        direction TB
+        B[이진 탐색기]
+        R[후보 구간<br/>low · mid · high]
+        A[정렬 배열]
+        B -->|대소 판정| R
+        R -->|인덱스 범위| A
+        A -->|임의 접근 원소| B
+    end
+```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -72,7 +87,7 @@ flowchart TB
     R -->|탐색 실패| Q
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

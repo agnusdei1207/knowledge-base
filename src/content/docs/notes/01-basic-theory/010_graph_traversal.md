@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "그래프 탐색 — BFS·DFS (Graph Traversal)"
-date: "2026-07-28T14:57:53+09:00"
+date: "2026-07-28T19:12:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -58,31 +58,73 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
-flowchart LR
-    START[호출자] -->|① 시작 노드·탐색 요청| CTRL
-    subgraph G[그래프 탐색기]
-        CTRL[탐색 제어기]
-        FRONT[탐색 프런티어]
-        ADJ[인접 정보]
-        VISIT[방문 상태]
-        CTRL -->|② 후보 삽입| FRONT
-        FRONT -->|③ 다음 노드| CTRL
-        CTRL -->|④ 이웃 조회| ADJ
-        ADJ -->|⑤ 이웃 목록| CTRL
-        CTRL -->|⑥ 상태 조회·갱신| VISIT
-    end
-    CTRL -->|⑦ 도달성·경로 결과| OUT[탐색 결과]
+flowchart TB
+    A((시작 A)) --- B((B))
+    A --- C((C))
+    B --- D((D))
+    C --- D
+    D --- E((E))
+    E --- B
 ```
 
-| 구성요소 | 책임 | 흐름상 역할 |
-|:---|:---|:---|
-| 탐색 제어기 | **BFS·DFS 규칙**으로 이웃 확장 | ① 요청 → ② 삽입 → ③ 추출 → ④ 조회 → ⑤ 확장 → ⑥ 표시 → ⑦ 결과 |
-| 탐색 프런티어 | 방문 순서를 관리하는 **큐·스택** | ② 후보 저장 → ③ 다음 노드 반환 |
-| 인접 정보 | 노드별 **이웃 목록** 보관 | ④ 조회 수신 → ⑤ 이웃 반환 |
-| 방문 상태 | **미방문·활성·완료** 상태 보관 | ⑥ 상태 조회·갱신 |
+**도표안 B — 동작 흐름도**
 
-> 요약: **탐색 제어기**가 프런티어·인접 정보·**방문 상태** 조정
+```mermaid
+flowchart TB
+    Q[호출자]
+    subgraph G[그래프 탐색기]
+        direction TB
+        CTRL[탐색 제어기]
+        FRONT[(탐색 프런티어)]
+        ADJ[(인접 정보)]
+        VISIT[(방문 상태)]
+        CTRL -->|① 후보 삽입| FRONT
+        FRONT -->|② 다음 노드| CTRL
+        CTRL -->|③ 이웃 조회| ADJ
+        ADJ -->|이웃 목록| CTRL
+        CTRL -->|④ 방문 상태 갱신| VISIT
+    end
+    Q -->|시작 노드·탐색 요청| CTRL
+    CTRL -->|도달성·경로 결과| Q
+```
+
+**도표안 C — sequenceDiagram**
+
+```mermaid
+sequenceDiagram
+    participant Q as 호출자
+    participant C as 탐색 제어기
+    participant F as 탐색 프런티어
+    participant A as 인접 정보
+    participant V as 방문 상태
+    Q->>C: 시작 노드·탐색 요청
+    C->>F: ① 후보 삽입
+    loop 프런티어가 빌 때까지
+        F-->>C: ② 다음 노드
+        C->>A: ③ 이웃 조회
+        A-->>C: 이웃 목록
+        C->>V: ④ 방문 상태 갱신
+        C->>F: ① 후보 삽입
+    end
+    C-->>Q: 도달성·경로 결과
+```
+
+| 구성요소 | 책임 |
+|:---|:---|
+| 탐색 제어기 | **BFS·DFS 규칙**으로 이웃 확장 |
+| 탐색 프런티어 | 방문 순서를 관리하는 **큐·스택** |
+| 인접 정보 | 노드별 **이웃 목록** 보관 |
+| 방문 상태 | **미방문·활성·완료** 상태 보관 |
+
+**동작 원리**
+
+- **① 후보 삽입**: 미방문 이웃을 큐·스택에 저장
+- **② 다음 노드**: BFS·DFS 순서로 확장 대상 추출
+- **③ 이웃 조회**: 선택 노드의 인접 목록 확보
+- **④ 방문 상태 갱신**: 중복·순환 방지 상태 기록
 
 ### 쉽게 이해하기 (학습용)
 

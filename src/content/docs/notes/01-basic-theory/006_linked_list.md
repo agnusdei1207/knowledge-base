@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-07-28T16:17:21+09:00"
+date: "2026-07-28T18:53:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -54,7 +54,17 @@ extra:
 
 ## Ⅲ. 아키텍처
 
-**도표안 A — flowchart**
+**도표안 A — 구조도**
+
+```mermaid
+flowchart TB
+    H[헤드] --> N1[노드 1<br/>데이터 | 링크]
+    N1 --> N2[노드 2<br/>데이터 | 링크]
+    N2 --> N3[노드 3<br/>데이터 | 링크]
+    N3 --> Z[널]
+```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -75,7 +85,7 @@ flowchart TB
     N -->|조회 결과| Q
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
