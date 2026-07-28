@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "정렬 알고리즘 비교 — 퀵·병합·힙·버블 (Sorting Algorithms)"
-date: "2026-07-28T17:08:00+09:00"
+date: "2026-07-28T21:29:02+09:00"
 tags:
   - "notes-basic-theory"
 weight: 3
@@ -87,28 +87,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph SORT[정렬 처리]
-        direction TB
-        C[정렬 제어기]
-        F[비교 함수]
-        R[재배열 전략]
-        S[(보조 공간)]
-        C -->|① 키 비교 요청| F
-        F -->|대소 결과| C
-        C -->|② 위치 변경 요청| R
-        R -->|③ 임시 저장| S
-        R -->|④ 다음 구간 반환| C
-    end
-    Q -->|정렬 대상·비교 기준| C
-    C -->|정렬 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

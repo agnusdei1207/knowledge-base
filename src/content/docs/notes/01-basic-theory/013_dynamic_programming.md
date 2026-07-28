@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 15%"
     variant: note
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-07-28T19:18:00+09:00"
+date: "2026-07-28T21:30:05+09:00"
 tags:
   - "notes-basic-theory"
 weight: 13
@@ -81,27 +81,7 @@ flowchart TB
     S2 --> S1
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph DP[동적 계획법]
-        direction TB
-        P[상태 계산기]
-        R[점화식]
-        M[(상태 저장소)]
-        P -->|① 상태값 조회| M
-        M -->|저장값·미계산 상태| P
-        P -->|② 하위 상태 전개| R
-        R -->|하위 상태·결합 규칙| P
-        P -->|③ 상태값 저장| M
-    end
-    Q -->|목표 상태| P
-    P -->|목표 상태값| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
@@ -163,7 +143,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 미로 지도를 그릴 때 현재 선택에 필요한 갈림길만 표시하고 출구 표지를 먼저 세우면, 길을 무한히 돌거나 지도가 넘치는 일을 막을 수 있다.
+- 미로 지도를 그릴 때 현재 선택에 필요한 갈림길만 표시하고 출구 표지를 먼저 세우면, 무한 순환이나 지도 범람을 방지할 수 있다.
 
 ## Ⅵ. 결론
 

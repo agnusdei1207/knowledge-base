@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트리 구조 — B-Tree·AVL·Red-Black (Tree Data Structures)"
-date: "2026-07-28T19:06:00+09:00"
+date: "2026-07-28T21:29:34+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -64,7 +64,7 @@ xychart-beta
 
 ### 쉽게 이해하기 (학습용)
 
-- 균형 복구로 루트에서 말단까지의 경로가 과도하게 길어지는 것을 막는다.
+- 균형 복구로 루트에서 말단까지의 경로가 과도하게 길어지는 것을 방지한다.
 
 
 ## Ⅲ. 아키텍처
@@ -87,25 +87,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph TREE[균형 탐색 트리]
-        direction TB
-        ROOT[루트 참조]
-        NODE[트리 노드]
-        BAL[균형 복구기]
-        ROOT -->|① 키 경로 탐색| NODE
-        NODE -->|② 균형 상태 전달| BAL
-        BAL -->|③ 균형 복구| NODE
-    end
-    Q -->|키 조회·갱신| ROOT
-    NODE -->|처리 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이진 트리 순회 — 전위·중위·후위 (Binary Tree Traversal)"
-date: "2026-07-28T19:09:00+09:00"
+date: "2026-07-28T21:29:48+09:00"
 tags:
   - "notes-basic-theory"
 weight: 9
@@ -88,26 +88,7 @@ flowchart TB
     G --> GR[오른쪽 말단]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph T[이진 트리 순회]
-        direction TB
-        V[순회기]
-        N[트리 노드]
-        S[(순회 스택)]
-        V -->|① 복귀 문맥 저장| S
-        V -->|② 자식·데이터 조회| N
-        N -->|자식 참조·데이터| V
-        S -->|③ 복귀 문맥 반환| V
-    end
-    Q -->|순회 요청| V
-    V -->|방문 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

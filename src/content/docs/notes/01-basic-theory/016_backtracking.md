@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "백트래킹 (Backtracking)"
-date: "2026-07-28T19:24:00+09:00"
+date: "2026-07-28T21:31:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 16
@@ -35,10 +35,8 @@ extra:
 - **경계(Bound)**: 현재 부분해의 하위 분기에서 얻을 수 있는 최선의 목적값 한계를 추정하여 탐색 지속 여부를 정하는 값
 - **복구 상태(Restoration State)**: 후보 선택으로 바뀐 값과 순서를 기록하여 재귀 탐색 뒤 부분해를 선택 전 상태로 되돌리는 정보
 - **유망성 판정 함수**: 지금 부분해가 앞으로 유효한 해로 자랄 수 있는지 제약으로 검사해 하위 분기를 더 볼지 결정하는 함수
-- **해 판정 함수(Solution Function)**: 지금까지 채운 부분해가 문제의 완성 조건을 모두 채웠는지 확인해 탐색을 끝낼지 정하는 함수
 - **패키지 의존성 해결(Package Dependency Resolution)**: 여러 소프트웨어 패키지의 호환 버전 조합을 찾으며 제약 위반 시 이전 선택을 복구하는 작업
 - **버전 제약(Version Constraint)**: 패키지가 함께 사용할 수 있는 버전 범위나 제외 조건을 정의하여 후보 조합의 유망성을 판정하는 규칙
-- **조합 테스트(Combinatorial Testing)**: 입력 옵션의 조합을 체계적으로 생성하되 금지 조합의 하위 분기를 제거해 테스트 수를 줄이는 기법
 
 ## Ⅰ. 개요
 
@@ -90,26 +88,7 @@ flowchart TB
     BX -.-> P
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[제약 충족 문제]
-    subgraph B[백트래킹]
-        direction TB
-        R[재귀 탐색 함수]
-        P[(부분해 저장소)]
-        V[유망성 판정 함수]
-        R -->|① 후보 반영| P
-        P -->|② 현재 부분해| V
-        V -->|③ 유망 후보| R
-        R -->|④ 상태 복구| P
-    end
-    Q -->|탐색 요청| R
-    R -->|완성 해·실패| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

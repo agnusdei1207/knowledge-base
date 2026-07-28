@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "몬테카를로 방법 (Monte Carlo Method)"
-date: "2026-07-28T19:27:00+09:00"
+date: "2026-07-28T21:31:28+09:00"
 tags:
   - "notes-basic-theory"
 weight: 17
@@ -58,7 +58,6 @@ extra:
 - **독립 표본** 생성으로 표본 단위 **병렬 처리** 가능
 
 ```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
     title "표본 수 증가에 따른 표준오차 감소"
     x-axis "표본 수 n" [1, 4, 16, 64, 256]
@@ -66,13 +65,11 @@ xychart-beta
     line [100, 50, 25, 12.5, 6.25]
 ```
 
-<span style="color:#3080dd">■</span> **표준오차 $1/\sqrt{n}$**
-
 > 표본 수 4배마다 표준오차가 절반이 되는 제곱근 반비례
 
 ### 쉽게 이해하기 (학습용)
 
-- 표준오차를 절반으로 줄이려면 표본 수를 네 배로 늘려야 하며 독립 표본은 병렬 생성할 수 있다.
+- 주사위 결과의 높고 낮은 치우침은 평균에서 상쇄되지만 일부가 남아 표준오차가 천천히 줄어든다.
 
 ## Ⅲ. 아키텍처
 
@@ -92,22 +89,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[분포·모델·허용 오차] -->|추정 요청| G
-    subgraph MC[몬테카를로 방법]
-        direction TB
-        G[표본 생성기] -->|① 독립 표본| M[모델 평가기]
-        M -->|② 표본별 결과| E[통계 추정기]
-        E -->|추정값·표준오차| C[종료 판정기]
-        C -->|③ 추가 표본 요청| G
-    end
-    C -->|허용 오차 충족| O[추정값·신뢰구간]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

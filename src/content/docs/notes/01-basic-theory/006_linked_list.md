@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-07-28T18:53:00+09:00"
+date: "2026-07-28T21:29:15+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -78,30 +78,7 @@ flowchart TB
     N3 --> Z[널]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    H[헤드]
-    subgraph LL[연결 리스트]
-        direction TB
-        N[노드]
-        D[데이터 필드]
-        L[링크 필드]
-        C{다음 링크가 널?}
-        N -->|② 데이터 조회| D
-        N -->|③ 다음 링크 조회| L
-        L --> C
-        C -->|아니오·다음 노드| N
-    end
-    Q -->|순회 요청| H
-    H -->|① 첫 노드 참조| N
-    C -->|예| Z[널]
-    N -->|조회 결과| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

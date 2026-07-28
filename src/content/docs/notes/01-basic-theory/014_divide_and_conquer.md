@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-07-28T19:20:00+09:00"
+date: "2026-07-28T21:30:30+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -87,29 +87,7 @@ flowchart TB
     R --> R2[기저 문제]
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[호출자]
-    subgraph DC[분할 정복]
-        direction TB
-        R[재귀 제어기]
-        P[(부분 문제 집합)]
-        S[(호출 스택)]
-        C[결합기]
-        R -->|① 부분 문제 분할| P
-        P -->|독립 부분 문제| R
-        R -->|② 복귀 문맥 저장| S
-        S -->|복귀 문맥·부분 해| R
-        R -->|③ 부분 해 결합| C
-        C -->|결합 결과| R
-    end
-    Q -->|전체 문제| R
-    R -->|전체 해| Q
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

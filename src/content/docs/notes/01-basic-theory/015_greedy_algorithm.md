@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "탐욕 알고리즘 (Greedy Algorithm)"
-date: "2026-07-28T19:22:00+09:00"
+date: "2026-07-28T21:30:47+09:00"
 tags:
   - "notes-basic-theory"
 weight: 15
@@ -78,29 +78,7 @@ flowchart TB
     end
 ```
 
-**도표안 B — 동작 흐름도**
-
-```mermaid
-flowchart TB
-    Q[최적화 문제]
-    subgraph G[탐욕 알고리즘]
-        direction TB
-        S[선택 함수]
-        C[후보 집합]
-        F[타당성 함수]
-        P[(부분 해)]
-        H[해 판정 함수]
-        C -->|① 미선택 후보| S
-        S -->|② 국소 최선 후보| F
-        F -->|③ 통과 후보| P
-        P -->|④ 누적 부분 해| H
-        H -->|⑤ 미완성 판정| S
-    end
-    Q -->|최적화 문제| S
-    H -->|완성 해| O[계산 결과]
-```
-
-**도표안 C — sequenceDiagram**
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
