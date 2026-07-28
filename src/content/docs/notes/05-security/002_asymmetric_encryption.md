@@ -23,18 +23,18 @@ extra:
 - **비대칭 암호화(Asymmetric Encryption)**: 공개해도 되는 키와 소유자만 보관하는 키를 서로 다른 역할에 사용하는 암호 방식
 - **공개키(Public Key)**: 누구나 받아 암호화나 서명 검증에 사용할 수 있는 키
 - **개인키(Private Key)**: 소유자만 보관해 복호화나 서명 생성에 사용하는 키
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: '피케이아이'로 읽고 영문 머리글자로 공개키 신뢰 체계임을 표시하며 인증서 발급·검증·폐기로 키와 신원을 연결
+- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서의 발급·검증·폐지를 통해 공개키와 소유자의 신원을 연결하는 신뢰 체계
 - **인증서(Certificate)**: 공개키·소유자·유효기간을 인증기관의 서명으로 묶은 전자 문서
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: '에이치에스엠'으로 읽고 영문 머리글자로 키 보호 장치임을 표시하며 개인키를 반출하지 않고 내부에서 연산
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 개인키를 외부로 노출하지 않고 내부에서 암호 연산을 수행하는 전용 보안 장치
 - **키 설정(Key Establishment)**: 통신 당사자가 이후 대칭 암호에 사용할 공유 비밀이나 세션키를 만드는 과정
-- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: '켐'으로 읽고 영문 머리글자로 공유 비밀 캡슐화 방식임을 표시하며 공개키로 암호문을 만들고 개인키로 비밀을 복구
-- **RSA 최적 비대칭 암호 패딩(Rivest-Shamir-Adleman Optimal Asymmetric Encryption Padding, RSA-OAEP)**: '알에스에이 오에이이피'로 읽고 하이픈으로 공개키 암호와 패딩을 연결해 키 재료를 확률적으로 암호화
-- **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: '이시디에이치이'로 읽고 영문 머리글자로 임시 타원곡선 키 합의임을 표시해 과거 세션 노출을 제한
-- **모듈 격자 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: '엠엘 켐'으로 읽고 하이픈으로 격자 계열과 캡슐화 방식을 연결해 양자 공격 대비 공유 비밀을 설정
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공개키로 공유 비밀을 캡슐화하고 개인키로 복구하는 키 설정 방식
+- **RSA 최적 비대칭 암호 패딩(Rivest-Shamir-Adleman Optimal Asymmetric Encryption Padding, RSA-OAEP)**: RSA 암호화에 무작위 패딩을 적용하여 동일 평문의 암호문 반복과 구조 노출을 방지하는 방식
+- **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: 연결마다 임시 타원곡선 키를 생성하여 순방향 비밀성을 제공하는 키 합의 방식
+- **모듈 격자 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 키 캡슐화 방식
 - **순방향 비밀성(Forward Secrecy)**: 장기 개인키가 나중에 유출돼도 과거 세션키가 복구되지 않는 성질
-- **양자 내성 암호(Post-Quantum Cryptography, PQC)**: '피큐시'로 읽고 영문 머리글자로 양자 이후에도 안전한 암호임을 표시하는 공개키 기술
-- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: '에이이이에이디'로 읽고 영문 머리글자로 기밀성·무결성의 결합을 표시하는 대칭 암호 방식
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 전송 보안 규약임을 표시하며 상대 인증·암호화·무결성을 제공
+- **양자 내성 암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계된 공개키 암호 기술
+- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: 데이터의 기밀성과 무결성을 함께 보장하는 대칭키 암호 방식
+- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터의 기밀성과 무결성을 보호하는 프로토콜
 
 
 

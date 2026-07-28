@@ -20,16 +20,16 @@ extra:
 
 ## 미리 알고가기
 
-- **고급 지속 위협(Advanced Persistent Threat, APT)**: '에이피티'로 읽고 영문 머리글자로 고도화된 장기 표적 침해임을 표시하며 정보 탈취·영향을 시도
+- **고급 지속 위협(Advanced Persistent Threat, APT)**: 특정 목표를 대상으로 장기간 은밀하게 접근을 유지하며 정보 탈취나 시스템 영향을 시도하는 침해 활동
 - **캠페인(Campaign)**: 하나의 목적 아래 여러 침투·정찰·수집 활동을 장기간 묶어 수행하는 공격 작전
 - **초기 접근(Initial Access)**: 공격자가 피싱·취약점·탈취 계정으로 내부에 처음 진입하는 단계
 - **지속성(Persistence)**: 시스템이 재시작되거나 자격이 바뀌어도 공격자가 다시 접근하도록 통로를 유지하는 성질
 - **권한 상승(Privilege Escalation)**: 일반 권한에서 관리자 등 더 높은 권한을 얻는 공격 행위
 - **측면 이동(Lateral Movement)**: 침해한 장비에서 다른 내부 자원으로 공격 범위를 넓히는 행위
-- **명령·제어(Command and Control, C2)**: '시 투'로 읽고 영문 머리글자 C가 두 번임을 숫자 2로 표시하며 침해 장비에 원격 명령을 전달
-- **침해지표(Indicator of Compromise, IoC)**: '아이오시'로 읽고 영문 머리글자로 침해 흔적임을 표시하며 악성 파일·주소·계정 행위를 식별
-- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: '티티피'로 읽고 세 영문 머리글자로 공격자가 목적을 달성하는 반복 행동 패턴을 표시
-- **마이터 공격 전술·기법 지식 기반(MITRE Adversarial Tactics, Techniques, and Common Knowledge, MITRE ATT&CK)**: '마이터 어택'으로 읽고 `&`로 전술·기법을 연결한 표기로 실제 공격 행동 분류를 표시
+- **명령·제어(Command and Control, C2)**: 공격자가 침해 장비에 원격 명령을 전달하고 실행 결과를 수신하는 통신
+- **침해지표(Indicator of Compromise, IoC)**: 악성 파일·주소·계정 행위 등 시스템 침해를 식별하는 관측 흔적
+- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 공격자가 목적을 달성하기 위해 반복적으로 사용하는 행동 방식
+- **MITRE ATT&CK(Adversarial Tactics, Techniques, and Common Knowledge)**: 실제 관찰된 공격 행동을 전술·기법·절차로 분류한 지식체계
 - **위협 헌팅(Threat Hunting)**: 기존 경보를 기다리지 않고 가설을 세워 숨은 침해 증거를 능동적으로 찾는 활동
 - **귀속(Attribution)**: 공격 인프라·도구·행동·정보를 종합해 배후 주체를 추정하는 분석
 - **축출(Eradication)**: 공격자의 계정·악성코드·지속 통로를 환경에서 제거하는 사고 대응 단계

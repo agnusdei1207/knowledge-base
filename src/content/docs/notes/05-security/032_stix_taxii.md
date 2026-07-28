@@ -20,18 +20,17 @@ extra:
 
 ## 미리 알고가기
 
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: [읽기: 씨티아이; 표기 이유: 영문 머리글자와 구분 기호] 위협 정보를 판단 가능한 맥락으로 생성
-- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: 스틱스로 읽고 영문 핵심 글자를 딴 표기이며, CTI 객체·관계를 기계 판독 형식으로 표현
-- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 택시로 읽고 영문 핵심 글자를 딴 표기이며, CTI 컬렉션을 조직·도구 사이에서 교환
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: [읽기: 에이피아이; 표기 이유: 영문 머리글자와 구분 기호] TAXII 자원 호출 규약
-- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: [읽기: 엠아이에스피; 표기 이유: 영문 머리글자와 구분 기호] CTI 분석·공유 운영
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: [읽기: 에이치티티피에스; 표기 이유: 영문 머리글자와 구분 기호] TAXII 전송 암호화
-- **전송 계층 보안(Transport Layer Security, TLS)**: [읽기: 티엘에스; 표기 이유: 영문 머리글자와 구분 기호] TAXII 연결 보호
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여한 방어 정보
+- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준
+- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: STIX 기반 CTI 컬렉션을 조직과 보안도구 사이에서 교환하는 응용 프로토콜
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: TAXII 컬렉션과 객체를 조회·게시하기 위한 호출 규약
+- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: 침해지표와 위협 정보를 분석·공유하는 오픈소스 플랫폼
+- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: HTTP 통신을 TLS로 암호화하여 TAXII 데이터를 보호하는 프로토콜
+- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 TAXII 연결의 기밀성과 무결성을 보호하는 프로토콜
 
 
 
 
-- **흐름 기호(↓·→·-->)**: [읽기: 아래로·다음으로·연결; 표기 이유: 절차 방향 기호] 순서와 연결 방향을 나타냄
 ## Ⅰ. 개요
 
 - 정의: STIX **위협 표현**과 TAXII **객체 교환**
@@ -39,7 +38,7 @@ extra:
 
 ### 쉽게 이해하기 (학습용)
 
-- STIX는 문법, TAXII는 배달 규칙으로 이해
+- STIX는 위협 정보의 객체·관계 표현 형식을 정의하고, TAXII는 해당 정보를 조회·게시·동기화하는 절차를 제공한다.
 
 ## Ⅱ. 특징
 
@@ -131,4 +130,4 @@ extra:
 
 ### 쉽게 이해하기 (학습용)
 
-- 공유 체계 위에 신뢰·권한·사용 기준 필요
+- 표준 형식으로 교환했다는 사실만 신뢰하지 말고 출처·접근 권한·유효기간·활용 기준을 함께 통제해야 한다.

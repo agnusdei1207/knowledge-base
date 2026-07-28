@@ -20,19 +20,19 @@ extra:
 
 ## 미리 알고가기
 
-- **영지식 증명(Zero-Knowledge Proof, ZKP, 지케이피)**: 영문 머리글자를 딴 명칭으로, 비밀값을 공개하지 않고 정해진 관계의 성립만 증명하는 암호 프로토콜
+- **영지식 증명(Zero-Knowledge Proof, ZKP)**: 비밀값을 공개하지 않고 정해진 관계가 성립한다는 사실만 증명하는 암호 프로토콜
 - **명제(Statement)**: 증명자가 참이라고 주장하고 검증자가 확인할 공개 주장
-- **비밀 증거(Witness, 위트니스)**: 공개하지 않지만 명제를 참으로 만드는 비밀 입력
+- **비밀 증거(Witness)**: 외부에 공개하지 않지만 명제를 참으로 만드는 비밀 입력
 - **완전성(Completeness)**: 참인 명제와 올바른 비밀 증거의 증명을 수용하는 성질
 - **건전성(Soundness)**: 거짓 명제가 검증을 통과할 가능성을 제한하는 성질
 - **영지식성(Zero-knowledge)**: 검증자가 명제의 참 이외에 비밀 증거 정보를 얻지 못하는 성질
 - **관계·회로(Relation·Circuit)**: 공개 입력과 비밀 증거가 만족할 조건을 제약식으로 표현한 구조
 - **증명자·검증자(Prover·Verifier)**: 증명을 만드는 주체와 유효성을 판정하는 주체
 - **공통 파라미터(Common Parameters)**: 증명 생성과 검증에 공통으로 쓰는 공개 설정값
-- **zk-SNARK(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, 지케이 스나크)**: `zk`는 영지식, `SNARK`는 짧은 비대화형 지식 논증의 머리글자로, 짧은 증명과 빠른 검증을 제공
-- **zk-STARK(Zero-Knowledge Scalable Transparent Argument of Knowledge, 지케이 스타크)**: `STARK`는 확장 가능한 투명 지식 논증의 머리글자로, 비밀 설정 없이 해시 기반 증명을 생성
+- **zk-SNARK(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge)**: 짧은 증명과 빠른 검증을 제공하는 비대화형 영지식 증명 방식
+- **zk-STARK(Zero-Knowledge Scalable Transparent Argument of Knowledge)**: 신뢰 설정 없이 해시 함수로 확장 가능한 증명을 생성하는 영지식 증명 방식
 - **범위 증명(Range Proof)**: 비밀값을 공개하지 않고 정해진 수치 구간에 속함을 증명
-- **롤업(Rollup, 롤업)**: 거래·상태 전이를 묶어 외부에서 계산하고 증명과 결과를 제출하는 구조
+- **롤업(Rollup)**: 다수의 거래·상태 전이를 외부에서 계산한 뒤 결과와 유효성 증명을 제출하는 확장 구조
 
 
 

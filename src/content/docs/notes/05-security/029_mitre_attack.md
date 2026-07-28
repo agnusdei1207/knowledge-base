@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **MITRE ATT&CK(Adversarial Tactics, Techniques, and Common Knowledge)**: ‘마이터 어택’으로 읽고 ATT, `&`, CK를 결합해 ATTACK처럼 보이게 한 표기이며 실제 공격 행동을 전술·기법으로 분류함
+- **MITRE ATT&CK(Adversarial Tactics, Techniques, and Common Knowledge)**: 실제 관찰된 공격 행동을 전술·기법·절차와 대응 정보로 분류한 지식체계
 - **전술(Tactic)**: 공격자가 특정 시점에 달성하려는 목적
 - **기법(Technique)**: 전술의 목적을 달성하기 위해 사용하는 공격 행위
 - **서브기법(Sub-Technique)**: 하나의 기법을 더 구체적인 수법으로 나눈 단위
@@ -28,11 +28,11 @@ extra:
 - **완화(Mitigation)**: 공격 행위의 성공 가능성이나 피해를 줄이는 예방 통제
 - **탐지 전략(Detection Strategy)**: 특정 공격 행동을 어떤 관점과 데이터로 찾을지 정한 방어 접근
 - **분석 규칙(Analytics)**: 로그 조건·상관관계·통계로 공격 행동을 판별하는 구현 논리
-- **기업 도메인(Enterprise Domain)**: '엔터프라이즈 도메인'으로 읽으며 기업 단말·서버·신원·클라우드 공격 행동을 묶은 지식 영역
-- **모바일 도메인(Mobile Domain)**: '모바일 도메인'으로 읽으며 모바일 기기·응용의 공격 행동을 묶은 지식 영역
-- **산업제어시스템 도메인(Industrial Control Systems Domain, ICS Domain)**: '아이시에스 도메인'으로 읽고 영문 머리글자로 산업 공정·제어 설비 공격 영역을 표시
-- **정보기술(Information Technology, IT)**: '아이티'로 읽고 영문 머리글자로 정보 생성·처리·저장 환경을 표시
-- **운영기술(Operational Technology, OT)**: '오티'로 읽고 영문 머리글자로 물리 공정·설비 감시·제어 환경을 표시
+- **기업 도메인(Enterprise Domain)**: 기업 단말·서버·신원·클라우드 환경의 공격 행동을 분류한 지식 영역
+- **모바일 도메인(Mobile Domain)**: 모바일 기기와 응용의 공격 행동을 분류한 지식 영역
+- **산업제어시스템 도메인(Industrial Control Systems Domain, ICS Domain)**: 산업 공정과 제어 설비의 공격 행동을 분류한 지식 영역
+- **정보기술(Information Technology, IT)**: 정보의 생성·처리·저장과 업무 서비스를 지원하는 기술 환경
+- **운영기술(Operational Technology, OT)**: 물리 공정과 설비를 감시·제어하는 기술 환경
 - **위협 헌팅(Threat Hunting)**: 기존 경보를 기다리지 않고 가설을 세워 숨은 침해 증거를 능동적으로 찾는 활동
 - **커버리지(Coverage)**: 선정한 공격 행동 중 실제 데이터·탐지·대응으로 검증한 범위
 

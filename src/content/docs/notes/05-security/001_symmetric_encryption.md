@@ -26,16 +26,16 @@ extra:
 - **블록 암호(Block Cipher)**: 평문을 고정 길이 블록으로 나눠 비밀키로 변환하는 암호
 - **스트림 암호(Stream Cipher)**: 비밀키로 만든 키스트림과 평문을 결합해 연속적으로 변환하는 암호
 - **운영 모드(Block Cipher Mode)**: 블록 암호를 여러 블록의 데이터에 안전하게 적용하는 규칙
-- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: '에이이이에이디'로 읽고 영문 머리글자로 인증과 암호화를 함께 제공함을 표시하며 평문과 부가 데이터를 태그로 검증
-- **부가 인증 데이터(Additional Authenticated Data, AAD)**: '에이에이디'로 읽고 영문 머리글자로 암호화하지 않고 태그 계산에만 넣는 부가 데이터를 표시
+- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: 평문의 기밀성과 평문·부가 데이터의 무결성을 함께 보장하는 암호화 방식
+- **부가 인증 데이터(Additional Authenticated Data, AAD)**: 암호화하지 않고 인증 태그 계산에 포함하여 무결성만 검증하는 데이터
 - **인증 태그(Authentication Tag)**: 암호문과 부가 인증 데이터가 바뀌지 않았음을 검증하는 값
-- **초기화 벡터(Initialization Vector, IV)**: '아이브이'로 읽고 영문 머리글자로 초기 입력값임을 표시하며 같은 키의 암호화 결과를 다르게 만듦
+- **초기화 벡터(Initialization Vector, IV)**: 같은 키와 평문을 사용해도 서로 다른 암호문이 생성되도록 하는 초기 입력값
 - **논스(Nonce)**: 특정 키에서 반복 사용하지 않도록 관리하는 일회성 입력값
-- **키 관리 시스템(Key Management System, KMS)**: '케이엠에스'로 읽고 영문 머리글자로 키 관리 체계임을 표시하며 비밀키의 생성·보관·교체·폐기를 통제
-- **고급 암호화 표준 갈루아·카운터 모드(Advanced Encryption Standard-Galois/Counter Mode, AES-GCM)**: '에이에스 지시엠'으로 읽고 하이픈으로 암호와 운영 모드를 연결해 기밀성·무결성을 함께 제공
-- **차차20-폴리1305(ChaCha20-Poly1305)**: '차차 이십 폴리 천삼백오'로 읽고 하이픈으로 스트림 암호와 인증 함수를 연결해 암호문과 태그를 생성
-- **고급 암호화 표준 XTS 모드(Advanced Encryption Standard-XEX Tweakable Block Cipher with Ciphertext Stealing, AES-XTS)**: '에이에스 엑스티에스'로 읽고 하이픈으로 암호와 저장용 모드를 연결해 블록 위치별 기밀성을 제공
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 전송 보안 규약임을 표시하며 상대 인증·암호화·무결성을 제공
+- **키 관리 시스템(Key Management System, KMS)**: 암호키의 생성·보관·배포·교체·폐기를 수명주기 전반에서 통제하는 시스템
+- **고급 암호화 표준 갈루아·카운터 모드(Advanced Encryption Standard-Galois/Counter Mode, AES-GCM)**: AES에 카운터 암호화와 갈루아 인증을 결합하여 기밀성과 무결성을 함께 제공하는 운영 모드
+- **차차20-폴리1305(ChaCha20-Poly1305)**: ChaCha20 스트림 암호와 Poly1305 인증자를 결합한 인증 암호화 방식
+- **고급 암호화 표준 XTS 모드(Advanced Encryption Standard-XEX Tweakable Block Cipher with Ciphertext Stealing, AES-XTS)**: 저장장치의 블록 위치별로 다른 변환을 적용하는 디스크 암호화용 AES 운영 모드
+- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터의 기밀성과 무결성을 보호하는 전송 보안 프로토콜
 
 
 

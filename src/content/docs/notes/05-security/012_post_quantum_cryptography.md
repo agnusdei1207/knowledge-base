@@ -20,20 +20,20 @@ extra:
 
 ## 미리 알고가기
 
-- **양자내성암호(Post-Quantum Cryptography, PQC, 피큐씨)**: 영문 머리글자를 딴 명칭으로, 양자·고전 공격에 견디도록 설계한 공개키 암호 기술
-- **쇼어 알고리즘(Shor's Algorithm, 쇼어 알고리즘)**: 고안자 이름을 붙인 알고리즘으로, 양자컴퓨터에서 소인수분해와 이산대수를 빠르게 계산
-- **RSA(Rivest-Shamir-Adleman, 알에스에이)**: 세 고안자의 성을 딴 공개키 암호로, 소인수분해의 어려움에 기반
-- **디피-헬만(Diffie-Hellman, DH, 디에이치)**: 두 고안자의 성을 딴 키 합의 방식으로, 이산대수 문제에 기반
-- **타원곡선 암호(Elliptic Curve Cryptography, ECC, 이씨씨)**: 영문 머리글자를 딴 명칭으로, 타원곡선 이산대수 문제에 기반
-- **지금 수집·나중 해독(Harvest Now, Decrypt Later, HNDL, 에이치엔디엘)**: 영문 구절의 머리글자를 딴 명칭으로, 현재 암호문을 저장해 미래에 해독하려는 위협
-- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM, 켐)**: 공유 비밀과 캡슐화 암호문을 만들고 개인키로 같은 비밀을 복구하는 방식
-- **디캡슐화(Decapsulation, 디캡슐레이션)**: KEM 개인키와 캡슐화 암호문으로 동일한 공유 비밀을 복구하는 연산
-- **암호 민첩성(Crypto Agility, 크립토 어질리티)**: 암호 알고리즘과 매개변수를 신속히 교체할 수 있는 설계 성질
-- **ML-KEM(Module-Lattice-Based Key-Encapsulation Mechanism, 엠엘 켐)**: `ML`은 모듈 격자, `KEM`은 키 캡슐화의 머리글자로, 공유 비밀을 설정
-- **ML-DSA(Module-Lattice-Based Digital Signature Algorithm, 엠엘 디에스에이)**: 모듈 격자 기반 전자서명 알고리즘
-- **SLH-DSA(Stateless Hash-Based Digital Signature Algorithm, 에스엘에이치 디에스에이)**: 상태 없는 해시 기반 전자서명 알고리즘
-- **하이브리드 키 설정(Hybrid Key Establishment, 하이브리드 키 설정)**: 기존 키 합의와 PQC 비밀을 결합하는 전환 방식
-- **다운그레이드 공격(Downgrade Attack, 다운그레이드 공격)**: 협상을 조작해 더 약한 암호를 선택하게 하는 공격
+- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자·고전 컴퓨터의 공격에 견디도록 설계한 공개키 암호 기술
+- **쇼어 알고리즘(Shor's Algorithm)**: 양자컴퓨터에서 소인수분해와 이산대수를 다항시간에 계산하는 알고리즘
+- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 소인수분해 난도를 기반으로 하는 공개키 암호
+- **디피-헬만(Diffie-Hellman, DH)**: 이산대수 문제를 기반으로 공유 비밀을 설정하는 키 합의 방식
+- **타원곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원곡선 이산대수 문제를 기반으로 하는 공개키 암호
+- **지금 수집·나중 해독(Harvest Now, Decrypt Later, HNDL)**: 현재 암호문을 수집·보관한 뒤 미래의 양자컴퓨터로 해독하려는 위협
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공유 비밀과 캡슐화 암호문을 생성하고 개인키로 동일한 비밀을 복구하는 방식
+- **디캡슐화(Decapsulation)**: KEM의 개인키와 캡슐화 암호문으로 공유 비밀을 복구하는 연산
+- **암호 민첩성(Crypto Agility)**: 암호 알고리즘과 매개변수를 신속하게 교체할 수 있는 설계 특성
+- **ML-KEM(Module-Lattice-Based Key-Encapsulation Mechanism)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 키 캡슐화 방식
+- **ML-DSA(Module-Lattice-Based Digital Signature Algorithm)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 전자서명 알고리즘
+- **SLH-DSA(Stateless Hash-Based Digital Signature Algorithm)**: 해시 함수의 안전성을 기반으로 하는 상태 비저장 전자서명 알고리즘
+- **하이브리드 키 설정(Hybrid Key Establishment)**: 기존 키 합의와 PQC가 생성한 비밀을 결합하는 전환 방식
+- **다운그레이드 공격(Downgrade Attack)**: 협상 정보를 조작하여 지원 가능한 방식보다 약한 암호를 선택하게 하는 공격
 
 
 ## Ⅰ. 개요

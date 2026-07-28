@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **차등 프라이버시(Differential Privacy, DP, 디피)**: 영문 머리글자를 딴 명칭으로, 한 개인의 포함 여부가 공개 결과에 미치는 영향을 수학적으로 제한
+- **차등 프라이버시(Differential Privacy, DP)**: 한 개인의 포함 여부가 공개 결과에 미치는 영향을 수학적으로 제한하는 프라이버시 보호 모델
 - **프라이버시 예산 ε(Epsilon, 엡실론)**: 그리스 문자로 프라이버시 손실 한도를 표기하며, 작을수록 두 인접 데이터셋의 출력 구별이 어려움
 - **실패 확률 δ(Delta, 델타)**: 그리스 문자로 순수 DP 경계를 벗어날 허용 확률을 표기하며, 작을수록 강한 보장을 의미
 - **인접 데이터셋**: 한 보호 단위만 다른 두 데이터셋
@@ -31,9 +31,9 @@ extra:
 - **중앙 DP**: 신뢰하는 수집자가 집계 결과에 노이즈를 넣는 방식
 - **로컬 DP**: 각 단말이 수집자에게 보내기 전에 값을 무작위화하는 방식
 - **셔플 DP**: 무작위화한 보고의 순서와 출처를 섞는 방식
-- **DP-SGD(Differentially Private Stochastic Gradient Descent, 디피 에스지디)**: 표본별 기울기를 제한하고 노이즈를 더하는 차등 프라이버시 확률적 경사 하강법
+- **DP-SGD(Differentially Private Stochastic Gradient Descent)**: 표본별 기울기를 제한하고 노이즈를 추가하는 차등 프라이버시 확률적 경사 하강법
 - **기울기 클리핑**: 학습 표본별 기울기 크기를 상한으로 제한하는 기법
-- **NIST(National Institute of Standards and Technology, 니스트)**: 미국 국립표준기술연구소로, DP 지침을 제시
+- **NIST(National Institute of Standards and Technology)**: 차등 프라이버시를 포함한 보안·프라이버시 지침을 제시하는 미국 국립표준기술연구소
 
 
 

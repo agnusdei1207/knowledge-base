@@ -20,20 +20,20 @@ extra:
 
 ## 미리 알고가기
 
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: '피케이아이'로 읽고 영문 머리글자로 공개키 신뢰 체계임을 표시하며 인증서를 발급·검증·폐지
+- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서의 발급·검증·폐지를 통해 공개키와 소유자의 신원을 연결하는 신뢰 체계
 - **공개키 인증서(Public Key Certificate)**: 공개키·소유자·용도·유효기간을 인증기관의 서명으로 묶은 전자 문서
-- **인증기관(Certificate Authority, CA)**: '시에이'로 읽고 영문 머리글자로 인증서 권한 기관임을 표시하며 인증서에 서명하고 상태를 관리
+- **인증기관(Certificate Authority, CA)**: 신청자의 신원과 공개키를 검증하여 인증서에 서명하고 상태를 관리하는 신뢰기관
 - **루트 인증기관(Root CA)**: 검증자가 미리 신뢰하는 최상위 인증기관으로 하위 인증기관의 인증서에 서명하는 기관
 - **중간 인증기관(Intermediate CA)**: 루트 인증기관에서 제한된 권한을 위임받아 하위 인증기관이나 가입자 인증서에 서명하는 기관
-- **등록기관(Registration Authority, RA)**: '알에이'로 읽고 영문 머리글자로 등록 심사 기관임을 표시하며 발급 전 신원과 키 통제권을 확인
+- **등록기관(Registration Authority, RA)**: 인증서 발급 전에 신청자의 신원과 공개키 통제권을 확인하는 기관
 - **가입자(Subscriber)**: 자신의 공개키와 신원을 연결한 인증서를 발급받아 사용하는 주체
 - **검증자(Relying Party)**: 인증서의 서명·경로·이름·용도·기간·폐지 상태를 확인하고 공개키 신뢰 여부를 결정하는 주체
 - **신뢰 기준점(Trust Anchor)**: 검증자가 신뢰 저장소에 미리 등록해 인증서 경로 검증의 출발점으로 삼는 루트 인증서
 - **인증서 체인(Certificate Chain)**: 가입자 인증서부터 중간·루트 인증기관까지 서명 관계로 이어진 인증서 목록
-- **인증서 폐지 목록(Certificate Revocation List, CRL)**: '시알엘'로 읽고 영문 머리글자로 폐지 인증서 목록임을 표시하며 인증기관이 식별자를 서명·배포
-- **온라인 인증서 상태 프로토콜(Online Certificate Status Protocol, OCSP)**: '오시에스피'로 읽고 영문 머리글자로 온라인 상태 조회 규약임을 표시하며 특정 인증서의 폐지를 질의
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: '에이치에스엠'으로 읽고 영문 머리글자로 키 보호 장치임을 표시하며 인증기관 개인키를 반출하지 않고 서명
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: '엠티엘에스'로 읽고 상호(mutual)의 소문자 m을 TLS 앞에 붙여 서버·클라이언트 양쪽 인증을 표시
+- **인증서 폐지 목록(Certificate Revocation List, CRL)**: 인증기관이 폐지된 인증서의 식별자와 사유를 서명하여 주기적으로 배포하는 목록
+- **온라인 인증서 상태 프로토콜(Online Certificate Status Protocol, OCSP)**: 특정 인증서의 유효·폐지 상태를 온라인으로 조회하는 프로토콜
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 인증기관의 개인키를 외부로 노출하지 않고 내부에서 서명을 수행하는 전용 보안 장치
+- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 서버와 클라이언트가 인증서를 교환하여 서로의 신원을 검증하는 TLS 인증 방식
 
 ## Ⅰ. 개요
 

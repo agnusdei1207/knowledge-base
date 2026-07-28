@@ -27,13 +27,13 @@ extra:
 - **초기 접근(Initial Access)**: 공격자가 피싱·취약점·탈취 계정으로 내부에 처음 진입하는 단계
 - **권한 상승(Privilege Escalation)**: 일반 권한에서 관리자 등 더 높은 권한을 얻는 공격 행위
 - **측면 이동(Lateral Movement)**: 침해한 장비에서 다른 내부 자원으로 공격 범위를 넓히는 행위
-- **명령·제어(Command and Control, C2)**: '시 투'로 읽고 영문 두 단어의 머리글자 C가 두 번임을 숫자 2로 표시하며 침해 장비에 원격 명령을 전달
+- **명령·제어(Command and Control, C2)**: 공격자가 침해 장비에 원격 명령을 전달하고 실행 결과를 수신하는 통신
 - **불변 백업(Immutable Backup)**: 정해진 보존 기간 동안 수정·삭제할 수 없도록 보호한 백업
 - **오프라인 백업(Offline Backup)**: 평상시 운영망과 연결되지 않아 원격 공격이 직접 접근하기 어려운 백업
 - **복구 신뢰 경계(Recovery Trust Boundary)**: 운영 계정·관리면과 분리해 백업과 복구 권한을 보호하는 영역
 - **섀도 복사본(Shadow Copy)**: 운영체제가 특정 시점의 파일·볼륨 상태를 저장한 복사본
-- **분산 서비스 거부(Distributed Denial of Service, DDoS)**: '디도스'로 읽고 분산(Distributed)의 D를 DoS 앞에 붙여 다수 장비의 자원 고갈 공격을 표시
-- **침해지표(Indicator of Compromise, IOC)**: '아이오시'로 읽고 영문 머리글자로 침해 흔적임을 표시하며 악성 파일·주소·계정 행위를 식별
+- **분산 서비스 거부(Distributed Denial of Service, DDoS)**: 다수의 공격원이 서비스 자원을 고갈시켜 정상 이용을 방해하는 공격
+- **침해지표(Indicator of Compromise, IOC)**: 악성 파일·주소·계정 행위 등 시스템 침해를 식별하는 관측 흔적
 
 ## Ⅰ. 개요
 

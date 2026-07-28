@@ -20,19 +20,19 @@ extra:
 
 ## 미리 알고가기
 
-- **인증기관(Certificate Authority, CA)**: '씨에이'로 읽고 영문 머리글자로 인증서 발급·서명 기관을 표시하며 신청자의 신원과 공개키 통제권을 확인
+- **인증기관(Certificate Authority, CA)**: 신청자의 신원과 공개키 통제권을 확인하여 인증서를 발급·서명하는 신뢰기관
 - **루트 인증기관(Root CA)**: 검증자가 미리 신뢰하며 하위 인증기관에만 서명하는 최상위 인증기관
 - **중간 인증기관(Intermediate CA)**: 루트에서 제한된 권한을 위임받아 하위 인증기관이나 가입자 인증서에 서명하는 기관
 - **발급 인증기관(Issuing CA)**: 등록 검증을 통과한 신청자에게 최종 인증서를 발급하는 인증기관
-- **인증서 서명 요청(Certificate Signing Request, CSR)**: '씨에스알'로 읽고 영문 머리글자로 공개키·주체 정보·개인키 소유 증명을 담은 발급 요청을 표시
-- **등록기관(Registration Authority, RA)**: '알에이'로 읽고 영문 머리글자로 발급 전 신원·도메인·공개키 통제권을 확인하는 기관을 표시
-- **인증서 정책(Certificate Policy, CP)**: '씨피'로 읽고 영문 머리글자로 인증서의 신뢰 수준·용도·책임 범위를 정한 정책을 표시
-- **인증업무 수행준칙(Certification Practice Statement, CPS)**: '씨피에스'로 읽고 영문 머리글자로 인증서 정책을 실제 발급·운영 절차로 이행하는 방법을 표시
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: '에이치에스엠'으로 읽고 영문 머리글자로 서명키를 반출하지 않고 내부 서명하는 장치를 표시
-- **인증서 투명성(Certificate Transparency, CT)**: '씨티'로 읽고 영문 머리글자로 공개 발급 기록을 검증 가능한 로그에 남겨 오발급을 탐지하는 체계를 표시
-- **인증기관 허가(Certification Authority Authorization, CAA)**: '씨에이에이'로 읽고 영문 머리글자로 도메인이 발급을 허용한 인증기관을 지정하는 정보를 표시
+- **인증서 서명 요청(Certificate Signing Request, CSR)**: 공개키·주체 정보와 개인키 보유 증명을 담아 인증기관에 제출하는 발급 요청
+- **등록기관(Registration Authority, RA)**: 인증서 발급 전에 신청자의 신원·도메인·공개키 통제권을 확인하는 기관
+- **인증서 정책(Certificate Policy, CP)**: 인증서의 신뢰 수준·적용 용도·책임 범위를 규정한 정책
+- **인증업무 수행준칙(Certification Practice Statement, CPS)**: 인증서 정책을 실제 발급·운영 절차로 이행하는 방법을 규정한 문서
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 서명키를 외부로 노출하지 않고 내부에서 전자서명을 수행하는 전용 보안 장치
+- **인증서 투명성(Certificate Transparency, CT)**: 인증서 발급 기록을 검증 가능한 공개 로그에 남겨 오발급을 탐지하는 체계
+- **인증기관 허가(Certification Authority Authorization, CAA)**: 도메인 소유자가 인증서 발급을 허용한 인증기관을 DNS에 지정하는 레코드
 - **인증서 폐지(Certificate Revocation)**: 유효기간 전이라도 키 유출·오발급으로 인증서를 무효화하는 조치
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 인증서 기반 통신 상대 확인과 전송 보호 프로토콜을 표시
+- **전송 계층 보안(Transport Layer Security, TLS)**: 인증서로 통신 상대를 확인하고 전송 데이터의 기밀성과 무결성을 보호하는 프로토콜
 ## Ⅰ. 개요
 
 - 정의/개념: 검증된 주체·공개키에 **인증서를 서명하는 기관**

@@ -20,19 +20,19 @@ extra:
 
 ## 미리 알고가기
 
-- **스푸핑(Spoofing)**: 주소나 응답을 위조해 상대를 속임
-- **인터넷 프로토콜(Internet Protocol, IP)**: '아이피'로 읽고 영문 머리글자로 네트워크 주소 규약임을 표시하며 패킷의 출발지·목적지를 지정
-- **매체 접근 제어(Media Access Control, MAC)**: '맥'으로 읽고 영문 머리글자로 링크 계층 주소 기능임을 표시하며 같은 망의 장치를 식별
-- **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: '에이알피'로 읽고 영문 머리글자로 주소 대응 규약임을 표시하며 IP 주소에 맞는 MAC 주소를 조회
-- **도메인 이름 시스템(Domain Name System, DNS)**: '디엔에스'로 읽고 영문 머리글자로 이름 해석 체계임을 표시하며 도메인을 IP 주소로 변환
-- **캐시**: 자주 쓰는 대응 정보를 임시 저장함
-- **동적 ARP 검사(Dynamic ARP Inspection, DAI)**: '디에이아이'로 읽고 영문 머리글자로 동적 ARP 검사를 표시하며 비인가 응답을 차단
-- **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: '디에이치시피'로 읽고 영문 머리글자로 동적 설정 규약임을 표시하며 단말에 IP 설정을 할당
-- **유니캐스트 역방향 경로 전달(Unicast Reverse Path Forwarding, uRPF)**: '유알피에프'로 읽고 유니캐스트의 소문자 u를 RPF 앞에 붙여 출발지 IP의 역방향 경로 검사를 표시
-- **DNS 보안 확장(Domain Name System Security Extensions, DNSSEC)**: '디엔에스섹'으로 읽고 DNS에 보안 확장(SEC)을 붙여 응답의 출처·무결성 검증을 표시
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 전송 보안 규약임을 표시하며 통신 상대 인증·암호화를 제공
-- **중간자 공격**: 두 통신자 사이에서 도청·변조함
-- **반사 공격**: 위조한 출발지로 대량 응답을 유도함
+- **스푸핑(Spoofing)**: 주소·신원·응답 정보를 위조하여 정상 통신 주체나 경로로 가장하는 공격
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷의 출발지와 목적지 주소를 지정하여 네트워크 간 전달을 지원하는 규약
+- **매체 접근 제어(Media Access Control, MAC)**: 동일한 링크 구간에서 네트워크 인터페이스를 식별하는 주소 체계
+- **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: 동일 네트워크에서 IP 주소에 대응하는 MAC 주소를 조회하는 프로토콜
+- **도메인 이름 시스템(Domain Name System, DNS)**: 도메인 이름과 IP 주소 등의 자원 정보를 변환하는 분산 이름 체계
+- **캐시(Cache)**: 반복 조회를 줄이기 위해 주소 대응 정보를 일정 기간 임시 저장하는 공간
+- **동적 ARP 검사(Dynamic ARP Inspection, DAI)**: 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단하는 기능
+- **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 단말에 IP 주소·게이트웨이·DNS 등 네트워크 설정을 자동 할당하는 프로토콜
+- **유니캐스트 역방향 경로 전달(Unicast Reverse Path Forwarding, uRPF)**: 출발지 IP로 돌아가는 경로의 유효성을 검사하여 위조 패킷을 차단하는 기능
+- **DNS 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명으로 DNS 응답의 출처와 무결성을 검증하는 보안 확장
+- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터의 기밀성과 무결성을 보호하는 프로토콜
+- **중간자 공격(Man-in-the-Middle Attack)**: 두 통신자 사이에서 각각 정상 상대인 것처럼 가장하여 통신을 도청·변조하는 공격
+- **반사 공격(Reflection Attack)**: 피해자의 출발지 주소를 위조하여 다수 서버의 응답이 피해자에게 전달되도록 하는 공격
 
 
 

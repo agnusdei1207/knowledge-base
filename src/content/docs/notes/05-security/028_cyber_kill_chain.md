@@ -20,16 +20,16 @@ extra:
 
 ## 미리 알고가기
 
-- **사이버 킬체인(Cyber Kill Chain)**: ‘사이버 킬체인’으로 읽으며 공격 진행을 끊는 연쇄 단계를 뜻하고 침해 캠페인을 정찰부터 목적 달성까지 7단계로 나눔
+- **사이버 킬체인(Cyber Kill Chain)**: 침해 캠페인을 정찰부터 목적 달성까지 7단계로 구분하여 단계별 차단 지점을 찾는 공격 분석 모델
 - **정찰(Reconnaissance)**: 공격 대상의 사람·기술·자산·노출 정보를 조사하는 단계
 - **무기화(Weaponization)**: 취약점 악용 코드와 악성 실행 파일을 공격 목적에 맞게 결합하는 단계
 - **전달(Delivery)**: 악성 파일·링크·웹 콘텐츠를 목표 환경에 보내는 단계
 - **악용(Exploitation)**: 사용자 실행이나 취약점으로 공격 코드를 작동시키는 단계
 - **설치(Installation)**: 악성코드와 지속성 수단을 침해 시스템에 배치하는 단계
-- **명령·제어(Command and Control, C2)**: '시 투'로 읽고 영문 머리글자 C가 두 번임을 숫자 2로 표시하며 침해 장비에 원격 명령을 전달
+- **명령·제어(Command and Control, C2)**: 공격자가 침해 장비에 원격 명령을 전달하고 실행 결과를 수신하는 단계
 - **목적 달성(Actions on Objectives)**: 정보 유출·파괴·감시 등 최종 공격 목표를 수행하는 단계
-- **마이터 공격 전술·기법 지식 기반(MITRE Adversarial Tactics, Techniques, and Common Knowledge, MITRE ATT&CK)**: '마이터 어택'으로 읽고 `&`로 전술·기법을 연결한 표기로 실제 공격 행동 분류를 표시
-- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: '티티피'로 읽고 세 영문 머리글자로 공격자가 목적을 달성하는 반복 행동 패턴을 표시
+- **MITRE ATT&CK(Adversarial Tactics, Techniques, and Common Knowledge)**: 실제 관찰된 공격 행동을 전술·기법·절차로 분류한 지식체계
+- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 공격자가 목적을 달성하기 위해 반복적으로 사용하는 행동 방식
 - **캠페인(Campaign)**: 하나의 목적 아래 여러 침투·정찰·수집 활동을 묶어 수행하는 공격 작전
 - **사고 대응 수명주기(Incident Response Lifecycle)**: 준비·탐지·격리·제거·복구·개선을 이어 수행하는 대응 과정
 - **유효 계정(Valid Account)**: 정상적으로 발급됐지만 공격자가 탈취하거나 오용하는 계정

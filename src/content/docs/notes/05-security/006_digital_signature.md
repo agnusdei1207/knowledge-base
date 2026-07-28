@@ -26,13 +26,13 @@ extra:
 - **해시(Hash)**: 길이가 다른 입력을 고정 길이 다이제스트로 압축하는 단방향 함수
 - **정규화(Canonicalization)**: 같은 의미의 문서가 항상 같은 바이트열이 되도록 인코딩·필드 순서·공백 규칙을 고정하는 과정
 - **공개키 인증서(Public Key Certificate)**: 공개키·소유자·용도·유효기간을 인증기관의 서명으로 연결한 전자 문서
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: '에이치에스엠'으로 읽고 영문 머리글자로 키 보호 장치임을 표시하며 개인키를 반출하지 않고 내부 서명
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 개인키를 외부로 노출하지 않고 내부에서 전자서명을 수행하는 전용 보안 장치
 - **인증서 폐지(Certificate Revocation)**: 유효기간 전이라도 개인키 유출 등으로 인증서를 더 이상 신뢰하지 않도록 무효화하는 조치
 - **타임스탬프(Time Stamp)**: 특정 전자 데이터가 해당 시각에 존재했음을 신뢰기관의 서명으로 증명하는 값
 - **부인방지(Non-repudiation)**: 신원·키 통제·시각 증거를 결합해 서명자가 자신의 서명 사실을 사후 부정하기 어렵게 하는 성질
-- **RSA 확률적 서명 방식(Rivest-Shamir-Adleman Probabilistic Signature Scheme, RSA-PSS)**: '알에스에이 피에스에스'로 읽고 하이픈으로 공개키 암호와 서명 패딩을 연결해 확률적 서명을 표시
-- **타원곡선 전자서명 알고리즘(Elliptic Curve Digital Signature Algorithm, ECDSA)**: '이시디에스에이'로 읽고 영문 머리글자로 타원곡선 서명임을 표시하며 작은 키로 서명
-- **모듈 격자 전자서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: '엠엘 디에스에이'로 읽고 하이픈으로 격자 계열과 서명 방식을 연결해 양자 공격 대응 서명을 표시
+- **RSA 확률적 서명 방식(Rivest-Shamir-Adleman Probabilistic Signature Scheme, RSA-PSS)**: RSA에 무작위 솔트와 확률적 패딩을 적용하여 서명 안전성을 높인 방식
+- **타원곡선 전자서명 알고리즘(Elliptic Curve Digital Signature Algorithm, ECDSA)**: 타원곡선 암호를 기반으로 작은 키에서도 높은 보안 강도를 제공하는 전자서명 알고리즘
+- **모듈 격자 전자서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 전자서명 알고리즘
 
 ## Ⅰ. 개요
 
@@ -138,7 +138,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 문서 정규화·키 격리·신뢰 증거로 서명 설계
+- 전자문서의 무결성과 서명자 인증을 보장하기 위해 문서 정규화·개인키 격리·인증서·시각 증거를 검토하여, 검증 가능한 전자서명 체계를 설계해야 한다.
 
 ### 쉽게 이해하기 (학습용)
 

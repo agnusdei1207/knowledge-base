@@ -22,16 +22,16 @@ extra:
 
 - **하이브리드 암호(Hybrid Cryptography)**: 공개키 암호로 임시 비밀을 설정하고 대칭키 암호로 실제 데이터를 보호하는 결합 방식
 - **세션키(Session Key)**: 한 통신 연결이나 제한된 기간의 데이터 암호화에 사용하는 임시 대칭키
-- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: '켐'으로 읽고 영문 머리글자로 키 캡슐화임을 표시하며 공개키 암호문으로 공유 비밀을 설정
-- **데이터 캡슐화 메커니즘(Data Encapsulation Mechanism, DEM)**: '뎀'으로 읽고 영문 머리글자로 데이터 캡슐화임을 표시하며 KEM의 대칭키로 본문을 암호화
-- **키 유도 함수(Key Derivation Function, KDF)**: '케이디에프'로 읽고 영문 머리글자로 키 도출 함수임을 표시하며 공유 비밀에서 용도·방향별 키를 생성
-- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: '에이이이에이디'로 읽고 영문 머리글자로 암호화·인증 결합을 표시하며 평문과 부가 데이터를 태그로 검증
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공개키 암호를 이용하여 공유 비밀을 안전하게 설정하는 방식
+- **데이터 캡슐화 메커니즘(Data Encapsulation Mechanism, DEM)**: KEM에서 얻은 대칭키로 본문 데이터를 암호화하는 방식
+- **키 유도 함수(Key Derivation Function, KDF)**: 공유 비밀로부터 용도와 통신 방향별 암호키를 생성하는 함수
+- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: 평문의 기밀성과 평문·부가 데이터의 무결성을 함께 보장하는 암호화 방식
 - **키 스케줄(Key Schedule)**: 하나의 공유 비밀에서 연결 단계와 용도별 키를 순서대로 도출·갱신하는 규칙
-- **완전 순방향 비밀성(Perfect Forward Secrecy, PFS)**: '피에프에스'로 읽고 영문 머리글자로 과거 세션 보호 성질임을 표시하며 장기 개인키 유출 뒤에도 과거 복호화를 제한
-- **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: '이시디에이치이'로 읽고 영문 머리글자로 임시 타원곡선 합의임을 표시해 연결마다 공유 비밀을 생성
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 전송 보안 규약임을 표시하며 인증·키 설정·대칭 암호를 결합
-- **양자 내성 암호(Post-Quantum Cryptography, PQC)**: '피큐시'로 읽고 영문 머리글자로 양자 이후 암호임을 표시하는 공개키 기술
-- **리베스트·샤미르·애들먼 암호(Rivest-Shamir-Adleman, RSA)**: '알에스에이'로 읽고 발명자 성의 머리글자로 공개키 암호를 표시하며 기존 키 전송 방식에 사용
+- **완전 순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 유출되어도 이전 세션키와 암호문을 보호하는 보안 특성
+- **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: 연결마다 임시 타원곡선 키를 생성하여 공유 비밀을 합의하는 방식
+- **전송 계층 보안(Transport Layer Security, TLS)**: 인증·키 합의·대칭키 암호를 결합하여 전송 구간을 보호하는 프로토콜
+- **양자 내성 암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계된 공개키 암호 기술
+- **리베스트·샤미르·애들먼 암호(Rivest-Shamir-Adleman, RSA)**: 큰 정수의 소인수분해 난도를 기반으로 암호화와 전자서명을 제공하는 공개키 암호
 - **다운그레이드 공격(Downgrade Attack)**: 통신 협상 정보를 조작해 양측이 지원하는 방식보다 약한 알고리즘을 쓰게 하는 공격
 
 

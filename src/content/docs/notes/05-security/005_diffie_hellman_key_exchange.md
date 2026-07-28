@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **디피-헬만 키 교환(Diffie-Hellman Key Exchange, DH)**: '디에이치'로 읽고 발명자 성의 머리글자로 방식을 표시하며 비밀값을 보내지 않고 공개값만 교환해 같은 비밀을 계산
+- **디피-헬만 키 교환(Diffie-Hellman Key Exchange, DH)**: 비밀값을 직접 전송하지 않고 공개값만 교환하여 동일한 공유 비밀을 계산하는 키 합의 방식
 - **공유 비밀(Shared Secret)**: 양측이 각자의 비밀값과 상대 공개값으로 동일하게 계산한 세션키의 원재료
 - **이산대수 문제(Discrete Logarithm Problem)**: 정방향 거듭제곱 계산은 쉽지만 공개된 결과에서 지수를 역산하기는 어렵다는 수학 문제
 - **유한체 그룹(Finite-field Group)**: 정해진 유한한 수 집합과 연산 규칙 안에서 DH 공개값을 계산하는 구조
@@ -28,12 +28,12 @@ extra:
 - **도메인 매개변수(Domain Parameters)**: DH 계산에 사용할 그룹과 생성원 등 모든 참여자가 공유하는 공개 설정
 - **개인값(Private Value)**: 각 참여자가 무작위로 생성해 외부에 공개하지 않는 DH 입력값
 - **공개값(Public Value)**: 개인값과 도메인 매개변수로 계산해 상대에게 보내는 DH 값
-- **임시 디피-헬만(Ephemeral Diffie-Hellman, DHE)**: '디에이치이'로 읽고 임시(Ephemeral)의 E를 붙여 연결마다 새 유한체 개인값을 쓰는 합의임을 표시
-- **타원곡선 임시 디피-헬만(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: '이시디에이치이'로 읽고 EC와 DHE를 결합한 표기로 연결마다 새 타원곡선 개인값을 쓰는 합의를 표시
-- **완전 순방향 비밀성(Perfect Forward Secrecy, PFS)**: '피에프에스'로 읽고 영문 머리글자로 과거 세션 보호 성질임을 표시하며 장기키 유출 뒤에도 과거 복호화를 제한
-- **중간자 공격(Man-in-the-Middle Attack, MITM)**: '엠아이티엠'으로 읽고 영문 머리글자로 통신 중간 공격자를 표시하며 양측과 별도 키를 합의해 통신을 중계
-- **키 유도 함수(Key Derivation Function, KDF)**: '케이디에프'로 읽고 영문 머리글자로 키 도출 함수임을 표시하며 공유 비밀에서 용도·방향별 세션키를 생성
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 전송 보안 규약임을 표시하며 인증·키 설정·대칭 암호를 결합
+- **임시 디피-헬만(Ephemeral Diffie-Hellman, DHE)**: 연결마다 새로운 유한체 개인값을 사용하여 순방향 비밀성을 제공하는 키 합의 방식
+- **타원곡선 임시 디피-헬만(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: 연결마다 새로운 타원곡선 개인값을 사용하여 순방향 비밀성을 제공하는 키 합의 방식
+- **완전 순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기키가 유출되어도 이전 세션키와 암호문을 보호하는 보안 특성
+- **중간자 공격(Man-in-the-Middle Attack, MITM)**: 공격자가 통신 양측과 각각 키를 합의하여 메시지를 도청·변조·중계하는 공격
+- **키 유도 함수(Key Derivation Function, KDF)**: 공유 비밀로부터 용도와 통신 방향별 세션키를 생성하는 함수
+- **전송 계층 보안(Transport Layer Security, TLS)**: 인증·키 합의·대칭키 암호를 결합하여 전송 구간을 보호하는 프로토콜
 
 
 

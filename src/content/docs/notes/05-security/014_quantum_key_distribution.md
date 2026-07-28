@@ -20,19 +20,19 @@ extra:
 
 ## 미리 알고가기
 
-- **양자 키 분배(Quantum Key Distribution, QKD, 큐케이디)**: 영문 머리글자를 딴 명칭으로, 양자 상태의 측정 교란을 이용해 대칭키 원재료를 만드는 기술
-- **양자 상태(Quantum State, 퀀텀 스테이트)**: 양자 입자의 측정 결과 확률을 나타내며 측정 과정에서 달라질 수 있는 상태
-- **광자(Photon, 포톤)**: 빛의 최소 에너지 단위로, QKD에서 비트와 기저를 전달하는 매체
-- **비복제 정리(No-Cloning Theorem, 노 클로닝 시어럼)**: 알려지지 않은 양자 상태를 완벽히 복사할 수 없다는 원리
-- **기저(Basis, 베이시스)**: 양자 비트를 표현하고 측정할 때 선택하는 방향 또는 규칙
-- **양자 비트 오류율(Quantum Bit Error Rate, QBER, 큐비이알)**: 같은 기저로 측정한 비트 중 결과가 다른 비율로, 잡음·도청 판단에 사용
+- **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용하여 도청 가능성을 탐지하고 대칭키 원재료를 생성하는 기술
+- **양자 상태(Quantum State)**: 양자 입자의 측정 결과 확률을 나타내며 측정 과정에서 달라질 수 있는 상태
+- **광자(Photon)**: 빛의 최소 에너지 단위로, QKD에서 비트와 기저를 전달하는 매체
+- **비복제 정리(No-Cloning Theorem)**: 알려지지 않은 양자 상태를 완벽하게 복제할 수 없다는 원리
+- **기저(Basis)**: 양자 비트를 표현하고 측정할 때 선택하는 방향 또는 규칙
+- **양자 비트 오류율(Quantum Bit Error Rate, QBER)**: 같은 기저로 측정한 비트 중 결과가 다른 비율로, 잡음과 도청 가능성을 판단하는 지표
 - **인증된 고전 채널(Authenticated Classical Channel)**: 기저 비교·오류 보정 메시지의 출처와 무결성을 확인하는 일반 통신 채널
 - **오류 보정(Error Correction)**: 공개 정보 교환으로 송수신 원시 비트의 차이를 맞추는 후처리
 - **프라이버시 증폭(Privacy Amplification)**: 공격자가 알 수 있는 정보를 줄이도록 비트열을 더 짧은 키로 압축하는 후처리
-- **키 관리 시스템(Key Management System, KMS, 케이엠에스)**: QKD 최종 키를 저장·동기화해 대칭 암호 장비에 공급
-- **BB84(Bennett-Brassard 1984, 비비 팔십사)**: 두 연구자 성과와 발표 연도를 딴 명칭으로, 무작위 기저의 일치 비트만 남기는 QKD 방식
-- **미끼 상태 BB84(Decoy-state BB84, 디코이 스테이트 비비 팔십사)**: 여러 광자 세기로 광자 수 분할 공격을 탐지하는 방식
-- **측정 장치 독립 QKD(Measurement-Device-Independent QKD, MDI-QKD, 엠디아이 큐케이디)**: 중간 공동 측정으로 검출기 신뢰 가정을 줄이는 방식
+- **키 관리 시스템(Key Management System, KMS)**: QKD가 생성한 최종 키를 저장·동기화하여 대칭키 암호 장비에 공급하는 시스템
+- **BB84(Bennett-Brassard 1984)**: 무작위로 선택한 기저가 일치한 비트만 남겨 공유키를 생성하는 QKD 방식
+- **미끼 상태 BB84(Decoy-state BB84)**: 여러 광자 세기를 혼합하여 광자 수 분할 공격을 탐지하는 QKD 방식
+- **측정 장치 독립 QKD(Measurement-Device-Independent QKD, MDI-QKD)**: 중간 공동 측정을 이용하여 검출기에 대한 신뢰 가정을 줄이는 QKD 방식
 - **광자 수 분할 공격(Photon-number-splitting Attack)**: 다광자 신호에서 일부 광자를 빼내 키 정보를 얻으려는 공격
 
 

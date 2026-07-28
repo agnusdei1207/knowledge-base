@@ -21,17 +21,17 @@ extra:
 ## 미리 알고가기
 
 - **인증서 폐지(Certificate Revocation)**: 유효기간 전이라도 개인키 유출·오발급·권한 상실로 인증서를 신뢰 대상에서 제외하는 조치
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: '피케이아이'로 읽고 영문 머리글자로 인증서 발급·검증·갱신·폐지를 관리하는 체계를 표시
-- **인증기관(Certificate Authority, CA)**: '씨에이'로 읽고 영문 머리글자로 폐지 상태를 기록하고 서명해 배포하는 기관을 표시
+- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서의 발급·검증·갱신·폐지를 관리하여 공개키 신뢰를 제공하는 체계
+- **인증기관(Certificate Authority, CA)**: 인증서의 폐지 상태를 기록하고 전자서명하여 배포하는 신뢰기관
 - **일련번호(Serial Number)**: 인증기관이 발급한 인증서를 고유하게 식별하는 번호
-- **인증서 폐지 목록(Certificate Revocation List, CRL)**: '씨알엘'로 읽고 영문 머리글자로 폐지 인증서의 일련번호·사유를 서명해 배포하는 목록을 표시
-- **온라인 인증서 상태 프로토콜(Online Certificate Status Protocol, OCSP)**: '오씨에스피'로 읽고 영문 머리글자로 특정 인증서의 상태를 온라인 질의하는 프로토콜을 표시
+- **인증서 폐지 목록(Certificate Revocation List, CRL)**: 폐지된 인증서의 일련번호와 사유를 인증기관이 서명하여 주기적으로 배포하는 목록
+- **온라인 인증서 상태 프로토콜(Online Certificate Status Protocol, OCSP)**: 특정 인증서의 유효·폐지 상태를 온라인으로 조회하는 프로토콜
 - **OCSP 스테이플링(OCSP Stapling)**: 서버가 미리 받은 서명 OCSP 응답을 통신 연결에 첨부해 검증자에게 전달하는 방식
 - **정상·폐지·알 수 없음(good·revoked·unknown)**: OCSP가 각각 폐지 기록 없음·폐지됨·상태 판단 불가를 나타내는 응답 상태
 - **현재 갱신 시각·다음 갱신 시각(thisUpdate·nextUpdate)**: 상태 정보 생성 기준 시각과 다음 정보가 나와야 하는 한계 시각
 - **소프트 실패(Soft-fail)**: 상태 조회 실패에도 인증서 사용을 허용하는 정책
 - **하드 실패(Hard-fail)**: 상태 조회 실패 시 인증서 사용을 거부하는 정책
-- **전송 계층 보안(Transport Layer Security, TLS)**: '티엘에스'로 읽고 영문 머리글자로 서버 인증서와 OCSP 응답을 검증하는 통신 보호 프로토콜을 표시
+- **전송 계층 보안(Transport Layer Security, TLS)**: 서버 인증서와 폐지 상태를 검증하고 전송 구간을 보호하는 프로토콜
 ## Ⅰ. 개요
 
 - 정의/개념: 만료 전 인증서의 **폐지 상태 배포·검증**
