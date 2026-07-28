@@ -29,7 +29,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: 식별자로 제품 생애주기 정보를 연결한 기록
-- **배경/필요성**: 공급망 투명성·순환성·규제 검증을 지원
+- 기존 한계: 기업별로 분산된 제품 정보만으로는 원산지·소재·환경·수리 이력을 공급망 전체에서 추적하고 규제를 검증하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 
@@ -106,12 +106,10 @@ extra:
 
 ## Ⅵ. 실무 사례
 
-1. 대상 환경의 도입 조건과 설계를 검증함
-2. 운영 위험과 성과 지표를 검증함
+1. 의류 제품 여권은 소재·관리·수선·재활용 정보를 역할별로 제공하고 수선 이력을 갱신함
 
 ### 쉽게 이해하기 (학습용)
 
-- EU 시장 철강 제조사는 product-specific delegated act 확정 전 material origin·recycled content·carbon data의 owner와 evidence를 정하고, batch identifier·carrier·EN 표준 API를 pilot해 법정 field와 시행일이 확정되면 rule version만 전환함
 - 의류 circularity pilot은 garment item에 carrier를 부여해 consumer에는 material·care·repair를, 수선업체에는 component·repair instruction을, recycler에는 fiber·hazard data를 제공하고 수선 event를 원 passport에 갱신함
 
 ## Ⅶ. 결론
