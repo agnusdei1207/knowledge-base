@@ -89,7 +89,18 @@ flowchart TB
     C --> Q["구간 확률"]
 ```
 
-**도표안 B — sequenceDiagram**
+**도표안 B — 동작 흐름도**
+
+```mermaid
+flowchart TB
+    S[표본 공간] -->|① 결과 수치화| R[확률 변수]
+    P[모수] -->|② 분포 형태 결정| F[확률 함수]
+    R -->|확률 변수 값| F
+    F -->|③ 확률 누적| C[누적 분포 함수]
+    C -->|④ 구간 차분| Q[구간 확률]
+```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

@@ -56,6 +56,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     F[특징 추출기]
@@ -64,6 +66,8 @@ flowchart TB
     F -->|다중 해상도 특징| H
     H -->|박스·점수| N
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -77,6 +81,8 @@ flowchart TB
     H --> N
     N --> Y
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

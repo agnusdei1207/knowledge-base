@@ -62,6 +62,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     I[입력 전처리기] -->|정규화 이미지| B[특징 추출 백본]
@@ -69,6 +71,8 @@ flowchart TB
     G -->|집계 벡터| H[분류 헤드]
     H -->|클래스별 점수| O[분류 결과]
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -84,6 +88,8 @@ flowchart TB
     G --> H
     H --> O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

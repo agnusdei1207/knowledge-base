@@ -54,6 +54,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     I[입력]
@@ -70,6 +72,8 @@ flowchart TB
     L -.->|손실 기울기| E
     L -.->|손실 기울기| D
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -89,6 +93,8 @@ flowchart TB
     C -->|아니오| E
     C -->|예| Z
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

@@ -76,6 +76,8 @@ xychart-beta
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph GD[경사하강 학습 경계]
@@ -90,6 +92,8 @@ flowchart TB
         O -->|모멘트 읽기·쓰기| S
     end
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -110,6 +114,8 @@ flowchart TB
     C -->|아니오| L
     C -->|예| R
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

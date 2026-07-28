@@ -75,6 +75,8 @@ xychart-beta
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph QC[양자 회로]
@@ -84,6 +86,8 @@ flowchart TB
         I --> M[측정기]
     end
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -102,6 +106,8 @@ flowchart TB
     D -->|아니오| C
     D -->|예| O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

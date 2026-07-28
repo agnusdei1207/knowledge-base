@@ -55,6 +55,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     D[원본 데이터]
@@ -70,6 +72,8 @@ flowchart TB
     A -->|최종 예측| Y[결과]
 ```
 
+**도표안 B — 동작 흐름도**
+
 ```mermaid
 flowchart TB
     D[(원본 데이터)]
@@ -84,6 +88,8 @@ flowchart TB
     P --> A
     A --> Y
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

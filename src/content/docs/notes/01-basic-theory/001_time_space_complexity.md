@@ -63,6 +63,8 @@ xychart-beta
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph A[복잡도 분석 체계]
@@ -74,6 +76,8 @@ flowchart TB
         C -. 비용 함수 .-> G
     end
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -90,6 +94,8 @@ flowchart TB
     I -->|분석 대상| M
     G -->|지배항·점근 차수| O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

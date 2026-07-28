@@ -99,6 +99,8 @@ $$
 T(n) \in O(g(n)) \iff \exists c>0,n_0>0,\ \forall n\ge n_0:\ 0\le T(n)\le c g(n)
 $$
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph B[빅오 판정 체계]
@@ -112,6 +114,8 @@ flowchart TB
         W -. 상한 증인 .-> J
     end
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -127,6 +131,8 @@ flowchart TB
     W -->|③ 상한 증인 탐색| J
     J -->|판정 결과| O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

@@ -57,6 +57,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     D[(데이터 저장소)]
@@ -67,6 +69,8 @@ flowchart TB
     C -->|후보 목록| R
     R -->|노출 기록| P
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -84,6 +88,8 @@ flowchart TB
     N --> F
     F --> S
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

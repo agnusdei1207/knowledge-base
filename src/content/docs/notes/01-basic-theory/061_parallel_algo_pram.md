@@ -65,6 +65,8 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 프로세서를 늘려도 스팬과 경합 때문에 실제 속도 향상은 이상적인 선형 가속보다 먼저 포화된다. 다음 값은 이 관계를 설명하기 위한 개념 예시다.
 
+**수식 차트 — 프로세서 수와 가속 한계**
+
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
@@ -79,6 +81,8 @@ xychart-beta
 
 > 실제 가속은 스팬·동기화·메모리 경합으로 이상적 선형 가속보다 먼저 포화
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     PROC[프로세서 집합]
@@ -89,6 +93,8 @@ flowchart TB
     PROC <-->|EREW·CREW·ERCW·CRCW 접근 규칙| MEM
     POL -->|동시 쓰기 중재| MEM
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -108,6 +114,8 @@ flowchart TB
     E -->|아니오| C
     E -->|예| O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

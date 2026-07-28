@@ -60,6 +60,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph EXE[실행]
@@ -72,6 +74,8 @@ flowchart TB
     end
     F -->|호출 구조 모델화| R
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -90,6 +94,8 @@ flowchart TB
     R --> M
     M --> P
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

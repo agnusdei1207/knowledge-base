@@ -54,6 +54,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     O[목적 함수]
@@ -62,6 +64,8 @@ flowchart TB
     O -->|손실 미분값| T
     T -->|보정 트리| M
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -80,6 +84,8 @@ flowchart TB
     C -->|예| P
     C -->|아니오| O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

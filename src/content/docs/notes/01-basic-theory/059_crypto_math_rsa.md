@@ -70,6 +70,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     G["키 생성기"] -->|"개인 지수 d"| S["개인키 저장소"]
@@ -77,6 +79,8 @@ flowchart TB
     S -->|"개인 지수 d"| X
     P["패딩 인코더"] -->|"인코딩 블록"| X
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -93,6 +97,8 @@ flowchart TB
     S --> D
     D --> V
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

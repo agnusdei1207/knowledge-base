@@ -60,6 +60,8 @@ extra:
 
 허용 오차를 줄이면 해의 품질은 좋아지지만 계산 비용도 함께 증가한다. 다음 값은 이 상충 관계를 설명하기 위한 개념 예시다.
 
+**수식 차트 — 허용 오차와 품질·비용**
+
 ```mermaid
 %%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
 xychart-beta
@@ -74,6 +76,8 @@ xychart-beta
 
 > $1/\varepsilon$ 증가로 최적해에 접근하지만 더 작은 허용 오차일수록 계산 비용이 급증
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     M["문제 모델"] -->|"목적·제약"| C["해 구성기"]
@@ -81,6 +85,8 @@ flowchart TB
     V -->|"실행 가능 해"| B["근사비 분석"]
     M -->|"최적해 하한"| B
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -96,6 +102,8 @@ flowchart TB
     L --> B
     B --> O
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

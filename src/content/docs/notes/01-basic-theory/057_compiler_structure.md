@@ -61,6 +61,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     ST[심볼 테이블] <-->|참조·갱신| FE[전단부]
@@ -68,6 +70,8 @@ flowchart TB
     IR -->|입력| OPT[최적화기]
     OPT -->|최적화 IR| BE[후단부]
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -85,6 +89,8 @@ flowchart TB
     O --> B
     B --> Y
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

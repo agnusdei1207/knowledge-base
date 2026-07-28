@@ -67,6 +67,8 @@ xychart-beta
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph LS[손실 계산 경계]
@@ -80,6 +82,8 @@ flowchart TB
     end
 ```
 
+**도표안 B — 동작 흐름도**
+
 ```mermaid
 flowchart TB
     Y[(정답값)]
@@ -87,13 +91,15 @@ flowchart TB
     L[② 표본 손실 계산]
     R[③ 손실 축소]
     G[④ 기울기 산출]
-    P[⑤ 파라미터 전달]
+    P[⑤ 기울기 전달]
     Y --> L
     M --> L
     L --> R
     R --> G
     G --> P
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
@@ -106,7 +112,7 @@ sequenceDiagram
     L->>L: ② 표본 손실 계산
     L->>R: ③ 손실 축소
     R-->>L: ④ 기울기 산출
-    L-->>M: ⑤ 파라미터 전달
+    L-->>M: ⑤ 기울기 전달
 ```
 
 | 구성요소 | 책임 |

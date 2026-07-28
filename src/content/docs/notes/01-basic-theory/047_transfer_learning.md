@@ -55,6 +55,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     subgraph T[전이 학습 구조]
@@ -66,6 +68,8 @@ flowchart TB
         B -->|범용 특징| H
     end
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -86,6 +90,8 @@ flowchart TB
     C -->|아니오| U
     U --> H
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram

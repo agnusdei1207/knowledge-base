@@ -55,6 +55,8 @@ extra:
 
 ## Ⅲ. 아키텍처
 
+**도표안 A — 구조도**
+
 ```mermaid
 flowchart TB
     E[확률 추정기]
@@ -63,6 +65,8 @@ flowchart TB
     E -->|사전 확률·특징 우도| M
     M -->|로그 확률| C
 ```
+
+**도표안 B — 동작 흐름도**
 
 ```mermaid
 flowchart TB
@@ -80,6 +84,8 @@ flowchart TB
     L --> C
     C --> Y
 ```
+
+**도표안 C — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
