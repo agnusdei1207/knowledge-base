@@ -3,7 +3,7 @@ sidebar:
   order: 80
   label: "080. 스토리지 계층 — DAS·NAS·SAN (Storage DAS NAS SAN)"
   badge:
-    text: "미출제 · 50%"
+    text: "미출 · 50%"
     variant: note
 title: "스토리지 계층 — DAS·NAS·SAN (Storage DAS NAS SAN)"
 date: "2026-07-25T00:22:25+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 80
 extra:
   question_no: "080"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "직결·파일·패브릭 I/O 선택 비교"
@@ -76,13 +76,13 @@ flowchart LR
     H -->|"FC·iSCSI 블록 I/O"| F
 ```
 
-| 설계 요소 | 설명 |
-|:---|:---|
-| 호스트·클라이언트 | DAS·SAN은 블록, NAS는 파일 요청 |
-| DAS 블록 장치 | 호스트 포트에 직접 연결된 저장장치 |
-| NAS 파일 서비스·저장소 | 이름공간·권한·내부 블록 저장 관리 |
-| 스토리지 패브릭 | FC·iSCSI 블록 명령 전달 |
-| SAN 스토리지 배열 | LUN을 논리 블록 장치로 제공 |
+| 설계 요소 | 입력·상태 | 역할 |
+|:---|:---|:---|
+| 호스트·클라이언트 | 블록 주소 또는 파일 경로 | 저장 I/O 발행 |
+| DAS 블록 장치 | 로컬 블록 명령 | 단일 호스트에 직접 저장 제공 |
+| NAS 파일 서비스·저장소 | SMB·NFS 파일 요청 | 이름공간·권한·내부 블록 관리 |
+| 스토리지 패브릭 | FC·iSCSI 명령 | 서버와 배열 사이 블록 요청 전달 |
+| SAN 스토리지 배열 | LUN·보호 정책 | 공유 논리 블록 장치 제공 |
 
 > 요약: DAS는 직결 블록, NAS는 파일, SAN은 패브릭 블록
 
@@ -90,35 +90,14 @@ flowchart LR
 
 - 서버가 디스크를 직접 다루면 DAS, 파일서버에 이름으로 요청하면 NAS, 전용망으로 원격 디스크를 다루면 SAN이다.
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 운영 고려사항
 
-```mermaid
-sequenceDiagram
-    participant H as 호스트·클라이언트
-    participant D as DAS 블록 장치
-    participant N as NAS 파일 서비스·저장소
-    participant F as 스토리지 패브릭
-    participant S as SAN 스토리지 배열
-    alt DAS
-        H->>D: DAS 로컬 블록 I/O
-    else NAS
-        H->>N: NAS 원격 파일 I/O
-        N->>N: NAS 내부 블록 매핑
-    else SAN
-        H->>F: SAN 패브릭 블록 I/O
-        F->>S: SAN LUN 블록 I/O
-    end
-```
-
-| 절차 | 설명 |
-|:---|:---|
-| DAS 로컬 블록 I/O | 호스트가 블록 주소·길이를 장치에 전달 |
-| NAS 원격 파일 I/O | 클라이언트가 경로명·오프셋으로 요청 |
-| NAS 내부 블록 매핑 | NAS가 파일 오프셋을 내부 블록에 연결 |
-| SAN 패브릭 블록 I/O | 호스트가 FC·iSCSI로 명령 전송 |
-| SAN LUN 블록 I/O | 배열이 LUN 주소를 물리 저장소에 매핑 |
-
-> 요약: NAS만 파일 요청을 내부 블록 I/O로 변환
+| 운영 위험 | 대응 | 기대 효과 |
+|:---|:---|:---|
+| NAS 이름공간·파일 서비스 병목 | 메타데이터·데이터 경로 분리 계측과 노드 확장 | 공유 파일 지연 완화 |
+| SAN 패브릭·경로 단일 장애 | 이중 패브릭·다중 경로와 경로 전환 시험 | 블록 서비스 연속성 확보 |
+| LUN·공유 파일 권한 오구성 | 최소 권한·조닝·마스킹과 정기 권한 검토 | 비인가 데이터 접근 방지 |
+| 용량·성능 요구와 연결 방식 불일치 | I/O 크기·지연·공유 범위별 부하 시험 | 적합한 구조 선택 |
 
 ### 쉽게 이해하기 (학습용)
 
