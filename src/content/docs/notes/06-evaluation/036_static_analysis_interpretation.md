@@ -86,7 +86,6 @@ sequenceDiagram
     participant T as 분석 도구
     participant R as 검토자
     participant G as 품질 게이트
-    D->>T: 분석 실행
     T->>R: 경고 전달
     R->>R: 경로 검증
     R->>G: 판정 등록
@@ -95,7 +94,6 @@ sequenceDiagram
 
 | 절차 | 설명 |
 |:---|:---|
-| 분석 실행 | 고정한 소스·빌드 환경·룰셋 검사 |
 | 경고 전달 | 위치·오염 흐름·심각도 제공 |
 | 경로 검증 | 도달 가능성과 실제 피해 확인 |
 | 판정 등록 | 수정·오탐·위험 수용과 근거 기록 |
