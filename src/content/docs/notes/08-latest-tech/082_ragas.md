@@ -25,7 +25,7 @@ extra:
 - **문맥 정밀도 (Context Precision)**: 검색 문맥의 관련성과 순위 품질
 - **평가 모델 (Evaluator Model)**: 자연어 의미를 기준으로 표본을 판정하는 모델
 - **대규모 언어 모델(Large Language Model, LLM)**: 의미 기반 RAGAS 지표의 판정에 사용하는 모델
-- **명칭 읽기·표기**: RAGAS는 ‘라가스’로 읽고 RAG와 Assessment를 결합한 이름이며, LLM은 ‘엘엘엠’으로 읽고 평가 모델 역할을 뜻함
+- **RAGAS 평가 역할**: LLM과 임베딩 모델을 활용해 RAG의 답변 충실성·관련성·문맥 정밀도·재현율을 평가함
 
 ## Ⅰ. 개요
 

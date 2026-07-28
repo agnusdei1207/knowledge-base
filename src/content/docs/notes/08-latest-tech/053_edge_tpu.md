@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **텐서 처리 장치(Tensor Processing Unit, TPU)**: 영문 머리글자를 딴 표기로 “티피유”로 읽으며, 텐서 연산 가속 프로세서
-- **주문형 집적 회로(Application-Specific Integrated Circuit, ASIC)**: 영문 머리글자를 딴 표기로 “에이식”으로 읽으며, 특정 연산에 맞춰 설계한 전용 회로
+- **텐서 처리 장치(Tensor Processing Unit, TPU)**: 텐서 연산을 병렬 처리하는 전용 가속 프로세서
+- **주문형 집적 회로(Application-Specific Integrated Circuit, ASIC)**: 특정 연산에 맞춰 설계한 전용 회로
 - **8비트 정수(8-bit Integer, INT8)**: Integer와 비트 수를 결합한 표기로 “인트 에잇”으로 읽으며, 정수 추론의 낮은 정밀도 표현
-- **양자화 인지 학습(Quantization-Aware Training, QAT)**: 영문 머리글자를 딴 표기로 “큐에이티”로 읽으며, 학습 중 양자화 오차를 반영하는 기술
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: 영문 머리글자를 딴 표기로 “엔피유”로 읽으며, 신경망 연산 전용 가속기
+- **양자화 인지 학습(Quantization-Aware Training, QAT)**: 학습 과정에 양자화 오차를 반영하는 기술
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산을 병렬 처리하는 전용 가속기
 
 
 
 ## Ⅰ. 개요
 
 - 정의/개념: INT8 모델용 구글 추론 ASIC
-- **배경/필요성**: 범용 프로세서만으로 에지 장치의 저전력 INT8 추론 성능 확보 곤란
+- 기존 한계: 범용 프로세서만으로는 에지 장치의 전력 한도 안에서 충분한 INT8 추론 성능을 확보하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 

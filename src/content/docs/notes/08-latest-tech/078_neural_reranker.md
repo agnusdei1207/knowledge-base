@@ -25,7 +25,7 @@ extra:
 - **양방향 인코더 표현 (Bidirectional Encoder Representations from Transformers, BERT)**: 문맥 표현을 생성함
 - **문맥화 후기 상호작용 모델 (Contextualized Late Interaction over BERT, ColBERT)**: 토큰 유사도를 결합함
 - **상위 k개(Top-k)**: 1차 검색 결과 중 재평가할 상위 후보 수
-- **약어·기호 읽기**: BERT·ColBERT는 ‘버트·콜버트’, Top-k는 ‘톱 케이’로 읽고 k는 후보 개수를 뜻함
+- **재순위화 범위**: BERT·ColBERT 계열 모델로 1차 검색의 상위 k개 후보를 정밀 평가하며, k는 재평가할 후보 수
 
 ## Ⅰ. 개요
 

@@ -26,7 +26,7 @@ extra:
 - **인터포저(Interposer)**: 가속기와 HBM을 넓고 짧게 연결하는 패키지 기판
 - **그래픽 DDR(Graphics Double Data Rate, GDDR)**: 그래픽용 고속 보드 실장 메모리
 - **DDR(Double Data Rate)**: 클록 양쪽 변에서 전송하는 범용 메모리
-- **약어 읽기·표기**: HBM·TSV·DRAM·GDDR·DDR은 ‘에이치비엠·티에스브이·디램·지디디알·디디알’로 읽고 적층·수직 연결·메모리 유형을 구분함
+- **HBM 구성**: DRAM 다이를 수직 적층하고 TSV로 연결해 GDDR·DDR보다 넓은 인터페이스와 높은 대역폭을 제공함
 
 
 

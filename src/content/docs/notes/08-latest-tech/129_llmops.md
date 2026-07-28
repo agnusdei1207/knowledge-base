@@ -20,15 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **대규모 언어 모델 운영(Large Language Model Operations, LLMOps)**: '엘엘엠옵스'로 읽고 프롬프트·검색·모델·평가·배포 운영체계를 표시
-- **머신러닝 운영(Machine Learning Operations, MLOps)**: '엠엘옵스'로 읽고 데이터 기반 모델의 학습·배포·재학습 운영체계를 표시
-- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: '래그'로 읽고 검색 근거를 모델 입력에 결합하는 생성 방식을 표시
+- **대규모 언어 모델 운영(Large Language Model Operations, LLMOps)**: 프롬프트·검색·모델·평가·배포를 통합 관리하는 운영체계
+- **머신러닝 운영(Machine Learning Operations, MLOps)**: 데이터 기반 모델의 학습·배포·재학습을 자동화하는 운영체계
+- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 외부 지식에서 검색한 근거를 모델 입력에 결합하는 생성 방식
 - **평가 하네스(Evaluation Harness)**: 평가 자료·기준·실행·결과를 반복 관리하는 시험 장치
 
 ## Ⅰ. 개요
 
 - 정의/개념: 프롬프트·RAG·모델·도구·평가·배포를 **버전과 실행 추적으로 연결하는 운영체계**
-- **배경/필요성**: 모델 중심 MLOps만으로 찾기 어려운 **비결정적 응답·근거·안전·토큰 비용 회귀 관리**
+- 기존 한계: 모델 중심 MLOps만으로는 프롬프트·검색 변경에 따른 비결정적 응답, 근거성·안전성·토큰 비용의 회귀를 관리하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 

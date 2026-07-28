@@ -20,8 +20,8 @@ extra:
 
 ## 미리 알고가기
 
-- **대규모 언어모델(Large Language Model, LLM, 엘엘엠)**: 영문 머리글자를 딴 언어 모델로, 언어·코드 패턴을 학습
-- **강화학습(Reinforcement Learning, RL, 알엘)**: 영문 머리글자를 딴 학습법으로, 보상에 따라 행동 정책을 개선
+- **대규모 언어모델(Large Language Model, LLM)**: 대규모 말뭉치에서 언어·코드 패턴을 학습한 모델
+- **강화학습(Reinforcement Learning, RL)**: 보상에 따라 행동 정책을 개선하는 학습법
 - **검증가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR, 알엘브이알)**: 정답·실행 결과처럼 자동 검증 가능한 보상으로 추론 정책을 학습
 - **지도 미세조정(Supervised Fine-Tuning, SFT)**: 풀이 예시로 응답 형식을 조정함
 - **시험 시점 연산(Test-Time Compute, TTC)**: 요청별 추론 자원을 추가 배정함
@@ -33,7 +33,7 @@ extra:
 
 - 정의/개념: 다단계 해결·검증에 특화된 언어 모델
 - 기존 한계: 즉시 생성 중심 LLM은 다단계 검증 과업에 취약
-- **배경/필요성**: 복합 문제의 해결·도구 사용·결과 검증 강화
+- 기존 한계: 일반 LLM의 즉시 응답 방식은 복합 문제를 단계적으로 해결하고 도구 사용 결과를 검증하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 

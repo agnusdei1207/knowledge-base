@@ -20,18 +20,18 @@ extra:
 
 ## 미리 알고가기
 
-- **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)**: '알엘에이치에프'로 읽고 인간 선호 보상으로 정책을 최적화하는 방식을 표시
-- **보상 모델(Reward Model, RM)**: '알엠'으로 읽고 응답의 인간 선호 점수를 예측하는 모델을 표시
-- **근접 정책 최적화(Proximal Policy Optimization, PPO)**: '피피오'로 읽고 정책 갱신 폭을 제한하는 강화학습 알고리즘을 표시
-- **지도 미세조정(Supervised Fine-Tuning, SFT)**: '에스에프티'로 읽고 모범 응답으로 초기 정책을 학습하는 단계를 표시
-- **쿨백-라이블러 발산(Kullback-Leibler Divergence, KL)**: '케이엘 발산'으로 읽고 두 확률분포 차이를 재며 두 연구자 성에서 이름을 따온 비대칭 척도
-- **직접 선호 최적화(Direct Preference Optimization, DPO)**: '디피오'로 읽고 별도 보상 모델·강화학습 없이 선호쌍으로 정책을 학습
+- **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)**: 인간 선호를 보상으로 변환해 모델 정책을 최적화하는 방식
+- **보상 모델(Reward Model, RM)**: 응답에 대한 인간 선호 점수를 예측하는 모델
+- **근접 정책 최적화(Proximal Policy Optimization, PPO)**: 정책 갱신 폭을 제한해 학습 안정성을 높이는 강화학습 알고리즘
+- **지도 미세조정(Supervised Fine-Tuning, SFT)**: 모범 응답으로 초기 정책을 학습하는 단계
+- **쿨백-라이블러 발산(Kullback-Leibler Divergence, KL)**: 기준 모델과 현재 정책의 확률분포 차이를 측정하는 비대칭 척도
+- **직접 선호 최적화(Direct Preference Optimization, DPO)**: 별도 보상 모델과 강화학습 없이 선호 응답 쌍으로 정책을 학습하는 방식
 
 
 ## Ⅰ. 개요
 
 - 정의/개념: 인간의 응답 비교로 보상 모델을 학습하고 **생성 정책을 보상 최대화 방향으로 강화학습**
-- **배경/필요성**: 모범 답안 SFT만으로 표현하기 어려운 **유용성·선호·안전의 상대적 기준 반영**
+- 기존 한계: 모범 답안 기반 SFT만으로는 응답의 유용성·선호·안전처럼 상대 비교가 필요한 인간 기준을 충분히 반영하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 

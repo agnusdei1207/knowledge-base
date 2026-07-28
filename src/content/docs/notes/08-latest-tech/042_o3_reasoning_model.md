@@ -25,7 +25,7 @@ extra:
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 모델·도구 호출 경계임
 - **신원·접근 관리(Identity and Access Management, IAM)**: 도구 실행 권한을 통제함
 - **소프트웨어 공학 벤치마크 검증판(SWE-bench Verified)**: 저장소 이슈 해결 능력을 평가함
-- **생성형 사전학습 트랜스포머(Generative Pre-trained Transformer, GPT, 지피티)**: 영문 머리글자를 딴 생성 모델 구조 계열명
+- **생성형 사전학습 트랜스포머(Generative Pre-trained Transformer, GPT)**: 대규모 데이터로 사전 학습해 다음 토큰을 생성하는 Transformer 계열 모델
 - **인공지능(Artificial Intelligence, AI)**: 모델의 추론·도구 사용 범위를 포함함
 - **핵심 판단**: 출시 성능보다 현재 지원·과업 적합성을 중시함
 
@@ -35,7 +35,7 @@ extra:
 
 - 정의/개념: 수학·코드·시각·도구 결합 추론 모델
 - 기존 한계: 일반 생성 모델은 복합 추론·도구 연계 오류가 큼
-- **배경/필요성**: 수학·코드·시각 과업의 추론 정확도 향상
+- 기존 한계: 기존 언어 모델은 수학·코드·시각 과업에서 여러 단계의 추론을 안정적으로 수행하기 어렵다.
 
 ### 쉽게 이해하기 (학습용)
 
