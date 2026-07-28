@@ -3,7 +3,7 @@ title: "컴퓨터 사이언스 노트"
 description: "컴퓨터 사이언스 핵심 주제를 영역별로 정리한 학습 노트"
 template: splash
 hero:
-  tagline: "기초이론부터 최신 기술까지, 필요한 개념을 빠르게 찾아보세요."
+  tagline: "배우지 않으면 재능을 넓힐 수 없고, 뜻이 없으면 배움을 이룰 수 없다. — 제갈량 《계자서》"
   actions:
     - text: "학습 노트 열기"
       link: "/study/notes/"
