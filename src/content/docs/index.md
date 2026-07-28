@@ -9,6 +9,10 @@ hero:
       link: "/study/notes/"
       icon: "right-arrow"
       variant: "primary"
+    - text: "흔들릴 때 다시 읽는 글"
+      link: "/study/encouragement/"
+      icon: "heart"
+      variant: "minimal"
 ---
 
 ## 늦게 시작했지만, 이미 증명했다

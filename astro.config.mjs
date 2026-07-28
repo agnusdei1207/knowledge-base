@@ -25,6 +25,10 @@ export default defineConfig({
       },
       sidebar: [
         {
+          label: '흔들릴 때 다시 읽는 글',
+          link: '/encouragement/',
+        },
+        {
           label: '컴퓨터 사이언스',
           collapsed: true,
           items: [
