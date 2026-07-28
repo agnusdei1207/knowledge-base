@@ -38,21 +38,26 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의/개념: Service는 **고정 접점**, Ingress는 **L7 경로 규칙**
-- 기존 한계: 파드 주소 교체로 **안정적 접근 경로 부재**
+- Kubernetes Service는 교체되는 Pod 집합에 안정적인 이름·가상 IP·포트를 제공하고 Ingress는 외부 HTTP(S)의 호스트·경로를 Service 백엔드에 연결한다.
+- Pod IP 변화와 외부 웹 라우팅을 분리해 내부 서비스 발견·L4 전달과 외부 L7 진입 정책을 서로 다른 객체와 데이터면으로 관리한다.
 
 ### 쉽게 이해하기 (학습용)
-- 서비스는 고정 접점이고 인그레스는 연결 규칙임
+- Service는 내부 대표번호이고 Ingress는 외부 요청을 나누는 안내 데스크이다.
 
 ## Ⅱ. 특징
 
-- Service가 Pod 교체와 고정 접근 주소를 분리한다.
-- Ingress는 여러 Service를 외부 접점에서 분기한다.
+- **안정적인 내부 접점**: Service가 Selector로 선택한 Pod의 EndpointSlice를 통해 고정 이름·가상 IP·포트를 제공한다.
+- **준비 상태 연계**: Ready한 Endpoint를 기본 전달 대상으로 사용해 교체·장애 Pod로 새 트래픽이 가는 것을 줄인다.
+- **다양한 노출 범위**: ClusterIP·NodePort·LoadBalancer가 클러스터 내부·노드 포트·외부 L4 접점을 제공한다.
+- **L7 라우팅**: Ingress가 HTTP(S) 호스트·경로·TLS와 Service 백엔드를 선언하고 Controller가 실제 프록시 설정으로 구현한다.
+- **구현 의존성**: Ingress API만 생성해도 Controller가 없으면 동작하지 않으며 세부 기능은 IngressClass와 구현에 따라 다르다.
 
 ### 쉽게 이해하기 (학습용)
-- 서비스가 내부 목적지를, 인그레스가 규칙을 반영함
+- Service는 바뀌는 목적지를 모으고 Ingress Controller는 외부 웹 규칙을 실제 경로로 만든다.
 
 ## Ⅲ. 아키텍처 및 구성요소
+
+**도표안 A — 구조도**
 
 ```mermaid
 flowchart LR
@@ -62,70 +67,85 @@ flowchart LR
     D["DNS·TLS Secret"] -->|"이름·인증서"| I
 ```
 
-| 설계 요소 | 설명 |
-|:---|:---|
-| Service·EndpointSlice | 가상 IP를 선언하고 준비된 포트를 연결함 |
-| 서비스 데이터 경로 | 트래픽을 가상 IP 등을 통해 백엔드로 전달함 |
-| Ingress 객체 | 호스트와 경로 및 서비스 백엔드를 선언함 |
-| IngressClass·Controller | 규칙 구현을 선택하고 프록시 설정에 반영함 |
-| Secret·DNS | TLS 인증서·외부 호스트 이름 제공 |
-
-> 요약: 외부 요청은 인그레스를 거쳐 서비스로 전달됨
-
-### 쉽게 이해하기 (학습용)
-- 인그레스와 서비스가 외부 요청을 파드까지 연결함
-
-## Ⅳ. 원리 및 절차 흐름도
+**도표안 B — sequenceDiagram**
 
 ```mermaid
 sequenceDiagram
     participant C as 외부 클라이언트
-    participant I as Ingress Controller
-    participant S as Service
-    participant P as Pod
-    C->>I: 외부 요청 수신
-    I->>I: 호스트·TLS 확인
-    I->>S: 경로·Service 선택
-    S->>S: 엔드포인트 조회
-    S->>P: Pod 전달
+    participant I as Ingress 프록시
+    participant S as Service 데이터면
+    participant E as EndpointSlice
+    participant P as Ready Pod
+    C->>I: ① TLS·HTTP 호스트·경로 요청
+    I->>S: ② Ingress 규칙이 선택한 Service·포트
+    S->>E: ③ 현재 준비된 백엔드 조회
+    E-->>S: ④ Pod IP·포트·준비 상태
+    S->>P: ⑤ 선택 Endpoint로 요청 전달
+    P-->>S: ⑥ 애플리케이션 응답
+    S-->>I: ⑦ 백엔드 응답 반환
+    I-->>C: ⑧ HTTP(S) 응답·상태
 ```
 
-| 절차 | 설명 |
+| 설계 요소 | 설명 |
 |:---|:---|
-| 외부 요청 수신 | 외부 HTTP(S)가 컨트롤러에 도달 |
-| 호스트·TLS 확인 | 호스트 규칙·인증서 선택 |
-| 경로·Service 선택 | URL 경로와 백엔드 Service 연결 |
-| 엔드포인트 조회 | 준비된 Pod IP·포트 선택 |
-| Pod 전달 | 선택한 Pod로 요청 전달 |
+| Service | Selector·포트·가상 IP·노출 유형으로 안정 접점 선언 |
+| EndpointSlice | Service에 연결된 Pod IP·포트·준비·종료 상태를 분할 저장 |
+| Service 데이터면 | 구현별 규칙으로 가상 IP 또는 Endpoint에 L4 트래픽 전달 |
+| Ingress | HTTP(S) 호스트·경로·TLS·Service 백엔드 규칙 선언 |
+| IngressClass·Controller | 처리할 구현을 선택하고 프록시·로드밸런서에 규칙 반영 |
+| DNS·TLS Secret | 외부 이름을 접점에 연결하고 인증서·키 제공 |
 
-> 요약: 판정 결과가 서비스와 준비된 파드 선택의 입력임
+**동작 원리**
+
+- ① 외부 클라이언트가 DNS로 찾은 Ingress 접점에 TLS와 HTTP 호스트·경로를 포함한 요청을 보낸다.
+- ② Ingress 프록시가 인증서와 호스트·경로 규칙을 확인해 대상 Service와 포트를 선택한다.
+- ③ Service 데이터면이 현재 EndpointSlice에서 전달 가능한 백엔드를 조회한다.
+- ④ EndpointSlice가 Pod IP·포트와 Ready·Terminating 같은 상태를 제공한다.
+- ⑤ 데이터면이 정책에 따라 Ready Endpoint 하나를 골라 Pod에 요청을 전달한다.
+- ⑥ Pod 애플리케이션이 처리 결과를 Service 데이터면에 반환한다.
+- ⑦ Service 경로가 백엔드 응답을 Ingress 프록시에 반환한다.
+- ⑧ Ingress 프록시가 TLS 연결을 통해 클라이언트에 HTTP 상태와 응답을 전달한다.
 
 ### 쉽게 이해하기 (학습용)
-- 호스트 선택 후 서비스가 백엔드로 요청 전달
 
-## Ⅴ. 종류 및 비교
+- 안내 데스크가 주소와 길을 보고 대표번호를 고르면 Service가 준비된 직원에게 연결한다.
 
-| 접근 계층 | Service | Ingress |
+## Ⅳ. 종류 및 비교
+
+| 비교 항목 | Service | Ingress |
 |:---|:---|:---|
-| 적용 기준 | 내부 파드·**L4 포트 접근** | 도메인 경로·**TLS 종단** |
-| 핵심 특징 | 가상 IP·**엔드포인트 전달** | 호스트·경로별 **L7 라우팅** |
-| 한계 | 셀렉터 오류·**엔드포인트 누락** | 라우팅·**TLS 설정 오류** |
+| 목적 | 동적 Pod 집합의 안정적 L4 접점 | 외부 HTTP(S)의 L7 진입·분기 |
+| 선택 기준 | Selector·EndpointSlice·포트 | 호스트·경로·TLS·백엔드 Service |
+| 노출 유형 | ClusterIP·NodePort·LoadBalancer | Controller가 제공하는 외부 프록시 |
+| 필수 구현 | 클러스터 Service 데이터면 | 별도 Ingress Controller·IngressClass |
+| 대표 오류 | Selector·Port·Ready Endpoint 누락 | Class·호스트·경로·인증서·Backend 오류 |
+| 확장 방향 | L4·내부 발견 중심 | 복잡한 역할·경로는 Gateway API 검토 |
 
-> 요약: 서비스는 내부 접점이고 인그레스는 L7 분기임
-
-### 쉽게 이해하기 (학습용)
-- 서비스는 내부 대표번호, 인그레스는 안내 데스크임
-
-## Ⅵ. 실무 사례
-
-1. 내부 API는 ClusterIP로 준비된 Pod만 연결
+> Ingress가 Service를 대체하는 것이 아니라 외부 L7 규칙의 최종 백엔드로 Service를 참조한다.
 
 ### 쉽게 이해하기 (학습용)
-- 내부 API는 바뀌는 Pod 대신 고정 Service 주소를 사용한다.
+- Service는 대표번호, Ingress는 주소와 요청 내용으로 대표번호를 고르는 안내 데스크이다.
 
-## Ⅶ. 결론
+## Ⅴ. 실무 고려사항 및 대책
 
-- 변동하는 Pod에 안정적인 내부·외부 접점을 제공하기 위해 **접근 범위·프로토콜·경로 분기·준비 상태**를 검토하고, 내부 발견은 Service, 외부 HTTP 진입은 Ingress로 분리한다
+| 고려사항 | 위험 | 대책 |
+|:---|:---|:---|
+| Selector·Port | Endpoint 없음·잘못된 대상 포트 | Label·targetPort·EndpointSlice 대사 |
+| 준비·종료 | 시작 전·종료 중 Pod로 요청 | Readiness·종료 유예·연결 Drain |
+| TLS·DNS | 인증서 이름/만료·DNS 대상 불일치 | 자동 발급·갱신·만료 경보·DNS 검증 |
+| 경로 | Rewrite·우선순위·정규식 구현 차이 | Controller별 통합 시험·명시 경로 |
+| 클라이언트 IP | 프록시 계층에서 원본 주소 손실·위조 | 신뢰 프록시 범위·전달 헤더 정책 |
+| 접근 통제 | 외부 노출·관리 경로 우회 | 최소 노출·NetworkPolicy·인증·WAF·감사 |
+
+> **적용 사례**: 내부 API는 ClusterIP를 사용하고 외부 HTTPS는 Ingress로 분기하며, Readiness 실패·인증서 교체·Pod 종료 중에도 요청이 안전하게 빠지는지 시험한다.
 
 ### 쉽게 이해하기 (학습용)
-- 고정 내부 주소와 외부 웹 규칙을 한 객체에 섞지 않는다.
+- 내부 호출은 바뀌는 Pod 주소가 아니라 고정 Service 이름을 사용한다.
+
+## Ⅵ. 결론
+
+- Service의 핵심은 동적 Pod 집합을 안정적인 L4 접점으로 만드는 것이고 Ingress의 핵심은 외부 HTTP(S)를 그 Service들로 분기하는 것이다.
+- Selector·Endpoint 준비 상태·TLS·DNS·Controller 구현·종료 Drain을 함께 검증해 내부 발견과 외부 진입의 책임을 분리해야 한다.
+
+### 쉽게 이해하기 (학습용)
+- 내부 대표번호와 외부 웹 안내 규칙의 역할을 나눠야 한다.
