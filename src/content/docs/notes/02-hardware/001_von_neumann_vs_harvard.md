@@ -32,6 +32,11 @@ extra:
 - **캐시 일관성(Cache Coherence)**: 분리된 명령어 캐시와 데이터 캐시 또는 다중 코어 캐시 간에 같은 메모리 주소의 데이터가 일치하도록 상태를 유지하는 성질
 - **버스(Bus)**: CPU, 메모리, 입출력 장치 간에 주소, 데이터, 제어 신호를 주고받는 공용 전기적 전송 통로
 - **주기억장치(Main Memory)**: CPU가 현재 실행 중인 프로그램과 데이터를 보관하는 폰 노이만 구조의 통합 메모리
+- **명령어 집합 구조(Instruction Set Architecture, ISA)**: 프로세서가 실행할 명령어·레지스터·주소 지정 방식의 소프트웨어 공개 규격
+- **프리페치(Prefetch)**: 곧 사용할 것으로 예측한 명령어나 데이터를 실제 요청 전에 캐시로 미리 가져오는 기법
+- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU가 매 바이트를 옮기지 않고 입출력 장치가 주기억장치와 직접 데이터를 전송하는 방식
+- **명령 캐시 무효화(Instruction-cache Invalidation)**: 메모리의 코드가 바뀌었을 때 오래된 명령어 사본을 캐시에서 제거하는 절차
+- **캐시 적중률(Cache Hit Rate)**: 전체 메모리 요청 중 필요한 값이 캐시에서 발견된 비율
 
 ## Ⅰ. 개요
 
@@ -74,26 +79,29 @@ flowchart TB
 
 ```mermaid
 sequenceDiagram
-    participant C as CPU
+    participant C as CPU 접근 제어부
     participant P as 경로 제어기
+    participant K as 경로 구성 정보
     participant I as 명령어 메모리·버스
     participant D as 데이터 메모리·버스
     participant M as 통합 메모리·버스
+    participant E as CPU 실행부
     C->>P: ① 접근 요청 생성
-    P->>P: ② 경로 구성 판정
+    P->>K: ② 경로 구성 판정
+    K-->>P: 통합·분리 구성
     alt 폰 노이만 통합 경로
         P->>M: ③ 명령어·데이터 전송
-        M-->>C: 명령어·데이터
-        C->>C: ④ 실행 입력 반영
+        M-->>E: 명령어·데이터
+        C->>E: ④ 실행 입력 반영
     else 하버드 분리 경로
         par 명령어 인출
             P->>I: ③ 명령어·데이터 전송
-            I-->>C: 명령어
+            I-->>E: 명령어
         and 데이터 접근
             P->>D: ③ 명령어·데이터 전송
-            D-->>C: 데이터
+            D-->>E: 데이터
         end
-        C->>C: ④ 실행 입력 반영
+        C->>E: ④ 실행 입력 반영
     end
 ```
 
