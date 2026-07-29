@@ -47,44 +47,46 @@ extra:
 
 ## Ⅰ. 개요
 
-- Apache Spark는 연산 의존성을 DAG로 계획하고 데이터 파티션별 태스크를 실행하는 대규모 분산 분석 엔진이다.
-- 배치·SQL·머신러닝·Structured Streaming을 공통 실행 엔진에서 처리하고 반복 데이터는 캐시해 재계산을 줄일 수 있다.
+- 정의/개념: DAG로 **파티션 태스크를 분산 실행**
+- **배경/필요성**: 반복·복합 분석의 재계산 축소
 
 ### 쉽게 이해하기 (학습용)
 - 계산을 작업 그래프로 묶고 자주 쓰는 중간 자료를 재사용하는 엔진임
 
 ## Ⅱ. 특징
 
-- **지연 실행**: Transformation은 계획만 만들고 Action이 Job 실행을 시작한다.
-- **DAG 스케줄링**: 셔플 경계로 Stage를 나누고 파티션마다 Task를 생성한다.
-- **질의 최적화**: Catalyst가 논리·물리 계획을 만들고 AQE가 실행 통계로 계획을 조정한다.
-- **재사용·복구**: Cache/Persist는 반복 계산을 줄이고 계보·체크포인트는 실패 복구를 지원한다.
+- **지연 실행**: Action에서 계산 시작
+- **DAG 스케줄링**: 셔플 경계로 Stage 분할
+- **계획 보정**: Catalyst·AQE로 실행 최적화
 
 ### 쉽게 이해하기 (학습용)
 - 반복 분석은 빠르지만 파티션 쏠림과 메모리 상태 등을 관리해야 함
 
-## Ⅲ. 아키텍처 및 구성요소
-
-**도표안 A — 구조도**
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart LR
-    U[응용 프로그램]
-    subgraph S[Spark 클러스터]
-        D[Driver·SparkSession]
-        C[Catalyst·AQE]
-        M[Scheduler·Cluster Manager]
-        E[Executor·Partition]
-        P[Checkpoint·State Store]
-        D -->|논리 계획| C
-        C -->|물리 계획| M
-        M -->|태스크·자원| E
-        E <-->|진행 위치·상태| P
-    end
-    U -->|액션| D
+block
+  columns 5
+  D["Driver·SparkSession"]
+  C["Catalyst·AQE"]
+  S["Scheduler·Cluster Manager"]
+  E["Executor·Partition"]
+  P["Checkpoint·State Store"]
 ```
 
-**도표안 B — sequenceDiagram**
+| 구성요소 | 책임 |
+|:---|:---|
+| Driver·SparkSession | 계획·Job 조정 |
+| Catalyst·AQE | 계획 최적화·보정 |
+| Scheduler·Cluster Manager | Stage·Task·자원 할당 |
+| Executor·Partition | 태스크·캐시·셔플 실행 |
+| Checkpoint·State Store | 진행 위치·상태 복구 |
+
+### 쉽게 이해하기 (학습용)
+
+- 계획자, 최적화 담당자, 작업 배정자, 실행자, 복구 저장소로 구성된다.
+
+## Ⅳ. 흐름도
 
 ```mermaid
 sequenceDiagram
@@ -93,47 +95,36 @@ sequenceDiagram
     participant C as Catalyst·AQE
     participant S as Scheduler
     participant E as Executor
-    U->>D: ① Transformation·Action 제출
-    D->>C: ② 논리 계획 분석·최적화 요청
-    C-->>D: ③ 물리 실행 계획 반환
-    D->>S: ④ DAG·셔플 경계 전달
-    S->>E: ⑤ Stage별 파티션 Task 배치
-    E-->>C: ⑥ 셔플·행 수 실행 통계
-    C-->>S: ⑦ AQE 조정 계획 전달
-    E-->>D: ⑧ 파티션 결과·상태 반환
+    U->>D: 1. 변환·액션 제출
+    D->>C: 2. 논리 계획 최적화
+    C-->>D: 3. 물리 계획 반환
+    D->>S: 4. DAG·셔플 경계 전달
+    S->>E: 5. 파티션 Task 배치
+    E-->>C: 6. 실행 통계 반환
+    C-->>D: 7. 조정 결과 전달
 ```
-
-| 구성요소 | 역할 |
-|:---|:---|
-| Driver·SparkSession | 응용 진입점·실행 계획·Job 조정 |
-| Catalyst·AQE | 논리·물리 계획과 런타임 재최적화 |
-| Scheduler·Cluster Manager | Stage·Task 생성과 자원 할당 |
-| Executor·Partition | 태스크 실행·캐시·셔플 데이터 보관 |
-| Checkpoint·State Store | 스트림 진행 위치와 키별 상태 복구 |
 
 **동작 원리**
 
-- ① 응용이 지연 Transformation과 실행을 촉발할 Action을 Driver에 제출한다.
-- ② Driver가 DataFrame·SQL의 논리 계획 최적화를 요청한다.
-- ③ Catalyst가 비용과 규칙을 반영한 물리 실행 계획을 반환한다.
-- ④ Driver가 DAG와 셔플 경계를 Scheduler에 전달한다.
-- ⑤ Scheduler가 Stage별로 파티션 Task를 Executor에 배치한다.
-- ⑥ Executor가 셔플 크기·실제 행 수 등의 실행 통계를 보고한다.
-- ⑦ AQE가 통계에 따라 파티션 병합·조인 방식 등의 조정 계획을 전달한다.
-- ⑧ Executor가 완료한 파티션 결과와 상태를 Driver에 반환한다.
+- **1. 변환·액션 제출**: 실행을 시작한다.
+- **2. 논리 계획 최적화**: 연산 순서를 분석한다.
+- **3. 물리 계획 반환**: 실행 방식을 정한다.
+- **4. DAG·셔플 경계 전달**: Stage를 나눈다.
+- **5. 파티션 Task 배치**: 실행자에 할당한다.
+- **6. 실행 통계 반환**: 행·셔플량을 보고한다.
+- **7. 조정 결과 전달**: 계획을 보정한다.
 
 ### 쉽게 이해하기 (학습용)
 
 - 계산표를 먼저 최적화하고 셔플 경계로 나눠 여러 실행자에게 맡긴 뒤 실제 크기로 계획을 보정한다.
 
-## Ⅳ. 종류 및 비교
+## Ⅴ. 종류 및 비교
 
-| 처리 영역 | Spark Batch·SQL | Structured Streaming | Hadoop MapReduce |
+| 판단 기준 | Spark Batch·SQL | Structured Streaming | Hadoop MapReduce |
 |:---|:---|:---|
-| 입력 | 유한 데이터셋 | 연속 데이터 스트림 | 유한 파일 집합 |
-| 실행 | DAG 기반 Job·Stage·Task | 기본 Micro-batch, 증분 상태 처리 | Map·Shuffle·Reduce 단계 |
-| 강점 | SQL·반복·복합 파이프라인 | DataFrame API·이벤트 시간·복구 상태 | 대형 단순 배치·파일 기반 재실행 |
-| 주요 위험 | 메모리·셔플·편향 | 상태 증가·늦은 이벤트·Sink 보장 | 중간 디스크 I/O·긴 시작 지연 |
+| 적용 기준 | 반복·복합 배치 | 연속 증분 처리 | 대형 단순 배치 |
+| 핵심 특징 | DAG·SQL·캐시 | Micro-batch·상태 | 파일 기반 단계 실행 |
+| 한계 | 메모리·셔플·편향 | 상태·늦은 이벤트 | 디스크 I/O·시작 지연 |
 
 > 기존 DStream 기반 Spark Streaming은 레거시이며 새 스트림 파이프라인은 Structured Streaming을 우선 검토한다.
 
@@ -141,16 +132,15 @@ sequenceDiagram
 
 - Spark는 계산 그래프를 이어 실행하고 필요한 중간 자료만 캐시해 반복 작업을 줄인다.
 
-## Ⅴ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 위험 | 대책 |
+| 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| 파티션 | 너무 적거나 많아 자원 유휴·스케줄 오버헤드 | 입력 크기·코어·셔플 크기로 조정 |
-| 키 편향 | 일부 Task만 장시간 실행 | AQE skew join·키 분할·사전 집계 |
-| 캐시 | 무조건 캐시해 메모리 압박·GC | 재사용 횟수·재계산 비용으로 범위 결정 |
-| 셔플 | 네트워크·디스크 유출 | 필터 선적용·브로드캐스트·파티션 설계 |
-| 스트림 상태 | 고카디널리티 키로 상태 무한 증가 | 이벤트 시간·Watermark·TTL·상태 지표 |
-| 전달 보장 | “Exactly-once”를 모든 Sink에 일반화 | Source·Checkpoint·Sink의 멱등/트랜잭션 확인 |
+| 파티션 | 입력·코어·셔플량으로 조정 | 유휴·스케줄 비용 감소 |
+| 키 편향 | AQE·키 분할·사전 집계 | 느린 Task 완화 |
+| 캐시 | 재사용·재계산 비용으로 결정 | 메모리 압박 방지 |
+| 셔플 | 필터·브로드캐스트·분할 설계 | 망·디스크 부하 감소 |
+| 스트림 상태 | Watermark·TTL·상태 지표 | 상태 무한 증가 방지 |
 
 > **적용 사례**: 편향 조인은 AQE와 키 분할을 적용하고 가장 느린 Task 시간·셔플 읽기량·디스크 유출이 줄었는지 확인한다.
 
@@ -158,10 +148,9 @@ sequenceDiagram
 
 - 평균 작업시간보다 가장 늦은 파티션과 셔플·상태 크기를 보고 병목을 고친다.
 
-## Ⅵ. 결론
+## Ⅶ. 결론
 
-- Spark는 DAG·분산 태스크·SQL 최적화로 배치와 스트림 분석을 통합하는 엔진이다.
-- 파티션 편향·셔플·캐시·스트림 상태·체크포인트·Sink 보장을 실제 실행 지표로 검증해야 한다.
+- **반복 횟수·셔플량·편향·상태 크기**로 Spark 실행 방식을 정한다.
 
 ### 쉽게 이해하기 (학습용)
 
