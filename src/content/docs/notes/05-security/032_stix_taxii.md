@@ -20,13 +20,15 @@ extra:
 
 ## 미리 알고가기
 
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여한 방어 정보
-- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준
-- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: STIX 기반 CTI 컬렉션을 조직과 보안도구 사이에서 교환하는 응용 프로토콜
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: TAXII 컬렉션과 객체를 조회·게시하기 위한 호출 규약
-- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: 침해지표와 위협 정보를 분석·공유하는 오픈소스 플랫폼
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: HTTP 통신을 TLS로 암호화하여 TAXII 데이터를 보호하는 프로토콜
-- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 TAXII 연결의 기밀성과 무결성을 보호하는 프로토콜
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여한 방어 정보다.
+- **구조화된 위협 정보 표현(Structured Threat Information Expression, STIX)**: CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
+- **신뢰 정보 자동 교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: STIX 기반 CTI 컬렉션을 조직과 보안도구 사이에서 교환하는 응용 프로토콜이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: TAXII 컬렉션과 객체를 조회·게시하기 위한 호출 규약이다.
+- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: 침해지표와 위협 정보를 분석·공유하는 오픈소스 플랫폼이다.
+- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: HTTP 통신을 TLS로 암호화하여 TAXII 데이터를 보호하는 프로토콜이다.
+- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 TAXII 연결의 기밀성과 무결성을 보호하는 프로토콜이다.
+- **OASIS STIX 2.1 Errata 01**: CTI 객체·관계·패턴·직렬화 규칙을 보정한 최신 공식 표준이다.
+- **OASIS TAXII 2.1**: CTI 컬렉션의 조회·게시를 위한 RESTful API와 자원을 규정한 표준이다.
 
 
 
@@ -50,14 +52,16 @@ extra:
 
 - 받은 정보의 신뢰성 및 필요성 판단 필수
 
-## Ⅲ. 구성요소 및 구조
+## Ⅲ. 구조 및 구성요소
 
-```text
-[생산자] → [STIX 객체]
-              ↓
-[TAXII] ← [API Root·Collection]
-              ↓
-[소비자] ← [버전·신뢰·정책]
+```mermaid
+block-beta
+    columns 5
+    A["STIX 객체·관계"]
+    B["버전·표식·철회"]
+    C["TAXII 자원"]
+    D["목록·객체·상태"]
+    E["생산자·소비자 정책"]
 ```
 
 | 설계 요소 | 설명 |
@@ -74,27 +78,30 @@ extra:
 
 - 변경분·철회 여부 확인 후 최신 정보 반영
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
-```text
-프로파일
-  ↓
-구조검증
-  ↓
-서버게시
-  ↓
-수신처리
-  ↓
-정책적용
+```mermaid
+sequenceDiagram
+    participant P as CTI 생산자
+    participant V as STIX 검증기
+    participant T as TAXII 서버
+    participant C as CTI 소비자
+    participant S as 보안 통제기
+    P->>V: 1. 공유 프로파일 합의
+    V->>T: 2. STIX 구조·상태 검증
+    T->>C: 3. TAXII 컬렉션 게시
+    C->>S: 4. 변경분·철회 수신 처리
+    S->>P: 5. 탐지 정책·효과 환류
+```
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| 프로파일 | 공유 대상·범위 합의함 |
-| 구조검증 | 스키마 무결성 검증함 |
-| 서버게시 | 인증 컬렉션에 게시함 |
-| 수신처리 | 변경분 반영 처리함 |
-| 정책적용 | 탐지 규칙에 적용함 |
+| 공유 프로파일 합의 | 대상·표식·허용 범위 결정 |
+| STIX 구조·상태 검증 | 스키마·버전·철회를 확인 |
+| TAXII 컬렉션 게시 | 인증된 API 자원에 게시 |
+| 변경분·철회 수신 처리 | 중복 제거·최신 상태 반영 |
+| 탐지 정책·효과 환류 | 활용 결과를 생산자에 전달 |
 
 > 요약: 대상 합의 후 검증·게시·수신하여 정책 적용함
 
@@ -107,7 +114,7 @@ extra:
 | 위협 정보 표준 | STIX 2.1 | TAXII 2.1 |
 |:---|:---|:---|
 | 적용 기준 | 위협 정보 의미와 관계를 통일할 때 | 조직·플랫폼 사이 자동 전송이 필요할 때 |
-| 핵심 특징 | CTI 객체·관계·번들 표현 | API 루트·컬렉션 객체 교환 |
+| 핵심 특징 | **CTI 객체·관계 표현** | **API 컬렉션 객체 교환** |
 | 한계 | 관계·버전 오류 전파 | 권한 오류·정보 노출 |
 
 > 요약: STIX는 표현, TAXII는 전송 담당
@@ -116,9 +123,13 @@ extra:
 
 - 문법 일치 및 권한 적절성 확보 필요
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. TAXII로 받은 **STIX 위협 지표를 탐지 규칙에 반영**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| CTI 객체·관계 | **OASIS STIX 2.1 Errata 01** | 의미·버전 상호운용성 확보 |
+| 자동 교환 API | **OASIS TAXII 2.1 적용** | 컬렉션 교환 일관화 |
+| 지표 철회·권한 | **표식·버전·접근정책 검증** | 오차단·정보 노출 억제 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -126,7 +137,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 이기종 조직 간 위협 정보 연계 한계를 극복하기 위해 표현 구조·교환 방식·접근 권한·상태 수명을 검토하여, STIX로 표현하고 TAXII로 안전하게 교환해야 한다.
+- **표현의미·교환방식·권한·상태**로 공유체계를 결정한다.
 
 ### 쉽게 이해하기 (학습용)
 
