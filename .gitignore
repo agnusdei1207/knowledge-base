@@ -2,6 +2,7 @@ node_modules/
 .astro/
 dist/
 *.local.md
+AGENTS.md
 .chrome-check*/
 .DS_Store
 *.log
