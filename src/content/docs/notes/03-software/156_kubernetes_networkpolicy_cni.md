@@ -27,7 +27,7 @@ extra:
 - **선택자·레이블(Selector·Label)**: 레이블은 객체의 키·값 속성이고 선택자는 조건과 일치하는 Pod·Namespace를 선택하는 규칙
 - **네임스페이스(Namespace)**: Kubernetes 객체 이름과 정책 적용 범위를 논리적으로 나누는 영역
 - **선택된 Pod**: 지정 방향에서 격리되고 여러 NetworkPolicy의 허용 규칙은 합집합으로 적용됨
-- **Pod 간 통신**: 송신 Pod의 Egress와 수신 Pod의 Ingress 정책이 모두 허용해야 함
+- **Pod 간 통신**: 송신 Pod의 Egress와 수신 Pod의 Ingress 정책이 모두 허용해야 한다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 쿠버네티스 객체를 선언·조회·변경하는 요청 규약
 - **인터넷 프로토콜 주소 관리(IP Address Management, IPAM)**: 파드 주소를 할당·회수하고 중복을 관리하는 기능
 - **클래스 없는 도메인 간 라우팅(Classless Inter-Domain Routing, CIDR)**: 주소와 접두사 길이로 연속 IP 범위를 표현하는 방식
