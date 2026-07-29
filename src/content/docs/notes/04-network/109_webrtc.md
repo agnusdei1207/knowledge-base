@@ -19,25 +19,27 @@ extra:
 
 ## 미리 알고가기
 
-- **웹 실시간 통신(Web Real-Time Communication, WebRTC)**: ‘웹알티시’로 읽고 Web과 Real-Time Communication의 머리글자를 결합한 표기이며 브라우저가 음성·영상·자료를 실시간·암호화 교환함
-- **네트워크 주소 변환(Network Address Translation, NAT)**: ‘냇’으로 읽고 세 영문 단어의 머리글자를 딴 표기이며 내부 주소·포트를 외부 주소·포트로 바꿔 직접 연결 경로 탐색이 필요하게 한다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: ‘유디피’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 지연에 민감한 WebRTC 미디어 패킷의 기본 전송을 담당한다.
-- **전송 계층 보안(Transport Layer Security, TLS)**: ‘티엘에스’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 직접 UDP 경로가 막힌 환경에서 TURN 중계 연결을 암호화한다.
-- **데이터그램 전송 계층 보안(Datagram Transport Layer Security, DTLS)**: ‘디티엘에스’로 읽고 네 영문 핵심어의 머리글자를 딴 표기이며 WebRTC 단말을 인증하고 SRTP용 키를 합의한다.
-- **단말 간 직접 통신(Peer-to-Peer, P2P)**: ‘피투피’로 읽고 두 Peer 사이를 숫자 2로 이은 표기이며 중앙 미디어 서버 없이 단말끼리 스트림을 교환한다.
-- **세션 기술서 프로토콜(Session Description Protocol, SDP)**: ‘에스디피’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 코덱·전송 방향·미디어 조건을 제안·응답으로 표현함
-- **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: ‘아이스’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 후보 주소 쌍의 연결성을 검사해 경로를 선택함
-- **NAT 세션 통과 유틸리티(Session Traversal Utilities for NAT, STUN)**: ‘스턴’으로 읽고 영문 핵심어의 머리글자를 딴 표기이며 NAT 밖에서 보이는 공인 주소·포트를 제공함
-- **NAT 중계 통과(Traversal Using Relays around NAT, TURN)**: ‘턴’으로 읽고 영문 핵심어의 머리글자를 딴 표기이며 직접 연결 실패 시 미디어·자료를 중계함
-- **보안 실시간 전송 프로토콜(Secure Real-time Transport Protocol, SRTP)**: ‘에스알티피’로 읽고 RTP 앞에 Secure의 S를 붙인 표기이며 미디어를 암호화하고 무결성을 검증함
-- **선택 전달 장치(Selective Forwarding Unit, SFU)**: ‘에스에프유’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 미디어를 합성하지 않고 수신자별로 선택 전달함
-- **다지점 제어 장치(Multipoint Control Unit, MCU)**: ‘엠시유’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 미디어를 서버에서 디코딩·합성·재인코딩함
+- **웹 실시간 통신(Web Real-Time Communication, WebRTC)**: 브라우저가 음성·영상·자료를 실시간으로 암호화해 교환하는 기술이다.
+- **네트워크 주소 변환(Network Address Translation, NAT)**: 내부 주소·포트를 외부 주소·포트로 바꿔 직접 경로 탐색이 필요하게 한다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 지연에 민감한 WebRTC 미디어 패킷의 기본 전송을 담당한다.
+- **전송 계층 보안(Transport Layer Security, TLS)**: 직접 UDP 경로가 막힌 환경에서 TURN 중계 연결을 암호화한다.
+- **데이터그램 전송 계층 보안(Datagram Transport Layer Security, DTLS)**: WebRTC 단말을 인증하고 SRTP용 키를 합의한다.
+- **단말 간 직접 통신(Peer-to-Peer, P2P)**: 중앙 미디어 서버 없이 단말끼리 스트림을 교환한다.
+- **세션 기술서 프로토콜(Session Description Protocol, SDP)**: 코덱·전송 방향·미디어 조건을 제안·응답으로 표현한다.
+- **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: 후보 주소 쌍의 연결성을 검사해 경로를 선택한다.
+- **NAT 세션 통과 유틸리티(Session Traversal Utilities for NAT, STUN)**: NAT 밖에서 보이는 공인 주소·포트를 제공한다.
+- **NAT 중계 통과(Traversal Using Relays around NAT, TURN)**: 직접 연결 실패 시 미디어·자료를 중계한다.
+- **보안 실시간 전송 프로토콜(Secure Real-time Transport Protocol, SRTP)**: 미디어를 암호화하고 무결성을 검증한다.
+- **선택 전달 장치(Selective Forwarding Unit, SFU)**: 미디어를 합성하지 않고 수신자별로 선택 전달한다.
+- **다지점 제어 장치(Multipoint Control Unit, MCU)**: 미디어를 서버에서 디코딩·합성·재인코딩한다.
 - **지터(Jitter)**: 미디어 패킷의 도착 간격이 일정하지 않게 변하는 정도다.
+- **W3C WebRTC Recommendation**: 브라우저 실시간 통신의 객체와 응용 인터페이스를 규정한 웹 표준이다.
+- **IETF RFC 8445**: STUN·TURN 후보의 연결성 검사와 선택 절차를 규정한 ICE 표준 문서다.
 
 ## Ⅰ. 개요
 
 - 정의/개념: 브라우저의 **실시간 음성·영상·자료 암호화 통신**
-- **배경/필요성**: 플러그인 방식은 **배포·호환 부담**, NAT는 직접 경로 차단
+- 기존 한계: 플러그인·NAT의 **배포·직접 경로 제약**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -45,32 +47,31 @@ extra:
 
 ## Ⅱ. 특징
 
-- **응용 시그널링**으로 SDP·ICE 정보를 교환한다.
-- **ICE·STUN·TURN**으로 직접 경로를 우선 탐색하고 실패 시 중계한다.
-- **DTLS-SRTP**로 키를 합의하고 미디어를 암호화한다.
+- 응용 시그널링 기반 **SDP·ICE 교환**
+- ICE·STUN·TURN 기반 **직접·중계 경로 선택**
+- DTLS-SRTP 기반 **키 합의·미디어 암호화**
 
 ### 쉽게 이해하기 (학습용)
 
 - 통화 조건을 알려 주는 길과 실제 영상이 흐르는 길이 다르며 영상 경로는 직접 연결을 먼저 찾는다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart LR
-    A["WebRTC 단말"] <-->|SDP·ICE 후보| B["시그널링 서버"]
-    A <-->|주소 탐색·중계| C["STUN·TURN 서버"]
-    A <-->|DTLS·SRTP 미디어| D["상대 WebRTC 단말"]
-    E["다자 미디어 서버"] <-->|선택 전달·합성| A
-    E <-->|선택 전달·합성| D
-    F["품질·세션 관측기"] -->|경로·손실·지터| A
+block-beta
+    columns 5
+    A["WebRTC 통신 단말"]
+    B["시그널링 서버"]
+    C["STUN·TURN 서버"]
+    D["다자 미디어 서버"]
+    E["품질·세션 관측기"]
 ```
 
 | 설계 요소 | 설명 |
 |:---|:---|
-| WebRTC 단말 | **코덱·미디어·자료 처리** |
+| WebRTC 통신 단말 | **코덱·미디어·자료 처리** |
 | 시그널링 서버 | **SDP·ICE 후보 전달** |
 | STUN·TURN 서버 | **공인 주소 탐색·중계 제공** |
-| 상대 WebRTC 단말 | **선택 경로에서 미디어 교환** |
 | 다자 미디어 서버 | **SFU 전달·MCU 합성** |
 | 품질·세션 관측기 | **손실·지터·중계 비율 수집** |
 
@@ -80,7 +81,7 @@ flowchart LR
 
 - 시그널링 서버가 통화 조건과 후보를 교환하고 STUN·TURN이 연결을 도우며 선택된 경로에서 단말끼리 미디어를 보낸다.
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
 ```mermaid
 sequenceDiagram
@@ -88,28 +89,20 @@ sequenceDiagram
     participant S as 시그널링 서버
     participant T as STUN·TURN
     participant B as 단말 B
-    A->>S: SDP Offer 전달
-    S->>B: SDP Offer 중계
-    B->>S: SDP Answer 전달
-    S->>A: SDP Answer 중계
-    A->>T: ICE 후보 수집
-    S-->>A: 상대 ICE 후보 전달
-    A->>B: ICE 연결성 검사
-    A->>B: DTLS 핸드셰이크
-    A->>B: SRTP 미디어 전송
+    A->>S: 1. SDP 조건 제안
+    S->>B: 2. SDP 조건 합의
+    A->>T: 3. ICE 후보 수집
+    A->>B: 4. ICE 경로 선택
+    A->>B: 5. DTLS·SRTP 전송
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| SDP Offer 전달 | 단말 A의 미디어 조건 제안 |
-| SDP Offer 중계 | 제안을 단말 B에 전달 |
-| SDP Answer 전달 | 단말 B의 합의 조건 응답 |
-| SDP Answer 중계 | 응답을 단말 A에 전달 |
+| SDP 조건 제안 | 단말 A의 미디어 조건 전달 |
+| SDP 조건 합의 | 단말 B의 합의 조건 응답 |
 | ICE 후보 수집 | 호스트·공인·중계 주소 확보 |
-| 상대 ICE 후보 전달 | 시그널링으로 상대 후보 전달 |
-| ICE 연결성 검사 | 왕복 가능한 후보 쌍 선택 |
-| DTLS 핸드셰이크 | 상대 인증·SRTP 키 합의 |
-| SRTP 미디어 전송 | 선택 경로에서 암호화 전송 |
+| ICE 경로 선택 | 후보 쌍 검사 후 왕복 경로 선택 |
+| DTLS·SRTP 전송 | 상대 인증·키 합의 후 암호화 |
 
 > 요약: SDP 협상·ICE 경로 선택 후 보안 전송
 
@@ -122,7 +115,7 @@ sequenceDiagram
 | WebRTC 다자 구조 | P2P 메시 | SFU | MCU |
 |:---|:---|:---|:---|
 | 적용 기준 | 1:1·소수 참여자·서버 비용 최소 | 일반 다자 회의·단말 대역폭 절감 | 단일 합성 화면·코덱 변환 필요 |
-| 핵심 특징 | 모든 스트림 직접 교환 | 수신자별 스트림 선택 전달 | 미디어 합성·코덱 변환 |
+| 핵심 특징 | **모든 스트림 직접 교환** | **수신자별 선택 전달** | **미디어 합성·코덱 변환** |
 | 한계 | 참여자 증가 시 대역폭 폭증 | 서버 송신량·경로 집중 | 높은 서버 연산·추가 지연 |
 
 > 요약: 참여자 수·합성 필요·서버 자원으로 선택
@@ -131,17 +124,21 @@ sequenceDiagram
 
 - 소규모는 직접 연결, 일반 다자 회의는 SFU 전달, 합성 화면과 형식 변환이 필요하면 MCU를 사용한다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 기업망 화상회의의 **TURN TLS 중계**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 기업망의 직접 UDP 차단 | **RFC 8445 ICE·TURN 대체** | 연결 성공률 확보 |
+| 다자 통화의 단말 대역폭 | **참여 규모별 SFU·MCU 선택** | 품질·서버비 균형 |
+| 브라우저 구현 간 차이 | **W3C WebRTC 상호운용 시험** | 단말 호환성 확보 |
 
 ### 쉽게 이해하기 (학습용)
 
-- 방화벽이 UDP와 피어 간 직접 경로를 차단하면 ICE가 TLS 접속 가능한 TURN 서버를 선택해 미디어를 중계한다.
+- 직접 경로와 TURN 대체 성공률을 측정하고 참여 규모에 맞는 미디어 서버 구조를 선택해야 한다.
 
 ## Ⅶ. 결론
 
-- 브라우저 실시간 통신의 NAT·방화벽과 다자 확장 문제를 해결하기 위해 ICE 경로·TURN 비율·단말 업링크·서버 처리·변환 요구를 검토하여, P2P·SFU·MCU 구조를 선택해야 한다.
+- **참여 규모·직접 경로율·합성 요구**로 구조 결정
 
 ### 쉽게 이해하기 (학습용)
 
