@@ -20,19 +20,20 @@ extra:
 
 ## 미리 알고가기
 
-- **TLS 1.3(Transport Layer Security 1.3)**: 서버 인증·키 합의·인증 암호화를 결합하여 통신을 보호하는 전송 계층 보안 프로토콜
-- **왕복 시간(Round-Trip Time, RTT)**: 메시지가 상대에게 전달된 뒤 응답이 돌아오기까지 걸리는 시간
-- **1-RTT 핸드셰이크**: 한 번의 왕복으로 키 합의와 서버 인증을 마친 뒤 응용 데이터를 전송하는 절차
-- **0-RTT 조기 데이터**: 이전 연결의 키 재료로 첫 요청부터 암호화하지만 재전송 공격에 노출될 수 있는 데이터
-- **순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 유출되어도 폐기된 임시 키로 보호한 과거 통신은 복호화되지 않는 성질
-- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: 데이터의 기밀성과 무결성을 함께 제공하는 대칭키 암호 방식
-- **사전 공유키(Pre-Shared Key, PSK)**: 통신 전에 공유했거나 이전 연결에서 얻어 재개 핸드셰이크에 사용하는 키 재료
-- **ECDHE(Elliptic Curve Diffie-Hellman Ephemeral)**: 연결마다 새로운 타원곡선 임시 키로 공유 비밀을 합의하는 방식
-- **HKDF(HMAC-based Key Derivation Function)**: 공유 비밀과 대화 기록 해시로 단계·방향별 트래픽 키를 도출하는 함수
-- **대화 기록 해시(Transcript Hash)**: 현재까지 교환한 핸드셰이크 메시지 전체를 해시한 값
-- **암호군(Cipher Suite)**: TLS 1.3에서 사용할 인증 암호화와 해시 알고리즘의 조합
-- **ClientHello·ServerHello**: 클라이언트의 지원 항목과 서버의 선택·키 공유값을 전달하는 TLS 1.3 메시지
-- **CertificateVerify·Finished**: 서버의 개인키 보유와 전체 핸드셰이크 무결성을 각각 증명하는 메시지
+- **TLS 1.3(Transport Layer Security 1.3)**: 서버 인증·키 합의·인증 암호화를 결합하여 통신을 보호하는 전송 계층 보안 프로토콜이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 메시지가 상대에게 전달된 뒤 응답이 돌아오기까지 걸리는 시간이다.
+- **1-RTT 핸드셰이크**: 한 번의 왕복으로 키 합의와 서버 인증을 마친 뒤 응용 데이터를 전송하는 절차다.
+- **0-RTT 조기 데이터**: 이전 연결의 키 재료로 첫 요청부터 암호화하지만 재전송 공격에 노출될 수 있는 데이터다.
+- **순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 유출되어도 폐기된 임시 키로 보호한 과거 통신은 복호화되지 않는 성질이다.
+- **인증 암호화(Authenticated Encryption with Associated Data, AEAD)**: 데이터의 기밀성과 무결성을 함께 제공하는 대칭키 암호 방식이다.
+- **사전 공유키(Pre-Shared Key, PSK)**: 통신 전에 공유했거나 이전 연결에서 얻어 재개 핸드셰이크에 사용하는 키 재료다.
+- **ECDHE(Elliptic Curve Diffie-Hellman Ephemeral)**: 연결마다 새로운 타원곡선 임시 키로 공유 비밀을 합의하는 방식이다.
+- **HKDF(HMAC-based Key Derivation Function)**: 공유 비밀과 대화 기록 해시로 단계·방향별 트래픽 키를 도출하는 함수다.
+- **대화 기록 해시(Transcript Hash)**: 현재까지 교환한 핸드셰이크 메시지 전체를 해시한 값이다.
+- **암호군(Cipher Suite)**: TLS 1.3에서 사용할 인증 암호화와 해시 알고리즘의 조합이다.
+- **ClientHello·ServerHello**: 클라이언트의 지원 항목과 서버의 선택·키 공유값을 전달하는 TLS 1.3 메시지다.
+- **CertificateVerify·Finished**: 서버의 개인키 보유와 전체 핸드셰이크 무결성을 각각 증명하는 메시지다.
+- **IETF RFC 9846**: TLS 1.3의 핸드셰이크·레코드·키 스케줄을 규정하고 RFC 8446을 대체한 최신 표준이다.
 
 
 ## Ⅰ. 개요
@@ -54,22 +55,16 @@ extra:
 
 - TLS 1.3 연결이라도 0-RTT 요청은 공격자가 복사해 다시 보낼 수 있으므로, 같은 요청을 반복해도 안전한 작업에만 사용한다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart LR
-    subgraph T["TLS 1.3 연결 경계"]
-        N["협상 메시지"]
-        H["대화 기록 해시"]
-        A["인증서 검증기"]
-        K["HKDF 키 스케줄"]
-        E["AEAD 레코드 계층"]
-        N -->|"전체 메시지"| H
-        H -->|"서명·Finished 입력"| A
-        H -->|"키 문맥"| K
-        A -->|"인증된 ECDHE·PSK 비밀"| K
-        K -->|"방향별 트래픽 키"| E
-    end
+block-beta
+    columns 5
+    N["협상 메시지"]
+    H["대화 기록 해시"]
+    A["인증서 검증기"]
+    K["HKDF 키 스케줄"]
+    E["AEAD 레코드 계층"]
 ```
 
 | 설계 요소 | 설명 |
@@ -86,30 +81,29 @@ flowchart LR
 
 - ServerHello 뒤에는 이미 임시 키를 만들었으므로, 서버 인증서와 나머지 협상 내용도 암호화된 레코드 안에서 교환한다.
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
     participant S as 서버
-    C->>S: ClientHello
-    S-->>C: ServerHello
-    Note over C,S: ECDHE 비밀로 핸드셰이크 키 도출
-    S-->>C: Certificate·CertificateVerify
-    S-->>C: 서버 Finished
-    C->>C: 인증서·대화 기록 검증
-    C->>S: 클라이언트 Finished
-    Note over C,S: 응용 트래픽 키로 전환
+    participant V as 인증서 검증기
+    participant K as 키 스케줄
+    participant R as 레코드 계층
+    C->>S: 1. ClientHello 전송
+    S-->>C: 2. ServerHello 반환
+    S->>V: 3. 인증서·대화 서명 검증
+    V->>K: 4. Finished 상호 검증
+    K->>R: 5. 응용 트래픽 키 전환
 ```
 
 | 절차 | 설명 |
 |:---|:---|
-| ClientHello | 암호군·그룹·키 공유값 제안 |
-| ServerHello | 선택 결과·서버 키 공유값 반환 |
-| Certificate·CertificateVerify | 인증서와 대화 서명 제공 |
-| 서버 Finished | 서버 측 대화 무결성 증명 |
-| 인증서·대화 기록 검증 | 신원·협상 변조 여부 판정 |
-| 클라이언트 Finished | 클라이언트 측 대화 무결성 증명 |
+| ClientHello 전송 | 암호군·그룹·키 공유값 제안 |
+| ServerHello 반환 | 선택 결과·서버 키 공유값 반환 |
+| 인증서·대화 서명 검증 | 서버 신원·협상 변조 판정 |
+| Finished 상호 검증 | 양측 대화 기록 무결성 확인 |
+| 응용 트래픽 키 전환 | 방향별 AEAD 키 활성화 |
 
 > 요약: 키 합의·서버 인증 후 AEAD로 전환
 
@@ -119,11 +113,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 판단 기준 | 전체 1-RTT | PSK 재개 1-RTT | 0-RTT 조기 데이터 |
+| TLS 1.3 연결 방식 | 전체 1-RTT | PSK 재개 1-RTT | 0-RTT 조기 데이터 |
 |:---|:---|:---|:---|
-| 핵심 특징 | 인증서·ECDHE로 새 키 설정 | PSK와 선택적 ECDHE 사용 | 첫 요청을 이전 PSK로 보호 |
 | 적용 기준 | 최초 연결·새 서버 인증 | 반복 연결의 안전한 재개 | 반복 실행해도 같은 조회 요청 |
-| 주요 위험 | 인증서 검증 실패 | PSK 전용이면 PFS 미제공 | 요청 재전송·PFS 미제공 |
+| 핵심 특징 | **인증서·임시 키 설정** | PSK와 선택적 임시 키 사용 | **첫 요청을 PSK로 보호** |
+| 한계 | 인증서 검증 실패 | PSK 전용이면 PFS 미제공 | 요청 재전송·PFS 미제공 |
 
 > 요약: 재개 지연과 PFS·재전송 위험으로 선택
 
@@ -131,9 +125,13 @@ sequenceDiagram
 
 - 이전 입장권으로 문이 열리기 전 주문부터 넣는 0-RTT는 빠르지만, 복사된 주문이 다시 실행될 수 있어 조회처럼 반복 안전한 요청만 허용한다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 결제·생성 요청은 0-RTT를 거부
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 프로토콜 구현 | **IETF RFC 9846 준수** | 협상·키 스케줄 일관화 |
+| 0-RTT 재전송 | **멱등 요청만 조기 허용** | 중복 실행 피해 차단 |
+| 트래픽 키 수명 | **사용 한계 전 KeyUpdate** | 키·논스 재사용 억제 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -141,7 +139,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 통신 지연을 줄이면서 세션 안전성을 확보하기 위해 순방향 비밀성과 재전송 영향을 검토하여, 요청 특성에 맞게 1-RTT와 0-RTT를 선택해야 한다.
+- **지연·순방향 비밀성·재전송성**으로 연결 방식을 결정한다.
 
 ### 쉽게 이해하기 (학습용)
 
