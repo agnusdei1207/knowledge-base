@@ -26,18 +26,22 @@ function hasCurrentEntry(entries: SidebarEntry[]): boolean {
 function splitBadge(badge?: SidebarBadge): SidebarBadge[] {
   if (!badge) return [];
 
-  const match = badge.text.match(/^(기출|미출제)\s*·\s*(\d+%)$/);
+  const match = badge.text.match(/^(기출|미출|미출제)\s*·\s*(\d+)%$/);
   if (!match) return [badge];
+
+  const status = match[1] === '기출' ? '기출' : '미출';
+  const priority = Number(match[2]);
 
   return [
     {
-      text: match[1],
-      variant: match[1] === '기출' ? 'success' : 'caution',
+      text: status,
+      variant: status === '기출' ? 'success' : 'caution',
       class: badge.class,
     },
     {
-      text: match[2],
+      text: `${priority}%`,
       variant: 'note',
+      class: `priority-badge priority-${Math.min(100, Math.max(10, Math.floor(priority / 10) * 10))}`,
     },
   ];
 }

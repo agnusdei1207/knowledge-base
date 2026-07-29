@@ -148,14 +148,6 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-```mermaid
-flowchart TB
-    R{논리 구현 목적}
-    R -->|조건 결합•반전| B[AND•OR•NOT]
-    R -->|패리티•일치 판정| X[XOR•XNOR]
-    R -->|단일 게이트 합성| N[NAND•NOR]
-```
-
 - 구현 목적에 맞는 게이트를 고르고 **등가성•타이밍** 검증
 
 ### 쉽게 이해하기 (학습용)

@@ -85,6 +85,74 @@ strong {
   border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
 }
 
+/* 출제 확률은 10% 구간마다 고유한 색을 사용한다.
+   15%는 10%, 85%는 80% 구간처럼 내림하여 같은 구간을 유지한다. */
+.sl-badge.priority-badge {
+  color: var(--priority-text);
+  background-color: var(--priority-bg);
+  border-color: var(--priority-border);
+}
+
+.sl-badge.priority-10 {
+  --priority-text: #075985;
+  --priority-bg: #e0f2fe;
+  --priority-border: #38bdf8;
+}
+
+.sl-badge.priority-20 {
+  --priority-text: #155e75;
+  --priority-bg: #cffafe;
+  --priority-border: #22d3ee;
+}
+
+.sl-badge.priority-30 {
+  --priority-text: #065f46;
+  --priority-bg: #d1fae5;
+  --priority-border: #34d399;
+}
+
+.sl-badge.priority-40 {
+  --priority-text: #3f6212;
+  --priority-bg: #ecfccb;
+  --priority-border: #a3e635;
+}
+
+.sl-badge.priority-50 {
+  --priority-text: #854d0e;
+  --priority-bg: #fef9c3;
+  --priority-border: #facc15;
+}
+
+.sl-badge.priority-60 {
+  --priority-text: #9a3412;
+  --priority-bg: #ffedd5;
+  --priority-border: #fb923c;
+}
+
+.sl-badge.priority-70 {
+  --priority-text: #991b1b;
+  --priority-bg: #fee2e2;
+  --priority-border: #f87171;
+}
+
+.sl-badge.priority-80 {
+  --priority-text: #9d174d;
+  --priority-bg: #fce7f3;
+  --priority-border: #f472b6;
+}
+
+.sl-badge.priority-90 {
+  --priority-text: #5b21b6;
+  --priority-bg: #ede9fe;
+  --priority-border: #a78bfa;
+}
+
+.sl-badge.priority-100 {
+  --priority-text: #3730a3;
+  --priority-bg: #e0e7ff;
+  --priority-border: #818cf8;
+}
+
 /* 모바일 헤더에 라이트·다크 전환을 노출한다.
    Starlight 기본값은 이 그룹을 50rem 미만에서 숨기고 햄버거 메뉴 안에만 두는데,
    테마를 바꾸려고 매번 메뉴를 여는 동선이 모바일에서 불편하다. */

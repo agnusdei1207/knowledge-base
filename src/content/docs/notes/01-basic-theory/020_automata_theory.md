@@ -163,14 +163,6 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-```mermaid
-flowchart TB
-    R{결정화 상태•실행 조건}
-    R -->|배정 메모리 이내| D[DFA]
-    R -->|상태 조합 폭증| N[NFA]
-    R -->|고정 패턴•반복 처리| T[DFA 전이표]
-```
-
 - 예상 DFA 상태 수•배정 메모리로 **DFA•NFA** 선택
 
 ### 쉽게 이해하기 (학습용)

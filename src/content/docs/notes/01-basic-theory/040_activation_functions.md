@@ -150,14 +150,6 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-```mermaid
-flowchart TB
-    R{층 역할•출력 의미}
-    R -->|심층 은닉층| L[ReLU•Leaky ReLU]
-    R -->|이진 확률 출력| S[Sigmoid]
-    R -->|영중심 순환 상태| T[Tanh]
-```
-
 - 층 역할•출력 의미•기울기로 **활성화 함수** 결정
 
 ### 쉽게 이해하기 (학습용)

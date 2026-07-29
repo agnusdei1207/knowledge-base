@@ -155,14 +155,6 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-```mermaid
-flowchart TB
-    R{오류 형태•복구 요구}
-    R -->|단일 비트 정정| S[SEC]
-    R -->|이중 비트 검출| D[SECDED]
-    R -->|버스트 검출•재전송| C[CRC]
-```
-
 - 오류 형태•재전송 가능성으로 **SEC•SECDED•CRC** 선택
 
 ### 쉽게 이해하기 (학습용)

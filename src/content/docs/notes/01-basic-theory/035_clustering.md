@@ -139,14 +139,6 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-```mermaid
-flowchart TB
-    R{군집 형태•밀도}
-    R -->|구형•군집 수 지정| K[K-Means]
-    R -->|임의 형상•유사 밀도| D[DBSCAN]
-    R -->|서로 다른 밀도| H[HDBSCAN]
-```
-
 - 군집 형태•밀도 균질성으로 **군집 알고리즘** 선택
 
 ### 쉽게 이해하기 (학습용)

@@ -5,6 +5,11 @@ const { title, extra } = Astro.locals.starlightRoute.entry.data;
 const questionNo = extra?.question_no;
 const status = extra?.source_status;
 const probability = extra?.priority;
+const normalizedStatus = status === '기출' ? '기출' : status ? '미출' : undefined;
+const priorityClass =
+  probability !== undefined
+    ? `priority-badge priority-${Math.min(100, Math.max(10, Math.floor(probability / 10) * 10))}`
+    : undefined;
 ---
 
 {
@@ -21,15 +26,20 @@ const probability = extra?.priority;
 {
   (status || probability !== undefined) && (
     <div class="note-badges" aria-label="출제 정보">
-      {status && (
+      {normalizedStatus && (
         <Badge
-          variant={status === '기출' ? 'success' : 'caution'}
+          variant={normalizedStatus === '기출' ? 'success' : 'caution'}
           size="medium"
-          text={status}
+          text={normalizedStatus}
         />
       )}
       {probability !== undefined && (
-        <Badge variant="note" size="medium" text={`예상 ${probability}%`} />
+        <Badge
+          variant="note"
+          class={priorityClass}
+          size="medium"
+          text={`예상 ${probability}%`}
+        />
       )}
     </div>
   )
