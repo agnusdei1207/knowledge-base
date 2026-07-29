@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-29T22:30:00+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -36,7 +36,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: Zigbee는 자체망, Thread는 **IPv6 메시망**, Matter는 **응용 표준**
-- **배경/필요성**: 제조사별 기기 규격은 **명령·보안 상호운용 곤란**
+- 배경/필요성: 제조사별 기기 규격은 **명령·보안 상호운용 곤란**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -52,70 +52,55 @@ extra:
 
 - BLE로 기기를 처음 등록한 뒤 운영 명령은 Wi-Fi나 Thread의 IP 경로로 전달한다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart TB
-    subgraph M[Matter 패브릭]
-        CTRL[컨트롤러·커미셔너]
-        IP[IP 네트워크]
-        BR[Thread 경계 라우터]
-        TD[Thread Matter 기기]
-        MB[매터 브리지]
-        ZD[Zigbee 기기]
-        CTRL <-->|Matter 명령·가입| IP
-        IP <-->|IPv6 라우팅| BR
-        BR <-->|Thread 메시| TD
-        IP <-->|Matter 명령| MB
-        MB <-->|Zigbee 명령 변환| ZD
-    end
+block
+    columns 1
+    A["컨트롤러·커미셔너 | 가입 승인·Matter 명령 제어"]
+    B["IP 네트워크 | Matter 메시지 전달 기반"]
+    C["Thread 경계 라우터 | Thread·외부 IPv6망 라우팅"]
+    D["Thread Matter 기기 | Matter 명령·상태 교환"]
+    E["매터 브리지 | Zigbee·Matter 모델 변환"]
+    A --- B
+    B --- C
+    C --- D
+    D --- E
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
-| 컨트롤러·커미셔너 | **가입 승인·Matter 명령 제어** |
-| IP 네트워크 | **Matter 메시지 전달 기반** |
-| Thread 경계 라우터 | **Thread·외부 IPv6망 라우팅** |
-| Thread Matter 기기 | **Matter 명령·상태 교환** |
-| 매터 브리지 | **Zigbee·Matter 모델 변환** |
-| Zigbee 기기 | **비 IP 메시망 통신** |
-
-> 요약: Thread는 IP 경로, Matter는 응용 표준
+| 컨트롤러·커미셔너 | 가입 승인·Matter 명령 제어 |
+| IP 네트워크 | Matter 메시지 전달 기반 |
+| Thread 경계 라우터 | Thread·외부 IPv6망 라우팅 |
+| Thread Matter 기기 | Matter 명령·상태 교환 |
+| 매터 브리지 | Zigbee·Matter 모델 변환 |
 
 ### 쉽게 이해하기 (학습용)
 
 - 경계 라우터는 IP 패킷을 이어 주고 브리지는 서로 다른 기기 명령과 상태를 번역한다.
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
 ```mermaid
 sequenceDiagram
-    participant C as 커미셔너
-    participant D as 신규 기기
-    participant N as IP·Thread망
-    participant F as Matter 패브릭
-    C->>D: BLE·QR 기기 발견
-    C->>D: 가입 암호 인증
-    C->>D: 기기 증명서 검증
-    C->>D: 네트워크 자격 전달
-    D->>N: IP 네트워크 가입
-    C->>D: 운영 인증서 발급
-    D->>F: Matter 패브릭 가입
-    D->>F: Matter 명령 교환
+    participant 커미셔너
+    participant Matter기기
+    participant Thread경계라우터
+    커미셔너->>Matter기기: 1. BLE·QR 기기 발견
+    Matter기기->>커미셔너: 2. 가입 암호 인증
+    Matter기기->>커미셔너: 3. 기기 증명서 검증
+    커미셔너->>Matter기기: 4. 네트워크 자격 전달
+    Matter기기->>Thread경계라우터: 5. IP 네트워크 가입
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| BLE·QR 기기 발견 | 가입 정보로 신규 기기 연결 |
-| 가입 암호 인증 | 설정 암호로 보안 세션 수립 |
-| 기기 증명서 검증 | 제조사 증명서로 진위 확인 |
-| 네트워크 자격 전달 | Wi-Fi·Thread 접속 정보를 암호화 전달 |
-| IP 네트워크 가입 | 전달받은 자격으로 운영망 접속 |
-| 운영 인증서 발급 | 패브릭 신원·운영 권한 부여 |
-| Matter 패브릭 가입 | 공통 신뢰 영역에 기기 등록 |
-| Matter 명령 교환 | 공통 데이터 모델로 상태·명령 교환 |
+**동작 원리**
 
-> 요약: 증명·가입 후 공통 모델 명령 교환 수행
+1. **BLE·QR 기기 발견**: 가입 정보로 신규 기기 연결
+2. **가입 암호 인증**: 설정 암호로 보안 세션 수립
+3. **기기 증명서 검증**: 제조사 증명서로 진위 확인
+4. **네트워크 자격 전달**: Wi-Fi·Thread 접속 정보를 암호화 전달
+5. **IP 네트워크 가입**: 전달받은 자격으로 운영망 접속
 
 ### 쉽게 이해하기 (학습용)
 
@@ -135,9 +120,13 @@ sequenceDiagram
 
 - Zigbee 기기는 IP로 직접 통신하지 않으므로 Matter에서 제어하려면 브리지가 명령을 변환해야 한다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 기존 Zigbee 조명을 **Matter 브리지로 통합 제어**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 전송망과 응용표준 혼동 | Thread 경로·Matter 모델 분리 설계 | 역할 오판 방지 |
+| 기기 증명서 검증 누락 | 제조사 증명·운영 인증서 확인 | 위조 기기 차단 |
+| 기존 Zigbee 기기 고립 | 브리지 모델·명령 매핑 시험 | 단계 전환 지원 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -145,8 +134,8 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 스마트홈 기기의 저전력 통신과 제조사 간 상호운용을 확보하기 위해 기존 장비·IP 지원·메시 네트워크·응용 데이터 모델을 검토하여, Zigbee 브리지 또는 Thread·Matter를 조합해야 한다.
+- **저전력 IP 경로와 Matter 상호운용을 분리한 IoT 표준 조합**
 
 ### 쉽게 이해하기 (학습용)
 
-- 저전력 전송망과 멀티벤더 제어 요구를 나눠 필요한 표준을 조합한다
+- 저전력 전송망과 멀티벤더 제어 요구를 나눠 Thread·Matter·브리지를 조합해야 한다.
