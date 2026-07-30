@@ -3,7 +3,7 @@ sidebar:
   order: 49
   label: "049. 정보시스템 성능 관리 방법론 (IS Performance Management)"
   badge:
-    text: "미출제 · 30%"
+    text: "미출 · 30%"
     variant: note
 title: "정보시스템 성능 관리 방법론 (IS Performance Management)"
 date: "2026-07-30T23:30:00+09:00"
@@ -13,7 +13,7 @@ tags:
 weight: 49
 extra:
   question_no: "049"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "측정·분석·개선 폐루프를 잇는 관리 방법"
@@ -60,7 +60,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 2
+    columns 3
     G["목표·워크로드"] O["관측 체계"]
     A["응용 계층"] D["DB·인프라 계층"]
     V["병목 개선·검증"]:2
@@ -70,6 +70,8 @@ block-beta
     O -- D
     A -- V
     D -- V
+  G --- A
+  A --- V
 ```
 
 | 구성요소 | 책임 |
@@ -96,8 +98,6 @@ sequenceDiagram
     A-->>M: 4. 임계 경로·병목 원인
     M->>S: 5. 개선·동일 부하 회귀시험
 ```
-
-### 동작 원리
 
 1. **SLO·워크로드 설정**: 핵심 거래의 분위수 지연·오류율 목표와 요청·동시성·데이터 조건 확정
 2. **기준선 거래·자원 증거**: 변경 전 종단 추적·로그·메트릭에서 지연·오류·포화도 기록

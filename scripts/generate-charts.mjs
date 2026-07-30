@@ -1309,6 +1309,20 @@ await Promise.all([
     }),
   ),
   writeFile(
+    new URL('cyclomatic-complexity-paths.svg', outputDirectory),
+    createLineChart({
+      title: '결정점 수와 순환 복잡도·독립 경로 수',
+      xLabel: '단일 연결 CFG의 결정점 수',
+      yLabel: '순환 복잡도 V(G)',
+      series: [0, 1, 2, 3, 4, 5, 6].map((x) => ({
+        x,
+        y: x + 1,
+        series: 'V(G) = 결정점 수 + 1',
+      })),
+      annotations: [{ x: 4, y: 5, label: '결정점 4개는 독립 경로 5개' }],
+    }),
+  ),
+  writeFile(
     new URL('model-drift-distance.svg', outputDirectory),
     createLineChart({
       title: '운영 분포 변화와 드리프트 경보',

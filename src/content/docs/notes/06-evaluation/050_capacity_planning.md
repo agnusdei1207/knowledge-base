@@ -3,7 +3,7 @@ sidebar:
   order: 50
   label: "050. 용량 계획 (Capacity Planning)"
   badge:
-    text: "미출제 · 50%"
+    text: "미출 · 50%"
     variant: note
 title: "용량 계획 (Capacity Planning)"
 date: "2026-07-30T23:30:00+09:00"
@@ -13,7 +13,7 @@ tags:
 weight: 50
 extra:
   question_no: "050"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "성장률·피크로 자원 증설 시점을 정하는 핵심축"
@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 2
+    columns 3
     D["수요·SLO"] M["자원 모델"]
     H["리드타임·헤드룸"] A["확장 대안·비용"]
     R["용량 로드맵·실측"]:2
@@ -64,6 +64,8 @@ block-beta
     H -- A
     A -- R
     R -- M
+  D --- H
+  H --- R
 ```
 
 | 구성요소 | 책임 |
@@ -91,8 +93,6 @@ sequenceDiagram
     P->>V: 4. 확장 규모·시점 요청
     V-->>P: 5. 조달·부하 검증 결과
 ```
-
-### 동작 원리
 
 1. **기준선·병목 측정**: 현재 워크로드의 처리량·지연·오류와 자원별 포화 한계 기록
 2. **성장·피크 수요 시나리오**: 사업 일정·계절·이벤트·장애를 요청·동시성·데이터량으로 변환
