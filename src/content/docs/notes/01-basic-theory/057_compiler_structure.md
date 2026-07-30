@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "컴파일러 구조: 어휘•구문•의미 분석 (Compiler Structure)"
-date: "2026-07-30T18:21:35+09:00"
+date: "2026-07-30T18:52:36+09:00"
 tags:
   - "notes-basic-theory"
 weight: 57
@@ -39,7 +39,6 @@ extra:
 - **최적화 패스(Optimization Pass)**: 중간 표현을 한 번 순회하며 특정 중복 연산 제거•코드 이동 등의 변환을 적용하는 단계
 - **레지스터 할당(Register Allocation)**: 중간값을 제한된 프로세서 레지스터에 배치하는 후단부 작업
 - **동기화 토큰(Synchronizing Token)**: 구문 오류 뒤 파서가 분석을 다시 시작하는 기준 구분자
-- **통합 개발 환경(Integrated Development Environment, IDE)**: 소스 코드 편집•빌드•실행•디버깅 기능을 하나의 도구에 통합한 개발 환경
 - **좌측 입력•최좌단 유도(Left-to-right, Leftmost Derivation, LL) 파서**: 입력을 왼쪽부터 읽고 최좌단 유도를 구성하며 시작 기호에서 생성 규칙을 전개하는 하향식 파서
 - **좌측 입력•최우단 유도 역순(Left-to-right, Rightmost Derivation in Reverse, LR) 파서**: 입력을 왼쪽부터 읽고 최우단 유도의 역순으로 토큰을 문법 규칙에 환원하는 상향식 파서
 - **오컴파일(Miscompilation)**: 컴파일은 완료됐지만 번역 과정의 오류로 원래 프로그램과 다른 실행 결과를 만드는 문제

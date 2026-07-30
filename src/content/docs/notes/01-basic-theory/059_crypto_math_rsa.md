@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암호 수학: 이산 대수•RSA 원리(Cryptography Mathematics)"
-date: "2026-07-30T18:21:35+09:00"
+date: "2026-07-30T18:53:14+09:00"
 tags:
   - "notes-basic-theory"
 weight: 59
@@ -67,6 +67,7 @@ extra:
 ## Ⅱ. 특징
 
 - **소인수분해** 난제와 **모듈러 거듭제곱**의 일방향성
+- **$n=pq$**, **$ed\equiv1\pmod{\phi(n)}$**로 공개•개인 지수 구성
 - **공개키** 암호화•검증과 **개인키** 복호화•서명의 역할 분리
 - **대칭키** 대비 높은 연산 비용에 따른 **하이브리드 암호화**
 
