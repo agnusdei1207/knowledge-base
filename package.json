@@ -23,9 +23,7 @@
     "katex": "^0.18.1",
     "mermaid": "^11.16.0",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0",
-    "vega": "^6.3.1",
-    "vega-lite": "^6.4.3"
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
