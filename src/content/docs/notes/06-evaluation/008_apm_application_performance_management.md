@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T23:30:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -61,7 +61,7 @@ block-beta
   A["분석·서비스 지도·알림"]
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
 | 계측·추적 문맥 | Trace ID·부모 관계 전파 |
 | Span·Metric·Log | 구간·집계·사건 텔레메트리 |
@@ -88,13 +88,13 @@ sequenceDiagram
   A->>C: 5. 이상 탐지·병목 원인 제공
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| 1. 루트 Trace ID·Span 생성 | 요청 전체 식별자·시작 기록 |
-| 2. W3C Trace Context 전파 | 부모 관계·벤더 상태 전달 |
-| 3. 하위 Span·Metric·Log 전송 | 지연·오류·자원 사건 수집 |
-| 4. 표본·저장·호출 경로 조립 | 같은 Trace ID 구간 연결 |
-| 5. 이상 탐지·병목 원인 제공 | 서비스·질의·외부호출 판정 |
+### 동작 원리
+
+1. **루트 Trace ID·Span 생성**: 요청 전체 식별자·시작 기록
+2. **W3C Trace Context 전파**: 부모 관계·벤더 상태 전달
+3. **하위 Span·Metric·Log 전송**: 지연·오류·자원 사건 수집
+4. **표본·저장·호출 경로 조립**: 같은 Trace ID 구간 연결
+5. **이상 탐지·병목 원인 제공**: 서비스·질의·외부호출 판정
 
 ### 쉽게 이해하기 (학습)
 - Trace ID와 Span 정보를 활용해 데이터베이스 쿼리나 외부 API 호출 중 느리거나 실패한 구간을 찾아냅니다.
