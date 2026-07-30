@@ -5,7 +5,7 @@ sidebar:
   badge:
     text: "기출 · 50%"
     variant: note
-title: "DID 분산신원 (Decentralized Identifier)"
+title: "분산 식별자 (Decentralized Identifier, DID)"
 date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-latest-tech"
@@ -46,17 +46,23 @@ extra:
 
 - 주소를 찾아도 신뢰 자격은 별도의 추가 확인이 필요함
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
-```text
-[DID 주체·지갑] → did:method:id
-                         ↓ 해석
-[메서드·검증 가능 데이터 저장소]
-                         ↓
-[DID 문서: 검증 방법·서비스]
+```mermaid
+block-beta
+  columns 1
+  subject["DID 주체·지갑"]
+  identifier["DID 식별자"]
+  method["DID 메서드·저장소"]
+  document["DID 문서"]
+  verifier["검증자·서비스"]
+  subject --- identifier
+  identifier --- method
+  method --- document
+  document --- verifier
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
 | DID 주체 | 식별 대상 및 통제자 모델 |
 | 식별 규칙 | 메서드 및 등록소 관리 규칙 |
@@ -69,24 +75,29 @@ extra:
 
 - 관리 권한을 가진 주체가 주소의 정보와 열쇠를 관리함
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
-```text
-DID생성
-  ↓
-주소해석
-  ↓
-권한검증
-  ↓
-주소관리
+```mermaid
+sequenceDiagram
+  participant S as DID 주체·지갑
+  participant M as DID 메서드·저장소
+  participant R as DID Resolver
+  participant D as DID 문서
+  participant V as 검증자·서비스
+  S->>M: 1. DID 생성·등록
+  V->>R: 2. DID 해석 요청
+  R->>D: 3. DID 문서 조회
+  D-->>V: 4. 검증 방법·서비스
+  S->>M: 5. 키 교체·복구·폐기
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| DID생성 | 메서드 선택 및 공개키와 서비스 등록함 |
-| 주소해석 | 분산 주소를 풀어 문서 정보를 얻음 |
-| 권한검증 | 용도별 서명으로 관리 권한 확인함 |
-| 주소관리 | 정보 교체·복구·폐기 수행함 |
+### 동작 원리
+
+1. **DID 생성·등록**: 메서드 규칙에 따라 식별자와 초기 키 등록
+2. **DID 해석 요청**: 검증자가 DID URL을 Resolver에 전달
+3. **DID 문서 조회**: 메서드 저장소에서 최신 상태 확인
+4. **검증 방법·서비스**: 공개키 관계로 서명·용도·서비스 검증
+5. **키 교체·복구·폐기**: 통제 권한으로 문서 생애주기 변경
 
 > 요약: 문서 확인과 용도별 통제 검증으로 주소를 안전하게 관리함
 
@@ -108,9 +119,13 @@ DID생성
 
 - 주소, 열쇠 정보, 자격 증명은 서로 다른 물건임
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 대학 학위 VC의 **DID 서명키 확인**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 개인키 분실·탈취 | 다중 복구키·회전·폐기 절차 | 식별자 통제권 복구 |
+| DID 문서 조회의 개인정보 노출 | 최소 서비스 정보·상관 방지 식별자 | 추적 가능성 감소 |
+| 메서드별 해석·폐기 의미 차이 | 지원 메서드 정책·상호운용 시험 | 검증 결과 일관성 확보 |
 
 ### 쉽게 이해하기 (학습용)
 

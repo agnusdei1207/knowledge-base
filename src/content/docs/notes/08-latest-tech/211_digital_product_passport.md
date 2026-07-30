@@ -1,24 +1,24 @@
 ---
 sidebar:
   order: 211
-  label: "211. Digital Product Passport 디지털 제품 여권 (Digital Product Passport)"
+  label: "211. 디지털 제품 여권 (Digital Product Passport)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
-title: "Digital Product Passport 디지털 제품 여권 (Digital Product Passport)"
+title: "디지털 제품 여권 (Digital Product Passport)"
 date: "2026-07-25T03:40:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 211
 extra:
   question_no: "211"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "디지털 제품 여권의 식별·권한 설계가 유력함"
 ---
 
-## 미리 알고가기
+## 미리 알고 가기
 
 - **DPP(Digital Product Passport)**: 제품 생애주기 전반의 원재료·제조·사용·재활용 기록 체계
 - **데이터 교환**: 단순 QR 라벨이 아닌 표준화된 데이터 검증과 교환이 핵심
@@ -46,7 +46,21 @@ extra:
 
 - 열쇠인 QR로 권한에 맞는 정보만 읽고 책임자가 분산 관리하는 구조임
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
+
+```mermaid
+block-beta
+  columns 5
+  A["제품 식별체계"]
+  B["분산 저장소"]
+  C["표준 인터페이스"]
+  D["접근 제어"]
+  E["중앙 색인"]
+  A --> E
+  E --> B
+  C --> B
+  D --> B
+```
 
 | 설계 요소 | 설명 |
 |:---|:---|
@@ -62,27 +76,29 @@ extra:
 
 - 제품 번호로 자료를 찾고 중앙 목록으로 검색하며 역할별 접근함
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
-```text
-규정판정
-  ↓
-식별설계
-  ↓
-데이터수집
-  ↓
-공개등록
-  ↓
-이력갱신
+```mermaid
+sequenceDiagram
+  participant R as 규정 담당
+  participant I as 식별 체계
+  participant S as 공급망
+  participant X as 중앙 색인
+  participant U as 이용자
+  R->>I: 1. 규정 판정
+  I->>S: 2. 식별 설계
+  S->>X: 3. 데이터 수집
+  X->>U: 4. 공개·접근
+  U->>S: 5. 이력 갱신
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| 규정판정 | 품목별 적용 대상과 필수 항목 확인함 |
-| 식별설계 | 제품 고유 식별자와 데이터 경로 설계함 |
-| 데이터수집 | 공급망 내 표준 데이터 형식으로 수집함 |
-| 공개등록 | 중앙 목록에 식별자 등록 및 접근 제공함 |
-| 이력갱신 | 제품 교체 및 수리 이력 지속 반영함 |
+### 동작 원리
+
+1. **규정 판정**: 품목별 적용 대상, 필수 항목, 보존·공개 조건 확인
+2. **식별 설계**: 제품 고유 식별자, 운반체와 데이터 위치 연결
+3. **데이터 수집**: 공급망 주체가 출처·서명·시점을 포함한 표준 데이터 등록
+4. **공개·접근**: 중앙 색인으로 데이터를 찾고 이용자 역할별 권한 집행
+5. **이력 갱신**: 판매·수리·부품 교체·재활용 사건을 원제품 이력에 연결
 
 > 요약: 규정 확인 후 식별체계를 설계하고 데이터를 운영 관리함.
 
@@ -104,13 +120,13 @@ extra:
 
 - 여권은 책, QR은 위치 안내, 목록은 도서관 안내서임
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 의류 제품 여권은 소재·관리·수선·재활용 정보를 역할별로 제공하고 수선 이력을 갱신함
-
-### 쉽게 이해하기 (학습용)
-
-- 의류 circularity pilot은 garment item에 carrier를 부여해 consumer에는 material·care·repair를, 수선업체에는 component·repair instruction을, recycler에는 fiber·hazard data를 제공하고 수선 event를 원 passport에 갱신함
+| 고려사항 | 위험 | 대책 |
+|:---|:---|:---|
+| **식별자·실물 결합** | QR 복제·교체로 다른 제품 정보 연결 | 위변조 방지 운반체, 일련번호 검증, 소유·수리 사건 서명 |
+| **데이터 신뢰성** | 공급망 주체의 허위·누락 자료로 추적성 약화 | 출처·책임자·시각 기록, 필수항목 검증, 표본 감사 |
+| **공개 범위 충돌** | 영업비밀·개인정보 노출 또는 수리 정보 부족 | 역할 기반 접근, 최소 공개, 목적별 상세 수준과 철회 정책 |
 
 ## Ⅶ. 결론
 

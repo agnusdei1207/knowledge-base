@@ -903,4 +903,21 @@ await Promise.all([
   ),
   writeFile(new URL('streaming-watermark.svg', outputDirectory), createStreamingWatermarkChart()),
   writeFile(new URL('pue-energy-breakdown.svg', outputDirectory), createPueBreakdownChart()),
+  writeFile(
+    new URL('gelu-swish-activation.svg', outputDirectory),
+    createLineChart({
+      title: 'GELU 활성과 SwiGLU의 Swish 게이트 성분',
+      xLabel: '입력 x',
+      yLabel: '활성값',
+      series: [-3, -2, -1, 0, 1, 2, 3].flatMap((x) => [
+        {
+          x,
+          y: 0.5 * x * (1 + Math.tanh(Math.sqrt(2 / Math.PI) * (x + 0.044715 * x ** 3))),
+          series: 'GELU 근사',
+        },
+        { x, y: x / (1 + Math.exp(-x)), series: 'Swish' },
+      ]),
+      annotations: [{ x: -1, y: -1 / (1 + Math.E), label: '부드러운 음수 억제' }],
+    }),
+  ),
 ]);

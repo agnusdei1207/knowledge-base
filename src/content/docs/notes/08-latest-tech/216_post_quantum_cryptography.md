@@ -5,7 +5,7 @@ sidebar:
   badge:
     text: "기출 · 85%"
     variant: note
-title: "Post-Quantum Cryptography 양자내성암호 (Post-Quantum Cryptography)"
+title: "양자내성암호 (Post-Quantum Cryptography, PQC)"
 date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-latest-tech"
@@ -46,17 +46,23 @@ extra:
 
 - 시스템 전체의 호환성과 배포 절차까지 함께 검증해야 함
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
-```text
-[암호 자산 목록] → [PQC 알고리즘 정책]
-                         ↓
-[기존 공개키] + [PQC KEM·서명]
-             ↓ 하이브리드
-[프로토콜·HSM·인증서] → [전환 관제]
+```mermaid
+block-beta
+  columns 1
+  inventory["암호 자산 목록"]
+  profile["PQC 알고리즘 정책"]
+  hybrid["하이브리드 암호"]
+  integration["프로토콜·HSM·인증서"]
+  governance["전환 거버넌스"]
+  inventory --- profile
+  profile --- hybrid
+  hybrid --- integration
+  integration --- governance
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
 | Crypto Inventory | 암호 자산·라이브러리·HSM 위치 및 위험 식별 |
 | Algorithm Profile | 표준 알고리즘과 용도별 파라미터 선택 |
@@ -69,27 +75,29 @@ extra:
 
 - 중요 자료부터 새 자물쇠를 맞추고 단계적으로 교체함
 
-## Ⅳ. 원리 및 절차 흐름도
+## Ⅳ. 흐름도
 
-```text
-자산식별
-  ↓
-우선순위
-  ↓
-알고선택
-  ↓
-하이브리드
-  ↓
-폐기완료
+```mermaid
+sequenceDiagram
+  participant I as 암호 자산 목록
+  participant P as PQC 알고리즘 정책
+  participant H as 하이브리드 암호
+  participant S as 프로토콜·HSM·인증서
+  participant G as 전환 거버넌스
+  I->>P: 1. 자산·위험 우선순위
+  P->>H: 2. 표준 알고리즘 선택
+  H->>S: 3. 병행 구성·통합
+  S->>G: 4. 상호운용·성능 검증
+  G-->>I: 5. 기존 암호 폐기
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| 자산식별 | 암호 자산·HSM·통신 목록화함 |
-| 우선순위 | 데이터 수명·위험성 기반 정함 |
-| 알고선택 | 표준 알고리즘과 환경 적합성 판단함 |
-| 하이브리드 | 기존 암호 병행 및 상호운용 검증함 |
-| 폐기완료 | 단계 배포 및 legacy 제거 수행함 |
+### 동작 원리
+
+1. **자산·위험 우선순위**: 데이터 수명·노출도·암호 위치 평가
+2. **표준 알고리즘 선택**: 용도·파라미터·구현 적합성 결정
+3. **병행 구성·통합**: 기존 암호와 PQC KEM·서명 결합
+4. **상호운용·성능 검증**: 프로토콜·HSM·인증서 크기와 지연 시험
+5. **기존 암호 폐기**: 단계 배포 후 downgrade 경로 제거
 
 > 요약: 위험 자산부터 검증 후 기존 암호 제거
 
@@ -111,9 +119,13 @@ extra:
 
 - PQC는 수학 알고리즘 교체, QKD는 전용 통신 장비 도입임
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 금융 TLS의 **기존 암호·PQC KEM 병행 전환**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 긴 데이터 수명의 선취 후 해독 위험 | 암호 자산 목록·우선순위 전환 | 장기 기밀성 보호 |
+| 큰 키·서명으로 프로토콜 초과 | MTU·인증서·HSM 성능 시험 | 운영 호환성 확보 |
+| 하이브리드 downgrade | 조합 협상 고정·로그·폐기 기준 | 전환기 보안 약화 방지 |
 
 ### 쉽게 이해하기 (학습용)
 
