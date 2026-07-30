@@ -228,6 +228,51 @@ function createEmbeddingChart() {
   return serializeChart(chart, '검색 주제와 보안 주제의 문장이 각각 가까운 위치에 모인 임베딩 벡터 공간 개념도');
 }
 
+function createShapWaterfallChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const contributions = [
+    { feature: '소득 +0.18', x1: 0.42, x2: 0.60, direction: '양의 기여' },
+    { feature: '부채 -0.11', x1: 0.60, x2: 0.49, direction: '음의 기여' },
+    { feature: '연령 +0.06', x1: 0.49, x2: 0.55, direction: '양의 기여' },
+    { feature: '거래 이력 +0.09', x1: 0.55, x2: 0.64, direction: '양의 기여' },
+  ];
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 82,
+    marginRight: 54,
+    marginBottom: 58,
+    marginLeft: 128,
+    style: {
+      background: '#f8fafc',
+      color: '#334155',
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '15px',
+    },
+    x: { label: '모델 출력값', domain: [0.35, 0.7], grid: true },
+    y: { label: null },
+    color: { domain: ['양의 기여', '음의 기여'], range: ['#2563eb', '#dc2626'], legend: false },
+    marks: [
+      Plot.text([{ x: 0.525, feature: '소득 +0.18', label: 'SHAP 특징 기여의 가산 원리' }], {
+        x: 'x', y: 'feature', text: 'label', frameAnchor: 'top', dy: -64,
+        fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.rectX(contributions, {
+        x1: 'x1', x2: 'x2', y: 'feature', fill: 'direction', insetTop: 7, insetBottom: 7,
+      }),
+      Plot.ruleX([0.42], { stroke: '#64748b', strokeDasharray: '5,4' }),
+      Plot.ruleX([0.64], { stroke: '#111827', strokeWidth: 2 }),
+      Plot.text([
+        { x: 0.42, feature: '거래 이력 +0.09', label: '기준값 0.42' },
+        { x: 0.64, feature: '부채 -0.11', label: '예측값 0.64' },
+      ], { x: 'x', y: 'feature', text: 'label', dy: -25, fontWeight: 700, fill: '#334155' }),
+    ],
+  });
+  return serializeChart(chart, '기준값 0.42에 특징별 양의 기여와 음의 기여를 누적해 예측값 0.64에 도달하는 SHAP 워터폴 개념도');
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -500,4 +545,109 @@ await Promise.all([
       ],
     }),
   ),
+  writeFile(
+    new URL('complexity-growth-rates.svg', outputDirectory),
+    createLineChart({
+      title: '입력 크기에 따른 대표 시간복잡도 증가율',
+      xLabel: '입력 크기 n',
+      yLabel: '정규화 기본 연산량',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: Math.log2(x + 1), series: 'O(log n)' },
+        { x, y: x, series: 'O(n)' },
+        { x, y: x * Math.log2(x + 1), series: 'O(n log n)' },
+        { x, y: x ** 2, series: 'O(n²)' },
+      ]),
+      annotations: [{ x: 16, y: 256, label: 'n 증가 시 차수별 격차 확대' }],
+    }),
+  ),
+  writeFile(
+    new URL('big-o-upper-bound.svg', outputDirectory),
+    createLineChart({
+      title: '비용 함수와 점근 상한 개념도',
+      xLabel: '입력 크기 n',
+      yLabel: '상대 비용',
+      series: [1, 2, 3, 4, 5].flatMap((x) => [
+        { x, y: x ** 2 + 2 * x, series: '비용 함수 T(n)' },
+        { x, y: 2 * x ** 2, series: '상한 함수 2n²' },
+      ]),
+      annotations: [{ x: 2, y: 8, label: 'n₀=2 이후 상한 성립' }],
+    }),
+  ),
+  writeFile(
+    new URL('sorting-comparison-growth.svg', outputDirectory),
+    createLineChart({
+      title: '정렬 비교 연산 증가율 개념도',
+      xLabel: '입력 크기 n',
+      yLabel: '상대 비교 연산량',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: x * Math.log2(x), series: 'n log₂ n' },
+        { x, y: x ** 2, series: 'n²' },
+      ]),
+      annotations: [{ x: 16, y: 256, label: '입력 증가 시 격차 확대' }],
+    }),
+  ),
+  writeFile(
+    new URL('binary-search-growth.svg', outputDirectory),
+    createLineChart({
+      title: '이진 탐색과 선형 탐색 증가율 개념도',
+      xLabel: '입력 크기 n',
+      yLabel: '상대 비교 횟수',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: Math.log2(x), series: '이진 탐색 log₂ n' },
+        { x, y: x, series: '선형 탐색 n' },
+      ]),
+      annotations: [{ x: 16, y: 4, label: '입력 2배당 한 단계 증가' }],
+    }),
+  ),
+  writeFile(
+    new URL('gnn-oversmoothing.svg', outputDirectory),
+    createLineChart({
+      title: '메시지 전파 깊이에 따른 노드 표현 과평활 개념도',
+      xLabel: 'GNN 전파 층수',
+      yLabel: '정규화 노드 간 표현 분산',
+      series: [1, 2, 3, 4, 5].map((x, index) => ({
+        x,
+        y: [1, 0.72, 0.5, 0.34, 0.25][index],
+        series: '노드 간 표현 분산',
+      })),
+      annotations: [
+        { x: 2, y: 0.72, label: '이웃 정보 확장' },
+        { x: 5, y: 0.25, label: '표현 수렴·구별력 저하' },
+      ],
+    }),
+  ),
+  writeFile(
+    new URL('bellman-residual-convergence.svg', outputDirectory),
+    createLineChart({
+      title: '할인율별 벨만 반복 잔차 수렴 이론값',
+      xLabel: '반복 횟수 k',
+      yLabel: '정규화 잔차 γᵏ',
+      series: Array.from({ length: 9 }, (_, x) => [
+        { x, y: 0.5 ** x, series: 'γ=0.5' },
+        { x, y: 0.9 ** x, series: 'γ=0.9' },
+      ]).flat(),
+      annotations: [
+        { x: 3, y: 0.5 ** 3, label: '낮은 γ: 빠른 수렴' },
+        { x: 7, y: 0.9 ** 7, label: '높은 γ: 장기 보상 반영' },
+      ],
+    }),
+  ),
+  writeFile(
+    new URL('uct-exploration-bonus.svg', outputDirectory),
+    createLineChart({
+      title: '자식 방문 수에 따른 UCT 탐험 보너스',
+      xLabel: '자식 방문 수 n (부모 방문 N=100)',
+      yLabel: '탐험 보너스 √(ln N/n)',
+      series: [1, 2, 5, 10, 20, 50, 100].map((x) => ({
+        x,
+        y: Math.sqrt(Math.log(100) / x),
+        series: 'UCT 탐험 보너스',
+      })),
+      annotations: [
+        { x: 1, y: Math.sqrt(Math.log(100)), label: '미방문 분기 우선 탐색' },
+        { x: 50, y: Math.sqrt(Math.log(100) / 50), label: '방문 증가 시 보너스 감소' },
+      ],
+    }),
+  ),
+  writeFile(new URL('shap-additive-contribution.svg', outputDirectory), createShapWaterfallChart()),
 ]);
