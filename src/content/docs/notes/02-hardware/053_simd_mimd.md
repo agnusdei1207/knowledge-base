@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SIMD·MIMD 프로세서 (SIMD MIMD)"
-date: "2026-07-30T18:00:00+09:00"
+date: "2026-07-30T18:21:35+09:00"
 tags:
   - "notes-hardware"
 weight: 53
@@ -145,7 +145,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **동일 연산은 SIMD**, 독립 제어는 MIMD를 선택한다.
+- **동일 연산**은 SIMD, **독립 제어**는 MIMD 선택
 
 ### 쉽게 이해하기 (학습용)
 

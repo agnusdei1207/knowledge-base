@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-07-30T18:00:00+09:00"
+date: "2026-07-30T18:21:35+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -56,6 +56,7 @@ extra:
 ## Ⅱ. 특징
 
 - **계층 분리**로 프로토콜·패키지 교체 비용 절감
+- **PCIe•CXL•스트리밍** 상위 프로토콜 전달
 - **플릿 CRC·재시도**로 링크 오류의 데이터 손상 방지
 - **적합성·상호운용 시험**으로 멀티벤더 결합 검증
 
@@ -152,7 +153,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **공급자 수·재사용 범위·BER·왕복 지연** 기반 선택
+- **멀티벤더•재사용**은 UCIe, **전용 성능**은 독자 D2D 선택
 
 ### 쉽게 이해하기 (학습용)
 

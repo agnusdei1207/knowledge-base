@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
-date: "2026-07-30T18:00:00+09:00"
+date: "2026-07-30T18:21:35+09:00"
 tags:
   - "notes-hardware"
 weight: 51
@@ -146,7 +146,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **희소율·정확도·전력** 충족 시 뉴로모픽을 선택
+- **희소 이벤트•상시 저전력**은 뉴로모픽, **조밀 입력**은 폰 노이만
 
 ### 쉽게 이해하기 (학습용)
 
