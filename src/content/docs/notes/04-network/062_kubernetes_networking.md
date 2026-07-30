@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI·Ingress (Kubernetes Networking)"
-date: "2026-07-29T23:30:00+09:00"
+date: "2026-07-31T01:15:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -37,10 +37,14 @@ extra:
 - **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터를 암호화하는 보안 프로토콜
 - **CNI·VIP·API**: CNI는 Pod 네트워크를 구성하고, VIP는 안정적인 서비스 주소를 제공하며, API는 쿠버네티스 객체의 조회·변경 규약을 제공함
 - **HTTP·HTTPS·TLS**: HTTP는 웹 요청을 전달하고, HTTPS는 TLS로 서버 인증과 전송 암호화를 적용한 웹 통신을 제공함
+- **데이터 경로(Data Path)**: 프록시나 eBPF로 실제 패킷의 분산·정책 규칙을 실행하는 경로
+- **준비 상태(Readiness)**: 파드가 서비스 요청을 받을 수 있는지 나타내는 상태
+- **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 HTTP 상태 코드
+- **프록시(Proxy)**: 요청을 대신 받아 선택한 서비스 종단으로 전달하는 중계 구성요소
 
 ## Ⅰ. 개요
 
-- 정의/개념: CNI·Service·Ingress로 **파드 연결·분산·외부 진입 추상화**
+- 정의/개념: CNI·Service·Ingress로 연결을 제공하는 **컨테이너 네트워크 체계**
 - 배경/필요성: 파드 IP 변동은 **고정 접근점·정책 유지 곤란**
 
 ### 쉽게 이해하기 (학습용)
@@ -49,9 +53,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- **CNI**가 파드 인터페이스·IP·노드 간 경로를 구성한다.
-- **Service·EndpointSlice**가 준비된 파드로 VIP 트래픽을 분산한다.
-- **Ingress·NetworkPolicy**는 외부 경로·허용 통신을 선언한다.
+- **파드 연결**: CNI가 인터페이스·IP·노드 경로 구성
+- **서비스 분산**: VIP 요청을 준비된 파드로 전달
+- **정책 선언**: 외부 경로와 허용 통신 대상을 분리
 
 ### 쉽게 이해하기 (학습용)
 
@@ -61,16 +65,17 @@ extra:
 
 ```mermaid
 block-beta
-    columns 1
+    columns 3
     A["인그레스 컨트롤러"]
     B["Service"]
     C["EndpointSlice"]
     D["NetworkPolicy"]
     E["프록시·eBPF 데이터 경로"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+    A --> B
+    A --> E
+    B --> C
+    C --> E
+    D --> E
 ```
 
 | 구성요소 | 책임 |
@@ -90,23 +95,26 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant API서버
-    participant 인그레스
+    participant 인그레스컨트롤러
     participant 데이터경로
-    participant Service
-    API서버->>인그레스: 1. Ingress·Service 규칙 통지
-    인그레스->>데이터경로: 2. 프록시 경로 구성
+    participant 클라이언트
+    participant 파드
+    API서버->>인그레스컨트롤러: 1. Ingress 규칙 통지
+    인그레스컨트롤러->>데이터경로: 2. 외부 경로 설치
     API서버->>데이터경로: 3. EndpointSlice·정책 통지
-    데이터경로->>Service: 4. 종단·정책 규칙 설치
-    인그레스->>Service: 5. HTTP·HTTPS 요청
+    데이터경로->>데이터경로: 4. 종단·정책 규칙 설치
+    클라이언트->>데이터경로: HTTP·HTTPS 요청
+    데이터경로->>파드: 5. 허용 종단 전달
+    파드-->>클라이언트: 서비스 응답 반환
 ```
 
 **동작 원리**
 
-1. **Ingress·Service 규칙 통지**: API 서버가 외부 경로 객체 전달
-2. **프록시 경로 구성**: 컨트롤러가 실제 전달 규칙 생성
+1. **Ingress 규칙 통지**: API 서버가 외부 경로 객체 전달
+2. **외부 경로 설치**: 컨트롤러가 실제 전달 규칙 생성
 3. **EndpointSlice·정책 통지**: 준비 종단·허용 통신 전달
 4. **종단·정책 규칙 설치**: 데이터 경로에 분산·차단 반영
-5. **HTTP·HTTPS 요청**: 외부 호스트·경로·TLS 요청
+5. **허용 종단 전달**: 정책을 통과한 준비 파드로 전송
 
 ### 쉽게 이해하기 (학습용)
 
@@ -114,7 +122,7 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 외부 트래픽 API | Ingress | Gateway API |
+| 외부 트래픽 API | **Ingress** | **Gateway API** |
 |:---|:---|:---|
 | 적용 기준 | 단순 웹 서비스 외부 노출 | 다중 팀·고급 경로 정책 |
 | 핵심 특징 | HTTP·HTTPS 경로 객체 | 역할 분리·다중 프로토콜 |
@@ -130,9 +138,9 @@ sequenceDiagram
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| 정책 객체만 생성 | CNI의 실제 차단 규칙 확인 | 통신 격리 보장 |
-| 준비 종단 부재 | EndpointSlice·준비상태 추적 | 503 오류 원인 식별 |
-| 외부 경로 권한 충돌 | Gateway API 역할·소유권 분리 | 다중 팀 운영 안정성 |
+| 정책 객체만 있고 실행 규칙 부재 | **CNI 차단 규칙** 확인 | 통신 격리 보장 |
+| 준비된 서비스 종단이 없음 | **EndpointSlice·준비 상태** 추적 | 503 오류 원인 식별 |
+| 여러 팀의 외부 경로 권한 충돌 | **Gateway API 역할·소유권** 분리 | 다중 팀 운영 안정성 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -140,7 +148,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **정책 실행 기능·외부 노출 경로**로 CNI 데이터 경로 선택
+- 정책 차단은 **CNI 검증**, 단순 웹은 **Ingress**, 역할 분리는 **Gateway API**
 
 ### 쉽게 이해하기 (학습용)
 
