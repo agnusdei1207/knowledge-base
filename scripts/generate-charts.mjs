@@ -805,4 +805,30 @@ await Promise.all([
       annotations: [{ x: 400, y: Math.exp(-2), label: '면적 증가 시 결함 노출 증가' }],
     }),
   ),
+  writeFile(
+    new URL('divide-conquer-depth.svg', outputDirectory),
+    createLineChart({
+      title: '분할 균형에 따른 최대 재귀 깊이',
+      xLabel: '입력 크기 n',
+      yLabel: '호출 깊이',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: Math.log2(x), series: '균형 분할 log₂ n' },
+        { x, y: x, series: '최악 불균형 n' },
+      ]),
+      annotations: [{ x: 16, y: 16, label: '불균형 시 스택 깊이 증가' }],
+    }),
+  ),
+  writeFile(
+    new URL('all-reduce-stage-growth.svg', outputDirectory),
+    createLineChart({
+      title: '참여자 수에 따른 All-Reduce 통신 단계 수',
+      xLabel: '참여자 수 p',
+      yLabel: '축약+배포 단계 수',
+      series: [2, 4, 8, 16, 32].flatMap((x) => [
+        { x, y: 2 * (x - 1), series: '링 2(p-1)' },
+        { x, y: 2 * Math.log2(x), series: '트리 2log₂p' },
+      ]),
+      annotations: [{ x: 32, y: 62, label: '링 62단계·트리 10단계' }],
+    }),
+  ),
 ]);
