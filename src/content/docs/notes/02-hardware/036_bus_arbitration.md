@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "버스 중재 방식 (Bus Arbitration)"
-date: "2026-07-28T21:27:55+09:00"
+date: "2026-07-30T18:54:42+09:00"
 tags:
   - "notes-hardware"
 weight: 36
@@ -146,7 +146,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **최대 대기 시간·버스트 길이·기아율** 기반 정책 선택
+- 긴급은 **고정 우선순위**, 공정성은 **라운드 로빈·에이징** 적용
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "NVMe·PCIe 인터페이스 (NVMe PCIe)"
-date: "2026-07-28T12:50:06+09:00"
+date: "2026-07-30T18:46:08+09:00"
 tags:
   - "notes-hardware"
 weight: 29
@@ -123,7 +123,7 @@ sequenceDiagram
 | 저장 인터페이스 | NVMe·PCIe | SATA·AHCI |
 |:---|:---|:---|
 | 적용 기준 | 고동시성·저지연 SSD | 호환성 중심 저장장치 |
-| 핵심 특징 | 다중 SQ·CQ와 **PCIe 연결** | 단일 큐와 **SATA 연결** |
+| 핵심 특징 | 다중 SQ·CQ와 **PCIe 연결** | **SATA·AHCI** 단일 큐 연결 |
 | 한계 | 발열·레인·**큐 조정 복잡도** | 큐 병목·**대역폭 한계** |
 
 > 요약: 저지연·동시성은 NVMe, 호환성은 AHCI가 적합하다
@@ -149,7 +149,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **IOPS·p99 지연·CPU 사용률·NUMA 위치** 기반 조정
+- 고동시성은 **NVMe 다중 큐**, p99 상승 시 **큐 깊이 축소**
 
 ### 쉽게 이해하기 (학습용)
 
