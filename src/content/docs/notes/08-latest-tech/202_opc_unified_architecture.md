@@ -45,24 +45,20 @@ extra:
 
 - 제조사가 다른 설비도 같은 의미 체계와 보안 규칙으로 데이터를 주고받게 한다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart LR
-  C["Client"]
-  S["OPC UA Server"]
-  AS["AddressSpace"]
-  PS["PubSub Broker·Network"]
-  P["Publisher"]
-  U["Subscriber"]
-  CA["인증서·신뢰 목록"]
-  C <-->|"Browse·Read·Subscribe"| S
-  S --> AS
-  P --> PS --> U
-  CA --> C
-  CA --> S
-  CA --> P
-  CA --> U
+block-beta
+  columns 1
+  client["Client"]
+  server["Server"]
+  address["AddressSpace"]
+  pubsub["Publisher·Subscriber"]
+  trust["인증서·신뢰 체계"]
+  client --- server
+  server --- address
+  server --- pubsub
+  trust --- server
 ```
 
 | 구성요소 | 책임 |
@@ -70,9 +66,8 @@ flowchart LR
 | Client | 탐색·읽기·쓰기·구독 요청 |
 | Server | 서비스 제공과 세션 관리 |
 | AddressSpace | 노드·속성·참조 관계 표현 |
-| Publisher | DataSet 메시지 발행 |
-| Subscriber | 메시지 수신·처리 |
-| 신뢰 체계 | 인증서·키·권한 관리 |
+| Publisher·Subscriber | DataSet 메시지 발행·수신 |
+| 인증서·신뢰 체계 | 인증서·키·권한 관리 |
 
 > 요약: 정보 모델과 통신 모델을 통합 보안 아래 결합
 
@@ -80,25 +75,29 @@ flowchart LR
 
 - 주소 공간이 설비 의미를 설명하고 통신 계층이 그 정보를 안전하게 전달한다.
 
-## Ⅳ. 처리 절차 및 흐름
+## Ⅳ. 흐름도
 
 ```mermaid
-flowchart LR
-  A["정보 모델 합의"] --> B["Endpoint 탐색"]
-  B --> C["인증서 검증"]
-  C --> D["보안 채널·세션"]
-  D --> E["탐색·구독·호출"]
-  E --> F["인증서·감사 관리"]
+sequenceDiagram
+  participant C as Client
+  participant S as Server
+  participant T as 인증서·신뢰 체계
+  participant A as AddressSpace
+  participant P as Publisher·Subscriber
+  C->>S: 1. Endpoint 탐색
+  S->>T: 2. 인증서·정책 검증
+  T-->>C: 3. 보안 채널·세션
+  C->>A: 4. 탐색·읽기·구독
+  A->>P: 5. 의미 기반 데이터 교환
 ```
 
-| 단계 | 핵심 활동 |
-|:---|:---|
-| 정보 모델 합의 | Namespace와 객체 형식 정의 |
-| Endpoint 탐색 | 주소·정책·프로파일 확인 |
-| 인증서 검증 | 발급자·유효기간·폐기 확인 |
-| 채널·세션 수립 | 서명·암호화와 사용자 인증 |
-| 서비스 이용 | Browse·Read·Subscribe 수행 |
-| 운영 관리 | 인증서 갱신과 감사 기록 |
+### 동작 원리
+
+1. **Endpoint 탐색**: 주소·보안 정책·지원 프로파일 확인
+2. **인증서·정책 검증**: 발급자·유효기간·폐기·신뢰 목록 확인
+3. **보안 채널·세션**: 서명·암호화와 사용자 인증 수립
+4. **탐색·읽기·구독**: AddressSpace의 노드·속성·참조 이용
+5. **의미 기반 데이터 교환**: Client-Server 또는 PubSub로 값과 의미 전달
 
 ### 쉽게 이해하기 (학습용)
 
@@ -116,9 +115,13 @@ flowchart LR
 
 - 개별 요청은 Client-Server, 다수 배포는 PubSub가 적합하며 둘 다 정보 모델이 필요하다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 포장 설비는 OPC UA 공통 정보 모델로 상태·명령의 의미를 통일하고 인증서와 권한을 검증해 제어 요청을 처리한다.
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 공급사별 Namespace·모델 차이 | Companion Specification·매핑 규칙 적용 | 의미 상호운용성 향상 |
+| 만료·미신뢰 인증서로 연결 중단 | 자동 갱신·신뢰 목록·폐기 절차 운영 | 안전한 가용성 확보 |
+| 과도한 쓰기·Method 권한 | 역할별 노드·서비스 최소 권한 | 설비 오조작 방지 |
 
 ### 쉽게 이해하기 (학습용)
 

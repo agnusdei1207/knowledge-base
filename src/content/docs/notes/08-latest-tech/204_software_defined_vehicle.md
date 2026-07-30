@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 204
-  label: "204. Software Defined Vehicle 소프트웨어 정의 차량 (Software Defined Vehicle)"
+  label: "204. 소프트웨어 정의 차량 (Software Defined Vehicle)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "Software Defined Vehicle 소프트웨어 정의 차량 (Software Defined Vehicle)"
+title: "소프트웨어 정의 차량 (Software Defined Vehicle)"
 date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-latest-tech"
@@ -45,22 +45,20 @@ extra:
 
 - 차량 기능을 개별 ECU에 묶지 않고 공통 컴퓨팅과 서비스로 계속 개선한다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart TB
-  APP["차량 기능 애플리케이션"]
-  SVC["서비스·차량 API"]
-  OS["Vehicle OS·Middleware"]
-  HPC["중앙 HPC"]
-  Z1["전방 Zone"]
-  Z2["후방 Zone"]
-  IO["센서·구동기"]
-  APP --> SVC --> OS --> HPC
-  HPC <--> Z1
-  HPC <--> Z2
-  Z1 <--> IO
-  Z2 <--> IO
+block-beta
+  columns 1
+  app["기능 애플리케이션"]
+  api["서비스·차량 API"]
+  os["Vehicle OS·Middleware"]
+  hpc["중앙 HPC"]
+  zone["Zone Controller·센서·구동기"]
+  app --- api
+  api --- os
+  os --- hpc
+  hpc --- zone
 ```
 
 | 구성요소 | 책임 |
@@ -69,8 +67,7 @@ flowchart TB
 | 서비스·차량 API | 기능 간 계약과 장치 추상화 |
 | Vehicle OS | 자원·격리·통신·생명주기 관리 |
 | 중앙 HPC | 고성능 기능 통합 실행 |
-| Zone Controller | 구역별 입출력·통신 집약 |
-| 센서·구동기 | 환경 인지와 물리 동작 |
+| Zone Controller·센서·구동기 | 구역별 입출력 집약과 물리 인지·동작 |
 
 > 요약: 중앙 컴퓨팅과 공통 서비스로 하드웨어와 차량 기능을 분리
 
@@ -78,27 +75,29 @@ flowchart TB
 
 - 구역 제어기가 장치를 모으고 중앙 컴퓨터가 공통 서비스 위에서 차량 앱을 실행한다.
 
-## Ⅳ. 처리 절차 및 흐름
+## Ⅳ. 흐름도
 
 ```mermaid
-flowchart LR
-  A["기능·안전 경계"] --> B["서비스·추상화 설계"]
-  B --> C["개발·가상 검증"]
-  C --> D["차량 통합 검증"]
-  D --> E["릴리스 승인"]
-  E --> F["OTA 단계 배포"]
-  F --> G["관측·개선"]
+sequenceDiagram
+  participant A as 기능 애플리케이션
+  participant P as 서비스·차량 API
+  participant O as Vehicle OS·Middleware
+  participant H as 중앙 HPC
+  participant Z as Zone Controller·센서·구동기
+  A->>P: 1. 차량 기능 요청
+  P->>O: 2. 서비스 계약·권한 확인
+  O->>H: 3. 자원·안전 영역 배치
+  H->>Z: 4. 구역 제어 명령
+  Z-->>A: 5. 상태·진단 피드백
 ```
 
-| 단계 | 핵심 활동 |
-|:---|:---|
-| 기능·안전 경계 | 책임·ASIL·고장 대응 정의 |
-| 서비스 설계 | API·데이터·장치 추상화 |
-| 개발·가상 검증 | SIL·HIL 기반 기능 검증 |
-| 차량 통합 검증 | 네트워크·성능·안전 검증 |
-| 릴리스 승인 | 서명·호환성·규제 확인 |
-| OTA 배포 | 대상 분할과 단계적 활성화 |
-| 관측·개선 | 텔레메트리 기반 결함 개선 |
+### 동작 원리
+
+1. **차량 기능 요청**: 애플리케이션이 표준 API로 기능 호출
+2. **서비스 계약·권한 확인**: 호출자·데이터·장치 접근 계약 검증
+3. **자원·안전 영역 배치**: OS가 실행 자원과 격리·우선순위 관리
+4. **구역 제어 명령**: 중앙 계산 결과를 구역 제어기로 전달
+5. **상태·진단 피드백**: 센서 결과와 오류를 기능·관측 계층에 환류
 
 ### 쉽게 이해하기 (학습용)
 
@@ -116,9 +115,13 @@ flowchart LR
 
 - SDV는 ECU 통합을 넘어 차량 기능의 개발·배포 구조를 소프트웨어 중심으로 바꾼다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 차체 기능의 **공통 API 서비스화**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 안전·비안전 기능 간 간섭 | ASIL 기반 파티셔닝·시간·메모리 격리 | 안전 기능 결정성 확보 |
+| API 변경으로 차량 기능 연쇄 장애 | 버전 계약·호환 시험·점진 폐기 | 생애주기 호환성 확보 |
+| 중앙 HPC 고장 영향 집중 | 고장 격리·중복 실행·안전 상태 전환 | 차량군 기능 상실 범위 축소 |
 
 ### 쉽게 이해하기 (학습용)
 

@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 205
-  label: "205. OTA Update 무선 업데이트 (Over-the-Air Update)"
+  label: "205. 무선 업데이트 (Over-the-Air Update, OTA)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "OTA Update 무선 업데이트 (Over-the-Air Update)"
+title: "무선 업데이트 (Over-the-Air Update, OTA)"
 date: "2026-07-27T23:59:59+09:00"
 tags:
   - "notes-latest-tech"
@@ -45,18 +45,20 @@ extra:
 
 - 원격 갱신은 파일 전송이 아니라 서명 검증·안전 설치·실패 복구까지 포함한다.
 
-## Ⅲ. 아키텍처 및 구성요소
+## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-flowchart LR
-  R["빌드·서명 저장소"]
-  S["SUMS·배포 Backend"]
-  T["통신망"]
-  U["차량 Update Client"]
-  I["Secure Installer"]
-  B["Boot·Recovery"]
-  R --> S --> T --> U --> I --> B
-  B -->|"상태·결과"| S
+block-beta
+  columns 1
+  repo["빌드·서명 저장소"]
+  backend["SUMS·배포 Backend"]
+  client["차량 Update Client"]
+  installer["Secure Installer"]
+  recovery["Boot·Recovery"]
+  repo --- backend
+  backend --- client
+  client --- installer
+  installer --- recovery
 ```
 
 | 구성요소 | 책임 |
@@ -73,27 +75,29 @@ flowchart LR
 
 - 서버가 서명한 패키지를 차량 관리자가 검증하고 ECU가 안전하게 설치·복구한다.
 
-## Ⅳ. 처리 절차 및 흐름
+## Ⅳ. 흐름도
 
 ```mermaid
-flowchart LR
-  A["빌드·서명"] --> B["승인·대상 선정"]
-  B --> C["단계 다운로드"]
-  C --> D["서명·호환성 검증"]
-  D --> E["안전 조건 설치"]
-  E --> F["부팅·상태 확인"]
-  F --> G["활성화·롤백·보고"]
+sequenceDiagram
+  participant R as 빌드·서명 저장소
+  participant B as SUMS·배포 Backend
+  participant C as 차량 Update Client
+  participant I as Secure Installer
+  participant O as Boot·Recovery
+  R->>B: 1. 서명 패키지 등록
+  B->>C: 2. 대상·단계 배포
+  C->>I: 3. 서명·호환성 검증
+  I->>O: 4. 안전 조건 설치
+  O-->>B: 5. 활성화·롤백 결과
 ```
 
-| 단계 | 핵심 활동 |
-|:---|:---|
-| 빌드·서명 | 재현 빌드와 패키지 서명 |
-| 승인·대상 선정 | VIN·HW·버전 조합 확인 |
-| 단계 다운로드 | 소규모 집단부터 순차 전송 |
-| 패키지 검증 | 서명·해시·호환성 확인 |
-| 안전 설치 | 전원·주행·저장 공간 확인 |
-| 부팅 확인 | 새 버전 상태와 진단 검증 |
-| 결과 처리 | 활성화·롤백·감사 보고 |
+### 동작 원리
+
+1. **서명 패키지 등록**: 재현 빌드·서명·버전·의존성 기록
+2. **대상·단계 배포**: VIN·하드웨어·현재 버전별 집단 선정
+3. **서명·호환성 검증**: 해시·신뢰 체인·저장 공간·의존성 확인
+4. **안전 조건 설치**: 주행·전원 조건 확인 후 비활성 슬롯 설치
+5. **활성화·롤백 결과**: 부팅·진단 성공 시 확정, 실패 시 복구·보고
 
 ### 쉽게 이해하기 (학습용)
 
@@ -111,9 +115,13 @@ flowchart LR
 
 - 덮어쓰기는 공간이 적고 A/B는 복구가 빠르며 복구 파티션은 별도 이미지를 사용한다.
 
-## Ⅵ. 실무 사례
+## Ⅵ. 실무 고려사항 및 대책
 
-1. 차량 ECU의 **1% 선배포 후 단계 확대**
+| 고려사항 | 대책 | 효과 |
+|:---|:---|:---|
+| 잘못된 대상·호환 조합 배포 | VIN·HW·SW 의존성 매니페스트 검증 | 차량 부팅 불능 방지 |
+| 업데이트 중 전원·통신 단절 | 재개 다운로드·A/B 슬롯·원자 활성화 | 설치 실패 복구성 확보 |
+| 결함의 차량군 확산 | 카나리·중단 기준·자동 롤백 | 장애 영향 범위 제한 |
 
 ### 쉽게 이해하기 (학습용)
 

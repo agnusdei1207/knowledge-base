@@ -317,6 +317,62 @@ function createAdversarialExampleChart() {
   return serializeChart(chart, '정상 표본이 엡실론 허용 범위 안에서 이동해 결정 경계를 넘어 오분류되는 적대적 예제 개념도');
 }
 
+function createStreamingWatermarkChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const events = [
+    { process: 2, event: 1.5, status: '정상' },
+    { process: 4, event: 3.2, status: '정상' },
+    { process: 6, event: 4.4, status: '허용 지연' },
+    { process: 8, event: 5.0, status: '기준 밖 지연' },
+    { process: 9, event: 7.5, status: '허용 지연' },
+  ];
+  const watermark = [2, 4, 6, 8, 10].map((process) => ({ process, event: process - 2 }));
+  const chart = Plot.plot({
+    document, width: 860, height: 520, marginTop: 82, marginRight: 54, marginBottom: 58, marginLeft: 66,
+    style: { background: '#f8fafc', color: '#334155', fontFamily: 'system-ui, sans-serif', fontSize: '15px' },
+    x: { label: '처리 시각', domain: [0, 10], grid: true },
+    y: { label: '이벤트 시각', domain: [0, 10], grid: true },
+    color: { domain: ['정상', '허용 지연', '기준 밖 지연'], range: ['#2563eb', '#f59e0b', '#dc2626'], legend: false },
+    marks: [
+      Plot.text([{ process: 5, event: 9.6, label: '이벤트 시간과 워터마크 판정 개념도' }], {
+        x: 'process', y: 'event', text: 'label', fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.line(watermark, { x: 'process', y: 'event', stroke: '#111827', strokeDasharray: '6,5', strokeWidth: 2 }),
+      Plot.dot(events, { x: 'process', y: 'event', fill: 'status', r: 9, stroke: '#fff', strokeWidth: 2 }),
+      Plot.text([{ process: 7.3, event: 5.3, label: '워터마크: 처리 시각-2' }], {
+        x: 'process', y: 'event', text: 'label', fill: '#111827', fontWeight: 700, dy: -12,
+      }),
+    ],
+  });
+  return serializeChart(chart, '처리 시각과 이벤트 시각 좌표에서 워터마크 선 아래의 기준 밖 지연 이벤트를 구분하는 개념도');
+}
+
+function createPueBreakdownChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const data = [
+    { category: 'IT 장비 에너지', value: 100, type: 'IT' },
+    { category: '시설 오버헤드', value: 50, type: '시설' },
+    { category: '총 시설 에너지', value: 150, type: '총량' },
+  ];
+  const chart = Plot.plot({
+    document, width: 860, height: 520, marginTop: 82, marginRight: 54, marginBottom: 70, marginLeft: 70,
+    style: { background: '#f8fafc', color: '#334155', fontFamily: 'system-ui, sans-serif', fontSize: '15px' },
+    x: { label: null },
+    y: { label: '정규화 에너지', domain: [0, 170], grid: true },
+    color: { domain: ['IT', '시설', '총량'], range: ['#2563eb', '#f59e0b', '#059669'], legend: false },
+    marks: [
+      Plot.text([{ category: '시설 오버헤드', value: 165, label: 'PUE = 총 시설 에너지 / IT 장비 에너지' }], {
+        x: 'category', y: 'value', text: 'label', fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.barY(data, { x: 'category', y: 'value', fill: 'type', inset: 24 }),
+      Plot.text(data, { x: 'category', y: 'value', text: (d) => `${d.value}`, dy: -10, fontWeight: 700 }),
+    ],
+  });
+  return serializeChart(chart, 'IT 장비 에너지 100과 시설 오버헤드 50이 총 시설 에너지 150을 이루어 PUE 1.5가 되는 예시 막대 차트');
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -831,4 +887,20 @@ await Promise.all([
       annotations: [{ x: 32, y: 62, label: '링 62단계·트리 10단계' }],
     }),
   ),
+  writeFile(
+    new URL('monte-carlo-standard-error.svg', outputDirectory),
+    createLineChart({
+      title: '표본 수 증가에 따른 상대 표준오차',
+      xLabel: '표본 수 n',
+      yLabel: '상대 표준오차(%)',
+      series: [1, 4, 16, 64, 256].map((x) => ({
+        x,
+        y: 100 / Math.sqrt(x),
+        series: '1/√n',
+      })),
+      annotations: [{ x: 64, y: 12.5, label: '표본 4배 → 오차 절반' }],
+    }),
+  ),
+  writeFile(new URL('streaming-watermark.svg', outputDirectory), createStreamingWatermarkChart()),
+  writeFile(new URL('pue-energy-breakdown.svg', outputDirectory), createPueBreakdownChart()),
 ]);
