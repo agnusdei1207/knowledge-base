@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 방법 (Monte Carlo Method)"
-date: "2026-07-30T18:26:11+09:00"
+date: "2026-07-30T19:09:30+09:00"
 tags:
   - "notes-basic-theory"
 weight: 17
@@ -144,7 +144,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 작업자별 난수 스트림을 분리해 같은 표본의 중복 생성을 막는다.
+- 작업자별 난수 스트림을 분리해 같은 표본의 중복 생성을 방지한다.
 
 ## Ⅶ. 결론
 
