@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: 보안 접근 서비스 경계(Secure Access Service Edge, SASE) 아키텍처
-date: 2026-07-31T02:14:23+09:00
+date: "2026-07-31T02:14:23+09:00"
 tags:
   - notes-security
 weight: 141

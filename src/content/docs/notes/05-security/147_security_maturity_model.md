@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
-date: 2026-07-31T02:17:31+09:00
+date: "2026-07-31T02:17:31+09:00"
 tags:
   - notes-security
 weight: 147

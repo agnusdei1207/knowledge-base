@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 70%"
     variant: note
 title: 위협 모델링 — STRIDE·DREAD (Threat Modeling STRIDE)
-date: 2026-07-31T02:17:03+09:00
+date: "2026-07-31T02:17:03+09:00"
 tags:
   - notes-security
 weight: 146

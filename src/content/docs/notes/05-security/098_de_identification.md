@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "개인정보 비식별 처리·가명화·익명화 (De-identification)"
-date: 2026-07-31T02:11:57+09:00
+date: "2026-07-31T02:11:57+09:00"
 tags:
   - "notes-security"
 weight: 98

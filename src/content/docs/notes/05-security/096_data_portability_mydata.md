@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "전송 요구권·마이데이터 (Data Portability MyData)"
-date: 2026-07-31T02:11:14+09:00
+date: "2026-07-31T02:11:14+09:00"
 tags:
   - "notes-security"
 weight: 96

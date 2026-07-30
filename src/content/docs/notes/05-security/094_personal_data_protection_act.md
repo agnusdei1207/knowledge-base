@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "개인정보보호법 — 수집·이용·제공·파기 (Personal Data Protection Act)"
-date: 2026-07-31T02:09:25+09:00
+date: "2026-07-31T02:09:25+09:00"
 tags:
   - "notes-security"
 weight: 94

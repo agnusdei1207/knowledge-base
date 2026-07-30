@@ -4,7 +4,7 @@ sidebar:
   label: "099. 마이데이터 서비스 보안"
   badge: { text: "기출 · 50%", variant: note }
 title: "마이데이터 서비스 보안"
-date: 2026-07-31T02:12:20+09:00
+date: "2026-07-31T02:12:20+09:00"
 tags: ["notes-security"]
 weight: 99
 extra:

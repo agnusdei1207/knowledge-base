@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "개인정보보호법 2023 개정 — 마이데이터·과징금 (PIPA 2023 Amendment)"
-date: 2026-07-31T02:10:50+09:00
+date: "2026-07-31T02:10:50+09:00"
 tags:
   - "notes-security"
 weight: 95

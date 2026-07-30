@@ -4,7 +4,7 @@ sidebar:
   label: "100. 개인정보보호 강화기술 PET"
   badge: { text: "기출 · 85%", variant: note }
 title: "개인정보보호 강화기술 PET"
-date: 2026-07-31T02:12:46+09:00
+date: "2026-07-31T02:12:46+09:00"
 tags: ["notes-security"]
 weight: 100
 extra:

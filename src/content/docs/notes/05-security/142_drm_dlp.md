@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: 데이터 보안 — DRM·DLP 비교 (DRM DLP)
-date: 2026-07-31T02:14:57+09:00
+date: "2026-07-31T02:14:57+09:00"
 tags:
   - notes-security
 weight: 142

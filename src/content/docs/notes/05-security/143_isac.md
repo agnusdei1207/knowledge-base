@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: 보안 정보 공유 플랫폼 — ISAC (ISAC)
-date: 2026-07-31T02:15:25+09:00
+date: "2026-07-31T02:15:25+09:00"
 tags:
   - notes-security
 weight: 143

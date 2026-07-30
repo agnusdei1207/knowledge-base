@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)
-date: 2026-07-31T02:16:02+09:00
+date: "2026-07-31T02:16:02+09:00"
 tags:
   - notes-security
 weight: 144
