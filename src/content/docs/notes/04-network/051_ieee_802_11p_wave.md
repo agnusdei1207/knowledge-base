@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-07-29T22:30:00+09:00"
+date: "2026-07-31T01:00:51+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -20,22 +20,25 @@ extra:
 
 ## 미리 알고가기
 
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: ‘아이 트리플 이’로 읽고 영문 핵심어의 머리글자를 딴 표기이며 차량 통신 규격을 표준화함
-- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: ‘웨이브’로 읽고 다섯 영문 핵심어의 머리글자를 딴 표기이며 차량 무선 통신 체계를 뜻함
-- **기본 서비스 집합 외부 모드(Outside the Context of a Basic Service Set, OCB)**: ‘오시비’로 읽고 영문 핵심어의 머리글자를 딴 표기이며 연결 절차 없이 프레임을 교환함
-- **WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)**: ‘더블유에스엠피’로 읽고 네 영문 핵심어의 머리글자를 딴 표기이며 안전 메시지를 전달함
-- **제어 채널(Control Channel, CCH)·서비스 채널(Service Channel, SCH)**: 각각 ‘시시에이치·에스시에이치’로 읽고 영문 머리글자를 딴 표기이며 안전 제어와 일반 서비스를 분리함
-- **노변 장치(Roadside Unit, RSU)·차량 탑재 장치(On-Board Unit, OBU)**: 각각 ‘알에스유·오비유’로 읽고 영문 머리글자를 딴 표기이며 도로와 차량에서 메시지를 송수신함
-- **인터넷 프로토콜(Internet Protocol, IP)·매체 접근 제어(Medium Access Control, MAC)·물리 계층(Physical Layer, PHY)**: 각각 ‘아이피·맥·파이’로 읽는 계층 약어이며 1609.3 네트워킹과 802.11p 무선 전송의 역할을 구분함
-- **접근점(Access Point, AP)**: ‘에이피’로 읽고 두 영문 단어의 머리글자를 딴 표기이며 인프라 와이파이 단말의 연결을 중계함
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 차량 무선 접속과 WAVE 서비스 표준을 제정하는 전문 단체
+- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: IEEE 802.11p 무선 접속과 IEEE 1609 서비스를 결합한 차량 통신 체계
+- **기본 서비스 집합 외부 모드(Outside the Context of a Basic Service Set, OCB)**: 기본 서비스 집합 가입 절차 없이 프레임을 교환하는 방식
+- **WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)**: 짧은 차량 안전 메시지를 전달하는 네트워크 프로토콜
+- **제어 채널(Control Channel, CCH)·서비스 채널(Service Channel, SCH)**: 안전 제어와 일반 서비스 트래픽을 분리하는 WAVE 채널
+- **노변 장치(Roadside Unit, RSU)·차량 탑재 장치(On-Board Unit, OBU)**: 도로와 차량에서 각각 WAVE 메시지를 송수신하는 장치
+- **인터넷 프로토콜(Internet Protocol, IP)·매체 접근 제어(Medium Access Control, MAC)·물리 계층(Physical Layer, PHY)**: 1609.3 네트워킹과 802.11p 무선 전송의 역할을 구분하는 계층
+- **접근점(Access Point, AP)**: 인프라 와이파이 단말의 연결을 중계하는 장치
 - **최신성(Freshness)**: 생성 시각과 순서 정보로 오래된 메시지의 재전송을 식별하는 성질
-
+- **직교 주파수 분할 다중화(Orthogonal Frequency Division Multiplexing, OFDM)**: 여러 직교 부반송파에 데이터를 나눠 전송해 다중경로 간섭을 줄이는 변조 방식
+- **인증서 폐기 정보(Certificate Revocation Information)**: 더는 신뢰할 수 없는 인증서를 수신자가 거부하도록 배포하는 상태 정보
+- **메가헤르츠(Megahertz, MHz)**: 초당 백만 번의 주기를 나타내는 주파수 단위
+- **로밍(Roaming)**: 이동 단말이 접속점을 바꿔도 통신 연결을 이어 가는 절차
 
 
 ## Ⅰ. 개요
 
-- 정의/개념: 802.11p OCB 무선과 **IEEE 1609 서비스를 결합**
-- 배경/필요성: 일반 Wi-Fi 가입·로밍의 **고속 이동 안전 통신 지연**
+- 정의/개념: **IEEE 802.11p OCB**와 **IEEE 1609 서비스**를 결합한 차량 직접 통신 체계
+- 배경/필요성: 일반 Wi-Fi의 가입·로밍 절차로 고속 이동 **안전 메시지 기한** 초과
 
 ### 쉽게 이해하기 (학습용)
 
@@ -43,9 +46,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- OCB의 **가입 없는 직접 프레임 교환**
-- 802.11p의 **MAC·PHY 무선 전송**
-- IEEE 1609의 **보안·망·채널 운영**
+- **OCB**의 가입 절차 없는 차량 간 직접 프레임 교환
+- IEEE 802.11p의 10MHz **OFDM** 차량 무선 전송
+- **IEEE 1609**의 메시지 보안·네트워킹·채널 운영
 
 ### 쉽게 이해하기 (학습용)
 
@@ -54,23 +57,26 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 1
-    A["IEEE 1609.2"]
-    B["IEEE 1609.3"]
-    C["IEEE 1609.4"]
-    D["IEEE 802.11p OCB"]
-    A --- B
-    B --- C
-    C --- D
+    block:WAVE["WAVE"]
+        columns 1
+        SECURITY["IEEE 1609.2"]
+        NETWORK["IEEE 1609.3"]
+        CHANNEL["IEEE 1609.4"]
+        RADIO["IEEE 802.11p OCB"]
+    end
+    SECURITY --- NETWORK
+    NETWORK --- CHANNEL
+    CHANNEL --- RADIO
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| IEEE 1609.2 | 메시지 서명·인증서 검증 |
-| IEEE 1609.3 | WSMP·IP 네트워킹 |
-| IEEE 1609.4 | CCH·SCH 채널 운용 |
-| IEEE 802.11p OCB | 연결 절차 없는 MAC·PHY 전송 |
+| IEEE 1609.2 | 메시지 **서명·인증서 검증** |
+| IEEE 1609.3 | **WSMP·IP 네트워킹** |
+| IEEE 1609.4 | **CCH·SCH 채널** 운용 |
+| IEEE 802.11p OCB | 가입 절차 없는 **MAC·PHY 전송** |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -80,20 +86,17 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant 차량OBU
-    participant WAVE계층
+    participant 송신OBU
     participant 무선채널
-    participant 수신차량
-    차량OBU->>WAVE계층: 1. 메시지 서명
-    WAVE계층->>무선채널: 2. OCB 전송
-    무선채널->>수신차량: 3. 서명·최신성 검증
+    participant 수신OBU
+    송신OBU->>무선채널: 1. 서명 OCB 프레임
+    무선채널->>수신OBU: 2. 수신 OCB 프레임
 ```
 
 **동작 원리**
 
-1. **메시지 서명**: 1609.2 인증서로 발신자 서명
-2. **OCB 전송**: 1609.3·1609.4가 CCH·SCH를 선택하고 연결 절차 없이 프레임 송신
-3. **서명·최신성 검증**: 인증서·생성 시각 확인 후 수용
+1. **서명 OCB 프레임**: IEEE 1609.2 서명 후 **CCH·SCH**를 선택해 전송
+2. **수신 OCB 프레임**: 인증서·**최신성** 검증을 통과한 메시지만 수용
 
 ### 쉽게 이해하기 (학습용)
 
@@ -103,7 +106,7 @@ sequenceDiagram
 
 | 무선 접속 방식 | WAVE OCB | 인프라 Wi-Fi |
 |:---|:---|:---|
-| 적용 기준 | 고속 이동 **안전 메시지 직접 전파** | 지속 연결 **일반 데이터 통신** |
+| 적용 기준 | 고속 이동 중 **안전 메시지 직접 전파**가 필요할 때 | 지속 연결의 **일반 데이터 통신**이 필요할 때 |
 | 핵심 특징 | 가입 없는 **직접 프레임 교환** | AP 연결 후 **인프라 경유 교환** |
 | 한계 | 고밀도 **채널 경쟁·충돌** | 연결 설정·**로밍 지연** |
 
@@ -117,9 +120,9 @@ sequenceDiagram
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| 고밀도 채널 충돌 | 차량 밀도별 부하·지연 시험 | 안전 메시지 수신률 |
-| 인증서 검증 지연 | 검증 캐시·폐기정보 갱신 | 처리 기한 확보 |
-| CCH·SCH 운용 불일치 | 1609.4 채널 정책 대조 | 서비스 채널 연결성 |
+| 고밀도 차량의 **채널 경쟁·충돌** 증가 | 밀도별 **채널 부하·지연** 시험 | 안전 메시지의 기한 내 수신률 판정 |
+| 인증서 조회로 **서명 검증 지연** 증가 | 검증 캐시·**폐기 정보** 사전 갱신 | 메시지 검증 시간 감소 |
+| 장치별 **CCH·SCH 정책 불일치** | IEEE 1609.4 **채널 정책** 대조 | 서비스 채널 접속 실패 감소 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -127,7 +130,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **차량 밀도·채널 충돌·보안 지연을 검증한 WAVE 적용**
+- 고속 이동 안전 메시지는 **WAVE OCB**, 지속 연결 일반 데이터는 **인프라 Wi-Fi** 선택
 
 ### 쉽게 이해하기 (학습용)
 

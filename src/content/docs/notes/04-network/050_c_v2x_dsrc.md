@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "C-V2X와 DSRC 비교 (C-V2X DSRC)"
-date: "2026-07-29T22:30:00+09:00"
+date: "2026-07-31T00:59:37+09:00"
 tags:
   - "notes-network"
 weight: 50
@@ -20,23 +20,27 @@ extra:
 
 ## 미리 알고가기
 
-- **셀룰러 차량사물통신(Cellular Vehicle-to-Everything, C-V2X)**: ‘시 브이투엑스’로 읽고 Cellular의 C와 V2X를 붙임표로 이은 표기이며 3GPP 규격으로 차량 직접·망 경유 통신을 제공함
-- **전용 단거리 통신(Dedicated Short-Range Communications, DSRC)**: ‘디에스알시’로 읽고 네 영문 핵심어의 머리글자를 딴 표기이며 IEEE 802.11p 계열의 차량 단거리 통신임
-- **차량사물통신(Vehicle-to-Everything, V2X)**: ‘브이투엑스’로 읽고 Vehicle과 대상 X 사이를 숫자 2로 연결한 표기이며 차량이 주변 대상·통신망과 주행 정보를 교환함
-- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: ‘쓰리지피피’로 읽고 세대 숫자 3과 세 영문 핵심어의 머리글자를 결합한 표기이며 LTE·5G 이동통신 규격을 제정함
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: ‘아이 트리플 이’로 읽고 영문 핵심어의 머리글자를 딴 표기이며 802 계열 통신 표준을 제정함
-- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: ‘웨이브’로 읽고 다섯 영문 핵심어의 머리글자를 딴 표기이며 IEEE 802.11p와 1609 계열로 구성된 차량 통신 체계임
-- **기본 서비스 집합 외부(Outside the Context of a Basic Service Set, OCB)**: ‘오시비’로 읽고 영문 핵심어의 머리글자를 딴 표기이며 기본 서비스 집합 가입 절차 없이 차량이 데이터 프레임을 교환함
-- **충돌 회피 반송파 감지 다중접속(Carrier Sense Multiple Access with Collision Avoidance, CSMA/CA)**: ‘시에스엠에이 씨에이’로 읽고 접속 방식과 충돌 회피 약어를 빗금(/)으로 이은 표기이며 채널 감지와 임의 대기로 충돌을 줄임
-- **PC5·Uu 인터페이스**: 각각 ‘피시파이브·유유’로 읽는 3GPP 공식 참조점 이름이며 PC5는 직접, Uu는 기지국 경유 통신에 쓰임
-- **사이드링크(Sidelink)**: 이동통신 단말끼리 기지국을 통과하지 않고 직접 데이터를 교환하는 링크임
-- **차량 탑재 장치(On-Board Unit, OBU)·노변 장치(Roadside Unit, RSU)**: 각각 ‘오비유·알에스유’로 읽고 영문 머리글자를 딴 표기이며 차량과 도로 주변에서 메시지를 송수신함
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: ‘피케이아이’로 읽고 세 영문 단어의 머리글자를 딴 표기이며 인증서와 공개키로 송신자와 메시지 서명을 검증함
+- **셀룰러 차량사물통신(Cellular Vehicle-to-Everything, C-V2X)**: 3GPP 규격으로 차량 직접 통신과 이동통신망 경유 통신을 제공하는 기술
+- **전용 단거리 통신(Dedicated Short-Range Communications, DSRC)**: IEEE 802.11p 계열의 차량 단거리 통신 기술
+- **차량사물통신(Vehicle-to-Everything, V2X)**: 차량이 주변 대상·통신망과 주행 정보를 교환하는 통신 체계
+- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: LTE·5G 이동통신 규격을 제정하는 표준화 단체
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 802 계열 통신 표준을 제정하는 전문 단체
+- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: IEEE 802.11p와 1609 계열로 구성된 차량 통신 체계
+- **기본 서비스 집합 외부(Outside the Context of a Basic Service Set, OCB)**: 기본 서비스 집합 가입 절차 없이 차량이 데이터 프레임을 교환하는 방식
+- **충돌 회피 반송파 감지 다중접속(Carrier Sense Multiple Access with Collision Avoidance, CSMA/CA)**: 채널 감지와 임의 대기로 동시 전송 충돌을 줄이는 접속 방식
+- **PC5·Uu 인터페이스**: PC5는 차량끼리 직접 통신하고 Uu는 기지국 경유 통신에 쓰이는 3GPP 참조점
+- **사이드링크(Sidelink)**: 이동통신 단말끼리 기지국을 통과하지 않고 직접 데이터를 교환하는 링크
+- **차량 탑재 장치(On-Board Unit, OBU)·노변 장치(Roadside Unit, RSU)**: 차량과 도로 주변에서 각각 안전 메시지를 송수신하는 장치
+- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서와 공개키로 송신자 신원과 메시지 서명을 검증하는 체계
+- **5G 기지국(next Generation NodeB, gNB)**: 5G 무선 접속과 자원 제어를 담당하는 기지국
+- **최신성(Freshness)**: 생성 시각과 순서 정보로 오래된 메시지의 재전송 여부를 판단하는 성질
+- **백분위수(Percentile)**: 측정값을 작은 순서로 나열했을 때 지정한 비율의 값이 그 이하가 되는 경계
+- **백홀(Backhaul)**: RSU나 기지국의 트래픽을 V2X 서버·코어망으로 운반하는 전송 구간
 
 ## Ⅰ. 개요
 
-- 정의/개념: 3GPP 셀룰러와 IEEE 무선랜 기반의 **V2X 접속 기술**
-- 배경/필요성: 단일 차량 통신 규격의 **기존 장비·진화 경로 동시 수용 한계**
+- 정의/개념: 차량 안전 메시지를 **C-V2X·DSRC** 무선 접속으로 전달하는 **V2X 기술군**
+- 배경/필요성: 단일 규격으로는 기존 **WAVE 호환**과 이동통신 진화 경로 동시 수용 곤란
 
 ### 쉽게 이해하기 (학습용)
 
@@ -44,9 +48,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- C-V2X의 **PC5 직접·Uu 망 경유 통신**
-- DSRC의 **OCB·CSMA/CA 직접 접속**
-- 차량 밀도·주파수 정책의 **성능·호환 결정**
+- C-V2X의 **PC5 직접·Uu 망 경유** 이중 경로
+- DSRC의 **OCB·CSMA/CA** 기반 직접 접속
+- 차량 밀도가 높을수록 **자원 예약·채널 경쟁** 차이가 지연·수신률 좌우
 
 ### 쉽게 이해하기 (학습용)
 
@@ -55,26 +59,31 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 1
-    A["C-V2X 차량 단말"]
-    B["gNB·코어망"]
-    C["DSRC OBU"]
-    D["DSRC RSU"]
-    E["V2X PKI"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+    block:V2X["V2X 무선 체계"]
+        columns 1
+        OBU["차량 OBU"]
+        ACCESS["무선 접속 제어"]
+        PEER["수신 차량·RSU"]
+        SERVER["광역망·V2X 서버"]
+        PKI["V2X PKI"]
+    end
+    OBU --- ACCESS
+    ACCESS --- PEER
+    OBU --- SERVER
+    PEER --- SERVER
+    PKI --- OBU
+    PKI --- PEER
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| C-V2X 차량 단말 | PC5 직접 통신과 Uu 망 접속 |
-| gNB·코어망 | C-V2X 무선 자원·광역 경로 제공 |
-| DSRC OBU | OCB 방식으로 차량 메시지 송수신 |
-| DSRC RSU | OCB 차량과 도로 인프라 정보 교환 |
-| V2X PKI | 두 방식의 인증서 발급·검증·폐기 |
+| 차량 OBU | C-V2X 또는 DSRC **안전 메시지** 생성·수신 |
+| 무선 접속 제어 | **PC5 자원 선택·OCB 채널 경쟁** 수행 |
+| 수신 차량·RSU | 직접 무선 구간의 **위험 정보** 수신 |
+| 광역망·V2X 서버 | Uu·RSU 백홀의 **광역 정보** 집계·배포 |
+| V2X PKI | 두 방식의 **인증서** 발급·검증·폐기 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -84,20 +93,26 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant C-V2X단말
-    participant 무선자원
-    participant DSRC단말
-    participant 수신차량
-    C-V2X단말->>무선자원: 1. C-V2X 자원 선택
-    DSRC단말->>무선자원: 2. DSRC 채널 경쟁
-    무선자원->>수신차량: 3. 안전 메시지 검증
+    participant 송신OBU
+    participant 무선접속제어
+    participant 수신OBU
+    participant PKI as V2X PKI
+    송신OBU->>무선접속제어: 1. 안전 메시지 전송 요구
+    alt C-V2X
+        무선접속제어->>수신OBU: 2. PC5 안전 메시지
+    else DSRC
+        무선접속제어->>수신OBU: 3. OCB 안전 메시지
+    end
+    수신OBU->>PKI: 4. 인증서 상태 요청
+    PKI-->>수신OBU: 인증서 상태
 ```
 
 **동작 원리**
 
-1. **C-V2X 자원 선택**: 사이드링크 자원 선택·예약
-2. **DSRC 채널 경쟁**: 채널 감지·임의 대기 후 전송
-3. **안전 메시지 검증**: 서명·최신성 확인 후 수용
+1. **안전 메시지 전송 요구**: 송신 OBU가 위험 정보의 전송 기한 지정
+2. **PC5 안전 메시지**: **사이드링크 자원** 선택·예약 후 전송
+3. **OCB 안전 메시지**: **CSMA/CA** 채널 감지·임의 대기 후 전송
+4. **인증서 상태 요청**: 서명·**최신성** 검증 후 메시지 수용
 
 ### 쉽게 이해하기 (학습용)
 
@@ -107,7 +122,7 @@ sequenceDiagram
 
 | V2X 무선 방식 | C-V2X | DSRC |
 |:---|:---|:---|
-| 적용 기준 | 이동통신 진화·**광역망 연계** | 기존 WAVE·**RSU 호환** |
+| 적용 기준 | 이동통신 진화·**광역망 연계**가 필요할 때 | 기존 WAVE·**RSU 호환**이 필요할 때 |
 | 핵심 특징 | 3GPP의 **PC5·Uu 통신** | IEEE WAVE의 **OCB 직접 접속** |
 | 한계 | 세대·모드 간 **호환 제약** | 고밀도 **채널 경쟁·충돌** |
 
@@ -121,9 +136,9 @@ sequenceDiagram
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| 규격명만으로 성능 판단 | 동일 밀도·속도·대역 시험 | 현장 성능 비교 |
-| 기존 인프라 호환 누락 | OBU·RSU·단말 생태계 조사 | 전환 비용 절감 |
-| 혼잡 시 안전 메시지 손실 | 수신률·지연 백분위 측정 | 기한 충족 판단 |
+| 규격명만으로 선택해 현장 **전달 성능** 미검증 | 동일 밀도·속도·대역의 **비교 시험** | 같은 조건의 수신률·지연 확보 |
+| 기존 OBU·RSU와 **세대 호환** 누락 | 장비·단말·**인증서 생태계** 조사 | 교체 대상·전환 비용 사전 산정 |
+| 혼잡 시 **안전 메시지 손실·지연** 증가 | 수신률·지연 **백분위수** 측정 | 안전 메시지의 기한 초과율 판정 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -131,7 +146,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **인프라 호환·혼잡 수신률·지연에 따른 C-V2X·DSRC 선택**
+- 기존 WAVE·RSU 호환이 우선이면 **DSRC**, 이동통신 진화·광역 연계면 **C-V2X** 선택
 
 ### 쉽게 이해하기 (학습용)
 
