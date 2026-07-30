@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "TCP·UDP·SCTP 비교 (TCP UDP SCTP Comparison)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -55,11 +55,11 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["TCP 바이트 흐름 | 연결별 순서·재전송·흐름을 제어"]
-    B["UDP 데이터그램 | 독립 메시지를 최소 제어로 전달"]
-    C["SCTP 연관 | 메시지 스트림·다중 경로를 관리"]
+    A["TCP 바이트 흐름"]
+    B["UDP 데이터그램"]
+    C["SCTP 연관"]
     A --- B
     B --- C
 ```

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -59,12 +59,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["수신 대기 소켓 | 서버 포트에서 새 SYN을 수신"]
-    B["반쪽 연결 큐 | SYN 수신 후 최종 ACK 대기 상태 저장"]
-    C["완료 연결 큐 | 설정 완료 연결을 응용 인수까지 저장"]
-    D["연결 소켓 | 종단 주소·ISN·옵션·TCP 상태를 관리"]
+    A["수신 대기 소켓"]
+    B["반쪽 연결 큐"]
+    C["완료 연결 큐"]
+    D["연결 소켓"]
     A --- B
     B --- C
     C --- D

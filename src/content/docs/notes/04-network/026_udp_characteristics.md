@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "UDP 특성·활용 사례 (UDP Characteristics)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 26
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["출발지 포트 | 응답을 받을 송신 응용을 식별"]
-    B["목적지 포트 | 데이터그램을 받을 응용을 식별"]
-    C["길이 | UDP 헤더와 페이로드의 전체 바이트 수"]
-    D["체크섬 | 주소·헤더·데이터의 비트 오류를 검출"]
-    E["페이로드 | 메시지 경계를 유지할 응용 데이터"]
+    A["출발지 포트"]
+    B["목적지 포트"]
+    C["길이"]
+    D["체크섬"]
+    E["페이로드"]
     A --- B
     B --- C
     C --- D

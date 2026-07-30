@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "HTTP/2·HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-07-25T00:45:00+09:00"
+date: "2026-07-30T18:30:00+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -36,8 +36,8 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의: HTTP/2는 TCP, HTTP/3는 QUIC 다중화
-- **배경/필요성**: TCP 손실의 스트림 간 선두 차단 완화
+- 정의/개념: HTTP/2는 TCP, HTTP/3는 QUIC 다중화
+- 배경/필요성: TCP 손실의 **스트림 간 선두 차단** 완화
 
 ### 쉽게 이해하기 (학습용)
 
@@ -57,15 +57,17 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     A["HTTP 의미 계층"]
     B["HTTP/2·HPACK 계층"]
     C["TCP·TLS 전송부"]
     D["HTTP/3·QPACK 계층"]
     E["QUIC·TLS 1.3 전송부"]
+    A --- B --- C
+    C --- D --- E
 ```
 
-| 설계 요소 | 설명 |
+| 구성요소 | 책임 |
 |:---|:---|
 | HTTP 의미 계층 | 메서드·상태·필드 의미를 유지 |
 | HTTP/2·HPACK 계층 | TCP 스트림의 프레임·헤더 압축 |
@@ -94,14 +96,13 @@ sequenceDiagram
     클라이언트->>TCP: 5. HTTP/2 대체 판정
 ```
 
-| 절차 | 설명 |
-|:---|:---|
-| 지원 버전 발견 | 협상·Alt-Svc로 HTTP/3 확인 |
-| QUIC·TLS 협상 | UDP 연결·암호·연결 ID 생성 |
-| 독립 스트림 전송 | 요청별 QUIC 스트림으로 전달 |
-| 연결 결과 확인 | 지연·손실·실패 원인을 확인 |
-| HTTP/2 대체 판정 | QUIC 실패 시 TCP로 전환 |
+**동작 원리**
 
+- **1. 지원 버전 발견**: 협상·Alt-Svc로 HTTP/3 확인
+- **2. QUIC·TLS 협상**: UDP 연결·암호·연결 ID 생성
+- **3. 독립 스트림 전송**: 요청별 QUIC 스트림으로 전달
+- **4. 연결 결과 확인**: 지연·손실·실패 원인을 확인
+- **5. HTTP/2 대체 판정**: QUIC 실패 시 TCP로 전환
 > 요약: HTTP/3 우선 협상 후 실패 시 HTTP/2 전환
 
 ### 쉽게 이해하기 (학습용)

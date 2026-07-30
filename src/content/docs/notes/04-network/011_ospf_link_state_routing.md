@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF·OSPFv3 (OSPF Link State Routing)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -60,13 +60,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["OSPF 이웃 | Hello로 인접 관계·상태 유지"]
-    B["LSA | 링크 상태·비용·프리픽스 광고"]
-    C["LSDB | 영역 내 동일 토폴로지 저장"]
-    D["SPF 계산기 | 최단 경로 트리·다음 홉 계산"]
-    E["영역 경계 라우터 | 영역 연결·경로 요약"]
+    A["OSPF 이웃"]
+    B["LSA"]
+    C["LSDB"]
+    D["SPF 계산기"]
+    E["영역 경계 라우터"]
     A --- B
     B --- C
     C --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -59,13 +59,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["BGP 피어 | 세션에서 프리픽스·속성 교환"]
-    B["수신 정책 | 허용 경로·속성 변경 판정"]
-    C["BGP 경로표 | 후보·최선 경로 보관"]
-    D["최선 경로 선택기 | 정책·속성 순서로 경로 결정"]
-    E["광고 정책 | 외부 전파 경로·속성 제한"]
+    A["BGP 피어"]
+    B["수신 정책"]
+    C["BGP 경로표"]
+    D["최선 경로 선택기"]
+    E["광고 정책"]
     A --- B
     B --- C
     C --- D

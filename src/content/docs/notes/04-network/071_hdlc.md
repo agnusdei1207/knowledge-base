@@ -59,13 +59,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["Flag | 고정 비트 패턴으로 프레임 경계 표시"]
-    B["Address | 종국·복합국 등 통신 대상 식별"]
-    C["Control | I·S·U 유형과 송수신 순서 표현"]
-    D["Information | 사용자 데이터·관리 정보 수용"]
-    E["FCS | CRC 나머지로 프레임 오류 검출"]
+    A["Flag"]
+    B["Address"]
+    C["Control"]
+    D["Information"]
+    E["FCS"]
     A --- B
     B --- C
     C --- D
@@ -139,7 +139,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **모드·비트 채움·순서번호를 일치시킨 HDLC 링크**
+- **회선 구성·응답 권한**으로 HDLC 동작 모드 선택
 
 ### 쉽게 이해하기 (학습용)
 

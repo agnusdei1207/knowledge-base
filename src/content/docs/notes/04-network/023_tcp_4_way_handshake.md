@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "TCP 4-way Handshake·연결 해제 (TCP 4-way Handshake)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -58,13 +58,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["FIN·ACK 제어 | 방향별 종료 요청·확인을 추적"]
-    B["능동 종료 상태 | FIN_WAIT 후 TIME_WAIT으로 전이"]
-    C["수동 종료 상태 | CLOSE_WAIT 후 LAST_ACK으로 전이"]
-    D["반쪽 종료 | 한 방향 송신 종료·반대 수신 유지"]
-    E["TIME_WAIT 타이머 | 최종 ACK 재전송·지연 세그먼트 격리"]
+    A["FIN·ACK 제어"]
+    B["능동 종료 상태"]
+    C["수동 종료 상태"]
+    D["반쪽 종료"]
+    E["TIME_WAIT 타이머"]
     A --- B
     B --- C
     C --- D

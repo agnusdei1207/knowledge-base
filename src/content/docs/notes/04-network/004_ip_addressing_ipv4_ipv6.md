@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "IP 주소 체계: IPv4·IPv6 (IP Addressing IPv4 IPv6)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 4
@@ -58,13 +58,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["IPv4 프리픽스 | 32비트 주소의 네트워크 범위"]
-    B["IPv4 호스트 식별자 | 네트워크 내부 인터페이스 구분"]
-    C["IPv6 프리픽스 | 128비트 주소의 네트워크 범위"]
-    D["IPv6 인터페이스 식별자 | IPv6 내부 인터페이스 구분"]
-    E["주소 유형 | 유니·멀티·애니캐스트 범위"]
+    A["IPv4 프리픽스"]
+    B["IPv4 호스트 식별자"]
+    C["IPv6 프리픽스"]
+    D["IPv6 인터페이스 식별자"]
+    E["주소 유형"]
     A --- B
     B --- C
     C --- D

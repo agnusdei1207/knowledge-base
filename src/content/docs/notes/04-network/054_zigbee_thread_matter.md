@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["컨트롤러·커미셔너 | 가입 승인·Matter 명령 제어"]
-    B["IP 네트워크 | Matter 메시지 전달 기반"]
-    C["Thread 경계 라우터 | Thread·외부 IPv6망 라우팅"]
-    D["Thread Matter 기기 | Matter 명령·상태 교환"]
-    E["매터 브리지 | Zigbee·Matter 모델 변환"]
+    A["컨트롤러·커미셔너"]
+    B["IP 네트워크"]
+    C["Thread 경계 라우터"]
+    D["Thread Matter 기기"]
+    E["매터 브리지"]
     A --- B
     B --- C
     C --- D

@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["NFVO | 서비스 구성·인프라 자원 조정"]
-    B["VNFM | 기능 인스턴스 수명주기 관리"]
-    C["VIM | NFVI 자원 할당·감시·회수"]
-    D["VNF·CNF | 소프트웨어 망 기능 실행"]
-    E["NFVI | 컴퓨팅·저장·네트워크 제공"]
+    A["NFVO"]
+    B["VNFM"]
+    C["VIM"]
+    D["VNF·CNF"]
+    E["NFVI"]
     A --- B
     B --- C
     C --- D

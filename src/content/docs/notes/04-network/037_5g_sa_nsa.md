@@ -50,13 +50,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["5G 단말 | LTE·NR 역량·접속 요청 제공"]
-    B["LTE 기지국 | NSA 제어 연결 기준점"]
-    C["NR 기지국 | 5G 무선 접속 제공"]
-    D["LTE 코어(EPC) | NSA 가입·세션 제어"]
-    E["5G 코어(5GC) | SA 가입·세션·슬라이스 제어"]
+    A["5G 단말"]
+    B["LTE 기지국"]
+    C["NR 기지국"]
+    D["LTE 코어(EPC)"]
+    E["5G 코어(5GC)"]
     A --- B
     B --- C
     C --- D
@@ -84,7 +84,7 @@ sequenceDiagram
     participant EPC
     단말->>LTE·NR기지국: 1. LTE 제어 접속
     LTE·NR기지국->>EPC: 2. EPC 등록·인증
-    LTE·NR기지국->>LTE·NR기지국: 3. NR 보조 링크 추가
+    LTE·NR기지국->>단말: 3. NR 보조 링크 추가
     LTE·NR기지국->>EPC: 4. LTE·NR 사용자 경로
     단말->>LTE·NR기지국: 5. NR 단독 접속
 ```

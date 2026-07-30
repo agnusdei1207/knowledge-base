@@ -59,13 +59,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["신호 매퍼 | 하위 신호를 VC·SPE에 수용"]
-    B["VC·SPE·포인터 | 페이로드와 프레임 내 시작 위치 표현"]
-    C["STM·STS/OC 프레임 | 동기 계위와 전송 오버헤드 제공"]
-    D["ADM·DXC | 선택 신호의 분기·결합·교차 연결"]
-    E["OAM·보호 | 오류·품질 감시와 예비 경로 절체"]
+    A["신호 매퍼"]
+    B["VC·SPE·포인터"]
+    C["STM·STS/OC 프레임"]
+    D["ADM·DXC"]
+    E["OAM·보호"]
     A --- B
     B --- C
     C --- D

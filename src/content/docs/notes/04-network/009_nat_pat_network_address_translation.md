@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "NAT·PAT (NAT PAT Network Address Translation)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 9
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["내부 주소 영역 | 사설 주소·포트로 연결 시작"]
-    B["변환 정책 | 정적·동적·PAT 매핑 규칙"]
-    C["변환 상태표 | 내부·외부 주소·포트 관계 저장"]
-    D["외부 주소 풀 | 공인 주소·사용 포트 제공"]
-    E["경계 변환기 | 헤더·검사값 변경 후 전달"]
+    A["내부 주소 영역"]
+    B["변환 정책"]
+    C["변환 상태표"]
+    D["외부 주소 풀"]
+    E["경계 변환기"]
     A --- B
     B --- C
     C --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -57,13 +57,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["FEC 분류기 | 패킷을 경로·서비스별 분류"]
-    B["입구 LER | FEC 대응 레이블 스택 부착"]
-    C["중계 LSR | LFIB로 레이블·다음 홉 교환"]
-    D["출구 LER | 레이블 제거 후 IP 패킷 전달"]
-    E["LFIB | 레이블별 동작·다음 홉 저장"]
+    A["FEC 분류기"]
+    B["입구 LER"]
+    C["중계 LSR"]
+    D["출구 LER"]
+    E["LFIB"]
     A --- B
     B --- C
     C --- D

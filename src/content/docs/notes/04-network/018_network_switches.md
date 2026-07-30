@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "스위칭 계층 : L2·L3·L4·L7 스위치 (Network Switches)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 18
@@ -57,12 +57,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["L2 스위치 | MAC 주소표로 출력 포트를 결정"]
-    B["L3 스위치 | FIB로 다음 홉을 결정"]
-    C["L4 스위치 | 5-튜플·연결 상태로 서버를 결정"]
-    D["L7 스위치 | 요청 내용·정책으로 서비스를 결정"]
+    A["L2 스위치"]
+    B["L3 스위치"]
+    C["L4 스위치"]
+    D["L7 스위치"]
     A --- B
     B --- C
     C --- D

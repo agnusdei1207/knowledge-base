@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "이더넷 프레임 구조·IEEE 802.3 (Ethernet Frame)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 15
@@ -61,13 +61,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["프리앰블·SFD | 클록 동기·프레임 시작 표시"]
-    B["MAC 주소 | 수신·송신 인터페이스 식별"]
-    C["유형·길이 | 상위 프로토콜·자료 길이 표시"]
-    D["페이로드·패드 | 상위 자료·최소 길이 보충"]
-    E["FCS | CRC-32로 비트 오류 검출"]
+    A["프리앰블·SFD"]
+    B["MAC 주소"]
+    C["유형·길이"]
+    D["페이로드·패드"]
+    E["FCS"]
     A --- B
     B --- C
     C --- D

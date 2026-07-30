@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DNS 구조·동작 (DNS Domain Name System)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 8
@@ -58,13 +58,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["스텁 해석기 | 단말의 이름 조회 요청 생성"]
-    B["재귀 해석기 | 위임 추적·응답 캐시"]
-    C["루트·TLD 서버 | 하위 권한 서버 위치 위임"]
-    D["권한 서버 | 도메인의 원본 레코드 응답"]
-    E["자원 레코드 | 이름·주소·메일·별칭 정보 표현"]
+    A["스텁 해석기"]
+    B["재귀 해석기"]
+    C["루트·TLD 서버"]
+    D["권한 서버"]
+    E["자원 레코드"]
     A --- B
     B --- C
     C --- D

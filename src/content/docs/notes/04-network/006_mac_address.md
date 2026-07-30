@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MAC 주소 구조 (MAC Address)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 6
@@ -56,13 +56,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["MAC 주소 | OUI와 인터페이스 식별자 구성"]
-    B["OUI | 전역 주소의 할당 조직 식별"]
-    C["I/G 비트 | 개별·그룹 수신 범위 구분"]
-    D["U/L 비트 | 전역·로컬 관리 주체 구분"]
-    E["인터페이스 식별자 | 조직 내부의 개별 장치 구분"]
+    A["MAC 주소"]
+    B["OUI"]
+    C["I/G 비트"]
+    D["U/L 비트"]
+    E["인터페이스 식별자"]
     A --- B
     B --- C
     C --- D

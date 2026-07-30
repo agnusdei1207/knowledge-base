@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "오류 제어 : ARQ·Go-Back-N·SR (ARQ Error Control)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["송신부 | 번호·ACK·타이머로 재전송 결정"]
-    B["송신 윈도우 | ACK 없는 연속 전송 번호 범위"]
-    C["수신부 | 오류·번호 공백 검사 후 응답"]
-    D["수신 버퍼 | 순서가 다른 후속 프레임 보관"]
-    E["재전송 타이머 | ACK 지연 시 재전송 시작"]
+    A["송신부"]
+    B["송신 윈도우"]
+    C["수신부"]
+    D["수신 버퍼"]
+    E["재전송 타이머"]
     A --- B
     B --- C
     C --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP/IP 4계층 모델 (TCP/IP Model)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 2
@@ -54,12 +54,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["응용 계층 | 응용 간 메시지·동작 정의"]
-    B["전송 계층 | 포트 기반 종단 전달 제어"]
-    C["인터넷 계층 | IP 기반 네트워크 간 전달"]
-    D["네트워크 접근 계층 | 링크 규칙으로 인접 장치 전달"]
+    A["응용 계층"]
+    B["전송 계층"]
+    C["인터넷 계층"]
+    D["네트워크 접근 계층"]
     A --- B
     B --- C
     C --- D

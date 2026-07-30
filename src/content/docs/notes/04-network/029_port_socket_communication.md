@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "포트 번호·소켓 통신 (Port Socket Communication)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 29
@@ -56,13 +56,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["클라이언트 IP·임시 포트 | 클라이언트 통신 창구 식별"]
-    B["연결 큐 | 수락 전 TCP 연결을 임시 보관"]
-    C["서버 리슨 소켓 | 서버 IP·포트에서 새 연결 대기"]
-    D["연결 소켓 | 클라이언트별 TCP 데이터 송수신"]
-    E["소켓 자원 | FD·송수신 버퍼·TCP 상태 관리"]
+    A["클라이언트 IP·임시 포트"]
+    B["연결 큐"]
+    C["서버 리슨 소켓"]
+    D["연결 소켓"]
+    E["소켓 자원"]
     A --- B
     B --- C
     C --- D

@@ -57,12 +57,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["RAN | 전용 주파수로 산업 단말 무선 접속"]
-    B["5GC | 가입자 인증·세션·QoS 정책 제어"]
-    C["로컬 UPF | 사용자 데이터를 현장 목적지로 전달"]
-    D["MEC·OT 연계 | 현장 응용 처리와 설비 제어 연결"]
+    A["RAN"]
+    B["5GC"]
+    C["로컬 UPF"]
+    D["MEC·OT 연계"]
     A --- B
     B --- C
     C --- D

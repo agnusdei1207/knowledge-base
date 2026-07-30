@@ -60,13 +60,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["인그레스 컨트롤러 | 호스트·경로·TLS 규칙 실행"]
-    B["Service | VIP 기반 고정 접근점 제공"]
-    C["EndpointSlice | 준비 파드 IP·포트 관리"]
-    D["NetworkPolicy | 허용 수신·송신 대상 선언"]
-    E["프록시·eBPF 데이터 경로 | 분산·정책 규칙 실행"]
+    A["인그레스 컨트롤러"]
+    B["Service"]
+    C["EndpointSlice"]
+    D["NetworkPolicy"]
+    E["프록시·eBPF 데이터 경로"]
     A --- B
     B --- C
     C --- D
@@ -140,7 +140,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **CNI·Service·EndpointSlice·외부 경로를 연결한 쿠버네티스 통신**
+- **정책 실행 기능·외부 노출 경로**로 CNI 데이터 경로 선택
 
 ### 쉽게 이해하기 (학습용)
 

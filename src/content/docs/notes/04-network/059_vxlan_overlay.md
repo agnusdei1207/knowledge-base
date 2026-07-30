@@ -55,12 +55,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["VTEP | VNI별 캡슐화·역캡슐화"]
-    B["IP 언더레이 | VTEP 도달성·ECMP 제공"]
-    C["EVPN 제어 평면 | MAC·IP·VTEP 위치 배포"]
-    D["VXLAN 게이트웨이 | VNI 간 패킷 라우팅"]
+    A["VTEP"]
+    B["IP 언더레이"]
+    C["EVPN 제어 평면"]
+    D["VXLAN 게이트웨이"]
     A --- B
     B --- C
     C --- D
@@ -132,7 +132,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **VNI·EVPN·언더레이 MTU를 검증한 VXLAN 오버레이**
+- **테넌트 규모·BUM 비용**으로 EVPN 기반 VXLAN 선택
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VLAN·트렁크·액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["액세스 포트·PVID | 무태그 프레임을 한 VLAN에 분류"]
-    B["VLAN 식별자 | 브로드캐스트·MAC 학습 범위를 구분"]
-    C["트렁크·허용 목록 | 허용된 여러 VLAN 태그만 전달"]
-    D["네이티브 VLAN | 트렁크의 무태그 프레임을 분류"]
-    E["SVI·게이트웨이 | VLAN 사이의 네트워크 계층 경로 제공"]
+    A["액세스 포트·PVID"]
+    B["VLAN 식별자"]
+    C["트렁크·허용 목록"]
+    D["네이티브 VLAN"]
+    E["SVI·게이트웨이"]
     A --- B
     B --- C
     C --- D

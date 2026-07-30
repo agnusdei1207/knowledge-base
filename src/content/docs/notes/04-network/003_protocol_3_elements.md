@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "네트워크 프로토콜 3요소 (Protocol 3 Elements)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 3
@@ -52,11 +52,11 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["구문 | 필드 순서·길이·인코딩 정의"]
-    B["의미 | 필드값별 동작·응답·상태 정의"]
-    C["타이밍 | 송수신 순서·대기 시간 정의"]
+    A["구문"]
+    B["의미"]
+    C["타이밍"]
     A --- B
     B --- C
 ```

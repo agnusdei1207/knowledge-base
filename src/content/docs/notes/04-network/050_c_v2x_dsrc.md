@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["C-V2X 차량 단말 | PC5 직접 통신과 Uu 망 접속"]
-    B["gNB·코어망 | C-V2X 무선 자원·광역 경로 제공"]
-    C["DSRC OBU | OCB 방식으로 차량 메시지 송수신"]
-    D["DSRC RSU | OCB 차량과 도로 인프라 정보 교환"]
-    E["V2X PKI | 두 방식의 인증서 발급·검증·폐기"]
+    A["C-V2X 차량 단말"]
+    B["gNB·코어망"]
+    C["DSRC OBU"]
+    D["DSRC RSU"]
+    E["V2X PKI"]
     A --- B
     B --- C
     C --- D

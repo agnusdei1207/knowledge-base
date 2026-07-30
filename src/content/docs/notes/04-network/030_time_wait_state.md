@@ -57,11 +57,11 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["`TIME_WAIT` 상태 | 종료 재응답용 연결 정보 유지"]
-    B["`2MSL` 타이머 | 지연 세그먼트 소멸 시간 확보"]
-    C["연결 4-튜플 | 이전·신규 연결 식별"]
+    A["`TIME_WAIT` 상태"]
+    B["`2MSL` 타이머"]
+    C["연결 4-튜플"]
     A --- B
     B --- C
 ```

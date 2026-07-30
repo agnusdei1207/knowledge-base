@@ -56,13 +56,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["SMO·비실시간 RIC | 수명주기 관리와 장기 정책·모델 제공"]
-    B["준실시간 RIC | xApp으로 E2 노드의 무선 자원 제어"]
-    C["O-CU | 상위 무선 프로토콜과 이동성 제어"]
-    D["O-DU | 시간 민감 물리·매체접근제어 처리"]
-    E["O-RU | 무선주파수 송수신과 하위 물리 처리"]
+    A["SMO·비실시간 RIC"]
+    B["준실시간 RIC"]
+    C["O-CU"]
+    D["O-DU"]
+    E["O-RU"]
     A --- B
     B --- C
     C --- D

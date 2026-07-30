@@ -1169,6 +1169,77 @@ await Promise.all([
     }),
   ),
   writeFile(
+    new URL('cidr-subnet-tradeoff.svg', outputDirectory),
+    createLineChart({
+      title: '/24 주소 블록을 나눌 때 서브넷 수와 블록 크기의 상충',
+      xLabel: '하위 서브넷 프리픽스 길이',
+      yLabel: '/24 기준 정규화 비율(%)',
+      series: [24, 25, 26, 27, 28].flatMap((x) => [
+        { x, y: (2 ** (x - 24) / 16) * 100, series: '생성 서브넷 수' },
+        { x, y: (2 ** (24 - x)) * 100, series: '서브넷당 주소 블록 크기' },
+      ]),
+      annotations: [{ x: 26, y: 25, label: '/26은 4개 서브넷·각 64주소' }],
+    }),
+  ),
+  writeFile(
+    new URL('tcp-effective-window.svg', outputDirectory),
+    createLineChart({
+      title: '수신 윈도와 혼잡 윈도 중 작은 값이 정하는 송신 한도',
+      xLabel: '혼잡 윈도 cwnd(KiB)',
+      yLabel: '송신 가능 윈도(KiB)',
+      series: [8, 16, 32, 64, 96, 128].flatMap((x) => [
+        { x, y: x, series: '혼잡 윈도 cwnd' },
+        { x, y: 64, series: '수신 윈도 rwnd=64' },
+        { x, y: Math.min(x, 64), series: '실제 송신 한도 min(rwnd,cwnd)' },
+      ]),
+      annotations: [{ x: 96, y: 64, label: 'cwnd가 커져도 rwnd에서 제한' }],
+    }),
+  ),
+  writeFile(
+    new URL('shannon-capacity.svg', outputDirectory),
+    createLineChart({
+      title: 'SNR 증가에 따른 Shannon 채널 용량의 로그 증가',
+      xLabel: '신호대잡음비 SNR(dB)',
+      yLabel: '이론 채널 용량(Mbit/s)',
+      series: [0, 5, 10, 15, 20, 25, 30].flatMap((x) => {
+        const efficiency = Math.log2(1 + 10 ** (x / 10));
+        return [
+          { x, y: efficiency, series: '대역폭 1MHz' },
+          { x, y: 2 * efficiency, series: '대역폭 2MHz' },
+        ];
+      }),
+      annotations: [{ x: 20, y: Math.log2(101), label: 'SNR은 로그 효율, 대역폭은 선형 배율' }],
+    }),
+  ),
+  writeFile(
+    new URL('ntn-orbit-delay.svg', outputDirectory),
+    createLineChart({
+      title: '궤도 고도에 따른 NTN 최소 왕복 전파 지연',
+      xLabel: '위성 궤도 고도(km)',
+      yLabel: '최소 왕복 전파 지연(ms)',
+      series: [600, 2000, 20200, 35786].map((x) => ({
+        x,
+        y: (4 * x) / 299.792458,
+        series: '수직 경로·진공 광속 하한',
+      })),
+      annotations: [{ x: 35786, y: (4 * 35786) / 299.792458, label: 'GEO는 전파만 약 478ms' }],
+    }),
+  ),
+  writeFile(
+    new URL('bb84-qber-secret-fraction.svg', outputDirectory),
+    createLineChart({
+      title: '이상적 BB84의 QBER 증가와 비밀키 비율 감소',
+      xLabel: '양자 비트 오류율 QBER(%)',
+      yLabel: '점근 비밀키 비율 1-2h₂(Q)',
+      series: [0.1, 2, 5, 8, 10, 11].map((x) => {
+        const q = x / 100;
+        const h2 = -q * Math.log2(q) - (1 - q) * Math.log2(1 - q);
+        return { x, y: Math.max(0, 1 - 2 * h2), series: '이상적 단방향 후처리 하한' };
+      }),
+      annotations: [{ x: 11, y: 0, label: '약 11%에서 비밀키 하한 소진' }],
+    }),
+  ),
+  writeFile(
     new URL('little-law-wip-lead-time.svg', outputDirectory),
     createLineChart({
       title: '처리율이 일정할 때 WIP와 리드타임의 관계',

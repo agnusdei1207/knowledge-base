@@ -48,13 +48,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["단말 NSSAI 요청 | 원하는 S-NSSAI 목록 전달"]
-    B["AMF·NSSF 선택 | 가입·지역·가용 정책 검증"]
-    C["종단 NSI | 서비스용 논리망 전체 제공"]
-    D["무선 NSSI | 무선 접속 자원과 기능 제공"]
-    E["전송 NSSI | 영역 간 격리 경로 제공"]
+    A["단말 NSSAI 요청"]
+    B["AMF·NSSF 선택"]
+    C["종단 NSI"]
+    D["무선 NSSI"]
+    E["전송 NSSI"]
     A --- B
     B --- C
     C --- D
@@ -82,19 +82,17 @@ sequenceDiagram
     participant 슬라이스관리
     participant NSI
     단말->>AMF·NSSF: 1. NSSAI 요청 전달
-    AMF·NSSF->>AMF·NSSF: 2. 가입·지역 정책 검증
-    AMF·NSSF->>단말: 3. 허용 S-NSSAI 통보
-    AMF·NSSF->>슬라이스관리: 4. NSI 매핑 요청
-    슬라이스관리->>NSI: 5. NSSI 조합 반환
+    AMF·NSSF->>단말: 2. 허용 S-NSSAI 통보
+    AMF·NSSF->>슬라이스관리: 3. NSI 매핑 요청
+    슬라이스관리->>NSI: 4. NSSI 조합 반환
 ```
 
 **동작 원리**
 
 1. **NSSAI 요청 전달**: 단말이 희망 식별자 목록 제시
-2. **가입·지역 정책 검증**: 가입 권한과 지역 가용성 확인
-3. **허용 S-NSSAI 통보**: 사용할 단일 식별자 결정
-4. **NSI 매핑 요청**: 식별자에 맞는 종단망 조회
-5. **NSSI 조합 반환**: 무선·전송·코어 하위망 연결
+2. **허용 S-NSSAI 통보**: 가입 권한과 지역 가용성을 검증해 사용할 식별자 결정
+3. **NSI 매핑 요청**: 식별자에 맞는 종단망 조회
+4. **NSSI 조합 반환**: 무선·전송·코어 하위망 연결
 
 ### 쉽게 이해하기 (학습용)
 

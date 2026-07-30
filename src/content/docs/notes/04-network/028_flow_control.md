@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "흐름 제어 : Slow Start·슬라이딩 윈도우 (Flow Control)"
-date: "2026-07-29T21:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-network"
 weight: 28
@@ -44,6 +44,10 @@ extra:
 
 ## Ⅱ. 특징
 
+![수신 윈도와 혼잡 윈도 중 작은 값으로 제한되는 송신 가능량](/study/diagrams/tcp-effective-window.svg)
+
+> 수신 윈도를 64KiB로 고정한 예시에서 초록 실제 송신 한도는 cwnd가 더 작을 때 함께 증가하지만 64KiB 이후에는 rwnd에 막히며, 실제 값은 연결의 ACK와 혼잡 신호에 따라 계속 변한다.
+
 - rwnd의 **수신 버퍼 여유 광고**
 - cwnd의 **네트워크 혼잡 한도 추정**
 - `min(rwnd,cwnd)`의 **실제 송신 한도 결정**
@@ -55,13 +59,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["송신 응용 | 전송 데이터를 송신 버퍼에 제공"]
-    B["송신 버퍼 | 미확인 데이터를 재전송까지 보관"]
-    C["실제 전송 한도 | rwnd·cwnd 중 작은 미확인량 제한"]
-    D["수신 윈도 rwnd | 수신 버퍼 여유로 흐름 제어 상한 결정"]
-    E["혼잡 윈도 cwnd | 경로 혼잡으로 혼잡 제어 상한 결정"]
+    A["송신 응용"]
+    B["송신 버퍼"]
+    C["실제 전송 한도"]
+    D["수신 윈도 rwnd"]
+    E["혼잡 윈도 cwnd"]
     A --- B
     B --- C
     C --- D
