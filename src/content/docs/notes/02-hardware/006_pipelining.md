@@ -66,7 +66,7 @@ extra:
 
 ```mermaid
 block
-    columns 5
+    columns 3
     F["IF"]
     D["ID"]
     E["EX"]

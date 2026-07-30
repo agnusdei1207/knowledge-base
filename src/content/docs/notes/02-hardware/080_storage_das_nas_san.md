@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "스토리지 계층: DAS·NAS·SAN (Storage DAS NAS SAN)"
-date: "2026-07-25T00:22:25+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -65,13 +65,16 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   A["호스트·클라이언트"]
   B["DAS 블록 장치"]
   C["NAS 파일 서비스"]
   D["스토리지 패브릭"]
   E["SAN 배열"]
+  A --- B
+  A --- C
+  A --- D --- E
 ```
 
 | 구성요소 | 책임 |
@@ -90,34 +93,23 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant A as 응용·호스트 파일시스템
-    participant D as DAS 블록 장치
-    participant N as NAS 클라이언트·파일 서비스
-    participant P as SAN 어댑터·패브릭
+    participant A as 응용
+    participant F as 파일·블록 접근 계층
+    participant P as 직결·네트워크 경로
     participant S as 스토리지 배열
 
-    alt DAS
-        A->>D: 1. 저장 요청 전달
-        D->>A: 4. 파일 데이터 반환
-    else NAS
-        A->>N: 1. 저장 요청 전달
-        N->>S: 2. 내부 블록 요청
-        S->>N: 3. 내부 데이터 반환
-        N->>A: 4. 파일 데이터 반환
-    else SAN
-        A->>P: 1. 저장 요청 전달
-        P->>S: 2. 내부 블록 요청
-        S->>P: 3. 내부 데이터 반환
-        P->>A: 4. 파일 데이터 반환
-    end
+    A->>F: 1. 저장 요청 전달
+    F->>P: 2. 접근 단위 변환
+    P->>S: 3. 저장장치 접근
+    S->>A: 4. 요청 결과 반환
 ```
 
 **동작 원리**
 
 - **1. 저장 요청 전달**: 파일·블록 위치 지정
-- **2. 내부 블록 요청**: 권한·경로 확인
-- **3. 내부 데이터 반환**: 배열 데이터 제공
-- **4. 파일 데이터 반환**: 요청 형식으로 응답
+- **2. 접근 단위 변환**: DAS·SAN은 호스트, NAS는 파일 서비스가 블록 주소 해석
+- **3. 저장장치 접근**: 직결 또는 네트워크 경로에서 권한 확인 후 데이터 처리
+- **4. 요청 결과 반환**: 선택한 파일·블록 인터페이스 형식으로 응답
 
 ### 쉽게 이해하기 (학습용)
 

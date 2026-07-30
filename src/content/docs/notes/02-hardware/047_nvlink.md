@@ -89,29 +89,27 @@ sequenceDiagram
     participant S as NVLink·NVSwitch
     participant G2 as GPU i+1·축소 커널
 
-    A->>N: 1. All-Reduce 요청
-    N->>G1: 2. 링·조각 일정 전달
+    A->>N: 1. All-Reduce 제출
+    N->>G1: 2. 링·조각 일정 설정
     loop Reduce-Scatter GPU 수−1단계
-        G1->>S: 3. 텐서 조각 전송
-        S->>G2: 4. 다음 GPU 조각 전달
-        G2->>S: 5. 축소 조각 전달
+        G1->>S: 3. Reduce-Scatter
+        S->>G2: 다음 GPU 조각 전달
+        G2->>S: 축소 조각 전달
     end
     loop All-Gather GPU 수−1단계
         G2->>S: 축소 조각 전송
-        S-->>G1: 6. 결과 조각 배포
+        S-->>G1: 4. All-Gather
     end
-    N-->>A: 7. 전체 축소 완료 통지
+    N-->>A: 5. 전체 축소 완료
 ```
 
 **동작 원리**
 
-- **1. All-Reduce 요청**: 합산·배포 요구
-- **2. 링·조각 일정 전달**: 경로·크기 결정
-- **3. 텐서 조각 전송**: 링크 큐 등록
-- **4. 다음 GPU 조각 전달**: 피어 직접 전송
-- **5. 축소 조각 전달**: 로컬 값 합산
-- **6. 결과 조각 배포**: 모든 GPU 공유
-- **7. 전체 축소 완료 통지**: 다음 단계 허용
+- **1. All-Reduce 제출**: 모든 GPU의 텐서 합산·배포 요구
+- **2. 링·조각 일정 설정**: 토폴로지별 경로·크기 결정
+- **3. Reduce-Scatter**: 피어 전송과 로컬 합산으로 조각 축소
+- **4. All-Gather**: 축소 완료 조각을 모든 GPU에 배포
+- **5. 전체 축소 완료**: 다음 학습 단계의 텐서 사용 허용
 
 ### 쉽게 이해하기 (학습용)
 

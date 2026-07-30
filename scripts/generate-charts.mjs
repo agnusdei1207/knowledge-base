@@ -1025,6 +1025,90 @@ await Promise.all([
       annotations: [{ x: 256, y: 16, label: 'N=256에서 이상적 16회' }],
     }),
   ),
+  writeFile(
+    new URL('pollacks-rule-growth.svg', outputDirectory),
+    createLineChart({
+      title: '코어 복잡도 대비 단일 스레드 성능',
+      xLabel: '정규화 코어 복잡도 C₁/C₀',
+      yLabel: '정규화 단일 스레드 성능 P₁/P₀',
+      series: [1, 4, 9, 16].map((x) => ({
+        x,
+        y: Math.sqrt(x),
+        series: '폴락의 법칙 √C',
+      })),
+      annotations: [{ x: 16, y: 4, label: '복잡도 16배에서 성능 약 4배' }],
+    }),
+  ),
+  writeFile(
+    new URL('ups-runtime-load.svg', outputDirectory),
+    createLineChart({
+      title: 'UPS 부하율에 따른 정규화 백업 시간',
+      xLabel: '정격 대비 부하율(%)',
+      yLabel: '정규화 백업 시간',
+      series: [25, 50, 75, 100].map((x) => ({
+        x,
+        y: 100 / x,
+        series: '이상적 역비례 1/Load',
+      })),
+      annotations: [{ x: 100, y: 1, label: '정격 부하에서 기준 시간 1' }],
+    }),
+  ),
+  writeFile(
+    new URL('surface-code-distance.svg', outputDirectory),
+    createLineChart({
+      title: '코드 거리에 따른 정정 가능 오류 수',
+      xLabel: '코드 거리 d',
+      yLabel: '정정 가능 오류 수 t',
+      series: [3, 5, 7, 9, 11].map((x) => ({
+        x,
+        y: Math.floor((x - 1) / 2),
+        series: 't=⌊(d-1)/2⌋',
+      })),
+      annotations: [{ x: 11, y: 5, label: 'd=11에서 최대 5개 정정' }],
+    }),
+  ),
+  writeFile(
+    new URL('bus-bandwidth-efficiency.svg', outputDirectory),
+    createLineChart({
+      title: '프로토콜 효율·사용률에 따른 전달 대역폭',
+      xLabel: '링크 사용률(%)',
+      yLabel: '정규화 대역폭(%)',
+      series: [20, 40, 60, 80, 100].flatMap((x) => [
+        { x, y: 100, series: '이론 링크 대역폭' },
+        { x, y: 80, series: '프로토콜 효율 80% 상한' },
+        { x, y: 0.8 * x, series: '전달 대역폭' },
+      ]),
+      annotations: [{ x: 100, y: 80, label: '효율 80%·사용률 100%에서 80%' }],
+    }),
+  ),
+  writeFile(
+    new URL('pcie-oversubscription-delay.svg', outputDirectory),
+    createLineChart({
+      title: '본선 부하율에 따른 대기 지연 증가',
+      xLabel: '본선 부하율 ρ',
+      yLabel: '정규화 체류 시간 1/(1-ρ)',
+      series: [0, 0.25, 0.5, 0.75, 0.9, 0.95].map((x) => ({
+        x,
+        y: 1 / (1 - x),
+        series: 'M/M/1 이론 관계',
+      })),
+      annotations: [{ x: 0.95, y: 20, label: 'ρ→1에서 지연 급증' }],
+    }),
+  ),
+  writeFile(
+    new URL('pmu-multiplex-scale.svg', outputDirectory),
+    createLineChart({
+      title: 'PMU 다중화 실행 비율에 따른 보정 배율',
+      xLabel: '카운터 실제 실행 비율(%)',
+      yLabel: '보정 배율 T_enabled/T_running',
+      series: [10, 25, 50, 75, 100].map((x) => ({
+        x,
+        y: 100 / x,
+        series: '다중화 보정 배율',
+      })),
+      annotations: [{ x: 10, y: 10, label: '실행 10%이면 10배 환산' }],
+    }),
+  ),
   writeFile(new URL('streaming-watermark.svg', outputDirectory), createStreamingWatermarkChart()),
   writeFile(new URL('pue-energy-breakdown.svg', outputDirectory), createPueBreakdownChart()),
   writeFile(

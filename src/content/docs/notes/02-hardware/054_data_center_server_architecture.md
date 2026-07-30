@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-07-28T13:01:55+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -65,7 +65,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 3
     C["연산 계층"]
     M["메모리·스토리지 계층"]
@@ -99,19 +99,19 @@ sequenceDiagram
     N->>C: 1. 네트워크 요청 통지
     C->>M: 2. 로컬 데이터 조회
     alt 데이터가 DRAM에 상주
-        M-->>C: 3. 요청 데이터 반환
+        M-->>C: 3. 데이터 확보
     else 데이터가 스토리지에 위치
-        C->>S: 4. NVMe 읽기 요청
-        S->>M: 5. DRAM 버퍼 적재
-        M-->>C: 3. 요청 데이터 반환
+        C->>S: 3. 데이터 확보
+        S->>M: DRAM 버퍼 적재
+        M-->>C: 요청 데이터 반환
     end
     alt 범용 CPU 처리
-        C->>N: 6. 처리 작업 실행
+        C->>N: 4. CPU·GPU 처리
     else AI·HPC 가속 처리
-        C->>G: 6. 처리 작업 실행
+        C->>G: 4. CPU·GPU 처리
         G->>M: 입력 읽기·결과 기록
         G-->>C: 가속 작업 완료
-        C->>N: 7. 가속 결과 전송
+        C->>N: 5. 네트워크 응답
     end
 ```
 
@@ -119,11 +119,9 @@ sequenceDiagram
 
 - **1. 네트워크 요청 통지**: NIC 수신 완료
 - **2. 로컬 데이터 조회**: NUMA 상주 확인
-- **3. 요청 데이터 반환**: DRAM 전달
-- **4. NVMe 읽기 요청**: 미상주 조회
-- **5. DRAM 버퍼 적재**: DMA 기록
-- **6. 처리 작업 실행**: CPU·GPU 선택
-- **7. 가속 결과 전송**: NIC 응답
+- **3. 데이터 확보**: DRAM 상주 여부에 따라 로컬 반환 또는 NVMe 적재 수행
+- **4. CPU·GPU 처리**: 작업 특성에 맞춰 범용 코어 또는 가속기에 실행 배치
+- **5. 네트워크 응답**: 처리 결과를 NIC 송신 경로로 반환
 
 ### 쉽게 이해하기 (학습용)
 

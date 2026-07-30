@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "광 인터커넥트 (Optical Interconnect)"
-date: "2026-07-25T00:22:25+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 89
@@ -63,13 +63,15 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   S["SerDes"]
   T["광 송신부"]
   W["WDM 결합·분리기"]
   F["광섬유 경로"]
   R["광 수신부"]
+  S --- T --- W
+  W --- F --- R
 ```
 
 | 구성요소 | 책임 |
@@ -109,7 +111,6 @@ sequenceDiagram
     F->>R: 3. 광 신호 전달
     R-->>S: 4. 전기 데이터 복원
     R->>M: 5. 링크 상태 보고
-    M-->>R: 6. 운영 조치 전달
 ```
 
 **동작 원리**
@@ -119,7 +120,6 @@ sequenceDiagram
 - **3. 광 신호 전달**: 광섬유로 전송
 - **4. 전기 데이터 복원**: 분리·O/E 변환
 - **5. 링크 상태 보고**: 광세기·오류 계측
-- **6. 운영 조치 전달**: 경보·속도 조정
 
 ### 쉽게 이해하기 (학습용)
 

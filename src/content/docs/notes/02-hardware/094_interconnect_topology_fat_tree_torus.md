@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "인터커넥트 토폴로지: 팻트리·토러스 (Interconnect Topology: Fat-Tree·Torus)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 94
@@ -68,13 +68,15 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   N["연산 노드"]
   L["리프 스위치"]
   S["스파인 스위치"]
   R["토러스 라우터"]
   C["순환 링크"]
+  N --- L --- S
+  N --- R --- C
 ```
 
 | 구성요소 | 책임 |
@@ -106,7 +108,6 @@ sequenceDiagram
         S->>R: 4. 토러스 패킷 주입
         R->>D: 5. 순환 경로 전달
     end
-    D-->>S: 6. 통신 완료 반환
 ```
 
 **동작 원리**
@@ -116,7 +117,6 @@ sequenceDiagram
 - **3. 목적 노드 전달**: 목적 리프로 하향
 - **4. 토러스 패킷 주입**: 목적 좌표 전달
 - **5. 순환 경로 전달**: 이웃 링크 이동
-- **6. 통신 완료 반환**: 결과 통지
 
 ### 쉽게 이해하기 (학습용)
 
