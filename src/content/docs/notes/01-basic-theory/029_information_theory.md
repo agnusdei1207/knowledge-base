@@ -54,16 +54,9 @@ extra:
 
 ## Ⅱ. 특징
 
-```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
-xychart-beta
-    title "AWGN 채널의 SNR 대비 스펙트럼 효율"
-    x-axis "선형 신호 대 잡음비 S/N" [0, 1, 3, 7, 15]
-    y-axis "용량(bit/s/Hz)" 0 --> 4
-    line [0, 1, 2, 3, 4]
-```
+![선형 SNR에 따른 섀넌 채널 용량 차트](/study/diagrams/shannon-capacity-growth.svg)
 
-> **용량 증가율**: $C/B=\log_2(1+S/N)$
+> $C/B=\log_2(1+S/N)$의 이론 관계에서 선형 SNR이 1→15로 커져도 스펙트럼 효율은 1→4bit/s/Hz로 로그 증가한다.
 
 - **엔트로피**가 정하는 **무손실 압축** 하한
 - **채널 용량** 미만에서만 성립하는 **신뢰 전송**
@@ -78,7 +71,7 @@ xychart-beta
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 4
     SE["소스 부호기"] --- CE["채널 부호기"] --- CH["잡음 채널"] --- DE["복호기"]
 ```
@@ -118,7 +111,7 @@ C_{\mathrm{AWGN}}&=B\log_2(1+S/N)
 \end{aligned}
 $$
 
-**동작 원리**
+### 동작 원리
 
 - **1. 압축 비트열 전달**: 정보원 중복 제거
 - **2. 채널 코드워드 전달**: 정정 비트 추가

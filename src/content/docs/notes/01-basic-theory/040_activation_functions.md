@@ -54,22 +54,9 @@ extra:
 
 ## Ⅱ. 특징
 
-```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
-xychart-beta
-    title "Sigmoid•Tanh 함수값"
-    x-axis "입력 x" [-2, -1, 0, 1, 2]
-    y-axis "함수 출력" -1 --> 1
-    line [0.12, 0.27, 0.5, 0.73, 0.88]
-    line [-0.96, -0.76, 0, 0.76, 0.96]
-```
+![Sigmoid Tanh ReLU 활성화 함수 비교 차트](/study/diagrams/activation-function-comparison.svg)
 
-| 계열 | 수식•의미 |
-|:---|:---|
-| <span style="color:#3080dd">■</span> 파란색 선언 | **Sigmoid**: 0~1 범위 |
-| <span style="color:#d95926">■</span> 주황색 선언 | **Tanh**: -1~1 영중심 |
-
-> **Sigmoid•Tanh**: 큰 입력에서 변화 둔화
+> 함수식 계산값에서 파란 Sigmoid와 빨간 Tanh는 큰 절댓값 입력에서 포화되고, 초록 ReLU는 음수 구간이 0이며 양수 구간은 선형 증가한다.
 
 - **비선형 변환** 없이는 다층이 단일 **선형 변환**과 동치
 - **출력 범위**가 좌우하는 다음 층 **신호 분포**
@@ -82,7 +69,7 @@ xychart-beta
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 3
     P["이전 층"] --- F["활성화 함수"] --- N["다음 층"]
 ```
@@ -110,7 +97,7 @@ sequenceDiagram
     F-->>P: 4. 입력 기울기 전달
 ```
 
-**동작 원리**
+### 동작 원리
 
 - **1. 가중합 전달**: $z=Wx+b$를 함수에 입력
 - **2. 활성값 전달**: $a=f(z)$를 다음 층에 제공
