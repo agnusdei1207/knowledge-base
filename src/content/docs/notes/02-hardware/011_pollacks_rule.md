@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "폴락의 법칙 (Pollack's Rule)"
-date: "2026-07-28T22:01:02+09:00"
+date: "2026-07-30T18:38:26+09:00"
 tags:
   - "notes-hardware"
 weight: 11
@@ -152,7 +152,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **순차 비율·p99·면적·전력·대역폭** 기반 코어 배분
+- 순차•p99는 **대형 코어**, 병렬 처리량은 **소형 코어** 배분
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-07-28T12:33:03+09:00"
+date: "2026-07-30T18:36:01+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -148,7 +148,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **바이너리 호환성·해독 처리량·전력** 기반 ISA 선택
+- 단순 해독은 **RISC**, x86 호환은 **CISC** 선택
 
 ### 쉽게 이해하기 (학습용)
 
