@@ -26,7 +26,7 @@ function hasCurrentEntry(entries: SidebarEntry[]): boolean {
 function splitBadge(badge?: SidebarBadge): SidebarBadge[] {
   if (!badge) return [];
 
-  const match = badge.text.match(/^(기출|미출|미출제)\s*·\s*(\d+)%$/);
+  const match = badge.text.match(/^(기출|미출|미출제)\s*[·•]\s*(\d+)%$/);
   if (!match) return [badge];
 
   const status = match[1] === '기출' ? '기출' : '미출';
