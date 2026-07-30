@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-07-30T18:00:00+09:00"
+date: "2026-07-31T01:00:32+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -21,7 +21,7 @@ extra:
 ## 미리 알고가기
 
 - **인터넷 프로토콜(Internet Protocol, IP)**: 목적지 주소와 라우팅 표를 이용해 패킷을 네트워크 사이에 전달하는 프로토콜
-- **다중 프로토콜 레이블 스위칭 MPLS(엠피엘에스, Multiprotocol Label Switching)**: 영어 핵심어의 첫 글자를 쓴 표기로 패킷에 레이블을 붙여 논리 경로로 전달하는 기술
+- **다중 프로토콜 레이블 스위칭(Multiprotocol Label Switching, MPLS)**: 패킷에 레이블을 붙여 논리 경로로 전달하는 기술
 - **레이블 경계 라우터(Label Edge Router, LER)**: MPLS 영역의 입구에서 레이블을 붙이고 출구에서 제거하는 라우터
 - **레이블 스위칭 라우터(Label Switching Router, LSR)**: MPLS 영역 안에서 입력 레이블을 출력 레이블로 교환해 패킷을 중계하는 라우터
 - **레이블 스위치 경로(Label Switched Path, LSP)**: 입구 LER부터 출구 LER까지 레이블 교환으로 이어진 단방향 논리 경로
@@ -32,13 +32,14 @@ extra:
 - **가상 사설망(Virtual Private Network, VPN)**: 공용망 위에서 고객별 주소·경로를 논리적으로 격리한 네트워크
 - **트래픽 엔지니어링(Traffic Engineering, TE)**: 링크 용량·지연·정책을 반영해 트래픽이 지날 경로를 명시적으로 제어하는 기법
 - **고속 우회(Fast Reroute, FRR)**: 링크나 노드 장애 때 미리 계산한 보호 경로로 빠르게 전환하는 기능
-
-
+- **양방향 전달 탐지(Bidirectional Forwarding Detection, BFD)**: 인접 장치 사이의 짧은 주기 제어 메시지로 전달 경로 장애를 탐지하는 프로토콜
+- **자원 예약 프로토콜 기반 트래픽 엔지니어링(Resource Reservation Protocol-Traffic Engineering, RSVP-TE)**: 대역폭·경로 제약을 신호로 전달해 명시적 LSP를 설정하는 프로토콜
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크가 단편화 없이 전달할 수 있는 최대 패킷 크기
 
 ## Ⅰ. 개요
 
-- 정의/개념: FEC별 레이블로 **LSP를 따라 패킷 전달**
-- 배경/필요성: IP 라우팅의 **서비스 격리·명시 경로 한계** 해소
+- 정의/개념: 패킷을 FEC로 분류하고 레이블을 교환해 LSP로 전달하는 **MPLS 기술**
+- 배경/필요성: 목적지별 IP 경로만으로는 **서비스 격리·명시 경로 표현 제약**
 
 ### 쉽게 이해하기 (학습용)
 
@@ -57,26 +58,23 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 1
-    A["FEC 분류기"]
-    B["입구 LER"]
-    C["중계 LSR"]
-    D["출구 LER"]
-    E["LFIB"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+    block:LSP
+        columns 3
+        I["입구 LER"]
+        T["중계 LSR"]
+        E["출구 LER"]
+    end
+    I --- T
+    T --- E
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| FEC 분류기 | 패킷을 경로·서비스별 분류 |
-| 입구 LER | FEC 대응 레이블 스택 부착 |
-| 중계 LSR | LFIB로 레이블·다음 홉 교환 |
-| 출구 LER | 레이블 제거 후 IP 패킷 전달 |
-| LFIB | 레이블별 동작·다음 홉 저장 |
+| 입구 LER | **FEC 분류·레이블 스택** 부착 |
+| 중계 LSR | **LFIB**로 출력 레이블·다음 홉 교환 |
+| 출구 LER | 레이블 제거 후 **IP 패킷** 전달 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -86,25 +84,21 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant 입구LER
-    participant 중계LSR
-    participant LFIB
-    participant 출구LER
-    participant 목적망
-    입구LER->>LFIB: 1. FEC 분류
-    입구LER->>중계LSR: 2. 레이블 부착
-    중계LSR->>LFIB: 3. 레이블 조회
-    중계LSR->>출구LER: 4. 레이블 제거
-    출구LER->>목적망: 5. IP 패킷 전달
+    participant S as 출발망
+    participant I as 입구 LER
+    participant T as 중계 LSR
+    participant E as 출구 LER
+    participant D as 목적망
+    S->>I: IP 패킷
+    I->>T: 1. LSP 레이블 패킷
+    T->>E: 2. 교환 레이블 패킷
+    E-->>D: IP 패킷
 ```
 
 **동작 원리**
 
-1. **FEC 분류**: 경로·서비스 처리 결정
-2. **레이블 부착**: FEC 대응 스택 추가
-3. **레이블 조회**: 출력 레이블·다음 홉 확인
-4. **레이블 제거**: 출구 직전·출구에서 스택 제거
-5. **IP 패킷 전달**: 원래 목적지 주소로 전송
+1. **LSP 레이블 패킷**: FEC에 대응하는 레이블 스택 부착
+2. **교환 레이블 패킷**: LFIB로 레이블·다음 홉을 바꾸고 출구에서 제거
 
 ### 쉽게 이해하기 (학습용)
 
@@ -114,9 +108,9 @@ sequenceDiagram
 
 | 패킷 전달 방식 | MPLS | IP 라우팅 |
 |:---|:---|:---|
-| 적용 기준 | VPN 격리·명시적 경로 제어 | 일반 인터넷 도달성 |
-| 핵심 특징 | 입구 FEC 분류 후 레이블 교환 | 매 홉 목적지 프리픽스 조회 |
-| 한계 | 레이블 매핑 오류·LSP 단절 | 라우팅 변화·프리픽스 오류 |
+| 적용 기준 | **VPN 격리·명시적 경로** 제어 | 일반 **인터넷 도달성** |
+| 핵심 특징 | 입구 **FEC 분류·레이블 교환** | 매 홉 **목적지 프리픽스** 조회 |
+| 한계 | **레이블 상태·LSP 운영** 복잡도 | 서비스 분리에 **별도 오버레이** 필요 |
 
 > 요약: MPLS는 FEC별 LSP로 경로·서비스 제어
 
@@ -128,10 +122,10 @@ sequenceDiagram
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| 고객 주소 중첩 | VPN별 서비스 레이블 분리 | 테넌트 경로 격리 |
-| LSP 단절 감지 지연 | BFD·보호 경로 연동 | 복구 시간 단축 |
-| 레이블 스택 MTU 초과 | 스택 깊이 포함 경로 MTU 산정 | 프레임 폐기 예방 |
-| 제어·전달 매핑 불일치 | LDP·RSVP·LFIB 대조 감시 | 블랙홀 방지 |
+| 여러 고객의 사설 주소가 중첩 | VPN별 **서비스 레이블** 분리 | **고객 경로 격리** |
+| LSP 단절 탐지가 늦어 트래픽 손실 | **BFD·FRR 보호 경로** 연동 | **장애 전환 시간** 단축 |
+| 깊은 레이블 스택으로 MTU 초과 | 스택 깊이를 포함한 **경로 MTU** 산정 | **패킷 단편화·폐기** 예방 |
+| 제어 평면과 LFIB 매핑이 불일치 | **LDP·RSVP-TE**와 LFIB 대조 | **전달 블랙홀** 방지 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -139,7 +133,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **서비스 격리·전송 경로·MTU를 반영한 MPLS 레이블 구성**
+- 고객 격리·명시 경로가 필요하면 **레이블 스택**을 구성하되 **경로 MTU** 이내로 제한
 
 ### 쉽게 이해하기 (학습용)
 
