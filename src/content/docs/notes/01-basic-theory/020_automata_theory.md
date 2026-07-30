@@ -72,7 +72,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     Q["상태 집합 Q"] --- A["입력 알파벳 Σ"] --- D["전이 함수 δ"] --- S["시작 상태 q₀"] --- F["수용 상태 집합 F"]
 ```
 

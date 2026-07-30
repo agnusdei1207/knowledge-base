@@ -65,7 +65,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     I["입력 레지스터"] --- D["디코더"] --- M["멀티플렉서"] --- A["전가산기 배열"] --- O["출력 레지스터"]
 ```
 

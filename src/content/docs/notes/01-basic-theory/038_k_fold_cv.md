@@ -61,7 +61,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     S["폴드 분할기"] --- M["모델 학습기"] --- E["성능 평가기"] --- G["점수 집계기"]
 ```
 

@@ -67,7 +67,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     P["파서"] --- G["문법 저장소"] --- D["유도 상태"] --- T["구문 트리 저장소"]
 ```
 

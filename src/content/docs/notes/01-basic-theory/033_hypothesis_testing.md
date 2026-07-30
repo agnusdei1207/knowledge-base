@@ -66,7 +66,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     T["검정 통계량 산출기"] --- N["귀무분포 모형"] --- P["유의확률 계산기"] --- J["기각 판정기"] --- C["구간 추정기"]
 ```
 

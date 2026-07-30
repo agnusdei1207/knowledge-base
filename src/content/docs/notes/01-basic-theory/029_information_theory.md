@@ -72,7 +72,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     SE["소스 부호기"] --- CE["채널 부호기"] --- CH["잡음 채널"] --- DE["복호기"]
 ```
 

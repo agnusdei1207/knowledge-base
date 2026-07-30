@@ -61,7 +61,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     S["상태 제어부"] --- T["전이 함수"] --- H["헤드"] --- P["테이프"]
 ```
 

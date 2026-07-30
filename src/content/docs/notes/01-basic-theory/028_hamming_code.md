@@ -70,7 +70,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     E["해밍 부호기"] --- M["전송•저장 매체"] --- D["해밍 복호기"] --- S["신드롬 판정기"]
 ```
 

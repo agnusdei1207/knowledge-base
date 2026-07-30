@@ -70,7 +70,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     S["표본공간 정의기"] --- R["확률변수 사상기"] --- P["모수 저장소"] --- M["분포 모형"] --- C["CDF 계산기"]
 ```
 

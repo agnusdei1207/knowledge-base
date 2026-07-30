@@ -67,7 +67,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     M["학습 모델"] --- E["오차 측정기"] --- D["적합 진단기"] --- C["복잡도 조정기"]
 ```
 

@@ -65,7 +65,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     SE["소스 부호기"] --- CE["채널 부호기"] --- CH["잡음 채널"] --- CD["채널 복호기"] --- SD["소스 복호기"]
 ```
 

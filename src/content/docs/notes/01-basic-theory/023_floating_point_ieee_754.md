@@ -73,7 +73,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     S["부호 비트"] --- E["지수 필드"] --- F["가수 필드"] --- D["값 해석기"]
 ```
 

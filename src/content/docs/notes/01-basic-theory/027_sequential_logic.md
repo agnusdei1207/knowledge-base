@@ -60,7 +60,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     N["다음 상태 논리"] --- R["상태 레지스터"] --- O["출력 논리"] --- C["클록 발생기"]
 ```
 

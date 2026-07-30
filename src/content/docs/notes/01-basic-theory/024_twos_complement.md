@@ -65,7 +65,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     R["피연산자 레지스터"] --- C["보수기"] --- A["가산기"] --- V["오버플로 검출기"] --- X["부호 확장기"]
 ```
 

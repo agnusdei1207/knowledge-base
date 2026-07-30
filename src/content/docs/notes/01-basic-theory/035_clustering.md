@@ -66,7 +66,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     P["특징 전처리기"] --- K["K-Means 군집기"] --- D["DBSCAN 군집기"] --- E["군집 평가기"]
 ```
 
