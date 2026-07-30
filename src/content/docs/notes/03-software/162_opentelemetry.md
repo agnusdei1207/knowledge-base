@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-07-30T20:00:00+09:00"
+date: "2026-07-30T23:56:12+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -29,12 +29,11 @@ extra:
 - **문맥 전파기(Context Propagator)**: 서비스 호출에 추적 식별자를 넣고 수신 서비스에서 꺼내는 구성요소
 - **Collector**: Receiver가 신호를 받고 Processor가 가공한 뒤 Exporter가 내보내는 중계 구성요소
 - **관측 백엔드(Observability Backend)**: 텔레메트리를 저장·조회·시각화하고 이상을 경보하는 시스템
-- **꼬리 기반 샘플링(Tail-based Sampling)**: 요청 완료 후 전체 추적 결과를 보고 보존 여부를 결정하는 처리
 - **영속 큐(Persistent Queue)**: 전송 실패 중에도 디스크에 신호를 보존해 재시도하는 대기열
 
 ## Ⅰ. 개요
 
-- 정의/개념: 관측 신호의 **생성·전파·수집·전송 표준**
+- 정의/개념: 관측 신호의 생성·전파·수집을 통일하는 **벤더 중립 프레임워크**
 - 배경/필요성: 언어·도구별 계측 중복과 **백엔드 종속 완화**
 
 ### 쉽게 이해하기 (학습용)
@@ -54,7 +53,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 1
     A["API·자동 계측"]
     B["SDK·문맥 전파기"]
@@ -83,26 +82,21 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant A as 응용
-    participant S as SDK
-    participant R as Receiver
-    participant P as Processor·Exporter
+    participant A as API·자동 계측
+    participant S as SDK·문맥 전파기
+    participant C as Collector
     participant B as 관측 백엔드
-    A->>S: 1. 관측 신호 생성
-    S->>R: 2. OTLP 배치 전송
-    R->>P: 3. 파이프라인 전달
-    P->>P: 4. 필터·변환·배치
-    P->>B: 5. 정제 신호 전송
-    B-->>P: 수신 결과 반환
+    A->>S: 1. 관측 신호 전달
+    S->>C: 2. OTLP 배치 전송
+    C->>B: 3. 정제 신호 전송
+    B-->>C: 수신 결과
 ```
 
 **동작 원리**
 
-1. **관측 신호 생성**: 공통 속성·추적 문맥 부여
+1. **관측 신호 전달**: API가 만든 스팬·메트릭·로그 인계
 2. **OTLP 배치 전송**: SDK 샘플링·집계 후 송신
-3. **파이프라인 전달**: Receiver 수신·유형별 분기
-4. **필터·변환·배치**: 민감정보 제거·신호량 조절
-5. **정제 신호 전송**: Exporter 기반 백엔드 전달
+3. **정제 신호 전송**: 수신·필터·변환 후 백엔드 전달
 
 ### 쉽게 이해하기 (학습용)
 
@@ -114,7 +108,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 적용 기준 | **소규모·단일 백엔드** | **대규모·통합 처리** |
 | 핵심 특징 | 짧은 경로·**단순 구성** | **필터·재시도·다중 전송** |
-| 한계 | **응용 부담·자격 노출** | **중계 병목·운영 필요** |
+| 한계 | **응용 부담·접속 정보 노출** | **중계 병목·운영 필요** |
 
 ### 쉽게 이해하기 (학습용)
 
