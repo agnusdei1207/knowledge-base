@@ -764,4 +764,45 @@ await Promise.all([
     }),
   ),
   writeFile(new URL('adversarial-perturbation.svg', outputDirectory), createAdversarialExampleChart()),
+  writeFile(
+    new URL('graph-frontier-growth.svg', outputDirectory),
+    createLineChart({
+      title: '이진 분기 깊이별 탐색 프런티어 크기',
+      xLabel: '탐색 깊이 d',
+      yLabel: '보관 노드 수',
+      series: [1, 2, 3, 4, 5].flatMap((x) => [
+        { x, y: 2 ** x, series: 'BFS 2ᵈ' },
+        { x, y: x, series: 'DFS d' },
+      ]),
+      annotations: [{ x: 5, y: 32, label: 'BFS 큐 후보 급증' }],
+    }),
+  ),
+  writeFile(
+    new URL('ai-accelerator-roofline.svg', outputDirectory),
+    createLineChart({
+      title: '연산 집약도에 따른 AI 가속기 처리량 상한',
+      xLabel: '연산 집약도(ops/byte)',
+      yLabel: '이론 처리량(TOPS)',
+      series: [1, 2, 4, 8, 16, 32, 64, 128, 256, 500, 1024].flatMap((x) => [
+        { x, y: 0.2 * x, series: '메모리 대역폭 상한' },
+        { x, y: 100, series: '최대 연산 성능' },
+        { x, y: Math.min(100, 0.2 * x), series: '달성 가능 상한' },
+      ]),
+      annotations: [{ x: 500, y: 100, label: 'Ridge Point 500 ops/byte' }],
+    }),
+  ),
+  writeFile(
+    new URL('chiplet-die-yield.svg', outputDirectory),
+    createLineChart({
+      title: '다이 면적에 따른 상대 수율 모형',
+      xLabel: '다이 면적 A(mm²)',
+      yLabel: '상대 수율 exp(-D₀A)',
+      series: [25, 50, 100, 200, 400].map((x) => ({
+        x,
+        y: Math.exp(-0.005 * x),
+        series: '단일 다이 상대 수율',
+      })),
+      annotations: [{ x: 400, y: Math.exp(-2), label: '면적 증가 시 결함 노출 증가' }],
+    }),
+  ),
 ]);
