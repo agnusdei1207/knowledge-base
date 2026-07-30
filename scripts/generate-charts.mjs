@@ -273,6 +273,50 @@ function createShapWaterfallChart() {
   return serializeChart(chart, '기준값 0.42에 특징별 양의 기여와 음의 기여를 누적해 예측값 0.64에 도달하는 SHAP 워터폴 개념도');
 }
 
+function createAdversarialExampleChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const samples = [
+    { x: 2.1, y: 2.0, class: '클래스 A' }, { x: 2.8, y: 3.0, class: '클래스 A' },
+    { x: 3.5, y: 1.5, class: '클래스 A' }, { x: 6.3, y: 2.0, class: '클래스 B' },
+    { x: 7.0, y: 3.1, class: '클래스 B' }, { x: 7.7, y: 1.4, class: '클래스 B' },
+  ];
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 82,
+    marginRight: 54,
+    marginBottom: 56,
+    marginLeft: 58,
+    style: {
+      background: '#f8fafc', color: '#334155',
+      fontFamily: 'system-ui, sans-serif', fontSize: '15px',
+    },
+    x: { label: '입력 특징 1', domain: [0, 10], grid: true },
+    y: { label: '입력 특징 2', domain: [0, 5], grid: true },
+    color: { domain: ['클래스 A', '클래스 B'], range: ['#2563eb', '#dc2626'], legend: false },
+    marks: [
+      Plot.text([{ x: 5, y: 4.75, label: 'ε 제약 안의 교란과 결정 경계 통과' }], {
+        x: 'x', y: 'y', text: 'label', fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.ruleX([5], { stroke: '#111827', strokeWidth: 2 }),
+      Plot.dot(samples, { x: 'x', y: 'y', fill: 'class', r: 7 }),
+      Plot.dot([{ x: 4.3, y: 2.7 }], { x: 'x', y: 'y', stroke: '#2563eb', fill: 'none', r: 42, strokeDasharray: '5,4' }),
+      Plot.dot([{ x: 4.3, y: 2.7 }], { x: 'x', y: 'y', fill: '#2563eb', r: 9 }),
+      Plot.dot([{ x: 5.35, y: 2.9 }], { x: 'x', y: 'y', fill: '#dc2626', symbol: 'times', r: 10 }),
+      Plot.link([{ x1: 4.3, y1: 2.7, x2: 5.35, y2: 2.9 }], {
+        x1: 'x1', y1: 'y1', x2: 'x2', y2: 'y2', stroke: '#7c3aed', strokeWidth: 3,
+      }),
+      Plot.text([
+        { x: 4.3, y: 2.7, label: '정상 x' },
+        { x: 5.35, y: 2.9, label: '교란 x′' },
+      ], { x: 'x', y: 'y', text: 'label', dy: -18, fontWeight: 700 }),
+    ],
+  });
+  return serializeChart(chart, '정상 표본이 엡실론 허용 범위 안에서 이동해 결정 경계를 넘어 오분류되는 적대적 예제 개념도');
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -650,4 +694,74 @@ await Promise.all([
     }),
   ),
   writeFile(new URL('shap-additive-contribution.svg', outputDirectory), createShapWaterfallChart()),
+  writeFile(
+    new URL('hash-load-factor.svg', outputDirectory),
+    createLineChart({
+      title: '적재율별 실패 조회 후보 수 이론값',
+      xLabel: '적재율 α',
+      yLabel: '기대 후보·탐사 횟수',
+      series: [0.2, 0.4, 0.6, 0.8, 0.9].flatMap((x) => [
+        { x, y: x, series: '체이닝 α' },
+        { x, y: 1 / (1 - x), series: '개방 주소법 1/(1-α)' },
+      ]),
+      annotations: [{ x: 0.9, y: 10, label: '높은 적재율에서 탐사 급증' }],
+    }),
+  ),
+  writeFile(
+    new URL('linked-list-access.svg', outputDirectory),
+    createLineChart({
+      title: '목표 위치에 따른 원소 접근 단계',
+      xLabel: '목표 위치 k',
+      yLabel: '접근 단계',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: x, series: '연결 리스트 k' },
+        { x, y: 1, series: '동적 배열 1' },
+      ]),
+      annotations: [{ x: 16, y: 16, label: '링크 순차 추적' }],
+    }),
+  ),
+  writeFile(
+    new URL('balanced-tree-height.svg', outputDirectory),
+    createLineChart({
+      title: '키 증가에 따른 균형 이진 트리 높이 상한',
+      xLabel: '키 수 n',
+      yLabel: '높이 상한',
+      series: [2, 4, 8, 16, 32].flatMap((x) => [
+        { x, y: 1.44 * Math.log2(x + 2) - 0.328, series: 'AVL 높이 상한' },
+        { x, y: 2 * Math.log2(x + 1), series: '레드블랙 높이 상한' },
+      ]),
+      annotations: [{ x: 32, y: 1.44 * Math.log2(34) - 0.328, label: 'AVL의 강한 균형' }],
+    }),
+  ),
+  writeFile(
+    new URL('dp-epsilon-likelihood-bound.svg', outputDirectory),
+    createLineChart({
+      title: '프라이버시 예산에 따른 출력 확률비 상한',
+      xLabel: '프라이버시 예산 ε',
+      yLabel: '허용 확률비 상한 eᵋ',
+      series: [0, 0.25, 0.5, 1, 1.5, 2, 3].map((x) => ({
+        x,
+        y: Math.exp(x),
+        series: 'eᵋ',
+      })),
+      annotations: [
+        { x: 1, y: Math.exp(1), label: 'ε=1: 2.72' },
+        { x: 2, y: Math.exp(2), label: 'ε=2: 7.39' },
+      ],
+    }),
+  ),
+  writeFile(
+    new URL('tree-traversal-stack-growth.svg', outputDirectory),
+    createLineChart({
+      title: '트리 형태별 순회 스택 공간 증가율',
+      xLabel: '노드 수 n',
+      yLabel: '복귀 문맥 수',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: Math.log2(x), series: '균형 트리 log₂ n' },
+        { x, y: x, series: '편향 트리 n' },
+      ]),
+      annotations: [{ x: 16, y: 16, label: '편향 시 깊이 n' }],
+    }),
+  ),
+  writeFile(new URL('adversarial-perturbation.svg', outputDirectory), createAdversarialExampleChart()),
 ]);
