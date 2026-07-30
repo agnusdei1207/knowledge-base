@@ -183,6 +183,51 @@ function createDistillationChart() {
   return serializeChart(chart, '고정 로짓 4, 2, 1에서 템퍼러처 1과 3의 소프트 타깃 확률 비교');
 }
 
+function createEmbeddingChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const points = [
+    { x: 1.2, y: 4.2, topic: '검색', label: '검색 엔진' },
+    { x: 1.8, y: 3.6, topic: '검색', label: '문서 검색' },
+    { x: 2.5, y: 4.4, topic: '검색', label: '질의 응답' },
+    { x: 6.1, y: 1.6, topic: '보안', label: '접근 통제' },
+    { x: 6.8, y: 2.2, topic: '보안', label: '권한 관리' },
+    { x: 7.4, y: 1.3, topic: '보안', label: '인증 정책' },
+  ];
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 82,
+    marginRight: 54,
+    marginBottom: 54,
+    marginLeft: 58,
+    style: {
+      background: '#f8fafc',
+      color: '#334155',
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '15px',
+    },
+    x: { label: '임베딩 차원 1', domain: [0, 9], grid: true },
+    y: { label: '임베딩 차원 2', domain: [0, 6], grid: true },
+    color: { domain: ['검색', '보안'], range: ['#2563eb', '#dc2626'], legend: false },
+    marks: [
+      Plot.text([{ x: 4.5, y: 5.75, label: '의미가 가까운 표현의 벡터 공간 배치' }], {
+        x: 'x', y: 'y', text: 'label', fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.dot(points, { x: 'x', y: 'y', fill: 'topic', stroke: '#fff', strokeWidth: 2, r: 9 }),
+      Plot.text(points, { x: 'x', y: 'y', text: 'label', dy: -16, fill: '#334155', fontWeight: 600 }),
+      Plot.link([{ x1: 2.5, y1: 4.4, x2: 6.1, y2: 1.6 }], {
+        x1: 'x1', y1: 'y1', x2: 'x2', y2: 'y2', stroke: '#64748b', strokeDasharray: '6,5',
+      }),
+      Plot.text([{ x: 4.3, y: 3.05, label: '주제가 다르면 거리 증가' }], {
+        x: 'x', y: 'y', text: 'label', fill: '#475569', fontWeight: 600, dy: -8,
+      }),
+    ],
+  });
+  return serializeChart(chart, '검색 주제와 보안 주제의 문장이 각각 가까운 위치에 모인 임베딩 벡터 공간 개념도');
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -438,4 +483,21 @@ await Promise.all([
   ),
   writeFile(new URL('quantization-mapping.svg', outputDirectory), createQuantizationChart()),
   writeFile(new URL('distillation-temperature.svg', outputDirectory), createDistillationChart()),
+  writeFile(new URL('embedding-semantic-space.svg', outputDirectory), createEmbeddingChart()),
+  writeFile(
+    new URL('lora-rank-parameter-growth.svg', outputDirectory),
+    createLineChart({
+      title: 'LoRA 랭크에 따른 학습 매개변수 이론값',
+      xLabel: '랭크 r',
+      yLabel: '매개변수 수(M)',
+      series: [4, 8, 16, 32, 64].flatMap((x) => [
+        { x, y: (x * (4096 + 4096)) / 1e6, series: 'LoRA A·B 행렬' },
+        { x, y: (4096 * 4096) / 1e6, series: '전체 가중치 행렬' },
+      ]),
+      annotations: [
+        { x: 4, y: (4 * 8192) / 1e6, label: 'r=4: 0.0328M' },
+        { x: 64, y: (64 * 8192) / 1e6, label: 'r=64: 0.5243M' },
+      ],
+    }),
+  ),
 ]);
