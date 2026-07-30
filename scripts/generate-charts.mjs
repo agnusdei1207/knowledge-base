@@ -33,6 +33,79 @@ const colors = {
   '클래스 B': '#2563eb',
 };
 
+function serializeChart(chart, ariaLabel) {
+  const svg = chart.tagName.toLowerCase() === 'svg' ? chart : chart.querySelector('svg');
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', ariaLabel);
+  return svg.outerHTML;
+}
+
+function createLineChart({ title, xLabel, yLabel, series, annotations = [] }) {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const names = [...new Set(series.map((point) => point.series))];
+  const palette = ['#2563eb', '#dc2626', '#059669', '#7c3aed'];
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 92,
+    marginRight: 42,
+    marginBottom: 62,
+    marginLeft: 74,
+    style: {
+      background: '#f8fafc',
+      color: '#334155',
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '15px',
+    },
+    x: { label: xLabel, grid: true },
+    y: { label: yLabel, grid: true },
+    color: { domain: names, range: palette.slice(0, names.length), legend: false },
+    marks: [
+      Plot.text([{ x: 0.5, y: 1, label: title }], {
+        x: 'x',
+        y: 'y',
+        text: 'label',
+        frameAnchor: 'top',
+        dy: -72,
+        fontSize: 20,
+        fontWeight: 700,
+        fill: '#1f2937',
+      }),
+      Plot.line(series, { x: 'x', y: 'y', z: 'series', stroke: 'series', strokeWidth: 3 }),
+      Plot.dot(series, { x: 'x', y: 'y', fill: 'series', r: 4 }),
+      Plot.text(annotations, {
+        x: 'x',
+        y: 'y',
+        text: 'label',
+        fill: '#475569',
+        fontWeight: 600,
+        dy: -12,
+      }),
+      Plot.dot(
+        names.map((name, index) => ({ x: index, y: 0, name })),
+        { x: 'x', y: 'y', fill: 'name', r: 6, frameAnchor: 'top', dy: -42 },
+      ),
+      Plot.text(
+        names.map((name, index) => ({ x: index, y: 0, name })),
+        {
+          x: 'x',
+          y: 'y',
+          text: 'name',
+          frameAnchor: 'top',
+          dy: -42,
+          dx: 12,
+          textAnchor: 'start',
+          fill: '#475569',
+        },
+      ),
+    ],
+  });
+  return serializeChart(chart, `${title}: ${names.join(', ')} 계열 차트`);
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -175,15 +248,69 @@ function createObservablePlot() {
     ],
   });
 
-  const svg = chart.tagName.toLowerCase() === 'svg' ? chart : chart.querySelector('svg');
-  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  svg.setAttribute('role', 'img');
-  svg.setAttribute(
-    'aria-label',
+  return serializeChart(
+    chart,
     '두 클래스와 최대 마진 결정 경계, 마진 경계, 서포트 벡터를 나타낸 Observable Plot 산점도',
   );
-  return svg.outerHTML;
 }
 
 await mkdir(outputDirectory, { recursive: true });
-await writeFile(new URL('svm-observable-plot.svg', outputDirectory), createObservablePlot());
+await Promise.all([
+  writeFile(new URL('svm-observable-plot.svg', outputDirectory), createObservablePlot()),
+  writeFile(
+    new URL('positional-encoding.svg', outputDirectory),
+    createLineChart({
+      title: '위치에 따른 사인 인코딩 값',
+      xLabel: '토큰 위치',
+      yLabel: '인코딩 값',
+      series: Array.from({ length: 51 }, (_, x) => [
+        { x, y: Math.sin(x), series: 'sin(pos)' },
+        { x, y: Math.sin(x / 10), series: 'sin(pos/10)' },
+      ]).flat(),
+      annotations: [
+        { x: 8, y: Math.sin(8), label: '빠른 주기: 인접 위치 구분' },
+        { x: 28, y: Math.sin(2.8), label: '느린 주기: 넓은 범위 구분' },
+      ],
+    }),
+  ),
+  writeFile(
+    new URL('context-resource-growth.svg', outputDirectory),
+    createLineChart({
+      title: '컨텍스트 길이에 따른 자원 증가 개념도',
+      xLabel: '상대 토큰 길이',
+      yLabel: '상대 자원량',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: x ** 2, series: '전체 어텐션 관계 계산량 N²' },
+        { x, y: x, series: 'KV 캐시 저장량 N' },
+      ]),
+      annotations: [{ x: 16, y: 256, label: '길이 2배 → 관계 계산량 약 4배' }],
+    }),
+  ),
+  writeFile(
+    new URL('long-context-attention-growth.svg', outputDirectory),
+    createLineChart({
+      title: '문맥 길이에 따른 어텐션 상호작용 증가 개념도',
+      xLabel: '정규화 문맥 길이 n',
+      yLabel: '정규화 상호작용 수',
+      series: [1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: x ** 2, series: '전체 어텐션 n²' },
+        { x, y: x, series: '고정 윈도우 어텐션 n' },
+      ]),
+      annotations: [{ x: 16, y: 256, label: '문맥 2배 → 상호작용 약 4배' }],
+    }),
+  ),
+  writeFile(
+    new URL('test-time-compute.svg', outputDirectory),
+    createLineChart({
+      title: '추론 예산에 따른 품질 한계효용 개념도',
+      xLabel: '정규화 추론 예산',
+      yLabel: '정규화 품질',
+      series: [0.4, 0.62, 0.75, 0.82, 0.86].map((y, index) => ({
+        x: index + 1,
+        y,
+        series: '추론 품질',
+      })),
+      annotations: [{ x: 4, y: 0.82, label: '추가 이득 감소 → 종료 임계값 검토' }],
+    }),
+  ),
+]);

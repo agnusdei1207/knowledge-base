@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "astro dev",
-    "generate:charts": "node scripts/generate-svm-charts.mjs",
+    "generate:charts": "node scripts/generate-charts.mjs",
     "prebuild": "npm run generate:charts",
     "build": "astro build",
     "preview": "astro preview",
