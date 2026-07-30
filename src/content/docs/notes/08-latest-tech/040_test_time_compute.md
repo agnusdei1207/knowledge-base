@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   estimator["난도·위험 추정기"]
   budget["예산 제어기"]
   reasoner["추론·탐색기"]
@@ -94,8 +94,6 @@ sequenceDiagram
   V->>O: 4. 품질·안전 검증
   O-->>B: 5. 종료·정책 환류
 ```
-
-### 동작 원리
 
 1. **난도·위험 추정**: 복잡도·불확실성·**영향도** 산정
 2. **추론 예산 할당**: 토큰·시간·후보의 **상한 설정**

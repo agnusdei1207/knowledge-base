@@ -54,7 +54,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   A["완전 INT8 모델"]
   B["Edge TPU 컴파일러"]
   C["런타임·장치 인터페이스"]
@@ -93,8 +93,6 @@ sequenceDiagram
     T->>P: 4. TPU·CPU 구간 실행
     P-->>R: 5. 종단 결과 결합
 ```
-
-### 동작 원리
 
 - **1. 완전 정수 모델 변환**: 대표 데이터셋 또는 QAT 기반 가중치·활성값 INT8 변환
 - **2. 지원 연산 판정**: 컴파일러의 연산자·텐서 형상 지원 여부 확인

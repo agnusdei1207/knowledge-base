@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T20:20:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -29,7 +29,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: 산업 데이터 의미·통신·보안의 상호운용 표준
-- 기존 한계: 공급사별 태그 의미 불일치로 설비 연계 제한
+- 배경/필요성: 공급사별 태그 의미 불일치로 설비 연계 제한
 
 ### 쉽게 이해하기 (학습용)
 
@@ -37,10 +37,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- **의미 기반 정보 모델**: 노드·속성·참조로 설비 구조와 의미 표현
-- **복수 통신 모델**: Client-Server·PubSub 병행 지원
-- **통합 보안**: 인증서 기반 인증·서명·암호화·권한 제어 제공
-
+- **1. 의미 기반 정보 모델**: 노드·속성·참조로 설비 구조와 의미 표현
+- **2. 복수 통신 모델**: Client-Server·PubSub 병행 지원
+- **3. 통합 보안**: 인증서 기반 인증·서명·암호화·권한 제어 제공
 ### 쉽게 이해하기 (학습용)
 
 - 제조사가 다른 설비도 같은 의미 체계와 보안 규칙으로 데이터를 주고받게 한다.
@@ -49,16 +48,14 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
-  client["Client"]
-  server["Server"]
-  address["AddressSpace"]
-  pubsub["Publisher·Subscriber"]
-  trust["인증서·신뢰 체계"]
-  client --- server
-  server --- address
-  server --- pubsub
-  trust --- server
+  columns 3
+  N0["Client"]
+  N1["Server"]
+  N2["AddressSpace"]
+  N3["Publisher·Subscriber"]
+  N4["인증서·신뢰 체계"]
+  N0 --- N1 --- N2
+  N2 --- N3 --- N4
 ```
 
 | 구성요소 | 책임 |
@@ -68,8 +65,6 @@ block-beta
 | AddressSpace | 노드·속성·참조 관계 표현 |
 | Publisher·Subscriber | DataSet 메시지 발행·수신 |
 | 인증서·신뢰 체계 | 인증서·키·권한 관리 |
-
-> 요약: 정보 모델과 통신 모델을 통합 보안 아래 결합
 
 ### 쉽게 이해하기 (학습용)
 
@@ -91,19 +86,19 @@ sequenceDiagram
   A->>P: 5. 의미 기반 데이터 교환
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. **Endpoint 탐색**: 주소·보안 정책·지원 프로파일 확인
-2. **인증서·정책 검증**: 발급자·유효기간·폐기·신뢰 목록 확인
-3. **보안 채널·세션**: 서명·암호화와 사용자 인증 수립
-4. **탐색·읽기·구독**: AddressSpace의 노드·속성·참조 이용
-5. **의미 기반 데이터 교환**: Client-Server 또는 PubSub로 값과 의미 전달
+- **1. Endpoint 탐색**: 주소·보안 정책·지원 프로파일 확인
+- **2. 인증서·정책 검증**: 발급자·유효기간·폐기·신뢰 목록 확인
+- **3. 보안 채널·세션**: 서명·암호화와 사용자 인증 수립
+- **4. 탐색·읽기·구독**: AddressSpace의 노드·속성·참조 이용
+- **5. 의미 기반 데이터 교환**: Client-Server 또는 PubSub로 값과 의미 전달
 
 ### 쉽게 이해하기 (학습용)
 
 - 설비를 탐색해 보안 통신을 만들고 값과 상태 변경 이력을 교환한다.
 
-## Ⅴ. 산업 통신 방식 비교
+## Ⅴ. 종류 및 비교
 
 | 판단 기준 | OPC UA Client-Server | OPC UA PubSub | 단순 태그 프로토콜 |
 |:---|:---|:---|:---|

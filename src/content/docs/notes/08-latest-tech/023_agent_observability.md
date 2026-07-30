@@ -3,7 +3,7 @@ sidebar:
   order: 23
   label: "023. Agent Observability (에이전트 관측성)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
 title: "Agent Observability (에이전트 관측성)"
 date: "2026-07-30T11:04:43+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 23
 extra:
   question_no: "023"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "추적·비용·실패 관측이 운영 통제 기반"
@@ -55,6 +55,9 @@ block-beta
     C["수집·처리기"]
     S["신호 저장소"]
     V["분석·경보기"]
+    I --- C
+    C --- S
+    S --- V
 ```
 
 | 구성요소 | 책임 |
@@ -82,8 +85,6 @@ sequenceDiagram
     C->>V: 4. 부모·자식 구간·버전 연계
     V-->>A: 5. SLO 위반 원인 구간 경보
 ```
-
-### 동작 원리
 
 1. **목표·호출별 추적 구간 생성**: 공통 추적 식별자로 **종단 경로** 구성
 2. **지연·오류·토큰·비용 전송**: 모델·도구 단계의 **운영 신호** 수집

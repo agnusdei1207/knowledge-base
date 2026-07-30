@@ -47,7 +47,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   api["구성 API"]
   istiod["Istiod"]
   sidecar["Sidecar Envoy"]
@@ -66,8 +66,6 @@ block-beta
 | Sidecar Envoy | Pod별 L4·L7 정책 집행 |
 | Ambient ztunnel | 노드 공유 L4 보안 터널 제공 |
 | Ambient waypoint | 선택 범위의 L7 정책 집행 |
-
-> 요약: Istiod가 정책을 계산하고 선택한 데이터 평면이 L4·L7에서 집행한다
 
 ### 쉽게 이해하기 (학습용)
 
@@ -89,15 +87,11 @@ sequenceDiagram
   W-->>S: 5. 라우팅 결과 전달
 ```
 
-### 동작 원리
-
 1. **정책 의도 선언**: 경로·신원·인가·관측 규칙 등록
 2. **L4 구성·인증서 배포**: Istiod가 xDS 구성과 워크로드 인증서 전달
 3. **요청 포착·mTLS**: ztunnel이 워크로드 신원을 확인하고 암호화
 4. **선택적 L7 정책 위임**: HTTP 인가·라우팅이 필요한 트래픽만 waypoint 경유
 5. **라우팅 결과 전달**: 적용 결과를 목적 서비스에 전달하고 텔레메트리 생성
-
-> 요약: 선언 정책을 L4 기본 터널과 선택적 L7 경로로 집행한다
 
 ### 쉽게 이해하기 (학습용)
 

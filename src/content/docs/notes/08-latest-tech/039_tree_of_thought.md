@@ -52,7 +52,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   state["상태 표현"]
   generator["후보 생성기"]
   evaluator["상태 평가기"]
@@ -90,8 +90,6 @@ sequenceDiagram
   C->>V: 4. 가지치기·경로 선택
   V-->>C: 5. 완성 답 독립 검증
 ```
-
-### 동작 원리
 
 1. **초기 상태 정의**: 목표·제약·**종료 조건** 고정
 2. **후보 상태 확장**: 현재 상태별 **다음 사고** 생성

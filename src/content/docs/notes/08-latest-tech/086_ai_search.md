@@ -3,7 +3,7 @@ sidebar:
   order: 86
   label: "086. AI Search (AI 검색)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
 title: "AI Search (AI 검색)"
 date: "2026-07-25T23:35:00+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 86
 extra:
   question_no: "086"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "검색·생성 통합 경험이 최신 서비스축"
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   A["질의 이해 계층"]
   B["희소·밀집 검색기"]
   C["후보 통합 계층"]
@@ -89,8 +89,6 @@ sequenceDiagram
     R->>G: 4. 상위 근거 전달
     G-->>U: 5. 답변·출처 반환
 ```
-
-### 동작 원리
 
 - **1. 질의·제약 전달**: 의도·개체·기간·권한 조건 식별
 - **2. 검색 경로 제공**: 희소·밀집 검색의 조합과 필터 결정

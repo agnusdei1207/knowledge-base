@@ -3,7 +3,7 @@ sidebar:
   order: 226
   label: "226. SwiGLU·GELU 활성화 함수 비교"
   badge:
-    text: "미출제 · 50%"
+    text: "미출 · 50%"
     variant: note
 title: "SwiGLU·GELU 활성화 함수 비교 (Activation Functions)"
 date: "2026-07-25T03:55:00+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 226
 extra:
   question_no: "226"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "LLM 피드포워드 활성화·연산량 선택"
@@ -39,15 +39,9 @@ extra:
 
 ## Ⅱ. 특징
 
-![GELU와 SwiGLU의 Swish 게이트 성분 비교](/study/diagrams/gelu-swish-activation.svg)
-
-> 파란 GELU와 붉은 Swish는 음수 구간을 부드럽게 억제하고 양수 구간을 통과시키며, 붉은 선은 SwiGLU 전체 출력이 아닌 게이트에 쓰이는 Swish 성분의 공식 계산값이다.
-
-- SwiGLU 게이트가 입력별 특징 선택을 강화한다.
-- GELU 단일 경로가 구현·메모리 비용을 줄인다.
-- SwiGLU는 보통 FFN 투영 행렬을 하나 더 쓴다.
-- 동일 예산 비교는 은닉 차원 재조정이 필요하다.
-
+- **1. SwiGLU 게이팅**: 입력별 특징 선택을 강화하는 곱셈 게이트
+- **2. GELU 단일 경로**: 단순한 투영 구조로 구현·메모리 비용 절감
+- **3. FFN 삼중 투영**: SwiGLU의 추가 행렬에 따른 파라미터 비용 증가
 ### 쉽게 이해하기 (학습용)
 
 - 문지기를 하나 더 두면 선택은 정교해지지만 같은 공간을 쓰려면 통로 폭을 줄여야 한다.
@@ -56,17 +50,14 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
-  input["입력 특징"]
-  gate["게이트·활성화 투영"]
-  value["값 투영"]
-  combine["활성화·요소별 결합"]
-  output["출력 투영"]
-  input --- gate
-  input --- value
-  gate --- combine
-  value --- combine
-  combine --- output
+  columns 3
+  N0["입력 특징"]
+  N1["게이트·활성화 투영"]
+  N2["값 투영"]
+  N3["활성화·요소별 결합"]
+  N4["출력 투영"]
+  N0 --- N1 --- N2
+  N2 --- N3 --- N4
 ```
 
 | 구성요소 | 책임 |
@@ -76,8 +67,6 @@ block-beta
 | 값 투영 | SwiGLU에서 게이트와 결합할 선형 특징 생성 |
 | 활성화·요소별 결합 | GELU 단일 경로 또는 SwiGLU 게이트×값 계산 |
 | 출력 투영 | 활성 특징을 모델 차원으로 복원 |
-
-> 요약: 활성화·값 경로 구성이 두 방식의 경계
 
 ### 쉽게 이해하기 (학습용)
 
@@ -99,15 +88,13 @@ sequenceDiagram
   C->>O: 5. 모델 차원 복원
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. **활성·게이트 특징 생성**: 입력을 투영해 GELU 입력 또는 Swish 게이트 계산
-2. **값 특징 생성**: SwiGLU는 독립 선형 투영으로 값 경로 생성
-3. **GELU 또는 Swish 적용**: GELU는 확률적 게이팅 형태, SwiGLU는 Swish 계열 게이트 적용
-4. **경로 선택·요소별 결합**: GELU는 활성값을 전달하고 SwiGLU는 게이트와 값 투영을 곱함
-5. **모델 차원 복원**: 내부 특징을 출력 투영으로 원래 모델 차원에 반환
-
-> 요약: 단일 활성화와 입력 의존 게이트의 차이
+- **1. 활성·게이트 특징 생성**: 입력을 투영해 GELU 입력 또는 Swish 게이트 계산
+- **2. 값 특징 생성**: SwiGLU는 독립 선형 투영으로 값 경로 생성
+- **3. GELU 또는 Swish 적용**: GELU는 확률적 게이팅 형태, SwiGLU는 Swish 계열 게이트 적용
+- **4. 경로 선택·요소별 결합**: GELU는 활성값을 전달하고 SwiGLU는 게이트와 값 투영을 곱함
+- **5. 모델 차원 복원**: 내부 특징을 출력 투영으로 원래 모델 차원에 반환
 
 ### 쉽게 이해하기 (학습용)
 
@@ -120,8 +107,6 @@ sequenceDiagram
 | 적용 기준 | 품질 우선 LLM FFN·예산 조정 가능 | 단순 경로·호환성·비용 우선 |
 | 핵심 특징 | 게이트·값 투영의 요소별 결합 | 단일 투영값의 부드러운 활성화 |
 | 한계 | 투영 증가·메모리·연산량 확대 | 게이트 기반 특징 선택 부재 |
-
-> 요약: 품질·예산은 SwiGLU, 단순성은 GELU
 
 ### 쉽게 이해하기 (학습용)
 

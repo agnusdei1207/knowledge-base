@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive (AUTOSAR Adaptive)"
-date: "2026-07-30T11:10:21+09:00"
+date: "2026-07-30T20:20:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -41,10 +41,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- POSIX 기반 **독립 프로세스 실행·자원 격리**
-- `ara::com` 기반 **동적 서비스 탐색·통신**
-- 실행·건강·설정·갱신의 **플랫폼 생명주기 통합**
-
+- **1. 독립 프로세스 실행·자원 격리**: POSIX 기반 독립 프로세스 실행·자원 격리
+- **2. 동적 서비스 탐색·통신**: `ara::com` 기반 동적 서비스 탐색·통신
+- **3. 플랫폼 생명주기 통합**: 실행·건강·설정·갱신의 플랫폼 생명주기 통합
 ### 쉽게 이해하기 (학습용)
 
 - 고성능 차량 앱을 독립 프로세스로 실행하고 표준 서비스로 통신·상태·갱신을 관리한다.
@@ -53,12 +52,14 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
-  A["Adaptive Application"]
-  B["ARA·ara::com"]
-  C["Execution Management"]
-  D["UCM·PHM"]
-  E["POSIX 운영체제"]
+  columns 3
+  N0["Adaptive Application"]
+  N1["ARA·ara::com"]
+  N2["Execution Management"]
+  N3["UCM·PHM"]
+  N4["POSIX 운영체제"]
+  N0 --- N1 --- N2
+  N2 --- N3 --- N4
 ```
 
 | 구성요소 | 책임 |
@@ -68,8 +69,6 @@ block-beta
 | Execution Management | 프로세스 **시작·중지·상태 관리** |
 | UCM·PHM | **패키지 갱신·구성·건강 감시** |
 | POSIX 운영체제 | **프로세스·자원·격리 기반 제공** |
-
-> 요약: 표준 ARA 서비스로 고성능 앱의 통신과 생명주기를 관리
 
 ### 쉽게 이해하기 (학습용)
 
@@ -91,7 +90,7 @@ sequenceDiagram
     A->>H: 5. 건강·오류 상태 전달
 ```
 
-### 동작 원리
+**동작 원리**
 
 - **1. 검증 패키지·Manifest 전달**: 서명·호환성 확인 후 실행·서비스 구성 설치
 - **2. 프로세스 상태 전달**: 의존성과 실행 상태에 따른 프로세스 시작·중지

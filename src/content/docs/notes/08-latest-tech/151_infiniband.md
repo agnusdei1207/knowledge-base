@@ -50,14 +50,19 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-architecture-beta
-    service hca1(server)[HCA 노드 A]
-    service sw(network)[IB 스위치]
-    service hca2(server)[HCA 노드 B]
-    service sm(server)[서브넷 관리자]
-    hca1:R -- L:sw
-    sw:R -- L:hca2
-    sm:T -- B:sw
+block-beta
+    columns 3
+    H["HCA"] S["InfiniBand 스위치"] M["서브넷 관리자"]
+    T["전송·큐 계층"] C["혼잡·서비스 계층"]:2
+    H -- S
+    S -- M
+    H -- T
+    T -- C
+    C -- S
+    H --- S
+    S --- M
+    M --- T
+    T --- C
 ```
 
 | 구성요소 | 책임 |
@@ -85,8 +90,6 @@ sequenceDiagram
     W->>D: 4. 경로표 기반 패킷 전달
     D-->>H: 5. 완료·혼잡 신호 반환
 ```
-
-### 동작 원리
 
 1. **장치 발견·주소·P_Key 설정**: 포트 상태를 수집해 **통신 종단·분할 경계** 확정
 2. **경로·SL·가상 통로 구성**: 목적지와 서비스 수준에 맞는 **전송 경로** 게시

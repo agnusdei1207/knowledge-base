@@ -3,7 +3,7 @@ sidebar:
   order: 22
   label: "022. Agent Guardrail (에이전트 가드레일)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
 title: "Agent Guardrail (에이전트 가드레일)"
 date: "2026-07-30T11:04:43+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 22
 extra:
   question_no: "022"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "입력·출력·행동 제한이 안전성 핵심"
@@ -54,6 +54,9 @@ block-beta
     R["에이전트 런타임"]
     T["도구 정책 집행기"]
     O["출력 검사기"]
+    I --- R
+    R --- T
+    T --- O
 ```
 
 | 구성요소 | 책임 |
@@ -86,8 +89,6 @@ sequenceDiagram
     end
     A-->>U: 5. 출력 정책 검사·안전 응답
 ```
-
-### 동작 원리
 
 1. **입력 위험·민감정보 검사**: 악성 지시·난독화·**비밀정보** 탐지
 2. **신뢰 지시·비신뢰 문맥 분리**: 외부 콘텐츠의 **명령 권한** 제거

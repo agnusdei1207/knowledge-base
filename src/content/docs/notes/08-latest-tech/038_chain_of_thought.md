@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   input["과업·조건 입력"]
   reasoner["추론 생성기"]
   extractor["답 추출기"]
@@ -89,8 +89,6 @@ sequenceDiagram
   V-->>R: 4. 규칙·도구 검증
   V-->>U: 5. 결론·근거 제시
 ```
-
-### 동작 원리
 
 1. **문제·조건 정리**: 목표·제약 명시로 **조건 누락** 방지
 2. **중간 추론 생성**: 부분 결과를 잇는 **단계 경로** 구성

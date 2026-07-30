@@ -52,7 +52,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   role["역할·목표"]
   policy["정책·제약"]
   context["문맥 경계"]
@@ -90,8 +90,6 @@ sequenceDiagram
   A->>P: 4. 도구 권한 검증
   P-->>A: 5. 응답·위반 기록
 ```
-
-### 동작 원리
 
 1. **역할·정책 구성**: 서비스 공통 **행동 계약** 확정
 2. **신뢰 경계 적용**: 지시와 외부 데이터의 **권한 분리**

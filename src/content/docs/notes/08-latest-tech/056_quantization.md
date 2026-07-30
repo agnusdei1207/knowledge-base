@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   observer["분포 관측기"]
   parameter["양자 매개변수"]
   value["저비트 표현"]
@@ -94,8 +94,6 @@ sequenceDiagram
   Q->>H: 4. 양자화·커널 실행
   H-->>E: 5. 품질·자원 검증
 ```
-
-### 동작 원리
 
 1. **품질·자원 기준 설정**: 허용 정확도 손실과 **자원 목표** 확정
 2. **대표 분포 관측**: 보정 표본으로 **동적 범위** 측정

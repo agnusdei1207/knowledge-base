@@ -3,7 +3,7 @@ sidebar:
   order: 90
   label: "090. Diffusion Model (확산모델)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
 title: "Diffusion Model (확산모델)"
 date: "2026-07-25T22:42:00+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 90
 extra:
   question_no: "090"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "잡음 제거 생성 원리가 대표 출제 후보"
@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   A["잡음 스케줄"]
   B["시점별 잡음 상태"]
   C["잡음 제거 모델"]
@@ -87,8 +87,6 @@ sequenceDiagram
         P->>D: 4. 갱신 잡음 상태 전달
     end
 ```
-
-### 동작 원리
 
 - **1. 시점별 잡음 상태 제공**: 학습 표본과 잡음의 스케줄 비율 혼합
 - **2. 잡음·시점 입력 전달**: 제거 모델의 시점 조건부 잡음 예측

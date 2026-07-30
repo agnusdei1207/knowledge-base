@@ -1323,6 +1323,20 @@ await Promise.all([
     }),
   ),
   writeFile(
+    new URL('rrf-rank-score.svg', outputDirectory),
+    createLineChart({
+      title: 'RRF에서 순위에 따른 개별 검색기 기여도',
+      xLabel: '검색 결과 순위 r',
+      yLabel: 'RRF 기여 점수 1/(k+r)',
+      series: [1, 2, 3, 5, 10, 20, 50].map((x) => ({
+        x,
+        y: 1 / (60 + x),
+        series: 'k=60',
+      })),
+      annotations: [{ x: 1, y: 1 / 61, label: '1위 결과의 기여도' }],
+    }),
+  ),
+  writeFile(
     new URL('model-drift-distance.svg', outputDirectory),
     createLineChart({
       title: '운영 분포 변화와 드리프트 경보',

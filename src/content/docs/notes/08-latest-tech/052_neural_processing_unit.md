@@ -60,7 +60,7 @@ extra:
 
 ```mermaid
 block-beta
-  columns 1
+  columns 3
   A["컴파일러·런타임"]
   B["DMA 전송 엔진"]
   C["온칩 SRAM"]
@@ -99,8 +99,6 @@ sequenceDiagram
     N->>P: 4. NPU 구간 실행
     P-->>R: 5. 폴백 결과 결합
 ```
-
-### 동작 원리
 
 - **1. 연산 그래프 분석**: 연산자·텐서 형태와 의존관계 식별
 - **2. 지원 연산 분할**: NPU 실행 구간과 CPU 대체 구간 결정

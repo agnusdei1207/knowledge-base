@@ -3,7 +3,7 @@ sidebar:
   order: 21
   label: "021. Agent Evaluation (에이전트 평가)"
   badge:
-    text: "미출제 · 70%"
+    text: "미출 · 70%"
     variant: note
 title: "Agent Evaluation (에이전트 평가)"
 date: "2026-07-30T11:04:43+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 21
 extra:
   question_no: "021"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "성공률·안전성 평가가 도입 판단의 핵심"
@@ -55,6 +55,9 @@ block-beta
     C["경로 수집기"]
     V["결과·경로 평가기"]
     G["배포 게이트"]
+    R --- C
+    C --- V
+    V --- G
 ```
 
 | 구성요소 | 책임 |
@@ -82,8 +85,6 @@ sequenceDiagram
     G->>G: 4. 기준선 대비 회귀 판정
     G-->>H: 5. 배포 허용·차단 통보
 ```
-
-### 동작 원리
 
 1. **과업·성공 조건 구성**: 정상·경계·공격 조건과 **완료 증거** 명시
 2. **반복 결과·실행 경로 전달**: 비결정성을 고려한 결과·도구·**부작용 수집**
