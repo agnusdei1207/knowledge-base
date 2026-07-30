@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "LLM Serving (LLM 서빙)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 48
@@ -54,7 +54,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     G["API 게이트웨이"]
     R["모델 라우터"]
     S["스케줄러"]

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 70%"
     variant: note
 title: "Agent Evaluation (에이전트 평가)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 21
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     R["평가 실행기"]
     C["경로 수집기"]
     V["결과·경로 평가기"]

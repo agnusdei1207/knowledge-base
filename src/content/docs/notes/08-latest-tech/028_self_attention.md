@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Self-Attention (셀프 어텐션)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 28
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     P["Q·K·V 투영"]
     S["점수 계산기"]
     M["스케일·마스크"]

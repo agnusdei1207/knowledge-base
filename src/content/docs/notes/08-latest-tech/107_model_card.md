@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "모델 카드 (Model Card)"
-date: "2026-07-25T22:59:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 107
@@ -47,7 +47,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     I["모델 세부정보"]
     U["용도·사용자"]
     E["평가 설계·결과"]

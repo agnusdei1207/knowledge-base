@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "QLoRA (양자화 저랭크 적응)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 63
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     Q["NF4 가중치 저장소"]
     D["역양자화 연산기"]
     L["LoRA 학습 경로"]

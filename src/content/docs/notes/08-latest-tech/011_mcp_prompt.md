@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MCP Prompt (모델 컨텍스트 프로토콜 프롬프트)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 11
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     D["프롬프트 기술자"]
     A["인자 정의"]
     M["프롬프트 메시지"]

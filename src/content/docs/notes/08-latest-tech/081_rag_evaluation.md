@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RAG 평가 (RAG Evaluation)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 81
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     D["평가 데이터셋"]
     X["RAG 실행기"]
     R["검색 평가기"]

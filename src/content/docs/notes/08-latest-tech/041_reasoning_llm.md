@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Reasoning LLM (추론 특화 LLM)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 41
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     B["기반 모델"]
     P["추론 후학습"]
     C["예산 제어기"]

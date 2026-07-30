@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "PEFT (매개변수 효율적 미세조정)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 61
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     B["동결 기반 모델"]
     C["주입 구성"]
     T["학습 모듈"]

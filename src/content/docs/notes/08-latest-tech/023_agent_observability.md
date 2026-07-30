@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 70%"
     variant: note
 title: "Agent Observability (에이전트 관측성)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 23
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     I["계측기"]
     C["수집·처리기"]
     S["신호 저장소"]

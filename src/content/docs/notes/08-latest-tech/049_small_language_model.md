@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SLM (소형 언어모델)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 49
@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     B["경량 백본"]
     T["과업 적응 계층"]
     C["압축 계층"]

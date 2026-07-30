@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "기업 RAG (Enterprise RAG)"
-date: "2026-07-25T23:33:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 84
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["동기화 계층"]
     I["색인 계층"]
     R["권한 검색 계층"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     G["생성 모델"]
     C["주장 분해기"]
     F["사실 검증기"]

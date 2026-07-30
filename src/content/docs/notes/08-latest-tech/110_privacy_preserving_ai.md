@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "프라이버시 보존 AI (Privacy-Preserving AI)"
-date: "2026-07-25T23:02:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 110
@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     T["위협 모델"]
     B["신뢰 경계"]
     F["분산 학습 계층"]

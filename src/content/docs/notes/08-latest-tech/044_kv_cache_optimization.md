@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "KV Cache 최적화 (KV Cache Optimization)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 44
@@ -53,7 +53,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     L["캐시 레이아웃"]
     A["블록 할당기"]
     C["압축 계층"]

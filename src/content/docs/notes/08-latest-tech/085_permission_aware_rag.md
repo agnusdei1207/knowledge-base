@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "권한 인지 RAG (Permission-Aware RAG)"
-date: "2026-07-25T23:34:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 85
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     I["신원 문맥"]
     A["원천 ACL 저장소"]
     S["권한 동기화기"]

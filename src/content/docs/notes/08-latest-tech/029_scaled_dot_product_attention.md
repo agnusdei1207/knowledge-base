@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Scaled Dot-Product Attention (스케일드 닷 프로덕트 어텐션)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 29
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     Q["Q·K·V"]
     S["점수 행렬"]
     M["스케일·마스크"]

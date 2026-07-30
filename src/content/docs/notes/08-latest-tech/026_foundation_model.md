@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Foundation Model (파운데이션 모델)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 26
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     D["학습 자원"]
     M["기반 모델"]
     A["적응 계층"]

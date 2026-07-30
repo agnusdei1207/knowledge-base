@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "멀티 에이전트 협업 (Multi-Agent Collaboration)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 13
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     T["협업 토폴로지"]
     R["역할·능력"]
     S["공유 상태"]

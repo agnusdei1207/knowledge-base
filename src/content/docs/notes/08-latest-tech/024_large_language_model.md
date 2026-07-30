@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "Large Language Model (거대 언어 모델, LLM)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 24
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     T["토크나이저"]
     E["임베딩 계층"]
     B["트랜스포머 블록"]

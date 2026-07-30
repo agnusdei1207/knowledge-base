@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SHAP 설명 기법 (SHapley Additive exPlanations)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 106
@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     M["모델 출력기"]
     B["배경 분포·마스커"]
     C["연합 가치 계산기"]

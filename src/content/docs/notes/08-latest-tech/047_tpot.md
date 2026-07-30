@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 40%"
     variant: note
 title: "TPOT (토큰당 출력 지연)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 47
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     S["디코드 스케줄러"]
     K["KV 캐시 관리자"]
     E["모델 엔진"]

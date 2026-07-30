@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "LoRA (저랭크 적응)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 62
@@ -54,7 +54,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     W["동결 선형층"]
     L["저랭크 학습 경로"]
     S["랭크·스케일 제어"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Agent Orchestration (에이전트 오케스트레이션)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 14
@@ -52,7 +52,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     G["워크플로 그래프"]
     R["라우터·스케줄러"]
     S["상태·체크포인트"]

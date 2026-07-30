@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "PagedAttention (페이지드 어텐션)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 45
@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     L["논리 KV 블록"]
     T["블록 테이블"]
     P["물리 블록 풀"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Agent Memory (에이전트 메모리)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 16
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["수집·기록기"]
     W["작업 기억"]
     L["장기 기억"]

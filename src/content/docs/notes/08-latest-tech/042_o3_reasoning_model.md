@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 40%"
     variant: note
 title: "o3 추론 모델 (o3 Reasoning Model)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 42
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     A["애플리케이션"]
     O["o3 모델"]
     E["추론 노력"]

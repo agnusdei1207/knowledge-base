@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Positional Encoding (위치 인코딩)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 31
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     I["위치 인덱스"]
     E["위치 표현기"]
     J["주입 계층"]

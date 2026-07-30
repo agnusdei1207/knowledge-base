@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 40%"
     variant: note
 title: "TTFT (최초 토큰 지연)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 46
@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["클라이언트"]
     G["API 게이트웨이"]
     Q["요청 대기열"]

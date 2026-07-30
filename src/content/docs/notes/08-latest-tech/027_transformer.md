@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Transformer (트랜스포머)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 27
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 4
+    columns 3
     I["입력 표현"]
     A["어텐션 계층"]
     F["피드포워드 계층"]

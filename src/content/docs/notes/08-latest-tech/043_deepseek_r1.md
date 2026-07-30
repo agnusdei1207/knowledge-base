@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DeepSeek-R1 추론 모델 (DeepSeek-R1)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 43
@@ -51,7 +51,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     B["V3-Base"]
     C["콜드 스타트 SFT"]
     R["GRPO·검증 보상"]

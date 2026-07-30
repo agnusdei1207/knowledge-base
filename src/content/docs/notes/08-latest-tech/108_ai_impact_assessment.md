@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI 영향평가 (AI Impact Assessment)"
-date: "2026-07-25T23:00:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 108
@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["시스템 맥락"]
     S["영향 집단"]
     H["피해 시나리오"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Context Window (컨텍스트 윈도우)"
-date: "2026-07-25T01:25:00+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 33
@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     L["길이 한도"]
     B["토큰 예산 관리자"]
     S["문맥 선택기"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Agent Planning (에이전트 플래닝)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T11:04:43+09:00"
 tags:
   - "notes-latest_tech"
 weight: 15
@@ -52,7 +52,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     G["목표·제약"]
     D["과업 분해기"]
     R["계획 표현"]
