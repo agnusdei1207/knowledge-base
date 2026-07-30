@@ -106,6 +106,83 @@ function createLineChart({ title, xLabel, yLabel, series, annotations = [] }) {
   return serializeChart(chart, `${title}: ${names.join(', ')} 계열 차트`);
 }
 
+function createQuantizationChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const scale = 0.5;
+  const zeroPoint = 4;
+  const values = Array.from({ length: 101 }, (_, index) => -2.5 + index * 0.05).map((x) => {
+    const q = Math.max(0, Math.min(7, Math.round(x / scale) + zeroPoint));
+    return { x, restored: scale * (q - zeroPoint), original: x };
+  });
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 82,
+    marginRight: 42,
+    marginBottom: 62,
+    marginLeft: 74,
+    style: { background: '#f8fafc', color: '#334155', fontFamily: 'system-ui, sans-serif', fontSize: '15px' },
+    x: { label: '실숫값 x', grid: true },
+    y: { label: '복원값 x̂', domain: [-2.5, 2.5], grid: true },
+    marks: [
+      Plot.text([{ x: 0, y: 2.42, label: '균일 비대칭 양자화 매핑' }], {
+        x: 'x', y: 'y', text: 'label', fontSize: 20, fontWeight: 700, fill: '#1f2937',
+      }),
+      Plot.line(values, { x: 'x', y: 'original', stroke: '#94a3b8', strokeDasharray: '6,5' }),
+      Plot.line(values, { x: 'x', y: 'restored', curve: 'step-after', stroke: '#2563eb', strokeWidth: 3 }),
+      Plot.text([
+        { x: -2.25, restored: -2, label: '포화' },
+        { x: 0.25, restored: 0.5, label: '반올림 오차' },
+        { x: 2.25, restored: 1.5, label: '포화' },
+      ], { x: 'x', y: 'restored', text: 'label', dy: -12, fill: '#475569', fontWeight: 600 }),
+    ],
+  });
+  return serializeChart(chart, '스케일 0.5와 영점 4를 적용한 균일 비대칭 양자화 계단 함수');
+}
+
+function createDistillationChart() {
+  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const document = dom.window.document;
+  const logits = [4, 2, 1];
+  const classes = ['클래스 A', '클래스 B', '클래스 C'];
+  const temperatures = [1, 3];
+  const values = temperatures.flatMap((temperature) => {
+    const exps = logits.map((logit) => Math.exp(logit / temperature));
+    const sum = exps.reduce((total, value) => total + value, 0);
+    return exps.map((value, index) => ({
+      class: classes[index],
+      temperature: `T=${temperature}`,
+      probability: value / sum,
+    }));
+  });
+  const chart = Plot.plot({
+    document,
+    width: 860,
+    height: 520,
+    marginTop: 82,
+    marginRight: 42,
+    marginBottom: 62,
+    marginLeft: 74,
+    style: { background: '#f8fafc', color: '#334155', fontFamily: 'system-ui, sans-serif', fontSize: '15px' },
+    x: { label: '클래스' },
+    y: { label: '소프트맥스 확률', domain: [0, 1], grid: true },
+    color: { domain: ['T=1', 'T=3'], range: ['#2563eb', '#dc2626'], legend: false },
+    marks: [
+      Plot.barY(values, { x: 'class', y: 'probability', fill: 'temperature', fx: 'temperature', inset: 12 }),
+      Plot.text(values, {
+        x: 'class', y: 'probability', fx: 'temperature',
+        text: (d) => d.probability.toFixed(3), dy: -10, fontWeight: 600,
+      }),
+      Plot.text([{ class: '클래스 B', probability: 0.95, label: '템퍼러처 증가 → 분포 평활화' }], {
+        x: 'class', y: 'probability', text: 'label', fontSize: 18, fontWeight: 700, fill: '#1f2937',
+      }),
+    ],
+  });
+  return serializeChart(chart, '고정 로짓 4, 2, 1에서 템퍼러처 1과 3의 소프트 타깃 확률 비교');
+}
+
 function createObservablePlot() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
@@ -313,4 +390,52 @@ await Promise.all([
       annotations: [{ x: 4, y: 0.82, label: '추가 이득 감소 → 종료 임계값 검토' }],
     }),
   ),
+  writeFile(
+    new URL('kv-cache-memory.svg', outputDirectory),
+    createLineChart({
+      title: '문맥 길이·KV 헤드 수별 캐시 메모리 이론값',
+      xLabel: '문맥 길이(K tokens)',
+      yLabel: 'KV 캐시(GiB)',
+      series: [1, 2, 4, 8, 16, 32].flatMap((x) => [
+        { x, y: 0.5 * x, series: 'MHA 32 KV 헤드' },
+        { x, y: 0.125 * x, series: 'GQA 8 KV 헤드' },
+        { x, y: 0.015625 * x, series: 'MQA 1 KV 헤드' },
+      ]),
+      annotations: [{ x: 8, y: 4, label: 'KV 헤드 공유 → 캐시 감소' }],
+    }),
+  ),
+  writeFile(
+    new URL('slm-weight-memory.svg', outputDirectory),
+    createLineChart({
+      title: '파라미터 수·정밀도별 가중치 메모리 이론값',
+      xLabel: '파라미터 수(B)',
+      yLabel: '가중치 메모리(GB)',
+      series: [0.5, 1, 3, 7].flatMap((x) => [
+        { x, y: x * 2, series: 'FP16 16bit' },
+        { x, y: x, series: 'INT8 8bit' },
+        { x, y: x * 0.5, series: 'INT4 4bit' },
+      ]),
+      annotations: [{ x: 1, y: 2, label: '1B FP16 = 2GB' }],
+    }),
+  ),
+  writeFile(
+    new URL('npu-roofline.svg', outputDirectory),
+    createLineChart({
+      title: '연산 집약도에 따른 NPU 처리량 상한 개념도',
+      xLabel: '정규화 연산 집약도',
+      yLabel: '정규화 처리량 상한',
+      series: [0.25, 0.5, 1, 2, 4, 8, 16].flatMap((x) => [
+        { x, y: x, series: '메모리 대역폭 상한' },
+        { x, y: 8, series: '계산 성능 상한' },
+        { x, y: Math.min(x, 8), series: '달성 가능 처리량' },
+      ]),
+      annotations: [
+        { x: 2, y: 2, label: '메모리 대역폭 제한' },
+        { x: 8, y: 8, label: 'Ridge Point' },
+        { x: 14, y: 8, label: '연산 배열 성능 제한' },
+      ],
+    }),
+  ),
+  writeFile(new URL('quantization-mapping.svg', outputDirectory), createQuantizationChart()),
+  writeFile(new URL('distillation-temperature.svg', outputDirectory), createDistillationChart()),
 ]);
