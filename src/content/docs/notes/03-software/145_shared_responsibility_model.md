@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-07-30T20:00:00+09:00"
+date: "2026-07-30T23:44:43+09:00"
 tags: ["notes-software"]
 weight: 145
 extra:
@@ -27,11 +27,13 @@ extra:
 - **책임 매트릭스(Responsibility Matrix)**: 통제 항목별 수행·승인·증적 보유 주체를 명시한 표
 - **감사 증적(Audit Evidence)**: 보안 통제가 실제 수행됐음을 보여 주는 로그·설정 이력·보고서
 - **정책 코드화(Policy as Code)**: 허용 구성과 위반 조건을 코드로 선언해 자동 검사하는 방식
+- **운영체제(Operating System, OS)**: 하드웨어 자원을 관리하고 애플리케이션 실행 기반을 제공하는 소프트웨어
+- **책임 할당 매트릭스(Responsible·Accountable·Consulted·Informed, RACI)**: 통제별 수행·최종 책임·협의·통보 주체를 구분하는 표
 
 ## Ⅰ. 개요
 
-- 정의/개념: 통제별 **공급자·이용자 책임 경계** 모델
-- 배경/필요성: 제공자 통제 상속 후 **고객의 잔여 책임** 식별
+- 정의/개념: 공급자·이용자의 보안·운영 **통제 책임**을 구분하는 경계 모델
+- 배경/필요성: 공급자 통제를 상속해도 **잔여 통제** 미식별 시 책임 공백
 
 ### 쉽게 이해하기 (학습용)
 
@@ -50,7 +52,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 2
     P["공급자"]
     C["이용자"]

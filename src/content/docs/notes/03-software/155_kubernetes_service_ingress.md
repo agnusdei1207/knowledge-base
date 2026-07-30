@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스·인그레스 (Kubernetes Service Ingress)"
-date: "2026-07-30T20:00:00+09:00"
+date: "2026-07-30T23:48:53+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -26,7 +26,8 @@ extra:
 - **인터넷 프로토콜(Internet Protocol, IP)**: 서비스와 파드의 네트워크 주소를 식별하는 통신 규약
 - **엔드포인트 슬라이스(EndpointSlice)**: Service가 전달할 준비된 Pod IP·포트를 분할 저장하는 객체
 - **ClusterIP·NodePort·LoadBalancer**: 클러스터 내부 가상 IP, 모든 노드의 고정 포트, 외부 로드밸런서로 Service를 각각 노출하는 유형
-- **HTTP·HTTPS**: 인그레스가 호스트·경로를 판정하고 암호화하는 웹 통신 규약
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)·보안 HTTP(HTTP Secure, HTTPS)**: 인그레스가 호스트·경로를 판정하고 TLS로 보호하는 웹 통신 규약
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 쿠버네티스 객체를 정해진 형식으로 조회·변경하는 규약
 - **인그레스(Ingress)**: HTTP(S) 호스트·경로 규칙을 서비스 백엔드에 연결하는 API 객체
 - **인그레스 컨트롤러(Ingress Controller)**: Ingress를 감시해 프록시·로드밸런서의 실제 라우팅 설정으로 구현하는 소프트웨어
 - **인그레스 클래스(IngressClass)**: Ingress를 처리할 컨트롤러와 설정 종류를 지정하는 객체
@@ -36,11 +37,14 @@ extra:
 - **targetPort**: Service 포트가 최종 전달될 파드의 수신 포트
 - **NetworkPolicy**: 파드 사이의 허용 통신 방향과 대상을 선언하는 정책
 - **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청의 공격 패턴을 검사·차단하는 보안 장치
+- **서비스 선택자(Service Selector)**: 레이블 조건으로 서비스가 연결할 파드 집합을 정하는 규칙
+- **서비스 데이터면(Service Data Plane)**: 서비스 가상 주소의 트래픽을 준비된 파드 주소로 전달하는 실행 경로
+- **연결 배출(Connection Draining)**: 종료 대상 파드로 새 연결을 보내지 않고 기존 연결의 완료를 기다리는 처리
 
 ## Ⅰ. 개요
 
-- 정의/개념: Service·Ingress **접점·경로 제어**
-- 배경/필요성: 파드 주소 변화와 **내부 발견·외부 진입 분리**
+- 정의/개념: 서비스가 고정 접점을 제공하고 인그레스가 **외부 경로**를 분기하는 노출 구조
+- 배경/필요성: 파드 주소 변화로 클라이언트 직접 접속과 **외부 경로 유지 불가**
 
 ### 쉽게 이해하기 (학습용)
 - 파드가 교체돼 주소가 바뀌어도 Service라는 대표번호는 유지되고 Ingress는 외부 요청의 주소와 경로를 보고 대표번호를 선택한다.
@@ -48,8 +52,8 @@ extra:
 ## Ⅱ. 특징
 
 - **고정 이름·가상 IP** 기반 안정 접점
-- **Ready Endpoint** 기반 트래픽 전달
-- **호스트·경로·TLS** 기반 L7 라우팅
+- **준비 엔드포인트** 기반 트래픽 전달
+- 호스트·경로와 **TLS 기반 L7 라우팅**
 
 ### 쉽게 이해하기 (학습용)
 - Service는 준비된 파드 목록을 한 주소 뒤에 모으고 인그레스 컨트롤러는 선언된 웹 규칙을 실제 프록시 설정으로 바꾼다.
@@ -57,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
     columns 1
     A["Service"]
     B["EndpointSlice"]
@@ -90,20 +94,20 @@ sequenceDiagram
     participant I as Ingress 프록시
     participant S as Service 데이터면
     participant P as Ready Pod
-    C->>I: 1. TLS·호스트·경로 요청
-    I->>S: 2. 대상 서비스 선택
-    S->>P: 3. 준비 파드 전달
-    P-->>I: 4. 처리 결과 반환
-    I-->>C: 5. HTTP 응답 반환
+    C->>I: TLS·호스트·경로 요청
+    I->>S: 1. 대상 서비스·백엔드
+    S->>P: 2. 준비 파드 연결 요청
+    P-->>S: 3. 애플리케이션 응답
+    S-->>I: 4. 서비스 응답
+    I-->>C: HTTP 응답
 ```
 
 **동작 원리**
 
-1. **TLS·호스트·경로 요청**: 인증서 검증·라우팅 키 추출
-2. **대상 서비스 선택**: 인그레스 규칙과 백엔드 대조
-3. **준비 파드 전달**: EndpointSlice 기반 목적지 선택
-4. **처리 결과 반환**: 애플리케이션 응답의 프록시 전달
-5. **HTTP 응답 반환**: 외부 연결로 결과 송신
+1. **대상 서비스·백엔드**: 인그레스 규칙과 서비스 접점 대조
+2. **준비 파드 연결 요청**: EndpointSlice에서 준비된 목적지 선택
+3. **애플리케이션 응답**: 파드의 처리 결과를 서비스 경로로 반환
+4. **서비스 응답**: 인그레스 프록시에 백엔드 결과 전달
 
 ### 쉽게 이해하기 (학습용)
 
@@ -114,8 +118,8 @@ sequenceDiagram
 | 노출 객체 | Service | Ingress |
 |:---|:---|:---|
 | 적용 기준 | **내부 발견·안정 L4 접점** | **외부 HTTP·L7 분기** |
-| 핵심 특징 | **Selector·EndpointSlice**·포트 | **호스트·경로·TLS**·백엔드 |
-| 한계 | **Selector·Port**·Endpoint 오류 | Controller·Class·**인증서 의존** |
+| 핵심 특징 | **선택자·EndpointSlice** 기반 포트 전달 | **호스트·경로·TLS** 기반 백엔드 분기 |
+| 한계 | 선택자·포트 불일치로 **엔드포인트 누락** | 컨트롤러·클래스별 **경로·인증서 의존** |
 
 ### 쉽게 이해하기 (학습용)
 - Service는 파드 교체를 숨기는 내부 접점이고 Ingress는 여러 접점을 하나의 외부 주소와 인증서 뒤에 배치하는 규칙이다.
@@ -135,7 +139,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **내부 발견·L7·TLS**로 Service·Ingress 경계 설정
+- **내부 호출**은 Service, **외부 L7·TLS 진입**은 Ingress로 분리
 
 ### 쉽게 이해하기 (학습용)
 - 내부 통신은 Service 이름을 기준으로 하고 외부 웹 진입만 Ingress에 모아 주소 안정성과 경로 정책을 분리해야 한다.
