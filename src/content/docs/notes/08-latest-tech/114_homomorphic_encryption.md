@@ -53,7 +53,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     K["키·매개변수 관리자"]
     E["인코더·패커"]
     C["암호문 평가기"]

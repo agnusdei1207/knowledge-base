@@ -53,7 +53,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     A["인접성 정의기"]
     C["민감도·클리핑기"]
     N["잡음 메커니즘"]

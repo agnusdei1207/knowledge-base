@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     P["참여자 집합"]
     K["키·비밀 분산기"]
     M["업데이트 마스커"]

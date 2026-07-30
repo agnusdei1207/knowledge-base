@@ -53,7 +53,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["통신자·순위"]
     O["축약 연산기"]
     B["청크·버킷 관리자"]

@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     N["GPU 연산 노드"]
     F["고속 패브릭"]
     C["집단 통신 계층"]

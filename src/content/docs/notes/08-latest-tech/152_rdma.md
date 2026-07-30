@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     P["보호 영역"]
     M["등록 메모리·키"]
     Q["큐 페어"]

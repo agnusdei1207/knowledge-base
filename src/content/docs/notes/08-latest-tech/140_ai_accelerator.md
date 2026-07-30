@@ -55,7 +55,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["컴파일러·런타임"]
     A["MAC·텐서 배열"]
     O["온칩 메모리"]

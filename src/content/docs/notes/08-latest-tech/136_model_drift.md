@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     B["성능 기준선"]
     L["추론 관측 저장소"]
     G["정답 결합기"]

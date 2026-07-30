@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     R["승인·교전 규칙"]
     T["위협 모델"]
     H["공격 코퍼스·하네스"]

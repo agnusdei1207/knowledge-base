@@ -49,7 +49,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     C["연합 조정자"]
     P["참여 클라이언트"]
     G["글로벌 모델 저장소"]

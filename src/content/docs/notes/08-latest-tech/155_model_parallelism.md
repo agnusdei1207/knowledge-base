@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     P["병렬화 계획기"]
     G["파이프라인 단계 그룹"]
     T["텐서 병렬 그룹"]

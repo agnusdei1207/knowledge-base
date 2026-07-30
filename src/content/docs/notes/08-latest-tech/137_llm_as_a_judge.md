@@ -48,7 +48,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     S["평가 표본"]
     R["평가 기준표"]
     B["블라인드 변환기"]

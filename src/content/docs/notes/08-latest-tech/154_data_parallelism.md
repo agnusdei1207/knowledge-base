@@ -52,7 +52,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     M["모델·상태 복제본"]
     S["분산 데이터 샘플러"]
     L["로컬 학습기"]

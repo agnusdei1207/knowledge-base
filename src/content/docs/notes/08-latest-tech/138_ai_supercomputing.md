@@ -50,7 +50,7 @@ extra:
 
 ```mermaid
 block-beta
-    columns 5
+    columns 3
     N["가속기 노드"]
     F["고속 연결망"]
     S["병렬 저장소"]
