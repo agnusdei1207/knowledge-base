@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "멱등성 설계 (Idempotency Design)"
-date: "2026-07-29T18:00:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 201
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["요청자 | 키·요청·재시도"]
-    B["멱등성 게이트 | 키·지문 판정"]
-    C["처리권 저장소 | 최초 실행권 획득"]
-    D["업무 처리기 | 단일 업무 효과"]
-    E["결과 저장소 | 상태·응답 보존"]
+    A["요청자"]
+    B["멱등성 게이트"]
+    C["처리권 저장소"]
+    D["업무 처리기"]
+    E["결과 저장소"]
     A --- B
     B --- C
     C --- D

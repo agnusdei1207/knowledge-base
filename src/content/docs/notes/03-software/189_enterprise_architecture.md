@@ -4,7 +4,7 @@ sidebar:
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
   badge: { text: "기출 · 85%", variant: note }
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
-date: "2026-07-29T17:05:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 189
 extra:
@@ -49,13 +49,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["EA 거버넌스 | 원칙·심사·예외 통제"]
-    B["BA | 역량·가치·프로세스"]
-    C["DA·AA | 데이터·응용·서비스"]
-    D["TA | 플랫폼·인프라·보안"]
-    E["EA 저장소 | 현행·목표·전환 이력"]
+    A["EA 거버넌스"]
+    B["BA"]
+    C["DA·AA"]
+    D["TA"]
+    E["EA 저장소"]
     A --- B
     A --- C
     A --- D

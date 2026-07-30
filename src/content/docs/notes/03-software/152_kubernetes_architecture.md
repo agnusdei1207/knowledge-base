@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "쿠버네티스 아키텍처 (Kubernetes Architecture)"
-date: "2026-07-29T15:20:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 152
 extra:
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["API 서버·etcd | 요청 검증·상태 저장"]
-    B["스케줄러 | 파드 실행 노드 선택"]
-    C["컨트롤러 관리자 | 목표 상태 조정"]
-    D["kubelet | 파드 실행·상태 보고"]
-    E["컨테이너 런타임 | 컨테이너 실행"]
+    A["API 서버·etcd"]
+    B["스케줄러"]
+    C["컨트롤러 관리자"]
+    D["kubelet"]
+    E["컨테이너 런타임"]
     A --- B
     A --- C
     A --- D

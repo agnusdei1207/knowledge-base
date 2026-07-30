@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-07-29T17:00:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["API·자동 계측 | 관측 신호 생성"]
-    B["SDK·문맥 전파기 | 처리·요청 연결"]
-    C["OTLP | 표준 신호 전송"]
-    D["Collector | 수신·가공·내보내기"]
-    E["관측 백엔드 | 저장·분석·경보"]
+    A["API·자동 계측"]
+    B["SDK·문맥 전파기"]
+    C["OTLP"]
+    D["Collector"]
+    E["관측 백엔드"]
     A --- B
     B --- C
     C --- D

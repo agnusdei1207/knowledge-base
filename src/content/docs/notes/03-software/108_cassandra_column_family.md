@@ -63,8 +63,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   K["파티션·클러스터링 키"]
   C["Coordinator"]
   M["Commit Log·Memtable"]
@@ -93,24 +93,22 @@ sequenceDiagram
     participant A as Replica A
     participant B as Replica B
     participant S as SSTable 계층
-    C->>O: 1. 키·값·일관성 수준 전달
-    O->>A: 2. 복제본 A 쓰기 전송
-    O->>B: 3. 복제본 B 쓰기 전송
-    A-->>O: 4. 로컬 반영 확인
-    B-->>O: 5. 로컬 반영 확인
-    O-->>C: 6. 요구 응답 수 충족
-    A->>S: 7. Memtable Flush
+    C->>O: 1. 키·일관성 수준 제출
+    O->>A: 2. 복제본 병렬 쓰기
+    O->>B: 복제본 병렬 쓰기
+    A-->>O: 3. 로컬 반영 확인
+    B-->>O: 로컬 반영 확인
+    O-->>C: 4. 요구 응답 수 충족
+    A->>S: 5. SSTable Flush
 ```
 
 **동작 원리**
 
-- **1. 키·값·일관성 수준 전달**: 쓰기 조건을 전달
-- **2. 복제본 A 쓰기 전송**: 첫 담당 노드에 요청
-- **3. 복제본 B 쓰기 전송**: 다른 사본에도 요청
-- **4. 로컬 반영 확인**: 로그·메모리에 기록
-- **5. 로컬 반영 확인**: 두 번째 결과를 전달
-- **6. 요구 응답 수 충족**: 성공을 반환
-- **7. Memtable Flush**: 불변 파일로 결정
+- **1. 키·일관성 수준 제출**: 파티션 키와 확인 수 전달
+- **2. 복제본 병렬 쓰기**: 토큰 범위의 담당 노드에 전파
+- **3. 로컬 반영 확인**: Commit Log·Memtable 기록 완료
+- **4. 요구 응답 수 충족**: 일관성 수준만큼 확인 후 성공
+- **5. SSTable Flush**: Memtable 한도에서 불변 파일 생성
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "소프트웨어 그린 엔지니어링 SCI 지수 (Green Software SCI)"
-date: "2026-07-29T17:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 195
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["측정 경계 | 서비스·자원 범위"]
-    B["기능 단위 R | 유용한 작업량"]
-    C["운영 배출 O | 전력·탄소 집약도"]
-    D["내재 배출 M | 제조 배출 사용분"]
-    E["SCI 체계 | 계산·보고·개선"]
+    A["측정 경계"]
+    B["기능 단위 R"]
+    C["운영 배출 O"]
+    D["내재 배출 M"]
+    E["SCI 체계"]
     A --- B
     B --- C
     B --- D

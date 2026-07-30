@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스·인그레스 (Kubernetes Service Ingress)"
-date: "2026-07-29T15:50:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -57,13 +57,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["Service | 안정 이름·가상 IP·포트"]
-    B["EndpointSlice | Pod 주소·준비 상태"]
-    C["Service 데이터면 | L4 트래픽 전달"]
-    D["Ingress·Controller | L7 경로 구현"]
-    E["DNS·TLS Secret | 이름·인증서 제공"]
+    A["Service"]
+    B["EndpointSlice"]
+    C["Service 데이터면"]
+    D["Ingress·Controller"]
+    E["DNS·TLS Secret"]
     E --- D
     D --- A
     A --- B

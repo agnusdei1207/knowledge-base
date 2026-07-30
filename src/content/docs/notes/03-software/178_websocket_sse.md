@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "웹 소켓·Server-Sent Events (WebSocket SSE)"
-date: "2026-07-29T19:40:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -52,13 +52,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["실시간 Gateway | 인증·연결·라우팅"]
-    B["WebSocket Handler | 프레임·양방향 세션"]
-    C["SSE Handler | 이벤트 ID·재시도"]
-    D["Message Broker | 서버 간 메시지 중계"]
-    E["Replay Store | 누락 이벤트 보존·재생"]
+    A["실시간 Gateway"]
+    B["WebSocket Handler"]
+    C["SSE Handler"]
+    D["Message Broker"]
+    E["Replay Store"]
     A --- B
     A --- C
     B --- D

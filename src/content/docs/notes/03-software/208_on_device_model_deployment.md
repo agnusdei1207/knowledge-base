@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT·ONNX (On-Device Model Deployment)"
-date: "2026-07-29T18:09:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 208
 extra:
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["경량 모델 패키지 | 가중치·연산자·버전 보관"]
-    B["기기 추론 런타임 | 모델 그래프를 지원 연산기로 실행"]
-    C["CPU·GPU·NPU | 기기별 정밀도·연산자 가속"]
-    D["온디바이스 애플리케이션 | 전처리·추론·결과 사용"]
-    E["버전·품질 관측기 | 지연·전력·품질·OTA 관리"]
+    A["경량 모델 패키지"]
+    B["기기 추론 런타임"]
+    C["CPU·GPU·NPU"]
+    D["온디바이스 애플리케이션"]
+    E["버전·품질 관측기"]
     A --- B
     B --- C
     C --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "플랫폼 엔지니어링 셀프서비스 (Platform Engineering Self-Service)"
-date: "2026-07-29T18:33:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 216
 extra:
@@ -50,17 +50,19 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-    columns 1
-    A["개발자 포털 | 검색·요청·상태 확인의 단일 창구"]
-    B["서비스 카탈로그 | 서비스 소유권·문서·상태 관리"]
-    C["골든 패스 | 검증된 개발·배포 구성을 제공"]
-    D["제어 평면 | 정책에 따라 자원 수명주기 조정"]
-    E["정책 가드레일 | 권한·보안·비용 한계를 자동 검증"]
+block-beta
+    columns 3
+    A["개발자 포털"]
+    B["서비스 카탈로그"]
+    C["골든 패스"]
+    D["제어 평면"]
+    E["정책 가드레일"]
+    F["제품 피드백"]
     A --- B
     B --- C
     C --- D
     D --- E
+    E --- F
 ```
 
 | 구성요소 | 책임 |

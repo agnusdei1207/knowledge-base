@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-07-29T18:30:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["자원 모델·URI | 대상·관계·주소 정의"]
-    B["HTTP 인터페이스 | 메서드·상태·헤더 적용"]
-    C["표현·계약 | 미디어 형식·스키마 명세"]
-    D["조건·캐시 제어 | ETag·재검증·충돌 방지"]
-    E["도메인 서비스 | 자원 수명주기 처리"]
+    A["자원 모델·URI"]
+    B["HTTP 인터페이스"]
+    C["표현·계약"]
+    D["조건·캐시 제어"]
+    E["도메인 서비스"]
     A --- B
     B --- C
     B --- D

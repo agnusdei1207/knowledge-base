@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-07-29T18:20:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["클라이언트 | 계약·자원 요청 생성"]
-    B["SOAP Endpoint | 봉투·계약 검증"]
-    C["REST Endpoint | URI·HTTP 의미 처리"]
-    D["계약·보안 계층 | WSDL·WS-*·인증"]
-    E["업무 서비스 | 연산·자원 상태 처리"]
+    A["클라이언트"]
+    B["SOAP Endpoint"]
+    C["REST Endpoint"]
+    D["계약·보안 계층"]
+    E["업무 서비스"]
     A --- B
     A --- C
     B --- D

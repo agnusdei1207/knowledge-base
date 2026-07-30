@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "마이크로커널 vs 모놀리식 커널 (Microkernel vs Monolithic)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 24
@@ -60,13 +60,16 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   A["응용"]
   M["마이크로커널"]
   S["사용자 공간 서버"]
   K["모놀리식 커널"]
   H["하드웨어"]
+  A --- M --- S
+  M --- H
+  A --- K --- H
 ```
 
 | 구성요소 | 책임 |
@@ -97,8 +100,8 @@ sequenceDiagram
         H-->>M: 4. IPC 결과 반환
     else 모놀리식 커널
         A->>K: 5. 시스템 호출 전달
-        K->>H: 6. 커널 서비스 실행
-        H-->>K: 7. 장치 결과 반환
+        K->>H: 커널 서비스 실행
+        H-->>K: 장치 결과 반환
     end
 ```
 
@@ -109,8 +112,6 @@ sequenceDiagram
 - **3. 장치 작업 요청**: 격리 서비스 실행
 - **4. IPC 결과 반환**: 응용에 응답
 - **5. 시스템 호출 전달**: 모놀리식 진입
-- **6. 커널 서비스 실행**: 내부 직접 호출
-- **7. 장치 결과 반환**: 응용에 응답
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "단일 장애점 SPOF 제거 (SPOF Elimination)"
-date: "2026-07-29T17:50:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 199
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["다중 진입 | DNS·망·라우팅 경로"]
-    B["서비스 노드 | 독립 도메인 처리"]
-    C["데이터 노드 | 복제·쿼럼 상태"]
-    D["제어 경로 | 전환·펜싱 권한"]
-    E["장애 시험 | 주입·우회·용량 검증"]
+    A["다중 진입"]
+    B["서비스 노드"]
+    C["데이터 노드"]
+    D["제어 경로"]
+    E["장애 시험"]
     A --- B
     B --- C
     C --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "FinOps 클라우드 비용 최적화 (FinOps)"
-date: "2026-07-29T16:09:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 147
 extra:
@@ -51,7 +51,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     N["비용 정규화"]
     A["비용 할당"]

@@ -4,7 +4,7 @@ sidebar:
   label: "187. ISMP 정보화 마스터플랜 (ISMP)"
   badge: { text: "기출 · 70%", variant: note }
 title: "ISMP 정보화 마스터플랜 (ISMP)"
-date: "2026-07-29T16:55:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 187
 extra:
@@ -47,13 +47,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["사업 범위 | 목표·성과·제약 확정"]
-    B["현황·요구 | 문제·상세 요구 분석"]
-    C["목표 모델 | 업무·응용·데이터·기술"]
-    D["규모·비용 | 기능·자원·총사업비"]
-    E["발주 계획 | 로드맵·RFP·인수 기준"]
+    A["사업 범위"]
+    B["현황·요구"]
+    C["목표 모델"]
+    D["규모·비용"]
+    E["발주 계획"]
     A --- B
     B --- C
     C --- D

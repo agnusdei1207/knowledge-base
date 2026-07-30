@@ -4,7 +4,7 @@ sidebar:
   label: "193. SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
   badge: { text: "기출 · 70%", variant: note }
 title: "SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
-date: "2026-07-29T09:10:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 193
 extra:
@@ -49,13 +49,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["발주기관 | 규격·수량·계약·검수"]
-    B["구매 절차 | 시장 조사·BMT·선정"]
-    C["SW 공급자 | 제품·권리·기술지원"]
-    D["구축사 | 설치·연계·통합"]
-    E["검수 체계 | 버전·권리·성능 확인"]
+    A["발주기관"]
+    B["구매 절차"]
+    C["SW 공급자"]
+    D["구축사"]
+    E["검수 체계"]
     A --- B
     B --- C
     A --- D

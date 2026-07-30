@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SRE 사이트 신뢰성 공학 (Site Reliability Engineering)"
-date: "2026-07-29T17:20:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 164
@@ -52,13 +52,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["SLI·SLO | 사용자 신뢰성 측정·목표"]
-    B["오류 예산 정책 | 변경·안정화 기준"]
-    C["관측·경보 | 소진율·사용자 증상 탐지"]
-    D["온콜·사후 분석 | 복구·재발 방지"]
-    E["자동화·토일 관리 | 반복 운영 코드화"]
+    A["SLI·SLO"]
+    B["오류 예산 정책"]
+    C["관측·경보"]
+    D["온콜·사후 분석"]
+    E["자동화·토일 관리"]
     A --- B
     B --- C
     C --- D

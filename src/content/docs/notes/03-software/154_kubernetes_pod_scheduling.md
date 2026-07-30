@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-07-29T15:40:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 154
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["스케줄링 큐·캐시 | Pod 순서·노드 상태"]
-    B["Filter 플러그인 | 필수 조건 검사"]
-    C["Score 플러그인 | 선호 점수 계산"]
-    D["Reserve·Permit | 자원 가정·실행 허가"]
-    E["Bind 플러그인 | 선택 노드 기록"]
+    A["스케줄링 큐·캐시"]
+    B["Filter 플러그인"]
+    C["Score 플러그인"]
+    D["Reserve·Permit"]
+    E["Bind 플러그인"]
     A --- B
     B --- C
     C --- D

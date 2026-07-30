@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-07-29T17:50:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 167
@@ -52,13 +52,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["수집·정규화 | 신호·시간·식별자 통일"]
-    B["토폴로지·변경 저장소 | 의존성·변경 제공"]
-    C["분석 엔진 | 이상·상관·원인 후보 산출"]
-    D["사건 관리 | 영향·신뢰도·우선순위 결정"]
-    E["런북·모델 관리 | 대응·피드백·검증"]
+    A["수집·정규화"]
+    B["토폴로지·변경 저장소"]
+    C["분석 엔진"]
+    D["사건 관리"]
+    E["런북·모델 관리"]
     A --- C
     B --- C
     C --- D

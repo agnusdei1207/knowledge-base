@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SRE 온콜 관리·인시던트 대응 (SRE Oncall Incident Management)"
-date: "2026-07-29T18:27:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 214
 extra:
@@ -50,13 +50,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["SLO 경보 체계 | 사용자 영향 기준으로 경보 발생"]
-    B["온콜 교대조 | 당직 배치·인계·비상 연락 수행"]
-    C["인시던트 지휘부 | 우선순위·역할·소통 채널 결정"]
-    D["대응 작업공간 | 조치·상태·시간선을 공동 기록"]
-    E["사후 조치 추적기 | 개선 책임자·기한·완료 상태 관리"]
+    A["SLO 경보 체계"]
+    B["온콜 교대조"]
+    C["인시던트 지휘부"]
+    D["대응 작업공간"]
+    E["사후 조치 추적기"]
     A --- B
     B --- C
     C --- D

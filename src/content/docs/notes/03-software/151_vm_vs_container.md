@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VM vs 컨테이너 비교 (VM vs Container)"
-date: "2026-07-29T16:37:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 151
 extra:
@@ -51,7 +51,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     H["하이퍼바이저"]
     V["게스트 OS"]

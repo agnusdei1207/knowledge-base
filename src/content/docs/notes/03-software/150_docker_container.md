@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
-date: "2026-07-29T16:29:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 150
 extra:
@@ -52,7 +52,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     B["Dockerfile·빌더"]
     R["레지스트리"]

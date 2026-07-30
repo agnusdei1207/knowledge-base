@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside·Write-Through (Caching Strategy)"
-date: "2026-07-29T20:00:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["응용·키 정책 | 키·조회·쓰기 결정"]
-    B["캐시 저장소 | 값·버전·TTL·축출"]
-    C["요청 병합 | 동시 미스 단일 조회"]
-    D["무효화 계층 | 변경 사건·삭제·갱신"]
-    E["원본·보호 제어 | 저장·호출 제한"]
+    A["응용·키 정책"]
+    B["캐시 저장소"]
+    C["요청 병합"]
+    D["무효화 계층"]
+    E["원본·보호 제어"]
     A --- B
     A --- C
     B --- D

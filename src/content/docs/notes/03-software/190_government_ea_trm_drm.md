@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM·DRM (Government EA TRM DRM)"
   badge: { text: "기출 · 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM·DRM (Government EA TRM DRM)"
-date: "2026-07-29T17:10:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -48,13 +48,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["참조 모형 | BRM·SRM·DRM·TRM·PRM"]
-    B["매핑 체계 | 기관 자산·공통 코드 연결"]
-    C["EA 저장소 | 자산·관계·예외 이력"]
-    D["범정부 분석 | 중복·공유·표준 후보"]
-    E["거버넌스 | 투자·통합·예외 결정"]
+    A["참조 모형"]
+    B["매핑 체계"]
+    C["EA 저장소"]
+    D["범정부 분석"]
+    E["거버넌스"]
     A --- B
     B --- C
     C --- D

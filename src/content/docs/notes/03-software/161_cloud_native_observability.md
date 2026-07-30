@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 네이티브 관측성 (Cloud Native Observability)"
-date: "2026-07-29T16:50:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 161
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["계측 지점 | Metric·Log·Trace 생성"]
-    B["문맥 전파 | 요청 식별자 연결"]
-    C["수집·처리 계층 | 정규화·필터·샘플링"]
-    D["신호 저장소 | 신호별 보존·조회"]
-    E["분석·경보 계층 | 상관 분석·대응 연결"]
+    A["계측 지점"]
+    B["문맥 전파"]
+    C["수집·처리 계층"]
+    D["신호 저장소"]
+    E["분석·경보 계층"]
     A --- B
     A --- C
     C --- D

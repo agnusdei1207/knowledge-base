@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 리팩터링 패턴 (Refactoring Patterns)"
-date: "2026-07-29T18:21:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 212
 extra:
@@ -50,12 +50,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["코드 악취 | 구조 개선이 필요한 변경 비용 징후"]
-    B["동작 계약 | 전후 동일해야 할 외부 관찰 조건"]
-    C["변환 패턴 | 악취 원인별 작은 구조 변경"]
-    D["회귀 검증 | 계약 비교로 동작 보존 판정"]
+    A["코드 악취"]
+    B["동작 계약"]
+    C["변환 패턴"]
+    D["회귀 검증"]
     A --- B
     B --- C
     C --- D

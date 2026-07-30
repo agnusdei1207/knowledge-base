@@ -62,8 +62,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   C["파일 변경"]
   T["트랜잭션 관리자"]
   J["저널 영역"]

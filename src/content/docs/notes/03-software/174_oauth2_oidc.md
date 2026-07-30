@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0·OIDC (OAuth 2.0 OIDC)"
-date: "2026-07-29T19:00:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["자원 소유자 | 인증·권한 동의"]
-    B["클라이언트 | 인가 요청·토큰 소비"]
-    C["인가 서버 | 인증·코드·토큰 발급"]
-    D["자원 서버 | Access Token·Scope 검증"]
-    E["PKCE·state·nonce | 요청·코드·재사용 보호"]
+    A["자원 소유자"]
+    B["클라이언트"]
+    C["인가 서버"]
+    D["자원 서버"]
+    E["PKCE·state·nonce"]
     A --- C
     B --- C
     B --- D

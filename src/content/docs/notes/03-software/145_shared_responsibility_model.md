@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-07-29T15:53:18+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 145
 extra:
@@ -50,7 +50,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     P["공급자"]
     C["이용자"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
-date: "2026-07-29T16:40:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 160
@@ -55,8 +55,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   I["Istiod"]
   D["Sidecar·Ambient 데이터면"]
   G["Gateway"]

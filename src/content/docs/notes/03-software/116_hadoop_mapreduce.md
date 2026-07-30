@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop·MapReduce·HDFS"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -62,8 +62,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   H["HDFS"]
   Y["YARN"]
   I["Input Split"]
@@ -92,24 +92,22 @@ sequenceDiagram
     participant H as HDFS
     participant M as Map
     participant R as Reduce
-    C->>Y: 1. 작업·경로 제출
-    Y->>H: 2. 블록 위치 조회
-    H-->>Y: 3. 입력 분할 반환
-    Y->>M: 4. Map 실행
-    M->>R: 5. 중간 키값 Shuffle
-    R->>H: 6. 집계 결과 기록
-    Y-->>C: 7. 결과 위치 반환
+    C->>Y: 작업·경로 제출
+    Y->>H: 1. 데이터 지역성 분할
+    H-->>Y: 블록 위치·입력 분할 반환
+    Y->>M: 2. Map 중간 키값 생성
+    M->>R: 3. Shuffle·Sort 그룹화
+    R->>H: 4. Reduce 집계 기록
+    Y-->>C: 5. 결과 위치 반환
 ```
 
 **동작 원리**
 
-- **1. 작업·경로 제출**: 배치 작업을 전달
-- **2. 블록 위치 조회**: 입력 배치를 검색
-- **3. 입력 분할 반환**: Map 범위를 결정
-- **4. Map 실행**: 중간 키값을 생성
-- **5. 중간 키값 Shuffle**: 같은 키를 수집
-- **6. 집계 결과 기록**: Reduce 결과를 저장
-- **7. 결과 위치 반환**: 완료 위치를 통지
+- **1. 데이터 지역성 분할**: HDFS 블록 위치를 기준으로 Map 입력과 실행 노드 결정
+- **2. Map 중간 키값 생성**: 입력 레코드를 중간 키·값 쌍으로 변환
+- **3. Shuffle·Sort 그룹화**: 같은 키의 중간값을 Reduce 파티션으로 전송·정렬
+- **4. Reduce 집계 기록**: 키별 값 집합을 집계해 HDFS에 결과 저장
+- **5. 결과 위치 반환**: 모든 태스크 완료 뒤 출력 경로를 클라이언트에 통지
 
 ### 쉽게 이해하기 (학습용)
 

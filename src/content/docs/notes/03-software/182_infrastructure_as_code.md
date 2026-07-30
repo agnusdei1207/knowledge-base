@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-07-29T20:20:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["코드 저장소 | 모듈·변수·버전 이력"]
-    B["검증 파이프라인 | 정적·정책·Plan 검사"]
-    C["IaC Engine·Provider | 그래프·적용·API"]
-    D["원격 상태 저장소 | 매핑·버전·잠금"]
-    E["편차 탐지 | 실제 차이·복구 분류"]
+    A["코드 저장소"]
+    B["검증 파이프라인"]
+    C["IaC Engine·Provider"]
+    D["원격 상태 저장소"]
+    E["편차 탐지"]
     A --- B
     B --- C
     C --- D

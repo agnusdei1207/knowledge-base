@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "컨테이너 보안: Seccomp·AppArmor·OPA (Container Security)"
-date: "2026-07-29T16:20:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["이미지 공급망 | 서명·SBOM·취약점 검사"]
-    B["Admission·Gatekeeper | 배포 정책 판정"]
-    C["SecurityContext·프로필 | 사용자·권한 설정"]
-    D["컨테이너 런타임 | OCI 실행 명세 변환"]
-    E["Linux 커널·탐지 | 접근 강제·사건 기록"]
+    A["이미지 공급망"]
+    B["Admission·Gatekeeper"]
+    C["SecurityContext·프로필"]
+    D["컨테이너 런타임"]
+    E["Linux 커널·탐지"]
     A --- B
     B --- C
     C --- D

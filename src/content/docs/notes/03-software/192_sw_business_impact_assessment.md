@@ -4,7 +4,7 @@ sidebar:
   label: "192. 소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
   badge: { text: "기출 · 70%", variant: note }
 title: "소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
-date: "2026-07-29T17:20:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 192
 extra:
@@ -47,13 +47,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["사업 계획 | 기능·사용자·배포 범위"]
-    B["시장 조사 | 유사 제품·가격·공급 역량"]
-    C["공공성 분석 | 법정·공익·보안 필요"]
-    D["영향 판정 | 대체성·시장 기회 분석"]
-    E["공시·개선 | 재평가·범위·조달 조정"]
+    A["사업 계획"]
+    B["시장 조사"]
+    C["공공성 분석"]
+    D["영향 판정"]
+    E["공시·개선"]
     A --- B
     A --- C
     B --- D

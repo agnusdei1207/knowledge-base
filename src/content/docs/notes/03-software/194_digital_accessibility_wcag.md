@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "디지털 접근성: WCAG 2.1 (Digital Accessibility WCAG)"
-date: "2026-07-29T17:25:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 194
@@ -51,12 +51,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["인식 가능 | 대체 텍스트·명도 대비"]
-    B["운용 가능 | 키보드·초점·시간 조절"]
-    C["이해 가능 | 예측 흐름·오류 도움"]
-    D["견고성 | 시맨틱·보조기술 호환"]
+    A["인식 가능"]
+    B["운용 가능"]
+    C["이해 가능"]
+    D["견고성"]
     A --- B
     B --- C
     C --- D

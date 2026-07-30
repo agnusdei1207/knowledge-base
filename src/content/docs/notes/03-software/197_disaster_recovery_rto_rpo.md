@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "재해 복구 RTO·RPO (Disaster Recovery RTO RPO)"
-date: "2026-07-29T17:40:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 197
@@ -43,6 +43,10 @@ extra:
 
 ## Ⅱ. 특징
 
+![RPO 데이터 복구점과 RTO 서비스 복구 시한](/study/diagrams/rto-rpo-recovery-window.svg)
+
+> 장애 시점 0을 기준으로 왼쪽 RPO 선은 허용 가능한 마지막 복구점, 오른쪽 RTO 선은 서비스 재개 시한을 나타낸 개념 예시이며 실제 목표 시간은 업무 영향 분석으로 정한다.
+
 - **BIA·MTD·RTO·RPO** 기반 복구 목표
 - **복제·백업·예비 환경** 기반 복구 등급
 - **전환·복귀·대사 훈련** 기반 목표 입증
@@ -53,13 +57,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["복구 등급 | BIA·RTO·RPO·우선순위"]
-    B["데이터 보호 | 복제·백업·스냅샷"]
-    C["예비 환경 | 목표 시간별 대체 자원"]
-    D["전환 통제 | 선언·전환·복귀"]
-    E["훈련 증적 | 시간·정합성·결함 기록"]
+    A["복구 등급"]
+    B["데이터 보호"]
+    C["예비 환경"]
+    D["전환 통제"]
+    E["훈련 증적"]
     A --- B
     A --- C
     B --- D

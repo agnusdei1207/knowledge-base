@@ -52,8 +52,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   B["B-Tree 페이지"]
   W["WAL·Memtable"]
   S["SSTable"]
@@ -82,24 +82,21 @@ sequenceDiagram
     participant W as WAL
     participant M as Memtable
     participant S as SSTable
-    C->>E: 1. 키·값 쓰기 요청
-    E->>W: 2. 변경 레코드 순차 기록
-    W-->>E: 3. WAL 영속화 확인
-    E->>M: 4. 메모리 정렬 구조 갱신
-    M-->>E: 5. 메모리 반영 완료
-    E-->>C: 6. 쓰기 완료 응답
-    M->>S: 7. 정렬 파일 Flush
+    C->>E: 1. 키·값 쓰기 제출
+    E->>W: 2. WAL 순차 기록
+    W-->>E: 영속화 확인
+    E->>M: 3. Memtable 갱신
+    E-->>C: 4. 쓰기 완료
+    M->>S: 5. SSTable Flush
 ```
 
 **동작 원리**
 
-- **1. 키·값 쓰기 요청**: 저장 엔진에 변경을 전달
-- **2. 변경 레코드 순차 기록**: WAL에 먼저 기록
-- **3. WAL 영속화 확인**: 복구 가능성을 확인
-- **4. 메모리 정렬 구조 갱신**: Memtable에 반영
-- **5. 메모리 반영 완료**: 적용 상태를 통지
-- **6. 쓰기 완료 응답**: 내구성 조건 후 반환
-- **7. 정렬 파일 Flush**: 한도 도달 시 SSTable로 결정
+- **1. 키·값 쓰기 제출**: 저장 엔진에 변경 전달
+- **2. WAL 순차 기록**: Memtable보다 먼저 복구 로그 보존
+- **3. Memtable 갱신**: 메모리 정렬 구조에 최신 값 반영
+- **4. 쓰기 완료**: 설정된 내구성 조건 충족 후 응답
+- **5. SSTable Flush**: 한도 도달 시 정렬 파일로 영속화
 
 ### 쉽게 이해하기 (학습용)
 

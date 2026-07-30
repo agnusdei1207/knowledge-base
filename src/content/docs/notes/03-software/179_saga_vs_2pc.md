@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "마이크로서비스 사가 패턴 vs 2PC (Saga vs 2PC)"
-date: "2026-07-29T19:50:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 179
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["업무 호출자 | 분산 업무·요청 ID"]
-    B["Saga 조정 | 단계·보상·재시도"]
-    C["2PC 조정자 | Prepare·Decision"]
-    D["참여 서비스·자원 | 로컬 Tx·잠금"]
-    E["상태·복구 저장소 | 단계·결정 영속화"]
+    A["업무 호출자"]
+    B["Saga 조정"]
+    C["2PC 조정자"]
+    D["참여 서비스·자원"]
+    E["상태·복구 저장소"]
     A --- B
     A --- C
     B --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "지능정보화 기본법 (Framework Act on Intelligent Informatization)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 226
 extra:
@@ -50,13 +50,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["종합계획 | 국가 정책 방향·추진 과제 수립"]
-    B["정보통신전략위원회 | 종합계획 심의·확정 지원"]
-    C["기관 실행계획 | 기관별 연간 사업·예산 구체화"]
-    D["공동 점검체계 | 실적·차년도 계획 점검·분석"]
-    E["예산 연계 | 점검 의견을 예산 편성에 반영"]
+    A["종합계획"]
+    B["정보통신전략위원회"]
+    C["기관 실행계획"]
+    D["공동 점검체계"]
+    E["예산 연계"]
     A --- B
     B --- C
     C --- D

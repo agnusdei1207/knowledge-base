@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-07-29T15:30:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 153
 extra:
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["스케줄러·kubelet | 배정·실행 제어"]
-    B["Init·주 컨테이너 | 초기화·업무 실행"]
-    C["Startup Probe | 시작 완료 판정"]
-    D["Liveness·Readiness | 생존·준비 판정"]
-    E["종료 제어 | 정리·강제 종료"]
+    A["스케줄러·kubelet"]
+    B["Init·주 컨테이너"]
+    C["Startup Probe"]
+    D["Liveness·Readiness"]
+    E["종료 제어"]
     A --- B
     B --- C
     B --- D

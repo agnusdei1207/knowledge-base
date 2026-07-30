@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "I/O 관리·디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-07-25T00:35:28+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -68,13 +68,15 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   P["프로세스·파일 시스템"]
   Q["요청 큐"]
   S["I/O 스케줄러"]
   D["장치 드라이버"]
   C["완료 처리기"]
+  P --- Q --- S
+  S --- D --- C
 ```
 
 | 구성요소 | 책임 |
@@ -103,7 +105,7 @@ sequenceDiagram
     D->>V: 3. 장치 명령 제출
     V-->>C: 4. 완료 상태 통지
     C->>Q: 5. 요청 상태 갱신
-    C-->>P: 6. I/O 결과 반환
+    C-->>P: I/O 결과 반환
 ```
 
 **동작 원리**
@@ -113,7 +115,6 @@ sequenceDiagram
 - **3. 장치 명령 제출**: 버퍼 포함
 - **4. 완료 상태 통지**: 인터럽트·큐 사용
 - **5. 요청 상태 갱신**: 큐 깊이 반영
-- **6. I/O 결과 반환**: 대기 작업 재개
 
 ### 쉽게 이해하기 (학습용)
 

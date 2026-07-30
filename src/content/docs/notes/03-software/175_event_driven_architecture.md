@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "이벤트 기반 아키텍처 (Event-Driven Architecture)"
-date: "2026-07-29T19:10:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 175
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["생산자·Outbox | 업무·이벤트 원자 기록"]
-    B["CDC·Broker | 발행·보존·분배"]
-    C["Schema Registry | 구조·버전·호환성"]
-    D["소비자·처리 DB | 멱등 업무 반영"]
-    E["DLQ·재생 체계 | 실패 격리·복구"]
+    A["생산자·Outbox"]
+    B["CDC·Broker"]
+    C["Schema Registry"]
+    D["소비자·처리 DB"]
+    E["DLQ·재생 체계"]
     A --- B
     B --- C
     B --- D

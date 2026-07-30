@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SLO·SLA·SLI (SLO·SLA·SLI)"
-date: "2026-07-29T17:30:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 165
@@ -51,13 +51,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["서비스 경계 | 대상·제외 범위 정의"]
-    B["SLI 명세 | 측정식·위치 정의"]
-    C["SLO·오류 예산 | 내부 목표·조치 기준"]
-    D["SLA 계약 | 외부 수준·책임·보상"]
-    E["측정 시스템 | 준수 결과·증빙 산출"]
+    A["서비스 경계"]
+    B["SLI 명세"]
+    C["SLO·오류 예산"]
+    D["SLA 계약"]
+    E["측정 시스템"]
     A --- B
     B --- C
     B --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "오토 스케일링 HPA·VPA (Auto Scaling HPA VPA)"
-date: "2026-07-29T16:22:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -41,6 +41,10 @@ extra:
 
 ## Ⅱ. 특징
 
+![현재 지표와 목표 지표 비율에 따른 HPA 복제본 조정](/study/diagrams/hpa-proportional-scaling.svg)
+
+> 현재 복제본 4개라는 가정에서 지표가 목표의 1.5배이면 파란 계단선이 6개를 권고하는 비례 제어 예시이며, 실제 동작에는 허용 오차·안정화 창·최소·최대 범위가 함께 적용된다.
+
 - 목표 지표로 복제본을 바꾸는 **HPA 수평 조정**
 - 사용 이력으로 요청값을 바꾸는 **VPA 수직 조정**
 - 허용 오차·대기 구간을 두는 **안정화 제어**
@@ -51,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     M["메트릭 API"]
     H["HPA 객체·제어기"]

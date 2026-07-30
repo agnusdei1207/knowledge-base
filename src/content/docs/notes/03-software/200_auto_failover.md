@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "자동 페일오버 (Auto Failover)"
-date: "2026-07-29T17:55:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 200
@@ -58,13 +58,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["감지기 | 상태·복제 지연 수집"]
-    B["결정기 | 쿼럼·지속 시간 판정"]
-    C["펜싱기 | 이전 쓰기 권한 차단"]
-    D["전환기 | 승격·요청 경로 갱신"]
-    E["복귀기 | 동기화·검증·복귀"]
+    A["감지기"]
+    B["결정기"]
+    C["펜싱기"]
+    D["전환기"]
+    E["복귀기"]
     A --- B
     B --- C
     C --- D

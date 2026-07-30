@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "고가용성 설계: Active-Active·Active-Standby (High Availability Design)"
-date: "2026-07-29T17:45:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 198
@@ -56,13 +56,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["트래픽 제어 | 정상·전환 경로"]
-    B["활성 인스턴스 | 정상 요청 처리"]
-    C["대체 인스턴스 | 독립 도메인 인계"]
-    D["쿼럼·펜싱 | 단일 쓰기·승격 통제"]
-    E["상태 저장소 | 업무 상태 복제"]
+    A["트래픽 제어"]
+    B["활성 인스턴스"]
+    C["대체 인스턴스"]
+    D["쿼럼·펜싱"]
+    E["상태 저장소"]
     A --- B
     A --- C
     B --- D

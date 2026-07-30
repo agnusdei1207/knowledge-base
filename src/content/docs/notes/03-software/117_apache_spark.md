@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -65,8 +65,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   D["Driver·SparkSession"]
   C["Catalyst·AQE"]
   S["Scheduler·Cluster Manager"]
@@ -95,24 +95,22 @@ sequenceDiagram
     participant C as Catalyst·AQE
     participant S as Scheduler
     participant E as Executor
-    U->>D: 1. 변환·액션 제출
-    D->>C: 2. 논리 계획 최적화
-    C-->>D: 3. 물리 계획 반환
-    D->>S: 4. DAG·셔플 경계 전달
-    S->>E: 5. 파티션 Task 배치
-    E-->>C: 6. 실행 통계 반환
-    C-->>D: 7. 조정 결과 전달
+    U->>D: 변환·액션 제출
+    D->>C: 1. 논리·물리 계획 최적화
+    C-->>D: 최적 실행 계획 반환
+    D->>S: 2. DAG·Stage 분할
+    S->>E: 3. 파티션 Task 배치
+    E-->>C: 4. 실행 통계 피드백
+    C-->>D: 5. AQE 실행 계획 조정
 ```
 
 **동작 원리**
 
-- **1. 변환·액션 제출**: 실행을 시작
-- **2. 논리 계획 최적화**: 연산 순서를 분석
-- **3. 물리 계획 반환**: 실행 방식을 결정
-- **4. DAG·셔플 경계 전달**: Stage를 분리
-- **5. 파티션 Task 배치**: 실행자에 할당
-- **6. 실행 통계 반환**: 행·셔플량을 보고
-- **7. 조정 결과 전달**: 계획을 보결정
+- **1. 논리·물리 계획 최적화**: Catalyst가 연산 순서와 조인·스캔 실행 방식 선택
+- **2. DAG·Stage 분할**: 셔플 경계를 기준으로 지연 연산 그래프를 실행 단계로 분리
+- **3. 파티션 Task 배치**: 스케줄러가 데이터 지역성과 자원에 맞춰 Executor에 할당
+- **4. 실행 통계 피드백**: 실제 행 수·셔플량을 AQE에 전달
+- **5. AQE 실행 계획 조정**: 런타임 통계로 조인 방식·파티션 수를 재선택
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy·CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-07-29T16:00:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["컨테이너 런타임 | CNI 요청 전달"]
-    B["CNI·IPAM | 인터페이스·IP·경로 구성"]
-    C["Pod·Namespace Label | 정책 대상 선택"]
-    D["NetworkPolicy | 상대·포트·방향 선언"]
-    E["정책 제어기·데이터면 | 패킷 경로 집행"]
+    A["컨테이너 런타임"]
+    B["CNI·IPAM"]
+    C["Pod·Namespace Label"]
+    D["NetworkPolicy"]
+    E["정책 제어기·데이터면"]
     A --- B
     B --- C
     C --- D

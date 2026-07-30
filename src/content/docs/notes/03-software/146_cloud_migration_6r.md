@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-07-29T16:02:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags: ["notes-software"]
 weight: 146
 extra:
@@ -52,7 +52,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 2
     A["자산 목록"]
     D["의존성 지도"]

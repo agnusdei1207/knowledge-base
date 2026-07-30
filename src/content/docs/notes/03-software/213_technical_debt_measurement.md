@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "기술부채 측정·관리 (Technical Debt Measurement)"
-date: "2026-07-29T18:24:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 213
 extra:
@@ -48,13 +48,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["부채 등록부 | 원인·범위·책임자와 상태 기록"]
-    B["비용 계측기 | 원금과 반복 손실의 근거 수집"]
-    C["위험 평가기 | 사업 영향·발생 가능성으로 순위화"]
-    D["상환 계획 | 예산과 의존성을 반영해 일정 배치"]
-    E["품질 관문 | 기준 위반 변경의 신규 유입 차단"]
+    A["부채 등록부"]
+    B["비용 계측기"]
+    C["위험 평가기"]
+    D["상환 계획"]
+    E["품질 관문"]
     A --- B
     B --- C
     C --- D

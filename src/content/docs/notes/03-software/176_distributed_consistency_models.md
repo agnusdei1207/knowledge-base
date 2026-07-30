@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "분산 시스템 일관성 모델 (Distributed System Consistency)"
-date: "2026-07-29T19:20:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 176
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["클라이언트·세션 | 읽기·쓰기·최소 버전"]
-    B["일관성 조정기 | 순서·리더·쿼럼"]
-    C["버전 메타데이터 | 선후·인과 관계"]
-    D["복제본 | 동기·비동기 데이터 복제"]
-    E["검증·충돌 처리 | 이력·지연·병합"]
+    A["클라이언트·세션"]
+    B["일관성 조정기"]
+    C["버전 메타데이터"]
+    D["복제본"]
+    E["검증·충돌 처리"]
     A --- B
     B --- C
     B --- D

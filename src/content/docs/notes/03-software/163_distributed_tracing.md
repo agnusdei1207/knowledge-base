@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-07-29T17:10:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 163
@@ -55,13 +55,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["트레이서 | 스팬·속성 생성"]
-    B["문맥 전파기 | 추적 정보 주입·추출"]
-    C["Trace Context | 요청 관계 전달"]
-    D["Collector | 스팬 수신·가공"]
-    E["Trace 백엔드 | 경로 조립·분석"]
+    A["트레이서"]
+    B["문맥 전파기"]
+    C["Trace Context"]
+    D["Collector"]
+    E["Trace 백엔드"]
     A --- B
     B --- C
     A --- D

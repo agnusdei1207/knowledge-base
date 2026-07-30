@@ -51,8 +51,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   S["SQL 처리기"]
   D["도메인 제약"]
   E["개체 제약"]
@@ -81,24 +81,22 @@ sequenceDiagram
     participant RULE as 제약 검사기
     participant IDX as 키 인덱스
     participant DATA as 데이터 저장소
-    APP->>SQL: 1. 데이터 변경 요청
-    SQL->>RULE: 2. 타입·NULL·CHECK 검사
-    RULE->>IDX: 3. PK·UNIQUE 중복 확인
-    IDX-->>RULE: 4. 키 검사 결과 반환
-    RULE->>DATA: 5. FK 부모 행 확인
-    DATA-->>RULE: 6. 참조 검사 결과 반환
-    RULE-->>APP: 7. 반영 결과·오류 응답
+    APP->>SQL: 1. 데이터 변경 제출
+    SQL->>RULE: 2. 도메인 제약 검사
+    RULE->>IDX: 3. 키 제약 검사
+    IDX-->>RULE: 중복 결과 반환
+    RULE->>DATA: 4. 참조 제약 검사
+    DATA-->>RULE: 부모 존재 결과
+    RULE-->>APP: 5. 변경 허용·거부
 ```
 
 **동작 원리**
 
-- **1. 데이터 변경 요청**: 삽입·수정·삭제를 전달
-- **2. 타입·NULL·CHECK 검사**: 값 규칙을 확인
-- **3. PK·UNIQUE 중복 확인**: 식별 키를 조회
-- **4. 키 검사 결과 반환**: 중복 여부를 통지
-- **5. FK 부모 행 확인**: 참조 대상을 검색
-- **6. 참조 검사 결과 반환**: 관계 유효성을 통지
-- **7. 반영 결과·오류 응답**: 통과한 변경만 저장
+- **1. 데이터 변경 제출**: 삽입·수정·삭제 후보 전달
+- **2. 도메인 제약 검사**: 타입·NULL·CHECK 규칙 확인
+- **3. 키 제약 검사**: PK·UNIQUE의 식별 중복 판정
+- **4. 참조 제약 검사**: FK 부모 행의 존재 확인
+- **5. 변경 허용·거부**: 모든 제약을 통과한 상태만 저장
 
 ### 쉽게 이해하기 (학습용)
 

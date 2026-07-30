@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-07-29T18:50:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A[".proto IDL·Compiler | 계약·코드 생성"]
-    B["Client Stub | 직렬화·호출 추상화"]
-    C["Channel | 연결·스트림·대상 관리"]
-    D["Server Runtime | 역직렬화·호출 제어"]
-    E["Service Handler | 업무 로직 실행"]
+    A[".proto IDL·Compiler"]
+    B["Client Stub"]
+    C["Channel"]
+    D["Server Runtime"]
+    E["Service Handler"]
     A --- B
     A --- E
     B --- C

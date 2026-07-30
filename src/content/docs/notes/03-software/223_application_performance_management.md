@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-07-29T19:54:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["계측 에이전트 | SDK로 요청·코드·자원 정보를 수집함"]
-    B["샘플링 제어 | 수집 비율과 오버헤드를 통제함"]
-    C["서비스 토폴로지 | 호출 관계와 의존성을 연결함"]
-    D["분석 엔진 | 정상 범위와 이상 원인을 분석함"]
-    E["경보 워크플로 | 경보를 담당자와 Runbook에 연결함"]
+    A["계측 에이전트"]
+    B["샘플링 제어"]
+    C["서비스 토폴로지"]
+    D["분석 엔진"]
+    E["경보 워크플로"]
     A --- B
     B --- C
     C --- D

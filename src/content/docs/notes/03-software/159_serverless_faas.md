@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "서버리스 컴퓨팅·FaaS (Serverless Computing·FaaS)"
-date: "2026-07-29T16:30:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 159
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["이벤트 소스·Trigger | 호출·재시도 결정"]
-    B["함수 제어 계층 | 버전·권한·동시성 관리"]
-    C["격리 런타임 | 웜 재사용·콜드 초기화"]
-    D["외부 상태 서비스 | 상태·결과·ID 보존"]
-    E["관측·과금 | 실행·오류·비용 기록"]
+    A["이벤트 소스·Trigger"]
+    B["함수 제어 계층"]
+    C["격리 런타임"]
+    D["외부 상태 서비스"]
+    E["관측·과금"]
     A --- B
     B --- C
     C --- D

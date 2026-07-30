@@ -51,8 +51,8 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
-  columns 5
+block-beta
+  columns 3
   B["BSON 문서·컬렉션"]
   I["인덱스·집계"]
   R["레플리카셋"]
@@ -81,24 +81,20 @@ sequenceDiagram
     participant C as Config Server
     participant P as Shard Primary
     participant S as Shard Secondary
-    A->>M: 1. 샤드 키·문서 쓰기 요청
-    M->>C: 2. 청크·샤드 위치 조회
-    C-->>M: 3. 대상 샤드 반환
-    M->>P: 4. 주 구성원에 쓰기 전달
-    P->>S: 5. oplog 변경 복제
-    S-->>P: 6. 쓰기 확인 반환
-    P-->>A: 7. 쓰기 결과 응답
+    A->>M: 1. 샤드 키·문서 쓰기
+    M->>C: 2. 청크 위치 조회
+    C-->>M: 3. 대상 샤드 선택
+    M->>P: 4. Primary 쓰기
+    P->>S: 5. oplog 복제·확인
 ```
 
 **동작 원리**
 
-- **1. 샤드 키·문서 쓰기 요청**: 문서를 전달
-- **2. 청크·샤드 위치 조회**: 배치표를 확인
-- **3. 대상 샤드 반환**: 저장 위치를 선택
-- **4. 주 구성원에 쓰기 전달**: 원본에 요청
-- **5. oplog 변경 복제**: 보조 사본에 전파
-- **6. 쓰기 확인 반환**: 요구 수준을 확인
-- **7. 쓰기 결과 응답**: 응용에 결과를 전달
+- **1. 샤드 키·문서 쓰기**: BSON 문서와 라우팅 키 전달
+- **2. 청크 위치 조회**: Config Server의 배치표 확인
+- **3. 대상 샤드 선택**: 키 범위가 속한 Replica Set 결정
+- **4. Primary 쓰기**: 주 구성원에서 문서 변경 확정
+- **5. oplog 복제·확인**: Secondary 확인 수로 쓰기 수준 충족
 
 ### 쉽게 이해하기 (학습용)
 

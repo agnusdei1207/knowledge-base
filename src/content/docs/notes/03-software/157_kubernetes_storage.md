@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC·PV·StorageClass (Kubernetes Storage)"
-date: "2026-07-29T16:10:00+09:00"
+date: "2026-07-30T20:00:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["PVC·PV 제어기 | 요청 탐색·바인딩"]
-    B["StorageClass | 생성·회수·바인딩 정책"]
-    C["CSI Controller | 볼륨 생성·연결"]
-    D["PV | 용량·토폴로지·ClaimRef 표현"]
-    E["CSI Node·kubelet | 노드 게시·마운트"]
+    A["PVC·PV 제어기"]
+    B["StorageClass"]
+    C["CSI Controller"]
+    D["PV"]
+    E["CSI Node·kubelet"]
     A --- B
     B --- C
     C --- D

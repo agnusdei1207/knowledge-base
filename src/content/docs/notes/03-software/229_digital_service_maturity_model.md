@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "디지털 서비스 성숙도 모형 (Digital Service Maturity Model)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 229
 extra:
@@ -51,13 +51,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["서비스 성과 | 사용자·업무 결과와 범위 확정"]
-    B["역량 차원 | 경험·운영·데이터·기술 분리"]
-    C["성숙 기준 | 차원별 단계·통과 조건 정의"]
-    D["평가 증거 | 산출물·운영 자료·측정값 수집"]
-    E["개선 로드맵 | 격차별 과제·책임·순서 결정"]
+    A["서비스 성과"]
+    B["역량 차원"]
+    C["성숙 기준"]
+    D["평가 증거"]
+    E["개선 로드맵"]
     A --- B
     B --- C
     C --- D

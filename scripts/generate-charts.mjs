@@ -1109,6 +1109,119 @@ await Promise.all([
       annotations: [{ x: 10, y: 10, label: '실행 10%이면 10배 환산' }],
     }),
   ),
+  writeFile(
+    new URL('rto-rpo-recovery-window.svg', outputDirectory),
+    createLineChart({
+      title: '복구 목표가 제한하는 데이터 손실과 중단 시간',
+      xLabel: '장애 시점 기준 경과 시간(분)',
+      yLabel: '복구 경계(분)',
+      series: [
+        { x: -30, y: 30, series: 'RPO 데이터 손실 한도' },
+        { x: 0, y: 0, series: 'RPO 데이터 손실 한도' },
+        { x: 0, y: 0, series: 'RTO 서비스 중단 한도' },
+        { x: 60, y: 60, series: 'RTO 서비스 중단 한도' },
+      ],
+      annotations: [
+        { x: -30, y: 30, label: '마지막 허용 복구점' },
+        { x: 60, y: 60, label: '서비스 복구 시한' },
+      ],
+    }),
+  ),
+  writeFile(
+    new URL('hpa-proportional-scaling.svg', outputDirectory),
+    createLineChart({
+      title: '현재 지표와 목표값 비율에 따른 HPA 복제본 조정',
+      xLabel: '현재 지표 ÷ 목표 지표',
+      yLabel: '권고 복제본 수',
+      series: [0.5, 0.75, 1, 1.25, 1.5, 2].map((x) => ({
+        x,
+        y: Math.ceil(4 * x),
+        series: '현재 복제본 4개 기준',
+      })),
+      annotations: [{ x: 1.5, y: 6, label: '목표의 1.5배면 4개→6개' }],
+    }),
+  ),
+  writeFile(
+    new URL('capacity-lead-time.svg', outputDirectory),
+    createLineChart({
+      title: '용량 성장과 증설 리드타임을 반영한 착수 시점',
+      xLabel: '계획 기간(월)',
+      yLabel: '용량 사용률(%)',
+      series: [0, 1, 2, 3, 4, 5, 6].flatMap((x) => [
+        { x, y: 45 + 8 * x, series: '예측 사용률' },
+        { x, y: 85, series: '운영 한계선' },
+      ]),
+      annotations: [{ x: 3, y: 69, label: '리드타임 2개월이면 한계 도달 전 착수' }],
+    }),
+  ),
+  writeFile(
+    new URL('working-set-thrashing.svg', outputDirectory),
+    createLineChart({
+      title: '할당 프레임이 워킹 셋보다 작을 때의 페이지 폴트 급증',
+      xLabel: '할당 프레임 수',
+      yLabel: '정규화 페이지 폴트율',
+      series: [2, 3, 4, 5, 6, 7, 8].map((x) => ({
+        x,
+        y: x < 6 ? 1 / (x - 1) : 0.08,
+        series: '워킹 셋 6프레임 가정',
+      })),
+      annotations: [{ x: 6, y: 0.08, label: '워킹 셋 충족 후 폴트율 안정' }],
+    }),
+  ),
+  writeFile(
+    new URL('little-law-wip-lead-time.svg', outputDirectory),
+    createLineChart({
+      title: '처리율이 일정할 때 WIP와 리드타임의 관계',
+      xLabel: '진행 중 작업 수 WIP',
+      yLabel: '평균 리드타임(일)',
+      series: [2, 4, 6, 8, 10, 12].map((x) => ({
+        x,
+        y: x / 2,
+        series: '처리율 2건/일',
+      })),
+      annotations: [{ x: 10, y: 5, label: 'WIP 10건이면 평균 5일' }],
+    }),
+  ),
+  writeFile(
+    new URL('slo-error-budget.svg', outputDirectory),
+    createLineChart({
+      title: 'SLO 수준과 월간 허용 중단 시간',
+      xLabel: '가용성 SLO(%)',
+      yLabel: '30일 기준 허용 중단 시간(분)',
+      series: [99, 99.5, 99.9, 99.95, 99.99].map((x) => ({
+        x,
+        y: 30 * 24 * 60 * (1 - x / 100),
+        series: '오류 예산',
+      })),
+      annotations: [{ x: 99.9, y: 43.2, label: '99.9% SLO는 월 약 43.2분' }],
+    }),
+  ),
+  writeFile(
+    new URL('model-drift-distance.svg', outputDirectory),
+    createLineChart({
+      title: '운영 분포 변화와 드리프트 경보',
+      xLabel: '운영 기간',
+      yLabel: '기준 분포와의 거리',
+      series: [1, 2, 3, 4, 5, 6].flatMap((x) => [
+        { x, y: [0.08, 0.12, 0.17, 0.26, 0.38, 0.51][x - 1], series: '관측 분포 거리' },
+        { x, y: 0.3, series: '경보 임계값' },
+      ]),
+      annotations: [{ x: 5, y: 0.38, label: '임계값 초과 시 조사·재학습 검토' }],
+    }),
+  ),
+  writeFile(
+    new URL('load-performance-knee.svg', outputDirectory),
+    createLineChart({
+      title: '부하 증가에 따른 처리량 포화와 지연 급증',
+      xLabel: '제공 부하(정규화)',
+      yLabel: '정규화 지표',
+      series: [0.2, 0.4, 0.6, 0.8, 0.9, 0.95].flatMap((x) => [
+        { x, y: Math.min(x, 0.82), series: '처리량' },
+        { x, y: 0.1 / (1 - x), series: '응답 지연' },
+      ]),
+      annotations: [{ x: 0.9, y: 1, label: '포화점 부근에서 지연 급증' }],
+    }),
+  ),
   writeFile(new URL('streaming-watermark.svg', outputDirectory), createStreamingWatermarkChart()),
   writeFile(new URL('pue-energy-breakdown.svg', outputDirectory), createPueBreakdownChart()),
   writeFile(

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-07-29T18:40:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["타입 스키마 | 타입·필드·인자 계약"]
-    B["Gateway·검증기 | 인증·구문·비용 검증"]
-    C["실행 엔진 | 선택 집합·오류 전파"]
-    D["Resolver·Data Loader | 권한·배치 조회"]
-    E["데이터 원천 | DB·REST·서비스 처리"]
+    A["타입 스키마"]
+    B["Gateway·검증기"]
+    C["실행 엔진"]
+    D["Resolver·Data Loader"]
+    E["데이터 원천"]
     A --- B
     B --- C
     C --- D

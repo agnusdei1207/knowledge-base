@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "분산 합의: Raft·Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-07-29T19:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["클라이언트 | 상태 변경 명령·요청 ID"]
-    B["리더·제안자 | 세대·순서·값 제안"]
-    C["팔로워·수락자 | 투표·로그 영속 기록"]
-    D["다수 쿼럼 | 교차 승인·결정 보존"]
-    E["상태 머신·스냅샷 | 확정 실행·로그 압축"]
+    A["클라이언트"]
+    B["리더·제안자"]
+    C["팔로워·수락자"]
+    D["다수 쿼럼"]
+    E["상태 머신·스냅샷"]
     A --- B
     B --- C
     C --- D

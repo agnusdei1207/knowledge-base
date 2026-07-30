@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "소프트웨어 아키텍처 품질 속성 트레이드오프 (Architecture Quality Tradeoff)"
-date: "2026-07-29T19:48:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 221
 extra:
@@ -52,12 +52,12 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["비즈니스 제약 | 목표·예산·규제·일정"]
-    B["유틸리티 트리 | 품질 시나리오 우선순위"]
-    C["설계 전략 | 품질 택틱·패턴"]
-    D["민감도 분석 | 품질 영향·상충 측정"]
+    A["비즈니스 제약"]
+    B["유틸리티 트리"]
+    C["설계 전략"]
+    D["민감도 분석"]
     A --- B
     B --- C
     C --- D

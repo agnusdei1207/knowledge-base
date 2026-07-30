@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "SBOM 소프트웨어 자재명세서 (SBOM)"
-date: "2026-07-29T20:30:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags:
   - "notes-software"
 weight: 183
@@ -53,13 +53,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["소스·빌드 산출물 | 선언·실제 구성 입력"]
-    B["SBOM Generator | 구성·관계·식별자 생성"]
-    C["검증·서명 | 산출물 결속·무결성"]
-    D["SBOM Repository | 제품·버전별 보관"]
-    E["위험 분석 | 취약점·라이선스·VEX 대조"]
+    A["소스·빌드 산출물"]
+    B["SBOM Generator"]
+    C["검증·서명"]
+    D["SBOM Repository"]
+    E["위험 분석"]
     A --- B
     B --- C
     C --- D

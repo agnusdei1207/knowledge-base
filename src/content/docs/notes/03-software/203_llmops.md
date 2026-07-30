@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-07-29T18:10:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -58,13 +58,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["구성 카탈로그 | 모델·프롬프트·RAG"]
-    B["평가기 | 품질·안전·비용 판정"]
-    C["LLM 게이트웨이 | 인증·라우팅·한도"]
-    D["가드레일 | 민감·유해 입출력 통제"]
-    E["관측기 | 응답·지연·비용·판정 이력"]
+    A["구성 카탈로그"]
+    B["평가기"]
+    C["LLM 게이트웨이"]
+    D["가드레일"]
+    E["관측기"]
     A --- B
     B --- C
     C --- D

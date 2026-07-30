@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-07-29T18:05:00+09:00"
+date: "2026-07-30T18:00:00+09:00"
 tags: ["notes-software"]
 weight: 202
 extra:
@@ -54,13 +54,13 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 1
-    A["데이터·피처 | 버전·품질·계보"]
-    B["학습 파이프라인 | 전처리·학습·평가"]
-    C["모델 레지스트리 | 지표·버전·승인"]
-    D["모델 서빙 | 배포·추론·롤백"]
-    E["품질 감시·CT | 드리프트·재학습"]
+    A["데이터·피처"]
+    B["학습 파이프라인"]
+    C["모델 레지스트리"]
+    D["모델 서빙"]
+    E["품질 감시·CT"]
     A --- B
     B --- C
     C --- D
