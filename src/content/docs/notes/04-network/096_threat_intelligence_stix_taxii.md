@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "위협 인텔리전스 - STIX·TAXII (Threat Intelligence STIX TAXII)"
-date: "2026-07-31T05:41:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 96
 extra:

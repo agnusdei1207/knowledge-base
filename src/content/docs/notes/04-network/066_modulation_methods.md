@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "변조 방식 : AM·FM·QAM·QPSK (Modulation Methods)"
-date: "2026-07-31T01:48:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 66

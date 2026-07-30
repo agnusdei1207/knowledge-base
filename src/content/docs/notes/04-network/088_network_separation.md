@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "망분리 - 물리적·논리적 (Network Separation)"
-date: "2026-07-31T04:44:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 88
 extra:

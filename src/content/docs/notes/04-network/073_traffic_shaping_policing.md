@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "트래픽 셰이핑과 폴리싱 (Traffic Shaping, Policing)"
-date: "2026-07-31T02:42:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 73

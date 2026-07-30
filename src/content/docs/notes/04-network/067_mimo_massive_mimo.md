@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "MIMO·대규모 MIMO (MIMO Massive MIMO)"
-date: "2026-07-31T01:55:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 67

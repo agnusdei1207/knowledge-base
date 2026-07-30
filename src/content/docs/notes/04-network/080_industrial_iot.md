@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "산업용 IoT (Industrial IoT, IIoT)"
-date: "2026-07-31T03:39:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 80

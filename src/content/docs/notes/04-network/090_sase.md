@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SASE - SD-WAN·CASB·SWG·ZTNA (SASE)"
-date: "2026-07-31T05:00:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 90
 extra:

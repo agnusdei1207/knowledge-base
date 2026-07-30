@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
-date: "2026-07-31T04:03:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 83
 extra:

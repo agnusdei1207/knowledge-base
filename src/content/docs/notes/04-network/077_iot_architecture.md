@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 30%"
     variant: note
 title: "IoT 아키텍처 (IoT Architecture)"
-date: "2026-07-31T03:15:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 77

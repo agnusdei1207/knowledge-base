@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR Comparison)"
-date: "2026-07-31T05:34:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 95
 extra:

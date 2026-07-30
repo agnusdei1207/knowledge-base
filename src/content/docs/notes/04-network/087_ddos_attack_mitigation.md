@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DDoS 공격 기법·대응 - SYN Flood·증폭 (DDoS Attack Mitigation)"
-date: "2026-07-31T04:36:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 87
 extra:

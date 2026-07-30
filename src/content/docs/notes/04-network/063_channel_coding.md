@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "채널 코딩 : 해밍·리드-솔로몬·터보 (Channel Coding)"
-date: "2026-07-31T01:23:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 63

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (CASB)"
-date: "2026-07-31T05:14:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 92
 extra:

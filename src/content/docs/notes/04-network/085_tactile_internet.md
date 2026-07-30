@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "촉각 인터넷 (Tactile Internet)"
-date: "2026-07-31T04:19:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 85
 extra:

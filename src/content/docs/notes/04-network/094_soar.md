@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SOAR 보안 오케스트레이션·자동화·대응 (Security Orchestration, Automation, and Response)"
-date: "2026-07-31T05:27:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 94
 extra:

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "네트워크 디지털 트윈 (Network Digital Twin)"
-date: "2026-07-31T06:02:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 99
 extra:

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "AI 네이티브 네트워킹 (AI-Native Networking)"
-date: "2026-07-31T05:55:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 98
 extra:

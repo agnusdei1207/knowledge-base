@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "스마트 미터 AMI (Advanced Metering Infrastructure)"
-date: "2026-07-31T04:11:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 84
 extra:

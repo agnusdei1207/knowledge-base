@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "네트워크 자동화 - Ansible·RESTCONF·NETCONF (Network Automation)"
-date: "2026-07-31T01:07:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 61

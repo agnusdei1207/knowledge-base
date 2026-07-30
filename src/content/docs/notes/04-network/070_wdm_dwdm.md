@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "WDM·DWDM 광 다중화 (WDM DWDM)"
-date: "2026-07-31T02:19:00+09:00"
+date: "2026-07-31T01:11:36+09:00"
 tags:
   - "notes-network"
 weight: 70

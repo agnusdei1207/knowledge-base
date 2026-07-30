@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "CAN 버스 자동차 통신 (CAN Bus)"
-date: "2026-07-31T03:47:00+09:00"
+date: "2026-07-31T01:11:53+09:00"
 tags: ["notes-network"]
 weight: 81
 extra:
