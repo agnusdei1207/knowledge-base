@@ -3,16 +3,16 @@ sidebar:
   order: 120
   label: "120. Apache Flink 스트림 처리 (Apache Flink)"
   badge:
-    text: "미출제 · 50%"
+    text: "미출 · 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-07-30T20:00:00+09:00"
+date: "2026-07-30T23:59:18+09:00"
 tags:
   - "notes-software"
 weight: 120
 extra:
   question_no: "120"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "Flink 상태·이벤트시간 스트림 처리 현안"
@@ -35,15 +35,19 @@ extra:
 - **체크포인트 장벽(Checkpoint Barrier)**: 스트림을 따라 이동하며 같은 체크포인트에 포함될 이벤트 경계를 표시하는 제어 레코드이다.
 - **싱크(Sink)**: 처리 결과를 데이터베이스·파일·메시지 시스템 등 외부 저장소에 내보내는 연산자이다.
 - **스파크 구조적 스트리밍(Spark Structured Streaming)**: 데이터프레임과 SQL 실행 엔진으로 연속 입력을 증분 처리하는 Spark 기반 스트림 엔진이며 Flink의 비교 대상이다.
-- **구조적 질의 언어(Structured Query Language, SQL)**: 영문 첫 글자를 딴 SQL을 '에스큐엘'로 읽으며 Spark 스트리밍의 선언형 변환을 표현한다.
+- **구조적 질의 언어(Structured Query Language, SQL)**: Spark 스트리밍의 선언형 변환을 표현한다.
+- **마이크로 배치(Micro-batch)**: 짧은 주기의 작은 배치로 연속 데이터를 처리하는 방식이다.
+- **상태 유지 시간(Time To Live, TTL)**: 키별 상태를 보존한 뒤 제거하는 최대 기간이다.
+- **고유 식별자(Unique Identifier, UID)**: 연산자 상태를 업그레이드 전후에 연결하는 고정 식별자이다.
+- **입출력(Input/Output, I/O)**: 체크포인트 상태를 저장소에 기록하고 읽는 동작이다.
 
 ## Ⅰ. 개요
 
-- 정의/개념: 이벤트 시간과 상태로 연속 흐름을 처리하는 **엔진**
-- 배경/필요성: 지연 이벤트 처리와 일관된 상태 복구
+- 정의/개념: 이벤트 시간과 분산 상태로 연속 흐름을 처리하는 **스트림 처리 엔진**
+- 배경/필요성: 처리 시각 기준 집계는 늦은 이벤트의 **시간 창 반영 불가**
 
 ### 쉽게 이해하기 (학습용)
-- 뒤섞인 이벤트를 발생 시간과 키별 상태로 연속 처리하는 스트림 엔진임
+- 뒤섞인 이벤트를 발생 시간과 키별 상태로 연속 처리하는 스트림 엔진이다.
 
 ## Ⅱ. 특징
 
@@ -52,27 +56,32 @@ extra:
 - **일관 복구**: Barrier·Checkpoint로 경계 저장
 
 ### 쉽게 이해하기 (학습용)
-- 낮은 지연을 제공하지만 워터마크와 상태 및 체크포인트 비용을 관리해야 함
+- 낮은 지연을 제공하지만 워터마크와 상태 및 체크포인트 비용을 관리해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block-beta
+block
   columns 3
+  A["Flink 실행 경계"]:3
   J["JobManager"]
   T["TaskManager·Slot"]
   S["Source·Watermark"]
   O["연산자·State Backend"]
   C["Checkpoint Storage·Sink"]
+  J --- T
+  T --- S
+  T --- O
+  O --- C
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| JobManager | 스케줄·복구 조정 |
-| TaskManager·Slot | 서브태스크·교환 실행 |
-| Source·Watermark | 이벤트·시간 표식 생성 |
-| 연산자·State Backend | 키 계산·상태 스냅숏 |
-| Checkpoint Storage·Sink | 복구 이미지·결과 보존 |
+| JobManager | **스케줄·복구** 조정 |
+| TaskManager·Slot | **서브태스크·데이터 교환** 실행 |
+| Source·Watermark | **이벤트·시간 표식** 생성 |
+| 연산자·State Backend | **키 계산·상태 스냅숏** |
+| Checkpoint Storage·Sink | **복구 이미지·결과** 보존 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -87,22 +96,22 @@ sequenceDiagram
     participant O as 연산자
     participant C as 체크포인트 저장소
     participant K as Sink
-    J->>S: 1. 체크포인트 시작 요청
-    S->>O: 2. Barrier·입력 위치 전달
-    O->>C: 3. 정렬 상태 스냅숏
+    J->>S: 1. 체크포인트 ID
+    S->>O: 2. Barrier·입력 위치
+    O->>C: 3. 상태 스냅숏
     C-->>O: 상태 영속 완료
-    O->>K: 4. 결과 사전 반영·확인
-    K-->>J: 체크포인트 확인
-    J->>K: 5. 외부 결과 커밋
+    O->>K: 4. 미확정 트랜잭션
+    K-->>J: 5. Sink 확인
+    J->>K: 커밋 결정
 ```
 
 **동작 원리**
 
-- **1. 체크포인트 시작 요청**: 복구 촬영을 시작
-- **2. Barrier·입력 위치 전달**: 모든 입력 채널의 동일 처리 경계 표시
-- **3. 정렬 상태 스냅숏**: Barrier가 맞춰진 시점의 키 상태와 소스 위치를 영속화
-- **4. 결과 사전 반영·확인**: Sink가 미확정 트랜잭션에 결과를 기록하고 완료 응답
-- **5. 외부 결과 커밋**: 전체 체크포인트 성공 뒤 Sink 트랜잭션을 원자적으로 확정
+1. **체크포인트 ID**: JobManager가 Source에 촬영 식별자 전달
+2. **Barrier·입력 위치**: Source가 연산자에 동일 처리 경계 전달
+3. **상태 스냅숏**: 연산자가 키 상태와 소스 위치를 저장
+4. **미확정 트랜잭션**: 연산자가 Sink에 결과를 사전 반영
+5. **Sink 확인**: Sink가 JobManager에 사전 반영 완료 통지
 
 ### 쉽게 이해하기 (학습용)
 
@@ -110,13 +119,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-| 판단 기준 | Apache Flink | Spark Structured Streaming |
+| 스트림 처리 엔진 | Apache Flink | Spark Structured Streaming |
 |:---|:---|:---|
-| 적용 기준 | 저지연·세밀한 상태 | Spark SQL·배치 통합 |
-| 핵심 특징 | 연속 흐름·Barrier 복구 | Micro-batch·상태 재실행 |
-| 한계 | 상태·역압력 병목 | 배치 지연·셔플 비용 |
-
-> 선택 기준: **요구 지연·이벤트 시간·상태 크기·종단 보장·운영 생태계**
+| 적용 기준 | **저지연·세밀한 상태** | **Spark SQL·배치 통합** |
+| 핵심 특징 | **연속 흐름·Barrier 복구** | **Micro-batch·상태 재실행** |
+| 한계 | **상태·역압력 병목** | **배치 지연·셔플 비용** |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -124,15 +131,13 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
-|:---|:---|:---|
-| Watermark | 지연 분포·허용시간으로 설정 | 누락·상태 증가 균형 |
-| 상태 크기 | TTL·윈도·키 분포 조정 | 저장 폭증 방지 |
-| Checkpoint | 지속시간·실패율·I/O 감시 | 복구 촬영 병목 완화 |
-| 역압력 | 병목 연산자·Sink 분석 | 전체 지연 원인 제거 |
-| Savepoint | UID·호환성·복원 리허설 | 업그레이드 실패 방지 |
-
-> **적용 사례**: 거래 탐지는 계정별 상태와 실제 지연 분포 기반 Watermark를 사용하고 늦은 이벤트 비율·상태 크기·Checkpoint 시간을 함께 감시
+| 고려사항 | 위험 조건 | 대책 | 효과 |
+|:---|:---|:---|:---|
+| Watermark | 허용 지연이 실제 도착 분포보다 짧음 | 지연 분포·허용시간으로 설정 | **누락·상태 증가** 균형 |
+| 상태 크기 | 만료 없는 키·윈도 상태가 계속 누적 | TTL·윈도·키 분포 조정 | **저장 폭증** 방지 |
+| Checkpoint | 스냅숏 시간이 주기보다 길어 중첩 | 지속시간·실패율·I/O 감시 | **복구 촬영 병목** 완화 |
+| 역압력 | 느린 연산자·Sink가 상류 전송 제한 | 병목 연산자·Sink 분석 | **전체 지연 원인** 제거 |
+| Savepoint | 연산자 UID 변경으로 상태 연결 실패 | UID·호환성·복원 리허설 | **업그레이드 실패** 방지 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -140,7 +145,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **지연 분포·상태 크기·역압력·복구 비용**으로 Flink를 설계
+- 연속 저지연·세밀한 상태는 **Flink**, 배치 통합은 **Structured Streaming** 선택
 
 ### 쉽게 이해하기 (학습용)
 
