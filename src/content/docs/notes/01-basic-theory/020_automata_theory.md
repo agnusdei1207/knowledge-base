@@ -55,22 +55,9 @@ extra:
 
 ## Ⅱ. 특징
 
-```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3080dd, #d95926"}}} }%%
-xychart-beta
-    title "NFA 결정화 시 상태 수 상한"
-    x-axis "NFA 상태 수 n" [1, 2, 3, 4, 5]
-    y-axis "상대 상태 수" 0 --> 32
-    line [1, 2, 3, 4, 5]
-    line [2, 4, 8, 16, 32]
-```
+![NFA 상태 수와 DFA 결정화 상태 수 상한을 비교한 차트](/study/diagrams/automata-subset-growth.svg)
 
-| 계열 | 수식•의미 |
-|:---|:---|
-| <span style="color:#3080dd">■</span> 파란색 선언 | **NFA $n$**: 원래 상태 수 |
-| <span style="color:#d95926">■</span> 주황색 선언 | **DFA $2^n$**: 최대 상태 수 |
-
-> **결정화**: 상태 부분집합 조합이 최대 $2^n$개
+> NFA 상태가 1개에서 5개로 늘 때 원래 상태 수는 1→5지만 부분집합 결정화의 이론적 상한은 2→32로 지수 증가한다.
 
 - 유한 상태와 **전이 함수**만으로 문자열 수용 판정
 - DFA•NFA의 **정규 언어** 인식 능력 **동등성**
@@ -84,7 +71,7 @@ xychart-beta
 ## Ⅲ. 구조 및 구성요소
 
 ```mermaid
-block
+block-beta
     columns 5
     Q["상태 집합 Q"] --- A["입력 알파벳 Σ"] --- D["전이 함수 δ"] --- S["시작 상태 q₀"] --- F["수용 상태 집합 F"]
 ```
@@ -122,7 +109,7 @@ sequenceDiagram
     A-->>C: 판정 결과 반환
 ```
 
-**동작 원리**
+### 동작 원리
 
 - **1. 다음 기호 요청**: 입력 스트림에서 하나 소비
 - **2. 상태 전이 요청**: 상태 또는 상태 집합 갱신

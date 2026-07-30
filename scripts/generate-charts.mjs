@@ -901,6 +901,130 @@ await Promise.all([
       annotations: [{ x: 64, y: 12.5, label: '표본 4배 → 오차 절반' }],
     }),
   ),
+  writeFile(
+    new URL('automata-subset-growth.svg', outputDirectory),
+    createLineChart({
+      title: 'NFA 결정화에 따른 상태 수 상한',
+      xLabel: 'NFA 상태 수 n',
+      yLabel: '상태 수',
+      series: [1, 2, 3, 4, 5].flatMap((x) => [
+        { x, y: x, series: 'NFA 원래 상태 수 n' },
+        { x, y: 2 ** x, series: 'DFA 결정화 상한 2ⁿ' },
+      ]),
+      annotations: [{ x: 5, y: 32, label: 'n=5일 때 최대 32개' }],
+    }),
+  ),
+  writeFile(
+    new URL('hamming-parity-overhead.svg', outputDirectory),
+    createLineChart({
+      title: '데이터 비트 증가에 따른 최소 패리티 비율',
+      xLabel: '데이터 비트 d',
+      yLabel: '패리티 비율(%)',
+      series: [
+        { x: 4, y: 75, series: '최소 패리티 비율' },
+        { x: 8, y: 50, series: '최소 패리티 비율' },
+        { x: 16, y: 31.25, series: '최소 패리티 비율' },
+        { x: 32, y: 18.75, series: '최소 패리티 비율' },
+        { x: 64, y: 10.94, series: '최소 패리티 비율' },
+      ],
+      annotations: [{ x: 64, y: 10.94, label: '64비트에서 10.94%' }],
+    }),
+  ),
+  writeFile(
+    new URL('shannon-capacity-growth.svg', outputDirectory),
+    createLineChart({
+      title: 'AWGN 채널의 SNR 대비 스펙트럼 효율',
+      xLabel: '선형 신호 대 잡음비 S/N',
+      yLabel: '용량(bit/s/Hz)',
+      series: [0, 1, 3, 7, 15].map((x) => ({
+        x,
+        y: Math.log2(1 + x),
+        series: 'log₂(1+S/N)',
+      })),
+      annotations: [{ x: 15, y: 4, label: 'S/N=15에서 4bit/s/Hz' }],
+    }),
+  ),
+  writeFile(
+    new URL('bayes-base-rate-ppv.svg', outputDirectory),
+    createLineChart({
+      title: '민감도·특이도 90% 검사에서 기저율별 양성 사후확률',
+      xLabel: '기저율(%)',
+      yLabel: '양성 사후확률(%)',
+      series: [1, 5, 10, 25, 50].map((x) => ({
+        x,
+        y: (100 * 0.9 * (x / 100)) / (0.9 * (x / 100) + 0.1 * (1 - x / 100)),
+        series: '양성 사후확률',
+      })),
+      annotations: [{ x: 1, y: 8.33, label: '기저율 1%에서 PPV 8.33%' }],
+    }),
+  ),
+  writeFile(
+    new URL('binomial-poisson-comparison.svg', outputDirectory),
+    createLineChart({
+      title: '이항·포아송 분포 확률 비교',
+      xLabel: '사건 횟수 k',
+      yLabel: '확률',
+      series: [0, 1, 2, 3, 4].flatMap((x) => [
+        { x, y: [0.0625, 0.25, 0.375, 0.25, 0.0625][x], series: '이항 n=4, p=0.5' },
+        { x, y: [0.135, 0.271, 0.271, 0.18, 0.09][x], series: '포아송 λ=2' },
+      ]),
+      annotations: [{ x: 2, y: 0.375, label: 'k=2: 이항 0.375' }],
+    }),
+  ),
+  writeFile(
+    new URL('bias-variance-error.svg', outputDirectory),
+    createLineChart({
+      title: '모델 복잡도별 훈련·검증 오차 개념도',
+      xLabel: '모델 복잡도',
+      yLabel: '상대 오차(개념 좌표)',
+      series: [0, 25, 50, 75, 100].flatMap((x, index) => [
+        { x, y: [90, 60, 35, 20, 10][index], series: '훈련 오차' },
+        { x, y: [95, 65, 40, 55, 85][index], series: '검증 오차' },
+      ]),
+      annotations: [{ x: 50, y: 40, label: '검증 오차 최소 구간' }],
+    }),
+  ),
+  writeFile(
+    new URL('activation-function-comparison.svg', outputDirectory),
+    createLineChart({
+      title: 'Sigmoid·Tanh·ReLU 활성화 함수',
+      xLabel: '입력 x',
+      yLabel: '함수 출력',
+      series: Array.from({ length: 25 }, (_, index) => -3 + index * 0.25).flatMap((x) => [
+        { x, y: 1 / (1 + Math.exp(-x)), series: 'Sigmoid' },
+        { x, y: Math.tanh(x), series: 'Tanh' },
+        { x, y: Math.max(0, x), series: 'ReLU' },
+      ]),
+      annotations: [{ x: -2, y: 0, label: 'ReLU 음수 구간 0' }],
+    }),
+  ),
+  writeFile(
+    new URL('loss-function-comparison.svg', outputDirectory),
+    createLineChart({
+      title: '예측 오차에 따른 MSE·MAE·Huber 손실',
+      xLabel: '예측 오차 e',
+      yLabel: '손실',
+      series: Array.from({ length: 25 }, (_, index) => -3 + index * 0.25).flatMap((x) => [
+        { x, y: x ** 2, series: 'MSE' },
+        { x, y: Math.abs(x), series: 'MAE' },
+        { x, y: Math.abs(x) <= 1 ? 0.5 * x ** 2 : Math.abs(x) - 0.5, series: 'Huber δ=1' },
+      ]),
+      annotations: [{ x: 2.5, y: 6.25, label: 'MSE는 큰 오차를 제곱 강조' }],
+    }),
+  ),
+  writeFile(
+    new URL('grover-query-growth.svg', outputDirectory),
+    createLineChart({
+      title: '비정렬 탐색의 고전·그로버 질의 증가율',
+      xLabel: '후보 수 N',
+      yLabel: '질의 횟수',
+      series: [1, 4, 16, 64, 256].flatMap((x) => [
+        { x, y: x, series: '고전 탐색 N' },
+        { x, y: Math.sqrt(x), series: '그로버 탐색 √N' },
+      ]),
+      annotations: [{ x: 256, y: 16, label: 'N=256에서 이상적 16회' }],
+    }),
+  ),
   writeFile(new URL('streaming-watermark.svg', outputDirectory), createStreamingWatermarkChart()),
   writeFile(new URL('pue-energy-breakdown.svg', outputDirectory), createPueBreakdownChart()),
   writeFile(
