@@ -3,7 +3,7 @@ sidebar:
   order: 38
   label: "038. NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
   badge:
-    text: "미출제 · 50%"
+    text: "미출 · 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
 date: "2026-07-30T14:24:00+09:00"
@@ -12,7 +12,7 @@ tags:
 weight: 38
 extra:
   question_no: "038"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "AI 위험의 Govern·Map·Measure·Manage 핵심"
@@ -42,16 +42,28 @@ extra:
 
 ## Ⅱ. 특징
 
-- 자발적이고 권리를 보존하는 산업 중립적 틀로 다양한 AI 수명주기에 적용
-- Govern이 정책과 책임 및 위험 허용수준을 정해 Map·Measure·Manage를 지속적으로 조정
-- TEVV 결과와 불확실성을 근거로 신뢰성 특성의 상충과 잔여 위험을 기록
-- 네 기능을 고정 순서의 체크리스트가 아닌 반복적 의사결정 체계로 운용
+- **자발적 범용성**: 권리를 보존하는 산업 중립적 틀로 다양한 AI 수명주기에 적용
+- **거버넌스 중심성**: Govern이 정책·책임·위험 허용수준을 정해 Map·Measure·Manage를 지속적으로 조정
+- **증거 기반 반복성**: TEVV 결과와 불확실성으로 신뢰성 특성의 상충·잔여 위험을 기록하고 네 기능을 반복적 의사결정 체계로 운용
 
 ### 쉽게 이해하기 (학습용)
 - 정확도 향상이 설명 가능성이나 공정성을 낮출 수 있으므로 수용한 위험과 판단 근거를 기록한다
 
 ## Ⅲ. 구조 및 구성요소
 
+```mermaid
+block-beta
+    columns 3
+    G["Govern"]:3
+    M["Map"] E["Measure"] A["Manage"]
+    G -- M
+    M -- E
+    E -- A
+    A -- G
+    G --- M
+    M --- E
+    E --- A
+```
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -76,8 +88,6 @@ sequenceDiagram
     T->>G: 4. TEVV 결과·처리안 보고
     G-->>T: 5. 배포·완화·중단 결정
 ```
-
-### 동작 원리
 
 1. **정책·역할·위험 허용수준 전달**: 책임과 의사결정 기준 및 문서 체계화
 2. **목적·맥락·영향 확인**: 사용 환경과 AI 행위자 및 긍정·부정 영향 파악
