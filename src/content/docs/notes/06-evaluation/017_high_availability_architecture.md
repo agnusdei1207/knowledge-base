@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "고가용성 설계 - Active-Active·Active-Standby (High Availability Architecture)"
-date: 2026-07-31T05:10:47+09:00
+date: "2026-07-31T05:10:47+09:00"
 tags:
   - "notes-evaluation"
 weight: 17

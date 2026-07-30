@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "이중화 구성 - N+1·2N·2N+1 (Redundancy Configuration)"
-date: 2026-07-31T05:04:45+09:00
+date: "2026-07-31T05:04:45+09:00"
 tags:
   - "notes-evaluation"
 weight: 24

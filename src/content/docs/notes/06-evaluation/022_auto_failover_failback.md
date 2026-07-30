@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "자동 페일오버·페일백 (Auto Failover Failback)"
-date: 2026-07-31T05:03:23+09:00
+date: "2026-07-31T05:03:23+09:00"
 tags:
   - "notes-evaluation"
 weight: 22

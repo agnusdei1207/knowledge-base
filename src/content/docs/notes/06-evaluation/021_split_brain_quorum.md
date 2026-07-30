@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Split Brain·쿼럼 (Split Brain Quorum)"
-date: 2026-07-31T05:02:57+09:00
+date: "2026-07-31T05:02:57+09:00"
 tags:
   - "notes-evaluation"
 weight: 21

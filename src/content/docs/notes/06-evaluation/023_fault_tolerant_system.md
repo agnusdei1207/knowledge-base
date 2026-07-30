@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "결함 허용 시스템 (Fault-Tolerant System)"
-date: 2026-07-31T05:04:05+09:00
+date: "2026-07-31T05:04:05+09:00"
 tags:
   - "notes-evaluation"
 weight: 23

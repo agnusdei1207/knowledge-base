@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "ETA 이벤트 나무 분석 (Event Tree Analysis)"
-date: 2026-07-31T05:06:24+09:00
+date: "2026-07-31T05:06:24+09:00"
 tags:
   - "notes-evaluation"
 weight: 27

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "품질 특성 (기능 적합성, 성능 효율성, 호환성, 보안성)"
-date: 2026-07-31T05:08:19+09:00
+date: "2026-07-31T05:08:19+09:00"
 tags:
   - "notes-evaluation"
 weight: 30

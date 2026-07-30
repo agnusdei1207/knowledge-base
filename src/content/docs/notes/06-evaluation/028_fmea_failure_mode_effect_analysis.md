@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
-date: 2026-07-31T05:06:59+09:00
+date: "2026-07-31T05:06:59+09:00"
 tags:
   - "notes-evaluation"
 weight: 28

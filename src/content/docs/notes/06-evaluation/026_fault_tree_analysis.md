@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "FTA 결함 나무 분석 (Fault Tree Analysis)"
-date: 2026-07-31T05:05:49+09:00
+date: "2026-07-31T05:05:49+09:00"
 tags:
   - "notes-evaluation"
 weight: 26

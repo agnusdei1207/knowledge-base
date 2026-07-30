@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: 2026-07-31T05:10:14+09:00
+date: "2026-07-31T05:10:14+09:00"
 tags:
   - "notes-evaluation"
 weight: 16

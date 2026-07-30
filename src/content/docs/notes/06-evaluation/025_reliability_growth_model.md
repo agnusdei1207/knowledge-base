@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "신뢰성 성장 모델 (Reliability Growth Model)"
-date: 2026-07-31T05:05:20+09:00
+date: "2026-07-31T05:05:20+09:00"
 tags:
   - "notes-evaluation"
 weight: 25

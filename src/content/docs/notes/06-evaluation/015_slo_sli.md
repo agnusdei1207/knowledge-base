@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SLO·SLI (Service Level Objective·Indicator)"
-date: 2026-07-31T05:09:51+09:00
+date: "2026-07-31T05:09:51+09:00"
 tags:
   - "notes-evaluation"
 weight: 15
