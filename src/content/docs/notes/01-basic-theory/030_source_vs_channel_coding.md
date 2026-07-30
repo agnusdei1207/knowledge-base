@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-07-30T18:32:06+09:00"
+date: "2026-07-30T18:51:24+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -138,7 +138,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 블록 길이•지연 예산으로 **분리•결합 코딩** 선택
+- 긴 블록•지연 허용은 **분리**, 짧은 지연은 **결합 코딩** 선택
 
 ### 쉽게 이해하기 (학습용)
 

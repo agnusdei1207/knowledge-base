@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "튜링 머신 (Turing Machine)"
-date: "2026-07-30T18:22:44+09:00"
+date: "2026-07-30T18:51:21+09:00"
 tags:
   - "notes-basic-theory"
 weight: 22
@@ -137,7 +137,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 계산 범위•기억 구조로 모델을 고르고 **실행 상한** 강제
+- 정규 패턴은 **FA**, 중첩은 **PDA**, 범용 계산은 튜링 머신 선택
 
 ### 쉽게 이해하기 (학습용)
 

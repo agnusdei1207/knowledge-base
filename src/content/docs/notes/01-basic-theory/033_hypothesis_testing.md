@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-07-30T18:35:06+09:00"
+date: "2026-07-30T18:51:26+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -143,7 +143,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 기각 여부와 **효과 크기•신뢰구간**을 함께 보고 적용 결정
+- 귀무가설 기각 후 **신뢰구간**이 업무 효과선을 넘을 때만 적용
 
 ### 쉽게 이해하기 (학습용)
 - 유의확률이 문턱을 넘었어도 신뢰구간 전체가 업무상 필요한 효과선 아래라면, 통계적으로 보인 차이를 실제 적용하지 않는다.

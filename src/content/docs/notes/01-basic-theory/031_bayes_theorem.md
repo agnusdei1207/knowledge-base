@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
-date: "2026-07-30T18:33:00+09:00"
+date: "2026-07-30T18:51:25+09:00"
 tags:
   - "notes-basic-theory"
 weight: 31
@@ -136,7 +136,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 ## Ⅶ. 결론
 
-- 희귀 사건은 **기저율•독립 우도**를 반영한 사후 확률로 결정
+- 희귀 사건은 **기저율•조건부 의존**을 반영한 사후 확률로 판정
 
 ### 쉽게 이해하기 (학습용)
 

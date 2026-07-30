@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-07-30T18:26:37+09:00"
+date: "2026-07-30T18:51:22+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
@@ -148,7 +148,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 조건 조합은 **기본**, 다름 판정은 **배타 게이트** 선택
+- 조건 조합은 **기본**, 다름 판정은 **배타**, 단일 소자는 범용 게이트 선택
 
 ### 쉽게 이해하기 (학습용)
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-07-30T18:21:31+09:00"
+date: "2026-07-30T18:51:20+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -148,7 +148,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 언어의 중첩•문맥 의존성으로 **형식 문법** 선택
+- 중첩 구문은 **CFG**, 주변 문맥 제약은 **문맥 의존 문법** 선택
 
 ### 쉽게 이해하기 (학습용)
 
