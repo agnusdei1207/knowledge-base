@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
-date: "2026-07-30T18:27:02+09:00"
+date: "2026-07-30T18:50:46+09:00"
 tags:
   - "notes-basic-theory"
 weight: 19
@@ -62,12 +62,13 @@ extra:
 
 ```mermaid
 block-beta
-    columns 3
-    V["인증서 검증기"] --- R["다항 환원 함수"] --- T["대상 결정 문제"]
+    columns 4
+    P["완전성 증명기"] --- V["인증서 검증기"] --- R["다항 환원 함수"] --- T["대상 결정 문제"]
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
+| 완전성 증명기 | NP 소속•**NP-난해성** 근거 결합 |
 | 인증서 검증기 | 긍정 인증서의 **다항 시간 검증** 입증 |
 | 다항 환원 함수 | 알려진 NP-완전 문제를 대상으로 변환 |
 | 대상 결정 문제 | 환원 전후의 **예•아니오 답** 보존 |
@@ -80,16 +81,19 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 증명 수행자
+    participant Q as 요청자
+    participant P as 완전성 증명기
     participant V as 인증서 검증기
     participant R as 다항 환원 함수
     participant T as 대상 결정 문제
-    Q->>V: 1. 인증서 검증 요청
-    V-->>Q: NP 소속 근거 반환
-    Q->>R: 2. 환원 구성 요청
+    Q->>P: 완전성 증명 요청
+    P->>V: 1. 인증서 검증 요청
+    V-->>P: NP 소속 근거 반환
+    P->>R: 2. 환원 구성 요청
     R->>T: 3. 변환 인스턴스 전달
     T-->>R: 예•아니오 결과 반환
-    R-->>Q: 4. 답 보존 근거 반환
+    R-->>P: 4. 답 보존 근거 반환
+    P-->>Q: 완전성 증명 결과 반환
 ```
 
 ### 동작 원리
