@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "조합 논리 회로: 가산기•멀티플렉서 (Combinational Logic)"
-date: "2026-07-29T11:58:34+09:00"
+date: "2026-07-30T18:27:46+09:00"
 tags:
   - "notes-basic-theory"
 weight: 26
@@ -135,7 +135,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 기능에 맞는 회로를 고르고 **최장 경로 지연**을 검증
+- 가산은 **전가산기**, 경로 선택은 **멀티플렉서**, 해독은 디코더 선택
 
 ### 쉽게 이해하기 (학습용)
 
