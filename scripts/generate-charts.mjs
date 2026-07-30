@@ -1240,6 +1240,47 @@ await Promise.all([
     }),
   ),
   writeFile(
+    new URL('symmetric-key-search.svg', outputDirectory),
+    createLineChart({
+      title: '대칭키 길이에 따른 전수조사 시간의 지수 증가',
+      xLabel: '키 길이(비트)',
+      yLabel: '전수조사 시간 log₁₀(년)',
+      series: [64, 80, 96, 112, 128].map((x) => ({
+        x,
+        y: Math.log10((2 ** (x - 1)) / 1e18 / (365.25 * 24 * 3600)),
+        series: '초당 10¹⁸회·평균 절반 탐색',
+      })),
+      annotations: [{ x: 128, y: Math.log10((2 ** 127) / 1e18 / (365.25 * 24 * 3600)), label: '키 1비트 증가마다 탐색량 2배' }],
+    }),
+  ),
+  writeFile(
+    new URL('differential-privacy-noise.svg', outputDirectory),
+    createLineChart({
+      title: '프라이버시 예산 ε와 Laplace 잡음 크기의 역관계',
+      xLabel: '프라이버시 예산 ε',
+      yLabel: '잡음 척도 b=Δf/ε',
+      series: [0.1, 0.2, 0.5, 1, 2, 5].map((x) => ({
+        x,
+        y: 1 / x,
+        series: '민감도 Δf=1',
+      })),
+      annotations: [{ x: 0.1, y: 10, label: '작은 ε는 더 큰 잡음·강한 보호' }],
+    }),
+  ),
+  writeFile(
+    new URL('biometric-eer-tradeoff.svg', outputDirectory),
+    createLineChart({
+      title: '생체인증 임계값에 따른 FMR·FNMR 상충 개념도',
+      xLabel: '일치 판정 임계값(정규화)',
+      yLabel: '오류율(%)',
+      series: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1].flatMap((x) => [
+        { x, y: 100 * (1 - x) ** 3, series: 'FMR 타인 오수락률' },
+        { x, y: 100 * x ** 3, series: 'FNMR 본인 오거부율' },
+      ]),
+      annotations: [{ x: 0.5, y: 12.5, label: '교차점은 EER 개념 위치' }],
+    }),
+  ),
+  writeFile(
     new URL('little-law-wip-lead-time.svg', outputDirectory),
     createLineChart({
       title: '처리율이 일정할 때 WIP와 리드타임의 관계',
