@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-07-30T18:41:54+09:00"
+date: "2026-07-30T19:01:10+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의/개념: 모델 복잡도에 따른 **편향•분산 상충**을 보는 진단
+- 정의/개념: 훈련•검증 오차로 모델 복잡도의 **편향•분산 상충**을 판정하는 진단
 - 배경/필요성: 훈련 성능과 **일반화 성능**의 차이 판별
 
 ### 쉽게 이해하기 (학습용)

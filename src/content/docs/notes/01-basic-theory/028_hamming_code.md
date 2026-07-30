@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-07-30T18:30:14+09:00"
+date: "2026-07-30T19:01:04+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -43,7 +43,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의/개념: **패리티 조합**으로 단일 오류 위치를 판정•정정
+- 정의/개념: **패리티 조합**으로 단일 오류 위치를 판정•정정하는 오류 정정 부호
 - 배경/필요성: 재전송 불가 구간의 **비트 오류 복구**
 
 ### 쉽게 이해하기 (학습용)
