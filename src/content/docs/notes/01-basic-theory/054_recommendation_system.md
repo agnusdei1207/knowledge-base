@@ -18,7 +18,7 @@ extra:
   priority_note: "콜드 스타트•추천 방식 선택 우선"
 ---
 
-## 미리 알고가기
+## 미리 알고 가기
 
 - **추천 시스템(Recommendation System)**: 선호도를 예측해 아이템 노출 순위를 정하는 시스템
 - **협업 필터링(Collaborative Filtering)**: 사용자•아이템의 상호작용 유사성 기반 추천

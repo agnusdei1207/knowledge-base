@@ -18,7 +18,7 @@ extra:
   priority_note: "표형 데이터 부스팅 구현 비교 중심"
 ---
 
-## 미리 알고가기
+## 미리 알고 가기
 
 - **익스트림 그래디언트 부스팅(eXtreme Gradient Boosting, XGBoost)•경량 그래디언트 부스팅 머신(Light Gradient Boosting Machine, LightGBM)**: 이전 트리의 예측 오차를 다음 트리가 순차적으로 보완하는 그래디언트 부스팅의 대표 구현이다
 - **그래디언트 부스팅(Gradient Boosting)**: 현재 예측의 손실 기울기를 줄이는 보정 트리를 순차적으로 누적하는 앙상블 학습 방식이다

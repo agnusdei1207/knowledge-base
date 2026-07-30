@@ -18,7 +18,7 @@ extra:
   priority_note: "근사비 기반 해 품질 판단"
 ---
 
-## 미리 알고가기
+## 미리 알고 가기
 
 - **근사 알고리즘(Approximation Algorithm)**: 다항 시간에 해의 품질 한계를 보장하는 알고리즘
 - **완전 탐색(Exhaustive Search)**: 모든 후보 해를 확인해 최적해를 찾는 방식

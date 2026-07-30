@@ -18,7 +18,7 @@ extra:
   priority_note: "합성곱 신경망 백본 비교 우선"
 ---
 
-## 미리 알고가기
+## 미리 알고 가기
 
 - **이미지 분류(Image Classification)**: 이미지 전체의 클래스 점수•범주를 예측하는 비전 기법
 - **합성곱 신경망(Convolutional Neural Network, CNN)**: 공유 필터로 국소 특징을 추출하는 신경망
