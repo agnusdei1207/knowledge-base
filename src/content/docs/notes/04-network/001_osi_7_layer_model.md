@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OSI 7계층 모델 (OSI 7-Layer Model)"
-date: "2026-07-31T00:49:54+09:00"
+date: "2026-07-31T10:59:01+09:00"
 tags:
   - "notes-network"
 weight: 1
@@ -90,15 +90,17 @@ sequenceDiagram
     participant RS as 수신 스택
     participant RA as 수신 응용
     SA->>SS: 전송 데이터
-    SS->>M: 1. 캡슐화 프레임
-    M->>RS: 2. 수신 프레임
+    SS->>SS: 1. 캡슐화
+    SS->>M: 전송 프레임
+    M->>RS: 수신 프레임
+    RS->>RS: 2. 역캡슐화
     RS-->>RA: 복원 데이터
 ```
 
 **동작 원리**
 
-1. **캡슐화 프레임**: 계층별 헤더를 붙여 PDU 생성
-2. **수신 프레임**: 계층 역순으로 헤더를 제거해 원본 복원
+1. **캡슐화**: 계층별 헤더를 붙여 PDU 생성
+2. **역캡슐화**: 계층 역순으로 헤더를 제거해 원본 복원
 
 ### 쉽게 이해하기 (학습용)
 

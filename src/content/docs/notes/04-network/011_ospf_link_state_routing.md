@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF·OSPFv3 (OSPF Link State Routing)"
-date: "2026-07-31T00:58:19+09:00"
+date: "2026-07-31T11:07:09+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -126,7 +126,7 @@ sequenceDiagram
 
 | OSPF 버전 | OSPFv2 | OSPFv3 |
 |:---|:---|:---|
-| 적용 기준 | **IPv4 내부 라우팅** | IPv6 기본·확장 시 **IPv4 주소군** |
+| 적용 기준 | **IPv4 내부 라우팅** | **IPv6 라우팅·다중 주소군 확장** |
 | 핵심 특징 | **IPv4 프리픽스·LSA** 결합 | **프리픽스·링크 정보** 분리 |
 | 한계 | **IPv6 프리픽스** 광고 미지원 | **링크 로컬 다음 홉** 운영 복잡도 |
 

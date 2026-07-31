@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-07-31T01:00:32+09:00"
+date: "2026-07-31T11:09:02+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -90,15 +90,19 @@ sequenceDiagram
     participant E as 출구 LER
     participant D as 목적망
     S->>I: IP 패킷
-    I->>T: 1. LSP 레이블 패킷
-    T->>E: 2. 교환 레이블 패킷
+    I->>I: 1. 레이블 부착
+    I->>T: 레이블 패킷
+    T->>T: 2. 레이블 교환
+    T->>E: 교환 패킷
+    E->>E: 3. 레이블 제거
     E-->>D: IP 패킷
 ```
 
 **동작 원리**
 
-1. **LSP 레이블 패킷**: FEC에 대응하는 레이블 스택 부착
-2. **교환 레이블 패킷**: LFIB로 레이블·다음 홉을 바꾸고 출구에서 제거
+1. **레이블 부착**: FEC에 대응하는 레이블 스택 추가
+2. **레이블 교환**: LFIB로 출력 레이블·다음 홉 결정
+3. **레이블 제거**: 출구 LER에서 레이블을 제거해 IP 복원
 
 ### 쉽게 이해하기 (학습용)
 
