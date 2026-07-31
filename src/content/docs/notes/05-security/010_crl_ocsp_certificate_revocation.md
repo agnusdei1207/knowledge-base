@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "CRL·OCSP 인증서 폐지 (CRL OCSP Certificate Revocation)"
-date: "2026-07-31T02:57:00+09:00"
+date: "2026-07-31T11:14:45+09:00"
 tags:
   - "notes-security"
 weight: 10
@@ -46,7 +46,7 @@ extra:
 
 - **폐지 정보 전파 지연** 동안 인증서 허용 가능성
 - OCSP `good`의 **폐지 기록 없음**에 한정된 의미
-- **실패 시 허용·차단 정책**에 따른 가용성·보안성 상충
+- **소프트 실패는 가용성**, 하드 실패는 보안성 우선
 
 ### 쉽게 이해하기 (학습용)
 
