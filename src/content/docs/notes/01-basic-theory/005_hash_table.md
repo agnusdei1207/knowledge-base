@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-07-30T19:03:17+09:00"
+date: "2026-07-31T09:41:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -15,7 +15,7 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 30
-  priority_note: "충돌 처리•적재율이 좌우하는 해시 설계"
+  priority_note: "충돌 처리•적재율에 따른 해시 설계"
 ---
 
 ## 미리 알고가기
