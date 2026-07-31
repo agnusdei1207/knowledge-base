@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
-date: "2026-07-30T23:52:14+09:00"
+date: "2026-07-31T10:45:24+09:00"
 tags:
   - "notes-software"
 weight: 160
@@ -143,7 +143,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 전면 L7 통제는 **Sidecar**, L4 중심은 **Ambient·Waypoint** 선택
+- 전면 L7은 **Sidecar**, L4 중심은 **Ambient**, 선택 L7에 Waypoint 배치
 
 ### 쉽게 이해하기 (학습용)
 
