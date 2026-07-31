@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: ARM TrustZone (ARM TrustZone)
-date: "2026-07-31T02:17:39+09:00"
+date: "2026-07-31T11:23:28+09:00"
 tags:
   - notes-security
 weight: 128
@@ -71,7 +71,7 @@ block-beta
 | SMC·제한 진입점 | **요청 검증·상태 전환** |
 | TEE·Secure World | **TA·키·보안 서비스** 실행 |
 | 메모리·버스 보안 속성 | 영역별 **접근 경로 분리** |
-| DMA·인터럽트 통제 | **주변장치 우회 접근** 제한 |
+| DMA·인터럽트 통제 | **CPU를 거치지 않는 DMA 접근** 제한 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -125,7 +125,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 영역 속성이 누락되면 MCU 자원이 노출됨 | **Armv8-M Security Extension 적용** | SAU·진입점 속성 통제 |
 | TA마다 API가 다르면 경계 검증이 누락됨 | **GlobalPlatform TEE API v1.4 적용** | TA 기능·경계 표준화 |
-| 검사 뒤 공유 버퍼가 바뀌면 입력이 오염됨 | **복사 후 주소·길이 재검증** | TOCTOU 변조 차단 |
+| 검사 뒤 공유 버퍼가 바뀌면 입력이 오염됨 | **복사 후 주소·길이 재검증** | **TOCTOU** 변조 차단 |
 
 ### 쉽게 이해하기 (학습용)
 
