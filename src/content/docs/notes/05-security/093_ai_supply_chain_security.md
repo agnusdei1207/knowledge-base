@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AI 공급망 보안 (AI Supply Chain Security)"
-date: "2026-07-31T02:08:22+09:00"
+date: "2026-07-31T11:19:21+09:00"
 tags:
   - "notes-security"
 weight: 93
@@ -139,7 +139,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 출처·행동 검증 통과만 **승격**, 이상 자산은 계보로 **회수**
+- 출처·행동 검증을 통과한 **AI 자산만 승격**, 이상 자산은 계보로 **회수**
 
 ### 쉽게 이해하기 (학습용)
 

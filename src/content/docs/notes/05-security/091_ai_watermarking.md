@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 70%"
     variant: note
 title: "인공지능 워터마킹 (Artificial Intelligence Watermarking)"
-date: "2026-07-31T02:07:35+09:00"
+date: "2026-07-31T11:19:21+09:00"
 tags:
   - "notes-security"
 weight: 91
@@ -44,7 +44,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 신호 강도·품질의 **상충관계**
+- 신호를 강하게 넣으면 **검출률 증가·콘텐츠 품질 저하**
 - 유통 변형·제거의 **강건성 요구**
 - 서명 출처 결합의 **증거 상호보완**
 

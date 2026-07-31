@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "에이전트 보안 — 권한 통제·가드레일 (Agent Security)"
-date: "2026-07-31T02:07:02+09:00"
+date: "2026-07-31T11:19:21+09:00"
 tags:
   - "notes-security"
 weight: 90
@@ -27,6 +27,7 @@ extra:
 - **최소 권한(Least Privilege)**: 작업에 필요한 최소 기능·자원·기간만 허용하는 원칙이다.
 - **제한 토큰(Scoped Token)**: 특정 작업·대상·시간에만 유효한 접근 자격이다.
 - **정책 집행점(Policy Enforcement Point, PEP)**: 도구 호출 직전에 주체·동작·대상·조건을 검사하는 지점이다.
+- **완전 매개(Complete Mediation)**: 모든 자원 접근마다 권한을 빠짐없이 다시 검사하는 원칙이다.
 - **거래 결속(Transaction Binding)**: 사용자가 승인한 대상·금액·행위를 실제 실행 요청과 묶는 통제이다.
 - **보상 동작(Compensating Action)**: 완료된 작업의 반대 작업을 수행해 결과를 복구하는 처리이다.
 - **샌드박스(Sandbox)**: 코드·도구 실행이 실제 시스템에 미치는 영향을 제한하는 격리 환경이다.
