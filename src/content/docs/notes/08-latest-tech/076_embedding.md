@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "135회, 137회, 138회"
   priority: 60
-  priority_note: "의미 벡터 품질이 검색 성능을 좌우"
+  priority_note: "의미 벡터 품질 저하는 검색 정확도 저하로 연결"
 ---
 
 ## 미리 알고가기

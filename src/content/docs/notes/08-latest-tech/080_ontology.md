@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Ontology 온톨로지 (Ontology)"
-date: "2026-07-31T08:43:32+09:00"
+date: "2026-07-31T12:04:02+09:00"
 tags:
   - "notes-latest_tech"
 weight: 80
@@ -91,6 +91,8 @@ sequenceDiagram
   I->>R: 4. 개체·속성 사실
   R-->>A: 분류 결과·모순 판정
 ```
+
+**동작 원리**
 
 1. **클래스 계층·관계 범위**: 합의한 개념의 상하위 구조와 관계 대상 정의
 2. **정의역·치역·카디널리티**: 속성에 허용할 클래스와 개수 제한 명시

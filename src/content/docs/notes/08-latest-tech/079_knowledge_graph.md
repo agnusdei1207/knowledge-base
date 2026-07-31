@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Knowledge Graph 지식그래프 (Knowledge Graph)"
-date: "2026-07-31T08:43:03+09:00"
+date: "2026-07-31T12:03:25+09:00"
 tags:
   - "notes-latest_tech"
 weight: 79
@@ -91,6 +91,8 @@ sequenceDiagram
   Q->>R: 4. 관계 경로 질의
   R-->>Q: 출처 포함 경로·파생 사실
 ```
+
+**동작 원리**
 
 1. **식별 개체·관계 후보**: 문서 언급을 고유 식별자와 연결
 2. **트리플·속성 검증 요청**: 관계 방향·타입을 스키마로 판정

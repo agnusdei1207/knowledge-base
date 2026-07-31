@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Reranker 재순위화 모델 (Neural Reranker)"
-date: "2026-07-31T08:42:22+09:00"
+date: "2026-07-31T12:02:30+09:00"
 tags:
   - "notes-latest_tech"
 weight: 78
@@ -43,7 +43,8 @@ extra:
 
 - 1차 검색에 포함된 문서만 재정렬하는 **후보 제한**
 - 질의·문서 관계로 점수를 계산하는 **정밀 상호작용**
-- **BERT 교차 인코더·ColBERT**의 품질·지연 상충
+- **BERT 교차 인코더**의 정밀 평가와 후보별 추론 지연 증가
+- **ColBERT**의 문서 토큰 사전 인코딩에 따른 재순위 지연 감소
 
 ### 쉽게 이해하기 (학습용)
 

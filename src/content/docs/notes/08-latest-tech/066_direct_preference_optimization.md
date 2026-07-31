@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "DPO (직접 선호 최적화)"
-date: "2026-07-31T08:36:26+09:00"
+date: "2026-07-31T11:55:14+09:00"
 tags:
   - "notes-latest_tech"
 weight: 66
@@ -20,7 +20,7 @@ extra:
 
 ## 미리 알고가기
 
-- **직접 선호 최적화 (Direct Preference Optimization, DPO)**: 강화학습 단계를 우회해 선호·비선호 데이터쌍으로 모델을 훈련하는 정렬 기법
+- **직접 선호 최적화 (Direct Preference Optimization, DPO)**: 별도 보상 모델과 온라인 강화학습 없이 선호·비선호 데이터쌍으로 정책을 훈련하는 정렬 기법
 - **참조 모델 (Reference Model)**: 정책 모델이 정렬 과정에서 품질을 잃지 않도록 기준이 되는 동결 백본
 - **베타 계수 (Beta, β)**: 참조 모델과의 로그 확률 거리 비율을 조절하는 하이퍼파라미터
 
