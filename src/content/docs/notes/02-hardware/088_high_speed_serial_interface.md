@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB·Thunderbolt (High-Speed Serial Interface)"
-date: "2026-07-30T21:42:59+09:00"
+date: "2026-07-31T10:19:08+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -53,7 +53,7 @@ extra:
 
 - **기능 탐색·USB PD**로 공통 속도·전력·대체 모드 결정
 - **차동 신호·레인** 기반 고속 직렬 전송
-- Thunderbolt **PCIe 터널링**으로 성능과 DMA 노출 동시 증가
+- Thunderbolt **PCIe 터널링**으로 고대역 장치 연결·외부 DMA 공격면 확대
 
 ### 쉽게 이해하기 (학습용)
 
@@ -122,7 +122,7 @@ sequenceDiagram
 | 핵심 특징 | 범용 **데이터·전력 전송** | **PCIe·DisplayPort 터널링** |
 | 한계 | **포트·케이블 기능 불일치** | 외부 장치의 **DMA 접근** |
 
-> 요약: 범용 연결에는 USB, PCIe 터널에는 Thunderbolt를 사용한다.
+> 요약: 범용 연결은 **USB**, PCIe 터널링은 **Thunderbolt** 선택
 
 ### 쉽게 이해하기 (학습용)
 
