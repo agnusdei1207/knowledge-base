@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "위협 인텔리전스 - STIX·TAXII (Threat Intelligence STIX TAXII)"
-date: "2026-07-31T01:11:53+09:00"
+date: "2026-07-31T11:08:29+09:00"
 tags: ["notes-network"]
 weight: 96
 extra:
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의/개념: CTI를 STIX로 표현하고 TAXII로 교환하는 **위협 정보 표준 체계**
+- 정의/개념: STIX로 표현하고 TAXII로 교환하는 **CTI 표준 체계**
 - 배경/필요성: 비정형 문서의 **자동 연계 불가**
 
 ### 쉽게 이해하기 (학습용)

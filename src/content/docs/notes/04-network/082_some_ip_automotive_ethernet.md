@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-07-31T01:11:53+09:00"
+date: "2026-07-31T11:03:46+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -50,7 +50,7 @@ extra:
 
 - **계약 식별**: 서비스 ID·버전으로 호환 인터페이스 선택
 - **통신 다양성**: 요청·응답·무응답·이벤트 방식 제공
-- **동적 발견**: SOME/IP-SD로 제공자 위치·TTL 갱신
+- **SOME/IP-SD**: 제공자 위치·버전·TTL 동적 발견
 
 ### 쉽게 이해하기 (학습용)
 
@@ -106,7 +106,7 @@ sequenceDiagram
 
 1. **OfferService 광고**: 제공 ID·버전·종단점·TTL 공지
 2. **FindService 탐색**: 요구 ID·버전의 제공자 조회
-3. **이벤트 그룹 구독**: 이벤트 묶음과 구독 TTL 등록
+3. **이벤트 그룹 구독**: 이벤트 묶음과 구독 **TTL** 등록
 4. **서비스 메시지 교환**: 메서드 결과·이벤트·E2E 상태 전달
 5. **OfferService 갱신**: 만료 전 광고 갱신·실패 시 재탐색
 

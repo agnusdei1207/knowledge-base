@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
-date: "2026-07-31T01:11:53+09:00"
+date: "2026-07-31T11:04:03+09:00"
 tags: ["notes-network"]
 weight: 83
 extra:
@@ -49,7 +49,8 @@ extra:
 
 - **지연 상한**: 예약 조건으로 최악 도착 시간 계산
 - **트래픽 통합**: 실시간·일반 흐름을 표준 이더넷에 수용
-- **종단 동기**: IEEE 802.1AS 시각으로 GCL 실행 정렬
+- **IEEE 802.1AS**: 공통 시각으로 GCL 실행 정렬
+- **CNC**: 스트림 요구와 토폴로지로 경로·GCL 계산
 
 ### 쉽게 이해하기 (학습용)
 

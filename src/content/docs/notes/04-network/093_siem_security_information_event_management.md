@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "융합 보안 관제 SIEM (Security Information and Event Management)"
-date: "2026-07-31T01:11:53+09:00"
+date: "2026-07-31T11:07:39+09:00"
 tags: ["notes-network"]
 weight: 93
 extra:
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의/개념: 이종 로그를 정규화·상관분석하는 **통합 보안 관제 체계**
+- 정의/개념: 이종 로그를 정규화·상관분석하는 **SIEM 통합 보안 관제 체계**
 - 배경/필요성: 개별 로그만으로는 **공격 흐름·영향 범위 추적 곤란**
 
 ### 쉽게 이해하기 (학습용)
