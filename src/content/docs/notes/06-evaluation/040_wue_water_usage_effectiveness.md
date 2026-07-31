@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-07-31T05:08:17+09:00"
+date: "2026-07-31T11:31:21+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -47,7 +47,7 @@ extra:
 
 - **동일 기간의 현장 물 사용량÷IT 에너지**에 따른 L/kWh 산출
 - **현장 직접 물·전력 생산 간접 물**의 경계별 구분
-- **기후·물 부족도·냉각 방식·PUE 상충**의 통합 평가
+- 물 절감 냉각 시 **PUE·탄소 증가 여부 평가**
 - **ISO/IEC 30134-9:2022**에 따른 WUE 측정·보고 기준 적용
 
 ### 쉽게 이해하기 (학습용)

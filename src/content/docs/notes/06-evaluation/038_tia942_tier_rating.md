@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 등급 표준 (TIA-942 Rated)"
-date: "2026-07-31T05:06:51+09:00"
+date: "2026-07-31T11:31:03+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -57,7 +57,7 @@ extra:
 - **TIA Rated·Uptime Tier** 명칭 분리를 통한 인증 체계 혼동 방지
 
 ### 쉽게 이해하기 (학습용)
-- 예비 장비 개수뿐 아니라 정비나 고장 때 다른 공급 길이 실제로 살아 있는지 확인함
+- 예비 장비 개수뿐 아니라 정비나 고장 때 다른 공급 경로가 실제로 살아 있는지 확인함
 
 
 ## Ⅲ. 구조 및 구성요소
