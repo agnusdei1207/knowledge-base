@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "ITIL v4와 IT 서비스 관리 (ITIL v4 IT Service Management)"
-date: "2026-07-31T05:52:41+09:00"
+date: "2026-07-31T11:40:25+09:00"
 tags:
   - "notes-law_policy"
 weight: 6
@@ -122,7 +122,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- **4차원 병목**이 확인된 관행만 **SVC**에 우선 결합하고 지표로 재조정
+- **4차원 모델**로 병목을 진단해 관련 관행을 **SVC**에 우선 결합
 
 ### 쉽게 이해하기 (학습용)
 - 비즈니스와 기술 변화에 맞게 가치 흐름과 실무 관행을 지속적으로 조정해야 한다
