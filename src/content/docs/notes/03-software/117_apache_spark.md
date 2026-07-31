@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-07-30T23:57:24+09:00"
+date: "2026-07-31T10:31:24+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -36,7 +36,7 @@ extra:
 - **구조적 질의 언어(Structured Query Language, SQL)**: Spark에서 데이터프레임 실행 계획을 표현하는 질의 언어이다.
 - **카탈리스트(Catalyst)**: Spark SQL의 논리·물리 계획을 변환하고 최적화하는 구성요소이다.
 - **적응형 질의 실행(Adaptive Query Execution, AQE)**: 실행 중 통계로 조인 방식과 파티션 계획을 조정한다.
-- **캐시·영속화(Cache/Persist)**: 슬래시로 두 저장 방식을 함께 나타내며 반복할 파티션을 메모리나 디스크에 보관해 재계산을 줄이다.
+- **캐시·영속화(Cache/Persist)**: 반복할 파티션을 메모리나 디스크에 보관해 재계산을 줄이는 방식이다.
 - **응용 프로그램 인터페이스(Application Programming Interface, API)**: 구조적 스트리밍이 연속 입력을 정의하는 호출 접점이다.
 - **구조적 스트리밍(Structured Streaming)**: DataFrame API로 연속 입력을 증분 처리하는 Spark SQL 기반 스트림 엔진이다.
 - **체크포인트(Checkpoint)**: 재시작에 필요한 진행 위치와 상태 메타데이터를 안정 저장한 복구 지점이다.
