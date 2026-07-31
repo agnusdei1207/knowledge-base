@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "MIMO·대규모 MIMO (MIMO Massive MIMO)"
-date: "2026-07-31T01:11:36+09:00"
+date: "2026-07-31T11:03:51+09:00"
 tags:
   - "notes-network"
 weight: 67
@@ -112,7 +112,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 사용자가 이동해 CSI가 오래되면 빔이 빗나가므로 측정과 전송 사이의 시간도 성능을 좌우한다
+- 사용자가 이동하면 CSI 측정과 전송의 시차가 길수록 빔 이탈과 오류가 늘어난다
 
 ## Ⅴ. 종류 및 비교
 

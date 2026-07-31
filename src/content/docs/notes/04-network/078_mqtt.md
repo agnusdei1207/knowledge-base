@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "MQTT 경량 메시징 (MQTT)"
-date: "2026-07-31T01:11:36+09:00"
+date: "2026-07-31T11:05:47+09:00"
 tags:
   - "notes-network"
 weight: 78
@@ -101,7 +101,7 @@ sequenceDiagram
     P->>B: 3. 메시지 발행
     B->>S: 4. 토픽 라우팅
     opt QoS 1·2
-        S-->>B: 5. QoS 확인
+        S-->>B: QoS 확인
     end
     B-->>P: 발행 구간 완료
 ```
@@ -110,7 +110,6 @@ sequenceDiagram
 2. **토픽 구독**: 토픽 필터와 ACL 허용 범위 등록
 3. **메시지 발행**: 토픽·페이로드·QoS를 브로커에 전송
 4. **토픽 라우팅**: 필터 일치 구독별 QoS로 전달
-5. **QoS 확인**: 확인 교환 후 미완료 상태 정리
 
 ### 쉽게 이해하기 (학습용)
 
