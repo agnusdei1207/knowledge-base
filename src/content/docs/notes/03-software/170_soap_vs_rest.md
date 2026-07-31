@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-07-31T00:10:04+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -96,7 +96,8 @@ sequenceDiagram
     E->>V: 1. 형식·신원 검증 요청
     V-->>E: 2. 허용 범위 결과
     E->>B: 3. 연산·자원 요청
-    B-->>C: 결과·오류
+    B-->>E: 처리 결과·오류
+    E-->>C: 결과·오류 반환
 ```
 
 **동작 원리**

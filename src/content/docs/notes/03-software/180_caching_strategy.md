@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside·Write-Through (Caching Strategy)"
-date: "2026-07-31T00:31:37+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -140,7 +140,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 캐시 전체 장애 때 모든 요청을 원본으로 우회시키지 말고 호출 상한과 차단기로 원본이 함께 쓰러지는 상황을 막아야 한다.
+- 캐시 전체 장애 때 모든 요청이 캐시를 건너뛰어 원본으로 향하지 않도록 호출 상한과 차단기로 원본의 연쇄 장애를 막아야 한다.
 
 ## Ⅶ. 결론
 

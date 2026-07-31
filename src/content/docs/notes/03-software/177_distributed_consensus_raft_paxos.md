@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "분산 합의: Raft·Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-07-31T00:25:07+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -93,7 +93,8 @@ sequenceDiagram
     L->>F: 1. 임기·로그 복제 요청
     F-->>L: 2. 영속 기록 승인 집합
     L->>S: 3. 커밋 명령 전달
-    S-->>C: 확정 결과
+    S-->>L: 적용 결과
+    L-->>C: 확정 결과
 ```
 
 **동작 원리**

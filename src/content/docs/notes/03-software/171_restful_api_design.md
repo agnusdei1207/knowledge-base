@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-07-31T00:12:02+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -96,7 +96,8 @@ sequenceDiagram
     D->>S: 4. 검증된 상태 변경
     S-->>D: 변경 결과
     D-->>A: 연산 결과
-    A-->>C: 상태·헤더·표현
+    A-->>G: 상태·헤더·표현
+    G-->>C: API 응답
 ```
 
 **동작 원리**

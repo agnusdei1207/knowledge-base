@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "웹 소켓·Server-Sent Events (WebSocket SSE)"
-date: "2026-07-31T00:27:03+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -36,7 +36,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: 지속 연결의 WebSocket **전이중**·SSE **단방향 실시간 통신 방식**
-- 배경/필요성: 반복 조회로는 **요청 부하·상태 갱신 지연 지속**
+- 배경/필요성: 반복 조회 주기가 짧으면 **요청 부하 증가**, 길면 **상태 갱신 지연**
 
 ### 쉽게 이해하기 (학습용)
 

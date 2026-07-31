@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-07-31T00:14:08+09:00"
+date: "2026-07-31T10:42:28+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -96,7 +96,8 @@ sequenceDiagram
     R->>D: 3. 배치 조회 요청
     D-->>R: 원천 데이터
     R-->>E: 필드 결과
-    E-->>C: 데이터·부분 오류
+    E-->>G: 데이터·부분 오류
+    G-->>C: GraphQL 응답
 ```
 
 **동작 원리**
