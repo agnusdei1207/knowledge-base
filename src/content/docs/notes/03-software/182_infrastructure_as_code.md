@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-07-31T00:03:10+09:00"
+date: "2026-07-31T10:49:05+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -70,7 +70,7 @@ block
 |:---|:---|
 | 코드 저장소 | 자원·모듈·**변수·버전 이력** |
 | 검증 파이프라인 | 형식·보안·**정책·Plan 검토** |
-| IaC Engine·Provider | 그래프·적용·**플랫폼 API 변환** |
+| IaC Engine·Provider | **Provider·의존성 그래프** 기반 플랫폼 API 변환 |
 | 원격 상태 저장소 | 자원 매핑·**버전·암호화·잠금** |
 | 편차 탐지 | 실제 차이·**코드 반영·원복 분류** |
 

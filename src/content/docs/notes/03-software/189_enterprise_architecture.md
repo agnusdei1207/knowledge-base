@@ -4,7 +4,7 @@ sidebar:
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
   badge: { text: "기출 · 85%", variant: note }
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
-date: "2026-07-31T00:21:20+09:00"
+date: "2026-07-31T10:59:30+09:00"
 tags: ["notes-software"]
 weight: 189
 extra:
@@ -42,7 +42,9 @@ extra:
 
 - 업무·데이터와 응용·기술의 **아키텍처 추적**
 - **현행·목표·전환 구조** 기반 변화 관리
-- **표준·예외**를 저장소로 순환 관리
+- **TOGAF·ADM** 기반 반복 개발
+- **참조모형·표준** 기반 설계 재사용
+- **예외·저장소** 순환 관리
 
 ### 쉽게 이해하기 (학습용)
 - 현재 지도와 목표 지도 사이에 공사 중에도 업무를 유지할 전환 지도를 두고 각 사업이 그 경로를 따르는지 확인한다.

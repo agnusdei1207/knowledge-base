@@ -4,7 +4,7 @@ sidebar:
   label: "193. SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
   badge: { text: "기출 · 70%", variant: note }
 title: "SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
-date: "2026-07-31T00:31:00+09:00"
+date: "2026-07-31T11:04:44+09:00"
 tags: ["notes-software"]
 weight: 193
 extra:
@@ -25,7 +25,6 @@ extra:
 - **총소유비용(Total Cost of Ownership, TCO)**: 구매·유지관리·교육·전환·종료 비용을 합친 전체 비용
 - **중립 규격(Neutral Specification)**: 특정 제품명이 아니라 필요한 기능·성능·호환 조건으로 작성한 구매 규격
 - **직접구매 예외(Direct-purchase Exception)**: 분리 구매가 불가능하거나 사업 목적을 훼손하는 근거가 인정되어 통합 발주하는 경우
-- **웹 애플리케이션 서버(Web Application Server, WAS)**: 웹 요청의 업무 로직을 실행하는 상용 미들웨어
 - **검수(Acceptance Inspection)**: 납품 버전·사용 권리·보안·기술지원이 계약과 일치하는지 확인하는 절차
 - **책임 할당 행렬(Responsible·Accountable·Consulted·Informed, RACI)**: 수행·최종 책임·협의·통보 역할을 업무별로 구분하는 표
 

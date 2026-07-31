@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM·DRM (Government EA TRM DRM)"
   badge: { text: "기출 · 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM·DRM (Government EA TRM DRM)"
-date: "2026-07-31T00:23:40+09:00"
+date: "2026-07-31T11:01:12+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -39,8 +39,10 @@ extra:
 
 ## Ⅱ. 특징
 
-- 업무·서비스와 **DRM·TRM** 등 공통 분류
-- **업무·데이터**와 기술·성과 교차 연결
+- **BRM·SRM** 기반 업무·서비스 공통 분류
+- **DRM·TRM** 기반 데이터·기술 표준화
+- **PRM·성과 지표** 기반 투자 성과 추적
+- **상호운용성·메타데이터** 기반 기관 간 교환
 - **중복·공유 후보** 기반 투자 통제
 
 ### 쉽게 이해하기 (학습용)

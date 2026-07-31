@@ -4,7 +4,7 @@ sidebar:
   label: "187. ISMP 정보화 마스터플랜 (ISMP)"
   badge: { text: "기출 · 70%", variant: note }
 title: "ISMP 정보화 마스터플랜 (ISMP)"
-date: "2026-07-31T00:15:30+09:00"
+date: "2026-07-31T10:56:50+09:00"
 tags: ["notes-software"]
 weight: 187
 extra:
@@ -39,6 +39,7 @@ extra:
 
 - **특정 사업·성과 범위** 중심 계획
 - **목표 모델·상세 요구·규모**의 추적 연결
+- **BPR·FP** 기반 업무 재설계·규모 산정
 - **총사업비·RFP** 실행 기준 산출
 
 ### 쉽게 이해하기 (학습용)

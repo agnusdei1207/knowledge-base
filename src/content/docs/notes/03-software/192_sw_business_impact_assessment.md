@@ -4,7 +4,7 @@ sidebar:
   label: "192. 소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
   badge: { text: "기출 · 70%", variant: note }
 title: "소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
-date: "2026-07-31T00:28:35+09:00"
+date: "2026-07-31T11:03:52+09:00"
 tags: ["notes-software"]
 weight: 192
 extra:
@@ -40,6 +40,7 @@ extra:
 
 - **기획·발주 전 시장 영향** 사전 판정
 - **기능·사용자·배포 범위** 단위 대체성 비교
+- **소프트웨어 진흥법·영향평가 결과서** 기반 법정 절차
 - **공시·재평가** 기반 사업 범위 조정
 
 ### 쉽게 이해하기 (학습용)
