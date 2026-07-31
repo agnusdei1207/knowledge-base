@@ -4,7 +4,7 @@ sidebar:
   label: "037. 5G SA와 NSA"
   badge: { text: "기출 · 70%", variant: note }
 title: "5G SA와 NSA"
-date: "2026-07-31T16:29:00+09:00"
+date: "2026-07-31T11:02:01+09:00"
 tags: ["notes-network"]
 weight: 37
 extra:
@@ -38,9 +38,9 @@ extra:
 
 ## Ⅱ. 특징
 
-- **NSA**는 LTE/EPC 제어와 NR 이중 연결을 사용한다.
-- **SA**는 NR/5GC 기반으로 독립 등록·세션을 수행한다.
-- SA는 **슬라이싱·저지연·VoNR**, NSA는 빠른 도입에 적합하다.
+- **NSA**의 LTE/EPC 제어·NR 이중 연결
+- **SA**의 NR/5GC 기반 독립 등록·세션
+- SA의 **슬라이싱·저지연·VoNR**, NSA의 빠른 도입
 
 ### 쉽게 이해하기 (학습용)
 

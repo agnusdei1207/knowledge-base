@@ -4,7 +4,7 @@ sidebar:
   label: "034. OFDM과 OFDMA"
   badge: { text: "기출 · 30%", variant: note }
 title: "OFDM과 OFDMA"
-date: "2026-07-31T01:01:07+09:00"
+date: "2026-07-31T11:00:54+09:00"
 tags: ["notes-network"]
 weight: 34
 extra:
@@ -23,7 +23,7 @@ extra:
 - **직교 주파수 분할 다중 접속(Orthogonal Frequency-Division Multiple Access, OFDMA)**: 부반송파 묶음을 사용자별로 배정하는 다중 접속 방식
 - **자원 단위(Resource Unit, RU)**: OFDMA에서 사용자에게 배정하는 부반송파 묶음
 - **순환 전치(Cyclic Prefix, CP)**: 심볼 뒤 일부를 앞에 복제해 다중 경로의 심볼 간 간섭을 줄이는 보호 구간
-- **첨두 대 평균 전력비(Peak-to-Average Power Ratio, PAPR)**: 최대 전력과 평균 전력의 비로 전력 증폭기 효율을 좌우하는 지표
+- **첨두 대 평균 전력비(Peak-to-Average Power Ratio, PAPR)**: 최대 전력과 평균 전력의 비로 값이 클수록 전력 증폭기 효율을 낮추는 지표
 - **심볼(Symbol)**: 변조된 파형에서 한 번에 전달하는 비트 묶음
 - **역고속 푸리에 변환(Inverse Fast Fourier Transform, IFFT)**: 주파수 영역의 부반송파 심볼을 시간 영역 OFDM 파형으로 합성하는 연산
 - **고속 푸리에 변환(Fast Fourier Transform, FFT)**: 수신 OFDM 파형을 주파수 영역의 부반송파 심볼로 분리하는 연산

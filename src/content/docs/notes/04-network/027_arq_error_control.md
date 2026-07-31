@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "오류 제어 : ARQ·Go-Back-N·SR (ARQ Error Control)"
-date: "2026-07-31T00:54:03+09:00"
+date: "2026-07-31T10:59:57+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -45,7 +45,7 @@ extra:
 
 - 순서 번호의 **신규·재전송 프레임 구분**
 - ACK·NAK·타임아웃의 **재전송 시점 결정**
-- 송수신 윈도의 **처리량·버퍼 절충**
+- 큰 송수신 윈도의 **처리량 향상·버퍼 증가**
 
 ### 쉽게 이해하기 (학습용)
 
