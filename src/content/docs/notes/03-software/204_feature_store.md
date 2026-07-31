@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-07-31T00:16:00+09:00"
+date: "2026-07-31T10:48:41+09:00"
 tags: ["notes-software"]
 weight: 204
 extra:
@@ -26,7 +26,6 @@ extra:
 - **시점 일치 조인(Point-in-time Join, PIT Join)**: ‘피아이티 조인’으로 읽고 영문 첫 글자를 딴 약어이며, 예측 시점 이전 데이터만 결합해 미래 정보 누수를 방지하는 조인
 - **학습·서빙 편향(Training-serving Skew)**: 학습과 운영의 피처 계산·값 차이로 예측 품질이 달라지는 현상
 - **피처 레지스트리(Feature Registry)**: 피처 정의·소유자·버전·스키마를 검색·통제하는 메타데이터 저장소
-- **기계학습 운영(Machine Learning Operations, MLOps)**: ‘엠엘옵스’로 읽고 Machine Learning의 첫 글자 ML과 Operations를 결합한 명칭이며, 데이터·학습·배포·감시를 자동화하는 운영 체계
 - **스키마(Schema)**: 피처 이름·자료형·필수 여부·허용 범위를 정의해 생산자와 소비자가 같은 데이터 구조를 사용하도록 하는 규칙
 - **피처 계보(Feature Lineage)**: 원천 데이터에서 변환·저장·학습·추론까지 피처가 생성·사용된 관계와 버전을 추적하는 이력
 - **피처 변환기(Feature Transformer)**: 레지스트리의 계산식과 스키마로 원천 데이터를 가공해 오프라인 이력과 온라인 최신값을 만드는 구성요소

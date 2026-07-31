@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초개인화 서비스 (Hyper-Personalization Service)"
-date: "2026-07-31T00:43:00+09:00"
+date: "2026-07-31T10:50:57+09:00"
 tags: ["notes-software"]
 weight: 210
 extra:
@@ -90,11 +90,12 @@ sequenceDiagram
     participant F as 피처 스토어
     participant D as 의사결정 엔진
     participant O as 행동·피드백 수집기
-    C->>P: 1. 맥락·동의 검증
+    C->>P: 맥락·동의 전달
+    P->>P: 1. 맥락·동의 검증
     P->>F: 2. 허용 피처 조회
     F->>D: 3. 이력·실시간 피처 전달
     D->>P: 4. 후보·점수 제출
-    P->>C: 5. 제안 노출
+    P-->>C: 제안 노출
     C->>O: 반응·거부 이벤트
 
 
@@ -106,7 +107,6 @@ sequenceDiagram
 2. **허용 피처 조회**: 목적에 필요한 **최소 피처** 요청
 3. **이력·실시간 피처 전달**: 동일 시점·정의의 **개인 피처** 제공
 4. **후보·점수 제출**: **예측 점수·선택 근거** 전달
-5. **제안 노출**: **빈도·다양성 제약** 통과 후보 제공
 
 
 ### 쉽게 이해하기 (학습용)
