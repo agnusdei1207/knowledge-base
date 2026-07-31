@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Reasoning LLM (추론 특화 LLM)"
-date: "2026-07-31T08:34:13+09:00"
+date: "2026-07-31T11:50:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 41
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- SFT·RLVR 후학습에 의한 **다단계 문제 해결 정책 강화**
+- **SFT·RLVR** 후학습에 의한 다단계 문제 해결 정책 강화
 - 요청 난도에 따른 **시험 시점 연산 예산 조절**
 - 정답·코드 실행·도구 결과를 활용한 **검증 가능 출력 선택**
 
