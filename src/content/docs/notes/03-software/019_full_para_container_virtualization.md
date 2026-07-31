@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: 전가상화·반가상화·컨테이너 비교 (Full·Para·Container Virtualization)
-date: "2026-07-30T23:34:04+09:00"
+date: "2026-07-31T10:26:12+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -29,7 +29,7 @@ extra:
 - **게스트·호스트 운영체제(Guest·Host Operating System, Guest·Host OS)**: 게스트는 가상머신 내부에서 실행되고 호스트는 물리 장비와 컨테이너의 공유 커널을 관리한다.
 - **가상머신(Virtual Machine, VM)**: 독립된 게스트 운영체제와 가상 하드웨어를 묶어 하이퍼바이저가 실행하는 격리 단위
 - **워크로드(Workload)**: 가상머신이나 컨테이너 안에서 실행할 응용과 처리 작업의 집합
-- **실행 밀도(Deployment Density)**: 한 물리 장비에 동시에 배치할 수 있는 격리 실행 환경의 수로서 커널 공유 여부와 자원 오버헤드에 좌우됨
+- **실행 밀도(Deployment Density)**: 한 물리 장비에 동시에 배치할 수 있는 격리 환경의 수로서 커널을 공유하고 자원 오버헤드가 작을수록 높아짐
 - **가상 하드웨어(Virtual Hardware)**: 하이퍼바이저가 게스트에 제시하는 논리 프로세서·메모리·장치 인터페이스
 - **특권 접근 트랩(Privileged-access Trap)**: 미수정 게스트의 보호 자원 접근을 프로세서가 포착해 하이퍼바이저로 제어권을 넘기는 예외
 - **시스템 호출(System Call)**: 응용 프로세스가 파일·네트워크·메모리 같은 호스트 커널 기능을 요청하는 공식 진입 경로

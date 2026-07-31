@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: 다중프로그래밍·다중처리 (Multiprogramming·Multiprocessing)
-date: "2026-07-30T23:32:34+09:00"
+date: "2026-07-31T10:25:45+09:00"
 tags: [notes-software]
 weight: 17
 extra:
@@ -45,7 +45,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: 단일·다중 프로세서에서 작업을 교대·동시 실행하는 **운영체제 처리 방식**
-- 배경/필요성: I/O 대기 활용과 병렬 성능 확보를 위한 **실행 구조 구분**
+- 배경/필요성: 단일 작업만 실행하면 I/O 대기 중 **CPU 유휴·다중 코어 미활용**
 
 ### 쉽게 이해하기 (학습용)
 
