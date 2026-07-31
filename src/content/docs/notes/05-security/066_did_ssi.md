@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "디지털 신원 — DID·SSI (Decentralized Identity DID SSI)"
-date: "2026-07-31T01:59:56+09:00"
+date: "2026-07-31T11:17:29+09:00"
 tags:
   - "notes-security"
 weight: 66
@@ -44,7 +44,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: DID·VC로 자격을 보유·제시하는 **분산 디지털 신원 체계**
-- 배경/필요성: 중앙 신원 저장의 **종속·정보 과다 제공**
+- 배경/필요성: 중앙 신원 저장으로 **기관 종속·정보 과다 제공**
 
 ### 쉽게 이해하기 (학습용)
 
