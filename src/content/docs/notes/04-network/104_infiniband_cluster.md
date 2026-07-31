@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-07-31T01:57:00+09:00"
+date: "2026-07-31T11:06:48+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -35,7 +35,7 @@ extra:
 ## Ⅰ. 개요
 
 - 정의/개념: HCA와 스위치를 잇는 **RDMA·크레딧 제어 패브릭**
-- 배경/필요성: 범용망의 **복사·손실·지연 변동**
+- 배경/필요성: 범용망의 복사와 손실로 인한 **지연 변동**
 
 ### 쉽게 이해하기 (학습용)
 
