@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오픈 테이블 포맷 비교 (Open Table Format)"
-date: "2026-07-30T23:48:48+09:00"
+date: "2026-07-31T10:42:44+09:00"
 tags:
   - "notes-software"
 weight: 129
@@ -144,7 +144,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 로그 연계·구조 진화·레코드 갱신 중 우선 요구에 따라 **Delta·Iceberg·Hudi** 선택
+- 로그 연계는 **Delta**, 구조 진화는 **Iceberg**, 레코드 갱신은 Hudi 선택
 
 ### 쉽게 이해하기 (학습용)
 

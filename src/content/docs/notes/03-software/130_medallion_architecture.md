@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-07-30T23:49:29+09:00"
+date: "2026-07-31T10:43:03+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -143,7 +143,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 재처리·공통 품질·서비스 지표 중 목적에 따라 **Bronze·Silver·Gold** 승격 범위 결정
+- 원천 재처리는 **Bronze**, 공통 품질은 Silver, 서비스 지표는 **Gold**까지 승격
 
 ### 쉽게 이해하기 (학습용)
 

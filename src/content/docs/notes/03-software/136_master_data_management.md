@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "마스터 데이터 관리 MDM (Master Data Management)"
-date: "2026-07-30T23:53:32+09:00"
+date: "2026-07-31T10:43:53+09:00"
 tags:
   - "notes-software"
 weight: 136
@@ -146,7 +146,8 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 원천 영향·분석 통합·양방향 공유·중앙 통제 요구에 따라 **Registry·Consolidation·Coexistence·Hub** 선택
+- 원천 영향 최소화는 **Registry**, 분석 통합은 **Consolidation** 선택
+- 양방향 공유는 **Coexistence**, 중앙 통제는 **Hub** 선택
 
 ### 쉽게 이해하기 (학습용)
 
