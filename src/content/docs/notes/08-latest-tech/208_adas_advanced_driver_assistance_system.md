@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "ADAS 첨단운전자지원시스템 (Advanced Driver Assistance System)"
-date: "2026-07-31T09:00:22+09:00"
+date: "2026-07-31T12:09:14+09:00"
 tags:
   - "notes-latest-tech"
 weight: 208
@@ -42,7 +42,8 @@ extra:
 ## Ⅱ. 특징
 
 - 다중 센서 융합 기반 **객체·차선·충돌 위험 인지**
-- SAE Level 0~2 범위의 **경고·제한적 차량 제어**
+- SAE Level 0~2 범위의 **AEB·ACC** 기반 종방향 제어
+- 차로 이탈 방지를 위한 **LKA** 기반 횡방향 제어
 - DMS·센서 감시 기반 **운전자 감독·기능 저하 전환**
 ### 쉽게 이해하기 (학습용)
 
