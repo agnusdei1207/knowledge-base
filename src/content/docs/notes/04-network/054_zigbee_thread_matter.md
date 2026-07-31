@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-07-31T01:04:51+09:00"
+date: "2026-07-31T10:59:30+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -91,8 +91,8 @@ sequenceDiagram
     커미셔너->>Matter기기: 1. 가입 정보
     Matter기기->>커미셔너: 2. 기기 증명서
     커미셔너->>Matter기기: 3. 운영 자격
-    Matter기기->>Thread경계라우터: 4. IPv6 가입 요청
-    Thread경계라우터->>Matter기기: 5. IPv6 가입 응답
+    Matter기기->>Thread경계라우터: IPv6 가입 요청
+    Thread경계라우터-->>Matter기기: IPv6 가입 응답
 ```
 
 **동작 원리**
@@ -100,8 +100,6 @@ sequenceDiagram
 1. **가입 정보**: BLE·QR 정보로 신규 기기와 보안 세션 수립
 2. **기기 증명서**: 제조사 발급 정보로 기기 진위 증명
 3. **운영 자격**: 검증된 기기에 Thread 접속·패브릭 자격 전달
-4. **IPv6 가입 요청**: 운영 자격으로 Thread 네트워크 접속 요청
-5. **IPv6 가입 응답**: 가입 승인과 IPv6 경로 정보 제공
 
 ### 쉽게 이해하기 (학습용)
 
@@ -115,7 +113,7 @@ sequenceDiagram
 | 핵심 특징 | 비 IP망·**응용 프로파일** | 저전력 **IPv6 메시망** | IP **기기 모델·명령** |
 | 한계 | **허브·브리지** 종속 | **경계 라우터** 구성 오류 | **인증서·권한** 오설정 |
 
-> 요약: Zigbee·Thread는 망, Matter는 응용이다.
+> 요약: **Zigbee·Thread**는 망 계층, **Matter**는 응용 계층
 
 ### 쉽게 이해하기 (학습용)
 

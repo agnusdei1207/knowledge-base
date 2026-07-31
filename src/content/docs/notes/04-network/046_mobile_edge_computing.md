@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
-date: "2026-07-31T00:55:18+09:00"
+date: "2026-07-31T10:59:30+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -48,7 +48,7 @@ extra:
 
 ## Ⅱ. 특징
 
-- 로컬 **UPF**의 에지 트래픽 분기로 중앙망 우회
+- 로컬 **UPF** 분기로 중앙망을 거치지 않고 에지에 직접 전달
 - 플랫폼 **API**로 위치·무선 상태를 MEC 응용에 제공
 - **오케스트레이터**가 지연·자원·위치에 따라 응용 배치
 

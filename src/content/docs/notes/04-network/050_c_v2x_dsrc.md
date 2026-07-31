@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "C-V2X와 DSRC 비교 (C-V2X DSRC)"
-date: "2026-07-31T00:59:37+09:00"
+date: "2026-07-31T10:59:30+09:00"
 tags:
   - "notes-network"
 weight: 50
@@ -50,7 +50,7 @@ extra:
 
 - C-V2X의 **PC5 직접·Uu 망 경유** 이중 경로
 - DSRC의 **OCB·CSMA/CA** 기반 직접 접속
-- 차량 밀도가 높을수록 **자원 예약·채널 경쟁** 차이가 지연·수신률 좌우
+- 차량 밀도 증가 시 **채널 경쟁·충돌**로 DSRC 지연·손실 증가
 
 ### 쉽게 이해하기 (학습용)
 

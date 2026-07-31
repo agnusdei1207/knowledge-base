@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "애드혹 네트워크와 AODV (Ad-hoc AODV)"
-date: "2026-07-31T01:04:11+09:00"
+date: "2026-07-31T10:59:30+09:00"
 tags:
   - "notes-network"
 weight: 53
@@ -115,7 +115,7 @@ sequenceDiagram
 | 핵심 특징 | 요구 시 **RREQ·RREP 경로 탐색** | 모든 경로의 **주기적 갱신** |
 | 한계 | 첫 전송 지연·**RREQ 폭증** | 미사용 경로 **제어량 증가** |
 
-> 요약: AODV는 유휴 제어량과 첫 탐색 지연 상충
+> 요약: AODV는 **유휴 제어량**을 줄이지만 **첫 패킷 지연** 증가
 
 ### 쉽게 이해하기 (학습용)
 
