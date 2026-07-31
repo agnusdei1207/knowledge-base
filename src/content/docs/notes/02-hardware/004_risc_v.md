@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RISC-V 개방형 ISA (RISC-V Open Standard ISA)"
-date: "2026-07-30T21:18:58+09:00"
+date: "2026-07-31T10:18:00+09:00"
 tags:
   - "notes-hardware"
 weight: 4
@@ -97,7 +97,7 @@ sequenceDiagram
         T-->>C: 구현 수정 요청
     else 적합성 통과
         T->>S: 4. 적합성 통과 정보 전달
-        S-->>D: 5. 바이너리 호환 결과 반환
+        S-->>D: 바이너리 호환 결과 반환
     end
 ```
 
@@ -107,7 +107,6 @@ sequenceDiagram
 - **2. ISA·확장 명세 전달**: 구현할 인코딩 계약 제공
 - **3. 코어 구현 전달**: ISA 동작을 구현한 RTL 시험
 - **4. 적합성 통과 정보 전달**: 명령·예외·권한 시험 결과 제공
-- **5. 바이너리 호환 결과 반환**: ABI와 운영체제 실행 확인
 
 ### 쉽게 이해하기 (학습용)
 
