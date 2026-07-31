@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "모놀리식 vs 마이크로서비스 비교 (Monolith vs Microservice)"
-date: "2026-07-30T23:24:30+09:00"
+date: "2026-07-31T10:23:40+09:00"
 tags:
   - "notes-software"
 weight: 51
@@ -25,7 +25,7 @@ extra:
 - **바운디드 컨텍스트(Bounded Context)**: 하나의 업무 모델과 용어가 일관되게 적용되는 서비스 경계
 - **데이터 소유권(Data Ownership)**: 각 서비스가 전용 저장소의 스키마와 변경 권한을 책임지는 원칙
 - **분산 일관성(Distributed Consistency)**: 여러 서비스의 상태 변경을 메시지와 보상 처리로 맞추는 방식
-- **스트랭글러 패턴(Strangler Fig Pattern)**: 기존 기능의 요청을 새 서비스로 조금씩 우회해 교체하는 전환 방식
+- **스트랭글러 패턴(Strangler Fig Pattern)**: 기존 기능의 요청을 새 서비스로 점진 전환해 교체하는 방식
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스가 기능과 데이터를 주고받기 위한 호출 계약
 - **트랜잭션(Transaction)**: 관련 데이터 변경을 모두 반영하거나 모두 취소하는 원자적 처리 단위로서 모놀리식은 한 저장소에서 경계를 공유하기 쉬움
 - **스키마(Schema)**: 데이터베이스 테이블·열·관계·제약의 구조 정의로서 마이크로서비스는 각 서비스가 전용 저장소 스키마와 변경 권한을 소유한다.

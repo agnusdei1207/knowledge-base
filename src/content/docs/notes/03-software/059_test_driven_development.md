@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "테스트 주도 개발 TDD (Test-Driven Development)"
-date: "2026-07-30T23:38:00+09:00"
+date: "2026-07-31T10:25:13+09:00"
 tags:
   - "notes-software"
 weight: 59
@@ -52,16 +52,6 @@ extra:
 - 한 번에 작은 동작만 추가하므로 방금 바꾼 부분에서 문제 원인을 찾고 안전하게 구조를 개선할 수 있다.
 
 ## Ⅲ. 구조 및 구성요소
-
-```mermaid
-block
-  columns 1
-  L["테스트 목록"]
-  T["테스트 코드"]
-  S["대상 코드"]
-  R["테스트 실행기"]
-  G["회귀 테스트 모음"]
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
