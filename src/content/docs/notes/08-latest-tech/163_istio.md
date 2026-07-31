@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-07-27T23:59:59+09:00"
+date: "2026-07-31T08:55:51+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -61,11 +61,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 구성 API | 라우팅·보안·텔레메트리 의도 선언 |
-| Istiod | 구성 변환·xDS 배포·인증서 발급 |
-| Sidecar Envoy | Pod별 L4·L7 정책 집행 |
-| Ambient ztunnel | 노드 공유 L4 보안 터널 제공 |
-| Ambient waypoint | 선택 범위의 L7 정책 집행 |
+| **구성 API** | 라우팅·보안·텔레메트리 의도 선언 |
+| **Istiod** | 구성 변환·xDS 배포·인증서 발급 |
+| **Sidecar Envoy** | Pod별 L4·L7 정책 집행 |
+| **Ambient ztunnel** | 노드 공유 L4 보안 터널 제공 |
+| **Ambient waypoint** | 선택 범위의 L7 정책 집행 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -75,23 +75,25 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant A as 구성 API
+  participant C as 호출 서비스
   participant I as Istiod
   participant Z as ztunnel
   participant W as waypoint
-  participant S as 서비스
-  A->>I: 1. 정책 의도 선언
-  I->>Z: 2. L4 구성·인증서 배포
-  S->>Z: 3. 요청 포착·mTLS
-  Z->>W: 4. 선택적 L7 정책 위임
-  W-->>S: 5. 라우팅 결과 전달
+  participant T as 대상 서비스
+  I->>Z: 1. L4 구성·인증서 배포
+  I->>W: 2. L7 구성 배포
+  C->>Z: 서비스 요청 전달
+  Z->>W: 3. 선택적 L7 정책 위임
+  W->>T: 4. L7 인가·라우팅 집행
+  T-->>W: 서비스 응답
+  W-->>Z: 응답 전달
+  Z-->>C: 처리 결과 반환
 ```
 
-1. **정책 의도 선언**: 경로·신원·인가·관측 규칙 등록
-2. **L4 구성·인증서 배포**: Istiod가 xDS 구성과 워크로드 인증서 전달
-3. **요청 포착·mTLS**: ztunnel이 워크로드 신원을 확인하고 암호화
-4. **선택적 L7 정책 위임**: HTTP 인가·라우팅이 필요한 트래픽만 waypoint 경유
-5. **라우팅 결과 전달**: 적용 결과를 목적 서비스에 전달하고 텔레메트리 생성
+1. **L4 구성·인증서 배포**: Istiod가 xDS 구성과 워크로드 인증서 전달
+2. **L7 구성 배포**: waypoint에 HTTP 인가·라우팅 정책 전달
+3. **선택적 L7 정책 위임**: HTTP 검사가 필요한 트래픽만 waypoint 경유
+4. **L7 인가·라우팅 집행**: 신원 검증 후 대상 서비스로 요청 전달
 
 ### 쉽게 이해하기 (학습용)
 
@@ -101,11 +103,9 @@ sequenceDiagram
 
 | Istio 데이터 평면 | Sidecar 모드 | Ambient ztunnel | Ambient ztunnel+waypoint |
 |:---|:---|:---|:---|
-| 적용 기준 | 워크로드별 L4·L7 격리 | 저비용 L4 보안 기본망 | 선택 범위의 L7 정책 |
-| 핵심 특징 | Pod별 Envoy 정책 집행 | 노드 공유 mTLS·L4 터널 | waypoint의 HTTP 인가·라우팅 |
-| 한계 | Pod별 자원·기동·운영 비용 | L7 정책 미지원 | waypoint 경로·용량 운영 추가 |
-
-> 요약: 격리 수준과 L7 요구 및 프록시 비용으로 데이터 평면을 선택한다
+| 적용 기준 | 워크로드별 **L4·L7 격리** | 저비용 **L4 보안 기본망** | 선택 범위의 **L7 정책** |
+| 핵심 특징 | Pod별 **Envoy 정책** 집행 | 노드 공유 **mTLS·L4 터널** | waypoint의 **HTTP 인가·라우팅** |
+| 한계 | Pod별 **자원·기동·운영 비용** | **L7 정책** 미지원 | **waypoint 경로·용량** 운영 추가 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -115,9 +115,9 @@ sequenceDiagram
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
-| Sidecar와 Ambient 기능 차이 | 정책별 L4/L7 집행 위치 표 작성 | 마이그레이션 누락 방지 |
-| waypoint 과부하와 우회 경로 | 범위별 용량 산정·경로 검증 | L7 병목과 정책 우회 방지 |
-| 잘못된 xDS 구성의 전파 | 분석 도구·카나리·롤백 절차 적용 | 메시 전체 장애 억제 |
+| **Sidecar·Ambient 기능 차이** | 정책별 **L4/L7 집행 위치** 표 작성 | **마이그레이션 누락** 방지 |
+| **waypoint 과부하·우회 경로** | 범위별 **용량 산정·경로 검증** | **L7 병목·정책 우회** 방지 |
+| 잘못된 **xDS 구성 전파** | **분석 도구·카나리·롤백** 절차 적용 | **메시 전체 장애** 억제 |
 
 ### 쉽게 이해하기 (학습용)
 
@@ -125,7 +125,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- Kubernetes 통신 정책을 통합하기 위해 **L4·L7 요구·프록시 배치·xDS 전파·인증서·자원 비용**을 검토하고, 격리와 운영 목표에 맞춰 Sidecar 또는 Ambient 모드를 선택한다.
+- 워크로드별 격리는 Sidecar, L4 기본망은 **ztunnel**, 선택 L7은 **waypoint** 적용
 
 ### 쉽게 이해하기 (학습용)
 

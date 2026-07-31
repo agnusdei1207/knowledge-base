@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "KV Cache 최적화 (KV Cache Optimization)"
-date: "2026-07-30T11:04:43+09:00"
+date: "2026-07-31T08:35:28+09:00"
 tags:
   - "notes-latest_tech"
 weight: 44
@@ -125,7 +125,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 문맥 길이·동시 요청·메모리 대역폭·정확도를 기준으로 **KV 공유·양자화·페이징·오프로딩** 정책을 선택해야 한다.
+- 헤드 중복은 **GQA·MQA**, 단편화는 **페이징**, 용량 부족은 양자화·오프로딩 적용
 
 ### 쉽게 이해하기 (학습용)
 - 재계산 절감 이득과 캐시 메모리 비용을 함께 관리함

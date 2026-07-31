@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DeepSeek-R1 추론 모델 (DeepSeek-R1)"
-date: "2026-07-30T11:04:43+09:00"
+date: "2026-07-31T08:34:49+09:00"
 tags:
   - "notes-latest_tech"
 weight: 43
@@ -122,7 +122,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 과업 성능·모델 변형·GPU 자원·라이선스를 기준으로 **R1·R1-Zero·증류 모델**의 적용 범위를 구분해야 한다.
+- 순수 RL 연구는 **R1-Zero**, 범용 추론은 **R1**, 제한 자원 배포는 증류 모델
 
 ### 쉽게 이해하기 (학습용)
 - 연구 목적과 실제 배포 목적에 맞는 R1 계열 모델을 정확히 선택함
