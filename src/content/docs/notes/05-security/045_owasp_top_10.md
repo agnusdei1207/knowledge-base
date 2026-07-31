@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-07-31T01:55:45+09:00"
+date: "2026-07-31T11:17:32+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -104,7 +104,7 @@ sequenceDiagram
 
 ### 쉽게 이해하기 (학습용)
 
-- 적용 판과 범위를 정한 뒤 위험별 요구·시험·운영 지표를 연결한다.
+- 적용 대상과 범위를 정한 뒤 위험별 요구·시험·운영 지표를 연결한다.
 
 ## Ⅴ. 종류 및 비교
 
