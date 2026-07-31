@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "eBPF (Extended Berkeley Packet Filter)"
-date: "2026-07-31T08:56:51+09:00"
+date: "2026-07-31T12:02:33+09:00"
 tags:
   - "notes-latest-tech"
 weight: 165
@@ -81,7 +81,8 @@ sequenceDiagram
   participant H as 커널 훅·Helper
   participant M as eBPF Map
   L->>V: 프로그램 적재 요청
-  V->>R: 1. 바이트코드 안전성 검사
+  V->>V: 1. 바이트코드 안전성 검사
+  V->>R: 검증된 바이트코드 전달
   L->>H: 2. 프로그램 훅 부착
   H->>R: 3. 커널 이벤트 실행
   R->>M: 4. 정책 조회·상태 기록

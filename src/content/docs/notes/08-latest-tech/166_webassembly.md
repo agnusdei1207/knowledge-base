@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "WebAssembly (WebAssembly)"
-date: "2026-07-31T08:57:40+09:00"
+date: "2026-07-31T12:03:08+09:00"
 tags:
   - "notes-latest-tech"
 weight: 166
@@ -86,7 +86,7 @@ sequenceDiagram
   S->>V: Wasm 모듈 전달
   V->>R: 1. 모듈 검증·컴파일
   R->>H: 2. 호스트 기능 바인딩
-  H->>R: 3. 인스턴스 초기화
+  R->>R: 3. 인스턴스 초기화
   H->>R: 함수 실행 요청
   R->>R: 4. 함수 실행·트랩 격리
   R-->>H: 실행 결과 반환
