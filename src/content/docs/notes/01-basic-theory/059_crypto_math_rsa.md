@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암호 수학: 이산 대수•RSA 원리(Cryptography Mathematics)"
-date: "2026-07-31T09:24:10+09:00"
+date: "2026-07-31T09:50:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 59
@@ -112,7 +112,7 @@ sequenceDiagram
     X-->>B: 암호문
     B->>H: 개인키 복호 요청
     H->>O: 2. 복호 블록
-    O->>B: 3. 검증된 평문
+    O->>O: 3. OAEP 패딩 검증
     O-->>B: 평문
 ```
 
@@ -120,7 +120,7 @@ sequenceDiagram
 
 - **1. OAEP 인코딩 블록**: 난수•해시를 결합한 공개키 입력
 - **2. 복호 블록**: 격리된 개인키 모듈러 연산 결과
-- **3. 검증된 평문**: OAEP 패딩 검증 후 복원 결과
+- **3. OAEP 패딩 검증**: 복호 블록의 구조•해시 일치 확인
 
 ### 쉽게 이해하기 (학습용)
 

@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "122회"
   priority: 50
-  priority_note: "학습률과 갱신 상태가 수렴을 좌우"
+  priority_note: "학습률•갱신 상태에 따른 수렴 속도•안정성"
 ---
 
 ## 미리 알고가기
