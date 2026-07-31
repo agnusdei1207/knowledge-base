@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "Agent Sandbox (에이전트 샌드박스)"
-date: "2026-07-31T08:48:39+09:00"
+date: "2026-07-31T12:04:16+09:00"
 tags:
   - "notes-latest_tech"
 weight: 20
@@ -37,7 +37,7 @@ extra:
 - 사고 방지를 위한 독립된 별도 작업실 사용
 
 ## Ⅱ. 특징
-- **격리 축**: Ephemeral 비특권 환경으로 작업 경계 생성
+- **Ephemeral Environment**로 비특권 일회성 작업 경계 생성
 - **제한 축**: 시스템 호출·네트워크·파일·자원 통제
 - **반출 축**: 결과 검사·환경 폐기로 잔존 상태 제거
 

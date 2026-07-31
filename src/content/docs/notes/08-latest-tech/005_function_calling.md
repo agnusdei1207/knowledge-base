@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "함수 호출 (Function Calling)"
-date: "2026-07-31T08:36:47+09:00"
+date: "2026-07-31T11:53:44+09:00"
 tags:
   - "notes-latest_tech"
 weight: 5
@@ -41,7 +41,7 @@ extra:
 ## Ⅱ. 특징
 
 - **형식 축**: 함수 설명·JSON 스키마로 함수·인자 구조 제한
-- **선택 축**: tool_choice로 자동·필수·금지 호출 정책 제어
+- **tool_choice**로 자동·필수·금지 호출 정책 제어
 - **실행 축**: 호출 ID로 병렬·재시도 결과를 연결해 호스트 검증
 
 ### 쉽게 이해하기 (학습용)
