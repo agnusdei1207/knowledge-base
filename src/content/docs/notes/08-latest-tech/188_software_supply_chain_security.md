@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "Software Supply Chain Security 소프트웨어 공급망 보안 (Software Supply Chain Security)"
-date: "2026-07-31T09:01:11+09:00"
+date: "2026-07-31T12:08:27+09:00"
 tags:
   - "notes-latest-tech"
 weight: 188
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 - 소스·의존성·빌드·유통·배포의 **전 경로 통제**
-- SBOM·Provenance·서명과 **아티팩트 다이제스트 결속**
+- **SBOM·Provenance**와 서명을 **아티팩트 다이제스트에 결속**
 - 배포 승인과 취약점 발견 후 **재빌드·교체 수명주기**
 ### 쉽게 이해하기 (학습용)
 
