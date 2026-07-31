@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "마이크로서비스 아키텍처 MSA (Microservice Architecture)"
-date: "2026-07-30T23:27:52+09:00"
+date: "2026-07-31T10:25:53+09:00"
 tags:
   - "notes-software"
 weight: 39
@@ -150,7 +150,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 독립 배포 이익이 **분산 비용**보다 크면 MSA, 아니면 **모듈러 모놀리스** 선택
+- 독립 배포 이익이 분산 비용보다 크면 **MSA**, 아니면 **모듈러 모놀리스** 선택
 
 ### 쉽게 이해하기 (학습용)
 
