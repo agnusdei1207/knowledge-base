@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "시스템 성능 지표 - TPS·응답시간·처리량·가용성 (System KPI)"
-date: "2026-07-31T05:03:07+09:00"
+date: "2026-07-31T11:29:27+09:00"
 tags:
   - "notes-evaluation"
 weight: 1
@@ -30,8 +30,6 @@ extra:
 - **백분위수(Percentile, p95·p99)**: 요청의 95%·99%가 해당 값 이하에서 끝나는 꼬리 지연 지표이다.
 - **서비스 수준 목표(Service Level Objective, SLO)**: SLI에 대해 내부적으로 달성해야 할 목표값이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 측정 기준·목표·위반 책임을 고객과 합의한 계약이다.
-- **ISO/IEC 25010:2023**: 제품 품질을 성능 효율성·신뢰성 등 품질 특성으로 분류한 국제표준이다.
-- **ISO/IEC 25023:2016**: 시스템·소프트웨어 제품 품질 특성의 정량 측정 방법을 제시한 국제표준이다.
 
 ## Ⅰ. 개요
 

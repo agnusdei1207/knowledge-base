@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "병목 분석 (Bottleneck Analysis)"
-date: "2026-07-31T05:03:37+09:00"
+date: "2026-07-31T11:29:43+09:00"
 tags:
   - "notes-evaluation"
 weight: 2
@@ -24,7 +24,7 @@ extra:
 - **USE 방법론(Utilization, Saturation, Errors)**: 자원별 이용률·포화도·오류를 점검하는 분석법이다.
 - **RED 방법론(Rate, Errors, Duration)**: 서비스별 요청률·오류율·처리시간을 점검하는 분석법이다.
 - **포화(Saturation)**: 자원이 즉시 처리하지 못해 작업이 대기열에 쌓인 상태이다.
-- **임계 경로(Critical Path)**: 종단 응답시간을 직접 좌우하는 가장 긴 실행 경로이다.
+- **임계 경로(Critical Path)**: 종단 응답시간을 결정하는 가장 긴 실행 경로이다.
 - **프로파일러(Profiler)**: 코드별 실행시간과 자원 사용량을 측정하는 도구이다.
 - **핫스폿(Hotspot)**: 실행시간이나 자원 사용이 집중된 코드 구간이다.
 - **분산 추적(Distributed Tracing)**: 하나의 요청이 여러 서비스에서 거친 구간과 시간을 연결한 기록이다.
