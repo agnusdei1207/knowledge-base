@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Transformer (트랜스포머)"
-date: "2026-07-31T11:55:20+09:00"
+date: "2026-08-02T08:54:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 27
@@ -18,21 +18,15 @@ extra:
   priority_note: "어텐션 기반 구조가 반복 출제되는 기반"
 ---
 
-## 미리 알고가기
-
-- **트랜스포머 기반 양방향 인코더 표현(Bidirectional Encoder Representations from Transformers, BERT)**: 양방향 인코더를 사전 학습한 문맥 모델
-- **쿼리·키·밸류(Query·Key·Value, Q·K·V)**: 관계 기준과 전달 정보 벡터
-- **셀프 어텐션(Self-Attention)**: 같은 시퀀스 내 토큰 관계 계산
-- **크로스 어텐션(Cross-Attention)**: 타 시퀀스 정보 참조
-- **피드포워드 신경망(Feed-Forward Network, FFN)**: 위치별 표현 변환 층
-- **순환 신경망(Recurrent Neural Network, RNN)**: 은닉상태 순차 전달 구조
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 행렬 병렬 연산 장치
-- **잔차 연결(Residual Connection)**: 하위 입력에 출력 가산
-- **층 정규화(Layer Normalization)**: 차원별 정규화 연산
-
-> **키워드:** Transformer (트랜스포머)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **트랜스포머(Transformer)**: 셀프 어텐션으로 토큰 관계를 직접 계산하고 피드포워드 계층으로 표현을 변환하는 신경망 구조다.
+- **순환 신경망(Recurrent Neural Network, RNN)**: 이전 시점의 은닉 상태를 다음 시점으로 순차 전달하여 시퀀스를 처리하는 구조다.
+
+</details>
 
 - 정의/개념: 셀프 어텐션으로 토큰 관계를 직접 계산하는 **트랜스포머 신경망**
 - 배경/필요성: RNN의 순차 상태 전달은 **학습 병렬화와 장거리 의존성 학습**에 한계
@@ -41,6 +35,15 @@ extra:
 - 단어 간 관계를 한 층에서 동시 계산함
 
 ## Ⅱ. 특징
+
+<details>
+<summary>핵심 용어</summary>
+
+- **셀프 어텐션(Self-Attention)**: 같은 시퀀스 안의 토큰들이 서로의 관련도를 계산하여 문맥 정보를 결합하는 연산이다.
+- **크로스 어텐션(Cross-Attention)**: 한 시퀀스의 쿼리가 다른 시퀀스의 키와 밸류를 참조하여 정보를 연결하는 연산이다.
+- **GPU(Graphics Processing Unit)**: 대규모 행렬곱을 병렬로 처리하여 트랜스포머 학습을 가속하는 연산 장치다.
+
+</details>
 
 - 셀프 어텐션에 의한 **모든 토큰 쌍 관계의 직접 계산**
 - **셀프·크로스 어텐션**: 동일·외부 시퀀스의 문맥 관계 결합
@@ -51,6 +54,15 @@ extra:
 - 학습은 병렬이나 생성은 순차적임
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **피드포워드 신경망(Feed-Forward Network, FFN)**: 어텐션을 거친 각 토큰 표현을 위치별로 비선형 변환하는 계층이다.
+- **잔차 연결(Residual Connection)**: 계층 입력을 변환 결과에 더하여 원래 정보와 기울기 흐름을 보존하는 연결이다.
+- **층 정규화(Layer Normalization)**: 각 토큰 표현의 특성 차원을 정규화하여 학습을 안정화하는 연산이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -75,6 +87,14 @@ block-beta
 - 관계를 모으는 단계와 각 단어 표현을 다듬는 단계를 잔차 연결로 반복함
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **쿼리·키·밸류(Query·Key·Value, Q·K·V)**: 어떤 정보를 찾을지, 무엇과 비교할지, 어떤 정보를 전달할지를 각각 나타내는 어텐션 벡터다.
+- **위치 인코딩(Positional Encoding)**: 병렬 처리되는 토큰 표현에 순서와 상대 위치 정보를 더하는 표현이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -104,6 +124,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **트랜스포머**: 어텐션으로 토큰 관계를 직접 계산하여 병렬 학습과 장거리 문맥 처리를 지원한다.
+- **RNN 계열**: 은닉 상태를 순차 전달하여 스트림 상태를 처리하지만 병렬화와 장거리 정보 보존에 제약이 있다.
+- **BERT(Bidirectional Encoder Representations from Transformers)**: 양방향 트랜스포머 인코더를 사전학습하여 입력 문맥 표현을 만드는 모델이다.
+
+</details>
+
 | 비교 기준 | Transformer | RNN 계열 |
 |:---|:---|:---|
 | 적용 기준 | 긴 문맥의 **병렬 학습·확장** | 짧은 스트림의 **순차 상태 처리** |
@@ -114,6 +143,15 @@ sequenceDiagram
 - RNN은 순차 전달이나 트랜스포머는 관계 직접 계산함
 
 ## Ⅵ. 실무 고려사항 및 대책
+
+<details>
+<summary>핵심 용어</summary>
+
+- **희소 어텐션(Sparse Attention)**: 모든 토큰 쌍 대신 정해진 일부 관계만 계산하여 장문 연산량을 줄이는 방식이다.
+- **KV 캐시**: 자기회귀 생성 중 이전 토큰의 어텐션 키와 값을 저장하여 반복 계산을 줄이는 기법이다.
+- **추측 디코딩(Speculative Decoding)**: 작은 모델이 제안한 여러 토큰을 큰 모델이 한 번에 검증하여 생성 지연을 줄이는 방식이다.
+
+</details>
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
@@ -126,6 +164,14 @@ sequenceDiagram
 - 긴 문맥을 구간별로 나누거나 중요한 토큰 관계만 계산하여 메모리와 처리 비용을 절감한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **트랜스포머 선택 기준**: 긴 문맥의 관계를 직접 계산하고 대규모 병렬 학습이 필요할 때 선택한다.
+- **RNN 선택 기준**: 문맥이 짧고 순차 상태를 낮은 자원으로 계속 갱신하는 스트림 처리에 선택한다.
+
+</details>
 
 - 긴 문맥 병렬 학습은 **트랜스포머**, 짧은 순차 상태는 **RNN** 선택
 
