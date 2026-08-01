@@ -38,6 +38,8 @@ extra:
 - **증거 저장소(Evidence Repository)**: 업무 기록·측정값·문서를 실천 영역과 연결해 보관하는 저장소
 - **종단 흐름(End-to-End Flow)**: 요청 시작부터 제품·서비스 전달까지 조직 경계를 잇는 전체 업무 흐름
 
+> **키워드:** CMMI 성숙도 모델 (Capability Maturity Model Integration)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 조직 프로세스의 **역량을 진단·개선**하는 모델

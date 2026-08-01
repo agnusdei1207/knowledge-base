@@ -33,6 +33,8 @@ extra:
 - **데이터 대사(Data Reconciliation)**: 원천과 변환 결과의 건수·합계·키를 비교해 누락과 중복을 찾는 검증이다.
 - **최신성(Data Freshness)**: 데이터가 원천의 최근 변경을 얼마나 빠르게 반영하는지를 나타내는 품질 속성이다.
 
+> **키워드:** 메달리온 아키텍처 (Medallion Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 데이터를 Bronze·Silver·Gold로 승격하는 **품질 계층 구조**

@@ -34,6 +34,8 @@ extra:
 - **보완 통제(Compensating Control)**: 원래 통제를 적용하지 못할 때 같은 위험을 줄이기 위해 사용하는 대체 통제이다.
 - **책임 할당 행렬(Responsible, Accountable, Consulted, Informed, RACI)**: 업무별 실행·최종 책임·협의·공유 역할을 구분하는 책임 배분 표이다.
 
+> **키워드:** 데이터 거버넌스 (Data Governance)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 데이터의 사용·보호·품질에 관한 **의사결정권·책임**을 정하는 통제 체계

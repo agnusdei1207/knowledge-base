@@ -33,6 +33,8 @@ extra:
 - **재생 저장소(Replay Store)**: 순번별 이벤트를 보존해 재접속 구간의 누락분을 제공하는 저장소
 - **지수 백오프(Exponential Backoff)**: 재시도 간격을 지수적으로 늘려 동시 재접속 부하를 분산하는 방식
 
+> **키워드:** 웹 소켓·Server-Sent Events (WebSocket SSE)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 지속 연결의 WebSocket **전이중**·SSE **단방향 실시간 통신 방식**

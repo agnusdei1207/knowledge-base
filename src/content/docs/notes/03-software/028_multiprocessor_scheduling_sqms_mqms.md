@@ -39,6 +39,8 @@ extra:
 - **꼬리 지연(Tail Latency)**: 작업 대기시간 분포에서 가장 오래 기다린 일부 작업의 지연
 - **기아(Starvation)**: 특정 작업이 계속 후순위로 밀려 실행 기회를 얻지 못하는 현상
 
+> **키워드:** 다중 프로세서 스케줄링: SQMS·MQMS (Multiprocessor Scheduling SQMS MQMS)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 복수 CPU 코어에 **준비 작업을 배치·이동**하는 운영체제 스케줄링 정책

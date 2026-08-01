@@ -38,6 +38,8 @@ extra:
 - **메모리 대역폭(Memory Bandwidth)**: 단위시간에 CPU와 메모리 사이에서 전송할 수 있는 데이터 양
 - **가상 비균일 메모리 접근(Virtual Non-Uniform Memory Access, vNUMA)**: 가상 머신에 물리 NUMA와 대응하는 가상 CPU·메모리 토폴로지를 노출하는 구조
 
+> **키워드:** NUMA 인지 스케줄링 (NUMA-aware Scheduling)
+
 ## Ⅰ. 개요
 
 - 정의/개념: NUMA 토폴로지에 따라 스레드와 페이지를 공동 배치하는 운영체제 **스케줄링 기법**

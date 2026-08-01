@@ -36,6 +36,8 @@ extra:
 - **복구 시간 목표(Recovery Time Objective, RTO)**: 장애 후 서비스를 복구해야 하는 목표 시간
 - **99백분위 지연(99th Percentile Latency, p99)**: ‘피 구십구’로 읽으며 요청의 99%가 완료되는 지연값
 
+> **키워드:** B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **제자리 갱신과 순차 병합**을 대비한 저장 구조 비교

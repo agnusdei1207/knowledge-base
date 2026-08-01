@@ -36,6 +36,8 @@ extra:
 - **마스킹(Masking)**: 관측 자료의 민감값을 가리거나 대체하는 보호 기법
 - **계측 오버헤드(Instrumentation Overhead)**: 관측 자료 수집이 서비스에 추가하는 자원·지연 비용
 
+> **키워드:** APM 애플리케이션 성능 관리 (Application Performance Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 사용자 요청부터 코드까지 추적하는 **APM 성능 관리 체계**

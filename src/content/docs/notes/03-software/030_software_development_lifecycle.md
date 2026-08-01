@@ -36,6 +36,8 @@ extra:
 - **서비스 수준 목표(Service Level Objective, SLO)**: 응답시간·가용성 등 서비스 품질에 대해 달성하기로 정한 측정 목표
 - **관측 데이터(Telemetry)**: 운영 상태를 파악하도록 수집한 로그·지표·추적 정보
 
+> **키워드:** 소프트웨어 개발 생명주기 SDLC (Software Development Lifecycle)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 요구 식별부터 폐기까지 활동·산출물·승인을 통제하는 **SDLC 관리 체계**

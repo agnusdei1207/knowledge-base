@@ -38,6 +38,8 @@ extra:
 - **운영체제(Operating System, OS)**: 하드웨어 자원을 관리하고 애플리케이션 실행 기반을 제공하는 소프트웨어
 - **중앙처리장치(Central Processing Unit, CPU)**: 프로세스 명령을 실행하며 cgroup이 사용량을 제한하는 처리 자원
 
+> **키워드:** Docker 컨테이너 (Docker Container)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 이미지와 **호스트 커널 격리**로 애플리케이션을 실행하는 프로세스 단위

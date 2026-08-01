@@ -37,6 +37,8 @@ extra:
 - **민감도 분석(Sensitivity Analysis)**: 위험·비용 추정값을 바꿔도 판단이 유지되는지 확인하는 분석
 - **운용 감시(Operational Monitoring)**: 배치 후 사고 전조·안전 지표·가정 이탈을 지속 확인하는 활동
 
+> **키워드:** 소프트웨어 안전: GAMAB·ALARP (Software Safety GAMAB ALARP)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 동등성·저감 합리성으로 잔여 위험을 판정하는 **안전 원칙**

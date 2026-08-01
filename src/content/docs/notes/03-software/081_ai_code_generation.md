@@ -38,6 +38,8 @@ extra:
 - **비밀 탐지(Secret Detection)**: 코드·설정에서 키·토큰·자격증명 노출을 찾는 검사
 - **지식재산(Intellectual Property, IP)**: 저작권·특허·라이선스로 보호되는 코드와 창작 자산
 
+> **키워드:** AI 코드 생성: GitHub Copilot (AI Code Generation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: LLM이 요구와 코드 문맥에 맞는 후보를 만드는 **생성 기법**

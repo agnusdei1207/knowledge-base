@@ -33,6 +33,8 @@ extra:
 - **책임 할당 매트릭스(Responsible·Accountable·Consulted·Informed, RACI)**: 업무별 수행·최종 책임·협의·통보 주체를 구분하는 표이다
 - **복구 시간 목표(Recovery Time Objective, RTO)·복구 시점 목표(Recovery Point Objective, RPO)**: 서비스 복구 허용 시간과 허용 가능한 데이터 손실 시점을 정하는 기준이다
 
+> **키워드:** 클라우드 서비스 모델: IaaS·PaaS·SaaS (Cloud Service Models)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **운영 책임 범위**에 따라 IaaS·PaaS·SaaS를 구분하는 분류 체계

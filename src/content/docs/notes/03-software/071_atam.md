@@ -36,6 +36,8 @@ extra:
 - **개선 백로그(Improvement Backlog)**: 평가 위험의 책임자·기한·검증 조건을 관리하는 목록
 - **동료 검토(Peer Review)**: 동료가 경험과 설계 근거로 변경 내용을 검토하는 비정형 평가
 
+> **키워드:** ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 품질 시나리오로 위험·절충점을 찾는 **아키텍처 평가 방법**

@@ -30,6 +30,8 @@ extra:
 - **오탐·미탐(False Positive·False Negative)**: 정상 상태를 이상으로 판단하는 오류와 실제 이상을 놓치는 오류
 - **가역 조치(Reversible Action)**: 예상과 다른 결과가 나면 이전 상태로 되돌릴 수 있는 대응
 
+> **키워드:** AIOps (Artificial Intelligence for IT Operations)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 운영 신호를 분석해 **이상·사건·대응 후보를 도출하는 운영 지능화 체계**

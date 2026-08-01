@@ -31,6 +31,8 @@ extra:
 - **관측 백엔드(Observability Backend)**: 텔레메트리를 저장·조회·시각화하고 이상을 경보하는 시스템
 - **영속 큐(Persistent Queue)**: 전송 실패 중에도 디스크에 신호를 보존해 재시도하는 대기열
 
+> **키워드:** OpenTelemetry (OpenTelemetry)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 관측 신호의 생성·전파·수집을 통일하는 **벤더 중립 프레임워크**

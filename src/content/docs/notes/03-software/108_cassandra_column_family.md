@@ -40,6 +40,8 @@ extra:
 - **비정규화(Denormalization)**: 핵심 조회를 직접 처리하려고 같은 데이터를 여러 조회 구조에 중복 저장하는 설계이다.
 - **일관성 수준 ONE·QUORUM·ALL**: 각각 하나·과반·전체 복제본 응답을 요구하는 Cassandra 설정
 
+> **키워드:** Cassandra 컬럼 패밀리 DB (Cassandra Column Family)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 파티션 키로 행을 피어 노드에 분산하는 **와이드 컬럼 DB**

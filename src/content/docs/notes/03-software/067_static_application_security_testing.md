@@ -38,6 +38,8 @@ extra:
 - **증분 분석(Incremental Analysis)**: 전체 코드 대신 변경분과 영향 범위를 우선 분석하는 방식
 - **취약 코드 회귀 검사(Vulnerability Regression Test)**: 알려진 취약 코드가 분석기 갱신 후에도 탐지되는지 확인하는 검사
 
+> **키워드:** 정적 분석 SAST (Static Application Security Testing)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 코드 비실행 상태에서 **보안 결함을 분석**하는 기법

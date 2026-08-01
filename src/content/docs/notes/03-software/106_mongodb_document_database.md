@@ -38,6 +38,8 @@ extra:
 - **핫 샤드(Hot Shard)**: 샤드 키가 치우쳐 특정 샤드에 읽기·쓰기 부하가 집중된 상태
 - **쿼리 팬아웃(Query Fan-out)**: 샤드 키로 대상을 좁히지 못해 여러 샤드에 질의를 보내는 현상
 
+> **키워드:** MongoDB 도큐먼트 DB (MongoDB Document Database)
+
 ## Ⅰ. 개요
 
 - 정의/개념: BSON 문서를 저장·원자 갱신 단위로 쓰는 **문서 DB**

@@ -34,6 +34,8 @@ extra:
 - **제안자·수락자(Proposer·Acceptor)**: Paxos에서 값과 번호를 제안하는 역할과 제안을 약속·승인하는 역할
 - **준비·수락(Prepare·Accept)**: Paxos가 더 큰 제안 번호를 약속받고 값을 쿼럼에 승인받는 두 단계
 
+> **키워드:** 분산 합의: Raft·Paxos (Distributed Consensus Raft Paxos)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 장애 중에도 **단일 값·명령 순서**를 정하는 절차

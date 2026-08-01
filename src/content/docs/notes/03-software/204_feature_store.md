@@ -34,6 +34,8 @@ extra:
 - **서비스 수준 목표(Service Level Objective, SLO)**: 피처 신선도·가용성에 대해 달성할 측정 목표
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 피처 제공자와 소비자가 합의한 품질·지원 책임
 
+> **키워드:** 피처 스토어 (Feature Store)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **피처 정의·이력·최신값**을 일관되게 제공하는 저장소

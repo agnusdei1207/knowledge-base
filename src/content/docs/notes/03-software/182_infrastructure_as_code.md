@@ -31,6 +31,8 @@ extra:
 - **정책형 코드(Policy as Code)**: 보안·비용·규제 규칙을 실행 코드로 정의해 계획과 배포를 검사하는 방식
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: IaC 엔진이 플랫폼 자원을 조회·변경할 때 호출하는 접점
 
+> **키워드:** IaC 인프라스트럭처 코드 (Infrastructure as Code)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 목표 상태를 **코드**로 정의하고 Plan으로 변경하는 구성 관리 방식

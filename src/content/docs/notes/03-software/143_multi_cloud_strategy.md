@@ -31,6 +31,8 @@ extra:
 - **복구 시간 목표(Recovery Time Objective, RTO)·복구 시점 목표(Recovery Point Objective, RPO)**: 서비스 복구 허용 시간과 허용 가능한 데이터 손실 시점을 정하는 기준이다
 - **서비스 수준 목표(Service Level Objective, SLO)**: 가용성·지연처럼 서비스가 달성해야 할 운영 목표이다
 
+> **키워드:** 멀티 클라우드 전략 (Multi Cloud Strategy)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 둘 이상의 퍼블릭 공급자를 **분할·중복 배치**하는 클라우드 운영 전략

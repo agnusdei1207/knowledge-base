@@ -28,6 +28,8 @@ extra:
 - **검수(Acceptance Inspection)**: 납품 버전·사용 권리·보안·기술지원이 계약과 일치하는지 확인하는 절차
 - **책임 할당 행렬(Responsible·Accountable·Consulted·Informed, RACI)**: 수행·최종 책임·협의·통보 역할을 업무별로 구분하는 표
 
+> **키워드:** SW 조달: 상용SW 직접구매 (SW Direct Purchase)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 상용 SW를 구축 계약과 분리해 **공급자에게 직접 구매**하는 조달 방식

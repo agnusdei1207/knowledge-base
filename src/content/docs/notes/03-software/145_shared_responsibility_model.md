@@ -30,6 +30,8 @@ extra:
 - **운영체제(Operating System, OS)**: 하드웨어 자원을 관리하고 애플리케이션 실행 기반을 제공하는 소프트웨어
 - **책임 할당 매트릭스(Responsible·Accountable·Consulted·Informed, RACI)**: 통제별 수행·최종 책임·협의·통보 주체를 구분하는 표
 
+> **키워드:** 클라우드 공유 책임 모델 (Shared Responsibility Model)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 공급자·이용자의 보안·운영 **통제 책임**을 구분하는 경계 모델

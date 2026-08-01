@@ -29,6 +29,8 @@ extra:
 - **인공지능(Artificial Intelligence, AI)**: 학습·추론·판단 등 지능적 기능을 전자적으로 구현한 기술
 - **공통 성과지표(Common Performance Indicator)**: 여러 기관 사업의 성과를 같은 기준으로 비교하는 측정값
 
+> **키워드:** 지능정보화 기본법 (Framework Act on Intelligent Informatization)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 국가 **지능정보사회 정책·계획·기반**의 기본법

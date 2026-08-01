@@ -32,6 +32,8 @@ extra:
 - **지속적 통합(Continuous Integration, CI)**: 변경 코드를 자주 병합해 자동 검증하는 방식이다
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 다른 서비스의 기능·데이터 요청 규약이다
 
+> **키워드:** 데이터 계약 (Data Contract)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 생산자와 소비자가 구조·품질·변경에 합의한 **기계 검증 규약**

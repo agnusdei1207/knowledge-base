@@ -32,6 +32,8 @@ extra:
 - **업무 불변식(Business Invariant)**: 재고가 음수가 아니어야 하는 것처럼 모든 처리 뒤에도 지켜야 하는 업무 규칙이다.
 - **분산 합의(Distributed Consensus)**: 여러 노드가 하나의 값이나 처리 순서에 동의하도록 만드는 조정 절차
 
+> **키워드:** CRDT 충돌 없는 복제 데이터 (Conflict-free Replicated Data Type)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 동시 변경을 결정적 병합으로 수렴시키는 **분산 자료형**

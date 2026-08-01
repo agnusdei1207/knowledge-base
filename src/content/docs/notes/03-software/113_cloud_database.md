@@ -38,6 +38,8 @@ extra:
 - **신원·접근 관리(Identity and Access Management, IAM)**: 사용자·역할별 인증과 권한 정책을 관리하는 통제
 - **입출력(Input/Output, I/O)**: 데이터베이스와 저장장치 사이의 읽기·쓰기 작업
 
+> **키워드:** 클라우드 DB - RDS·Aurora·DynamoDB 비교 (Cloud Database)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 공급자가 배포·패치·백업을 관리하는 **클라우드 DB**

@@ -33,6 +33,8 @@ extra:
 - **문맥 전파(Context Propagation)**: 트레이스 식별자와 요청 정보를 다음 서비스 호출에 이어 보내는 동작
 - **꼬리 기반 샘플링(Tail-based Sampling)**: 요청 완료 후 오류·지연 등 전체 결과를 보고 보존 여부를 정하는 방식
 
+> **키워드:** 클라우드 네이티브 관측성 (Cloud Native Observability)
+
 ## Ⅰ. 개요
 
 - 정의/개념: Metric·Log·Trace를 연결해 내부 **상태·원인을 추론하는 성질**

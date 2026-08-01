@@ -37,6 +37,8 @@ extra:
 - **스냅숏(Snapshot)**: 특정 시점의 볼륨 데이터 상태를 복원할 수 있도록 보존한 사본
 - **애플리케이션 일관 백업(Application-consistent Backup)**: 애플리케이션 쓰기를 정리한 시점의 데이터 관계를 보존한 백업
 
+> **키워드:** 쿠버네티스 스토리지: PVC·PV·StorageClass (Kubernetes Storage)
+
 ## Ⅰ. 개요
 
 - 정의/개념: PVC·PV·StorageClass로 **저장 요구와 구현**을 분리하는 영속 스토리지 구조

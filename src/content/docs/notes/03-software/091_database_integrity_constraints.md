@@ -35,6 +35,8 @@ extra:
 - **참조 동작(Referential Action)**: 부모 키 변경·삭제 때 제한·연쇄·NULL 설정 등을 수행하는 정책
 - **확장-축소 변경(Expand-Contract Change)**: 구·신 버전이 함께 쓸 구조를 추가한 뒤 이전 구조를 제거하는 스키마 변경 방식
 
+> **키워드:** 데이터베이스 무결성 제약 조건 (Database Integrity Constraints)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 저장 시 **값·식별·관계의 유효성을 강제하는 규칙**

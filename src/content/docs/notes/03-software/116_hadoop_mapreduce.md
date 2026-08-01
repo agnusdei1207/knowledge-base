@@ -44,6 +44,8 @@ extra:
 - **방향성 비순환 그래프(Directed Acyclic Graph, DAG)**: 방향을 갖고 순환하지 않는 작업 의존 관계이다.
 - **멱등성(Idempotency)**: 같은 출력을 반복 기록해도 결과가 한 번 실행한 것과 같은 성질이다.
 
+> **키워드:** 빅데이터 분산 처리: Hadoop·MapReduce·HDFS
+
 ## Ⅰ. 개요
 
 - 정의/개념: HDFS·YARN·MapReduce를 결합한 **분산 배치 체계**

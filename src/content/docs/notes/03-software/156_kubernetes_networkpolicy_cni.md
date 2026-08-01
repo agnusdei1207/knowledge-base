@@ -36,6 +36,8 @@ extra:
 - **도메인 이름 시스템(Domain Name System, DNS)**: 서비스 이름을 네트워크 주소로 변환하는 이름 서비스
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크 경로에서 분할 없이 전송할 수 있는 최대 패킷 크기
 
+> **키워드:** 쿠버네티스 NetworkPolicy·CNI (Kubernetes NetworkPolicy CNI)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **CNI**로 파드 연결을 구성하고 **NetworkPolicy**로 허용 통신을 제한하는 제어 체계

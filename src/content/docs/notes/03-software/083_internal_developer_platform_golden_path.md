@@ -37,6 +37,8 @@ extra:
 - **경로 분석(Path Analytics)**: 단계별 시간·실패·우회를 측정해 개발 경로의 마찰을 찾는 활동
 - **경로 마찰(Path Friction)**: 권장 경로에서 발생하는 대기·실패·수동 작업·인지 부담
 
+> **키워드:** 내부 개발자 플랫폼 골든 패스 (Internal Developer Platform Golden Path)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 검증 도구 기반 **권장 개발·배포 경로**

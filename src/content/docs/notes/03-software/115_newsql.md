@@ -42,6 +42,8 @@ extra:
 - **복구 목표 시간(Recovery Time Objective, RTO)**: 장애 후 서비스를 복구해야 하는 목표 시간
 - **멱등성(Idempotency)**: 같은 요청을 반복해도 결과가 한 번 실행한 것과 같은 성질
 
+> **키워드:** NewSQL: CockroachDB·Spanner (NewSQL)
+
 ## Ⅰ. 개요
 
 - 정의/개념: SQL·ACID를 합의 복제로 수평 확장한 **뉴SQL 데이터베이스**

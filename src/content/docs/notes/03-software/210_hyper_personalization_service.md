@@ -32,6 +32,8 @@ extra:
 - **지연 예산(Latency Budget)**: 전체 응답 시간에서 피처 조회·추론·정책 판정에 배분한 허용 시간
 - **서비스 수준 목표(Service Level Objective, SLO)**: 응답 지연·가용성에 대해 달성할 측정 목표
 
+> **키워드:** 초개인화 서비스 (Hyper-Personalization Service)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 개인 이력과 **실시간 맥락**으로 제안을 선택하는 서비스 방식

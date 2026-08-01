@@ -35,6 +35,8 @@ extra:
 - **원격 프로시저 호출(Remote Procedure Call, RPC)**: 원격 서비스의 연산을 지역 함수처럼 호출하는 방식
 - **커서 페이징(Cursor Pagination)**: 마지막으로 읽은 항목의 위치를 기준으로 다음 목록을 조회하는 방식
 
+> **키워드:** RESTful API 설계 원칙 (RESTful API Design)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 자원 식별과 **HTTP 균일 인터페이스** 기반 API

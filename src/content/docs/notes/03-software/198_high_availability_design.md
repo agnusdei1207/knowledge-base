@@ -36,6 +36,8 @@ extra:
 - **핫·웜 스탠바이(Hot·Warm Standby)**: 핫은 즉시 승격 가능한 대기 환경이고 웜은 기동·데이터 복구 뒤 승격하는 축소 대기 환경이다.
 
 
+> **키워드:** 고가용성 설계: Active-Active·Active-Standby (High Availability Design)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 독립 장애 도메인과 자동 전환으로 **목표 가용성**을 유지하는 시스템 구조

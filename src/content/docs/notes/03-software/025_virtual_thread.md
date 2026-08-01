@@ -43,6 +43,8 @@ extra:
 - **자바 비행 기록기(Java Flight Recorder, JFR)**: JVM 실행 사건과 성능 지표를 낮은 부하로 수집하는 진단 기능
 - **세마포어(Semaphore)**: 허용 개수만큼만 작업의 동시 진입을 허용하는 동기화 도구
 
+> **키워드:** 가상 스레드: Java Project Loom (Virtual Thread)
+
 ## Ⅰ. 개요
 
 - 정의/개념: Java Project Loom이 가상 스레드를 **소수 캐리어에 다중화**하는 동시성 실행 모델
