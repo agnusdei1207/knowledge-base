@@ -43,6 +43,8 @@ extra:
 - **적응형 코드율(Adaptive Code Rate)**: 관측한 채널 오류율에 맞춰 정보 비트와 보호 비트의 비율을 조정하는 방식
 - **재동기화 지점(Resynchronization Point)**: 압축 비트열 손상 뒤 복호기가 올바른 프레임 경계를 다시 찾는 기준 위치
 
+> **키워드:** 소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **중복 제거•추가**로 압축과 오류 복구를 나눈 부호화

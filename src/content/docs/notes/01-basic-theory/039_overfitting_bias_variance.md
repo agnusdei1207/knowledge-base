@@ -38,6 +38,8 @@ extra:
 - **교차검증(Cross-validation)**: 데이터를 여러 분할로 나눠 학습•검증을 반복하고 일반화 성능을 평균하는 평가 방법
 - **데이터 증강(Data Augmentation)**: 의미를 보존하는 변환으로 학습 표본의 다양성을 늘리는 기법
 
+> **키워드:** 과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 훈련•검증 오차로 모델 복잡도의 **편향•분산 상충**을 판정하는 진단

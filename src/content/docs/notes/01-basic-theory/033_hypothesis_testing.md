@@ -45,6 +45,8 @@ extra:
 - **선택적 보고 편향(Selective Reporting Bias)**: 수행한 분석 중 유의한 결과만 골라 보고해 효과를 실제보다 크게 보이게 하는 편향
 - **사전 검정력 분석(Prior Power Analysis)**: 예상 효과 크기•유의수준•목표 검정력을 바탕으로 분석 전에 필요한 표본 수를 계산하는 절차
 
+> **키워드:** 가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 표본의 양립성으로 **귀무가설 기각 여부**를 정하는 통계 절차

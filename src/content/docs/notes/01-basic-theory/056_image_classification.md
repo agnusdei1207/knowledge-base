@@ -46,6 +46,8 @@ extra:
 - **전이 학습(Transfer Learning)**: 대규모 데이터에서 학습한 백본 특징을 새 분류 과제에 재사용하는 학습 방식이다
 - **활성값 메모리(Activation Memory)**: 순전파 중 각 계층이 만든 중간 특징 맵을 저장하는 데 필요한 메모리
 
+> **키워드:** 이미지 분류: ResNet•VGG•EfficientNet(Image Classification)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **합성곱 신경망**으로 **클래스 점수**를 산출하는 기법

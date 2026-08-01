@@ -43,6 +43,8 @@ extra:
 - **손실 함수(Loss Function)**: 예측값과 정답의 차이를 학습이 최소화할 하나의 수치로 계산하는 함수
 - **가중치 초기화(Weight Initialization)**: 학습 시작 전 가중치 분포를 정해 순전파 활성값과 역전파 기울기의 규모를 조절하는 방법
 
+> **키워드:** 활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 뉴런 가중합을 **비선형 출력**으로 바꾸는 함수
