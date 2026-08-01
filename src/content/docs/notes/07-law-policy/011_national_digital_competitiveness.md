@@ -24,6 +24,8 @@ extra:
 - **국제경영개발대학원(International Institute for Management Development, IMD)**: 국가 경쟁력과 디지털 경쟁력 보고서를 발간하는 스위스의 경영교육·연구기관이다.
 - **미래준비도(Future Readiness)**: 사회·기업·정부가 새로운 디지털 기술을 수용하고 활용하는 능력을 평가하는 요인이다.
 
+> **키워드:** 국가 디지털 경쟁력 지수 (National Digital Competitiveness)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 국가의 기술 개발·채택 역량을 비교하는 **지식·기술·미래준비도 복합 지표**

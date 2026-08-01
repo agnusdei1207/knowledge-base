@@ -28,6 +28,8 @@ extra:
 - **전자정부 표준프레임워크 5.0(eGovFrame 5.0)**: Spring 6.2.11과 JDK 17 이상 및 Jakarta EE 기반의 현행 실행환경
 - **자카르타 EE(Jakarta Enterprise Edition, Jakarta EE)**: 기업용 자바 응용의 웹·데이터·트랜잭션 API 표준
 
+> **키워드:** 전자 정부 표준 프레임워크 (e-Government Standard Framework)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 공공 시스템에 실행·개발 환경과 공통컴포넌트를 제공하는 **오픈소스 개발 프레임워크**

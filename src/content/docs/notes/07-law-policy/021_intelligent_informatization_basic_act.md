@@ -23,6 +23,8 @@ extra:
 - **인공지능(Artificial Intelligence, AI)**: 데이터 학습과 추론을 통해 분류·예측·생성 등의 지능형 기능을 수행하는 기술이다.
 - **지능정보화(Intelligent Informatization)**: 정보의 생산·유통·활용을 기반으로 지능정보기술이나 다른 기술을 적용하여 사회 각 분야의 활동을 가능하게 하거나 효율화하는 것이다.
 
+> **키워드:** 지능정보화 기본법 (Intelligent Informatization Basic Act)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 국가 지능정보화 정책의 수립·추진을 규율하는 **기본법**

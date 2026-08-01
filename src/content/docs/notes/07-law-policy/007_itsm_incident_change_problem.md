@@ -31,6 +31,8 @@ extra:
 - **근본 원인 분석(Root Cause Analysis, RCA)**: 장애나 문제의 근본적인 기저 원인을 파악하기 위해 로그와 현상을 정밀 분석하는 기법
 - **평균 복구 시간(Mean Time To Resolution, MTTR)**: 장애 접수 시점부터 정상 서비스 수준으로 완벽하게 복구될 때까지 소요된 평균 시간
 
+> **키워드:** 인시던트·문제·변경 관리 (Incident, Problem, Change Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **인시던트·문제·변경 관리**는 복구·원인 제거·변경 위험을 연계하는 **ITSM 관행**

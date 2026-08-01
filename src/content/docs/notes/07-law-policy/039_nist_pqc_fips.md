@@ -36,6 +36,8 @@ extra:
 - **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난도를 보안 근거로 사용하는 공개키 암호 알고리즘
 - **타원곡선암호(Elliptic Curve Cryptography, ECC)**: 타원곡선 이산대수 문제의 난도를 보안 근거로 사용하는 공개키 암호기술
 
+> **키워드:** NIST PQC 표준화 — FIPS 203/204/205 (NIST PQC FIPS)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 양자 공격에 견디는 **ML-KEM·ML-DSA·SLH-DSA**의 연방정보처리표준

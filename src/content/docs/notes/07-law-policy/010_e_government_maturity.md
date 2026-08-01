@@ -28,6 +28,8 @@ extra:
 - **전자참여 지수(E-Participation Index, EPI)**: 정책 정보 공개, 온라인 의견 수렴 및 공동 결정 등 국민의 행정 참여 품질을 평가하는 UN의 보조 지표
 - **UN 전자정부 조사 2024(UN E-Government Survey 2024)**: EGDI와 OSI·TII·HCI·EPI로 국가별 디지털 정부 수준을 평가한 최신 조사다.
 
+> **키워드:** 전자정부 성숙도 모형 (E-Government Maturity Model)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 단계와 지표로 현재·목표 격차를 진단하는 **전자정부 성숙도 평가 모형**

@@ -29,6 +29,8 @@ extra:
 - **의견 요청서(Request for Comments, RFC)**: 인터넷 프로토콜·절차·기술 정보를 정의해 IETF가 공개하는 문서군
 - **합리적·비차별적 조건(Reasonable and Non-Discriminatory, RAND)**: 표준필수특허를 합리적이고 차별 없는 조건으로 허락하는 원칙
 
+> **키워드:** ITU·ISO·IEEE·IETF 표준화 기구 (International Standards Bodies)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 국가·산업·전문가 합의로 국제 규격·권고를 만드는 **표준화 기구(SDO)**

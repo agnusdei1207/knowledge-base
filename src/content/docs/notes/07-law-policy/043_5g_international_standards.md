@@ -32,6 +32,8 @@ extra:
 - **3GPP Release 19**: 2025년 12월 규격이 동결된 5G-Advanced 릴리즈
 - **3GPP Release 20**: 2027년 기능 동결을 목표로 진행 중인 릴리즈
 
+> **키워드:** 5G 국제 표준 — 3GPP·IMT-2020 (5G International Standards)
+
 ## Ⅰ. 개요
 
 - 정의/개념: ITU-R의 국제 요구와 3GPP 상세 규격을 연결한 **5G 표준 체계**

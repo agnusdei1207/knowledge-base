@@ -25,6 +25,8 @@ extra:
 - **전사 아키텍처(Enterprise Architecture, EA)**: 비즈니스 목표와 업무·데이터·애플리케이션·기술 구조를 정렬하고 원칙·표준·변경으로 통제하는 체계다.
 - **제안 요청서(Request for Proposal, RFP)**: 발주기관이 사업 요구사항·계약 조건·평가 기준을 제시해 제안서 제출을 요청하는 공식 문서다.
 
+> **키워드:** ISP·ISMP·EA 비교 (ISP, ISMP, EA Comparison)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 정보화 전주기에서 **ISP·ISMP·EA의 투자·발주·구조 역할**을 구분한 체계

@@ -29,6 +29,8 @@ extra:
 - **제공·서비스·지원(Deliver, Service and Support, DSS)**: 서비스를 제공하고 운영·보안·연속성을 지원하는 관리 영역이다.
 - **모니터링·평가·진단(Monitor, Evaluate and Assess, MEA)**: 관리 활동의 성과·통제·준수 상태를 모니터링하고 평가하는 관리 영역이다.
 
+> **키워드:** IT 거버넌스와 COBIT (IT Governance & COBIT)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 경영진이 **IT 가치·위험·자원의 결정권·책임·성과**를 감독하는 지배 체계

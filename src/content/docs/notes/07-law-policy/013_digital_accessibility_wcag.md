@@ -24,6 +24,8 @@ extra:
 - **POUR 4대 원칙(Perceivable, Operable, Understandable, Robust)**: WCAG의 성공 기준을 인식성·운용성·이해성·견고성으로 분류하는 상위 원칙이다.
 - **접근 가능한 리치 인터넷 애플리케이션(Web Accessibility Initiative-Accessible Rich Internet Applications, WAI-ARIA)**: 동적 사용자 인터페이스의 역할·상태·속성을 보조기술에 전달하는 기술 명세이다.
 
+> **키워드:** 디지털 접근성과 WCAG (Digital Accessibility & WCAG)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 정보·기능의 **인식·운용·이해·보조기술 호환 보장**

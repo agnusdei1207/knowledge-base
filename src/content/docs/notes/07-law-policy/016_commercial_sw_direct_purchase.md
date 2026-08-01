@@ -28,6 +28,8 @@ extra:
 - **총소유비용(Total Cost of Ownership, TCO)**: 도입부터 운영·유지보수·폐기까지 발생하는 전체 비용이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스의 성능·가용성·보안과 미달 시 책임을 정한 협약이다.
 
+> **키워드:** 상용SW 직접 구매 (Commercial SW Direct Purchase)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 상용 SW를 구축 용역과 분리 계약하는 **공공 조달 제도**
