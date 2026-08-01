@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MCP Tool (모델 컨텍스트 프로토콜 도구)"
-date: "2026-07-31T08:42:25+09:00"
+date: "2026-08-02T08:46:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 10
@@ -18,19 +18,15 @@ extra:
   priority_note: "도구 노출은 MCP 실행 구조의 핵심"
 ---
 
-## 미리 알고가기
+## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
 
 - **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**: 호스트와 서버의 기능·컨텍스트 교환을 표준화한 프로토콜
-- **대규모 언어 모델(Large Language Model, LLM)**: 문맥과 도구 명세를 바탕으로 호출할 도구와 인자를 생성하는 모델이다.
-- **JSON(JavaScript Object Notation)**: 도구명과 호출 인자를 구조화하는 데이터 형식이다.
-- **JSON 스키마(JSON Schema)**: 도구 입력·출력 구조와 자료형·필수 필드를 정의하는 규격
-- **부작용(Side Effect)**: 도구 실행으로 외부 시스템의 데이터나 상태가 바뀌는 현상
-- **인간 개입(Human-in-the-Loop, HITL)**: 고위험 호출을 사람이 검토·승인하는 통제
-- **프롬프트 주입(Prompt Injection)**: 비신뢰 콘텐츠의 악성 지시로 도구 호출을 유도하는 공격
+- **대규모 언어 모델(Large Language Model, LLM)**: 문맥과 도구 명세를 바탕으로 호출할 도구와 인자를 생성하는 모델
 
-> **키워드:** MCP Tool (모델 컨텍스트 프로토콜 도구)
-
-## Ⅰ. 개요
+</details>
 
 - 정의/개념: 구조화 명세로 외부 행동을 실행하는 **MCP 도구 기능**
 - 배경/필요성: 함수별 인자·권한 계약 차이로 **LLM의 일관된 행동 호출 곤란**
@@ -40,6 +36,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **대규모 언어 모델(Large Language Model, LLM)**: 목표와 문맥을 해석해 호출할 도구와 인자를 제안하는 모델
+- **JSON 스키마(JSON Schema)**: 도구 입력·출력 구조와 자료형·필수 필드를 정의하는 규격
+- **부작용(Side Effect)**: 도구 실행으로 외부 시스템의 데이터나 상태가 바뀌는 현상
+
+</details>
+
 - **선택 축**: LLM이 목표·문맥에 맞는 도구·인자 제안
 - **계약 축**: tools/list·tools/call·JSON 스키마 표준화
 - **통제 축**: 호스트 동의·서버 재검증으로 부작용 통제
@@ -48,6 +53,15 @@ extra:
 - 도구 설명서를 보고 호출하지만 위험한 일은 서버와 사람이 한 번 더 확인함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **JSON 스키마(JSON Schema)**: 도구의 입력 구조·자료형·필수 필드를 검증할 수 있게 정의한 규격
+- **정책 집행기**: 권한·사용자 동의·부작용 허용 범위를 확인해 실행 여부를 결정하는 구성요소
+- **백엔드 도구**: MCP 서버가 검증 후 실제 외부 시스템에서 실행하는 기능
+
+</details>
 
 ```mermaid
 block-beta
@@ -75,6 +89,15 @@ block-beta
 - 설명서와 검사 담당자를 거쳐 허용된 명령만 실행하고 결과를 돌려줌
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **JSON(JavaScript Object Notation)**: 도구명과 호출 인자를 구조화하는 데이터 형식
+- **인간 개입(Human-in-the-Loop, HITL)**: 고위험 호출을 사람이 검토·승인하는 통제
+- **tools/list·tools/call**: MCP 서버의 도구 명세를 조회하고 선택한 도구를 실행하는 표준 요청
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -109,6 +132,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Resource**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터
+- **Tool**: 모델이 구조화된 인자로 호출해 외부 행동을 수행하는 기능
+- **Prompt**: 사용자가 선택해 작업 메시지와 입력 틀을 만드는 기능
+
+</details>
+
 | 비교 기준 | Resource | Tool | Prompt |
 |:---|:---|:---|:---|
 | 적용 기준 | **문맥 데이터 제공** | **외부 기능 실행** | **사용자 작업 틀 제공** |
@@ -122,6 +154,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
+<details>
+<summary>핵심 용어</summary>
+
+- **프롬프트 주입(Prompt Injection)**: 비신뢰 콘텐츠의 악성 지시로 도구 호출을 유도하는 공격
+- **인간 개입(Human-in-the-Loop, HITL)**: 고위험 호출을 사람이 검토·승인하는 통제
+- **최소권한**: 도구에 업무 수행에 필요한 최소 범위의 권한만 부여하는 원칙
+- **부작용(Side Effect)**: 도구 실행으로 외부 시스템의 데이터나 상태가 바뀌는 현상
+
+</details>
+
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
 | 과도한 도구 호출로 **행동 범위 확대** | **허용 목록·최소권한** 적용 | 모델 행동 범위 제한 |
@@ -132,6 +174,14 @@ sequenceDiagram
 - 서버를 다시 켜는 명령은 대상을 확인하고 사람 허락 뒤 실행함
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **MCP Tool**: 모델이 구조화된 인자로 호출해 외부 시스템의 행동을 실행하는 기능
+- **Resource**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터
+
+</details>
 
 - 외부 행동은 **MCP Tool**, 읽기 문맥은 **Resource** 선택
 
