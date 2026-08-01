@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알고리즘 시간복잡도•공간복잡도 (Time/Space Complexity)"
-date: "2026-08-02T08:36:22+09:00"
+date: "2026-08-02T08:42:44+09:00"
 tags:
   - "notes-basic-theory"
 weight: 1
@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **시간•공간복잡도(Time/Space Complexity)**: 입력이 커질 때 연산량과 메모리 사용량이 얼마나 늘어나는지 나타내는 알고리즘 비용 척도
 - **점근 분석(Asymptotic Analysis)**: 상수와 하위항을 제외하고 큰 입력의 증가 형태를 비교하는 방법
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **지배항(Dominant Term)**: 입력이 커질수록 전체 증가율을 결정하는 가장 빠르게 증가하는 항
 - **빅오•빅세타•빅오메가(Big-O•Big-Theta•Big-Omega)**: 입력 증가에 따른 비용의 상한•정확한 차수•하한을 나타내는 점근 표기
@@ -63,7 +63,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **계산 모델**: 기본 연산 비용을 일정하다고 가정해 하드웨어 차이를 제외하는 분석 모델
 - **기본 연산**: 비교•대입처럼 실행 횟수로 시간 비용을 대표하는 연산
@@ -99,7 +99,7 @@ block
 ## Ⅳ. 흐름도
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **비용 함수**: 입력 크기에 따라 시간이나 공간 사용량이 어떻게 증가하는지 나타내는 함수
 - **기본 연산**: 비교•대입처럼 실행 횟수로 시간 비용을 대표하는 연산
@@ -134,7 +134,7 @@ sequenceDiagram
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **시간복잡도(Time Complexity)**: 입력 크기에 따라 기본 연산 횟수가 증가하는 정도
 - **공간복잡도(Space Complexity)**: 입력 크기에 따라 최대 메모리 사용량이 증가하는 정도
@@ -158,7 +158,7 @@ sequenceDiagram
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **대표 기본 연산**: 실행 횟수가 전체 시간 증가를 가장 잘 나타내는 비교•대입 등의 연산
 - **최악 입력(Worst Case)**: 같은 입력 크기에서 시간이나 공간 비용이 가장 크게 발생하는 입력
@@ -181,7 +181,7 @@ sequenceDiagram
 ## Ⅶ. 결론
 
 <details>
-<summary>이 절의 미리 알고가기</summary>
+<summary>핵심 용어</summary>
 
 - **응답시간 한도**: 서비스가 요청 결과를 반환해야 하는 최대 허용 시간
 - **메모리 한도**: 실행 중 알고리즘이 사용할 수 있는 최대 메모리 용량
