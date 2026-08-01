@@ -29,6 +29,8 @@ extra:
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 시스템 간 기능 호출과 데이터 교환을 위한 규격이다.
 - **대화형 응답시간 법칙(Interactive Response Time Law)**: 폐쇄형 부하에서 $N=X(R+Z)$가 성립하는 관계이다.
 
+> **키워드:** TPS 계산 - 동시 사용자·응답 시간 공식 (TPS Calculation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 폐쇄형 사용자 주기로 **$X=N/(R+Z)$ 산출**

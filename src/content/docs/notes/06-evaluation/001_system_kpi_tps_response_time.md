@@ -31,6 +31,8 @@ extra:
 - **서비스 수준 목표(Service Level Objective, SLO)**: SLI에 대해 내부적으로 달성해야 할 목표값이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 측정 기준·목표·위반 책임을 고객과 합의한 계약이다.
 
+> **키워드:** 시스템 성능 지표 - TPS·응답시간·처리량·가용성 (System KPI)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 서비스 목표를 판정하는 **핵심 성과 지표(KPI)**

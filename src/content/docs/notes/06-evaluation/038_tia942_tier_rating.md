@@ -40,6 +40,8 @@ extra:
 - **Rated와 Tier 구분**: TIA-942는 Rated, Uptime Institute는 Tier라는 서로 다른 시설 등급 명칭을 사용한다.
 
 
+> **키워드:** 데이터센터 등급 표준 (TIA-942 Rated)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **ANSI/TIA-942-C**가 데이터센터 인프라의 복원력을 **Rated-1~4**로 평가하는 시설 표준

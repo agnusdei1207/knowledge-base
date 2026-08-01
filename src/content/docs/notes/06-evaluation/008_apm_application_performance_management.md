@@ -32,6 +32,8 @@ extra:
 - **W3C Trace Context Level 1**: traceparent·tracestate 헤더로 분산 추적 문맥 전파를 표준화한 W3C 권고안이다.
 - **OpenTelemetry**: 추적·메트릭·로그의 생성·수집·전송을 위한 벤더 중립 관측성 체계이다.
 
+> **키워드:** APM 애플리케이션 성능 관리 (Application Performance Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 요청 경로의 **지연·오류·자원 원인을 추적하는 관리**

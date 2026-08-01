@@ -33,6 +33,8 @@ extra:
 - **ISO/IEC 20000-1:2018**: 합의한 서비스 수준의 감시·보고·검토 요구사항을 규정한 국제표준이다.
 - **오류 예산 정책(Error Budget Policy)**: 남은 오류 예산에 따라 배포·안정화 우선순위를 정하는 운영 규칙이다.
 
+> **키워드:** SLO·SLI (Service Level Objective·Indicator)
+
 ## Ⅰ. 개요
 
 - 정의/개념: SLI **실측값**과 SLO **내부 목표**의 관리
