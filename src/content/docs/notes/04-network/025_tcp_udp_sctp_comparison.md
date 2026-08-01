@@ -35,6 +35,8 @@ extra:
 
 
 
+> **키워드:** TCP·UDP·SCTP 비교 (TCP UDP SCTP Comparison)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 전송 단위·신뢰·경로 요구에 따라 선택하는 **전송 프로토콜군**

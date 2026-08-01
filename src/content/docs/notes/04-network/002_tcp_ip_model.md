@@ -33,6 +33,8 @@ extra:
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크에서 단편화 없이 전달할 수 있는 최대 패킷 크기
 - **개방형 시스템 상호연결(Open Systems Interconnection, OSI)**: 통신 기능과 책임을 7개 계층으로 나눈 참조 모델
 
+> **키워드:** TCP/IP 4계층 모델 (TCP/IP Model)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 인터넷 통신 기능을 공통 IP 중심의 **TCP/IP 4계층**으로 묶은 구현 모델

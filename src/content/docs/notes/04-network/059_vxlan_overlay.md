@@ -37,6 +37,8 @@ extra:
 - **가상 근거리망·식별자(Virtual Local Area Network·VLAN Identifier, VLAN·VID)**: 하나의 물리망을 논리적으로 분리하고 각 영역을 식별하는 기술과 값
 - **테넌트(Tenant)**: 공유 인프라에서 독립된 논리 자원과 정책을 사용하는 고객 영역
 
+> **키워드:** VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 이더넷 프레임을 **UDP/IP로 캡슐화한 L2 오버레이**

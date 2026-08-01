@@ -34,6 +34,8 @@ extra:
 
 
 
+> **키워드:** NB-IoT와 LTE-M (NB-IoT LTE-M)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 면허 대역에서 저전력 단말을 광역 연결하는 **NB-IoT·LTE-M 셀룰러 LPWAN**

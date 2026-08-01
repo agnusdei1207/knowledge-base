@@ -34,6 +34,8 @@ extra:
 
 
 
+> **키워드:** Zigbee, Thread, Matter
+
 ## Ⅰ. 개요
 
 - 정의/개념: Zigbee·Thread·Matter는 각각 자체망·**IPv6 메시망·IP 응용**을 담당하는 IoT 표준

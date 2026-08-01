@@ -37,6 +37,8 @@ extra:
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 한 자율 시스템 내부에서 메트릭으로 경로를 교환·선택하는 프로토콜
 - **BGP UPDATE 메시지**: 도달 가능하거나 철회된 NLRI와 경로 속성을 피어 사이에 전달하는 메시지
 
+> **키워드:** BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)
+
 ## Ⅰ. 개요
 
 - 정의/개념: AS 간 NLRI·속성을 교환하고 정책으로 경로를 고르는 **BGP 라우팅 프로토콜**

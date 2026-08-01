@@ -42,6 +42,8 @@ extra:
 - **롤백(Rollback)**: 실패한 변경을 이전의 정상 설정으로 되돌리는 복구 작업
 
 
+> **키워드:** 네트워크 자동화 - Ansible·RESTCONF·NETCONF (Network Automation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 목표 망 상태를 모델·코드로 배포하는 **운영 자동화 체계**

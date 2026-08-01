@@ -34,6 +34,8 @@ extra:
 - **IETF RFC 9113**: HTTP/2의 이진 프레임과 스트림 다중화를 규정한 표준 문서다.
 - **IETF RFC 9114**: QUIC 위의 HTTP/3 매핑과 제어 스트림을 규정한 표준 문서다.
 
+> **키워드:** HTTP/2·HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)
+
 ## Ⅰ. 개요
 
 - 정의/개념: HTTP 의미를 **TCP·QUIC 스트림으로 다중화하는 표준**

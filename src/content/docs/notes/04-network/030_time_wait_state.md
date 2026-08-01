@@ -37,6 +37,8 @@ extra:
 - **마지막 확인 대기(LAST_ACK)**: 수동 종료 측이 자기 FIN에 대한 최종 ACK를 기다리는 상태
 - **TCP 타임스탬프(TCP Timestamp)**: 세그먼트의 송신 시각 정보를 이용해 오래된 세그먼트를 구별하는 TCP 옵션
 
+> **키워드:** TCP TIME_WAIT 상태 (TIME_WAIT State)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 최종 ACK 후 **2MSL** 동안 연결 정보를 유지하는 **TCP 종료 상태**

@@ -36,6 +36,8 @@ extra:
 - **DNS 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명 체인으로 DNS 응답의 출처와 무결성을 검증하는 확장
 - **트랜잭션 서명(Transaction Signature, TSIG)**: 공유 비밀키 기반 메시지 인증 코드로 DNS 서버 간 요청의 출처와 무결성을 확인하는 방식
 
+> **키워드:** DNS 구조·동작 (DNS Domain Name System)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 계층형 이름을 **자원 레코드**로 해석하는 **DNS 분산 데이터베이스**

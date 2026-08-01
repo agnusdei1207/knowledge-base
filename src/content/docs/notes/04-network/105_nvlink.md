@@ -32,6 +32,8 @@ extra:
 - **InfiniBand·통합 이더넷 기반 RDMA(InfiniBand·RDMA over Converged Ethernet, RoCE)**: 서버 노드 사이의 스케일아웃 RDMA 전송망이다.
 - **패브릭 관리자(Fabric Manager)**: NVSwitch 도메인의 링크·파티션·접근 상태를 구성하고 감시하는 관리 기능이다.
 
+> **키워드:** NVLink 고대역폭 인터커넥트 (NVLink)
+
 ## Ⅰ. 개요
 
 - 정의/개념: GPU·CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**

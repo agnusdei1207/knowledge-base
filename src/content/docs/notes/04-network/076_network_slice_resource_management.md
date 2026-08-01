@@ -36,6 +36,8 @@ extra:
 - **쿨다운(Cooldown)**: 자원 조정 후 다음 조정까지 기다리는 최소 시간
 - **우선순위 역전(Priority Inversion)**: 낮은 우선순위 요청이 자원을 점유해 높은 우선순위 처리를 막는 현상
 
+> **키워드:** 네트워크 슬라이스 자원 관리 (Network Slice Resource Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: NSI·NSSI의 자원을 배치·조정하는 **슬라이스 관리 체계**

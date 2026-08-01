@@ -34,6 +34,8 @@ extra:
 - **7계층(Layer 7, L7)**: HTTP 같은 응용 프로토콜과 요청 처리 기능이 동작하는 계층
 - **오탐(False Positive)**: 정상 요청을 공격으로 잘못 판정하는 오류
 
+> **키워드:** DDoS 공격 기법·대응 - SYN Flood·증폭 (DDoS Attack Mitigation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 분산 공격을 탐지·흡수·정화하는 **DDoS 가용성 방어 체계**

@@ -32,6 +32,8 @@ extra:
 - **선택 재전송 자동 재전송 요구(Selective Repeat ARQ, SR ARQ)**: 수신 버퍼에 정상 프레임을 보관하고 누락 프레임만 다시 보내는 방식
 - **정지-대기 자동 재전송 요구(Stop-and-Wait ARQ)**: 프레임 하나의 ACK를 받은 뒤 다음 프레임을 보내는 방식
 
+> **키워드:** 오류 제어 : ARQ·Go-Back-N·SR (ARQ Error Control)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **ACK·NAK·타임아웃**으로 유실·오류 프레임을 재전송하는 **오류 제어 방식**

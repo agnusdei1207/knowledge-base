@@ -37,6 +37,8 @@ extra:
 - **스펙트럼 단편화(Spectrum Fragmentation)**: 빈 슬롯이 흩어져 필요한 연속 폭을 할당하지 못하는 상태
 - **광 복호 여유(Optical Margin)**: 수신 OSNR과 최소 요구 OSNR 사이의 품질 차이
 
+> **키워드:** WDM·DWDM 광 다중화 (WDM DWDM)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 여러 광 파장을 한 광섬유로 보내는 **광 다중화 기술**

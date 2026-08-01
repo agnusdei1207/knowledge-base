@@ -32,6 +32,8 @@ extra:
 - **가상머신·컨테이너(Virtual Machine·Container)**: 가상머신은 운영체제를 포함하고 컨테이너는 운영체제 커널을 공유하는 실행 단위
 - **소프트웨어 이미지(Software Image)**: 기능 실행에 필요한 코드와 설정을 묶은 배포 파일
 
+> **키워드:** NFV (Network Functions Virtualization, 네트워크 기능 가상화)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 전용 장비의 망 기능을 범용 인프라의 VNF·CNF로 구현하는 **기능 가상화 구조**

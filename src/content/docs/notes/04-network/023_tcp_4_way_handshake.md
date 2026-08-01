@@ -35,6 +35,8 @@ extra:
 
 
 
+> **키워드:** TCP 4-way Handshake·연결 해제 (TCP 4-way Handshake)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **FIN·ACK**로 양방향 송신을 독립적으로 닫는 **TCP 연결 종료 절차**

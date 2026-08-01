@@ -36,6 +36,8 @@ extra:
 
 
 
+> **키워드:** STP·RSTP·PVST+ 루프 방지 (STP RSTP Loop Prevention)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 중복 링크의 포트 역할을 선출하는 **무루프 트리 제어**

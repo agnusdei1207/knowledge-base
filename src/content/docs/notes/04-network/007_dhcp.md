@@ -34,6 +34,8 @@ extra:
 - **DHCP 스누핑(DHCP Snooping)**: 스위치가 신뢰 포트의 DHCP 서버 응답만 허용하고 주소·단말·포트 바인딩을 기록하는 보안 기능
 - **릴레이 에이전트 정보 옵션(DHCP Relay Agent Information Option, Option 82)**: 릴레이가 요청의 접속 회선·장치 정보를 서버에 전달하는 DHCP 옵션
 
+> **키워드:** DHCP (Dynamic Host Configuration Protocol)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 서버가 IP 주소·네트워크 옵션을 일정 기간 자동 임대하는 **DHCP 프로토콜**

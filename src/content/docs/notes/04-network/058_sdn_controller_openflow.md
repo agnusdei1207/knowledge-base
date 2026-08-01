@@ -31,6 +31,8 @@ extra:
 - **유휴 제한 시간(Idle Timeout)**: 일치 패킷이 없을 때 규칙을 제거하기까지의 시간
 - **토폴로지(Topology)**: 네트워크 장비와 링크의 연결 구조
 
+> **키워드:** SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)
+
 ## Ⅰ. 개요
 
 - 정의/개념: SDN 컨트롤러가 계산한 경로를 스위치에 설치하는 **OpenFlow 제어 프로토콜**

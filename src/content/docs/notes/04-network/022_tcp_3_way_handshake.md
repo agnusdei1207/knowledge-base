@@ -38,6 +38,8 @@ extra:
 
 
 
+> **키워드:** TCP 3-way Handshake (TCP 3-way Handshake)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **SYN·SYN-ACK·ACK**로 양방향 **ISN·옵션**을 확인하는 TCP 연결 설정 절차

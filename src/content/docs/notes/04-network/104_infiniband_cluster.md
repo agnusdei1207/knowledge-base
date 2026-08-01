@@ -32,6 +32,8 @@ extra:
 - **파티션 키(Partition Key, P_Key)**: 같은 물리 패브릭에서 통신 가능한 논리 그룹을 구분하는 접근 식별자다.
 - **IBTA InfiniBand Architecture 2.0**: 스위치·라우터·채널 어댑터와 전송 동작을 규정한 산업 표준 규격이다.
 
+> **키워드:** InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)
+
 ## Ⅰ. 개요
 
 - 정의/개념: HCA와 스위치를 잇는 **RDMA·크레딧 제어 패브릭**

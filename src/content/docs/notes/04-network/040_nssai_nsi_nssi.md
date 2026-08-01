@@ -26,6 +26,8 @@ extra:
 - **접속 및 이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말 접속과 이동성을 제어하는 망 기능
 - **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 요청에 맞는 슬라이스를 선택하는 망 기능
 
+> **키워드:** 네트워크 슬라이스 식별 체계
+
 ## Ⅰ. 개요
 
 - 정의/개념: 슬라이스 **식별 정보 NSSAI**를 운영 단위 NSI·NSSI에 연결하는 체계

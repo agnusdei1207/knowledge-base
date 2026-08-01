@@ -35,6 +35,8 @@ extra:
 - **단일 장애점(Single Point of Failure, SPOF)**: 하나의 구성요소 장애가 전체 서비스 중단을 일으키는 지점
 - **장치 벽돌화(Device Bricking)**: 업데이트 실패로 장치가 정상 부팅·복구되지 않는 상태
 
+> **키워드:** IoT 아키텍처 (IoT Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 장치·엣지·플랫폼을 연결하는 **IoT 운영 구조**

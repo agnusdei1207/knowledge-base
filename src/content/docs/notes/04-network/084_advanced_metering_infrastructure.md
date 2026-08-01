@@ -33,6 +33,8 @@ extra:
 - **원격 차단(Remote Disconnect)**: 전력사가 인증된 명령으로 미터의 전력 공급을 차단하는 기능
 - **이중 승인(Dual Authorization)**: 영향이 큰 명령을 서로 다른 두 승인자가 확인하는 통제
 
+> **키워드:** 스마트 미터 AMI (Advanced Metering Infrastructure)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 계량 자료·원격 명령의 **양방향 검침 체계**

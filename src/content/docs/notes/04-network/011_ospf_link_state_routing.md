@@ -40,6 +40,8 @@ extra:
 - **링크 로컬 주소(Link-Local Address)**: IPv6에서 같은 링크의 이웃과만 통신하도록 자동 구성하는 주소
 - **라우팅 정보 프로토콜(Routing Information Protocol, RIP)**: 이웃에게 목적지별 홉 수를 전달하는 거리 벡터 내부 라우팅 프로토콜
 
+> **키워드:** 링크 상태 라우팅: OSPF·OSPFv3 (OSPF Link State Routing)
+
 ## Ⅰ. 개요
 
 - 정의/개념: LSA를 동기화하고 **SPF**로 경로를 계산하는 **OSPF 링크 상태 IGP**

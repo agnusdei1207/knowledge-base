@@ -42,6 +42,8 @@ extra:
 - **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 HTTP 상태 코드
 - **프록시(Proxy)**: 요청을 대신 받아 선택한 서비스 종단으로 전달하는 중계 구성요소
 
+> **키워드:** 쿠버네티스 네트워킹 - CNI·Ingress (Kubernetes Networking)
+
 ## Ⅰ. 개요
 
 - 정의/개념: CNI·Service·Ingress로 연결을 제공하는 **컨테이너 네트워크 체계**

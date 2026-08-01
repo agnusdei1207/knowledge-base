@@ -34,6 +34,8 @@ extra:
 - **1:1·다대일 매핑**: `1:1`은 '일 대 일'로 읽고 콜론으로 양쪽 주소 수의 대응 비율을 표시하며 정적·동적 NAT와 PAT의 공유 범위를 구분
 - **응용 계층 게이트웨이(Application Layer Gateway, ALG)**: 패킷 본문의 주소·포트를 해석해 NAT 변환과 일치하도록 보정하는 중계 기능
 
+> **키워드:** NAT·PAT (NAT PAT Network Address Translation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 경계 장비가 사설·공인 주소와 포트를 대응시키는 **NAT·PAT 변환 기술**

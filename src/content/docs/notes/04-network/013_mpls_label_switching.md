@@ -36,6 +36,8 @@ extra:
 - **자원 예약 프로토콜 기반 트래픽 엔지니어링(Resource Reservation Protocol-Traffic Engineering, RSVP-TE)**: 대역폭·경로 제약을 신호로 전달해 명시적 LSP를 설정하는 프로토콜
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크가 단편화 없이 전달할 수 있는 최대 패킷 크기
 
+> **키워드:** MPLS 레이블 스위칭 (MPLS Label Switching)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 패킷을 FEC로 분류하고 레이블을 교환해 LSP로 전달하는 **MPLS 기술**

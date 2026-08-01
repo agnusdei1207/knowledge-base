@@ -33,6 +33,8 @@ extra:
 
 
 
+> **키워드:** FANET 드론 애드혹 네트워크 (FANET Drone Network)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 3차원 이동 UAV가 중계 경로를 자율 구성하는 **FANET 멀티홉 애드혹망**
