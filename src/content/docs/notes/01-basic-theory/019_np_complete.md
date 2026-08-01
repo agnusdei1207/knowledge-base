@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
-date: "2026-07-30T19:10:34+09:00"
+date: "2026-08-02T09:37:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 19
@@ -18,28 +18,16 @@ extra:
   priority_note: "다항 환원•완전성 증명의 상위 답안 가치"
 ---
 
-## 미리 알고가기
-
-- **결정 문제(Decision Problem)**: 답이 예 또는 아니오인 계산 문제
-- **다항 시간(Polynomial Time)**: 입력 크기의 다항식으로 제한되는 실행 시간
-- **다항 시간 문제군(Polynomial Time, P)**: 결정론적 알고리즘으로 다항 시간에 풀 수 있는 결정 문제 집합
-- **비결정론적 다항 시간 문제군(Nondeterministic Polynomial Time, NP)**: 긍정 인증서를 다항 시간에 검증할 수 있는 결정 문제 집합
-- **인증서(Certificate)**: 긍정 답을 검증할 수 있는 보조 정보
-- **다항 환원(Polynomial-Time Reduction)**: 한 문제를 답이 보존되게 다른 문제로 바꿔 난도를 전달하는 변환
-- **비결정론적 다항 시간 난해(Nondeterministic Polynomial-Time Hard, NP-Hard)**: 모든 NP 문제를 다항 환원받아 적어도 NP만큼 어려운 문제 부류
-- **불 논리식 충족 가능성 문제(Boolean Satisfiability Problem, SAT)**: 불 논리식을 참으로 만드는 변수 할당이 존재하는지 판정하는 결정 문제
-- **비결정론적 다항 시간 완전(Nondeterministic Polynomial-Time Complete, NP-Complete)**: NP에 속하면서 모든 NP 문제를 환원받는 결정 문제 부류
-- **교집합 기호($\cap$)**: 두 집합에 동시에 속하는 원소를 나타내는 기호
-- **최적화 문제(Optimization Problem)**: 가능한 해 중 목적 함수값이 최소 또는 최대인 해를 찾는 문제이며 NP-난해성은 보일 수 있어도 결정 문제인 NP-완전과 구분함
-- **특화 솔버(Specialized Solver)**: SAT처럼 특정 문제 구조에 맞춘 탐색•전파•학습 기법으로 실제 입력의 결정 가능성을 판정하는 풀이 프로그램
-- **패키지 해석기(Package Resolver)**: 여러 소프트웨어 패키지의 버전•의존 조건을 논리식으로 바꿔 함께 설치 가능한 조합을 찾는 도구
-- **근사해(Approximate Solution)**: 최적해와 같음을 보장하지 않지만 다항 시간에 구하며 증명된 품질 경계로 최적해와의 차이를 제한하는 해
-- **결정론적 튜링 머신(Deterministic Turing Machine)**: 각 상태와 기호에서 다음 동작이 하나로 정해지는 계산 모형
-- **정지 문제(Halting Problem)**: 임의 프로그램이 입력에서 멈추는지 판정하는 일반 알고리즘이 존재하지 않는 비판정 문제
-
-> **키워드:** NP-완전 문제 (NP-Complete)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NP-완전(NP-Complete)**: NP에 속하면서 모든 NP 문제를 다항 시간에 환원받는 결정 문제 부류
+- **결정 문제(Decision Problem)**: 답이 예 또는 아니오로 정해지는 계산 문제
+- **다항 환원(Polynomial-Time Reduction)**: 한 문제를 답이 보존되도록 다른 문제로 바꿔 계산 난도를 전달하는 변환
+
+</details>
 
 - 정의/개념: **NP** 소속이며 모든 NP 문제를 환원받는 결정 문제
 - 배경/필요성: 문제 간 **계산 난도**를 환원 관계로 분류
@@ -51,6 +39,16 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **NP(Nondeterministic Polynomial Time)**: 긍정 답의 인증서를 다항 시간에 검증할 수 있는 결정 문제 집합
+- **NP-난해(NP-Hard)**: 모든 NP 문제를 다항 환원받아 적어도 NP만큼 어려운 문제 부류
+- **다항 시간(Polynomial Time)**: 입력 크기의 다항식으로 제한되는 실행 시간
+- **대표성**: 한 NP-완전 문제의 다항 시간 해법이 모든 NP 문제의 해법으로 확장되는 성질
+
+</details>
+
 - **NP ∩ NP-난해**이며 모든 NP 문제의 **다항 환원** 수용
 - **다항 시간** 해법 하나가 문제군 전체로 확장되는 **대표성**
 - 결정 문제의 NP-완전과 최적화 문제의 **NP-난해** 구분
@@ -61,6 +59,15 @@ extra:
 
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **인증서(Certificate)**: 결정 문제의 긍정 답이 맞음을 검증하는 데 사용하는 보조 정보
+- **완전성 증명**: 대상 문제의 NP 소속과 NP-난해성을 함께 보이는 증명
+- **답 보존**: 변환 전 문제와 변환 후 문제의 예•아니오 결과가 같은 성질
+
+</details>
 
 ```mermaid
 block-beta
@@ -80,6 +87,15 @@ block-beta
 - 빠른 인증서 검증과 모든 NP 문제의 환원 수용을 함께 증명해야 NP-완전이다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NP 소속 증명**: 인증서 크기와 검증 시간이 입력 크기의 다항식으로 제한됨을 보이는 과정
+- **환원 구성**: 알려진 NP-완전 문제의 인스턴스를 대상 문제의 인스턴스로 변환하는 과정
+- **답 동치**: 원래 인스턴스가 예일 때와 변환 인스턴스가 예일 때가 서로 같은 관계
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -111,6 +127,16 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **P(Polynomial Time)**: 결정론적 알고리즘으로 다항 시간에 풀 수 있는 결정 문제 집합
+- **NP-완전•NP-난해**: NP에도 속하는 결정 문제와 모든 NP 문제 이상의 난도만 보장된 문제 부류
+- **최적화 문제(Optimization Problem)**: 가능한 해 중 목적 함수값이 최소 또는 최대인 해를 찾는 문제
+- **정지 문제(Halting Problem)**: 임의 프로그램이 입력에서 멈추는지 판정하는 일반 알고리즘이 존재하지 않는 문제
+
+</details>
+
 | 복잡도 클래스 | NP-완전 | NP-난해 | NP | P |
 |:---|:---|:---|:---|:---|
 | 적용 기준 | **결정 문제** 완전성 증명 | **최적화 문제** 난도 하한 증명 | 해 후보 **검증 절차** 존재 | 입력 크기 다항식 내 **해 산출** |
@@ -123,6 +149,16 @@ sequenceDiagram
 
 
 ## Ⅵ. 실무 고려사항 및 대책
+
+<details>
+<summary>핵심 용어</summary>
+
+- **환원 방향**: NP-난해성을 전달하기 위해 알려진 NP-완전 문제에서 대상 문제로 향해야 하는 변환 방향
+- **SAT(Boolean Satisfiability Problem)**: 불 논리식을 참으로 만드는 변수 할당의 존재 여부를 판정하는 문제
+- **특화 솔버(Specialized Solver)**: 특정 문제 구조에 맞춘 탐색•전파•학습 기법으로 실제 인스턴스를 푸는 프로그램
+- **임곗값 결정형**: 최적화 목적값이 주어진 기준 이상이나 이하인지 예•아니오로 묻도록 바꾼 문제
+
+</details>
 
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
@@ -138,6 +174,14 @@ sequenceDiagram
 
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **특화 솔버(Specialized Solver)**: 문제 구조를 활용해 결정형 인스턴스의 해를 찾는 전용 풀이 프로그램
+- **근사해(Approximate Solution)**: 최적해와 같음을 보장하지 않지만 다항 시간에 구하고 품질 경계로 차이를 제한하는 해
+
+</details>
 
 - 결정형은 **특화 솔버**, 최적화형은 **근사해** 적용
 
