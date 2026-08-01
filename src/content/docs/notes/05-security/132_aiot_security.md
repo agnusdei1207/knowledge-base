@@ -33,6 +33,8 @@ extra:
 - **NIST AI RMF 1.0**: AI 위험을 Govern·Map·Measure·Manage 기능으로 관리하는 프레임워크이다.
 - **NIST IR 8259 Rev.1**: IoT 제품 제조자가 판매 전 수행할 기본 사이버보안 활동 지침이다.
 
+> **키워드:** IoT 디바이스 보안 — AIoT (AIoT Security)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 장치·센서·모델·제어 전 경로의 **AIoT 보안 체계**

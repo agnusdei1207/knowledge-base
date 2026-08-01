@@ -37,6 +37,8 @@ extra:
 - **FIDO CTAP 2.2**: 플랫폼과 외부 인증자 간 USB·NFC·BLE 통신을 정의한 FIDO 표준이다.
 
 
+> **키워드:** FIDO2·WebAuthn (FIDO2 WebAuthn)
+
 ## Ⅰ. 개요
 
 - 정의/개념: WebAuthn·CTAP 기반 **RP 결속 공개키 인증**

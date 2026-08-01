@@ -32,6 +32,8 @@ extra:
 - **UN Regulation No. 155**: 차량 형식승인과 제조사 CSMS에 관한 국제 규정이다.
 - **UN Regulation No. 156**: 차량 소프트웨어 업데이트와 제조사 SUMS에 관한 국제 규정이다.
 
+> **키워드:** 차량 사이버 보안 — V2X 위협 (Vehicle Cybersecurity V2X)
+
 ## Ⅰ. 개요
 
 - 정의/개념: V2X·진단·OTA 위험을 관리하는 **차량 수명주기 보안 체계**

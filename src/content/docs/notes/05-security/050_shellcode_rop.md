@@ -34,6 +34,8 @@ extra:
 - **Intel Control-flow Enforcement Technology(CET)**: 간접 분기 추적과 하드웨어 그림자 스택으로 ROP를 억제하는 공식 기술이다.
 
 
+> **키워드:** 쉘코드·ROP 공격 (Shellcode ROP)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 주입 코드·가젯으로 흐름을 탈취하는 **실행 공격**

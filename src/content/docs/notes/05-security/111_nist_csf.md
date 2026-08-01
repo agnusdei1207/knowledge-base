@@ -27,6 +27,8 @@ extra:
 - **CSF 구현 티어(CSF Implementation Tier)**: 위험 거버넌스·관리 관행의 엄격성을 4단계로 설명하는 도구이다.
 - **NIST CSWP 29**: 2024년 2월 발행된 NIST Cybersecurity Framework 2.0의 공식 문서 식별자이다.
 
+> **키워드:** NIST Cybersecurity Framework (NIST CSF)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 사이버보안 **결과 기반 위험관리 프레임워크**

@@ -28,6 +28,8 @@ extra:
 - **글로벌 개인정보 집행 협력체계(Global Cooperation Arrangement for Privacy Enforcement, Global CAPE)**: 참여 개인정보 감독기관의 국경 간 집행 협력체계이다.
 - **글로벌 CBPR 포럼(Global CBPR Forum)**: 2022년 출범하여 Global CBPR·PRP 인증체계를 운영하는 정부 간 포럼이다.
 
+> **키워드:** CBPR 국경 간 개인정보 규칙 (CBPR Cross-Border Privacy Rules)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 국경 간 개인정보 처리의 **책임성 인증**

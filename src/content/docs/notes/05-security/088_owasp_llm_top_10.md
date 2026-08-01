@@ -38,6 +38,8 @@ extra:
 - **LLM09:2025 Misinformation**: 허위·부정확 출력을 과신하여 발생하는 위험이다.
 - **LLM10:2025 Unbounded Consumption**: 무제한 모델 소비에 따른 가용성·비용 위험이다.
 
+> **키워드:** OWASP LLM Top 10 (OWASP LLM Top 10)
+
 ## Ⅰ. 개요
 
 - 정의/개념: LLM 응용의 **10대 위험·완화 지침**

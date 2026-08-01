@@ -28,6 +28,8 @@ extra:
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 응용 기능을 인터넷으로 빌려 쓰는 서비스 형태이다.
 - **공격 표면 관리(Attack Surface Management)**: 외부에 드러난 자산·서비스·설정 오류를 지속해서 발견하는 활동이다.
 - **폐루프(Closed Loop)**: 노출 발견부터 담당자 조치·재검증까지 결과가 다시 관리 상태에 반영되는 순환이다.
+> **키워드:** CTEM (Continuous Threat Exposure Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 공격 가능한 노출을 지속 식별·검증·조치·재검증하는 **폐루프 관리 체계**

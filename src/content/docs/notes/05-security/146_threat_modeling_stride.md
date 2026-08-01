@@ -34,6 +34,8 @@ extra:
 - **OWASP Threat Modeling Project**: 범위·위협·대응·충분성의 네 질문을 제시하는 유지보수 지침이다.
 - **MITRE CAPEC**: 공격 패턴·사전조건·실행·완화 정보를 구조화한 공개 지식기반이다.
 
+> **키워드:** 위협 모델링 — STRIDE·DREAD (Threat Modeling STRIDE)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 설계 흐름에서 **공격 시나리오·영향·대응**을 도출하는 활동

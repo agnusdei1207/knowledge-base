@@ -39,6 +39,8 @@ extra:
 - **IETF RFC 9700**: OAuth 2.0의 최신 공격 모델과 안전한 구현 관행을 정의한 보안 모범 사례이다.
 - **OpenID Connect Core 1.0**: OAuth 2.0 위에서 ID Token과 사용자 인증 흐름을 정의한 공식 규격이다.
 
+> **키워드:** OAuth 2.0·OIDC (OAuth 2.0 OIDC)
+
 ## Ⅰ. 개요
 
 - 정의/개념: OAuth의 **권한 위임**과 OIDC의 **신원 인증**

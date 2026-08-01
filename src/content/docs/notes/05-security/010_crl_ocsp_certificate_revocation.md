@@ -34,6 +34,8 @@ extra:
 - **전송 계층 보안(Transport Layer Security, TLS)**: 서버 인증서와 폐지 상태를 검증하고 전송 구간을 보호하는 프로토콜이다.
 - **IETF RFC 5280**: 인터넷 X.509 인증서와 CRL 프로파일·검증 절차를 규정한 표준이다.
 - **IETF RFC 6960**: 인증서별 현재 상태를 질의·응답하는 OCSP를 규정한 표준이다.
+> **키워드:** CRL·OCSP 인증서 폐지 (CRL OCSP Certificate Revocation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 만료 전 인증서의 **폐지 상태 배포·검증**

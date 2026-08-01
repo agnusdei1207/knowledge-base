@@ -32,6 +32,8 @@ extra:
 
 
 
+> **키워드:** STIX·TAXII 위협 공유 (STIX TAXII)
+
 ## Ⅰ. 개요
 
 - 정의/개념: STIX **위협 표현**과 TAXII **객체 교환**

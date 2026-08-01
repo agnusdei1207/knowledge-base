@@ -38,6 +38,8 @@ extra:
 
 
 
+> **키워드:** 안전한 다자간 연산 MPC (Secure Multi-Party Computation)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 원본 입력을 숨기고 결과만 공동 계산하는 **PET**

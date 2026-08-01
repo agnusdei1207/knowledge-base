@@ -32,6 +32,8 @@ extra:
 - **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 보안을 위해 반드시 신뢰해야 하는 최소 하드웨어·소프트웨어 집합이다.
 - **GlobalPlatform TEE Internal Core API v1.4**: TA의 암호·저장·시간 등 내부 API를 정의한 규격이다.
 
+> **키워드:** ARM TrustZone (ARM TrustZone)
+
 ## Ⅰ. 개요
 
 - 정의/개념: SoC 자원을 보안 상태별로 분리하는 **하드웨어 격리 기술**

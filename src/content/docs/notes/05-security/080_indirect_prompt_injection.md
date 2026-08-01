@@ -38,6 +38,8 @@ extra:
 - **OWASP LLM01:2025 Prompt Injection**: 외부 소스가 모델 행동을 바꾸는 간접 인젝션을 공식 위험 유형으로 분류한다.
 - **MITRE ATLAS AML.T0051.001**: LLM 간접 프롬프트 인젝션을 식별하는 공식 공격 기법 번호이다.
 
+> **키워드:** 간접 프롬프트 인젝션 (Indirect Prompt Injection)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 외부 자료의 지시를 명령으로 오인시키는 **LLM 입력 공격**

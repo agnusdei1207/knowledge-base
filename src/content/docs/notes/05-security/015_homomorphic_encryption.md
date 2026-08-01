@@ -40,6 +40,8 @@ extra:
 - **ISO/IEC 18033-6:2019**: Exponential ElGamal·Paillier 동형 암호 메커니즘을 규정한 국제 표준이다.
 
 
+> **키워드:** 동형 암호 (Homomorphic Encryption)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 암호문 연산이 평문 연산과 대응하는 **공개키 암호**

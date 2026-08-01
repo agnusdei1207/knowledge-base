@@ -37,6 +37,8 @@ extra:
 - **OASIS XACML 3.0 Errata 01**: 속성 기반 정책 언어와 PEP·PDP·PIP 처리 모델을 정의한 공식 표준이다.
 - **생존 시간(Time To Live, TTL)**: 속성값을 다시 조회하기 전까지 유효하다고 보는 시간이다.
 
+> **키워드:** ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 요청 속성을 평가하는 **동적 접근 제어**

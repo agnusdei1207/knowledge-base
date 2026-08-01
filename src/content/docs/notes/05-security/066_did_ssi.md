@@ -41,6 +41,8 @@ extra:
 - **키 복구(Key Recovery)**: 지갑 키 분실 뒤 통제권을 안전하게 되찾는 절차이다.
 - **암호학적 증명(Cryptographic Proof)**: VC·VP의 발급자와 무결성을 검증하는 서명 자료이다.
 
+> **키워드:** 디지털 신원 — DID·SSI (Decentralized Identity DID SSI)
+
 ## Ⅰ. 개요
 
 - 정의/개념: DID·VC로 자격을 보유·제시하는 **분산 디지털 신원 체계**

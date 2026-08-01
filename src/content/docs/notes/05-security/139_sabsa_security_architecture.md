@@ -34,6 +34,8 @@ extra:
 - **아키텍처 개발 방법(Architecture Development Method, ADM)**: TOGAF의 반복적 아키텍처 개발·전환 절차이다.
 - **ISO/IEC/IEEE 42010:2022**: 아키텍처 설명·관점·뷰·모델 종류의 표현 요구사항이다.
 
+> **키워드:** 보안 아키텍처 평가 — SABSA (SABSA Security Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 사업 목표·위험을 구현·지표로 추적하는 **보안 아키텍처 방법론**

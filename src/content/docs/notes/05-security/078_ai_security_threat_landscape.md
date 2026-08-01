@@ -40,6 +40,8 @@ extra:
 - **NIST AI 100-1 AI RMF 1.0**: AI 위험을 Govern·Map·Measure·Manage 기능으로 관리하는 공식 프레임워크이다.
 - **NIST AI 600-1**: AI RMF 1.0을 생성형 AI 위험에 적용한 공식 프로파일이다.
 
+> **키워드:** AI 보안 위협 전체 구조 (AI Security Threat Landscape)
+
 ## Ⅰ. 개요
 
 - 정의/개념: AI 수명주기 공격면을 통제하는 **보안 위험관리 체계**

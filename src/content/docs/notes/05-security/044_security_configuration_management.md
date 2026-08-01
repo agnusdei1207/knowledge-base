@@ -32,6 +32,8 @@ extra:
 - **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언·버전 관리하는 방식이다.
 - **지속 통합·지속 배포(Continuous Integration·Continuous Delivery, CI/CD)**: 변경 통합·검증·배포를 자동화하는 절차이다.
 - **롤백(Rollback)**: 설정 변경으로 장애가 발생했을 때 이전 정상 상태로 되돌리는 절차이다.
+> **키워드:** 보안 구성 관리 (Security Configuration Management)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 승인 기준선과 실제 설정을 맞추는 **구성 통제 체계**

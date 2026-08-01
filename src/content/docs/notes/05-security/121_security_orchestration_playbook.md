@@ -28,6 +28,8 @@ extra:
 - **OASIS CACAO Security Playbooks v2.0**: 보안 플레이북의 구조·분류·워크플로 공유 스키마를 규정한다.
 - **OASIS OpenC2 Language Specification v1.0**: 보안 기능을 수행하는 장치에 표준 명령을 전달하는 언어 규격이다.
 
+> **키워드:** 보안 오케스트레이션 플레이북 (SOAR Playbook)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 보안 도구를 연계해 분석·승인·대응을 실행하는 **자동화 사고대응 절차**

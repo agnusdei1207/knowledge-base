@@ -31,6 +31,8 @@ extra:
 - **측정 부팅(Measured Boot)**: 부팅 구성요소 측정값을 TPM에 기록해 원격·후속 검증에 쓰는 방식이다.
 - **신뢰 플랫폼 모듈(Trusted Platform Module, TPM)**: 암호 키와 플랫폼 측정값을 보호하는 보안 모듈이다.
 
+> **키워드:** Secure Boot 보안 부팅 (Secure Boot)
+
 ## Ⅰ. 개요
 
 - 정의/개념: UEFI 신뢰 정책으로 **부트 이미지 실행을 통제하는 보안 기술**
