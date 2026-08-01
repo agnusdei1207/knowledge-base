@@ -31,6 +31,8 @@ extra:
 - **인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동을 사람이 재확인하는 통제
 - **API(Application Programming Interface)**: 외부 기능 호출 경계
 
+> **키워드:** Agent Authorization & Control (에이전트 권한 제어)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **에이전트 권한 제어**는 사용자가 위임한 범위 안에서 에이전트의 자원 접근과 도구 행동을 인증·인가·승인 정책으로 제한하는 통제 체계다.

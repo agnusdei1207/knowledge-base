@@ -28,6 +28,8 @@ extra:
 - **비즈니스 인텔리전스(Business Intelligence, BI)·기계학습(Machine Learning, ML)**: 분석 보고와 예측 모델을 수행하는 워크로드
 - **SQL(Structured Query Language)**: '에스큐엘'로 읽으며, 정형 데이터를 정의·조회·변경하는 질의 언어
 
+> **키워드:** Data Lakehouse 데이터 레이크하우스 (Data Lakehouse)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **데이터 레이크하우스**는 개방형 파일 저장소에 ACID 테이블 관리를 결합한 아키텍처

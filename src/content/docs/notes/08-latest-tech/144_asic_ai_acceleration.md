@@ -26,6 +26,8 @@ extra:
 
 
 
+> **키워드:** ASIC AI Acceleration (ASIC AI 가속)
+
 ## Ⅰ. 개요
 
 - 정의/개념: AI 연산·데이터흐름을 제조 시 고정한 **ASIC 전용 칩**

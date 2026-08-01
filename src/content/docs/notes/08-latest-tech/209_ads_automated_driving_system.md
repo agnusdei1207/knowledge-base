@@ -28,6 +28,8 @@ extra:
 - **DDT fallback(디디티 폴백)**: ADS가 정상 DDT를 계속 수행할 수 없을 때 인계 또는 최소위험기동으로 대응하는 절차
 - **SAE 자동화 수준**: 운전자와 시스템의 DDT·fallback 책임을 Level 0~5로 구분하는 분류
 
+> **키워드:** ADS 자율주행시스템 (Automated Driving System)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **ADS**는 정의된 ODD에서 전체 DDT와 fallback을 수행하는 자동주행 시스템

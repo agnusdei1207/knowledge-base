@@ -28,6 +28,8 @@ extra:
 - **WASI(WebAssembly System Interface)**: 파일·네트워크 등 시스템 자원에 접근하기 위한 표준화된 호스트 인터페이스
 - **WIT(WebAssembly Interface Type)**: 언어와 런타임이 달라도 컴포넌트 간 함수와 자료형 계약을 표현하는 인터페이스 정의 형식
 
+> **키워드:** WebAssembly (WebAssembly)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 검증 가능한 이식형 바이트코드를 **샌드박스 런타임**에서 실행하는 WebAssembly

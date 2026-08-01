@@ -29,6 +29,8 @@ extra:
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 대규모 행렬 병렬 연산 장치
 - **자료형(Data Type, dtype)**: 텐서의 원소를 저장하는 수치 형식
 
+> **키워드:** Scaled Dot-Product Attention (스케일드 닷 프로덕트 어텐션)
+
 ## Ⅰ. 개요
 
 - 정의/개념: Q·K 내적을 √d_k로 보정해 V를 결합하는 **어텐션 연산**

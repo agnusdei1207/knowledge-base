@@ -26,6 +26,8 @@ extra:
 - **분당 토큰 수(Tokens Per Minute, TPM)**: 사용자·키별 1분 입출력 토큰 수 한도
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 모델의 행렬 연산을 병렬 처리하는 가속 장치
 
+> **키워드:** 모델 서비스 거부 (Model Denial of Service)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 고비용 작업을 반복해 정상 가용성을 훼손하는 **모델 자원 고갈 공격**

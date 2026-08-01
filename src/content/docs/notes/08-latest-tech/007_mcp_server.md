@@ -29,6 +29,8 @@ extra:
 - **기능 협상(Capability Negotiation)**: 세션에서 사용할 선택 기능을 초기화 단계에서 합의하는 과정
 - **표현 상태 전송 API(Representational State Transfer API, REST API)**: 자원과 HTTP 메서드 중심의 범용 호출 계약
 
+> **키워드:** MCP Server (모델 컨텍스트 프로토콜 서버)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 도구·리소스·프롬프트를 노출하고 백엔드를 중개하는 **MCP 서버 프로그램**

@@ -30,6 +30,8 @@ extra:
 - **ODD(Operational Design Domain)**: '오디디'로 읽으며, 도로·날씨·속도 등 기능이 작동하도록 설계된 운행 조건 범위
 - **SAE 자동화 수준**: 운전자와 시스템의 DDT 수행 책임을 Level 0~5로 구분하는 분류
 
+> **키워드:** ADAS 첨단운전자지원시스템 (Advanced Driver Assistance System)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **ADAS**는 환경·운전자 상태를 인지해 경고·조향·가감속을 보조하는 시스템

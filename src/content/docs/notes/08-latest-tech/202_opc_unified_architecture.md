@@ -26,6 +26,8 @@ extra:
 - **Client-Server(클라이언트-서버)**: 요청·응답과 구독으로 데이터를 교환하는 통신 방식
 - **PubSub(펍섭)**: Publisher-Subscriber의 줄임말로, 발행자와 구독자를 분리한 메시지 배포 방식
 
+> **키워드:** OPC UA 산업 표준 통신 (OPC Unified Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **OPC UA**는 산업 데이터의 의미·통신·보안을 통합한 상호운용 표준

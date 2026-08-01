@@ -25,6 +25,8 @@ extra:
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 외부 지식에서 검색한 근거를 모델 입력에 결합하는 생성 방식
 - **평가 하네스(Evaluation Harness)**: 평가 자료·기준·실행·결과를 반복 관리하는 시험 장치
 
+> **키워드:** LLMOps (Large Language Model Operations)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 프롬프트·RAG·모델·도구·평가·배포를 **버전과 실행 추적으로 연결하는 운영체계**

@@ -25,6 +25,8 @@ extra:
 - **바인딩(Binding)**: 매니페스트를 콘텐츠와 연결해 변경이나 분리를 확인하는 방식
 - **C2PA 2.4**: crJSON과 자산 형식·진술·검증 기능을 확대한 2026년 4월 현행 규격
 
+> **키워드:** C2PA 콘텐츠 출처 표준 (Coalition for Content Provenance and Authenticity)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 출처 진술을 **서명 매니페스트**로 교환·검증하는 표준

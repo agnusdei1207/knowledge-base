@@ -29,6 +29,8 @@ extra:
 - **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: '에스알이'로 읽으며, 신뢰성 목표와 자동화로 서비스를 운영하는 공학 체계
 - **서비스 수준 목표(Service Level Objective, SLO)**: '에스엘오'로 읽으며, 일정 기간에 달성할 사용자 중심 서비스 품질 목표
 
+> **키워드:** Platform Engineering 플랫폼 엔지니어링 (Platform Engineering)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 공통 개발·운영 기능을 **IDP·골든 패스·셀프서비스**로 제공하는 내부 제품 중심의 공학 접근

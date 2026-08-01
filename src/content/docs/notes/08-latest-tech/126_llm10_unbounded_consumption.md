@@ -25,6 +25,8 @@ extra:
 - **토큰(Token)**: 모델이 입력과 출력을 처리하고 사용량을 계량하는 문자열 단위
 - **예산 원장(Budget Ledger)**: 사용자별 토큰·시간·도구·비용의 한도와 소비를 기록하는 장부
 
+> **키워드:** LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 무제한 모델·도구 사용으로 **자원·비용·용량**을 소진하는 위험

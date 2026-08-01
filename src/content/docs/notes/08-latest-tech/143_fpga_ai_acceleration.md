@@ -28,6 +28,8 @@ extra:
 
 
 
+> **키워드:** FPGA AI Acceleration (FPGA AI 가속)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 재구성 논리로 AI 데이터경로를 구현하는 **FPGA 가속기**

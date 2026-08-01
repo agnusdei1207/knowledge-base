@@ -30,6 +30,8 @@ extra:
 - **거부 표본 추출(Rejection Sampling)**: 생성 후보 중 정답·품질 기준을 통과한 응답만 후속 학습 데이터로 선별하는 방법
 - **지식 증류(Knowledge Distillation)**: 큰 모델이 생성한 지식·응답을 작은 기반 모델에 학습시키는 방법
 
+> **키워드:** DeepSeek-R1 추론 모델 (DeepSeek-R1)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **DeepSeek-R1**은 V3-Base에 콜드 스타트·다단계 RL을 적용한 추론 언어 모델

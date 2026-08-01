@@ -28,6 +28,8 @@ extra:
 - **은닉 차원(Hidden Dimension)**: FFN 내부 투영 벡터의 폭
 - **파라미터 예산(Parameter Budget)**: 모델 크기·메모리·연산량에 허용된 가중치 규모
 
+> **키워드:** SwiGLU·GELU 활성화 함수 비교 (Activation Functions)
+
 ## Ⅰ. 개요
 
 - 정의/개념: FFN의 **GELU 단일 활성**과 **SwiGLU 게이트·값 결합** 선택 기준

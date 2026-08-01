@@ -30,6 +30,8 @@ extra:
 - **PHM(Platform Health Management)**: '피에이치엠'으로 읽으며, 애플리케이션과 플랫폼의 건강 상태를 감시하는 서비스
 - **Manifest(매니페스트)**: 애플리케이션·서비스·실행·배포 구성을 기계 판독 형식으로 선언한 명세
 
+> **키워드:** AUTOSAR Adaptive (AUTOSAR Adaptive)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **AUTOSAR Adaptive**는 고성능 ECU 앱을 POSIX 프로세스와 동적 서비스로 실행하는 플랫폼

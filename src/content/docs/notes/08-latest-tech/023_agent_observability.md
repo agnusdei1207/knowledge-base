@@ -27,6 +27,8 @@ extra:
 - **의미 규약(Semantic Convention)**: 관측 필드의 이름과 의미를 통일한 규약
 - **서비스 수준 목표(Service Level Objective, SLO)**: 서비스 지표의 목표 수준
 
+> **키워드:** Agent Observability (에이전트 관측성)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 실행 신호를 연계해 원인을 분석하는 **에이전트 관측성**

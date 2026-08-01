@@ -29,6 +29,8 @@ extra:
 
 
 
+> **키워드:** 양자내성암호 (Post-Quantum Cryptography, PQC)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **PQC**는 양자 공격에 안전하도록 설계한 고전 컴퓨터용 공개키 암호

@@ -30,6 +30,8 @@ extra:
 
 
 
+> **키워드:** ReAct 패턴 (Reasoning and Acting)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 외부 행동의 관찰로 다음 추론을 갱신하는 **추론·행동(ReAct) 패턴**

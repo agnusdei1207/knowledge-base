@@ -24,6 +24,8 @@ extra:
 - **큐버(Quantum Bit Error Rate, QBER)**: 수신한 양자 비트 중 오류 비율로, 잡음·도청 수준과 세션 폐기 여부를 판단
 - **프라이버시 증폭(privacy amplification)**: 노출 가능성이 있는 정보를 줄이도록 정정된 키를 더 짧은 비밀키로 압축
 
+> **키워드:** 양자키분배 (Quantum Key Distribution, QKD)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **QKD**는 양자 상태의 측정 교란으로 도청을 탐지하며 대칭키를 분배하는 기술

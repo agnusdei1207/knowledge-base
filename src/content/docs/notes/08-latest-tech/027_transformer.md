@@ -30,6 +30,8 @@ extra:
 - **잔차 연결(Residual Connection)**: 하위 입력에 출력 가산
 - **층 정규화(Layer Normalization)**: 차원별 정규화 연산
 
+> **키워드:** Transformer (트랜스포머)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 셀프 어텐션으로 토큰 관계를 직접 계산하는 **트랜스포머 신경망**

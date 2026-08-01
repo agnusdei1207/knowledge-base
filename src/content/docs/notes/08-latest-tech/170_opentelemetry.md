@@ -27,6 +27,8 @@ extra:
 - **OTLP(OpenTelemetry Protocol)**: OpenTelemetry 신호를 전송하기 위한 표준 프로토콜
 - **Collector**: 텔레메트리를 수신해 처리하고 하나 이상의 저장·분석 백엔드로 전달하는 독립 구성요소
 
+> **키워드:** OpenTelemetry
+
 ## Ⅰ. 개요
 
 - 정의/개념: 텔레메트리를 **공급자 중립 API·SDK·OTLP·Collector**로 생성·전송하는 프레임워크

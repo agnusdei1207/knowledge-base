@@ -30,6 +30,8 @@ extra:
 - **융합 이더넷 기반 RDMA(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭의 무손실·혼잡 설정 위에서 RDMA를 제공하는 방식
 - **NVLink·NVSwitch**: GPU 메모리 사이를 고대역폭으로 연결하고 여러 GPU의 다대다 통신을 구성하는 인터커넥트 기술
 
+> **키워드:** InfiniBand
+
 ## Ⅰ. 개요
 
 - 정의/개념: **InfiniBand**는 RDMA·서브넷 관리·혼잡 제어를 통합한 저지연 클러스터 스위치 패브릭

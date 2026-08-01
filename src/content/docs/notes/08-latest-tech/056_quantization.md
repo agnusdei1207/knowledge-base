@@ -30,6 +30,8 @@ extra:
 - **활성값 인지 가중치 양자화(Activation-aware Weight Quantization, AWQ)**: 중요 활성값 채널을 고려해 가중치 스케일을 조정하는 방식
 
 
+> **키워드:** Quantization (양자화)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **양자화**는 가중치·활성값을 저비트 표현으로 변환하는 모델 압축 기법

@@ -25,6 +25,8 @@ extra:
 - **DID 메서드(DID method)**: `did:method:id`의 메서드별 생성·해석·갱신·비활성화 규칙
 - **검증 가능 자격증명(Verifiable Credential, VC)**: 발급자가 서명한 자격 주장으로 DID와 별도 계층
 
+> **키워드:** 분산 식별자(Decentralized Identifier, DID)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 주체가 제어하고 검증 가능한 **분산 식별자**

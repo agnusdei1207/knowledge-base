@@ -28,6 +28,8 @@ extra:
 - **JSON 원격 프로시저 호출(JSON Remote Procedure Call, JSON-RPC)**: 리소스 조회의 요청·응답·알림을 구조화하는 메시지 프로토콜이다.
 - **리소스 구독(Resource Subscription)**: 특정 URI의 내용 변경 알림을 받는 기능
 
+> **키워드:** MCP Resource (모델 컨텍스트 프로토콜 리소스)
+
 ## Ⅰ. 개요
 
 - 정의/개념: URI로 읽기 중심 컨텍스트를 노출하는 **MCP 리소스 기능**

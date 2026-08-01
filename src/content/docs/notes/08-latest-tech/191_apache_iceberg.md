@@ -26,6 +26,8 @@ extra:
 
 
 
+> **키워드:** Apache Iceberg
+
 ## Ⅰ. 개요
 
 - 정의/개념: **Apache Iceberg**는 스냅샷·매니페스트로 분석 테이블을 관리하는 오픈 형식

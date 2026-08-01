@@ -25,6 +25,8 @@ extra:
 - **지속적 제공(Continuous Delivery, CD)**: 검증·승인된 모델을 단계적으로 배포 가능한 상태로 전달하는 과정
 - **지속적 학습(Continuous Training, CT)**: 데이터와 성능 변화에 따라 후보 모델을 자동 재학습하는 과정
 
+> **키워드:** MLOps (Machine Learning Operations)
+
 ## Ⅰ. 개요
 
 - 정의/개념: ML의 데이터·코드·학습·모델·배포·관측을 **재현 가능한 자동화 수명주기로 연결**

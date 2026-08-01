@@ -28,6 +28,8 @@ extra:
 - **피닝(pinning)**: native·foreign 함수에서 가상 스레드가 캐리어를 계속 점유하는 상태로, JDK 24부터 synchronized 대기는 JEP 491로 대부분 해소
 - **JFR(Java Flight Recorder)**: JVM 실행 사건과 성능 정보를 낮은 부하로 기록하는 진단 기능
 
+> **키워드:** 가상 스레드 (Virtual Thread)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 가상 스레드는 다수의 논리적 작업을 소수의 **캐리어 스레드** 위에 다중화하는 JVM 관리형 경량 스레드

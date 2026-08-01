@@ -30,6 +30,8 @@ extra:
 - **정규화 할인 누적 이득(normalized Discounted Cumulative Gain, nDCG)**: 관련성과 순위 위치를 함께 반영한 품질 지표
 - **평균 역순위(Mean Reciprocal Rank, MRR)**: 첫 관련 정답 순위의 역수를 질의별로 평균한 지표
 
+> **키워드:** Reranker 재순위화 모델 (Neural Reranker)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 1차 검색 후보의 관련성을 신경망으로 재평가하는 **순위 최적화 모델**

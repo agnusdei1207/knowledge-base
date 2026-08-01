@@ -27,6 +27,8 @@ extra:
 - **다이제스트(Digest)**: 파일 내용으로 계산해 변경 여부와 동일성을 확인하는 고정 길이 값
 - **배포 승인 제어(Admission Control)**: 배포 요청의 서명·출처·정책 충족 여부를 검사해 실행을 허용하거나 차단하는 통제
 
+> **키워드:** Software Supply Chain Security 소프트웨어 공급망 보안 (Software Supply Chain Security)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **소프트웨어 공급망 보안**은 소스부터 배포까지 변조·오염을 통제하는 보안 체계

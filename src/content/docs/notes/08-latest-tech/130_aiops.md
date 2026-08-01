@@ -24,6 +24,8 @@ extra:
 - **서비스 토폴로지(Service Topology)**: 서비스 구성요소와 호출·의존 관계를 나타낸 연결 지도
 - **런북(Runbook)**: 장애 유형별 진단·복구 절차와 실행 조건을 정한 운영 지침
 
+> **키워드:** AIOps (Artificial Intelligence for IT Operations)
+
 ## Ⅰ. 개요
 
 - 정의/개념: AI로 운영 신호의 사건·원인·조치를 분석하는 **AIOps**

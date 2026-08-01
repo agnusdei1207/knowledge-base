@@ -26,6 +26,8 @@ extra:
 
 
 
+> **키워드:** ISO/IEC 42001 AI 경영시스템 (AI Management System)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **ISO/IEC 42001**은 AI 경영시스템의 수립·운영·개선 요구사항을 정한 국제표준

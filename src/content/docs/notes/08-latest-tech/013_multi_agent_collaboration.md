@@ -28,6 +28,8 @@ extra:
 - **합의(Consensus)**: 복수 제안에서 공동 결과 결정
 - **종료 조건(Termination Condition)**: 목표·예산·반복 한계
 
+> **키워드:** 멀티 에이전트 협업 (Multi-Agent Collaboration)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 복수 자율 에이전트가 역할·상태를 조정하는 **MAS 협업 방식**
