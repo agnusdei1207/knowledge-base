@@ -42,6 +42,8 @@ extra:
 - **단일 장애점(Single Point of Failure)**: 하나의 구성요소 고장만으로 전체 서비스가 중단되는 지점
 - **취약 시간(Vulnerability Window)**: 중복 장애를 견디지 못하는 저하 상태가 지속되는 시간
 
+> **키워드:** RAID 컨트롤러·JBOD (RAID Controller and JBOD)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 여러 디스크를 중복 논리 볼륨이나 개별 장치로 제공하는 **저장 구성**

@@ -43,6 +43,8 @@ extra:
 - **에뮬레이션·호환 계층(Emulation·Compatibility Layer)**: 다른 ISA의 동작을 소프트웨어로 모사하거나 기존 실행 환경의 인터페이스를 새 플랫폼에 연결하는 방식
 - **벤치마크(Benchmark)**: 같은 작업을 실행해 처리 시간·전력·자원 사용량을 비교하는 측정 시험
 
+> **키워드:** 명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 명령 형식·복잡도에 따른 **ISA 설계 방식**

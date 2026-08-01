@@ -37,6 +37,8 @@ extra:
 - **최악 실행 시간(Worst-Case Execution Time, WCET)**: 태스크가 가장 오래 걸리는 경로의 실행 시간 상한
 - **입출력(Input/Output, I/O)**: 처리기와 외부 장치 사이에서 데이터나 제어 신호를 주고받는 동작
 
+> **키워드:** 마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **MCU의 통합성**과 MPU의 확장성을 비교한 처리기 분류

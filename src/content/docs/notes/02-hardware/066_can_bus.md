@@ -42,6 +42,8 @@ extra:
 - **송신 오류 카운터(Transmit Error Counter, TEC)**: 송신 오류마다 증가하며 노드의 오류 상태와 버스 오프 전환을 결정하는 값
 - **메시지 인증 코드(Message Authentication Code, MAC)**: 비밀키와 메시지로 생성해 송신자와 데이터 무결성을 검증하는 값
 
+> **키워드:** CAN 통신 (Controller Area Network)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 메시지 ID로 **비파괴 중재**하는 다중 마스터 버스

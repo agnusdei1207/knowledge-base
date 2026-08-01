@@ -40,6 +40,8 @@ extra:
 - **다운트레이닝(Downtraining)**: 링크가 목표보다 낮은 속도나 레인 수로 설정되는 현상
 - **재협상(Renegotiation)**: 연결 중 전력·속도·기능 조건을 다시 합의하는 절차
 
+> **키워드:** 고속 직렬 인터페이스: USB·Thunderbolt (High-Speed Serial Interface)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 차동 레인으로 데이터·영상·전력을 전달하는 **고속 직렬 링크**

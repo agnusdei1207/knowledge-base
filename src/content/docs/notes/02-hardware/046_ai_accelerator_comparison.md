@@ -41,6 +41,8 @@ extra:
 - **온디바이스 추론(On-device Inference)**: 원격 서버 없이 단말 안에서 모델 예측을 실행하는 방식
 - **결정적 지연(Deterministic Latency)**: 같은 조건에서 처리 시간이 좁은 범위에 머물러 마감 시간을 예측할 수 있는 성질
 
+> **키워드:** AI 가속기 비교: CPU·GPU·NPU·FPGA·ASIC (AI Accelerator Comparison)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 워크로드 특성에 맞춘 **AI 가속기 선택 체계**

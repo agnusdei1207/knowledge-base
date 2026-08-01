@@ -43,6 +43,8 @@ extra:
 - **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키기 위해 CPU·GPU·메모리의 주파수나 전력·처리량을 낮추는 제어
 - **관리망(Management Network)**: 서비스 데이터망과 분리해 BMC 원격 전원·콘솔·펌웨어 관리에 사용하는 네트워크
 
+> **키워드:** 데이터 센터 서버 아키텍처 (Data Center Server Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **연산·메모리·I/O**를 통합해 워크로드를 처리하는 **서버 구조**

@@ -42,6 +42,8 @@ extra:
 - **호스트→장치·장치→호스트 복사(Host-to-Device·Device-to-Host, H2D·D2H)**: CPU 메모리에서 GPU 메모리로 입력을 보내는 전송과 계산 결과를 반대로 가져오는 전송
 - **복사 엔진(Copy Engine)**: GPU 연산 코어와 별도로 호스트·장치 메모리 사이의 DMA 전송을 수행하는 하드웨어
 
+> **키워드:** CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)
+
 ## Ⅰ. 개요
 
 - 정의/개념: NVIDIA GPU의 **병렬 실행 플랫폼**

@@ -39,6 +39,8 @@ extra:
 - **쓰기 소유권(Write Ownership)**: 캐시 라인을 수정할 수 있도록 특정 캐시에 부여된 일관성 권한
 - **NUMA 토폴로지(NUMA Topology)**: CPU·메모리·장치의 노드 소속과 노드 간 거리 관계
 
+> **키워드:** 멀티소켓 서버·SMP (Multi-Socket Server·SMP)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 여러 소켓과 로컬 메모리를 일관성 인터커넥트로 묶는 **ccNUMA 서버**

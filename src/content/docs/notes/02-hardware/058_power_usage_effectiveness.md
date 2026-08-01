@@ -26,6 +26,8 @@ extra:
 - **물사용효율(Water Usage Effectiveness, WUE)**: 데이터센터의 연간 물 사용량을 IT 장비 에너지로 나눈 수자원 효율 지표
 - **탄소사용효율(Carbon Usage Effectiveness, CUE)**: 데이터센터의 탄소 배출량을 IT 장비 에너지로 나눈 탄소 효율 지표
 
+> **키워드:** 전력 사용 효율 (PUE)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 전체 시설 에너지를 **IT 장비 에너지**로 나눠 비IT 오버헤드를 재는 **PUE 지표**

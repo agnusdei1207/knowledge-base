@@ -42,6 +42,8 @@ extra:
 - **기능 탐지(Feature Detection)**: 실행 전에 프로세서가 지원하는 ISA 확장과 기능을 확인해 호환 코드 경로를 선택하는 절차
 - **예약 인코딩(Reserved Encoding)**: 향후 표준 확장을 위해 현재 규격이 사용하지 않도록 남겨 둔 명령어 비트 패턴
 
+> **키워드:** RISC-V 개방형 ISA (RISC-V Open Standard ISA)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 개방형 **기본 ISA와 선택 확장**을 조합하는 규격

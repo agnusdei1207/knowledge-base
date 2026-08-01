@@ -42,6 +42,8 @@ extra:
 - **타일링(Tiling)**: 큰 텐서와 연산을 작은 블록으로 나눠 처리하는 기법
 - **입력 분포(Input Distribution)**: 운영 환경에서 입력값이 나타나는 빈도와 범위
 
+> **키워드:** SoC AI 온디바이스 칩 (SoC On-Device AI Chip)
+
 ## Ⅰ. 개요
 
 - 정의/개념: CPU·GPU·NPU를 통합한 **단말 AI용 SoC**

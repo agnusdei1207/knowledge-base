@@ -49,6 +49,8 @@ extra:
 - **부분 재구성(Partial Reconfiguration)**: FPGA 전체를 멈추지 않고 지정된 일부 영역의 비트스트림만 교체하는 기능
 - **롤백 이미지(Rollback Image)**: 새 비트스트림의 검증·기동에 실패했을 때 되돌아갈 수 있도록 보관한 정상 구성
 
+> **키워드:** FPGA AI 가속 (FPGA AI Acceleration)
+
 ## Ⅰ. 개요
 
 - 정의/개념: AI 연산을 **재구성 회로**에 매핑하는 방식

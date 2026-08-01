@@ -41,6 +41,8 @@ extra:
 - **PHY 트레이닝(PHY Training)**: DQ·DQS 지연을 보정해 데이터 샘플링 시점을 맞추는 초기화 절차
 - **타이밍 마진(Timing Margin)**: 신호가 설정·유지 시간을 만족하고 남는 시간 여유
 
+> **키워드:** DDR SDRAM과 리프레시 방식 (DDR SDRAM Refresh)
+
 ## Ⅰ. 개요
 
 - 정의/개념: 양 에지 전송과 주기적 전하 복원을 쓰는 **DRAM 규격**

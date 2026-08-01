@@ -39,6 +39,8 @@ extra:
 - **원시 이벤트 코드(Raw Event Code)**: CPU 모델별 하드웨어 사건을 선택하는 숫자 코드
 - **메모리 정체(Memory Stall)**: 데이터가 메모리 계층에서 도착하기를 기다려 명령 실행이 멈춘 상태
 
+> **키워드:** 하드웨어 성능 카운터·PMU (Hardware Performance Counter and PMU)
+
 ## Ⅰ. 개요
 
 - 정의/개념: CPU 사건을 선택·계수해 병목을 분석하는 **내장 계측 장치**

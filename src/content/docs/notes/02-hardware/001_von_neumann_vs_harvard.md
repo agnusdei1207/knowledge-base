@@ -38,6 +38,8 @@ extra:
 - **명령 캐시 무효화(Instruction-cache Invalidation)**: 메모리의 코드가 바뀌었을 때 오래된 명령어 사본을 캐시에서 제거하는 절차
 - **캐시 적중률(Cache Hit Rate)**: 전체 메모리 요청 중 필요한 값이 캐시에서 발견된 비율
 
+> **키워드:** 컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)
+
 ## Ⅰ. 개요
 
 - 정의/개념: **명령어·데이터 메모리 경로**를 통합하거나 나눈 구조
