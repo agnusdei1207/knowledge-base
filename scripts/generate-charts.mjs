@@ -41,19 +41,108 @@ function serializeChart(chart, ariaLabel) {
   return svg.outerHTML;
 }
 
+function estimateLegendWidth(label) {
+  return Array.from(label).reduce(
+    (width, character) => width + (/^[\x00-\x7f]$/.test(character) ? 8 : 15),
+    34,
+  );
+}
+
+function layoutLegend(names, availableWidth) {
+  const items = [];
+  let x = 0;
+  let row = 0;
+
+  for (const name of names) {
+    const width = Math.min(estimateLegendWidth(name), availableWidth);
+    if (x > 0 && x + width > availableWidth) {
+      x = 0;
+      row += 1;
+    }
+    items.push({ name, x, row });
+    x += width;
+  }
+
+  return { items, rows: row + 1 };
+}
+
+function annotationMarks(annotations, series) {
+  if (annotations.length === 0) return [];
+
+  const xs = series.map(({ x }) => x).filter(Number.isFinite);
+  const ys = series.map(({ y }) => y).filter(Number.isFinite);
+  const xMin = Math.min(...xs);
+  const xRange = Math.max(Math.max(...xs) - xMin, Number.EPSILON);
+  const yMin = Math.min(...ys);
+  const yRange = Math.max(Math.max(...ys) - yMin, Number.EPSILON);
+
+  return annotations.map((annotation) => {
+    const xPosition = (annotation.x - xMin) / xRange;
+    const yPosition = (annotation.y - yMin) / yRange;
+    const nearLeft = xPosition < 0.25;
+    const nearRight = xPosition > 0.75;
+
+    return Plot.text([annotation], {
+      x: 'x',
+      y: 'y',
+      text: 'label',
+      fill: '#475569',
+      fontWeight: 600,
+      textAnchor: nearLeft ? 'start' : nearRight ? 'end' : 'middle',
+      dx: nearLeft ? 8 : nearRight ? -8 : 0,
+      dy: yPosition > 0.82 ? 16 : -12,
+    });
+  });
+}
+
 function createLineChart({ title, xLabel, yLabel, series, annotations = [] }) {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const document = dom.window.document;
   const names = [...new Set(series.map((point) => point.series))];
   const palette = ['#2563eb', '#dc2626', '#059669', '#7c3aed'];
+  const width = 860;
+  const marginRight = 42;
+  const marginLeft = 74;
+  const legend = layoutLegend(names, width - marginLeft - marginRight);
+  const marginTop = 80 + 24 * (legend.rows - 1);
+  const titleMark = Plot.text([{}], {
+    text: () => title,
+    frameAnchor: 'top-left',
+    dx: 0,
+    dy: -(marginTop - 24),
+    textAnchor: 'start',
+    fontSize: 20,
+    fontWeight: 700,
+    fill: '#1f2937',
+  });
+  const legendMarks = legend.items.flatMap(({ name, x, row }, index) => {
+    const dy = -(marginTop - 56 - row * 24);
+    return [
+      Plot.dot([{}], {
+        frameAnchor: 'top-left',
+        dx: x + 6,
+        dy,
+        fill: palette[index],
+        r: 6,
+      }),
+      Plot.text([{}], {
+        text: () => name,
+        frameAnchor: 'top-left',
+        dx: x + 18,
+        dy,
+        textAnchor: 'start',
+        fill: '#475569',
+      }),
+    ];
+  });
   const chart = Plot.plot({
     document,
-    width: 860,
+    width,
     height: 520,
-    marginTop: 92,
-    marginRight: 42,
+    marginTop,
+    marginRight,
     marginBottom: 62,
-    marginLeft: 74,
+    marginLeft,
     style: {
       background: '#f8fafc',
       color: '#334155',
@@ -64,43 +153,11 @@ function createLineChart({ title, xLabel, yLabel, series, annotations = [] }) {
     y: { label: yLabel, grid: true },
     color: { domain: names, range: palette.slice(0, names.length), legend: false },
     marks: [
-      Plot.text([{ x: 0.5, y: 1, label: title }], {
-        x: 'x',
-        y: 'y',
-        text: 'label',
-        frameAnchor: 'top',
-        dy: -72,
-        fontSize: 20,
-        fontWeight: 700,
-        fill: '#1f2937',
-      }),
+      titleMark,
+      ...legendMarks,
       Plot.line(series, { x: 'x', y: 'y', z: 'series', stroke: 'series', strokeWidth: 3 }),
       Plot.dot(series, { x: 'x', y: 'y', fill: 'series', r: 4 }),
-      Plot.text(annotations, {
-        x: 'x',
-        y: 'y',
-        text: 'label',
-        fill: '#475569',
-        fontWeight: 600,
-        dy: -12,
-      }),
-      Plot.dot(
-        names.map((name, index) => ({ x: index, y: 0, name })),
-        { x: 'x', y: 'y', fill: 'name', r: 6, frameAnchor: 'top', dy: -42 },
-      ),
-      Plot.text(
-        names.map((name, index) => ({ x: index, y: 0, name })),
-        {
-          x: 'x',
-          y: 'y',
-          text: 'name',
-          frameAnchor: 'top',
-          dy: -42,
-          dx: 12,
-          textAnchor: 'start',
-          fill: '#475569',
-        },
-      ),
+      ...annotationMarks(annotations, series),
     ],
   });
   return serializeChart(chart, `${title}: ${names.join(', ')} 계열 차트`);
