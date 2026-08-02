@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: **비복제 정리와 양자 상태 교란** 을 이용하는 도청 탐지형 키 분배
-- 배경/필요성: 수학 난제 기반 키 합의는 **양자 공격 탐지 불가**
+- 배경/필요성: 공개 통신 경로에서 키를 합의할 때 **도청 개입 여부를 물리적으로 판별** 할 필요
 
 #### 한줄 요약
 
@@ -163,7 +163,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **광자 수 분할 공격(Photon-number-splitting Attack)** 은 다광자 신호에서 일부 광자를 빼내 키 정보를 얻으려는 공격이다.
-- **ITU-T Y.3800** 은 QKD 네트워크의 계층 구조·기능·설계 고려사항을 규정한 국제 표준이다.
+- **국제전기통신연합 전기통신표준화 부문(International Telecommunication Union Telecommunication Standardization Sector, ITU-T) Y.3800** 은 QKD 네트워크의 계층 구조·기능·설계 고려사항을 규정한 국제 표준이다.
 
 </details>
 

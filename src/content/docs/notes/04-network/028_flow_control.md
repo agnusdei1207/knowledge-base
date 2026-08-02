@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 28
-  label: "028. 흐름 제어 : Slow Start·슬라이딩 윈도우 (Flow Control)"
+  label: "028. TCP 흐름·혼잡 제어 : 슬라이딩 윈도우·Slow Start"
   badge:
     text: "기출 · 50%"
     variant: note
-title: "흐름 제어 : Slow Start·슬라이딩 윈도우 (Flow Control)"
+title: "TCP 흐름·혼잡 제어 : 슬라이딩 윈도우·Slow Start"
 date: "2026-07-31T00:54:53+09:00"
 tags:
   - "notes-network"
@@ -162,7 +162,7 @@ sequenceDiagram
 | rwnd·cwnd 감소 원인을 혼동 | 수신 버퍼와 **경로 혼잡 신호** 분리 관측 | **흐름·혼잡 병목** 구분 |
 | rwnd 0 광고로 **제로 윈도** 지속 | 수신 응용 소비율·**윈도 갱신** 점검 | 송신 측 **영구 대기** 방지 |
 | 버퍼가 **BDP**보다 커 큐 지연 증가 | BDP에 맞춰 **버퍼·윈도** 설정 | 과도한 **버퍼 지연** 완화 |
-| 무선 손실을 **경로 혼잡**으로 오판 | **ECN·RTT·재전송** 함께 분석 | 불필요한 **cwnd 축소** 방지 |
+| 무선 손실을 **경로 혼잡** 으로 오판 | **ECN·RTT·재전송** 함께 분석 | 불필요한 **cwnd 축소** 방지 |
 
 #### 한줄 요약
 

@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 2
-  label: "002. ISP (Information Strategy Plan)"
+  label: "002. ISP (Information Strategy Planning)"
   badge:
     text: "기출 · 50%"
     variant: note
-title: "ISP (Information Strategy Plan)"
+title: "ISP (Information Strategy Planning)"
 date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-law_policy"
@@ -60,6 +60,8 @@ extra:
 - **목표 모델**: 전략을 달성하기 위해 구현할 업무·정보·기술 구조와 성과 수준을 나타낸 청사진이다.
 - **과제 포트폴리오**: 과제 포트폴리오는 현행과 목표의 갭에서 도출한 사업 후보를 평가 기준에 따라 통합 관리한다.
 - **이행 계획**: 선정 과제의 선행 관계·일정·예산·책임과 성과지표를 실행 순서에 맞춰 배치한 계획이다.
+- **환경·전략 분석**: 경영 목표·정책·산업 환경과 이해관계자 요구를 분석해 정보화 추진 방향을 정하는 단계이다.
+- **현황·차이 분석**: 현행 업무·정보시스템·데이터·기술의 문제를 목표 모델과 비교해 개선 과제를 도출하는 단계이다.
 
 </details>
 

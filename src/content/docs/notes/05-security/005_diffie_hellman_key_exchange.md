@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Diffie-Hellman 키 교환** 은 비밀값을 직접 전송하지 않고 공개값만 교환하여 양측이 같은 공유 비밀을 계산하는 키 합의 방식이다.
+- **디피-헬만 키 교환(Diffie-Hellman Key Exchange, DH 키 교환)** 은 비밀값을 직접 전송하지 않고 공개값만 교환하여 양측이 같은 공유 비밀을 계산하는 키 합의 방식이다.
 
 </details>
 
@@ -60,7 +60,7 @@ extra:
 
 - **도메인 매개변수** 는 DH 계산에 사용할 그룹과 생성원 등 참여자가 공유하는 공개 설정이다.
 - **개인값과 공개값** 은 참여자가 각각 비밀로 생성하는 입력과 그 입력을 도메인 매개변수로 계산하여 상대에게 전달하는 값이다.
-- **KDF** 는 공유 비밀에서 용도와 통신 방향별 세션키를 생성한다.
+- **키 유도 함수(Key Derivation Function, KDF)** 는 공유 비밀에서 용도와 통신 방향별 세션키를 생성한다.
 
 </details>
 
@@ -130,8 +130,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정적 DH** 는 장기 개인값을 재사용하므로 그 값이 유출되면 과거 공유 비밀이 노출될 수 있다.
-- **DHE** 는 연결마다 새로운 유한체 개인값을 사용하고, **ECDHE** 는 새로운 타원곡선 개인값을 사용한다.
+- **정적 디피-헬만(Static Diffie-Hellman, 정적 DH)** 은 장기 개인값을 재사용하므로 그 값이 유출되면 과거 공유 비밀이 노출될 수 있다.
+- **임시 디피-헬만(Diffie-Hellman Ephemeral, DHE)** 은 연결마다 새로운 유한체 개인값을 사용하고, **타원곡선 임시 디피-헬만(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)** 은 새로운 타원곡선 개인값을 사용한다.
 
 </details>
 
@@ -152,8 +152,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RFC 7919 FFDHE** 는 TLS에서 협상할 검증된 표준 유한체 임시 DH 그룹을 규정한다.
-- **RFC 7748 X25519** 는 타원곡선 DH 함수와 공개값 인코딩 규칙을 규정한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF) 의견 요청 문서(Request for Comments, RFC) 7919의 유한체 임시 디피-헬만(Finite Field Diffie-Hellman Ephemeral, FFDHE)** 은 전송 계층 보안(Transport Layer Security, TLS)에서 협상할 표준 유한체 그룹을 규정한다.
+- **인터넷 연구 태스크포스(Internet Research Task Force, IRTF) RFC 7748의 X25519** 는 타원곡선 DH 함수와 공개값 인코딩 규칙을 규정한다.
 
 </details>
 

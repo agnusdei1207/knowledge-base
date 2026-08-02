@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **대칭키 암호** 는 송신자와 수신자가 공유한 같은 비밀키로 평문을 암호화하고 암호문을 복호화하는 암호 방식
-- 배경/필요성: 비대칭 암호의 **대용량 처리 성능 한계** 해소
+- 배경/필요성: 대용량 평문을 낮은 연산 비용으로 빠르게 **암호화·복호화** 할 필요
 
 #### 한줄 요약
 
@@ -40,8 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **블록 암호** 는 평문을 고정 길이 블록으로 나누어 비밀키로 변환하고, **스트림 암호** 는 키스트림과 평문을 연속적으로 결합한다.
-- **AEAD** 는 평문의 기밀성과 평문·부가 인증 데이터의 무결성을 함께 보장한다.
-- **IV** 는 같은 키로 암호화한 결과가 매번 달라지도록 암호 연산에 함께 넣는 초기화 값이다.
+- **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)** 는 평문의 기밀성과 평문·부가 인증 데이터의 무결성을 함께 보장한다.
+- **초기화 벡터(Initialization Vector, IV)** 는 같은 키로 암호화한 결과가 매번 달라지도록 암호 연산에 함께 넣는 초기화 값이다.
 - **논스** 는 특정 키에서 반복하지 않도록 관리하는 일회성 입력값이다.
 
 </details>
@@ -63,9 +63,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AAD** 는 암호화하지 않지만 인증 태그 계산에 포함하여 무결성을 검증하는 데이터이다.
+- **부가 인증 데이터(Additional Authenticated Data, AAD)** 는 암호화하지 않지만 인증 태그 계산에 포함하여 무결성을 검증하는 데이터이다.
 - **인증 태그** 는 암호문과 AAD가 변경되지 않았음을 수신 측이 검증하게 하는 값이다.
-- **KMS** 는 암호키의 생성·보관·배포·교체·폐기를 수명주기 전반에서 통제한다.
+- **키 관리 시스템(Key Management System, KMS)** 은 암호키의 생성·보관·배포·교체·폐기를 수명주기 전반에서 통제한다.
 
 </details>
 
@@ -133,9 +133,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **AES-GCM** 은 AES 카운터 암호화와 갈루아 인증을 결합한 AEAD 방식이다.
+- **고급 암호화 표준(Advanced Encryption Standard, AES) 갈루아/카운터 모드(Galois/Counter Mode, GCM; AES-GCM)** 는 AES 카운터 암호화와 갈루아 인증을 결합한 AEAD 방식이다.
 - **ChaCha20-Poly1305** 는 ChaCha20 스트림 암호와 Poly1305 인증자를 결합한 AEAD 방식이다.
-- **AES-XTS** 는 저장장치의 블록 위치별로 다른 변환을 적용하는 디스크 암호화 모드이다.
+- **배타적 논리합-암호화-배타적 논리합(XOR-Encrypt-XOR, XEX) 기반 조정 코드북 모드와 암호문 훔치기(XEX-based Tweaked-codebook mode with ciphertext Stealing, XTS)를 적용한 AES(AES-XTS)** 는 저장장치의 블록 위치별로 다른 변환을 적용하는 디스크 암호화 모드이다.
 
 </details>
 
@@ -156,8 +156,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FIPS 197** 은 AES의 블록 길이와 128·192·256비트 키 연산을 규정한다.
-- **NIST SP 800-38D** 는 AES-GCM의 인증 암호화 동작과 논스 조건을 규정한다.
+- **연방 정보 처리 표준(Federal Information Processing Standards, FIPS) 197** 은 AES의 블록 길이와 128·192·256비트 키 연산을 규정한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST) 특별 간행물(Special Publication, SP) 800-38D** 는 AES-GCM의 인증 암호화 동작과 논스 조건을 규정한다.
 
 </details>
 
