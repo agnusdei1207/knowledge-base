@@ -133,15 +133,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX 2.1** 은 위협 의미·관계를, **TAXII 2.1** 은 API 기반 자동 전송을 담당한다.
+- **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX) 2.1**: 위협 의미·관계를 표현하는 자료 모델이다.
+- **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1**: STIX 객체를 조회·게시하는 전송 규약이다.
 
 </details>
 
-| 위협 정보 표준 | STIX 2.1 | TAXII 2.1 |
+| 표준 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| 적용 기준 | **위협 의미·관계** 통일 | 조직·플랫폼 간 **자동 전송** |
-| 핵심 특징 | **CTI 객체·관계 표현** | **API 컬렉션 객체 교환** |
-| 한계 | **관계·버전 오류** 전파 | **권한 오류·정보 노출** |
+| **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX) 2.1** | **위협 객체·관계 표현** | 도구가 해석할 공통 위협 정보 생성 |
+| **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1** | **컬렉션 기반 조회·게시** | 권한에 맞는 STIX 객체 자동 전송 |
 
 > 요약: STIX는 표현, TAXII는 전송 담당
 

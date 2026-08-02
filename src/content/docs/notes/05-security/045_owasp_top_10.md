@@ -131,15 +131,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Top 10·ASVS·WSTG** 는 각각 위험 인식, 요구·수준 정의, 시험 절차에 사용한다.
+- **오픈 월드와이드 애플리케이션 보안 프로젝트 상위 10대 위험(Open Worldwide Application Security Project Top 10, OWASP Top 10)**: 주요 웹 위험을 인식하는 자료이다.
+- **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS)**: 보안 요구사항과 검증 수준을 정의한다.
+- **웹 보안 시험 지침(Web Security Testing Guide, WSTG)**: 웹 보안 시험 방법과 절차를 제공한다.
 
 </details>
 
-| OWASP 활용 유형 | Top 10 | ASVS | WSTG |
-|:---|:---|:---|:---|
-| 적용 기준 | 주요 **웹 위험 인식** | 보안 **요구사항·수준** 정의 | 웹 **보안 시험 절차** 필요 |
-| 핵심 특징 | **주요 웹 위험 범주** | **보안 요구·검증 수준** | 웹 시험 방법·절차 |
-| 한계 | **체크리스트·준수 인증** 으로 오용 | 범위·수준의 **과도한 적용** | 원인 수정 없이 **시험만 수행** |
+| 오픈 월드와이드 애플리케이션 보안 프로젝트 자료 | 담당 역할 | 활용 산출물 |
+|:---|:---|:---|
+| **오픈 월드와이드 애플리케이션 보안 프로젝트 상위 10대 위험(Open Worldwide Application Security Project Top 10, OWASP Top 10)** | **주요 웹 위험 인식** | 교육·위험 논의의 공통 범주 |
+| **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS)** | **보안 요구사항·검증 수준 정의** | 설계·개발·검수 요구 기준 |
+| **웹 보안 시험 지침(Web Security Testing Guide, WSTG)** | **웹 보안 시험 절차 제공** | 시험 시나리오·점검 절차 |
 
 #### 한줄 요약
 

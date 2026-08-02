@@ -126,14 +126,14 @@ sequenceDiagram
 
 - **TCP 연결 설정·종료(Transmission Control Protocol Connection Establishment/Termination)**: SYN으로 양방향 상태를 만들고 FIN으로 각 송신 방향을 독립 종료하는 절차이다.
 - **동기화·확인 응답·종료(Synchronize/Acknowledgment/Finish, SYN·ACK·FIN)**: 연결을 시작하고 수신을 확인하며 송신 방향을 닫는 제어 플래그이다.
+- **연결 상태(Connection State)**: CLOSED에서 연결 설정을 시작해 양쪽 확인이 끝나면 ESTABLISHED가 되고 종료 절차 뒤 다시 해제되는 TCP 상태이다.
 
 </details>
 
-| TCP 연결 절차 | 3단계 연결 설정 | 4단계 연결 종료 |
+| 연결 절차 | 목적 | 핵심 상태 전이 |
 |:---|:---|:---|
-| 적용 기준 | 데이터 전송 전 **연결 상태 생성** | 양방향 송신 후 **연결 상태 해제** |
-| 핵심 특징 | SYN·ACK의 **양방향 ISN 확인** | FIN·ACK의 **방향별 독립 종료** |
-| 한계 | SYN 플러드·**설정 지연** | 종료 누락·**대기 상태 누적** |
+| **3단계 연결 설정** | 데이터 전 **양방향 도달성·초기 순서 번호(Initial Sequence Number, ISN)** 확인 | `CLOSED`에서 **ESTABLISHED 상태** 전환 |
+| **4단계 연결 종료** | 양방향 **송신 채널 독립 종료** | `FIN-WAIT`·`CLOSE-WAIT`를 거쳐 연결 해제 |
 
 > 요약: 설정은 3단계, 방향별 종료는 4단계
 

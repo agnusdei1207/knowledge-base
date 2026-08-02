@@ -137,17 +137,15 @@ sequenceDiagram
 - **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)**: 위협 개체와 관계를 기계가 읽을 수 있게 표현하는 표준 자료 모델이다.
 - **신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: STIX 자료를 조직과 도구 사이에서 조회·게시하는 표준 전송 규약이다.
 - **TAXII 컬렉션**: 접근 권한과 공유 목적에 따라 STIX 객체를 묶어 게시·조회하는 저장 단위다.
-- **구조화 정보 표준화 기구(Organization for the Advancement of Structured Information Standards, OASIS)**: STIX와 TAXII 규격을 관리하는 국제 표준화 컨소시엄
 
 </details>
 
-| 위협 정보 표준 | STIX | TAXII |
+| 표준 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| 적용 기준 | 위협 의미를 기계 판독 구조로 표현 | 조직·도구 사이 객체를 자동 교환 |
-| 핵심 특징 | **OASIS STIX 2.1** 객체·관계 | **OASIS TAXII 2.1** 컬렉션 |
-| 한계 | 관계·수명 누락 시 맥락 상실 | 권한 오류·중복·동기화 지연 |
+| **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)** | **위협 객체·관계·수명 표현** | 도구가 해석할 공통 위협 정보 데이터 생성 |
+| **신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)** | **컬렉션 기반 조회·게시** | 권한이 적용된 STIX 객체 전송 |
 
-> 요약: STIX는 의미 구조, TAXII는 교환 경로
+> 요약: STIX로 위협 정보를 표현하고 TAXII로 권한에 맞게 교환
 
 #### 한줄 요약
 

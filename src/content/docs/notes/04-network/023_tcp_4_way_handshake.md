@@ -121,18 +121,18 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정상·동시 종료**: 한쪽이 먼저 닫는 절차와 양쪽이 거의 동시에 FIN을 보내는 절차이다.
 - **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 각 송신 방향을 독립적으로 종료하는 연결 지향 전송 프로토콜이다.
 - **종료·확인 응답(Finish/Acknowledgment, FIN·ACK)**: 방향별 종료 통지와 그 수신 확인에 사용하는 플래그이다.
+- **능동·수동 종료(Active/Passive Close)**: 먼저 FIN을 보낸 종단과 상대 FIN을 먼저 받은 종단의 종료 역할이다.
+- **TIME_WAIT·CLOSE_WAIT**: 능동 측이 지연 세그먼트를 정리하는 상태와 수동 측이 응용의 소켓 종료를 기다리는 상태이다.
 </details>
 
-| TCP 종료 역할 | 능동 종료 측 | 수동 종료 측 |
+| 종료 역할 | 핵심 상태 전이 | 운영 위험 |
 |:---|:---|:---|
-| 적용 기준 | 연결 종료를 **먼저 요청한 종단** | 종료 요청을 **먼저 받은 종단** |
-| 핵심 특징 | 선행 FIN 후 **TIME_WAIT 담당** | 상대 FIN 확인 후 **응용 종료 대기** |
-| 한계 | TIME_WAIT·**임시 포트 누적** | CLOSE_WAIT·**소켓 자원 누적** |
+| **능동 종료 측** | **종료(Finish, FIN) 송신·TIME_WAIT 진입** | 임시 포트·TIME_WAIT 누적 |
+| **수동 종료 측** | **FIN 수신·응용 종료 대기** | CLOSE_WAIT·소켓 자원 누적 |
 
-> 요약: CLOSE_WAIT은 응용의 소켓 종료 지연
+> 요약: 능동 종료 측은 TIME_WAIT, 수동 종료 측은 응용 종료 지연을 관리
 
 #### 한줄 요약
 
