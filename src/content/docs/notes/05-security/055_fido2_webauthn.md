@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "FIDO2·WebAuthn (FIDO2 WebAuthn)"
-date: "2026-07-31T11:31:09+09:00"
+date: "2026-08-02T11:48:00+09:00"
 tags:
   - "notes-security"
 weight: 55
@@ -18,28 +18,13 @@ extra:
   priority_note: "138회 최신 기출이며 피싱저항 인증의 핵심 표준임"
 ---
 
-## 미리 알고가기
-
-- **온라인 신속 신원 확인 2(Fast IDentity Online 2, FIDO2)**: WebAuthn과 CTAP2를 결합하여 비밀번호 없는 공개키 인증을 제공하는 표준이다.
-- **웹 인증(Web Authentication, WebAuthn)**: 브라우저와 서버가 공개키 자격 증명을 생성·사용하도록 정의한 웹 인증 표준이다.
-- **인증자 연결 프로토콜 2(Client to Authenticator Protocol 2, CTAP2)**: 클라이언트와 외부 인증자 사이의 인증 요청·응답을 정의한 통신 규격이다.
-- **신뢰 당사자(Relying Party, RP)**: 공개키 서명을 검증하고 인증 결과에 따라 서비스를 제공하는 서버이다.
-- **신뢰 당사자 식별자(Relying Party Identifier, RP ID)**: 공개키 자격 증명을 사용할 수 있는 서비스 도메인 범위를 지정하는 식별자이다.
-- **원본(Origin)**: 프로토콜·호스트·포트의 조합으로 구분한 웹 요청의 출처이다.
-- **인증자(Authenticator)**: 개인키를 안전하게 보관하고 사용자 승인 후 인증 서명을 생성하는 장치나 기능이다.
-- **자격 증명 ID(Credential ID)**: 서버가 등록된 공개키 자격 증명을 찾는 식별자이다.
-- **도전값(Challenge)**: 서버가 인증마다 생성하여 재전송 공격을 막는 예측 불가능한 일회성 값이다.
-- **사용자 존재(User Presence)**: 사용자가 인증자 조작에 참여했음을 확인하는 조건이다.
-- **사용자 검증(User Verification)**: PIN이나 생체 정보로 실제 사용자를 인증자 내부에서 확인하는 조건이다.
-- **사이트 간 스크립팅(Cross-Site Scripting, XSS)**: 신뢰할 수 있는 웹 원본에서 공격자의 스크립트가 실행되는 취약점이다.
-- **재전송 공격(Replay Attack)**: 이전의 정상 인증 응답을 다시 전송하여 인증을 우회하는 공격이다.
-- **W3C WebAuthn Level 2**: 웹 공개키 자격 증명의 생성·사용을 정의한 W3C 권고 표준이다.
-- **FIDO CTAP 2.2**: 플랫폼과 외부 인증자 간 USB·NFC·BLE 통신을 정의한 FIDO 표준이다.
-
-
-> **키워드:** FIDO2·WebAuthn (FIDO2 WebAuthn)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **FIDO2**는 WebAuthn과 CTAP2를 결합해 비밀번호 없는 공개키 인증을 제공하는 표준이다.
+
+</details>
 
 - 정의/개념: WebAuthn·CTAP 기반 **RP 결속 공개키 인증**
 - 배경/필요성: 공유 비밀의 **피싱·재사용·서버 유출**
@@ -50,6 +35,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **RP ID·원본**은 자격 증명을 특정 서비스 도메인과 웹 출처에 결속한다.
+- **도전값·사용자 검증**은 재전송과 무단 개인키 사용을 차단한다.
+
+</details>
+
 - **인증자 개인키 비노출·서비스별 공개키**를 통한 서버 비밀 유출 축소
 - **RP ID·원본 결속**을 통한 피싱 사이트의 서명 요청 거부
 - **도전값·사용자 존재·사용자 검증**을 통한 재전송·무단 사용 차단
@@ -59,6 +51,12 @@ extra:
 - 인증기는 현재 사이트의 새 도전값에만 서명하며 서버에는 재사용 가능한 개인키를 저장하지 않는다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **RP 서버**는 공개키 서명을 검증하고, **인증자**는 개인키를 보호해 사용자 승인 후 서명한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -89,6 +87,12 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details><summary>핵심 용어</summary>
+
+- **자격 증명 ID**는 서버가 등록 공개키를 찾는 식별자다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant R as RP 서버
@@ -114,6 +118,12 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **WebAuthn**은 브라우저·서버 연동, **CTAP2**는 클라이언트·외부 인증자 통신을 정의한다.
+
+</details>
+
 | FIDO2 구성 역할 | FIDO2 | WebAuthn | CTAP2 |
 |:---|:---|:---|:---|
 | 적용 기준 | **비밀번호 없는 인증** 설계 | **브라우저·서버 연동** | **보안키·휴대전화 연동** |
@@ -126,7 +136,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **W3C WebAuthn Level 2·FIDO CTAP 2.2**는 웹 자격 증명과 외부 인증자 통신의 상호운용 규격이다.
+- **XSS**는 신뢰 원본 안에서 인증 요청을 조작할 수 있어 별도 방어가 필요하다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | RP·원본·도전값 검증이 다르면 인증 우회·실패 | **W3C WebAuthn Level 2** 준수 | 웹 자격 증명의 **상호운용성** 확보 |
 | 외부 인증자 통신 차이로 기기 연동 실패 | **FIDO CTAP 2.2** 적용 | 보안키·휴대전화의 **연동 호환성** 확보 |
@@ -138,6 +155,12 @@ sequenceDiagram
 - 서버는 일회성 도전값과 서비스의 원본·RP ID에 대한 인증자 서명을 검증해 피싱 사이트나 재사용 응답의 로그인을 거부한다.
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **인증자 수명 관리**는 추가 등록·분실·복구·폐기 경로를 강한 신원 확인으로 보호한다.
+
+</details>
 
 - 피싱 저항이 필요한 서비스는 **FIDO2**, 등록·복구는 강한 신원 확인과 복수 인증자 적용
 
