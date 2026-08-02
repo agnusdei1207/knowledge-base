@@ -100,16 +100,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 데이터 소유자
+    participant O as 데이터 소유·결과 복호화
     participant K as 키·매개변수 관리자
     participant E as 인코더·암호화기
     participant C as 암호문 평가기
-    participant D as 결과 복호화기
     O->>K: 연산 함수·보호 목표 전달
     K->>E: 1. 키·암호 매개변수 전달
     E->>C: 2. 입력 암호문 전달
-    C->>D: 3. 결과 암호문 전달
-    D-->>O: 복호화 결과·오차
+    C->>O: 3. 결과 암호문 전달
+    O->>O: 복호화 결과·오차 확인
 ```
 
 1. **키·암호 매개변수 전달**: 곱셈 깊이·정확도에 맞는 **평가 키** 제공

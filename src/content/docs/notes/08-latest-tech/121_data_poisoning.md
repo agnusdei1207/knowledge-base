@@ -104,15 +104,14 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant A as 기여자 권한 관리기
-  participant L as 데이터 계보 저장소
+  participant L as 계보·버전 저장소
   participant Q as 격리 데이터셋
-  participant V as 버전 저장소
   participant E as 기준 평가기
   A->>L: 1. 승인 기여·수정 이력
   L->>Q: 2. 출처 검증 신규 표본
-  Q->>V: 3. 격리 검토 데이터 버전
-  V->>E: 4. 후보 모델·평가 기준
-  E-->>V: 5. 정상·표적·백도어 승격 판정
+  Q->>L: 3. 격리 검토 데이터 버전
+  L->>E: 4. 후보 모델·평가 기준
+  E-->>L: 5. 정상·표적·백도어 승격 판정
 ```
 
 1. **승인 기여·수정 이력**: 데이터 변경 주체와 허용 범위 연결

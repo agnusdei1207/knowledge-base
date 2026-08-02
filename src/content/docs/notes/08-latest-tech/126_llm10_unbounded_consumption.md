@@ -103,14 +103,13 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant G as 자원 게이트웨이
+  participant G as 자원 게이트·입장 제어기
   participant L as 예산 원장
-  participant A as 입장 제어기
   participant P as 격리 실행 풀
   participant M as 실행 감시기
   G->>L: 1. 주체·모델·최대 소비량
-  L->>A: 2. 예약 가능 예산
-  A->>P: 3. 승인 요청·실행 상한
+  L->>G: 2. 예약 가능 예산
+  G->>P: 3. 승인 요청·실행 상한
   P->>M: 4. 토큰·시간·도구 사용량
   M-->>L: 5. 중단 상태·실제 소비 정산
 ```

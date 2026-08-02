@@ -103,16 +103,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant O as 서비스 소유자
+  participant O as 서비스·위험 책임자
   participant A as 자산 관리기
   participant M as 위험 매핑기
   participant T as 통제 검증기
-  participant R as 위험 책임자
   O->>A: 1. 모델·데이터·검색·도구 범위
   A->>M: 2. 보호 자산·비신뢰 입력 경로
   M->>T: 3. 공격 시나리오·LLM 위험 항목
-  T->>R: 4. 통제 시험·잔여 위험
-  R-->>O: 5. 보완 우선순위·재검증 조건
+  T->>O: 4. 통제 시험·잔여 위험
+  O->>O: 5. 보완 우선순위·재검증 조건
 ```
 
 1. **모델·데이터·검색·도구 범위**: LLM 응용의 평가 경계 확정

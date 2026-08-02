@@ -107,13 +107,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant T as 위협 모델 저장소
-  participant O as 목적함수
+  participant T as 위협 모델·목적함수
   participant A as 공격 알고리즘
   participant C as 교란 제약기
   participant E as 강건성 평가기
   T->>A: 1. 공격 지식·예산
-  O->>A: 2. 오분류 손실 방향
+  T->>A: 2. 오분류 손실 방향
   A->>C: 3. 교란 후보
   C->>E: 4. 허용 범위 투영 입력
   E-->>A: 5. 공격 성공·강건 정확도

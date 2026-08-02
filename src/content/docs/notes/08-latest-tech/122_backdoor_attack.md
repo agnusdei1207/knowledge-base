@@ -103,13 +103,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant T as 트리거 생성기
-  participant G as 표적 행동 정의부
+  participant T as 트리거·표적 행동 정의부
   participant C as 주입 채널
   participant M as 손상 모델
   participant E as 이중 평가기
   T->>C: 1. 트리거 패턴
-  G->>C: 2. 표적 행동 규칙
+  T->>C: 2. 표적 행동 규칙
   C->>M: 3. 트리거·행동 연관성
   M->>E: 4. 정상·트리거 출력
   E-->>M: 5. 정상 정확도·변형별 ASR
