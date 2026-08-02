@@ -18,25 +18,14 @@ extra:
   priority_note: "STRIDE 기반 설계 위협도출은 독립 방법론 가치가 큼"
 ---
 
-## 미리 알고가기
-
-- **위협 모델링(Threat Modeling)**: 시스템·공격·대응을 구조화해 설계 단계의 보안 결정을 지원하는 활동이다.
-- **데이터 흐름도(Data Flow Diagram, DFD)**: 외부 주체·프로세스·저장소·흐름·신뢰 경계를 표현한 도식이다.
-- **STRIDE**: Spoofing·Tampering·Repudiation·Information Disclosure·Denial of Service·Elevation of Privilege의 머리글자이다.
-- **신원 위조(Spoofing)**: 타인·장치·서비스의 신원을 가장하는 위협이다.
-- **변조(Tampering)**: 데이터·코드·메시지를 비인가 변경하는 위협이다.
-- **부인(Repudiation)**: 행위자가 작업 사실을 부인해 책임 추적이 어려워지는 위협이다.
-- **정보 노출(Information Disclosure)**: 권한 없는 주체에게 민감정보가 공개되는 위협이다.
-- **서비스 거부(Denial of Service, DoS)**: 자원 고갈·통신 차단으로 가용성을 낮추는 위협이다.
-- **권한 상승(Elevation of Privilege)**: 낮은 권한 주체가 허용되지 않은 높은 권한을 얻는 위협이다.
-- **DREAD**: Damage·Reproducibility·Exploitability·Affected Users·Discoverability의 주관적 점수화 기법이다.
-- **Microsoft SDL STRIDE**: DFD 요소별 여섯 위협 범주를 질문하는 Microsoft 보안 설계 방법이다.
-- **OWASP Threat Modeling Project**: 범위·위협·대응·충분성의 네 질문을 제시하는 유지보수 지침이다.
-- **MITRE CAPEC**: 공격 패턴·사전조건·실행·완화 정보를 구조화한 공개 지식기반이다.
-
-> **키워드:** 위협 모델링 — STRIDE·DREAD (Threat Modeling STRIDE)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **위협 모델링**: 시스템·공격·대응을 구조화해 설계 단계의 보안 결정을 지원하는 활동이다.
+
+</details>
 
 - 정의/개념: 설계 흐름에서 **공격 시나리오·영향·대응**을 도출하는 활동
 - 배경/필요성: 구현 후 발견 시 경계·권한 구조의 **재설계 비용 증가**
@@ -47,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **STRIDE**: 신원 위조·변조·부인·정보 노출·서비스 거부·권한 상승의 여섯 위협 범주이다.
+
+</details>
+
 - 범위·자산·가정·경계의 **공통 분석 기준**
 - STRIDE 기반 **설계 요소별 위협 누락 점검**
 - 위협과 요구·통제·시험·운영 간 **양방향 추적**
@@ -56,6 +52,13 @@ extra:
 - STRIDE 이름을 체크하지 말고 공격자·사전조건·경로·영향이 있는 시나리오로 작성함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **DFD·신뢰 경계**: 외부 주체·프로세스·저장소·정보 흐름과 정책·권한이 바뀌는 경계를 표현한 도식이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -82,6 +85,13 @@ block-beta
 - 그림만 남기지 않고 각 위협을 누가 고치고 무엇으로 확인할지 연결함
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **잔여위험**: 통제를 적용한 뒤에도 남아 위험 책임자가 근거를 검토·승인해야 하는 위험이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -112,6 +122,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **DREAD·공격 트리**: 다섯 축으로 위험 순위를 참고하는 기법과 공격 목표를 조건·경로로 분해하는 기법이다.
+
+</details>
+
 | 위협 분석 기법 | STRIDE | DREAD | 공격 트리 |
 |:---|:---|:---|:---|
 | **적용 기준** | DFD별 **위협 누락 감소** | 팀 내 **우선순위 참고** | 다중 **경로·전제조건 분석** |
@@ -126,7 +143,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **Microsoft SDL STRIDE·OWASP Threat Modeling**: 설계 요소별 위협 범주와 범위·위협·대응·충분성 질문을 제공한다.
+- **MITRE CAPEC**: 공격 패턴·사전조건·실행·완화 정보를 구조화한 공개 지식기반이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **설계 요소별 위협 식별** | **Microsoft SDL STRIDE 적용** | 신원·무결성·가용성 **누락 감소** |
 | **반복 가능한 모델링 과정** | **OWASP Threat Modeling 4문항 적용** | 범위·대응·**충분성 점검** |
@@ -137,6 +162,13 @@ sequenceDiagram
 - 결제 API의 DFD와 신뢰 경계를 작성하고 STRIDE 위협을 인증·무결성·감사·가용성 시험까지 추적한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **위협 추적성**: 공격 시나리오를 보안 요구·통제·시험·운영 결과와 양방향으로 연결하는 성질이다.
+
+</details>
 
 - 고영향 경계 위협은 **회피·완화**, 통제 후 잔여위험만 **승인**
 
