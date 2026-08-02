@@ -105,14 +105,13 @@ block
 ```mermaid
 sequenceDiagram
     participant M as 계량기
-    participant C as 수집기
-    participant V as 검증기
+    participant C as 수집·검증기
     participant A as 분석기
     participant O as 운영자
 
     M->>C: 1. 경계별 에너지 값
-    C->>V: 2. 계량 자료
-    V->>A: 3. 유효 자료 전달
+    C->>C: 2. 계량 자료 검증
+    C->>A: 3. 유효 자료 전달
     A->>O: PUE 추세
 ```
 

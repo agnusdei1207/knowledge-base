@@ -99,13 +99,11 @@ block
 sequenceDiagram
     participant D as IRQ 원천
     participant C as 인터럽트 제어기
-    participant P as CPU
-    participant V as 벡터·체인 식별 경로
+    participant P as CPU·벡터 식별 경로
     participant I as ISR
     D->>C: IRQ
     C->>P: 1. 중재된 IRQ
-    P->>V: 2. 벡터 번호
-    V-->>P: ISR 주소 반환
+    P->>P: 2. 벡터 번호로 ISR 주소 조회
     P->>I: ISR 진입
     I->>D: 3. 원인 해제 요청
     I->>C: EOI 전달

@@ -101,14 +101,12 @@ block
 ```mermaid
 sequenceDiagram
     participant H as 호스트
-    participant C as RAID 컨트롤러
-    participant M as 스트라이프 매퍼
+    participant C as RAID 컨트롤러·스트라이프 매퍼
     participant D as 데이터 멤버
     participant P as 패리티 멤버
 
     H->>C: 부분 스트라이프 쓰기
-    C->>M: 1. 멤버 위치 결정
-    M-->>C: 위치 정보 반환
+    C->>C: 1. 멤버 위치 결정
     par 기존 데이터 읽기
         C->>D: 2. 기존 값 조회
         D-->>C: 기존 데이터 반환

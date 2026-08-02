@@ -106,17 +106,16 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant M as 측정기
     participant S as 송신 인터페이스
     participant P as 프로토콜 계층
     participant L as 버스·링크
     participant R as 수신 인터페이스
 
-    M->>S: 전송 조건
+    S->>S: 전송 조건 적용
     S->>P: 1. 페이로드 프레임
     P->>L: 2. 인코딩 비트열
     L->>R: 3. 전송 완료 데이터
-    R-->>M: 완료 바이트·경과시간
+    R-->>S: 완료 바이트·경과시간 반환
 ```
 
 **단방향 이론 대역폭 산식**

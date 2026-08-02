@@ -99,13 +99,12 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant A as AI 애플리케이션·컴파일러
     participant R as 런타임
     participant H as 호스트 CPU
     participant X as 선택 가속기
     participant M as 인터커넥트·가속기 메모리
 
-    A->>R: 1. 실행 계획•입력
+    R->>R: 1. 컴파일된 실행 계획•입력 적재
     R->>H: 2. 전처리•동적 분기
     loop 실행 계획의 서브그래프
         alt 가속기 지원 연산
@@ -117,7 +116,7 @@ sequenceDiagram
             H-->>R: 호스트 결과 반환
         end
     end
-    R-->>A: 최종 결과
+    R->>R: 최종 결과 확정
 ```
 
 **동작 원리**

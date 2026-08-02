@@ -99,13 +99,12 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant R as 작업 등록기
-    participant S as 실시간 스케줄러
+    participant S as 작업 등록·실시간 스케줄러
     participant T as 실행 태스크
     participant D as 마감시간 감시기
     participant P as 미스 대응 정책
 
-    R->>S: 1. 태스크·데드라인 정보
+    S->>S: 1. 태스크·데드라인 등록
     S->>T: 2. 실행 자원·판정 기준
     T->>D: 3. 완료 시각·실행 결과
     D->>P: 4. 데드라인 미스 유형

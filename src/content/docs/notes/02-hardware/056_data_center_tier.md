@@ -88,20 +88,19 @@ extra:
 
 ```mermaid
 sequenceDiagram
-    participant O as 시설 운영자
     participant C as 시설 제어기
     participant A as 전력·냉각 경로 A
     participant B as 전력·냉각 경로 B
     participant L as 핵심 부하
 
-    O->>C: 정비 시나리오 전달
+    C->>C: 정비 시나리오 적용
     C->>B: 1. 대체 경로 공급 명령
     B->>L: 핵심 부하 연속 공급
     C->>A: 2. 경로 격리 명령
-    O->>A: 3. 정비·복구 명령
+    C->>A: 3. 정비·복구 명령
     A-->>C: 정상 복구 상태 전달
     C->>A: 4. 경로 복귀 명령
-    C-->>O: 시험 결과 반환
+    C->>C: 시험 결과 기록
 ```
 
 **동작 원리**

@@ -105,7 +105,6 @@ sequenceDiagram
     participant M as 토큰 매칭 저장소
     participant S as 준비 노드 스케줄러
     participant E as 실행 유닛
-    participant O as 출력 계층
 
     G->>M: 입력 토큰 전달
     loop 실행 가능 노드가 남는 동안
@@ -113,7 +112,7 @@ sequenceDiagram
         S->>E: 2. 준비 연산 발행
         E->>M: 3. 결과 토큰 반환
     end
-    E->>O: 최종 결과 전달
+    E->>G: 최종 결과 전달
 ```
 
 **동작 원리**
