@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 위험 **식별·분석·평가**로 처리 순위 결정
+- 정의/개념: **정보보호 위험평가**는 위험을 식별·분석·평가하여 처리 우선순위를 결정하는 활동
 - 배경/필요성: 자산·취약점 목록만으로는 업무 손실 기반 **보호 우선순위 산정 곤란**
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **ISO/IEC 27005:2022·IEC 31010:2019**: 정보보안 위험의 평가·처리·소통·감시 절차와 상황별 평가 기법 선택 지침을 각각 제공한다.
-- **ALE = SLE × ARO**: 한 번의 예상 손실액과 연간 예상 발생 빈도를 곱해 위험의 연간 기대 손실을 추정하는 정량식이다.
+- **ALE(Annual Loss Expectancy) = SLE(Single Loss Expectancy) × ARO(Annualized Rate of Occurrence)**: 한 번의 예상 손실액과 연간 예상 발생 빈도를 곱해 연간 기대 손실을 추정하는 정량식이다.
 
 </details>
 
