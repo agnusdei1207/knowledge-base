@@ -142,8 +142,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **보호법 제35조의2·RFC 9700**: 법정 전송 대상과 수신자 요건을 확인하고 OAuth 토큰의 탈취·재사용·과권한을 방어한다.
-- **OpenID FAPI 2.0**: 고보안 기관 API에서 OAuth 기반 인가·송신자 결속·요청 무결성의 상호운용 요구사항을 규정한다.
+- **보호법 제35조의2·RFC 9700**: 법정 전송 대상과 수신자 요건을 확인하고 OAuth(Open Authorization) 토큰의 탈취·재사용·과권한을 방어한다.
+- **OpenID FAPI(Financial-grade API) 2.0**: 고보안 기관 API에서 OAuth 기반 인가·송신자 결속·요청 무결성의 상호운용 요구사항을 규정한다.
 
 </details>
 
