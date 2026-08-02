@@ -143,7 +143,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST AI 100-4·C2PA 2.4**: 합성 탐지·워터마킹·출처 기술의 한계를 구분하고 서명된 생성·편집 이력을 검증한다.
+- **NIST AI 100-4·C2PA(Coalition for Content Provenance and Authenticity) 2.4**: 합성 탐지·워터마킹·출처 기술의 한계를 구분하고 서명된 생성·편집 이력을 검증한다.
 - **ISO/IEC 30107-3:2023**: 얼굴·음성 등 생체 제시 공격 탐지의 성능 시험과 보고 방법을 규정한 국제표준이다.
 
 </details>
