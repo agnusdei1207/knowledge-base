@@ -94,12 +94,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant A as 응용 체계
-  participant P as 매개변수 체계
+    participant P as 응용·매개변수 체계
   participant R as 증명자
   participant V as 검증자
   participant D as 정책 판단
-  A->>P: 1. 명제·관계 회로 정의
+    P->>P: 1. 명제·관계 회로 정의
   P->>R: 2. 증명 매개변수 제공
   R->>V: proof·공개 명제 제출
   V->>P: 3. 검증 매개변수 조회

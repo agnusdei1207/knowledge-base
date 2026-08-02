@@ -94,20 +94,19 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant R as 권리 설계
+    participant R as 권리 설계·운영 체계
   participant C as 스마트 계약
   participant M as 메타데이터
   participant W as 지갑
-  participant O as 운영 체계
   R->>C: 1. 권리·이전 규칙 정의
-  O->>C: 토큰 발행 요청
+    R->>C: 토큰 발행 요청
   C->>M: 2. 토큰 ID·메타데이터 연결
-  M-->>O: 원본 해시·보존 상태 반환
+    M-->>R: 원본 해시·보존 상태 반환
   C->>W: 3. 토큰 발행·소유 상태 기록
   W->>C: 소유 상태 이전 요청
   C->>C: 4. 이전·소각 상태 갱신
-  C-->>O: 상태 갱신 결과 반환
-  O-->>W: 거래·생애주기 결과 반환
+    C-->>R: 상태 갱신 결과 반환
+    R-->>W: 거래·생애주기 결과 반환
 ```
 
 **동작 원리**

@@ -102,13 +102,12 @@ block-beta
 sequenceDiagram
   participant O as 운영 조직
   participant M as 에너지 계측
-  participant C as 계산 체계
-  participant A as 손실 분석
+    participant C as PUE 계산·손실 분석
   participant V as 검증 체계
   O->>M: 1. 측정 경계·기간 전달
   M->>C: 2. 총·IT 에너지 전달
-  C->>A: 3. PUE·부하 정보 전달
-  A->>V: 4. 오버헤드 개선안 전달
+    C->>C: 3. PUE·부하 손실 분석
+    C->>V: 4. 오버헤드 개선안 전달
   V->>O: 5. 재측정 결과 전달
 ```
 
@@ -116,7 +115,7 @@ sequenceDiagram
 
 1. **측정 경계·기간 전달**: 시설·IT의 **계측 위치·기간** 제공
 2. **총·IT 에너지 전달**: 같은 기간의 **두 에너지 값** 제공
-3. **PUE·부하 정보 전달**: 산정 PUE와 **IT 부하·기후** 제공
+3. **PUE·부하 손실 분석**: 산정 PUE와 **IT 부하·기후**를 대조해 손실 원인 판정
 4. **오버헤드 개선안 전달**: 냉각·배전 손실의 **개선 조건** 제공
 5. **재측정 결과 전달**: 동일 조건의 PUE와 **총전력·SLO** 제공
 
