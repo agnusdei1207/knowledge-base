@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "프로세스 스케줄링 알고리즘: FCFS·SJF·RR·MLFQ·CFS (Process Scheduling)"
-date: "2026-07-31T10:23:03+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags: [notes-software]
 weight: 4
 extra:
@@ -17,37 +17,15 @@ extra:
   priority_note: "4회 반복, 스케줄링 기준·알고리즘 핵심"
 ---
 
-## 미리 알고가기
-
-- **프로세스 스케줄링(Process Scheduling)**: CPU를 줄 프로세스와 실행 시간을 정하는 일
-- **선점형(Preemptive Scheduling)**: 실행 중인 프로세스의 CPU를 회수하는 방식
-- **중앙처리장치(Central Processing Unit, CPU) 버스트**: 프로세스가 입출력 없이 CPU를 연속 사용하는 시간
-- **시간 할당량(Time Quantum)**: 선점 전 허용하는 연속 CPU 사용 시간
-- **응답시간(Response Time)**: 도착부터 첫 CPU 할당까지의 시간
-- **문맥 전환(Context Switch)**: 실행 상태를 저장하고 다음 상태를 복원하는 작업
-- **기아(Starvation)**: 실행 기회를 계속 얻지 못하는 상태
-- **호위 효과(Convoy Effect)**: 짧은 작업이 긴 작업 뒤에서 지연되는 현상
-- **선입 선처리(First-Come, First-Served, FCFS)**: 도착 순서로 프로세스를 선택하는 스케줄링 방식
-- **최단 작업 우선(Shortest Job First, SJF)**: 예상 CPU 버스트가 가장 짧은 작업을 먼저 선택하는 스케줄링 방식
-- **라운드 로빈(Round Robin, RR)**: 시간 할당량마다 작업을 순환하며 선점하는 스케줄링 방식
-- **멀티레벨 피드백 큐(Multilevel Feedback Queue, MLFQ)**: CPU 사용 이력에 따라 프로세스의 우선순위를 조정하는 스케줄링 방식
-- **완전 공정 스케줄러(Completely Fair Scheduler, CFS)**: 가중 가상 실행시간이 가장 작은 작업을 선택하는 스케줄러
-- **운영체제(Operating System, OS)**: 프로세스·메모리·장치와 CPU 실행 순서를 관리하는 시스템 소프트웨어
-- **처리량(Throughput)**: 단위 시간에 완료한 작업 수로서 응답시간·공정성과 함께 스케줄링 정책의 상충을 판단하는 지표
-- **공정성(Fairness)**: 경쟁하는 프로세스가 우선순위·가중치에 따른 CPU 몫을 지속적으로 받는 성질
-- **준비 큐(Ready Queue)**: CPU를 기다리는 실행 가능 프로세스를 스케줄링 정책의 순서로 보관하는 대기열
-- **디스패처·타이머(Dispatcher·Timer)**: 디스패처는 선택한 프로세스의 문맥을 복원하고 타이머는 실행량을 재어 할당량 만료 시 선점을 알린다.
-- **가상 실행시간(Virtual Runtime)**: 실제 CPU 사용시간을 프로세스 가중치로 보정한 값으로서 CFS가 가장 적은 작업을 선택해 CPU 몫을 배분하는 기준
-- **배치·대화형 시분할(Batch·Interactive Time-sharing)**: 배치는 응답보다 묶음 처리량을, 대화형 시분할은 여러 사용자의 빠른 반응을 우선하는 작업 환경
-- **실시간 작업(Real-time Task)**: 정해진 기한 안에 실행을 마쳐야 결과가 유효한 작업
-- **꼬리 응답시간(Tail Response Time)**: 응답시간 분포의 상위 백분위에 해당하는 느린 요청 시간
-- **백분위(Percentile)**: 측정값을 작은 순서로 놓았을 때 특정 비율이 그 이하인 경계값
-- **에이징(Aging)**: 오래 기다린 작업의 우선순위를 점차 높여 기아를 막는 기법
-- **서비스 수준(Service Level)**: 응답시간·처리량·가용성 등 서비스가 지켜야 할 품질 목표
-
-> **키워드:** 프로세스 스케줄링 알고리즘: FCFS·SJF·RR·MLFQ·CFS (Process Scheduling)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **프로세스 스케줄링(Process Scheduling)**: CPU를 줄 프로세스와 실행 시간을 정하는 운영체제 정책
+- **응답시간·처리량·공정성**: 첫 실행까지의 시간, 단위 시간 완료 수, CPU 몫의 지속적 배분을 나타내는 상충 지표
+
+</details>
 
 - 정의/개념: 준비 큐에서 실행 대상과 CPU 사용시간을 정하는 **스케줄링 정책**
 - 배경/필요성: 단일 기준으로는 **응답시간·처리량·공정성** 동시 최적화 불가
@@ -58,6 +36,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **시간 할당량(Time Quantum)**: 선점 전 허용하는 연속 CPU 사용 시간
+- **CPU 버스트**: 프로세스가 입출력 없이 CPU를 연속 사용하는 시간
+- **기아(Starvation)**: 준비된 작업이 실행 기회를 계속 얻지 못하는 상태
+
+</details>
+
 - **선점 시점·실행 순서**에 따라 응답시간·처리량 변동
 - **시간 할당량 감소** 시 응답 지연 감소·문맥 전환 비용 증가
 - **버스트 예측 오차·고정 우선순위**로 공정성 저하·기아 발생
@@ -67,6 +54,14 @@ extra:
 - 교대 시간을 짧게 하면 첫 반응은 빨라지지만, 작업을 바꾸느라 쓰는 시간이 늘어난다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **준비 큐(Ready Queue)**: CPU를 기다리는 실행 가능 프로세스를 정책 순서로 보관하는 대기열
+- **디스패처·타이머(Dispatcher·Timer)**: 디스패처는 CPU 제어권을 넘기고 타이머는 할당량 만료를 알린다.
+
+</details>
 
 ```mermaid
 block
@@ -99,6 +94,14 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **선점(Preemption)**: 실행 중인 프로세스에서 CPU를 회수해 다른 프로세스에 배분하는 동작
+- **문맥 전환(Context Switch)**: 현재 실행 상태를 저장하고 다음 실행 상태를 복원하는 작업
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant Q as 준비 큐
@@ -127,6 +130,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **FCFS·SJF·RR·MLFQ·CFS**: 도착 순서, 최단 버스트, 시간 순환, 실행 이력, 가상 실행시간을 각각 선택 기준으로 삼는 스케줄링 방식
+- **호위 효과(Convoy Effect)**: 짧은 작업이 긴 작업 뒤에서 함께 지연되는 현상
+- **가상 실행시간(Virtual Runtime)**: 실제 CPU 사용시간을 가중치로 보정해 CFS가 CPU 몫을 배분하는 기준
+
+</details>
+
 | 스케줄링 알고리즘 | FCFS | SJF | RR | MLFQ | CFS |
 |:---|:---|:---|:---|:---|:---|
 | 적용 기준 | 도착 순서를 보장하는 **배치 작업** | 버스트 예측이 가능한 **배치 작업** | 빠른 응답이 필요한 **대화형 작업** | 대화형·CPU 중심의 **혼합 부하** | 사용자별 CPU 몫의 **공정 배분** |
@@ -141,6 +153,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
+<details>
+<summary>핵심 용어</summary>
+
+- **꼬리 응답시간(Tail Response Time)**: 응답시간 분포의 상위 백분위에 해당하는 느린 요청 시간
+- **에이징(Aging)**: 오래 기다린 작업의 우선순위를 점차 높여 기아를 막는 기법
+- **작업 클래스**: 응답·처리량·기한 목표가 다른 배치·대화형·실시간 작업의 분류
+
+</details>
+
 | 고려사항 | 대책 | 효과 |
 |:---|:---|:---|
 | 평균 처리량만 최적화해 **꼬리 응답시간 악화** | 응답·대기·처리량의 **백분위 공동 관리** | **응답시간·처리량 목표** 간 균형 |
@@ -153,6 +174,13 @@ sequenceDiagram
 - 여러 서비스가 CPU를 함께 쓸 때 가중치로 각자의 사용 몫을 나눈다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **버스트 예측·응답·CPU 몫**: SJF, RR·MLFQ, CFS 중 정책 선택을 가르는 세 기준
+
+</details>
 
 - 버스트 예측은 SJF, 빠른 응답은 **RR·MLFQ**, CPU 몫은 **CFS** 선택
 
