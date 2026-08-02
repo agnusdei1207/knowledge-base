@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **LLMOps**: 프롬프트·RAG·모델·도구·평가·배포를 버전과 실행 추적으로 연결하는 운영체계이다.
+- **거대 언어 모델 운영(Large Language Model Operations, LLMOps)**: 프롬프트·검색 증강 생성·모델·도구·평가·배포를 버전과 실행 추적으로 연결하는 운영체계이다.
 - **실행 구성**: 한 응답을 만드는 프롬프트·모델·검색 색인·도구와 매개변수의 결합이다.
 
 </details>
 
-- 정의/개념: **LLMOps**는 프롬프트·RAG·모델·도구·평가·배포를 버전과 실행 추적으로 연결하는 LLM 운영 체계
-- 배경/필요성: MLOps의 **프롬프트·검색·생성 평가** 관리 한계
+- 정의/개념: 프롬프트·검색 증강 생성(Retrieval-Augmented Generation, RAG)·모델·도구·평가·배포를 연결하는 **거대 언어 모델 운영(Large Language Model Operations, LLMOps) 체계**
+- 배경/필요성: 기계학습 운영(Machine Learning Operations, MLOps)의 **프롬프트·검색·생성 평가 관리 한계**
 
 #### 한줄 요약
 
@@ -64,6 +64,8 @@ extra:
 - **모델 게이트웨이**: 모델 라우팅·자격증명·토큰 정책과 제공자별 호출을 통제한다.
 
 </details>
+
+검색 증강 생성(Retrieval-Augmented Generation, RAG) 파이프라인의 실행 추적 연결 요소: **구성 레지스트리·평가 하네스·모델 게이트웨이**
 
 ```mermaid
 block-beta
@@ -129,10 +131,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MLOps**: 데이터 기반 예측 모델의 학습·평가·배포·재학습을 자동화하는 운영체계이다.
+- **기계학습 운영(Machine Learning Operations, MLOps)**: 데이터 기반 예측 모델의 학습·평가·배포·재학습을 자동화하는 운영체계이다.
 - **생성 평가**: 정답 일치만이 아니라 근거성·안전성·유용성과 표현 변동을 평가하는 활동이다.
 
 </details>
+
+인공지능(Artificial Intelligence, AI) 운영에서 거대 언어 모델 운영(Large Language Model Operations, LLMOps)은 생성 응답 구성을, 기계학습 운영(Machine Learning Operations, MLOps)은 예측 모델의 학습·배포를 관리한다.
 
 | AI 모델 운영체계 | LLMOps | MLOps |
 |:---|:---|:---|
@@ -157,7 +161,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 구성 일부만 **버전 관리** | 프롬프트·모델·RAG·도구 **결합 버전** 등록 | 응답 구성의 **재현** |
+| 구성 일부만 **버전 관리** | 프롬프트·모델·검색 증강 생성(Retrieval-Augmented Generation, RAG)·도구 **결합 버전 등록** | 응답 구성의 **재현** |
 | **자동 평가 변동성** | 고위험 표본의 **사람 평가** 병행 | 품질 승격의 **오판 감소** |
 | 근거·비용의 **회귀 누락** | 질의·근거·도구·토큰 **실행 추적** | **실패 원인 분리** |
 
@@ -175,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 생성형 응답은 **LLMOps**로 구성·실행을 추적하고 **다축 평가** 통과 조합만 승격
+- 생성형 응답 운영: **거대 언어 모델 운영(Large Language Model Operations, LLMOps)의 구성·실행 추적**, 승격 조건: **다축 평가 통과**
 
 #### 한줄 요약
 

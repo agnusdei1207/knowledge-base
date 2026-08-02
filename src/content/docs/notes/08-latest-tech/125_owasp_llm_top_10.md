@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OWASP LLM Top 10**: LLM 응용의 주요 열 가지 위험과 공격 사례·완화책을 판본별 식별자로 정리한 보안 지침이다.
-- **OWASP**: 공개 애플리케이션 보안 지침과 위험 목록을 제공하는 비영리 재단이다.
+- **오픈 월드와이드 애플리케이션 보안 프로젝트 거대 언어 모델 상위 10대 위험(Open Worldwide Application Security Project Large Language Model Top 10, OWASP LLM Top 10)**: LLM 응용의 주요 열 가지 위험과 공격 사례·완화책을 판본별 식별자로 정리한 보안 지침이다.
+- **오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 공개 애플리케이션 보안 지침과 위험 목록을 제공하는 비영리 재단이다.
 
 </details>
 
-- 정의/개념: LLM 응용의 **10대 위험·공격 예·완화책**을 정리한 보안 지침
-- 배경/필요성: 기존 웹 목록만으로는 **프롬프트·RAG·도구·자원 위험** 분류 곤란
+- 정의/개념: 오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)가 정리한 거대 언어 모델(Large Language Model, LLM) 응용의 **10대 위험·공격 예·완화책 지침**
+- 배경/필요성: 기존 웹 목록만으로는 프롬프트·검색 증강 생성(Retrieval-Augmented Generation, RAG)·도구·자원의 **연쇄 위험 분류 곤란**
 
 #### 한줄 요약
 
@@ -46,7 +46,7 @@ extra:
 
 </details>
 
-- **입력·출력·데이터·모델·도구·자원**의 연쇄 위험 분류
+- 거대 언어 모델(Large Language Model, LLM)의 **입력·출력·데이터·모델·도구·자원 연쇄 위험 분류**
 - 이전 판과 항목 혼용을 막는 **2025판 번호·항목명**
 - 우선순위·통제 공백을 찾는 **위협 모델·실제 공격 검증**
 
@@ -64,6 +64,8 @@ extra:
 - **판단·자원 경계**: 허위정보와 무제한 소비가 의사결정·서비스 용량에 미치는 피해를 통제한다.
 
 </details>
+
+거대 언어 모델(Large Language Model, LLM) 응용의 입력·정보·공급망·검색·자원 경계에 2025판 위험 식별자를 연결한다.
 
 ```mermaid
 block-beta
@@ -101,6 +103,8 @@ block-beta
 
 </details>
 
+오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)의 거대 언어 모델(Large Language Model, LLM) 위험 항목을 시스템 자산과 권한 경계에 매핑한다.
+
 ```mermaid
 sequenceDiagram
   participant O as 서비스·위험 책임자
@@ -133,6 +137,8 @@ sequenceDiagram
 - **2025판**: 애플리케이션·운영 위험을 재분류하고 최신 번호·명칭을 부여한 판본이다.
 
 </details>
+
+오픈 월드와이드 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)의 거대 언어 모델(Large Language Model, LLM) 상위 10대 위험은 판본별 번호와 명칭을 함께 관리한다.
 
 | OWASP LLM Top 10 판본 | 2023/24판 | 2025판 |
 |:---|:---|:---|
@@ -175,7 +181,7 @@ sequenceDiagram
 
 </details>
 
-- **서비스 데이터 흐름·위협 모델**에 2025판 항목을 매핑하고 **실제 통제 시험**으로 우선순위 결정
+- 매핑 대상: **서비스 데이터 흐름·위협 모델**, 판정 방식: **2025판 항목의 실제 통제 시험**
 
 #### 한줄 요약
 
