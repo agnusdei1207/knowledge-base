@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "FPGA AI 가속 (FPGA AI Acceleration)"
-date: "2026-07-31T10:20:00+09:00"
+date: "2026-08-02T10:59:00+09:00"
 tags:
   - "notes-hardware"
 weight: 39
@@ -18,40 +18,15 @@ extra:
   priority_note: "재구성·지연·전력의 가속기 선택"
 ---
 
-## 미리 알고가기
-
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리와 배선을 재구성할 수 있는 반도체
-- **비트스트림(Bitstream)**: FPGA 논리·배선 구성을 담은 설정 파일
-- **룩업 테이블(Look-Up Table, LUT)**: 진리표 기반으로 사용자 정의 조합 논리를 구현하는 FPGA의 기본 블록
-- **플립플롭(Flip-Flop, FF)**: 파이프라인과 상태 값을 저장하는 FPGA의 순차 논리 소자
-- **디지털 신호 처리(Digital Signal Processing, DSP) 슬라이스**: 곱셈·누산 전용 연산 블록
-- **블록 램·울트라램(Block RAM·UltraRAM, BRAM·URAM)**: 가중치·특징맵용 온칩 메모리
-- **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서의 데이터 복사 없이 장치와 메모리 사이에서 직접 전송하는 방식
-- **개시 간격(Initiation Interval, II)**: 파이프라인이 연속된 새 입력을 받아들이는 사이의 클록 간격
-- **타이밍 클로저(Timing Closure)**: 모든 배치·배선 경로가 목표 클록 주기를 만족한 상태
-- **양자화(Quantization)**: 가중치·활성값의 수치 정밀도를 낮추는 변환
-- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 프로그램으로 병렬 연산을 수행하는 프로세서
-- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능으로 고정 제작한 전용 반도체
-- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 분류·예측하며 FPGA가 해당 연산 그래프를 회로로 가속하는 기술
-- **파이프라인(Pipeline)**: 연산을 여러 단계로 나눠 서로 다른 입력을 겹쳐 처리하는 회로 구조
-- **텐서(Tensor)**: 신경망 입력·가중치·활성값을 다차원 배열로 나타낸 데이터
-- **타일(Tile)**: 큰 텐서를 온칩 메모리와 연산기에 맞게 나눈 작은 블록
-- **부분합(Partial Sum)**: 행렬 곱의 일부 곱셈 결과를 누적 중인 중간값
-- **스트림 인터페이스(Stream Interface)**: 주소를 매번 지정하지 않고 순서대로 이어지는 데이터 흐름을 전달하는 연결
-- **합성·배치·배선(Synthesis·Placement·Routing)**: 논리 설명을 회로로 바꾸고 칩 자원 위치와 연결 경로를 정하는 구현 단계
-- **연산 그래프(Computation Graph)**: 모델의 연산자와 텐서 의존 관계를 노드·간선으로 나타낸 구조
-- **추론(Inference)**: 학습된 모델에 새 입력을 넣어 예측 결과를 계산하는 과정
-- **커널(Kernel)**: GPU 같은 가속기에서 여러 코어가 병렬 실행하는 연산 함수
-- **배치 처리량(Batch Throughput)**: 여러 입력을 묶어 처리할 때 단위 시간당 완료하는 입력 수
-- **산업 비전(Industrial Vision)**: 카메라와 영상 모델로 제품의 위치·치수·결함을 자동 판정하는 시스템
-- **구성 제어기(Configuration Controller)**: 비트스트림을 검증·적재해 FPGA의 LUT·배선·메모리·DSP 동작을 설정하는 회로
-- **이중 버퍼(Double Buffering)**: 한 버퍼를 연산하는 동안 다른 버퍼에 다음 데이터를 전송해 계산과 이동을 겹치는 기법
-- **부분 재구성(Partial Reconfiguration)**: FPGA 전체를 멈추지 않고 지정된 일부 영역의 비트스트림만 교체하는 기능
-- **롤백 이미지(Rollback Image)**: 새 비트스트림의 검증·기동에 실패했을 때 되돌아갈 수 있도록 보관한 정상 구성
-
-> **키워드:** FPGA AI 가속 (FPGA AI Acceleration)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리 기능과 내부 배선을 다시 구성할 수 있는 반도체이다.
+- **재구성 회로(Reconfigurable Circuit)**: 설정 데이터를 바꾸어 동일한 하드웨어 자원을 다른 연산 구조로 재편할 수 있는 회로이다.
+- **지연 상한(Latency Bound)**: 입력부터 결과까지 걸리는 시간이 넘지 않아야 하는 최대 허용 한계이다.
+
+</details>
 
 - 정의/개념: AI 연산을 **재구성 회로**에 매핑하는 방식
 - 배경/필요성: 고정 ASIC의 모델 변경과 GPU의 **지연 상한 보장 제약**
@@ -62,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **공간 병렬 파이프라인(Spatial Parallel Pipeline)**: 연산 단계를 물리적으로 나눈 회로에 배치해 여러 입력을 겹쳐 처리하는 구조이다.
+- **개시 간격(Initiation Interval, II)**: 파이프라인이 연속된 새 입력을 받아들이는 사이의 클록 간격이다.
+- **비트스트림(Bitstream)**: FPGA의 논리 기능과 배선 연결 및 메모리 구성을 담은 설정 파일이다.
+- **온칩 메모리 재사용(On-chip Memory Reuse)**: 외부 전송을 반복하지 않도록 데이터를 칩 내부 메모리에 유지하며 여러 연산에 사용하는 방식이다.
+
+</details>
+
 - **공간 병렬 파이프라인·II**로 일정한 지연·처리율 확보
 - **비트스트림 재구성**으로 모델 변경에 회로 재매핑
 - **온칩 메모리 재사용**으로 외부 전송량 절감
@@ -71,6 +55,15 @@ extra:
 - 여러 작업대를 한 줄에 배치해 각 작업이 동시에 다른 제품을 처리한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **룩업 테이블(Look-Up Table, LUT)**: 진리표를 저장하여 사용자 정의 조합 논리를 구현하는 FPGA의 기본 블록이다.
+- **디지털 신호 처리 슬라이스(Digital Signal Processing Slice, DSP Slice)**: 곱셈과 누산 같은 수치 연산을 전용으로 수행하는 FPGA 블록이다.
+- **블록 램·울트라램(Block RAM·UltraRAM, BRAM·URAM)**: 가중치와 특징맵 및 부분합을 저장하는 FPGA의 온칩 메모리 자원이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서가 직접 복사하지 않고 장치와 메모리 사이에서 데이터를 전송하는 방식이다.
+
+</details>
 
 ```mermaid
 block
@@ -97,6 +90,14 @@ block
 - 비트스트림이 전송·버퍼·연산 회로를 구성해 모델별 파이프라인을 만든다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **구성 제어기(Configuration Controller)**: 비트스트림을 검증하고 적재하여 FPGA 자원의 동작을 설정하는 회로이다.
+- **타일(Tile)**: 큰 텐서를 온칩 메모리 용량과 연산기 크기에 맞게 나눈 데이터 블록이다.
+- **이중 버퍼(Double Buffering)**: 한 버퍼로 연산하는 동안 다른 버퍼에 다음 데이터를 전송해 계산과 이동을 겹치는 기법이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -134,6 +135,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 다수의 코어로 대규모 병렬 연산을 수행하는 프로세서이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능과 데이터 경로를 제조 시점에 고정하여 구현한 전용 반도체이다.
+- **배치 처리량(Batch Throughput)**: 여러 입력을 묶어 처리할 때 단위 시간당 완료하는 입력의 수이다.
+
+</details>
+
 | AI 가속기 | FPGA | GPU | ASIC |
 |:---|:---|:---|:---|
 | 적용 기준 | 주기적 변경·**엄격한 지연 상한** | 잦은 변경·**대규모 배치** | 안정된 모델·**대량 생산** |
@@ -148,7 +157,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **타이밍 클로저(Timing Closure)**: 합성·배치·배선 후 모든 신호 경로가 목표 클록 주기를 만족하는 상태이다.
+- **양자화(Quantization)**: 가중치와 활성값의 수치 비트 수를 줄여 연산량과 메모리 사용량을 낮추는 변환이다.
+- **부분 재구성(Partial Reconfiguration)**: FPGA 전체를 정지하지 않고 지정한 일부 영역의 회로 구성만 교체하는 기능이다.
+- **롤백 이미지(Rollback Image)**: 새 비트스트림의 검증이나 기동에 실패했을 때 복구할 수 있도록 보관한 정상 구성이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 배치·배선 경로가 목표 클록을 위반 | **파이프라인 단계** 추가와 제약·최악 경로 검증 | **타이밍 클로저** 확보 |
 | 외부 메모리 대역폭이 연산기를 굶김 | **타일링·이중 버퍼**와 연산·전송 중첩 | **파이프라인 가동률** 향상 |
@@ -162,6 +180,14 @@ sequenceDiagram
 - 산업 비전은 온칩 버퍼와 고정 길이 파이프라인으로 데이터 공급을 유지해 추론 지연 상한을 맞춘다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **모델 변경 주기(Model Change Cycle)**: 배포한 인공지능 모델의 구조나 연산 요구를 갱신하는 시간 간격이다.
+- **엄격한 지연 상한(Strict Latency Bound)**: 최악 조건에서도 응답 시간이 정해진 제한을 초과하지 않아야 하는 요구사항이다.
+- **고정 대량 생산(Fixed High-volume Production)**: 기능 변경이 드물고 동일한 설계를 많은 수량으로 제조하는 생산 조건이다.
+
+</details>
 
 - 주기 변경은 **FPGA**, 잦은 변경은 **GPU**, 고정 대량은 ASIC 선택
 
