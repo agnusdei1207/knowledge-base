@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-07-31T10:24:00+09:00"
+date: "2026-08-02T11:03:00+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -18,33 +18,15 @@ extra:
   priority_note: "반복 기출, 행렬 가속과 다중 칩 확장의 핵심"
 ---
 
-## 미리 알고가기
-
-- **텐서 처리 장치(Tensor Processing Unit, TPU)**: Google이 설계한 신경망 행렬 연산 전용 AI 가속기
-- **가속 선형 대수(Accelerated Linear Algebra, XLA)**: 연산 그래프를 최적화하여 TPU 실행 코드로 변환하는 컴파일러
-- **텐서(Tensor)**: 다차원 수치 배열을 나타내는 데이터 객체
-- **행렬 곱셈 장치(Matrix Multiply Unit, MXU)**: 곱셈·누산 배열로 대규모 행렬 곱을 처리하는 TPU 연산 장치
-- **시스톨릭 배열(Systolic Array)**: 인접 연산기가 값·부분합을 전달하는 배열
-- **벡터 유닛(Vector Unit)**: 행렬 외 벡터·활성화 연산을 처리하는 유닛
-- **고대역폭 메모리(High Bandwidth Memory, HBM)**: TPU 연산 배열에 가중치와 활성값을 공급하는 고대역폭 메모리
-- **칩 간 연결망(Inter-Chip Interconnect, ICI)**: 여러 TPU 칩 사이의 집단 통신을 전달하는 전용 연결망
-- **샤딩(Sharding)**: 모델·데이터를 여러 칩에 나누는 배치 방식
-- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 분류·예측하며 TPU가 신경망 행렬 연산을 가속하는 기술
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 병렬 코어와 커널로 범용 병렬 연산을 처리하는 프로세서
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: 단말에서 신경망 연산을 낮은 전력으로 실행하는 전용 프로세서
-- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 워프의 활성 스레드에 공통 명령을 발행하는 GPU 실행 모델
-- **TPU Pod**: 여러 TPU 칩을 고속 연결망으로 묶어 하나의 대규모 학습 자원처럼 쓰는 시스템
-- **런타임(Runtime)**: 컴파일한 작업을 장치에 제출하고 입출력·상태·오류를 관리하는 실행 소프트웨어
-- **연산 융합·타일링(Operation Fusion·Tiling)**: 연속 연산을 하나로 합쳐 중간 이동을 줄이고 큰 텐서를 장치 자원에 맞는 블록으로 나누는 최적화
-- **집단 통신(Collective Communication)**: 여러 칩이 부분 결과를 합산·분배·교환하는 다자간 통신
-- **연산자(Operator)**: 행렬 곱·활성화처럼 신경망 그래프를 구성하는 개별 계산
-- **폴백(Fallback)**: TPU가 지원하지 않는 연산을 CPU 같은 다른 장치에서 실행하는 대체 처리
-- **모양 버킷화(Shape Bucketing)**: 가변 길이 입력을 몇 개의 대표 텐서 모양으로 묶어 컴파일 실행 파일의 종류를 제한하는 기법
-- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프·텐서 모양의 XLA 결과를 저장해 후속 실행의 재컴파일을 피하는 저장소
-
-> **키워드:** TPU 텐서 처리 장치 (Tensor Processing Unit)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **텐서 처리 장치(Tensor Processing Unit, TPU)**: Google이 신경망의 대규모 행렬 연산을 효율적으로 처리하도록 설계한 전용 인공지능 가속기이다.
+- **텐서(Tensor)**: 신경망의 입력과 가중치 및 중간 결과를 표현하는 다차원 수치 배열이다.
+- **행렬 연산 전용 가속(Matrix-specialized Acceleration)**: 행렬 곱의 반복적인 데이터 이동과 계산을 전용 회로에 맞춰 처리하는 방식이다.
+
+</details>
 
 - 정의/개념: Google의 **신경망 행렬 연산 전용** 가속기
 - 배경/필요성: 범용 코어는 대규모 행렬 곱의 **전력•처리 효율 제약**
@@ -55,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **가속 선형 대수(Accelerated Linear Algebra, XLA)**: 연산 그래프를 융합·타일링·샤딩하여 TPU 실행 코드로 변환하는 컴파일러이다.
+- **시스톨릭 배열(Systolic Array)**: 인접한 연산기들이 피연산자와 부분합을 규칙적으로 전달하며 행렬 곱을 처리하는 배열이다.
+- **고대역폭 메모리(High Bandwidth Memory, HBM)**: TPU 연산 배열에 가중치와 활성값을 높은 전송률로 공급하는 메모리이다.
+- **칩 간 연결망(Inter-Chip Interconnect, ICI)**: 여러 TPU 칩 사이에서 부분 결과와 집단 통신 데이터를 전달하는 전용 연결망이다.
+
+</details>
+
 - **XLA 컴파일**로 연산 융합·타일·샤딩 결정
 - **시스톨릭 MXU**로 행렬 곱·부분합 전달
 - **HBM 대역폭**은 단일 칩, **ICI 대역폭**은 다중 칩 처리량 제한
@@ -64,6 +55,14 @@ extra:
 - 행렬 연산 배열의 활용률이 높아도 HBM 공급 대역폭이나 칩 간 통신이 병목이면 전체 성능이 제한된다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **행렬 곱셈 장치(Matrix Multiply Unit, MXU)**: 곱셈·누산 배열로 대규모 행렬 곱을 처리하는 TPU의 핵심 연산 장치이다.
+- **벡터 유닛(Vector Unit)**: 활성화와 정규화처럼 행렬 곱 이외의 원소별·벡터 연산을 처리하는 장치이다.
+- **TPU 런타임(TPU Runtime)**: 컴파일된 작업을 장치에 제출하고 입출력과 상태 및 오류를 관리하는 실행 소프트웨어이다.
+
+</details>
 
 ```mermaid
 block
@@ -89,6 +88,14 @@ block
 - XLA가 작업을 나누고 HBM과 ICI가 MXU·벡터 유닛에 데이터를 공급한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **연산 그래프(Computation Graph)**: 신경망의 연산자와 텐서 의존 관계를 노드와 간선으로 나타낸 구조이다.
+- **타일링(Tiling)**: 큰 텐서를 장치의 메모리와 연산 배열 크기에 맞는 작은 블록으로 나누는 최적화이다.
+- **집단 통신(Collective Communication)**: 여러 칩이 부분 결과를 합산·분배·교환하는 다자간 통신이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -126,6 +133,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **TPU Pod**: 여러 TPU 칩을 고속 연결망으로 묶어 하나의 대규모 학습 자원처럼 사용하는 시스템이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 병렬 코어와 커널로 가변적인 병렬 연산을 처리하는 프로세서이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 단말에서 신경망 연산을 낮은 전력으로 실행하도록 설계한 전용 프로세서이다.
+
+</details>
+
 | AI 가속기 | TPU | GPU | NPU |
 |:---|:---|:---|:---|
 | 적용 기준 | 대규모 행렬·**다중 칩 학습** | 가변 커널·**범용 병렬** | 저전력 **단말 추론** |
@@ -140,7 +155,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **모양 버킷화(Shape Bucketing)**: 가변 길이 입력을 몇 개의 대표 텐서 모양으로 묶어 컴파일 결과의 종류를 제한하는 기법이다.
+- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프와 텐서 모양의 XLA 결과를 저장하여 재컴파일을 피하는 저장소이다.
+- **폴백(Fallback)**: TPU가 지원하지 않는 연산을 CPU 같은 다른 장치에서 실행하는 대체 처리이다.
+- **샤딩(Sharding)**: 모델이나 데이터를 여러 TPU 칩에 나누어 배치하고 병렬 처리하는 방식이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 입력 모양 변화로 **재컴파일 반복** | **모양 버킷화•컴파일 캐시** 적용 | **시작 지연** 감소 |
 | 미지원 연산의 **CPU 폴백** | 지원 분석과 **그래프 재작성** | 장치 경계 **왕복 최소화** |
@@ -154,6 +178,14 @@ sequenceDiagram
 - 입력 모양을 버킷화하고 컴파일 결과를 재사용해 XLA 재컴파일 지연을 줄인다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **대규모 행렬 연산(Large-scale Matrix Computation)**: 충분히 큰 행렬 곱을 반복하여 전용 배열의 처리량을 활용하는 작업이다.
+- **다중 칩 학습(Multi-chip Training)**: 모델이나 데이터를 여러 가속기에 분할하고 집단 통신으로 결과를 동기화하는 학습 방식이다.
+- **가변 커널(Variable Kernel)**: 모델이나 작업에 따라 실행 코드와 제어 흐름이 자주 달라지는 병렬 연산 함수이다.
+
+</details>
 
 - **대규모 행렬•Pod 학습**은 TPU, **가변 커널**은 GPU 선택
 

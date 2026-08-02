@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-07-31T10:25:00+09:00"
+date: "2026-08-02T11:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 44
@@ -18,31 +18,15 @@ extra:
   priority_note: "다섯 회 반복, 온디바이스 AI 가속의 핵심"
 ---
 
-## 미리 알고가기
-
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산에 특화된 저전력 병렬 가속기
-- **곱셈 누산(Multiply-Accumulate, MAC) 배열**: 곱셈·누산 연산기를 규칙적으로 배치하여 텐서 연산을 병렬 처리하는 배열
-- **온칩 정적 임의 접근 메모리(On-Chip Static Random-Access Memory, On-Chip SRAM)**: 중간값을 가까이 보관해 외부 전송을 줄이는 고속 메모리
-- **양자화(Quantization)**: 부동소수점 값을 저비트 정수로 근사
-- **보정(Calibration)**: 대표 데이터로 양자화 범위와 정확도를 조정
-- **연산자 지원 범위(Operator Coverage)**: NPU 코드로 변환 가능한 신경망 연산 범위
-- **서브그래프 분할(Subgraph Partitioning)**: 지원·비지원 연산을 장치별 실행 구간으로 분리
-- **폴백(Fallback)**: 비지원 연산을 CPU·GPU에서 실행
-- **초당 조 연산(Tera Operations Per Second, TOPS)**: 특정 데이터 정밀도와 조건에서 장치가 수행할 수 있는 초당 최대 연산 수
-- **중앙 처리 장치(Central Processing Unit, CPU)**: 동적 분기와 전후처리처럼 범용 명령 실행을 맡는 프로세서
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 병렬 코어로 가변 신경망 연산을 처리하는 프로세서
-- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 워프의 활성 스레드에 공통 명령을 발행하는 GPU 실행 모델
-- **직접 메모리 접근(Direct Memory Access, DMA)**: 전용 엔진이 외부 메모리와 온칩 메모리 사이 데이터를 직접 전송하는 방식
-- **온디바이스 추론(On-device Inference)**: 원격 서버로 보내지 않고 단말 안에서 모델 예측을 실행하는 방식
-- **런타임(Runtime)**: 컴파일한 모델의 버퍼·실행 순서·장치 전환을 관리하는 실행 소프트웨어
-- **희소성(Sparsity)**: 가중치·활성값 중 0인 값의 비율이며 지원 하드웨어는 0 연산을 생략할 수 있음
-- **8비트 정수(Integer 8-bit, INT8)**: 값을 8비트 정수로 표현하여 메모리 사용량과 연산 비용을 줄이는 양자화 형식
-- **종단 검증(End-to-End Validation)**: NPU와 폴백 구간을 모두 포함한 전체 모델의 정확도·지연·전력을 측정하는 검증
-- **연산자 결합(Operator Fusion)**: 연속된 신경망 연산자를 하나의 장치 연산으로 묶어 중간 텐서 저장과 장치 전환을 줄이는 최적화
-
-> **키워드:** NPU 신경망 처리 장치 (Neural Processing Unit)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산을 낮은 전력과 짧은 지연으로 처리하도록 설계한 병렬 가속기이다.
+- **전용 연산 배열(Dedicated Compute Array)**: 신경망의 반복적인 곱셈·누산을 병렬로 처리하도록 규칙적으로 배치한 회로이다.
+- **근접 메모리(Near-compute Memory)**: 연산기에 데이터를 가까이 보관하여 외부 메모리 전송을 줄이는 저장 구조이다.
+
+</details>
 
 - 정의/개념: 신경망 **전용 연산 배열·근접 메모리** 기반 가속기
 - 배경/필요성: CPU·GPU 추론은 단말의 **전력·지연 제약**
@@ -53,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **곱셈-누산 배열(Multiply-Accumulate Array, MAC Array)**: 다수의 곱셈·누산 연산기를 배치하여 텐서 연산을 병렬 처리하는 배열이다.
+- **온칩 정적 임의 접근 메모리(On-chip SRAM)**: 입력과 가중치 및 중간값을 연산기 가까이에 보관하는 고속 메모리이다.
+- **초당 조 연산(Tera Operations Per Second, TOPS)**: 특정 데이터 정밀도와 조건에서 장치가 수행할 수 있는 초당 최대 연산 수이다.
+- **종단 지연(End-to-end Latency)**: 입력 준비부터 NPU와 폴백 구간을 거쳐 최종 결과가 나올 때까지의 전체 시간이다.
+
+</details>
+
 - **저정밀 MAC 배열**로 신경망 연산 병렬 처리
 - **온칩 SRAM 재사용**으로 외부 메모리 전송 절감
 - **TOPS**보다 지원률·폴백을 포함한 **종단 지연** 평가
@@ -62,6 +55,14 @@ extra:
 - 로봇이 못하는 일을 직원에게 넘길수록 전달 시간이 커진다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **모델 컴파일러(Model Compiler)**: 모델을 양자화하고 지원 여부에 따라 분할하여 NPU 장치 코드를 생성하는 도구이다.
+- **NPU 런타임(NPU Runtime)**: 컴파일된 모델의 버퍼와 실행 순서 및 장치 전환을 관리하는 소프트웨어이다.
+- **호스트 폴백 경로(Host Fallback Path)**: NPU가 지원하지 않는 연산을 CPU나 GPU에서 대체 실행하는 경로이다.
+
+</details>
 
 ```mermaid
 block
@@ -87,6 +88,14 @@ block
 - 컴파일러가 작업을 나누고 런타임이 NPU 실행과 호스트 폴백을 연결한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **서브그래프 분할(Subgraph Partitioning)**: 지원 연산과 비지원 연산을 장치별 실행 구간으로 나누는 과정이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 전용 엔진이 외부 메모리와 온칩 메모리 사이에서 데이터를 직접 전송하는 방식이다.
+- **경계 텐서(Boundary Tensor)**: 서로 다른 장치에서 실행되는 서브그래프 사이에 전달되는 중간 데이터이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -124,6 +133,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **온디바이스 추론(On-device Inference)**: 입력을 원격 서버로 보내지 않고 단말 안에서 모델 예측을 실행하는 방식이다.
+- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령을 GPU 워프의 활성 스레드에 공통 발행하는 실행 모델이다.
+- **동적 분기(Dynamic Branching)**: 입력이나 실행 상태에 따라 런타임에 선택되는 제어 흐름이다.
+
+</details>
+
 | 신경망 실행 장치 | NPU | GPU | CPU |
 |:---|:---|:---|:---|
 | 적용 기준 | 저전력 **온디바이스 추론** | 가변 모델·**학습·범용 병렬** | 동적 분기·**전후처리** |
@@ -138,7 +155,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **양자화(Quantization)**: 부동소수점 가중치와 활성값을 저비트 정수로 근사하여 연산과 메모리 비용을 줄이는 변환이다.
+- **보정(Calibration)**: 대표 입력 데이터로 양자화 범위를 정하고 정확도 손실을 조정하는 과정이다.
+- **연산자 지원 범위(Operator Coverage)**: 전체 신경망 연산 가운데 NPU 코드로 변환하여 실행할 수 있는 범위이다.
+- **연산자 결합(Operator Fusion)**: 연속된 연산자를 하나의 장치 연산으로 묶어 중간 저장과 장치 전환을 줄이는 최적화이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 저정밀 양자화로 **정확도 저하** | 대표 보정 데이터와 **종단 정확도** 검증 | **품질 손실** 통제 |
 | 비지원 연산 **폴백 비용 증가** | **연산자 결합**과 지원 범위 분석 | **NPU 실행 구간** 확대 |
@@ -152,6 +178,14 @@ sequenceDiagram
 - 지원 연산을 결합해 NPU 서브그래프를 넓히면 CPU·GPU 폴백의 복사·동기화가 줄어든다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **지원률(Support Coverage)**: 전체 모델 연산 중 NPU에서 직접 실행되는 연산의 비율이다.
+- **저전력 추론(Low-power Inference)**: 제한된 배터리와 열 한도 안에서 모델 예측을 수행하는 실행 조건이다.
+- **가변 연산(Variable Operation)**: 모델이나 입력에 따라 연산 종류와 제어 흐름이 자주 달라지는 작업이다.
+
+</details>
 
 - 지원률 높고 **저전력 추론**이면 NPU, **가변 연산**은 GPU 선택
 

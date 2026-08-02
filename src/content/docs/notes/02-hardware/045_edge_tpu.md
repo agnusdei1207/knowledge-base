@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-07-31T10:26:00+09:00"
+date: "2026-08-02T11:05:00+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -18,32 +18,15 @@ extra:
   priority_note: "완전 정수·CPU 구간의 배포 판단"
 ---
 
-## 미리 알고가기
-
-- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: 에지 장치의 정수 양자화 추론에 특화된 전용 반도체
-- **텐서플로 라이트(TensorFlow Lite, TFLite)**: 모바일·에지 장치용 추론 모델 형식과 경량 실행 런타임
-- **완전 정수 양자화(Full Integer Quantization)**: 가중치·활성값·입출력의 정수 변환
-- **Edge TPU 컴파일러(Edge TPU Compiler)**: 지원 연산을 Edge TPU 실행 코드로 변환
-- **중앙 처리 장치(Central Processing Unit, CPU)**: 전후처리와 비지원 연산 담당
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산용 단말 가속기
-- **시스템온칩(System on Chip, SoC)**: 여러 기능을 한 다이에 통합한 칩
-- **클라우드 TPU(Cloud TPU)**: 데이터센터 학습·추론용 TPU
-- **가속 선형 대수(Accelerated Linear Algebra, XLA)**: TPU 그래프용 컴파일러
-- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능을 고정 회로로 구현해 전력·지연을 줄인 전용 반도체
-- **텐서(Tensor)**: 신경망의 입력·가중치·활성값을 나타내는 다차원 수치 배열
-- **연산자(Operator)**: 합성곱·활성화처럼 신경망 그래프를 구성하는 개별 계산
-- **런타임(Runtime)**: 모델 구간을 CPU와 Edge TPU에 제출하고 버퍼·결과를 관리하는 실행 소프트웨어
-- **폴백(Fallback)**: Edge TPU가 지원하지 않는 연산을 호스트 CPU에서 실행하는 대체 처리
-- **벤더(Vendor)**: NPU 하드웨어와 전용 모델 변환·실행 도구를 제공하는 제조사
-- **네트워크 왕복(Network Round Trip)**: 단말이 서버에 요청을 보내고 결과를 받을 때까지의 통신 경로와 지연
-- **스마트 카메라(Smart Camera)**: 영상 모델을 내장해 촬영 현장에서 객체·이상 상태를 판정하는 카메라
-- **대표 보정 데이터(Representative Calibration Data)**: 실제 입력 분포를 대표하도록 뽑아 정수 양자화의 값 범위와 스케일을 정하는 데이터
-- **원자적 모델 교체(Atomic Model Replacement)**: 새 모델 파일을 완전하게 검증한 뒤 한 번의 전환으로 활성 모델을 바꿔 중간 상태 노출을 막는 배포 방식
-- **모델 롤백(Model Rollback)**: 새 모델의 정확도·기동·호환성 문제가 발생하면 이전 정상 모델로 되돌리는 복구 절차
-
-> **키워드:** Edge TPU (Edge TPU)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: 에지 장치에서 정수 양자화 신경망 추론을 실행하도록 설계한 전용 반도체이다.
+- **현장 추론(Edge Inference)**: 입력 데이터를 원격 서버로 보내지 않고 센서나 단말이 설치된 현장에서 모델을 실행하는 방식이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능의 연산 경로를 고정 회로로 구현하여 전력과 지연을 줄인 반도체이다.
+
+</details>
 
 - 정의/개념: 완전 정수 TFLite의 **현장 추론용 ASIC**
 - 배경/필요성: 클라우드 추론은 망 단절 시 **현장 판정 불가**
@@ -54,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **완전 정수 양자화(Full Integer Quantization)**: 모델의 가중치와 활성값 및 입출력을 정수 형식으로 변환하는 기법이다.
+- **지원 연산 컴파일(Supported-operation Compilation)**: 장치가 직접 실행할 수 있는 연산자를 찾아 전용 실행 코드로 변환하는 과정이다.
+- **CPU 폴백(CPU Fallback)**: Edge TPU가 지원하지 않는 연산을 호스트 CPU에서 대체 실행하는 처리이다.
+- **장치 전환 비용(Device-transition Cost)**: 서로 다른 처리 장치 사이에서 텐서를 복사하고 실행을 동기화할 때 생기는 시간과 전력 비용이다.
+
+</details>
+
 - **완전 정수 실행**으로 메모리·전력 소모 절감
 - **지원 연산 컴파일**로 Edge TPU 실행 구간 생성
 - **CPU 폴백 구간**이 길수록 전송·실행 지연 증가
@@ -63,6 +55,14 @@ extra:
 - 계산기 사전에 있는 8비트 문제만 장치가 맡고 나머지는 직원이 푼다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **텐서플로 라이트(TensorFlow Lite, TFLite)**: 모바일과 에지 장치용 추론 모델 형식 및 경량 실행 런타임이다.
+- **Edge TPU 컴파일러(Edge TPU Compiler)**: 지원 연산을 찾아 모델을 분할하고 Edge TPU 장치 코드를 생성하는 도구이다.
+- **TFLite 런타임(TFLite Runtime)**: 모델 구간을 CPU와 Edge TPU에 제출하고 버퍼 및 결과를 관리하는 실행 소프트웨어이다.
+
+</details>
 
 ```mermaid
 block
@@ -88,6 +88,14 @@ block
 - 컴파일러가 정수 모델을 Edge TPU와 CPU 실행 구간으로 나눈다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **정수 실행 계획(Integer Execution Plan)**: 모델의 연산 순서와 Edge TPU 및 CPU에 배치된 구간을 기록한 실행 정보이다.
+- **경계 텐서(Boundary Tensor)**: Edge TPU 구간과 CPU 구간 사이에서 전달되는 중간 데이터이다.
+- **지원 구간(Supported Segment)**: Edge TPU가 직접 실행할 수 있는 연속된 정수 연산자 묶음이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -123,6 +131,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **온디바이스 NPU(On-device NPU)**: 제품의 SoC에 내장되어 단말 신경망 추론을 실행하는 가속기이다.
+- **클라우드 TPU(Cloud TPU)**: 데이터센터에서 대규모 학습과 추론을 처리하도록 제공되는 TPU 자원이다.
+- **네트워크 왕복 지연(Network Round-trip Latency)**: 단말이 서버에 요청을 전송하고 결과를 받을 때까지 발생하는 통신 지연이다.
+
+</details>
+
 | 추론 가속 배치 | Edge TPU | 온디바이스 NPU | 클라우드 TPU |
 |:---|:---|:---|:---|
 | 적용 기준 | 현장 센서·**저전력 정수 추론** | 제품 통합·**단말 추론** | 대형 학습·**대규모 추론** |
@@ -137,7 +153,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **대표 보정 데이터(Representative Calibration Data)**: 실제 입력 분포를 대표하여 정수 양자화의 값 범위와 스케일을 정하는 데이터이다.
+- **지원 연산자 대체(Operator Substitution)**: 비지원 연산을 의미가 같은 지원 연산 조합으로 바꾸어 가속 구간을 넓히는 작업이다.
+- **원자적 모델 교체(Atomic Model Replacement)**: 새 모델을 완전히 검증한 뒤 한 번의 전환으로 활성 모델을 바꾸는 배포 방식이다.
+- **모델 롤백(Model Rollback)**: 새 모델의 정확도나 호환성에 문제가 생기면 이전 정상 모델로 되돌리는 복구 절차이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 완전 정수 양자화로 정확도 저하 | **대표 보정 데이터**와 종단 정확도 비교 | **품질 손실** 통제 |
 | 잦은 **CPU 폴백 경계**로 복사 증가 | 지원 연산자 **대체•결합**과 보고서 검토 | **장치 전환** 최소화 |
@@ -151,6 +176,14 @@ sequenceDiagram
 - 비지원 연산을 지원 연산 조합으로 바꾸면 CPU 폴백 경계와 텐서 복사가 줄어든다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **지원 연산률(Supported-operation Ratio)**: 전체 모델 연산 가운데 Edge TPU에서 직접 실행되는 연산의 비율이다.
+- **오프라인 추론(Offline Inference)**: 외부 네트워크 연결 없이 단말 내부 자원만으로 모델 결과를 계산하는 방식이다.
+- **지속 추론(Sustained Inference)**: 장시간의 전력과 열 한도에서도 목표 실행 주기와 지연을 유지하는 추론이다.
+
+</details>
 
 - **지원 연산률**이 높고 오프라인 추론 필요 시 **Edge TPU** 적용
 

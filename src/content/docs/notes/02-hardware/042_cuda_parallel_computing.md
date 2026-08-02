@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)"
-date: "2026-07-31T10:23:00+09:00"
+date: "2026-08-02T11:02:00+09:00"
 tags:
   - "notes-hardware"
 weight: 42
@@ -18,33 +18,15 @@ extra:
   priority_note: "커널·메모리·스트림 최적화의 기출 주제"
 ---
 
-## 미리 알고가기
-
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)**: NVIDIA GPU에서 병렬 연산을 구현하는 플랫폼이자 프로그래밍 모델
-- **호스트(Host)**: CUDA 작업을 제출하는 CPU 측 실행 환경
-- **장치(Device)**: CUDA 커널과 메모리를 실행하는 GPU
-- **커널(Kernel)**: GPU의 여러 스레드가 병렬 실행하는 함수
-- **실행 계층(Grid, Block, Thread)**: 전체 작업·협력 묶음·개별 실행 단위
-- **스트림(Stream)**: 작업을 등록 순서로 처리하는 장치 대기열
-- **고정 호스트 메모리(Pinned Host Memory)**: 비동기 호스트 전송을 위한 페이지 고정 메모리
-- **공유 메모리(Shared Memory)**: 블록 스레드가 재사용하는 온칩 메모리
-- **이벤트(Event)**: 스트림 간 의존성과 완료를 표시하는 동기화 객체
-- **중앙 처리 장치(Central Processing Unit, CPU)**: CUDA 작업을 준비·제출하고 결과를 처리하는 호스트 프로세서
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 스레드로 CUDA 커널을 병렬 실행하는 장치 프로세서
-- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령어를 워프의 활성 스레드에 공통 발행하는 GPU 실행 모델
-- **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 스레드 블록을 배치하고 워프를 실행하는 GPU 연산 단위
-- **연산 집약도(Arithmetic Intensity)**: 이동한 데이터 양에 비해 수행한 연산량의 비율
-- **병합 접근(Coalesced Access)**: 인접 스레드의 메모리 요청을 적은 전송으로 합치는 접근
-- **SYCL**: 여러 제조사의 가속기를 표준 C++ 코드로 제어하는 크로노스 그룹의 이식형 병렬 프로그래밍 모델
-- **다차원 실행 범위(N-Dimensional Range, ND-range)**: SYCL에서 전체 작업 항목과 작업 그룹의 다차원 배치를 나타내는 실행 범위
-- **통합 공유 메모리(Unified Shared Memory, USM)**: 호스트와 장치가 같은 포인터 주소로 접근하도록 메모리를 관리하는 SYCL 기능
-- **불균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 프로세서와 메모리의 물리적 위치에 따라 접근 시간이 달라지는 구조
-- **호스트→장치·장치→호스트 복사(Host-to-Device·Device-to-Host, H2D·D2H)**: CPU 메모리에서 GPU 메모리로 입력을 보내는 전송과 계산 결과를 반대로 가져오는 전송
-- **복사 엔진(Copy Engine)**: GPU 연산 코어와 별도로 호스트·장치 메모리 사이의 DMA 전송을 수행하는 하드웨어
-
-> **키워드:** CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)**: NVIDIA GPU에서 병렬 연산을 구현하는 플랫폼이자 프로그래밍 모델이다.
+- **호스트(Host)**: CUDA 작업과 데이터를 준비하여 GPU에 제출하고 결과를 처리하는 CPU 측 실행 환경이다.
+- **장치(Device)**: CUDA 커널을 실행하고 장치 메모리를 제공하는 GPU 측 실행 환경이다.
+
+</details>
 
 - 정의/개념: NVIDIA GPU의 **병렬 실행 플랫폼**
 - 배경/필요성: CPU 소수 스레드로는 대규모 데이터 **처리량 제약**
@@ -55,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **커널(Kernel)**: GPU의 다수 스레드가 서로 다른 데이터에 병렬로 실행하는 함수이다.
+- **그리드·블록·스레드(Grid·Block·Thread)**: 전체 작업과 협력 가능한 스레드 묶음 및 개별 실행 단위를 나타내는 CUDA 실행 계층이다.
+- **병합 접근(Coalesced Access)**: 인접 스레드의 연속 메모리 요청을 적은 수의 전송으로 합치는 접근 방식이다.
+- **스트림(Stream)**: 등록한 복사와 커널 작업을 순서대로 처리하면서 다른 스트림과의 중첩 실행을 허용하는 대기열이다.
+
+</details>
+
 - **호스트·장치 분리**로 작업 제출과 커널 실행 구분
 - **그리드·블록·스레드** 계층으로 병렬 작업 구성
 - **병합 접근**은 트랜잭션 감소, **스트림 중첩**은 복사 지연 은닉
@@ -64,6 +55,14 @@ extra:
 - 작업조 크기를 맞추고 조건이 되면 운반과 계산을 겹쳐 진행한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **호스트 런타임(Host Runtime)**: 장치 메모리 할당과 데이터 복사 및 커널 실행 요청을 관리하는 소프트웨어 계층이다.
+- **커널 실행 계층(Kernel Execution Hierarchy)**: 그리드의 블록을 SM에 배치하고 블록의 스레드를 병렬 실행하는 구조이다.
+- **장치 메모리 계층(Device Memory Hierarchy)**: 레지스터와 공유 메모리 및 전역 메모리를 접근 범위와 지연에 따라 구성한 저장 구조이다.
+
+</details>
 
 ```mermaid
 block
@@ -89,6 +88,14 @@ block
 - 런타임이 스트림에 작업을 등록하면 실행 계층과 메모리가 순서대로 처리한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **복사 엔진(Copy Engine)**: GPU 연산 코어와 별도로 호스트와 장치 메모리 사이의 DMA 전송을 수행하는 하드웨어이다.
+- **호스트-장치 전송(H2D·D2H)**: CPU 메모리에서 GPU 메모리로 입력을 보내고 결과를 반대로 가져오는 데이터 이동이다.
+- **이벤트(Event)**: 스트림 사이의 작업 의존성과 비동기 완료 시점을 표시하는 동기화 객체이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -128,6 +135,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **SYCL**: 여러 제조사의 가속기를 표준 C++ 코드로 제어하는 이식형 병렬 프로그래밍 모델이다.
+- **다차원 실행 범위(N-Dimensional Range, ND-range)**: SYCL에서 전체 작업 항목과 작업 그룹의 다차원 배치를 나타내는 실행 범위이다.
+- **CPU 멀티스레딩(CPU Multithreading)**: 여러 독립 스레드나 태스크를 CPU 코어에 배치하여 동시에 실행하는 방식이다.
+
+</details>
+
 | 병렬 프로그래밍 방식 | CUDA | SYCL | CPU 멀티스레딩 |
 |:---|:---|:---|:---|
 | 적용 기준 | NVIDIA **세부 최적화** | 다중 제조사 **이식성** | 복잡한 분기·**작은 작업** |
@@ -142,7 +157,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **전역 동기화(Global Synchronization)**: 모든 관련 작업이 끝날 때까지 후속 실행을 멈춰 불필요한 직렬화를 만들 수 있는 동기화이다.
+- **고정 호스트 메모리(Pinned Host Memory)**: 비동기 DMA 전송을 위해 운영체제가 물리 페이지를 교체하지 않도록 고정한 호스트 메모리이다.
+- **점유율(Occupancy)**: SM에 상주하는 워프 수가 하드웨어 최대치에서 차지하는 비율이다.
+- **연산 집약도(Arithmetic Intensity)**: 메모리에서 이동한 데이터 양에 비해 수행한 연산량의 비율이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **전역 동기화**가 복사•커널 중첩 차단 | **스트림•이벤트**로 실제 의존성만 표현 | **동시 실행** 확대 |
 | 호스트·장치 전송이 연산 시간을 초과 | **고정 호스트 메모리**·비동기 복사·배치 적용 | 전송 비용 절감 |
@@ -156,6 +180,14 @@ sequenceDiagram
 - 행렬 타일을 공유 메모리에서 재사용하고 여러 스트림의 복사·연산을 겹쳐 전송 병목을 줄인다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **공급자 종속(Vendor Lock-in)**: 코드와 최적화가 특정 제조사의 하드웨어 및 소프트웨어 생태계에 의존하는 상태이다.
+- **이식성(Portability)**: 같은 프로그램을 여러 제조사의 가속기에서 적은 수정으로 실행할 수 있는 성질이다.
+- **세부 최적화(Hardware-specific Optimization)**: 특정 GPU의 실행 구조와 메모리 계층에 맞춰 성능을 조정하는 작업이다.
+
+</details>
 
 - **NVIDIA 최적화**는 CUDA, **다중 제조사 이식성**은 SYCL 선택
 
