@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC·PV·StorageClass (Kubernetes Storage)"
-date: "2026-07-30T23:49:53+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -18,28 +18,14 @@ extra:
   priority_note: "영속 볼륨의 요청·자원·정책 관계가 독립적임"
 ---
 
-## 미리 알고가기
-
-- **영구 볼륨(Persistent Volume, PV)**: 파드와 수명이 분리된 클러스터 스토리지 자원
-- **영구 볼륨 요청(Persistent Volume Claim, PVC)**: 용량·접근 모드·스토리지 클래스를 선언하는 저장 요청
-- **스토리지 클래스(StorageClass)**: 프로비저너·매개변수·회수 정책·바인딩 방식을 정의하는 객체
-- **프로비저너(Provisioner)**: 스토리지 클래스에 따라 백엔드 볼륨과 PV를 생성하는 CSI 드라이버
-- **동적 프로비저닝(Dynamic Provisioning)**: 일치하는 PV가 없을 때 StorageClass와 CSI로 실제 볼륨·PV를 자동 생성하는 방식
-- **접근 모드(Access Mode)**: 볼륨을 단일·다중 노드에서 읽기·쓰기 할 수 있는 방식을 나타내는 조건
-- **회수 정책(Reclaim Policy)**: PVC 해제 뒤 Retain은 데이터를 보존하고 Delete는 백엔드 볼륨 삭제를 요청하는 정책
-- **첫 소비자 대기(WaitForFirstConsumer)**: Pod 배치 토폴로지를 확인한 뒤 볼륨을 프로비저닝·바인딩하는 방식
-- **컨테이너 스토리지 인터페이스(Container Storage Interface, CSI)**: 볼륨 생성·연결·마운트의 드라이버 규약
-- **요청 참조(ClaimRef)**: PV에 바인딩된 PVC 정보를 기록하는 필드
-- **마운트(Mount)**: 볼륨의 파일시스템을 Pod가 접근할 수 있는 디렉터리에 연결하는 동작
-- **토폴로지(Topology)**: 볼륨을 접근할 수 있는 영역·노드 같은 물리 배치 조건
-- **kubelet**: 노드에 배정된 파드 명세를 실행하고 CSI 노드 플러그인에 볼륨 연결·마운트를 요청하는 에이전트
-- **즉시 바인딩(Immediate Binding)**: 첫 파드의 배치 위치를 기다리지 않고 PVC 생성 시점에 볼륨을 공급하는 방식
-- **스냅숏(Snapshot)**: 특정 시점의 볼륨 데이터 상태를 복원할 수 있도록 보존한 사본
-- **애플리케이션 일관 백업(Application-consistent Backup)**: 애플리케이션 쓰기를 정리한 시점의 데이터 관계를 보존한 백업
-
-> **키워드:** 쿠버네티스 스토리지: PVC·PV·StorageClass (Kubernetes Storage)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **저장 요구와 구현**: PVC는 워크로드의 저장 요구를 표현하고 PV는 그 요구를 만족하는 실제 저장 구현을 제공한다.
+
+</details>
 
 - 정의/개념: PVC·PV·StorageClass로 **저장 요구와 구현**을 분리하는 영속 스토리지 구조
 - 배경/필요성: 파드 로컬 저장은 재생성·노드 장애 시 **데이터 소실**
@@ -49,6 +35,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **회수 정책**: 회수 정책은 PVC 해제 뒤 PV와 실제 저장 데이터를 삭제할지 보존할지 결정한다.
+
+</details>
+
 - **PVC·PV 분리** 기반 요구 추상화
 - **StorageClass·CSI** 기반 동적 생성
 - **회수 정책** 기반 삭제 후 보존
@@ -57,6 +50,13 @@ extra:
 - PVC는 창고 요청서, PV는 배정된 창고, StorageClass는 창고를 만드는 표준으로 보면 세 객체의 책임이 구분된다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **StorageClass**: StorageClass는 동적 프로비저닝에 사용할 저장 유형, 프로비저너, 매개변수를 정의한다.
+
+</details>
 
 ```mermaid
 block
@@ -85,6 +85,13 @@ block
 - 제어기가 요청서에 맞는 창고를 찾고 없으면 StorageClass와 CSI로 새 창고를 만든 뒤 PV 자원표로 연결한다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **4. PV·PVC 바인딩 상태**: 용량, 접근 모드, 클래스 조건이 맞으면 PV와 PVC가 바인딩 상태가 된다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -117,6 +124,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **PV**: PV는 클러스터가 제공하는 지속성 저장 자원을 나타내는 API 리소스다.
+
+</details>
+
 | 저장 객체 | PVC | PV | StorageClass |
 |:---|:---|:---|:---|
 | 적용 기준 | **애플리케이션 저장 요구** | **실제 볼륨 자원 표현** | **동적 생성·수명 정책** |
@@ -128,7 +142,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **삭제 전파**: 삭제 전파는 PVC나 PV 삭제가 실제 스토리지와 데이터 제거로 이어지는 범위를 뜻한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 파드·볼륨의 **영역 불일치**로 스케줄링 실패 | **첫 소비자 대기** 적용 | 지역 **배치 실패** 방지 |
 | 다중 노드 쓰기 요구와 백엔드 접근 모드 불일치 | CSI·백엔드 **접근 모드 시험** | 지원 범위 **오판** 방지 |
@@ -140,6 +161,13 @@ sequenceDiagram
 - 데이터베이스 파드의 영역과 볼륨 영역을 맞추고 PVC 삭제와 별개인 백업을 복원해 봐야 노드 손실과 오삭제를 모두 견딜 수 있다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **복구 목표**: 복구 목표는 장애 시 허용 가능한 데이터 손실량과 서비스 복구 시간을 기준으로 백업·복제 전략을 정한다.
+
+</details>
 
 - **접근 방식**으로 StorageClass를, 데이터 중요도·**복구 목표**로 회수 정책·백업 결정
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "컨테이너 보안: Seccomp·AppArmor·OPA (Container Security)"
-date: "2026-07-31T10:45:24+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -18,29 +18,14 @@ extra:
   priority_note: "배포 정책과 커널 통제를 잇는 보안 설계가 중요함"
 ---
 
-## 미리 알고가기
-
-- **보안 컴퓨팅 모드(Secure Computing Mode, Seccomp)**: 프로세스가 호출할 수 있는 시스템 호출을 제한하는 커널 기능
-- **AppArmor·SELinux**: 경로 또는 보안 레이블을 기준으로 자원 접근을 제한하는 Linux 보안 모듈
-- **오픈 정책 에이전트(Open Policy Agent, OPA)·Gatekeeper**: 쿠버네티스 객체의 배포 정책을 판정·감사하는 구성요소
-- **쿠버네티스(Kubernetes)**: 컨테이너 배포·확장·복구를 선언적으로 자동화하는 플랫폼
-- **제어 그룹(Control Group, cgroup)**: 프로세스 집합의 CPU·메모리·입출력을 제한·계측하는 커널 기능
-- **컨테이너 이미지 스캔(Image Scanning)**: 배포 전에 이미지의 패키지·취약점·비밀·설정을 검사하는 절차
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 쿠버네티스 객체를 생성·조회·변경하는 요청 규약
-- **개방형 컨테이너 이니셔티브(Open Container Initiative, OCI)**: 컨테이너 이미지와 런타임 실행 형식을 정의하는 표준
-- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 이미지에 포함된 구성요소와 버전을 기록한 목록
-- **어드미션 제어(Admission Control)**: API 객체 저장 전에 생성·수정 요청을 검증하거나 변경하는 제어 단계
-- **특권 컨테이너(Privileged Container)**: 호스트 장치와 광범위한 커널 권한을 받아 일반 격리 제한이 약화된 컨테이너
-- **보안 컨텍스트(SecurityContext)**: Pod·컨테이너의 사용자·권한·Seccomp·AppArmor 설정을 선언하는 항목
-- **리눅스 세부 권한(Linux Capability)**: 관리자 권한을 네트워크·파일·프로세스 같은 세부 커널 권한으로 나눈 단위
-- **큐블릿(kubelet)**: 노드에서 파드 명세에 따라 컨테이너 실행 상태를 관리하는 에이전트
-- **이미지 다이제스트(Image Digest)**: 이미지 내용으로 계산해 동일성을 검증하는 불변 식별자
-- **웹훅(Webhook)**: 사건 발생 시 외부 서비스에 HTTP 요청을 보내는 연동 방식
-- **루트 사용자(root user)**: 리눅스 시스템의 모든 권한을 가진 관리자 계정
-
-> **키워드:** 컨테이너 보안: Seccomp·AppArmor·OPA (Container Security)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **다층 보안 체계**: 컨테이너 보안은 이미지 공급망, 실행 권한, 커널 격리, 네트워크 정책을 겹쳐 적용하는 다층 방어가 필요하다.
+
+</details>
 
 - 정의/개념: 컨테이너 생명주기의 위험을 계층별로 제한하는 **다층 보안 체계**
 - 배경/필요성: 단일 격리 경계로는 공유 커널의 **권한 남용 차단 불가**
@@ -50,6 +35,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Seccomp·AppArmor**: Seccomp는 시스템 호출을 제한하고 AppArmor는 프로세스의 파일·기능 접근을 정책으로 통제한다.
+
+</details>
+
 - **이미지·어드미션 제어** 기반 위험 배포 차단
 - **Seccomp·AppArmor** 기반 커널 강제
 - **감사·행위 신호** 기반 런타임 탐지
@@ -58,6 +50,13 @@ extra:
 - Gatekeeper가 특권 설정을 입구에서 거부하고 Seccomp와 AppArmor가 승인된 컨테이너의 시스템 호출과 파일 접근을 실행 중에 제한한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **SecurityContext·프로필**: SecurityContext와 보안 프로필은 사용자 권한, 기능, 파일 시스템, 시스템 호출 제한을 실행 시점에 적용한다.
+
+</details>
 
 ```mermaid
 block
@@ -86,6 +85,13 @@ block
 - 서명된 이미지가 입장권이라면 Admission은 복장 검사, SecurityContext는 지급 권한, Linux 커널은 실제 행동을 막는 잠금장치다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **5. 호출·접근 판정**: Seccomp와 AppArmor 프로필이 시스템 호출과 자원 접근의 허용 여부를 판정한다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -117,6 +123,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **OPA·Gatekeeper**: OPA·Gatekeeper는 쿠버네티스 승인 단계에서 정책 위반 리소스의 생성을 차단한다.
+
+</details>
+
 | 보안 통제 | Seccomp | AppArmor·SELinux | OPA·Gatekeeper |
 |:---|:---|:---|:---|
 | 적용 기준 | **시스템 호출 제한** | **파일·장치 접근 제한** | **배포 객체 사전 검증** |
@@ -128,7 +141,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **루트 권한 실행**: 루트 권한 실행은 컨테이너 침해가 호스트나 다른 자원에 더 큰 영향으로 이어질 수 있게 한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 이미지 **태그 교체** | 다이제스트·**서명 검증** 강제 | 미승인 이미지 **반입 차단** |
 | **루트 권한 실행** | 비루트·Capability 제거·**읽기 전용** | 호스트 **접근 범위 축소** |
@@ -140,6 +160,13 @@ sequenceDiagram
 - 새 프로필은 관찰 모드에서 정상 호출을 수집한 뒤 단계 배포하고 예외에는 소유자와 만료일을 붙여 통제 공백을 제한해야 한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **공급망·권한·업무 호출**: 이미지 공급망 검증, 최소 권한, 업무에 필요한 호출만 허용하는 정책을 함께 적용해야 한다.
+
+</details>
 
 - **공급망·권한·업무 호출**로 배포 정책·커널 프로필 결정
 
