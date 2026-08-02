@@ -100,17 +100,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant C as 연합 조정자
-    participant G as 글로벌 모델
+    participant C as 연합 조정·글로벌 모델
     participant P as 참여 클라이언트
     participant L as 로컬 학습기
     participant A as 집계·보호기
-    C->>G: 1. 참여자·모델 버전 확정
+    C->>C: 1. 참여자·모델 버전 확정
     loop 수렴 조건까지 라운드 반복
-        G->>P: 2. 글로벌 모델·학습 설정 배포
+        C->>P: 2. 글로벌 모델·학습 설정 배포
         P->>L: 3. 로컬 학습 요청
         L->>A: 4. 보호된 업데이트 전달
-        A->>G: 5. 글로벌 모델 갱신
+        A->>C: 5. 글로벌 모델 갱신
     end
 ```
 

@@ -104,16 +104,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 개인정보 책임자
-    participant A as 인접성 정의기
+    participant A as 보호 목표·인접성 정의기
     participant C as 민감도 제한기
     participant N as 잡음 메커니즘
     participant P as 회계·공개 판정기
-    O->>A: 보호 목표 전달
+    A->>A: 보호 목표 설정
     A->>C: 1. 보호 단위·인접성 전달
     C->>N: 2. 민감도 상한 전달
     N->>P: 3. 잡음 결과·반복 횟수 전달
-    P-->>O: 공개·중단 판정
+    P-->>A: 공개·중단 판정
 ```
 
 1. **보호 단위·인접성 전달**: 한 사람·레코드 중 **보장 대상** 제공

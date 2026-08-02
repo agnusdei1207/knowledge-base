@@ -99,17 +99,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant U as 설명 사용자
-    participant P as 교란 표본 생성기
+    participant P as 설명 요청·교란 표본 생성기
     participant B as 블랙박스 함수
     participant K as 근접 커널
     participant L as 국소 대리모델
-    U->>P: 설명 대상 입력
+    P->>P: 설명 대상 입력 설정
     P->>B: 1. 교란 표본 전달
     P->>K: 2. 표본 거리 전달
     B->>L: 3. 예측값 전달
     K->>L: 4. 거리 가중치 전달
-    L-->>U: 특징 기여도·충실도
+    L-->>P: 특징 기여도·충실도
 ```
 
 - **1. 교란 표본 전달**: 원본 주변 특징의 마스킹·변형 표본 생성

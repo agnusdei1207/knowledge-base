@@ -100,16 +100,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 시스템 책임자
-    participant T as 위협 분석기
+    participant T as 보호 책임·위협 분석
     participant F as 분산 학습기
     participant P as 보호 계층
     participant V as 공격·효용 평가기
-    O->>T: 1. 보호 자산·공격자 능력 정의
+    T->>T: 1. 보호 자산·공격자 능력 정의
     T->>F: 2. 단계별 노출 경로 분석
     F->>P: 3. 분산·노이즈·암호 기술 배치
     P->>V: 4. 공격 성공률·효용 측정
-    V-->>O: 5. 잔여 노출·비용 재설계
+    V-->>T: 5. 잔여 노출·비용 재설계
 ```
 
 1. **보호 자산·공격자 능력 정의**: 원본·업데이트·출력과 **관측 가능 주체** 설정

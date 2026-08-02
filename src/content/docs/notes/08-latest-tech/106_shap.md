@@ -104,17 +104,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 설명 책임자
-    participant B as 배경·마스커
+    participant B as 설명 설정·배경 마스커
     participant C as 연합 계산기
     participant M as 모델 출력기
     participant S as SHAP 계산기
-    O->>B: 설명 대상·배경 설정
+    B->>B: 설명 대상·배경 설정
     B->>C: 1. 특징 연합 구성
     C->>M: 2. 연합별 출력 요청
     M-->>C: 3. 연합별 예측값 전달
     C->>S: 4. 연합 가치 전달
-    S-->>O: 특징 기여도·검증 결과
+    S-->>B: 특징 기여도·검증 결과
 ```
 
 1. **특징 연합 구성**: 설명 대상 특징의 포함·제외 **부분집합** 생성
