@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "채널 용량 : 섀넌 한계 (Shannon Channel Capacity)"
-date: "2026-07-31T11:03:31+09:00"
+date: "2026-08-02T14:05:00+09:00"
 tags:
   - "notes-network"
 weight: 65
@@ -18,28 +18,14 @@ extra:
   priority_note: "설명·계산형: 135회 Shannon 용량 직접 출제"
 ---
 
-## 미리 알고가기
-
-- **가산 백색 가우스 잡음(Additive White Gaussian Noise, AWGN)**: 신호에 더해지며 주파수별 전력 밀도가 일정하고 진폭이 가우스 분포인 잡음
-- **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력 $S$를 같은 대역의 잡음 전력 $N$으로 나눈 비율
-- **섀넌 한계(Shannon Limit)**: 주어진 채널에서 오류 확률을 임의로 낮출 수 있는 정보 전송률의 이론적 경계
-- **채널 용량(Channel Capacity)**: 채널 부호를 충분히 길게 설계할 때 신뢰성 있게 전달 가능한 최대 정보율 $C$
-- **대역폭(Bandwidth)**: 채널이 사용하는 주파수 범위 $B$
-- **스펙트럼 효율(Spectral Efficiency)**: 단위 대역폭당 정보 전송률을 나타내는 bit/s/Hz 값
-- **블록 오류율(Block Error Rate, BLER)**: 전체 수신 블록 중 하나 이상의 오류가 남은 블록의 비율
-- **굿풋(Goodput)**: 헤더·재전송을 제외하고 응용에 실제 전달된 유효 정보율
-- **구현 격차(Implementation Gap)**: 이론 한계와 실제 변조·부호·수신기가 요구하는 SNR의 차이
-- **AWGN·SNR·BLER**: 각각 가산 백색 가우스 잡음 채널·신호대잡음비·블록 오류율을 나타내는 채널 모델과 품질 지표
-- **수식 기호 읽기와 역할**: $C$·$B$·$S$·$N$은 씨·비·에스·엔으로 읽고 Capacity·Bandwidth·Signal·Noise의 머리글자를 딴 기호이며, 용량·대역폭·신호 전력·잡음 전력을 뜻함
-- **단위와 함수 표기**: $\log_2$는 로그 투로 읽는 밑이 2인 로그이고 bit/s/Hz는 비트 퍼 세컨드 퍼 헤르츠, dB는 데시벨로 읽으며 각각 이진 정보율의 대역 효율과 로그 전력비를 나타냄
-- **변조(Modulation)**: 반송파의 진폭·주파수·위상을 정보 심벌에 따라 바꾸는 전송 방식
-- **프로토콜 오버헤드(Protocol Overhead)**: 헤더·제어·재전송으로 소모되어 유효 정보에 쓰이지 않는 전송량
-- **백분위(Percentile)**: 측정값의 일정 비율이 해당 값 이하에 위치하는 분포 지표
-
-
-> **키워드:** 채널 용량 : 섀넌 한계 (Shannon Channel Capacity)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **채널 용량(Channel Capacity)**: 채널 부호를 충분히 길게 설계할 때 신뢰성 있게 전달 가능한 최대 정보율 $C$
+- **섀넌 한계(Shannon Limit)**: 주어진 채널에서 오류 확률을 임의로 낮출 수 있는 정보 전송률의 이론적 경계
+
+</details>
 
 - 정의/개념: AWGN 채널이 신뢰성 있게 전달할 **최대 정보율의 이론 경계**
 - 배경/필요성: 경험적 속도 산정의 **가능성 오판**
@@ -49,6 +35,14 @@ extra:
 - 주어진 주파수 폭과 신호 품질로 아무리 좋은 변조·코딩을 써도 넘을 수 없는 정보율 경계임
 
 ## Ⅱ. 특징
+
+<details><summary>핵심 용어</summary>
+
+- **대역폭(Bandwidth)**: 채널이 사용하는 주파수 범위 $B$
+- **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력 $S$를 같은 대역의 잡음 전력 $N$으로 나눈 비율
+- **로그 관계(Logarithmic Relationship)**: SNR 증가에 따른 용량 증가가 로그 함수 형태로 점차 둔화되는 관계
+
+</details>
 
 ![대역폭과 신호대잡음비에 따른 Shannon 이론 채널 용량](/study/diagrams/shannon-capacity.svg)
 
@@ -63,6 +57,13 @@ extra:
 - 송신 전력을 두 배로 늘려도 로그 관계 때문에 용량이 두 배가 되지는 않음
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **가산 백색 가우스 잡음(Additive White Gaussian Noise, AWGN)**: 신호에 더해지며 주파수별 전력 밀도가 일정하고 진폭이 가우스 분포인 잡음
+- **수식 기호 읽기와 역할**: $C$·$B$·$S$·$N$은 씨·비·에스·엔으로 읽고 Capacity·Bandwidth·Signal·Noise의 머리글자를 딴 기호이며, 용량·대역폭·신호 전력·잡음 전력을 뜻함
+
+</details>
 
 ```mermaid
 block-beta
@@ -92,6 +93,13 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details><summary>핵심 용어</summary>
+
+- **구현 격차(Implementation Gap)**: 이론 한계와 실제 변조·부호·수신기가 요구하는 SNR의 차이
+- **타당성 여유(Feasibility Margin)**: 요구 전송률과 이론 채널 용량 사이에 확보한 차이
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 설계자
@@ -120,6 +128,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **대역폭 증대**: 사용 주파수 범위를 넓혀 용량을 거의 선형적으로 높이는 접근
+- **SNR 증대**: 송신 전력이나 수신 품질을 개선해 용량을 로그적으로 높이는 접근
+
+</details>
+
 | 용량 확장 수단 | **대역폭 확대** | **SNR 개선** |
 |:---|:---|:---|
 | 적용 기준 | 추가 주파수 확보 비용이 낮음 | 전력·안테나 개선 비용이 낮음 |
@@ -134,7 +149,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **스펙트럼 효율(Spectral Efficiency)**: 단위 대역폭당 정보 전송률을 나타내는 bit/s/Hz 값
+- **블록 오류율(Block Error Rate, BLER)**: 전체 수신 블록 중 하나 이상의 오류가 남은 블록의 비율
+- **굿풋(Goodput)**: 헤더·재전송을 제외하고 응용에 실제 전달된 유효 정보율
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 이론 용량을 실효속도로 오인 | **부호·프로토콜 오버헤드** 차감 | 용량 계획 현실화 |
 | 전력 증가만으로 용량 확대 시도 | **대역폭·SNR 한계 이득** 비교 | 투자 효율 향상 |
@@ -145,6 +168,13 @@ sequenceDiagram
 - 대역폭과 신호 대 잡음비로 계산한 이론 상한에서 부호화·재전송 손실을 제외해 실제 목표 전송률을 정한다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **프로토콜 오버헤드(Protocol Overhead)**: 헤더·제어·재전송으로 소모되어 유효 정보에 쓰이지 않는 전송량
+- **실제 굿풋**: 오버헤드·오류·재전송·구현 손실을 반영해 사용자가 얻는 유효 전송률
+
+</details>
 
 - 계산 용량에서 **구현 격차·오버헤드**를 차감해 목표 전송률 확정
 
