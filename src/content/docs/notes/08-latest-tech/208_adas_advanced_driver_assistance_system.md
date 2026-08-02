@@ -44,8 +44,7 @@ extra:
 </details>
 
 - 다중 센서 융합 기반 **객체·차선·충돌 위험 인지**
-- 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 0~2 범위의 **자동 긴급 제동(Automatic Emergency Braking, AEB)·적응형 순항 제어(Adaptive Cruise Control, ACC) 기반 종방향 제어**
-- 차로 이탈 방지를 위한 **차로 유지 보조(Lane Keeping Assist, LKA) 기반 횡방향 제어**
+- 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 0~2 범위에서 수행하는 **자동 긴급 제동(Automatic Emergency Braking, AEB)·적응형 순항 제어(Adaptive Cruise Control, ACC) 종방향 제어 및 차로 유지 보조(Lane Keeping Assist, LKA) 횡방향 제어**
 - DMS·센서 감시 기반 **운전자 감독·기능 저하 전환**
 #### 한줄 요약
 
@@ -57,6 +56,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **센서 융합**: 카메라·레이더 등 여러 센서의 관측을 결합해 객체·차선·자차 상태를 추정하는 과정이다.
+- **환경 센서**: 카메라·레이더·라이다·초음파로 도로·차선·객체·거리를 관측하는 입력 계층이다.
+- **운전자 모니터링 시스템(DMS)**: 시선·눈꺼풀·자세 등으로 운전자의 주의와 개입 가능 상태를 판단한다.
+- **위험·경로 판단**: 인지 결과에서 충돌 위험을 평가하고 경고·감속·조향 목표를 결정하는 기능이다.
+- **인간-기계 인터페이스(HMI)·차량 제어**: 운전자에게 기능 상태와 경고를 알리고 제한된 종·횡방향 제어를 실행한다.
 
 </details>
 
