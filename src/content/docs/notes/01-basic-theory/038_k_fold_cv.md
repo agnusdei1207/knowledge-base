@@ -91,19 +91,18 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 평가 담당자
     participant S as 폴드 분할기
     participant M as 모델 학습기
     participant E as 성능 평가기
     participant G as 점수 집계기
-    Q->>S: 데이터•분할 규칙 전달
+    S->>S: 데이터•분할 규칙 적용
     loop K개 폴드 순환
         S->>M: 1. 훈련 폴드 전달
         M->>E: 2. 회차 모델•검증 폴드 전달
         E->>G: 3. 검증 점수 전달
     end
     G->>G: 4. 점수 요약 산출
-    G-->>Q: 점수 요약 반환
+    G-->>S: 점수 요약 반환
 ```
 
 ### 동작 원리
