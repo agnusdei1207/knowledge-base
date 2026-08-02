@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **생성형 인공지능(Generative AI)**: 학습 데이터의 분포를 바탕으로 조건에 맞는 새로운 글·그림·음성·코드 등을 만드는 인공지능이다.
+- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**: 학습 데이터의 분포를 바탕으로 조건에 맞는 새로운 글·그림·음성·코드 등을 만드는 인공지능이다.
 - **학습 분포**: 학습 데이터에서 모델이 익힌 특징과 값의 확률적 구조다.
 
 </details>
 
-- 정의/개념: **생성형 AI**는 학습 데이터의 분포와 구조를 모델링하여 텍스트·이미지·음성 등 새로운 콘텐츠를 생성하는 인공지능
+- 정의/개념: 학습 데이터의 분포와 구조를 모델링해 새로운 콘텐츠를 만드는 **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**
 - 배경/필요성: 판별형 모델은 범주·수치 예측에 집중해 **학습 분포 기반 신규 콘텐츠 생성**이 곤란
 
 #### 한줄 요약
@@ -43,12 +43,14 @@ extra:
 - **자기회귀(Autoregressive)**: 앞서 생성한 값을 조건으로 다음 값을 순차적으로 예측하는 생성 방식이다.
 - **확산 모델(Diffusion Model)**: 잡음이 섞이는 과정을 학습한 뒤 잡음에서 데이터를 반복 복원하여 표본을 생성하는 모델이다.
 - **멀티모달(Multimodal)**: 텍스트·이미지·음성처럼 서로 다른 데이터 양식을 함께 이해하고 생성하는 방식이다.
+- **생성적 적대 신경망(Generative Adversarial Network, GAN)**: 생성자와 판별자가 경쟁하며 실제와 유사한 표본을 생성하도록 학습하는 모델이다.
+- **변분 오토인코더(Variational Autoencoder, VAE)**: 입력을 잠재 확률분포로 인코딩하고 그 분포에서 표본을 복원하는 모델이다.
 
 </details>
 
 - **확률적 샘플링**에 따른 결과 다양성
 - **자기회귀·확산 모델**: 순차 예측 또는 잡음 제거 기반 표본 생성
-- **GAN·VAE**: 적대 학습 또는 잠재 확률분포 기반 생성
+- **생성적 적대 신경망(Generative Adversarial Network, GAN)·변분 오토인코더(Variational Autoencoder, VAE)**: 적대 학습 또는 잠재 확률분포 기반 생성
 - **멀티모달**: 텍스트·이미지·음성의 교차 조건 처리
 - 데이터 양식별 **생성 구조·학습 목적** 차이
 - 생성 품질과 **사실성·권리 적합성**의 분리
@@ -135,12 +137,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **생성형 AI**: 데이터 분포를 학습하여 기존에 없던 콘텐츠나 변형 표본을 만든다.
-- **판별형 AI**: 입력의 특징을 바탕으로 범주·점수·수치 같은 정해진 결과를 판정한다.
+- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**: 데이터 분포를 학습하여 기존에 없던 콘텐츠나 변형 표본을 만든다.
+- **판별형 인공지능(Discriminative Artificial Intelligence, Discriminative AI)**: 입력의 특징을 바탕으로 범주·점수·수치 같은 정해진 결과를 판정한다.
 - **생성적 적대 신경망(Generative Adversarial Network, GAN)**: 생성자와 판별자가 경쟁하며 실제와 유사한 표본을 만들도록 학습하는 모델이다.
 - **변분 오토인코더(Variational Autoencoder, VAE)**: 입력을 잠재 확률분포로 인코딩하고 그 분포에서 표본을 복원하도록 학습하는 모델이다.
 
 </details>
+
+- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)** 및 **판별형 인공지능(Discriminative Artificial Intelligence, Discriminative AI)** 사이를 신규 표본 생성과 범주·수치 판정 기준으로 구분한다.
 
 | AI 유형 | 생성형 AI | 판별형 AI |
 |:---|:---|:---|
