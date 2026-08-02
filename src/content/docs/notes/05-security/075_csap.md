@@ -102,7 +102,6 @@ sequenceDiagram
     participant E as 평가기관
     participant C as 인증위원회
     participant I as 인증기관
-    participant U as 이용기관
     A->>I: 인증신청
     E->>A: 1. 평가결과
     A->>E: 2. 보완증적
@@ -110,8 +109,6 @@ sequenceDiagram
     C->>I: 4. 인증결정
     I->>E: 5. 사후·갱신평가 지시
     I-->>A: 인증결과
-    U->>I: 인증서 유효성 확인
-    I-->>U: 인증서 확인결과
 ```
 
 **동작 원리**

@@ -100,13 +100,12 @@ sequenceDiagram
     participant C as CNAPP
     participant R as 클라우드 런타임
     participant O as 자산 소유자
-    participant 검증도구
     D->>C: 1. 코드·IaC·이미지 발견 전달
     R->>C: 2. 형상·권한·행위 상태 전달
     C->>O: 3. 공격 경로·위험 근거 전달
     O->>D: 4. 원본 코드 수정 요청
-    D->>검증도구: 5. 재배포 결과 전달
-    검증도구-->>C: 공격 경로 단절 결과
+    D->>C: 5. 재배포 결과 전달
+    C->>C: 공격 경로 단절 검증
 ```
 
 **동작 원리**

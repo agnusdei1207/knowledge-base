@@ -101,17 +101,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant U as 공격 사용자
-    participant I as 입력·대화 분류
-    participant M as 안전 정렬 모델
-    participant O as 출력·도구 통제
+    participant M as AI 안전 체계
     participant E as 평가 체계
-    U->>I: 변형 요청·대화 문맥
-    I->>I: 1. 위험 의도 분류
-    I->>M: 2. 정책·문맥 결합
-    M->>O: 3. 응답·기능 제안
-    O->>O: 4. 출력·도구 재검증
-    O-->>U: 제한 응답·기능 차단
-    O->>E: 5. 우회 기록·회귀 평가
+    U->>M: 변형 요청·대화 문맥
+    M->>M: 1. 위험 의도 분류
+    M->>M: 2. 정책·문맥 결합
+    M->>M: 3. 응답·기능 제안
+    M->>M: 4. 출력·도구 재검증
+    M-->>U: 제한 응답·기능 차단
+    M->>E: 5. 우회 기록·회귀 평가
 ```
 
 **동작 원리**

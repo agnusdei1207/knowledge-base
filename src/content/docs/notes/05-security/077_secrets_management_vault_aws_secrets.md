@@ -102,7 +102,6 @@ sequenceDiagram
     participant I as 신원 제공자
     participant S as 비밀 관리 체계
     participant T as 대상 시스템
-    participant A as 감사 체계
     W->>I: 신원 토큰 요청
     I->>I: 1. 실행 주체 신원 검증
     I-->>W: 검증 신원 토큰
@@ -116,7 +115,7 @@ sequenceDiagram
     T-->>W: 작업 결과
     loop 리스 만료·긴급 폐기
         S->>T: 5. 대상 자격 폐기 요청
-        S-->>A: 폐기·접근 감사 사건
+        S->>S: 폐기·접근 감사 사건 기록
     end
 ```
 

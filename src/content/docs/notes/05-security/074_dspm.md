@@ -99,13 +99,12 @@ sequenceDiagram
     participant D as DSPM
     participant O as 데이터 소유자
     participant C as 조치 시스템
-    participant 검증기
     D->>S: 1. 최소 권한 메타데이터 조회
     S-->>D: 2. 내용·권한·암호화 정보 반환
     D-->>O: 3. 데이터 위험 근거 전달
     O->>C: 4. 권한·마스킹·삭제 승인
-    C-->>검증기: 5. 조치 적용 결과 전달
-    검증기-->>D: 잔여 노출 검증 결과
+    C-->>D: 5. 조치 적용 결과 전달
+    D->>D: 잔여 노출 검증
 ```
 
 **동작 원리**
