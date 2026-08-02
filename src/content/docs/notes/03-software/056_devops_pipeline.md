@@ -102,12 +102,11 @@ block
 sequenceDiagram
     participant D as 개발자
     participant P as 파이프라인
-    participant A as 아티팩트 저장소
     participant E as 운영 환경
     participant O as 운영자·관측 플랫폼
     D->>P: 작은 변경 제출
-    P->>A: 1. 검증 산출물 등록
-    A->>E: 2. 승인 버전 제공
+    P->>P: 1. 검증 산출물 등록
+    P->>E: 2. 승인 버전 제공
     E->>O: 3. 운영 지표·장애
     alt 지표 정상
         O-->>D: 성과 피드백

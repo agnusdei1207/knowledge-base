@@ -103,7 +103,6 @@ sequenceDiagram
     participant F as 흐름 제어기
     participant I as 재고 서비스
     participant P as 결제 서비스
-    participant S as Saga 상태 저장소
     C->>F: Saga 업무 요청
     F->>I: 1. 재고 확보 명령
     I-->>F: 2. 재고 커밋 결과
@@ -111,7 +110,7 @@ sequenceDiagram
     P-->>F: 4. 결제 실패 결과
     F->>I: 5. 재고 복원 명령
     I-->>F: 보상 결과
-    F->>S: Saga 복구 상태
+    F->>F: Saga 복구 상태 기록
     F-->>C: 업무 실패 결과
 ```
 

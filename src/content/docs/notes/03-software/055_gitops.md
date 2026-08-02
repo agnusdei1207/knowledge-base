@@ -105,7 +105,6 @@ sequenceDiagram
     participant R as 상태 저장소
     participant C as GitOps 제어기
     participant E as 대상 환경
-    participant N as 보고 채널
     U->>R: 승인 선언 병합
     loop 지속 조정
         C->>R: 1. 목표 상태 조회
@@ -115,7 +114,7 @@ sequenceDiagram
         opt 드리프트 존재
             C->>E: 3. 목표 상태 적용
         end
-        C->>N: 4. 조정 상태 보고
+        C-->>U: 4. 조정 상태 보고
     end
 ```
 

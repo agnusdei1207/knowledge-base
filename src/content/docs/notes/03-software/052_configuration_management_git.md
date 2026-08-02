@@ -102,13 +102,12 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant D as 개발자
-    participant L as 로컬 저장소
+    participant D as 개발자·로컬 저장소
     participant R as 원격 저장소
     participant C as 지속적 통합
     participant A as 검토자
-    D->>L: 1. 선택 변경 스냅샷
-    L->>R: 2. 커밋·브랜치 참조
+    D->>D: 1. 선택 변경 스냅샷
+    D->>R: 2. 커밋·브랜치 참조
     R->>C: 3. 후보 변경
     C-->>R: 4. 빌드·시험 결과
     R->>A: 5. 변경 차이

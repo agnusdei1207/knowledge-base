@@ -101,25 +101,24 @@ block
 ```mermaid
 sequenceDiagram
     participant D as 개발자
-    participant P as 보안 파이프라인
-    participant G as 보안 게이트
+    participant P as 보안 파이프라인·게이트
     participant E as 운영 환경
     participant S as 보안 담당자
     D->>P: 코드·의존성 변경
-    P->>G: 1. 자동 검사·정책 결과
+    P->>P: 1. 자동 검사·정책 판정
     alt 정책 충족
-        G->>E: 2. 승인 산출물 배포
+        P->>E: 2. 승인 산출물 배포
         E-->>S: 3. 운영 보안 지표
         S-->>D: 운영 위험 피드백
     else 정책 위반
-        G->>S: 예외 검토 요청
+        P->>S: 예외 검토 요청
         S-->>D: 차단·예외 결정
     end
 ```
 
 **동작 원리**
 
-- **1. 자동 검사·정책 결과**: SAST·SCA·비밀정보 검사 수행
+- **1. 자동 검사·정책 판정**: SAST·SCA·비밀정보 검사 결과를 보안 기준과 비교
 - **2. 승인 산출물 배포**: 보안 기준 충족 버전을 운영에 반영
 - **3. 운영 보안 지표**: 취약 행위·공격 징후 수집
 
