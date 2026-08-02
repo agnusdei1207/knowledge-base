@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)**: EU 금융 부문의 ICT 위험·사고 보고·복원력 시험·제3자 위험관리를 통합한 규정이다.
+- **디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)**: 유럽연합(European Union, EU) 금융 부문의 정보통신기술(Information and Communication Technology, ICT) 위험·사고 보고·복원력 시험·제3자 위험관리를 통합한 규정이다.
 
 </details>
 
@@ -39,8 +39,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ICT 위험**: 정보통신기술 장애·오류·공격이 금융 서비스에 손실을 일으킬 가능성이다.
-- **중대 ICT 사고**: 서비스·고객·거래에 중대한 영향을 주어 보고해야 하는 사고이다.
+- **정보통신기술 위험(Information and Communication Technology Risk, ICT 위험)**: 기술 장애·오류·공격이 금융 서비스에 손실을 일으킬 가능성이다.
+- **중대 ICT 사고**: 서비스·고객·거래에 중대한 영향을 주어 보고해야 하는 정보통신기술 사고이다.
+- **중요 정보통신기술 제3자 제공자(Critical ICT Third-Party Provider, CTPP)**: 유럽연합(European Union, EU) 금융 안정성에 중요한 서비스를 제공해 직접 감독을 받는 공급자이다.
 
 </details>
 
@@ -57,7 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TLPT**: 실제 위협정보와 전술로 중요 기능의 방어·복구를 검증하는 위협 기반 침투시험이다.
+- **위협 주도 침투시험(Threat-Led Penetration Testing, TLPT)**: 실제 위협정보와 전술로 중요 기능의 방어·복구를 검증하는 시험이다.
+- **정보통신기술(Information and Communication Technology, ICT) 위험관리**: 기술 자산과 의존성을 식별하고 보호·탐지·대응·복구하는 관리 활동이다.
 - **종료 전략**: 공급자 장애·계약 종료 시 중요 서비스를 이전·복구하는 계획이다.
 
 </details>
@@ -92,6 +94,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **집중 위험**: 다수 금융기관의 소수 공급자 의존으로 단일 장애가 확산할 위험이다.
+- **ICT·TLPT 판단**: 정보통신기술(Information and Communication Technology, ICT) 의존성과 위협 주도 침투시험(Threat-Led Penetration Testing, TLPT) 결과를 감독 증거로 연결하는 기준이다.
 
 </details>
 
@@ -126,7 +129,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CTPP**: EU 금융 안정성에 중요해 유럽 감독기관의 직접 감독을 받는 ICT 제3자 제공자이다.
+- **중요 정보통신기술 제3자 제공자(Critical ICT Third-Party Provider, CTPP)**: 유럽연합(European Union, EU) 금융 안정성에 중요해 직접 감독을 받는 정보통신기술 공급자이다.
+- **디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)**: 금융기관의 위험·사고·시험 의무와 공급자 감독을 규정한다.
 
 </details>
 
@@ -147,8 +151,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Regulation (EU) 2022/2554**: DORA의 정식 법령으로 2025년 1월 17일부터 적용된다.
-- **주관 감독자**: CTPP의 위험 평가·검사·권고 이행을 총괄하는 유럽 감독기관이다.
+- **유럽연합 규정(Regulation of the European Union, Regulation (EU)) 2022/2554**: 디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)의 정식 법령으로 2025년 1월 17일부터 적용된다.
+- **주관 감독자**: 중요 정보통신기술 제3자 제공자(Critical ICT Third-Party Provider, CTPP)의 위험 평가·검사·권고 이행을 총괄하는 유럽 감독기관이다.
+- **위협 주도 침투시험(Threat-Led Penetration Testing, TLPT)**: 중요 금융 기능을 실제 위협 시나리오로 공격해 방어·복구 능력을 검증하는 시험이다.
+- **정보통신기술(Information and Communication Technology, ICT) 공급자 집중**: 소수 기술 공급자의 장애가 금융권 전체로 확산할 수 있는 의존 위험이다.
 
 </details>
 
@@ -168,6 +174,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **운영 복원력**: 내부 시스템과 외부 공급자의 장애 중에도 중요 금융 서비스를 지속·복구하는 능력이다.
+- **DORA·CTPP 감독**: 디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)의 금융기관 직접 의무와 중요 정보통신기술 제3자 제공자(Critical ICT Third-Party Provider, CTPP)에 대한 유럽연합(European Union, EU) 감독을 구분하는 기준이다.
 
 </details>
 
