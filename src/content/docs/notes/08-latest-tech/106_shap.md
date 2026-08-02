@@ -18,8 +18,6 @@ extra:
   priority_note: "기여도 기반 설명은 비교 출제 가치"
 ---
 
-> **키워드:** SHAP 설명 기법 (SHapley Additive exPlanations)
-
 ## Ⅰ. 개요
 
 <details>

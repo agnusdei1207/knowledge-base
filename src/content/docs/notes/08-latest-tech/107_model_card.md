@@ -18,8 +18,6 @@ extra:
   priority_note: "모델 한계·용도 공개가 책임성 기반"
 ---
 
-> **키워드:** 모델 카드 (Model Card)
-
 ## Ⅰ. 개요
 
 <details>

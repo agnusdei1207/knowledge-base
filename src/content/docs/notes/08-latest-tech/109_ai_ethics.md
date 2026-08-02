@@ -18,8 +18,6 @@ extra:
   priority_note: "윤리 원칙은 거버넌스 답안의 기반"
 ---
 
-> **키워드:** AI 윤리 (AI Ethics)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "위험등급 기반 규제가 최신 정책 핵심"
 ---
 
-> **키워드:** EU AI Act (유럽연합 인공지능법)
-
 ## Ⅰ. 개요
 
 <details>

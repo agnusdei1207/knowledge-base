@@ -18,8 +18,6 @@ extra:
   priority_note: "사전 영향평가가 고위험 AI 통제 핵심"
 ---
 
-> **키워드:** AI 영향평가 (AI Impact Assessment)
-
 ## Ⅰ. 개요
 
 <details>

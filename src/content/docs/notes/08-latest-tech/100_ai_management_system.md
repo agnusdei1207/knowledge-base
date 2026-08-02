@@ -18,8 +18,6 @@ extra:
   priority_note: "AI 경영시스템 인증·운영이 주요 쟁점"
 ---
 
-> **키워드:** ISO/IEC 42001 AI 경영시스템 (AI Management System)
-
 ## Ⅰ. 개요
 
 <details>

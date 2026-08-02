@@ -18,8 +18,6 @@ extra:
   priority_note: "국소 대리 설명은 설명가능 AI 세부 기법"
 ---
 
-> **키워드:** LIME (국소 대리 설명)
-
 ## Ⅰ. 개요
 
 <details>

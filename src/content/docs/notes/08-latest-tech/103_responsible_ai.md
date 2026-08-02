@@ -18,8 +18,6 @@ extra:
   priority_note: "공정성·투명성·책임성이 반복 쟁점"
 ---
 
-> **키워드:** Responsible AI (책임 있는 AI)
-
 ## Ⅰ. 개요
 
 <details>

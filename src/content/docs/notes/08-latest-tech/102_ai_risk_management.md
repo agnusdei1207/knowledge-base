@@ -18,8 +18,6 @@ extra:
   priority_note: "위험 식별·평가·통제가 거버넌스 핵심"
 ---
 
-> **키워드:** AI Risk Management (AI 위험관리)
-
 ## Ⅰ. 개요
 
 <details>

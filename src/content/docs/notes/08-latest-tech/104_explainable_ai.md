@@ -18,8 +18,6 @@ extra:
   priority_note: "설명 가능성과 신뢰성 확보가 반복 출제"
 ---
 
-> **키워드:** Explainable AI (설명 가능한 AI)
-
 ## Ⅰ. 개요
 
 <details>
