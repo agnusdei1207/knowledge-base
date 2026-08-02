@@ -18,8 +18,6 @@ extra:
   priority_note: "시각·언어 정렬이 멀티모달 핵심"
 ---
 
-> **키워드:** Vision-Language Model (시각언어모델)
-
 ## Ⅰ. 개요
 
 <details>

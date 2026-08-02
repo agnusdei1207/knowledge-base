@@ -18,8 +18,6 @@ extra:
   priority_note: "다중 모달 융합 구조가 반복 출제축"
 ---
 
-> **키워드:** Multimodal AI (멀티모달 AI)
-
 ## Ⅰ. 개요
 
 <details>

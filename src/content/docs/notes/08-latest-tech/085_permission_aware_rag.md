@@ -18,8 +18,6 @@ extra:
   priority_note: "사용자 권한 기반 검색 통제가 보안 핵심"
 ---
 
-> **키워드:** 권한 인지 RAG (Permission-Aware RAG)
-
 ## Ⅰ. 개요
 
 <details>

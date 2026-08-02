@@ -18,8 +18,6 @@ extra:
   priority_note: "검색·생성 통합 경험이 최신 서비스축"
 ---
 
-> **키워드:** AI Search (AI 검색)
-
 ## Ⅰ. 개요
 
 <details>
