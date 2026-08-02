@@ -20,11 +20,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 슬라이스 식별 체계**: 슬라이스 식별 정보인 NSSAI를 실제 운영 단위인 NSI와 NSSI에 연결하는 체계이다.
+- **네트워크 슬라이스 식별 체계**: 네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)를 실제 운영 단위인 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)에 연결하는 체계
 
 </details>
 
-- 정의/개념: 슬라이스 **식별 정보 NSSAI**를 운영 단위 NSI·NSSI에 연결하는 체계
+- 정의/개념: 슬라이스의 **NSSAI-NSI·NSSI 연결 체계**
 - 배경/필요성: 식별자만으로는 **실제 종단망 선택 불가**
 
 #### 한줄 요약
@@ -36,8 +36,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **S-NSSAI**: SST와 선택적인 SD를 결합해 하나의 네트워크 슬라이스를 선택하는 식별자이다.
-- **NSI·NSSI**: NSI는 종단 논리망 인스턴스이고 NSSI는 이를 구성하는 영역별 하위망 인스턴스이다.
+- **단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)**: 슬라이스·서비스 유형(Slice/Service Type, SST)과 선택적인 슬라이스 구분자(Slice Differentiator, SD)를 결합해 하나의 네트워크 슬라이스를 선택하는 식별자
+- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)·네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: NSI는 종단 논리망 인스턴스이고 NSSI는 이를 구성하는 영역별 하위망 인스턴스
 
 </details>
 
@@ -54,8 +54,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NSSAI**: 단말이 요청하거나 망이 허용하는 S-NSSAI의 목록이다.
-- **NSSF**: 가입·지역·가용성을 바탕으로 요청에 맞는 네트워크 슬라이스를 선택하는 망 기능이다.
+- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말이 요청하거나 망이 허용하는 단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)의 목록
+- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입·지역·가용성을 바탕으로 요청에 맞는 네트워크 슬라이스를 선택하는 망 기능
+- **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 접속 정보를 받아 NSSF에 슬라이스 선택을 요청하는 망 기능
+- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)·네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: NSI는 종단 논리망이고 NSSI는 영역별 하위망
 
 </details>
 
@@ -74,7 +76,7 @@ block
 | S-NSSAI(SST·SD) | 서비스 유형과 **슬라이스 구분자** 결합 |
 | AMF·NSSF | 가입·지역·가용성 기반 **슬라이스 선택** |
 | 종단 NSI | 서비스용 **종단 논리망** 제공 |
-| 무선 NSSI | **무선 접속 자원**과 기능 제공 |
+| 무선 NSSI | **무선 접속 자원·기능 제공** |
 | 전송 NSSI | 영역 간 **격리 경로** 제공 |
 | 코어 NSSI | 세션·정책·사용자면 **코어 기능** 제공 |
 
@@ -87,8 +89,10 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **NSI 매핑**: 요청된 S-NSSAI를 가입·지역·가용성 조건에 맞는 실제 종단 논리망에 연결하는 과정이다.
-- **NSSI 조합**: 무선·전송·코어 영역의 하위망 인스턴스를 연결해 하나의 종단 NSI를 구성하는 과정이다.
+- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI) 매핑**: 요청된 단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)를 가입·지역·가용성 조건에 맞는 NSI에 연결하는 과정
+- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 조합**: 무선·전송·코어 영역의 NSSI를 연결해 하나의 종단 NSI를 구성하는 과정
+- **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)·네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: AMF가 NSSF에 가입·지역 정보를 전달해 슬라이스를 선택하는 제어 기능
+- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말이 요청하거나 망이 허용하는 슬라이스 식별자 목록
 
 </details>
 
@@ -123,9 +127,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NSSAI**: 접속 요청과 슬라이스 선택에 사용하는 식별 정보이다.
-- **NSI**: 종단 서비스를 제공하는 실제 논리망 운영 인스턴스이다.
-- **NSSI**: NSI를 구성하거나 여러 NSI가 공유할 수 있는 영역별 하위망 인스턴스이다.
+- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 접속 요청과 슬라이스 선택에 사용하는 식별 정보
+- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 종단 서비스를 제공하는 실제 논리망 운영 인스턴스
+- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: NSI를 구성하거나 여러 NSI가 공유할 수 있는 영역별 하위망 인스턴스
 
 </details>
 
@@ -146,8 +150,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **고아 자원**: 상위 NSI와의 연결이 끊겼지만 삭제되지 않아 불필요하게 남은 NSSI 또는 자원이다.
-- **매핑 불일치**: 가입·지역별 허용 S-NSSAI가 의도한 NSI와 연결되지 않는 구성 오류이다.
+- **고아 자원**: 상위 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와의 연결이 끊겼지만 삭제되지 않아 불필요하게 남은 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 또는 자원
+- **매핑 불일치**: 가입·지역별 허용 단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)가 의도한 NSI와 연결되지 않는 구성 오류
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 지역별 NSI가 보장해야 할 지연·용량·가용성 목표와 책임을 정한 협약
 
 </details>
 
@@ -166,11 +171,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **슬라이스 가용성**: 특정 가입자와 지역에서 요청한 S-NSSAI에 대응하는 NSI와 NSSI가 정상 제공되는 상태이다.
+- **슬라이스 가용성**: 특정 가입자와 지역에서 요청한 단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)에 대응하는 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)가 정상 제공되는 상태
 
 </details>
 
-- 가입·지역·가용성이 맞으면 **S-NSSAI**를 **NSI·NSSI**에 매핑
+- 가입·지역·가용성에 따른 **S-NSSAI와 NSI·NSSI 간 매핑**
 
 #### 한줄 요약
 
