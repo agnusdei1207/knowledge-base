@@ -98,16 +98,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 평가 책임자
+    participant O as 평가·결과 책임자
     participant B as 블라인드 변환기
     participant J as LLM 판정기
     participant H as 인간 교정자
-    participant R as 결과 판정기
     O->>B: 1. 대표 표본·기준표 구성
     B->>J: 2. 식별 제거·후보 순서 교환
     J->>H: 3. 반복 점수·선호 판정
-    H->>R: 4. 사람 판단·편향 대조
-    R-->>O: 5. 자동 채택·인간 전환 결정
+    H->>O: 4. 사람 판단·편향 대조
+    O->>O: 5. 자동 채택·인간 전환 결정
 ```
 
 1. **대표 표본·기준표 구성**: 정상·실패·고위험 사례와 **판정 조건** 정의

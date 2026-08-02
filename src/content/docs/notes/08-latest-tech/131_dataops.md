@@ -103,15 +103,14 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant V as 버전 저장소
+    participant V as 버전·계보 저장소
     participant Q as 품질 게이트
     participant O as 오케스트레이터
-    participant L as 메타데이터 계보
     participant M as 데이터 관측
     V->>Q: 1. 변경 버전 전달
     Q->>O: 2. 검증 통과 버전 전달
-    O->>L: 3. 실행·의존성 기록 전달
-    L->>M: 4. 계보·품질 기준 전달
+    O->>V: 3. 실행·의존성 기록 전달
+    V->>M: 4. 계보·품질 기준 전달
     M-->>O: 5. 이상·백필 요청 전달
 ```
 

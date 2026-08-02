@@ -98,13 +98,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant B as 기준선
-    participant L as 관측 저장소
+    participant B as 기준·관측 저장소
     participant G as 정답 결합기
     participant D as 드리프트 진단기
     participant R as 복구기
-    B->>L: 1. 승인 품질·버전 기준 고정
-    L->>G: 2. 입력·예측·정답 신호 결합
+    B->>B: 1. 승인 품질·버전 기준 고정
+    B->>G: 2. 입력·예측·정답 신호 결합
     G->>D: 3. 전체·구간 품질 비교
     D->>R: 4. 데이터·개념·구성 원인 분해
     R-->>B: 5. 복구 후보 검증·승격

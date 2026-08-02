@@ -99,13 +99,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 작업 관리자
-    participant S as 갱 스케줄러
+    participant O as 작업·갱 스케줄러
     participant N as GPU 노드
     participant C as 집단 통신 계층
     participant R as 체크포인트 저장소
-    O->>S: 1. 모델 메모리·통신량 분석
-    S->>N: 2. 병렬 전략·인접 GPU 동시 배치
+    O->>O: 1. 모델 메모리·통신량 분석
+    O->>N: 2. 병렬 전략·인접 GPU 동시 배치
     N->>C: 3. 샤드 적재·모델 계산
     C->>N: 4. 집단 통신·상태 동기화
     N-->>R: 5. 분산 상태 저장·장애 복구

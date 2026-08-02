@@ -103,16 +103,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant B as 기준 프로필
-    participant C as 현재 구간
+    participant B as 기준·현재 프로필
     participant D as 분포 비교기
     participant P as 문맥 정책
     participant L as 정답 저장소
     B->>D: 1. 기준 분포 전달
-    C->>D: 2. 현재 입력 분포 전달
+    B->>D: 2. 현재 입력 분포 전달
     D->>P: 3. 분포 거리·경보 전달
     L-->>P: 4. 지연 정답·성능 전달
-    P-->>C: 5. 관측·보정·재학습 판정 전달
+    P-->>B: 5. 관측·보정·재학습 판정 전달
 ```
 
 - **1. 기준 분포 전달**: 계절·캠페인 등 정상 비교 구간 고정
