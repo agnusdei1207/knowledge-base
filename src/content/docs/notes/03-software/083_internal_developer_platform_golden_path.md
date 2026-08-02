@@ -107,15 +107,14 @@ sequenceDiagram
     participant D as 개발팀
     participant P as 골든 패스
     participant W as 자동화 워크플로
-    participant M as 경로 지표
     participant A as 플랫폼팀
     D->>P: 서비스 유형·팀 요구
     P->>W: 1. 시작 템플릿·기본값·가드레일
     W-->>D: 표준 서비스 경로
     D->>A: 미충족 요구·우회 사유
     A->>W: 2. 승인 확장·탈출구·만료 조건
-    W->>M: 3. 단계 시간·실패·우회 지표
-    M-->>A: 경로 마찰 분석 결과
+    W->>A: 3. 단계 시간·실패·우회 지표
+    A->>A: 경로 마찰 분석
 ```
 
 **동작 원리**

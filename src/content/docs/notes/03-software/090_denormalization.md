@@ -108,14 +108,13 @@ sequenceDiagram
     participant DB as 원본 DB
     participant SYNC as 동기화 처리기
     participant READ as 조회 모델
-    participant V as 정합성 검증기
     APP->>DB: 원본 변경 명령
     DB->>SYNC: 1. 변경 ID·버전·이벤트 값
     SYNC->>DB: 2. 원본 ID·기대 버전
     DB-->>SYNC: 최신 원본 데이터
     SYNC->>READ: 3. 조회 키·버전·파생값
-    READ->>V: 4. 조회 모델 버전·동기화 지연
-    V-->>SYNC: 불일치·재처리 대상
+    READ-->>SYNC: 4. 조회 모델 버전·동기화 지연
+    SYNC->>SYNC: 불일치·재처리 대상 판정
     APP->>READ: 조회 조건
     READ-->>APP: 준비된 조회 결과
 ```

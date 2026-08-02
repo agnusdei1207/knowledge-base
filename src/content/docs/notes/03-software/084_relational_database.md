@@ -103,13 +103,12 @@ block
 sequenceDiagram
     participant U as 사용자
     participant O as 옵티마이저
-    participant E as 실행 엔진
-    participant C as 제약 검사
+    participant E as 실행·제약 엔진
     participant S as 저장소
     U->>O: SQL 문·매개변수
     O->>E: 1. 실행 계획·예상 비용
-    E->>C: 2. 관계 연산·변경 후보 튜플
-    C->>S: 3. 검증된 관계 연산
+    E->>E: 2. 관계 연산·변경 후보 튜플 검증
+    E->>S: 3. 검증된 관계 연산
     S-->>E: 결과 행·변경 건수
     E-->>U: 결과 행·커밋 상태
 ```

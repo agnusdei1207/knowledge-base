@@ -102,17 +102,16 @@ block
 ```mermaid
 sequenceDiagram
     participant D as 개발자
-    participant P as IDP
-    participant W as 자동화 워크플로
+    participant P as IDP·자동화 워크플로
     participant G as 정책 가드레일
     participant R as 실행 환경
     D->>P: 카탈로그 템플릿·요청값
-    P->>W: 1. 템플릿·매개변수·소유 정보
-    W->>G: 2. 자원 명세·정책 컨텍스트
-    G-->>W: 허용·위반·보완 조건
-    W->>R: 3. 승인 자원·파이프라인 명세
-    R-->>W: 배포·건강 상태
-    W-->>D: 운영 접점·소유 정보·피드백 경로
+    P->>P: 1. 템플릿·매개변수·소유 정보 구체화
+    P->>G: 2. 자원 명세·정책 컨텍스트
+    G-->>P: 허용·위반·보완 조건
+    P->>R: 3. 승인 자원·파이프라인 명세
+    R-->>P: 배포·건강 상태
+    P-->>D: 운영 접점·소유 정보·피드백 경로
 ```
 
 **동작 원리**

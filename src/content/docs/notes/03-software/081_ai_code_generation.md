@@ -101,14 +101,13 @@ block
 ```mermaid
 sequenceDiagram
     participant D as 개발자
-    participant C as IDE 문맥 수집
+    participant C as 문맥·정책 검사
     participant M as 생성 모델
-    participant P as 정책·참조 검사
     participant V as 검증 파이프라인
     D->>C: 구현 의도·허용 파일 범위
     C->>M: 1. 프롬프트·제한 문맥
-    M->>P: 2. 코드 후보·생성 문맥
-    P-->>D: 코드 후보·정책·참조 결과
+    M->>C: 2. 코드 후보·생성 문맥
+    C-->>D: 코드 후보·정책·참조 결과
     D->>V: 3. 수정 코드·기대 동작
     V-->>D: 빌드·단위 테스트·SAST·검토 결과
 ```

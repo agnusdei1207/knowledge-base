@@ -103,13 +103,12 @@ sequenceDiagram
     participant T as 트랜잭션 관리자
     participant V as 버전·잠금 제어
     participant D as 데이터 저장소
-    participant M as 충돌 감시
     A->>T: 격리 수준·트랜잭션 경계
     T->>V: 1. 스냅샷·잠금 정책
     V->>D: 2. 가시 버전·읽기·쓰기 연산
     D-->>V: 충돌 트랜잭션·버전 정보
-    V->>M: 3. 대기 그래프·직렬화 관계
-    M-->>T: 4. 대기·커밋·취소 신호
+    V->>V: 3. 대기 그래프·직렬화 관계 검사
+    V-->>T: 4. 대기·커밋·취소 신호
     T-->>A: 커밋·취소·재시도 결과
 ```
 
