@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "인텔리전스 기반 CTI 자동화 (CTI Automation)"
-date: "2026-07-31T02:12:52+09:00"
+date: "2026-08-02T23:52:00+09:00"
 tags:
   - "notes-security"
 weight: 122
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI**: 공격 주체·행위·의도·영향을 분석해 방어 의사결정에 쓰는 지식이다.
+- **CTI 자동화(CTI Automation)**: 위협 정보의 수집·정규화·중복 제거·신뢰도 평가·배포를 기계적으로 연결하되 품질과 공유 정책을 함께 통제하는 운영 방식이다.
 
 </details>
 

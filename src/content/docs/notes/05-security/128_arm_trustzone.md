@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: ARM TrustZone (ARM TrustZone)
-date: "2026-07-31T11:23:28+09:00"
+date: "2026-08-02T23:58:00+09:00"
 tags:
   - notes-security
 weight: 128
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Arm TrustZone**: 하나의 SoC 자원을 Secure·Non-secure 보안 상태로 분리하는 하드웨어 격리 기술이다.
+- **Arm TrustZone**: 하나의 SoC에서 CPU·메모리·주변장치 접근을 Secure·Non-secure 보안 상태로 구분해 신뢰 실행 환경을 구성하는 하드웨어 격리 기술이다.
 
 </details>
 

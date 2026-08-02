@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "EU DORA (디지털 운영 복원력 법)"
-date: "2026-07-31T02:14:22+09:00"
+date: "2026-08-02T23:54:00+09:00"
 tags:
   - "notes-security"
 weight: 124
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DORA**: EU 금융 부문의 ICT 위험·사고·시험·제3자 관리를 통합한 디지털 운영 복원력 법이다.
+- **디지털 운영 복원력 법(Digital Operational Resilience Act, DORA)**: EU 금융 부문의 ICT 위험·사고 보고·복원력 시험·제3자 위험관리를 통합한 규정이다.
 
 </details>
 

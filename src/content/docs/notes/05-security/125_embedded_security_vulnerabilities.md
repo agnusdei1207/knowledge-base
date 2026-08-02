@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: 임베디드 시스템 보안 취약점 (Embedded Security Vulnerabilities)
-date: "2026-07-31T02:15:02+09:00"
+date: "2026-08-02T23:55:00+09:00"
 tags:
   - notes-security
 weight: 125
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **임베디드 시스템**: 특정 기능을 수행하도록 하드웨어와 펌웨어를 결합한 전용 시스템이다.
+- **임베디드 시스템 보안 취약점(Embedded Security Vulnerabilities)**: 전용 장치의 하드웨어·펌웨어·통신·갱신·물리 경로에서 기밀성·무결성·가용성을 훼손할 수 있는 약점이다.
 - **공격면**: 공격자가 접근하거나 입력할 수 있는 통신·포트·갱신·물리 경로의 전체 범위이다.
 
 </details>

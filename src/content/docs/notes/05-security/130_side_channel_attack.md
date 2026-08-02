@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: 사이드채널 공격 (Side-Channel Attack)
-date: "2026-07-31T11:23:49+09:00"
+date: "2026-08-02T23:59:30+09:00"
 tags:
   - notes-security
 weight: 130
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **부채널 공격**: 암호 수학이 아닌 시간·전력·전자기·캐시 등 구현 흔적에서 비밀을 추론하는 공격이다.
+- **사이드채널 공격(Side-Channel Attack, 부채널 공격)**: 암호 수학 자체가 아닌 시간·전력·전자기·캐시 등 구현 과정의 물리적·미세구조 흔적에서 비밀을 추론하는 공격이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: 펌웨어 보안 — 하드코딩 자격증명 (Firmware Security)
-date: "2026-07-31T02:16:37+09:00"
+date: "2026-08-02T23:56:00+09:00"
 tags:
   - notes-security
 weight: 126
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **펌웨어**: 하드웨어를 초기화·제어하는 장치 내 저수준 소프트웨어이다.
+- **펌웨어 보안(Firmware Security)**: 하드웨어를 초기화·제어하는 저수준 소프트웨어의 실행 무결성, 자격증명 보호와 서명 기반 갱신 신뢰성을 보장하는 활동이다.
 
 </details>
 

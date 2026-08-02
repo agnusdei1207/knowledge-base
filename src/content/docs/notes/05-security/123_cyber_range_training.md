@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "사이버 레인지 (Cyber Range, 가상 실전 훈련장)"
-date: "2026-07-31T02:13:40+09:00"
+date: "2026-08-02T23:53:00+09:00"
 tags:
   - "notes-security"
 weight: 123
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사이버 레인지**: 현실적인 시스템을 격리해 공격·방어·복구를 반복 훈련하는 환경이다.
+- **사이버 레인지(Cyber Range)**: 실제 시스템·업무 상황을 모사한 격리 환경에서 공격·방어·복구를 반복하고 수행 결과를 측정하는 훈련 체계이다.
 
 </details>
 

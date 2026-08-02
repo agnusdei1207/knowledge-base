@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: Secure Boot 보안 부팅 (Secure Boot)
-date: "2026-07-31T02:17:13+09:00"
+date: "2026-08-02T23:57:00+09:00"
 tags:
   - notes-security
 weight: 127
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Secure Boot**: 신뢰 키와 폐기 목록으로 부트 이미지 서명을 검증해 허가된 코드만 실행하는 기술이다.
+- **보안 부팅(Secure Boot)**: UEFI의 신뢰 키·허용 목록·폐기 목록으로 부트 이미지 서명을 단계별 검증해 허가된 코드만 실행하는 기술이다.
 - **UEFI**: 하드웨어 초기화·부팅 서비스와 보안 부팅 변수를 관리하는 펌웨어 인터페이스이다.
 
 </details>
