@@ -45,7 +45,7 @@ extra:
 </details>
 
 - 별칭·언급을 하나의 식별자로 연결하는 **개체 식별**
-- **자원 기술 프레임워크(Resource Description Framework, RDF) 트리플·관계 표현**을 통한 다단계 경로 탐색
+- **자원 기술 프레임워크(Resource Description Framework, RDF) 트리플·관계 표현** 을 통한 다단계 경로 탐색
 - 스키마·출처·시점으로 사실을 검증하는 **지식 신뢰**
 
 #### 한줄 요약
