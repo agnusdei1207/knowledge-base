@@ -25,6 +25,7 @@ extra:
 - **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리 기능과 내부 배선을 다시 구성할 수 있는 반도체이다.
 - **재구성 회로(Reconfigurable Circuit)**: 설정 데이터를 바꾸어 동일한 하드웨어 자원을 다른 연산 구조로 재편할 수 있는 회로이다.
 - **지연 상한(Latency Bound)**: 입력부터 결과까지 걸리는 시간이 넘지 않아야 하는 최대 허용 한계이다.
+- **인공지능(Artificial Intelligence, AI)·주문형 반도체(Application-Specific Integrated Circuit, ASIC)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 가속 대상 기술과 고정 회로 및 프로그램식 병렬 가속기이다.
 
 </details>
 
@@ -43,12 +44,13 @@ extra:
 - **개시 간격(Initiation Interval, II)**: 파이프라인이 연속된 새 입력을 받아들이는 사이의 클록 간격이다.
 - **비트스트림(Bitstream)**: FPGA의 논리 기능과 배선 연결 및 메모리 구성을 담은 설정 파일이다.
 - **온칩 메모리 재사용(On-chip Memory Reuse)**: 외부 전송을 반복하지 않도록 데이터를 칩 내부 메모리에 유지하며 여러 연산에 사용하는 방식이다.
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 비트스트림으로 공간 병렬 파이프라인을 재구성하는 반도체이다.
 
 </details>
 
-- **공간 병렬 파이프라인·II**로 일정한 지연·처리율 확보
-- **비트스트림 재구성**으로 모델 변경에 회로 재매핑
-- **온칩 메모리 재사용**으로 외부 전송량 절감
+- 일정한 지연·처리율을 확보하는 **공간 병렬 파이프라인·II**
+- 모델 변경에 회로를 재매핑하는 **비트스트림 재구성**
+- 외부 전송량을 줄이는 **온칩 메모리 재사용**
 
 #### 한줄 요약
 
@@ -58,10 +60,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **룩업 테이블(Look-Up Table, LUT)**: 진리표를 저장하여 사용자 정의 조합 논리를 구현하는 FPGA의 기본 블록이다.
+- **룩업 테이블(Look-Up Table, LUT)**: 진리표를 저장하여 사용자 정의 조합 논리를 구현하는 필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 기본 블록이다.
 - **디지털 신호 처리 슬라이스(Digital Signal Processing Slice, DSP Slice)**: 곱셈과 누산 같은 수치 연산을 전용으로 수행하는 FPGA 블록이다.
 - **블록 램·울트라램(Block RAM·UltraRAM, BRAM·URAM)**: 가중치와 특징맵 및 부분합을 저장하는 FPGA의 온칩 메모리 자원이다.
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서가 직접 복사하지 않고 장치와 메모리 사이에서 데이터를 전송하는 방식이다.
+- **플립플롭(Flip-Flop, FF)·곱셈 누산(Multiply-Accumulate, MAC)**: 상태를 저장하는 순차 논리와 곱셈 결과를 누적하는 연산이다.
 
 </details>
 
@@ -93,9 +96,11 @@ block
 
 <details><summary>핵심 용어</summary>
 
-- **구성 제어기(Configuration Controller)**: 비트스트림을 검증하고 적재하여 FPGA 자원의 동작을 설정하는 회로이다.
+- **구성 제어기(Configuration Controller)**: 비트스트림을 검증하고 적재하여 필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA) 자원의 동작을 설정하는 회로이다.
 - **타일(Tile)**: 큰 텐서를 온칩 메모리 용량과 연산기 크기에 맞게 나눈 데이터 블록이다.
 - **이중 버퍼(Double Buffering)**: 한 버퍼로 연산하는 동안 다른 버퍼에 다음 데이터를 전송해 계산과 이동을 겹치는 기법이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)·블록 램(Block RAM, BRAM)·울트라램(UltraRAM, URAM)**: 타일을 전송하고 온칩에 저장하는 데이터 경로와 메모리 자원이다.
+- **룩업 테이블(Look-Up Table, LUT)·플립플롭(Flip-Flop, FF)·디지털 신호 처리(Digital Signal Processing, DSP)**: 제어와 파이프라인 및 수치 연산을 구현하는 FPGA 자원이다.
 
 </details>
 
@@ -140,6 +145,7 @@ sequenceDiagram
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 다수의 코어로 대규모 병렬 연산을 수행하는 프로세서이다.
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능과 데이터 경로를 제조 시점에 고정하여 구현한 전용 반도체이다.
 - **배치 처리량(Batch Throughput)**: 여러 입력을 묶어 처리할 때 단위 시간당 완료하는 입력의 수이다.
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리와 배선을 재구성할 수 있는 가속기이다.
 
 </details>
 
@@ -163,6 +169,8 @@ sequenceDiagram
 - **양자화(Quantization)**: 가중치와 활성값의 수치 비트 수를 줄여 연산량과 메모리 사용량을 낮추는 변환이다.
 - **부분 재구성(Partial Reconfiguration)**: FPGA 전체를 정지하지 않고 지정한 일부 영역의 회로 구성만 교체하는 기능이다.
 - **롤백 이미지(Rollback Image)**: 새 비트스트림의 검증이나 기동에 실패했을 때 복구할 수 있도록 보관한 정상 구성이다.
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 부분 재구성과 롤백 이미지로 회로 기능을 갱신할 수 있는 반도체이다.
+- **룩업 테이블(Look-Up Table, LUT)·디지털 신호 처리(Digital Signal Processing, DSP)·블록 램(Block RAM, BRAM)**: 논리·수치 연산·온칩 저장을 담당하는 FPGA 자원이다.
 
 </details>
 
@@ -186,6 +194,7 @@ sequenceDiagram
 - **모델 변경 주기(Model Change Cycle)**: 배포한 인공지능 모델의 구조나 연산 요구를 갱신하는 시간 간격이다.
 - **엄격한 지연 상한(Strict Latency Bound)**: 최악 조건에서도 응답 시간이 정해진 제한을 초과하지 않아야 하는 요구사항이다.
 - **고정 대량 생산(Fixed High-volume Production)**: 기능 변경이 드물고 동일한 설계를 많은 수량으로 제조하는 생산 조건이다.
+- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)·그래픽 처리 장치(Graphics Processing Unit, GPU)·주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 재구성 빈도와 생산량에 따라 선택하는 대표 가속기이다.
 
 </details>
 

@@ -25,6 +25,7 @@ extra:
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수의 스레드로 같은 형태의 데이터 병렬 연산을 높은 처리량으로 수행하는 프로세서이다.
 - **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령을 실행 묶음의 활성 스레드들에 공통으로 발행하는 GPU 실행 모델이다.
 - **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 워프 스케줄링과 연산 및 온칩 메모리 관리를 담당하는 GPU 실행 단위이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 복잡한 제어와 소수 스레드의 짧은 지연 실행에 강한 범용 프로세서이다.
 
 </details>
 
@@ -43,12 +44,13 @@ extra:
 - **지연 은닉(Latency Hiding)**: 한 워프가 메모리를 기다리는 동안 준비된 다른 워프를 실행해 대기 시간을 숨기는 기법이다.
 - **활성 마스크(Active Mask)**: 워프에서 현재 명령을 실제로 실행할 스레드만 표시하는 비트 집합이다.
 - **병합 접근(Coalesced Access)**: 인접한 스레드의 연속 주소 요청을 적은 수의 메모리 트랜잭션으로 합치는 접근 방식이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 워프를 전환하며 데이터 병렬 연산을 처리하는 프로세서이다.
 
 </details>
 
-- **워프 전환**으로 메모리 대기 시간 은닉
-- **활성 마스크**로 분기 경로를 순차 실행
-- **병합 접근률·점유율**에 따라 달라지는 메모리 처리량
+- 메모리 대기 시간을 숨기는 **워프 전환**
+- 분기 경로를 순차 실행하는 **활성 마스크**
+- 메모리 처리량을 좌우하는 **병합 접근률·점유율**
 
 #### 한줄 요약
 
@@ -60,7 +62,8 @@ extra:
 
 - **워프 스케줄러(Warp Scheduler)**: 실행 준비가 된 워프를 선택하고 공통 명령을 연산 유닛에 발행하는 하드웨어이다.
 - **공유 메모리(Shared Memory)**: 하나의 스레드 블록이 데이터를 빠르게 교환하고 재사용하는 온칩 메모리이다.
-- **전역 메모리(Global Memory)**: 모든 스레드 블록이 접근할 수 있지만 온칩 메모리보다 지연이 큰 GPU 장치 메모리이다.
+- **전역 메모리(Global Memory)**: 모든 스레드 블록이 접근할 수 있지만 온칩 메모리보다 지연이 큰 그래픽 처리 장치(Graphics Processing Unit, GPU) 메모리이다.
+- **2단계 캐시(Level 2 Cache, L2 캐시)**: 모든 스트리밍 멀티프로세서가 공유하며 전역 메모리 접근을 줄이는 캐시 계층이다.
 
 </details>
 
@@ -91,9 +94,10 @@ block
 
 <details><summary>핵심 용어</summary>
 
-- **블록 디스패처(Block Dispatcher)**: 커널의 스레드 블록을 자원이 충분한 SM에 배치하는 하드웨어이다.
+- **블록 디스패처(Block Dispatcher)**: 커널의 스레드 블록을 자원이 충분한 스트리밍 멀티프로세서(Streaming Multiprocessor, SM)에 배치하는 하드웨어이다.
 - **스레드 블록(Thread Block)**: 같은 SM에 함께 배치되어 공유 메모리와 동기화를 사용하는 스레드 묶음이다.
 - **분기 발산(Branch Divergence)**: 한 워프의 스레드들이 서로 다른 분기 경로를 선택해 경로별로 순차 실행되는 현상이다.
+- **2단계 캐시(Level 2 Cache, L2 캐시)**: 전역 메모리 요청을 공유하며 적중 시 장치 메모리 접근을 줄이는 캐시이다.
 
 </details>
 
@@ -147,7 +151,8 @@ sequenceDiagram
 
 - **단일 명령 다중 데이터(Single Instruction, Multiple Data, SIMD)**: 하나의 벡터 명령을 여러 데이터 레인에 동시에 적용하는 실행 방식이다.
 - **벡터 레인(Vector Lane)**: SIMD 명령에서 서로 다른 데이터 원소를 병렬로 처리하는 연산 통로이다.
-- **CPU 스레드(CPU Thread)**: 독립적인 명령 흐름과 실행 상태를 가지며 복잡한 제어를 수행하는 실행 단위이다.
+- **중앙 처리 장치 스레드(Central Processing Unit Thread, CPU 스레드)**: 독립적인 명령 흐름과 실행 상태를 가지며 복잡한 제어를 수행하는 실행 단위이다.
+- **그래픽 처리 장치 단일 명령 다중 스레드(Graphics Processing Unit Single Instruction, Multiple Threads, GPU SIMT)**: 워프의 여러 스레드에 공통 명령을 발행하는 실행 방식이다.
 
 </details>
 
@@ -171,6 +176,7 @@ sequenceDiagram
 - **레인 활용률(Lane Utilization)**: 워프의 전체 실행 레인 가운데 활성 스레드가 유효한 연산을 수행하는 비율이다.
 - **커널 융합(Kernel Fusion)**: 연속된 커널을 하나로 결합해 실행 시작 비용과 중간 데이터의 전역 메모리 왕복을 줄이는 최적화이다.
 - **비동기 전송(Asynchronous Transfer)**: 계산과 데이터 이동을 겹치도록 완료를 기다리지 않고 전송을 시작하는 방식이다.
+- **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 상주 워프와 레지스터·공유 메모리 자원을 관리하는 GPU 실행 단위이다.
 
 </details>
 
@@ -194,6 +200,8 @@ sequenceDiagram
 - **동일 연산(Data-parallel Operation)**: 많은 데이터 원소에 같은 계산 절차를 독립적으로 적용하는 연산이다.
 - **복잡한 분기(Control-heavy Branching)**: 데이터마다 실행 경로가 자주 달라져 SIMT 레인 활용률을 낮추는 제어 흐름이다.
 - **메모리 접근 규칙성(Memory Access Regularity)**: 인접 스레드가 연속된 주소를 일정한 형태로 요청하는 정도이다.
+- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 공통 명령을 활성 스레드 묶음에 발행하는 실행 방식이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)·중앙 처리 장치(Central Processing Unit, CPU)**: 대규모 동일 연산과 복잡한 제어 흐름에 각각 강한 프로세서이다.
 
 </details>
 

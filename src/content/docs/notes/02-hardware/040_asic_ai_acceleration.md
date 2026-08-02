@@ -25,6 +25,7 @@ extra:
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 용도에 맞춰 연산과 정밀도 및 데이터 경로를 고정하여 제작한 반도체이다.
 - **전용 데이터 경로(Dedicated Data Path)**: 특정 연산의 데이터 이동과 처리를 위해 회로 연결을 고정한 실행 경로이다.
 - **외부 데이터 이동(Off-chip Data Movement)**: 가속기와 외부 메모리 사이에서 입력·가중치·결과를 전송하는 동작이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 추론·인식 등 지능형 작업을 수행하는 기술이다.
 
 </details>
 
@@ -40,13 +41,13 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **고정형 데이터플로우(Stationary Dataflow)**: 반복 사용하는 가중치·활성값·부분합 중 하나를 처리 요소 가까이에 유지하는 방식이다.
-- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 반도체 설계와 검증 및 마스크 제작에 한 번 발생하는 초기 개발 비용이다.
+- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 주문형 반도체(Application-Specific Integrated Circuit, ASIC) 설계와 검증 및 마스크 제작에 한 번 발생하는 초기 개발 비용이다.
 - **손익분기 수량(Break-Even Volume)**: ASIC의 초기 개발 비용을 대안 대비 칩당 비용 절감액으로 회수하는 생산 수량이다.
 
 </details>
 
-- **전용 데이터 경로**로 명령·재구성 오버헤드 제거
-- **고정형 데이터플로우·온칩 재사용**으로 외부 전송 절감
+- 명령·재구성 오버헤드를 제거하는 **전용 데이터 경로**
+- 외부 전송을 줄이는 **고정형 데이터플로우·온칩 재사용**
 - **NRE** 회수 가능성을 가르는 **손익분기 수량**
 
 $$
@@ -67,6 +68,7 @@ $$
 - **곱셈-누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 기존 부분합에 더하는 행렬 연산의 기본 동작이다.
 - **온칩 정적 임의 접근 메모리(On-chip SRAM)**: 가중치와 활성값 및 부분합을 가까이 저장하여 재사용하는 고속 메모리이다.
 - **온칩 네트워크(Network on Chip, NoC)**: 피연산자와 결과를 처리 요소 배열에 분배하고 회수하는 칩 내부 연결망이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 호스트 개입 없이 외부 메모리와 온칩 메모리 사이에서 타일을 전송하는 방식이다.
 
 </details>
 
@@ -101,6 +103,8 @@ block
 - **타일(Tile)**: 큰 텐서를 온칩 메모리 용량과 처리 요소 배열 크기에 맞게 나눈 데이터 블록이다.
 - **멀티캐스트(Multicast)**: 하나의 가중치나 활성값을 여러 처리 요소에 동시에 분배하는 전송 방식이다.
 - **부분합(Partial Sum)**: 행렬 곱에서 여러 곱셈 결과를 모두 더하기 전까지 누적 중인 중간값이다.
+- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)·온칩 네트워크(Network on Chip, NoC)**: 타일을 가까이 저장하고 처리 요소에 분배하는 온칩 메모리와 연결망이다.
+- **처리 요소(Processing Element, PE)·곱셈 누산(Multiply-Accumulate, MAC)**: 행렬 연산을 병렬 실행하는 단위와 기본 연산이다.
 
 </details>
 
@@ -143,6 +147,7 @@ sequenceDiagram
 - **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후 논리 기능과 내부 배선을 다시 구성할 수 있는 반도체이다.
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 다수의 병렬 코어로 범용 수치 연산을 수행하는 프로세서이다.
 - **재설계 비용(Redesign Cost)**: 고정된 ASIC 기능이나 오류를 수정하기 위해 설계·검증·제조를 다시 수행할 때 발생하는 비용이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)·인공지능(Artificial Intelligence, AI)**: 특정 인공지능 연산을 고정 회로로 구현한 전용 가속기 방식이다.
 
 </details>
 
@@ -164,6 +169,8 @@ sequenceDiagram
 - **연산기 가동률(Compute Utilization)**: 전체 시간 가운데 처리 요소가 유효한 연산을 수행한 시간의 비율이다.
 - **에뮬레이션(Emulation)**: 제작 전 ASIC 설계를 재구성 하드웨어에서 실행하여 기능과 성능 오류를 검증하는 방법이다.
 - **실리콘 검증(Silicon Validation)**: 제조된 실제 칩의 기능과 타이밍 및 전력·열 특성이 목표를 만족하는지 확인하는 절차이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)·비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 특정 용도의 고정 반도체와 설계·마스크 제작에 드는 초기 비용이다.
+- **처리 요소(Processing Element, PE)·텐서 처리 장치(Tensor Processing Unit, TPU)**: 병렬 연산 단위와 행렬·텐서 연산을 위한 전용 가속기이다.
 
 </details>
 
@@ -187,6 +194,7 @@ sequenceDiagram
 - **모델 안정성(Model Stability)**: 제품 수명 동안 인공지능 모델의 구조와 핵심 연산 요구가 크게 바뀌지 않는 특성이다.
 - **대량 수요(High-volume Demand)**: 초기 개발 비용을 칩당 비용 절감으로 회수할 만큼 충분한 생산 수량이 요구되는 조건이다.
 - **전력 효율(Power Efficiency)**: 소비 전력 단위당 처리하는 연산량이나 완료하는 작업의 정도이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 모델과 수요가 안정적일 때 초기 비용을 회수하며 높은 전력 효율을 제공하는 전용 반도체이다.
 
 </details>
 
