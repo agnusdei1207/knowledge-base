@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **Brewer-Nash 모델**은 주체의 과거 접근 이력에 따라 같은 이해충돌 집단 내 경쟁 회사 데이터 접근을 동적으로 제한하는 **기밀성 보안 모델**
+- 정의/개념: 과거 접근 이력에 따라 경쟁 회사 데이터 접근을 동적으로 제한하는 **Brewer-Nash 기밀성 보안 모델**
 - 배경/필요성: 고정 역할만으로는 이전 고객 접근에 따른 **이해충돌 판정 불가**
 
 #### 한줄 요약
@@ -40,6 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **만리장성 정책**: 한 경쟁사 정보를 본 주체와 다른 경쟁사 사이에 논리적 장벽을 세우는 정책이다.
+- **이해충돌 집단(Conflict of Interest, COI)**: 서로 경쟁해 같은 주체의 교차 접근을 제한해야 하는 회사 집합이다.
 
 </details>
 
@@ -56,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **COI 클래스·회사 데이터셋**: 서로 경쟁하는 회사들의 집합과 한 회사에 속해 함께 통제할 정보 객체 집합이다.
+- **이해충돌 클래스(Conflict of Interest Class, COI 클래스)·회사 데이터셋(Company Dataset, CD)**: 서로 경쟁하는 회사들의 집합과 한 회사에 속해 함께 통제할 정보 객체 집합이다.
 - **정제 정보**: 특정 회사 기밀·재식별 단서를 제거해 공유 가능하다고 검증한 정보이다.
 
 </details>
@@ -91,6 +92,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **원자적 처리**: 접근 결정과 이력 기록을 끼어들기 없이 하나의 작업으로 완료하는 처리이다.
+- **객체·이력 분류**: 회사 데이터셋(Company Dataset, CD)과 이해충돌 클래스(Conflict of Interest Class, COI)를 객체·이력에 연결한 접근 판단 정보이다.
 
 </details>
 
@@ -126,7 +128,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BLP·RBAC**: 보안 등급의 정보 흐름을 제한하는 모델과 역할에 권한을 묶어 배정하는 모델이다.
+- **Bell-LaPadula 모델(Bell-LaPadula Model, BLP)·역할기반 접근통제(Role-Based Access Control, RBAC)**: 보안 등급의 정보 흐름을 제한하는 모델과 역할에 권한을 묶어 배정하는 모델이다.
+- **이해충돌 클래스(Conflict of Interest Class, COI)**: Brewer-Nash 모델에서 과거 접근 이력에 따라 경쟁 회사 접근을 제한하는 동적 권한 기준이다.
 
 </details>
 
@@ -148,7 +151,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **Brewer·Nash 1989**: 만리장성 보안 정책을 제시한 원 논문이다.
-- **NIST SP 800-53 AC-4**: 승인된 정보 흐름 정책을 시스템 안팎에서 집행하는 통제이다.
+- **미국 국립표준기술연구소 특별간행물 접근통제 4(NIST Special Publication 800-53 Access Control 4, NIST SP 800-53 AC-4)**: 승인된 정보 흐름 정책을 시스템 안팎에서 집행하는 통제이다.
+- **미국 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 논문**: Brewer와 Nash가 1989년에 만리장성 보안 정책을 제시한 원문이다.
+- **충돌 회사 분류**: 이해충돌 클래스(Conflict of Interest, COI)와 회사 데이터셋(Company Dataset, CD)을 연결해 충돌 회사를 판정하는 기준이다.
 
 </details>
 
@@ -168,6 +173,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **이력 기반 동적 권한**: 현재 역할이 아니라 과거에 접근한 고객 정보에 따라 다음 접근을 제한하는 방식이다.
+- **이해충돌 클래스(Conflict of Interest, COI) 선택**: 같은 경쟁 집단에서는 과거에 선택한 회사 데이터만 계속 허용하는 규칙이다.
 
 </details>
 

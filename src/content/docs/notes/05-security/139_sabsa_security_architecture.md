@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SABSA**: 사업 목표·위험을 보안 구현·운영 지표까지 추적하는 보안 아키텍처 방법론이다.
+- **셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA)**: 사업 목표·위험을 보안 구현·운영 지표까지 추적하는 보안 아키텍처 방법론이다.
 
 </details>
 
-- 정의/개념: **SABSA**는 사업 목표와 위험에서 보안 속성·서비스·구현·운영 지표를 도출하고 계층 간 추적성을 유지하는 **위험 기반 보안 아키텍처 방법론**
+- 정의/개념: 사업 목표와 위험을 보안 속성·서비스·구현·운영 지표까지 연결하는 **SABSA 위험 기반 보안 아키텍처 방법론**
 - 배경/필요성: 제품 중심 설계로는 통제와 **사업 가치·위험 연결 불가**
 
 #### 한줄 요약
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SABSA 계층**: 맥락·개념·논리·물리·컴포넌트·운영으로 요구를 구현까지 구체화하는 여섯 계층이다.
+- **셔우드 응용 비즈니스 보안 아키텍처 계층(Sherwood Applied Business Security Architecture Layers, SABSA 계층)**: 맥락·개념·논리·물리·컴포넌트·운영으로 요구를 구현까지 구체화하는 여섯 계층이다.
 
 </details>
 
@@ -125,7 +125,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TOGAF·Zachman**: 전사 아키텍처 전환 절차와 관점별 산출물 분류에 각각 초점을 둔 프레임워크이다.
+- **개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)·Zachman 프레임워크**: 전사 아키텍처 전환 절차와 관점별 산출물 분류에 각각 초점을 둔다.
+- **셔우드 응용 비즈니스 보안 아키텍처(SABSA)·아키텍처 개발 방법(Architecture Development Method, ADM)**: 보안 위험의 계층별 추적과 전사 변화 절차를 구분하는 판단 기준이다.
 
 </details>
 
@@ -146,8 +147,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SABSA Matrix**: 여섯 계층과 무엇·왜·어떻게·누가·어디서·언제를 조합해 산출물을 점검하는 틀이다.
-- **ISO/IEC/IEEE 42010**: 아키텍처 설명의 관점·뷰·모델 표현 요구사항을 규정한 표준이다.
+- **셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA) 매트릭스**: 여섯 계층과 무엇·왜·어떻게·누가·어디서·언제를 조합해 산출물을 점검하는 틀이다.
+- **국제표준화기구·국제전기기술위원회·전기전자공학자협회(International Organization for Standardization/International Electrotechnical Commission/Institute of Electrical and Electronics Engineers, ISO/IEC/IEEE) 42010**: 아키텍처 설명의 관점·뷰·모델 표현 요구사항을 규정한 표준이다.
+- **전사 전환 연계**: 개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)의 아키텍처 개발 방법(Architecture Development Method, ADM)으로 보안 설계와 전사 전환 일정을 연결한다.
 
 </details>
 
@@ -167,10 +169,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **사업 가치 입증**: 보안 구현과 운영 성과가 어떤 사업 목표·위험에 기여하는지 연결해 설명하는 활동이다.
+- **위험 추적·전사 전환 결합**: 셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA)의 위험 추적과 개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)의 전사 전환을 결합하는 방식이다.
 
 </details>
 
-- 사업 위험 추적은 **SABSA**, 전사 전환은 TOGAF와 결합 적용
+- 사업 위험 추적은 **SABSA**, 전사 전환은 **TOGAF 결합** 적용
 
 #### 한줄 요약
 
