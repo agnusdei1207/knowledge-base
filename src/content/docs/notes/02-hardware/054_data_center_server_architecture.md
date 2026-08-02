@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-07-31T10:31:00+09:00"
+date: "2026-08-02T11:14:00+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -18,34 +18,15 @@ extra:
   priority_note: "서버 자원·장애 범위·랙 한도의 균형"
 ---
 
-## 미리 알고가기
-
-- **서버 노드(Server Node)**: CPU·메모리·스토리지·NIC를 한 운영 단위로 관리하는 서버
-- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 프로세서 소켓별 로컬·원격 메모리의 접근 지연이 달라지는 서버 구조
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: CPU와 가속기·NVMe 장치를 연결하는 고속 직렬 인터커넥트
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 기반 SSD의 병렬 큐와 명령 형식을 정의한 저장장치 규격
-- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 서버의 서비스·클러스터 네트워크 트래픽을 송수신하는 장치
-- **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: 운영체제와 독립적으로 서버의 전원·온도·센서·원격 관리를 담당하는 제어기
-- **장애 범위(Failure Domain)**: 한 고장이 영향을 미치는 노드·섀시·랙 범위
-- **랙 전력 밀도(Rack Power Density)**: 랙당 전력·냉각 용량의 수용 한계
-- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령어 실행과 서버 자원 제어를 담당하는 프로세서
-- **입출력(Input/Output, I/O)**: 서버와 주변장치 사이에서 명령과 데이터를 전달하는 작업
-- **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: 실행 중인 프로그램의 데이터와 상태를 저장하는 주기억장치
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 병렬 코어로 AI·과학 연산을 처리하는 가속기
-- **고대역폭 메모리(High Bandwidth Memory, HBM)**: GPU 가까이에서 가중치·활성값을 병렬 공급하는 적층 메모리
-- **인공지능(Artificial Intelligence, AI)**: 가속 서버가 학습·추론으로 처리하는 대표 워크로드
-- **고성능 컴퓨팅(High-Performance Computing, HPC)**: 여러 노드와 가속기를 병렬 연결하여 대규모 과학 계산을 수행하는 컴퓨팅 방식
-- **가상 중앙 처리 장치(Virtual Central Processing Unit, vCPU)**: 가상 머신에 할당되고 물리 CPU 시간에 스케줄되는 논리 실행 자원
-- **가상화(Virtualization)**: 한 물리 서버의 CPU·메모리·장치를 여러 격리된 가상 머신에 나눠 제공하는 기술
-- **펌웨어(Firmware)**: BMC·장치에 내장되어 전원·초기화·하드웨어 제어를 수행하는 소프트웨어
-- **처리량·지연·가용성**: 처리량은 단위 시간당 완료량, 지연은 요청 완료 시간, 가용성은 서비스가 정상 제공되는 시간 비율
-- **PCIe 루트 포트(PCIe Root Port)**: CPU·칩셋에서 PCIe 장치 트리로 트랜잭션이 출발하는 연결 지점
-- **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키기 위해 CPU·GPU·메모리의 주파수나 전력·처리량을 낮추는 제어
-- **관리망(Management Network)**: 서비스 데이터망과 분리해 BMC 원격 전원·콘솔·펌웨어 관리에 사용하는 네트워크
-
-> **키워드:** 데이터 센터 서버 아키텍처 (Data Center Server Architecture)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **서버 노드(Server Node)**: CPU와 메모리, 스토리지 및 네트워크 장치를 하나의 운영 단위로 관리하는 컴퓨터이다.
+- **서버 아키텍처(Server Architecture)**: 연산과 저장 및 입출력 자원을 연결하고 전력·냉각·관리를 함께 제공하는 구조이다.
+- **장애 범위(Failure Domain)**: 하나의 하드웨어나 전원 고장이 동시에 영향을 미치는 노드·섀시·랙의 범위이다.
+
+</details>
 
 - 정의/개념: **연산·메모리·I/O**를 통합해 워크로드를 처리하는 **서버 구조**
 - 배경/필요성: 개별 자원 증설만으로는 종단 **병목·장애 범위** 해소 불가
@@ -56,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **종단 병목(End-to-end Bottleneck)**: 요청 경로에서 처리량이 가장 낮아 전체 성능을 제한하는 자원이나 구간이다.
+- **랙 전력 밀도(Rack Power Density)**: 하나의 랙에 공급하고 냉각할 수 있는 전력 용량과 실제 장비 소비 전력의 수준이다.
+- **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키기 위해 CPU나 GPU의 주파수와 전력 및 처리량을 낮추는 제어이다.
+- **관리망(Management Network)**: 서비스 데이터망과 분리하여 서버 전원·콘솔·펌웨어의 원격 관리에 사용하는 네트워크이다.
+
+</details>
+
 - **연산·메모리·I/O 균형**이 깨지면 최저 처리량 자원이 종단 병목
 - **전력·냉각 한도** 초과 시 스로틀링·중단 발생
 - **관리망·장애 범위 분리**로 원격 복구와 가용성 확보
@@ -65,6 +55,15 @@ extra:
 - 진료실만 늘려도 기록실이나 전력이 막히면 환자를 더 받을 수 없다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **연산 계층(Compute Layer)**: CPU와 GPU 같은 프로세서로 범용 및 가속 연산을 수행하는 자원 계층이다.
+- **메모리·스토리지 계층(Memory·Storage Layer)**: 실행 데이터와 영구 데이터를 저장하고 연산기에 공급하는 계층이다.
+- **네트워크·I/O 계층(Network·I/O Layer)**: 서비스 요청과 클러스터 통신 및 주변장치 데이터를 전송하는 계층이다.
+- **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: 운영체제와 독립적으로 전원과 온도 및 센서를 감시하고 원격 제어하는 장치이다.
+
+</details>
 
 ```mermaid
 block
@@ -99,6 +98,14 @@ block
 - 연산·저장·전송 자원을 전원·냉각과 관리 계층이 지탱하는 구조다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **비균일 메모리 접근(Non-uniform Memory Access, NUMA)**: 프로세서 소켓과 메모리의 물리 위치에 따라 접근 지연과 대역폭이 달라지는 구조이다.
+- **비휘발성 메모리 익스프레스(Non-volatile Memory Express, NVMe)**: PCIe 기반 SSD를 위한 병렬 명령 큐와 인터페이스 규격이다.
+- **가속 작업(Accelerated Workload)**: CPU가 준비한 대규모 병렬 계산을 GPU 같은 전용 장치에 맡겨 실행하는 작업이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -141,6 +148,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **범용 데이터센터 서버(General-purpose Data-center Server)**: 웹 서비스와 가상화를 위해 CPU·메모리·I/O의 균형을 중시하는 서버이다.
+- **AI·HPC 가속 서버(AI·HPC Accelerated Server)**: GPU와 고대역폭 메모리 및 고속 연결에 자원을 집중한 병렬 연산 서버이다.
+- **가상화(Virtualization)**: 한 물리 서버의 CPU와 메모리 및 장치를 여러 격리된 가상 머신에 나누어 제공하는 기술이다.
+
+</details>
+
 | 서버 구조 | 범용 데이터센터 서버 | AI·HPC 가속 서버 |
 |:---|:---|:---|
 | 적용 기준 | **가상화·웹 서비스** | **AI·HPC 연산** |
@@ -155,7 +170,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **NUMA 친화도(NUMA Affinity)**: 작업과 메모리 및 I/O 장치를 가까운 프로세서 소켓에 함께 배치하는 설정이다.
+- **PCIe 루트 포트(PCIe Root Port)**: CPU나 칩셋에서 PCIe 장치 트리로 트랜잭션이 출발하는 연결 지점이다.
+- **전력 상한(Power Cap)**: 서버나 랙이 설정한 소비 전력을 넘지 않도록 장치 성능과 전력을 제한하는 값이다.
+- **펌웨어 서명(Firmware Signature)**: 승인된 발행자가 만든 펌웨어인지 암호학적으로 검증하는 전자 서명이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | CPU·메모리·PCIe 장치의 NUMA 위치 불일치 | 워크로드·장치 **NUMA 친화도** 공동 조정 | **데이터 경로 지연** 감소 |
 | 가속기·NVMe 집중으로 PCIe 대역폭 포화 | **루트 포트·스위치 토폴로지** 처리량 검증 | **I/O 병목** 완화 |
@@ -169,6 +193,14 @@ sequenceDiagram
 - 가상화 서버는 vCPU뿐 아니라 VM 메모리·NIC·스토리지의 NUMA 위치와 물리 코어 비율을 함께 맞춘다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **자원 균형(Resource Balance)**: 연산과 메모리 및 I/O 중 한 자원이 전체 처리량을 과도하게 제한하지 않는 구성이다.
+- **가속 서버(Accelerated Server)**: 특정 병렬 워크로드를 위해 GPU 등 가속기와 전력·냉각 자원을 집중한 서버이다.
+- **지속 성능(Sustained Performance)**: 장시간 부하에서 전력과 열 한도를 지키면서 유지할 수 있는 실제 처리 성능이다.
+
+</details>
 
 - **가상화•웹**은 범용 서버, **AI•HPC**는 가속 서버 선택
 

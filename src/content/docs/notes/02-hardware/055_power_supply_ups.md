@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "전원 공급 장치·UPS"
-date: "2026-07-31T10:32:00+09:00"
+date: "2026-08-02T11:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 55
@@ -18,27 +18,15 @@ extra:
   priority_note: "PSU·UPS 절체·런타임의 단일 기출 핵심"
 ---
 
-## 미리 알고가기
-
-- **전원 공급 장치(Power Supply Unit, PSU)**: 교류 전원을 장비가 사용하는 직류 전원으로 변환하는 장치
-- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: 정전이나 입력 전원 이상 시 배터리로 부하 전원을 유지하는 장치
-- **온라인 UPS(Online UPS)**: 정류기와 인버터를 거쳐 상시 전원 공급
-- **직류 버스(Direct Current Bus, DC Bus)**: 정류기·배터리·인버터 사이에서 직류 전력을 전달하는 공통 전력 경로
-- **전력 분배 장치(Power Distribution Unit, PDU)**: 전원을 랙과 장비별로 분배하고 전압·전류·전력을 계측하는 장치
-- **A/B 이중 경로**: 독립 전원 입력으로 단일 장애를 격리
-- **정비 바이패스(Maintenance Bypass)**: UPS 점검 때 부하 전원을 UPS 대신 상용 전원 경로로 전환
-- **절체(Transfer)**: 부하를 예비·우회 경로로 전환
-- **교류·직류(Alternating Current·Direct Current, AC·DC)**: 주기적으로 방향이 바뀌는 상용 전력과 한 방향으로 흐르는 장비 내부 전력을 구분하는 전류 방식
-- **정류기·인버터(Rectifier·Inverter)**: 정류기는 교류를 직류로 바꾸고 인버터는 직류를 부하용 교류로 되돌리는 전력 변환기
-- **런타임(Runtime)**: 정전 후 UPS 배터리가 현재 부하에 전력을 공급할 수 있는 예상 시간
-- **부하율(Load Factor)**: UPS·PSU 정격 용량 중 장비가 실제로 사용하는 전력의 비율
-- **배터리 열화(Battery Degradation)**: 충방전·고온·시간 경과로 저장 용량과 출력 능력이 줄어드는 현상
-- **복전(Power Restoration)**: 정전됐던 상용 전원이 정상 전압·주파수로 다시 공급되는 상태
-- **안전 종료(Graceful Shutdown)**: 남은 전력 안에 데이터 저장과 서비스 정리를 마친 뒤 장비 전원을 끄는 절차
-
-> **키워드:** 전원 공급 장치·UPS
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **전원 공급 장치(Power Supply Unit, PSU)**: 상용 교류 전원을 서버가 사용하는 안정된 직류 전원으로 변환하는 장치이다.
+- **무정전 전원 공급 장치(Uninterruptible Power Supply, UPS)**: 정전이나 입력 전원 이상 시 배터리로 부하 전원을 계속 공급하는 장치이다.
+- **전원 경로(Power Path)**: 상용 전원부터 UPS와 PDU 및 PSU를 거쳐 장비에 전력을 공급하는 연결 경로이다.
+
+</details>
 
 - 정의/개념: **PSU 전력 변환과 UPS 비상 공급**을 결합한 체계
 - 배경/필요성: 단일 전원 경로 고장은 **장비 중단·데이터 손실**로 직결
@@ -48,6 +36,15 @@ extra:
 - PSU가 장비용 전기로 바꾸고 UPS가 정전 동안 비상 전력을 이어 준다
 
 ## Ⅱ. 특징
+
+<details><summary>핵심 용어</summary>
+
+- **온라인 UPS(Online UPS)**: 정류기와 인버터의 이중 변환 경로를 통해 상시 부하 전원을 공급하는 UPS 방식이다.
+- **A/B 이중 경로(A/B Dual Path)**: 서로 독립된 두 전원 입력과 분배 경로로 단일 장애를 격리하는 구성이다.
+- **런타임(Runtime)**: 정전 후 UPS 배터리가 현재 부하에 전력을 공급할 수 있는 예상 시간이다.
+- **부하율(Load Factor)**: UPS나 PSU의 정격 용량 가운데 장비가 실제로 사용하는 전력의 비율이다.
+
+</details>
 
 ![UPS 부하율에 따른 정규화 백업 시간 차트](/study/diagrams/ups-runtime-load.svg)
 
@@ -68,6 +65,15 @@ $$
 - 어댑터를 둘로 나누고 비상 배터리까지 두되 실제로 전원을 끊어 확인해야 한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **정류기(Rectifier)**: 상용 교류 전원을 직류로 변환하여 DC 버스와 배터리에 공급하는 장치이다.
+- **직류 버스(Direct Current Bus, DC Bus)**: 정류기와 배터리 및 인버터 사이에서 직류 전력을 전달하는 공통 경로이다.
+- **인버터(Inverter)**: DC 버스의 직류 전력을 서버 부하에 필요한 안정된 교류 전력으로 변환하는 장치이다.
+- **정비 바이패스(Maintenance Bypass)**: UPS 점검 동안 부하를 UPS 대신 상용 전원 경로로 공급하는 우회 장치이다.
+
+</details>
 
 ```mermaid
 block
@@ -96,6 +102,15 @@ block
 - 정류기와 배터리가 DC 버스를 유지하고 인버터와 PDU가 서버에 전력을 공급한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **입력 전원 이상(Input Power Anomaly)**: 상용 전원의 전압이나 주파수가 허용 범위를 벗어나 정상 공급이 어려운 상태이다.
+- **배터리 방전(Battery Discharge)**: 저장한 전기 에너지를 DC 버스와 인버터에 공급하여 부하 전력을 유지하는 동작이다.
+- **복전(Power Restoration)**: 정전됐던 상용 전원이 정상 전압과 주파수로 다시 공급되는 상태이다.
+- **안전 종료(Graceful Shutdown)**: 남은 배터리 시간 안에 데이터를 저장하고 서비스를 정리한 뒤 장비 전원을 끄는 절차이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -136,6 +151,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **이중 PSU·UPS(Dual PSU·UPS)**: 장비의 이중 전원 변환기와 배터리 백업을 함께 사용하여 PSU 고장과 외부 정전에 대응하는 구성이다.
+- **이중 PSU(Dual PSU)**: 두 독립 전원 입력과 PSU로 변환기나 입력선 하나의 고장을 격리하는 구성이다.
+- **단일 PSU(Single PSU)**: 하나의 전원 입력과 변환 경로만 사용하여 고장 시 즉시 부하가 중단되는 구성이다.
+
+</details>
+
 | 전원 보호 구성 | 이중 PSU·UPS | 이중 PSU | 단일 PSU |
 |:---|:---|:---|:---|
 | 적용 기준 | 외부 정전까지 **연속 공급** | PSU·입력선 **단일 고장 대응** | 중단 허용 **비핵심 장비** |
@@ -150,7 +173,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **배터리 열화(Battery Degradation)**: 충방전과 고온 및 시간 경과로 저장 용량과 출력 능력이 줄어드는 현상이다.
+- **공통 원인 장애(Common-cause Failure)**: 겉으로 분리한 A/B 경로가 같은 상위 전원이나 PDU를 공유하여 함께 중단되는 장애이다.
+- **절체 전류(Transfer Current)**: 한 전원 경로가 상실되어 전체 부하가 남은 경로로 이동할 때 순간적으로 흐르는 전류이다.
+- **정전·복전 시험(Outage·Restoration Test)**: 실제 전원 상실과 복구 조건에서 UPS 전환과 안전 종료 및 재기동을 확인하는 시험이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 배터리 열화로 표시 런타임과 실제 시간 불일치 | **온도·내부 저항·방전 시험** 기반 용량 보정 | **안전 종료 시간** 예측 오차 감소 |
 | A/B 경로가 같은 상위 전원·PDU를 공유 | **상용·UPS·PDU 장애 범위** 추적 | **공통 원인 장애** 방지 |
@@ -164,6 +196,14 @@ sequenceDiagram
 - 서버 랙은 A/B 전원 한쪽을 실제 차단해 남은 경로가 전체 부하와 절체 전류를 견디는지 확인한다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **외부 정전(Utility Outage)**: 데이터센터로 들어오는 상용 전원 공급이 끊겨 건물 전체 전력 경로에 영향을 주는 장애이다.
+- **PSU 고장(PSU Failure)**: 서버 내부 전원 변환기 하나가 정상 직류 전력을 출력하지 못하는 장애이다.
+- **연속 공급(Continuous Supply)**: 전원 이상이나 경로 전환 중에도 부하에 허용 범위의 전력을 끊김 없이 제공하는 성질이다.
+
+</details>
 
 - **외부 정전**은 이중 PSU•UPS, **PSU 고장**은 이중 PSU 선택
 
