@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISAC**: 특정 산업의 위협·취약점·사고 정보를 공동 분석해 회원에 공유하는 조직이다.
-- **CTI**: 공격 주체·의도·행위·지표를 분석한 의사결정 정보이다.
+- **정보공유·분석센터(Information Sharing and Analysis Center, ISAC)**: 특정 산업의 위협·취약점·사고 정보를 공동 분석해 회원에 공유하는 조직이다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체·의도·행위·지표를 분석한 의사결정 정보이다.
 
 </details>
 
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **회원 신뢰 모델**: 참여 자격·공유 범위·비밀 보호·책임을 회원 간 합의한 신뢰 구조이다.
-- **TLP·비식별 공유**: 수신·재공유 범위를 표시하고 식별 요소를 제거해 정보 노출을 줄이는 방식이다.
+- **신호등 프로토콜(Traffic Light Protocol, TLP)·비식별 공유**: 수신·재공유 범위를 표시하고 식별 요소를 제거해 정보 노출을 줄이는 방식이다.
 
 </details>
 
@@ -58,7 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IoC·TTP**: 침해 흔적을 식별하는 관측 증거와 위협 행위자의 목표·공격 방식·수행 절차이다.
+- **침해지표(Indicator of Compromise, IoC)·전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 침해 흔적을 식별하는 관측 증거와 위협 행위자의 목표·공격 방식·수행 절차이다.
+- **위협정보 제한 배포**: 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 구조화 위협정보 표현(Structured Threat Information Expression, STIX)으로 만들고 신뢰정보 자동교환(Trusted Automated Exchange of Intelligence Information, TAXII), 신호등 프로토콜(Traffic Light Protocol, TLP), 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 제한 배포한다.
 
 </details>
 
@@ -91,7 +92,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX·TAXII**: 위협 객체·관계를 표현하는 표준과 CTI를 RESTful API로 교환하는 프로토콜이다.
+- **구조화 위협정보 표현(Structured Threat Information Expression, STIX)·신뢰정보 자동교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 위협 객체·관계를 표현하는 표준과 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 REST 원칙 기반 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, RESTful API)로 교환하는 프로토콜이다.
+- **컴퓨터보안사고대응팀(Computer Security Incident Response Team, CSIRT)·신호등 프로토콜(Traffic Light Protocol, TLP)**: 회원 대응조직과 정보의 수신·재공유 범위를 나타낸다.
+- **침해지표(IoC)·전술·기법·절차(TTP)**: Indicator of Compromise와 Tactics, Techniques, and Procedures를 산업 영향·자산 맥락과 연결하는 분석 단위이다.
 
 </details>
 
@@ -128,7 +131,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CSIRT**: 조직 내부 사고를 분석·대응·복구하는 전담 조직이다.
+- **컴퓨터보안사고대응팀(Computer Security Incident Response Team, CSIRT)**: 조직 내부 사고를 분석·대응·복구하는 전담 조직이다.
+- **정보공유·분석센터(Information Sharing and Analysis Center, ISAC)·사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 산업 공동 분석 조직과 외부 위협 의사결정 정보를 구분하는 기준이다.
 
 </details>
 
@@ -150,7 +154,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정보통신기반 보호법 제16조**: 분야별 정보공유·분석센터의 구축·운영과 수행 업무 근거이다.
-- **FIRST TLP 2.0**: 정보 수신자와 추가 공유 범위를 표시하는 규칙이다.
+- **사고대응·보안팀 포럼 신호등 프로토콜 2.0(Forum of Incident Response and Security Teams Traffic Light Protocol 2.0, FIRST TLP 2.0)**: 정보 수신자와 추가 공유 범위를 표시하는 규칙이다.
+- **산업 위협정보 표준 교환**: 정보공유·분석센터(Information Sharing and Analysis Center, ISAC)가 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 구조화정보표준촉진기구(Organization for the Advancement of Structured Information Standards, OASIS)의 STIX·TAXII 규격으로 교환한다.
+- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 랜섬웨어 행위와 공격 절차를 회원 방어에 공유하는 분석 정보이다.
 
 </details>
 
@@ -170,6 +176,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **품질 환류**: 회원의 적중·오탐·철회 결과로 공유 정보의 신뢰도와 유효기간을 갱신하는 활동이다.
+- **제한 범위 배포**: 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 신호등 프로토콜(Traffic Light Protocol, TLP)의 허용 범위에만 배포하는 원칙이다.
 
 </details>
 

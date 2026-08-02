@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DRM·DLP**: 배포 후 파일 사용 권한을 통제하는 기술과 민감정보의 비인가 이동을 차단하는 통제이다.
+- **디지털 권리관리(Digital Rights Management, DRM)·데이터 유출방지(Data Loss Prevention, DLP)**: 배포 후 파일 사용 권한을 통제하는 기술과 민감정보의 비인가 이동을 차단하는 통제이다.
 
 </details>
 
@@ -41,6 +41,7 @@ extra:
 
 - **데이터 분류**: 업무 가치·민감도·법적 요구에 따라 보호 등급과 취급 규칙을 정하는 활동이다.
 - **콘텐츠 검사**: 패턴·지문·등급·맥락을 분석해 데이터 민감 여부를 판정하는 기능이다.
+- **사용·이동 정책**: 디지털 권리관리(Digital Rights Management, DRM)의 사용 권한과 데이터 유출방지(Data Loss Prevention, DLP)의 이동 경로를 공통 분류·신원 기준으로 연결한다.
 
 </details>
 
@@ -57,8 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **라이선스 서버**: DRM 문서의 주체·기기·행위·기간별 권한과 키 사용을 결정하는 서버이다.
-- **엔드포인트 DLP**: USB·인쇄·클립보드·업로드 등 단말의 민감정보 이동을 통제하는 기능이다.
+- **라이선스 서버**: 디지털 권리관리(Digital Rights Management, DRM) 문서의 주체·기기·행위·기간별 권한과 키 사용을 결정하는 서버이다.
+- **엔드포인트 데이터 유출방지(Endpoint Data Loss Prevention, Endpoint DLP)**: 범용 직렬 버스(Universal Serial Bus, USB)·인쇄·클립보드·업로드 등 단말의 민감정보 이동을 통제하는 기능이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 검사**: 서비스 간 데이터 전송에서 민감정보와 목적·수신자를 확인하는 통제이다.
 
 </details>
 
@@ -92,6 +94,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **데이터 지문**: 내용 특징값을 대조해 같거나 유사한 민감정보를 찾는 기술이다.
+- **사용·반출 집행**: 디지털 권리관리(Digital Rights Management, DRM)로 사용 권한을 제한하고 데이터 유출방지(Data Loss Prevention, DLP)로 이동 경로를 검사한다.
+- **이동식 매체·서비스 경로**: 범용 직렬 버스(Universal Serial Bus, USB)와 응용 프로그래밍 인터페이스(Application Programming Interface, API)를 통한 복사·전송 경로이다.
 
 </details>
 
@@ -128,7 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IRM**: 기업 정보에 사용자·기기·행위·기간별 권한을 적용하는 정보 권리관리 체계이다.
+- **정보 권리관리(Information Rights Management, IRM)**: 기업 정보에 사용자·기기·행위·기간별 권한을 적용하는 체계이다.
+- **사용·이동 구간 통제**: 디지털 권리관리(DRM), 데이터 유출방지(DLP), 범용 직렬 버스(Universal Serial Bus, USB) 반출 통제를 구간별로 구분한다.
 
 </details>
 
@@ -149,8 +154,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **W3C ODRL 2.2**: 디지털 자산의 허용·금지·의무·제약을 표현하는 권리 정책 정보 모델이다.
-- **ISO/IEC 27002 5.12·8.12**: 정보 분류와 데이터 유출 방지를 다루는 통제이다.
+- **월드 와이드 웹 컨소시엄 개방형 디지털 권리 언어(World Wide Web Consortium Open Digital Rights Language, W3C ODRL) 2.2**: 디지털 자산의 허용·금지·의무·제약을 표현하는 권리 정책 정보 모델이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27002 5.12·8.12**: 정보 분류와 데이터 유출 방지를 다루는 통제이다.
+- **분류 기반 적용**: 디지털 권리관리(DRM), 데이터 유출방지(DLP), 응용 프로그래밍 인터페이스(Application Programming Interface, API) 전송 통제를 공통 분류 기준으로 운영한다.
 
 </details>
 
@@ -170,6 +176,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **사용·이동 통합 통제**: 파일 사용 권한과 조직 안팎의 전송 경로를 같은 분류·신원 기준으로 관리하는 원칙이다.
+- **보호 방식 선택**: 디지털 권리관리(Digital Rights Management, DRM)는 사용 제한, 데이터 유출방지(Data Loss Prevention, DLP)는 반출 경로 차단에 적용한다.
 
 </details>
 

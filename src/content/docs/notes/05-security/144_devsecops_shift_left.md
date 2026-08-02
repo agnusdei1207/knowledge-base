@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DevSecOps**: 개발·보안·운영이 보안 책임·자동화·피드백을 공동 운영하는 방식이다.
+- **개발·보안·운영(Development, Security, and Operations, DevSecOps)**: 개발·보안·운영팀이 보안 책임·자동화·피드백을 공동 운영하는 방식이다.
 
 </details>
 
@@ -41,6 +41,7 @@ extra:
 
 - **Shift Left·Right**: 보안을 개발 초기로 앞당기고 운영 관측·사고 결과를 다시 개발로 돌리는 접근이다.
 - **코드형 보안**: 정책·검사·구성·증거를 코드와 버전관리로 반복 실행하는 방식이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성과 보안 정책을 코드로 정의해 자동 검증·배포하는 방식이다.
 
 </details>
 
@@ -58,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SBOM·IaC**: 구성요소의 출처·의존성을 기록한 명세서와 인프라 구성을 코드로 관리하는 방식이다.
-- **SAST·SCA·DAST**: 소스 코드·구성요소·실행 응용을 각각 검사하는 보안 시험이다.
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)·코드형 인프라(Infrastructure as Code, IaC)**: 구성요소의 출처·의존성을 기록한 명세서와 인프라 구성을 코드로 관리하는 방식이다.
+- **정적 응용보안시험(Static Application Security Testing, SAST)·소프트웨어 구성분석(Software Composition Analysis, SCA)·동적 응용보안시험(Dynamic Application Security Testing, DAST)**: 소스 코드·구성요소·실행 응용을 각각 검사하는 보안 시험이다.
 
 </details>
 
@@ -92,7 +93,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **CI/CD·보안 게이트**: 통합·시험·배포를 자동화하는 파이프라인과 위험 기준으로 진행 여부를 결정하는 통제점이다.
+- **지속적 통합·지속적 전달(Continuous Integration/Continuous Delivery, CI/CD)·보안 게이트**: 통합·시험·배포를 자동화하는 파이프라인과 위험 기준으로 진행 여부를 결정하는 통제점이다.
+- **코드형 인프라(Infrastructure as Code, IaC) 검증**: 인프라 구성 변경을 배포 전에 정책·위험 기준으로 자동 검사하는 활동이다.
 
 </details>
 
@@ -128,6 +130,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **공동 책임**: 제품·보안·운영팀이 수명주기 전반의 보안 결과를 함께 소유하는 원칙이다.
+- **개발·보안·운영(Development, Security, and Operations, DevSecOps)**: 시프트 레프트와 운영 피드백을 전 수명주기 공동 책임으로 연결하는 방식이다.
 
 </details>
 
@@ -148,8 +151,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SSDF·SLSA**: 안전한 개발 관행과 소스·빌드 공급망의 보증·출처 증명을 다루는 지침이다.
-- **OWASP SAMM**: 소프트웨어 보안 관행의 현재 역량을 평가·개선하는 성숙도 모델이다.
+- **미국 국립표준기술연구소 안전한 소프트웨어 개발 프레임워크(NIST Secure Software Development Framework, NIST SSDF)**: 준비·보호·안전한 소프트웨어 생산·취약점 대응 관행을 제시한다.
+- **소프트웨어 아티팩트 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA)**: 소스·빌드 공급망의 변조 방지와 출처 증명 수준을 제시한다.
+- **오픈 웹 애플리케이션 보안 프로젝트 소프트웨어 보증 성숙도 모델(OWASP Software Assurance Maturity Model, OWASP SAMM)**: 소프트웨어 보안 관행의 현재 역량을 평가·개선하는 모델이다.
+- **미국 국립표준기술연구소 특별간행물(NIST Special Publication, NIST SP) 800-218**: SSDF v1.1을 수록한 공식 문서이다.
 
 </details>
 
