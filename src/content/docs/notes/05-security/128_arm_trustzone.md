@@ -18,23 +18,14 @@ extra:
   priority_note: "138회 기출이며 TEE·격리 비교에 활용되는 하드웨어임"
 ---
 
-## 미리 알고가기
-
-- **Arm TrustZone**: 하나의 시스템온칩 자원을 Secure·Non-secure 보안 상태로 분리하는 Arm 기술이다.
-- **시스템온칩(System on Chip, SoC)**: 처리기·메모리 제어·주변장치 기능을 한 칩에 통합한 시스템이다.
-- **보안 실행환경(Trusted Execution Environment, TEE)**: 일반 실행환경과 격리해 신뢰 응용을 실행하는 환경이다.
-- **일반 실행환경(Rich Execution Environment, REE)**: 범용 운영체제와 일반 응용이 실행되는 환경이다.
-- **보안 모니터 호출(Secure Monitor Call, SMC)**: Arm A-profile에서 보안 상태 전환을 요청하는 명령이다.
-- **신뢰 응용(Trusted Application, TA)**: TEE 내부에서 제한된 보안 서비스를 수행하는 응용이다.
-- **보안 속성 장치(Security Attribution Unit, SAU)**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치이다.
-- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 없이 주변장치가 메모리를 직접 읽고 쓰는 기능이다.
-- **검사·사용 시점 불일치(Time of Check to Time of Use, TOCTOU)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점이다.
-- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 보안을 위해 반드시 신뢰해야 하는 최소 하드웨어·소프트웨어 집합이다.
-- **GlobalPlatform TEE Internal Core API v1.4**: TA의 암호·저장·시간 등 내부 API를 정의한 규격이다.
-
-> **키워드:** ARM TrustZone (ARM TrustZone)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **Arm TrustZone**: 하나의 SoC 자원을 Secure·Non-secure 보안 상태로 분리하는 하드웨어 격리 기술이다.
+
+</details>
 
 - 정의/개념: SoC 자원을 보안 상태별로 분리하는 **하드웨어 격리 기술**
 - 배경/필요성: 소프트웨어 권한 분리만으로는 커널 침해 시 **비밀 보호 불가**
@@ -45,6 +36,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **TCB**: 보안을 위해 반드시 신뢰해야 하는 최소 하드웨어·소프트웨어 집합이다.
+- **TEE·REE**: 신뢰 응용을 격리 실행하는 환경과 범용 OS·일반 응용이 실행되는 환경이다.
+
+</details>
+
 - CPU·메모리·버스의 **보안 속성 전파**
 - A-profile·M-profile의 **하드웨어 상태 격리**
 - 제한 진입점·최소 TCB의 **경계 통제**
@@ -54,6 +53,14 @@ extra:
 - 하드웨어가 벽을 만들지만 출입구·공유 메모리·보호 공간 코드는 소프트웨어가 안전하게 설계해야 함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **SMC·TA**: 보안 상태 전환을 요청하는 호출과 TEE 내부에서 제한된 서비스를 수행하는 응용이다.
+- **DMA**: CPU 없이 주변장치가 메모리를 직접 읽고 쓰는 기능이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -80,6 +87,13 @@ block-beta
 - 일반 앱은 정해진 진입점으로 필요한 만큼만 TEE 서비스를 요청하고 결과만 돌려받음
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **TOCTOU**: 검증 후 사용 전에 공유 데이터가 바뀌는 검사·사용 시점 불일치 취약점이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -109,6 +123,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **SAU**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치이다.
+
+</details>
+
 | 실행환경 격리 | Arm A-profile | Armv8-M | 하이퍼바이저 |
 |:---|:---|:---|:---|
 | 적용 기준 | 범용 OS의 **키·인증 격리** | MCU **펌웨어·메모리 분리** | 여러 **OS·가상머신 분리** |
@@ -123,7 +144,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **GlobalPlatform TEE API**: 신뢰 응용의 암호·저장·시간 등 내부 API를 정의한 규격이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 영역 속성이 누락되면 MCU 자원이 노출됨 | **Armv8-M Security Extension 적용** | SAU·진입점 속성 통제 |
 | TA마다 API가 다르면 경계 검증이 누락됨 | **GlobalPlatform TEE API v1.4 적용** | TA 기능·경계 표준화 |
@@ -134,6 +162,13 @@ sequenceDiagram
 - REE가 준 주소·길이·권한을 TEE에서 복사·재검증하고 DMA와 인터럽트의 보안 속성도 함께 제한한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **최소 격리**: 키·인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙이다.
+
+</details>
 
 - 키·인증은 **TEE에 최소 격리**, 일반 기능은 REE에 배치
 

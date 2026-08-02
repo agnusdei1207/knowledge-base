@@ -18,20 +18,14 @@ extra:
   priority_note: "138회 기출이며 CTI 수집·분석·대응 자동화가 핵심임"
 ---
 
-## 미리 알고가기
-
-- **사이버위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체·행위·의도·영향을 분석해 방어 의사결정에 쓰는 지식이다.
-- **침해지표(Indicator of Compromise, IoC)**: 악성 IP·도메인·파일 해시처럼 침해 흔적을 식별하는 관측값이다.
-- **전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 공격자가 목표 달성에 사용하는 행동 방식과 절차이다.
-- **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 여러 위협 피드를 정규화·평가·배포하는 플랫폼이다.
-- **OASIS STIX 2.1**: 위협 객체와 객체 간 관계를 기계가 처리할 수 있게 표현하는 표준이다.
-- **OASIS TAXII 2.1**: CTI를 HTTPS 기반 API로 교환하는 애플리케이션 계층 프로토콜이다.
-- **FIRST TLP 2.0**: `TLP:CLEAR`부터 `TLP:RED`까지 정보 공유 범위를 표시하는 규칙이다.
-- **MITRE ATT&CK**: 공격자의 전술·기법을 체계화해 탐지·헌팅과 연결하는 지식기반이다.
-
-> **키워드:** 인텔리전스 기반 CTI 자동화 (CTI Automation)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **CTI**: 공격 주체·행위·의도·영향을 분석해 방어 의사결정에 쓰는 지식이다.
+
+</details>
 
 - 정의/개념: CTI의 수집·정규화·평가·배포를 자동화하는 **위협정보 운영 체계**
 - 배경/필요성: 검증 없는 피드 자동 배포로 **중복·만료 지표의 오차단 발생**
@@ -42,6 +36,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **IoC·TTP**: 침해 흔적을 식별하는 관측값과 공격자가 목표 달성에 사용하는 행동 방식이다.
+- **TLP**: CTI의 수신자와 재공유 범위를 표시하는 규칙이다.
+
+</details>
+
 - STIX 객체·관계 기반 **위협정보 구조화**
 - TAXII 교환·TLP 표시 기반 **제한적 공유**
 - 출처·신뢰도·시효·자산 기반 **품질 통제**
@@ -51,6 +53,13 @@ extra:
 - 형식만 맞추지 않고 출처·유효기간·내부 자산 관련성을 함께 검증함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **TIP**: 여러 위협 피드를 정규화·평가·배포하는 위협 인텔리전스 플랫폼이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -77,6 +86,13 @@ block-beta
 - IP 하나도 출처와 관측 시점, 공격 관계, 내부 사용 여부를 확인한 뒤 배포함
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **품질 점수**: 출처 신뢰도·시효·자산 관련성·적중 결과를 결합한 배포 판단값이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -107,6 +123,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **STIX·TAXII**: 위협 객체·관계를 표현하는 표준과 CTI를 API로 교환하는 프로토콜이다.
+
+</details>
+
 | CTI 자동화 요소 | STIX 2.1 | TAXII 2.1 | TIP |
 |:---|:---|:---|:---|
 | 적용 기준 | 위협 **의미·관계 표현** | 조직·도구 간 **CTI 교환** | 다중 피드 **운영·품질관리** |
@@ -121,7 +144,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **OASIS STIX 2.1·TAXII 2.1**: CTI의 구조화 표현과 HTTPS 기반 교환을 위한 표준이다.
+- **FIRST TLP 2.0**: `TLP:CLEAR`부터 `TLP:RED`까지 정보 공유 범위를 표시하는 규칙이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 객체 의미·관계가 다르면 도구별 탐지 해석 불일치 | **OASIS STIX 2.1** 적용 | CTI의 **구조화·상호운용** 확보 |
 | 교환 API가 다르면 자동 수집·배포 연계 실패 | **OASIS TAXII 2.1** 적용 | CTI **API 배포 표준화** |
@@ -132,6 +163,13 @@ sequenceDiagram
 - 수신 CTI를 STIX 객체로 검증하고 TAXII로 배포하되 TLP 표시에 따라 수신자와 재공유 범위를 제한한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **시효 관리**: 오래되거나 관련 없는 위협정보가 차단 정책으로 확산되지 않게 만료를 통제하는 활동이다.
+
+</details>
 
 - 출처·시효·자산 관련성이 기준을 충족하면 **자동 배포**, 불충족하면 **보류·폐기**
 
