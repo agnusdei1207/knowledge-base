@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **망분리·CC 인증**은 업무·인터넷 등 보안영역을 격리하고 필요한 연계만 통제하며 사용 보안제품의 보안기능을 평가해 침해 확산을 제한하는 보호 체계
+- 정의/개념: 보안영역을 격리하고 필요한 연계와 보안제품 기능을 검증하는 **망분리·공통평가기준 인증**
 - 배경/필요성: 평면망·무검사 연계로는 외부 침해의 **업무망 진입·횡적 이동 제한 불가**
 
 #### 한줄 요약
@@ -40,7 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **최소 연계**: 분리된 영역 사이에 필요한 경로만 허용하고 데이터 흐름을 검사하는 원칙이다.
-- **CC**: 정보보호제품의 보안기능과 보증수준을 독립적으로 평가·인증하는 공통기준이다.
+- **공통평가기준(Common Criteria, CC)**: 정보보호제품의 보안기능과 보증수준을 독립적으로 평가·인증하는 기준이다.
 
 </details>
 
@@ -57,8 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TOE**: CC 평가에서 제품·구성 중 보안성 평가 범위로 정의한 대상이다.
-- **PP**: 특정 제품군의 공통 보안문제·목표·요구사항을 정의한 보호프로파일이다.
+- **평가 대상(Target of Evaluation, TOE)**: 공통평가기준 평가에서 제품·구성 중 보안성 평가 범위로 정의한 대상이다.
+- **보호프로파일(Protection Profile, PP)**: 특정 제품군의 공통 보안문제·목표·요구사항을 정의한 문서이다.
 
 </details>
 
@@ -92,6 +92,7 @@ block
 <summary>핵심 용어</summary>
 
 - **보안영역 간 흐름**: 망 경계의 승인된 연계 지점에서만 검사·통제되는 데이터 이동이다.
+- **공통평가기준(Common Criteria, CC) 평가 범위**: 평가 대상(Target of Evaluation, TOE)과 보호프로파일(Protection Profile, PP), 인증 버전·형상으로 한정된 제품 보증 경계이다.
 
 </details>
 
@@ -126,7 +127,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **물리·논리 망분리**: 별도 장비·회선으로 격리하는 방식과 VDI 등 가상화로 실행영역을 분리하는 방식이다.
+- **물리·논리 망분리**: 별도 장비·회선으로 격리하는 방식과 가상 데스크톱 인프라(Virtual Desktop Infrastructure, VDI) 등 가상화로 실행영역을 분리하는 방식이다.
 
 </details>
 
@@ -145,7 +146,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 15408·18045**: CC의 보안기능·보증 평가기준과 평가 방법론을 규정한 국제표준이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 15408·18045**: 공통평가기준(Common Criteria, CC)의 보안기능·보증 평가기준과 평가 방법론을 규정한 국제표준이다.
 
 </details>
 
