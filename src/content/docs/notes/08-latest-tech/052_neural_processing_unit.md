@@ -23,17 +23,17 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망의 행렬·텐서 연산을 데이터 흐름 방식으로 병렬 처리하는 전용 가속 프로세서다.
+- **신경망 처리장치(Neural Processing Unit, NPU)**: 신경망의 행렬·텐서 연산을 데이터 흐름 방식으로 병렬 처리하는 전용 가속 프로세서다.
 - **곱셈 누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 기존 합에 누적하는 신경망 핵심 연산이다.
 
 </details>
 
-- 정의/개념: **NPU**는 신경망의 행렬·텐서 연산을 데이터 흐름 방식으로 병렬 처리하도록 설계한 전용 가속 프로세서
-- 배경/필요성: 범용 CPU는 대규모 MAC의 **낮은 병렬도·과도한 메모리 이동**으로 전력 효율 제약
+- 정의/개념: **신경망 처리장치(Neural Processing Unit, NPU)** 는 신경망의 행렬·텐서 연산을 데이터 흐름 방식으로 병렬 처리하도록 설계한 전용 가속 프로세서
+- 배경/필요성: 범용 **중앙처리장치(Central Processing Unit, CPU)** 는 대규모 **곱셈 누산(Multiply-Accumulate, MAC)** 의 낮은 병렬도와 과도한 메모리 이동으로 전력 효율이 제한됨
 
 #### 한줄 요약
 
-- NPU는 신경망의 반복 행렬 계산과 데이터 재사용에 맞춘 전용 연산 장치
+- 신경망 처리장치는 반복 행렬 계산과 데이터 재사용에 맞춘 전용 연산 장치
 
 ## Ⅱ. 특징
 
@@ -48,9 +48,9 @@ extra:
 
 ![연산 집약도에 따른 NPU 처리량 상한 개념도](/study/diagrams/npu-roofline.svg)
 
-> 달성 처리량은 Ridge Point 전에는 메모리 대역폭 선을, 이후에는 계산 성능 상한선을 따르며 특정 NPU의 실측값이 아닌 정규화 개념도다.
+> 달성 처리량은 전환점(Ridge Point) 전에는 메모리 대역폭 선을, 이후에는 계산 성능 상한선을 따르며 특정 신경망 처리장치(Neural Processing Unit, NPU)의 실측값이 아닌 정규화 개념도다.
 
-- **MAC 연산 배열**을 통한 행렬·텐서 병렬 처리
+- **곱셈 누산(Multiply-Accumulate, MAC) 연산 배열**을 통한 행렬·텐서 병렬 처리
 - **온칩 메모리 재사용**을 통한 외부 데이터 이동 감소
 - 컴파일러 지원 범위에 따른 **연산자 매핑·폴백 비용**
 - **Roofline 모델**로 연산 집약도별 메모리·계산 병목 판별
@@ -64,11 +64,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SRAM**: 칩 내부에서 입력·가중치·중간 결과를 빠르게 재사용하는 정적 메모리다.
-- **DMA**: 프로세서 개입 없이 연산기와 메모리 사이의 텐서를 전송하는 방식이다.
+- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 칩 내부에서 입력·가중치·중간 결과를 빠르게 재사용하는 메모리다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서 개입 없이 연산기와 메모리 사이의 텐서를 전송하는 방식이다.
 - **컴파일러·런타임**: 모델을 지원 연산으로 변환하고 장치 간 실행 순서를 제어하는 소프트웨어 계층이다.
 
 </details>
+
+구성요소는 **직접 메모리 접근(Direct Memory Access, DMA) 전송 엔진**, **온칩 정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**, **곱셈 누산(Multiply-Accumulate, MAC) 연산 배열**, **신경망 처리장치(Neural Processing Unit, NPU)** 미지원 연산을 맡는 **중앙처리장치(Central Processing Unit, CPU)** 로 구분한다.
 
 ```mermaid
 block-beta
@@ -107,6 +109,8 @@ block-beta
 
 </details>
 
+컴파일러는 **신경망 처리장치(Neural Processing Unit, NPU)** 지원 여부에 따라 그래프를 분할하고, **직접 메모리 접근(Direct Memory Access, DMA)** 으로 텐서를 공급하며, **곱셈 누산(Multiply-Accumulate, MAC)** 배열과 **중앙처리장치(Central Processing Unit, CPU)** 의 실행 결과를 결합한다.
+
 ```mermaid
 sequenceDiagram
     participant C as 컴파일러
@@ -136,11 +140,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CPU**: 복잡한 분기와 범용 순차 제어에 유연하지만 행렬 연산의 전력 효율은 낮다.
-- **GPU**: 다수 코어로 범용 병렬 연산을 처리하지만 메모리·전력 비용이 크다.
-- **NPU**: 데이터 흐름과 MAC 배열에 특화해 저전력 신경망 추론을 가속한다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 복잡한 분기와 범용 순차 제어에 유연하지만 행렬 연산의 전력 효율은 낮다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 다수 코어로 범용 병렬 연산을 처리하지만 메모리·전력 비용이 크다.
+- **신경망 처리장치(Neural Processing Unit, NPU)**: 데이터 흐름과 곱셈 누산 배열에 특화해 저전력 신경망 추론을 가속한다.
 
 </details>
+
+**중앙처리장치(Central Processing Unit, CPU)**, **그래픽 처리장치(Graphics Processing Unit, GPU)**, **신경망 처리장치(Neural Processing Unit, NPU)** 는 제어 유연성, 병렬성, 전력 효율에서 서로 다른 장점을 가진다.
 
 | AI 프로세서 | CPU | GPU | NPU |
 |:---|:---|:---|:---|
@@ -163,6 +169,8 @@ sequenceDiagram
 
 </details>
 
+실무에서는 **신경망 처리장치(Neural Processing Unit, NPU)** 매핑 범위와 **중앙처리장치(Central Processing Unit, CPU)** 폴백을 함께 측정하고, **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)** 재사용으로 외부 데이터 이동을 줄인다.
+
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **미지원 연산자**로 CPU 폴백·복사 증가 | 컴파일 보고서 기반 **NPU 매핑·경계 축소** | **폴백 종단 지연** 감소 |
@@ -183,7 +191,7 @@ sequenceDiagram
 
 </details>
 
-- **연산자 지원률·메모리 이동·전력 예산**을 기준으로 NPU 매핑 범위와 CPU 폴백 경계를 결정하는 가속 설계
+- **연산자 지원률·메모리 이동·전력 예산**을 기준으로 **신경망 처리장치(Neural Processing Unit, NPU)** 매핑 범위와 **중앙처리장치(Central Processing Unit, CPU)** 폴백 경계를 결정하는 가속 설계
 
 #### 한줄 요약
 

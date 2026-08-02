@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Edge TPU**: 완전 INT8 지원 연산을 낮은 전력으로 실행하도록 설계된 엣지 추론용 전용 ASIC이다.
-- **ASIC**: 특정 연산에 맞춰 회로와 데이터 흐름을 고정 설계한 전용 반도체다.
+- **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)**: 완전 8비트 정수 지원 연산을 낮은 전력으로 실행하도록 설계된 엣지 추론용 전용 반도체다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 연산에 맞춰 회로와 데이터 흐름을 고정 설계한 전용 반도체다.
 
 </details>
 
-- 정의/개념: **Edge TPU**는 완전 INT8 지원 연산을 저전력으로 실행하는 엣지 추론용 전용 ASIC
+- 정의/개념: **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 는 완전 **8비트 정수(Integer 8-bit, INT8)** 지원 연산을 저전력으로 실행하는 엣지 추론용 **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**
 - 배경/필요성: 범용 프로세서는 제한된 전력에서 **정수 텐서 처리량·종단 지연** 충족 불가
 
 #### 한줄 요약
@@ -46,9 +46,9 @@ extra:
 
 </details>
 
-- 가중치·활성값을 함께 변환하는 **완전 INT8 양자화**
+- 가중치·활성값을 함께 변환하는 **완전 8비트 정수(Integer 8-bit, INT8) 양자화**
 - 지원 연산만 묶어 가속하는 **하위 그래프 컴파일**
-- CPU 폴백·전처리·전송을 포함한 **종단 추론 지연**
+- **중앙처리장치(Central Processing Unit, CPU) 폴백**, 전처리, 전송을 포함한 **종단 추론 지연**
 
 #### 한줄 요약
 
@@ -64,6 +64,8 @@ extra:
 - **폴백**: Edge TPU가 지원하지 않는 연산을 CPU에서 대신 실행하는 처리다.
 
 </details>
+
+**엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU) 컴파일러**와 런타임은 완전 **8비트 정수(Integer 8-bit, INT8)** 모델을 장치 실행 구간과 **중앙처리장치(Central Processing Unit, CPU) 폴백** 구간으로 나눈다.
 
 ```mermaid
 block-beta
@@ -114,9 +116,9 @@ sequenceDiagram
     P-->>R: 5. CPU 폴백 결과 결합
 ```
 
-1. **완전 정수 모델 변환**: 대표 데이터셋 또는 QAT 기반 가중치·활성값 INT8 변환
+1. **완전 정수 모델 변환**: 대표 데이터셋 또는 **양자화 인지 학습(Quantization-Aware Training, QAT)** 기반 가중치·활성값 **8비트 정수(Integer 8-bit, INT8)** 변환
 2. **지원 연산 판정**: 컴파일러의 연산자·텐서 형상 지원 여부 확인
-3. **하위 그래프 분할**: Edge TPU 구간과 CPU 폴백 구간 확정
+3. **하위 그래프 분할**: **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 구간과 **중앙처리장치(Central Processing Unit, CPU) 폴백** 구간 확정
 4. **TPU 구간 결과 전달**: 지원 하위 그래프의 INT8 연산 결과 전달
 5. **CPU 폴백 결과 결합**: 미지원 연산 실행 후 가속·폴백 출력 통합
 
@@ -129,11 +131,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CPU**: 미지원 연산과 복잡한 제어를 범용 명령으로 처리한다.
-- **GPU**: 다양한 텐서 연산을 프로그램 가능한 병렬 코어로 처리한다.
-- **Edge TPU**: 완전 INT8로 변환된 지원 연산을 전용 회로에서 높은 전력 효율로 실행한다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 미지원 연산과 복잡한 제어를 범용 명령으로 처리한다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 다양한 텐서 연산을 프로그램 가능한 병렬 코어로 처리한다.
+- **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)**: 완전 8비트 정수로 변환된 지원 연산을 전용 회로에서 높은 전력 효율로 실행한다.
 
 </details>
+
+**중앙처리장치(Central Processing Unit, CPU)**, **그래픽 처리장치(Graphics Processing Unit, GPU)**, **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 는 범용성과 전력 효율의 균형이 서로 다르다.
 
 | 엣지 추론 방식 | CPU | GPU | Edge TPU |
 |:---|:---|:---|:---|
@@ -155,6 +159,8 @@ sequenceDiagram
 
 </details>
 
+실무에서는 **8비트 정수(Integer 8-bit, INT8)** 변환 품질과 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 지원률을 확인하고, **중앙처리장치(Central Processing Unit, CPU) 왕복**을 줄여야 한다.
+
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 완전 INT8 변환 시 **양자화 품질** 저하 | **대표 데이터셋 보정·QAT** 적용 | **INT8 추론 정확도** 회복 |
@@ -174,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- INT8 품질·지원률 충족 모델은 **Edge TPU**, 미지원 연산은 **CPU 폴백**
+- **8비트 정수(Integer 8-bit, INT8) 품질·지원률**을 충족하는 모델은 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 에 배치하고, 미지원 연산은 **중앙처리장치(Central Processing Unit, CPU) 폴백**으로 처리
 
 #### 한줄 요약
 
