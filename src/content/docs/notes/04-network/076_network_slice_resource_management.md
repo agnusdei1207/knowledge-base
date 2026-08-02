@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **슬라이스 관리 체계**: 네트워크 슬라이스 자원 관리는 종단 SLS를 NSI·NSSI의 기능·자원·정책으로 배치하고 조정하는 슬라이스 관리 체계다.
+- **슬라이스 관리 체계**: 네트워크 슬라이스 자원 관리는 종단 서비스 수준 명세(Service Level Specification, SLS)를 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)의 기능·자원·정책으로 배치하고 조정하는 체계다.
 
 </details>
 
-- 정의/개념: NSI·NSSI의 자원을 배치·조정하는 **슬라이스 관리 체계**
+- 정의/개념: 종단 SLS를 NSI·NSSI 자원으로 배치·조정하는 **슬라이스 관리 체계**
 - 배경/필요성: 고정 예약은 **유휴 낭비**, 과도한 공유는 **SLS 위반**
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **수용 제어**: 수용 제어는 신규 슬라이스를 추가해도 기존·신규 SLS의 지연·처리량·가용성·격리를 함께 충족하는지 판정한다.
+- **수용 제어**: 수용 제어는 신규 슬라이스를 추가해도 기존·신규 서비스 수준 명세(Service Level Specification, SLS)의 지연·처리량·가용성·격리를 함께 충족하는지 판정한다.
 
 </details>
 
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NSI**: NSI는 RAN·전송·코어 NSSI의 기능과 자원을 결합해 서비스 요구를 지원하는 실행 중인 종단 슬라이스다.
+- **NSI**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)는 무선 접속망(Radio Access Network, RAN)·전송망(Transport Network, TN)·코어망(Core Network, CN)의 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)를 결합해 서비스 요구를 지원하는 실행 중인 종단 슬라이스다.
 
 </details>
 
@@ -94,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. 병목 자원 최적화**: 오케스트레이터는 종단 SLS 위반을 도메인별 지표와 연결해 제약이 발생한 NSSI 자원만 조정한다.
+- **3. 병목 자원 최적화**: 오케스트레이터는 종단 서비스 수준 명세(Service Level Specification, SLS) 위반을 도메인별 지표와 연결해 제약이 발생한 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 자원만 조정한다.
 
 </details>
 
@@ -115,7 +115,7 @@ sequenceDiagram
 ```
 
 1. **자원 타당성 확인**: 기존·신규 SLS 동시 충족 판정
-2. **NSI·NSSI 프로비저닝**: 도메인별 자원·정책 인스턴스화
+2. **NSI·NSSI 프로비저닝**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 NSSI의 도메인별 자원·정책 인스턴스화
 3. **병목 자원 최적화**: 히스테리시스 후 제약 구간만 증감
 
 #### 한줄 요약
@@ -146,7 +146,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **반복 증감**: 반복 증감은 부하가 하나의 임계값 주변에서 흔들릴 때 슬라이스 자원이 계속 확장·축소되는 불안정 현상이다.
+- **반복 증감**: 반복 증감은 부하가 하나의 임계값 주변에서 흔들릴 때 슬라이스 자원이 계속 확장·축소되는 불안정 현상이다. 서비스 수준 명세(Service Level Specification, SLS)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 지표를 함께 관찰해 병목을 구분한다.
 
 </details>
 
