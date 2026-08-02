@@ -98,7 +98,6 @@ sequenceDiagram
     participant A as 인가 서버
     participant R as 정보수신자
     participant H as 정보전송자
-    participant L as 감사 체계
     U->>A: 목적·항목·수신자 동의
     A-->>R: 1. 제한·송신자 결속 토큰 발급
     R->>R: 2. 서명·난수 포함 요청 생성
@@ -106,7 +105,7 @@ sequenceDiagram
     H->>H: 3. 토큰·동의·요청 검증
     H-->>R: 허용 필드 암호 전송
     U->>A: 동의 철회 요청
-    A->>L: 4. 철회·활용중단·파생본 기록
+    A->>A: 4. 철회·활용중단·파생본 기록
 ```
 
 **동작 원리**

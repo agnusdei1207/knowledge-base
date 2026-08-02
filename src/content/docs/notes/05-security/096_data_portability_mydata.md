@@ -101,12 +101,11 @@ sequenceDiagram
     participant P as 지원 플랫폼
     participant H as 정보전송자
     participant R as 수신자
-    participant A as 감사 체계
     U->>P: 목적·항목·수신자 지정
     P->>H: 1. 본인·수신자 적격성 검증
     H->>H: 2. 법정 대상 정보 추출
     H->>R: 3. 표준 형식 암호 전송
-    P->>A: 4. 이력·철회·중단 기록
+    P->>P: 4. 이력·철회·중단 기록
     R-->>U: 수신·처리 결과 제공
 ```
 

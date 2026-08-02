@@ -101,12 +101,11 @@ sequenceDiagram
     participant P as 제품팀
     participant S as 서비스
     participant U as 정보주체
-    participant A as 감사 체계
     L->>P: 1. 조문·시행일·대상 매핑
     P->>S: 2. 전송·거부·설명 기능 구현
     U->>S: 본인 확인·권리 요구
     S->>S: 3. 적용 대상·예외 판단
-    S->>A: 4. 근거·전송·결정 증적 보관
+    S->>S: 4. 근거·전송·결정 증적 보관
     S-->>U: 조치 결과 통지
 ```
 

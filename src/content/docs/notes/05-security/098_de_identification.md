@@ -98,14 +98,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 데이터 소유자
-    participant A as 위험 분석자
+    participant A as 위험 분석·적정성 검토자
     participant P as 처리 엔진
-    participant R as 적정성 검토자
     participant U as 이용 환경
     O->>A: 1. 목적·근거·외부정보 확정
     A->>P: 2. 식별자·결합 위험 분류
-    P->>R: 3. 삭제·대체·일반화 적용
-    R->>U: 4. 재식별·유용성 검증
+    P->>A: 3. 삭제·대체·일반화 적용
+    A->>U: 4. 재식별·유용성 검증
     U->>U: 5. 접근·반출 통제·재평가
     U-->>O: 적정성 검토 결과 제공
 ```

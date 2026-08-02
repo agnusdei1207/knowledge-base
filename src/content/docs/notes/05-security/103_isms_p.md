@@ -99,12 +99,11 @@ block-beta
 sequenceDiagram
   participant O as 경영진
   participant M as 관리체계 담당
-  participant R as 위험관리 담당
-  participant C as 통제 담당
+  participant C as 위험·통제 담당
   participant A as 심사기관
   O->>M: 1. 인증 범위·정책 확정
-  M->>R: 2. 자산·위협·위험 평가
-  R->>C: 3. 보호대책·개인정보 통제
+  M->>C: 2. 자산·위협·위험 평가
+  C->>C: 3. 보호대책·개인정보 통제
   C->>A: 4. 운영 증적·심사 자료 전달
   A-->>M: 심사 발견사항
   M->>C: 5. 시정조치·개선 요청

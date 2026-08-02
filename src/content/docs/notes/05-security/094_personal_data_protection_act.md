@@ -100,16 +100,14 @@ sequenceDiagram
     participant S as 정보주체
     participant C as 개인정보처리자
     participant T as 제3자·수탁자
-    participant D as 저장소
-    participant A as 감사 체계
     C-->>S: 목적·근거·기간 고지
     S->>C: 개인정보·동의 전달
     C->>C: 1. 수집·이용 근거 검증
     C->>T: 2. 제공·위탁 관계 판정
-    T->>D: 3. 안전조치·보유 통제
+    T->>T: 3. 안전조치·보유 통제
     S->>C: 열람·정정·정지 요구
     C->>C: 4. 정보주체 권리 처리
-    D->>A: 5. 보유 종료·파기 검증
+    C->>C: 5. 보유 종료·파기 검증
     A-->>S: 처리 결과 통지
 ```
 
