@@ -62,10 +62,10 @@ extra:
 block-beta
     columns 5
     G["경영기구"] V["가치사슬·IRO"] M["이중 중대성 평가"] R["ESRS 보고·내부통제"] A["외부 확신·공시 이용자"]
-    G -- V
-    V -- M
-    M -- R
-    R -- A
+    G --- V
+    V --- M
+    M --- R
+    R --- A
 ```
 
 | 구성요소 | 책임 |

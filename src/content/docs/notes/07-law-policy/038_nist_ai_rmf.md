@@ -62,9 +62,9 @@ extra:
 block-beta
     columns 4
     G["Govern"] M["Map"] E["Measure"] A["Manage"]
-    G -- M
-    M -- E
-    E -- A
+    G --- M
+    M --- E
+    E --- A
 ```
 
 | 구성요소 | 책임 |

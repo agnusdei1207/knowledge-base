@@ -62,10 +62,10 @@ extra:
 block-beta
     columns 5
     G["Govern"] I["Identify"] P["Protect"] D["Detect"] R["Respond·Recover"]
-    G -- I
-    I -- P
-    P -- D
-    D -- R
+    G --- I
+    I --- P
+    P --- D
+    D --- R
 ```
 
 | 구성요소 | 책임 |

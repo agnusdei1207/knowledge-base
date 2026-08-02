@@ -62,10 +62,10 @@ extra:
 block-beta
     columns 5
     K["ML-KEM·FIPS 203"] S["대칭 암호"] D["ML-DSA·FIPS 204"] H["SLH-DSA·FIPS 205"] A["암호 민첩성·검증"]
-    K -- S
-    D -- A
-    H -- A
-    K -- A
+    K --- S
+    D --- A
+    H --- A
+    K --- A
 ```
 
 | 구성요소 | 책임 |

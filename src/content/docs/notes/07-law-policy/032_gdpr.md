@@ -64,11 +64,11 @@ block-beta
     S["정보주체"]:3
     C["처리자"] P["수탁자"] D["DPO"]
     A["감독기관"]:3
-    S -- C
-    C -- P
-    C -- D
-    D -- A
-    S -- A
+    S --- C
+    C --- P
+    C --- D
+    D --- A
+    S --- A
     S --- C
     C --- P
     P --- D
