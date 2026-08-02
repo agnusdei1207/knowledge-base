@@ -42,6 +42,7 @@ extra:
 - **공간 스트림(Spatial Stream)**: 같은 시간·주파수 자원에서 독립적으로 전송하는 데이터 흐름
 - **빔·스트림(Beam·Stream)**: 빔은 안테나 신호가 합쳐지는 공간 방향이고 스트림은 같은 시간·주파수에서 독립 전송하는 데이터 흐름
 - **다이버시티(Diversity)**: 같은 정보를 서로 다른 공간 경로로 보내 결합해 오류 확률을 낮추는 방식
+- **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력과 잡음 전력의 비율
 
 </details>
 
@@ -60,6 +61,7 @@ extra:
 - **채널 행렬(Channel Matrix)**: 각 송신 안테나에서 각 수신 안테나로 전달되는 신호의 크기와 위상을 행렬로 나타낸 값
 - **채널 순위(Channel Rank)**: 채널 행렬에서 분리 가능한 독립 공간 경로의 수
 - **채널 상태 정보(Channel State Information, CSI·씨에스아이)**: 영문 각 단어의 머리글자를 딴 표기이며, 안테나 간 채널의 진폭·위상·품질을 나타내 프리코딩·빔·공간 스트림 수 결정에 쓰이는 측정값
+- **다중입출력(Multiple-Input Multiple-Output, MIMO)**: 여러 송수신 안테나로 공간 다중화·빔 형성·다이버시티를 수행하는 기술
 
 </details>
 
@@ -94,7 +96,7 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **파일럿(Pilot)**: 송수신기가 채널을 추정하도록 알려진 값으로 보내는 참조 신호
-- **프리코딩(Precoding)**: CSI에 따른 복소 가중치를 송신 신호에 곱해 빔과 스트림을 형성하는 처리
+- **프리코딩(Precoding)**: 채널 상태 정보(Channel State Information, CSI)에 따른 복소 가중치를 송신 신호에 곱해 빔과 스트림을 형성하는 처리
 - **스케줄러(Scheduler)**: 사용자·시간·주파수·공간 스트림 자원을 배정하는 제어기
 
 </details>
@@ -154,6 +156,7 @@ sequenceDiagram
 - **파일럿 오염(Pilot Contamination)**: 여러 셀이 같은 파일럿을 재사용해 채널 추정값에 다른 사용자의 신호가 섞이는 현상
 - **안테나 보정(Antenna Calibration)**: 배열 소자별 위상·이득 편차를 측정해 보상하는 작업
 - **간섭(Interference)**: 다른 송신 신호가 원하는 신호의 판정을 방해하는 현상
+- **채널 상태 정보(Channel State Information, CSI)**: 안테나 간 채널의 진폭·위상·품질을 나타내는 측정값
 
 </details>
 
@@ -172,7 +175,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **복소 가중치(Complex Weight)**: 안테나별 신호의 크기와 위상을 조절하는 계수
-- **공간 이득의 조건**: MIMO 이득은 채널 순위와 CSI 정확도에 제한되며 목표에 따라 다중화·빔 형성·다이버시티를 선택하는 원칙
+- **공간 이득의 조건**: 다중입출력(Multiple-Input Multiple-Output, MIMO) 이득은 채널 순위와 채널 상태 정보(Channel State Information, CSI) 정확도에 제한되며 목표에 따라 다중화·빔 형성·다이버시티를 선택하는 원칙
+- **단일입출력(Single-Input Single-Output, SISO)·대규모 MIMO(Massive MIMO)**: 단일 안테나 링크와 대형 안테나 배열 기반 다중 사용자 빔 형성 구조
 
 </details>
 

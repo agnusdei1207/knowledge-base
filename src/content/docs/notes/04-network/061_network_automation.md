@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 목표 망 상태를 모델·코드로 배포하는 **운영 자동화 체계**
-- 배경/필요성: 장비별 수동 CLI는 **설정 편차·감사 누락** 유발
+- 배경/필요성: 장비별 수동 명령줄 인터페이스(Command-Line Interface, CLI)는 **설정 편차·감사 누락** 유발
 
 #### 한줄 요약
 
@@ -41,6 +41,7 @@ extra:
 - **설정 드리프트(Configuration Drift)**: 장비의 실제 설정이 진실의 원천에 선언된 목표 상태와 달라진 현상
 - **멱등성(Idempotency)**: 같은 자동화 작업을 반복해도 목표 상태와 결과가 달라지지 않는 성질
 - **지속적 통합(Continuous Integration, CI)**: 변경마다 구문·스키마·정책 검사를 자동 실행하는 개발 방식
+- **YANG 모델**: 네트워크 설정·상태 데이터의 계층·자료형·제약을 정의하는 모델
 
 </details>
 
@@ -56,10 +57,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **YANG(Yet Another Next Generation)**: 네트워크 설정·상태 데이터의 계층·자료형·제약을 정의하는 모델링 언어
-- **네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)**: YANG 데이터를 RPC로 조회·변경하며 잠금·검증·커밋을 지원하는 프로토콜
-- **RESTCONF(REST Configuration Protocol)**: HTTP 메서드와 JSON·XML로 YANG 데이터를 조회·변경하는 프로토콜
+- **YANG**: 네트워크 설정·상태 데이터의 계층·자료형·제약을 정의하는 모델링 언어
+- **네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)**: YANG 데이터를 원격 프로시저 호출(Remote Procedure Call, RPC)로 조회·변경하며 잠금·검증·커밋을 지원하는 프로토콜
+- **RESTCONF(REST Configuration Protocol)**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 메서드와 자바스크립트 객체 표기법(JavaScript Object Notation, JSON)·확장성 마크업 언어(Extensible Markup Language, XML)로 YANG 데이터를 조회·변경하는 프로토콜
 - **앤서블(Ansible)**: 인벤토리와 선언형 작업 파일로 여러 장비의 설정 작업을 조율하는 자동화 도구
+- **지속적 통합(Continuous Integration, CI)·응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 변경 검증을 자동화하고 구조화된 설정 요청을 전달하는 개발·호출 방식
+- **진실의 원천(Source of Truth)**: 주소·토폴로지·정책의 의도 상태를 유일한 기준으로 관리하는 저장소
 
 </details>
 
@@ -93,9 +96,11 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **후보 설정(Candidate Configuration)**: 실행 설정에 반영하기 전에 변경을 편집·검증하는 NETCONF 데이터 저장소
+- **후보 설정(Candidate Configuration)**: 실행 설정에 반영하기 전에 변경을 편집·검증하는 네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF) 데이터 저장소
 - **기능 광고(Capability Advertisement)**: 장비가 지원하는 NETCONF 기능을 관리 체계에 알리는 절차
 - **롤백(Rollback)**: 실패한 변경을 이전의 정상 설정으로 되돌리는 복구 작업
+- **깃(Git)·지속적 통합(Continuous Integration, CI)**: 설정 변경 이력을 관리하고 구문·YANG·정책 검사를 자동 실행하는 도구와 방식
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 자동화 실행기가 장비의 설정과 상태를 구조화해 다루는 호출 규약
 
 </details>
 
@@ -111,6 +116,8 @@ sequenceDiagram
     Git·CI->>자동화실행기: 2. 승인 변경 전달
     자동화실행기->>네트워크장비: 3. 설정 차이 배포
     네트워크장비->>검증체계: 4. 실제 상태 보고
+    검증체계-->>자동화실행기: 5. 검증 실패 시 롤백 요청
+    자동화실행기->>네트워크장비: 이전 정상 설정 복구
     검증체계-->>운영자: 배포 검증 결과 반환
 ```
 
@@ -120,6 +127,7 @@ sequenceDiagram
 2. **승인 변경 전달**: 리뷰 통과 작업만 실행기에 전달
 3. **설정 차이 배포**: 현재 상태와 다른 설정만 단계 적용
 4. **실제 상태 보고**: 적용 설정·운용 상태 제공
+5. **검증 실패 시 롤백**: 도달성·정책 검증 실패나 시간 초과 시 이전 정상 설정 복구
 
 #### 한줄 요약
 
@@ -129,9 +137,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **YANG·NETCONF·RESTCONF**: YANG은 장비 설정·상태 모델을 정의하고, NETCONF와 RESTCONF는 해당 모델 기반 데이터를 조회·변경하는 관리 프로토콜
-- **RPC·HTTP·JSON·XML**: 원격 호출과 웹 전송, 구조화된 관리 데이터 교환에 사용하는 호출·전송·표현 방식
-- **CI·API·CLI**: 네트워크 변경의 자동 검증·구조화 호출·명령행 조작에 사용하는 운영 인터페이스
+- **YANG·NETCONF·RESTCONF**: YANG은 장비 설정·상태 모델을 정의하고, 네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)과 REST 설정 프로토콜(REST Configuration Protocol, RESTCONF)은 해당 모델 기반 데이터를 조회·변경하는 관리 프로토콜
+- **RPC·HTTP·JSON·XML**: 원격 프로시저 호출(Remote Procedure Call, RPC), 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP), 자바스크립트 객체 표기법(JavaScript Object Notation, JSON), 확장성 마크업 언어(Extensible Markup Language, XML)는 호출·전송·표현 방식
+- **CI·API·CLI**: 지속적 통합(Continuous Integration, CI), 응용 프로그래밍 인터페이스(Application Programming Interface, API), 명령줄 인터페이스(Command-Line Interface, CLI)는 자동 검증·구조화 호출·명령행 조작 방식
 
 </details>
 
@@ -154,6 +162,8 @@ sequenceDiagram
 - **템플릿(Template)**: 변수와 공통 형식으로 장비별 설정을 생성하는 코드
 - **도달성(Reachability)**: 출발지에서 목적지까지 패킷이 전달될 수 있는 상태
 - **텔레메트리(Telemetry)**: 장비의 상태·성능 데이터를 지속 수집해 관리 체계에 전달하는 기능
+- **YANG 모델·응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 장비 설정·상태의 구조와 자동화 호출 규격
+- **명령줄 인터페이스(Command-Line Interface, CLI)**: 텍스트 명령과 비구조화 출력을 사용하는 장비 조작 방식
 
 </details>
 
@@ -162,7 +172,7 @@ sequenceDiagram
 | 정본과 실제 설정 차이로 변경 충돌 | 배포 전 **드리프트 탐지·승인** | 오래된 설정 덮어쓰기 방지 |
 | 일괄 변경 실패가 전체 망으로 확산 | **소수 장비 선행·단계 배포** | 실패 범위 제한 |
 | CLI 출력 변경으로 파싱 실패 | **YANG·구조화 API** 우선 | 파싱 오류 감소 |
-| 배포 후 도달성 저하가 지속 | **검증 실패·시간 초과 롤백** | 장애 복구 시간 단축 |
+| 배포 후 도달성 저하가 지속 | 텔레메트리 기반 **검증 실패·시간 초과 롤백** | 장애 복구 시간 단축 |
 
 #### 한줄 요약
 

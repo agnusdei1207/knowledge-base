@@ -23,7 +23,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **쿠버네티스 네트워킹(Kubernetes Networking)**: 동적으로 생성·삭제되는 파드의 통신, 서비스 발견, 외부 노출과 정책을 제공하는 네트워크 체계
-- **파드(Pod)**: 하나 이상의 컨테이너가 네트워크 이름공간과 IP 주소를 공유하는 쿠버네티스 실행 단위
+- **파드(Pod)**: 하나 이상의 컨테이너가 네트워크 이름공간과 인터넷 프로토콜(Internet Protocol, IP) 주소를 공유하는 쿠버네티스 실행 단위
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드의 인터페이스·주소·경로를 구성하는 플러그인 규격
+- **서비스(Service)·인그레스(Ingress)**: 변하는 파드의 고정 접근점을 제공하고 외부 요청을 서비스로 전달하는 객체
 
 </details>
 
@@ -39,7 +41,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 런타임이 플러그인을 호출해 파드 인터페이스·IP·경로를 구성하는 규격
-- **가상 IP(Virtual IP, VIP)**: 서비스의 여러 파드 종단을 하나의 고정 주소로 나타내는 IP
+- **가상 IP 주소(Virtual IP Address, VIP)**: 서비스의 여러 파드 종단을 하나의 고정 인터넷 프로토콜(Internet Protocol, IP) 주소로 나타내는 접근점
 - **준비 상태(Readiness)**: 파드가 서비스 요청을 받을 수 있는지 나타내는 상태
 
 </details>
@@ -59,6 +61,9 @@ extra:
 - **서비스(Service)**: 변하는 파드 집합을 고정 가상 IP와 이름으로 추상화하는 쿠버네티스 객체
 - **엔드포인트슬라이스(EndpointSlice)**: 서비스가 선택한 준비된 파드의 IP·포트 목록을 분할 저장하는 객체
 - **네트워크 정책(NetworkPolicy)**: 선택한 파드에 허용할 수신·송신 대상을 선언하는 객체
+- **가상 IP 주소(Virtual IP Address, VIP)**: 변하는 파드 집합을 하나의 고정 인터넷 프로토콜(Internet Protocol, IP) 주소로 나타내는 서비스 접근점
+- **전송 계층 보안(Transport Layer Security, TLS)**: 외부 요청의 서버 인증과 전송 암호화를 제공하는 프로토콜
+- **확장 버클리 패킷 필터(extended Berkeley Packet Filter, eBPF)**: 커널에서 서비스 분산과 네트워크 정책 규칙을 실행하는 기술
 
 </details>
 
@@ -96,6 +101,9 @@ block-beta
 - **데이터 경로(Data Path)**: 프록시나 eBPF로 실제 패킷의 분산·정책 규칙을 실행하는 경로
 - **프록시(Proxy)**: 요청을 대신 받아 선택한 서비스 종단으로 전달하는 중계 구성요소
 - **확장 버클리 패킷 필터(extended Berkeley Packet Filter, eBPF·이비피에프)**: Berkeley Packet Filter 앞에 확장을 뜻하는 소문자 e를 붙인 표기이며, 커널에서 패킷 전달과 정책을 실행하는 기술
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 서버**: 쿠버네티스 객체의 생성·조회·변경과 상태 통지를 제공하는 제어 구성요소
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)·보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: 외부 웹 요청과 전송 계층 보안(Transport Layer Security, TLS)을 적용한 암호화 요청 프로토콜
+- **인그레스(Ingress)·엔드포인트슬라이스(EndpointSlice)**: 외부 경로 규칙과 준비된 파드의 IP·포트 목록을 나타내는 객체
 
 </details>
 
@@ -131,8 +139,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **인그레스(Ingress)**: 외부 HTTP·HTTPS 요청을 서비스로 전달하는 호스트·경로 규칙 객체
-- **게이트웨이 API(Gateway API)**: 인프라·경로 역할을 분리해 다양한 외부 트래픽 전달을 선언하는 쿠버네티스 API
+- **인그레스(Ingress)**: 외부 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)·보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS) 요청을 서비스로 전달하는 호스트·경로 규칙 객체
+- **게이트웨이 응용 프로그래밍 인터페이스(Gateway Application Programming Interface, Gateway API)**: 인프라·경로 역할을 분리해 다양한 외부 트래픽 전달을 선언하는 쿠버네티스 API
 
 </details>
 
@@ -152,9 +160,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 HTTP 상태 코드
+- **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 상태 코드
 - **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터를 암호화하는 보안 프로토콜
-- **HTTP·HTTPS·TLS**: HTTP는 웹 요청을 전달하고, HTTPS는 TLS로 서버 인증과 전송 암호화를 적용한 웹 통신을 제공함
+- **HTTP·HTTPS·TLS**: HTTP와 보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)은 웹 요청을 전달하고, HTTPS는 TLS로 서버 인증과 전송 암호화를 적용한 웹 통신을 제공함
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 네트워크 정책을 실제 패킷 차단 규칙으로 구현하는 플러그인 규격
+- **게이트웨이 응용 프로그래밍 인터페이스(Gateway Application Programming Interface, Gateway API)**: 외부 경로의 인프라·경로 역할과 소유권을 분리하는 객체 규격
 
 </details>
 
@@ -163,6 +173,7 @@ sequenceDiagram
 | 정책 객체만 있고 실행 규칙 부재 | **CNI 차단 규칙** 확인 | 통신 격리 보장 |
 | 준비된 서비스 종단이 없음 | **EndpointSlice·준비 상태** 추적 | 503 오류 원인 식별 |
 | 여러 팀의 외부 경로 권한 충돌 | **Gateway API 역할·소유권** 분리 | 다중 팀 운영 안정성 |
+| **TLS 인증서 만료·호스트 불일치** | 인증서 유효기간·이름·비밀정보 갱신 검증 | 외부 **HTTPS 연결 실패** 방지 |
 
 #### 한줄 요약
 
@@ -174,6 +185,8 @@ sequenceDiagram
 
 - **쿠버네티스(Kubernetes)**: 그리스어로 조타수·항해사를 뜻하는 공식 프로젝트명이며, 파드의 배포·확장·복구와 네트워크 객체를 선언적으로 관리하는 플랫폼
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 객체와 기능을 구조화된 요청으로 다루는 호출 규약
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드 연결과 네트워크 정책을 실제 데이터 경로에 구현하는 규격
+- **인그레스(Ingress)·게이트웨이 API(Gateway API)**: 단순 웹 경로와 역할 분리형 외부 경로를 선언하는 쿠버네티스 객체
 
 </details>
 

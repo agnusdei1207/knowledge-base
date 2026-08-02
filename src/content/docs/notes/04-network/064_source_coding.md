@@ -59,6 +59,7 @@ extra:
 - **코드북(Codebook)**: 심벌과 부호어의 대응 관계를 기록한 표
 - **문맥 모델(Context Model)**: 앞선 심벌에 따라 다음 심벌의 확률을 추정하는 모델
 - **고정 정밀도 연산(Fixed-precision Arithmetic)**: 정해진 비트 폭에서 확률 구간을 계산하는 구현 방식
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 압축 블록에 남은 오류를 다항식 나눗셈의 나머지로 검출하는 방식
 
 </details>
 
@@ -148,6 +149,7 @@ sequenceDiagram
 
 - **오류 전파(Error Propagation)**: 압축 비트열의 작은 손상이 이후 여러 심벌의 잘못된 복호로 이어지는 현상
 - **모델 불일치(Model Mismatch)**: 실제 심벌 분포와 압축 모델의 확률 추정이 달라 압축 효율이 낮아지는 상태
+- **재시작 지점(Restart Point)·순환 중복 검사(Cyclic Redundancy Check, CRC)**: 복호 상태를 초기화하고 압축 블록의 잔여 오류를 검출해 오류 전파 범위를 제한하는 장치
 
 </details>
 
@@ -167,6 +169,7 @@ sequenceDiagram
 
 - **무손실 복원(Lossless Reconstruction)**: 압축 해제 후 원본 비트열을 완전히 동일하게 복구하는 성질
 - **엔트로피 한계(Entropy Bound)**: 무손실 부호의 평균 길이가 정보원 엔트로피보다 작을 수 없다는 이론적 경계
+- **허프만 부호화(Huffman Coding)·산술 부호화(Arithmetic Coding)**: 접두 부호의 단순성과 확률 구간의 엔트로피 근접 압축을 각각 활용하는 무손실 방식
 
 </details>
 
@@ -174,4 +177,4 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 중복을 줄이는 이득과 복원 품질·복호기 호환성을 함께 판단해야 한다.
+- 압축률·복호 비용·오류 전파 범위와 복호기 호환성을 함께 판단해야 한다.

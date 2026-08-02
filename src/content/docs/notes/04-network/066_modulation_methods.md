@@ -42,6 +42,8 @@ extra:
 - **심벌(Symbol)**: 변조기가 한 번에 전송하는 진폭·위상·주파수 상태
 - **성상도(Constellation)**: 디지털 변조 심벌을 동상·직교 축의 점으로 나타낸 그림
 - **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력과 잡음 전력의 비율
+- **직교 진폭 변조(Quadrature Amplitude Modulation, QAM)**: 직교 반송파의 진폭을 조합해 다수의 심벌을 만드는 디지털 변조
+- **첨두전력대평균전력비(Peak-to-Average Power Ratio, PAPR)**: 신호 최대 전력과 평균 전력의 비율
 
 </details>
 
@@ -62,6 +64,8 @@ extra:
 - **변조·부호화 조합(Modulation and Coding Scheme, MCS·엠씨에스)**: 영문 핵심 단어의 머리글자를 딴 표기이며, 링크가 함께 적용할 변조 차수와 부호율 조합을 나타냄
 
 </details>
+
+변조·부호화 조합(Modulation and Coding Scheme, MCS)에 맞춰 심벌을 생성하고 무선 주파수부(Radio Frequency, RF)가 반송파 변환·증폭을 수행한다.
 
 ```mermaid
 block-beta
@@ -96,6 +100,7 @@ block-beta
 - **동기화(Synchronization)**: 수신 신호의 시간·주파수·위상 기준을 맞추는 처리
 - **등화(Equalization)**: 채널이 만든 진폭·위상 왜곡을 추정해 보상하는 처리
 - **복조(Demodulation)**: 수신 파형에서 반송파 상태를 판정해 원래 정보 심벌을 복원하는 과정
+- **신호대잡음비(Signal-to-Noise Ratio, SNR)·오류 벡터 크기(Error Vector Magnitude, EVM)**: 채널 품질과 수신 심벌의 이상점 대비 오차를 나타내는 지표
 
 </details>
 
@@ -135,6 +140,7 @@ sequenceDiagram
 - **주파수 변조(Frequency Modulation, FM)**: 정보 신호에 따라 반송파 순간 주파수를 연속적으로 바꾸는 아날로그 변조
 - **직교 위상 편이 변조(Quadrature Phase Shift Keying, QPSK)**: 네 위상 상태에 심벌당 2비트를 매핑하는 디지털 변조
 - **직교 진폭 변조(Quadrature Amplitude Modulation, QAM)**: 직교 반송파의 진폭을 조합해 다수의 진폭·위상 심벌을 만드는 디지털 변조
+- **신호대잡음비(Signal-to-Noise Ratio, SNR)·오류 벡터 크기(Error Vector Magnitude, EVM)·첨두전력대평균전력비(Peak-to-Average Power Ratio, PAPR)**: 변조 방식의 잡음 내성·심벌 왜곡·증폭 효율을 판단하는 지표
 
 </details>
 
@@ -157,13 +163,15 @@ sequenceDiagram
 - **오류 벡터 크기(Error Vector Magnitude, EVM)**: 이상적인 심벌점과 실제 수신점 사이 오차의 크기
 - **첨두전력대평균전력비(Peak-to-Average Power Ratio, PAPR)**: 신호 최대 전력과 평균 전력의 비율
 - **출력 백오프(Output Back-off)**: 증폭기 비선형 왜곡을 줄이도록 최대 출력보다 낮게 운용하는 방식
+- **적응 변조·부호화(Adaptive Modulation and Coding, AMC)**: 신호대잡음비(Signal-to-Noise Ratio, SNR)와 오류율에 따라 변조 차수와 부호율을 조정하는 방식
+- **직교 진폭 변조(Quadrature Amplitude Modulation, QAM)**: 다수의 진폭·위상 심벌로 높은 전송률을 제공하는 디지털 변조
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 고차 변조가 낮은 SNR에서 오류 증가 | **SNR별 AMC** 적용 | 처리량·신뢰 균형 |
-| 증폭기 비선형으로 성상점 왜곡 | **EVM·출력 백오프** 측정 | 성상도 품질 유지 |
+| 높은 PAPR와 증폭기 비선형으로 성상점 왜곡 | **EVM·출력 백오프** 측정 | 성상도 품질 유지 |
 | 성긴 파일럿으로 채널 추정 오차 | **파일럿 밀도·갱신 주기** 조정 | 복조 정확성 향상 |
 
 #### 한줄 요약
@@ -176,12 +184,13 @@ sequenceDiagram
 
 - **적응 변조·부호화(Adaptive Modulation and Coding, AMC)**: 채널 품질에 따라 변조 차수와 부호율을 바꾸는 방식
 - **변조·부호화 조합(Modulation and Coding Scheme, MCS·엠씨에스)**: 영문 핵심 단어의 머리글자를 딴 표기이며, 링크가 함께 적용할 변조 차수와 부호율 조합을 나타냄
-- **효율·강인성 절충**: 변조 차수가 높을수록 전송률은 커지지만 같은 오류율에 더 높은 SNR이 필요한 관계
+- **효율·강인성 절충**: 변조 차수가 높을수록 전송률은 커지지만 같은 오류율에 더 높은 신호대잡음비(Signal-to-Noise Ratio, SNR)가 필요한 관계
+- **AM·FM·QPSK·QAM**: 진폭 변조(Amplitude Modulation, AM), 주파수 변조(Frequency Modulation, FM), 직교 위상 편이 변조(Quadrature Phase Shift Keying, QPSK), 직교 진폭 변조(Quadrature Amplitude Modulation, QAM)의 대표 변조 방식
 
 </details>
 
-- 아날로그 단순은 **AM**, 잡음 내성은 **FM**, 저 SNR은 **QPSK**, 고속은 **QAM**
+- 적응 변조·부호화로 MCS를 선택하되 아날로그 단순은 **AM**, 잡음 내성은 **FM**, 저 SNR은 **QPSK**, 고속은 **QAM**
 
 #### 한줄 요약
 
-- 한 심볼에 많은 비트를 담을수록 더 깨끗한 채널과 정밀한 송수신기가 필요하다.
+- 한 심벌에 많은 비트를 담을수록 더 깨끗한 채널과 정밀한 송수신기가 필요하다.
