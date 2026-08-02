@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **사이버 복원력**은 사이버 공격과 장애를 예상·견디고 필수 임무를 허용 수준으로 유지·복구한 뒤 학습해 적응하는 조직·시스템 능력
+- 정의/개념: 공격과 장애를 예상·견디고 필수 임무를 유지·복구한 뒤 학습·적응하는 **사이버 회복탄력성**
 - 배경/필요성: 예방 통제만으로는 침해 성공 후 **필수 임무·허용 성능 유지 불가**
 
 #### 한줄 요약
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **RTO·RPO**: 업무 복구 목표 시간과 허용 가능한 데이터 손실의 기준 시점이다.
+- **복구시간목표(Recovery Time Objective, RTO)·복구시점목표(Recovery Point Objective, RPO)**: 업무를 복구할 목표 시간과 허용 가능한 데이터 손실의 기준 시점이다.
 
 </details>
 
@@ -92,6 +92,7 @@ block
 <summary>핵심 용어</summary>
 
 - **생명주기 회복탄력성**: 설계·구축·운영·사고·복구·개선 전 과정에 회복 능력을 반영하는 접근이다.
+- **복구시간목표(Recovery Time Objective, RTO)·복구시점목표(Recovery Point Objective, RPO)**: 훈련에서 복구 소요시간과 데이터 복구 지점을 판정하는 목표이다.
 
 </details>
 
@@ -144,14 +145,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-160 Vol.2 Rev.1**: 생명주기 시스템 보안공학으로 사이버 회복탄력성을 설계하는 지침이다.
-- **ISO 22301**: 업무연속성 관리체계의 요구사항을 규정한 국제표준이다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-160 Vol.2 Rev.1**: 생명주기 시스템 보안공학으로 사이버 회복탄력성을 설계하는 지침이다.
+- **국제표준화기구(International Organization for Standardization, ISO) 22301**: 업무연속성 관리체계의 요구사항을 규정한 국제표준이다.
+- **미국 국립표준기술연구소 사이버보안 프레임워크(NIST Cybersecurity Framework, NIST CSF) 2.0**: 보호·탐지·대응·복구 결과를 전사 위험관리와 연결하는 프레임워크이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **회복탄력성 공학** | **NIST 800-160 V2R1 적용** | **예상·견딤·복구·적응** |
+| **회복탄력성 공학** | **NIST SP 800-160 Vol.2 Rev.1 적용** | **예상·견딤·복구·적응** |
 | **업무연속성 관리** | **ISO 22301:2019 연계** | **임무·복구 목표** 정렬 |
 | **사이버 위험 생명주기** | **NIST CSF 2.0 연계** | **보호·대응·복구** 통합 |
 
