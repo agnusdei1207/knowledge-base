@@ -100,13 +100,12 @@ sequenceDiagram
   participant O as 플랫폼 소유자
   participant U as UEFI
   participant I as 부트 이미지
-  participant V as 이미지 검증기
   participant T as TPM·복구 환경
   O->>U: 1. PK·KEK·db·dbx 등록
   U->>I: 검증 대상 요청
-  I->>V: 2. 이미지 서명·인증서·해시
-  U->>V: 3. db 허용·dbx 폐기 정책
-  V-->>U: 4. 실행 허용·거부 판정
+  I->>U: 2. 이미지 서명·인증서·해시
+  U->>U: 3. db 허용·dbx 폐기 정책 확인
+  U->>U: 4. 실행 허용·거부 판정
   U->>T: 5. 허용 이미지 측정값
 ```
 
@@ -114,7 +113,7 @@ sequenceDiagram
 
 - **1. PK·KEK·db·dbx 등록**: 소유권·갱신·허용 정책 설정
 - **2. 이미지 서명·인증서·해시**: 부트로더·드라이버 검증 정보
-- **3. db 허용·dbx 폐기 정책**: 신뢰 체인·폐기 여부 확인 기준
+- **3. db 허용·dbx 폐기 정책 확인**: 신뢰 체인과 폐기 여부를 정책에 대조
 - **4. 실행 허용·거부 판정**: 미승인 코드 차단·복구 전환
 - **5. 허용 이미지 측정값**: 다음 단계 실행과 TPM 증적 기록
 
