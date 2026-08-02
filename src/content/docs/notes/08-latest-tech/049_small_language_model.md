@@ -104,16 +104,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 업무 책임자
+    participant E as 평가 책임자
     participant D as 데이터·교사 모델
     participant S as SLM 학습기
     participant R as 압축·런타임
-    participant E as 평가기
-    O->>D: 1. 과업·자원 목표 정의
+    E->>D: 1. 과업·자원 목표 정의
     D->>S: 2. 대표 데이터·교사 출력 준비
     S->>R: 3. 증류·미세조정
     R->>E: 4. 양자화·런타임 변환
-    E-->>O: 5. 과업 품질·장치 자원 검증
+    E->>E: 5. 과업 품질·장치 자원 검증
 ```
 
 1. **과업·자원 목표 정의**: 정확도·지연·메모리·전력의 **허용 범위** 설정

@@ -100,17 +100,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant I as 입력 벡터
+    participant I as 토큰 표현
     participant P as 투영기
     participant A as 연산기
     participant S as 소프트맥스
-    participant O as 출력 벡터
     I->>P: 1. 동일 입력 Q·K·V 투영
     P->>A: 2. Q·K 내적 점수 계산
     A->>S: 3. 스케일·마스크 적용
-    S->>O: 4. 소프트맥스 가중치 산출
-    O->>O: 5. V 가중합 문맥 결합
-    O-->>I: 토큰별 문맥 출력
+    S->>I: 4. 소프트맥스 가중치 산출
+    I->>I: 5. V 가중합 문맥 결합
 ```
 
 1. **동일 입력 Q·K·V 투영**: 토큰 표현을 조회·식별·전달 목적의 **세 벡터**로 변환

@@ -102,14 +102,13 @@ block-beta
 sequenceDiagram
     participant I as 입력·권한
     participant P as 모델 패키지
-    participant R as 런타임
+    participant R as 런타임·실행 정책
     participant A as 가속기
-    participant O as 실행 정책
     I->>P: 1. 입력 권한·민감도 전달
     P->>R: 2. 검증된 모델 패키지 전달
     R->>A: 3. 그래프·가속기 배치 전달
-    A->>O: 로컬 추론 결과
-    O-->>I: 외부 위임·운영 결정
+    A-->>R: 로컬 추론 결과
+    R-->>I: 외부 위임·운영 결정
 ```
 
 1. **입력 권한·민감도 전달**: 센서 권한과 데이터의 **외부 전송 범위** 전달

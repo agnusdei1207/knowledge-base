@@ -105,16 +105,14 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant U as 사용자·문서
-    participant B as 예산 관리자
-    participant S as 문맥 선택기
+    participant B as 문맥 예산·선택기
     participant P as 프리필 엔진
     participant M as 생성 모델
     U->>B: 질의·근거 입력
     B->>B: 1. 질의·근거 토큰량 산정
     B->>B: 2. 출력 예약·입력 예산 할당
-    B->>S: 입력 예산 전달
-    S->>S: 3. 핵심 문맥 선택·배치
-    S->>P: 선택 문맥 전달
+    B->>B: 3. 핵심 문맥 선택·배치
+    B->>P: 선택 문맥 전달
     P->>P: 4. 어텐션 계산·KV 캐시 생성
     P->>M: 프리필 상태 전달
     M->>M: 5. 잔여 예산 내 응답 생성

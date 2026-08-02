@@ -104,13 +104,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant E as 평가기
-    participant P as 프로파일러
+    participant E as 평가·프로파일러
     participant C as 압축기
     participant T as 학습기
     participant D as 목표 장치
-    E->>P: 1. 기준 성능 측정
-    P->>C: 2. 배포 병목 판정
+    E->>E: 1. 기준 성능 측정
+    E->>C: 2. 배포 병목 판정
     C->>T: 3. 압축 기법 적용
     T->>D: 4. 품질 보정·재학습
     D-->>E: 5. 목표 장치 검증

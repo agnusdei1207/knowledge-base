@@ -106,12 +106,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant R as 요청 처리기
-  participant B as 예산 제어기
+  participant B as 요청·예산 제어기
   participant I as 추론기
   participant V as 검증기
   participant O as 관측기
-  R->>B: 1. 난도·위험 추정
+  B->>B: 1. 난도·위험 추정
   B->>I: 2. 추론 예산 할당
   I->>V: 3. 후보 생성·탐색
   V->>O: 4. 품질·안전 검증

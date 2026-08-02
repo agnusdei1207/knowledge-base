@@ -102,22 +102,18 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant U as 사용자
-    participant H as MCP 호스트
-    participant C as MCP 클라이언트
+    participant H as MCP 호스트·클라이언트
     participant S as MCP 서버
     participant B as 백엔드
     U->>H: 목표·외부 행동 요청
-    H->>C: 도구 목록 조회 요청
-    C->>S: 1. 도구 목록·입력 스키마 요청
-    S-->>C: 2. 선택 가능한 도구 명세 제공
-    C-->>H: 서버별 도구 명세 전달
+    H->>S: 1. 도구 목록·입력 스키마 요청
+    S-->>H: 2. 선택 가능한 도구 명세 제공
     U->>H: 고위험 도구 승인
-    H->>C: 3. 승인된 도구명·구조화 인자 제공
-    C->>S: 4. tools/call 요청
+    H->>H: 3. 승인된 도구명·구조화 인자 확정
+    H->>S: 4. tools/call 요청
     S->>B: 5. 권한·입력 검증 후 백엔드 실행
     B-->>S: 실행 결과·오류 반환
-    S-->>C: 구조화 도구 결과 반환
-    C-->>H: 출처가 구분된 결과 전달
+    S-->>H: 출처가 구분된 구조화 결과 반환
     H-->>U: 실행 결과 제공
 ```
 

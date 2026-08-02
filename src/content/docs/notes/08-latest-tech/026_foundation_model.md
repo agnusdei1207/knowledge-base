@@ -103,14 +103,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant D as 학습 자원
-    participant M as 기반 모델
-    participant A as 적응 계층
+    participant M as 기반 모델·적응 계층
     participant V as 검증기
     participant S as 하위 서비스
     D->>M: 1. 범용 데이터·목표 사전학습
-    M->>A: 2. 범용 표현·능력 제공
-    A->>A: 3. RAG·PEFT 하위 과업 적응
-    A->>V: 적응 모델 전달
+    M->>M: 2. 범용 표현·능력 제공
+    M->>M: 3. RAG·PEFT 하위 과업 적응
+    M->>V: 적응 모델 전달
     V->>V: 4. 도메인 품질·안전 검증
     V->>S: 배포 승인 모델 전달
     S->>S: 5. 하위 서비스 회귀 감시

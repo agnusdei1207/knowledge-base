@@ -109,16 +109,15 @@ block-beta
 sequenceDiagram
     participant U as 사용자
     participant P as 문맥 처리기
-    participant A as 어텐션 엔진
-    participant K as KV 캐시
+    participant A as 어텐션·KV 캐시
     participant M as 모델
     U->>P: 장문 입력 요청
     P->>P: 1. 장문 입력 구성
     P->>P: 2. 위치 표현 확장
     P->>A: 확장 위치 입력 전달
     A->>A: 3. 장거리 관계 계산
-    A->>K: 4. 프리필·KV 캐시 생성
-    K->>M: 문맥 상태 제공
+    A->>A: 4. 프리필·KV 캐시 생성
+    A->>M: 문맥 상태 제공
     M->>M: 5. 장거리 근거 회수·결합
     M-->>U: 근거 기반 응답
 ```

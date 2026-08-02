@@ -103,12 +103,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 변환기
-    participant C as 컴파일러
+    participant C as 변환·컴파일러
     participant R as 런타임
     participant T as Edge TPU
     participant P as CPU
-    Q->>C: 1. 완전 정수 모델 변환
+    C->>C: 1. 완전 정수 모델 변환
     C->>R: 2. 지원 연산 판정
     R->>T: 3. 하위 그래프 분할
     T->>P: 4. TPU 구간 결과 전달
