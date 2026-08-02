@@ -23,29 +23,29 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NB-IoT·LTE-M**: 면허 대역에서 저전력 IoT 단말을 광역 연결하는 두 셀룰러 LPWAN 기술이다.
+- **협대역 사물인터넷·기계형 LTE(NB-IoT·LTE-M)**: 면허 대역에서 저전력 사물인터넷 단말을 광역 연결하는 두 셀룰러 저전력 광역망 기술이다.
 
 </details>
 
-- 정의/개념: 면허 대역에서 저전력 단말을 광역 연결하는 **NB-IoT·LTE-M 셀룰러 LPWAN**
+- 정의/개념: 면허 대역에서 저전력 단말을 광역 연결하는 **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)·기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M) 셀룰러 저전력 광역망(Low-Power Wide-Area Network, LPWAN)**
 - 배경/필요성: 기존 셀룰러 모뎀은 **소량 센서에 전력·비용 과다**
 
 #### 한줄 요약
 
-- 이동통신 기지국을 쓰되 단말은 대부분 잠들어 배터리를 아낀다
+- 이동통신 기지국을 쓰되 단말은 대부분 잠들어 배터리를 아낀다.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **NB-IoT**: 180kHz 협대역과 반복 전송으로 고정 센서의 깊은 실내 도달성을 높이는 셀룰러 LPWAN이다.
-- **LTE-M**: 핸드오버·음성·중간 전송률을 지원해 이동 단말에 적합한 셀룰러 LPWAN이다.
+- **협대역 사물인터넷(NB-IoT)**: 180킬로헤르츠 협대역과 반복 전송으로 고정 센서의 깊은 실내 도달성을 높이는 셀룰러 저전력 광역망이다.
+- **기계형 롱텀 에볼루션(LTE-M)**: 핸드오버·음성·중간 전송률을 지원해 이동 단말에 적합한 셀룰러 저전력 광역망이다.
 
 </details>
 
-- **NB-IoT**의 180kHz·반복 전송을 통한 깊은 실내 도달
-- **LTE-M**의 핸드오버·음성·중간 전송률 지원
+- **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)** 의 180킬로헤르츠(kilohertz, kHz)·반복 전송을 통한 깊은 실내 도달
+- **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M)** 의 핸드오버·음성·중간 전송률 지원
 - 절전 시간이 길수록 **배터리 수명 증가·하향 응답 지연**
 
 #### 한줄 요약
@@ -57,10 +57,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **USIM**: 가입자 식별자와 인증 키를 저장해 IoT 단말의 셀룰러망 접속 신원을 증명하는 모듈이다.
+- **범용 가입자 식별 모듈(USIM)**: 가입자 식별자와 인증 키를 저장해 사물인터넷 단말의 셀룰러망 접속 신원을 증명하는 모듈이다.
 - **코어망**: 가입자 등록·이동성·절전 타이머와 외부 IoT 플랫폼 연결을 관리하는 이동통신 중심망이다.
 
 </details>
+
+**사물인터넷(Internet of Things, IoT) 단말**의 **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)** 이 가입자 신원을 증명하고 코어망이 절전 타이머를 관리한다.
 
 ```mermaid
 block-beta
@@ -90,8 +92,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **PSM**: 망 등록을 유지한 채 무선 회로를 장시간 꺼 단말 전력을 줄이는 절전 모드이다.
-- **eDRX**: 하향 호출을 확인하는 주기를 늘려 수신 대기 전력을 줄이는 방식이다.
+- **절전 모드(PSM)**: 망 등록을 유지한 채 무선 회로를 장시간 꺼 단말 전력을 줄이는 모드이다.
+- **확장 불연속 수신(eDRX)**: 하향 호출을 확인하는 주기를 늘려 수신 대기 전력을 줄이는 방식이다.
 
 </details>
 
@@ -110,8 +112,8 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **가입자 인증 정보**: USIM 정보로 가입자 인증·등록 요청
-2. **절전 타이머**: PSM·eDRX·도달 가능 시간 제공
+1. **가입자 인증 정보**: **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)** 정보로 가입자 인증·등록 요청
+2. **절전 타이머**: **절전 모드(Power Saving Mode, PSM)·확장 불연속 수신(extended Discontinuous Reception, eDRX)** ·도달 가능 시간 제공
 3. **상향 센서 데이터**: 절전 해제 후 측정 데이터를 코어망에 전송
 
 #### 한줄 요약
@@ -128,11 +130,11 @@ sequenceDiagram
 
 </details>
 
-| 셀룰러 LPWAN | NB-IoT | LTE-M |
+| 셀룰러 저전력 광역망(Low-Power Wide-Area Network, LPWAN) | 협대역 사물인터넷(Narrowband Internet of Things, NB-IoT) | 기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M) |
 |:---|:---|:---|
 | 적용 기준 | 고정·소량·**지연 허용 센서** | 이동·**빠른 응답 단말** |
 | 핵심 특징 | 180kHz·**깊은 실내 도달** | 핸드오버·음성·**중간 전송률** |
-| 배치 방식 | **대역 내·보호 대역·독립 운용** | LTE 대역 내 **자원 배치** |
+| 배치 방식 | **대역 내·보호 대역·독립 운용** | **롱텀 에볼루션(Long-Term Evolution, LTE)** 대역 내 **자원 배치** |
 | 한계 | 긴 하향 응답·**제한된 이동성** | 모듈 비용·**소비 전력 증가** |
 
 > 요약: NB-IoT 고정형, LTE-M 이동 응답형
@@ -153,24 +155,24 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 긴 절전 주기로 하향 응답 기한 초과 | PSM·eDRX·**수신 창** 공동 산정 | 배터리 수명과 **응답 기한** 균형 |
-| 이동 단말에 NB-IoT를 적용하면 연결 단절 | 이동성 요구 시 **LTE-M** 선택 | 핸드오버를 통한 **세션 연속성** 확보 |
+| 긴 절전 주기로 하향 응답 기한 초과 | **절전 모드(Power Saving Mode, PSM)·확장 불연속 수신(extended Discontinuous Reception, eDRX)·수신 창** 공동 산정 | 배터리 수명과 **응답 기한** 균형 |
+| 이동 단말에 **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)** 을 적용하면 연결 단절 | 이동성 요구 시 **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M)** 선택 | 핸드오버를 통한 **세션 연속성** 확보 |
 | 깊은 실내에서 재전송 증가로 배터리 소모 | 반복 횟수·송신 전력·**커버리지** 실측 | 환경별 **배터리 수명** 예측 |
 
 #### 한줄 요약
 
-- 깊은 실내의 저속 고정 단말은 NB-IoT를, 이동하며 연결을 유지할 단말은 LTE-M을 선택한다
+- 깊은 실내의 저속 고정 단말은 NB-IoT를, 이동하며 연결을 유지할 단말은 LTE-M을 선택한다.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **셀룰러 LPWAN 선택**: 단말의 이동성·응답 기한·도달 환경·전력 예산을 비교해 NB-IoT와 LTE-M을 결정하는 과정이다.
+- **셀룰러 저전력 광역망 선택**: 단말의 이동성·응답 기한·도달 환경·전력 예산을 비교해 협대역 사물인터넷과 기계형 롱텀 에볼루션을 결정하는 과정이다.
 
 </details>
 
-- 고정·저속·깊은 실내는 **NB-IoT**, 이동·빠른 응답은 **LTE-M** 선택
+- 고정·저속·깊은 실내는 **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**, 이동·빠른 응답은 **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M)** 선택
 
 #### 한줄 요약
 

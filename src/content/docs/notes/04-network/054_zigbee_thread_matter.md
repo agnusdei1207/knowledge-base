@@ -23,34 +23,34 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Zigbee·Thread·Matter**: 각각 자체 IoT망·IPv6 메시 경로·IP 응용 상호운용을 담당하는 IoT 표준이다.
+- **지그비·스레드·매터(Zigbee·Thread·Matter)**: 각각 자체 사물인터넷망·인터넷 프로토콜 버전 6 메시 경로·인터넷 프로토콜 응용 상호운용을 담당하는 표준이다.
 
 </details>
 
-- 정의/개념: Zigbee·Thread·Matter는 각각 자체망·**IPv6 메시망·IP 응용**을 담당하는 IoT 표준
+- 정의/개념: 지그비·스레드·매터는 각각 자체망·**인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망·인터넷 프로토콜(Internet Protocol, IP) 응용**을 담당하는 **사물인터넷(Internet of Things, IoT) 표준**
 - 배경/필요성: 제조사별 기기 규격은 **명령·보안 상호운용 곤란**
 
 #### 한줄 요약
 
-- Thread는 IP 패킷 길을 만들고 Matter는 그 길에서 기기 명령의 뜻을 통일한다
+- 스레드는 IP 패킷 경로를 만들고 매터는 그 경로에서 기기 명령의 의미를 통일한다.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **Zigbee·Thread**: Zigbee는 자체 네트워크·응용 계층을 사용하고 Thread는 IEEE 802.15.4 위에서 IPv6 패킷을 전달한다.
-- **Matter**: IP망에서 기기 모델·명령·보안·가입 절차를 통일하는 응용 표준이다.
+- **지그비·스레드(Zigbee·Thread)**: 지그비는 자체 네트워크·응용 계층을 사용하고 스레드는 전기전자공학자협회 802.15.4 위에서 인터넷 프로토콜 버전 6 패킷을 전달한다.
+- **매터(Matter)**: 인터넷 프로토콜망에서 기기 모델·명령·보안·가입 절차를 통일하는 응용 표준이다.
 
 </details>
 
 - **Zigbee**의 자체 메시망·응용 프로파일 사용
-- **Thread**의 802.15.4 기반 IPv6 메시 경로 제공
-- **Matter**의 IP 기기 모델·명령·보안 통일
+- **스레드(Thread)** 의 **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.15.4** 기반 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시 경로** 제공
+- **매터(Matter)** 의 **인터넷 프로토콜(Internet Protocol, IP) 기기 모델·명령·보안** 통일
 
 #### 한줄 요약
 
-- BLE로 기기를 처음 등록한 뒤 운영 명령은 Wi-Fi나 Thread의 IP 경로로 전달한다.
+- **블루투스 저에너지(Bluetooth Low Energy, BLE)** 로 기기를 처음 등록한 뒤 운영 명령은 와이파이(Wi-Fi)나 스레드의 IP 경로로 전달한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -61,6 +61,8 @@ extra:
 - **Matter 브리지**: Zigbee 등 비 Matter 기기의 모델과 명령을 Matter 형식으로 변환하는 장치이다.
 
 </details>
+
+스레드 경계 라우터는 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)** 패킷을 전달하고 매터 브리지는 비 매터 기기의 모델과 명령을 변환한다.
 
 ```mermaid
 block-beta
@@ -112,7 +114,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **가입 정보**: BLE·QR 정보로 신규 기기와 보안 세션 수립
+1. **가입 정보**: **블루투스 저에너지(Bluetooth Low Energy, BLE)·빠른 응답(Quick Response, QR) 정보**로 신규 기기와 보안 세션 수립
 2. **기기 증명서**: 제조사 발급 정보로 기기 진위 증명
 3. **운영 자격**: 검증된 기기에 Thread 접속·패브릭 자격 전달
 
@@ -126,14 +128,14 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **망 계층·응용 계층**: Zigbee·Thread는 데이터 전달 경로를 구성하고 Matter는 그 경로에서 기기 명령의 의미를 통일한다.
-- **IPv6 메시망**: 여러 저전력 노드가 패킷을 중계하며 IPv6 도달성을 제공하는 네트워크이다.
+- **인터넷 프로토콜 버전 6 메시망**: 여러 저전력 노드가 패킷을 중계하며 인터넷 프로토콜 버전 6 도달성을 제공하는 네트워크이다.
 
 </details>
 
-| IoT 연결·응용 표준 | Zigbee | Thread | Matter |
+| 사물인터넷(Internet of Things, IoT) 연결·응용 표준 | 지그비(Zigbee) | 스레드(Thread) | 매터(Matter) |
 |:---|:---|:---|:---|
 | 적용 기준 | 기존 **Zigbee 기기** 연동 | 저전력 **IP 메시 경로** | 제조사 간 **응용 상호운용** |
-| 핵심 특징 | 비 IP망·**응용 프로파일** | 저전력 **IPv6 메시망** | IP **기기 모델·명령** |
+| 핵심 특징 | 비 **인터넷 프로토콜(Internet Protocol, IP)망·응용 프로파일** | 저전력 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망** | IP **기기 모델·명령** |
 | 한계 | **허브·브리지** 종속 | **경계 라우터** 구성 오류 | **인증서·권한** 오설정 |
 
 > 요약: **Zigbee·Thread**는 망 계층, **Matter**는 응용 계층
@@ -160,7 +162,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 기존 조명의 Zigbee 켜기·밝기 명령을 Matter 명령으로 바꿔 함께 제어한다
+- 기존 조명의 지그비 켜기·밝기 명령을 매터 명령으로 바꿔 함께 제어한다.
 
 ## Ⅶ. 결론
 
@@ -171,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 저전력 IP 경로는 **Thread**, 제조사 간 제어는 **Matter**, 기존 Zigbee는 브리지 선택
+- 저전력 **인터넷 프로토콜(Internet Protocol, IP) 경로**는 **스레드(Thread)**, 제조사 간 제어는 **매터(Matter)**, 기존 지그비(Zigbee)는 브리지 선택
 
 #### 한줄 요약
 
