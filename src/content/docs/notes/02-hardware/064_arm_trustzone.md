@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Arm TrustZone 보안 확장"
-date: "2026-07-31T10:00:27+09:00"
+date: "2026-08-02T11:24:00+09:00"
 tags:
   - "notes-hardware"
 weight: 64
@@ -18,31 +18,15 @@ extra:
   priority_note: "보안 상태·전환·자원 속성 검증"
 ---
 
-## 미리 알고가기
-
-- **Arm TrustZone**: 하드웨어 보안 상태를 기준으로 실행 환경과 자원을 격리하는 Arm 보안 기술
-- **시스템 온 칩(System on Chip, SoC)**: 처리기·메모리 제어기·주변장치를 하나의 칩에 통합한 시스템
-- **A-profile·M-profile**: A-profile은 고성능 운영체제용 Arm 구조이고 M-profile은 마이크로컨트롤러용 Arm 구조
-- **예외 수준 3(Exception Level 3, EL3)**: Arm A-profile에서 보안·비보안 상태 전환과 보안 모니터 실행을 담당하는 최고 예외 수준
-- **보안 상태(Secure State)**: 보안 코드와 자원에 접근 가능한 상태
-- **비보안 상태(Non-secure State)**: 보안 자원 접근이 차단된 일반 실행 상태
-- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 시스템 보안 보장에 반드시 신뢰해야 하는 최소 하드웨어·소프트웨어 구성요소
-- **신뢰 실행 환경(Trusted Execution Environment, TEE)**: 민감한 코드와 데이터를 일반 실행 환경에서 격리하여 실행하는 보안 환경
-- **보안 모니터 호출(Secure Monitor Call, SMC)**: Arm A-profile에서 EL3 보안 모니터를 호출하여 보안 상태를 전환하는 명령
-- **보안 게이트웨이(Secure Gateway, SG)**: Arm M-profile에서 비보안 코드가 허용된 보안 함수로 진입할 때 사용하는 명령
-- **자원 보안 속성(Resource Security Attribution)**: 메모리·주변장치의 보안 귀속
-- **거래 보안 속성(Transaction Security Attribute)**: 버스 접근이 보안·비보안 중 어느 상태에서 발생했는지 표시하는 하드웨어 신호
-- **진입점·포인터(Entry Point·Pointer)**: 진입점은 허용된 보안 서비스 시작 주소이고 포인터는 공유 메모리 위치를 가리키는 값
-- **페이지 테이블(Page Table)**: 가상 주소를 물리 주소와 접근 권한에 연결하는 운영체제 자료구조
-- **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서의 데이터 복사 없이 메모리와 장치 사이에서 직접 전송하는 방식
-- **공유 버퍼(Shared Buffer)**: 보안·비보안 코드가 공유하는 비보안 메모리
-- **검증 부팅(Verified Boot)**: 다음 부트 단계의 서명·해시 검증
-- **읽기 전용 메모리(Read-Only Memory, ROM)**: 전원 인가 직후 실행하는 변경 불가능한 초기 부트 코드를 저장하는 메모리
-- **캐시(Cache)**: 자주 쓰는 데이터와 명령을 프로세서 가까이에 보관하는 고속 메모리
-
-> **키워드:** Arm TrustZone 보안 확장
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **Arm TrustZone**: 하드웨어 보안 상태와 버스 거래 속성을 이용해 실행 환경과 자원을 격리하는 Arm 보안 기술이다.
+- **보안 상태(Secure State)**: 승인된 보안 코드가 보안 메모리와 주변장치에 접근할 수 있는 프로세서 실행 상태이다.
+- **비보안 상태(Non-secure State)**: 일반 운영체제와 응용이 실행되며 보안 자원 접근이 하드웨어로 차단되는 상태이다.
+
+</details>
 
 - 정의/개념: **보안 상태·거래 속성**으로 실행 환경과 자원을 격리하는 Arm 보안 확장
 - 배경/필요성: OS 권한 격리만으로는 커널 침해 시 **보안 자산 보호 불가**
@@ -53,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **거래 보안 속성(Transaction Security Attribute)**: 버스 접근이 보안과 비보안 중 어느 상태에서 발생했는지 표시하는 하드웨어 신호이다.
+- **자원 보안 속성(Resource Security Attribution)**: 메모리나 주변장치가 보안 또는 비보안 영역에 속하도록 지정한 접근 속성이다.
+- **공유 버퍼(Shared Buffer)**: 보안 코드와 비보안 코드가 요청과 결과를 교환하는 비보안 메모리 영역이다.
+
+</details>
+
 - **보안·비보안 상태** 분리에 따른 실행 환경 격리
 - **거래 보안 속성** 전파에 따른 메모리·장치 접근 통제
 - **진입점·공유 버퍼 검증**으로 비보안 입력 제한
@@ -62,6 +54,15 @@ extra:
 - 비보안 코드는 허용된 입구로만 보안 서비스를 요청한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **보안 전환 경로(Secure Transition Path)**: 비보안 호출을 검증하고 프로세서를 보안 상태의 승인된 진입점으로 전환하는 경로이다.
+- **신뢰 실행 환경(Trusted Execution Environment, TEE)**: 민감한 코드와 데이터를 일반 실행 환경에서 격리하여 실행하는 보안 환경이다.
+- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 시스템 보안 보장에 반드시 신뢰해야 하는 최소 하드웨어와 소프트웨어의 집합이다.
+- **자원 보안 제어(Resource Security Control)**: 거래 속성과 자원 귀속을 비교하여 메모리와 장치 접근을 허용하거나 차단하는 하드웨어이다.
+
+</details>
 
 ```mermaid
 block
@@ -87,6 +88,14 @@ block
 - 검증된 입구와 하드웨어 접근 제어가 보안 영역을 보호한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **보안 게이트웨이(Secure Gateway)**: 비보안 코드가 허용된 보안 서비스 진입점으로 전환할 때 거치는 검증된 경계이다.
+- **공유 버퍼 검증(Shared-buffer Validation)**: 비보안 코드가 전달한 주소와 길이가 허용된 메모리 범위인지 확인하는 절차이다.
+- **보안 연산(Secure Operation)**: 키와 비밀 데이터를 보안 영역 밖으로 노출하지 않고 TEE나 보안 장치에서 수행하는 연산이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -117,6 +126,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **운영체제 권한 격리(OS Privilege Isolation)**: 페이지 테이블과 프로세스 권한으로 일반 응용의 주소 공간과 자원 접근을 분리하는 방식이다.
+- **페이지 권한(Page Permission)**: 가상 메모리 페이지별로 읽기와 쓰기 및 실행 가능 여부를 지정하는 운영체제 속성이다.
+- **커널 침해(Kernel Compromise)**: 공격자가 운영체제 최고 권한을 얻어 프로세스와 페이지 권한을 우회할 수 있는 상태이다.
+
+</details>
+
 | 격리 방식 | Arm TrustZone | 운영체제 권한 격리 |
 |:---|:---|:---|
 | 적용 기준 | **키·부팅 코드** 보호 | **응용·프로세스** 분리 |
@@ -129,7 +146,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **TCB 최소화(TCB Minimization)**: 보안 영역에 필수 서비스만 남겨 검증해야 할 코드와 자원의 범위를 줄이는 원칙이다.
+- **경계 취약점(Boundary Vulnerability)**: 보안·비보안 영역 사이의 입력 검증이나 상태 전환 오류로 생기는 보안 결함이다.
+- **DMA 보안 속성(DMA Security Attribution)**: 장치의 직접 메모리 접근이 보안 또는 비보안 거래로 처리되도록 지정한 속성이다.
+- **문맥·캐시 정리(Context·Cache Sanitization)**: 보안 상태 전환 전에 레지스터와 캐시에 남은 민감 정보를 제거하는 처리이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | TEE 기능 증가로 TCB 검증 범위 확대 | 필수 서비스만 남겨 **TCB 최소화** | **검증 범위** 축소 |
 | 공유 버퍼의 주소·길이 검증 누락 | **주소·길이 검증** 후 보안 영역 복사 | **경계 취약점** 방지 |
@@ -141,6 +167,14 @@ sequenceDiagram
 - 보안 코드를 줄이고 모든 공유 입력과 장치 속성을 검증한다.
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **핵심 자산(Critical Asset)**: 암호 키와 부팅 코드처럼 노출이나 변조 시 시스템 보안이 무너지는 데이터와 코드이다.
+- **하드웨어 격리(Hardware Isolation)**: 운영체제 권한과 독립된 프로세서 상태 및 버스 제어로 접근 경계를 강제하는 방식이다.
+- **최소 권한(Least Privilege)**: 각 보안 서비스에 기능 수행에 필요한 최소 자원과 권한만 부여하는 원칙이다.
+
+</details>
 
 - 핵심 자산은 **TrustZone**에 격리하고 **TCB** 최소화
 

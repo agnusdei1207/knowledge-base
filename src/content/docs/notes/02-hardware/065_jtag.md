@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-07-31T10:01:18+09:00"
+date: "2026-08-02T11:25:00+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -18,31 +18,15 @@ extra:
   priority_note: "양산 연결 검사·출하 후 포트 통제"
 ---
 
-## 미리 알고가기
-
-- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: 경계 스캔과 칩 디버깅에 사용하는 IEEE 1149.1 직렬 시험 인터페이스
-- **집적회로(Integrated Circuit, IC)·인쇄회로기판(Printed Circuit Board, PCB)**: IC는 반도체 회로 부품이고 PCB는 여러 IC를 장착하고 전기적으로 연결하는 기판
-- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하고 시스템의 연산·제어를 담당하는 처리장치
-- **전기전자공학자협회 1149.1(Institute of Electrical and Electronics Engineers 1149.1, IEEE 1149.1)**: 테스트 접근 포트와 경계 스캔 절차를 정의한 JTAG 인터페이스 표준
-- **테스트 접근 포트(Test Access Port, TAP)**: 시험 명령과 데이터를 직렬 전송하고 상태 머신을 제어하는 JTAG 포트
-- **테스트 클록(Test Clock, TCK)·테스트 모드 선택(Test Mode Select, TMS)**: TCK는 시험 동작을 동기화하고 TMS는 TAP 상태 전이를 선택하는 JTAG 신호
-- **테스트 데이터 입력(Test Data In, TDI)·출력(Test Data Out, TDO)**: 선택된 JTAG 레지스터의 시험 데이터를 직렬 입력·출력하는 신호
-- **명령 레지스터(Instruction Register, IR)**: 현재 실행할 JTAG 시험 명령을 저장하는 레지스터
-- **데이터 레지스터(Data Register, DR)**: 경계 스캔·바이패스 등의 시험 데이터를 직렬 이동하는 레지스터
-- **TAP 상태(Test-Logic-Reset·Shift-IR·Update-IR·Shift-DR·Update-DR·Capture-DR)**: Test-Logic-Reset은 제어기를 초기화하고 Shift는 직렬 이동, Update는 적용, Capture는 입력 저장을 뜻하며 IR·DR의 명령·데이터 이동 순서를 제어
-- **경계 스캔 레지스터(Boundary-Scan Register)**: IC 핀 값을 캡처·구동하는 경계 셀 체인
-- **외부 검사(External Test, EXTEST)**: 경계 스캔 셀을 구동·관측하여 PCB의 IC 간 연결을 검사하는 JTAG 명령
-- **우회(Bypass, BYPASS)**: 시험 대상이 아닌 IC를 1비트 우회 레지스터로 통과시키는 JTAG 명령
-- **식별 코드(Identification Code, IDCODE)**: JTAG 체인에서 장치 제조사·부품·버전을 확인하는 식별 레지스터 값
-- **직렬 와이어 디버그(Serial Wire Debug, SWD)**: Arm 프로세서의 메모리·레지스터를 제어하는 2선 패킷 디버그 인터페이스
-- **범용 비동기 송수신기(Universal Asynchronous Receiver-Transmitter, UART)**: 로그·콘솔 데이터를 비동기 직렬 방식으로 송수신하는 장치
-- **디버그 인증·잠금(Debug Authentication·Lock)**: 허가된 정비 주체만 디버그 포트를 열고 운영 중에는 접근을 차단하는 통제
-- **시간 제한 서비스 모드(Time-Limited Service Mode)**: 정비 시간에만 디버그 접근을 허용하고 만료 후 자동 잠그는 모드
-- **안전 핀 마스크(Safe Pin Mask)**: EXTEST 중 구동하면 위험한 출력 핀을 시험 대상에서 제외하는 설정
-
-> **키워드:** JTAG 디버깅 인터페이스 (JTAG)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **JTAG(Joint Test Action Group)**: 경계 스캔과 칩 디버깅에 사용하는 IEEE 1149.1 기반 직렬 시험 인터페이스이다.
+- **테스트 접근 포트(Test Access Port, TAP)**: 시험 명령과 데이터를 직렬로 전송하고 상태 머신을 제어하는 JTAG 포트이다.
+- **경계 스캔(Boundary Scan)**: IC 핀 주위의 셀을 직렬 체인으로 연결하여 핀 값을 구동하고 관찰하는 시험 방식이다.
+
+</details>
 
 - 정의/개념: **IEEE 1149.1 TAP·경계 스캔**으로 IC·PCB 연결을 검사하는 직렬 인터페이스
 - 배경/필요성: 물리 탐침으로는 패키지 내부 **핀·배선 관측 불가**
@@ -53,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **직렬 스캔 체인(Serial Scan Chain)**: 여러 IC의 시험 레지스터를 TDI와 TDO로 한 줄에 연결하여 순차 접근하는 구조이다.
+- **경계 스캔 셀(Boundary-scan Cell)**: 코어 실행과 독립적으로 IC 핀의 입력을 캡처하거나 출력을 구동하는 시험 셀이다.
+- **CPU 디버그(CPU Debug)**: 프로세서 구현이 별도로 제공하는 코어 정지와 레지스터·메모리 접근 기능이다.
+
+</details>
+
 - **직렬 스캔 체인**으로 다중 IC를 한 포트에서 검사
 - **경계 스캔 셀**로 코어 실행 없이 핀 구동·관찰
 - 표준 경계 스캔과 **CPU 디버그 구현**은 별도 확인
@@ -62,6 +54,15 @@ extra:
 - 여러 칩의 점검구를 한 줄로 이어 배선을 검사하며, 내부 디버그 기능은 칩마다 다르다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **TAP 제어기(TAP Controller)**: TMS 입력과 TCK 클록에 따라 명령·데이터 캡처, 이동 및 적용 상태를 전환하는 상태 머신이다.
+- **명령 레지스터(Instruction Register, IR)**: 현재 실행할 JTAG 시험 명령을 직렬로 받아 저장하는 레지스터이다.
+- **데이터 레지스터(Data Register, DR)**: 경계 스캔과 IDCODE 및 BYPASS 같은 시험 데이터를 직렬 이동하는 레지스터이다.
+- **TDI·TDO**: 선택된 JTAG 레지스터에 시험 비트를 직렬 입력하고 관측 비트를 직렬 출력하는 신호이다.
+
+</details>
 
 ```mermaid
 block
@@ -87,6 +88,14 @@ block
 - TAP가 명령과 데이터 경로를 골라 칩 핀을 읽고 구동한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **EXTEST**: 경계 스캔 셀을 구동하고 관측하여 PCB의 IC 사이 외부 연결을 검사하는 JTAG 명령이다.
+- **시험 패턴(Test Pattern)**: 특정 핀 연결의 단선과 단락을 검출하도록 경계 셀에 적재하는 구동 비트열이다.
+- **캡처 비트열(Captured Bitstream)**: 시험 패턴 전송 후 수신 측 경계 셀이 관찰하여 저장한 입력 값의 직렬 데이터이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -120,6 +129,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **직렬 와이어 디버그(Serial Wire Debug, SWD)**: Arm 프로세서의 코어와 메모리를 제어하는 2선 패킷 디버그 인터페이스이다.
+- **범용 비동기 송수신기(Universal Asynchronous Receiver-transmitter, UART)**: 로그와 콘솔 데이터를 비동기 직렬 방식으로 송수신하는 장치이다.
+- **디버그 공격면(Debug Attack Surface)**: 시험 인터페이스를 통해 내부 메모리와 제어 기능에 비인가 접근할 수 있는 위험 범위이다.
+
+</details>
+
 | 디버그·시험 인터페이스 | JTAG | SWD | UART |
 |:---|:---|:---|:---|
 | 적용 기준 | PCB 연결·**다중 IC 시험** | 적은 핀의 **Arm 디버그** | 단순 로그·**명령 채널** |
@@ -132,7 +149,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **디버그 인증·잠금(Debug Authentication·Lock)**: 허가된 정비 주체만 포트를 열고 운영 중에는 디버그 접근을 차단하는 통제이다.
+- **시간 제한 서비스 모드(Time-limited Service Mode)**: 승인된 정비 시간에만 접근을 허용하고 만료 후 자동으로 잠그는 모드이다.
+- **IDCODE·BYPASS**: IDCODE는 체인 장치를 식별하고 BYPASS는 시험하지 않는 IC를 1비트 레지스터로 통과시키는 명령이다.
+- **안전 핀 마스크(Safe Pin Mask)**: EXTEST 중 구동하면 위험한 출력 핀을 시험 패턴 대상에서 제외하는 설정이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 출하 장치에서 TAP 포트 노출 | **디버그 인증·운영 모드 잠금** | **디버그 공격면** 축소 |
 | 영구 잠금으로 장애 분석 불가 | **시간 제한 서비스 모드** | **보안·정비성** 균형 |
@@ -144,6 +170,14 @@ sequenceDiagram
 - 생산 단계에는 EXTEST를 사용하고 출하 후에는 인증된 서비스 모드 외 JTAG 접근을 잠근다
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **생산 시험(Production Test)**: 조립된 PCB의 납땜과 IC 사이 연결을 출하 전에 자동 검사하는 공정이다.
+- **출하 후 통제(Post-deployment Control)**: 고객 환경에 배포된 장치의 디버그 접근을 인증과 잠금 정책으로 제한하는 운영이다.
+- **정비성(Serviceability)**: 장애 분석과 수리를 위해 승인된 절차로 필요한 진단 기능을 사용할 수 있는 성질이다.
+
+</details>
 
 - 생산 단계 **EXTEST**, 출하 후 **JTAG 인증·잠금** 적용
 

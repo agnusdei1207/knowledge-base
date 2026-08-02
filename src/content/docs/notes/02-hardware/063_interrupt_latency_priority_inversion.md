@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "인터럽트 레이턴시·우선순위 역전"
-date: "2026-07-31T10:39:00+09:00"
+date: "2026-08-02T11:23:00+09:00"
 tags:
   - "notes-hardware"
 weight: 63
@@ -18,28 +18,15 @@ extra:
   priority_note: "IRQ 시작 지연·락 차단의 분리 통제"
 ---
 
-## 미리 알고가기
-
-- **인터럽트 요청(Interrupt Request, IRQ)**: 장치가 프로세서에 처리를 요구하는 비동기 신호
-- **인터럽트 레이턴시(Interrupt Latency)**: IRQ 인가부터 ISR 시작까지의 지연
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 요청의 원인을 확인하고 긴급한 처리를 수행하는 짧은 코드
-- **인터럽트 마스킹(Interrupt Masking)**: 프로세서의 특정 IRQ 처리를 잠시 억제
-- **비마스킹 인터럽트(Non-Maskable Interrupt, NMI)**: 일반 마스크로 차단할 수 없는 최상위 긴급 인터럽트
-- **예외 진입(Exception Entry)**: 상태 저장·벡터 조회 후 ISR로 전환
-- **인터럽트 컨트롤러(Interrupt Controller)**: 여러 장치의 IRQ를 보류·우선순위화해 프로세서에 전달하는 하드웨어
-- **인터럽트 벡터(Interrupt Vector)**: IRQ 종류별 ISR 시작 주소를 찾는 식별자나 주소표 항목
-- **선점(Preemption)**: 더 높은 우선순위의 인터럽트나 태스크가 현재 실행권을 가져오는 동작
-- **임계 구역(Critical Section)**: 공유 자원을 배타적으로 쓰는 코드 구간
-- **뮤텍스(Mutex)**: 한 태스크만 공유 자원을 쓰게 하는 잠금
-- **우선순위 역전(Priority Inversion)**: 고순위 태스크가 저순위 태스크 보유 락을 대기
-- **우선순위 상속(Priority Inheritance)**: 락 보유자가 대기자의 높은 우선순위를 임시 상속
-- **우선순위 천장(Priority Ceiling)**: 락 보유자를 자원별 최고 우선순위로 승격
-- **최악 응답시간(Worst-Case Response Time)**: 이벤트·작업 준비부터 완료까지 최대 시간
-- **데드라인(Deadline)**: 처리를 끝내야 하는 시각
-
-> **키워드:** 인터럽트 레이턴시·우선순위 역전
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **인터럽트 레이턴시(Interrupt Latency)**: 장치가 IRQ를 인가한 시점부터 해당 ISR의 첫 명령이 시작될 때까지의 지연이다.
+- **우선순위 역전(Priority Inversion)**: 높은 우선순위 태스크가 낮은 우선순위 태스크가 보유한 잠금을 기다리는 현상이다.
+- **실시간 지연 분석(Real-time Latency Analysis)**: 이벤트 처리 경로의 각 대기 원인과 최악 상한을 분리하여 계산하는 과정이다.
+
+</details>
 
 - 정의/개념: **IRQ 시작 지연**과 **락 대기**를 구분하는 실시간 분석
 - 배경/필요성: 단일 지연 측정으로는 **IRQ•락 차단 원인 분리 불가**
@@ -50,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **인터럽트 마스킹(Interrupt Masking)**: 프로세서가 특정 IRQ의 처리를 일정 시간 동안 억제하는 동작이다.
+- **상위 ISR 중첩(Higher-priority ISR Nesting)**: 더 높은 우선순위의 인터럽트가 현재 ISR을 선점하여 실행되는 현상이다.
+- **중순위 선점(Medium-priority Preemption)**: 잠금을 가진 저순위 태스크가 중순위 태스크에 선점되어 고순위 태스크의 대기가 길어지는 현상이다.
+
+</details>
+
 - **마스킹·상위 ISR** 중첩에 따른 인터럽트 시작 지연 증가
 - **저순위 락 보유**에 따른 고순위 태스크 실행 차단
 - **중순위 선점**에 따른 우선순위 역전 시간 확대
@@ -59,6 +54,15 @@ extra:
 - ISR 시작 전 지연과 ISR 이후 락 대기를 따로 측정한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **인터럽트 컨트롤러(Interrupt Controller)**: 여러 장치의 IRQ를 보류하고 우선순위를 정해 프로세서에 전달하는 하드웨어이다.
+- **예외 진입(Exception Entry)**: 현재 상태를 저장하고 인터럽트 벡터를 조회한 뒤 ISR 문맥으로 전환하는 절차이다.
+- **뮤텍스(Mutex)**: 한 시점에 하나의 태스크만 공유 자원에 접근하도록 보장하는 잠금이다.
+- **임계 구역(Critical Section)**: 공유 자원을 배타적으로 읽거나 변경하기 위해 잠금을 보유하는 코드 구간이다.
+
+</details>
 
 ```mermaid
 block
@@ -87,6 +91,15 @@ block
 - IRQ 경로와 태스크의 공유 자원 경로가 서로 다른 지연을 만든다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **인터럽트 벡터(Interrupt Vector)**: IRQ 종류에 해당하는 ISR 시작 주소를 찾기 위한 식별자나 주소표 항목이다.
+- **후속 태스크(Deferred Task)**: ISR에서 긴 처리를 넘겨받아 일반 태스크 문맥에서 실행하는 작업이다.
+- **락 소유자(Lock Owner)**: 현재 뮤텍스를 획득하여 공유 자원의 임계 구역을 실행 중인 태스크이다.
+- **우선순위 상속(Priority Inheritance)**: 락 소유자가 대기 중인 고순위 태스크의 우선순위를 임시로 받아 임계 구역을 빨리 끝내는 기법이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -117,6 +130,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **IRQ 시작 지연(IRQ Start Delay)**: 인터럽트 요청부터 ISR 실행 시작까지 발생하는 마스킹과 예외 진입 및 상위 ISR 대기 시간이다.
+- **공유 자원 차단(Shared-resource Blocking)**: 고순위 태스크가 필요한 잠금을 다른 태스크가 보유하여 실행하지 못하는 시간이다.
+- **최악 응답시간(Worst-case Response Time)**: 이벤트나 작업 요청부터 모든 대기와 실행을 거쳐 완료까지 걸리는 최대 시간이다.
+
+</details>
+
 | 지연 유형 | 인터럽트 레이턴시 | 우선순위 역전 |
 |:---|:---|:---|
 | 적용 기준 | **IRQ 시작 지연** 분석 | **공유 자원 차단** 분석 |
@@ -129,7 +150,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **후속 처리 이관(Deferred-processing Offload)**: ISR의 긴 작업을 준비 큐의 태스크로 넘겨 인터럽트 실행 시간을 줄이는 방식이다.
+- **IRQ 기아(IRQ Starvation)**: 높은 우선순위 요청이 계속 발생하여 낮은 우선순위 IRQ가 장시간 처리되지 못하는 현상이다.
+- **잠금 순서(Lock Ordering)**: 여러 잠금을 획득할 때 모든 태스크가 지키도록 정한 일관된 순서이다.
+- **최대 보유시간(Maximum Hold Time)**: 태스크가 하나의 잠금을 획득한 뒤 해제할 때까지 허용되는 최장 시간이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 긴 마스킹·ISR로 시작 지연 증가 | 긴 처리를 **후속 태스크로 이관** | **IRQ 시작 지연** 감소 |
 | 상위 IRQ 중첩으로 하위 요청 기아 | **중첩 깊이·IRQ 요청률** 제한 | **하위 요청 기아** 방지 |
@@ -141,6 +171,14 @@ sequenceDiagram
 - 최대 IRQ 지연과 락 보유시간을 측정해 각각 상한을 둔다.
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **IRQ 지연 상한(IRQ-latency Bound)**: 최악 조건에서 인터럽트 요청부터 ISR 시작까지 허용하는 최대 시간이다.
+- **락 차단 상한(Lock-blocking Bound)**: 공유 자원 대기로 고순위 태스크가 차단될 수 있는 최대 시간이다.
+- **데드라인(Deadline)**: 인터럽트 후속 처리와 태스크 결과를 반드시 완료해야 하는 시각이다.
+
+</details>
 
 - **IRQ 지연·락 차단 상한** 기반 ISR·우선순위 상속 정책 결정
 
