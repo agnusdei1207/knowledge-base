@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: **양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA)** 은 4비트 동결 기반 모델을 역양자화하고 **저랭크 적응(Low-Rank Adaptation, LoRA)** 경로만 갱신하는 미세조정 기법
-- 배경/필요성: 저랭크 적응도 고정밀 기반 가중치 적재로 **제한된 그래픽 처리장치(Graphics Processing Unit, GPU) 메모리**에서 대형 모델 학습이 곤란함
+- 배경/필요성: 저랭크 적응도 고정밀 기반 가중치 적재로 **제한된 그래픽 처리장치(Graphics Processing Unit, GPU) 메모리** 에서 대형 모델 학습이 곤란함
 
 #### 한줄 요약
 - 큰 원본은 4비트로 접어 보관하고 계산 순간에만 펼쳐 작은 LoRA 수정분을 학습함
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **4비트 정규 부동소수점(NormalFloat 4-bit, NF4)·이중 양자화**에 따른 동결 가중치 저장량 축소
+- **4비트 정규 부동소수점(NormalFloat 4-bit, NF4)·이중 양자화** 에 따른 동결 가중치 저장량 축소
 - 계산 자료형 **역양자화·저랭크 적응(Low-Rank Adaptation, LoRA)** 을 결합한 혼합 정밀도 학습
-- **페이지드 옵티마이저**를 활용한 순간 메모리 급증 완화
+- **페이지드 옵티마이저** 를 활용한 순간 메모리 급증 완화
 
 페이지드 옵티마이저는 **중앙처리장치(Central Processing Unit, CPU)** 와 **그래픽 처리장치(Graphics Processing Unit, GPU)** 사이에서 상태를 이동한다.
 
@@ -119,7 +119,7 @@ sequenceDiagram
 **동작 원리**
 
 1. **4비트 정규 부동소수점(NormalFloat 4-bit, NF4) 가중치·상수 적재**: 기반 모델을 압축 상태로 고정해 **그래픽 처리장치(Graphics Processing Unit, GPU) 저장량** 절감
-2. **선택 블록 역양자화**: 현재 연산에 필요한 가중치만 **계산 정밀도**로 복원
+2. **선택 블록 역양자화**: 현재 연산에 필요한 가중치만 **계산 정밀도** 로 복원
 3. **기반 출력·저랭크 적응(Low-Rank Adaptation, LoRA) 변화량 합산**: 고정 기반 경로와 학습 경로의 **통합 출력** 생성
 4. **저랭크 적응 그래디언트 갱신**: 역전파 대상을 저랭크 행렬로 제한해 **학습 상태** 축소
 
@@ -161,7 +161,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **4비트 정규 부동소수점(NormalFloat 4-bit, NF4) 역양자화**의 과업 품질 저하 | 동일 데이터의 **저랭크 적응(Low-Rank Adaptation, LoRA)·양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA) 회귀 비교** | 양자화 손실 **판정** |
+| **4비트 정규 부동소수점(NormalFloat 4-bit, NF4) 역양자화** 의 과업 품질 저하 | 동일 데이터의 **저랭크 적응(Low-Rank Adaptation, LoRA)·양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA) 회귀 비교** | 양자화 손실 **판정** |
 | 미지원 커널의 **학습 지연·실패** | 장치별 4비트 정규 부동소수점·역양자화 커널 호환 시험 | 실행 가능 환경 **확정** |
 | 상태 페이징의 **중앙처리장치(Central Processing Unit, CPU)·그래픽 처리장치(Graphics Processing Unit, GPU) 이동 병목** | 피크 메모리와 전송 대역폭 동시 측정 | 메모리 절감의 **지연 대가 통제** |
 
@@ -178,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-- **그래픽 처리장치(Graphics Processing Unit, GPU) 메모리·양자화 품질·커널 지원**을 기준으로 **저랭크 적응(Low-Rank Adaptation, LoRA)과 양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA) 학습 경로** 선택
+- **그래픽 처리장치(Graphics Processing Unit, GPU) 메모리·양자화 품질·커널 지원** 을 기준으로 **저랭크 적응(Low-Rank Adaptation, LoRA)과 양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA) 학습 경로** 선택
 
 #### 한줄 요약
 - 메모리 절감이 품질 손실과 데이터 이동 시간을 감당할 만큼 큰지 비교함

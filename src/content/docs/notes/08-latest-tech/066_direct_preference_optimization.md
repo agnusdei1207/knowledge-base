@@ -65,7 +65,7 @@ extra:
 
 </details>
 
-**직접 선호 최적화(Direct Preference Optimization, DPO) 손실**은 정책·참조 모델의 상대 로그확률을 선호 순서에 맞게 조정한다.
+**직접 선호 최적화(Direct Preference Optimization, DPO) 손실** 은 정책·참조 모델의 상대 로그확률을 선호 순서에 맞게 조정한다.
 
 ```mermaid
 block-beta
@@ -179,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 고정 선호쌍이 충분하면 **직접 선호 최적화(Direct Preference Optimization, DPO)** 를 선택하고 범위 밖 생성은 **독립 평가**로 검증
+- 고정 선호쌍이 충분하면 **직접 선호 최적화(Direct Preference Optimization, DPO)** 를 선택하고 범위 밖 생성은 **독립 평가** 로 검증
 
 #### 한줄 요약
 

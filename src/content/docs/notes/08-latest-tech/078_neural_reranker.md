@@ -46,7 +46,7 @@ extra:
 
 - 1차 검색에 포함된 문서만 재정렬하는 **후보 제한**
 - 질의·문서 관계로 점수를 계산하는 **정밀 상호작용**
-- **트랜스포머 양방향 인코더 표현(Bidirectional Encoder Representations from Transformers, BERT) 교차 인코더**의 정밀 평가와 후보별 추론 지연 증가
+- **트랜스포머 양방향 인코더 표현(Bidirectional Encoder Representations from Transformers, BERT) 교차 인코더** 의 정밀 평가와 후보별 추론 지연 증가
 - **BERT 기반 문맥화 후기 상호작용(Contextualized Late Interaction over BERT, ColBERT)** 의 문서 토큰 사전 인코딩에 따른 재순위 지연 감소
 
 #### 한줄 요약
@@ -172,7 +172,7 @@ sequenceDiagram
 
 </details>
 
-- 회수율이 확보되면 **재순위**를 적용하고 지연 예산별 **Top-k·모델 크기** 제한
+- 회수율이 확보되면 **재순위** 를 적용하고 지연 예산별 **Top-k·모델 크기** 제한
 
 #### 한줄 요약
 

@@ -67,7 +67,7 @@ extra:
 
 </details>
 
-**저랭크 적응(Low-Rank Adaptation, LoRA) 변화량**은 어텐션이나 **순방향 신경망(Feed-Forward Network, FFN)** 의 대상 선형층에 주입한다.
+**저랭크 적응(Low-Rank Adaptation, LoRA) 변화량** 은 어텐션이나 **순방향 신경망(Feed-Forward Network, FFN)** 의 대상 선형층에 주입한다.
 
 ```mermaid
 block-beta

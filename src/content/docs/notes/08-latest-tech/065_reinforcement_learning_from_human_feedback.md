@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)** 은 인간 선호 보상 모델로 언어 모델의 생성 정책을 강화학습하는 정렬 방식
-- 배경/필요성: **지도 파인튜닝(Supervised Fine-Tuning, SFT)** 의 모범 답안 모방만으로는 유용성·안전성 같은 **상대 선호 기준 반영**에 한계가 있음
+- 배경/필요성: **지도 파인튜닝(Supervised Fine-Tuning, SFT)** 의 모범 답안 모방만으로는 유용성·안전성 같은 **상대 선호 기준 반영** 에 한계가 있음
 
 #### 한줄 요약
 - 여러 답 중 사람이 고른 답을 채점 기준으로 배우고 모델이 그 점수를 높이도록 연습함
@@ -63,7 +63,7 @@ extra:
 
 </details>
 
-**지도 파인튜닝(Supervised Fine-Tuning, SFT) 정책**은 **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)** 의 초기 정책과 참조 기준을 제공한다.
+**지도 파인튜닝(Supervised Fine-Tuning, SFT) 정책** 은 **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)** 의 초기 정책과 참조 기준을 제공한다.
 
 ```mermaid
 block-beta
@@ -161,8 +161,8 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 평가자 구성 편향의 **보상 모델 왜곡** | 집단별 선호 일치도·갈등 표본 분석 | 선호 기준의 **대표성 확보** |
-| 높은 **보상 모델(Reward Model, RM) 점수**의 보상 해킹 | 독립 인간 평가와 적대적 프롬프트 시험 | 실제 유용성 **검증** |
-| 낮은 **쿨백-라이블러 발산(Kullback-Leibler Divergence, KL) 제약**의 정책 붕괴 | 쿨백-라이블러 발산 계수별 보상·언어 품질 공동 평가 | 정책 이탈 **통제** |
+| 높은 **보상 모델(Reward Model, RM) 점수** 의 보상 해킹 | 독립 인간 평가와 적대적 프롬프트 시험 | 실제 유용성 **검증** |
+| 낮은 **쿨백-라이블러 발산(Kullback-Leibler Divergence, KL) 제약** 의 정책 붕괴 | 쿨백-라이블러 발산 계수별 보상·언어 품질 공동 평가 | 정책 이탈 **통제** |
 
 #### 한줄 요약
 - 채점자가 치우치거나 모델이 채점 요령만 익히지 않도록 다른 사람이 답과 원래 말하기 능력을 다시 확인함
