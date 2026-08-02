@@ -3,10 +3,10 @@ sidebar:
   order: 76
   label: "076. 네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "137회"
   priority: 50
-  priority_note: "설계·운영형: 137회 종단 Slice 관리"
+  priority_note: "설계•운영형: 137회 종단 Slice 관리"
 ---
 
 ## Ⅰ. 개요
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **슬라이스 관리 체계**: 네트워크 슬라이스 자원 관리는 종단 서비스 수준 명세(Service Level Specification, SLS)를 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)의 기능·자원·정책으로 배치하고 조정하는 체계다.
+- **슬라이스 관리 체계**: 네트워크 슬라이스 자원 관리는 종단 서비스 수준 명세(Service Level Specification, SLS)를 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)의 기능•자원•정책으로 배치하고 조정하는 체계다.
 
 </details>
 
-- 정의/개념: 종단 SLS를 NSI·NSSI 자원으로 배치·조정하는 **슬라이스 관리 체계**
+- 정의/개념: 종단 SLS를 NSI•NSSI 자원으로 배치•조정하는 **슬라이스 관리 체계**
 - 배경/필요성: 고정 예약은 **유휴 낭비**, 과도한 공유는 **SLS 위반**
 
 #### 한줄 요약
@@ -39,12 +39,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **수용 제어**: 수용 제어는 신규 슬라이스를 추가해도 기존·신규 서비스 수준 명세(Service Level Specification, SLS)의 지연·처리량·가용성·격리를 함께 충족하는지 판정한다.
+- **수용 제어**: 수용 제어는 신규 슬라이스를 추가해도 기존•신규 서비스 수준 명세(Service Level Specification, SLS)의 지연•처리량•가용성•격리를 함께 충족하는지 판정한다.
 
 </details>
 
 - **예산 분해**: 종단 SLS를 도메인별 자원 목표로 변환
-- **수용 제어**: 기존·신규 요구의 동시 충족 판정
+- **수용 제어**: 기존•신규 요구의 동시 충족 판정
 - **폐루프 조정**: 측정값으로 병목 자원만 탄력 변경
 
 #### 한줄 요약
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NSI**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)는 무선 접속망(Radio Access Network, RAN)·전송망(Transport Network, TN)·코어망(Core Network, CN)의 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)를 결합해 서비스 요구를 지원하는 실행 중인 종단 슬라이스다.
+- **NSI**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)는 무선 접속망(Radio Access Network, RAN)•전송망(Transport Network, TN)•코어망(Core Network, CN)의 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)를 결합해 서비스 요구를 지원하는 실행 중인 종단 슬라이스다.
 
 </details>
 
@@ -79,11 +79,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 슬라이스 오케스트레이터 | SLS를 NSI·NSSI 자원으로 매핑 |
+| 슬라이스 오케스트레이터 | SLS를 NSI•NSSI 자원으로 매핑 |
 | NSI | 도메인 NSSI를 종단망으로 결합 |
-| RAN NSSI | 무선 용량·스케줄링 자원 제공 |
-| TN NSSI | 대역폭·지연·격리 경로 제공 |
-| CN NSSI | 코어 기능·연산 자원 제공 |
+| RAN NSSI | 무선 용량•스케줄링 자원 제공 |
+| TN NSSI | 대역폭•지연•격리 경로 제공 |
+| CN NSSI | 코어 기능•연산 자원 제공 |
 
 #### 한줄 요약
 
@@ -102,11 +102,11 @@ block-beta
 sequenceDiagram
     participant C as 서비스 고객
     participant O as 오케스트레이터
-    participant D as RAN·TN·CN
+    participant D as RAN•TN•CN
     C->>O: SLS 서비스 요청
     O->>D: 1. 자원 타당성 확인
-    D-->>O: 가용 자원·성능 회신
-    O->>D: 2. NSI·NSSI 프로비저닝
+    D-->>O: 가용 자원•성능 회신
+    O->>D: 2. NSI•NSSI 프로비저닝
     D-->>O: 종단 성능 보고
     alt SLS 위반
         O->>D: 3. 병목 자원 최적화
@@ -114,8 +114,8 @@ sequenceDiagram
     O-->>C: 슬라이스 준비 결과 반환
 ```
 
-1. **자원 타당성 확인**: 기존·신규 SLS 동시 충족 판정
-2. **NSI·NSSI 프로비저닝**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 NSSI의 도메인별 자원·정책 인스턴스화
+1. **자원 타당성 확인**: 기존•신규 SLS 동시 충족 판정
+2. **NSI•NSSI 프로비저닝**: 네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)와 NSSI의 도메인별 자원•정책 인스턴스화
 3. **병목 자원 최적화**: 히스테리시스 후 제약 구간만 증감
 
 #### 한줄 요약
@@ -133,9 +133,9 @@ sequenceDiagram
 
 | 슬라이스 자원 할당 | 정적 예약 | 동적 공유 | 혼합 할당 |
 |:---|:---|:---|:---|
-| 적용 기준 | **엄격한 고정 품질** | **변동 수요** 중심 | **최소 보장·탄력 수요** 병존 |
+| 적용 기준 | **엄격한 고정 품질** | **변동 수요** 중심 | **최소 보장•탄력 수요** 병존 |
 | 핵심 특징 | **자원량 고정 보장** | 부하 기반 **동적 재할당** | 최소 예약 후 **초과분 공유** |
-| 한계 | **유휴 자원 낭비** | 슬라이스 **경합·간섭** | **정책 복잡성·순위 역전** |
+| 한계 | **유휴 자원 낭비** | 슬라이스 **경합•간섭** | **정책 복잡성•순위 역전** |
 
 #### 한줄 요약
 
@@ -146,15 +146,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **반복 증감**: 반복 증감은 부하가 하나의 임계값 주변에서 흔들릴 때 슬라이스 자원이 계속 확장·축소되는 불안정 현상이다. 서비스 수준 명세(Service Level Specification, SLS)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 지표를 함께 관찰해 병목을 구분한다.
+- **반복 증감**: 반복 증감은 부하가 하나의 임계값 주변에서 흔들릴 때 슬라이스 자원이 계속 확장•축소되는 불안정 현상이다. 서비스 수준 명세(Service Level Specification, SLS)와 네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI) 지표를 함께 관찰해 병목을 구분한다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 피크 수요의 **SLS 위반** | 최소 예약과 **초과 자원 풀** 병행 | 보장 품질과 **이용률 균형** |
-| 구간별 **병목 은폐** | 종단·NSSI 지표 **상관 분석** | 제약 도메인 **선별 확장** |
-| 임계 부하의 **반복 증감** | **히스테리시스·쿨다운** 적용 | 제어 안정성과 **비용 예측성** |
+| 구간별 **병목 은폐** | 종단•NSSI 지표 **상관 분석** | 제약 도메인 **선별 확장** |
+| 임계 부하의 **반복 증감** | **히스테리시스•쿨다운** 적용 | 제어 안정성과 **비용 예측성** |
 
 #### 한줄 요약
 

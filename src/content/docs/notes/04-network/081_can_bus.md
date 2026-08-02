@@ -3,10 +3,10 @@ sidebar:
   order: 81
   label: "081. CAN 버스 자동차 통신 (CAN Bus)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "CAN 버스 자동차 통신 (CAN Bus)"
-date: "2026-07-31T01:11:53+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 81
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 식별자로 우선순위를 중재하는 **차량용 공유 버스 통신**
-- 배경/필요성: 제어기별 점대점 배선은 **배선량·확장 복잡도** 증가
+- 배경/필요성: 제어기별 점대점 배선은 **배선량•확장 복잡도** 증가
 
 #### 한줄 요약
 
@@ -78,7 +78,7 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 전자제어장치 | 메시지 생성·수신 필터링 수행 |
+| 전자제어장치 | 메시지 생성•수신 필터링 수행 |
 | CAN 송수신기 | 논리 비트와 차동 전압 변환 |
 | 차동 공유 버스 | 모든 노드에 동일 프레임 전달 |
 | 양끝 종단 저항 | 회선 끝의 신호 반사 억제 |
@@ -93,8 +93,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **우성 비트**: 열성 비트와 동시에 전송되면 버스 값을 0으로 결정해 중재 우위를 얻는 논리 비트이다.
-- **순환 중복 검사·확인 응답(Cyclic Redundancy Check/Acknowledgment, CRC·ACK)**: CRC는 전송 오류를 검출하고 ACK는 하나 이상의 수신 노드가 정상 수신했음을 알린다.
-- **제어기 영역 네트워크·전자제어장치·식별자(Controller Area Network/Electronic Control Unit/Identifier, CAN·ECU·ID)**: 공유 차량 버스, 차량 제어기와 프레임 중재 값을 나타낸다.
+- **순환 중복 검사•확인 응답(Cyclic Redundancy Check/Acknowledgment, CRC•ACK)**: CRC는 전송 오류를 검출하고 ACK는 하나 이상의 수신 노드가 정상 수신했음을 알린다.
+- **제어기 영역 네트워크•전자제어장치•식별자(Controller Area Network/Electronic Control Unit/Identifier, CAN•ECU•ID)**: 공유 차량 버스, 차량 제어기와 프레임 중재 값을 나타낸다.
 
 </details>
 
@@ -105,16 +105,16 @@ sequenceDiagram
     participant R as 수신 ECU
     T->>B: 1. 유휴 버스 감지
     T->>B: 2. ID 비트 중재
-    B-->>T: 우성·열성 비교 결과
-    T->>B: 3. 데이터·CRC 전송
+    B-->>T: 우성•열성 비교 결과
+    T->>B: 3. 데이터•CRC 전송
     B->>R: 4. 수신 프레임 전달
     R->>B: 5. ACK 비트 응답
-    B-->>T: 완료·재전송 결과
+    B-->>T: 완료•재전송 결과
 ```
 
 1. **유휴 버스 감지**: 회선이 비었을 때 송신 시작
 2. **ID 비트 중재**: 송신값과 버스값을 비트별 비교
-3. **데이터·CRC 전송**: 중재 승자만 본문과 검사값 전송
+3. **데이터•CRC 전송**: 중재 승자만 본문과 검사값 전송
 4. **수신 프레임 전달**: 승자 프레임을 모든 노드에 전파
 5. **ACK 비트 응답**: 정상 수신 노드가 확인 비트 기록
 
@@ -127,16 +127,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **클래식·가변 데이터율·초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC·FD·XL)**: 각각 최대 8바이트, 64바이트, 2048바이트의 데이터 필드를 지원하는 CAN 세대이다.
+- **클래식•가변 데이터율•초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC•FD•XL)**: 각각 최대 8바이트, 64바이트, 2048바이트의 데이터 필드를 지원하는 CAN 세대이다.
 - **구간 가속(Bit-Rate Switching)**: CAN FD가 중재 구간 뒤 데이터 구간의 비트율을 높여 전송 시간을 줄이는 기능이다.
 
 </details>
 
 | CAN 규격 | CAN CC | CAN FD | CAN XL |
 |:---|:---|:---|:---|
-| 적용 기준 | 소량·주기 **제어 메시지** | 중용량·고속 **차량 데이터** | 대용량·고속 **백본 연계** |
-| 핵심 특징 | 데이터 **최대 8바이트** | 최대 64바이트·**구간 가속** | 최대 2048바이트·**고속 전송** |
-| 한계 | **낮은 대역폭** | 기존 CC 노드와 **혼재 제약** | 장비·물리망 **설계 복잡성** |
+| 적용 기준 | 소량•주기 **제어 메시지** | 중용량•고속 **차량 데이터** | 대용량•고속 **백본 연계** |
+| 핵심 특징 | 데이터 **최대 8바이트** | 최대 64바이트•**구간 가속** | 최대 2048바이트•**고속 전송** |
+| 한계 | **낮은 대역폭** | 기존 CC 노드와 **혼재 제약** | 장비•물리망 **설계 복잡성** |
 
 #### 한줄 요약
 
@@ -148,15 +148,15 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **우선순위 기아**: 높은 우선순위 프레임이 반복되어 낮은 우선순위 프레임 전송이 계속 지연되는 현상이다.
-- **최악 응답 시간**: 가장 불리한 중재·재전송 조건에서 프레임 전송을 완료하기까지 걸리는 최대 시간이다.
-- **전자제어장치·식별자(Electronic Control Unit/Identifier, ECU·ID)**: 차량 제어기와 프레임의 중재 우선순위 값이다.
+- **최악 응답 시간**: 가장 불리한 중재•재전송 조건에서 프레임 전송을 완료하기까지 걸리는 최대 시간이다.
+- **전자제어장치•식별자(Electronic Control Unit/Identifier, ECU•ID)**: 차량 제어기와 프레임의 중재 우선순위 값이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 고부하의 **저순위 기아** | 최악 응답시간과 **버스 부하 분석** | 긴급성과 **주기 보장** |
-| 배선 반사의 **프레임 오류** | 토폴로지·종단·길이 **검증** | 신호 무결성과 **재전송 감소** |
+| 배선 반사의 **프레임 오류** | 토폴로지•종단•길이 **검증** | 신호 무결성과 **재전송 감소** |
 | 고장 ECU의 **오류 프레임 반복** | 오류 카운터와 **버스 오프 복구** | 장애 노드의 **영향 격리** |
 
 #### 한줄 요약
@@ -168,8 +168,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **제어기 영역 네트워크 세대 선택(Controller Area Network Generation Selection, CAN 세대 선택)**: 제어 주기·데이터 크기·대역폭·기존 ECU 호환성을 비교해 CC·FD·XL을 결정하는 과정이다.
-- **클래식·가변 데이터율·초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC·FD·XL)**: 데이터 크기와 속도 요구에 따라 선택하는 CAN 세대이다.
+- **제어기 영역 네트워크 세대 선택(Controller Area Network Generation Selection, CAN 세대 선택)**: 제어 주기•데이터 크기•대역폭•기존 ECU 호환성을 비교해 CC•FD•XL을 결정하는 과정이다.
+- **클래식•가변 데이터율•초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC•FD•XL)**: 데이터 크기와 속도 요구에 따라 선택하는 CAN 세대이다.
 
 </details>
 

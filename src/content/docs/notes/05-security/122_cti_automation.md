@@ -3,10 +3,10 @@ sidebar:
   order: 122
   label: "122. 인텔리전스 기반 CTI 자동화 (CTI Automation)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: "인텔리전스 기반 CTI 자동화 (CTI Automation)"
-date: "2026-08-02T23:52:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-security"
 weight: 122
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 70
-  priority_note: "138회 기출이며 CTI 수집·분석·대응 자동화가 핵심임"
+  priority_note: "138회 기출이며 CTI 수집•분석•대응 자동화가 핵심임"
 ---
 
 ## Ⅰ. 개요
@@ -23,44 +23,44 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사이버 위협 인텔리전스 자동화(Cyber Threat Intelligence Automation, CTI Automation)**: 위협 정보의 수집·정규화·중복 제거·신뢰도 평가·배포를 기계적으로 연결하되 품질과 공유 정책을 함께 통제하는 운영 방식이다.
+- **사이버 위협 인텔리전스 자동화(Cyber Threat Intelligence Automation, CTI Automation)**: 위협 정보의 수집•정규화•중복 제거•신뢰도 평가•배포를 기계적으로 연결하되 품질과 공유 정책을 함께 통제하는 운영 방식이다.
 
 </details>
 
-- 정의/개념: CTI의 수집·정규화·평가·배포를 자동화하는 **위협정보 운영 체계**
-- 배경/필요성: 검증 없는 피드 자동 배포로 **중복·만료 지표의 오차단 발생**
+- 정의/개념: CTI의 수집•정규화•평가•배포를 자동화하는 **위협정보 운영 체계**
+- 배경/필요성: 검증 없는 피드 자동 배포로 **중복•만료 지표의 오차단 발생**
 
 #### 한줄 요약
 
-- 외부 공격 정보를 우리 자산과 대조해 믿을 만하고 아직 유효한 정보만 탐지·차단에 전달함
+- 외부 공격 정보를 우리 자산과 대조해 믿을 만하고 아직 유효한 정보만 탐지•차단에 전달함
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **침해지표(Indicator of Compromise, IoC)·전술·기법·절차(Tactics, Techniques, and Procedures, TTP)**: 침해 흔적을 식별하는 관측값과 공격자가 목표 달성에 사용하는 행동 방식이다.
+- **침해지표(Indicator of Compromise, IoC)•전술•기법•절차(Tactics, Techniques, and Procedures, TTP)**: 침해 흔적을 식별하는 관측값과 공격자가 목표 달성에 사용하는 행동 방식이다.
 - **신호등 프로토콜(Traffic Light Protocol, TLP)**: 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)의 수신자와 재공유 범위를 표시하는 규칙이다.
-- **구조화 위협정보 표현(Structured Threat Information Expression, STIX)·신뢰정보 자동교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 위협 객체·관계를 구조화하고 조직·도구 사이에서 교환하는 표준이다.
+- **구조화 위협정보 표현(Structured Threat Information Expression, STIX)•신뢰정보 자동교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 위협 객체•관계를 구조화하고 조직•도구 사이에서 교환하는 표준이다.
 
 </details>
 
-- STIX 객체·관계 기반 **위협정보 구조화**
-- TAXII 교환·TLP 표시 기반 **제한적 공유**
-- 출처·신뢰도·시효·자산 기반 **품질 통제**
+- STIX 객체•관계 기반 **위협정보 구조화**
+- TAXII 교환•TLP 표시 기반 **제한적 공유**
+- 출처•신뢰도•시효•자산 기반 **품질 통제**
 
 #### 한줄 요약
 
-- 형식만 맞추지 않고 출처·유효기간·내부 자산 관련성을 함께 검증함
+- 형식만 맞추지 않고 출처•유효기간•내부 자산 관련성을 함께 검증함
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 여러 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI) 피드를 정규화·평가·배포하는 플랫폼이다.
+- **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 여러 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI) 피드를 정규화•평가•배포하는 플랫폼이다.
 - **오픈소스 인텔리전스(Open-Source Intelligence, OSINT)**: 공개 출처에서 수집한 위협 정보이다.
-- **STIX·TAXII·TLP**: 구조화 위협정보 표현(STIX), 신뢰정보 자동교환(TAXII), 신호등 프로토콜(TLP)로 정보의 구조·전송·공유 범위를 통제한다.
+- **STIX•TAXII•TLP**: 구조화 위협정보 표현(STIX), 신뢰정보 자동교환(TAXII), 신호등 프로토콜(TLP)로 정보의 구조•전송•공유 범위를 통제한다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: TIP과 보안 도구가 위협정보를 자동 교환하는 연결 규격이다.
 
 </details>
@@ -68,22 +68,22 @@ extra:
 ```mermaid
 block-beta
   columns 3
-  S["CTI 수집·출처"]
+  S["CTI 수집•출처"]
   N["STIX 2.1 정규화"]
-  E["신뢰도·시효·자산 보강"]
-  D["TAXII 2.1·TLP 2.0 배포"]
-  F["적중·오탐 품질 환류"]
+  E["신뢰도•시효•자산 보강"]
+  D["TAXII 2.1•TLP 2.0 배포"]
+  F["적중•오탐 품질 환류"]
   S --- N --- E
   E --- D --- F
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| CTI 수집·출처 | **OSINT·상용·공유 피드** 수집 |
-| STIX 2.1 정규화 | **객체·관계·시간 형식** 통일 |
-| 신뢰도·시효·자산 보강 | **출처 점수·만료·영향** 결합 |
-| TAXII 2.1·TLP 2.0 배포 | **API 교환·공유 범위** 통제 |
-| 적중·오탐 품질 환류 | 탐지 결과로 **품질 점수** 갱신 |
+| CTI 수집•출처 | **OSINT•상용•공유 피드** 수집 |
+| STIX 2.1 정규화 | **객체•관계•시간 형식** 통일 |
+| 신뢰도•시효•자산 보강 | **출처 점수•만료•영향** 결합 |
+| TAXII 2.1•TLP 2.0 배포 | **API 교환•공유 범위** 통제 |
+| 적중•오탐 품질 환류 | 탐지 결과로 **품질 점수** 갱신 |
 
 #### 한줄 요약
 
@@ -94,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **품질 점수**: 출처 신뢰도·시효·자산 관련성·적중 결과를 결합한 배포 판단값이다.
+- **품질 점수**: 출처 신뢰도•시효•자산 관련성•적중 결과를 결합한 배포 판단값이다.
 - **CTI 자동화 구성**: 사이버 위협 인텔리전스(CTI)를 구조화 위협정보 표현(STIX)으로 만들고 위협 인텔리전스 플랫폼(TIP)에서 평가한 뒤 신뢰정보 자동교환(TAXII)과 응용 프로그래밍 인터페이스(API)로 배포하는 흐름이다.
 - **신호등 프로토콜(Traffic Light Protocol, TLP)**: 자동 배포할 CTI의 수신자와 재공유 범위를 결정하는 표시 규칙이다.
 
@@ -107,21 +107,21 @@ sequenceDiagram
   participant T as TIP
   participant S as 보안 도구
   participant A as 분석가
-  D->>C: 방어 요구·신뢰 출처
+  D->>C: 방어 요구•신뢰 출처
   C->>T: 1. STIX CTI 객체
-  T->>A: 2. 보강 CTI·품질 점수
-  A->>T: 3. 배포 승인·공유 범위
+  T->>A: 2. 보강 CTI•품질 점수
+  A->>T: 3. 배포 승인•공유 범위
   T->>S: 4. TAXII CTI 묶음
-  S->>T: 5. 적중·오탐·만료 결과
+  S->>T: 5. 적중•오탐•만료 결과
 ```
 
 **동작 원리**
 
-1. **STIX CTI 객체**: 수집 정보를 객체·관계·출처·시간 형식으로 제공
-2. **보강 CTI·품질 점수**: 중복 제거와 출처·시효·자산 관련성 평가값 제공
-3. **배포 승인·공유 범위**: 자동 배포 여부와 TLP 수신자 범위 결정
-4. **TAXII CTI 묶음**: 승인된 지표·관계를 보안 도구에 API로 전달
-5. **적중·오탐·만료 결과**: 탐지 성과와 지표 유효성을 품질 점수에 환류
+1. **STIX CTI 객체**: 수집 정보를 객체•관계•출처•시간 형식으로 제공
+2. **보강 CTI•품질 점수**: 중복 제거와 출처•시효•자산 관련성 평가값 제공
+3. **배포 승인•공유 범위**: 자동 배포 여부와 TLP 수신자 범위 결정
+4. **TAXII CTI 묶음**: 승인된 지표•관계를 보안 도구에 API로 전달
+5. **적중•오탐•만료 결과**: 탐지 성과와 지표 유효성을 품질 점수에 환류
 
 #### 한줄 요약
 
@@ -132,16 +132,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **구조화 위협정보 표현(Structured Threat Information eXpression, STIX)·신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: 위협 객체·관계를 표현하는 표준과 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 교환하는 프로토콜이다.
-- **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 다중 피드의 수집·정규화·품질평가·배포를 통합 운영하는 플랫폼이다.
+- **구조화 위협정보 표현(Structured Threat Information eXpression, STIX)•신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: 위협 객체•관계를 표현하는 표준과 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 교환하는 프로토콜이다.
+- **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 다중 피드의 수집•정규화•품질평가•배포를 통합 운영하는 플랫폼이다.
 
 </details>
 
 | 자동화 요소 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| **구조화 위협정보 표현(Structured Threat Information eXpression, STIX) 2.1** | 위협의 **객체·관계·시간·출처 표현** | 도구가 해석할 공통 CTI 데이터 |
-| **신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1** | 조직·도구 사이의 **HTTPS API 교환** | 인증·권한이 적용된 CTI 전송 |
-| **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)** | 다중 피드의 **수집·평가·배포 통합** | 신뢰도·시효·자산 기반 배포 판단 |
+| **구조화 위협정보 표현(Structured Threat Information eXpression, STIX) 2.1** | 위협의 **객체•관계•시간•출처 표현** | 도구가 해석할 공통 CTI 데이터 |
+| **신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1** | 조직•도구 사이의 **HTTPS API 교환** | 인증•권한이 적용된 CTI 전송 |
+| **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)** | 다중 피드의 **수집•평가•배포 통합** | 신뢰도•시효•자산 기반 배포 판단 |
 
 > 요약: STIX는 표현, TAXII는 교환, TIP은 운영을 담당함
 
@@ -154,16 +154,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **구조화정보표준촉진기구의 STIX 2.1·TAXII 2.1(OASIS STIX 2.1·TAXII 2.1)**: 사이버 위협 인텔리전스(CTI)의 구조화 표현과 보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS) 기반 교환을 위한 표준이다.
-- **사고대응·보안팀 포럼 신호등 프로토콜 2.0(Forum of Incident Response and Security Teams Traffic Light Protocol 2.0, FIRST TLP 2.0)**: `TLP:CLEAR`부터 `TLP:RED`까지 정보 공유 범위를 표시하는 규칙이다.
+- **구조화정보표준촉진기구의 STIX 2.1•TAXII 2.1(OASIS STIX 2.1•TAXII 2.1)**: 사이버 위협 인텔리전스(CTI)의 구조화 표현과 보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS) 기반 교환을 위한 표준이다.
+- **사고대응•보안팀 포럼 신호등 프로토콜 2.0(Forum of Incident Response and Security Teams Traffic Light Protocol 2.0, FIRST TLP 2.0)**: `TLP:CLEAR`부터 `TLP:RED`까지 정보 공유 범위를 표시하는 규칙이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 객체 의미·관계가 다르면 도구별 탐지 해석 불일치 | **OASIS STIX 2.1** 적용 | CTI의 **구조화·상호운용** 확보 |
-| 교환 API가 다르면 자동 수집·배포 연계 실패 | **OASIS TAXII 2.1** 적용 | CTI **API 배포 표준화** |
-| 공유 범위가 없으면 민감 CTI의 재공유·공개 | **FIRST TLP 2.0** 표시 | 수신자별 **재공유·공개 오용** 방지 |
+| 객체 의미•관계가 다르면 도구별 탐지 해석 불일치 | **OASIS STIX 2.1** 적용 | CTI의 **구조화•상호운용** 확보 |
+| 교환 API가 다르면 자동 수집•배포 연계 실패 | **OASIS TAXII 2.1** 적용 | CTI **API 배포 표준화** |
+| 공유 범위가 없으면 민감 CTI의 재공유•공개 | **FIRST TLP 2.0** 표시 | 수신자별 **재공유•공개 오용** 방지 |
 
 #### 한줄 요약
 
@@ -178,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-- 출처·시효·자산 관련성이 기준을 충족하면 **자동 배포**, 불충족하면 **보류·폐기**
+- 출처•시효•자산 관련성이 기준을 충족하면 **자동 배포**, 불충족하면 **보류•폐기**
 
 #### 한줄 요약
 

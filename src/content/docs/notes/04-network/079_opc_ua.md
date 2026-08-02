@@ -3,10 +3,10 @@ sidebar:
   order: 79
   label: "079. OPC UA 산업 표준 통신 (OPC UA)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC UA)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 79
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "137회"
   priority: 50
-  priority_note: "설계·보안형: 산업 상호운용 OPC UA"
+  priority_note: "설계•보안형: 산업 상호운용 OPC UA"
 ---
 
 ## Ⅰ. 개요
@@ -23,16 +23,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 산업 데이터의 값·자료형·단위·관계와 서비스·보안을 함께 규정하는 상호운용 표준이다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 산업 데이터의 값•자료형•단위•관계와 서비스•보안을 함께 규정하는 상호운용 표준이다.
 
 </details>
 
-- 정의/개념: 산업 데이터의 의미·서비스·보안을 통합한 **상호운용 표준**
-- 배경/필요성: 제조사별 원시 값은 **이름·단위·품질 의미 공유 불가**
+- 정의/개념: 산업 데이터의 의미•서비스•보안을 통합한 **상호운용 표준**
+- 배경/필요성: 제조사별 원시 값은 **이름•단위•품질 의미 공유 불가**
 
 #### 한줄 요약
 
-- OPC UA는 값뿐 아니라 설비 이름·자료형·단위·품질을 함께 전달해 서로 다른 시스템이 같은 뜻으로 해석하게 한다.
+- OPC UA는 값뿐 아니라 설비 이름•자료형•단위•품질을 함께 전달해 서로 다른 시스템이 같은 뜻으로 해석하게 한다.
 
 ## Ⅱ. 특징
 
@@ -40,12 +40,12 @@ extra:
 <summary>핵심 용어</summary>
 
 - **계층 보안(Layered Security)**: 애플리케이션 인증서로 프로그램 신원을 확인하고 세션의 사용자 역할로 노드별 작업 권한을 제한한다.
-- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 의미 모델·표준 서비스·보안을 통합한 산업 통신 표준이다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 의미 모델•표준 서비스•보안을 통합한 산업 통신 표준이다.
 
 </details>
 
-- **의미 모델**: 노드·속성·참조로 산업 데이터 표현
-- **표준 서비스**: 탐색·읽기·쓰기·호출 인터페이스
+- **의미 모델**: 노드•속성•참조로 산업 데이터 표현
+- **표준 서비스**: 탐색•읽기•쓰기•호출 인터페이스
 - **계층 보안**: 인증서로 프로그램, 역할로 사용자 통제
 
 #### 한줄 요약
@@ -57,20 +57,20 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **정보 모델·주소 공간(Information Model/Address Space)**: 설비의 원시 값에 노드·속성·참조를 부여해 상위 시스템이 같은 의미로 해석하게 한다.
+- **정보 모델•주소 공간(Information Model/Address Space)**: 설비의 원시 값에 노드•속성•참조를 부여해 상위 시스템이 같은 의미로 해석하게 한다.
 - **프로그래머블 논리 제어기(Programmable Logic Controller, PLC)**: 현장의 센서 값을 수집하고 제어 논리를 실행하는 산업 제어 장치이다.
-- **개방형 플랫폼 통신 통합 아키텍처 발행·구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 데이터 집합을 생산자와 소비자 사이에 비결합 방식으로 배포하는 모델이다.
+- **개방형 플랫폼 통신 통합 아키텍처 발행•구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 데이터 집합을 생산자와 소비자 사이에 비결합 방식으로 배포하는 모델이다.
 
 </details>
 
 ```mermaid
 block-beta
     columns 1
-    CLIENT["클라이언트·PubSub 소비자"]
+    CLIENT["클라이언트•PubSub 소비자"]
     SERVER["OPC UA 서버"]
-    MODEL["정보 모델·주소 공간"]
-    DEVICE["PLC·센서"]
-    SECURITY["인증서·역할 정책"]
+    MODEL["정보 모델•주소 공간"]
+    DEVICE["PLC•센서"]
+    SECURITY["인증서•역할 정책"]
     DEVICE --> MODEL
     MODEL --> SERVER
     SERVER --> CLIENT
@@ -80,22 +80,22 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| PLC·센서 | 설비 값 생성과 제어 명령 실행 |
-| 정보 모델·주소 공간 | 노드·속성·참조에 의미 부여 |
+| PLC•센서 | 설비 값 생성과 제어 명령 실행 |
+| 정보 모델•주소 공간 | 노드•속성•참조에 의미 부여 |
 | OPC UA 서버 | 주소 공간과 표준 서비스 제공 |
-| 클라이언트·PubSub 소비자 | 탐색·제어 요청과 데이터 활용 |
-| 인증서·역할 정책 | 애플리케이션 신뢰와 권한 제한 |
+| 클라이언트•PubSub 소비자 | 탐색•제어 요청과 데이터 활용 |
+| 인증서•역할 정책 | 애플리케이션 신뢰와 권한 제한 |
 
 #### 한줄 요약
 
-- 서버의 주소 공간이 원시 설비값에 이름·자료형·단위·관계를 붙여 상위 시스템이 같은 의미로 사용하게 한다.
+- 서버의 주소 공간이 원시 설비값에 이름•자료형•단위•관계를 붙여 상위 시스템이 같은 의미로 사용하게 한다.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 채널 생성(Secure Channel Establishment)**: 클라이언트와 서버는 신뢰된 애플리케이션 인증서와 보안 정책을 검증해 메시지 무결성·기밀성 채널을 만든다.
+- **보안 채널 생성(Secure Channel Establishment)**: 클라이언트와 서버는 신뢰된 애플리케이션 인증서와 보안 정책을 검증해 메시지 무결성•기밀성 채널을 만든다.
 - **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 인증서 기반 보안 채널과 역할 기반 세션을 제공하는 산업 통신 표준이다.
 
 </details>
@@ -105,22 +105,22 @@ sequenceDiagram
     participant C as OPC UA 클라이언트
     participant S as OPC UA 서버
     C->>S: 1. 접속점 탐색
-    S-->>C: 보안 정책·서버 인증서
+    S-->>C: 보안 정책•서버 인증서
     C->>S: 2. 보안 채널 생성
     S-->>C: 채널 승인
     C->>S: 3. 세션 활성화
     S-->>C: 사용자 역할 적용
     C->>S: 4. 주소 공간 탐색
-    S-->>C: 노드·속성·참조
+    S-->>C: 노드•속성•참조
     C->>S: 5. 데이터 서비스 사용
-    S-->>C: 값·품질·측정 시각
+    S-->>C: 값•품질•측정 시각
 ```
 
-1. **접속점 탐색**: 주소·지원 정책·서버 인증서 확인
+1. **접속점 탐색**: 주소•지원 정책•서버 인증서 확인
 2. **보안 채널 생성**: 애플리케이션 신뢰와 메시지 보호 설정
 3. **세션 활성화**: 사용자 인증 후 역할 권한 연결
-4. **주소 공간 탐색**: 노드·속성·참조로 설비 의미 발견
-5. **데이터 서비스 사용**: 읽기·쓰기·호출·구독 수행
+4. **주소 공간 탐색**: 노드•속성•참조로 설비 의미 발견
+5. **데이터 서비스 사용**: 읽기•쓰기•호출•구독 수행
 
 #### 한줄 요약
 
@@ -131,20 +131,20 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **발행·구독(Publish-Subscribe, PubSub)**: 데이터 집합을 다수 소비자에게 비결합 방식으로 주기 배포해 서버별 요청·응답 부하를 줄인다.
-- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 클라이언트·서버와 PubSub 통신 모델을 제공하는 산업 표준이다.
+- **발행•구독(Publish-Subscribe, PubSub)**: 데이터 집합을 다수 소비자에게 비결합 방식으로 주기 배포해 서버별 요청•응답 부하를 줄인다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 클라이언트•서버와 PubSub 통신 모델을 제공하는 산업 표준이다.
 
 </details>
 
-| OPC UA 통신 모델 | 클라이언트·서버 | 발행·구독 |
+| OPC UA 통신 모델 | 클라이언트•서버 | 발행•구독 |
 |:---|:---|:---|
-| 적용 기준 | **탐색·진단·개별 제어** | **다대다 주기 배포** |
-| 핵심 특징 | 주소 공간의 **서비스 요청·응답** | 데이터 집합의 **비결합 배포** |
-| 한계 | 세션·구독 증가의 **서버 부하** | 전달 보장의 **전송 매핑 의존** |
+| 적용 기준 | **탐색•진단•개별 제어** | **다대다 주기 배포** |
+| 핵심 특징 | 주소 공간의 **서비스 요청•응답** | 데이터 집합의 **비결합 배포** |
+| 한계 | 세션•구독 증가의 **서버 부하** | 전달 보장의 **전송 매핑 의존** |
 
 #### 한줄 요약
 
-- 설비를 탐색해 개별 제어하면 클라이언트·서버, 같은 데이터를 여러 시스템에 배포하면 PubSub가 적합하다.
+- 설비를 탐색해 개별 제어하면 클라이언트•서버, 같은 데이터를 여러 시스템에 배포하면 PubSub가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -152,33 +152,33 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **인증서 기반 통신 중단(Certificate-Induced Communication Failure)**: 애플리케이션 인증서가 만료되거나 신뢰 목록이 갱신되지 않아 보안 채널을 수립하지 못하는 문제다.
-- **제조 실행 시스템(Manufacturing Execution System, MES)**: 생산 계획과 현장 설비 실적·품질 정보를 연계해 제조 활동을 관리하는 시스템이다.
-- **프로그래머블 논리 제어기·발행·구독(Programmable Logic Controller/Publish-Subscribe, PLC·PubSub)**: 현장 제어 장치와 데이터를 다수 소비자에게 비결합 배포하는 모델이다.
+- **제조 실행 시스템(Manufacturing Execution System, MES)**: 생산 계획과 현장 설비 실적•품질 정보를 연계해 제조 활동을 관리하는 시스템이다.
+- **프로그래머블 논리 제어기•발행•구독(Programmable Logic Controller/Publish-Subscribe, PLC•PubSub)**: 현장 제어 장치와 데이터를 다수 소비자에게 비결합 배포하는 모델이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 제조사별 **의미 모델 불일치** | 컴패니언 명세와 **매핑 규칙** 적용 | MES 연계의 **의미 일관성** |
-| 인증서 만료의 **통신 중단** | 신뢰 목록·갱신 **자동화** | 보안 채널의 **운영 연속성** |
-| 대규모 구독의 **서버 과부하** | 샘플링·큐·PubSub **분산 설계** | 지연과 **서버 부하 감소** |
+| 인증서 만료의 **통신 중단** | 신뢰 목록•갱신 **자동화** | 보안 채널의 **운영 연속성** |
+| 대규모 구독의 **서버 과부하** | 샘플링•큐•PubSub **분산 설계** | 지연과 **서버 부하 감소** |
 
 #### 한줄 요약
 
-- 제조사마다 다른 PLC 값을 공통 정보 모델로 매핑하면 MES가 이름·단위·품질을 같은 의미로 해석할 수 있다.
+- 제조사마다 다른 PLC 값을 공통 정보 모델로 매핑하면 MES가 이름•단위•품질을 같은 의미로 해석할 수 있다.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **컴패니언 명세(Companion Specification)**: 산업별 장비·데이터의 이름·단위·속성·관계를 공통 OPC UA 정보 모델로 정의한다.
-- **개방형 플랫폼 통신 통합 아키텍처 발행·구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 공통 의미의 데이터 집합을 다대다로 배포하는 방식이다.
+- **컴패니언 명세(Companion Specification)**: 산업별 장비•데이터의 이름•단위•속성•관계를 공통 OPC UA 정보 모델로 정의한다.
+- **개방형 플랫폼 통신 통합 아키텍처 발행•구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 공통 의미의 데이터 집합을 다대다로 배포하는 방식이다.
 
 </details>
 
-- 공통 의미는 **컴패니언 명세**, 개별 제어는 **클라이언트·서버**, 다대다는 **PubSub**
+- 공통 의미는 **컴패니언 명세**, 개별 제어는 **클라이언트•서버**, 다대다는 **PubSub**
 
 #### 한줄 요약
 
-- 공통 의미 모델을 먼저 맞추고 개별 제어는 클라이언트·서버, 대량 배포는 PubSub로 설계한다.
+- 공통 의미 모델을 먼저 맞추고 개별 제어는 클라이언트•서버, 대량 배포는 PubSub로 설계한다.

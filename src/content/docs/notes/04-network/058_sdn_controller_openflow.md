@@ -3,10 +3,10 @@ sidebar:
   order: 58
   label: "058. SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
-date: "2026-07-31T01:08:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "129회, 131회"
   priority: 30
-  priority_note: "설명형: Controller·OpenFlow 제어 경계"
+  priority_note: "설명형: Controller•OpenFlow 제어 경계"
 ---
 
 ## Ⅰ. 개요
@@ -40,14 +40,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Match-Action**: 패킷 헤더가 조건과 일치하면 지정된 전달·폐기·수정 동작을 실행하는 방식이다.
-- **Group·Meter 테이블**: 그룹은 복수 출력·장애 전환을 실행하고 미터는 전송률 제한·표시·폐기를 수행한다.
+- **Match-Action**: 패킷 헤더가 조건과 일치하면 지정된 전달•폐기•수정 동작을 실행하는 방식이다.
+- **Group•Meter 테이블**: 그룹은 복수 출력•장애 전환을 실행하고 미터는 전송률 제한•표시•폐기를 수행한다.
 
 </details>
 
 - 패킷 동작을 실행하는 **다단 Match-Action 테이블**
 - 반응형 규칙 설치를 위한 **Table-Miss→Packet-In→Flow-Mod 절차**
-- **Group·Meter 기반 경로·속도 제어와 Packet-In 폭증 위험**
+- **Group•Meter 기반 경로•속도 제어와 Packet-In 폭증 위험**
 
 #### 한줄 요약
 
@@ -58,7 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OpenFlow 채널**: 소프트웨어 정의 네트워킹(Software-Defined Networking, SDN) 컨트롤러와 스위치 사이에서 흐름 규칙·포트·통계 메시지를 교환하는 제어 연결
+- **OpenFlow 채널**: 소프트웨어 정의 네트워킹(Software-Defined Networking, SDN) 컨트롤러와 스위치 사이에서 흐름 규칙•포트•통계 메시지를 교환하는 제어 연결
 - **데이터 경로**: 스위치가 흐름 테이블의 규칙을 조회해 실제 패킷 동작을 실행하는 영역이다.
 
 </details>
@@ -69,7 +69,7 @@ block-beta
     A["SDN 응용"]
     B["SDN 컨트롤러"]
     C["OpenFlow 채널"]
-    D["흐름·그룹·미터 테이블"]
+    D["흐름•그룹•미터 테이블"]
     E["OpenFlow 데이터 경로"]
     A --> B
     B --> C
@@ -79,10 +79,10 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| SDN 응용 | 연결·보안·품질 **정책 요청** |
+| SDN 응용 | 연결•보안•품질 **정책 요청** |
 | SDN 컨트롤러 | 전역 상태를 이용한 **흐름 규칙** 계산 |
-| OpenFlow 채널 | 컨트롤러·스위치 간 **제어 메시지** 교환 |
-| 흐름·그룹·미터 테이블 | **조건·동작·경로·속도** 저장 |
+| OpenFlow 채널 | 컨트롤러•스위치 간 **제어 메시지** 교환 |
+| 흐름•그룹•미터 테이블 | **조건•동작•경로•속도** 저장 |
 | OpenFlow 데이터 경로 | 규칙 실행과 **흐름 통계** 계수 |
 
 #### 한줄 요약
@@ -95,7 +95,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **Packet-In**: Table-Miss가 발생한 패킷의 헤더와 입력 포트를 스위치가 컨트롤러에 알리는 메시지이다.
-- **Flow-Mod**: 컨트롤러가 스위치의 흐름 규칙을 추가·변경·삭제하는 메시지이다.
+- **Flow-Mod**: 컨트롤러가 스위치의 흐름 규칙을 추가•변경•삭제하는 메시지이다.
 
 </details>
 
@@ -113,8 +113,8 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **Packet-In**: Table-Miss 패킷의 헤더·입력 포트를 컨트롤러에 제공
-2. **Flow-Mod**: 토폴로지·정책으로 계산한 출력 동작과 제한 시간을 규칙으로 배포
+1. **Packet-In**: Table-Miss 패킷의 헤더•입력 포트를 컨트롤러에 제공
+2. **Flow-Mod**: 토폴로지•정책으로 계산한 출력 동작과 제한 시간을 규칙으로 배포
 
 #### 한줄 요약
 
@@ -126,16 +126,16 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **반응형 제어**: 첫 패킷의 Packet-In 뒤에 필요한 흐름 규칙을 설치하는 방식이다.
-- **선제형 제어**: 트래픽이 도착하기 전에 반복·핵심 경로의 흐름 규칙을 미리 설치하는 방식이다.
-- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0·1·무관 비트를 병렬 비교해 흐름 규칙을 빠르게 찾는 스위치 메모리
+- **선제형 제어**: 트래픽이 도착하기 전에 반복•핵심 경로의 흐름 규칙을 미리 설치하는 방식이다.
+- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0•1•무관 비트를 병렬 비교해 흐름 규칙을 빠르게 찾는 스위치 메모리
 
 </details>
 
 | OpenFlow 규칙 설치 | 반응형 제어 | 선제형 제어 |
 |:---|:---|:---|
-| 적용 기준 | 미지·단기 흐름의 **동적 제어** | 핵심·반복 경로의 **즉시 전달** |
+| 적용 기준 | 미지•단기 흐름의 **동적 제어** | 핵심•반복 경로의 **즉시 전달** |
 | 핵심 특징 | **Packet-In 이후** 규칙 설치 | **트래픽 이전** 규칙 설치 |
-| 한계 | 첫 패킷 지연·**컨트롤러 폭주** | TCAM 점유·**규칙 노후화** |
+| 한계 | 첫 패킷 지연•**컨트롤러 폭주** | TCAM 점유•**규칙 노후화** |
 
 > 요약: 기본 규칙은 선제형, 예외 플로우는 반응형 적합
 
@@ -148,16 +148,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0·1·무관 비트를 병렬 비교해 마스크를 포함한 흐름 규칙을 빠르게 찾는 메모리
+- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0•1•무관 비트를 병렬 비교해 마스크를 포함한 흐름 규칙을 빠르게 찾는 메모리
 - **유휴 제한 시간**: 일치 패킷이 없는 흐름 규칙을 제거하기까지 기다리는 시간이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Table-Miss가 몰리면 Packet-In 처리량 초과 | **질의율 제한·기본 폐기 규칙** 적용 | 비정상 질의를 억제해 **컨트롤러 보호** |
+| Table-Miss가 몰리면 Packet-In 처리량 초과 | **질의율 제한•기본 폐기 규칙** 적용 | 비정상 질의를 억제해 **컨트롤러 보호** |
 | 모든 흐름을 선제 설치하면 TCAM 공간 고갈 | 핵심 흐름은 선제형, **예외는 반응형** 설치 | 중요 규칙을 위한 **TCAM 공간** 확보 |
-| 만료되지 않은 규칙이 변경 정책과 충돌 | 유휴·고정 만료와 **규칙 회수** 검증 | 흐름 테이블의 **정책 최신성** 유지 |
+| 만료되지 않은 규칙이 변경 정책과 충돌 | 유휴•고정 만료와 **규칙 회수** 검증 | 흐름 테이블의 **정책 최신성** 유지 |
 
 #### 한줄 요약
 
@@ -168,11 +168,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **규칙 설치 전략**: 반복 핵심 경로는 선제형으로, 미지·단기 흐름은 반응형으로 처리해 지연과 삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM) 사용을 조절하는 방식
+- **규칙 설치 전략**: 반복 핵심 경로는 선제형으로, 미지•단기 흐름은 반응형으로 처리해 지연과 삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM) 사용을 조절하는 방식
 
 </details>
 
-- 반복 핵심 경로는 **선제형**, 미지·단기 흐름은 **반응형 OpenFlow 규칙** 선택
+- 반복 핵심 경로는 **선제형**, 미지•단기 흐름은 **반응형 OpenFlow 규칙** 선택
 
 #### 한줄 요약
 

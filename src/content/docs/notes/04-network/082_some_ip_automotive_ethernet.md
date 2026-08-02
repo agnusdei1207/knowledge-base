@@ -3,10 +3,10 @@ sidebar:
   order: 82
   label: "082. SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-07-31T11:03:46+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -14,7 +14,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 30
-  priority_note: "설명·설계형: 138회 SDV의 SOME/IP 연계"
+  priority_note: "설명•설계형: 138회 SDV의 SOME/IP 연계"
 ---
 
 ## Ⅰ. 개요
@@ -22,13 +22,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 차량 IP망에서 ECU 기능을 서비스로 발견하고 호출·구독하는 AUTOSAR 서비스 지향 미들웨어 규약이다.
-- **자동차 개방형 시스템 아키텍처·전자제어장치(Automotive Open System Architecture/Electronic Control Unit, AUTOSAR·ECU)**: 차량 소프트웨어 아키텍처 표준과 차량 기능을 제어하는 장치이다.
+- **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 차량 IP망에서 ECU 기능을 서비스로 발견하고 호출•구독하는 AUTOSAR 서비스 지향 미들웨어 규약이다.
+- **자동차 개방형 시스템 아키텍처•전자제어장치(Automotive Open System Architecture/Electronic Control Unit, AUTOSAR•ECU)**: 차량 소프트웨어 아키텍처 표준과 차량 기능을 제어하는 장치이다.
 
 </details>
 
-- 정의/개념: 차량 IP망에서 기능을 호출·구독하는 **서비스 지향 미들웨어 규약**
-- 배경/필요성: ECU 주소 고정 호출은 **기능 재배치·버전 변경 대응 곤란**
+- 정의/개념: 차량 IP망에서 기능을 호출•구독하는 **서비스 지향 미들웨어 규약**
+- 배경/필요성: ECU 주소 고정 호출은 **기능 재배치•버전 변경 대응 곤란**
 
 #### 한줄 요약
 
@@ -39,15 +39,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 계약(Service Contract)**: 서비스 식별자(Identifier, ID)·인터페이스 버전·자료형으로 소비자와 제공자의 호출 호환성을 정한 규격이다.
-- **SOME/IP 서비스 탐색(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery, SOME/IP-SD)**: 서비스 제공 위치·버전·TTL을 광고·탐색하고 이벤트 구독을 관리하는 규약이다.
+- **서비스 계약(Service Contract)**: 서비스 식별자(Identifier, ID)•인터페이스 버전•자료형으로 소비자와 제공자의 호출 호환성을 정한 규격이다.
+- **SOME/IP 서비스 탐색(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery, SOME/IP-SD)**: 서비스 제공 위치•버전•TTL을 광고•탐색하고 이벤트 구독을 관리하는 규약이다.
 - **생존 시간(Time to Live, TTL)**: 서비스 광고와 구독 상태가 유효한 기간이다.
 
 </details>
 
-- **계약 식별**: 서비스 ID·버전으로 호환 인터페이스 선택
-- **통신 다양성**: 요청·응답·무응답·이벤트 방식 제공
-- **SOME/IP-SD**: 제공자 위치·버전·TTL 동적 발견
+- **계약 식별**: 서비스 ID•버전으로 호환 인터페이스 선택
+- **통신 다양성**: 요청•응답•무응답•이벤트 방식 제공
+- **SOME/IP-SD**: 제공자 위치•버전•TTL 동적 발견
 
 #### 한줄 요약
 
@@ -58,9 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 소비자·제공자**: 소비자는 메서드를 호출하거나 이벤트를 구독하고 제공자는 기능 실행과 이벤트 발행을 담당한다.
-- **종단 간 보호(End-to-End Protection, E2E 보호)**: 순서 번호와 검사값으로 서비스 메시지의 손상·반복·누락을 검출하는 방식이다.
-- **SOME/IP 서비스 탐색·생존 시간(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery/Time to Live, SOME/IP-SD·TTL)**: 제공자를 찾고 광고·구독의 유효 기간을 관리하는 규약·값이다.
+- **서비스 소비자•제공자**: 소비자는 메서드를 호출하거나 이벤트를 구독하고 제공자는 기능 실행과 이벤트 발행을 담당한다.
+- **종단 간 보호(End-to-End Protection, E2E 보호)**: 순서 번호와 검사값으로 서비스 메시지의 손상•반복•누락을 검출하는 방식이다.
+- **SOME/IP 서비스 탐색•생존 시간(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery/Time to Live, SOME/IP-SD•TTL)**: 제공자를 찾고 광고•구독의 유효 기간을 관리하는 규약•값이다.
 
 </details>
 
@@ -83,11 +83,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 서비스 소비자 | 메서드 호출·이벤트 그룹 구독 |
-| 양단 SOME/IP-SD | 제공 위치·버전·TTL 관리 |
-| 서비스 제공자 | 메서드 실행·이벤트 발행 |
-| 서비스 인터페이스 | ID·버전·자료형 계약 정의 |
-| E2E 보호 | 손상·반복·누락 메시지 검출 |
+| 서비스 소비자 | 메서드 호출•이벤트 그룹 구독 |
+| 양단 SOME/IP-SD | 제공 위치•버전•TTL 관리 |
+| 서비스 제공자 | 메서드 실행•이벤트 발행 |
+| 서비스 인터페이스 | ID•버전•자료형 계약 정의 |
+| E2E 보호 | 손상•반복•누락 메시지 검출 |
 
 #### 한줄 요약
 
@@ -98,9 +98,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 제공·탐색(OfferService/FindService)**: 제공자는 서비스 ID·버전·종단점·TTL을 광고하고 소비자는 필요한 서비스 조건으로 탐색한다.
+- **서비스 제공•탐색(OfferService/FindService)**: 제공자는 서비스 ID•버전•종단점•TTL을 광고하고 소비자는 필요한 서비스 조건으로 탐색한다.
 - **이벤트 그룹**: 소비자가 관련 상태 이벤트를 하나의 단위로 묶어 구독하도록 정의한 집합이다.
-- **식별자·생존 시간·종단 간 보호(Identifier/Time to Live/End-to-End Protection, ID·TTL·E2E)**: 서비스와 메시지를 구별하고 상태 유효기간과 전송 오류를 관리하는 정보이다.
+- **식별자•생존 시간•종단 간 보호(Identifier/Time to Live/End-to-End Protection, ID•TTL•E2E)**: 서비스와 메시지를 구별하고 상태 유효기간과 전송 오류를 관리하는 정보이다.
 
 </details>
 
@@ -110,7 +110,7 @@ sequenceDiagram
     participant C as 서비스 소비자
     P->>C: 1. OfferService 광고
     C->>P: 2. FindService 탐색
-    P-->>C: 제공 종단점·버전
+    P-->>C: 제공 종단점•버전
     C->>P: 3. 이벤트 그룹 구독
     P-->>C: 구독 승인
     P-->>C: 4. 서비스 메시지 교환
@@ -119,11 +119,11 @@ sequenceDiagram
     end
 ```
 
-1. **OfferService 광고**: 제공 ID·버전·종단점·TTL 공지
-2. **FindService 탐색**: 요구 ID·버전의 제공자 조회
+1. **OfferService 광고**: 제공 ID•버전•종단점•TTL 공지
+2. **FindService 탐색**: 요구 ID•버전의 제공자 조회
 3. **이벤트 그룹 구독**: 이벤트 묶음과 구독 **TTL** 등록
-4. **서비스 메시지 교환**: 메서드 결과·이벤트·E2E 상태 전달
-5. **OfferService 갱신**: 만료 전 광고 갱신·실패 시 재탐색
+4. **서비스 메시지 교환**: 메서드 결과•이벤트•E2E 상태 전달
+5. **OfferService 갱신**: 만료 전 광고 갱신•실패 시 재탐색
 
 #### 한줄 요약
 
@@ -134,38 +134,38 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **요청·응답·무응답 요청**: 결과가 필요하면 응답을 받고 지연을 우선하면 처리 결과를 기다리지 않는 호출 방식이다.
+- **요청•응답•무응답 요청**: 결과가 필요하면 응답을 받고 지연을 우선하면 처리 결과를 기다리지 않는 호출 방식이다.
 - **이벤트 통지**: 제공자가 상태 변화를 구독한 여러 소비자에게 배포하는 통신 방식이다.
 - **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 메서드 호출과 이벤트 통지를 제공하는 차량 서비스 미들웨어이다.
 
 </details>
 
-| SOME/IP 통신 방식 | 요청·응답 | 무응답 요청 | 이벤트 통지 |
+| SOME/IP 통신 방식 | 요청•응답 | 무응답 요청 | 이벤트 통지 |
 |:---|:---|:---|:---|
-| 적용 기준 | 결과가 필요한 **조회·실행** | 지연 우선 **단방향 호출** | 상태 변화의 **다중 배포** |
-| 핵심 특징 | 요청별 **응답·오류 반환** | **Fire & Forget** 처리 | 구독자 대상 **Notification** |
-| 한계 | 응답 지연·**세션 관리** | 처리 성공 **확인 곤란** | 구독 폭증·**상태 노후화** |
+| 적용 기준 | 결과가 필요한 **조회•실행** | 지연 우선 **단방향 호출** | 상태 변화의 **다중 배포** |
+| 핵심 특징 | 요청별 **응답•오류 반환** | **Fire & Forget** 처리 | 구독자 대상 **Notification** |
+| 한계 | 응답 지연•**세션 관리** | 처리 성공 **확인 곤란** | 구독 폭증•**상태 노후화** |
 
 #### 한줄 요약
 
-- 답이 필요하면 요청·응답, 결과를 기다리지 않으면 무응답 요청, 상태 변화를 배포하면 이벤트 통지를 사용한다.
+- 답이 필요하면 요청•응답, 결과를 기다리지 않으면 무응답 요청, 상태 변화를 배포하면 이벤트 통지를 사용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **계약 테스트(Contract Test)**: 서비스 소비자와 제공자의 ID·버전·자료형·직렬화 호환성을 검증하는 시험이다.
+- **계약 테스트(Contract Test)**: 서비스 소비자와 제공자의 ID•버전•자료형•직렬화 호환성을 검증하는 시험이다.
 - **생존 시간 튜닝(Time to Live Tuning, TTL 튜닝)**: 서비스 광고와 구독 상태의 유효 시간을 탐색 부하와 장애 재발견 시간에 맞춰 조정하는 작업이다.
-- **서비스 탐색·순환 중복 검사·종단 간 보호(Service Discovery/Cyclic Redundancy Check/End-to-End Protection, SD·CRC·E2E)**: 제공자 발견, 메시지 오류 검출과 누락·반복 보호에 사용하는 기능이다.
+- **서비스 탐색•순환 중복 검사•종단 간 보호(Service Discovery/Cyclic Redundancy Check/End-to-End Protection, SD•CRC•E2E)**: 제공자 발견, 메시지 오류 검출과 누락•반복 보호에 사용하는 기능이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 배포 간 **버전 불일치** | 호환 규칙과 **계약 테스트** 적용 | 오호출과 **직렬화 오류 방지** |
-| SD 광고의 **멀티캐스트 폭증** | 초기 지연·반복·TTL **튜닝** | 탐색 부하와 **재연결 시간 균형** |
-| 제어 데이터의 **누락·반복** | 카운터·CRC 기반 **E2E 보호** | 오류 검출과 **안전 반응 연결** |
+| SD 광고의 **멀티캐스트 폭증** | 초기 지연•반복•TTL **튜닝** | 탐색 부하와 **재연결 시간 균형** |
+| 제어 데이터의 **누락•반복** | 카운터•CRC 기반 **E2E 보호** | 오류 검출과 **안전 반응 연결** |
 
 #### 한줄 요약
 
@@ -176,12 +176,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **통신 방식 선택(Communication Pattern Selection)**: 결과 필요 여부·지연 허용치·구독자 수에 따라 요청·응답·무응답·이벤트를 결정하는 과정이다.
+- **통신 방식 선택(Communication Pattern Selection)**: 결과 필요 여부•지연 허용치•구독자 수에 따라 요청•응답•무응답•이벤트를 결정하는 과정이다.
 - **생존 시간(Time to Live, TTL)**: 서비스 계약의 광고와 구독 상태를 유지할 유효 기간이다.
 
 </details>
 
-- 결과가 필요하면 **요청·응답**, 지연 우선은 **무응답**, 다중 배포는 **이벤트**
+- 결과가 필요하면 **요청•응답**, 지연 우선은 **무응답**, 다중 배포는 **이벤트**
 
 #### 한줄 요약
 

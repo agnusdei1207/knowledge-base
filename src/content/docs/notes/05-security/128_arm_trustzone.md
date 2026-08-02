@@ -3,10 +3,10 @@ sidebar:
   order: 128
   label: "128. ARM TrustZone (ARM TrustZone)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: ARM TrustZone (ARM TrustZone)
-date: "2026-08-02T23:58:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - notes-security
 weight: 128
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 70
-  priority_note: "138회 기출이며 TEE·격리 비교에 활용되는 하드웨어임"
+  priority_note: "138회 기출이며 TEE•격리 비교에 활용되는 하드웨어임"
 ---
 
 ## Ⅰ. 개요
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Arm TrustZone**: 하나의 시스템 온 칩(System on Chip, SoC)에서 중앙처리장치(Central Processing Unit, CPU)·메모리·주변장치 접근을 보안·비보안 상태로 구분해 신뢰 실행 환경을 구성하는 하드웨어 격리 기술이다.
+- **Arm TrustZone**: 하나의 시스템 온 칩(System on Chip, SoC)에서 중앙처리장치(Central Processing Unit, CPU)•메모리•주변장치 접근을 보안•비보안 상태로 구분해 신뢰 실행 환경을 구성하는 하드웨어 격리 기술이다.
 
 </details>
 
@@ -39,25 +39,25 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 보안을 위해 반드시 신뢰해야 하는 최소 하드웨어·소프트웨어 집합이다.
-- **신뢰 실행 환경(Trusted Execution Environment, TEE)·일반 실행 환경(Rich Execution Environment, REE)**: 신뢰 응용을 격리 실행하는 환경과 범용 운영체제(Operating System, OS)·일반 응용이 실행되는 환경이다.
+- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 보안을 위해 반드시 신뢰해야 하는 최소 하드웨어•소프트웨어 집합이다.
+- **신뢰 실행 환경(Trusted Execution Environment, TEE)•일반 실행 환경(Rich Execution Environment, REE)**: 신뢰 응용을 격리 실행하는 환경과 범용 운영체제(Operating System, OS)•일반 응용이 실행되는 환경이다.
 
 </details>
 
-- CPU·메모리·버스의 **보안 속성 전파**
-- A-profile·M-profile의 **하드웨어 상태 격리**
-- 제한 진입점·최소 TCB의 **경계 통제**
+- CPU•메모리•버스의 **보안 속성 전파**
+- A-profile•M-profile의 **하드웨어 상태 격리**
+- 제한 진입점•최소 TCB의 **경계 통제**
 
 #### 한줄 요약
 
-- 하드웨어가 벽을 만들지만 출입구·공유 메모리·보호 공간 코드는 소프트웨어가 안전하게 설계해야 함
+- 하드웨어가 벽을 만들지만 출입구•공유 메모리•보호 공간 코드는 소프트웨어가 안전하게 설계해야 함
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 모니터 호출(Secure Monitor Call, SMC)·신뢰 응용(Trusted Application, TA)**: 보안 상태 전환을 요청하는 호출과 신뢰 실행 환경(Trusted Execution Environment, TEE) 내부에서 제한된 서비스를 수행하는 응용이다.
+- **보안 모니터 호출(Secure Monitor Call, SMC)•신뢰 응용(Trusted Application, TA)**: 보안 상태 전환을 요청하는 호출과 신뢰 실행 환경(Trusted Execution Environment, TEE) 내부에서 제한된 서비스를 수행하는 응용이다.
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 중앙처리장치(Central Processing Unit, CPU) 없이 주변장치가 메모리를 직접 읽고 쓰는 기능이다.
 - **일반 실행 환경(Rich Execution Environment, REE)**: 범용 운영체제(Operating System, OS)와 일반 응용이 실행되는 비보안 영역이다.
 
@@ -66,22 +66,22 @@ extra:
 ```mermaid
 block-beta
   columns 1
-  R["REE·Normal World"]
-  G["SMC·제한 진입점"]
-  T["TEE·Secure World"]
-  M["메모리·버스 보안 속성"]
-  P["DMA·인터럽트 통제"]
+  R["REE•Normal World"]
+  G["SMC•제한 진입점"]
+  T["TEE•Secure World"]
+  M["메모리•버스 보안 속성"]
+  P["DMA•인터럽트 통제"]
   R --- G --- T
   T --- M --- P
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| REE·Normal World | **범용 OS·일반 응용** 실행 |
-| SMC·제한 진입점 | **요청 검증·상태 전환** |
-| TEE·Secure World | **TA·키·보안 서비스** 실행 |
-| 메모리·버스 보안 속성 | 영역별 **접근 경로 분리** |
-| DMA·인터럽트 통제 | **CPU를 거치지 않는 DMA 접근** 제한 |
+| REE•Normal World | **범용 OS•일반 응용** 실행 |
+| SMC•제한 진입점 | **요청 검증•상태 전환** |
+| TEE•Secure World | **TA•키•보안 서비스** 실행 |
+| 메모리•버스 보안 속성 | 영역별 **접근 경로 분리** |
+| DMA•인터럽트 통제 | **CPU를 거치지 않는 DMA 접근** 제한 |
 
 #### 한줄 요약
 
@@ -92,7 +92,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **검사 시점·사용 시점 불일치(Time of Check to Time of Use, TOCTOU)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점이다.
+- **검사 시점•사용 시점 불일치(Time of Check to Time of Use, TOCTOU)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점이다.
 - **실행 환경 호출 경계**: 일반 실행 환경(Rich Execution Environment, REE)의 요청을 신뢰 실행 환경(Trusted Execution Environment, TEE)이 검증하고 신뢰 응용(Trusted Application, TA)에 전달하는 경계이다.
 
 </details>
@@ -104,9 +104,9 @@ sequenceDiagram
   participant M as 보안 모니터
   participant T as 신뢰 응용
   participant H as 보안 자원
-  C->>D: 세션·명령·버퍼 요청
-  D->>M: 1. 검증된 주소·길이·권한
-  M->>T: 2. 호출자 신원·TA 명령
+  C->>D: 세션•명령•버퍼 요청
+  D->>M: 1. 검증된 주소•길이•권한
+  M->>T: 2. 호출자 신원•TA 명령
   T->>H: 3. 최소 보안 자원 연산
   H-->>T: 4. 보안 연산 결과
   T-->>C: 정제된 결과
@@ -114,14 +114,14 @@ sequenceDiagram
 
 **동작 원리**
 
-- **1. 검증된 주소·길이·권한**: 공유 메모리 복사·재검증 결과
-- **2. 호출자 신원·TA 명령**: 제한 진입점의 서비스 호출 정보
-- **3. 최소 보안 자원 연산**: 키·암호·보호 저장소의 제한 사용
+- **1. 검증된 주소•길이•권한**: 공유 메모리 복사•재검증 결과
+- **2. 호출자 신원•TA 명령**: 제한 진입점의 서비스 호출 정보
+- **3. 최소 보안 자원 연산**: 키•암호•보호 저장소의 제한 사용
 - **4. 보안 연산 결과**: 비밀을 제거한 허용 출력 범위
 
 #### 한줄 요약
 
-- 보호 영역 입구에서 공유 버퍼를 복사·재검증하고 필요한 결과만 일반 영역으로 반환함
+- 보호 영역 입구에서 공유 버퍼를 복사•재검증하고 필요한 결과만 일반 영역으로 반환함
 
 ## Ⅴ. 종류 및 비교
 
@@ -129,15 +129,15 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **보안 속성 장치(Security Attribution Unit, SAU)**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치이다.
-- **처리기·상태 전환 판단**: 운영체제(Operating System, OS), 마이크로컨트롤러(Microcontroller Unit, MCU), 보안 모니터 호출(Secure Monitor Call, SMC)은 적용 대상과 상태 전환 방식을 구분하는 요소이다.
+- **처리기•상태 전환 판단**: 운영체제(Operating System, OS), 마이크로컨트롤러(Microcontroller Unit, MCU), 보안 모니터 호출(Secure Monitor Call, SMC)은 적용 대상과 상태 전환 방식을 구분하는 요소이다.
 
 </details>
 
 | 실행환경 격리 | Arm A-profile | Armv8-M | 하이퍼바이저 |
 |:---|:---|:---|:---|
-| 적용 기준 | 범용 OS의 **키·인증 격리** | MCU **펌웨어·메모리 분리** | 여러 **OS·가상머신 분리** |
-| 핵심 특징 | **Secure·Normal World** | **SAU 기반 보안 속성** | 가상화 **자원별 격리** |
-| 한계 | **SMC·공유 버퍼 오류** | **속성·주변장치 설정** 누락 | 취약점의 **게스트 확산** |
+| 적용 기준 | 범용 OS의 **키•인증 격리** | MCU **펌웨어•메모리 분리** | 여러 **OS•가상머신 분리** |
+| 핵심 특징 | **Secure•Normal World** | **SAU 기반 보안 속성** | 가상화 **자원별 격리** |
+| 한계 | **SMC•공유 버퍼 오류** | **속성•주변장치 설정** 누락 | 취약점의 **게스트 확산** |
 
 > 요약: 대상 처리기와 신뢰 서비스 범위에 맞춰 선택함
 
@@ -150,33 +150,33 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **글로벌플랫폼 신뢰 실행 환경 응용 프로그래밍 인터페이스(GlobalPlatform Trusted Execution Environment Application Programming Interface, GlobalPlatform TEE API)**: 신뢰 응용(Trusted Application, TA)의 암호·저장·시간 등 내부 기능을 정의한 규격이다.
-- **속성·시점 통제**: 마이크로컨트롤러(Microcontroller Unit, MCU)의 보안 속성 장치(Security Attribution Unit, SAU) 설정과 검사 시점·사용 시점 불일치(Time of Check to Time of Use, TOCTOU) 방어를 함께 적용한다.
-- **실행·메모리 경계**: 일반 실행 환경(Rich Execution Environment, REE)의 입력을 신뢰 실행 환경(Trusted Execution Environment, TEE)에서 재검증하고 직접 메모리 접근(Direct Memory Access, DMA)을 제한한다.
+- **글로벌플랫폼 신뢰 실행 환경 응용 프로그래밍 인터페이스(GlobalPlatform Trusted Execution Environment Application Programming Interface, GlobalPlatform TEE API)**: 신뢰 응용(Trusted Application, TA)의 암호•저장•시간 등 내부 기능을 정의한 규격이다.
+- **속성•시점 통제**: 마이크로컨트롤러(Microcontroller Unit, MCU)의 보안 속성 장치(Security Attribution Unit, SAU) 설정과 검사 시점•사용 시점 불일치(Time of Check to Time of Use, TOCTOU) 방어를 함께 적용한다.
+- **실행•메모리 경계**: 일반 실행 환경(Rich Execution Environment, REE)의 입력을 신뢰 실행 환경(Trusted Execution Environment, TEE)에서 재검증하고 직접 메모리 접근(Direct Memory Access, DMA)을 제한한다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 영역 속성이 누락되면 MCU 자원이 노출됨 | **Armv8-M Security Extension 적용** | SAU·진입점 속성 통제 |
-| TA마다 API가 다르면 경계 검증이 누락됨 | **GlobalPlatform TEE API v1.4 적용** | TA 기능·경계 표준화 |
-| 검사 뒤 공유 버퍼가 바뀌면 입력이 오염됨 | **복사 후 주소·길이 재검증** | **TOCTOU** 변조 차단 |
+| 영역 속성이 누락되면 MCU 자원이 노출됨 | **Armv8-M Security Extension 적용** | SAU•진입점 속성 통제 |
+| TA마다 API가 다르면 경계 검증이 누락됨 | **GlobalPlatform TEE API v1.4 적용** | TA 기능•경계 표준화 |
+| 검사 뒤 공유 버퍼가 바뀌면 입력이 오염됨 | **복사 후 주소•길이 재검증** | **TOCTOU** 변조 차단 |
 
 #### 한줄 요약
 
-- REE가 준 주소·길이·권한을 TEE에서 복사·재검증하고 DMA와 인터럽트의 보안 속성도 함께 제한한다.
+- REE가 준 주소•길이•권한을 TEE에서 복사•재검증하고 DMA와 인터럽트의 보안 속성도 함께 제한한다.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **최소 격리**: 키·인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙이다.
-- **민감·일반 기능 배치**: 신뢰 실행 환경(Trusted Execution Environment, TEE)에는 민감 기능만 두고 일반 실행 환경(Rich Execution Environment, REE)에는 일반 기능을 배치한다.
+- **최소 격리**: 키•인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙이다.
+- **민감•일반 기능 배치**: 신뢰 실행 환경(Trusted Execution Environment, TEE)에는 민감 기능만 두고 일반 실행 환경(Rich Execution Environment, REE)에는 일반 기능을 배치한다.
 
 </details>
 
-- 키·인증은 **TEE에 최소 격리**, 일반 기능은 REE에 배치
+- 키•인증은 **TEE에 최소 격리**, 일반 기능은 REE에 배치
 
 #### 한줄 요약
 

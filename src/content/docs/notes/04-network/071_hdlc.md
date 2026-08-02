@@ -3,10 +3,10 @@ sidebar:
   order: 71
   label: "071. HDLC 프레임 구조와 동작 모드 (HDLC)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "HDLC 프레임 구조와 동작 모드 (HDLC)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 71
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "134회"
   priority: 30
-  priority_note: "설명형: 134회 HDLC Frame·Mode 출제"
+  priority_note: "설명형: 134회 HDLC Frame•Mode 출제"
 ---
 
 ## Ⅰ. 개요
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비트 지향 프로토콜**: 고급 데이터 링크 제어는 동기 회선의 연속 비트열을 프레임으로 구분하고 순서·흐름·오류·링크 모드를 제어한다.
+- **비트 지향 프로토콜**: 고급 데이터 링크 제어는 동기 회선의 연속 비트열을 프레임으로 구분하고 순서•흐름•오류•링크 모드를 제어한다.
 
 </details>
 
-- 정의/개념: 동기 회선의 프레임·흐름·오류를 제어하는 **고급 데이터 링크 제어(High-Level Data Link Control, HDLC) 비트 지향 프로토콜**
-- 배경/필요성: 비트열의 **경계·순서·오류 식별 불가**
+- 정의/개념: 동기 회선의 프레임•흐름•오류를 제어하는 **고급 데이터 링크 제어(High-Level Data Link Control, HDLC) 비트 지향 프로토콜**
+- 배경/필요성: 비트열의 **경계•순서•오류 식별 불가**
 
 #### 한줄 요약
 
@@ -44,23 +44,23 @@ extra:
 </details>
 
 - **경계 투명성**: 플래그와 비트 채움으로 프레임 구분
-- **기능 분리**: **정보(Information, I)·감독(Supervisory, S)·무번호(Unnumbered, U) 프레임**으로 데이터·감독·제어
-- **오류 복구**: **프레임 검사 순서(Frame Check Sequence, FCS)·순서 번호** 로 검출·재전송
+- **기능 분리**: **정보(Information, I)•감독(Supervisory, S)•무번호(Unnumbered, U) 프레임**으로 데이터•감독•제어
+- **오류 복구**: **프레임 검사 순서(Frame Check Sequence, FCS)•순서 번호** 로 검출•재전송
 
 #### 한줄 요약
 
-- 데이터·응답·링크 제어를 다른 프레임으로 나눠 전송 순서와 권한을 관리한다.
+- 데이터•응답•링크 제어를 다른 프레임으로 나눠 전송 순서와 권한을 관리한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **Control**: Control 필드는 I·S·U 프레임 유형과 송수신 순서 번호·명령·응답 상태를 표현한다.
+- **Control**: Control 필드는 I•S•U 프레임 유형과 송수신 순서 번호•명령•응답 상태를 표현한다.
 
 </details>
 
-제어 필드는 **정보(Information, I)·감독(Supervisory, S)·무번호(Unnumbered, U) 프레임** 을 구분하고 **프레임 검사 순서(Frame Check Sequence, FCS)** 가 전송 오류를 검출한다.
+제어 필드는 **정보(Information, I)•감독(Supervisory, S)•무번호(Unnumbered, U) 프레임** 을 구분하고 **프레임 검사 순서(Frame Check Sequence, FCS)** 가 전송 오류를 검출한다.
 
 ```mermaid
 block-beta
@@ -69,7 +69,7 @@ block-beta
     B["Address"]
     C["Control"]
     D["Information"]
-    E["FCS·종료 Flag"]
+    E["FCS•종료 Flag"]
     A --- B
     B --- C
     C --- D
@@ -79,21 +79,21 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 시작 Flag | 고정 비트 패턴으로 프레임 시작 표시 |
-| Address | 종국·복합국 등 통신 대상 식별 |
-| Control | I·S·U 유형과 송수신 순서 표현 |
-| Information | 사용자 데이터·관리 정보 수용 |
-| FCS·종료 Flag | 오류 검출값과 프레임 끝 표시 |
+| Address | 종국•복합국 등 통신 대상 식별 |
+| Control | I•S•U 유형과 송수신 순서 표현 |
+| Information | 사용자 데이터•관리 정보 수용 |
+| FCS•종료 Flag | 오류 검출값과 프레임 끝 표시 |
 
 #### 한줄 요약
 
-- 양끝 플래그로 프레임을 찾고 제어부 번호와 FCS로 순서·오류를 확인한다.
+- 양끝 플래그로 프레임을 찾고 제어부 번호와 FCS로 순서•오류를 확인한다.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **4. 비트 제거·FCS 검사**: 수신국은 채움 비트를 제거한 뒤 FCS와 순서 번호를 검사해 정상 응답이나 재전송 위치를 결정한다.
+- **4. 비트 제거•FCS 검사**: 수신국은 채움 비트를 제거한 뒤 FCS와 순서 번호를 검사해 정상 응답이나 재전송 위치를 결정한다.
 
 </details>
 
@@ -106,10 +106,10 @@ sequenceDiagram
     송신국->>링크제어: 데이터 전송 요청
     링크제어->>수신국: 1. U-Frame 링크 설정
     수신국-->>링크제어: 설정 확인 응답
-    링크제어->>전송회선: 2. 프레임·FCS 전송
+    링크제어->>전송회선: 2. 프레임•FCS 전송
     전송회선->>수신국: 3. 수신 프레임 전달
-    수신국->>수신국: 4. 비트 제거·FCS 검사
-    alt 오류·누락
+    수신국->>수신국: 4. 비트 제거•FCS 검사
+    alt 오류•누락
         수신국-->>송신국: REJ 재전송 요청
     else 정상 수신
         수신국-->>송신국: ACK 수신 응답
@@ -118,10 +118,10 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **무번호 프레임(Unnumbered Frame, U-Frame) 링크 설정**: 모드·순서 상태 초기화
-2. **프레임·프레임 검사 순서(Frame Check Sequence, FCS) 전송**: 필드 결합 후 비트 채움 적용
+1. **무번호 프레임(Unnumbered Frame, U-Frame) 링크 설정**: 모드•순서 상태 초기화
+2. **프레임•프레임 검사 순서(Frame Check Sequence, FCS) 전송**: 필드 결합 후 비트 채움 적용
 3. **수신 프레임 전달**: 채움 비트가 포함된 프레임 제공
-4. **비트 제거·FCS 검사**: 채움 비트 제거 후 순서·오류 확인
+4. **비트 제거•FCS 검사**: 채움 비트 제거 후 순서•오류 확인
 
 #### 한줄 요약
 
@@ -132,7 +132,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **비동기 균형 모드(ABM)**: 양쪽 복합국이 주국·종국 구분 없이 대등하게 명령과 응답을 교환하는 전이중 점대점 모드다.
+- **비동기 균형 모드(ABM)**: 양쪽 복합국이 주국•종국 구분 없이 대등하게 명령과 응답을 교환하는 전이중 점대점 모드다.
 
 </details>
 
@@ -140,28 +140,28 @@ sequenceDiagram
 |:---|:---|:---|:---|
 | 적용 기준 | 주국 통제 다중점 링크 | 불균형 링크의 자발 응답 | 전이중 점대점 링크 |
 | 핵심 특징 | 주국 허가 후 종국 전송 | 종국 자발 전송 가능 | 양단 복합국 대등 통신 |
-| 한계 | 폴링 지연·주국 장애 | 주국·종국 책임 복잡성 | 양단 상태·순서 불일치 |
+| 한계 | 폴링 지연•주국 장애 | 주국•종국 책임 복잡성 | 양단 상태•순서 불일치 |
 
 > 요약: 전송 주도권에 따라 동작 모드를 구분한다
 
 #### 한줄 요약
 
-- ABM은 주국·종국 구분 없이 대등하게 통신한다.
+- ABM은 주국•종국 구분 없이 대등하게 통신한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **확인 응답·거부 순서 상태 불일치**: 양단의 다음 기대 번호가 달라 누락 복구 범위나 정상 프레임 판단이 어긋나는 문제다.
+- **확인 응답•거부 순서 상태 불일치**: 양단의 다음 기대 번호가 달라 누락 복구 범위나 정상 프레임 판단이 어긋나는 문제다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 양단 모드 불일치로 링크 수립 실패 | **정규 응답 모드(Normal Response Mode, NRM)·비동기 응답 모드(Asynchronous Response Mode, ARM)·비동기 균형 모드(Asynchronous Balanced Mode, ABM) 설정** 대조 | 링크 수립 성공 |
-| 비트 채움 오류로 플래그 오인 | **플래그 경계·연속 1** 시험 | 프레임 경계 보장 |
-| **확인 응답(Acknowledgement, ACK)·거부(Reject, REJ) 순서 상태 불일치** | **순서 번호·응답 상태** 검증 | 데이터 무손실 전달 |
+| 양단 모드 불일치로 링크 수립 실패 | **정규 응답 모드(Normal Response Mode, NRM)•비동기 응답 모드(Asynchronous Response Mode, ARM)•비동기 균형 모드(Asynchronous Balanced Mode, ABM) 설정** 대조 | 링크 수립 성공 |
+| 비트 채움 오류로 플래그 오인 | **플래그 경계•연속 1** 시험 | 프레임 경계 보장 |
+| **확인 응답(Acknowledgement, ACK)•거부(Reject, REJ) 순서 상태 불일치** | **순서 번호•응답 상태** 검증 | 데이터 무손실 전달 |
 
 #### 한줄 요약
 

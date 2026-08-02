@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 25
-  label: "025. TCP·UDP·SCTP 비교 (TCP UDP SCTP Comparison)"
+  label: "025. TCP•UDP•SCTP 비교 (TCP UDP SCTP Comparison)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
-title: "TCP·UDP·SCTP 비교 (TCP UDP SCTP Comparison)"
-date: "2026-07-31T00:52:30+09:00"
+title: "TCP•UDP•SCTP 비교 (TCP UDP SCTP Comparison)"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "129회"
   priority: 50
-  priority_note: "비교형: 129회 TCP·UDP·SCTP 장문 출제"
+  priority_note: "비교형: 129회 TCP•UDP•SCTP 장문 출제"
 ---
 
 ## Ⅰ. 개요
@@ -23,28 +23,28 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 신뢰 바이트 스트림, 독립 데이터그램, 다중 스트림·경로 메시지를 제공하는 프로토콜이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 신뢰 바이트 스트림, 독립 데이터그램, 다중 스트림•경로 메시지를 제공하는 프로토콜이다.
 </details>
 
-- 정의/개념: **TCP·UDP·SCTP 비교** — 연결·신뢰성·메시지 경계·멀티스트리밍·멀티호밍 요구에 따라 세 전송계층 프로토콜을 선택하는 **기준**
-- 배경/필요성: 하나의 방식으로 **낮은 지연·신뢰·메시지 경계** 모두 최적화 불가
+- 정의/개념: **TCP•UDP•SCTP 비교** — 연결•신뢰성•메시지 경계•멀티스트리밍•멀티호밍 요구에 따라 세 전송계층 프로토콜을 선택하는 **기준**
+- 배경/필요성: 하나의 방식으로 **낮은 지연•신뢰•메시지 경계** 모두 최적화 불가
 
 #### 한줄 요약
 
-- 택배의 속달·분실 보상·상자 구분·우회 노선 중 필요한 조건을 고르듯 전송 요구에 따라 TCP·UDP·SCTP를 선택한다
+- 택배의 속달•분실 보상•상자 구분•우회 노선 중 필요한 조건을 고르듯 전송 요구에 따라 TCP•UDP•SCTP를 선택한다
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **바이트 스트림·데이터그램**: 메시지 경계를 보존하지 않는 모델과 독립 경계를 유지하는 모델이다.
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 신뢰 바이트 스트림, 무연결 데이터그램, 다중 스트림·경로 메시지를 각각 제공한다.
+- **바이트 스트림•데이터그램**: 메시지 경계를 보존하지 않는 모델과 독립 경계를 유지하는 모델이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 신뢰 바이트 스트림, 무연결 데이터그램, 다중 스트림•경로 메시지를 각각 제공한다.
 </details>
 
 - TCP의 **신뢰성 바이트 스트림**
-- UDP의 **무연결 메시지·응용 복구**
-- SCTP의 **멀티스트리밍·멀티호밍**
+- UDP의 **무연결 메시지•응용 복구**
+- SCTP의 **멀티스트리밍•멀티호밍**
 
 #### 한줄 요약
 
@@ -55,8 +55,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **스트림 제어 전송 프로토콜 연관(Stream Control Transmission Protocol Association, SCTP 연관)**: 여러 주소·스트림을 포함하는 두 종단 사이의 통신 상태이다.
-- **전송 제어·사용자 데이터그램 프로토콜(Transmission Control Protocol/User Datagram Protocol, TCP·UDP)**: 바이트 스트림과 독립 데이터그램을 각각 전달하는 전송 프로토콜이다.
+- **스트림 제어 전송 프로토콜 연관(Stream Control Transmission Protocol Association, SCTP 연관)**: 여러 주소•스트림을 포함하는 두 종단 사이의 통신 상태이다.
+- **전송 제어•사용자 데이터그램 프로토콜(Transmission Control Protocol/User Datagram Protocol, TCP•UDP)**: 바이트 스트림과 독립 데이터그램을 각각 전달하는 전송 프로토콜이다.
 </details>
 
 ```mermaid
@@ -73,14 +73,14 @@ block
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 송신 응용 | 전송할 **바이트·메시지 경계** 제공 |
+| 송신 응용 | 전송할 **바이트•메시지 경계** 제공 |
 | 송신 전송 종단 | 선택 프로토콜의 **전송 단위** 생성 |
-| 수신 전송 종단 | 순서·복구 정책에 따른 **데이터 전달** |
-| 수신 응용 | 복원된 바이트 흐름·**메시지** 소비 |
+| 수신 전송 종단 | 순서•복구 정책에 따른 **데이터 전달** |
+| 수신 응용 | 복원된 바이트 흐름•**메시지** 소비 |
 
 #### 한줄 요약
 
-- 발송 창구와 수신 창구 사이의 운송 규칙만 TCP·UDP·SCTP로 바뀌며 양쪽 응용은 전송 종단을 통해 데이터를 주고받는다
+- 발송 창구와 수신 창구 사이의 운송 규칙만 TCP•UDP•SCTP로 바뀌며 양쪽 응용은 전송 종단을 통해 데이터를 주고받는다
 
 ## Ⅳ. 흐름도
 
@@ -88,7 +88,7 @@ block
 <summary>핵심 용어</summary>
 
 - **확인 응답(Acknowledgment, ACK)**: 수신 범위나 다음 순서 번호를 송신자에게 알리는 응답이다.
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 바이트, 데이터그램, 스트림 메시지를 각각 전달하는 프로토콜이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 바이트, 데이터그램, 스트림 메시지를 각각 전달하는 프로토콜이다.
 </details>
 
 ```mermaid
@@ -105,7 +105,7 @@ sequenceDiagram
     else SCTP
         송신종단->>수신종단: 1. 전송 단위 전달
     end
-    opt TCP·SCTP
+    opt TCP•SCTP
         수신종단-->>송신종단: 2. 수신 상태 회신
     end
     수신종단-->>수신응용: 수신 데이터
@@ -114,7 +114,7 @@ sequenceDiagram
 **동작 원리**
 
 1. **전송 단위 전달**: TCP는 바이트, UDP는 데이터그램, SCTP는 스트림 메시지 전송
-2. **수신 상태 회신**: **TCP·SCTP** 는 ACK로 손실 복구와 흐름 제어
+2. **수신 상태 회신**: **TCP•SCTP** 는 ACK로 손실 복구와 흐름 제어
 
 #### 한줄 요약
 
@@ -125,17 +125,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **멀티호밍·멀티스트리밍**: 여러 경로로 장애 전환하고 독립 순서 공간으로 선두 차단을 줄이는 SCTP 기능이다.
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 신뢰성·지연·메시지 경계·다중 경로 요구에 따라 비교하는 프로토콜이다.
+- **멀티호밍•멀티스트리밍**: 여러 경로로 장애 전환하고 독립 순서 공간으로 선두 차단을 줄이는 SCTP 기능이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 신뢰성•지연•메시지 경계•다중 경로 요구에 따라 비교하는 프로토콜이다.
 </details>
 
 | 전송 프로토콜 | TCP | UDP | SCTP |
 |:---|:---|:---|:---|
-| 적용 기준 | 순서·손실 없는 **연속 데이터** | 일부 손실보다 **지연·경계 우선** | 메시지 경계·**경로 전환 필요** |
-| 핵심 특징 | 신뢰성 **바이트 스트림** | 무연결 **독립 데이터그램** | 신뢰성 메시지·**다중 스트림** |
-| 한계 | 선두 차단·**연결 설정 지연** | 손실·중복·**응용 복구 필요** | 중간 장비·**구현 지원 제약** |
+| 적용 기준 | 순서•손실 없는 **연속 데이터** | 일부 손실보다 **지연•경계 우선** | 메시지 경계•**경로 전환 필요** |
+| 핵심 특징 | 신뢰성 **바이트 스트림** | 무연결 **독립 데이터그램** | 신뢰성 메시지•**다중 스트림** |
+| 한계 | 선두 차단•**연결 설정 지연** | 손실•중복•**응용 복구 필요** | 중간 장비•**구현 지원 제약** |
 
-> 요약: 바이트 TCP, 독립 메시지 UDP, 다중 스트림·경로 SCTP
+> 요약: 바이트 TCP, 독립 메시지 UDP, 다중 스트림•경로 SCTP
 
 #### 한줄 요약
 
@@ -146,17 +146,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 주소 변환·선두 차단(Network Address Translation/Head-of-Line Blocking, NAT·선두 차단)**: 주소를 변환하는 중계 기능과 앞 손실 때문에 뒤 데이터도 기다리는 현상이다.
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 업무의 손실·순서·지연·경로 요구에 맞춰 선택하는 전송 프로토콜이다.
+- **네트워크 주소 변환•선두 차단(Network Address Translation/Head-of-Line Blocking, NAT•선두 차단)**: 주소를 변환하는 중계 기능과 앞 손실 때문에 뒤 데이터도 기다리는 현상이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 업무의 손실•순서•지연•경로 요구에 맞춰 선택하는 전송 프로토콜이다.
 - **확인 응답(Acknowledgment, ACK)**: 응용이나 전송 계층이 데이터 수신 여부를 송신자에게 알리는 응답이다.
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 손실 허용 트래픽에 **TCP** 를 쓰면 지연 증가 | 손실·순서·**지연 요구** 분리 | 연결 설정·재전송 **지연 감소** |
-| UDP에서 손실·중복을 허용하지 못하는 업무 | 응용 **ACK·중복 제거·속도 제어** 설계 | 필요한 범위의 **메시지 신뢰성** 확보 |
-| 중간망이 **SCTP·NAT** 처리를 지원하지 않음 | 방화벽·NAT의 **SCTP 경로** 시험 | 배포 전 **연관 설정 실패** 식별 |
-| TCP **선두 차단**으로 독립 흐름 지연 | 다중 연결·**SCTP 멀티스트리밍** 선택 | 흐름 간 **지연 전파** 완화 |
+| 손실 허용 트래픽에 **TCP** 를 쓰면 지연 증가 | 손실•순서•**지연 요구** 분리 | 연결 설정•재전송 **지연 감소** |
+| UDP에서 손실•중복을 허용하지 못하는 업무 | 응용 **ACK•중복 제거•속도 제어** 설계 | 필요한 범위의 **메시지 신뢰성** 확보 |
+| 중간망이 **SCTP•NAT** 처리를 지원하지 않음 | 방화벽•NAT의 **SCTP 경로** 시험 | 배포 전 **연관 설정 실패** 식별 |
+| TCP **선두 차단**으로 독립 흐름 지연 | 다중 연결•**SCTP 멀티스트리밍** 선택 | 흐름 간 **지연 전파** 완화 |
 
 #### 한줄 요약
 
@@ -167,11 +167,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 프로토콜 선택**: 신뢰성·지연·메시지 경계·다중 경로 요구에 맞춰 종단 방식을 고르는 활동이다.
-- **전송 제어·사용자 데이터그램·스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP·UDP·SCTP)**: 순서·복구, 낮은 지연, 다중 스트림·경로 요구에 각각 대응하는 프로토콜이다.
+- **전송 프로토콜 선택**: 신뢰성•지연•메시지 경계•다중 경로 요구에 맞춰 종단 방식을 고르는 활동이다.
+- **전송 제어•사용자 데이터그램•스트림 제어 전송 프로토콜(Transmission Control Protocol/User Datagram Protocol/Stream Control Transmission Protocol, TCP•UDP•SCTP)**: 순서•복구, 낮은 지연, 다중 스트림•경로 요구에 각각 대응하는 프로토콜이다.
 </details>
 
-- 순서·복구는 **TCP**, 낮은 지연은 **UDP**, 다중 경로는 SCTP 선택
+- 순서•복구는 **TCP**, 낮은 지연은 **UDP**, 다중 경로는 SCTP 선택
 
 #### 한줄 요약
 

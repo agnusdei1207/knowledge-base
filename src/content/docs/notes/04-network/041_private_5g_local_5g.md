@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 41
-  label: "041. 5G 특화망·로컬 5G (Private 5G / 이음5G)"
+  label: "041. 5G 특화망•로컬 5G (Private 5G / 이음5G)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
-title: "5G 특화망·로컬 5G (Private 5G / 이음5G)"
-date: "2026-07-31T00:49:44+09:00"
+title: "5G 특화망•로컬 5G (Private 5G / 이음5G)"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 41
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "126회"
   priority: 50
-  priority_note: "비교·설계형: 126회 5G 특화망 장문 출제"
+  priority_note: "비교•설계형: 126회 5G 특화망 장문 출제"
 ---
 
 ## Ⅰ. 개요
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 이동통신 특화망(Fifth Generation Private Network, Private 5G)**: 한정된 구역에서 전용 주파수·설비·정책으로 산업 서비스를 제공하는 비공중 이동통신망
+- **5세대 이동통신 특화망(Fifth Generation Private Network, Private 5G)**: 한정된 구역에서 전용 주파수•설비•정책으로 산업 서비스를 제공하는 비공중 이동통신망
 
 </details>
 
-- 정의/개념: 한정 구역에서 산업 서비스를 제공하는 **전용 주파수·정책 기반 비공중망**
-- 배경/필요성: 공중망 장애·외부 전송 의존으로 **현장 제어 연속성** 제약
+- 정의/개념: 한정 구역에서 산업 서비스를 제공하는 **전용 주파수•정책 기반 비공중망**
+- 배경/필요성: 공중망 장애•외부 전송 의존으로 **현장 제어 연속성** 제약
 
 #### 한줄 요약
 
@@ -40,7 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **무선 접속망(Radio Access Network, RAN)**: 산업 단말을 전용 주파수로 5세대 이동통신(Fifth Generation, 5G) 코어에 연결하는 기지국 체계
-- **서비스 품질(Quality of Service, QoS)**: 트래픽별 지연·손실·대역폭을 차등 제어하는 품질 정책
+- **서비스 품질(Quality of Service, QoS)**: 트래픽별 지연•손실•대역폭을 차등 제어하는 품질 정책
 - **사용자면 기능(User Plane Function, UPF)**: 사용자 데이터를 현장 데이터망으로 직접 전달하는 코어망 기능
 - **가입자 식별 모듈(Subscriber Identity Module, SIM)**: 단말의 가입자 식별자와 인증 정보를 저장하는 모듈
 
@@ -48,7 +48,7 @@ extra:
 
 - **전용 RAN 기반 무선 자원 직접 통제**
 - **로컬 UPF 기반 현장 데이터 경로 유지**
-- **SIM** 인증·**QoS** 정책으로 단말 접근과 트래픽 등급 통제
+- **SIM** 인증•**QoS** 정책으로 단말 접근과 트래픽 등급 통제
 
 #### 한줄 요약
 
@@ -59,12 +59,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 코어(5G Core, 5GC)**: 가입자 인증·이동성·정책·세션을 제어하는 5세대 이동통신(Fifth Generation, 5G) 핵심망
+- **5세대 코어(5G Core, 5GC)**: 가입자 인증•이동성•정책•세션을 제어하는 5세대 이동통신(Fifth Generation, 5G) 핵심망
 - **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: 사용자 데이터를 외부 중앙망 대신 현장 데이터망으로 직접 전달하는 사용자면 기능
 - **무선 접속망(Radio Access Network, RAN)**: 산업 단말에 전용 무선 접속을 제공하는 기지국 체계
-- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)·운영 기술(Operational Technology, OT)**: 현장 응용을 처리하고 생산 설비의 제어 체계와 연결하는 영역
+- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)•운영 기술(Operational Technology, OT)**: 현장 응용을 처리하고 생산 설비의 제어 체계와 연결하는 영역
 - **비공중망(Non-Public Network, NPN)**: 특정 조직이나 구역을 위해 전용으로 구축한 이동통신망
-- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연·손실·대역폭을 차등 제어하는 정책
+- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연•손실•대역폭을 차등 제어하는 정책
 
 </details>
 
@@ -76,7 +76,7 @@ block
         RAN["RAN"]
         CORE["5GC"]
         UPF["로컬 UPF"]
-        EDGE["MEC·OT 연계"]
+        EDGE["MEC•OT 연계"]
     end
     RAN --- CORE
     CORE --- UPF
@@ -86,9 +86,9 @@ block
 | 구성요소 | 책임 |
 |:---|:---|
 | RAN | 전용 주파수로 산업 단말 **무선 접속** 제공 |
-| 5GC | 가입자 인증·세션·**QoS 정책** 제어 |
+| 5GC | 가입자 인증•세션•**QoS 정책** 제어 |
 | 로컬 UPF | **사용자 데이터의 현장 데이터망 직접 전달** |
-| MEC·OT 연계 | **현장 응용** 처리와 설비 제어 연결 |
+| MEC•OT 연계 | **현장 응용** 처리와 설비 제어 연결 |
 
 #### 한줄 요약
 
@@ -101,7 +101,7 @@ block
 
 - **가입자 식별 모듈(Subscriber Identity Module, SIM)**: 가입자 식별자와 인증 정보를 저장해 특화망 접속 신원을 증명하는 모듈
 - **프로토콜 데이터 단위 세션(Protocol Data Unit Session, PDU Session)**: 단말과 데이터망 사이에서 사용자 데이터를 전달하도록 설정한 논리 경로
-- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연·손실·대역폭을 제어하는 정책
+- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연•손실•대역폭을 제어하는 정책
 
 </details>
 
@@ -113,21 +113,21 @@ sequenceDiagram
     participant RAN
     participant 5GC
     participant 로컬UPF
-    participant MEC·OT
+    participant MEC•OT
     산업단말->>RAN: 접속 요청
     RAN->>5GC: 1. 가입자 인증 요청
     5GC->>로컬UPF: 2. PDU 세션 규칙
     5GC->>로컬UPF: 3. QoS 정책
-    로컬UPF->>MEC·OT: 4. 현장 데이터
-    MEC·OT-->>산업단말: 처리 결과
+    로컬UPF->>MEC•OT: 4. 현장 데이터
+    MEC•OT-->>산업단말: 처리 결과
 ```
 
 **동작 원리**
 
 1. **가입자 인증 요청**: **SIM** 정보로 특화망 접속 권한 판정
 2. **PDU 세션 규칙**: 로컬 UPF를 데이터 경로로 지정하는 **5GC 제어**
-3. **QoS 정책**: 트래픽 등급별 **지연·대역폭** 한도 적용
-4. **현장 데이터**: **UPF 기반 MEC·OT 전달**
+3. **QoS 정책**: 트래픽 등급별 **지연•대역폭** 한도 적용
+4. **현장 데이터**: **UPF 기반 MEC•OT 전달**
 
 #### 한줄 요약
 
@@ -139,8 +139,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망에 의존하지 않고 전용 기지국과 5세대 이동통신(Fifth Generation, 5G) 코어를 운영하는 비공중망
-- **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 공중망의 가입자·코어 기능을 공유해 운영을 위탁하는 비공중망
-- **서비스 품질(Quality of Service, QoS)**: 현장 무선망의 트래픽별 지연·손실·대역폭을 차등 제어하는 정책
+- **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 공중망의 가입자•코어 기능을 공유해 운영을 위탁하는 비공중망
+- **서비스 품질(Quality of Service, QoS)**: 현장 무선망의 트래픽별 지연•손실•대역폭을 차등 제어하는 정책
 
 </details>
 
@@ -148,11 +148,11 @@ sequenceDiagram
 
 | 현장 무선망 방식 | 5G 특화망 | 기업 Wi-Fi | 공중망 슬라이스 |
 |:---|:---|:---|:---|
-| 적용 기준 | 이동성·QoS·현장 통제가 필요할 때 | 저비용 근거리 접속이 필요할 때 | 광역 이동과 운영 위탁이 필요할 때 |
-| 핵심 특징 | **전용 주파수·정책** 직접 통제 | 비면허 **Wi-Fi** 무선 접속 | 공중망 **네트워크 슬라이싱** |
-| 한계 | **5G 코어 운영 역량 필요** | 비면허 간섭·**로밍** 제약 | **공중망 장애 종속성** |
+| 적용 기준 | 이동성•QoS•현장 통제가 필요할 때 | 저비용 근거리 접속이 필요할 때 | 광역 이동과 운영 위탁이 필요할 때 |
+| 핵심 특징 | **전용 주파수•정책** 직접 통제 | 비면허 **Wi-Fi** 무선 접속 | 공중망 **네트워크 슬라이싱** |
+| 한계 | **5G 코어 운영 역량 필요** | 비면허 간섭•**로밍** 제약 | **공중망 장애 종속성** |
 
-> 요약: 이동성·제어권·운영 역량으로 망 선택
+> 요약: 이동성•제어권•운영 역량으로 망 선택
 
 #### 한줄 요약
 
@@ -165,14 +165,14 @@ sequenceDiagram
 
 - **무선 음영**: 설비나 구조물의 차폐로 전파 수신 세기가 접속 가능한 수준 아래로 떨어지는 구역이다.
 - **경로 정책**: 사용자 트래픽이 로컬 사용자면 기능(Local User Plane Function, Local UPF)과 현장 데이터망을 통과하도록 고정하는 전달 규칙
-- **5세대 코어(5G Core, 5GC)**: 가입자 인증·정책·세션과 현장 데이터 경로를 제어하는 핵심망
+- **5세대 코어(5G Core, 5GC)**: 가입자 인증•정책•세션과 현장 데이터 경로를 제어하는 핵심망
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 설비 차폐로 **무선 음영** 발생 | 설비 배치 기반 **커버리지 실측** | 산업 단말 **접속 단절** 감소 |
-| 외부망 경유로 지연·**데이터 노출** 증가 | 로컬 **UPF·경로 정책** 고정 | 전송 지연·외부 노출 감소 |
+| 외부망 경유로 지연•**데이터 노출** 증가 | 로컬 **UPF•경로 정책** 고정 | 전송 지연•외부 노출 감소 |
 | **5G 코어** 운영 역량 부족 | 관리형 코어와 **장애 훈련** 도입 | 장애 복구 시간 단축 |
 
 #### 한줄 요약
@@ -184,13 +184,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 주권**: 조직이 데이터의 저장 위치와 처리·전송 경로를 직접 통제하는 능력
+- **데이터 주권**: 조직이 데이터의 저장 위치와 처리•전송 경로를 직접 통제하는 능력
 - **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망 없이 전용 기지국과 코어를 운영하는 방식
 - **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 공중망 기능을 공유해 운영을 위탁하는 방식
 
 </details>
 
-- 공중망 독립·데이터 주권이 핵심이면 **SNPN**, 운영 위탁이면 **PNI-NPN** 선택
+- 공중망 독립•데이터 주권이 핵심이면 **SNPN**, 운영 위탁이면 **PNI-NPN** 선택
 
 #### 한줄 요약
 

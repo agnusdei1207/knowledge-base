@@ -3,10 +3,10 @@ sidebar:
   order: 22
   label: "022. TCP 3-way Handshake (TCP 3-way Handshake)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-07-31T00:50:01+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "125회, 128회, 129회, 132회"
   priority: 70
-  priority_note: "설명·비교형: 125·132회 연결 설정·해제 반복"
+  priority_note: "설명•비교형: 125•132회 연결 설정•해제 반복"
 ---
 
 ## Ⅰ. 개요
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜 3단계 연결 설정(Transmission Control Protocol Three-Way Handshake, TCP 3-way handshake)**: SYN·SYN/ACK·ACK으로 양방향 초기 순서 번호와 연결 상태를 합의하는 절차이다.
+- **전송 제어 프로토콜 3단계 연결 설정(Transmission Control Protocol Three-Way Handshake, TCP 3-way handshake)**: SYN•SYN/ACK•ACK으로 양방향 초기 순서 번호와 연결 상태를 합의하는 절차이다.
 
 </details>
 
-- 정의/개념: **TCP 3-way handshake** — SYN·SYN-ACK·ACK를 교환하여 양방향 도달성과 초기 순서번호·연결 옵션을 확인하는 **연결 설정 절차**
+- 정의/개념: **TCP 3-way handshake** — SYN•SYN-ACK•ACK를 교환하여 양방향 도달성과 초기 순서번호•연결 옵션을 확인하는 **연결 설정 절차**
 - 배경/필요성: 연결 전에는 상대 도달성과 **양방향 순서 기준** 확인 불가
 
 #### 한줄 요약
@@ -39,13 +39,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **동기화·확인 응답·초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN·ACK·ISN)**: 연결 시작, 확인 응답, 각 방향의 초기 바이트 순서 번호를 뜻한다.
+- **동기화•확인 응답•초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN•ACK•ISN)**: 연결 시작, 확인 응답, 각 방향의 초기 바이트 순서 번호를 뜻한다.
 - **최대 세그먼트 크기(Maximum Segment Size, MSS)**: TCP 세그먼트에 담을 수 있는 최대 데이터 크기이다.
 
 </details>
 
 - 독립 ISN 교환의 **양방향 순서 기준 설정**
-- SYN 옵션의 **MSS·윈도 배율 협상**
+- SYN 옵션의 **MSS•윈도 배율 협상**
 - 반쪽 연결 큐의 **SYN 플러드 노출**
 
 #### 한줄 요약
@@ -57,8 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **리슨 소켓·SYN 큐·인수 큐(Listen Socket/Synchronize Queue/Accept Queue, 리슨 소켓·SYN 큐·Accept 큐)**: 연결 요청을 받고 반쪽 연결과 완료 연결을 보관하는 서버 자원이다.
-- **초기 순서 번호·전송 제어 프로토콜(Initial Sequence Number/Transmission Control Protocol, ISN·TCP)**: 연결 양방향의 순서 기준과 신뢰성 있는 바이트 스트림 프로토콜이다.
+- **리슨 소켓•SYN 큐•인수 큐(Listen Socket/Synchronize Queue/Accept Queue, 리슨 소켓•SYN 큐•Accept 큐)**: 연결 요청을 받고 반쪽 연결과 완료 연결을 보관하는 서버 자원이다.
+- **초기 순서 번호•전송 제어 프로토콜(Initial Sequence Number/Transmission Control Protocol, ISN•TCP)**: 연결 양방향의 순서 기준과 신뢰성 있는 바이트 스트림 프로토콜이다.
 
 </details>
 
@@ -79,7 +79,7 @@ block
 | 수신 대기 소켓 | 서버 포트에서 새 **SYN** 수신 |
 | 반쪽 연결 큐 | SYN 수신 후 **최종 ACK 대기 상태** 저장 |
 | 완료 연결 큐 | 설정 완료 연결을 **응용 인수**까지 저장 |
-| 연결 소켓 | 종단 주소·**ISN·TCP 상태** 관리 |
+| 연결 소켓 | 종단 주소•**ISN•TCP 상태** 관리 |
 
 #### 한줄 요약
 
@@ -90,8 +90,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **최대 세그먼트 크기·윈도 배율(Maximum Segment Size/Window Scale, MSS·윈도 배율)**: 최대 TCP 데이터 크기와 큰 수신 윈도를 표현하는 연결 옵션이다.
-- **동기화·확인 응답·초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN·ACK·ISN)**: 연결 요청과 확인, 양방향 바이트 순서의 시작값이다.
+- **최대 세그먼트 크기•윈도 배율(Maximum Segment Size/Window Scale, MSS•윈도 배율)**: 최대 TCP 데이터 크기와 큰 수신 윈도를 표현하는 연결 옵션이다.
+- **동기화•확인 응답•초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN•ACK•ISN)**: 연결 요청과 확인, 양방향 바이트 순서의 시작값이다.
 
 </details>
 
@@ -110,7 +110,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **반쪽 연결 상태**: 클라이언트 **ISN·옵션** 과 최종 ACK 대기 상태 저장
+1. **반쪽 연결 상태**: 클라이언트 **ISN•옵션** 과 최종 ACK 대기 상태 저장
 2. **SYN-ACK**: 클라이언트 ISN 확인과 **서버 ISN** 제안
 3. **최종 ACK**: 서버 ISN 수신 확인으로 **양방향 도달성** 검증
 4. **완료 연결 상태**: 반쪽 연결을 **연결 설정 완료** 상태로 전환
@@ -124,16 +124,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP 연결 설정·종료(Transmission Control Protocol Connection Establishment/Termination)**: SYN으로 양방향 상태를 만들고 FIN으로 각 송신 방향을 독립 종료하는 절차이다.
-- **동기화·확인 응답·종료(Synchronize/Acknowledgment/Finish, SYN·ACK·FIN)**: 연결을 시작하고 수신을 확인하며 송신 방향을 닫는 제어 플래그이다.
+- **TCP 연결 설정•종료(Transmission Control Protocol Connection Establishment/Termination)**: SYN으로 양방향 상태를 만들고 FIN으로 각 송신 방향을 독립 종료하는 절차이다.
+- **동기화•확인 응답•종료(Synchronize/Acknowledgment/Finish, SYN•ACK•FIN)**: 연결을 시작하고 수신을 확인하며 송신 방향을 닫는 제어 플래그이다.
 - **연결 상태(Connection State)**: CLOSED에서 연결 설정을 시작해 양쪽 확인이 끝나면 ESTABLISHED가 되고 종료 절차 뒤 다시 해제되는 TCP 상태이다.
 
 </details>
 
 | 연결 절차 | 목적 | 핵심 상태 전이 |
 |:---|:---|:---|
-| **3단계 연결 설정** | 데이터 전 **양방향 도달성·초기 순서 번호(Initial Sequence Number, ISN)** 확인 | `CLOSED`에서 **ESTABLISHED 상태** 전환 |
-| **4단계 연결 종료** | 양방향 **송신 채널 독립 종료** | `FIN-WAIT`·`CLOSE-WAIT`를 거쳐 연결 해제 |
+| **3단계 연결 설정** | 데이터 전 **양방향 도달성•초기 순서 번호(Initial Sequence Number, ISN)** 확인 | `CLOSED`에서 **ESTABLISHED 상태** 전환 |
+| **4단계 연결 종료** | 양방향 **송신 채널 독립 종료** | `FIN-WAIT`•`CLOSE-WAIT`를 거쳐 연결 해제 |
 
 > 요약: 설정은 3단계, 방향별 종료는 4단계
 
@@ -146,16 +146,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **동기화 플러드·동기화 쿠키(Synchronize Flood/Synchronize Cookie, SYN Flood·SYN Cookie)**: 반쪽 연결 자원을 고갈시키는 공격과 서버 상태 저장을 늦추는 방어 기법이다.
-- **최대 세그먼트 크기·최대 전송 단위(Maximum Segment Size/Maximum Transmission Unit, MSS·MTU)**: TCP 데이터 크기와 경로에서 전달 가능한 최대 패킷 크기이다.
+- **동기화 플러드•동기화 쿠키(Synchronize Flood/Synchronize Cookie, SYN Flood•SYN Cookie)**: 반쪽 연결 자원을 고갈시키는 공격과 서버 상태 저장을 늦추는 방어 기법이다.
+- **최대 세그먼트 크기•최대 전송 단위(Maximum Segment Size/Maximum Transmission Unit, MSS•MTU)**: TCP 데이터 크기와 경로에서 전달 가능한 최대 패킷 크기이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **SYN 플러드** 로 반쪽 연결 큐 고갈 | **SYN 쿠키**·요청률 제한 | 신규 연결의 **가용성** 유지 |
+| **SYN 플러드** 로 반쪽 연결 큐 고갈 | **SYN 쿠키**•요청률 제한 | 신규 연결의 **가용성** 유지 |
 | MSS가 경로 **MTU**보다 크면 패킷 폐기 | 경로 MTU에 맞춰 **MSS 조정** | **경로 MTU 블랙홀** 방지 |
-| 최종 ACK 누락으로 **반쪽 연결** 장기 점유 | **재전송 횟수·대기시간** 제한 | 연결 상태 **메모리 회수** |
+| 최종 ACK 누락으로 **반쪽 연결** 장기 점유 | **재전송 횟수•대기시간** 제한 | 연결 상태 **메모리 회수** |
 | 중간장비가 **SYN 옵션** 을 변경 | 양단 패킷 캡처로 **옵션 대조** | 처리량 저하의 **협상 원인** 식별 |
 
 #### 한줄 요약
@@ -168,11 +168,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **경로 최대 전송 단위 블랙홀(Path Maximum Transmission Unit Black Hole, 경로 MTU 블랙홀)**: 큰 패킷이 폐기되지만 크기 조정 신호가 돌아오지 않아 통신이 멈추는 현상이다.
-- **초기 순서 번호·동기화 쿠키(Initial Sequence Number/Synchronize Cookie, ISN·SYN 쿠키)**: 연결의 순서 기준과 반쪽 연결 상태 저장을 늦추는 방어값이다.
+- **초기 순서 번호•동기화 쿠키(Initial Sequence Number/Synchronize Cookie, ISN•SYN 쿠키)**: 연결의 순서 기준과 반쪽 연결 상태 저장을 늦추는 방어값이다.
 
 </details>
 
-- 양방향 **ISN·옵션** 확인 후 연결하고 큐 압력 시 **SYN 쿠키** 적용
+- 양방향 **ISN•옵션** 확인 후 연결하고 큐 압력 시 **SYN 쿠키** 적용
 
 #### 한줄 요약
 

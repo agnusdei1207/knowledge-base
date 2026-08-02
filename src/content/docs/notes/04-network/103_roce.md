@@ -3,10 +3,10 @@ sidebar:
   order: 103
   label: "103. RoCE — RDMA over Converged Ethernet (RoCE)"
   badge:
-    text: "미출제 · 50%"
+    text: "미출제 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -14,7 +14,7 @@ extra:
   source_status: "미출제"
   source_history: ""
   priority: 50
-  priority_note: "설계·운영형: AI Ethernet Fabric 유력"
+  priority_note: "설계•운영형: AI Ethernet Fabric 유력"
 ---
 
 ## Ⅰ. 개요
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: **RoCE** 는 이더넷 패브릭에서 RNIC 간 원격 직접 메모리 접근을 제공하는 **이더넷 기반 RDMA 전송 기술**
-- 배경/필요성: 전송 제어 프로토콜(Transmission Control Protocol, TCP) 소켓의 복사·커널 처리로 **중앙처리장치(Central Processing Unit, CPU) 부하·지연 증가**
+- 배경/필요성: 전송 제어 프로토콜(Transmission Control Protocol, TCP) 소켓의 복사•커널 처리로 **중앙처리장치(Central Processing Unit, CPU) 부하•지연 증가**
 
 #### 한줄 요약
 
@@ -41,11 +41,11 @@ extra:
 - **혼잡 조기 통제**: 혼잡 조기 통제는 명시적 혼잡 알림(Explicit Congestion Notification, ECN)과 혼잡 알림 패킷(Congestion Notification Packet, CNP)으로 송신률을 낮추고 우선순위 흐름 제어(Priority Flow Control, PFC)는 순간 손실 억제에 제한적으로 사용한다.
 - **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 인터넷 프로토콜(Internet Protocol, IP) 라우팅을 지원한다.
 - **RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)**: 등록 메모리 간 직접 전송과 혼잡 제어를 실행하는 네트워크 장치
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령을 처리하며 RNIC의 직접 전송으로 복사·커널 처리 부하를 줄일 대상
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령을 처리하며 RNIC의 직접 전송으로 복사•커널 처리 부하를 줄일 대상
 
 </details>
 
-- RNIC 기반 **제로 카피·CPU 개입 감소**
+- RNIC 기반 **제로 카피•CPU 개입 감소**
 - RoCEv2 기반 **IP 라우팅 확장**
 - 손실 민감성 기반 **혼잡 조기 통제**
 
@@ -58,7 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **패브릭 관측기**: 패브릭 관측기는 경로별 명시적 혼잡 알림(Explicit Congestion Notification, ECN)·우선순위 흐름 제어(Priority Flow Control, PFC)·손실·지연을 측정해 혼잡 제어의 실제 효과를 확인한다.
+- **패브릭 관측기**: 패브릭 관측기는 경로별 명시적 혼잡 알림(Explicit Congestion Notification, ECN)•우선순위 흐름 제어(Priority Flow Control, PFC)•손실•지연을 측정해 혼잡 제어의 실제 효과를 확인한다.
 - **데이터센터 정량화 혼잡 알림(Data Center Quantized Congestion Notification, DCQCN)**: 혼잡 알림 패킷(Congestion Notification Packet, CNP) 피드백으로 RoCE 송신률을 조정하는 방식
 - **RoCE RNIC**: 통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)을 실행하는 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)
 
@@ -70,7 +70,7 @@ block-beta
     A["송신 RoCE RNIC"]
     B["이더넷 패브릭"]
     C["수신 RoCE RNIC"]
-    D["혼잡·PFC 제어기"]
+    D["혼잡•PFC 제어기"]
     E["패브릭 관측기"]
     A --- B
     B --- C
@@ -81,10 +81,10 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 송신 RoCE RNIC | 작업 전송과 **DCQCN 송신률** 조정 |
-| 이더넷 패브릭 | **경로·버퍼·ECN 표시** 제공 |
+| 이더넷 패브릭 | **경로•버퍼•ECN 표시** 제공 |
 | 수신 RoCE RNIC | 패킷 수신과 **CNP 피드백** 생성 |
-| 혼잡·PFC 제어기 | **큐 분류·ECN·순간 정지** 통제 |
-| 패브릭 관측기 | **큐·ECN·PFC·손실·지연** 측정 |
+| 혼잡•PFC 제어기 | **큐 분류•ECN•순간 정지** 통제 |
+| 패브릭 관측기 | **큐•ECN•PFC•손실•지연** 측정 |
 
 #### 한줄 요약
 
@@ -129,7 +129,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)과 인터넷 프로토콜(Internet Protocol, IP)로 전달하지만 ECN·PFC 조정이 필요하다.
+- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)과 인터넷 프로토콜(Internet Protocol, IP)로 전달하지만 ECN•PFC 조정이 필요하다.
 - **iWARP**: 인터넷 광역 원격 직접 메모리 접근 프로토콜(Internet Wide Area RDMA Protocol, iWARP)은 TCP의 신뢰 전송과 혼잡 제어를 이용한다.
 - **RoCEv1**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 1(RDMA over Converged Ethernet version 1, RoCEv1)은 RDMA 프레임을 계층 2에서 직접 전달하는 방식
 
@@ -139,7 +139,7 @@ sequenceDiagram
 |:---|:---|:---|:---|
 | 적용 기준 | 단일 2계층의 **소규모 무손실망** | **대규모 라우팅 데이터센터** | 손실망의 **TCP 혼잡 제어** 활용 |
 | 핵심 특징 | **2계층 RDMA 직접 전달** | **UDP/IP 라우팅 RDMA** | **TCP 기반 RDMA** |
-| 한계 | **방송 영역·확장성 제한** | **ECN·PFC 복잡성·패킷 손실** | **TCP 처리 지연·장비 지원** |
+| 한계 | **방송 영역•확장성 제한** | **ECN•PFC 복잡성•패킷 손실** | **TCP 처리 지연•장비 지원** |
 
 #### 한줄 요약
 
@@ -158,7 +158,7 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 인캐스트의 **버퍼 손실** | **RFC 3168 ECN 조기 표시** | **송신률 선제 조정** |
-| **PFC 멈춤의 경로 전파** | **IEEE 802.1Qbb 우선순위 제한** | **교착·머리막힘 완화** |
+| **PFC 멈춤의 경로 전파** | **IEEE 802.1Qbb 우선순위 제한** | **교착•머리막힘 완화** |
 | 경로별 **큐 설정 불일치** | **전 구간 큐 매핑 검증** | **무손실 동작 일관성** |
 
 #### 한줄 요약

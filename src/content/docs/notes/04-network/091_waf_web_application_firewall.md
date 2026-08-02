@@ -3,10 +3,10 @@ sidebar:
   order: 91
   label: "091. WAF 웹 애플리케이션 방화벽 (Web Application Firewall)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: "WAF 웹 애플리케이션 방화벽 (Web Application Firewall)"
-date: "2026-08-02T15:01:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 91
 extra:
@@ -14,20 +14,20 @@ extra:
   source_status: "기출"
   source_history: "129회, 137회"
   priority: 70
-  priority_note: "비교·보안형: 129·137회 WAF 반복"
+  priority_note: "비교•보안형: 129•137회 WAF 반복"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>핵심 용어</summary>
 
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청·응답 문맥을 해석해 응용 공격을 탐지·차단하는 보안 장비
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: URL·헤더·본문으로 웹 요청·응답을 교환하는 프로토콜
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청•응답 문맥을 해석해 응용 공격을 탐지•차단하는 보안 장비
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: URL•헤더•본문으로 웹 요청•응답을 교환하는 프로토콜
 
 </details>
 
 - 정의/개념: HTTP 문맥으로 웹 공격을 차단하는 **응용 계층 보안 통제**
-- 배경/필요성: 주소·포트 통제의 **응용 입력·업무 공격 미식별**
+- 배경/필요성: 주소•포트 통제의 **응용 입력•업무 공격 미식별**
 
 #### 한줄 요약
 
@@ -38,14 +38,14 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **정규화(Normalization)**: 여러 인코딩과 표기법을 동일한 의미의 표준 형태로 바꿔 우회 표현을 제거하는 처리다.
-- **공격 서명**: 알려진 공격의 문자열·구조·동작 특징을 탐지 규칙으로 표현한 패턴이다.
+- **공격 서명**: 알려진 공격의 문자열•구조•동작 특징을 탐지 규칙으로 표현한 패턴이다.
 - **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청 문맥과 공격 패턴을 검사하여 응용 서버 앞에서 악성 요청을 차단하는 보안 통제다.
 - **가상 패치(Virtual Patch)**: 응용 코드를 즉시 수정하기 어려울 때 취약점 악용 요청을 웹 애플리케이션 방화벽(Web Application Firewall, WAF) 규칙으로 임시 차단하는 조치
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청·응답의 주소·헤더·본문을 교환하는 프로토콜
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청•응답의 주소•헤더•본문을 교환하는 프로토콜
 
 </details>
 
-- **HTTP 문맥 분석**: URL·헤더·본문의 공격 특징 식별
+- **HTTP 문맥 분석**: URL•헤더•본문의 공격 특징 식별
 - **정규화**: 다중 인코딩의 우회 표현 제거
 - **가상 패치**: 코드 수정 전 취약점 악용 차단
 
@@ -59,7 +59,7 @@ extra:
 
 - **역방향 대리자(Reverse Proxy)**: 클라이언트 요청을 대신 받아 검사한 뒤 내부 원본 서버로 전달하는 중계 서버다.
 - **전송 계층 보안(Transport Layer Security, TLS) 종단기**: 암호 세션을 종료하고 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 요청을 복호화하는 구성요소
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF) 정책 엔진**: 서명·행위·속도 규칙을 결합해 요청을 판정하는 구성요소
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF) 정책 엔진**: 서명•행위•속도 규칙을 결합해 요청을 판정하는 구성요소
 - **원본 웹 서버**: WAF가 허용한 요청을 처리하는 내부 웹 서버다.
 - **균일 자원 위치 지정자(Uniform Resource Locator, URL)**: 웹 요청의 대상 위치와 경로를 나타내는 주소
 
@@ -69,10 +69,10 @@ extra:
 block-beta
     columns 1
     TLS["TLS 종단기"]
-    NORMALIZER["HTTP 해석·정규화기"]
+    NORMALIZER["HTTP 해석•정규화기"]
     POLICY["WAF 정책 엔진"]
     ORIGIN["원본 웹 서버"]
-    TUNING["관측·튜닝기"]
+    TUNING["관측•튜닝기"]
     TLS --> NORMALIZER --> POLICY --> ORIGIN
     TUNING --> POLICY
 ```
@@ -80,10 +80,10 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | TLS 종단기 | 암호 세션 종료와 요청 복호화 |
-| HTTP 해석·정규화기 | URL·헤더·본문·인코딩 해석 |
-| WAF 정책 엔진 | 서명·행위·속도 규칙 판정 |
+| HTTP 해석•정규화기 | URL•헤더•본문•인코딩 해석 |
+| WAF 정책 엔진 | 서명•행위•속도 규칙 판정 |
 | 원본 웹 서버 | WAF가 허용한 요청만 수신 |
-| 관측·튜닝기 | 오탐·누락 분석과 규칙 수명 관리 |
+| 관측•튜닝기 | 오탐•누락 분석과 규칙 수명 관리 |
 
 #### 한줄 요약
 
@@ -94,9 +94,9 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **정규화(Normalization)**: 여러 인코딩과 표기법을 동일한 의미의 표준 형태로 바꿔 우회 표현을 제거하는 처리다.
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF) 정책 엔진**: 서명·행위·속도 규칙을 결합해 요청을 판정하는 구성요소
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF) 정책 엔진**: 서명•행위•속도 규칙을 결합해 요청을 판정하는 구성요소
 - **역방향 대리자(Reverse Proxy)**: 클라이언트 요청을 대신 받아 검사한 뒤 내부 원본 서버로 전달하는 중계 서버다.
-- **전송 계층 보안(Transport Layer Security, TLS)·보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)·하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 암호화된 웹 요청을 복호화해 문맥 검사를 가능하게 하는 프로토콜
+- **전송 계층 보안(Transport Layer Security, TLS)•보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)•하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 암호화된 웹 요청을 복호화해 문맥 검사를 가능하게 하는 프로토콜
 
 </details>
 
@@ -123,7 +123,7 @@ sequenceDiagram
 
 - **1. TLS 요청 복호화**: 암호 세션 종료 후 HTTP 추출
 - **2. HTTP 요청 정규화**: 우회 인코딩을 표준 형태로 변환
-- **3. 공격 문맥 판정**: 서명·행위·속도·예외 정책 결합
+- **3. 공격 문맥 판정**: 서명•행위•속도•예외 정책 결합
 - **4. 허용 요청 중계**: 정상 요청만 원본 서버로 전달
 
 #### 한줄 요약
@@ -134,21 +134,21 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **공격 서명**: 알려진 공격의 문자열·구조·동작 특징을 탐지 규칙으로 표현한 패턴이다.
+- **공격 서명**: 알려진 공격의 문자열•구조•동작 특징을 탐지 규칙으로 표현한 패턴이다.
 - **가상 패치(Virtual Patch)**: 응용 코드를 즉시 수정하기 어려울 때 취약점 악용 요청을 웹 애플리케이션 방화벽(Web Application Firewall, WAF) 규칙으로 임시 차단하는 조치
 - **응용 코드 검증**: 입력과 권한을 업무 규칙에 따라 응용 내부에서 확인하는 통제다.
-- **네트워크 방화벽(Network Firewall)**: 주소·포트·프로토콜·연결 상태에 따라 망 경계의 통신을 허용하거나 차단하는 통제다.
-- **HTTP·TLS**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 문맥을 검사하고 전송 계층 보안(Transport Layer Security, TLS) 요청을 복호화하는 웹 보안 처리
+- **네트워크 방화벽(Network Firewall)**: 주소•포트•프로토콜•연결 상태에 따라 망 경계의 통신을 허용하거나 차단하는 통제다.
+- **HTTP•TLS**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 문맥을 검사하고 전송 계층 보안(Transport Layer Security, TLS) 요청을 복호화하는 웹 보안 처리
 
 </details>
 
-| 통제 지점 | 검사 대상 | 보호 범위·잔여 공백 |
+| 통제 지점 | 검사 대상 | 보호 범위•잔여 공백 |
 |:---|:---|:---|
-| **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** | **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 요청 문맥·공통 공격 패턴** | 다수 웹을 중앙 차단하되 업무 규칙 오용은 응용 검증 필요 |
-| **네트워크 방화벽** | **주소·포트·연결 상태** | 노출 서비스를 제한하되 허용 포트의 응용 공격은 통과 |
-| **응용 코드 검증** | **입력·권한·업무 규칙** | 기능 고유 통제를 수행하되 구현 누락·편차 가능 |
+| **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** | **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 요청 문맥•공통 공격 패턴** | 다수 웹을 중앙 차단하되 업무 규칙 오용은 응용 검증 필요 |
+| **네트워크 방화벽** | **주소•포트•연결 상태** | 노출 서비스를 제한하되 허용 포트의 응용 공격은 통과 |
+| **응용 코드 검증** | **입력•권한•업무 규칙** | 기능 고유 통제를 수행하되 구현 누락•편차 가능 |
 
-> 요약: 네트워크 경계·웹 요청·업무 규칙의 서로 다른 통제 지점을 조합
+> 요약: 네트워크 경계•웹 요청•업무 규칙의 서로 다른 통제 지점을 조합
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **오탐(False Positive)**: 정상 요청을 공격으로 잘못 판단해 차단하는 오류다.
-- **관측·튜닝**: 오탐과 탐지 누락을 분석해 규칙을 조정하는 활동이다.
+- **관측•튜닝**: 오탐과 탐지 누락을 분석해 규칙을 조정하는 활동이다.
 - **응용 코드 검증**: 입력과 권한을 업무 규칙에 따라 응용 내부에서 확인하는 통제다.
 - **가상 패치(Virtual Patch)**: 정식 코드 수정 전 웹 애플리케이션 방화벽(Web Application Firewall, WAF) 규칙으로 취약점 악용 요청을 임시 차단하는 조치
 - **전송 계층 보안(Transport Layer Security, TLS)**: 암호화된 웹 요청을 보호하고 WAF 종단에서 복호화되는 보안 프로토콜
@@ -169,8 +169,8 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 신규 취약점의 **패치 지연** | 악용 조건 기반 **가상 패치** 적용 | 코드 수정 전 **노출 시간 단축** |
-| 정상 요청의 **오탐 차단** | 탐지 모드·예외·**단계 배포** | 업무 중단과 **과도 허용 감소** |
-| TLS 복호화의 **처리 병목** | 용량 산정·세션 **재사용·분산** | 응답 지연과 **원본 부하 감소** |
+| 정상 요청의 **오탐 차단** | 탐지 모드•예외•**단계 배포** | 업무 중단과 **과도 허용 감소** |
+| TLS 복호화의 **처리 병목** | 용량 산정•세션 **재사용•분산** | 응답 지연과 **원본 부하 감소** |
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청·응답 문맥을 해석해 응용 공격을 탐지·차단하는 보안 장비
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 웹 요청•응답 문맥을 해석해 응용 공격을 탐지•차단하는 보안 장비
 - **응용 코드 검증**: 입력과 권한을 업무 규칙에 따라 응용 내부에서 확인하는 통제다.
 
 </details>

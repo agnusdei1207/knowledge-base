@@ -3,10 +3,10 @@ sidebar:
   order: 50
   label: "050. UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
   badge:
-    text: "미출 · 50%"
+    text: "미출 • 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-08-02T20:10:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -15,21 +15,21 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 50
-  priority_note: "칩렛 계층·상호운용 검증 비교"
+  priority_note: "칩렛 계층•상호운용 검증 비교"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>핵심 용어</summary>
 
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 서로 다른 칩렛을 물리·어댑터·프로토콜 계층에서 연결하는 표준 D2D 인터페이스이다.
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 서로 다른 칩렛을 물리•어댑터•프로토콜 계층에서 연결하는 표준 D2D 인터페이스이다.
 - **다이 간 연결(Die-to-Die, D2D)**: 하나의 패키지 안에서 서로 다른 다이를 직접 연결하는 인터페이스이다.
 - **공급자 종속(Vendor Lock-in)**: 특정 공급자의 칩렛과 연결 기술에 의존하여 다른 공급자의 부품으로 교체하기 어려운 상태이다.
 
 </details>
 
-- 정의/개념: 칩렛 간 물리·어댑터·프로토콜 계층을 규정하는 **표준 D2D 인터페이스**
-- 배경/필요성: 독자 D2D의 **통합 비용·공급자 종속** 완화
+- 정의/개념: 칩렛 간 물리•어댑터•프로토콜 계층을 규정하는 **표준 D2D 인터페이스**
+- 배경/필요성: 독자 D2D의 **통합 비용•공급자 종속** 완화
 
 #### 한줄 요약
 
@@ -43,14 +43,14 @@ extra:
 - **플릿(Flit)**: D2D 어댑터가 링크를 통해 전송하는 고정 형식의 흐름 제어 단위이다.
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 송수신 플릿의 검사값을 비교하여 전송 비트 오류를 검출하는 기법이다.
 - **상호운용성(Interoperability)**: 서로 다른 공급자의 칩렛이 실제 조합에서 올바르게 통신하는 성질이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)·다이 간 연결(Die-to-Die, D2D)**: 표준 칩렛 인터페이스와 패키지 내부 다이 연결 방식이다.
-- **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)·컴퓨트 익스프레스 링크(Compute Express Link, CXL)**: UCIe가 수용할 수 있는 범용 입출력 및 일관성 프로토콜이다.
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•다이 간 연결(Die-to-Die, D2D)**: 표준 칩렛 인터페이스와 패키지 내부 다이 연결 방식이다.
+- **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)•컴퓨트 익스프레스 링크(Compute Express Link, CXL)**: UCIe가 수용할 수 있는 범용 입출력 및 일관성 프로토콜이다.
 
 </details>
 
 - PCIe•CXL•스트리밍 상위 프로토콜을 수용하는 **계층 분리**
-- 링크 오류의 데이터 손상을 막는 **플릿 CRC·재시도**
-- 멀티벤더 결합을 검증하는 **적합성·상호운용성 시험**
+- 링크 오류의 데이터 손상을 막는 **플릿 CRC•재시도**
+- 멀티벤더 결합을 검증하는 **적합성•상호운용성 시험**
 
 #### 한줄 요약
 
@@ -64,7 +64,7 @@ extra:
 - **다이 간 연결 어댑터(Die-to-Die Adapter, D2D 어댑터)**: 트랜잭션을 플릿으로 바꾸고 순환 중복 검사(Cyclic Redundancy Check, CRC)와 재시도 및 링크 상태를 관리하는 계층이다.
 - **물리 계층(Physical Layer, PHY)**: 패키지 배선으로 전기 신호를 송수신하고 링크의 레인과 타이밍을 맞추는 계층이다.
 - **패키지 채널(Package Channel)**: 두 다이의 PHY 사이에서 고속 전기 신호가 이동하는 패키지 내부 배선 경로이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 프로토콜·어댑터·물리 계층을 표준화한 칩렛 인터페이스이다.
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 프로토콜•어댑터•물리 계층을 표준화한 칩렛 인터페이스이다.
 
 </details>
 
@@ -86,8 +86,8 @@ block
 | 구성요소 | 책임 |
 |:---|:---|
 | 프로토콜 계층 | 상위 **트랜잭션 제공** |
-| D2D 어댑터 | 플릿화·CRC·**재시도** |
-| 물리 계층 | 주대역·측대역 **신호 송수신** |
+| D2D 어댑터 | 플릿화•CRC•**재시도** |
+| 물리 계층 | 주대역•측대역 **신호 송수신** |
 | 패키지 채널 | 다이 간 **전기 경로 제공** |
 
 #### 한줄 요약
@@ -102,39 +102,39 @@ block
 - **측대역(Sideband)**: 링크 초기화와 상태 및 관리 신호를 주대역과 별도로 전달하는 경로이다.
 - **레인(Lane)**: 한 방향의 고속 직렬 데이터를 전달하는 차동 신호 경로이다.
 - **재전송(Retransmission)**: CRC나 순서 오류가 검출된 플릿만 다시 보내 데이터 무결성을 회복하는 절차이다.
-- **순환 중복 검사(Cyclic Redundancy Check, CRC)·다이 간 연결(Die-to-Die, D2D)**: 플릿 오류 검출 기법과 어댑터 사이의 패키지 연결 방식이다.
-- **물리 계층(Physical Layer, PHY)·범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 전기 신호 송수신 계층과 칩렛 연결 표준이다.
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)•다이 간 연결(Die-to-Die, D2D)**: 플릿 오류 검출 기법과 어댑터 사이의 패키지 연결 방식이다.
+- **물리 계층(Physical Layer, PHY)•범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 전기 신호 송수신 계층과 칩렛 연결 표준이다.
 
 </details>
 
 ```mermaid
 sequenceDiagram
-    participant S as 송신 프로토콜·D2D 어댑터
+    participant S as 송신 프로토콜•D2D 어댑터
     participant P as 송신 PHY
     participant C as 패키지 채널
     participant Q as 수신 PHY
-    participant R as 수신 D2D 어댑터·프로토콜
+    participant R as 수신 D2D 어댑터•프로토콜
 
     S->>P: 1. CRC 플릿 전달
     P->>C: 2. 주대역 신호 전달
     C->>Q: 패키지 신호 전달
     Q->>R: 3. 수신 플릿 전달
-    alt CRC·순서 검증 성공
+    alt CRC•순서 검증 성공
         R->>Q: 응답 플릿 전달
         Q->>C: 반대 방향 신호 전송
         C->>P: 응답 신호 전달
         P-->>S: 트랜잭션 완료
-    else CRC·순서 오류
+    else CRC•순서 오류
         R-->>S: 4. 재전송 요청
     end
 ```
 
 **동작 원리**
 
-1. **CRC 플릿 전달**: 상위 요청의 플릿 변환·CRC 부가
+1. **CRC 플릿 전달**: 상위 요청의 플릿 변환•CRC 부가
 2. **주대역 신호 전달**: 레인 직렬화로 패키지 채널 전송
-3. **수신 플릿 전달**: 신호 정렬·플릿 경계 복원 후 CRC 검증
-4. **재전송 요청**: CRC·순서 오류가 난 플릿의 재전송 지시
+3. **수신 플릿 전달**: 신호 정렬•플릿 경계 복원 후 CRC 검증
+4. **재전송 요청**: CRC•순서 오류가 난 플릿의 재전송 지시
 
 #### 한줄 요약
 
@@ -144,18 +144,18 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **독자 D2D 링크(Proprietary D2D Link)**: 특정 공급자가 제품에 맞춰 물리·어댑터·프로토콜 계층을 자체 정의한 연결이다.
+- **독자 D2D 링크(Proprietary D2D Link)**: 특정 공급자가 제품에 맞춰 물리•어댑터•프로토콜 계층을 자체 정의한 연결이다.
 - **칩렛 재사용(Chiplet Reuse)**: 검증된 칩렛을 여러 제품과 패키지 조합에서 반복 활용하는 방식이다.
 - **전용 최적화(Dedicated Optimization)**: 단일 제품의 성능과 전력 목표에 맞춰 인터페이스를 제한 없이 조정하는 설계이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)·물리 계층(Physical Layer, PHY)**: 표준 D2D 인터페이스와 전기 신호 계층이다.
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•물리 계층(Physical Layer, PHY)**: 표준 D2D 인터페이스와 전기 신호 계층이다.
 
 </details>
 
 | D2D 인터페이스 | UCIe | 독자 D2D 링크 |
 |:---|:---|:---|
-| 적용 기준 | 생태계·칩렛 재사용 우선 | 단일 제품의 전용 성능 우선 |
-| 핵심 특징 | 표준 **PHY·어댑터·프로토콜** | 공급자 정의 **전용 계층** |
-| 한계 | 조합별 **상호운용·신호 품질** | 공급자 종속·**재개발 비용** |
+| 적용 기준 | 생태계•칩렛 재사용 우선 | 단일 제품의 전용 성능 우선 |
+| 핵심 특징 | 표준 **PHY•어댑터•프로토콜** | 공급자 정의 **전용 계층** |
+| 한계 | 조합별 **상호운용•신호 품질** | 공급자 종속•**재개발 비용** |
 
 > 요약: 칩렛 재사용은 **UCIe**, 전용 최적화는 **독자 D2D** 선택
 
@@ -176,25 +176,25 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 레인·속도 협상 실패로 링크 미기동 | **측대역 로그** 분석·레인 감축·속도 하향 | **링크 기동** 복구 |
-| 높은 BER과 재시도로 유효 대역폭 저하 | 온도별 **BER·재시도율** 과 신호 눈 마진 감시 | **신호 품질** 조기 진단 |
-| 규격 적합 구현끼리 실제 조합 실패 | 공급사 조합별 **오류 주입·전기 시험** | **상호운용성** 검증 |
-| 패키지 열·전력 변화로 타이밍 마진 축소 | **열·전력 해석** 과 실사용 부하 링크 시험 | **타이밍 마진** 유지 |
+| 레인•속도 협상 실패로 링크 미기동 | **측대역 로그** 분석•레인 감축•속도 하향 | **링크 기동** 복구 |
+| 높은 BER과 재시도로 유효 대역폭 저하 | 온도별 **BER•재시도율** 과 신호 눈 마진 감시 | **신호 품질** 조기 진단 |
+| 규격 적합 구현끼리 실제 조합 실패 | 공급사 조합별 **오류 주입•전기 시험** | **상호운용성** 검증 |
+| 패키지 열•전력 변화로 타이밍 마진 축소 | **열•전력 해석** 과 실사용 부하 링크 시험 | **타이밍 마진** 유지 |
 
-> 요약: 실제 칩렛 조합의 **BER·재시도율** 기반 **상호운용성** 검증
+> 요약: 실제 칩렛 조합의 **BER•재시도율** 기반 **상호운용성** 검증
 
 #### 한줄 요약
 
-- 규격 적합 칩렛도 실제 조합에서 BER·재시도율·대역폭·지연을 검증해야 한다
+- 규격 적합 칩렛도 실제 조합에서 BER•재시도율•대역폭•지연을 검증해야 한다
 
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
 
 - **멀티벤더(Multi-vendor)**: 서로 다른 공급자가 만든 칩렛과 도구를 하나의 시스템에서 함께 사용하는 구성이다.
-- **생태계(Ecosystem)**: 표준을 중심으로 칩렛·패키지·검증 도구와 공급사가 상호 협력하는 산업 환경이다.
+- **생태계(Ecosystem)**: 표준을 중심으로 칩렛•패키지•검증 도구와 공급사가 상호 협력하는 산업 환경이다.
 - **전용 성능(Dedicated Performance)**: 특정 제품만을 위해 조정한 인터페이스에서 얻는 지연과 대역폭 및 전력상의 이점이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)·다이 간 연결(Die-to-Die, D2D)**: 멀티벤더 재사용을 위한 표준과 단일 제품 최적화를 포함하는 칩렛 연결 방식이다.
+- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•다이 간 연결(Die-to-Die, D2D)**: 멀티벤더 재사용을 위한 표준과 단일 제품 최적화를 포함하는 칩렛 연결 방식이다.
 
 </details>
 

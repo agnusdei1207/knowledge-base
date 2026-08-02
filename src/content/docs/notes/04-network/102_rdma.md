@@ -3,10 +3,10 @@ sidebar:
   order: 102
   label: "102. RDMA 원격 직접 메모리 접근 (RDMA)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "RDMA 원격 직접 메모리 접근 (RDMA)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 102
 extra:
@@ -14,7 +14,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 50
-  priority_note: "설명·설계형: 138회 AI HPC RDMA 핵심"
+  priority_note: "설명•설계형: 138회 AI HPC RDMA 핵심"
 ---
 
 ## Ⅰ. 개요
@@ -39,14 +39,14 @@ extra:
 <summary>핵심 용어</summary>
 
 - **단방향 동작**: 원격 응용의 수신 호출 없이 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 허용된 원격 등록 메모리를 직접 읽거나 쓰는 방식
-- **제로 카피·커널 우회**: 중간 버퍼 복사와 운영체제 커널의 데이터 경로 처리를 줄이는 전송 방식
-- **등록 메모리·접근 키**: RNIC가 접근할 버퍼의 주소 범위·권한·수명을 제한하는 보호 정보
+- **제로 카피•커널 우회**: 중간 버퍼 복사와 운영체제 커널의 데이터 경로 처리를 줄이는 전송 방식
+- **등록 메모리•접근 키**: RNIC가 접근할 버퍼의 주소 범위•권한•수명을 제한하는 보호 정보
 
 </details>
 
-- **제로 카피·커널 우회** 기반 저지연 전송
+- **제로 카피•커널 우회** 기반 저지연 전송
 - 원격 응용 호출 없는 **단방향 동작**
-- 등록 메모리·접근 키 기반 **권한 제어**
+- 등록 메모리•접근 키 기반 **권한 제어**
 
 #### 한줄 요약
 
@@ -57,9 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보호·등록 메모리**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 접근할 버퍼의 권한 경계·주소 범위·로컬·원격 키와 수명을 정의하는 메모리
-- **큐 페어(Queue Pair, QP)**: 송신·수신 작업 요청을 RNIC에 게시하는 큐 쌍
-- **완료 큐(Completion Queue, CQ)**: 전송 작업의 완료·실패 상태를 응용에 전달하는 큐
+- **보호•등록 메모리**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 접근할 버퍼의 권한 경계•주소 범위•로컬•원격 키와 수명을 정의하는 메모리
+- **큐 페어(Queue Pair, QP)**: 송신•수신 작업 요청을 RNIC에 게시하는 큐 쌍
+- **완료 큐(Completion Queue, CQ)**: 전송 작업의 완료•실패 상태를 응용에 전달하는 큐
 
 </details>
 
@@ -69,7 +69,7 @@ block-beta
     A["응용 처리기"]
     B["큐 페어"]
     C["RNIC"]
-    D["보호·등록 메모리"]
+    D["보호•등록 메모리"]
     E["완료 큐"]
     A --- B
     B --- C
@@ -79,11 +79,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 응용 처리기 | **버퍼·작업·완료 수명주기** 관리 |
+| 응용 처리기 | **버퍼•작업•완료 수명주기** 관리 |
 | 큐 페어 | **송수신 작업 요청** 을 RNIC에 게시 |
 | RNIC | **등록 메모리 간 전송** 실행 |
-| 보호·등록 메모리 | **권한 경계·접근 범위·키** 제공 |
-| 완료 큐 | **작업 완료·실패 상태** 전달 |
+| 보호•등록 메모리 | **권한 경계•접근 범위•키** 제공 |
+| 완료 큐 | **작업 완료•실패 상태** 전달 |
 
 #### 한줄 요약
 
@@ -94,8 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **직접 메모리 배치**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 전송 요청의 주소·길이·접근 키를 검증해 데이터를 등록된 원격 버퍼에 직접 기록하는 처리
-- **보호 도메인(Protection Domain, PD)·큐 페어(Queue Pair, QP)·완료 큐(Completion Queue, CQ)**: 메모리 권한 경계, 작업 요청, 완료 상태를 관리하는 RDMA 자원
+- **직접 메모리 배치**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 전송 요청의 주소•길이•접근 키를 검증해 데이터를 등록된 원격 버퍼에 직접 기록하는 처리
+- **보호 도메인(Protection Domain, PD)•큐 페어(Queue Pair, QP)•완료 큐(Completion Queue, CQ)**: 메모리 권한 경계, 작업 요청, 완료 상태를 관리하는 RDMA 자원
 
 </details>
 
@@ -106,7 +106,7 @@ sequenceDiagram
     participant 원격RNIC
     participant 원격메모리
     지역응용->>지역RNIC: 1. 전송 자원 등록
-    지역RNIC->>원격RNIC: 2. QP·키 연결 설정
+    지역RNIC->>원격RNIC: 2. QP•키 연결 설정
     지역응용->>지역RNIC: 3. 작업 요청 게시
     지역RNIC->>원격RNIC: 4. RNIC 간 전송
     원격RNIC->>원격메모리: 5. 직접 메모리 배치
@@ -115,9 +115,9 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **전송 자원 등록**: 보호 도메인(Protection Domain, PD)·큐 페어(Queue Pair, QP)·완료 큐(Completion Queue, CQ)와 메모리 키 생성
-2. **QP·키 연결 설정**: 원격 주소·권한·연결 확인
-3. **작업 요청 게시**: 전송 동작·주소·길이를 큐에 등록
+1. **전송 자원 등록**: 보호 도메인(Protection Domain, PD)•큐 페어(Queue Pair, QP)•완료 큐(Completion Queue, CQ)와 메모리 키 생성
+2. **QP•키 연결 설정**: 원격 주소•권한•연결 확인
+3. **작업 요청 게시**: 전송 동작•주소•길이를 큐에 등록
 4. **RNIC 간 전송**: 커널 복사 없이 자료 전달
 5. **직접 메모리 배치**: 원격 RNIC가 등록 버퍼에 기록
 #### 한줄 요약
@@ -129,16 +129,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RDMA**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)은 서버 간 고속·저지연 대량 통신에서 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)의 직접 메모리 전송으로 복사와 중앙처리장치(Central Processing Unit, CPU) 개입을 줄인다.
+- **RDMA**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)은 서버 간 고속•저지연 대량 통신에서 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)의 직접 메모리 전송으로 복사와 중앙처리장치(Central Processing Unit, CPU) 개입을 줄인다.
 - **TCP**: 전송 제어 프로토콜(Transmission Control Protocol, TCP)은 범용 커널 소켓에서 신뢰성 있는 바이트 흐름을 제공한다.
 
 </details>
 
 | 데이터 전달 방식 | RDMA | TCP 소켓 | 공유 메모리 |
 |:---|:---|:---|:---|
-| 적용 기준 | 서버 간 **고속·저지연 대량 통신** | **범용 호환·복잡한 망** 운영 | 같은 호스트의 **처리기 간 통신** |
+| 적용 기준 | 서버 간 **고속•저지연 대량 통신** | **범용 호환•복잡한 망** 운영 | 같은 호스트의 **처리기 간 통신** |
 | 핵심 특징 | **RNIC 직접 메모리 전송** | **커널 바이트 흐름** | **호스트 메모리 공유** |
-| 한계 | **키·버퍼·완료 수명 오류** | **복사·문맥 전환·CPU 부하** | **동기화 오류·호스트 한정** |
+| 한계 | **키•버퍼•완료 수명 오류** | **복사•문맥 전환•CPU 부하** | **동기화 오류•호스트 한정** |
 
 #### 한줄 요약
 
@@ -150,14 +150,14 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **버퍼 재사용**: 완료 전 버퍼 재사용은 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 아직 읽거나 쓰는 메모리를 응용이 덮어써 전송 데이터가 훼손되는 문제
-- **원격 키·보호 도메인**: 원격 메모리 접근 범위와 자원의 권한 경계를 제한하는 보호 정보
+- **원격 키•보호 도메인**: 원격 메모리 접근 범위와 자원의 권한 경계를 제한하는 보호 정보
 - **IETF RFC 5040**: 국제인터넷표준화기구(Internet Engineering Task Force, IETF)의 의견 요청 문서(Request for Comments, RFC)로 RDMA 프로토콜 동작을 규정한 표준
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 원격 키의 **과도한 권한** | **보호 도메인·최소 범위 등록** | **메모리 침범 방지** |
+| 원격 키의 **과도한 권한** | **보호 도메인•최소 범위 등록** | **메모리 침범 방지** |
 | 완료 전 **버퍼 재사용** | **완료 큐(Completion Queue, CQ) 기반 수명주기 통제** | **자료 훼손 방지** |
 | 구현 간 **동작 불일치** | **국제인터넷표준화기구(Internet Engineering Task Force, IETF)의 의견 요청 문서(Request for Comments, RFC) 5040 준수 시험** | **프로토콜 상호운용** 확보 |
 

@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 15
-  label: "015. 이더넷 프레임 구조·IEEE 802.3 (Ethernet Frame)"
+  label: "015. 이더넷 프레임 구조•IEEE 802.3 (Ethernet Frame)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
-title: "이더넷 프레임 구조·IEEE 802.3 (Ethernet Frame)"
-date: "2026-07-31T11:11:16+09:00"
+title: "이더넷 프레임 구조•IEEE 802.3 (Ethernet Frame)"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 15
@@ -23,31 +23,31 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **이더넷 프레임(Ethernet Frame)**: 주소·상위 데이터·검사값을 묶어 전달하는 데이터링크 계층 전송 단위이다.
-- **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 송신·수신 인터페이스를 식별하는 주소이다.
+- **이더넷 프레임(Ethernet Frame)**: 주소•상위 데이터•검사값을 묶어 전달하는 데이터링크 계층 전송 단위이다.
+- **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 송신•수신 인터페이스를 식별하는 주소이다.
 
 </details>
 
-- 정의/개념: **이더넷 프레임** — 송수신 MAC 주소·상위 데이터·오류 검사값을 정해진 형식으로 캡슐화한 **데이터링크 계층 전송 단위**
-- 배경/필요성: 연속 비트 신호의 **경계·수신자·오류 식별 불가**
+- 정의/개념: **이더넷 프레임** — 송수신 MAC 주소•상위 데이터•오류 검사값을 정해진 형식으로 캡슐화한 **데이터링크 계층 전송 단위**
+- 배경/필요성: 연속 비트 신호의 **경계•수신자•오류 식별 불가**
 
 #### 한줄 요약
 
-- 연속된 신호에 시작·주소·내용·검사표를 붙여 하나의 운송 봉투로 구분한다
+- 연속된 신호에 시작•주소•내용•검사표를 붙여 하나의 운송 봉투로 구분한다
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **프리앰블·프레임 시작 구분자(Preamble/Start Frame Delimiter, 프리앰블·SFD)**: 수신 클록을 맞추는 반복 비트와 프레임 시작을 표시하는 비트 패턴이다.
-- **매체 접근 제어 주소·프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소·FCS)**: 같은 링크의 인터페이스를 식별하는 주소와 프레임 비트 오류를 검출하는 검사값이다.
+- **프리앰블•프레임 시작 구분자(Preamble/Start Frame Delimiter, 프리앰블•SFD)**: 수신 클록을 맞추는 반복 비트와 프레임 시작을 표시하는 비트 패턴이다.
+- **매체 접근 제어 주소•프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소•FCS)**: 같은 링크의 인터페이스를 식별하는 주소와 프레임 비트 오류를 검출하는 검사값이다.
 
 </details>
 
-- 프리앰블·SFD의 **클록 동기·프레임 경계**
+- 프리앰블•SFD의 **클록 동기•프레임 경계**
 - 목적지 MAC의 **링크 수신 인터페이스 식별**
-- FCS의 **비트 오류 검출·정정 불가**
+- FCS의 **비트 오류 검출•정정 불가**
 
 #### 한줄 요약
 
@@ -58,21 +58,21 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **이더타입·논리 링크 제어(EtherType/Logical Link Control, EtherType·LLC)**: 상위 프로토콜을 값으로 표시하는 필드와 IEEE 802.3 길이 필드 뒤에서 서비스를 구분하는 기능이다.
+- **이더타입•논리 링크 제어(EtherType/Logical Link Control, EtherType•LLC)**: 상위 프로토콜을 값으로 표시하는 필드와 IEEE 802.3 길이 필드 뒤에서 서비스를 구분하는 기능이다.
 - **32비트 순환 중복 검사(Cyclic Redundancy Check-32, CRC-32)**: 32비트 순환 중복 검사값으로 FCS의 오류 검출에 쓰이는 기법이다.
 - **전기전자공학자협회 802.3(Institute of Electrical and Electronics Engineers 802.3, IEEE 802.3)**: 이더넷의 매체 접근 방식과 프레임 형식을 규정하는 표준이다.
 - **프레임 검사 시퀀스(Frame Check Sequence, FCS)**: CRC-32 결과를 담아 수신 프레임의 비트 오류를 검출하는 필드이다.
-- **매체 접근 제어 주소·프레임 시작 구분자(Media Access Control Address/Start Frame Delimiter, MAC 주소·SFD)**: 링크 인터페이스를 식별하는 주소와 프레임 시작 경계를 표시하는 비트 패턴이다.
+- **매체 접근 제어 주소•프레임 시작 구분자(Media Access Control Address/Start Frame Delimiter, MAC 주소•SFD)**: 링크 인터페이스를 식별하는 주소와 프레임 시작 경계를 표시하는 비트 패턴이다.
 
 </details>
 
 ```mermaid
 block-beta
     columns 1
-    A["프리앰블·SFD"]
+    A["프리앰블•SFD"]
     B["MAC 주소"]
-    C["유형·길이"]
-    D["페이로드·패드"]
+    C["유형•길이"]
+    D["페이로드•패드"]
     E["FCS"]
     A --- B
     B --- C
@@ -82,23 +82,23 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 프리앰블·SFD | **클록 동기·프레임 시작** 표시 |
-| MAC 주소 | **수신·송신 인터페이스** 식별 |
-| 유형·길이 | **상위 프로토콜·자료 길이** 표시 |
-| 페이로드·패드 | **상위 자료·최소 길이** 보충 |
+| 프리앰블•SFD | **클록 동기•프레임 시작** 표시 |
+| MAC 주소 | **수신•송신 인터페이스** 식별 |
+| 유형•길이 | **상위 프로토콜•자료 길이** 표시 |
+| 페이로드•패드 | **상위 자료•최소 길이** 보충 |
 | FCS | **CRC-32** 로 비트 오류 검출 |
 
 #### 한줄 요약
 
-- 앞의 주소와 내용 종류로 전달·해석하고 뒤의 검사표로 운송 중 손상됐는지 확인한다
+- 앞의 주소와 내용 종류로 전달•해석하고 뒤의 검사표로 운송 중 손상됐는지 확인한다
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 프레임을 직렬화·송수신하고 목적지 주소와 FCS를 검사하는 네트워크 인터페이스 장치이다.
-- **매체 접근 제어 주소·프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소·FCS)**: 출력 포트를 찾는 링크 주소와 수신 비트 오류를 확인하는 검사값이다.
+- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 프레임을 직렬화•송수신하고 목적지 주소와 FCS를 검사하는 네트워크 인터페이스 장치이다.
+- **매체 접근 제어 주소•프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소•FCS)**: 출력 포트를 찾는 링크 주소와 수신 비트 오류를 확인하는 검사값이다.
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 연산으로 프레임의 전송 오류를 검출하는 기법이다.
 
 </details>
@@ -120,7 +120,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **프레임 전송**: 주소·유형·자료·FCS 직렬화
+1. **프레임 전송**: 주소•유형•자료•FCS 직렬화
 2. **MAC 주소 조회**: 목적지 주소로 출력 포트 결정
 3. **출력 포트 중계**: 목적지 인터페이스로 프레임 전달
 4. **FCS 오류 검증**: CRC 불일치 프레임 폐기
@@ -134,7 +134,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **이더넷 II·IEEE 802.3 논리 링크 제어(Ethernet II/Institute of Electrical and Electronics Engineers 802.3 Logical Link Control, Ethernet II·IEEE 802.3 LLC)**: 공통 필드를 상위 프로토콜 유형으로 읽는 형식과 데이터 길이로 읽는 형식이다.
+- **이더넷 II•IEEE 802.3 논리 링크 제어(Ethernet II/Institute of Electrical and Electronics Engineers 802.3 Logical Link Control, Ethernet II•IEEE 802.3 LLC)**: 공통 필드를 상위 프로토콜 유형으로 읽는 형식과 데이터 길이로 읽는 형식이다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 이더넷 페이로드에 캡슐화되어 네트워크 간 패킷 전달을 담당하는 프로토콜이다.
 
 </details>
@@ -143,9 +143,9 @@ sequenceDiagram
 |:---|:---|:---|
 | 적용 기준 | 일반 **IP 기반 이더넷 통신** | IEEE 802 계열 **LLC 서비스** |
 | 핵심 특징 | 이더타입의 **상위 프로토콜 표시** | 길이 뒤 LLC의 **상위 서비스 표시** |
-| 한계 | 이더타입 **오해석·비호환** | 길이·LLC **헤더 오해석** |
+| 한계 | 이더타입 **오해석•비호환** | 길이•LLC **헤더 오해석** |
 
-> 요약: 유형·길이 필드값으로 프레임 형식 판별
+> 요약: 유형•길이 필드값으로 프레임 형식 판별
 
 #### 한줄 요약
 
@@ -156,8 +156,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **최대 전송 단위·점보 프레임(Maximum Transmission Unit/Jumbo Frame, MTU·점보 프레임)**: 링크가 운반할 수 있는 최대 상위 데이터 크기와 표준 MTU보다 큰 페이로드를 지원하는 프레임이다.
-- **가상 근거리 통신망 태그(Virtual Local Area Network Tag, VLAN 태그)**: IEEE 802.1Q가 프레임에 추가하는 VLAN 식별·우선순위 정보이다.
+- **최대 전송 단위•점보 프레임(Maximum Transmission Unit/Jumbo Frame, MTU•점보 프레임)**: 링크가 운반할 수 있는 최대 상위 데이터 크기와 표준 MTU보다 큰 페이로드를 지원하는 프레임이다.
+- **가상 근거리 통신망 태그(Virtual Local Area Network Tag, VLAN 태그)**: IEEE 802.1Q가 프레임에 추가하는 VLAN 식별•우선순위 정보이다.
 - **전기전자공학자협회 802.1Q(Institute of Electrical and Electronics Engineers 802.1Q, IEEE 802.1Q)**: 이더넷 프레임에 VLAN 식별자와 우선순위 정보를 삽입하는 표준이다.
 - **프레임 검사 시퀀스(Frame Check Sequence, FCS)**: 수신 프레임의 비트 오류 여부를 나타내는 검사 필드이다.
 
@@ -166,9 +166,9 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 경로 **MTU 불일치** | 전체 장비의 허용 크기 대조 | **중간 프레임 폐기** 방지 |
-| **FCS 오류** 증가 | 케이블·광모듈·포트 통계 점검 | **물리 결함** 신속 탐지 |
-| **이더타입 오해석** | 프레임 형식·상위 값 확인 | **프로토콜 전달 정확성** 확보 |
-| **브로드캐스트 폭주** | VLAN·루프 방지·비율 제한 | **링크 가용성** 보호 |
+| **FCS 오류** 증가 | 케이블•광모듈•포트 통계 점검 | **물리 결함** 신속 탐지 |
+| **이더타입 오해석** | 프레임 형식•상위 값 확인 | **프로토콜 전달 정확성** 확보 |
+| **브로드캐스트 폭주** | VLAN•루프 방지•비율 제한 | **링크 가용성** 보호 |
 
 #### 한줄 요약
 

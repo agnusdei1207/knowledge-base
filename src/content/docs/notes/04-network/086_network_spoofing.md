@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 86
-  label: "086. 네트워크 스푸핑 - ARP·IP·DNS (Network Spoofing)"
+  label: "086. 네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
-title: "네트워크 스푸핑 - ARP·IP·DNS (Network Spoofing)"
-date: "2026-07-31T01:11:53+09:00"
+title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 86
 extra:
@@ -14,7 +14,7 @@ extra:
   source_status: "기출"
   source_history: "128회, 134회"
   priority: 70
-  priority_note: "보안·문제대책형: 128·134회 Spoofing 반복"
+  priority_note: "보안•문제대책형: 128•134회 Spoofing 반복"
 ---
 
 ## Ⅰ. 개요
@@ -22,13 +22,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **스푸핑**: 통신 상대가 신뢰하는 이름·주소·식별자를 위조해 패킷 경로나 신원 판단을 속이는 공격이다.
-- **주소 결정·인터넷 프로토콜·도메인 이름 시스템(Address Resolution Protocol/Internet Protocol/Domain Name System, ARP·IP·DNS)**: 링크 주소 해석, 네트워크 전달과 도메인 이름 해석을 담당하는 프로토콜이다.
+- **스푸핑**: 통신 상대가 신뢰하는 이름•주소•식별자를 위조해 패킷 경로나 신원 판단을 속이는 공격이다.
+- **주소 결정•인터넷 프로토콜•도메인 이름 시스템(Address Resolution Protocol/Internet Protocol/Domain Name System, ARP•IP•DNS)**: 링크 주소 해석, 네트워크 전달과 도메인 이름 해석을 담당하는 프로토콜이다.
 
 </details>
 
-- 정의/개념: 신뢰 식별자를 위조해 경로·상대를 속이는 **신원 기만 공격**
-- 배경/필요성: ARP·IP·DNS는 기본 동작만으로 **출처 진위 검증 부족**
+- 정의/개념: 신뢰 식별자를 위조해 경로•상대를 속이는 **신원 기만 공격**
+- 배경/필요성: ARP•IP•DNS는 기본 동작만으로 **출처 진위 검증 부족**
 
 #### 한줄 요약
 
@@ -39,14 +39,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **계층 검증(Layer-Specific Validation)**: 주소 결정 프로토콜(Address Resolution Protocol, ARP) 바인딩·인터넷 프로토콜(Internet Protocol, IP) 역경로·도메인 이름 시스템(Domain Name System, DNS) 서명처럼 위조 대상 계층에 맞는 신뢰 기준을 대조하는 방식이다.
+- **계층 검증(Layer-Specific Validation)**: 주소 결정 프로토콜(Address Resolution Protocol, ARP) 바인딩•인터넷 프로토콜(Internet Protocol, IP) 역경로•도메인 이름 시스템(Domain Name System, DNS) 서명처럼 위조 대상 계층에 맞는 신뢰 기준을 대조하는 방식이다.
 - **캐시 오염**: 위조 주소 정보를 임시 저장소에 넣어 이후 요청도 잘못된 대상으로 보내는 상태이다.
 
 </details>
 
-- **정상 위장**: 신뢰 주소·이름으로 악성 패킷 은폐
-- **계층 검증**: 바인딩·역경로·서명으로 진위 판정
-- **상태 잔존**: 차단 후에도 오염 캐시·세션 지속
+- **정상 위장**: 신뢰 주소•이름으로 악성 패킷 은폐
+- **계층 검증**: 바인딩•역경로•서명으로 진위 판정
+- **상태 잔존**: 차단 후에도 오염 캐시•세션 지속
 
 #### 한줄 요약
 
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 정보원**: 주소 바인딩·경로·전자서명처럼 수신 식별자의 진위를 판정할 기준을 제공하는 원천이다.
+- **신뢰 정보원**: 주소 바인딩•경로•전자서명처럼 수신 식별자의 진위를 판정할 기준을 제공하는 원천이다.
 - **종단 인증**: 인증서로 네트워크 주소가 가리키는 실제 통신 상대의 신원을 다시 확인하는 절차이다.
 
 </details>
@@ -68,7 +68,7 @@ block-beta
     SOURCE["신뢰 정보원"]
     LAYER["계층 검증기"]
     ENDPOINT["종단 인증기"]
-    RECOVERY["대응·복구기"]
+    RECOVERY["대응•복구기"]
     SOURCE --> LAYER
     LAYER --> ENDPOINT
     LAYER --> RECOVERY
@@ -76,10 +76,10 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 신뢰 정보원 | 주소 바인딩·경로·서명 제공 |
+| 신뢰 정보원 | 주소 바인딩•경로•서명 제공 |
 | 계층 검증기 | 수신 식별자와 신뢰 기준 대조 |
 | 종단 인증기 | 인증서로 실제 통신 상대 확인 |
-| 대응·복구기 | 차단·격리·캐시·세션 정리 |
+| 대응•복구기 | 차단•격리•캐시•세션 정리 |
 
 #### 한줄 요약
 
@@ -90,7 +90,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **위조 출처 차단**: 신뢰 기준과 일치하지 않는 패킷을 폐기하고 발생 포트·주소를 격리하는 대응이다.
+- **위조 출처 차단**: 신뢰 기준과 일치하지 않는 패킷을 폐기하고 발생 포트•주소를 격리하는 대응이다.
 - **오염 상태 복구**: 위조 정보가 남은 캐시와 이미 형성된 악성 세션을 제거하는 처리이다.
 
 </details>
@@ -102,9 +102,9 @@ sequenceDiagram
     participant 신뢰정보원
     participant 수신자
     participant 복구기
-    송신자->>검증기: 패킷·식별 정보 전달
+    송신자->>검증기: 패킷•식별 정보 전달
     검증기->>신뢰정보원: 1. 신뢰 기준 조회
-    신뢰정보원-->>검증기: 바인딩·경로·서명
+    신뢰정보원-->>검증기: 바인딩•경로•서명
     alt 기준 일치
         검증기->>수신자: 2. 종단 신원 인증
         수신자-->>송신자: 연결 결과 반환
@@ -115,10 +115,10 @@ sequenceDiagram
     end
 ```
 
-1. **신뢰 기준 조회**: 바인딩·경로·서명 기준 확보
+1. **신뢰 기준 조회**: 바인딩•경로•서명 기준 확보
 2. **종단 신원 인증**: 인증서로 실제 상대를 재확인
 3. **위조 출처 차단**: 불일치 패킷 폐기와 위치 격리
-4. **오염 상태 복구**: 캐시·세션의 위조 상태 제거
+4. **오염 상태 복구**: 캐시•세션의 위조 상태 제거
 
 #### 한줄 요약
 
@@ -129,19 +129,19 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **주소 결정·인터넷 프로토콜·도메인 이름 시스템 스푸핑(Address Resolution Protocol/Internet Protocol/Domain Name System Spoofing, ARP·IP·DNS 스푸핑)**: 각각 IP-MAC 바인딩, 패킷 출발지 주소, 도메인 해석 결과를 위조하는 공격이다.
+- **주소 결정•인터넷 프로토콜•도메인 이름 시스템 스푸핑(Address Resolution Protocol/Internet Protocol/Domain Name System Spoofing, ARP•IP•DNS 스푸핑)**: 각각 IP-MAC 바인딩, 패킷 출발지 주소, 도메인 해석 결과를 위조하는 공격이다.
 - **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 인터페이스를 식별하는 주소이다.
-- **중간자·반사 공격**: 중간자는 통신 사이에 개입하고 반사는 위조 피해자 주소로 서버 응답을 집중시킨다.
+- **중간자•반사 공격**: 중간자는 통신 사이에 개입하고 반사는 위조 피해자 주소로 서버 응답을 집중시킨다.
 
 </details>
 
 | 스푸핑 대상 | ARP 스푸핑 | IP 스푸핑 | DNS 스푸핑 |
 |:---|:---|:---|:---|
-| 적용 기준 | 근거리망의 **경로 가로채기** | 반사 공격·**출발지 통제 우회** | 사용자의 **가짜 서버 유도** |
+| 적용 기준 | 근거리망의 **경로 가로채기** | 반사 공격•**출발지 통제 우회** | 사용자의 **가짜 서버 유도** |
 | 핵심 특징 | IP-MAC **바인딩 위조** | 패킷 **출발지 IP 위조** | 도메인 **해석 결과 위조** |
-| 한계 | 중간자 도청·**세션 탈취** | 추적 방해·**반사 트래픽** | 자격 탈취·**캐시 오염** |
+| 한계 | 중간자 도청•**세션 탈취** | 추적 방해•**반사 트래픽** | 자격 탈취•**캐시 오염** |
 
-> 요약: 위조 계층별 바인딩·경로·서명 검증
+> 요약: 위조 계층별 바인딩•경로•서명 검증
 
 #### 한줄 요약
 
@@ -152,21 +152,21 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **동적 ARP 검사·유니캐스트 역경로 전달(Dynamic ARP Inspection/Unicast Reverse Path Forwarding, DAI·uRPF)**: DAI는 DHCP 바인딩으로 ARP를 검사하고 uRPF는 출발지 역경로와 수신 위치를 대조한다.
+- **동적 ARP 검사•유니캐스트 역경로 전달(Dynamic ARP Inspection/Unicast Reverse Path Forwarding, DAI•uRPF)**: DAI는 DHCP 바인딩으로 ARP를 검사하고 uRPF는 출발지 역경로와 수신 위치를 대조한다.
 - **도메인 이름 시스템 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명으로 DNS 응답의 출처와 변조 여부를 검증하는 확장 규격이다.
-- **동적 호스트 구성 프로토콜·현행 모범 사례 38(Dynamic Host Configuration Protocol/Best Current Practice 38, DHCP·BCP 38)**: 주소·바인딩을 자동 할당하는 프로토콜과 경계에서 위조 출발지 주소를 차단하는 지침이다.
+- **동적 호스트 구성 프로토콜•현행 모범 사례 38(Dynamic Host Configuration Protocol/Best Current Practice 38, DHCP•BCP 38)**: 주소•바인딩을 자동 할당하는 프로토콜과 경계에서 위조 출발지 주소를 차단하는 지침이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 사내망의 **IP·MAC 위조** | DHCP 바인딩 기반 **DAI** 적용 | 중간자 경로의 **형성 차단** |
-| 경계망의 **출발지 IP 위조** | **BCP 38·uRPF** 필터 적용 | 반사 공격과 **추적 회피 감소** |
+| 사내망의 **IP•MAC 위조** | DHCP 바인딩 기반 **DAI** 적용 | 중간자 경로의 **형성 차단** |
+| 경계망의 **출발지 IP 위조** | **BCP 38•uRPF** 필터 적용 | 반사 공격과 **추적 회피 감소** |
 | 해석기의 **DNS 캐시 오염** | **DNSSEC** 검증과 캐시 폐기 | 가짜 서버 **유도 상태 제거** |
 
 #### 한줄 요약
 
-- 스위치가 DHCP 스누핑 바인딩과 ARP 응답을 대조하는 DAI를 적용해 공격자의 거짓 IP·MAC 매핑을 차단한다.
+- 스위치가 DHCP 스누핑 바인딩과 ARP 응답을 대조하는 DAI를 적용해 공격자의 거짓 IP•MAC 매핑을 차단한다.
 
 ## Ⅶ. 결론
 
@@ -174,11 +174,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **현행 모범 사례 38(Best Current Practice 38, BCP 38)**: 네트워크 경계에서 출발지 주소를 검증해 위조 패킷의 유출입을 막는 모범 운영 지침이다.
-- **동적 ARP 검사·유니캐스트 역경로 전달·DNS 보안 확장(Dynamic ARP Inspection/Unicast Reverse Path Forwarding/Domain Name System Security Extensions, DAI·uRPF·DNSSEC)**: 링크·네트워크·이름 해석 계층의 위조를 각각 검증하는 통제이다.
+- **동적 ARP 검사•유니캐스트 역경로 전달•DNS 보안 확장(Dynamic ARP Inspection/Unicast Reverse Path Forwarding/Domain Name System Security Extensions, DAI•uRPF•DNSSEC)**: 링크•네트워크•이름 해석 계층의 위조를 각각 검증하는 통제이다.
 
 </details>
 
-- ARP는 **DAI**, IP는 **BCP 38·uRPF**, DNS는 **DNSSEC·캐시 폐기**
+- ARP는 **DAI**, IP는 **BCP 38•uRPF**, DNS는 **DNSSEC•캐시 폐기**
 
 #### 한줄 요약
 

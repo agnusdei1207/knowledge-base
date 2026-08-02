@@ -3,10 +3,10 @@ sidebar:
   order: 12
   label: "012. BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
   badge:
-    text: "미출 · 50%"
+    text: "미출 • 50%"
     variant: note
 title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-07-31T11:08:05+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -15,7 +15,7 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 50
-  priority_note: "설계·보안형: EVPN·RPKI의 기반 BGP 정책"
+  priority_note: "설계•보안형: EVPN•RPKI의 기반 BGP 정책"
 ---
 
 ## Ⅰ. 개요
@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **경계 게이트웨이 프로토콜·자율 시스템(Border Gateway Protocol/Autonomous System, BGP·AS)**: 자율 시스템 사이에서 프리픽스·경로 속성을 교환하는 프로토콜과 공통 정책 아래 운영되는 네트워크 집합이다.
+- **경계 게이트웨이 프로토콜•자율 시스템(Border Gateway Protocol/Autonomous System, BGP•AS)**: 자율 시스템 사이에서 프리픽스•경로 속성을 교환하는 프로토콜과 공통 정책 아래 운영되는 네트워크 집합이다.
 - **네트워크 계층 도달 가능성 정보(Network Layer Reachability Information, NLRI)**: BGP가 도달 가능하다고 광고하는 프리픽스 정보이다.
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 목적지까지의 경로를 계산하는 라우팅 프로토콜이다.
 
 </details>
 
 - 정의/개념: **BGP** — 자율 시스템 사이에서 NLRI와 경로 속성을 교환하고 운영 정책에 따라 최선 경로를 선택하는 **경로 벡터 라우팅 프로토콜**
-- 배경/필요성: IGP 메트릭만으로는 AS 간 **계약·광고 범위 정책 반영 불가**
+- 배경/필요성: IGP 메트릭만으로는 AS 간 **계약•광고 범위 정책 반영 불가**
 
 #### 한줄 요약
 
@@ -42,24 +42,24 @@ extra:
 <summary>핵심 용어</summary>
 
 - **자율 시스템 경로(Autonomous System Path, AS_PATH)**: 목적지까지 거친 AS 번호 목록으로 순환 경로를 거부하는 기준이다.
-- **증분 갱신**: 전체 경로표 대신 변경·철회된 경로만 피어에 전달하는 방식이다.
+- **증분 갱신**: 전체 경로표 대신 변경•철회된 경로만 피어에 전달하는 방식이다.
 
 </details>
 
 - 변경 경로만의 **증분 갱신**
 - AS_PATH의 **순환 경로 거부**
-- 수신·선택·광고의 **정책 단계 분리**
+- 수신•선택•광고의 **정책 단계 분리**
 
 #### 한줄 요약
 
-- 이웃이 준 길은 수신 검사·내부 선택·광고 검사를 차례로 거친다
+- 이웃이 준 길은 수신 검사•내부 선택•광고 검사를 차례로 거친다
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP 피어·갱신 메시지(Border Gateway Protocol Peer/UPDATE Message, BGP 피어·UPDATE)**: 경로 교환 상대와 NLRI·경로 속성·철회를 전달하는 메시지이다.
+- **BGP 피어•갱신 메시지(Border Gateway Protocol Peer/UPDATE Message, BGP 피어•UPDATE)**: 경로 교환 상대와 NLRI•경로 속성•철회를 전달하는 메시지이다.
 - **최선 경로**: 정책과 경로 속성 비교를 통과해 라우팅 표에 설치되는 BGP 경로이다.
 
 </details>
@@ -84,11 +84,11 @@ block
 
 | 구성요소 | 책임 |
 |:---|:---|
-| BGP 피어 집합 | 세션에서 **NLRI·경로 속성** 교환 |
-| 수신 정책 | 허용 **프리픽스·속성 변경** 판정 |
-| BGP 경로표 | **후보·최선 경로** 보관 |
-| 최선 경로 선택기 | **정책·속성 우선순위** 로 경로 결정 |
-| 광고 정책 | 이웃별 **전파 경로·속성** 제한 |
+| BGP 피어 집합 | 세션에서 **NLRI•경로 속성** 교환 |
+| 수신 정책 | 허용 **프리픽스•속성 변경** 판정 |
+| BGP 경로표 | **후보•최선 경로** 보관 |
+| 최선 경로 선택기 | **정책•속성 우선순위** 로 경로 결정 |
+| 광고 정책 | 이웃별 **전파 경로•속성** 제한 |
 
 #### 한줄 요약
 
@@ -99,7 +99,7 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **수신·선택·광고 정책**: 받은 경로를 검증하고 내부 최선 경로를 정한 뒤 이웃별 공개 범위를 다시 제한하는 단계이다.
+- **수신•선택•광고 정책**: 받은 경로를 검증하고 내부 최선 경로를 정한 뒤 이웃별 공개 범위를 다시 제한하는 단계이다.
 
 </details>
 
@@ -111,7 +111,7 @@ sequenceDiagram
     participant S as 최선 경로 선택기
     participant O as 광고 정책
     P->>I: BGP UPDATE
-    I->>R: 1. 허용 NLRI·속성
+    I->>R: 1. 허용 NLRI•속성
     R->>S: 2. 후보 경로
     S->>R: 3. 최선 경로
     R->>O: 4. 선택 경로
@@ -120,7 +120,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **허용 NLRI·속성**: 출처·프리픽스·경로 속성 정책 통과
+1. **허용 NLRI•속성**: 출처•프리픽스•경로 속성 정책 통과
 2. **후보 경로**: 같은 목적지의 유효 경로를 선택기에 제공
 3. **최선 경로**: 속성 우선순위로 설치 경로 확정
 4. **선택 경로**: 이웃별 광고 허용 범위와 속성 재검사
@@ -134,15 +134,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **외부·내부 경계 게이트웨이 프로토콜·경로 반사기(External/Internal Border Gateway Protocol/Route Reflector, eBGP·iBGP·경로 반사기)**: AS 간 경로 교환, AS 내부 배포, 내부 피어 연결 수를 줄이는 역할이다.
+- **외부•내부 경계 게이트웨이 프로토콜•경로 반사기(External/Internal Border Gateway Protocol/Route Reflector, eBGP•iBGP•경로 반사기)**: AS 간 경로 교환, AS 내부 배포, 내부 피어 연결 수를 줄이는 역할이다.
 
 </details>
 
 | BGP 세션 유형 | eBGP | iBGP |
 |:---|:---|:---|
 | 적용 기준 | 서로 다른 **AS 경계 연결** | 같은 AS의 **내부 피어 연결** |
-| 핵심 특징 | AS 간 **경로·정책 교환** | AS 내부에 **외부 경로 배포** |
-| 한계 | **잘못된 경로 광고·경로 유출** | **전체 연결 증가·반사 정책 오류** |
+| 핵심 특징 | AS 간 **경로•정책 교환** | AS 내부에 **외부 경로 배포** |
+| 한계 | **잘못된 경로 광고•경로 유출** | **전체 연결 증가•반사 정책 오류** |
 
 > 요약: eBGP는 AS 간 교환, iBGP는 AS 내부 배포
 
@@ -155,17 +155,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **리소스 공개키 기반구조·프리픽스 필터(Resource Public Key Infrastructure/Prefix Filter, RPKI·프리픽스 필터)**: 프리픽스 기원 AS 권한을 검증하고 수신·광고할 주소 범위를 제한하는 통제이다.
+- **리소스 공개키 기반구조•프리픽스 필터(Resource Public Key Infrastructure/Prefix Filter, RPKI•프리픽스 필터)**: 프리픽스 기원 AS 권한을 검증하고 수신•광고할 주소 범위를 제한하는 통제이다.
 - **로컬 선호도(Local Preference, LOCAL_PREF)**: 한 AS에서 외부로 나갈 경로의 우선순위를 나타내는 속성이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 잘못된 기원 AS·프리픽스 경로 수신 | **RPKI·프리픽스 길이 필터** 적용 | **경로 탈취·유출** 위험 감소 |
+| 잘못된 기원 AS•프리픽스 경로 수신 | **RPKI•프리픽스 길이 필터** 적용 | **경로 탈취•유출** 위험 감소 |
 | 내부 전용 프리픽스가 외부로 광고 | 명시적 **광고 허용 목록** 적용 | **내부 경로 유출** 차단 |
-| 단일 피어 정책 오류가 대량 경로에 전파 | 변경 전 경로 재생 검증·**단계 적용** | **인터넷 장애 범위** 축소 |
-| 다중 연결의 송수신 경로가 불균형 | **LOCAL_PREF·선택적 프리픽스 광고** 분리 설계 | **트래픽 방향** 통제 |
+| 단일 피어 정책 오류가 대량 경로에 전파 | 변경 전 경로 재생 검증•**단계 적용** | **인터넷 장애 범위** 축소 |
+| 다중 연결의 송수신 경로가 불균형 | **LOCAL_PREF•선택적 프리픽스 광고** 분리 설계 | **트래픽 방향** 통제 |
 
 #### 한줄 요약
 

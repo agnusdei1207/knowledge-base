@@ -3,10 +3,10 @@ sidebar:
   order: 109
   label: "109. WebRTC (WebRTC)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "WebRTC (WebRTC)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 109
 extra:
@@ -22,13 +22,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **웹 실시간 통신(Web Real-Time Communication, WebRTC)**: 브라우저가 플러그인 없이 실시간 음성·영상·자료를 암호화해 직접 또는 중계 경로로 교환한다.
+- **웹 실시간 통신(Web Real-Time Communication, WebRTC)**: 브라우저가 플러그인 없이 실시간 음성•영상•자료를 암호화해 직접 또는 중계 경로로 교환한다.
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 내부 주소를 외부 통신 주소로 변환하는 기능이다.
 
 </details>
 
-- 정의/개념: 브라우저 간 **실시간 음성·영상·자료** 를 암호화해 교환하는 통신 기술
-- 배경/필요성: 플러그인·NAT의 **배포·직접 경로 제약**
+- 정의/개념: 브라우저 간 **실시간 음성•영상•자료** 를 암호화해 교환하는 통신 기술
+- 배경/필요성: 플러그인•NAT의 **배포•직접 경로 제약**
 
 #### 한줄 요약
 
@@ -39,14 +39,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **직접·중계 경로 선택(Direct/Relay Path Selection)**: 상호 연결 설정(Interactive Connectivity Establishment, ICE)이 NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN) 후보와 NAT 릴레이 통과(Traversal Using Relays around NAT, TURN) 후보의 연결성을 검사해 실제 왕복 경로를 고른다.
-- **세션 기술 프로토콜·데이터그램 전송 계층 보안·보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP·DTLS·SRTP)**: 통화 조건 협상, 키 합의와 미디어 암호화를 담당하는 프로토콜이다.
+- **직접•중계 경로 선택(Direct/Relay Path Selection)**: 상호 연결 설정(Interactive Connectivity Establishment, ICE)이 NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN) 후보와 NAT 릴레이 통과(Traversal Using Relays around NAT, TURN) 후보의 연결성을 검사해 실제 왕복 경로를 고른다.
+- **세션 기술 프로토콜•데이터그램 전송 계층 보안•보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP•DTLS•SRTP)**: 통화 조건 협상, 키 합의와 미디어 암호화를 담당하는 프로토콜이다.
 
 </details>
 
-- 응용 시그널링 기반 **SDP·ICE 교환**
-- ICE·STUN·TURN 기반 **직접·중계 경로 선택**
-- DTLS-SRTP 기반 **키 합의·미디어 암호화**
+- 응용 시그널링 기반 **SDP•ICE 교환**
+- ICE•STUN•TURN 기반 **직접•중계 경로 선택**
+- DTLS-SRTP 기반 **키 합의•미디어 암호화**
 
 #### 한줄 요약
 
@@ -57,9 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STUN·TURN 서버(Session Traversal Utilities for NAT/Traversal Using Relays around NAT Server)**: NAT 밖 공인 주소를 알려 주고 직접 연결이 실패하면 미디어·데이터 중계 경로를 제공한다.
-- **선택 전달·다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU·MCU)**: 미디어를 선택 전달하거나 합성·변환하는 다자 회의 서버이다.
-- **세션 기술 프로토콜·상호 연결 설정(Session Description Protocol/Interactive Connectivity Establishment, SDP·ICE)**: 미디어 조건과 실제 통신 경로 후보를 협상하는 프로토콜이다.
+- **STUN•TURN 서버(Session Traversal Utilities for NAT/Traversal Using Relays around NAT Server)**: NAT 밖 공인 주소를 알려 주고 직접 연결이 실패하면 미디어•데이터 중계 경로를 제공한다.
+- **선택 전달•다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU•MCU)**: 미디어를 선택 전달하거나 합성•변환하는 다자 회의 서버이다.
+- **세션 기술 프로토콜•상호 연결 설정(Session Description Protocol/Interactive Connectivity Establishment, SDP•ICE)**: 미디어 조건과 실제 통신 경로 후보를 협상하는 프로토콜이다.
 
 </details>
 
@@ -67,35 +67,35 @@ extra:
 block
     columns 3
     A["단말 A"] --> B["시그널링 서버"] --> C["단말 B"]
-    A --> D["STUN·TURN 서버"] --> C
-    A --> E["SFU·MCU 서버"] --> C
-    F["품질·세션 관측기"] --> B
+    A --> D["STUN•TURN 서버"] --> C
+    A --> E["SFU•MCU 서버"] --> C
+    F["품질•세션 관측기"] --> B
     F --> D
     F --> E
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 단말 A | **SDP 제안·미디어 송신** |
-| 시그널링 서버 | **SDP·ICE 후보 전달** |
-| 단말 B | **SDP 응답·미디어 수신** |
-| STUN·TURN 서버 | **공인 주소 탐색·중계 제공** |
-| SFU·MCU 서버 | **선택 전달·미디어 합성** |
-| 품질·세션 관측기 | **손실·지터·중계 비율 수집** |
+| 단말 A | **SDP 제안•미디어 송신** |
+| 시그널링 서버 | **SDP•ICE 후보 전달** |
+| 단말 B | **SDP 응답•미디어 수신** |
+| STUN•TURN 서버 | **공인 주소 탐색•중계 제공** |
+| SFU•MCU 서버 | **선택 전달•미디어 합성** |
+| 품질•세션 관측기 | **손실•지터•중계 비율 수집** |
 
 > 요약: 시그널링은 조건, ICE는 실제 경로 결정
 
 #### 한줄 요약
 
-- 시그널링 서버가 통화 조건과 후보를 교환하고 STUN·TURN이 연결을 도우며 선택된 경로에서 단말끼리 미디어를 보낸다.
+- 시그널링 서버가 통화 조건과 후보를 교환하고 STUN•TURN이 연결을 도우며 선택된 경로에서 단말끼리 미디어를 보낸다.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **ICE 경로 검사·선택(Interactive Connectivity Establishment Path Check/Selection)**: 단말은 호스트·공인·중계 후보 쌍의 양방향 연결성을 검사해 성공하는 최적 경로를 선택한다.
-- **세션 기술 프로토콜·데이터그램 전송 계층 보안·보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP·DTLS·SRTP)**: 통화 조건 협상과 미디어 보안 전송을 담당한다.
+- **ICE 경로 검사•선택(Interactive Connectivity Establishment Path Check/Selection)**: 단말은 호스트•공인•중계 후보 쌍의 양방향 연결성을 검사해 성공하는 최적 경로를 선택한다.
+- **세션 기술 프로토콜•데이터그램 전송 계층 보안•보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP•DTLS•SRTP)**: 통화 조건 협상과 미디어 보안 전송을 담당한다.
 
 </details>
 
@@ -103,23 +103,23 @@ block
 sequenceDiagram
     participant A as 단말 A
     participant S as 시그널링 서버
-    participant T as STUN·TURN
+    participant T as STUN•TURN
     participant B as 단말 B
     A->>S: 1. SDP 제안 등록
     B->>S: 2. SDP 응답 등록
     A->>T: 3. ICE 후보 수집
-    A->>B: 4. ICE 경로 검사·선택
+    A->>B: 4. ICE 경로 검사•선택
     A->>B: 5. DTLS-SRTP 보안 전송
 ```
 
 **동작 원리**
 
-- **1. SDP 제안 등록**: 단말 A의 코덱·전송 방향 조건 등록
+- **1. SDP 제안 등록**: 단말 A의 코덱•전송 방향 조건 등록
 - **2. SDP 응답 등록**: 단말 B의 수락 조건 등록
-- **3. ICE 후보 수집**: 호스트·공인·중계 주소 확보
-- **4. ICE 경로 검사·선택**: 후보 쌍 연결성 검사 후 왕복 경로 선택
-- **5. DTLS-SRTP 보안 전송**: 상대 인증·키 합의 후 미디어 암호화
-> 요약: SDP 협상·ICE 경로 선택 후 보안 전송
+- **3. ICE 후보 수집**: 호스트•공인•중계 주소 확보
+- **4. ICE 경로 검사•선택**: 후보 쌍 연결성 검사 후 왕복 경로 선택
+- **5. DTLS-SRTP 보안 전송**: 상대 인증•키 합의 후 미디어 암호화
+> 요약: SDP 협상•ICE 경로 선택 후 보안 전송
 
 #### 한줄 요약
 
@@ -131,17 +131,17 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **선택 전달 장치(Selective Forwarding Unit, SFU)**: 참가자의 미디어를 합성하지 않고 수신자별로 선택 전달해 일반 다자 회의의 단말 부담을 줄인다.
-- **개인 간·다중점 제어 장치(Peer-to-Peer/Multipoint Control Unit, P2P·MCU)**: 참가자 직접 연결 방식과 미디어 합성·변환 서버이다.
+- **개인 간•다중점 제어 장치(Peer-to-Peer/Multipoint Control Unit, P2P•MCU)**: 참가자 직접 연결 방식과 미디어 합성•변환 서버이다.
 
 </details>
 
 | WebRTC 다자 구조 | P2P 메시 | SFU | MCU |
 |:---|:---|:---|:---|
-| 적용 기준 | **1:1·소수 참여자** | **일반 다자 회의** | **합성 화면·코덱 변환** |
-| 핵심 특징 | **모든 스트림 직접 교환** | **수신자별 선택 전달** | **미디어 합성·코덱 변환** |
-| 한계 | 참여자 증가 시 **대역폭 폭증** | **서버 송신량·경로** 집중 | 높은 **서버 연산·추가 지연** |
+| 적용 기준 | **1:1•소수 참여자** | **일반 다자 회의** | **합성 화면•코덱 변환** |
+| 핵심 특징 | **모든 스트림 직접 교환** | **수신자별 선택 전달** | **미디어 합성•코덱 변환** |
+| 한계 | 참여자 증가 시 **대역폭 폭증** | **서버 송신량•경로** 집중 | 높은 **서버 연산•추가 지연** |
 
-> 요약: 참여자 수·합성 필요·서버 자원으로 선택
+> 요약: 참여자 수•합성 필요•서버 자원으로 선택
 
 #### 한줄 요약
 
@@ -153,15 +153,15 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **직접 사용자 데이터그램 프로토콜 차단(Direct User Datagram Protocol Blocking, 직접 UDP 차단)**: 기업망 방화벽이나 NAT 정책이 단말 후보 사이의 미디어 경로를 허용하지 않는 문제다.
-- **요청 의견서·상호 연결 설정·NAT 릴레이 통과(Request for Comments/Interactive Connectivity Establishment/Traversal Using Relays around NAT, RFC·ICE·TURN)**: 표준 문서와 직접·중계 경로 선택 기술이다.
-- **W3C·SFU·MCU(World Wide Web Consortium/Selective Forwarding Unit/Multipoint Control Unit)**: 웹 표준화 기구와 다자 미디어 전달·합성 서버이다.
+- **요청 의견서•상호 연결 설정•NAT 릴레이 통과(Request for Comments/Interactive Connectivity Establishment/Traversal Using Relays around NAT, RFC•ICE•TURN)**: 표준 문서와 직접•중계 경로 선택 기술이다.
+- **W3C•SFU•MCU(World Wide Web Consortium/Selective Forwarding Unit/Multipoint Control Unit)**: 웹 표준화 기구와 다자 미디어 전달•합성 서버이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 기업망의 **직접 UDP 차단** | **RFC 8445 ICE·TURN 대체** | **연결 성공률** 확보 |
-| 다자 통화의 **단말 대역폭** | **참여 규모별 SFU·MCU 선택** | **품질·서버비 균형** |
+| 기업망의 **직접 UDP 차단** | **RFC 8445 ICE•TURN 대체** | **연결 성공률** 확보 |
+| 다자 통화의 **단말 대역폭** | **참여 규모별 SFU•MCU 선택** | **품질•서버비 균형** |
 | 브라우저 **구현 간 차이** | **W3C WebRTC 상호운용 시험** | **단말 호환성** 확보 |
 
 #### 한줄 요약
@@ -174,12 +174,12 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **개인 간 통신(Peer-to-Peer, P2P)**: 중앙 미디어 서버 없이 참가자끼리 스트림을 교환해 1:1이나 소수 참여자 통신에 적합하다.
-- **선택 전달·다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU·MCU)**: 일반 다자 전달과 합성·변환에 각각 사용하는 서버이다.
+- **선택 전달•다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU•MCU)**: 일반 다자 전달과 합성•변환에 각각 사용하는 서버이다.
 
 </details>
 
-- 소수 직접 연결은 **P2P**, 일반 다자는 **SFU**, 합성·변환은 MCU 선택
+- 소수 직접 연결은 **P2P**, 일반 다자는 **SFU**, 합성•변환은 MCU 선택
 
 #### 한줄 요약
 
-- WebRTC 품질은 영상이 보이는지뿐 아니라 직접·중계 경로 성공률과 다자 구조의 단말·서버 부담으로 판단해야 한다.
+- WebRTC 품질은 영상이 보이는지뿐 아니라 직접•중계 경로 성공률과 다자 구조의 단말•서버 부담으로 판단해야 한다.

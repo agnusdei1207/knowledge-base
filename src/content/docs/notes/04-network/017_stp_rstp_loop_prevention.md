@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 17
-  label: "017. STP·RSTP·PVST+ 루프 방지 (STP RSTP Loop Prevention)"
+  label: "017. STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
-title: "STP·RSTP·PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-07-31T11:13:28+09:00"
+title: "STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 70
-  priority_note: "설계·문제대책형: 138회 STP Loop 방지"
+  priority_note: "설계•문제대책형: 138회 STP Loop 방지"
 ---
 
 ## Ⅰ. 개요
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: **STP·RSTP** — 중복 링크의 루트와 포트 역할을 선출하고 일부 경로를 비전달 상태로 두어 활성 토폴로지를 루프 없는 트리로 만드는 **2계층 경로 제어 프로토콜**
-- 배경/필요성: 중복 링크의 **프레임 무한 순환·MAC 표 변동**
+- 정의/개념: **STP•RSTP** — 중복 링크의 루트와 포트 역할을 선출하고 일부 경로를 비전달 상태로 두어 활성 토폴로지를 루프 없는 트리로 만드는 **2계층 경로 제어 프로토콜**
+- 배경/필요성: 중복 링크의 **프레임 무한 순환•MAC 표 변동**
 
 #### 한줄 요약
 
@@ -40,14 +40,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **브리지 식별자·경로 비용(Bridge Identifier/Path Cost, 브리지 ID·경로 비용)**: 루트 스위치를 선출하고 루트까지의 최적 포트를 고르는 비교값이다.
-- **고속 스패닝 트리 프로토콜(Rapid Spanning Tree Protocol, RSTP)**: 포트 역할과 제안·동의로 장애 후 경로를 빠르게 전환하는 프로토콜이다.
+- **브리지 식별자•경로 비용(Bridge Identifier/Path Cost, 브리지 ID•경로 비용)**: 루트 스위치를 선출하고 루트까지의 최적 포트를 고르는 비교값이다.
+- **고속 스패닝 트리 프로토콜(Rapid Spanning Tree Protocol, RSTP)**: 포트 역할과 제안•동의로 장애 후 경로를 빠르게 전환하는 프로토콜이다.
 
 </details>
 
 - 최저 브리지 ID의 **루트 브리지 선출**
 - 누적 경로 비용의 **포트 역할 결정**
-- RSTP 제안·동의의 **고속 경로 전환**
+- RSTP 제안•동의의 **고속 경로 전환**
 
 #### 한줄 요약
 
@@ -58,8 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **루트·지정·대체 포트**: 루트까지의 최저 비용 포트, 링크별 전달 포트, 장애 시 쓸 예비 포트이다.
-- **브리지 프로토콜 데이터 단위(Bridge Protocol Data Unit, BPDU)**: 루트 식별자·경로 비용·포트 정보를 교환하는 제어 메시지이다.
+- **루트•지정•대체 포트**: 루트까지의 최저 비용 포트, 링크별 전달 포트, 장애 시 쓸 예비 포트이다.
+- **브리지 프로토콜 데이터 단위(Bridge Protocol Data Unit, BPDU)**: 루트 식별자•경로 비용•포트 정보를 교환하는 제어 메시지이다.
 
 </details>
 
@@ -83,7 +83,7 @@ block-beta
 | 루트 포트 | 비루트 장비의 **최소 비용 경로** 제공 |
 | 지정 포트 | 링크 구간의 **프레임 전달** 담당 |
 | 대체 포트 | 루트 포트 장애 시 **예비 경로** 제공 |
-| BPDU | **루트 식별자·경로 비용** 교환 |
+| BPDU | **루트 식별자•경로 비용** 교환 |
 
 #### 한줄 요약
 
@@ -113,7 +113,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **BPDU 비교**: 루트 식별자·비용·포트 정보 비교
+1. **BPDU 비교**: 루트 식별자•비용•포트 정보 비교
 2. **루트 브리지 선출**: 가장 낮은 브리지 식별자 선택
 3. **루트 포트 선택**: 비루트 장비의 최소 비용 포트 결정
 4. **지정 포트 선택**: 링크별 최소 비용 전달 포트 결정
@@ -121,23 +121,23 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 받은 BPDU의 루트·비용을 비교해 전달 포트와 대기 포트를 나눈다
+- 받은 BPDU의 루트•비용을 비교해 전달 포트와 대기 포트를 나눈다
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **스패닝 트리·고속 스패닝 트리·VLAN별 스패닝 트리 플러스(Spanning Tree Protocol/Rapid Spanning Tree Protocol/Per-VLAN Spanning Tree Plus, STP·RSTP·PVST+)**: 타이머 기반 트리, 고속 수렴 트리, VLAN별 독립 트리를 제공하는 방식이다.
+- **스패닝 트리•고속 스패닝 트리•VLAN별 스패닝 트리 플러스(Spanning Tree Protocol/Rapid Spanning Tree Protocol/Per-VLAN Spanning Tree Plus, STP•RSTP•PVST+)**: 타이머 기반 트리, 고속 수렴 트리, VLAN별 독립 트리를 제공하는 방식이다.
 - **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 하나의 스위치망을 논리적 브로드캐스트 영역으로 분리한 네트워크이다.
 
 </details>
 
 | 스패닝 트리 방식 | STP | RSTP | PVST+ |
 |:---|:---|:---|:---|
-| 적용 기준 | 기존 장비·**단일 트리 호환** | 빠른 **장애 경로 전환** | VLAN별 **활성 경로 분산** |
-| 핵심 특징 | 타이머 기반 **포트 상태 전이** | 제안·동의 기반 **고속 수렴** | VLAN별 **독립 트리 계산** |
-| 한계 | **장애 후 수렴 지연** | 비호환 이웃에서는 **STP 방식으로 전환** | VLAN별 **설정·루트 불일치** |
+| 적용 기준 | 기존 장비•**단일 트리 호환** | 빠른 **장애 경로 전환** | VLAN별 **활성 경로 분산** |
+| 핵심 특징 | 타이머 기반 **포트 상태 전이** | 제안•동의 기반 **고속 수렴** | VLAN별 **독립 트리 계산** |
+| 한계 | **장애 후 수렴 지연** | 비호환 이웃에서는 **STP 방식으로 전환** | VLAN별 **설정•루트 불일치** |
 
 > 요약: STP 호환, RSTP 고속 전환, PVST+ VLAN별 트리
 
@@ -151,7 +151,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **루트 가드(Root Guard)**: 더 우수한 외부 BPDU가 들어와도 지정 포트의 루트 변경을 막는 기능이다.
-- **포트패스트·BPDU 가드(PortFast/Bridge Protocol Data Unit Guard, PortFast·BPDU Guard)**: 단말 포트를 즉시 전달하되 BPDU 수신 시 차단하는 기능이다.
+- **포트패스트•BPDU 가드(PortFast/Bridge Protocol Data Unit Guard, PortFast•BPDU Guard)**: 단말 포트를 즉시 전달하되 BPDU 수신 시 차단하는 기능이다.
 - **단방향 링크 탐지(Unidirectional Link Detection, UDLD)**: 광 링크 등의 단방향 통신 장애를 탐지해 루프 발생을 막는 기능이다.
 - **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 2계층 루프와 수렴의 영향 범위를 논리적으로 나누는 네트워크이다.
 
@@ -159,10 +159,10 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **루트 브리지 임의 변경** | 우선순위·루트 가드 적용 | **트리 기준** 안정화 |
-| 단말 포트의 **BPDU 유입** | BPDU 가드·포트패스트 설정 | **비인가 루트** 차단 |
-| **단방향 링크 장애** | 루프 가드·UDLD 적용 | 차단 포트의 **비정상 전달 전환** 방지 |
-| **대규모 2계층 영역** | VLAN·라우팅 경계로 분할 | **수렴 범위** 축소 |
+| **루트 브리지 임의 변경** | 우선순위•루트 가드 적용 | **트리 기준** 안정화 |
+| 단말 포트의 **BPDU 유입** | BPDU 가드•포트패스트 설정 | **비인가 루트** 차단 |
+| **단방향 링크 장애** | 루프 가드•UDLD 적용 | 차단 포트의 **비정상 전달 전환** 방지 |
+| **대규모 2계층 영역** | VLAN•라우팅 경계로 분할 | **수렴 범위** 축소 |
 
 #### 한줄 요약
 
@@ -174,7 +174,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **무루프 이중화(Loop-Free Redundancy)**: 평소 하나의 활성 경로만 전달하고 장애 때 대체 포트를 여는 구조이다.
-- **고속 스패닝 트리·VLAN별 스패닝 트리 플러스(Rapid Spanning Tree Protocol/Per-VLAN Spanning Tree Plus, RSTP·PVST+)**: 빠른 장애 전환과 VLAN별 독립 경로 분산에 각각 사용하는 방식이다.
+- **고속 스패닝 트리•VLAN별 스패닝 트리 플러스(Rapid Spanning Tree Protocol/Per-VLAN Spanning Tree Plus, RSTP•PVST+)**: 빠른 장애 전환과 VLAN별 독립 경로 분산에 각각 사용하는 방식이다.
 
 </details>
 

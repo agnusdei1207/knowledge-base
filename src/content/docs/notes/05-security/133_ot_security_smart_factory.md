@@ -3,10 +3,10 @@ sidebar:
   order: 133
   label: "133. 스마트팩토리 OT 보안 (OT Security Smart Factory)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: 스마트팩토리 OT 보안 (OT Security Smart Factory)
-date: "2026-07-31T02:20:08+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - notes-security
 weight: 133
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "126회"
   priority: 70
-  priority_note: "126회 기출이며 안전·가용성 중심 OT 설계가 독립적임"
+  priority_note: "126회 기출이며 안전•가용성 중심 OT 설계가 독립적임"
 ---
 
 ## Ⅰ. 개요
@@ -23,32 +23,32 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **운영기술(Operational Technology, OT)**: 물리 공정·산업 설비를 실시간 감시·제어하는 기술 영역이다.
-- **스마트팩토리**: 센서·제어장치·제조실행시스템(Manufacturing Execution System, MES)·분석을 연결해 생산 공정을 자동화한 제조 체계이다.
+- **운영기술(Operational Technology, OT)**: 물리 공정•산업 설비를 실시간 감시•제어하는 기술 영역이다.
+- **스마트팩토리**: 센서•제어장치•제조실행시스템(Manufacturing Execution System, MES)•분석을 연결해 생산 공정을 자동화한 제조 체계이다.
 
 </details>
 
-- 정의/개념: 공정 안전·가용성을 우선하며 제어망·산업 프로토콜·현장 장치를 보호하는 **스마트팩토리 OT 보안 체계**
-- 배경/필요성: IT 보안 통제를 그대로 적용하면 **공정 중단·물리 사고 가능**
+- 정의/개념: 공정 안전•가용성을 우선하며 제어망•산업 프로토콜•현장 장치를 보호하는 **스마트팩토리 OT 보안 체계**
+- 배경/필요성: IT 보안 통제를 그대로 적용하면 **공정 중단•물리 사고 가능**
 
 #### 한줄 요약
 
-- 공장 보안은 정보 유출뿐 아니라 차단·명령이 생산 중단과 인명 사고를 만들지 않게 해야 함
+- 공장 보안은 정보 유출뿐 아니라 차단•명령이 생산 중단과 인명 사고를 만들지 않게 해야 함
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **영역·통로**: 자산을 보안 영역으로 묶고 영역 간 허용 통신 경로를 통제하는 모델이다.
+- **영역•통로**: 자산을 보안 영역으로 묶고 영역 간 허용 통신 경로를 통제하는 모델이다.
 - **정비창**: 공정 영향을 검토한 변경을 승인된 시간대에 적용하는 운영 구간이다.
-- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT) 경계**: 업무망과 공정 제어망 사이에 승인된 통신만 허용하는 분리 기준이다.
+- **정보기술(Information Technology, IT)•운영기술(Operational Technology, OT) 경계**: 업무망과 공정 제어망 사이에 승인된 통신만 허용하는 분리 기준이다.
 
 </details>
 
-- 안전·가용성·실시간성의 **우선 보호**
-- 영역·통로 기반 **IT·OT 통신 분리**
-- 공정 영향·정비창 기반 **변경 통제**
+- 안전•가용성•실시간성의 **우선 보호**
+- 영역•통로 기반 **IT•OT 통신 분리**
+- 공정 영향•정비창 기반 **변경 통제**
 
 #### 한줄 요약
 
@@ -60,7 +60,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **산업 비무장지대(Industrial Demilitarized Zone, IDMZ)**: 정보기술(Information Technology, IT)과 운영기술(Operational Technology, OT)의 직접 연결을 막고 필요한 교환만 중계하는 영역이다.
-- **제조실행시스템(Manufacturing Execution System, MES)·감시제어·데이터수집(Supervisory Control and Data Acquisition, SCADA)·프로그램 가능 논리제어기(Programmable Logic Controller, PLC)·분산제어시스템(Distributed Control System, DCS)**: 생산 관리·원격 감시·논리 제어·분산 공정 제어를 각각 담당한다.
+- **제조실행시스템(Manufacturing Execution System, MES)•감시제어•데이터수집(Supervisory Control and Data Acquisition, SCADA)•프로그램 가능 논리제어기(Programmable Logic Controller, PLC)•분산제어시스템(Distributed Control System, DCS)**: 생산 관리•원격 감시•논리 제어•분산 공정 제어를 각각 담당한다.
 - **안전계장시스템(Safety Instrumented System, SIS)**: 위험 조건에서 공정을 사전 정의된 안전 상태로 전환하는 독립 시스템이다.
 
 </details>
@@ -69,21 +69,21 @@ extra:
 block-beta
   columns 1
   I["기업 IT 영역"]
-  D["산업 DMZ·원격접속"]
-  O["MES·SCADA 운영 영역"]
-  C["PLC·DCS 제어 영역"]
-  S["현장 장치·독립 SIS"]
+  D["산업 DMZ•원격접속"]
+  O["MES•SCADA 운영 영역"]
+  C["PLC•DCS 제어 영역"]
+  S["현장 장치•독립 SIS"]
   I --- D --- O
   O --- C --- S
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 기업 IT 영역 | **외부 연결·업무·사용자** 관리 |
-| 산업 DMZ·원격접속 | **중계·세션 녹화·직접접속** 차단 |
-| MES·SCADA 운영 영역 | **생산·감시 기능** 접근 통제 |
-| PLC·DCS 제어 영역 | **제어 명령·프로토콜** 허용목록 |
-| 현장 장치·독립 SIS | **물리 공정·안전 상태** 보호 |
+| 기업 IT 영역 | **외부 연결•업무•사용자** 관리 |
+| 산업 DMZ•원격접속 | **중계•세션 녹화•직접접속** 차단 |
+| MES•SCADA 운영 영역 | **생산•감시 기능** 접근 통제 |
+| PLC•DCS 제어 영역 | **제어 명령•프로토콜** 허용목록 |
+| 현장 장치•독립 SIS | **물리 공정•안전 상태** 보호 |
 
 #### 한줄 요약
 
@@ -94,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **목표 보안수준(Security Level-Target, SL-T)**: 위험평가로 정한 영역·통로의 목표 보안수준이다.
+- **목표 보안수준(Security Level-Target, SL-T)**: 위험평가로 정한 영역•통로의 목표 보안수준이다.
 
 </details>
 
@@ -104,19 +104,19 @@ sequenceDiagram
   participant S as 보안 담당
   participant A as 안전 담당
   participant E as 정책 집행점
-  O->>S: 1. 설비·프로토콜·의존성 목록
-  S->>A: 2. 침해·차단의 공정 영향
-  A->>A: 3. 영역·통로·SL-T 검토
-  A->>E: 4. 승인된 보상통제·정비창
-  E-->>O: 안전 전환·복구 시험 결과
+  O->>S: 1. 설비•프로토콜•의존성 목록
+  S->>A: 2. 침해•차단의 공정 영향
+  A->>A: 3. 영역•통로•SL-T 검토
+  A->>E: 4. 승인된 보상통제•정비창
+  E-->>O: 안전 전환•복구 시험 결과
 ```
 
 **동작 원리**
 
-- **1. 설비·프로토콜·의존성 목록**: 자산·통신·소유자 식별 결과
-- **2. 침해·차단의 공정 영향**: 안전·가용성·실시간성 분석값
-- **3. 영역·통로·SL-T 검토**: 위험에 따른 통신 경계와 목표 수준의 안전 영향 확인
-- **4. 승인된 보상통제·정비창**: 단계 적용·롤백이 가능한 변경 조건
+- **1. 설비•프로토콜•의존성 목록**: 자산•통신•소유자 식별 결과
+- **2. 침해•차단의 공정 영향**: 안전•가용성•실시간성 분석값
+- **3. 영역•통로•SL-T 검토**: 위험에 따른 통신 경계와 목표 수준의 안전 영향 확인
+- **4. 승인된 보상통제•정비창**: 단계 적용•롤백이 가능한 변경 조건
 
 #### 한줄 요약
 
@@ -127,15 +127,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT)·산업 사물인터넷(Industrial Internet of Things, IIoT)**: 업무 정보 처리, 물리 공정 제어, 산업 장치와 원격 플랫폼 연결을 각각 중심으로 하는 환경이다.
+- **정보기술(Information Technology, IT)•운영기술(Operational Technology, OT)•산업 사물인터넷(Industrial Internet of Things, IIoT)**: 업무 정보 처리, 물리 공정 제어, 산업 장치와 원격 플랫폼 연결을 각각 중심으로 하는 환경이다.
 
 </details>
 
 | 운영 환경 보안 | OT 환경 | IT 환경 | IIoT 연계 |
 |:---|:---|:---|:---|
-| 적용 기준 | **정지 영향·안전 승인** 필요 | 재부팅 가능한 **업무계** | **원격 분석·예지정비** |
-| 핵심 특징 | **물리 공정·실시간 제어** | **정보·업무 시스템** | **산업 장치·플랫폼** 연결 |
-| 한계 | 차단·패치의 **공정 영향** | **정보 유출·업무 중단** | 침해의 **현장 확산** |
+| 적용 기준 | **정지 영향•안전 승인** 필요 | 재부팅 가능한 **업무계** | **원격 분석•예지정비** |
+| 핵심 특징 | **물리 공정•실시간 제어** | **정보•업무 시스템** | **산업 장치•플랫폼** 연결 |
+| 한계 | 차단•패치의 **공정 영향** | **정보 유출•업무 중단** | 침해의 **현장 확산** |
 
 > 요약: OT는 보안 조치의 물리 안전 영향부터 판단함
 
@@ -148,17 +148,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **국제전기기술위원회(International Electrotechnical Commission, IEC) 62443-3-2·3-3**: 산업자동화·제어시스템(Industrial Automation and Control Systems, IACS)의 영역·통로 위험평가와 시스템 보안 요구사항을 규정한다.
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-82**: 안전·신뢰성·성능을 고려한 운영기술(Operational Technology, OT) 보안 지침이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC) 62443-3-2•3-3**: 산업자동화•제어시스템(Industrial Automation and Control Systems, IACS)의 영역•통로 위험평가와 시스템 보안 요구사항을 규정한다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-82**: 안전•신뢰성•성능을 고려한 운영기술(Operational Technology, OT) 보안 지침이다.
 - **공정 통제 적용 판단**: 정보기술(Information Technology, IT) 통제의 공정 영향, 목표 보안수준(Security Level-Target, SL-T), 프로그램 가능 논리제어기(Programmable Logic Controller, PLC)의 패치 조건을 함께 판단한다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 자산 연결을 모르면 위험이 다른 영역으로 전파됨 | **IEC 62443-3-2:2020 적용** | SL-T·경계 근거 확보 |
-| 목표 수준만으로는 구현 요구를 정할 수 없음 | **IEC 62443-3-3:2013 적용** | 기능·보안수준 구체화 |
-| IT 통제가 공정 안전·가용성을 해칠 수 있음 | **NIST SP 800-82 Rev.3 적용·Rev.4 추적** | 보상통제·복구 정합성 |
+| 자산 연결을 모르면 위험이 다른 영역으로 전파됨 | **IEC 62443-3-2:2020 적용** | SL-T•경계 근거 확보 |
+| 목표 수준만으로는 구현 요구를 정할 수 없음 | **IEC 62443-3-3:2013 적용** | 기능•보안수준 구체화 |
+| IT 통제가 공정 안전•가용성을 해칠 수 있음 | **NIST SP 800-82 Rev.3 적용•Rev.4 추적** | 보상통제•복구 정합성 |
 
 #### 한줄 요약
 
@@ -169,11 +169,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **보상통제**: 즉시 패치하기 어려운 설비의 위험을 격리·허용목록·감시 등으로 줄이는 통제이다.
+- **보상통제**: 즉시 패치하기 어려운 설비의 위험을 격리•허용목록•감시 등으로 줄이는 통제이다.
 
 </details>
 
-- 공정 영향이 크면 **격리·보상통제 후 정비창에서 단계 변경**
+- 공정 영향이 크면 **격리•보상통제 후 정비창에서 단계 변경**
 
 #### 한줄 요약
 

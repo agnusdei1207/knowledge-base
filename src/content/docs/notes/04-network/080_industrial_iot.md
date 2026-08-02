@@ -3,10 +3,10 @@ sidebar:
   order: 80
   label: "080. 산업용 IoT (Industrial IoT, IIoT)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "산업용 IoT (Industrial IoT, IIoT)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 80
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "137회"
   priority: 50
-  priority_note: "설계·보안형: 산업망·OT 융합의 상위 주제"
+  priority_note: "설계•보안형: 산업망•OT 융합의 상위 주제"
 ---
 
 ## Ⅰ. 개요
@@ -23,32 +23,32 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **산업용 사물 인터넷(Industrial Internet of Things, IIoT)**: 설비 데이터를 상태 감시·예지 정비·생산 조건·안전 제어 판단에 연결하는 산업 운영 체계다.
-- **정보·운영 기술(Information Technology/Operational Technology, IT·OT)**: 업무 데이터 처리 기술과 산업 설비를 감시·제어하는 현장 기술이다.
+- **산업용 사물 인터넷(Industrial Internet of Things, IIoT)**: 설비 데이터를 상태 감시•예지 정비•생산 조건•안전 제어 판단에 연결하는 산업 운영 체계다.
+- **정보•운영 기술(Information Technology/Operational Technology, IT•OT)**: 업무 데이터 처리 기술과 산업 설비를 감시•제어하는 현장 기술이다.
 
 </details>
 
-- 정의/개념: 설비 데이터를 운영 판단·제어에 연결하는 **산업 운영 체계**
-- 배경/필요성: IT·OT 직접 결합은 **장애 전파·노후 명령 오제어** 유발
+- 정의/개념: 설비 데이터를 운영 판단•제어에 연결하는 **산업 운영 체계**
+- 배경/필요성: IT•OT 직접 결합은 **장애 전파•노후 명령 오제어** 유발
 
 #### 한줄 요약
 
-- IIoT는 설비 데이터를 모으는 데서 끝나지 않고 정비 시점·생산 조건·안전 정지 결정으로 연결한다.
+- IIoT는 설비 데이터를 모으는 데서 끝나지 않고 정비 시점•생산 조건•안전 정지 결정으로 연결한다.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **현장 검증(Field Validation)**: 상위 분석에서 승인한 명령도 최신 공정 상태·허용 한도·안전 연동 조건과 다시 대조한다.
-- **정보·운영 기술(Information Technology/Operational Technology, IT·OT)**: 분석·업무 처리와 현장 제어를 각각 담당하는 기술 영역이다.
-- **비무장 지대(DeMilitarized Zone, DMZ)**: IT와 OT 사이의 직접 연결을 차단하고 중계·검사 시스템을 두는 경계 구간이다.
+- **현장 검증(Field Validation)**: 상위 분석에서 승인한 명령도 최신 공정 상태•허용 한도•안전 연동 조건과 다시 대조한다.
+- **정보•운영 기술(Information Technology/Operational Technology, IT•OT)**: 분석•업무 처리와 현장 제어를 각각 담당하는 기술 영역이다.
+- **비무장 지대(DeMilitarized Zone, DMZ)**: IT와 OT 사이의 직접 연결을 차단하고 중계•검사 시스템을 두는 경계 구간이다.
 
 </details>
 
-- **안전 우선**: 처리량보다 OT 가용성·결정성 보호
-- **경계 분리**: 게이트웨이·DMZ로 IT·OT 책임 분할
-- **현장 검증**: 승인 명령도 최신 상태·안전 한도 재확인
+- **안전 우선**: 처리량보다 OT 가용성•결정성 보호
+- **경계 분리**: 게이트웨이•DMZ로 IT•OT 책임 분할
+- **현장 검증**: 승인 명령도 최신 상태•안전 한도 재확인
 
 #### 한줄 요약
 
@@ -59,20 +59,20 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **운영 기술 비무장 지대(Operational Technology DeMilitarized Zone, OT DMZ)**: IT와 OT의 직접 연결을 차단하고 중계·검사 시스템을 배치해 장애와 침해의 전파 범위를 줄인다.
-- **프로그래머블 논리 제어기·감시 제어 및 데이터 수집(Programmable Logic Controller/Supervisory Control and Data Acquisition, PLC·SCADA)**: 현장 제어 논리를 실행하고 공정 상태를 감시하는 산업 제어 시스템이다.
-- **정보 기술(Information Technology, IT)**: 품질·정비·생산 데이터를 분석하고 업무 정책을 제안하는 기술 영역이다.
+- **운영 기술 비무장 지대(Operational Technology DeMilitarized Zone, OT DMZ)**: IT와 OT의 직접 연결을 차단하고 중계•검사 시스템을 배치해 장애와 침해의 전파 범위를 줄인다.
+- **프로그래머블 논리 제어기•감시 제어 및 데이터 수집(Programmable Logic Controller/Supervisory Control and Data Acquisition, PLC•SCADA)**: 현장 제어 논리를 실행하고 공정 상태를 감시하는 산업 제어 시스템이다.
+- **정보 기술(Information Technology, IT)**: 품질•정비•생산 데이터를 분석하고 업무 정책을 제안하는 기술 영역이다.
 
 </details>
 
 ```mermaid
 block-beta
     columns 1
-    IT["IT 분석·업무 시스템"]
+    IT["IT 분석•업무 시스템"]
     DMZ["OT DMZ"]
-    EDGE["게이트웨이·엣지"]
-    CONTROL["PLC·SCADA"]
-    FIELD["센서·액추에이터·안전 연동"]
+    EDGE["게이트웨이•엣지"]
+    CONTROL["PLC•SCADA"]
+    FIELD["센서•액추에이터•안전 연동"]
     FIELD --> CONTROL
     CONTROL --> EDGE
     EDGE --> DMZ
@@ -81,11 +81,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 센서·액추에이터·안전 연동 | 측정·동작과 위험 시 우선 정지 |
-| PLC·SCADA | 결정적 제어와 운전 상태 감시 |
-| 게이트웨이·엣지 | 변환·정제·단절 중 제한 제어 |
-| OT DMZ | IT·OT 중계·검사와 직접 연결 차단 |
-| IT 분석·업무 시스템 | 품질·정비·생산 분석과 정책 제안 |
+| 센서•액추에이터•안전 연동 | 측정•동작과 위험 시 우선 정지 |
+| PLC•SCADA | 결정적 제어와 운전 상태 감시 |
+| 게이트웨이•엣지 | 변환•정제•단절 중 제한 제어 |
+| OT DMZ | IT•OT 중계•검사와 직접 연결 차단 |
+| IT 분석•업무 시스템 | 품질•정비•생산 분석과 정책 제안 |
 
 #### 한줄 요약
 
@@ -96,16 +96,16 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **안전 조건 재검증(Safety Condition Revalidation)**: 안전 연동 장치는 명령 실행 직전에 최신 설비 상태와 허용 범위·보호 조건을 다시 확인한다.
-- **프로그래머블 논리 제어기·감시 제어 및 데이터 수집(Programmable Logic Controller/Supervisory Control and Data Acquisition, PLC·SCADA)**: 최신 현장 상태를 감시하고 승인 범위 안의 명령을 실행하는 시스템이다.
+- **안전 조건 재검증(Safety Condition Revalidation)**: 안전 연동 장치는 명령 실행 직전에 최신 설비 상태와 허용 범위•보호 조건을 다시 확인한다.
+- **프로그래머블 논리 제어기•감시 제어 및 데이터 수집(Programmable Logic Controller/Supervisory Control and Data Acquisition, PLC•SCADA)**: 최신 현장 상태를 감시하고 승인 범위 안의 명령을 실행하는 시스템이다.
 - **정보 기술(Information Technology, IT)**: 공정 데이터를 분석해 운영자에게 조치를 권고하는 기술 영역이다.
 
 </details>
 
 ```mermaid
 sequenceDiagram
-    participant P as PLC·SCADA
-    participant E as 게이트웨이·엣지
+    participant P as PLC•SCADA
+    participant E as 게이트웨이•엣지
     participant A as IT 분석
     participant O as 운영자
     participant S as 안전 연동
@@ -116,13 +116,13 @@ sequenceDiagram
     E->>S: 4. 안전 조건 재검증
     S-->>E: 허용 범위
     E->>P: 5. 제한 명령 실행
-    P-->>A: 실행 결과·후속 측정값
+    P-->>A: 실행 결과•후속 측정값
 ```
 
-1. **공정 데이터 수집**: 측정값·부하·운전 단계를 함께 획득
-2. **현장 데이터 정제**: 잡음·중복 제거와 단위·시각 정렬
-3. **조치 권고**: 열화 예측과 생산·안전 영향 제시
-4. **안전 조건 재검증**: 최신 상태·허용 범위·연동 조건 확인
+1. **공정 데이터 수집**: 측정값•부하•운전 단계를 함께 획득
+2. **현장 데이터 정제**: 잡음•중복 제거와 단위•시각 정렬
+3. **조치 권고**: 열화 예측과 생산•안전 영향 제시
+4. **안전 조건 재검증**: 최신 상태•허용 범위•연동 조건 확인
 5. **제한 명령 실행**: 승인 범위 안의 명령만 PLC 적용
 
 #### 한줄 요약
@@ -134,21 +134,21 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **산업용 사물 인터넷(Industrial Internet of Things, IIoT)**: 중단·오동작 영향이 큰 산업 공정에서 IT 분석과 OT 현장 제어의 책임을 분리하고 안전·결정성을 우선한다.
+- **산업용 사물 인터넷(Industrial Internet of Things, IIoT)**: 중단•오동작 영향이 큰 산업 공정에서 IT 분석과 OT 현장 제어의 책임을 분리하고 안전•결정성을 우선한다.
 - **소비자 사물 인터넷(Consumer Internet of Things, 소비자 IoT)**: 개인 기기를 연결해 편의와 사용자 자동화를 제공하는 사물 인터넷 환경이다.
-- **프로그래머블 논리 제어기·비무장 지대(Programmable Logic Controller/DeMilitarized Zone, PLC·DMZ)**: 현장 제어 장치와 IT·OT 사이를 분리하는 보안 경계이다.
+- **프로그래머블 논리 제어기•비무장 지대(Programmable Logic Controller/DeMilitarized Zone, PLC•DMZ)**: 현장 제어 장치와 IT•OT 사이를 분리하는 보안 경계이다.
 
 </details>
 
 | 사물 인터넷 환경 | IIoT | 소비자 IoT |
 |:---|:---|:---|
-| 적용 기준 | 중단·오동작 영향 큰 **산업 공정** | 재시작 가능한 **개인 기기** |
-| 핵심 특징 | **현장 제어·IT 분석** 책임 분리 | 연결 편의와 **사용자 자동화** |
-| 한계 | **지연·중단·안전사고** 영향 | 계정·개인정보·**중앙 장애** |
+| 적용 기준 | 중단•오동작 영향 큰 **산업 공정** | 재시작 가능한 **개인 기기** |
+| 핵심 특징 | **현장 제어•IT 분석** 책임 분리 | 연결 편의와 **사용자 자동화** |
+| 한계 | **지연•중단•안전사고** 영향 | 계정•개인정보•**중앙 장애** |
 
 #### 한줄 요약
 
-- 산업 설비는 재시작과 오동작의 영향이 커 PLC·엣지·DMZ가 단계별로 데이터와 제어 명령을 검증한다.
+- 산업 설비는 재시작과 오동작의 영향이 커 PLC•엣지•DMZ가 단계별로 데이터와 제어 명령을 검증한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -156,19 +156,19 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상태 노후화(State Staleness)**: 분석과 승인 사이에 공정 상태가 바뀌어 과거 측정값에 맞춘 명령이 현재 설비에 위험해지는 문제다.
-- **정보·운영 기술 비무장 지대(Information Technology/Operational Technology DeMilitarized Zone, IT·OT DMZ)**: 업무망과 산업 제어망 사이의 직접 접근과 장애 전파를 제한하는 경계이다.
+- **정보•운영 기술 비무장 지대(Information Technology/Operational Technology DeMilitarized Zone, IT•OT DMZ)**: 업무망과 산업 제어망 사이의 직접 접근과 장애 전파를 제한하는 경계이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 가동 장비의 **자산 미식별** | 탭·미러 포트의 **수동 관찰** | 생산 영향 없이 **가시성 확보** |
-| IT 연계의 **OT 장애 전파** | DMZ 중계와 **구역·도관 분리** | 고장 범위와 **직접 접근 축소** |
-| 분석 명령의 **상태 노후화** | 시각·한도·연동 **현장 재검증** | 오제어와 **안전사고 방지** |
+| 가동 장비의 **자산 미식별** | 탭•미러 포트의 **수동 관찰** | 생산 영향 없이 **가시성 확보** |
+| IT 연계의 **OT 장애 전파** | DMZ 중계와 **구역•도관 분리** | 고장 범위와 **직접 접근 축소** |
+| 분석 명령의 **상태 노후화** | 시각•한도•연동 **현장 재검증** | 오제어와 **안전사고 방지** |
 
 #### 한줄 요약
 
-- 가동 중인 공장은 능동 탐색 대신 기존 통신을 수동 분석해 장비·프로토콜·연결 관계를 식별한다.
+- 가동 중인 공장은 능동 탐색 대신 기존 통신을 수동 분석해 장비•프로토콜•연결 관계를 식별한다.
 
 ## Ⅶ. 결론
 
@@ -176,11 +176,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **안전 연동 차단(Safety Interlock Blocking)**: 승인된 명령이라도 최신 안전 조건을 위반하면 상위 제어보다 우선해 실행을 막는다.
-- **정보 기술·프로그래머블 논리 제어기(Information Technology/Programmable Logic Controller, IT·PLC)**: 업무 분석을 담당하는 기술 영역과 현장 제어 명령을 실행하는 장치이다.
+- **정보 기술•프로그래머블 논리 제어기(Information Technology/Programmable Logic Controller, IT•PLC)**: 업무 분석을 담당하는 기술 영역과 현장 제어 명령을 실행하는 장치이다.
 
 </details>
 
-- 업무 분석은 **IT**, 현장 제어는 **PLC·엣지**, 위험 명령은 **안전 연동 차단**
+- 업무 분석은 **IT**, 현장 제어는 **PLC•엣지**, 위험 명령은 **안전 연동 차단**
 
 #### 한줄 요약
 

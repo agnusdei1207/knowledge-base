@@ -3,10 +3,10 @@ sidebar:
   order: 104
   label: "104. BASE vs ACID (BASE vs ACID)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "BASE vs ACID (BASE vs ACID)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-software"
 weight: 104
@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "131회"
   priority: 50
-  priority_note: "131회 기출, ACID·BASE 선택 기준 명확"
+  priority_note: "131회 기출, ACID•BASE 선택 기준 명확"
 ---
 
 ## Ⅰ. 개요
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션 경계 안에서 업무 불변식을 검증하고 변경을 원자적으로 확정하는 보장이다.
-- **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 분산 상태의 일시 불일치를 허용하고 비동기 전파 후 수렴시키는 보장 모델이다.
+- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션 경계 안에서 업무 불변식을 검증하고 변경을 원자적으로 확정하는 보장이다.
+- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 분산 상태의 일시 불일치를 허용하고 비동기 전파 후 수렴시키는 보장 모델이다.
 
 </details>
 
-- 정의/개념: 트랜잭션의 즉시 일관성과 확정을 중시하는 **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 모델과 가용성 및 최종 수렴을 중시하는 **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 모델 비교
+- 정의/개념: 트랜잭션의 즉시 일관성과 확정을 중시하는 **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 모델과 가용성 및 최종 수렴을 중시하는 **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 모델 비교
 - 배경/필요성: 단일 트랜잭션만으로는 **분산 파생 상태의 즉시 일치** 보장 불가
 
 #### 한줄 요약
@@ -41,13 +41,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **복구 차이**: 진행 중 거래의 롤백과 이미 완료된 분산 업무의 보상을 구분하는 특성이다.
-- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션 안의 변경을 즉시 확정하고 불변식과 장애 복구를 보장하는 모델이다.
-- **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 비동기 전파와 재시도로 분산 사본을 최종 수렴시키는 모델이다.
+- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션 안의 변경을 즉시 확정하고 불변식과 장애 복구를 보장하는 모델이다.
+- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 비동기 전파와 재시도로 분산 사본을 최종 수렴시키는 모델이다.
 
 </details>
 
-- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 기반의 즉시 확정
-- **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 기반의 비동기 전파·재시도 후 최종 수렴
+- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 기반의 즉시 확정
+- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 기반의 비동기 전파•재시도 후 최종 수렴
 - **복구 차이**: 롤백과 업무 보상을 구분
 
 #### 한줄 요약
@@ -62,8 +62,8 @@ extra:
 - **비동기 전달**: 커밋된 변경 이벤트를 파생 상태로 전파하는 구성요소이다.
 - **트랜잭션 경계**: 함께 성공하거나 실패해야 하는 변경과 업무 불변식의 원자 확정 범위이다.
 - **ACID 저장소**: 기준 데이터와 아웃박스 기록을 한 트랜잭션으로 확정하는 저장소이다.
-- **BASE 파생 상태**: 기준 변경을 비동기로 받아 검색·조회·알림 용도로 최종 수렴하는 복제 상태이다.
-- **재시도·보상·대사**: 전달 실패를 다시 처리하고 완료된 업무를 반대 작업으로 보정하며 기준값과 차이를 검사하는 복구 수단이다.
+- **BASE 파생 상태**: 기준 변경을 비동기로 받아 검색•조회•알림 용도로 최종 수렴하는 복제 상태이다.
+- **재시도•보상•대사**: 전달 실패를 다시 처리하고 완료된 업무를 반대 작업으로 보정하며 기준값과 차이를 검사하는 복구 수단이다.
 
 </details>
 
@@ -76,7 +76,7 @@ block
     A["ACID 저장소"]
     E["비동기 전달"]
     B["BASE 파생 상태"]
-    R["재시도·보상·대사"]
+    R["재시도•보상•대사"]
   end
   T --- A
   A --- E
@@ -89,12 +89,12 @@ block
 | 트랜잭션 경계 | **원자 확정 범위** 정의 |
 | ACID 저장소 | 기준 상태와 **아웃박스** 원자 확정 |
 | 비동기 전달 | 커밋된 **변경 이벤트** 전파 |
-| BASE 파생 상태 | 조회·검색용 **복제본** 유지 |
-| 재시도·보상·대사 | **전달 실패·상태 불일치** 복구 |
+| BASE 파생 상태 | 조회•검색용 **복제본** 유지 |
+| 재시도•보상•대사 | **전달 실패•상태 불일치** 복구 |
 
 #### 한줄 요약
 
-- 원장을 먼저 확정하고 검색·알림 사본은 이벤트로 뒤따라 맞춘다.
+- 원장을 먼저 확정하고 검색•알림 사본은 이벤트로 뒤따라 맞춘다.
 
 ## Ⅳ. 흐름도
 
@@ -102,8 +102,8 @@ block
 <summary>핵심 용어</summary>
 
 - **5. 파생 상태 이벤트**: 멱등 적용으로 BASE 복제본을 기준 상태에 수렴시키는 단계이다.
-- **관계형 데이터베이스(Relational Database, DB)**: 원자성·일관성·격리성·지속성 보장으로 기준 거래와 아웃박스를 함께 확정하는 저장소이다.
-- **1. 데이터·아웃박스 레코드**: 기준 상태 변경과 발행 대기 이벤트를 같은 트랜잭션에 저장하는 단계이다.
+- **관계형 데이터베이스(Relational Database, DB)**: 원자성•일관성•격리성•지속성 보장으로 기준 거래와 아웃박스를 함께 확정하는 저장소이다.
+- **1. 데이터•아웃박스 레코드**: 기준 상태 변경과 발행 대기 이벤트를 같은 트랜잭션에 저장하는 단계이다.
 - **2. 커밋 결과**: 불변식 검사를 통과한 기준 거래가 원자적으로 확정된 결과이다.
 - **3. 미발행 아웃박스 조회**: 커밋됐지만 아직 외부로 전달되지 않은 이벤트를 찾는 단계이다.
 - **4. 커밋 이벤트**: 확정된 업무 변경만 이벤트 전달기에 반환한 기록이다.
@@ -118,7 +118,7 @@ sequenceDiagram
     participant E as 이벤트 전달기
     participant V as 파생 상태
     C->>S: 기준 거래 요청
-    S->>DB: 1. 데이터·아웃박스 레코드
+    S->>DB: 1. 데이터•아웃박스 레코드
     DB-->>S: 2. 커밋 결과
     S-->>C: 거래 결과
     E->>DB: 3. 미발행 아웃박스 조회
@@ -129,58 +129,58 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **데이터·아웃박스 레코드**: 기준 상태와 발행 대기 이벤트를 함께 저장
+1. **데이터•아웃박스 레코드**: 기준 상태와 발행 대기 이벤트를 함께 저장
 2. **커밋 결과**: 불변식 검증을 통과한 거래만 원자 확정
 3. **미발행 아웃박스 조회**: 확정됐지만 전파되지 않은 이벤트 식별
 4. **커밋 이벤트**: 커밋된 변경만 전달기로 반환
-5. **파생 상태 이벤트**: 멱등 적용으로 기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE) 복제본 수렴
+5. **파생 상태 이벤트**: 멱등 적용으로 기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE) 복제본 수렴
 
 #### 한줄 요약
 
-- 원장은 먼저 정확히 확정하고 검색·알림 같은 사본은 확인 가능한 이벤트로 뒤따라 맞춘다.
+- 원장은 먼저 정확히 확정하고 검색•알림 같은 사본은 확인 가능한 이벤트로 뒤따라 맞춘다.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 업무 불변식과 거래 결과를 확정하는 모델이다.
-- **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 가용성을 우선하고 비동기 전파 뒤 최종 일관성으로 상태를 맞추는 모델이다.
+- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 업무 불변식과 거래 결과를 확정하는 모델이다.
+- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 가용성을 우선하고 비동기 전파 뒤 최종 일관성으로 상태를 맞추는 모델이다.
 
 </details>
 
-| 데이터 보장 모델 | 원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) | 기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE) |
+| 데이터 보장 모델 | 원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID) | 기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE) |
 |:---|:---|:---|
 | 적용 기준 | 즉시 지켜야 하는 **업무 불변식** | 지연을 허용하는 **파생 상태** |
-| 핵심 특징 | 커밋 시 **원자성·격리성** 보장 | 비동기 전파 후 **최종 일관성** |
-| 한계 | 넓은 경계에서 **잠금·합의 비용** 증가 | **일시 불일치·보상 비용** 발생 |
+| 핵심 특징 | 커밋 시 **원자성•격리성** 보장 | 비동기 전파 후 **최종 일관성** |
+| 한계 | 넓은 경계에서 **잠금•합의 비용** 증가 | **일시 불일치•보상 비용** 발생 |
 
-> 요약: 제품이 아니라 **트랜잭션 경계·허용 지연** 으로 보장 선택
+> 요약: 제품이 아니라 **트랜잭션 경계•허용 지연** 으로 보장 선택
 
 #### 한줄 요약
 
-- 결제 원장은 즉시 맞추고 알림·검색 사본은 재시도하며 뒤따라 맞춘다.
+- 결제 원장은 즉시 맞추고 알림•검색 사본은 재시도하며 뒤따라 맞춘다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **ACID 트랜잭션 경계**: 금액·재고처럼 즉시 지켜야 하는 불변식을 한 번에 확정하는 범위이다.
-- **로컬 원자성·이벤트 분리**: 각 서비스의 지역 거래를 먼저 확정하고 다른 상태는 이벤트로 전달하는 설계이다.
-- **아웃박스·변경 데이터 캡처(Change Data Capture, CDC)**: 업무 변경과 발행 기록을 원자화하고 확정된 변경만 이벤트로 추출하는 방식이다.
-- **멱등 키·버전 검사**: 반복·역순 이벤트가 같은 효과를 중복 적용하거나 최신값을 덮지 않도록 하는 통제이다.
-- **최대 수렴 지연·경보 임계치**: 파생 상태가 기준 상태를 따라와야 할 시간 목표와 장애로 판단할 한도이다.
+- **ACID 트랜잭션 경계**: 금액•재고처럼 즉시 지켜야 하는 불변식을 한 번에 확정하는 범위이다.
+- **로컬 원자성•이벤트 분리**: 각 서비스의 지역 거래를 먼저 확정하고 다른 상태는 이벤트로 전달하는 설계이다.
+- **아웃박스•변경 데이터 캡처(Change Data Capture, CDC)**: 업무 변경과 발행 기록을 원자화하고 확정된 변경만 이벤트로 추출하는 방식이다.
+- **멱등 키•버전 검사**: 반복•역순 이벤트가 같은 효과를 중복 적용하거나 최신값을 덮지 않도록 하는 통제이다.
+- **최대 수렴 지연•경보 임계치**: 파생 상태가 기준 상태를 따라와야 할 시간 목표와 장애로 판단할 한도이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 금액·재고는 커밋 즉시 불변식 준수 필요 | 규칙을 **ACID 트랜잭션 경계** 안에 배치 | **금액·재고 오류** 방지 |
-| 넓은 분산 트랜잭션은 잠금·합의 비용 증가 | **로컬 원자성·이벤트** 분리 | **분산 합의 범위** 축소 |
-| 데이터와 이벤트를 따로 쓰면 한쪽만 성공 가능 | **아웃박스·변경 데이터 캡처(Change Data Capture, CDC)** 적용 | **이벤트 누락** 방지 |
-| 재시도·역순 이벤트는 최신 상태를 덮어쓸 위험 | **멱등 키·버전 검사** | **중복·역순 반영** 방지 |
-| 수렴 완료 시점이 없으면 사용자 최신성 판단 불가 | **최대 수렴 지연·경보 임계치** 정의 | **최종 일관성 시점** 명확화 |
+| 금액•재고는 커밋 즉시 불변식 준수 필요 | 규칙을 **ACID 트랜잭션 경계** 안에 배치 | **금액•재고 오류** 방지 |
+| 넓은 분산 트랜잭션은 잠금•합의 비용 증가 | **로컬 원자성•이벤트** 분리 | **분산 합의 범위** 축소 |
+| 데이터와 이벤트를 따로 쓰면 한쪽만 성공 가능 | **아웃박스•변경 데이터 캡처(Change Data Capture, CDC)** 적용 | **이벤트 누락** 방지 |
+| 재시도•역순 이벤트는 최신 상태를 덮어쓸 위험 | **멱등 키•버전 검사** | **중복•역순 반영** 방지 |
+| 수렴 완료 시점이 없으면 사용자 최신성 판단 불가 | **최대 수렴 지연•경보 임계치** 정의 | **최종 일관성 시점** 명확화 |
 
 #### 한줄 요약
 
@@ -191,12 +191,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 지켜야 하는 업무 불변식에 적용하는 트랜잭션 보장 모델이다.
-- **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 지연을 허용하는 파생 상태를 비동기 전파 후 수렴시키는 모델이다.
+- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 지켜야 하는 업무 불변식에 적용하는 트랜잭션 보장 모델이다.
+- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 지연을 허용하는 파생 상태를 비동기 전파 후 수렴시키는 모델이다.
 
 </details>
 
-- 즉시 불변식에는 **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 적용, 지연 허용 파생 상태에는 **기본 가용성·유연 상태·최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 적용
+- 즉시 불변식에는 **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)** 적용, 지연 허용 파생 상태에는 **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)** 적용
 
 #### 한줄 요약
 

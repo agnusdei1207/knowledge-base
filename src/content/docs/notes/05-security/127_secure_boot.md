@@ -3,10 +3,10 @@ sidebar:
   order: 127
   label: "127. Secure Boot 보안 부팅 (Secure Boot)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
 title: Secure Boot 보안 부팅 (Secure Boot)
-date: "2026-08-02T23:57:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - notes-security
 weight: 127
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 부팅(Secure Boot)**: 통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)의 신뢰 키·허용 목록·폐기 목록으로 부트 이미지 서명을 단계별 검증해 허가된 코드만 실행하는 기술이다.
-- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)**: 하드웨어 초기화·부팅 서비스와 보안 부팅 변수를 관리하는 펌웨어 인터페이스이다.
+- **보안 부팅(Secure Boot)**: 통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)의 신뢰 키•허용 목록•폐기 목록으로 부트 이미지 서명을 단계별 검증해 허가된 코드만 실행하는 기술이다.
+- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)**: 하드웨어 초기화•부팅 서비스와 보안 부팅 변수를 관리하는 펌웨어 인터페이스이다.
 
 </details>
 
@@ -40,14 +40,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **플랫폼 키(Platform Key, PK)·키 교환 키(Key Exchange Key, KEK)**: 플랫폼 정책 소유권과 허용·폐기 데이터베이스의 갱신 권한을 통제하는 키이다.
-- **서명 데이터베이스(Signature Database, db)·금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 실행 허용 대상과 취약·폐기 대상을 저장하는 UEFI 데이터베이스이다.
+- **플랫폼 키(Platform Key, PK)•키 교환 키(Key Exchange Key, KEK)**: 플랫폼 정책 소유권과 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키이다.
+- **서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 실행 허용 대상과 취약•폐기 대상을 저장하는 UEFI 데이터베이스이다.
 
 </details>
 
-- PK·KEK 기반 **정책 소유·갱신 권한**
-- db·dbx 기반 **허용·폐기 판정**
-- 펌웨어·부트로더의 **연속 신뢰 사슬**
+- PK•KEK 기반 **정책 소유•갱신 권한**
+- db•dbx 기반 **허용•폐기 판정**
+- 펌웨어•부트로더의 **연속 신뢰 사슬**
 
 #### 한줄 요약
 
@@ -59,8 +59,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **신뢰 사슬**: 첫 신뢰 키에서 시작해 다음 부팅 구성요소를 연속 검증하는 구조이다.
-- **플랫폼 키(Platform Key, PK)·키 교환 키(Key Exchange Key, KEK)·서명 데이터베이스(Signature Database, db)·금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 각 키와 목록으로 정책 소유권·갱신·허용·폐기를 나누어 통제한다.
-- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI) 이미지 검증기**: 부트 이미지의 서명 체인과 허용·폐기 정책을 판정한다.
+- **플랫폼 키(Platform Key, PK)•키 교환 키(Key Exchange Key, KEK)•서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 각 키와 목록으로 정책 소유권•갱신•허용•폐기를 나누어 통제한다.
+- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI) 이미지 검증기**: 부트 이미지의 서명 체인과 허용•폐기 정책을 판정한다.
 
 </details>
 
@@ -79,14 +79,14 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 플랫폼 키 PK | **플랫폼 정책 소유권** 설정 |
-| 키 교환 키 KEK | **db·dbx 갱신 권한** 검증 |
-| 허용 데이터베이스 db | **허용 서명·인증서·해시** 저장 |
-| 폐기 데이터베이스 dbx | **취약·폐기 대상** 거부 |
-| UEFI 이미지 검증기 | **서명 체인·정책** 판정 |
+| 키 교환 키 KEK | **db•dbx 갱신 권한** 검증 |
+| 허용 데이터베이스 db | **허용 서명•인증서•해시** 저장 |
+| 폐기 데이터베이스 dbx | **취약•폐기 대상** 거부 |
+| UEFI 이미지 검증기 | **서명 체인•정책** 판정 |
 
 #### 한줄 요약
 
-- 소유권 키가 목록 변경을 통제하고 허용·폐기 목록이 실제 부트 파일 실행을 결정함
+- 소유권 키가 목록 변경을 통제하고 허용•폐기 목록이 실제 부트 파일 실행을 결정함
 
 ## Ⅳ. 흐름도
 
@@ -94,7 +94,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **신뢰 플랫폼 모듈(Trusted Platform Module, TPM)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈이다.
-- **통합 확장 펌웨어 인터페이스(UEFI)와 보안 부팅 키·목록**: UEFI가 플랫폼 키(Platform Key, PK), 키 교환 키(Key Exchange Key, KEK), 서명 데이터베이스(Signature Database, db), 금지 서명 데이터베이스(Forbidden Signature Database, dbx)를 이용해 실행 정책을 판정한다.
+- **통합 확장 펌웨어 인터페이스(UEFI)와 보안 부팅 키•목록**: UEFI가 플랫폼 키(Platform Key, PK), 키 교환 키(Key Exchange Key, KEK), 서명 데이터베이스(Signature Database, db), 금지 서명 데이터베이스(Forbidden Signature Database, dbx)를 이용해 실행 정책을 판정한다.
 
 </details>
 
@@ -103,21 +103,21 @@ sequenceDiagram
   participant O as 플랫폼 소유자
   participant U as UEFI
   participant I as 부트 이미지
-  participant T as TPM·복구 환경
-  O->>U: 1. PK·KEK·db·dbx 등록
+  participant T as TPM•복구 환경
+  O->>U: 1. PK•KEK•db•dbx 등록
   U->>I: 검증 대상 요청
-  I->>U: 2. 이미지 서명·인증서·해시
-  U->>U: 3. db 허용·dbx 폐기 정책 확인
-  U->>U: 4. 실행 허용·거부 판정
+  I->>U: 2. 이미지 서명•인증서•해시
+  U->>U: 3. db 허용•dbx 폐기 정책 확인
+  U->>U: 4. 실행 허용•거부 판정
   U->>T: 5. 허용 이미지 측정값
 ```
 
 **동작 원리**
 
-- **1. PK·KEK·db·dbx 등록**: 소유권·갱신·허용 정책 설정
-- **2. 이미지 서명·인증서·해시**: 부트로더·드라이버 검증 정보
-- **3. db 허용·dbx 폐기 정책 확인**: 신뢰 체인과 폐기 여부를 정책에 대조
-- **4. 실행 허용·거부 판정**: 미승인 코드 차단·복구 전환
+- **1. PK•KEK•db•dbx 등록**: 소유권•갱신•허용 정책 설정
+- **2. 이미지 서명•인증서•해시**: 부트로더•드라이버 검증 정보
+- **3. db 허용•dbx 폐기 정책 확인**: 신뢰 체인과 폐기 여부를 정책에 대조
+- **4. 실행 허용•거부 판정**: 미승인 코드 차단•복구 전환
 - **5. 허용 이미지 측정값**: 다음 단계 실행과 TPM 증적 기록
 
 #### 한줄 요약
@@ -152,29 +152,29 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **통합 확장 펌웨어 인터페이스 규격(Unified Extensible Firmware Interface Specification, UEFI Specification) 2.11**: 보안 부팅·드라이버 서명·키 교환 구조를 정의한다.
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-193**: 플랫폼 펌웨어의 보호·탐지·복구 복원력 지침이다.
+- **통합 확장 펌웨어 인터페이스 규격(Unified Extensible Firmware Interface Specification, UEFI Specification) 2.11**: 보안 부팅•드라이버 서명•키 교환 구조를 정의한다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 복원력 지침이다.
 - **신뢰 컴퓨팅 그룹 신뢰 플랫폼 모듈(Trusted Computing Group Trusted Platform Module, TCG TPM) 2.0**: 부팅 측정값 보호와 원격 증명의 기반을 제공하는 규격이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 키 소유권이 불명확하면 정책이 변조됨 | **UEFI Specification 2.11 적용** | PK·KEK·db·dbx 표준화 |
-| 부팅 차단만으로 장애 복구가 불가능함 | **NIST SP 800-193 적용** | 보호·탐지·복구 확보 |
-| 측정값이 위조되면 원격 판정이 오염됨 | **TCG TPM 2.0 Library 적용** | 측정·원격 증명 기반 확보 |
+| 키 소유권이 불명확하면 정책이 변조됨 | **UEFI Specification 2.11 적용** | PK•KEK•db•dbx 표준화 |
+| 부팅 차단만으로 장애 복구가 불가능함 | **NIST SP 800-193 적용** | 보호•탐지•복구 확보 |
+| 측정값이 위조되면 원격 판정이 오염됨 | **TCG TPM 2.0 Library 적용** | 측정•원격 증명 기반 확보 |
 
 #### 한줄 요약
 
-- 조직이 승인한 부트로더·커널 서명만 db에 두고 취약 서명자는 dbx로 폐기하며 복구 키와 절차를 별도 검증한다.
+- 조직이 승인한 부트로더•커널 서명만 db에 두고 취약 서명자는 dbx로 폐기하며 복구 키와 절차를 별도 검증한다.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **허용·폐기 동시 판정**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙이다.
-- **서명 데이터베이스(Signature Database, db)·금지 서명 데이터베이스(Forbidden Signature Database, dbx) 판단**: 허용 목록과 폐기 목록을 동시에 확인하는 절차이다.
+- **허용•폐기 동시 판정**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙이다.
+- **서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx) 판단**: 허용 목록과 폐기 목록을 동시에 확인하는 절차이다.
 
 </details>
 

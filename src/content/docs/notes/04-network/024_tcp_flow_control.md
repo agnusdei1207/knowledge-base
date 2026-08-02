@@ -3,10 +3,10 @@ sidebar:
   order: 24
   label: "024. TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
   badge:
-    text: "기출 · 30%"
+    text: "기출 • 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-07-31T00:51:44+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -38,11 +38,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **수신 윈도·혼잡 윈도(Receive Window/Congestion Window, rwnd·cwnd)**: 수신 버퍼 여유와 경로 혼잡을 기준으로 미확인 전송량을 제한하는 값이다.
+- **수신 윈도•혼잡 윈도(Receive Window/Congestion Window, rwnd•cwnd)**: 수신 버퍼 여유와 경로 혼잡을 기준으로 미확인 전송량을 제한하는 값이다.
 - **확인 응답(Acknowledgment, ACK)**: 누적 수신 번호와 현재 수신 윈도를 송신자에게 알리는 응답이다.
 </details>
 
-- ACK의 **현재 rwnd·누적 수신 번호 광고**
+- ACK의 **현재 rwnd•누적 수신 번호 광고**
 - 누적 ACK의 **송신 윈도 전진**
 - 제로 윈도 탐사의 **윈도 갱신 유실 복구**
 
@@ -56,8 +56,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **슬라이딩 윈도**: 윈도 범위의 데이터를 연속 전송하고 ACK에 따라 범위를 이동하는 방식이다.
-- **전송 제어 프로토콜·확인 응답(Transmission Control Protocol/Acknowledgment, TCP·ACK)**: 신뢰성 있는 바이트 스트림 전송과 누적 수신 확인을 담당하는 프로토콜·응답이다.
-- **수신 윈도·혼잡 윈도(Receive Window/Congestion Window, rwnd·cwnd)**: 수신 여유와 경로 혼잡을 각각 반영하는 송신 한도이다.
+- **전송 제어 프로토콜•확인 응답(Transmission Control Protocol/Acknowledgment, TCP•ACK)**: 신뢰성 있는 바이트 스트림 전송과 누적 수신 확인을 담당하는 프로토콜•응답이다.
+- **수신 윈도•혼잡 윈도(Receive Window/Congestion Window, rwnd•cwnd)**: 수신 여유와 경로 혼잡을 각각 반영하는 송신 한도이다.
 </details>
 
 ```mermaid
@@ -76,7 +76,7 @@ block
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 송신 TCP | **rwnd·cwnd** 중 작은 값으로 송신 범위 제한 |
+| 송신 TCP | **rwnd•cwnd** 중 작은 값으로 송신 범위 제한 |
 | 송신 버퍼 | 미확인 바이트를 **재전송**까지 보관 |
 | 수신 TCP | 누적 ACK와 현재 **rwnd 광고** |
 | 수신 버퍼 | 응용이 읽기 전 **수신 바이트** 보관 |
@@ -92,7 +92,7 @@ block
 <summary>핵심 용어</summary>
 
 - **확인 응답(Acknowledgment, ACK)**: 다음에 받을 바이트 번호와 새 수신 윈도를 알리는 응답이다.
-- **전송 제어 프로토콜·수신 윈도·혼잡 윈도(Transmission Control Protocol/Receive Window/Congestion Window, TCP·rwnd·cwnd)**: 신뢰성 있는 전송과 수신·혼잡 상태에 따른 송신 한도를 나타낸다.
+- **전송 제어 프로토콜•수신 윈도•혼잡 윈도(Transmission Control Protocol/Receive Window/Congestion Window, TCP•rwnd•cwnd)**: 신뢰성 있는 전송과 수신•혼잡 상태에 따른 송신 한도를 나타낸다.
 </details>
 
 ```mermaid
@@ -105,15 +105,15 @@ sequenceDiagram
     송신응용->>송신TCP: 응용 데이터
     송신TCP->>수신TCP: 1. 윈도 범위 데이터
     수신TCP->>수신버퍼: 2. 수신 바이트
-    수신TCP-->>송신TCP: 3. ACK·수신 윈도
+    수신TCP-->>송신TCP: 3. ACK•수신 윈도
     수신버퍼-->>수신응용: 순서화 데이터
 ```
 
 **동작 원리**
 
-1. **윈도 범위 데이터**: **rwnd·cwnd** 중 작은 범위까지 연속 전송
+1. **윈도 범위 데이터**: **rwnd•cwnd** 중 작은 범위까지 연속 전송
 2. **수신 바이트**: 순서가 맞는 데이터를 **수신 버퍼** 에 저장
-3. **ACK·수신 윈도**: 누적 수신 번호와 새 **rwnd** 로 송신 윈도 전진
+3. **ACK•수신 윈도**: 누적 수신 번호와 새 **rwnd** 로 송신 윈도 전진
 
 #### 한줄 요약
 
@@ -124,15 +124,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정지-대기·슬라이딩 윈도**: 매번 ACK를 기다리는 방식과 여러 데이터를 연속 전송하는 방식이다.
-- **확인 응답·왕복 시간(Acknowledgment/Round-Trip Time, ACK·RTT)**: 수신 확인 메시지와 데이터 전송부터 확인 수신까지 걸리는 시간이다.
+- **정지-대기•슬라이딩 윈도**: 매번 ACK를 기다리는 방식과 여러 데이터를 연속 전송하는 방식이다.
+- **확인 응답•왕복 시간(Acknowledgment/Round-Trip Time, ACK•RTT)**: 수신 확인 메시지와 데이터 전송부터 확인 수신까지 걸리는 시간이다.
 </details>
 
 | 흐름 제어 방식 | 슬라이딩 윈도 | 정지-대기 |
 |:---|:---|:---|
-| 적용 기준 | RTT 중 **연속 전송·대역폭 활용** | 저속·짧은 **단순 전송** |
+| 적용 기준 | RTT 중 **연속 전송•대역폭 활용** | 저속•짧은 **단순 전송** |
 | 핵심 특징 | 윈도 안의 **다중 데이터 연속 전송** | 데이터별 **ACK 후 다음 전송** |
-| 한계 | 윈도·버퍼 **상태 관리 복잡** | RTT 대기·**대역폭 낭비** |
+| 한계 | 윈도•버퍼 **상태 관리 복잡** | RTT 대기•**대역폭 낭비** |
 
 > 요약: 슬라이딩 윈도는 허용 범위에서 연속 전송
 
@@ -145,17 +145,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **제로 윈도·지속 타이머(Zero Window/Persist Timer)**: 수신 여유가 없는 상태와 윈도 갱신 유실을 막는 탐사 타이머이다.
-- **수신 윈도·혼잡 윈도·대역폭 지연 곱(Receive Window/Congestion Window/Bandwidth-Delay Product, rwnd·cwnd·BDP)**: 수신·혼잡 한도와 경로를 채우는 데 필요한 데이터량이다.
+- **제로 윈도•지속 타이머(Zero Window/Persist Timer)**: 수신 여유가 없는 상태와 윈도 갱신 유실을 막는 탐사 타이머이다.
+- **수신 윈도•혼잡 윈도•대역폭 지연 곱(Receive Window/Congestion Window/Bandwidth-Delay Product, rwnd•cwnd•BDP)**: 수신•혼잡 한도와 경로를 채우는 데 필요한 데이터량이다.
 - **확인 응답(Acknowledgment, ACK)**: 수신 번호와 갱신된 수신 윈도를 전달하는 응답이다.
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 응용 소비가 느리면 **수신 버퍼** 고갈 | 버퍼 점유율·소비율·**rwnd** 함께 관측 | 수신 측 **처리 병목** 식별 |
-| 윈도 갱신 ACK 유실로 **제로 윈도** 지속 | **지속 타이머·윈도 탐사** 유지 | 송수신 **영구 대기** 방지 |
+| 응용 소비가 느리면 **수신 버퍼** 고갈 | 버퍼 점유율•소비율•**rwnd** 함께 관측 | 수신 측 **처리 병목** 식별 |
+| 윈도 갱신 ACK 유실로 **제로 윈도** 지속 | **지속 타이머•윈도 탐사** 유지 | 송수신 **영구 대기** 방지 |
 | rwnd가 **BDP**보다 작아 링크 유휴 | 버퍼와 **윈도 배율** 조정 | 경로 **대역폭 활용률** 향상 |
-| 흐름·혼잡 제어 혼동으로 송신량 오조정 | **rwnd·cwnd** 별도 계측 | 병목 원인별 **윈도 조정** |
+| 흐름•혼잡 제어 혼동으로 송신량 오조정 | **rwnd•cwnd** 별도 계측 | 병목 원인별 **윈도 조정** |
 
 #### 한줄 요약
 
@@ -166,8 +166,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **대역폭 지연 곱·윈도 배율(Bandwidth-Delay Product/Window Scale, BDP·윈도 배율)**: 경로에 채울 데이터량과 큰 수신 윈도를 표현하는 TCP 옵션이다.
-- **전송 제어 프로토콜·수신 윈도(Transmission Control Protocol/Receive Window, TCP·rwnd)**: 신뢰성 있는 전송과 수신 버퍼 여유에 따른 송신 한도를 나타낸다.
+- **대역폭 지연 곱•윈도 배율(Bandwidth-Delay Product/Window Scale, BDP•윈도 배율)**: 경로에 채울 데이터량과 큰 수신 윈도를 표현하는 TCP 옵션이다.
+- **전송 제어 프로토콜•수신 윈도(Transmission Control Protocol/Receive Window, TCP•rwnd)**: 신뢰성 있는 전송과 수신 버퍼 여유에 따른 송신 한도를 나타낸다.
 </details>
 
 - 수신 버퍼가 병목이면 **rwnd** 를 조정하고 제로 윈도면 **윈도 탐사** 유지

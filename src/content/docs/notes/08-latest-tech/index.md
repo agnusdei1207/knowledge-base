@@ -2,7 +2,7 @@
 sidebar:
   order: 0
 title: "최신 기술 동향"
-description: "AI/LLM·클라우드·빅데이터·신기술"
+description: "AI/LLM•클라우드•빅데이터•신기술"
 weight: 8
 ---
 

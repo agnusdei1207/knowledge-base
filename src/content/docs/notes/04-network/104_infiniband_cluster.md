@@ -3,10 +3,10 @@ sidebar:
   order: 104
   label: "104. InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
   badge:
-    text: "기출 · 50%"
+    text: "기출 • 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-03T08:48:47+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -14,7 +14,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 50
-  priority_note: "비교·설계형: 138회 InfiniBand 직접 요구"
+  priority_note: "비교•설계형: 138회 InfiniBand 직접 요구"
 ---
 
 ## Ⅰ. 개요
@@ -26,7 +26,7 @@ extra:
 
 </details>
 
-- 정의/개념: HCA와 스위치를 잇는 **RDMA·크레딧 제어 패브릭**
+- 정의/개념: HCA와 스위치를 잇는 **RDMA•크레딧 제어 패브릭**
 - 배경/필요성: 범용망의 복사와 손실로 인한 **지연 변동**
 
 #### 한줄 요약
@@ -39,13 +39,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **링크 무손실 흐름 제어**: 호스트 채널 어댑터(Host Channel Adapter, HCA)가 수신 버퍼의 여유 크레딧 범위에서 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 자료를 전송하게 해 링크 손실을 방지하는 방식
-- **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소·경로·파티션을 계산·배포하는 중앙 제어 기능
+- **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소•경로•파티션을 계산•배포하는 중앙 제어 기능
 
 </details>
 
 - HCA 기반 **RDMA 전송**
 - 크레딧 기반 **링크 무손실 흐름 제어**
-- 서브넷 관리자 기반 **주소·경로 관리**
+- 서브넷 관리자 기반 **주소•경로 관리**
 
 #### 한줄 요약
 
@@ -56,9 +56,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서브넷 관리자**: 서브넷 관리자는 패브릭 토폴로지를 발견하고 로컬 식별자(Local Identifier, LID)·가상 레인(Virtual Lane, VL) 경로·파티션 키(Partition Key, P_Key)를 계산·배포하는 중앙 제어 기능이다.
+- **서브넷 관리자**: 서브넷 관리자는 패브릭 토폴로지를 발견하고 로컬 식별자(Local Identifier, LID)•가상 레인(Virtual Lane, VL) 경로•파티션 키(Partition Key, P_Key)를 계산•배포하는 중앙 제어 기능이다.
 - **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버 메모리의 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업을 실행하는 장치
-- **패브릭 관측기**: 포트·링크·오류·혼잡 상태를 수집해 경로와 무손실 동작을 검증하는 구성요소
+- **패브릭 관측기**: 포트•링크•오류•혼잡 상태를 수집해 경로와 무손실 동작을 검증하는 구성요소
 
 </details>
 
@@ -79,10 +79,10 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 컴퓨트 HCA | 서버 메모리의 **RDMA 작업** 실행 |
-| InfiniBand 스위치 패브릭 | **LID·VL 경로** 로 무손실 패킷 전달 |
+| InfiniBand 스위치 패브릭 | **LID•VL 경로** 로 무손실 패킷 전달 |
 | 저장 HCA | 저장 장치의 **RDMA 종단** 제공 |
-| 서브넷 관리자 | **LID·경로·P_Key** 관리 |
-| 패브릭 관측기 | **포트·링크·오류·혼잡 상태** 수집 |
+| 서브넷 관리자 | **LID•경로•P_Key** 관리 |
+| 패브릭 관측기 | **포트•링크•오류•혼잡 상태** 수집 |
 
 #### 한줄 요약
 
@@ -94,7 +94,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **크레딧 RDMA 전송**: 호스트 채널 어댑터(Host Channel Adapter, HCA)와 스위치가 다음 홉의 수신 버퍼 크레딧 범위에서만 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 보내 손실을 억제하는 방식
-- **LID·P_Key·QP**: 로컬 식별자(Local Identifier, LID), 파티션 키(Partition Key, P_Key), 큐 페어(Queue Pair, QP)는 주소·격리 그룹·전송 작업 연결을 구성하는 정보와 자원
+- **LID•P_Key•QP**: 로컬 식별자(Local Identifier, LID), 파티션 키(Partition Key, P_Key), 큐 페어(Queue Pair, QP)는 주소•격리 그룹•전송 작업 연결을 구성하는 정보와 자원
 
 </details>
 
@@ -106,19 +106,19 @@ sequenceDiagram
     participant 스위치
     participant 원격HCA
     서브넷관리자->>스위치: 1. 토폴로지 발견
-    서브넷관리자->>서브넷관리자: 2. 경로·파티션 계산
-    서브넷관리자->>HCA: 3. LID·P_Key 할당
+    서브넷관리자->>서브넷관리자: 2. 경로•파티션 계산
+    서브넷관리자->>HCA: 3. LID•P_Key 할당
     응용->>HCA: RDMA 작업
-    HCA->>원격HCA: 4. QP·키 연결 설정
+    HCA->>원격HCA: 4. QP•키 연결 설정
     HCA->>스위치: 5. 크레딧 RDMA 전송
 ```
 
 **동작 원리**
 
-1. **토폴로지 발견**: 링크·스위치·HCA 상태 수집
-2. **경로·파티션 계산**: 목적지 경로와 통신 그룹 결정
-3. **LID·P_Key 할당**: 로컬 식별자(Local Identifier, LID)와 파티션 키(Partition Key, P_Key) 배포
-4. **QP·키 연결 설정**: 큐 페어(Queue Pair, QP)와 원격 메모리 정보 공유
+1. **토폴로지 발견**: 링크•스위치•HCA 상태 수집
+2. **경로•파티션 계산**: 목적지 경로와 통신 그룹 결정
+3. **LID•P_Key 할당**: 로컬 식별자(Local Identifier, LID)와 파티션 키(Partition Key, P_Key) 배포
+4. **QP•키 연결 설정**: 큐 페어(Queue Pair, QP)와 원격 메모리 정보 공유
 5. **크레딧 RDMA 전송**: 수신 버퍼 여유 안에서 전달
 #### 한줄 요약
 
@@ -137,9 +137,9 @@ sequenceDiagram
 
 | 클러스터 인터커넥트 | InfiniBand | RoCEv2 | TCP 이더넷 |
 |:---|:---|:---|:---|
-| 적용 기준 | **최고 성능 연산 클러스터** | 기존 이더넷 기반 **대규모 RDMA** | **범용 호환·운영 단순성** 우선 |
-| 핵심 특징 | **전용 RDMA·크레딧 제어** | **IP 이더넷 기반 RDMA** | **커널 기반 신뢰 전송** |
-| 한계 | **전용 장비·관리자 의존** | **혼잡·무손실 조정 복잡성** | **복사·CPU·지연 부담** |
+| 적용 기준 | **최고 성능 연산 클러스터** | 기존 이더넷 기반 **대규모 RDMA** | **범용 호환•운영 단순성** 우선 |
+| 핵심 특징 | **전용 RDMA•크레딧 제어** | **IP 이더넷 기반 RDMA** | **커널 기반 신뢰 전송** |
+| 한계 | **전용 장비•관리자 의존** | **혼잡•무손실 조정 복잡성** | **복사•CPU•지연 부담** |
 
 #### 한줄 요약
 
@@ -150,15 +150,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서브넷 관리자 단일 장애**: 토폴로지·주소·경로·파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험
+- **서브넷 관리자 단일 장애**: 토폴로지•주소•경로•파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험
 - **InfiniBand 상호운용 규격**: InfiniBand 무역협회(InfiniBand Trade Association, IBTA)의 InfiniBand 아키텍처(InfiniBand Architecture, IBA) 규격으로 장비 호환성을 검증하는 기준
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 집단 통신의 **상위 링크 병목** | **비차단 용량·경로 분산** | **반복 시간 단축** |
-| 서브넷 관리자의 **단일 장애** | **관리자 이중화·상태 동기화** | **제어 가용성** 확보 |
+| 집단 통신의 **상위 링크 병목** | **비차단 용량•경로 분산** | **반복 시간 단축** |
+| 서브넷 관리자의 **단일 장애** | **관리자 이중화•상태 동기화** | **제어 가용성** 확보 |
 | 장비 간 **상호운용 차이** | **IBTA IBA 규격 준수 시험** | **패브릭 호환성** 확보 |
 
 #### 한줄 요약

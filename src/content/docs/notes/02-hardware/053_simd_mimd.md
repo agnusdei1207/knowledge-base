@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 53
-  label: "053. SIMD·MIMD 프로세서 (SIMD MIMD)"
+  label: "053. SIMD•MIMD 프로세서 (SIMD MIMD)"
   badge:
-    text: "기출 · 70%"
+    text: "기출 • 70%"
     variant: note
-title: "SIMD·MIMD 프로세서 (SIMD MIMD)"
-date: "2026-08-02T11:13:00+09:00"
+title: "SIMD•MIMD 프로세서 (SIMD MIMD)"
+date: "2026-08-03T08:48:47+09:00"
 tags:
   - "notes-hardware"
 weight: 53
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)** 방식과 **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)** 방식을 결합해 규칙 연산과 독립 작업을 처리하는 **병렬 실행 구조**
-- 배경/필요성: 단일 실행 방식은 규칙·비정형 작업의 **혼합 병렬화 제약**
+- 배경/필요성: 단일 실행 방식은 규칙•비정형 작업의 **혼합 병렬화 제약**
 
 #### 한줄 요약
 
@@ -42,13 +42,13 @@ extra:
 - **공통 명령(Common Instruction)**: 하나의 제어 장치가 여러 연산 레인에 동시에 발행하는 동일한 연산 지시이다.
 - **독립 명령 흐름(Independent Instruction Flow)**: 각 코어가 다른 작업 순서와 분기를 별도로 실행하는 제어 흐름이다.
 - **계층형 병렬성(Hierarchical Parallelism)**: 코어 사이의 작업 병렬성과 코어 내부의 데이터 병렬성을 함께 사용하는 구조이다.
-- **SIMD·MIMD**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 공통 명령으로 여러 데이터를 처리하고, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 명령으로 서로 다른 데이터를 처리한다.
+- **SIMD•MIMD**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 공통 명령으로 여러 데이터를 처리하고, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 명령으로 서로 다른 데이터를 처리한다.
 
 </details>
 
-- **SIMD 공통 명령** 으로 제어·해석 비용 절감
+- **SIMD 공통 명령** 으로 제어•해석 비용 절감
 - **MIMD 독립 명령** 으로 상이한 작업 동시 실행
-- **계층형 병렬성** 으로 코어 간 작업·코어 내 데이터 병렬 결합
+- **계층형 병렬성** 으로 코어 간 작업•코어 내 데이터 병렬 결합
 
 #### 한줄 요약
 
@@ -71,7 +71,7 @@ block
     Q["작업 큐"]
     S["MIMD 스케줄러"]
     L["SIMD 지원 코어군"]
-    B["공유 메모리·동기화기"]
+    B["공유 메모리•동기화기"]
     Q --- S
     S --- L
     L --- B
@@ -79,10 +79,10 @@ block
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 작업 큐 | 독립 작업·입력 범위 **대기 보관** |
+| 작업 큐 | 독립 작업•입력 범위 **대기 보관** |
 | MIMD 스케줄러 | 작업을 코어별로 **독립 배치** |
 | SIMD 지원 코어군 | 공통 명령의 **다중 데이터 처리** |
-| 공유 메모리·동기화기 | 코어 간 데이터 교환·**배리어 판정** |
+| 공유 메모리•동기화기 | 코어 간 데이터 교환•**배리어 판정** |
 
 #### 한줄 요약
 
@@ -104,7 +104,7 @@ sequenceDiagram
     participant Q as 작업 큐
     participant S as MIMD 스케줄러
     participant L as SIMD 지원 코어군
-    participant B as 공유 메모리·동기화기
+    participant B as 공유 메모리•동기화기
 
     Q->>S: 1. 독립 작업 전달
     S->>L: 2. 코어별 작업 기술자 전달
@@ -128,18 +128,18 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **조밀 벡터·행렬(Dense Vector·Matrix)**: 대부분의 원소가 유효하여 같은 연산을 연속 원소에 반복하기 쉬운 데이터이다.
+- **조밀 벡터•행렬(Dense Vector•Matrix)**: 대부분의 원소가 유효하여 같은 연산을 연속 원소에 반복하기 쉬운 데이터이다.
 - **비정형 분기(Irregular Branch)**: 입력마다 실행 경로와 작업량이 달라 공통 명령으로 묶기 어려운 제어 흐름이다.
 - **동기화 비용(Synchronization Cost)**: 락과 배리어 및 메시지를 기다리느라 실제 연산을 수행하지 못하는 시간이다.
-- **SIMD·MIMD 선택**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 규칙 연산에, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 작업에 적합하다.
+- **SIMD•MIMD 선택**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 규칙 연산에, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 작업에 적합하다.
 
 </details>
 
 | 병렬 실행 구조 | SIMD | MIMD |
 |:---|:---|:---|
-| 적용 기준 | 조밀 **벡터·행렬·영상** | 서비스·그래프·**비정형 분기** |
+| 적용 기준 | 조밀 **벡터•행렬•영상** | 서비스•그래프•**비정형 분기** |
 | 핵심 특징 | 공통 명령의 **다중 데이터 처리** | 독립 명령의 **다중 작업 처리** |
-| 한계 | 분기 발산·**비연속 메모리** | 동기화·통신·**부하 불균형** |
+| 한계 | 분기 발산•**비연속 메모리** | 동기화•통신•**부하 불균형** |
 
 > 요약: 규칙 연산에는 **SIMD**, 독립 작업에는 **MIMD** 선택
 
@@ -162,9 +162,9 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | SIMD 분기 발산으로 레인 비활성 증가 | 같은 경로 데이터를 묶고 **활성 마스크** 측정 | **레인 활용률** 향상 |
-| 비연속 주소로 벡터 메모리 요청 증가 | 자료 배치·루프 순서를 **연속 접근** 에 정렬 | **메모리 대역폭** 활용률 향상 |
-| MIMD 동기화·부하 불균형으로 코어 대기 | 작업 세분화·**동적 스케줄링** 적용 | **코어 대기 시간** 감소 |
-| SIMD·MIMD 경계의 변환·복사 비용 | 규칙 구간 확대·**경계 데이터 형식** 통일 | **혼합 실행 오버헤드** 감소 |
+| 비연속 주소로 벡터 메모리 요청 증가 | 자료 배치•루프 순서를 **연속 접근** 에 정렬 | **메모리 대역폭** 활용률 향상 |
+| MIMD 동기화•부하 불균형으로 코어 대기 | 작업 세분화•**동적 스케줄링** 적용 | **코어 대기 시간** 감소 |
+| SIMD•MIMD 경계의 변환•복사 비용 | 규칙 구간 확대•**경계 데이터 형식** 통일 | **혼합 실행 오버헤드** 감소 |
 
 > 요약: 영상 타일은 **MIMD**, 연속 픽셀은 **SIMD** 병렬 처리
 
