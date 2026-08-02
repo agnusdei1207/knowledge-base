@@ -57,7 +57,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **보호 영역(Protection Domain)**: 메모리·큐·연결 객체가 서로 접근할 수 있는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 자원 격리 경계이다.
+- **등록 메모리(Registered Memory)**: 네트워크 어댑터가 직접 접근하도록 주소·길이·권한을 고정하고 로컬·원격 키를 발급한 메모리 영역이다.
 - **큐 페어(Queue Pair, QP)**: 송신 큐와 수신 큐를 묶어 RDMA 통신 종단을 구성한 객체이다.
+- **동사(Verb)·작업 요청(Work Request, WR)**: 동사는 원격 직접 메모리 접근 자원을 조작하는 응용 프로그래밍 인터페이스이며, 작업 요청은 실행할 연산·버퍼·키를 기술해 작업 큐에 게시하는 서술자이다.
 - **완료 큐(Completion Queue, CQ)**: 게시한 작업 요청의 성공·오류·완료 상태를 기록하는 큐이다.
 
 </details>
