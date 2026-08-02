@@ -94,15 +94,14 @@ sequenceDiagram
     participant E as 테스트 환경
     participant S as 시험 대상
     participant O as 테스트 오라클
-    participant R as 결과 저장소
     A->>E: 1. 테스트 조건 구성
     E->>S: 2. 대상 실행
     S-->>E: 실제 결과 반환
     E->>O: 3. 오라클 판정
     alt 결과 일치
-        O->>R: 4. 통과 증거 기록
+        O->>A: 4. 통과 증거 기록
     else 결과 불일치
-        O->>R: 5. 결함 증거 기록
+        O->>A: 5. 결함 증거 기록
     end
 ```
 

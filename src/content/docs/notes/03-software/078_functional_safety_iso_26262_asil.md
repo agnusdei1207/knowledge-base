@@ -100,12 +100,11 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant H as HARA
-    participant A as 시스템 설계
+    participant A as HARA·시스템 설계
     participant W as 하드웨어·소프트웨어
     participant V as 검증팀
     participant S as 안전 책임자
-    H->>A: 1. 위험 사건·S·E·C·ASIL
+    A->>A: 1. 위험 사건·S·E·C·ASIL
     A->>W: 2. FSR·TSR·HSR·SSR
     W-->>A: 3. 안전 메커니즘·구현 증거
     A->>V: 4. 추적성 행렬·결함 주입 시나리오

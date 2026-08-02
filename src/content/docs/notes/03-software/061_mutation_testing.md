@@ -105,16 +105,15 @@ block
 ```mermaid
 sequenceDiagram
     participant R as 테스트 실행기
-    participant O as 원본 프로그램
     participant G as 변이 생성기
-    participant M as 변이본
+    participant P as 원본·변이 프로그램
     participant C as 결과 분류기
-    R->>O: 1. 기준 테스트 스위트
-    O-->>R: 원본 실행 결과
+    R->>P: 1. 기준 테스트 스위트
+    P-->>R: 원본 실행 결과
     R->>G: 2. 원본 코드·변이 연산자
-    G->>M: 3. 독립 변이본
-    R->>M: 4. 동일 테스트 스위트
-    M-->>R: 변이 실행 결과
+    G->>P: 3. 독립 변이본
+    R->>P: 4. 동일 테스트 스위트
+    P-->>R: 변이 실행 결과
     R->>C: 5. 원본·변이 실행 결과
     C-->>R: 사멸·생존·등가 분류
 ```

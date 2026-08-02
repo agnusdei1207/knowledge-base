@@ -105,12 +105,10 @@ block
 ```mermaid
 sequenceDiagram
     participant O as 조직
-    participant D as 내부 진단
     participant A as 인증심사팀
     participant C as 인증심의회
     participant N as 인증기관
-    O->>D: 1. 표준 프로세스·프로젝트 증적
-    D-->>O: 기준 격차·시정 항목
+    O->>O: 1. 내부 진단·시정
     O->>N: 인증 신청서·목표 등급
     N->>A: 2. 심사 범위·목표 등급·심사팀
     A->>O: 3. 증적 표본·면담 대상
