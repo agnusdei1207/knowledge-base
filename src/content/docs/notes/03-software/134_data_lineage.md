@@ -103,12 +103,11 @@ block
 sequenceDiagram
     participant O as 오케스트레이터
     participant E as 처리 엔진
-    participant C as 계보 수집기
-    participant G as 계보 그래프
+    participant G as 계보 수집기·그래프
     participant U as 사용자
     O->>E: 1. 작업명·실행 식별자
-    E->>C: 2. 입출력·열 변환 계보 이벤트
-    C->>G: 3. 정합화된 자산·실행 관계
+    E->>G: 2. 입출력·열 변환 계보 이벤트
+    G->>G: 3. 자산·실행 관계 정합화
     U->>G: 상·하류 영향 조건
     G-->>U: 원인·책임 경로
 ```

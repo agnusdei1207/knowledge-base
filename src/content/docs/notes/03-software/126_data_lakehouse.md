@@ -103,12 +103,11 @@ block
 sequenceDiagram
     participant W as 쓰기 엔진
     participant O as 객체 스토리지
-    participant M as 테이블 메타데이터
-    participant C as 카탈로그
+    participant C as 카탈로그·테이블 메타데이터
     participant R as 읽기 엔진
     W->>O: 1. 새 불변 데이터 파일
     O-->>W: 파일 위치·버전 반환
-    W->>M: 2. 새 스냅숏 메타데이터
+    W->>C: 2. 새 스냅숏 메타데이터
     W->>C: 3. 기준 버전·새 메타데이터 포인터
     C-->>W: 성공·재시도 결과
     R->>C: 테이블 조회

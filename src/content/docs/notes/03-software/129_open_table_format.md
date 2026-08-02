@@ -102,14 +102,13 @@ block
 ```mermaid
 sequenceDiagram
     participant W as 쓰기 엔진
-    participant C as 카탈로그
+    participant C as 카탈로그·포맷 메타데이터
     participant D as 파일 저장소
-    participant M as 포맷 메타데이터
     participant R as 읽기 엔진
     W->>C: 1. 기준 테이블 버전 요청
     C-->>W: 기준 메타데이터 반환
     W->>D: 2. 새 데이터·변경 파일
-    W->>M: 3. 파일 참조·가지치기 통계
+    W->>C: 3. 파일 참조·가지치기 통계
     W->>C: 4. 기준 버전·새 메타데이터 위치
     C-->>W: 성공·충돌 결과 반환
     R->>C: 테이블 조회

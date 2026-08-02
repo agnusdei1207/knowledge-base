@@ -94,14 +94,13 @@ treeView-beta
 ```mermaid
 sequenceDiagram
     participant W as 쓰기 엔진
-    participant C as 카탈로그
+    participant C as 카탈로그·Iceberg 메타데이터
     participant D as 객체 스토리지
-    participant M as Iceberg 메타데이터
     participant R as 읽기 엔진
     W->>C: 1. 기준 메타데이터 포인터 요청
     C-->>W: 스냅숏·스키마 반환
     W->>D: 2. 새 데이터·삭제 파일
-    W->>M: 3. 매니페스트·스냅숏 메타데이터
+    W->>C: 3. 매니페스트·스냅숏 메타데이터
     W->>C: 4. 기준 포인터·새 메타데이터 위치
     C-->>W: 교체·충돌 결과 반환
     R->>C: 테이블 조회

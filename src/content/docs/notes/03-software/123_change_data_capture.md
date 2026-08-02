@@ -102,7 +102,6 @@ sequenceDiagram
     participant D as 원천 DB
     participant C as CDC 커넥터
     participant B as 브로커
-    participant O as 오프셋 저장소
     participant S as 싱크 커넥터
     C->>D: 1. 스냅숏 기준 위치 요청
     D-->>C: 2. 기존 행·시작 로그 위치
@@ -110,7 +109,7 @@ sequenceDiagram
     D-->>C: 4. 커밋 순서 변경 로그
     C->>B: 5. 키·전후 값 변경 이벤트
     B->>S: 파티션 순서 전달
-    C->>O: 확정 원천 오프셋
+    C->>C: 확정 원천 오프셋 기록
 ```
 
 **동작 원리**

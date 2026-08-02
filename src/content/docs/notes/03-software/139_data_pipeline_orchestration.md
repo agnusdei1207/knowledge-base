@@ -97,12 +97,11 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant P as DAG 처리기
+    participant S as DAG 처리기·스케줄러
     participant M as 메타데이터 DB
-    participant S as 스케줄러
     participant W as 작업자
     participant A as API 서버
-    P->>M: 1. DAG 파싱·직렬화 저장
+    S->>M: 1. DAG 파싱·직렬화 저장
     S->>M: 2. DAG Run·실행 조건 평가
     M-->>S: 선행 상태·동시성 제공
     S->>W: 3. 준비 태스크·버전 제출
