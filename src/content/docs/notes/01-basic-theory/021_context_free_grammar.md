@@ -96,12 +96,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 호출자
     participant P as 파서
     participant G as 문법 저장소
     participant I as 입력 토큰 스트림
     participant T as 구문 트리 저장소
-    Q->>P: 입력 토큰•파싱 요청
+    I->>P: 입력 토큰•파싱 요청
     loop 유도 상태에 기호 존재
         alt 현재 기호가 비단말
             P->>G: 1. 생성 규칙 요청
@@ -114,7 +113,7 @@ sequenceDiagram
         end
     end
     P->>T: 5. 트리 확정 요청
-    P-->>Q: 수용 여부•구문 트리 반환
+    P-->>T: 수용 여부•구문 트리 확정
 ```
 
 ### 동작 원리

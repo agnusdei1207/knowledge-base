@@ -96,12 +96,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 호출자
     participant S as 상태 제어부
     participant T as 전이 함수
     participant H as 헤드
     participant P as 테이프
-    Q->>S: 실행 요청
+    S->>H: 실행 시작
     loop 정지 상태가 아닐 동안
         H->>P: 1. 현재 기호 요청
         P-->>H: 현재 기호 반환
@@ -111,7 +110,7 @@ sequenceDiagram
         H->>P: 갱신 기호 전달
         T->>S: 4. 다음 상태 전달
     end
-    S-->>Q: 수용•거부 반환
+    S->>S: 수용•거부 확정
 ```
 
 ### 동작 원리

@@ -94,12 +94,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 호출자
     participant R as 피연산자 레지스터
     participant C as 보수기
     participant A as 가산기
     participant V as 오버플로 검출기
-    Q->>R: 피연산자•연산 종류 전달
+    R->>R: 피연산자•연산 종류 적재
     opt 뺄셈
         R->>C: 1. 보수 변환 요청
         C->>A: 2. 덧셈 역원 전달
@@ -107,8 +106,8 @@ sequenceDiagram
     R->>A: 원래 피연산자 전달
     R->>V: 입력 부호•연산 종류 전달
     A->>V: 3. n비트 합 전달
-    V-->>Q: 오버플로 결과 반환
-    A-->>Q: n비트 연산 결과 반환
+    V-->>R: 오버플로 상태 기록
+    A-->>R: n비트 연산 결과 기록
 ```
 
 > **자리 가중치**: 최상위 비트만 음수

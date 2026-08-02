@@ -97,11 +97,10 @@ sequenceDiagram
     participant I as 입력 인버터
     participant A as AND 평면
     participant O as OR 평면
-    participant Y as 출력 수신기
     V->>I: 1. 입력 비트 전달
     I->>A: 2. 참•부정 리터럴 전달
     A->>O: 3. 곱항 전달
-    O->>Y: 논리 출력 전달
+    O-->>V: 논리 출력 반환
 ```
 
 ### 동작 원리
