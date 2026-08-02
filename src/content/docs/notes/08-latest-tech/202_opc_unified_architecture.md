@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**OPC UA**는 산업 데이터의 의미·통신·보안을 통합하여 이기종 설비의 상호운용을 지원하는 표준이다.
+- **OPC 통합 아키텍처(OPC Unified Architecture, OPC UA)**: 산업 데이터의 의미·통신·보안을 통합하여 이기종 설비의 상호운용을 지원하는 표준이다.
 
 </details>
 
-- 정의/개념: **OPC UA**는 산업 데이터의 의미·통신·보안을 통합한 상호운용 표준
+- 정의/개념: **OPC 통합 아키텍처(OPC Unified Architecture, OPC UA)** 는 산업 데이터의 의미·통신·보안을 통합한 상호운용 표준
 - 배경/필요성: 공급사별 태그의 **의미·주소 체계 불일치**로 설비 연계 제약
 
 #### 한줄 요약
@@ -39,12 +39,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**의미 기반 정보 모델**은 설비 객체를 노드·속성·참조 관계로 표현해 값의 의미까지 교환하게 한다.
+- **의미 기반 정보 모델**: 설비 객체를 노드·속성·참조 관계로 표현해 값의 의미까지 교환하게 한다.
 
 </details>
 
 - 노드·속성·참조로 설비를 표현하는 **의미 기반 정보 모델**
-- Client-Server·PubSub를 지원하는 **복수 통신 모델**
+- 클라이언트-서버(Client-Server)·**발행-구독(Publish-Subscribe, PubSub)** 을 지원하는 **복수 통신 모델**
 - 인증·서명·암호화·권한 제어를 제공하는 **통합 보안**
 #### 한줄 요약
 
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**AddressSpace**는 설비 객체와 그 관계를 노드·속성·참조로 표현하는 OPC UA의 정보 공간이다.
+- **주소 공간(AddressSpace)**: 설비 객체와 그 관계를 노드·속성·참조로 표현하는 OPC 통합 아키텍처의 정보 공간이다.
 
 </details>
+
+**OPC 통합 아키텍처(OPC Unified Architecture, OPC UA)** 서버의 주소 공간(AddressSpace)을 클라이언트가 탐색하며, **발행-구독(Publish-Subscribe, PubSub)** 모델은 데이터셋을 여러 구독자에게 전달한다.
 
 ```mermaid
 block-beta
@@ -88,7 +90,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**보안 채널**은 인증서를 검증한 통신 주체 사이에서 메시지의 서명과 암호화를 제공하는 연결이다.
+- **보안 채널**: 인증서를 검증한 통신 주체 사이에서 메시지의 서명과 암호화를 제공하는 연결이다.
 
 </details>
 
@@ -112,7 +114,7 @@ sequenceDiagram
 2. **인증서·정책 검증**: 발급자·유효기간·폐기·신뢰 목록 확인
 3. **보안 채널·세션**: 서명·암호화와 사용자 인증 수립
 4. **탐색·읽기·구독**: AddressSpace의 노드·속성·참조 이용
-5. **의미 기반 데이터 교환**: Client-Server 또는 PubSub로 값과 의미 전달
+5. **의미 기반 데이터 교환**: 클라이언트-서버(Client-Server) 또는 **발행-구독(Publish-Subscribe, PubSub)** 으로 값과 의미 전달
 
 #### 한줄 요약
 
@@ -123,11 +125,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**PubSub**는 발행자와 구독자를 분리하여 데이터셋 메시지를 여러 수신자에게 배포하는 통신 모델이다.
+- **발행-구독(PubSub)**: 발행자와 구독자를 분리하여 데이터셋 메시지를 여러 수신자에게 배포하는 통신 모델이다.
 
 </details>
 
-| 판단 기준 | OPC UA Client-Server | OPC UA PubSub | 단순 태그 프로토콜 |
+| 판단 기준 | OPC 통합 아키텍처(OPC Unified Architecture, OPC UA) 클라이언트-서버 | OPC UA 발행-구독(Publish-Subscribe, PubSub) | 단순 태그 프로토콜 |
 |:---|:---|:---|:---|
 | 적용 기준 | **질의·명령·상태 구독** | 다수 대상 **실시간 배포** | **단순 값 교환** |
 | 핵심 특징 | 세션 기반 **서비스 호출** | 송수신자 분리 **메시징** | **주소·값 중심 통신** |
@@ -142,7 +144,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**Companion Specification**은 산업별 장비와 데이터의 공통 의미 모델을 정의해 공급사 간 해석 차이를 줄이는 명세다.
+- **동반 명세(Companion Specification)**: 산업별 장비와 데이터의 공통 의미 모델을 정의해 공급사 간 해석 차이를 줄이는 명세다.
 
 </details>
 
@@ -161,12 +163,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**Client-Server**는 클라이언트가 서버의 서비스를 호출하고 상태 변경을 구독하는 세션 기반 통신 모델이다.
+- **클라이언트-서버(Client-Server)**: 클라이언트가 서버의 서비스를 호출하고 상태 변경을 구독하는 세션 기반 통신 모델이다.
 
 </details>
 
-- 질의·배포 패턴에 따라 **Client-Server·PubSub**를 선택하고 **인증서** 검증
+- 질의·배포 패턴에 따라 **클라이언트-서버(Client-Server)·발행-구독(Publish-Subscribe, PubSub)** 을 선택하고 **인증서** 검증
 
 #### 한줄 요약
 
-- OPC UA는 연결 방식과 함께 설비 의미와 신뢰 관리를 표준화해야 한다.
+- **OPC 통합 아키텍처(OPC Unified Architecture, OPC UA)** 는 연결 방식과 함께 설비 의미와 신뢰 관리를 표준화해야 한다.

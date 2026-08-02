@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 206
-  label: "206. AUTOSAR Adaptive (AUTOSAR Adaptive)"
+  label: "206. AUTOSAR Adaptive Platform"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "AUTOSAR Adaptive (AUTOSAR Adaptive)"
+title: "AUTOSAR Adaptive Platform"
 date: "2026-07-31T08:59:20+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**AUTOSAR Adaptive**는 고성능 ECU의 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행·관리하는 차량 소프트웨어 플랫폼이다.
+- **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 전자제어장치(Electronic Control Unit, ECU)의 애플리케이션을 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 프로세스와 동적 서비스로 실행·관리하는 차량 소프트웨어 플랫폼이다.
 
 </details>
 
-- 정의/개념: **AUTOSAR Adaptive**는 고성능 ECU 앱을 POSIX 프로세스와 동적 서비스로 실행하는 플랫폼
+- 정의/개념: 고성능 전자제어장치(Electronic Control Unit, ECU) 애플리케이션을 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**
 - 배경/필요성: Classic의 정적 구성은 고성능 서비스의 **동적 배포·갱신 수용 곤란**
 
 #### 한줄 요약
@@ -39,11 +39,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**ARA**는 Adaptive 애플리케이션이 통신·실행·진단 등 플랫폼 기능을 사용하는 표준 C++ 인터페이스다.
+- **Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: Adaptive 애플리케이션이 통신·실행·진단 등 플랫폼 기능을 사용하는 표준 C++ 인터페이스이다.
 
 </details>
 
-- POSIX 기반 **독립 프로세스 실행·자원 격리**
+- 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 기반 **독립 프로세스 실행·자원 격리**
 - `ara::com` 기반 **동적 서비스 탐색·통신**
 - 실행·건강·설정·갱신의 **플랫폼 생명주기 통합**
 #### 한줄 요약
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**Execution Management**는 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작·중지·상태를 관리하는 서비스다.
+- **실행 관리(Execution Management)**: 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작·중지·상태를 관리하는 서비스이다.
 
 </details>
+
+Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA), 업데이트·구성 관리(Update and Configuration Management, UCM), 플랫폼 건강 관리(Platform Health Management, PHM), 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX)가 실행 기반을 구성한다.
 
 ```mermaid
 block-beta
@@ -88,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**Manifest**는 애플리케이션·서비스·실행·배포 구성을 기계 판독 형식으로 선언한 명세다.
+- **매니페스트(Manifest)**: 애플리케이션·서비스·실행·배포 구성을 기계 판독 형식으로 선언한 명세이다.
 
 </details>
+
+업데이트·구성 관리(Update and Configuration Management, UCM), 플랫폼 건강 관리(Platform Health Management, PHM), Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)이 배포·통신·건강 상태를 관리한다.
 
 ```mermaid
 sequenceDiagram
@@ -123,15 +127,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**Classic Platform**은 MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
+- **Classic Platform**: 마이크로컨트롤러 유닛(Microcontroller Unit, MCU) 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
 
 </details>
+
+자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)의 Classic Platform과 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 기반 Adaptive Platform은 제어 특성과 실행 기반이 다르다.
 
 | AUTOSAR 구성 | Classic Platform | Adaptive Platform | 혼합 아키텍처 |
 |:---|:---|:---|:---|
 | 적용 기준 | **결정적 MCU 제어** | **고성능·동적 서비스** | 제어와 **고성능 기능 공존** |
 | 핵심 특징 | **정적 구성·실시간 실행** | **POSIX·서비스·프로세스** | 플랫폼 간 **역할 분리** |
-| 한계 | **동적 기능·연산 확장** 제한 | 엄격한 **실시간 제어**에 부적합 | **게이트웨이·안전 통합** 필요 |
+| 한계 | **동적 기능·연산 확장 제한** | 엄격한 **실시간 제어 부적합** | **게이트웨이·안전 통합** 필요 |
 
 #### 한줄 요약
 
@@ -142,14 +148,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**PHM**은 애플리케이션과 플랫폼의 건강 상태를 감시하고 오류 시 재시작이나 기능 저하를 요청하는 서비스다.
+- **플랫폼 건강 관리(Platform Health Management, PHM)**: 애플리케이션과 플랫폼의 건강 상태를 감시하고 오류 시 재시작이나 기능 저하를 요청하는 서비스이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **실시간 경계** 미검증 시 일반 프로세스의 **결정성 부족** | 엄격 제어의 Classic 분리와 **시간 예산 검증** | 플랫폼 **결정성 경계** 보존 |
-| **서비스 계약** 미검증 시 버전·인터페이스의 **호환성 실패** | Manifest·API 버전·**통합 시험** | 서비스 **버전 호환성** 확보 |
+| **서비스 계약** 미검증 시 버전·인터페이스의 **호환성 실패** | 매니페스트(Manifest)·응용 프로그래밍 인터페이스(Application Programming Interface, API) 버전·**통합 시험** | 서비스 **버전 호환성** 확보 |
 | **동적 갱신** 미검증 시 불완전 패키지의 **기능·안전 영향** | 서명·원자 설치·롤백·**재시작 전략** | 갱신 실패 **안전 영향** 제한 |
 
 #### 한줄 요약
@@ -161,7 +167,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**혼합 아키텍처**는 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리한다.
+- **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리하는 구조이다.
 
 </details>
 

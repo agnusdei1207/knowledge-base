@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**IIoT**는 산업 설비와 센서를 연결하여 물리 공정을 감시·분석·제어하는 산업용 사물인터넷 체계다.
+- **산업용 사물인터넷(Industrial Internet of Things, IIoT)**: 산업 설비와 센서를 연결하여 물리 공정을 감시·분석·제어하는 체계이다.
 
 </details>
 
-- 정의/개념: **IIoT**는 산업 설비·센서를 연결해 공정을 감시·분석·제어하는 체계
+- 정의/개념: 산업 설비·센서를 연결해 공정을 감시·분석·제어하는 **산업용 사물인터넷(Industrial Internet of Things, IIoT) 체계**
 - 배경/필요성: 고립된 설비는 원격 상태 파악과 **예측 정비 수행 곤란**
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**현장 자율성**은 중앙 시스템이나 통신에 장애가 생겨도 에지가 필수 감시와 안전 제어를 지속하는 능력이다.
+- **현장 자율성**: 중앙 시스템이나 통신에 장애가 생겨도 에지가 필수 감시와 안전 제어를 지속하는 능력이다.
 
 </details>
 
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**산업 게이트웨이**는 기존 설비 프로토콜을 변환하고 데이터를 집계·보호하여 플랫폼과 연결하는 장치다.
+- **산업 게이트웨이**: 기존 설비 프로토콜을 변환하고 데이터를 집계·보호하여 플랫폼과 연결하는 장치이다.
 
 </details>
+
+프로그래머블 로직 컨트롤러(Programmable Logic Controller, PLC)의 데이터를 산업용 사물인터넷(Industrial Internet of Things, IIoT) 플랫폼에 연결한다.
 
 ```mermaid
 block-beta
@@ -77,7 +79,7 @@ block-beta
 | Edge·Gateway | **변환·정제·버퍼·로컬 분석** |
 | 보안 네트워크 | **구역 분리·암호화 전송** |
 | IIoT 플랫폼 | **자산·시계열·이벤트** 관리 |
-| 분석·운영 계층 | **예측·이상 분석**과 정비 의사결정 |
+| 분석·운영 계층 | **예측·이상 분석 및 정비 의사결정** |
 
 #### 한줄 요약
 
@@ -88,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**Store-and-Forward**는 통신 장애 동안 데이터를 저장하고 연결이 복구되면 순서대로 전송하는 방식이다.
+- **저장 후 전달(Store-and-Forward)**: 통신 장애 동안 데이터를 저장하고 연결이 복구되면 순서대로 전송하는 방식이다.
 
 </details>
+
+프로그래머블 로직 컨트롤러(Programmable Logic Controller, PLC) 상태를 산업용 사물인터넷(Industrial Internet of Things, IIoT) 플랫폼으로 전달한다.
 
 ```mermaid
 sequenceDiagram
@@ -123,9 +127,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**SCADA**는 제한된 산업 구역에서 설비 상태를 중앙 감시하고 공정을 제어하는 운영 기술 체계다.
+- **감시 제어 및 데이터 수집(Supervisory Control and Data Acquisition, SCADA)**: 제한된 산업 구역에서 설비 상태를 중앙 감시하고 공정을 제어하는 운영 기술 체계이다.
 
 </details>
+
+산업용 사물인터넷(Industrial Internet of Things, IIoT), 소비자 사물인터넷(Internet of Things, IoT), 감시 제어 및 데이터 수집(Supervisory Control and Data Acquisition, SCADA)은 적용 범위와 제어 특성이 다르다.
 
 | 판단 기준 | IIoT | 소비자 IoT | 전통 SCADA |
 |:---|:---|:---|:---|
@@ -142,7 +148,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**시간 동기화**는 센서와 설비의 측정 시각을 공통 기준에 맞춰 사건 순서와 분석 정확도를 보장하는 과정이다.
+- **시간 동기화**: 센서와 설비의 측정 시각을 공통 기준에 맞춰 사건 순서와 분석 정확도를 보장하는 과정이다.
 
 </details>
 
@@ -150,7 +156,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 통신 단절 시 **데이터·제어 중단** | **Store-and-Forward·로컬 인터록** | 현장 자율성과 **데이터 연속성** |
 | 레거시 프로토콜의 **취약한 보안** | 산업 게이트웨이·구역 분리·허용 목록 | 설비의 **직접 노출 방지** |
-| 센서의 **시간·단위·품질 불일치** | 에지 검증·시각 동기화·품질 플래그 | **분석 오판 감소** |
+| 센서의 **시간·단위·품질 불일치** | 에지 검증·시간 동기화·품질 플래그 | **분석 오판 감소** |
 
 #### 한줄 요약
 
@@ -161,12 +167,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**에지 제어**는 데이터 발생 현장 가까이에서 저지연 판단과 안전 동작을 수행하는 제어 방식이다.
+- **에지 제어**: 데이터 발생 현장 가까이에서 저지연 판단과 안전 동작을 수행하는 제어 방식이다.
 
 </details>
 
-- 제어 지연·통신 복원력에 따라 **에지 제어**와 **플랫폼 분석** 역할 분리
+- 제어 지연·통신 복원력에 따른 **에지 제어·플랫폼 분석 역할 분리**
 
 #### 한줄 요약
 
-- 산업용 IoT는 통신이 끊겨도 현장 안전 제어가 계속 동작하도록 설계해야 한다.
+- 산업용 사물인터넷(Industrial Internet of Things, IIoT)은 통신이 끊겨도 현장 안전 제어가 계속 동작하도록 설계해야 한다.

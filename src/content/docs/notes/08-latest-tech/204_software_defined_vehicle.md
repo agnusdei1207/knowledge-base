@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**SDV**는 중앙 컴퓨팅과 서비스 기반 구조에서 차량 기능과 가치를 소프트웨어로 지속 구현·갱신하는 차량이다.
+- **소프트웨어 정의 차량(Software Defined Vehicle, SDV)**: 중앙 컴퓨팅과 서비스 기반 구조에서 차량 기능과 가치를 소프트웨어로 지속 구현·갱신하는 차량이다.
 
 </details>
 
-- 정의/개념: **SDV**는 중앙 컴퓨팅·서비스 기반으로 차량 기능을 지속 갱신하는 구조
-- 배경/필요성: 기능별 분산 ECU 증가는 **통합 복잡도·변경 비용** 초래
+- 정의/개념: 중앙 컴퓨팅·서비스 기반으로 차량 기능을 지속 갱신하는 **소프트웨어 정의 차량(Software Defined Vehicle, SDV) 구조**
+- 배경/필요성: 기능별 분산 전자제어장치(Electronic Control Unit, ECU) 증가는 **통합 복잡도·변경 비용** 초래
 
 #### 한줄 요약
 
@@ -39,13 +39,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**하드웨어 추상화**는 장치별 차이를 공통 API로 감춰 차량 기능을 하드웨어 구현과 분리하는 방식이다.
+- **하드웨어 추상화**: 장치별 차이를 공통 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 감춰 차량 기능을 하드웨어 구현과 분리하는 방식이다.
 
 </details>
 
-- ECU를 HPC·구역 제어기로 통합하는 **중앙 컴퓨팅·존 구조**
-- 공통 API로 장치 의존성을 분리하는 **하드웨어 추상화·서비스화**
-- 검증·OTA·관측을 통한 **전 생애주기 갱신**
+- 전자제어장치(Electronic Control Unit, ECU)를 고성능 컴퓨터(High-Performance Computer, HPC)·구역 제어기로 통합하는 **중앙 컴퓨팅·존 구조**
+- 공통 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 장치 의존성을 분리하는 **하드웨어 추상화·서비스화**
+- 검증·무선 업데이트(Over-the-Air Update, OTA Update)·관측을 통한 **전 생애주기 갱신**
 #### 한줄 요약
 
 - 차량 기능을 개별 ECU에 묶지 않고 공통 컴퓨팅과 서비스로 계속 개선한다.
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**Zone Controller**는 차량 구역별 센서·구동기 연결과 전력·통신을 집약해 중앙 컴퓨터와 연결하는 제어기다.
+- **구역 제어기(Zone Controller)**: 차량 구역별 센서·구동기 연결과 전력·통신을 집약해 중앙 컴퓨터와 연결하는 제어기이다.
 
 </details>
+
+차량 운영체제(Vehicle Operating System, Vehicle OS)와 고성능 컴퓨터(High-Performance Computer, HPC)는 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 기능과 장치를 분리한다.
 
 ```mermaid
 block-beta
@@ -88,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**서비스 계약**은 차량 기능이 제공하는 인터페이스·데이터·권한·버전의 합의를 정의한 명세다.
+- **서비스 계약**: 차량 기능이 제공하는 인터페이스·데이터·권한·버전의 합의를 정의한 명세이다.
 
 </details>
+
+응용 프로그래밍 인터페이스(Application Programming Interface, API), 차량 운영체제(Vehicle Operating System, Vehicle OS), 고성능 컴퓨터(High-Performance Computer, HPC)가 서비스 계약에 따라 기능을 실행한다.
 
 ```mermaid
 sequenceDiagram
@@ -123,9 +127,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**중앙 HPC**는 여러 차량 기능의 고성능 연산을 통합 실행하는 중앙 컴퓨터다.
+- **중앙 고성능 컴퓨터(Central High-Performance Computer, Central HPC)**: 여러 차량 기능의 고성능 연산을 통합 실행하는 중앙 컴퓨터이다.
 
 </details>
+
+전자제어장치(Electronic Control Unit, ECU), 소프트웨어 정의 차량(Software Defined Vehicle, SDV), 하드웨어·소프트웨어(Hardware·Software, HW·SW)의 결합 수준을 비교한다.
 
 | 판단 기준 | 분산 ECU 차량 | 커넥티드 차량 | SDV |
 |:---|:---|:---|:---|
@@ -142,15 +148,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**파티셔닝**은 안전 등급과 자원 요구가 다른 기능을 실행 영역으로 분리해 상호 간섭을 제한하는 방식이다.
+- **파티셔닝**: 안전 등급과 자원 요구가 다른 기능을 실행 영역으로 분리해 상호 간섭을 제한하는 방식이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 안전·비안전 기능의 **상호 간섭** | **ASIL** 기반 파티셔닝·시간·메모리 격리 | 안전 기능의 **결정성 확보** |
-| API 변경의 **연쇄 장애** | 버전 계약·호환 시험·점진 폐기 | 생애주기 **호환성 확보** |
-| 중앙 HPC의 **고장 영향 집중** | 고장 격리·중복 실행·안전 상태 전환 | 기능 **상실 범위 축소** |
+| 안전·비안전 기능의 **상호 간섭** | 자동차 안전 무결성 수준(Automotive Safety Integrity Level, ASIL) 기반 파티셔닝·시간·메모리 격리 | 안전 기능의 **결정성 확보** |
+| 응용 프로그래밍 인터페이스(Application Programming Interface, API) 변경의 **연쇄 장애** | 버전 계약·호환 시험·점진 폐기 | 생애주기 **호환성 확보** |
+| 중앙 고성능 컴퓨터(Central High-Performance Computer, Central HPC)의 **고장 영향 집중** | 고장 격리·중복 실행·안전 상태 전환 | 기능 **상실 범위 축소** |
 
 #### 한줄 요약
 
@@ -161,11 +167,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**서비스화**는 차량 기능을 표준 인터페이스로 제공하여 여러 애플리케이션이 재사용하고 독립 갱신하게 하는 설계다.
+- **서비스화**: 차량 기능을 표준 인터페이스로 제공하여 여러 애플리케이션이 재사용하고 독립 갱신하게 하는 설계이다.
 
 </details>
 
-- 변경이 잦은 기능은 **서비스화**, 안전 기능은 **격리 실행**하는 SDV 적용
+- **소프트웨어 정의 차량(Software Defined Vehicle, SDV) 적용**: 변경이 잦은 기능은 서비스화하고 안전 기능은 격리 실행
 
 #### 한줄 요약
 
