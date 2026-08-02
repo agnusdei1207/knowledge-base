@@ -45,7 +45,7 @@ extra:
 
 - **경계 투명성**: 플래그와 비트 채움으로 프레임 구분
 - **기능 분리**: **정보(Information, I)·감독(Supervisory, S)·무번호(Unnumbered, U) 프레임**으로 데이터·감독·제어
-- **오류 복구**: **프레임 검사 순서(Frame Check Sequence, FCS)·순서 번호**로 검출·재전송
+- **오류 복구**: **프레임 검사 순서(Frame Check Sequence, FCS)·순서 번호** 로 검출·재전송
 
 #### 한줄 요약
 
@@ -60,7 +60,7 @@ extra:
 
 </details>
 
-제어 필드는 **정보(Information, I)·감독(Supervisory, S)·무번호(Unnumbered, U) 프레임**을 구분하고 **프레임 검사 순서(Frame Check Sequence, FCS)** 가 전송 오류를 검출한다.
+제어 필드는 **정보(Information, I)·감독(Supervisory, S)·무번호(Unnumbered, U) 프레임** 을 구분하고 **프레임 검사 순서(Frame Check Sequence, FCS)** 가 전송 오류를 검출한다.
 
 ```mermaid
 block-beta

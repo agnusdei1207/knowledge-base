@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **기능·하드웨어 수명주기 분리**를 통한 독립 배치·교체
+- **기능·하드웨어 수명주기 분리** 를 통한 독립 배치·교체
 - **관리 및 오케스트레이션(Management and Orchestration, MANO)** 을 통한 **가상 네트워크 기능(Virtual Network Function, VNF)·클라우드 네이티브 네트워크 기능(Cloud-native Network Function, CNF)** 배치·확장·치유 자동화
-- **상태 동기화·가상화 오버헤드**에 따른 확장성·성능 제약
+- **상태 동기화·가상화 오버헤드** 에 따른 확장성·성능 제약
 
 #### 한줄 요약
 

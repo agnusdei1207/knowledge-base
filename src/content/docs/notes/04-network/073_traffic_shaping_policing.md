@@ -75,7 +75,7 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 분류기 | 서비스 등급 및 정책 대상 구분 |
-| 토큰 버킷 | **약정 정보율(Committed Information Rate, CIR)·최대 정보율(Peak Information Rate, PIR)·버스트**로 적합·초과 판정 |
+| 토큰 버킷 | **약정 정보율(Committed Information Rate, CIR)·최대 정보율(Peak Information Rate, PIR)·버스트** 로 적합·초과 판정 |
 | 셰이퍼 | 초과분 큐 저장 및 지연 전송 |
 | 폴리서 | 초과분 폐기 혹은 등급 변경 |
 
