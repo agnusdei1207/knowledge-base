@@ -173,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 인증 범위가 실제 구성과 일치할 때만 **클라우드서비스 보안인증(Cloud Security Assurance Program, CSAP) 서비스**를 채택하고 변경 시 **재평가** 수행
+- 인증 범위가 실제 구성과 일치할 때만 **클라우드서비스 보안인증(Cloud Security Assurance Program, CSAP) 서비스** 를 채택하고 변경 시 **재평가** 수행
 
 #### 한줄 요약
 
