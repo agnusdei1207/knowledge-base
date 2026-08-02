@@ -47,7 +47,7 @@ extra:
 
 - 원본 비이동과 **로컬 학습·업데이트 집계 분리**
 - 참여 데이터량 기반 **연합 평균(Federated Averaging, FedAvg) 가중 집계**
-- **비독립·비동일분포(Non-Independent and Identically Distributed, non-IID)·참여 이탈**에 따른 업데이트 편향·수렴 변동
+- **비독립·비동일분포(Non-Independent and Identically Distributed, non-IID)·참여 이탈** 에 따른 업데이트 편향·수렴 변동
 
 #### 한줄 요약
 - 원본은 움직이지 않지만 참여자마다 자료와 접속 시간이 달라 수정 의견이 한 방향으로 모이지 않을 수 있음
@@ -155,7 +155,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **비독립·비동일분포(Non-Independent and Identically Distributed, non-IID) 데이터**의 업데이트 충돌 | 참여자별 성능 평가·개인화 계층·집계 가중 조정 | 전역·지역 품질 **균형 개선** |
+| **비독립·비동일분포(Non-Independent and Identically Distributed, non-IID) 데이터** 의 업데이트 충돌 | 참여자별 성능 평가·개인화 계층·집계 가중 조정 | 전역·지역 품질 **균형 개선** |
 | 교차 기기의 **참여 이탈·지연** | 기한 내 업데이트만 집계·비동기 참여 정책 | 라운드 정체 **완화** |
 | 로컬 업데이트의 **정보 누출·중독** | 보안 집계와 강건 집계·이상 업데이트 제한 | 기밀성·모델 무결성 **보완** |
 
@@ -172,7 +172,7 @@ sequenceDiagram
 
 </details>
 
-- 데이터 주권·**비독립·비동일분포(Non-Independent and Identically Distributed, non-IID)·참여 안정성**을 기준으로 연합 구조와 집계·보호 정책 결정
+- 데이터 주권·**비독립·비동일분포(Non-Independent and Identically Distributed, non-IID)·참여 안정성** 을 기준으로 연합 구조와 집계·보호 정책 결정
 
 #### 한줄 요약
 - 원본을 지키면서도 참여자 차이와 통신 불안정을 감당할 집계 방식을 선택함

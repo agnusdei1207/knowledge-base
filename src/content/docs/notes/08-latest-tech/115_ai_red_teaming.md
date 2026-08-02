@@ -171,7 +171,7 @@ sequenceDiagram
 
 </details>
 
-- 재현 증거·회귀 결과로 **잔여 위험**을 판정해 **인공지능(Artificial Intelligence, AI) 배포·재완화** 결정
+- 재현 증거·회귀 결과로 **잔여 위험** 을 판정해 **인공지능(Artificial Intelligence, AI) 배포·재완화** 결정
 
 #### 한줄 요약
 - 공격 성공 횟수보다 같은 피해가 다시 생기는 조건과 수정 뒤 남은 위험으로 배포 여부를 정함
