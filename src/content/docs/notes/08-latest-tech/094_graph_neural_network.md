@@ -18,8 +18,6 @@ extra:
   priority_note: "그래프 관계 학습이 최신 AI 구조 쟁점"
 ---
 
-> **키워드:** 그래프 신경망 (Graph Neural Network)
-
 ## Ⅰ. 개요
 
 <details>

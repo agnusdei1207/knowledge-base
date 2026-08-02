@@ -18,8 +18,6 @@ extra:
   priority_note: "조직 책임·통제 체계가 최신 정책 출제축"
 ---
 
-> **키워드:** AI 거버넌스 (AI Governance)
-
 ## Ⅰ. 개요
 
 <details>

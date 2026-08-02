@@ -18,8 +18,6 @@ extra:
   priority_note: "가치 갱신 원리가 강화학습 핵심"
 ---
 
-> **키워드:** 벨만 방정식 (Bellman Equation)
-
 ## Ⅰ. 개요
 
 <details>

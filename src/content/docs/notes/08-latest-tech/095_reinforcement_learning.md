@@ -18,8 +18,6 @@ extra:
   priority_note: "순차 의사결정 학습의 반복 출제 기반"
 ---
 
-> **키워드:** 강화학습 (Reinforcement Learning)
-
 ## Ⅰ. 개요
 
 <details>

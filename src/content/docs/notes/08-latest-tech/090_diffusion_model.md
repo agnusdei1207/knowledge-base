@@ -18,8 +18,6 @@ extra:
   priority_note: "잡음 제거 생성 원리가 대표 출제 후보"
 ---
 
-> **키워드:** Diffusion Model (확산모델)
-
 ## Ⅰ. 개요
 
 <details>

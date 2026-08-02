@@ -18,8 +18,6 @@ extra:
   priority_note: "영상 생성 구조·안전이 최신 쟁점"
 ---
 
-> **키워드:** 영상 생성 (Video Generation)
-
 ## Ⅰ. 개요
 
 <details>

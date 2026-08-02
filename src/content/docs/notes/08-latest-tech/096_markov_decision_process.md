@@ -18,8 +18,6 @@ extra:
   priority_note: "상태·행동·보상 모델이 강화학습 기반"
 ---
 
-> **키워드:** 마르코프 결정과정 (Markov Decision Process)
-
 ## Ⅰ. 개요
 
 <details>

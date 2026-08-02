@@ -18,8 +18,6 @@ extra:
   priority_note: "문서 구조·의미 통합이 기업 자동화 핵심"
 ---
 
-> **키워드:** 문서 AI (Document AI)
-
 ## Ⅰ. 개요
 
 <details>

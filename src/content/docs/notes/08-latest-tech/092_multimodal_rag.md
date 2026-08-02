@@ -18,8 +18,6 @@ extra:
   priority_note: "다중 모달 근거 검색이 RAG 확장축"
 ---
 
-> **키워드:** 멀티모달 RAG (Multimodal RAG)
-
 ## Ⅰ. 개요
 
 <details>

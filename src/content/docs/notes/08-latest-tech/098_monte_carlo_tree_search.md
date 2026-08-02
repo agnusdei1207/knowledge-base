@@ -18,8 +18,6 @@ extra:
   priority_note: "탐색·평가 결합이 추론 문제에 재부상"
 ---
 
-> **키워드:** 몬테카를로 트리탐색 (Monte Carlo Tree Search)
-
 ## Ⅰ. 개요
 
 <details>
