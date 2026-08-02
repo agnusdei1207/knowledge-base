@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **실측값·내부 목표·외부 계약 체계**: SLI, SLO, SLA는 서비스 수준의 실측값, 내부 운영 목표, 외부 계약 책임을 구분하는 체계다.
+- **서비스 수준 지표(Service Level Indicator, SLI)**: 사용자 관점에서 실제 서비스 품질을 측정한 값이다.
+- **서비스 수준 목표(Service Level Objective, SLO)**: 서비스 수준 지표가 일정 기간 달성해야 할 내부 운영 목표이다.
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 제공자와 고객이 서비스 수준·제외 조건·미달 시 책임과 보상을 합의한 계약이다.
 
 </details>
 
@@ -40,6 +42,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **SLO·오류 예산**: SLO와 오류 예산은 허용 가능한 실패량을 정량화해 내부 배포와 복구 판단에 사용한다.
+- **서비스 수준 지표(Service Level Indicator, SLI)**: 성공률·지연·신선도처럼 사용자 경험을 실제로 측정한 값이다.
+- **서비스 수준 목표(Service Level Objective, SLO)·오류 예산**: 내부 목표와 목표가 허용하는 실패량으로 변경·복구 우선순위를 정하는 기준이다.
+- **서비스 수준 협약(Service Level Agreement, SLA)·보상 조건**: 고객에게 약속한 수준과 미달 시 제공자가 부담할 책임을 정한 계약 기준이다.
 
 </details>
 
@@ -57,6 +62,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **SLI 명세**: SLI 명세는 좋은 이벤트와 유효 이벤트, 측정 위치와 계산식을 명확하게 정의한다.
+- **서비스 수준 지표(Service Level Indicator, SLI) 명세**: 좋은 이벤트와 유효 이벤트, 측정 위치와 계산식을 명확히 정의한 규격이다.
+- **서비스 수준 목표(Service Level Objective, SLO)·오류 예산**: 내부 신뢰성 목표와 허용 실패량 및 변경 조치 기준을 정한 구성요소이다.
+- **서비스 수준 협약(Service Level Agreement, SLA) 계약**: 외부 서비스 수준과 제외 조건·책임·보상을 합의한 구성요소이다.
 
 </details>
 
@@ -92,6 +100,9 @@ block
 <summary>핵심 용어</summary>
 
 - **1. 유효·좋은 이벤트 기록**: 서비스 요청을 유효 이벤트와 좋은 이벤트 기준으로 분류해 서비스 수준 계산의 원천 자료로 기록한다.
+- **2. 서비스 수준 목표(Service Level Objective, SLO)·오류 예산 결과**: 내부 목표 대비 허용 실패량의 잔여분과 소진 속도를 계산한 결과이다.
+- **3. 서비스 수준 협약(Service Level Agreement, SLA) 준수 결과**: 계약 기간과 제외 조건을 반영해 외부 약속 충족 여부를 판정한 결과이다.
+- **4. 배포·복구 정책**: 남은 오류 예산과 소진율에 따라 변경 지속·제한·안정화 방향을 정한 정책이다.
 
 </details>
 
@@ -126,7 +137,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SLA**: SLA는 제공자와 고객이 서비스 수준, 제외 조건, 미달 시 책임과 보상을 합의한 계약이다.
+- **서비스 수준 지표(Service Level Indicator, SLI)**: 사용자 수준의 성공률·지연·신선도를 실제 측정한 값이다.
+- **서비스 수준 목표(Service Level Objective, SLO)**: 일정 기간 서비스 수준 지표가 달성해야 할 내부 신뢰성 목표이다.
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 제공자와 고객이 서비스 수준, 제외 조건, 미달 시 책임과 보상을 합의한 계약이다.
 
 </details>
 
@@ -146,6 +159,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **분모 왜곡**: 분모 왜곡은 재시도, 점검, 봇 요청의 포함 여부가 달라져 같은 서비스의 SLI 결과가 달라지는 문제다.
+- **서비스 수준 지표(Service Level Indicator, SLI) 측정**: 사용자 요청 경계에서 좋은 이벤트 수를 유효 이벤트 수로 나눠 품질을 계산하는 활동이다.
+- **서비스 수준 협약(Service Level Agreement, SLA) 측정 분쟁**: 원천 자료·계산식·제외 조건 차이로 계약 준수 결과가 달라지는 문제이다.
 
 </details>
 
@@ -167,6 +182,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **사용자 경계·대응 여유·계약 책임**: SLI, SLO, SLA는 사용자 측정 경계, 내부 대응 여유, 외부 계약 책임을 기준으로 일관되게 설정해야 한다.
+- **서비스 수준 지표(Service Level Indicator, SLI)·서비스 수준 목표(Service Level Objective, SLO)·서비스 수준 협약(Service Level Agreement, SLA)**: 사용자 측정값, 내부 대응 목표, 외부 계약 책임을 구분한 서비스 수준 체계이다.
 
 </details>
 
