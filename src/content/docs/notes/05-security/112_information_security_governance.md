@@ -92,7 +92,7 @@ block
 <summary>핵심 용어</summary>
 
 - **위험 소유자**: 담당 업무의 위험 처리와 잔여위험 수용을 승인하는 책임자이다.
-- **CISO**: 정보보호 전략·위험·통제·사고 대응을 총괄하고 경영진에 보고하는 책임자이다.
+- **최고정보보호책임자(Chief Information Security Officer, CISO)**: 정보보호 전략·위험·통제·사고 대응을 총괄하고 경영진에 보고하는 책임자이다.
 
 </details>
 
@@ -148,7 +148,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **ISO/IEC 27014**: 정보보안을 평가·지시·감시·소통하는 거버넌스 지침이다.
-- **COBIT 2019**: 기업 I&T의 거버넌스와 관리를 구분한 ISACA 프레임워크이다.
+- **정보·기술(Information and Technology, I&T) 거버넌스 프레임워크 COBIT 2019**: 정보시스템감사통제협회(Information Systems Audit and Control Association, ISACA)가 기업 I&T의 거버넌스와 관리를 구분한 프레임워크이다.
+- **평가·지시·모니터링(Evaluate, Direct and Monitor, EDM)**: COBIT에서 경영진의 거버넌스 책임을 평가·방향 설정·감독으로 구분한 영역이다.
+- **미국 국립표준기술연구소 사이버보안 프레임워크(NIST Cybersecurity Framework, NIST CSF) 거버넌스(Govern)**: 사이버 위험을 전사 위험관리와 연결하는 기능이다.
 
 </details>
 
@@ -171,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 위험 수용·투자는 **거버넌스**, 통제 계획·운영은 **관리**, 효과는 독립 보증
+- 위험 수용·투자는 **거버넌스**, 통제 계획·운영은 **관리**, 효과는 **독립 보증**
 
 #### 한줄 요약
 

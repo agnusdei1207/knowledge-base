@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST**: 미국 상무부 산하의 기술 표준·지침 연구기관이다.
-- **CSF**: 사이버보안 위험관리 결과를 공통 언어로 정리한 비규범적 프레임워크이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국 상무부 산하의 기술 표준·지침 연구기관이다.
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과를 공통 언어로 정리한 비규범적 프레임워크이다.
 
 </details>
 
@@ -42,12 +42,13 @@ extra:
 
 - **결과 중심**: 특정 제품보다 조직이 달성할 보안 결과를 기준으로 관리하는 방식이다.
 - **조직 프로파일**: 현재·목표 보안 결과를 조직 상황에 맞게 선택한 문서이다.
+- **거버넌스(Govern)·구현 계층(Implementation Tier)**: 거버넌스는 전사 위험 방향을 정하고 구현 계층은 위험관리 관행의 엄격성을 네 단계로 설명한다.
 
 </details>
 
 - 특정 제품·통제를 강제하지 않는 **결과 중심**
-- Govern 포함 6개 기능의 **전사 위험 연결**
-- 프로파일 차이와 Tier의 **개선 의사결정**
+- **거버넌스(Govern)** 포함 6개 기능의 전사 위험 연결
+- 프로파일 차이와 **구현 계층(Implementation Tier)**의 개선 의사결정
 
 #### 한줄 요약
 
@@ -58,7 +59,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CSF Core**: Govern·Identify·Protect·Detect·Respond·Recover 결과를 기능·범주·하위범주로 분류한 체계이다.
+- **CSF 핵심부(CSF Core)**: 거버넌스·식별·보호·탐지·대응·복구 결과를 기능·범주·하위범주로 분류한 체계이다.
 
 </details>
 
@@ -133,7 +134,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **구현 Tier**: 위험 거버넌스·관리 관행의 엄격성을 네 단계로 설명하는 도구이다.
+- **구현 계층(Implementation Tier)**: 위험 거버넌스·관리 관행의 엄격성을 네 단계로 설명하는 도구이다.
 
 </details>
 
@@ -176,7 +177,7 @@ sequenceDiagram
 
 </details>
 
-- 보안 결과는 **Core**, 현재·목표 격차는 **Profile**, 관행 엄격성은 Tier로 설명
+- 보안 결과는 **핵심부(Core)**, 현재·목표 격차는 **프로파일(Profile)**, 관행 엄격성은 **구현 계층(Tier)**으로 설명
 
 #### 한줄 요약
 
