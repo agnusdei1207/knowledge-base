@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **I/O 인터페이스**: CPU·메모리·주변장치 사이에서 명령·상태·데이터를 중계하는 체계
+- **입출력(Input/Output, I/O) 인터페이스**: 중앙 처리 장치(Central Processing Unit, CPU)·메모리·주변장치 사이에서 명령·상태·데이터를 중계하는 체계
 - **장치 제어기**: 장치 고유 신호를 CPU가 다룰 수 있는 레지스터 상태와 데이터로 변환하는 하드웨어
 
 </details>
@@ -41,12 +41,13 @@ extra:
 - **데이터 경로 분리**: CPU가 명령만 설정하고 전용 엔진이 실제 데이터를 전송하게 하는 구조
 - **버퍼·핸드셰이크**: 속도가 다른 장치 사이에서 데이터를 임시 보관하고 준비·완료 신호로 시점을 맞추는 방식
 - **비동기 완료 통지**: CPU가 다른 일을 하는 동안 I/O를 수행한 뒤 장치가 완료를 알리는 방식
+- **중앙 처리 장치(Central Processing Unit, CPU)·입출력(Input/Output, I/O)**: 연산을 수행하는 프로세서와 주변장치의 데이터 전송 작업
 
 </details>
 
-- **데이터 경로 분리**로 CPU의 전송 관여 시간 절감
-- **버퍼·핸드셰이크**로 장치 간 속도 차이 흡수
-- **비동기 완료 통지**로 CPU 연산·I/O 중첩
+- CPU의 전송 관여 시간을 줄이는 **데이터 경로 분리**
+- 장치 간 속도 차이를 흡수하는 **버퍼·핸드셰이크**
+- CPU 연산과 I/O를 중첩하는 **비동기 완료 통지**
 
 #### 한줄 요약
 
@@ -56,8 +57,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **장치 드라이버**: 운영체제의 I/O 요청을 장치 제어기 명령으로 바꾸는 소프트웨어
-- **DMA 엔진**: CPU 데이터 복사 없이 장치와 주기억장치 사이의 블록을 직접 전송하는 하드웨어
+- **장치 드라이버**: 운영체제의 입출력(Input/Output, I/O) 요청을 장치 제어기 명령으로 바꾸는 소프트웨어
+- **직접 메모리 접근(Direct Memory Access, DMA) 엔진**: 중앙 처리 장치(Central Processing Unit, CPU) 데이터 복사 없이 장치와 주기억장치 사이의 블록을 직접 전송하는 하드웨어
 - **채널 프로세서**: 여러 장치의 복합 I/O 명령열을 CPU 대신 실행하는 전용 처리기
 
 </details>
@@ -90,8 +91,8 @@ block
 
 <details><summary>핵심 용어</summary>
 
-- **DMA 디스크립터**: 전송할 메모리 주소·길이·방향을 기록한 제어 정보
-- **인터럽트 제어기**: 장치 완료 요청을 우선순위와 대상 CPU에 맞게 전달하는 하드웨어
+- **직접 메모리 접근(Direct Memory Access, DMA) 디스크립터**: 전송할 메모리 주소·길이·방향을 기록한 제어 정보
+- **인터럽트 제어기**: 장치 완료 요청을 우선순위와 대상 중앙 처리 장치(Central Processing Unit, CPU)에 맞게 전달하는 하드웨어
 - **버퍼 소유권 인계**: DMA 완료 후 CPU가 수신 메모리를 안전하게 처리할 수 있도록 접근 주체를 바꾸는 절차
 
 </details>
@@ -134,9 +135,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **폴링·인터럽트**: CPU가 상태를 반복 확인하거나 장치가 사건을 비동기로 알리는 완료 처리 방식
-- **DMA**: 전용 엔진이 대용량 블록을 장치와 메모리 사이에서 직접 전송하는 방식
-- **채널 I/O**: 전용 채널 프로세서가 다중 장치의 I/O 명령열을 실행하는 방식
+- **폴링·인터럽트**: 중앙 처리 장치(Central Processing Unit, CPU)가 상태를 반복 확인하거나 장치가 사건을 비동기로 알리는 완료 처리 방식
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 폴링과 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)을 실행하는 프로세서
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 전용 엔진이 대용량 블록을 장치와 메모리 사이에서 직접 전송하는 방식
+- **채널 입출력(Channel Input/Output, 채널 I/O)**: 전용 채널 프로세서가 다중 장치의 I/O 명령열을 실행하는 방식
 
 </details>
 
@@ -154,9 +156,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **인터럽트 폭주·병합**: 과도한 완료 통지로 CPU가 묶이는 현상과 여러 통지를 하나로 모으는 완화 기법
-- **캐시 clean·invalidate**: CPU 수정분을 메모리에 반영하고 DMA가 바꾼 메모리의 오래된 캐시 사본을 버리는 동작
-- **IOMMU**: 장치 DMA 주소를 변환하고 장치별 허용 메모리 범위를 격리하는 하드웨어
+- **인터럽트 폭주·병합**: 과도한 완료 통지로 중앙 처리 장치(Central Processing Unit, CPU)가 묶이는 현상과 여러 통지를 하나로 모으는 완화 기법
+- **캐시 clean·invalidate**: CPU 수정분을 메모리에 반영하고 직접 메모리 접근(Direct Memory Access, DMA)이 바꾼 메모리의 오래된 캐시 사본을 버리는 동작
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: 장치의 직접 메모리 접근(Direct Memory Access, DMA) 주소를 변환하고 장치별 허용 메모리 범위를 격리하는 하드웨어
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: DMA와 완료 큐를 사용하는 고속 저장장치 인터페이스
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 폴링·인터럽트 처리와 캐시 유지 동작을 수행하는 프로세서
 
 </details>
 
@@ -177,8 +181,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **바쁜 대기**: CPU가 장치 상태를 반복 확인하느라 다른 일을 수행하지 못하는 대기 방식
+- **바쁜 대기**: 중앙 처리 장치(Central Processing Unit, CPU)가 장치 상태를 반복 확인하느라 다른 일을 수행하지 못하는 대기 방식
 - **문맥 전환 비용**: 인터럽트 처리 시 현재 실행 상태를 저장하고 복원하는 데 드는 시간
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 입출력 대기와 인터럽트 처리 비용을 부담하는 프로세서
+- **직접 메모리 접근(Direct Memory Access, DMA)·채널 입출력(Channel Input/Output, 채널 I/O)**: 대용량 블록과 복합 명령열을 CPU 대신 처리하는 방식
 
 </details>
 
