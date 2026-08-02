@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-07-30T21:41:16+09:00"
+date: "2026-08-02T11:38:00+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -18,28 +18,15 @@ extra:
   priority_note: "SoC 온칩 버스 계층 비교"
 ---
 
-## 미리 알고가기
-
-- **고급 마이크로컨트롤러 버스 아키텍처(Advanced Microcontroller Bus Architecture, AMBA)**: 시스템온칩 내부 연결을 표준화한 Arm 인터페이스 규격군
-- **시스템온칩(System on Chip, SoC)**: 처리기·메모리 제어기·주변장치를 한 칩에 통합한 시스템
-- **고급 확장 인터페이스(Advanced eXtensible Interface, AXI)**: 독립 채널과 다중 미완료 거래를 지원하는 고성능 인터페이스
-- **고급 고성능 버스(Advanced High-performance Bus, AHB)**: 주소·데이터 단계를 파이프라인 처리하는 시스템 버스
-- **고급 주변장치 버스(Advanced Peripheral Bus, APB)**: 저대역 주변장치 레지스터 접근을 위한 단순 인터페이스
-- **거래(Transaction)**: 주소·제어·데이터·응답으로 완결되는 한 번의 읽기 또는 쓰기
-- **미완료 거래(Outstanding Transaction)**: 요청을 수락했지만 응답이 끝나지 않은 거래
-- **상호 연결망(Interconnect)**: 여러 관리자와 종속 장치를 연결하고 경로를 선택하는 구조
-- **중재(Arbitration)**: 동시 요청 사이에서 자원 사용 순서를 결정하는 기능
-- **주소 디코딩(Address Decoding)**: 요청 주소로 대상 종속 장치를 선택하는 기능
-- **클록 도메인 교차(Clock Domain Crossing, CDC)**: 서로 다른 클록 영역 사이에서 신호를 안전하게 전달하는 기술
-- **프로토콜 브리지(Protocol Bridge)**: 한 버스 거래를 다른 버스의 신호·순서로 변환하는 장치
-- **VALID·READY 핸드셰이크**: 송신 측 VALID와 수신 측 READY가 동시에 1일 때 정보를 전달하는 AXI 규칙
-- **APB 제어 신호**: PSEL은 장치 선택, PENABLE은 접근 단계, PREADY는 완료, PSLVERR는 오류 표시
-- **프로토콜 검사기(Protocol Checker)**: 버스 신호와 거래 순서가 인터페이스 규칙을 따르는지 판정하는 검증 도구
-- **준안정(Metastability)**: 비동기 신호를 받는 플립플롭 출력이 일정 시간 0이나 1로 확정되지 않는 상태
-
-> **키워드:** AMBA 버스 프로토콜 (AMBA Bus Protocol)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **AMBA(Advanced Microcontroller Bus Architecture)**: 시스템온칩 내부 기능 블록의 거래와 응답을 표준화한 Arm 인터페이스 규격군이다.
+- **시스템온칩(System on Chip, SoC)**: 처리기와 메모리 제어기 및 주변장치를 하나의 반도체 다이에 통합한 시스템이다.
+- **거래(Transaction)**: 주소와 제어, 데이터 및 응답으로 완결되는 한 번의 읽기 또는 쓰기 작업이다.
+
+</details>
 
 - 정의/개념: SoC 블록의 거래·응답을 표준화한 **Arm AMBA 규격군**
 - 배경/필요성: 블록별 독자 인터페이스는 **통합·검증 중복 비용 증가**
@@ -50,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **AXI**: 독립적인 주소·데이터·응답 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
+- **AHB**: 주소 단계와 데이터 단계를 파이프라인으로 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
+- **APB**: 설정과 접근의 2단계로 저대역 주변장치 레지스터를 연결하는 단순 인터페이스이다.
+- **미완료 거래(Outstanding Transaction)**: 요청을 수락했지만 아직 최종 응답이 끝나지 않은 거래이다.
+
+</details>
+
 - **VALID·READY 독립 채널**과 **미완료 거래**로 AXI 병렬 처리
 - **AHB 주소·데이터 파이프라인**으로 중간급 시스템 연결
 - **APB 설정·접근 2단계**로 저속 제어 레지스터 연결
@@ -59,6 +55,15 @@ extra:
 - 고속 도로는 AXI, 간선 도로는 AHB, 주변장치 골목은 APB에 가깝다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **상호 연결망(Interconnect)**: 여러 관리자와 종속 장치를 연결하고 주소 디코딩·중재·라우팅을 수행하는 구조이다.
+- **주소 디코딩(Address Decoding)**: 요청 주소 범위를 해석하여 거래를 받을 종속 장치를 선택하는 기능이다.
+- **중재(Arbitration)**: 여러 관리자의 동시 요청 가운데 공유 자원을 사용할 순서를 결정하는 기능이다.
+- **프로토콜 브리지(Protocol Bridge)**: 한 버스의 거래를 다른 버스가 요구하는 신호와 순서로 변환하는 장치이다.
+
+</details>
 
 ```mermaid
 block
@@ -85,6 +90,14 @@ block
 - 관리자 블록이 고속 상호 연결망으로 메모리·가속기에 닿고, 브리지는 옆길의 저속 주변장치에 맞게 거래를 변환한다.
 
 ## Ⅳ. 흐름도
+
+<details><summary>핵심 용어</summary>
+
+- **VALID·READY 핸드셰이크**: 송신 VALID와 수신 READY가 동시에 참일 때 채널 정보를 전달하는 AXI 규칙이다.
+- **APB 설정 단계(APB Setup Phase)**: PSEL과 주소 및 쓰기 데이터를 고정하여 대상 주변장치를 선택하는 첫 주기이다.
+- **APB 접근 단계(APB Access Phase)**: PENABLE을 활성화하고 PREADY 완료 또는 오류 응답까지 요청을 유지하는 단계이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -114,6 +127,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **독립 채널(Independent Channel)**: AXI에서 읽기·쓰기 주소와 데이터 및 응답을 각각 별도 핸드셰이크로 전달하는 경로이다.
+- **주소·데이터 파이프라인(Address·Data Pipeline)**: AHB에서 현재 거래의 데이터와 다음 거래의 주소를 겹쳐 처리하는 구조이다.
+- **제어 레지스터(Control Register)**: 주변장치의 동작 설정과 상태를 작은 읽기·쓰기 거래로 제어하는 레지스터이다.
+
+</details>
+
 | AMBA 인터페이스 | AXI | AHB | APB |
 |:---|:---|:---|:---|
 | 적용 기준 | **메모리·가속기** | **중간급 시스템 경로** | **제어·상태 레지스터** |
@@ -126,7 +147,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **프로토콜 검사기(Protocol Checker)**: 버스 신호와 거래 순서가 인터페이스 규칙을 따르는지 자동 판정하는 검증 도구이다.
+- **응답 순서(Response Ordering)**: 같은 식별자나 규칙이 요구하는 순서에 맞춰 완료 응답을 반환하는 제약이다.
+- **클록 도메인 교차(Clock Domain Crossing, CDC)**: 서로 다른 클록 영역 사이에서 신호와 거래를 안전하게 전달하는 기술이다.
+- **준안정(Metastability)**: 비동기 신호를 받은 플립플롭 출력이 일정 시간 0이나 1로 확정되지 않는 상태이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | AXI 식별자별 응답 순서를 어겨 거래 혼선 | **프로토콜 검사기·순서 점검** | **교착·응답 혼선** 방지 |
 | APB 대기 상태가 브리지 버퍼에 누적 | **버퍼 깊이·타임아웃** 설정 | **지연 전파** 제한 |
@@ -138,6 +168,14 @@ sequenceDiagram
 - 교차로 신호와 주소판이 어긋나면 차가 엉뚱한 길로 가듯, 거래 순서·주소 지도·클록 경계를 함께 검증한다.
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **고대역 다중 거래(High-bandwidth Concurrent Transactions)**: 여러 읽기와 쓰기를 동시에 진행하여 메모리와 가속기 처리량을 높이는 작업이다.
+- **중간급 시스템 경로(Mid-range System Path)**: 단순 주변장치보다 높은 처리량이 필요하지만 AXI 복잡도는 불필요한 연결이다.
+- **저속 주변 경로(Low-speed Peripheral Path)**: 작은 설정·상태 레지스터를 낮은 회로 비용으로 연결하는 경로이다.
+
+</details>
 
 - 고대역·다중 거래는 **AXI**, 중간·저속 경로는 **AHB·APB** 선택
 

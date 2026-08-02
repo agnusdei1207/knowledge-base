@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "스토리지 계층: DAS·NAS·SAN (Storage DAS NAS SAN)"
-date: "2026-07-30T21:43:58+09:00"
+date: "2026-08-02T11:40:00+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -18,34 +18,15 @@ extra:
   priority_note: "직결·파일·패브릭 I/O 선택 비교"
 ---
 
-## 미리 알고가기
-
-- **스토리지 연결 구조**: 서버와 저장장치 사이의 I/O 경계
-- **입출력(Input/Output, I/O)**: 서버와 저장장치 사이에서 읽기·쓰기 명령과 데이터를 전달하는 작업
-- **블록·파일 저장(Block·File Storage)**: 블록 저장은 고정 크기 주소 단위를 제공하고 파일 저장은 경로와 파일 이름 단위를 제공함
-- **파일시스템(File System)**: 블록 저장 공간을 파일·디렉터리 이름과 권한으로 조직하는 소프트웨어
-- **직접 연결 스토리지(Direct Attached Storage, DAS)**: 하나의 서버에 직접 연결하여 블록 장치로 사용하는 저장장치
-- **네트워크 연결 스토리지(Network Attached Storage, NAS)**: 네트워크를 통해 여러 클라이언트에 파일 단위 접근을 제공하는 저장장치
-- **스토리지 영역 네트워크(Storage Area Network, SAN)**: 서버와 블록 저장장치를 전용 스토리지 네트워크로 연결하는 구조
-- **서버 메시지 블록(Server Message Block, SMB)**: Windows 계열 환경에서 NAS 파일·프린터 공유에 사용하는 네트워크 프로토콜
-- **네트워크 파일 시스템(Network File System, NFS)**: Unix·Linux 계열 환경에서 NAS 파일 공유에 사용하는 네트워크 프로토콜
-- **인터넷 프로토콜(Internet Protocol, IP)**: NAS와 iSCSI 트래픽을 주소 기반으로 전달하는 네트워크 계층 프로토콜
-- **파이버 채널(Fibre Channel, FC)**: 서버와 스토리지 사이의 블록 명령을 전달하는 전용 고속 네트워크
-- **인터넷 소형 컴퓨터 시스템 인터페이스(Internet Small Computer Systems Interface, iSCSI)**: SCSI 블록 명령을 IP 네트워크로 전송하는 프로토콜
-- **스토리지 패브릭(Storage Fabric)**: SAN의 블록 명령을 중계하는 연결망
-- **스토리지 배열(Storage Array)**: 여러 물리 드라이브를 묶어 호스트에 논리 저장 공간을 제공하는 장치
-- **이름공간(Namespace)**: 파일과 디렉터리의 경로 이름을 조직하고 식별하는 체계
-- **논리 장치 번호(Logical Unit Number, LUN)**: SAN 스토리지가 서버에 제공하는 논리 블록 장치를 식별하는 번호
-- **파일 오프셋(File Offset)**: 파일 시작점부터 떨어진 바이트 위치
-- **다중 경로(Multipathing)**: 경로 장애 시 다른 I/O 경로로 전환
-- **논리 블록 주소(Logical Block Address, LBA)**: 블록 장치의 데이터 위치를 번호로 나타낸 주소
-- **소형 컴퓨터 시스템 인터페이스(Small Computer System Interface, SCSI)**: 저장장치의 블록 읽기·쓰기 명령 체계
-- **조닝(Zoning)**: SAN 패브릭에서 통신할 수 있는 포트 집합을 제한하는 접근 통제
-- **LUN 마스킹(LUN Masking)**: 스토리지 배열이 호스트별로 보이는 LUN을 제한하는 접근 통제
-
-> **키워드:** 스토리지 계층: DAS·NAS·SAN (Storage DAS NAS SAN)
-
 ## Ⅰ. 개요
+
+<details><summary>핵심 용어</summary>
+
+- **스토리지 연결 구조(Storage Connectivity)**: 서버와 저장장치 사이에서 I/O 단위와 공유 범위 및 전송 경로를 정하는 구조이다.
+- **블록 저장(Block Storage)**: 고정 크기의 논리 블록 주소를 호스트에 제공하고 파일시스템은 호스트가 관리하는 저장 방식이다.
+- **파일 저장(File Storage)**: 파일과 디렉터리 이름 및 권한을 스토리지 서비스가 관리하여 클라이언트에 제공하는 방식이다.
+
+</details>
 
 - 정의/개념: 연결 경계에 따라 **블록·파일 I/O**를 제공하는 스토리지 구조
 - 배경/필요성: 서버 직결만으로는 **다중 사용자·서버 공유 요구 충족 불가**
@@ -56,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>핵심 용어</summary>
+
+- **파일시스템(File System)**: 블록 저장 공간을 파일과 디렉터리 이름, 메타데이터 및 권한으로 조직하는 소프트웨어이다.
+- **SMB·NFS**: 네트워크를 통해 파일과 디렉터리 단위의 공유 접근을 제공하는 대표 NAS 프로토콜이다.
+- **FC·iSCSI**: 파이버 채널 전용망 또는 IP 네트워크로 SCSI 블록 명령을 전달하는 SAN 방식이다.
+- **논리 블록 주소(Logical Block Address, LBA)**: 블록 장치의 데이터 위치를 고정 크기 블록 번호로 나타낸 주소이다.
+
+</details>
+
 - **파일시스템 위치**가 블록·파일 I/O 단위와 공유 경계 결정
 - **NAS는 SMB·NFS**, **SAN은 FC·iSCSI**로 원격 파일·블록 제공
 - **DAS·SAN은 LBA**, NAS는 파일 오프셋으로 저장 위치 해석
@@ -65,6 +55,15 @@ extra:
 - 파일 목록을 서버가 관리하면 블록 저장이고 NAS가 관리하면 네트워크 파일 저장이다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>핵심 용어</summary>
+
+- **호스트·클라이언트(Host·Client)**: 파일이나 블록 읽기·쓰기 요청을 발행하고 결과를 사용하는 컴퓨터이다.
+- **파일·블록 접근 계층(File·Block Access Layer)**: 파일 오프셋 또는 LBA를 해석하여 저장 명령으로 변환하는 계층이다.
+- **스토리지 패브릭(Storage Fabric)**: SAN에서 여러 호스트와 스토리지 배열 사이의 블록 명령을 중계하는 연결망이다.
+- **스토리지 배열(Storage Array)**: 여러 물리 드라이브를 묶어 호스트에 논리 블록이나 파일 공간을 제공하는 장치이다.
+
+</details>
 
 ```mermaid
 block
@@ -94,6 +93,14 @@ block
 
 ## Ⅳ. 흐름도
 
+<details><summary>핵심 용어</summary>
+
+- **파일 오프셋(File Offset)**: 파일 시작점부터 특정 데이터가 떨어진 바이트 위치이다.
+- **SCSI 명령(SCSI Command)**: 블록 장치에 논리 주소 기반 읽기와 쓰기 및 상태 조회를 요청하는 명령 체계이다.
+- **I/O 완료(I/O Completion)**: 저장장치가 요청을 처리하고 성공·오류 상태 및 읽기 데이터를 호스트에 반환한 사건이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant A as 호스트·클라이언트
@@ -120,6 +127,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>핵심 용어</summary>
+
+- **직접 연결 스토리지(Direct Attached Storage, DAS)**: 하나의 서버에 직접 연결하여 전용 블록 장치로 사용하는 저장장치이다.
+- **네트워크 연결 스토리지(Network Attached Storage, NAS)**: IP 네트워크를 통해 여러 클라이언트에 공유 파일 접근을 제공하는 장치이다.
+- **스토리지 영역 네트워크(Storage Area Network, SAN)**: 여러 서버와 블록 저장장치를 전용 패브릭이나 IP 네트워크로 연결하는 구조이다.
+
+</details>
+
 | 스토리지 연결 구조 | DAS | NAS | SAN |
 |:---|:---|:---|:---|
 | 적용 기준 | **단일 서버 전용 블록** | **다중 사용자 공동 파일** | **다중 서버 중앙 블록** |
@@ -132,7 +147,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details><summary>핵심 용어</summary>
+
+- **메타데이터 병목(Metadata Bottleneck)**: 파일 이름과 권한 및 디렉터리 조회가 집중되어 NAS 지연을 제한하는 현상이다.
+- **다중 경로(Multipathing)**: 스토리지 경로 장애 시 다른 독립 I/O 경로로 전환하여 접근을 유지하는 기술이다.
+- **조닝(Zoning)**: SAN 패브릭에서 서로 통신할 수 있는 호스트와 스토리지 포트의 집합을 제한하는 통제이다.
+- **LUN 마스킹(LUN Masking)**: 스토리지 배열이 호스트별로 볼 수 있는 논리 블록 장치를 제한하는 통제이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | NAS 메타데이터 요청 집중으로 파일 서비스 병목 | **메타데이터 분산·노드 확장** | **파일 지연** 완화 |
 | SAN 패브릭·경로 장애로 공유 LUN 접근 중단 | **이중 패브릭·다중 경로 전환 시험** | **블록 I/O 연속성** 확보 |
@@ -144,6 +168,14 @@ sequenceDiagram
 - 개인 서랍은 직결로, 공동 서류함은 파일 공유로, 여러 서버의 대형 창고는 이중 경로로 운영하듯 공유 범위와 장애 경로를 함께 설계한다.
 
 ## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **단일 서버 블록(Single-server Block)**: 한 서버가 독점적으로 파일시스템을 구성하고 사용하는 블록 저장 요구이다.
+- **공유 파일(Shared File)**: 여러 사용자와 서버가 같은 이름공간과 파일을 동시에 접근하는 저장 요구이다.
+- **다중 서버 블록(Multi-server Block)**: 여러 서버에 중앙 스토리지의 별도 또는 공유 LUN을 제공하는 저장 요구이다.
+
+</details>
 
 - 단일 서버 블록은 **DAS**, 공유 파일·다중 서버 블록은 **NAS·SAN** 선택
 
