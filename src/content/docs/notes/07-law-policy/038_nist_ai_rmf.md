@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-07-31T11:46:19+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -18,31 +18,29 @@ extra:
   priority_note: "AI 위험의 Govern·Map·Measure·Manage 핵심"
 ---
 
-## 미리 알고가기
-
-- **인공지능 위험 관리 프레임워크 1.0(AI Risk Management Framework 1.0, AI RMF 1.0)**: AI 시스템의 위험을 관리하고 신뢰성을 높이기 위한 NIST의 자발적 프레임워크
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 측정·표준·기술 지침을 연구·개발하는 미국 정부기관
-- **시험·평가·검증·확인(Testing, Evaluation, Verification, and Validation, TEVV)**: AI가 설계 요구와 실제 사용 목적을 충족하는지 여러 증거로 확인하는 활동
-- **AI RMF 프로필(AI RMF Profile)**: 특정 사용 용도나 산업 부문에 맞추어 AI RMF의 성과를 구체화한 적용 가이드라인
-- **AI RMF 플레이북(AI RMF Playbook)**: AI RMF의 4대 기능을 조직에 실제로 적용할 수 있도록 돕는 구체적인 실행 계획서
-- **신뢰성 특성**: 유효·신뢰, 안전, 보안·복원력, 책임·투명성, 설명·해석, 개인정보 보호, 유해 편향 관리 공정성
-- **AI 행위자(AI Actor)**: AI의 설계·개발·배포·운영·평가·영향을 맡거나 받는 개인·조직
-- **영향받는 공동체**: AI의 결과로 권리·기회·안전·생활에 영향을 받는 개인과 집단
-- **위험 허용수준(Risk Tolerance)**: 조직이 목표 달성을 위해 받아들일 수 있다고 승인한 AI 위험의 범위
-- **생성형 AI 프로필(Generative AI Profile)**: 생성형 AI 고유 위험에 AI RMF 결과와 권장 행동을 적용한 NIST 프로필
-- **ISO/IEC 42001**: 조직의 AI 경영시스템 구축·운영·개선 요구사항을 규정한 국제표준
-
-> **키워드:** NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)
-
 ## Ⅰ. 개요
 
-- 정의/개념: AI 맥락·영향을 파악하고 위험을 처리하는 **4대 기능**의 자발적 **위험관리 프레임워크**
+<details>
+<summary>핵심 용어</summary>
+
+- **자발적 AI 위험관리 프레임워크**: NIST AI RMF는 AI의 사용 맥락과 영향을 Govern·Map·Measure·Manage로 관리하는 자발적 AI 위험관리 프레임워크다.
+
+</details>
+
+- 정의/개념: **NIST AI RMF**는 AI의 사용 맥락·영향을 파악하고 4대 기능으로 위험을 처리하는 **자발적 AI 위험관리 프레임워크**
 - 배경/필요성: 정확도 최적화 과정의 **공정성·설명성 저하** 통제 곤란
 
 ### 쉽게 이해하기 (학습용)
 - 같은 AI도 사용자와 환경에 따라 영향이 달라지므로 사용 맥락에서 위험을 식별·측정하고 대응하도록 한다
 
 ## Ⅱ. 특징
+
+<details>
+<summary>핵심 용어</summary>
+
+- **증거 기반 반복성**: 증거 기반 반복성은 TEVV 결과와 불확실성·잔여 위험을 기록하고 운영 변화에 따라 위험 판단을 갱신한다.
+
+</details>
 
 - 산업 중립적 틀을 AI 수명주기에 적용하는 **자발적 범용성**
 - 정책·책임·허용수준으로 기능을 조정하는 **거버넌스 중심성**
@@ -52,6 +50,13 @@ extra:
 - 정확도 향상이 설명 가능성이나 공정성을 낮출 수 있으므로 수용한 위험과 판단 근거를 기록한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **Measure**: Measure는 AI 위험과 신뢰성 특성을 TEVV·지표·불확실성·추적 증거로 측정한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -73,6 +78,13 @@ block-beta
 - Govern은 전체에 규칙을 주고 Map의 맥락이 Measure의 지표를 정하며 Manage 결과가 다시 맥락으로 돌아감
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **4. TEVV 결과·처리안 보고**: AI 팀은 사용 맥락에 맞는 신뢰성 지표와 불확실성을 측정해 위험 처리 대안을 거버넌스에 보고한다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -97,6 +109,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **NIST AI RMF**: NIST AI RMF는 사용사례별 AI 위험관리 결과와 행동을 설계하는 자발적 프레임워크다.
+
+</details>
+
 | 판단 기준 | NIST AI RMF | ISO/IEC 42001 |
 |:---|:---|:---|
 | **적용 기준** | 사용사례별 **위험 실무** 설계 | 조직의 **AI 관리체계** 표준화 |
@@ -108,7 +127,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **영향 대상 누락**: 영향 대상 누락은 사용 맥락과 영향받는 공동체를 Map하지 않아 실제 피해 시나리오가 위험 측정에서 빠지는 문제다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 사용 맥락과 **영향 대상 누락** | 배포 전 공동체 참여로 **Map** 수행 | 실제 **피해 시나리오** 식별 |
 | 성능 지표만으로 **위험 판단** | 안전·편향·개인정보를 **TEVV**로 측정 | **신뢰성 지표별 개선·저하 확인** |
@@ -119,6 +145,13 @@ sequenceDiagram
 - 신뢰도가 낮은 진단은 자동 확정하지 않고 의사 검토로 보내며 성능이 변하면 전환 기준을 다시 평가한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **잔여 위험**: 측정·완화 뒤 남은 잔여 위험을 조직의 허용수준과 비교해 배포·추가 완화·중단 중 하나를 결정해야 한다.
+
+</details>
 
 - 사용사례별 판단은 **AI RMF 1.0**을 적용하고 **잔여 위험**이 허용될 때만 배포
 
