@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: PVC·PV·StorageClass로 **워크로드의 저장 요구와 인프라 구현**을 분리하는 쿠버네티스 영속 스토리지 구조
+- 정의/개념: **영속 볼륨 요청(Persistent Volume Claim, PVC)·영속 볼륨(Persistent Volume, PV)·스토리지 클래스(StorageClass)** 기반으로 워크로드 저장 요구와 인프라 구현을 분리하는 쿠버네티스 영속 스토리지 구조
 - 배경/필요성: 파드 로컬 저장은 재생성·노드 장애 시 **데이터 소실**
 
 #### 한줄 요약
@@ -39,6 +39,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **회수 정책**: 회수 정책은 PVC 해제 뒤 PV와 실제 저장 데이터를 삭제할지 보존할지 결정한다.
+- **영속 볼륨 요청(Persistent Volume Claim, PVC)·영속 볼륨(Persistent Volume, PV) 분리**: 애플리케이션의 저장 요구와 실제 저장 자원 구현을 분리하는 추상화이다.
+- **컨테이너 스토리지 인터페이스(Container Storage Interface, CSI)**: 쿠버네티스가 저장소 공급자별 볼륨 생성·연결·마운트를 호출하는 표준 인터페이스이다.
 
 </details>
 
@@ -55,6 +57,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **StorageClass**: StorageClass는 동적 프로비저닝에 사용할 저장 유형, 프로비저너, 매개변수를 정의한다.
+- **영속 볼륨 요청·영속 볼륨(Persistent Volume Claim·Persistent Volume, PVC·PV) 제어기**: 저장 요청과 조건이 맞는 볼륨을 찾아 바인딩하는 구성요소이다.
+- **컨테이너 스토리지 인터페이스 제어기(Container Storage Interface Controller, CSI Controller)**: 백엔드 볼륨의 생성·삭제·연결을 수행하는 구성요소이다.
+- **CSI 노드·큐블릿(CSI Node·kubelet)**: 볼륨을 노드에 게시하고 파드 경로에 마운트하는 구성요소이다.
 
 </details>
 
@@ -90,6 +95,11 @@ block
 <summary>핵심 용어</summary>
 
 - **4. PV·PVC 바인딩 상태**: 용량, 접근 모드, 클래스 조건이 맞으면 PV와 PVC가 바인딩 상태가 된다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 서버**: 저장 객체의 선언과 바인딩 상태를 보존하는 제어면 접점이다.
+- **1. PVC 용량·접근 모드**: 애플리케이션이 필요한 저장 크기와 읽기·쓰기 방식을 선언한 조건이다.
+- **2. 클래스·토폴로지 공급 명세**: 사용할 프로비저너와 볼륨 배치 영역을 확정한 명세이다.
+- **3. 백엔드 볼륨 생성 명세**: 조건에 맞는 실제 저장 자원을 공급자에게 요청하는 명세이다.
+- **5. 노드 연결·마운트 명세**: 바인딩한 볼륨을 실행 노드와 파드 파일 경로에 연결하는 명세이다.
 
 </details>
 
@@ -128,6 +138,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **PV**: PV는 클러스터가 제공하는 지속성 저장 자원을 나타내는 API 리소스다.
+- **영속 볼륨 요청(Persistent Volume Claim, PVC)**: 애플리케이션이 용량·접근 모드·스토리지 클래스를 선언하는 저장 요청이다.
+- **영속 볼륨(Persistent Volume, PV)**: 클러스터가 제공하는 지속성 저장 자원을 나타내는 리소스이다.
+- **스토리지 클래스(StorageClass)**: 동적 볼륨의 프로비저너·회수·바인딩 정책을 정의하는 리소스이다.
 
 </details>
 
