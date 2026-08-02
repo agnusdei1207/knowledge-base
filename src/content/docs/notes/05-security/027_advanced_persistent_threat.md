@@ -103,14 +103,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 공격 운영자
-    participant E as 사용자·외부 접점
-    participant H as 내부 호스트
-    participant I as 신원·관리 체계
+    participant H as 표적 조직
     participant C as 핵심 자산
-    A->>E: 1. 표적 미끼·익스플로잇 전달
-    E->>H: 2. 침해 세션 수립
-    H->>I: 3. 권한 상승·지속성 행위
-    I->>C: 4. 특권 자산 접근
+    A->>H: 1. 표적 미끼·익스플로잇 전달
+    H->>H: 2. 침해 세션 수립
+    H->>H: 3. 권한 상승·지속성 행위
+    H->>C: 4. 특권 자산 접근
     C-->>H: 목표 데이터
     H->>A: 5. 수집 데이터 유출
 ```

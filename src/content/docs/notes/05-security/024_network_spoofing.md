@@ -105,15 +105,12 @@ sequenceDiagram
     participant V as 피해 단말
     participant A as 공격자
     participant G as 검증 통제
-    participant T as 신뢰 정보원
-    participant C as 주소 캐시
     V->>A: 주소 확인 요청
     A-->>V: 위조 주소 응답
     V->>G: 1. 주소 응답 검증 요청
-    G->>T: 2. 신뢰 바인딩·서명 조회
-    T-->>G: 검증 근거
-    G->>C: 3. 검증 통과 대응 저장
-    C-->>V: 검증된 주소
+    G->>G: 2. 신뢰 바인딩·서명 조회
+    G->>G: 3. 검증 통과 대응 저장
+    G-->>V: 검증된 주소
 ```
 
 **동작 원리**

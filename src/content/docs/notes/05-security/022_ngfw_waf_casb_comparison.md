@@ -95,22 +95,19 @@ block
 ```mermaid
 sequenceDiagram
     participant U as 사용자
-    participant P as 통합 정책기
     participant N as NGFW
     participant W as WAF
     participant C as CASB
-    U->>P: 접근 요청
     par 네트워크·앱 검사
-        P->>N: 1. 네트워크·앱 판정 요청
-        N-->>P: 판정 결과
+        U->>N: 1. 네트워크·앱 판정 요청
+        N-->>U: 판정 결과
     and 웹·API 검사
-        P->>W: 2. 웹·API 공격 판정 요청
-        W-->>P: 판정 결과
+        U->>W: 2. 웹·API 공격 판정 요청
+        W-->>U: 판정 결과
     and SaaS·데이터 검사
-        P->>C: 3. SaaS·데이터 판정 요청
-        C-->>P: 판정 결과
+        U->>C: 3. SaaS·데이터 판정 요청
+        C-->>U: 판정 결과
     end
-    P-->>U: 통합 허용·차단 결과
 ```
 
 **동작 원리**

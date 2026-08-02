@@ -102,13 +102,11 @@ block-beta
 sequenceDiagram
     participant S as 송신자
     participant I as IPS 센서
-    participant E as 탐지 엔진
-    participant R as 대응 모듈
     participant D as 목적지
     S->>I: 패킷
-    I->>E: 1. 정규화 특징 전달
-    E->>R: 2. 공격 위험도·근거 전달
-    R->>I: 3. 경보·차단 정책 전달
+    I->>I: 1. 정규화 특징 추출
+    I->>I: 2. 공격 위험도·근거 판정
+    I->>I: 3. 경보·차단 정책 적용
     alt 허용
         I->>D: 허용 패킷
     else 차단

@@ -97,15 +97,12 @@ block-beta
 sequenceDiagram
     participant C as 통신 요청자
     participant F as 방화벽
-    participant S as 상태 테이블
-    participant P as 정책 검사기
     participant T as 목적 시스템
     C->>F: 신규 패킷
-    F->>S: 1. 5-튜플 연결 상태 조회
-    S-->>F: 연결 상태
-    F->>P: 2. 룰셋·위협 검사
+    F->>F: 1. 5-튜플 연결 상태 조회
+    F->>F: 2. 룰셋·위협 검사
     alt 허용
-        P->>S: 3. 세션 상태 갱신
+        F->>F: 3. 세션 상태 갱신
         F-->>T: 허용 패킷
     else 차단
         F-->>C: 차단 결과

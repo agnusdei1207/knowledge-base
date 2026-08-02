@@ -103,25 +103,23 @@ block
 ```mermaid
 sequenceDiagram
     participant P as CTI 생산자
-    participant V as STIX 검증기
     participant T as TAXII 서버
     participant C as CTI 소비자
-    participant S as 보안 통제기
-    P->>V: 1. STIX 객체·프로파일 전달
-    V->>T: 2. 검증된 STIX 객체 게시 요청
+    P->>P: 1. STIX 객체·프로파일 검증
+    P->>T: 2. 검증된 STIX 객체 게시 요청
     T-->>P: 게시 상태
     C->>T: 3. TAXII 변경분 조회
     T-->>C: 변경·철회 객체
-    C->>S: 4. 검증 객체 적용 요청
-    S-->>P: 활용 효과
+    C->>C: 4. 검증 객체 적용
+    C-->>P: 활용 효과
 ```
 
 **동작 원리**
 
-1. **STIX 객체·프로파일 전달**: 객체·관계·표식·허용 범위 제공
+1. **STIX 객체·프로파일 검증**: 객체·관계·표식·허용 범위 확인
 2. **검증된 STIX 객체 게시 요청**: 스키마·버전·철회 확인 후 게시
 3. **TAXII 변경분 조회**: 컬렉션의 수정 시각 이후 객체 요청
-4. **검증 객체 적용 요청**: 중복·철회·자산 적합성 확인 후 통제 반영
+4. **검증 객체 적용**: 중복·철회·자산 적합성 확인 후 통제 반영
 
 
 #### 한줄 요약
