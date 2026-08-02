@@ -88,9 +88,9 @@ function annotationMarks(annotations, series) {
       text: 'label',
       fill: '#475569',
       fontWeight: 600,
-      textAnchor: nearLeft ? 'start' : nearRight ? 'end' : 'middle',
-      dx: nearLeft ? 8 : nearRight ? -8 : 0,
-      dy: yPosition > 0.82 ? 16 : -12,
+      textAnchor: annotation.textAnchor ?? (nearLeft ? 'start' : nearRight ? 'end' : 'middle'),
+      dx: annotation.dx ?? (nearLeft ? 8 : nearRight ? -8 : 0),
+      dy: annotation.dy ?? (yPosition > 0.82 ? 16 : -12),
     });
   });
 }
@@ -313,7 +313,7 @@ function createShapWaterfallChart() {
     color: { domain: ['양의 기여', '음의 기여'], range: ['#2563eb', '#dc2626'], legend: false },
     marks: [
       Plot.text([{ x: 0.525, feature: '소득 +0.18', label: 'SHAP 특징 기여의 가산 원리' }], {
-        x: 'x', y: 'feature', text: 'label', frameAnchor: 'top', dy: -64,
+        x: 'x', y: 'feature', text: 'label', frameAnchor: 'top', dy: -284,
         fontSize: 20, fontWeight: 700, fill: '#1f2937',
       }),
       Plot.rectX(contributions, {
@@ -323,7 +323,7 @@ function createShapWaterfallChart() {
       Plot.ruleX([0.64], { stroke: '#111827', strokeWidth: 2 }),
       Plot.text([
         { x: 0.42, feature: '거래 이력 +0.09', label: '기준값 0.42' },
-        { x: 0.64, feature: '부채 -0.11', label: '예측값 0.64' },
+        { x: 0.67, feature: '부채 -0.11', label: '예측값 0.64' },
       ], { x: 'x', y: 'feature', text: 'label', dy: -25, fontWeight: 700, fill: '#334155' }),
     ],
   });
@@ -714,7 +714,7 @@ await Promise.all([
         { x, y: x * Math.log2(x + 1), series: 'O(n log n)' },
         { x, y: x ** 2, series: 'O(n²)' },
       ]),
-      annotations: [{ x: 16, y: 256, label: 'n 증가 시 차수별 격차 확대' }],
+      annotations: [{ x: 16, y: 256, label: 'n 증가 시 차수별 격차 확대', dy: -12 }],
     }),
   ),
   writeFile(
@@ -727,7 +727,7 @@ await Promise.all([
         { x, y: x ** 2 + 2 * x, series: '비용 함수 T(n)' },
         { x, y: 2 * x ** 2, series: '상한 함수 2n²' },
       ]),
-      annotations: [{ x: 2, y: 8, label: 'n₀=2 이후 상한 성립' }],
+      annotations: [{ x: 2, y: 8, label: 'n₀=2 이후 상한 성립', dx: 88, dy: 28 }],
     }),
   ),
   writeFile(
@@ -740,7 +740,7 @@ await Promise.all([
         { x, y: x * Math.log2(x), series: 'n log₂ n' },
         { x, y: x ** 2, series: 'n²' },
       ]),
-      annotations: [{ x: 16, y: 256, label: '입력 증가 시 격차 확대' }],
+      annotations: [{ x: 16, y: 256, label: '입력 증가 시 격차 확대', dy: -12 }],
     }),
   ),
   writeFile(
@@ -817,7 +817,7 @@ await Promise.all([
         { x, y: x, series: '체이닝 α' },
         { x, y: 1 / (1 - x), series: '개방 주소법 1/(1-α)' },
       ]),
-      annotations: [{ x: 0.9, y: 10, label: '높은 적재율에서 탐사 급증' }],
+      annotations: [{ x: 0.9, y: 10, label: '높은 적재율에서 탐사 급증', dy: -12 }],
     }),
   ),
   writeFile(
@@ -830,7 +830,7 @@ await Promise.all([
         { x, y: x, series: '연결 리스트 k' },
         { x, y: 1, series: '동적 배열 1' },
       ]),
-      annotations: [{ x: 16, y: 16, label: '링크 순차 추적' }],
+      annotations: [{ x: 16, y: 16, label: '링크 순차 추적', dy: -12 }],
     }),
   ),
   writeFile(
@@ -873,7 +873,7 @@ await Promise.all([
         { x, y: Math.log2(x), series: '균형 트리 log₂ n' },
         { x, y: x, series: '편향 트리 n' },
       ]),
-      annotations: [{ x: 16, y: 16, label: '편향 시 깊이 n' }],
+      annotations: [{ x: 16, y: 16, label: '편향 시 깊이 n', dy: -12 }],
     }),
   ),
   writeFile(new URL('adversarial-perturbation.svg', outputDirectory), createAdversarialExampleChart()),
@@ -887,7 +887,7 @@ await Promise.all([
         { x, y: 2 ** x, series: 'BFS 2ᵈ' },
         { x, y: x, series: 'DFS d' },
       ]),
-      annotations: [{ x: 5, y: 32, label: 'BFS 큐 후보 급증' }],
+      annotations: [{ x: 5, y: 32, label: 'BFS 큐 후보 급증', dy: -12 }],
     }),
   ),
   writeFile(
@@ -928,7 +928,7 @@ await Promise.all([
         { x, y: Math.log2(x), series: '균형 분할 log₂ n' },
         { x, y: x, series: '최악 불균형 n' },
       ]),
-      annotations: [{ x: 16, y: 16, label: '불균형 시 스택 깊이 증가' }],
+      annotations: [{ x: 16, y: 16, label: '불균형 시 스택 깊이 증가', dy: -12 }],
     }),
   ),
   writeFile(
@@ -968,7 +968,7 @@ await Promise.all([
         { x, y: x, series: 'NFA 원래 상태 수 n' },
         { x, y: 2 ** x, series: 'DFA 결정화 상한 2ⁿ' },
       ]),
-      annotations: [{ x: 5, y: 32, label: 'n=5일 때 최대 32개' }],
+      annotations: [{ x: 5, y: 32, label: 'n=5일 때 최대 32개', dy: -12 }],
     }),
   ),
   writeFile(
@@ -984,7 +984,7 @@ await Promise.all([
         { x: 32, y: 18.75, series: '최소 패리티 비율' },
         { x: 64, y: 10.94, series: '최소 패리티 비율' },
       ],
-      annotations: [{ x: 64, y: 10.94, label: '64비트에서 10.94%' }],
+      annotations: [{ x: 64, y: 10.94, label: '64비트에서 10.94%', dy: -50 }],
     }),
   ),
   writeFile(
@@ -998,7 +998,7 @@ await Promise.all([
         y: Math.log2(1 + x),
         series: 'log₂(1+S/N)',
       })),
-      annotations: [{ x: 15, y: 4, label: 'S/N=15에서 4bit/s/Hz' }],
+      annotations: [{ x: 15, y: 4, label: 'S/N=15에서 4bit/s/Hz', dy: -12 }],
     }),
   ),
   writeFile(
@@ -1025,7 +1025,7 @@ await Promise.all([
         { x, y: [0.0625, 0.25, 0.375, 0.25, 0.0625][x], series: '이항 n=4, p=0.5' },
         { x, y: [0.135, 0.271, 0.271, 0.18, 0.09][x], series: '포아송 λ=2' },
       ]),
-      annotations: [{ x: 2, y: 0.375, label: 'k=2: 이항 0.375' }],
+      annotations: [{ x: 2, y: 0.375, label: 'k=2: 이항 0.375', dx: 96, dy: -28 }],
     }),
   ),
   writeFile(
@@ -1038,7 +1038,7 @@ await Promise.all([
         { x, y: [90, 60, 35, 20, 10][index], series: '훈련 오차' },
         { x, y: [95, 65, 40, 55, 85][index], series: '검증 오차' },
       ]),
-      annotations: [{ x: 50, y: 40, label: '검증 오차 최소 구간' }],
+      annotations: [{ x: 50, y: 40, label: '검증 오차 최소 구간', dx: 114, dy: 3 }],
     }),
   ),
   writeFile(
@@ -1052,7 +1052,7 @@ await Promise.all([
         { x, y: Math.tanh(x), series: 'Tanh' },
         { x, y: Math.max(0, x), series: 'ReLU' },
       ]),
-      annotations: [{ x: -2, y: 0, label: 'ReLU 음수 구간 0' }],
+      annotations: [{ x: -2, y: 0, label: 'ReLU 음수 구간 0', dy: 18 }],
     }),
   ),
   writeFile(
@@ -1093,7 +1093,7 @@ await Promise.all([
         y: Math.sqrt(x),
         series: '폴락의 법칙 √C',
       })),
-      annotations: [{ x: 16, y: 4, label: '복잡도 16배에서 성능 약 4배' }],
+      annotations: [{ x: 16, y: 4, label: '복잡도 16배에서 성능 약 4배', dx: -16, dy: 24 }],
     }),
   ),
   writeFile(
@@ -1107,7 +1107,7 @@ await Promise.all([
         y: 100 / x,
         series: '이상적 역비례 1/Load',
       })),
-      annotations: [{ x: 100, y: 1, label: '정격 부하에서 기준 시간 1' }],
+      annotations: [{ x: 100, y: 1, label: '정격 부하에서 기준 시간 1', dy: -80 }],
     }),
   ),
   writeFile(
@@ -1121,7 +1121,7 @@ await Promise.all([
         y: Math.floor((x - 1) / 2),
         series: 't=⌊(d-1)/2⌋',
       })),
-      annotations: [{ x: 11, y: 5, label: 'd=11에서 최대 5개 정정' }],
+      annotations: [{ x: 11, y: 5, label: 'd=11에서 최대 5개 정정', dx: -16, dy: 24 }],
     }),
   ),
   writeFile(
@@ -1149,7 +1149,7 @@ await Promise.all([
         y: 1 / (1 - x),
         series: 'M/M/1 이론 관계',
       })),
-      annotations: [{ x: 0.95, y: 20, label: 'ρ→1에서 지연 급증' }],
+      annotations: [{ x: 0.95, y: 20, label: 'ρ→1에서 지연 급증', dx: -16, dy: 24 }],
     }),
   ),
   writeFile(
@@ -1235,7 +1235,7 @@ await Promise.all([
         { x, y: (2 ** (x - 24) / 16) * 100, series: '생성 서브넷 수' },
         { x, y: (2 ** (24 - x)) * 100, series: '서브넷당 주소 블록 크기' },
       ]),
-      annotations: [{ x: 26, y: 25, label: '/26은 4개 서브넷·각 64주소' }],
+      annotations: [{ x: 26, y: 25, label: '/26은 4개 서브넷·각 64주소', dx: 185 }],
     }),
   ),
   writeFile(
@@ -1265,7 +1265,7 @@ await Promise.all([
           { x, y: 2 * efficiency, series: '대역폭 2MHz' },
         ];
       }),
-      annotations: [{ x: 20, y: Math.log2(101), label: 'SNR은 로그 효율, 대역폭은 선형 배율' }],
+      annotations: [{ x: 20, y: Math.log2(101), label: 'SNR은 로그 효율, 대역폭은 선형 배율', dx: 80, dy: -85 }],
     }),
   ),
   writeFile(
@@ -1279,7 +1279,7 @@ await Promise.all([
         y: (4 * x) / 299.792458,
         series: '수직 경로·진공 광속 하한',
       })),
-      annotations: [{ x: 35786, y: (4 * 35786) / 299.792458, label: 'GEO는 전파만 약 478ms' }],
+      annotations: [{ x: 35786, y: (4 * 35786) / 299.792458, label: 'GEO는 전파만 약 478ms', dx: -16, dy: 24 }],
     }),
   ),
   writeFile(
