@@ -93,21 +93,20 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 전환 제어기
-    participant R as 전환 라우터
+    participant O as 전환 제어·라우터
     participant L as 레거시
     participant N as 신규 시스템
     participant V as 검증 체계
     O->>N: 1. 신규 기능 배치
-    O->>R: 2. 병행 라우팅 설정
+    O->>O: 2. 병행 라우팅 설정
     par 병행 실행
-        R->>L: 레거시 요청
-        R->>N: 신규 요청
+        O->>L: 레거시 요청
+        O->>N: 신규 요청
     end
     L-->>V: 레거시 결과
     N-->>V: 신규 결과
     V->>O: 3. 결과 정합성 판정
-    O->>R: 4. 신규 소유권 전환
+    O->>O: 4. 신규 소유권 전환
     O->>L: 5. 레거시 기능 폐기
 ```
 
