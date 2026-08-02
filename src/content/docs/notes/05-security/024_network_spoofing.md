@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP·IP·DNS (Network Spoofing)"
-date: "2026-07-31T11:18:00+09:00"
+date: "2026-08-02T10:26:00+09:00"
 tags:
   - "notes-security"
 weight: 24
@@ -18,29 +18,15 @@ extra:
   priority_note: "128·134회 반복된 계층별 스푸핑 비교 주제임"
 ---
 
-## 미리 알고가기
-
-- **스푸핑(Spoofing)**: 주소·신원·응답 정보를 위조하여 정상 통신 주체나 경로로 가장하는 공격이다.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷의 출발지와 목적지 주소를 지정하여 네트워크 간 전달을 지원하는 규약이다.
-- **매체 접근 제어(Media Access Control, MAC)**: 동일한 링크 구간에서 네트워크 인터페이스를 식별하는 주소 체계다.
-- **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: 동일 네트워크에서 IP 주소에 대응하는 MAC 주소를 조회하는 프로토콜이다.
-- **도메인 이름 시스템(Domain Name System, DNS)**: 도메인 이름과 IP 주소 등의 자원 정보를 변환하는 분산 이름 체계다.
-- **캐시(Cache)**: 반복 조회를 줄이기 위해 주소 대응 정보를 일정 기간 임시 저장하는 공간이다.
-- **동적 ARP 검사(Dynamic ARP Inspection, DAI)**: 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단하는 기능이다.
-- **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 단말에 IP 주소·게이트웨이·DNS 등 네트워크 설정을 자동 할당하는 프로토콜이다.
-- **유니캐스트 역방향 경로 전달(Unicast Reverse Path Forwarding, uRPF)**: 출발지 IP로 돌아가는 경로의 유효성을 검사하여 위조 패킷을 차단하는 기능이다.
-- **DNS 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명으로 DNS 응답의 출처와 무결성을 검증하는 보안 확장이다.
-- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터의 기밀성과 무결성을 보호하는 프로토콜이다.
-- **중간자 공격(Man-in-the-Middle Attack)**: 두 통신자 사이에서 각각 정상 상대인 것처럼 가장하여 통신을 도청·변조하는 공격이다.
-- **반사 공격(Reflection Attack)**: 피해자의 출발지 주소를 위조하여 다수 서버의 응답이 피해자에게 전달되도록 하는 공격이다.
-- **IETF BCP 84**: 멀티호밍 환경의 uRPF 기반 출발지 주소 검증 권고를 규정한 공식 지침이다.
-- **IETF RFC 4033~4035**: DNSSEC의 보안 요구·레코드·검증 절차를 규정한 표준 문서군이다.
-
-
-
-> **키워드:** 네트워크 스푸핑 - ARP·IP·DNS (Network Spoofing)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **스푸핑(Spoofing)**은 주소·신원·응답 정보를 위조하여 정상 통신 주체나 경로로 가장하는 공격이다.
+- **중간자 공격**은 통신 사이에서 정상 상대인 것처럼 가장해 도청·변조하는 공격이다.
+
+</details>
 
 - 정의/개념: ARP·IP·DNS의 **주소·응답 정보를 위조**해 통신 주체·경로로 가장하는 공격
 - 배경/필요성: 인증 없는 주소·응답 수용으로는 **중간자·반사 공격 차단 불가**
@@ -51,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **ARP**는 IP에 대응하는 MAC 주소를 조회하고, **DNS**는 도메인 이름을 IP 주소 등의 자원 정보로 변환한다.
+- **반사 공격**은 피해자의 출발지 주소를 위조해 다수 서버의 응답을 피해자에게 보내는 공격이다.
+
+</details>
+
 - **ARP 스푸핑**은 인접망의 IP·MAC 대응을 오염시킨다.
 - **IP 스푸핑**은 출발지 주소를 위조해 반사·출발지 필터 회피를 유도한다.
 - **DNS 스푸핑**은 이름 응답을 위조해 가짜 목적지로 유도한다.
@@ -60,6 +54,14 @@ extra:
 - 주소가 정상처럼 보여도 최종 상대 인증을 별도로 확인해야 한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **DAI**는 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단한다.
+- **uRPF**는 출발지 IP로 돌아가는 경로의 유효성을 검사하고, **DNSSEC**은 DNS 응답의 출처와 무결성을 검증한다.
+
+</details>
 
 ```mermaid
 block
@@ -90,6 +92,14 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **신뢰 바인딩**은 DHCP가 할당한 IP·MAC 대응처럼 주소 응답을 검증할 기준 정보다.
+- **캐시(Cache)**는 검증된 주소 대응 정보를 일정 기간 임시 저장하는 공간이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant V as 피해 단말
@@ -119,6 +129,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **ARP·IP·DNS 스푸핑**은 각각 링크 주소 대응, 패킷 출발지, 이름 해석 응답을 위조한다.
+
+</details>
+
 | 네트워크 스푸핑 | ARP 스푸핑 | IP 스푸핑 | DNS 스푸핑 |
 |:---|:---|:---|:---|
 | 적용 기준 | **인접망 주소** 보호 | **경계 출발지** 검증 | **DNS 응답** 검증 |
@@ -133,7 +150,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **IETF BCP 84**는 uRPF 기반 출발지 주소 검증을, **RFC 4033~4035**는 DNSSEC 검증 절차를 규정한다.
+- **TLS 종단 인증**은 경로 주소 검증 뒤에도 최종 통신 상대가 맞는지 확인한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **출발지 IP 위조** | **IETF BCP 84 uRPF** | **반사·출발지 필터 회피** 억제 |
 | **DNS 응답 위조** | **IETF RFC 4033~4035** | **출처·무결성** 검증 |
@@ -144,6 +169,13 @@ sequenceDiagram
 - 잘못된 주소 목록을 쓰면 정상 단말까지 차단될 수 있다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **계층별 검증**은 ARP에 DAI, IP에 uRPF, DNS에 DNSSEC을 적용해 위조 지점별로 통제하는 원칙이다.
+
+</details>
 
 - ARP 위조는 **DAI**, IP 위조는 **uRPF**, DNS 위조는 DNSSEC 적용
 
