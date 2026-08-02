@@ -60,6 +60,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **HARA(Hazard Analysis and Risk Assessment, 위험원 분석 및 위험 평가)**: 운전 상황별 위해를 분석해 ASIL과 안전 목표를 도출하는 과정이다.
+- **S·E·C 평가**: 위해의 심각도(Severity), 운전 상황 노출 가능성(Exposure), 운전자의 제어 가능성(Controllability)을 조합해 ASIL을 정하는 평가이다.
+- **차량 수준 요구**: 개별 부품이 아니라 차량 전체의 위험한 동작을 방지하도록 정의한 안전 목표이다.
 - **FSR·TSR(Functional·Technical Safety Requirement)**: 안전 목표를 기능·기술 안전 요구로 분해한 항목이다.
 - **HSR·SSR(Hardware·Software Safety Requirement)**: 기술 요구를 하드웨어와 소프트웨어에 할당한 안전 요구이다.
 
@@ -154,9 +156,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상황·오동작·영향 조합**: 드문 위해를 빠뜨리지 않도록 운전 맥락과 기능 실패 및 피해를 함께 검토한 단위이다.
+- **등급 근거·가정·독립 검토**: S·E·C 판정 자료와 전제조건을 남기고 개발팀과 분리된 검토자가 등급의 타당성을 확인하는 통제이다.
 - **목표·FSR·TSR·구현·시험**: 안전 목표에서 상세 요구와 구현 및 검증 결과까지 잇는 추적 사슬이다.
 - **ASIL별 검증 독립성**: 안전 등급에 따라 개발자와 검증·승인 역할을 분리하는 수준이다.
 - **영향 분석·안전 회귀 시험**: 변경이 안전 논증에 미치는 범위를 찾고 기존 메커니즘을 다시 검증하는 활동이다.
+- **EPS(Electric Power Steering, 전동식 조향 장치)**: 전기 모터로 운전자의 조향을 보조하며 기능 상실 시 차량 제어에 영향을 줄 수 있는 장치이다.
 
 </details>
 
