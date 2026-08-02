@@ -39,6 +39,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **전자정부 발전 지수**: 전자정부 발전 지수는 온라인 서비스·통신 인프라·인적 자본 지수를 결합해 국가의 전자정부 수준을 평가한다.
+- **전자참여**: 정책 정보 공개·온라인 의견 수렴·공동 결정에서 국민이 참여할 수 있는 수준이다.
 
 </details>
 
@@ -54,7 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **EGDI**: EGDI는 OSI·TII·HCI의 산술평균으로 전자정부의 서비스·기반·인적 역량을 종합한다.
+- **전자정부 발전 지수(E-Government Development Index, EGDI)**: 온라인 서비스 지수·통신 인프라 지수·인적 자본 지수의 산술평균으로 국가의 전자정부 수준을 평가한다.
+- **온라인 서비스 지수(Online Service Index, OSI)**: 공공 온라인 서비스의 범위·품질과 처리 수준을 평가하는 지수이다.
+- **통신 인프라 지수(Telecommunication Infrastructure Index, TII)**: 인터넷·통신망의 보급과 접근 기반을 평가하는 지수이다.
+- **인적 자본 지수(Human Capital Index, HCI)**: 교육 수준과 디지털 서비스를 활용할 인적 역량을 평가하는 지수이다.
+- **전자참여 지수(E-Participation Index, EPI)**: 전자정보·전자협의·전자결정에 대한 국민 참여 수준을 평가하는 지수이다.
 
 </details>
 
@@ -89,7 +94,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. EGDI·격차 분석 결과 제출**: 평가기관은 목표 수준과 지표별 측정값을 비교해 취약 영역과 개선 우선순위를 정책기관에 제출한다.
+- **전자정부 발전 지수(E-Government Development Index, EGDI)**: OSI·TII·HCI를 종합해 목표 대비 취약 영역을 판정하는 지수이다.
+- **OSI·TII·HCI·EPI**: 온라인 서비스·통신 인프라·인적 자본·전자참여 수준을 각각 측정해 개선 과제의 근거로 사용하는 지수이다.
+- **격차 분석**: 지표별 현재값과 목표 수준의 차이를 비교해 취약 영역과 개선 우선순위를 찾는 분석이다.
 
 </details>
 
@@ -140,6 +147,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **온라인 접근 격차**: 온라인 접근 격차는 계층·지역별 통신 접근성과 디지털 역량의 차이로 서비스 이용 기회가 달라지는 문제다.
+- **유엔 전자정부 조사(United Nations E-Government Survey, UN 전자정부 조사)**: 국가별 전자정부 발전과 전자참여 수준을 공통 지수로 평가하는 국제 조사이다.
+- **전자정부 발전 지수(E-Government Development Index, EGDI)**: 온라인 서비스·통신 인프라·인적 자본 수준을 종합해 취약 영역을 비교하는 지수이다.
+- **디지털 포용성**: 장애·연령·소득·지역과 관계없이 디지털 서비스에 접근하고 활용할 수 있는 상태이다.
 
 </details>
 
@@ -157,7 +167,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **EPI**: EPI는 정책 정보 공개·온라인 의견 수렴·공동 결정에 대한 국민 참여 수준을 평가한다.
+- **온라인 서비스 지수(Online Service Index, OSI)**: 공공 온라인 서비스의 범위·품질을 평가하는 지수이다.
+- **통신 인프라 지수(Telecommunication Infrastructure Index, TII)**: 인터넷·통신망 보급과 접근 기반을 평가하는 지수이다.
+- **인적 자본 지수(Human Capital Index, HCI)**: 교육과 디지털 서비스 활용 역량을 평가하는 지수이다.
+- **전자참여 지수(E-Participation Index, EPI)**: 정책 정보 공개·온라인 의견 수렴·공동 결정에 대한 국민 참여 수준을 평가하는 지수이다.
 
 </details>
 

@@ -23,6 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 개별 정보시스템 사업의 요구사항·목표 구조·규모·비용과 이행방안을 발주 수준으로 구체화하는 계획이다.
+- **제안요청서(Request for Proposal, RFP)**: 발주기관이 사업 요구·범위·산출물·평가와 검수 조건을 제안사에 제시하는 문서이다.
 - **RFP 기준선**: RFP 기준선은 승인된 요구·규모·비용·검수 조건을 발주 문서와 계약 범위의 판단 기준으로 고정한다.
 
 </details>
@@ -39,6 +41,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **요구사항**: 요구사항은 기능·품질·데이터·연계 범위와 검증 가능한 수용 조건을 함께 명시해야 한다.
+- **기능점수(Function Point, FP)**: 사용자 관점의 기능을 유형과 복잡도에 따라 계량해 소프트웨어 규모와 대가 산정에 사용하는 단위이다.
+- **제안요청서(Request for Proposal, RFP)**: 승인된 요구·목표 구조·평가 기준을 공급자 제안 요청 형식으로 전환한 문서이다.
 
 </details>
 
@@ -55,6 +59,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **요구사항 기준선**: 요구사항 기준선은 승인된 기능·품질·보안·연계 요구를 범위 변경과 추가 대가 판단에 연결한다.
+- **기능점수(Function Point, FP)**: 목표 시스템의 사용자 기능 규모를 계량해 비용과 일정의 근거로 사용하는 단위이다.
+- **제안요청서(Request for Proposal, RFP)**: 요구·산출물·계약·평가·검수 기준을 공급자에게 제시하는 발주 문서이다.
 
 </details>
 
@@ -88,7 +94,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. 규모·비용·이행안 제출**: ISMP팀은 승인 요구사항을 기능점수·직접경비·일정·전환 범위로 환산해 조달·예산부서에 제출한다.
+- **수용 기준**: 납품 결과가 요구사항을 충족했는지 시험·검수할 수 있도록 조건과 기대 결과를 명시한 기준이다.
+- **기능점수(Function Point, FP)**: 승인 요구사항을 사용자 기능 규모로 환산해 비용·일정 산정에 사용하는 단위이다.
+- **제안요청서(Request for Proposal, RFP)**: 목표 구조·요구 기준선·조달 조건을 반영해 발주 범위를 확정한 문서이다.
 
 </details>
 
@@ -120,7 +128,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISMP**: ISMP는 특정 구축사업의 요구·목표 구조·규모·예산을 RFP 수준으로 상세화한다.
+- **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 특정 구축사업의 요구·목표 구조·규모·예산을 RFP 수준으로 상세화하는 계획이다.
+- **정보전략계획(Information Strategy Planning, ISP)**: 조직의 중장기 정보화 비전·과제와 투자 로드맵을 수립하는 계획이다.
+- **제안요청서(Request for Proposal, RFP)**: ISMP에서 확정한 요구·범위·평가·검수 조건을 사업자에게 제시하는 발주 문서이다.
 
 </details>
 
@@ -141,6 +151,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **예산·대가 분쟁**: 예산·대가 분쟁은 기능점수 산정 범위와 RFP의 계약 범위가 서로 다를 때 발생한다.
+- **요구사항 식별자(Requirement Identifier, 요구 ID)**: 요구사항을 업무·데이터·기술 구성요소와 추적하기 위해 부여한 고유 번호이다.
+- **기능점수(Function Point, FP)**: 요구 기능의 규모를 계량해 소프트웨어 개발 대가를 산정하는 단위이다.
+- **제안요청서(Request for Proposal, RFP)**: 계약 범위와 평가·검수 기준을 명시해 공급자 제안을 요청하는 문서이다.
 
 </details>
 
@@ -158,6 +171,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
+- **기능점수(Function Point, FP)**: 승인된 요구사항과 일치해야 비용 산정 근거로 인정되는 소프트웨어 규모 단위이다.
+- **제안요청서(Request for Proposal, RFP)**: 요구 기준선·규모·비용이 일치할 때 최종 발주 범위를 확정하는 문서이다.
 - **RFP 발주 범위**: RFP 발주 범위는 승인된 요구사항 기준선과 기능점수·비용 근거가 일치할 때 확정해야 한다.
 
 </details>
