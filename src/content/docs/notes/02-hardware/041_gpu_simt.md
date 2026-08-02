@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "GPU 아키텍처·SIMT 모델 (GPU SIMT)"
-date: "2026-08-02T11:01:00+09:00"
+date: "2026-08-02T20:01:00+09:00"
 tags:
   - "notes-hardware"
 weight: 41

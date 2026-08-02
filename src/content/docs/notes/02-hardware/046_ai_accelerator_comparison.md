@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "AI 가속기 비교: CPU·GPU·NPU·FPGA·ASIC (AI Accelerator Comparison)"
-date: "2026-08-02T11:06:00+09:00"
+date: "2026-08-02T20:06:00+09:00"
 tags:
   - "notes-hardware"
 weight: 46

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-08-02T11:05:00+09:00"
+date: "2026-08-02T20:05:00+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 완전 정수 TFLite의 **현장 추론용 ASIC**
+- 정의/개념: 완전 정수 양자화 TensorFlow Lite 모델을 실행하는 **에지 현장 추론용 ASIC**
 - 배경/필요성: 클라우드 추론은 망 단절 시 **현장 판정 불가**
 
 ### 쉽게 이해하기 (학습용)

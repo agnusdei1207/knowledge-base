@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-08-02T11:10:00+09:00"
+date: "2026-08-02T20:10:00+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 칩렛 간 **PHY·어댑터** 계층을 규정하는 **D2D 표준**
+- 정의/개념: 칩렛 간 물리·어댑터·프로토콜 계층을 규정하는 **표준 D2D 인터페이스**
 - 배경/필요성: 독자 D2D의 **통합 비용·공급자 종속** 완화
 
 ### 쉽게 이해하기 (학습용)

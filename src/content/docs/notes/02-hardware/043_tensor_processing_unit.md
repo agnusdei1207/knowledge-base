@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-02T11:03:00+09:00"
+date: "2026-08-02T20:03:00+09:00"
 tags:
   - "notes-hardware"
 weight: 43

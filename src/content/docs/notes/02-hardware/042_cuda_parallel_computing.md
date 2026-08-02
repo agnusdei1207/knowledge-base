@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)"
-date: "2026-08-02T11:02:00+09:00"
+date: "2026-08-02T20:02:00+09:00"
 tags:
   - "notes-hardware"
 weight: 42

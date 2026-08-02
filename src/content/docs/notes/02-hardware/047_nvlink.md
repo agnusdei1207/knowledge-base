@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-02T11:07:00+09:00"
+date: "2026-08-02T20:07:00+09:00"
 tags:
   - "notes-hardware"
 weight: 47

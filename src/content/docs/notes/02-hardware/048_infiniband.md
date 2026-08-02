@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-02T11:08:00+09:00"
+date: "2026-08-02T20:08:00+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: HCA·스위치로 **RDMA 저지연 전용망** 구성
+- 정의/개념: RDMA와 저지연 스위칭으로 컴퓨팅 노드를 연결하는 **고성능 네트워크 패브릭**
 - 배경/필요성: 커널·CPU 경유 시 **복사·전환 지연 증가**
 
 ### 쉽게 이해하기 (학습용)

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-08-02T11:04:00+09:00"
+date: "2026-08-02T20:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 44
