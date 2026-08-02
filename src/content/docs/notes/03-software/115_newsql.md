@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 관계형 구조화 질의 언어(Structured Query Language, SQL)·원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) 트랜잭션을 유지하면서 분산 합의와 데이터 분할로 수평 확장하는 **뉴SQL(NewSQL) 데이터베이스** 계열
-- 배경/필요성: 단일 노드 관계형 DB는 저장·처리 용량이 **한 장비 한계**에 종속
+- 배경/필요성: 단일 노드 관계형 DB는 저장·처리 용량이 **한 장비 한계** 에 종속
 
 #### 한줄 요약
 - SQL 장부를 지점에 나누고 합의로 하나의 거래처럼 처리한다.

@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 하둡 분산 파일 시스템(Hadoop Distributed File System, HDFS)에 저장한 대용량 데이터를 또 다른 자원 협상자(Yet Another Resource Negotiator, YARN) 자원 위에서 Map과 Reduce 태스크로 분산 처리하는 **Hadoop MapReduce 배치 처리 체계**
-- 배경/필요성: 단일 서버는 대용량 파일의 저장·집계 시간이 **한 장비 용량**에 종속
+- 배경/필요성: 단일 서버는 대용량 파일의 저장·집계 시간이 **한 장비 용량** 에 종속
 
 #### 한줄 요약
 - 파일을 작업자에게 나눠 맡기고 같은 열쇠 결과를 한곳에 모아 집계하는 처리이다.
