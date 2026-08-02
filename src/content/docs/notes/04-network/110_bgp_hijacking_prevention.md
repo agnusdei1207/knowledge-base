@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인터넷 라우팅 보안 체계**: BGP 하이재킹 방지는 원점 권한·접두어 길이·AS 관계를 검증해 비인가 경로 전환을 막는 인터넷 라우팅 보안 체계다.
+- **경계 게이트웨이 프로토콜 하이재킹 방지(Border Gateway Protocol Hijacking Prevention, BGP 하이재킹 방지)**: 원점 권한·접두어 길이·AS 관계를 검증해 비인가 경로 전환을 막는 인터넷 라우팅 보안 체계다.
+- **자율 시스템(Autonomous System, AS)**: 하나의 관리 정책 아래 운영되는 네트워크와 라우터의 집합이다.
 
 </details>
 
@@ -38,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **다층 검증**: 다층 검증은 ROA 원점 권한·허용 접두어 길이·이웃 AS 관계 정책과 외부 전파 상태를 함께 확인한다.
+- **다층 검증(Multi-Layer Validation)**: 경로 기원 인가(Route Origin Authorization, ROA) 원점 권한·허용 접두어 길이·이웃 자율 시스템(Autonomous System, AS) 관계 정책과 외부 전파 상태를 함께 확인한다.
 
 </details>
 
@@ -55,7 +56,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP 수용 필터**: BGP 수용 필터는 이웃에게 받은 경로를 ROV·접두어 길이·AS 관계 정책과 대조해 수용·차단한다.
+- **BGP 수용 필터(Border Gateway Protocol Import Filter)**: 이웃에게 받은 경로를 경로 기원 검증(Route Origin Validation, ROV)·접두어 길이·AS 관계 정책과 대조해 수용·차단한다.
+- **리소스 공개키 기반구조·인터넷 라우팅 등록소(Resource Public Key Infrastructure/Internet Routing Registry, RPKI·IRR)**: 경로 원점 권한과 라우팅 정책의 등록 근거를 제공하는 신뢰원이다.
 
 </details>
 
@@ -87,7 +89,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **2. 원점·접두어 검증**: 라우터는 광고 접두어의 원점 AS와 길이를 ROA의 허용 원점·최대 길이와 대조한다.
+- **원점·접두어 검증(Origin/Prefix Validation)**: 라우터는 광고 접두어의 원점 AS와 길이를 ROA의 허용 원점·최대 길이와 대조한다.
+- **경로 기원 인가·경계 게이트웨이 프로토콜(Route Origin Authorization/Border Gateway Protocol, ROA·BGP)**: 허용 원점·최대 길이 정책과 이를 전달하는 라우팅 프로토콜이다.
 
 </details>
 
@@ -122,7 +125,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **경로 누출**: 경로 누출은 원점 AS는 정상이지만 고객·제공자·동료 관계 정책에 어긋나게 배운 경로를 재광고하는 사고다.
+- **경로 누출(Route Leak)**: 원점 자율 시스템(Autonomous System, AS)은 정상이지만 고객·제공자·동료 관계 정책에 어긋나게 배운 경로를 재광고하는 사고다.
+- **경로 기원 인가·검증(Route Origin Authorization/Validation, ROA·ROV)**: 허용 원점·최대 길이를 등록하고 광고 경로와 대조하는 체계이다.
 
 </details>
 
@@ -143,7 +147,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **외부 전파 지속**: 외부 전파 지속은 로컬에서 경로를 차단해도 다른 사업자가 잘못된 광고를 계속 선택·재전파하는 문제다.
+- **외부 전파 지속(Continued External Propagation)**: 로컬에서 경로를 차단해도 다른 사업자가 잘못된 광고를 계속 선택·재전파하는 문제다.
+- **요청 의견서·경로 기원 인가·검증(Request for Comments/Route Origin Authorization/Validation, RFC·ROA·ROV)**: 인터넷 표준 문서와 경로 원점 권한 등록·검증 체계이다.
+- **제공자 역할 표시(Only-To-Customer, OTC)**: 고객에게만 전달해야 하는 경로임을 표시해 관계 위반 재광고를 탐지하는 속성이다.
 
 </details>
 
@@ -162,7 +168,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **차단·철회**: 원점·최대 길이·AS 관계가 불일치한 경로는 수용 필터로 차단하고 상류 사업자와 협력해 광고 철회와 정상 수렴을 확인한다.
+- **차단·철회(Block/Withdraw)**: 원점·최대 길이·자율 시스템(Autonomous System, AS) 관계가 불일치한 경로는 수용 필터로 차단하고 상류 사업자와 협력해 광고 철회와 정상 수렴을 확인한다.
+- **리소스 공개키 기반구조(Resource Public Key Infrastructure, RPKI)**: 경로 기원 권한을 인증서와 서명 객체로 검증하는 기반구조이다.
 
 </details>
 

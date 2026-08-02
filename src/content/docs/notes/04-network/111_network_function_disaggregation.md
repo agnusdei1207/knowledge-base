@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 기능 분리**: 5G RAN의 gNB 기능을 CU·DU·RU와 표준 인터페이스로 나눠 배치하는 무선접속망 구조이다.
+- **네트워크 기능 분리(Network Function Disaggregation)**: 5세대(Fifth Generation, 5G) 무선접속망(Radio Access Network, RAN)의 차세대 노드 B(next-generation Node B, gNB) 기능을 중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)로 나눠 배치하는 구조이다.
 
 </details>
 
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CU·DU·RU**: CU는 상위 무선 계층, DU는 시간 민감 스케줄링·물리 처리, RU는 무선주파수 변환을 담당한다.
+- **중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)**: CU는 상위 무선 계층, DU는 시간 민감 스케줄링·물리 처리, RU는 무선주파수 변환을 담당한다.
 - **개방 프론트홀**: 다중 공급사의 DU와 RU가 신호·제어·관리·동기 정보를 교환하도록 규정한 연결 구간이다.
 
 </details>
@@ -57,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **F1 인터페이스**: 3GPP가 CU와 DU 사이의 제어 평면과 사용자 평면 연결을 규정한 표준 인터페이스이다.
+- **F1 인터페이스(F1 Interface)**: 3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)가 CU와 DU 사이의 제어 평면과 사용자 평면 연결을 규정한 표준 인터페이스이다.
+- **중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)**: 상위 처리, 스케줄링·물리 처리와 전파 변환을 각각 담당하는 장치이다.
 - **처리 시한**: 각 무선 기능이 다음 계층에 결과를 전달해야 하는 최대 시간으로 기능 배치 위치를 정하는 기준이다.
 
 </details>
@@ -95,6 +96,7 @@ block-beta
 
 - **상위 계층 전달**: CU가 처리한 정책·패킷 정보를 F1을 통해 DU에 보내는 과정이다.
 - **자원 상태 환류**: DU가 무선 측정과 처리 자원 상태를 CU에 돌려보내 다음 정책에 반영하는 과정이다.
+- **중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)**: 상위 계층부터 전파 변환까지 단계별 처리를 담당하는 장치이다.
 
 </details>
 
@@ -133,6 +135,7 @@ sequenceDiagram
 
 - **일체형·분리형 기지국**: 일체형은 기능을 한 장비에 결합하고 분리형은 표준 인터페이스로 기능별 장치를 연결한다.
 - **분리점**: 기지국 프로토콜 계층 중 기능을 서로 다른 장치·위치로 나누는 경계이다.
+- **중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)**: 분리형 기지국의 기능 배치 단위이다.
 
 </details>
 
@@ -154,7 +157,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상호운용 시험**: 서로 다른 공급사의 DU·RU가 개방 프론트홀 규격에 맞게 동작하는지 검증하는 시험이다.
-- **3GPP TS 38.401**: 차세대 무선접속망과 gNB-CU·gNB-DU 구조를 규정한 기술규격이다.
+- **3GPP 기술규격 38.401(3rd Generation Partnership Project Technical Specification 38.401, 3GPP TS 38.401)**: 차세대 무선접속망과 gNB-CU·gNB-DU 구조를 규정한 기술규격이다.
+- **개방형 무선접속망 WG4 제어·사용자·동기 평면(Open Radio Access Network Working Group 4 Control/User/Synchronization Plane, O-RAN WG4 CUS)**: 개방 프론트홀의 제어·사용자·동기 평면 상호운용 규격이다.
 
 </details>
 
@@ -174,6 +178,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **분리 적용 조건**: 장치 간 전송 지연·용량·동기가 분리한 기능의 처리 시한을 충족하는 조건이다.
+- **중앙·분산·무선 장치(Central/Distributed/Radio Unit, CU·DU·RU)**: 전송·동기 조건을 만족할 때 분리 배치하는 기지국 기능 단위이다.
 
 </details>
 

@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **vRAN**: 기지국 CU·DU 기능을 범용 서버와 가속기에서 소프트웨어로 실행하는 가상화 무선접속망 구조이다.
+- **가상 무선접속망(Virtualized Radio Access Network, vRAN)**: 기지국 중앙·분산 장치(Central/Distributed Unit, CU·DU) 기능을 범용 서버와 가속기에서 소프트웨어로 실행하는 구조이다.
 
 </details>
 
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **무선 가속기**: 처리 시한이 엄격한 물리 계층 연산을 범용 CPU 대신 전담하는 장치이다.
+- **무선 가속기(Radio Accelerator)**: 처리 시한이 엄격한 물리 계층 연산을 범용 중앙처리장치(Central Processing Unit, CPU) 대신 전담하는 장치이다.
+- **중앙·분산 장치(Central/Distributed Unit, CU·DU)**: 상위 무선 계층과 시간 민감 제어·물리 처리를 각각 담당하는 기능이다.
 - **클라우드 오케스트레이션**: 소프트웨어 CU·DU의 배포·확장·복구를 자원 상태와 정책에 따라 자동화하는 기능이다.
 
 </details>
@@ -57,7 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 CU·DU**: 가상 CU는 상위 무선 계층·코어 연동을, 가상 DU는 실시간 제어·상위 물리 처리를 수행한다.
+- **가상 중앙·분산 장치(Virtualized Central/Distributed Unit, 가상 CU·DU)**: 가상 CU는 상위 무선 계층·코어 연동을, 가상 DU는 실시간 제어·상위 물리 처리를 수행한다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 서버에서 소프트웨어 무선 기능을 실행하는 연산 장치이다.
 - **범용 컴퓨팅**: 표준 CPU·메모리·네트워크 자원을 소프트웨어 무선 기능에 제공하는 상용 서버 기반이다.
 
 </details>
@@ -91,6 +93,7 @@ block
 
 - **프런트홀**: DU와 무선 장치 사이에서 디지털 무선 신호와 제어 정보를 전달하는 구간이다.
 - **서비스 품질 보고**: CU·DU 처리 지연과 무선 품질을 운영 제어기에 전달해 자원 조정을 유도하는 정보이다.
+- **중앙·분산 장치(Central/Distributed Unit, CU·DU)**: 프런트홀 신호 처리와 상위 무선 데이터 처리를 분담하는 기능이다.
 
 </details>
 
@@ -123,7 +126,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가상머신·컨테이너 vRAN**: 가상머신은 운영체제 단위로 강하게 격리하고 컨테이너는 커널을 공유해 가볍게 배포한다.
+- **가상머신·컨테이너 가상 무선접속망(Virtual Machine/Container Virtualized Radio Access Network, 가상머신·컨테이너 vRAN)**: 가상머신은 운영체제 단위로 강하게 격리하고 컨테이너는 커널을 공유해 가볍게 배포한다.
 - **처리 지터**: 공유 자원 경쟁으로 무선 기능의 실행 시간이 주기마다 불규칙하게 흔들리는 현상이다.
 
 </details>
@@ -145,7 +148,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **자원 격리**: 전용 CPU 코어·메모리·가속기를 배정해 다른 워크로드의 경쟁이 무선 처리 시한에 미치는 영향을 차단하는 방식이다.
+- **자원 격리(Resource Isolation)**: 전용 중앙처리장치(Central Processing Unit, CPU) 코어·메모리·가속기를 배정해 다른 워크로드의 경쟁 영향을 차단하는 방식이다.
+- **3GPP 기술규격 38.401(3rd Generation Partnership Project Technical Specification 38.401, 3GPP TS 38.401)**: 차세대 무선접속망과 CU·DU 구조를 규정한 기술규격이다.
 - **잔여 용량**: 서버 장애 뒤 남은 노드가 셀 부하를 계속 처리할 수 있는 여유 자원이다.
 
 </details>
@@ -165,7 +169,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **vRAN 적용 조건**: 처리 시한·자원 격리·장애 후 잔여 용량을 모두 만족하는 배치 조건이다.
+- **가상 무선접속망 적용 조건(Virtualized Radio Access Network Deployment Condition, vRAN 적용 조건)**: 처리 시한·자원 격리·장애 후 잔여 용량을 모두 만족하는 배치 조건이다.
 
 </details>
 

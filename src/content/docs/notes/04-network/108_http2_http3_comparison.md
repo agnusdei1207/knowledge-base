@@ -22,11 +22,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **웹 전송 표준**: HTTP/2·HTTP/3은 같은 HTTP 의미를 각각 TCP·QUIC 스트림에 다중화해 전달하는 웹 전송 표준이다.
+- **하이퍼텍스트 전송 프로토콜 2·3(Hypertext Transfer Protocol 2/3, HTTP/2·HTTP/3)**: 같은 HTTP 의미를 각각 TCP·QUIC 스트림에 다중화해 전달하는 웹 전송 표준이다.
+- **전송 제어 프로토콜·빠른 UDP 인터넷 연결(Transmission Control Protocol/Quick UDP Internet Connections, TCP·QUIC)**: HTTP/2와 HTTP/3가 각각 사용하는 전송 기반이다.
 
 </details>
 
-- 정의/개념: **HTTP/2·HTTP/3**은 같은 HTTP 의미를 각각 TCP와 QUIC의 다중 스트림으로 전달하는 **웹 전송 표준**
+- 정의/개념: **HTTP/2·HTTP/3** — 같은 HTTP 의미를 각각 TCP와 QUIC의 다중 스트림으로 전달하는 **웹 전송 표준**
 - 배경/필요성: TCP 손실의 **스트림 간 선두 차단** 완화
 
 #### 한줄 요약
@@ -38,7 +39,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **운영·보안 제약**: HTTP/3의 운영·보안 제약은 UDP 차단·암호화 관측 저하와 0-RTT 재전송 위험을 함께 관리해야 하는 점이다.
+- **HTTP/3 운영·보안 제약(Hypertext Transfer Protocol 3 Operational/Security Constraint)**: UDP 차단·암호화 관측 저하와 0-RTT 재전송 위험을 함께 관리해야 하는 점이다.
+- **사용자 데이터그램 프로토콜·왕복 시간(User Datagram Protocol/Round-Trip Time, UDP·RTT)**: 비연결형 전송 프로토콜과 요청·응답이 왕복하는 시간이다.
+- **대체 서비스(Alternative Service, Alt-Svc)**: 서버가 지원하는 대체 프로토콜·주소를 클라이언트에 알리는 HTTP 필드이다.
 
 </details>
 
@@ -55,7 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **QUIC·TLS 1.3 전송부**: QUIC·TLS 1.3 전송부는 HTTP/3에 독립 스트림·손실 복구·연결 이동·통합 보안을 제공한다.
+- **빠른 UDP 인터넷 연결·전송 계층 보안 1.3 전송부(Quick UDP Internet Connections/Transport Layer Security 1.3, QUIC·TLS 1.3 전송부)**: HTTP/3에 독립 스트림·손실 복구·연결 이동·통합 보안을 제공한다.
+- **전송 제어 프로토콜·HTTP/2 헤더 압축(Transmission Control Protocol/HTTP/2 Header Compression, TCP·HPACK)**: HTTP/2의 신뢰 전송과 헤더 압축을 담당하는 기술이다.
+- **HTTP/3 헤더 압축(HTTP/3 Header Compression, QPACK)**: QUIC의 독립 스트림에 맞게 설계된 헤더 압축 방식이다.
 
 </details>
 
@@ -92,7 +97,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. HTTP/2 대체**: 클라이언트는 UDP 차단이나 QUIC 협상 실패 시 TCP·TLS 기반 HTTP/2 경로로 자동 전환한다.
+- **HTTP/2 대체(Hypertext Transfer Protocol 2 Fallback)**: 클라이언트는 UDP 차단이나 QUIC 협상 실패 시 TCP·TLS 기반 HTTP/2 경로로 자동 전환한다.
+- **빠른 UDP 인터넷 연결·전송 계층 보안(Quick UDP Internet Connections/Transport Layer Security, QUIC·TLS)**: HTTP/3 연결과 암호화를 통합해 협상하는 기술이다.
+- **사용자 데이터그램·전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP·TCP)**: HTTP/3와 HTTP/2가 각각 사용하는 전송 프로토콜이다.
 
 </details>
 
@@ -132,7 +139,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/3**: HTTP/3는 QUIC의 독립 스트림으로 손실을 격리하고 연결 이동을 지원해 손실·주소 변경이 잦은 환경에 유리하다.
+- **하이퍼텍스트 전송 프로토콜 3(Hypertext Transfer Protocol 3, HTTP/3)**: QUIC의 독립 스트림으로 손실을 격리하고 연결 이동을 지원해 손실·주소 변경이 잦은 환경에 유리하다.
+- **요청 의견서·왕복 시간(Request for Comments/Round-Trip Time, RFC·RTT)**: 인터넷 표준 문서 계열과 요청·응답의 왕복 시간이다.
+- **사용자 데이터그램·전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP·TCP)**: HTTP/3와 HTTP/2의 기반 전송 프로토콜이다.
 
 </details>
 
@@ -153,7 +162,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **0-RTT 요청 재전송**: 0-RTT 요청 재전송은 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
+- **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
+- **하이퍼텍스트 전송 프로토콜 2·3·사용자 데이터그램 프로토콜(Hypertext Transfer Protocol 2/3/User Datagram Protocol, HTTP/2·HTTP/3·UDP)**: 자동 대체 대상 프로토콜과 HTTP/3의 기반 전송 프로토콜이다.
 
 </details>
 
@@ -172,7 +182,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/2**: HTTP/2는 저손실 고정망과 UDP가 차단된 기업망에서 기존 TCP 기반 장비·관측 체계를 활용하기에 적합하다.
+- **하이퍼텍스트 전송 프로토콜 2(Hypertext Transfer Protocol 2, HTTP/2)**: 저손실 고정망과 UDP가 차단된 기업망에서 기존 TCP 기반 장비·관측 체계를 활용하기에 적합하다.
+- **사용자 데이터그램·전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP·TCP)**: HTTP/3와 HTTP/2의 전송 기반을 구분하는 프로토콜이다.
 
 </details>
 
