@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX(Structured Threat Information Expression)**는 위협 행위자·공격 패턴·지표 같은 CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
-- **TAXII(Trusted Automated Exchange of Intelligence Information)**는 STIX 객체를 조직과 보안 도구 사이에서 조회·게시·교환하는 전송 규약이다.
+- **STIX(Structured Threat Information Expression)** 는 위협 행위자·공격 패턴·지표 같은 CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
+- **TAXII(Trusted Automated Exchange of Intelligence Information)** 는 STIX 객체를 조직과 보안 도구 사이에서 조회·게시·교환하는 전송 규약이다.
 
 </details>
 
-- 정의/개념: STIX **위협 표현**과 TAXII **객체 교환**
+- 정의/개념: STIX **위협 표현** 과 TAXII **객체 교환**
 - 배경/필요성: 비정형 문서로는 위협 객체·관계의 **자동 연계 불가**
 
 #### 한줄 요약
@@ -40,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI**는 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여한 방어 정보다.
-- **TAXII 컬렉션**은 권한과 주제에 따라 STIX 객체를 묶어 조회·게시하는 논리 저장소다.
-- **표식·철회**는 정보의 취급 범위와 더 이상 사용하지 않아야 할 상태를 전달한다.
+- **CTI** 는 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여한 방어 정보다.
+- **TAXII 컬렉션** 은 권한과 주제에 따라 STIX 객체를 묶어 조회·게시하는 논리 저장소다.
+- **표식·철회** 는 정보의 취급 범위와 더 이상 사용하지 않아야 할 상태를 전달한다.
 
 </details>
 
@@ -59,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TAXII 컬렉션**은 권한과 주제에 따라 STIX 객체를 묶어 조회·게시하는 논리 저장소다.
-- **API**는 TAXII 컬렉션과 객체를 조회·게시하기 위한 호출 규약이다.
+- **TAXII 컬렉션** 은 권한과 주제에 따라 STIX 객체를 묶어 조회·게시하는 논리 저장소다.
+- **API** 는 TAXII 컬렉션과 객체를 조회·게시하기 위한 호출 규약이다.
 
 </details>
 
@@ -97,8 +97,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **변경분 조회**는 객체 식별자와 수정 시각을 이용해 중복 없이 최신·철회 상태를 동기화하는 절차다.
-- **STIX 프로파일**은 조직이 교환할 객체·관계·속성과 필수 검증 규칙의 범위를 정한 사용 약속이다.
+- **변경분 조회** 는 객체 식별자와 수정 시각을 이용해 중복 없이 최신·철회 상태를 동기화하는 절차다.
+- **STIX 프로파일** 은 조직이 교환할 객체·관계·속성과 필수 검증 규칙의 범위를 정한 사용 약속이다.
 
 </details>
 
@@ -133,7 +133,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX 2.1**은 위협 의미·관계를, **TAXII 2.1**은 API 기반 자동 전송을 담당한다.
+- **STIX 2.1** 은 위협 의미·관계를, **TAXII 2.1** 은 API 기반 자동 전송을 담당한다.
 
 </details>
 
@@ -154,8 +154,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OASIS STIX 2.1 Errata 01**은 CTI 표현 규칙을, **OASIS TAXII 2.1**은 컬렉션 교환 API를 규정한다.
-- **HTTPS·TLS 상호 인증**은 TAXII 교환 정보의 기밀성·무결성과 접속 주체를 보호한다.
+- **OASIS STIX 2.1 Errata 01** 은 CTI 표현 규칙을, **OASIS TAXII 2.1** 은 컬렉션 교환 API를 규정한다.
+- **HTTPS·TLS 상호 인증** 은 TAXII 교환 정보의 기밀성·무결성과 접속 주체를 보호한다.
 
 </details>
 
@@ -175,8 +175,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 검증**은 표준 형식 여부와 별개로 출처·접근 권한·유효기간·활용 기준을 확인하는 절차다.
-- **STIX·TAXII 선택**은 위협 의미와 관계를 표현할 때 STIX를, 컬렉션을 자동 교환할 때 TAXII를 적용하는 역할 구분이다.
+- **신뢰 검증** 은 표준 형식 여부와 별개로 출처·접근 권한·유효기간·활용 기준을 확인하는 절차다.
+- **STIX·TAXII 선택** 은 위협 의미와 관계를 표현할 때 STIX를, 컬렉션을 자동 교환할 때 TAXII를 적용하는 역할 구분이다.
 
 </details>
 
