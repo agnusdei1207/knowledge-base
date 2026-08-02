@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 차량 안전 메시지를 **셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X)·전용 단거리 통신(Dedicated Short-Range Communications, DSRC)** 으로 전달하는 **차량·사물 통신(Vehicle-to-Everything, V2X) 기술군**
-- 배경/필요성: 단일 규격으로는 기존 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE) 호환**과 이동통신 진화 경로 동시 수용 곤란
+- 배경/필요성: 단일 규격으로는 기존 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE) 호환** 과 이동통신 진화 경로 동시 수용 곤란
 
 #### 한줄 요약
 
@@ -46,7 +46,7 @@ extra:
 
 - **셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X)** 의 **PC5 직접·Uu 망 경유** 이중 경로
 - **전용 단거리 통신(Dedicated Short-Range Communications, DSRC)** 의 **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)·반송파 감지 다중 접속/충돌 회피(Carrier Sense Multiple Access with Collision Avoidance, CSMA/CA)** 기반 직접 접속
-- 차량 밀도 증가 시 **채널 경쟁·충돌**로 DSRC 지연·손실 증가
+- 차량 밀도 증가 시 **채널 경쟁·충돌** 로 DSRC 지연·손실 증가
 
 #### 한줄 요약
 
@@ -144,7 +144,7 @@ sequenceDiagram
 
 | 차량·사물 통신(Vehicle-to-Everything, V2X) 무선 방식 | 셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X) | 전용 단거리 통신(Dedicated Short-Range Communications, DSRC) |
 |:---|:---|:---|
-| 적용 기준 | 이동통신 진화·**광역망 연계**가 필요할 때 | 기존 WAVE·**RSU 호환**이 필요할 때 |
+| 적용 기준 | 이동통신 진화·**광역망 연계** 가 필요할 때 | 기존 WAVE·**RSU 호환** 이 필요할 때 |
 | 핵심 특징 | **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)** 의 **PC5·Uu 통신** | **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)** 의 **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB) 직접 접속** |
 | 한계 | 세대·모드 간 **호환 제약** | 고밀도 **채널 경쟁·충돌** |
 

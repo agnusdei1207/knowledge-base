@@ -177,7 +177,7 @@ sequenceDiagram
 
 </details>
 
-- 예상 링크 수명·잔여 에너지가 임무 기준을 충족하는 경로만 **비행 애드혹 네트워크(Flying Ad Hoc Network, FANET) 중계 경로**로 선택
+- 예상 링크 수명·잔여 에너지가 임무 기준을 충족하는 경로만 **비행 애드혹 네트워크(Flying Ad Hoc Network, FANET) 중계 경로** 로 선택
 
 #### 한줄 요약
 

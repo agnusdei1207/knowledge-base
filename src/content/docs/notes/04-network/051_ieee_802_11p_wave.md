@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)** 과 **IEEE 1609 서비스**를 결합한 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)** 체계
+- 정의/개념: **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)** 과 **IEEE 1609 서비스** 를 결합한 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)** 체계
 - 배경/필요성: 일반 Wi-Fi의 가입·로밍 절차로 고속 이동 **안전 메시지 기한** 초과
 
 #### 한줄 요약
@@ -45,8 +45,8 @@ extra:
 </details>
 
 - **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)** 의 가입 절차 없는 차량 간 직접 프레임 교환
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p**의 10메가헤르츠(Megahertz, MHz) **직교 주파수 분할 다중화(Orthogonal Frequency-Division Multiplexing, OFDM)** 차량 무선 전송
-- **IEEE 1609**의 메시지 보안·네트워킹·채널 운영
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p** 의 10메가헤르츠(Megahertz, MHz) **직교 주파수 분할 다중화(Orthogonal Frequency-Division Multiplexing, OFDM)** 차량 무선 전송
+- **IEEE 1609** 의 메시지 보안·네트워킹·채널 운영
 
 #### 한줄 요약
 
@@ -130,7 +130,7 @@ sequenceDiagram
 
 | 무선 접속 방식 | 차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE) 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB) | 인프라 와이파이(Wi-Fi) |
 |:---|:---|:---|
-| 적용 기준 | 고속 이동 중 **안전 메시지 직접 전파**가 필요할 때 | 지속 연결의 **일반 데이터 통신**이 필요할 때 |
+| 적용 기준 | 고속 이동 중 **안전 메시지 직접 전파** 가 필요할 때 | 지속 연결의 **일반 데이터 통신** 이 필요할 때 |
 | 핵심 특징 | 가입 없는 **직접 프레임 교환** | **액세스 포인트(Access Point, AP)** 연결 후 **인프라 경유 교환** |
 | 한계 | 고밀도 **채널 경쟁·충돌** | 연결 설정·**로밍 지연** |
 

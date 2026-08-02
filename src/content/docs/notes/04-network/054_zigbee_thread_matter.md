@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 지그비·스레드·매터는 각각 자체망·**인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망·인터넷 프로토콜(Internet Protocol, IP) 응용**을 담당하는 **사물인터넷(Internet of Things, IoT) 표준**
+- 정의/개념: 지그비·스레드·매터는 각각 자체망·**인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망·인터넷 프로토콜(Internet Protocol, IP) 응용** 을 담당하는 **사물인터넷(Internet of Things, IoT) 표준**
 - 배경/필요성: 제조사별 기기 규격은 **명령·보안 상호운용 곤란**
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Zigbee**의 자체 메시망·응용 프로파일 사용
+- **Zigbee** 의 자체 메시망·응용 프로파일 사용
 - **스레드(Thread)** 의 **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.15.4** 기반 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시 경로** 제공
 - **매터(Matter)** 의 **인터넷 프로토콜(Internet Protocol, IP) 기기 모델·명령·보안** 통일
 
@@ -114,7 +114,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **가입 정보**: **블루투스 저에너지(Bluetooth Low Energy, BLE)·빠른 응답(Quick Response, QR) 정보**로 신규 기기와 보안 세션 수립
+1. **가입 정보**: **블루투스 저에너지(Bluetooth Low Energy, BLE)·빠른 응답(Quick Response, QR) 정보** 로 신규 기기와 보안 세션 수립
 2. **기기 증명서**: 제조사 발급 정보로 기기 진위 증명
 3. **운영 자격**: 검증된 기기에 Thread 접속·패브릭 자격 전달
 
@@ -138,7 +138,7 @@ sequenceDiagram
 | 핵심 특징 | 비 **인터넷 프로토콜(Internet Protocol, IP)망·응용 프로파일** | 저전력 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망** | IP **기기 모델·명령** |
 | 한계 | **허브·브리지** 종속 | **경계 라우터** 구성 오류 | **인증서·권한** 오설정 |
 
-> 요약: **Zigbee·Thread**는 망 계층, **Matter**는 응용 계층
+> 요약: **Zigbee·Thread** 는 망 계층, **Matter** 는 응용 계층
 
 #### 한줄 요약
 
@@ -173,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 저전력 **인터넷 프로토콜(Internet Protocol, IP) 경로**는 **스레드(Thread)**, 제조사 간 제어는 **매터(Matter)**, 기존 지그비(Zigbee)는 브리지 선택
+- 저전력 **인터넷 프로토콜(Internet Protocol, IP) 경로** 는 **스레드(Thread)**, 제조사 간 제어는 **매터(Matter)**, 기존 지그비(Zigbee)는 브리지 선택
 
 #### 한줄 요약
 

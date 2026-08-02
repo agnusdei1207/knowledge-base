@@ -62,7 +62,7 @@ extra:
 
 </details>
 
-**사물인터넷(Internet of Things, IoT) 단말**의 **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)** 이 가입자 신원을 증명하고 코어망이 절전 타이머를 관리한다.
+**사물인터넷(Internet of Things, IoT) 단말** 의 **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)** 이 가입자 신원을 증명하고 코어망이 절전 타이머를 관리한다.
 
 ```mermaid
 block-beta
