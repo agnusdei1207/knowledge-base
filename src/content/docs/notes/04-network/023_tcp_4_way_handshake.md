@@ -18,26 +18,13 @@ extra:
   priority_note: "설명형: 132회 종료 절차와 TIME_WAIT 연계"
 ---
 
-## 미리 알고가기
-
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 양방향 바이트 흐름을 독립적으로 종료할 수 있는 연결형 전송 프로토콜
-- **종료 플래그(Finish Flag, FIN)**: 해당 방향으로 더 보낼 데이터가 없음을 알리는 TCP 제어 비트
-- **확인 응답 플래그(Acknowledgment Flag, ACK)**: 상대 FIN 수신과 다음 순서 번호를 확인하는 TCP 제어 비트
-- **능동 종료·수동 종료(Active Close·Passive Close)**: 먼저 FIN을 보내는 종료와 상대 FIN을 받은 뒤 자신의 FIN을 보내는 종료
-- **반쪽 종료(Half-Close)**: 한 방향의 송신은 끝났지만 반대 방향의 데이터 수신은 계속 가능한 상태
-- **FIN 대기(FIN_WAIT)**: 능동 종료 측이 자신의 FIN 확인과 상대 FIN을 기다리는 상태
-- **종료 대기(CLOSE_WAIT)**: 상대 FIN을 확인한 응용이 자신의 소켓을 닫아 FIN을 보낼 때까지 기다리는 상태
-- **마지막 확인 대기(LAST_ACK)**: 수동 종료 측이 자신의 FIN에 대한 최종 ACK를 기다리는 상태
-- **시간 대기(TIME_WAIT)**: 능동 종료 측이 최종 ACK 재전송과 이전 연결의 지연 세그먼트 소멸을 위해 대기하는 상태
-- **최대 세그먼트 수명(Maximum Segment Lifetime, MSL)**: TCP 세그먼트가 네트워크에 남아 있을 수 있다고 가정하는 최대 시간
-- **2MSL(투 엠에스엘)**: 숫자 2와 Maximum Segment Lifetime의 약어를 붙여 MSL의 두 배를 뜻하는 표기로 양방향 지연 세그먼트 소멸과 최종 ACK 재전송을 보장하는 TIME_WAIT 기준임
-- **임시 포트(Ephemeral Port)**: 클라이언트가 새 연결을 만들 때 운영체제가 일시적으로 할당하는 출발지 포트
-
-
-
-> **키워드:** TCP 4-way Handshake·연결 해제 (TCP 4-way Handshake)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **TCP 4-way handshake**: 양방향 송신을 FIN·ACK로 각각 독립 종료하는 절차이다.
+</details>
 
 - 정의/개념: **FIN·ACK**로 양방향 송신을 독립적으로 닫는 **TCP 연결 종료 절차**
 - 배경/필요성: 한 방향만 닫으면 반대 방향 **잔여 데이터** 보존 불가
@@ -48,6 +35,12 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **능동·수동 종료와 반쪽 종료**: 먼저 FIN을 보내는 측, 이를 받는 측, 한 방향만 닫힌 상태이다.
+</details>
+
 - FIN 순서 번호의 **손실·재전송 추적**
 - 반쪽 종료의 **반대 방향 잔여 전송 허용**
 - TIME_WAIT의 **최종 ACK 재전송·지연 격리**
@@ -57,6 +50,12 @@ extra:
 - 먼저 문을 닫은 쪽은 마지막 확인증이 사라질 때 다시 건넬 수 있도록 기다리고, 상대는 남은 짐을 보낸 뒤 자기 문을 닫는다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **FIN_WAIT·CLOSE_WAIT·LAST_ACK**: 능동 종료, 응용 종료 대기, 최종 ACK 대기 상태이다.
+</details>
 
 ```mermaid
 block
@@ -84,6 +83,12 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **FIN·ACK**: 더 보낼 데이터가 없음을 알리고 상대 종료를 확인하는 제어 비트이다.
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 능동종료TCP as 능동 종료 TCP
@@ -110,6 +115,12 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **정상·동시 종료**: 한쪽이 먼저 닫는 절차와 양쪽이 거의 동시에 FIN을 보내는 절차이다.
+</details>
+
 | TCP 종료 역할 | 능동 종료 측 | 수동 종료 측 |
 |:---|:---|:---|
 | 적용 기준 | 연결 종료를 **먼저 요청한 종단** | 종료 요청을 **먼저 받은 종단** |
@@ -124,7 +135,13 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **TIME_WAIT·2MSL**: 최종 ACK 재전송과 이전 세그먼트 소멸을 위해 능동 종료 측이 기다리는 상태와 기준 시간이다.
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 응용이 닫지 않으면 **CLOSE_WAIT** 장기 잔류 | 응용의 **소켓 종료 경로** 점검 | 파일 서술자·**소켓 자원** 회수 |
 | 짧은 연결 반복으로 **TIME_WAIT** 누적 | 능동 종료 주체·**임시 포트 범위** 조정 | 신규 연결용 **포트 고갈** 완화 |
@@ -136,6 +153,12 @@ sequenceDiagram
 - 퇴실 손님이 문을 닫지 않아 대기표가 쌓이면 소켓 종료 경로를 고치고, 짧은 연결이 몰리면 TIME_WAIT을 맡는 쪽과 포트 범위를 조정한다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **임시 포트**: 클라이언트가 새 연결을 만들 때 운영체제가 일시 할당하는 출발지 포트이다.
+</details>
 
 - 반대 방향 데이터가 남으면 **반쪽 종료**, 최종 ACK 후 **TIME_WAIT** 유지
 
