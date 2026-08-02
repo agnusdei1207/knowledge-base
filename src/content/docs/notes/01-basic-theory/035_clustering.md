@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "클러스터링: K-Means•DBSCAN (Clustering)"
-date: "2026-08-02T10:03:00+09:00"
+date: "2026-08-02T17:05:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 35

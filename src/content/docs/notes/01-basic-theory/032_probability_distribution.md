@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "확률 분포: 정규•이항•포아송 (Probability Distribution)"
-date: "2026-08-02T10:00:00+09:00"
+date: "2026-08-02T17:02:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 32

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
-date: "2026-08-02T10:08:00+09:00"
+date: "2026-08-02T17:10:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 40

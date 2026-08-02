@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-02T10:06:00+09:00"
+date: "2026-08-02T17:08:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38

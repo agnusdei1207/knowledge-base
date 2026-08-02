@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-08-02T10:01:00+09:00"
+date: "2026-08-02T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 표본의 양립성으로 **귀무가설 기각 여부**를 정하는 통계 절차
+- 정의/개념: 표본으로 **귀무가설 기각 여부**를 검정하고 참모수의 신뢰구간을 추정하는 통계적 추론 절차
 - 배경/필요성: 관측 차이와 **표본 변동성**의 영향 구분
 
 ### 쉽게 이해하기 (학습용)

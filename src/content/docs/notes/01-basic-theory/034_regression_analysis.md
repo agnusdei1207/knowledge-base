@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-08-02T10:02:00+09:00"
+date: "2026-08-02T17:04:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 34
