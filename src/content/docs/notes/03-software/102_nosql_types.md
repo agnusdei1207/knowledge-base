@@ -101,13 +101,12 @@ block
 ```mermaid
 sequenceDiagram
     participant A as 응용
-    participant D as 모델 API
-    participant R as 요청 라우터
+    participant D as 모델 API·요청 라우터
     participant P as 주 파티션
     participant S as 복제 파티션
     A->>D: 모델별 쓰기 요청
-    D->>R: 1. 저장 단위·키
-    R->>P: 2. 파티션 식별자
+    D->>D: 1. 저장 단위·키 해석
+    D->>P: 2. 파티션 식별자
     P->>S: 3. 변경 레코드
     S-->>P: 4. 복제 확인
     P-->>D: 쓰기 결과

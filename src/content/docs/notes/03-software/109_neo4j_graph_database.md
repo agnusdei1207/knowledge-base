@@ -101,17 +101,14 @@ block
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
-    participant P as Cypher 실행기
-    participant I as 노드 인덱스
-    participant T as 경로 탐색기
+    participant P as Cypher 실행·경로 탐색기
     participant G as 그래프 저장소
     C->>P: Cypher 패턴
-    P->>I: 1. 시작 노드 조건
-    I-->>P: 2. 노드 식별자
-    P->>T: 3. 관계 확장 계획
-    T->>G: 4. 인접 관계 요청
-    G-->>T: 5. 인접 관계·속성
-    T-->>P: 조건 일치 경로
+    P->>G: 1. 시작 노드 조건·인덱스 조회
+    G-->>P: 2. 노드 식별자
+    P->>P: 3. 관계 확장 계획
+    P->>G: 4. 인접 관계 요청
+    G-->>P: 5. 인접 관계·속성
     P-->>C: 질의 결과
 ```
 

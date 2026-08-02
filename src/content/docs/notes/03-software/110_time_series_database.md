@@ -100,12 +100,11 @@ block
 sequenceDiagram
     participant A as 수집 에이전트
     participant I as 수집 계층
-    participant X as 시계열 색인
-    participant C as 청크 저장소
+    participant C as 시계열 색인·청크 저장소
     participant D as 다운샘플러
     A->>I: 시계열 표본
-    I->>X: 1. 메트릭·태그 집합
-    X-->>I: 2. 시계열 식별자
+    I->>C: 1. 메트릭·태그 집합
+    C-->>I: 2. 시계열 식별자
     I->>C: 3. 타임스탬프·측정값
     C-->>I: 적재 결과
     I-->>A: 수집 확인

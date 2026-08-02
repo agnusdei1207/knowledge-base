@@ -101,12 +101,11 @@ sequenceDiagram
     participant C as 클라이언트
     participant R as 클러스터 라우팅
     participant P as 담당 주 노드
-    participant A as AOF
     participant S as 복제본
     C->>R: 키·명령
     R->>P: 1. 키·자료구조 명령
-    P->>A: 2. AOF 명령 레코드
-    A-->>P: 3. fsync 결과
+    P->>P: 2. AOF 명령 레코드
+    P->>P: 3. fsync 완료
     P->>S: 4. 복제 스트림
     S-->>P: 5. 복제 오프셋
     P-->>R: 실행 결과

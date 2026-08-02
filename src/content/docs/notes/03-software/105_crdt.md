@@ -105,7 +105,6 @@ sequenceDiagram
     participant A as 복제본 A
     participant X as 전파 계층
     participant B as 복제본 B
-    participant V as 수렴 검증기
     U->>A: 로컬 변경 요청
     A-->>U: 반영 결과
     loop 누락 변경 존재
@@ -114,9 +113,8 @@ sequenceDiagram
         B->>A: 3. 인과 메타데이터·상태
         A-->>B: 4. 병합 상태
     end
-    A->>V: 5. 복제본 상태
-    B->>V: 복제본 상태
-    V-->>A: 수렴 검증 결과
+    A->>B: 5. 수렴 상태 확인
+    B-->>A: 복제본 상태
 ```
 
 **동작 원리**

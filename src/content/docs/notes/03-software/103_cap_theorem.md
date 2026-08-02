@@ -104,8 +104,7 @@ sequenceDiagram
     participant O as 요청 조정자
     participant A as 복제 노드 A
     participant B as 복제 노드 B
-    participant M as 분할 감시
-    M->>O: 1. 분할 상태
+    O->>O: 1. 분할 상태 감지
     C->>O: 분할 중 연산 요청
     O->>A: 2. 복제본 확인 요청
     A->>B: 3. 최신 버전 조회

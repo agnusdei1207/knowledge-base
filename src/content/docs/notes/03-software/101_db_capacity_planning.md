@@ -106,18 +106,17 @@ block
 ```mermaid
 sequenceDiagram
     participant M as 모니터링
-    participant F as 예측 모델
+    participant F as 예측·증설 계획
     participant T as 부하 시험
-    participant P as 증설 계획
     participant I as 인프라 공급자
-    P->>I: 조달 조건 조회
-    I-->>P: 준비 기간
+    F->>I: 조달 조건 조회
+    I-->>F: 준비 기간
     M->>F: 1. 성장률·피크 시계열
     F->>T: 2. 예측 부하 시나리오
     T-->>F: 3. 병목 실측값
-    F->>P: 4. 용량 한계일
-    P->>I: 5. 선행 증설 요청
-    I-->>P: 증설 일정
+    F->>F: 4. 용량 한계일·증설 시점 결정
+    F->>I: 5. 선행 증설 요청
+    I-->>F: 증설 일정
 ```
 
 **동작 원리**

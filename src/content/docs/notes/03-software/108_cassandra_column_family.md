@@ -102,7 +102,6 @@ sequenceDiagram
     participant O as 조정자
     participant A as 복제본 A
     participant B as 복제본 B
-    participant S as SSTable 계층
     C->>O: 파티션 키·일관성 수준
     par 담당 복제본 쓰기
         O->>A: 1. 쓰기 레코드
@@ -112,8 +111,7 @@ sequenceDiagram
     A-->>O: 2. 로컬 반영 확인
     B-->>O: 로컬 반영 확인
     O-->>C: 쓰기 성공
-    A->>S: 3. 정렬된 Memtable 데이터
-    S-->>A: SSTable 생성 결과
+    A->>A: 3. Memtable을 SSTable로 저장
 ```
 
 **동작 원리**
