@@ -18,8 +18,6 @@ extra:
   priority_note: "기출 동형암호의 연산 비용·정확도 비교가 유력함"
 ---
 
-> **키워드:** 동형암호 (Homomorphic Encryption)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "분산 학습과 데이터 주권이 주요 쟁점"
 ---
 
-> **키워드:** 연합학습 (Federated Learning)
-
 ## Ⅰ. 개요
 
 <details>

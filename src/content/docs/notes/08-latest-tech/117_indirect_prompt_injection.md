@@ -18,8 +18,6 @@ extra:
   priority_note: "간접 지시 유입과 도구 실행 통제가 연속 출제됨"
 ---
 
-> **키워드:** 간접 프롬프트 인젝션 (Indirect Prompt Injection)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "개별 갱신 은닉은 연합학습 보안 핵심"
 ---
 
-> **키워드:** 보안 집계 (Secure Aggregation)
-
 ## Ⅰ. 개요
 
 <details>

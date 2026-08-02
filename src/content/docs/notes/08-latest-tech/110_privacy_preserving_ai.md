@@ -18,8 +18,6 @@ extra:
   priority_note: "학습·추론 중 개인정보 보호가 핵심"
 ---
 
-> **키워드:** 프라이버시 보존 AI (Privacy-Preserving AI)
-
 ## Ⅰ. 개요
 
 <details>

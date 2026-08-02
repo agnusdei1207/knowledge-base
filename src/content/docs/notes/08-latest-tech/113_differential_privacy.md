@@ -18,8 +18,6 @@ extra:
   priority_note: "수학적 개인정보 보장이 반복 출제축"
 ---
 
-> **키워드:** 차등 프라이버시 (Differential Privacy)
-
 ## Ⅰ. 개요
 
 <details>

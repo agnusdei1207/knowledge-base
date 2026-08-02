@@ -18,8 +18,6 @@ extra:
   priority_note: "모델 추출의 질의 제한·워터마킹 설계가 유력함"
 ---
 
-> **키워드:** 모델 추출 (Model Extraction)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "탈옥 공격과 정렬 우회 방어가 최근 반복됨"
 ---
 
-> **키워드:** 탈옥 공격 (Jailbreak Attack)
-
 ## Ⅰ. 개요
 
 <details>

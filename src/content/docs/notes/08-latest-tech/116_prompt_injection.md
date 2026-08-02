@@ -18,8 +18,6 @@ extra:
   priority_note: "최근 3개 회차에서 프롬프트 공격·방어가 반복됨"
 ---
 
-> **키워드:** 프롬프트 인젝션 (Prompt Injection)
-
 ## Ⅰ. 개요
 
 <details>

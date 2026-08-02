@@ -18,8 +18,6 @@ extra:
   priority_note: "최근 3개 회차에서 AI 공격 검증 설계가 반복됨"
 ---
 
-> **키워드:** AI 레드팀 (AI Red Teaming)
-
 ## Ⅰ. 개요
 
 <details>
