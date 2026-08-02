@@ -94,18 +94,17 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant D as 문제 설계자
     participant M as 문제 모델
     participant C as 해 구성기
     participant V as 실행 가능성 검사
     participant B as 근사비 분석
-    D->>M: 문제 정의
+    M->>M: 문제 정의
     M->>C: 1. 목적 함수•제약 조건
     C->>V: 2. 근사 후보 해
     M->>B: 3. 최적해 하한•상한
     V->>B: 실행 가능 해
-    B-->>D: 근사비 증명
-    D->>M: 채택 결정
+    B-->>M: 근사비 증명
+    M->>M: 채택 결정
 ```
 
 $$\text{최소화}: \mathrm{ALG}/\mathrm{OPT}\le\rho,\quad \text{최대화}: \mathrm{OPT}/\mathrm{ALG}\le\rho$$
