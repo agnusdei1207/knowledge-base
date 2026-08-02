@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **SIMD와 MIMD**는 각각 하나의 공통 명령으로 여러 데이터를 처리하거나 독립 명령 흐름으로 서로 다른 데이터를 처리하는 **병렬 실행 구조**
+- 정의/개념: **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)** 방식과 **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)** 방식을 결합해 규칙 연산과 독립 작업을 처리하는 **병렬 실행 구조**
 - 배경/필요성: 단일 실행 방식은 규칙·비정형 작업의 **혼합 병렬화 제약**
 
 #### 한줄 요약
@@ -42,6 +42,7 @@ extra:
 - **공통 명령(Common Instruction)**: 하나의 제어 장치가 여러 연산 레인에 동시에 발행하는 동일한 연산 지시이다.
 - **독립 명령 흐름(Independent Instruction Flow)**: 각 코어가 다른 작업 순서와 분기를 별도로 실행하는 제어 흐름이다.
 - **계층형 병렬성(Hierarchical Parallelism)**: 코어 사이의 작업 병렬성과 코어 내부의 데이터 병렬성을 함께 사용하는 구조이다.
+- **SIMD·MIMD**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 공통 명령으로 여러 데이터를 처리하고, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 명령으로 서로 다른 데이터를 처리한다.
 
 </details>
 
@@ -58,8 +59,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **작업 큐(Work Queue)**: 독립적으로 실행할 작업과 입력 범위를 대기 순서대로 보관하여 여러 코어에 배분하는 자료구조이다.
-- **MIMD 스케줄러(MIMD Scheduler)**: 서로 다른 작업을 실행 가능한 코어에 독립적으로 할당하는 구성요소이다.
-- **연산 레인(Execution Lane)**: SIMD 명령 하나가 담당하는 데이터 원소를 처리하는 병렬 연산 통로이다.
+- **MIMD 스케줄러(MIMD Scheduler)**: 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD) 작업을 실행 가능한 코어에 독립적으로 할당하는 구성요소이다.
+- **연산 레인(Execution Lane)**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD) 명령 하나가 담당하는 데이터 원소를 처리하는 병렬 연산 통로이다.
 - **배리어(Barrier)**: 참여한 모든 작업이 특정 지점에 도달할 때까지 후속 실행을 막는 동기화 기법이다.
 
 </details>
@@ -94,6 +95,7 @@ block
 - **작업 기술자(Work Descriptor)**: 실행할 함수와 데이터 범위 및 의존성을 기록하여 코어에 전달하는 정보이다.
 - **벡터 연산(Vector Operation)**: 하나의 명령으로 여러 데이터 원소에 같은 계산을 수행하는 연산이다.
 - **동기화 완료(Synchronization Completion)**: 모든 참여 코어가 필요한 결과를 기록하고 대기 조건을 충족한 상태이다.
+- **계층형 실행(Hierarchical Execution)**: 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD) 코어의 독립 작업 안에서 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD) 벡터 연산을 수행하는 방식이다.
 
 </details>
 
@@ -129,6 +131,7 @@ sequenceDiagram
 - **조밀 벡터·행렬(Dense Vector·Matrix)**: 대부분의 원소가 유효하여 같은 연산을 연속 원소에 반복하기 쉬운 데이터이다.
 - **비정형 분기(Irregular Branch)**: 입력마다 실행 경로와 작업량이 달라 공통 명령으로 묶기 어려운 제어 흐름이다.
 - **동기화 비용(Synchronization Cost)**: 락과 배리어 및 메시지를 기다리느라 실제 연산을 수행하지 못하는 시간이다.
+- **SIMD·MIMD 선택**: 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)는 규칙 연산에, 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)는 독립 작업에 적합하다.
 
 </details>
 
@@ -148,10 +151,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **분기 발산(Branch Divergence)**: 같은 SIMD 묶음의 데이터가 다른 경로를 선택하여 일부 연산 레인이 비활성화되는 현상이다.
+- **분기 발산(Branch Divergence)**: 같은 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD) 묶음의 데이터가 다른 경로를 선택하여 일부 연산 레인이 비활성화되는 현상이다.
 - **활성 마스크(Active Mask)**: SIMD 레인 가운데 현재 명령을 실제로 실행할 레인만 표시하는 비트 집합이다.
 - **부하 불균형(Load Imbalance)**: 코어별 작업량이 달라 일부 코어가 작업을 끝낸 뒤 다른 코어를 기다리는 상태이다.
 - **동적 스케줄링(Dynamic Scheduling)**: 실행 중의 완료와 부하 상태를 보고 남은 작업을 유휴 코어에 다시 배치하는 방식이다.
+- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: 여러 코어가 서로 다른 명령과 데이터를 독립적으로 처리하는 병렬 구조이다.
 
 </details>
 
@@ -174,11 +178,11 @@ sequenceDiagram
 
 - **동일 연산(Uniform Operation)**: 여러 데이터 원소에 같은 계산 순서와 제어 흐름을 반복 적용하는 작업이다.
 - **독립 제어(Independent Control)**: 각 코어나 작업이 다른 명령 순서와 분기를 별도로 결정하는 실행 방식이다.
-- **혼합 실행(Hybrid Execution)**: 비정형 작업은 MIMD로 나누고 규칙적인 내부 구간은 SIMD로 처리하는 방식이다.
+- **혼합 실행(Hybrid Execution)**: 비정형 작업은 다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD) 방식으로 나누고 규칙적인 내부 구간은 단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD) 방식으로 처리한다.
 
 </details>
 
-- **동일 연산**은 SIMD, **독립 제어**는 MIMD 선택
+- 동일 연산에는 **SIMD**, 독립 제어에는 **MIMD** 선택
 
 #### 한줄 요약
 
