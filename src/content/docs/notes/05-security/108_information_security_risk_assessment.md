@@ -101,12 +101,11 @@ sequenceDiagram
   participant C as 기준 담당
   participant A as 자산 담당
   participant E as 평가자
-  participant R as 위험 등록부
   O->>C: 1. 범위·위험 기준 설정
   C->>A: 2. 자산·시나리오 식별 기준 전달
   A->>E: 3. 위협·취약점·업무 영향 증거 전달
   E->>O: 4. 위험 수준·불확실성 전달
-  O->>R: 5. 우선순위·소유자 등록
+  O->>O: 5. 우선순위·소유자 등록
 ```
 
 **동작 원리**

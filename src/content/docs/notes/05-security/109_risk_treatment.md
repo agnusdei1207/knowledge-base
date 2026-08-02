@@ -102,13 +102,12 @@ sequenceDiagram
   participant O as 위험 소유자
   participant T as 처리 담당자
   participant C as 통제 담당
-  participant M as 감시 담당
   A->>O: 1. 위험평가·수용기준 전달
   O->>T: 2. 처리 옵션·계획 전달
   T->>C: 3. 통제·계약·업무변경 요청
   C->>A: 4. 통제 효과 증적 전달
   A->>O: 5. 잔여위험 평가 전달
-  O-->>M: 승인된 감시 기준
+  O->>O: 승인된 감시 기준 등록
 ```
 
 **동작 원리**

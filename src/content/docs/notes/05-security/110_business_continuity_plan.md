@@ -99,12 +99,11 @@ block
 ```mermaid
 sequenceDiagram
   participant M as 경영진
-  participant B as BIA 담당
-  participant S as 전략 담당
+  participant S as BIA·전략 담당
   participant O as 업무 조직
   participant A as 평가자
-  M->>B: 1. BIA 범위·업무 우선순위 전달
-  B->>S: 2. MTPD·RTO·RPO 설정
+  M->>S: 1. BIA 범위·업무 우선순위 전달
+  S->>S: 2. MTPD·RTO·RPO 설정
   S->>O: 3. 연속성 전략·계획 수립
   O->>A: 4. 발동·전환·복귀 훈련
   A-->>M: 목표 달성·계획 공백

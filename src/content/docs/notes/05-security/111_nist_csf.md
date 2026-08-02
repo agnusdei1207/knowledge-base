@@ -107,13 +107,12 @@ sequenceDiagram
   participant C as CSF 담당
   participant B as 업무 담당
   participant S as 보안 담당
-  participant M as 성과관리
   E->>C: 1. 조직 상황·위험 허용 설정
   C->>B: 2. 현재 결과 증적 요청
   B-->>C: 현재 프로파일 증적
   C->>S: 3. 목표 프로파일·격차 전달
-  S->>M: 4. 개선 계획·성과지표 전달
-  M-->>E: 성과 평가 결과
+  S->>C: 4. 개선 계획·성과지표 전달
+  C-->>E: 성과 평가 결과
   E->>C: 5. 투자·개선 우선순위 지시
 ```
 

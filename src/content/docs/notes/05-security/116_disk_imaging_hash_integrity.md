@@ -98,12 +98,11 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant I as 조사자
-  participant W as 쓰기 방지기
+  participant A as 포렌식 이미징 체계
   participant D as 원본 디스크
-  participant A as 이미징 도구
   participant R as 증거 보관소
-  I->>W: 1. 매체 식별·쓰기 방지 검증
-  W->>D: 2. 원본 읽기 전용 연결
+  I->>A: 1. 매체 식별·쓰기 방지 검증
+  A->>D: 2. 원본 읽기 전용 연결
   D->>A: 3. 비트 이미지·오류 획득
   A->>R: 4. SHA-256 해시 검증·봉인
   R-->>I: 분석 사본·취급 이력
