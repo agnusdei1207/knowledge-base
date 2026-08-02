@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 기계학습(Machine Learning, ML)의 데이터·코드·학습·모델·배포·관측을 연결하는 **기계학습 운영(Machine Learning Operations, MLOps) 체계**
-- 배경/필요성: 개발운영(Development Operations, DevOps)의 **데이터·모델 계보·재학습 관리 한계**
+- 배경/필요성: 개발·운영(Development and Operations, DevOps)의 **데이터·모델 계보·재학습 관리 한계**
 
 #### 한줄 요약
 
@@ -60,8 +60,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **파이프라인 오케스트레이터**: 학습 작업의 순서·의존 관계·재시도와 실행 상태를 관리한다.
+- **데이터 파이프라인**: 원천 데이터를 검증·변환하여 학습과 추론에 일관된 특징을 공급하는 구성요소이다.
 - **메타데이터 저장소**: 코드·데이터·특징·실행 환경과 결과의 계보를 기록한다.
 - **모델 레지스트리**: 모델 버전·평가 결과·승인과 승격 상태를 보관한다.
+- **서빙·모니터링 플랫폼**: 승인 모델을 배포하고 예측 품질·지연·데이터 변화를 관측해 재학습 판단에 제공한다.
 
 </details>
 
@@ -130,12 +132,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **개발운영(Development Operations, DevOps)**: 애플리케이션 코드와 인프라의 빌드·시험·배포를 자동화하는 운영체계이다.
+- **개발·운영(Development and Operations, DevOps)**: 애플리케이션 코드와 인프라의 빌드·시험·배포를 자동화하는 운영체계이다.
 - **거대 언어 모델 운영(Large Language Model Operations, LLMOps)**: 프롬프트·검색·모델·도구의 생성 응답을 품질·안전·비용 기준으로 운영하는 체계이다.
 
 </details>
 
-인공지능(Artificial Intelligence, AI) 운영은 기계학습 운영(Machine Learning Operations, MLOps), 개발운영(Development Operations, DevOps), 거대 언어 모델 운영(Large Language Model Operations, LLMOps)의 관리 대상을 구분한다.
+인공지능(Artificial Intelligence, AI) 운영은 기계학습 운영(Machine Learning Operations, MLOps), 개발·운영(Development and Operations, DevOps), 거대 언어 모델 운영(Large Language Model Operations, LLMOps)의 관리 대상을 구분한다.
 
 | AI 운영 수명주기 | MLOps | DevOps | LLMOps |
 |:---|:---|:---|:---|
