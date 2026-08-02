@@ -181,7 +181,7 @@ sequenceDiagram
 
 </details>
 
-- **신호량·보안 경계·목적지 수**로 직접·Collector 전송 결정
+- **신호량·보안 경계·목적지 수** 로 직접·Collector 전송 결정
 
 #### 한줄 요약
 

@@ -186,7 +186,7 @@ sequenceDiagram
 
 </details>
 
-- **사용자 경계·대응 여유·계약 책임**으로 SLI·SLO·SLA 설정
+- **사용자 경계·대응 여유·계약 책임** 으로 SLI·SLO·SLA 설정
 
 #### 한줄 요약
 
