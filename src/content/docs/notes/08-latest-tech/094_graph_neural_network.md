@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **그래프 신경망(GNN)**: 이웃 노드와 간선의 메시지를 집계해 노드·링크·그래프 표현을 학습하는 신경망이다.
+- **그래프 신경망(Graph Neural Network, GNN)**: 이웃 노드와 간선의 메시지를 집계해 노드·링크·그래프 표현을 학습하는 신경망이다.
 - **간선 관계**: 그래프에서 두 노드의 연결 유형과 방향을 나타내는 정보이다.
 
 </details>
 
-- 정의/개념: **GNN**은 이웃 메시지를 집계해 노드·링크·그래프 표현을 학습하는 신경망
+- 정의/개념: **그래프 신경망(Graph Neural Network, GNN)** 은 이웃 메시지를 집계해 노드·링크·그래프 표현을 학습하는 신경망
 - 배경/필요성: 독립 표본 모델은 노드 사이 **간선 관계 활용 불가**
 
 #### 한줄 요약
@@ -47,7 +47,7 @@ extra:
 
 ![GNN 전파 깊이에 따른 노드 표현 과평활](/study/diagrams/gnn-oversmoothing.svg)
 
-> 개념도: 전파 층수 증가에 따른 표현 분산 감소와 **과평활** 심화
+> 개념도: **그래프 신경망(Graph Neural Network, GNN)** 전파 층수 증가에 따른 표현 분산 감소와 과평활 심화
 
 - 이웃 노드·간선의 전달 정보를 계산하는 **메시지 함수**
 - 노드 표현을 반복 개선하는 **순서 불변 집계·갱신**
@@ -131,11 +131,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **GCN**: 정규화한 이웃 특징을 합성곱처럼 집계해 노드 표현을 갱신하는 GNN이다.
-- **GraphSAGE**: 이웃을 표본화하고 집계 함수를 학습해 신규 노드에도 적용하는 귀납적 GNN이다.
-- **GAT**: 이웃별 중요도 가중치를 어텐션으로 학습해 메시지를 집계하는 GNN이다.
+- **그래프 합성곱 신경망(Graph Convolutional Network, GCN)**: 정규화한 이웃 특징을 합성곱처럼 집계해 노드 표현을 갱신한다.
+- **그래프 표본화·집계(Graph Sample and Aggregate, GraphSAGE)**: 이웃을 표본화하고 집계 함수를 학습해 신규 노드에도 적용하는 귀납적 그래프 신경망이다.
+- **그래프 어텐션 신경망(Graph Attention Network, GAT)**: 이웃별 중요도 가중치를 어텐션으로 학습해 메시지를 집계한다.
 
 </details>
+
+**그래프 합성곱 신경망(Graph Convolutional Network, GCN)**, **그래프 표본화·집계(Graph Sample and Aggregate, GraphSAGE)**, **그래프 어텐션 신경망(Graph Attention Network, GAT)** 은 이웃을 결합하는 방식이 다르다.
 
 | GNN 방식 | GCN | GraphSAGE | GAT |
 |:---|:---|:---|:---|

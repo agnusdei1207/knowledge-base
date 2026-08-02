@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **벤더 중립 프레임워크**: OpenTelemetry는 관측 신호의 생성과 전달을 특정 분석 제품에 종속되지 않게 표준화한 벤더 중립 프레임워크다.
+- **오픈텔레메트리(OpenTelemetry)**: 관측 신호의 생성·문맥 전파·수집·전달을 특정 분석 제품에 종속되지 않게 표준화한 벤더 중립 프레임워크이다.
 
 </details>
 
@@ -40,6 +40,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **API·SDK·OTLP**: API는 신호 생성 규약, SDK는 처리 기능, OTLP는 구성요소 사이의 표준 전송 규약을 제공한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 애플리케이션이 스팬·메트릭·로그를 생성하는 표준 규약이다.
+- **소프트웨어 개발 키트(Software Development Kit, SDK)**: 생성된 신호의 샘플링·집계·배치·전송을 구현하는 라이브러리이다.
+- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 오픈텔레메트리 구성요소 사이에서 관측 신호를 교환하는 표준 전송 규약이다.
 
 </details>
 
@@ -57,6 +60,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **Collector**: Collector는 관측 신호를 수신하고 가공한 뒤 하나 이상의 백엔드로 내보내는 중계 구성요소다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)·자동 계측**: 코드 또는 자동 삽입 방식으로 스팬·메트릭·로그를 생성하는 구성요소이다.
+- **소프트웨어 개발 키트(Software Development Kit, SDK)·문맥 전파기**: 신호를 처리하고 호출 경계에 추적 문맥을 전달하는 구성요소이다.
+- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 표준 형식으로 신호를 컬렉터에 전송하는 구성요소이다.
+- **컬렉터(Collector)**: 관측 신호를 수신·필터·변환한 뒤 하나 이상의 백엔드로 내보내는 중계 구성요소이다.
+- **관측 백엔드**: 신호를 저장·조회하고 시각화·경보 기능을 제공하는 구성요소이다.
 
 </details>
 
@@ -92,6 +100,9 @@ block
 <summary>핵심 용어</summary>
 
 - **2. OTLP 배치 전송**: SDK는 생성된 신호를 샘플링하거나 집계한 뒤 OTLP 형식의 배치로 Collector에 전송한다.
+- **1. 관측 신호 전달**: 응용 프로그래밍 인터페이스(Application Programming Interface, API)와 자동 계측이 만든 스팬·메트릭·로그를 소프트웨어 개발 키트에 넘기는 단계이다.
+- **2. 오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP) 배치 전송**: 소프트웨어 개발 키트(Software Development Kit, SDK)가 신호를 샘플링·집계한 뒤 컬렉터로 보내는 단계이다.
+- **3. 정제 신호 전송**: 컬렉터가 수신·필터·변환한 신호를 관측 백엔드에 전달하는 단계이다.
 
 </details>
 
@@ -123,6 +134,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **Collector 경유**: Collector 경유 방식은 필터, 재시도, 다중 목적지 전송을 애플리케이션 밖에서 통합 관리한다.
+- **소프트웨어 개발 키트 직접 전송(Software Development Kit Direct Export, SDK Direct Export)**: 애플리케이션이 컬렉터 없이 관측 백엔드로 신호를 바로 보내는 방식이다.
 
 </details>
 
@@ -142,6 +154,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전송 장애**: 전송 장애가 발생하면 재시도와 영속 큐를 사용하되 메모리 상한을 두어 신호 유실과 자원 고갈을 함께 제한한다.
+- **의미 규약·공통 속성 사전**: 서비스 이름·환경·버전 같은 속성의 명칭과 의미를 조직 전체에서 통일한 기준이다.
+- **허용 목록·마스킹**: 전송할 속성을 제한하고 민감한 값을 제거·대체하는 정보 보호 통제이다.
+- **영속 큐·메모리 상한**: 전송 실패 신호를 디스크에 보존하면서 메모리 사용량을 제한하는 안정성 통제이다.
 
 </details>
 

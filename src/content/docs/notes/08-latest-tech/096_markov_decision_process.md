@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **마르코프 결정과정(MDP)**: 상태·행동·전이확률·보상으로 순차 의사결정 환경을 표현하는 수학 모델이다.
+- **마르코프 결정과정(Markov Decision Process, MDP)**: 상태·행동·전이확률·보상으로 순차 의사결정 환경을 표현하는 수학 모델이다.
 - **순차 의사결정**: 현재 행동이 다음 상태와 이후 보상에 연속해서 영향을 주는 의사결정 문제이다.
 
 </details>
 
-- 정의/개념: **MDP**는 상태·행동·전이확률·보상으로 순차 의사결정을 표현하는 수학 모델
+- 정의/개념: **마르코프 결정과정(Markov Decision Process, MDP)** 은 상태·행동·전이확률·보상으로 순차 의사결정을 표현하는 수학 모델
 - 배경/필요성: 단발 의사결정의 **미래 상태·장기 보상** 미반영
 
 #### 한줄 요약
@@ -133,10 +133,12 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **다중 선택 밴딧**: 행동이 후속 상태를 바꾸지 않는 상황에서 각 행동의 보상을 학습하는 모델이다.
-- **부분관측 MDP(POMDP)**: 실제 상태를 직접 알 수 없어 관측 이력으로 믿음 상태를 추정하는 모델이다.
+- **부분관측 마르코프 결정과정(Partially Observable Markov Decision Process, POMDP)**: 실제 상태를 직접 알 수 없어 관측 이력으로 믿음 상태를 추정하는 모델이다.
 - **믿음 상태**: 관측 이력을 바탕으로 숨은 상태가 각 상태일 확률을 나타낸 분포이다.
 
 </details>
+
+**마르코프 결정과정(Markov Decision Process, MDP)** 은 상태를 완전히 관측하고, **부분관측 마르코프 결정과정(Partially Observable Markov Decision Process, POMDP)** 은 관측 이력으로 믿음 상태를 추정한다.
 
 | 의사결정 모델 | MDP | 다중 선택 밴딧 | 부분관측 MDP |
 |:---|:---|:---|:---|
@@ -181,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- 상태 관측 가능성에 따라 **MDP·POMDP**를 선택하고 **보상 함수** 검증
+- 상태 관측 가능성에 따라 **마르코프 결정과정(Markov Decision Process, MDP)·부분관측 마르코프 결정과정(Partially Observable Markov Decision Process, POMDP)** 을 선택하고 **보상 함수** 검증
 
 #### 한줄 요약
 
