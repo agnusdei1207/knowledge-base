@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **JTAG·UART**: 칩 디버깅과 직렬 진단에 쓰이며 노출 시 로컬 공격 경로가 되는 인터페이스이다.
+- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)·범용 비동기 송수신기(Universal Asynchronous Receiver-Transmitter, UART)**: 칩 디버깅과 직렬 진단에 쓰이며 노출 시 로컬 공격 경로가 되는 인터페이스이다.
 - **신뢰 루트**: 부팅 검증·키 보호 등 장치 신뢰가 시작되는 최소 하드웨어·코드 기반이다.
 
 </details>
@@ -92,6 +92,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **결함 주입**: 전압·클록·빛을 교란해 연산 오류를 만들고 보안 검사를 우회하는 공격이다.
+- **JTAG·UART 포트**: 합동 테스트 액션 그룹(Joint Test Action Group, JTAG)과 범용 비동기 송수신기(Universal Asynchronous Receiver-Transmitter, UART)를 이용하는 디버그·진단 경로이다.
 
 </details>
 
@@ -147,8 +148,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ETSI EN 303 645**: 소비자 IoT 제품의 기본 사이버보안 요구사항을 규정한 유럽표준이다.
-- **IEC 62443-4-1·NIST IR 8259**: 산업 제품의 보안 개발 생명주기와 IoT 장치 보안 기준선을 다루는 지침이다.
+- **유럽전기통신표준협회 유럽표준(European Telecommunications Standards Institute European Standard, ETSI EN) 303 645**: 소비자 사물인터넷(Internet of Things, IoT) 제품의 기본 사이버보안 요구사항을 규정한다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC) 62443-4-1**: 산업 제품의 보안 개발 생명주기 요구사항을 규정한다.
+- **미국 국립표준기술연구소 내부보고서(National Institute of Standards and Technology Internal Report, NIST IR) 8259**: 사물인터넷 장치의 기능·제조 활동 보안 기준선을 다루는 지침이다.
 
 </details>
 
@@ -171,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 원격 입력은 **파서·인증**, 로컬 포트는 잠금, 부팅·갱신은 **서명·롤백 방지** 적용
+- 원격 입력은 **파서·인증**, **로컬 포트 잠금**, 부팅·갱신은 **서명·롤백 방지** 적용
 
 #### 한줄 요약
 
