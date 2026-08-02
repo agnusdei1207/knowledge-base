@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "순환 복잡도 (McCabe's Cyclomatic Complexity)"
-date: "2026-08-02T12:35:00+09:00"
+date: "2026-08-02T22:35:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 35
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **순환 복잡도($V(G)$)**: 제어 흐름 그래프의 선형 독립 경로 수를 나타내는 구조 복잡도 지표이다.
+- **매케이브 순환 복잡도(McCabe's Cyclomatic Complexity, $V(G)$)**: 제어 흐름 그래프의 선형 독립 경로 수를 나타내는 구조 복잡도 지표이다.
 - **제어 흐름 그래프(CFG)**: 프로그램의 기본 블록을 노드로, 블록 사이 실행 이동을 간선으로 표현한 그래프이다.
 
 </details>
@@ -71,9 +71,9 @@ block-beta
     columns 3
     B["분석 경계"] C["CFG"]
     V["복잡도 산출"] P["임계값 정책"]
-    B -- C
-    C -- V
-    V -- P
+    B --> C
+    C --> V
+    V --> P
   B --- V
 ```
 

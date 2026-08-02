@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "결함 밀도와 결함 제거율(Defect Density & DRE)"
-date: "2026-08-02T12:32:00+09:00"
+date: "2026-08-02T22:32:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 32
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **결함 밀도**: 제품 규모 한 단위에서 발견된 결함 수로 결함 집중도를 나타내는 지표이다.
+- **결함 밀도(Defect Density)**: KLOC·FP 같은 제품 규모 한 단위에서 발견된 결함 수로 결함 집중도를 나타내는 지표이다.
 - **결함 제거 효율(DRE)**: 출시 전 발견·제거한 결함을 출시 전 결함과 운영 유출 결함의 합으로 나눈 시험 효과성 지표이다.
 
 </details>

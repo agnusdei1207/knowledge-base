@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 등급 표준 (TIA-942 Rated)"
-date: "2026-08-02T12:38:00+09:00"
+date: "2026-08-02T22:38:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -23,7 +23,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ANSI/TIA-942-C**: 데이터센터의 건축·통신·전력·냉각·보안 인프라와 Rated 등급 요건을 정의한 표준이다.
+- **ANSI/TIA-942-C 데이터센터 인프라 표준**: 데이터센터의 건축·통신·전력·냉각·보안 인프라와 Rated 등급 요건을 정의한 현행 표준이다.
 - **Rated 등급**: 데이터센터 시설 공급 경로의 예비 용량·동시 유지보수성·내결함성을 1~4 수준으로 구분한 평가이다.
 
 </details>
@@ -70,12 +70,12 @@ block-beta
     P["전력 계통"] C["냉각 계통"] T["통신 계통"]
     I["IT 부하"]:3
     F["건축·안전·보안"]:3
-    P -- I
-    C -- I
-    T -- I
-    F -- P
-    F -- C
-    F -- T
+    P --> I
+    C --> I
+    T --> I
+    F --> P
+    F --> C
+    F --> T
   P --- I
   I --- F
 ```

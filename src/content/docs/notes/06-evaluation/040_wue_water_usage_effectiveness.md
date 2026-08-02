@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-02T12:40:00+09:00"
+date: "2026-08-02T22:40:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -23,7 +23,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **물 사용 효율(WUE)**: 데이터센터의 연간 현장 물 사용량을 같은 기간 IT 장비 에너지로 나누어 물 사용 부담을 나타내는 지표이다.
+- **물 사용 효율(Water Usage Effectiveness, WUE)**: 데이터센터의 연간 현장 물 사용량을 같은 기간 IT 장비 에너지로 나누어 IT 부하당 물 사용 부담을 나타내는 지표이다.
 - **L/kWh**: IT 장비 에너지 1kWh당 소비한 물의 양을 리터로 표시하는 WUE 단위이다.
 
 </details>
@@ -70,10 +70,10 @@ block-beta
     W["물 경계·용도 계측"] I["IT 에너지 계측"]
     C["WUE 계산"]:2
     S["지역 물 부족도"] A["물·전력 통합 분석"]
-    W -- C
-    I -- C
-    C -- A
-    S -- A
+    W --> C
+    I --> C
+    C --> A
+    S --> A
   W --- C
   C --- S
 ```

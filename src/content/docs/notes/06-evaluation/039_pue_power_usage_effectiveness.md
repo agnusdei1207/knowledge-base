@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 전력 효율 지표 (PUE, Power Usage Effectiveness)"
-date: "2026-08-02T12:39:00+09:00"
+date: "2026-08-02T22:39:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -23,7 +23,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **전력 사용 효율(PUE)**: 데이터센터 총 시설 에너지를 IT 장비 에너지로 나누어 비IT 지원 설비의 에너지 부담을 나타내는 지표이다.
+- **전력 사용 효율(Power Usage Effectiveness, PUE)**: 데이터센터 총 시설 에너지를 같은 경계·기간의 IT 장비 에너지로 나누어 비IT 지원 설비의 에너지 부담을 나타내는 지표이다.
 - **IT 장비**: 데이터센터에서 실제 정보 처리를 수행하는 서버·스토리지·네트워크 장비이다.
 
 </details>
@@ -70,10 +70,10 @@ block-beta
     B["경계·기간 관리"]:2
     P["PUE 계산"]:2
     A["추세·손실 분석"]:2
-    F -- B
-    I -- B
-    B -- P
-    P -- A
+    F --> B
+    I --> B
+    B --> P
+    P --> A
   F --- B
   B --- P
   P --- A
