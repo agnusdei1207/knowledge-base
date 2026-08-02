@@ -39,6 +39,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Assertion·Metadata**: Assertion은 사용자·인증·조건을 담고 Metadata는 기관 식별자·수신 주소·인증서 등 신뢰 설정을 담는다.
+- **IdP·SP**: IdP는 사용자를 인증해 주장을 발급하고 SP는 주장을 검증해 서비스를 제공한다.
 - **Recipient·재전송 공격**: Recipient는 응답의 지정 수신 주소이며, 이미 사용한 정상 응답을 다시 제출하는 행위를 재전송 공격이라 한다.
 
 </details>
@@ -103,7 +104,7 @@ sequenceDiagram
     participant I as IdP
     participant 재전송저장소
     U->>S: 서비스 접근
-    S->>U: 1. SAML 인증 요청
+    S->>U: 1. SAML AuthnRequest
     U->>I: 2. 인증 요청 중계
     I-->>U: 3. SAML 응답
     U->>S: 4. 인증 응답 중계
@@ -113,7 +114,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **SAML 인증 요청**: SP의 요청 ID·IdP 목적지·반환 주소 제공
+1. **SAML AuthnRequest**: SP의 요청 ID·IdP 목적지·반환 주소 제공
 2. **인증 요청 중계**: 브라우저가 인증 요청을 지정 IdP에 전달
 3. **SAML 응답**: 사용자 인증 후 서명된 주장·대상·시간 조건 제공
 4. **인증 응답 중계**: 브라우저가 SAML 응답을 지정 SP에 전달
@@ -148,6 +149,7 @@ sequenceDiagram
 
 - **OASIS SAML 2.0 Core**: SAML 주장·프로토콜·조건·서명 처리의 핵심 구문과 의미를 정의한 공식 표준이다.
 - **XML 서명 래핑 공격**: 서명된 요소와 애플리케이션이 실제 처리하는 요소의 차이를 악용해 위조 내용을 수용하게 하는 공격이다.
+- **W3C XML Signature 1.1**: XML 문서에서 서명 대상 요소와 검증 방법을 정의해 처리 요소와 서명 요소를 일치시키는 표준이다.
 
 </details>
 
@@ -166,10 +168,11 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **요청 결속**: SAML 응답을 최초 요청의 ID·대상·수신자와 연결해 다른 요청이나 서비스에서 재사용하지 못하게 하는 검증 원칙이다.
+- **SP 시작·IdP 시작 선택**: 요청·응답 결속이 필요하면 SP에서 시작하고 중앙 포털 흐름에서는 응답 ID 재사용을 별도로 차단하는 판단이다.
 
 </details>
 
-- 요청 결속이 필요하면 **SP 시작**, 중앙 포털은 IdP 시작과 응답 ID 재사용 차단 적용
+- 요청 결속이 필요하면 **SP 시작**, 중앙 포털은 **IdP 시작**과 응답 ID 재사용 차단 적용
 
 #### 한줄 요약
 
