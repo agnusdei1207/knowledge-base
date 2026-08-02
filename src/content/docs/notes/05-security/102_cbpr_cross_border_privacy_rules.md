@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 국경 간 개인정보 처리의 **책임성 인증**
+- 정의/개념: **Global CBPR**은 국경 간 개인정보를 처리하는 조직의 보호조치와 책임성을 제3자가 검증하는 인증 체계
 - 배경/필요성: 내부 정책만으로는 상이한 관할에서 **국경 간 책임성 입증 곤란**
 
 #### 한줄 요약
@@ -38,7 +38,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CBPR·PRP**: CBPR은 처리 목적과 수단을 정하는 컨트롤러, PRP는 그 지시에 따라 위탁 처리하는 프로세서의 책임성을 인증한다.
+- **CBPR(Cross-Border Privacy Rules)·PRP(Privacy Recognition for Processors)**: CBPR은 처리 목적과 수단을 정하는 컨트롤러, PRP는 그 지시에 따라 위탁 처리하는 프로세서의 책임성을 인증한다.
 - **공개 명부·민원·시정**: 인증 범위와 상태를 공개하고 정보주체 민원과 결함 시정 결과를 사후관리하는 운영 구조이다.
 
 </details>
@@ -56,7 +56,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Global CBPR Forum·책임성 인증기관**: 포럼은 프로그램 요구와 규칙을 관리하고 공인기관은 조직 심사·인증·민원·사후관리를 수행한다.
-- **Global CAPE**: 참여 개인정보 감독기관이 국경 간 민원·조사·집행 정보를 공유하고 협력하는 체계이다.
+- **Global CAPE(Cooperation Arrangement for Privacy Enforcement)**: 참여 개인정보 감독기관이 국경 간 민원·조사·집행 정보를 공유하고 협력하는 체계이다.
 
 </details>
 
