@@ -24,12 +24,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**: 호스트와 서버의 기능·컨텍스트 교환을 표준화한 프로토콜
+- **모델 컨텍스트 프로토콜 도구(Model Context Protocol Tool, MCP Tool)**: 구조화된 인자로 외부 시스템의 행동을 실행하는 MCP 기능
 - **대규모 언어 모델(Large Language Model, LLM)**: 문맥과 도구 명세를 바탕으로 호출할 도구와 인자를 생성하는 모델
 
 </details>
 
-- 정의/개념: **MCP 도구**는 서버가 구조화 명세로 외부 행동을 공개하고 클라이언트의 호출에 따라 검증·실행하는 MCP 기능
-- 배경/필요성: 함수별 인자·권한 계약 차이로 **LLM의 일관된 행동 호출 곤란**
+- 정의/개념: 서버가 구조화 명세로 외부 행동을 공개하는 **모델 컨텍스트 프로토콜 도구(Model Context Protocol Tool, MCP Tool)**
+- 배경/필요성: 함수별 인자·권한 계약 차이로 **대규모 언어 모델(Large Language Model, LLM)의 일관된 행동 호출 곤란**
 
 #### 한줄 요약
 - AI가 설명서를 보고 필요한 기계를 호출하는 기능임
@@ -40,13 +41,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **대규모 언어 모델(Large Language Model, LLM)**: 목표와 문맥을 해석해 호출할 도구와 인자를 제안하는 모델
-- **JSON 스키마(JSON Schema)**: 도구 입력·출력 구조와 자료형·필수 필드를 정의하는 규격
+- **자바스크립트 객체 표기법 스키마(JavaScript Object Notation Schema, JSON Schema)**: 도구 입력·출력 구조와 자료형·필수 필드를 정의하는 규격
 - **부작용(Side Effect)**: 도구 실행으로 외부 시스템의 데이터나 상태가 바뀌는 현상
 
 </details>
 
-- **선택 축**: LLM이 목표·문맥에 맞는 도구·인자 제안
-- **계약 축**: tools/list·tools/call·JSON 스키마 표준화
+- **선택 축**: **대규모 언어 모델(Large Language Model, LLM)** 기반 목표·문맥별 도구·인자 제안
+- **계약 축**: tools/list·tools/call·**자바스크립트 객체 표기법 스키마(JavaScript Object Notation Schema, JSON Schema)** 표준화
 - **통제 축**: 호스트 동의·서버 재검증으로 부작용 통제
 
 #### 한줄 요약
@@ -57,11 +58,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **JSON 스키마(JSON Schema)**: 도구의 입력 구조·자료형·필수 필드를 검증할 수 있게 정의한 규격
+- **자바스크립트 객체 표기법 스키마(JavaScript Object Notation Schema, JSON Schema)**: 도구의 입력 구조·자료형·필수 필드를 검증할 수 있게 정의한 규격
 - **정책 집행기**: 권한·사용자 동의·부작용 허용 범위를 확인해 실행 여부를 결정하는 구성요소
 - **백엔드 도구**: MCP 서버가 검증 후 실제 외부 시스템에서 실행하는 기능
 
 </details>
+
+- **자바스크립트 객체 표기법 스키마(JavaScript Object Notation Schema, JSON Schema)** 기반 명세를 입력 검증기와 정책 집행기가 확인한 뒤 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 내부 실행기가 백엔드 도구를 호출한다.
 
 ```mermaid
 block-beta
@@ -98,6 +101,8 @@ block-beta
 - **tools/list·tools/call**: MCP 서버의 도구 명세를 조회하고 선택한 도구를 실행하는 표준 요청
 
 </details>
+
+- **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)** 및 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 사이에서 **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)** 인자를 교환하고 고위험 호출에는 **인간 개입(Human-in-the-Loop, HITL)** 승인을 적용한다.
 
 ```mermaid
 sequenceDiagram
@@ -137,13 +142,15 @@ sequenceDiagram
 
 </details>
 
+- **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**, **도구(Tool)**, **프롬프트(Prompt)** 사이를 **통합 자원 식별자(Uniform Resource Identifier, URI) 조회**, 스키마 호출, 메시지 생성 기준으로 구분한다.
+
 | 비교 기준 | Resource | Tool | Prompt |
 |:---|:---|:---|:---|
 | 적용 기준 | **문맥 데이터 제공** | **외부 기능 실행** | **사용자 작업 틀 제공** |
 | 핵심 특징 | 앱 제어·**URI 조회** | 모델 제어·**스키마 호출** | 사용자 제어·**메시지 생성** |
 | 한계 | **직접 행동 수행 불가** | **부작용·권한 위험** | **사용자 선택·입력 필요** |
 
-> 요약: **Resource**는 문맥 조회, **Tool**은 행동, **Prompt**는 작업 틀
+> 요약: 문맥 조회에는 **Resource**, 행동에는 **Tool**, 작업 틀에는 **Prompt** 적용
 
 #### 한줄 요약
 - 도구는 일을 시키고 리소스는 필요한 자료를 읽는 기능임
@@ -163,7 +170,7 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 과도한 도구 호출로 **행동 범위 확대** | **허용 목록·최소권한** 적용 | 모델 행동 범위 제한 |
-| 프롬프트 주입으로 **무단 상태 변경** | 비신뢰 명령 분리·**HITL 승인** | 간접 권한 상승 방지 |
+| 프롬프트 주입으로 **무단 상태 변경** | 비신뢰 명령 분리·**인간 개입(Human-in-the-Loop, HITL) 승인** | 간접 권한 상승 방지 |
 | 대상·인자 오류로 **잘못된 부작용** | **현재 상태·업무 규칙** 재검증 | 오실행·책임 공백 축소 |
 
 #### 한줄 요약
@@ -174,12 +181,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MCP Tool**: 모델이 구조화된 인자로 호출해 외부 시스템의 행동을 실행하는 기능
-- **Resource**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터
+- **모델 컨텍스트 프로토콜 도구(Model Context Protocol Tool, MCP Tool)**: 모델이 구조화된 인자로 호출해 외부 시스템의 행동을 실행하는 기능
+- **리소스(Resource)**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터
 
 </details>
 
-- 외부 행동은 **MCP Tool**, 읽기 문맥은 **Resource** 선택
+- 외부 행동에는 **모델 컨텍스트 프로토콜 도구(Model Context Protocol Tool, MCP Tool)**, 읽기 문맥에는 **리소스(Resource)** 선택
 
 #### 한줄 요약
 - 위험한 도구일수록 권한을 좁히고 사람 확인을 거침

@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**MCP 리소스**는 서버가 URI로 식별하여 클라이언트에 읽기 중심의 컨텍스트 데이터를 제공하는 MCP 기능이다.
+- **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**: 서버가 URI로 식별하여 클라이언트에 읽기 중심의 컨텍스트 데이터를 제공하는 MCP 기능이다.
 
 </details>
 
-- 정의/개념: **MCP 리소스**는 서버가 URI로 식별하여 클라이언트에 읽기 중심의 컨텍스트 데이터를 제공하는 MCP 기능
+- 정의/개념: **통합 자원 식별자(Uniform Resource Identifier, URI)** 기반 읽기 문맥을 제공하는 **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**
 - 배경/필요성: 파일·데이터별 탐색·조회 방식 차이로 **컨텍스트 재사용 곤란**
 
 #### 한줄 요약
@@ -38,12 +38,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**애플리케이션 제어 컨텍스트**는 호스트가 리소스를 조회하고 모델 문맥에 포함할지 결정하여 데이터 사용 범위를 통제하는 방식이다.
+- **애플리케이션 제어 컨텍스트**: 호스트가 리소스를 조회하고 모델 문맥에 포함할지 결정하여 데이터 사용 범위를 통제하는 방식이다.
+- **리소스 구독**: 특정 리소스가 변경될 때 서버가 클라이언트에 갱신 사실을 알리는 기능이다.
 
 </details>
 
 - **제어 축**: 애플리케이션이 조회·모델 문맥 포함 결정
-- **식별 축**: URI·URI 템플릿으로 컨텍스트 식별
+- **식별 축**: **통합 자원 식별자(Uniform Resource Identifier, URI)**·URI 템플릿 기반 컨텍스트 식별
 - **최신성 축**: 변경 알림·리소스 구독으로 갱신 전달
 
 #### 한줄 요약
@@ -54,9 +55,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**URI 템플릿**은 변수 자리를 포함한 주소 규칙으로 여러 관련 리소스의 URI를 생성하게 한다.
+- **통합 자원 식별자 템플릿(Uniform Resource Identifier Template, URI Template)**: 변수 자리를 포함한 주소 규칙으로 여러 관련 리소스의 URI를 생성하게 한다.
+- **다목적 인터넷 우편 확장 형식(Multipurpose Internet Mail Extensions Type, MIME Type)**: 리소스 내용의 데이터 유형과 해석 방식을 나타내는 표기이다.
+- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: 리소스 조회 요청과 결과를 교환하는 메시지 형식이다.
 
 </details>
+
+- **통합 자원 식별자 템플릿(Uniform Resource Identifier Template, URI Template)**, **다목적 인터넷 우편 확장 형식(Multipurpose Internet Mail Extensions Type, MIME Type)**, **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 기반으로 리소스를 식별하고 반환한다.
 
 ```mermaid
 block-beta
@@ -73,8 +78,8 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 리소스 명세 | **URI·이름·MIME** 정보 제공 |
-| URI 템플릿 | **변수형 URI**로 리소스 범위 표현 |
-| 내용 제공기 | **JSON-RPC**로 URI 콘텐츠 반환 |
+| URI 템플릿 | 리소스 범위를 나타내는 **변수형 URI** |
+| 내용 제공기 | **JSON-RPC 기반 URI 콘텐츠 반환** |
 | 구독 관리자 | **리소스 구독·변경 알림** 관리 |
 
 #### 한줄 요약
@@ -85,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**리소스 읽기**는 클라이언트가 URI를 지정하고 서버가 MIME 형식과 함께 텍스트 또는 바이너리 내용을 반환하는 요청 흐름이다.
+- **리소스 읽기**: 클라이언트가 URI를 지정하고 서버가 MIME 형식과 함께 텍스트 또는 바이너리 내용을 반환하는 요청 흐름이다.
 
 </details>
+
+- **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)** 요청은 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 측에서 **통합 자원 식별자(Uniform Resource Identifier, URI)** 권한을 확인한 뒤 **다목적 인터넷 우편 확장 형식(Multipurpose Internet Mail Extensions Type, MIME Type)** 정보와 내용으로 반환한다.
 
 ```mermaid
 sequenceDiagram
@@ -122,9 +129,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**직접 리소스**는 고정 URI 하나로 특정 파일·레코드·문서 같은 컨텍스트를 식별해 제공하는 리소스 유형이다.
+- **직접 리소스**: 고정 URI 하나로 특정 파일·레코드·문서 같은 컨텍스트를 식별해 제공하는 리소스 유형이다.
+- **도구(Tool)**: 모델이 외부 기능을 실행하도록 호출하는 MCP 기능이다.
+- **프롬프트(Prompt)**: 사용자가 선택해 재사용할 수 있는 메시지·작업 틀을 제공하는 MCP 기능이다.
 
 </details>
+
+- **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**, **도구(Tool)**, **프롬프트(Prompt)** 사이를 문맥 조회·행동 실행·작업 틀 제공 기준으로 구분한다.
 
 | 비교 기준 | Resource | Tool | Prompt |
 |:---|:---|:---|:---|
@@ -132,7 +143,7 @@ sequenceDiagram
 | 핵심 특징 | 앱 제어·**URI 조회** | 모델 제어·**스키마 호출** | 사용자 제어·**메시지 생성** |
 | 한계 | **직접 행동 수행 불가** | **부작용·권한 위험** | **사용자 선택·입력 필요** |
 
-> 요약: **Resource**는 문맥 조회, **Tool**은 행동, **Prompt**는 작업 틀
+> 요약: 문맥 조회에는 **Resource**, 행동에는 **Tool**, 작업 틀에는 **Prompt** 적용
 
 #### 한줄 요약
 - 리소스는 자료를 읽고 도구는 일을 실행하므로 사용 목적이 다름
@@ -142,13 +153,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**리소스 구독**은 특정 URI의 내용이 변경될 때 서버가 클라이언트에 갱신 알림을 보내는 기능이다.
+- **리소스 구독**: 특정 URI의 내용이 변경될 때 서버가 클라이언트에 갱신 알림을 보내는 기능이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 리소스를 고유하게 가리키는 주소 표기이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| URI 조작으로 **범위 밖 조회** | **템플릿 변수·테넌트 권한** 재검증 | 경로·테넌트 우회 방지 |
+| **통합 자원 식별자(Uniform Resource Identifier, URI) 조작**으로 범위 밖 조회 | **템플릿 변수·테넌트 권한** 재검증 | 경로·테넌트 우회 방지 |
 | 과다 제공으로 **문맥 오염·정보 노출** | **목적별 분할·최소 필드** 적용 | 문맥 품질·기밀성 확보 |
 | 빈번한 변경으로 **최신성 저하** | 필요한 **URI만 구독·재조회** | 최신성 확보·트래픽 감소 |
 
@@ -160,11 +172,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**MIME 형식**은 리소스 내용의 데이터 유형을 표시하여 클라이언트가 안전하고 올바르게 해석하게 하는 표기다.
+- **다목적 인터넷 우편 확장 형식(Multipurpose Internet Mail Extensions Type, MIME Type)**: 리소스 내용의 데이터 유형을 표시하여 클라이언트가 안전하고 올바르게 해석하게 하는 표기다.
 
 </details>
 
-- 읽기 문맥은 **MCP 리소스**, 외부 행동은 **Tool** 선택
+- 읽기 문맥에는 **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**, 외부 행동에는 **도구(Tool)** 선택
 
 #### 한줄 요약
 - 민감한 자료는 좁게 공개하고 자주 바뀌는 자료만 변경 알림을 켬
