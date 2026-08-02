@@ -99,13 +99,12 @@ block-beta
 sequenceDiagram
     participant M as 생성 모델
     participant C as 주장 분해기
-    participant F as 사실 검증기
-    participant A as 근거 귀속기
+    participant F as 사실·근거 검증기
     participant P as 대응 정책
     M->>C: 1. 입력·문맥·응답 기록
     C->>F: 2. 검증 가능 주장 분해
-    F->>A: 3. 외부 사실·문맥 대조
-    A->>P: 4. 오류 유형·위험 판정
+    F->>F: 3. 외부 사실·문맥 대조
+    F->>P: 4. 오류 유형·위험 판정
     P-->>M: 5. 수정·보류·거절 적용
 ```
 

@@ -99,13 +99,12 @@ block-beta
 sequenceDiagram
     participant O as 평가 책임자
     participant D as 평가 데이터셋
-    participant M as 지표·평가 모델
-    participant X as 평가 실행기
+    participant E as 지표·평가 실행기
     participant H as 인간 검증자
     O->>D: 1. 평가 목적·표본 스키마 정의
-    D->>M: 2. 지표·평가 모델 선택
-    M->>X: 3. 프롬프트·버전·재시도 고정
-    X->>H: 4. 표본 점수 실행·인간 검증
+    D->>E: 2. 지표·평가 모델 선택
+    E->>E: 3. 프롬프트·버전·재시도 고정
+    E->>H: 4. 표본 점수 실행·인간 검증
     H-->>O: 평가 결과 보고
 ```
 

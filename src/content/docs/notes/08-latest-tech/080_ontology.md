@@ -102,16 +102,13 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant C as 클래스 저장소
-  participant P as 속성 저장소
-  participant A as 공리·제약 저장소
-  participant I as 개체 저장소
+  participant K as 온톨로지 지식베이스
   participant R as 추론기
-  C->>P: 1. 클래스 계층·관계 범위
-  P->>A: 2. 정의역·치역·카디널리티
-  A->>I: 3. 검증 제약·개체 매핑 규칙
-  I->>R: 4. 개체·속성 사실
-  R-->>A: 분류 결과·모순 판정
+  K->>K: 1. 클래스 계층·관계 범위
+  K->>K: 2. 정의역·치역·카디널리티
+  K->>K: 3. 검증 제약·개체 매핑 규칙
+  K->>R: 4. 개체·속성 사실
+  R-->>K: 분류 결과·모순 판정
 ```
 
 **동작 원리**

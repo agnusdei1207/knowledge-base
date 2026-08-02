@@ -105,13 +105,12 @@ block-beta
 sequenceDiagram
   participant C as 조건 인코더
   participant M as 움직임 제어기
-  participant G as 생성 모델
-  participant L as 시공간 표현 저장소
+  participant G as 생성 모델·시공간 표현
   participant E as 일관성 평가기
   C->>G: 1. 텍스트·참조 조건
   M->>G: 2. 궤적·카메라 조건
-  G->>L: 3. 시공간 잠재 표현
-  L->>E: 4. 연속 프레임 상태
+  G->>G: 3. 시공간 잠재 표현
+  G->>E: 4. 연속 프레임 상태
   E-->>G: 5. 시간·물리 일관성 판정
 ```
 

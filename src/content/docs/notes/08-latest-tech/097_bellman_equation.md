@@ -108,13 +108,12 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant P as 정책 저장소
-  participant T as 전이 모델
-  participant R as 보상 함수
+  participant E as 전이·보상 모델
   participant O as 벨만 연산자
   participant V as 가치 함수
   P->>O: 1. 행동 확률·연산 목적
-  T->>O: 2. 다음 상태 분포
-  R->>O: 3. 즉시 보상
+  E->>O: 2. 다음 상태 분포
+  E->>O: 3. 즉시 보상
   O->>V: 4. 보상·할인 다음 가치
   V-->>O: 5. 갱신 잔차·고정점 판정
 ```

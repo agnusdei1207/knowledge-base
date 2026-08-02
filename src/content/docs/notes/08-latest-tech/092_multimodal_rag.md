@@ -97,13 +97,12 @@ sequenceDiagram
   participant X as 모달 추출기
   participant A as 모달 정렬기
   participant I as 모달 색인
-  participant R as 검색·융합기
-  participant C as 근거 연결부
+  participant R as 검색·융합·근거 연결기
   X->>A: 1. 모달 요소·원본 좌표
   A->>I: 2. 정렬 표현·연결 메타데이터
   I->>R: 3. 모달별 후보·순위
-  R->>C: 4. 융합 문맥·원본 영역
-  C-->>R: 5. 주장별 근거 위치
+  R->>R: 4. 융합 문맥·원본 영역
+  R->>R: 5. 주장별 근거 위치
 ```
 
 **동작 원리**

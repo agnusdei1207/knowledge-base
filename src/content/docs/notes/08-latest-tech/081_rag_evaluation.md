@@ -100,13 +100,12 @@ sequenceDiagram
     participant O as 평가 책임자
     participant D as 평가 데이터셋
     participant X as RAG 실행기
-    participant R as 검색 평가기
-    participant G as 생성·실패 평가기
+    participant E as 검색·생성 평가기
     O->>D: 1. 품질 목표·기준 표본 정의
     D->>X: 2. 질의 실행·로그 수집
-    X->>R: 3. 검색 회수·순위 측정
-    R->>G: 4. 충실성·관련성 측정
-    G-->>O: 실패 단계·회귀 판정
+    X->>E: 3. 검색 회수·순위 측정
+    E->>E: 4. 충실성·관련성 측정
+    E-->>O: 실패 단계·회귀 판정
 ```
 
 **동작 원리**

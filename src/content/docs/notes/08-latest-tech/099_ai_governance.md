@@ -101,12 +101,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant R as AI 등록부
-  participant C as 위험 기준 위원회
+  participant C as AI 등록·위험 기준 위원회
   participant A as 승인 기구
   participant L as 수명주기 통제부
   participant I as 사고 대응부
-  R->>C: 1. 목적·영향·소유자 정보
+  C->>C: 1. 목적·영향·소유자 정보
   C->>A: 2. 위험 등급·필수 통제
   A->>L: 3. 검증 근거·배포 조건
   L->>I: 4. 운영 지표·사고 증적

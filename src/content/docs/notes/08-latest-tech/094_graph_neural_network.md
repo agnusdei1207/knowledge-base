@@ -104,16 +104,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant F as 특징 저장소
+  participant F as 특징·출력 표현
   participant M as 메시지 함수
   participant A as 집계 함수
   participant U as 갱신 함수
-  participant R as 읽기 함수
   F->>M: 1. 노드·간선 특징
   M->>A: 2. 이웃별 메시지
   A->>U: 3. 순서 불변 집계값
   U->>F: 4. 갱신 노드 표현
-  F->>R: 5. 최종 노드 표현
+  F->>F: 5. 최종 노드 표현
 ```
 
 **동작 원리**
