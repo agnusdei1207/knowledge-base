@@ -45,8 +45,9 @@ extra:
 
 </details>
 
-- 국제표준화기구·국제전기기술위원회(International Organization for Standardization·International Electrotechnical Commission, ISO·IEC) 21031의 **소프트웨어 탄소 집약도(Software Carbon Intensity, SCI) 측정**
-- 에너지(E)·탄소 강도(I)·내재 탄소(M)·기능 단위(R)를 적용한 **SCI=(E×I+M)/R 계산**
+> 국제표준화기구·국제전기기술위원회(International Organization for Standardization and International Electrotechnical Commission, ISO/IEC) 21031:2024는 SCI 산정 방법론을 규정한다.
+
+- 에너지(E)·탄소 강도(I)·내재 탄소(M)·기능 단위(R)의 **SCI=(E×I+M)/R 측정**
 - 연산·전송·저장 효율화 기반 **운영 탄소 감축**
 - 장비 활용·수명 연장으로 **내재 탄소 감축**, 작업 이동으로 **전력 탄소 강도 절감**
 #### 한줄 요약
@@ -60,6 +61,9 @@ extra:
 
 - **내재 탄소**: 장비의 제조·운송·폐기 과정에서 발생해 사용 기간과 기능에 배분하는 탄소 배출량이다.
 - **기능 단위**: 소프트웨어 탄소 집약도(Software Carbon Intensity, SCI)를 비교하도록 요청·작업·사용자 등 소프트웨어가 제공한 가치의 측정 기준이다.
+- **에너지 계측**: 정한 시스템 경계와 기간에 소프트웨어 실행이 소비한 전력을 측정·추정하는 활동이다.
+- **탄소 강도**: 사용한 전력 단위당 온실가스 배출량으로, 실행 지역과 시간에 따라 달라진다.
+- **SCI 산정**: 운영 에너지 배출과 배분된 내재 탄소를 합한 뒤 기능 단위로 나눠 소프트웨어 탄소 효율을 비교하는 방식이다.
 
 </details>
 
