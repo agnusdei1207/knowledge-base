@@ -97,18 +97,16 @@ block
 ```mermaid
 sequenceDiagram
     participant S as 전략 조직
-    participant E as EA 조직
-    participant R as EA 저장소
+    participant E as EA 조직·저장소
     participant P as 사업 조직
     participant G as 심의 조직
     S->>E: 전략 변화 전달
-    E->>R: 1. 기준선 조회 요청
-    R-->>E: 현행 기준선
+    E->>E: 1. 현행 기준선 조회
     E->>P: 2. 목표·표준
     P->>G: 3. 설계·예외
     G->>E: 4. 정합성 검토 결과
     E-->>S: EA 변경 계획
-    P-->>R: 5. 구현 결과
+    P-->>E: 5. 구현 결과
 ```
 
 **동작 원리**

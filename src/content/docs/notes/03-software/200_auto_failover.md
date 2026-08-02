@@ -95,12 +95,11 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant M as 감지기
-    participant D as 결정기
+    participant D as 감지·결정기
     participant P as 이전 Primary
     participant S as Standby
     participant R as 라우터
-    M->>D: 1. 상태 감시
+    D->>D: 1. 상태 감시
     D->>D: 2. 장애 판정
     D->>P: 3. 이전 노드 차단
     D->>S: 4. 예비 노드 승격

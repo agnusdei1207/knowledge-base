@@ -94,16 +94,14 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant G as 테스트 생성기
-    participant S as 회귀 선택기
-    participant O as 오라클·검토 게이트
+    participant G as 테스트 생성·회귀 선택기
+    participant O as 오라클·탐지력 평가
     participant E as 격리 실행기
-    participant A as 탐지력 평가기
-    G->>S: 1. 후보·변경 정보 전달
-    S->>O: 2. 실행 대상 제출
+    G->>G: 1. 후보·변경 정보 분석
+    G->>O: 2. 실행 대상 제출
     O->>E: 3. 승인 테스트 전달
-    E->>A: 4. 실행 결과 전달
-    A->>G: 5. 탐지력 피드백
+    E->>O: 4. 실행 결과 전달
+    O->>G: 5. 탐지력 피드백
 ```
 
 **동작 원리**

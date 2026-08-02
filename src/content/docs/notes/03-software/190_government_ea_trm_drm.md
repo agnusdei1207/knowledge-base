@@ -95,14 +95,13 @@ block
 ```mermaid
 sequenceDiagram
     participant I as 기관
-    participant M as 참조 모형 매핑
-    participant R as EA 저장소
+    participant M as 참조 모형·EA 저장소
     participant A as 범정부 분석
     participant G as 투자 거버넌스
     I->>M: 기관 자산 제출
-    M->>R: 1. 공통 코드 매핑
-    R->>M: 2. 유사 자산
-    R->>A: 3. 범정부 자산 집합
+    M->>M: 1. 공통 코드 매핑
+    M->>I: 2. 유사 자산
+    M->>A: 3. 범정부 자산 집합
     A->>G: 4. 중복·공유 후보
     G-->>I: 통합·예외 결정
 ```

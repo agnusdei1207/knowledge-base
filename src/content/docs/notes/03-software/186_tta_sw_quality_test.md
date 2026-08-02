@@ -93,17 +93,16 @@ block
 ```mermaid
 sequenceDiagram
     participant C as 의뢰기관
-    participant T as 시험기관
-    participant E as 시험환경
+    participant T as 시험기관·환경
     participant P as 시험 제품
     participant R as 결과 검토
     C->>T: 시험 신청
     T->>C: 1. 범위·기준안
     C-->>T: 합의 조건
-    T->>E: 2. 환경·케이스 구성 요청
-    E->>P: 3. 시험 입력·부하
-    P-->>E: 측정 결과
-    E->>R: 4. 측정·결함 증적
+    T->>T: 2. 환경·케이스 구성
+    T->>P: 3. 시험 입력·부하
+    P-->>T: 측정 결과
+    T->>R: 4. 측정·결함 증적
     R-->>C: 결과 문서 발급
 ```
 

@@ -95,13 +95,11 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant O as 발주기관
-    participant P as 구매 절차
+    participant O as 발주기관·구매 절차
     participant S as SW 공급자
     participant I as 구축사
     participant A as 검수
-    O->>P: 구매 규격·수량
-    P->>S: 1. 제품 계약서
+    O->>S: 1. 구매 규격·제품 계약서
     S->>I: 2. 제품·설치 정보
     I->>A: 3. 설치·연계 결과
     S->>A: 4. 권리·지원 증빙
