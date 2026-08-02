@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC·PV·StorageClass (Kubernetes Storage)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:27:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **저장 요구와 구현**: PVC는 워크로드의 저장 요구를 표현하고 PV는 그 요구를 만족하는 실제 저장 구현을 제공한다.
+- **쿠버네티스 영속 스토리지(Kubernetes Persistent Storage)**: PVC가 워크로드의 저장 요구를 선언하고 PV가 실제 저장 자원을 제공하며 StorageClass가 동적 프로비저닝 정책을 정의하는 구조이다.
 
 </details>
 
-- 정의/개념: PVC·PV·StorageClass로 **저장 요구와 구현**을 분리하는 영속 스토리지 구조
+- 정의/개념: PVC·PV·StorageClass로 **워크로드의 저장 요구와 인프라 구현**을 분리하는 쿠버네티스 영속 스토리지 구조
 - 배경/필요성: 파드 로컬 저장은 재생성·노드 장애 시 **데이터 소실**
 
 ### 쉽게 이해하기 (학습용)

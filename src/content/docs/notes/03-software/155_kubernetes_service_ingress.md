@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스·인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:25:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **외부 경로**: Ingress는 클러스터 외부의 HTTP·HTTPS 요청을 서비스로 전달하는 외부 경로를 정의한다.
+- **쿠버네티스 서비스·인그레스(Kubernetes Service·Ingress)**: 서비스는 변하는 파드 집합에 고정 접점과 부하 분산을 제공하고, 인그레스는 외부 HTTP·HTTPS 요청의 호스트·경로를 서비스로 연결한다.
 
 </details>
 
-- 정의/개념: 서비스가 고정 접점을 제공하고 인그레스가 **외부 경로**를 분기하는 노출 구조
+- 정의/개념: 서비스가 파드의 고정 접점을 제공하고 인그레스가 **외부 HTTP·HTTPS 경로**를 서비스로 분기하는 노출 구조
 - 배경/필요성: 파드 주소 변화로 클라이언트 직접 접속과 **외부 경로 유지 불가**
 
 ### 쉽게 이해하기 (학습용)

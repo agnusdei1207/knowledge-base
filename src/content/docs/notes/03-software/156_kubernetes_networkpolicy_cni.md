@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy·CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:26:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CNI**: CNI는 컨테이너 네트워크 인터페이스를 구성하고 파드 연결성을 구현하는 표준과 플러그인 체계다.
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)·네트워크 정책(NetworkPolicy)**: CNI 플러그인은 파드 인터페이스와 연결성을 구현하고 NetworkPolicy는 선택한 파드의 허용 송수신 통신을 선언한다.
 
 </details>
 
-- 정의/개념: **CNI**로 파드 연결을 구성하고 **NetworkPolicy**로 허용 통신을 제한하는 제어 체계
+- 정의/개념: **CNI 플러그인**으로 파드 연결을 구현하고 **NetworkPolicy**로 허용 통신을 선언·집행하는 네트워크 제어 체계
 - 배경/필요성: 평면 네트워크는 침해 파드의 **불필요한 횡적 이동** 허용
 
 ### 쉽게 이해하기 (학습용)
