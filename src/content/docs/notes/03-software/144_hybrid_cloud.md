@@ -101,13 +101,12 @@ sequenceDiagram
     participant P as 퍼블릭 API
     participant I as 통합 신원·정책
     participant R as 전용 고객 서비스
-    participant O as 통합 관측
     U->>P: 고객 업무 요청
     P->>I: 1. 신원·정책 검증 요청
     I-->>P: 2. 제한 자격·정책
     P->>R: 3. 기준 데이터 조회 조건
     R-->>P: 4. 기준 데이터·버전
-    P->>O: 5. 요청 식별자·경계 지연·감사 기록
+    P->>P: 5. 요청 식별자·경계 지연·감사 기록
     P-->>U: 조합 업무 응답
 ```
 

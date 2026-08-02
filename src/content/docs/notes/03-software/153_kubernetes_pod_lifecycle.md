@@ -99,13 +99,12 @@ sequenceDiagram
     participant A as API 서버
     participant K as kubelet
     participant C as 컨테이너
-    participant P as 프로브
     participant E as 서비스
     A->>K: 1. 파드 실행 명세
     K->>C: 컨테이너 실행 명세
     loop 프로브 주기
-        K->>P: 2. 시작·생존·준비 검사 요청
-        P-->>K: 3. 프로브 판정
+        K->>C: 2. 시작·생존·준비 검사 요청
+        C-->>K: 3. 프로브 판정
         K->>E: 4. 준비 상태
     end
     A-->>K: 삭제 명세

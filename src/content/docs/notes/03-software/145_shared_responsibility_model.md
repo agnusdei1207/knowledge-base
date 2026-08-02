@@ -98,14 +98,12 @@ block
 sequenceDiagram
     participant P as 공급자
     participant C as 이용자
-    participant K as 통제 카탈로그
-    participant R as 책임 매트릭스
     participant V as 정책·검증 플랫폼
-    P->>K: 1. 공급자 통제·제외 조건
-    C->>K: 2. 서비스·구성 범위
-    K->>R: 3. 상속·잔여 통제
-    R->>V: 4. 이용자 통제 배정
-    V-->>R: 5. 준수 증적
+    P->>V: 1. 공급자 통제·제외 조건
+    C->>V: 2. 서비스·구성 범위
+    V->>V: 3. 상속·잔여 통제 매핑
+    V-->>C: 4. 이용자 통제 배정
+    C->>V: 5. 준수 증적
 ```
 
 **동작 원리**

@@ -97,14 +97,12 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant A as 자산 목록
-    participant D as 의존성 지도
-    participant E as 평가 모델
-    participant M as 이전 계획
-    participant V as 검증·롤백 계획
-    A->>D: 1. 자산·연결 후보
-    D->>E: 2. 의존성·전환 제약
-    E->>M: 3. 6R·웨이브 결정
+    participant A as 자산·의존성 분석
+    participant M as 평가·이전 계획
+    participant V as 검증·롤백 통제
+    A->>A: 1. 자산·연결 후보 식별
+    A->>M: 2. 의존성·전환 제약
+    M->>M: 3. 6R·웨이브 결정
     M->>V: 4. 전환 결과·검증 증적
     V-->>M: 5. 전환·롤백 판정
 ```
