@@ -111,23 +111,22 @@ block
 sequenceDiagram
     participant Q as 요청자
     participant G as 표본 생성기
-    participant M as 모델 평가기
+    participant M as 모델
     participant E as 통계 추정기
-    participant C as 종료 판정기
     Q->>G: 추정 요청
     loop 표준오차가 허용 오차 초과•표본 한도 이내
         G->>M: 1. 독립 표본 전달
         M->>E: 2. 표본별 결과 전달
-        E->>C: 3. 추정 통계 전달
+        E->>E: 3. 오차•종료 조건 판정
     end
-    C-->>Q: 추정 결과 반환
+    E-->>Q: 추정 결과 반환
 ```
 
 **동작 원리**
 
 1. **독립 표본 전달**: 목표 분포에서 입력 생성
 2. **표본별 결과 전달**: 모델의 관측값 산출
-3. **추정 통계 전달**: 평균•표준오차로 추가 표본 여부 판정
+3. **오차•종료 조건 판정**: 평균•표준오차로 추가 표본 여부 결정
 
 #### 한줄 요약
 

@@ -106,17 +106,15 @@ block-beta
 sequenceDiagram
     participant C as 호출자
     participant A as 오토마타 실행기
-    participant I as 입력 스트림
-    participant D as 전이 함수
-    participant F as 수용 상태 판정기
+    participant I as 입력 문자열
+    participant D as 상태 전이 규칙
     C->>A: 입력 문자열
     loop 입력 기호가 남아 있는 동안
         I-->>A: 1. 입력 기호 반환
         A->>D: 2. 현재 상태•입력 전달
         D-->>A: 3. 다음 상태 반환
     end
-    A->>F: 4. 최종 상태 전달
-    F-->>A: 5. 수용•거부 반환
+    A->>A: 4. 최종 상태 판정
     A-->>C: 판정 결과 반환
 ```
 
@@ -125,8 +123,7 @@ sequenceDiagram
 - **1. 입력 기호 반환**: 입력 스트림에서 기호 하나 소비
 - **2. 현재 상태•입력 전달**: 전이 함수의 두 입력 제공
 - **3. 다음 상태 반환**: DFA 상태 또는 NFA 상태 집합 갱신
-- **4. 최종 상태 전달**: 입력 소진 시점의 상태 제공
-- **5. 수용•거부 반환**: 수용 상태 집합 포함 여부 판정
+- **4. 최종 상태 판정**: 입력 소진 시 현재 상태의 수용 상태 집합 포함 여부 확인
 
 #### 한줄 요약
 

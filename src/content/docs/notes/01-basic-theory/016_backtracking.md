@@ -101,12 +101,11 @@ block
 sequenceDiagram
     participant Q as 제약 충족 문제
     participant R as 재귀 탐색 함수
-    participant C as 후보 생성기
-    participant P as 부분해 저장소
-    participant V as 유망성 판정 함수
+    participant P as 부분해
+    participant V as 후보•유망성 판정기
     Q->>R: 탐색 요청
     loop 후보 존재•해 미완성
-        C-->>R: 1. 다음 후보 반환
+        V-->>R: 1. 다음 후보 반환
         R->>P: 2. 후보값 저장
         R->>V: 3. 부분해 전달
         V-->>R: 4. 유망성 결과 반환
