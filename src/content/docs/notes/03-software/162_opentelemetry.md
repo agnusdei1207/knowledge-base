@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-07-30T23:56:12+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -18,22 +18,14 @@ extra:
   priority_note: "관측 신호 수집 표준의 구조와 적용 출제"
 ---
 
-## 미리 알고가기
-
-- **오픈텔레메트리(OpenTelemetry)**: 추적·메트릭·로그의 생성과 전달 방식을 통일하는 벤더 중립 관측 프레임워크
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 응용 코드가 스팬·메트릭·로그를 만드는 호출 규약
-- **소프트웨어 개발 키트(Software Development Kit, SDK)**: 샘플링·집계·배치·내보내기를 수행하는 언어별 계측 라이브러리
-- **자동 계측(Auto-instrumentation)**: 응용 코드 수정 없이 런타임이나 프레임워크에 계측 기능을 삽입하는 방식
-- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: SDK·Collector·백엔드 사이에서 텔레메트리를 전달하는 표준 프로토콜
-- **의미 규약(Semantic Conventions)**: 웹·데이터베이스·메시징 작업의 속성 이름과 의미를 통일한 규칙
-- **문맥 전파기(Context Propagator)**: 서비스 호출에 추적 식별자를 넣고 수신 서비스에서 꺼내는 구성요소
-- **Collector**: Receiver가 신호를 받고 Processor가 가공한 뒤 Exporter가 내보내는 중계 구성요소
-- **관측 백엔드(Observability Backend)**: 텔레메트리를 저장·조회·시각화하고 이상을 경보하는 시스템
-- **영속 큐(Persistent Queue)**: 전송 실패 중에도 디스크에 신호를 보존해 재시도하는 대기열
-
-> **키워드:** OpenTelemetry (OpenTelemetry)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **벤더 중립 프레임워크**: OpenTelemetry는 관측 신호의 생성과 전달을 특정 분석 제품에 종속되지 않게 표준화한 벤더 중립 프레임워크다.
+
+</details>
 
 - 정의/개념: 관측 신호의 생성·전파·수집을 통일하는 **벤더 중립 프레임워크**
 - 배경/필요성: 언어·도구별 계측 중복과 **백엔드 종속 완화**
@@ -44,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **API·SDK·OTLP**: API는 신호 생성 규약, SDK는 처리 기능, OTLP는 구성요소 사이의 표준 전송 규약을 제공한다.
+
+</details>
+
 - **API·SDK·OTLP** 기반 벤더 중립성
 - **문맥 전파·공통 속성** 기반 신호 연결
 - **Collector 파이프라인** 기반 처리 분리
@@ -53,6 +52,13 @@ extra:
 - 애플리케이션은 표준 신호만 만들고 필터, 배치, 재시도, 다중 백엔드 전송은 Collector에 맡겨 업무 코드와 전송 정책을 분리한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **Collector**: Collector는 관측 신호를 수신하고 가공한 뒤 하나 이상의 백엔드로 내보내는 중계 구성요소다.
+
+</details>
 
 ```mermaid
 block
@@ -82,6 +88,13 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **2. OTLP 배치 전송**: SDK는 생성된 신호를 샘플링하거나 집계한 뒤 OTLP 형식의 배치로 Collector에 전송한다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant A as API·자동 계측
@@ -106,6 +119,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Collector 경유**: Collector 경유 방식은 필터, 재시도, 다중 목적지 전송을 애플리케이션 밖에서 통합 관리한다.
+
+</details>
+
 | 전송 방식 | SDK 직접 전송 | Collector 경유 |
 |:---|:---|:---|
 | 적용 기준 | **소규모·단일 백엔드** | **대규모·통합 처리** |
@@ -118,7 +138,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **전송 장애**: 전송 장애가 발생하면 재시도와 영속 큐를 사용하되 메모리 상한을 두어 신호 유실과 자원 고갈을 함께 제한한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 서비스별 **속성 불일치** | 의미 규약·**공통 속성 사전 적용** | 신호 검색·**집계 일관성** |
 | 헤더·사용자 **정보 노출** | Collector **허용 목록·마스킹** | 민감정보 **외부 전송 차단** |
@@ -131,6 +158,13 @@ sequenceDiagram
 - 백엔드가 멈췄을 때 Collector의 대기열이 무한히 메모리를 쓰지 않도록 상한과 디스크 보존을 두고 자체 상태도 별도 경보로 감시해야 한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **신호량·보안 경계·목적지 수**: 신호량, 보안 경계, 전송 목적지 수를 기준으로 SDK 직접 전송과 Collector 경유 방식을 선택한다.
+
+</details>
 
 - **신호량·보안 경계·목적지 수**로 직접·Collector 전송 결정
 

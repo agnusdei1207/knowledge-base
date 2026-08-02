@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-07-31T10:42:28+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -18,26 +18,14 @@ extra:
   priority_note: "메시지 계약과 자원 설계 비교 출제"
 ---
 
-## 미리 알고가기
-
-- **단순 객체 접근 프로토콜(Simple Object Access Protocol, SOAP)**: XML 봉투와 처리 규칙으로 구조화된 메시지를 교환하는 프로토콜
-- **표현 상태 전이(Representational State Transfer, REST)**: 자원·표현·균일 인터페이스·무상태 통신을 사용하는 아키텍처 스타일
-- **웹 서비스 기술 언어(Web Services Description Language, WSDL)**: SOAP 서비스의 연산·메시지·자료형·접속점을 기술하는 XML 계약
-- **웹 서비스 확장 명세(WS-*)**: SOAP 메시지의 보안·신뢰성·트랜잭션을 확장하는 명세군
-- **웹 서비스 보안(WS-Security)**: SOAP 메시지의 보안 토큰·서명·암호화를 규정하는 명세
-- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 태그와 스키마로 구조화된 문서를 표현하는 형식
-- **통합 자원 식별자(Uniform Resource Identifier, URI)**: REST 인터페이스에서 자원을 식별하는 주소
-- **균일 인터페이스(Uniform Interface)**: 자원 식별·표현 조작·자기 서술 메시지로 인터페이스를 일관되게 만드는 REST 제약
-- **무상태성(Statelessness)**: 서버가 이전 요청 상태에 의존하지 않고 각 요청만으로 처리하는 제약
-- **SOAP Fault·HTTP 상태 코드**: SOAP과 HTTP에서 요청 처리 오류·결과를 표현하는 표준 방식
-- **종단점(Endpoint)**: 클라이언트 요청을 받아 계약이나 자원 의미를 해석하는 서비스 접점
-- **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 구간을 암호화하는 프로토콜
-- **멱등성(Idempotency)**: 같은 요청을 여러 번 처리해도 최종 상태가 한 번 처리한 것과 같은 성질
-- **보상 처리(Compensation)**: 완료된 분산 작업의 효과를 반대 작업으로 상쇄하는 복구 방식
-
-> **키워드:** SOAP vs REST 비교 (SOAP vs REST)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **메시지 프로토콜**: SOAP은 XML 봉투와 처리 규칙을 사용하는 메시지 프로토콜이고 REST는 자원 중심의 아키텍처 스타일이다.
+
+</details>
 
 - 정의/개념: XML 계약 **메시지 프로토콜**과 자원 중심 **아키텍처 스타일의 비교 기준**
 - 배경/필요성: 단일 방식으로는 **엄격한 계약·웹 자원 확장성 동시 충족 곤란**
@@ -48,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **URI·균일 인터페이스**: REST는 URI로 자원을 식별하고 균일 인터페이스로 자원 표현을 일관되게 조작한다.
+
+</details>
+
 - **XML·WSDL·WS-*** 기반 SOAP 계약·확장
 - **URI·균일 인터페이스** 기반 REST 자원 조작
 - **Fault·HTTP 상태** 기반 오류 의미 분리
@@ -57,6 +52,13 @@ extra:
 - SOAP은 기관 간 문서처럼 형식과 서명을 엄격히 맞추고 REST는 웹의 주소·메서드·캐시 규칙을 재사용해 인터페이스를 단순화한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **계약·보안 계층**: 계약·보안 계층은 스키마, 서명, 인증 정책을 검사해 허용된 업무 요청만 전달한다.
+
+</details>
 
 ```mermaid
 block
@@ -88,6 +90,13 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **1. 형식·신원 검증 요청**: 종단점은 요청 스키마와 토큰·서명을 검사하도록 계약·보안 계층에 형식·신원 검증을 요청한다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
@@ -114,6 +123,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **SOAP**: SOAP은 엄격한 XML 계약과 WS-* 메시지 확장이 필요한 서비스 연계에 적합하다.
+
+</details>
+
 | 인터페이스 방식 | SOAP | REST |
 |:---|:---|:---|
 | 적용 기준 | 엄격한 계약·**메시지 확장** | 웹 자원·**단순 연계** |
@@ -126,7 +142,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **중복 업무 처리**: 재시도에 따른 중복 업무 처리를 막으려면 요청 식별자, 멱등 키, 보상 처리 정책을 적용해야 한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 서비스별 **계약 해석 차이** | WSDL·별도 명세의 **우선 설계** | **상호운용 오류** 감소 |
 | 메시지의 **위변조 위험** | WS-Security·TLS·**토큰 검증** | **신원·무결성** 확보 |
@@ -139,6 +162,13 @@ sequenceDiagram
 - 어느 방식을 사용해도 재시도되는 결제 요청에는 멱등 키를 두고 계약 변경은 기존 소비자가 이해하는 필드를 유지해야 한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **계약 엄격성·메시지 보안·자원 확장성**: SOAP과 REST는 계약 엄격성, 메시지 단위 보안 요구, 웹 자원 확장성을 기준으로 선택한다.
+
+</details>
 
 - **계약 엄격성·메시지 보안·자원 확장성**으로 SOAP·REST 결정
 
