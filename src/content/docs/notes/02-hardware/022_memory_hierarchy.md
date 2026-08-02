@@ -99,12 +99,10 @@ block-beta
 sequenceDiagram
     participant C as CPU
     participant L as 캐시 계층
-    participant T as 캐시 저장소
     participant M as 주기억장치
     participant S as 보조기억장치
     C->>L: 데이터 접근 요청
-    L->>T: 1. 주소·태그 전달
-    T-->>L: 적중 상태·캐시 블록 반환
+    L->>L: 1. 주소·태그 조회
     alt 캐시 적중
         L-->>C: 요청 데이터 반환
     else 캐시 미스
@@ -122,7 +120,7 @@ sequenceDiagram
 
 **동작 원리**
 
-- **1. 주소·태그 전달**: 주소에 대응하는 캐시 태그 확인
+- **1. 주소·태그 조회**: 캐시 배열에서 주소에 대응하는 태그와 블록 확인
 - **2. 미스 블록 주소 전달**: 주기억장치에서 블록 조회
 - **3. 비상주 페이지 주소 전달**: 보조기억장치에서 페이지 조회
 
