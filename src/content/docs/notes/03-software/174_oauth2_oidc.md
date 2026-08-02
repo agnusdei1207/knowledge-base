@@ -24,6 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **권한 위임**: OAuth 2.0의 권한 위임은 사용자 비밀번호를 클라이언트에 주지 않고 제한된 자원 접근 권한만 맡기는 방식이다.
+- **개방형 인가 2.0(Open Authorization 2.0, OAuth 2.0)**: 사용자 자격 증명을 클라이언트와 공유하지 않고 제한된 자원 접근 권한을 토큰으로 위임하는 인가 프레임워크이다.
+- **오픈아이디 커넥트(OpenID Connect, OIDC)**: OAuth 2.0 위에 신원 토큰과 표준 클레임을 추가해 사용자 로그인 결과를 전달하는 인증 프로토콜이다.
 
 </details>
 
@@ -40,6 +42,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인가 코드·PKCE·state·nonce**: 인가 코드와 PKCE는 코드 탈취를 막고 state와 nonce는 요청 위조와 토큰 재사용을 방지한다.
+- **접근 토큰(Access Token)·범위(Scope)**: 자원 서버에 제시하는 제한된 접근 권한 증표와 허용 작업 범위이다.
+- **신원 토큰(Identity Token, ID Token)·신원 클레임(Identity Claim)**: 인증된 사용자와 인증 사건 정보를 클라이언트에 전달하는 토큰과 속성이다.
+- **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)**: 인가 요청과 코드 교환 주체를 일회용 검증값으로 묶어 코드 탈취 사용을 막는 확장이다.
+- **상태값(state)·논스(nonce)**: 인가 요청·응답 연결과 신원 토큰 재사용 방지를 위한 예측 불가능한 일회용 값이다.
 
 </details>
 
@@ -57,6 +63,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인가 서버**: 인가 서버는 사용자를 인증하고 동의를 받은 뒤 인가 코드와 ID·Access Token을 발급한다.
+- **자원 소유자(Resource Owner)**: 자신의 보호 자원에 대한 클라이언트 접근을 동의하는 사용자이다.
+- **클라이언트(Client)**: 사용자를 대신해 인가를 요청하고 신원 토큰을 검증하며 자원 서버를 호출하는 애플리케이션이다.
+- **자원 서버(Resource Server)**: 접근 토큰의 서명·대상·범위·만료를 검증하고 보호 자원을 제공하는 서버이다.
 
 </details>
 
@@ -89,6 +98,10 @@ block
 <summary>핵심 용어</summary>
 
 - **4. ID·Access Token 전달**: 인가 서버는 인증 결과를 담은 ID Token과 위임 권한을 담은 Access Token을 분리해 전달한다.
+- **1. 코드 교환용 증명 키(Proof Key for Code Exchange, PKCE) 인가 요청**: 상태값·논스·코드 변환값·등록된 재지정 주소를 인가 서버에 제공하는 단계이다.
+- **2. 인가 코드 전달**: 인증·동의 후 등록된 재지정 주소로 일회용 코드를 반환하는 단계이다.
+- **3. 코드·검증값 교환**: 클라이언트가 코드와 원래 검증값을 제출해 코드 변환값과 일치함을 증명하는 단계이다.
+- **5. 접근 토큰(Access Token)·자원 요청**: 자원 서버가 서명·대상·범위·만료를 검사한 뒤 보호 자원을 제공하는 단계이다.
 
 </details>
 
@@ -125,7 +138,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OIDC**: OIDC는 OAuth 2.0 위에 인증 계층을 추가해 클라이언트가 사용자의 로그인 결과를 확인하게 한다.
+- **개방형 인가 2.0(Open Authorization 2.0, OAuth 2.0)**: 제3자 애플리케이션에 제한된 응용 프로그래밍 인터페이스 접근 권한을 위임하는 프레임워크이다.
+- **오픈아이디 커넥트(OpenID Connect, OIDC)**: OAuth 2.0 위에 인증 계층을 추가해 클라이언트가 사용자의 로그인 결과를 확인하게 하는 프로토콜이다.
 
 </details>
 
@@ -145,6 +159,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **용도 혼용**: 용도 혼용은 ID Token을 API 권한 증표로 쓰거나 Access Token을 로그인 증명으로 사용해 인증·인가 우회를 만드는 문제다.
+- **대상(Audience)**: 토큰을 사용하도록 지정된 수신 서비스 또는 클라이언트를 나타내는 클레임이다.
+- **재지정 통합 자원 식별자(Redirect Uniform Resource Identifier, Redirect URI)**: 인가 서버가 코드와 응답을 반환하도록 사전에 등록한 클라이언트 주소이다.
+- **갱신 토큰(Refresh Token)**: 접근 토큰 만료 후 새 토큰을 발급받는 데 사용하는 장기 자격 증표이다.
 
 </details>
 

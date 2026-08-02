@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DataOps**: 데이터 파이프라인의 변경을 버전화·검증·배포하고 품질과 계보를 관측하는 운영 체계이다.
+- **데이터 운영(Data Operations, DataOps)**: 데이터 파이프라인의 변경을 버전화·검증·배포하고 품질과 계보를 관측하는 운영 체계이다.
 - **데이터 파이프라인**: 원천 데이터를 수집·변환·검증해 하류 시스템에 제공하는 작업 흐름이다.
 
 </details>
 
-- 정의/개념: **DataOps**는 데이터 파이프라인의 개발·검증·배포·품질·계보 관측을 자동화하여 신뢰할 수 있는 데이터 제공을 지속하는 운영 체계
+- 정의/개념: **데이터 운영(Data Operations, DataOps)** 은 데이터 파이프라인의 개발·검증·배포·품질·계보 관측을 자동화하여 신뢰할 수 있는 데이터 제공을 지속하는 운영 체계
 - 배경/필요성: 수동 변경은 **스키마 오류 전파·영향 추적 불가**
 
 #### 한줄 요약
@@ -129,10 +129,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DevOps**: 서비스 코드와 인프라의 빌드·시험·배포를 자동화하는 운영 체계이다.
-- **MLOps**: 데이터 기반 모델의 학습·평가·배포·재학습 수명주기를 운영하는 체계이다.
+- **개발·운영(Development and Operations, DevOps)**: 서비스 코드와 인프라의 빌드·시험·배포를 자동화하는 운영 체계이다.
+- **기계학습 운영(Machine Learning Operations, MLOps)**: 데이터 기반 모델의 학습·평가·배포·재학습 수명주기를 운영하는 체계이다.
 
 </details>
+
+**데이터 운영(Data Operations, DataOps)**, **개발·운영(Development and Operations, DevOps)**, **기계학습 운영(Machine Learning Operations, MLOps)** 은 각각 데이터 공정, 서비스 코드, 모델 수명주기를 중심으로 관리한다.
 
 | 운영 체계 | DataOps | DevOps | MLOps |
 |:---|:---|:---|:---|
