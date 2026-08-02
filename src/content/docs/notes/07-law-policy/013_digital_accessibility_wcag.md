@@ -60,6 +60,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 웹 콘텐츠를 인식·운용·이해하고 보조기술과 호환되게 만드는 국제 성공 기준이다.
+- **POUR 원칙**: 인식 가능(Perceivable)·운용 가능(Operable)·이해 가능(Understandable)·견고(Robust)를 뜻하는 WCAG의 네 가지 원칙이다.
 - **사용자 인터페이스(User Interface, UI)**: 사용자가 서비스 정보를 인식하고 기능을 조작하는 화면과 입력 요소의 접점이다.
 - **웹 접근성 이니셔티브의 접근 가능한 리치 인터넷 애플리케이션(Web Accessibility Initiative-Accessible Rich Internet Applications, WAI-ARIA)**: 동적 UI의 역할·상태·속성을 보조기술에 전달하는 기술 명세이다.
 - **접근성 회귀**: 기능 변경 뒤 기존 키보드 조작·대체 텍스트·화면 낭독기 동작이 다시 깨지는 현상이다.
@@ -172,11 +173,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **웹 콘텐츠 접근성 지침 2.2 AA(Web Content Accessibility Guidelines 2.2 AA, WCAG 2.2 AA)**: 공공·필수 서비스에 적용할 중간 수준의 접근성 성공 기준이다.
+- **웹 콘텐츠 접근성 지침 2.2 AA(Web Content Accessibility Guidelines 2.2 AA, WCAG 2.2 AA)**: A와 AA 성공 기준을 모두 충족하는 중간 수준이며, 실제 의무 여부와 적용 범위는 관할 법령·계약·조직 정책에 따라 정해진다.
 
 </details>
 
-- 공공·필수 서비스는 **WCAG 2.2 AA** 완료 조건과 보조기술 시험 병행
+- 공공·필수 서비스는 적용 법령과 정책을 확인해 **WCAG 2.2 AA 목표 수준·보조기술 시험** 병행
 
 #### 한줄 요약
 - 일회성 인증 대응에 그치지 않고 기능을 변경할 때마다 자동 검사와 보조기술 시험을 반복해야 합니다.
