@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **프라이버시 보존 AI**: 원본 데이터·학습 중간값·모델 출력의 개인정보 노출을 줄이면서 AI를 학습·추론하는 기술군이다.
+- **프라이버시 보존 인공지능(Privacy-Preserving Artificial Intelligence, Privacy-Preserving AI)**: 원본 데이터·학습 중간값·모델 출력의 개인정보 노출을 줄이면서 인공지능을 학습·추론하는 기술군이다.
 - **위협 모델**: 공격자가 볼 수 있는 값·통제할 수 있는 참여자와 보호할 자산을 정의한 공격 가정이다.
 
 </details>
 
-- 정의/개념: **프라이버시 보존 AI**는 데이터·중간값·출력 노출을 위협 모델별 보호 기법으로 줄이는 기술군
+- 정의/개념: **프라이버시 보존 인공지능(Privacy-Preserving Artificial Intelligence, Privacy-Preserving AI)** 은 데이터·중간값·출력 노출을 위협 모델별 보호 기법으로 줄이는 기술군
 - 배경/필요성: 원본 수집·학습·추론은 단계별 **개인정보 노출·재식별 위험** 유발
 
 #### 한줄 요약
