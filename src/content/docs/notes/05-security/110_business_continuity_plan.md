@@ -126,15 +126,15 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **BCP·DRP(Disaster Recovery Plan)**: BCP는 인력·시설·공급망을 포함한 업무 전체 연속성 계획이고 DRP는 그 안에서 정보시스템과 데이터를 복구하는 재해복구 계획이다.
+- **업무연속성계획(Business Continuity Plan, BCP)**: 인력·시설·공급망을 포함한 업무 전체의 지속·재개 계획이다.
+- **재해복구계획(Disaster Recovery Plan, DRP)**: BCP 안에서 정보시스템과 데이터를 복구하는 계획이다.
 
 </details>
 
-| 연속성 계획 | BCP | DRP |
+| 계획 | 범위 | 상호 관계 |
 |:---|:---|:---|
-| 적용 기준 | **업무 전체 연속성** | **IT·데이터 복구** |
-| 핵심 특징 | **인력·시설·공급망** 포함 | **시스템·네트워크** 중심 |
-| 한계 | **자원 의존성** 누락 | 업무 재개 **지연 가능** |
+| **업무연속성계획(Business Continuity Plan, BCP)** | **인력·시설·공급망·업무 전체의 지속·재개** | 업무 복구 목표와 우선순위를 재해복구계획에 전달 |
+| **재해복구계획(Disaster Recovery Plan, DRP)** | **정보기술(Information Technology, IT) 시스템·네트워크·데이터 복구** | BCP의 업무 목표를 기술 복구 절차로 구체화 |
 
 #### 한줄 요약
 

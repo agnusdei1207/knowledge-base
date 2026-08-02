@@ -132,16 +132,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **구조화 위협정보 표현(Structured Threat Information Expression, STIX)·신뢰정보 자동교환(Trusted Automated Exchange of Intelligence Information, TAXII)**: 위협 객체·관계를 표현하는 표준과 사이버 위협 인텔리전스(CTI)를 응용 프로그래밍 인터페이스(API)로 교환하는 프로토콜이다.
+- **구조화 위협정보 표현(Structured Threat Information eXpression, STIX)·신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: 위협 객체·관계를 표현하는 표준과 사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)를 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 교환하는 프로토콜이다.
 - **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)**: 다중 피드의 수집·정규화·품질평가·배포를 통합 운영하는 플랫폼이다.
 
 </details>
 
-| CTI 자동화 요소 | STIX 2.1 | TAXII 2.1 | TIP |
-|:---|:---|:---|:---|
-| 적용 기준 | 위협 **의미·관계 표현** | 조직·도구 간 **CTI 교환** | 다중 피드 **운영·품질관리** |
-| 핵심 특징 | **객체·관계 기반 모델** | **HTTPS API 기반 전송** | **수집·평가·배포 통합** |
-| 한계 | 모델링 **복잡도·품질 편차** | **인증·권한 설정 오류** | 저품질 피드의 **자동 확산** |
+| 자동화 요소 | 역할 | 연계 결과 |
+|:---|:---|:---|
+| **구조화 위협정보 표현(Structured Threat Information eXpression, STIX) 2.1** | 위협의 **객체·관계·시간·출처 표현** | 도구가 해석할 공통 CTI 데이터 |
+| **신뢰정보 자동교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1** | 조직·도구 사이의 **HTTPS API 교환** | 인증·권한이 적용된 CTI 전송 |
+| **위협 인텔리전스 플랫폼(Threat Intelligence Platform, TIP)** | 다중 피드의 **수집·평가·배포 통합** | 신뢰도·시효·자산 기반 배포 판단 |
 
 > 요약: STIX는 표현, TAXII는 교환, TIP은 운영을 담당함
 

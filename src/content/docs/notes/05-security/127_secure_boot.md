@@ -129,15 +129,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 부팅(Trusted Boot)·측정 부팅(Measured Boot)**: 운영체제(Operating System, OS) 구성요소를 연속 검증하는 방식과 측정값을 신뢰 플랫폼 모듈(Trusted Platform Module, TPM)에 기록하는 방식이다.
+- **보안 부팅(Secure Boot)**: 신뢰한 키로 서명된 부트 이미지만 실행하도록 차단하는 방식이다.
+- **신뢰 부팅(Trusted Boot)**: 운영체제(Operating System, OS) 구성요소까지 연속해서 진위를 검증하는 방식이다.
+- **측정 부팅(Measured Boot)**: 부팅 구성요소의 측정값을 신뢰 플랫폼 모듈(Trusted Platform Module, TPM)에 기록하는 방식이다.
 
 </details>
 
-| 부팅 신뢰 기술 | Secure Boot | Trusted Boot | Measured Boot |
-|:---|:---|:---|:---|
-| 적용 기준 | 실행 전 **부트 이미지 통제** | OS 구성요소까지 **연속 검증** | 부팅 상태 **원격 증명** |
-| 핵심 특징 | **미승인 이미지** 실행 차단 | 다음 구성요소 **진위 확인** | TPM에 **측정값 기록** |
-| 한계 | **키·dbx 오류** 시 부팅 불가 | **OS 정책 침해** 가능 | 측정만으로 **차단 불가** |
+| 부팅 신뢰 기능 | 역할 | 연계 결과 |
+|:---|:---|:---|
+| **보안 부팅(Secure Boot)** | **미승인 부트 이미지 실행 차단** | 최초 실행 경로의 허용 기준 설정 |
+| **신뢰 부팅(Trusted Boot)** | **운영체제(Operating System, OS) 구성요소까지 연속 검증** | 앞 단계의 신뢰를 다음 구성요소로 확장 |
+| **측정 부팅(Measured Boot)** | **신뢰 플랫폼 모듈(Trusted Platform Module, TPM)에 측정값 기록** | 원격 검증자가 실제 부팅 상태를 판정할 증거 제공 |
 
 > 요약: 실행 차단, 연속 검증, 상태 증명을 구분함
 
