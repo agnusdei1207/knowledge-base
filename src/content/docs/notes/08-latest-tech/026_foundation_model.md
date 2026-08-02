@@ -47,8 +47,7 @@ extra:
 
 </details>
 
-- 대규모 범용 데이터의 **자기지도 사전학습**
-- **대규모 언어 모델(Large Language Model, LLM)·전이학습**: 범용 표현과 능력을 여러 언어 과업에 재사용
+- **자기지도 사전학습·대규모 언어 모델(Large Language Model, LLM)·전이학습**: 대규모 범용 데이터에서 얻은 표현과 능력을 여러 언어 과업에 재사용
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)·매개변수 효율 미세조정(Parameter-Efficient Fine-Tuning, PEFT)** 기반 하위 과업 적응·재사용
 - 공통 모델의 결함이 하위 서비스로 전파되는 **시스템 위험**
 
@@ -61,9 +60,12 @@ extra:
 <summary>핵심 용어</summary>
 
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 외부에서 검색한 도메인 근거를 모델 문맥에 결합하여 과업에 적응시키는 방식이다.
+- **학습 자원**: 범용 표현을 사전학습하는 데 사용하는 대규모 데이터·연산·학습 파이프라인이다.
+- **기반 모델(Foundation Model)**: 광범위한 데이터로 사전학습되어 프롬프트·검색·미세조정으로 여러 하위 과업에 재사용되는 모델이다.
 - **매개변수 효율 미세조정(Parameter-Efficient Fine-Tuning, PEFT)**: 전체 모델 대신 일부 추가·선택 매개변수만 학습하여 과업에 적응하는 방식이다.
 - **저순위 적응(Low-Rank Adaptation, LoRA)**: 가중치 변화량을 작은 저순위 행렬로 학습하는 PEFT 기법이다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 기반 모델의 추론 기능을 하위 서비스가 호출할 수 있게 제공하는 접점이다.
+- **통제 계층**: 모델·데이터의 권한, 안전 정책, 품질·비용과 버전을 관리하는 운영 구성요소이다.
 
 </details>
 
