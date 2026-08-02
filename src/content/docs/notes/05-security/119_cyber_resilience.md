@@ -98,12 +98,11 @@ block
 ```mermaid
 sequenceDiagram
   participant M as 임무 담당
-  participant T as 위협 담당
-  participant A as 아키텍트
+  participant A as 위협·아키텍처 담당
   participant O as 운영 담당
   participant G as 거버넌스
-  M->>T: 1. 필수 임무·의존성 정의
-  T->>A: 2. 역경·침해·저하 시나리오
+  M->>A: 1. 필수 임무·의존성 정의
+  A->>A: 2. 역경·침해·저하 시나리오
   A->>O: 3. 지속·격리·복구 설계
   O->>G: 4. 전환·복구 훈련 측정
   G->>A: 5. 전략·구조 개선 방향 전달
