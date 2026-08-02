@@ -15,20 +15,14 @@ extra:
   priority_note: "137회 출제"
 ---
 
-## 미리 알고가기
-
-- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말이 요청하거나 망이 허용하는 슬라이스 식별자 목록
-- **단일 NSSAI(Single-NSSAI, S-NSSAI)**: 하나의 슬라이스를 선택하는 식별자
-- **슬라이스·서비스 유형(Slice/Service Type, SST)**: S-NSSAI의 서비스 유형 값
-- **슬라이스 구분자(Slice Differentiator, SD)**: 같은 SST의 슬라이스를 구분하는 선택 값
-- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 종단 논리망의 실제 운영 인스턴스
-- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: 무선·전송·코어 영역별 하위 슬라이스 인스턴스
-- **접속 및 이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말 접속과 이동성을 제어하는 망 기능
-- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 요청에 맞는 슬라이스를 선택하는 망 기능
-
-> **키워드:** 네트워크 슬라이스 식별 체계
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **네트워크 슬라이스 식별 체계**: 슬라이스 식별 정보인 NSSAI를 실제 운영 단위인 NSI와 NSSI에 연결하는 체계이다.
+
+</details>
 
 - 정의/개념: 슬라이스 **식별 정보 NSSAI**를 운영 단위 NSI·NSSI에 연결하는 체계
 - 배경/필요성: 식별자만으로는 **실제 종단망 선택 불가**
@@ -39,6 +33,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **S-NSSAI**: SST와 선택적인 SD를 결합해 하나의 네트워크 슬라이스를 선택하는 식별자이다.
+- **NSI·NSSI**: NSI는 종단 논리망 인스턴스이고 NSSI는 이를 구성하는 영역별 하위망 인스턴스이다.
+
+</details>
+
 - SST·SD 기반 **S-NSSAI 식별**
 - 가입·지역·가용성 기반 **NSI 선택**
 - 영역별 NSSI의 **종단 NSI 조립**
@@ -48,6 +50,14 @@ extra:
 - 같은 이름표도 지역과 정책에 따라 다른 망을 쓴다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NSSAI**: 단말이 요청하거나 망이 허용하는 S-NSSAI의 목록이다.
+- **NSSF**: 가입·지역·가용성을 바탕으로 요청에 맞는 네트워크 슬라이스를 선택하는 망 기능이다.
+
+</details>
 
 ```mermaid
 block
@@ -73,6 +83,14 @@ block
 - 종단 논리망은 영역별 하위망을 조립해 만든다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NSI 매핑**: 요청된 S-NSSAI를 가입·지역·가용성 조건에 맞는 실제 종단 논리망에 연결하는 과정이다.
+- **NSSI 조합**: 무선·전송·코어 영역의 하위망 인스턴스를 연결해 하나의 종단 NSI를 구성하는 과정이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -102,6 +120,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **NSSAI**: 접속 요청과 슬라이스 선택에 사용하는 식별 정보이다.
+- **NSI**: 종단 서비스를 제공하는 실제 논리망 운영 인스턴스이다.
+- **NSSI**: NSI를 구성하거나 여러 NSI가 공유할 수 있는 영역별 하위망 인스턴스이다.
+
+</details>
+
 | 슬라이스 정보 단위 | NSSAI | NSI | NSSI |
 |:---|:---|:---|:---|
 | 적용 기준 | **접속 요청·선택** | **종단 서비스** 운영 | **영역 조립·공유** |
@@ -116,7 +143,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **고아 자원**: 상위 NSI와의 연결이 끊겼지만 삭제되지 않아 불필요하게 남은 NSSI 또는 자원이다.
+- **매핑 불일치**: 가입·지역별 허용 S-NSSAI가 의도한 NSI와 연결되지 않는 구성 오류이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 가입·지역 **매핑 불일치** | S-NSSAI 허용표 자동 대조 | **오접속** 방지 |
 | **NSI·NSSI 수명주기** 단절 | 종단·도메인 인스턴스 연결 관리 | **고아 자원** 방지 |
@@ -127,6 +162,13 @@ sequenceDiagram
 - 같은 식별 정보가 지역별로 의도한 종단 논리망에 연결되는지 확인한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **슬라이스 가용성**: 특정 가입자와 지역에서 요청한 S-NSSAI에 대응하는 NSI와 NSSI가 정상 제공되는 상태이다.
+
+</details>
 
 - 가입·지역·가용성이 맞으면 **S-NSSAI**를 **NSI·NSSI**에 매핑
 
