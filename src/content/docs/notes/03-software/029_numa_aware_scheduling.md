@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-07-30T23:24:06+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 29
@@ -18,29 +18,15 @@ extra:
   priority_note: "NUMA 지역성 기반 스레드 배치 가치"
 ---
 
-## 미리 알고가기
-
-- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: CPU 노드별 메모리 접근 비용이 다른 구조
-- **NUMA 노드(NUMA Node)**: CPU 코어와 가까운 로컬 메모리의 묶음
-- **원격 메모리(Remote Memory)**: 인터커넥트를 거쳐 다른 노드가 접근하는 메모리
-- **퍼스트 터치(First-touch)**: 페이지를 처음 접근한 스레드의 NUMA 노드에 물리 메모리를 할당하는 정책
-- **CPU 친화도(CPU Affinity)**: 스레드의 허용·선호 CPU 범위를 정하는 정책
-- **메모리 바인딩(Memory Binding)**: 페이지 할당 노드 범위를 제한하는 정책
-- **스레드 이주(Thread Migration)**: 실행 스레드를 다른 CPU·노드로 이동
-- **페이지 이주(Page Migration)**: 물리 페이지를 다른 NUMA 노드로 복사·이동
-- **중앙처리장치(Central Processing Unit, CPU)**: 스레드를 실행하며 로컬 메모리의 NUMA 노드 위치를 결정하는 처리장치
-- **토폴로지(Topology)**: CPU·메모리·장치가 어느 NUMA 노드에 속하고 노드 사이 거리가 얼마인지 나타내는 연결 구조
-- **인터커넥트(Interconnect)**: NUMA 노드 사이에서 원격 메모리 요청과 응답을 운반하며 지연·대역폭 경합을 만드는 연결망
-- **바인드·인터리브 정책(Bind·Interleave Policy)**: Bind는 지정 노드에만 페이지를 할당하고 Interleave는 여러 노드에 페이지를 순환 분산하는 메모리 배치 정책
-- **멀티소켓(Multi-socket)**: 둘 이상의 프로세서 패키지 접속부를 사용해 각 소켓의 코어와 로컬 메모리가 NUMA 노드를 이루는 시스템
-- **가상 중앙처리장치(Virtual Central Processing Unit, vCPU)**: 가상머신에 제공하는 논리 CPU로서 게스트 메모리와 같은 물리 NUMA 노드에 정렬할 수 있음
-- **히스테리시스·대기시간(Hysteresis·Cooldown)**: 배치 변경 기준에 여유 구간을 두고 변경 후 일정 시간 재변경을 막아 반복 이주를 줄이는 제어
-- **메모리 대역폭(Memory Bandwidth)**: 단위시간에 CPU와 메모리 사이에서 전송할 수 있는 데이터 양
-- **가상 비균일 메모리 접근(Virtual Non-Uniform Memory Access, vNUMA)**: 가상 머신에 물리 NUMA와 대응하는 가상 CPU·메모리 토폴로지를 노출하는 구조
-
-> **키워드:** NUMA 인지 스케줄링 (NUMA-aware Scheduling)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: CPU 노드와 메모리의 위치 관계에 따라 접근 시간이 달라지는 구조다.
+- **원격 메모리(Remote Memory)**: CPU가 인터커넥트를 거쳐 다른 NUMA 노드에서 접근하는 메모리다.
+
+</details>
 
 - 정의/개념: NUMA 토폴로지에 따라 스레드와 페이지를 공동 배치하는 운영체제 **스케줄링 기법**
 - 배경/필요성: CPU 부하만 고려하면 스레드·페이지가 분리돼 **원격 접근 지연** 증가
@@ -51,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **퍼스트 터치(First-touch)**: 페이지를 처음 접근한 스레드의 NUMA 노드에 물리 메모리를 할당하는 정책이다.
+- **중앙처리장치(Central Processing Unit, CPU) 친화도**: 스레드의 허용·선호 CPU 범위를 정하는 정책이다.
+- **이주 비용**: 스레드나 페이지를 다른 노드로 옮길 때 복사·캐시 재적재에 드는 비용이다.
+
+</details>
+
 - **원격 접근 통제**로 지연·대역폭 경합 감소
 - **퍼스트 터치·친화도**로 초기 지역성 확보
 - **이주 비용 비교**로 부하 균형과 지역성 조정
@@ -60,6 +55,15 @@ extra:
 - 가까이 두면 빠르지만 자주 옮기면 자료 복사와 캐시 재준비 비용이 커진다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **토폴로지(Topology)**: CPU·메모리가 속한 NUMA 노드와 노드 사이 거리를 나타내는 연결 구조다.
+- **메모리 바인딩(Memory Binding)**: 물리 페이지를 할당할 NUMA 노드의 범위를 제한하는 정책이다.
+- **NUMA 노드(NUMA Node)**: CPU 코어와 해당 코어에서 가까운 로컬 메모리의 묶음이다.
+
+</details>
 
 ```mermaid
 block
@@ -89,6 +93,15 @@ block
 - 거리표 담당자와 작업·자료 공동 배치 담당자, 이사 담당자가 CPU와 로컬 메모리 묶음 주위에 배치된다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **스레드 이주(Thread Migration)**: 실행 스레드를 다른 CPU 또는 NUMA 노드로 이동하는 동작이다.
+- **페이지 이주(Page Migration)**: 물리 페이지를 다른 NUMA 노드로 복사해 이동하는 동작이다.
+- **인터커넥트(Interconnect)**: NUMA 노드 사이의 원격 메모리 요청과 응답을 운반하는 연결망이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -120,6 +133,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **멀티소켓(Multi-socket)**: 둘 이상의 프로세서 소켓과 각 소켓의 로컬 메모리가 여러 NUMA 노드를 이루는 시스템이다.
+- **NUMA 비인지 스케줄링**: 메모리 거리보다 CPU 부하와 우선순위를 중심으로 작업을 배치하는 방식이다.
+
+</details>
+
 | 스케줄링 방식 | NUMA 인지 | NUMA 비인지 |
 |:---|:---|:---|
 | 적용 기준 | **멀티소켓·메모리 집약** 작업 | **단일 소켓·낮은 메모리 비중** 작업 |
@@ -134,7 +155,17 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **메모리 대역폭(Memory Bandwidth)**: 단위 시간에 CPU와 메모리 사이에서 전송할 수 있는 데이터 양이다.
+- **히스테리시스·재이주 대기시간(Hysteresis·Cooldown)**: 배치 기준에 여유 구간을 두고 재변경을 늦춰 반복 이주를 줄이는 제어다.
+- **가상 중앙처리장치(Virtual Central Processing Unit, vCPU)**: 가상 머신에 제공되는 논리 CPU다.
+- **가상 비균일 메모리 접근(Virtual Non-Uniform Memory Access, vNUMA)**: 가상 머신에 물리 NUMA와 대응하는 CPU·메모리 토폴로지를 노출하는 구조다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 단일 초기화 스레드의 퍼스트 터치로 **페이지 편중** | 작업 스레드별 **병렬 초기화·메모리 바인딩** | 초기 데이터의 **로컬 메모리 배치** |
 | 강한 CPU 친화도로 특정 노드의 **부하 집중** | 노드별 **CPU·메모리 대역폭** 감시와 친화도 완화 | 데이터 지역성과 **부하 편차** 균형 |
@@ -146,6 +177,14 @@ sequenceDiagram
 - 작업자와 자주 읽는 자료를 같은 층에서 처음 만지게 하고, 이삿값보다 왕래비가 클 때만 함께 옮긴다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **원격 접근 절감량**: 재배치로 줄일 수 있는 인터커넥트 경유 메모리 접근 비용이다.
+- **공동 배치**: 자주 함께 쓰는 스레드와 페이지를 같은 NUMA 노드에 두는 방식이다.
+
+</details>
 
 - 원격 접근 절감량이 이주 비용보다 크면 **스레드·페이지 이주**, 아니면 **공동 배치 유지**
 

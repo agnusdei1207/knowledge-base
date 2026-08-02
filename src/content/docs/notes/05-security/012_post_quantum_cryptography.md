@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "양자내성암호 PQC (Post-Quantum Cryptography)"
-date: "2026-07-31T11:15:06+09:00"
+date: "2026-08-02T10:02:00+09:00"
 tags:
   - "notes-security"
 weight: 12
@@ -18,29 +18,15 @@ extra:
   priority_note: "126·129·135회 반복과 표준 전환 수요가 모두 강함"
 ---
 
-## 미리 알고가기
-
-- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자·고전 컴퓨터의 공격에 견디도록 설계한 공개키 암호 기술이다.
-- **쇼어 알고리즘(Shor's Algorithm)**: 양자컴퓨터에서 소인수분해와 이산대수를 다항시간에 계산하는 알고리즘이다.
-- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 소인수분해 난도를 기반으로 하는 공개키 암호다.
-- **디피-헬만(Diffie-Hellman, DH)**: 이산대수 문제를 기반으로 공유 비밀을 설정하는 키 합의 방식이다.
-- **타원곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원곡선 이산대수 문제를 기반으로 하는 공개키 암호다.
-- **지금 수집·나중 해독(Harvest Now, Decrypt Later, HNDL)**: 현재 암호문을 수집·보관한 뒤 미래의 양자컴퓨터로 해독하려는 위협이다.
-- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공유 비밀과 캡슐화 암호문을 생성하고 개인키로 동일한 비밀을 복구하는 방식이다.
-- **디캡슐화(Decapsulation)**: KEM의 개인키와 캡슐화 암호문으로 공유 비밀을 복구하는 연산이다.
-- **암호 민첩성(Crypto Agility)**: 암호 알고리즘과 매개변수를 신속하게 교체할 수 있는 설계 특성이다.
-- **ML-KEM(Module-Lattice-Based Key-Encapsulation Mechanism)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 키 캡슐화 방식이다.
-- **ML-DSA(Module-Lattice-Based Digital Signature Algorithm)**: 모듈 격자 문제를 기반으로 양자 공격에 대응하는 전자서명 알고리즘이다.
-- **SLH-DSA(Stateless Hash-Based Digital Signature Algorithm)**: 해시 함수의 안전성을 기반으로 하는 상태 비저장 전자서명 알고리즘이다.
-- **하이브리드 키 설정(Hybrid Key Establishment)**: 기존 키 합의와 PQC가 생성한 비밀을 결합하는 전환 방식이다.
-- **다운그레이드 공격(Downgrade Attack)**: 협상 정보를 조작하여 지원 가능한 방식보다 약한 암호를 선택하게 하는 공격이다.
-- **NIST FIPS 203**: 양자내성 키 캡슐화 방식 ML-KEM을 규정한 표준이다.
-- **NIST FIPS 204**: 양자내성 모듈 격자 전자서명 ML-DSA를 규정한 표준이다.
-
-
-> **키워드:** 양자내성암호 PQC (Post-Quantum Cryptography)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **PQC**는 양자·고전 컴퓨터의 공격에 견디도록 설계하고 기존 컴퓨터와 네트워크에서 실행하는 공개키 암호 기술이다.
+- **쇼어 알고리즘**은 양자컴퓨터에서 소인수분해와 이산대수를 효율적으로 풀어 RSA·DH·ECC를 위협한다.
+
+</details>
 
 - 정의/개념: 양자·고전 공격에 견디도록 설계한 **공개키 암호군**
 - 배경/필요성: 쇼어 알고리즘으로 **RSA·DH·ECC 장기 기밀성 위협**
@@ -51,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **KEM과 전자서명**은 각각 공유 비밀 설정과 주체·데이터 인증을 담당한다.
+- **HNDL**은 현재 암호문을 수집해 두었다가 미래의 양자컴퓨터로 해독하려는 위협이다.
+
+</details>
+
 - 기존 네트워크에서 동작하는 **양자 채널 불필요성**
 - **KEM·전자서명**의 세션키 설정·주체 인증 역할 분담
 - **키·암호문·서명 크기 증가**로 패킷·장비 한계 초과
@@ -60,6 +54,14 @@ extra:
 - PQC 하나가 모든 일을 하는 것이 아니므로, 통신 비밀을 만드는 KEM과 소프트웨어·인증서 주체를 증명하는 서명을 따로 선택해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **암호 민첩성**은 암호 알고리즘과 매개변수를 서비스 중단 없이 교체할 수 있는 설계 능력이다.
+- **암호 자산 목록**은 서비스·라이브러리·인증서에서 사용 중인 암호와 의존성을 추적한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -89,6 +91,14 @@ block-beta
 - 새 자물쇠를 설치해도 숨은 문이 옛 자물쇠를 쓰면 전환되지 않으므로, 먼저 모든 서비스와 라이브러리에서 기존 공개키 암호 위치를 찾아야 한다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **캡슐화와 디캡슐화**는 공개키로 공유 비밀·암호문을 만들고 개인키로 같은 비밀을 복구하는 KEM 연산이다.
+- **KDF**는 KEM 공유 비밀에서 실제 세션키를 도출한다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -120,6 +130,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **ML-KEM**은 모듈 격자 기반 키 캡슐화이고, **ML-DSA**는 모듈 격자 기반 전자서명이다.
+- **SLH-DSA**는 해시 함수의 안전성을 기반으로 하는 상태 비저장 전자서명이다.
+
+</details>
+
 | PQC 알고리즘 | ML-KEM | ML-DSA | SLH-DSA |
 |:---|:---|:---|:---|
 | 적용 기준 | **세션키 원재료 설정** | 범용 **인증서·코드 서명** | 큰 서명을 허용하는 **장기 서명** |
@@ -134,7 +152,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **FIPS 203과 FIPS 204**는 각각 ML-KEM과 ML-DSA를 규정한다.
+- **다운그레이드 공격**은 협상을 조작하여 지원 가능한 방식보다 약한 암호를 선택하게 한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **양자내성 키 설정** | **NIST FIPS 203 ML-KEM** | **HNDL 위험 완화** |
 | **양자내성 서명** | **NIST FIPS 204 ML-DSA** | **장기 인증 기반** 확보 |
@@ -145,6 +171,13 @@ sequenceDiagram
 - 지금 수집된 암호문이 미래에도 가치가 있는 통신부터 ML-KEM을 적용해, 데이터 비밀 유지 기간보다 전환 시점이 늦어지지 않게 한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **전환 우선순위**는 데이터의 비밀 유지 기간과 인증 증거의 보존 기간을 기준으로 정한다.
+
+</details>
 
 - 장기 기밀 데이터는 **ML-KEM**, 장기 인증은 **ML-DSA** 우선 전환
 

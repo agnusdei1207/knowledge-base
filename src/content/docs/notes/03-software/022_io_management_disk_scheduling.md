@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 · 50%"
     variant: note
 title: "I/O 관리·디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-07-30T23:17:42+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -18,38 +18,15 @@ extra:
   priority_note: "I/O 큐·디스크 스케줄링 지연 설계 가치"
 ---
 
-## 미리 알고가기
-
-- **입출력 요청(Input/Output Request, I/O Request)**: 프로세스가 저장장치에 요구하는 읽기·쓰기 작업
-- **요청 큐(Request Queue)**: 제출 전 입출력 요청을 보관하는 대기열
-- **I/O 스케줄러(I/O Scheduler)**: 입출력 요청의 병합 여부·처리 순서·제출 시점을 결정하는 계층
-- **장치 드라이버(Device Driver)**: 요청을 장치 명령으로 변환하는 소프트웨어
-- **탐색 거리(Seek Distance)**: HDD 헤드가 목표 실린더까지 이동하는 거리
-- **큐 깊이(Queue Depth)**: 동시에 대기하거나 실행 중인 요청 수
-- **꼬리 지연(Tail Latency)**: 상위 백분위 요청이 겪는 긴 응답 시간
-- **멀티큐(Multi-Queue)**: 여러 대기열을 뜻하며 CPU·장치 큐로 요청을 병렬 처리하는 구조
-- **운영체제(Operating System, OS)**: 프로세스·메모리·장치를 관리하고 입출력 요청을 중재하는 시스템 소프트웨어
-- **선입 선처리(First-Come, First-Served, FCFS)**: 도착 순서대로 디스크 요청을 처리하는 스케줄링 방식
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 플래시 메모리에 비휘발성 데이터를 저장하는 장치
-- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 저장장치를 위한 다중 큐 기반 명령 인터페이스
-- **하드 디스크 드라이브(Hard Disk Drive, HDD)**: 회전 원판과 이동 헤드로 데이터를 읽고 쓰는 저장장치
-- **주변 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: NVMe SSD 등을 다중 레인 직렬 링크로 연결하는 고속 인터페이스
-- **중앙처리장치(Central Processing Unit, CPU)**: 입출력 제출·완료 처리를 실행하며 멀티큐를 통해 코어 간 경합을 분산하는 처리장치
-- **회전 지연(Rotational Latency)**: HDD 원판이 돌아 목표 섹터가 헤드 아래에 올 때까지 기다리는 시간
-- **처리량·평균 지연(Throughput·Average Latency)**: 처리량은 단위 시간당 완료 요청 수이고 평균 지연은 모든 요청 응답시간의 평균으로서 꼬리 지연과 함께 정책 상충을 평가한다.
-- **스캔(SCAN)**: 디스크 헤드가 한 방향의 실린더 요청을 처리한 뒤 이동 방향을 바꾸는 스케줄링 방식
-- **데드라인 스케줄링(Deadline Scheduling)**: 요청에 만료 시각을 부여해 위치 최적화 중에도 오래 기다린 요청을 기한 안에 제출하는 방식
-- **인터럽트·완료 큐(Interrupt·Completion Queue)**: 인터럽트는 장치 완료를 CPU에 알리는 신호이고 완료 큐는 끝난 명령의 상태를 기록해 대기 작업을 재개하게 하는 저장소
-- **논리 블록·버퍼(Logical Block·Buffer)**: 논리 블록은 연속 번호로 지정한 저장 단위이고 버퍼는 입출력 데이터를 메모리에 임시 보관해 장치 명령에 전달하는 영역
-- **상위 백분위(Upper Percentile)**: 요청 지연을 짧은 순서로 정렬했을 때 대부분의 요청이 넘지 않는 상단 경곗값
-- **공정성(Fairness)**: 특정 요청 종류나 큐가 처리 기회를 계속 잃지 않도록 순서를 배분하는 성질
-- **인터럽트 병합(Interrupt Coalescing)**: 여러 완료 사건을 묶어 한 번의 인터럽트로 알려 CPU 처리 횟수를 줄이는 방식
-- **폴링(Polling)**: 인터럽트를 기다리지 않고 CPU가 완료 큐를 반복 확인하는 방식
-- **기아(Starvation)**: 특정 요청이 계속 후순위로 밀려 처리되지 못하는 현상
-
-> **키워드:** I/O 관리·디스크 스케줄링 (I/O Management Disk Scheduling)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **입출력 요청(Input/Output Request, I/O Request)**: 프로세스가 저장장치에 요구하는 읽기·쓰기 작업이다.
+- **입출력 스케줄러(Input/Output Scheduler, I/O Scheduler)**: 요청의 병합 여부·처리 순서·제출 시점을 결정하는 운영체제 계층이다.
+
+</details>
 
 - 정의/개념: 입출력 요청의 **병합·순서·제출**을 제어하는 운영체제 **I/O 관리 기법**
 - 배경/필요성: 긴 헤드 탐색과 공유 큐 경합으로 **응답 시간 증가**
@@ -60,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **하드 디스크 드라이브(Hard Disk Drive, HDD)**: 회전 원판과 이동 헤드로 데이터를 읽고 쓰는 저장장치다.
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 저장장치를 위한 다중 큐 기반 명령 인터페이스다.
+- **꼬리 지연(Tail Latency)**: 요청 지연 분포에서 가장 느린 일부 요청의 응답 시간이다.
+
+</details>
+
 - HDD는 **탐색 거리·회전 지연** 최소화 중심
 - SSD·NVMe는 **큐 경합 완화·병렬성** 활용 중심
 - **처리량·꼬리 지연**의 상충관계 통제
@@ -69,6 +55,15 @@ extra:
 - 회전 디스크는 이동을 줄이고 NVMe는 여러 통로를 막힘없이 쓰는 것이 중요하다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **요청 큐(Request Queue)**: 저장장치에 제출하기 전 입출력 요청을 위치·시각·우선순위와 함께 보관하는 대기열이다.
+- **장치 드라이버(Device Driver)**: 운영체제의 입출력 요청을 저장장치가 이해하는 명령으로 변환하는 소프트웨어다.
+- **완료 처리기(Completion Handler)**: 장치가 끝낸 요청을 큐에서 제거하고 대기 작업을 재개하는 구성요소다.
+
+</details>
 
 ```mermaid
 block
@@ -103,6 +98,15 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **논리 블록(Logical Block)**: 저장장치 위치를 연속 번호로 지정하는 운영체제의 저장 단위다.
+- **버퍼(Buffer)**: 입출력 데이터를 메모리에 임시 보관해 장치 명령에 전달하는 영역이다.
+- **인터럽트·완료 큐(Interrupt·Completion Queue)**: 장치 완료를 CPU에 알리고 끝난 명령 상태를 기록해 작업을 재개하는 수단이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant P as 프로세스
@@ -131,6 +135,16 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **선입 선처리(First-Come, First-Served, FCFS)**: 도착 순서대로 디스크 요청을 처리하는 방식이다.
+- **스캔(SCAN)**: 디스크 헤드가 한 방향의 실린더 요청을 처리한 뒤 이동 방향을 바꾸는 방식이다.
+- **데드라인 스케줄링(Deadline Scheduling)**: 요청별 만료 시각으로 오래 기다린 요청을 기한 안에 제출하는 방식이다.
+- **멀티큐(Multi-Queue)**: CPU·장치별 여러 큐로 요청을 병렬 처리하는 구조다.
+
+</details>
+
 | 디스크 스케줄링 방식 | FCFS | SCAN | Deadline | 멀티큐 |
 |:---|:---|:---|:---|:---|
 | 적용 기준 | 기준 정책·낮은 요청 부하 | 회전형 HDD | 지연 상한이 중요한 장치 | NVMe·다중 코어 |
@@ -145,7 +159,17 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **큐 깊이(Queue Depth)**: 동시에 대기하거나 실행 중인 입출력 요청 수다.
+- **상위 백분위(Upper Percentile)**: 지연을 짧은 순서로 정렬했을 때 대부분의 요청이 넘지 않는 상단 경곗값이다.
+- **공정성(Fairness)**: 특정 요청 종류가 처리 기회를 계속 잃지 않도록 순서를 배분하는 성질이다.
+- **인터럽트 병합·폴링(Interrupt Coalescing·Polling)**: 완료 사건을 묶어 알리거나 CPU가 완료 큐를 반복 확인해 완료 처리 비용을 조절하는 방식이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | HDD 정책을 SSD·NVMe에 적용해 **병렬 큐** 활용 저하 | 매체별 **탐색 비용·큐 구조**로 정책 선택 | 장치별 **처리량·지연** 개선 |
 | 큐 깊이가 커져 상위 백분위 **꼬리 지연** 증가 | 처리량 증가가 멈추는 지점에서 **큐 상한** 설정 | 처리량을 유지하며 **응답 시간** 제한 |
@@ -157,6 +181,14 @@ sequenceDiagram
 - 백업용 회전 디스크는 한 방향으로 훑어 헤드 왕복을 줄인다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **탐색 비용**: HDD 헤드의 이동 거리와 회전 대기가 만드는 물리적 입출력 지연이다.
+- **병렬 처리**: NVMe의 다중 큐를 통해 여러 요청을 동시에 제출·완료하는 방식이다.
+
+</details>
 
 - 헤드 이동 비용이 크면 **SCAN**, 기한 초과 위험은 **Deadline**, NVMe 병렬 처리에는 멀티큐 선택
 

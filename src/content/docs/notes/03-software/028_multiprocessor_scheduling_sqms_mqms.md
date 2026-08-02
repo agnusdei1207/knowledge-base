@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "다중 프로세서 스케줄링: SQMS·MQMS (Multiprocessor Scheduling SQMS MQMS)"
-date: "2026-07-30T23:23:13+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 28
@@ -18,30 +18,15 @@ extra:
   priority_note: "129회 기출, 다중 큐·부하분산 스케줄링"
 ---
 
-## 미리 알고가기
-
-- **단일 큐 다중 프로세서 스케줄링(Single Queue Multiprocessor Scheduling, SQMS)**: 모든 코어가 하나의 전역 실행 큐를 공유하는 스케줄링 방식
-- **다중 큐 다중 프로세서 스케줄링(Multi-Queue Multiprocessor Scheduling, MQMS)**: 코어별 로컬 실행 큐를 사용하는 스케줄링 방식
-- **실행 큐(Run Queue)**: 실행 가능한 작업을 대기시키는 스케줄러 큐
-- **부하 분산(Load Balancing)**: 코어별 실행 부하 편차를 줄이는 작업 이동
-- **작업 훔치기(Work Stealing)**: 유휴 코어가 바쁜 코어 큐의 작업을 가져오는 방식
-- **밀기 이동(Push Migration)**: 바쁜 코어의 작업을 덜 바쁜 큐로 이동
-- **CPU 친화도(CPU Affinity)**: 작업이 실행할 수 있거나 우선 배정되는 프로세서 코어의 범위
-- **캐시 지역성(Cache Locality)**: 같은 코어의 캐시 데이터를 재사용하는 성질
-- **중앙처리장치(Central Processing Unit, CPU) 코어**: 독립된 명령 흐름을 실행하는 처리 단위
-- **전역·로컬 실행 큐(Global·Local Run Queue)**: 전역 큐는 모든 코어가 공유하고 로컬 큐는 특정 코어가 주로 소비해 경합과 캐시 이동을 줄이는 대기열
-- **스케줄러(Scheduler)**: 실행 가능 작업을 큐에 배치하고 우선순위·할당량에 따라 코어에서 실행할 대상을 선택하는 운영체제 구성요소
-- **캐시 라인 경합(Cache-line Contention)**: 여러 코어가 같은 캐시 블록의 큐 상태를 갱신해 일관성 트래픽과 대기가 늘어나는 현상
-- **유휴 코어(Idle Core)**: 실행할 로컬 작업이 없어 쉬고 있는 처리 코어로서 작업 훔치기의 요청 주체
-- **비균일 메모리 접근(Non-uniform Memory Access, NUMA)**: 어느 프로세서에 연결된 메모리인지에 따라 접근 시간이 달라지는 구조
-- **작업 이동 비용(Migration Cost)**: 작업을 다른 코어로 옮길 때 캐시 재적재·큐 갱신·동기화에 추가로 드는 시간
-- **공정성(Fairness)**: 특정 작업이나 코어 큐가 실행 기회를 계속 잃지 않도록 처리 시간을 배분하는 성질
-- **꼬리 지연(Tail Latency)**: 작업 대기시간 분포에서 가장 오래 기다린 일부 작업의 지연
-- **기아(Starvation)**: 특정 작업이 계속 후순위로 밀려 실행 기회를 얻지 못하는 현상
-
-> **키워드:** 다중 프로세서 스케줄링: SQMS·MQMS (Multiprocessor Scheduling SQMS MQMS)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **다중 프로세서 스케줄링(Multiprocessor Scheduling)**: 복수 CPU 코어에 실행 가능한 작업을 배치하고 필요하면 이동하는 운영체제 정책이다.
+- **실행 큐(Run Queue)**: 실행 가능한 프로세스나 스레드를 대기시키는 스케줄러 큐다.
+
+</details>
 
 - 정의/개념: 복수 CPU 코어에 **준비 작업을 배치·이동**하는 운영체제 스케줄링 정책
 - 배경/필요성: 전역 큐는 코어 증가 시 **잠금 경합**, 로컬 큐는 부하 편차 증가
@@ -52,6 +37,15 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **단일 큐 다중 프로세서 스케줄링(Single Queue Multiprocessor Scheduling, SQMS)**: 모든 코어가 하나의 전역 실행 큐를 공유하는 방식이다.
+- **다중 큐 다중 프로세서 스케줄링(Multi-Queue Multiprocessor Scheduling, MQMS)**: 코어별 로컬 실행 큐를 두는 방식이다.
+- **캐시 지역성(Cache Locality)**: 작업이 같은 코어의 캐시 데이터를 다시 사용해 메모리 접근을 줄이는 성질이다.
+
+</details>
+
 - **SQMS 전역 큐**의 작업 자연 분산과 경합 증가
 - **MQMS 로컬 큐**로 경합 감소·**캐시 지역성** 향상, 부하 편차 증가
 - **밀기 이동·작업 훔치기**의 편차 감소와 이동 비용
@@ -61,6 +55,14 @@ extra:
 - 공동 줄은 일감이 고르게 빠지지만 붐비고, 개별 줄은 빠르지만 길이가 달라질 수 있다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **중앙처리장치(Central Processing Unit, CPU) 친화도**: 작업이 실행할 수 있거나 우선 배정되는 CPU 코어 범위다.
+- **부하 분산(Load Balancing)**: 코어별 실행 큐 길이와 처리 부하의 편차를 줄이는 작업 이동이다.
+
+</details>
 
 ```mermaid
 block
@@ -94,6 +96,14 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **작업 훔치기(Work Stealing)**: 유휴 코어가 바쁜 코어의 로컬 큐에서 작업을 가져오는 방식이다.
+- **유휴 코어(Idle Core)**: 실행할 로컬 작업이 없어 쉬며 작업 훔치기를 요청하는 처리 코어다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant T as 프로세스·스레드
@@ -126,6 +136,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **전역 실행 큐(Global Run Queue)**: 모든 CPU 코어가 공동으로 작업을 가져가는 SQMS 대기열이다.
+- **로컬 실행 큐(Local Run Queue)**: 특정 CPU 코어가 주로 소비해 경합과 캐시 이동을 줄이는 MQMS 대기열이다.
+- **캐시 라인 경합(Cache-line Contention)**: 여러 코어가 같은 큐 상태를 갱신해 일관성 트래픽과 대기가 늘어나는 현상이다.
+
+</details>
+
 | 다중 프로세서 큐 | SQMS | MQMS |
 |:---|:---|:---|
 | 적용 기준 | 소수 코어·**낮은 큐 경합** | 다수 코어·**지역성 중심 작업** |
@@ -140,7 +159,17 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: 메모리가 연결된 프로세서 노드에 따라 접근 시간이 달라지는 구조다.
+- **작업 이동 비용(Migration Cost)**: 작업을 다른 코어로 옮길 때 캐시 재적재·큐 갱신·동기화에 드는 시간이다.
+- **공정성(Fairness)**: 특정 작업이 실행 기회를 계속 잃지 않도록 처리 시간을 배분하는 성질이다.
+- **기아(Starvation)**: 특정 작업이 계속 후순위로 밀려 실행 기회를 얻지 못하는 현상이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | SQMS 전역 큐의 잠금·**캐시 라인 경합** 증가 | 대기시간 계측·작업 일괄 인출·**MQMS 전환** | 전역 큐의 **잠금 병목** 완화 |
 | MQMS 로컬 큐 편차로 일부 **코어 유휴** | **밀기·작업 훔치기** 임계값과 부하 재평가 | 코어별 **이용률 편차** 감소 |
@@ -152,6 +181,14 @@ sequenceDiagram
 - 소수 코어는 공동 줄로 별도 이동 없이 남은 일을 나눠 갖는다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **큐 경합**: 여러 코어가 같은 실행 큐의 잠금과 캐시 라인을 동시에 갱신하며 기다리는 현상이다.
+- **지역성 우선**: 작업을 기존 코어와 메모리 가까이에 유지해 캐시 재사용을 높이는 선택 기준이다.
+
+</details>
 
 - 소수 코어·낮은 경합은 **SQMS**, 다수 코어·지역성 우선은 **MQMS** 선택
 
