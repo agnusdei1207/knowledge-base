@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "재해 복구 RTO·RPO (Disaster Recovery RTO RPO)"
-date: "2026-07-31T11:11:24+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 197
@@ -18,25 +18,14 @@ extra:
   priority_note: "복구 시간·데이터 손실 목표가 설계 핵심임"
 ---
 
-## 미리 알고가기
-
-- **재해 복구(Disaster Recovery, DR)**: 재해로 중단된 서비스를 대체 환경에서 복원해 핵심 업무를 재개한다.
-- **복구시간목표(Recovery Time Objective, RTO)**: 서비스 복구를 완료할 목표 시간으로 예비 환경 준비 수준을 정한다.
-- **복구시점목표(Recovery Point Objective, RPO)**: 허용할 최대 데이터 손실 시간으로 복제·백업 주기를 정한다.
-- **최대허용중단시간(Maximum Tolerable Downtime, MTD)**: 업무가 견딜 최대 중단 시간으로 RTO의 상한을 정한다.
-- **장애조치(Failover)·원복(Failback)**: 장애조치는 대체 환경으로 서비스를 전환하는 동작이고 원복은 복구된 원 환경으로 되돌리는 동작이다.
-- **업무영향분석(Business Impact Analysis, BIA)**: 중단 영향을 분석해 복구 우선순위와 RTO·RPO를 정한다.
-- **복제·스냅샷**: 복제는 변경을 다른 저장소에 전송하고 스냅샷은 특정 시점 상태를 보존한다.
-- **런북**: 전환·복구·검증·복귀 단계와 담당자를 명시한 운영 절차서이다.
-- **복구 검증**: 데이터 정합성·의존 서비스·업무 거래가 정상인지 확인하는 활동이다.
-- **백업 복구(Backup Recovery)·웜 스탠바이(Warm Standby)**: 백업 복구는 저장된 사본으로 환경을 다시 만들고 웜 스탠바이는 축소된 대체 환경을 상시 준비하는 방식이다.
-- **액티브-액티브(Active-Active)**: 둘 이상의 환경이 평상시에도 동시에 요청을 처리해 전환 시간을 줄이는 구조이다.
-- **N-1 용량 기준**: 전체 자원 하나가 빠져도 남은 자원으로 목표 부하를 처리할 수 있어야 한다는 기준이다.
-
-
-> **키워드:** 재해 복구 RTO·RPO (Disaster Recovery RTO RPO)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **복구 전략**: 재해 복구는 업무별 RTO와 RPO에 맞춰 데이터와 서비스를 대체 환경에서 복원하는 복구 전략이다.
+
+</details>
 
 - 정의/개념: 업무별 RTO·RPO에 맞춰 데이터와 서비스를 대체 환경에 복원하는 **복구 전략**
 - 배경/필요성: 단일 복구 방식으로는 업무별 **허용 중단·손실 차이** 충족 불가
@@ -45,6 +34,13 @@ extra:
 - 가게 문을 다시 여는 시한이 RTO이고 마지막 장부를 어디까지 되살릴지가 RPO이므로 업무마다 다른 복구 준비가 필요하다.
 
 ## Ⅱ. 특징
+
+<details>
+<summary>핵심 용어</summary>
+
+- **BIA·MTD**: BIA는 업무 중단 영향을 분석하고 MTD는 견딜 수 있는 최대 중단 시간을 정해 RTO·RPO의 근거가 된다.
+
+</details>
 
 ![RPO 데이터 복구점과 RTO 서비스 복구 시한](/study/diagrams/rto-rpo-recovery-window.svg)
 
@@ -59,6 +55,13 @@ extra:
 - 결제는 수초 안에 예비 환경으로 넘기고 보고서는 백업에서 복원하듯, 중단 피해에 따라 준비 비용과 복구 속도를 달리한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **복구 등급**: 복구 등급은 업무 중요도와 RTO·RPO를 기준으로 데이터 보호와 예비 환경의 준비 수준을 정한다.
+
+</details>
 
 ```mermaid
 block
@@ -90,6 +93,13 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **5. 전환·검증 결과**: 대체 환경으로 전환한 뒤 업무 거래, 데이터 무결성, 의존 서비스를 대사한 결과로 복귀를 승인한다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant O as 업무 책임자
@@ -120,6 +130,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Active-Active**: Active-Active는 둘 이상의 환경이 평상시에도 동시에 요청을 처리해 매우 짧은 RTO·RPO를 지원한다.
+
+</details>
+
 | 재해 복구 방식 | Backup 복구 | Warm Standby | Active-Active |
 |:---|:---|:---|:---|
 | 적용 기준 | 긴 RTO·**비용 제한** | 중간 **RTO·RPO** | 매우 짧은 **RTO·RPO** |
@@ -133,7 +150,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **용량 부족**: 용량 부족은 예비 환경이 장애 시 전체 부하를 인계하지 못해 전환 후에도 서비스가 목표 수준을 유지하지 못하는 문제다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 전 업무의 **동일 등급** | BIA 기반 **RTO·RPO 차등화** | 투자 우선순위 **확보** |
 | 복제의 **오류 동시 전파** | **불변 백업·복원 시점 분리** | 깨끗한 자료 **확보** |
@@ -144,6 +168,13 @@ sequenceDiagram
 - 금융 거래의 원장과 잔액이 다른 시점으로 돌아가면 숫자가 맞지 않으므로 같은 복구점으로 대사해야 한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **액티브-액티브**: 짧은 RTO·RPO는 액티브-액티브, 중간 목표는 웜 스탠바이, 긴 목표는 백업 복구를 선택한다.
+
+</details>
 
 - 짧은 RTO·RPO는 **액티브-액티브**, 중간은 웜 스탠바이, 긴 목표는 백업 복구 선택
 
