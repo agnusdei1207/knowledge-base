@@ -23,11 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **이더넷 프레임**: 주소·상위 데이터·검사값을 묶어 전달하는 데이터링크 계층 전송 단위이다.
+- **이더넷 프레임(Ethernet Frame)**: 주소·상위 데이터·검사값을 묶어 전달하는 데이터링크 계층 전송 단위이다.
+- **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 송신·수신 인터페이스를 식별하는 주소이다.
 
 </details>
 
-- 정의/개념: **이더넷 프레임**은 송수신 MAC 주소•상위 데이터•오류 검사값을 정해진 형식으로 캡슐화한 **데이터링크 계층 전송 단위**
+- 정의/개념: **이더넷 프레임** — 송수신 MAC 주소·상위 데이터·오류 검사값을 정해진 형식으로 캡슐화한 **데이터링크 계층 전송 단위**
 - 배경/필요성: 연속 비트 신호의 **경계·수신자·오류 식별 불가**
 
 #### 한줄 요약
@@ -39,8 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **프리앰블·SFD**: 수신 클록을 맞추는 반복 비트와 프레임 시작을 표시하는 비트 패턴이다.
-- **MAC 주소·FCS**: 같은 링크의 인터페이스를 식별하는 주소와 프레임 비트 오류를 검출하는 검사값이다.
+- **프리앰블·프레임 시작 구분자(Preamble/Start Frame Delimiter, 프리앰블·SFD)**: 수신 클록을 맞추는 반복 비트와 프레임 시작을 표시하는 비트 패턴이다.
+- **매체 접근 제어 주소·프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소·FCS)**: 같은 링크의 인터페이스를 식별하는 주소와 프레임 비트 오류를 검출하는 검사값이다.
 
 </details>
 
@@ -57,8 +58,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **EtherType·LLC**: 상위 프로토콜을 값으로 표시하는 필드와 IEEE 802.3 길이 필드 뒤에서 서비스를 구분하는 기능이다.
-- **CRC-32**: 32비트 순환 중복 검사값으로 FCS의 오류 검출에 쓰이는 기법이다.
+- **이더타입·논리 링크 제어(EtherType/Logical Link Control, EtherType·LLC)**: 상위 프로토콜을 값으로 표시하는 필드와 IEEE 802.3 길이 필드 뒤에서 서비스를 구분하는 기능이다.
+- **32비트 순환 중복 검사(Cyclic Redundancy Check-32, CRC-32)**: 32비트 순환 중복 검사값으로 FCS의 오류 검출에 쓰이는 기법이다.
+- **전기전자공학자협회 802.3(Institute of Electrical and Electronics Engineers 802.3, IEEE 802.3)**: 이더넷의 매체 접근 방식과 프레임 형식을 규정하는 표준이다.
+- **프레임 검사 시퀀스(Frame Check Sequence, FCS)**: CRC-32 결과를 담아 수신 프레임의 비트 오류를 검출하는 필드이다.
+- **매체 접근 제어 주소·프레임 시작 구분자(Media Access Control Address/Start Frame Delimiter, MAC 주소·SFD)**: 링크 인터페이스를 식별하는 주소와 프레임 시작 경계를 표시하는 비트 패턴이다.
 
 </details>
 
@@ -93,7 +97,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **NIC**: 프레임을 직렬화·송수신하고 목적지 주소와 FCS를 검사하는 네트워크 인터페이스 장치이다.
+- **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 프레임을 직렬화·송수신하고 목적지 주소와 FCS를 검사하는 네트워크 인터페이스 장치이다.
+- **매체 접근 제어 주소·프레임 검사 시퀀스(Media Access Control Address/Frame Check Sequence, MAC 주소·FCS)**: 출력 포트를 찾는 링크 주소와 수신 비트 오류를 확인하는 검사값이다.
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 연산으로 프레임의 전송 오류를 검출하는 기법이다.
 
 </details>
 
@@ -128,7 +134,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Ethernet II·IEEE 802.3 LLC**: 공통 필드를 상위 프로토콜 유형으로 읽는 형식과 데이터 길이로 읽는 형식이다.
+- **이더넷 II·IEEE 802.3 논리 링크 제어(Ethernet II/Institute of Electrical and Electronics Engineers 802.3 Logical Link Control, Ethernet II·IEEE 802.3 LLC)**: 공통 필드를 상위 프로토콜 유형으로 읽는 형식과 데이터 길이로 읽는 형식이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 이더넷 페이로드에 캡슐화되어 네트워크 간 패킷 전달을 담당하는 프로토콜이다.
 
 </details>
 
@@ -149,8 +156,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MTU·점보 프레임**: 링크가 운반할 수 있는 최대 상위 데이터 크기와 표준 MTU보다 큰 페이로드를 지원하는 프레임이다.
-- **VLAN 태그**: IEEE 802.1Q가 프레임에 추가하는 VLAN 식별·우선순위 정보이다.
+- **최대 전송 단위·점보 프레임(Maximum Transmission Unit/Jumbo Frame, MTU·점보 프레임)**: 링크가 운반할 수 있는 최대 상위 데이터 크기와 표준 MTU보다 큰 페이로드를 지원하는 프레임이다.
+- **가상 근거리 통신망 태그(Virtual Local Area Network Tag, VLAN 태그)**: IEEE 802.1Q가 프레임에 추가하는 VLAN 식별·우선순위 정보이다.
+- **전기전자공학자협회 802.1Q(Institute of Electrical and Electronics Engineers 802.1Q, IEEE 802.1Q)**: 이더넷 프레임에 VLAN 식별자와 우선순위 정보를 삽입하는 표준이다.
+- **프레임 검사 시퀀스(Frame Check Sequence, FCS)**: 수신 프레임의 비트 오류 여부를 나타내는 검사 필드이다.
 
 </details>
 
@@ -170,7 +179,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **경로 MTU 일치**: 송수신 전 구간이 같은 최대 프레임 크기를 지원하도록 맞추는 조건이다.
+- **경로 최대 전송 단위 일치(Path Maximum Transmission Unit Consistency, 경로 MTU 일치)**: 송수신 전 구간이 같은 최대 프레임 크기를 지원하도록 맞추는 조건이다.
 
 </details>
 

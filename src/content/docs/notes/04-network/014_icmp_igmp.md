@@ -23,11 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ICMP·IGMP**: IP 전달 오류·진단 상태를 알리는 프로토콜과 IPv4 멀티캐스트 그룹 가입을 관리하는 프로토콜이다.
+- **인터넷 제어 메시지 프로토콜·인터넷 그룹 관리 프로토콜(Internet Control Message Protocol/Internet Group Management Protocol, ICMP·IGMP)**: IP 전달 오류·진단 상태를 알리는 프로토콜과 IPv4 멀티캐스트 그룹 가입을 관리하는 프로토콜이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 주소를 기반으로 패킷을 목적지까지 전달하는 네트워크 계층 프로토콜이다.
+- **인터넷 프로토콜 버전 4(Internet Protocol version 4, IPv4)**: 32비트 주소를 사용해 패킷을 목적지까지 전달하는 네트워크 계층 프로토콜이다.
 
 </details>
 
-- 정의/개념: **ICMP와 IGMP**는 각각 IP 전달 오류•진단 상태를 통보하고 IPv4 멀티캐스트 그룹의 가입 상태를 관리하는 **네트워크 제어 프로토콜**
+- 정의/개념: **ICMP와 IGMP** — 각각 IP 전달 오류·진단 상태를 통보하고 IPv4 멀티캐스트 그룹의 가입 상태를 관리하는 **네트워크 제어 프로토콜**
 - 배경/필요성: IP 단독 전달의 **실패 원인·그룹 수신자 미관리**
 
 #### 한줄 요약
@@ -39,8 +41,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **유형·코드**: ICMP 메시지 종류와 세부 오류·상태 원인을 구분하는 필드이다.
-- **질의·보고·탈퇴**: 라우터의 가입 확인, 호스트의 응답, 그룹 탈퇴를 나타내는 IGMP 메시지이다.
+- **ICMP 유형·코드(Internet Control Message Protocol Type·Code)**: ICMP 메시지 종류와 세부 오류·상태 원인을 구분하는 필드이다.
+- **IGMP 질의·보고·탈퇴(Internet Group Management Protocol Query·Report·Leave)**: 라우터의 가입 확인, 호스트의 응답, 그룹 탈퇴를 나타내는 IGMP 메시지이다.
 
 </details>
 
@@ -57,7 +59,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IGMP 스누핑·질의자**: 스위치가 가입 포트를 학습하는 기능과 호스트에 가입 상태를 주기적으로 묻는 라우터이다.
+- **인터넷 그룹 관리 프로토콜 스누핑·질의자(Internet Group Management Protocol Snooping·Querier, IGMP 스누핑·질의자)**: 스위치가 가입 포트를 학습하는 기능과 호스트에 가입 상태를 주기적으로 묻는 라우터이다.
+- **인터넷 제어 메시지 프로토콜(Internet Control Message Protocol, ICMP)**: IP 패킷 전달 중 발생한 오류와 진단 상태를 송신자에게 알리는 프로토콜이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 주소를 기반으로 패킷을 목적지까지 전달하는 네트워크 계층 프로토콜이다.
+- **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 하나의 물리 스위치망을 논리적인 브로드캐스트 영역으로 분리한 네트워크이다.
 
 </details>
 
@@ -92,7 +97,9 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **멀티캐스트**: 하나의 송신 데이터를 특정 그룹에 가입한 여러 수신자에게 전달하는 방식이다.
+- **멀티캐스트(Multicast)**: 하나의 송신 데이터를 특정 그룹에 가입한 여러 수신자에게 전달하는 방식이다.
+- **ICMP·IGMP 메시지(Internet Control Message Protocol/Internet Group Management Protocol Message)**: IP 전달 실패를 알리거나 멀티캐스트 그룹 가입 상태를 교환하는 제어 메시지이다.
+- **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 가입한 멀티캐스트 그룹과 수신 포트의 관계를 논리 영역별로 분리하는 네트워크이다.
 
 </details>
 
@@ -128,7 +135,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **PMTUD**: ICMP 오류로 경로에서 단편화 없는 최대 패킷 크기를 찾는 절차이다.
+- **경로 최대 전송 단위 탐색(Path Maximum Transmission Unit Discovery, PMTUD)**: ICMP 오류로 경로에서 단편화 없는 최대 패킷 크기를 찾는 절차이다.
+- **ICMP·IGMP 비교(Internet Control Message Protocol/Internet Group Management Protocol)**: IP 오류·상태 통보와 멀티캐스트 그룹 가입 관리라는 두 제어 역할을 구분하는 기준이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: ICMP가 오류를 통보하고 IGMP가 멀티캐스트 가입을 관리하는 기반 네트워크 계층 프로토콜이다.
 
 </details>
 
@@ -149,8 +158,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송률 제한**: 일정 시간에 처리할 제어 메시지 수를 제한해 과부하·반사 트래픽을 줄이는 기능이다.
-- **알 수 없는 멀티캐스트 플러딩**: 가입 포트를 모르는 프레임을 VLAN 여러 포트로 전달하는 동작이다.
+- **ICMP 전송률 제한(Internet Control Message Protocol Rate Limiting)**: 일정 시간에 처리할 ICMP 메시지 수를 제한해 과부하·반사 트래픽을 줄이는 기능이다.
+- **경로 최대 전송 단위 탐색(Path Maximum Transmission Unit Discovery, PMTUD)**: ICMP 오류를 이용해 단편화 없이 전달 가능한 최대 패킷 크기를 찾는 절차이다.
+- **인터넷 그룹 관리 프로토콜 스누핑(Internet Group Management Protocol Snooping, IGMP 스누핑)**: 스위치가 멀티캐스트 가입 메시지를 관찰해 그룹별 수신 포트를 학습하는 기능이다.
+- **알 수 없는 멀티캐스트 플러딩(Unknown Multicast Flooding)**: 가입 포트를 모르는 프레임을 가상 근거리 통신망(Virtual Local Area Network, VLAN)의 여러 포트로 전달하는 동작이다.
 
 </details>
 
@@ -170,7 +181,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **선별 허용**: 필요한 ICMP 유형만 통과시키고 IGMP 가입 범위만 멀티캐스트를 전달하는 원칙이다.
+- **ICMP·IGMP 선별 허용(Internet Control Message Protocol/Internet Group Management Protocol Selective Allow)**: 필요한 ICMP 유형만 통과시키고 IGMP 가입 범위에만 멀티캐스트를 전달하는 원칙이다.
+- **경로 최대 전송 단위 탐색(Path Maximum Transmission Unit Discovery, PMTUD)**: ICMP 오류를 허용해 경로의 최대 패킷 크기를 확인하는 절차이다.
 
 </details>
 

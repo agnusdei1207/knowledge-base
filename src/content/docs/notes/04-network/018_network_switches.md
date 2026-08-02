@@ -24,10 +24,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스위칭 계층**: 장비가 전달 대상을 정할 때 읽는 링크·네트워크·전송·응용 계층 정보의 구분이다.
+- **2·3·4·7계층 스위치(Layer 2/Layer 3/Layer 4/Layer 7 Switch, L2·L3·L4·L7 스위치)**: 링크 주소부터 응용 요청까지 서로 다른 계층 정보를 기준으로 전달 대상을 고르는 장비이다.
 
 </details>
 
-- 정의/개념: **L2•L3•L4•L7 스위치**는 각각 링크•네트워크•전송•응용 계층 정보를 기준으로 출력 경로나 대상 서버를 선택하는 **네트워크 전달 장비**
+- 정의/개념: **L2·L3·L4·L7 스위치** — 각각 링크·네트워크·전송·응용 계층 정보를 기준으로 출력 경로나 대상 서버를 선택하는 **네트워크 전달 장비**
 - 배경/필요성: 주소 전달만으로는 **연결 분산·콘텐츠 분기 불가**
 
 #### 한줄 요약
@@ -39,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **L2·L3·L4·L7 스위치**: MAC, IP, 5-튜플, URL·헤더를 각각 기준으로 전달 대상을 고르는 장비이다.
+- **2·3·4·7계층 스위치(Layer 2/Layer 3/Layer 4/Layer 7 Switch, L2·L3·L4·L7 스위치)**: MAC, IP, 5-튜플, URL·헤더를 각각 기준으로 전달 대상을 고르는 장비이다.
+- **매체 접근 제어·인터넷 프로토콜·통합 자원 식별자(Media Access Control/Internet Protocol/Uniform Resource Locator, MAC·IP·URL)**: 링크 주소, 네트워크 주소, 웹 자원의 위치를 나타내는 식별 정보이다.
 
 </details>
 
@@ -56,8 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **MAC 주소·FIB**: 같은 링크의 인터페이스를 식별하는 주소와 프리픽스별 다음 홉을 저장한 전달 표이다.
-- **5-튜플·URL**: 연결을 식별하는 프로토콜·양쪽 주소·포트 묶음과 웹 자원의 위치·접근 방법이다.
+- **매체 접근 제어 주소·전달 정보 기반(Media Access Control Address/Forwarding Information Base, MAC 주소·FIB)**: 같은 링크의 인터페이스를 식별하는 주소와 프리픽스별 다음 홉을 저장한 전달 표이다.
+- **5-튜플·통합 자원 식별자(Five-Tuple/Uniform Resource Locator, 5-튜플·URL)**: 연결을 식별하는 프로토콜·양쪽 주소·포트 묶음과 웹 자원의 위치·접근 방법이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 주소를 기반으로 서로 다른 서브넷 사이의 패킷 경로를 정하는 프로토콜이다.
 
 </details>
 
@@ -91,7 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **전달 정책 조회**: 담당 계층의 주소·포트·요청 내용으로 포트·다음 홉·서버·서비스를 결정하는 동작이다.
+- **전달 정책 조회(Forwarding Policy Lookup)**: 담당 계층의 주소·포트·요청 내용으로 포트·다음 홉·서버·서비스를 결정하는 동작이다.
+- **매체 접근 제어·인터넷 프로토콜(Media Access Control/Internet Protocol, MAC·IP)**: 링크 인터페이스와 네트워크 목적지를 식별하는 주소 정보이다.
 
 </details>
 
@@ -123,7 +127,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TLS 종료**: 암호화 세션을 장비에서 끝내 응용 요청을 해석하는 처리로, 가시성과 연산 부하가 함께 증가한다.
+- **전송 계층 보안 종료(Transport Layer Security Termination, TLS 종료)**: 암호화 세션을 장비에서 끝내 응용 요청을 해석하는 처리로, 가시성과 연산 부하가 함께 증가한다.
+- **매체 접근 제어·인터넷 프로토콜·통합 자원 식별자(Media Access Control/Internet Protocol/Uniform Resource Locator, MAC·IP·URL)**: 계층별 전달과 콘텐츠 분기에 사용하는 주소·요청 식별 정보이다.
 
 </details>
 
@@ -144,7 +149,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상태 확인·상태 동기화**: 서버 가용성을 판정하고 이중화 장비 간 연결·정책 상태를 맞추는 기능이다.
+- **상태 확인·상태 동기화(Health Check/State Synchronization)**: 서버 가용성을 판정하고 이중화 장비 간 연결·정책 상태를 맞추는 기능이다.
+- **4·7계층 스위치(Layer 4/Layer 7 Switch, L4·L7 스위치)**: 연결 상태 또는 응용 요청을 기준으로 대상 서버와 서비스를 선택하는 장비이다.
 
 </details>
 
@@ -164,7 +170,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **최소 계층 선택**: 필요한 분기 정보를 제공하면서 검사·상태 비용이 가장 작은 계층을 고르는 원칙이다.
+- **최소 계층 선택(Minimum Required Layer Selection)**: 필요한 분기 정보를 제공하면서 검사·상태 비용이 가장 작은 계층을 고르는 원칙이다.
 
 </details>
 
