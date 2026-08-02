@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **디지털 포렌식**은 전자 매체의 증거를 법적·절차적 요건에 맞게 식별·획득·보존·분석하고 재현 가능한 결과로 보고하는 조사 활동
+- 정의/개념: 전자 매체 증거를 적법하게 식별·획득·보존·분석하고 재현 가능한 결과로 보고하는 **디지털 포렌식**
 - 배경/필요성: 원본 직접 분석·취급 기록 누락 시 **무결성·연계보관성 입증 불가**
 
 #### 한줄 요약
@@ -147,8 +147,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 27037·27042**: 디지털 증거의 획득·보존과 분석·해석을 다루는 국제표준이다.
-- **NIST SP 800-86**: 포렌식 기법을 정보보안 사고대응에 통합하는 실무 지침이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037·27042**: 디지털 증거의 획득·보존과 분석·해석을 다루는 국제표준이다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-86**: 포렌식 기법을 정보보안 사고대응에 통합하는 실무 지침이다.
 
 </details>
 

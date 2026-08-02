@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **모바일 포렌식**은 스마트폰과 앱·SIM·백업·연계 클라우드에 분산된 디지털 증거를 보존하며 획득·해석·분석하는 포렌식 분야
+- 정의/개념: 스마트폰과 앱·가입자 식별 모듈·백업·연계 클라우드의 디지털 증거를 보존하며 획득·분석하는 **모바일 포렌식**
 - 배경/필요성: 디스크 복제만으로는 암호화 키·클라우드·원격 삭제의 **증거 보존 곤란**
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BFU·AFU**: 최초 잠금 해제 전·후를 구분한 상태로, 접근 가능한 암호화 키와 데이터가 달라진다.
+- **최초 잠금 해제 전(Before First Unlock, BFU)·최초 잠금 해제 후(After First Unlock, AFU)**: 단말의 잠금 해제 전·후 상태로 접근 가능한 암호화 키와 데이터가 달라진다.
 
 </details>
 
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **API·DB**: 운영체제의 허용된 호출 경계와 앱의 구조화 데이터 저장소이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)·데이터베이스(Database, DB)**: 운영체제의 허용된 호출 경계와 앱의 구조화 데이터 저장소이다.
 - **도구 검증**: 사용한 도구의 기능·정확성과 결과 재현성을 사전에 확인하는 절차이다.
 
 </details>
@@ -143,8 +143,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-101**: 모바일 증거의 검증·보존·획득·검사·분석·보고 지침이다.
-- **NIST CFTT**: 포렌식 도구의 기능과 정확성을 규격·시험결과로 검증하는 프로그램이다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-101**: 모바일 증거의 검증·보존·획득·검사·분석·보고 지침이다.
+- **미국 국립표준기술연구소 포렌식 도구 시험(Computer Forensics Tool Testing, NIST CFTT)**: 포렌식 도구의 기능과 정확성을 규격·시험결과로 검증하는 프로그램이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037**: 디지털 증거의 식별·수집·획득·보존 절차를 규정한다.
 
 </details>
 
@@ -167,7 +168,7 @@ sequenceDiagram
 
 </details>
 
-- 최소 변경은 **논리 추출**, 앱 구조는 **파일시스템 추출**, 비할당 영역은 물리 추출
+- 최소 변경은 **논리 추출**, 앱 구조는 **파일시스템 추출**, 비할당 영역은 **물리 추출**
 
 #### 한줄 요약
 
