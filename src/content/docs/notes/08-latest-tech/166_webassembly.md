@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **WebAssembly(Wasm)**: 여러 언어로 작성한 프로그램을 검증 가능한 이식형 바이트코드 모듈로 변환해 샌드박스에서 실행하는 기술이다.
-- **런타임(Runtime)**: Wasm 모듈을 검증하고 인스턴스화해 명령을 실행하는 환경이다.
+- **웹어셈블리(WebAssembly, Wasm)**: 여러 언어로 작성한 프로그램을 검증 가능한 이식형 바이트코드 모듈로 변환해 샌드박스에서 실행하는 기술이다.
+- **런타임(Runtime)**: 웹어셈블리 모듈을 검증하고 인스턴스화해 명령을 실행하는 환경이다.
 
 </details>
 
-- 정의/개념: **WebAssembly**는 여러 언어의 프로그램을 검증 가능한 이식형 바이트코드 모듈로 변환해 샌드박스 런타임에서 실행하는 기술
-- 배경/필요성: 네이티브 확장은 운영체제·CPU 종속으로 **배포 이식성·권한 격리 동시 확보 불가**
+- 정의/개념: 여러 언어의 프로그램을 검증 가능한 이식형 바이트코드 모듈로 변환해 샌드박스 런타임에서 실행하는 **웹어셈블리(WebAssembly, Wasm) 기술**
+- 배경/필요성: 네이티브 확장은 운영체제·중앙처리장치(Central Processing Unit, CPU) 종속으로 **배포 이식성·권한 격리 동시 확보 불가**
 
 #### 한줄 요약
 
@@ -47,7 +47,7 @@ extra:
 
 - 구조화된 제어 흐름·자료형을 실행 전 검사하는 **검증형 바이트코드**
 - 모듈별 주소 공간과 경계 검사 기반 **선형 메모리 격리**
-- 가져오기·내보내기와 WASI·WIT 기반 **명시적 호스트 계약**
+- 가져오기·내보내기와 웹어셈블리 시스템 인터페이스(WebAssembly System Interface, WASI)·웹어셈블리 인터페이스 타입(WebAssembly Interface Types, WIT) 기반 **명시적 호스트 계약**
 
 #### 한줄 요약
 
@@ -62,6 +62,8 @@ extra:
 - **트랩(Trap)**: 범위를 벗어난 메모리 접근처럼 실행 규칙을 위반했을 때 해당 모듈 실행을 중단하는 예외이다.
 
 </details>
+
+웹어셈블리(WebAssembly, Wasm) 모듈은 검증기를 거쳐 격리된 런타임 인스턴스로 실행된다.
 
 ```mermaid
 block-beta
@@ -99,6 +101,8 @@ block-beta
 
 </details>
 
+웹어셈블리(WebAssembly, Wasm) 런타임은 모듈의 호스트 바인딩과 인스턴스화를 수행한다.
+
 ```mermaid
 sequenceDiagram
   participant S as 소스·도구체인
@@ -128,7 +132,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **네이티브 프로세스**: 운영체제와 CPU용 기계어를 직접 실행하며 사용자 권한으로 격리되는 프로그램이다.
+- **네이티브 프로세스**: 운영체제와 중앙처리장치(Central Processing Unit, CPU)용 기계어를 직접 실행하며 사용자 권한으로 격리되는 프로그램이다.
 - **컨테이너**: 운영체제 사용자 공간과 애플리케이션을 이미지로 묶어 네임스페이스·제어 그룹으로 격리하는 실행 단위이다.
 
 </details>
@@ -148,8 +152,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **WASI(WebAssembly System Interface)**: 파일·네트워크 등 시스템 자원에 접근하기 위한 표준화된 호스트 인터페이스이다.
-- **WIT(WebAssembly Interface Type)**: 언어와 런타임이 달라도 컴포넌트 간 함수와 자료형 계약을 표현하는 형식이다.
+- **웹어셈블리 시스템 인터페이스(WebAssembly System Interface, WASI)**: 파일·네트워크 등 시스템 자원에 접근하기 위한 표준화된 호스트 인터페이스이다.
+- **웹어셈블리 인터페이스 타입(WebAssembly Interface Types, WIT)**: 언어와 런타임이 달라도 컴포넌트 간 함수와 자료형 계약을 표현하는 형식이다.
 
 </details>
 
@@ -169,7 +173,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **샌드박스 경계**: 모듈의 메모리와 호스트 기능 접근을 런타임이 허용한 범위로 제한하는 격리선이다.
-- **교차 런타임 호환성**: 같은 모듈과 인터페이스 계약이 서로 다른 Wasm 실행 환경에서 일관되게 동작하는 성질이다.
+- **교차 런타임 호환성**: 같은 모듈과 인터페이스 계약이 서로 다른 웹어셈블리(WebAssembly, Wasm) 실행 환경에서 일관되게 동작하는 성질이다.
 
 </details>
 

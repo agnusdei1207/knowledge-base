@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 171
-  label: "171. Distributed Tracing 분산 추적 (Distributed Tracing)"
+  label: "171. 분산 추적 (Distributed Tracing)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "Distributed Tracing 분산 추적 (Distributed Tracing)"
+title: "분산 추적 (Distributed Tracing)"
 date: "2026-07-31T09:00:14+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **분산 추적(Distributed Tracing)**: Trace ID와 스팬의 부모·자식 관계로 분산 요청의 종단 간 호출 경로와 지연을 재구성하는 관측 기법이다.
+- **분산 추적(Distributed Tracing)**: 추적 식별자(Trace Identifier, Trace ID)와 스팬의 부모·자식 관계로 분산 요청의 종단 간 호출 경로와 지연을 재구성하는 관측 기법이다.
 - **트레이스(Trace)**: 하나의 전체 요청을 구성하는 스팬 집합이다.
 
 </details>
 
-- 정의/개념: **분산 추적**은 Trace ID와 스팬의 부모·자식 관계를 연결하여 분산 요청의 종단 간 인과 경로와 구간별 지연을 재구성하는 관측 기법
+- 정의/개념: 추적 식별자(Trace Identifier, Trace ID)와 스팬의 부모·자식 관계를 연결하여 분산 요청의 종단 간 인과 경로와 구간별 지연을 재구성하는 **분산 추적(Distributed Tracing) 기법**
 - 배경/필요성: 서비스별 로그만으로는 **서비스 간 호출 관계·병목 구간 식별 불가**
 
 #### 한줄 요약
@@ -40,12 +40,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Trace ID·Span ID**: 전체 요청과 개별 연산을 각각 식별하는 값이다.
-- **스팬 컨텍스트(Span Context)**: Trace ID·Span ID·표본화 정보 등 서비스 경계로 전파할 추적 문맥이다.
+- **추적 식별자·스팬 식별자(Trace Identifier·Span Identifier, Trace ID·Span ID)**: 전체 요청과 개별 연산을 각각 식별하는 값이다.
+- **스팬 컨텍스트(Span Context)**: 추적 식별자·스팬 식별자·표본화 정보 등 서비스 경계로 전파할 추적 문맥이다.
 
 </details>
 
-- Trace ID·Span ID와 부모 관계 기반 **분산 연산 인과관계**
+- 추적 식별자(Trace Identifier, Trace ID)·스팬 식별자(Span Identifier, Span ID)와 부모 관계 기반 **분산 연산 인과관계**
 - 동기·비동기 경계의 컨텍스트 전파 기반 **요청 경로 연속성**
 - 샘플링·배기지 정책 기반 **수집 비용·민감정보 통제**
 #### 한줄 요약
@@ -58,7 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스팬(Span)**: 요청 경로에서 개별 연산의 시작·종료·상태·속성을 기록한 단위이다.
-- **문맥 전파기**: HTTP 헤더·메시지 속성에 추적 문맥을 주입하고 피호출 측에서 추출하는 구성요소이다.
+- **문맥 전파기**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 헤더·메시지 속성에 추적 문맥을 주입하고 피호출 측에서 추출하는 구성요소이다.
 
 </details>
 
@@ -112,8 +112,8 @@ sequenceDiagram
 
 **동작 원리**
 
-- **1. 스팬 컨텍스트 전달**: 호출 연산의 Trace ID·Span ID·표본화 결정 생성
-- **2. 추적 문맥 전달**: HTTP 헤더·메시지 속성 기반 부모 문맥 주입·추출
+- **1. 스팬 컨텍스트 전달**: 호출 연산의 추적 식별자(Trace Identifier, Trace ID)·스팬 식별자(Span Identifier, Span ID)·표본화 결정 생성
+- **2. 추적 문맥 전달**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 헤더·메시지 속성 기반 부모 문맥 주입·추출
 - **3. 자식 스팬 전달**: 피호출 연산의 부모 관계·시간·상태 계측
 - **4. 부모 스팬 전달**: 호출 연산 완료 시 스팬 속성·이벤트 확정
 - **5. 선별 스팬 전달**: 샘플링 후 부모·자식 관계와 임계경로 재구성

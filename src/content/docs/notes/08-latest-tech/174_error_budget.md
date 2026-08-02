@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 174
-  label: "174. Error Budget 오류 예산 (Error Budget)"
+  label: "174. 오류 예산 (Error Budget)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "Error Budget 오류 예산 (Error Budget)"
+title: "오류 예산 (Error Budget)"
 date: "2026-07-31T09:01:14+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **오류 예산(Error Budget)**: SLO 평가 기간에 사용자 품질 목표가 허용하는 실패량을 운영 의사결정에 연결한 기준이다.
+- **오류 예산(Error Budget)**: 서비스 수준 목표(Service Level Objective, SLO) 평가 기간에 사용자 품질 목표가 허용하는 실패량을 운영 의사결정에 연결한 기준이다.
 - **서비스 수준 목표(Service Level Objective, SLO)**: 평가 기간에 달성하기로 정한 사용자 중심 품질 지표의 목표이다.
 
 </details>
 
-- 정의/개념: **오류 예산**은 SLO 평가 기간에 허용되는 실패량을 계산하여 배포·안정화 우선순위 같은 운영 의사결정에 연결하는 기준
+- 정의/개념: 서비스 수준 목표(Service Level Objective, SLO) 평가 기간에 허용되는 실패량을 계산하여 배포·안정화 우선순위에 연결하는 **오류 예산(Error Budget)**
 - 배경/필요성: 100% 신뢰성 비용과 무제한 변경 위험으로 **배포·안정화 우선순위 충돌**
 
 #### 한줄 요약
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **오류 예산율**: SLO 목표율을 1에서 뺀 허용 실패 비율이다.
+- **오류 예산율**: 서비스 수준 목표(Service Level Objective, SLO) 목표율을 1에서 뺀 허용 실패 비율이다.
 - **소진율(Burn Rate)**: 허용 속도 대비 오류 예산의 실제 소진 속도를 나타낸 비율이다.
 
 </details>
@@ -58,7 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 사용자 품질을 좋은 사건과 적격 사건의 비율로 측정한 값이다.
-- **예산 계산기**: SLO·평가 기간·실제 실패량으로 총예산·사용량·잔여량을 산출하는 구성요소이다.
+- **예산 계산기**: 서비스 수준 목표(Service Level Objective, SLO)·평가 기간·실제 실패량으로 총예산·사용량·잔여량을 산출하는 구성요소이다.
 
 </details>
 
@@ -91,7 +91,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **적격 사건(Eligible Event)**: SLI 계산 대상에 포함되는 전체 요청이나 작업이다.
+- **적격 사건(Eligible Event)**: 서비스 수준 지표(Service Level Indicator, SLI) 계산 대상에 포함되는 전체 요청이나 작업이다.
 - **잔여 예산**: 평가 기간의 총허용 실패량에서 실제 실패량을 뺀 값이다.
 
 </details>
@@ -112,7 +112,7 @@ sequenceDiagram
 **동작 원리**
 
 - **1. 좋은·적격 사건 전달**: 사용자 SLI의 성공·실패 판정과 대상 요청 집계
-- **2. 총예산·잔여량 전달**: `적격 사건 수 × (1 - SLO)`와 실제 실패량 계산
+- **2. 총예산·잔여량 전달**: `적격 사건 수 × (1 - 서비스 수준 목표(Service Level Objective, SLO))`와 실제 실패량 계산
 - **3. 예산 소진율 전달**: 허용 속도 대비 실제 소진 속도로 고갈 위험 판정
 - **4. 운영 우선순위 전달**: 정상·경고·고갈 상태별 배포·복구·안정화 정책 실행
 - **5. 복구·개선 결과 전달**: 사용자 영향 해소와 재개 조건 충족 여부 검증
@@ -130,6 +130,8 @@ sequenceDiagram
 - **변경·안정화 판단**: 남은 오류 예산과 소진율을 근거로 신규 배포와 신뢰성 개선의 우선순위를 정하는 의사결정이다.
 
 </details>
+
+서비스 수준 지표(Service Level Indicator, SLI)는 실제 품질, 서비스 수준 목표(Service Level Objective, SLO)는 목표 품질, 오류 예산은 허용 실패량을 나타낸다.
 
 | 신뢰성 운영 개념 | SLI | SLO | 오류 예산 |
 |:---|:---|:---|:---|
@@ -151,6 +153,8 @@ sequenceDiagram
 
 </details>
 
+서비스 수준 지표(Service Level Indicator, SLI)의 대표성과 평가 경계를 먼저 검증한다.
+
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **예산 산정** 미검증 시 비대표 SLI의 **허용 실패량 왜곡** | 사용자 여정 기반 SLI와 **평가 경계 검증** | **허용 실패량 정확도** 향상 |
@@ -171,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- **오류 예산·소진율**이 충분하면 배포하고 **고갈 임계치** 도달 시 안정화
+- **운영 우선순위**: 오류 예산·소진율이 충분하면 배포하고 고갈 임계치 도달 시 안정화
 
 #### 한줄 요약
 

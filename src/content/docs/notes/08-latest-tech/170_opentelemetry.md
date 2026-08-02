@@ -22,12 +22,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OpenTelemetry(OTel)**: 텔레메트리를 생성·처리·전송하기 위한 공급자 중립 오픈소스 관찰 가능성 프레임워크이다.
+- **오픈텔레메트리(OpenTelemetry, OTel)**: 텔레메트리를 생성·처리·전송하기 위한 공급자 중립 오픈소스 관찰 가능성 프레임워크이다.
 - **공급자 중립**: 특정 관측 백엔드 제품에 종속되지 않는 공통 계측·전송 계약을 제공하는 성질이다.
 
 </details>
 
-- 정의/개념: **OpenTelemetry**는 공급자 중립 API·SDK·OTLP·Collector로 텔레메트리를 생성·처리·전송하는 오픈소스 관찰 가능성 프레임워크
+- 정의/개념: 공급자 중립 응용 프로그래밍 인터페이스(Application Programming Interface, API)·소프트웨어 개발 키트(Software Development Kit, SDK)·오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)·Collector로 텔레메트리를 생성·처리·전송하는 **오픈텔레메트리(OpenTelemetry, OTel) 프레임워크**
 - 배경/필요성: 제품별 에이전트·속성 체계는 **언어·백엔드 종속과 중복 계측** 유발
 
 #### 한줄 요약
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- 계측 생성 계약과 처리 정책을 분리하는 **API·SDK 분리**
+- 계측 생성 계약과 처리 정책을 분리하는 **응용 프로그래밍 인터페이스(Application Programming Interface, API)·소프트웨어 개발 키트(Software Development Kit, SDK) 분리**
 - 맥락 전파와 시맨틱 규약 기반 **맥락·의미 표준화**
-- OTLP·Collector 기반 **중립 전송 파이프라인**
+- 오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)·Collector 기반 **중립 전송 파이프라인**
 
 #### 한줄 요약
 
@@ -57,9 +57,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **API**: 애플리케이션 코드가 텔레메트리를 생성할 때 사용하는 언어별 계약이다.
-- **SDK**: API로 생성한 신호를 샘플링·가공·내보내는 구현체이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 애플리케이션 코드가 텔레메트리를 생성할 때 사용하는 언어별 계약이다.
+- **소프트웨어 개발 키트(Software Development Kit, SDK)**: API로 생성한 신호를 샘플링·가공·내보내는 구현체이다.
 - **Collector**: 텔레메트리를 수신해 처리하고 하나 이상의 저장·분석 백엔드로 전달하는 독립 구성요소이다.
+- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 프로세스와 Collector 사이에서 신호를 전송하는 표준 프로토콜이다.
 
 </details>
 
@@ -99,6 +100,8 @@ block-beta
 
 </details>
 
+응용 프로그래밍 인터페이스(Application Programming Interface, API)로 생성한 신호를 소프트웨어 개발 키트(Software Development Kit, SDK)가 처리하고 오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)로 전송한다.
+
 ```mermaid
 sequenceDiagram
   participant A as 애플리케이션
@@ -131,6 +134,8 @@ sequenceDiagram
 - **수집 파이프라인**: 신호를 수신·변환·필터링·라우팅해 백엔드로 전달하는 처리 경로이다.
 
 </details>
+
+응용 프로그래밍 인터페이스(Application Programming Interface, API), 소프트웨어 개발 키트(Software Development Kit, SDK), Collector는 신호 생성·처리·수집을 분담한다.
 
 | 구분 | API | SDK | Collector |
 |:---|:---|:---|:---|
@@ -172,7 +177,7 @@ sequenceDiagram
 
 </details>
 
-- **속성·맥락 일관성**과 **Collector 용량**을 확보할 때 OTel로 계측과 백엔드 분리
+- **속성·맥락 일관성**과 **Collector 용량**을 확보할 때 오픈텔레메트리(OpenTelemetry, OTel)로 계측과 백엔드 분리
 
 #### 한줄 요약
 
