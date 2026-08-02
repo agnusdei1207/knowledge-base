@@ -80,8 +80,8 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 위험 평가기 | 영향·불확실성으로 **개입 필요성** 판정 |
-| 중단 계층 | **Interrupt·Checkpoint**로 부작용 차단 |
-| 검토 계층 | **Approval Gate**에서 근거·대안 표시 |
+| 중단 계층 | **Interrupt·Checkpoint** 로 부작용 차단 |
+| 검토 계층 | **Approval Gate** 에서 근거·대안 표시 |
 | 결정 라우터 | 승인·수정·거부의 **상태 전이** |
 | 정책 관리 | **Escalation·감사 기록** 관리 |
 
