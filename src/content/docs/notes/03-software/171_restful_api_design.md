@@ -24,10 +24,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **HTTP 균일 인터페이스**: RESTful API는 자원을 URI로 식별하고 HTTP 메서드·상태·헤더의 일관된 의미로 조작한다.
+- **표현 상태 전이(Representational State Transfer, REST) 응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 자원을 통합 자원 식별자로 식별하고 하이퍼텍스트 전송 프로토콜의 균일 인터페이스로 조작하는 웹 API 설계 방식이다.
 
 </details>
 
-- 정의/개념: **RESTful API**는 자원을 URI로 식별하고 HTTP 메서드·상태 코드·표현을 균일 인터페이스로 적용하는 웹 API 설계 방식
+- 정의/개념: 자원을 통합 자원 식별자(Uniform Resource Identifier, URI)로 식별하고 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 메서드·상태·표현을 균일하게 적용하는 **RESTful API** 설계 방식
 - 배경/필요성: 동작명 중심 개별 규칙으로는 **클라이언트 결합·응답 편차 증가**
 
 #### 한줄 요약
@@ -40,6 +41,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **명사형 URI·표현**: 명사형 URI는 자원을 식별하고 표현은 특정 시점의 자원 상태를 JSON이나 XML 같은 형식으로 전달한다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹에서 자원을 고유하게 식별하는 주소 형식이다.
+- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)·확장 가능 마크업 언어(Extensible Markup Language, XML)**: 자원 상태 표현을 전달하는 대표적인 데이터 형식이다.
+- **무상태·캐시·계층화**: 서버 세션 의존을 줄이고 응답 재사용과 중간 계층을 허용해 웹 확장성을 높이는 제약이다.
 
 </details>
 
@@ -57,6 +61,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **REST API**: REST API는 URI, 메서드, 표현과 조건부 요청을 해석해 도메인 서비스의 자원 연산으로 연결한다.
+- **응용 프로그래밍 인터페이스 게이트웨이(Application Programming Interface Gateway, API Gateway)**: 인증·호출 제한·라우팅을 통합 수행하는 진입 구성요소이다.
+- **표현 상태 전이 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 자원 식별자·메서드·표현·조건부 요청을 도메인 연산으로 연결하는 구성요소이다.
+- **도메인 서비스**: 업무 규칙에 따라 자원 조회·생성·변경·삭제를 수행하는 구성요소이다.
+- **자원 저장소**: 자원 상태와 동시성 검증용 표현 버전을 보존하는 구성요소이다.
 
 </details>
 
@@ -89,6 +97,10 @@ block
 <summary>핵심 용어</summary>
 
 - **2. 조건부 연산 요청**: REST API는 HTTP 메서드 의미와 ETag 조건을 해석해 도메인 서비스에 조건부 연산을 요청한다.
+- **엔터티 태그(Entity Tag, ETag)**: 자원 표현의 특정 버전을 식별해 조건부 요청과 캐시 검증에 사용하는 응답 헤더값이다.
+- **1. 인증된 자원 요청**: 게이트웨이가 인증·호출 제한 후 자원 식별자·메서드·조건을 전달하는 단계이다.
+- **3. 자원·버전 조회 요청**: 자원 존재 여부와 현재 표현 버전을 저장소에서 확인하는 단계이다.
+- **4. 검증된 상태 변경**: 클라이언트 조건과 현재 버전이 일치할 때만 자원을 갱신하는 단계이다.
 
 </details>
 
@@ -126,6 +138,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **RESTful API**: RESTful API는 URI와 HTTP 균일 인터페이스를 사용해 웹 자원을 공개하고 연계하는 데 적합하다.
+- **원격 프로시저 호출(Remote Procedure Call, RPC)식 API**: 연산명과 매개변수를 직접 계약해 원격 업무 명령을 호출하는 방식이다.
+- **RESTful API**: 통합 자원 식별자와 하이퍼텍스트 전송 프로토콜 균일 인터페이스로 웹 자원을 공개하는 방식이다.
 
 </details>
 
@@ -145,6 +159,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **최신값 덮어쓰기**: 최신값 덮어쓰기는 동시에 수정할 때 이전 표현을 기준으로 한 요청이 다른 사용자의 최신 변경을 지우는 문제다.
+- **멱등성 키(Idempotency Key)**: 재시도된 생성 요청을 같은 업무 요청으로 식별해 중복 효과를 막는 고유값이다.
+- **커서 페이징(Cursor Pagination)**: 마지막 조회 위치를 나타내는 커서를 기준으로 다음 목록 구간을 조회하는 방식이다.
+- **오픈API(OpenAPI) 계약 시험**: API 명세와 실제 구현의 요청·응답 호환성을 자동 검증하는 시험이다.
 
 </details>
 

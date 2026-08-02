@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **메시지 프로토콜**: SOAP은 XML 봉투와 처리 규칙을 사용하는 메시지 프로토콜이고 REST는 자원 중심의 아키텍처 스타일이다.
+- **단순 객체 접근 프로토콜(Simple Object Access Protocol, SOAP)**: 확장 가능 마크업 언어 봉투와 처리 규칙을 사용하는 메시지 프로토콜이다.
+- **표현 상태 전이(Representational State Transfer, REST)**: 자원 식별자와 균일 인터페이스로 자원 표현을 조작하는 아키텍처 스타일이다.
 
 </details>
 
@@ -40,6 +41,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **URI·균일 인터페이스**: REST는 URI로 자원을 식별하고 균일 인터페이스로 자원 표현을 일관되게 조작한다.
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)·웹 서비스 기술 언어(Web Services Description Language, WSDL)**: SOAP 메시지 구조와 서비스 연산·자료형 계약을 정의하는 표준이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)·균일 인터페이스**: REST 자원을 고유하게 식별하고 표준 메서드 의미로 조작하는 원칙이다.
+- **SOAP 결함(SOAP Fault)·하이퍼텍스트 전송 프로토콜 상태(HTTP Status)**: 각 방식에서 처리 실패의 종류와 결과를 표현하는 표준 오류 수단이다.
 
 </details>
 
@@ -57,6 +61,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **계약·보안 계층**: 계약·보안 계층은 스키마, 서명, 인증 정책을 검사해 허용된 업무 요청만 전달한다.
+- **단순 객체 접근 프로토콜(Simple Object Access Protocol, SOAP) 종단점**: 확장 가능 마크업 언어 봉투와 웹 서비스 기술 언어 계약을 검증하는 접점이다.
+- **표현 상태 전이(Representational State Transfer, REST) 종단점**: 통합 자원 식별자와 하이퍼텍스트 전송 프로토콜 메서드 의미를 처리하는 접점이다.
 
 </details>
 
@@ -94,6 +100,9 @@ block
 <summary>핵심 용어</summary>
 
 - **1. 형식·신원 검증 요청**: 종단점은 요청 스키마와 토큰·서명을 검사하도록 계약·보안 계층에 형식·신원 검증을 요청한다.
+- **단순 객체 접근 프로토콜(Simple Object Access Protocol, SOAP)·표현 상태 전이(Representational State Transfer, REST) 종단점**: 계약 메시지나 자원 요청을 해석해 검증·업무 계층으로 전달하는 접점이다.
+- **2. 허용 범위 결과**: 신원과 정책에 따라 실행 가능한 연산·자원 범위를 확정한 결과이다.
+- **3. 연산·자원 요청**: 검증된 입력으로 계약된 업무 로직이나 자원 상태 처리를 호출하는 단계이다.
 
 </details>
 
@@ -126,7 +135,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SOAP**: SOAP은 엄격한 XML 계약과 WS-* 메시지 확장이 필요한 서비스 연계에 적합하다.
+- **단순 객체 접근 프로토콜(Simple Object Access Protocol, SOAP)**: 엄격한 확장 가능 마크업 언어 계약과 웹 서비스 확장 명세가 필요한 연계에 적합하다.
+- **표현 상태 전이(Representational State Transfer, REST)**: 웹 자원의 단순 연계와 무상태·캐시·균일 인터페이스 활용에 적합한 스타일이다.
 
 </details>
 
@@ -146,6 +156,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **중복 업무 처리**: 재시도에 따른 중복 업무 처리를 막으려면 요청 식별자, 멱등 키, 보상 처리 정책을 적용해야 한다.
+- **웹 서비스 보안(Web Services Security, WS-Security)·전송 계층 보안(Transport Layer Security, TLS)**: 메시지 또는 전송 경로에서 신원·기밀성·무결성을 보호하는 표준이다.
+- **멱등 키·보상 처리**: 같은 요청의 중복 효과를 차단하고 이미 반영된 업무를 상쇄하는 복구 수단이다.
+- **하위 호환 정책**: 새 계약이나 필드를 기존 소비자가 계속 처리할 수 있도록 변경 범위를 제한하는 규칙이다.
 
 </details>
 
