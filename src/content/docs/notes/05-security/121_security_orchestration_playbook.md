@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 오케스트레이션 플레이북(SOAR Playbook)**: 경보 유형별 보강·판단·승인·조치·복구 순서와 분기 조건을 정의해 보안 도구에서 실행하는 자동화 절차이다.
-- **SOAR**: 보안 도구를 연결해 플레이북에 따른 분석·대응 절차를 실행하고 이력을 관리하는 플랫폼이다.
+- **보안 오케스트레이션 플레이북(Security Orchestration Playbook)**: 경보 유형별 보강·판단·승인·조치·복구 순서와 분기 조건을 정의해 보안 도구에서 실행하는 자동화 절차이다.
+- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연결해 플레이북에 따른 분석·대응 절차를 실행하고 이력을 관리하는 플랫폼이다.
 
 </details>
 
@@ -42,6 +42,7 @@ extra:
 
 - **사람 참여**: 업무 영향이 큰 자동 조치를 담당자가 확인·승인하는 방식이다.
 - **롤백**: 자동 조치 실패나 오탐 발생 시 이전 상태로 되돌리는 기능이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서로 다른 보안 도구가 조회·명령·결과를 표준화해 주고받는 연결 경계이다.
 
 </details>
 
@@ -59,6 +60,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **오케스트레이션**: 서로 다른 보안 도구의 조회·판단·조치를 하나의 흐름으로 연결하는 기능이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 플레이북이 보안 도구에 최소 권한 명령을 전달하고 결과를 받는 연결 규격이다.
 
 </details>
 
@@ -91,7 +93,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM·EDR**: 보안 이벤트를 경보로 만드는 체계와 단말 위협을 탐지·격리하는 체계이다.
+- **보안정보·이벤트관리(Security Information and Event Management, SIEM)·엔드포인트 탐지·대응(Endpoint Detection and Response, EDR)**: 보안 이벤트를 경보로 만드는 체계와 단말 위협을 탐지·격리하는 체계이다.
+- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: SIEM 경보를 보강하고 승인·조치·복구 플레이북을 실행하는 플랫폼이다.
 
 </details>
 
@@ -147,8 +150,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OASIS CACAO**: 보안 플레이북의 구조·분류·워크플로 공유 스키마를 규정한다.
-- **OASIS OpenC2**: 보안 기능을 수행하는 장치에 표준 명령을 전달하는 언어 규격이다.
+- **구조화정보표준촉진기구 협업 자동화 행동과정 운영(OASIS Collaborative Automated Course of Action Operations, OASIS CACAO)**: 보안 플레이북의 구조·분류·워크플로 공유 스키마를 규정한다.
+- **구조화정보표준촉진기구 개방형 지휘·통제(OASIS Open Command and Control, OASIS OpenC2)**: 보안 기능을 수행하는 장치에 표준 명령을 전달하는 언어 규격이다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-61**: 사이버보안 프레임워크(Cybersecurity Framework, CSF) 기반 사고대응 생명주기를 제시한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 플레이북이 제한된 권한으로 격리 명령을 실행하고 결과를 기록하는 도구 연결 규격이다.
 
 </details>
 
