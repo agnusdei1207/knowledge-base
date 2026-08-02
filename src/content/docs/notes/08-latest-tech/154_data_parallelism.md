@@ -98,17 +98,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant C as 전역 단계 제어기
+    participant C as 전역 모델·단계 제어기
     participant S as 데이터 샘플러
     participant L as 로컬 학습기
     participant G as 기울기 동기화기
-    participant M as 모델 복제본
     loop 학습 종료 조건까지
         C->>S: 1. 전역 배치·학습률 설정
         S->>L: 2. 중복 없는 로컬 배치 분할
         L->>G: 3. 로컬 순전파·역전파
-        G->>M: 4. 기울기 축약·전역 평균
-        M-->>C: 5. 동일 파라미터 갱신
+    G->>C: 4. 기울기 축약·전역 평균
+    C->>C: 5. 동일 파라미터 갱신
     end
 ```
 

@@ -99,15 +99,14 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant D as 개발팀
-    participant P as 플랫폼 제품팀
+    participant P as 플랫폼 제품팀·제품 지표
     participant G as 골든 패스
     participant I as IDP·자동화
-    participant M as 제품 지표
     D->>P: 1. 개발 여정·병목 전달
     P->>G: 2. 권장 경로·정책 전달
     G->>I: 3. 셀프서비스 기능 전달
     I-->>D: 실행 환경·결과 반환
-    D->>M: 4. 채택·미사용 피드백 전달
+    D->>P: 4. 채택·미사용 피드백 전달
 ```
 
 **동작 원리**
