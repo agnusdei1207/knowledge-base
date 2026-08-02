@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **JTAG**: 칩 시험·경계주사·디버그에 쓰이는 하드웨어 접근 방식이다.
+- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG)**: 칩 시험·경계주사·디버그에 쓰이는 하드웨어 접근 방식이다.
 
 </details>
 
@@ -57,7 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TAP·경계주사**: JTAG 명령·데이터를 전달하는 인터페이스와 보드 핀 상태를 관측·제어하는 기법이다.
+- **테스트 접근 포트(Test Access Port, TAP)·경계주사**: 합동 테스트 액션 그룹(Joint Test Action Group, JTAG) 명령·데이터를 전달하는 인터페이스와 보드 핀 상태를 관측·제어하는 기법이다.
+- **미국 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1149.1**: TAP와 경계주사의 구조·명령을 규정한 표준이다.
+- **중앙처리장치(Central Processing Unit, CPU) 접근**: 디버그 명령으로 처리기와 메모리를 읽고 쓰는 고위험 권한이다.
 
 </details>
 
@@ -90,7 +92,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **RMA**: 회수 제품에 승인된 진단·수리 예외 접근을 부여하는 반품 승인 절차이다.
+- **반품 승인(Return Merchandise Authorization, RMA)**: 회수 제품에 승인된 진단·수리 예외 접근을 부여하는 절차이다.
+- **합동 테스트 액션 그룹(Joint Test Action Group, JTAG) 접근 통제**: 장치 상태·작업자·명령·만료시간을 검증한 뒤 디버그 포트를 한시적으로 여는 통제이다.
 
 </details>
 
@@ -123,6 +126,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **디버그 잠금**: 운영 단계에서 CPU·메모리 접근 등 위험한 디버그 명령을 비활성화하는 통제이다.
+- **디버그 처리기 접근**: 합동 테스트 액션 그룹(Joint Test Action Group, JTAG)을 통한 중앙처리장치(Central Processing Unit, CPU)·메모리 접근 범위를 운영 방식별로 제한하는 판단 기준이다.
 
 </details>
 
@@ -143,8 +147,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IEEE 1149.1**: 테스트 접근 포트와 경계주사 구조·동작을 규정한 표준이다.
-- **IEEE 1687**: 칩 내부 계측기 접근 구조를 다루는 표준이다.
+- **미국 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1149.1·1687**: 테스트 접근 포트(Test Access Port, TAP)·경계주사와 칩 내부 계측기 접근 구조를 다루는 표준이다.
+- **P1687 개정안**: IEEE 1687의 개정 과정에 있는 표준안으로 내부 디버그 경로의 최신 요구사항을 확인하는 기준이다.
+- **반품 승인(Return Merchandise Authorization, RMA)·JTAG 수리**: 승인된 반품 장치에 합동 테스트 액션 그룹(JTAG) 권한을 신원·명령·시간 범위로 제한하는 절차이다.
 
 </details>
 
@@ -164,6 +169,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **한시 권한**: 승인된 수리 작업의 명령·자원·시간만 허용하고 종료 즉시 회수하는 원칙이다.
+- **인증형 디버그**: 합동 테스트 액션 그룹(Joint Test Action Group, JTAG) 방식으로 승인된 작업자에게 제한된 디버그 권한만 부여한다.
 
 </details>
 
