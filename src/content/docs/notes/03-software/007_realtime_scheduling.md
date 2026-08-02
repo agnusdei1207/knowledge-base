@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "실시간 스케줄링: Rate Monotonic·EDF (Real-Time Scheduling)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T22:07:00+09:00"
 tags: [notes-software]
 weight: 7
 extra:
@@ -178,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-| 고려사항 | 대책 | 효과 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 평균 실행시간만 사용해 **최악 조건 누락** | 측정·정적 분석으로 **최악 실행시간·간섭** 산정 | **마감 보장 근거** 확보 |
 | EDF 과부하로 **마감 미스 연쇄** | **수용 제어·중요도별 폐기**와 과부하 모드 적용 | 핵심 작업의 **마감시간 보호** |

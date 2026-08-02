@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: 멀티레벨 피드백 큐 MLFQ (Multilevel Feedback Queue)
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T22:05:00+09:00"
 tags: [notes-software]
 weight: 5
 extra:
@@ -158,7 +158,7 @@ sequenceDiagram
 
 </details>
 
-| 고려사항 | 대책 | 효과 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 상위 큐가 계속 차서 하위 큐 작업의 **기아 발생** | 최대 대기시간 기반 **주기적 우선순위 상향** | **배치 작업 진행** 보장 |
 | 짧은 입출력 대기로 CPU 중심 작업이 **상위 큐 유지** | 누적 사용시간 기반 **CPU 사용량 회계** | **우선순위 조작** 방지 |
