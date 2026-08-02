@@ -102,13 +102,12 @@ sequenceDiagram
     participant P as 주 노드
     participant L as 변경 로그
     participant R as 복제 노드
-    participant M as 지연 감시
     C->>P: 커밋 요청
     P->>L: 1. 변경 로그 영속화
     L->>R: 2. 순서 보존 복제
     R-->>L: 3. 복제 확인
     P-->>C: 커밋 결과 반환
-    R->>M: 4. 재생 위치 보고
+    R-->>P: 4. 재생 위치 보고
 ```
 
 **동작 원리**

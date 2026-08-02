@@ -100,15 +100,13 @@ block-beta
 sequenceDiagram
     participant A as 응용
     participant R as 샤드 라우터
-    participant M as 배치 메타데이터
     participant S as 데이터 샤드
-    participant O as 부하 관측기
     A->>R: 샤드 키·연산 요청
-    R->>M: 1. 배치 메타데이터 조회
-    M-->>R: 2. 대상 샤드 선택
+    R->>R: 1. 배치 메타데이터 조회
+    R->>R: 2. 대상 샤드 선택
     R->>S: 3. 지역 질의 실행
     S-->>R: 결과 반환
-    R->>O: 4. 샤드 부하 기록
+    R->>R: 4. 샤드 부하 기록
     R-->>A: 질의 결과 반환
 ```
 

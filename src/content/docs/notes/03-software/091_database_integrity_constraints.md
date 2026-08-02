@@ -99,21 +99,19 @@ block
 ```mermaid
 sequenceDiagram
     participant APP as 애플리케이션
-    participant SQL as SQL 처리기
-    participant RULE as 제약 검사기
-    participant IDX as 키 인덱스
+    participant SQL as SQL·제약 처리기
     participant DATA as 데이터 저장소
     APP->>SQL: 삽입·수정·삭제 후보
-    SQL->>RULE: 1. 열 값·도메인 제약 메타데이터
-    RULE->>IDX: 2. PK·UNIQUE·FK 키 값
-    IDX-->>RULE: 중복·부모 존재 결과
-    RULE->>DATA: 3. 검증된 변경·참조 동작
+    SQL->>SQL: 1. 열 값·도메인 제약 확인
+    SQL->>DATA: 2. PK·UNIQUE·FK 키 조회
+    DATA-->>SQL: 중복·부모 존재 결과
+    SQL->>DATA: 3. 검증된 변경·참조 동작
     DATA-->>APP: 커밋·제약 위반 결과
 ```
 
 **동작 원리**
 
-- **1. 열 값·도메인 제약 메타데이터**: 타입·NULL·CHECK 규칙 확인
+- **1. 열 값·도메인 제약 확인**: 메타데이터의 타입·NULL·CHECK 규칙 확인
 - **2. PK·UNIQUE·FK 키 값**: 식별 중복과 부모 키 존재 판정
 - **3. 검증된 변경·참조 동작**: 모든 제약을 통과한 상태만 저장
 

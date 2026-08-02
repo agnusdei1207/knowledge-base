@@ -97,17 +97,12 @@ block
 ```mermaid
 sequenceDiagram
     participant APP as 주문 서비스
-    participant SQL as SQL 처리기
-    participant PK as 기본키 인덱스
-    participant FK as 참조 검사기
+    participant SQL as SQL·제약 처리기
     participant DB as 데이터 저장소
     APP->>SQL: 주문 ID·고객 ID·주문 값
-    SQL->>PK: 1. 후보 기본키·NOT NULL·유일 규칙
-    PK-->>SQL: 중복·NULL 판정 결과
-    SQL->>FK: 2. 외래키·참조 대상 키·참조 동작
-    FK->>DB: 부모 고객 키·조회 조건
-    DB-->>FK: 부모 존재 결과
-    FK-->>SQL: 참조 무결성 판정 결과
+    SQL->>SQL: 1. 후보 기본키·NOT NULL·유일 규칙
+    SQL->>DB: 2. 외래키·부모 키 조회
+    DB-->>SQL: 부모 존재·참조 동작 결과
     SQL->>DB: 3. 검증된 주문 행
     DB-->>APP: 커밋·제약 위반 결과
 ```

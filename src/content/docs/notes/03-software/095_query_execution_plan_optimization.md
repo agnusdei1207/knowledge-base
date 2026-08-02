@@ -99,12 +99,10 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 응용 프로그램
-    participant Q as 질의 분석기
-    participant O as 옵티마이저
+    participant O as 질의 분석기·옵티마이저
     participant S as 통계 저장소
     participant E as 실행 엔진
-    A->>Q: SQL 실행 요청
-    Q->>O: 1. 논리 질의 전달
+    A->>O: 1. SQL 분석·논리 질의 구성
     O->>S: 2. 카디널리티 조회
     S-->>O: 분포·선택도 반환
     O->>E: 3. 최저 비용 계획 선택
@@ -114,7 +112,7 @@ sequenceDiagram
 
 **동작 원리**
 
-- **1. 논리 질의 전달**: SQL을 관계 연산 트리로 구성
+- **1. SQL 분석·논리 질의 구성**: SQL을 관계 연산 트리로 변환
 - **2. 카디널리티 조회**: 통계·선택도로 중간 행 수 예측
 - **3. 최저 비용 계획 선택**: 접근·조인 순서의 비용 비교
 - **4. 실행 실측값 기록**: 연산자별 행 수·시간·자원 수집

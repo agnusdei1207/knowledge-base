@@ -97,19 +97,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 실행 엔진
+    participant Q as 실행 엔진·조인 연산자
     participant L as 왼쪽 입력
-    participant J as 조인 연산자
     participant R as 오른쪽 입력
     participant T as 임시 디스크
-    Q->>J: 조인 방식·입력 역할
-    L->>J: 1. 첫 입력 구성
+    L->>Q: 1. 첫 입력 구성
     alt 작업 메모리 초과
-        J->>T: 2. 메모리 초과 분할
-        T-->>J: 파티션 반환
+        Q->>T: 2. 메모리 초과 분할
+        T-->>Q: 파티션 반환
     end
-    R->>J: 3. 둘째 입력 결합
-    J-->>Q: 조인 결과·유출량 반환
+    R->>Q: 3. 둘째 입력 결합
 ```
 
 **동작 원리**
