@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 187
-  label: "187. SBOM 소프트웨어 자재명세서 (Software Bill of Materials)"
+  label: "187. 소프트웨어 자재명세서 (SBOM)"
   badge:
     text: "기출 · 85%"
     variant: note
-title: "SBOM 소프트웨어 자재명세서 (Software Bill of Materials)"
+title: "소프트웨어 자재명세서 (Software Bill of Materials, SBOM)"
 date: "2026-07-31T12:08:08+09:00"
 tags:
   - "notes-latest-tech"
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **SBOM**은 소프트웨어 구성요소·버전·의존 관계를 기록한 기계 판독 명세서
+- 정의/개념: 소프트웨어 구성요소·버전·의존 관계를 기록한 **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**
 - 배경/필요성: 완성 제품만으로는 직접·전이 의존성의 **취약점·라이선스 영향** 식별 곤란
 #### 한줄 요약
 
@@ -39,8 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SPDX·CycloneDX**: 구성요소와 관계를 기계가 판독·교환할 수 있도록 정의한 대표 SBOM 표준 형식이다.
-- **VEX(Vulnerability Exploitability eXchange)**: 특정 취약점의 제품 영향 여부와 조치 상태를 전달하는 문서이다.
+- **소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)·CycloneDX**: 구성요소와 관계를 기계가 판독·교환할 수 있도록 정의한 대표 소프트웨어 자재명세서(Software Bill of Materials, SBOM) 표준 형식이다.
+- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 특정 취약점의 제품 영향 여부와 조치 상태를 전달하는 문서이다.
 
 </details>
 
@@ -57,9 +57,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **패키지 URL(Package URL, purl)**: 패키지 유형·이름·버전 등을 나타내는 표준 구성요소 식별자이다.
-- **아티팩트 결속**: SBOM을 제품 해시·서명과 연결해 어떤 배포본의 명세인지 증명하는 관계이다.
+- **아티팩트 결속**: 소프트웨어 자재명세서(Software Bill of Materials, SBOM)를 제품 해시·서명과 연결해 어떤 배포본의 명세인지 증명하는 관계이다.
 
 </details>
+
+취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)은 구성요소별 영향·조치 상태를 관리한다.
 
 ```mermaid
 block-beta
@@ -76,7 +78,7 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 대상 제품 | 제품명·버전·배포 단위의 **SBOM 연결** |
-| 구성요소 식별 | **purl·버전**과 해시·라이선스 기록 |
+| 구성요소 식별 | purl·버전과 **해시·라이선스 기록** |
 | 의존 관계 | 직접·전이 **포함·의존 관계 표현** |
 | 작성·결속 정보 | 도구·시간·표준과 **제품 해시·서명 결속** |
 | 취약점·VEX | 취약점 매핑과 **영향·조치 상태 관리** |
@@ -94,6 +96,8 @@ block-beta
 - **영향 상태**: 취약점이 특정 제품 구성에서 악용 가능한지와 패치·완화·예외 조치가 어떤 상태인지 나타낸 정보이다.
 
 </details>
+
+소프트웨어 자재명세서(Software Bill of Materials, SBOM)와 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)을 빌드·배포 자산에 연결한다.
 
 ```mermaid
 sequenceDiagram
@@ -131,6 +135,8 @@ sequenceDiagram
 
 </details>
 
+소프트웨어 자재명세서(Software Bill of Materials, SBOM)는 구성, 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)은 영향 상태, 출처 증명(Provenance)은 생성 과정을 설명한다.
+
 | 판단 기준 | SBOM | VEX | Provenance·전자서명 |
 |:---|:---|:---|:---|
 | 적용 기준 | **구성요소·의존성 식별** | 취약점의 **영향 상태 전달** | **빌드 출처·변조 여부** 검증 |
@@ -146,8 +152,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **완전성**: 실제 제품에 포함된 직접·전이·동적 구성요소가 SBOM에 빠짐없이 기록된 정도이다.
-- **최신성**: 제품·구성·취약점·VEX 변경이 현재 SBOM과 영향 판정에 반영된 정도이다.
+- **완전성**: 실제 제품에 포함된 직접·전이·동적 구성요소가 소프트웨어 자재명세서(Software Bill of Materials, SBOM)에 빠짐없이 기록된 정도이다.
+- **최신성**: 제품·구성·취약점·취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX) 변경이 현재 SBOM과 영향 판정에 반영된 정도이다.
 
 </details>
 
@@ -166,12 +172,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **취약점 영향 판정**: 구성 목록과 VEX·실행 조건을 결합해 실제 조치가 필요한 제품을 식별하는 과정이다.
-- **배포 자산 매핑**: 제품 버전별 SBOM을 실제 운영 중인 시스템과 인스턴스에 연결하는 활동이다.
+- **취약점 영향 판정**: 구성 목록과 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)·실행 조건을 결합해 실제 조치가 필요한 제품을 식별하는 과정이다.
+- **배포 자산 매핑**: 제품 버전별 소프트웨어 자재명세서(Software Bill of Materials, SBOM)를 실제 운영 중인 시스템과 인스턴스에 연결하는 활동이다.
 
 </details>
 
-- 구성요소 식별은 **SBOM**, 취약점 영향 판정은 **VEX**로 분리·연계
+- **배포 자산 매핑·취약점 영향 판정**: 구성요소는 SBOM으로 식별하고 영향 상태는 VEX로 분리·연계
 
 #### 한줄 요약
 

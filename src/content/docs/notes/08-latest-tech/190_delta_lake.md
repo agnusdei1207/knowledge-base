@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 190
-  label: "190. Delta Lake (Delta Lake)"
+  label: "190. 델타 레이크 (Delta Lake)"
   badge:
     text: "기출 · 50%"
     variant: note
-title: "Delta Lake (Delta Lake)"
+title: "델타 레이크 (Delta Lake)"
 date: "2026-07-31T12:09:12+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Delta Lake**: Parquet 데이터 파일과 순차 트랜잭션 로그를 결합해 ACID 테이블을 관리하는 오픈 테이블 형식이다.
+- **델타 레이크(Delta Lake)**: Parquet 데이터 파일과 순차 트랜잭션 로그를 결합해 원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) 테이블을 관리하는 오픈 테이블 형식이다.
 - **Parquet**: 분석 질의에 적합한 개방형 열 지향 데이터 파일 형식이다.
 
 </details>
 
-- 정의/개념: **Delta Lake**는 Parquet 데이터 파일과 순차 트랜잭션 로그를 결합해 ACID 테이블을 관리하는 오픈 테이블 형식
-- 배경/필요성: 객체 저장소의 파일만으로는 **동시 쓰기 충돌·부분 실패**의 일관된 복구 곤란
+- 정의/개념: Parquet 데이터 파일과 순차 트랜잭션 로그를 결합해 원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) 테이블을 관리하는 **델타 레이크(Delta Lake) 형식**
+- 배경/필요성: 객체 저장소의 파일만으로는 동시 쓰기 충돌·부분 실패에 대한 **일관된 복구** 곤란
 #### 한줄 요약
 
 - **데이터 관리**: 변경 추적, 스키마 관리, 과거 상태 재현 가능
@@ -170,7 +170,7 @@ sequenceDiagram
 
 </details>
 
-- 엔진 프로토콜이 호환되면 **Delta Lake** 채택, 미지원 기능은 **상호운용 시험** 후 제외
+- **상호운용 시험·정리 안전검사별 채택**: 엔진 프로토콜 호환 기능만 사용하고 보존 스냅샷 참조 파일은 삭제에서 제외
 
 #### 한줄 요약
 

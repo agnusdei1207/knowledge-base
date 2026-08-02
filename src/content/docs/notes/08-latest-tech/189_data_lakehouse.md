@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 189
-  label: "189. Data Lakehouse 데이터 레이크하우스 (Data Lakehouse)"
+  label: "189. 데이터 레이크하우스 (Data Lakehouse)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "Data Lakehouse 데이터 레이크하우스 (Data Lakehouse)"
+title: "데이터 레이크하우스 (Data Lakehouse)"
 date: "2026-07-31T12:08:47+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,16 +23,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 레이크하우스(Data Lakehouse)**: 데이터 레이크의 개방형 파일 저장에 웨어하우스의 ACID 테이블 관리 기능을 결합한 아키텍처이다.
-- **ACID**: 트랜잭션이 보장해야 하는 원자성·일관성·격리성·지속성의 성질이다.
+- **데이터 레이크하우스(Data Lakehouse)**: 데이터 레이크의 개방형 파일 저장에 웨어하우스의 원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) 테이블 관리 기능을 결합한 아키텍처이다.
+- **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션이 보장해야 하는 네 가지 성질이다.
 
 </details>
 
-- 정의/개념: **데이터 레이크하우스**는 개방형 파일 저장소에 ACID 테이블 관리를 결합한 아키텍처
-- 배경/필요성: 레이크·웨어하우스 분리는 **데이터 복제·버전 불일치**와 파이프라인 중복 유발
+- 정의/개념: 개방형 파일 저장소에 원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID) 테이블 관리를 결합한 **데이터 레이크하우스(Data Lakehouse) 아키텍처**
+- 배경/필요성: 레이크·웨어하우스 분리는 데이터 복제·버전 불일치와 **파이프라인 중복** 유발
 #### 한줄 요약
 
-- **워크로드 통합**: BI·스트리밍·ML이 동일 테이블을 공유해 정합성 유지
+- **워크로드 통합**: 분석·스트리밍·기계학습이 동일 테이블을 공유해 정합성 유지
 
 ## Ⅱ. 특징
 
@@ -45,8 +45,8 @@ extra:
 </details>
 
 - 개방형 저장소·컴퓨트 분리 기반 **다중 엔진 선택권**
-- **오픈 테이블 포맷** 기반 스키마 진화와 **ACID·스냅샷 관리**
-- **카탈로그** 기반 BI·스트리밍·ML 통합과 **파일 최적화 부담**
+- **오픈 테이블 포맷** 기반 스키마 진화와 **원자성·일관성·격리성·지속성(Atomicity, Consistency, Isolation, Durability, ACID)·스냅샷 관리**
+- **카탈로그** 기반 비즈니스 인텔리전스(Business Intelligence, BI)·스트리밍·기계학습(Machine Learning, ML) 통합과 **파일 최적화 부담**
 #### 한줄 요약
 
 - 여러 엔진이 같은 파일을 공유하되 스냅샷으로 일관된 시점을 읽고 파일·통계를 계속 최적화한다.
@@ -75,7 +75,7 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 컴퓨트 엔진 | SQL·배치·스트리밍·ML의 **읽기·쓰기 실행** |
+| 컴퓨트 엔진 | 구조화 질의 언어(Structured Query Language, SQL)·배치·스트리밍·기계학습(Machine Learning, ML)의 **읽기·쓰기 실행** |
 | 카탈로그 | 테이블 식별자와 **현재 메타데이터 위치 연결** |
 | 오픈 테이블 포맷 | 트랜잭션·스키마와 **스냅샷·파일 목록** 관리 |
 | 오브젝트 데이터 파일 | 개방형 열 지향 형식의 **데이터 저장** |
@@ -131,6 +131,8 @@ sequenceDiagram
 
 </details>
 
+비즈니스 인텔리전스(Business Intelligence, BI), 구조화 질의 언어(Structured Query Language, SQL), 기계학습(Machine Learning, ML), 데이터베이스 관리 시스템(Database Management System, DBMS)의 저장·질의 특성을 비교한다.
+
 | 판단 기준 | Data Lake | Data Warehouse | Data Lakehouse |
 |:---|:---|:---|:---|
 | 적용 기준 | **원시·비정형 데이터** 대량 저장 | 정형 BI와 **고성능 SQL** | BI·스트리밍·ML의 **테이블 통합** |
@@ -166,12 +168,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BI·ML 통합**: 분석 보고와 기계학습 워크로드가 동일한 테이블 상태를 공유하는 운영 방식이다.
+- **비즈니스 인텔리전스·기계학습 통합(Business Intelligence·Machine Learning Integration, BI·ML 통합)**: 분석 보고와 기계학습 워크로드가 동일한 테이블 상태를 공유하는 운영 방식이다.
 - **파일 유지관리**: 작은 파일 병합·재배치·통계 갱신으로 질의 성능과 비용을 관리하는 활동이다.
 
 </details>
 
-- BI·ML 통합은 **레이크하우스**, 고정 정형 BI는 **웨어하우스** 선택
+- **BI·ML 통합·파일 유지관리별 선택**: 통합 워크로드는 레이크하우스, 고정 정형 분석은 웨어하우스
 
 #### 한줄 요약
 

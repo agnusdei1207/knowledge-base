@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 188
-  label: "188. Software Supply Chain Security 소프트웨어 공급망 보안 (Software Supply Chain Security)"
+  label: "188. 소프트웨어 공급망 보안 (Software Supply Chain Security)"
   badge:
     text: "기출 · 85%"
     variant: note
-title: "Software Supply Chain Security 소프트웨어 공급망 보안 (Software Supply Chain Security)"
+title: "소프트웨어 공급망 보안 (Software Supply Chain Security)"
 date: "2026-07-31T12:08:27+09:00"
 tags:
   - "notes-latest-tech"
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **소프트웨어 공급망 보안**은 소스·의존성·빌드·유통·배포 전 경로에서 소프트웨어 변조와 오염을 통제하는 보안 체계
+- 정의/개념: 소스·의존성·빌드·유통·배포 전 경로에서 소프트웨어 변조와 오염을 통제하는 **소프트웨어 공급망 보안(Software Supply Chain Security) 체계**
 - 배경/필요성: 결과물 검사만으로는 입력·빌드·유통 단계의 **오염 경로·책임 주체** 식별 곤란
 #### 한줄 요약
 
@@ -40,12 +40,12 @@ extra:
 <summary>핵심 용어</summary>
 
 - **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 제품의 구성요소·버전·의존 관계를 기록한 명세서이다.
-- **Provenance**: 아티팩트가 어떤 소스·빌더·입력·과정으로 생성됐는지 기록한 출처 증거이다.
+- **출처 증명(Provenance)**: 아티팩트가 어떤 소스·빌더·입력·과정으로 생성됐는지 기록한 출처 증거이다.
 
 </details>
 
 - 소스·의존성·빌드·유통·배포의 **전 경로 통제**
-- **SBOM·Provenance**와 서명을 **아티팩트 다이제스트에 결속**
+- SBOM·Provenance·서명의 **아티팩트 다이제스트 결속**
 - 배포 승인과 취약점 발견 후 **재빌드·교체 수명주기**
 #### 한줄 요약
 
@@ -60,6 +60,8 @@ extra:
 - **배포 승인 제어(Admission Control)**: 배포 요청의 서명·출처·정책 충족 여부를 검사해 실행을 허용하거나 차단하는 통제이다.
 
 </details>
+
+소프트웨어 자재명세서(Software Bill of Materials, SBOM)와 출처 증명(Provenance)을 빌드 증거로 생성한다.
 
 ```mermaid
 block-beta
@@ -95,6 +97,8 @@ block-beta
 
 </details>
 
+소프트웨어 자재명세서(Software Bill of Materials, SBOM)와 출처 증명(Provenance)을 아티팩트 다이제스트에 결속한다.
+
 ```mermaid
 sequenceDiagram
     participant D as 개발자·소스
@@ -128,10 +132,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SLSA(Supply-chain Levels for Software Artifacts)**: 빌드 출처와 아티팩트 무결성의 보증 수준을 정의하는 체계이다.
+- **소프트웨어 아티팩트 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA)**: 빌드 출처와 아티팩트 무결성의 보증 수준을 정의하는 체계이다.
 - **아티팩트 서명**: 다이제스트를 서명자 신원과 결속해 파일의 무결성과 승인 주체를 검증하는 수단이다.
 
 </details>
+
+소프트웨어 자재명세서(Software Bill of Materials, SBOM)는 구성요소를, SLSA 출처 증명(SLSA Provenance)은 생성 과정을 설명한다.
 
 | 판단 기준 | SLSA provenance | SBOM | 아티팩트 서명 |
 |:---|:---|:---|:---|
@@ -153,6 +159,8 @@ sequenceDiagram
 
 </details>
 
+소프트웨어 아티팩트 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA)으로 빌드 증거의 보증 수준을 검증한다.
+
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **빌드 신뢰** 미검증 시 빌더 침해·**증거 위조** | 격리·단기 자격증명·**SLSA 수준 검증** | 빌드 증거 **위·변조** 축소 |
@@ -168,12 +176,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **안전한 소프트웨어 개발 프레임워크(SSDF)**: 조직이 적용할 안전한 소프트웨어 개발 관행을 제시하는 프레임워크이다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF)**: 조직이 적용할 안전한 소프트웨어 개발 관행을 제시하는 프레임워크이다.
 - **재빌드·교체**: 취약 구성요소를 수정한 승인 입력으로 아티팩트를 다시 만들고 운영 배포본을 바꾸는 조치이다.
 
 </details>
 
-- 출처가 검증된 빌드만 **배포 승인**, 취약 구성요소는 **재빌드·교체**
+- **SSDF 기반 재빌드·교체 원칙**: 출처가 검증된 빌드만 배포 승인하고 취약 구성요소는 다시 빌드해 교체
 
 #### 한줄 요약
 
