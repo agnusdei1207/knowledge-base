@@ -105,12 +105,11 @@ block
 sequenceDiagram
     participant SIEM
     participant SOAR
-    participant 승인자
     participant 보안시스템
-    participant 분석가
+    participant 분석가 as 분석가·승인자
     SIEM->>SOAR: 사건·정보
-    SOAR->>승인자: 1. 위험도·조치 승인 요청
-    승인자-->>SOAR: 승인·거부 결정
+    SOAR->>분석가: 1. 위험도·조치 승인 요청
+    분석가-->>SOAR: 승인·거부 결정
     SOAR->>보안시스템: 2. 멱등 조치 요청
     보안시스템-->>SOAR: 실제 상태
     alt 조치 성공

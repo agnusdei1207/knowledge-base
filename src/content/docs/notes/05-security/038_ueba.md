@@ -103,12 +103,10 @@ block
 ```mermaid
 sequenceDiagram
     participant 행위원천
-    participant 신원해석기
     participant UEBA
     participant 분석가
     participant 모델관리자
-    행위원천->>신원해석기: 행위 텔레메트리
-    신원해석기->>UEBA: 1. 엔티티 연결 행위 전달
+    행위원천->>UEBA: 1. 엔티티 연결 행위 전달
     UEBA->>분석가: 2. 편차 위험도·근거 전달
     분석가->>모델관리자: 3. 정탐·오탐 판정 근거 전달
     모델관리자->>UEBA: 4. 기준선·임계값 보정 정책 전달
