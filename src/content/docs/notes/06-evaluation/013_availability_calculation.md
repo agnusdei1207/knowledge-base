@@ -96,16 +96,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant O as 서비스 책임자
+  participant O as 서비스·의사결정 책임자
   participant M as 감시 시스템
   participant C as 가용성 계산기
   participant A as 구조 분석기
-  participant D as 의사결정자
   O->>M: 측정 경계·중단 규칙 전달
   M->>C: 1. 가동·중단 구간 전달
   C->>A: 2. 실측 가용성·허용시간 전달
-  A->>D: 3. 경로 가용성·의존성 전달
-  D-->>O: 목표·복구·이중화 결정
+  A->>O: 3. 경로 가용성·의존성 전달
+  O->>O: 목표·복구·이중화 결정
 ```
 
 1. **가동·중단 구간 전달**: 중복·유실·**부분 장애** 처리 결과 제공

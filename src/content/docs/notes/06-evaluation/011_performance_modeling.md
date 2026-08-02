@@ -95,16 +95,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant O as 목표 책임자
+  participant O as 목표·의사결정 책임자
   participant A as 분석가
   participant M as 모델링 엔진
   participant T as 시험 시스템
-  participant D as 의사결정자
   O->>A: 목표·경계·워크로드 전달
   A->>M: 1. 자원·가정·모형 전달
   M->>T: 2. 기준 시나리오·실측 요청
   T->>M: 3. 실측 데이터 전달
-  M-->>D: 대안별 성능·위험 비교
+  M-->>O: 대안별 성능·위험 비교
 ```
 
 1. **자원·가정·모형 전달**: 분석식·**시뮬레이션 모형** 제공
