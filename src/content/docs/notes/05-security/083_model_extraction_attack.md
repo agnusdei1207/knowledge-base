@@ -101,7 +101,7 @@ sequenceDiagram
     participant A as 공격자
     participant M as 대상 모델
     participant D as 남용 탐지
-    A->>Q: 경계 탐색 목표
+    A->>A: 경계 탐색 목표 설정
     loop 능동 학습 반복
         A->>A: 1. 정보량 높은 질의 합성
         A->>M: 후보 질의
