@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 78
-  label: "078. Reranker 재순위화 모델 (Neural Reranker)"
+  label: "078. 신경망 재순위 모델 (Neural Reranker)"
   badge:
     text: "기출 · 60%"
     variant: note
-title: "Reranker 재순위화 모델 (Neural Reranker)"
+title: "신경망 재순위 모델 (Neural Reranker)"
 date: "2026-08-02T11:06:00+09:00"
 tags:
   - "notes-latest_tech"
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신경망 재순위 모델(Neural Reranker)**은 1차 검색 후보의 관련성을 신경망으로 재점수화해 최종 순서를 개선한다.
+- **신경망 재순위 모델(Neural Reranker)**: 1차 검색 후보의 관련성을 신경망으로 재점수화해 최종 순서를 개선한다.
 
 </details>
 
-- 정의/개념: 1차 검색 후보의 관련성을 신경망으로 재평가하는 **순위 최적화 모델**
+- 정의/개념: **신경망 재순위 모델(Neural Reranker)** 은 1차 검색 후보의 관련성을 신경망으로 재평가하는 순위 최적화 모델
 - 배경/필요성: 빠른 검색 점수는 **질의·문서 상호작용 부족**
 
 #### 한줄 요약
@@ -39,15 +39,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **교차 인코더**는 질의와 문서를 동시에 입력해 정밀하게 점수화한다.
-- **ColBERT**는 문서 토큰을 미리 인코딩하고 질의 토큰과 후기 상호작용해 지연을 줄인다.
+- **교차 인코더**: 질의와 문서를 동시에 입력해 정밀하게 점수화한다.
+- **BERT 기반 문맥화 후기 상호작용(Contextualized Late Interaction over BERT, ColBERT)**: 문서 토큰을 미리 인코딩하고 질의 토큰과 후기 상호작용해 지연을 줄인다.
 
 </details>
 
 - 1차 검색에 포함된 문서만 재정렬하는 **후보 제한**
 - 질의·문서 관계로 점수를 계산하는 **정밀 상호작용**
-- **BERT 교차 인코더**의 정밀 평가와 후보별 추론 지연 증가
-- **ColBERT**의 문서 토큰 사전 인코딩에 따른 재순위 지연 감소
+- **트랜스포머 양방향 인코더 표현(Bidirectional Encoder Representations from Transformers, BERT) 교차 인코더**의 정밀 평가와 후보별 추론 지연 증가
+- **BERT 기반 문맥화 후기 상호작용(Contextualized Late Interaction over BERT, ColBERT)** 의 문서 토큰 사전 인코딩에 따른 재순위 지연 감소
 
 #### 한줄 요약
 
@@ -58,8 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Top-k**는 1차 검색 결과 중 재평가할 상위 후보 수다.
-- **반환 정책**은 응답 지연과 문맥 한도 안에서 최종 제공할 문서 수를 정한다.
+- **Top-k**: 1차 검색 결과 중 재평가할 상위 후보 수다.
+- **반환 정책**: 응답 지연과 문맥 한도 안에서 최종 제공할 문서 수를 정한다.
 
 </details>
 
@@ -94,8 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **후보 제한**은 재순위 모델이 1차 검색에서 누락된 문서를 되살릴 수 없다는 제약이다.
-- **재점수화**는 질의·문서 상호작용을 반영한 새 관련성 점수로 후보 순서를 바꾸는 과정이다.
+- **후보 제한**: 재순위 모델이 1차 검색에서 누락된 문서를 되살릴 수 없다는 제약이다.
+- **재점수화**: 질의·문서 상호작용을 반영한 새 관련성 점수로 후보 순서를 바꾸는 과정이다.
 
 </details>
 
@@ -128,7 +128,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **점별·쌍별·목록별 학습**은 각각 개별 관련성, 문서 간 선호, 전체 후보 순위 품질을 최적화한다.
+- **점별·쌍별·목록별 학습**: 각각 개별 관련성, 문서 간 선호, 전체 후보 순위 품질을 최적화한다.
 
 </details>
 
@@ -147,16 +147,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Recall@k**는 관련 정답이 재순위 후보에 포함된 비율이고, **nDCG**는 관련성과 순위 위치를 함께 반영한다.
-- **MRR**은 첫 관련 정답 순위의 역수를 질의별로 평균한 지표다.
+- **상위 k개 재현율(Recall at k, Recall@k)**: 관련 정답이 재순위 후보에 포함된 비율이다.
+- **정규화 할인 누적 이득(Normalized Discounted Cumulative Gain, nDCG)**: 관련성과 순위 위치를 함께 반영한 지표다.
+- **평균 역순위(Mean Reciprocal Rank, MRR)**: 첫 관련 정답 순위의 역수를 질의별로 평균한 지표다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Top-k 밖의 **1차 검색 누락** | **Recall@k** 확보와 하이브리드 검색 적용 | 재순위의 **정답 포함률** 확보 |
+| Top-k 밖의 **1차 검색 누락** | **상위 k개 재현율(Recall at k, Recall@k)** 확보와 하이브리드 검색 적용 | 재순위의 **정답 포함률** 확보 |
 | 후보·모델 증가에 따른 **꼬리 지연** | k 제한과 경량 모델·**배치 추론** 적용 | **응답 시간·비용** 제한 |
-| 쉬운 부정 표본 중심의 **순위 학습 편향** | 어려운 부정 표본 수집과 **nDCG·MRR** 평가 | 유사 오답의 **순위 분별력** 향상 |
+| 쉬운 부정 표본 중심의 **순위 학습 편향** | 어려운 부정 표본 수집과 **정규화 할인 누적 이득(Normalized Discounted Cumulative Gain, nDCG)·평균 역순위(Mean Reciprocal Rank, MRR)** 평가 | 유사 오답의 **순위 분별력** 향상 |
 
 #### 한줄 요약
 
@@ -167,7 +168,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **지연 예산**은 1차 검색과 Top-k 후보의 모델 추론을 포함한 전체 응답 시간 한도다.
+- **지연 예산**: 1차 검색과 Top-k 후보의 모델 추론을 포함한 전체 응답 시간 한도다.
 
 </details>
 
