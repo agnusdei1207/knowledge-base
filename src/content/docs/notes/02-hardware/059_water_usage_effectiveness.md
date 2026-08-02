@@ -24,11 +24,11 @@ extra:
 
 - **물사용효율(Water Usage Effectiveness, WUE)**: 데이터센터의 현장 물 사용량을 IT 장비 에너지로 나누어 수자원 효율을 나타내는 지표이다.
 - **현장 물 사용량($V_W$)**: 데이터센터 경계 안에서 냉각과 운영에 실제로 소비한 물의 부피로 WUE의 분자이다.
-- **IT 장비 에너지($E_{IT}$)**: 서버와 스토리지 및 네트워크 장비가 소비한 에너지로 WUE의 분모이다.
+- **정보기술 장비 에너지(Information Technology Equipment Energy, IT Equipment Energy, $E_{IT}$)**: 서버와 스토리지 및 네트워크 장비가 소비한 에너지로 WUE의 분모이다.
 
 </details>
 
-- 정의/개념: **물사용효율(WUE)**은 데이터센터의 현장 물 사용량을 IT 장비 에너지로 나눠 계산하는 **수자원 효율 지표**
+- 정의/개념: 데이터센터의 현장 물 사용량을 IT 장비 에너지로 나눠 계산하는 **물사용효율(Water Usage Effectiveness, WUE)** 기반 **수자원 효율 지표**
 - 배경/필요성: 증발 냉각은 전력 효율을 높이면서 물 소비를 늘릴 수 있어 **물 사용 집약도를 별도 관리할 필요**
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **리터/킬로와트시(L/kWh)**: IT 장비 에너지 1킬로와트시당 소비한 물의 리터 수를 나타내는 WUE 단위이다.
+- **리터/킬로와트시(Liter per Kilowatt-hour, L/kWh)**: 정보기술(Information Technology, IT) 장비 에너지 1킬로와트시당 소비한 물의 리터 수를 나타내는 물사용효율(Water Usage Effectiveness, WUE) 단위이다.
 - **증발 냉각(Evaporative Cooling)**: 물이 기체로 변할 때 흡수하는 잠열을 이용하여 장비 열을 방출하는 방식이다.
 - **비교 조건(Comparison Condition)**: WUE 추세를 공정하게 비교하기 위해 동일하게 유지하거나 함께 기록해야 하는 경계·기간·기후이다.
 
@@ -63,7 +63,7 @@ $$
 
 - **수원별 계량(Water-source Metering)**: 상수와 지하수 및 재생수처럼 공급원별 사용 부피를 분리하여 측정하는 계량이다.
 - **환경 정보(Environmental Information)**: 냉각 성능과 물 위험을 해석하기 위해 기록하는 외기 온습도와 지역 물 부족도이다.
-- **WUE 분석기(WUE Analyzer)**: 검증된 물 사용량과 IT 에너지로 WUE와 기간별 추세를 산출하는 시스템이다.
+- **물사용효율 분석기(Water Usage Effectiveness Analyzer, WUE Analyzer)**: 검증된 물 사용량과 정보기술(Information Technology, IT) 에너지로 WUE와 기간별 추세를 산출하는 시스템이다.
 
 </details>
 
@@ -94,7 +94,7 @@ block
 
 <details><summary>핵심 용어</summary>
 
-- **계량 범위(Metering Scope)**: WUE 분자와 분모에 포함하는 물 사용 설비와 IT 장비의 물리적 경계이다.
+- **계량 범위(Metering Scope)**: 물사용효율(Water Usage Effectiveness, WUE) 분자와 분모에 포함하는 물 사용 설비와 정보기술(Information Technology, IT) 장비의 물리적 경계이다.
 - **가뭄(Drought)**: 강수 부족이 이어져 지역 가용 수자원과 취수 여유가 줄어든 상태이다.
 - **유효 자료(Validated Data)**: 범위와 기간 및 결측 검사를 통과하여 WUE 계산에 사용할 수 있는 계량값이다.
 
@@ -175,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- **물 부족도**가 높으면 건식 냉각, **전력 제약**이 크면 재생수 증발 냉각 선택
+- 물 부족도가 높으면 **건식 냉각**, 전력 제약이 크면 **재생수 증발 냉각** 선택
 
 #### 한줄 요약
 
