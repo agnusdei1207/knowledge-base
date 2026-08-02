@@ -98,19 +98,18 @@ sequenceDiagram
   participant O as 업무 책임자
   participant A as 분석가
   participant M as 측정기
-  participant C as 계산기
-  participant V as 검증기
+  participant C as 계산·검증기
   O->>A: 거래 경계·피크 비율 전달
   A->>M: 1. N·R·Z 측정 조건 전송
   M->>C: 2. N·R·Z 표본 전송
-  C->>V: 3. X=N/(R+Z) 계산값 전송
-  V->>C: 4. 업무 비율·피크 TPS 보정
+  C->>C: 3. X=N/(R+Z) 계산
+  C->>C: 4. 업무 비율·피크 TPS 보정
   C-->>O: 목표 TPS·시험 부하 결과
 ```
 
 1. **N·R·Z 측정 조건 전송**: 성공 거래와 집중 시간 확정
 2. **N·R·Z 표본 전송**: 사용자 수와 주기 분포 수집
-3. **X=N/(R+Z) 계산값 전송**: 폐쇄형 평균 TPS 산출
+3. **X=N/(R+Z) 계산**: 폐쇄형 평균 TPS 산출
 4. **업무 비율·피크 TPS 보정**: 거래별 최대 부하 변환
 
 #### 한줄 요약

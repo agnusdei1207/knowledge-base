@@ -97,19 +97,18 @@ block-beta
 sequenceDiagram
   participant A as 분석가
   participant P as 프로파일러
-  participant M as 분류기
-  participant C as 계산기
+  participant C as 구간 분류·계산기
   participant V as 검증기
   A->>P: 고정 작업 분석 요청
-  P->>M: 1. 기준시간·프로파일 전송
-  M->>C: 2. P·N·추가비용 전송
+  P->>C: 1. 기준시간·프로파일 전송
+  C->>C: 2. P·N·추가비용 분류
   C->>V: 3. 가속비·효율·상한 전송
   V->>C: 4. 실측 편차·경제성 보정
   C-->>A: 튜닝·증설 투자안
 ```
 
 1. **기준시간·프로파일 전송**: 고정 작업과 환경 기준 확보
-2. **P·N·추가비용 전송**: 순차 비율과 통신 비용 반영
+2. **P·N·추가비용 분류**: 순차 비율과 통신 비용 반영
 3. **가속비·효율·상한 전송**: $S(N)$·$S/N$ 산출
 4. **실측 편차·경제성 보정**: 예측과 실측의 투자 효과 비교
 

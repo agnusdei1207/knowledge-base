@@ -100,13 +100,12 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant A as 분석가
-  participant M as 측정 시스템
-  participant D as 지표 저장소
+    participant M as 측정·지표 시스템
   participant C as 계산기
   participant V as 검증기
   A->>M: 작업·측정 경계 전달
-  M->>D: 1. 안정 구간 지표 저장
-  D->>C: 2. L·λ·W 평균값 전송
+    M->>M: 1. 안정 구간 지표 저장
+    M->>C: 2. L·λ·W 평균값 전송
   C->>V: 3. L=λW 계산값 전송
   V->>M: 4. 관측값·가정 교차검증
   M-->>A: 동시성·처리율·체류시간 결과

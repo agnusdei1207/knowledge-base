@@ -99,12 +99,11 @@ block-beta
 sequenceDiagram
   participant A as 분석가
   participant M as 측정기
-  participant Q as 모형 선정기
-  participant C as 계산기
+    participant C as 모형 선정·계산기
   participant V as 검증기
   A->>M: 1. 도착·서비스 표본 수집
-  M->>Q: 2. Kendall 모형·가정 선정
-  Q->>C: 3. 이용률·안정 조건 계산
+    M->>C: 2. Kendall 모형·가정 선정
+    C->>C: 3. 이용률·안정 조건 계산
   C->>V: 4. 대기길이·체류시간 예측
   V->>C: 5. 실측 오차·용량 보정
   C-->>A: 대기 예측·용량 결과

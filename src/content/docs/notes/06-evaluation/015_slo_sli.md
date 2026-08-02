@@ -97,13 +97,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant O as 서비스 책임자
-  participant U as 사용자 경로
+    participant O as 사용자 경로·서비스 책임자
   participant C as 데이터 수집기
   participant I as SLI 계산기
   participant P as 운영 정책
-  O->>U: 1. 사용자 여정·좋은 사건 정의
-  U->>C: 2. 성공·오류·지연 데이터 수집
+    O->>O: 1. 사용자 여정·좋은 사건 정의
+    O->>C: 2. 성공·오류·지연 데이터 수집
   C->>I: 3. 측정 창 SLI·예산 계산
   I->>P: 4. 소진율·SLO 충족 판정
   P->>P: 5. 배포·안정화·목표 조정

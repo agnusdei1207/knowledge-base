@@ -102,13 +102,12 @@ sequenceDiagram
   participant O as 서비스 책임자
   participant L as 부하 발생기
   participant S as 서비스
-  participant C as 수집기
-  participant A as 분석기
+    participant C as 수집·분석기
   O->>L: 1. 업무·부하·목표 정의
   L->>S: 2. 요청·시작시각 전송
   S->>C: 3. 완료·오류·구간 기록
-  C->>A: 4. TPS·지연·가용성 산출
-  A-->>O: SLO 충족·병목 판정 결과
+    C->>C: 4. TPS·지연·가용성 산출
+    C-->>O: SLO 충족·병목 판정 결과
 ```
 
 1. **업무·부하·목표 정의**: 거래·기간·성공·SLO 확정

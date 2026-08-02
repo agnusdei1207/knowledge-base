@@ -102,13 +102,12 @@ block-beta
 sequenceDiagram
   participant O as 서비스 책임자
   participant M as 품질 측정기
-  participant B as 예산 계산기
-  participant R as 소진율 감시기
+    participant B as 예산 계산·소진율 감시기
   participant G as 배포 관문
   O->>M: 1. SLI·SLO·측정 창 정의
   M->>B: 2. 허용·실제 실패량 계산
-  B->>R: 3. 잔여 예산·소진율 산출
-  R->>G: 4. 다중 창 경보·정책 판정
+    B->>B: 3. 잔여 예산·소진율 산출
+    B->>G: 4. 다중 창 경보·정책 판정
   G->>G: 5. 배포·안정화·예외 결정
   G-->>O: 변경 정책 결과 전달
 ```
