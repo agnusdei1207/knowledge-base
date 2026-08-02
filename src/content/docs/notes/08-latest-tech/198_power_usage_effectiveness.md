@@ -64,7 +64,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 </details>
 
-**정보기술(Information Technology, IT) 장비 계측**과 총 시설 계측은 같은 경계와 기간을 사용한다.
+**정보기술(Information Technology, IT) 장비 계측** 과 총 시설 계측은 같은 경계와 기간을 사용한다.
 
 ```mermaid
 block-beta
@@ -117,7 +117,7 @@ sequenceDiagram
 
 1. **측정 경계·기간 전달**: 시설·**정보기술(Information Technology, IT)** 의 **계측 위치·기간** 제공
 2. **총·정보기술 에너지 전달**: 같은 기간의 **두 에너지 값** 제공
-3. **전력 사용 효과성(Power Usage Effectiveness, PUE)·부하 손실 분석**: 산정 PUE와 **정보기술 부하·기후**를 대조해 손실 원인 판정
+3. **전력 사용 효과성(Power Usage Effectiveness, PUE)·부하 손실 분석**: 산정 PUE와 **정보기술 부하·기후** 를 대조해 손실 원인 판정
 4. **오버헤드 개선안 전달**: 냉각·배전 손실의 **개선 조건** 제공
 5. **재측정 결과 전달**: 동일 조건의 PUE와 **총전력·서비스 수준 목표(Service Level Objective, SLO)** 제공
 

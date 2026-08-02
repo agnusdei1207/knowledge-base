@@ -49,7 +49,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{IT 장비 에너지
 
 - **국제표준화기구/국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 30134-9:2022** 기반 동일 경계·기간 측정
 - 수원·취수·방류·재사용을 구분한 **물 수지·지역 부담 해석**
-- 증발 냉각은 **전력 사용 효과성(Power Usage Effectiveness, PUE) 감소·물 사용 효과성(Water Usage Effectiveness, WUE) 증가**를 유발해 **탄소 사용 효과성(Carbon Usage Effectiveness, CUE)·서비스 수준 목표(Service Level Objective, SLO)** 병행 판단
+- 증발 냉각은 **전력 사용 효과성(Power Usage Effectiveness, PUE) 감소·물 사용 효과성(Water Usage Effectiveness, WUE) 증가** 를 유발해 **탄소 사용 효과성(Carbon Usage Effectiveness, CUE)·서비스 수준 목표(Service Level Objective, SLO)** 병행 판단
 #### 한줄 요약
 
 - 물의 양뿐 아니라 출처와 재사용 여부를 밝히고, 전력 절감과 물 증가의 맞바꿈을 함께 본다.

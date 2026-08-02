@@ -43,7 +43,7 @@ extra:
 
 </details>
 
-- **사물인터넷(Internet of Things, IoT) 센서·사건**과 이력 기반 **트윈 상태 동기화**
+- **사물인터넷(Internet of Things, IoT) 센서·사건** 과 이력 기반 **트윈 상태 동기화**
 - 모델·시뮬레이션 기반 **고장·변경 영향 예측**
 - **국제표준화기구(International Organization for Standardization, ISO) 23247** 기반 생애주기 연계와 **승인·안전 피드백**
 
@@ -170,7 +170,7 @@ sequenceDiagram
 
 </details>
 
-- 단방향 상태 추적은 **디지털 섀도(Digital Shadow)**, 예측·제어 피드백은 **디지털 트윈(Digital Twin)** 을 선택하고 **국제표준화기구(International Organization for Standardization, ISO) 23247**을 참조
+- 단방향 상태 추적은 **디지털 섀도(Digital Shadow)**, 예측·제어 피드백은 **디지털 트윈(Digital Twin)** 을 선택하고 **국제표준화기구(International Organization for Standardization, ISO) 23247** 을 참조
 
 #### 한줄 요약
 

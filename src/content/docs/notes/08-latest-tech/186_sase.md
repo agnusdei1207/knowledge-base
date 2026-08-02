@@ -46,7 +46,7 @@ extra:
 
 - **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)·보안 서비스 엣지(Security Service Edge, SSE)** 기반 **연결·보안 정책 통합**
 - **제로 트러스트 네트워크 접근(Zero Trust Network Access, ZTNA)** 기반 사용자·장치·애플리케이션의 **지속적 접근 판정**
-- 인접 **서비스 거점(Point of Presence, PoP)** 기반 **백홀 지연 감소**와 거점 품질 의존
+- 인접 **서비스 거점(Point of Presence, PoP)** 기반 **백홀 지연 감소** 와 거점 품질 의존
 #### 한줄 요약
 
 - 사용자 위치와 관계없이 같은 경로 선택과 보안 규칙이 적용돼야 한다.
@@ -138,7 +138,7 @@ sequenceDiagram
 | 판단 기준 | 보안 접근 서비스 엣지(Secure Access Service Edge, SASE) | 보안 서비스 엣지 | 기존 허브 경유 방식 |
 |:---|:---|:---|:---|
 | 적용 기준 | 연결·보안 통합이 필요한 **분산 환경** | 기존 **광역망(Wide Area Network, WAN)** 의 **보안 통합** | **중앙 업무·고정 경계** 중심 |
-| 핵심 특징 | **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)** 과 **보안 서비스 엣지(Security Service Edge, SSE)** 의 **엣지 통합** | **클라우드 보안 기능**만 제공 | 중앙 허브의 **트래픽 집중 검사** |
+| 핵심 특징 | **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)** 과 **보안 서비스 엣지(Security Service Edge, SSE)** 의 **엣지 통합** | **클라우드 보안 기능** 만 제공 | 중앙 허브의 **트래픽 집중 검사** |
 | 한계 | **제공자 종속·거점 품질** 편차 | **연결·보안 정책 분리** 가능 | **백홀 지연·중앙 장애** 집중 |
 
 #### 한줄 요약
