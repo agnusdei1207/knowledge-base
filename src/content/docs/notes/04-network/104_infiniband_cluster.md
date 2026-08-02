@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-07-31T11:06:48+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -17,24 +17,14 @@ extra:
   priority_note: "비교·설계형: 138회 InfiniBand 직접 요구"
 ---
 
-## 미리 알고가기
-
-- **InfiniBand**: 서버·저장장치 사이에 RDMA와 손실 없는 낮은 지연 전송을 제공하도록 설계된 스위치 패브릭 기술이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 서버 메모리에 운영체제 복사를 줄여 직접 데이터를 전송한다.
-- **통합 이더넷 기반 RDMA 버전 2(RDMA over Converged Ethernet Version 2, RoCEv2)**: RDMA 패킷을 인터넷 프로토콜 라우팅망으로 전달한다.
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 범용 이더넷에서 신뢰성·혼잡 제어를 제공한다.
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버 메모리와 InfiniBand 링크 사이에서 RDMA 작업을 실행하는 장치다.
-- **서브넷 관리자(Subnet Manager, SM)**: 패브릭 토폴로지를 발견하고 주소·경로·파티션을 계산·배포하는 제어 기능이다.
-- **로컬 식별자(Local Identifier, LID)**: 한 InfiniBand 서브넷 안에서 스위치가 패킷 전달에 사용하는 짧은 주소다.
-- **큐 페어(Queue Pair, QP)**: 응용이 HCA에 송신·수신 RDMA 작업을 게시하는 두 큐다.
-- **가상 레인(Virtual Lane, VL)**: 하나의 물리 링크에서 트래픽을 논리 큐로 분리해 서비스 품질과 교착 방지를 지원하는 채널이다.
-- **크레딧 기반 흐름 제어**: 수신 버퍼의 여유량만큼 크레딧을 받은 송신자만 보내 링크 손실을 방지하는 방식이다.
-- **파티션 키(Partition Key, P_Key)**: 같은 물리 패브릭에서 통신 가능한 논리 그룹을 구분하는 접근 식별자다.
-- **IBTA InfiniBand Architecture 2.0**: 스위치·라우터·채널 어댑터와 전송 동작을 규정한 산업 표준 규격이다.
-
-> **키워드:** InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **RDMA·크레딧 제어 패브릭**: InfiniBand는 HCA와 스위치를 연결해 RDMA와 수신 버퍼 크레딧 기반 무손실 전송을 제공하는 패브릭이다.
+
+</details>
 
 - 정의/개념: HCA와 스위치를 잇는 **RDMA·크레딧 제어 패브릭**
 - 배경/필요성: 범용망의 복사와 손실로 인한 **지연 변동**
@@ -45,6 +35,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **링크 무손실 흐름 제어**: 링크 무손실 흐름 제어는 수신 버퍼의 여유 크레딧을 가진 송신자만 전송하게 해 링크 손실을 방지한다.
+
+</details>
+
 - HCA 기반 **RDMA 전송**
 - 크레딧 기반 **링크 무손실 흐름 제어**
 - 서브넷 관리자 기반 **주소·경로 관리**
@@ -54,6 +51,13 @@ extra:
 - 각 링크는 받을 공간이 있다는 신호만큼 보내 패킷을 잃지 않지만 중앙 경로 관리가 잘못되면 많은 서버가 함께 영향을 받는다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **서브넷 관리자**: 서브넷 관리자는 패브릭 토폴로지를 발견하고 LID·경로·P_Key를 계산·배포하는 중앙 제어 기능이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -85,6 +89,13 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **5. 크레딧 RDMA 전송**: HCA와 스위치는 다음 홉의 수신 버퍼 크레딧 범위에서만 RDMA 패킷을 보내 손실을 억제한다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 응용
@@ -115,6 +126,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **InfiniBand**: InfiniBand는 최고 성능 연산 클러스터에 전용 RDMA·크레딧 흐름 제어를 제공하지만 전용 장비와 관리가 필요하다.
+
+</details>
+
 | 클러스터 인터커넥트 | InfiniBand | RoCEv2 | TCP 이더넷 |
 |:---|:---|:---|:---|
 | 적용 기준 | **최고 성능 연산 클러스터** | 기존 이더넷 기반 **대규모 RDMA** | **범용 호환·운영 단순성** 우선 |
@@ -129,7 +147,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **단일 장애**: 서브넷 관리자의 단일 장애는 토폴로지·주소·경로·파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 줄 수 있다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 집단 통신의 **상위 링크 병목** | **비차단 용량·경로 분산** | **반복 시간 단축** |
 | 서브넷 관리자의 **단일 장애** | **관리자 이중화·상태 동기화** | **제어 가용성** 확보 |
@@ -140,6 +165,13 @@ sequenceDiagram
 - 집단 통신 부하로 비차단 용량을 산정하고 서브넷 관리자 장애 전환과 장비 상호운용을 사전 검증한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **RoCEv2**: RoCEv2는 기존 이더넷 장비를 재사용해 라우팅 가능한 RDMA망을 구성할 때 InfiniBand의 대안이 된다.
+
+</details>
 
 - 전용 최고 성능은 **InfiniBand**, 이더넷 재사용은 **RoCEv2** 선택
 

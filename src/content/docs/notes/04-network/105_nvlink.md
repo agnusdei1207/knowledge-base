@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-07-31T11:07:07+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -17,24 +17,14 @@ extra:
   priority_note: "비교형: 138회 NVLink Scale-up 구성"
 ---
 
-## 미리 알고가기
-
-- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 많은 연산을 병렬 실행해 인공지능 학습·추론과 과학 계산을 가속하는 장치다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 운영체제와 범용 연산을 실행하는 호스트 처리기다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 서버 메모리에 운영체제 복사를 줄여 직접 데이터를 전송한다.
-- **NVLink**: GPU·CPU 사이에 높은 대역폭의 메모리 접근과 자료 전송을 제공하는 스케일업 인터커넥트다.
-- **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치다.
-- **스케일업(Scale-Up)**: 한 시스템이나 고속 도메인 안에서 처리기·메모리 연결을 확대하는 방식이다.
-- **스케일아웃(Scale-Out)**: 여러 서버 노드를 네트워크로 연결해 전체 처리 능력을 확대하는 방식이다.
-- **집합 통신(Collective Communication)**: 여러 처리기가 자료를 전체 합산·배포·수집하는 통신 연산이다.
-- **엔비디아 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: GPU 토폴로지와 링크 상태에 따라 집합 통신의 링·트리 경로를 선택한다.
-- **주변기기 구성요소 고속 연결(Peripheral Component Interconnect Express, PCIe)**: 호스트와 가속기·저장·망 장치를 연결하는 범용 버스다.
-- **InfiniBand·통합 이더넷 기반 RDMA(InfiniBand·RDMA over Converged Ethernet, RoCE)**: 서버 노드 사이의 스케일아웃 RDMA 전송망이다.
-- **패브릭 관리자(Fabric Manager)**: NVSwitch 도메인의 링크·파티션·접근 상태를 구성하고 감시하는 관리 기능이다.
-
-> **키워드:** NVLink 고대역폭 인터커넥트 (NVLink)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **고대역폭 스케일업 연결**: NVLink는 한 고속 도메인 안의 GPU·CPU 메모리 사이에 높은 대역폭의 접근과 전송을 제공하는 스케일업 연결이다.
+
+</details>
 
 - 정의/개념: GPU·CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**
 - 배경/필요성: PCIe의 **GPU 간 대역폭 병목**
@@ -45,6 +35,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **토폴로지 인식 집합 통신**: 토폴로지 인식 집합 통신은 GPU·NVSwitch 연결과 링크 상태에 따라 NCCL이 링·트리 경로를 선택한다.
+
+</details>
+
 - GPU·CPU 간 **상호 메모리 접근**
 - NVSwitch 기반 **다중 GPU 교차 연결**
 - NCCL 기반 **토폴로지 인식 집합 통신**
@@ -54,6 +51,13 @@ extra:
 - 빠른 링크가 있어도 자주 통신하는 GPU가 멀리 배치되면 여러 스위치와 외부망을 거쳐 대기 시간이 커진다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NVSwitch 패브릭**: NVSwitch 패브릭은 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 고대역폭 경로를 제공한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -85,6 +89,13 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **3. 통신 순위·자료 배치**: NCCL은 자주 데이터를 교환하는 GPU 순위를 같은 NVSwitch 도메인과 가까운 링크에 배치한다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant GPU
@@ -115,6 +126,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **InfiniBand·RoCE**: InfiniBand·RoCE는 서버와 랙 경계를 넘어 GPU 집합 통신을 확장하는 스케일아웃 RDMA망이다.
+
+</details>
+
 | 가속기 연결 방식 | NVLink | PCIe | InfiniBand·RoCE |
 |:---|:---|:---|:---|
 | 적용 기준 | 한 도메인의 **모델·텐서 병렬** | 저장·망 장치의 **범용 연결** | 랙·클러스터 간 **집합 통신** |
@@ -129,7 +147,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **사용률 편중**: 일부 링크의 사용률 편중은 집합 통신 경로가 같은 NVLink·NVSwitch 포트에 집중돼 유효 대역폭을 제한하는 문제다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 통신 GPU의 **도메인 분리** | **토폴로지 인식 순위 배치** | **외부망 경유 트래픽 감소** |
 | 일부 링크의 **사용률 편중** | **링·트리 경로 분산** | **유효 대역폭 향상** |
@@ -140,6 +165,13 @@ sequenceDiagram
 - 텐서 통신량이 큰 GPU를 같은 NVSwitch 도메인에 배치하고 링크 편중과 장애 링크의 대체 경로를 확인한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **RDMA망**: RDMA망은 서버 밖으로 확장하는 GPU 통신을 담당하고 한 NVSwitch 도메인의 스케일업 통신은 NVLink가 담당한다.
+
+</details>
 
 - 한 도메인 스케일업은 **NVLink**, 서버 간 확장은 **RDMA망** 선택
 
