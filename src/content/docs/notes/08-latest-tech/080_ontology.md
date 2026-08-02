@@ -65,16 +65,16 @@ extra:
 ```mermaid
 block-beta
   columns 3
-  class["클래스 저장소"]
+  cls["클래스 저장소"]
   individual["개체 저장소"]
   object["객체 속성 저장소"]
   data["데이터 속성 저장소"]
   axiom["공리·제약 저장소"]
-  class --- individual
-  class --- object
+  cls --- individual
+  cls --- object
   individual --- object
   individual --- data
-  axiom --- class
+  axiom --- cls
   axiom --- object
 ```
 
