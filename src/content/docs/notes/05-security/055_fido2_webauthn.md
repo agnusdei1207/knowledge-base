@@ -122,15 +122,17 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **WebAuthn** 은 브라우저·서버 연동, **CTAP2** 는 클라이언트·외부 인증자 통신을 정의한다.
+- **온라인 신속 인증 2(Fast Identity Online 2, FIDO2)**: 웹 공개키 인증을 구성하는 전체 체계이다.
+- **웹 인증(Web Authentication, WebAuthn)**: 브라우저와 서버의 자격 증명 등록·인증 절차를 정의한다.
+- **인증자 통신 프로토콜 2(Client to Authenticator Protocol 2, CTAP2)**: 클라이언트와 외부 인증자의 통신을 정의한다.
 
 </details>
 
-| FIDO2 구성 역할 | FIDO2 | WebAuthn | CTAP2 |
-|:---|:---|:---|:---|
-| 적용 기준 | **비밀번호 없는 인증** 설계 | **브라우저·서버 연동** | **보안키·휴대전화 연동** |
-| 핵심 특징 | **전체 공개키 인증 체계** | **웹 자격 증명 API** | 외부 인증자 통신 |
-| 한계 | **등록·복구 경로** 약화 | **원본 검증 오류** | 악성 **클라이언트 중계** |
+| 구성 요소 | 역할 | 연계 지점 |
+|:---|:---|:---|
+| **온라인 신속 인증 2(Fast Identity Online 2, FIDO2)** | **웹 공개키 인증 전체 체계** | 웹 인증과 인증자 통신 프로토콜 2를 결합 |
+| **웹 인증(Web Authentication, WebAuthn)** | **브라우저·서버 자격 증명 처리** | 서비스 원본과 자격 증명 결합 |
+| **인증자 통신 프로토콜 2(Client to Authenticator Protocol 2, CTAP2)** | **클라이언트·외부 인증자 통신** | 보안키·휴대전화 인증자 연결 |
 
 #### 한줄 요약
 
