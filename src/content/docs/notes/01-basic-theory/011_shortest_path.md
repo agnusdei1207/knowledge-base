@@ -99,15 +99,13 @@ sequenceDiagram
     participant Q as 호출자
     participant S as 최단 경로 계산기
     participant G as 가중 그래프
-    participant D as 거리값
-    participant R as 선행 정점
+    participant T as 경로 기록
     Q->>S: 경로 요청
     loop 완화 후보 존재
         G-->>S: 1. 간선 정보 반환
-        D-->>S: 2. 기존 거리 반환
+        T-->>S: 2. 기존 거리 반환
         opt 신규 후보가 더 짧음
-            S->>D: 3. 거리값 갱신
-            S->>R: 4. 선행 정점 갱신
+            S->>T: 3. 거리•선행 정점 갱신
         end
     end
     S-->>Q: 최단 경로 반환
@@ -117,8 +115,7 @@ sequenceDiagram
 
 1. **간선 정보 반환**: 완화 대상의 끝점•가중치 확보
 2. **기존 거리 반환**: 신규 경로 비용과 현재 후보 비교
-3. **거리값 갱신**: 더 짧은 최소 비용 후보 기록
-4. **선행 정점 갱신**: 경로 역추적용 직전 정점 기록
+3. **거리•선행 정점 갱신**: 최소 비용과 경로 역추적용 직전 정점을 함께 기록
 
 #### 한줄 요약
 
