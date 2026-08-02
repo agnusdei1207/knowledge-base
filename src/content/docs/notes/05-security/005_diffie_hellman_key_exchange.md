@@ -102,16 +102,14 @@ block-beta
 sequenceDiagram
     participant A as 참여자 A
     participant B as 참여자 B
-    participant V as 그룹 검증기
-    participant I as 인증 검증기
-    participant K as 키 유도 함수
-    A->>V: 1. 그룹·공개값 검증
+    A->>A: 1. 그룹·공개값 검증
     A->>B: A 인증 공개값
-    B->>I: 2. 상대 신원·기록 검증
+    B->>B: 2. 상대 신원·기록 검증
     B->>A: B 인증 공개값
-    A->>K: 3. 공유 비밀 계산
-    K->>K: 4. 세션키 도출
-    K-->>A: 방향별 세션키
+    A->>A: 3. 공유 비밀 계산
+    B->>B: 3. 공유 비밀 계산
+    A->>A: 4. 세션키 도출
+    B->>B: 4. 세션키 도출
 ```
 
 **동작 원리**

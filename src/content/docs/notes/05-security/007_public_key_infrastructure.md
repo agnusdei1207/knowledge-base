@@ -107,7 +107,6 @@ sequenceDiagram
     participant R as 등록기관
     participant C as 인증기관
     participant V as 검증자
-    participant P as 상태 저장소
     S->>R: 인증서 발급 신청
     R->>R: 1. 신원·키 통제권 검증
     R->>C: 2. 검증된 발급 요청
@@ -115,8 +114,8 @@ sequenceDiagram
     C-->>S: 인증서 체인
     S->>V: 인증서 체인·소유 증명
     V->>V: 4. 인증서 경로 검증
-    V->>P: 5. 폐지 상태 조회
-    P-->>V: CRL·OCSP 상태
+    V->>C: 5. 폐지 상태 조회
+    C-->>V: CRL·OCSP 상태
     V-->>S: 공개키 신뢰 판정
 ```
 

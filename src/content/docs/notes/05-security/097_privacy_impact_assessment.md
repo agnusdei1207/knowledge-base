@@ -100,12 +100,11 @@ sequenceDiagram
     participant O as 공공기관
     participant A as 평가기관
     participant D as 개발·운영팀
-    participant C as 개인정보 조직
     participant P as 보호위원회
     O->>A: 1. 법정 대상·평가 범위 확정
     A->>D: 2. 처리 흐름·보호 현황 조사
-    A->>C: 3. 침해요인·위험도 산정
-    C->>D: 4. 개선조치 구현·증거 확인
+    A->>O: 3. 침해요인·위험도 산정
+    O->>D: 4. 개선조치 구현·증거 확인
     O->>O: 5. 잔여위험 승인·변경 관리
     O-->>P: 영향평가 결과 제출
 ```

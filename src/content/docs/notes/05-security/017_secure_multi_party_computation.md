@@ -106,14 +106,13 @@ sequenceDiagram
     participant A as 입력 소유자 A
     participant B as 입력 소유자 B
     participant M as MPC 참여자 집합
-    participant V as 무결성 검증기
     participant R as 결과 수신자
     A->>M: A 입력 조각
     B->>M: B 입력 조각
     M->>M: 1. 전처리 재료 적용
     M->>M: 2. 비밀 조각 공동 연산
-    M->>V: 3. 결과 조각 MAC 검증
-    V->>R: 검증된 결과 조각
+    M->>M: 3. 결과 조각 MAC 검증
+    M->>R: 검증된 결과 조각
     R->>R: 4. 허용 결과 재구성
     R-->>A: 허용 결과
     R-->>B: 허용 결과
