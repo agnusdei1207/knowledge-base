@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "QoS, DiffServ, IntServ"
-date: "2026-07-31T01:11:36+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-network"
 weight: 72
@@ -18,28 +18,16 @@ extra:
   priority_note: "비교·설계형: DiffServ·IntServ QoS 기반"
 ---
 
-## 미리 알고가기
-
-- **지터(Jitter)**: 패킷 도착 간격의 흔들림
-- **통합 서비스(Integrated Services, IntServ)**: 흐름별 자원을 예약하고 라우터가 상태를 유지하는 QoS 구조
-- **차등 서비스(Differentiated Services, DiffServ)**: 패킷 등급을 표시하고 영역 내 라우터가 등급별 동작을 적용하는 QoS 구조
-- **홉별 동작(Per-Hop Behavior, PHB)**: DiffServ 노드가 등급별로 수행하는 큐잉·스케줄링·폐기 동작
-- **서비스 품질(Quality of Service, QoS·큐오에스)**: Quality·of·Service의 핵심 글자를 딴 표기이며, 지연·지터·손실·대역폭을 트래픽별로 차등 관리하는 체계
-- **차등 서비스 코드점(Differentiated Services Code Point, DSCP·디에스씨피)**: 영문 각 단어의 머리글자를 딴 표기이며, IP 헤더에 등급을 표시해 홉별 동작을 선택하게 하는 값
-- **자원 예약 프로토콜(Resource Reservation Protocol, RSVP·알에스브이피)**: 영문 각 단어의 머리글자를 딴 표기이며, IntServ 흐름의 종단 간 자원을 예약하는 신호 프로토콜
-- **구조 약어 읽기와 표기**: IntServ·DiffServ·PHB는 인트서브·디프서브·피에이치비로 읽고 Integrated·Differentiated Service와 Per-Hop Behavior를 줄인 표기이며, 흐름 예약·등급 차등·홉별 실행 역할을 구분함
-- **서비스 수준 협약(Service Level Agreement, SLA·에스엘에이)**: 영문 각 단어의 머리글자를 딴 표기이며, 측정한 품질을 계약 목표와 비교하는 기준
-- **최선형 서비스(Best Effort)**: 패킷별 자원 보장 없이 가능한 범위에서 전달하는 기본 서비스
-- **수용 제어(Admission Control)**: 새 흐름을 받아도 기존 품질 목표를 지킬 수 있는지 판단하는 기능
-- **트래픽 제어(Traffic Conditioning)**: 약정 속도·버스트에 맞게 표시·제한·평활하는 처리
-- **큐잉·폐기(Queuing·Dropping)**: 패킷을 등급별 대기열에 저장하고 혼잡 시 일부를 버리는 처리
-- **도메인 경계(Domain Boundary)**: 서로 다른 QoS 정책과 DSCP 규칙이 만나는 네트워크 지점
-
-> **키워드:** QoS, DiffServ, IntServ
-
 ## Ⅰ. 개요
 
-- 정의/개념: 분류·표시·큐잉으로 자원을 배분하는 **트래픽 품질 관리 체계**
+<details>
+<summary>핵심 용어</summary>
+
+- **네트워크 트래픽 품질 관리 체계**: QoS는 혼잡 시 트래픽을 분류·표시하고 큐·대역폭·폐기 정책을 차등 적용하는 네트워크 트래픽 품질 관리 체계다.
+
+</details>
+
+- 정의/개념: **QoS**는 분류·표시·큐잉으로 지연·지터·손실·대역폭 자원을 차등 배분하는 **네트워크 트래픽 품질 관리 체계**
 - 배경/필요성: 최선형 동일 처리는 혼잡 시 **서비스별 품질 보장 불가**
 
 ### 쉽게 이해하기 (학습용)
@@ -47,6 +35,13 @@ extra:
 - 한정된 회선이 붐빌 때 중요한 패킷의 순서·대역폭·폐기 기준을 미리 정해 품질 차이를 만든다
 
 ## Ⅱ. 특징
+
+<details>
+<summary>핵심 용어</summary>
+
+- **정책 연속성**: 정책 연속성은 도메인 경계의 DSCP 표시와 내부 PHB 규칙을 정렬해 종단 경로에서 같은 서비스 등급을 유지한다.
+
+</details>
 
 - **차등 처리**: 큐잉·폐기로 중요 흐름 손실 감소
 - **정책 연속성**: 도메인별 표시·PHB 정합으로 종단 유지
@@ -57,6 +52,13 @@ extra:
 - 혼잡하지 않을 때는 차이가 작지만 큐가 차면 어떤 패킷을 먼저 보내고 버릴지가 품질을 가른다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **PHB·큐잉**: PHB·큐잉은 표시된 등급에 따라 패킷의 버퍼·전송 순서·대역폭·혼잡 폐기 방식을 실행한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -82,6 +84,13 @@ block-beta
 - 등급 표시는 약속일 뿐 실제 처리는 PHB와 큐잉 자원이 결정함
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **4. PHB·큐잉 처리**: 코어 라우터는 DSCP 등급을 PHB에 매핑해 큐 순서·할당 대역·폐기 정책을 적용한다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -112,6 +121,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **DiffServ**: DiffServ는 개별 흐름 상태 대신 DSCP 등급을 집계하고 각 홉에서 PHB를 적용해 대규모 IP망의 트래픽을 차등 처리한다.
+
+</details>
+
 | 판단 기준 | **IntServ** | **DiffServ** |
 |:---|:---|:---|
 | 적용 기준 | 소수 흐름의 명시적 자원 예약 | 대규모 IP망의 통계적 차등 |
@@ -126,7 +142,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **DSCP 변경**: 도메인 경계에서 DSCP 변경 정책이 일치하지 않으면 뒤쪽 장비가 원래 서비스 등급을 인식하지 못해 종단 QoS가 끊긴다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 도메인 경계에서 DSCP 변경 | **표시 보존·재표시 정책** 합의 | 종단 차등 유지 |
 | 우선 큐 과다 할당으로 일반 흐름 고갈 | **수용 제어·대역 상한** 설정 | 일반 트래픽 보호 |
@@ -137,6 +160,13 @@ sequenceDiagram
 - 음성 패킷에 DSCP 우선 등급을 표시하고 경로상의 장비가 지연이 짧은 우선 큐로 일관되게 처리한다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **IntServ**: IntServ는 RSVP로 흐름별 종단 자원을 예약하고 라우터가 개별 상태를 유지해 명시적 품질을 보장한다.
+
+</details>
 
 - 소수 흐름의 명시적 예약은 **IntServ**, 대규모 등급 차등은 **DiffServ**
 
