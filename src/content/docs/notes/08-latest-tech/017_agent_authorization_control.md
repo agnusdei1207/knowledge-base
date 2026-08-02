@@ -45,9 +45,10 @@ extra:
 - **정책 집행점(Policy Enforcement Point, PEP)**: PDP의 결정을 도구 호출 직전에 허용이나 거부로 강제한다.
 
 </details>
+
 - **인증·권한 위임**: 사용자·에이전트·도구 신원과 대리 범위 분리
-- **PDP·PEP**: 정책 판단을 도구 호출 전에 강제
-- **최소 권한·HITL**: 고위험 행동의 권한과 피해 범위 제한
+- **정책 결정점(Policy Decision Point, PDP)·정책 집행점(Policy Enforcement Point, PEP)**: 정책 판단을 도구 호출 전에 강제
+- **최소 권한·인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동의 권한과 피해 범위 제한
 
 #### 한줄 요약
 - 문서 열람·삭제 권한 분리와 작업 재확인
@@ -59,7 +60,7 @@ extra:
 
 - **정책 관리**: 역할·속성·금지 규칙과 정책 버전을 정의하고 변경하는 기능이다.
 - **인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동의 대상과 영향을 사람이 재확인하고 승인하는 통제다.
-- **API(Application Programming Interface)**: 에이전트가 외부 기능을 요청하는 호출 경계로, PEP가 정책을 집행하는 지점이 된다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 에이전트가 외부 기능을 요청하는 호출 경계로, PEP가 정책을 집행하는 지점이 된다.
 
 </details>
 
@@ -82,7 +83,7 @@ block-beta
 | 인증·위임 | 사용자·에이전트의 **신원·대리 범위** 확인 |
 | 정책 관리 | 역할·속성·**금지 규칙** 정의 |
 | 정책 결정점 | 주체·자원·환경으로 **허용 여부** 판단 |
-| 정책 집행점 | **API 호출 전 허용·거부** 강제 |
+| 정책 집행점 | **응용 프로그래밍 인터페이스(Application Programming Interface, API) 호출 전 허용·거부** 강제 |
 | 승인·감사 | 고위험 행동의 **인간 승인·결과 기록** |
 
 #### 한줄 요약
@@ -97,6 +98,8 @@ block-beta
 - **추가 승인**: 정책상 고위험으로 분류된 행동을 실행하기 전에 사용자에게 최종 결정을 요청하는 절차다.
 
 </details>
+
+- **정책 집행점(Policy Enforcement Point, PEP)** 측에서 **정책 결정점(Policy Decision Point, PDP)** 판단을 받아 **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 호출 직전에 허용·거부와 추가 승인을 강제한다.
 
 ```mermaid
 sequenceDiagram
@@ -135,13 +138,15 @@ sequenceDiagram
 
 </details>
 
+- **역할 기반 접근통제(Role-Based Access Control, RBAC)** 및 **속성 기반 접근통제(Attribute-Based Access Control, ABAC)** 사이를 안정적 직무 권한과 동적 상황 판단 기준으로 구분한다.
+
 | 접근통제 | RBAC | ABAC |
 |:---|:---|:---|
 | 적용 기준 | **직무별 권한이 안정적** | **상황별 동적 판단 필요** |
 | 핵심 특징 | **역할에 권한 결합** | **주체·자원·환경 속성 평가** |
 | 한계 | **역할 폭증·세밀성 부족** | **정책 복잡·판단 추적 부담** |
 
-> 요약: **RBAC**은 안정적 역할, **ABAC**은 동적 속성 기반 통제
+> 요약: 안정적 역할에는 **RBAC**, 동적 속성 통제에는 **ABAC** 적용
 
 #### 한줄 요약
 - 에이전트는 도구 조합 효과까지 통제해야 함
@@ -172,11 +177,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RBAC 선택 기준**: 직무와 권한 관계가 안정적이고 반복되는 환경에 역할 기반 통제를 적용한다.
-- **ABAC 선택 기준**: 사용자·자원·시간·위험도 같은 동적 맥락을 세밀하게 평가해야 할 때 속성 기반 통제를 적용한다.
+- **역할 기반 접근통제 선택 기준(Role-Based Access Control Selection Criteria, RBAC Selection Criteria)**: 직무와 권한 관계가 안정적이고 반복되는 환경에 역할 기반 통제를 적용한다.
+- **속성 기반 접근통제 선택 기준(Attribute-Based Access Control Selection Criteria, ABAC Selection Criteria)**: 사용자·자원·시간·위험도 같은 동적 맥락을 세밀하게 평가해야 할 때 속성 기반 통제를 적용한다.
 
 </details>
-- 안정적 직무 권한은 **RBAC**, 동적 맥락·도구 조합은 **ABAC** 선택
+
+- 안정적 직무 권한에는 **역할 기반 접근통제(Role-Based Access Control, RBAC)**, 동적 맥락·도구 조합에는 **속성 기반 접근통제(Attribute-Based Access Control, ABAC)** 선택
 
 #### 한줄 요약
 - 비서에게 업무별 임시 열쇠만 주는 것이 안전함
