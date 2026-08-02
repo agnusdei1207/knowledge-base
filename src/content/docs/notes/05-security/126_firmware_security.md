@@ -91,7 +91,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **OTA·SBOM**: 펌웨어를 원격 배포하는 방식과 구성요소·버전·의존성을 기록한 명세서이다.
+- **무선 원격 업데이트(Over-the-Air Update, OTA)·소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 펌웨어를 원격 배포하는 방식과 구성요소·버전·의존성을 기록한 명세서이다.
 
 </details>
 
@@ -144,16 +144,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-193**: 플랫폼 펌웨어의 보호·탐지·복구 복원력 지침이다.
-- **IETF RFC 9019·9124**: IoT 펌웨어 업데이트 구조와 매니페스트 정보 모델을 정의한다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-193**: 플랫폼 펌웨어의 보호·탐지·복구 복원력 지침이다.
+- **인터넷국제표준화기구 의견요청서(Internet Engineering Task Force Request for Comments, IETF RFC) 9019·9124**: 사물인터넷(Internet of Things, IoT) 펌웨어 업데이트 구조와 매니페스트 정보 모델을 정의한다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 펌웨어 복원력 | **NIST SP 800-193 적용** | 보호·탐지·복구 확보 |
-| IoT 갱신 구조 | **IETF RFC 9019 적용** | 참여자·신뢰 경계 명확화 |
-| 갱신 메타데이터 | **IETF RFC 9124 적용** | 대상·버전·서명 검증 |
+| **펌웨어 복원력** | **NIST SP 800-193 적용** | **보호·탐지·복구** 확보 |
+| **IoT 갱신 구조** | **IETF RFC 9019 적용** | **참여자·신뢰 경계** 명확화 |
+| **갱신 메타데이터** | **IETF RFC 9124 적용** | **대상·버전·서명** 검증 |
 
 #### 한줄 요약
 
