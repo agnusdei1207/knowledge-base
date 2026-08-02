@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR)"
-date: "2026-07-31T11:28:21+09:00"
+date: "2026-08-02T10:52:00+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -18,19 +18,14 @@ extra:
   priority_note: "138회 직전 비교 기출이라 동일문구 반복은 감점함"
 ---
 
-## 미리 알고가기
-
-- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 로그 상관분석으로 경보와 조사 근거를 생성하는 탐지·분석 시스템이다.
-- **보안 오케스트레이션·자동화·대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연계하여 사건 조사·승인·조치를 자동화하는 대응 플랫폼이다.
-- **종단 탐지·대응(Endpoint Detection and Response, EDR)**: 단말 행위를 탐지하고 위협 프로세스·호스트를 격리하는 보안 도구이다.
-- **신원 제공자(Identity Provider, IdP)**: 사용자 인증과 계정 잠금·세션 회수를 제공하는 신원 시스템이다.
-- **사건 식별자(Incident Identifier, Incident ID)**: SIEM 경보와 SOAR 대응 기록을 동일 사건으로 연결하는 고유 값이다.
-- **폐쇄 루프(Closed Loop)**: 조치 결과를 탐지 규칙에 되돌려 다음 경보 판단을 개선하는 순환이다.
-- **NIST SP 800-92**: 전사 로그 관리 기반과 수집·보존·분석 절차를 제시한 공식 지침이다.
-- **OASIS CACAO 2.0**: 자동 대응 플레이북의 구조·워크플로·명령을 정의한 공식 규격이다.
-> **키워드:** SIEM vs SOAR 비교 (SIEM vs SOAR)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **SIEM**은 로그 상관분석으로 경보·조사 근거를 만들고, **SOAR**는 보안 도구를 연계해 조사·승인·조치를 자동화한다.
+
+</details>
 
 - 정의/개념: SIEM의 **로그 탐지·분석**과 SOAR의 **조사·조치 자동화**를 연결한 관제 구조
 - 배경/필요성: 탐지·조치 시스템 분리로 **사건 인계·대응 지연**
@@ -40,6 +35,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **사건 ID**는 SIEM 경보와 SOAR 대응 기록을 동일 사건으로 연결하는 고유 값이다.
+- **폐쇄 루프**는 조치 결과를 탐지 규칙에 되돌려 다음 경보 판단을 개선하는 순환이다.
+
+</details>
+
 - SIEM의 **로그 상관분석·경보 생성**
 - SOAR의 **정보 보강·플레이북 실행**
 - 사건 ID 기반 **폐쇄 루프 결과 환류**
@@ -48,6 +51,14 @@ extra:
 - 운영 규칙으로 역할 및 판정 주체를 정해야 함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **인계 계약**은 사건 ID·증거·위험도·대상 필드를 SIEM과 SOAR가 일관되게 주고받도록 정의한다.
+- **EDR·IdP**는 각각 단말 격리와 계정 잠금·세션 회수를 집행한다.
+
+</details>
 
 ```mermaid
 block
@@ -79,6 +90,13 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **실행 증적**은 요청 성공 응답뿐 아니라 실제 격리·차단·복구 상태까지 기록한 결과다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 로그원천
@@ -108,6 +126,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **탐지 근거**는 SIEM의 책임이고, **대응 수행**은 SOAR의 책임이며 두 시스템은 사건 ID로 연결한다.
+
+</details>
+
 | 보안 관제 플랫폼 | SIEM | SOAR |
 |:---|:---|:---|
 | 적용 기준 | **탐지 근거** 필요 시 | **자동 대응** 필요 시 |
@@ -122,7 +147,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **NIST SP 800-92**는 전사 로그 수집·보존·분석 절차를 제시한다.
+- **OASIS CACAO 2.0**은 자동 대응 플레이북의 구조·워크플로·명령을 정의한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **로그 품질·추적성** | **NIST SP 800-92 적용** | 경보 근거 **신뢰성** 확보 |
 | **플레이북 이식성** | **OASIS CACAO 2.0 적용** | 대응 절차 **상호운용** 확보 |
@@ -133,6 +166,13 @@ sequenceDiagram
 - SIEM이 단말의 악성 행위를 로그 연계로 탐지하면 SOAR가 현재 상태를 확인하고 승인된 절차에 따라 EDR 격리를 실행한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **운영 추적성**은 탐지 근거와 승인·조치·복구 결과가 하나의 사건 기록에 남을 때 확보된다.
+
+</details>
 
 - 탐지·증거는 **SIEM**, 조사·조치는 **SOAR**, 사건 ID로 결과 폐쇄 루프 연결
 
