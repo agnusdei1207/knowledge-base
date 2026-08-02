@@ -22,12 +22,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **고대역폭 스케일업 연결**: NVLink는 한 고속 도메인 안의 GPU·CPU 메모리 사이에 높은 대역폭의 접근과 전송을 제공하는 스케일업 연결이다.
+- **고대역폭 스케일업 연결**: NVIDIA NVLink는 한 고속 도메인 안의 그래픽처리장치(Graphics Processing Unit, GPU)와 중앙처리장치(Central Processing Unit, CPU) 메모리 사이에 높은 대역폭의 접근과 전송을 제공하는 스케일업 연결이다.
+- **NVLink**: NVIDIA가 GPU·CPU 등 처리기 사이의 고대역폭 직접 통신을 위해 제공하는 전용 인터커넥트이다.
 
 </details>
 
 - 정의/개념: GPU·CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**
-- 배경/필요성: PCIe의 **GPU 간 대역폭 병목**
+- 배경/필요성: 고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)의 **GPU 간 대역폭 병목**
 
 #### 한줄 요약
 
@@ -38,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **토폴로지 인식 집합 통신**: 토폴로지 인식 집합 통신은 GPU·NVSwitch 연결과 링크 상태에 따라 NCCL이 링·트리 경로를 선택한다.
+- **토폴로지 인식 집합 통신**: 토폴로지 인식 집합 통신은 그래픽처리장치(Graphics Processing Unit, GPU)·NVIDIA NVSwitch 연결과 링크 상태에 따라 NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)가 링·트리 경로를 선택한다.
+- **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치이다.
 
 </details>
 
@@ -55,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NVSwitch 패브릭**: NVSwitch 패브릭은 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 고대역폭 경로를 제공한다.
+- **NVSwitch 패브릭**: NVIDIA NVSwitch 패브릭은 여러 NVLink 포트를 교차 연결해 다수 그래픽처리장치(Graphics Processing Unit, GPU)가 동시에 통신할 고대역폭 경로를 제공한다. NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)가 이 토폴로지에 맞는 경로를 선택한다.
+- **패브릭 관리자(Fabric Manager)**: 링크·파티션·접근 상태를 관리해 GPU 통신 도메인을 구성하는 제어 구성요소이다.
 
 </details>
 
@@ -81,8 +84,6 @@ block-beta
 | 패브릭 관리자 | **링크·파티션·접근 상태** 관리 |
 | NCCL 통신 계층 | 토폴로지별 **집합 통신 경로** 선택 |
 
-> 요약: NVSwitch 도메인에서 GPU 메모리 경로 최적화
-
 #### 한줄 요약
 
 - GPU 포트를 NVSwitch가 교차 연결하고 관리자가 접근 영역을 정하면 NCCL이 집합 통신 경로를 선택한다.
@@ -92,7 +93,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. 통신 순위·자료 배치**: NCCL은 자주 데이터를 교환하는 GPU 순위를 같은 NVSwitch 도메인과 가까운 링크에 배치한다.
+- **3. 통신 순위·자료 배치**: NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)는 자주 데이터를 교환하는 그래픽처리장치(Graphics Processing Unit, GPU) 순위를 같은 NVSwitch 도메인과 가까운 링크에 배치한다.
+- **집합 통신(Collective Communication)**: 여러 GPU가 하나의 그룹으로 브로드캐스트·리듀스·전체 리듀스 등을 수행하는 통신 방식이다.
 
 </details>
 
@@ -118,8 +120,6 @@ sequenceDiagram
 3. **통신 순위·자료 배치**: 자주 교환할 GPU를 가까이 배치
 4. **집합 경로 활성화**: 연산별 링·트리 경로 설정
 5. **집합 데이터 전송**: 선택 경로로 GPU 자료 교환
-> 요약: 토폴로지에 맞춰 GPU 배치·집합 경로 선택
-
 #### 한줄 요약
 
 - 연결 구조를 먼저 확인해 자주 통신하는 GPU를 가깝게 놓고 NCCL이 연산에 맞는 링이나 트리 경로를 사용한다.
@@ -129,7 +129,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand·RoCE**: InfiniBand·RoCE는 서버와 랙 경계를 넘어 GPU 집합 통신을 확장하는 스케일아웃 RDMA망이다.
+- **InfiniBand·RoCE**: InfiniBand와 통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)은 서버와 랙 경계를 넘어 그래픽처리장치(Graphics Processing Unit, GPU) 집합 통신을 확장하는 스케일아웃 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 망이다.
+- **PCIe**: 고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)은 호스트와 가속기·저장·망 장치를 잇는 범용 버스다.
+- **모델·텐서 병렬(Model/Tensor Parallelism)**: 하나의 모델이나 텐서 연산을 여러 GPU에 나눠 동시에 처리하는 병렬화 방식이다.
 
 </details>
 
@@ -138,8 +140,6 @@ sequenceDiagram
 | 적용 기준 | 한 도메인의 **모델·텐서 병렬** | 저장·망 장치의 **범용 연결** | 랙·클러스터 간 **집합 통신** |
 | 핵심 특징 | **스케일업 메모리 연결** | **범용 호스트·장치 버스** | **스케일아웃 RDMA망** |
 | 한계 | **전용 생태계·토폴로지 제약** | **GPU 간 대역폭·공유 병목** | **망 혼잡·외부 경로 지연** |
-
-> 요약: 장치 범위·통신 거리·확장 방식으로 선택
 
 #### 한줄 요약
 
@@ -150,7 +150,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **사용률 편중**: 일부 링크의 사용률 편중은 집합 통신 경로가 같은 NVLink·NVSwitch 포트에 집중돼 유효 대역폭을 제한하는 문제다.
+- **사용률 편중**: 일부 링크의 사용률 편중은 그래픽처리장치(Graphics Processing Unit, GPU) 집합 통신 경로가 같은 NVIDIA NVLink·NVSwitch 포트에 집중돼 유효 대역폭을 제한하는 문제다.
+- **토폴로지 인식 순위 배치(Topology-Aware Rank Placement)**: 통신량이 큰 GPU 순위를 가까운 링크와 같은 스위치 도메인에 배치하는 기법이다.
+- **경로 재구성(Path Reconfiguration)**: 링크 장애나 혼잡 시 집합 통신의 링·트리 경로를 다시 선택하는 복구 방식이다.
 
 </details>
 
@@ -169,7 +171,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RDMA망**: RDMA망은 서버 밖으로 확장하는 GPU 통신을 담당하고 한 NVSwitch 도메인의 스케일업 통신은 NVLink가 담당한다.
+- **RDMA망**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 망은 서버 밖으로 확장하는 그래픽처리장치(Graphics Processing Unit, GPU) 통신을 담당하고 한 NVIDIA NVSwitch 도메인의 스케일업 통신은 NVLink가 담당한다.
 
 </details>
 
