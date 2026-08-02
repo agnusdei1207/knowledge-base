@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **표준화 기구(SDO)**: 이해관계자의 합의를 통해 기술 규격을 개발·승인·배포하는 조직이다.
+- **표준개발기구(Standards Development Organization, SDO)**: 이해관계자의 합의를 통해 기술 규격을 개발·승인·배포하는 조직이다.
 - **국제표준**: 국가·산업 간 상호운용성·안전·품질·무역 기준을 통일하기 위해 합의한 규격이다.
 
 </details>
 
-- 정의/개념: **ITU·ISO·IEEE·IETF**는 국가·산업·전문가 공동체의 절차와 합의에 따라 국제 권고·표준·RFC를 개발·승인·배포하는 **표준화 기구(SDO)**
-- 배경/필요성: 개별 규격만으로는 국가 간 **상호운용성**과 무역·안전 기준 통일 곤란
+- 정의/개념: 국제 권고·표준·RFC를 개발·승인·배포하는 **표준개발기구(Standards Development Organization, SDO)**
+- 배경/필요성: 개별 규격만으로는 국가 간 **상호운용성 확보** 및 무역·안전 기준 통일 곤란
 
 #### 한줄 요약
 - 무선 랜이나 인터넷 프로토콜처럼 전 세계 모든 제조사와 통신사가 동일한 기술 규격으로 시스템을 만들도록 약속을 정하는 단체들입니다.
@@ -40,6 +40,9 @@ extra:
 - **합의 절차**: 제안·초안·공개 검토·의견 해결·투표를 통해 이해관계자 동의를 형성하는 과정이다.
 - **개방성**: 표준 초안과 의견 수렴에 다양한 국가·기업·전문가가 참여할 수 있는 성질이다.
 - **표준필수특허**: 표준을 구현하려면 반드시 사용해야 하는 특허로 허가 조건 관리가 필요한 권리이다.
+- **공식 합의**: 회원국·국가위원회의 대표성과 투표 절차를 통해 표준을 승인하는 방식이다.
+- **개방 참여**: 기술 전문가와 구현자가 공개 토론·검토·시험에 참여하여 기술 합의를 만드는 방식이다.
+- **기구 간 연계**: 여러 표준화 기구가 공동 작업과 상호 참조로 중복·충돌 규격을 줄이는 협력 방식이다.
 
 </details>
 
@@ -54,9 +57,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ITU**: 전기통신·전파 분야의 국제표준과 주파수·위성궤도를 조정하는 유엔 전문기구이다.
-- **ISO·IEC**: 산업 전반과 전기·전자·정보기술 분야의 국제표준을 국가 표준기관 참여로 제정하는 기구이다.
-- **IEEE·IETF**: 전기·전자·컴퓨터 기술표준을 개발하는 전문기관과 인터넷 표준을 공개 합의로 개발하는 공동체이다.
+- **국제전기통신연합(International Telecommunication Union, ITU)**: 전기통신·전파 분야의 국제표준과 주파수·위성궤도를 조정하는 유엔 전문기구이다.
+- **국제표준화기구(International Organization for Standardization, ISO)·국제전기기술위원회(International Electrotechnical Commission, IEC)**: 산업 전반과 전기·전자·정보기술 분야의 국제표준을 국가 표준기관 참여로 제정하는 기구이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)·인터넷국제표준화기구(Internet Engineering Task Force, IETF)**: 전기·전자·컴퓨터 기술표준과 인터넷 표준을 각각 전문가 합의로 개발하는 조직이다.
+- **의견요청서(Request for Comments, RFC)**: 인터넷 프로토콜·절차·기술 정보를 공개하고 합의 결과를 기록하는 IETF 문서군이다.
 
 </details>
 
@@ -85,6 +89,7 @@ block-beta
 
 - **작업 항목**: 표준화 필요성·범위·일정·참여 조직을 정하여 공식 개발을 시작하는 제안이다.
 - **의견 해결**: 초안 검토에서 제기된 기술·법적 의견을 반영하거나 근거를 들어 처리하는 절차이다.
+- **합의·투표**: 기구별 승인 규칙에 따라 이해관계자의 동의를 확인하고 표준안을 공식 채택하는 절차이다.
 
 </details>
 
@@ -112,9 +117,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **권고·국제표준**: ITU·ISO·IEC가 회원국·국가 표준기관 절차로 승인하여 발행하는 규격이다.
-- **IEEE 표준**: 기술 전문가·산업 참여자가 위원회와 투표 절차로 개발하는 표준이다.
-- **RFC**: 인터넷 프로토콜·절차·기술 정보를 정의하여 IETF가 공개하는 문서군이다.
+- **권고·국제표준**: 국제전기통신연합(International Telecommunication Union, ITU)·국제표준화기구(International Organization for Standardization, ISO)·국제전기기술위원회(International Electrotechnical Commission, IEC)가 회원 절차로 승인하여 발행하는 규격이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 표준**: 기술 전문가·산업 참여자가 위원회와 투표 절차로 개발하는 표준이다.
+- **의견요청서(Request for Comments, RFC)**: 인터넷국제표준화기구(Internet Engineering Task Force, IETF)가 인터넷 프로토콜·절차·기술 정보를 정의하여 공개하는 문서군이다.
 
 </details>
 
@@ -131,7 +136,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **RAND**: 표준필수특허를 합리적이고 비차별적인 조건으로 허락하는 원칙이다.
+- **합리적이고 비차별적인 조건(Reasonable and Non-Discriminatory, RAND)**: 표준필수특허를 합리적이고 차별 없는 조건으로 허락하는 원칙이다.
 - **표준 중복**: 여러 기구가 유사 범위의 규격을 별도로 개발하여 구현 선택과 적합성 판정이 충돌하는 문제이다.
 - **버전 고정**: 제품 요구에서 표준 이름만 쓰지 않고 판·개정연도·프로파일·선택 항목까지 명시하는 조치이다.
 
@@ -155,7 +160,7 @@ sequenceDiagram
 
 </details>
 
-- 공식 합의는 **ITU·ISO·IEC**, 구현 합의는 **IEEE·IETF**로 정하고 버전·특허 조건 반영
+- 공식 합의는 **국제전기통신연합(International Telecommunication Union, ITU)·국제표준화기구(International Organization for Standardization, ISO)·국제전기기술위원회(International Electrotechnical Commission, IEC)**, 구현 합의는 **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)·인터넷국제표준화기구(Internet Engineering Task Force, IETF)** 중심으로 선정
 
 #### 한줄 요약
 - 자사 기술이 국제 표준으로 채택되도록 기구별 투표권 행사 규정과 표준 제정 동향을 실시간 감시해야 합니다.
