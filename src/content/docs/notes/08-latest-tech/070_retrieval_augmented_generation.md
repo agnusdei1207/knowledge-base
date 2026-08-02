@@ -18,8 +18,6 @@ extra:
   priority_note: "검색 근거 결합이 생성형 AI 핵심 출제축"
 ---
 
-> **키워드:** RAG (검색 증강 생성)
-
 ## Ⅰ. 개요
 
 <details>

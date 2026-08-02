@@ -18,8 +18,6 @@ extra:
   priority_note: "의미 기반 검색이 RAG 검색 기반"
 ---
 
-> **키워드:** Semantic Search (의미 검색)
-
 ## Ⅰ. 개요
 
 <details>

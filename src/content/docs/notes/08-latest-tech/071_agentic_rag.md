@@ -18,8 +18,6 @@ extra:
   priority_note: "자율 검색·검증 결합이 최신 출제축"
 ---
 
-> **키워드:** Agentic RAG (에이전틱 RAG)
-
 ## Ⅰ. 개요
 
 <details>

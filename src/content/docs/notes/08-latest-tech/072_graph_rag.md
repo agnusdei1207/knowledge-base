@@ -18,8 +18,6 @@ extra:
   priority_note: "그래프 근거 탐색이 RAG 확장 핵심"
 ---
 
-> **키워드:** Graph RAG (지식그래프 융합형 RAG)
-
 ## Ⅰ. 개요
 
 <details>

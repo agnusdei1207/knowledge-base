@@ -18,8 +18,6 @@ extra:
   priority_note: "희소·밀집 결합이 검색 설계의 핵심"
 ---
 
-> **키워드:** Hybrid Search (하이브리드 검색)
-
 ## Ⅰ. 개요
 
 <details>
