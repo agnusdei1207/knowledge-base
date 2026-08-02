@@ -18,15 +18,15 @@ extra:
   priority_note: "Istio 제어·데이터 평면 구조가 출제됨"
 ---
 
-## 미리 알고가기
-
-- **Istio**: Kubernetes 환경에서 트래픽·보안·관측 정책을 제공하는 서비스 메시 구현체
-- **Istiod**: 서비스 발견, 정책 계산, 인증서 발급, 데이터 평면 구성 배포를 담당하는 제어 평면
-- **Ambient Mesh**: Pod별 사이드카 없이 ztunnel과 선택적 waypoint로 메시 기능을 제공하는 데이터 평면 방식
-
-> **키워드:** 이스티오 (Istio)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **Istio**: Kubernetes 환경에서 트래픽·보안·관측 정책을 제공하는 서비스 메시 구현체이다.
+- **서비스 메시**: 애플리케이션 밖의 데이터 평면에서 서비스 간 통신 정책을 집행하는 인프라 계층이다.
+
+</details>
 
 - 정의/개념: **Istiod 제어 평면**과 Sidecar 또는 Ambient 데이터 평면으로 통신 정책을 집행하는 서비스 메시
 - 배경/필요성: 마이크로서비스별 **보안·라우팅·관측 구현 중복과 정책 불일치** 완화
@@ -37,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Istiod**: 서비스 발견·정책 계산·인증서 발급·데이터 평면 구성 배포를 담당하는 제어 평면이다.
+- **xDS**: Envoy 데이터 평면에 클러스터·경로·리스너·보안 구성을 동적으로 전달하는 API 집합이다.
+
+</details>
+
 - Istiod의 **xDS 구성·인증서 배포**
 - Sidecar와 Ambient의 **데이터 평면 선택**
 - mTLS·L4/L7 라우팅·복원력·관측의 **정책 기반 집행**
@@ -46,6 +54,14 @@ extra:
 - 워크로드마다 프록시를 붙이거나 노드 공유 터널을 쓰고 필요한 구간에 L7 검사를 더할 수 있다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **Sidecar Envoy**: 각 Pod 옆에서 L4·L7 통신 정책을 집행하는 프록시이다.
+- **Ambient Mesh**: Pod별 사이드카 없이 ztunnel과 선택적 waypoint로 메시 기능을 제공하는 데이터 평면 방식이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -75,6 +91,14 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **ztunnel**: Ambient Mesh에서 노드 단위로 mTLS와 L4 보안 터널을 제공하는 공유 프록시이다.
+- **waypoint**: Ambient Mesh에서 선택한 서비스 범위의 HTTP 인가·라우팅 등 L7 정책을 집행하는 프록시이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
   participant C as 호출 서비스
@@ -103,6 +127,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **L4 정책**: 전송 계층의 주소·포트·워크로드 신원을 기준으로 통신을 제어하는 규칙이다.
+- **L7 정책**: HTTP 경로·메서드·헤더 등 애플리케이션 요청 내용을 기준으로 통신을 제어하는 규칙이다.
+
+</details>
+
 | Istio 데이터 평면 | Sidecar 모드 | Ambient ztunnel | Ambient ztunnel+waypoint |
 |:---|:---|:---|:---|
 | 적용 기준 | 워크로드별 **L4·L7 격리** | 저비용 **L4 보안 기본망** | 선택 범위의 **L7 정책** |
@@ -115,7 +147,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **카나리 배포**: 새 xDS 구성을 일부 워크로드에 먼저 적용해 오류와 성능을 확인하는 방식이다.
+- **마이그레이션 누락**: 데이터 평면을 바꿀 때 기존 정책의 집행 위치나 기능이 빠지는 문제이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **Sidecar·Ambient 기능 차이** | 정책별 **L4/L7 집행 위치** 표 작성 | **마이그레이션 누락** 방지 |
 | **waypoint 과부하·미경유** | 범위별 **용량 산정·경로 검증** | **L7 병목·인가 누락** 방지 |
@@ -126,6 +166,14 @@ sequenceDiagram
 - Sidecar에서 Ambient로 옮길 때 각 정책을 ztunnel과 waypoint 중 어디서 실행할지 먼저 확인한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **워크로드별 격리**: 각 Pod의 프록시와 정책 상태를 독립적으로 두어 영향 범위를 나누는 방식이다.
+- **선택적 L7**: HTTP 수준 검사가 필요한 트래픽만 waypoint를 거치게 하는 적용 방식이다.
+
+</details>
 
 - 워크로드별 격리는 Sidecar, L4 기본망은 **ztunnel**, 선택 L7은 **waypoint** 적용
 
