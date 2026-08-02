@@ -98,24 +98,22 @@ block
 sequenceDiagram
     participant U as 응용 프로그램
     participant D as Driver
-    participant C as Catalyst·AQE
-    participant S as Scheduler
     participant E as Executor
     U->>D: 변환·액션 제출
-    D->>C: 1. 논리 계획
-    C-->>D: 2. 최적 실행 계획
-    D->>S: 3. DAG·Stage
-    S->>E: 4. 파티션 Task
-    E-->>C: 5. 실행 통계
+    D->>D: 1. Catalyst 논리 계획
+    D->>D: 2. AQE 최적 실행 계획
+    D->>D: 3. DAG·Stage 구성
+    D->>E: 4. 파티션 Task
+    E-->>D: 5. 실행 통계
 ```
 
 **동작 원리**
 
-1. **논리 계획**: Driver가 Catalyst에 지연 연산 그래프 전달
-2. **최적 실행 계획**: Catalyst가 조인·스캔 실행 방식 반환
-3. **DAG·Stage**: Driver가 셔플 경계별 실행 단계 전달
-4. **파티션 Task**: 스케줄러가 Executor에 파티션 작업 배치
-5. **실행 통계**: Executor가 AQE에 행 수·셔플량 전달
+1. **Catalyst 논리 계획**: Driver가 지연 연산을 논리 그래프로 구성
+2. **AQE 최적 실행 계획**: 실행 통계에 맞춰 조인·스캔 방식 선택
+3. **DAG·Stage 구성**: Driver가 셔플 경계별 실행 단계 생성
+4. **파티션 Task**: Driver가 Executor에 파티션 작업 배치
+5. **실행 통계**: Executor가 Driver에 행 수·셔플량 전달
 
 #### 한줄 요약
 

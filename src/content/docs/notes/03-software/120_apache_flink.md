@@ -99,12 +99,10 @@ sequenceDiagram
     participant J as JobManager
     participant S as Source
     participant O as 연산자
-    participant C as 체크포인트 저장소
     participant K as Sink
     J->>S: 1. 체크포인트 ID
     S->>O: 2. Barrier·입력 위치
-    O->>C: 3. 상태 스냅숏
-    C-->>O: 상태 영속 완료
+    O->>J: 3. 상태 스냅숏·영속 완료
     O->>K: 4. 미확정 트랜잭션
     K-->>J: Sink 확인
     J->>K: 5. 커밋 결정

@@ -103,18 +103,16 @@ sequenceDiagram
     participant E as 엔드포인트
     participant P as 주 처리 노드
     participant R as 복제본
-    participant C as 제어 계층
     A->>E: 데이터베이스 요청
     E->>P: 1. 데이터베이스 요청
     P->>R: 2. 변경 레코드
     R-->>P: 3. 복제 확인
     P-->>E: 처리 결과
     E-->>A: 응답
-    C->>P: 상태 확인
-    P--xC: 응답 없음
-    C->>R: 4. 승격 명령
-    R-->>C: 5. 새 주 노드 상태
-    C->>E: 엔드포인트 대상
+    E->>P: 상태 확인
+    P--xE: 응답 없음
+    E->>R: 4. 승격 명령
+    R-->>E: 5. 새 주 노드 상태
 ```
 
 **동작 원리**
