@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IDS·IPS**: 복제 트래픽에서 침입을 탐지·경보하는 시스템과 인라인에서 공격을 차단하는 시스템이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 복제 트래픽에서 침입을 탐지·경보하는 시스템과 인라인에서 공격을 차단하는 시스템이다.
 
 </details>
 
-- 정의/개념: **IDS·IPS**는 네트워크·호스트 활동에서 침입 징후를 분석하되 IDS는 탐지·경보하고 IPS는 인라인에서 악성 트래픽을 차단하는 보안 시스템
+- 정의/개념: **IDS·IPS** — 네트워크·호스트 활동에서 침입 징후를 분석하되 IDS는 탐지·경보하고 IPS는 인라인에서 악성 트래픽을 차단하는 **보안 시스템**
 - 배경/필요성: 방화벽이 허용한 트래픽에 숨은 **취약점 악용** 공격 식별 한계
 
 #### 한줄 요약
@@ -40,6 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **시그니처·이상 탐지**: 알려진 공격 패턴과 정상 기준의 편차를 각각 찾는 방식이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 경로 외에서 공격을 경보하거나 인라인에서 즉시 차단하는 보안 시스템이다.
 
 </details>
 
@@ -57,6 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **세션 정규화·복원**: 조각·순서 차이를 표준화하고 양방향 통신 흐름을 재구성하는 작업이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 정규화한 세션을 분석해 경보 또는 차단 조치를 수행하는 시스템이다.
 
 </details>
 
@@ -92,6 +94,7 @@ block
 <summary>핵심 용어</summary>
 
 - **인라인·경로 외 배치**: 실제 통신 경로를 통과시키는 방식과 복제본만 검사하는 방식이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 탐지 결과에 따라 경보 또는 인라인 차단을 수행하는 시스템이다.
 
 </details>
 
@@ -125,6 +128,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **오탐·미탐**: 정상 트래픽을 공격으로 잘못 판단하거나 실제 공격을 놓치는 오류이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 경로 외 탐지·경보 방식과 인라인 탐지·차단 방식을 구분한 시스템이다.
 
 </details>
 
@@ -145,7 +149,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Fail-Open·Fail-Close**: IPS 장애 때 통신을 허용하거나 차단하는 방식이다.
+- **장애 시 허용·차단(Fail-Open/Fail-Close)**: IPS 장애 때 통신을 허용하거나 차단하는 방식이다.
+- **침입 방지 시스템(Intrusion Prevention System, IPS)**: 실제 통신 경로에서 공격 트래픽을 탐지해 차단하는 시스템이다.
 
 </details>
 
@@ -165,7 +170,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **바이패스**: 장애나 정책 조건에서 트래픽이 검사 기능을 우회해 흐르는 경로이다.
+- **바이패스(Bypass)**: 장애나 정책 조건에서 트래픽이 검사 기능을 우회해 흐르는 경로이다.
+- **침입 탐지·방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS·IPS)**: 규칙을 경보 모드로 검증한 뒤 신뢰도가 확보되면 차단 모드로 전환하는 시스템이다.
 
 </details>
 

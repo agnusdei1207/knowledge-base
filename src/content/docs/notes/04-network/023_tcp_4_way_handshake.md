@@ -23,10 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP 4-way handshake**: 양방향 송신을 FIN·ACK로 각각 독립 종료하는 절차이다.
+- **전송 제어 프로토콜 4단계 연결 종료(Transmission Control Protocol Four-Way Handshake, TCP 4-way handshake)**: 양방향 송신을 FIN·ACK로 각각 독립 종료하는 절차이다.
 </details>
 
-- 정의/개념: **TCP 4-way handshake**는 각 종단이 FIN과 ACK를 교환하여 양방향 송신 스트림을 독립적으로 닫는 연결 종료 절차
+- 정의/개념: **TCP 4-way handshake** — 각 종단이 FIN과 ACK를 교환하여 양방향 송신 스트림을 독립적으로 닫는 **연결 종료 절차**
 - 배경/필요성: 한 방향만 닫으면 반대 방향 **잔여 데이터** 보존 불가
 
 #### 한줄 요약
@@ -39,6 +39,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **능동·수동 종료와 반쪽 종료**: 먼저 FIN을 보내는 측, 이를 받는 측, 한 방향만 닫힌 상태이다.
+- **종료·확인 응답(Finish/Acknowledgment, FIN·ACK)**: 송신 종료를 알리고 상대가 보낸 종료 순서 번호를 확인하는 제어 플래그이다.
 </details>
 
 - FIN 순서 번호의 **손실·재전송 추적**
@@ -54,7 +55,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **FIN_WAIT·CLOSE_WAIT·LAST_ACK**: 능동 종료, 응용 종료 대기, 최종 ACK 대기 상태이다.
+- **종료 대기·닫기 대기·최종 확인 대기(Finish Wait/Close Wait/Last Acknowledgment, FIN_WAIT·CLOSE_WAIT·LAST_ACK)**: 능동 종료, 응용 종료 대기, 최종 ACK 대기 상태이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 양방향 바이트 스트림의 연결과 종료 상태를 관리하는 프로토콜이다.
 </details>
 
 ```mermaid
@@ -86,7 +88,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **FIN·ACK**: 더 보낼 데이터가 없음을 알리고 상대 종료를 확인하는 제어 비트이다.
+- **종료·확인 응답(Finish/Acknowledgment, FIN·ACK)**: 더 보낼 데이터가 없음을 알리고 상대 종료를 확인하는 제어 비트이다.
+- **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 지연 세그먼트 소멸과 최종 ACK 재전송을 위해 기다리는 시간이다.
 </details>
 
 ```mermaid
@@ -119,6 +122,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정상·동시 종료**: 한쪽이 먼저 닫는 절차와 양쪽이 거의 동시에 FIN을 보내는 절차이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 각 송신 방향을 독립적으로 종료하는 연결 지향 전송 프로토콜이다.
+- **종료·확인 응답(Finish/Acknowledgment, FIN·ACK)**: 방향별 종료 통지와 그 수신 확인에 사용하는 플래그이다.
 </details>
 
 | TCP 종료 역할 | 능동 종료 측 | 수동 종료 측 |
@@ -138,7 +143,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TIME_WAIT·2MSL**: 최종 ACK 재전송과 이전 세그먼트 소멸을 위해 능동 종료 측이 기다리는 상태와 기준 시간이다.
+- **시간 대기·최대 세그먼트 수명 두 배(Time Wait/Twice the Maximum Segment Lifetime, TIME_WAIT·2MSL)**: 최종 ACK 재전송과 이전 세그먼트 소멸을 위해 능동 종료 측이 기다리는 상태와 기준 시간이다.
+- **종료·확인 응답(Finish/Acknowledgment, FIN·ACK)**: 연결 방향의 종료를 통지하고 수신 여부를 확인하는 제어 플래그이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -158,6 +164,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **임시 포트**: 클라이언트가 새 연결을 만들 때 운영체제가 일시 할당하는 출발지 포트이다.
+- **확인 응답·시간 대기(Acknowledgment/Time Wait, ACK·TIME_WAIT)**: 마지막 종료 수신을 확인하고 지연 세그먼트가 사라질 때까지 연결 정보를 유지하는 절차이다.
 </details>
 
 - 반대 방향 데이터가 남으면 **반쪽 종료**, 최종 ACK 후 **TIME_WAIT** 유지

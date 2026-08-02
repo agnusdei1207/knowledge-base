@@ -21,6 +21,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **공통 분류**: 범정부 EA 참조모형은 기관별 업무, 서비스, 데이터, 기술, 성과 자산에 공통 분류를 적용해 비교와 연계를 지원한다.
+- **범정부 전사 아키텍처 참조모형(Government Enterprise Architecture Reference Model, Government EA Reference Model)**: 기관의 업무·서비스·데이터·기술·성과 자산을 공통 기준으로 분류해 비교·재사용·연계를 지원하는 체계이다.
 
 </details>
 
@@ -36,6 +37,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **DRM·TRM**: DRM은 데이터 의미와 교환 기준을, TRM은 기술 서비스와 호환·표준 기준을 제공한다.
+- **업무 참조모형(Business Reference Model, BRM)·서비스 참조모형(Service Reference Model, SRM)**: 정부 업무 기능과 이를 지원하는 서비스 구성요소를 공통 분류하는 모형이다.
+- **데이터 참조모형(Data Reference Model, DRM)·기술 참조모형(Technical Reference Model, TRM)**: 데이터 의미·교환과 기술 서비스·호환 표준을 공통 분류하는 모형이다.
+- **성과 참조모형(Performance Reference Model, PRM)**: 정보화 투자와 사업의 성과 지표를 공통 기준으로 분류·추적하는 모형이다.
 
 </details>
 
@@ -54,6 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **EA 저장소**: EA 저장소는 기관 자산과 참조 코드, 관계, 표준, 예외와 변경 이력을 함께 보존한다.
+- **전사 아키텍처 저장소(Enterprise Architecture Repository, EA Repository)**: 기관 자산·참조 코드·관계·표준·예외와 변경 이력을 보존하는 구성요소이다.
 
 </details>
 
@@ -89,6 +94,9 @@ block
 <summary>핵심 용어</summary>
 
 - **4. 중복·공유 후보**: 범정부 분석은 공통 코드로 매핑된 자산에서 중복 기능, 공유 데이터, 비표준 기술 후보를 찾아 거버넌스에 제출한다.
+- **1. 공통 코드 매핑**: 기관 자산을 참조모형 코드와 관계 근거에 연결하는 단계이다.
+- **2. 유사 자산**: 기존 공통 서비스·표준과 비교해 기능·데이터·기술이 비슷한 대상을 찾은 결과이다.
+- **3. 범정부 자산 집합**: 기관별 매핑 결과를 모아 중복·공유·상호운용성을 분석할 입력을 만드는 단계이다.
 
 </details>
 
@@ -121,7 +129,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DRM**: DRM은 데이터 주제, 요소, 의미, 형식과 메타데이터를 분류해 기관 간 공유와 교환 기준을 맞춘다.
+- **데이터 참조모형(Data Reference Model, DRM)**: 데이터 주제·요소·의미·형식과 메타데이터를 분류해 기관 간 공유·교환 기준을 맞춘다.
+- **기술 참조모형(Technical Reference Model, TRM)**: 기술 서비스·플랫폼·표준을 분류해 호환성과 기술 전환 기준을 맞춘다.
 
 </details>
 

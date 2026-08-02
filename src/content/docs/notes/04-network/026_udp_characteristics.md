@@ -23,10 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **UDP**: 연결 설정 없이 메시지 경계를 보존한 데이터그램을 전달하는 프로토콜이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 설정 없이 메시지 경계를 보존한 데이터그램을 전달하는 프로토콜이다.
 </details>
 
-- 정의/개념: **UDP**는 연결 설정과 전송 보장 없이 애플리케이션 메시지 경계를 보존하여 데이터그램을 전달하는 비연결형 전송계층 프로토콜
+- 정의/개념: **UDP** — 연결 설정과 전송 보장 없이 애플리케이션 메시지 경계를 보존하여 데이터그램을 전달하는 **비연결형 전송계층 프로토콜**
 - 배경/필요성: 연결 설정·재전송 제어로 **전송 지연·종단 상태 비용** 증가
 
 #### 한줄 요약
@@ -39,6 +39,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **비연결형·체크섬**: 전송 상태 없이 독립 전달하고 헤더·데이터 오류를 검출하는 성질이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 상태 없이 응용 메시지 경계를 보존해 전달하는 프로토콜이다.
 </details>
 
 - 8바이트 헤더와 **연결 상태 없는 전송**
@@ -55,6 +56,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **데이터그램·페이로드**: 독립 메시지 경계를 갖는 전송 단위와 헤더 뒤의 응용 데이터이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 출발지·목적지 포트, 길이, 체크섬을 헤더에 담는 전송 프로토콜이다.
 </details>
 
 ```mermaid
@@ -88,6 +90,7 @@ block
 <summary>핵심 용어</summary>
 
 - **응용 재시도·중복 제거**: UDP 손실 복구와 중복 메시지 처리를 응용이 구현하는 기능이다.
+- **사용자 데이터그램·인터넷 프로토콜(User Datagram Protocol/Internet Protocol, UDP·IP)**: 응용 메시지를 데이터그램으로 만들고 이를 네트워크 패킷으로 전달하는 프로토콜이다.
 </details>
 
 ```mermaid
@@ -117,7 +120,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **UDP·TCP**: 낮은 지연의 독립 메시지와 순서·재전송이 있는 연결형 흐름을 제공한다.
+- **사용자 데이터그램·전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP·TCP)**: 낮은 지연의 독립 메시지와 순서·재전송이 있는 연결형 흐름을 제공한다.
 </details>
 
 | 전송 방식 | UDP | TCP |
@@ -138,6 +141,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **반사·증폭 공격**: 위조한 작은 UDP 요청으로 큰 응답을 피해자에게 보내는 공격이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 확인 없이 응답하므로 출발지 위조 기반 반사 공격에 악용될 수 있는 프로토콜이다.
+- **최대 전송 단위·인터넷 프로토콜(Maximum Transmission Unit/Internet Protocol, MTU·IP)**: 링크가 전달할 수 있는 최대 패킷 크기와 네트워크 계층 전달 프로토콜이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -156,7 +161,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MTU·IP 단편화**: 링크 최대 패킷 크기와 이를 넘는 패킷을 조각내는 기능이다.
+- **최대 전송 단위·인터넷 프로토콜 단편화(Maximum Transmission Unit/Internet Protocol Fragmentation, MTU·IP 단편화)**: 링크 최대 패킷 크기와 이를 넘는 패킷을 조각내는 기능이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 손실을 허용하고 낮은 지연이 중요한 응용에 적합한 비연결형 프로토콜이다.
 </details>
 
 - 손실 허용·낮은 지연이면 **UDP**, 신뢰가 필요하면 **응용 복구** 구현

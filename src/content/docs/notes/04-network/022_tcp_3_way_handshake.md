@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP 3-way handshake**: SYN·SYN/ACK·ACK으로 양방향 초기 순서 번호와 연결 상태를 합의하는 절차이다.
+- **전송 제어 프로토콜 3단계 연결 설정(Transmission Control Protocol Three-Way Handshake, TCP 3-way handshake)**: SYN·SYN/ACK·ACK으로 양방향 초기 순서 번호와 연결 상태를 합의하는 절차이다.
 
 </details>
 
-- 정의/개념: **TCP 3-way handshake**는 SYN·SYN-ACK·ACK를 교환하여 양방향 도달성과 초기 순서번호·연결 옵션을 확인하는 연결 설정 절차
+- 정의/개념: **TCP 3-way handshake** — SYN·SYN-ACK·ACK를 교환하여 양방향 도달성과 초기 순서번호·연결 옵션을 확인하는 **연결 설정 절차**
 - 배경/필요성: 연결 전에는 상대 도달성과 **양방향 순서 기준** 확인 불가
 
 #### 한줄 요약
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SYN·ACK·ISN**: 연결 시작, 확인 응답, 각 방향의 초기 바이트 순서 번호를 뜻한다.
+- **동기화·확인 응답·초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN·ACK·ISN)**: 연결 시작, 확인 응답, 각 방향의 초기 바이트 순서 번호를 뜻한다.
+- **최대 세그먼트 크기(Maximum Segment Size, MSS)**: TCP 세그먼트에 담을 수 있는 최대 데이터 크기이다.
 
 </details>
 
@@ -56,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **리슨 소켓·SYN 큐·Accept 큐**: 연결 요청을 받고 반쪽 연결과 완료 연결을 보관하는 서버 자원이다.
+- **리슨 소켓·SYN 큐·인수 큐(Listen Socket/Synchronize Queue/Accept Queue, 리슨 소켓·SYN 큐·Accept 큐)**: 연결 요청을 받고 반쪽 연결과 완료 연결을 보관하는 서버 자원이다.
+- **초기 순서 번호·전송 제어 프로토콜(Initial Sequence Number/Transmission Control Protocol, ISN·TCP)**: 연결 양방향의 순서 기준과 신뢰성 있는 바이트 스트림 프로토콜이다.
 
 </details>
 
@@ -88,7 +90,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **MSS·윈도 배율**: 최대 TCP 데이터 크기와 큰 수신 윈도를 표현하는 연결 옵션이다.
+- **최대 세그먼트 크기·윈도 배율(Maximum Segment Size/Window Scale, MSS·윈도 배율)**: 최대 TCP 데이터 크기와 큰 수신 윈도를 표현하는 연결 옵션이다.
+- **동기화·확인 응답·초기 순서 번호(Synchronize/Acknowledgment/Initial Sequence Number, SYN·ACK·ISN)**: 연결 요청과 확인, 양방향 바이트 순서의 시작값이다.
 
 </details>
 
@@ -121,7 +124,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **연결 설정·종료**: SYN으로 양방향 상태를 만들고 FIN으로 각 송신 방향을 독립 종료하는 절차이다.
+- **TCP 연결 설정·종료(Transmission Control Protocol Connection Establishment/Termination)**: SYN으로 양방향 상태를 만들고 FIN으로 각 송신 방향을 독립 종료하는 절차이다.
+- **동기화·확인 응답·종료(Synchronize/Acknowledgment/Finish, SYN·ACK·FIN)**: 연결을 시작하고 수신을 확인하며 송신 방향을 닫는 제어 플래그이다.
 
 </details>
 
@@ -142,7 +146,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SYN Flood·SYN Cookie**: 반쪽 연결 자원을 고갈시키는 공격과 서버 상태 저장을 늦추는 방어 기법이다.
+- **동기화 플러드·동기화 쿠키(Synchronize Flood/Synchronize Cookie, SYN Flood·SYN Cookie)**: 반쪽 연결 자원을 고갈시키는 공격과 서버 상태 저장을 늦추는 방어 기법이다.
+- **최대 세그먼트 크기·최대 전송 단위(Maximum Segment Size/Maximum Transmission Unit, MSS·MTU)**: TCP 데이터 크기와 경로에서 전달 가능한 최대 패킷 크기이다.
 
 </details>
 
@@ -162,7 +167,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **경로 MTU 블랙홀**: 큰 패킷이 폐기되지만 크기 조정 신호가 돌아오지 않아 통신이 멈추는 현상이다.
+- **경로 최대 전송 단위 블랙홀(Path Maximum Transmission Unit Black Hole, 경로 MTU 블랙홀)**: 큰 패킷이 폐기되지만 크기 조정 신호가 돌아오지 않아 통신이 멈추는 현상이다.
+- **초기 순서 번호·동기화 쿠키(Initial Sequence Number/Synchronize Cookie, ISN·SYN 쿠키)**: 연결의 순서 기준과 반쪽 연결 상태 저장을 늦추는 방어값이다.
 
 </details>
 
