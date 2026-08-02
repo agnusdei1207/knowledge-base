@@ -48,7 +48,8 @@ extra:
 - Retain·Retire 기반 **이전 제외 판단**
 - Rehost·Replatform 기반 **속도와 개선 폭 조절**
 - Refactor·Repurchase 기반 **구조·제품 전환**
-- **아마존 웹 서비스(Amazon Web Services, AWS)** 현행 7R의 **Relocate 확장**
+
+> **아마존 웹 서비스(Amazon Web Services, AWS) 7R** 은 인프라 구성을 거의 바꾸지 않고 옮기는 Relocate를 추가한다.
 
 #### 한줄 요약
 
@@ -61,6 +62,9 @@ extra:
 
 - **종속성 지도**: 애플리케이션·데이터·인터페이스 사이 연결과 전환 순서를 식별한 자료이다.
 - **랜딩 존**: 클라우드 이전 대상이 사용할 계정·네트워크·신원·보안·관측 기반 환경이다.
+- **자산 인벤토리**: 이전 대상의 기술·비용·소유자·수명 정보를 정리한 의사결정 기초 자료이다.
+- **6R 의사결정**: 업무 가치와 기술 제약을 평가해 Rehost·Replatform·Refactor·Repurchase·Retain·Retire 전략을 선택하는 과정이다.
+- **이전 웨이브·전환(Cutover)**: 종속성을 고려해 대상 묶음과 순서를 정하고 운영 트래픽을 새 환경으로 넘기는 실행 단계이다.
 
 </details>
 
