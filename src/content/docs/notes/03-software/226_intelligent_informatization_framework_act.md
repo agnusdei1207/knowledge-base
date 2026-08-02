@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "지능정보화 기본법 (Framework Act on Intelligent Informatization)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:36:00+09:00"
 tags: ["notes-software"]
 weight: 226
 extra:
@@ -22,11 +22,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지능정보사회 정책·계획·기반**: 지능정보화 기본법은 국가와 기관의 지능정보사회 정책, 계획 수립 체계와 공통 기반을 규정한다.
+- **지능정보화 기본법(Framework Act on Intelligent Informatization)**: 국가와 공공기관의 지능정보사회 정책·기본계획·시행계획과 공통 기반 조성을 규정하는 기본법이다.
 
 </details>
 
-- 정의/개념: 국가 **지능정보사회 정책·계획·기반**의 기본법
+- 정의/개념: 국가와 기관의 **지능정보사회 정책·계획·공통 기반**을 규정하는 지능정보화 기본법
 - 배경/필요성: 기관별 정보화 분산은 **정책 중복·투자 연계 부족**
 
 ### 쉽게 이해하기 (학습용)

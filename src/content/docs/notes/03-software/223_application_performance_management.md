@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:33:00+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -22,11 +22,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **APM 성능 관리 체계**: APM은 실제 사용자 요청부터 서비스 호출과 코드·인프라까지 연결해 성능 원인을 관리하는 체계다.
+- **애플리케이션 성능 관리(Application Performance Management, APM)**: 실제 사용자 요청부터 서비스 호출·코드·데이터베이스·인프라 지표를 연결해 성능과 장애 원인을 지속 관찰·진단하는 관리 체계이다.
 
 </details>
 
-- 정의/개념: 사용자 요청부터 코드까지 추적하는 **APM 성능 관리 체계**
+- 정의/개념: 사용자 요청부터 분산 서비스·코드·인프라까지 추적해 지연과 장애 원인을 진단하는 **APM 성능 관리 체계**
 - 배경/필요성: 분산 호출로 **지연 구간·장애 원인 식별 곤란**
 
 ### 쉽게 이해하기 (학습용)
