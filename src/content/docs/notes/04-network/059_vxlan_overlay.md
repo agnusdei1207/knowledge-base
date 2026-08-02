@@ -18,28 +18,14 @@ extra:
   priority_note: "설계형: 123회 VXLAN과 EVPN 통합 우산"
 ---
 
-## 미리 알고가기
-
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 설정 없이 데이터그램을 전달하는 전송 계층 프로토콜
-- **인터넷 프로토콜(Internet Protocol, IP)**: 주소를 이용해 서로 다른 네트워크 사이에 패킷을 전달하는 프로토콜
-- **매체 접근 제어 주소(Media Access Control Address, MAC Address)**: 이더넷 인터페이스를 식별하는 주소
-- **계층 기호(L2·L3)**: L2는 이더넷 프레임 전달, L3는 IP 패킷 라우팅 계층
-- **가상 확장 근거리망(Virtual eXtensible Local Area Network, VXLAN)**: 이더넷 프레임을 UDP/IP로 캡슐화해 3계층망 위에 2계층 오버레이를 만드는 기술
-- **VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)**: VXLAN 논리 세그먼트를 구분하는 24비트 식별자
-- **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: 이더넷 프레임의 VXLAN 캡슐화·역캡슐화를 수행하는 장치
-- **경계 경로 프로토콜(Border Gateway Protocol, BGP)**: 네트워크 간 도달 경로를 교환하는 경로 제어 프로토콜
-- **이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: BGP로 MAC·IP와 VTEP 위치 정보를 배포하는 제어 평면
-- **언더레이(Underlay)**: VTEP 사이 IP 도달성과 물리 전송 경로를 제공하는 기반망
-- **오버레이(Overlay)**: 언더레이 위의 터널로 논리적 연결과 테넌트 분리를 제공하는 가상망
-- **동일 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 비용이 같은 여러 IP 경로로 흐름을 분산하는 방식
-- **방송·미상 유니캐스트·멀티캐스트(Broadcast, Unknown Unicast, Multicast, BUM)**: 목적 VTEP를 하나로 정할 수 없어 복제 전달이 필요한 트래픽
-- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크에서 분할 없이 보낼 수 있는 최대 패킷 크기
-- **가상 근거리망·식별자(Virtual Local Area Network·VLAN Identifier, VLAN·VID)**: 하나의 물리망을 논리적으로 분리하고 각 영역을 식별하는 기술과 값
-- **테넌트(Tenant)**: 공유 인프라에서 독립된 논리 자원과 정책을 사용하는 고객 영역
-
-> **키워드:** VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **VXLAN**: 이더넷 프레임을 UDP/IP로 캡슐화해 L3 기반망 위에 L2 오버레이를 구성하는 기술이다.
+
+</details>
 
 - 정의/개념: 이더넷 프레임을 **UDP/IP로 캡슐화한 L2 오버레이**
 - 배경/필요성: VLAN 12비트 식별자와 광역 L2 확장으로 **테넌트 규모·장애 격리** 제약
@@ -50,6 +36,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **VNI**: VXLAN 논리 세그먼트와 테넌트를 구분하는 24비트 식별자이다.
+- **EVPN**: BGP로 MAC·IP 주소와 VTEP 위치 정보를 배포하는 VXLAN 제어 평면이다.
+
+</details>
+
 - **24비트 VNI**를 통한 대규모 테넌트 논리망 분리
 - **VTEP의 UDP/IP 캡슐화**를 통한 L3 언더레이·ECMP 활용
 - **EVPN 위치 배포**에 따른 BUM 감소와 캡슐화 MTU 요구
@@ -59,6 +53,14 @@ extra:
 - VNI가 같은 세입자끼리 묶고 EVPN이 목적 서버가 어느 터널 끝에 있는지 알려 준다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **VTEP**: 이더넷 프레임의 VXLAN 캡슐화와 역캡슐화를 수행하는 터널 종단 장치이다.
+- **언더레이·오버레이**: 언더레이는 VTEP 사이 IP 도달성을 제공하고 오버레이는 그 위의 터널로 논리 연결을 제공한다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -89,6 +91,14 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **MAC·IP 위치 경로**: 종단 호스트의 주소와 해당 호스트를 수용하는 VTEP를 연결해 EVPN으로 배포하는 정보이다.
+- **VXLAN 패킷**: 원본 이더넷 프레임에 VNI·UDP·IP 헤더를 붙여 언더레이로 전달하는 캡슐화 패킷이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 수신VTEP
@@ -115,6 +125,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **VXLAN**: 24비트 VNI와 L3 터널로 대규모 테넌트 논리망을 구성하는 기술이다.
+- **VLAN**: 12비트 VID로 하나의 물리 L2 구간을 논리적으로 분리하는 기술이다.
+
+</details>
+
 | 네트워크 세그먼트 | VXLAN | VLAN |
 |:---|:---|:---|
 | 적용 기준 | 대규모 **테넌트·다중 경로** | 소규모 **단일 L2 영역** |
@@ -129,7 +147,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **MTU**: 한 링크에서 분할 없이 보낼 수 있는 최대 패킷 크기이다.
+- **BUM 트래픽**: 목적 VTEP를 하나로 정할 수 없어 여러 터널 종단에 복제 전달하는 방송·미상 유니캐스트·멀티캐스트 트래픽이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 캡슐화 헤더로 언더레이 MTU를 초과하면 패킷 폐기 | VXLAN 헤더를 포함해 **언더레이 MTU** 설정 | 단편화·폐기를 방지해 **전송 안정성** 확보 |
 | 미지 목적지 학습이 부족하면 BUM 복제 폭증 | EVPN으로 **MAC·IP 위치 경로** 배포 | 불필요한 **복제 트래픽** 감소 |
@@ -140,6 +166,13 @@ sequenceDiagram
 - 원래 프레임에 터널 포장이 더해져도 잘리지 않도록 물리망의 최대 패킷 크기를 키운다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **EVPN VXLAN**: EVPN이 종단 위치를 배포하고 VXLAN이 L3망 위로 L2 프레임을 운반하는 대규모 오버레이 구성이다.
+
+</details>
 
 - 대규모 테넌트·L3 확장은 **EVPN VXLAN**, 소규모 단일 구간은 **VLAN** 선택
 

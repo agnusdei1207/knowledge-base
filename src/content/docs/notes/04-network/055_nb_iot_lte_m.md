@@ -18,25 +18,14 @@ extra:
   priority_note: "비교형: 125회 NB-IoT 동작 Mode 출제"
 ---
 
-## 미리 알고가기
-
-- **저전력 광역망(Low-Power Wide-Area Network, LPWAN)**: 적은 전력과 낮은 전송률로 넓은 지역의 단말을 연결하는 망
-- **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**: 180kHz 협대역으로 소량 데이터를 전달하는 셀룰러 LPWAN
-- **기계형 장기 진화(Long-Term Evolution for Machines, LTE-M)**: 이동성·음성·중간 전송률을 지원하는 셀룰러 LPWAN
-- **절전 모드(Power Saving Mode, PSM)**: 망 등록을 유지한 채 무선 회로를 꺼 전력을 줄이는 모드
-- **확장 불연속 수신(Extended Discontinuous Reception, eDRX)**: 하향 호출 확인 주기를 늘려 수신 대기 전력을 줄이는 방식
-- **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)**: 가입자 식별자와 인증 키를 저장하는 모듈
-- **킬로헤르츠(kilohertz, kHz)**: 초당 천 번의 주기를 나타내는 주파수 단위
-- **도달 가능 시간·반복 전송(Reachability Time·Repetition)**: 도달 가능 시간은 하향 수신 확인 구간이고 반복 전송은 같은 정보의 재전송
-- **대역 내·보호 대역·독립 운용(In-Band·Guard-Band·Standalone)**: NB-IoT를 LTE 자원 안·가장자리·별도 주파수에 배치하는 방식
-- **핸드오버(Handover)**: 이동 단말의 연결을 인접 기지국으로 넘기는 절차
-- **코어망(Core Network)**: 가입자 인증·이동성·외부망 연결을 담당하는 이동통신 중심망
-
-
-
-> **키워드:** NB-IoT와 LTE-M (NB-IoT LTE-M)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **NB-IoT·LTE-M**: 면허 대역에서 저전력 IoT 단말을 광역 연결하는 두 셀룰러 LPWAN 기술이다.
+
+</details>
 
 - 정의/개념: 면허 대역에서 저전력 단말을 광역 연결하는 **NB-IoT·LTE-M 셀룰러 LPWAN**
 - 배경/필요성: 기존 셀룰러 모뎀은 **소량 센서에 전력·비용 과다**
@@ -47,6 +36,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **NB-IoT**: 180kHz 협대역과 반복 전송으로 고정 센서의 깊은 실내 도달성을 높이는 셀룰러 LPWAN이다.
+- **LTE-M**: 핸드오버·음성·중간 전송률을 지원해 이동 단말에 적합한 셀룰러 LPWAN이다.
+
+</details>
+
 - **NB-IoT**의 180kHz·반복 전송을 통한 깊은 실내 도달
 - **LTE-M**의 핸드오버·음성·중간 전송률 지원
 - 절전 시간이 길수록 **배터리 수명 증가·하향 응답 지연**
@@ -56,6 +53,14 @@ extra:
 - 오래 잠들수록 배터리는 절약되지만 서버 명령을 늦게 받는다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **USIM**: 가입자 식별자와 인증 키를 저장해 IoT 단말의 셀룰러망 접속 신원을 증명하는 모듈이다.
+- **코어망**: 가입자 등록·이동성·절전 타이머와 외부 IoT 플랫폼 연결을 관리하는 이동통신 중심망이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -82,6 +87,14 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **PSM**: 망 등록을 유지한 채 무선 회로를 장시간 꺼 단말 전력을 줄이는 절전 모드이다.
+- **eDRX**: 하향 호출을 확인하는 주기를 늘려 수신 대기 전력을 줄이는 방식이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant IoT단말
@@ -107,6 +120,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **핸드오버**: 이동 단말의 활성 연결을 인접 기지국으로 넘겨 세션을 이어 가는 절차이다.
+- **NB-IoT 배치 방식**: NB-IoT 반송파를 LTE 대역 안·보호 대역·별도 주파수에 배치하는 방식이다.
+
+</details>
+
 | 셀룰러 LPWAN | NB-IoT | LTE-M |
 |:---|:---|:---|
 | 적용 기준 | 고정·소량·**지연 허용 센서** | 이동·**빠른 응답 단말** |
@@ -122,7 +143,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **수신 창**: 절전 단말이 하향 호출을 받기 위해 무선 수신기를 켜 두는 시간 구간이다.
+- **반복 전송**: 깊은 실내의 수신 성공률을 높이기 위해 같은 정보를 여러 번 보내는 방식이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 긴 절전 주기로 하향 응답 기한 초과 | PSM·eDRX·**수신 창** 공동 산정 | 배터리 수명과 **응답 기한** 균형 |
 | 이동 단말에 NB-IoT를 적용하면 연결 단절 | 이동성 요구 시 **LTE-M** 선택 | 핸드오버를 통한 **세션 연속성** 확보 |
@@ -133,6 +162,13 @@ sequenceDiagram
 - 깊은 실내의 저속 고정 단말은 NB-IoT를, 이동하며 연결을 유지할 단말은 LTE-M을 선택한다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **셀룰러 LPWAN 선택**: 단말의 이동성·응답 기한·도달 환경·전력 예산을 비교해 NB-IoT와 LTE-M을 결정하는 과정이다.
+
+</details>
 
 - 고정·저속·깊은 실내는 **NB-IoT**, 이동·빠른 응답은 **LTE-M** 선택
 
