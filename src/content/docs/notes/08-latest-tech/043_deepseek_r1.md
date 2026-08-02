@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: DeepSeek-V3-Base에 콜드 스타트·다단계 강화학습(Reinforcement Learning, RL)을 적용한 **DeepSeek-R1 추론 언어 모델**
-- 배경/필요성: 추론 예시 중심 지도 미세조정(Supervised Fine-Tuning, SFT)만으로는 정답을 탐색·검증하는 **자발적 해결 정책 확장**에 한계
+- 배경/필요성: 추론 예시 중심 지도 미세조정(Supervised Fine-Tuning, SFT)만으로는 정답을 탐색·검증하는 **자발적 해결 정책 확장** 에 한계
 
 #### 한줄 요약
 - 기반 모델에 초기 풀이 예시와 정답 보상을 단계적으로 적용해 추론 행동을 강화함
@@ -82,7 +82,7 @@ block-beta
 | V3-Base | R1 계열 후학습의 **기반 표현 제공** |
 | 콜드 스타트 지도 미세조정(Supervised Fine-Tuning, SFT) | 고품질 예시로 **초기 추론 형식 안내** |
 | 그룹 상대 정책 최적화(Group Relative Policy Optimization, GRPO)·검증 보상 | **GRPO·검증 보상 기반 추론 정책 강화** |
-| 거부 표본·후속 학습 | **거부 표본 추출**로 양질 응답을 선별하고 추론·일반 능력 보완 |
+| 거부 표본·후속 학습 | **거부 표본 추출** 로 양질 응답을 선별하고 추론·일반 능력 보완 |
 | Qwen·Llama 증류 | R1 생성 데이터의 **소형 기반 모델 이전** |
 
 #### 한줄 요약

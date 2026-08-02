@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 후학습과 테스트 시점 연산으로 다단계 문제 해결·검증 능력을 강화한 **추론 특화 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)**
-- 배경/필요성: 즉시 생성 중심 모델은 복합 문제의 **단계별 해결·도구 결과 검증**에 취약
+- 배경/필요성: 즉시 생성 중심 모델은 복합 문제의 **단계별 해결·도구 결과 검증** 에 취약
 
 #### 한줄 요약
 - 문제 난도에 따라 풀이 시간과 도구를 배정하고 검증을 통과한 답을 선택함
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- **지도 미세조정(Supervised Fine-Tuning, SFT)·검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR) 후학습**에 의한 다단계 문제 해결 정책 강화
+- **지도 미세조정(Supervised Fine-Tuning, SFT)·검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR) 후학습** 에 의한 다단계 문제 해결 정책 강화
 - 요청 난도에 따른 **테스트 시점 연산(Test-Time Compute, TTC) 예산 조절**
 - 정답·코드 실행·도구 결과를 활용한 **검증 가능 출력 선택**
 

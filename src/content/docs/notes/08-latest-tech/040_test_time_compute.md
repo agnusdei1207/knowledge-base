@@ -51,7 +51,7 @@ extra:
 
 - 토큰·후보·검증 횟수의 **추론 예산 확장**
 - 난도·위험별 **동적 예산 배정·조기 종료**
-- 추가 연산은 **품질 한계효용**이 감소하고 지연·비용은 증가
+- 추가 연산은 **품질 한계효용** 이 감소하고 지연·비용은 증가
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- **난도·위험**으로 예산을 배분하고 **95백분위 지연(95th Percentile Latency, P95 Latency)·서비스 수준 목표(Service Level Objective, SLO)** 안에서 한계효용 기준 종료
+- **난도·위험** 으로 예산을 배분하고 **95백분위 지연(95th Percentile Latency, P95 Latency)·서비스 수준 목표(Service Level Objective, SLO)** 안에서 한계효용 기준 종료
 
 #### 한줄 요약
 
