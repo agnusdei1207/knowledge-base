@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: HDFS·YARN·MapReduce를 결합한 **분산 배치 체계**
+- 정의/개념: **Hadoop MapReduce**는 HDFS에 저장한 대용량 데이터를 YARN 자원 위에서 Map과 Reduce 태스크로 분산 처리하는 배치 처리 체계
 - 배경/필요성: 단일 서버는 대용량 파일의 저장·집계 시간이 **한 장비 용량**에 종속
 
 ### 쉽게 이해하기 (학습용)
