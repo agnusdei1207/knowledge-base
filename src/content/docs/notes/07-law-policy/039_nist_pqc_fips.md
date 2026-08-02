@@ -23,7 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **연방정보처리표준**: FIPS 203·204·205는 양자 공격에 견디는 키 설정과 디지털 서명 알고리즘을 규정한 연방정보처리표준이다.
+- **미국 국립표준기술연구소 양자내성암호(National Institute of Standards and Technology Post-Quantum Cryptography, NIST PQC)**: 양자컴퓨터 공격에도 안전한 공개키 암호 알고리즘을 선정·표준화하는 사업이다.
+- **연방정보처리표준(Federal Information Processing Standards, FIPS) 203·204·205**: 양자 공격에 견디는 키 설정과 디지털 서명 알고리즘을 규정한 미국 연방 표준이다.
+- **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 통신 당사자가 공유 비밀을 안전하게 설정하는 FIPS 203 양자내성 알고리즘이다.
+- **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)·무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**: 각각 FIPS 204와 205로 표준화된 양자내성 서명 알고리즘이다.
 
 </details>
 
@@ -39,6 +42,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **암호 민첩성**: 암호 민첩성은 프로토콜과 데이터 형식을 크게 바꾸지 않고 용도별 알고리즘·매개변수를 교체하는 능력이다.
+- **용도 분리성**: 모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)은 공유 비밀 설정에, 대칭키는 실제 데이터 암호화에 사용하는 특성이다.
+- **서명 다변성**: 모듈 격자 기반과 무상태 해시 기반의 서로 다른 보안 근거를 가진 양자내성 서명 알고리즘을 제공하는 특성이다.
+- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터로도 현실적인 시간 안에 풀기 어렵도록 설계한 공개키 암호 기술이다.
 
 </details>
 
@@ -54,7 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ML-KEM·FIPS 203**: ML-KEM·FIPS 203은 모듈 격자 문제를 기반으로 통신 당사자의 공유 비밀을 설정하는 키 캡슐화 표준이다.
+- **ML-KEM·FIPS 203**: 모듈 격자 문제를 기반으로 통신 당사자의 공유 비밀을 설정하는 모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM) 표준이다.
+- **키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)**: 공개키를 이용해 공유 비밀을 생성·캡슐화하고 수신자가 개인키로 복원하게 하는 방식이다.
+- **ML-DSA·FIPS 204**: 인증서·코드·문서의 일반 서명에 사용하는 모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA) 표준이다.
+- **SLH-DSA·FIPS 205**: 격자와 다른 보안 근거를 제공하는 무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA) 표준이다.
+- **암호 민첩성·검증**: 용도별 알고리즘과 매개변수를 선택·교체하고 성능·상호운용성을 확인하는 능력과 활동이다.
 
 </details>
 
@@ -84,7 +94,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **4. 하이브리드 구성·검증 결과 제공**: 시험환경은 기존 공개키 암호와 PQC를 병행한 구성의 성능·상호운용성과 롤백 가능성을 검증한다.
+- **암호 자산·데이터 수명**: 사용 중인 알고리즘·키·인증서·장비와 데이터가 비밀로 보호되어야 할 기간을 연결한 목록이다.
+- **지금 수집하고 나중에 해독(Harvest Now, Decrypt Later, HNDL) 위험**: 현재 탈취한 장기 보호 암호문을 미래 양자컴퓨터로 복호화하는 위험이다.
+- **양자내성암호(Post-Quantum Cryptography, PQC) 하이브리드 구성**: 기존 공개키 암호와 PQC를 함께 적용해 전환기 호환성과 보안을 확보하는 방식이다.
+- **롤백**: 새 암호 알고리즘 배포가 실패할 때 검증된 이전 구성으로 안전하게 되돌리는 능력이다.
 
 </details>
 
@@ -115,7 +128,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SLH-DSA**: SLH-DSA는 격자와 다른 보안 근거를 제공하는 무상태 해시 기반 양자내성 디지털 서명 알고리즘이다.
+- **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 통신·저장의 공유 비밀을 설정하는 양자내성 알고리즘이다.
+- **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: 인증서·코드·문서의 일반 서명에 사용하는 양자내성 알고리즘이다.
+- **무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**: 격자와 다른 보안 근거를 제공하는 무상태 해시 기반 양자내성 서명 알고리즘이다.
 
 </details>
 
@@ -133,7 +148,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **HNDL 노출**: HNDL 노출은 현재 수집된 장기 보호 암호문이 미래의 양자컴퓨터로 해독될 수 있는 위험이다.
+- **지금 수집하고 나중에 해독(Harvest Now, Decrypt Later, HNDL) 노출**: 현재 수집된 장기 보호 암호문이 미래의 양자컴퓨터로 해독될 수 있는 위험이다.
+- **성능·상호운용성**: 커진 키·서명·암호문으로 인한 패킷 분할·지연·처리량 변화와 기존 장비·프로토콜 간 호환 가능성이다.
+- **공급자 종속**: 특정 제품·라이브러리의 암호 구현과 전환 기능에 묶여 알고리즘 교체가 어려워지는 상태이다.
 
 </details>
 
@@ -151,7 +168,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ML-DSA**: ML-DSA는 인증서·코드·문서의 일반 서명에 사용하는 모듈 격자 기반 FIPS 204 양자내성 알고리즘이다.
+- **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 공유 비밀키 설정에 사용하는 FIPS 203 양자내성 알고리즘이다.
+- **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: 인증서·코드·문서의 일반 서명에 사용하는 FIPS 204 양자내성 알고리즘이다.
 
 </details>
 
