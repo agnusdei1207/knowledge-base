@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 AI 연산과 데이터 흐름을 제조할 때 고정한 전용 반도체이다.
+- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 인공지능(Artificial Intelligence, AI) 연산과 데이터 흐름을 제조할 때 고정한 전용 반도체이다.
 - **전용 데이터 흐름**: 특정 연산에 맞춰 데이터 이동과 재사용 경로를 하드웨어로 고정한 구조이다.
 
 </details>
 
-- 정의/개념: **ASIC AI 가속**은 AI 연산·데이터 흐름을 제조할 때 고정해 처리량·전력 효율을 높이는 전용 하드웨어 방식
-- 배경/필요성: 범용·재구성 회로의 **제어·배선 오버헤드**로 전력 효율 제약
+- 정의/개념: 주문형 집적회로(Application-Specific Integrated Circuit, ASIC)가 인공지능(Artificial Intelligence, AI) 연산·데이터 흐름을 제조할 때 고정해 처리량·전력 효율을 높이는 **전용 하드웨어 가속 방식**
+- 배경/필요성: 범용·재구성 회로에서 발생하는 **제어·배선 오버헤드** 때문에 전력 효율 제약
 
 #### 한줄 요약
 
@@ -47,7 +47,7 @@ extra:
 
 - **구조 축**: 제어·배선을 제거한 전용 데이터흐름
 - **효율 축**: 온칩 재사용으로 전력당 처리량 극대화
-- **경제 축**: 양산량이 적거나 연산이 바뀌면 NRE 회수 곤란
+- **경제 축**: 양산량이 적거나 연산이 바뀌면 비반복 공학비(Non-Recurring Engineering, NRE) 회수 곤란
 
 #### 한줄 요약
 
@@ -126,10 +126,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **GPU**: 소프트웨어로 다양한 병렬 연산을 바꿔 실행할 수 있는 범용 가속기이다.
-- **FPGA**: 제조 뒤에도 비트스트림으로 논리와 배선을 재구성할 수 있는 반도체이다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 소프트웨어로 다양한 병렬 연산을 바꿔 실행할 수 있는 범용 가속기이다.
+- **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 뒤에도 비트스트림으로 논리와 배선을 재구성할 수 있는 반도체이다.
 
 </details>
+
+주문형 집적회로(Application-Specific Integrated Circuit, ASIC), 그래픽 처리장치(Graphics Processing Unit, GPU), 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)은 변경 가능성과 전력 효율이 다르다.
 
 | 가속기 | ASIC | GPU | FPGA |
 |:---|:---|:---|:---|
@@ -137,7 +139,7 @@ sequenceDiagram
 | 핵심 특징 | **제조 시 데이터경로 고정** | **소프트웨어 병렬 커널** | **비트스트림 회로 재구성** |
 | 한계 | **높은 NRE·변경 불가** | **전력·분기 오버헤드** | **합성·타이밍 개발 복잡** |
 
-> 요약: **GPU**는 변경, **FPGA**는 재구성, ASIC은 고정 연산 중심
+> 요약: 그래픽 처리장치는 **변경**, 현장 프로그래머블 게이트 배열은 **재구성**, 주문형 집적회로는 **고정 연산** 중심
 
 #### 한줄 요약
 
@@ -149,7 +151,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **워크로드 수명**: 전용 칩이 지원할 모델과 연산 구성이 유효하게 유지될 예상 기간이다.
-- **손익분기점**: 누적 효율 절감액이 NRE와 제조 비용을 상쇄하는 생산량이나 사용 기간이다.
+- **손익분기점**: 누적 효율 절감액이 비반복 공학비(Non-Recurring Engineering, NRE)와 제조 비용을 상쇄하는 생산량이나 사용 기간이다.
 
 </details>
 
@@ -172,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 안정적 대량·NRE 회수 가능은 **ASIC**, 잦은 변경은 **GPU** 선택
+- **연산 안정성·양산량별 선택**: 비반복 공학비(Non-Recurring Engineering, NRE) 회수가 가능한 안정적 대량 작업은 주문형 집적회로(Application-Specific Integrated Circuit, ASIC), 잦은 변경은 그래픽 처리장치(Graphics Processing Unit, GPU)
 
 #### 한줄 요약
 

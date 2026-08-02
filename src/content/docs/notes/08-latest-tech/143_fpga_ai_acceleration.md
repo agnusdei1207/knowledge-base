@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리·배선을 재구성해 AI 데이터 경로를 구현하는 반도체이다.
+- **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리·배선을 재구성해 인공지능(Artificial Intelligence, AI) 데이터 경로를 구현하는 반도체이다.
 - **결정적 지연**: 같은 조건에서 처리 시간이 예측 가능한 상한 안에 유지되는 특성이다.
 
 </details>
 
-- 정의/개념: **FPGA AI 가속**은 제조 후 재구성할 수 있는 논리·배선으로 AI 데이터 경로를 구현하는 하드웨어 가속 방식
+- 정의/개념: 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 재구성 논리·배선으로 인공지능(Artificial Intelligence, AI) 데이터 경로를 구현하는 **하드웨어 가속 방식**
 - 배경/필요성: 범용 가속기의 **맞춤 데이터경로·결정적 지연** 확보 한계
 
 #### 한줄 요약
@@ -51,7 +51,7 @@ extra:
 
 #### 한줄 요약
 
-- FPGA는 생산라인을 다시 만들 수 있지만 새 배치를 설계하고 모든 통로가 제시간에 연결되는지 확인하는 데 시간이 걸림
+- 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)은 생산라인을 다시 만들 수 있지만 새 배치를 설계하고 모든 통로가 제시간에 연결되는지 확인하는 데 시간이 걸림
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -63,6 +63,8 @@ extra:
 - **블록 메모리(Block RAM, BRAM)**: FPGA 내부에서 가중치와 중간 데이터를 보관하는 재구성 가능한 메모리이다.
 
 </details>
+
+룩업 테이블(Look-Up Table, LUT), 디지털 신호처리(Digital Signal Processing, DSP) 블록, 블록 메모리(Block RAM, BRAM)를 조합해 맞춤 데이터 경로를 구성한다.
 
 ```mermaid
 block-beta
@@ -95,7 +97,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **합성**: 설계한 연산과 제어 논리를 FPGA의 LUT·DSP·메모리 자원으로 변환하는 과정이다.
+- **합성**: 설계한 연산과 제어 논리를 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 룩업 테이블(Look-Up Table, LUT)·디지털 신호처리(Digital Signal Processing, DSP) 블록·메모리 자원으로 변환하는 과정이다.
 - **타이밍 검증**: 배치·배선된 신호가 정한 클록 주기 안에 도착하는지 확인하는 절차이다.
 
 </details>
@@ -127,10 +129,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **GPU**: 소프트웨어 커널로 다양한 병렬 연산을 실행하는 범용 가속기이다.
-- **ASIC**: 특정 연산과 데이터 경로를 제조할 때 고정한 전용 반도체이다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 소프트웨어 커널로 다양한 병렬 연산을 실행하는 범용 가속기이다.
+- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 연산과 데이터 경로를 제조할 때 고정한 전용 반도체이다.
 
 </details>
+
+현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA), 그래픽 처리장치(Graphics Processing Unit, GPU), 주문형 집적회로(Application-Specific Integrated Circuit, ASIC)는 변경 주기와 효율이 다르다.
 
 | 가속기 | FPGA | GPU | ASIC |
 |:---|:---|:---|:---|
@@ -138,7 +142,7 @@ sequenceDiagram
 | 핵심 특징 | **비트스트림 회로 재구성** | **소프트웨어 병렬 커널** | **제조 시 데이터경로 고정** |
 | 한계 | **합성·타이밍 개발 복잡** | **전력·분기 오버헤드** | **높은 초기비·변경 불가** |
 
-> 요약: **GPU**는 범용 변경, **FPGA**는 회로 재구성, ASIC은 고정
+> 요약: 그래픽 처리장치는 **범용 변경**, 현장 프로그래머블 게이트 배열은 **회로 재구성**, 주문형 집적회로는 **고정**
 
 #### 한줄 요약
 
@@ -153,6 +157,8 @@ sequenceDiagram
 - **클록 제약**: 회로가 충족해야 하는 동작 주기와 신호 도착 시간을 정한 조건이다.
 
 </details>
+
+룩업 테이블(Look-Up Table, LUT)·디지털 신호처리(Digital Signal Processing, DSP) 블록·블록 메모리(Block RAM, BRAM)의 자원 예산과 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 타이밍을 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -173,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 잦은 변경은 **GPU**, 결정적 지연·재구성은 **FPGA** 선택
+- **재구성성·구현 복잡성별 선택**: 잦은 변경은 그래픽 처리장치(Graphics Processing Unit, GPU), 결정적 지연·재구성은 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)
 
 #### 한줄 요약
 

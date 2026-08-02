@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AI 가속기(AI Accelerator)**: 신경망의 텐서 연산과 데이터 이동을 특화하여 처리량·전력 효율을 높이는 하드웨어이다.
+- **인공지능 가속기(Artificial Intelligence Accelerator, AI 가속기)**: 신경망의 텐서 연산과 데이터 이동을 특화하여 처리량·전력 효율을 높이는 하드웨어이다.
 - **곱셈-누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 누적하여 행렬·합성곱을 계산하는 신경망 핵심 연산이다.
 
 </details>
 
-- 정의/개념: **AI 가속기**는 텐서 연산·데이터 이동을 특화하여 AI 처리량·전력 효율을 높이는 하드웨어
-- 배경/필요성: 범용 CPU는 대량 MAC과 **가중치·활성값 데이터 이동**의 처리 효율 부족
+- 정의/개념: 인공지능(Artificial Intelligence, AI)의 텐서 연산·데이터 이동을 특화하여 처리량·전력 효율을 높이는 **AI 가속기 하드웨어**
+- 배경/필요성: 범용 중앙처리장치(Central Processing Unit, CPU)는 대량 곱셈-누산(Multiply-Accumulate, MAC)과 가중치·활성값의 **데이터 이동 처리 효율** 부족
 
 #### 한줄 요약
 - 모든 요리를 하는 범용 주방 대신 반복되는 썰기·섞기와 재료 배치에 맞춘 전용 조리대를 사용함
@@ -48,9 +48,9 @@ extra:
 
 > 500 ops/byte 이전 **메모리 대역폭**, 이후 **MAC 성능** 병목
 >
-> **100 TOPS·200 GB/s** 가정의 이론적 루프라인
+> **초당 100조 연산(Tera Operations Per Second, TOPS)·초당 200기가바이트(Gigabytes Per Second, GB/s)** 가정의 이론적 루프라인
 
-- 저정밀 텐서의 **대규모 병렬 MAC**
+- 저정밀 텐서의 **대규모 병렬 곱셈-누산(Multiply-Accumulate, MAC)**
 - 온칩 데이터 흐름 기반 **가중치·활성값 재사용**
 - 회로 고정도가 높을수록 **전력 효율 증가·유연성 감소**
 
@@ -66,6 +66,8 @@ extra:
 - **외부 메모리 인터페이스**: 칩 밖의 메모리와 대용량 텐서를 주고받는 전송 경로이다.
 
 </details>
+
+곱셈-누산(Multiply-Accumulate, MAC) 배열은 텐서 연산을 병렬로 처리한다.
 
 ```mermaid
 block-beta
@@ -119,7 +121,7 @@ sequenceDiagram
 1. **모델·연산·자료형 지원 검사**: 장치가 전체 그래프를 실행할 **호환 범위** 확인
 2. **그래프 융합·정밀도 변환**: 연산 호출·메모리 이동을 줄이는 **실행 그래프** 생성
 3. **텐서·타일 메모리 배치**: 재사용률에 맞춰 온칩·외부 메모리의 **데이터 위치** 결정
-4. **병렬 MAC·데이터 재사용**: 연산 배열에서 부분합과 입력을 재사용해 **텐서 계산** 수행
+4. **병렬 곱셈-누산(Multiply-Accumulate, MAC)·데이터 재사용**: 연산 배열에서 부분합과 입력을 재사용해 **텐서 계산** 수행
 #### 한줄 요약
 - 조리법을 장치 언어로 바꾸고 재료를 가까운 선반에 놓은 뒤 실제 시간·전력·맛을 함께 시험함
 
@@ -133,6 +135,8 @@ sequenceDiagram
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 연산·데이터 흐름을 제조 단계에서 고정한 전용 반도체이다.
 
 </details>
+
+그래픽 처리장치(Graphics Processing Unit, GPU), 신경망 처리장치(Neural Processing Unit, NPU), 주문형 반도체(Application-Specific Integrated Circuit, ASIC), 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)은 유연성과 효율의 균형이 다르다.
 
 | 비교 기준 | GPU | NPU·ASIC | FPGA |
 |:---|:---|:---|:---|
@@ -155,7 +159,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 미지원 연산을 **CPU에서 대신 실행할 때 생기는 지연** | **연산자·자료형 지원 범위와 종단 프로파일** 측정 | 실효 처리량 **검증** |
+| 미지원 연산을 **중앙처리장치(Central Processing Unit, CPU)에서 대신 실행할 때 생기는 지연** | **연산자·자료형 지원 범위와 종단 프로파일** 측정 | 실효 처리량 **검증** |
 | 외부 메모리의 **데이터 이동 병목** | **타일링·연산 융합·온칩 재사용** 최적화 | 대역폭·전력 소모 **절감** |
 | 저정밀 변환의 **모델 정확도 저하** | **계층별 양자화·원본 대비 회귀 시험** | **정확도 허용 범위 내 처리량 확보** |
 
@@ -172,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- 모델 변경은 **GPU**, 고정 저전력은 **NPU·ASIC**, 맞춤 입출력은 FPGA 선택
+- **전력 효율·연산 지원 범위별 선택**: 모델 변경은 그래픽 처리장치(Graphics Processing Unit, GPU), 고정 저전력은 신경망 처리장치(Neural Processing Unit, NPU)·주문형 반도체(Application-Specific Integrated Circuit, ASIC), 맞춤 입출력은 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)
 
 #### 한줄 요약
 - 최고 속도 숫자보다 실제 모델 전체를 정한 시간·전력·정확도로 처리하는 장치를 고름
