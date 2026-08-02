@@ -113,13 +113,12 @@ sequenceDiagram
     participant S as I/O 스케줄러
     participant D as 장치 드라이버
     participant V as 저장장치
-    participant C as 완료 처리기
     P->>S: I/O 요청
     S->>D: 1. 선택된 요청
     D->>V: 2. 장치 명령
-    V-->>C: 3. 완료 상태
-    C->>S: 4. 완료 요청 정보
-    C-->>P: I/O 결과 반환
+    V-->>D: 3. 완료 상태
+    D->>S: 4. 완료 요청 정보
+    D-->>P: I/O 결과 반환
 ```
 
 **동작 원리**

@@ -106,12 +106,10 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant J as 작업 집합
     participant S as 스케줄러
     participant C1 as 코어 1
     participant C2 as 코어 2
     participant M as 공유 메모리
-    J->>S: 실행 작업
     alt 다중프로그래밍
         S->>C1: 1. 작업·코어 배정
         C1-->>S: 2. I/O 대기·실행 상태
@@ -121,8 +119,8 @@ sequenceDiagram
         S->>C2: 4. 병렬 작업·코어 배정
         C1->>M: 5. 공유 데이터·동기화 신호
     end
-    C1-->>J: 처리 결과
-    C2-->>J: 병렬 처리 결과
+    C1-->>S: 처리 결과
+    C2-->>S: 병렬 처리 결과
 ```
 
 **동작 원리**

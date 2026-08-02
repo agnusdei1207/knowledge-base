@@ -117,13 +117,12 @@ sequenceDiagram
     participant F as 폴트 처리기
     participant R as 상주 집합 관리자
     participant D as 보조 저장장치
-    participant L as 부하 제어기
     P->>F: 1. 비상주 가상 주소
     F->>R: 2. 요구 페이지·교체 조건
     R->>D: 3. 퇴출 페이지·적재 요청
     D-->>R: 4. 적재 페이지
-    F->>L: 5. 폴트율·상주 집합 크기
-    L->>R: 프레임 할당량
+    F->>R: 5. 폴트율·상주 집합 크기
+    R->>R: 프레임 할당량 조정
     R-->>P: 주소 변환 재개
 ```
 

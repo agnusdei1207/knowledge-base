@@ -106,20 +106,16 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant T as 프로세스·스레드
     participant Q as 전역·로컬 실행 큐
     participant S as 스케줄러
     participant C as CPU 코어
-    participant B as 부하 분산기
-    T->>Q: 생성·기상 작업
     Q->>S: 1. 실행 후보
     S->>C: 2. 선택 작업
     opt MQMS 로컬 큐 고갈
-        C->>B: 3. 유휴 코어 상태
-        B->>Q: 4. 작업 이동 요청
+        C->>S: 3. 유휴 코어 상태
+        S->>Q: 4. 작업 이동 요청
         Q-->>C: 5. 이동 작업
     end
-    C-->>T: 실행 결과
 ```
 
 **동작 원리**

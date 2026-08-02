@@ -108,17 +108,15 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant F as 파일 시스템
-    participant T as 트랜잭션 관리자
+    participant F as 파일 시스템·트랜잭션 관리자
     participant J as 저널 영역
     participant H as 본래 블록
     participant R as 복구기
-    F->>T: 변경 요청
-    T->>J: 1. 변경 레코드
-    T->>J: 2. 커밋 레코드
+    F->>J: 1. 변경 레코드
+    F->>J: 2. 커밋 레코드
     alt 정상 진행
-        T->>H: 3. 체크포인트 블록
-        T-->>F: 갱신 완료
+        F->>H: 3. 체크포인트 블록
+        H-->>F: 갱신 완료
     else 장애 복구
         R->>J: 4. 커밋 기록 조회
         J-->>R: 커밋 트랜잭션 목록
