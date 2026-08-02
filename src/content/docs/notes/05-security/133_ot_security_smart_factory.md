@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OT**: 물리 공정·산업 설비를 실시간 감시·제어하는 기술 영역이다.
-- **스마트팩토리**: 센서·제어장치·MES·분석을 연결해 생산 공정을 자동화한 제조 체계이다.
+- **운영기술(Operational Technology, OT)**: 물리 공정·산업 설비를 실시간 감시·제어하는 기술 영역이다.
+- **스마트팩토리**: 센서·제어장치·제조실행시스템(Manufacturing Execution System, MES)·분석을 연결해 생산 공정을 자동화한 제조 체계이다.
 
 </details>
 
-- 정의/개념: **스마트팩토리 OT 보안**은 공정 안전·가용성을 우선하며 제어망·산업 프로토콜·제어기·현장 장치를 보호하는 **산업 제어 보안 체계**
+- 정의/개념: 공정 안전·가용성을 우선하며 제어망·산업 프로토콜·현장 장치를 보호하는 **스마트팩토리 OT 보안 체계**
 - 배경/필요성: IT 보안 통제를 그대로 적용하면 **공정 중단·물리 사고 가능**
 
 #### 한줄 요약
@@ -42,6 +42,7 @@ extra:
 
 - **영역·통로**: 자산을 보안 영역으로 묶고 영역 간 허용 통신 경로를 통제하는 모델이다.
 - **정비창**: 공정 영향을 검토한 변경을 승인된 시간대에 적용하는 운영 구간이다.
+- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT) 경계**: 업무망과 공정 제어망 사이에 승인된 통신만 허용하는 분리 기준이다.
 
 </details>
 
@@ -58,9 +59,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IDMZ**: IT·OT 직접 연결을 막고 필요한 교환만 중계하는 산업 비무장지대이다.
-- **MES·SCADA·PLC·DCS**: 생산 관리, 원격 감시, 논리 제어, 분산 공정 제어를 담당하는 OT 구성요소이다.
-- **SIS**: 위험 조건에서 공정을 사전 정의된 안전 상태로 전환하는 독립 시스템이다.
+- **산업 비무장지대(Industrial Demilitarized Zone, IDMZ)**: 정보기술(Information Technology, IT)과 운영기술(Operational Technology, OT)의 직접 연결을 막고 필요한 교환만 중계하는 영역이다.
+- **제조실행시스템(Manufacturing Execution System, MES)·감시제어·데이터수집(Supervisory Control and Data Acquisition, SCADA)·프로그램 가능 논리제어기(Programmable Logic Controller, PLC)·분산제어시스템(Distributed Control System, DCS)**: 생산 관리·원격 감시·논리 제어·분산 공정 제어를 각각 담당한다.
+- **안전계장시스템(Safety Instrumented System, SIS)**: 위험 조건에서 공정을 사전 정의된 안전 상태로 전환하는 독립 시스템이다.
 
 </details>
 
@@ -93,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **SL-T**: 위험평가로 정한 영역·통로의 목표 보안수준이다.
+- **목표 보안수준(Security Level-Target, SL-T)**: 위험평가로 정한 영역·통로의 목표 보안수준이다.
 
 </details>
 
@@ -126,7 +127,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IT·OT·IIoT**: 업무 정보 처리, 물리 공정 제어, 산업 장치와 원격 플랫폼 연결을 각각 중심으로 하는 환경이다.
+- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT)·산업 사물인터넷(Industrial Internet of Things, IIoT)**: 업무 정보 처리, 물리 공정 제어, 산업 장치와 원격 플랫폼 연결을 각각 중심으로 하는 환경이다.
 
 </details>
 
@@ -147,8 +148,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IEC 62443-3-2·3-3**: IACS 영역·통로 위험평가와 시스템 보안 요구사항을 규정한다.
-- **NIST SP 800-82**: 안전·신뢰성·성능을 고려한 OT 보안 지침이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC) 62443-3-2·3-3**: 산업자동화·제어시스템(Industrial Automation and Control Systems, IACS)의 영역·통로 위험평가와 시스템 보안 요구사항을 규정한다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-82**: 안전·신뢰성·성능을 고려한 운영기술(Operational Technology, OT) 보안 지침이다.
+- **공정 통제 적용 판단**: 정보기술(Information Technology, IT) 통제의 공정 영향, 목표 보안수준(Security Level-Target, SL-T), 프로그램 가능 논리제어기(Programmable Logic Controller, PLC)의 패치 조건을 함께 판단한다.
 
 </details>
 

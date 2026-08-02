@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AIoT**: 연결된 IoT 장치에 AI 학습·추론 기능을 결합한 체계이다.
+- **사물지능융합기술(Artificial Intelligence of Things, AIoT)**: 연결된 사물인터넷(Internet of Things, IoT) 장치에 인공지능(Artificial Intelligence, AI) 학습·추론 기능을 결합한 체계이다.
 
 </details>
 
-- 정의/개념: **AIoT 보안**은 연결 장치의 신원부터 센서 데이터·AI 모델·통신·물리 제어까지 연쇄 위험을 통제하는 **융합 보안 체계**
+- 정의/개념: 장치 신원부터 센서 데이터·인공지능 모델·통신·물리 제어까지 연쇄 위험을 통제하는 **AIoT 융합 보안 체계**
 - 배경/필요성: 기존 IoT 보안만으로는 AI 오판에 따른 **물리 피해 통제 불가**
 
 #### 한줄 요약
@@ -40,6 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **센서 스푸핑·적대적 예제**: 물리 신호 또는 입력을 조작해 모델과 제어기의 오판을 유도하는 공격이다.
+- **인공지능(Artificial Intelligence, AI) 안전 상태**: 모델 확신이 낮거나 입력이 충돌할 때 물리 제어를 제한·중지하는 상태이다.
 
 </details>
 
@@ -58,6 +59,7 @@ extra:
 
 - **모델 추출**: 반복 질의와 출력 관찰로 대상 모델의 기능·파라미터를 복제하는 공격이다.
 - **모델 드리프트**: 학습·운영 데이터 분포 차이로 모델 판단 성능이 변하는 현상이다.
+- **인공지능(Artificial Intelligence, AI) 모델·응용 프로그래밍 인터페이스(Application Programming Interface, API) 통제**: 모델 서명·질의율과 플랫폼 호출 권한을 함께 제한하는 통제이다.
 
 </details>
 
@@ -91,6 +93,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **안전 상태 전환**: 입력 이상이나 낮은 확신도를 감지하면 물리 제어를 제한·중지하는 동작이다.
+- **인공지능(Artificial Intelligence, AI) 추론 증거**: 승인 모델 버전·추론값·확신도를 물리 제어 판단과 함께 기록한 자료이다.
 
 </details>
 
@@ -124,7 +127,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Edge AI**: 장치나 근거리 게이트웨이에서 AI 추론을 수행하는 방식이다.
+- **엣지 인공지능(Edge Artificial Intelligence, Edge AI)**: 장치나 근거리 게이트웨이에서 인공지능 추론을 수행하는 방식이다.
+- **사물지능융합기술(Artificial Intelligence of Things, AIoT)**: 사물인터넷 장치와 인공지능 추론을 결합해 현장에서 판단·제어하는 체계이다.
 
 </details>
 
@@ -145,8 +149,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 27400**: IoT 솔루션의 보안·프라이버시 위험·원칙·통제 지침이다.
-- **NIST AI RMF·IR 8259**: AI 위험관리와 IoT 제조자 기본 보안 활동을 다루는 지침이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27400**: 사물인터넷(Internet of Things, IoT) 솔루션의 보안·프라이버시 위험·원칙·통제 지침이다.
+- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(NIST Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 인공지능 위험·성능·물리 영향을 관리하는 프레임워크이다.
+- **미국 국립표준기술연구소 내부보고서(National Institute of Standards and Technology Internal Report, NIST IR) 8259**: 사물인터넷 제조자의 기본 보안 활동을 다루는 지침이다.
 
 </details>
 
@@ -166,6 +171,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **경로 전체 보호**: 센서 입력부터 모델 판단과 액추에이터 동작까지 연결해 통제하는 원칙이다.
+- **인공지능(Artificial Intelligence, AI) 판단 경로**: 센서 입력·모델 추론·물리 동작을 하나의 안전 통제 경로로 보는 기준이다.
 
 </details>
 

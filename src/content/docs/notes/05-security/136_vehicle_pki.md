@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Vehicle PKI**: V2X 메시지 서명 인증서의 발급·사용·폐기를 관리하는 공개키 기반구조이다.
+- **차량 공개키 기반구조(Vehicle Public Key Infrastructure, Vehicle PKI)**: 차량·사물 통신(Vehicle-to-Everything, V2X) 메시지 서명 인증서의 발급·사용·폐기를 관리하는 체계이다.
 
 </details>
 
-- 정의/개념: **Vehicle PKI**는 차량과 인프라의 V2X 메시지 서명용 인증서를 발급·검증·갱신·폐기해 신뢰와 가명성을 제공하는 **차량 공개키 기반구조**
+- 정의/개념: 차량·인프라 메시지 인증서를 발급·검증·갱신·폐기해 신뢰와 가명성을 제공하는 **차량 공개키 기반구조**
 - 배경/필요성: 장기 인증서를 방송에 쓰면 **차량 이동경로 추적 가능**
 
 #### 한줄 요약
@@ -57,8 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Root CA·EA·AA**: 최상위 신뢰, 차량 가입 자격, 단기 V2X 서비스 권한을 각각 관리하는 기관이다.
-- **CRL**: 만료 전에 폐기된 인증서의 식별자와 상태를 배포하는 목록이다.
+- **루트 인증기관(Root Certificate Authority, Root CA)·가입기관(Enrollment Authority, EA)·권한기관(Authorization Authority, AA)**: 최상위 신뢰, 차량 가입 자격, 단기 차량·사물 통신(V2X) 서비스 권한을 각각 관리한다.
+- **인증서 폐기목록(Certificate Revocation List, CRL)**: 만료 전에 폐기된 인증서의 식별자와 상태를 배포하는 목록이다.
 
 </details>
 
@@ -91,7 +91,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **SCMS**: V2X 인증서의 등록·권한·폐기 기능을 분리 운영하는 보안 자격증명 관리체계이다.
+- **보안 자격증명 관리체계(Security Credential Management System, SCMS)**: 차량·사물 통신(Vehicle-to-Everything, V2X) 인증서의 등록·권한·폐기 기능을 분리 운영하는 체계이다.
 
 </details>
 
@@ -127,7 +127,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TLS 인증서**: 차량과 서버 사이의 상대 인증·기밀성·무결성을 제공하는 연결용 인증서이다.
+- **전송계층보안(Transport Layer Security, TLS) 인증서**: 차량과 서버 사이의 상대 인증·기밀성·무결성을 제공하는 연결용 인증서이다.
+- **가입·방송 자격 분리**: 가입기관(Enrollment Authority, EA)의 장기 가입 자격과 차량·사물 통신(Vehicle-to-Everything, V2X)의 단기 방송 권한을 분리한다.
 
 </details>
 
@@ -148,8 +149,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IEEE 1609.2·1609.2.1**: WAVE 메시지 보안과 인증서 프로비저닝·관리 인터페이스를 규정한다.
-- **ETSI TS 103 097**: 유럽 ITS의 보안 헤더와 인증서 형식을 규정한 기술 사양이다.
+- **미국 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1609.2·1609.2.1**: 차량 환경 무선접속(Wireless Access in Vehicular Environments, WAVE) 메시지 보안과 인증서 프로비저닝·관리 인터페이스를 규정한다.
+- **유럽전기통신표준협회 기술 사양(European Telecommunications Standards Institute Technical Specification, ETSI TS) 103 097**: 유럽 지능형교통체계(Intelligent Transport Systems, ITS)의 보안 헤더와 인증서 형식을 규정한다.
 
 </details>
 
@@ -169,10 +170,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **자격 분리**: 장기 가입, 단기 방송, 서버 연결 인증서를 목적별로 나누는 원칙이다.
+- **전송계층보안(Transport Layer Security, TLS) 인증서**: 차량·서버 연결 보호에 사용하고 방송용 가명 인증서와 분리하는 자격이다.
 
 </details>
 
-- 방송은 **단기 가명 인증서**, 서버 연결은 TLS 인증서로 분리
+- 방송은 **단기 가명 인증서**, 서버 연결은 **TLS 인증서** 적용
 
 #### 한줄 요약
 
