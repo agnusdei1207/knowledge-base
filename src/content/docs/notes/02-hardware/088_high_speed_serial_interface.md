@@ -98,23 +98,22 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant H as 호스트
+    participant H as 호스트·운영체제
     participant C as 케이블
     participant D as 장치
-    participant O as 운영체제
     participant I as IOMMU
     H->>C: 1. 케이블 등급 확인
     H->>D: 2. 전력·기능 협상
-    H->>O: 3. 공통 기능 전달
-    O->>I: 4. DMA 경계 설정
-    O->>D: 5. 링크 활성화
+    H->>H: 3. 공통 기능 확인
+    H->>I: 4. DMA 경계 설정
+    H->>D: 5. 링크 활성화
 ```
 
 **동작 원리**
 
 1. **케이블 등급 확인**: e-Marker에서 속도·전류 한도 판독
 2. **전력·기능 협상**: 전력 역할과 지원 모드·터널의 교집합 결정
-3. **공통 기능 전달**: 운영체제가 합의된 속도·영상·장치 기능 구성
+3. **공통 기능 확인**: 호스트 운영체제가 합의된 속도·영상·장치 기능 구성
 4. **DMA 경계 설정**: PCIe 터널 장치의 허용 메모리 범위 제한
 5. **링크 활성화**: 협상·격리 조건을 만족한 데이터 경로 개통
 

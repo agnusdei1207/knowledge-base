@@ -99,12 +99,11 @@ block
 ```mermaid
 sequenceDiagram
     participant H as 호스트
-    participant C as 보호 캐시
+    participant C as 보호 캐시·상태 감시기
     participant E as RAID 엔진
     participant D as 물리 디스크
-    participant M as 상태 감시기
     H->>C: 논리 블록 쓰기
-    M-->>C: 1. 전원 보호 상태
+    C->>C: 1. 전원 보호 상태 확인
     C-->>H: 보호 완료 응답
     C->>E: 2. 데이터·패리티 배치
     E->>D: 3. 블록·패리티 데이터
@@ -113,7 +112,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **전원 보호 상태**: 캐시 보호 가능 여부 확인
+1. **전원 보호 상태 확인**: 캐시 보호 가능 여부 판정
 2. **데이터·패리티 배치**: RAID 레벨에 맞는 기록 위치 계산
 3. **블록·패리티 데이터**: 구성원에 기록하고 배열 상태 갱신
 
