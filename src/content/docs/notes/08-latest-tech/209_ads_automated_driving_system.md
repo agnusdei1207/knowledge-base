@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 209
-  label: "209. ADS 자율주행시스템 (Automated Driving System)"
+  label: "209. 자동주행 시스템 (ADS)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "ADS 자율주행시스템 (Automated Driving System)"
+title: "자동주행 시스템 (Automated Driving System, ADS)"
 date: "2026-07-31T12:09:29+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**ADS**는 정의된 ODD에서 전체 DDT와 비상 시 fallback을 수행하는 자동주행 시스템이다.
+- **자동주행 시스템(Automated Driving System, ADS)**: 정의된 운행 설계 영역(Operational Design Domain, ODD)에서 전체 동적 주행 과업(Dynamic Driving Task, DDT)과 비상 시 대체 대응을 수행하는 시스템이다.
 
 </details>
 
-- 정의/개념: **ADS**는 정의된 ODD에서 전체 DDT와 fallback을 수행하는 자동주행 시스템
+- 정의/개념: 정의된 운행 설계 영역(Operational Design Domain, ODD)에서 전체 동적 주행 과업(Dynamic Driving Task, DDT)과 대체 대응을 수행하는 **자동주행 시스템(Automated Driving System, ADS)**
 - 배경/필요성: 운전자 지원과 자동주행의 혼동은 **환경 감시·비상 대응 책임 공백** 초래
 
 #### 한줄 요약
@@ -39,13 +39,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**OEDR**은 주행 중 관련 객체와 사건을 탐지하고 상황에 맞는 대응을 생성하는 DDT 기능이다.
+- **객체·사건 탐지 및 대응(Object and Event Detection and Response, OEDR)**: 주행 중 관련 객체와 사건을 탐지하고 상황에 맞는 대응을 생성하는 동적 주행 과업(Dynamic Driving Task, DDT) 기능이다.
 
 </details>
 
 - 조향·가감속·OEDR을 포함한 **전체 DDT 수행**
-- 도로·날씨·속도에 따른 **명시적 ODD 기반 작동 제한**
-- SAE L3 운전자·L4 이상 시스템의 **fallback 책임 구분**
+- 도로·날씨·속도에 따른 **명시적 운행 설계 영역(Operational Design Domain, ODD) 기반 작동 제한**
+- 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 3 운전자·Level 4 이상 시스템의 **대체 대응 책임 구분**
 #### 한줄 요약
 
 - ODD에 따라 주행 범위를 정하고, 범위를 벗어나거나 고장 시 누가 운전할지 미리 약속함
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**DDT fallback**은 ADS가 정상 주행 과업을 계속 수행할 수 없을 때 인계나 최소위험기동으로 대응하는 절차다.
+- **동적 주행 과업 대체 대응(Dynamic Driving Task Fallback, DDT Fallback)**: 자동주행 시스템이 정상 주행 과업을 계속 수행할 수 없을 때 인계나 최소위험기동으로 대응하는 절차이다.
 
 </details>
+
+자동주행 시스템(Automated Driving System, ADS)은 운행 설계 영역(Operational Design Domain, ODD), 객체·사건 탐지 및 대응(Object and Event Detection and Response, OEDR), 최소위험기동(Minimal Risk Maneuver, MRM)을 함께 관리한다.
 
 ```mermaid
 block-beta
@@ -88,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**MRM**은 고장이나 ODD 이탈 시 차량의 위험을 낮추고 최소위험상태에 도달하기 위한 제어 동작이다.
+- **최소위험기동(Minimal Risk Maneuver, MRM)**: 고장이나 운행 설계 영역(Operational Design Domain, ODD) 이탈 시 차량의 위험을 낮추고 최소위험상태에 도달하기 위한 제어 동작이다.
 
 </details>
+
+객체·사건 탐지 및 대응(Object and Event Detection and Response, OEDR)과 동적 주행 과업(Dynamic Driving Task, DDT)의 상태에 따라 최소위험상태(Minimal Risk Condition, MRC) 도달을 판단한다.
 
 ```mermaid
 sequenceDiagram
@@ -124,9 +128,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**SAE Level 4**는 제한된 ODD 안에서 시스템이 전체 DDT와 fallback을 수행하는 자동화 수준이다.
+- **SAE Level 4**: 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) 기준에서 제한된 운행 설계 영역(Operational Design Domain, ODD) 안의 전체 동적 주행 과업(Dynamic Driving Task, DDT)과 대체 대응을 시스템이 수행하는 자동화 수준이다.
 
 </details>
+
+자동주행 시스템(Automated Driving System, ADS)의 자동화 수준별 운전자·시스템 책임을 비교한다.
 
 | ADS 자동화 수준 | SAE L3 | SAE L4 | SAE L5 |
 |:---|:---|:---|:---|
@@ -143,9 +149,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**보수적 가용성 판정**은 ODD 경계나 시스템 상태가 불확실할 때 기능 진입을 막거나 조기에 종료하는 안전 판단이다.
+- **보수적 가용성 판정**: 운행 설계 영역(Operational Design Domain, ODD) 경계나 시스템 상태가 불확실할 때 기능 진입을 막거나 조기에 종료하는 안전 판단이다.
 
 </details>
+
+국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 3, 운전자 모니터링 시스템(Driver Monitoring System, DMS), 최소위험기동(Minimal Risk Maneuver, MRM)의 인계·대응 조건을 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -162,11 +170,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**최소위험상태(MRC)**는 fallback 수행 결과 차량과 주변의 위험이 최소화된 안정 상태다.
+- **최소위험상태(Minimal Risk Condition, MRC)**: 대체 대응 수행 결과 차량과 주변의 위험이 최소화된 안정 상태이다.
 
 </details>
 
-- L3는 **운전자 인계**, L4 이상은 **시스템 fallback·MRM** 적용
+- **자동화 수준별 대체 대응**: 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 3는 운전자 인계, Level 4 이상은 시스템 최소위험기동(Minimal Risk Maneuver, MRM) 적용
 
 #### 한줄 요약
 

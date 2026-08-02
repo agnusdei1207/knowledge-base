@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 207
-  label: "207. V2X 차량사물통신 (Vehicle-to-Everything)"
+  label: "207. 차량·사물 통신 (V2X)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "V2X 차량사물통신 (Vehicle-to-Everything)"
+title: "차량·사물 통신 (Vehicle-to-Everything, V2X)"
 date: "2026-07-31T08:59:53+09:00"
 tags:
   - "notes-latest-tech"
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**V2X**는 차량이 다른 차량·인프라·보행자·망과 위험 및 교통 정보를 교환하는 협력 통신 체계다.
+- **차량·사물 통신(Vehicle-to-Everything, V2X)**: 차량이 다른 차량·인프라·보행자·망과 위험 및 교통 정보를 교환하는 협력 통신 체계이다.
 
 </details>
 
-- 정의/개념: **V2X**는 차량이 주변 참여자·인프라·망과 위험 정보를 교환하는 협력 통신 체계
+- 정의/개념: 차량이 주변 참여자·인프라·망과 위험 정보를 교환하는 **차량·사물 통신(Vehicle-to-Everything, V2X) 체계**
 - 배경/필요성: 탑재 센서만으로는 사각지대와 **가시거리 밖 위험 조기 인지 불가**
 
 #### 한줄 요약
@@ -39,11 +39,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**C-V2X**는 셀룰러 기술을 기반으로 차량의 직접 통신과 광역 망 통신을 지원하는 방식이다.
+- **셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X)**: 셀룰러 기술을 기반으로 차량의 직접 통신과 광역 망 통신을 지원하는 방식이다.
 
 </details>
 
-- V2V·V2I·V2P·V2N 기반 **다중 교통 참여자 통신**
+- 차량 간(Vehicle-to-Vehicle, V2V)·차량-인프라 간(Vehicle-to-Infrastructure, V2I)·차량-보행자 간(Vehicle-to-Pedestrian, V2P)·차량-네트워크 간(Vehicle-to-Network, V2N) **다중 교통 참여자 통신**
 - PC5·Uu 기반 **저지연 직접·광역 망 통신**
 - 서명·시간·위치·센서 일치성 기반 **메시지 신뢰 검증**
 #### 한줄 요약
@@ -55,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-**OBU**는 차량에 탑재되어 V2X 메시지를 생성·송수신·검증하고 센서 정보와 융합하는 장치다.
+- **차량 탑재 장치(On-Board Unit, OBU)**: 차량에 탑재되어 V2X 메시지를 생성·송수신·검증하고 센서 정보와 융합하는 장치이다.
 
 </details>
+
+차량·사물 통신(Vehicle-to-Everything, V2X), 노변 장치(Roadside Unit, RSU), 공개키 기반구조(Public Key Infrastructure, PKI)가 메시지 전달과 신뢰 관리를 분담한다.
 
 ```mermaid
 block-beta
@@ -88,9 +90,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-**PKI**는 인증서를 발급·검증·폐기하여 V2X 메시지 송신자의 신뢰를 관리하는 공개키 기반구조다.
+- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서를 발급·검증·폐기하여 차량·사물 통신(Vehicle-to-Everything, V2X) 메시지 송신자의 신뢰를 관리하는 체계이다.
 
 </details>
+
+차량 탑재 장치(On-Board Unit, OBU)와 노변 장치(Roadside Unit, RSU)가 V2X 메시지를 교환한다.
 
 ```mermaid
 sequenceDiagram
@@ -123,14 +127,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**PC5**는 기지국을 거치지 않고 인접 차량과 단말이 직접 통신하는 C-V2X 인터페이스다.
+- **PC5 인터페이스**: 기지국을 거치지 않고 인접 차량과 단말이 직접 통신하는 셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X) 인터페이스이다.
 
 </details>
+
+근거리 전용 통신(Dedicated Short-Range Communications, DSRC), 지능형 교통 시스템 G5(Intelligent Transport Systems G5, ITS-G5), 셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X)의 직접·망 접속을 비교한다.
 
 | V2X 접속 방식 | DSRC·ITS-G5 | C-V2X PC5 | C-V2X Uu |
 |:---|:---|:---|:---|
 | 적용 기준 | 근거리 **직접 안전 통신** | 근거리 **셀룰러 직접 통신** | **광역 망 기반 서비스** |
-| 핵심 특징 | IEEE 802.11 계열 **직접 통신** | 기지국 비경유 **PC5 통신** | 기지국·서버 경유 **Uu 통신** |
+| 핵심 특징 | 국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE) 802.11 계열 **직접 통신** | 기지국 비경유 **PC5 통신** | 기지국·서버 경유 **Uu 통신** |
 | 한계 | 별도 **노변 인프라** 필요 | 단말·자원 **운용 복잡도** | 망 **지연·가용성 의존** |
 
 #### 한줄 요약
@@ -142,14 +148,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**신선도 검증**은 메시지 발생 시각과 재전송 여부를 확인해 오래되거나 재사용된 위험 정보를 거부하는 절차다.
+- **신선도 검증**: 메시지 발생 시각과 재전송 여부를 확인해 오래되거나 재사용된 위험 정보를 거부하는 절차이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **통신 품질** 미검증 시 혼잡·음영의 **지연·손실** | 채널 부하 제어·다중 경로·**성능 시험** | 통신 **지연·손실률** 감소 |
-| **메시지 신뢰** 미검증 시 위조·재전송·**위치 조작** | PKI·신선도·물리 가능성 **교차 검증** | 위조·재전송 **수용률** 감소 |
+| **메시지 신뢰** 미검증 시 위조·재전송·**위치 조작** | 공개키 기반구조(Public Key Infrastructure, PKI)·신선도·물리 가능성 **교차 검증** | 위조·재전송 **수용률** 감소 |
 | **차량 융합** 미검증 시 외부 정보의 **오경보·오제어** | 탑재 센서 대조·신뢰도·**안전한 실패** | **오경보·오제어** 방지 |
 
 #### 한줄 요약
@@ -161,12 +167,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-**Uu**는 차량 단말이 기지국과 서버를 경유해 광역 교통 서비스를 이용하는 셀룰러 인터페이스다.
+- **Uu 인터페이스**: 차량 단말이 기지국과 서버를 경유해 광역 교통 서비스를 이용하는 셀룰러 인터페이스이다.
 
 </details>
 
-- 인접 위험은 **PC5**, 광역 서비스는 **Uu**로 교환하고 PKI·센서 검증
+- **PC5·Uu 선택 원칙**: 인접 위험은 직접 통신, 광역 서비스는 망 통신으로 교환하고 공개키 기반구조(Public Key Infrastructure, PKI)·센서로 검증
 
 #### 한줄 요약
 
-- V2X 메시지는 유용한 추가 센서이지만 차량의 자체 센서와 검증한 뒤 사용해야 한다.
+- 차량·사물 통신(Vehicle-to-Everything, V2X) 메시지는 유용한 추가 센서이지만 차량의 자체 센서와 검증한 뒤 사용해야 한다.
