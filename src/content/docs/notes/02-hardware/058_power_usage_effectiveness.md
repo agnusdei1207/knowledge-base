@@ -24,11 +24,11 @@ extra:
 
 - **전력사용효율(Power Usage Effectiveness, PUE)**: 데이터센터 전체 시설 에너지를 IT 장비 에너지로 나누어 비IT 시설 오버헤드를 나타내는 지표이다.
 - **전체 시설 에너지(Total Facility Energy)**: 데이터센터 인입 경계 안에서 IT 장비와 냉각 및 배전 설비가 소비한 총에너지이다.
-- **IT 장비 에너지(IT Equipment Energy)**: 서버와 스토리지 및 네트워크 장비가 실제 계산과 저장·전송에 소비한 에너지이다.
+- **정보기술 장비 에너지(Information Technology Equipment Energy, IT Equipment Energy)**: 서버와 스토리지 및 네트워크 장비가 실제 계산과 저장·전송에 소비한 에너지이다.
 
 </details>
 
-- 정의/개념: **전력사용효율(PUE)**은 데이터센터 전체 시설 에너지를 IT 장비 에너지로 나눠 비IT 시설의 에너지 오버헤드를 나타내는 **무차원 효율 지표**
+- 정의/개념: 데이터센터 전체 시설 에너지를 IT 장비 에너지로 나눠 비IT 시설의 에너지 오버헤드를 나타내는 **전력사용효율(Power Usage Effectiveness, PUE)** 기반 **무차원 효율 지표**
 - 배경/필요성: 전체 전력만으로는 냉각•배전의 **시설 에너지 분리 불가**
 
 #### 한줄 요약
@@ -40,8 +40,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **무차원 비율(Dimensionless Ratio)**: 분자와 분모가 같은 에너지 단위여서 단위가 상쇄된 비율이다.
-- **비IT 시설 에너지(Non-IT Facility Energy)**: 냉각과 배전 및 조명처럼 IT 장비 외의 시설이 소비한 에너지이다.
-- **계량 경계(Metering Boundary)**: PUE 계산에 포함할 건물과 설비 및 IT 장비의 물리적 범위이다.
+- **비정보기술 시설 에너지(Non-Information Technology Facility Energy, Non-IT Facility Energy)**: 냉각과 배전 및 조명처럼 IT 장비 외의 시설이 소비한 에너지이다.
+- **계량 경계(Metering Boundary)**: 전력사용효율(Power Usage Effectiveness, PUE) 계산에 포함할 건물과 설비 및 IT 장비의 물리적 범위이다.
 
 </details>
 
@@ -62,8 +62,8 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **전체 에너지 계량(Total-energy Metering)**: 데이터센터 인입점에서 PUE 분자에 해당하는 에너지를 측정하는 계량이다.
-- **IT 에너지 계량(IT-energy Metering)**: UPS 출력이나 PDU 등에서 IT 장비에 공급된 에너지를 별도로 측정하는 계량이다.
+- **전체 에너지 계량(Total-energy Metering)**: 데이터센터 인입점에서 전력사용효율(Power Usage Effectiveness, PUE) 분자에 해당하는 에너지를 측정하는 계량이다.
+- **정보기술 에너지 계량(Information Technology-energy Metering, IT-energy Metering)**: 무정전 전원 공급 장치(Uninterruptible Power Supply, UPS) 출력이나 전력 분배 장치(Power Distribution Unit, PDU) 등에서 IT 장비에 공급된 에너지를 별도로 측정하는 계량이다.
 - **시설별 하위 계량(Facility Submetering)**: 냉각과 배전 등 비IT 설비별 소비량을 분리하여 손실 원인을 찾는 계량이다.
 - **PUE 분석기(PUE Analyzer)**: 검증된 계량값으로 PUE와 시간별 추세를 산출하는 시스템이다.
 
@@ -96,9 +96,9 @@ block
 
 <details><summary>핵심 용어</summary>
 
-- **계량 자료(Metering Data)**: 동일한 기간에 수집한 전체 시설과 IT 장비의 누적 에너지 값이다.
+- **계량 자료(Metering Data)**: 동일한 기간에 수집한 전체 시설과 정보기술(Information Technology, IT) 장비의 누적 에너지 값이다.
 - **결측 검증(Missing-data Validation)**: 센서나 통신 오류로 빠진 계량 구간이 있는지 확인하고 계산 사용 여부를 결정하는 절차이다.
-- **기간 정렬(Period Alignment)**: PUE 분자와 분모가 정확히 같은 시작·종료 시각의 에너지를 사용하도록 맞추는 과정이다.
+- **기간 정렬(Period Alignment)**: 전력사용효율(Power Usage Effectiveness, PUE) 분자와 분모가 정확히 같은 시작·종료 시각의 에너지를 사용하도록 맞추는 과정이다.
 
 </details>
 
@@ -131,7 +131,8 @@ sequenceDiagram
 
 - **물사용효율(Water Usage Effectiveness, WUE)**: 데이터센터 물 사용량을 IT 장비 에너지로 나눈 수자원 효율 지표이다.
 - **탄소사용효율(Carbon Usage Effectiveness, CUE)**: 데이터센터 운영의 탄소 배출량을 IT 장비 에너지로 나눈 탄소 효율 지표이다.
-- **IT 작업 효율(IT Work Efficiency)**: IT 장비가 소비한 에너지로 실제 유효한 계산·저장·전송 작업을 얼마나 수행했는지 나타내는 효율이다.
+- **정보기술 작업 효율(Information Technology Work Efficiency, IT Work Efficiency)**: IT 장비가 소비한 에너지로 실제 유효한 계산·저장·전송 작업을 얼마나 수행했는지 나타내는 효율이다.
+- **전력사용효율(Power Usage Effectiveness, PUE)**: 전체 시설 에너지를 IT 장비 에너지로 나눈 전력 효율 지표이다.
 
 </details>
 
@@ -150,8 +151,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **계량점 이력(Meter-point History)**: 계량기의 위치와 포함 장비 및 변경 시점을 기록한 운영 자료이다.
-- **IT 부하율(IT Load Factor)**: IT 장비의 정격 또는 최대 전력 가운데 현재 실제로 사용하는 전력의 비율이다.
-- **운전 조건(Operating Condition)**: PUE에 영향을 주는 IT 부하와 외기 온습도 및 냉각 운전 상태이다.
+- **정보기술 부하율(Information Technology Load Factor, IT Load Factor)**: IT 장비의 정격 또는 최대 전력 가운데 현재 실제로 사용하는 전력의 비율이다.
+- **운전 조건(Operating Condition)**: 전력사용효율(Power Usage Effectiveness, PUE)에 영향을 주는 IT 부하와 외기 온습도 및 냉각 운전 상태이다.
 - **자원 상충(Resource Trade-off)**: 전력 효율을 개선하는 조치가 물 사용이나 탄소 배출 같은 다른 자원을 악화시키는 관계이다.
 
 </details>
@@ -171,13 +172,13 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **PUE 상승(PUE Increase)**: IT 에너지에 비해 냉각과 배전 등 비IT 에너지의 비중이 커진 상태이다.
+- **전력사용효율 상승(Power Usage Effectiveness Increase, PUE Increase)**: 정보기술(Information Technology, IT) 에너지에 비해 냉각과 배전 등 비IT 에너지의 비중이 커진 상태이다.
 - **냉각 손실(Cooling Loss)**: 서버 열을 제거하는 팬과 펌프 및 냉동 설비에서 소비되는 시설 에너지이다.
-- **배전 손실(Power-distribution Loss)**: 변압기와 UPS 및 배선에서 전력 변환과 저항 때문에 소모되는 에너지이다.
+- **배전 손실(Power-distribution Loss)**: 변압기와 무정전 전원 공급 장치(Uninterruptible Power Supply, UPS) 및 배선에서 전력 변환과 저항 때문에 소모되는 에너지이다.
 
 </details>
 
-- **PUE 상승** 시 냉각•배전 손실을 분석해 **비IT 에너지 절감**
+- 전력사용효율(Power Usage Effectiveness, PUE) 상승 시 냉각•배전 손실을 분석해 **비IT 에너지 절감**
 
 #### 한줄 요약
 

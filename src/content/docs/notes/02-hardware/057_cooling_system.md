@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **냉각 시스템**은 서버가 만든 열을 공기•냉각수•절연액으로 흡수해 외부로 방출하는 **열 관리 설비 체계**
+- 정의/개념: 서버가 만든 열을 공기•냉각수•절연액으로 흡수해 외부로 방출하는 **냉각 시스템** 기반 **열 관리 설비 체계**
 - 배경/필요성: 고밀도 장비의 국부 발열은 **열 스로틀링·서비스 중단** 유발
 
 #### 한줄 요약
@@ -134,7 +134,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **공랭(Air Cooling)**: 팬으로 순환시킨 공기가 장비 열을 흡수하고 공조 설비로 전달하는 방식이다.
-- **직접 수랭(Direct Liquid Cooling)**: CPU나 GPU에 밀착한 콜드플레이트의 냉각수가 열을 직접 흡수하는 방식이다.
+- **직접 수랭(Direct Liquid Cooling)**: 중앙처리장치(Central Processing Unit, CPU)나 그래픽 처리장치(Graphics Processing Unit, GPU)에 밀착한 콜드플레이트의 냉각수가 열을 직접 흡수하는 방식이다.
 - **액침냉각(Immersion Cooling)**: 전자 장비를 전기가 통하지 않는 절연액에 담가 표면 전체에서 열을 흡수하는 방식이다.
 
 </details>
@@ -176,12 +176,12 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **발열 밀도(Heat Density)**: 랙이나 장비의 단위 면적 또는 부피에서 발생하는 열의 크기이다.
-- **콜드플레이트(Cold Plate)**: CPU나 GPU 표면에 밀착하여 내부 냉각수로 열을 직접 흡수하는 판형 열교환기이다.
+- **콜드플레이트(Cold Plate)**: 중앙처리장치(Central Processing Unit, CPU)나 그래픽 처리장치(Graphics Processing Unit, GPU) 표면에 밀착하여 내부 냉각수로 열을 직접 흡수하는 판형 열교환기이다.
 - **절연액(Dielectric Fluid)**: 전기가 통하지 않아 전자 장비를 담근 상태로 열을 흡수할 수 있는 냉각액이다.
 
 </details>
 
-- **저•중밀도**는 공랭, **고밀도**는 직접 수랭, 초고밀도는 액침
+- 저•중밀도 환경에는 **공랭**, 고밀도 환경에는 **직접 수랭**, 초고밀도 환경에는 **액침냉각** 선택
 
 #### 한줄 요약
 
