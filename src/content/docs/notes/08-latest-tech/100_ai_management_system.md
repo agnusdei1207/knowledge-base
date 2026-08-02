@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 42001**: AI 경영시스템의 수립·운영·유지·지속 개선 요구사항을 정한 국제표준이다.
-- **AI 경영시스템(AIMS)**: AI 정책과 목표를 세우고 이를 달성할 조직 절차와 통제를 지속 개선하는 관리체계이다.
+- **국제표준화기구·국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: 인공지능 경영시스템의 수립·운영·유지·지속 개선 요구사항을 정한 국제표준이다.
+- **인공지능 경영시스템(Artificial Intelligence Management System, AIMS)**: 인공지능 정책과 목표를 세우고 이를 달성할 조직 절차와 통제를 지속 개선하는 관리체계이다.
 
 </details>
 
-- 정의/개념: **ISO/IEC 42001**은 AI 경영시스템의 수립·운영·개선 요구사항을 정한 국제표준
+- 정의/개념: 인공지능(Artificial Intelligence, AI) 경영시스템(Artificial Intelligence Management System, AIMS)의 수립·운영·개선 요구사항을 정한 **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 42001 표준**
 - 배경/필요성: 개별 모델 점검만으로는 조직의 AI 책임·위험에 대한 **지속 관리 불가**
 
 #### 한줄 요약
@@ -40,14 +40,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PDCA**: 정책과 통제를 계획하고 실행한 뒤 성과를 점검하고 문제를 개선하는 경영 순환이다.
+- **계획-실행-점검-개선(Plan-Do-Check-Act, PDCA)**: 정책과 통제를 계획하고 실행한 뒤 성과를 점검하고 문제를 개선하는 경영 순환이다.
 - **모델 보증**: 개별 AI 모델이 정해진 성능·안전 요구를 충족한다고 평가하고 입증하는 활동이다.
 
 </details>
 
-- 조직 맥락 기반 **AIMS 범위·책임 설정**
-- **PDCA** 기반 정책·운영·평가·시정 연결
-- 데이터·영향·공급자 통제와 **모델 보증 한계**
+- 조직 맥락 기반 **인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 범위·책임 설정**
+- **계획-실행-점검-개선(Plan-Do-Check-Act, PDCA) 기반 정책·운영·평가·시정 연결**
+- 인공지능(Artificial Intelligence, AI) 데이터·영향·공급자 통제와 **모델 보증 한계**
 
 #### 한줄 요약
 
@@ -63,6 +63,8 @@ extra:
 - **부적합 시정**: 요구사항을 충족하지 못한 원인을 제거하고 재발 방지 효과를 확인하는 조치이다.
 
 </details>
+
+인공지능 경영시스템(Artificial Intelligence Management System, AIMS)의 조직 연결 항목: **경계·위험 평가·부적합 시정**, 인공지능(Artificial Intelligence, AI)의 평가 대상: 위험·기회·영향
 
 ```mermaid
 block-beta
@@ -97,6 +99,8 @@ block-beta
 - **운영 증적**: 경영시스템의 절차와 통제가 실제 수행됐음을 보여 주는 기록이다.
 
 </details>
+
+인공지능 경영시스템(Artificial Intelligence Management System, AIMS)의 관리 경계에서 인공지능(Artificial Intelligence, AI) 위험 처리 계획과 운영 증적을 순환시킨다.
 
 ```mermaid
 sequenceDiagram
@@ -133,16 +137,18 @@ sequenceDiagram
 
 </details>
 
+국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC)의 인공지능(Artificial Intelligence, AI) 관련 표준은 경영시스템 요구사항, 정보보호 통제, 위험관리 지침으로 역할을 나눈다.
+
 | ISO 표준 | ISO/IEC 42001 | ISO/IEC 27001 | ISO/IEC 23894 |
 |:---|:---|:---|:---|
 | 적용 기준 | AI 관리체계의 **지속 개선** 시 | 정보보호 **통제 운영** 시 | AI **위험 평가 보강** 시 |
 | 핵심 특징 | **AI 경영시스템 요구사항** | **정보보호 경영시스템** | **AI 위험관리 지침** |
-| 한계 | **제품 성능 인증**과 구별 | **AI 고유 위험** 범위 부족 | **인증 요구사항**과 구별 |
+| 한계 | **제품 성능 인증과 구별** | **AI 고유 위험 범위 부족** | **인증 요구사항과 구별** |
 
 > 요약: **경영시스템·위험지침** 역할에 따른 ISO 표준 구분
 
 #### 한줄 요약
-- ISO/IEC 42001은 경영시스템, 23894는 AI 위험관리 지침에 초점을 둡니다.
+- ISO/IEC 42001은 경영시스템, ISO/IEC 23894는 AI 위험관리 지침에 초점을 둡니다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -157,12 +163,12 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **AIMS 범위 누락** | 외부 모델·공급자를 **적용 범위**에 포함 | 공급망의 **통제 공백 축소** |
+| 인공지능 경영시스템(Artificial Intelligence Management System, AIMS)의 **범위 누락** | **외부 모델·공급자의 적용 범위 포함** | 공급망의 **통제 공백 축소** |
 | **통제 증적 부족** | 수명주기별 **책임자·운영 기록** 연결 | 심사의 **추적성 확보** |
 | 인증의 **모델 보증 오인** | 제품 성능·안전성을 **별도 평가** | 인증 범위의 **오해 방지** |
 
 #### 한줄 요약
-- 기존 보안 감사 틀을 활용하되 AI 데이터·영향·모델 변경에 필요한 통제와 증거를 추가해야 합니다.
+- 기존 보안 감사 틀에 인공지능(Artificial Intelligence, AI) 데이터·영향·모델 변경 통제와 증거를 추가해야 합니다.
 
 ## Ⅶ. 결론
 
@@ -174,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- 조직 범위·AI 위험 수준에 맞춰 **AIMS**를 운영하고 **통제 효과** 기반 시정·개선
+- 조직 범위·인공지능(Artificial Intelligence, AI) 위험 수준에 맞춘 **인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 운영**, 시정 기준: **통제 효과**, 운영 원칙: **지속 개선**
 
 #### 한줄 요약
 - 인증서보다 AI 관리 절차가 일상에서 작동하고 문제가 생길 때 실제로 고쳐지는지가 중요합니다.

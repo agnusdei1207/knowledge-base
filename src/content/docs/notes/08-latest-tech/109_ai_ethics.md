@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AI 윤리**: AI의 목적·사용·영향을 인간의 권리와 가치에 따라 허용하거나 금지할지 판단하는 규범 체계이다.
+- **인공지능 윤리(Artificial Intelligence Ethics, AI 윤리)**: 인공지능의 목적·사용·영향을 인간의 권리와 가치에 따라 허용하거나 금지할지 판단하는 규범 체계이다.
 - **윤리 원칙**: 공정성·투명성·안전성·책임성처럼 AI 판단의 방향을 제시하는 가치 기준이다.
 
 </details>
 
-- 정의/개념: **AI 윤리**는 AI의 목적·사용·영향을 인간 권리와 가치에 따라 판단하는 규범 체계
+- 정의/개념: 인공지능(Artificial Intelligence, AI)의 목적·사용·영향을 인간 권리와 가치에 따라 판단하는 **AI 윤리 규범 체계**
 - 배경/필요성: 기술 가능성과 법적 최소 요건만으로는 **허용 가능한 사용·가치 충돌** 판단 곤란
 
 #### 한줄 요약
@@ -62,6 +62,8 @@ extra:
 - **구제**: 피해받은 사람이 설명·정정·보상·재심을 받을 수 있도록 하는 절차이다.
 
 </details>
+
+인공지능(Artificial Intelligence, AI) 사용의 필요성 비교 대상: 비인공지능(Non-AI) 대안, 우선 적용 기준: **강제 금지선**
 
 ```mermaid
 block-beta
@@ -126,10 +128,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **책임 있는 AI**: 윤리 원칙을 제품의 지표·시험·설계·인간 감독으로 구현하는 접근이다.
-- **AI 거버넌스**: AI 의사결정의 권한·책임·승인·감사를 조직적으로 운영하는 체계이다.
+- **책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI)**: 윤리 원칙을 제품의 지표·시험·설계·인간 감독으로 구현하는 접근이다.
+- **인공지능 거버넌스(Artificial Intelligence Governance, AI 거버넌스)**: AI 의사결정의 권한·책임·승인·감사를 조직적으로 운영하는 체계이다.
 
 </details>
+
+인공지능(Artificial Intelligence, AI)의 가치 원칙은 책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI)의 제품 통제와 인공지능 거버넌스(Artificial Intelligence Governance, AI 거버넌스)의 조직 책임으로 구현한다.
 
 | 비교 기준 | AI 윤리 원칙 | 책임 있는 AI | AI 거버넌스 |
 |:---|:---|:---|:---|
@@ -170,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 법적 경계·가치 충돌·피해 구제 가능성을 기준으로 **AI 허용 범위와 책임 구조** 결정
+- 결정 기준: **법적 경계·가치 충돌·피해 구제 가능성**, 결정 대상: **인공지능(Artificial Intelligence, AI) 허용 범위·책임 구조**
 
 #### 한줄 요약
 - 넘지 말아야 할 선과 선택으로 생길 피해를 보고 누가 승인하고 구제할지 정함

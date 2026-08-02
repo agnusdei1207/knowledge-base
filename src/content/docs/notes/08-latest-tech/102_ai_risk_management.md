@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AI 위험**: AI의 데이터·모델·사용 맥락에서 사람·조직·사회에 피해가 발생할 가능성과 영향이다.
-- **AI 위험관리**: AI 위험을 식별·분석·처리하고 통제 효과와 운영 변화를 반복 감시하는 활동이다.
+- **인공지능 위험(Artificial Intelligence Risk, AI 위험)**: 인공지능의 데이터·모델·사용 맥락에서 사람·조직·사회에 피해가 발생할 가능성과 영향이다.
+- **인공지능 위험관리(Artificial Intelligence Risk Management, AI 위험관리)**: AI 위험을 식별·분석·처리하고 통제 효과와 운영 변화를 반복 감시하는 활동이다.
 
 </details>
 
-- 정의/개념: **AI 위험**을 식별·평가·처리·감시하는 관리 활동
-- 배경/필요성: 배포 전 정확도만으로 **용도·데이터·공격 변화**의 지속 통제 곤란
+- 정의/개념: 인공지능(Artificial Intelligence, AI) 위험의 식별·평가·처리·감시를 반복하는 **AI 위험관리 활동**
+- 배경/필요성: 배포 전 정확도만으로 **용도·데이터·공격 변화의 지속 통제 곤란**
 
 #### 한줄 요약
 - AI의 잠재적 피해를 찾아 줄이고 남은 위험과 운영 변화를 계속 확인하는 활동입니다.
@@ -39,13 +39,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST AI RMF**: AI 위험관리를 Govern·Map·Measure·Manage 네 기능으로 구성한 자발적 프레임워크이다.
+- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: AI 위험관리를 Govern·Map·Measure·Manage 네 기능으로 구성한 자발적 프레임워크이다.
 - **잔여 위험**: 통제를 적용한 뒤에도 남아 책임자의 수용·추가 완화·중단 판단이 필요한 위험이다.
 - **가역성**: 피해가 발생한 뒤 원래 상태로 복구하거나 영향을 되돌릴 수 있는 정도이다.
 
 </details>
 
-- **NIST AI RMF**의 Govern·Map·Measure·Manage 순환
+- 미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)의 인공지능(Artificial Intelligence, AI) 위험관리 프레임워크(Risk Management Framework, RMF): **Govern·Map·Measure·Manage 순환**
 - 가능성·영향·가역성·불확실성 기반 **위험 평가**
 - 강행 규정 제외와 배포 후 **잔여 위험 감시**
 
@@ -62,6 +62,8 @@ extra:
 - **통제 효과**: 예방·탐지·대응 조치가 위험 가능성과 영향을 실제로 낮춘 정도이다.
 
 </details>
+
+인공지능(Artificial Intelligence, AI)의 조직 연결 항목: **위험 대장·허용 한도·통제 효과**, 연결 대상: 승인·사고 대응 구조
 
 ```mermaid
 block-beta
@@ -98,6 +100,8 @@ block-beta
 
 </details>
 
+인공지능(Artificial Intelligence, AI)의 갱신 항목: **위험 시나리오·중단 기준**, 갱신 기준: 통제 효과·잔여 위험
+
 ```mermaid
 sequenceDiagram
     participant O as AI 책임자
@@ -131,6 +135,8 @@ sequenceDiagram
 
 </details>
 
+인공지능(Artificial Intelligence, AI) 위험은 데이터 품질, 보안·오남용, 법적·사회적 영역으로 구분해 관리한다.
+
 | 위험 영역 | 데이터 품질 위험 | 보안·오남용 위험 | 법적·사회적 위험 |
 |:---|:---|:---|:---|
 | 적용 기준 | 학습·평가 데이터 관리 | 모델·도구·접근 통제 | 권리·규제·영향 검토 |
@@ -158,7 +164,7 @@ sequenceDiagram
 | 통제 후 **잔여 위험** 승인 불명확 | 허용 한도·중단 기준과 책임자 지정 | 위험 수용 **책임 추적성** 확보 |
 
 #### 한줄 요약
-- 금융 AI는 환각과 개인정보 유출을, 제조 AI는 환경 변화에 따른 오탐·미탐을 중점 관리합니다.
+- 금융 인공지능(Artificial Intelligence, AI)은 환각·개인정보 유출을, 제조 AI는 환경 변화에 따른 오탐·미탐을 중점 관리합니다.
 
 ## Ⅶ. 결론
 
@@ -170,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- **위험 등급·잔여 위험**으로 AI의 수용·완화·중단 결정
+- 결정 기준: **위험 등급·잔여 위험**, 결정 대상: **인공지능(Artificial Intelligence, AI)의 수용·완화·중단**
 
 #### 한줄 요약
 - 출시 전 한 번 평가하는 데 그치지 않고 운영 환경이 바뀔 때마다 위험과 통제를 다시 확인해야 합니다.
