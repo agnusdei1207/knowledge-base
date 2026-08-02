@@ -18,21 +18,16 @@ extra:
   priority_note: "LLM 피드포워드 활성화·연산량 선택"
 ---
 
-## 미리 알고가기
-
-- **활성화 함수(Activation Function)**: 신경망에 비선형성을 더해 복잡한 입력 관계를 학습하게 하는 함수
-- **GELU(Gaussian Error Linear Unit)**: 입력 크기에 따라 값을 부드럽게 통과시키거나 억제하는 활성화 함수
-- **GLU(Gated Linear Unit)**: 한 투영값을 다른 투영값의 게이트로 조절하는 구조
-- **SwiGLU(Swish-Gated Linear Unit)**: Swish 계열 게이트와 선형 투영을 결합한 GLU 변형
-- **피드포워드 네트워크(Feed-Forward Network, FFN)**: Transformer 블록에서 토큰별 특징을 변환하는 계층
-- **은닉 차원(Hidden Dimension)**: FFN 내부 투영 벡터의 폭
-- **파라미터 예산(Parameter Budget)**: 모델 크기·메모리·연산량에 허용된 가중치 규모
-
-> **키워드:** SwiGLU·GELU 활성화 함수 비교 (Activation Functions)
-
 ## Ⅰ. 개요
 
-- 정의/개념: FFN의 **GELU 단일 활성**과 **SwiGLU 게이트·값 결합** 선택 기준
+<details>
+<summary>핵심 용어</summary>
+
+**GELU와 SwiGLU 비교**는 Transformer FFN에서 단일 비선형 활성과 곱셈 게이트 구조를 표현력·파라미터·연산량 기준으로 선택하는 설계 문제다.
+
+</details>
+
+- 정의/개념: **GELU와 SwiGLU 비교**는 Transformer FFN에서 단일 활성과 게이트·값 결합을 표현력·파라미터·연산량 기준으로 선택하는 설계 문제
 - 배경/필요성: GELU 단일 활성 경로는 입력별 **곱셈 게이팅 불가**
 
 ### 쉽게 이해하기 (학습용)
@@ -40,6 +35,13 @@ extra:
 - GELU는 신호를 부드럽게 거르고 SwiGLU는 별도 문지기가 신호 통과량을 조절한다.
 
 ## Ⅱ. 특징
+
+<details>
+<summary>핵심 용어</summary>
+
+**GELU**는 입력 크기에 따라 값을 확률적으로 부드럽게 통과시키거나 억제하는 활성화 함수다.
+
+</details>
 
 - SwiGLU의 **곱셈 게이트**로 입력별 특징 선택
 - GELU의 **단일 활성 경로**로 구현·메모리 절감
@@ -49,6 +51,13 @@ extra:
 - 문지기를 하나 더 두면 선택은 정교해지지만 같은 공간을 쓰려면 통로 폭을 줄여야 한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+**SwiGLU**는 한 선형 투영에 Swish 계열 게이트를 적용하고 다른 선형 투영과 원소별로 곱하는 GLU 변형이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -75,6 +84,13 @@ block-beta
 - GELU는 한 통로를 거치고 SwiGLU는 값 통로와 문지기 통로를 합쳐 출력한다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+**곱셈 게이팅**은 한 투영이 만든 게이트 값으로 다른 투영의 특징별 통과량을 조절하는 연산이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -108,6 +124,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+**은닉 차원**은 FFN 내부 투영 벡터의 폭으로, 파라미터 수와 연산량 및 표현력을 함께 결정한다.
+
+</details>
+
 | FFN 활성화 방식 | SwiGLU | GELU |
 |:---|:---|:---|
 | 적용 기준 | **품질 우선 LLM·예산 조정 가능** | **단순 경로·호환성·비용 우선** |
@@ -122,7 +145,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+**파라미터 예산**은 모델 크기·메모리·연산량에 허용되는 가중치 규모로, 공정한 활성 함수 비교의 통제 조건이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 파라미터 수 차이로 **품질 비교 왜곡** | **파라미터 예산**에 맞춰 **FFN 은닉 차원** 조정 | **품질·비용 비교 조건** 정렬 |
 | 추가 투영으로 **메모리 대역폭 증가** | **융합 커널·텐서 병렬 배치** | **추론 지연·메모리 이동** 감소 |
@@ -133,6 +163,13 @@ sequenceDiagram
 - 언어 모델은 문지기 통로를 추가하는 대신 내부 폭을 줄여 전체 크기를 맞춘다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+**FFN**은 Transformer 블록에서 각 토큰의 특징을 독립적으로 투영·활성화·복원하는 계층이다.
+
+</details>
 
 - 품질 이득·커널 지원은 **SwiGLU**, 단순성·호환성은 **GELU** 선택
 
