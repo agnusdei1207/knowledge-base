@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 흐름 컴퓨터 (Dataflow Computer)"
-date: "2026-08-02T11:37:00+09:00"
+date: "2026-08-02T21:07:00+09:00"
 tags:
   - "notes-hardware"
 weight: 77

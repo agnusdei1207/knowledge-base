@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "양자 컴퓨팅 큐비트 (Quantum Computing Qubit)"
-date: "2026-08-02T11:32:00+09:00"
+date: "2026-08-02T21:02:00+09:00"
 tags:
   - "notes-hardware"
 weight: 72

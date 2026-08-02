@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초전도·이온 트랩 양자 프로세서"
-date: "2026-08-02T11:33:00+09:00"
+date: "2026-08-02T21:03:00+09:00"
 tags:
   - "notes-hardware"
 weight: 73

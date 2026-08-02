@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-02T11:38:00+09:00"
+date: "2026-08-02T21:08:00+09:00"
 tags:
   - "notes-hardware"
 weight: 78

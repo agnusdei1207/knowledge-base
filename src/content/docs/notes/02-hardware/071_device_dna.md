@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "디바이스 DNA (Device DNA)"
-date: "2026-08-02T11:31:00+09:00"
+date: "2026-08-02T21:01:00+09:00"
 tags:
   - "notes-hardware"
 weight: 71

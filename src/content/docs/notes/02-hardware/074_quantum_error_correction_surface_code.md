@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "양자 오류 정정과 표면 코드"
-date: "2026-08-02T11:34:00+09:00"
+date: "2026-08-02T21:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 74

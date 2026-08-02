@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "버스 대역폭과 전송률 계산 (Bus Bandwidth)"
-date: "2026-08-02T11:36:00+09:00"
+date: "2026-08-02T21:06:00+09:00"
 tags:
   - "notes-hardware"
 weight: 76
