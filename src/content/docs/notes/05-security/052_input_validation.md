@@ -96,13 +96,11 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
-    participant P as 단일 파서
-    participant V as 서버 검증기
-    participant A as 안전 실행 API
+    participant A as 응용 서버
     participant D as DB
-    C->>P: 외부 입력 문서
-    P->>V: 1. 정규화 입력
-    V->>A: 2. 허용된 업무 값
+    C->>A: 외부 입력 문서
+    A->>A: 1. 정규화 입력
+    A->>A: 2. 허용된 업무 값 검증
     A->>D: 3. 고정 SQL 구조
     A->>D: 4. 바인딩 값
     D-->>A: 5. 제한된 질의 결과
@@ -112,7 +110,7 @@ sequenceDiagram
 **동작 원리**
 
 1. **정규화 입력**: 인코딩·중복 표현을 하나의 표준 표현으로 변환
-2. **허용된 업무 값**: 형식·길이·범위·권한·상태 검증을 통과한 값 제공
+2. **허용된 업무 값 검증**: 형식·길이·범위·권한·상태 확인
 3. **고정 SQL 구조**: 외부 값과 분리된 실행 명령 구조 전달
 4. **바인딩 값**: 외부 입력을 명령이 아닌 매개변수 값으로 전달
 5. **제한된 질의 결과**: 내부 정보를 숨긴 결과·오류 상태 제공

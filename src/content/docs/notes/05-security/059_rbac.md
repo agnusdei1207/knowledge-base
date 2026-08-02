@@ -100,13 +100,12 @@ sequenceDiagram
     participant S as 세션 관리자
     participant P as RBAC 집행점
     participant R as 보호 자원
-    participant 감사시스템
     U->>S: 역할 활성화 요청
     S->>P: 1. 활성 역할·직무분리 결과
     U->>P: 자원·행위 접근 요청
     P->>R: 2. 승인된 자원 행위
     R-->>P: 3. 자원 처리 결과
-    P->>감사시스템: 4. 인가·사용 기록
+    P->>P: 4. 인가·사용 기록
     P-->>U: 접근 결과
 ```
 
