@@ -127,6 +127,7 @@ sequenceDiagram
 
 - **사용 사례(Use Case)**: 탐지할 공격 시나리오, 필요한 로그, 분석 조건과 대응 절차를 묶은 관제 단위다.
 - **위협 정보(Threat Intelligence)**: 악성 주소·파일·공격 기법과 관련 근거를 수집·분석해 탐지와 대응 판단에 쓰는 정보다.
+- **보안 정보·이벤트 관리(Security Information and Event Management, SIEM)**: 이종 로그를 정규화·상관분석해 조사 가능한 경보를 만드는 관제 체계
 
 </details>
 
@@ -149,6 +150,7 @@ sequenceDiagram
 - **오탐·미탐**: 정상 행위를 공격으로 잘못 알리는 오류와 실제 공격을 놓치는 오류다.
 - **로그 품질 검사**: 누락·중복·지연·시각 오류를 확인하는 절차다.
 - **시간창**: 여러 이벤트를 하나의 흐름으로 연결하는 시간 범위다.
+- **보안 정보·이벤트 관리(Security Information and Event Management, SIEM)**: 로그 품질과 시간창을 바탕으로 공격 흐름을 상관분석하는 관제 체계
 
 </details>
 

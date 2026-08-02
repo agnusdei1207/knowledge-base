@@ -40,6 +40,7 @@ extra:
 - **전체 패킷 수집**: 통신 헤더와 가능한 본문을 원본 그대로 저장해 세션 내용을 상세 분석하는 방식이다.
 - **플로우(Flow)**: 출발지·목적지·포트·프로토콜·시간·전송량으로 통신 관계를 요약한 기록이다.
 - **네트워크 시간 프로토콜(Network Time Protocol, NTP)**: 여러 장비의 시계를 공통 시간 서버에 맞추는 프로토콜이다.
+- **네트워크 주소 변환(Network Address Translation, NAT)·동적 호스트 설정 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 공인·사설 주소 변환과 단말 주소 임대 이력으로 통신 주체를 식별하는 기능과 프로토콜
 
 </details>
 
@@ -59,6 +60,7 @@ extra:
 - **불변 원본 저장소**: 수집한 증거와 해시를 변경 불가능하게 보존하는 저장소다.
 - **포렌식 분석대**: 증거 사본으로 세션과 사건 시간선을 재구성하는 도구다.
 - **증거 관리대장**: 증거의 수집·이관·분석·보고 이력을 기록한 대장이다.
+- **NTP·NAT·DHCP**: 네트워크 시간 프로토콜(Network Time Protocol, NTP), 네트워크 주소 변환(Network Address Translation, NAT), 동적 호스트 설정 프로토콜(Dynamic Host Configuration Protocol, DHCP)의 시각·주소·단말 대응 기록
 
 </details>
 
@@ -94,6 +96,7 @@ block-beta
 - **검증 사본**: 원본 해시와 일치함을 확인한 분석용 복제본이다.
 - **주소 변환(Network Address Translation, NAT)**: 내부 사설 주소와 외부 공인 주소·포트를 변환하는 기능이다.
 - **동적 호스트 설정 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 단말에 주소를 임대하고 주소·단말·시간의 대응을 기록하는 프로토콜이다.
+- **네트워크 시간 프로토콜(Network Time Protocol, NTP)**: 여러 증거 원천의 사건 시각을 공통 기준에 맞추는 프로토콜
 
 </details>
 
@@ -134,6 +137,8 @@ sequenceDiagram
 
 </details>
 
+서버 이름 표시(Server Name Indication, SNI)를 확인할 수 있는 암호 세션에서는 접속 대상 서버 이름을 경로 분석의 보조 근거로 활용한다.
+
 | 네트워크 증거 | 전체 패킷 | 플로우 | 장비·서비스 로그 |
 |:---|:---|:---|:---|
 | 적용 기준 | 공격 내용·명령 상세 복원 | 장기간·광범위 경로 추적 | 사용자·정책 결과 확인 |
@@ -153,6 +158,9 @@ sequenceDiagram
 - **해시(Hash)**: 자료 내용으로 고정 길이 값을 계산해 수집 후 변경 여부를 확인하는 함수와 결과값이다.
 - **증거 연계보관성(Chain of Custody)**: 증거를 누가 언제 수집·이관·분석했는지 기록해 무결성과 관리 책임을 입증하는 절차다.
 - **보존 정책**: 증거 유형별 보존 기간·용량·접근 권한을 정한 규칙이다.
+- **기술 표준 문서(Request for Comments, RFC) 5905**: 네트워크 시간 프로토콜의 시각 동기화 절차를 규정한 문서
+- **ISO/IEC 27037**: 국제표준화기구(International Organization for Standardization, ISO)와 국제전기기술위원회(International Electrotechnical Commission, IEC)가 제시한 디지털 증거 식별·수집·취득·보존 지침
+- **NAT·DHCP**: 네트워크 주소 변환(Network Address Translation, NAT)과 동적 호스트 설정 프로토콜(Dynamic Host Configuration Protocol, DHCP)의 주소 대응·임대 기록
 
 </details>
 
@@ -171,7 +179,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **교차 검증**: 서로 다른 증거에서 같은 결론이 나오는지 확인하는 절차다.
-- **ISO/IEC 27037**: 디지털 증거의 식별·수집·취득·보존 지침을 제시하는 국제표준이다.
+- **ISO/IEC 27037**: 국제표준화기구(International Organization for Standardization, ISO)와 국제전기기술위원회(International Electrotechnical Commission, IEC)가 디지털 증거의 식별·수집·취득·보존 지침을 제시한 국제표준
 
 </details>
 

@@ -22,7 +22,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SASE**: SD-WAN 연결과 SSE 보안을 사용자 인접 PoP에서 하나의 정책으로 제공하는 클라우드 네트워크 구조이다.
+- **보안 액세스 서비스 에지(Secure Access Service Edge, SASE)**: 소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN) 연결과 보안 서비스 에지(Security Service Edge, SSE) 보안을 사용자 인접 접속 거점(Point of Presence, PoP)에서 하나의 정책으로 제공하는 클라우드 네트워크 구조
 
 </details>
 
@@ -38,8 +38,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PoP**: 사용자와 가까운 위치에서 트래픽을 받아 연결·보안 기능을 수행하는 사업자 접속 거점이다.
+- **접속 거점(Point of Presence, PoP)**: 사용자와 가까운 위치에서 트래픽을 받아 연결·보안 기능을 수행하는 사업자 거점
 - **통합 정책**: 신원·단말·응용 맥락을 바탕으로 경로 선택과 접근·자료 보안을 함께 결정하는 규칙이다.
+- **SD-WAN·SSE**: 소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)과 보안 서비스 에지(Security Service Edge, SSE)로 연결 경로와 클라우드 보안을 통합하는 구성
 
 </details>
 
@@ -56,8 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SD-WAN·SSE**: SD-WAN은 응용·회선 품질로 경로를 선택하고 SSE는 웹·클라우드·사설 응용 접근 보안을 제공한다.
-- **CASB·SWG·ZTNA**: 각각 클라우드 사용 통제, 웹 검사, 신원·단말 기반 응용 접근을 수행하는 SSE 기능이다.
+- **SD-WAN·SSE**: 소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)은 응용·회선 품질로 경로를 선택하고 보안 서비스 에지(Security Service Edge, SSE)는 웹·클라우드·사설 응용 접근 보안을 제공하는 구성
+- **CASB·SWG·ZTNA**: 클라우드 접근 보안 중개(Cloud Access Security Broker, CASB), 보안 웹 게이트웨이(Secure Web Gateway, SWG), 제로 트러스트 네트워크 액세스(Zero Trust Network Access, ZTNA)는 각각 클라우드 사용 통제, 웹 검사, 신원·단말 기반 응용 접근을 수행하는 SSE 기능
+- **접속 거점(Point of Presence, PoP)**: 연결·보안 기능을 사용자 인접 위치에서 실행하는 사업자 거점
 
 </details>
 
@@ -91,8 +93,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **품질 기반 PoP 접속**: 지연·손실·용량을 측정해 사용자 트래픽을 처리할 근접 거점을 선택하는 과정이다.
+- **품질 기반 접속 거점(Point of Presence, PoP) 선택**: 지연·손실·용량을 측정해 사용자 트래픽을 처리할 근접 거점을 선택하는 과정
 - **세션 위험 재평가**: 접속 중 행위와 맥락 변화를 반영해 기존 허용 수준을 다시 판단하는 절차이다.
+- **ZTNA·SWG·CASB**: 제로 트러스트 네트워크 액세스(Zero Trust Network Access, ZTNA), 보안 웹 게이트웨이(Secure Web Gateway, SWG), 클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)로 응용·웹·클라우드 접근을 검사하는 기능
 
 </details>
 
@@ -130,8 +133,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SASE·SSE**: SASE는 연결과 보안을 함께 전환하고 SSE는 기존 WAN을 유지하면서 보안 기능만 클라우드화한다.
+- **SASE·SSE**: 보안 액세스 서비스 에지(Secure Access Service Edge, SASE)는 연결과 보안을 함께 전환하고 보안 서비스 에지(Security Service Edge, SSE)는 기존 광역망(Wide Area Network, WAN)을 유지하면서 보안 기능만 클라우드화하는 방식
 - **본사 중심 보안**: 지사·원격 트래픽을 보안 검사를 위해 본사 데이터센터까지 우회시키는 구조이다.
+- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)·접속 거점(Point of Presence, PoP)**: 응용별 경로를 선택하고 사용자 인접 위치에서 보안을 적용하는 구성
 
 </details>
 
@@ -154,6 +158,9 @@ sequenceDiagram
 
 - **자동 경로 전환**: 현재 PoP 장애나 품질 저하를 감지해 다른 거점으로 접속 경로를 바꾸는 기능이다.
 - **응용 단위 권한**: 내부 네트워크 전체가 아니라 검증된 사용자에게 허용한 개별 응용만 연결하는 권한이다.
+- **접속 거점(Point of Presence, PoP)**: 사용자 트래픽의 연결·보안 기능을 처리하는 사업자 거점
+- **제로 트러스트 네트워크 액세스(Zero Trust Network Access, ZTNA)**: 신원·단말 맥락에 따라 허용한 응용만 연결하는 접근 방식
+- **보안 액세스 서비스 에지(Secure Access Service Edge, SASE)**: 소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN) 연결과 보안 서비스 에지(Security Service Edge, SSE) 보안을 근접 PoP에서 통합 제공하는 구조
 
 </details>
 
@@ -161,7 +168,7 @@ sequenceDiagram
 |:---|:---|:---|
 | PoP 장애의 **접속 품질 급락** | 다중 PoP와 **자동 경로 전환** | 지연과 **서비스 중단 감소** |
 | 연결·보안의 **정책 불일치** | 단일 정책 모델·**배포 검증** | 우회 허용과 **운영 편차 축소** |
-| 원격 사용자의 **과도한 망 접근** | **ZTNA**로 **응용 단위 권한** 적용 | 횡적 이동과 **노출 범위 감소** |
+| 원격 사용자의 **과도한 망 접근** | **ZTNA 기반 응용 단위 권한 적용** | 횡적 이동과 **노출 범위 감소** |
 
 #### 한줄 요약
 
@@ -172,7 +179,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전환 범위**: WAN 연결과 보안을 동시에 SASE로 바꿀지, 기존 WAN을 유지하고 SSE만 도입할지 정하는 범위이다.
+- **전환 범위**: 광역망(Wide Area Network, WAN) 연결과 보안을 동시에 보안 액세스 서비스 에지(Secure Access Service Edge, SASE)로 바꿀지, 기존 WAN을 유지하고 보안 서비스 에지(Security Service Edge, SSE)만 도입할지 정하는 범위
 
 </details>
 

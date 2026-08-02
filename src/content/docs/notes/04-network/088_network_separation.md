@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DMZ**: 외부 공개 서버를 내부 업무망과 분리해 중계하는 보안 영역이다.
+- **비무장지대(Demilitarized Zone, DMZ)**: 외부 공개 서버를 내부 업무망과 분리해 중계하는 보안 영역
 - **자료·관리 관문**: 자료 관문은 파일 반입·반출을 검사하고 관리 관문은 특권 세션을 인증·기록한다.
 
 </details>
@@ -153,8 +153,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CDR**: 문서의 실행 코드와 위험 요소를 제거하고 안전한 내용으로 재구성하는 기술이다.
-- **PAM**: 관리자 권한·승인·세션·명령 기록을 통제해 특권 접근을 관리하는 체계이다.
+- **콘텐츠 무해화(Content Disarm and Reconstruction, CDR)**: 문서의 실행 코드와 위험 요소를 제거하고 안전한 내용으로 재구성하는 기술
+- **특권 접근 관리(Privileged Access Management, PAM)**: 관리자 권한·승인·세션·명령 기록을 통제해 특권 접근을 관리하는 체계
+- **가상 근거리 통신망(Virtual LAN, VLAN)·가상 라우팅 및 포워딩(Virtual Routing and Forwarding, VRF)**: 공유 장비에서 논리 영역과 라우팅 테이블을 분리하는 기술
 
 </details>
 
