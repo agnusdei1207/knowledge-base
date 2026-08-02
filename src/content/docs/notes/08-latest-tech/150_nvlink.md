@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NVLink**: GPU 사이에 고대역폭 메모리 접근과 데이터 교환을 제공하는 NVIDIA의 연결 기술이다.
+- **NVLink**: 그래픽 처리장치(Graphics Processing Unit, GPU) 사이에 고대역폭 메모리 접근과 데이터 교환을 제공하는 NVIDIA의 연결 기술이다.
 - **집단 통신**: 여러 GPU가 값을 축약·배포·교환해 공동 계산 상태를 만드는 통신 연산이다.
 
 </details>
 
-- 정의/개념: **NVLink**는 GPU 사이에 고대역폭 메모리 접근과 데이터 교환을 제공하는 연결 기술
-- 배경/필요성: PCIe의 **GPU 집단 통신 대역폭·지연** 한계
+- 정의/개념: 그래픽 처리장치(Graphics Processing Unit, GPU) 사이에 고대역폭 메모리 접근과 데이터 교환을 제공하는 **NVIDIA NVLink 연결 기술**
+- 배경/필요성: 주변기기 구성요소 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe)의 **GPU 집단 통신 대역폭·지연 한계**
 
 #### 한줄 요약
 
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NVSwitch**: 다수 GPU의 NVLink 경로를 다대다로 연결하는 스위치이다.
+- **NVSwitch**: 다수 그래픽 처리장치(Graphics Processing Unit, GPU)의 NVLink 경로를 다대다로 연결하는 스위치이다.
 - **스위치 도메인**: 하나 이상의 NVSwitch를 통해 직접 통신할 수 있도록 묶인 GPU 범위이다.
 
 </details>
@@ -58,10 +58,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **GPU 종단**: NVLink 패킷 송수신과 GPU 메모리 요청을 처리하는 연결 끝점이다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU) 종단**: NVLink 패킷 송수신과 GPU 메모리 요청을 처리하는 연결 끝점이다.
 - **통신 계층**: 집단 연산의 GPU 순서와 데이터 교환 경로를 실행하는 소프트웨어 계층이다.
 
 </details>
+
+그래픽 처리장치(Graphics Processing Unit, GPU) 종단은 NVLink 패킷과 메모리 요청을 처리한다.
 
 ```mermaid
 block-beta
@@ -94,10 +96,12 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **토폴로지 배치**: 통신이 잦은 GPU 작업을 높은 대역폭으로 가까이 연결된 경로에 배치하는 방법이다.
+- **토폴로지 배치**: 통신이 잦은 그래픽 처리장치(Graphics Processing Unit, GPU) 작업을 높은 대역폭으로 가까이 연결된 경로에 배치하는 방법이다.
 - **링크 포화**: 전송 요구량이 링크 용량에 도달해 추가 트래픽의 대기 시간이 증가하는 상태이다.
 
 </details>
+
+그래픽 처리장치(Graphics Processing Unit, GPU)의 통신량과 범위를 측정해 토폴로지를 배치한다.
 
 ```mermaid
 sequenceDiagram
@@ -126,10 +130,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **인피니밴드(InfiniBand)**: 서버 사이에 저지연·고대역폭 RDMA를 제공하는 스위치 패브릭이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
+- **인피니밴드(InfiniBand)**: 서버 사이에 저지연·고대역폭 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)을 제공하는 스위치 패브릭이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 중앙처리장치(Central Processing Unit, CPU) 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
 
 </details>
+
+그래픽 처리장치(Graphics Processing Unit, GPU)의 연결 범위에 따라 직접 링크·스위치·서버 간 패브릭을 선택한다.
 
 | GPU 연결 방식 | NVLink 직접 | NVSwitch 패브릭 | InfiniBand |
 |:---|:---|:---|:---|
@@ -137,7 +143,7 @@ sequenceDiagram
 | 핵심 특징 | **GPU 점대점 고속 링크** | **스위치 기반 GPU 패브릭** | **노드 간 RDMA 패브릭** |
 | 한계 | **연결 수·토폴로지 제한** | **비용·전력·플랫폼 종속** | **노드 내부보다 긴 지연** |
 
-> 요약: **직접 NVLink**는 인접, **NVSwitch**는 도메인, InfiniBand는 랙 간
+> 요약: 인접 연결은 **직접 NVLink**, 도메인 연결은 **NVSwitch**, 랙 간 연결은 **InfiniBand**
 
 #### 한줄 요약
 
@@ -148,10 +154,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **계층형 집단 통신**: GPU·서버·랙처럼 속도가 다른 연결 범위별로 축약한 뒤 범위 사이 결과를 교환하는 방식이다.
+- **계층형 집단 통신**: 그래픽 처리장치(Graphics Processing Unit, GPU)·서버·랙처럼 속도가 다른 연결 범위별로 축약한 뒤 범위 사이 결과를 교환하는 방식이다.
 - **오류 격리**: 링크 장애가 다른 GPU와 작업 전체로 확산되지 않도록 경로와 자원을 분리하는 통제이다.
 
 </details>
+
+그래픽 처리장치(Graphics Processing Unit, GPU) 간 통신은 링크 계층별 속도 차이를 반영해야 한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -168,12 +176,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **직접 NVLink**: 소수의 인접 GPU 종단을 점대점으로 연결하는 고대역폭 경로이다.
+- **직접 NVLink**: 소수의 인접 그래픽 처리장치(Graphics Processing Unit, GPU) 종단을 점대점으로 연결하는 고대역폭 경로이다.
 - **외부 패브릭**: NVSwitch 도메인 밖의 서버와 랙을 연결하는 InfiniBand·이더넷 등의 네트워크이다.
 
 </details>
 
-- 소수 인접 GPU는 **직접 NVLink**, 다수 도메인은 **NVSwitch** 선택
+- **연결 범위별 선택**: 소수의 인접 그래픽 처리장치(Graphics Processing Unit, GPU)는 직접 NVLink, 다수 도메인은 NVSwitch, 도메인 밖은 외부 패브릭
 
 #### 한줄 요약
 

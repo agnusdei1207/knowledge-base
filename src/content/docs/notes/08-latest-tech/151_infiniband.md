@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인피니밴드(InfiniBand)**: 고성능 컴퓨팅·AI 클러스터의 노드 사이에 저지연·고대역폭 원격 메모리 통신을 제공하는 전용 스위치 패브릭이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU·커널 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
+- **인피니밴드(InfiniBand)**: 고성능 컴퓨팅·인공지능(Artificial Intelligence, AI) 클러스터의 노드 사이에 저지연·고대역폭 원격 메모리 통신을 제공하는 전용 스위치 패브릭이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 중앙처리장치(Central Processing Unit, CPU)·커널 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
 
 </details>
 
-- 정의/개념: **InfiniBand**는 RDMA·서브넷 관리·혼잡 제어를 통합한 저지연 클러스터 스위치 패브릭
-- 배경/필요성: 일반 소켓·이더넷은 대규모 집단 통신에서 **지연·CPU 부하·손실** 증가
+- 정의/개념: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)·서브넷 관리·혼잡 제어를 통합한 **인피니밴드(InfiniBand) 저지연 스위치 패브릭**
+- 배경/필요성: 일반 소켓·이더넷은 대규모 집단 통신에서 **지연·중앙처리장치(Central Processing Unit, CPU) 부하·손실 증가**
 
 #### 한줄 요약
 - 서버마다 전용 출입구를 달고 관리자가 주소·차선·우회로를 정하는 클러스터 전용 도로망임
@@ -45,8 +45,8 @@ extra:
 </details>
 
 - **관리 축**: 서브넷 관리자의 주소·경로·분할 설정
-- **전송 축**: HCA 등록 메모리 기반 저부하 RDMA
-- **혼잡 축**: SL·가상 통로·적응형 경로로 부하 분산
+- **전송 축**: 호스트 채널 어댑터(Host Channel Adapter, HCA)의 등록 메모리 기반 저부하 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)
+- **혼잡 축**: 서비스 수준(Service Level, SL)·가상 통로·적응형 경로 기반 부하 분산
 
 #### 한줄 요약
 - 관리자가 도로와 통행 구역을 정하고 서버 출입구가 메모리를 직접 보내며 정체 시 다른 길로 분산함
@@ -79,11 +79,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| HCA | RDMA 작업 요청·패킷·완료의 **호스트 종단 처리** |
+| HCA | 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업 요청·패킷·완료의 **호스트 종단 처리** |
 | InfiniBand 스위치 | 주소·경로표 기반 **패킷 전달** |
 | 서브넷 관리자 | 장치 발견·주소·경로·P_Key의 **패브릭 구성** |
 | 전송·큐 계층 | 연결·순서·재전송과 **송수신 큐 관리** |
-| 혼잡·서비스 계층 | SL·가상 통로·혼잡 신호의 **트래픽 제어** |
+| 혼잡·서비스 계층 | 서비스 수준(Service Level, SL)·가상 통로·혼잡 신호의 **트래픽 제어** |
 
 #### 한줄 요약
 - 서버 출입구와 교차로, 주소 관리자, 배송 줄, 정체 관제소가 하나의 전용 도로망을 구성함
@@ -97,6 +97,8 @@ block-beta
 - **경로표**: 목적지 주소에 따라 스위치가 선택할 출력 포트를 기록한 전달 정보이다.
 
 </details>
+
+호스트 채널 어댑터(Host Channel Adapter, HCA)와 인피니밴드(InfiniBand, IB) 스위치는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 서비스 수준(Service Level, SL)과 분할 키(Partition Key, P_Key)에 맞춰 전달한다.
 
 ```mermaid
 sequenceDiagram
@@ -125,7 +127,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **융합 이더넷 기반 RDMA(RDMA over Converged Ethernet, RoCE)**: 이더넷의 무손실·혼잡 설정 위에서 RDMA를 제공하는 방식이다.
-- **NVLink·NVSwitch**: GPU 메모리 사이를 고대역폭으로 연결하고 다수 GPU의 다대다 통신을 구성하는 기술이다.
+- **NVLink·NVSwitch**: 그래픽 처리장치(Graphics Processing Unit, GPU) 메모리 사이를 고대역폭으로 연결하고 다수 GPU의 다대다 통신을 구성하는 기술이다.
 
 </details>
 
@@ -135,7 +137,7 @@ sequenceDiagram
 | 핵심 특징 | 관리형 **RDMA 통합 패브릭** | RoCE 기반 **이더넷 RDMA** | GPU 메모리 **고속 직접 연결** |
 | 한계 | **전용 장비·운영 비용** | **무손실·혼잡 구성 부담** | **노드 간 연결 범위 제한** |
 
-> 요약: **InfiniBand**는 전용 클러스터, **RoCE**는 이더넷 RDMA 중심
+> 요약: 인피니밴드는 **전용 클러스터**, 융합 이더넷 기반 원격 직접 메모리 접근은 **이더넷 RDMA** 중심
 
 #### 한줄 요약
 - 전용 도시 도로망, 기존 도로의 고속 배송, GPU 사이 내부 통로는 적용 범위가 다름
@@ -149,6 +151,8 @@ sequenceDiagram
 - **경로 텔레메트리**: 링크별 트래픽·지연·오류를 관측해 배치와 우회 경로를 조정하는 정보이다.
 
 </details>
+
+분할 키(Partition Key, P_Key), 호스트 채널 어댑터(Host Channel Adapter, HCA), 서비스 수준(Service Level, SL)을 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -165,11 +169,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전용 패브릭**: 장치·스위치·관리 체계를 고성능 클러스터 통신에 맞춰 함께 구성한 네트워크이다.
-- **패브릭 격리**: P_Key 등으로 통신 가능한 종단 집단을 나누어 상호 접근을 제한하는 통제이다.
+- **패브릭 격리**: 분할 키(Partition Key, P_Key) 등으로 통신 가능한 종단 집단을 나누어 상호 접근을 제한하는 통제이다.
 
 </details>
 
-- 전용 다중 노드는 **InfiniBand**, 기존 이더넷 활용은 **RoCE** 선택
+- **전용 패브릭·패브릭 격리별 선택**: 전용 다중 노드는 인피니밴드(InfiniBand), 기존 이더넷 활용은 융합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)
 
 #### 한줄 요약
 - 빠른 선로뿐 아니라 누가 통신하고 정체 때 어느 길로 우회할지 함께 정함

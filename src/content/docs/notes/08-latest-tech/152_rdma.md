@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU·운영체제 커널의 개입을 줄이고 등록된 메모리 사이를 네트워크 어댑터가 직접 전송하는 기술이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 중앙처리장치(Central Processing Unit, CPU)·운영체제 커널의 개입을 줄이고 등록된 메모리 사이를 네트워크 어댑터가 직접 전송하는 기술이다.
 - **메모리 등록**: 전송할 주소·길이·접근 권한을 네트워크 어댑터에 미리 고정하는 절차이다.
 
 </details>
 
-- 정의/개념: **RDMA**는 등록된 로컬·원격 메모리를 네트워크 어댑터가 직접 읽고 쓰는 통신 기술
-- 배경/필요성: 소켓 통신은 커널 경유·복사·문맥 전환으로 **전송 지연·CPU 사용량** 증가
+- 정의/개념: 등록된 로컬·원격 메모리를 네트워크 어댑터가 직접 읽고 쓰는 **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 기술**
+- 배경/필요성: 소켓 통신은 커널 경유·복사·문맥 전환으로 **전송 지연·중앙처리장치(Central Processing Unit, CPU) 사용량 증가**
 
 #### 한줄 요약
 - 직원이 택배를 여러 번 옮기지 않고 허가된 창고 구역끼리 운송 장치가 직접 물건을 이동함
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **전송 축**: 원격 CPU 미개입 읽기·쓰기·원자 연산
-- **보호 축**: 메모리 등록·접근 키로 주소·권한 고정
-- **상태 축**: QP·CQ로 작업 순서·완료 추적
+- **전송 축**: 원격 중앙처리장치(Central Processing Unit, CPU) 미개입 읽기·쓰기·원자 연산
+- **보호 축**: 메모리 영역(Memory Region) 등록과 지역·원격 키(Local·Remote Key, L_Key·R_Key)로 주소·권한 고정
+- **상태 축**: 큐 페어(Queue Pair, QP)·완료 큐(Completion Queue, CQ) 기반 작업 순서·완료 추적
 
 #### 한줄 요약
 - 허가받은 창고 구역과 열쇠, 작업 줄, 완료 통지함을 미리 준비해 직접 전송함
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보호 영역(Protection Domain)**: 메모리·큐·연결 객체가 서로 접근할 수 있는 RDMA 자원 격리 경계이다.
+- **보호 영역(Protection Domain)**: 메모리·큐·연결 객체가 서로 접근할 수 있는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 자원 격리 경계이다.
 - **큐 페어(Queue Pair, QP)**: 송신 큐와 수신 큐를 묶어 RDMA 통신 종단을 구성한 객체이다.
 - **완료 큐(Completion Queue, CQ)**: 게시한 작업 요청의 성공·오류·완료 상태를 기록하는 큐이다.
 
@@ -92,10 +92,12 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **RDMA 동사(RDMA Verb)**: 읽기·쓰기·원자 연산·송신·수신처럼 어댑터에 게시하는 작업 유형이다.
+- **원격 직접 메모리 접근 동사(Remote Direct Memory Access Verb, RDMA Verb)**: 읽기·쓰기·원자 연산·송신·수신처럼 어댑터에 게시하는 작업 유형이다.
 - **작업 요청**: 대상 버퍼·길이·동사·접근 키를 지정해 네트워크 어댑터 큐에 게시하는 명령이다.
 
 </details>
+
+큐 페어(Queue Pair, QP)에 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업을 게시하고 완료 큐(Completion Queue, CQ)에서 결과를 확인한다.
 
 ```mermaid
 sequenceDiagram
@@ -126,10 +128,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **단측 RDMA**: 원격 응용의 작업 게시 없이 네트워크 어댑터가 원격 메모리를 직접 읽거나 쓰는 방식이다.
+- **단측 원격 직접 메모리 접근(One-Sided Remote Direct Memory Access, One-Sided RDMA)**: 원격 응용의 작업 게시 없이 네트워크 어댑터가 원격 메모리를 직접 읽거나 쓰는 방식이다.
 - **양측 송신·수신**: 송신자와 수신자가 각각 작업과 버퍼를 게시해 메시지를 교환하는 방식이다.
 
 </details>
+
+원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)은 원격 중앙처리장치(Central Processing Unit, CPU)의 개입 여부와 메시지 경계에 따라 방식을 구분한다.
 
 | 비교 기준 | 단측 RDMA | 양측 송신·수신 | 소켓 통신 |
 |:---|:---|:---|:---|
@@ -137,7 +141,7 @@ sequenceDiagram
 | 핵심 특징 | 원격 CPU 없는 **읽기·쓰기** | 송신·수신 작업의 **버퍼 매칭** | 커널 소켓·**복사 경로** |
 | 한계 | **등록·키·동기화 복잡** | **수신 버퍼 사전 게시** | **지연·CPU 오버헤드** |
 
-> 요약: **단측 RDMA**는 직접 접근, **양측 송수신**은 메시지 경계 중심
+> 요약: 단측 방식은 **직접 접근**, 양측 송수신은 **메시지 경계** 중심
 
 #### 한줄 요약
 - 창고를 직접 읽고 쓰는 방식, 수신처가 받을 자리를 준비하는 방식, 일반 택배 경로의 차이임
@@ -151,6 +155,8 @@ sequenceDiagram
 - **큐 고갈**: 완료를 회수하지 못해 새 작업 요청이나 결과를 기록할 큐 공간이 부족한 상태이다.
 
 </details>
+
+원격 키(Remote Key, R_Key), 큐 페어(Queue Pair, QP), 완료 큐(Completion Queue, CQ)의 수명과 상태를 함께 관리한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -166,12 +172,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **직접 메모리 조작**: 원격 CPU의 명시적 처리 없이 등록 메모리를 읽고 쓰는 통신 동작이다.
-- **완료 상태**: 게시한 RDMA 작업의 성공·오류·처리 결과를 응용에 알리는 기록이다.
+- **직접 메모리 조작**: 원격 중앙처리장치(Central Processing Unit, CPU)의 명시적 처리 없이 등록 메모리를 읽고 쓰는 통신 동작이다.
+- **완료 상태**: 게시한 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업의 성공·오류·처리 결과를 응용에 알리는 기록이다.
 
 </details>
 
-- 원격 메모리 직접 조작은 **단측 RDMA**, 알림·메시지는 **양측 송수신** 선택
+- **직접 메모리 조작·완료 상태별 선택**: 직접 접근은 단측 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA), 알림·메시지는 양측 송수신
 
 #### 한줄 요약
 - 빠른 직접 전송보다 어느 구역을 언제까지 열고 완료를 어떻게 확인할지 먼저 정함

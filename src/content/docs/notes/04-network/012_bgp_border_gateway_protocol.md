@@ -23,12 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP·AS**: 자율 시스템 사이에서 프리픽스·경로 속성을 교환하는 프로토콜과 공통 정책 아래 운영되는 네트워크 집합이다.
-- **NLRI**: BGP가 도달 가능하다고 광고하는 프리픽스 정보이다.
+- **경계 게이트웨이 프로토콜·자율 시스템(Border Gateway Protocol/Autonomous System, BGP·AS)**: 자율 시스템 사이에서 프리픽스·경로 속성을 교환하는 프로토콜과 공통 정책 아래 운영되는 네트워크 집합이다.
+- **네트워크 계층 도달 가능성 정보(Network Layer Reachability Information, NLRI)**: BGP가 도달 가능하다고 광고하는 프리픽스 정보이다.
+- **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 목적지까지의 경로를 계산하는 라우팅 프로토콜이다.
 
 </details>
 
-- 정의/개념: **BGP**는 자율 시스템 사이에서 NLRI와 경로 속성을 교환하고 운영 정책에 따라 최선 경로를 선택하는 **경로 벡터 라우팅 프로토콜**
+- 정의/개념: **BGP** — 자율 시스템 사이에서 NLRI와 경로 속성을 교환하고 운영 정책에 따라 최선 경로를 선택하는 **경로 벡터 라우팅 프로토콜**
 - 배경/필요성: IGP 메트릭만으로는 AS 간 **계약·광고 범위 정책 반영 불가**
 
 #### 한줄 요약
@@ -40,7 +41,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AS_PATH**: 목적지까지 거친 AS 번호 목록으로 순환 경로를 거부하는 기준이다.
+- **자율 시스템 경로(Autonomous System Path, AS_PATH)**: 목적지까지 거친 AS 번호 목록으로 순환 경로를 거부하는 기준이다.
 - **증분 갱신**: 전체 경로표 대신 변경·철회된 경로만 피어에 전달하는 방식이다.
 
 </details>
@@ -58,7 +59,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP 피어·UPDATE**: 경로 교환 상대와 NLRI·경로 속성·철회를 전달하는 메시지이다.
+- **BGP 피어·갱신 메시지(Border Gateway Protocol Peer/UPDATE Message, BGP 피어·UPDATE)**: 경로 교환 상대와 NLRI·경로 속성·철회를 전달하는 메시지이다.
 - **최선 경로**: 정책과 경로 속성 비교를 통과해 라우팅 표에 설치되는 BGP 경로이다.
 
 </details>
@@ -133,7 +134,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **eBGP·iBGP·경로 반사기**: AS 간 경로 교환, AS 내부 배포, 내부 피어 연결 수를 줄이는 역할이다.
+- **외부·내부 경계 게이트웨이 프로토콜·경로 반사기(External/Internal Border Gateway Protocol/Route Reflector, eBGP·iBGP·경로 반사기)**: AS 간 경로 교환, AS 내부 배포, 내부 피어 연결 수를 줄이는 역할이다.
 
 </details>
 
@@ -154,8 +155,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RPKI·프리픽스 필터**: 프리픽스 기원 AS 권한을 검증하고 수신·광고할 주소 범위를 제한하는 통제이다.
-- **LOCAL_PREF**: 한 AS에서 외부로 나갈 경로의 우선순위를 나타내는 속성이다.
+- **리소스 공개키 기반구조·프리픽스 필터(Resource Public Key Infrastructure/Prefix Filter, RPKI·프리픽스 필터)**: 프리픽스 기원 AS 권한을 검증하고 수신·광고할 주소 범위를 제한하는 통제이다.
+- **로컬 선호도(Local Preference, LOCAL_PREF)**: 한 AS에서 외부로 나갈 경로의 우선순위를 나타내는 속성이다.
 
 </details>
 
@@ -176,6 +177,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **경로 유출 방지**: 기원 검증과 명시적 광고 목록으로 허용 범위를 벗어난 경로 전파를 막는 활동이다.
+- **경로 정책 결정**: RPKI 기원 검증을 통과한 경로만 수신하고 계약 정책에 따라 로컬 선호도로 출구를 선택하는 판단이다.
 
 </details>
 
