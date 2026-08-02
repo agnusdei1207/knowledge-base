@@ -104,14 +104,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant 하위신호
-    participant 매퍼
-    participant 동기프레임
+    participant 매퍼 as 매퍼·동기 프레임
     participant OAM·보호
     participant 분기장치
     하위신호->>매퍼: 하위 신호 입력
-    매퍼->>동기프레임: 1. VC·SPE 매핑
-    동기프레임->>동기프레임: 2. 포인터 위치 조정
-    동기프레임->>OAM·보호: 3. 동기 프레임 전송
+    매퍼->>매퍼: 1. VC·SPE 매핑
+    매퍼->>매퍼: 2. 포인터 위치 조정
+    매퍼->>OAM·보호: 3. 동기 프레임 전송
     OAM·보호->>OAM·보호: 4. 오류·품질 감시
     OAM·보호->>분기장치: 5. 경로 처리 지시
     분기장치-->>하위신호: 선택 신호 반환
