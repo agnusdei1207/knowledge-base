@@ -93,16 +93,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant Q as 분석 요청자
     participant T as 변수 유형 판정기
     participant A as 가정 검증기
     participant P as 모수 추정기
     participant M as 분포 모형
-    Q->>T: 관측 데이터 전달
+    T->>T: 관측 데이터•생성 과정 확인
     T->>A: 1. 후보 분포 전달
     A->>P: 2. 검증 가정 전달
     P->>M: 3. 추정 모수 전달
-    M-->>Q: 확률 질의 결과 반환
+    M->>M: 확률 질의 결과 산출
 ```
 
 ### 동작 원리

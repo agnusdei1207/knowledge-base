@@ -102,13 +102,12 @@ sequenceDiagram
     participant CE as 채널 부호기
     participant CH as 잡음 채널
     participant DE as 복호기
-    participant R as 수신자
     Note over SE: 원본 정보 입력
     SE->>CE: 1. 압축 비트열 전달
     CE->>CH: 2. 채널 코드워드 전달
     CH->>DE: 3. 수신 신호 전달
     DE->>DE: 4. 오류 정정•압축 해제
-    DE-->>R: 복원 정보 전달
+    DE->>DE: 복원 정보 확정
 ```
 
 $$

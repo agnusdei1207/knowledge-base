@@ -95,14 +95,13 @@ sequenceDiagram
     participant CE as 채널 부호기
     participant CD as 채널 복호기
     participant SD as 소스 복호기
-    participant R as 수신자
     Note over SE: 원본 정보 입력
     SE->>CE: 1. 압축 비트열 전달
     Note over CE,CD: 잡음 채널 전송
     CE->>CD: 2. 보호 코드워드 전달
     CD->>SD: 3. 정정 비트열 전달
     SD->>SD: 4. 압축 데이터 복원
-    SD->>R: 원본 정보 전달
+    SD->>SD: 원본 정보 복원
 ```
 
 ### 동작 원리
