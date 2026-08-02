@@ -18,28 +18,14 @@ extra:
   priority_note: "비교형: 138회 C-V2X·DSRC 구성축"
 ---
 
-## 미리 알고가기
-
-- **셀룰러 차량사물통신(Cellular Vehicle-to-Everything, C-V2X)**: 3GPP 규격으로 차량 직접 통신과 이동통신망 경유 통신을 제공하는 기술
-- **전용 단거리 통신(Dedicated Short-Range Communications, DSRC)**: IEEE 802.11p 계열의 차량 단거리 통신 기술
-- **차량사물통신(Vehicle-to-Everything, V2X)**: 차량이 주변 대상·통신망과 주행 정보를 교환하는 통신 체계
-- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: LTE·5G 이동통신 규격을 제정하는 표준화 단체
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 802 계열 통신 표준을 제정하는 전문 단체
-- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: IEEE 802.11p와 1609 계열로 구성된 차량 통신 체계
-- **기본 서비스 집합 외부(Outside the Context of a Basic Service Set, OCB)**: 기본 서비스 집합 가입 절차 없이 차량이 데이터 프레임을 교환하는 방식
-- **충돌 회피 반송파 감지 다중접속(Carrier Sense Multiple Access with Collision Avoidance, CSMA/CA)**: 채널 감지와 임의 대기로 동시 전송 충돌을 줄이는 접속 방식
-- **PC5·Uu 인터페이스**: PC5는 차량끼리 직접 통신하고 Uu는 기지국 경유 통신에 쓰이는 3GPP 참조점
-- **사이드링크(Sidelink)**: 이동통신 단말끼리 기지국을 통과하지 않고 직접 데이터를 교환하는 링크
-- **차량 탑재 장치(On-Board Unit, OBU)·노변 장치(Roadside Unit, RSU)**: 차량과 도로 주변에서 각각 안전 메시지를 송수신하는 장치
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서와 공개키로 송신자 신원과 메시지 서명을 검증하는 체계
-- **5G 기지국(next Generation NodeB, gNB)**: 5G 무선 접속과 자원 제어를 담당하는 기지국
-- **최신성(Freshness)**: 생성 시각과 순서 정보로 오래된 메시지의 재전송 여부를 판단하는 성질
-- **백분위수(Percentile)**: 측정값을 작은 순서로 나열했을 때 지정한 비율의 값이 그 이하가 되는 경계
-- **백홀(Backhaul)**: RSU나 기지국의 트래픽을 V2X 서버·코어망으로 운반하는 전송 구간
-
-> **키워드:** C-V2X와 DSRC 비교 (C-V2X DSRC)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **C-V2X·DSRC**: 차량 안전 메시지를 각각 3GPP 셀룰러 접속과 IEEE WAVE 접속으로 전달하는 V2X 무선 기술군이다.
+
+</details>
 
 - 정의/개념: 차량 안전 메시지를 **C-V2X·DSRC** 무선 접속으로 전달하는 **V2X 기술군**
 - 배경/필요성: 단일 규격으로는 기존 **WAVE 호환**과 이동통신 진화 경로 동시 수용 곤란
@@ -50,6 +36,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **C-V2X**: 3GPP 규격의 PC5 직접 통신과 Uu 망 경유 통신을 제공하는 차량사물통신 기술이다.
+- **DSRC**: IEEE 802.11p 계열의 OCB·CSMA/CA를 이용하는 차량 단거리 통신 기술이다.
+
+</details>
+
 - C-V2X의 **PC5 직접·Uu 망 경유** 이중 경로
 - DSRC의 **OCB·CSMA/CA** 기반 직접 접속
 - 차량 밀도 증가 시 **채널 경쟁·충돌**로 DSRC 지연·손실 증가
@@ -59,6 +53,14 @@ extra:
 - 규격 이름만 보고 고르지 말고 같은 주파수·차량 밀도·속도에서 위험 메시지가 제때 도착하는지 비교해야 한다
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **OBU·RSU**: OBU는 차량에서 안전 메시지를 송수신하고 RSU는 도로 주변에서 차량과 서버 정보를 중계한다.
+- **V2X PKI**: 두 무선 방식에서 사용하는 인증서의 발급·검증·폐기를 담당하는 신뢰 체계이다.
+
+</details>
 
 ```mermaid
 block
@@ -93,6 +95,14 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **사이드링크**: 이동통신 단말끼리 기지국을 거치지 않고 직접 데이터를 교환하는 링크이다.
+- **CSMA/CA**: 채널 감지와 임의 대기로 여러 장치의 동시 전송 충돌을 줄이는 접속 방식이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 송신OBU
@@ -122,6 +132,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **WAVE**: IEEE 802.11p와 1609 계열로 구성된 차량 통신 체계이다.
+- **OCB**: 기본 서비스 집합 가입 절차 없이 차량이 데이터 프레임을 직접 교환하는 방식이다.
+
+</details>
+
 | V2X 무선 방식 | C-V2X | DSRC |
 |:---|:---|:---|
 | 적용 기준 | 이동통신 진화·**광역망 연계**가 필요할 때 | 기존 WAVE·**RSU 호환**이 필요할 때 |
@@ -136,7 +154,15 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **백분위수**: 측정값을 작은 순서로 나열했을 때 지정한 비율의 값이 그 이하가 되는 경계이다.
+- **전달 성능**: 같은 차량 밀도·속도·대역 조건에서 안전 메시지가 기한 안에 도착하는 수신률과 지연이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 규격명만으로 선택해 현장 **전달 성능** 미검증 | 동일 밀도·속도·대역의 **비교 시험** | 같은 조건의 수신률·지연 확보 |
 | 기존 OBU·RSU와 **세대 호환** 누락 | 장비·단말·**인증서 생태계** 조사 | 교체 대상·전환 비용 사전 산정 |
@@ -147,6 +173,13 @@ sequenceDiagram
 - 같은 수의 차량이 동시에 경고를 보낼 때 두 방식 중 더 많이 제때 도착하는 쪽을 확인한다
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **진화 경로**: 기존 차량·도로 인프라와의 호환성을 유지하면서 다음 무선 세대로 전환하는 기술·운영 계획이다.
+
+</details>
 
 - 기존 WAVE·RSU 호환이 우선이면 **DSRC**, 이동통신 진화·광역 연계면 **C-V2X** 선택
 
