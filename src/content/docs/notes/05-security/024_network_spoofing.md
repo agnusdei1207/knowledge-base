@@ -60,6 +60,7 @@ extra:
 
 - **DAI**는 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단한다.
 - **uRPF**는 출발지 IP로 돌아가는 경로의 유효성을 검사하고, **DNSSEC**은 DNS 응답의 출처와 무결성을 검증한다.
+- **TLS 종단 인증**은 주소 검증 뒤 인증서로 실제 통신 상대의 신원을 다시 확인한다.
 
 </details>
 
@@ -160,6 +161,7 @@ sequenceDiagram
 | **출발지 IP 위조** | **IETF BCP 84 uRPF** | **반사·출발지 필터 회피** 억제 |
 | **DNS 응답 위조** | **IETF RFC 4033~4035** | **출처·무결성** 검증 |
 | **ARP 캐시 오염** | **DHCP 바인딩 기반 DAI** | 인접망 **중간자 공격** 차단 |
+| 경로 위조 뒤 **종단 사칭** | **TLS 종단 인증** | **최종 상대 신원** 확인 |
 
 #### 한줄 요약
 
@@ -171,10 +173,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **계층별 검증**은 ARP에 DAI, IP에 uRPF, DNS에 DNSSEC을 적용해 위조 지점별로 통제하는 원칙이다.
+- **DAI·uRPF·DNSSEC 적용**은 링크 주소, 출발지 IP, 이름 응답의 위조를 각 계층의 신뢰 근거로 검증하는 판단이다.
 
 </details>
 
-- ARP 위조는 **DAI**, IP 위조는 **uRPF**, DNS 위조는 DNSSEC 적용
+- ARP 위조는 **DAI**, IP 위조는 **uRPF**, DNS 위조는 **DNSSEC** 적용
 
 #### 한줄 요약
 
