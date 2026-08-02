@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "UEBA 사용자·엔티티 행동 분석 (UEBA)"
-date: "2026-08-02T10:54:00+09:00"
+date: "2026-08-02T23:48:00+09:00"
 tags:
   - "notes-security"
 weight: 38
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **UEBA**는 사용자·계정·기기의 평소 행동에서 벗어난 활동을 찾아 조사 대상을 선별하는 분석 기법이다.
+- **사용자 및 엔티티 행동 분석(User and Entity Behavior Analytics, UEBA)**은 사용자·계정·기기의 평소 행동에서 벗어난 활동을 찾아 조사 대상을 선별하는 분석 기법이다.
 - **시그니처**는 알려진 공격의 고정된 특징을 관측 데이터와 대조하는 탐지 패턴이다.
 
 </details>

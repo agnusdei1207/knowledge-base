@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "SIEM - 보안 이벤트 집계·분석 (SIEM)"
-date: "2026-08-02T10:48:00+09:00"
+date: "2026-08-02T23:45:00+09:00"
 tags:
   - "notes-security"
 weight: 35
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM**은 로그를 정규화·상관분석하여 보안 경보와 조사 근거를 생성하는 시스템이다.
+- **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**는 이종 로그를 정규화·상관분석하여 보안 경보와 조사 근거를 생성하는 플랫폼이다.
 
 </details>
 

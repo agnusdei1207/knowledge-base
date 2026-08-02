@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-08-02T10:58:00+09:00"
+date: "2026-08-02T23:50:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTEM**은 실제 공격 가능한 노출을 지속해서 식별·검증·조치·재검증하여 공격 표면을 줄이는 관리 체계다.
+- **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM)**는 실제 공격 가능한 노출을 지속해서 식별·검증·조치·재검증하여 공격 표면을 줄이는 관리 체계다.
 - **폐루프**는 노출 발견부터 담당자 조치·재검증까지 결과가 다시 관리 상태에 반영되는 순환이다.
 
 </details>

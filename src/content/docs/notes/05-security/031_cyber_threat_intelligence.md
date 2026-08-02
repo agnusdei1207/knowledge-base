@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "사이버 위협 인텔리전스 CTI (Cyber Threat Intelligence)"
-date: "2026-08-02T10:40:00+09:00"
+date: "2026-08-02T23:41:00+09:00"
 tags:
   - "notes-security"
 weight: 31
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI**는 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여하여 방어 의사결정을 지원하는 정보다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**는 위협 데이터에 공격자·의도·TTP·대상·신뢰도 맥락을 부여하여 방어 의사결정을 지원하는 정보다.
 - **IoC**는 악성 IP·도메인·파일 해시 등 시스템 침해를 식별하는 관측 흔적이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOAR - 보안 자동화·대응 (SOAR)"
-date: "2026-08-02T10:50:00+09:00"
+date: "2026-08-02T23:46:00+09:00"
 tags:
   - "notes-security"
 weight: 36
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SOAR**는 보안 도구를 연결하여 사건 조사·승인·조치 절차를 자동화하는 플랫폼이다.
+- **보안 오케스트레이션·자동화 및 대응(Security Orchestration, Automation and Response, SOAR)**은 보안 도구를 연결하여 사건 조사·승인·조치 절차를 자동화하는 플랫폼이다.
 - **플레이북**은 사건의 조사·판단·승인·조치 순서와 분기 조건을 정의한 절차다.
 
 </details>

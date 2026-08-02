@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "STIX·TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-02T10:42:00+09:00"
+date: "2026-08-02T23:42:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX**는 CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하고, **TAXII**는 이를 조직과 보안도구 사이에서 교환한다.
+- **STIX(Structured Threat Information Expression)**는 위협 행위자·공격 패턴·지표 같은 CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
+- **TAXII(Trusted Automated Exchange of Intelligence Information)**는 STIX 객체를 조직과 보안 도구 사이에서 조회·게시·교환하는 전송 규약이다.
 
 </details>
 

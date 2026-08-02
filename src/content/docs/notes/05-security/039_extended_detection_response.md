@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "XDR 확장 탐지·대응 (XDR Extended Detection Response)"
-date: "2026-08-02T10:56:00+09:00"
+date: "2026-08-02T23:49:00+09:00"
 tags:
   - "notes-security"
 weight: 39
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **XDR**은 단말·신원·메일·망·클라우드 신호를 한 사건으로 연결해 조사와 대응을 수행하는 체계다.
+- **확장 탐지 및 대응(Extended Detection and Response, XDR)**은 단말·신원·메일·망·클라우드 신호를 한 사건으로 연결해 조사와 대응을 수행하는 체계다.
 
 </details>
 

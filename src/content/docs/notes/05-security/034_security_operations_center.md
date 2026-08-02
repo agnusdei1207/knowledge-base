@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOC 보안 운영 센터 (Security Operations Center)"
-date: "2026-08-02T10:46:00+09:00"
+date: "2026-08-02T23:44:00+09:00"
 tags:
   - "notes-security"
 weight: 34
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SOC**는 사람·절차·기술을 통합하여 보안 이벤트를 상시 탐지·분석·대응하는 조직이다.
+- **보안 운영 센터(Security Operations Center, SOC)**는 사람·절차·기술을 통합하여 보안 이벤트를 상시 탐지·분석·대응하는 조직이다.
 
 </details>
 

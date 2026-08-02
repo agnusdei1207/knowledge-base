@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR)"
-date: "2026-08-02T10:52:00+09:00"
+date: "2026-08-02T23:47:00+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM**은 로그 상관분석으로 경보·조사 근거를 만들고, **SOAR**는 보안 도구를 연계해 조사·승인·조치를 자동화한다.
+- **SIEM·SOAR 연계**는 SIEM이 로그 상관분석으로 만든 경보·조사 근거를 SOAR에 넘기고, SOAR가 보안 도구를 연계해 조사·승인·조치를 수행하는 관제 구조다.
 
 </details>
 
