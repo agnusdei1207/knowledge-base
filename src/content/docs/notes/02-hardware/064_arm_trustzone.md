@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: **보안 상태·거래 속성**으로 실행 환경과 자원을 격리하는 Arm 보안 확장
-- 배경/필요성: OS 권한 격리만으로는 커널 침해 시 **보안 자산 보호 불가**
+- 정의/개념: **Arm TrustZone 기반 보안 확장**, 실행 환경과 자원에는 **보안 상태·비보안 상태·거래 속성 기반 격리** 적용
+- 배경/필요성: 운영체제(Operating System, OS) 권한 격리만으로는 커널 침해 시 **보안 자산 보호 불가**
 
 #### 한줄 요약
 
@@ -46,8 +46,8 @@ extra:
 </details>
 
 - **보안·비보안 상태** 분리에 따른 실행 환경 격리
-- **거래 보안 속성** 전파에 따른 메모리·장치 접근 통제
-- **진입점·공유 버퍼 검증**으로 비보안 입력 제한
+- **거래 보안 속성·자원 보안 속성** 비교에 따른 메모리·장치 접근 통제
+- 비보안 입력 제한 수단은 **진입점·공유 버퍼 검증**
 
 #### 한줄 요약
 
@@ -63,6 +63,8 @@ extra:
 - **자원 보안 제어(Resource Security Control)**: 거래 속성과 자원 귀속을 비교하여 메모리와 장치 접근을 허용하거나 차단하는 하드웨어이다.
 
 </details>
+
+비보안 영역의 실행 기반: 일반 운영체제(Operating System, OS), 보안 영역의 민감 서비스: **보안 전환 경로·신뢰 실행 환경(Trusted Execution Environment, TEE)**, 격리 검증과 접근 강제: **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB) 최소화·자원 보안 제어**
 
 ```mermaid
 block
@@ -93,9 +95,11 @@ block
 
 - **보안 게이트웨이(Secure Gateway)**: 비보안 코드가 허용된 보안 서비스 진입점으로 전환할 때 거치는 검증된 경계이다.
 - **공유 버퍼 검증(Shared-buffer Validation)**: 비보안 코드가 전달한 주소와 길이가 허용된 메모리 범위인지 확인하는 절차이다.
-- **보안 연산(Secure Operation)**: 키와 비밀 데이터를 보안 영역 밖으로 노출하지 않고 TEE나 보안 장치에서 수행하는 연산이다.
+- **보안 연산(Secure Operation)**: 키와 비밀 데이터를 보안 영역 밖으로 노출하지 않고 신뢰 실행 환경(Trusted Execution Environment, TEE)이나 보안 장치에서 수행하는 연산이다.
 
 </details>
+
+신뢰 실행 환경(Trusted Execution Environment, TEE)은 검증된 보안 게이트웨이를 통해 요청을 받고, **공유 버퍼 검증** 후 보안 장치의 연산 결과만 반환한다.
 
 ```mermaid
 sequenceDiagram
@@ -128,7 +132,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **운영체제 권한 격리(OS Privilege Isolation)**: 페이지 테이블과 프로세스 권한으로 일반 응용의 주소 공간과 자원 접근을 분리하는 방식이다.
+- **운영체제 권한 격리(Operating System Privilege Isolation, OS Privilege Isolation)**: 페이지 테이블과 프로세스 권한으로 일반 응용의 주소 공간과 자원 접근을 분리하는 방식이다.
 - **페이지 권한(Page Permission)**: 가상 메모리 페이지별로 읽기와 쓰기 및 실행 가능 여부를 지정하는 운영체제 속성이다.
 - **커널 침해(Kernel Compromise)**: 공격자가 운영체제 최고 권한을 얻어 프로세스와 페이지 권한을 우회할 수 있는 상태이다.
 
@@ -148,12 +152,14 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **TCB 최소화(TCB Minimization)**: 보안 영역에 필수 서비스만 남겨 검증해야 할 코드와 자원의 범위를 줄이는 원칙이다.
+- **신뢰 컴퓨팅 기반 최소화(Trusted Computing Base Minimization, TCB 최소화)**: 보안 영역에 필수 서비스만 남겨 검증해야 할 코드와 자원의 범위를 줄이는 원칙이다.
 - **경계 취약점(Boundary Vulnerability)**: 보안·비보안 영역 사이의 입력 검증이나 상태 전환 오류로 생기는 보안 결함이다.
-- **DMA 보안 속성(DMA Security Attribution)**: 장치의 직접 메모리 접근이 보안 또는 비보안 거래로 처리되도록 지정한 속성이다.
+- **직접 메모리 접근 보안 속성(Direct Memory Access Security Attribution, DMA 보안 속성)**: 장치의 직접 메모리 접근이 보안 또는 비보안 거래로 처리되도록 지정한 속성이다.
 - **문맥·캐시 정리(Context·Cache Sanitization)**: 보안 상태 전환 전에 레지스터와 캐시에 남은 민감 정보를 제거하는 처리이다.
 
 </details>
+
+신뢰 실행 환경(Trusted Execution Environment, TEE)과 신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)을 작게 유지하고, 직접 메모리 접근(Direct Memory Access, DMA)을 포함한 경계 입력을 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -176,7 +182,7 @@ sequenceDiagram
 
 </details>
 
-- 핵심 자산은 **TrustZone**에 격리하고 **TCB** 최소화
+- 핵심 자산: **TrustZone 하드웨어 격리**, 검증 범위: **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB) 최소화**, 권한 원칙: **최소 권한**
 
 #### 한줄 요약
 
