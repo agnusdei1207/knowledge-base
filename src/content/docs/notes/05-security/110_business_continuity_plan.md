@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **BCP**: 중단 상황에서도 우선 업무를 최소 허용 수준으로 유지하고 목표 시간 안에 정상 수준으로 복귀하기 위한 계획이다.
-- **BCMS**: 업무 영향 분석·연속성 전략·계획·훈련·성과평가·개선을 지속 운영하는 관리체계이다.
+- **BCP(Business Continuity Plan)**: 중단 상황에서도 우선 업무를 최소 허용 수준으로 유지하고 목표 시간 안에 정상 수준으로 복귀하기 위한 업무 연속성 계획이다.
+- **BCMS(Business Continuity Management System)**: 업무 영향 분석·연속성 전략·계획·훈련·성과평가·개선을 지속 운영하는 업무 연속성 관리체계이다.
 
 </details>
 
-- 정의/개념: 중단 시 우선 업무의 **지속·복귀 계획**
+- 정의/개념: **BCP**는 중단 시 우선 업무를 유지하고 목표 시간 안에 복귀하기 위한 계획
 - 배경/필요성: IT 재해복구만으로는 인력·시설·공급망 중단에 대한 **업무 연속성 확보가 어려움**
 
 #### 한줄 요약
@@ -38,7 +38,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **BIA·MTPD·RTO·RPO**: 중단의 시간별 영향과 자원 의존성을 분석해 최대 허용 중단시간, 복구 시간, 허용 데이터 손실 시점을 정한다.
+- **BIA(Business Impact Analysis)·MTPD(Maximum Tolerable Period of Disruption)·RTO(Recovery Time Objective)·RPO(Recovery Point Objective)**: 업무 영향을 분석해 최대 허용 중단시간, 목표 복구시간, 허용 데이터 손실 시점을 정한다.
 - **훈련·지속 개선**: 계획의 발동·전환·복귀를 실제로 실행해 목표 달성 여부와 공백을 확인하고 자원·절차를 보완한다.
 
 </details>
@@ -126,7 +126,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **BCP·DRP**: BCP는 인력·시설·공급망을 포함한 업무 전체 연속성 계획이고 DRP는 그 안에서 정보시스템과 데이터를 복구하는 계획이다.
+- **BCP·DRP(Disaster Recovery Plan)**: BCP는 인력·시설·공급망을 포함한 업무 전체 연속성 계획이고 DRP는 그 안에서 정보시스템과 데이터를 복구하는 재해복구 계획이다.
 
 </details>
 
@@ -145,7 +145,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **ISO 22301:2019·ISO/TS 22317:2021**: BCMS 요구사항과 조직에 적합한 BIA 절차 수립·유지 지침을 각각 제공한다.
-- **ITSCM·NIST SP 800-34**: 업무 복구 목표를 IT·데이터 복구 설계와 훈련에 연결하고 정보시스템 비상계획을 구체화한다.
+- **ITSCM(IT Service Continuity Management)·NIST SP 800-34**: 업무 복구 목표를 IT·데이터 복구 설계와 훈련에 연결하고 정보시스템 비상계획을 구체화한다.
 
 </details>
 
