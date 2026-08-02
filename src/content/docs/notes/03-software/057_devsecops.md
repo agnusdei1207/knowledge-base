@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-07-31T10:24:29+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -18,24 +18,15 @@ extra:
   priority_note: "128·134·135회 반복, 보안 내재화 핵심"
 ---
 
-## 미리 알고가기
-
-- **개발·보안·운영(Development, Security and Operations, DevSecOps)**: 개발 수명주기 전반에 보안을 공동 책임과 자동화된 통제로 내재화하는 방식
-- **시프트 레프트(Shift Left)**: 보안 검증을 개발 수명주기의 앞단인 설계·코딩 단계로 이동하는 전략
-- **정적 애플리케이션 보안 테스트(Static Application Security Testing, SAST)**: 프로그램을 실행하지 않고 소스·바이트코드의 취약 패턴을 분석하는 테스트
-- **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션의 외부 인터페이스를 공격 관점에서 검사하는 테스트
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스 구성요소의 알려진 취약점과 라이선스를 식별하는 분석
-- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 패키지·버전·의존성 목록
-- **대화형 애플리케이션 보안 테스트(Interactive Application Security Testing, IAST)**: 실행 중 내부 계측 정보와 테스트 입력을 결합해 취약점을 탐지하는 테스트
-- **비밀정보 검사(Secret Scanning)**: 소스·이력에 포함된 비밀번호·토큰·개인키를 탐지하는 검사
-- **정책 코드화(Policy as Code)**: 보안·규정 준수 기준을 기계가 실행할 수 있는 코드로 선언하고 자동 판정하는 방식
-- **위협 모델링(Threat Modeling)**: 자산·공격 경로·위협·대응책을 설계 단계에서 식별하는 활동
-- **오탐(False Positive)**: 실제 취약점이 아닌 대상을 검사 도구가 위험으로 잘못 판정한 결과
-- **예외 만료(Exception Expiration)**: 일시적으로 허용한 보안 위험을 정해진 날짜에 다시 검토하거나 차단하는 통제
-
-> **키워드:** DevSecOps
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **개발·보안·운영(Development, Security and Operations, DevSecOps)**: 개발 수명주기 전반에 보안을 공동 책임과 자동화된 통제로 내재화하는 방식이다.
+- **보안 내재화(Security by Design)**: 보안을 별도 사후 점검이 아니라 설계와 구현의 기본 조건으로 포함하는 원칙이다.
+
+</details>
 
 - 정의/개념: 개발·운영 흐름에 보안 책임과 자동 검증을 내재화하는 **보안 통합 운영 방식**
 - 배경/필요성: 출시 직전 점검의 **취약점 발견·수정 지연** 해소
@@ -46,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **시프트 레프트(Shift Left)**: 보안 검증을 개발 수명주기의 앞단인 설계·코딩 단계로 이동하는 전략이다.
+- **정책 코드화(Policy as Code)**: 보안·규정 준수 기준을 실행 가능한 코드로 선언하고 자동 판정하는 방식이다.
+
+</details>
+
 - 설계·코딩 단계로 검증을 옮기는 **시프트 레프트**
 - 정책 코드화의 **자동 차단·감사 추적**
 - 개발·보안·운영의 **공동 책임**
@@ -55,6 +54,15 @@ extra:
 - 문제를 만든 직후 자동으로 알려 주고, 정해진 보안 기준을 통과한 변경만 다음 단계로 보낸다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **위협 모델링(Threat Modeling)**: 자산·공격 경로·위협·대응책을 설계 단계에서 식별하는 활동이다.
+- **보안 게이트(Security Gate)**: 자동 검사 결과와 정책을 근거로 배포 진행·차단·예외를 판정하는 통제 지점이다.
+- **비밀정보 검사(Secret Scanning)**: 소스와 이력에 포함된 비밀번호·토큰·개인키를 탐지하는 검사이다.
+
+</details>
 
 ```mermaid
 block
@@ -81,6 +89,14 @@ block
 - 위험 지도, 자동 검사선, 보안문, 배포 담당, 운영 감시로 구성된다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **정적 애플리케이션 보안 테스트(Static Application Security Testing, SAST)**: 실행하지 않은 소스·바이트코드의 취약 패턴을 분석하는 테스트이다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스 구성요소의 알려진 취약점과 라이선스를 식별하는 분석이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -115,6 +131,15 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션의 외부 인터페이스를 공격 관점에서 검사한다.
+- **대화형 애플리케이션 보안 테스트(Interactive Application Security Testing, IAST)**: 실행 중 내부 계측 정보와 테스트 입력을 결합해 취약점을 탐지한다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 패키지의 취약점·라이선스·출처를 분석한다.
+
+</details>
+
 | 보안 검사 방식 | SAST | DAST | SCA | IAST |
 |:---|:---|:---|:---|:---|
 | 적용 기준 | 개발 중 **소스 취약점 탐지** | 시험 중 **실행 취약점 검증** | 도입 전 **오픈소스 위험 확인** | 시험 중 **내부 실행 경로 추적** |
@@ -129,7 +154,16 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **오탐(False Positive)**: 실제 취약점이 아닌 대상을 검사 도구가 위험으로 잘못 판정한 결과이다.
+- **예외 만료(Exception Expiration)**: 일시 허용한 보안 위험을 정해진 날짜에 다시 검토하거나 차단하는 통제이다.
+- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 패키지·버전·의존성 목록이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 모든 변경에 전체 검사를 적용해 병합이 지연됨 | **위험별 검사·증분 분석**과 오탐 기준선 | **보안 검사 우회·병합 지연** 감소 |
 | 보안 도구별 결과와 담당자가 분리됨 | **공통 위험 식별자·소유자**로 추적 통합 | **책임·처리 상태** 명확화 |
@@ -142,6 +176,14 @@ sequenceDiagram
 - 코드에 위험한 명령이나 키가 있으면 합치지 않고, 배포 이미지의 모든 부품과 출처도 확인한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **조기 차단(Early Prevention)**: 소스와 의존성의 위험을 배포 이전 단계에서 탐지해 진행을 막는 통제이다.
+- **런타임 검증(Runtime Validation)**: 실제 실행 환경에서 외부 공격과 내부 실행 경로의 취약성을 확인하는 활동이다.
+
+</details>
 
 - 변경 위험은 **SAST·SCA**로 조기 차단하고 운영 노출은 **DAST·IAST**로 검증
 

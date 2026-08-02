@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-07-30T23:32:00+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -18,24 +18,15 @@ extra:
   priority_note: "120회 기출, 개발·운영 협업 파이프라인"
 ---
 
-## 미리 알고가기
-
-- **개발·운영(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동으로 책임지는 협업 문화와 방법론
-- **지속적 통합(Continuous Integration, CI)**: 작은 코드 변경을 자주 병합하고 자동 빌드·테스트로 검증하는 활동
-- **지속적 전달(Continuous Delivery, CD)**: 검증한 변경을 언제든 운영에 배포할 수 있는 상태로 준비하는 활동
-- **피드백 루프(Feedback Loop)**: 운영 지표와 장애 원인을 다음 개발·운영 정책에 반영하는 순환
-- **점진적 전달(Progressive Delivery)**: 새 버전이나 기능의 운영 노출 범위를 단계적으로 확대하는 방식
-- **개발·운영 연구 및 평가(DevOps Research and Assessment, DORA)**: 배포 빈도·변경 리드 타임·변경 실패율·복구 시간을 측정해 소프트웨어 전달 성과를 평가하는 체계
-- **평균 복구 시간(Mean Time to Recovery, MTTR)**: 장애 발생부터 서비스 정상 복구까지 걸린 평균 시간
-- **관측 가능성(Observability)**: 외부 출력인 로그·메트릭·트레이스로 시스템 내부 상태를 추론하는 능력
-- **인프라 코드화(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언해 버전 관리하고 자동 적용하는 방식
-- **가드레일(Guardrail)**: 운영 지표의 허용 한계로 배포 확대·중단·복귀를 자동 판정하는 안전 기준
-- **심리적 안전(Psychological Safety)**: 구성원이 비난 우려 없이 장애·실수·위험을 공유하고 개선에 참여할 수 있는 팀 환경
-- **허영 지표(Vanity Metric)**: 실제 성과 개선과 연결되지 않지만 좋아 보이는 수치
-
-> **키워드:** DevOps 파이프라인 (DevOps Pipeline)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **개발·운영(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동으로 책임지는 협업 문화와 방법론이다.
+- **피드백 루프(Feedback Loop)**: 운영 지표와 장애 원인을 다음 개발·운영 정책에 반영하는 순환이다.
+
+</details>
 
 - 정의/개념: 개발·운영의 **변경 전달·피드백을 연결**한 자동화 흐름
 - 배경/필요성: 조직 분리의 **인수 지연·운영 책임 단절** 해소
@@ -46,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **공동 소유(Shared Ownership)**: 제품의 개발과 운영 결과를 한 팀이 함께 책임지는 원칙이다.
+- **지속적 통합(Continuous Integration, CI)**: 작은 코드 변경을 자주 병합하고 자동 빌드·테스트로 검증하는 활동이다.
+
+</details>
+
 - 개발·운영의 **공동 소유·공동 책임**
 - 빌드부터 운영까지 **자동화·일관성**
 - 운영 지표의 **개발 피드백 환류**
@@ -55,6 +54,15 @@ extra:
 - 개발자가 코드를 넘기고 끝내는 대신 운영 결과까지 함께 보고 다음 변경에 반영한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **지속적 전달(Continuous Delivery, CD)**: 검증한 변경을 언제든 운영에 배포할 수 있는 상태로 준비하는 활동이다.
+- **아티팩트 저장소(Artifact Repository)**: 검증한 산출물의 버전과 무결성을 보존하는 저장소이다.
+- **관측 가능성(Observability)**: 로그·메트릭·트레이스로 시스템 내부 상태를 추론하는 능력이다.
+
+</details>
 
 ```mermaid
 block
@@ -81,6 +89,14 @@ block
 - 변경 창고, 검사선, 완제품 창고, 출고 담당, 운영 계기판으로 구성된다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **기준선(Baseline)**: 장애 때 복귀할 수 있도록 승인하고 검증한 안정 버전이다.
+- **운영 피드백(Operational Feedback)**: 성능·오류·업무 결과를 다음 변경의 근거로 되돌리는 정보이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -116,6 +132,14 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **DevOps 통합 운영(Integrated DevOps Operation)**: 제품팀이 개발과 운영을 함께 책임지는 운영 모델이다.
+- **단계별 인계(Stage Handoff)**: 기능별 조직이 산출물을 승인 절차에 따라 다음 조직으로 넘기는 방식이다.
+
+</details>
+
 | 운영 모델 | DevOps 통합 운영 | 개발·운영 분리 |
 |:---|:---|:---|
 | 적용 기준 | 잦은 변경·**신속한 피드백** | 안정 우선·**엄격한 인수 절차** |
@@ -130,7 +154,18 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **개발·운영 연구 및 평가(DevOps Research and Assessment, DORA)**: 배포 빈도·변경 리드 타임·변경 실패율·복구 시간으로 전달 성과를 평가하는 체계이다.
+- **평균 복구 시간(Mean Time to Recovery, MTTR)**: 장애 발생부터 서비스 정상 복구까지 걸린 평균 시간이다.
+- **인프라 코드화(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언해 버전 관리하고 자동 적용하는 방식이다.
+- **심리적 안전(Psychological Safety)**: 비난 우려 없이 장애와 실수를 공유하고 개선에 참여할 수 있는 팀 환경이다.
+- **허영 지표(Vanity Metric)**: 실제 성과 개선과 연결되지 않지만 좋아 보이는 수치이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 협업 방식 없이 자동화 도구만 도입함 | **공동 목표·소유권**과 피드백 절차 확립 | **책임 단절** 해소 |
 | 개발·운영 간 인계마다 승인 대기 발생 | **CI·CD**에 운영·보안 검증 통합 | **변경 리드 타임** 단축 |
@@ -145,6 +180,14 @@ sequenceDiagram
 - 팀은 얼마나 자주 안전하게 배포하고 빨리 복구하는지 측정하며, 장애 원인을 다음 자동화와 코드 개선에 반영한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **점진적 전달(Progressive Delivery)**: 새 버전이나 기능의 운영 노출 범위를 단계적으로 확대하는 방식이다.
+- **가드레일(Guardrail)**: 운영 지표의 허용 한계로 배포 확대·중단·복귀를 판정하는 안전 기준이다.
+
+</details>
 
 - 변경이 잦고 운영 피드백이 중요하면 **DevOps 통합 운영**, 엄격한 인수는 **분리 운영** 선택
 
