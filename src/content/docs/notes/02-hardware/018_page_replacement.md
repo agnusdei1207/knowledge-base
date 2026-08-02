@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT·FIFO·LRU·LFU (Page Replacement)"
-date: "2026-08-02T10:38:00+09:00"
+date: "2026-08-02T19:08:00+09:00"
 tags:
   - "notes-hardware"
 weight: 18

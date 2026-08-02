@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "캐시 일관성 프로토콜: MESI·MOESI (Cache Coherence Protocol)"
-date: "2026-08-02T10:34:00+09:00"
+date: "2026-08-02T19:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 14

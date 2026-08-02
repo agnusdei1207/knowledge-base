@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "폴락의 법칙 (Pollack's Rule)"
-date: "2026-08-02T10:31:00+09:00"
+date: "2026-08-02T19:01:00+09:00"
 tags:
   - "notes-hardware"
 weight: 11
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **폴락의 법칙**: 단일 코어 성능이 코어 복잡도나 면적 증가량의 제곱근에 비례한다는 경험칙
+- **폴락의 법칙(Pollack's Rule)**: 단일 코어 성능이 코어 복잡도나 면적 증가량의 제곱근에 비례한다는 프로세서 설계 경험칙
 - **수익 체감**: 자원을 더 투입할수록 추가로 얻는 성능 향상 폭이 감소하는 현상
 
 </details>

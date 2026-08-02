@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "캐시 쓰기 정책: Write-Through vs Write-Back (Cache Write Policy)"
-date: "2026-08-02T10:33:00+09:00"
+date: "2026-08-02T19:03:00+09:00"
 tags:
   - "notes-hardware"
 weight: 13
