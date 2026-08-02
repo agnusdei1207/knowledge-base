@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "BASE vs ACID (BASE vs ACID)"
-date: "2026-07-30T23:43:15+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 104
@@ -18,22 +18,14 @@ extra:
   priority_note: "131회 기출, ACID·BASE 선택 기준 명확"
 ---
 
-## 미리 알고가기
-
-- **ACID(Atomicity, Consistency, Isolation, Durability)**: 트랜잭션의 원자성·일관성·격리성·지속성을 보장하는 성질
-- **BASE(Basically Available, Soft State, Eventual Consistency)**: 가용성과 비동기 상태 수렴을 강조하는 분산 데이터 설계 관점
-- **최종 일관성(Eventual Consistency)**: 새 갱신이 없으면 시간이 지나 모든 사본이 같은 상태로 수렴하는 성질
-- **불변식(Invariant)**: 처리 전후 항상 참이어야 하는 잔액·합계 등의 업무 규칙
-- **롤백(Rollback)**: 실패한 트랜잭션의 변경을 이전 상태로 되돌리는 연산
-- **보상 트랜잭션(Compensating Transaction)**: 이미 완료된 업무 효과를 반대 업무로 상쇄하는 처리
-- **수렴 지연(Convergence Delay)**: 변경 후 사본들이 같은 상태가 될 때까지 필요한 시간
-- **트랜잭셔널 아웃박스(Transactional Outbox)**: 업무 데이터와 발행 대기 이벤트를 한 트랜잭션으로 저장해 이중 쓰기 누락을 막는 패턴
-- **변경 데이터 캡처(Change Data Capture, CDC)**: 데이터베이스 변경 로그를 읽어 후속 시스템에 변경 이벤트를 전달하는 기법
-- **멱등성(Idempotency)**: 같은 요청을 여러 번 적용해도 최종 결과가 한 번 적용한 것과 같은 성질
-
-> **키워드:** BASE vs ACID (BASE vs ACID)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **ACID의 즉시 확정**: 트랜잭션 경계 안에서 불변식을 검증하고 변경을 원자적으로 확정하는 보장이다.
+
+</details>
 
 - 정의/개념: **ACID의 즉시 확정**과 **BASE의 최종 수렴**을 대비하는 보장 모델
 - 배경/필요성: 단일 트랜잭션만으로는 **분산 파생 상태의 즉시 일치** 보장 불가
@@ -44,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **복구 차이**: 진행 중 거래의 롤백과 이미 완료된 분산 업무의 보상을 구분하는 특성이다.
+
+</details>
+
 - **ACID**: 원자성·격리·내구성으로 즉시 확정
 - **BASE**: 비동기 전파·재시도로 최종 수렴
 - **복구 차이**: 롤백과 업무 보상을 구분
@@ -53,6 +52,13 @@ extra:
 - 아직 끝나지 않은 거래는 되돌리고 이미 끝난 분산 업무는 반대 작업으로 보정한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **비동기 전달**: 커밋된 변경 이벤트를 파생 상태로 전파하는 구성요소이다.
+
+</details>
 
 ```mermaid
 block
@@ -85,6 +91,13 @@ block
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **5. 파생 상태 이벤트**: 멱등 적용으로 BASE 복제본을 기준 상태에 수렴시키는 단계이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
@@ -116,6 +129,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **BASE**: 가용성을 우선하고 비동기 전파 뒤 최종 일관성으로 상태를 맞추는 모델이다.
+
+</details>
+
 | 데이터 보장 모델 | ACID | BASE |
 |:---|:---|:---|
 | 적용 기준 | 즉시 지켜야 하는 **업무 불변식** | 지연을 허용하는 **파생 상태** |
@@ -130,7 +150,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **데이터와 이벤트를 따로 쓰면 한쪽만 성공 가능**: 업무 변경과 이벤트 발행이 분리돼 누락이나 불일치가 생기는 문제이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 금액·재고는 커밋 즉시 불변식 준수 필요 | **ACID 트랜잭션 경계**에 규칙 배치 | **금액·재고 오류** 방지 |
 | 넓은 분산 트랜잭션은 잠금·합의 비용 증가 | **로컬 원자성·이벤트** 분리 | **분산 합의 범위** 축소 |
@@ -143,6 +170,13 @@ sequenceDiagram
 - 돈과 재고는 먼저 정확히 확정하고, 늦어도 되는 사본만 비동기로 갱신한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **ACID**: 커밋 즉시 지켜야 하는 업무 불변식에 적용하는 트랜잭션 보장 모델이다.
+
+</details>
 
 - 즉시 불변식은 **ACID**, 지연 허용 파생 상태는 **BASE** 적용
 
