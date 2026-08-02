@@ -22,7 +22,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DDoS 방어 체계**: 다수 공격원이 회선·연결 상태·서버 자원을 소진시키는 공격을 탐지·흡수·정화해 서비스 가용성을 유지하는 체계이다.
+- **분산 서비스 거부 방어 체계(Distributed Denial-of-Service Defense System, DDoS 방어 체계)**: 다수 공격원이 회선·연결 상태·서버 자원을 소진시키는 공격을 탐지·흡수·정화해 서비스 가용성을 유지하는 체계이다.
 
 </details>
 
@@ -38,7 +38,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **다단 완화**: CDN·상위 통신사업자·정화 센터에서 공격이 원본 회선에 도달하기 전에 분산·차단하는 방식이다.
+- **다단 완화(Multi-Layer Mitigation)**: 콘텐츠 전송 네트워크(Content Delivery Network, CDN)·상위 통신사업자·정화 센터에서 공격이 원본 회선에 도달하기 전에 분산·차단하는 방식이다.
 - **오탐**: 정상 사용자의 요청을 공격으로 잘못 판정해 차단하는 오류이다.
 
 </details>
@@ -56,8 +56,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CDN·정화 센터**: CDN은 엣지에서 트래픽을 분산하고 정화 센터는 우회한 트래픽에서 악성 패킷을 제거한다.
+- **콘텐츠 전송 네트워크·정화 센터(Content Delivery Network/Scrubbing Center, CDN·정화 센터)**: CDN은 엣지에서 트래픽을 분산하고 정화 센터는 우회한 트래픽에서 악성 패킷을 제거한다.
 - **기준선**: 정상 시간대의 트래픽 양·분포·연결·요청 특성을 기록한 이상 탐지 비교 기준이다.
+- **분산 서비스 거부(Distributed Denial-of-Service, DDoS)**: 다수 공격원이 회선·상태·응용 자원을 동시에 소진시키는 공격이다.
 
 </details>
 
@@ -93,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **상위 정화 우회**: BGP 경로를 변경해 대량 트래픽을 서비스 회선보다 큰 정화 센터로 먼저 보내는 대응이다.
+- **상위 정화 우회(Upstream Scrubbing Diversion)**: 경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP) 경로를 변경해 대량 트래픽을 서비스 회선보다 큰 정화 센터로 먼저 보내는 대응이다.
 - **복구 검증**: 지연·오류·자원 사용량이 기준선으로 돌아왔는지 확인한 뒤 임시 제한을 해제하는 절차이다.
 
 </details>
@@ -127,8 +128,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **대역폭·상태·응용 공격**: 각각 회선 용량, 반개방 연결표, 웹·데이터베이스 처리 자원을 소진하는 DDoS 유형이다.
-- **SYN 플러드**: 연결 시작 요청만 대량 전송해 서버의 반개방 연결 상태를 소진하는 공격이다.
+- **대역폭·상태·응용 공격(Bandwidth/State-Exhaustion/Application Attack)**: 각각 회선 용량, 반개방 연결표, 웹·데이터베이스 처리 자원을 소진하는 DDoS 유형이다.
+- **동기화 플러드(Synchronize Flood, SYN 플러드)**: 연결 시작 요청만 대량 전송해 서버의 반개방 연결 상태를 소진하는 공격이다.
+- **분산 서비스 거부(Distributed Denial-of-Service, DDoS)**: 회선·연결 상태·응용 자원을 고갈시키는 분산 공격이다.
 
 </details>
 
@@ -149,8 +151,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SYN 쿠키**: 서버가 반개방 상태를 저장하지 않고 응답 순서 번호에 연결 정보를 부호화하는 방어이다.
-- **비용 기반 제한**: 사용자·세션별 요청이 소비하는 처리 자원을 기준으로 L7 요청률을 제한하는 방식이다.
+- **동기화 쿠키(Synchronize Cookie, SYN 쿠키)**: 서버가 반개방 상태를 저장하지 않고 응답 순서 번호에 연결 정보를 부호화하는 방어이다.
+- **비용 기반 제한(Cost-Based Rate Limiting)**: 사용자·세션별 요청이 소비하는 처리 자원을 기준으로 7계층(Layer 7, L7) 요청률을 제한하는 방식이다.
+- **도메인 이름 시스템·경계 게이트웨이 프로토콜(Domain Name System/Border Gateway Protocol, DNS·BGP)**: 증폭 공격에 악용되는 이름 해석 시스템과 트래픽을 상위 정화 센터로 우회하는 경로 프로토콜이다.
 
 </details>
 
@@ -169,7 +172,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **완화 위치**: 공격이 먼저 고갈시키는 회선·상태표·응용 자원보다 앞단에서 차단할 지점을 정하는 기준이다.
+- **완화 위치(Mitigation Point)**: 공격이 먼저 고갈시키는 회선·상태표·응용 자원보다 앞단에서 차단할 지점을 정하는 기준이다.
+- **동기화 쿠키·7계층(Synchronize Cookie/Layer 7, SYN 쿠키·L7)**: 반개방 연결 상태를 보호하는 기법과 응용 요청을 검사하는 계층이다.
 
 </details>
 

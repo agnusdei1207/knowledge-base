@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TSN**: IEEE 802 이더넷에 시간 동기·트래픽 조정·신뢰성 기능을 적용해 지연 상한을 보장하는 결정형 네트워크 표준군이다.
+- **시간 민감 네트워킹(Time-Sensitive Networking, TSN)**: IEEE 802 이더넷에 시간 동기·트래픽 조정·신뢰성 기능을 적용해 지연 상한을 보장하는 결정형 네트워크 표준군이다.
+- **전기전자공학자협회 802(Institute of Electrical and Electronics Engineers 802, IEEE 802)**: 근거리·도시권 네트워크의 물리·데이터링크 기술을 규정하는 표준 계열이다.
 
 </details>
 
@@ -39,7 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **결정형 네트워크**: 정해진 조건에서 패킷의 최악 도착 시간을 계산하고 제한할 수 있는 네트워크이다.
-- **IEEE 802.1AS**: TSN 참여 장비의 시각과 주파수를 공통 기준에 맞추는 시간 동기 표준이다.
+- **전기전자공학자협회 802.1AS(Institute of Electrical and Electronics Engineers 802.1AS, IEEE 802.1AS)**: TSN 참여 장비의 시각과 주파수를 공통 기준에 맞추는 시간 동기 표준이다.
+- **게이트 제어 목록·중앙 네트워크 구성기(Gate Control List/Centralized Network Configuration, GCL·CNC)**: 큐 게이트 시간표와 스트림 경로·대역폭을 계산하는 중앙 기능이다.
 
 </details>
 
@@ -58,7 +60,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스트림**: 송신자에서 수신자까지 동일한 주기·지연·손실 요구로 전달되는 연속 프레임 흐름이다.
-- **CNC**: 스트림 요구와 토폴로지로 경로·대역폭·게이트 시간표를 계산하는 중앙 구성 기능이다.
+- **중앙 네트워크 구성기(Centralized Network Configuration, CNC)**: 스트림 요구와 토폴로지로 경로·대역폭·게이트 시간표를 계산하는 중앙 구성 기능이다.
+- **시간 민감 네트워킹 브리지·게이트 제어 목록(Time-Sensitive Networking Bridge/Gate Control List, TSN 브리지·GCL)**: 결정형 큐 제어를 실행하는 스위치와 큐별 게이트 시간표이다.
 
 </details>
 
@@ -95,8 +98,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **GCL**: 큐별 전송 게이트를 열고 닫는 시각을 정의한 주기 시간표이다.
+- **게이트 제어 목록(Gate Control List, GCL)**: 큐별 전송 게이트를 열고 닫는 시각을 정의한 주기 시간표이다.
 - **수용 제어**: 새 스트림을 추가해도 기존 스트림의 지연·대역 요구를 지킬 수 있는지 판정하는 기능이다.
+- **중앙 네트워크 구성기·시간 민감 네트워킹(Centralized Network Configuration/Time-Sensitive Networking, CNC·TSN)**: 스트림 요구에 맞춰 결정형 경로와 시간표를 구성하는 기능·표준이다.
 
 </details>
 
@@ -130,8 +134,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TAS·ATS**: TAS는 공통 시간표로 큐 게이트를 제어하고 ATS는 시간 동기 없이 흐름별 전송률을 조정한다.
+- **시간 인식·비동기 트래픽 조정기(Time-Aware Shaper/Asynchronous Traffic Shaper, TAS·ATS)**: TAS는 공통 시간표로 큐 게이트를 제어하고 ATS는 시간 동기 없이 흐름별 전송률을 조정한다.
 - **프레임 선점**: 긴 일반 프레임을 일시 중단하고 긴급 프레임을 먼저 전송해 차단 시간을 줄이는 기능이다.
+- **시간 민감 네트워킹·게이트 제어 목록(Time-Sensitive Networking/Gate Control List, TSN·GCL)**: 결정형 이더넷 표준과 시간 인식 조정의 큐 게이트 시간표이다.
+- **전기전자공학자협회 802.1Qbv(Institute of Electrical and Electronics Engineers 802.1Qbv, IEEE 802.1Qbv)**: 시간 인식 조정기의 게이트 제어를 규정하는 표준이다.
 
 </details>
 
@@ -151,7 +157,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **동기 오차 예산·가드 밴드**: 허용 시계 편차를 경로 장비에 배분하고 예약 게이트 전 보호 시간으로 오정렬을 흡수한다.
-- **FRER**: 서로 다른 경로로 프레임을 복제하고 수신부에서 중복을 제거해 재전송 없이 신뢰성을 높이는 기능이다.
+- **프레임 복제 및 중복 제거(Frame Replication and Elimination for Reliability, FRER)**: 서로 다른 경로로 프레임을 복제하고 수신부에서 중복을 제거해 재전송 없이 신뢰성을 높이는 기능이다.
+- **게이트 제어 목록(Gate Control List, GCL)**: 동기 오차와 스트림 충돌을 고려해 큐별 전송 시각을 정한 목록이다.
 
 </details>
 
@@ -171,6 +178,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **마감시간**: 스트림 프레임이 목적지에 도착해야 하는 최종 시각으로 트래픽 조정 방식 선택의 기준이다.
+- **시간 인식·비동기 트래픽 조정기(Time-Aware Shaper/Asynchronous Traffic Shaper, TAS·ATS)**: 고정 주기·마감과 비주기 버스트에 각각 적합한 조정 방식이다.
 
 </details>
 

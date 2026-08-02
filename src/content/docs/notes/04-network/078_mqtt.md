@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **경량 발행·구독 프로토콜**: MQTT는 브로커가 토픽을 기준으로 메시지를 중계해 제한 장치와 저대역폭 환경을 지원하는 경량 발행·구독 프로토콜이다.
+- **메시지 큐 원격 측정 전송(Message Queuing Telemetry Transport, MQTT)**: 브로커가 토픽을 기준으로 메시지를 중계해 제한 장치와 저대역폭 환경을 지원하는 경량 발행·구독 프로토콜이다.
 
 </details>
 
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **QoS 상충**: QoS 상충은 전달 확인 수준을 높이면 유실 가능성은 줄지만 확인 패킷·상태 저장·지연 비용이 증가하는 관계다.
+- **서비스 품질 상충(Quality of Service Trade-off, QoS 상충)**: 전달 확인 수준을 높이면 유실 가능성은 줄지만 확인 패킷·상태 저장·지연 비용이 증가하는 관계다.
+- **메시지 큐 원격 측정 전송(Message Queuing Telemetry Transport, MQTT)**: 토픽과 브로커로 발행자·구독자를 분리하는 프로토콜이다.
 
 </details>
 
@@ -56,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **세션·전달 저장소**: 세션·전달 저장소는 클라이언트 식별자에 연결한 구독·대기 메시지·미확인 QoS 교환 상태를 보존한다.
+- **세션·전달 저장소(Session/Delivery Store)**: 클라이언트 식별자에 연결한 구독·대기 메시지·미확인 QoS 교환 상태를 보존한다.
+- **서비스 품질(Quality of Service, QoS)**: 메시지 전달 확인 수준과 재전송·저장 비용을 정하는 기준이다.
 
 </details>
 
@@ -93,7 +95,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **4. 토픽 라우팅**: 브로커는 발행 토픽과 구독 필터를 대조하고 구독별 허용 권한과 QoS에 따라 메시지를 전달한다.
+- **토픽 라우팅(Topic Routing)**: 브로커는 발행 토픽과 구독 필터를 대조하고 구독별 허용 권한과 QoS에 따라 메시지를 전달한다.
+- **접근 제어 목록·서비스 품질(Access Control List/Quality of Service, ACL·QoS)**: 토픽별 허용 권한과 메시지 전달 확인 수준을 정하는 기준이다.
 
 </details>
 
@@ -127,7 +130,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **QoS 1**: QoS 1은 메시지를 최소 한 번 전달하므로 확인 응답 유실 시 중복 도착할 수 있어 수신 응용의 멱등 처리가 필요하다.
+- **서비스 품질 1(Quality of Service 1, QoS 1)**: 메시지를 최소 한 번 전달하므로 확인 응답 유실 시 중복 도착할 수 있어 수신 응용의 멱등 처리가 필요하다.
+- **메시지 큐 원격 측정 전송(Message Queuing Telemetry Transport, MQTT)**: QoS 0·1·2로 메시지별 전달 보장 수준을 선택하는 프로토콜이다.
 
 </details>
 
@@ -146,7 +150,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **과다 권한**: 와일드카드 구독의 과다 권한은 한 클라이언트가 필요 범위를 넘어 여러 장치의 토픽을 수신하거나 발행하게 하는 문제다.
+- **와일드카드 과다 권한(Wildcard Excessive Privilege)**: 한 클라이언트가 필요 범위를 넘어 여러 장치의 토픽을 수신하거나 발행하게 하는 문제다.
+- **접근 제어 목록·전송 계층 보안(Access Control List/Transport Layer Security, ACL·TLS)**: 토픽 권한을 제한하고 통신 구간을 보호하는 통제이다.
+- **서비스 품질(Quality of Service, QoS)**: 메시지 가치에 따라 유실·중복과 확인 비용의 균형을 정하는 수준이다.
 
 </details>
 
@@ -165,7 +171,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **QoS 2**: QoS 2는 구간 내 중복 영향이 큰 제어 메시지를 정확히 한 번 전달하지만 확인 절차와 저장 비용이 가장 크다.
+- **서비스 품질 2(Quality of Service 2, QoS 2)**: 구간 내 중복 영향이 큰 제어 메시지를 정확히 한 번 전달하지만 확인 절차와 저장 비용이 가장 크다.
+- **메시지 큐 원격 측정 전송(Message Queuing Telemetry Transport, MQTT)**: 데이터의 유실·중복 위험에 맞춰 전달 품질을 선택하는 프로토콜이다.
 
 </details>
 

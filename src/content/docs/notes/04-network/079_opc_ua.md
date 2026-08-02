@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **상호운용 표준**: OPC UA는 산업 데이터의 값·자료형·단위·관계와 서비스·보안을 함께 규정하는 상호운용 표준이다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 산업 데이터의 값·자료형·단위·관계와 서비스·보안을 함께 규정하는 상호운용 표준이다.
 
 </details>
 
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **계층 보안**: 계층 보안은 애플리케이션 인증서로 프로그램 신원을 확인하고 세션의 사용자 역할로 노드별 작업 권한을 제한한다.
+- **계층 보안(Layered Security)**: 애플리케이션 인증서로 프로그램 신원을 확인하고 세션의 사용자 역할로 노드별 작업 권한을 제한한다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 의미 모델·표준 서비스·보안을 통합한 산업 통신 표준이다.
 
 </details>
 
@@ -56,7 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **정보 모델·주소 공간**: 정보 모델·주소 공간은 설비의 원시 값에 노드·속성·참조를 부여해 상위 시스템이 같은 의미로 해석하게 한다.
+- **정보 모델·주소 공간(Information Model/Address Space)**: 설비의 원시 값에 노드·속성·참조를 부여해 상위 시스템이 같은 의미로 해석하게 한다.
+- **프로그래머블 논리 제어기(Programmable Logic Controller, PLC)**: 현장의 센서 값을 수집하고 제어 논리를 실행하는 산업 제어 장치이다.
+- **개방형 플랫폼 통신 통합 아키텍처 발행·구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 데이터 집합을 생산자와 소비자 사이에 비결합 방식으로 배포하는 모델이다.
 
 </details>
 
@@ -92,7 +95,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **2. 보안 채널 생성**: 클라이언트와 서버는 신뢰된 애플리케이션 인증서와 보안 정책을 검증해 메시지 무결성·기밀성 채널을 만든다.
+- **보안 채널 생성(Secure Channel Establishment)**: 클라이언트와 서버는 신뢰된 애플리케이션 인증서와 보안 정책을 검증해 메시지 무결성·기밀성 채널을 만든다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 인증서 기반 보안 채널과 역할 기반 세션을 제공하는 산업 통신 표준이다.
 
 </details>
 
@@ -127,7 +131,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **발행·구독**: 발행·구독은 데이터 집합을 다수 소비자에게 비결합 방식으로 주기 배포해 서버별 요청·응답 부하를 줄인다.
+- **발행·구독(Publish-Subscribe, PubSub)**: 데이터 집합을 다수 소비자에게 비결합 방식으로 주기 배포해 서버별 요청·응답 부하를 줄인다.
+- **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 클라이언트·서버와 PubSub 통신 모델을 제공하는 산업 표준이다.
 
 </details>
 
@@ -146,7 +151,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **통신 중단**: 통신 중단은 애플리케이션 인증서가 만료되거나 신뢰 목록이 갱신되지 않아 보안 채널을 수립하지 못할 때 발생한다.
+- **인증서 기반 통신 중단(Certificate-Induced Communication Failure)**: 애플리케이션 인증서가 만료되거나 신뢰 목록이 갱신되지 않아 보안 채널을 수립하지 못하는 문제다.
+- **제조 실행 시스템(Manufacturing Execution System, MES)**: 생산 계획과 현장 설비 실적·품질 정보를 연계해 제조 활동을 관리하는 시스템이다.
+- **프로그래머블 논리 제어기·발행·구독(Programmable Logic Controller/Publish-Subscribe, PLC·PubSub)**: 현장 제어 장치와 데이터를 다수 소비자에게 비결합 배포하는 모델이다.
 
 </details>
 
@@ -165,7 +172,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **컴패니언 명세**: 컴패니언 명세는 산업별 장비·데이터의 이름·단위·속성·관계를 공통 OPC UA 정보 모델로 정의한다.
+- **컴패니언 명세(Companion Specification)**: 산업별 장비·데이터의 이름·단위·속성·관계를 공통 OPC UA 정보 모델로 정의한다.
+- **개방형 플랫폼 통신 통합 아키텍처 발행·구독(Open Platform Communications Unified Architecture Publish-Subscribe, OPC UA PubSub)**: 공통 의미의 데이터 집합을 다대다로 배포하는 방식이다.
 
 </details>
 

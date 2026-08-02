@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CAN**: 차량 ECU가 공유 회선에서 프레임 식별자로 전송 우선순위를 중재하는 차량용 버스 통신 규격이다.
+- **제어기 영역 네트워크(Controller Area Network, CAN)**: 차량 ECU가 공유 회선에서 프레임 식별자로 전송 우선순위를 중재하는 차량용 버스 통신 규격이다.
+- **전자제어장치(Electronic Control Unit, ECU)**: 차량의 센서 입력을 처리하고 제어 명령을 실행하는 제어기이다.
 
 </details>
 
@@ -40,6 +41,7 @@ extra:
 
 - **비파괴 중재**: 동시 송신에서 낮은 우선순위 노드만 중단하고 승자의 프레임은 손상하지 않는 방식이다.
 - **버스 오프**: 오류 카운터가 한계를 넘은 노드를 송신에서 격리해 버스 영향을 차단하는 상태이다.
+- **식별자(Identifier, ID)**: CAN 프레임의 메시지 종류와 중재 우선순위를 나타내는 값이다.
 
 </details>
 
@@ -56,8 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CAN 송수신기**: ECU의 논리 비트와 차동 버스 전압을 상호 변환하는 회로이다.
+- **제어기 영역 네트워크 송수신기(Controller Area Network Transceiver, CAN 송수신기)**: ECU의 논리 비트와 차동 버스 전압을 상호 변환하는 회로이다.
 - **종단 저항**: 공유 회선 양 끝에서 신호 반사를 줄여 차동 파형을 유지하는 저항이다.
+- **전자제어장치(Electronic Control Unit, ECU)**: 메시지를 생성하고 수신 프레임을 필터링하는 차량 제어기이다.
 
 </details>
 
@@ -90,7 +93,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **우성 비트**: 열성 비트와 동시에 전송되면 버스 값을 0으로 결정해 중재 우위를 얻는 논리 비트이다.
-- **CRC·ACK**: CRC는 전송 오류를 검출하고 ACK는 하나 이상의 수신 노드가 정상 수신했음을 알린다.
+- **순환 중복 검사·확인 응답(Cyclic Redundancy Check/Acknowledgment, CRC·ACK)**: CRC는 전송 오류를 검출하고 ACK는 하나 이상의 수신 노드가 정상 수신했음을 알린다.
+- **제어기 영역 네트워크·전자제어장치·식별자(Controller Area Network/Electronic Control Unit/Identifier, CAN·ECU·ID)**: 공유 차량 버스, 차량 제어기와 프레임 중재 값을 나타낸다.
 
 </details>
 
@@ -123,8 +127,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CAN CC·FD·XL**: 각각 최대 8바이트, 64바이트, 2048바이트의 데이터 필드를 지원하는 CAN 세대이다.
-- **구간 가속**: CAN FD가 중재 구간 뒤 데이터 구간의 비트율을 높여 전송 시간을 줄이는 기능이다.
+- **클래식·가변 데이터율·초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC·FD·XL)**: 각각 최대 8바이트, 64바이트, 2048바이트의 데이터 필드를 지원하는 CAN 세대이다.
+- **구간 가속(Bit-Rate Switching)**: CAN FD가 중재 구간 뒤 데이터 구간의 비트율을 높여 전송 시간을 줄이는 기능이다.
 
 </details>
 
@@ -145,6 +149,7 @@ sequenceDiagram
 
 - **우선순위 기아**: 높은 우선순위 프레임이 반복되어 낮은 우선순위 프레임 전송이 계속 지연되는 현상이다.
 - **최악 응답 시간**: 가장 불리한 중재·재전송 조건에서 프레임 전송을 완료하기까지 걸리는 최대 시간이다.
+- **전자제어장치·식별자(Electronic Control Unit/Identifier, ECU·ID)**: 차량 제어기와 프레임의 중재 우선순위 값이다.
 
 </details>
 
@@ -163,7 +168,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CAN 세대 선택**: 제어 주기·데이터 크기·대역폭·기존 ECU 호환성을 비교해 CC·FD·XL을 결정하는 과정이다.
+- **제어기 영역 네트워크 세대 선택(Controller Area Network Generation Selection, CAN 세대 선택)**: 제어 주기·데이터 크기·대역폭·기존 ECU 호환성을 비교해 CC·FD·XL을 결정하는 과정이다.
+- **클래식·가변 데이터율·초장형 제어기 영역 네트워크(Classical Controller Area Network/Controller Area Network Flexible Data-Rate/Controller Area Network Extra Long, CAN CC·FD·XL)**: 데이터 크기와 속도 요구에 따라 선택하는 CAN 세대이다.
 
 </details>
 

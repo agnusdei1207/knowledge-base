@@ -23,6 +23,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스푸핑**: 통신 상대가 신뢰하는 이름·주소·식별자를 위조해 패킷 경로나 신원 판단을 속이는 공격이다.
+- **주소 결정·인터넷 프로토콜·도메인 이름 시스템(Address Resolution Protocol/Internet Protocol/Domain Name System, ARP·IP·DNS)**: 링크 주소 해석, 네트워크 전달과 도메인 이름 해석을 담당하는 프로토콜이다.
 
 </details>
 
@@ -38,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **계층 검증**: ARP 바인딩·IP 역경로·DNS 서명처럼 위조 대상 계층에 맞는 신뢰 기준을 대조하는 방식이다.
+- **계층 검증(Layer-Specific Validation)**: 주소 결정 프로토콜(Address Resolution Protocol, ARP) 바인딩·인터넷 프로토콜(Internet Protocol, IP) 역경로·도메인 이름 시스템(Domain Name System, DNS) 서명처럼 위조 대상 계층에 맞는 신뢰 기준을 대조하는 방식이다.
 - **캐시 오염**: 위조 주소 정보를 임시 저장소에 넣어 이후 요청도 잘못된 대상으로 보내는 상태이다.
 
 </details>
@@ -128,7 +129,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ARP·IP·DNS 스푸핑**: 각각 IP-MAC 바인딩, 패킷 출발지 주소, 도메인 해석 결과를 위조하는 공격이다.
+- **주소 결정·인터넷 프로토콜·도메인 이름 시스템 스푸핑(Address Resolution Protocol/Internet Protocol/Domain Name System Spoofing, ARP·IP·DNS 스푸핑)**: 각각 IP-MAC 바인딩, 패킷 출발지 주소, 도메인 해석 결과를 위조하는 공격이다.
+- **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 인터페이스를 식별하는 주소이다.
 - **중간자·반사 공격**: 중간자는 통신 사이에 개입하고 반사는 위조 피해자 주소로 서버 응답을 집중시킨다.
 
 </details>
@@ -150,8 +152,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DAI·uRPF**: DAI는 DHCP 바인딩으로 ARP를 검사하고 uRPF는 출발지 역경로와 수신 위치를 대조한다.
-- **DNSSEC**: 전자서명으로 DNS 응답의 출처와 변조 여부를 검증하는 확장 규격이다.
+- **동적 ARP 검사·유니캐스트 역경로 전달(Dynamic ARP Inspection/Unicast Reverse Path Forwarding, DAI·uRPF)**: DAI는 DHCP 바인딩으로 ARP를 검사하고 uRPF는 출발지 역경로와 수신 위치를 대조한다.
+- **도메인 이름 시스템 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명으로 DNS 응답의 출처와 변조 여부를 검증하는 확장 규격이다.
+- **동적 호스트 구성 프로토콜·현행 모범 사례 38(Dynamic Host Configuration Protocol/Best Current Practice 38, DHCP·BCP 38)**: 주소·바인딩을 자동 할당하는 프로토콜과 경계에서 위조 출발지 주소를 차단하는 지침이다.
 
 </details>
 
@@ -170,7 +173,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BCP 38**: 네트워크 경계에서 출발지 주소를 검증해 위조 패킷의 유출입을 막는 모범 운영 지침이다.
+- **현행 모범 사례 38(Best Current Practice 38, BCP 38)**: 네트워크 경계에서 출발지 주소를 검증해 위조 패킷의 유출입을 막는 모범 운영 지침이다.
+- **동적 ARP 검사·유니캐스트 역경로 전달·DNS 보안 확장(Dynamic ARP Inspection/Unicast Reverse Path Forwarding/Domain Name System Security Extensions, DAI·uRPF·DNSSEC)**: 링크·네트워크·이름 해석 계층의 위조를 각각 검증하는 통제이다.
 
 </details>
 
