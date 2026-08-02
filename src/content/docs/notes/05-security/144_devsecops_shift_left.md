@@ -100,15 +100,13 @@ block-beta
 sequenceDiagram
   participant T as 제품팀
   participant P as 보안 파이프라인
-  participant G as 위험 게이트
   participant O as 운영 환경
-  participant B as 보안 백로그
   T->>P: 1. 변경·위협·데이터 흐름 분석
-  P->>G: 2. 코드·의존성·IaC 자동 검증
-  G->>O: 3. 위험·예외·출처 기반 배포
+  P->>P: 2. 코드·의존성·IaC 자동 검증
+  P->>O: 3. 위험·예외·출처 기반 배포
   loop 운영 피드백
-    O->>B: 4. 행위·사고·취약점 관측
-    B->>T: 5. 요구·정책·시험 재발 방지
+    O->>T: 4. 행위·사고·취약점 관측
+    T->>P: 5. 요구·정책·시험 재발 방지
   end
 ```
 

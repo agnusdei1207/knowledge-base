@@ -100,14 +100,13 @@ sequenceDiagram
   participant M as 회원기관
   participant G as 거버넌스
   participant A as 분석센터
-  participant D as 배포체계
   participant R as 회원 CSIRT
   M->>G: CTI·출처·공유조건 제출
   G->>G: 1. 출처·공유조건 검증
   G->>A: 2. TLP·비식별·법적근거 확인
   A->>A: 3. 신뢰도·산업 영향·시효 분석
-  A->>D: 4. STIX·TAXII 배포객체 생성
-  D-->>R: TLP 범위 내 제한 배포
+  A->>A: 4. STIX·TAXII 배포객체 생성
+  A-->>R: TLP 범위 내 제한 배포
   R->>A: 적중·오탐·철회 결과 전달
   A->>A: 5. 품질·유효상태 갱신
 ```

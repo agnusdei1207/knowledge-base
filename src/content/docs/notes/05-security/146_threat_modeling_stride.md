@@ -96,12 +96,11 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant O as 모델 소유자
-  participant A as 아키텍처팀
-  participant S as 보안팀
+  participant S as 보안 아키텍처팀
   participant V as 검증팀
   participant R as 위험 책임자
-  O->>A: 1. 범위·자산·가정 정의
-  A->>S: 2. DFD·신뢰 경계 분해
+  O->>S: 1. 범위·자산·가정 정의
+  S->>S: 2. DFD·신뢰 경계 분해
   S->>V: 3. STRIDE·공격지식 위협 식별
   V->>R: 4. 가능성·영향·대응 검증
   R->>R: 5. 잔여위험 승인·모델 갱신

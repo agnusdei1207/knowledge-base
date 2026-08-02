@@ -97,12 +97,11 @@ block-beta
 sequenceDiagram
   participant M as 경영진
   participant A as 평가팀
-  participant O as 영역 책임자
-  participant R as 위험 책임자
+  participant R as 영역·위험 책임자
   participant I as 개선팀
   M->>A: 1. 평가 목적·범위·모델 선정
-  A->>O: 2. 표본 기간·실행 증거 수집
-  O->>R: 3. 현재 수준·목표 프로파일 판정
+  A->>R: 2. 표본 기간·실행 증거 수집
+  R->>R: 3. 현재 수준·목표 프로파일 판정
   R->>I: 4. 위험·의존성 기반 로드맵
   I->>I: 5. 성과 측정·잔여위험 재평가
   I-->>M: 개선 효과·투자 결과 보고

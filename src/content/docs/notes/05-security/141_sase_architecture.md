@@ -97,17 +97,15 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant U as 사용자·지점
-  participant C as 연결 제어
-  participant P as 정책 결정
-  participant E as SSE 검사
+  participant S as SASE 서비스
   participant A as 대상 응용
-  U->>C: 신원·기기·응용 접근 요청
-  C->>C: 1. 지연·가용성 기반 PoP 선택
-  C->>P: 2. 맥락·위험·데이터 정책 판정
-  P->>E: 3. SSE 검사 정책 적용
-  E->>A: 4. SD-WAN 경로·접근 집행
-  A->>P: 세션 행위·장애 정보 전달
-  P->>P: 5. 세션 위험 지속 평가
+  U->>S: 신원·기기·응용 접근 요청
+  S->>S: 1. 지연·가용성 기반 PoP 선택
+  S->>S: 2. 맥락·위험·데이터 정책 판정
+  S->>S: 3. SSE 검사 정책 적용
+  S->>A: 4. SD-WAN 경로·접근 집행
+  A->>S: 세션 행위·장애 정보 전달
+  S->>S: 5. 세션 위험 지속 평가
   A-->>U: 허용 응용 응답
 ```
 

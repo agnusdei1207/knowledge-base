@@ -98,13 +98,12 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant U as 사용자
-  participant C as 분류 엔진
-  participant P as 정책 엔진
+  participant P as 분류·정책 엔진
   participant R as DRM 집행
   participant D as DLP 집행
-  U->>C: 데이터 사용·반출 요청
-  C->>C: 1. 데이터 내용·소유자 식별
-  C->>P: 2. 등급·신원·업무 정책 조회
+  U->>P: 데이터 사용·반출 요청
+  P->>P: 1. 데이터 내용·소유자 식별
+  P->>P: 2. 등급·신원·업무 정책 조회
   P->>R: 3. 열람·편집·출력 권한 집행
   R->>D: 보호 데이터·반출 맥락 전달
   D->>D: 4. 복사·전송 경로 검사
