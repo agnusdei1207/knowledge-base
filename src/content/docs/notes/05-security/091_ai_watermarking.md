@@ -98,14 +98,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 콘텐츠 생성자
-    participant I as 삽입기
     participant C as 유통 채널
-    participant D as 검출기
-    participant V as 출처 검증기
-    O->>I: 1. 식별 메시지·키 설정
-    I->>C: 2. 신호 삽입·품질 확인
-    C->>D: 3. 압축·편집 콘텐츠 전달
-    D->>V: 4. 검출 점수·임계값 판정
+    participant V as 워터마크 검증기
+    O->>O: 1. 식별 메시지·키 설정
+    O->>C: 2. 신호 삽입·품질 확인
+    C->>V: 3. 압축·편집 콘텐츠 전달
+    V->>V: 4. 검출 점수·임계값 판정
     V->>V: 5. 서명 출처·진위 교차 확인
     V-->>O: 출처 검증 결과
 ```

@@ -98,17 +98,14 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant U as 사용자
-    participant G as 인증 게이트웨이
-    participant A as 입장 제어기
-    participant S as 공정 스케줄러
-    participant B as 예산 차단기
-    U->>G: 추론 요청
-    G->>G: 1. 신원·테넌트 사용량 연결
-    G->>A: 2. 요청 비용·쿼터 산정
-    A->>S: 3. 승인·대기·거부 결정
-    S->>B: 4. 공정 실행·사용량 누적
-    B->>B: 5. 예산·회로 차단 판정
-    B-->>U: 완료·축소·중단 결과
+    participant S as 추론 서비스
+    U->>S: 추론 요청
+    S->>S: 1. 신원·테넌트 사용량 연결
+    S->>S: 2. 요청 비용·쿼터 산정
+    S->>S: 3. 승인·대기·거부 결정
+    S->>S: 4. 공정 실행·사용량 누적
+    S->>S: 5. 예산·회로 차단 판정
+    S-->>U: 완료·축소·중단 결과
 ```
 
 **동작 원리**

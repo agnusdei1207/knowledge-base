@@ -84,12 +84,11 @@ extra:
 ```mermaid
 sequenceDiagram
     participant O as 서비스 소유자
-    participant T as 위협 모델러
-    participant C as 통제 설계자
+    participant C as 위협·통제 설계자
     participant R as 레드팀
     participant G as 위험 관리자
-    O->>T: 1. 자산·신뢰 경계 확정
-    T->>C: 2. LLM01~LLM10 시나리오 매핑
+    O->>C: 1. 자산·신뢰 경계 확정
+    C->>C: 2. LLM01~LLM10 시나리오 매핑
     C->>R: 3. 예방·탐지·복구 통제 구현
     R->>G: 4. 실제 공격·잔여 위험 평가
     G->>G: 5. 우선순위·통제 갱신

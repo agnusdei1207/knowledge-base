@@ -101,16 +101,15 @@ sequenceDiagram
     participant A as 에이전트
     participant P as 정책 집행점
     participant T as 도구
-    participant R as 감사·복구
     U->>A: 목적·권한·한도
     A->>P: 1. 계획·도구 호출 제안
     P->>U: 고위험 행동 재승인 요청
     U-->>P: 승인·거부
     P->>P: 2. 거래 결속·정책 검증
     P->>T: 3. 제한 토큰 실행
-    T->>R: 4. 실행 결과·감사 기록
-    R->>R: 5. 취소·보상 처리
-    R-->>U: 실행·복구 결과
+    T-->>A: 4. 실행 결과·감사 기록
+    A->>A: 5. 취소·보상 처리
+    A-->>U: 실행·복구 결과
 ```
 
 **동작 원리**

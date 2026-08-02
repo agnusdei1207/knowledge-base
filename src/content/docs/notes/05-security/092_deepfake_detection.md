@@ -100,17 +100,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant U as 검증 요청자
-    participant N as 입력 정규화
-    participant D as 다중 탐지기
-    participant P as 출처 검증기
-    participant E as 정책 엔진
-    U->>N: 검증 미디어
-    N->>N: 1. 채널·코덱 정규화
-    N->>D: 2. 합성·생체·모달 분석
-    D->>P: 미디어·탐지 점수
-    P->>P: 3. 서명 출처 검증
-    P->>E: 4. 다중 증거 결합
-    E-->>U: 허용·경고·추가 인증
+    participant D as 딥페이크 검증 체계
+    U->>D: 검증 미디어
+    D->>D: 1. 채널·코덱 정규화
+    D->>D: 2. 합성·생체·모달 분석
+    D->>D: 3. 서명 출처 검증
+    D->>D: 4. 다중 증거 결합
+    D-->>U: 허용·경고·추가 인증
 ```
 
 **동작 원리**

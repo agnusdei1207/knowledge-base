@@ -98,16 +98,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant P as 제공자
-    participant Q as 격리 반입소
-    participant V as 검증 체계
-    participant R as 승인 저장소
+    participant R as AI 자산 검증·저장소
     participant O as 운영자
-    P->>Q: 외부 AI 자산
-    Q->>Q: 1. 제공자·버전·해시 등록
-    Q->>Q: 2. 안전 파싱·격리 적재
-    Q->>V: 격리 자산
-    V->>V: 3. 출처·행동 검증
-    V->>R: 4. 승인 자산 승격
+    P->>R: 외부 AI 자산
+    R->>R: 1. 제공자·버전·해시 등록
+    R->>R: 2. 안전 파싱·격리 적재
+    R->>R: 3. 출처·행동 검증
+    R->>R: 4. 승인 자산 승격
     R->>O: AI-BOM·배포 계보
     O->>R: 이상 자산 통지
     R->>R: 5. 영향 추적·회수

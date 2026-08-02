@@ -100,12 +100,11 @@ sequenceDiagram
     participant A as 공격자
     participant P as 학습 파이프라인
     participant M as 후보 모델
-    participant E as 트리거 평가기
-    participant G as 승격 게이트
+    participant G as 평가·승격 게이트
     A->>P: 1. 트리거·목표 행동 주입
     P->>M: 2. 오염 규칙 학습
-    M->>E: 3. 정상·트리거 출력
-    E->>G: 4. 정확도·ASR 판정
+    M->>G: 3. 정상·트리거 출력
+    G->>G: 4. 정확도·ASR 판정
     G->>G: 5. 승격·차단 결정
     G-->>P: 판정·복구 대상
 ```

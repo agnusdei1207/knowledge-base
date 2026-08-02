@@ -99,12 +99,11 @@ block-beta
 sequenceDiagram
     participant O as 서비스 소유자
     participant R as 레드팀
-    participant H as 검증 하네스
     participant D as 방어팀
     participant G as 위험 관리자
     O->>R: 1. 자산·범위·중단 조건 합의
-    R->>H: 2. 공격 시나리오 안전 실행
-    H->>D: 3. 재현 증거·원인 전달
+    R->>R: 2. 공격 시나리오 안전 실행
+    R->>D: 3. 재현 증거·원인 전달
     D->>G: 4. 완화 구현·잔여 위험 평가
     G->>G: 5. 변형 회귀·배포 결정
     G-->>O: 배포 판정
