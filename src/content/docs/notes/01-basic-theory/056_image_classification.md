@@ -95,16 +95,15 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant T as 추론 제어기
     participant I as 입력 전처리기
     participant B as 특징 추출 백본
     participant G as 특징 집계
     participant H as 분류 헤드
-    T->>I: 입력 이미지
+    I->>I: 입력 이미지 정규화
     I->>B: 1. 입력 텐서
     B->>G: 2. 계층적 특징 맵
     G->>H: 3. 집계 특징 벡터
-    H-->>T: 클래스 점수•레이블
+    H->>H: 클래스 점수•레이블 확정
 ```
 
 **동작 원리**

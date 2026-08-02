@@ -97,14 +97,13 @@ block
 sequenceDiagram
     participant A as 송신자
     participant O as OAEP 처리기
-    participant X as 공개키 연산기
-    participant H as 개인키 연산기•저장소
+    participant K as RSA 키 연산기
     participant B as 수신자
     A->>O: 평문
-    O->>X: 1. OAEP 인코딩 블록
-    X-->>B: 암호문
-    B->>H: 개인키 복호 요청
-    H->>O: 2. 복호 블록
+    O->>K: 1. OAEP 인코딩 블록
+    K-->>B: 공개키 연산 암호문
+    B->>K: 개인키 복호 요청
+    K->>O: 2. 복호 블록
     O->>O: 3. OAEP 패딩 검증
     O-->>B: 평문
 ```

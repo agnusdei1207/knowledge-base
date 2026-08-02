@@ -97,19 +97,16 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant C as 컴파일 제어기
     participant FE as 전단부
     participant ST as 심볼 테이블
     participant O as 최적화기
     participant BE as 후단부
-    C->>FE: 1. 소스 프로그램
+    FE->>FE: 1. 소스 프로그램 분석
     FE->>ST: 2. 식별자•타입•범위
     ST-->>FE: 타입•범위•주소 정보
-    FE->>C: 3. 검증된 중간 표현
-    C->>O: 중간 표현
-    O->>C: 4. 최적화 중간 표현
-    C->>BE: 최적화 중간 표현
-    BE-->>C: 5. 목적 코드
+    FE->>O: 3. 검증된 중간 표현
+    O->>BE: 4. 최적화 중간 표현
+    BE->>BE: 5. 목적 코드 생성
 ```
 
 **동작 원리**

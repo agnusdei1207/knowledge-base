@@ -95,12 +95,10 @@ block
 ```mermaid
 sequenceDiagram
     participant C as 분석 제어기
-    participant R as 점화식
     participant M as 마스터 정리
     participant A as 대체 분석기
     participant S as 스택 깊이 분석기
-    C->>R: 1. 호출 수•축소율•결합 비용
-    R-->>C: 마스터 정리 적용성 검증
+    C->>C: 1. 점화식 구성•적용성 검증
     alt 균등 분할 형식•조건 충족
         C->>M: 2. 점화식•기준 지수
         M-->>C: 점근 시간 복잡도
@@ -114,7 +112,7 @@ sequenceDiagram
 
 **동작 원리**
 
-- **1. 호출 수•축소율•결합 비용**: $a$•$b$•$f(n)$ 점화식 구성
+- **1. 점화식 구성•적용성 검증**: 호출 수 $a$•축소율 $b$•결합 비용 $f(n)$ 확인
 - **2. 점화식•기준 지수**: 성장률 비교로 Case 판정
 - **3. 비정형 점화식**: 재귀 트리•대입법 적용 대상
 - **4. 최대 재귀 깊이**: 호출 스택의 점근 공간 산정
