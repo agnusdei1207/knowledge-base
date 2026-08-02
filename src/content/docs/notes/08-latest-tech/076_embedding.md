@@ -103,12 +103,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant P as 전처리기
-  participant E as 인코더
+  participant E as 전처리·인코더
   participant O as 풀링기
   participant R as 벡터 규격 저장소
   participant S as 유사도 계산기
-  P->>E: 1. 토큰 규격 입력
+  E->>E: 1. 토큰 규격 입력
   E->>O: 2. 문맥 토큰 벡터
   O->>R: 3. 고정 길이 벡터·규격
   R->>S: 4. 동일 규격 비교 요청

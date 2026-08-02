@@ -102,12 +102,11 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant R as 1차 검색기
-  participant B as 입력 구성기
-  participant N as 신경망 재순위기
+  participant N as 입력·신경망 재순위기
   participant S as 점수 정렬기
   participant P as 반환 정책기
-  R->>B: 1. Top-k 후보 집합
-  B->>N: 2. 질의·문서 결합 입력
+  R->>N: 1. Top-k 후보 집합
+  N->>N: 2. 질의·문서 결합 입력
   N->>S: 3. 후보별 관련성 점수
   S->>P: 4. 재정렬 후보 목록
   P-->>R: 반환 한도 내 상위 문서

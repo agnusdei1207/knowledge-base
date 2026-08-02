@@ -102,14 +102,12 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant P as 구조 파서
-  participant B as 경계 정책기
-  participant S as 크기 정책기
-  participant O as 중첩 정책기
+  participant C as 청크 정책기
   participant M as 메타데이터 기록기
-  P->>B: 1. 문서 계층·후보 단위
-  B->>S: 2. 의미 경계 후보
-  S->>O: 3. 크기 조건 충족 청크
-  O->>M: 4. 중첩 적용 청크
+  P->>C: 1. 문서 계층·후보 단위
+  C->>C: 2. 의미 경계 후보
+  C->>C: 3. 크기 조건 충족 청크
+  C->>M: 4. 중첩 적용 청크
   M-->>P: 원문 참조 포함 청크 집합
 ```
 

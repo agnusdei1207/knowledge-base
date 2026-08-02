@@ -106,13 +106,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant E as 평가기
-  participant O as 관측기
+  participant E as 평가·관측기
   participant P as 형식 설계기
   participant Q as 변환기
   participant H as 실행 장치
-  E->>O: 1. 품질·자원 기준 설정
-  O->>P: 2. 대표 분포 관측
+  E->>E: 1. 품질·자원 기준 설정
+  E->>P: 2. 대표 분포 관측
   P->>Q: 3. 형식·매개변수 결정
   Q->>H: 4. 양자화·커널 실행
   H-->>E: 5. 품질·자원 검증

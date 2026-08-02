@@ -100,12 +100,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant C as 구성기
-    participant P as 소프트 프롬프트
+    participant P as 구성·소프트 프롬프트
     participant B as 동결 백본
     participant L as 과업 손실기
     participant R as 실행 관리자
-    C->>P: 1. 가상 토큰 길이·차원 초기화
+    P->>P: 1. 가상 토큰 길이·차원 초기화
     P->>B: 2. 가상·실제 임베딩 결합
     B->>L: 3. 동결 모델 과업 출력
     L->>P: 4. 가상 토큰만 갱신

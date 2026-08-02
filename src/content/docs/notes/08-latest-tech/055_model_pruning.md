@@ -103,13 +103,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant E as 평가기
-    participant S as 스케줄러
+    participant E as 평가·스케줄러
     participant P as 가지치기 변환기
     participant T as 학습기
     participant R as 목표 런타임
-    E->>S: 1. 기준 품질 측정
-    S->>P: 2. 중요도 점수 산정
+    E->>E: 1. 기준 품질 측정
+    E->>P: 2. 중요도 점수 산정
     P->>T: 3. 희소 패턴 적용
     T->>R: 4. 미세조정 수행
     R-->>E: 5. 품질·지연 검증

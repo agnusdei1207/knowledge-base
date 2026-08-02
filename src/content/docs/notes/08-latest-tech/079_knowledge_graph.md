@@ -102,16 +102,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant E as 개체 저장소
-  participant R as 관계 저장소
+  participant G as 개체·관계 저장소
   participant S as 스키마·온톨로지
   participant P as 출처·시점 저장소
   participant Q as 그래프 질의기
-  E->>R: 1. 식별 개체·관계 후보
-  R->>S: 2. 트리플·속성 검증 요청
+  G->>G: 1. 식별 개체·관계 후보
+  G->>S: 2. 트리플·속성 검증 요청
   S->>P: 3. 검증 사실 제공
-  Q->>R: 4. 관계 경로 질의
-  R-->>Q: 출처 포함 경로·파생 사실
+  Q->>G: 4. 관계 경로 질의
+  G-->>Q: 출처 포함 경로·파생 사실
 ```
 
 **동작 원리**

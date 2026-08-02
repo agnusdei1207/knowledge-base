@@ -102,12 +102,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant S as 텍스트·출처
-  participant X as 추출기
+  participant X as 원문·관계 추출기
   participant G as 그래프 저장소
   participant C as 요약기
   participant R as 검색기
-  S->>X: 1. 원문·출처 제공
+  X->>X: 1. 원문·출처 확인
   X->>G: 2. 개체·관계 후보 제공
   G->>C: 3. 그래프·커뮤니티 제공
   R->>G: 4. 지역·전역 검색 요청
@@ -116,7 +115,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **원문·출처 제공**: 개체·관계의 **그래프 후보** 추출
+1. **원문·출처 확인**: 개체·관계의 **그래프 후보** 추출
 2. **개체·관계 후보 제공**: 별칭·동명이인을 구분한 **관계 연결**
 3. **그래프·커뮤니티 제공**: 집단별 **전역 주제** 요약
 4. **지역·전역 검색 요청**: 질의 범위에 따른 **탐색 경로** 선택

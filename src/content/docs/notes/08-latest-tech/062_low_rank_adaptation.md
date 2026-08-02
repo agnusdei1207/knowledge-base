@@ -104,16 +104,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 업무 책임자
-    participant C as LoRA 구성기
+    participant C as 업무·LoRA 구성기
     participant M as 기반 모델
     participant T as 학습기
     participant R as 실행 관리자
-    O->>C: 품질·메모리 조건 정의
+    C->>C: 품질·메모리 조건 정의
     C->>M: 1. 대상 선형층 선택
     M->>T: 2. 랭크·스케일·초기화 설정
     T->>R: 3. 원본 동결·A·B 갱신
-    R-->>O: 병합·동적 적재 검증
+    R-->>C: 병합·동적 적재 검증
 ```
 
 **동작 원리**

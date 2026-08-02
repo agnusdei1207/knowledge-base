@@ -97,16 +97,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 업무 책임자
-    participant C as PEFT 구성기
+    participant C as 업무·PEFT 구성기
     participant B as 기반 모델
     participant T as 학습기
     participant R as 실행 관리자
-    O->>C: 품질·메모리·전환 조건 정의
+    C->>C: 품질·메모리·전환 조건 정의
     C->>B: 1. 방식·대상 층·크기 선택
     B->>T: 2. 기반 동결·학습 모듈 주입
     T->>R: 3. 선택 매개변수 갱신
-    R-->>O: 병합·동적 적재 검증
+    R-->>C: 병합·동적 적재 검증
 ```
 
 **동작 원리**
