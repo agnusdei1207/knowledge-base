@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **인공지능 가속기(AI Accelerator)**: 신경망의 반복적인 행렬·벡터 연산을 범용 CPU보다 효율적으로 처리하는 장치이다.
+- **인공지능 가속기(Artificial Intelligence Accelerator, AI 가속기)**: 신경망의 반복적인 행렬·벡터 연산을 범용 중앙 처리 장치(Central Processing Unit, CPU)보다 효율적으로 처리하는 장치이다.
 - **워크로드 특성(Workload Characteristics)**: 연산 종류와 병렬성, 메모리 이동, 변경 주기 및 배포 물량을 포함한 작업의 성질이다.
 - **장치 선택 체계(Device-selection Framework)**: 목표 성능과 전력 및 비용 조건을 기준으로 후보 가속기를 비교하는 절차이다.
 
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **지원 연산·메모리 병목**으로 실효 성능 평가
-- **지연·처리량·전력**을 목표 부하에서 비교
-- **개발비·운영비·물량**으로 수명주기 비용 평가
+- 실효 성능을 결정하는 **지원 연산·메모리 병목**
+- 목표 부하에서 비교하는 **지연·처리량·전력**
+- 수명주기 비용을 결정하는 **개발비·운영비·물량**
 
 #### 한줄 요약
 
@@ -58,8 +58,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **컴파일러·런타임(Compiler·Runtime)**: 모델을 장치 코드로 변환하고 실행 순서와 버퍼 및 장치 전환을 관리하는 소프트웨어이다.
-- **호스트 CPU(Host CPU)**: 동적 분기와 전후처리 및 가속기가 지원하지 않는 연산을 실행하는 프로세서이다.
+- **호스트 중앙 처리 장치(Host Central Processing Unit, 호스트 CPU)**: 동적 분기와 전후처리 및 가속기가 지원하지 않는 연산을 실행하는 프로세서이다.
 - **인터커넥트(Interconnect)**: CPU와 가속기 및 메모리 사이에서 텐서와 제어 신호를 전달하는 연결이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)·신경망 처리 장치(Neural Processing Unit, NPU)·필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)·주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 병렬·전용·재구성·고정 회로 연산을 담당하는 가속기이다.
 
 </details>
 
@@ -92,7 +93,7 @@ block
 
 - **실행 계획(Execution Plan)**: 모델 연산의 순서와 각 연산을 실행할 장치를 기록한 런타임 정보이다.
 - **가속기 서브그래프(Accelerator Subgraph)**: 선택한 가속기가 연속하여 직접 실행하도록 묶은 지원 연산 구간이다.
-- **폴백(Fallback)**: 가속기가 지원하지 않는 연산을 CPU 같은 다른 장치에서 대체 실행하는 처리이다.
+- **폴백(Fallback)**: 가속기가 지원하지 않는 연산을 중앙 처리 장치(Central Processing Unit, CPU) 같은 다른 장치에서 대체 실행하는 처리이다.
 - **경계 텐서(Boundary Tensor)**: 서로 다른 장치의 실행 구간 사이에서 전달되는 중간 데이터이다.
 
 </details>
@@ -134,9 +135,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **CPU·GPU**: CPU는 복잡한 제어에 강한 범용 프로세서이고 GPU는 대규모 데이터 병렬 연산에 강한 가속기이다.
-- **NPU·FPGA**: NPU는 저전력 신경망 전용 배열이고 FPGA는 제조 후 논리와 배선을 재구성할 수 있는 반도체이다.
-- **ASIC**: 안정된 특정 연산의 데이터 경로를 고정하여 높은 전력 효율을 얻는 전용 반도체이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 인공지능(Artificial Intelligence, AI) 작업에서 복잡한 제어에 강한 범용 프로세서와 대규모 데이터 병렬 연산에 강한 가속기이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)·필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 저전력 신경망 전용 배열과 제조 후 논리·배선을 재구성할 수 있는 반도체이다.
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 안정된 특정 연산의 데이터 경로를 고정하여 높은 전력 효율을 얻는 전용 반도체이다.
+- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)·비반복 엔지니어링(Non-Recurring Engineering, NRE)**: GPU 실행 모델과 ASIC 초기 설계·마스크 제작 비용이다.
 
 </details>
 
@@ -157,7 +159,8 @@ sequenceDiagram
 - **정점 성능(Peak Performance)**: 모든 연산 자원을 이상적으로 활용할 때 가능한 이론상의 최대 처리량이다.
 - **연산자·정밀도 지원 범위(Operator·Precision Coverage)**: 모델의 연산 종류와 수치 형식 가운데 장치가 직접 실행할 수 있는 범위이다.
 - **재사용률(Data Reuse Ratio)**: 한 번 전송한 입력이나 가중치를 연산기 가까이에서 반복 사용하는 정도이다.
-- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: ASIC 설계와 검증 및 마스크 제작에 한 번 발생하는 초기 비용이다.
+- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 주문형 반도체(Application-Specific Integrated Circuit, ASIC) 설계와 검증 및 마스크 제작에 한 번 발생하는 초기 비용이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 데이터 병렬 학습에 사용하는 프로그램 가능 가속기이다.
 
 </details>
 
@@ -181,6 +184,7 @@ sequenceDiagram
 - **가변 병렬 학습(Variable Parallel Training)**: 모델과 커널이 바뀌면서도 많은 데이터를 병렬 처리해야 하는 학습 작업이다.
 - **저전력 추론(Low-power Inference)**: 제한된 배터리와 열 한도 안에서 모델 예측을 수행하는 실행 조건이다.
 - **대량 고정 배포(Fixed High-volume Deployment)**: 기능 변경이 드문 동일 설계를 많은 수량으로 배포하는 조건이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)·신경망 처리 장치(Neural Processing Unit, NPU)·주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 가변 학습·저전력 추론·대량 고정 배포에 각각 적합한 가속기이다.
 
 </details>
 

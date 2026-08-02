@@ -25,6 +25,8 @@ extra:
 - **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산을 낮은 전력과 짧은 지연으로 처리하도록 설계한 병렬 가속기이다.
 - **전용 연산 배열(Dedicated Compute Array)**: 신경망의 반복적인 곱셈·누산을 병렬로 처리하도록 규칙적으로 배치한 회로이다.
 - **근접 메모리(Near-compute Memory)**: 연산기에 데이터를 가까이 보관하여 외부 메모리 전송을 줄이는 저장 구조이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 추론·인식 등 지능형 작업을 수행하는 기술이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 범용 제어와 병렬 연산을 담당하지만 단말 추론에서 전력·지연 부담이 생길 수 있는 프로세서이다.
 
 </details>
 
@@ -42,12 +44,13 @@ extra:
 - **곱셈-누산 배열(Multiply-Accumulate Array, MAC Array)**: 다수의 곱셈·누산 연산기를 배치하여 텐서 연산을 병렬 처리하는 배열이다.
 - **온칩 정적 임의 접근 메모리(On-chip SRAM)**: 입력과 가중치 및 중간값을 연산기 가까이에 보관하는 고속 메모리이다.
 - **초당 조 연산(Tera Operations Per Second, TOPS)**: 특정 데이터 정밀도와 조건에서 장치가 수행할 수 있는 초당 최대 연산 수이다.
-- **종단 지연(End-to-end Latency)**: 입력 준비부터 NPU와 폴백 구간을 거쳐 최종 결과가 나올 때까지의 전체 시간이다.
+- **종단 지연(End-to-end Latency)**: 입력 준비부터 신경망 처리 장치(Neural Processing Unit, NPU)와 폴백 구간을 거쳐 최종 결과가 나올 때까지의 전체 시간이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 저정밀 MAC 배열과 온칩 메모리로 신경망 추론을 가속하는 장치이다.
 
 </details>
 
-- **저정밀 MAC 배열**로 신경망 연산 병렬 처리
-- **온칩 SRAM 재사용**으로 외부 메모리 전송 절감
+- 신경망 연산을 병렬 처리하는 **저정밀 MAC 배열**
+- 외부 메모리 전송을 줄이는 **온칩 SRAM 재사용**
 - **TOPS**보다 지원률·폴백을 포함한 **종단 지연** 평가
 
 #### 한줄 요약
@@ -58,9 +61,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **모델 컴파일러(Model Compiler)**: 모델을 양자화하고 지원 여부에 따라 분할하여 NPU 장치 코드를 생성하는 도구이다.
+- **모델 컴파일러(Model Compiler)**: 모델을 양자화하고 지원 여부에 따라 분할하여 신경망 처리 장치(Neural Processing Unit, NPU) 코드를 생성하는 도구이다.
 - **NPU 런타임(NPU Runtime)**: 컴파일된 모델의 버퍼와 실행 순서 및 장치 전환을 관리하는 소프트웨어이다.
-- **호스트 폴백 경로(Host Fallback Path)**: NPU가 지원하지 않는 연산을 CPU나 GPU에서 대체 실행하는 경로이다.
+- **호스트 폴백 경로(Host Fallback Path)**: NPU가 지원하지 않는 연산을 중앙 처리 장치(Central Processing Unit, CPU)나 그래픽 처리 장치(Graphics Processing Unit, GPU)에서 대체 실행하는 경로이다.
+- **곱셈 누산(Multiply-Accumulate, MAC)**: 신경망 텐서 연산의 곱셈 결과를 부분합에 누적하는 기본 연산이다.
 
 </details>
 
@@ -94,6 +98,9 @@ block
 - **서브그래프 분할(Subgraph Partitioning)**: 지원 연산과 비지원 연산을 장치별 실행 구간으로 나누는 과정이다.
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 전용 엔진이 외부 메모리와 온칩 메모리 사이에서 데이터를 직접 전송하는 방식이다.
 - **경계 텐서(Boundary Tensor)**: 서로 다른 장치에서 실행되는 서브그래프 사이에 전달되는 중간 데이터이다.
+- **인공지능(Artificial Intelligence, AI)·신경망 처리 장치(Neural Processing Unit, NPU)**: 추론 애플리케이션과 지원 서브그래프를 실행하는 전용 가속기이다.
+- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)·곱셈 누산(Multiply-Accumulate, MAC)**: 타일을 온칩에 저장하고 저정밀 연산을 수행하는 자원이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 비지원 연산을 대체 실행하는 호스트 프로세서이다.
 
 </details>
 
@@ -136,8 +143,9 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **온디바이스 추론(On-device Inference)**: 입력을 원격 서버로 보내지 않고 단말 안에서 모델 예측을 실행하는 방식이다.
-- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령을 GPU 워프의 활성 스레드에 공통 발행하는 실행 모델이다.
+- **단일 명령 다중 스레드(Single Instruction, Multiple Threads, SIMT)**: 하나의 명령을 그래픽 처리 장치(Graphics Processing Unit, GPU) 워프의 활성 스레드에 공통 발행하는 실행 모델이다.
 - **동적 분기(Dynamic Branching)**: 입력이나 실행 상태에 따라 런타임에 선택되는 제어 흐름이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)·중앙 처리 장치(Central Processing Unit, CPU)**: 저전력 전용 추론과 복잡한 전후처리에 각각 강한 프로세서이다.
 
 </details>
 
@@ -159,8 +167,10 @@ sequenceDiagram
 
 - **양자화(Quantization)**: 부동소수점 가중치와 활성값을 저비트 정수로 근사하여 연산과 메모리 비용을 줄이는 변환이다.
 - **보정(Calibration)**: 대표 입력 데이터로 양자화 범위를 정하고 정확도 손실을 조정하는 과정이다.
-- **연산자 지원 범위(Operator Coverage)**: 전체 신경망 연산 가운데 NPU 코드로 변환하여 실행할 수 있는 범위이다.
+- **연산자 지원 범위(Operator Coverage)**: 전체 신경망 연산 가운데 신경망 처리 장치(Neural Processing Unit, NPU) 코드로 변환하여 실행할 수 있는 범위이다.
 - **연산자 결합(Operator Fusion)**: 연속된 연산자를 하나의 장치 연산으로 묶어 중간 저장과 장치 전환을 줄이는 최적화이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)·곱셈 누산(Multiply-Accumulate, MAC)·직접 메모리 접근(Direct Memory Access, DMA)**: 지원 연산 실행과 텐서 계산 및 외부 데이터 전송을 담당하는 구성이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 비지원 연산 폴백을 처리하는 호스트 장치이다.
 
 </details>
 
@@ -181,9 +191,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **지원률(Support Coverage)**: 전체 모델 연산 중 NPU에서 직접 실행되는 연산의 비율이다.
+- **지원률(Support Coverage)**: 전체 모델 연산 중 신경망 처리 장치(Neural Processing Unit, NPU)에서 직접 실행되는 연산의 비율이다.
 - **저전력 추론(Low-power Inference)**: 제한된 배터리와 열 한도 안에서 모델 예측을 수행하는 실행 조건이다.
 - **가변 연산(Variable Operation)**: 모델이나 입력에 따라 연산 종류와 제어 흐름이 자주 달라지는 작업이다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)·그래픽 처리 장치(Graphics Processing Unit, GPU)**: 저전력 고지원률 추론과 가변 병렬 연산에 각각 적합한 가속기이다.
 
 </details>
 
