@@ -103,13 +103,12 @@ sequenceDiagram
   participant A as 애플리케이션
   participant P as 수집 파이프라인
   participant Q as 분석 저장소
-  participant O as 운영자
-  participant S as SLO
+    participant O as 운영·SLO 체계
   A->>P: 1. 신호 생성
   P->>Q: 2. 맥락 연결
   Q->>O: 3. 가공 신호 제공
   O->>Q: 4. 원인 분석
-  Q->>S: 5. 복구 검증
+    Q->>O: 5. 복구 검증
 ```
 
 1. **신호 생성**: 코드와 기반 시설에서 메트릭, 로그, 추적, 프로파일 생성

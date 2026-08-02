@@ -102,13 +102,11 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant C as 제어 평면
-  participant R as 트래픽 전환 규칙
   participant A as 애플리케이션
   participant P as 사이드카 프록시
   participant D as 대상 서비스
   C->>P: 1. 통신 정책 배포
-  A->>R: 서비스 요청
-  R->>P: 2. 요청 경로 전환
+    A->>P: 2. 요청 경로 전환
   P->>D: 3. 보안·라우팅 집행
   D-->>P: 서비스 응답
   P-->>A: 처리 결과 반환

@@ -103,17 +103,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 작업 관리자
-    participant B as 버킷 관리자
+    participant B as 작업·버킷 관리자
     participant A as 알고리즘 선택기
     participant R as Reduce-Scatter
     participant G as All-Gather
-    O->>B: 1. 참여·자료형·연산 조건 확인
+    B->>B: 1. 참여·자료형·연산 조건 확인
     B->>A: 2. 기울기 청크·버킷 분할
     A->>R: 3. 메시지·토폴로지별 경로 선택
     R->>G: 4. 청크 축약·분산
     G-->>B: 5. 결과 청크 교환
-    B-->>O: 동일 전체 결과 반환
+    B->>B: 동일 전체 결과 확정
 ```
 
 1. **참여·자료형·연산 조건 확인**: 모든 순위의 원소 수·형식·호출 순서 **일치 여부** 검증

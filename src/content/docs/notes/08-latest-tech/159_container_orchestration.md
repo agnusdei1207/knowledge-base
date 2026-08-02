@@ -101,19 +101,18 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant U as 운영자
     participant R as 선언 조정기
     participant S as 스케줄러
     participant N as 노드 실행기
     participant D as 서비스 연결
-    U->>R: 목표 상태 전달
+    R->>R: 목표 상태 접수
     loop 목표 상태와 실제 상태가 다를 때
         R->>S: 1. 배치·확장 요청 전달
         S->>N: 2. 호스트 배치 전달
         N->>D: 3. 준비 인스턴스 전달
         D-->>R: 4. 연결·실행 상태 전달
     end
-    R-->>U: 현재 서비스 상태 반환
+    R->>R: 현재 서비스 상태 기록
 ```
 
 1. **배치·확장 요청 전달**: 목표·실제 상태 차이 계산

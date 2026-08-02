@@ -101,18 +101,17 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant B as 마이크로배치 분할기
+    participant B as 마이크로배치·스케줄 엔진
     participant S1 as 전단 단계
     participant C as 활성값 채널
     participant S2 as 후단 단계
-    participant E as 스케줄 엔진
     loop 모든 마이크로배치를 처리할 때까지
         B->>S1: 1. 마이크로배치 전달
         S1->>C: 2. 순전파 활성값 전달
         C->>S2: 3. 단계 입력 전달
         S2-->>C: 4. 역전파 기울기 전달
         C-->>S1: 5. 전단 기울기 전달
-        S1-->>E: 완료·대기 상태 반환
+    S1-->>B: 완료·대기 상태 반환
     end
 ```
 

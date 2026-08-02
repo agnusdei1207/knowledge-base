@@ -101,16 +101,15 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant U as 요청자
-  participant G as 응답 경계
+    participant G as 요청·응답 경계
   participant M as 메시지 채널
   participant W as 격리 구성요소
   participant C as 제어기
-  U->>G: 요청 접수
+    G->>G: 요청 접수
   G->>M: 1. 메시지 전달
   M->>W: 2. 격리 처리
   W->>C: 3. 상태 대응
-  C-->>U: 처리 결과 반환
+    C-->>G: 처리 결과 반환
 ```
 
 1. **메시지 전달**: 비동기 채널이 송신자와 처리자의 속도 차이 완충

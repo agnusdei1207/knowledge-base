@@ -99,13 +99,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant S as SLI 측정
-    participant B as 예산 계산기
-    participant M as 소진 감시
+    participant B as 예산 계산·소진 감시
     participant P as 오류 예산 정책
     participant D as 개발·운영팀
     S->>B: 1. 좋은·적격 사건 전달
-    B->>M: 2. 총예산·잔여량 전달
-    M->>P: 3. 예산 소진율 전달
+    B->>B: 2. 총예산·잔여량 계산
+    B->>P: 3. 예산 소진율 전달
     P->>D: 4. 운영 우선순위 전달
     D-->>P: 5. 복구·개선 결과 전달
 ```

@@ -102,14 +102,13 @@ block-beta
 ```mermaid
 sequenceDiagram
   participant A as 애플리케이션
-  participant S as SDK
-  participant P as OTLP
+    participant S as SDK·OTLP 전송
   participant C as Collector
   participant B as 백엔드
   A->>S: 1. 계측 계약 전달
   A->>S: 2. 신호 생성
-  S->>P: 3. 신호 처리
-  P->>C: 4. 표준 전송
+    S->>S: 3. 신호 처리
+    S->>C: 4. OTLP 표준 전송
   C->>B: 5. 신호 라우팅
 ```
 

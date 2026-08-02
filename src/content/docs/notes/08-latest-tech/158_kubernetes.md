@@ -101,19 +101,18 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant U as 운영자
     participant A as API 서버
     participant C as 컨트롤러 관리자
     participant S as 스케줄러
     participant K as kubelet
-    U->>A: 선언 객체 전달
+    A->>A: 선언 객체 접수
     loop 목표 상태와 실제 상태가 다를 때
         A->>C: 1. 목표·실제 상태 전달
         C->>S: 2. 미배치 Pod 전달
         S->>K: 3. 노드 바인딩 전달
         K-->>A: 4. 실행·준비 상태 전달
     end
-    A-->>U: 현재 워크로드 상태 반환
+    A->>A: 현재 워크로드 상태 기록
 ```
 
 1. **목표·실제 상태 전달**: 컨트롤러의 상태 차이 계산

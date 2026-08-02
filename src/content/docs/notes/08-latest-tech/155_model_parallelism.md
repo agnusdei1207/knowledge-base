@@ -98,19 +98,18 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 작업 관리자
     participant P as 병렬화 계획기
     participant R as 병렬 런타임
     participant G as 병렬 그룹
     participant M as 병목 평가기
-    O->>P: 모델·장치 메모리 프로파일 전달
+    P->>P: 모델·장치 메모리 프로파일 분석
     loop 메모리·지연 목표를 충족할 때까지
         P->>R: 1. 파이프라인·텐서 축 선택
         R->>G: 2. 그룹·통신 경계 배치
         G->>M: 3. 분산 순전파·역전파
         M-->>P: 4. 유휴·통신·메모리 지표 제공
     end
-    P-->>O: 최종 분할·배치 계획 반환
+    P->>P: 최종 분할·배치 계획 확정
 ```
 
 1. **파이프라인·텐서 축 선택**: 구조·통신 특성별 분할 조합 결정
