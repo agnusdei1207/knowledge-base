@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **가우시안 오류 선형 유닛(Gaussian Error Linear Unit, GELU)과 스위시 게이트 선형 유닛(Swish Gated Linear Unit, SwiGLU) 비교**는 트랜스포머(Transformer) **피드포워드 신경망(Feed-Forward Network, FFN)** 에서 단일 활성과 게이트·값 결합을 표현력·파라미터·연산량 기준으로 선택하는 설계 문제
+- 정의/개념: **가우시안 오류 선형 유닛(Gaussian Error Linear Unit, GELU)과 스위시 게이트 선형 유닛(Swish Gated Linear Unit, SwiGLU) 비교** 는 트랜스포머(Transformer) **피드포워드 신경망(Feed-Forward Network, FFN)** 에서 단일 활성과 게이트·값 결합을 표현력·파라미터·연산량 기준으로 선택하는 설계 문제
 - 배경/필요성: GELU 단일 활성 경로는 입력별 **곱셈 게이팅 불가**
 
 #### 한줄 요약
@@ -43,8 +43,8 @@ extra:
 
 </details>
 
-- **스위시 게이트 선형 유닛(Swish Gated Linear Unit, SwiGLU)** 의 **곱셈 게이트**로 입력별 특징 선택
-- **가우시안 오류 선형 유닛(Gaussian Error Linear Unit, GELU)** 의 **단일 활성 경로**로 구현·메모리 절감
+- **스위시 게이트 선형 유닛(Swish Gated Linear Unit, SwiGLU)** 의 **곱셈 게이트** 로 입력별 특징 선택
+- **가우시안 오류 선형 유닛(Gaussian Error Linear Unit, GELU)** 의 **단일 활성 경로** 로 구현·메모리 절감
 - SwiGLU의 **삼중 투영**으로 파라미터·연산 증가
 #### 한줄 요약
 
@@ -138,7 +138,7 @@ sequenceDiagram
 | 핵심 특징 | **게이트·값 투영 요소별 결합** | **단일 투영값의 부드러운 활성** |
 | 한계 | **투영·메모리·연산량 증가** | **게이트 기반 특징 선택 부재** |
 
-> 요약: **SwiGLU**는 특징 선택, **GELU**는 단순성·호환성 중심
+> 요약: **SwiGLU** 는 특징 선택, **GELU** 는 단순성·호환성 중심
 
 #### 한줄 요약
 
@@ -155,7 +155,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 파라미터 수 차이로 **품질 비교 왜곡** | **파라미터 예산**에 맞춰 **피드포워드 신경망(Feed-Forward Network, FFN) 은닉 차원** 조정 | **품질·비용 비교 조건** 정렬 |
+| 파라미터 수 차이로 **품질 비교 왜곡** | **파라미터 예산** 에 맞춰 **피드포워드 신경망(Feed-Forward Network, FFN) 은닉 차원** 조정 | **품질·비용 비교 조건** 정렬 |
 | 추가 투영으로 **메모리 대역폭 증가** | **융합 커널·텐서 병렬 배치** | **추론 지연·메모리 이동** 감소 |
 | 모델·데이터 차이로 **활성화 함수 효과 혼동** | **동일 데이터·학습량 A/B 시험** | **실측 품질·비용 근거** 확보 |
 

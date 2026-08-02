@@ -165,7 +165,7 @@ sequenceDiagram
 
 </details>
 
-- 거리·**양자 비트 오류율(Quantum Bit Error Rate, QBER)** ·키율을 충족하는 **고가치 전용 구간**에만 **양자 키 분배(Quantum Key Distribution, QKD)** 적용
+- 거리·**양자 비트 오류율(Quantum Bit Error Rate, QBER)** ·키율을 충족하는 **고가치 전용 구간** 에만 **양자 키 분배(Quantum Key Distribution, QKD)** 적용
 
 #### 한줄 요약
 
