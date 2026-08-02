@@ -1,6 +1,6 @@
 ---
 sidebar:
-  order: 4
+  order: 0
 title: "컴퓨터 통신·네트워크"
 description: "네트워크·통신·무선"
 weight: 4

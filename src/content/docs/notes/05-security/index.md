@@ -1,6 +1,6 @@
 ---
 sidebar:
-  order: 5
+  order: 0
 title: "시스템 보안"
 description: "암호·네트워크/시스템/웹 보안·보안운영"
 weight: 5

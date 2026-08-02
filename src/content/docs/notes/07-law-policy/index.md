@@ -1,6 +1,6 @@
 ---
 sidebar:
-  order: 7
+  order: 0
 title: "법규·정책·표준"
 description: "IT경영·거버넌스·정책·표준"
 weight: 7
