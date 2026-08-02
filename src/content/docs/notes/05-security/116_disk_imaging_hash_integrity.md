@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **디스크 이미징·해시 무결성**은 원본 매체의 할당·비할당 영역을 비트 단위로 복제하고 전후 해시를 비교하여 증거가 변경되지 않았음을 검증하는 절차
+- 정의/개념: 원본 매체 전체를 비트 단위로 복제하고 전후 해시를 비교해 변경 여부를 검증하는 **디스크 이미징·해시 무결성**
 - 배경/필요성: 파일 단위 복사로는 비할당 영역과 **원본 무변경 입증 불가**
 
 #### 한줄 요약
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **쓰기 방지**: 분석 장비에서 원본 매체로 향하는 쓰기 명령을 차단하는 통제이다.
-- **SHA-256**: 256비트 해시값으로 원본과 사본의 동일성·무결성을 검증하는 알고리즘이다.
+- **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 256비트 해시값으로 원본과 사본의 동일성·무결성을 검증하는 알고리즘이다.
 
 </details>
 
@@ -92,6 +92,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **해시 검증**: 획득 전후의 해시값을 비교해 사본의 동일성과 이후 무변경을 확인하는 절차이다.
+- **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 획득 이미지의 고정 길이 지문을 계산해 동일성을 확인하는 해시 알고리즘이다.
 
 </details>
 
@@ -143,8 +144,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SSD·TRIM**: 플래시 저장장치와 운영체제가 삭제 블록 해제를 알리는 명령으로, 삭제 데이터 보존에 영향을 준다.
-- **FIPS PUB 180-4**: SHA-256 등 보안 해시 알고리즘을 규정한 NIST 표준이다.
+- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)·삭제 블록 통지(Trim, TRIM)**: 플래시 저장장치와 운영체제가 삭제 블록 해제를 알리는 명령으로, 삭제 데이터 보존에 영향을 준다.
+- **연방정보처리표준 간행물(Federal Information Processing Standards Publication, FIPS PUB) 180-4**: 보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256) 등을 규정한 미국 국립표준기술연구소(National Institute of Standards and Technology, NIST) 표준이다.
+- **국제표준화기구·국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037**: 디지털 증거의 식별·수집·획득·보존 절차를 규정한다.
+- **미국 국립표준기술연구소 포렌식 도구 시험(Computer Forensics Tool Testing, NIST CFTT)**: 이미징 도구의 기능·정확성 시험 결과를 제공하는 프로그램이다.
 
 </details>
 
@@ -168,7 +171,7 @@ sequenceDiagram
 
 </details>
 
-- 범위 파일은 **논리 획득**, 삭제·비할당 영역은 **물리 이미징**, SSD는 TRIM 상태 기록
+- 범위 파일은 **논리 획득**, 삭제·비할당 영역은 **물리 이미징**, 솔리드 스테이트 드라이브는 **TRIM 상태 기록**
 
 #### 한줄 요약
 
