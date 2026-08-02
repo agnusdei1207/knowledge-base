@@ -21,6 +21,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **대역 확산**: 원신호의 에너지를 더 넓은 주파수 대역에 분산하고 수신 측이 같은 규칙으로 복원하는 전송 방식이다.
+- **주파수 도약·직접 시퀀스 대역 확산(Frequency-Hopping Spread Spectrum/Direct-Sequence Spread Spectrum, FHSS·DSSS)**: 반송 주파수를 바꾸거나 원신호에 코드를 결합해 신호를 넓은 대역에 분산하는 방식이다.
 
 </details>
 
@@ -36,8 +37,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PN 코드**: DSSS 송수신기가 신호의 확산과 역확산에 함께 사용하는 결정적 코드열이다.
+- **의사잡음 코드(Pseudo-Noise Code, PN 코드)**: DSSS 송수신기가 신호의 확산과 역확산에 함께 사용하는 결정적 코드열이다.
 - **동기화**: 송수신기가 도약 순서 또는 확산 코드의 규칙과 시작 시점을 일치시키는 과정이다.
+- **주파수 도약·직접 시퀀스 대역 확산(Frequency-Hopping Spread Spectrum/Direct-Sequence Spread Spectrum, FHSS·DSSS)**: 도약 순서 또는 확산 코드로 간섭을 분산하는 방식이다.
 
 </details>
 
@@ -56,6 +58,7 @@ extra:
 
 - **확산 변조기**: 반송 주파수를 도약시키거나 원신호에 확산 코드를 결합해 광대역 신호를 만드는 장치이다.
 - **역확산 복조기**: 같은 확산 규칙을 적용해 수신한 광대역 신호에서 원신호를 복원하는 장치이다.
+- **의사잡음 코드(Pseudo-Noise Code, PN 코드)**: 직접 시퀀스 확산과 역확산에 사용하는 결정적 코드열이다.
 
 </details>
 
@@ -84,7 +87,7 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **확산 규칙**: FHSS의 도약 순서나 DSSS의 코드열처럼 송수신기가 공유해야 하는 신호 분산 기준이다.
+- **확산 규칙**: 주파수 도약 대역 확산(Frequency-Hopping Spread Spectrum, FHSS)의 도약 순서나 직접 시퀀스 대역 확산(Direct-Sequence Spread Spectrum, DSSS)의 코드열처럼 송수신기가 공유해야 하는 신호 분산 기준이다.
 
 </details>
 
@@ -116,8 +119,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FHSS**: 정해진 순서로 반송 주파수를 바꿔 협대역 간섭을 회피하는 대역 확산 방식이다.
-- **DSSS**: 원신호에 고속 확산 코드를 결합해 넓은 대역으로 분산하는 대역 확산 방식이다.
+- **주파수 도약 대역 확산(Frequency-Hopping Spread Spectrum, FHSS)**: 정해진 순서로 반송 주파수를 바꿔 협대역 간섭을 회피하는 대역 확산 방식이다.
+- **직접 시퀀스 대역 확산(Direct-Sequence Spread Spectrum, DSSS)**: 원신호에 고속 확산 코드를 결합해 넓은 대역으로 분산하는 대역 확산 방식이다.
+- **의사잡음 코드(Pseudo-Noise Code, PN 코드)**: DSSS에서 원신호를 칩 단위로 확산하는 코드열이다.
 
 </details>
 
@@ -140,6 +144,7 @@ sequenceDiagram
 
 - **근원거리 문제**: 가까운 송신기의 강한 신호가 먼 송신기의 약한 신호를 덮어 코드 분리를 어렵게 하는 현상이다.
 - **처리 이득**: 확산 대역폭을 원 데이터 대역폭으로 나눈 값으로 역확산 뒤의 간섭 내성을 나타내는 지표이다.
+- **주파수 도약·직접 시퀀스 대역 확산(Frequency-Hopping Spread Spectrum/Direct-Sequence Spread Spectrum, FHSS·DSSS)**: 간섭 특성과 처리 이득 요구에 따라 선택하는 두 확산 방식이다.
 
 </details>
 
@@ -160,6 +165,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **협대역 간섭**: 전체 확산 대역 중 일부의 좁은 주파수 구간에 에너지가 집중되는 방해 신호이다.
+- **주파수 도약·직접 시퀀스 대역 확산(Frequency-Hopping Spread Spectrum/Direct-Sequence Spread Spectrum, FHSS·DSSS)**: 협대역 간섭 회피와 처리 이득 확보에 각각 적합한 방식이다.
 
 </details>
 

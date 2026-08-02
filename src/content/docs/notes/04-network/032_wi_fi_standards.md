@@ -20,7 +20,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IEEE 802.11**: Wi-Fi의 물리 전송과 무선 매체 접근 방식을 정의해 장비 간 상호운용을 보장하는 표준 계열이다.
+- **전기전자공학자협회 802.11(Institute of Electrical and Electronics Engineers 802.11, IEEE 802.11)**: Wi-Fi의 물리 전송과 무선 매체 접근 방식을 정의해 장비 간 상호운용을 보장하는 표준 계열이다.
+- **접근점(Access Point, AP)**: 무선 단말을 유선 분배 시스템과 외부 네트워크에 연결하는 장치이다.
 
 </details>
 
@@ -38,6 +39,7 @@ extra:
 
 - **하위 호환**: 새 세대 장비가 이전 세대 장비와 공통 기능을 협상해 통신할 수 있는 성질이다.
 - **실효 처리량**: 규격상 최고속도에서 간섭·경합·제어 오버헤드를 제외하고 실제 전달되는 데이터 전송량이다.
+- **기가헤르츠(Gigahertz, GHz)**: 무선 주파수의 초당 진동 횟수를 10억 단위로 나타내는 단위이다.
 
 </details>
 
@@ -54,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **접근점(AP)**: 무선 단말을 분배 시스템과 외부 네트워크에 연결하는 장치이다.
+- **접근점(Access Point, AP)**: 무선 단말을 분배 시스템과 외부 네트워크에 연결하는 장치이다.
 - **분배 시스템**: 여러 AP와 유선망 사이에서 무선 프레임을 전달하는 논리 구성이다.
 
 </details>
@@ -88,7 +90,8 @@ block
 <summary>핵심 용어</summary>
 
 - **비콘**: AP가 SSID·지원 기능·동기화 정보를 주기적으로 알리는 관리 프레임이다.
-- **SSID**: 사용자가 무선 네트워크를 구별하도록 AP가 광고하는 이름이다.
+- **서비스 세트 식별자(Service Set Identifier, SSID)**: 사용자가 무선 네트워크를 구별하도록 AP가 광고하는 이름이다.
+- **접근점(Access Point, AP)**: 비콘을 광고하고 단말의 인증·연결 요청을 처리하는 장치이다.
 
 </details>
 
@@ -120,8 +123,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Wi-Fi 6·6E**: OFDMA와 TWT로 고밀도 효율을 높이고 6E에서 6GHz 대역까지 확장한 세대이다.
-- **Wi-Fi 7**: MLO와 320MHz 채널로 처리량과 지연 성능을 개선한 무선랜 세대이다.
+- **Wi-Fi 6·6E**: 직교 주파수 분할 다중 접속(Orthogonal Frequency Division Multiple Access, OFDMA)과 목표 기상 시간(Target Wake Time, TWT)으로 고밀도 효율을 높이고 6E에서 6GHz 대역까지 확장한 세대이다.
+- **Wi-Fi 7**: 다중 링크 동작(Multi-Link Operation, MLO)과 320MHz 채널로 처리량과 지연 성능을 개선한 무선랜 세대이다.
+- **다중 입력 다중 출력(Multiple-Input Multiple-Output, MIMO)**: 여러 안테나의 공간 스트림을 이용해 처리량과 사용자 동시 전송을 높이는 기술이다.
+- **메가헤르츠(Megahertz, MHz)**: 채널 폭과 주파수를 초당 백만 진동 단위로 나타내는 단위이다.
 
 </details>
 
@@ -143,7 +148,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **공간 재사용**: 서로 간섭하지 않는 AP가 같은 채널을 동시에 사용하도록 출력과 채널 접근 조건을 조정하는 기법이다.
-- **WPA3**: 강한 인증과 암호화로 Wi-Fi 접속을 보호하는 무선 보안 규격이다.
+- **Wi-Fi 보호 접속 3(Wi-Fi Protected Access 3, WPA3)**: 강한 인증과 암호화로 Wi-Fi 접속을 보호하는 무선 보안 규격이다.
+- **접근점·서비스 세트 식별자(Access Point/Service Set Identifier, AP·SSID)**: 무선 접속 장치와 사용자가 구별하는 무선 네트워크 이름이다.
 
 </details>
 
@@ -163,8 +169,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OFDMA**: 채널의 부반송파 묶음을 사용자별로 나눠 고밀도 단말의 전송 기회를 배정하는 다중 접속 기법이다.
-- **MLO**: 여러 주파수 대역의 무선 링크를 결합하거나 전환해 함께 운용하는 기능이다.
+- **직교 주파수 분할 다중 접속(Orthogonal Frequency Division Multiple Access, OFDMA)**: 채널의 부반송파 묶음을 사용자별로 나눠 고밀도 단말의 전송 기회를 배정하는 다중 접속 기법이다.
+- **다중 링크 동작(Multi-Link Operation, MLO)**: 여러 주파수 대역의 무선 링크를 결합하거나 전환해 함께 운용하는 기능이다.
 
 </details>
 

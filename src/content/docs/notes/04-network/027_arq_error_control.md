@@ -23,10 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ARQ**: ACK·NAK와 타임아웃으로 유실·오류 프레임을 재전송하는 오류 제어 방식이다.
+- **자동 재전송 요구(Automatic Repeat reQuest, ARQ)**: ACK·NAK와 타임아웃으로 유실·오류 프레임을 재전송하는 오류 제어 방식이다.
+- **확인·부정 확인 응답(Acknowledgment/Negative Acknowledgment, ACK·NAK)**: 정상 수신과 오류 수신을 송신자에게 알리는 응답이다.
 </details>
 
-- 정의/개념: **ARQ**는 ACK·NAK·순서번호·타임아웃을 이용해 유실되거나 오류가 난 프레임을 송신자가 재전송하게 하는 오류 제어 방식
+- 정의/개념: **ARQ** — ACK·NAK·순서번호·타임아웃을 이용해 유실되거나 오류가 난 프레임을 송신자가 재전송하게 하는 **오류 제어 방식**
 - 배경/필요성: 오류 검출만으로는 **유실·손상 데이터 복구 불가**
 
 #### 한줄 요약
@@ -38,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ACK·NAK·순서 번호**: 정상·손상 수신을 알리고 새 프레임과 재전송을 구별하는 정보이다.
+- **확인·부정 확인 응답과 순서 번호(Acknowledgment/Negative Acknowledgment/Sequence Number, ACK·NAK·순서 번호)**: 정상·손상 수신을 알리고 새 프레임과 재전송을 구별하는 정보이다.
 </details>
 
 - 순서 번호의 **신규·재전송 프레임 구분**
@@ -54,7 +55,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **송신 윈도·RTT**: ACK 전 연속 전송 범위와 전송 후 응답까지의 왕복 시간이다.
+- **송신 윈도·왕복 시간(Sender Window/Round-Trip Time, 송신 윈도·RTT)**: ACK 전 연속 전송 범위와 전송 후 응답까지의 왕복 시간이다.
+- **확인·부정 확인 응답(Acknowledgment/Negative Acknowledgment, ACK·NAK)**: 수신 성공과 오류를 나타내 재전송 범위를 정하는 응답이다.
 </details>
 
 ```mermaid
@@ -89,6 +91,7 @@ block
 <summary>핵심 용어</summary>
 
 - **타임아웃 재전송**: 정한 시간 안에 확인 응답이 없으면 프레임을 다시 보내는 동작이다.
+- **자동 재전송 요구·확인·부정 확인 응답(Automatic Repeat reQuest/Acknowledgment/Negative Acknowledgment, ARQ·ACK·NAK)**: 응답과 타임아웃을 근거로 오류·유실 프레임을 다시 보내는 제어 방식이다.
 </details>
 
 ```mermaid
@@ -125,7 +128,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Stop-and-Wait·Go-Back-N·SR**: 한 프레임, 누락 이후 전체, 누락 프레임만 재전송하는 방식이다.
+- **정지-대기·연속 재전송·선택 재전송(Stop-and-Wait/Go-Back-N/Selective Repeat, Stop-and-Wait·Go-Back-N·SR)**: 한 프레임, 누락 이후 전체, 누락 프레임만 재전송하는 방식이다.
+- **자동 재전송 요구·왕복 시간(Automatic Repeat reQuest/Round-Trip Time, ARQ·RTT)**: 오류 복구 방식과 프레임 전송 후 응답까지 걸리는 시간이다.
 </details>
 
 | ARQ 방식 | Go-Back-N ARQ | 선택 재전송 ARQ | 정지-대기 ARQ |
@@ -145,7 +149,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FEC**: 추가 정정 정보를 보내 수신 측이 일부 오류를 직접 복구하는 방식이다.
+- **순방향 오류 정정(Forward Error Correction, FEC)**: 추가 정정 정보를 보내 수신 측이 일부 오류를 직접 복구하는 방식이다.
+- **자동 재전송 요구·왕복 시간(Automatic Repeat reQuest/Round-Trip Time, ARQ·RTT)**: 재전송 기반 오류 복구와 타임아웃 산정의 기준 시간이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -164,7 +169,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **재전송 효율**: 오류율·왕복 시간·수신 버퍼를 기준으로 ARQ 방식을 선택하는 기준이다.
+- **재전송 효율(Retransmission Efficiency)**: 오류율·왕복 시간·수신 버퍼를 기준으로 ARQ 방식을 선택하는 기준이다.
+- **연속 재전송·선택 재전송 자동 재전송 요구(Go-Back-N/Selective Repeat Automatic Repeat reQuest, Go-Back-N·SR ARQ)**: 누락 이후 전체 또는 누락 프레임만 다시 보내는 오류 복구 방식이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 프레임 전송부터 확인 응답 수신까지 걸리는 시간이다.
 </details>
 
 - 오류율이 낮고 버퍼가 작으면 **Go-Back-N**, 오류율·RTT가 크면 **SR ARQ**

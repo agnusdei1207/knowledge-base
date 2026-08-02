@@ -24,9 +24,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **흐름·혼잡 제어**: 수신 처리 능력과 네트워크 경로 능력을 각각 넘지 않게 송신량을 제한하는 기능이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 수신 상태와 경로 혼잡을 함께 반영해 신뢰성 있는 바이트 스트림을 전달하는 프로토콜이다.
 </details>
 
-- 정의/개념: **TCP 전송량 제어**는 수신 흐름 제어의 `rwnd`와 네트워크 혼잡 제어의 `cwnd` 중 작은 값으로 미확인 전송량을 제한하는 방식
+- 정의/개념: **TCP 전송량 제어** — 수신 흐름 제어의 `rwnd`와 네트워크 혼잡 제어의 `cwnd` 중 작은 값으로 미확인 전송량을 제한하는 **방식**
 - 배경/필요성: 과도한 송신량으로 **수신 버퍼 초과·경로 혼잡** 발생
 
 #### 한줄 요약
@@ -38,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **rwnd·cwnd·실제 윈도**: 수신 여유, 경로 추정량, 둘 중 작은 전송 한도이다.
+- **수신 윈도·혼잡 윈도·실제 윈도(Receive Window/Congestion Window/Effective Window, rwnd·cwnd·실제 윈도)**: 수신 여유, 경로 추정량, 둘 중 작은 전송 한도이다.
+- **확인 응답·느린 시작 임계값(Acknowledgment/Slow Start Threshold, ACK·ssthresh)**: 수신 확인과 혼잡 윈도 증가 방식을 전환하는 기준값이다.
 </details>
 
 ![수신 윈도와 혼잡 윈도 중 작은 값으로 제한되는 송신 가능량](/study/diagrams/tcp-effective-window.svg)
@@ -58,7 +60,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **슬라이딩 윈도·ACK**: 여러 데이터를 연속 전송하고 확인에 따라 범위를 이동하는 방식과 응답이다.
+- **슬라이딩 윈도·확인 응답(Sliding Window/Acknowledgment, 슬라이딩 윈도·ACK)**: 여러 데이터를 연속 전송하고 확인에 따라 범위를 이동하는 방식과 응답이다.
+- **전송 제어 프로토콜·명시적 혼잡 알림(Transmission Control Protocol/Explicit Congestion Notification, TCP·ECN)**: 신뢰성 있는 전송과 패킷 폐기 없이 혼잡을 알리는 기능이다.
 </details>
 
 ```mermaid
@@ -92,7 +95,8 @@ block
 <details>
 <summary>핵심 용어</summary>
 
-- **Slow Start·ssthresh**: 혼잡 윈도를 빠르게 키우고 완만한 증가로 전환하는 방식과 기준값이다.
+- **느린 시작·느린 시작 임계값(Slow Start/Slow Start Threshold, Slow Start·ssthresh)**: 혼잡 윈도를 빠르게 키우고 완만한 증가로 전환하는 방식과 기준값이다.
+- **확인 응답·수신 윈도·혼잡 윈도·명시적 혼잡 알림(Acknowledgment/Receive Window/Congestion Window/Explicit Congestion Notification, ACK·rwnd·cwnd·ECN)**: 수신 확인, 수신 여유, 경로 한도와 혼잡 표시이다.
 </details>
 
 ```mermaid
@@ -128,7 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **수신자·네트워크 병목**: rwnd와 cwnd 중 작은 값이 실제 전송량을 제한하는 두 원인이다.
+- **수신자·네트워크 병목(Receiver/Network Bottleneck)**: rwnd와 cwnd 중 작은 값이 실제 전송량을 제한하는 두 원인이다.
+- **수신 윈도·혼잡 윈도·느린 시작 임계값(Receive Window/Congestion Window/Slow Start Threshold, rwnd·cwnd·ssthresh)**: 수신 여유, 경로 한도와 혼잡 회피 전환 기준이다.
 </details>
 
 | 전송량 제어 | 느린 시작 기반 혼잡 제어 | 슬라이딩 윈도 기반 흐름 제어 |
@@ -148,7 +153,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BDP·ECN**: 경로에 동시에 채울 데이터량과 폐기 없이 혼잡을 알리는 표시이다.
+- **대역폭 지연 곱·명시적 혼잡 알림(Bandwidth-Delay Product/Explicit Congestion Notification, BDP·ECN)**: 경로에 동시에 채울 데이터량과 폐기 없이 혼잡을 알리는 표시이다.
+- **수신 윈도·혼잡 윈도·왕복 시간(Receive Window/Congestion Window/Round-Trip Time, rwnd·cwnd·RTT)**: 수신 여유, 경로 한도와 전송 후 응답까지 걸리는 시간이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -168,6 +174,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **제로 윈도**: 수신 버퍼가 가득 차 추가 수신 가능량을 0으로 알린 상태이다.
+- **수신 윈도·혼잡 윈도(Receive Window/Congestion Window, rwnd·cwnd)**: 수신 버퍼와 네트워크 경로가 각각 허용하는 미확인 전송량이다.
 </details>
 
 - rwnd가 작으면 **흐름 제어**, cwnd가 작으면 **혼잡 제어** 우선 조정
