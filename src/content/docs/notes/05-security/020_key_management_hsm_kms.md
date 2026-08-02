@@ -133,6 +133,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **비밀 관리기(Secret Manager)**는 비밀번호·토큰·API 키 등 응용 비밀정보의 저장·배포·회전을 관리하는 서비스다.
+- **HSM·KMS**는 각각 키와 암호 연산의 하드웨어 보안 경계와 키 정책·권한·버전의 중앙 수명주기 통제를 담당한다.
 
 </details>
 
@@ -175,6 +176,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **역할 분리**는 HSM이 키의 보안 경계를, KMS가 키 수명주기 정책을 담당하도록 책임을 구분하는 원칙이다.
+- **HSM·KMS 선택**은 루트·서명키의 비반출 보호에는 HSM을, 서비스 키의 정책과 수명주기 관리에는 KMS를 적용하는 판단이다.
 
 </details>
 
