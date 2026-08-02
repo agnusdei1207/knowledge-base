@@ -62,6 +62,8 @@ extra:
 
 </details>
 
+추적 식별자(Trace Identifier, Trace ID)와 스팬 식별자(Span Identifier, Span ID)를 부모·자식 관계로 보존한다.
+
 ```mermaid
 block-beta
   columns 3
@@ -172,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- **문맥 전파·스팬 경계**를 보존하고 **샘플링 예산** 안에서 오류·고지연 추적 우선 저장
+- **추적 연속성·샘플링 예산 원칙**: 문맥 전파·스팬 경계를 보존하고 오류·고지연 추적 우선 저장
 
 #### 한줄 요약
 

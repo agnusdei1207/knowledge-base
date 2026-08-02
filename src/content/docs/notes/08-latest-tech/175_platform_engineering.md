@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 175
-  label: "175. Platform Engineering 플랫폼 엔지니어링 (Platform Engineering)"
+  label: "175. 플랫폼 엔지니어링 (Platform Engineering)"
   badge:
     text: "기출 · 70%"
     variant: note
-title: "Platform Engineering 플랫폼 엔지니어링 (Platform Engineering)"
+title: "플랫폼 엔지니어링 (Platform Engineering)"
 date: "2026-07-31T12:05:00+09:00"
 tags:
   - "notes-latest-tech"
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **플랫폼 엔지니어링**은 공통 개발·운영 기능을 IDP·골든 패스·셀프서비스로 제공하는 내부 제품 중심의 공학 접근
+- 정의/개념: 공통 개발·운영 기능을 내부 개발자 플랫폼(Internal Developer Platform, IDP)·골든 패스·셀프서비스로 제공하는 **플랫폼 엔지니어링(Platform Engineering) 접근**
 - 배경/필요성: 팀별 도구·티켓 요청은 **개발자 인지부하·대기 시간·운영 편차** 증가
 
 #### 한줄 요약
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **내부 개발자 플랫폼(Internal Developer Platform, IDP)**: 개발자가 표준 기능을 셀프서비스로 소비하도록 API·포털·자동화를 통합한 내부 제품이다.
+- **내부 개발자 플랫폼(Internal Developer Platform, IDP)**: 개발자가 표준 기능을 셀프서비스로 소비하도록 응용 프로그래밍 인터페이스(Application Programming Interface, API)·포털·자동화를 통합한 내부 제품이다.
 - **플랫폼 제품팀**: 개발자 요구·로드맵·수명주기·성과를 소유하고 내부 플랫폼을 개선하는 조직이다.
 
 </details>
@@ -91,10 +91,12 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **셀프서비스**: 개발자가 수동 티켓 대기 없이 API·포털·CLI로 필요한 기능을 직접 사용하는 방식이다.
+- **셀프서비스**: 개발자가 수동 티켓 대기 없이 응용 프로그래밍 인터페이스(Application Programming Interface, API)·포털·명령줄 인터페이스(Command-Line Interface, CLI)로 필요한 기능을 직접 사용하는 방식이다.
 - **제품 지표**: 채택률·완료 시간·미사용 원인으로 내부 플랫폼의 효과와 개선점을 측정한 값이다.
 
 </details>
+
+내부 개발자 플랫폼(Internal Developer Platform, IDP)은 골든 패스와 자동화를 셀프서비스로 제공한다.
 
 ```mermaid
 sequenceDiagram
@@ -125,10 +127,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DevOps**: 개발·운영의 협업·자동화·공동 책임을 강조하는 문화와 실천 원칙이다.
+- **개발·운영(Development and Operations, DevOps)**: 개발·운영의 협업·자동화·공동 책임을 강조하는 문화와 실천 원칙이다.
 - **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: 신뢰성 목표와 자동화로 서비스를 운영하는 공학 체계이다.
 
 </details>
+
+내부 개발자 플랫폼(Internal Developer Platform, IDP)은 서비스 수준 목표(Service Level Objective, SLO)를 지키며 개발·운영 협업과 신뢰성 운영을 지원한다.
 
 | 운영 접근 | 플랫폼 엔지니어링 | DevOps | SRE |
 |:---|:---|:---|:---|
@@ -170,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 반복 공통 수요는 **골든 패스**, 특수 요구는 **탈출 경로**, 채택률이 낮으면 제품 개선
+- **자발적 채택·인지부하별 개선**: 반복 공통 수요는 골든 패스, 특수 요구는 탈출 경로, 채택률이 낮으면 제품 개선
 
 #### 한줄 요약
 

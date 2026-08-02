@@ -96,6 +96,8 @@ block-beta
 
 </details>
 
+서비스 수준 목표(Service Level Objective, SLO)로 총허용 실패량을 정하고 서비스 수준 지표(Service Level Indicator, SLI)로 실제 실패를 측정한다.
+
 ```mermaid
 sequenceDiagram
     participant S as SLI 측정
