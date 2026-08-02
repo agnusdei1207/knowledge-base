@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-07-31T10:42:28+09:00"
+date: "2026-08-02T12:00:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -18,26 +18,14 @@ extra:
   priority_note: "자원·메서드·무상태 설계 원칙 출제"
 ---
 
-## 미리 알고가기
-
-- **표현 상태 전이(Representational State Transfer, REST)**: 자원·표현·균일 인터페이스·무상태성 제약으로 분산 시스템을 설계하는 스타일
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 응용 간 기능과 데이터를 요청하는 계약 접점
-- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 조작할 자원을 식별하는 주소
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 메서드·헤더·상태 코드로 웹 요청과 응답을 전달하는 프로토콜
-- **표현(Representation)**: 특정 시점의 자원 상태를 JSON·XML 같은 형식으로 나타낸 데이터
-- **무상태성(Statelessness)**: 각 요청이 처리 문맥을 모두 포함하고 서버가 이전 요청 상태에 의존하지 않는 제약
-- **안전성(Safety)**: 요청 의도가 서버 자원 상태를 변경하지 않는 성질
-- **멱등성(Idempotency)**: 같은 요청을 여러 번 실행해도 서버의 최종 상태가 같은 성질
-- **엔티티 태그(Entity Tag, ETag)**: 자원의 표현 버전을 식별해 조건부 조회·변경에 사용하는 값
-- **멱등성 키(Idempotency Key)**: 재전송된 생성 요청을 같은 작업으로 식별해 중복 처리를 막는 키
-- **OpenAPI 명세**: HTTP API의 경로·요청·응답·스키마를 기계 판독 형식으로 기술하는 명세
-- **응용 프로그래밍 인터페이스 게이트웨이(API Gateway)**: 인증·호출 제한·라우팅을 맡는 API 진입점
-- **원격 프로시저 호출(Remote Procedure Call, RPC)**: 원격 서비스의 연산을 지역 함수처럼 호출하는 방식
-- **커서 페이징(Cursor Pagination)**: 마지막으로 읽은 항목의 위치를 기준으로 다음 목록을 조회하는 방식
-
-> **키워드:** RESTful API 설계 원칙 (RESTful API Design)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **HTTP 균일 인터페이스**: RESTful API는 자원을 URI로 식별하고 HTTP 메서드·상태·헤더의 일관된 의미로 조작한다.
+
+</details>
 
 - 정의/개념: 자원 식별과 **HTTP 균일 인터페이스** 기반 API
 - 배경/필요성: 동작명 중심 개별 규칙으로는 **클라이언트 결합·응답 편차 증가**
@@ -48,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **명사형 URI·표현**: 명사형 URI는 자원을 식별하고 표현은 특정 시점의 자원 상태를 JSON이나 XML 같은 형식으로 전달한다.
+
+</details>
+
 - **명사형 URI·표현** 기반 자원 모델
 - **메서드·상태·헤더** 기반 균일 인터페이스
 - **무상태·캐시·계층화** 기반 웹 확장
@@ -57,6 +52,13 @@ extra:
 - `/createOrder`처럼 동작마다 새 규칙을 만들지 않고 `/orders` 자원과 POST를 조합해 주소와 행위의 뜻을 API 전체에서 유지한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **REST API**: REST API는 URI, 메서드, 표현과 조건부 요청을 해석해 도메인 서비스의 자원 연산으로 연결한다.
+
+</details>
 
 ```mermaid
 block
@@ -82,6 +84,13 @@ block
 - 자원 모델이 상품 목록을 정하고 HTTP 인터페이스가 공통 조작법을 제공하며 조건부 요청은 같은 상품을 동시에 고칠 때 덮어쓰기를 막는다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+- **2. 조건부 연산 요청**: REST API는 HTTP 메서드 의미와 ETag 조건을 해석해 도메인 서비스에 조건부 연산을 요청한다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -115,6 +124,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **RESTful API**: RESTful API는 URI와 HTTP 균일 인터페이스를 사용해 웹 자원을 공개하고 연계하는 데 적합하다.
+
+</details>
+
 | API 설계 방식 | RPC식 API | RESTful API |
 |:---|:---|:---|
 | 적용 기준 | 명령 중심·**내부 연산 호출** | 웹 자원·**공개 연계** |
@@ -127,7 +143,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **최신값 덮어쓰기**: 최신값 덮어쓰기는 동시에 수정할 때 이전 표현을 기준으로 한 요청이 다른 사용자의 최신 변경을 지우는 문제다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 동사형 URI·**거대 자원** | 도메인 개체·**수명주기 기반 분할** | 명확한 **자원 경계** |
 | POST 재시도의 **중복 생성** | 멱등성 키·**처리 결과 보존** | **중복 주문·결제 방지** |
@@ -140,6 +163,13 @@ sequenceDiagram
 - 결제 생성 요청이 시간 초과로 다시 도착해도 같은 멱등성 키의 기존 결과를 반환하면 실제 결제는 한 번만 남는다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **자원 수명·재시도·캐시**: URI, 메서드, 조건부 요청은 자원의 수명주기, 요청 재시도, 캐시 요구를 기준으로 설계해야 한다.
+
+</details>
 
 - **자원 수명·재시도·캐시**로 URI·메서드·조건부 요청 결정
 
