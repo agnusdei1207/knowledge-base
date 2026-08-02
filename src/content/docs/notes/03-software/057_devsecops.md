@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:07:00+09:00"
 tags:
   - "notes-software"
 weight: 57

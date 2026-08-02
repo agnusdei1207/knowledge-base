@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:05:00+09:00"
 tags:
   - "notes-software"
 weight: 55

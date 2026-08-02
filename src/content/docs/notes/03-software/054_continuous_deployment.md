@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "지속적 배포 (Continuous Deployment)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:04:00+09:00"
 tags:
   - "notes-software"
 weight: 54

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:03:00+09:00"
 tags:
   - "notes-software"
 weight: 53

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "화이트박스·블랙박스 테스트 (White-box Black-box Testing)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:10:00+09:00"
 tags:
   - "notes-software"
 weight: 60

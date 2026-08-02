@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "테스트 주도 개발 TDD (Test-Driven Development)"
-date: "2026-08-02T12:00:00+09:00"
+date: "2026-08-02T23:09:00+09:00"
 tags:
   - "notes-software"
 weight: 59
