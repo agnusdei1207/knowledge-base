@@ -24,6 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **위협 모델링**: 시스템·공격·대응을 구조화해 설계 단계의 보안 결정을 지원하는 활동이다.
+- **공격 시나리오**: 공격자·사전조건·공격 경로·영향·대응을 연결해 구체화한 위협 서술이다.
 
 </details>
 
@@ -39,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STRIDE**: 신원 위조·변조·부인·정보 노출·서비스 거부·권한 상승의 여섯 위협 범주이다.
+- **여섯 범주 위협 분류(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: 신원 위조·변조·부인·정보 노출·서비스 거부·권한 상승으로 설계 요소의 위협 누락을 점검하는 분류법이다.
+- **양방향 추적**: 위협을 보안 요구·통제·시험·운영 결과에 연결하고 반대 방향에서도 근거를 확인할 수 있게 하는 관리 방식이다.
 
 </details>
 
@@ -56,7 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DFD·신뢰 경계**: 외부 주체·프로세스·저장소·정보 흐름과 정책·권한이 바뀌는 경계를 표현한 도식이다.
+- **데이터 흐름도(Data Flow Diagram, DFD)**: 외부 주체·프로세스·저장소·정보 흐름을 표현해 공격 표면을 분석하는 도식이다.
+- **신뢰 경계**: 데이터나 실행 주체가 이동할 때 정책·권한·신뢰 수준이 달라지는 지점이다.
 
 </details>
 
@@ -90,6 +93,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **잔여위험**: 통제를 적용한 뒤에도 남아 위험 책임자가 근거를 검토·승인해야 하는 위험이다.
+- **모델 갱신**: 새 인터페이스·데이터 흐름·운영 사건을 반영해 경계와 위협, 기존 대응의 유효성을 다시 검토하는 활동이다.
 
 </details>
 
@@ -124,7 +128,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DREAD·공격 트리**: 다섯 축으로 위험 순위를 참고하는 기법과 공격 목표를 조건·경로로 분해하는 기법이다.
+- **피해·재현성·악용 가능성·영향 사용자·발견 가능성(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: 다섯 평가 축으로 팀 내 위험 우선순위를 참고하는 기법이다.
+- **공격 트리**: 공격 목표를 달성하는 조건과 대체 경로를 계층적으로 분해하는 분석 기법이다.
 
 </details>
 
@@ -145,8 +150,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Microsoft SDL STRIDE·OWASP Threat Modeling**: 설계 요소별 위협 범주와 범위·위협·대응·충분성 질문을 제공한다.
-- **MITRE CAPEC**: 공격 패턴·사전조건·실행·완화 정보를 구조화한 공개 지식기반이다.
+- **마이크로소프트 보안 개발 수명주기(Microsoft Security Development Lifecycle, Microsoft SDL)**: 설계 요소별로 STRIDE 위협을 식별하고 개발 수명주기에 보안 활동을 통합하는 지침이다.
+- **오픈 웹 애플리케이션 보안 프로젝트 위협 모델링(Open Worldwide Application Security Project Threat Modeling, OWASP Threat Modeling)**: 범위·위협·대응·충분성을 네 질문으로 점검하는 접근법이다.
+- **MITRE 공통 공격 패턴 열거 및 분류(MITRE Common Attack Pattern Enumeration and Classification, MITRE CAPEC)**: 공격 패턴·사전조건·실행·완화 정보를 구조화한 공개 지식기반이다.
 
 </details>
 
@@ -166,6 +172,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **위협 추적성**: 공격 시나리오를 보안 요구·통제·시험·운영 결과와 양방향으로 연결하는 성질이다.
+- **위험 처리**: 고영향 위협은 회피·완화하고 통제 뒤 남은 위험은 책임자가 근거를 검토해 승인하는 의사결정이다.
 
 </details>
 
