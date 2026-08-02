@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-07-31T11:17:32+09:00"
+date: "2026-08-02T11:28:00+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -18,21 +18,15 @@ extra:
   priority_note: "120·129회 반복된 웹 위험 분류의 우산 주제임"
 ---
 
-## 미리 알고가기
-
-- **OWASP(Open Worldwide Application Security Project)**: 애플리케이션 보안 지침과 시험 도구를 공개하여 안전한 개발을 지원하는 비영리 프로젝트이다.
-- **OWASP Top 10:2025**: 가장 중요한 웹 애플리케이션 위험 범주 10개를 제시하는 최신 인식 자료이다.
-- **OWASP Application Security Verification Standard(ASVS) 5.0.0**: 애플리케이션 보안 요구사항과 검증 수준을 제시하는 최신 안정 표준이다.
-- **OWASP Web Security Testing Guide(WSTG)**: 웹 보안 시험 항목과 절차를 제시하는 공식 지침이다.
-- **소프트웨어 개발 생명주기(Software Development Life Cycle, SDLC)**: 요구·설계·개발·시험·배포·운영의 소프트웨어 생명주기이다.
-- **핵심 판단**: Top 10은 위험 인식 자료이며 검증 표준이나 준수 인증이 아니다.
-
-
-
-
-> **키워드:** OWASP Top 10 (OWASP Top 10)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+- **OWASP Top 10**은 가장 중요한 웹 애플리케이션 위험 범주 10개를 제시하는 위험 인식 자료다.
+- **OWASP**는 애플리케이션 보안 지침과 시험 도구를 공개하는 비영리 프로젝트다.
+
+</details>
 
 - 정의/개념: 주요 웹 애플리케이션 위험을 묶은 **분류 체계**
 - 배경/필요성: 개별 취약점만으로는 **우선순위 공유 곤란**
@@ -43,6 +37,14 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+- **위험 인식 자료**는 우선 위험을 공통 언어로 제시하지만 검증 표준이나 준수 인증 자체는 아니다.
+- **주기적 갱신**은 자료와 전문가 검토를 반영해 변화한 웹 공격 위험을 다시 분류한다.
+
+</details>
+
 - 원인·영향 중심의 **웹 위험 공통 분류**
 - 자료·전문가 검토 기반 **주기적 갱신**
 - ASVS·WSTG 연결의 **요구·시험 구체화**
@@ -52,6 +54,14 @@ extra:
 - 위험 목록을 ASVS 요구와 WSTG 시험으로 구체화해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+- **ASVS**는 애플리케이션 보안 요구사항과 검증 수준을, **WSTG**는 웹 보안 시험 항목과 절차를 제시한다.
+- **SDLC**는 요구·설계·개발·시험·배포·운영의 소프트웨어 생명주기다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -82,6 +92,13 @@ block-beta
 
 ## Ⅳ. 흐름도
 
+<details>
+<summary>핵심 용어</summary>
+
+- **검증 증거**는 보안 요구의 구현 결과와 설계·코드·동적 시험의 재현 가능한 기록이다.
+
+</details>
+
 ```mermaid
 sequenceDiagram
     participant 서비스책임자
@@ -110,6 +127,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+- **Top 10·ASVS·WSTG**는 각각 위험 인식, 요구·수준 정의, 시험 절차에 사용한다.
+
+</details>
+
 | OWASP 활용 유형 | Top 10 | ASVS | WSTG |
 |:---|:---|:---|:---|
 | 적용 기준 | 주요 **웹 위험 인식** | 보안 **요구사항·수준** 정의 | 웹 **보안 시험 절차** 필요 |
@@ -122,7 +146,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+- **OWASP Top 10:2025**는 최신 웹 위험 범주, **ASVS 5.0.0**은 수준별 검증 요구, **WSTG**는 재현 가능한 시험 절차를 제공한다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 오래된 분류를 쓰면 새 공격 경로의 우선순위 누락 | **OWASP Top 10:2025** 적용 | 최신 **웹 위험 범주** 반영 |
 | Top 10만 점검하면 검증 가능한 통제 요구 부재 | **OWASP ASVS 5.0.0**으로 구체화 | 수준별 **보안 요구사항** 확보 |
@@ -133,6 +164,13 @@ sequenceDiagram
 - 로그인한 사용자가 거래번호를 바꿔 다른 고객의 내역을 조회하지 못하도록 서버가 요청마다 객체 소유권을 검증한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+- **활용 원칙**은 Top 10을 체크리스트로 끝내지 않고 ASVS 요구와 WSTG 시험으로 구체화하는 것이다.
+
+</details>
 
 - 위험 인식은 **Top 10**, 요구 정의는 **ASVS**, 시험 절차는 WSTG 선택
 
