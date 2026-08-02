@@ -183,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- **조합·비용·필드 권한**으로 GraphQL·REST 결정
+- **조합·비용·필드 권한** 으로 GraphQL·REST 결정
 
 #### 한줄 요약
 

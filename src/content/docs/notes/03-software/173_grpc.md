@@ -184,7 +184,7 @@ sequenceDiagram
 
 </details>
 
-- **지연·스트리밍·브라우저**로 gRPC·REST 결정
+- **지연·스트리밍·브라우저** 로 gRPC·REST 결정
 
 #### 한줄 요약
 
