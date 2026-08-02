@@ -108,15 +108,14 @@ block
 sequenceDiagram
     participant H as 부모 프로세스
     participant K as 커널
-    participant Q as 상태 큐
     participant C as 자식 프로세스
     participant D as I/O 장치
     H->>K: 1. fork 요청
-    K->>Q: 2. 신규 PCB
-    Q->>C: 3. 실행 문맥
+    K->>K: 2. 신규 PCB·준비 큐 등록
+    K->>C: 3. 실행 문맥
     C->>D: 4. I/O 요청
-    D-->>Q: 5. 완료 이벤트
-    Q-->>C: 실행 재개
+    D-->>K: 5. 완료 이벤트
+    K-->>C: 실행 재개
     C-->>K: 종료 코드
     K-->>H: 종료 상태
 ```
@@ -124,7 +123,7 @@ sequenceDiagram
 **동작 원리**
 
 1. **fork 요청**: 부모 주소 공간을 복제하고 자식 식별자 할당
-2. **신규 PCB**: 준비 큐 등록으로 실행 가능 상태 전환
+2. **신규 PCB·준비 큐 등록**: 자식의 상태 정보를 만들고 실행 가능 상태로 전환
 3. **실행 문맥**: 디스패치로 준비 상태에서 실행 상태 전환
 4. **I/O 요청**: CPU를 반납하고 장치별 대기 큐로 이동
 5. **완료 이벤트**: 대기 상태를 해제하고 준비 큐로 복귀

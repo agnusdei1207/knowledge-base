@@ -103,12 +103,11 @@ sequenceDiagram
     participant P as 실행 프로세스
     participant Q as 우선순위 큐
     participant S as MLFQ 스케줄러
-    participant C as CPU
     participant T as 상향 타이머
     P->>Q: 신규 작업
     Q->>S: 1. 최상위 큐 작업 목록
-    S->>C: 2. 선택 작업·시간 할당량
-    C-->>S: 3. CPU 사용 이력
+    S->>P: 2. 선택 작업·시간 할당량
+    P-->>S: 3. CPU 사용 이력
     S->>Q: 4. 큐 이동 결과
     T->>S: 5. 우선순위 상향 신호
 ```

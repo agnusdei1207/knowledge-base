@@ -104,12 +104,11 @@ sequenceDiagram
     participant P as 저우선 작업
     participant Q as 준비 큐
     participant T as 주기 타이머
-    participant A as 에이징 정책
     participant S as 스케줄러
     P->>Q: 대기 작업
-    Q->>A: 1. 누적 대기시간
-    T->>A: 2. 에이징 주기 신호
-    A->>Q: 3. 보정 우선순위
+    Q->>S: 1. 누적 대기시간
+    T->>S: 2. 에이징 주기 신호
+    S->>Q: 3. 보정 우선순위
     Q->>S: 4. 최고 우선순위 작업
     S->>P: 5. 실행 문맥
 ```

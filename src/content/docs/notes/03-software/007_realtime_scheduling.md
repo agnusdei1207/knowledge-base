@@ -114,13 +114,12 @@ $$
 ```mermaid
 sequenceDiagram
     participant J as 작업 방출원
-    participant A as 수용 분석기
     participant Q as 준비 큐
     participant S as EDF 스케줄러
     participant C as CPU
-    J->>A: 작업 집합
-    A-->>J: 수용 결과
-    A->>Q: 1. 수용 태스크 집합
+    J->>S: 작업 집합
+    S-->>J: 수용 결과
+    S->>Q: 1. 수용 태스크 집합
     loop 작업 릴리스마다
         J->>Q: 2. 작업 인스턴스·절대 마감
         Q->>S: 3. 최단 마감 태스크
