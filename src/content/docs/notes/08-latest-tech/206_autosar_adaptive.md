@@ -18,21 +18,14 @@ extra:
   priority_note: "AUTOSAR Adaptive 서비스 구조가 최근 출제됨"
 ---
 
-## 미리 알고가기
-
-- **AUTOSAR(오토사)**: AUTomotive Open System ARchitecture에서 만든 명칭으로, 차량 소프트웨어 구조와 인터페이스를 표준화하는 개발 협력체·표준
-- **Adaptive Platform(어댑티브 플랫폼)**: 고성능 ECU에서 동적 서비스와 애플리케이션을 실행하는 AUTOSAR 플랫폼
-- **Classic Platform(클래식 플랫폼)**: MCU 기반의 정적·결정적 실시간 제어에 적합한 AUTOSAR 플랫폼
-- **POSIX(포직스)**: Portable Operating System Interface의 약자로, 운영체제 API의 호환 기준
-- **ARA(아라)**: AUTOSAR Runtime for Adaptive Applications의 약자로, Adaptive 앱이 플랫폼 기능을 쓰는 C++ 인터페이스
-- **ECU(Electronic Control Unit)**: '이시유'로 읽으며, 차량의 센서·구동기·소프트웨어 기능을 제어하는 전자제어장치
-- **UCM(Update and Configuration Management)**: '유시엠'으로 읽으며, 소프트웨어 패키지의 설치·갱신·구성을 관리하는 플랫폼 서비스
-- **PHM(Platform Health Management)**: '피에이치엠'으로 읽으며, 애플리케이션과 플랫폼의 건강 상태를 감시하는 서비스
-- **Manifest(매니페스트)**: 애플리케이션·서비스·실행·배포 구성을 기계 판독 형식으로 선언한 명세
-
-> **키워드:** AUTOSAR Adaptive (AUTOSAR Adaptive)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+**AUTOSAR Adaptive**는 고성능 ECU의 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행·관리하는 차량 소프트웨어 플랫폼이다.
+
+</details>
 
 - 정의/개념: **AUTOSAR Adaptive**는 고성능 ECU 앱을 POSIX 프로세스와 동적 서비스로 실행하는 플랫폼
 - 배경/필요성: Classic의 정적 구성은 고성능 서비스의 **동적 배포·갱신 수용 곤란**
@@ -43,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+**ARA**는 Adaptive 애플리케이션이 통신·실행·진단 등 플랫폼 기능을 사용하는 표준 C++ 인터페이스다.
+
+</details>
+
 - POSIX 기반 **독립 프로세스 실행·자원 격리**
 - `ara::com` 기반 **동적 서비스 탐색·통신**
 - 실행·건강·설정·갱신의 **플랫폼 생명주기 통합**
@@ -51,6 +51,13 @@ extra:
 - 고성능 차량 앱을 독립 프로세스로 실행하고 표준 서비스로 통신·상태·갱신을 관리한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+**Execution Management**는 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작·중지·상태를 관리하는 서비스다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -77,6 +84,13 @@ block-beta
 - ARA가 앱과 실행·통신·진단·갱신 서비스를 연결해 하드웨어 차이를 감춘다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+**Manifest**는 애플리케이션·서비스·실행·배포 구성을 기계 판독 형식으로 선언한 명세다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -106,6 +120,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+**Classic Platform**은 MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
+
+</details>
+
 | AUTOSAR 구성 | Classic Platform | Adaptive Platform | 혼합 아키텍처 |
 |:---|:---|:---|:---|
 | 적용 기준 | **결정적 MCU 제어** | **고성능·동적 서비스** | 제어와 **고성능 기능 공존** |
@@ -118,7 +139,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+**PHM**은 애플리케이션과 플랫폼의 건강 상태를 감시하고 오류 시 재시작이나 기능 저하를 요청하는 서비스다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **실시간 경계** 미검증 시 일반 프로세스의 **결정성 부족** | 엄격 제어의 Classic 분리와 **시간 예산 검증** | 플랫폼 **결정성 경계** 보존 |
 | **서비스 계약** 미검증 시 버전·인터페이스의 **호환성 실패** | Manifest·API 버전·**통합 시험** | 서비스 **버전 호환성** 확보 |
@@ -129,6 +157,13 @@ sequenceDiagram
 - 고성능 서비스와 결정적 제어의 시간·안전 책임을 분리하고 서비스 계약과 갱신 실패 시 복구 절차를 검증한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+**혼합 아키텍처**는 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리한다.
+
+</details>
 
 - 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic**으로 분리
 

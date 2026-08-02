@@ -18,17 +18,14 @@ extra:
   priority_note: "OPC UA 정보 모델·보안 통신이 최근 출제됨"
 ---
 
-## 미리 알고가기
-
-- **OPC UA(오피씨 유에이)**: OPC Unified Architecture의 약자로, 산업 데이터의 의미·통신·보안을 통합한 상호운용 표준
-- **OPC**: 초기 OLE for Process Control에서 출발했으나, 현재는 플랫폼 독립 산업 표준의 고유 명칭으로 사용
-- **AddressSpace(어드레스 스페이스)**: 설비 객체를 노드·속성·참조 관계로 표현하는 정보 공간
-- **Client-Server(클라이언트-서버)**: 요청·응답과 구독으로 데이터를 교환하는 통신 방식
-- **PubSub(펍섭)**: Publisher-Subscriber의 줄임말로, 발행자와 구독자를 분리한 메시지 배포 방식
-
-> **키워드:** OPC UA 산업 표준 통신 (OPC Unified Architecture)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+**OPC UA**는 산업 데이터의 의미·통신·보안을 통합하여 이기종 설비의 상호운용을 지원하는 표준이다.
+
+</details>
 
 - 정의/개념: **OPC UA**는 산업 데이터의 의미·통신·보안을 통합한 상호운용 표준
 - 배경/필요성: 공급사별 태그의 **의미·주소 체계 불일치**로 설비 연계 제약
@@ -39,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+**의미 기반 정보 모델**은 설비 객체를 노드·속성·참조 관계로 표현해 값의 의미까지 교환하게 한다.
+
+</details>
+
 - 노드·속성·참조로 설비를 표현하는 **의미 기반 정보 모델**
 - Client-Server·PubSub를 지원하는 **복수 통신 모델**
 - 인증·서명·암호화·권한 제어를 제공하는 **통합 보안**
@@ -47,6 +51,13 @@ extra:
 - 제조사가 다른 설비도 같은 의미 체계와 보안 규칙으로 데이터를 주고받게 한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+**AddressSpace**는 설비 객체와 그 관계를 노드·속성·참조로 표현하는 OPC UA의 정보 공간이다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -73,6 +84,13 @@ block-beta
 - 주소 공간이 설비 의미를 설명하고 통신 계층이 그 정보를 안전하게 전달한다.
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+**보안 채널**은 인증서를 검증한 통신 주체 사이에서 메시지의 서명과 암호화를 제공하는 연결이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -102,6 +120,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+**PubSub**는 발행자와 구독자를 분리하여 데이터셋 메시지를 여러 수신자에게 배포하는 통신 모델이다.
+
+</details>
+
 | 판단 기준 | OPC UA Client-Server | OPC UA PubSub | 단순 태그 프로토콜 |
 |:---|:---|:---|:---|
 | 적용 기준 | **질의·명령·상태 구독** | 다수 대상 **실시간 배포** | **단순 값 교환** |
@@ -114,7 +139,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+**Companion Specification**은 산업별 장비와 데이터의 공통 의미 모델을 정의해 공급사 간 해석 차이를 줄이는 명세다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 공급사별 **Namespace·모델 차이** | **Companion Specification**·매핑 규칙 적용 | 의미 **상호운용성 향상** |
 | 만료·미신뢰 **인증서 연결 중단** | 자동 갱신·신뢰 목록·폐기 절차 운영 | 안전한 **가용성 확보** |
@@ -125,6 +157,13 @@ sequenceDiagram
 - 제조사가 다른 설비도 공통 정보 모델과 신뢰 체계를 사용하면 같은 의미로 안전하게 연동할 수 있다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+**Client-Server**는 클라이언트가 서버의 서비스를 호출하고 상태 변경을 구독하는 세션 기반 통신 모델이다.
+
+</details>
 
 - 질의·배포 패턴에 따라 **Client-Server·PubSub**를 선택하고 **인증서** 검증
 

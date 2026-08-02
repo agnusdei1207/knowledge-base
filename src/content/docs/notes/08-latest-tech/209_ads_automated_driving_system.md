@@ -18,19 +18,14 @@ extra:
   priority_note: "ADS 자동화 단계·안전 책임이 최근 출제됨"
 ---
 
-## 미리 알고가기
-
-- **에이디에스(Automated Driving System, ADS)**: 자동화된 주행 시스템이라는 이름으로, 특정 운행 조건에서 전체 동적 주행 과업을 수행하는 체계
-- **오디디(Operational Design Domain, ODD)**: 운행 설계 영역이라는 뜻으로, 도로·날씨·속도 등 ADS가 작동하도록 설계된 조건 범위
-- **디디티(Dynamic Driving Task, DDT)**: 동적 주행 과업이라는 뜻으로, 조향·가감속·주변 객체 및 사건 탐지·대응을 포함
-- **최소위험기동(Minimal Risk Maneuver, MRM)**: 고장·ODD 이탈 시 위험을 낮추기 위한 제어 동작이며, 그 결과 도달한 안정 상태가 최소위험상태(MRC)
-- **객체·사건 탐지·대응(Object and Event Detection and Response, OEDR)**: '오이디알'로 읽으며, 주행 중 관련 객체·사건을 인지하고 대응하는 DDT 기능
-- **DDT fallback(디디티 폴백)**: ADS가 정상 DDT를 계속 수행할 수 없을 때 인계 또는 최소위험기동으로 대응하는 절차
-- **SAE 자동화 수준**: 운전자와 시스템의 DDT·fallback 책임을 Level 0~5로 구분하는 분류
-
-> **키워드:** ADS 자율주행시스템 (Automated Driving System)
-
 ## Ⅰ. 개요
+
+<details>
+<summary>핵심 용어</summary>
+
+**ADS**는 정의된 ODD에서 전체 DDT와 비상 시 fallback을 수행하는 자동주행 시스템이다.
+
+</details>
 
 - 정의/개념: **ADS**는 정의된 ODD에서 전체 DDT와 fallback을 수행하는 자동주행 시스템
 - 배경/필요성: 운전자 지원과 자동주행의 혼동은 **환경 감시·비상 대응 책임 공백** 초래
@@ -41,6 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details>
+<summary>핵심 용어</summary>
+
+**OEDR**은 주행 중 관련 객체와 사건을 탐지하고 상황에 맞는 대응을 생성하는 DDT 기능이다.
+
+</details>
+
 - 조향·가감속·OEDR을 포함한 **전체 DDT 수행**
 - 도로·날씨·속도에 따른 **명시적 ODD 기반 작동 제한**
 - SAE L3 운전자·L4 이상 시스템의 **fallback 책임 구분**
@@ -49,6 +51,13 @@ extra:
 - ODD에 따라 주행 범위를 정하고, 범위를 벗어나거나 고장 시 누가 운전할지 미리 약속함
 
 ## Ⅲ. 구조 및 구성요소
+
+<details>
+<summary>핵심 용어</summary>
+
+**DDT fallback**은 ADS가 정상 주행 과업을 계속 수행할 수 없을 때 인계나 최소위험기동으로 대응하는 절차다.
+
+</details>
 
 ```mermaid
 block-beta
@@ -75,6 +84,13 @@ block-beta
 - 평소 주행 두뇌 옆에 고장과 운행 조건을 지켜보다 안전 대응을 수행하는 별도 두뇌가 있음
 
 ## Ⅳ. 흐름도
+
+<details>
+<summary>핵심 용어</summary>
+
+**MRM**은 고장이나 ODD 이탈 시 차량의 위험을 낮추고 최소위험상태에 도달하기 위한 제어 동작이다.
+
+</details>
 
 ```mermaid
 sequenceDiagram
@@ -105,6 +121,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details>
+<summary>핵심 용어</summary>
+
+**SAE Level 4**는 제한된 ODD 안에서 시스템이 전체 DDT와 fallback을 수행하는 자동화 수준이다.
+
+</details>
+
 | ADS 자동화 수준 | SAE L3 | SAE L4 | SAE L5 |
 |:---|:---|:---|:---|
 | 적용 기준 | 인계 가능한 **제한 ODD** | 무인 운행 가능한 **제한 ODD** | **ODD 제한 없는 무인 운행** |
@@ -117,7 +140,14 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 고려사항 | 대책 | 효과 |
+<details>
+<summary>핵심 용어</summary>
+
+**보수적 가용성 판정**은 ODD 경계나 시스템 상태가 불확실할 때 기능 진입을 막거나 조기에 종료하는 안전 판단이다.
+
+</details>
+
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **ODD 경계** 미검증 시 조건 오판의 **무리한 기능 지속** | 진입·이탈 여유와 **보수적 가용성 판정** | ODD 이탈 시 **기능 지속** 방지 |
 | **인계 책임** 미검증 시 L3 운전자의 **준비 부족·반응 지연** | 충분한 전환 요구·DMS·**MRM 보완** | L3 인계 **대응 성공률** 향상 |
@@ -128,6 +158,13 @@ sequenceDiagram
 - ODD 진입·이탈 조건과 자동화 수준별 fallback 주체를 명확히 하고 인계 실패까지 포함한 최소위험기동을 검증한다.
 
 ## Ⅶ. 결론
+
+<details>
+<summary>핵심 용어</summary>
+
+**최소위험상태(MRC)**는 fallback 수행 결과 차량과 주변의 위험이 최소화된 안정 상태다.
+
+</details>
 
 - L3는 **운전자 인계**, L4 이상은 **시스템 fallback·MRM** 적용
 
