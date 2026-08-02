@@ -40,7 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **디지털 트윈**: 실제 시스템의 구조·상태·동작을 디지털 환경에 대응시킨 모형이다.
-- **IaC**: 인프라 설정을 코드로 정의해 같은 조건으로 반복 배포·초기화하는 방식이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 설정을 코드로 정의해 같은 조건으로 반복 배포·초기화하는 방식이다.
+- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT)**: 업무 정보시스템과 산업 설비·공정을 제어하는 기술 환경이다.
 
 </details>
 
@@ -58,6 +59,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **레드·블루·화이트팀**: 공격, 방어·복구, 훈련 통제·평가를 각각 맡는 역할이다.
+- **정보기술(Information Technology, IT)·운영기술(Operational Technology, OT)**: 사이버 레인지에서 업무 시스템과 산업 제어 환경을 함께 모사하는 훈련 대상이다.
 
 </details>
 
@@ -90,7 +92,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **AAR**: 훈련 결과와 판단 과정을 분석해 개선 과제를 정하는 사후검토이다.
+- **사후검토(After Action Review, AAR)**: 훈련 결과와 판단 과정을 분석해 개선 과제를 정하는 절차이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 같은 훈련 환경을 코드로 반복 배포하고 초기화하는 방식이다.
 
 </details>
 
@@ -124,7 +127,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **도상 훈련·CTF·사이버 레인지**: 절차 토론, 개인 기술 문제풀이, 팀 단위 실전 실행으로 구분되는 훈련 방식이다.
+- **도상 훈련·깃발 뺏기(Capture The Flag, CTF)·사이버 레인지**: 절차 토론, 개인 기술 문제풀이, 팀 단위 실전 실행으로 구분되는 훈련 방식이다.
 
 </details>
 
@@ -145,8 +148,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-84·ISO 22398**: IT 훈련 프로그램과 조직 훈련 프로젝트의 설계·수행·평가 지침이다.
-- **NICE 프레임워크**: 사이버보안 업무를 역할·과업·지식·기술로 기술하는 체계이다.
+- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-84**: 정보기술(Information Technology, IT) 훈련 프로그램의 설계·수행·평가 지침이다.
+- **국제표준화기구(International Organization for Standardization, ISO) 22398**: 조직 훈련 프로젝트의 계획·수행·평가·개선 지침이다.
+- **국가 사이버보안 교육 이니셔티브(National Initiative for Cybersecurity Education, NICE) 프레임워크**: 사이버보안 업무를 역할·과업·지식·기술로 기술하는 체계이다.
+- **사후검토(After Action Review, AAR)**: 훈련 성과와 판단 근거를 분석해 실제 대응 절차의 개선 과제로 연결하는 절차이다.
 
 </details>
 
@@ -169,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 절차·연락망 확인은 **도상 훈련**, 개인 기술은 CTF, 팀 대응·복구는 **사이버 레인지** 선택
+- 절차·연락망 확인은 **도상 훈련**, 개인 기술은 **깃발 뺏기(Capture The Flag, CTF)**, 팀 대응·복구는 **사이버 레인지** 선택
 
 #### 한줄 요약
 
