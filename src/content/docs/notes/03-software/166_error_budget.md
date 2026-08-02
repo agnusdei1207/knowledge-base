@@ -103,12 +103,11 @@ block
 sequenceDiagram
     participant S as 서비스
     participant M as SLI 측정
-    participant C as 예산 계산기
-    participant P as 오류 예산 정책
+    participant P as 오류 예산 계산·정책
     participant D as 배포 시스템
     S->>M: 1. 유효·나쁜 이벤트 전송
-    M->>C: 2. 구간별 오류율 전달
-    C->>P: 3. 잔여량·소진 속도 전달
+    M->>P: 2. 구간별 오류율 전달
+    P->>P: 3. 잔여량·소진 속도 계산
     P->>D: 4. 변경 상태 지시
     D->>S: 5. 배포·롤백 명령
     S-->>M: 변경 후 SLI 전송

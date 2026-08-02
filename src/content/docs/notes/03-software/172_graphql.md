@@ -99,15 +99,13 @@ block
 sequenceDiagram
     participant C as 클라이언트
     participant G as 게이트웨이·검증기
-    participant E as 실행 엔진
-    participant R as 리졸버·데이터 로더
+    participant E as 실행 엔진·리졸버
     participant D as 데이터 원천
     C->>G: 작업·변수
     G->>E: 1. 검증된 실행 계획 전달
-    E->>R: 2. 필드 해석 요청
-    R->>D: 3. 배치 조회 요청
-    D-->>R: 원천 데이터
-    R-->>E: 필드 결과
+    E->>E: 2. 필드 해석·데이터 로딩 계획
+    E->>D: 3. 배치 조회 요청
+    D-->>E: 원천 데이터
     E-->>G: 데이터·부분 오류
     G-->>C: GraphQL 응답
 ```

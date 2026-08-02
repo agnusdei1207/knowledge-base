@@ -98,19 +98,17 @@ block
 
 ```mermaid
 sequenceDiagram
-    participant A as 호출자
-    participant C as 클라이언트 스텁
-    participant H as 채널
+    participant C as 호출자·클라이언트 스텁
+    participant H as HTTP/2 채널
     participant R as 서버 런타임
     participant S as 서비스 처리기
-    A->>C: 요청·기한
-    C->>H: 1. 직렬화 요청·메타데이터 전송
+    C->>C: 요청 객체·기한 직렬화
+    C->>H: 1. 요청·메타데이터 전송
     H->>R: 2. HTTP/2 요청 스트림 전달
     R->>S: 3. 서비스 메서드 요청
     S-->>R: 메서드 결과
     R-->>H: 4. 응답·상태 스트림 전달
     H-->>C: 직렬화 응답
-    C-->>A: 응답 객체·상태
 ```
 
 **동작 원리**

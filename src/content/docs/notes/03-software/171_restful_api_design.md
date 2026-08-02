@@ -96,17 +96,15 @@ block
 sequenceDiagram
     participant C as 클라이언트
     participant G as API Gateway
-    participant A as REST API
-    participant D as 도메인 서비스
+    participant A as REST API·도메인 서비스
     participant S as 자원 저장소
     C->>G: 자원·메서드 요청
     G->>A: 1. 인증된 자원 요청
-    A->>D: 2. 조건부 연산 요청
-    D->>S: 3. 자원·버전 조회 요청
-    S-->>D: 자원·버전
-    D->>S: 4. 검증된 상태 변경
-    S-->>D: 변경 결과
-    D-->>A: 연산 결과
+    A->>A: 2. 조건부 연산 검증
+    A->>S: 3. 자원·버전 조회 요청
+    S-->>A: 자원·버전
+    A->>S: 4. 검증된 상태 변경
+    S-->>A: 변경 결과
     A-->>G: 상태·헤더·표현
     G-->>C: API 응답
 ```

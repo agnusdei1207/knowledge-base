@@ -100,15 +100,14 @@ sequenceDiagram
     participant U as 사용자
     participant S as 서비스
     participant M as 측정 시스템
-    participant O as 운영 정책
-    participant C as 계약 관리
+    participant O as 운영·계약 정책
     U->>S: 서비스 요청
     S->>M: 1. 유효·좋은 이벤트 기록
     S-->>U: 서비스 결과
     M->>O: 2. SLO·오류 예산 결과
-    M->>C: 3. SLA 준수 결과
+    M->>O: 3. SLA 준수 결과
     O-->>S: 4. 배포·복구 정책
-    C-->>U: 책임·보상 안내
+    O-->>U: 책임·보상 안내
 ```
 
 **동작 원리**

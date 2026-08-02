@@ -98,14 +98,13 @@ block
 ```mermaid
 sequenceDiagram
     participant U as 사용자
-    participant A as 계측 지점
-    participant D as 하위 계측 지점
+    participant A as 서비스 계측 지점
     participant C as 수집·처리 계층
     participant S as 분석·경보 계층
     U->>A: 업무 요청
-    A->>D: 1. 추적 문맥 전파
+    A->>A: 1. 하위 호출에 추적 문맥 전파
     A->>C: 2. 진입 신호·속성 전송
-    D->>C: 3. 하위 신호·속성 전송
+    A->>C: 3. 하위 신호·속성 전송
     C->>S: 4. 정규화 신호·상관 키 전송
     S-->>U: 사용자 영향 경보
 ```

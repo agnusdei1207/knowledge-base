@@ -98,17 +98,15 @@ block
 ```mermaid
 sequenceDiagram
     participant U as 클라이언트
-    participant A as 응용
+    participant A as 응용·요청 병합기
     participant C as 캐시
-    participant R as 요청 병합기
     participant D as 원본 저장소
     U->>A: 자원 조회
     A->>C: 1. 격리 키 조회 요청
     C-->>A: 2. 캐시 미스 결과
-    A->>R: 3. 미스 키 병합 요청
-    R->>D: 4. 대표 원본 조회 요청
-    D-->>R: 원본 값·버전
-    R-->>A: 공유 원본 값·버전
+    A->>A: 3. 미스 키 병합
+    A->>D: 4. 대표 원본 조회 요청
+    D-->>A: 공유 원본 값·버전
     A->>C: 5. 값·버전·TTL 저장 요청
     C-->>A: 저장 결과
     A-->>U: 조회 결과

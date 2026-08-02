@@ -101,12 +101,11 @@ sequenceDiagram
     participant I as 수집·정규화
     participant A as 분석 엔진
     participant M as 사건 관리
-    participant R as 런북·모델 관리
     O->>I: 1. 신호·변경 전송
     I->>A: 2. 공통 문맥 전달
     A->>M: 3. 사건·원인 후보 전달
-    M->>R: 4. 위험별 대응 요청
-    R->>O: 5. 승인 런북 명령
+    M->>M: 4. 위험별 런북 선택·승인
+    M->>O: 5. 승인 런북 명령
     O-->>A: 조치 후 상태 전송
 ```
 

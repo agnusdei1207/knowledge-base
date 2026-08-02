@@ -102,14 +102,13 @@ sequenceDiagram
     participant O as 조정자
     participant A as 서비스 A
     participant B as 서비스 B
-    participant S as 상태 저장소
     C->>O: 분산 업무 요청
     O->>A: 1. 첫 로컬 거래 요청
     A-->>O: 첫 단계 성공
     O->>B: 2. 다음 로컬 거래 요청
     B-->>O: 3. 단계 실패 신호
     O->>A: 4. 보상 거래 요청
-    O->>S: 5. Saga 상태·재시도 기록
+    O->>O: 5. Saga 상태·재시도 기록
     O-->>C: 실패·보상 결과
 ```
 
