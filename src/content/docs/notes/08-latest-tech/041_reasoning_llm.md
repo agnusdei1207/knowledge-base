@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **추론 특화 대규모 언어모델(Reasoning LLM)**: 후학습과 시험 시점 연산으로 복합 문제를 여러 단계로 해결하고 결과를 검증하는 능력을 강화한 모델이다.
+- **추론 특화 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)**: 후학습과 테스트 시점 연산으로 복합 문제를 여러 단계로 해결하고 결과를 검증하는 능력을 강화한 모델이다.
 - **후학습(Post-training)**: 사전학습 모델의 응답 행동을 과업 예시·선호·보상으로 추가 조정하는 학습 단계다.
 
 </details>
 
-- 정의/개념: **추론 특화 LLM**은 후학습과 시험 시점 연산으로 다단계 문제 해결·검증 능력을 강화한 언어 모델
+- 정의/개념: 후학습과 테스트 시점 연산으로 다단계 문제 해결·검증 능력을 강화한 **추론 특화 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)**
 - 배경/필요성: 즉시 생성 중심 모델은 복합 문제의 **단계별 해결·도구 결과 검증**에 취약
 
 #### 한줄 요약
@@ -40,13 +40,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **지도 미세조정(Supervised Fine-Tuning, SFT)**: 정답과 풀이 예시를 학습하여 응답 형식과 문제 해결 행동을 조정하는 방법이다.
-- **검증 가능 보상 강화학습(RLVR)**: 정답·코드 실행처럼 자동 판정 가능한 결과를 보상으로 사용해 해결 정책을 개선하는 학습이다.
-- **시험 시점 연산(Test-Time Compute, TTC)**: 요청 처리 중 추론 토큰·시간·도구 사용량을 추가 배정하는 방식이다.
+- **검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR)**: 정답·코드 실행처럼 자동 판정 가능한 결과를 보상으로 사용해 해결 정책을 개선하는 학습이다.
+- **테스트 시점 연산(Test-Time Compute, TTC)**: 요청 처리 중 추론 토큰·시간·도구 사용량을 추가 배정하는 방식이다.
 
 </details>
 
-- **SFT·RLVR** 후학습에 의한 다단계 문제 해결 정책 강화
-- 요청 난도에 따른 **시험 시점 연산 예산 조절**
+- **지도 미세조정(Supervised Fine-Tuning, SFT)·검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR) 후학습**에 의한 다단계 문제 해결 정책 강화
+- 요청 난도에 따른 **테스트 시점 연산(Test-Time Compute, TTC) 예산 조절**
 - 정답·코드 실행·도구 결과를 활용한 **검증 가능 출력 선택**
 
 #### 한줄 요약
@@ -80,7 +80,7 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 기반 모델 | 언어·코드·지식의 **사전학습 표현 제공** |
-| 추론 후학습 | SFT·RLVR로 **문제 해결 정책 조정** |
+| 추론 후학습 | **지도 미세조정(Supervised Fine-Tuning, SFT)·검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR) 기반 문제 해결 정책 조정** |
 | 예산 제어기 | 난도별 토큰·시간·도구 **사용 상한 배정** |
 | 도구·검증기 | 계산·실행·검색 결과의 **정확성 판정** |
 | 응답 통제 | 검증 결과와 안전 정책에 따른 **최종 출력 선택** |
@@ -122,8 +122,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **일반 대화 LLM**: 낮은 시험 시점 연산으로 단순·지연 민감 요청에 즉시 응답하는 모델이다.
-- **추론 특화 LLM**: 가변 연산과 외부 검증으로 복합·검증 가능 과업을 다단계로 해결하는 모델이다.
+- **일반 대화 대규모 언어 모델(General Conversational Large Language Model, General Conversational LLM)**: 낮은 테스트 시점 연산으로 단순·지연 민감 요청에 즉시 응답하는 모델이다.
+- **추론 특화 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)**: 가변 연산과 외부 검증으로 복합·검증 가능 과업을 다단계로 해결하는 모델이다.
 
 </details>
 
@@ -161,12 +161,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **일반 LLM 선택 기준**: 과업이 단순하고 응답 지연과 비용이 품질 개선보다 중요할 때 사용한다.
-- **추론 LLM 선택 기준**: 다단계 해결과 외부 검증의 품질 이득이 추가 연산 비용보다 클 때 사용한다.
+- **일반 대규모 언어 모델 선택 기준(General Large Language Model Selection Criteria, General LLM Selection Criteria)**: 과업이 단순하고 응답 지연과 비용이 품질 개선보다 중요할 때 사용한다.
+- **추론 대규모 언어 모델 선택 기준(Reasoning Large Language Model Selection Criteria, Reasoning LLM Selection Criteria)**: 다단계 해결과 외부 검증의 품질 이득이 추가 연산 비용보다 클 때 사용한다.
 
 </details>
 
-- 단순·지연 민감 요청은 **일반 LLM**, 복합·검증 가능 과업은 **추론 LLM** 선택
+- 단순·지연 민감 요청에는 **일반 대규모 언어 모델(General Large Language Model, General LLM)**, 복합·검증 가능 과업에는 **추론 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)** 선택
 
 #### 한줄 요약
 - 검증 이득이 비용보다 큰 복합 문제에만 추론 모델을 적용함
