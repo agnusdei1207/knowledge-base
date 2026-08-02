@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NVMe**: PCIe SSD의 플래시 병렬성을 활용하도록 설계한 저지연 다중 큐 명령 인터페이스
-- **PCIe**: 호스트와 장치를 여러 점대점 직렬 레인으로 연결하는 고속 인터커넥트
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe) 기반 솔리드 스테이트 드라이브(Solid-State Drive, SSD)의 플래시 병렬성을 활용하는 저지연 다중 큐 인터페이스
+- **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 호스트와 장치를 여러 점대점 직렬 레인으로 연결하는 고속 인터커넥트
 
 </details>
 
@@ -38,14 +38,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SQ·CQ**: 호스트가 명령을 게시하고 컨트롤러가 완료 정보를 기록하는 메모리 큐
-- **도어벨·DMA**: 새 큐 포인터를 알리는 MMIO 레지스터와 CPU 복사 없이 메모리를 읽고 쓰는 전송 방식
+- **제출 큐(Submission Queue, SQ)·완료 큐(Completion Queue, CQ)**: 호스트가 명령을 게시하고 컨트롤러가 완료 정보를 기록하는 메모리 큐
+- **도어벨·직접 메모리 접근(Direct Memory Access, DMA)**: 새 큐 포인터를 알리는 메모리 매핑 입출력(Memory-Mapped Input/Output, MMIO) 레지스터와 중앙 처리 장치(Central Processing Unit, CPU) 복사 없이 메모리를 읽고 쓰는 전송 방식
 - **큐 깊이**: 큐에 동시에 대기시킬 수 있는 명령 수
+- **99번째 백분위 지연(99th Percentile Latency, p99 지연)**: 전체 요청의 99%가 이 값 이하에 완료되는 꼬리 지연 지표
 
 </details>
 
-- 코어별 **다중 SQ·CQ**로 잠금 경합 축소
-- **도어벨·DMA**로 명령 통지와 데이터 전송 분리
+- 코어별 **다중 SQ·CQ 구성** 기반 잠금 경합 축소
+- 명령 통지와 데이터 전송을 분리하는 **도어벨·DMA 구조**
 - 큐 깊이 증가 시 포화 전 **처리량 증가**, 포화 후 **p99 지연 증가**
 
 #### 한줄 요약
@@ -56,9 +57,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **호스트 드라이버**: 운영체제 I/O를 NVMe 명령으로 바꾸고 제출·완료 큐를 관리하는 소프트웨어
-- **호스트 메모리 큐·버퍼**: 명령·완료 상태와 실제 읽기·쓰기 데이터를 DMA가 접근하도록 저장하는 영역
-- **NVMe 컨트롤러**: 큐 명령을 해석하고 플래시 채널에 병렬 실행하는 SSD 제어기
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe) 호스트 드라이버**: 운영체제 입출력(Input/Output, I/O)을 NVMe 명령으로 바꾸고 제출·완료 큐를 관리하는 소프트웨어
+- **호스트 메모리 큐·버퍼**: 명령·완료 상태와 실제 읽기·쓰기 데이터를 직접 메모리 접근 방식으로 읽고 쓰도록 저장하는 영역
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 CPU 복사 없이 호스트 메모리의 큐와 버퍼를 읽고 쓰는 방식
+- **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 호스트 메모리와 NVMe 장치 사이의 명령·데이터 경로
+- **NVMe 컨트롤러**: 큐 명령을 해석하고 플래시 채널에 병렬 실행하는 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 제어기
 
 </details>
 
@@ -93,8 +96,11 @@ block
 <details><summary>핵심 용어</summary>
 
 - **큐 포인터**: 원형 큐에서 새 항목을 넣거나 회수할 위치를 나타내는 값
-- **MSI-X**: 완료를 담당 CPU에 알리는 메시지 기반 인터럽트
-- **플래시 채널**: SSD 컨트롤러가 여러 플래시 메모리 묶음에 병렬 접근하는 독립 경로
+- **메시지 신호 인터럽트 확장(Message Signaled Interrupts eXtended, MSI-X)**: 완료를 담당 중앙 처리 장치(Central Processing Unit, CPU)에 알리는 메시지 기반 인터럽트
+- **플래시 채널**: 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 컨트롤러가 여러 플래시 메모리 묶음에 병렬 접근하는 독립 경로
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: SQ·CQ와 도어벨·DMA로 비동기 저장 요청을 처리하는 인터페이스
+- **제출 큐(Submission Queue, SQ)·완료 큐(Completion Queue, CQ)**: 명령 게시와 완료 회수에 사용하는 호스트 메모리 큐
+- **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)**: NVMe 컨트롤러와 호스트를 연결하는 직렬 링크
 
 </details>
 
@@ -134,9 +140,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **SATA·AHCI**: 호환성을 중심으로 단일 명령 큐를 사용하는 전통적인 직렬 저장 인터페이스
-- **다중 큐**: CPU 코어나 워크로드별로 독립 SQ·CQ를 사용해 잠금 경합을 줄이는 구조
+- **직렬 ATA(Serial Advanced Technology Attachment, SATA)·고급 호스트 컨트롤러 인터페이스(Advanced Host Controller Interface, AHCI)**: 호환성을 중심으로 단일 명령 큐를 사용하는 전통적인 직렬 저장 인터페이스
+- **다중 큐**: 중앙 처리 장치(Central Processing Unit, CPU) 코어나 워크로드별로 독립 제출 큐(Submission Queue, SQ)·완료 큐(Completion Queue, CQ)를 사용해 잠금 경합을 줄이는 구조
 - **직렬 레인**: 두 장치 사이의 한 쌍 송수신 경로로 여러 레인을 묶어 PCIe 대역폭을 늘리는 단위
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)·피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 다중 큐와 고속 직렬 링크를 결합한 저장 인터페이스
 
 </details>
 
@@ -156,9 +163,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **p99 꼬리 지연**: 전체 요청의 99%가 완료되는 상위 응답시간으로 큐 포화의 영향을 드러내는 지표
-- **인터럽트 병합·적응형 폴링**: 여러 완료 통지를 묶거나 부하에 따라 CQ 확인 방식을 바꾸는 최적화
-- **NUMA 친화도**: 큐·버퍼·인터럽트 처리 CPU와 SSD 경로를 같은 노드에 배치하는 정책
+- **99번째 백분위 꼬리 지연(99th Percentile Tail Latency, p99 꼬리 지연)**: 전체 요청의 99%가 완료되는 상위 응답시간으로 큐 포화의 영향을 드러내는 지표
+- **인터럽트 병합·적응형 폴링**: 여러 완료 통지를 묶거나 부하에 따라 완료 큐(Completion Queue, CQ) 확인 방식을 바꾸는 최적화
+- **비균등 메모리 접근(Non-Uniform Memory Access, NUMA) 친화도**: 큐·버퍼·인터럽트 처리 중앙 처리 장치(Central Processing Unit, CPU)와 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 경로를 같은 노드에 배치하는 정책
 
 </details>
 
@@ -179,8 +186,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **고동시성 I/O**: 많은 독립 저장 요청을 동시에 제출하고 완료할 수 있는 작업 특성
+- **고동시성 입출력(High-Concurrency Input/Output, 고동시성 I/O)**: 많은 독립 저장 요청을 동시에 제출하고 완료할 수 있는 작업 특성
 - **큐 포화**: 장치 처리 능력보다 대기 명령이 많아 처리량은 늘지 않고 지연만 증가하는 상태
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 다중 큐로 많은 저장 요청을 동시에 처리하는 인터페이스
+- **99번째 백분위 지연(99th Percentile Latency, p99 지연)**: 큐 포화 시 증가하는 상위 꼬리 지연 지표
 
 </details>
 
