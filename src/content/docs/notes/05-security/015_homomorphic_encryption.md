@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **동형 암호(Homomorphic Encryption)**는 암호문을 복호화하지 않고 연산해도 그 결과를 복호화하면 평문 연산 결과와 대응하는 공개키 암호다.
-- **동형성(Homomorphism)**은 암호문 연산의 복호화 결과가 동일한 평문 연산 결과와 대응하는 성질이다.
+- **동형 암호(Homomorphic Encryption)** 는 암호문을 복호화하지 않고 연산해도 그 결과를 복호화하면 평문 연산 결과와 대응하는 공개키 암호다.
+- **동형성(Homomorphism)** 은 암호문 연산의 복호화 결과가 동일한 평문 연산 결과와 대응하는 성질이다.
 
 </details>
 
@@ -40,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **노이즈 예산(Noise Budget)**은 계산 후에도 정확히 복호화할 수 있는 노이즈 허용 범위다.
-- **완전 동형 암호(Fully Homomorphic Encryption, FHE)**는 부트스트래핑으로 노이즈를 갱신하여 임의 깊이의 연산을 지원하는 동형 암호다.
-- **계산 무결성 미보장**은 암호문 기밀성을 유지해도 평가 서버가 지정된 회로를 정확히 실행했는지는 별도로 증명해야 한다는 한계다.
+- **노이즈 예산(Noise Budget)** 은 계산 후에도 정확히 복호화할 수 있는 노이즈 허용 범위다.
+- **완전 동형 암호(Fully Homomorphic Encryption, FHE)** 는 부트스트래핑으로 노이즈를 갱신하여 임의 깊이의 연산을 지원하는 동형 암호다.
+- **계산 무결성 미보장** 은 암호문 기밀성을 유지해도 평가 서버가 지정된 회로를 정확히 실행했는지는 별도로 증명해야 한다는 한계다.
 
 </details>
 
@@ -59,9 +59,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **평가 키(Evaluation Key)**는 재선형화·회전·부트스트래핑을 지원하는 공개 보조 키다.
-- **암호문 슬롯(Ciphertext Slot)**은 한 암호문에서 같은 연산을 병렬 적용하는 논리적 위치다.
-- **모듈러스(Modulus)**는 계수 계산 범위와 노이즈 예산·보안 수준을 결정하는 나눗셈 기준값이다.
+- **평가 키(Evaluation Key)** 는 재선형화·회전·부트스트래핑을 지원하는 공개 보조 키다.
+- **암호문 슬롯(Ciphertext Slot)** 은 한 암호문에서 같은 연산을 병렬 적용하는 논리적 위치다.
+- **모듈러스(Modulus)** 는 계수 계산 범위와 노이즈 예산·보안 수준을 결정하는 나눗셈 기준값이다.
 
 </details>
 
@@ -94,9 +94,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **회로 깊이(Circuit Depth)**는 앞 연산에 의존해 순차적으로 이어지는 곱셈 단계 수다.
-- **재선형화(Relinearization)**는 곱셈 후 커진 암호문 차수를 평가 키로 줄이는 기법이다.
-- **부트스트래핑(Bootstrapping)**은 암호문의 노이즈를 줄여 추가 연산 여유를 확보하는 기법이다.
+- **회로 깊이(Circuit Depth)** 는 앞 연산에 의존해 순차적으로 이어지는 곱셈 단계 수다.
+- **재선형화(Relinearization)** 는 곱셈 후 커진 암호문 차수를 평가 키로 줄이는 기법이다.
+- **부트스트래핑(Bootstrapping)** 은 암호문의 노이즈를 줄여 추가 연산 여유를 확보하는 기법이다.
 
 </details>
 
@@ -130,8 +130,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BFV**는 정확한 정수·모듈러 연산, **BGV**는 레벨별 깊은 정수 연산, **CKKS**는 실수·복소수의 근사 연산을 지원한다.
-- **제한 동형 암호(Leveled Homomorphic Encryption)**는 미리 정한 회로 깊이 안에서 덧셈·곱셈을 수행하는 방식이다.
+- **BFV** 는 정확한 정수·모듈러 연산, **BGV** 는 레벨별 깊은 정수 연산, **CKKS** 는 실수·복소수의 근사 연산을 지원한다.
+- **제한 동형 암호(Leveled Homomorphic Encryption)** 는 미리 정한 회로 깊이 안에서 덧셈·곱셈을 수행하는 방식이다.
 
 </details>
 
@@ -154,9 +154,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **레벨(Level)**은 남은 모듈러스 단계와 추가로 수행할 수 있는 곱셈 범위다.
-- **스케일(Scale)**은 CKKS에서 실숫값의 정밀도를 관리하는 배율이다.
-- **ISO/IEC 18033-6:2019**는 Exponential ElGamal·Paillier 동형 암호 메커니즘을 규정한 국제 표준이다.
+- **레벨(Level)** 은 남은 모듈러스 단계와 추가로 수행할 수 있는 곱셈 범위다.
+- **스케일(Scale)** 은 CKKS에서 실숫값의 정밀도를 관리하는 배율이다.
+- **ISO/IEC 18033-6:2019** 는 Exponential ElGamal·Paillier 동형 암호 메커니즘을 규정한 국제 표준이다.
 
 </details>
 
@@ -176,7 +176,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **방식 선택 기준**은 정수 정확도, 실수 오차 허용치, 필요한 회로 깊이와 결과 검증 요구사항이다.
+- **방식 선택 기준** 은 정수 정확도, 실수 오차 허용치, 필요한 회로 깊이와 결과 검증 요구사항이다.
 
 </details>
 
