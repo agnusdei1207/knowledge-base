@@ -65,7 +65,7 @@ extra:
 
 </details>
 
-**엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU) 컴파일러**와 런타임은 완전 **8비트 정수(Integer 8-bit, INT8)** 모델을 장치 실행 구간과 **중앙처리장치(Central Processing Unit, CPU) 폴백** 구간으로 나눈다.
+**엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU) 컴파일러** 와 런타임은 완전 **8비트 정수(Integer 8-bit, INT8)** 모델을 장치 실행 구간과 **중앙처리장치(Central Processing Unit, CPU) 폴백** 구간으로 나눈다.
 
 ```mermaid
 block-beta
@@ -159,7 +159,7 @@ sequenceDiagram
 
 </details>
 
-실무에서는 **8비트 정수(Integer 8-bit, INT8)** 변환 품질과 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 지원률을 확인하고, **중앙처리장치(Central Processing Unit, CPU) 왕복**을 줄여야 한다.
+실무에서는 **8비트 정수(Integer 8-bit, INT8)** 변환 품질과 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 지원률을 확인하고, **중앙처리장치(Central Processing Unit, CPU) 왕복** 을 줄여야 한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -180,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- **8비트 정수(Integer 8-bit, INT8) 품질·지원률**을 충족하는 모델은 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 에 배치하고, 미지원 연산은 **중앙처리장치(Central Processing Unit, CPU) 폴백**으로 처리
+- **8비트 정수(Integer 8-bit, INT8) 품질·지원률** 을 충족하는 모델은 **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)** 에 배치하고, 미지원 연산은 **중앙처리장치(Central Processing Unit, CPU) 폴백** 으로 처리
 
 #### 한줄 요약
 

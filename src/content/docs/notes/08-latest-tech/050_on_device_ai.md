@@ -47,7 +47,7 @@ extra:
 
 - 네트워크 왕복 없이 실행하는 **오프라인·저지연 추론**
 - 원본 데이터를 단말에 유지하는 **로컬 개인정보 처리**
-- 압축 모델과 **신경망 처리장치(Neural Processing Unit, NPU)·그래픽 처리장치(Graphics Processing Unit, GPU)**를 결합하는 전력·메모리 제약 실행
+- 압축 모델과 **신경망 처리장치(Neural Processing Unit, NPU)·그래픽 처리장치(Graphics Processing Unit, GPU)** 를 결합하는 전력·메모리 제약 실행
 
 #### 한줄 요약
 - 통신 없이 빠르게 판단하고 원본 정보가 기기 밖으로 나가는 범위를 줄임
