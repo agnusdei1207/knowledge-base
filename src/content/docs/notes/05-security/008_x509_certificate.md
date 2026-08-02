@@ -106,7 +106,6 @@ sequenceDiagram
     participant A as 등록기관
     participant C as 인증기관
     participant V as 검증자
-    participant R as 상태 저장소
     S->>A: 인증서 서명 요청
     A->>A: 1. 신원·키 통제권 검증
     A->>C: 2. 검증된 발급 요청
@@ -114,8 +113,8 @@ sequenceDiagram
     C-->>S: X.509 인증서
     S->>V: 인증서 체인·소유 증명
     V->>V: 4. 경로·이름·용도 검증
-    V->>R: 5. 폐지 상태 조회
-    R-->>V: 인증서 상태
+    V->>C: 5. 폐지 상태 조회
+    C-->>V: 인증서 상태
     V-->>S: 인증서 승인 결과
 ```
 

@@ -101,17 +101,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant R as 수신자
-    participant G as 키 생성기
     participant S as 송신자
     participant C as 인증서 저장소
-    participant K as 키 설정 모듈
-    R->>G: 1. 공개·개인키 쌍 생성
-    G->>C: 2. 공개키·인증서 게시
+    R->>R: 1. 공개·개인키 쌍 생성
+    R->>C: 2. 공개키·인증서 게시
     S->>C: 인증서 조회
     C-->>S: 인증서·폐기 상태
-    S->>K: 3. 인증서·폐기 상태 검증
-    K->>K: 4. 공유 비밀 캡슐화
-    K->>R: 캡슐화 암호문
+    S->>S: 3. 인증서·폐기 상태 검증
+    S->>S: 4. 공유 비밀 캡슐화
+    S->>R: 캡슐화 암호문
     R->>R: 5. 공유 비밀 복구
 ```
 

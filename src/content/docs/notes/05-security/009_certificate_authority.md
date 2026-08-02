@@ -106,13 +106,12 @@ sequenceDiagram
     participant R as 등록기관
     participant C as 발급 CA
     participant H as HSM
-    participant P as 인증서 저장소
     S->>R: 인증서 서명 요청
     R->>R: 1. 신원·키 통제권 검증
     R->>C: 2. 승인된 발급 요청
     C->>H: 3. TBS 인증서 서명
     H-->>C: CA 서명값
-    C->>P: 4. 인증서·CT 기록 게시
+    C->>C: 4. 인증서·CT 기록 게시
     C-->>S: 인증서 체인
 ```
 

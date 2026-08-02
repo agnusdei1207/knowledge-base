@@ -108,16 +108,13 @@ sequenceDiagram
     participant S as 설정 주체
     participant P as 증명자
     participant V as 검증자
-    participant E as 증명 엔진
-    participant D as 판정 정책기
     S->>P: 1. 증명 파라미터 배포
     S->>V: 2. 검증 파라미터 배포
-    P->>E: 비밀 증거·공개 입력
-    E->>E: 3. 영지식 증명 생성
-    E->>V: 공개 입력·증명
+    P->>P: 3. 영지식 증명 생성
+    P->>V: 공개 입력·증명
     V->>V: 4. 증명 유효성 검증
-    V->>D: 5. 회로·문맥·결과 판정
-    D-->>P: 검증 판정
+    V->>V: 5. 회로·문맥·결과 판정
+    V-->>P: 검증 판정
 ```
 
 **동작 원리**

@@ -100,19 +100,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant P as 배포자
-    participant H as 해시 모듈
     participant R as 신뢰 저장소
     participant V as 검증자
-    participant D as 판정기
-    P->>H: 1. 정상 다이제스트 계산
-    H->>R: 2. 기준 다이제스트 등록
+    P->>P: 1. 정상 다이제스트 계산
+    P->>R: 2. 기준 다이제스트 등록
     P->>V: 검증 대상
     V->>R: 3. 보호 기준값 조회
     R-->>V: 기준 다이제스트
-    V->>H: 4. 대상 다이제스트 재계산
-    H-->>V: 계산 다이제스트
-    V->>D: 5. 다이제스트 비교 판정
-    D-->>V: 무결성 판정
+    V->>V: 4. 대상 다이제스트 재계산
+    V->>V: 5. 다이제스트 비교 판정
 ```
 
 **동작 원리**

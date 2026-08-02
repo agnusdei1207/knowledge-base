@@ -101,18 +101,14 @@ block-beta
 sequenceDiagram
     participant C as 클라이언트
     participant S as 서버
-    participant V as 인증 검증기
-    participant K as 키 스케줄
-    participant A as AEAD 모듈
     C->>S: 알고리즘 조합 제안
     S-->>C: 선택·인증서
-    C->>V: 1. 인증서·협상 기록 검증
+    C->>C: 1. 인증서·협상 기록 검증
     C->>S: 2. ECDHE·KEM 키 설정
-    S->>K: 3. 공유 비밀 입력
-    K->>A: 4. 방향별 키 도출
-    C->>A: 평문
-    A->>A: 5. AEAD 본문 보호
-    A-->>S: 보호된 레코드
+    S->>S: 3. 공유 비밀 입력·방향별 키 도출
+    C->>C: 4. 방향별 키 도출
+    C->>C: 5. AEAD 본문 보호
+    C-->>S: 보호된 레코드
 ```
 
 **동작 원리**

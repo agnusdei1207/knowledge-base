@@ -105,16 +105,14 @@ block-beta
 sequenceDiagram
     participant C as 클라이언트
     participant S as 서버
-    participant V as 인증서 검증기
-    participant K as 키 스케줄
-    participant R as 레코드 계층
     C->>S: 1. ClientHello 전송
     S-->>C: 2. ServerHello 반환
-    C->>K: 3. 핸드셰이크 키 도출
+    C->>C: 3. 핸드셰이크 키 도출
     S-->>C: CertificateVerify·Finished
-    C->>V: 4. 인증서·Finished 검증
+    C->>C: 4. 인증서·Finished 검증
     C->>S: Finished
-    K->>R: 5. 응용 트래픽 키 전환
+    C->>C: 5. 응용 트래픽 키 전환
+    S->>S: 5. 응용 트래픽 키 전환
 ```
 
 **동작 원리**

@@ -102,20 +102,14 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 데이터 소유자
-    participant K as 키 관리자
-    participant C as 암복호화기
     participant E as 평가 서버
-    participant V as 결과 검증기
-    O->>K: 1. 키·파라미터 생성
-    K->>C: 키·파라미터
-    O->>C: 평문 입력
-    C->>C: 2. 입력 인코딩·암호화
-    C->>E: 암호문·평가 회로
+    O->>O: 1. 키·파라미터 생성
+    O->>O: 2. 입력 인코딩·암호화
+    O->>E: 암호문·평가 회로
     E->>E: 3. 암호문 회로 평가
-    E->>V: 평가 암호문
-    V->>V: 4. 노이즈·오차 검증
-    V->>C: 검증된 평가 암호문
-    C-->>O: 복호화 결과
+    E-->>O: 평가 암호문
+    O->>O: 4. 노이즈·오차 검증
+    O->>O: 복호화
 ```
 
 **동작 원리**

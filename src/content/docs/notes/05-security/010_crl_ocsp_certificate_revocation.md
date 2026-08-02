@@ -107,16 +107,14 @@ sequenceDiagram
     participant L as CRL 배포점
     participant O as OCSP 응답자
     participant V as 검증자
-    participant P as 검증 정책기
     C->>L: 1. 서명 CRL 게시
     C->>O: 2. 인증서 상태 동기화
     V->>L: CRL 조회
     L-->>V: 서명 CRL
     V->>O: 인증서 상태 요청
     O-->>V: 서명 OCSP 응답
-    V->>P: 3. 서명·신선도 검증
-    P->>P: 4. 실패 정책 적용
-    P-->>V: 폐지 판정
+    V->>V: 3. 서명·신선도 검증
+    V->>V: 4. 실패 정책 적용
 ```
 
 **동작 원리**

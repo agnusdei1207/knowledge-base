@@ -107,15 +107,15 @@ block-beta
 sequenceDiagram
     participant A as 송신자
     participant B as 수신자
-    participant C as 인증 채널
-    participant P as 후처리기
     participant K as 키 관리 시스템
     A->>B: 1. 양자 상태 전송
-    A->>C: 송신 기저 정보
-    B->>C: 2. 기저 선별·QBER 추정
-    C->>P: 3. 오류 보정 정보 교환
-    P->>P: 4. 프라이버시 증폭
-    P->>K: 5. 최종 키 등록
+    A->>B: 송신 기저 정보
+    B->>B: 2. 기저 선별·QBER 추정
+    A->>B: 3. 오류 보정 정보 교환
+    A->>A: 4. 프라이버시 증폭
+    B->>B: 4. 프라이버시 증폭
+    A->>K: 5. 최종 키 등록
+    B->>K: 5. 최종 키 등록
     K-->>A: 등록 결과
     K-->>B: 등록 결과
 ```
