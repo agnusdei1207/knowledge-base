@@ -101,12 +101,11 @@ sequenceDiagram
   participant E as 정책 집행점
   participant P as 정책 결정점
   participant R as 보호 자원
-  participant A as 감사 시스템
   S->>E: 주체·대상·행위·맥락 요청
   E->>P: 1. 현재 권한·정책·맥락
   P-->>E: 2. 기본 거부·최소 권한 판정
   E->>R: 3. 허용된 자원·행위·시간
-  R->>A: 4. 결정 근거·행위·결과
+  R->>E: 4. 결정 근거·행위·결과
   E-->>S: 접근 결과
 ```
 
