@@ -18,8 +18,6 @@ extra:
   priority_note: "무제한 소비의 비용·요율 제한 설계가 최근 출제됨"
 ---
 
-> **키워드:** LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "적대적 예제의 교란·강건성 비교 가치가 유지됨"
 ---
 
-> **키워드:** 적대적 예제 (Adversarial Example)
-
 ## Ⅰ. 개요
 
 <details>

@@ -18,8 +18,6 @@ extra:
   priority_note: "LLMOps 평가·운영 통제가 138회 출제됨"
 ---
 
-> **키워드:** LLMOps (Large Language Model Operations)
-
 ## Ⅰ. 개요
 
 <details>
@@ -30,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 프롬프트·RAG·모델·도구·평가·배포를 **버전과 실행 추적으로 연결하는 운영체계**
+- 정의/개념: **LLMOps**는 프롬프트·RAG·모델·도구·평가·배포를 버전과 실행 추적으로 연결하는 LLM 운영 체계
 - 배경/필요성: MLOps의 **프롬프트·검색·생성 평가** 관리 한계
 
 ### 쉽게 이해하기 (학습용)

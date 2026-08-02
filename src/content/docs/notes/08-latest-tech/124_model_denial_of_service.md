@@ -18,8 +18,6 @@ extra:
   priority_note: "자원 고갈형 모델 서비스 거부가 최근 출제됨"
 ---
 
-> **키워드:** 모델 서비스 거부 (Model Denial of Service)
-
 ## Ⅰ. 개요
 
 <details>

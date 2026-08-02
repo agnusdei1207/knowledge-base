@@ -18,8 +18,6 @@ extra:
   priority_note: "모델 역전의 정보 노출·완화 비교가 유력함"
 ---
 
-> **키워드:** 모델 역전 (Model Inversion)
-
 ## Ⅰ. 개요
 
 <details>

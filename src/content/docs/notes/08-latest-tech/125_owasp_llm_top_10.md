@@ -18,8 +18,6 @@ extra:
   priority_note: "LLM 위협 분류와 계층별 통제가 연속 출제됨"
 ---
 
-> **키워드:** OWASP LLM Top 10 (OWASP LLM Top 10)
-
 ## Ⅰ. 개요
 
 <details>
