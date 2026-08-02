@@ -162,6 +162,9 @@ sequenceDiagram
 - **히스테리시스·재이주 대기시간(Hysteresis·Cooldown)**: 배치 기준에 여유 구간을 두고 재변경을 늦춰 반복 이주를 줄이는 제어다.
 - **가상 중앙처리장치(Virtual Central Processing Unit, vCPU)**: 가상 머신에 제공되는 논리 CPU다.
 - **가상 비균일 메모리 접근(Virtual Non-Uniform Memory Access, vNUMA)**: 가상 머신에 물리 NUMA와 대응하는 CPU·메모리 토폴로지를 노출하는 구조다.
+- **병렬 초기화(Parallel Initialization)**: 여러 작업 스레드가 자신이 사용할 페이지를 각 노드에서 처음 접근해 메모리를 분산 배치하는 방식이다.
+- **절감 임계값(Savings Threshold)**: 예상 원격 접근 감소가 이주 비용보다 얼마나 커야 재배치를 실행할지 정한 기준이다.
+- **이주 진동(Migration Oscillation)**: 접근 패턴의 작은 변화에 따라 스레드나 페이지가 노드 사이를 반복 이동하는 현상이다.
 
 </details>
 
