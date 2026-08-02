@@ -103,16 +103,15 @@ block-beta
 sequenceDiagram
     participant C as 고객·제품 책임자
     participant P as 개발 페어
-    participant T as 자동 테스트
-    participant I as 지속 통합
+    participant I as 자동 테스트·지속 통합
     participant M as 메인라인
 
     C->>P: 스토리·수용 기준 요청
-    P->>T: 1. 실패 테스트 작성
-    T-->>P: 2. 예상 실패 확인
-    P->>T: 3. 최소 구현·테스트 통과
+    P->>I: 1. 실패 테스트 작성
+    I-->>P: 2. 예상 실패 확인
+    P->>I: 3. 최소 구현·테스트 통과
     P->>I: 4. 리팩터링 변경 제출
-    I->>T: 5. 자동 회귀 검증
+    I->>I: 5. 자동 회귀 검증
     I-->>M: 검증 변경 통합
 ```
 

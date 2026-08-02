@@ -108,12 +108,11 @@ sequenceDiagram
     participant O as 주문 서비스
     participant B as 이벤트 브로커
     participant P as 결제 서비스
-    participant D as 결제 소유 데이터
     C->>O: 주문 요청
     O->>O: 1. 주문 로컬 저장
     O->>B: 2. 주문 이벤트 발행
     B-->>P: 3. 주문 이벤트 전달
-    P->>D: 4. 결제 로컬 저장
+    P->>P: 4. 결제 로컬 저장
     P->>B: 5. 결제 결과 발행
     B-->>O: 결제 결과 전달
     O-->>C: 주문 상태 반환

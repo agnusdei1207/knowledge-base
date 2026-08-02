@@ -108,7 +108,6 @@ sequenceDiagram
     participant G as 라우팅·진입 정책
     participant I as 신원 제공자
     participant S as 백엔드 서비스
-    participant O as 응답 변환·관측
     C->>G: API 요청
     G->>I: 1. 토큰·신원 검증
     I-->>G: 공통 권한 반환
@@ -118,8 +117,8 @@ sequenceDiagram
         G->>S: 2. 요청 변환·서비스 호출
         S->>S: 3. 업무 인가·처리
         S-->>G: 처리 결과 반환
-        G->>O: 4. 응답 변환·관측 기록
-        O-->>C: 외부 응답 반환
+        G->>G: 4. 응답 변환·관측 기록
+        G-->>C: 외부 응답 반환
     end
 ```
 
