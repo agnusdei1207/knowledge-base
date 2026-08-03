@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 가상화 (Storage Virtualization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 81
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["논리 볼륨"]
   B["매핑•제어 엔진"]

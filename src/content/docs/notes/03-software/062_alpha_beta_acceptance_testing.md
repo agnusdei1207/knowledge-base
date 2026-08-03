@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알파•베타•인수 테스트 (Alpha Beta Acceptance Testing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 62
@@ -66,14 +66,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   B["테스트 근거•인수 기준"]
   P["테스트 계획자"]
   U["내부•외부 사용자"]
   R["증거 저장소"]
   A["승인권자"]
-  B --> P --> U --> R --> A
+  B --- P --- U --- R --- A
 ```
 
 | 구성요소 | 책임 |

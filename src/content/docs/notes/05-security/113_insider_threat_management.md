@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "내부자 위협 관리 (Insider Threat Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 113
@@ -64,17 +64,17 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   H["인사 생명주기"]
   R["역할•접근 권한"]
   B["UEBA•위험 신호"]
   I["협업 조사•비례 대응"]
   P["프라이버시•증거 보호"]
-  H --> R --> B
-  B --> I
-  P --> I
-  I --> B
+  H --- R --- B
+  B --- I
+  P --- I
+  I --- B
 ```
 
 | 구성요소 | 책임 |

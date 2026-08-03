@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 86
@@ -68,13 +68,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   V["읽기 가시성"]
   C["잠금•버전 제어"]
   F["충돌 처리"]
   B["업무 매핑"]
-  B --> V --> C --> F
+  B --- V --- C --- F
 ```
 
 | 구성요소 | 책임 |

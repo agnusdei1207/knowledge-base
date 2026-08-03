@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -69,10 +69,10 @@ block-beta
   C["정책 저장소"]
   D["속성 정보점 PIP"]
   E["속성 권위자"]
-    A --> B
-    B --> C
-    B --> D
-    D --> E
+    A --- B
+    B --- C
+    B --- D
+    D --- E
 ```
 
 | 구성요소 | 책임 |

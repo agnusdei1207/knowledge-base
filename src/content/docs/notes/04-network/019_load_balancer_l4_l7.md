@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "로드 밸런서 L4•L7 (Load Balancer L4 L7)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 19
@@ -73,10 +73,10 @@ block-beta
     HC["상태 확인기"]
     space
     SESSION["세션 상태"]
-    VIP --> SCH
-    SCH --> POOL
-    HC --> SCH
-    SESSION --> SCH
+    VIP --- SCH
+    SCH --- POOL
+    HC --- SCH
+    SESSION --- SCH
 ```
 
 | 구성요소 | 책임 |

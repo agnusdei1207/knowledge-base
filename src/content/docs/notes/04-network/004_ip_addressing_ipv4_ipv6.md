@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IP 주소 체계: IPv4•IPv6 (IP Addressing IPv4 IPv6)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 4
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:IP_ADDRESS["IP 주소"]
         columns 2

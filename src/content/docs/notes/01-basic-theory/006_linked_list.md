@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -72,7 +72,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     H["헤드"] --- N["노드"]
     space

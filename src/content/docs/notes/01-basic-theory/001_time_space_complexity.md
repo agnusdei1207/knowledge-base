@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알고리즘 시간복잡도•공간복잡도 (Time/Space Complexity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 1
@@ -74,7 +74,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     M["계산 모델"]
     T["시간 분석기"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EA와 TOGAF (Enterprise Architecture & TOGAF)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 1
@@ -71,15 +71,11 @@ block-beta
     columns 3
     G["아키텍처 거버넌스"]:3
     B["업무 아키텍처"] D["데이터 아키텍처"] A["애플리케이션 아키텍처"]
-    T["기술 아키텍처"]
+    T["기술 아키텍처"]:3
     G --- B
     G --- D
     G --- A
     G --- T
-    B --- D
-    D --- A
-    A --- T
-    G --- B
     B --- D
     D --- A
     A --- T

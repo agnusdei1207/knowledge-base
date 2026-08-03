@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 4-way Handshake•연결 해제 (TCP 4-way Handshake)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -60,7 +60,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["능동 종료 TCP"]
     B["수동 종료 TCP"]

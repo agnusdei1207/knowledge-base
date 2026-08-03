@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -69,11 +69,11 @@ block-beta
   C["인가•OIDC 제공자"]
   D["자원 서버"]
   E["토큰•키 관리"]
-    A --> B
-    B --> C
-    B --> D
-    C --> E
-    D --> E
+    A --- B
+    B --- C
+    B --- D
+    C --- E
+    D --- E
 ```
 
 | 구성요소 | 책임 |

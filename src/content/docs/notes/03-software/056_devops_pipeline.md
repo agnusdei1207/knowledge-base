@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   S["변경 저장소"]
   C["통합 실행기"]

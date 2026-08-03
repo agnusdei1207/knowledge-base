@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 76
@@ -67,13 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["맥락"]
   D["결정"]
   R["결과"]
   S["상태"]
-  C --> D --> R --> S
+  C --- D --- R --- S
 ```
 
 | 구성요소 | 책임 |

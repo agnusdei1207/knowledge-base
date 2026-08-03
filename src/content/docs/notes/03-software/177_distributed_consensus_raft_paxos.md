@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["클라이언트"]
     B["리더•제안자"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 진흥법"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 15
@@ -69,7 +69,7 @@ block-beta
     columns 3
     A["발주기관"]
     B["수행사업자"]
-    C["과업심의위"]
+    C["과업심의위원회"]
     D["조달장치"]
     E["정책•감독"]
     A --- B

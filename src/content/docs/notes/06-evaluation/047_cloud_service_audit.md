@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 서비스 감리 (Cloud Service Audit)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -71,8 +71,8 @@ block-beta
   D["데이터 통제"]
   O["운영 복원력"]
   E["계약•출구"]
-  R --> C --> D
-  D --> O --> E
+  R --- C --- D
+  D --- O --- E
 ```
 
 | 구성요소 | 책임 |

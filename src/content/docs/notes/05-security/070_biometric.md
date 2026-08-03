@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "생체 인식 — 지문•얼굴•홍채 (Biometric Authentication)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 70
@@ -72,7 +72,7 @@ block-beta
   C["특징 추출기"]
   D["매처•보호 템플릿"]
   E["판정•대체 인증"]
-  A --> B --> C --> D --> E
+  A --- B --- C --- D --- E
 ```
 
 | 구성요소 | 책임 |

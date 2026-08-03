@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -76,11 +76,11 @@ block-beta
     C["IP 언더레이"]
     D["EVPN 제어 평면"]
     E["VXLAN 게이트웨이"]
-    A --> B
-    B --> C
-    D --> B
-    D --> E
-    C --> E
+    A --- B
+    B --- C
+    D --- B
+    D --- E
+    C --- E
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "정보시스템 감리 유형 (Audit Types)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -74,8 +74,8 @@ block-beta
   P["인력•전문분야"]
   E["증거•지적 이력"]
   C["조치 확인"]
-  R --> T --> P
-  P --> E --> C
+  R --- T --- P
+  P --- E --- C
 ```
 
 | 구성요소 | 책임 |

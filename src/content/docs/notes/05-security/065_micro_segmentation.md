@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "마이크로 세그멘테이션 (Micro-Segmentation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 65
@@ -68,9 +68,9 @@ block-beta
   C["정책 관리면"]
   D["분산 집행점"]
   E["워크로드•로그 검증"]
-  A --> C
-  B --> C --> D --> E
-  E --> A
+  A --- C
+  B --- C --- D --- E
+  E --- A
 ```
 
 | 구성요소 | 책임 |

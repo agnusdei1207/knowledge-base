@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "멀티소켓 서버•SMP (Multi-Socket Server•SMP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 93
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   O["운영체제 NUMA 정책"]
   N0["NUMA 노드 0"]

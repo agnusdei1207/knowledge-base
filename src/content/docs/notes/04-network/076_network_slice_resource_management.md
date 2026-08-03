@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -71,10 +71,10 @@ block-beta
         TN["TN NSSI"]
         CN["CN NSSI"]
     end
-    ORCH --> NSI
-    NSI --> RAN
-    NSI --> TN
-    NSI --> CN
+    ORCH --- NSI
+    NSI --- RAN
+    NSI --- TN
+    NSI --- CN
 ```
 
 | 구성요소 | 책임 |

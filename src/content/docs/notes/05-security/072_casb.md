@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (Cloud Access Security Broker)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 72
@@ -68,10 +68,10 @@ block-beta
   C["프록시•API 집행"]
   D["SaaS"]
   E["위협•운영 분석"]
-  A --> B --> C --> D
-  E --> B
-  C --> E
-  D --> E
+  A --- B --- C --- D
+  E --- B
+  C --- E
+  D --- E
 ```
 
 | 구성요소 | 책임 |

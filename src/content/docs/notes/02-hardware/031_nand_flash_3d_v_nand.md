@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3D V-NAND와 2D NAND 비교 (3D vs 2D NAND)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 31
@@ -64,7 +64,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:N["3D NAND 셀 배열"]
         columns 2

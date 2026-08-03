@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "제로 트러스트 아키텍처 (Zero Trust Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 63
@@ -68,8 +68,8 @@ block-beta
   C["보호 자원"]
   D["정책 관리자"]
   E["정책 엔진•위험 신호"]
-  A --> B --> C
-  E --> D --> B
+  A --- B --- C
+  E --- D --- B
 ```
 
 | 구성요소 | 책임 |

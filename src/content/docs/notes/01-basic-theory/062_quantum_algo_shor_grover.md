@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "양자 알고리즘: 쇼어•그로버"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 62
@@ -72,7 +72,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     R["큐비트 레지스터"]
     F["문제 함수 회로"]

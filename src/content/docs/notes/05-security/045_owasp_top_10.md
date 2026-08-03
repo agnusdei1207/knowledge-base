@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -72,11 +72,11 @@ block-beta
   C["WSTG 시험 절차"]
   D["SDLC 통제"]
   E["운영 근거"]
-  A --> B
-  B --> D
-  C --> D
-  D --> E
-  E --> A
+  A --- B
+  B --- D
+  C --- D
+  D --- E
+  E --- A
 ```
 
 | 구성요소 | 책임 |

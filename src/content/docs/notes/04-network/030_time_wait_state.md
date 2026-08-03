@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["TIME_WAIT 상태"]
     B["2MSL 타이머"]

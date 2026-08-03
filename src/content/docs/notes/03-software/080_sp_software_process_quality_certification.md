@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SP 소프트웨어 프로세스 품질 인증 (SP Quality Certification)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 80
@@ -68,16 +68,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["표준 프로세스"]
   D["개발 영역"]
   M["관리 영역"]
   U["지원 영역"]
   E["수행 증적"]
-  S --> D --> E
-  S --> M --> E
-  S --> U --> E
+  S --- D --- E
+  S --- M --- E
+  S --- U --- E
 ```
 
 | 구성요소 | 책임 |

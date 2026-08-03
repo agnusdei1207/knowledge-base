@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SSD FTL 플래시 변환 계층 (Flash Translation Layer)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 30
@@ -72,7 +72,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:FTL["FTL 펌웨어"]
         columns 2

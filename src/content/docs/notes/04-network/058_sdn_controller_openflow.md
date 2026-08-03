@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -71,10 +71,10 @@ block-beta
     C["OpenFlow 채널"]
     D["흐름•그룹•미터 테이블"]
     E["OpenFlow 데이터 경로"]
-    A --> B
-    B --> C
-    C --> E
-    E --> D
+    A --- B
+    B --- C
+    C --- E
+    E --- D
 ```
 
 | 구성요소 | 책임 |

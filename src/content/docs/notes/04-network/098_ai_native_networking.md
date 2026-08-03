@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "AI 네이티브 네트워킹 (AI-Native Networking)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 98
 extra:
@@ -72,8 +72,8 @@ block-beta
     C["정책 가드레일"]
     D["망 제어•집행기"]
     E["네트워크 장비"]
-    A --> B --> C --> D --> E
-    E --> A
+    A --- B --- C --- D --- E
+    E --- A
 ```
 
 | 구성요소 | 책임 |

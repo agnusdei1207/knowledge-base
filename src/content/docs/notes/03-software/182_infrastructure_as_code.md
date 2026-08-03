@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["코드 저장소"]
     B["검증 파이프라인"]

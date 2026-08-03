@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RAID 레벨 0•1•5•6•10 비교 (RAID Levels)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 32
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:C["RAID 컨트롤러"]
         columns 2

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디바이스 DNA (Device DNA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 71
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 2
   A["특성 수집기"]
   B["DNA 생성 엔진"]

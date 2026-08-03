@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템 저널링 (File System Journaling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:29:00+09:00"
 tags:
   - "notes-software"
 weight: 21
@@ -67,21 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    block:FS["파일 시스템"]
-        columns 2
-        T["트랜잭션 관리자"]
-        J["저널 영역"]
-        K["체크포인트 처리기"]
-        R["복구기"]
-    end
-    H["본래 블록"]
-    T --- J
-    J --- K
-    J --- R
-    K --- H
-    R --- H
+block-beta
+  columns 3
+  T["트랜잭션 관리자"] J["저널 영역"] K["체크포인트 처리기"]
+  space R["복구기"] space
+  T --- J
+  J --- K
+  J --- R
 ```
 
 | 구성요소 | 책임 |

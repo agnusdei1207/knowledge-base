@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:24:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -64,18 +64,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   A["범위 설정"]
   B["발견"]
   C["우선순위화"]
   D["검증"]
   E["동원"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+  A --- B
+  B --- C
+  C --- D
+  D --- E
+  E --- A
 ```
 
 | 구성요소 | 책임 |

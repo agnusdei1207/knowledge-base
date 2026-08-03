@@ -4,7 +4,7 @@ sidebar:
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
   badge: { text: "기출 • 85%", variant: note }
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags: ["notes-software"]
 weight: 189
 extra:
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["EA 거버넌스"]
     B["BA"]

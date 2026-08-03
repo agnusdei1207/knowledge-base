@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쉘코드•ROP 공격 (Shellcode ROP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -70,10 +70,10 @@ block-beta
   C["ASLR"]
   D["CFI"]
   E["그림자 스택"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+  A --- B
+  B --- C
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

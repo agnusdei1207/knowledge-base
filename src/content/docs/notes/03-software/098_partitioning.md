@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 98
@@ -74,10 +74,10 @@ block-beta
   C["파티션 카탈로그"]
   I["로컬•글로벌 인덱스"]
   L["수명주기 작업"]
-  K --> M
-  M --> C
-  C --> I
-  C --> L
+  K --- M
+  M --- C
+  C --- I
+  C --- L
 ```
 
 | 구성요소 | 책임 |

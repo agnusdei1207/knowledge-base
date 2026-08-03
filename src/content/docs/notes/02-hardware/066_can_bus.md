@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 66
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 2
   A["응용 소프트웨어"]
   B["CAN 컨트롤러"]

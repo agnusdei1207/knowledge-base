@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "폭포수 모델 vs 애자일 (Waterfall vs Agile)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:13:15+09:00"
 tags:
   - "notes-software"
 weight: 31
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:WATER["폭포수 모델"]
         columns 2

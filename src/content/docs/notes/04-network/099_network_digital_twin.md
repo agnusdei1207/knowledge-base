@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "네트워크 디지털 트윈 (Network Digital Twin)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 99
 extra:
@@ -71,8 +71,8 @@ block-beta
     C["시나리오 실행기"]
     D["불변 조건 검증기"]
     E["변경 제어기"]
-    A --> B --> C --> D --> E
-    E --> A
+    A --- B --- C --- D --- E
+    E --- A
 ```
 
 | 구성요소 | 책임 |

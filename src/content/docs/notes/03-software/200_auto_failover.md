@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버 (Auto Failover)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 200
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["감지기"]
     B["결정기"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC UA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 79
@@ -71,11 +71,11 @@ block-beta
     MODEL["정보 모델•주소 공간"]
     DEVICE["PLC•센서"]
     SECURITY["인증서•역할 정책"]
-    DEVICE --> MODEL
-    MODEL --> SERVER
-    SERVER --> CLIENT
-    SECURITY --> SERVER
-    SECURITY --> CLIENT
+    DEVICE --- MODEL
+    MODEL --- SERVER
+    SERVER --- CLIENT
+    SECURITY --- SERVER
+    SECURITY --- CLIENT
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "클라우드 네이티브 애플리케이션 보호 플랫폼 (Cloud-Native Application Protection Platform, CNAPP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 73
@@ -68,9 +68,9 @@ block-beta
   C["CWPP"]
   D["자산 관계 그래프"]
   E["소유자•파이프라인 연계"]
-  A --> D
-  B --> D
-  C --> D --> E
+  A --- D
+  B --- D
+  C --- D --- E
 ```
 
 | 구성요소 | 책임 |

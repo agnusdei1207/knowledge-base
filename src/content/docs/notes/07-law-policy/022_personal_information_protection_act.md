@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "개인정보보호법 (Personal Information Protection Act)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 22
@@ -76,7 +76,7 @@ block-beta
   B["개인정보처리자"]
   C["수탁자•제3자"]
   D["개인정보 보호책임자"]
-  E["개인정보보호위원회"]
+  E["개인정보보호위원회•PIPC"]
   A --- B
   B --- C
   B --- D

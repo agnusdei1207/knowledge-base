@@ -4,7 +4,7 @@ sidebar:
   label: "039. 5G 네트워크 슬라이싱"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 네트워크 슬라이싱"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 39
 extra:
@@ -65,12 +65,12 @@ extra:
 서비스 수준 협약(Service Level Agreement, SLA)의 지연•용량•가용성 목표를 무선•전송•코어 자원에 반영한다.
 
 ```mermaid
-block
+block-beta
     columns 4
-    A["서비스•SLA 모델"] --> B["슬라이스 오케스트레이터"] --> C["무선•전송•코어 자원"]
-    D["NSSF"] --> E["AMF"] --> F["SMF"] --> G["UPF"]
-    B --> D
-    C --> G
+    A["서비스•SLA 모델"] --- B["슬라이스 오케스트레이터"] --- C["무선•전송•코어 자원"]
+    D["NSSF"] --- E["AMF"] --- F["SMF"] --- G["UPF"]
+    B --- D
+    C --- G
 ```
 
 | 구성요소 | 책임 |

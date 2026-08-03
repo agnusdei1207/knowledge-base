@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -78,7 +78,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     T["트리 정책"] --- R["탐색 트리"] --- P["롤아웃 정책"] --- S["노드 통계"]
 ```

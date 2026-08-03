@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 95
 extra:
@@ -70,8 +70,8 @@ block-beta
     SOAR["SOAR 대응부"]
     TOOL["보안 통제 도구"]
     FEEDBACK["대응 결과 환류부"]
-    SIEM --> CONTRACT --> SOAR --> TOOL
-    TOOL --> FEEDBACK --> SIEM
+    SIEM --- CONTRACT --- SOAR --- TOOL
+    TOOL --- FEEDBACK --- SIEM
 ```
 
 | 구성요소 | 책임 |

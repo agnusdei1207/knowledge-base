@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "GPU 아키텍처•SIMT 모델 (GPU SIMT)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 41
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     W["워프 스케줄러"]
     E["연산•로드/저장 유닛"]

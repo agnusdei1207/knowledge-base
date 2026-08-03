@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 보안 공유 책임 모델 (Cloud Shared Responsibility)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 71
@@ -68,13 +68,13 @@ block-beta
   C["고객 통제"]
   D["공동•상속 통제"]
   E["증적•사고 인터페이스"]
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  B --> E
-  C --> E
-  D --> E
+  A --- B
+  A --- C
+  B --- D
+  C --- D
+  B --- E
+  C --- E
+  D --- E
 ```
 
 | 구성요소 | 책임 |

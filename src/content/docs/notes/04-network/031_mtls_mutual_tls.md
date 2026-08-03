@@ -4,7 +4,7 @@ sidebar:
   label: "031. mTLS 상호 인증"
   badge: { text: "기출 • 50%", variant: note }
 title: "mTLS 상호 인증"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 31
 extra:
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["인증기관(CA)"]
     B["클라이언트 인증서•키"]

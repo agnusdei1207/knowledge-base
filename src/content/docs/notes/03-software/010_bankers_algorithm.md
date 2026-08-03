@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 은행원 알고리즘 (Banker's Algorithm)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:16:00+09:00"
 tags: [notes-software]
 weight: 10
 extra:
@@ -64,18 +64,12 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["요청 프로세스"]
-    block:B["은행원 알고리즘 경계"]
-        columns 3
-        C["요청 제어기"]
-        S["자원 상태"]
-        A["안전성 검사기"]
-    end
-    P --- C
-    C --- S
-    S --- A
+block-beta
+  columns 4
+  P["요청 프로세스"] C["요청 제어기"] S["자원 상태"] A["안전성 검사기"]
+  P --- C
+  C --- S
+  S --- A
 ```
 
 | 구성요소 | 책임 |

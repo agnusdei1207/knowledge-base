@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SQL 인젝션 (SQL Injection)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 46
@@ -72,10 +72,10 @@ block-beta
   C["DB 드라이버"]
   D["DB 계정"]
   E["오류•감사"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+  A --- B
+  B --- C
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

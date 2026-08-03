@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SoC 시스템온칩 (System on Chip)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 38
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     IP["연산•기능 IP"]
     NOC["NoC•인터커넥트"]

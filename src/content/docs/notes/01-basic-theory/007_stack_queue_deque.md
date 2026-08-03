@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "스택•큐•덱 (Stack Queue Deque)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 7
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     I["연산 인터페이스"] --- E["끝점 상태"] --- S["저장소"]
 ```

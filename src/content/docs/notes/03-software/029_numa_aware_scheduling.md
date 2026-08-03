@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:12:45+09:00"
 tags:
   - "notes-software"
 weight: 29
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:SCHED["NUMA 인지 스케줄러"]
         columns 2

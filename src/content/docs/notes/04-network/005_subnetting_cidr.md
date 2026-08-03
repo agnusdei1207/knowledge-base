@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "서브네팅•CIDR (Subnetting CIDR)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 5
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:ADDRESS
         columns 2

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NaaS (Network as a Service)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 60
@@ -73,11 +73,11 @@ block-beta
     C["네트워크 패브릭•기능"]
     D["서비스 에지"]
     E["관측•SLA•과금"]
-    A --> B
-    B --> C
-    C --> D
-    E --> C
-    E --> D
+    A --- B
+    B --- C
+    C --- D
+    E --- C
+    E --- D
 ```
 
 | 구성요소 | 책임 |

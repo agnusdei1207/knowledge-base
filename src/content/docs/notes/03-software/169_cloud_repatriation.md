@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "클라우드 회귀 (Cloud Repatriation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 169
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["후보•TCO 평가"]
     B["목표 환경"]

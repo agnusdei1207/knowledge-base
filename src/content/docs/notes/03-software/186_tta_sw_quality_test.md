@@ -4,7 +4,7 @@ sidebar:
   label: "186. TTA 소프트웨어 품질 시험"
   badge: { text: "기출 • 70%", variant: note }
 title: "TTA 소프트웨어 품질 시험"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags: ["notes-software"]
 weight: 186
 extra:
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["시험 계획"]
     B["시험 환경"]

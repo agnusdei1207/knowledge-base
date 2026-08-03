@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "UEBA 사용자•엔티티 행동 분석 (UEBA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:24:00+09:00"
 tags:
   - "notes-security"
 weight: 38
@@ -65,18 +65,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["신원•엔티티 해석"]
   B["행위 텔레메트리"]
   C["기준선•동료군"]
   D["점수•문맥•설명"]
   E["조사•피드백"]
-  A --> C
-  B --> C
-  C --> D
-  D --> E
-  E --> C
+  A --- C
+  B --- C
+  C --- D
+  D --- E
+  E --- C
 ```
 
 | 구성요소 | 책임 |

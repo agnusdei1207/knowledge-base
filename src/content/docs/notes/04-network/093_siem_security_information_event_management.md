@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "융합 보안 관제 SIEM (Security Information and Event Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 93
 extra:
@@ -69,8 +69,8 @@ block-beta
     STORE["보안 자료 저장소"]
     ANALYTICS["상관분석 엔진"]
     WORKBENCH["경보•조사 작업대"]
-    INGEST --> NORMALIZER --> STORE
-    STORE --> ANALYTICS --> WORKBENCH
+    INGEST --- NORMALIZER --- STORE
+    STORE --- ANALYTICS --- WORKBENCH
 ```
 
 | 구성요소 | 책임 |

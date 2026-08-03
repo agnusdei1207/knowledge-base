@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BGP 하이재킹 방지 (BGP Hijacking Prevention)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 110
 extra:
@@ -62,12 +62,12 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["RPKI•IRR 신뢰원"] --> B["BGP 수용 필터"] --> C["라우팅 제어 평면"]
-    D["외부 경로 관측기"] --> E["격리•복구 체계"]
-    C --> D
-    E --> B
+    A["RPKI•IRR 신뢰원"] --- B["BGP 수용 필터"] --- C["라우팅 제어 평면"]
+    D["외부 경로 관측기"] --- E["격리•복구 체계"]
+    C --- D
+    E --- B
 ```
 
 | 구성요소 | 책임 |

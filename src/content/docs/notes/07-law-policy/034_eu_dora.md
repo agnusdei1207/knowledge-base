@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "EU DORA 금융 디지털 운영 복원력 (EU DORA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law-policy"
 weight: 34
@@ -73,12 +73,7 @@ block-beta
     R --- I
     R --- T
     R --- P
-    I --- S
-    S --- R
-    R --- I
-    I --- T
-    T --- P
-    P --- S
+    R --- S
 ```
 
 | 구성요소 | 책임 |

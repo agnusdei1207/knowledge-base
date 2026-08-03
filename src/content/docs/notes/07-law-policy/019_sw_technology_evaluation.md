@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 기술성 평가 (SW Technology Evaluation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 19
@@ -74,7 +74,7 @@ extra:
 block-beta
   columns 3
   A["발주기관"]
-  B["제안요청서•평가 기준"]
+  B["제안요청서•평가기준"]
   C["제안업체"]
   D["평가위원회"]
   E["평가 결과•협상"]

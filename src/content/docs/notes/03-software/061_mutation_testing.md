@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "뮤테이션 테스트 (Mutation Testing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 61
@@ -66,17 +66,17 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   O["원본 프로그램"]
   P["변이 연산자"]
   U["변이본 집합"]
   T["테스트 스위트"]
   C["결과 분류기"]
-  O --> U
-  P --> U
-  T --> U
-  U --> C
+  O --- U
+  P --- U
+  T --- U
+  U --- C
 ```
 
 | 구성요소 | 책임 |

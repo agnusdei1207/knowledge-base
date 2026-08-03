@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RISC-V 개방형 ISA (RISC-V Open Standard ISA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 4
@@ -73,7 +73,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     R["프로파일"] --- B["기본 ISA"]
     R --- E["확장 집합"]

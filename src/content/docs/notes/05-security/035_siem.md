@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SIEM - 보안 이벤트 집계•분석 (SIEM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:18:00+09:00"
 tags:
   - "notes-security"
 weight: 35
@@ -63,18 +63,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["수집•전송"]
   B["파싱•정규화"]
   C["데이터 보강"]
   D["상관•분석"]
   E["저장•관리"]
-    A --> B
-    B --> C
-    C --> D
-    C --> E
-    E --> D
+    A --- B
+    B --- C
+    C --- D
+    C --- E
+    E --- D
 ```
 
 | 구성요소 | 책임 |

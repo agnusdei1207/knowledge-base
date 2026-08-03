@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 대가산정 (SW Cost Estimation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 75
@@ -67,16 +67,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["범위 기준선"]
   M["규모•공수 모델"]
   R["적용 단가"]
   A["보정 요소"]
   C["산정 대가"]
-  S --> M --> C
-  R --> C
-  A --> C
+  S --- M --- C
+  R --- C
+  A --- C
 ```
 
 | 구성요소 | 책임 |

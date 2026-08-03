@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   G["게스트 VM"]
   C["CPU 가상화 확장"]

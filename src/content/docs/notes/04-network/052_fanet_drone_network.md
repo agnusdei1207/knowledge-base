@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "FANET 드론 애드혹 네트워크 (FANET Drone Network)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 52
@@ -72,10 +72,10 @@ block-beta
     C["중계 UAV"]
     D["게이트웨이 UAV"]
     E["지상 관제소"]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    A --- B
+    B --- C
+    C --- D
+    D --- E
 ```
 
 | 구성요소 | 책임 |

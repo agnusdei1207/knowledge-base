@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "람다 아키텍처 (Lambda Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 118
@@ -64,7 +64,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["Lambda 경계"]:3
   I["불변 원본"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "프로세스 스케줄링 알고리즘: FCFS•SJF•RR•MLFQ•CFS (Process Scheduling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:05:00+09:00"
 tags: [notes-software]
 weight: 4
 extra:
@@ -66,20 +66,14 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    C["CPU"]
-    block:K["스케줄링 경계"]
-        columns 2
-        Q["준비 큐"]
-        S["스케줄러"]
-        D["디스패처"]
-        T["타이머"]
-    end
-    Q --- S
-    S --- D
-    D --- C
-    T --- D
+block-beta
+  columns 3
+  Q["준비 큐"] S["스케줄러"] D["디스패처"]
+  T["타이머"] space C["CPU"]
+  Q --- S
+  S --- D
+  T --- D
+  D --- C
 ```
 
 | 구성요소 | 책임 |

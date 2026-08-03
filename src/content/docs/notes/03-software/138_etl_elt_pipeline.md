@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 138
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["원천 커넥터"]
     B["스테이징 영역"]

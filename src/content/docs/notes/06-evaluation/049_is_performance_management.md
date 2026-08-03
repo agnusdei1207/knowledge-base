@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "정보시스템 성능 관리 방법론 (IS Performance Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -70,8 +70,8 @@ block-beta
   A["응용 계층"]
   D["DB•인프라 계층"]
   V["병목 개선•검증"]
-  G --> O --> A
-  A --> D --> V
+  G --- O --- A
+  A --- D --- V
 ```
 
 | 구성요소 | 책임 |

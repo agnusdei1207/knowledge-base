@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "UNIX 커널•쉘•파일시스템 3요소 (UNIX Kernel Shell)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:31:00+09:00"
 tags:
   - "notes-software"
 weight: 23
@@ -66,21 +66,11 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    U["사용자"]
-    block:UNIX["UNIX 운영체제"]
-        columns 1
-        S["셸"]
-        K["커널"]
-        F["파일 시스템"]
-    end
-    H["하드웨어"]
-    U --- S
-    S --- K
-    K --- F
-    K --- H
-    F --- H
+block-beta
+  columns 3
+  S["셸"] K["커널"] F["파일 시스템"]
+  S --- K
+  K --- F
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "포트 번호•소켓 통신 (Port Socket Communication)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 29
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["클라이언트 소켓"]
     B["서버 리슨 소켓"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "IDS•IPS (IDS IPS)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 21
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["수집•정규화기"]
     B["탐지 엔진"]

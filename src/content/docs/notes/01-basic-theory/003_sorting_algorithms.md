@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정렬 알고리즘 비교: 퀵•병합•힙•버블 (Sorting Algorithms)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 3
@@ -74,7 +74,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     C["정렬 제어기"]
     F["비교 함수"]

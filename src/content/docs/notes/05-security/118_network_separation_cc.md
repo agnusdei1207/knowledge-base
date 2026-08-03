@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "망분리 — CC 인증•보안적합성 (Network Separation CC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 118
@@ -63,15 +63,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   Z["업무•인터넷•관리 영역"]
   G["망연계•자료전송 경계"]
   T["CC 인증 TOE•버전"]
   C["안전한 설치•관리 구성"]
   O["로그•우회•변경 검증"]
-  Z --> G --> C --> O
-  T --> C
+  Z --- G --- C --- O
+  T --- C
 ```
 
 | 구성요소 | 책임 |

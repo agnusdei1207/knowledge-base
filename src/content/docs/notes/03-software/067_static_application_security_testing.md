@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정적 분석 SAST (Static Application Security Testing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 67
@@ -67,15 +67,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   P["파서"]
   M["흐름 모델"]
   E["분석 엔진"]
   R["취약점 규칙"]
   G["결과 관리"]
-  P --> M --> E --> G
-  R --> E
+  P --- M --- E --- G
+  R --- E
 ```
 
 | 구성요소 | 책임 |

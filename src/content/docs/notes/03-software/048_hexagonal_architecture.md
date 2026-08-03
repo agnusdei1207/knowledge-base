@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "헥사고날 아키텍처: 포트•어댑터 (Hexagonal Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 48
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   IA["인바운드 어댑터"]
   IP["인바운드 포트"]

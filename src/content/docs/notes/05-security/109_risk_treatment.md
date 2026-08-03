@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "위험 처리 전략 — 수용•회피•전가•감소 (Risk Treatment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 109
@@ -61,18 +61,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   R["위험 등록부"]
   O["위험 소유자"]
   P["위험 처리계획"]
   E["통제•계약 증적"]
   M["잔여위험•감시 기준"]
-  R --> O
-  O --> P
-  P --> E
-  E --> M
-  M --> R
+  R --- O
+  O --- P
+  P --- E
+  E --- M
+  M --- R
 ```
 
 | 구성요소 | 책임 |

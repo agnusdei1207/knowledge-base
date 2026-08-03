@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:10:00+09:00"
 tags:
   - "notes-security"
 weight: 24
@@ -65,17 +65,17 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 3
+block-beta
+    columns 5
     T["신뢰 정보"]
     V["검증 통제"]
     A["위조 주입점"]
     C["주소 캐시•필터"]
     F["공격 감시•종단 인증"]
-    T --> V
-    A --> V
-    V --> C
-    C --> F
+    T --- V
+    A --- V
+    V --- C
+    C --- F
 ```
 
 | 구성요소 | 책임 |

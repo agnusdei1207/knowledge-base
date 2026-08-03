@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "캐시 일관성 프로토콜: MESI•MOESI (Cache Coherence Protocol)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 14
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     L["캐시 라인•상태비트"] --- C["일관성 제어기"] --- N["일관성 연결망"] --- M["공유 메모리 계층"]
 ```

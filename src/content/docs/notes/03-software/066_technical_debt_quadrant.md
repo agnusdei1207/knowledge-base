@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "소프트웨어 기술부채 사분면 (Technical Debt Quadrant)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 66
@@ -67,15 +67,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   I["의도성 축"]
   P["신중성 축"]
   E["이자 근거"]
   R["부채 대장"]
-  I --> R
-  P --> R
-  E --> R
+  I --- R
+  P --- R
+  E --- R
 ```
 
 | 구성요소 | 책임 |

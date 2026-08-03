@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "위협 인텔리전스 - STIX•TAXII (Threat Intelligence STIX TAXII)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 96
 extra:
@@ -72,8 +72,8 @@ block-beta
     C["TAXII 교환 서버"]
     D["보안 도구 소비자"]
     E["품질 환류기"]
-    A --> B --> C --> D
-    D --> E --> A
+    A --- B --- C --- D
+    D --- E --- A
 ```
 
 | 구성요소 | 책임 |

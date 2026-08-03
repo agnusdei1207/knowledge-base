@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "폴락의 법칙 (Pollack's Rule)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 11
@@ -82,7 +82,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     M["워크로드•면적 모델"] --- C["후보 구성기"] --- P["성능 모델"] --- R["전력•열•대역폭 검증기"] --- D["설계 의사결정자"]
 ```

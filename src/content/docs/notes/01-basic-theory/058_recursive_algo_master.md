@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "재귀 알고리즘•마스터 정리 (Recursive Algorithm Master Theorem)"
-date: "2026-08-02T10:26:00+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 58
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     F["재귀 함수"]
     S["호출 스택"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:15:35+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -72,13 +72,10 @@ block-beta
     U["유틸리티 트리"]:2
     M["결정-시나리오 매핑"]:2
     R["평가•검증 결과"]:2
-    B --> U
-    U --> M
-    A --> M
-    M --> R
-  B --- U
-  U --- M
-  M --- R
+    B --- U
+    U --- M
+    A --- M
+    M --- R
 ```
 
 | 구성요소 | 책임 |

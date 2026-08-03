@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "개체 무결성•참조 무결성 (Entity Referential Integrity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 92
@@ -67,16 +67,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["후보키"]
   P["기본키"]
   F["외래키"]
   T["참조 대상 키"]
   A["참조 동작"]
-  C --> P
-  C --> T
-  F --> T --> A
+  C --- P
+  C --- T
+  F --- T --- A
 ```
 
 | 구성요소 | 책임 |

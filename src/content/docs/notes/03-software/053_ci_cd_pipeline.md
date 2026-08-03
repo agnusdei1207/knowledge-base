@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   S["소스 저장소"]
   R["파이프라인 실행기"]

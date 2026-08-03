@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스마트 미터 AMI (Advanced Metering Infrastructure)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 84
 extra:
@@ -72,10 +72,10 @@ block-beta
     HES["헤드엔드 시스템"]
     MDMS["계량자료 관리시스템"]
     BIZ["전력 업무시스템"]
-    METER --> NETWORK
-    NETWORK --> HES
-    HES --> MDMS
-    MDMS --> BIZ
+    METER --- NETWORK
+    NETWORK --- HES
+    HES --- MDMS
+    MDMS --- BIZ
 ```
 
 | 구성요소 | 책임 |

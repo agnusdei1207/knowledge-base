@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:10:00+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -63,11 +63,19 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 3
-    A["사용자•데이터"] --> B["NGFW 계층"] --> E["로그•정책 통합"]
-    A --> C["WAF•API 계층"] --> E
-    A --> D["CASB 계층"] --> E
+block-beta
+    columns 5
+    A["사용자•데이터"]
+    B["NGFW 계층"]
+    C["WAF•API 계층"]
+    D["CASB 계층"]
+    E["로그•정책 통합"]
+    A --- B
+    A --- C
+    A --- D
+    B --- E
+    C --- E
+    D --- E
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "예약 인스턴스•스팟 인스턴스 (Reserved Spot Instance)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags: ["notes-software"]
 weight: 148
 extra:
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     B["기준선 분석"]
     R["예약 포트폴리오"]

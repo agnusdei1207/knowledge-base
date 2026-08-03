@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오토인코더 (Autoencoder)"
-date: "2026-08-02T10:13:00+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 45
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     E["인코더"]
     Z["잠재 공간•병목"]

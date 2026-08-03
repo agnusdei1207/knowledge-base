@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "마이크로서비스 사가 패턴 vs 2PC (Saga vs 2PC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 179
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["업무 호출자"]
     B["Saga 조정"]

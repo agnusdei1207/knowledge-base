@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보기술 감리 (Intelligent IT Audit)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -72,8 +72,8 @@ block-beta
   C["클라우드•API"]
   I["기기•통신"]
   O["운영 통제"]
-  H --> D --> C
-  C --> I --> O
+  H --- D --- C
+  C --- I --- O
 ```
 
 | 구성요소 | 책임 |

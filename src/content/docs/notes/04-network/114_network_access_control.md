@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "네트워크 접근 제어 NAC"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 114
@@ -67,12 +67,12 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
-  A["접속 단말"] --> B["접근 집행점"] --> C["정책•AAA 서버"]
-  D["신원•상태 정보원"] --> C
-  C --> B
-  B --> E["업무망•격리망"]
+  A["접속 단말"] --- B["접근 집행점"] --- C["정책•AAA 서버"]
+  D["신원•상태 정보원"] --- C
+  C --- B
+  B --- E["업무망•격리망"]
 ```
 
 | 구성요소 | 책임 |

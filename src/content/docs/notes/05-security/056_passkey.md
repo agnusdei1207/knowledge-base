@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "패스키 비밀번호 없는 인증 (Passkey Passwordless)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 56
@@ -70,10 +70,10 @@ block-beta
   C["인증자"]
   D["사용자 검증"]
   E["동기화•복구 체계"]
-    A --> B
-    B --> C
-    D --> C
-    E --> C
+    A --- B
+    B --- C
+    D --- C
+    E --- C
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 110
@@ -61,18 +61,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   B["BIA•복구 목표"]
   S["업무 연속성 전략"]
   C["지휘•소통 체계"]
   P["BCP•DRP 실행계획"]
   T["훈련•성과평가•개선"]
-  B --> S
-  S --> C
-  C --> P
-  P --> T
-  T --> B
+  B --- S
+  S --- C
+  C --- P
+  P --- T
+  T --- B
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 품질 평가 검증 (TTA & GS 인증)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 31
@@ -70,10 +70,10 @@ block-beta
     P["신청 제품•문서"] E["시험 범위•환경"] T["시험기관"]
     space:3
     R["시험결과서"] space C["품질인증심의위원회"]
-    P --> T
-    E --> T
-    T --> R
-    R --> C
+    P --- T
+    E --- T
+    T --- R
+    R --- C
   P --- R
 ```
 

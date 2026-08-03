@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:18:00+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -61,18 +61,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["SIEM 수집•상관"]
   B["인계 계약"]
   C["SOAR 보강•조치"]
   D["결과 환류"]
   E["EDR•IdP"]
-    A --> B
-    B --> C
-    C --> E
-    E --> D
-    D --> A
+    A --- B
+    B --- C
+    C --- E
+    E --- D
+    D --- A
 ```
 
 | 구성요소 | 책임 |

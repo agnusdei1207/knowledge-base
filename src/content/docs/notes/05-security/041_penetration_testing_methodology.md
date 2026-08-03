@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "모의 침투 테스트 (Penetration Testing, 펜테스트)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 41
@@ -70,11 +70,11 @@ block-beta
   C["시험 환경 통제"]
   D["공격 수행팀"]
   E["증거 관리"]
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
+  A --- B
+  A --- C
+  B --- D
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

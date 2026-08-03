@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (CASB)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 92
 extra:
@@ -70,9 +70,9 @@ block-beta
     CONTEXT["신원•자료•위험 저장소"]
     POLICY["CASB 정책 엔진"]
     CLOUD["클라우드 서비스"]
-    USER --> BROKER --> CLOUD
-    BROKER --> POLICY
-    CONTEXT --> POLICY
+    USER --- BROKER --- CLOUD
+    BROKER --- POLICY
+    CONTEXT --- POLICY
 ```
 
 | 구성요소 | 책임 |

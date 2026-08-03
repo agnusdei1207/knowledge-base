@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하이브리드 클라우드 (Hybrid Cloud)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 144
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["전용 환경"]
     B["퍼블릭 환경"]

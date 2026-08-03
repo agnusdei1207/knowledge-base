@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 71
@@ -65,15 +65,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   B["사업 동인"]
   U["유틸리티 트리"]
   A["아키텍처 접근법"]
   N["시나리오 분석"]
   R["평가 결과"]
-  B --> U --> N --> R
-  A --> N
+  B --- U --- N --- R
+  A --- N
 ```
 
 | 구성요소 | 책임 |

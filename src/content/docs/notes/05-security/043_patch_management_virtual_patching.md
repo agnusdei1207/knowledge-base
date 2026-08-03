@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "패치 관리•가상 패치 (Patch Management Virtual Patching)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 43
@@ -71,10 +71,10 @@ block-beta
   C["검증 승인"]
   D["배포 통제"]
   E["효과 검증"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+  A --- B
+  B --- C
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

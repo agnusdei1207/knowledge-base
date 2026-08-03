@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "클라우드 CSAP 보안 인증 등급제(Cloud Security Assurance Program)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 75
@@ -68,11 +68,11 @@ block-beta
   C["신청자"]
   D["인증위원회"]
   E["이용기관"]
-  A --> B
-  C --> B
-  B --> D
-  D --> A
-  A --> E
+  A --- B
+  C --- B
+  B --- D
+  D --- A
+  A --- E
 ```
 
 | 구성요소 | 책임 |

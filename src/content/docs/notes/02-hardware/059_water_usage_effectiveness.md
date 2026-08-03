@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "물 사용 효율 (WUE)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 59
@@ -68,7 +68,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   A["물 사용 계량"]
   B["IT 에너지 계량"]

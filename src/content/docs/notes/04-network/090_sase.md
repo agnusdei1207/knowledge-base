@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SASE - SD-WAN•CASB•SWG•ZTNA (SASE)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 90
 extra:
@@ -71,9 +71,9 @@ block-beta
     POP["PoP•SSE 보안부"]
     POLICY["통합 정책 제어기"]
     APP["인터넷•클라우드•사설 응용"]
-    EDGE --> SDWAN --> POP --> APP
-    POLICY --> SDWAN
-    POLICY --> POP
+    EDGE --- SDWAN --- POP --- APP
+    POLICY --- SDWAN
+    POLICY --- POP
 ```
 
 | 구성요소 | 책임 |

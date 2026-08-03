@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF•OSPFv3 (OSPF Link State Routing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -64,7 +64,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     N["OSPF 이웃"]
     block:ROUTER

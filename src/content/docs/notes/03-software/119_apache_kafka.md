@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 119
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["Kafka 경계"]:3
   P["Producer"]

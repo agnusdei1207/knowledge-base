@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 전가상화•반가상화•컨테이너 비교 (Full•Para•Container Virtualization)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:27:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -62,22 +62,17 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    W["워크로드"]
-    block:R["격리 실행 계층"]
-        columns 3
-        F["전가상화 계층"]
-        P["반가상화 계층"]
-        C["컨테이너 계층"]
-    end
-    H["하이퍼바이저•호스트 커널"]
-    W --- F
-    W --- P
-    W --- C
-    F --- H
-    P --- H
-    C --- H
+block-beta
+  columns 3
+  W["워크로드"] space space
+  F["전가상화 계층"] P["반가상화 계층"] C["컨테이너 계층"]
+  H["하이퍼바이저•호스트 커널"] space space
+  W --- F
+  W --- P
+  W --- C
+  F --- H
+  P --- H
+  C --- H
 ```
 
 | 구성요소 | 책임 |

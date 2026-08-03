@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 18
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     F["상주 프레임 집합"] --- R["교체 선택기"]
     H["참조 이력"] --- R

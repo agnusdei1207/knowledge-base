@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "앙상블 학습: 배깅•부스팅•스태킹 (Ensemble Learning)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 52
@@ -64,7 +64,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     S["표본 생성기"]
     B["기본 학습기"]

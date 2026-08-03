@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "플랫폼 엔지니어링 IDP (Platform Engineering IDP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 82
@@ -69,14 +69,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   P["개발자 포털"]
   C["서비스 카탈로그"]
   W["자동화 워크플로"]
   G["정책 가드레일"]
-  P --> C --> W
-  G --> W
+  P --- C --- W
+  G --- W
 ```
 
 | 구성요소 | 책임 |

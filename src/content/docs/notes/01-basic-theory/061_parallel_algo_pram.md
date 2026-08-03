@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "병렬 알고리즘: PRAM 모델"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 61
@@ -68,7 +68,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     P["프로세서 집합"]
     M["공유 메모리"]

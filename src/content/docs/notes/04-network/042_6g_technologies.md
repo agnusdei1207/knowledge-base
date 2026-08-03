@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "6G 핵심 기술 (6G Vision & Technologies)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 42
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:SIXG["6G 통합망"]
         columns 2

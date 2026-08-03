@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
   badge: { text: "기출 • 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["참조 모형"]
     B["매핑 체계"]

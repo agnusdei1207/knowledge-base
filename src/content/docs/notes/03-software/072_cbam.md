@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CBAM 비용 편익 분석 방법 (Cost Benefit Analysis Method)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 72
@@ -66,15 +66,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   Q["품질 시나리오"]
   U["효용 함수"]
   W["시나리오 가중치"]
   A["아키텍처 전략"]
   C["비용•제약"]
-  Q --> U --> A --> C
-  Q --> W --> A
+  Q --- U --- A --- C
+  Q --- W --- A
 ```
 
 | 구성요소 | 책임 |

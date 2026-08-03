@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 멀티레벨 피드백 큐 MLFQ (Multilevel Feedback Queue)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:06:00+09:00"
 tags: [notes-software]
 weight: 5
 extra:
@@ -63,18 +63,12 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    Q["우선순위 큐 계층"]
-    block:M["MLFQ 제어 경계"]
-        columns 3
-        S["우선순위 선택기"]
-        F["피드백 규칙"]
-        T["상향 타이머"]
-    end
-    Q --- S
-    S --- F
-    F --- T
+block-beta
+  columns 4
+  Q["우선순위 큐 계층"] S["우선순위 선택기"] F["피드백 규칙"] T["상향 타이머"]
+  Q --- S
+  S --- F
+  F --- T
 ```
 
 | 구성요소 | 책임 |

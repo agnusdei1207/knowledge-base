@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 리팩터링•기술부채 (Refactoring Technical Debt)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 65
@@ -68,14 +68,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["코드 스멜"]
   B["부채 백로그"]
   T["회귀 테스트"]
   R["리팩터링"]
-  S --> B --> R --> T
-  T --> B
+  S --- B --- R --- T
+  T --- B
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "가상 기지국 vRAN"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 112
@@ -65,13 +65,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
-  A["운영•클라우드 플랫폼"] --> B["가상 CU"] --> C["가상 DU"]
-  A --> D["범용 컴퓨팅•가속기"]
-  D --> B
-  D --> C
-  C --> E["무선 장치"]
+  A["운영•클라우드 플랫폼"] --- B["가상 CU"] --- C["가상 DU"]
+  A --- D["범용 컴퓨팅•가속기"]
+  D --- B
+  D --- C
+  C --- E["무선 장치"]
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "검증가능 자격증명 VC (Verifiable Credential)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 67
@@ -68,7 +68,7 @@ block-beta
   C["보유자•지갑"]
   D["VP"]
   E["검증자•신뢰 상태"]
-  A --> B --> C --> D --> E
+  A --- B --- C --- D --- E
 ```
 
 | 구성요소 | 책임 |

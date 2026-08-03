@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 기아•에이징 (Starvation Aging)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:17:00+09:00"
 tags: [notes-software]
 weight: 11
 extra:
@@ -62,18 +62,12 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    C["대기시간 계수기"]
-    block:A["에이징 경계"]
-        columns 3
-        P["에이징 정책"]
-        Q["우선순위 준비 큐"]
-        S["스케줄러"]
-    end
-    C --- P
-    P --- Q
-    Q --- S
+block-beta
+  columns 4
+  C["대기시간 계수기"] P["에이징 정책"] Q["우선순위 준비 큐"] S["스케줄러"]
+  C --- P
+  P --- Q
+  Q --- S
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ASIC AI 가속 (ASIC AI Acceleration)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 40
@@ -73,7 +73,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     H["호스트•DMA 인터페이스"]
     S["온칩 SRAM•출력 버퍼"]

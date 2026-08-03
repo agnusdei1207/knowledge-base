@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티코어 프로세서 (Multicore Processor)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 10
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     C["코어 클러스터"] --- I["일관성 인터커넥트"] --- L["공유 LLC"] --- M["메모리 제어기"]
 ```

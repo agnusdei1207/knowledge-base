@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 방법 (Monte Carlo Method)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 17
@@ -86,7 +86,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     G["표본 생성기"] --- M["모델 평가기"] --- E["통계 추정기"] --- C["종료 판정기"]
 ```

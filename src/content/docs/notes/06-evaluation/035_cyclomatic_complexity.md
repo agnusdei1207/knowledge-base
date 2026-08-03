@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "순환 복잡도 (McCabe's Cyclomatic Complexity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 35
@@ -74,9 +74,9 @@ block-beta
     columns 3
     B["분석 경계"] C["CFG"]
     V["복잡도 산출"] P["임계값 정책"]
-    B --> C
-    C --> V
-    V --> P
+    B --- C
+    C --- V
+    V --- P
   B --- V
 ```
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "DSPM 데이터 보안 형상 관리 (Data Security Posture Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 74
@@ -68,8 +68,8 @@ block-beta
   C["접근•계보 분석"]
   D["위험 우선순위"]
   E["조치•소유자 연계"]
-  A --> B --> C --> D --> E
-  E --> A
+  A --- B --- C --- D --- E
+  E --- A
 ```
 
 | 구성요소 | 책임 |

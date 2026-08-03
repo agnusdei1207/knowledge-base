@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "산업용 IoT (Industrial IoT, IIoT)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 80
@@ -73,10 +73,10 @@ block-beta
     EDGE["게이트웨이•엣지"]
     CONTROL["PLC•SCADA"]
     FIELD["센서•액추에이터•안전 연동"]
-    FIELD --> CONTROL
-    CONTROL --> EDGE
-    EDGE --> DMZ
-    DMZ --> IT
+    FIELD --- CONTROL
+    CONTROL --- EDGE
+    EDGE --- DMZ
+    DMZ --- IT
 ```
 
 | 구성요소 | 책임 |

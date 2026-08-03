@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "바운디드 컨텍스트 (Bounded Context)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 50
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   U["업스트림 컨텍스트"]
   C["컨텍스트 맵"]

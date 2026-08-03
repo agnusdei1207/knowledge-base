@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 84
@@ -68,14 +68,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   R["릴레이션"]
   K["기본키•외래키"]
   I["무결성 제약조건"]
   Q["SQL 처리기•옵티마이저"]
-  Q --> I --> R
-  K --> I
+  Q --- I --- R
+  K --- I
 ```
 
 | 구성요소 | 책임 |

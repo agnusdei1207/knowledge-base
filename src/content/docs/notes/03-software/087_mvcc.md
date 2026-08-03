@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (MVCC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 87
@@ -66,13 +66,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   M["버전 메타데이터"]
   S["스냅샷•읽기 뷰"]
   V["버전 저장소•체인"]
   C["충돌 제어•정리기"]
-  S --> M --> V --> C
+  S --- M --- V --- C
 ```
 
 | 구성요소 | 책임 |

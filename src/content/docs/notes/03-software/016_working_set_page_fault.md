@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 워킹 셋•페이지 폴트 (Working Set•Page Fault)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:22:00+09:00"
 tags: [notes-software]
 weight: 16
 extra:
@@ -66,17 +66,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["프로세스"]
-    R["참조•상주 상태"]
-    W["워킹 셋 추정기"]
-    H["페이지 폴트 처리기"]
-    F["프레임 할당기"]
-    P --- R
-    R --- W
-    W --- H
-    H --- F
+block-beta
+  columns 5
+  P["프로세스"] R["참조•상주 상태"] W["워킹 셋 추정기"] H["페이지 폴트 처리기"] F["프레임 할당기"]
+  P --- R
+  R --- W
+  W --- H
+  H --- F
 ```
 
 | 구성요소 | 책임 |

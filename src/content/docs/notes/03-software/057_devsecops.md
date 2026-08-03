@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   T["위협 모델"]
   P["보안 파이프라인"]

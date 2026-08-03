@@ -4,7 +4,7 @@ sidebar:
   label: "038. 5G 코어 SBA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 코어 SBA"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 38
 extra:
@@ -65,12 +65,12 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["접속•이동 기능(AMF)"] --> B["서비스 통신 계층"] --> C["세션 기능(SMF)"]
-    D["가입자 기능(UDM)"] --> B
-    E["기능 저장소(NRF)"] --> B
-    C --> F["사용자면 기능(UPF)"]
+    A["접속•이동 기능(AMF)"] --- B["서비스 통신 계층"] --- C["세션 기능(SMF)"]
+    D["가입자 기능(UDM)"] --- B
+    E["기능 저장소(NRF)"] --- B
+    C --- F["사용자면 기능(UPF)"]
 ```
 
 | 구성요소 | 책임 |

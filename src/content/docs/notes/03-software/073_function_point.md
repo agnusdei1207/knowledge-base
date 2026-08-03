@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SW 기능점수 FP 측정 (Function Point)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 73
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   FP["기능점수(FP)"]
   T["트랜잭션 기능"]
@@ -76,13 +76,13 @@ block
   EQ["외부 조회(EQ)"]
   ILF["내부 논리 파일(ILF)"]
   EIF["외부 인터페이스 파일(EIF)"]
-  FP --> T
-  FP --> D
-  T --> EI
-  T --> EO
-  T --> EQ
-  D --> ILF
-  D --> EIF
+  FP --- T
+  FP --- D
+  T --- EI
+  T --- EO
+  T --- EQ
+  D --- ILF
+  D --- EIF
 ```
 
 | 구성요소 | 책임 |

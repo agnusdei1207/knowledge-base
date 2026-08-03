@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라이닝 기본 구조 5단계 (Pipelining)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 6
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     F["IF"] --- D["ID"] --- E["EX"] --- M["MEM"] --- W["WB"]
 ```

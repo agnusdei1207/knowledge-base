@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 46
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     C["컴파일러•런타임"]
     H["호스트 CPU"]

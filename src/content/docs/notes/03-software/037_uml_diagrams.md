@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "UML 다이어그램 유형 (UML Diagrams)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:13:45+09:00"
 tags:
   - "notes-software"
 weight: 37
@@ -67,11 +67,14 @@ extra:
 </details>
 
 ```mermaid
-treeView-beta
-  "UML 다이어그램"
-    "구조 다이어그램"
-    "행위 다이어그램"
-      "상호작용 다이어그램"
+block-beta
+  columns 2
+  U["UML 다이어그램"] space
+  S["구조 다이어그램"] B["행위 다이어그램"]
+  space I["상호작용 다이어그램"]
+  U --- S
+  U --- B
+  B --- I
 ```
 
 | 구성요소 | 책임 |

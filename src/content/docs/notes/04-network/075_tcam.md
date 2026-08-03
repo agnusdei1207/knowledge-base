@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCAM 삼진 검색 메모리 (TCAM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 75
@@ -70,11 +70,11 @@ block-beta
     C["우선순위 인코더"]
     D["동작 SRAM"]
     E["규칙 관리자"]
-    A --> B
-    B --> C
-    C --> D
-    E --> B
-    E --> D
+    A --- B
+    B --- C
+    C --- D
+    E --- B
+    E --- D
 ```
 
 | 구성요소 | 책임 |

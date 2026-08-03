@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 79
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   R["루트 컴플렉스"]
   block:SWITCH

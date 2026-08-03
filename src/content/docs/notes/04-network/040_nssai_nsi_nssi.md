@@ -4,7 +4,7 @@ sidebar:
   label: "040. NSSAI•NSI•NSSI"
   badge: { text: "기출 • 50%", variant: note }
 title: "네트워크 슬라이스 식별 체계"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 40
 extra:
@@ -62,12 +62,12 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 4
-    A["NSSAI"] --> B["S-NSSAI(SST•SD)"] --> C["AMF•NSSF"] --> D["종단 NSI"]
-    D --> E["무선 NSSI"]
-    D --> F["전송 NSSI"]
-    D --> G["코어 NSSI"]
+    A["NSSAI"] --- B["S-NSSAI(SST•SD)"] --- C["AMF•NSSF"] --- D["종단 NSI"]
+    D --- E["무선 NSSI"]
+    D --- F["전송 NSSI"]
+    D --- G["코어 NSSI"]
 ```
 
 | 구성요소 | 책임 |

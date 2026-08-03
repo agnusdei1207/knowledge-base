@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "하드웨어 성능 카운터•PMU (Hardware Performance Counter and PMU)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 91
@@ -79,7 +79,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   E["이벤트 원천"]
   S["이벤트 선택기"]

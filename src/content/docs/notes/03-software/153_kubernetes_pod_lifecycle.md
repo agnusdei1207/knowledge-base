@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags: ["notes-software"]
 weight: 153
 extra:
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["스케줄러•kubelet"]
     B["초기화•주 컨테이너"]

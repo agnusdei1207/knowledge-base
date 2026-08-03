@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CPU 구성: ALU•CU•레지스터•버스 (CPU Components)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 2
@@ -65,7 +65,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     C["제어장치"] --- S["특수 목적 레지스터"]
     C --- R["레지스터 파일"]

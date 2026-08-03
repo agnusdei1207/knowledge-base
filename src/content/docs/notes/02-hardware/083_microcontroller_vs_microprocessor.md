@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 83
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["MCU 제어부"]
   B["MCU 온칩 자원"]

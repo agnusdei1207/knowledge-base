@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOC 보안 운영 센터 (Security Operations Center)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:18:00+09:00"
 tags:
   - "notes-security"
 weight: 34
@@ -64,18 +64,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["서비스•거버넌스"]
   B["데이터 운영"]
   C["탐지 공학"]
   D["사고 대응"]
   E["자동화•지식"]
-    A --> B
-    B --> C
-    C --> D
-    E --> C
-    E --> D
+    A --- B
+    B --- C
+    C --- D
+    E --- C
+    E --- D
 ```
 
 | 구성요소 | 책임 |

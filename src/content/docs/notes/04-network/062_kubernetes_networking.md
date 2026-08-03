@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -75,11 +75,11 @@ block-beta
     C["EndpointSlice"]
     D["NetworkPolicy"]
     E["프록시•eBPF 데이터 경로"]
-    A --> B
-    A --> E
-    B --> C
-    C --> E
-    D --> E
+    A --- B
+    A --- E
+    B --- C
+    C --- E
+    D --- E
 ```
 
 | 구성요소 | 책임 |

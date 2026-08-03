@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 프로세스 스레싱 (Process Thrashing)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:20:00+09:00"
 tags: [notes-software]
 weight: 14
 extra:
@@ -75,20 +75,13 @@ xychart-beta
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["실행 프로세스"]
-    block:M["메모리 관리 경계"]
-        columns 2
-        W["워킹 셋 추적기"]
-        R["상주 집합 관리자"]
-        F["페이지 폴트 감시기"]
-        L["부하 제어기"]
-    end
-    P --- W
-    W --- R
-    R --- F
-    F --- L
+block-beta
+  columns 5
+  P["실행 프로세스"] W["워킹 셋 추적기"] R["상주 집합 관리자"] F["페이지 폴트 감시기"] L["부하 제어기"]
+  P --- W
+  W --- R
+  R --- F
+  F --- L
 ```
 
 | 구성요소 | 책임 |

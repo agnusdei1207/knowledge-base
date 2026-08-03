@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 등급 표준 (TIA-942 Rated)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:15:35+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -71,14 +71,12 @@ block-beta
     P["전력 계통"] C["냉각 계통"] T["통신 계통"]
     I["IT 부하"]:3
     F["건축•안전•보안"]:3
-    P --> I
-    C --> I
-    T --> I
-    F --> P
-    F --> C
-    F --> T
-  P --- I
-  I --- F
+    P --- I
+    C --- I
+    T --- I
+    F --- P
+    F --- C
+    F --- T
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "QKD 양자 키 분배 (Quantum Key Distribution)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 100
 extra:
@@ -75,9 +75,9 @@ block-beta
     C["양자 수신기"]
     D["인증 고전 채널"]
     E["키 관리기"]
-    A --> B --> C
-    A --> D
-    C --> D --> E
+    A --- B --- C
+    A --- D
+    C --- D --- E
 ```
 
 | 구성요소 | 책임 |

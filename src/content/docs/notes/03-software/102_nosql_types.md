@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 1
   A["접근 패턴"]
   block:N["비관계형 데이터베이스 저장 체계"]

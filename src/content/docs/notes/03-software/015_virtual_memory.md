@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리•페이징•세그멘테이션 (Virtual Memory)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:21:00+09:00"
 tags:
   - "notes-software"
 weight: 15
@@ -66,17 +66,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    C["프로세서"]
-    M["MMU•TLB"]
-    T["페이지 테이블"]
-    F["페이지 폴트 처리기"]
-    P["물리 메모리•후면 저장소"]
-    C --- M
-    M --- T
-    T --- F
-    F --- P
+block-beta
+  columns 5
+  C["프로세서"] M["MMU•TLB"] T["페이지 테이블"] F["페이지 폴트 처리기"] P["물리 메모리•후면 저장소"]
+  C --- M
+  M --- T
+  T --- F
+  F --- P
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (2PL Two-Phase Locking)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -67,14 +67,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   L["잠금 관리자"]
   P["성장•축소 제어"]
   W["대기 그래프"]
   V["피해자 선정"]
-  L --> P
-  L --> W --> V
+  L --- P
+  L --- W --- V
 ```
 
 | 구성요소 | 책임 |

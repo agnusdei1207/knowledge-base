@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "엣지 컴퓨팅 vs 포그 컴퓨팅 (Edge vs Fog Computing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 47
@@ -63,7 +63,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:CONTINUUM["분산 처리 계층"]
         columns 1

@@ -4,7 +4,7 @@ sidebar:
   label: "032. Wi-Fi 표준"
   badge: { text: "기출 • 50%", variant: note }
 title: "Wi-Fi 표준"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 32
 extra:
@@ -62,7 +62,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["무선 단말"]
     B["무선 매체"]

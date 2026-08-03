@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "서버 가상화: Type 1•Type 2 하이퍼바이저 (Hypervisor Types)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 87
@@ -61,7 +61,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   H["물리 하드웨어"]
   O["호스트 OS"]

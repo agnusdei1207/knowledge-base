@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -65,7 +65,7 @@ extra:
 **WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)** 과 **인터넷 프로토콜(Internet Protocol, IP)** 을 **제어 채널(Control Channel, CCH)•서비스 채널(Service Channel, SCH)** 로 전달하며, **매체 접근 제어(Media Access Control, MAC)•물리(Physical, PHY)** 계층은 IEEE 802.11p가 담당한다.
 
 ```mermaid
-block
+block-beta
     columns 1
     block:WAVE["WAVE"]
         columns 1

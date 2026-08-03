@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "용량 계획 (Capacity Planning)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -71,8 +71,8 @@ block-beta
   H["리드타임•헤드룸"]
   A["확장 대안•비용"]
   R["용량 로드맵•실측"]
-  D --> M --> H
-  H --> A --> R
+  D --- M --- H
+  H --- A --- R
 ```
 
 | 구성요소 | 책임 |

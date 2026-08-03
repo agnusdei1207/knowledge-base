@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAPTCHA•reCAPTCHA (CAPTCHA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 69
@@ -68,7 +68,7 @@ block-beta
   C["도전 문제"]
   D["검증 토큰"]
   E["애플리케이션•대응 정책"]
-  A --> B --> C --> D --> E
+  A --- B --- C --- D --- E
 ```
 
 | 구성요소 | 책임 |

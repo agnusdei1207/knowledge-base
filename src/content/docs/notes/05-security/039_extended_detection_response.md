@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "XDR 확장 탐지•대응 (XDR Extended Detection Response)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:24:00+09:00"
 tags:
   - "notes-security"
 weight: 39
@@ -63,18 +63,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["다계층 수집"]
   B["엔티티 해석"]
   C["상관 탐지"]
   D["조사 환경"]
   E["대응•피드백"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> C
+  A --- B
+  B --- C
+  C --- D
+  D --- E
+  E --- C
 ```
 
 | 구성요소 | 책임 |

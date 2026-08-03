@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 스레드 스케줄링•스레드 풀 (Thread Scheduling•Thread Pool)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:13:00+09:00"
 tags: [notes-software]
 weight: 8
 extra:
@@ -65,20 +65,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    S["작업 제출자"]
-    block:P["스레드 풀 경계"]
-        columns 3
-        E["스레드 풀 실행기"]
-        Q["유한 작업 큐"]
-        W["워커 스레드"]
-    end
-    O["운영체제 스케줄러"]
-    S --- E
-    E --- Q
-    Q --- W
-    W --- O
+block-beta
+  columns 5
+  S["작업 제출자"] E["스레드 풀 실행기"] Q["유한 작업 큐"] W["워커 스레드"] O["운영체제 스케줄러"]
+  S --- E
+  E --- Q
+  Q --- W
+  W --- O
 ```
 
 | 구성요소 | 책임 |

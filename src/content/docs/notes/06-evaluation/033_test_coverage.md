@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "테스트 커버리지(구문•분기•MC/DC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 33
@@ -70,10 +70,10 @@ block-beta
     S["검증 대상"] T["시험 집합"]
     I["계측 도구"]:2
     R["실행 흔적"] G["품질 게이트"]
-    S --> I
-    T --> I
-    I --> R
-    R --> G
+    S --- I
+    T --- I
+    I --- R
+    R --- G
   S --- I --- R
 ```
 

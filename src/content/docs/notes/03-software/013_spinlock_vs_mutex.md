@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 스핀락 vs 뮤텍스 (Spinlock vs Mutex)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:00+09:00"
 tags: [notes-software]
 weight: 13
 extra:
@@ -65,20 +65,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    T["경쟁 스레드"]
-    block:L["잠금 경계"]
-        columns 3
-        S["락 상태 워드"]
-        W["대기 방식"]
-        C["임계 구역"]
-    end
-    O["소유 스레드"]
-    T --- S
-    S --- W
-    S --- O
-    O --- C
+block-beta
+  columns 5
+  T["경쟁 스레드"] S["락 상태 워드"] W["대기 방식"] O["소유 스레드"] C["임계 구역"]
+  T --- S
+  S --- W
+  S --- O
+  O --- C
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:30:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -68,23 +68,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["프로세스•파일 시스템"]
-    block:IO["운영체제 I/O 계층"]
-        columns 2
-        Q["요청 큐"]
-        S["I/O 스케줄러"]
-        D["장치 드라이버"]
-        C["완료 처리기"]
-    end
-    V["저장장치"]
-    P --- Q
-    Q --- S
-    S --- D
-    D --- V
-    V --- C
-    C --- Q
+block-beta
+  columns 4
+  Q["요청 큐"] S["I/O 스케줄러"] D["장치 드라이버"] C["완료 처리기"]
+  Q --- S
+  S --- D
+  D --- C
+  C --- Q
 ```
 
 | 구성요소 | 책임 |

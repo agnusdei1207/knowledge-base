@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "전원 공급 장치•UPS"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 55
@@ -78,7 +78,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     R["정류기•DC 버스"]
     B["배터리"]

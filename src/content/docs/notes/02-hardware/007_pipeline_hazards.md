@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "파이프라인 해저드: 데이터•제어•구조 (Pipeline Hazards)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 7
@@ -66,7 +66,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     P["파이프라인 단계"] --- H["해저드 감지기"]
     H --- F["포워딩 경로"]

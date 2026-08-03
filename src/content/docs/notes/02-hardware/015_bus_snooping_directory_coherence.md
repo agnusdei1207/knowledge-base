@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "버스 스누핑•디렉터리 기반 일관성 (Bus Snooping Directory Coherence)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 15
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     B["공유 버스•중재기"] --- C["스누프 제어기"]
     H["홈 디렉터리"] --- N["점대점 인터커넥트"]

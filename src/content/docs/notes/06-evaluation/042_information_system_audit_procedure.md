@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정보시스템 감리 절차 (Information System Audit Procedure)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -73,8 +73,8 @@ block-beta
   S["사업자"]
   R["준거•증거"]
   X["시정조치"]
-  C --> A --> S
-  S --> R --> X
+  C --- A --- S
+  S --- R --- X
 ```
 
 | 구성요소 | 책임 |

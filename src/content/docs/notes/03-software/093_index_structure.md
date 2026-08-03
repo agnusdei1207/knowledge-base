@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인덱스 구조: B+Tree•해시•복합 (Index Structure)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 93
@@ -67,16 +67,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   Q["질의 조건"]
   S["통계 정보"]
   O["옵티마이저"]
   I["인덱스 구조"]
   L["리프 엔트리"]
-  Q --> O
-  S --> O
-  O --> I --> L
+  Q --- O
+  S --- O
+  O --- I --- L
 ```
 
 | 구성요소 | 책임 |

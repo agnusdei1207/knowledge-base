@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "샤딩: 수평 분할 (Sharding)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 99
@@ -74,11 +74,11 @@ block-beta
   M["배치 메타데이터"]
   S["데이터 샤드"]
   B["재균형 제어기"]
-  K --> R
-  M --> R
-  R --> S
-  B --> M
-  B --> S
+  K --- R
+  M --- R
+  R --- S
+  B --- M
+  B --- S
 ```
 
 | 구성요소 | 책임 |

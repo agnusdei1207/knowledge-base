@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -61,7 +61,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["송신 TCP"]
     B[("송신 버퍼")]

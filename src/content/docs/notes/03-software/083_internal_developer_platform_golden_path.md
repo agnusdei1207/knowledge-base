@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "내부 개발자 플랫폼 골든 패스 (Internal Developer Platform Golden Path)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 83
@@ -68,16 +68,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["시작 템플릿"]
   W["권장 워크플로"]
   E["확장 지점"]
   H["탈출구"]
   A["경로 분석"]
-  S --> W --> A
-  E --> W
-  H --> W
+  S --- W --- A
+  E --- W
+  H --- W
 ```
 
 | 구성요소 | 책임 |

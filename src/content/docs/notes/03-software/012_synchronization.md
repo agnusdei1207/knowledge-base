@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 세마포어•뮤텍스•모니터 (Semaphore Mutex Monitor)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:00+09:00"
 tags: [notes-software]
 weight: 12
 extra:
@@ -65,20 +65,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    T["실행 스레드"]
-    block:S["동기화 경계"]
-        columns 3
-        P["동기화 프리미티브"]
-        Q["대기 큐"]
-        C["임계 구역"]
-    end
-    R["공유 자원"]
-    T --- P
-    P --- Q
-    P --- C
-    C --- R
+block-beta
+  columns 5
+  T["실행 스레드"] P["동기화 프리미티브"] Q["대기 큐"] C["임계 구역"] R["공유 자원"]
+  T --- P
+  P --- Q
+  P --- C
+  C --- R
 ```
 
 | 구성요소 | 책임 |

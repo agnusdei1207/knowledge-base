@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAN 버스 자동차 통신 (CAN Bus)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 81
 extra:
@@ -71,9 +71,9 @@ block-beta
     TRANSCEIVER["CAN 송수신기"]
     BUS["차동 공유 버스"]
     TERM["양끝 종단 저항"]
-    ECU --> TRANSCEIVER
-    TRANSCEIVER --> BUS
-    TERM --> BUS
+    ECU --- TRANSCEIVER
+    TRANSCEIVER --- BUS
+    TERM --- BUS
 ```
 
 | 구성요소 | 책임 |

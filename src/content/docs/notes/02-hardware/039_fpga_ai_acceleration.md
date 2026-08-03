@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FPGA AI 가속 (FPGA AI Acceleration)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 39
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     CFG["비트스트림•구성 메모리"]
     DMA["DMA•스트림 인터페이스"]

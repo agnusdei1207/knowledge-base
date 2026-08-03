@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리: 페이징•세그멘테이션 (Virtual Memory Paging Segmentation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 17
@@ -68,7 +68,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     M["MMU•TLB"] --- P["페이지 테이블"]
     M --- S["세그먼트 기술자"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비동기 I/O•이벤트 루프 (Async I/O Event Loop)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:12:00+09:00"
 tags:
   - "notes-software"
 weight: 26
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     block:RUNTIME["비동기 I/O 런타임"]
         columns 2

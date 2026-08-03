@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NFV (Network Functions Virtualization, 네트워크 기능 가상화)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 57
@@ -72,11 +72,11 @@ block-beta
     C["VIM"]
     D["VNF•CNF"]
     E["NFVI"]
-    A --> B
-    A --> C
-    B --> D
-    C --> E
-    D --> E
+    A --- B
+    A --- C
+    B --- D
+    C --- E
+    D --- E
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "촉각 인터넷 (Tactile Internet)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 85
 extra:
@@ -69,10 +69,10 @@ block-beta
     EDGE["엣지 제어기"]
     ROBOT["원격 로봇"]
     SAFETY["로컬 안전 제어기"]
-    HAPTIC --> NETWORK
-    NETWORK --> EDGE
-    EDGE --> ROBOT
-    SAFETY --> ROBOT
+    HAPTIC --- NETWORK
+    NETWORK --- EDGE
+    EDGE --- ROBOT
+    SAFETY --- ROBOT
 ```
 
 | 구성요소 | 책임 |

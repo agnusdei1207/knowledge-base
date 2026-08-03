@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -68,13 +68,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   H["HARA"]
   G["안전 목표"]
   F["FSR•TSR"]
   D["HSR•SSR"]
-  H --> G --> F --> D
+  H --- G --- F --- D
 ```
 
 | 구성요소 | 책임 |

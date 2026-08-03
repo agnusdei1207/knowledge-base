@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "분산 식별자(Decentralized Identifier, DID)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-latest-tech"
 weight: 220
@@ -72,13 +72,14 @@ block-beta
   A["DID 주체"]
   B["DID 메서드"]
   C["DID 문서"]
-  D["검증자"]
-  A --> B
-  B --> C
-  C --> D
+  D["DID 리졸버"]
+  A --- B
+  B --- C
+  B --- D
+  C --- D
 ```
 
-| 구성요소 | 역할 |
+| 구성요소 | 책임 |
 |:---|:---|
 | DID 주체 | 식별자와 **인증 키 제어** |
 | DID 메서드 | **생성•해석•갱신•비활성화** 규칙 |

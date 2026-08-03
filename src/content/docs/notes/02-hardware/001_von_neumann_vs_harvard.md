@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     C["CPU"] --- P["경로 제어기"]
     P --- I["명령어 메모리•버스"]

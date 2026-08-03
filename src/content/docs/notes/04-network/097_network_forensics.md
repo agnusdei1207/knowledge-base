@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "네트워크 포렌식 증거 수집 (Network Forensics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 97
 extra:
@@ -72,7 +72,7 @@ block-beta
     C["불변 원본 저장소"]
     D["포렌식 분석대"]
     E["증거 관리대장"]
-    A --> B --> C --> D --> E
+    A --- B --- C --- D --- E
 ```
 
 | 구성요소 | 책임 |

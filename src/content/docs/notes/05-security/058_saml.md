@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -69,11 +69,11 @@ block-beta
   C["IdP"]
   D["SAML Assertion"]
   E["메타데이터•검증 체계"]
-    A --> B
-    A --> C
-    C --> D
-    E --> B
-    E --> C
+    A --- B
+    A --- C
+    C --- D
+    E --- B
+    E --- C
 ```
 
 | 구성요소 | 책임 |

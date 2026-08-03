@@ -4,7 +4,7 @@ sidebar:
   label: "035. 대역 확산 FHSS•DSSS"
   badge: { text: "기출 • 30%", variant: note }
 title: "대역 확산 FHSS•DSSS"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 35
 extra:
@@ -63,11 +63,11 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["확산 규칙 생성기"] --> B["확산 변조기"] --> C["광대역 무선 채널"]
-    D["동기 검출기"] --> E["역확산 복조기"]
-    C --> E
+    A["확산 규칙 생성기"] --- B["확산 변조기"] --- C["광대역 무선 채널"]
+    D["동기 검출기"] --- E["역확산 복조기"]
+    C --- E
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "그래프 탐색: BFS•DFS (Graph Traversal)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -71,7 +71,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     C["탐색 제어기"] --- F["탐색 프런티어"] --- A["인접 정보"] --- V["방문 상태"]
 ```

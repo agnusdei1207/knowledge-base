@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "캐시 메모리 구조: 직접•연관•집합 연관 매핑 (Cache Memory Mapping)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 12
@@ -75,7 +75,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["주소 분해기"] --- T["태그 탐색부"] --- D["데이터 배열"]
     T --- R["교체 제어부"]

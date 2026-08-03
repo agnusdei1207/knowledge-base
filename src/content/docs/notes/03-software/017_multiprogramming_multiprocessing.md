@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 다중프로그래밍•다중처리 (Multiprogramming•Multiprocessing)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:24:00+09:00"
 tags: [notes-software]
 weight: 17
 extra:
@@ -63,23 +63,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    J["작업 집합"]
-    R["준비 큐"]
-    S["스케줄러"]
-    block:E["실행 자원"]
-        columns 2
-        C1["코어 1"]
-        C2["코어 2"]
-    end
-    M["공유 메모리"]
-    J --- R
-    R --- S
-    S --- C1
-    S --- C2
-    C1 --- M
-    C2 --- M
+block-beta
+  columns 5
+  J["작업 집합"] R["준비 큐"] S["스케줄러"] C["코어 1•2"] M["공유 메모리"]
+  J --- R
+  R --- S
+  S --- C
+  C --- M
 ```
 
 | 구성요소 | 책임 |

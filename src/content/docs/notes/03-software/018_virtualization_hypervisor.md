@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "가상화: Type 1•Type 2 하이퍼바이저 (Virtualization•Hypervisor)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:26:00+09:00"
 tags: [notes-software]
 weight: 18
 extra:
@@ -65,26 +65,26 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 2
-    block:T1["Type 1 스택"]
-        columns 1
-        M1["Type 1 가상머신 집합"]
-        H1["Type 1 하이퍼바이저"]
-        P1["Type 1 물리 하드웨어"]
-    end
-    block:T2["Type 2 스택"]
-        columns 1
-        M2["Type 2 가상머신 집합"]
-        H2["Type 2 하이퍼바이저"]
-        O["호스트 OS"]
-        P2["Type 2 물리 하드웨어"]
-    end
-    M1 --- H1
-    H1 --- P1
-    M2 --- H2
-    H2 --- O
-    O --- P2
+block-beta
+  columns 2
+  block:T1["Type 1 스택"]
+    columns 1
+    M1["Type 1 가상머신 집합"]
+    H1["Type 1 하이퍼바이저"]
+    P1["Type 1 물리 하드웨어"]
+  end
+  block:T2["Type 2 스택"]
+    columns 1
+    M2["Type 2 가상머신 집합"]
+    H2["Type 2 하이퍼바이저"]
+    O["호스트 OS"]
+    P2["Type 2 물리 하드웨어"]
+  end
+  M1 --- H1
+  H1 --- P1
+  M2 --- H2
+  H2 --- O
+  O --- P2
 ```
 
 | 구성요소 | 책임 |

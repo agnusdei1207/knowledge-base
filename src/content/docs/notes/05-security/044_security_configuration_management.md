@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "보안 구성 관리 (Security Configuration Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 44
@@ -71,10 +71,10 @@ block-beta
   C["정책 검사"]
   D["편차 탐지"]
   E["예외 복구"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+  A --- B
+  B --- C
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

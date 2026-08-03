@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:16:12+09:00"
 tags:
   - "notes-software"
 weight: 100
@@ -74,11 +74,11 @@ block-beta
   R["복제 노드"]
   M["지연 감시"]
   F["장애 조치 제어기"]
-  P --> L
-  L --> R
-  R --> M
-  M --> F
-  F --> P
+  P --- L
+  L --- R
+  R --- M
+  M --- F
+  F --- P
 ```
 
 | 구성요소 | 책임 |

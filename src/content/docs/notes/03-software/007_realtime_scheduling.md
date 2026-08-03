@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "실시간 스케줄링: Rate Monotonic•EDF (Real-Time Scheduling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:09:00+09:00"
 tags: [notes-software]
 weight: 7
 extra:
@@ -66,18 +66,12 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    J["실시간 작업 집합"]
-    block:R["실시간 스케줄링 경계"]
-        columns 3
-        A["스케줄 가능성 분석기"]
-        Q["우선순위 준비 큐"]
-        S["선점 스케줄러"]
-    end
-    J --- A
-    A --- Q
-    Q --- S
+block-beta
+  columns 4
+  J["실시간 작업 집합"] A["스케줄 가능성 분석기"] Q["우선순위 준비 큐"] S["선점 스케줄러"]
+  J --- A
+  A --- Q
+  Q --- S
 ```
 
 | 구성요소 | 책임 |

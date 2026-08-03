@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "AI 코드 생성: GitHub Copilot (AI Code Generation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 81
@@ -67,13 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["컨텍스트 수집 엔진"]
   L["LLM 코드 생성 모델"]
   P["정책•참조 검사"]
   D["개발자 검증 경로"]
-  C --> L --> P --> D
+  C --- L --- P --- D
 ```
 
 | 구성요소 | 책임 |

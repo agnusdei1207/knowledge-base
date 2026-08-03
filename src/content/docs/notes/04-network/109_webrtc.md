@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "WebRTC (WebRTC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 109
 extra:
@@ -64,14 +64,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["단말 A"] --> B["시그널링 서버"] --> C["단말 B"]
-    A --> D["STUN•TURN 서버"] --> C
-    A --> E["SFU•MCU 서버"] --> C
-    F["품질•세션 관측기"] --> B
-    F --> D
-    F --> E
+    A["단말 A"] --- B["시그널링 서버"] --- C["단말 B"]
+    A --- D["STUN•TURN 서버"] --- C
+    A --- E["SFU•MCU 서버"] --- C
+    F["품질•세션 관측기"] --- B
+    F --- D
+    F --- E
 ```
 
 | 구성요소 | 책임 |

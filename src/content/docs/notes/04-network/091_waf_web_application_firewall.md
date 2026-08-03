@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "WAF 웹 애플리케이션 방화벽 (Web Application Firewall)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 91
 extra:
@@ -73,8 +73,8 @@ block-beta
     POLICY["WAF 정책 엔진"]
     ORIGIN["원본 웹 서버"]
     TUNING["관측•튜닝기"]
-    TLS --> NORMALIZER --> POLICY --> ORIGIN
-    TUNING --> POLICY
+    TLS --- NORMALIZER --- POLICY --- ORIGIN
+    TUNING --- POLICY
 ```
 
 | 구성요소 | 책임 |

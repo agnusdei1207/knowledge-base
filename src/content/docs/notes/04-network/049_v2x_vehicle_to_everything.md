@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "V2X 차량사물통신 (V2X Vehicle-to-Everything)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 49
@@ -65,7 +65,7 @@ extra:
 **차량 탑재 장치(On-Board Unit, OBU)** 와 **노변 장치(Roadside Unit, RSU)** 가 메시지를 교환하고 **공개키 기반구조(Public Key Infrastructure, PKI)** 가 인증서와 서명을 검증한다.
 
 ```mermaid
-block
+block-beta
     columns 1
     block:V2X["V2X 통신 체계"]
         columns 1

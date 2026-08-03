@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "소프트웨어 아키텍처 패턴: MVC•MSA•이벤트드리븐 (Architecture Patterns)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:00+09:00"
 tags:
   - "notes-software"
 weight: 38
@@ -68,11 +68,9 @@ extra:
 </details>
 
 ```mermaid
-treeView-beta
-  "아키텍처 패턴"
-    "MVC"
-    "MSA"
-    "EDA"
+block-beta
+  columns 3
+  M["MVC"] S["MSA"] E["EDA"]
 ```
 
 | 구성요소 | 책임 |

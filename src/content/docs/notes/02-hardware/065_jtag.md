@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -67,7 +67,7 @@ extra:
 테스트 접근 포트(Test Access Port, TAP) 제어기는 테스트 모드 선택(Test Mode Select, TMS)과 테스트 클록(Test Clock, TCK)에 따라 명령 레지스터(Instruction Register, IR)와 데이터 레지스터(Data Register, DR)를 전환한다. 테스트 데이터 입력(Test Data In, TDI)과 테스트 데이터 출력(Test Data Out, TDO)은 공동 시험 동작 그룹(Joint Test Action Group, JTAG) 데이터를 직렬로 이동한다.
 
 ```mermaid
-block
+block-beta
   columns 2
   A["TAP 제어기"]
   B["명령 레지스터"]

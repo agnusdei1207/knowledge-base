@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSRF (Cross-Site Request Forgery)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -72,10 +72,10 @@ block-beta
   C["CSRF 토큰"]
   D["출처 정책"]
   E["쿠키 정책"]
-  A --> B
-  C --> B
-  D --> B
-  E --> A
+  A --- B
+  C --- B
+  D --- B
+  E --- A
 ```
 
 | 구성요소 | 책임 |

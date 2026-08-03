@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOAR - 보안 자동화•대응 (SOAR)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:18:00+09:00"
 tags:
   - "notes-security"
 weight: 36
@@ -63,19 +63,19 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["사건•상태 머신"]
   B["보강•판단"]
   C["승인•감사"]
   D["조치 커넥터•큐"]
   E["재시도•롤백"]
-    A --> B
-    B --> C
-    C --> D
-    D --> A
-    E --> D
-    E --> A
+    A --- B
+    B --- C
+    C --- D
+    D --- A
+    E --- D
+    E --- A
 ```
 
 | 구성요소 | 책임 |

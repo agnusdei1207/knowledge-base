@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클러스터드 인덱스•커버링 인덱스 (Clustered Covering Index)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 94
@@ -67,16 +67,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   K["인덱스 키"]
   C["포함 열"]
   L["리프 페이지"]
   O["옵티마이저"]
   T["원본 테이블"]
-  K --> L
-  C --> L
-  O --> L --> T
+  K --- L
+  C --- L
+  O --- L --- T
 ```
 
 | 구성요소 | 책임 |

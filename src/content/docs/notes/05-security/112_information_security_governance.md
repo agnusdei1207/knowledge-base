@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보보호 거버넌스 (Information Security Governance)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 112
@@ -62,16 +62,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   G["방향•전략"]
   R["책임•권한 구조"]
   P["정책•위험 기준"]
   D["위험•자원 의사결정"]
   A["성과•독립 보증"]
-  G --> R --> P
-  P --> D --> A
-  A --> G
+  G --- R --- P
+  P --- D --- A
+  A --- G
 ```
 
 | 구성요소 | 책임 |

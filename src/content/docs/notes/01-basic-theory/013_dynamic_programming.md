@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 13
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     P["상태 계산기"] --- M["상태 저장소"]
 ```

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework (NIST CSF)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:30:00+09:00"
 tags:
   - "notes-security"
 weight: 111
@@ -64,21 +64,21 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   G["Govern"]
   IP["Identify•Protect"]
   D["Detect"]
   RS["Respond"]
   RC["Recover"]
-  G --> IP
-  G --> D
-  G --> RS
-  G --> RC
-  IP --> D
-  D --> RS
-  RS --> RC
-  RC --> IP
+  G --- IP
+  G --- D
+  G --- RS
+  G --- RC
+  IP --- D
+  D --- RS
+  RS --- RC
+  RC --- IP
 ```
 
 | 구성요소 | 책임 |

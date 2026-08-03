@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -71,7 +71,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     B["이진 탐색기"]
     A["정렬 배열"]

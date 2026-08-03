@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라인 포워딩•분기 예측 (Pipeline Forwarding Branch Prediction)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 8
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     F["포워딩 장치"] --- M["우회 선택기"]
     B["분기 예측기"] --- I["인출 제어기"]

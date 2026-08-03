@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 77
@@ -67,13 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   H["위험 평가"]
   R["안전 요구"]
   V["저감 검증"]
   C["안전 사례"]
-  H --> R --> V --> C
+  H --- R --- V --- C
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이버 위협 인텔리전스 CTI (Cyber Threat Intelligence)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:12:00+09:00"
 tags:
   - "notes-security"
 weight: 31
@@ -64,18 +64,18 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 3
+block-beta
+    columns 5
     A["정보 요구•소비자"]
     B["내부•외부 원천"]
     C["정제•보강"]
     D["분석•산출물"]
     E["배포•피드백"]
-    A --> D
-    B --> C
-    C --> D
-    D --> E
-    E --> A
+    A --- D
+    B --- C
+    C --- D
+    D --- E
+    E --- A
 ```
 
 | 구성요소 | 책임 |

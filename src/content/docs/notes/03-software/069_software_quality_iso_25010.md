@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 25010 소프트웨어 제품 품질 모델 (Software Product Quality Model)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 69
@@ -69,14 +69,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["사용 맥락"]
   Q["품질 특성"]
   S["부특성"]
   M["품질 측정값"]
   A["허용 기준"]
-  C --> Q --> S --> M --> A
+  C --- Q --- S --- M --- A
 ```
 
 | 구성요소 | 책임 |

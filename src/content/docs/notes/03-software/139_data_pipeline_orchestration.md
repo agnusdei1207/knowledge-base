@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:20+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 1
     A["DAG 번들•처리기"]
     B["스케줄러•실행자"]

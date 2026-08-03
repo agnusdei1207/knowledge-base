@@ -4,7 +4,7 @@ sidebar:
   label: "037. 5G SA와 NSA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G SA와 NSA"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 37
 extra:
@@ -64,10 +64,10 @@ extra:
 5세대 뉴 라디오(5G New Radio, 5G NR)는 단말과 기지국 사이의 5G 무선 접속을 제공한다.
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["NSA 단말"] --> B["LTE•NR 이중 연결"] --> C["LTE 코어(EPC)"]
-    D["SA 단말"] --> E["NR 단독 연결"] --> F["5G 코어(5GC)"]
+    A["NSA 단말"] --- B["LTE•NR 이중 연결"] --- C["LTE 코어(EPC)"]
+    D["SA 단말"] --- E["NR 단독 연결"] --- F["5G 코어(5GC)"]
 ```
 
 | 구성요소 | 책임 |

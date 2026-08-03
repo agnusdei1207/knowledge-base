@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "096. 조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 96
@@ -73,10 +73,10 @@ block-beta
   R["입력 역할"]
   M["작업 메모리"]
   T["임시 디스크"]
-  I --> R
-  C --> R
-  R --> M
-  M --> T
+  I --- R
+  C --- R
+  R --- M
+  M --- T
 ```
 
 | 구성요소 | 책임 |

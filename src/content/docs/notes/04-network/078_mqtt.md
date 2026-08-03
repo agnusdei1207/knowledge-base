@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "MQTT 경량 메시징 (MQTT)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 78
@@ -72,10 +72,10 @@ block-beta
         SESSION["세션•전달 저장소"]
     end
     SUB["구독 클라이언트"]
-    PUB --> TOPIC
-    TOPIC --> SESSION
-    TOPIC --> SUB
-    SESSION --> SUB
+    PUB --- TOPIC
+    TOPIC --- SESSION
+    TOPIC --- SUB
+    SESSION --- SUB
 ```
 
 | 구성요소 | 책임 |

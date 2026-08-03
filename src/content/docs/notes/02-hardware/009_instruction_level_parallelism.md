@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     F["프런트엔드"] --- N["레지스터 리네이밍"] --- W["명령어 윈도"] --- E["실행 유닛"] --- R["재정렬 버퍼"]
 ```

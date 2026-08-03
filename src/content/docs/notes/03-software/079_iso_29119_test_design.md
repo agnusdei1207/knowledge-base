@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "ISO 29119 테스트 설계 (ISO 29119 Test Design)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 79
@@ -67,14 +67,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   B["테스트 베이시스"]
   C["테스트 조건"]
   K["테스트 케이스"]
   P["테스트 절차"]
   T["추적 정보"]
-  B --> C --> K --> P --> T
+  B --- C --- K --- P --- T
 ```
 
 | 구성요소 | 책임 |

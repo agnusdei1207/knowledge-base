@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: 교착상태 조건•예방•회피•탐지•복구 (Deadlock)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:15:00+09:00"
 tags: [notes-software]
 weight: 9
 extra:
@@ -65,20 +65,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["프로세스"]
-    block:D["교착 통제 경계"]
-        columns 2
-        R["자원 관리자"]
-        G["대기 그래프"]
-        V["희생 선택기"]
-        L["로그•복구점"]
-    end
-    P --- R
-    R --- G
-    G --- V
-    V --- L
+block-beta
+  columns 5
+  P["프로세스"] R["자원 관리자"] G["대기 그래프"] V["희생 선택기"] L["로그•복구점"]
+  P --- R
+  R --- G
+  G --- V
+  V --- L
 ```
 
 | 구성요소 | 책임 |

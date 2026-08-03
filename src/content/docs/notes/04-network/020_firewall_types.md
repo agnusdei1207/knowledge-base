@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "방화벽 : 패킷 필터•상태기반•NGFW (Firewall Types)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 20
@@ -65,16 +65,18 @@ extra:
 block-beta
     columns 3
     ZONE["보안 존"]
-    POLICY["정책 판정"]
     LOG["정책 로그"]
-    RULE["규칙 집합"]
-    STATE["상태 테이블"]
-    THREAT["위협 엔진"]
-    ZONE --> POLICY
-    RULE --> POLICY
-    STATE --> POLICY
-    THREAT --> POLICY
-    POLICY --> LOG
+    block:POLICY["정책 판정"]
+        columns 3
+        RULE["규칙 집합"]
+        STATE["상태 테이블"]
+        THREAT["위협 엔진"]
+    end
+    ZONE --- POLICY
+    RULE --- POLICY
+    STATE --- POLICY
+    THREAT --- POLICY
+    POLICY --- LOG
 ```
 
 | 구성요소 | 책임 |

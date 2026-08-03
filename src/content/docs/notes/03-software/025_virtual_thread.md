@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "가상 스레드: Java Project Loom (Virtual Thread)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:34:00+09:00"
 tags: [notes-software]
 weight: 25
 extra:
@@ -66,19 +66,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    block:JVM["JVM"]
-        columns 2
-        V["가상 스레드 집합"]
-        S["JVM 스케줄러"]
-        C["캐리어 스레드 집합"]
-    end
-    I["입출력 하위 시스템"]
-    V --- S
-    S --- C
-    V --- I
-    I --- S
+block-beta
+  columns 4
+  V["가상 스레드 집합"] S["JVM 스케줄러"] C["캐리어 스레드 집합"] I["입출력 하위 시스템"]
+  V --- S
+  S --- C
+  V --- I
+  I --- S
 ```
 
 | 구성요소 | 책임 |

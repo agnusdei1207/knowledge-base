@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "양자 오류 정정과 표면 코드"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 74
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   A["데이터 큐비트"]
   B["보조 큐비트"]

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
-date: "2026-08-02T10:09:00+09:00"
+date: "2026-08-03T09:09:45+09:00"
 tags:
   - "notes-basic-theory"
 weight: 41
@@ -67,6 +67,19 @@ extra:
 - **모멘트(Moment)**: 기울기의 평균과 제곱 평균으로 갱신을 보정하는 통계량
 
 </details>
+
+```mermaid
+block-beta
+    columns 2
+    L["학습 루프"]
+    M["모델"]
+    O["최적화기"]
+    S["최적화기 상태"]
+    L --- M
+    L --- O
+    M --- O
+    O --- S
+```
 
 | 구성요소 | 책임 |
 |:---|:---|

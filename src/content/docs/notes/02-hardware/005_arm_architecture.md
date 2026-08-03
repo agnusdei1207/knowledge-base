@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 5
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     E["실행 상태"] --- P["동작 모드•예외 수준"]
     E --- R["레지스터 집합"]

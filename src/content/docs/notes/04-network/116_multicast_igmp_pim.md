@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티캐스트 IGMP•PIM"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 116
@@ -66,10 +66,10 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 4
-  A["멀티캐스트 송신원"] --> B["PIM 라우팅 도메인"] --> D["IGMP 접속망"] --> E["멀티캐스트 수신자"]
-  C["집결점(RP)"] --> B
+  A["멀티캐스트 송신원"] --- B["PIM 라우팅 도메인"] --- D["IGMP 접속망"] --- E["멀티캐스트 수신자"]
+  C["집결점(RP)"] --- B
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "개인정보보호법 2023 개정 주요 내용 (PIPA 2023 Amendment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 23
@@ -73,7 +73,7 @@ block-beta
   B["자동화된 결정"]
   C["국외 이전"]
   D["책임 강화"]
-  E["규제 통합"]
+  E["규제 일원화"]
   A --- B
   B --- C
   C --- D

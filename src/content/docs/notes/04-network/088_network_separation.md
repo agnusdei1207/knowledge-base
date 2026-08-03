@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "망분리 - 물리적•논리적 (Network Separation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 88
 extra:
@@ -69,12 +69,12 @@ block-beta
     CORE["핵심 영역"]
     DATA["자료 전송 관문"]
     ADMIN["관리 접속 관문"]
-    DMZ --> WORK
-    WORK --> CORE
-    DATA --> WORK
-    DATA --> CORE
-    ADMIN --> WORK
-    ADMIN --> CORE
+    DMZ --- WORK
+    WORK --- CORE
+    DATA --- WORK
+    DATA --- CORE
+    ADMIN --- WORK
+    ADMIN --- CORE
 ```
 
 | 구성요소 | 책임 |

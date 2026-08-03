@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -71,7 +71,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     E["명령어 인코딩"] --- D["해독•변환부"]
     O["피연산자 모델"] --- D

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 프로세스 생성•종료•상태 전이 (Process Lifecycle)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:04:00+09:00"
 tags: [notes-software]
 weight: 3
 extra:
@@ -63,20 +63,14 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    P["PCB"]
-    block:K["프로세스 실행 관리"]
-        columns 3
-        R["준비 큐"]
-        S["스케줄러"]
-        C["CPU"]
-    end
-    W["대기 큐"]
-    P --- R
-    R --- S
-    S --- C
-    P --- W
+block-beta
+  columns 3
+  P["PCB"] R["준비 큐"] S["스케줄러"]
+  W["대기 큐"] space C["CPU"]
+  P --- R
+  P --- W
+  R --- S
+  S --- C
 ```
 
 | 구성요소 | 책임 |

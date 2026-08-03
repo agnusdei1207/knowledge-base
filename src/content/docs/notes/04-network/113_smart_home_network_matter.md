@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "스마트 홈 통합 Matter"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 113
@@ -64,11 +64,11 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
-  A["가입•패브릭 제어기"] --> C["IP 연결 계층"] --> B["Matter 기기"]
-  D["Thread 경계 라우터"] --> C
-  E["기기 브리지"] --> C
+  A["가입•패브릭 제어기"] --- C["IP 연결 계층"] --- B["Matter 기기"]
+  D["Thread 경계 라우터"] --- C
+  E["기기 브리지"] --- C
 ```
 
 | 구성요소 | 책임 |

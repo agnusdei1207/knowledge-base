@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SOAR 보안 오케스트레이션•자동화•대응 (Security Orchestration, Automation, and Response)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 94
 extra:
@@ -70,8 +70,8 @@ block-beta
     APPROVAL["승인•권한 관문"]
     ADAPTER["연동 어댑터"]
     TOOL["보안 통제 도구"]
-    CONTEXT --> PLAYBOOK --> APPROVAL
-    APPROVAL --> ADAPTER --> TOOL
+    CONTEXT --- PLAYBOOK --- APPROVAL
+    APPROVAL --- ADAPTER --- TOOL
 ```
 
 | 구성요소 | 책임 |

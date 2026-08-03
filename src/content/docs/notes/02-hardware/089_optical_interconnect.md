@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "광 인터커넥트 (Optical Interconnect)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 89
@@ -73,7 +73,7 @@ $$
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["SerDes"]
   T["광 송신부"]

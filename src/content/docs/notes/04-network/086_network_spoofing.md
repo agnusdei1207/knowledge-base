@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 86
 extra:
@@ -69,9 +69,9 @@ block-beta
     LAYER["계층 검증기"]
     ENDPOINT["종단 인증기"]
     RECOVERY["대응•복구기"]
-    SOURCE --> LAYER
-    LAYER --> ENDPOINT
-    LAYER --> RECOVERY
+    SOURCE --- LAYER
+    LAYER --- ENDPOINT
+    LAYER --- RECOVERY
 ```
 
 | 구성요소 | 책임 |

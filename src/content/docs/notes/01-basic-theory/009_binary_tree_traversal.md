@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이진 트리 순회: 전위•중위•후위 (Binary Tree Traversal)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 9
@@ -74,7 +74,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     V["순회기"] --- N["트리 노드"] --- S["순회 스택"]
 ```

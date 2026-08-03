@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "IoT 아키텍처 (IoT Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 77
@@ -68,10 +68,10 @@ block-beta
     EDGE["엣지"]
     GATEWAY["게이트웨이"]
     DEVICE["디바이스"]
-    DEVICE --> GATEWAY
-    GATEWAY --> EDGE
-    EDGE --> PLATFORM
-    PLATFORM --> APP
+    DEVICE --- GATEWAY
+    GATEWAY --- EDGE
+    EDGE --- PLATFORM
+    PLATFORM --- APP
 ```
 
 | 구성요소 | 책임 |

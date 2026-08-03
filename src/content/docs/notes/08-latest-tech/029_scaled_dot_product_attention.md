@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Scaled Dot-Product Attention (스케일드 닷 프로덕트 어텐션)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-latest_tech"
 weight: 29
@@ -71,7 +71,7 @@ block-beta
     columns 3
     Q["Q•K•V"]
     S["점수 행렬"]
-    M["스케일•마스크"]
+    M["스케일•패딩 마스크"]
     W["소프트맥스"]
     O["출력 결합"]
     Q --- S

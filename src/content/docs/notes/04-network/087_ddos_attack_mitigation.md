@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDoS 공격 기법•대응 - SYN Flood•증폭 (DDoS Attack Mitigation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 87
 extra:
@@ -70,11 +70,11 @@ block-beta
     CARRIER["상위 통신사업자"]
     SCRUB["정화 센터"]
     ORIGIN["원본 서비스"]
-    DETECTOR --> EDGE
-    DETECTOR --> CARRIER
-    CARRIER --> SCRUB
-    SCRUB --> ORIGIN
-    EDGE --> ORIGIN
+    DETECTOR --- EDGE
+    DETECTOR --- CARRIER
+    CARRIER --- SCRUB
+    SCRUB --- ORIGIN
+    EDGE --- ORIGIN
 ```
 
 | 구성요소 | 책임 |

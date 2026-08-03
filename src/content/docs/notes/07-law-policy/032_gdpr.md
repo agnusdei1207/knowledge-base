@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "GDPR - 동의•데이터 이동성•잊혀질 권리 (GDPR)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law_policy"
 weight: 32
@@ -77,10 +77,6 @@ block-beta
     C --- D
     D --- A
     S --- A
-    S --- C
-    C --- P
-    P --- D
-    D --- A
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FIDO2•WebAuthn (FIDO2 WebAuthn)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 55
@@ -68,11 +68,11 @@ block-beta
   C["인증자"]
   D["자격 증명 저장소"]
   E["등록•복구 정책"]
-    A --> B
-    B --> C
-    A --> D
-    E --> A
-    E --> C
+    A --- B
+    B --- C
+    A --- D
+    E --- A
+    E --- C
 ```
 
 | 구성요소 | 책임 |

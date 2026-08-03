@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "오류 제어 : ARQ•Go-Back-N•SR (ARQ Error Control)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -60,7 +60,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["송신부"]
     B["송신 윈도우"]

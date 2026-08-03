@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "손실 함수: Cross-Entropy•MSE (Loss Functions)"
-date: "2026-08-02T10:10:00+09:00"
+date: "2026-08-03T09:09:45+09:00"
 tags:
   - "notes-basic-theory"
 weight: 42
@@ -69,6 +69,19 @@ extra:
 - **손실 기울기**: 파라미터나 예측값 변화에 따른 손실의 변화율
 
 </details>
+
+```mermaid
+block-beta
+    columns 2
+    L["학습 루프"]
+    M["모델"]
+    F["손실 함수"]
+    R["축소 연산기"]
+    L --- M
+    L --- F
+    M --- F
+    F --- R
+```
 
 | 구성요소 | 책임 |
 |:---|:---|

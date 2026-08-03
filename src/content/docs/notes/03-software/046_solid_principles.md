@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOLID 원칙 (SOLID Principles)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:18:00+09:00"
 tags:
   - "notes-software"
 weight: 46
@@ -68,13 +68,20 @@ extra:
 </details>
 
 ```mermaid
-treeView-beta
-  "SOLID"
-    "SRP"
-    "OCP"
-    "LSP"
-    "ISP"
-    "DIP"
+block-beta
+    columns 1
+    block:SOLID["SOLID"]
+        columns 5
+        SRP["SRP"]
+        OCP["OCP"]
+        LSP["LSP"]
+        ISP["ISP"]
+        DIP["DIP"]
+    end
+    SRP --- OCP
+    OCP --- LSP
+    LSP --- ISP
+    ISP --- DIP
 ```
 
 | 구성요소 | 책임 |

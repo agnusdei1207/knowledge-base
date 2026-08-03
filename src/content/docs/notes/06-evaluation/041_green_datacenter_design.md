@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그린 데이터센터 설계 기준 (Green Data Center Design)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -74,8 +74,8 @@ block-beta
   I["IT 자원"]
   F["시설 인프라"]
   M["성과 계측"]
-  L --> R --> I
-  I --> F --> M
+  L --- R --- I
+  I --- F --- M
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "채널 용량 : 섀넌 한계 (Shannon Channel Capacity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 65
@@ -73,10 +73,10 @@ block-beta
     C["잡음 전력 N"]
     D["SNR S/N"]
     E["용량 C"]
-    B --> D
-    C --> D
-    A --> E
-    D --> E
+    B --- D
+    C --- D
+    A --- E
+    D --- E
 ```
 
 | 구성요소 | 책임 |

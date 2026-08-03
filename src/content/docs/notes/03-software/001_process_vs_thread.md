@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 프로세스 vs 스레드 (Process vs Thread)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:02:00+09:00"
 tags: [notes-software]
 weight: 1
 extra:
@@ -65,20 +65,18 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    S["운영체제 스케줄러"]
-    block:P["프로세스"]
-        columns 3
-        B["PCB"]
-        R["공유 주소 공간"]
-        T["TCB•실행 문맥"]
-    end
-    I["IPC 채널"]
-    S --- T
-    B --- R
-    R --- T
-    B --- I
+block-beta
+  columns 1
+  S["운영체제 스케줄러"]
+  block:Process["프로세스"]
+    columns 3
+    B["PCB"] R["공유 주소 공간"] T["TCB•실행 문맥"]
+  end
+  I["IPC 채널"]
+  S --- T
+  B --- R
+  R --- T
+  B --- I
 ```
 
 | 구성요소 | 책임 |

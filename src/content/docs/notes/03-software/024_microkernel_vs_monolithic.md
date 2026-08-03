@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "마이크로커널 vs 모놀리식 커널 (Microkernel vs Monolithic)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:32:00+09:00"
 tags:
   - "notes-software"
 weight: 24
@@ -65,25 +65,10 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    A["응용"]
-    block:MICRO["마이크로커널 구조"]
-        columns 2
-        M["마이크로커널"]
-        S["사용자 공간 서버"]
-    end
-    block:MONO["모놀리식 구조"]
-        columns 1
-        K["모놀리식 커널"]
-    end
-    H["하드웨어"]
-    A --- M
-    A --- K
-    M --- S
-    M --- H
-    S --- H
-    K --- H
+block-beta
+  columns 3
+  M["마이크로커널"] S["사용자 공간 서버"] K["모놀리식 커널"]
+  M --- S
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "백트래킹 (Backtracking)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 16
@@ -73,7 +73,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     R["재귀 탐색 함수"] --- C["후보 생성기"] --- P["부분해 저장소"] --- V["유망성 판정 함수"]
 ```

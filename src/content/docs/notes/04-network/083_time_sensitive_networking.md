@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 83
 extra:
@@ -73,12 +73,12 @@ block-beta
     LISTENER["수신자"]
     TIME["시간 동기 도메인"]
     CNC["CNC"]
-    TALKER --> BRIDGE
-    BRIDGE --> LISTENER
-    TIME --> TALKER
-    TIME --> BRIDGE
-    TIME --> LISTENER
-    CNC --> BRIDGE
+    TALKER --- BRIDGE
+    BRIDGE --- LISTENER
+    TIME --- TALKER
+    TIME --- BRIDGE
+    TIME --- LISTENER
+    CNC --- BRIDGE
 ```
 
 | 구성요소 | 책임 |

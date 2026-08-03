@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -68,18 +68,18 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["SQL 처리기"]
   D["도메인 제약"]
   E["개체 제약"]
   R["참조 제약"]
   I["키 인덱스"]
-  S --> D
-  S --> E
-  S --> R
-  I --> E
-  I --> R
+  S --- D
+  S --- E
+  S --- R
+  I --- E
+  I --- R
 ```
 
 | 구성요소 | 책임 |

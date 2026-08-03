@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -75,11 +75,11 @@ block-beta
   S["SSTable"]
   C["Compaction"]
   F["Bloom Filter"]
-  W --> B
-  W --> L
-  L --> S
-  S --> C
-  F --> S
+  W --- B
+  W --- L
+  L --- S
+  S --- C
+  F --- S
 ```
 
 | 구성요소 | 책임 |

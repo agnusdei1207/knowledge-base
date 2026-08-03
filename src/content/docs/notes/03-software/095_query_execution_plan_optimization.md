@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 95
@@ -74,11 +74,11 @@ block-beta
   O["옵티마이저"]
   P["실행 계획"]
   E["실행 엔진•모니터링"]
-  Q --> O
-  S --> O
-  O --> P
-  P --> E
-  E --> S
+  Q --- O
+  S --- O
+  O --- P
+  P --- E
+  E --- S
 ```
 
 | 구성요소 | 책임 |

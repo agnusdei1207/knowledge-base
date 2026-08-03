@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "트래픽 셰이핑과 폴리싱 (Traffic Shaping, Policing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 73
@@ -67,9 +67,9 @@ block-beta
     B["토큰 버킷"]
     C["셰이퍼"]
     D["폴리서"]
-    A --> B
-    B --> C
-    B --> D
+    A --- B
+    B --- C
+    B --- D
 ```
 
 | 구성요소 | 책임 |

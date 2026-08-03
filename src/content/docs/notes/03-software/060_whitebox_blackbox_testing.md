@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "화이트박스•블랙박스 테스트 (White-box Black-box Testing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:19:05+09:00"
 tags:
   - "notes-software"
 weight: 60
@@ -64,6 +64,20 @@ extra:
 - **구조 커버리지(Structural Coverage)**: 테스트가 구문•분기•조건 같은 코드 구조를 실행한 비율이다.
 
 </details>
+
+```mermaid
+block-beta
+    columns 3
+    W["화이트박스 근거"]
+    B["블랙박스 근거"]
+    T["테스트 케이스"]
+    O["테스트 오라클"]
+    C["구조 커버리지"]
+    W --- T
+    B --- T
+    T --- O
+    W --- C
+```
 
 | 구성요소 | 책임 |
 |:---|:---|

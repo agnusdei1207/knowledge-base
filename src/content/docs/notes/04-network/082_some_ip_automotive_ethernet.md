@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -72,13 +72,13 @@ block-beta
     PROVIDER["서비스 제공자"]
     CONTRACT["서비스 인터페이스"]
     E2E["E2E 보호"]
-    CONTRACT --> CONSUMER
-    CONTRACT --> PROVIDER
-    CONSUMER --> DISCOVERY
-    PROVIDER --> DISCOVERY
-    CONSUMER --> PROVIDER
-    E2E --> CONSUMER
-    E2E --> PROVIDER
+    CONTRACT --- CONSUMER
+    CONTRACT --- PROVIDER
+    CONSUMER --- DISCOVERY
+    PROVIDER --- DISCOVERY
+    CONSUMER --- PROVIDER
+    E2E --- CONSUMER
+    E2E --- PROVIDER
 ```
 
 | 구성요소 | 책임 |

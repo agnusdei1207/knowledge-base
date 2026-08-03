@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TCP•UDP•SCTP 비교 (TCP UDP SCTP Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -60,7 +60,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     A["송신 응용"]
     B["송신 전송 종단"]

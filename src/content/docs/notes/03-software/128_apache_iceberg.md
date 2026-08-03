@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:14:58+09:00"
 tags:
   - "notes-software"
 weight: 128
@@ -67,13 +67,26 @@ extra:
 </details>
 
 ```mermaid
-treeView-beta
-    root["Iceberg 테이블"]
-        A["카탈로그"]
-        B["메타데이터 파일"]
-            C["스냅숏•매니페스트 목록"]
-                D["매니페스트"]
-                    E["데이터•삭제 파일"]
+block-beta
+    columns 1
+    C["카탈로그"]
+    block:metadata
+        columns 1
+        M["메타데이터 파일"]
+        block:snapshot
+            columns 1
+            S["스냅숏•매니페스트 목록"]
+            block:manifest
+                columns 1
+                F["매니페스트"]
+                D["데이터•삭제 파일"]
+            end
+        end
+    end
+    C --- M
+    M --- S
+    S --- F
+    F --- D
 ```
 
 | 구성요소 | 책임 |

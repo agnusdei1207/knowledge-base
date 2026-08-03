@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-latest_tech"
 weight: 86
@@ -68,7 +68,7 @@ block-beta
   columns 3
   A["질의 이해 계층"]
   B["희소•밀집 검색기"]
-  C["후보 통합 계층"]
+  C["후보 융합 계층"]
   D["재순위기"]
   E["답변 생성기"]
   A --- B

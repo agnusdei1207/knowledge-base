@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 신원 — DID•SSI (Decentralized Identity DID SSI)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 66
@@ -68,12 +68,12 @@ block-beta
   C["보유자•지갑"]
   D["검증자"]
   E["신뢰•상태•키 관리"]
-  B --> C --> D
-  A --> B
-  A --> C
-  A --> D
-  E --> B
-  E --> D
+  B --- C --- D
+  A --- B
+  A --- C
+  A --- D
+  E --- B
+  E --- D
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터베이스 정규화 1NF~BCNF (Database Normalization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 89
@@ -67,13 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   F["함수 종속성"]
   K["후보키•결정자"]
   L["무손실 분해"]
   P["종속성 보존"]
-  F --> K --> L --> P
+  F --- K --- L --- P
 ```
 
 | 구성요소 | 책임 |

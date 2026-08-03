@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CBPR 국경 간 개인정보 규칙 (CBPR Cross-Border Privacy Rules)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:24:00+09:00"
 tags:
   - "notes-security"
 weight: 102
@@ -61,17 +61,17 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   F["Global CBPR Forum"]
   J["참여 관할"]
   A["책임성 인증기관"]
   O["인증 조직"]
   C["Global CAPE"]
-  F --> J
-  J --> A
-  A --> O
-  C --> J
+  F --- J
+  J --- A
+  A --- O
+  C --- J
 ```
 
 | 구성요소 | 책임 |

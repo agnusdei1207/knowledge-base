@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSAP 클라우드 보안 인증 평가 (CSAP Assessment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:48:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -74,8 +74,8 @@ block-beta
   E["평가 증거"]
   R["부적합•보완조치"]
   M["인증 유지"]
-  S --> C --> E
-  E --> R --> M
+  S --- C --- E
+  E --- R --- M
 ```
 
 | 구성요소 | 책임 |

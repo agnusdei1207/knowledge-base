@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Semantic Search (의미 검색)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-latest_tech"
 weight: 74
@@ -71,7 +71,7 @@ block-beta
   index["의미 색인"]
   similarity["유사도 함수"]
   lexical["문자열 경로"]
-  metadata["메타데이터"]
+  metadata["메타데이터 필터"]
   encoder --- index
   index --- similarity
   similarity --- lexical

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "기능점수(FP) 기반 규모•생산성 산정"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:15:35+09:00"
 tags:
   - "notes-evaluation"
 weight: 34
@@ -69,13 +69,11 @@ block-beta
     D["데이터 기능"] T["트랜잭션 기능"]
     W["복잡도 가중치"]:2
     R["산정 기준"]:2
-    B --> D
-    B --> T
-    D --> W
-    T --> W
-    W --> R
-  B --- D --- W
-  W --- R
+    B --- D
+    B --- T
+    D --- W
+    T --- W
+    W --- R
 ```
 
 | 구성요소 | 책임 |

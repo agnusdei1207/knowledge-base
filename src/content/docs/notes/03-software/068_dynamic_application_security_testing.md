@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 68
@@ -67,16 +67,16 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["크롤러"]
   A["공격 엔진"]
   X["인증 컨텍스트"]
   O["응답 분석기"]
   R["취약점 보고서"]
-  C --> A
-  X --> A
-  A --> O --> R
+  C --- A
+  X --- A
+  A --- O --- R
 ```
 
 | 구성요소 | 책임 |

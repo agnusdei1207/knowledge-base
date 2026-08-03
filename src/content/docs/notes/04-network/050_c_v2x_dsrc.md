@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "C-V2X와 DSRC 비교 (C-V2X DSRC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 50
@@ -65,7 +65,7 @@ extra:
 **차량 탑재 장치(On-Board Unit, OBU)** 와 **노변 장치(Roadside Unit, RSU)** 가 메시지를 교환하고 **차량•사물 통신 공개키 기반구조(Vehicle-to-Everything Public Key Infrastructure, V2X PKI)** 가 인증서를 관리한다.
 
 ```mermaid
-block
+block-beta
     columns 1
     block:V2X["V2X 무선 체계"]
         columns 1

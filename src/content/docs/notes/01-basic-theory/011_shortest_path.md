@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "최단 경로: 다익스트라•벨만-포드•플로이드-워셜 (Shortest Path)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 11
@@ -69,7 +69,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     S["최단 경로 계산기"] --- G["가중 그래프"] --- D["거리값"] --- R["선행 정점"]
 ```

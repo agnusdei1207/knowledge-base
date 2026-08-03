@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -67,17 +67,17 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   T["트랜잭션 관리자"]
   A["원자성 제어"]
   C["일관성 규칙"]
   I["격리성 제어"]
   D["지속성 장치"]
-  T --> A
-  T --> C
-  T --> I
-  T --> D
+  T --- A
+  T --- C
+  T --- I
+  T --- D
 ```
 
 | 구성요소 | 책임 |

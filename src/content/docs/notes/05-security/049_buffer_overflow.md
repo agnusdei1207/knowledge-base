@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "버퍼 오버플로우 — 카나리•DEP•ASLR (Buffer Overflow Canary DEP ASLR)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 49
@@ -71,10 +71,10 @@ block-beta
   C["컴파일러"]
   D["운영체제"]
   E["검증•감시"]
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+  A --- B
+  B --- C
+  C --- D
+  D --- E
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "반정규화•성능 트레이드오프 (Denormalization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 90
@@ -67,15 +67,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   DB["원본 DB"]
   E["변경 이벤트"]
   S["동기화 처리기"]
   R["조회 모델"]
   V["정합성 검증기"]
-  DB --> E --> S --> R --> V
-  DB --> V
+  DB --- E --- S --- R --- V
+  DB --- V
 ```
 
 | 구성요소 | 책임 |

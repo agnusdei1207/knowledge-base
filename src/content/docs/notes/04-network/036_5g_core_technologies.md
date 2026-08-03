@@ -4,7 +4,7 @@ sidebar:
   label: "036. 5G 서비스 eMBB•URLLC•mMTC"
   badge: { text: "기출 • 30%", variant: note }
 title: "5G 서비스 eMBB•URLLC•mMTC"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags: ["notes-network"]
 weight: 36
 extra:
@@ -63,12 +63,12 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
-    A["서비스 요구 프로필"] --> B["QoS 정책 제어"]
-    B --> C["무선 자원 제어"]
-    B --> D["전송망 경로 제어"]
-    D --> E["사용자면 기능(UPF)"]
+    A["서비스 요구 프로필"] --- B["QoS 정책 제어"]
+    B --- C["무선 자원 제어"]
+    B --- D["전송망 경로 제어"]
+    D --- E["사용자면 기능(UPF)"]
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 플래그 (Feature Flag)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 64
@@ -68,15 +68,15 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   S["설정 저장소"]
   E["평가 모듈"]
   A["애플리케이션"]
   F["기능 경로"]
   L["감사 기록"]
-  S --> E --> A --> F
-  E --> L
+  S --- E --- A --- F
+  E --- L
 ```
 
 | 구성요소 | 책임 |

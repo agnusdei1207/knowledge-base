@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "인터럽트 레이턴시•우선순위 역전"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 63
@@ -67,7 +67,7 @@ extra:
 인터럽트 요청(Interrupt Request, IRQ)의 전달 경로: **인터럽트 컨트롤러•예외 진입**, 인터럽트 서비스 루틴(Interrupt Service Routine, ISR) 이후 태스크의 배타 접근 수단: **뮤텍스•임계 구역**
 
 ```mermaid
-block
+block-beta
   columns 3
   A["IRQ 제어기"]
   B["예외 진입•ISR"]

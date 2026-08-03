@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Arm TrustZone 보안 확장"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 64
@@ -67,7 +67,7 @@ extra:
 비보안 영역의 실행 기반: 일반 운영체제(Operating System, OS), 보안 영역의 민감 서비스: **보안 전환 경로•신뢰 실행 환경(Trusted Execution Environment, TEE)**, 격리 검증과 접근 강제: **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB) 최소화•자원 보안 제어**
 
 ```mermaid
-block
+block-beta
   columns 2
   A["비보안 영역"]
   B["보안 전환 경로"]

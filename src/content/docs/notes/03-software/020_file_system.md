@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:28:00+09:00"
 tags: [notes-software]
 weight: 20
 extra:
@@ -67,17 +67,13 @@ extra:
 </details>
 
 ```mermaid
-block
-    columns 1
-    A["애플리케이션"]
-    V["가상 파일 시스템"]
-    M["디렉터리•메타데이터"]
-    B["블록 할당 관리자"]
-    C["일관성 관리자"]
-    A --- V
-    V --- M
-    M --- B
-    B --- C
+block-beta
+  columns 5
+  A["애플리케이션"] V["가상 파일 시스템"] M["디렉터리•메타데이터"] B["블록 할당 관리자"] C["일관성 관리자"]
+  A --- V
+  V --- M
+  M --- B
+  B --- C
 ```
 
 | 구성요소 | 책임 |

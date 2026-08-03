@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -74,7 +74,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     R["루트 참조"] --- T["탐색 제어기"] --- N["트리 노드"] --- B["균형 복구기"]
 ```

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EU AI Act — 위험 기반 분류 체계 (EU AI Act)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:08:40+09:00"
 tags:
   - "notes-law-policy"
 weight: 33
@@ -78,9 +78,6 @@ block-beta
     D --- S
     P --- A
     D --- A
-    P --- I
-    I --- D
-    D --- S
     S --- A
 ```
 

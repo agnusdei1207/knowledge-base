@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "802.1X EAP 인증"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 115
@@ -67,11 +67,11 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
-  A["인증 요청자"] --> B["인증 중계자"] --> C["인증 서버"]
-  D["신원•인증서 저장소"] --> C
-  B --> E["통제 포트"]
+  A["인증 요청자"] --- B["인증 중계자"] --- C["인증 서버"]
+  D["신원•인증서 저장소"] --- C
+  B --- E["통제 포트"]
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "최소 신장 트리: 크루스칼•프림 (Minimum Spanning Tree)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-basic-theory"
 weight: 12
@@ -70,7 +70,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 3
     A["MST 알고리즘"] --- C["간선 후보 집합"] --- S["연결 상태 집합"]
 ```

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -70,11 +70,11 @@ block-beta
     RP["루트 포트"]
     DP["지정 포트"]
     AP["대체 포트"]
-    BPDU["BPDU 정보"]:3
-    ROOT --> RP
-    ROOT --> DP
-    ROOT --> AP
-    BPDU --> ROOT
+    BPDU["BPDU"]:3
+    ROOT --- RP
+    ROOT --- DP
+    ROOT --- AP
+    BPDU --- ROOT
 ```
 
 | 구성요소 | 책임 |

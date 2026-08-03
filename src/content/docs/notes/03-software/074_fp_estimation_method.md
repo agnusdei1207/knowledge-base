@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SW 기능점수 간이법•정통법 (FP Estimation Method)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 74
@@ -66,14 +66,14 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   R["입력 요구사항"]
   E["간이법 산정"]
   D["정통법 산정"]
   V["검증 기준"]
-  R --> E --> V
-  R --> D --> V
+  R --- E --- V
+  R --- D --- V
 ```
 
 | 구성요소 | 책임 |

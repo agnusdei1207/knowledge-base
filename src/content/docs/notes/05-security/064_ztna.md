@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ZTNA 제로 트러스트 네트워크 접근 (ZTNA)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T14:40:00+09:00"
 tags:
   - "notes-security"
 weight: 64
@@ -68,10 +68,10 @@ block-beta
   C["앱 커넥터"]
   D["비공개 앱"]
   E["로그•가용성"]
-  A --> B --> C --> D
-  B --> E
-  C --> E
-  D --> E
+  A --- B --- C --- D
+  B --- E
+  C --- E
+  D --- E
 ```
 
 | 구성요소 | 책임 |

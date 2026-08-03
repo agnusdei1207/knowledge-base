@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -72,10 +72,10 @@ block-beta
     C["Thread 경계 라우터"]
     D["Thread Matter 기기"]
     E["매터 브리지"]
-    A --> B
-    B --> C
-    C --> D
-    B --> E
+    A --- B
+    B --- C
+    C --- D
+    B --- E
 ```
 
 | 구성요소 | 책임 |

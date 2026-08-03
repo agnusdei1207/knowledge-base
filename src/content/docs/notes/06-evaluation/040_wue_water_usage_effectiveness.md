@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:15:35+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -72,12 +72,10 @@ block-beta
     W["물 경계•용도 계측"] I["IT 에너지 계측"]
     C["WUE 계산"]:2
     S["지역 물 부족도"] A["물•전력 통합 분석"]
-    W --> C
-    I --> C
-    C --> A
-    S --> A
-  W --- C
-  C --- S
+    W --- C
+    I --- C
+    C --- A
+    S --- A
 ```
 
 | 구성요소 | 책임 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "애드혹 네트워크와 AODV (Ad-hoc AODV)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T15:05:00+09:00"
 tags:
   - "notes-network"
 weight: 53
@@ -71,11 +71,11 @@ block-beta
     B["중계 노드"]
     C["목적지 노드"]
     D["노드별 라우팅 테이블"]
-    A --> B
-    B --> C
-    A --> D
-    B --> D
-    C --> D
+    A --- B
+    B --- C
+    A --- D
+    B --- D
+    C --- D
 ```
 
 | 구성요소 | 책임 |

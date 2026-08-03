@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인터커넥트 토폴로지: 팻트리•토러스 (Interconnect Topology: Fat-Tree•Torus)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 94
@@ -64,7 +64,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   N["연산 노드"]
   L["리프 스위치"]

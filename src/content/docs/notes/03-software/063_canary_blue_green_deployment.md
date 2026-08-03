@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "카나리 배포•블루-그린 배포 (Canary Blue-Green Deployment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:18:33+09:00"
 tags:
   - "notes-software"
 weight: 63
@@ -67,19 +67,19 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
   columns 3
   C["배포 제어기"]
   R["트래픽 라우터"]
   S["안정 환경"]
   N["후보 환경"]
   O["관측 시스템"]
-  C --> R
-  R --> S
-  R --> N
-  S --> O
-  N --> O
-  O --> C
+  C --- R
+  R --- S
+  R --- N
+  S --- O
+  N --- O
+  O --- C
 ```
 
 | 구성요소 | 책임 |

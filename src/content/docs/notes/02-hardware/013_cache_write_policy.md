@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "캐시 쓰기 정책: Write-Through vs Write-Back (Cache Write Policy)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-03T09:07:03+09:00"
 tags:
   - "notes-hardware"
 weight: 13
@@ -67,7 +67,7 @@ extra:
 </details>
 
 ```mermaid
-block
+block-beta
     columns 2
     P["쓰기 정책 제어부"] --- A["캐시 배열"] --- D["더티 상태"]
     P --- W["쓰기 버퍼"]
