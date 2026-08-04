@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "5G 국제 표준 — 3GPP•IMT-2020 (5G International Standards)"
-date: "2026-08-04T15:01:41+09:00"
+date: "2026-08-05T14:22:43+09:00"
 tags:
   - "notes-law-policy"
 weight: 43
@@ -63,15 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    I["ITU-R•IMT-2020"] R["3GPP RAN"] S["3GPP SA•CT"] E["지역 표준•산업 생태계"]
-    I --- R
-    I --- S
-    R --- E
-    S --- E
+```text
+                       [ITU-R•IMT-2020]
+                         /           \
+                  [3GPP RAN]     [3GPP SA•CT]
+                         \           /
+                    [지역 표준•산업 생태계]
 ```
+
+선의 의미: ITU-R•IMT-2020의 국제 성능 요구를 3GPP RAN과 3GPP SA•CT가 각각 무선 및 시스템•코어 규격으로 구체화하고, 두 규격군은 지역 표준•산업 생태계에서 함께 적용된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

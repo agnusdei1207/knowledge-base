@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "오픈소스 컴플라이언스•SBOM (Open Source Compliance SBOM)"
-date: "2026-08-04T15:01:41+09:00"
+date: "2026-08-05T02:03:36+09:00"
 tags:
   - "notes-law-policy"
 weight: 41
@@ -61,16 +61,21 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    P["정책•OSPO"] S["탐지•SBOM"] L["법률 검토"] V["보안 분석"] E["배포 증거"]
-    P --- S
-    S --- L
-    S --- V
-    L --- E
-    V --- E
+```text
+                    [정책•OSPO]
+                         |
+                    [탐지•SBOM]
+                         |
+              +----------+----------+
+              |                     |
+         [법률 검토]            [보안 분석]
+              |                     |
+              +----------+----------+
+                         |
+                    [배포 증거]
 ```
+
+선의 의미: 정책•OSPO 아래 탐지•SBOM을 중심으로 법률 검토와 보안 분석이 분리되고, 두 검토 결과가 배포 증거에 결합되는 공급망 준수 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

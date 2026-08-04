@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ITU•ISO•IEEE•IETF 표준화 기구 (International Standards Bodies)"
-date: "2026-08-04T15:01:41+09:00"
+date: "2026-08-05T02:03:36+09:00"
 tags:
   - "notes-law-policy"
 weight: 42
@@ -65,15 +65,6 @@ extra:
 - **의견요청서(Request for Comments, RFC)**: 인터넷 프로토콜•절차•기술 정보를 공개하고 합의 결과를 기록하는 IETF 문서군이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 1
-    M["회원•참여자"] T["기술조직"] C["합의•투표"] S["표준 산출물"]
-    M --- T
-    T --- C
-    C --- S
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
