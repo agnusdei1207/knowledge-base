@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-08-04T11:59:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -111,9 +111,11 @@ sequenceDiagram
     loop 컴파일된 모델 구간
         alt Edge TPU 지원 구간
             R->>E: 2. 지원 구간•입력 텐서
+            E->>E: 4. 모델 구간 실행
             E-->>R: 가속 결과 반환
         else CPU 폴백 구간
             R->>H: 3. 비지원 구간•경계 텐서
+            H->>H: 4. 모델 구간 실행
             H-->>R: CPU 결과 반환
         end
     end
@@ -125,6 +127,7 @@ sequenceDiagram
 1. **정수 실행 계획**: Edge TPU•CPU 구간 정보
 2. **지원 구간•입력 텐서**: 장치 정수 연산의 입력
 3. **비지원 구간•경계 텐서**: CPU 대체 실행의 입력
+4. **모델 구간 실행**: Edge TPU 정수 연산 또는 CPU 폴백
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-08-04T12:22:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -132,11 +132,13 @@ sequenceDiagram
         M-->>C: 요청 데이터 반환
     end
     alt 범용 CPU 처리
+        C->>C: 5. 요청 작업 실행
         C->>N: 네트워크 응답
     else AI•HPC 가속 처리
         C->>G: 3. 가속 작업 전달
         G->>M: 4. 입력 주소 전달
         M-->>G: 입력 데이터 반환
+        G->>G: 5. 요청 작업 실행
         G-->>C: 가속 결과 반환
         C->>N: 네트워크 응답
     end
@@ -147,7 +149,8 @@ sequenceDiagram
 1. **데이터 주소 요청**: NUMA 위치와 DRAM 상주 여부 판정
 2. **저장 블록 요청**: DRAM 미상주 데이터를 NVMe에서 적재
 3. **가속 작업 전달**: AI•HPC 연산을 GPU에 배치
-4. **입력 주소 전달**: GPU가 메모리 입력을 읽어 병렬 연산
+4. **입력 주소 전달**: GPU가 메모리 입력을 조회
+5. **요청 작업 실행**: CPU 범용 처리 또는 GPU 병렬 연산
 
 #### 한줄 요약
 

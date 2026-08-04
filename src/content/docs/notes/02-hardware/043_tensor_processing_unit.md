@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-04T11:53:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -112,10 +112,11 @@ sequenceDiagram
     A->>C: 3. 실행 코드
     loop 컴파일된 텐서 타일
         H->>C: 피연산자 타일 공급
+        C->>C: 4. MXU•벡터 타일 연산
         C-->>H: 출력 타일 저장
     end
     opt TPU Pod 다중 칩 실행
-        C->>I: 4. 칩별 부분 결과
+        C->>I: 5. 칩별 부분 결과
         I-->>C: 합산•분배 결과 반환
     end
     C-->>A: 결과 텐서
@@ -126,7 +127,8 @@ sequenceDiagram
 1. **연산 그래프•텐서 모양**: XLA 융합•샤딩 입력
 2. **입력•가중치**: HBM에 배치할 피연산자
 3. **실행 코드**: MXU•벡터 유닛의 타일 연산 계획
-4. **칩별 부분 결과**: ICI 합산•분배 대상
+4. **MXU•벡터 타일 연산**: 행렬 곱과 벡터 후처리 실행
+5. **칩별 부분 결과**: ICI 합산•분배 대상
 
 #### 한줄 요약
 

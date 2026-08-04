@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-08-04T12:10:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -113,17 +113,19 @@ sequenceDiagram
     participant Q as 수신 PHY
     participant R as 수신 D2D 어댑터•프로토콜
 
-    S->>P: 1. CRC 플릿 전달
-    P->>C: 2. 주대역 신호 전달
-    C->>Q: 패키지 신호 전달
-    Q->>R: 3. 수신 플릿 전달
-    alt CRC•순서 검증 성공
-        R->>Q: 응답 플릿 전달
-        Q->>C: 반대 방향 신호 전송
-        C->>P: 응답 신호 전달
-        P-->>S: 트랜잭션 완료
-    else CRC•순서 오류
-        R-->>S: 4. 재전송 요청
+    loop 정상 플릿 수신까지
+        S->>P: 1. CRC 플릿 전달
+        P->>C: 2. 주대역 신호 전달
+        C->>Q: 패키지 신호 전달
+        Q->>R: 3. 수신 플릿 전달
+        alt CRC•순서 검증 성공
+            R->>Q: 응답 플릿 전달
+            Q->>C: 반대 방향 신호 전송
+            C->>P: 응답 신호 전달
+            P-->>S: 트랜잭션 완료
+        else CRC•순서 오류
+            R-->>S: 4. 재전송 요청
+        end
     end
 ```
 

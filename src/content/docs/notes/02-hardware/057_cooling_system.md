@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "냉각 시스템 (공랭•직접 수랭•액침냉각)"
-date: "2026-08-04T12:31:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 57
@@ -108,13 +108,15 @@ sequenceDiagram
     participant H as 열원
     participant X as 방열 장치
 
-    S->>C: 1. 냉각 상태 값
-    C->>P: 2. 순환 운전값
-    P->>H: 3. 냉각 매체
-    H->>X: 4. 가열 냉각 매체
-    X->>P: 냉각 매체 반환
-    alt 과열•누수•장치 고장
-        C->>P: 5. 예비 순환 경로 가동 명령
+    loop 냉각 운전 중
+        S->>C: 1. 냉각 상태 값
+        C->>P: 2. 순환 운전값
+        P->>H: 3. 냉각 매체
+        H->>X: 4. 가열 냉각 매체
+        X->>P: 냉각 매체 반환
+        opt 과열•누수•장치 고장
+            C->>P: 5. 예비 순환 경로 가동 명령
+        end
     end
 ```
 

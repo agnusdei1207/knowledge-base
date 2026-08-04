@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-04T12:05:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -108,11 +108,12 @@ sequenceDiagram
     loop Reduce-Scatter GPU 수−1단계
         G1->>S: 3. 축소 대상 조각
         S->>G2: 다음 GPU 조각 전달
+        G2->>G2: 4. 조각 축소 연산
         G2->>S: 축소 조각 전달
     end
     loop All-Gather GPU 수−1단계
         G2->>S: 축소 조각 전송
-        S-->>G1: 4. 축소 완료 조각
+        S-->>G1: 5. 축소 완료 조각
     end
     N-->>A: 전체 축소 완료
 ```
@@ -122,7 +123,8 @@ sequenceDiagram
 1. **All-Reduce 텐서**: 모든 GPU의 합산•배포 대상
 2. **링 경로•조각 일정**: 토폴로지별 경로와 크기
 3. **축소 대상 조각**: 피어 전송과 로컬 합산 입력
-4. **축소 완료 조각**: 모든 GPU에 배포할 결과
+4. **조각 축소 연산**: 수신 조각과 로컬 조각을 합산
+5. **축소 완료 조각**: 모든 GPU에 배포할 결과
 
 #### 한줄 요약
 

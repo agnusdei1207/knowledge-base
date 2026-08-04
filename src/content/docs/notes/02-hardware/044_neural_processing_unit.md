@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-08-04T11:56:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 44
@@ -115,9 +115,11 @@ sequenceDiagram
         alt NPU 지원 연산
             R->>N: 3. 지원 서브그래프
             M->>N: 저정밀 타일 공급
+            N->>N: 5. 서브그래프 실행
             N-->>M: 결과 타일 저장
         else 비지원 연산
             R->>H: 4. 비지원 연산•경계 텐서
+            H->>H: 5. 서브그래프 실행
             H-->>R: 호스트 결과 반환
         end
     end
@@ -130,6 +132,7 @@ sequenceDiagram
 2. **입력 타일**: DMA로 SRAM에 전송할 데이터
 3. **지원 서브그래프**: 저정밀 MAC 배열의 실행 단위
 4. **비지원 연산•경계 텐서**: CPU•GPU 대체 실행 입력
+5. **서브그래프 실행**: NPU 가속 또는 CPU•GPU 대체 연산
 
 #### 한줄 요약
 

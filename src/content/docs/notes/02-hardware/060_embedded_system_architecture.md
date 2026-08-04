@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "임베디드 시스템 구조 (Embedded System Architecture)"
-date: "2026-08-04T12:40:00+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 60
@@ -110,16 +110,18 @@ sequenceDiagram
     participant O as 액추에이터•물리 플랜트
     participant W as 워치독•복구 관리
 
-    S->>C: 센서 상태
-    C->>M: 1. 상태 조회 요청
-    M->>C: 설정•이전 상태 반환
-    C->>O: 2. 제어 출력 전달
-    C->>W: 3. 정상 완료 보고
-    alt 제어 주기 내 완료
-        W-->>C: 워치독 타이머 갱신
-    else 마감시간 초과
-        W->>O: 4. 안전 출력 명령
-        W->>C: 5. 검증 이미지 부팅 요청
+    loop 제어 주기마다
+        S->>C: 센서 상태
+        C->>M: 1. 상태 조회 요청
+        M->>C: 설정•이전 상태 반환
+        C->>O: 2. 제어 출력 전달
+        C->>W: 3. 정상 완료 보고
+        alt 제어 주기 내 완료
+            W-->>C: 워치독 타이머 갱신
+        else 마감시간 초과
+            W->>O: 4. 안전 출력 명령
+            W->>C: 5. 검증 이미지 부팅 요청
+        end
     end
 ```
 

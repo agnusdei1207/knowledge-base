@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T14:09:12+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -111,7 +111,8 @@ sequenceDiagram
     loop 링크 최대 크기의 패킷
         HS->>F: 2. QP 패킷
         F->>HR: 대상 HCA 전달
-        HR->>MR: 3. 검증된 데이터•주소
+        HR->>HR: 3. 등록 키•권한 검증
+        HR->>MR: 4. 원격 메모리 DMA 쓰기
         MR-->>HR: 기록 완료
     end
     HR-->>F: 전송 확인 응답
@@ -123,7 +124,8 @@ sequenceDiagram
 
 1. **등록 버퍼 읽기 요청**: HCA의 CPU 복사 없는 DMA
 2. **QP 패킷**: 경로와 크레딧을 포함한 전송 단위
-3. **검증된 데이터•주소**: 키 확인을 마친 DMA 쓰기 입력
+3. **등록 키•권한 검증**: 원격 주소 범위와 쓰기 권한 확인
+4. **원격 메모리 DMA 쓰기**: CPU 개입 없이 등록 버퍼에 기록
 
 #### 한줄 요약
 
