@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-04T11:20:00+09:00"
+date: "2026-08-05T10:04:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -108,21 +108,28 @@ sequenceDiagram
     participant I as IdP
     participant 재전송저장소
     U->>S: 서비스 접근
-    S->>U: 1. SAML AuthnRequest
-    U->>I: 2. 인증 요청 중계
-    I-->>U: 3. SAML 응답
-    U->>S: 4. 인증 응답 중계
-    S->>재전송저장소: 5. 검증된 응답 ID
+    S->>S: 1. SAML AuthnRequest 생성
+    S-->>U: SAML AuthnRequest
+    U->>I: 인증 요청 중계
+    I->>I: 2. 사용자 신원 인증
+    I->>I: 3. Assertion 조건•서명 생성
+    I-->>U: SAML 응답
+    U->>S: 인증 응답 중계
+    S->>S: 4. 서명•대상•요청 결속 검증
+    S->>재전송저장소: 응답 ID 조회
+    재전송저장소-->>S: 재사용 상태
+    S->>S: 5. 재전송 차단•로컬 세션 생성
+    S->>재전송저장소: 검증된 응답 ID 저장
     S-->>U: 로컬 세션 결과
 ```
 
 **동작 원리**
 
-1. **SAML AuthnRequest**: SP의 요청 ID•IdP 목적지•반환 주소 제공
-2. **인증 요청 중계**: 브라우저가 인증 요청을 지정 IdP에 전달
-3. **SAML 응답**: 사용자 인증 후 서명된 주장•대상•시간 조건 제공
-4. **인증 응답 중계**: 브라우저가 SAML 응답을 지정 SP에 전달
-5. **검증된 응답 ID**: 서명 요소•대상•요청 결속을 확인한 ID 저장
+1. **SAML AuthnRequest 생성**: 요청 ID•IdP 목적지•반환 주소 구성
+2. **사용자 신원 인증**: IdP가 등록 인증기로 사용자 확인
+3. **Assertion 조건•서명 생성**: 신원•대상•시간 조건에 서명
+4. **서명•대상•요청 결속 검증**: 처리 요소와 최초 요청의 일치 확인
+5. **재전송 차단•로컬 세션 생성**: 응답 ID 중복을 거부하고 세션 발급
 
 
 #### 한줄 요약
