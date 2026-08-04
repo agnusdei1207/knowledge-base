@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "SwiGLU•GELU 활성화 함수 비교 (Activation Functions)"
-date: "2026-08-04T15:00:46+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 226
@@ -70,22 +70,6 @@ extra:
 </details>
 
 **SwiGLU** 는 **GLU** 구조에 스위시 게이트를 적용하고, **GELU** 는 단일 활성 경로를 사용한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["입력 특징"]
-  N1["GELU 투영"]
-  N5["게이트 투영"]
-  N2["값 투영"]
-  N3["요소별 결합"]
-  N4["출력 투영"]
-  N0 --- N1 --- N4
-  N0 --- N5
-  N0 --- N2
-  N5 --- N3
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

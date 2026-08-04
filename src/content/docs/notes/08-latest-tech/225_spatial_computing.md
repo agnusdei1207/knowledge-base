@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "공간 컴퓨팅 (Spatial Computing)"
-date: "2026-08-05T06:24:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 225
@@ -68,21 +68,6 @@ extra:
 </details>
 
 카메라•관성•**LiDAR** 센서를 보정•융합하고 **SLAM** 으로 위치와 장면 모델을 갱신한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["센서 보정"]
-  N5["센서 융합"]
-  N1["위치 추정"]
-  N2["장면 모델"]
-  N3["공간 상호작용"]
-  N4["렌더링"]
-  N6["작동 제어"]
-  N0 --- N5 --- N1 --- N2
-  N2 --- N3 --- N4
-  N3 --- N6
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
