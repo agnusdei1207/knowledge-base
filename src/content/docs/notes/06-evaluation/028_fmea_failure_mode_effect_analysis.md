@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T21:46:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 28
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 기능•부품•공정의 잠재 **고장 모드** 에서 출발해 원인•영향•현재 통제를 상향식으로 분석하는 **고장 형태 및 영향 분석(Failure Mode and Effects Analysis, FMEA)**
+- 정의/개념: 잠재 **고장 모드**에서 원인•영향•통제를 분석하는 **FMEA**
 - 배경/필요성: 사고가 발생한 뒤 결과만 분석하면 잠재 고장 모드별 원인과 영향을 사전에 찾아 예방•검출 우선순위를 정하기 어려움
 
 #### 한줄 요약
@@ -42,6 +42,7 @@ extra:
 - **현재 통제**: 고장 원인을 예방하거나 고장 모드가 고객에게 도달하기 전에 검출하도록 이미 적용한 조치이다.
 - **잔여 위험**: 개선 조치를 적용하고 재평가한 뒤에도 남아 있는 위험이다.
 - **위험 기반 조치**: 점수 곱만 따르지 않고 고심각도•법규•안전 위험을 우선 처리하는 개선 결정이다.
+- **고장 형태•영향 및 치명도 분석(Failure Modes, Effects and Criticality Analysis, FMECA)**: FMEA에 고장 치명도 평가를 결합한 위험 분석 기법이다.
 
 </details>
 
@@ -133,8 +134,8 @@ sequenceDiagram
 
 | 고장 형태 및 영향 분석 유형 | 적용 기준 | 분석 대상•한계 |
 |:---|:---|:---|
-| 설계 고장 형태 및 영향 분석(Design Failure Mode and Effects Analysis, DFMEA) | 설계 초기•변경 검토 | 설계 기능•구조의 고장 분석, 공정 변동•작업 오류 누락 가능 |
-| 공정 고장 형태 및 영향 분석(Process Failure Mode and Effects Analysis, PFMEA) | 생산 준비•운영 절차 검토 | 작업•생산 공정의 실패 분석, 설계 결함의 공정 전가 주의 |
+| DFMEA | 설계 초기•변경 검토 | 설계 기능•구조의 고장 분석, 공정 변동•작업 오류 누락 가능 |
+| PFMEA | 생산 준비•운영 절차 검토 | 작업•생산 공정의 실패 분석, 설계 결함의 공정 전가 주의 |
 
 #### 한줄 요약
 
@@ -148,6 +149,7 @@ sequenceDiagram
 - **점수 곱의 왜곡**: 서로 다른 S•O•D 조합이 같은 RPN을 만들고 심각도 차이를 숨기는 한계이다.
 - **현장 결함 환류**: 실제 운영에서 발생한 고장 데이터를 FMEA 원인•발생도•통제 평가에 다시 반영하는 활동이다.
 - **증거 기반 재평가**: 조치 후 원인 제거•발생 감소•검출 향상을 자료로 확인하고 점수와 잔여위험을 다시 승인하는 절차이다.
+- **국제전기기술위원회 60812(International Electrotechnical Commission 60812, IEC 60812)**: FMEA와 FMECA의 계획•수행•문서화 지침을 규정한 국제표준이다.
 
 </details>
 
@@ -167,7 +169,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **위험 기반 우선순위**: RPN만으로 정렬하지 않고 고심각도•법규•안전 위험을 먼저 처리한 뒤 발생도와 검출도를 개선하는 원칙이다.
-- **국제전기기술위원회 60812(International Electrotechnical Commission 60812, IEC 60812)**: FMEA와 고장 형태•영향 및 치명도 분석(Failure Modes, Effects and Criticality Analysis, FMECA)의 계획•수행•문서화 지침을 규정한 국제표준이다.
 - **우선조치 결정**: 고심각도 위험은 위험 우선순위 수와 무관하게 먼저 처리하고 이후 발생도와 검출도를 개선하는 판단이다.
 
 </details>

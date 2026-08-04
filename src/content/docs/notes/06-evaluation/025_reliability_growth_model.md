@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "신뢰성 성장 모델 (Reliability Growth Model)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T21:28:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 25
@@ -42,6 +42,7 @@ extra:
 - **고장 강도**: 단위 운전시간에 발생할 것으로 기대하는 고장 수이다.
 - **평균 고장 간격(Mean Time Between Failures, MTBF)**: 수리 가능한 시스템에서 한 고장부터 다음 고장까지의 평균 운전시간이다.
 - **운용 프로파일**: 실제 사용 환경에서 기능•입력•부하가 나타나는 빈도 분포이다.
+- **시험•분석•수정(Test, Analyze, And Fix, TAAF)**: 시험•고장 분석•수정•재검증을 반복하여 신뢰성을 성장시키는 절차이다.
 
 </details>
 
@@ -57,7 +58,6 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **시험•분석•수정(Test, Analyze, And Fix, TAAF)**: 시험•고장 분석•수정•재검증을 반복하여 신뢰성을 성장시키는 절차이다.
 - **형상 기준선**: 시험 결과를 비교할 수 있도록 기능•코드•환경 버전을 고정한 기준이다.
 - **신뢰구간**: 추정한 모델 모수가 포함될 것으로 기대하는 통계적 범위이다.
 - **성장 모수**: 고장 발생 추세가 개선•일정•악화 중 어느 방향인지 나타내는 모델 계수이다.
@@ -136,7 +136,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **Duane 모델**: 누적 운전시간과 누적 MTBF의 로그 관계로 성장 추세를 경험적으로 보는 모델이다.
-- **Crow-AMSAA(Crow-Army Materiel Systems Analysis Activity) 모델**: 시간에 따라 발생률이 변하는 비동질 포아송 과정(Non-Homogeneous Poisson Process, NHPP)으로 누적 고장과 성장 추세를 통계적으로 추정하는 모델이다.
+- **Crow-AMSAA 모델**: 시간에 따라 변하는 고장 발생률로 누적 고장과 성장 추세를 통계적으로 추정하는 모델이다.
+- **비동질 포아송 과정(Non-Homogeneous Poisson Process, NHPP)**: 시간에 따라 사건 발생률이 변하는 확률 과정이다.
 - **모델 선택**: 빠른 시각적 추세 확인은 Duane, 모수와 신뢰구간의 통계 분석은 Crow-AMSAA 모델을 적용하는 구분이다.
 
 </details>
@@ -159,6 +160,8 @@ sequenceDiagram
 - **수정 효과 혼입**: 여러 변경을 한 번에 적용하여 어떤 조치가 신뢰성을 개선했는지 분리하기 어려운 문제이다.
 - **시험 종료 기준**: 목표 고장 강도•MTBF•신뢰구간과 운용 프로파일 적용 범위를 함께 충족해야 한다는 기준이다.
 - **거짓 성장**: 형상•부하•운용 프로파일이 다른 고장 자료를 섞어 수정 효과가 있는 것처럼 보이는 오류이다.
+- **국제전기기술위원회 61164(International Electrotechnical Commission 61164, IEC 61164)**: 신뢰성 성장의 통계적 시험•추정 방법을 규정한 국제표준이다.
+- **국제전기기술위원회 61014(International Electrotechnical Commission 61014, IEC 61014)**: 신뢰성 성장 프로그램의 요구사항과 지침을 제시한 국제표준이다.
 
 </details>
 
@@ -176,8 +179,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제전기기술위원회 61164(International Electrotechnical Commission 61164, IEC 61164)**: 신뢰성 성장의 통계적 시험•추정 방법을 규정한 국제표준이다.
-- **국제전기기술위원회 61014(International Electrotechnical Commission 61014, IEC 61014)**: 신뢰성 성장 프로그램의 요구사항과 지침을 제시한 국제표준이다.
 - **시험 지속 결정**: 선택한 모델이 성장 추세(Duane $\alpha>0$, Crow-AMSAA $\beta<1$)를 보이고 목표 평균 고장 간격의 하한을 충족하면 종료하며, 그렇지 않으면 시험•분석•수정을 계속하는 판단이다.
 
 </details>

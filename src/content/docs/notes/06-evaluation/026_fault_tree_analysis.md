@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "FTA 결함 나무 분석 (Fault Tree Analysis)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T21:34:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 26
@@ -128,7 +128,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **결함수 분석(Fault Tree Analysis, FTA)**: 최상위 사고에서 원인 조합을 역방향으로 분해하는 하향식 분석이다.
+- **FTA 적용**: 복합 사고의 원인 조합과 발생 확률을 하향식으로 분석하는 방법이다.
 - **고장 형태 및 영향 분석(Failure Mode and Effects Analysis, FMEA)**: 개별 구성요소의 고장 모드에서 출발하여 상위 시스템 영향을 추적하는 상향식 분석이다.
 
 </details>
@@ -151,6 +151,7 @@ sequenceDiagram
 - **공통 원인 고장**: 여러 기본 사건이 같은 환경•전원•설계 원인 때문에 동시에 발생하는 현상이다.
 - **분석 경계**: 외부 사건•운영자 조치•소프트웨어 고장을 어디까지 결함수에 포함할지 정한 범위이다.
 - **조건부 확률**: 한 사건의 발생 여부가 다른 사건의 발생 가능성을 바꾸는 의존 관계를 반영한 확률이다.
+- **국제전기기술위원회 61025(International Electrotechnical Commission 61025, IEC 61025)**: FTA의 기호•절차•정성•정량 분석 지침을 규정한 국제표준이다.
 
 </details>
 
@@ -169,7 +170,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **위험 감소 우선순위**: 빈도와 컷셋 구조를 함께 보아 최상위 사건 확률을 가장 크게 낮추는 기본 사건부터 개선하는 순서이다.
-- **국제전기기술위원회 61025(International Electrotechnical Commission 61025, IEC 61025)**: 결함수 분석의 기호•절차•정성•정량 분석 지침을 규정한 국제표준이다.
 - **개선 순위 결정**: 확률과 중요도가 높은 최소 컷셋의 경로를 먼저 차단하고 공통 원인을 분리하는 판단이다.
 
 </details>

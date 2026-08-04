@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "ETA 이벤트 나무 분석 (Event Tree Analysis)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T21:40:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 27
@@ -126,7 +126,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **사건수 분석(Event Tree Analysis, ETA)**: 초기 사건 이후 결과 조합을 순방향으로 전개하는 귀납 분석이다.
+- **ETA 적용**: 초기 사건 이후 장벽별 결과와 피해 경로를 순방향으로 분석하는 방법이다.
 - **결함수 분석(Fault Tree Analysis, FTA)**: 최상위 사건에서 필요한 원인 조합을 역방향으로 분해하는 연역 분석이다.
 
 </details>
@@ -149,6 +149,7 @@ sequenceDiagram
 - **공통 원인 고장**: 여러 방어 장벽이 같은 전원•환경•제어 원인으로 동시에 실패하는 현상이다.
 - **장벽 순서**: 실제 사고 진행과 다른 순서로 분기하면 불가능한 시나리오와 잘못된 확률이 생기는 문제이다.
 - **중요 결과 중심 가지치기**: 저영향•중복 경로를 합리적 근거로 줄여 고위험 시나리오 분석에 집중하는 방법이다.
+- **국제전기기술위원회 62502(International Electrotechnical Commission 62502, IEC 62502)**: ETA의 절차•표현•정성•정량 평가 지침을 규정한 국제표준이다.
 
 </details>
 
@@ -167,7 +168,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **잔여 위험**: 장벽 보강과 위험 감소 조치를 적용한 뒤에도 남아 있는 사고 가능성과 피해이다.
-- **국제전기기술위원회 62502(International Electrotechnical Commission 62502, IEC 62502)**: 사건수 분석의 절차•표현•정성•정량 평가 지침을 규정한 국제표준이다.
 - **장벽 보강 결정**: 고확률•고피해 경로의 취약 장벽을 먼저 개선하고 공통 원인은 독립화하는 판단이다.
 
 </details>

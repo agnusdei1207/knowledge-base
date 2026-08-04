@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "고가용성 설계 - Active-Active•Active-Standby (High Availability Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:39:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 17
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **고가용성(High Availability, HA)**: 일부 구성요소가 고장 나도 대체 자원으로 서비스를 계속 제공하도록 설계한 구조이다.
-- **복구 목표 시간(Recovery Time Objective, RTO)**: 장애 발생 후 서비스를 재개해야 하는 최대 허용 시간이다.
+- **HA(High Availability)**: 일부 고장에도 서비스를 계속 제공하는 고가용성 구조이다.
+- **RTO(Recovery Time Objective)**: 장애 뒤 서비스를 재개할 최대 허용 시간이다.
 - **자동 전환**: 장애를 탐지한 뒤 정상 대체 자원으로 역할과 트래픽을 넘겨 서비스 중단을 줄이는 처리이다.
 
 </details>
@@ -150,7 +150,10 @@ sequenceDiagram
 - **공통 원인 장애**: 이중화 자원이 같은 전원•망•시설•배포 원인으로 동시에 실패하는 현상이다.
 - **대체 용량**: 한 노드를 제외한 나머지 자원만으로 목표 부하를 처리할 수 있는 여유 능력이다.
 - **데이터 정합성**: 장애 전환 전후에도 데이터의 제약•순서•사본 관계가 올바르게 유지되는 성질이다.
-- **데이터베이스(Database, DB) 승격**: 대기 데이터베이스의 복제 상태를 확인하고 주 쓰기 역할로 전환하는 처리이다.
+- **DB(Database)**: 구조화 데이터를 저장•관리하는 데이터베이스이다.
+- **DB 승격**: 대기 DB를 주 쓰기 역할로 전환하는 처리이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 
 </details>
 
@@ -168,7 +171,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **가용성 시험**: 실제 장애를 주입하여 탐지•제외•승계•복구 시간과 데이터 정합성을 확인하는 시험이다.
-- **국제표준화기구 22301(International Organization for Standardization 22301, ISO 22301)**: 중단 상황에서 우선 활동의 연속성과 복구를 관리하는 국제표준이다.
+- **ISO 22301**: 우선 활동의 연속성과 복구를 관리하는 표준이다.
 - **계층별 이중화 결정**: 무상태•수평 확장은 활성-활성, 단일 쓰기•정합성은 활성-대기 구성을 선택하는 판단이다.
 
 </details>

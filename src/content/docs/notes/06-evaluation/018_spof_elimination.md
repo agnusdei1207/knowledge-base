@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "단일 장애점 SPOF 제거 (SPOF Elimination)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:45:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 18
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **단일 장애점(Single Point of Failure, SPOF)**: 하나의 구성요소가 고장 나면 전체 서비스가 중단되는 의존 지점이다.
+- **SPOF(Single Point of Failure)**: 하나의 고장으로 전체 서비스가 중단되는 의존 지점이다.
 - **종단 의존성**: 사용자 요청부터 데이터 저장과 외부 서비스까지 업무가 거치는 모든 의존 관계이다.
 
 </details>
@@ -57,9 +57,11 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **N+1 이중화**: 정상 운영에 필요한 N개 자원에 예비 자원 하나를 더 두는 방식이다.
-- **가용 영역(Availability Zone, AZ)**: 독립된 전원•네트워크•시설을 갖도록 분리한 클라우드 가용 영역이다.
+- **AZ(Availability Zone)**: 전원•망•시설을 독립 분리한 클라우드 가용 영역이다.
 - **리전**: 여러 가용 영역을 포함하는 독립된 클라우드 지리 구역이다.
-- **종단 의존성 맵**: 도메인 이름 시스템(Domain Name System, DNS)•망•애플리케이션•데이터베이스(Database, DB)•외부 서비스까지 사용자 요청의 모든 의존 관계를 나타낸 지도이다.
+- **DNS(Domain Name System)**: 도메인 이름을 네트워크 주소로 변환하는 체계이다.
+- **DB(Database)**: 구조화 데이터를 저장•관리하는 데이터베이스이다.
+- **종단 의존성 맵**: DNS•망•응용•DB•외부 서비스의 의존 지도이다.
 
 </details>
 
@@ -151,7 +153,9 @@ sequenceDiagram
 - **N-1 조건**: 자원 하나가 고장 나도 나머지 자원으로 목표 부하를 처리하는 용량 조건이다.
 - **숨은 외부 의존성**: DNS•인증•ISP처럼 내부 이중화 밖에서 단일 경로로 남은 의존 요소이다.
 - **복구 경로 시험**: 장애 우회뿐 아니라 정상 자원 복귀와 상태 재동기화까지 확인하는 시험이다.
-- **인터넷 서비스 제공자(Internet Service Provider, ISP)**: 외부 접속 회선을 제공하며 내부 이중화 밖의 숨은 단일 의존성이 될 수 있는 사업자이다.
+- **ISP(Internet Service Provider)**: 외부 접속 회선을 제공하는 사업자이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -170,7 +174,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **독립성**: 대체 자원들이 전원•망•시설•운영 절차를 공유하지 않아 같은 원인으로 함께 실패하지 않는 성질이다.
-- **국제표준화기구 22301(International Organization for Standardization 22301, ISO 22301)**: 중단 위험과 우선 활동의 연속성•복구를 관리하는 업무연속성 국제표준이다.
+- **ISO 22301**: 우선 활동의 연속성•복구를 관리하는 표준이다.
 - **제거 방식 선택**: 단독 기능은 이중화하고 공통 원인은 장애 도메인을 분리한 뒤 N-1 조건을 검증하는 결정이다.
 
 </details>

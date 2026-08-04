@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "RTO•RPO 정의•측정 (RTO RPO)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:57:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 20
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **복구 목표 시간(Recovery Time Objective, RTO)**: 업무 중단 후 서비스를 재개해야 하는 최대 허용 시간이다.
-- **복구 목표 시점(Recovery Point Objective, RPO)**: 복구 시점에서 허용할 수 있는 최대 데이터 손실 시간이다.
-- **업무 영향 분석(Business Impact Analysis, BIA)**: 업무 중단의 영향을 분석하여 업무별 복구 우선순위와 목표를 정하는 활동이다.
+- **RTO(Recovery Time Objective)**: 업무를 재개해야 하는 최대 허용 시간이다.
+- **RPO(Recovery Point Objective)**: 허용 가능한 데이터 손실의 기준 시점이다.
+- **BIA(Business Impact Analysis)**: 업무 중단 영향을 분석해 복구 순위를 정하는 활동이다.
 
 </details>
 
@@ -125,8 +125,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **복구 목표 시간(Recovery Time Objective, RTO)**: 업무 중단을 얼마 동안 허용할지 정한 서비스 재개 시간 목표이다.
-- **복구 목표 시점(Recovery Point Objective, RPO)**: 장애 직전 데이터 중 얼마만큼의 손실을 허용할지 정한 데이터 복구 시점 목표이다.
+- **RTO 적용**: 업무 중단 허용 한도를 서비스 재개시간으로 정한다.
+- **RPO 적용**: 데이터 손실 허용 한도를 복구 시점으로 정한다.
 
 </details>
 
@@ -147,6 +147,7 @@ sequenceDiagram
 - **실제 복구 소요 시간**: 장애 발생부터 업무 검증을 마치고 서비스를 재개할 때까지 실측한 시간이다.
 - **실제 데이터 손실**: 장애 시점과 최종 복구 시점 사이에서 되살리지 못한 데이터의 시간 범위이다.
 - **복구 훈련**: 백업•복제본으로 실제 복원하여 RTO•RPO 달성 여부를 측정하는 시험이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 
 </details>
 
@@ -165,7 +166,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **목표 차등화**: BIA의 업무 영향과 데이터 재처리 가능성에 따라 서비스별 RTO•RPO를 다르게 정하는 원칙이다.
-- **국제표준화기구 22313(International Organization for Standardization 22313, ISO 22313)**: 업무연속성 전략과 복구 우선순위에 관한 ISO 22301 적용 지침이다.
+- **ISO 22313**: 업무연속성 전략•복구 우선순위 적용 지침이다.
 - **목표 단축 결정**: 중단비용이 크면 복구 목표 시간을, 데이터 손실비용이 크면 복구 목표 시점을 더 짧게 정하는 판단이다.
 
 </details>

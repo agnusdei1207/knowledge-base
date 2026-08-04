@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버•페일백 (Auto Failover Failback)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T21:09:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 22
@@ -60,8 +60,9 @@ extra:
 
 - **활성 노드**: 현재 요청 처리와 쓰기 권한을 담당하는 노드이다.
 - **대기 노드**: 활성 노드의 상태를 복제받고 장애 승계를 준비하는 노드이다.
-- **가상 인터넷 프로토콜 주소(Virtual Internet Protocol Address, VIP)**: 활성 노드가 바뀌어도 클라이언트가 같은 서비스 주소로 접속하게 하는 논리 주소이다.
-- **로드밸런서(Load Balancer, LB)•도메인 이름 시스템(Domain Name System, DNS)**: 요청을 새 정상 노드로 유도하는 접속 경로 수단이다.
+- **가상 IP 주소(Virtual IP Address, VIP)**: 활성 노드가 바뀌어도 클라이언트가 같은 서비스 주소로 접속하게 하는 논리 주소이다.
+- **로드밸런서(Load Balancer, LB)**: 요청을 정상 노드에 분산하는 접속 경로 장치이다.
+- **도메인 이름 시스템(Domain Name System, DNS)**: 서비스 이름을 새 정상 노드의 주소로 연결하는 체계이다.
 
 </details>
 
@@ -168,7 +169,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 기존 데이터베이스 쓰기 차단 후 대기 데이터베이스 승격을 통한 이중 쓰기 방지
+- 기존 DB 쓰기 차단 후 대기 DB 승격을 통한 이중 쓰기 방지
 
 ## Ⅶ. 결론
 

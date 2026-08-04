@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "장애 복구 전략 - 핫•웜•콜드 사이트 (Disaster Recovery Site)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:51:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 19
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **재해 복구(Disaster Recovery, DR)**: 재해로 중단된 정보시스템과 데이터를 대체 환경에서 복구하여 업무를 재개하는 활동이다.
-- **재해 복구 사이트(Disaster Recovery Site, DR 사이트)**: 주 센터 재해 때 서비스를 이어받도록 준비한 독립 대체 센터이다.
+- **DR(Disaster Recovery)**: 재해로 중단된 시스템•데이터를 복구하는 활동이다.
+- **DR 사이트(Disaster Recovery Site)**: 주 센터 재해 때 서비스를 이어받는 대체 센터이다.
 
 </details>
 
@@ -38,9 +38,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **복구 목표 시간(Recovery Time Objective, RTO)**: 업무 중단 후 서비스를 재개해야 하는 최대 허용 시간이다.
-- **복구 목표 시점(Recovery Point Objective, RPO)**: 복구 시 허용할 수 있는 최대 데이터 손실 시간이다.
-- **업무 영향 분석(Business Impact Analysis, BIA)**: 업무 중단의 재무•운영•법적 영향을 분석해 복구 우선순위를 정하는 활동이다.
+- **RTO(Recovery Time Objective)**: 업무를 재개해야 하는 최대 허용 시간이다.
+- **RPO(Recovery Point Objective)**: 허용 가능한 데이터 손실의 기준 시점이다.
+- **BIA(Business Impact Analysis)**: 업무 중단 영향을 분석해 복구 순위를 정하는 활동이다.
 - **지역 재해 독립성**: 주 센터와 대체 센터가 같은 전력•통신•기후 재해에 동시에 중단되지 않도록 장애 도메인을 분리한 성질이다.
 
 </details>
@@ -153,6 +153,7 @@ sequenceDiagram
 - **동시 재해**: 주 센터와 DR 사이트가 같은 지역•전력•통신 원인의 영향을 함께 받는 상황이다.
 - **DR 모의훈련**: 실제 운영 절차로 선언•복제 확인•전환•업무 검증•복귀를 수행하는 시험이다.
 - **복구 용량**: DR 사이트가 우선 업무의 목표 부하를 RTO 안에 처리할 수 있는 자원 능력이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 
 </details>
 
@@ -171,7 +172,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **복구 우선순위**: BIA 결과에 따라 제한된 DR 자원을 먼저 할당할 업무의 순서이다.
-- **국제표준화기구 22301(International Organization for Standardization 22301, ISO 22301)**: 업무연속성관리시스템의 요구사항을 규정하는 국제표준이다.
+- **ISO 22301**: 업무연속성관리시스템 요구사항 표준이다.
 - **준비 수준 결정**: 업무 영향 분석의 중단•데이터 손실 피해를 기준으로 핫•웜•콜드 사이트의 복구 속도와 비용을 선택하는 판단이다.
 
 </details>
