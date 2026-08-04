@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
-date: "2026-08-04T14:43:56+09:00"
+date: "2026-08-05T07:00:00+09:00"
 tags: ["notes-software"]
 weight: 208
 extra:
@@ -68,19 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["경량 모델 패키지"]
-    B["기기 추론 런타임"]
-    C["CPU•GPU•NPU"]
-    D["온디바이스 애플리케이션"]
-    E["배포•관측 제어기"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+ [경량 모델 패키지] -- [기기 추론 런타임] -- [CPU•GPU•NPU]
+                              |
+                  [온디바이스 애플리케이션]
+                              |
+                    [배포•관측 제어기]
 ```
+
+선의 의미: 기기 추론 런타임이 경량 모델 패키지와 기기 가속 자원을 결합하고, 온디바이스 애플리케이션과 배포•관측 제어기가 그 실행 및 운영 경계를 구성하는 정적 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

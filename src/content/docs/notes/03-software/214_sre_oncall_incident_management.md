@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SRE 온콜 관리•인시던트 대응 (SRE Oncall Incident Management)"
-date: "2026-08-04T14:54:00+09:00"
+date: "2026-08-05T07:00:00+09:00"
 tags: ["notes-software"]
 weight: 214
 extra:
@@ -66,19 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["SLO 경보 체계"]
-    B["온콜 교대조"]
-    C["인시던트 지휘부"]
-    D["대응 작업공간"]
-    E["사후 조치 추적기"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+          [인시던트 지휘부]
+             /          \
+       [온콜 교대조]   [대응 작업공간]
+             |                 |
+      [SLO 경보 체계]   [사후 조치 추적기]
 ```
+
+선의 의미: 인시던트 지휘부가 온콜 책임과 공동 대응 공간을 통합하며, SLO 경보 체계는 온콜 교대조를 지원하고 사후 조치 추적기는 대응 기록과 개선 책임을 연결하는 정적 운영 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

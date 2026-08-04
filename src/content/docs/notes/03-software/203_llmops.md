@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-04T14:43:56+09:00"
+date: "2026-08-05T01:18:22+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -63,19 +63,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["구성 카탈로그"]
-    B["평가기"]
-    C["LLM 게이트웨이"]
-    D["가드레일"]
-    E["관측기"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[구성 카탈로그]---[평가기]---[LLM 게이트웨이]---[가드레일]---[관측기]
 ```
+
+선의 의미: 각 선은 모델•프롬프트•RAG 구성, 평가 증적, 중앙 호출 통제, 입출력 안전 판정과 운영 관측값이 서로 결속되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
