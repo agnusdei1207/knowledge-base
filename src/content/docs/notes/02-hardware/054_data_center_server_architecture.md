@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T01:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -68,25 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:Server
-        columns 3
-        C["연산 계층"]
-        M["메모리•스토리지 계층"]
-        N["네트워크•I/O 계층"]
-    end
-    block:Support
-        columns 2
-        P["전원•냉각 계층"]
-        B["관리 계층"]
-    end
-    C --- M
-    C --- N
-    C --- P
-    C --- B
+```text
+서버 자원 경계
+|
++-- [메모리•스토리지 계층] -- [연산 계층] -- [네트워크•I/O 계층]
+|                                /     \
+지원 경계          [전원•냉각 계층]   [관리 계층]
 ```
+
+선의 의미: 서버 자원 경계에서 연산 계층이 저장•전송 계층에 접하고, 지원 경계의 전원•냉각 및 관리 계층이 연산 자원을 지탱하는 정적 경계•의존 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

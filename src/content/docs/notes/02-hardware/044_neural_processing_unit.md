@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 44
@@ -68,17 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    C["모델 컴파일러"]
-    R["NPU 런타임"]
-    N["MAC 배열•온칩 메모리"]
-    H["호스트 폴백 경로"]
-    C --- R
-    R --- N
-    R --- H
+```text
+                     [모델 컴파일러]
+                            |
+                            |
+[MAC 배열•온칩 메모리] -- [NPU 런타임] -- [호스트 폴백 경로]
 ```
+
+선의 의미: NPU 런타임을 중심으로 모델 컴파일 결과, 전용 연산 자원, 호스트 대체 실행 경로가 결합된 정적 실행 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

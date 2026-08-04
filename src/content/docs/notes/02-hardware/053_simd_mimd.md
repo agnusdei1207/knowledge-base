@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SIMD•MIMD 프로세서 (SIMD MIMD)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T01:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 53
@@ -64,17 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    Q["작업 큐"]
-    S["MIMD 스케줄러"]
-    L["SIMD 지원 코어군"]
-    B["공유 메모리•동기화기"]
-    Q --- S
-    S --- L
-    L --- B
+```text
+[작업 큐] -- [MIMD 스케줄러] -- [SIMD 지원 코어군]
+                                            |
+                              [공유 메모리•동기화기]
 ```
+
+선의 의미: 스케줄러가 작업 큐와 SIMD 지원 코어군을 연결하고 코어군이 공용 데이터•배리어 자원에 접하는 정적 계층형 병렬 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

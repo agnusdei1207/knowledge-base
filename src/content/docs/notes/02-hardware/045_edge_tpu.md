@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -65,17 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    M["완전 정수 TFLite 모델"]
-    C["Edge TPU 컴파일러"]
-    H["TFLite 런타임•CPU"]
-    E["Edge TPU 코어"]
-    M --- C
-    C --- H
-    H --- E
+```text
+[완전 정수 TFLite 모델] -- [Edge TPU 컴파일러] -- [TFLite 런타임•CPU] -- [Edge TPU 코어]
 ```
+
+선의 의미: 정수 모델, 장치 컴파일 계층, 실행 런타임, 전용 코어가 결합된 정적 Edge TPU 배포 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

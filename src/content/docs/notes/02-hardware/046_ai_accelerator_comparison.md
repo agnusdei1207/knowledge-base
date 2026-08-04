@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 46
@@ -65,17 +65,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    C["컴파일러•런타임"]
-    H["호스트 CPU"]
-    A["GPU•NPU•FPGA•ASIC"]
-    D["인터커넥트•가속기 메모리"]
-    C --- H
-    C --- A
-    A --- D
+```text
+       [호스트 CPU]
+             |
+             |
+[컴파일러•런타임] -- [GPU•NPU•FPGA•ASIC] -- [인터커넥트•가속기 메모리]
 ```
+
+선의 의미: 컴파일러•런타임이 호스트와 가속기를 함께 관리하고, 가속기가 인터커넥트•메모리에 결합된 정적 이기종 시스템 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

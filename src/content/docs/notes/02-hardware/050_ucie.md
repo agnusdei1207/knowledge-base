@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T01:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -66,20 +66,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:UCIe
-        columns 3
-        P["프로토콜 계층"]
-        A["D2D 어댑터"]
-        Y["물리 계층"]
-    end
-    C["패키지 채널"]
-    P --- A
-    A --- Y
-    Y --- C
+```text
+UCIe 계층 경계
+|
++-- [프로토콜 계층]
+|         |
++-- [D2D 어댑터]
+|         |
+`-- [물리 계층] -- [패키지 채널]
 ```
+
+선의 의미: UCIe 경계 안에서 프로토콜•어댑터•물리 계층이 상하 인터페이스를 이루고 물리 계층이 패키지 채널에 접하는 정적 계층 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

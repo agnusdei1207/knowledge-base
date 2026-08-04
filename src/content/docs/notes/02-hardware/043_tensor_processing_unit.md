@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -64,17 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    X["XLA 컴파일러"]
-    H["TPU 호스트•런타임"]
-    C["MXU•벡터 유닛"]
-    D["HBM•ICI 데이터 경로"]
-    X --- H
-    H --- C
-    C --- D
+```text
+[XLA 컴파일러] -- [TPU 호스트•런타임] -- [MXU•벡터 유닛] -- [HBM•ICI 데이터 경로]
 ```
+
+선의 의미: 컴파일 계층, 호스트 제어, 텐서 연산 장치, 메모리•칩 간 연결이 결합된 정적 TPU 시스템 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T01:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -67,15 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    E["HCA•QP 엔드포인트 집합"]
-    F["스위치 패브릭"]
-    S["서브넷 관리자"]
-    E --- F
-    F --- S
+```text
+[HCA•QP 엔드포인트 집합] -- [스위치 패브릭]
+                                    |
+                              [서브넷 관리자]
 ```
+
+선의 의미: 엔드포인트 집합이 스위치 패브릭에 접속하고 서브넷 관리자가 해당 패브릭의 주소•경로•접근 경계를 관리하는 정적 연결 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

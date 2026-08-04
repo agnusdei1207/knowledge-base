@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)"
-date: "2026-08-04T11:50:00+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 42
@@ -67,17 +67,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    H["호스트 런타임"]
-    S["CUDA 스트림"]
-    K["커널 실행 계층"]
-    M["장치 메모리 계층"]
-    H --- S
-    S --- K
-    K --- M
+```text
+[호스트 런타임] -- [CUDA 스트림] -- [커널 실행 계층] -- [장치 메모리 계층]
 ```
+
+선의 의미: 호스트의 제출 계층과 장치의 실행•메모리 계층이 CUDA 스트림을 매개로 결합된 정적 소프트웨어•하드웨어 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

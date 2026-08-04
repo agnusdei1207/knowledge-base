@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-04T14:09:12+09:00"
+date: "2026-08-05T00:48:09+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -64,15 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    G["GPU•NCCL 엔드포인트 집합"]
-    L["NVLink 물리 링크"]
-    S["NVSwitch 패브릭"]
-    G --- L
-    L --- S
+```text
+[GPU•NCCL 엔드포인트 집합] -- [NVLink 물리 링크] -- [NVSwitch 패브릭]
 ```
+
+선의 의미: 통신 엔드포인트가 NVLink 물리 링크를 통해 NVSwitch의 다대다 패브릭에 결합된 정적 연결망이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
