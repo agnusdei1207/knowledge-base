@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디스크 이미징•해시 무결성 (Disk Imaging Hash Integrity)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 116
@@ -61,18 +61,6 @@ extra:
 - **비트스트림 이미지**: 파일뿐 아니라 주소 가능한 매체 영역 전체를 그대로 복제한 사본이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  O["원본 매체•식별정보"]
-  W["쓰기 방지 장치"]
-  I["비트스트림 증거 이미지"]
-  H["해시•읽기 오류"]
-  C["연계보관•분석 사본"]
-  O --- W --- I
-  I --- H --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

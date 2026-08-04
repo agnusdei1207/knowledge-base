@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모바일 포렌식 (Mobile Forensics)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 115
@@ -62,18 +62,6 @@ extra:
 - **도구 검증**: 사용한 도구의 기능•정확성과 결과 재현성을 사전에 확인하는 절차이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  S["단말•잠금 상태"]
-  P["격리•전원 보존"]
-  A["추출 방식•도구 검증"]
-  D["앱•시간•삭제 흔적"]
-  C["백업•클라우드 연계"]
-  S --- P --- A
-  A --- D --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

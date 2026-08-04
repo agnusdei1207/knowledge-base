@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework (NIST CSF)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T12:23:00+09:00"
 tags:
   - "notes-security"
 weight: 111
@@ -64,23 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  G["Govern"]
-  IP["Identify•Protect"]
-  D["Detect"]
-  RS["Respond"]
-  RC["Recover"]
-  G --- IP
-  G --- D
-  G --- RS
-  G --- RC
-  IP --- D
-  D --- RS
-  RS --- RC
-  RC --- IP
+```text
+                             [Govern]
+                    /          |          |          \
+       [Identify•Protect]   [Detect]   [Respond]   [Recover]
 ```
+
+선의 의미: Govern이 전략•정책•책임의 상위 기능으로서 식별•보호, 탐지, 대응, 복구의 네 결과 영역을 공통 통제하는 CSF 정적 계층
 
 | 구성요소 | 책임 |
 |:---|:---|

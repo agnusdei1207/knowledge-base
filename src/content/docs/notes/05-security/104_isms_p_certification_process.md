@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISMS-P 인증 심사 절차 (ISMS-P Certification)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T01:46:59+09:00"
 tags:
   - "notes-security"
 weight: 104
@@ -63,20 +63,6 @@ extra:
 - **인증위원회** 는 심사 결과를 독립 검토해 인증 여부를 의결한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  O["신청기관"]
-  A["인증기관"]
-  B["인증심사기관"]
-  E["심사팀•운영 증적"]
-  C["인증위원회"]
-  O --- A
-  A --- B
-  B --- E
-  E --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

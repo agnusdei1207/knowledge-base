@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T12:22:00+09:00"
 tags:
   - "notes-security"
 weight: 110
@@ -66,20 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  B["BIA•복구 목표"]
-  S["업무 연속성 전략"]
-  C["지휘•소통 체계"]
-  P["BCP•DRP 실행계획"]
-  T["훈련•성과평가•개선"]
-  B --- S
-  S --- C
-  C --- P
-  P --- T
-  T --- B
+```text
+                         [BIA•복구 목표]
+                      /          |          \
+          [업무 연속성 전략] [지휘•소통 체계] [BCP•DRP 실행계획]
+                      \          |          /
+                       [훈련•성과평가•개선]
 ```
+
+선의 의미: BIA•복구 목표 아래 연속성 전략, 지휘•소통 책임, BCP•DRP 실행계획을 배치하고 훈련•성과평가•개선이 세 영역의 목표 충족을 공통 검증하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

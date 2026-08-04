@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "국가정보원 보안성 검토 (NIS Security Review)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 117
@@ -61,18 +61,6 @@ extra:
 - **RFP 추적**: 검토 의견을 발주 요구와 설계•검수 결과까지 연결하는 활동이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  B["사업 범위•검토 대상"]
-  D["데이터•외부 연계"]
-  N["망•클라우드 구성"]
-  S["보안대책•검토 의견"]
-  T["RFP•설계•검수 추적"]
-  B --- D --- N
-  N --- S --- T
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

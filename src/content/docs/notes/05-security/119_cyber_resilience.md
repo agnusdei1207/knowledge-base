@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이버 레질리언스 (Cyber Resilience)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 119
@@ -61,19 +61,6 @@ extra:
 - **RPO(Recovery Point Objective)**: 허용 가능한 데이터 손실의 기준 시점이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  M["필수 임무•의존성"]
-  W["격리•다양성•안전한 저하"]
-  R["신뢰 복구 기반"]
-  C["관측•지휘•소통"]
-  T["훈련•측정•적응"]
-  M --- W --- R
-  R --- C --- T
-  T --- M
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

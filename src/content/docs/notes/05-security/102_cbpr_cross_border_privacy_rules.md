@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CBPR 국경 간 개인정보 규칙 (CBPR Cross-Border Privacy Rules)"
-date: "2026-08-04T14:22:54+09:00"
+date: "2026-08-05T01:46:59+09:00"
 tags:
   - "notes-security"
 weight: 102
@@ -64,19 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  F["Global CBPR Forum"]
-  J["참여 관할"]
-  A["책임성 인증기관"]
-  O["인증 조직"]
-  C["Global CAPE"]
-  F --- J
-  J --- A
-  A --- O
-  C --- J
+```text
+[Global CBPR Forum]---[참여 관할]---[책임성 인증기관]---[인증 조직]
+                            |
+                      [Global CAPE]
 ```
+
+선의 의미: Global CBPR Forum의 규칙 아래 참여 관할, 책임성 인증기관, 인증 조직 및 Global CAPE 집행 협력이 연결되는 인증 생태계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
