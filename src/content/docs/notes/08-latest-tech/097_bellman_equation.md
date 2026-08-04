@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "벨만 방정식 (Bellman Equation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:11:14+09:00"
 tags:
   - "notes-latest_tech"
 weight: 97
@@ -111,11 +111,13 @@ sequenceDiagram
   participant E as 전이•보상 모델
   participant O as 벨만 연산자
   participant V as 가치 함수
-  P->>O: 1. 행동 확률•연산 목적
-  E->>O: 2. 다음 상태 분포
-  E->>O: 3. 즉시 보상
-  O->>V: 4. 보상•할인 다음 가치
-  V-->>O: 5. 갱신 잔차•고정점 판정
+  loop 갱신 잔차가 임계값 이하까지
+    P->>O: 1. 행동 확률•연산 목적
+    E->>O: 2. 다음 상태 분포
+    E->>O: 3. 즉시 보상
+    O->>V: 4. 보상•할인 다음 가치
+    V-->>O: 5. 갱신 잔차•고정점 판정
+  end
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "마르코프 결정과정 (Markov Decision Process)"
-date: "2026-08-04T15:46:00+09:00"
+date: "2026-08-04T14:12:20+09:00"
 tags:
   - "notes-latest-tech"
 weight: 96
@@ -111,11 +111,13 @@ sequenceDiagram
   participant T as 전이 모델
   participant R as 보상 함수
   participant P as 정책•가치 평가기
-  S->>A: 1. 현재 상태
-  A->>T: 2. 선택 행동
-  T->>R: 3. 다음 상태 전이
-  R->>P: 4. 즉시 보상•다음 상태
-  P-->>A: 5. 할인 가치•정책 신호
+  loop 종료 상태 도달까지
+    S->>A: 1. 현재 상태
+    A->>T: 2. 선택 행동
+    T->>R: 3. 다음 상태 전이
+    R->>P: 4. 즉시 보상•다음 상태
+    P-->>A: 5. 할인 가치•정책 신호
+  end
 ```
 
 **동작 원리**

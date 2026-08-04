@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-04T15:50:00+09:00"
+date: "2026-08-04T14:12:48+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -112,11 +112,13 @@ sequenceDiagram
   participant R as 위험 평가부
   participant O as 운영 통제부
   participant A as 성과•개선부
-  P->>L: 1. AIMS 범위•정책
-  L->>R: 2. 책임•자원•위험 기준
-  R->>O: 3. 위험 처리 계획•통제
-  O->>A: 4. 운영 증적•성과 지표
-  A-->>P: 5. 부적합 시정•개선안
+  loop 경영시스템 지속 개선
+    P->>L: 1. AIMS 범위•정책
+    L->>R: 2. 책임•자원•위험 기준
+    R->>O: 3. 위험 처리 계획•통제
+    O->>A: 4. 운영 증적•성과 지표
+    A-->>P: 5. 부적합 시정•개선안
+  end
 ```
 
 **동작 원리**

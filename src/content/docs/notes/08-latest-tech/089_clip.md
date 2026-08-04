@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CLIP (대조 언어-이미지 사전학습)"
-date: "2026-08-04T15:39:00+09:00"
+date: "2026-08-04T14:07:57+09:00"
 tags:
   - "notes-latest_tech"
 weight: 89
@@ -105,9 +105,11 @@ sequenceDiagram
     participant S as 유사도 계산기
     participant C as 대조 손실
     participant Z as 제로샷 판별기
-    X->>S: 1. 이미지•텍스트 임베딩
-    S->>C: 2. 쌍별 유사도 행렬
-    C-->>X: 3. 대조 손실 역전파
+    loop 사전학습 종료 전
+        X->>S: 1. 이미지•텍스트 임베딩
+        S->>C: 2. 쌍별 유사도 행렬
+        C-->>X: 3. 대조 손실 역전파
+    end
     X->>Z: 4. 클래스 문구 유사도 판별
 ```
 
