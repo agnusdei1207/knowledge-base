@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "Generative AI (생성형 AI)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T13:31:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 25
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 학습 데이터의 분포와 구조를 모델링해 새로운 콘텐츠를 만드는 **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**
+- 정의/개념: 학습 데이터의 분포와 구조를 모델링해 새로운 콘텐츠를 만드는 **생성형 AI**
 - 배경/필요성: 판별형 모델은 범주•수치 예측에 집중해 **학습 분포 기반 신규 콘텐츠 생성** 이 곤란
 
 #### 한줄 요약
@@ -48,8 +48,12 @@ extra:
 
 </details>
 
-- **확률적 샘플링•자기회귀•확산 모델•생성적 적대 신경망(Generative Adversarial Network, GAN)•변분 오토인코더(Variational Autoencoder, VAE)**별 방식으로 다양한 표본 생성
-- **멀티모달•학습 목적**: 텍스트•이미지•음성의 데이터 양식별 구조와 교차 조건 처리
+- **자기회귀**: 앞선 값을 조건으로 다음 값 생성
+- **확산 모델**: 잡음에서 데이터를 반복 복원
+- **GAN**: 생성자•판별자의 경쟁으로 표본 생성
+- **VAE**: 잠재 확률분포에서 표본 복원
+- **멀티모달**: 여러 데이터 양식의 교차 조건 처리
+- **학습 목적**: 데이터 양식별 구조에 맞춘 생성 최적화
 - 생성 품질과 **사실성•권리 적합성** 의 분리
 
 #### 한줄 요약
@@ -135,14 +139,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)**: 데이터 분포를 학습하여 기존에 없던 콘텐츠나 변형 표본을 만든다.
 - **판별형 인공지능(Discriminative Artificial Intelligence, Discriminative AI)**: 입력의 특징을 바탕으로 범주•점수•수치 같은 정해진 결과를 판정한다.
-- **생성적 적대 신경망(Generative Adversarial Network, GAN)**: 생성자와 판별자가 경쟁하며 실제와 유사한 표본을 만들도록 학습하는 모델이다.
-- **변분 오토인코더(Variational Autoencoder, VAE)**: 입력을 잠재 확률분포로 인코딩하고 그 분포에서 표본을 복원하도록 학습하는 모델이다.
 
 </details>
 
-- **생성형 인공지능(Generative Artificial Intelligence, Generative AI)** 및 **판별형 인공지능(Discriminative Artificial Intelligence, Discriminative AI)** 사이를 신규 표본 생성과 범주•수치 판정 기준으로 구분한다.
+- **생성형 AI** 및 **판별형 AI** 사이를 신규 표본 생성과 범주•수치 판정 기준으로 구분한다.
 
 | AI 유형 | 생성형 AI | 판별형 AI |
 |:---|:---|:---|
