@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능형 반사 표면 (RIS, Reconfigurable Intelligent Surface)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:46:00+09:00"
 tags:
   - "notes-network"
 weight: 43
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **연쇄 채널**: 기지국과 재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS), RIS와 단말 사이의 경로가 결합된 전파 채널
+- **연쇄 채널**: 기지국-RIS와 RIS-단말 경로가 결합된 전파 채널
 - **빔 이탈**: 설정한 반사 빔 방향과 이동한 단말 위치가 어긋나 수신 전력이 감소하는 현상
 
 </details>
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **단위 셀**: 위상•진폭•편파 응답을 개별 설정할 수 있는 재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)의 최소 반사 소자
+- **단위 셀**: 위상•진폭•편파 응답을 개별 설정하는 RIS의 최소 반사 소자
 - **반사 계수**: 입사파에 비해 반사파의 진폭과 위상이 어떻게 변하는지를 나타내는 복소수
 
 </details>
@@ -90,7 +90,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **채널 추정**: 기준 신호를 측정해 기지국-재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)-단말의 결합된 전파 특성을 계산하는 과정
+- **채널 추정**: 기준 신호로 기지국-RIS-단말의 결합 채널을 계산하는 과정
 - **위상 결합**: 여러 단위 셀의 반사파가 목표 위치에서 같은 위상으로 겹치도록 조절하는 방식
 
 </details>
@@ -128,7 +128,6 @@ sequenceDiagram
 
 - **중계기**: 수신한 무선 신호를 능동 회로로 증폭•재송신해 약한 전파 구간을 보완하는 장치
 - **무선주파수 회로 계통(Radio Frequency Chain, RF Chain)**: 신호 변환•증폭•변복조를 담당하는 능동 회로 계통
-- **재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)**: 반사 계수를 조절해 입사파의 경로를 수동으로 재구성하는 표면 기술
 
 </details>
 
@@ -149,7 +148,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **신호 대 잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력과 잡음 전력의 비율로 재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS) 설치 후보 위치의 입사파 품질을 판단하는 지표
+- **신호 대 잡음비(Signal-to-Noise Ratio, SNR)**: 신호 전력과 잡음 전력의 비율을 나타내는 품질 지표
 - **위상 양자화**: 연속 위상값을 단위 셀이 지원하는 유한 단계로 변환하는 과정
 
 </details>
@@ -169,8 +168,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **입사 전력**: 재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)에 도달하는 원 신호의 전력으로 수동 반사 경로가 얻을 수 있는 이득의 기초
-- **중계기**: 수신 신호를 능동적으로 증폭•재송신해 경로 손실을 보완하는 장치
+- **입사 전력**: RIS에 도달하는 원 신호의 전력
 
 </details>
 

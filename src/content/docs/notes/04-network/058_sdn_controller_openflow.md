@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:14:00+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OpenFlow**: 소프트웨어 정의 네트워킹(Software-Defined Networking, SDN) 컨트롤러가 계산한 경로를 스위치에 흐름 규칙으로 설치하고 상태를 교환하는 제어 프로토콜
+- **소프트웨어 정의 네트워킹(Software-Defined Networking, SDN)**: 제어 평면과 데이터 평면을 분리하는 네트워크 구조
+- **OpenFlow**: SDN 컨트롤러의 경로를 스위치에 흐름 규칙으로 설치하는 프로토콜
 - **SDN 컨트롤러**: 전역 망 상태와 정책을 바탕으로 경로와 흐름 규칙을 계산하는 중앙 제어 기능
 
 </details>
@@ -58,7 +59,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OpenFlow 채널**: 소프트웨어 정의 네트워킹(Software-Defined Networking, SDN) 컨트롤러와 스위치 사이에서 흐름 규칙•포트•통계 메시지를 교환하는 제어 연결
+- **OpenFlow 채널**: SDN 컨트롤러와 스위치 사이에서 제어 메시지를 교환하는 연결
 - **데이터 경로**: 스위치가 흐름 테이블의 규칙을 조회해 실제 패킷 동작을 실행하는 영역이다.
 
 </details>
@@ -127,7 +128,7 @@ sequenceDiagram
 
 - **반응형 제어**: 첫 패킷의 Packet-In 뒤에 필요한 흐름 규칙을 설치하는 방식이다.
 - **선제형 제어**: 트래픽이 도착하기 전에 반복•핵심 경로의 흐름 규칙을 미리 설치하는 방식이다.
-- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0•1•무관 비트를 병렬 비교해 흐름 규칙을 빠르게 찾는 스위치 메모리
+- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0•1•무관 비트를 병렬 비교해 규칙을 찾는 메모리
 
 </details>
 
@@ -148,7 +149,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 0•1•무관 비트를 병렬 비교해 마스크를 포함한 흐름 규칙을 빠르게 찾는 메모리
 - **유휴 제한 시간**: 일치 패킷이 없는 흐름 규칙을 제거하기까지 기다리는 시간이다.
 
 </details>
@@ -168,7 +168,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **규칙 설치 전략**: 반복 핵심 경로는 선제형으로, 미지•단기 흐름은 반응형으로 처리해 지연과 삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM) 사용을 조절하는 방식
+- **규칙 설치 전략**: 핵심 경로는 선제형, 미지 흐름은 반응형으로 처리해 TCAM 사용을 조절하는 방식
 
 </details>
 

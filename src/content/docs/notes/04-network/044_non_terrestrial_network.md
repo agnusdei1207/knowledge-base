@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비지상 네트워크 (NTN, Non-Terrestrial Network)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:48:00+09:00"
 tags:
   - "notes-network"
 weight: 44
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비지상망(Non-Terrestrial Network, NTN)**: 위성•고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)을 무선 접속 구간으로 활용해 지상망 밖 단말까지 연결하는 이동통신망
+- **비지상망(Non-Terrestrial Network, NTN)**: 위성•HAPS를 활용해 지상망 밖 단말까지 연결하는 이동통신망
+- **고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)**: 성층권에 체공하며 무선 접속을 중계하는 플랫폼
 
 </details>
 
@@ -42,7 +43,7 @@ extra:
 - **왕복 시간(Round-Trip Time, RTT)**: 송신부터 상대의 응답을 다시 수신할 때까지 걸리는 지연 시간
 - **도플러 편이**: 위성과 단말의 상대 이동으로 수신 반송파 주파수가 송신 주파수에서 달라지는 현상
 - **저궤도(Low Earth Orbit, LEO)**: 약 2,000km 이하의 고도에서 빠르게 공전하는 위성 궤도
-- **차세대 노드 B(next Generation Node B, gNB)**: 5세대 이동통신(Fifth Generation, 5G) 단말의 무선 접속을 제어하는 기지국 기능
+- **차세대 노드 B(next Generation Node B, gNB)**: 5G 단말의 무선 접속을 제어하는 기지국 기능
 - **투명형•재생형 페이로드**: 투명형은 무선 신호를 지상으로 중계하고 재생형은 위성에서 기지국 기능 일부를 처리하는 탑재 방식
 
 </details>
@@ -64,10 +65,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 링크**: 단말과 위성•고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)을 연결하는 무선 구간
+- **서비스 링크**: 단말과 위성•HAPS를 연결하는 무선 구간
 - **피더 링크**: 위성•HAPS 플랫폼과 지상 게이트웨이를 연결하는 무선 구간
-- **비지상망(Non-Terrestrial Network, NTN) 단말**: 궤도에 맞춰 주파수와 시간을 보정해 비지상 링크에 접속하는 사용자 장비(User Equipment, UE)
-- **차세대 노드 B(next Generation Node B, gNB)•5세대 코어(5G Core, 5GC)**: 무선 접속과 가입자 인증•세션•이동성을 제어하는 망 기능
+- **사용자 장비(User Equipment, UE)**: 궤도에 맞춰 주파수와 시간을 보정하는 NTN 단말
+- **5세대 코어(5G Core, 5GC)**: 가입자 인증•세션•이동성을 제어하는 핵심망
 
 </details>
 
@@ -103,9 +104,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **도플러 보상**: 위성의 상대 이동으로 발생한 반송파 주파수 편이를 궤도 정보로 선보정하는 과정이다.
-- **5세대 코어(5G Core, 5GC)**: 비지상망(Non-Terrestrial Network, NTN) 단말의 가입자 인증•세션•이동성을 제어하는 핵심망
-- **고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)**: 성층권에 체공하며 단말과 지상 게이트웨이 사이의 무선 접속을 중계하는 플랫폼
-- **피더 링크**: 위성•HAPS와 지상 게이트웨이 사이에서 접속 신호를 전달하는 무선 구간
 
 </details>
 
@@ -137,9 +135,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **저궤도(Low Earth Orbit, LEO)**: 지상 약 2,000km 이하에서 빠르게 공전해 지연은 짧지만 빔 전환이 잦은 위성 궤도
-- **정지궤도(Geostationary Earth Orbit, GEO)•고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)**: GEO는 지상 기준 같은 위치에 머무는 위성 궤도이고 HAPS는 성층권에 체공하는 무선 플랫폼
-- **왕복 시간(Round-Trip Time, RTT)**: 송신부터 상대 응답을 다시 수신할 때까지 걸리는 지연 시간
+- **정지궤도(Geostationary Earth Orbit, GEO)**: 지상 기준 같은 위치에 머무는 위성 궤도
 
 </details>
 
@@ -181,7 +177,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **플랫폼 선택**: 허용 왕복 시간(Round-Trip Time, RTT)•이동성•가시 시간•서비스 범위를 비교해 저궤도(Low Earth Orbit, LEO)•정지궤도(Geostationary Earth Orbit, GEO)•고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS) 중 접속 방식을 결정하는 과정
+- **플랫폼 선택**: RTT•이동성•가시 시간•범위로 LEO•GEO•HAPS를 결정하는 과정
 
 </details>
 

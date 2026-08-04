@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:16:00+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -23,8 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)**: 이더넷 프레임을 사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)•인터넷 프로토콜(Internet Protocol, IP)로 캡슐화해 계층 3(Layer 3, L3) 기반망 위에 계층 2(Layer 2, L2) 오버레이를 구성하는 기술
+- **가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)**: 이더넷 프레임을 UDP/IP로 캡슐화해 L3 위에 L2 오버레이를 구성하는 기술
 - **가상 근거리 통신망(Virtual LAN, VLAN)**: 12비트 식별자로 하나의 물리 L2 구간을 논리적으로 분리하는 기술
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램 전송 프로토콜
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 프로토콜
+- **계층 3(Layer 3, L3)**: 패킷의 주소 지정과 경로 선택을 담당하는 계층
+- **계층 2(Layer 2, L2)**: 동일 링크의 프레임 전달을 담당하는 계층
 
 </details>
 
@@ -40,10 +44,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)**: 가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN) 논리 세그먼트와 테넌트를 구분하는 24비트 식별자
-- **이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: 경계 경로 프로토콜(Border Gateway Protocol, BGP)로 매체 접근 제어(Media Access Control, MAC)•인터넷 프로토콜(Internet Protocol, IP) 주소와 VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP) 위치를 배포하는 제어 평면
+- **VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)**: 논리 세그먼트와 테넌트를 구분하는 24비트 식별자
+- **이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: BGP로 MAC•IP•VTEP 위치를 배포하는 제어 평면
+- **경계 경로 프로토콜(Border Gateway Protocol, BGP)**: 자율시스템 간 경로 정보를 교환하는 프로토콜
+- **매체 접근 제어(Media Access Control, MAC)**: 공유 매체 접근과 프레임 전달을 제어하는 계층
+- **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: VXLAN 캡슐화와 역캡슐화를 수행하는 장치
 - **등가 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 동일 비용의 여러 L3 경로에 트래픽을 분산하는 방식
-- **최대 전송 단위(Maximum Transmission Unit, MTU)•BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic)**: 캡슐화 패킷의 최대 크기와 목적지를 특정할 수 없어 복제하는 트래픽
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 링크에서 분할 없이 보낼 수 있는 최대 패킷 크기
+- **BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic)**: 목적지를 특정할 수 없어 여러 종단에 복제하는 트래픽
 
 </details>
 
@@ -60,11 +68,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: 이더넷 프레임의 가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN) 캡슐화와 역캡슐화를 수행하는 장치
-- **언더레이•오버레이**: 언더레이는 VTEP 사이 인터넷 프로토콜(Internet Protocol, IP) 도달성을 제공하고 오버레이는 그 위의 터널로 논리 연결을 제공하는 망 계층
-- **이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: MAC•IP•VTEP 위치를 배포하는 제어 평면
-- **등가 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 동일 비용의 여러 언더레이 경로에 트래픽을 분산하는 방식
-- **VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)**: 테넌트별 논리 세그먼트를 구분하는 24비트 식별자
+- **언더레이**: VTEP 사이의 IP 도달성을 제공하는 물리 기반망
+- **오버레이**: 언더레이 위의 터널로 논리 연결을 제공하는 가상망
 
 </details>
 
@@ -100,8 +105,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **MAC•IP 위치 경로**: 종단 호스트의 매체 접근 제어(Media Access Control, MAC)•인터넷 프로토콜(Internet Protocol, IP) 주소와 해당 호스트를 수용하는 VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)을 연결해 이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)으로 배포하는 정보
-- **VXLAN 패킷**: 원본 이더넷 프레임에 VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)•사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)•IP 헤더를 붙여 언더레이로 전달하는 가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN) 캡슐화 패킷
+- **MAC•IP 위치 경로**: 종단 주소와 수용 VTEP를 연결해 EVPN으로 배포하는 정보
+- **VXLAN 패킷**: 원본 프레임에 VNI•UDP•IP 헤더를 붙인 캡슐화 패킷
 
 </details>
 
@@ -134,9 +139,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)**: 24비트 VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)와 계층 3(Layer 3, L3) 터널로 대규모 테넌트 논리망을 구성하는 기술
-- **가상 근거리 통신망(Virtual LAN, VLAN)**: 12비트 VLAN 식별자(VLAN Identifier, VID)로 하나의 물리 계층 2(Layer 2, L2) 구간을 논리적으로 분리하는 기술
-- **최대 전송 단위(Maximum Transmission Unit, MTU)•BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic)**: 터널 헤더를 포함한 최대 패킷 크기와 미지 목적지에 복제되는 트래픽
+- **VLAN 식별자(VLAN Identifier, VID)**: VLAN을 구분하는 12비트 식별자
 
 </details>
 
@@ -154,16 +157,6 @@ sequenceDiagram
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
-
-- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크에서 분할 없이 보낼 수 있는 최대 패킷 크기
-- **BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic)**: 목적 VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)을 하나로 정할 수 없어 여러 터널 종단에 복제 전달하는 트래픽
-- **가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)•이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: 프레임을 캡슐화하고 MAC•IP 위치를 배포하는 오버레이 데이터•제어 평면
-- **등가 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 동일 비용의 여러 인터넷 프로토콜(Internet Protocol, IP) 언더레이 경로를 활용하는 방식
-
-</details>
-
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 캡슐화 헤더로 언더레이 MTU를 초과하면 패킷 폐기 | VXLAN 헤더를 포함해 **언더레이 MTU** 설정 | 단편화•폐기를 방지해 **전송 안정성** 확보 |
@@ -175,15 +168,6 @@ sequenceDiagram
 - 원래 프레임에 터널 포장이 더해져도 잘리지 않도록 물리망의 최대 패킷 크기를 키운다
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **EVPN VXLAN**: 이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)이 종단 위치를 배포하고 가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)이 계층 3(Layer 3, L3)망 위로 계층 2(Layer 2, L2) 프레임을 운반하는 대규모 오버레이 구성
-- **가상 근거리 통신망(Virtual LAN, VLAN)**: 12비트 식별자로 단일 L2 구간을 논리적으로 분리하는 기술
-- **BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic)**: 목적지를 특정할 수 없어 여러 오버레이 종단에 복제되는 트래픽
-
-</details>
 
 - 대규모 테넌트•L3 확장은 **EVPN VXLAN**, 소규모 단일 구간은 **VLAN** 선택
 

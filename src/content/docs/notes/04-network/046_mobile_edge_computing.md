@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:52:00+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -59,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: 정책에 따라 사용자 흐름을 인접 다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC) 응용으로 분기하는 기능
-- **MEC 플랫폼**: 응용에 서비스 발견•망 정보•트래픽 제어 응용 프로그래밍 인터페이스(Application Programming Interface, API)를 제공하는 플랫폼
+- **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: 정책에 따라 사용자 흐름을 인접 MEC 응용으로 분기하는 기능
+- **MEC 플랫폼**: 응용에 서비스 발견•망 정보•트래픽 제어 API를 제공하는 플랫폼
 
 </details>
 
@@ -98,10 +98,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **트래픽 조향**: 응용•사용자•경로 정책에 따라 트래픽이 통과할 사용자면 기능(User Plane Function, UPF)과 목적지를 선택하는 제어
+- **트래픽 조향**: 정책에 따라 트래픽이 통과할 UPF와 목적지를 선택하는 제어
 - **프로토콜 데이터 단위 세션(Protocol Data Unit Session, PDU Session)**: 단말과 데이터망 사이에서 사용자 데이터를 전달하도록 설정한 논리 경로
-- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)**: 접속망 인접 위치에서 응용을 실행하고 사용자 데이터를 로컬 처리하는 환경
-- **5세대 코어(5G Core, 5GC)•사용자면 기능(User Plane Function, UPF)**: 세션 정책을 제어하고 선택한 로컬 경로로 사용자 데이터를 전달하는 코어망 기능
+- **5세대 코어(5G Core, 5GC)**: 세션 정책을 제어하고 사용자 데이터 경로를 지정하는 핵심망
 
 </details>
 
@@ -137,7 +136,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)**: 실시간 처리를 위해 접속망 인접 위치에서 데이터와 응용을 분산 처리하는 환경
 - **중앙 클라우드**: 대규모 연산•저장 자원을 중앙 데이터센터에 모아 공유하는 컴퓨팅 환경
 
 </details>
@@ -159,7 +157,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **세션 앵커**: 사용자 이동 중에도 데이터 경로의 기준점으로 유지되는 사용자면 기능(User Plane Function, UPF)
+- **세션 앵커**: 사용자 이동 중에도 데이터 경로의 기준점으로 유지되는 UPF
 - **원격 증명**: 에지 호스트의 소프트웨어와 실행 상태가 승인된 값인지 원격에서 검증하는 기술이다.
 - **다중접속 에지 컴퓨팅 호스트(Multi-access Edge Computing Host, MEC Host)**: 접속망 인접 위치에서 응용을 실행하는 에지 연산 노드
 
@@ -181,7 +179,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **데이터 잔류**: 민감 데이터가 지정한 현장이나 지역 밖으로 전송되지 않고 해당 위치에서 처리•보관되는 요구
-- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)**: 접속망 인접 위치에서 데이터와 응용을 처리하는 분산 컴퓨팅 구조
 
 </details>
 

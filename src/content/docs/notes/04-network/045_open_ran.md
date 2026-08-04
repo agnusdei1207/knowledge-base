@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:50:00+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 무선 접속망(Open Radio Access Network, O-RAN)**: 무선 접속망(Radio Access Network, RAN) 기능을 분리하고 개방 인터페이스로 다중 공급자 장비를 조합하는 구조
+- **개방형 무선 접속망(Open Radio Access Network, O-RAN)**: RAN 기능을 분리해 다중 공급자 장비를 조합하는 구조
+- **무선 접속망(Radio Access Network, RAN)**: 단말과 코어망 사이의 무선 접속을 제공하는 망
 
 </details>
 
@@ -39,10 +40,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 프론트홀**: 개방형 분산 장치(Open Distributed Unit, O-DU)와 개방형 무선 장치(Open Radio Unit, O-RU) 사이의 제어•사용자•동기 정보를 전달하는 개방 인터페이스
-- **확장 응용(xApp)•비실시간 응용(rApp)**: xApp은 준실시간 무선 제어를 수행하고 rApp은 비실시간 정책•분석을 수행하는 무선 접속망 지능형 제어기(RAN Intelligent Controller, RIC) 응용
+- **개방형 분산 장치(Open Distributed Unit, O-DU)**: 시간 민감 물리•매체접근제어를 처리하는 장치
+- **개방형 무선 장치(Open Radio Unit, O-RU)**: 무선 송수신과 하위 물리 처리를 담당하는 장치
+- **개방형 프론트홀**: O-DU와 O-RU 사이의 제어•사용자•동기 인터페이스
+- **확장 응용(xApp)**: 준실시간 무선 제어를 수행하는 RIC 응용
+- **비실시간 응용(rApp)**: 비실시간 정책•분석을 수행하는 RIC 응용
+- **무선 접속망 지능형 제어기(RAN Intelligent Controller, RIC)**: 정책과 응용으로 무선 자원을 제어하는 기능
 - **개방형 중앙 장치(Open Central Unit, O-CU)**: 상위 무선 프로토콜과 이동성을 제어하는 논리 장치
-- **A1•E2 인터페이스**: A1은 비실시간 정책•모델을 준실시간 RIC에 전달하고 E2는 준실시간 RIC와 무선 노드 사이의 상태•제어 정보를 전달하는 참조점
+- **A1 인터페이스**: 비실시간 정책•모델을 준실시간 RIC에 전달하는 참조점
+- **E2 인터페이스**: 준실시간 RIC와 무선 노드 사이의 상태•제어 참조점
 
 </details>
 
@@ -59,10 +65,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 무선 장치(Open Radio Unit, O-RU)•개방형 분산 장치(Open Distributed Unit, O-DU)•개방형 중앙 장치(Open Central Unit, O-CU)**: O-RU는 무선 송수신, O-DU는 시간 민감 물리•매체접근제어, O-CU는 상위 프로토콜과 이동성을 담당
-- **무선 접속망 지능형 제어기(RAN Intelligent Controller, RIC)**: 관측값과 정책을 바탕으로 무선 자원을 제어하는 지능형 제어기
-- **서비스 관리 및 오케스트레이션(Service Management and Orchestration, SMO)**: 개방형 무선 접속망(Open Radio Access Network, O-RAN)의 수명주기와 비실시간 정책•모델을 관리하는 기능
-- **확장 응용(xApp)**: 준실시간 RIC에서 무선 상태를 분석하고 자원 제어를 수행하는 응용
+- **서비스 관리 및 오케스트레이션(Service Management and Orchestration, SMO)**: O-RAN 수명주기와 비실시간 정책•모델을 관리하는 기능
 
 </details>
 
@@ -97,15 +100,6 @@ block-beta
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
-
-- **A1 인터페이스**: 비실시간 무선 접속망 지능형 제어기(RAN Intelligent Controller, RIC)가 준실시간 RIC에 정책•모델을 전달하는 개방형 무선 접속망(Open Radio Access Network, O-RAN) 참조점
-- **E2 인터페이스**: 준실시간 RIC와 개방형 중앙 장치(Open Central Unit, O-CU)•개방형 분산 장치(Open Distributed Unit, O-DU) 사이에서 상태•구독•제어 명령을 전달하는 참조점
-- **xApp•rApp**: 확장 응용(xApp)은 준실시간 제어를, 비실시간 응용(rApp)은 장기 정책•분석을 수행하는 RIC 응용
-
-</details>
-
 ```mermaid
 sequenceDiagram
     participant 비실시간RIC
@@ -135,9 +129,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 무선 접속망(Open Radio Access Network, O-RAN)**: 기능 분리와 표준 인터페이스로 공급자별 장비를 조합하는 구현 방식
 - **폐쇄형 무선 접속망(Closed Radio Access Network, Closed RAN)**: 단일 공급자가 기지국 기능과 인터페이스를 통합 제공하는 구현 방식
-- **무선 접속망 지능형 제어기(RAN Intelligent Controller, RIC)**: 개방형 RAN에서 정책과 응용으로 무선 자원을 제어하는 기능
 
 </details>
 
@@ -160,8 +152,6 @@ sequenceDiagram
 
 - **회귀 시험**: 장비나 소프트웨어 조합을 변경한 뒤 기존 연동 기능이 유지되는지 확인하는 시험
 - **동기 예산**: 분리된 무선 장치가 허용할 수 있는 시간•주파수 동기 오차의 한도
-- **개방형 무선 장치(Open Radio Unit, O-RU)•개방형 분산 장치(Open Distributed Unit, O-DU)**: 다중 공급자 무선•분산 장치 조합
-- **확장 응용(xApp)**: 준실시간 무선 자원 정책을 실행하는 제어 응용
 
 </details>
 
@@ -181,7 +171,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상호운용 비용**: 다중 공급자 장비 조합을 시험하고 장애 책임을 조정하는 데 필요한 운영 비용
-- **개방형 무선 접속망(Open Radio Access Network, O-RAN)•폐쇄형 무선 접속망(Closed Radio Access Network, Closed RAN)**: 공급자 조합과 개방 인터페이스 적용 여부로 구분하는 구현 방식
 
 </details>
 

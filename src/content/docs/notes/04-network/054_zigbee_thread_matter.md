@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:06:00+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -23,11 +23,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지그비•스레드•매터(Zigbee•Thread•Matter)**: 각각 자체 사물인터넷망•인터넷 프로토콜 버전 6 메시 경로•인터넷 프로토콜 응용 상호운용을 담당하는 표준이다.
+- **지그비(Zigbee)**: 자체 메시망과 응용 프로파일로 저전력 기기를 연결하는 표준
+- **스레드(Thread)**: 저전력 IPv6 메시 전달 경로를 제공하는 망 표준
+- **매터(Matter)**: 기기 모델•명령•보안 의미를 통일하는 응용 표준
+- **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소를 사용하는 IP 규격
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 네트워크 프로토콜
+- **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계
 
 </details>
 
-- 정의/개념: 지그비•스레드•매터는 각각 자체망•**인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시망•인터넷 프로토콜(Internet Protocol, IP) 응용** 을 담당하는 **사물인터넷(Internet of Things, IoT) 표준**
+- 정의/개념: Zigbee•Thread•Matter는 자체망•**IPv6 경로•IP 응용**을 담당하는 **IoT 표준**
 - 배경/필요성: 제조사별 기기 규격은 **명령•보안 상호운용 곤란**
 
 #### 한줄 요약
@@ -39,18 +44,18 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지그비•스레드(Zigbee•Thread)**: 지그비는 자체 네트워크•응용 계층을 사용하고 스레드는 전기전자공학자협회 802.15.4 위에서 인터넷 프로토콜 버전 6 패킷을 전달한다.
-- **매터(Matter)**: 인터넷 프로토콜망에서 기기 모델•명령•보안•가입 절차를 통일하는 응용 표준이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문기관
+- **블루투스 저에너지(Bluetooth Low Energy, BLE)**: 저전력 근거리 무선 통신 기술
 
 </details>
 
 - **Zigbee** 의 자체 메시망•응용 프로파일 사용
-- **스레드(Thread)** 의 **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.15.4** 기반 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시 경로** 제공
-- **매터(Matter)** 의 **인터넷 프로토콜(Internet Protocol, IP) 기기 모델•명령•보안** 통일
+- **Thread**의 **IEEE 802.15.4** 기반 **IPv6 메시 경로** 제공
+- **Matter**의 **IP 기기 모델•명령•보안** 통일
 
 #### 한줄 요약
 
-- **블루투스 저에너지(Bluetooth Low Energy, BLE)** 로 기기를 처음 등록한 뒤 운영 명령은 와이파이(Wi-Fi)나 스레드의 IP 경로로 전달한다.
+- **BLE**로 기기를 처음 등록한 뒤 운영 명령은 Wi-Fi나 Thread의 IP 경로로 전달한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -62,7 +67,7 @@ extra:
 
 </details>
 
-스레드 경계 라우터는 **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)** 패킷을 전달하고 매터 브리지는 비 매터 기기의 모델과 명령을 변환한다.
+Thread 경계 라우터는 **IPv6** 패킷을 전달하고 Matter 브리지는 비 Matter 기기의 모델과 명령을 변환한다.
 
 ```mermaid
 block-beta
@@ -97,6 +102,7 @@ block-beta
 
 - **커미셔닝**: 기기 진위•네트워크 자격•운영 권한을 검증하고 신뢰 영역에 등록하는 절차이다.
 - **기기 증명서**: 제조사가 발급해 신규 기기의 출처와 진위를 확인하게 하는 정보이다.
+- **빠른 응답 코드(Quick Response Code, QR Code)**: 기기 가입 정보를 광학적으로 전달하는 이차원 코드
 
 </details>
 
@@ -114,7 +120,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **가입 정보**: **블루투스 저에너지(Bluetooth Low Energy, BLE)•빠른 응답(Quick Response, QR) 정보** 로 신규 기기와 보안 세션 수립
+1. **가입 정보**: **BLE•QR Code 정보**로 신규 기기와 보안 세션 수립
 2. **기기 증명서**: 제조사 발급 정보로 기기 진위 증명
 3. **운영 자격**: 검증된 기기에 Thread 접속•패브릭 자격 전달
 
@@ -124,20 +130,11 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
-
-- **지그비(Zigbee)**: 자체 메시망과 응용 프로파일로 저전력 기기를 연결하는 표준이다.
-- **스레드(Thread)**: 저전력 인터넷 프로토콜 버전 6 메시 전달 경로를 제공하는 망 표준이다.
-- **매터(Matter)**: 서로 다른 제조사의 기기 모델•명령•보안 의미를 통일하는 응용 표준이다.
-
-</details>
-
 | 표준 | 담당 계층•범위 | 연계 역할 |
 |:---|:---|:---|
-| **지그비(Zigbee)** | **비 인터넷 프로토콜(Internet Protocol, IP) 메시망•응용 프로파일** | 기존 Zigbee 기기의 자체 생태계 구성 |
-| **스레드(Thread)** | **저전력 인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시 전달** | Matter 기기의 IP 경로 제공 |
-| **매터(Matter)** | **기기 모델•명령•보안 상호운용** | Thread•Wi-Fi•유선망 위 응용 계층 제공 |
+| **Zigbee** | **비 IP 메시망•응용 프로파일** | 기존 Zigbee 기기의 자체 생태계 구성 |
+| **Thread** | **저전력 IPv6 메시 전달** | Matter 기기의 IP 경로 제공 |
+| **Matter** | **기기 모델•명령•보안 상호운용** | Thread•Wi-Fi•유선망 위 응용 계층 제공 |
 
 > 요약: Zigbee는 자체 생태계, Thread는 IP 경로, Matter는 응용 상호운용을 담당
 
@@ -174,7 +171,7 @@ sequenceDiagram
 
 </details>
 
-- 저전력 **인터넷 프로토콜(Internet Protocol, IP) 경로** 는 **스레드(Thread)**, 제조사 간 제어는 **매터(Matter)**, 기존 지그비(Zigbee)는 브리지 선택
+- 저전력 **IP 경로**는 **Thread**, 제조사 간 제어는 **Matter**, 기존 Zigbee는 브리지 선택
 
 #### 한줄 요약
 

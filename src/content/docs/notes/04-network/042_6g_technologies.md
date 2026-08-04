@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "6G 핵심 기술 (6G Vision & Technologies)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:44:00+09:00"
 tags:
   - "notes-network"
 weight: 42
@@ -23,13 +23,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030)**: 국제전기통신연합(International Telecommunication Union, ITU)이 6세대 이동통신(Sixth Generation, 6G)을 위해 정의한 사용 시나리오와 핵심 역량의 국제 이동통신 체계
+- **국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030)**: 6G 사용 시나리오와 핵심 역량을 정의한 국제 체계
+- **국제전기통신연합(International Telecommunication Union, ITU)**: 정보통신 국제 표준과 전파 이용을 조정하는 국제기구
+- **6세대 이동통신(Sixth Generation, 6G)**: 통신•센싱•지능•컴퓨팅을 통합하는 차세대 이동통신
+- **5세대 이동통신(Fifth Generation, 5G)**: 초광대역•초저지연•대규모 접속을 상용화한 이동통신
 - **인공지능(Artificial Intelligence, AI)**: 통신망의 관측 정보를 바탕으로 경로•빔•자원 정책을 판단하는 지능 기술
 
 </details>
 
 - 정의/개념: 통신•센싱•AI를 통합하는 **IMT-2030 이동통신 체계**
-- 배경/필요성: 5세대 이동통신(Fifth Generation, 5G)의 지상 셀•통신 중심 구조로 **입체 연결•환경 감지** 제약
+- 배경/필요성: 5G의 지상 셀•통신 중심 구조로 **입체 연결•환경 감지** 제약
 
 #### 한줄 요약
 
@@ -41,9 +44,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **비지상망(Non-Terrestrial Network, NTN)**: 위성•고고도 플랫폼을 이용해 지상 셀 밖까지 연결 범위를 확장하는 망
-- **통신•센싱 통합(Integrated Sensing and Communication, ISAC)•인공지능 내재형(Artificial Intelligence-Native, AI-Native)**: 같은 무선 자원으로 통신과 감지를 수행하고 인공지능(Artificial Intelligence, AI)을 망 제어의 기본 기능으로 사용하는 구조
-- **국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: 국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030) 사용 시나리오와 무선 역량을 정의하는 국제 표준화 부문
-- **테라헤르츠(Terahertz, THz)•재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)**: 6세대 이동통신(Sixth Generation, 6G)의 대역 확장과 전파 경로 제어를 위한 후보 기술
+- **통신•센싱 통합(Integrated Sensing and Communication, ISAC)**: 같은 무선 자원으로 통신과 환경 감지를 수행하는 기술
+- **인공지능 내재형(Artificial Intelligence-Native, AI-Native)**: AI를 망 제어의 기본 기능으로 사용하는 구조
+- **국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: IMT-2030 사용 시나리오와 무선 역량을 정의하는 부문
+- **테라헤르츠(Terahertz, THz)**: 6G의 초광대역 전송 후보 주파수 대역
+- **재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)**: 반사 소자를 조절해 전파 경로를 재구성하는 표면
 
 </details>
 
@@ -61,10 +66,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **분산 컴퓨팅**: 단말•에지•중앙의 여러 연산 자원에 작업을 나눠 처리하는 구조
-- **재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)**: 반사 소자의 전자기 응답을 조절해 전파 경로를 재구성하는 지능형 표면
-- **인공지능 내재형(Artificial Intelligence-Native, AI-Native)**: 인공지능을 경로•빔•자원 제어의 기본 기능으로 사용하는 망 구조
-- **비지상망(Non-Terrestrial Network, NTN)**: 위성•고고도 플랫폼을 지상망과 통합해 입체 연결을 제공하는 망
-- **6세대 이동통신(Sixth Generation, 6G)**: 통신•센싱•지능•컴퓨팅을 통합하는 차세대 이동통신 체계
 
 </details>
 
@@ -101,7 +102,7 @@ block-beta
 
 - **디지털 트윈**: 실제 망 상태를 가상 모델에 동기화해 자원 정책의 결과를 예측하는 모델
 - **폐루프 제어**: 관측•판단•실행 결과를 다시 관측해 설정을 반복 조정하는 제어 방식
-- **인공지능 정책(Artificial Intelligence Policy, AI Policy)**: 관측•예측 결과로 경로•빔•연산 위치를 결정하는 제어 정책
+- **AI 정책**: 관측•예측 결과로 경로•빔•연산 위치를 결정하는 제어 정책
 
 </details>
 
@@ -132,16 +133,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
-
-- **6세대 이동통신(Sixth Generation, 6G) 후보 기술**: 국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030) 목표 달성을 위해 연구 중이지만 아직 확정 규격이 아닌 테라헤르츠(Terahertz, THz)•재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)•인공지능 내재형(Artificial Intelligence-Native, AI-Native) 등의 기술
-- **5세대 이동통신(Fifth Generation, 5G)**: 초광대역•초저지연•대규모 접속을 상용화한 현재 이동통신 세대
-- **통신•센싱 통합(Integrated Sensing and Communication, ISAC)**: 같은 무선 자원으로 데이터 통신과 환경 감지를 함께 수행하는 기술
-- **인공지능(Artificial Intelligence, AI)**: 망 상태를 분석해 경로•빔•자원 정책을 자동 결정하는 기술
-
-</details>
-
 | 이동통신 세대 | 6G | 5G |
 |:---|:---|:---|
 | 적용 기준 | 미래 사용 시나리오와 후보 기술 검증 | 상용 이동통신 서비스 구축 |
@@ -160,9 +151,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **기술 성숙도**: 후보 기술이 연구•시험 단계를 거쳐 실제 서비스에 적용 가능한 수준에 도달했는지를 나타내는 기준
-- **수동 복구**: 인공지능(Artificial Intelligence, AI) 정책이 오판할 때 운영자가 안전한 설정으로 직접 되돌리는 절차
-- **국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030)**: 6세대 이동통신(Sixth Generation, 6G) 사용 시나리오와 목표 역량을 제시하는 국제 이동통신 체계
-- **비지상망(Non-Terrestrial Network, NTN)**: 위성•고고도 플랫폼으로 지상망의 연결 범위를 보완하는 망
+- **수동 복구**: AI 정책이 오판할 때 운영자가 안전한 설정으로 되돌리는 절차
 
 </details>
 
@@ -181,8 +170,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **단계 도입**: 국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030) 시나리오별 요구와 기술 성숙도를 검증한 뒤 충족한 기술부터 순차 적용하는 방식
-- **6세대 이동통신(Sixth Generation, 6G)**: 통신•센싱•지능•컴퓨팅 통합을 목표로 하는 차세대 이동통신 체계
+- **단계 도입**: IMT-2030 요구와 기술 성숙도를 검증해 충족 기술부터 적용하는 방식
 
 </details>
 

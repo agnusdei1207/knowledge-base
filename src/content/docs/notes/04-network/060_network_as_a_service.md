@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NaaS (Network as a Service)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:18:00+09:00"
 tags:
   - "notes-network"
 weight: 60
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스형 네트워크(Network as a Service, NaaS)**: 연결•보안•품질 기능을 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 주문•변경하고 구독•사용량으로 이용하는 네트워크 서비스
+- **서비스형 네트워크(Network as a Service, NaaS)**: 연결•보안•품질 기능을 API로 주문하고 구독하는 서비스
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 주문•변경•해지 요청을 전달하는 호출 규격
 
 </details>
 
@@ -40,8 +41,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **서비스 카탈로그**: 주문할 수 있는 연결•대역폭•보안•품질 기능과 이용 조건을 정의한 목록이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)•사용량 과금**: 서비스 품질과 미달 책임을 계약하고 실제 사용 기간•등급•사용량으로 비용을 산정하는 방식
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 주문•변경•해지 요청을 자동 전달하는 호출 규격
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스 품질 목표와 미달 책임을 정한 협약
+- **사용량 과금**: 사용 기간•등급•사용량을 기준으로 비용을 산정하는 방식
 
 </details>
 
@@ -60,8 +61,6 @@ extra:
 
 - **오케스트레이터**: 주문 의도를 장비•회선•가상 기능의 설정과 작업 순서로 변환하는 제어 기능이다.
 - **네트워크 패브릭**: 장비•회선•경로를 하나의 연결 기반으로 구성해 서비스 정책을 실행하는 네트워크이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 이용자의 서비스 주문과 상태 조회를 오케스트레이터에 전달하는 호출 규격
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 종단 가용성•지연•손실 목표와 미달 책임을 정한 협약
 
 </details>
 
@@ -98,9 +97,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **서비스 의도**: 이용자가 원하는 연결•보안•품질 결과를 장비 독립적인 형태로 선언한 주문 정보이다.
-- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)•보안 액세스 서비스 에지(Secure Access Service Edge, SASE)**: SD-WAN은 광역 경로를 선택하고 SASE는 네트워크 연결과 클라우드 보안을 서비스 에지에서 통합하는 기술
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 주문•상태 정보를 포털과 오케스트레이터 사이에 전달하는 규격
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 경로 품질 목표와 위반 책임을 정한 협약
+- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)**: 정책에 따라 광역 경로를 선택하는 기술
+- **보안 액세스 서비스 에지(Secure Access Service Edge, SASE)**: 연결과 클라우드 보안을 서비스 에지에서 통합하는 기술
 
 </details>
 
@@ -137,8 +135,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스형 네트워크(Network as a Service, NaaS)•자체 구축•관리형 네트워크**: NaaS는 서비스를 구독하고 자체 구축은 자산을 소유하며 관리형은 보유 자산의 운영을 위탁하는 제공 방식
-- **공급자 종속**: 전용 응용 프로그래밍 인터페이스(Application Programming Interface, API)•구성 모델•서비스 기능 때문에 다른 공급자로 이전하기 어려워지는 상태
+- **공급자 종속**: 전용 API•구성 모델 때문에 다른 공급자로 이전하기 어려운 상태
 
 </details>
 
@@ -159,9 +156,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **종단 측정점**: 이용자 접속 양 끝에서 실제 가용성•지연•손실을 측정해 서비스 수준 협약(Service Level Agreement, SLA) 책임을 판정하는 위치
+- **종단 측정점**: 접속 양 끝에서 품질을 측정해 SLA 책임을 판정하는 위치
 - **구성 내보내기**: 서비스 정책과 연결 구성을 재사용 가능한 표준 형식으로 추출하는 기능이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 정책과 연결 구성을 주문•변경하는 호출 규격
 
 </details>
 
@@ -180,7 +176,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 제공 방식**: 수요 변동•자산 통제•운영 역량을 기준으로 서비스형 네트워크(Network as a Service, NaaS)•자체 구축•관리형 중 운영 모델을 정하는 분류
+- **네트워크 제공 방식**: 수요 변동•자산 통제•운영 역량으로 NaaS•자체 구축•관리형을 정하는 분류
 
 </details>
 

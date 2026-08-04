@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "5G 특화망•로컬 5G (Private 5G / 이음5G)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:42:00+09:00"
 tags:
   - "notes-network"
 weight: 41
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 이동통신 특화망(Fifth Generation Private Network, Private 5G)**: 한정된 구역에서 전용 주파수•설비•정책으로 산업 서비스를 제공하는 비공중 이동통신망
+- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•초연결을 지원하는 이동통신 세대
+- **5G 특화망(Private 5G)**: 한정 구역에서 전용 설비•정책으로 산업 서비스를 제공하는 비공중망
 
 </details>
 
@@ -39,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **무선 접속망(Radio Access Network, RAN)**: 산업 단말을 전용 주파수로 5세대 이동통신(Fifth Generation, 5G) 코어에 연결하는 기지국 체계
+- **무선 접속망(Radio Access Network, RAN)**: 산업 단말을 전용 주파수로 5GC에 연결하는 기지국 체계
 - **서비스 품질(Quality of Service, QoS)**: 트래픽별 지연•손실•대역폭을 차등 제어하는 품질 정책
 - **사용자면 기능(User Plane Function, UPF)**: 사용자 데이터를 현장 데이터망으로 직접 전달하는 코어망 기능
 - **가입자 식별 모듈(Subscriber Identity Module, SIM)**: 단말의 가입자 식별자와 인증 정보를 저장하는 모듈
@@ -59,12 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 코어(5G Core, 5GC)**: 가입자 인증•이동성•정책•세션을 제어하는 5세대 이동통신(Fifth Generation, 5G) 핵심망
+- **5세대 코어(5G Core, 5GC)**: 가입자 인증•이동성•정책•세션을 제어하는 5G 핵심망
 - **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: 사용자 데이터를 외부 중앙망 대신 현장 데이터망으로 직접 전달하는 사용자면 기능
-- **무선 접속망(Radio Access Network, RAN)**: 산업 단말에 전용 무선 접속을 제공하는 기지국 체계
-- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)•운영 기술(Operational Technology, OT)**: 현장 응용을 처리하고 생산 설비의 제어 체계와 연결하는 영역
+- **다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC)**: 현장 가까이에서 응용을 처리하는 컴퓨팅 환경
+- **운영 기술(Operational Technology, OT)**: 생산 설비를 감시하고 제어하는 기술 체계
 - **비공중망(Non-Public Network, NPN)**: 특정 조직이나 구역을 위해 전용으로 구축한 이동통신망
-- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연•손실•대역폭을 차등 제어하는 정책
 
 </details>
 
@@ -99,13 +99,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **가입자 식별 모듈(Subscriber Identity Module, SIM)**: 가입자 식별자와 인증 정보를 저장해 특화망 접속 신원을 증명하는 모듈
 - **프로토콜 데이터 단위 세션(Protocol Data Unit Session, PDU Session)**: 단말과 데이터망 사이에서 사용자 데이터를 전달하도록 설정한 논리 경로
-- **서비스 품질(Quality of Service, QoS)**: 트래픽 등급별 지연•손실•대역폭을 제어하는 정책
 
 </details>
 
-무선 접속망(Radio Access Network, RAN), 5세대 코어(5G Core, 5GC), 사용자면 기능(User Plane Function, UPF), 다중접속 에지 컴퓨팅(Multi-access Edge Computing, MEC), 운영 기술(Operational Technology, OT)이 인증부터 현장 전달까지 연결한다.
+RAN, 5GC, UPF, MEC, OT가 인증부터 현장 전달까지 연결한다.
 
 ```mermaid
 sequenceDiagram
@@ -138,13 +136,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망에 의존하지 않고 전용 기지국과 5세대 이동통신(Fifth Generation, 5G) 코어를 운영하는 비공중망
+- **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망에 의존하지 않고 전용 기지국과 5GC를 운영하는 비공중망
 - **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 공중망의 가입자•코어 기능을 공유해 운영을 위탁하는 비공중망
-- **서비스 품질(Quality of Service, QoS)**: 현장 무선망의 트래픽별 지연•손실•대역폭을 차등 제어하는 정책
 
 </details>
 
-5G 특화망은 독립형 비공중망(Standalone Non-Public Network, SNPN) 또는 공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)으로 구성할 수 있다.
+5G 특화망은 SNPN 또는 PNI-NPN으로 구성할 수 있다.
 
 | 현장 무선망 방식 | 5G 특화망 | 기업 Wi-Fi | 공중망 슬라이스 |
 |:---|:---|:---|:---|
@@ -164,8 +161,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **무선 음영**: 설비나 구조물의 차폐로 전파 수신 세기가 접속 가능한 수준 아래로 떨어지는 구역이다.
-- **경로 정책**: 사용자 트래픽이 로컬 사용자면 기능(Local User Plane Function, Local UPF)과 현장 데이터망을 통과하도록 고정하는 전달 규칙
-- **5세대 코어(5G Core, 5GC)**: 가입자 인증•정책•세션과 현장 데이터 경로를 제어하는 핵심망
+- **경로 정책**: 사용자 트래픽이 로컬 UPF와 현장 데이터망을 통과하도록 고정하는 전달 규칙
 
 </details>
 
@@ -185,8 +181,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **데이터 주권**: 조직이 데이터의 저장 위치와 처리•전송 경로를 직접 통제하는 능력
-- **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망 없이 전용 기지국과 코어를 운영하는 방식
-- **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 공중망 기능을 공유해 운영을 위탁하는 방식
 
 </details>
 

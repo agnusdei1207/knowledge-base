@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:00:00+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -23,11 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **차량 환경 무선 접속(WAVE)**: 전기전자공학자협회 802.11p 기본 서비스 집합 외부 무선 접속과 1609 서비스를 결합한 차량 직접 통신 체계이다.
+- **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)**: IEEE 802.11p와 1609 서비스를 결합한 차량 직접 통신 체계
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문기관
+- **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)**: 가입 절차 없이 무선 프레임을 직접 교환하는 방식
 
 </details>
 
-- 정의/개념: **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)** 과 **IEEE 1609 서비스** 를 결합한 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE)** 체계
+- 정의/개념: **IEEE 802.11p OCB**와 **IEEE 1609 서비스**를 결합한 **WAVE 체계**
 - 배경/필요성: 일반 Wi-Fi의 가입•로밍 절차로 고속 이동 **안전 메시지 기한** 초과
 
 #### 한줄 요약
@@ -39,13 +41,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **기본 서비스 집합 외부 통신(OCB)**: 기본 서비스 집합 가입 절차 없이 차량이 무선 프레임을 직접 교환하는 방식이다.
-- **직교 주파수 분할 다중화(OFDM)**: 여러 직교 부반송파에 데이터를 나눠 전송해 다중 경로 간섭을 줄이는 변조 방식이다.
+- **직교 주파수 분할 다중화(Orthogonal Frequency-Division Multiplexing, OFDM)**: 직교 부반송파에 데이터를 나눠 전송하는 변조 방식
+- **메가헤르츠(Megahertz, MHz)**: 초당 백만 주기의 주파수 단위
 
 </details>
 
-- **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)** 의 가입 절차 없는 차량 간 직접 프레임 교환
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.11p** 의 10메가헤르츠(Megahertz, MHz) **직교 주파수 분할 다중화(Orthogonal Frequency-Division Multiplexing, OFDM)** 차량 무선 전송
+- **OCB**의 가입 절차 없는 차량 간 직접 프레임 교환
+- **IEEE 802.11p**의 10MHz **OFDM** 차량 무선 전송
 - **IEEE 1609** 의 메시지 보안•네트워킹•채널 운영
 
 #### 한줄 요약
@@ -57,12 +59,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **WAVE 단문 메시지 프로토콜(WSMP)**: 짧은 차량 안전 메시지를 전달하는 네트워크 프로토콜이다.
-- **제어 채널•서비스 채널(CCH•SCH)**: 안전 제어와 일반 서비스 트래픽을 분리해 운용하는 차량 통신 채널이다.
+- **WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)**: 짧은 차량 안전 메시지를 전달하는 네트워크 프로토콜
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 네트워크 프로토콜
+- **제어 채널(Control Channel, CCH)**: 안전 제어 트래픽을 전달하는 차량 통신 채널
+- **서비스 채널(Service Channel, SCH)**: 일반 서비스 트래픽을 전달하는 차량 통신 채널
+- **매체 접근 제어(Media Access Control, MAC)**: 공유 매체 접근과 프레임 전달을 제어하는 계층
+- **물리 계층(Physical Layer, PHY)**: 신호 변환과 무선 전송을 담당하는 계층
 
 </details>
 
-**WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)** 과 **인터넷 프로토콜(Internet Protocol, IP)** 을 **제어 채널(Control Channel, CCH)•서비스 채널(Service Channel, SCH)** 로 전달하며, **매체 접근 제어(Media Access Control, MAC)•물리(Physical, PHY)** 계층은 IEEE 802.11p가 담당한다.
+**WSMP•IP**를 **CCH•SCH**로 전달하며, **MAC•PHY** 계층은 IEEE 802.11p가 담당한다.
 
 ```mermaid
 block-beta
@@ -111,7 +117,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **서명 기본 서비스 집합 외부 통신 프레임**: **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1609.2** 서명 후 **제어 채널(Control Channel, CCH)•서비스 채널(Service Channel, SCH)** 을 선택해 전송
+1. **서명 기본 서비스 집합 외부 통신 프레임**: **IEEE 1609.2** 서명 후 **CCH•SCH**를 선택해 전송
 2. **수신 OCB 프레임**: 인증서•**최신성** 검증을 통과한 메시지만 수용
 
 #### 한줄 요약
@@ -125,13 +131,14 @@ sequenceDiagram
 
 - **WAVE OCB**: 가입 절차 없이 주변 차량•노변 장치와 안전 메시지를 직접 교환하는 무선 접속 방식이다.
 - **인프라 와이파이(Wi-Fi)**: 단말이 액세스 포인트에 연결한 뒤 인프라를 경유해 일반 데이터를 교환하는 방식이다.
+- **액세스 포인트(Access Point, AP)**: 무선 단말을 유선망에 연결하는 접속 장치
 
 </details>
 
-| 무선 접속 방식 | 차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE) 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB) | 인프라 와이파이(Wi-Fi) |
+| 무선 접속 방식 | WAVE OCB | 인프라 Wi-Fi |
 |:---|:---|:---|
 | 적용 기준 | 고속 이동 중 **안전 메시지 직접 전파** 가 필요할 때 | 지속 연결의 **일반 데이터 통신** 이 필요할 때 |
-| 핵심 특징 | 가입 없는 **직접 프레임 교환** | **액세스 포인트(Access Point, AP)** 연결 후 **인프라 경유 교환** |
+| 핵심 특징 | 가입 없는 **직접 프레임 교환** | **AP** 연결 후 **인프라 경유 교환** |
 | 한계 | 고밀도 **채널 경쟁•충돌** | 연결 설정•**로밍 지연** |
 
 > 요약: Wi-Fi는 지속 연결, WAVE는 고속 직접통신
@@ -154,7 +161,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 고밀도 차량의 **채널 경쟁•충돌** 증가 | 밀도별 **채널 부하•지연** 시험 | 안전 메시지의 기한 내 수신률 판정 |
 | 인증서 조회로 **서명 검증 지연** 증가 | 검증 캐시•**폐기 정보** 사전 갱신 | 메시지 검증 시간 감소 |
-| 장치별 **제어 채널(Control Channel, CCH)•서비스 채널(Service Channel, SCH) 정책 불일치** | **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1609.4 채널 정책** 대조 | 서비스 채널 접속 실패 감소 |
+| 장치별 **CCH•SCH 정책 불일치** | **IEEE 1609.4 채널 정책** 대조 | 서비스 채널 접속 실패 감소 |
 
 #### 한줄 요약
 
@@ -169,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- 고속 이동 안전 메시지는 **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE) 기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)**, 지속 연결 일반 데이터는 **인프라 와이파이(Wi-Fi)** 선택
+- 고속 이동 안전 메시지는 **WAVE OCB**, 지속 연결 일반 데이터는 **인프라 Wi-Fi** 선택
 
 #### 한줄 요약
 
