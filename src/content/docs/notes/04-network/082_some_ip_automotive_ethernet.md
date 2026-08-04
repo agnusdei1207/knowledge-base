@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-08-04T18:02:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -117,6 +117,8 @@ sequenceDiagram
         P->>C: 5. OfferService 갱신
     end
 ```
+
+**동작 원리**
 
 1. **OfferService 광고**: 제공 ID•버전•종단점•TTL 공지
 2. **FindService 탐색**: 요구 ID•버전의 제공자 조회

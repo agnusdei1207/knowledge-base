@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDoS 공격 기법•대응 - SYN Flood•증폭 (DDoS Attack Mitigation)"
-date: "2026-08-04T18:10:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 87
 extra:
@@ -112,6 +112,8 @@ sequenceDiagram
     정화센터->>원본: 4. 정상 트래픽 전달
     원본-->>탐지기: 5. 서비스 복구 검증
 ```
+
+**동작 원리**
 
 1. **공격 이상 탐지**: 양•분포•연결•요청의 기준선 이탈 판정
 2. **상위 완화 요청**: 소진 자원에 맞춘 앞단 차단 선택

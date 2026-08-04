@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스마트 미터 AMI (Advanced Metering Infrastructure)"
-date: "2026-08-04T18:06:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 84
 extra:
@@ -104,9 +104,11 @@ sequenceDiagram
     participant HES
     participant MDMS
     participant 업무시스템
-    미터->>HES: 1. 계량 자료 전송
-    opt 누락 구간 발견
-        HES-->>미터: 재수집 요청
+    loop 누락 구간 보완까지
+        미터->>HES: 1. 계량 자료 전송
+        opt 누락 구간 발견
+            HES-->>미터: 재수집 요청
+        end
     end
     HES->>MDMS: 2. 누락 보완 자료 전달
     MDMS->>업무시스템: 3. VEE 자료 제공
@@ -114,6 +116,8 @@ sequenceDiagram
     HES->>미터: 5. 인증 명령 실행
     미터-->>업무시스템: 실행 결과 확인
 ```
+
+**동작 원리**
 
 1. **계량 자료 전송**: 시간대별 사용량•상태 이벤트 제공
 2. **누락 보완 자료 전달**: 미터 신원•누락 구간 확인과 재수집

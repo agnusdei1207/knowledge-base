@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
-date: "2026-08-04T18:04:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 83
 extra:
@@ -116,6 +116,8 @@ sequenceDiagram
     B->>L: 스트림 전달
     L-->>C: 5. 종단 성능 검증
 ```
+
+**동작 원리**
 
 1. **스트림 요구 등록**: 주기•크기•지연•손실 한계 전달
 2. **경로 기능 확인**: 장비별 동기•조정•선점 지원 검사

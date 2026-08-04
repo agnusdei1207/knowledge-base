@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-04T18:08:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 86
 extra:
@@ -116,6 +116,8 @@ sequenceDiagram
         수신자-->>송신자: 차단 결과 반환
     end
 ```
+
+**동작 원리**
 
 1. **신뢰 기준 조회**: 바인딩•경로•서명 기준 확보
 2. **종단 신원 인증**: 인증서로 실제 상대를 재확인

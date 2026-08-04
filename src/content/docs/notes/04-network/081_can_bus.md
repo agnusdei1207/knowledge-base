@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAN 버스 자동차 통신 (CAN Bus)"
-date: "2026-08-04T18:00:00+09:00"
+date: "2026-08-04T14:39:15+09:00"
 tags: ["notes-network"]
 weight: 81
 extra:
@@ -102,14 +102,18 @@ sequenceDiagram
     participant T as 송신 ECU
     participant B as CAN 버스
     participant R as 수신 ECU
-    T->>B: 1. 유휴 버스 감지
-    T->>B: 2. ID 비트 중재
-    B-->>T: 우성•열성 비교 결과
-    T->>B: 3. 데이터•CRC 전송
-    B->>R: 4. 수신 프레임 전달
-    R->>B: 5. ACK 비트 응답
-    B-->>T: 완료•재전송 결과
+    loop 전송 완료까지
+        T->>B: 1. 유휴 버스 감지
+        T->>B: 2. ID 비트 중재
+        B-->>T: 우성•열성 비교 결과
+        T->>B: 3. 데이터•CRC 전송
+        B->>R: 4. 수신 프레임 전달
+        R->>B: 5. ACK 비트 응답
+        B-->>T: 완료•재전송 결과
+    end
 ```
+
+**동작 원리**
 
 1. **유휴 버스 감지**: 회선이 비었을 때 송신 시작
 2. **ID 비트 중재**: 송신값과 버스값을 비트별 비교
