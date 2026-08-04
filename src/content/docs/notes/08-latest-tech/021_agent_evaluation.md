@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Agent Evaluation (에이전트 평가)"
-date: "2026-08-04T13:10:00+09:00"
+date: "2026-08-05T02:08:07+09:00"
 tags:
   - "notes-latest_tech"
 weight: 21
@@ -65,18 +65,6 @@ extra:
 - **배포 게이트**: 평가 결과가 기준선과 위험 임계치를 충족할 때만 변경 배포를 허용하는 통제 지점이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    R["평가 실행기"]
-    C["경로 수집기"]
-    V["결과•경로 평가기"]
-    G["배포 게이트"]
-    R --- C
-    C --- V
-    V --- G
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

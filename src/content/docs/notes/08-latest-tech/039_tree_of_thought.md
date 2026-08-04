@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Tree-of-Thought (탐색 추론)"
-date: "2026-08-04T13:43:58+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-latest_tech"]
 weight: 39
 extra:
@@ -66,20 +66,6 @@ extra:
 - **탐색 제어기**: 탐색 방식•빔 폭•최대 깊이•예산을 적용하여 유지할 후보를 관리한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  state["상태 표현"]
-  generator["후보 생성기"]
-  evaluator["상태 평가기"]
-  controller["탐색 제어기"]
-  verifier["종료•검증기"]
-  state --- generator
-  generator --- evaluator
-  evaluator --- controller
-  controller --- verifier
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

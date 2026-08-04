@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "System Prompt (시스템 프롬프트)"
-date: "2026-08-04T14:36:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 37
@@ -66,19 +66,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  role["역할•목표"]
-  policy["정책•제약"]
-  context["문맥 경계"]
-  contract["도구•출력 계약"]
-  version["버전•평가"]
-  role --- policy
-  policy --- context
-  context --- contract
-  contract --- version
+```text
+                 [버전•평가]
+                       |
+ [역할•목표] ----- [정책•제약]
+                       |
+                  [문맥 경계]
+                       |
+               [도구•출력 계약]
 ```
+
+선의 의미: 버전•평가는 역할•목표와 정책•제약의 행동 계약을 관리하고, 문맥 경계는 그 상위 지시와 도구•출력 계약이 다루는 비신뢰 입력•실행 범위를 분리하는 정적 지시 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

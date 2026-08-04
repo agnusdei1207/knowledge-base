@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Tokenization (토큰화)"
-date: "2026-08-04T14:10:00+09:00"
+date: "2026-08-05T14:24:32+09:00"
 tags:
   - "notes-latest_tech"
 weight: 32
@@ -62,20 +62,6 @@ extra:
 - **스페셜 토큰(Special Token)**: 시퀀스 시작•종료•패딩•역할 구분처럼 모델 제어에 사용하는 특수 ID다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    N["정규화기"]
-    P["사전 분절기"]
-    M["서브워드 모델"]
-    I["ID 매퍼"]
-    D["복호기"]
-    N --- P
-    P --- M
-    M --- I
-    I --- D
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

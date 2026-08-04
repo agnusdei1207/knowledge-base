@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Test-Time Compute (테스트 타임 컴퓨트)"
-date: "2026-08-04T13:44:13+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-latest_tech"]
 weight: 40
 extra:
@@ -70,20 +70,6 @@ extra:
 - **종료•관측기**: 품질 통과•개선 정체•예산 초과를 판정하고 실행 결과를 기록한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  estimator["난도•위험 추정기"]
-  budget["예산 제어기"]
-  reasoner["추론•탐색기"]
-  verifier["검증•정렬기"]
-  observer["종료•관측기"]
-  estimator --- budget
-  budget --- reasoner
-  reasoner --- verifier
-  verifier --- observer
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Scaled Dot-Product Attention (스케일드 닷 프로덕트 어텐션)"
-date: "2026-08-04T13:53:00+09:00"
+date: "2026-08-05T14:24:29+09:00"
 tags:
   - "notes-latest_tech"
 weight: 29
@@ -67,20 +67,6 @@ extra:
 </details>
 
 - **Q•K•V**, 점수 행렬, 스케일•마스크, 소프트맥스, 출력 결합 순서로 처리한다.
-
-```mermaid
-block-beta
-    columns 3
-    Q["Q•K•V"]
-    S["점수 행렬"]
-    M["스케일•패딩 마스크"]
-    W["소프트맥스"]
-    O["출력 결합"]
-    Q --- S
-    S --- M
-    M --- W
-    W --- O
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

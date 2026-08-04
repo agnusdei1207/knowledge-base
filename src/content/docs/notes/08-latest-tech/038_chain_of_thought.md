@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Chain-of-Thought (단계 추론)"
-date: "2026-08-04T14:42:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 38
@@ -65,20 +65,6 @@ extra:
 - **응답 경계**: 내부 추론 전체 대신 검증된 결론과 필요한 근거만 사용자에게 노출하는 경계다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  input["과업•조건 입력"]
-  reasoner["추론 생성기"]
-  extractor["답 추출기"]
-  verifier["검증기"]
-  boundary["응답 경계"]
-  input --- reasoner
-  reasoner --- extractor
-  extractor --- verifier
-  verifier --- boundary
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

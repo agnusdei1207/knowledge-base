@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Multi-Head Attention (멀티 헤드 어텐션)"
-date: "2026-08-04T14:00:00+09:00"
+date: "2026-08-05T14:24:30+09:00"
 tags:
   - "notes-latest_tech"
 weight: 30
@@ -67,20 +67,6 @@ extra:
 </details>
 
 - **Q•K•V 투영**, 헤드 분할, 병렬 어텐션, **Concat**, 출력 투영 순서로 처리한다.
-
-```mermaid
-block-beta
-    columns 3
-    P["Q•K•V 투영"]
-    S["헤드 분할"]
-    H["병렬 어텐션"]
-    C["헤드 연결•Concat"]
-    O["출력 투영"]
-    P --- S
-    S --- H
-    H --- C
-    C --- O
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Self-Attention (셀프 어텐션)"
-date: "2026-08-04T13:47:00+09:00"
+date: "2026-08-05T14:24:28+09:00"
 tags:
   - "notes-latest_tech"
 weight: 28
@@ -66,20 +66,6 @@ extra:
 </details>
 
 - 입력을 **Q•K•V** 벡터로 투영한 뒤 점수•마스크•소프트맥스•문맥 결합 순서로 처리한다.
-
-```mermaid
-block-beta
-    columns 3
-    P["Q•K•V 투영"]
-    S["어텐션 점수 계산기"]
-    M["스케일•인과 마스크"]
-    W["소프트맥스"]
-    C["문맥 결합기"]
-    P --- S
-    S --- M
-    M --- W
-    W --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

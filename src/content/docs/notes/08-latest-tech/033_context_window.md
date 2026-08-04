@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Context Window (컨텍스트 윈도우)"
-date: "2026-08-04T14:15:00+09:00"
+date: "2026-08-05T14:24:33+09:00"
 tags:
   - "notes-latest_tech"
 weight: 33
@@ -67,19 +67,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    L["길이 한도"]
-    B["토큰 예산 관리자"]
-    S["문맥 선택기"]
-    P["프리필 엔진"]
-    K["KV 캐시"]
-    L --- B
-    B --- S
-    S --- P
-    P --- K
+```text
+                         [길이 한도]
+                              |
+                    [토큰 예산 관리자]
+                       /             \
+                 [문맥 선택기]     [프리필 엔진]
+                                      |
+                                  [KV Cache]
 ```
+
+선의 의미: 길이 한도는 토큰 예산 관리자의 전체 경계를 정하고, 관리자는 문맥 선택기와 프리필 엔진에 예산을 배분하며, KV Cache는 프리필 엔진의 계산 상태를 보관한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
