@@ -4,7 +4,7 @@ sidebar:
   label: "037. 5G SA와 NSA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G SA와 NSA"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:28:00+09:00"
 tags: ["notes-network"]
 weight: 37
 extra:
@@ -20,7 +20,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **단독 구성(Standalone, SA)•비단독 구성(Non-Standalone, NSA)**: 롱텀 에볼루션(Long Term Evolution, LTE) 코어 의존 여부에 따라 5세대 이동통신(Fifth Generation, 5G) 무선과 코어망을 구성하는 두 가지 구축 방식
+- **SA(Standalone)**: 5G 무선과 코어망만으로 독립 구성하는 구축 방식이다.
+- **NSA(Non-standalone)**: LTE 제어망과 코어에 5G 무선을 결합하는 구축 방식이다.
+- **LTE(Long Term Evolution)**: 4세대 이동통신의 무선과 패킷 통신 규격이다.
+- **5G(Fifth Generation)**: 초고속•초저지연•대규모 접속을 지원하는 5세대 이동통신이다.
 - **5세대 코어(5G Core, 5GC)**: 5G의 가입자 등록•세션•슬라이싱을 제어하는 독립 코어망
 
 </details>
@@ -37,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비단독 구성(Non-Standalone, NSA)**: 롱텀 에볼루션(Long Term Evolution, LTE)의 진화형 패킷 코어(Evolved Packet Core, EPC)와 제어망에 5세대 뉴 라디오(5G New Radio, 5G NR)를 결합해 기존 자산으로 빠르게 도입하는 구축 방식
-- **단독 구성(Standalone, SA)**: 5G NR과 5세대 코어(5G Core, 5GC)만으로 독립적인 등록•세션을 제공하는 구축 방식
-- **뉴 라디오 음성통화(Voice over New Radio, VoNR)**: SA의 5G 무선과 코어에서 종단 음성 서비스를 제공하는 방식
+- **EPC(Evolved Packet Core)**: LTE 가입자 등록과 데이터 세션을 제어하는 패킷 코어망이다.
+- **NR(New Radio)**: 단말과 기지국 사이의 5G 무선 접속 규격이다.
+- **VoNR(Voice over New Radio)**: SA의 5G 무선과 코어에서 종단 음성을 제공하는 방식이다.
 
 </details>
 
@@ -53,15 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
-
-- **진화형 패킷 코어(Evolved Packet Core, EPC)**: 롱텀 에볼루션(Long Term Evolution, LTE) 가입자 등록과 데이터 세션을 제어하며 비단독 구성(Non-Standalone, NSA)의 코어 역할을 하는 패킷 코어망
-- **5세대 코어(5G Core, 5GC)**: 5세대 이동통신(Fifth Generation, 5G)의 가입자•세션•슬라이스를 제어하며 단독 구성(Standalone, SA)을 구성하는 코어망
-
-</details>
-
-5세대 뉴 라디오(5G New Radio, 5G NR)는 단말과 기지국 사이의 5G 무선 접속을 제공한다.
+NR은 단말과 기지국 사이의 5G 무선 접속을 제공한다.
 
 ```mermaid
 block-beta
@@ -88,9 +83,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **이중 연결**: 단말이 롱텀 에볼루션(Long Term Evolution, LTE)과 뉴 라디오(New Radio, NR) 무선 링크를 함께 사용해 제어와 데이터를 전달하는 비단독 구성(Non-Standalone, NSA) 연결 방식
-- **NR 단독 연결**: 단말이 LTE 제어망 없이 NR을 통해 5세대 코어(5G Core, 5GC)에 접속하는 단독 구성(Standalone, SA) 연결 방식
-- **진화형 패킷 코어(Evolved Packet Core, EPC)**: NSA 가입자 등록과 데이터 세션을 제어하는 LTE 코어망
+- **이중 연결**: 단말이 LTE와 NR 링크를 함께 사용해 제어와 데이터를 전달하는 NSA 연결 방식이다.
+- **NR 단독 연결**: 단말이 LTE 제어망 없이 NR을 통해 5GC에 접속하는 SA 연결 방식이다.
 
 </details>
 
@@ -121,12 +115,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **뉴 라디오 음성통화(Voice over New Radio, VoNR)**: 5세대 이동통신(Fifth Generation, 5G) 무선과 코어에서 종단 음성 서비스를 제공하는 방식
 - **네트워크 슬라이싱**: 하나의 5G 망을 서비스 요구별 논리망으로 분리해 자원•정책•품질을 독립 운영하는 기술
 
 </details>
 
-단독 구성(Standalone, SA)은 5세대 뉴 라디오(5G New Radio, 5G NR)와 5세대 코어(5G Core, 5GC)를 사용하고, 비단독 구성(Non-Standalone, NSA)은 롱텀 에볼루션(Long Term Evolution, LTE) 제어망을 함께 사용한다.
+SA는 NR과 5GC를 사용하고, NSA는 LTE 제어망을 함께 사용한다.
 
 | 5G 구축 방식 | SA | NSA |
 |:---|:---|:---|
@@ -150,7 +143,7 @@ sequenceDiagram
 
 </details>
 
-단독 구성(Standalone, SA)과 비단독 구성(Non-Standalone, NSA)의 전환기에는 5세대 이동통신(Fifth Generation, 5G) 뉴 라디오 음성통화(Voice over New Radio, VoNR), 롱텀 에볼루션(Long Term Evolution, LTE), 진화형 패킷 코어(Evolved Packet Core, EPC)를 함께 검증한다.
+SA와 NSA 전환기에는 VoNR•LTE•EPC를 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -167,11 +160,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전환 기준**: 필요한 5세대 이동통신(Fifth Generation, 5G) 코어(5G Core, 5GC) 기능과 기존 롱텀 에볼루션(Long Term Evolution, LTE) 자산의 가치•단말 호환성을 비교해 단독 구성(Standalone, SA) 도입 시점을 정하는 기준
+- **전환 기준**: 필요한 5GC 기능과 LTE 자산 가치•단말 호환성으로 SA 도입 시점을 정하는 기준이다.
 
 </details>
 
-비단독 구성(Non-Standalone, NSA)은 기존 자산 활용에, 뉴 라디오 음성통화(Voice over New Radio, VoNR)는 5G 독립 음성 제공에 적합하다.
+NSA는 기존 자산 활용에, VoNR은 5G 독립 음성 제공에 적합하다.
 
 - LTE 자산•호환 유지 시 **NSA**, 슬라이싱•VoNR 필요 시 **SA** 전환
 

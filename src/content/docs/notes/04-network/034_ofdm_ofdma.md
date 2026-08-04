@@ -4,7 +4,7 @@ sidebar:
   label: "034. OFDM과 OFDMA"
   badge: { text: "기출 • 30%", variant: note }
 title: "OFDM과 OFDMA"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:16:00+09:00"
 tags: ["notes-network"]
 weight: 34
 extra:
@@ -40,7 +40,6 @@ extra:
 
 - **직교성**: 부반송파 스펙트럼이 겹쳐도 정해진 표본 지점에서 서로 분리되는 파형 성질이다.
 - **최대 대 평균 전력비(Peak-to-Average Power Ratio, PAPR)**: 최대 전력과 평균 전력의 비로 값이 클수록 전력 증폭기 효율을 낮추는 지표이다.
-- **직교 주파수 분할 다중화•다중 접속(Orthogonal Frequency Division Multiplexing/Multiple Access, OFDM•OFDMA)**: 한 전송의 병렬화와 사용자별 부반송파 배정을 각각 수행하는 방식이다.
 
 </details>
 
@@ -59,7 +58,7 @@ extra:
 
 - **역고속 푸리에 변환(Inverse Fast Fourier Transform, IFFT)**: 주파수 영역의 부반송파 심볼을 시간 영역 OFDM 파형으로 합성하는 연산이다.
 - **고속 푸리에 변환(Fast Fourier Transform, FFT)**: 수신 OFDM 파형을 주파수 영역의 부반송파 심볼로 분리하는 연산이다.
-- **순환 전치•자원 단위(Cyclic Prefix/Resource Unit, CP•RU)**: 다중 경로 간섭을 줄이는 보호 구간과 사용자별 부반송파 묶음이다.
+- **CP(Cyclic Prefix)**: 다중 경로의 심볼 간 간섭을 줄이는 보호 구간이다.
 
 </details>
 
@@ -90,16 +89,6 @@ block-beta
 - 배차표를 받은 적재기가 짐을 차선에 놓고 IFFT 송신기가 하나의 도로 파형으로 합치면 FFT 수신기가 다시 차선별 짐을 분리한다
 
 ## Ⅳ. 흐름도
-
-<details>
-<summary>핵심 용어</summary>
-
-- **자원 단위(Resource Unit, RU)**: OFDMA에서 한 사용자에게 배정하는 부반송파 묶음이다.
-- **순환 전치(Cyclic Prefix, CP)**: 심볼 뒤 일부를 앞에 복제해 다중 경로의 심볼 간 간섭을 줄이는 보호 구간이다.
-- **직교 주파수 분할 다중화•다중 접속(Orthogonal Frequency Division Multiplexing/Multiple Access, OFDM•OFDMA)**: 부반송파 병렬 전송과 사용자별 자원 배정을 수행하는 방식이다.
-- **역고속•고속 푸리에 변환(Inverse Fast Fourier Transform/Fast Fourier Transform, IFFT•FFT)**: 부반송파 심볼을 파형으로 합성하고 다시 분리하는 연산이다.
-
-</details>
 
 ```mermaid
 sequenceDiagram
@@ -136,8 +125,6 @@ sequenceDiagram
 
 - **다중화**: 한 전송의 여러 신호를 하나의 전송 자원에 결합하는 방식이다.
 - **다중 접속**: 하나의 전송 자원을 여러 사용자에게 구분해 배정하는 방식이다.
-- **직교 주파수 분할 다중화•다중 접속(Orthogonal Frequency Division Multiplexing/Multiple Access, OFDM•OFDMA)**: 단일 전송의 병렬화와 다중 사용자의 자원 분할을 각각 수행하는 방식이다.
-- **자원 단위•최대 대 평균 전력비(Resource Unit/Peak-to-Average Power Ratio, RU•PAPR)**: 사용자에게 배정하는 부반송파 묶음과 파형의 최대•평균 전력 비율이다.
 
 </details>
 
@@ -160,8 +147,6 @@ sequenceDiagram
 
 - **지연 확산**: 다중 경로 신호의 도착 시간 차이가 퍼진 범위로 순환 전치 길이를 정하는 기준이다.
 - **공정성 스케줄링**: 사용자별 지연과 누적 전송 기회를 함께 고려해 자원을 배정하는 방식이다.
-- **최대 대 평균 전력비•순환 전치(Peak-to-Average Power Ratio/Cyclic Prefix, PAPR•CP)**: 증폭기 효율을 좌우하는 전력 지표와 다중 경로 간섭을 줄이는 보호 구간이다.
-- **직교 주파수 분할 다중 접속•자원 단위(Orthogonal Frequency Division Multiple Access/Resource Unit, OFDMA•RU)**: 사용자별로 부반송파 묶음을 배정하는 방식과 그 배정 단위이다.
 
 </details>
 
@@ -182,7 +167,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **부반송파(Subcarrier)**: OFDM 파형에서 변조 심볼을 싣는 좁은 대역의 개별 주파수 성분이다.
-- **직교 주파수 분할 다중화•다중 접속(Orthogonal Frequency Division Multiplexing/Multiple Access, OFDM•OFDMA)**: 단일 사용자 병렬 전송과 다중 사용자 자원 배정에 각각 적합한 방식이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "IDS•IPS (IDS IPS)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:24:00+09:00"
 tags:
   - "notes-network"
 weight: 21
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 복제 트래픽에서 침입을 탐지•경보하는 시스템과 인라인에서 공격을 차단하는 시스템이다.
+- **IDS(Intrusion Detection System)**: 복제 트래픽에서 침입을 탐지하고 경보하는 시스템이다.
+- **IPS(Intrusion Prevention System)**: 인라인에서 침입을 탐지하고 공격 트래픽을 차단하는 시스템이다.
 
 </details>
 
@@ -39,8 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **시그니처•이상 탐지**: 알려진 공격 패턴과 정상 기준의 편차를 각각 찾는 방식이다.
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 경로 외에서 공격을 경보하거나 인라인에서 즉시 차단하는 보안 시스템이다.
+- **시그니처 탐지(Signature Detection)**: 알려진 공격 패턴과 일치하는 트래픽을 찾는 방식이다.
+- **이상 탐지(Anomaly Detection)**: 정상 기준에서 벗어난 행위와 트래픽을 찾는 방식이다.
 
 </details>
 
@@ -57,8 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **세션 정규화•복원**: 조각•순서 차이를 표준화하고 양방향 통신 흐름을 재구성하는 작업이다.
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 정규화한 세션을 분석해 경보 또는 차단 조치를 수행하는 시스템이다.
+- **세션 정규화(Session Normalization)**: 조각•인코딩•순서 차이를 표준 형태로 바꾸는 작업이다.
+- **세션 복원(Session Reconstruction)**: 패킷을 양방향 통신 흐름으로 재구성하는 작업이다.
 
 </details>
 
@@ -93,8 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **인라인•경로 외 배치**: 실제 통신 경로를 통과시키는 방식과 복제본만 검사하는 방식이다.
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 탐지 결과에 따라 경보 또는 인라인 차단을 수행하는 시스템이다.
+- **인라인 배치(Inline Deployment)**: 실제 통신 경로에서 트래픽을 검사하는 방식이다.
+- **경로 외 배치(Out-of-band Deployment)**: 복제한 트래픽만 통신 경로 밖에서 검사하는 방식이다.
 
 </details>
 
@@ -127,8 +128,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오탐•미탐**: 정상 트래픽을 공격으로 잘못 판단하거나 실제 공격을 놓치는 오류이다.
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 경로 외 탐지•경보 방식과 인라인 탐지•차단 방식을 구분한 시스템이다.
+- **오탐(False Positive)**: 정상 트래픽을 공격으로 잘못 판단하는 오류이다.
+- **미탐(False Negative)**: 실제 공격을 정상으로 판단하여 놓치는 오류이다.
 
 </details>
 
@@ -149,8 +150,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **장애 시 허용•차단(Fail-Open/Fail-Close)**: IPS 장애 때 통신을 허용하거나 차단하는 방식이다.
-- **침입 방지 시스템(Intrusion Prevention System, IPS)**: 실제 통신 경로에서 공격 트래픽을 탐지해 차단하는 시스템이다.
+- **Fail-Open**: IPS 장애 때 검사 없이 통신을 허용하는 방식이다.
+- **Fail-Close**: IPS 장애 때 통신을 차단하는 방식이다.
 
 </details>
 
@@ -171,7 +172,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **바이패스(Bypass)**: 장애나 정책 조건에서 트래픽이 검사 기능을 우회해 흐르는 경로이다.
-- **침입 탐지•방지 시스템(Intrusion Detection System/Intrusion Prevention System, IDS•IPS)**: 규칙을 경보 모드로 검증한 뒤 신뢰도가 확보되면 차단 모드로 전환하는 시스템이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 4-way Handshake•연결 해제 (TCP 4-way Handshake)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:32:00+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -38,8 +38,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **능동•수동 종료와 반쪽 종료**: 먼저 FIN을 보내는 측, 이를 받는 측, 한 방향만 닫힌 상태이다.
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 송신 종료를 알리고 상대가 보낸 종료 순서 번호를 확인하는 제어 플래그이다.
+- **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
+- **수동 종료(Passive Close)**: 상대 FIN을 먼저 받고 응용 종료를 기다리는 역할이다.
+- **반쪽 종료(Half-close)**: 한쪽 송신 방향만 닫히고 반대 방향 전송은 가능한 상태이다.
+- **FIN(Finish)**: 더 보낼 데이터가 없음을 알리는 TCP 제어 플래그이다.
+- **ACK(Acknowledgment)**: 상대가 보낸 순서 번호의 수신을 확인하는 플래그이다.
+- **TIME_WAIT(Time Wait)**: 능동 종료 측이 지연 세그먼트와 재전송 FIN을 처리하는 대기 상태이다.
 </details>
 
 - FIN 순서 번호의 **손실•재전송 추적**
@@ -55,8 +59,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **종료 대기•닫기 대기•최종 확인 대기(Finish Wait/Close Wait/Last Acknowledgment, FIN_WAIT•CLOSE_WAIT•LAST_ACK)**: 능동 종료, 응용 종료 대기, 최종 ACK 대기 상태이다.
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 양방향 바이트 스트림의 연결과 종료 상태를 관리하는 프로토콜이다.
+- **FIN_WAIT(Finish Wait)**: 능동 종료 측이 상대의 종료 진행을 기다리는 상태이다.
+- **CLOSE_WAIT(Close Wait)**: 수동 종료 측이 응용의 소켓 종료를 기다리는 상태이다.
+- **LAST_ACK(Last Acknowledgment)**: 수동 종료 측이 마지막 FIN의 ACK를 기다리는 상태이다.
 </details>
 
 ```mermaid
@@ -88,7 +93,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 더 보낼 데이터가 없음을 알리고 상대 종료를 확인하는 제어 비트이다.
 - **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 지연 세그먼트 소멸과 최종 ACK 재전송을 위해 기다리는 시간이다.
 </details>
 
@@ -121,15 +125,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 각 송신 방향을 독립적으로 종료하는 연결 지향 전송 프로토콜이다.
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 방향별 종료 통지와 그 수신 확인에 사용하는 플래그이다.
-- **능동•수동 종료(Active/Passive Close)**: 먼저 FIN을 보낸 종단과 상대 FIN을 먼저 받은 종단의 종료 역할이다.
-- **TIME_WAIT•CLOSE_WAIT**: 능동 측이 지연 세그먼트를 정리하는 상태와 수동 측이 응용의 소켓 종료를 기다리는 상태이다.
 </details>
 
 | 종료 역할 | 핵심 상태 전이 | 운영 위험 |
 |:---|:---|:---|
-| **능동 종료 측** | **종료(Finish, FIN) 송신•TIME_WAIT 진입** | 임시 포트•TIME_WAIT 누적 |
+| **능동 종료 측** | **FIN 송신•TIME_WAIT 진입** | 임시 포트•TIME_WAIT 누적 |
 | **수동 종료 측** | **FIN 수신•응용 종료 대기** | CLOSE_WAIT•소켓 자원 누적 |
 
 > 요약: 능동 종료 측은 TIME_WAIT, 수동 종료 측은 응용 종료 지연을 관리
@@ -143,8 +143,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **시간 대기•최대 세그먼트 수명 두 배(Time Wait/Twice the Maximum Segment Lifetime, TIME_WAIT•2MSL)**: 최종 ACK 재전송과 이전 세그먼트 소멸을 위해 능동 종료 측이 기다리는 상태와 기준 시간이다.
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 연결 방향의 종료를 통지하고 수신 여부를 확인하는 제어 플래그이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -164,7 +162,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **임시 포트**: 클라이언트가 새 연결을 만들 때 운영체제가 일시 할당하는 출발지 포트이다.
-- **확인 응답•시간 대기(Acknowledgment/Time Wait, ACK•TIME_WAIT)**: 마지막 종료 수신을 확인하고 지연 세그먼트가 사라질 때까지 연결 정보를 유지하는 절차이다.
 </details>
 
 - 반대 방향 데이터가 남으면 **반쪽 종료**, 최종 ACK 후 **TIME_WAIT** 유지

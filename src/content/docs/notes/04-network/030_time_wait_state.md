@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:00:00+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -24,7 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **시간 대기(Time Wait, TIME_WAIT)**: 최종 ACK를 보낸 종단이 이전 연결의 지연 세그먼트 소멸까지 상태를 유지하는 TCP 종료 상태이다.
-- **확인 응답•전송 제어 프로토콜(Acknowledgment/Transmission Control Protocol, ACK•TCP)**: 세그먼트 수신을 확인하는 응답과 연결 상태를 관리하는 전송 프로토콜이다.
+- **ACK(Acknowledgment)**: 세그먼트 수신을 확인하는 응답이다.
+- **TCP(Transmission Control Protocol)**: 연결 상태를 관리하는 전송 프로토콜이다.
 - **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 이전 연결의 지연 세그먼트가 사라지도록 기다리는 시간이다.
 </details>
 
@@ -40,8 +41,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **능동 종료•최대 세그먼트 수명 두 배(Active Close/Twice the Maximum Segment Lifetime, 능동 종료•2MSL)**: 먼저 FIN을 보낸 종단과 세그먼트•응답 소멸을 위해 기다리는 시간이다.
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 송신 방향 종료를 알리고 그 수신을 확인하는 제어 플래그이다.
+- **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
+- **FIN(Finish)**: 송신 방향 종료를 알리는 TCP 제어 플래그이다.
 </details>
 
 - 재전송 FIN에 **ACK 재응답**해 상대 종료 완료
@@ -57,8 +58,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **4-튜플•지연 중복 세그먼트(Four-Tuple/Delayed Duplicate Segment)**: TCP 연결 식별값과 종료 후 늦게 도착한 이전 연결 데이터이다.
-- **전송 제어 프로토콜•최대 세그먼트 수명 두 배(Transmission Control Protocol/Twice the Maximum Segment Lifetime, TCP•2MSL)**: 연결 상태를 관리하는 프로토콜과 지연 세그먼트 소멸 대기시간이다.
+- **4-튜플(Four-tuple)**: 양쪽 주소와 포트로 구성한 TCP 연결 식별값이다.
+- **지연 중복 세그먼트(Delayed Duplicate Segment)**: 종료 후 늦게 도착한 이전 연결의 데이터이다.
 </details>
 
 ```mermaid
@@ -86,8 +87,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **종료•확인 응답(Finish/Acknowledgment, FIN•ACK)**: 송신 종료를 알리고 이를 정상 수신했음을 확인하는 TCP 표시이다.
-- **최종 확인 대기•최대 세그먼트 수명 두 배(Last Acknowledgment/Twice the Maximum Segment Lifetime, LAST_ACK•2MSL)**: 수동 종단의 마지막 확인 대기 상태와 능동 종단의 지연 세그먼트 대기시간이다.
+- **LAST_ACK(Last Acknowledgment)**: 수동 종료 종단이 마지막 FIN의 ACK를 기다리는 상태이다.
 </details>
 
 ```mermaid
@@ -123,8 +123,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **종료 대기 2•닫기 대기•최종 확인 대기(Finish Wait 2/Close Wait/Last Acknowledgment, FIN_WAIT_2•CLOSE_WAIT•LAST_ACK)**: 상대 FIN, 응용 close, 자기 FIN의 최종 ACK를 기다리는 상태이다.
-- **전송 제어 프로토콜•파일 서술자(Transmission Control Protocol/File Descriptor, TCP•FD)**: 연결 종료 상태를 관리하는 프로토콜과 소켓을 참조하는 운영체제 번호이다.
+- **FIN_WAIT_2(Finish Wait 2)**: 로컬 FIN의 ACK 수신 뒤 상대 FIN을 기다리는 상태이다.
+- **CLOSE_WAIT(Close Wait)**: 상대 FIN 수신 뒤 로컬 응용의 종료를 기다리는 상태이다.
+- **FD(File Descriptor)**: 응용이 열린 소켓을 참조하는 운영체제 번호이다.
 </details>
 
 | TCP 종료 대기 상태 | `TIME_WAIT` | `FIN_WAIT_2` | `CLOSE_WAIT` |
@@ -144,8 +145,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **임시 포트•파일 서술자(Ephemeral Port/File Descriptor, 임시 포트•FD)**: 연결 생성에 일시 할당되는 포트와 응용이 소켓을 참조하는 운영체제 번호이다.
-- **전송 제어 프로토콜•최대 세그먼트 수명(Transmission Control Protocol/Maximum Segment Lifetime, TCP•MSL)**: 연결 상태를 관리하는 프로토콜과 세그먼트가 네트워크에 남을 수 있는 최대 시간이다.
+- **임시 포트(Ephemeral Port)**: 새 연결에 일시 할당하는 출발지 포트이다.
+- **MSL(Maximum Segment Lifetime)**: 세그먼트가 네트워크에 남을 수 있는 최대 시간이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -164,8 +165,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜 타임스탬프(Transmission Control Protocol Timestamp, TCP 타임스탬프)**: 송신 시각으로 오래된 세그먼트를 구별하는 TCP 옵션이다.
-- **확인 응답•시간 대기(Acknowledgment/Time Wait, ACK•TIME_WAIT)**: 마지막 종료 수신을 확인하고 지연 세그먼트가 사라질 때까지 연결 정보를 유지하는 절차이다.
+- **TCP 타임스탬프(TCP Timestamp)**: 송신 시각으로 오래된 세그먼트를 구별하는 TCP 옵션이다.
 </details>
 
 - 최종 ACK 후 **지연 세그먼트** 위험이 사라질 때까지 **TIME_WAIT** 유지

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "포트 번호•소켓 통신 (Port Socket Communication)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:56:00+09:00"
 tags:
   - "notes-network"
 weight: 29
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **포트•소켓(Port/Socket)**: 장치 안의 응용 서비스를 구별하는 번호와 응용이 통신에 쓰는 운영체제 종단 객체이다.
+- **포트(Port)**: 장치 안에서 응용 서비스를 구별하는 번호이다.
+- **소켓(Socket)**: 응용이 통신에 사용하는 운영체제 종단 객체이다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크에서 통신 호스트를 주소로 식별하고 패킷을 전달하는 프로토콜이다.
 </details>
 
@@ -39,8 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인터넷 프로토콜•포트•전송 프로토콜(Internet Protocol/Port/Transport Protocol, IP•포트•전송 프로토콜)**: 장치, 응용, TCP•UDP 처리 방식을 함께 식별하는 통신 주소 정보이다.
-- **전송 제어•사용자 데이터그램 프로토콜(Transmission Control Protocol/User Datagram Protocol, TCP•UDP)**: 연결형 바이트 스트림과 비연결형 데이터그램을 각각 전달하는 프로토콜이다.
+- **TCP(Transmission Control Protocol)**: 연결형 바이트 스트림을 전달하는 프로토콜이다.
+- **UDP(User Datagram Protocol)**: 비연결형 데이터그램을 전달하는 프로토콜이다.
 </details>
 
 - 서버의 **고정 포트•클라이언트 임시 포트**
@@ -56,9 +57,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **파일 서술자•리슨•연결 소켓(File Descriptor/Listen Socket/Connected Socket, FD•리슨•연결 소켓)**: 프로세스의 객체 번호, 연결 요청 대기 객체, 개별 TCP 통신 객체이다.
-- **전송 제어 프로토콜•운영체제(Transmission Control Protocol/Operating System, TCP•OS)**: 연결 상태를 관리하는 전송 프로토콜과 소켓 자원을 제공하는 시스템 소프트웨어이다.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 서버 리슨 소켓이 결합할 네트워크 주소를 제공하는 프로토콜이다.
+- **FD(File Descriptor)**: 프로세스가 열린 소켓 객체를 참조하는 번호이다.
+- **리슨 소켓(Listen Socket)**: 서버에서 새 연결 요청을 기다리는 소켓이다.
+- **연결 소켓(Connected Socket)**: 개별 TCP 연결의 통신 상태를 관리하는 소켓이다.
+- **OS(Operating System)**: 소켓과 파일 서술자 자원을 제공하는 시스템 소프트웨어이다.
 </details>
 
 ```mermaid
@@ -92,8 +94,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **결합•수신 대기•수락(bind/listen/accept)**: 서버 주소를 묶고 연결을 기다린 뒤 완료 연결을 받는 소켓 절차이다.
-- **전송 제어 프로토콜•파일 서술자(Transmission Control Protocol/File Descriptor, TCP•FD)**: 연결 상태를 관리하는 프로토콜과 응용이 연결 소켓을 참조하는 번호이다.
+- **bind**: 소켓에 서버 주소와 포트를 결합하는 호출이다.
+- **listen**: 소켓을 연결 요청 대기 상태로 전환하는 호출이다.
+- **accept**: 완료 연결을 받아 새 연결 소켓을 만드는 호출이다.
 </details>
 
 ```mermaid
@@ -128,8 +131,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜 소켓•사용자 데이터그램 프로토콜 데이터그램(Transmission Control Protocol Socket/User Datagram Protocol Datagram, TCP 소켓•UDP 데이터그램)**: 연결별 상태를 갖는 통신 객체와 메시지 경계를 유지하는 독립 전송 단위이다.
-- **파일 서술자(File Descriptor, FD)**: 운영체제가 프로세스에 할당하는 소켓 객체 참조 번호이다.
+- **TCP 소켓**: 연결별 상태를 갖는 바이트 스트림 통신 객체이다.
+- **UDP 데이터그램**: 메시지 경계를 유지하는 독립 전송 단위이다.
 </details>
 
 | 소켓 방식 | TCP 소켓 | UDP 소켓 |
@@ -149,8 +152,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **5-튜플•백로그(Five-Tuple/Backlog)**: 통신 흐름 식별값과 응용 수락 전 완료 연결을 대기시키는 큐 한도이다.
-- **파일 서술자(File Descriptor, FD)**: 프로세스가 열린 소켓을 식별하는 운영체제 객체 번호이다.
+- **5-튜플(Five-tuple)**: 프로토콜과 양쪽 주소•포트로 구성한 통신 흐름 식별값이다.
+- **백로그(Backlog)**: 응용 수락 전 완료 연결을 대기시키는 큐 한도이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -169,8 +172,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **임시 포트•방화벽(Ephemeral Port/Firewall)**: 클라이언트의 일시 출발지 포트와 허용 주소•포트•프로토콜만 통과시키는 통제이다.
-- **전송 제어•사용자 데이터그램 프로토콜 소켓(Transmission Control Protocol/User Datagram Protocol Socket, TCP•UDP 소켓)**: 연결 상태가 있는 바이트 흐름과 독립 메시지를 각각 처리하는 통신 종단 객체이다.
+- **임시 포트(Ephemeral Port)**: 클라이언트의 새 연결에 일시 할당하는 출발지 포트이다.
+- **방화벽(Firewall)**: 허용한 주소•포트•프로토콜의 트래픽만 통과시키는 통제이다.
 </details>
 
 - 연결 상태가 필요하면 **TCP 연결 소켓**, 독립 메시지는 **UDP 소켓** 선택

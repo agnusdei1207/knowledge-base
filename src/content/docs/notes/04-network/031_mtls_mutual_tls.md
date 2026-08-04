@@ -4,7 +4,7 @@ sidebar:
   label: "031. mTLS 상호 인증"
   badge: { text: "기출 • 50%", variant: note }
 title: "mTLS 상호 인증"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:04:00+09:00"
 tags: ["notes-network"]
 weight: 31
 extra:
@@ -39,7 +39,6 @@ extra:
 
 - **인증서 체인**: 종단 인증서부터 신뢰한 루트 인증기관까지 서명 관계를 잇는 인증서 목록이다.
 - **세션 키**: 상호 인증 뒤 한 연결의 데이터를 대칭키 방식으로 암호화하는 임시 비밀값이다.
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 서버와 클라이언트가 서로 인증서와 개인키 소유를 검증하는 방식이다.
 
 </details>
 
@@ -94,7 +93,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **전자서명**: 개인키로 만든 서명값을 공개키로 검증해 메시지 무결성과 개인키 소유를 확인하는 기법이다.
-- **전송 계층 보안•인증기관(Transport Layer Security/Certificate Authority, TLS•CA)**: 암호화 통신 프로토콜과 인증서 신뢰 사슬의 발급•검증 기준을 제공하는 기관이다.
 
 </details>
 
@@ -131,7 +129,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **단방향 전송 계층 보안(One-Way Transport Layer Security, 단방향 TLS)**: 서버만 인증서를 제시하고 클라이언트가 서버 신원을 검증하는 TLS 방식이다.
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 서버와 클라이언트가 모두 인증서를 제시해 양쪽 기계 신원을 검증하는 TLS 방식이다.
 
 </details>
 
@@ -154,7 +151,6 @@ sequenceDiagram
 
 - **인증서 폐기 목록(Certificate Revocation List, CRL)**: 만료 전에 폐기된 인증서의 일련번호를 인증기관이 서명해 배포하는 목록이다.
 - **최소 권한**: 인증된 신원에 업무 수행에 필요한 최소 범위의 서비스 권한만 부여하는 원칙이다.
-- **인증기관(Certificate Authority, CA)**: 인증서를 발급하고 폐기 정보를 서명해 신뢰 기준을 제공하는 기관이다.
 
 </details>
 
@@ -175,7 +171,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **인증과 인가 분리(Authentication/Authorization Separation)**: mTLS로 기계 신원을 확인한 뒤 서비스 접근 권한은 별도 정책으로 판정하는 원칙이다.
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 양쪽 기계 신원을 인증서로 확인하는 TLS 방식이다.
 
 </details>
 

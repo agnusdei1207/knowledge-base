@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "UDP 특성•활용 사례 (UDP Characteristics)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:44:00+09:00"
 tags:
   - "notes-network"
 weight: 26
@@ -38,8 +38,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비연결형•체크섬**: 전송 상태 없이 독립 전달하고 헤더•데이터 오류를 검출하는 성질이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 상태 없이 응용 메시지 경계를 보존해 전달하는 프로토콜이다.
+- **비연결형(Connectionless)**: 연결 상태를 만들지 않고 데이터그램을 독립적으로 전달하는 성질이다.
+- **체크섬(Checksum)**: 헤더와 데이터의 비트 오류를 검출하는 값이다.
 </details>
 
 - 8바이트 헤더와 **연결 상태 없는 전송**
@@ -55,8 +55,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터그램•페이로드**: 독립 메시지 경계를 갖는 전송 단위와 헤더 뒤의 응용 데이터이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 출발지•목적지 포트, 길이, 체크섬을 헤더에 담는 전송 프로토콜이다.
+- **데이터그램(Datagram)**: 독립된 메시지 경계를 갖는 전송 단위이다.
+- **페이로드(Payload)**: UDP 헤더 뒤에 담기는 응용 데이터이다.
 </details>
 
 ```mermaid
@@ -89,8 +89,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **응용 재시도•중복 제거**: UDP 손실 복구와 중복 메시지 처리를 응용이 구현하는 기능이다.
-- **사용자 데이터그램•인터넷 프로토콜(User Datagram Protocol/Internet Protocol, UDP•IP)**: 응용 메시지를 데이터그램으로 만들고 이를 네트워크 패킷으로 전달하는 프로토콜이다.
+- **응용 재시도(Application Retry)**: UDP 손실 시 응용이 메시지를 다시 전송하는 기능이다.
+- **중복 제거(Deduplication)**: 같은 메시지를 여러 번 수신해도 한 번만 처리하는 기능이다.
+- **IP(Internet Protocol)**: UDP 데이터그램을 네트워크 패킷으로 전달하는 프로토콜이다.
 </details>
 
 ```mermaid
@@ -120,7 +121,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **사용자 데이터그램•전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP•TCP)**: 낮은 지연의 독립 메시지와 순서•재전송이 있는 연결형 흐름을 제공한다.
+- **TCP(Transmission Control Protocol)**: 순서와 재전송을 보장하는 연결형 바이트 스트림 프로토콜이다.
 </details>
 
 | 전송 방식 | UDP | TCP |
@@ -140,9 +141,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **반사•증폭 공격**: 위조한 작은 UDP 요청으로 큰 응답을 피해자에게 보내는 공격이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 확인 없이 응답하므로 출발지 위조 기반 반사 공격에 악용될 수 있는 프로토콜이다.
-- **최대 전송 단위•인터넷 프로토콜(Maximum Transmission Unit/Internet Protocol, MTU•IP)**: 링크가 전달할 수 있는 최대 패킷 크기와 네트워크 계층 전달 프로토콜이다.
+- **반사 공격(Reflection Attack)**: 위조한 출발지 주소로 응답을 피해자에게 보내는 공격이다.
+- **증폭 공격(Amplification Attack)**: 작은 요청보다 큰 응답을 생성해 공격 트래픽을 키우는 공격이다.
+- **MTU(Maximum Transmission Unit)**: 링크가 전달할 수 있는 최대 패킷 크기이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -161,8 +162,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **최대 전송 단위•인터넷 프로토콜 단편화(Maximum Transmission Unit/Internet Protocol Fragmentation, MTU•IP 단편화)**: 링크 최대 패킷 크기와 이를 넘는 패킷을 조각내는 기능이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 손실을 허용하고 낮은 지연이 중요한 응용에 적합한 비연결형 프로토콜이다.
+- **IP 단편화(IP Fragmentation)**: MTU를 넘는 IP 패킷을 여러 조각으로 나누는 기능이다.
 </details>
 
 - 손실 허용•낮은 지연이면 **UDP**, 신뢰가 필요하면 **응용 복구** 구현

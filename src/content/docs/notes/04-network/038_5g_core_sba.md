@@ -4,7 +4,7 @@ sidebar:
   label: "038. 5G 코어 SBA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 코어 SBA"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:32:00+09:00"
 tags: ["notes-network"]
 weight: 38
 extra:
@@ -20,7 +20,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 5세대 이동통신(Fifth Generation, 5G) 코어의 망 기능을 등록•발견 가능한 서비스 호출로 연결하는 아키텍처
+- **5G(Fifth Generation)**: 초고속•초저지연•대규모 접속을 지원하는 5세대 이동통신이다.
+- **4G(Fourth Generation)**: LTE 중심의 4세대 이동통신이다.
+- **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 5G 코어의 망 기능을 등록•발견 가능한 서비스 호출로 연결하는 아키텍처이다.
 
 </details>
 
@@ -57,10 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 등록•인증•이동성을 제어하는 5세대 이동통신(Fifth Generation, 5G) 코어 망 기능
-- **세션 관리 기능(Session Management Function, SMF)•사용자면 기능(User Plane Function, UPF)**: SMF가 데이터 세션 정책과 전달 규칙을 제어하고 UPF가 그 규칙에 따라 패킷을 전달하는 제어•전달 기능
+- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 등록•인증•이동성을 제어하는 5G 코어 망 기능이다.
 - **통합 데이터 관리(Unified Data Management, UDM)**: 가입자 식별•인증•서비스 정보를 관리하는 망 기능
-- **망 기능 저장소(Network Repository Function, NRF)**: 망 기능의 등록•상태•발견 정보를 제공하는 저장소 기능
 
 </details>
 
@@ -91,9 +91,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **망 기능 저장소(Network Repository Function, NRF)**: 망 기능의 등록•상태•발견 정보를 제공해 필요한 서비스 인스턴스를 찾게 하는 저장소 기능
-- **전달 규칙**: 세션 관리 기능(Session Management Function, SMF)이 사용자면 기능(User Plane Function, UPF)에 설치해 사용자 패킷의 경로와 처리 동작을 지정하는 제어 정보
-- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 등록과 세션 생성 요청을 중계하는 제어 기능
+- **전달 규칙**: SMF가 UPF에 설치해 사용자 패킷의 경로와 처리 동작을 지정하는 제어 정보이다.
 
 </details>
 
@@ -128,12 +126,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 인터페이스**: 5세대 이동통신(Fifth Generation, 5G) 코어의 제어 기능들이 기능명과 응용 프로그래밍 인터페이스(Application Programming Interface, API)로 서로 호출하는 규격
+- **API(Application Programming Interface)**: 소프트웨어 기능 사이의 요청•응답 규격이다.
+- **서비스 인터페이스**: 5G 코어 제어 기능들이 기능명과 API로 서로 호출하는 규격이다.
 - **고정 인터페이스**: 정해진 노드 쌍 사이의 전용 연결로 기능을 결합하는 코어망 통신 방식
 
 </details>
 
-서비스 기반 아키텍처(Service-Based Architecture, SBA)는 5G 코어 기능을 서비스 단위로 연결하고, 4세대 이동통신(Fourth Generation, 4G)은 노드 간 고정 인터페이스를 주로 사용한다.
+SBA는 5G 코어 기능을 서비스 단위로 연결하고, 4G는 노드 간 고정 인터페이스를 주로 사용한다.
 
 | 코어망 연결 구조 | 5G SBA | 4G 고정 인터페이스 |
 |:---|:---|:---|
@@ -154,8 +153,6 @@ sequenceDiagram
 
 - **회로 차단기**: 연속 실패한 서비스 호출을 일정 시간 차단해 장애가 다른 기능으로 확산되는 것을 막는 패턴
 - **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)**: 서비스 호출 양쪽의 인증서를 검증해 망 기능의 상호 신원을 확인하는 전송 계층 보안(Transport Layer Security, TLS) 방식
-- **망 기능 저장소(Network Repository Function, NRF)**: 가용 망 기능의 등록•상태•발견 정보를 관리하는 저장소 기능
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 망 기능 사이의 서비스 요청•응답 규격
 
 </details>
 
@@ -174,8 +171,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 발견**: 호출자가 망 기능 저장소(Network Repository Function, NRF)에서 요구 기능과 상태 조건에 맞는 망 기능 인스턴스를 찾는 과정
-- **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 망 기능을 등록•발견•호출 가능한 서비스로 연결하는 5세대 이동통신(Fifth Generation, 5G) 코어 구조
+- **서비스 발견**: 호출자가 NRF에서 요구 기능과 상태 조건에 맞는 NF 인스턴스를 찾는 과정이다.
 
 </details>
 

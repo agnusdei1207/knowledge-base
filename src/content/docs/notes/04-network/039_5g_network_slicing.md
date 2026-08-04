@@ -4,7 +4,7 @@ sidebar:
   label: "039. 5G 네트워크 슬라이싱"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 네트워크 슬라이싱"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T16:36:00+09:00"
 tags: ["notes-network"]
 weight: 39
 extra:
@@ -22,6 +22,7 @@ extra:
 
 - **네트워크 슬라이싱**: 공유 물리망의 기능과 자원을 서비스별 종단 논리망으로 구성하고 격리하는 기술이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 슬라이스가 보장해야 할 지연•용량•가용성 목표와 책임을 정한 협약
+- **5G(Fifth Generation)**: 초고속•초저지연•대규모 접속을 지원하는 5세대 이동통신이다.
 
 </details>
 
@@ -56,13 +57,14 @@ extra:
 <summary>핵심 용어</summary>
 
 - **슬라이스 오케스트레이터**: 서비스 목표에 맞춰 논리망의 자원을 배치하고 수명주기를 자동화하는 기능이다.
-- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입•지역•가용성에 맞는 네트워크 슬라이스를 선택하는 5세대 이동통신(Fifth Generation, 5G) 코어 망 기능
+- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입•지역•가용성에 맞는 슬라이스를 선택하는 5G 코어 기능이다.
 - **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 접속과 이동성을 제어하는 망 기능
-- **세션 관리 기능(Session Management Function, SMF)•사용자면 기능(User Plane Function, UPF)**: 슬라이스 세션 정책을 제어하고 해당 경로로 사용자 패킷을 전달하는 망 기능
+- **세션 관리 기능(Session Management Function, SMF)**: 슬라이스 세션 정책과 전달 규칙을 제어하는 망 기능이다.
+- **사용자면 기능(User Plane Function, UPF)**: 설정된 슬라이스 경로로 사용자 패킷을 전달하는 망 기능이다.
 
 </details>
 
-서비스 수준 협약(Service Level Agreement, SLA)의 지연•용량•가용성 목표를 무선•전송•코어 자원에 반영한다.
+SLA의 지연•용량•가용성 목표를 무선•전송•코어 자원에 반영한다.
 
 ```mermaid
 block-beta
@@ -93,12 +95,10 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **슬라이스 선택 정책**: 가입자•지역•서비스 요구에 따라 사용할 종단 논리망을 결정하는 규칙이다.
-- **사용자면 기능(User Plane Function, UPF)**: 세션 관리 기능(Session Management Function, SMF)이 설정한 슬라이스 경로로 사용자 패킷을 전달하는 사용자면 기능
-- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)•접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 가입자에게 적합한 슬라이스를 선택하고 접속을 제어하는 망 기능
 
 </details>
 
-서비스 수준 협약(Service Level Agreement, SLA)에 맞춰 슬라이스 자원을 배치하고 선택 정책과 세션 경로를 연결한다.
+SLA에 맞춰 슬라이스 자원을 배치하고 선택 정책과 세션 경로를 연결한다.
 
 ```mermaid
 sequenceDiagram
@@ -153,7 +153,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 슬라이스가 보장해야 할 지연•용량•가용성 목표와 책임을 정한 협약
 - **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 서비스 성능을 측정해 SLA 달성 여부를 판단하는 공통 품질 지표
 
 </details>
@@ -174,7 +173,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **종단 슬라이스**: 무선•전송•코어 전 영역의 기능과 자원을 연결해 서비스별 품질과 격리를 제공하는 논리망
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 슬라이스에 배정할 지연•용량•가용성 목표와 책임을 정한 협약
 
 </details>
 
