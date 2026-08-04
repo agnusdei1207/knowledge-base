@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "입력값 검증•파라미터 바인딩 (Input Validation Parameter Binding)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:51:00+09:00"
 tags:
   - "notes-security"
 weight: 52
@@ -38,7 +38,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **허용 목록** 은 승인한 값이나 형식만 통과시키고, **정규화** 는 같은 의미의 여러 표현을 하나의 표준 표현으로 바꾼다.
+- **허용 목록** 은 승인한 값이나 형식만 통과시키는 입력 제한 방식이다.
+- **정규화** 는 같은 의미의 여러 표현을 하나의 표준 표현으로 바꾸는 처리다.
 - **동적 식별자** 는 SQL의 테이블•열 이름처럼 값 바인딩을 적용하기 어려워 승인된 이름으로 매핑해야 하는 구문 요소다.
 
 </details>
@@ -56,7 +57,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **파서** 는 입력 문자열을 정해진 문법 구조에 따라 해석한다.
-- **안전 실행 API** 는 고정 구문과 검증된 값을 분리해 실행점에 전달한다.
+- **안전 실행 API(Application Programming Interface)** 는 고정 구문과 검증된 값을 분리해 실행점에 전달한다.
 
 </details>
 
@@ -91,7 +92,8 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **입력 계약** 은 형식•길이•범위•배열 개수•중첩 깊이와 전체 크기를 제한한다.
-- **DB•SQL 구조** 는 데이터베이스가 실행할 질의 명령의 고정된 형식이며 외부 입력값과 분리해 전달해야 한다.
+- **DB(Database)** 는 구조화된 데이터를 저장•질의하는 데이터베이스다.
+- **SQL(Structured Query Language) 구조** 는 DB가 실행할 질의 명령의 고정된 형식이다.
 
 </details>
 
@@ -126,10 +128,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **정규화(Normalization)**: 중복 표현을 하나의 표준 형식으로 바꾸어 같은 의미의 입력을 동일하게 처리한다.
-- **입력 검증(Input Validation)**: 입력의 형식•길이•범위•업무 허용 여부를 판정한다.
-- **파라미터 바인딩(Parameter Binding)**: 외부 값을 실행 구문과 분리된 매개변수로 전달한다.
-
 </details>
 
 | 처리 단계 | 역할 | 주의점 |
@@ -146,8 +144,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **MITRE CWE-20** 은 입력의 유효성•속성을 잘못 검증하는 약점을 정의하고, **OWASP ASVS 5.0.0** 은 입력•인젝션 방지 요구를 제시한다.
-- **동적 식별자** 는 바인딩하기 어려운 테이블•열 이름이므로 코드 허용목록으로 매핑한다.
+- **CWE(Common Weakness Enumeration)-20** 은 입력의 유효성•속성을 잘못 검증하는 약점을 정의한다.
+- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
+- **ASVS(Application Security Verification Standard) 5.0.0** 은 입력•인젝션 방지 요구를 제시한다.
 - **ORM(Object-Relational Mapping)** 은 객체와 데이터베이스 테이블을 연결하는 계층으로, 원시 질의 사용 시에도 구문과 값을 분리해야 한다.
 
 </details>
@@ -165,8 +164,6 @@ sequenceDiagram
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
-
-- **방어 경계** 는 서버에서 계약 검증과 자원 제한을 수행하고 값은 바인딩, 식별자는 코드 매핑으로 처리한다.
 
 </details>
 

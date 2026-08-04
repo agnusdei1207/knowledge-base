@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "시큐어 코딩 가이드 (Secure Coding Guide)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:47:00+09:00"
 tags:
   - "notes-security"
 weight: 51
@@ -39,7 +39,9 @@ extra:
 
 - **위협 모델** 은 보호 자산•신뢰 경계•공격 경로•통제를 식별해 구현 우선순위를 정한다.
 - **안전 기본값** 은 별도 설정이 없어도 최소 권한•거부•보호 상태를 적용한다.
-- **SAST•DAST•배포 게이트** 는 소스 취약 패턴과 실행 중 취약 동작을 검사하고 기준 미달 변경의 배포를 차단한다.
+- **SAST(Static Application Security Testing)** 는 소스 코드의 취약 패턴을 실행 전에 검사한다.
+- **DAST(Dynamic Application Security Testing)** 는 실행 중인 애플리케이션의 취약 동작을 외부에서 검사한다.
+- **배포 게이트** 는 필수 보안 검사 기준에 미달한 변경의 배포를 차단한다.
 
 </details>
 
@@ -54,9 +56,6 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
-
-- **SAST•DAST** 는 각각 소스 코드의 취약 패턴과 실행 중인 애플리케이션의 실제 취약 동작을 검사한다.
-- **배포 게이트** 는 필수 보안 검사•승인 기준에 미달한 변경의 배포를 차단한다.
 
 </details>
 
@@ -92,8 +91,7 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **코드 리뷰** 는 자동 도구가 놓치기 쉬운 업무 권한•복합 논리와 안전 API 적용을 사람이 검토한다.
-- **안전 API** 는 입력 처리•인증•암호•오류 처리를 검증된 방식으로 제공해 위험한 직접 구현을 줄이는 인터페이스다.
-- **SAST•DAST 판정** 은 정적 코드와 실행 환경의 보안 검사 결과를 배포 허용 기준에 대조하는 절차다.
+- **안전 API(Application Programming Interface)** 는 검증된 입력•인증•암호•오류 처리 기능을 제공하는 인터페이스다.
 
 </details>
 
@@ -127,8 +125,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **가이드•자동 검사•안전 프레임워크** 는 각각 업무 논리 판단, 반복 패턴 검사, 공통 위험 구현 경로 축소에 적합하다.
-
 </details>
 
 | 시큐어 코딩 통제 | 가이드•리뷰 | 자동 보안 검사 | 안전 기본값•프레임워크 |
@@ -145,7 +141,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST SSDF 1.1** 은 안전 개발 관행을 제시하고, **ISO/IEC 27034-1** 은 애플리케이션 보안 관리 개념•절차•통제를 정의한다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SSDF(Secure Software Development Framework) 1.1** 은 안전한 소프트웨어 개발 관행을 제시한다.
+- **ISO(International Organization for Standardization)** 는 국제 표준을 개발•발행하는 기구다.
+- **IEC(International Electrotechnical Commission)** 는 전기•전자 분야 국제 표준을 개발하는 기구다.
+- **ISO/IEC 27034-1** 은 애플리케이션 보안 관리 개념•절차•통제를 정의한다.
 - **예외 만료** 는 보상 통제와 담당자를 둔 보안 예외가 재검토 없이 영구화되지 않게 한다.
 
 </details>
@@ -163,8 +163,6 @@ sequenceDiagram
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
-
-- **통제 조합** 은 업무 논리는 코드 리뷰, 반복 패턴은 자동 검사, 예외는 만료•재승인으로 관리한다.
 
 </details>
 

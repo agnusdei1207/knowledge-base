@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T11:29:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ABAC**: 주체•객체•행위•환경 속성을 정책으로 평가하여 접근을 결정하는 제어 모델이다.
-- **RBAC**: 권한을 역할에 묶어 사용자에게 배정하는 접근 제어 모델이다.
+- **ABAC(Attribute-Based Access Control)** 는 주체•객체•행위•환경 속성을 정책으로 평가하는 접근 제어 모델이다.
+- **RBAC(Role-Based Access Control)** 는 권한을 역할에 묶어 사용자에게 배정하는 접근 제어 모델이다.
 
 </details>
 
@@ -38,8 +38,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **주체•객체•행위•환경 속성**: 요청자와 대상 자원, 수행 동작, 시간•위치•기기 같은 현재 맥락을 나타내는 정책 판단값이다.
-- **PIP•PDP•PEP**: 신뢰 속성을 제공하고 정책을 평가하며 그 허용•거부 결정을 실제 요청에 집행하는 구성요소다.
+- **주체 속성** 은 요청자의 신원•조직•직무•보안 상태를 나타내는 판단값이다.
+- **객체 속성** 은 대상 자원의 소유자•등급•유형을 나타내는 판단값이다.
+- **행위 속성** 은 읽기•쓰기•승인처럼 요청한 동작을 나타내는 판단값이다.
+- **환경 속성** 은 요청 시점의 시간•위치•기기 상태를 나타내는 판단값이다.
+- **PIP(Policy Information Point)** 는 정책 평가에 필요한 신뢰 속성을 제공한다.
+- **PDP(Policy Decision Point)** 는 속성과 정책을 평가해 허용•거부를 결정한다.
+- **PEP(Policy Enforcement Point)** 는 정책 결정 결과를 실제 접근 요청에 집행한다.
 - **속성 신선도**: 속성값이 요청 시점의 실제 상태를 정확히 반영하는 정도이다.
 
 </details>
@@ -56,8 +61,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **PEP•PDP•PIP**: PEP는 결정을 집행하고 PDP는 정책을 평가하며 PIP는 평가에 필요한 신뢰 속성을 제공한다.
-- **속성 권위자•정책 저장소**: 속성 권위자는 신뢰 값을 생성•관리하고 정책 저장소는 접근 규칙과 조합 방식을 보관한다.
+- **속성 권위자** 는 정책 평가에 사용하는 신뢰 속성을 생성•갱신한다.
+- **정책 저장소** 는 접근 규칙과 정책 조합 방식을 보관한다.
 
 </details>
 
@@ -91,7 +96,7 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **TTL**: 조회한 속성값을 다시 확인하기 전까지 유효하다고 보는 생존 시간이다.
+- **TTL(Time to Live)** 은 조회한 속성값을 다시 확인하기 전까지 유효하다고 보는 생존 시간이다.
 - **기본 거부**: 평가 오류를 포함해 정책이 명시적으로 허용하지 않은 요청을 거부하는 원칙이다.
 
 </details>
@@ -129,7 +134,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ABAC•RBAC•혼합 모델**: ABAC는 동적 속성, RBAC는 안정된 직무 역할로 판단하며 혼합형은 역할 권한에 속성 조건을 추가한다.
+- **혼합 모델** 은 RBAC 역할 권한에 ABAC 속성 조건을 추가하는 접근 제어 모델이다.
 
 </details>
 
@@ -147,8 +152,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST SP 800-162**: 주체•객체•환경 속성 기반 접근 제어의 정의와 설계 고려사항을 제시한 공식 지침이다.
-- **OASIS XACML 3.0 Errata 01**: 속성 기반 정책 언어와 PEP•PDP•PIP 처리 모델을 정의한 공식 표준이다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SP(Special Publication) 800-162** 는 속성 기반 접근 제어의 정의와 설계 고려사항을 제시한다.
+- **OASIS(Organization for the Advancement of Structured Information Standards)** 는 정보 교환 표준을 개발하는 국제 컨소시엄이다.
+- **XACML(eXtensible Access Control Markup Language) 3.0** 은 속성 기반 정책 언어와 처리 모델을 정의한다.
 
 </details>
 
@@ -166,8 +173,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **신뢰 속성과 설명 가능성**: 최신의 검증된 속성으로 접근을 결정하고 어떤 속성과 정책이 결과를 만들었는지 추적할 수 있어야 한다는 운영 원칙이다.
-- **RBAC•ABAC•혼합 모델 선택**: 안정된 직무, 동적 요청 맥락, 역할에 일부 속성 조건을 추가하는 요구 중 어디에 맞는지에 따른 판단이다.
+- **신뢰 속성** 은 권위 있는 출처에서 최신성과 무결성이 검증된 정책 판단값이다.
+- **설명 가능성** 은 어떤 속성과 정책이 접근 결정에 영향을 주었는지 추적하는 성질이다.
 
 </details>
 

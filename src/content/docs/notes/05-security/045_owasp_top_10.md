@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:22:00+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침과 시험 도구를 공개하는 비영리 프로젝트다.
 - **OWASP Top 10** 은 가장 중요한 웹 애플리케이션 위험 범주 10개를 제시하는 위험 인식 자료다.
-- **OWASP** 는 애플리케이션 보안 지침과 시험 도구를 공개하는 비영리 프로젝트다.
 
 </details>
 
@@ -42,7 +42,8 @@ extra:
 
 - **위험 인식 자료** 는 우선 위험을 공통 언어로 제시하지만 검증 표준이나 준수 인증 자체는 아니다.
 - **주기적 갱신** 은 자료와 전문가 검토를 반영해 변화한 웹 공격 위험을 다시 분류한다.
-- **ASVS•WSTG 연계** 는 위험 범주를 검증 가능한 보안 요구와 재현 가능한 웹 시험 절차로 구체화한다.
+- **ASVS(Application Security Verification Standard)** 는 애플리케이션 보안 요구사항과 검증 수준을 정의한다.
+- **WSTG(Web Security Testing Guide)** 는 웹 보안 시험 항목과 절차를 제시한다.
 
 </details>
 
@@ -59,8 +60,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ASVS** 는 애플리케이션 보안 요구사항과 검증 수준을, **WSTG** 는 웹 보안 시험 항목과 절차를 제시한다.
-- **SDLC** 는 요구•설계•개발•시험•배포•운영의 소프트웨어 생명주기다.
+- **SDLC(Software Development Life Cycle)** 는 요구•설계•개발•시험•배포•운영의 소프트웨어 생명주기다.
 
 </details>
 
@@ -131,17 +131,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오픈 월드와이드 애플리케이션 보안 프로젝트 상위 10대 위험(Open Worldwide Application Security Project Top 10, OWASP Top 10)**: 주요 웹 위험을 인식하는 자료이다.
-- **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS)**: 보안 요구사항과 검증 수준을 정의한다.
-- **웹 보안 시험 지침(Web Security Testing Guide, WSTG)**: 웹 보안 시험 방법과 절차를 제공한다.
-
 </details>
 
-| 오픈 월드와이드 애플리케이션 보안 프로젝트 자료 | 담당 역할 | 활용 산출물 |
+| OWASP 자료 | 담당 역할 | 활용 산출물 |
 |:---|:---|:---|
-| **오픈 월드와이드 애플리케이션 보안 프로젝트 상위 10대 위험(Open Worldwide Application Security Project Top 10, OWASP Top 10)** | **주요 웹 위험 인식** | 교육•위험 논의의 공통 범주 |
-| **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS)** | **보안 요구사항•검증 수준 정의** | 설계•개발•검수 요구 기준 |
-| **웹 보안 시험 지침(Web Security Testing Guide, WSTG)** | **웹 보안 시험 절차 제공** | 시험 시나리오•점검 절차 |
+| **OWASP Top 10** | **주요 웹 위험 인식** | 교육•위험 논의의 공통 범주 |
+| **ASVS** | **보안 요구사항•검증 수준 정의** | 설계•개발•검수 요구 기준 |
+| **WSTG** | **웹 보안 시험 절차 제공** | 시험 시나리오•점검 절차 |
 
 #### 한줄 요약
 
@@ -151,8 +147,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **OWASP Top 10:2025** 는 최신 웹 위험 범주, **ASVS 5.0.0** 은 수준별 검증 요구, **WSTG** 는 재현 가능한 시험 절차를 제공한다.
 
 </details>
 
@@ -170,9 +164,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **활용 원칙** 은 Top 10을 체크리스트로 끝내지 않고 ASVS 요구와 WSTG 시험으로 구체화하는 것이다.
-- **Top 10•ASVS•WSTG 선택** 은 각각 위험 인식, 요구사항•수준 정의, 웹 보안 시험 절차라는 역할에 맞춰 적용하는 판단이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSRF (Cross-Site Request Forgery)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:34:00+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CSRF** 는 로그인된 브라우저의 자동 인증 정보를 악용해 사용자가 의도하지 않은 상태 변경 요청을 보내는 공격이다.
+- **CSRF(Cross-Site Request Forgery)** 는 로그인된 브라우저의 자동 인증 정보를 악용해 사용자가 의도하지 않은 상태 변경 요청을 보내는 공격이다.
 
 </details>
 
@@ -58,8 +58,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Origin•Referer** 는 요청을 만든 출처와 이전 페이지 주소를 전달한다.
-- **SameSite** 는 교차 사이트 요청에 쿠키를 전송할 범위를 제한한다.
+- **Origin** 은 요청을 생성한 출처의 스킴•호스트•포트를 전달하는 헤더다.
+- **Referer** 는 요청을 보낸 이전 페이지의 주소를 전달하는 헤더다.
+- **HTTP(Hypertext Transfer Protocol)** 는 웹 자원 요청과 응답의 형식•의미를 정의하는 통신 규약이다.
 - **안전 메서드** 는 조회 의미만 가지며 서버 상태를 변경하지 않아야 하는 GET•HEAD 등의 HTTP 메서드다.
 
 </details>
@@ -129,8 +130,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **토큰•SameSite•출처 검증** 은 각각 요청 의도 확인, 교차 쿠키 전송 제한, 요청 발생지 판정을 담당한다.
-
 </details>
 
 | CSRF 방어 유형 | CSRF 토큰 | SameSite 쿠키 | 출처 검증 |
@@ -148,9 +147,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE CWE-352** 는 요청이 사용자 의도인지 충분히 검증하지 않는 약점을 정의한다.
-- **IETF RFC 9110** 은 GET•HEAD 같은 안전 메서드와 요청 의미를 정의하며, 안전 메서드는 상태를 변경하지 않아야 한다.
-- **XSS** 는 비신뢰 데이터가 피해자 브라우저에서 스크립트로 실행되어 CSRF 토큰과 동일 출처 정보를 탈취할 수 있는 취약점이다.
+- **CWE(Common Weakness Enumeration)-352** 는 요청이 사용자 의도인지 충분히 검증하지 않는 약점을 정의한다.
+- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
+- **RFC(Request for Comments) 9110** 은 GET•HEAD 같은 안전 메서드와 요청 의미를 정의한다.
+- **XSS(Cross-Site Scripting)** 는 비신뢰 데이터가 피해자 브라우저에서 스크립트로 실행되는 취약점이다.
 
 </details>
 
@@ -168,8 +168,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **방어 전제** 는 XSS가 CSRF 토큰과 동일 출처 문맥을 탈취할 수 있으므로 XSS 제거를 함께 수행하는 것이다.
 
 </details>
 

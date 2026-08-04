@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T11:20:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -22,8 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SAML 2.0**: 인증 결과와 사용자 속성을 XML 주장으로 전달하는 연합 인증 표준이다.
-- **통합 인증(SSO)**: 한 번의 인증으로 여러 연계 서비스에 접속하게 하는 인증 방식이다.
+- **SAML(Security Assertion Markup Language) 2.0** 은 인증 결과와 사용자 속성을 XML 주장으로 전달하는 연합 인증 표준이다.
+- **XML(Extensible Markup Language)** 은 구조화된 문서를 표현•교환하는 마크업 언어다.
+- **SSO(Single Sign-On)** 는 한 번의 인증으로 여러 연계 서비스에 접속하게 하는 인증 방식이다.
 
 </details>
 
@@ -38,9 +39,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Assertion•Metadata**: Assertion은 사용자•인증•조건을 담고 Metadata는 기관 식별자•수신 주소•인증서 등 신뢰 설정을 담는다.
-- **IdP•SP**: IdP는 사용자를 인증해 주장을 발급하고 SP는 주장을 검증해 서비스를 제공한다.
-- **Recipient•재전송 공격**: Recipient는 응답의 지정 수신 주소이며, 이미 사용한 정상 응답을 다시 제출하는 행위를 재전송 공격이라 한다.
+- **Assertion** 은 사용자•인증•조건을 담아 전달하는 SAML 주장 문서다.
+- **Metadata** 는 기관 식별자•수신 주소•인증서 등 연합 신뢰 설정을 담는 문서다.
+- **IdP(Identity Provider)** 는 사용자를 인증하고 SAML 주장을 발급하는 신원 제공자다.
+- **SP(Service Provider)** 는 SAML 주장을 검증하고 사용자에게 서비스를 제공한다.
+- **ID(Identifier)** 는 요청과 응답을 고유하게 구분하는 식별값이다.
+- **Recipient** 는 SAML 응답을 수신하도록 지정된 주소다.
+- **재전송 공격** 은 이미 사용한 정상 인증 응답을 다시 제출하는 공격이다.
 
 </details>
 
@@ -56,7 +61,6 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IdP•SP**: IdP는 사용자를 인증해 SAML 주장을 발급하고 SP는 주장을 검증해 서비스를 제공한다.
 - **로컬 세션**: SP가 SAML 검증을 완료한 뒤 자체적으로 생성하는 로그인 상태이다.
 
 </details>
@@ -129,7 +133,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **SP 시작•IdP 시작**: SP 시작은 서비스의 인증 요청에서 흐름이 출발하고 IdP 시작은 중앙 신원 포털의 응답에서 흐름이 출발한다.
+- **SP 시작** 은 서비스의 인증 요청에서 연합 인증 흐름이 출발하는 방식이다.
+- **IdP 시작** 은 중앙 신원 포털의 인증 응답에서 연합 인증 흐름이 출발하는 방식이다.
 
 </details>
 
@@ -147,9 +152,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **OASIS SAML 2.0 Core**: SAML 주장•프로토콜•조건•서명 처리의 핵심 구문과 의미를 정의한 공식 표준이다.
+- **OASIS(Organization for the Advancement of Structured Information Standards)** 는 정보 교환 표준을 개발하는 국제 컨소시엄이다.
+- **SAML 2.0 Core** 는 SAML 주장•프로토콜•조건•서명 처리의 핵심 구문과 의미를 정의한다.
 - **XML 서명 래핑 공격**: 서명된 요소와 애플리케이션이 실제 처리하는 요소의 차이를 악용해 위조 내용을 수용하게 하는 공격이다.
-- **W3C XML Signature 1.1**: XML 문서에서 서명 대상 요소와 검증 방법을 정의해 처리 요소와 서명 요소를 일치시키는 표준이다.
+- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **XML Signature 1.1** 은 XML 문서의 서명 대상 요소와 검증 방법을 정의한다.
 
 </details>
 
@@ -168,8 +175,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **요청 결속**: SAML 응답을 최초 요청의 ID•대상•수신자와 연결해 다른 요청이나 서비스에서 재사용하지 못하게 하는 검증 원칙이다.
-- **SP 시작•IdP 시작 선택**: 요청•응답 결속이 필요하면 SP에서 시작하고 중앙 포털 흐름에서는 응답 ID 재사용을 별도로 차단하는 판단이다.
-
 </details>
 
 - 요청 결속이 필요하면 **SP 시작**, 중앙 포털은 **IdP 시작** 과 응답 ID 재사용 차단 적용

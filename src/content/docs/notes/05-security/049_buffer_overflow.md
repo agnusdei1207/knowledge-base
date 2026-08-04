@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "버퍼 오버플로우 — 카나리•DEP•ASLR (Buffer Overflow Canary DEP ASLR)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:38:00+09:00"
 tags:
   - "notes-security"
 weight: 49
@@ -40,8 +40,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스택 카나리** 는 반환 주소 앞의 임의 값을 대조해 스택 덮어쓰기를 탐지한다.
-- **DEP/NX•ASLR** 은 각각 데이터 영역 실행을 금지하고 메모리 주소를 무작위화한다.
-- **PIE** 는 실행 파일의 코드와 데이터도 임의 주소에 배치할 수 있게 하여 ASLR의 적용 범위를 넓힌 바이너리 형식이다.
+- **DEP(Data Execution Prevention)** 는 데이터 메모리 영역의 코드 실행을 금지하는 보호 기법이다.
+- **NX(No-eXecute)** 는 메모리 페이지에 실행 불가 속성을 부여하는 하드웨어 보호 기능이다.
+- **ASLR(Address Space Layout Randomization)** 은 메모리 영역의 시작 주소를 무작위화하는 보호 기법이다.
+- **PIE(Position Independent Executable)** 는 실행 파일의 코드와 데이터도 임의 주소에 배치할 수 있게 하는 형식이다.
 
 </details>
 
@@ -59,8 +61,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **메모리 안전 언어** 는 배열 경계와 객체 수명을 실행환경•타입 체계가 검사한다.
-- **PIE** 는 실행 파일도 임의 주소에 배치할 수 있게 만든 바이너리다.
-
 </details>
 
 ```mermaid
@@ -127,8 +127,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **카나리•DEP/NX•ASLR** 은 각각 스택 오염 탐지, 데이터 실행 차단, 주소 예측 난도 증가를 담당한다.
-
 </details>
 
 | 메모리 보호 유형 | 카나리 | DEP/NX | ASLR |
@@ -146,7 +144,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE CWE-787** 은 할당된 버퍼 경계 밖에 데이터를 쓰는 약점을 정의한다.
+- **CWE(Common Weakness Enumeration)-787** 은 할당된 버퍼 경계 밖에 데이터를 쓰는 약점을 정의한다.
 - **산출물 검사** 는 배포 바이너리에 카나리•PIE•DEP•ASLR 보호가 실제 적용됐는지 확인한다.
 
 </details>

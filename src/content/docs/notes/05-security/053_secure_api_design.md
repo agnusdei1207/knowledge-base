@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 응용 프로그래밍 인터페이스 설계 (Secure API Design)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:56:00+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -22,6 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
+- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
 - **보안 API 설계** 는 요청의 채널•토큰•객체 권한•자원 사용을 매 호출마다 검증하는 응용 보안 설계다.
 
 </details>
@@ -37,8 +38,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **접근 토큰•범위** 는 보호 자원에 허용된 주체의 접근 권한과 행위 범위를 나타낸다.
-- **객체•기능 인가** 는 호출자가 특정 자원 인스턴스와 업무 기능을 수행할 권한이 있는지 요청마다 확인한다.
+- **접근 토큰** 은 보호 자원에 대한 제한된 접근 권한을 나타내는 자격 증명이다.
+- **범위** 는 접근 토큰으로 허용된 자원과 행위의 경계를 나타낸다.
+- **객체 인가** 는 호출자가 특정 자원 인스턴스에 접근할 권한이 있는지 확인한다.
+- **기능 인가** 는 호출자가 특정 업무 기능을 수행할 권한이 있는지 확인한다.
 - **호출률 제한** 은 일정 시간 동안 주체별 API 요청 수를 제한한다.
 
 </details>
@@ -55,8 +58,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **API 게이트웨이** 는 인증•인가•라우팅•호출률 제한을 공통 적용하고, 자원 서버는 객체 수준 인가를 집행한다.
-- **인증•권한 서버와 자원 서버** 는 각각 제한된 접근 토큰을 발급하고 토큰 주체의 객체•기능 권한을 집행한다.
+- **API 게이트웨이** 는 인증•인가•라우팅•호출률 제한을 공통 적용하는 진입점이다.
+- **인증•권한 서버** 는 검증된 주체에게 제한된 접근 토큰을 발급한다.
+- **자원 서버** 는 토큰 주체의 객체•기능 권한을 집행한다.
 
 </details>
 
@@ -90,7 +94,9 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **JWT** 는 주체•권한 주장을 서명된 JSON으로 전달하고, **mTLS** 는 통신 양측의 인증서를 검증한다.
+- **JSON(JavaScript Object Notation)** 은 속성과 값을 구조화해 교환하는 경량 데이터 형식이다.
+- **JWT(JSON Web Token)** 는 주체•권한 주장을 서명된 JSON으로 전달하는 토큰 형식이다.
+- **mTLS(Mutual Transport Layer Security)** 는 통신 양측의 인증서를 검증하는 상호 인증 방식이다.
 
 </details>
 
@@ -124,20 +130,17 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계이다.
-- **제이슨 웹 토큰(JSON Web Token, JWT)**: 서명된 주장을 전달하는 토큰 형식이다.
-- **개방형 권한 위임(Open Authorization, OAuth) 2.0**: 보호 자원에 대한 제한된 접근 권한을 제3자 응용에 위임하는 인가 프레임워크이다.
-- **코드 교환 증명키(Proof Key for Code Exchange, PKCE)**: 권한 요청과 토큰 교환을 일회성 검증값으로 결합하여 가로챈 권한 코드의 악용을 막는 확장 절차이다.
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 통신 양쪽의 인증서를 검증하는 상호 인증 방식이다.
+- **OAuth(Open Authorization) 2.0** 은 보호 자원에 대한 제한된 접근 권한을 제3자 응용에 위임하는 인가 프레임워크다.
+- **PKCE(Proof Key for Code Exchange)** 는 권한 요청과 토큰 교환을 일회성 검증값으로 결합하는 확장 절차다.
 
 </details>
 
 | 통제 지점 | 대표 수단 | 역할•잔여 위험 |
 |:---|:---|:---|
 | **API 호출 경계** | **계층형 인증•인가•입력 검증** | 전체 경로를 보호하되 계층 간 정책 일치 필요 |
-| **주장 전달** | **제이슨 웹 토큰(JSON Web Token, JWT)** | 서명 주장을 전달하되 탈취•검증 오류 방지 필요 |
-| **권한 위임** | **개방형 권한 위임(Open Authorization, OAuth) 2.0•코드 교환 증명키(Proof Key for Code Exchange, PKCE)** | 제한 권한을 위임하되 범위•대상 제한 필요 |
-| **서비스 신원** | **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)** | 통신 주체를 상호 인증하되 객체 권한은 별도 판정 |
+| **주장 전달** | **JWT** | 서명 주장을 전달하되 탈취•검증 오류 방지 필요 |
+| **권한 위임** | **OAuth 2.0•PKCE** | 제한 권한을 위임하되 범위•대상 제한 필요 |
+| **서비스 신원** | **mTLS** | 통신 주체를 상호 인증하되 객체 권한은 별도 판정 |
 
 #### 한줄 요약
 
@@ -147,8 +150,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **IETF RFC 9700** 은 OAuth 보안 모범 사례를, **OWASP API Top 10:2023** 은 BOLA•자원 소비 등 API 위험을 제시한다.
-- **BOLA** 는 요청의 객체 식별자에 대한 소유권•권한 검사가 빠져 다른 사용자의 자원에 접근할 수 있는 인가 결함이다.
+- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
+- **RFC(Request for Comments) 9700** 은 OAuth 보안 모범 사례를 제시한다.
+- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
+- **OWASP API Top 10:2023** 은 API의 주요 보안 위험 범주를 제시한다.
+- **BOLA(Broken Object Level Authorization)** 는 객체 식별자의 소유권•권한 검사가 빠진 인가 결함이다.
 
 </details>
 
@@ -165,9 +171,6 @@ sequenceDiagram
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
-
-- **BOLA** 는 객체 식별자를 바꿔 다른 사용자의 자원에 접근하는 인가 결함이다.
-- **OAuth•PKCE•mTLS 적용** 은 외부 앱의 제한 권한 위임에는 OAuth와 PKCE를, 서비스 간 신원 확인에는 mTLS를 사용하는 역할 구분이다.
 
 </details>
 

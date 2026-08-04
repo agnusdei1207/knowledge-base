@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "패스키 비밀번호 없는 인증 (Passkey Passwordless)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T11:09:00+09:00"
 tags:
   - "notes-security"
 weight: 56
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **패스키** 는 서비스별 공개키 자격 증명으로 비밀번호를 대신하는 피싱 저항 인증 수단이다.
-- **WebAuthn** 은 서비스가 브라우저를 통해 공개키 자격 증명을 등록하고 인증에 사용하도록 정의한 웹 표준이다.
+- **WebAuthn(Web Authentication)** 은 서비스가 브라우저를 통해 공개키 자격 증명을 등록하고 인증에 사용하도록 정의한 웹 표준이다.
 
 </details>
 
@@ -38,9 +38,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **RP ID•사용자 검증** 은 패스키를 서비스 도메인과 로컬 사용자에게 결속한다.
+- **RP ID** 는 패스키를 특정 서비스 도메인에 결속하는 식별자다.
+- **사용자 검증** 은 인증기 사용자가 등록된 본인인지 생체•PIN 등으로 확인하는 절차다.
 - **RP(Relying Party)** 는 패스키의 공개키 자격 증명을 등록하고 인증 서명을 검증하는 서비스다.
-- **동기화•기기 결합 패스키** 는 각각 여러 기기 이전과 특정 인증자 고정을 제공한다.
+- **동기화 패스키** 는 암호화된 자격 증명을 사용자의 여러 기기로 이전하는 방식이다.
+- **기기 결합 패스키** 는 자격 증명을 생성한 특정 인증자에 고정하는 방식이다.
 
 </details>
 
@@ -57,7 +59,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **인증자** 는 개인키를 보호하고 PIN•생체 승인 후 서명한다.
-- **PIN** 은 인증기 안의 개인키 사용을 승인하기 위해 로컬에서 확인하는 개인 식별 번호다.
+- **PIN(Personal Identification Number)** 은 인증기 안의 개인키 사용을 승인하기 위해 로컬에서 확인하는 번호다.
 - **복구 경로** 는 기기 분실•교체 뒤 계정 접근을 되찾는 절차다.
 
 </details>
@@ -92,8 +94,6 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **WebAuthn** 은 서비스가 브라우저를 통해 공개키 자격 증명을 생성•사용하도록 정의한다.
-
 </details>
 
 ```mermaid
@@ -126,7 +126,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **동기화•기기 결합•휴대형 보안키** 는 편의•이동 제한•물리 분리 요구에 따라 선택한다.
+- **휴대형 보안키** 는 개인키를 별도 물리 장치에 보관하는 외부 인증자다.
 
 </details>
 
@@ -144,7 +144,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **W3C WebAuthn Level 2** 는 RP 결속 자격 증명을, **NIST SP 800-63B-4** 는 인증기•세션•복구 요구를 정의한다.
+- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **WebAuthn Level 2** 는 RP에 결속된 공개키 자격 증명의 등록•인증 규격이다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SP(Special Publication) 800-63B-4** 는 인증기•세션•복구 요구를 정의한다.
 - **자격 증명 폐기** 는 분실•유출된 패스키를 더 이상 인증에 쓰지 못하게 한다.
 
 </details>
@@ -164,8 +167,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **전환 완성 조건** 은 비밀번호 제거뿐 아니라 기기 추가•동기화•분실 복구를 같은 강도로 보호하는 것이다.
-- **동기화•기기 결합•보안키 선택** 은 소비자 편의, 키 이동 제한, 물리적 분리 중 필요한 운영 특성에 맞춘 판단이다.
-
 </details>
 
 - 소비자 편의는 **동기화 패스키**, 이동 제한은 **기기 결합형**, 물리 분리는 **보안키** 선택

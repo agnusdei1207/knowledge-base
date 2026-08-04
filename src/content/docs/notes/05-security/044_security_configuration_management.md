@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "보안 구성 관리 (Security Configuration Management)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:18:00+09:00"
 tags:
   - "notes-security"
 weight: 44
@@ -94,7 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **IaC** 는 인프라 구성을 코드로 선언•버전 관리하고, **CI/CD** 는 변경 통합•검증•배포를 자동화한다.
+- **IaC(Infrastructure as Code)** 는 인프라 구성을 코드로 선언•버전 관리하는 방식이다.
+- **CI/CD(Continuous Integration/Continuous Delivery)** 는 변경 통합•검증•배포를 자동화하는 방식이다.
 - **롤백** 은 설정 변경 장애 때 이전 정상 상태로 되돌리는 절차다.
 
 </details>
@@ -129,7 +130,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정기 수동•배포 전•실행 중 점검** 은 각각 현장 판단, 사전 정책 위반, 운영 중 긴급•수동 변경 탐지에 적합하다.
+- **정기 수동 점검** 은 자동 수집이 어려운 환경을 사람이 주기적으로 확인하는 방식이다.
+- **배포 전 정책 검사** 는 변경 배포 전에 승인 정책 위반을 판정하는 방식이다.
+- **실행 중 편차 탐지** 는 운영 상태와 목표 상태의 차이를 지속 식별하는 방식이다.
 
 </details>
 
@@ -148,9 +151,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-128** 은 보안 중심 구성 관리와 기준선•변경 통제를 제시한다.
+- **NIST SP(National Institute of Standards and Technology Special Publication) 800-128** 은 보안 중심 구성 관리와 기준선•변경 통제를 제시한다.
 - **CIS Benchmarks** 는 운영체제•클라우드•응용별 합의 기반 안전 구성 권고다.
-- **CIS** 는 인터넷 보안 센터로, 자산 유형별 합의 기반 하드닝 지침인 CIS Benchmarks를 제공한다.
+- **CIS(Center for Internet Security)** 는 합의 기반 보안 지침을 제공하는 비영리 기관이다.
 
 </details>
 

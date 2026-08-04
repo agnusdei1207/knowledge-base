@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SQL 인젝션 (SQL Injection)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:26:00+09:00"
 tags:
   - "notes-security"
 weight: 46
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SQL 인젝션** 은 외부 입력이 값이 아닌 SQL 명령 구조로 해석돼 질의 의미를 바꾸는 취약점이다.
+- **SQL(Structured Query Language) 인젝션** 은 외부 입력이 값이 아닌 SQL 명령 구조로 해석돼 질의 의미를 바꾸는 취약점이다.
 
 </details>
 
@@ -41,7 +41,10 @@ extra:
 
 - **준비된 질의** 는 SQL 구조를 먼저 고정하고 외부 입력을 별도 매개변수 값으로 전달한다.
 - **값 바인딩** 은 외부 입력을 SQL 구문이 아닌 매개변수 값으로 결합한다.
-- **응답•오류•시간차 추론** 은 직접 데이터가 보이지 않아도 결과와 오류 또는 지연의 차이로 질의의 참•거짓과 값을 알아내는 공격 방식이다.
+- **응답 기반 추론** 은 반환 결과의 차이로 질의의 참•거짓과 값을 알아내는 공격 방식이다.
+- **오류 기반 추론** 은 DB 오류 메시지의 차이로 내부 정보와 값을 알아내는 공격 방식이다.
+- **시간차 기반 추론** 은 응답 지연의 차이로 질의의 참•거짓과 값을 알아내는 공격 방식이다.
+- **WAF(Web Application Firewall)** 는 웹 요청을 검사해 알려진 공격 패턴을 차단하는 보조 통제다.
 
 </details>
 
@@ -130,8 +133,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **인밴드•블라인드•아웃오브밴드** 는 각각 원래 응답, 참•거짓•시간차, DNS•HTTP 별도 경로로 결과를 얻는다.
-- **DNS•HTTP 외부 경로** 는 데이터베이스가 이름 질의나 웹 요청을 보내게 하여 원래 응답과 다른 통신으로 정보를 유출하는 경로다.
+- **인밴드** 는 원래 응답 경로에서 공격 결과를 직접 얻는 방식이다.
+- **블라인드** 는 참•거짓이나 시간차를 관찰해 결과를 추론하는 방식이다.
+- **아웃오브밴드** 는 원래 응답과 다른 외부 통신으로 결과를 얻는 방식이다.
+- **DNS(Domain Name System) 외부 경로** 는 DB가 이름 질의를 보내게 해 정보를 유출하는 경로다.
+- **HTTP(Hypertext Transfer Protocol) 외부 경로** 는 DB가 웹 요청을 보내게 해 정보를 유출하는 경로다.
 
 </details>
 
@@ -150,8 +156,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE CWE-89** 는 SQL 명령 구조에 사용된 특수 요소의 부적절한 중화를 정의한다.
-- **OWASP ASVS 5.0.0** 은 입력 처리•인젝션 방지 요구사항을 검증 가능한 형태로 제시한다.
+- **CWE(Common Weakness Enumeration)-89** 는 SQL 명령 구조에 사용된 특수 요소의 부적절한 중화를 정의한다.
+- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
+- **ASVS(Application Security Verification Standard) 5.0.0** 은 입력 처리•인젝션 방지 요구사항을 제시한다.
 
 </details>
 
@@ -169,8 +176,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **방어 원칙** 은 값은 준비된 질의로 바인딩하고 식별자는 허용목록, DB 계정은 최소 권한을 적용하는 것이다.
 
 </details>
 

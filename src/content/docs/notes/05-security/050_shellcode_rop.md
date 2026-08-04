@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쉘코드•ROP 공격 (Shellcode ROP)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T10:42:00+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **쉘코드** 는 취약한 프로세스에 주입해 공격 동작을 수행하는 기계어 코드이고, **ROP** 는 기존 코드 조각을 연결해 공격 동작을 구성한다.
+- **쉘코드** 는 취약한 프로세스에 주입해 공격 동작을 수행하는 기계어 코드다.
+- **ROP(Return-Oriented Programming)** 는 기존 코드의 짧은 가젯을 연결해 공격 동작을 구성하는 기법이다.
 
 </details>
 
@@ -40,7 +41,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **제어 데이터** 는 반환 주소•함수 포인터처럼 다음 실행 위치를 정하는 값이다.
-- **NX•ASLR•CFI•그림자 스택** 은 실행 권한, 주소 예측, 간접 분기, 반환 주소를 각각 검증한다.
+- **NX(No-eXecute)** 는 데이터 메모리 페이지의 코드 실행을 금지하는 보호 기능이다.
+- **ASLR(Address Space Layout Randomization)** 은 메모리 영역의 시작 주소를 무작위화하는 보호 기법이다.
+- **CFI(Control-Flow Integrity)** 는 간접 분기와 호출이 허용 대상에만 도달하도록 검증하는 보호 기법이다.
+- **그림자 스택** 은 별도 보호 영역의 반환 주소 사본과 실제 반환 주소를 대조하는 기법이다.
 
 </details>
 
@@ -128,8 +132,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **쉘코드 주입•ROP** 는 각각 새 기계어 실행과 기존 가젯 재사용으로 제어 흐름을 탈취한다.
-
 </details>
 
 | 제어 탈취 유형 | 쉘코드 주입 | ROP |
@@ -147,7 +149,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE CWE-787** 은 경계 밖 쓰기로 제어 데이터가 손상되는 약점을 정의한다.
+- **CWE(Common Weakness Enumeration)-787** 은 경계 밖 쓰기로 제어 데이터가 손상되는 약점을 정의한다.
 - **Intel CET(Control-flow Enforcement Technology)** 는 간접 분기 추적과 하드웨어 그림자 스택으로 ROP를 억제한다.
 
 </details>
@@ -166,8 +168,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **방어 원칙** 은 메모리 결함을 먼저 제거하고 NX•ASLR•CFI•그림자 스택을 겹쳐 잔존 공격 경로를 줄이는 것이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T11:15:00+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **OAuth 2.0**: 자원 소유자의 제한된 접근 권한을 클라이언트에 위임하는 인가 프레임워크이다.
-- **OpenID Connect(OIDC)**: OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달하는 인증 프로토콜이다.
+- **OAuth(Open Authorization) 2.0** 은 자원 소유자의 제한된 접근 권한을 클라이언트에 위임하는 인가 프레임워크다.
+- **OIDC(OpenID Connect)** 는 OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달하는 인증 프로토콜이다.
 
 </details>
 
@@ -38,9 +38,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **권한 코드•PKCE•Redirect URI**: 짧은 수명의 코드를 원래 요청한 클라이언트와 등록 반환 주소에 결속하여 코드 탈취와 오용을 막는 장치이다.
-- **접근 토큰•ID 토큰**: 접근 토큰은 보호 API 권한을 나타내고 ID 토큰은 인증된 사용자의 신원 주장을 클라이언트에 전달한다.
-- **Nonce•갱신 토큰 회전**: 로그인 응답을 요청 거래에 결속하고 토큰 갱신 때 이전 토큰을 폐기하여 재전송과 재사용을 막는다.
+- **권한 코드** 는 인가 결과를 토큰으로 교환하기 위한 짧은 수명의 일회성 코드다.
+- **PKCE(Proof Key for Code Exchange)** 는 권한 코드와 원래 요청한 클라이언트를 일회성 검증값으로 결속한다.
+- **URI(Uniform Resource Identifier)** 는 자원의 이름이나 위치를 식별하는 문자열 형식이다.
+- **Redirect URI** 는 인가 결과를 돌려받도록 사전에 등록한 클라이언트 반환 주소다.
+- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
+- **접근 토큰** 은 보호 API에 허용된 주체의 접근 권한과 범위를 나타낸다.
+- **ID(Identity) 토큰** 은 인증된 사용자의 신원 주장을 클라이언트에 전달한다.
+- **Nonce** 는 인증 요청과 ID 토큰을 같은 거래에 결속하는 일회성 값이다.
+- **갱신 토큰 회전** 은 토큰 갱신 때 새 토큰을 발급하고 이전 토큰을 폐기하는 방식이다.
 
 </details>
 
@@ -56,8 +62,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **자원 소유자•클라이언트**: 자원 권한을 가진 사용자가 클라이언트 애플리케이션에 제한된 접근을 위임한다.
-- **인가 서버•자원 서버**: 인가 서버는 코드와 토큰을 발급하고 자원 서버는 접근 토큰을 검증해 보호 API를 제공한다.
+- **자원 소유자** 는 보호 자원의 접근 권한을 가진 사용자다.
+- **클라이언트** 는 사용자의 동의를 받아 제한된 자원 접근을 요청하는 애플리케이션이다.
+- **인가 서버** 는 사용자를 인증하고 권한 코드와 토큰을 발급한다.
+- **자원 서버** 는 접근 토큰을 검증하고 보호 API를 제공한다.
 
 </details>
 
@@ -91,9 +99,6 @@ block-beta
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
-
-- **Nonce**: 인증 요청과 ID 토큰을 같은 거래에 결속하여 응답 재전송을 막는 일회성 값이다.
-- **갱신 토큰 회전**: 갱신할 때마다 새 토큰을 발급하고 이전 토큰을 폐기하여 탈취 토큰의 재사용을 탐지•차단하는 방식이다.
 
 </details>
 
@@ -132,15 +137,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **개방형 권한 위임(Open Authorization, OAuth) 2.0**: 응용 프로그래밍 인터페이스 접근 권한을 위임하는 프레임워크이다.
-- **오픈아이디 연결(OpenID Connect, OIDC)**: OAuth 2.0 흐름에 사용자 인증 결과를 추가하는 신원 계층이다.
-
 </details>
 
 | 표준 | 역할 | 검증 초점 |
 |:---|:---|:---|
-| **개방형 권한 위임(Open Authorization, OAuth) 2.0** | **보호 자원의 제한 권한 위임** | 범위•대상•리디렉션 주소 제한 |
-| **오픈아이디 연결(OpenID Connect, OIDC)** | **사용자 인증 결과 전달** | 발급자•대상•Nonce 검증 |
+| **OAuth 2.0** | **보호 자원의 제한 권한 위임** | 범위•대상•Redirect URI 제한 |
+| **OIDC** | **사용자 인증 결과 전달** | 발급자•대상•Nonce 검증 |
 
 #### 한줄 요약
 
@@ -150,8 +152,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **IETF RFC 9700**: OAuth 2.0의 최신 공격 모델과 안전한 구현 관행을 정의한 보안 모범 사례이다.
-- **OpenID Connect Core 1.0**: ID 토큰과 사용자 인증 흐름, 발급자•대상•Nonce 검증을 정의한 공식 규격이다.
+- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
+- **RFC(Request for Comments) 9700** 은 OAuth 2.0의 공격 모델과 안전한 구현 관행을 정의한다.
+- **OIDC Core 1.0** 은 ID 토큰과 사용자 인증 흐름의 검증 규칙을 정의한다.
 
 </details>
 
@@ -168,8 +171,6 @@ sequenceDiagram
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
-
-- **목적별 토큰 분리**: API 권한에는 OAuth 접근 토큰을 사용하고 로그인 신원 전달에는 OIDC ID 토큰을 사용해 용도 혼동을 방지하는 원칙이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "패치 관리•가상 패치 (Patch Management Virtual Patching)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T11:17:00+09:00"
 tags:
   - "notes-security"
 weight: 43
@@ -40,7 +40,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 패치** 는 정식 패치 전 네트워크•응용 계층에서 취약점의 공격 경로를 임시 차단하는 보상 통제다.
 - **롤백** 은 패치나 설정 변경으로 장애가 발생했을 때 이전 정상 상태로 되돌리는 절차다.
 
 </details>
@@ -128,7 +127,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정식 패치•구성 우회책•가상 패치** 는 각각 원인 제거, 취약 기능 제한, 공격 경로 임시 차단을 수행한다.
+- **정식 패치** 는 공급자 수정본을 적용하여 취약점의 원인을 제거한다.
+- **구성 우회책** 은 취약 기능을 비활성화하거나 접근을 제한한다.
 
 </details>
 
@@ -147,8 +147,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-40 Rev. 4** 는 위험 기반 전사 패치 관리와 예방적 유지보수 계획을 제시한다.
-- **WAF 가상 패치** 는 웹 공격 요청을 임시 차단하지만 만료일과 정식 패치 뒤 회수를 추적해야 한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-40 Rev. 4** 는 위험 기반 패치 관리와 예방적 유지보수를 제시한다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF) 가상 패치** 는 웹 공격 요청을 임시 차단하는 통제다.
 
 </details>
 
@@ -168,7 +169,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **임시 통제 회수** 는 정식 수정의 배포•검증 뒤 가상 패치 규칙을 안전하게 제거하는 절차다.
-- **정식 패치•가상 패치 선택** 은 즉시 배포 가능성과 변경 위험을 비교해 원인 제거 또는 임시 경로 차단 뒤 단계 배포를 정하는 판단이다.
 
 </details>
 
