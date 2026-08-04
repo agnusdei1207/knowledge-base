@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "카오스 엔지니어링 (Chaos Engineering)"
-date: "2026-08-04T14:55:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 215
 extra:
@@ -110,6 +110,7 @@ block-beta
 sequenceDiagram
     participant 운영자
     participant 관측체계
+    participant 판정기
     participant 주입기
     participant 시스템
     운영자->>관측체계: 1. 정상 상태 측정
@@ -117,7 +118,7 @@ sequenceDiagram
     운영자->>주입기: 3. 안전 범위 검토
     주입기->>시스템: 4. 장애 주입
     시스템->>관측체계: 사용자 지표
-    관측체계->>관측체계: 5. 정상 상태 비교
+    관측체계->>판정기: 5. 정상 상태 비교
     alt 중단 조건 초과
         Note over 운영자,시스템: 실험 중단•복구
     else 허용 범위 유지

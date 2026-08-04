@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로프론트엔드 아키텍처 (Micro Frontend)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 217
 extra:
@@ -107,12 +107,13 @@ block-beta
 sequenceDiagram
     participant 사용자
     participant 셸
+    participant 계약어댑터
     participant 마이크로앱
     participant 오류경계
     사용자->>셸: 화면 요청
     셸->>마이크로앱: 1. 앱 실행 파일 요청
     마이크로앱-->>셸: 실행 파일
-    셸->>셸: 2. 앱•계약 연결
+    셸->>계약어댑터: 2. 앱•계약 연결
     alt 앱 실행 실패
         셸->>오류경계: 3. 부분 오류 격리
         오류경계-->>사용자: 대체 화면

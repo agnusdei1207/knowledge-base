@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "플랫폼 엔지니어링 셀프서비스 (Platform Engineering Self-Service)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 216
 extra:
@@ -109,10 +109,11 @@ sequenceDiagram
     participant 개발자
     participant P as 개발자 포털•카탈로그
     participant C as 제어 평면•정책 가드레일
+    participant G as 정책 검증기
     participant 자원
     개발자->>P: 셀프서비스 요청
     P->>C: 1. 표준 사양 전달
-    C->>C: 2. 정책 자동 검증
+    C->>G: 2. 정책 자동 검증
     C->>자원: 3. 자원 자동 생성
     자원-->>C: 생성 결과
     C->>P: 4. 상태 카탈로그 등록

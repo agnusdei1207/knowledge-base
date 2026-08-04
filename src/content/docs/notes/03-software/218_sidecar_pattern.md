@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이드카 패턴 (Sidecar Pattern)"
-date: "2026-08-04T14:58:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 218
 extra:
@@ -105,10 +105,11 @@ block-beta
 sequenceDiagram
     participant C as 호출자
     participant S as 사이드카
+    participant P as 통신 정책
     participant M as 메인 앱
     participant O as 관측기
     C->>S: 서비스 요청
-    S->>S: 1. 통신 정책 적용
+    S->>P: 1. 통신 정책 적용
     S->>M: 2. 루프백 전달
     M-->>S: 업무 응답
     S->>O: 3. 텔레메트리 전송

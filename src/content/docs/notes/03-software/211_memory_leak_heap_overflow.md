@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
-date: "2026-08-04T14:51:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 211
 extra:
@@ -110,10 +110,11 @@ sequenceDiagram
     participant M as 메모리 계측기
     participant C as 덤프•프로필 수집기
     participant A as 참조•점유 분석기
+    participant R as 참조 그래프
     participant O as 운영 제어기
     M->>C: 1. 반복 부하•GC 후 덤프
     C->>A: 2. 객체•참조 차이 전달
-    A->>A: 3. 증가 객체•보유 경로 판정
+    A->>R: 3. 증가 객체•보유 경로 판정
     A->>O: 4. 누수•정상 고점유•고갈 분류
     O->>M: 5. 검증 부하 계측
 ```

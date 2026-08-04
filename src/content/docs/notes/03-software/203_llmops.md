@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-04T14:43:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -107,10 +107,11 @@ block-beta
 sequenceDiagram
     participant V as 버전 관리자
     participant E as 평가기
+    participant P as 평가 정책
     participant G as LLM 게이트웨이
     participant O as 관측기
     V->>E: 1. 평가 구성 제출
-    E->>E: 2. 품질•안전•비용 검증
+    E->>P: 2. 품질•안전•비용 검증
     E->>G: 3. 승인 구성 배포
     G->>O: 4. 응답•비용 관측
     O->>V: 5. 개선 조건 환류

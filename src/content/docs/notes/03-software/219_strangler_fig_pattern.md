@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "스트랭글러 패턴 (Strangler Fig Pattern)"
-date: "2026-08-04T14:59:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 219
 extra:
@@ -103,11 +103,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 전환 제어•라우터
+    participant S as 전환 상태 저장소
     participant L as 레거시
     participant N as 신규 시스템
     participant V as 검증 체계
     O->>N: 1. 신규 기능 배치
-    O->>O: 2. 병행 라우팅 설정
+    O->>S: 2. 병행 라우팅 설정
     par 병행 실행
         O->>L: 레거시 요청
         O->>N: 신규 요청
@@ -115,7 +116,7 @@ sequenceDiagram
     L-->>V: 레거시 결과
     N-->>V: 신규 결과
     V->>O: 3. 결과 정합성 판정
-    O->>O: 4. 신규 소유권 전환
+    O->>S: 4. 신규 소유권 전환
     O->>L: 5. 레거시 기능 폐기
 ```
 

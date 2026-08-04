@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "피처 토글•실험 플랫폼 (Feature Toggle Experimentation)"
-date: "2026-08-04T15:00:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 220
 extra:
@@ -104,12 +104,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant P as 제품팀
-    participant R as 제어부•평가 런타임
+    participant C as 제어부
+    participant R as 평가 런타임
     participant A as 애플리케이션
     participant X as 실험 분석
-    P->>R: 1. 가설•지표 정의
-    P->>R: 2. 플래그 정책 등록
-    R->>R: 3. 정책 버전 활성화
+    P->>C: 1. 가설•지표 정의
+    P->>C: 2. 플래그 정책 등록
+    C->>R: 3. 정책 버전 활성화
     A->>R: 기능 평가 요청
     R-->>A: 변종 결정
     A->>X: 4. 노출•성과 기록

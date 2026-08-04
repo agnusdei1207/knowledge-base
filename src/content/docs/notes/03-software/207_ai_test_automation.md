@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI 기반 테스트 자동화 (AI Test Automation)"
-date: "2026-08-04T14:47:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 207
 extra:
@@ -105,9 +105,10 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant G as 테스트 생성•회귀 선택기
+    participant A as 변경 분석기
     participant O as 오라클•탐지력 평가
     participant E as 격리 실행기
-    G->>G: 1. 후보•변경 정보 분석
+    G->>A: 1. 후보•변경 정보 분석
     G->>O: 2. 실행 대상 제출
     O->>E: 3. 승인 테스트 전달
     E->>O: 4. 실행 결과 전달
@@ -116,7 +117,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **후보•변경 정보 전달**: 요구•코드로 생성한 후보와 변경 범위 결속
+1. **후보•변경 정보 분석**: 요구•코드로 생성한 후보와 변경 범위 결속
 2. **실행 대상 제출**: 의존성•과거 실패로 회귀 대상 선택
 3. **승인 테스트 전달**: 오라클•보안•중복 검증 통과
 4. **실행 결과 전달**: 성공•실패•비결정 결과 기록

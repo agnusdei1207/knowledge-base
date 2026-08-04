@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기술부채 측정•관리 (Technical Debt Measurement)"
-date: "2026-08-04T14:53:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 213
 extra:
@@ -109,10 +109,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 부채 분석
+    participant R as 부채 등록부
+    participant V as 위험 평가기
     participant P as 상환 계획
     participant G as 품질 관문
-    A->>A: 1. 부채 항목•근거 등록
-    A->>A: 2. 원금•이자•위험 평가
+    A->>R: 1. 부채 항목•근거 등록
+    R->>V: 2. 원금•이자•위험 평가
     A->>P: 3. 상환 순위 전달
     P->>G: 4. 상환•차단 기준 전달
     G->>A: 5. 효과•재발 기록

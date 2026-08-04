@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "초개인화 서비스 (Hyper-Personalization Service)"
-date: "2026-08-04T14:50:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 210
 extra:
@@ -109,16 +109,16 @@ block-beta
 sequenceDiagram
     participant C as 고객 채널
     participant P as 동의•노출 정책
+    participant V as 동의 검증기
     participant F as 피처 스토어
     participant D as 의사결정 엔진
-    participant O as 행동•피드백 수집기
     C->>P: 맥락•동의 전달
-    P->>P: 1. 맥락•동의 검증
+    P->>V: 1. 맥락•동의 검증
+    V-->>P: 허용 범위
     P->>F: 2. 허용 피처 조회
     F->>D: 3. 이력•실시간 피처 전달
     D->>P: 4. 후보•점수 제출
     P-->>C: 제안 노출
-    C->>O: 반응•거부 이벤트
 
 
 ```

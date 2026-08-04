@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 모니터링•드리프트 감지 (Model Monitoring Drift Detection)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 206
 extra:
@@ -109,13 +109,14 @@ block-beta
 sequenceDiagram
     participant O as 운영 신호 수집기
     participant D as 드리프트 탐지기
+    participant B as 기준선 저장소
     participant L as 정답 결합기
     participant R as 대응 제어기
     O->>D: 1. 입력•예측 변화 전달
-    D->>D: 2. 기준선•통계 거리 비교
+    D->>B: 2. 기준선•통계 거리 비교
     L->>D: 3. 정답•예측 결합
     D->>R: 4. 변화 유형•경보 전달
-    R->>R: 5. 대응 결정
+    R->>O: 5. 대응 결정
 
 ```
 

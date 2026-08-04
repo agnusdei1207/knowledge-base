@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-08-04T14:42:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 202
 extra:
@@ -105,10 +105,11 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 파이프라인
+    participant V as 입력 검증기
     participant R as 모델 레지스트리
     participant S as 모델 서빙
     participant M as 품질 감시
-    O->>O: 1. 기준•입력 검증
+    O->>V: 1. 기준•입력 검증
     O->>R: 2. 학습•평가 등록
     R-->>O: 승인 결과
     O->>S: 3. 승인 모델 배포

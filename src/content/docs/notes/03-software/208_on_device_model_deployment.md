@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
-date: "2026-08-04T14:48:00+09:00"
+date: "2026-08-04T14:43:56+09:00"
 tags: ["notes-software"]
 weight: 208
 extra:
@@ -112,11 +112,12 @@ block-beta
 sequenceDiagram
     participant P as 모델 패키저
     participant T as 기기 시험기
+    participant V as 품질 검증기
     participant O as 배포 제어기
     participant D as 대상 기기
     P->>T: 1. 경량 모델 후보 전달
-    T->>T: 2. 호환성•품질•자원 검증
-    T->>O: 3. 승인 버전 등록
+    T->>V: 2. 호환성•품질•자원 검증
+    V->>O: 3. 승인 버전 등록
     O->>D: 4. 단계별 OTA 배포
     D->>O: 5. 지연•오류•전력 전달
 
