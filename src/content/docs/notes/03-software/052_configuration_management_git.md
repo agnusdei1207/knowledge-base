@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "형상 관리: Git•브랜치 전략 (Configuration Management Git)"
-date: "2026-08-04T11:11:00+09:00"
+date: "2026-08-04T17:32:00+09:00"
 tags:
   - "notes-software"
 weight: 52
@@ -109,10 +109,11 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant D as 개발자•로컬 저장소
+    participant I as 인덱스•객체 데이터베이스
     participant R as 원격 저장소
     participant C as 지속적 통합
     participant A as 검토자
-    D->>D: 1. 선택 변경 스냅샷
+    D->>I: 1. 선택 변경 스냅샷
     D->>R: 2. 커밋•브랜치 참조
     R->>C: 3. 후보 변경
     C-->>R: 4. 빌드•시험 결과

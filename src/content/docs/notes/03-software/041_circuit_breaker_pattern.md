@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "서킷 브레이커 패턴 (Circuit Breaker Pattern)"
-date: "2026-08-04T10:54:00+09:00"
+date: "2026-08-04T17:24:00+09:00"
 tags:
   - "notes-software"
 weight: 41
@@ -105,15 +105,19 @@ block-beta
 sequenceDiagram
     participant C as 호출자
     participant B as 서킷 브레이커
+    participant S as 상태 기계
     participant D as 의존 서비스
+    participant F as 대체 응답 처리기
     C->>B: 원격 호출 요청
-    B->>B: 1. 상태 조회•호출 허용 판정
+    B->>S: 1. 상태 조회•호출 허용 판정
+    S-->>B: 호출 허용 상태
     alt Closed 또는 허용된 Half-Open
         B->>D: 2. 제한 시간 호출 요청
         D-->>B: 호출 결과
-        B->>B: 3. 호출 결과 표본•상태 전환
+        B->>S: 3. 호출 결과 표본•상태 전환
     else Open 또는 제한 초과 Half-Open
-        B->>B: 대체 응답 선택
+        B->>F: 대체 응답 선택
+        F-->>B: 대체 결과
     end
     B-->>C: 처리 결과
 ```

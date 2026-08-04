@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지속적 배포 (Continuous Deployment)"
-date: "2026-08-04T11:15:00+09:00"
+date: "2026-08-04T17:36:00+09:00"
 tags:
   - "notes-software"
 weight: 54
@@ -111,14 +111,16 @@ sequenceDiagram
     participant O as 관측 시스템
     P->>D: 검증 버전 전달
     D->>T: 1. 제한 노출
-    T->>O: 2. 버전별 지표
-    O-->>D: 3. 가드레일 판정
-    alt 기준 통과
-        D->>T: 4. 노출 비율 확대
-        D-->>P: 배포 확정
-    else 기준 위반
-        D->>T: 이전 기준선 복귀
-        D-->>P: 배포 중단
+    loop 점진 노출 단계
+        T->>O: 2. 버전별 지표
+        O-->>D: 3. 가드레일 판정
+        alt 기준 통과
+            D->>T: 4. 노출 비율 확대
+            D-->>P: 배포 확정
+        else 기준 위반
+            D->>T: 이전 기준선 복귀
+            D-->>P: 배포 중단
+        end
     end
 ```
 

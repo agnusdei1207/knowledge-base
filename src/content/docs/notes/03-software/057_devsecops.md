@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-04T11:20:00+09:00"
+date: "2026-08-04T17:40:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -105,17 +105,18 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant D as 개발자
-    participant P as 보안 파이프라인•게이트
+    participant P as 보안 파이프라인
+    participant G as 보안 게이트
     participant E as 운영 환경
     participant S as 보안 담당자
     D->>P: 코드•의존성 변경
-    P->>P: 1. 자동 검사•정책 판정
+    P->>G: 1. 자동 검사•정책 판정
     alt 정책 충족
-        P->>E: 2. 승인 산출물 배포
+        G->>E: 2. 승인 산출물 배포
         E-->>S: 3. 운영 보안 지표
         S-->>D: 운영 위험 피드백
     else 정책 위반
-        P->>S: 예외 검토 요청
+        G->>S: 예외 검토 요청
         S-->>D: 차단•예외 결정
     end
 ```

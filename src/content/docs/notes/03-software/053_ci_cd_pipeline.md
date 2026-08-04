@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-04T11:13:00+09:00"
+date: "2026-08-04T17:34:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -110,12 +110,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant S as 소스 저장소
-    participant R as 실행기•품질 게이트
+    participant R as 파이프라인 실행기
+    participant Q as 품질 게이트
     participant A as 아티팩트 저장소
     participant D as 배포 제어기
     S->>R: 1. 변경 통지
-    R->>R: 2. 빌드•검증 수행
-    R->>R: 3. 품질 판정
+    R->>Q: 2. 빌드•검증 수행
+    Q-->>R: 3. 품질 판정
     alt 통과
         R->>A: 4. 불변 아티팩트
         A->>D: 5. 승인 버전

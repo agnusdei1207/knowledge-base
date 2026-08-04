@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "바운디드 컨텍스트 (Bounded Context)"
-date: "2026-08-04T11:08:00+09:00"
+date: "2026-08-04T17:28:00+09:00"
 tags:
   - "notes-software"
 weight: 50
@@ -105,11 +105,13 @@ sequenceDiagram
     participant A as 업무 호출자
     participant U as 업스트림 컨텍스트
     participant L as 오염 방지 계층
+    participant M as 번역 계약
     participant D as 다운스트림 컨텍스트
     A->>U: 업무 변경 요청
     U-->>A: 업스트림 처리 결과
     U->>L: 1. 공개 계약 이벤트
-    L->>L: 2. 계약 해석•번역
+    L->>M: 2. 계약 해석•번역
+    M-->>L: 번역 결과
     L->>D: 3. 번역된 상태 변경
     D-->>L: 4. 불변 조건 검증 결과
     L-->>U: 계약 반영 결과

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모놀리식 vs 마이크로서비스 비교 (Monolith vs Microservice)"
-date: "2026-08-04T11:09:00+09:00"
+date: "2026-08-04T17:30:00+09:00"
 tags:
   - "notes-software"
 weight: 51
@@ -107,13 +107,15 @@ sequenceDiagram
     participant R as 요청 라우터
     participant M as 모놀리식
     participant S as 신규 서비스
+    participant D as 전용 데이터 저장소
     C->>R: 업무 요청
     alt 기존 기능 경로
         R->>M: 1. 기존 기능 요청
         M-->>R: 기존 처리 결과
     else 추출된 기능 경로
         R->>S: 2. 추출 기능 요청
-        S->>S: 3. 전용 데이터 처리
+        S->>D: 3. 전용 데이터 처리
+        D-->>S: 처리 결과
         S-->>R: 신규 서비스 결과
     end
     R-->>C: 업무 처리 결과

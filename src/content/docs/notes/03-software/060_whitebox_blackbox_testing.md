@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "화이트박스•블랙박스 테스트 (White-box Black-box Testing)"
-date: "2026-08-04T11:24:00+09:00"
+date: "2026-08-04T17:42:00+09:00"
 tags:
   - "notes-software"
 weight: 60
@@ -108,12 +108,14 @@ sequenceDiagram
     participant R as 요구사항
     participant C as 소스 코드
     participant S as 테스트 대상
+    participant O as 오라클•커버리지 도구
     T->>R: 1. 블랙박스 케이스 도출
     T->>C: 2. 화이트박스 경로 도출
     C-->>T: 구조 경로 반환
     T->>S: 3. 테스트 케이스 실행
     S-->>T: 4. 결과•실행 이력
-    T->>T: 오라클•커버리지 판정
+    T->>O: 오라클•커버리지 판정
+    O-->>T: 판정 결과
 ```
 
 **동작 원리**

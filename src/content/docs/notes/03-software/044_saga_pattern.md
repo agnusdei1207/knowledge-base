@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "Saga 패턴: 분산 트랜잭션 (Saga Pattern)"
-date: "2026-08-04T10:58:00+09:00"
+date: "2026-08-04T17:26:00+09:00"
 tags:
   - "notes-software"
 weight: 44
@@ -104,6 +104,7 @@ block-beta
 sequenceDiagram
     participant C as 호출자
     participant F as 흐름 제어기
+    participant T as Saga 상태 저장소
     participant I as 재고 서비스
     participant P as 결제 서비스
     C->>F: Saga 업무 요청
@@ -113,7 +114,7 @@ sequenceDiagram
     P-->>F: 4. 결제 실패 결과
     F->>I: 5. 재고 복원 명령
     I-->>F: 보상 결과
-    F->>F: Saga 복구 상태 기록
+    F->>T: Saga 복구 상태 기록
     F-->>C: 업무 실패 결과
 ```
 
