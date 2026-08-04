@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-04T16:50:00+09:00"
+date: "2026-08-04T14:26:02+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -107,9 +107,11 @@ sequenceDiagram
     participant O-CU•O-DU
     비실시간RIC->>준실시간RIC: 1. A1 정책
     준실시간RIC->>O-CU•O-DU: 2. E2 구독 요청
-    O-CU•O-DU->>준실시간RIC: 3. E2 무선 상태
-    준실시간RIC->>O-CU•O-DU: 4. E2 제어 명령
-    O-CU•O-DU->>준실시간RIC: 5. 제어 결과
+    loop 준실시간 제어 주기
+        O-CU•O-DU->>준실시간RIC: 3. E2 무선 상태
+        준실시간RIC->>O-CU•O-DU: 4. E2 제어 명령
+        O-CU•O-DU->>준실시간RIC: 5. 제어 결과
+    end
 ```
 
 **동작 원리**

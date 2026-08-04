@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-08-04T17:00:00+09:00"
+date: "2026-08-04T14:26:02+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -117,7 +117,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **서명 기본 서비스 집합 외부 통신 프레임**: **IEEE 1609.2** 서명 후 **CCH•SCH**를 선택해 전송
+1. **서명 OCB 프레임**: **IEEE 1609.2** 서명 후 **CCH•SCH**를 선택해 전송
 2. **수신 OCB 프레임**: 인증서•**최신성** 검증을 통과한 메시지만 수용
 
 #### 한줄 요약

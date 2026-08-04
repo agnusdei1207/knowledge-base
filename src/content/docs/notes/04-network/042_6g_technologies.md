@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "6G 핵심 기술 (6G Vision & Technologies)"
-date: "2026-08-04T16:44:00+09:00"
+date: "2026-08-04T14:26:02+09:00"
 tags:
   - "notes-network"
 weight: 42
@@ -112,10 +112,12 @@ sequenceDiagram
     participant 디지털트윈
     participant AI정책
     participant 통합자원
-    관측체계->>디지털트윈: 1. 채널•센싱 상태
-    디지털트윈->>AI정책: 2. 예측 상태
-    AI정책->>통합자원: 3. 통합 자원 정책
-    통합자원-->>디지털트윈: 4. 실행 성과
+    loop 폐루프 제어 주기
+        관측체계->>디지털트윈: 1. 채널•센싱 상태
+        디지털트윈->>AI정책: 2. 예측 상태
+        AI정책->>통합자원: 3. 통합 자원 정책
+        통합자원-->>디지털트윈: 4. 실행 성과
+    end
 ```
 
 **동작 원리**

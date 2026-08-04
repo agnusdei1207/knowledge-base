@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "애드혹 네트워크와 AODV (Ad-hoc AODV)"
-date: "2026-08-04T17:04:00+09:00"
+date: "2026-08-04T14:26:02+09:00"
 tags:
   - "notes-network"
 weight: 53
@@ -108,8 +108,12 @@ sequenceDiagram
     송신노드->>중계노드: 1. RREQ 확산
     목적지노드->>중계노드: 2. RREP 회신
     송신노드->>목적지노드: 3. 데이터 패킷
-    중계노드->>송신노드: 4. RERR 통보
-    송신노드->>중계노드: 5. RREQ 재탐색
+    opt 경로 단절
+        중계노드->>송신노드: 4. RERR 통보
+        loop 유효 경로를 찾을 때까지
+            송신노드->>중계노드: 5. RREQ 재탐색
+        end
+    end
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능형 반사 표면 (RIS, Reconfigurable Intelligent Surface)"
-date: "2026-08-04T16:46:00+09:00"
+date: "2026-08-04T14:26:02+09:00"
 tags:
   - "notes-network"
 weight: 43
@@ -102,11 +102,13 @@ sequenceDiagram
     participant RIS제어기
     participant 단위셀
     participant 단말
-    기지국->>채널추정기: 1. 기준 신호
-    채널추정기->>RIS제어기: 2. 연쇄 채널
-    RIS제어기->>단위셀: 3. 반사 계수
-    기지국->>단위셀: 4. 데이터 신호
-    단위셀->>단말: 5. 반사파
+    loop 채널 갱신 주기
+        기지국->>채널추정기: 1. 기준 신호
+        채널추정기->>RIS제어기: 2. 연쇄 채널
+        RIS제어기->>단위셀: 3. 반사 계수
+        기지국->>단위셀: 4. 데이터 신호
+        단위셀->>단말: 5. 반사파
+    end
 ```
 
 **동작 원리**
