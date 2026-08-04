@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "MITRE ATT&CK 프레임워크 (MITRE ATT&CK)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:49:00+09:00"
 tags:
   - "notes-security"
 weight: 29
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE ATT&CK** 은 실제 관찰된 공격 행동을 전술•기법•절차와 대응 정보로 분류한 공식 지식체계다.
+- **적대적 전술•기술•공통 지식(Adversarial Tactics, Techniques, and Common Knowledge, ATT&CK)** 은 실제 관찰된 공격 행동을 분류한 MITRE 지식체계다.
 - **커버리지** 는 선정한 공격 행동 중 실제 데이터•탐지•대응으로 검증한 범위다.
 
 </details>
@@ -40,9 +40,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전술** 은 공격 목적, **기법** 은 목적 달성 행동, **서브기법** 은 기법을 더 구체화한 수법이다.
+- **전술** 은 공격자가 달성하려는 목적이다.
+- **기법** 은 전술 목적을 달성하기 위해 수행하는 행동이다.
+- **서브기법** 은 기법을 더 구체화한 공격 수법이다.
 - **절차 사례** 는 특정 공격 그룹•도구•캠페인이 기법을 실제 사용한 관찰 사례다.
-- **Enterprise•Mobile•ICS** 는 기업 IT•클라우드, 모바일 기기•앱, 산업 제어 환경의 공격 행동을 나눈 ATT&CK 도메인이다.
+- **Enterprise 도메인** 은 기업 IT•클라우드 환경의 공격 행동을 분류한다.
+- **Mobile 도메인** 은 모바일 기기•앱 환경의 공격 행동을 분류한다.
+- **산업 제어 시스템(Industrial Control Systems, ICS) 도메인** 은 산업 제어 환경의 공격 행동을 분류한다.
 
 </details>
 
@@ -59,7 +63,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **완화** 는 공격 성공 가능성을 낮추는 예방 통제이고, **탐지 전략** 은 공격 행동을 어떤 데이터와 관점으로 찾을지 정한다.
+- **완화** 는 공격 성공 가능성을 낮추는 예방 통제다.
+- **탐지 전략** 은 공격 행동을 어떤 데이터와 관점으로 찾을지 정한다.
 - **분석 규칙** 은 로그 조건•상관관계•통계로 공격 행동을 판별하는 구현 논리다.
 
 </details>
@@ -126,8 +131,7 @@ flowchart LR
 <details>
 <summary>핵심 용어</summary>
 
-- **Enterprise•Mobile•ICS 도메인** 은 각각 기업 IT•클라우드, 모바일 기기•앱, 산업 공정•제어 설비의 공격 행동을 분류한다.
-- **OT** 는 물리 공정과 설비를 감시•제어하는 기술 환경이다.
+- **운영 기술(Operational Technology, OT)** 은 물리 공정과 설비를 감시•제어하는 기술 환경이다.
 
 </details>
 

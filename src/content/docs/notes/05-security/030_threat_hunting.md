@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "위협 헌팅 (Threat Hunting)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:51:00+09:00"
 tags:
   - "notes-security"
 weight: 30
@@ -40,9 +40,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI** 는 공격 주체•기반시설•의도•행동을 분석한 위협 정보이고, **TTP** 는 공격자가 반복 사용하는 행동 방식이다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)** 는 공격 주체•기반시설•의도•행동을 분석한 위협 정보다.
+- **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)** 는 공격자가 반복 사용하는 행동 방식이다.
 - **피벗** 은 한 지표에서 연관 계정•호스트•프로세스•통신으로 조사 범위를 이동하는 분석이다.
-- **탐지 공학•플레이북 환류** 는 검증된 공격 행동을 지속 탐지 규칙과 단계별 조사•대응 절차로 전환하는 활동이다.
+- **탐지 공학 환류** 는 검증된 공격 행동을 지속 탐지 규칙으로 전환하는 활동이다.
+- **플레이북 환류** 는 검증된 조사•대응 절차를 단계별 실행 지침으로 전환하는 활동이다.
 
 </details>
 
@@ -60,7 +62,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **텔레메트리** 는 단말•신원•네트워크•클라우드에서 지속 수집한 관측 데이터다.
-- **EDR•NDR** 은 각각 단말 행위와 네트워크 통신을 지속 분석해 위협을 탐지•조사•대응한다.
+- **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)** 은 단말 행위를 지속 분석하여 위협을 탐지•대응한다.
+- **네트워크 탐지•대응(Network Detection and Response, NDR)** 은 네트워크 통신을 지속 분석하여 위협을 탐지•대응한다.
 
 </details>
 
@@ -131,7 +134,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **지표(IoC) 기반** 은 알려진 흔적, **TTP 기반** 은 반복 행동, **이상 기반** 은 정상 기준선 이탈을 탐색한다.
+- **침해 지표(Indicator of Compromise, IoC) 기반** 은 알려진 침해 흔적을 탐색한다.
+- **TTP 기반** 은 공격자가 반복 사용하는 행동을 탐색한다.
+- **이상 기반** 은 정상 기준선에서 벗어난 행동을 탐색한다.
 - **기준선** 은 정상 업무의 일반적인 행위•빈도•관계를 나타내는 비교 기준이다.
 
 </details>
@@ -151,7 +156,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE ATT&CK** 은 실제 공격 행동을 TTP로 분류하고, **NIST SP 800-61 Rev. 3** 은 발견•격리•개선의 연계를 안내한다.
+- **MITRE ATT&CK** 은 실제 공격 행동을 TTP로 분류한 지식 기반이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-61 Rev. 3** 은 발견•격리•개선의 연계를 안내한다.
 - **허니토큰** 은 정상 업무에서 쓰지 않아 사용 자체가 침해를 강하게 뜻하는 미끼 자격•데이터다.
 
 </details>
@@ -173,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **헌팅 성과** 는 발견 건수보다 새로 확인한 공격 경로를 지속 탐지 규칙과 대응 절차로 전환했는지로 평가한다.
-- **지표•TTP•이상 기반 선택** 은 알려진 흔적, 변형된 반복 행동, 미지•내부자 행동 중 찾을 대상에 맞춰 헌팅 방식을 정하는 판단이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR)"
-date: "2026-08-03T14:18:00+09:00"
+date: "2026-08-04T11:05:00+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM•SOAR 연계** 는 SIEM이 로그 상관분석으로 만든 경보•조사 근거를 SOAR에 넘기고, SOAR가 보안 도구를 연계해 조사•승인•조치를 수행하는 관제 구조다.
+- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)** 는 로그를 상관분석하여 경보와 조사 근거를 생성한다.
+- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation and Response, SOAR)** 은 보안 도구를 연계하여 조사•승인•조치를 수행한다.
 
 </details>
 
@@ -56,7 +57,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인계 계약** 은 사건 ID•증거•위험도•대상 필드를 SIEM과 SOAR가 일관되게 주고받도록 정의한다.
-- **EDR•IdP** 는 각각 단말 격리와 계정 잠금•세션 회수를 집행한다.
+- **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)** 은 침해 단말의 격리를 집행한다.
+- **신원 제공자(Identity Provider, IdP)** 는 계정 잠금과 세션 회수를 집행한다.
 
 </details>
 
@@ -94,7 +96,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **실행 증적** 은 요청 성공 응답뿐 아니라 실제 격리•차단•복구 상태까지 기록한 결과다.
-- **최소 권한 API** 는 SOAR가 승인된 대상과 조치 범위에 한해서만 보안 시스템의 기능을 호출하게 하는 연동 통제다.
+- **최소 권한 응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 승인된 대상과 조치 범위만 호출하게 하는 통제다.
 
 </details>
 
@@ -130,7 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **탐지 근거** 는 SIEM의 책임이고, **대응 수행** 은 SOAR의 책임이며 두 시스템은 사건 ID로 연결한다.
+- **탐지 근거** 는 원본 로그와 상관 조건으로 SIEM의 경보 판정을 재현하는 증적이다.
+- **대응 수행** 은 승인된 플레이북에 따라 SOAR가 외부 보안 도구의 조치를 실행하는 책임이다.
 
 </details>
 
@@ -151,8 +154,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-92** 은 전사 로그 수집•보존•분석 절차를 제시한다.
-- **OASIS CACAO 2.0** 은 자동 대응 플레이북의 구조•워크플로•명령을 정의한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-92** 은 전사 로그 수집•보존•분석 절차를 제시한다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 개방형 정보 표준을 개발하는 조직이다.
+- **자동화된 행동 과정 협업(Collaborative Automated Course of Action Operations, CACAO) 2.0** 은 자동 대응 플레이북의 구조•워크플로•명령을 정의한다.
 - **EDR 격리** 는 단말 탐지•대응 시스템이 침해 단말의 네트워크 통신을 제한하는 조치다.
 
 </details>
@@ -173,7 +178,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **운영 추적성** 은 탐지 근거와 승인•조치•복구 결과가 하나의 사건 기록에 남을 때 확보된다.
-- **SIEM•SOAR 역할 분리** 는 탐지•증거 생성은 SIEM이, 조사•조치 실행은 SOAR가 맡고 사건 ID로 결과를 환류하는 구조다.
 
 </details>
 

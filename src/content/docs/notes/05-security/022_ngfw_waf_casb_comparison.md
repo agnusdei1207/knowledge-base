@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-03T14:10:00+09:00"
+date: "2026-08-04T10:35:00+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NGFW** 는 네트워크 흐름, **WAF** 는 웹•API 요청, **CASB** 는 클라우드 이용과 데이터 문맥을 중심으로 통제한다.
+- **차세대 방화벽(Next-Generation Firewall, NGFW)** 은 네트워크와 응용 흐름을 식별•통제한다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** 은 웹•API 요청의 공격 문맥을 식별•통제한다.
+- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)** 는 클라우드 이용과 데이터 문맥을 식별•통제한다.
 
 </details>
 
@@ -40,7 +42,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **App-ID** 는 포트와 무관하게 응용프로그램을 식별하는 기능이다.
-- **SaaS** 는 응용 소프트웨어를 인터넷으로 제공하고 구독하여 사용하는 서비스 모델이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)** 는 응용 소프트웨어를 인터넷으로 제공하는 서비스 모델이다.
 
 </details>
 
@@ -57,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DLP** 는 민감 데이터의 저장•이동•사용을 식별하여 유출을 탐지•통제하는 기술이다.
-- **IdP** 는 사용자를 인증하고 서비스에 신원•권한 정보를 제공하는 시스템이다.
+- **데이터 유출 방지(Data Loss Prevention, DLP)** 는 민감 데이터의 저장•이동•사용을 식별하여 유출을 통제한다.
+- **신원 제공자(Identity Provider, IdP)** 는 사용자를 인증하고 서비스에 신원•권한 정보를 제공한다.
 
 </details>
 
@@ -134,8 +136,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP** 는 웹 요청•응답을 전달하고, **API** 는 서비스 간 기능 호출과 데이터 형식을 정의한다.
-- **TLS** 는 통신을 보호하지만 보안 제품의 검사 가시성을 제한할 수 있다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)** 은 웹 요청•응답을 전달한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 서비스 간 기능 호출과 데이터 형식을 정의한다.
+- **전송 계층 보안(Transport Layer Security, TLS)** 은 통신의 기밀성과 무결성을 보호한다.
 
 </details>
 
@@ -157,8 +160,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **섀도 IT(Shadow IT)** 는 조직 승인 없이 사용하는 정보기술•클라우드 서비스다.
-- **NIST SP 800-41 Rev. 1** 은 방화벽 종류와 정책•배치 권고를 제시한다.
-- **IdP** 는 사용자 인증 결과와 신원•권한 정보를 여러 보안 통제 지점에 공통으로 제공하는 시스템이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-41 Rev. 1** 은 방화벽 종류와 정책•배치를 권고한다.
 
 </details>
 
@@ -174,14 +177,6 @@ sequenceDiagram
 - 승인되지 않은 SaaS와 우회 경로를 지속적으로 탐지하여 계정•데이터 보호정책을 동일하게 적용해야 한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **상호 보완 배치** 는 NGFW•WAF•CASB를 공통 신원•정책•로그로 연결해 각 계층의 사각지대를 줄이는 방식이다.
-- **NGFW•WAF•CASB 선택** 은 각각 네트워크•앱 흐름, 웹•API 요청, SaaS•데이터 이용 문맥에 맞춰 통제 지점을 배치하는 판단이다.
-
-</details>
 
 - 네트워크•앱은 **NGFW**, 웹•API는 **WAF**, SaaS•데이터는 **CASB** 배치
 

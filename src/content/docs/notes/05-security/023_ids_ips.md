@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "IDS•IPS 탐지 vs 차단 (IDS IPS)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:37:00+09:00"
 tags:
   - "notes-security"
 weight: 23
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IDS** 는 침입 징후를 탐지해 경보하고, **IPS** 는 트래픽 경로에서 악성 패킷이나 세션을 즉시 차단한다.
+- **침입 탐지 시스템(Intrusion Detection System, IDS)** 은 침입 징후를 탐지하여 경보한다.
+- **침입 방지 시스템(Intrusion Prevention System, IPS)** 은 트래픽 경로에서 악성 패킷이나 세션을 차단한다.
 
 </details>
 
@@ -40,8 +41,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인라인(Inline)** 은 보안 장비를 실제 트래픽 전달 경로에 배치하여 직접 허용•차단하는 방식이다.
-- **TAP•SPAN** 은 네트워크 트래픽의 사본을 IDS 센서에 전달하는 수단이다.
-- **시그니처•이상 탐지** 는 각각 알려진 공격 패턴과 정상 기준선에서 벗어난 행위를 식별하는 방식이다.
+- **테스트 액세스 포인트(Test Access Point, TAP)** 는 물리 링크의 트래픽 사본을 IDS 센서에 전달한다.
+- **스위치 포트 분석기(Switched Port Analyzer, SPAN)** 는 스위치 포트의 트래픽 사본을 IDS 센서에 전달한다.
+- **시그니처 탐지** 는 알려진 공격 패턴과 일치하는 행위를 식별한다.
+- **이상 탐지** 는 정상 기준선에서 벗어난 행위를 식별한다.
 
 </details>
 
@@ -59,7 +62,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **정규화(Normalization)** 는 서로 다른 패킷 표현을 일관된 해석 형태로 변환하는 처리다.
-- **시그니처 탐지** 는 알려진 공격 패턴을, **이상 탐지** 는 정상 기준선에서 벗어난 행위를 식별한다.
 
 </details>
 
@@ -131,7 +133,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오탐(False Positive)** 은 정상 행위를 공격으로, **미탐(False Negative)** 은 실제 공격을 정상으로 잘못 판단한 결과다.
+- **오탐(False Positive)** 은 정상 행위를 공격으로 잘못 판단한 결과다.
+- **미탐(False Negative)** 은 실제 공격을 정상으로 잘못 판단한 결과다.
 
 </details>
 
@@ -153,8 +156,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-94** 는 IDPS 유형•탐지 방식과 설계•운영•유지관리 권고를 제시한다.
-- **IDPS** 는 침입 징후를 탐지하고 정책에 따라 경보하거나 차단하는 침입 탐지•방지 시스템이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-94** 는 IDPS 유형•탐지 방식과 설계•운영을 권고한다.
+- **침입 탐지•방지 시스템(Intrusion Detection and Prevention System, IDPS)** 은 침입 징후를 탐지하여 경보하거나 차단한다.
 - **단계적 차단 전환** 은 신규 규칙을 IDS 모드에서 검증한 뒤 고신뢰 규칙만 IPS에 적용하는 방식이다.
 
 </details>
@@ -175,7 +179,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **차단 권한** 은 탐지 정확도와 신속한 우회•복구 절차가 확보된 경우에만 부여해야 한다.
-- **IDS•IPS 선택** 은 가시성과 규칙 검증이 목적이면 IDS를, 고신뢰 공격을 즉시 통제해야 하면 IPS를 적용하는 판단이다.
 
 </details>
 

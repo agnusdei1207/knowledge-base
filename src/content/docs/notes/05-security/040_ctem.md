@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-08-03T14:24:00+09:00"
+date: "2026-08-04T11:11:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **공격 표면** 은 공격자가 접근하거나 악용할 수 있는 자산•서비스•설정•권한의 전체 범위다.
-- **SaaS** 는 공급자가 운영하는 응용 기능을 인터넷으로 빌려 쓰는 서비스 형태다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)** 는 공급자가 운영하는 응용 기능을 인터넷으로 제공하는 서비스 형태다.
 
 </details>
 
@@ -58,7 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BAS(Breach and Attack Simulation)** 는 공격 기법을 안전하게 자동 재현하여 보안 통제와 공격 경로의 유효성을 검증한다.
+- **침해•공격 시뮬레이션(Breach and Attack Simulation, BAS)** 은 공격 기법을 안전하게 재현하여 통제와 공격 경로를 검증한다.
 - **동원(Mobilization)** 은 검증된 노출에 담당자•기한•조치 권한을 지정해 실제 개선을 실행하는 단계다.
 
 </details>
@@ -95,7 +95,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **KEV Catalog** 는 실제 악용이 확인된 취약점 목록이고, **EPSS** 는 단기간 악용 가능성을 확률로 예측한다.
+- **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV) Catalog** 는 실제 악용이 확인된 취약점 목록이다.
+- **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS)** 은 단기간 악용 가능성을 확률로 예측한다.
 - **재검증** 은 패치•차단 뒤 같은 공격 경로가 더 이상 성립하지 않는지 다시 시험하는 절차다.
 
 </details>
@@ -134,7 +135,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **공격 표면 관리** 는 외부 노출 자산 발견, **취약점 관리** 는 결함 조치, **CTEM** 은 검증된 공격 경로의 반복 감축에 중점을 둔다.
+- **공격 표면 관리** 는 인터넷에 노출된 자산과 서비스를 지속 발견하는 활동이다.
+- **취약점 관리** 는 소프트웨어 결함의 식별•우선화•조치 상태를 관리하는 활동이다.
 
 </details>
 
@@ -153,8 +155,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CVSS v4.0** 은 기술적 심각도와 환경•위협 지표를 평가하고, **EPSS** 는 실제 악용 가능성을 보완한다.
-- **CISA•FIRST** 는 각각 실제 악용 취약점 목록을 운영하고 CVSS•EPSS 같은 취약점 위험 평가 체계를 제공하는 기관이다.
+- **공통 취약점 점수 시스템(Common Vulnerability Scoring System, CVSS) v4.0** 은 기술적 심각도와 환경•위협 지표를 평가한다.
+- **사이버보안•인프라 보안국(Cybersecurity and Infrastructure Security Agency, CISA)** 은 KEV Catalog를 운영하는 미국 기관이다.
+- **사고 대응•보안 팀 포럼(Forum of Incident Response and Security Teams, FIRST)** 은 CVSS•EPSS 평가 체계를 제공하는 국제 협력체다.
 - **소유자 지정** 은 검증된 노출의 조치 책임•기한•재검증 기준을 명확히 하는 통제다.
 
 </details>
@@ -175,7 +178,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **노출 감축 성과** 는 발견 건수보다 실제 공격 경로를 차단하고 재검증까지 완료한 비율로 평가한다.
-- **공격 표면•취약점 관리•CTEM 선택** 은 외부 자산 발견, 결함 조치, 검증된 공격 경로의 반복 감축 중 관리 목적에 맞춘 판단이다.
 
 </details>
 

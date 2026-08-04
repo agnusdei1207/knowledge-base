@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "MISP 위협 공유 플랫폼 (MISP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:57:00+09:00"
 tags:
   - "notes-security"
 weight: 33
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **MISP 위협 공유 플랫폼** 은 사이버 위협 사건•지표•관측 정보를 수집•상관분석하고 배포 범위에 따라 조직 간 공유하는 플랫폼이다.
-- **CTI** 는 위협 데이터에 공격자•전술•신뢰도•영향 등의 맥락을 부여한 정보다.
+- **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)** 은 위협 사건•지표•관측을 상관분석하고 조직 간 공유하는 플랫폼이다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)** 는 위협 데이터에 공격자•전술•신뢰도•영향 맥락을 부여한 정보다.
 
 </details>
 
@@ -40,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **분류체계(Taxonomy)** 는 취급 등급•신뢰 수준을 태그로 부여하고, **갤럭시(Galaxy)** 는 위협 행위자•기법•산업군 문맥을 제공한다.
+- **분류체계(Taxonomy)** 는 취급 등급•신뢰 수준을 태그로 부여한다.
+- **갤럭시(Galaxy)** 는 위협 행위자•기법•산업군 문맥을 제공한다.
 - **관측(Sighting)** 은 공유 지표의 실제 탐지 여부와 오탐 결과를 기록한다.
 
 </details>
@@ -60,7 +61,7 @@ extra:
 
 - **이벤트** 는 사건 맥락과 관련 속성•객체를 하나의 분석 단위로 묶는다.
 - **공유그룹** 은 위협 정보를 조회•재배포할 수 있는 허용 조직을 지정한다.
-- **API** 는 MISP와 외부 보안 시스템이 위협 정보를 자동 조회•등록하게 하는 연동 규격이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 MISP와 외부 시스템의 자동 조회•등록 연동 규격이다.
 
 </details>
 
@@ -97,8 +98,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **경고목록(Warninglist)** 은 정상 서비스 주소처럼 위협 지표로 오인하기 쉬운 값을 관리해 오탐을 줄인다.
-- **API** 는 MISP와 외부 보안 시스템이 위협 정보를 자동 조회•등록하는 연동 규격이다.
-- **TLP** 는 위협 정보를 수신한 조직이 어디까지 재배포할 수 있는지를 색상 등급으로 표시하는 공유 규칙이다.
+- **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)** 은 위협 정보의 재배포 범위를 색상 등급으로 표시하는 공유 규칙이다.
 
 </details>
 
@@ -133,7 +133,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX** 는 위협 객체•관계를 표현하고, **TAXII** 는 STIX 기반 정보를 서버 간 자동 교환한다.
+- **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX)** 은 위협 객체•관계를 기계 판독 형식으로 표현한다.
+- **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)** 은 STIX 정보를 서버 간 자동 교환한다.
 
 </details>
 
@@ -154,8 +155,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FIRST TLP 2.0** 은 RED•AMBER•GREEN•CLEAR로 수신자의 공유 경계를 표시한다.
-- **OASIS STIX 2.1** 은 사이버 위협 객체와 관계를 기계 판독 형식으로 표현하는 공식 표준이다.
+- **사고 대응•보안 팀 포럼(Forum of Incident Response and Security Teams, FIRST)** 은 사고 대응 조직의 국제 협력체다.
+- **FIRST TLP 2.0** 은 RED•AMBER•GREEN•CLEAR로 공유 경계를 표시한다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 개방형 정보 표준을 개발하는 조직이다.
+- **OASIS STIX 2.1** 은 위협 객체와 관계의 기계 판독 형식을 규정한다.
 
 </details>
 
@@ -176,7 +179,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **운영 품질** 은 지표 수보다 사건 맥락•관측 결과•공유 권한을 정확히 연결하고 갱신하는 능력으로 결정된다.
-- **MISP•STIX•TAXII 역할** 은 사건•관측•권한 운영에는 MISP를, 기관 간 표준 표현과 자동 교환에는 STIX와 TAXII를 연계하는 구분이다.
 
 </details>
 

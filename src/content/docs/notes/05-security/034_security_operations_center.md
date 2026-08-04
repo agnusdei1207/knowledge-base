@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOC 보안 운영 센터 (Security Operations Center)"
-date: "2026-08-03T14:18:00+09:00"
+date: "2026-08-04T10:59:00+09:00"
 tags:
   - "notes-security"
 weight: 34
@@ -39,8 +39,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM** 은 로그를 정규화•상관분석해 경보를 만들고, **SOAR** 는 보안 도구를 연계해 조사•승인•조치를 자동화한다.
-- **EDR•NDR** 은 각각 단말 행위와 네트워크 통신을 지속 분석해 위협을 탐지•조사•대응한다.
+- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)** 는 로그를 정규화•상관분석하여 경보를 생성한다.
+- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation and Response, SOAR)** 은 보안 도구를 연계해 조사•조치를 자동화한다.
+- **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)** 은 단말 행위를 지속 분석하여 위협을 탐지•대응한다.
+- **네트워크 탐지•대응(Network Detection and Response, NDR)** 은 네트워크 통신을 지속 분석하여 위협을 탐지•대응한다.
 - **에스컬레이션** 은 분석가의 권한이나 역량을 넘는 사건을 상위 책임자나 전문 대응팀으로 이관하는 절차다.
 
 </details>
@@ -58,7 +60,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI** 는 탐지 규칙과 위협 헌팅에 공격자•전술•지표의 맥락을 제공한다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)** 는 탐지 규칙과 헌팅에 공격자•전술•지표의 맥락을 제공한다.
 - **탐지 공학** 은 위협 행동을 데이터•분석 규칙•시험으로 연결해 탐지 공백을 줄이는 활동이다.
 
 </details>
@@ -97,7 +99,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **서비스 범위** 는 SOC가 보호할 자산•업무와 제공할 탐지•대응 수준을 정의한다.
-- **RACI** 는 조치의 실행•책임•협의•통보 역할을 구분하는 책임 체계다.
+- **실행•책임•협의•통보(Responsible, Accountable, Consulted, Informed, RACI)** 는 조치 역할을 구분하는 책임 체계다.
 
 </details>
 
@@ -133,8 +135,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **내부•공동•위탁 SOC** 는 자산 문맥, 전문 역량, 상시 인력과 직접 조치 권한의 배분 방식이 다르다.
-- **EDR•NDR** 은 각각 단말 행위와 네트워크 통신을 탐지•조사•대응한다.
+- **내부 SOC** 는 조직이 인력과 도구를 직접 운영하여 자산 문맥과 조치 권한을 확보한다.
+- **공동 SOC** 는 내부 책임과 외부 전문 역량을 역할에 따라 분담한다.
+- **위탁 SOC** 는 외부 전문 조직에 상시 관제 업무를 맡기는 방식이다.
 
 </details>
 
@@ -155,7 +158,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-61 Rev. 3** 은 사고 탐지•대응•복구를 위험 관리 전반에 통합하는 지침이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-61 Rev. 3** 은 사고 탐지•대응•복구를 위험 관리에 통합한다.
 - **경보 과부하** 는 분석 가능한 양보다 많은 경보가 쌓여 중요한 사건의 확인이 지연되는 문제다.
 
 </details>
@@ -176,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **SOC 성과** 는 경보 처리량보다 중요한 침해를 격리•복구까지 끝내고 재발 방지에 반영했는지로 평가한다.
-- **내부•공동•위탁 SOC 선택** 은 자산 문맥과 직접 조치 권한, 외부 전문 역량, 상시 인력 확보 요구를 비교하는 판단이다.
 
 </details>
 

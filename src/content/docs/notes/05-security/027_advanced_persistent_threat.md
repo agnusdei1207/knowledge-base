@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APT 고급 지속 위협 (Advanced Persistent Threat)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:45:00+09:00"
 tags:
   - "notes-security"
 weight: 27
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **APT** 는 특정 목표를 대상으로 장기간 은밀하게 접근을 유지하며 정보 탈취나 시스템 영향을 시도하는 침해 활동이다.
+- **지능형 지속 위협(Advanced Persistent Threat, APT)** 은 특정 목표에 장기간 은밀한 접근을 유지하는 침해 활동이다.
 - **캠페인** 은 하나의 목적 아래 여러 침투•정찰•수집 활동을 장기간 묶어 수행하는 공격 작전이다.
 
 </details>
@@ -40,8 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지속성•권한 상승•측면 이동** 은 재접속 통로 확보, 관리자 권한 획득, 다른 내부 자원으로의 확산 행동이다.
-- **C2** 는 공격자가 침해 장비에 원격 명령을 전달하고 실행 결과를 받는 통신이다.
+- **지속성** 은 침해 환경에 다시 접속할 수 있는 통로를 확보하는 행동이다.
+- **권한 상승** 은 침해 계정의 권한을 관리자 수준으로 높이는 행동이다.
+- **측면 이동** 은 확보한 권한으로 다른 내부 자원에 확산하는 행동이다.
+- **명령제어(Command and Control, C2)** 는 공격자가 침해 장비에 원격 명령을 전달하고 실행 결과를 받는 통신이다.
 
 </details>
 
@@ -132,7 +134,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **APT•기회주의 범죄•내부자 위협** 은 각각 장기 표적 침투, 다수 대상 단기 공격, 합법 권한의 내부 오용을 뜻한다.
+- **기회주의 범죄** 는 다수 대상의 노출 취약점과 피싱을 이용하는 단기 공격이다.
+- **내부자 위협** 은 조직 내부자가 합법적으로 보유한 권한을 오용하는 위협이다.
 
 </details>
 
@@ -153,8 +156,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IoC** 는 관측된 침해 흔적이고, **TTP** 는 공격자가 목적 달성을 위해 반복적으로 사용하는 행동 방식이다.
-- **MITRE ATT&CK** 은 실제 공격 행동을 TTP로 분류하며, **NIST SP 800-61 Rev. 3** 은 사고 대응을 위험 관리에 통합한다.
+- **침해 지표(Indicator of Compromise, IoC)** 는 악성 파일•주소•계정 행위 등 관측된 침해 흔적이다.
+- **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)** 는 공격자가 목적 달성에 반복 사용하는 행동 방식이다.
+- **MITRE ATT&CK** 은 실제 공격 행동을 TTP로 분류한 지식 기반이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-61 Rev. 3** 은 사고 대응을 위험 관리에 통합한다.
 
 </details>
 

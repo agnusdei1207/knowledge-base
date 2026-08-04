@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STIX•TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-03T14:18:00+09:00"
+date: "2026-08-04T10:55:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STIX(Structured Threat Information Expression)** 는 위협 행위자•공격 패턴•지표 같은 CTI 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
-- **TAXII(Trusted Automated Exchange of Intelligence Information)** 는 STIX 객체를 조직과 보안 도구 사이에서 조회•게시•교환하는 전송 규약이다.
+- **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX)** 은 위협 객체와 관계를 기계 판독 가능한 형식으로 표현하는 표준이다.
+- **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)** 은 STIX 객체를 조회•게시•교환하는 전송 규약이다.
 
 </details>
 
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CTI** 는 위협 데이터에 공격자•의도•TTP•대상•신뢰도 맥락을 부여한 방어 정보다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)** 는 위협 데이터에 공격자•의도•행동•신뢰도 맥락을 부여한 정보다.
 - **TAXII 컬렉션** 은 권한과 주제에 따라 STIX 객체를 묶어 조회•게시하는 논리 저장소다.
 - **표식•철회** 는 정보의 취급 범위와 더 이상 사용하지 않아야 할 상태를 전달한다.
 
@@ -59,8 +59,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TAXII 컬렉션** 은 권한과 주제에 따라 STIX 객체를 묶어 조회•게시하는 논리 저장소다.
-- **API** 는 TAXII 컬렉션과 객체를 조회•게시하기 위한 호출 규약이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 TAXII 컬렉션과 객체를 조회•게시하기 위한 호출 규약이다.
 
 </details>
 
@@ -130,18 +129,10 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
-
-- **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX) 2.1**: 위협 의미•관계를 표현하는 자료 모델이다.
-- **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1**: STIX 객체를 조회•게시하는 전송 규약이다.
-
-</details>
-
 | 표준 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX) 2.1** | **위협 객체•관계 표현** | 도구가 해석할 공통 위협 정보 생성 |
-| **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII) 2.1** | **컬렉션 기반 조회•게시** | 권한에 맞는 STIX 객체 자동 전송 |
+| **STIX 2.1** | **위협 객체•관계 표현** | 도구가 해석할 공통 위협 정보 생성 |
+| **TAXII 2.1** | **컬렉션 기반 조회•게시** | 권한에 맞는 STIX 객체 자동 전송 |
 
 > 요약: STIX는 표현, TAXII는 전송 담당
 
@@ -154,8 +145,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OASIS STIX 2.1 Errata 01** 은 CTI 표현 규칙을, **OASIS TAXII 2.1** 은 컬렉션 교환 API를 규정한다.
-- **HTTPS•TLS 상호 인증** 은 TAXII 교환 정보의 기밀성•무결성과 접속 주체를 보호한다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 개방형 정보 표준을 개발하는 조직이다.
+- **OASIS STIX 2.1 Errata 01** 은 CTI 표현 규칙을 규정한다.
+- **OASIS TAXII 2.1** 은 컬렉션 교환 API를 규정한다.
+- **하이퍼텍스트 전송 프로토콜 보안(Hypertext Transfer Protocol Secure, HTTPS)** 은 TAXII 교환 경로를 암호화한다.
+- **전송 계층 보안(Transport Layer Security, TLS) 상호 인증** 은 접속 주체를 양방향으로 검증한다.
 
 </details>
 
@@ -176,7 +170,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **신뢰 검증** 은 표준 형식 여부와 별개로 출처•접근 권한•유효기간•활용 기준을 확인하는 절차다.
-- **STIX•TAXII 선택** 은 위협 의미와 관계를 표현할 때 STIX를, 컬렉션을 자동 교환할 때 TAXII를 적용하는 역할 구분이다.
 
 </details>
 

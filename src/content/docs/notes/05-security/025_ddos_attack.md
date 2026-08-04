@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "DDoS 공격•대응 - SYN Flood•반사 증폭 (DDoS Attack)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:41:00+09:00"
 tags:
   - "notes-security"
 weight: 25
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DDoS** 는 다수 공격원이 대역폭•연결 상태•응용 자원을 고갈시켜 정상 서비스 제공을 방해하는 공격이다.
+- **분산 서비스 거부(Distributed Denial of Service, DDoS)** 는 다수 공격원이 자원을 고갈시켜 정상 서비스 제공을 방해하는 공격이다.
 - **봇넷(Botnet)** 은 공격자가 원격으로 제어하여 공격에 동원하는 감염 단말 집단이다.
 
 </details>
@@ -41,7 +41,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **반사 증폭** 은 피해자 주소를 위조해 요청보다 큰 응답을 피해자에게 집중시키는 공격이다.
-- **L4** 는 포트•연결 상태를, **L7** 은 HTTP 등 서비스 요청 내용을 처리하는 계층이다.
+- **4계층(Layer 4, L4)** 은 포트와 연결 상태를 처리하는 전송 계층이다.
+- **7계층(Layer 7, L7)** 은 HTTP 등 서비스 요청 내용을 처리하는 응용 계층이다.
 
 </details>
 
@@ -59,8 +60,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스크러빙** 은 대규모 트래픽에서 공격 흐름을 제거하고 정상 트래픽만 원본으로 전달한다.
-- **애니캐스트•CDN** 은 트래픽과 요청 처리를 여러 네트워크 거점으로 분산한다.
-- **WAF** 는 HTTP 요청의 웹•API 공격 문맥을 분석하여 차단한다.
+- **애니캐스트(Anycast)** 는 같은 주소를 여러 네트워크 거점에서 광고하여 트래픽을 분산한다.
+- **콘텐츠 전송 네트워크(Content Delivery Network, CDN)** 는 콘텐츠 요청 처리를 여러 거점으로 분산한다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** 은 HTTP 요청의 웹•API 공격 문맥을 분석하여 차단한다.
 
 </details>
 
@@ -96,7 +98,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **SLI** 는 정상 요청 성공률•응답시간 등 실제 서비스 수준을 측정하는 지표다.
+- **서비스 수준 지표(Service Level Indicator, SLI)** 는 정상 요청 성공률•응답시간 등 실제 서비스 수준을 측정한다.
 
 </details>
 
@@ -130,7 +132,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **대역폭형•프로토콜형•응용형** 은 각각 회선 용량, TCP 연결 상태, CPU•DB 같은 응용 자원을 고갈시킨다.
+- **대역폭형 공격** 은 대량 트래픽으로 회선 용량을 고갈시킨다.
+- **프로토콜형 공격** 은 TCP 연결 상태 같은 프로토콜 자원을 고갈시킨다.
+- **응용형 공격** 은 CPU•DB 같은 응용 자원을 고갈시킨다.
 
 </details>
 
@@ -152,7 +156,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **SYN 쿠키** 는 서버가 연결 상태를 미리 저장하지 않고 TCP 연결 요청의 정당성을 검증한다.
-- **IETF BCP 38** 은 출발지 위조 방지 필터링을, **RFC 4732** 는 DoS에 견고한 설계 고려사항을 제시한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 프로토콜 표준을 개발하는 조직이다.
+- **현행 최선 관행(Best Current Practice, BCP) 38** 은 출발지 위조 방지 필터링을 규정한다.
+- **의견 요청 문서(Request for Comments, RFC) 4732** 는 DoS에 견고한 설계 고려사항을 제시한다.
 
 </details>
 
@@ -174,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **대응 목표** 는 단순한 공격량 감소가 아니라 정상 요청의 성공률과 응답시간을 유지하는 것이다.
-- **상류 스크러빙•SYN 쿠키•WAF 선택** 은 각각 회선, 연결 상태, HTTP 응용 자원의 고갈 지점에 맞춰 적용하는 판단이다.
 
 </details>
 

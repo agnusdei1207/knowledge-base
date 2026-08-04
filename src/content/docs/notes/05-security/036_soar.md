@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOAR - 보안 자동화•대응 (SOAR)"
-date: "2026-08-03T14:18:00+09:00"
+date: "2026-08-04T11:03:00+09:00"
 tags:
   - "notes-security"
 weight: 36
@@ -39,8 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SIEM** 은 로그에서 경보•근거를 만들고, **SOAR** 는 그 사건을 받아 외부 보안 도구의 조치를 연결한다.
-- **API** 는 SOAR가 조회•차단•격리 기능을 호출하는 연동 규격이다.
+- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)** 는 로그에서 경보와 조사 근거를 생성한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 SOAR가 조회•차단•격리 기능을 호출하는 연동 규격이다.
 
 </details>
 
@@ -157,9 +157,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OASIS CACAO 2.0** 은 보안 플레이북의 구조•워크플로•명령•서명을 정의한다.
-- **NIST SP 800-61 Rev. 3** 은 사고 대응을 탐지•대응•복구와 위험 관리 활동에 통합한다.
-- **URL** 은 웹 자원의 위치를 나타내는 주소로, 피싱 사건에서는 도메인•경로•평판을 조사하는 핵심 지표다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 개방형 정보 표준을 개발하는 조직이다.
+- **자동화된 행동 과정 협업(Collaborative Automated Course of Action Operations, CACAO) 2.0** 은 보안 플레이북의 구조•워크플로•명령•서명을 정의한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-61 Rev. 3** 은 사고 대응을 위험 관리 활동에 통합한다.
+- **통합 자원 위치 지정자(Uniform Resource Locator, URL)** 는 웹 자원의 위치를 나타내는 주소다.
 
 </details>
 
@@ -179,7 +181,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **안전한 자동화** 는 저영향•고신뢰 조치부터 시작해 검증 결과에 따라 권한을 단계적으로 확대하는 원칙이다.
-- **수동•승인•무인 자동화 선택** 은 조치의 업무 영향, 가역성, 탐지 신뢰도에 따라 실행 권한을 나누는 판단이다.
 
 </details>
 

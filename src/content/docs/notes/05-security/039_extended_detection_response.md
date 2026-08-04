@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "XDR 확장 탐지•대응 (XDR Extended Detection Response)"
-date: "2026-08-03T14:24:00+09:00"
+date: "2026-08-04T11:09:00+09:00"
 tags:
   - "notes-security"
 weight: 39
@@ -129,7 +129,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **EDR** 은 단말 행위•격리, **NDR** 은 네트워크 세션•흐름, **XDR** 은 여러 도메인의 사건•조치 연결에 중점을 둔다.
+- **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)** 은 단말 행위 분석과 격리에 중점을 둔다.
+- **네트워크 탐지•대응(Network Detection and Response, NDR)** 은 네트워크 세션과 흐름 분석에 중점을 둔다.
 
 </details>
 
@@ -149,8 +150,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **MITRE ATT&CK** 은 공격 전술•기법을 구조화해 도메인별 탐지 범위를 점검하게 한다.
-- **NIST SP 800-61 Rev. 3** 은 사고 탐지•대응•복구를 사이버 위험 관리와 연결한다.
-- **개방 API** 는 특정 공급자에 종속되지 않도록 외부 센서와 제어점의 조회•조치 기능을 표준화해 연동하는 인터페이스다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-61 Rev. 3** 은 사고 탐지•대응•복구를 사이버 위험 관리와 연결한다.
+- **개방 응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 외부 센서와 제어점의 조회•조치 기능을 표준화한다.
 
 </details>
 
@@ -170,7 +172,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **통합 깊이** 는 연동 제품 수가 아니라 공격 경로를 끝까지 연결하고 실제 조치 상태를 환류할 수 있는 정도다.
-- **EDR•NDR•XDR 선택** 은 단말 행위, 네트워크 통신, 다계층 공격 경로 중 필요한 관측•대응 범위에 맞춘 판단이다.
 
 </details>
 

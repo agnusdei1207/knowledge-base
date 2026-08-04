@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-03T14:10:00+09:00"
+date: "2026-08-04T10:39:00+09:00"
 tags:
   - "notes-security"
 weight: 24
@@ -40,7 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ARP** 는 IP에 대응하는 MAC 주소를 조회하고, **DNS** 는 도메인 이름을 IP 주소 등의 자원 정보로 변환한다.
+- **주소 결정 프로토콜(Address Resolution Protocol, ARP)** 은 IP 주소에 대응하는 MAC 주소를 조회한다.
+- **인터넷 프로토콜(Internet Protocol, IP)** 은 네트워크 간 패킷 전달에 사용하는 논리 주소 체계다.
+- **매체 접근 제어(Media Access Control, MAC) 주소** 는 링크 계층 인터페이스를 식별하는 주소다.
+- **도메인 이름 시스템(Domain Name System, DNS)** 은 도메인 이름을 IP 주소 등의 자원 정보로 변환한다.
 - **반사 공격** 은 피해자의 출발지 주소를 위조해 다수 서버의 응답을 피해자에게 보내는 공격이다.
 
 </details>
@@ -58,9 +61,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DAI** 는 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단한다.
-- **uRPF** 는 출발지 IP로 돌아가는 경로의 유효성을 검사하고, **DNSSEC** 은 DNS 응답의 출처와 무결성을 검증한다.
-- **TLS 종단 인증** 은 주소 검증 뒤 인증서로 실제 통신 상대의 신원을 다시 확인한다.
+- **동적 ARP 검사(Dynamic ARP Inspection, DAI)** 는 신뢰된 DHCP 바인딩과 ARP 메시지를 대조하여 위조 응답을 차단한다.
+- **유니캐스트 역방향 경로 전달(Unicast Reverse Path Forwarding, uRPF)** 은 출발지 IP로 돌아가는 경로의 유효성을 검사한다.
+- **DNS 보안 확장(Domain Name System Security Extensions, DNSSEC)** 은 DNS 응답의 출처와 무결성을 검증한다.
+- **전송 계층 보안(Transport Layer Security, TLS) 종단 인증** 은 인증서로 실제 통신 상대의 신원을 확인한다.
 
 </details>
 
@@ -127,13 +131,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
-
-- **ARP•IP•DNS 스푸핑** 은 각각 링크 주소 대응, 패킷 출발지, 이름 해석 응답을 위조한다.
-
-</details>
-
 | 네트워크 스푸핑 | ARP 스푸핑 | IP 스푸핑 | DNS 스푸핑 |
 |:---|:---|:---|:---|
 | 적용 기준 | **인접망 주소** 보호 | **경계 출발지** 검증 | **DNS 응답** 검증 |
@@ -151,8 +148,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IETF BCP 84** 는 uRPF 기반 출발지 주소 검증을, **RFC 4033~4035** 는 DNSSEC 검증 절차를 규정한다.
-- **TLS 종단 인증** 은 경로 주소 검증 뒤에도 최종 통신 상대가 맞는지 확인한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 프로토콜 표준을 개발하는 조직이다.
+- **현행 최선 관행(Best Current Practice, BCP) 84** 는 uRPF 기반 출발지 주소 검증을 규정한다.
+- **의견 요청 문서(Request for Comments, RFC) 4033~4035** 는 DNSSEC 검증 절차를 규정한다.
 
 </details>
 
@@ -168,14 +166,6 @@ sequenceDiagram
 - 잘못된 주소 목록을 쓰면 정상 단말까지 차단될 수 있다
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **계층별 검증** 은 ARP에 DAI, IP에 uRPF, DNS에 DNSSEC을 적용해 위조 지점별로 통제하는 원칙이다.
-- **DAI•uRPF•DNSSEC 적용** 은 링크 주소, 출발지 IP, 이름 응답의 위조를 각 계층의 신뢰 근거로 검증하는 판단이다.
-
-</details>
 
 - ARP 위조는 **DAI**, IP 위조는 **uRPF**, DNS 위조는 **DNSSEC** 적용
 

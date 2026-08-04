@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이버 위협 인텔리전스 CTI (Cyber Threat Intelligence)"
-date: "2026-08-03T14:12:00+09:00"
+date: "2026-08-04T10:53:00+09:00"
 tags:
   - "notes-security"
 weight: 31
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)** 는 위협 데이터에 공격자•의도•TTP•대상•신뢰도 맥락을 부여하여 방어 의사결정을 지원하는 정보다.
-- **IoC** 는 악성 IP•도메인•파일 해시 등 시스템 침해를 식별하는 관측 흔적이다.
+- **침해 지표(Indicator of Compromise, IoC)** 는 악성 IP•도메인•파일 해시 등 침해를 식별하는 관측 흔적이다.
 
 </details>
 
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TTP** 는 공격자가 목적 달성을 위해 반복적으로 사용하는 전술•기법•절차다.
+- **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)** 는 공격자가 목적 달성에 반복 사용하는 행동 방식이다.
 - **신뢰도 평가** 는 출처•관측 시점•근거를 검증해 대응 확신 수준을 정하는 절차다.
 
 </details>
@@ -96,7 +96,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **정규화•보강** 은 여러 원천의 데이터를 공통 형식으로 바꾸고 자산•시간•위협 관계를 연결한다.
+- **정규화** 는 여러 원천의 데이터를 공통 형식과 필드로 변환한다.
+- **보강** 은 정규화한 데이터에 자산•시간•위협 관계를 연결한다.
 - **오탐** 은 정상 활동을 위협으로 잘못 판단한 결과다.
 
 </details>
@@ -130,8 +131,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전술•운영•전략 CTI** 는 각각 단기 탐지, 캠페인 조사, 경영 위험 결정의 시간 범위에 맞춘 위협 정보다.
-- **SOC** 는 보안 이벤트를 지속 관제하고 CTI를 탐지•분석•대응에 활용하는 조직이다.
+- **전술 CTI** 는 단기 탐지•차단에 필요한 지표와 패턴 중심 정보다.
+- **운영 CTI** 는 캠페인 조사•헌팅에 필요한 TTP와 경로 중심 정보다.
+- **전략 CTI** 는 경영 위험•투자 결정에 필요한 의도와 영향 중심 정보다.
+- **보안 운영 센터(Security Operations Center, SOC)** 는 보안 이벤트를 지속 관제하고 CTI를 탐지•대응에 활용하는 조직이다.
 
 </details>
 
@@ -152,7 +155,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-150** 은 사이버 위협 정보의 공유 목표•규칙•교환•사용 권고를 제시한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-150** 은 사이버 위협 정보의 공유•교환•사용을 권고한다.
 - **지표 수명 관리** 는 최초•최근 관측, 유효기간, 철회 상태를 추적해 노후 지표의 오차단을 막는다.
 
 </details>
@@ -173,7 +177,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **CTI 가치** 는 수집량보다 탐지•차단•대응 우선순위 결정에 실제로 기여했는지로 평가한다.
-- **전술•운영•전략 CTI 선택** 은 각각 단기 IoC 차단, 캠페인 조사, 투자•위험 수용의 의사결정 범위에 맞춘 판단이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SIEM - 보안 이벤트 집계•분석 (SIEM)"
-date: "2026-08-03T14:18:00+09:00"
+date: "2026-08-04T11:01:00+09:00"
 tags:
   - "notes-security"
 weight: 35
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **정규화** 는 이종 로그를 공통 스키마•시간 기준으로 바꾸고, **상관분석** 은 시간•자산•신원 관계에서 공격 맥락을 찾는다.
+- **정규화** 는 이종 로그를 공통 스키마와 시간 기준으로 변환한다.
+- **상관분석** 은 시간•자산•신원 관계에서 공격 맥락을 찾는다.
 - **증거 추적성** 은 경보의 판정 근거를 원본 로그까지 되짚어 검증할 수 있는 성질이다.
 
 </details>
@@ -57,7 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **API** 는 보안•업무 시스템의 로그와 이벤트를 SIEM에 자동 연동하는 호출 규격이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 보안•업무 시스템과 SIEM의 자동 연동 규격이다.
 - **Syslog** 는 서버와 네트워크 장비의 이벤트 로그를 중앙 수집기로 전달하는 표준 프로토콜이다.
 
 </details>
@@ -131,7 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **로그 관리•SIEM•보안 데이터 레이크** 는 각각 감사•검색, 실시간 상관•경보, 대용량 장기 재분석에 중점을 둔다.
+- **로그 관리** 는 감사•검색을 위해 원본 로그를 수집•보존하는 방식이다.
+- **보안 데이터 레이크** 는 대용량 원본 로그를 장기 보존하고 필요할 때 재분석하는 저장소다.
 
 </details>
 
@@ -152,9 +154,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP 800-92** 은 전사 로그 수집•보존•분석 절차를 제시한다.
-- **IETF RFC 5424** 는 Syslog 메시지의 구조화 데이터와 전송 요구사항을 정의한다.
-- **VPN** 은 공용망 위에 암호화된 가상 통신 경로를 만들며 접속 위치•계정•단말 로그를 보안 분석에 제공한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-92** 은 전사 로그 수집•보존•분석 절차를 제시한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 프로토콜 표준을 개발하는 조직이다.
+- **의견 요청 문서(Request for Comments, RFC) 5424** 는 Syslog 메시지 구조와 전송 요구사항을 정의한다.
+- **가상 사설망(Virtual Private Network, VPN)** 은 공용망 위에 암호화된 가상 통신 경로를 만든다.
 
 </details>
 
@@ -174,7 +178,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **분석 근거** 는 자산•신원 맥락과 원본 증적을 포함해 분석가가 경보 판정을 재현할 수 있게 해야 한다.
-- **로그 관리•SIEM•데이터 레이크 선택** 은 감사•검색, 실시간 상관분석, 대용량 장기 재분석 중 주된 목적에 맞춘 판단이다.
 
 </details>
 
