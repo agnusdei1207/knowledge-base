@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-02T09:39:00+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -138,10 +138,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정규 문법(Regular Grammar)**: 한 방향의 선형 생성 규칙으로 유한 상태 패턴을 표현하는 문법
-- **문맥 자유 문법(CFG)**: 단일 비단말 치환과 재귀 규칙으로 중첩 구조를 표현하는 문법
 - **문맥 의존 문법(Context-Sensitive Grammar)**: 비단말 주변 기호에 따라 규칙 적용 여부가 달라지는 문법
 - **파싱 충돌(Parsing Conflict)**: 같은 입력 위치에서 적용할 문법 규칙을 하나로 결정하지 못하는 상태
-- **모호성(Ambiguity)**: 하나의 문자열에서 둘 이상의 구문 트리가 만들어지는 성질
 
 </details>
 
@@ -162,9 +160,10 @@ sequenceDiagram
 
 - **좌재귀(Left Recursion)**: 비단말이 유도 결과의 맨 왼쪽에 다시 나타나 하향식 파서를 무한 호출시키는 재귀
 - **좌인수분해(Left Factoring)**: 여러 생성 규칙의 공통 접두부를 묶어 다음 입력으로 규칙을 결정하게 하는 문법 변환
-- **FIRST•FOLLOW 집합**: 비단말에서 처음 나올 수 있는 단말과 그 비단말 바로 뒤에 올 수 있는 단말의 집합
+- **FIRST 집합**: 비단말에서 처음 나올 수 있는 단말의 집합
+- **FOLLOW 집합**: 비단말 바로 뒤에 올 수 있는 단말의 집합
 - **동기화 토큰(Synchronizing Token)**: 오류 뒤 파서가 입력 처리를 다시 시작할 위치를 찾는 기준 토큰
-- **LL 파싱**: 입력을 왼쪽부터 읽고 좌측 유도를 구성하는 하향식 파싱 방식
+- **LL 파싱(Left-to-right Leftmost Derivation Parsing, LL)**: 입력을 왼쪽부터 읽고 좌측 유도를 구성하는 하향식 파싱 방식
 - **파싱표(Parsing Table)**: 현재 비단말과 다음 입력 토큰으로 적용할 생성 규칙을 결정하는 표
 - **오류 복구**: 문법 오류 뒤 동기화 지점으로 이동해 후속 입력 분석을 계속하는 처리
 
@@ -189,9 +188,6 @@ sequenceDiagram
 
 - **중첩 구문**: 괄호나 블록처럼 같은 구조가 내부에 반복해서 포함될 수 있는 구문
 - **하향식 파서(Top-Down Parser)**: 시작 기호에서 생성 규칙을 선택해 구문 트리를 루트부터 말단 방향으로 확장하는 파서
-- **CFG(Context-Free Grammar)**: 좌변이 단일 비단말인 생성 규칙으로 중첩 구조를 표현하는 문법
-- **문맥 의존 문법(Context-Sensitive Grammar)**: 주변 기호에 따라 생성 규칙의 적용 여부가 달라지는 문법
-- **좌재귀(Left Recursion)**: 비단말이 유도 결과의 맨 왼쪽에 다시 나타나는 재귀 규칙
 
 </details>
 
