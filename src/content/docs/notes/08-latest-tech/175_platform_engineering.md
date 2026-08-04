@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "플랫폼 엔지니어링 (Platform Engineering)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T05:24:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 175
@@ -25,10 +25,11 @@ extra:
 
 - **플랫폼 엔지니어링(Platform Engineering)**: 인프라•배포•관측•보안 기능을 개발자가 스스로 사용하는 내부 제품으로 설계•운영하는 공학 접근이다.
 - **개발자 경험(Developer Experience, DevEx)**: 개발 과정에서 느끼는 생산성•인지부하•대기 시간에 대한 경험이다.
+- **내부 개발자 플랫폼(Internal Developer Platform, IDP)**: 개발자가 표준 기능을 셀프서비스로 소비하는 내부 제품이다.
 
 </details>
 
-- 정의/개념: 공통 개발•운영 기능을 내부 개발자 플랫폼(Internal Developer Platform, IDP)•골든 패스•셀프서비스로 제공하는 **플랫폼 엔지니어링(Platform Engineering) 접근**
+- 정의/개념: 공통 개발•운영 기능을 IDP•골든 패스•셀프서비스로 제공하는 **플랫폼 엔지니어링 접근**
 - 배경/필요성: 팀별 도구•티켓 요청은 **개발자 인지부하•대기 시간•운영 편차** 증가
 
 #### 한줄 요약
@@ -57,11 +58,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **내부 개발자 플랫폼(Internal Developer Platform, IDP)**: 개발자가 표준 기능을 셀프서비스로 소비하도록 응용 프로그래밍 인터페이스(Application Programming Interface, API)•포털•자동화를 통합한 내부 제품이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능과 데이터를 호출하기 위한 명세화된 접점이다.
+- **개발자 포털**: 플랫폼 기능을 탐색•요청하고 처리 상태를 확인하는 사용자 접점이다.
+- **IDP 서비스 계층**: API•포털•자동화를 연결하여 표준 기능을 셀프서비스로 제공한다.
 - **플랫폼 제품팀**: 개발자 요구•로드맵•수명주기•성과를 소유하고 내부 플랫폼을 개선하는 조직이다.
 - **골든 패스(Golden Path)**: 보안•운영•배포 모범 구성을 기본값으로 제공하되 필요하면 확장할 수 있는 권장 개발 경로이다.
 - **셀프서비스 자동화(Self-Service Automation)**: 티켓 없이 개발자가 권한 안에서 환경•배포•관측 기능을 직접 생성•변경하게 하는 기능이다.
 - **플랫폼 제품 지표**: 도입률•리드타임•성공률•개발자 만족도와 운영 성과로 플랫폼 가치를 측정하는 지표이다.
+- **개발자 피드백**: 사용 경험•미사용 원인•추가 요구를 제품 로드맵에 전달하는 정보이다.
 
 </details>
 
@@ -69,21 +73,25 @@ extra:
 block-beta
   columns 3
   N0["플랫폼 제품팀"]
-  N1["개발자 포털•IDP"]
+  N1["개발자 포털"]
+  N5["IDP 서비스 계층"]
   N2["골든 패스"]
   N3["셀프서비스 자동화"]
-  N4["제품 지표•피드백"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
+  N4["플랫폼 제품 지표"]
+  N6["개발자 피드백"]
+  N0 --- N1 --- N5 --- N2
+  N2 --- N3 --- N4 --- N6
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
 | 플랫폼 제품팀 | **개발자 요구•제품 수명주기 소유** |
-| 개발자 포털•IDP | **기능 탐색•요청•상태 확인 인터페이스** |
+| 개발자 포털 | **기능 탐색•요청•상태 확인** |
+| IDP 서비스 계층 | **API•포털•자동화 연결** |
 | 골든 패스 | **권장 도구•정책•절차 조합** |
 | 셀프서비스 자동화 | **인프라•배포•관측•보안 자동 제공** |
-| 제품 지표•피드백 | **채택률•대기 시간•골든 패스 미사용 원인 분석** |
+| 플랫폼 제품 지표 | **채택률•대기 시간•성공률 측정** |
+| 개발자 피드백 | **미사용 원인•추가 요구 전달** |
 
 #### 한줄 요약
 
@@ -94,19 +102,20 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **셀프서비스**: 개발자가 수동 티켓 대기 없이 응용 프로그래밍 인터페이스(Application Programming Interface, API)•포털•명령줄 인터페이스(Command-Line Interface, CLI)로 필요한 기능을 직접 사용하는 방식이다.
+- **명령줄 인터페이스(Command-Line Interface, CLI)**: 문자 명령으로 플랫폼 기능을 호출하는 사용자 접점이다.
+- **셀프서비스**: 개발자가 수동 티켓 대기 없이 API•포털•CLI로 필요한 기능을 직접 사용하는 방식이다.
 - **제품 지표**: 채택률•완료 시간•미사용 원인으로 내부 플랫폼의 효과와 개선점을 측정한 값이다.
 
 </details>
 
-내부 개발자 플랫폼(Internal Developer Platform, IDP)은 골든 패스와 자동화를 셀프서비스로 제공한다.
+IDP는 골든 패스와 자동화를 셀프서비스로 제공한다.
 
 ```mermaid
 sequenceDiagram
     participant D as 개발팀
-    participant P as 플랫폼 제품팀•제품 지표
+    participant P as 플랫폼 제품팀
     participant G as 골든 패스
-    participant I as IDP•자동화
+    participant I as IDP
     D->>P: 1. 개발 여정•병목 전달
     P->>G: 2. 권장 경로•정책 전달
     G->>I: 3. 셀프서비스 기능 전달
@@ -132,10 +141,11 @@ sequenceDiagram
 
 - **개발•운영(Development and Operations, DevOps)**: 개발•운영의 협업•자동화•공동 책임을 강조하는 문화와 실천 원칙이다.
 - **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: 신뢰성 목표와 자동화로 서비스를 운영하는 공학 체계이다.
+- **서비스 수준 목표(Service Level Objective, SLO)**: 일정 기간에 달성하기로 정한 사용자 중심 서비스 품질 목표이다.
 
 </details>
 
-내부 개발자 플랫폼(Internal Developer Platform, IDP)은 서비스 수준 목표(Service Level Objective, SLO)를 지키며 개발•운영 협업과 신뢰성 운영을 지원한다.
+IDP는 SLO를 지키며 개발•운영 협업과 신뢰성 운영을 지원한다.
 
 | 운영 접근 | 플랫폼 엔지니어링 | DevOps | SRE |
 |:---|:---|:---|:---|
@@ -153,7 +163,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **제품 적합성**: 플랫폼 기능이 실제 개발자 여정의 반복 문제와 대기 시간을 해결하는 정도이다.
-- **서비스 수준 목표(Service Level Objective, SLO)**: 일정 기간에 달성하기로 정한 사용자 중심 서비스 품질 목표이다.
+- **플랫폼 SLO**: IDP 기능의 가용성•지연•지원 품질 목표를 운영한다.
 
 </details>
 

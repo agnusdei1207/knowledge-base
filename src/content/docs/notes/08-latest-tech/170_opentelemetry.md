@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "OpenTelemetry"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T04:54:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 170
 extra:
@@ -24,10 +24,13 @@ extra:
 
 - **오픈텔레메트리(OpenTelemetry, OTel)**: 텔레메트리를 생성•처리•전송하기 위한 공급자 중립 오픈소스 관찰 가능성 프레임워크이다.
 - **공급자 중립**: 특정 관측 백엔드 제품에 종속되지 않는 공통 계측•전송 계약을 제공하는 성질이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 코드가 텔레메트리를 생성할 때 사용하는 계약이다.
+- **소프트웨어 개발 키트(Software Development Kit, SDK)**: API 신호를 샘플링•가공•내보내는 구현체이다.
+- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 프로세스와 Collector 사이의 표준 신호 전송 규약이다.
 
 </details>
 
-- 정의/개념: 공급자 중립 응용 프로그래밍 인터페이스(Application Programming Interface, API)•소프트웨어 개발 키트(Software Development Kit, SDK)•오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)•Collector로 텔레메트리를 생성•처리•전송하는 **오픈텔레메트리(OpenTelemetry, OTel) 프레임워크**
+- 정의/개념: 공급자 중립 API•SDK•OTLP•Collector로 텔레메트리를 생성•처리•전송하는 **OTel 프레임워크**
 - 배경/필요성: 제품별 에이전트•속성 체계는 **언어•백엔드 종속과 중복 계측** 유발
 
 #### 한줄 요약
@@ -44,9 +47,9 @@ extra:
 
 </details>
 
-- 계측 생성 계약과 처리 정책을 분리하는 **응용 프로그래밍 인터페이스(Application Programming Interface, API)•소프트웨어 개발 키트(Software Development Kit, SDK) 분리**
+- 계측 생성 계약과 처리 정책을 분리하는 **API•SDK 분리**
 - 맥락 전파와 시맨틱 규약 기반 **맥락•의미 표준화**
-- 오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)•Collector 기반 **중립 전송 파이프라인**
+- OTLP•Collector 기반 **중립 전송 파이프라인**
 
 #### 한줄 요약
 
@@ -57,10 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 애플리케이션 코드가 텔레메트리를 생성할 때 사용하는 언어별 계약이다.
-- **소프트웨어 개발 키트(Software Development Kit, SDK)**: API로 생성한 신호를 샘플링•가공•내보내는 구현체이다.
+- **API 계측 계약**: 언어별 코드가 메트릭•로그•추적을 생성하는 접점이다.
+- **SDK 처리 정책**: 신호의 샘플링•자원 결합•일괄 처리•내보내기를 제어한다.
 - **Collector**: 텔레메트리를 수신해 처리하고 하나 이상의 저장•분석 백엔드로 전달하는 독립 구성요소이다.
-- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 프로세스와 Collector 사이에서 신호를 전송하는 표준 프로토콜이다.
+- **맥락 전파**: 신호 사이의 요청 관계를 유지하도록 식별자를 전달한다.
+- **시맨틱 규약**: 서비스•요청•자원 속성의 이름과 의미를 통일한다.
 
 </details>
 
@@ -69,22 +73,25 @@ block-beta
   columns 3
   A["API"]
   B["SDK"]
-  C["맥락•시맨틱 규약"]
+  C["맥락 전파"]
+  S["시맨틱 규약"]
   D["OTLP"]
   E["Collector"]
   A --- B
   C --- A
+  S --- A
   B --- D
   D --- E
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **API** | 코드가 스팬, 메트릭, 로그를 생성하는 계약 제공 |
-| **SDK** | 샘플링, 자원 결합, 일괄 처리, 내보내기 정책 실행 |
-| **맥락•시맨틱 규약** | 신호 간 상관관계와 속성 의미 통일 |
-| **OTLP** | 프로세스와 Collector 사이의 표준 신호 전송 |
-| **Collector** | 신호 수신, 변환, 필터링, 라우팅과 내보내기 수행 |
+| API | 코드의 스팬•메트릭•로그 생성 계약 제공 |
+| SDK | 샘플링•자원 결합•일괄 처리•내보내기 실행 |
+| 맥락 전파 | 신호 사이의 요청 상관관계 유지 |
+| 시맨틱 규약 | 신호 속성의 이름과 의미 통일 |
+| OTLP | 프로세스와 Collector 사이의 표준 신호 전송 |
+| Collector | 신호 수신•변환•필터링•라우팅•내보내기 |
 
 #### 한줄 요약
 
@@ -95,17 +102,17 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: OpenTelemetry 신호를 프로세스와 Collector 사이에서 전송하는 표준 프로토콜이다.
+- **OTLP 전송**: OTel 신호를 프로세스와 Collector 사이에서 표준 형식으로 전달한다.
 - **내보내기 모듈(Exporter)**: 처리한 텔레메트리를 OTLP나 백엔드별 프로토콜로 전송하는 구성요소이다.
 
 </details>
 
-응용 프로그래밍 인터페이스(Application Programming Interface, API)로 생성한 신호를 소프트웨어 개발 키트(Software Development Kit, SDK)가 처리하고 오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)로 전송한다.
+API로 생성한 신호를 SDK가 처리하고 OTLP로 전송한다.
 
 ```mermaid
 sequenceDiagram
   participant A as 애플리케이션
-    participant S as SDK•OTLP 전송
+    participant S as SDK
   participant C as Collector
   participant B as 백엔드
   A->>S: 1. 계측 계약 전달
@@ -118,7 +125,7 @@ sequenceDiagram
 1. **계측 계약 전달**: 맥락 전파 방식과 시맨틱 규약에 맞는 속성 정의
 2. **신호 생성**: 자동•수동 계측이 API를 통해 메트릭, 로그, 추적 생성
 3. **신호 처리**: SDK가 자원 정보를 결합하고 샘플링•일괄 처리 수행
-4. **표준 전송**: 내보내기 모듈이 OTLP로 Collector에 신호 전달
+4. **OTLP 표준 전송**: 내보내기 모듈이 Collector에 신호 전달
 5. **신호 라우팅**: Collector가 수신•변환•필터링 후 목적별 백엔드로 전송
 
 #### 한줄 요약
@@ -135,7 +142,7 @@ sequenceDiagram
 
 </details>
 
-응용 프로그래밍 인터페이스(Application Programming Interface, API), 소프트웨어 개발 키트(Software Development Kit, SDK), Collector는 신호 생성•처리•수집을 분담한다.
+API, SDK, Collector는 신호 생성•처리•수집을 분담한다.
 
 | 구분 | API | SDK | Collector |
 |:---|:---|:---|:---|
@@ -177,7 +184,7 @@ sequenceDiagram
 
 </details>
 
-- **계측•백엔드 분리•핵심 신호 보존율 조건**: 속성•맥락 일관성과 Collector 용량 확보 후 오픈텔레메트리(OpenTelemetry, OTel) 적용
+- **계측•백엔드 분리•핵심 신호 보존율 조건**: 속성•맥락 일관성과 Collector 용량 확보 후 OTel 적용
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T04:12:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **이스티오(Istio)** 는 이스티오드(Istiod) 제어 평면과 사이드카(Sidecar) 또는 앰비언트(Ambient) 데이터 평면을 이용해 서비스 간 통신 정책을 집행하는 서비스 메시 플랫폼
+- 정의/개념: **이스티오** 는 Istiod 제어 평면과 사이드카 또는 앰비언트 데이터 평면을 이용해 서비스 간 통신 정책을 집행하는 서비스 메시 플랫폼
 - 배경/필요성: 마이크로서비스별 **보안•라우팅•관측 구현 중복과 정책 불일치** 완화
 
 #### 한줄 요약
@@ -40,14 +40,17 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Istiod**: 서비스 발견•정책 계산•인증서 발급•데이터 평면 구성 배포를 담당하는 제어 평면이다.
-- **확장형 디스커버리 서비스(xDS)**: 엔보이 데이터 평면에 클러스터•경로•리스너•보안 구성을 동적으로 전달하는 응용 프로그래밍 인터페이스 집합이다.
+- **이스티오드(Istiod)**: 서비스 발견•정책 계산•인증서 발급•데이터 평면 구성 배포를 담당하는 제어 평면이다.
+- **확장형 디스커버리 서비스(Extensible Discovery Service, xDS)**: 엔보이 데이터 평면에 통신 구성을 동적으로 전달하는 API 집합이다.
+- **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)**: 통신 양쪽의 인증서를 검증하고 전송 구간을 암호화하는 방식이다.
+- **계층 4(Layer 4, L4)**: 주소•포트•전송 연결을 기준으로 통신을 처리하는 계층이다.
+- **계층 7(Layer 7, L7)**: 경로•메서드•헤더 등 요청 내용을 처리하는 응용 계층이다.
 
 </details>
 
-- 이스티오드(Istiod)의 **확장형 디스커버리 서비스(Extensible Discovery Service, xDS) 구성•인증서 배포**
+- Istiod의 **xDS 구성•인증서 배포**
 - Sidecar와 Ambient의 **데이터 평면 선택**
-- **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)** • **계층 4(Layer 4, L4)** • **계층 7(Layer 7, L7)** 라우팅•복원력•관측의 **정책 기반 집행**
+- **mTLS•L4•L7** 라우팅•복원력•관측의 **정책 기반 집행**
 
 #### 한줄 요약
 
@@ -58,12 +61,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사이드카 엔보이(Sidecar Envoy)**: 각 파드 옆에서 계층 4•계층 7 통신 정책을 집행하는 프록시이다.
-- **앰비언트 메시(Ambient Mesh)**: 파드별 사이드카 없이 지터널과 선택적 웨이포인트로 메시 기능을 제공하는 데이터 평면 방식이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능과 데이터를 호출하기 위한 명세화된 접점이다.
+- **구성 API**: 라우팅•보안•텔레메트리 정책 의도를 선언하는 접점이다.
+- **사이드카 엔보이(Sidecar Envoy)**: 각 파드 옆에서 L4•L7 통신 정책을 집행하는 프록시이다.
+- **앰비언트 지터널(Ambient ztunnel)**: 노드 공유 방식으로 mTLS와 L4 보안 터널을 제공하는 프록시이다.
+- **앰비언트 웨이포인트(Ambient waypoint)**: 선택한 서비스 범위에서 L7 정책을 집행하는 프록시이다.
 
 </details>
 
-구성 **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 의 의도는 **확장형 디스커버리 서비스(Extensible Discovery Service, xDS)** 로 전달되며, 데이터 평면은 **계층 4(Layer 4, L4)** 와 **계층 7(Layer 7, L7)** 정책을 집행한다.
+구성 **API** 의 의도는 **xDS** 로 전달되며, 데이터 평면은 **L4•L7** 정책을 집행한다.
 
 ```mermaid
 block-beta
@@ -81,11 +87,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **구성 API** | 라우팅•보안•텔레메트리 의도 선언 |
-| **Istiod** | 구성 변환•xDS 배포•인증서 발급 |
-| **Sidecar Envoy** | Pod별 L4•L7 정책 집행 |
-| **Ambient ztunnel** | 노드 공유 L4 보안 터널 제공 |
-| **Ambient waypoint** | 선택 범위의 L7 정책 집행 |
+| 구성 API | 라우팅•보안•텔레메트리 의도 선언 |
+| Istiod | 구성 변환•xDS 배포•인증서 발급 |
+| Sidecar Envoy | Pod별 L4•L7 정책 집행 |
+| Ambient ztunnel | 노드 공유 L4 보안 터널 제공 |
+| Ambient waypoint | 선택 범위의 L7 정책 집행 |
 
 #### 한줄 요약
 
@@ -97,7 +103,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **지터널(ztunnel)**: 앰비언트 메시에서 노드 단위로 상호 전송 계층 보안과 계층 4 보안 터널을 제공하는 공유 프록시이다.
-- **웨이포인트(waypoint)**: 앰비언트 메시에서 선택한 서비스 범위의 하이퍼텍스트 전송 프로토콜 인가•라우팅 등 계층 7 정책을 집행하는 프록시이다.
+- **웨이포인트(waypoint)**: 앰비언트 메시에서 선택한 서비스 범위의 L7 정책을 집행하는 프록시이다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청과 응답을 교환하는 응용 계층 프로토콜이다.
 
 </details>
 
@@ -118,10 +125,10 @@ sequenceDiagram
   Z-->>C: 처리 결과 반환
 ```
 
-1. **계층 4(Layer 4, L4) 구성•인증서 배포**: 이스티오드가 **확장형 디스커버리 서비스(Extensible Discovery Service, xDS)** 구성과 워크로드 인증서 전달
-2. **계층 7(Layer 7, L7) 구성 배포**: 웨이포인트에 **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)** 인가•라우팅 정책 전달
+1. **L4 구성•인증서 배포**: Istiod가 **xDS** 구성과 워크로드 인증서 전달
+2. **L7 구성 배포**: 웨이포인트에 **HTTP** 인가•라우팅 정책 전달
 3. **선택적 L7 정책 위임**: HTTP 검사가 필요한 트래픽만 웨이포인트 경유
-4. **L7 인가•라우팅 집행**: **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)** 신원 검증 후 대상 서비스로 요청 전달
+4. **L7 인가•라우팅 집행**: **mTLS** 신원 검증 후 대상 서비스로 요청 전달
 
 #### 한줄 요약
 
@@ -137,7 +144,7 @@ sequenceDiagram
 
 </details>
 
-데이터 평면은 **계층 4(Layer 4, L4)** 와 **계층 7(Layer 7, L7)** 를 분리하며, **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)** 과 **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)** 정책의 적용 범위가 다르다.
+데이터 평면은 **L4•L7** 을 분리하며, **mTLS•HTTP** 정책의 적용 범위가 다르다.
 
 | Istio 데이터 평면 | Sidecar 모드 | Ambient ztunnel | Ambient ztunnel+waypoint |
 |:---|:---|:---|:---|
@@ -161,9 +168,9 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **Sidecar•Ambient 기능 차이** | 정책별 **계층 4(Layer 4, L4)•계층 7(Layer 7, L7) 집행 위치** 표 작성 | **마이그레이션 누락** 방지 |
+| **Sidecar•Ambient 기능 차이** | 정책별 **L4•L7 집행 위치** 표 작성 | **마이그레이션 누락** 방지 |
 | **waypoint 과부하•미경유** | 범위별 **용량 산정•경로 검증** | **L7 병목•인가 누락** 방지 |
-| 잘못된 **확장형 디스커버리 서비스(Extensible Discovery Service, xDS) 구성 전파** | **분석 도구•카나리•롤백** 절차 적용 | **메시 전체 장애** 억제 |
+| 잘못된 **xDS 구성 전파** | **분석 도구•카나리•롤백** 절차 적용 | **메시 전체 장애** 억제 |
 
 #### 한줄 요약
 
@@ -179,7 +186,7 @@ sequenceDiagram
 
 </details>
 
-- 워크로드별 격리는 사이드카, **계층 4(Layer 4, L4)** 기본망은 **지터널(ztunnel)**, 선택 **계층 7(Layer 7, L7)** 은 **웨이포인트(waypoint)** 적용
+- 워크로드별 격리는 사이드카, **L4** 기본망은 **ztunnel**, 선택 **L7** 은 **waypoint** 적용
 
 #### 한줄 요약
 
