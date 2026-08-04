@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "전이 학습 (Transfer Learning)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T22:01:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 47
@@ -103,11 +103,13 @@ sequenceDiagram
     participant B as 사전 학습 백본
     participant H as 태스크 헤드
     P->>F: 1. 도메인•라벨 통계
-    F->>B: 2. 동결 범위
-    B->>H: 3. 범용 특징
-    H-->>F: 4. 타깃 라벨 학습•검증 성능
-    alt 목표 성능 미달
-        F->>B: 5. 미세 조정 범위
+    loop 목표 성능 충족까지
+        F->>B: 2. 동결 범위
+        B->>H: 3. 범용 특징
+        H-->>F: 4. 타깃 라벨 학습•검증 성능
+        opt 목표 성능 미달
+            F->>B: 5. 미세 조정 범위
+        end
     end
 ```
 

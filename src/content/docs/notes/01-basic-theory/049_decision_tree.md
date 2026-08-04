@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "결정 트리 (Decision Tree)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T22:07:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 49
@@ -98,10 +98,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant T as 탐색 제어기
     participant N as 현재 노드
     participant X as 입력 특징 저장소
     participant L as 리프 노드
+    Q->>T: 입력 표본•예측 요청
     T->>N: 루트 노드 선택
     loop 현재 노드가 내부 노드
         T->>N: 1. 분할 조건 조회
@@ -112,6 +114,7 @@ sequenceDiagram
     end
     T->>L: 4. 리프 예측값 조회
     L-->>T: 클래스•회귀값
+    T-->>Q: 예측 결과 반환
 ```
 
 **동작 원리**

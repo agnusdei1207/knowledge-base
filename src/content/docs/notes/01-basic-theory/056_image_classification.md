@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T22:24:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -103,15 +103,18 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant I as 입력 전처리기
     participant B as 특징 추출 백본
     participant G as 특징 집계
     participant H as 분류 헤드
+    Q->>I: 이미지 분류 요청
     I->>I: 입력 이미지 정규화
     I->>B: 1. 입력 텐서
     B->>G: 2. 계층적 특징 맵
     G->>H: 3. 집계 특징 벡터
-    H->>H: 클래스 점수•레이블 확정
+    H->>H: 4. 클래스 레이블 확정
+    H-->>Q: 분류 결과 반환
 ```
 
 **동작 원리**
@@ -119,6 +122,7 @@ sequenceDiagram
 - **1. 입력 텐서**: 해상도•분포•색상 순서를 맞춘 배열
 - **2. 계층적 특징 맵**: 질감부터 의미까지 추출한 표현
 - **3. 집계 특징 벡터**: 공간 축을 줄인 고정 길이 표현
+- **4. 클래스 레이블 확정**: 클래스 점수 중 최댓값으로 레이블 선택
 
 #### 한줄 요약
 
