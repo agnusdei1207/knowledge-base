@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "펌웨어 보안 취약점"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:07:00+09:00"
 tags:
   - "notes-hardware"
 weight: 69
@@ -23,6 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **펌웨어(Firmware)**: 운영체제보다 먼저 실행되어 부팅과 하드웨어 초기화 및 장치 제어를 담당하는 저수준 코드이다.
+- **OS**: Operating System, 하드웨어 자원과 응용 실행을 관리하는 운영체제
 - **펌웨어 취약점(Firmware Vulnerability)**: 공급망과 부팅•갱신•관리 경로에서 고권한 코드의 변조나 오용을 허용하는 보안 결함이다.
 - **침해 잔존성(Compromise Persistence)**: 운영체제를 재설치해도 더 낮은 계층의 악성 코드나 설정이 계속 남아 실행되는 성질이다.
 
@@ -155,6 +156,8 @@ sequenceDiagram
 - **의존성 검증(Dependency Validation)**: SBOM의 구성요소 버전과 알려진 취약점 및 호환 관계를 설치 전에 확인하는 과정이다.
 - **관리망 격리(Management-network Isolation)**: BMC와 관리 포트를 서비스 데이터망에서 분리하여 접근 경로를 제한하는 통제이다.
 - **다중 키(Multiple Signing Keys)**: 한 서명 키의 폐기나 장애에도 승인된 대체 키로 업데이트와 복구를 계속할 수 있게 한 구성이다.
+- **JTAG**: Joint Test Action Group, 경계 스캔과 칩 디버깅용 인터페이스
+- **UART**: Universal Asynchronous Receiver-transmitter, 비동기 직렬 통신 장치
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Arm TrustZone 보안 확장"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:52:00+09:00"
 tags:
   - "notes-hardware"
 weight: 64
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: **Arm TrustZone 기반 보안 확장**, 실행 환경과 자원에는 **보안 상태•비보안 상태•거래 속성 기반 격리** 적용
-- 배경/필요성: 운영체제(Operating System, OS) 권한 격리만으로는 커널 침해 시 **보안 자산 보호 불가**
+- 정의/개념: **Arm TrustZone 보안 확장**, 실행 환경과 자원에 보안 상태•거래 속성 격리 적용
+- 배경/필요성: **OS 권한 격리**만으로는 커널 침해 시 보안 자산 보호 불가
 
 #### 한줄 요약
 
@@ -58,13 +58,14 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **보안 전환 경로(Secure Transition Path)**: 비보안 호출을 검증하고 프로세서를 보안 상태의 승인된 진입점으로 전환하는 경로이다.
+- **OS**: Operating System, 하드웨어 자원과 응용 실행을 관리하는 운영체제
 - **신뢰 실행 환경(Trusted Execution Environment, TEE)**: 민감한 코드와 데이터를 일반 실행 환경에서 격리하여 실행하는 보안 환경이다.
 - **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 시스템 보안 보장에 반드시 신뢰해야 하는 최소 하드웨어와 소프트웨어의 집합이다.
 - **자원 보안 제어(Resource Security Control)**: 거래 속성과 자원 귀속을 비교하여 메모리와 장치 접근을 허용하거나 차단하는 하드웨어이다.
 
 </details>
 
-비보안 영역의 실행 기반: 일반 운영체제(Operating System, OS), 보안 영역의 민감 서비스: **보안 전환 경로•신뢰 실행 환경(Trusted Execution Environment, TEE)**, 격리 검증과 접근 강제: **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB) 최소화•자원 보안 제어**
+비보안 실행 기반: 일반 OS, 보안 민감 서비스: **보안 전환 경로•TEE**, 접근 강제: **TCB 최소화•자원 보안 제어**
 
 ```mermaid
 block-beta
@@ -99,7 +100,7 @@ block-beta
 
 </details>
 
-신뢰 실행 환경(Trusted Execution Environment, TEE)은 검증된 보안 게이트웨이를 통해 요청을 받고, **공유 버퍼 검증** 후 보안 장치의 연산 결과만 반환한다.
+TEE는 검증된 보안 게이트웨이로 요청을 받고 **공유 버퍼 검증** 후 결과만 반환한다.
 
 ```mermaid
 sequenceDiagram
@@ -159,7 +160,7 @@ sequenceDiagram
 
 </details>
 
-신뢰 실행 환경(Trusted Execution Environment, TEE)과 신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)을 작게 유지하고, 직접 메모리 접근(Direct Memory Access, DMA)을 포함한 경계 입력을 검증한다.
+TEE와 TCB를 작게 유지하고 DMA를 포함한 경계 입력을 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -182,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- 핵심 자산: **TrustZone 하드웨어 격리**, 검증 범위: **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB) 최소화**, 권한 원칙: **최소 권한**
+- 핵심 자산: **TrustZone 하드웨어 격리**, 검증 범위: **TCB 최소화**, 권한 원칙: 최소 권한
 
 #### 한줄 요약
 

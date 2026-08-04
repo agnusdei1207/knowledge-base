@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:25:00+09:00"
 tags:
   - "notes-hardware"
 weight: 79
@@ -43,6 +43,7 @@ extra:
 - **트래픽 등급(Traffic Class)**: PCIe 패킷의 우선순위와 서비스 정책을 구분하는 속성이다.
 - **오버서브스크립션(Oversubscription)**: 여러 하위 장치의 동시 요구 대역폭 합이 공유 업스트림 용량을 넘는 상태이다.
 - **꼬리 지연(Tail Latency)**: 지연 분포의 높은 백분위에서 나타나는 가장 느린 요청들의 지연이다.
+- **M/M/1 대기행렬(Markovian/Markovian/One-server Queue)**: 지수 분포 도착•서비스와 단일 서버를 가정한 대기 모형이다.
 
 </details>
 
@@ -62,7 +63,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **루트 컴플렉스(Root Complex)**: CPU와 메모리 시스템을 PCIe 장치 계층에 연결하는 시작점이다.
+- **루트 컴플렉스(Root Complex)**: 중앙 처리 장치와 메모리 시스템을 PCIe 장치 계층에 연결하는 시작점이다.
 - **업스트림 포트(Upstream Port)**: PCIe 스위치에서 루트 컴플렉스 방향의 링크에 연결되는 포트이다.
 - **다운스트림 포트(Downstream Port)**: PCIe 스위치에서 엔드포인트나 하위 스위치 방향 링크를 제공하는 포트이다.
 - **엔드포인트(Endpoint)**: PCIe 계층 끝에서 메모리•입출력 요청을 발행하거나 처리하는 장치이다.
@@ -100,8 +101,10 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **트랜잭션 계층 패킷(Transaction Layer Packet, TLP)**: 메모리와 입출력 요청, 데이터 및 완료 정보를 전달하는 PCIe 패킷이다.
-- **요청자•완료자(Requester•Completer)**: 요청 TLP를 발행하는 장치와 해당 요청을 처리하여 완료 응답을 보내는 장치이다.
-- **IOMMU**: 장치의 DMA 주소를 변환하고 접근 가능한 메모리 범위를 제한하는 하드웨어이다.
+- **요청자(Requester)**: 요청 TLP를 발행하는 장치이다.
+- **완료자(Completer)**: 요청을 처리하여 완료 TLP를 반환하는 장치이다.
+- **IOMMU(Input-Output Memory Management Unit)**: 장치의 DMA 주소를 변환하고 메모리 접근 범위를 제한하는 하드웨어이다.
+- **DMA(Direct Memory Access)**: 장치가 중앙 처리 장치를 거치지 않고 메모리에 직접 접근하는 방식이다.
 
 </details>
 
@@ -169,6 +172,7 @@ $$
 - **홉(Hop)**: 패킷이 목적지까지 이동하면서 통과하는 PCIe 스위치 한 단계이다.
 - **접근 제어 서비스(Access Control Services, ACS)**: P2P 요청의 허용과 업스트림 리디렉션을 제어하는 PCIe 보안 기능이다.
 - **다운트레이닝(Downtraining)**: 링크 협상 결과가 목표보다 낮은 속도나 레인 수로 동작하는 현상이다.
+- **VM(Virtual Machine)**: 물리 컴퓨터의 자원을 분리하여 실행하는 가상 컴퓨터 환경이다.
 
 </details>
 

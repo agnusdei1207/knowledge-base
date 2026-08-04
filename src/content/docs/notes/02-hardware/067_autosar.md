@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:01:00+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -40,7 +40,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **표준 인터페이스(Standard Interface)**: 공급사와 하드웨어가 달라도 데이터 형식과 호출 규칙을 일관되게 유지하는 접점이다.
-- **AUTOSAR XML(ARXML)**: AUTOSAR 시스템과 소프트웨어 및 통신 설계 정보를 도구 사이에서 교환하는 XML 형식이다.
+- **XML**: Extensible Markup Language, 구조화된 데이터 교환 형식
+- **ARXML**: AUTOSAR XML, 시스템•소프트웨어•통신 설계 정보 교환 형식
 - **Classic Platform**: 정적 구성과 결정적인 주기 제어를 중심으로 하는 AUTOSAR 플랫폼이다.
 - **Adaptive Platform**: 서비스 지향 구조와 고성능 동적 응용을 중심으로 하는 AUTOSAR 플랫폼이다.
 
@@ -61,7 +62,8 @@ extra:
 - **소프트웨어 구성요소(Software Component, SWC)**: 차량 기능을 포트와 러너블 단위로 캡슐화한 AUTOSAR 응용 구성요소이다.
 - **런타임 환경(Runtime Environment, RTE)**: Classic SWC와 기본 소프트웨어 사이의 포트 통신과 호출을 중개하는 계층이다.
 - **기본 소프트웨어(Basic Software, BSW)**: 운영체제와 통신•진단•메모리 및 하드웨어 추상화 서비스를 제공하는 계층이다.
-- **ARA•기능 클러스터**: Adaptive 응용에 통신과 실행 및 진단•상태 관리 서비스를 제공하는 표준 인터페이스와 모듈 집합이다.
+- **ARA**: AUTOSAR Runtime for Adaptive Applications, Adaptive 표준 API 집합
+- **기능 클러스터**: Adaptive 통신•실행•진단•상태 관리 모듈 집합
 
 </details>
 
@@ -94,7 +96,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **마이크로컨트롤러 추상화 계층(Microcontroller Abstraction Layer, MCAL)**: 상위 BSW가 특정 MCU 레지스터와 장치에 의존하지 않도록 하드웨어를 추상화하는 계층이다.
+- **MCU**: Microcontroller Unit, 프로세서•메모리•주변장치 통합 제어 장치
+- **MCAL**: Microcontroller Abstraction Layer, MCU 하드웨어를 추상화하는 계층
 - **러너블(Runnable)**: 입력 이벤트나 주기에 따라 RTE가 호출하는 SWC 내부의 실행 코드 단위이다.
 - **표준 제어값(Standardized Control Value)**: SWC의 출력이 BSW와 MCAL을 거쳐 액추에이터 장치 형식으로 변환되는 값이다.
 
@@ -152,9 +155,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ARXML 스키마•프로파일(ARXML Schema•Profile)**: 허용 요소와 형식을 정의하고 프로젝트가 사용할 규칙 범위를 고정한 도구 계약이다.
+- **ARXML 스키마**: 허용 요소와 데이터 형식을 정의한 계약
+- **ARXML 프로파일**: 프로젝트가 사용할 규칙 범위를 고정한 계약
 - **종단 최악 지연(End-to-end Worst-case Latency)**: 센서 입력부터 태스크와 통신을 거쳐 제어 출력 완료까지 걸리는 최대 시간이다.
-- **원자적 갱신•롤백(Atomic Update•Rollback)**: 전체 변경을 한 단위로 반영하고 실패하면 이전 정상 버전으로 복귀하는 방식이다.
+- **원자적 갱신(Atomic Update)**: 전체 변경을 한 단위로 반영하는 방식
+- **롤백(Rollback)**: 실패하면 이전 정상 버전으로 복귀하는 방식
 - **인터페이스 계약(Interface Contract)**: 서비스의 데이터 형식과 호출 조건 및 오류 응답을 합의한 규칙이다.
 
 </details>

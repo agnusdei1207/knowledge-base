@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디바이스 DNA (Device DNA)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:13:00+09:00"
 tags:
   - "notes-hardware"
 weight: 71
@@ -22,9 +22,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **디바이스 DNA(Device DNA)**: 하드웨어와 소프트웨어 및 행동 특성을 조합하여 장치를 지속적으로 식별하는 복합 지문이다.
+- **DNA**: Deoxyribonucleic Acid, 생물학적 고유성에서 차용한 장치 지문 비유
+- **Device DNA**: 하드웨어•소프트웨어•행동 특성을 결합한 복합 장치 지문
 - **장치 지문(Device Fingerprint)**: 장치에서 관측한 여러 특성을 결합해 생성한 식별값이다.
-- **고정 식별자(Static Identifier)**: 장치에 저장한 하나의 고정 번호로 자산을 조회하고 식별하는 정보이다.
+- **ID**: Identifier, 대상을 구분하는 식별값
+- **고정 식별자(Static Identifier)**: 장치에 저장한 하나의 고정 ID
 
 </details>
 

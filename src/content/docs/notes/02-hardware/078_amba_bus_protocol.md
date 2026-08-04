@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:22:00+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -39,9 +39,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AXI**: 독립적인 주소•데이터•응답 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
-- **AHB**: 주소 단계와 데이터 단계를 파이프라인으로 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
-- **APB**: 설정과 접근의 2단계로 저대역 주변장치 레지스터를 연결하는 단순 인터페이스이다.
+- **AXI(Advanced eXtensible Interface)**: 독립 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
+- **AHB(Advanced High-performance Bus)**: 주소와 데이터 단계를 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
+- **APB(Advanced Peripheral Bus)**: 저대역 주변장치 레지스터를 연결하는 단순 AMBA 인터페이스이다.
 - **미완료 거래(Outstanding Transaction)**: 요청을 수락했지만 아직 최종 응답이 끝나지 않은 거래이다.
 
 </details>
@@ -96,6 +96,9 @@ block-beta
 - **VALID•READY 핸드셰이크**: 송신 VALID와 수신 READY가 동시에 참일 때 채널 정보를 전달하는 AXI 규칙이다.
 - **APB 설정 단계(APB Setup Phase)**: PSEL과 주소 및 쓰기 데이터를 고정하여 대상 주변장치를 선택하는 첫 주기이다.
 - **APB 접근 단계(APB Access Phase)**: PENABLE을 활성화하고 PREADY 완료 또는 오류 응답까지 요청을 유지하는 단계이다.
+- **PSEL(Peripheral Select)**: APB에서 접근 대상 주변장치를 선택하는 신호이다.
+- **PENABLE(Peripheral Enable)**: APB 설정 다음 주기에 접근 단계를 활성화하는 신호이다.
+- **PREADY(Peripheral Ready)**: APB 주변장치가 접근 완료 여부를 알리는 신호이다.
 
 </details>
 

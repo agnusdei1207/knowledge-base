@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "물리적 복제 불가 함수 (PUF)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:10:00+09:00"
 tags:
   - "notes-hardware"
 weight: 70
@@ -145,11 +145,12 @@ $$
 - **약한 PUF(Weak PUF)**: 제한된 수의 안정된 응답으로 장치 내부 암호 키를 재생하는 PUF 유형이다.
 - **강한 PUF(Strong PUF)**: 매우 많은 질의•응답 쌍을 이용하여 원격 장치 인증에 사용하는 PUF 유형이다.
 - **진난수 생성기(True Random Number Generator, TRNG)**: 열잡음이나 발진기 지터 같은 물리 엔트로피로 매번 새로운 난수를 생성하는 장치이다.
-- **일회 프로그래밍 메모리(One-time Programmable Memory)**: 비밀값이나 보안 설정을 한 번 기록한 뒤 고정하여 보관하는 메모리이다.
+- **CRP**: Challenge-response Pair, PUF 질의와 고유 응답의 대응 관계
+- **OTP 메모리**: One-time Programmable Memory, 값을 한 번 기록해 고정 보관하는 메모리
 
 </details>
 
-| 하드웨어 비밀 생성 | PUF | 진난수 생성기(TRNG) | 일회 프로그래밍 메모리 |
+| 하드웨어 비밀 생성 | PUF | TRNG | OTP 메모리 |
 |:---|:---|:---|:---|
 | 적용 기준 | 키 재생•**CRP 장치 인증** | 일회용 값•**키 시드** | 부트 키•**보안 설정** |
 | 핵심 특징 | 제조 편차로 **동일 키 재생** | 물리 잡음으로 **새 난수 생성** | 프로그래밍한 **고정값 저장** |
@@ -187,7 +188,6 @@ $$
 
 - **키 재생(Key Reconstruction)**: 장치 내부에 키 자체를 저장하지 않고 PUF 응답에서 필요할 때 동일한 키를 복원하는 방식이다.
 - **장치 인증(Device Authentication)**: 장치 고유의 질의•응답 특성을 검증하여 통신 상대가 등록된 실제 장치인지 확인하는 절차이다.
-- **질의•응답 쌍(Challenge-response Pair, CRP)**: PUF에 입력한 질의와 제조 편차로 생성된 고유 응답의 대응 관계이다.
 
 </details>
 

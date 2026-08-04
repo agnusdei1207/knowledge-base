@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:58:00+09:00"
 tags:
   - "notes-hardware"
 weight: 66
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **제어기 영역 네트워크(Controller Area Network, CAN)**: 여러 ECU가 공유 차동 선로에서 제어 메시지를 방송하는 차량용 통신 버스이다.
+- **CAN**: Controller Area Network, 여러 ECU가 공유 선로에서 방송하는 차량용 버스
 - **다중 마스터(Multi-master)**: 여러 노드가 중앙 제어기 없이 버스 사용을 요청하고 중재 결과에 따라 송신하는 구조이다.
 - **비파괴 중재(Non-destructive Arbitration)**: 여러 노드가 동시에 송신해도 우선순위 승자의 프레임을 손상시키지 않는 중재 방식이다.
 
@@ -130,7 +130,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **CAN FD**: 데이터 필드를 최대 64바이트로 확장하고 데이터 구간의 전송률을 높인 CAN 규격이다.
+- **CAN FD**: CAN Flexible Data-rate, 64바이트 페이로드와 빠른 데이터 구간을 지원하는 규격
 - **자동차 이더넷(Automotive Ethernet)**: 스위치 기반 링크로 카메라와 백본의 대용량 데이터를 전송하는 차량 네트워크이다.
 - **페이로드(Payload)**: 프레임의 식별자와 오류 제어 필드를 제외한 실제 응용 데이터이다.
 

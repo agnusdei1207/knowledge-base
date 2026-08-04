@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:28:00+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -25,7 +25,10 @@ extra:
 - **스토리지 연결 구조(Storage Connectivity)**: 서버와 저장장치 사이에서 I/O 단위와 공유 범위 및 전송 경로를 정하는 구조이다.
 - **블록 저장(Block Storage)**: 고정 크기의 논리 블록 주소를 호스트에 제공하고 파일시스템은 호스트가 관리하는 저장 방식이다.
 - **파일 저장(File Storage)**: 파일과 디렉터리 이름 및 권한을 스토리지 서비스가 관리하여 클라이언트에 제공하는 방식이다.
-- **DAS•NAS•SAN**: DAS는 서버에 직접 연결한 블록 저장, NAS는 일반 네트워크로 공유하는 파일 저장, SAN은 전용 저장망으로 공유하는 블록 저장 구조이다.
+- **I/O(Input/Output)**: 컴퓨터와 저장장치 사이에서 데이터를 읽거나 쓰는 입출력 작업이다.
+- **DAS(Direct Attached Storage)**: 서버에 직접 연결하여 사용하는 블록 저장 구조이다.
+- **NAS(Network Attached Storage)**: 일반 네트워크를 통해 공유하는 파일 저장 구조이다.
+- **SAN(Storage Area Network)**: 전용 저장망을 통해 공유하는 블록 저장 구조이다.
 
 </details>
 
@@ -41,8 +44,11 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **파일시스템(File System)**: 블록 저장 공간을 파일과 디렉터리 이름, 메타데이터 및 권한으로 조직하는 소프트웨어이다.
-- **SMB•NFS**: 네트워크를 통해 파일과 디렉터리 단위의 공유 접근을 제공하는 대표 NAS 프로토콜이다.
-- **FC•iSCSI**: 파이버 채널 전용망 또는 IP 네트워크로 SCSI 블록 명령을 전달하는 SAN 방식이다.
+- **SMB(Server Message Block)**: 네트워크에서 파일과 디렉터리 공유 접근을 제공하는 프로토콜이다.
+- **NFS(Network File System)**: 네트워크의 원격 파일시스템에 접근하는 프로토콜이다.
+- **FC(Fibre Channel)**: 전용 패브릭으로 SCSI 블록 명령을 전달하는 SAN 기술이다.
+- **iSCSI(Internet Small Computer Systems Interface)**: IP 네트워크로 SCSI 블록 명령을 전달하는 SAN 기술이다.
+- **IP(Internet Protocol)**: 네트워크에서 패킷의 주소 지정과 전달을 담당하는 프로토콜이다.
 - **논리 블록 주소(Logical Block Address, LBA)**: 블록 장치의 데이터 위치를 고정 크기 블록 번호로 나타낸 주소이다.
 
 </details>
@@ -97,7 +103,7 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **파일 오프셋(File Offset)**: 파일 시작점부터 특정 데이터가 떨어진 바이트 위치이다.
-- **SCSI 명령(SCSI Command)**: 블록 장치에 논리 주소 기반 읽기와 쓰기 및 상태 조회를 요청하는 명령 체계이다.
+- **SCSI(Small Computer System Interface)**: 블록 장치에 읽기•쓰기와 상태 조회를 요청하는 명령 체계이다.
 - **I/O 완료(I/O Completion)**: 저장장치가 요청을 처리하고 성공•오류 상태 및 읽기 데이터를 호스트에 반환한 사건이다.
 
 </details>
@@ -128,14 +134,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **직접 연결 스토리지(Direct Attached Storage, DAS)**: 하나의 서버에 직접 연결하여 전용 블록 장치로 사용하는 저장장치이다.
-- **네트워크 연결 스토리지(Network Attached Storage, NAS)**: IP 네트워크를 통해 여러 클라이언트에 공유 파일 접근을 제공하는 장치이다.
-- **스토리지 영역 네트워크(Storage Area Network, SAN)**: 여러 서버와 블록 저장장치를 전용 패브릭이나 IP 네트워크로 연결하는 구조이다.
-
-</details>
-
 | 스토리지 연결 구조 | DAS | NAS | SAN |
 |:---|:---|:---|:---|
 | 적용 기준 | **단일 서버 전용 블록** | **다중 사용자 공동 파일** | **다중 서버 중앙 블록** |
@@ -153,7 +151,8 @@ sequenceDiagram
 - **메타데이터 병목(Metadata Bottleneck)**: 파일 이름과 권한 및 디렉터리 조회가 집중되어 NAS 지연을 제한하는 현상이다.
 - **다중 경로(Multipathing)**: 스토리지 경로 장애 시 다른 독립 I/O 경로로 전환하여 접근을 유지하는 기술이다.
 - **조닝(Zoning)**: SAN 패브릭에서 서로 통신할 수 있는 호스트와 스토리지 포트의 집합을 제한하는 통제이다.
-- **LUN 마스킹(LUN Masking)**: 스토리지 배열이 호스트별로 볼 수 있는 논리 블록 장치를 제한하는 통제이다.
+- **LUN(Logical Unit Number)**: 호스트에 제공하는 논리 블록 장치를 식별하는 번호이다.
+- **LUN 마스킹**: 스토리지 배열이 호스트별로 볼 수 있는 LUN을 제한하는 통제이다.
 
 </details>
 

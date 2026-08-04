@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "논리 큐비트와 물리 큐비트 (Logical vs Physical Qubit)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:16:00+09:00"
 tags:
   - "notes-hardware"
 weight: 75
@@ -130,8 +130,6 @@ sequenceDiagram
 
 - **물리 오류율(Physical Error Rate)**: 실제 게이트와 측정 및 유휴 상태가 실패하는 비율이다.
 - **논리 오류율(Logical Error Rate)**: 오류 정정 후에도 하나의 논리 연산이나 주기가 실패하는 비율이다.
-- **물리 큐비트(Physical Qubit)**: 칩에서 직접 제어•측정하며 잡음과 결맞음 손실의 영향을 받는 실제 양자 소자이다.
-- **논리 큐비트(Logical Qubit)**: 여러 물리 큐비트와 오류 정정 코드를 묶어 안정된 계산 상태를 표현하는 단위이다.
 - **결맞음 손실(Decoherence)**: 환경과의 상호작용으로 물리 큐비트의 위상과 양자 상태가 훼손되는 현상이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:55:00+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -22,13 +22,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **공동 시험 동작 그룹(Joint Test Action Group, JTAG) 인터페이스**: 경계 스캔과 칩 디버깅에 사용하는 국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE) 1149.1 기반 직렬 시험 인터페이스이다.
+- **JTAG**: Joint Test Action Group, 경계 스캔과 칩 디버깅용 직렬 인터페이스
+- **IEEE**: Institute of Electrical and Electronics Engineers, 전기전자 기술 표준 단체
 - **테스트 접근 포트(Test Access Port, TAP)**: 시험 명령과 데이터를 직렬로 전송하고 상태 머신을 제어하는 JTAG 포트이다.
-- **경계 스캔(Boundary Scan)**: 집적회로(Integrated Circuit, IC) 핀 주위의 셀을 직렬 체인으로 연결하여 핀 값을 구동하고 관찰하는 시험 방식이다.
+- **IC**: Integrated Circuit, 회로를 반도체 다이에 집적한 장치
+- **PCB**: Printed Circuit Board, 전자 부품을 배선으로 연결하는 기판
+- **경계 스캔(Boundary Scan)**: IC 핀 주위 셀을 직렬 체인으로 연결하는 시험 방식
 
 </details>
 
-- 정의/개념: 집적회로(Integrated Circuit, IC)와 인쇄회로기판(Printed Circuit Board, PCB) 연결 검사에는 **국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE) 1149.1의 테스트 접근 포트(Test Access Port, TAP)•경계 스캔 활용**, 구현 방식은 공동 시험 동작 그룹(Joint Test Action Group, JTAG) 직렬 인터페이스
+- 정의/개념: IC•PCB 연결 검사에 **IEEE 1149.1 TAP•경계 스캔**을 사용하는 JTAG
 - 배경/필요성: 물리 탐침으로는 패키지 내부 **핀•배선 관측 불가**
 
 #### 한줄 요약
@@ -45,9 +48,9 @@ extra:
 
 </details>
 
-- 다중 집적회로(Integrated Circuit, IC)의 단일 포트 검사는 **직렬 스캔 체인** 활용
+- 다중 IC의 단일 포트 검사는 **직렬 스캔 체인** 활용
 - 코어 실행 없는 핀 구동•관찰에는 **경계 스캔 셀** 활용
-- 별도 확인 대상은 표준 경계 스캔과 **중앙처리장치(Central Processing Unit, CPU) 디버그 구현**
+- 별도 확인 대상은 표준 경계 스캔과 **CPU 디버그 구현**
 
 #### 한줄 요약
 
@@ -64,7 +67,7 @@ extra:
 
 </details>
 
-테스트 접근 포트(Test Access Port, TAP) 제어기는 테스트 모드 선택(Test Mode Select, TMS)과 테스트 클록(Test Clock, TCK)에 따라 명령 레지스터(Instruction Register, IR)와 데이터 레지스터(Data Register, DR)를 전환한다. 테스트 데이터 입력(Test Data In, TDI)과 테스트 데이터 출력(Test Data Out, TDO)은 공동 시험 동작 그룹(Joint Test Action Group, JTAG) 데이터를 직렬로 이동한다.
+TAP 제어기는 TMS와 TCK에 따라 IR과 DR을 전환한다. TDI와 TDO는 JTAG 데이터를 직렬 이동한다.
 
 ```mermaid
 block-beta
@@ -99,7 +102,7 @@ block-beta
 
 </details>
 
-공동 시험 동작 그룹(Joint Test Action Group, JTAG) 프로브는 테스트 모드 선택(Test Mode Select, TMS)과 테스트 클록(Test Clock, TCK)으로 외부 시험(External Test, EXTEST)을 지정하고, 인쇄회로기판(Printed Circuit Board, PCB)의 집적회로(Integrated Circuit, IC) 연결을 검사한다.
+JTAG 프로브는 TMS와 TCK로 EXTEST를 지정하고 PCB의 IC 연결을 검사한다.
 
 ```mermaid
 sequenceDiagram
@@ -141,7 +144,7 @@ sequenceDiagram
 
 </details>
 
-공동 시험 동작 그룹(Joint Test Action Group, JTAG)은 인쇄회로기판(Printed Circuit Board, PCB)의 다중 집적회로(Integrated Circuit, IC) 연결을 검사하고, 직렬 와이어 디버그(Serial Wire Debug, SWD)는 Arm 코어를 제어하며, 범용 비동기 송수신기(Universal Asynchronous Receiver-transmitter, UART)는 로그를 전달한다.
+JTAG는 PCB의 다중 IC 연결을 검사하고, SWD는 Arm 코어를 제어하며, UART는 로그를 전달한다.
 세 인터페이스의 운영 단계 필수 항목: **디버그 공격면 통제**
 
 | 디버그•시험 인터페이스 | JTAG | SWD | UART |
@@ -165,7 +168,7 @@ sequenceDiagram
 
 </details>
 
-테스트 접근 포트(Test Access Port, TAP)는 식별 코드(Identification Code, IDCODE)와 우회(BYPASS) 명령으로 집적회로(Integrated Circuit, IC) 체인을 확인한다. 외부 시험(External Test, EXTEST)과 공동 시험 동작 그룹(Joint Test Action Group, JTAG) 접근은 출하 후 인증 정책으로 제한한다.
+TAP는 IDCODE와 BYPASS로 IC 체인을 확인한다. EXTEST와 JTAG 접근은 출하 후 인증 정책으로 제한한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -188,7 +191,7 @@ sequenceDiagram
 
 </details>
 
-- 인쇄회로기판(Printed Circuit Board, PCB)과 집적회로(Integrated Circuit, IC)의 생산 단계: **생산 시험•외부 시험(External Test, EXTEST) 사용**, 운영 단계: **출하 후 통제•공동 시험 동작 그룹(Joint Test Action Group, JTAG) 인증•잠금**, 유지보수 목표: **정비성 확보**
+- PCB•IC 생산 단계: **생산 시험•EXTEST**, 운영 단계: **JTAG 인증•잠금**, 목표: 정비성 확보
 
 #### 한줄 요약
 

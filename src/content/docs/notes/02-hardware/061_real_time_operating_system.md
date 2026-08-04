@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실시간 운영체제 (RTOS)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:43:00+09:00"
 tags:
   - "notes-hardware"
 weight: 61
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 태스크의 **응답시간** 을 **데드라인** 안으로 통제하는 **실시간 운영체제(Real-time Operating System, RTOS)**
+- 정의/개념: 태스크의 **응답시간**을 데드라인 안으로 통제하는 **RTOS**
 - 배경/필요성: 슈퍼루프는 다중 태스크의 **최악 지연 분석과 우선순위 제어가 복잡함**
 
 #### 한줄 요약
@@ -67,7 +67,8 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **인터럽트 관리(Interrupt Management)**: 장치 이벤트를 받아 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)을 실행하고 관련 태스크를 준비 상태로 전환하는 기능이다.
+- **ISR**: Interrupt Service Routine, 인터럽트 사건을 처리하는 루틴
+- **인터럽트 관리(Interrupt Management)**: ISR을 실행하고 관련 태스크를 준비 상태로 전환하는 기능
 - **태스크 제어 블록(Task Control Block, TCB)**: 태스크의 실행 상태와 우선순위, 레지스터 문맥 및 스택 정보를 저장하는 자료구조이다.
 - **준비 큐(Ready Queue)**: 실행할 수 있는 태스크를 우선순위나 스케줄링 정책 순서로 보관하는 대기열이다.
 - **동기화 관리(Synchronization Management)**: 여러 태스크의 실행 순서와 공유 자원 접근을 락이나 이벤트로 제어하는 기능이다.
@@ -131,7 +132,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 실시간 운영체제(Real-time Operating System, RTOS)는 준비 태스크 중 우선순위가 가장 높은 작업을 실행하고 차단되면 다음 작업을 선택한다.
+- RTOS는 준비 태스크 중 우선순위가 가장 높은 작업을 실행하고 차단되면 다음 작업을 선택한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -140,7 +141,6 @@ sequenceDiagram
 - **베어메탈(Bare Metal)**: 운영체제 없이 슈퍼루프와 인터럽트 코드가 하드웨어를 직접 제어하는 실행 환경이다.
 - **슈퍼루프(Super Loop)**: 여러 작업을 하나의 반복문 안에서 정해진 순서로 계속 실행하는 구조이다.
 - **범용 운영체제(General-purpose Operating System)**: 평균 처리량과 다양한 서비스를 중시하여 최악 지연 상한을 보장하지 않는 운영체제이다.
-- **실시간 운영체제(Real-time Operating System, RTOS)**: 태스크의 최악 응답시간을 분석해 데드라인 충족을 관리하는 운영체제이다.
 
 </details>
 
@@ -160,7 +160,7 @@ sequenceDiagram
 
 - **우선순위 역전(Priority Inversion)**: 낮은 우선순위 태스크가 가진 잠금 때문에 높은 우선순위 태스크가 기다리는 현상이다.
 - **우선순위 상속(Priority Inheritance)**: 잠금 보유 태스크의 우선순위를 대기 중인 높은 태스크 수준으로 올려 차단을 줄이는 기법이다.
-- **지연 처리(Deferred Processing)**: 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)에서는 긴급한 처리만 하고 나머지 작업을 태스크 문맥으로 넘기는 방식이다.
+- **지연 처리(Deferred Processing)**: ISR은 긴급 처리만 하고 나머지를 태스크 문맥으로 넘기는 방식
 - **스택 워터마크(Stack Watermark)**: 스택의 알려진 초기 패턴이 얼마나 덮였는지 확인하여 최대 사용량을 측정하는 기법이다.
 
 </details>
@@ -183,7 +183,6 @@ sequenceDiagram
 - **스케줄 가능성(Schedulability)**: 모든 실시간 태스크가 최악 조건에서도 각자의 데드라인을 만족하는 성질이다.
 - **지터(Jitter)**: 반복되는 태스크의 시작•완료 또는 응답 시간이 기준 시점에서 변하는 폭이다.
 - **데드라인 충족(Deadline Satisfaction)**: 분석한 최악 응답시간(Worst-case Response Time, WCRT)이 태스크의 허용 데드라인 이하인 상태이다.
-- **실시간 운영체제(Real-time Operating System, RTOS)**: 다중 태스크의 스케줄 가능성과 데드라인 충족을 관리하는 운영체제이다.
 
 </details>
 

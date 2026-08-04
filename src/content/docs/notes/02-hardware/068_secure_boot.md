@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 부팅 (Secure Boot)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 68
@@ -61,7 +61,8 @@ extra:
 - **부트 읽기 전용 메모리(Boot Read-only Memory, Boot ROM)**: 전원 인가 직후 실행되는 변경 불가능한 초기 검증 코드를 저장하는 메모리이다.
 - **신뢰 저장소(Trust Store)**: 루트 키와 키 폐기 정보 및 최소 보안 버전을 변조하기 어렵게 보관하는 영역이다.
 - **이미지 저장소(Image Store)**: 활성 부팅 이미지와 복구 이미지를 슬롯별로 보관하는 비휘발성 저장 영역이다.
-- **서명•버전 검증기(Signature•Version Verifier)**: 이미지 해시와 서명 및 보안 버전을 신뢰 기준과 비교하는 구성이다.
+- **서명 검증기(Signature Verifier)**: 이미지 해시와 서명을 신뢰 키로 검증하는 구성
+- **버전 검증기(Version Verifier)**: 이미지 보안 버전을 최소 허용 버전과 비교하는 구성
 
 </details>
 

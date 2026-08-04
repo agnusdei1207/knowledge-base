@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "버스 대역폭과 전송률 계산 (Bus Bandwidth)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:19:00+09:00"
 tags:
   - "notes-hardware"
 weight: 76
@@ -43,6 +43,9 @@ extra:
 - **직렬 링크(Serial Link)**: 한 레인에서 비트를 순서대로 보내고 여러 레인으로 총비트율을 높이는 연결 방식이다.
 - **프로토콜 효율(Protocol Efficiency)**: 프레임 전체 전송량 가운데 수신자가 사용하는 페이로드가 차지하는 비율이다.
 - **링크 사용률(Link Utilization)**: 프로토콜 효율을 반영한 최대 페이로드 대역폭 가운데 실측 처리량이 차지하는 비율이다.
+- **MT/s(Mega Transfers per Second)**: 초당 백만 번의 데이터 전송을 나타내는 단위이다.
+- **GT/s(Giga Transfers per Second)**: 초당 십억 번의 데이터 전송을 나타내는 단위이다.
+- **DDR(Double Data Rate)**: 한 클록의 상승•하강 에지에서 각각 데이터를 전송하는 방식이다.
 
 </details>
 
@@ -150,7 +153,6 @@ $$
 <details><summary>핵심 용어</summary>
 
 - **이론 대역폭(Theoretical Bandwidth)**: 버스 폭과 전송률 또는 링크 비트율•레인•인코딩으로 계산한 최대 용량이다.
-- **실측 처리량(Measured Throughput)**: 실제 경합과 흐름 제어를 포함한 조건에서 단위 시간에 전달된 페이로드 양이다.
 - **측정 조건(Measurement Condition)**: 메시지 크기와 동시성, 방향, 시간 및 큐 깊이처럼 처리량 결과에 영향을 주는 설정이다.
 
 </details>
@@ -170,7 +172,8 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **비트•바이트(Bit•Byte)**: 비트는 이진 한 자리이고 바이트는 8비트를 묶은 데이터 단위이다.
+- **비트(Bit)**: 이진 한 자리를 나타내는 데이터 단위이다.
+- **바이트(Byte)**: 8비트를 묶은 데이터 단위이다.
 - **방향별 지표(Directional Metric)**: 송신과 수신 또는 단방향과 양방향 전송량을 분리하여 기록한 성능 값이다.
 - **버스트(Burst)**: 짧은 시간에 전송 요청이나 데이터가 집중되는 순간 부하이다.
 - **큐 깊이(Queue Depth)**: 한 시점에 대기하거나 처리 중인 전송 요청의 수이다.
