@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "IDS•IPS 탐지 vs 차단 (IDS IPS)"
-date: "2026-08-04T10:37:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 23
@@ -65,19 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["센서 인터페이스"]
-    B["정규화기"]
-    C["탐지 엔진"]
-    D["대응 모듈"]
-    E["로그 관리"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[센서 인터페이스]---[정규화기]---[탐지 엔진]---[대응 모듈]---[로그 관리]
 ```
+
+선의 의미: 수집, 표현 통일, 판정, 대응, 증거 관리 기능이 결합된 IDS•IPS 내부 구성 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

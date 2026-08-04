@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "랜섬웨어 공격 분석•대응 (Ransomware)"
-date: "2026-08-05T08:12:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 26
@@ -64,20 +64,6 @@ extra:
 - **오프라인 백업** 은 평상시 운영망과 연결되지 않는 백업이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    A["초기 접근•C2"]
-    B["권한•신원 장악"]
-    C["측면 이동•유출"]
-    D["복구 방해•암호화"]
-    E["갈취 대응•복구 경계"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

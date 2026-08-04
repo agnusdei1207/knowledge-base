@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-08-05T08:52:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -62,21 +62,6 @@ extra:
 - **동원(Mobilization)** 은 검증된 노출에 담당자•기한•조치 권한을 지정해 실제 개선을 실행하는 단계다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  A["범위 설정"]
-  B["발견"]
-  C["우선순위화"]
-  D["검증"]
-  E["동원"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-  E --- A
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

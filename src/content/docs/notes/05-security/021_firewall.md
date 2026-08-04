@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "방화벽 - 패킷 필터•상태기반•NGFW (Firewall)"
-date: "2026-08-04T10:33:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 21
@@ -64,15 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    P["정책 룰셋"]
-    S["상태•NAT"]
-    A["앱•위협 검사"]
-    P --- S
-    S --- A
+```text
+[정책 룰셋]---[상태•NAT]---[앱•위협 검사]
 ```
+
+선의 의미: 정책 룰셋, 연결 상태•주소 변환, 응용•공격 검사가 결합된 방화벽 내부 구성 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

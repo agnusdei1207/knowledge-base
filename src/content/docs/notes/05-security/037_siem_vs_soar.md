@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR)"
-date: "2026-08-05T08:40:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -62,20 +62,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["SIEM 수집•상관"]
-  B["인계 계약"]
-  C["SOAR 보강•조치"]
-  D["결과 환류"]
-  E["EDR•IdP"]
-    A --- B
-    B --- C
-    C --- E
-    E --- D
-    D --- A
+```text
+[SIEM 수집•상관] ----- [인계 계약] ----- [SOAR 보강•조치] ----- [EDR•IdP]
+        \                                                       /
+                               [결과 환류]
 ```
+
+선의 의미: 가로선은 SIEM 탐지 근거가 인계 계약을 경계로 SOAR와 EDR•IdP 집행 기능에 결합되는 관계이고, 아래 가지는 실제 조치 결과를 SIEM 탐지 규칙에 연결하는 정적 환류 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

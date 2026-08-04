@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "DDoS 공격•대응 - SYN Flood•반사 증폭 (DDoS Attack)"
-date: "2026-08-04T10:41:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 25
@@ -66,19 +66,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["봇넷•반사원"]
-    B["상류 스크러빙"]
-    C["CDN•애니캐스트"]
-    D["WAF•연결 보호"]
-    E["원본 서비스"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[봇넷•반사원]---[상류 스크러빙]---[CDN•애니캐스트]---[WAF•연결 보호]---[원본 서비스]
 ```
+
+선의 의미: 공격 트래픽 발생 영역과 상류 제거•분산•응용 보호 계층, 원본 서비스가 놓이는 네트워크 배치 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-05T08:00:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -64,21 +64,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 5
-    A["사용자•데이터"]
-    B["NGFW 계층"]
-    C["WAF•API 계층"]
-    D["CASB 계층"]
-    E["로그•정책 통합"]
-    A --- B
-    A --- C
-    A --- D
-    B --- E
-    C --- E
-    D --- E
+```text
+                 [사용자•데이터]
+                        |
+          +-------------+-------------+
+          |             |             |
+   [NGFW 계층]   [WAF•API 계층]   [CASB 계층]
+          |             |             |
+          +-------------+-------------+
+                        |
+                 [로그•정책 통합]
 ```
+
+선의 의미: 공통 신원•데이터 문맥을 세 보안 계층이 함께 사용하고, 각 계층의 정보가 로그•정책 통합부에 연결되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

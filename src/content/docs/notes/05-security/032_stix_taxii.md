@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STIX•TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-05T08:24:00+09:00"
+date: "2026-08-05T09:24:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -63,20 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["STIX 객체•관계"]
-    B["버전•표식•철회"]
-    C["TAXII 자원"]
-    D["목록•객체•상태"]
-    E["생산자•소비자 정책"]
-    A --- B
-    B --- C
-    C --- D
-    E --- B
-    E --- C
+```text
+                    [생산자•소비자 정책]
+                       /             \
+              [STIX 객체•관계]     [TAXII 자원]
+                       |                 |
+              [버전•표식•철회]   [목록•객체•상태]
 ```
+
+선의 의미: 생산자•소비자 정책 아래 STIX의 객체 표현•수명 통제 영역과 TAXII의 자원•교환 상태 영역을 나란히 둔 정적 표준 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APT 고급 지속 위협 (Advanced Persistent Threat)"
-date: "2026-08-04T10:45:00+09:00"
+date: "2026-08-05T01:39:26+09:00"
 tags:
   - "notes-security"
 weight: 27
@@ -65,19 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["공격자 인프라"]
-    B["C2•전달 채널"]
-    C["침해 계정•호스트"]
-    D["핵심 업무 자산"]
-    E["가시성•헌팅•축출"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[공격자 인프라]---[C2•전달 채널]---[침해 계정•호스트]---[핵심 업무 자산(Crown Jewel)]---[가시성•헌팅•축출]
 ```
+
+선의 의미: 외부 공격 기반, 통신 채널, 침해 거점, 보호 대상, 방어 가시성이 맞닿는 침해 대응 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
