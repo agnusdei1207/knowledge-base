@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "EU CSRD 지속가능성 공시 (EU CSRD)"
-date: "2026-08-04T14:54:17+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 36
@@ -65,16 +65,6 @@ extra:
 - **제한적 확신**: 외부 검증인이 정해진 절차를 수행해 공시 정보에 중대한 왜곡이 발견되지 않았다는 수준의 결론을 제공하는 검증이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 5
-    G["경영기구"] V["가치사슬•IRO"] M["이중 중대성 평가"] R["ESRS 보고•내부통제"] A["외부 확신•공시 이용자"]
-    G --- V
-    V --- M
-    M --- R
-    R --- A
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

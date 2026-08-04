@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST PQC 표준화 — FIPS 203/204/205 (NIST PQC FIPS)"
-date: "2026-08-04T14:54:17+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 39
@@ -69,15 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 5
-    K["ML-KEM•FIPS 203"] S["대칭 암호"] D["ML-DSA•FIPS 204"] H["SLH-DSA•FIPS 205"] A["암호 민첩성•검증"]
-    K --- S
-    D --- A
-    H --- A
-    K --- A
+```text
+[ML-KEM•FIPS 203] ----- [대칭 암호]
+          |
+ [암호 민첩성•검증]
+       /         \
+[ML-DSA•FIPS 204] [SLH-DSA•FIPS 205]
 ```
+
+선의 의미: ML-KEM•FIPS 203은 대칭 암호가 사용할 공유 비밀을 설정하고, 암호 민첩성•검증은 키 설정과 ML-DSA•FIPS 204 및 SLH-DSA•FIPS 205의 서명 알고리즘 선택•교체를 통제하는 정적 암호 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

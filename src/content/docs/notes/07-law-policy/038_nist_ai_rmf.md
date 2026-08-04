@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-08-04T14:54:17+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -64,14 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    G["Govern"] M["Map"] E["Measure"] A["Manage"]
-    G --- M
-    M --- E
-    E --- A
+```text
+                 [Govern]
+             /      |      \
+          [Map] [Measure] [Manage]
 ```
+
+선의 의미: Govern은 정책•책임•문화•위험 허용수준을 바탕으로 Map, Measure, Manage를 함께 포괄하는 정적 위험관리 기능 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

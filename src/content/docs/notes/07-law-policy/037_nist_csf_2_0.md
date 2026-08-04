@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-08-04T14:54:17+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -66,16 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 6
-    G["Govern"] I["Identify"] P["Protect"] D["Detect"] R["Respond"] C["Recover"]
-    G --- I
-    I --- P
-    P --- D
-    D --- R
-    R --- C
+```text
+                         [Govern]
+             /         /    |    \         \
+      [Identify] [Protect] [Detect] [Respond] [Recover]
 ```
+
+선의 의미: Govern은 조직 맥락•전략•책임•정책을 바탕으로 Identify, Protect, Detect, Respond, Recover의 다섯 기능을 함께 포괄하는 정적 기능 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
