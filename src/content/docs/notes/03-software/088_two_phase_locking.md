@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (2PL Two-Phase Locking)"
-date: "2026-08-04T12:27:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -110,13 +110,16 @@ block-beta
 sequenceDiagram
     participant T as 트랜잭션
     participant L as 잠금 관리자
+    participant P as 잠금 상태•대기열
+    participant W as 대기 그래프
     participant D as 데이터 저장소
     T->>L: 트랜잭션 ID•자원 키•S•X 모드
-    L->>L: 1. 보유자•모드•대기열 확인
+    L->>P: 1. 보유자•모드•대기열 확인
+    P-->>L: 잠금 호환성 결과
     L->>D: 2. 부여 잠금•읽기•쓰기 연산
     D-->>T: 연산 결과
     T->>L: 3. 종료 상태•해제 잠금 목록
-    L->>L: 4. 대기 간선•트랜잭션 비용 평가
+    L->>W: 4. 대기 간선•트랜잭션 비용 평가
 ```
 
 **동작 원리**

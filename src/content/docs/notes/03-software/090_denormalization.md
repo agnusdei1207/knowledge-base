@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "반정규화•성능 트레이드오프 (Denormalization)"
-date: "2026-08-04T12:31:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 90
@@ -111,13 +111,15 @@ sequenceDiagram
     participant DB as 원본 DB
     participant SYNC as 동기화 처리기
     participant READ as 조회 모델
+    participant V as 정합성 검증기
     APP->>DB: 원본 변경 명령
     DB->>SYNC: 1. 변경 ID•버전•이벤트 값
     SYNC->>DB: 2. 원본 ID•기대 버전
     DB-->>SYNC: 최신 원본 데이터
     SYNC->>READ: 3. 조회 키•버전•파생값
     READ-->>SYNC: 4. 조회 모델 버전•동기화 지연
-    SYNC->>SYNC: 불일치•재처리 대상 판정
+    SYNC->>V: 불일치•재처리 대상 판정
+    V-->>SYNC: 판정 결과
     APP->>READ: 조회 조건
     READ-->>APP: 준비된 조회 결과
 ```

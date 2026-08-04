@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-04T12:44:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -100,32 +100,37 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **1. WAL 순차 기록**: 메모리 테이블 갱신 전에 복구 로그를 영속화하는 단계이다.
-- **2. Memtable 갱신**: 영속화된 변경의 최신 값을 메모리 정렬 구조에 반영하는 단계이다.
-- **3. SSTable Flush**: Memtable이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
+- **B-Tree 페이지 탐색•갱신**: 정렬 페이지에서 키를 찾아 값을 제자리 갱신하는 단계이다.
+- **WAL 순차 기록**: 메모리 테이블 갱신 전에 복구 로그를 영속화하는 단계이다.
+- **Memtable 갱신**: 영속화된 변경의 최신 값을 메모리 정렬 구조에 반영하는 단계이다.
+- **SSTable Flush**: Memtable이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
 
 </details>
 
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
-    participant E as 저장 엔진
+    participant B as B-Tree 페이지
     participant W as WAL
     participant M as Memtable
     participant S as SSTable
-    C->>E: 키•값 쓰기 요청
-    E->>W: 1. WAL 순차 기록
-    W-->>E: 영속화 확인
-    E->>M: 2. Memtable 갱신
-    E-->>C: 쓰기 완료 응답
-    M->>S: 3. SSTable Flush
+    alt B-Tree
+        C->>B: 1. B-Tree 페이지 탐색•갱신
+        B-->>C: 쓰기 완료 응답
+    else LSM-Tree
+        C->>W: 2. WAL 순차 기록
+        W->>M: 3. Memtable 갱신
+        M-->>C: 쓰기 완료 응답
+        M->>S: 4. SSTable Flush
+    end
 ```
 
 **동작 원리**
 
-- **1. WAL 순차 기록**: Memtable보다 먼저 복구 로그 보존
-- **2. Memtable 갱신**: 메모리 정렬 구조에 최신 값 반영
-- **3. SSTable Flush**: 한도 도달 시 정렬 파일로 영속화
+- **1. B-Tree 페이지 탐색•갱신**: 정렬 페이지의 키를 찾아 값을 제자리 변경
+- **2. WAL 순차 기록**: Memtable보다 먼저 복구 로그 보존
+- **3. Memtable 갱신**: 메모리 정렬 구조에 최신 값 반영
+- **4. SSTable Flush**: 한도 도달 시 정렬 파일로 영속화
 
 #### 한줄 요약
 

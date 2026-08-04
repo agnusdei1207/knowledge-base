@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터베이스 정규화 1NF~BCNF (Database Normalization)"
-date: "2026-08-04T12:29:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 89
@@ -106,13 +106,18 @@ block-beta
 sequenceDiagram
     participant B as 업무 전문가
     participant D as 데이터 설계자
+    participant A as 종속성 분석기
     participant V as 검증기
+    participant J as 무손실•종속성 규칙
     D->>B: 스키마•업무 규칙 질문
     B-->>D: 업무 규칙•함수 종속 근거
-    D->>D: 1. 속성 집합•함수 종속 분석
-    D->>D: 2. 후보키•정규형 위반 식별
+    D->>A: 1. 속성 집합•함수 종속 분석
+    A-->>D: 분석 결과
+    D->>A: 2. 후보키•정규형 위반 식별
+    A-->>D: 위반 목록
     D->>V: 3. 분해 릴레이션•키•제약
-    V->>V: 4. 무손실•종속성 보존 검증
+    V->>J: 4. 분해 스키마•함수 종속 집합
+    J-->>V: 무손실•종속성 보존 결과
     V-->>D: 무손실•종속성 보존 결과
 ```
 

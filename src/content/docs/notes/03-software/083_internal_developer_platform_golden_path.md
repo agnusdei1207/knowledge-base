@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "내부 개발자 플랫폼 골든 패스 (Internal Developer Platform Golden Path)"
-date: "2026-08-04T12:17:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 83
@@ -115,13 +115,15 @@ sequenceDiagram
     participant P as 골든 패스
     participant W as 자동화 워크플로
     participant A as 플랫폼팀
+    participant R as 경로 분석
     D->>P: 서비스 유형•팀 요구
     P->>W: 1. 시작 템플릿•기본값•가드레일
     W-->>D: 표준 서비스 경로
     D->>A: 미충족 요구•우회 사유
     A->>W: 2. 승인 확장•탈출구•만료 조건
     W->>A: 3. 단계 시간•실패•우회 지표
-    A->>A: 경로 마찰 분석
+    A->>R: 경로 마찰 분석
+    R-->>A: 개선 근거
 ```
 
 **동작 원리**

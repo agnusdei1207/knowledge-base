@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
-date: "2026-08-04T12:46:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 98
@@ -112,11 +112,13 @@ sequenceDiagram
     participant O as 옵티마이저
     participant C as 파티션 카탈로그
     participant P as 대상 파티션
+    participant D as 파티션 데이터
     Q->>O: 1. 파티션 키 조건 분석
     O->>C: 2. 경계•매핑 규칙 조회
     C-->>O: 3. 대상 파티션 선택
     O->>P: 4. 프루닝 범위•인덱스 탐색
-    P->>P: 5. 대상 행 조회
+    P->>D: 5. 대상 행 조회
+    D-->>P: 대상 행
     P-->>Q: 질의 결과 반환
 ```
 

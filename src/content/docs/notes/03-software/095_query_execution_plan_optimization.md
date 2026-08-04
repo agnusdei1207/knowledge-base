@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
-date: "2026-08-04T12:40:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 95
@@ -109,10 +109,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 응용 프로그램
-    participant O as 질의 분석기•옵티마이저
+    participant O as 옵티마이저
+    participant Q as 질의 분석기
     participant S as 통계 저장소
     participant E as 실행 엔진
-    A->>O: 1. SQL 분석•논리 질의 구성
+    A->>O: SQL 질의 요청
+    O->>Q: 1. SQL 분석•논리 질의 구성
+    Q-->>O: 논리 질의
     O->>S: 2. 카디널리티 조회
     S-->>O: 분포•선택도 반환
     O->>E: 3. 최저 비용 계획 선택

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "개체 무결성•참조 무결성 (Entity Referential Integrity)"
-date: "2026-08-04T12:35:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 92
@@ -106,10 +106,12 @@ block-beta
 sequenceDiagram
     participant APP as 주문 서비스
     participant SQL as SQL•제약 처리기
+    participant M as 키 제약 메타데이터
     participant DB as 데이터 저장소
     APP->>SQL: 주문 ID•고객 ID•주문 값
-    SQL->>SQL: 1. 후보 기본키•NOT NULL•유일 규칙
-    SQL->>DB: 2. 외래키•부모 키 조회
+    SQL->>M: 1. 후보 기본키•NOT NULL•유일 규칙
+    M-->>SQL: 개체 무결성 판정
+    SQL->>DB: 2. 외래키•참조 대상 키•참조 동작
     DB-->>SQL: 부모 존재•참조 동작 결과
     SQL->>DB: 3. 검증된 주문 행
     DB-->>APP: 커밋•제약 위반 결과

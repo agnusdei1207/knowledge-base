@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-04T12:33:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -111,9 +111,11 @@ block-beta
 sequenceDiagram
     participant APP as 애플리케이션
     participant SQL as SQL•제약 처리기
+    participant M as 도메인 제약 메타데이터
     participant DATA as 데이터 저장소
     APP->>SQL: 삽입•수정•삭제 후보
-    SQL->>SQL: 1. 열 값•도메인 제약 확인
+    SQL->>M: 1. 열 값•도메인 제약 확인
+    M-->>SQL: 도메인 판정 결과
     SQL->>DATA: 2. PK•UNIQUE•FK 키 조회
     DATA-->>SQL: 중복•부모 존재 결과
     SQL->>DATA: 3. 검증된 변경•참조 동작

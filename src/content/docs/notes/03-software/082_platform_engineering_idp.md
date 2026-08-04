@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "플랫폼 엔지니어링 IDP (Platform Engineering IDP)"
-date: "2026-08-04T12:15:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 82
@@ -111,10 +111,12 @@ block-beta
 sequenceDiagram
     participant D as 개발자
     participant P as IDP•자동화 워크플로
+    participant C as 서비스 카탈로그
     participant G as 정책 가드레일
     participant R as 실행 환경
     D->>P: 카탈로그 템플릿•요청값
-    P->>P: 1. 템플릿•매개변수•소유 정보 구체화
+    P->>C: 1. 템플릿•매개변수•소유 정보 구체화
+    C-->>P: 구체화 결과
     P->>G: 2. 자원 명세•정책 컨텍스트
     G-->>P: 허용•위반•보완 조건
     P->>R: 3. 승인 자원•파이프라인 명세

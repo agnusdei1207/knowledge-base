@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인덱스 구조: B+Tree•해시•복합 (Index Structure)"
-date: "2026-08-04T12:37:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 93
@@ -106,9 +106,11 @@ block-beta
 sequenceDiagram
     participant Q as 질의 실행기
     participant O as 옵티마이저
+    participant S as 통계 정보
     participant D as 인덱스•테이블 저장소
     Q->>O: 검색 술어•필요 열•정렬
-    O->>O: 1. 통계•선택도 분석
+    O->>S: 1. 통계•선택도 분석
+    S-->>O: 예상 행 수
     O->>D: 2. 인덱스 식별자•키 범위
     D-->>O: 리프 엔트리•후보 행 위치
     O->>D: 3. 행 위치•비포함 필요 열

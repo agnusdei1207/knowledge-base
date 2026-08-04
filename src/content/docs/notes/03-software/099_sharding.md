@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "샤딩: 수평 분할 (Sharding)"
-date: "2026-08-04T12:48:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 99
@@ -109,13 +109,17 @@ block-beta
 sequenceDiagram
     participant A as 응용
     participant R as 샤드 라우터
+    participant M as 배치 메타데이터
     participant S as 데이터 샤드
+    participant B as 부하 기록
     A->>R: 샤드 키•연산 요청
-    R->>R: 1. 배치 메타데이터 조회
-    R->>R: 2. 대상 샤드 선택
+    R->>M: 1. 배치 메타데이터 조회
+    M-->>R: 키 범위•노드 위치
+    R->>M: 2. 대상 샤드 선택
+    M-->>R: 소유 노드
     R->>S: 3. 지역 질의 실행
     S-->>R: 결과 반환
-    R->>R: 4. 샤드 부하 기록
+    R->>B: 4. 샤드 부하 기록
     R-->>A: 질의 결과 반환
 ```
 

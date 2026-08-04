@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클러스터드 인덱스•커버링 인덱스 (Clustered Covering Index)"
-date: "2026-08-04T12:38:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 94
@@ -107,10 +107,11 @@ sequenceDiagram
     participant Q as 질의 실행기
     participant O as 옵티마이저
     participant I as 인덱스
+    participant L as 리프 페이지
     participant T as 원본 테이블
     Q->>O: 검색 술어•투영 열•정렬
     O->>I: 1. 인덱스 ID•키 범위•커버링 여부
-    I->>I: 2. 시작 키•종료 키 탐색
+    I->>L: 2. 시작 키•종료 키 탐색
     I-->>O: 리프 키•포함 열•행 위치
     alt 커버링 충족
         O-->>Q: 결과 열

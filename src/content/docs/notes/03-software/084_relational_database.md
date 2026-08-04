@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
-date: "2026-08-04T12:19:00+09:00"
+date: "2026-08-04T14:18:59+09:00"
 tags:
   - "notes-software"
 weight: 84
@@ -107,11 +107,13 @@ block-beta
 sequenceDiagram
     participant U as 사용자
     participant O as 옵티마이저
-    participant E as 실행•제약 엔진
+    participant E as 실행 엔진
+    participant C as 제약 엔진
     participant S as 저장소
     U->>O: SQL 문•매개변수
     O->>E: 1. 실행 계획•예상 비용
-    E->>E: 2. 관계 연산•변경 후보 튜플 검증
+    E->>C: 2. 관계 연산•변경 후보 튜플 검증
+    C-->>E: 검증 결과
     E->>S: 3. 검증된 관계 연산
     S-->>E: 결과 행•변경 건수
     E-->>U: 결과 행•커밋 상태
