@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-04T16:00:00+09:00"
+date: "2026-08-04T14:23:06+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -100,7 +100,7 @@ sequenceDiagram
     수동종료측->>능동종료측: 3. 수동 FIN
     능동종료측-->>수동종료측: 4. 최종 ACK
     능동종료측->>TIMEWAIT상태: 5. 연결 상태 인계
-    opt 최종 ACK 유실
+    loop 최종 ACK 유실 시 FIN 재전송 동안
         수동종료측->>능동종료측: FIN 재전송
         능동종료측-->>수동종료측: ACK 재응답
     end

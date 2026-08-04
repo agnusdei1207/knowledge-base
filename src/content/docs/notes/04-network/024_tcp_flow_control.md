@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-08-04T15:36:00+09:00"
+date: "2026-08-04T14:23:06+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -95,10 +95,12 @@ sequenceDiagram
     participant 수신버퍼
     participant 수신응용
     송신응용->>송신TCP: 응용 데이터
-    송신TCP->>수신TCP: 1. 윈도 범위 데이터
-    수신TCP->>수신버퍼: 2. 수신 바이트
-    수신TCP-->>송신TCP: 3. ACK•수신 윈도
-    수신버퍼-->>수신응용: 순서화 데이터
+    loop 전송 데이터가 남아 있는 동안
+        송신TCP->>수신TCP: 1. 윈도 범위 데이터
+        수신TCP->>수신버퍼: 2. 수신 바이트
+        수신TCP-->>송신TCP: 3. ACK•수신 윈도
+        수신버퍼-->>수신응용: 순서화 데이터
+    end
 ```
 
 **동작 원리**

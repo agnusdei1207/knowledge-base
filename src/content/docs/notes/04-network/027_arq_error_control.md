@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "오류 제어 : ARQ•Go-Back-N•SR (ARQ Error Control)"
-date: "2026-08-04T15:48:00+09:00"
+date: "2026-08-04T14:23:06+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -100,15 +100,17 @@ sequenceDiagram
     participant 전송채널
     participant 수신부
     participant 재전송타이머
-    송신부->>전송채널: 1. 순서 번호 프레임
-    전송채널->>수신부: 2. 수신 프레임
-    alt 오류 검출
-        수신부-->>송신부: 3. NAK
-    else 응답 부재
-        재전송타이머-->>송신부: 4. 타임아웃 신호
+    loop ACK 수신까지
+        송신부->>전송채널: 1. 순서 번호 프레임
+        전송채널->>수신부: 2. 수신 프레임
+        alt 오류 검출
+            수신부-->>송신부: 3. NAK
+        else 응답 부재
+            재전송타이머-->>송신부: 4. 타임아웃 신호
+        end
+        송신부->>전송채널: 5. 재전송 프레임
+        수신부-->>송신부: ACK
     end
-    송신부->>전송채널: 5. 재전송 프레임
-    수신부-->>송신부: ACK
 ```
 
 **동작 원리**

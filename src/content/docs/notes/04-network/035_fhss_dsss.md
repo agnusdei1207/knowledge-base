@@ -4,7 +4,7 @@ sidebar:
   label: "035. 대역 확산 FHSS•DSSS"
   badge: { text: "기출 • 30%", variant: note }
 title: "대역 확산 FHSS•DSSS"
-date: "2026-08-04T16:20:00+09:00"
+date: "2026-08-04T14:23:06+09:00"
 tags: ["notes-network"]
 weight: 35
 extra:
@@ -99,7 +99,7 @@ sequenceDiagram
     확산규칙->>송신기: 1. 확산 규칙 제공
     송신기->>무선채널: 2. 확산 신호 전송
     무선채널->>수신기: 3. 간섭 포함 신호 전달
-    확산규칙->>수신기: 4. 규칙•시점 동기
+    수신기->>수신기: 4. 규칙•시점 동기
 ```
 
 **동작 원리**
