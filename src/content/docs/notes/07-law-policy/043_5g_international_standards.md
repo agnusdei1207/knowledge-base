@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "5G 국제 표준 — 3GPP•IMT-2020 (5G International Standards)"
-date: "2026-08-04T11:41:15+09:00"
+date: "2026-08-04T15:01:41+09:00"
 tags:
   - "notes-law-policy"
 weight: 43
@@ -97,11 +97,13 @@ sequenceDiagram
     participant G as 3GPP
     participant R as 지역 표준기관
     participant V as 장비 생태계
-    I->>G: 1. IMT 성능 요구•평가 절차 제공
-    G-->>I: 2. 동결 규격•후보 무선기술 제출
-    I->>R: 3. 평가•승인 무선 인터페이스 권고
-    R->>V: 4. 지역 표준•적용 릴리즈 전달
-    V-->>R: 5. 단말•망 장비 호환 결과 보고
+    loop 릴리즈 표준화 주기
+        I->>G: 1. IMT 성능 요구•평가 절차 제공
+        G-->>I: 2. 동결 규격•후보 무선기술 제출
+        I->>R: 3. 평가•승인 무선 인터페이스 권고
+        R->>V: 4. 지역 표준•적용 릴리즈 전달
+        V-->>R: 5. 단말•망 장비 호환 결과 보고
+    end
 ```
 
 1. **IMT 성능 요구•평가 절차 제공**: 세대별 성능 목표와 후보 평가 기준 설정
