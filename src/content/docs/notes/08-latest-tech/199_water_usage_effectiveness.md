@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "물 사용 효과성 (Water Usage Effectiveness)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:19:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 199
@@ -24,18 +24,19 @@ extra:
 <summary>핵심 용어</summary>
 
 - **물 사용 효과성(Water Usage Effectiveness, WUE)**: 같은 기간의 데이터센터 물 사용량을 정보기술 장비 에너지로 나눈 물 집약도이다.
-- **킬로와트시(kWh)**: 일정 시간 동안 사용한 전기 에너지의 양을 나타내는 단위이다.
+- **킬로와트시(Kilowatt-hour, kWh)**: 일정 시간 동안 사용한 전기 에너지의 양을 나타내는 단위이다.
+- **정보기술(Information Technology, IT)**: 데이터를 처리•저장•전송하는 컴퓨팅 기술과 장비이다.
 
 </details>
 
 $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비 에너지}(kWh)}$$
 
-- 정의/개념: **물 사용 효과성(Water Usage Effectiveness, WUE)** 은 같은 기간 물 사용량을 **정보기술(Information Technology, IT)** 에너지로 나눈 **리터/킬로와트시(L/kWh) 물 집약도**
+- 정의/개념: **WUE** 는 같은 기간 물 사용량을 **IT 에너지** 로 나눈 **L/kWh 물 집약도**
 - 배경/필요성: 전력•냉각 효율만으로는 **현장 물 소비•지역 수자원 부담** 판단 곤란
 
 #### 한줄 요약
 
-- 서버가 전기 1kWh를 사용할 때 데이터센터 운영에 몇 리터의 물이 필요한지 나타낸 값이다.
+- IT 에너지 1kWh당 데이터센터 물 사용량
 
 ## Ⅱ. 특징
 
@@ -43,13 +44,17 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 <summary>핵심 용어</summary>
 
 - **물 수지**: 취수•재사용•방류•증발량을 구분해 데이터센터 물의 유입과 유출을 나타낸 관계이다.
-- **탄소 사용 효과성(CUE)**: 데이터센터 탄소 배출량을 정보기술 장비 에너지로 나눈 탄소 집약도이다.
+- **탄소 사용 효과성(Carbon Usage Effectiveness, CUE)**: 데이터센터 탄소 배출량을 IT 장비 에너지로 나눈 탄소 집약도이다.
+- **전력 사용 효과성(Power Usage Effectiveness, PUE)**: 총 시설 에너지를 IT 장비 에너지로 나눈 시설 효율 지표이다.
+- **서비스 수준 목표(Service Level Objective, SLO)**: 환경 효율 개선 중에도 달성해야 할 사용자 중심 품질 목표이다.
+- **국제표준화기구(International Organization for Standardization, ISO)**: 국제 표준을 개발•발행하는 비정부 기구이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: 전기•전자 분야 국제 표준을 개발하는 기구이다.
 
 </details>
 
-- **국제표준화기구/국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 30134-9:2022** 기반 동일 경계•기간 측정
+- **ISO/IEC 30134-9:2022** 기반 동일 경계•기간 측정
 - 수원•취수•방류•재사용을 구분한 **물 수지•지역 부담 해석**
-- 증발 냉각은 **전력 사용 효과성(Power Usage Effectiveness, PUE) 감소•물 사용 효과성(Water Usage Effectiveness, WUE) 증가** 를 유발해 **탄소 사용 효과성(Carbon Usage Effectiveness, CUE)•서비스 수준 목표(Service Level Objective, SLO)** 병행 판단
+- 증발 냉각은 **PUE 감소•WUE 증가** 를 유발해 **CUE•SLO** 병행 판단
 #### 한줄 요약
 
 - 물의 양뿐 아니라 출처와 재사용 여부를 밝히고, 전력 절감과 물 증가의 맞바꿈을 함께 본다.
@@ -61,8 +66,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 - **수원별 취수**: 상수•지하수•재생수 등 출처별로 데이터센터에 들어온 물의 양이다.
 - **지역 거버넌스**: 유역 물 스트레스와 전력•탄소•서비스 품질을 함께 고려해 취수•냉각 정책을 정하는 체계이다.
-- **물 수지**: 취수•증발•배출•재사용량을 같은 경계와 기간에서 보존 관계로 정리한 계측 체계이다.
-- **IT 에너지**: 물 사용 효과성(Water Usage Effectiveness, WUE)의 분모가 되는 정보기술 장비의 에너지 사용량이다.
+- **IT 에너지**: WUE의 분모가 되는 IT 장비의 에너지 사용량이다.
 - **냉각 방식**: 공랭•증발 냉각•액체 냉각 등 물과 전력 소비의 교환관계를 결정하는 설비 선택이다.
 
 </details>
@@ -83,7 +87,7 @@ block-beta
 |:---|:---|
 | 수원별 취수 계측 | 상수•재생수의 **입력량 측정** |
 | 물 수지 | 방류•재사용과 **소비량 구분** |
-| 정보기술(Information Technology, IT) 에너지 계측 | **같은 기간 분모 에너지 측정** |
+| IT 에너지 계측 | **같은 기간 분모 에너지 측정** |
 | 냉각 방식 | 증발•공랭•액랭의 **물 영향 분석** |
 | 지역 거버넌스 | 물 스트레스와 **PUE•탄소 병행** |
 
@@ -107,39 +111,36 @@ sequenceDiagram
     participant W as 물•에너지 계측
   participant A as 영향 분석
   participant V as 검증 체계
-  O->>W: 1. 측정 범위•기간 전달
-    W->>W: 2. 물 수지 측정값 정합성 확인
-    W->>A: 3. 물 사용량•IT 에너지 전달
-  A->>V: 4. WUE 영향 분석 전달
-  V->>O: 5. 재검증 결과 전달
+  O->>W: 측정 범위•기간
+  W->>A: 1. 물 사용량•IT 에너지 전달
+  A->>V: 2. WUE 영향 분석 전달
+  V-->>O: 재검증 결과
 ```
 
 **동작 원리**
 
-1. **측정 범위•기간 전달**: 현장•원천 포함 범위와 **측정 기간** 제공
-2. **물 수지 측정값 정합성 확인**: 취수•방류•재사용으로 **소비량** 검증
-3. **물 사용량•정보기술 에너지 전달**: 같은 기간의 물 소비량과 **정보기술(Information Technology, IT) 분모 에너지 값** 제공
-4. **물 사용 효과성 영향 분석 전달**: 냉각 대안별 **물 사용 효과성(Water Usage Effectiveness, WUE)•전력 사용 효과성(Power Usage Effectiveness, PUE)•탄소 변화** 제공
-5. **재검증 결과 전달**: 냉각 정책 적용 후 **환경•서비스 수준 목표(Service Level Objective, SLO) 지표** 제공
+1. **물 사용량•IT 에너지 전달**: 같은 기간의 물 소비량과 **IT 분모 에너지** 제공
+2. **WUE 영향 분석 전달**: 냉각 대안별 **WUE•PUE•탄소 변화** 제공
 
 #### 한줄 요약
 
-- 물을 줄인 조치가 전력을 늘리거나 서버를 과열시키지 않는지 같은 조건에서 다시 확인한다.
+- 동일 경계의 WUE•PUE•탄소•SLO 기반 냉각 정책 검증
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **현장 WUE(site WUE)**: 데이터센터 경계에서 직접 사용하는 물을 기준으로 계산한 지표이다.
-- **원천 WUE(source WUE)**: 현장 물에 전력 생산 과정의 간접 물 사용까지 포함해 계산한 지표이다.
+- **현장 물 사용 효과성(site Water Usage Effectiveness, site WUE)**: 데이터센터 경계에서 직접 사용하는 물을 기준으로 계산한 지표이다.
+- **원천 물 사용 효과성(source Water Usage Effectiveness, source WUE)**: 현장 물에 전력 생산 과정의 간접 물 사용까지 포함해 계산한 지표이다.
+- **이산화탄소 환산량(Carbon Dioxide Equivalent, CO2e)**: 온실가스를 이산화탄소와 같은 온난화 영향으로 환산한 양이다.
 
 </details>
 
-| 데이터센터 환경 효율 지표 | 물 사용 효과성(Water Usage Effectiveness, WUE) | 전력 사용 효과성(Power Usage Effectiveness, PUE) | 탄소 사용 효과성(Carbon Usage Effectiveness, CUE) |
+| 데이터센터 환경 효율 지표 | WUE | PUE | CUE |
 |:---|:---|:---|:---|
 | 적용 기준 | **물 집약도 관리** | **시설 전력 손실 관리** | **탄소 집약도 관리** |
-| 핵심 특징 | **물 / 정보기술 에너지** | **총 시설 / 정보기술 에너지** | **이산화탄소 환산량(Carbon Dioxide Equivalent, CO2e) / 정보기술 에너지** |
+| 핵심 특징 | **물 / IT 에너지** | **총 시설 / IT 에너지** | **CO2e / IT 에너지** |
 | 한계 | **지역 물 스트레스** 미표현 | **물•탄소** 직접 미표현 | **물•시설 손실** 직접 미표현 |
 
 #### 한줄 요약
@@ -158,9 +159,9 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **물 경계 혼용** 미검증 시 현장•원천 물 사용을 섞어 잘못 비교 | **물 사용 효과성(Water Usage Effectiveness, WUE)** 범위와 수원별 취수•방류•재사용 정의 명시 | WUE **동일 경계 비교성** 확보 |
+| **물 경계 혼용** 미검증 시 현장•원천 물 사용을 섞어 잘못 비교 | **WUE 범위** 와 수원별 취수•방류•재사용 정의 명시 | WUE **동일 경계 비교성** 확보 |
 | **지역 물 스트레스** 미검증 시 같은 WUE라도 가뭄 지역의 사회•생태 영향 확대 | 유역별 물 스트레스 가중, 재생수 우선, 계절별 취수 한도 | 물 부족 유역 **취수 영향** 감소 |
-| **전력•물 상충** 미검증 시 물 절감 냉각이 전력 사용 효과성•탄소•과열 위험 증가 | WUE•**전력 사용 효과성(Power Usage Effectiveness, PUE)** •탄소•온도•**서비스 수준 목표(Service Level Objective, SLO)** 를 함께 시험하고 단계 적용 | 전력•탄소•**SLO 악화** 방지 |
+| **전력•물 상충** 미검증 시 물 절감 냉각이 PUE•탄소•과열 위험 증가 | WUE•PUE•탄소•온도•**SLO 공동 시험** 과 단계 적용 | 전력•탄소•**SLO 악화** 방지 |
 
 #### 한줄 요약
 
@@ -171,12 +172,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **동일 경계 비교성**: 포함한 물의 출처•취수•방류•재사용 범위와 기간이 같아 물 사용 효과성 차이를 해석할 수 있는 성질이다.
+- **동일 경계 비교성**: 포함한 물의 출처•취수•방류•재사용 범위와 기간이 같아 WUE 차이를 해석할 수 있는 성질이다.
 - **재생수**: 처리한 폐수를 냉각 등 비음용 용도로 다시 사용하는 수자원이다.
 
 </details>
 
-- 현장 물 절감은 **현장 물 사용 효과성(site Water Usage Effectiveness, site WUE)**, 전력 생산 물까지 포함하면 **원천 물 사용 효과성(source Water Usage Effectiveness, source WUE)** 선택
+- 현장 물 절감은 **site WUE**, 전력 생산 물까지 포함하면 **source WUE** 선택
 
 #### 한줄 요약
 

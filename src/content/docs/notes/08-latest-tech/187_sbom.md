@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 자재명세서 (Software Bill of Materials, SBOM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:07:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 187
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 소프트웨어 구성요소•버전•의존 관계를 기록한 **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**
+- 정의/개념: 소프트웨어 구성요소•버전•의존 관계를 기록한 **SBOM**
 - 배경/필요성: 완성 제품만으로는 직접•전이 의존성의 **취약점•라이선스 영향** 식별 곤란
 #### 한줄 요약
 
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)•CycloneDX**: 구성요소와 관계를 기계가 판독•교환할 수 있도록 정의한 대표 소프트웨어 자재명세서(Software Bill of Materials, SBOM) 표준 형식이다.
+- **소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)**: 구성요소와 관계의 기계 판독•교환을 위한 SBOM 표준 형식이다.
+- **CycloneDX**: 보안 사용 사례와 구성요소 관계를 표현하는 SBOM 표준 형식이다.
 - **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 특정 취약점의 제품 영향 여부와 조치 상태를 전달하는 문서이다.
 
 </details>
@@ -49,7 +50,7 @@ extra:
 - 제품 해시•서명으로 **배포본 결속**, VEX로 **영향 판정**
 #### 한줄 요약
 
-- 성분표만으로 안전성과 포장 무결성을 보장할 수 없듯 SBOM도 다른 증거와 함께 사용한다.
+- SBOM과 제품 결속•취약점 영향 증거의 결합 검증
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -57,14 +58,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **패키지 URL(Package URL, purl)**: 패키지 유형•이름•버전 등을 나타내는 표준 구성요소 식별자이다.
-- **아티팩트 결속**: 소프트웨어 자재명세서(Software Bill of Materials, SBOM)를 제품 해시•서명과 연결해 어떤 배포본의 명세인지 증명하는 관계이다.
+- **아티팩트 결속**: SBOM을 제품 해시•서명과 연결해 어떤 배포본의 명세인지 증명하는 관계이다.
 - **대상 제품•구성요소**: 명세가 설명하는 배포물과 그 안에 포함된 패키지•라이브러리•파일이다.
 - **의존 관계**: 구성요소 사이의 포함•직접•전이 의존성을 표현한 연결 정보이다.
-- **취약점 악용 가능성 교환(VEX)**: 각 취약점이 특정 제품에 실제 영향을 주는지와 조치 상태를 전달하는 문서이다.
 
 </details>
 
-취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)은 구성요소별 영향•조치 상태를 관리한다.
+**VEX** 는 구성요소별 영향•조치 상태를 관리한다.
 
 ```mermaid
 block-beta
@@ -88,7 +88,7 @@ block-beta
 
 #### 한줄 요약
 
-- 제품 번호에 성분표•제조 기록•봉인을 연결해 보관하는 구조와 같다.
+- 제품•구성요소•의존 관계와 작성•결속•영향 정보의 연결
 
 ## Ⅳ. 흐름도
 
@@ -100,7 +100,7 @@ block-beta
 
 </details>
 
-소프트웨어 자재명세서(Software Bill of Materials, SBOM)와 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)을 빌드•배포 자산에 연결한다.
+**SBOM•VEX** 를 빌드•배포 자산에 연결한다.
 
 ```mermaid
 sequenceDiagram
@@ -113,16 +113,15 @@ sequenceDiagram
     S->>A: 2. 결속 SBOM 전달
     A->>V: 3. 배포 구성정보 전달
     V->>O: 4. 영향 상태 전달
-    O-->>A: 5. 조치 결과 전달
+    O-->>A: 조치 결과
 ```
 
 **동작 원리**
 
-- **1. 구성요소•관계 전달**: 빌드 입력•결과에서 직접•전이 의존성과 식별자 추출
-- **2. 결속 SBOM 전달**: 형식•완전성 검증 후 제품 해시•서명•출처와 연결
-- **3. 배포 구성정보 전달**: 제품 버전별 SBOM을 실제 배포 자산에 매핑
-- **4. 영향 상태 전달**: 취약점 정보와 VEX를 결합해 영향•비영향•조치 상태 판정
-- **5. 조치 결과 전달**: 패치•완화•예외 결과와 SBOM•VEX 최신화
+1. **구성요소•관계 전달**: 빌드 입력•결과에서 직접•전이 의존성과 식별자 추출
+2. **결속 SBOM 전달**: 형식•완전성 검증 후 제품 해시•서명•출처와 연결
+3. **배포 구성정보 전달**: 제품 버전별 SBOM을 실제 배포 자산에 매핑
+4. **영향 상태 전달**: 취약점 정보와 VEX를 결합해 영향•비영향•조치 상태 판정
 
 #### 한줄 요약
 
@@ -138,9 +137,9 @@ sequenceDiagram
 
 </details>
 
-소프트웨어 자재명세서(Software Bill of Materials, SBOM)는 구성, 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)은 영향 상태, 출처 증명(Provenance)은 생성 과정을 설명한다.
+SBOM은 구성, VEX는 영향 상태, 출처 증명은 생성 과정을 설명한다.
 
-| 판단 기준 | SBOM | VEX | Provenance•전자서명 |
+| 판단 기준 | SBOM | VEX | 출처 증명•전자서명 |
 |:---|:---|:---|:---|
 | 적용 기준 | **구성요소•의존성 식별** | 취약점의 **영향 상태 전달** | **빌드 출처•변조 여부** 검증 |
 | 핵심 특징 | 제품별 **구성 인벤토리** | **영향 여부•조치 상태** 기록 | 빌더 신원과 **다이제스트 결속** |
@@ -155,8 +154,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **완전성**: 실제 제품에 포함된 직접•전이•동적 구성요소가 소프트웨어 자재명세서(Software Bill of Materials, SBOM)에 빠짐없이 기록된 정도이다.
-- **최신성**: 제품•구성•취약점•취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX) 변경이 현재 SBOM과 영향 판정에 반영된 정도이다.
+- **완전성**: 실제 제품의 직접•전이•동적 구성요소가 SBOM에 빠짐없이 기록된 정도이다.
+- **최신성**: 제품•구성•취약점•VEX 변경이 현재 SBOM과 영향 판정에 반영된 정도이다.
 
 </details>
 
@@ -175,8 +174,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **취약점 영향 판정**: 구성 목록과 취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)•실행 조건을 결합해 실제 조치가 필요한 제품을 식별하는 과정이다.
-- **배포 자산 매핑**: 제품 버전별 소프트웨어 자재명세서(Software Bill of Materials, SBOM)를 실제 운영 중인 시스템과 인스턴스에 연결하는 활동이다.
+- **취약점 영향 판정**: 구성 목록과 VEX•실행 조건을 결합해 실제 조치가 필요한 제품을 식별하는 과정이다.
+- **배포 자산 매핑**: 제품 버전별 SBOM을 실제 운영 중인 시스템과 인스턴스에 연결하는 활동이다.
 
 </details>
 

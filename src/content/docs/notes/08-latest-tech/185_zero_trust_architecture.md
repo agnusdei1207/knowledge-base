@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "제로 트러스트 아키텍처 (Zero Trust Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:05:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 185
 extra:
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **제로 트러스트 아키텍처(Zero Trust Architecture, ZTA)** 는 네트워크 위치의 암묵적 신뢰 없이 자원별 접근을 지속 검증하고 최소 권한으로 집행하는 보안 구조
+- 정의/개념: **ZTA** 는 네트워크 위치의 암묵적 신뢰 없이 자원별 접근을 지속 검증하고 최소 권한으로 집행하는 보안 구조
 - 배경/필요성: 경계 내부 신뢰는 계정•단말 침해 후 **과도한 권한•횡적 이동** 차단 곤란
 
 #### 한줄 요약
@@ -63,7 +63,7 @@ extra:
 
 </details>
 
-**정책 집행점(Policy Enforcement Point, PEP)** 이 접근을 집행하고 **정책 관리자(Policy Administrator, PA)** 가 연결을 제어하며 **정책 엔진(Policy Engine, PE)** 이 위험 신호에 따라 허용 여부를 결정한다.
+**PEP** 의 접근 집행, **PA** 의 연결 제어, **PE** 의 위험 기반 허용 결정
 
 ```mermaid
 block-beta
@@ -87,7 +87,7 @@ block-beta
 
 #### 한줄 요약
 
-- 문 앞 장치가 출입을 집행하고, 관리자가 통행 경로를 만들며, 심사관이 여러 위험 정보를 보고 결정합니다.
+- 정책 집행•연결 제어•위험 기반 접근 결정의 역할 분리
 
 ## Ⅳ. 흐름도
 
@@ -135,7 +135,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **경계형 보안**: 내부망과 외부망의 경계 통과를 중심으로 접근을 집중 통제하는 구조이다.
-- **가상 사설망(VPN)**: 원격 사용자를 사설망에 암호화된 네트워크 경로로 연결하는 기술이다.
+- **가상 사설망(Virtual Private Network, VPN)**: 원격 사용자를 사설망에 암호화된 네트워크 경로로 연결하는 기술이다.
 
 </details>
 
