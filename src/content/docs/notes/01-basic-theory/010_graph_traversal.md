@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "그래프 탐색: BFS•DFS (Graph Traversal)"
-date: "2026-08-04T20:08:00+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -73,11 +73,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    C["탐색 제어기"] --- F["탐색 프런티어"] --- A["인접 정보"] --- V["방문 상태"]
+```text
+[탐색 제어기]
+    |
+    +-- [탐색 프런티어]
+    +-- [인접 정보]
+    `-- [방문 상태]
 ```
+
+선의 의미: 탐색 제어기가 사용하는 후보 저장소, 그래프 연결 정보, 방문 기록의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

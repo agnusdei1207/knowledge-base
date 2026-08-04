@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-08-04T20:15:00+09:00"
+date: "2026-08-05T00:28:15+09:00"
 tags:
   - "notes-basic-theory"
 weight: 13
@@ -67,11 +67,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    P["상태 계산기"] --- M["상태 저장소"]
+```text
+[상태 계산기] ----- [상태 저장소]
 ```
+
+선의 의미: 상태 계산기와 상태값 저장소 사이의 조회·저장 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

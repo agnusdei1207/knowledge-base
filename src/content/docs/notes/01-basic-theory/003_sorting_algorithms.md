@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정렬 알고리즘 비교: 퀵•병합•힙•버블 (Sorting Algorithms)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 3
@@ -73,17 +73,16 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    C["정렬 제어기"]
-    F["비교 함수"]
-    R["재배열 전략"]
-    S["보조 공간"]
-    C --- F
-    C --- R
-    R --- S
+```text
+[정렬 제어기]
+    |
+    +-- [비교 함수]
+    `-- [재배열 전략]
+            |
+            `-- [보조 공간]
 ```
+
+선의 의미: 정렬 제어기가 사용하는 책임 모듈과 재배열 전략의 임시 상태 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

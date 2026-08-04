@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -70,15 +70,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    B["이진 탐색기"]
-    A["정렬 배열"]
-    R["후보 구간"]
-    B --- A
-    B --- R
+```text
+[이진 탐색기]
+    |
+    +-- [정렬 배열]
+    `-- [후보 구간]
 ```
+
+선의 의미: 탐색기가 조회하는 정렬 데이터와 갱신하는 후보 상태의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

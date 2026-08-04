@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "최소 신장 트리: 크루스칼•프림 (Minimum Spanning Tree)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:28:15+09:00"
 tags:
   - "notes-basic-theory"
 weight: 12
@@ -68,11 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["MST 알고리즘"] --- C["간선 후보 집합"] --- S["연결 상태 집합"]
+```text
+[MST 알고리즘]
+    |
+    +-- [간선 후보 집합]
+    `-- [연결 상태 집합]
 ```
+
+선의 의미: MST 알고리즘이 사용하는 간선 후보와 연결 상태 저장소의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

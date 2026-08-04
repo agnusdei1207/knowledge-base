@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-08-04T20:21:00+09:00"
+date: "2026-08-05T00:28:15+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -69,11 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    R["재귀 제어기"] --- P["부분 문제 실행기"] --- S["호출 스택"] --- C["결합기"]
+```text
+[재귀 제어기]
+    |
+    +-- [부분 문제 실행기]
+    +-- [호출 스택]
+    `-- [결합기]
 ```
+
+선의 의미: 재귀 제어기가 사용하는 분할 실행, 복귀 상태 보관, 부분 해 결합 책임의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -72,11 +72,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    H["해시 함수"] --- B["버킷 배열"] --- C["충돌 해결 구조"]
+```text
+[해시 함수] ----- [버킷 배열] ----- [충돌 해결 구조]
 ```
+
+선의 의미: 인덱스 산정, 엔트리 저장, 충돌 후보 관리 사이의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

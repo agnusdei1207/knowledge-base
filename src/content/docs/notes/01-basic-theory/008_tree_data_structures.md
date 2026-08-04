@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -73,11 +73,16 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    R["루트 참조"] --- T["탐색 제어기"] --- N["트리 노드"] --- B["균형 복구기"]
+```text
+[루트 참조]
+    |
+[탐색 제어기]
+    |
+    +-- [트리 노드]
+    `-- [균형 복구기]
 ```
+
+선의 의미: 탐색 시작점과 경로 선택, 노드 접근, 균형 복구 사이의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

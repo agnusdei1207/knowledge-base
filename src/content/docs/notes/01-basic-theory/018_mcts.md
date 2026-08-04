@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -77,11 +77,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    T["트리 정책"] --- R["탐색 트리"] --- P["롤아웃 정책"] --- S["노드 통계"]
+```text
+[MCTS]
+    |
+    +-- [트리 정책]
+    +-- [탐색 트리]
+    |       |
+    |       `-- [노드 통계]
+    `-- [롤아웃 정책]
 ```
+
+선의 의미: MCTS의 정책·트리 포함 관계와 탐색 트리가 소유하는 노드 통계 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

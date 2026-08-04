@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알고리즘 시간복잡도•공간복잡도 (Time/Space Complexity)"
-date: "2026-08-04T19:55:00+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 1
@@ -76,18 +76,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    M["계산 모델"]
-    T["시간 분석기"]
-    S["공간 분석기"]
-    O["점근 차수 판정기"]
-    M --- T
-    M --- S
-    T --- O
-    S --- O
+```text
+[계산 모델]
+    |
+    +-- [시간 분석기] --+
+    |                    |
+    `-- [공간 분석기] --+-- [점근 차수 판정기]
 ```
+
+선의 의미: 계산 모델과 두 분석기, 차수 판정기 사이의 정적 분석 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

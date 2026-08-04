@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이진 트리 순회: 전위•중위•후위 (Binary Tree Traversal)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 9
@@ -74,11 +74,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    V["순회기"] --- N["트리 노드"] --- S["순회 스택"]
+```text
+[순회기]
+    |
+    +-- [트리 노드]
+    `-- [순회 스택]
 ```
+
+선의 의미: 순회기가 조회하는 트리 구조와 복귀 문맥 저장소의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

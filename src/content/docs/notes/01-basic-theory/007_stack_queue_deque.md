@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "스택•큐•덱 (Stack Queue Deque)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:25:07+09:00"
 tags:
   - "notes-basic-theory"
 weight: 7
@@ -71,11 +71,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    I["연산 인터페이스"] --- E["끝점 상태"] --- S["저장소"]
+```text
+[연산 인터페이스]
+    |
+    +-- [끝점 상태]
+    `-- [저장소]
 ```
+
+선의 의미: 연산 인터페이스가 함께 통제하는 위치 상태와 원소 저장 책임의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|
