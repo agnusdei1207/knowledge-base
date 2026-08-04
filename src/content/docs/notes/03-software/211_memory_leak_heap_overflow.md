@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:51:00+09:00"
 tags: ["notes-software"]
 weight: 211
 extra:
@@ -136,10 +136,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **메모리 누수(Memory Leak)**: GC 뒤에도 불필요한 객체와 보유 크기가 계속 증가해 기준선이 상승하는 상태다.
-- **가비지 컬렉션(Garbage Collection, GC)**: 더 이상 접근할 수 없는 객체를 찾아 힙 공간을 회수하는 자동 메모리 관리 작업이다.
+- **메모리 누수 판정**: GC 뒤에도 불필요한 객체와 보유 크기가 계속 증가하는 상태
+- **GC 역할**: 더 이상 접근할 수 없는 객체의 힙 공간 회수
 - **정상 고점유(Healthy High Utilization)**: 작업 중 메모리 사용량이 높아져도 부하 종료와 GC 뒤 기준선으로 회복되는 상태이다.
-- **힙 고갈(Heap Exhaustion)**: 누수•큰 작업 집합•과도한 동시 할당으로 가용 힙이 부족해 새 할당이 실패하는 상태이다.
+- **힙 고갈 원인**: 누수•큰 작업 집합•과도한 동시 할당
 
 </details>
 
@@ -161,7 +161,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **누수 오판**: 누수 오판은 높은 할당률과 일시적 GC 증가를 잔존 객체의 지속 증가로 잘못 해석하는 문제다.
-- **힙 덤프(Heap Dump)**: 특정 시점의 힙 객체•값•참조 관계를 파일로 기록한 진단 자료이다.
+- **힙 덤프 분석**: 시점별 힙 객체•값•참조 관계를 비교하는 진단
 - **할당률(Allocation Rate)**: 단위 시간에 새로 생성되어 힙에 할당되는 메모리 양이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기술부채 측정•관리 (Technical Debt Measurement)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:53:00+09:00"
 tags: ["notes-software"]
 weight: 213
 extra:
@@ -160,7 +160,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **게임화**: 지표 게임화는 실제 품질과 사업 결과보다 부채 점수 수치만 낮추도록 행동해 판단을 왜곡하는 문제다.
 - **지표 게임화(Metric Gaming)**: 실제 품질 개선 없이 측정 점수만 좋아 보이도록 행동해 의사결정을 왜곡하는 현상이다.
 - **표본 검토(Sample Review)**: 수치 지표가 실제 코드•장애•업무 결과와 일치하는지 일부 사례를 직접 확인하는 검증이다.
 

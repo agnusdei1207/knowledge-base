@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 리팩터링 패턴 (Refactoring Patterns)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:52:00+09:00"
 tags: ["notes-software"]
 weight: 212
 extra:
@@ -138,7 +138,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **리팩터링**: 리팩터링은 기능을 바꾸지 않고 내부 구조를 개선해 향후 변경 비용을 줄이는 코드 변경 방식이다.
+- **리팩터링 적용**: 외부 동작을 보존하면서 내부 구조와 변경 비용 개선
 - **기능 변경(Feature Change)**: 새로운 요구에 맞춰 외부에서 관찰되는 동작을 추가하거나 수정하는 변경이다.
 - **재작성(Rewrite)**: 기존 구현을 점진적으로 개선하는 대신 새로운 구현으로 전체 대체하는 방식이다.
 

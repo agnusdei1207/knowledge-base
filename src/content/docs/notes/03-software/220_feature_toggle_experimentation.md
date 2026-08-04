@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "피처 토글•실험 플랫폼 (Feature Toggle Experimentation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:00:00+09:00"
 tags: ["notes-software"]
 weight: 220
 extra:
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **평가 런타임•SDK**: 평가 런타임•SDK는 요청 시 플래그 정책을 계산해 애플리케이션이 실행할 기능 경로를 반환한다.
+- **평가 런타임(Evaluation Runtime)**: 요청 시 플래그 정책을 계산해 실행할 기능 경로를 반환한다.
 - **소프트웨어 개발 키트(Software Development Kit, SDK)**: 애플리케이션이 플래그를 평가하고 노출을 기록하도록 제공되는 라이브러리와 도구 모음이다.
 - **플래그 제어부(Flag Control Plane)**: 토글의 소유자•규칙•버전•만료일을 관리하고 평가 런타임에 배포하는 구성요소이다.
 
@@ -178,7 +178,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **운영 토글**: 점진 노출과 효과 비교에는 릴리즈•실험 토글을 사용하고 장애 기능을 즉시 차단할 때는 운영 토글을 사용한다.
+- **운영 토글 적용**: 장애 기능을 배포 롤백 없이 즉시 차단
 - **토글 수명주기(Toggle Lifecycle)**: 토글 생성•활성화•판정•확대 또는 중단•분기 코드 제거까지 관리하는 절차이다.
 
 </details>

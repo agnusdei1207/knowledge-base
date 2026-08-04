@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이드카 패턴 (Sidecar Pattern)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:58:00+09:00"
 tags: ["notes-software"]
 weight: 218
 extra:
@@ -56,7 +56,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사이드카**: 사이드카는 메인 앱과 네트워크•볼륨을 선택적으로 공유하면서 프록시, 로그, 보안 같은 횡단 기능을 별도 실행한다.
+- **사이드카 역할**: 네트워크•볼륨을 공유하며 횡단 기능을 별도 실행
 - **공유 네트워크(Shared Network Namespace)**: 메인 앱과 사이드카가 같은 주소 공간과 루프백 통신 경로를 사용하는 구성이다.
 - **공유 볼륨(Shared Volume)**: 두 프로세스가 로그•설정 파일을 함께 읽고 쓰도록 연결한 저장 공간이다.
 - **자원•권한 한도(Resource and Permission Limit)**: 사이드카가 사용할 중앙 처리장치•메모리•시스템 권한의 상한이다.

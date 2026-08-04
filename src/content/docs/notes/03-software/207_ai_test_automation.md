@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI 기반 테스트 자동화 (AI Test Automation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:47:00+09:00"
 tags: ["notes-software"]
 weight: 207
 extra:
@@ -38,7 +38,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **오라클•사람 검토**: AI가 만든 테스트는 검증된 오라클과 사람의 검토를 통해 기대 결과, 보안, 중복, 유효성을 통제해야 한다.
+- **사람 검토(Human Review)**: AI 생성 테스트의 보안•중복•유효성을 확인하는 통제이다.
 - **테스트 오라클(Test Oracle)**: 실행 결과가 올바른지 판정할 기대값과 검증 규칙이다.
 - **실패 군집화(Failure Clustering)**: 유사한 오류 메시지•호출 경로•증상을 묶어 중복 실패를 줄이고 원인 후보를 찾는 분석이다.
 

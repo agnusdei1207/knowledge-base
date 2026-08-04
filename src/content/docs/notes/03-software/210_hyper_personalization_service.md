@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "초개인화 서비스 (Hyper-Personalization Service)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:50:00+09:00"
 tags: ["notes-software"]
 weight: 210
 extra:
@@ -140,7 +140,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **초개인화**: 초개인화는 개인 이력에 현재 맥락과 채널 정보를 결합해 순간별 제안을 선택하는 방식이다.
+- **초개인화 적용**: 개인 이력•현재 맥락•채널을 결합한 순간별 제안
 - **개인 추천(Personalized Recommendation)**: 한 사람의 과거 행동과 선호 이력을 중심으로 항목을 선택하는 방식이다.
 - **세그먼트 제안(Segment-Based Offer)**: 연령•지역•행동 유형 등 공통 속성으로 묶은 집단에 동일한 제안을 제공하는 방식이다.
 
@@ -188,7 +188,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **세그먼트 제안**: 동의와 실시간 맥락이 충분하면 초개인화를 적용하고 개인 이력이 부족하면 세그먼트 제안으로 시작한다.
+- **세그먼트 제안 적용**: 개인 이력이 부족한 초기 단계의 집단 기반 제안
 - **단계적 개인화(Progressive Personalization)**: 데이터와 동의가 부족할 때 세그먼트 제안으로 시작하고 근거가 쌓이면 개인•초개인화로 확장하는 접근이다.
 
 </details>

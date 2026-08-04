@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:43:00+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -136,7 +136,7 @@ sequenceDiagram
 
 - **프롬프트 설계(Prompt Engineering)**: 지시문•예시•출력 형식을 조정해 모델 행동을 바꾸는 방식이다.
 - **미세조정(Fine-Tuning)**: 특정 데이터로 모델 가중치를 추가 학습해 반복 행동이나 도메인 특성을 내재화하는 방식이다.
-- **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 외부 문서를 검색해 프롬프트에 주입함으로써 최신•사내 지식에 대한 답변 근거를 보완하는 방식이다.
+- **RAG 적용**: 외부 문서를 검색해 최신•사내 지식의 답변 근거 보완
 
 </details>
 

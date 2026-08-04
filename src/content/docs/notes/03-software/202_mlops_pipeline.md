@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:42:00+09:00"
 tags: ["notes-software"]
 weight: 202
 extra:
@@ -136,7 +136,7 @@ sequenceDiagram
 
 - **지속 통합(Continuous Integration, CI)**: 코드•데이터 처리•모델 변경을 병합할 때 자동 검증하는 방식이다.
 - **지속 전달•배포(Continuous Delivery/Deployment, CD)**: 검증과 승인을 통과한 모델을 일관된 절차로 운영 환경에 전달하거나 배포하는 방식이다.
-- **지속 학습(Continuous Training, CT)**: 운영 품질 저하나 드리프트를 조건으로 후보 모델을 자동 재학습하는 방식이다.
+- **CT 적용**: 운영 품질 저하나 드리프트를 조건으로 후보 모델 재학습
 
 </details>
 

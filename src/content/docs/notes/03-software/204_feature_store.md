@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:44:00+09:00"
 tags: ["notes-software"]
 weight: 204
 extra:
@@ -134,9 +134,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오프라인 저장소(Offline Store)**: 학습 데이터 생성과 실험 재현을 위해 시점별 대용량 이력을 보관한다.
-- **온라인 저장소(Online Store)**: 실시간 추론에 필요한 최신 피처를 짧은 지연으로 제공한다.
-- **피처 레지스트리(Feature Registry)**: 피처 정의•버전•소유권을 관리해 검색과 중복 방지를 지원한다.
+- **오프라인 저장소 역할**: 학습•재현용 시점별 대용량 이력 보관
+- **온라인 저장소 역할**: 실시간 추론용 최신 피처 제공
+- **피처 레지스트리 역할**: 피처 정의•버전•소유권 관리
 
 </details>
 

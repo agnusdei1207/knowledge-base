@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SRE 온콜 관리•인시던트 대응 (SRE Oncall Incident Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:54:00+09:00"
 tags: ["notes-software"]
 weight: 214
 extra:
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **런북•예방 자동화**: 사후 분석에서 확인한 원인과 조치는 런북과 예방 자동화에 반영해 같은 장애의 재발과 대응 토일을 줄인다.
+- **예방 자동화(Preventive Automation)**: 사후 분석 조치를 자동화해 장애 재발과 대응 토일을 줄이는 통제이다.
 - **실행 가능 경보(Actionable Alert)**: 담당자가 즉시 확인할 사용자 영향과 구체적인 대응 절차가 있는 경보이다.
 - **런북(Runbook)**: 반복 장애의 진단•완화•복구 절차와 확인 기준을 정리한 운영 문서이다.
 - **운영 토일(Operational Toil)**: 수동•반복적이고 자동화 가능하며 서비스 성장에 따라 늘어나는 운영 작업이다.

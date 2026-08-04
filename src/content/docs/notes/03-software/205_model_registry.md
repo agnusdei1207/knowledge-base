@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모델 레지스트리 (Model Registry)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:45:00+09:00"
 tags: ["notes-software"]
 weight: 205
 extra:
@@ -133,7 +133,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 레지스트리**: 모델 레지스트리는 실험•파일 증거를 운영 승인과 연결해 모델의 승격•배포•복귀를 통제한다.
+- **모델 레지스트리 역할**: 실험•파일 증거를 운영 승인과 연결해 승격•배포•복귀 통제
 - **실험 추적기(Experiment Tracker)**: 학습 실행별 파라미터•코드•데이터 버전•지표를 기록해 후보 실험을 비교하고 재현하도록 돕는 도구이다.
 - **산출물 저장소(Artifact Store)**: 모델 등 대용량 파일을 불변 객체로 보관하고 해시로 무결성을 확인하는 저장소이다.
 

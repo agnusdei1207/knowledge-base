@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "스트랭글러 패턴 (Strangler Fig Pattern)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:59:00+09:00"
 tags: ["notes-software"]
 weight: 219
 extra:
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **부패 방지 계층**: 부패 방지 계층은 레거시 데이터 모델을 신규 모델로 변환하고 낡은 개념이 새 서비스에 퍼지는 것을 막는다.
+- **ACL 역할**: 레거시 모델을 신규 모델로 변환해 낡은 개념 전파 차단
 - **데이터 정본(System of Record)**: 특정 업무 데이터의 생성•수정 권한과 최종 진실을 소유하는 시스템이다.
 - **신규 서비스(New Service)**: 전환된 업무 기능과 데이터 소유권을 담당하는 독립 배포 단위이다.
 

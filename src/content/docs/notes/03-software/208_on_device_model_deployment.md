@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:48:00+09:00"
 tags: ["notes-software"]
 weight: 208
 extra:
@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **저지연•오프라인 추론**: 온디바이스 배포는 모델을 단말에 설치해 네트워크 연결 없이 저지연•오프라인 추론을 제공한다.
+- **저지연 추론**: 단말 내부 실행으로 네트워크 왕복 시간을 제거한 추론이다.
+- **오프라인 추론**: 네트워크 연결 없이 단말 내부에서 수행하는 추론이다.
 - **온디바이스 모델 배포(On-Device Model Deployment)**: 학습된 모델과 추론 런타임을 단말에 설치해 입력을 기기 내부에서 처리하는 배포 방식이다.
 
 </details>
