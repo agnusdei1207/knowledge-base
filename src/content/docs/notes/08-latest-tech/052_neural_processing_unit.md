@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "Neural Processing Unit (NPU)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:52:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 52
@@ -25,11 +25,12 @@ extra:
 
 - **신경망 처리장치(Neural Processing Unit, NPU)**: 신경망의 행렬•텐서 연산을 데이터 흐름 방식으로 병렬 처리하는 전용 가속 프로세서다.
 - **곱셈 누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 기존 합에 누적하는 신경망 핵심 연산이다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령과 복잡한 분기를 처리하는 프로세서다.
 
 </details>
 
-- 정의/개념: **신경망 처리장치(Neural Processing Unit, NPU)** 는 신경망의 행렬•텐서 연산을 데이터 흐름 방식으로 병렬 처리하도록 설계한 전용 가속 프로세서
-- 배경/필요성: 범용 **중앙처리장치(Central Processing Unit, CPU)** 는 대규모 **곱셈 누산(Multiply-Accumulate, MAC)** 의 낮은 병렬도와 과도한 메모리 이동으로 전력 효율이 제한됨
+- 정의/개념: **NPU** 는 신경망 텐서 연산을 데이터 흐름으로 병렬 처리하는 전용 가속 프로세서
+- 배경/필요성: 범용 **CPU** 는 대규모 **MAC** 병렬도와 메모리 이동에서 전력 효율 제약
 
 #### 한줄 요약
 
@@ -48,9 +49,9 @@ extra:
 
 ![연산 집약도에 따른 NPU 처리량 상한 개념도](/study/diagrams/npu-roofline.svg)
 
-> 달성 처리량은 전환점(Ridge Point) 전에는 메모리 대역폭 선을, 이후에는 계산 성능 상한선을 따르며 특정 신경망 처리장치(Neural Processing Unit, NPU)의 실측값이 아닌 정규화 개념도다.
+> 달성 처리량은 전환점 전에는 메모리 대역폭 선을, 이후에는 계산 성능 상한선을 따르는 정규화 개념도다.
 
-- **곱셈 누산(Multiply-Accumulate, MAC) 연산 배열** 을 통한 행렬•텐서 병렬 처리
+- **MAC 연산 배열** 을 통한 행렬•텐서 병렬 처리
 - **온칩 메모리 재사용** 을 통한 외부 데이터 이동 감소
 - 컴파일러의 **연산자 매핑•폴백 비용** 과 **Roofline 모델** 기반 메모리•계산 병목 판별
 
@@ -67,16 +68,15 @@ extra:
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서 개입 없이 연산기와 메모리 사이의 텐서를 전송하는 방식이다.
 - **곱셈 누산(Multiply-Accumulate, MAC) 연산 배열**: 다수의 곱셈과 누산을 병렬 실행하여 행렬•텐서 연산 처리량을 높이는 전용 연산부다.
 - **폴백 프로세서(Fallback Processor)**: 신경망 처리장치가 지원하지 않는 연산을 중앙처리장치 등에서 대신 실행하는 처리부다.
-- **컴파일러•런타임**: 모델을 지원 연산으로 변환하고 장치 간 실행 순서를 제어하는 소프트웨어 계층이다.
+- **컴파일러(Compiler)**: 모델을 지원 연산으로 변환•분할하는 소프트웨어다.
+- **런타임(Runtime)**: 장치별 자원 배치와 실행 순서를 제어하는 소프트웨어다.
 
 </details>
-
-구성요소는 **직접 메모리 접근(Direct Memory Access, DMA) 전송 엔진**, **온칩 정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**, **곱셈 누산(Multiply-Accumulate, MAC) 연산 배열**, **신경망 처리장치(Neural Processing Unit, NPU)** 미지원 연산을 맡는 **중앙처리장치(Central Processing Unit, CPU)** 로 구분한다.
 
 ```mermaid
 block-beta
   columns 3
-  A["컴파일러•런타임"]
+  A["실행 소프트웨어"]
   B["DMA 전송 엔진"]
   C["온칩 SRAM"]
   D["MAC 연산 배열"]
@@ -89,7 +89,7 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 컴파일러•런타임 | **연산 그래프 분석•분할** 과 실행 순서 제어 |
+| 실행 소프트웨어 | **그래프 분할•실행 순서** 제어 |
 | DMA 전송 엔진 | 외부와 온칩 메모리 사이의 **DMA 텐서 전송** |
 | 온칩 SRAM | 입력•가중치•중간 결과의 **온칩 SRAM 재사용** |
 | MAC 연산 배열 | **곱셈 누산•텐서 병렬 연산** |
@@ -109,8 +109,6 @@ block-beta
 - **그래프 분할**: 지원 여부와 전송 비용에 따라 NPU 구간과 폴백 구간을 나누는 과정이다.
 
 </details>
-
-컴파일러는 **신경망 처리장치(Neural Processing Unit, NPU)** 지원 여부에 따라 그래프를 분할하고, **직접 메모리 접근(Direct Memory Access, DMA)** 으로 텐서를 공급하며, **곱셈 누산(Multiply-Accumulate, MAC)** 배열과 **중앙처리장치(Central Processing Unit, CPU)** 의 실행 결과를 결합한다.
 
 ```mermaid
 sequenceDiagram
@@ -141,13 +139,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **중앙처리장치(Central Processing Unit, CPU)**: 복잡한 분기와 범용 순차 제어에 유연하지만 행렬 연산의 전력 효율은 낮다.
+- **CPU 역할**: 복잡한 분기와 범용 순차 제어 처리
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 다수 코어로 범용 병렬 연산을 처리하지만 메모리•전력 비용이 크다.
-- **신경망 처리장치(Neural Processing Unit, NPU)**: 데이터 흐름과 곱셈 누산 배열에 특화해 저전력 신경망 추론을 가속한다.
+- **NPU 역할**: 데이터 흐름과 MAC 배열로 저전력 신경망 추론 가속
 
 </details>
 
-**중앙처리장치(Central Processing Unit, CPU)**, **그래픽 처리장치(Graphics Processing Unit, GPU)**, **신경망 처리장치(Neural Processing Unit, NPU)** 는 제어 유연성, 병렬성, 전력 효율에서 서로 다른 장점을 가진다.
+CPU•GPU•NPU는 제어 유연성•병렬성•전력 효율이 다르다.
 
 | AI 프로세서 | CPU | GPU | NPU |
 |:---|:---|:---|:---|
@@ -170,7 +168,7 @@ sequenceDiagram
 
 </details>
 
-실무에서는 **신경망 처리장치(Neural Processing Unit, NPU)** 매핑 범위와 **중앙처리장치(Central Processing Unit, CPU)** 폴백을 함께 측정하고, **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)** 재사용으로 외부 데이터 이동을 줄인다.
+실무에서는 **NPU 매핑•CPU 폴백** 과 **SRAM 재사용** 을 함께 측정한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -192,7 +190,7 @@ sequenceDiagram
 
 </details>
 
-- **연산자 지원률•메모리 이동•전력 예산** 을 기준으로 **신경망 처리장치(Neural Processing Unit, NPU)** 매핑 범위와 **중앙처리장치(Central Processing Unit, CPU)** 폴백 경계를 결정하는 가속 설계
+- **연산자 지원률•전력 예산** 으로 NPU 매핑과 **CPU 폴백 경계** 결정
 
 #### 한줄 요약
 

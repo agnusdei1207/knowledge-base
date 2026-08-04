@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SLM (소형 언어모델)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:43:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 49
@@ -25,11 +25,12 @@ extra:
 
 - **소형 언어모델(Small Language Model, SLM)**: 제한된 연산•메모리에서 특정 범위의 언어 과업을 수행하도록 경량화한 모델이다.
 - **온디바이스 추론(On-Device Inference)**: 서버에 원본 데이터를 보내지 않고 단말 내부에서 모델을 실행하는 방식이다.
+- **대규모 언어 모델(Large Language Model, LLM)**: 넓은 지식과 복합 과업을 처리하는 대규모 모델이다.
 
 </details>
 
-- 정의/개념: 제한된 연산•메모리에서 특정 범위의 언어 과업을 수행하도록 경량화한 **소형 언어 모델(Small Language Model, SLM)**
-- 배경/필요성: 범용 대규모 언어 모델(Large Language Model, LLM)의 메모리•전력•지연 비용으로 인해 **단말•현장 업무 배포** 에 제약
+- 정의/개념: 제한된 연산•메모리에서 특정 범위의 언어 과업을 수행하도록 경량화한 **SLM**
+- 배경/필요성: 범용 LLM의 메모리•전력•지연 비용으로 인해 **단말•현장 업무 배포** 에 제약
 
 #### 한줄 요약
 - 정해진 업무를 제한된 장비에서 효율적으로 수행하도록 맞춘 작은 모델임
@@ -50,7 +51,9 @@ extra:
 > 같은 파라미터 수에서 INT8•INT4 선은 FP16보다 가중치 메모리 기울기가 각각 절반•4분의 1이며, 캐시•활성값을 제외한 십진 GB 이론값이다.
 
 - 작은 파라미터 수에 따른 **메모리•연산•배포 비용 절감**
-- **증류•지도 미세조정(Supervised Fine-Tuning, SFT)•매개변수 효율 미세조정(Parameter-Efficient Fine-Tuning, PEFT)** 기반 특정 과업 품질 집중
+- **지식 증류**: 교사 모델의 지식을 작은 모델에 이전
+- **SFT**: 업무 예시로 응답 행동 조정
+- **PEFT**: 일부 매개변수 학습으로 업무 적응
 - **양자화•장치별 런타임** 을 결합한 제한 자원 추론
 
 #### 한줄 요약
@@ -84,7 +87,7 @@ block-beta
 | 구성요소 | 책임 |
 |:---|:---|
 | 경량 백본 | 자원 목표에 맞는 **소형 언어 표현 제공** |
-| 과업 적응 계층 | **증류•지도 미세조정(Supervised Fine-Tuning, SFT)•매개변수 효율 미세조정(Parameter-Efficient Fine-Tuning, PEFT) 기반 업무 능력 보강** |
+| 과업 적응 계층 | **증류•SFT•PEFT 기반 업무 능력 보강** |
 | 압축 계층 | **양자화•가지치기** 를 통한 모델 크기 축소 |
 | 추론 런타임 | 목표 장치 연산자 기반 **모델 실행 최적화** |
 | 출력 통제 | 업무 범위•안전 기준에 따른 **응답 허용•거부** |
@@ -129,9 +132,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **소형 언어 모델(Small Language Model, SLM)**: 좁고 반복되는 업무를 제한 자원에서 낮은 비용으로 처리하는 모델이다.
-- **대규모 언어 모델(Large Language Model, LLM)**: 넓은 지식과 복합 과업 처리를 목표로 대규모 데이터와 매개변수로 학습한 모델이다.
-
 </details>
 
 | 비교 기준 | SLM | LLM |
@@ -149,7 +149,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **압축 회귀**: 양자화•가지치기 후 업무 정확도나 출력 품질이 원본 모델보다 낮아지는 현상이다.
-- **상위 모델 위임**: 소형 언어 모델(Small Language Model, SLM)의 학습 범위 밖이거나 복합적인 요청을 더 큰 모델로 전달하는 정책이다.
+- **상위 모델 위임**: SLM의 학습 범위 밖이거나 복합적인 요청을 더 큰 모델로 전달하는 정책이다.
 - **연산자 호환성**: 모델 연산이 목표 장치와 런타임에서 지원되고 같은 결과를 내는 성질이다.
 
 </details>
@@ -168,12 +168,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **소형 언어 모델 선택 기준(Small Language Model Selection Criteria, SLM Selection Criteria)**: 좁고 반복되는 업무를 낮은 지연•비용으로 단말이나 현장에서 처리할 때 선택한다.
-- **대규모 언어 모델 위임 기준(Large Language Model Delegation Criteria, LLM Delegation Criteria)**: 입력이 SLM의 검증 범위를 벗어나거나 복합 추론이 필요할 때 상위 모델로 전달한다.
-
 </details>
 
-- 좁은 반복 업무에는 **소형 언어 모델(Small Language Model, SLM)**, 범위 밖•복합 요청에는 **상위 대규모 언어 모델(Large Language Model, LLM) 위임** 적용
+- 좁은 반복 업무에는 **SLM**, 범위 밖•복합 요청에는 **상위 LLM 위임** 적용
 
 #### 한줄 요약
 - 작은 모델이 잘하는 업무만 맡기고 나머지는 상위 모델로 전달함
