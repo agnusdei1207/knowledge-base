@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "XP: 페어 프로그래밍•TDD (Extreme Programming)"
-date: "2026-08-04T10:44:00+09:00"
+date: "2026-08-04T17:11:00+09:00"
 tags:
   - "notes-software"
 weight: 34
@@ -104,15 +104,17 @@ block-beta
 sequenceDiagram
     participant C as 고객•제품 책임자
     participant P as 개발 페어
-    participant I as 자동 테스트•지속 통합
+    participant A as 자동 테스트
+    participant I as 지속 통합
     participant M as 메인라인
 
     C->>P: 스토리•수용 기준 요청
-    P->>I: 1. 실패 테스트 작성
-    I-->>P: 2. 예상 실패 확인
-    P->>I: 3. 최소 구현•테스트 통과
+    P->>A: 1. 실패 테스트 작성
+    A-->>P: 2. 예상 실패 확인
+    P->>A: 3. 최소 구현•테스트 통과
     P->>I: 4. 리팩터링 변경 제출
-    I->>I: 5. 자동 회귀 검증
+    I->>A: 5. 자동 회귀 검증
+    A-->>I: 검증 결과
     I-->>M: 검증 변경 통합
 ```
 

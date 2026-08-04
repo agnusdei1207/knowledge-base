@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "UML 다이어그램 유형 (UML Diagrams)"
-date: "2026-08-04T10:47:00+09:00"
+date: "2026-08-04T17:17:00+09:00"
 tags:
   - "notes-software"
 weight: 37
@@ -106,14 +106,15 @@ sequenceDiagram
     participant V as 검토자
     participant P as 개발자
     participant Q as 설계 질문 제기자
+    participant R as 모델 저장소
     Q->>D: 설계 질문 전달
-    D->>D: 1. 다이어그램 초안 작성
+    D->>R: 1. 다이어그램 초안 작성
     D->>V: 2. 정합성 검토 요청
     V-->>D: 3. 수정 지점 피드백
-    D->>D: 4. 모델 기준선 등록
+    D->>R: 4. 모델 기준선 등록
     opt 구현 변경
         P->>D: 변경 구현 전달
-        D->>D: 영향 모델 갱신
+        D->>R: 영향 모델 갱신
     end
 ```
 

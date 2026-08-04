@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "API 게이트웨이 (API Gateway)"
-date: "2026-08-04T10:52:00+09:00"
+date: "2026-08-04T17:21:00+09:00"
 tags:
   - "notes-software"
 weight: 40
@@ -115,6 +115,7 @@ sequenceDiagram
     participant G as 라우팅•진입 정책
     participant I as 신원 제공자
     participant S as 백엔드 서비스
+    participant R as 백엔드 자원
     C->>G: API 요청
     G->>I: 1. 토큰•신원 검증
     I-->>G: 공통 권한 반환
@@ -122,9 +123,10 @@ sequenceDiagram
         G-->>C: 정책 실패 요청 거절
     else 정책 통과
         G->>S: 2. 요청 변환•서비스 호출
-        S->>S: 3. 업무 인가•처리
+        S->>R: 3. 업무 인가•처리
+        R-->>S: 처리 결과
         S-->>G: 처리 결과 반환
-        G->>G: 4. 응답 변환•관측 기록
+        Note over G: 응답 변환•관측 기록
         G-->>C: 외부 응답 반환
     end
 ```
@@ -134,7 +136,6 @@ sequenceDiagram
 - **1. 토큰•신원 검증**: 서명•유효기간•발급자 검사
 - **2. 요청 변환•서비스 호출**: 목적지 계약에 맞춰 라우팅
 - **3. 업무 인가•처리**: 서비스가 자원별 권한 판정
-- **4. 응답 변환•관측 기록**: 외부 계약 변환과 추적 연결
 
 #### 한줄 요약
 

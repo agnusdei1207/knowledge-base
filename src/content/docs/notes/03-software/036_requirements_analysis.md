@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "요구사항 분석•명세 (Requirements Analysis)"
-date: "2026-08-04T10:46:00+09:00"
+date: "2026-08-04T17:15:00+09:00"
 tags:
   - "notes-software"
 weight: 36
@@ -106,10 +106,11 @@ block-beta
 sequenceDiagram
     participant A as 요구 분석가
     participant S as 이해관계자
+    participant R as 요구 저장소
     participant C as 검토•변경 통제자
     A->>S: 목표•제약 질의
     S-->>A: 규칙•우선순위 응답
-    A->>A: 1. 요구 분석•명세
+    A->>R: 1. 요구 분석•명세
     A->>C: 2. 요구 검토 요청
     C->>A: 3. 기준선•추적 관계 승인
     opt 요구 변경

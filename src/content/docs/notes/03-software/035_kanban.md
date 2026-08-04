@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "칸반 (Kanban)"
-date: "2026-08-04T10:45:00+09:00"
+date: "2026-08-04T17:13:00+09:00"
 tags:
   - "notes-software"
 weight: 35
@@ -111,10 +111,11 @@ sequenceDiagram
     participant U as 업무 요청자
     participant Q as 상위 단계•백로그
     participant N as 다음 단계
+    participant P as 흐름 정책
     participant T as 서비스 운영팀
     U->>Q: 작업 카드 등록
-    N->>N: 1. WIP•한도 조회
-    N->>N: 2. 당김 허용 판정
+    N->>P: 1. WIP•한도 조회
+    P-->>N: 2. 당김 허용 판정
     N->>Q: 3. 우선순위 카드 요청
     Q-->>N: 4. 작업 카드 이동
     N->>T: 작업•완료 검증 요청

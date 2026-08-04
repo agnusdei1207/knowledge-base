@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "마이크로서비스 아키텍처 MSA (Microservice Architecture)"
-date: "2026-08-04T10:50:00+09:00"
+date: "2026-08-04T17:19:00+09:00"
 tags:
   - "notes-software"
 weight: 39
@@ -109,13 +109,14 @@ block-beta
 sequenceDiagram
     participant C as 클라이언트
     participant O as 주문 서비스
+    participant D as 서비스별 소유 데이터
     participant B as 이벤트 브로커
     participant P as 결제 서비스
     C->>O: 주문 요청
-    O->>O: 1. 주문 로컬 저장
+    O->>D: 1. 주문 로컬 저장
     O->>B: 2. 주문 이벤트 발행
     B-->>P: 3. 주문 이벤트 전달
-    P->>P: 4. 결제 로컬 저장
+    P->>D: 4. 결제 로컬 저장
     P->>B: 5. 결제 결과 발행
     B-->>O: 결제 결과 전달
     O-->>C: 주문 상태 반환
