@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "캐시 쓰기 정책: Write-Through vs Write-Back (Cache Write Policy)"
-date: "2026-08-04T10:23:00+09:00"
+date: "2026-08-05T01:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 13
@@ -69,13 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    P["쓰기 정책 제어부"] --- A["캐시 배열"] --- D["더티 상태"]
-    P --- W["쓰기 버퍼"]
-    A --- W
+```text
+                 [쓰기 정책 제어부]
+                    /          \
+             [캐시 배열] -- [쓰기 버퍼]
+                  |
+             [더티 상태]
 ```
+
+선의 의미: 정책 제어부가 캐시 배열과 쓰기 버퍼를 선택하고, 캐시 배열이 라인별 더티 상태를 소유하는 정적 제어•포함 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

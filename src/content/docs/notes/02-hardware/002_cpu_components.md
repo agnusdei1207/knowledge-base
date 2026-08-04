@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CPU 구성: ALU•CU•레지스터•버스 (CPU Components)"
-date: "2026-08-04T10:17:11+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 2
@@ -64,15 +64,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    C["제어장치"] --- S["특수 목적 레지스터"]
-    C --- R["레지스터 파일"]
-    R --- A["산술논리장치"]
-    S --- B["내부 버스"]
-    A --- B
+```text
+                  [특수 목적 레지스터]
+                    /               \
+                   /                 \
+               [CU]             [내부 버스]
+                 |                   |
+                 |                   |
+        [레지스터 파일] ----------- [ALU]
 ```
+
+선의 의미: CPU 내부에서 CU, 두 레지스터 영역, ALU, 내부 버스가 데이터와 제어 신호를 공유하는 정적 회로망이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

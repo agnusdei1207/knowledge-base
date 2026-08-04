@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라인 포워딩•분기 예측 (Pipeline Forwarding Branch Prediction)"
-date: "2026-08-04T14:05:58+09:00"
+date: "2026-08-05T01:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 8
@@ -68,14 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    F["포워딩 장치"] --- M["우회 선택기"]
-    B["분기 예측기"] --- I["인출 제어기"]
-    B --- R["복구 로직"]
-    R --- I
+```text
+[포워딩 장치] -- [우회 선택기]
+
+[분기 예측기] -- [인출 제어기]
+       \              /
+           [복구 로직]
 ```
+
+선의 의미: 위 선은 포워딩 판단과 피연산자 선택의 연결이고, 아래 선은 예측•인출•복구 회로가 PC 주소를 공유하는 정적 네트워크 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

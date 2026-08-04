@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-04T14:05:58+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -71,14 +71,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    C["CPU"] --- P["경로 제어기"]
-    P --- I["명령어 메모리•버스"]
-    P --- D["데이터 메모리•버스"]
-    P --- M["통합 메모리•버스"]
+```text
+                                      [명령어 메모리•버스]
+                                     /
+[CPU] -- [경로 제어기] -------------+-- [데이터 메모리•버스]
+                                     \
+                                      [통합 메모리•버스]
 ```
+
+선의 의미: CPU와 경로 제어기가 하버드의 두 전용 경로 또는 폰 노이만의 통합 경로와 결합된 정적 연결이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

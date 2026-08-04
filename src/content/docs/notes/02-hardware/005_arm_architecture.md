@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
-date: "2026-08-04T10:18:28+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 5
@@ -69,14 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    E["실행 상태"] --- M["동작 모드"]
-    E --- P["예외 수준"]
-    E --- R["레지스터 집합"]
-    E --- X["확장 명령"]
+```text
+                      [동작 모드]
+                           |
+                           |
+[예외 수준] -- [실행 상태] -- [레지스터 집합]
+                           |
+                           |
+                       [확장 명령]
 ```
+
+선의 의미: 실행 상태를 중심으로 AArch32 동작 모드, AArch64 예외 수준, 레지스터 집합, 선택 확장이 결합된 정적 ISA 구성이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
-date: "2026-08-04T14:05:58+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 18
@@ -67,13 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    F["상주 프레임 집합"] --- R["교체 선택기"]
-    H["참조 이력"] --- R
-    R --- S["저장소 I/O"]
+```text
+                    [상주 프레임 집합]
+                            |
+[참조 이력] ----- [교체 선택기] ----- [저장소 I/O]
 ```
+
+선의 의미: 선은 교체 선택기를 중심으로 프레임 상태와 참조 이력, 저장소 I/O가 결합되는 정적 의존 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

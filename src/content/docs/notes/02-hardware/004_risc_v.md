@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RISC-V 개방형 ISA (RISC-V Open Standard ISA)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 4
@@ -71,13 +71,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    R["프로파일"] --- B["기본 ISA"]
-    R --- E["확장 집합"]
-    R --- P["권한 아키텍처"]
+```text
+                  [기본 ISA]
+                      |
+                      |
+[확장 집합] -- [프로파일] -- [권한 아키텍처]
 ```
+
+선의 의미: 프로파일이 기본 ISA, 확장 집합, 권한 아키텍처를 하나의 호환 계약으로 묶는 정적 구성 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

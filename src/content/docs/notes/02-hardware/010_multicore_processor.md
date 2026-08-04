@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티코어 프로세서 (Multicore Processor)"
-date: "2026-08-04T14:05:58+09:00"
+date: "2026-08-05T01:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 10
@@ -68,11 +68,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    C["코어 클러스터"] --- I["일관성 인터커넥트"] --- L["공유 LLC"] --- M["메모리 제어기"]
+```text
+[코어 클러스터] -- [일관성 인터커넥트] -- [공유 LLC] -- [메모리 제어기]
 ```
+
+선의 의미: 여러 코어와 공유 캐시•메모리 제어기를 일관성 요청 및 데이터 경로로 잇는 칩 내부 정적 연결 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-08-04T10:17:54+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -70,16 +70,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    E["명령어 인코딩"] --- D["해독•변환부"]
-    O["피연산자 모델"] --- D
-    D --- U["마이크로연산 캐시"]
-    D --- Q["실행 대기열"]
-    Q --- X["실행 백엔드"]
-    U --- Q
+```text
+[명령어 인코딩] -- [해독•변환부] -------- [마이크로연산 캐시]
+                         /  \                         |
+                        /    \                        |
+          [피연산자 모델]      [실행 대기열] -- [실행 백엔드]
 ```
+
+선의 의미: 명령 표현과 피연산자 규칙이 해독부에 결합되고, 해독 결과 저장•대기•실행 영역이 연결된 정적 프런트엔드•백엔드 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

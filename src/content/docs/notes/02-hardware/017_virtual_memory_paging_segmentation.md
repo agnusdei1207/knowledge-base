@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리: 페이징•세그멘테이션 (Virtual Memory Paging Segmentation)"
-date: "2026-08-04T10:35:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 17
@@ -69,13 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    M["MMU•TLB"] --- P["페이지 테이블"]
-    M --- S["세그먼트 기술자"]
-    M --- R["물리 메모리"]
+```text
+                       [페이지 테이블]
+                              |
+[세그먼트 기술자] ----- [MMU•TLB] ----- [물리 메모리]
 ```
+
+선의 의미: 선은 MMU•TLB를 중심으로 페이징 정보, 세그먼트 정보와 물리 프레임이 결합되는 정적 주소 변환 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

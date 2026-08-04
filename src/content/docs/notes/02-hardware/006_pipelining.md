@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라이닝 기본 구조 5단계 (Pipelining)"
-date: "2026-08-04T10:19:27+09:00"
+date: "2026-08-05T00:42:15+09:00"
 tags:
   - "notes-hardware"
 weight: 6
@@ -69,11 +69,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    F["IF"] --- D["ID"] --- E["EX"] --- M["MEM"] --- W["WB"]
+```text
+[IF] -- [ID] -- [EX] -- [MEM] -- [WB]
 ```
+
+선의 의미: 다섯 처리 단계가 파이프라인 레지스터 경계를 사이에 두고 직렬 결합된 정적 데이터 경로다.
 
 | 구성요소 | 책임 |
 |:---|:---|
