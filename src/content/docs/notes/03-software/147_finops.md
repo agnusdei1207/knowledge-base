@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FinOps 클라우드 비용 최적화 (FinOps)"
-date: "2026-08-04T13:47:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags: ["notes-software"]
 weight: 147
 extra:
@@ -106,11 +106,14 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant S as 비용 원천
     participant A as 비용 분석
+    participant C as 비용 할당 모델
     participant B as 최적화 계획
     participant P as 예산•약정•정책
-    A->>A: 1. 청구•사용량 정규화
-    A->>A: 2. 비용 할당•단위 경제성 산출
+    S->>A: 1. 청구•사용량 정규화
+    A->>C: 2. 비용 할당•단위 경제성 산출
+    C-->>A: 할당 결과
     A->>B: 3. 단위 비용•가치 편차
     B->>P: 4. 최적화 우선순위
     P-->>A: 5. 실행 정책•측정 기준

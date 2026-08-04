@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-04T13:56:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -108,14 +108,15 @@ block-beta
 sequenceDiagram
     participant S as 송신 Pod
     participant E as Egress 정책점
+    participant P as 정책 규칙 저장소
     participant I as Ingress 정책점
     participant D as 수신 Pod
     S->>E: 목적지 패킷
-    E->>E: 1. 송신 선택자•목적지•포트 평가
-    E->>E: 2. Egress 판정
+    E->>P: 1. 송신 선택자•목적지•포트
+    P-->>E: 2. Egress 판정
     E->>I: 3. Egress 허용 패킷
-    I->>I: 4. 수신 선택자•출발지•포트 평가
-    I->>I: 5. Ingress 판정
+    I->>P: 4. 수신 선택자•출발지•포트
+    P-->>I: 5. Ingress 판정
     I->>D: 허용 패킷
     D-->>S: 연결 응답 반환
 ```

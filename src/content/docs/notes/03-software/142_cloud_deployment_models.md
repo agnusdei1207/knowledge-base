@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 배포 모델: 퍼블릭•프라이빗•하이브리드•멀티 (Cloud Deployment Models)"
-date: "2026-08-04T13:42:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags:
   - "notes-software"
 weight: 142
@@ -116,12 +116,13 @@ sequenceDiagram
     participant P as 퍼블릭 API
     participant I as 공통 신원•정책
     participant R as 프라이빗 데이터 서비스
+    participant A as 감사 저장소
     U->>P: 업무 API 요청
     P->>I: 1. 신원•정책 검증 요청
     I-->>P: 2. 제한 자격•정책
     P->>R: 3. 프라이빗 처리 요청
     R-->>P: 4. 최소 결과•처리 증거
-    P->>P: 5. 요청 식별자•지연•감사 기록
+    P->>A: 5. 요청 식별자•지연•감사 기록
     P-->>U: 업무 응답
 ```
 

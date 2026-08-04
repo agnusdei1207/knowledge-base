@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-04T13:58:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -105,18 +105,17 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant U as 배포 사용자
     participant O as Admission•Gatekeeper
+    participant P as 정책 저장소
     participant N as kubelet
     participant R as 컨테이너 런타임
     participant K as Linux 커널
-    U->>O: 파드 배포 명세
-    O->>O: 1. 이미지•보안 설정 검증
+    O->>P: 1. 이미지•보안 설정 검증
+    P-->>O: 검증 결과
     O->>N: 2. 승인 파드•프로필 전달
     N->>R: 3. 사용자•권한 설정 전달
     R->>K: 4. 격리 프로세스 시작
     K-->>R: 5. 호출•접근 판정
-    O-->>U: 승인•거부 결과
 ```
 
 **동작 원리**

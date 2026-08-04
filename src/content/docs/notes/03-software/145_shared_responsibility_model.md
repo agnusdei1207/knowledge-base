@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-08-04T13:45:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags: ["notes-software"]
 weight: 145
 extra:
@@ -109,10 +109,11 @@ sequenceDiagram
     participant P as 공급자
     participant C as 이용자
     participant V as 정책•검증 플랫폼
+    participant M as 통제 매트릭스
     P->>V: 1. 공급자 통제•제외 조건
     C->>V: 2. 서비스•구성 범위
-    V->>V: 3. 상속•잔여 통제 매핑
-    V-->>C: 4. 이용자 통제 배정
+    V->>M: 3. 상속•잔여 통제
+    M-->>C: 4. 이용자 통제 배정
     C->>V: 5. 준수 증적
 ```
 

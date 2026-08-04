@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-08-04T13:46:00+09:00"
+date: "2026-08-04T14:33:57+09:00"
 tags: ["notes-software"]
 weight: 146
 extra:
@@ -110,11 +110,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 자산•의존성 분석
+    participant I as 자산 목록
     participant M as 평가•이전 계획
+    participant D as 전략 의사결정
     participant V as 검증•롤백 통제
-    A->>A: 1. 자산•연결 후보 식별
+    A->>I: 1. 자산•연결 후보
+    I-->>A: 후보 목록
     A->>M: 2. 의존성•전환 제약
-    M->>M: 3. 6R•웨이브 결정
+    M->>D: 전략 평가안
+    D-->>M: 3. 6R•웨이브 결정
     M->>V: 4. 전환 결과•검증 증적
     V-->>M: 5. 전환•롤백 판정
 ```
