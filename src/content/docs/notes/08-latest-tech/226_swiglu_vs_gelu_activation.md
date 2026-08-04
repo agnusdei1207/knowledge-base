@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "SwiGLU•GELU 활성화 함수 비교 (Activation Functions)"
-date: "2026-08-05T06:30:00+09:00"
+date: "2026-08-04T15:00:46+09:00"
 tags:
   - "notes-latest-tech"
 weight: 226
@@ -111,15 +111,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant G as 게이트•활성화 투영
+  participant I as 입력 특징
+  participant G as 게이트•활성화 투영
   participant V as 값 투영
   participant C as 활성화•요소별 결합
   participant O as 출력 투영
-    G->>G: 1. 입력에서 활성•게이트 특징 생성
+  I->>G: 1. 활성•게이트 특징 투영
   alt GELU 경로
     G->>C: 2. GELU 단일 활성 계산
   else SwiGLU 경로
-    G->>V: 3. 입력 특징 전달
+    I->>V: 3. 독립 값 특징 투영
     V->>C: 값 특징 전달
     G->>C: 4. Swish 게이트•값 결합
   end
@@ -128,9 +129,9 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **입력에서 활성•게이트 특징 생성**: **GELU 입력•스위시 게이트** 계산
+1. **활성•게이트 특징 투영**: **GELU 입력•스위시 게이트** 계산
 2. **GELU 단일 활성 계산**: 투영값에 GELU 활성화 적용
-3. **입력 특징 전달**: **SwiGLU** 의 독립 선형 값 경로 생성
+3. **독립 값 특징 투영**: **SwiGLU** 의 선형 값 경로 생성
 4. **Swish 게이트•값 결합**: 게이트와 값의 요소별 곱 계산
 5. **모델 차원 복원**: 출력 투영으로 모델 차원 변환
 

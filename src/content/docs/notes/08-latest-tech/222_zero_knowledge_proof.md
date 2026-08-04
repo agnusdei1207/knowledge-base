@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "영지식 증명 (Zero-Knowledge Proof, ZKP)"
-date: "2026-08-05T06:06:00+09:00"
+date: "2026-08-04T14:59:47+09:00"
 tags:
 - "notes-latest-tech"
 weight: 222
@@ -103,15 +103,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant P as 응용•매개변수 체계
+  participant A as 응용 설계
+  participant K as 매개변수 체계
   participant R as 증명자
   participant V as 검증자
   participant D as 정책 판단
-    P->>P: 1. 명제•관계 회로 정의
-  P->>R: 2. 증명 매개변수 제공
+  A->>K: 1. 명제•관계 회로 정의
+  K->>R: 2. 증명 매개변수 제공
   R->>V: proof•공개 명제 제출
-  V->>P: 3. 검증 매개변수 조회
-  P-->>V: 검증 키•회로 정보 반환
+  V->>K: 3. 검증 매개변수 조회
+  K-->>V: 검증 키•회로 정보 반환
   V->>D: 검증 결과•업무 근거 전달
   D-->>R: 수락•거부 결과 반환
 ```
