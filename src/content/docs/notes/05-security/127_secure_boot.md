@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: Secure Boot 보안 부팅 (Secure Boot)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:04:00+09:00"
 tags:
   - notes-security
 weight: 127
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 부팅(Secure Boot)**: 통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)의 신뢰 키•허용 목록•폐기 목록으로 부트 이미지 서명을 단계별 검증해 허가된 코드만 실행하는 기술이다.
-- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI)**: 하드웨어 초기화•부팅 서비스와 보안 부팅 변수를 관리하는 펌웨어 인터페이스이다.
+- **UEFI(Unified Extensible Firmware Interface)**: 부팅 서비스와 보안 변수를 관리하는 펌웨어 인터페이스이다.
+- **Secure Boot**: UEFI의 키•허용 목록•폐기 목록으로 승인된 코드만 실행하는 기술이다.
 
 </details>
 
@@ -40,8 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **플랫폼 키(Platform Key, PK)•키 교환 키(Key Exchange Key, KEK)**: 플랫폼 정책 소유권과 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키이다.
-- **서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 실행 허용 대상과 취약•폐기 대상을 저장하는 UEFI 데이터베이스이다.
+- **PK(Platform Key)**: 플랫폼 정책의 소유권을 설정하는 키이다.
+- **KEK(Key Exchange Key)**: 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키이다.
+- **db(Signature Database)**: 실행을 허용할 서명•인증서•해시 목록이다.
+- **dbx(Forbidden Signature Database)**: 실행을 금지할 취약•폐기 대상 목록이다.
 
 </details>
 
@@ -59,8 +61,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **신뢰 사슬**: 첫 신뢰 키에서 시작해 다음 부팅 구성요소를 연속 검증하는 구조이다.
-- **플랫폼 키(Platform Key, PK)•키 교환 키(Key Exchange Key, KEK)•서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx)**: 각 키와 목록으로 정책 소유권•갱신•허용•폐기를 나누어 통제한다.
-- **통합 확장 펌웨어 인터페이스(Unified Extensible Firmware Interface, UEFI) 이미지 검증기**: 부트 이미지의 서명 체인과 허용•폐기 정책을 판정한다.
+- **UEFI 이미지 검증기**: 부트 이미지의 서명 체인과 허용•폐기 정책을 판정한다.
 
 </details>
 
@@ -93,8 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 플랫폼 모듈(Trusted Platform Module, TPM)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈이다.
-- **통합 확장 펌웨어 인터페이스(UEFI)와 보안 부팅 키•목록**: UEFI가 플랫폼 키(Platform Key, PK), 키 교환 키(Key Exchange Key, KEK), 서명 데이터베이스(Signature Database, db), 금지 서명 데이터베이스(Forbidden Signature Database, dbx)를 이용해 실행 정책을 판정한다.
+- **TPM(Trusted Platform Module)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈이다.
 
 </details>
 
@@ -129,17 +129,18 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 부팅(Secure Boot)**: 신뢰한 키로 서명된 부트 이미지만 실행하도록 차단하는 방식이다.
-- **신뢰 부팅(Trusted Boot)**: 운영체제(Operating System, OS) 구성요소까지 연속해서 진위를 검증하는 방식이다.
-- **측정 부팅(Measured Boot)**: 부팅 구성요소의 측정값을 신뢰 플랫폼 모듈(Trusted Platform Module, TPM)에 기록하는 방식이다.
+- **Secure Boot 역할**: 미승인 부트 이미지의 실행을 차단하는 역할이다.
+- **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제이다.
+- **Trusted Boot**: OS 구성요소까지 연속해서 진위를 검증하는 방식이다.
+- **Measured Boot**: 부팅 구성요소의 측정값을 TPM에 기록하는 방식이다.
 
 </details>
 
 | 부팅 신뢰 기능 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| **보안 부팅(Secure Boot)** | **미승인 부트 이미지 실행 차단** | 최초 실행 경로의 허용 기준 설정 |
-| **신뢰 부팅(Trusted Boot)** | **운영체제(Operating System, OS) 구성요소까지 연속 검증** | 앞 단계의 신뢰를 다음 구성요소로 확장 |
-| **측정 부팅(Measured Boot)** | **신뢰 플랫폼 모듈(Trusted Platform Module, TPM)에 측정값 기록** | 원격 검증자가 실제 부팅 상태를 판정할 증거 제공 |
+| **Secure Boot** | **미승인 부트 이미지 실행 차단** | 최초 실행 경로의 허용 기준 설정 |
+| **Trusted Boot** | **OS 구성요소까지 연속 검증** | 앞 단계의 신뢰를 다음 구성요소로 확장 |
+| **Measured Boot** | **TPM에 측정값 기록** | 원격 검증자가 실제 부팅 상태를 판정할 증거 제공 |
 
 > 요약: 실행 차단, 연속 검증, 상태 증명을 구분함
 
@@ -152,9 +153,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **통합 확장 펌웨어 인터페이스 규격(Unified Extensible Firmware Interface Specification, UEFI Specification) 2.11**: 보안 부팅•드라이버 서명•키 교환 구조를 정의한다.
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 복원력 지침이다.
-- **신뢰 컴퓨팅 그룹 신뢰 플랫폼 모듈(Trusted Computing Group Trusted Platform Module, TCG TPM) 2.0**: 부팅 측정값 보호와 원격 증명의 기반을 제공하는 규격이다.
+- **UEFI Specification 2.11**: Secure Boot•드라이버 서명•키 교환 규격이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 지침이다.
+- **TCG(Trusted Computing Group)**: 신뢰 컴퓨팅 표준을 개발하는 산업단체이다.
+- **TCG TPM 2.0**: 부팅 측정값 보호와 원격 증명의 규격이다.
 
 </details>
 
@@ -174,7 +178,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **허용•폐기 동시 판정**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙이다.
-- **서명 데이터베이스(Signature Database, db)•금지 서명 데이터베이스(Forbidden Signature Database, dbx) 판단**: 허용 목록과 폐기 목록을 동시에 확인하는 절차이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 차량 사이버 보안 — V2X 위협 (Vehicle Cybersecurity V2X)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:47:00+09:00"
 tags:
   - notes-security
 weight: 134
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **차량•사물 통신(Vehicle-to-Everything, V2X)**: 차량이 차량•인프라•보행자•망과 안전•교통 정보를 교환하는 통신이다.
-- **무선 원격 업데이트(Over-the-Air Update, OTA)**: 통신망으로 차량 소프트웨어를 원격 배포•검증•갱신하는 방식이다.
+- **V2X(Vehicle-to-Everything)**: 차량이 주변 객체와 정보를 교환하는 통신이다.
+- **OTA(Over-the-Air Update)**: 통신망으로 차량 소프트웨어를 원격 갱신하는 방식이다.
 
 </details>
 
@@ -40,9 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **위협 분석•위험 평가(Threat Analysis and Risk Assessment, TARA)**: 자산•공격경로•영향•가능성을 분석해 보안 목표를 정하는 활동이다.
-- **사이버보안 관리체계(Cyber Security Management System, CSMS)•소프트웨어 업데이트 관리체계(Software Update Management System, SUMS)**: 차량 사이버 위험과 소프트웨어 업데이트를 전 수명주기에서 관리하는 체계이다.
-- **차량•사물 통신(Vehicle-to-Everything, V2X) 다중 검증**: 서명•신선도•물리 개연성을 함께 확인해 위조•재전송을 막는 통제이다.
+- **TARA(Threat Analysis and Risk Assessment)**: 자산•공격경로•영향•가능성을 분석하는 활동이다.
+- **CSMS(Cyber Security Management System)**: 차량 사이버 위험을 관리하는 체계이다.
+- **SUMS(Software Update Management System)**: 차량 소프트웨어 업데이트를 관리하는 체계이다.
+- **V2X 다중 검증**: 서명•신선도•물리 개연성을 함께 확인하는 통제이다.
 
 </details>
 
@@ -59,9 +60,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전자제어장치(Electronic Control Unit, ECU)•제어기 영역 네트워크(Controller Area Network, CAN)**: 차량 기능을 제어하는 장치와 ECU들이 메시지를 공유하는 내부 통신 버스이다.
-- **무선 원격 업데이트(Over-the-Air Update, OTA)**: 통신망을 통해 차량 소프트웨어를 원격 배포•검증•갱신하는 방식이다.
-- **차량•사물 통신(Vehicle-to-Everything, V2X)•사이버보안 관리체계(Cyber Security Management System, CSMS)**: 외부 메시지를 검증하고 차량군의 취약점•사고•상태를 추적하는 경계와 관리체계이다.
+- **ECU(Electronic Control Unit)**: 차량 기능을 제어하는 전자제어장치이다.
+- **CAN(Controller Area Network)**: ECU들이 메시지를 공유하는 내부 통신 버스이다.
 
 </details>
 
@@ -95,7 +95,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **개연성 검사**: 인증된 메시지도 위치•속도•시간상 가능한지 주변 정보와 대조하는 검사이다.
-- **차량•사물 통신(Vehicle-to-Everything, V2X) 신뢰**: 인증서•서명•신선도와 센서•지도 기반 물리 개연성을 함께 확인하는 기준이다.
+- **V2X 신뢰**: 서명•신선도와 물리 개연성을 함께 확인하는 기준이다.
 
 </details>
 
@@ -129,8 +129,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **차량 간 통신(Vehicle-to-Vehicle, V2V)•차량•인프라 통신(Vehicle-to-Infrastructure, V2I)•차량•네트워크 통신(Vehicle-to-Network, V2N)**: 차량, 도로 인프라, 이동통신망과 각각 정보를 교환하는 차량•사물 통신(V2X) 유형이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 차량•클라우드 서비스가 데이터와 원격 기능을 주고받는 연결 경계이다.
+- **V2V(Vehicle-to-Vehicle)**: 차량 간 정보를 교환하는 V2X 유형이다.
+- **V2I(Vehicle-to-Infrastructure)**: 차량과 도로 인프라가 통신하는 유형이다.
+- **V2N(Vehicle-to-Network)**: 차량과 이동통신망이 통신하는 유형이다.
+- **API(Application Programming Interface)**: 차량•클라우드 기능의 연결 경계이다.
 
 </details>
 
@@ -151,9 +153,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **국제표준화기구•자동차공학회(International Organization for Standardization/Society of Automotive Engineers, ISO/SAE) 21434**: 차량 전기•전자 시스템의 수명주기 사이버보안 공학 요구사항이다.
-- **유엔 규정(United Nations Regulation, UN Regulation) 155•156**: 차량 형식승인의 사이버보안 관리체계(CSMS)와 소프트웨어 업데이트 관리체계(SUMS)를 다루는 규정이다.
-- **차량•사물 통신(Vehicle-to-Everything, V2X)**: 통신 메시지의 서명과 물리 개연성을 함께 검증해야 하는 외부 차량 경계이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **SAE(Society of Automotive Engineers)**: 자동차공학회이다.
+- **ISO/SAE 21434**: 차량 사이버보안 공학 요구사항이다.
+- **UN(United Nations)**: 국제연합이다.
+- **UN Regulation 155**: 차량 CSMS 형식승인 규정이다.
+- **UN Regulation 156**: 차량 SUMS 형식승인 규정이다.
 
 </details>
 
@@ -173,7 +178,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **다중 신뢰 검증**: 서명뿐 아니라 신선도•권한•물리 개연성을 함께 확인하는 원칙이다.
-- **차량•사물 통신(Vehicle-to-Everything, V2X) 제한 반영**: 다중 검증을 통과한 메시지만 차량 제어 판단에 제한적으로 사용하는 원칙이다.
+- **V2X 제한 반영**: 다중 검증을 통과한 메시지만 제어에 사용하는 원칙이다.
 
 </details>
 

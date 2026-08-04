@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:49:00+09:00"
 tags:
   - notes-security
 weight: 144
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개발•보안•운영(Development, Security, and Operations, DevSecOps)**: 개발•보안•운영팀이 보안 책임•자동화•피드백을 공동 운영하는 방식이다.
+- **DevSecOps(Development, Security, and Operations)**: 개발•보안•운영팀이 보안을 공동 운영하는 방식이다.
 
 </details>
 
@@ -41,7 +41,7 @@ extra:
 
 - **Shift Left•Right**: 보안을 개발 초기로 앞당기고 운영 관측•사고 결과를 다시 개발로 돌리는 접근이다.
 - **코드형 보안**: 정책•검사•구성•증거를 코드와 버전관리로 반복 실행하는 방식이다.
-- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성과 보안 정책을 코드로 정의해 자동 검증•배포하는 방식이다.
+- **IaC(Infrastructure as Code)**: 인프라 구성과 정책을 코드로 정의하는 방식이다.
 
 </details>
 
@@ -59,8 +59,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)•코드형 인프라(Infrastructure as Code, IaC)**: 구성요소의 출처•의존성을 기록한 명세서와 인프라 구성을 코드로 관리하는 방식이다.
-- **정적 응용보안시험(Static Application Security Testing, SAST)•소프트웨어 구성분석(Software Composition Analysis, SCA)•동적 응용보안시험(Dynamic Application Security Testing, DAST)**: 소스 코드•구성요소•실행 응용을 각각 검사하는 보안 시험이다.
+- **SBOM(Software Bill of Materials)**: 구성요소의 출처•의존성을 기록한 명세서이다.
+- **SAST(Static Application Security Testing)**: 소스 코드를 정적으로 검사하는 시험이다.
+- **SCA(Software Composition Analysis)**: 오픈소스 구성요소를 분석하는 시험이다.
+- **DAST(Dynamic Application Security Testing)**: 실행 중인 응용을 동적으로 검사하는 시험이다.
 
 </details>
 
@@ -93,8 +95,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **지속적 통합•지속적 전달(Continuous Integration/Continuous Delivery, CI/CD)•보안 게이트**: 통합•시험•배포를 자동화하는 파이프라인과 위험 기준으로 진행 여부를 결정하는 통제점이다.
-- **코드형 인프라(Infrastructure as Code, IaC) 검증**: 인프라 구성 변경을 배포 전에 정책•위험 기준으로 자동 검사하는 활동이다.
+- **CI/CD(Continuous Integration/Continuous Delivery)**: 통합•시험•배포를 자동화하는 파이프라인이다.
+- **보안 게이트**: 위험 기준으로 파이프라인 진행 여부를 결정하는 통제점이다.
+- **IaC 검증**: 인프라 변경을 배포 전 자동 검사하는 활동이다.
 
 </details>
 
@@ -132,15 +135,14 @@ sequenceDiagram
 - **공동 책임**: 제품•보안•운영팀이 수명주기 전반의 보안 결과를 함께 소유하는 원칙이다.
 - **시프트 레프트(Shift Left)**: 설계•개발•빌드 단계에서 결함을 예방•탐지하는 접근이다.
 - **시프트 라이트(Shift Right)**: 운영 단계에서 공격•오탐•사고 증거를 관측하고 앞 단계의 요구•시험으로 환류하는 접근이다.
-- **개발•보안•운영(Development, Security, and Operations, DevSecOps)**: 시프트 레프트와 운영 피드백을 전 수명주기 공동 책임으로 연결하는 방식이다.
 
 </details>
 
 | 접근 요소 | 역할 | 수명주기 관계 |
 |:---|:---|:---|
-| **시프트 레프트(Shift Left)** | **설계•개발•빌드 단계의 예방•조기 탐지** | 초기 결함 비용을 줄이는 개발•보안•운영 체계의 앞단 활동 |
-| **시프트 라이트(Shift Right)** | **운영 위험•공격•오탐 결과 수집** | 운영 증거를 요구사항•시험에 환류 |
-| **개발•보안•운영(Development, Security, and Operations, DevSecOps)** | **전 수명주기 공동 책임과 자동화** | 앞단 예방과 운영 피드백을 지속 순환 |
+| **Shift Left** | **설계•개발•빌드 단계의 예방•조기 탐지** | 초기 결함 비용을 줄이는 앞단 활동 |
+| **Shift Right** | **운영 위험•공격•오탐 결과 수집** | 운영 증거를 요구사항•시험에 환류 |
+| **DevSecOps** | **전 수명주기 공동 책임과 자동화** | 앞단 예방과 운영 피드백을 지속 순환 |
 
 > 요약: 시프트 레프트와 라이트를 지속 순환시킴
 
@@ -153,10 +155,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 안전한 소프트웨어 개발 프레임워크(NIST Secure Software Development Framework, NIST SSDF)**: 준비•보호•안전한 소프트웨어 생산•취약점 대응 관행을 제시한다.
-- **소프트웨어 아티팩트 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA)**: 소스•빌드 공급망의 변조 방지와 출처 증명 수준을 제시한다.
-- **오픈 웹 애플리케이션 보안 프로젝트 소프트웨어 보증 성숙도 모델(OWASP Software Assurance Maturity Model, OWASP SAMM)**: 소프트웨어 보안 관행의 현재 역량을 평가•개선하는 모델이다.
-- **미국 국립표준기술연구소 특별간행물(NIST Special Publication, NIST SP) 800-218**: SSDF v1.1을 수록한 공식 문서이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SSDF(Secure Software Development Framework)**: 안전한 소프트웨어 개발 관행 프레임워크이다.
+- **SLSA(Supply-chain Levels for Software Artifacts)**: 소프트웨어 공급망 보증 수준 체계이다.
+- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
+- **SAMM(Software Assurance Maturity Model)**: 소프트웨어 보증 성숙도 모델이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
 
 </details>
 

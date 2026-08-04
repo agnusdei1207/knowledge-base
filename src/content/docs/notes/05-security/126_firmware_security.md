@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 펌웨어 보안 — 하드코딩 자격증명 (Firmware Security)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:58:00+09:00"
 tags:
   - notes-security
 weight: 126
@@ -91,7 +91,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **무선 원격 업데이트(Over-the-Air Update, OTA)•소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 펌웨어를 원격 배포하는 방식과 구성요소•버전•의존성을 기록한 명세서이다.
+- **OTA(Over-the-Air Update)**: 펌웨어를 무선 통신으로 원격 배포하는 방식이다.
+- **SBOM(Software Bill of Materials)**: 구성요소•버전•의존성을 기록한 소프트웨어 자재명세서이다.
 
 </details>
 
@@ -144,8 +145,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 복원력 지침이다.
-- **인터넷국제표준화기구 의견요청서(Internet Engineering Task Force Request for Comments, IETF RFC) 9019•9124**: 사물인터넷(Internet of Things, IoT) 펌웨어 업데이트 구조와 매니페스트 정보 모델을 정의한다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 지침이다.
+- **IETF(Internet Engineering Task Force)**: 인터넷 표준을 개발하는 국제 기술기구이다.
+- **RFC(Request for Comments)**: IETF의 인터넷 표준 문서 유형이다.
+- **IoT(Internet of Things)**: 사물과 네트워크를 연결한 사물인터넷이다.
+- **IETF RFC 9019**: IoT 펌웨어 업데이트 구조를 정의한 표준이다.
+- **IETF RFC 9124**: 펌웨어 매니페스트 정보 모델을 정의한 표준이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: PKI 차량 인증 (Vehicle PKI)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:01:00+09:00"
 tags:
   - notes-security
 weight: 136
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **차량 공개키 기반구조(Vehicle Public Key Infrastructure, Vehicle PKI)**: 차량•사물 통신(Vehicle-to-Everything, V2X) 메시지 서명 인증서의 발급•사용•폐기를 관리하는 체계이다.
+- **PKI(Public Key Infrastructure)**: 인증서의 발급•사용•폐기를 관리하는 공개키 기반구조이다.
+- **V2X(Vehicle-to-Everything)**: 차량이 주변 객체와 정보를 교환하는 통신이다.
+- **Vehicle PKI**: V2X 메시지 인증서를 관리하는 체계이다.
 
 </details>
 
@@ -57,8 +59,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **루트 인증기관(Root Certificate Authority, Root CA)•가입기관(Enrollment Authority, EA)•권한기관(Authorization Authority, AA)**: 최상위 신뢰, 차량 가입 자격, 단기 차량•사물 통신(V2X) 서비스 권한을 각각 관리한다.
-- **인증서 폐기목록(Certificate Revocation List, CRL)**: 만료 전에 폐기된 인증서의 식별자와 상태를 배포하는 목록이다.
+- **Root CA(Root Certificate Authority)**: 최상위 신뢰를 보증하는 인증기관이다.
+- **EA(Enrollment Authority)**: 차량의 장기 가입 자격을 확인하는 기관이다.
+- **AA(Authorization Authority)**: 단기 V2X 서비스 권한을 발급하는 기관이다.
+- **CRL(Certificate Revocation List)**: 만료 전 폐기된 인증서 상태 목록이다.
 
 </details>
 
@@ -91,7 +95,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 자격증명 관리체계(Security Credential Management System, SCMS)**: 차량•사물 통신(Vehicle-to-Everything, V2X) 인증서의 등록•권한•폐기 기능을 분리 운영하는 체계이다.
+- **SCMS(Security Credential Management System)**: V2X 인증서의 등록•권한•폐기를 분리 운영하는 체계이다.
 
 </details>
 
@@ -127,8 +131,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송계층보안(Transport Layer Security, TLS) 인증서**: 차량과 서버 사이의 상대 인증•기밀성•무결성을 제공하는 연결용 인증서이다.
-- **가입•방송 자격 분리**: 가입기관(Enrollment Authority, EA)의 장기 가입 자격과 차량•사물 통신(Vehicle-to-Everything, V2X)의 단기 방송 권한을 분리한다.
+- **TLS(Transport Layer Security) 인증서**: 차량•서버 연결을 보호하는 인증서이다.
+- **가입•방송 자격 분리**: EA 가입 자격과 V2X 방송 권한을 분리하는 원칙이다.
 
 </details>
 
@@ -149,8 +153,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 1609.2•1609.2.1**: 차량 환경 무선접속(Wireless Access in Vehicular Environments, WAVE) 메시지 보안과 인증서 프로비저닝•관리 인터페이스를 규정한다.
-- **유럽전기통신표준협회 기술 사양(European Telecommunications Standards Institute Technical Specification, ETSI TS) 103 097**: 유럽 지능형교통체계(Intelligent Transport Systems, ITS)의 보안 헤더와 인증서 형식을 규정한다.
+- **IEEE(Institute of Electrical and Electronics Engineers)**: 전기전자 기술표준을 개발하는 학회이다.
+- **WAVE(Wireless Access in Vehicular Environments)**: 차량 환경 무선접속 기술이다.
+- **IEEE 1609.2**: WAVE 메시지 보안 표준이다.
+- **IEEE 1609.2.1**: WAVE 인증서 관리 인터페이스 표준이다.
+- **ETSI(European Telecommunications Standards Institute)**: 유럽전기통신표준협회이다.
+- **TS(Technical Specification)**: 기술 사양 문서 유형이다.
+- **ITS(Intelligent Transport Systems)**: 지능형교통체계이다.
+- **ETSI TS 103 097**: ITS 보안 헤더•인증서 형식 표준이다.
 
 </details>
 
@@ -170,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **자격 분리**: 장기 가입, 단기 방송, 서버 연결 인증서를 목적별로 나누는 원칙이다.
-- **전송계층보안(Transport Layer Security, TLS) 인증서**: 차량•서버 연결 보호에 사용하고 방송용 가명 인증서와 분리하는 자격이다.
 
 </details>
 

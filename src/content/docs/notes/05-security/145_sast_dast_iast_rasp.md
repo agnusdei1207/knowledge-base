@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: SAST•DAST•IAST•RASP
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:55:00+09:00"
 tags:
   - notes-security
 weight: 145
@@ -39,7 +39,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **정적 응용보안시험(Static Application Security Testing, SAST)•동적 응용보안시험(Dynamic Application Security Testing, DAST)•상호작용 응용보안시험(Interactive Application Security Testing, IAST)•런타임 응용 자기보호(Runtime Application Self-Protection, RASP)**: 정적 코드•외부 실행•내부 계측•운영 맥락에서 각각 응용 보안을 검증•보호하는 기법이다.
+- **SAST(Static Application Security Testing)**: 소스 코드를 정적으로 검사하는 시험이다.
+- **DAST(Dynamic Application Security Testing)**: 실행 응용을 외부에서 검사하는 시험이다.
+- **IAST(Interactive Application Security Testing)**: 내부 계측으로 실행 경로를 검사하는 시험이다.
+- **RASP(Runtime Application Self-Protection)**: 운영 맥락에서 공격을 탐지•완화하는 기술이다.
 
 </details>
 
@@ -56,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **소프트웨어 구성분석(Software Composition Analysis, SCA)**: 제3자 구성요소의 버전•라이선스•취약점을 분석하는 시험이다.
-- **응용보안 결과 연계**: 정적 응용보안시험(SAST), 동적 응용보안시험(DAST), 상호작용 응용보안시험(IAST), 런타임 응용 자기보호(RASP)의 결과를 실제 경로•영향과 연결한다.
+- **SCA(Software Composition Analysis)**: 제3자 구성요소의 취약점•라이선스를 분석한다.
+- **응용보안 결과 연계**: SAST•DAST•IAST•RASP 결과를 실제 경로와 연결한다.
 - **도달 가능성**: 취약 코드가 실제 입력•실행 경로에서 호출되는지를 나타내는 속성이다.
 
 </details>
@@ -134,7 +137,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **검증 시점•위치**: 개발 코드, 시험 중 외부•내부, 운영 응용처럼 기법이 관찰하는 단계와 지점이다.
-- **네 가지 응용보안 기법**: 정적 응용보안시험(Static Application Security Testing, SAST), 동적 응용보안시험(Dynamic Application Security Testing, DAST), 상호작용 응용보안시험(Interactive Application Security Testing, IAST), 런타임 응용 자기보호(Runtime Application Self-Protection, RASP)를 시점•가시성•목적에 따라 선택한다.
+- **네 가지 응용보안 기법**: SAST•DAST•IAST•RASP를 시점•가시성에 따라 선택한다.
 
 </details>
 
@@ -155,10 +158,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오픈 웹 애플리케이션 보안 프로젝트 응용보안 검증표준(OWASP Application Security Verification Standard, OWASP ASVS)•웹 보안 시험 가이드(OWASP Web Security Testing Guide, OWASP WSTG)**: 웹 응용 보안 요구•검증 수준과 동적 시험 시나리오•방법을 제공한다.
-- **미국 국립표준기술연구소 안전한 소프트웨어 개발 프레임워크(NIST Secure Software Development Framework, NIST SSDF)**: 개발 수명주기에 안전한 소프트웨어 관행을 통합하는 지침이다.
-- **미국 국립표준기술연구소 특별간행물(NIST Special Publication, NIST SP) 800-218**: SSDF v1.1을 수록한 공식 문서이다.
-- **정적•동적•상호작용 검증**: 정적 응용보안시험(SAST) 후보를 동적 응용보안시험(DAST)과 상호작용 응용보안시험(IAST)으로 실제 경로에 연결한다.
+- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
+- **ASVS(Application Security Verification Standard)**: 응용 보안 검증표준이다.
+- **WSTG(Web Security Testing Guide)**: 웹 보안 시험 가이드이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SSDF(Secure Software Development Framework)**: 안전한 소프트웨어 개발 프레임워크이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
 
 </details>
 
@@ -178,7 +183,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상호 보완 검증**: 여러 시험 결과를 실제 경로•근본 수정•재시험으로 연결해 단일 기법의 사각을 줄이는 접근이다.
-- **응용보안 기법 선택**: 정적 응용보안시험(Static Application Security Testing, SAST)은 초기 코드, 동적 응용보안시험(DAST)과 상호작용 응용보안시험(IAST)은 경로 검증, 런타임 응용 자기보호(RASP)는 운영 완화에 적용한다.
+- **응용보안 기법 선택**: SAST는 코드, DAST•IAST는 경로, RASP는 운영에 적용한다.
 
 </details>
 

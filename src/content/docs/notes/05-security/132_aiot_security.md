@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: IoT 디바이스 보안 — AIoT (AIoT Security)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:35:00+09:00"
 tags:
   - notes-security
 weight: 132
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사물지능융합기술(Artificial Intelligence of Things, AIoT)**: 연결된 사물인터넷(Internet of Things, IoT) 장치에 인공지능(Artificial Intelligence, AI) 학습•추론 기능을 결합한 체계이다.
+- **IoT(Internet of Things)**: 사물과 네트워크를 연결한 사물인터넷이다.
+- **AI(Artificial Intelligence)**: 데이터에서 학습해 판단하는 인공지능이다.
+- **AIoT(Artificial Intelligence of Things)**: IoT 장치에 AI 학습•추론을 결합한 체계이다.
 
 </details>
 
@@ -39,8 +41,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **센서 스푸핑•적대적 예제**: 물리 신호 또는 입력을 조작해 모델과 제어기의 오판을 유도하는 공격이다.
-- **인공지능(Artificial Intelligence, AI) 안전 상태**: 모델 확신이 낮거나 입력이 충돌할 때 물리 제어를 제한•중지하는 상태이다.
+- **센서 스푸핑**: 물리 신호를 조작해 센서 판단을 왜곡하는 공격이다.
+- **적대적 예제**: 입력을 조작해 AI 모델의 오판을 유도하는 공격이다.
+- **AI 안전 상태**: 저확신•입력 충돌 시 물리 제어를 제한하는 상태이다.
 
 </details>
 
@@ -59,7 +62,8 @@ extra:
 
 - **모델 추출**: 반복 질의와 출력 관찰로 대상 모델의 기능•파라미터를 복제하는 공격이다.
 - **모델 드리프트**: 학습•운영 데이터 분포 차이로 모델 판단 성능이 변하는 현상이다.
-- **인공지능(Artificial Intelligence, AI) 모델•응용 프로그래밍 인터페이스(Application Programming Interface, API) 통제**: 모델 서명•질의율과 플랫폼 호출 권한을 함께 제한하는 통제이다.
+- **API(Application Programming Interface)**: 시스템 기능을 호출하는 연결 규격이다.
+- **AI 모델 통제**: 모델 서명•질의율•호출 권한을 제한하는 통제이다.
 
 </details>
 
@@ -93,7 +97,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **안전 상태 전환**: 입력 이상이나 낮은 확신도를 감지하면 물리 제어를 제한•중지하는 동작이다.
-- **인공지능(Artificial Intelligence, AI) 추론 증거**: 승인 모델 버전•추론값•확신도를 물리 제어 판단과 함께 기록한 자료이다.
+- **AI 추론 증거**: 모델 버전•추론값•확신도와 제어 판단을 기록한 자료이다.
 
 </details>
 
@@ -127,8 +131,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **엣지 인공지능(Edge Artificial Intelligence, Edge AI)**: 장치나 근거리 게이트웨이에서 인공지능 추론을 수행하는 방식이다.
-- **사물지능융합기술(Artificial Intelligence of Things, AIoT)**: 사물인터넷 장치와 인공지능 추론을 결합해 현장에서 판단•제어하는 체계이다.
+- **Edge AI**: 장치나 근거리 게이트웨이에서 AI 추론을 수행하는 방식이다.
 
 </details>
 
@@ -149,9 +152,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27400**: 사물인터넷(Internet of Things, IoT) 솔루션의 보안•프라이버시 위험•원칙•통제 지침이다.
-- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(NIST Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 인공지능 위험•성능•물리 영향을 관리하는 프레임워크이다.
-- **미국 국립표준기술연구소 내부보고서(National Institute of Standards and Technology Internal Report, NIST IR) 8259**: 사물인터넷 제조자의 기본 보안 활동을 다루는 지침이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27400**: IoT 보안•프라이버시 통제 지침이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **AI RMF(Artificial Intelligence Risk Management Framework)**: AI 위험관리 프레임워크이다.
+- **IR(Internal Report)**: NIST의 내부보고서 문서 유형이다.
+- **NIST IR 8259**: IoT 제조자의 기본 보안 활동 지침이다.
 
 </details>
 
@@ -171,7 +178,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **경로 전체 보호**: 센서 입력부터 모델 판단과 액추에이터 동작까지 연결해 통제하는 원칙이다.
-- **인공지능(Artificial Intelligence, AI) 판단 경로**: 센서 입력•모델 추론•물리 동작을 하나의 안전 통제 경로로 보는 기준이다.
+- **AI 판단 경로**: 센서 입력•모델 추론•물리 동작을 잇는 통제 경로이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 아키텍처 평가 — SABSA (SABSA Security Architecture)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:19:00+09:00"
 tags:
   - notes-security
 weight: 139
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA)**: 사업 목표•위험을 보안 구현•운영 지표까지 추적하는 보안 아키텍처 방법론이다.
+- **SABSA(Sherwood Applied Business Security Architecture)**: 사업 위험을 보안 구현•지표까지 추적하는 방법론이다.
 
 </details>
 
@@ -57,7 +57,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **셔우드 응용 비즈니스 보안 아키텍처 계층(Sherwood Applied Business Security Architecture Layers, SABSA 계층)**: 맥락•개념•논리•물리•컴포넌트•운영으로 요구를 구현까지 구체화하는 여섯 계층이다.
+- **SABSA 계층**: 요구를 맥락•개념•논리•물리•운영으로 구체화한다.
 
 </details>
 
@@ -125,8 +125,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)•Zachman 프레임워크**: 전사 아키텍처 전환 절차와 관점별 산출물 분류에 각각 초점을 둔다.
-- **셔우드 응용 비즈니스 보안 아키텍처(SABSA)•아키텍처 개발 방법(Architecture Development Method, ADM)**: 보안 위험의 계층별 추적과 전사 변화 절차를 구분하는 판단 기준이다.
+- **TOGAF(The Open Group Architecture Framework)**: 전사 아키텍처 전환 프레임워크이다.
+- **Zachman 프레임워크**: 관점별 아키텍처 산출물 분류 체계이다.
+- **ADM(Architecture Development Method)**: TOGAF의 아키텍처 개발 방법이다.
 
 </details>
 
@@ -147,9 +148,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA) 매트릭스**: 여섯 계층과 무엇•왜•어떻게•누가•어디서•언제를 조합해 산출물을 점검하는 틀이다.
-- **국제표준화기구•국제전기기술위원회•전기전자공학자협회(International Organization for Standardization/International Electrotechnical Commission/Institute of Electrical and Electronics Engineers, ISO/IEC/IEEE) 42010**: 아키텍처 설명의 관점•뷰•모델 표현 요구사항을 규정한 표준이다.
-- **전사 전환 연계**: 개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)의 아키텍처 개발 방법(Architecture Development Method, ADM)으로 보안 설계와 전사 전환 일정을 연결한다.
+- **SABSA 매트릭스**: 여섯 계층과 육하원칙으로 산출물을 점검하는 틀이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **IEEE(Institute of Electrical and Electronics Engineers)**: 전기전자 기술표준을 개발하는 학회이다.
+- **ISO/IEC/IEEE 42010**: 아키텍처 관점•뷰•모델 표현 표준이다.
+- **전사 전환 연계**: TOGAF ADM으로 보안 설계와 전환 일정을 연결한다.
 
 </details>
 
@@ -169,7 +173,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **사업 가치 입증**: 보안 구현과 운영 성과가 어떤 사업 목표•위험에 기여하는지 연결해 설명하는 활동이다.
-- **위험 추적•전사 전환 결합**: 셔우드 응용 비즈니스 보안 아키텍처(Sherwood Applied Business Security Architecture, SABSA)의 위험 추적과 개방형 그룹 아키텍처 프레임워크(The Open Group Architecture Framework, TOGAF)의 전사 전환을 결합하는 방식이다.
+- **위험 추적•전사 전환 결합**: SABSA 위험 추적과 TOGAF 전환을 결합하는 방식이다.
 
 </details>
 

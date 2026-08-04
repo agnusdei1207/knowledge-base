@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 설계 원칙 — 페일 세이프•최소 노출 (Security Design Principles)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:07:00+09:00"
 tags:
   - notes-security
 weight: 137
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **안전한 기본값•최소 권한**: 허용 근거가 없으면 거부하고 필요한 권한만 필요한 시간 동안 부여하는 원칙이다.
+- **안전한 기본값**: 허용 근거가 없으면 접근을 거부하는 원칙이다.
+- **최소 권한**: 필요한 권한만 필요한 시간 동안 부여하는 원칙이다.
 - **완전 중재**: 모든 자원 접근을 현재 정책과 권한으로 매번 검사하는 원칙이다.
 
 </details>
@@ -57,8 +58,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **메커니즘 경제성•공개 설계**: 보안 구조를 단순하게 만들고 알고리즘 은닉보다 제한된 비밀에만 의존하는 원칙이다.
-- **권한 분리•최소 공통 메커니즘**: 독립 조건을 요구하고 주체 간 공유 상태를 줄이는 원칙이다.
+- **메커니즘 경제성**: 보안 구조를 작고 단순하게 만드는 원칙이다.
+- **공개 설계**: 알고리즘 은닉보다 제한된 비밀에 의존하는 원칙이다.
+- **권한 분리**: 중요 작업에 둘 이상의 독립 조건을 요구하는 원칙이다.
+- **최소 공통 메커니즘**: 주체 사이의 공유 상태를 줄이는 원칙이다.
 
 </details>
 
@@ -91,7 +94,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **정책 집행점•결정점**: 접근 요청을 가로채고 현재 정책에 따라 허용 여부를 판단하는 구성요소이다.
+- **정책 집행점**: 접근 요청을 가로채 정책 결정을 실행하는 구성요소이다.
+- **정책 결정점**: 현재 정책으로 접근 허용 여부를 판단하는 구성요소이다.
 
 </details>
 
@@ -125,8 +129,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **안전 실패•장애 전환**: 보안 기능 장애 때 무단 접근 없는 상태로 전환하는 원칙과 대체 시스템으로 서비스를 잇는 방식이다.
-- **운영기술(Operational Technology, OT) 안전 영향**: 보안 통제의 거부•중단이 물리 공정과 인명 안전에 미치는 결과이다.
+- **안전 실패**: 보안 기능 장애 때 무단 접근 없는 상태로 전환하는 원칙이다.
+- **장애 전환**: 장애 시 대체 시스템으로 서비스를 잇는 방식이다.
+- **OT(Operational Technology) 안전 영향**: 보안 통제가 물리 공정에 미치는 결과이다.
 
 </details>
 
@@ -147,9 +152,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-160•800-53**: 보안 시스템의 수명주기 공학과 시스템•조직 통제를 다루는 지침이다.
-- **접근통제(Access Control, AC)•감사•책임추적(Audit and Accountability, AU)**: 최소 권한과 완전 중재, 접근 근거 기록을 구현하는 통제군이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 주체•대상•행위•맥락을 매 요청 검사해야 하는 서비스 연결 경계이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-160**: 보안 시스템 수명주기 공학 지침이다.
+- **NIST SP 800-53**: 시스템•조직 보안 통제 지침이다.
+- **AC(Access Control)**: 접근 권한을 제한하는 통제군이다.
+- **AU(Audit and Accountability)**: 감사•책임추적 통제군이다.
+- **API(Application Programming Interface)**: 서비스 기능을 호출하는 연결 경계이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 보안 접근 서비스 경계(Secure Access Service Edge, SASE) 아키텍처
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:31:00+09:00"
 tags:
   - notes-security
 weight: 141
@@ -23,8 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 접근 서비스 경계(Secure Access Service Edge, SASE)**: 광역망 연결과 보안을 가까운 접속 거점(Point of Presence, PoP)에서 공통 정책으로 제공하는 구조이다.
-- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)•보안 서비스 경계(Security Service Edge, SSE)**: 응용별 경로 선택과 클라우드 접근 보안을 SASE에서 결합하는 두 기능축이다.
+- **SASE(Secure Access Service Edge)**: 광역망 연결과 보안을 근접 거점에서 제공하는 구조이다.
+- **PoP(Point of Presence)**: 사용자 가까이에서 연결•보안을 처리하는 접속 거점이다.
+- **SD-WAN(Software-Defined Wide Area Network)**: 응용 정책으로 광역망 경로를 선택하는 기술이다.
+- **SSE(Security Service Edge)**: 클라우드 접근 보안을 통합 제공하는 구조이다.
 
 </details>
 
@@ -40,8 +42,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)•보안 서비스 경계(Security Service Edge, SSE)**: 응용 정책으로 광역망 경로를 선택하는 기술과 접근 보안을 클라우드에서 통합하는 구조이다.
-- **접속 거점(Point of Presence, PoP)**: 사용자 가까이에서 연결•보안 검사를 처리하는 공급자 거점이다.
 
 </details>
 
@@ -58,8 +58,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 웹 게이트웨이(Secure Web Gateway, SWG)•클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)•제로 트러스트 네트워크 접근(Zero Trust Network Access, ZTNA)•서비스형 방화벽(Firewall as a Service, FWaaS)**: 웹•클라우드•응용 접근•네트워크 방화벽 보안을 제공하는 보안 서비스 경계(Security Service Edge, SSE) 기능이다.
-- **경로•거점•신원 판단**: 소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN), 접속 거점(Point of Presence, PoP), 신원 제공자(Identity Provider, IdP)를 연결해 판단한다.
+- **SWG(Secure Web Gateway)**: 웹 트래픽을 검사•통제하는 게이트웨이이다.
+- **CASB(Cloud Access Security Broker)**: 클라우드 접근 보안 중개 기능이다.
+- **ZTNA(Zero Trust Network Access)**: 신원•맥락 기반 응용 접근 기능이다.
+- **FWaaS(Firewall as a Service)**: 클라우드형 방화벽 서비스이다.
+- **IdP(Identity Provider)**: 사용자 신원을 인증•제공하는 체계이다.
 
 </details>
 
@@ -93,7 +96,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **지속 위험 평가**: 세션 중 행위•기기 상태•장애 정보를 반영해 접근 결정을 계속 갱신하는 활동이다.
-- **접근•검사•경로 흐름**: 보안 접근 서비스 경계(Secure Access Service Edge, SASE)가 접속 거점(Point of Presence, PoP)을 선택하고 보안 서비스 경계(Security Service Edge, SSE) 검사와 소프트웨어 정의 광역망(SD-WAN) 경로를 집행하는 흐름이다.
+- **접근•검사•경로 흐름**: SASE가 PoP•SSE•SD-WAN을 연계하는 흐름이다.
 
 </details>
 
@@ -129,8 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 접근 서비스 경계(Secure Access Service Edge, SASE)•보안 서비스 경계(Security Service Edge, SSE)**: 광역망 연결까지 통합한 구조와 기존 연결망 위에서 보안 기능만 통합한 구조이다.
-- **연결•보안 통합 범위**: 소프트웨어 정의 광역망(SD-WAN), 보안 웹 게이트웨이(SWG), 클라우드 접근 보안 중개(CASB), 제로 트러스트 네트워크 접근(ZTNA), 접속 거점(PoP)으로 통합 범위를 판단한다.
+- **SASE 통합 범위**: SD-WAN 경로와 SSE 보안을 함께 통합한다.
+- **SSE 통합 범위**: 기존 연결망 위에서 보안 기능만 통합한다.
 
 </details>
 
@@ -151,9 +154,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **메트로 이더넷 포럼(Metro Ethernet Forum, MEF) 117•118.1**: 보안 접근 서비스 경계(SASE) 속성과 신원•정책 기반 제로 트러스트 서비스 프레임워크를 정의한다.
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-207**: 자원 중심 제로 트러스트 아키텍처의 논리 구성•배치 지침이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 기능•정책•연결의 가용성•성능•책임 수준을 명시한 계약 기준이다.
+- **MEF(Metro Ethernet Forum)**: 네트워크 서비스 표준을 개발하는 산업 포럼이다.
+- **MEF 117**: SASE 서비스 속성 표준이다.
+- **MEF 118.1**: 제로 트러스트 서비스 프레임워크이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-207**: 제로 트러스트 아키텍처 지침이다.
+- **SLA(Service Level Agreement)**: 가용성•성능•책임 수준의 계약 기준이다.
 
 </details>
 
@@ -172,8 +179,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **대체 접속 거점(Alternative Point of Presence, Alternative PoP)**: 선택한 거점 장애 시 세션을 이어가기 위해 전환하는 다른 공급자 거점이다.
-- **망•보안 선택 기준**: 보안 접근 서비스 경계(Secure Access Service Edge, SASE), 광역망(Wide Area Network, WAN), 보안 서비스 경계(Security Service Edge, SSE)의 통합 범위를 비교한다.
+- **대체 PoP**: 거점 장애 시 세션을 이어가기 위한 다른 공급자 거점이다.
+- **WAN(Wide Area Network)**: 넓은 지역을 연결하는 광역망이다.
 
 </details>
 

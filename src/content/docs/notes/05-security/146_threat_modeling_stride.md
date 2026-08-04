@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: 위협 모델링 — STRIDE•DREAD (Threat Modeling STRIDE)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:01:00+09:00"
 tags:
   - notes-security
 weight: 146
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **여섯 범주 위협 분류(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: 신원 위조•변조•부인•정보 노출•서비스 거부•권한 상승으로 설계 요소의 위협 누락을 점검하는 분류법이다.
+- **STRIDE(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege)**: 여섯 범주로 위협 누락을 점검하는 분류법이다.
 - **양방향 추적**: 위협을 보안 요구•통제•시험•운영 결과에 연결하고 반대 방향에서도 근거를 확인할 수 있게 하는 관리 방식이다.
 
 </details>
@@ -58,7 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 흐름도(Data Flow Diagram, DFD)**: 외부 주체•프로세스•저장소•정보 흐름을 표현해 공격 표면을 분석하는 도식이다.
+- **DFD(Data Flow Diagram)**: 주체•프로세스•저장소•정보 흐름을 표현한 도식이다.
 - **신뢰 경계**: 데이터나 실행 주체가 이동할 때 정책•권한•신뢰 수준이 달라지는 지점이다.
 
 </details>
@@ -128,7 +128,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **피해•재현성•악용 가능성•영향 사용자•발견 가능성(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: 다섯 평가 축으로 팀 내 위험 우선순위를 참고하는 기법이다.
+- **DREAD(Damage, Reproducibility, Exploitability, Affected Users, Discoverability)**: 다섯 평가 축으로 위험 순위를 참고하는 기법이다.
 - **공격 트리**: 공격 목표를 달성하는 조건과 대체 경로를 계층적으로 분해하는 분석 기법이다.
 
 </details>
@@ -150,9 +150,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **마이크로소프트 보안 개발 수명주기(Microsoft Security Development Lifecycle, Microsoft SDL)**: 설계 요소별로 STRIDE 위협을 식별하고 개발 수명주기에 보안 활동을 통합하는 지침이다.
-- **오픈 웹 애플리케이션 보안 프로젝트 위협 모델링(Open Worldwide Application Security Project Threat Modeling, OWASP Threat Modeling)**: 범위•위협•대응•충분성을 네 질문으로 점검하는 접근법이다.
-- **MITRE 공통 공격 패턴 열거 및 분류(MITRE Common Attack Pattern Enumeration and Classification, MITRE CAPEC)**: 공격 패턴•사전조건•실행•완화 정보를 구조화한 공개 지식기반이다.
+- **SDL(Security Development Lifecycle)**: 보안 활동을 개발 수명주기에 통합하는 방법이다.
+- **Microsoft SDL**: STRIDE 위협 식별을 포함한 Microsoft 개발 지침이다.
+- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
+- **OWASP Threat Modeling**: 범위•위협•대응•충분성을 묻는 접근법이다.
+- **MITRE**: 공개 사이버보안 지식체계를 운영하는 비영리기관이다.
+- **CAPEC(Common Attack Pattern Enumeration and Classification)**: 공격 패턴을 구조화한 공개 지식기반이다.
 
 </details>
 

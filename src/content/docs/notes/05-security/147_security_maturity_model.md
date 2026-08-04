@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:07:00+09:00"
 tags:
   - notes-security
 weight: 147
@@ -40,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **역량•성숙도 수준**: 보안 목적을 달성하는 사람•프로세스•기술의 능력과 관행의 제도화 단계를 뜻한다.
+- **역량 수준**: 보안 목적을 달성하는 조직의 능력 단계이다.
+- **성숙도 수준**: 보안 관행이 제도화된 정도를 나타내는 단계이다.
 - **위험 기반 우선순위화**: 단순히 점수가 낮은 항목보다 업무 영향과 의존성이 큰 역량 격차를 먼저 개선하는 방식이다.
 - **지속 개선 검증**: 반복 평가와 성과 지표를 이용해 개선 활동이 실제 위험을 줄였는지 확인하는 과정이다.
 
@@ -129,9 +130,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **오픈 웹 애플리케이션 보안 프로젝트 소프트웨어 보증 성숙도 모델(Open Worldwide Application Security Project Software Assurance Maturity Model, OWASP SAMM)**: 소프트웨어 보증 관행의 현재 수준을 평가하고 단계별 개선 로드맵을 설계하는 모델이다.
-- **소프트웨어 보안 구축 성숙도 모델(Building Security In Maturity Model, BSIMM)**: 여러 조직에서 관찰된 실제 소프트웨어 보안 활동을 비교•벤치마킹하는 모델이다.
-- **미국 에너지부 사이버보안 역량 성숙도 모델(Department of Energy Cybersecurity Capability Maturity Model, DOE C2M2)**: 정보기술(Information Technology, IT)과 운영기술(Operational Technology, OT)을 포함한 전사 사이버보안 역량을 영역별로 개선하는 모델이다.
+- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
+- **SAMM(Software Assurance Maturity Model)**: 소프트웨어 보증 성숙도 모델이다.
+- **BSIMM(Building Security In Maturity Model)**: 관찰 기반 소프트웨어 보안 벤치마킹 모델이다.
+- **DOE(Department of Energy)**: 미국 에너지부이다.
+- **C2M2(Cybersecurity Capability Maturity Model)**: 전사 사이버보안 역량 성숙도 모델이다.
+- **IT(Information Technology)**: 업무 정보를 처리•저장•전송하는 기술이다.
+- **OT(Operational Technology)**: 물리 공정•설비를 감시•제어하는 기술이다.
 
 </details>
 
@@ -152,8 +157,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 사이버보안 프레임워크(National Institute of Standards and Technology Cybersecurity Framework, NIST CSF)**: 조직 프로파일과 구현 티어를 이용해 현재•목표 보안 결과와 위험관리 수준을 표현하는 체계이다.
-- **미국 국립표준기술연구소 특별간행물 1302(NIST Special Publication 1302, NIST SP 1302)**: NIST CSF 2.0 조직 프로파일을 작성하고 활용하는 지침이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 1302**: CSF 조직 프로파일 활용 지침이다.
 
 </details>
 

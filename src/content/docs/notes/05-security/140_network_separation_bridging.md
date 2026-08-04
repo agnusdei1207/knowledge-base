@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 망분리•망연계 솔루션 (Network Separation Bridging)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T18:25:00+09:00"
 tags:
   - notes-security
 weight: 140
@@ -40,7 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **세션 종단**: 중계 장치가 양쪽 연결을 각각 끝내 분리된 망의 직접 통신을 막는 방식이다.
-- **콘텐츠 무해화(Content Disarm and Reconstruction, CDR)•데이터 유출방지(Data Loss Prevention, DLP)**: 실행 요소를 제거해 파일을 재구성하는 기술과 민감정보 유출을 탐지•차단하는 통제이다.
+- **CDR(Content Disarm and Reconstruction)**: 실행 요소를 제거해 파일을 재구성하는 기술이다.
+- **DLP(Data Loss Prevention)**: 민감정보 유출을 탐지•차단하는 통제이다.
 
 </details>
 
@@ -58,7 +59,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **무결성 전송**: 대상•순서•해시•재전송 정보를 검사해 오배송•변조•중복을 막는 기능이다.
-- **능동 콘텐츠•민감정보 검사**: 콘텐츠 무해화(Content Disarm and Reconstruction, CDR)와 데이터 유출방지(Data Loss Prevention, DLP)를 결합해 위험 내용을 검사한다.
+- **능동 콘텐츠•민감정보 검사**: CDR과 DLP로 위험 내용을 검사한다.
 
 </details>
 
@@ -92,7 +93,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **감사 증적**: 승인부터 검사•전송•수신 결과까지 흐름을 재구성할 수 있게 남긴 기록이다.
-- **콘텐츠 무해화(Content Disarm and Reconstruction, CDR)**: 압축•문서의 능동 객체를 제거하고 안전한 내용만 재구성하는 검사이다.
 
 </details>
 
@@ -125,9 +125,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **자료•스트림•단방향 전송**: 저장 후 파일 전달, 실시간 세션 중계, 한 방향 정보 흐름만 허용하는 방식이다.
+- **자료 전송**: 저장 후 파일을 검사•전달하는 방식이다.
+- **스트림 연계**: 실시간 세션을 종단•중계하는 방식이다.
+- **단방향 전송**: 한 방향 정보 흐름만 허용하는 방식이다.
 - **은닉 채널**: 허용 데이터•신호에 비밀 정보를 실어 정책을 우회하는 비인가 통신 경로이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 연계**: 실시간 업무 요청을 프록시에서 종단•검사한 뒤 별도 세션으로 전달하는 방식이다.
+- **API(Application Programming Interface) 연계**: 실시간 요청을 프록시에서 종단•중계하는 방식이다.
 
 </details>
 
@@ -148,9 +150,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물 접근통제 4•시스템통신보호 7(NIST Special Publication 800-53 Access Control 4/System and Communications Protection 7, NIST SP 800-53 AC-4•SC-7)**: 정보 흐름 집행과 통신 경계 보호를 다루는 통제이다.
-- **서비스형 소프트웨어(Software as a Service, SaaS) 예외**: 금융 업무망이 외부 클라우드 서비스를 이용할 때 위험평가•승인•대체통제를 요구하는 예외 경로이다.
-- **콘텐츠 무해화(Content Disarm and Reconstruction, CDR)**: 외부 파일에서 실행 가능한 요소를 제거해 내부망 반입 위험을 낮추는 통제이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **AC(Access Control)**: 접근통제 통제군이다.
+- **SC(System and Communications Protection)**: 시스템통신보호 통제군이다.
+- **NIST SP 800-53 AC-4**: 정보 흐름을 집행하는 통제이다.
+- **NIST SP 800-53 SC-7**: 통신 경계를 보호하는 통제이다.
+- **SaaS(Software as a Service) 예외**: 외부 클라우드 서비스의 승인된 예외 경로이다.
 - **전자금융감독규정 제15조**: 금융회사의 해킹 방지와 내부 업무용 시스템 망분리 등을 규정한다.
 
 </details>
@@ -171,7 +177,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **최소 정보 흐름**: 업무에 필요한 데이터•방향•시간•목적지만 허용하는 경계 통제 원칙이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 프록시**: 실시간 요청을 경계에서 종단하고 승인된 기능만 중계하는 방식이다.
+- **API 프록시**: 실시간 요청을 종단하고 승인 기능만 중계하는 방식이다.
 
 </details>
 

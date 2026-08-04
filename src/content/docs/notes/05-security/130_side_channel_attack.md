@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 사이드채널 공격 (Side-Channel Attack)
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:23:00+09:00"
 tags:
   - notes-security
 weight: 130
@@ -41,7 +41,8 @@ extra:
 
 - **구현 종속성**: 같은 알고리즘도 장치•컴파일•배치에 따라 누설 특성이 달라지는 성질이다.
 - **고차 누설**: 여러 마스킹 공유값의 누설을 결합할 때 비밀과 상관이 나타나는 현상이다.
-- **중앙처리장치(Central Processing Unit, CPU) 구현 차이**: 처리기•컴파일 옵션•코드 배치에 따라 시간•캐시 누설 양상이 달라지는 조건이다.
+- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
+- **CPU 구현 차이**: 처리기•컴파일 옵션•배치에 따른 누설 조건이다.
 
 </details>
 
@@ -59,7 +60,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **누설 모델**: 비밀 중간값과 관측 신호 사이의 관계를 가정해 키 후보를 평가하는 모델이다.
-- **전자기(Electromagnetic, EM) 채널**: 비밀 연산 중 방출되는 전자기 신호를 측정해 중간값과 키를 추론하는 관측 경로이다.
+- **EM(Electromagnetic) 채널**: 연산 중 방출되는 전자기 신호의 관측 경로이다.
 
 </details>
 
@@ -93,7 +94,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **흔적 정렬•필터링**: 반복 측정 신호의 시점을 맞추고 잡음을 줄여 통계 분석이 가능하게 하는 과정이다.
-- **전자기(Electromagnetic, EM) 표본**: 표적 연산에서 반복 수집해 통계 분석에 사용하는 전자기 신호이다.
+- **EM 표본**: 표적 연산에서 반복 수집한 전자기 신호이다.
 
 </details>
 
@@ -124,9 +125,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **타이밍•캐시 공격**: 실행 시간과 비밀 의존 메모리 접근 패턴을 관측하는 공격이다.
-- **단순 전력 분석(Simple Power Analysis, SPA)•차분 전력 분석(Differential Power Analysis, DPA)**: 단일 전력 파형의 특징과 다수 파형의 통계적 차이를 분석하는 기법이다.
-- **전자기(Electromagnetic, EM) 분석**: 장치가 방출하는 전자기 신호와 비밀 중간값의 상관관계를 분석하는 방식이다.
+- **타이밍 공격**: 실행 시간 차이로 비밀을 추론하는 공격이다.
+- **캐시 공격**: 비밀 의존 메모리 접근 패턴을 관측하는 공격이다.
+- **SPA(Simple Power Analysis)**: 단일 전력 파형의 특징을 분석하는 기법이다.
+- **DPA(Differential Power Analysis)**: 다수 전력 파형의 통계 차이를 분석하는 기법이다.
+- **EM 분석**: 전자기 신호와 비밀 중간값의 상관을 분석하는 방식이다.
 - **결함 주입**: 전압•클록•빛으로 오류를 유도해 검사를 우회하거나 키를 추론하는 공격이다.
 
 </details>
@@ -148,8 +151,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상수 시간•마스킹**: 비밀과 무관한 실행 경로를 유지하고 중간값을 난수 공유값으로 나누는 방어 기법이다.
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 17825•20085-1**: 비침습 공격 완화 시험 지표와 신호 수집•분석 요구사항을 규정한다.
+- **상수 시간**: 비밀과 무관한 실행 경로와 시간을 유지하는 기법이다.
+- **마스킹**: 비밀 중간값을 난수 공유값으로 나누는 기법이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 17825**: 비침습 공격 완화 시험 지표 표준이다.
+- **ISO/IEC 20085-1**: 신호 수집•분석 요구사항 표준이다.
 
 </details>
 
@@ -172,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 시간•캐시는 **상수시간**, 전력•전자기(Electromagnetic, EM)는 **마스킹•차폐** 우선 적용
+- 시간•캐시는 **상수시간**, 전력•EM은 **마스킹•차폐** 우선 적용
 
 #### 한줄 요약
 
