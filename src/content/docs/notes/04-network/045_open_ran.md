@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-04T14:26:02+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -69,22 +69,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:OPENRAN["O-RAN"]
-        columns 1
-        SMO["SMO•비실시간 RIC"]
-        NRT["준실시간 RIC"]
-        CU["O-CU"]
-        DU["O-DU"]
-        RU["O-RU"]
-    end
-    SMO --- NRT
-    NRT --- CU
-    CU --- DU
-    DU --- RU
+```text
+O-RAN
++---[SMO•비실시간 RIC]---[준실시간 RIC]---[O-CU]---[O-DU]---[O-RU]---+
 ```
+
+선의 의미: 바깥선은 O-RAN 경계이고, 내부선은 A1 정책•모델, E2 무선 자원 제어, 상위 무선 프로토콜, 시간 민감 처리와 무선주파수 송수신 기능의 개방형 결합 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

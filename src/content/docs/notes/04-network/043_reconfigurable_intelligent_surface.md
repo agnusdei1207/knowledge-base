@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능형 반사 표면 (RIS, Reconfigurable Intelligent Surface)"
-date: "2026-08-04T14:26:02+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 43
@@ -62,18 +62,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SURFACE["RIS"]
-        columns 1
-        EST["채널 추정기"]
-        CTRL["RIS 제어기"]
-        CELL["단위 셀 배열"]
-    end
-    EST --- CTRL
-    CTRL --- CELL
+```text
+RIS
++---[채널 추정기]---[RIS 제어기]---[단위 셀 배열]---+
 ```
+
+선의 의미: 바깥선은 RIS 경계이고, 내부선은 연쇄 채널 상태, 소자별 반사 계수와 위상•진폭을 적용하는 단위 셀 배열의 제어 결합 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

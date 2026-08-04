@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "V2X 차량사물통신 (V2X Vehicle-to-Everything)"
-date: "2026-08-04T16:56:00+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 49
@@ -65,24 +65,15 @@ extra:
 
 **OBU**와 **RSU**가 메시지를 교환하고 **PKI**가 인증서와 서명을 검증한다.
 
-```mermaid
-block-beta
-    columns 1
-    block:V2X["V2X 통신 체계"]
-        columns 1
-        OBU["차량 OBU"]
-        RSU["RSU"]
-        MOBILE["이동통신망"]
-        SERVER["V2X 서버"]
-        PKI["PKI"]
-    end
-    OBU --- RSU
-    OBU --- MOBILE
-    RSU --- SERVER
-    MOBILE --- SERVER
-    PKI --- OBU
-    PKI --- SERVER
+```text
+ [차량 OBU] -- [RSU] -------- [V2X 서버]
+      |                            |
+      +------ [이동통신망] --------+
+      |                            |
+      +---------- [PKI] -----------+
 ```
+
+선의 의미: 차량 OBU가 RSU 직접 구간과 이동통신망 광역 구간에 연결되고 두 경로가 V2X 서버에 결합되며, PKI가 차량과 서버의 공통 신뢰 기반을 이루는 정적 V2X 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

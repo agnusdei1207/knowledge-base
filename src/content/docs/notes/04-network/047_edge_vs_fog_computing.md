@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "엣지 컴퓨팅 vs 포그 컴퓨팅 (Edge vs Fog Computing)"
-date: "2026-08-04T16:53:00+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 47
@@ -55,24 +55,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:CONTINUUM["분산 처리 계층"]
-        columns 1
-        DEVICE["장치•센서"]
-        EDGE["엣지 노드"]
-        FOG["포그 노드"]
-        CLOUD["클라우드"]
-        ORCH["오케스트레이터"]
-    end
-    DEVICE --- EDGE
-    EDGE --- FOG
-    FOG --- CLOUD
-    ORCH --- EDGE
-    ORCH --- FOG
-    ORCH --- CLOUD
+```text
+분산 처리 계층
++---[장치•센서]---[엣지 노드]---[포그 노드]---[클라우드]---+
+                       |             |             |
+                       +------[오케스트레이터]------+
 ```
+
+선의 의미: 바깥선은 분산 처리 계층 경계이고, 주 구조는 현장•단일 현장•지역•전사 처리 범위의 계층 관계이며, 오케스트레이터는 엣지•포그•클라우드의 작업 배치 관리 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "NB-IoT와 LTE-M (NB-IoT LTE-M)"
-date: "2026-08-04T17:08:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 55
@@ -66,17 +66,11 @@ extra:
 
 **IoT 단말**의 **USIM**이 가입자 신원을 증명하고 코어망이 절전 타이머를 관리한다.
 
-```mermaid
-block-beta
-    columns 4
-    A["IoT 단말•USIM"]
-    B["기지국•무선망"]
-    C["코어망"]
-    D["IoT 플랫폼"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[IoT 단말•USIM] ----- [기지국•무선망] ----- [코어망] ----- [IoT 플랫폼]
 ```
+
+선의 의미: 선은 가입자 신원을 가진 IoT 단말, 셀룰러 무선 접속, 등록•절전 정책을 담당하는 코어망과 업무 데이터를 사용하는 IoT 플랫폼이 결합되는 정적 셀룰러 LPWAN 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

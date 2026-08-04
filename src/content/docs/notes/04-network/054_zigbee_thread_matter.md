@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-08-04T17:06:00+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -69,19 +69,17 @@ extra:
 
 Thread 경계 라우터는 **IPv6** 패킷을 전달하고 Matter 브리지는 비 Matter 기기의 모델과 명령을 변환한다.
 
-```mermaid
-block-beta
-    columns 3
-    A["컨트롤러•커미셔너"]
-    B["IP 네트워크"]
-    C["Thread 경계 라우터"]
-    D["Thread Matter 기기"]
-    E["매터 브리지"]
-    A --- B
-    B --- C
-    C --- D
-    B --- E
+```text
+             [컨트롤러•커미셔너]
+                       |
+                 [IP 네트워크]
+                  /           \
+      [Thread 경계 라우터]   [매터 브리지]
+                  |
+         [Thread Matter 기기]
 ```
+
+선의 의미: 컨트롤러•커미셔너가 IP 네트워크를 통해 Thread 경계 라우터와 매터 브리지에 연결되고, 경계 라우터 아래에 Thread Matter 기기가 놓이는 정적 계층•경계 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

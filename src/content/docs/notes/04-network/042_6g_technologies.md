@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "6G 핵심 기술 (6G Vision & Technologies)"
-date: "2026-08-04T14:26:02+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 42
@@ -69,20 +69,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SIXG["6G 통합망"]
-        columns 2
-        AI["AI-Native 제어"]
-        COMPUTE["분산 컴퓨팅"]
-        ACCESS["지상•NTN 통합 접속"]
-        RADIO["다중 대역•RIS 무선"]
-    end
-    AI --- COMPUTE
-    AI --- ACCESS
-    ACCESS --- RADIO
+```text
+6G 통합망
++---[AI-Native 제어]---[분산 컴퓨팅]---+
+             |
+             +---[지상•NTN 통합 접속]---[다중 대역•RIS 무선]---+
 ```
+
+선의 의미: 바깥선은 6G 통합망 경계이고, AI-Native 제어는 분산 컴퓨팅 및 통합 접속의 자원 정책 관계이며, 통합 접속은 다중 대역•RIS 무선 경로와 결합된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

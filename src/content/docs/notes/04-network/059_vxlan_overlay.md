@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
-date: "2026-08-04T17:16:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -73,20 +73,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["종단 호스트"]
-    B["VTEP"]
-    C["IP 언더레이"]
-    D["EVPN 제어 평면"]
-    E["VXLAN 게이트웨이"]
-    A --- B
-    B --- C
-    D --- B
-    D --- E
-    C --- E
+```text
+                       [EVPN 제어 평면]
+                         /             \
+[종단 호스트] ----- [VTEP] ----- [IP 언더레이] ----- [VXLAN 게이트웨이]
 ```
+
+선의 의미: 가로선은 종단 프레임을 VTEP에서 캡슐화해 IP 언더레이와 VXLAN 게이트웨이에 결합하는 오버레이 데이터 경계이고, 위 가지는 VTEP와 게이트웨이에 MAC•IP 위치 정보를 제공하는 EVPN 제어 평면을 분리해 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

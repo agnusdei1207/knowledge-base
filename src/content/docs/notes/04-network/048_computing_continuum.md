@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "컴퓨팅 연속체 (Computing Continuum / Cloud-Edge Continuum)"
-date: "2026-08-04T16:54:00+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 48
@@ -63,26 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:CONTINUUM["컴퓨팅 연속체"]
-        columns 1
-        CONTROL["통합 제어면"]
-        CLOUD["클라우드"]
-        NEAR["근접 에지"]
-        FAR["최말단 에지"]
-        STATE["데이터•상태 계층"]
-    end
-    CLOUD --- NEAR
-    NEAR --- FAR
-    CONTROL --- CLOUD
-    CONTROL --- NEAR
-    CONTROL --- FAR
-    STATE --- CLOUD
-    STATE --- NEAR
-    STATE --- FAR
+```text
+                    [통합 제어면]
+                  /       |       \
+          [클라우드] -- [근접 에지] -- [최말단 에지]
+                  \       |       /
+                  [데이터•상태 계층]
 ```
+
+선의 의미: 클라우드•근접 에지•최말단 에지가 연속된 자원 계층을 이루고, 통합 제어면과 데이터•상태 계층이 모든 실행 위치에 공통으로 적용되는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

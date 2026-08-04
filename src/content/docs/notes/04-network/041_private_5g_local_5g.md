@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "5G 특화망•로컬 5G (Private 5G / 이음5G)"
-date: "2026-08-04T16:42:00+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 41
@@ -68,20 +68,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:NPN["5G 특화망"]
-        columns 2
-        RAN["RAN"]
-        CORE["5GC"]
-        UPF["로컬 UPF"]
-        EDGE["MEC•OT 연계"]
-    end
-    RAN --- CORE
-    CORE --- UPF
-    UPF --- EDGE
+```text
+5G 특화망
++---[RAN]---[5GC]---[로컬 UPF]---[MEC•OT 연계]---+
 ```
+
+선의 의미: 바깥선은 비공중망 경계이고, 내부선은 무선 접속, 가입자•세션•QoS 제어, 현장 사용자 데이터 경로와 MEC•OT 응용의 네트워크 결합 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

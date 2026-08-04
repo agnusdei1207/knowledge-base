@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "C-V2X와 DSRC 비교 (C-V2X DSRC)"
-date: "2026-08-04T14:26:02+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 50
@@ -68,24 +68,15 @@ extra:
 
 **OBU**와 **RSU**가 메시지를 교환하고 **V2X PKI**가 인증서를 관리한다.
 
-```mermaid
-block-beta
-    columns 1
-    block:V2X["V2X 무선 체계"]
-        columns 1
-        OBU["차량 OBU"]
-        ACCESS["무선 접속 제어"]
-        PEER["수신 차량•RSU"]
-        SERVER["광역망•V2X 서버"]
-        PKI["V2X PKI"]
-    end
-    OBU --- ACCESS
-    ACCESS --- PEER
-    OBU --- SERVER
-    PEER --- SERVER
-    PKI --- OBU
-    PKI --- PEER
+```text
+ [차량 OBU] -- [무선 접속 제어] -- [수신 차량•RSU]
+      |                                  |
+      +------ [광역망•V2X 서버] ---------+
+      |                                  |
+      +---------- [V2X PKI] -------------+
 ```
+
+선의 의미: 차량 OBU와 수신 차량•RSU 사이에 무선 접속 제어 경계가 놓이고, 양측은 광역망•V2X 서버 및 V2X PKI의 공통 통신•신뢰 기반에 연결되는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비지상 네트워크 (NTN, Non-Terrestrial Network)"
-date: "2026-08-04T16:48:00+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 44
@@ -72,20 +72,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:NETWORK["NTN"]
-        columns 2
-        UE["NTN 단말"]
-        SAT["위성•HAPS"]
-        GW["NTN 게이트웨이"]
-        CORE["gNB•5GC"]
-    end
-    UE --- SAT
-    SAT --- GW
-    GW --- CORE
+```text
+NTN
++---[NTN 단말]---[위성•HAPS]---[NTN 게이트웨이]---[gNB•5GC]---+
 ```
+
+선의 의미: 바깥선은 NTN 경계이고, 내부선은 단말의 서비스 링크, 플랫폼의 서비스•피더 링크 중계, 지상 게이트웨이와 무선 접속•세션 제어 기능의 네트워크 결합 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

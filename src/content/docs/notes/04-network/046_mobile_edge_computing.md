@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
-date: "2026-08-04T16:52:00+09:00"
+date: "2026-08-05T01:27:35+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -64,22 +64,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:EDGE["MEC"]
-        columns 1
-        UPF["로컬 UPF"]
-        HOST["MEC 호스트"]
-        PLATFORM["MEC 플랫폼"]
-        APP["MEC 응용"]
-        ORCH["MEC 오케스트레이터"]
-    end
-    UPF --- HOST
-    HOST --- PLATFORM
-    PLATFORM --- APP
-    ORCH --- HOST
+```text
+MEC
++---[로컬 UPF]---[MEC 호스트]---[MEC 플랫폼]---[MEC 응용]---+
+                         |
+                 [MEC 오케스트레이터]
 ```
+
+선의 의미: 바깥선은 MEC 경계이고, 주 구조는 로컬 사용자 흐름•에지 자원•플랫폼 API•현장 응용의 결합 관계이며, MEC 오케스트레이터는 MEC 호스트의 응용 배치•회수 관리 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

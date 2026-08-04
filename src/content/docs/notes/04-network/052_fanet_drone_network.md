@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "FANET 드론 애드혹 네트워크 (FANET Drone Network)"
-date: "2026-08-04T17:02:00+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 52
@@ -66,19 +66,13 @@ extra:
 
 **UAV** 노드가 멀티홉 경로를 구성하고 게이트웨이가 **FANET**을 지상망과 연결한다.
 
-```mermaid
-block-beta
-    columns 3
-    A["UAV 노드"]
-    B["애드혹 라우팅"]
-    C["중계 UAV"]
-    D["게이트웨이 UAV"]
-    E["지상 관제소"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                      [애드혹 라우팅]
+                           |
+ [UAV 노드] -- [중계 UAV] -- [게이트웨이 UAV] -- [지상 관제소]
 ```
+
+선의 의미: UAV 노드•중계 UAV•게이트웨이 UAV•지상 관제소가 공중 멀티홉과 지상 백홀 토폴로지를 이루고, 애드혹 라우팅이 공중 구간의 경로 제어를 담당하는 정적 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

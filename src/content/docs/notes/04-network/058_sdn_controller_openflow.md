@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
-date: "2026-08-04T17:14:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -64,19 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["SDN 응용"]
-    B["SDN 컨트롤러"]
-    C["OpenFlow 채널"]
-    D["흐름•그룹•미터 테이블"]
-    E["OpenFlow 데이터 경로"]
-    A --- B
-    B --- C
-    C --- E
-    E --- D
+```text
+[SDN 응용] ----- [SDN 컨트롤러] ----- [OpenFlow 채널] ----- [OpenFlow 데이터 경로]
+                                                                    |
+                                                       [흐름•그룹•미터 테이블]
 ```
+
+선의 의미: SDN 응용과 SDN 컨트롤러는 OpenFlow 채널을 통해 스위치의 OpenFlow 데이터 경로에 결합되고, 데이터 경로 아래에는 패킷 조건•동작•경로•속도를 보존하는 흐름•그룹•미터 테이블이 놓이는 정적 OpenFlow 제어 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

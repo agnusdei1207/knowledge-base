@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NFV (Network Functions Virtualization, 네트워크 기능 가상화)"
-date: "2026-08-04T17:12:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 57
@@ -68,20 +68,15 @@ extra:
 
 **NFVO**가 서비스를 조정하고 **VNFM**이 기능을 관리하며 **VIM**이 **NFVI** 자원을 할당한다.
 
-```mermaid
-block-beta
-    columns 3
-    A["NFVO"]
-    B["VNFM"]
-    C["VIM"]
-    D["VNF•CNF"]
-    E["NFVI"]
-    A --- B
-    A --- C
-    B --- D
-    C --- E
-    D --- E
+```text
+                         [NFVO]
+                         /    \
+                    [VNFM]   [VIM]
+                       |       |
+                 [VNF•CNF] ----- [NFVI]
 ```
+
+선의 의미: NFVO 아래에는 기능 수명주기를 관리하는 VNFM과 인프라 자원을 관리하는 VIM이 놓이고, VNF•CNF는 NFVI의 컴퓨팅•저장•네트워크 자원에 결합되는 정적 NFV 관리•실행 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

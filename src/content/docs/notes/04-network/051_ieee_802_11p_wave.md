@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-08-04T14:26:02+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -70,20 +70,17 @@ extra:
 
 **WSMP•IP**를 **CCH•SCH**로 전달하며, **MAC•PHY** 계층은 IEEE 802.11p가 담당한다.
 
-```mermaid
-block-beta
-    columns 1
-    block:WAVE["WAVE"]
-        columns 1
-        SECURITY["IEEE 1609.2"]
-        NETWORK["IEEE 1609.3"]
-        CHANNEL["IEEE 1609.4"]
-        RADIO["IEEE 802.11p OCB"]
-    end
-    SECURITY --- NETWORK
-    NETWORK --- CHANNEL
-    CHANNEL --- RADIO
+```text
+          [IEEE 1609.2]
+                |
+          [IEEE 1609.3]
+                |
+          [IEEE 1609.4]
+                |
+       [IEEE 802.11p OCB]
 ```
+
+선의 의미: WAVE의 보안•네트워킹•채널 운용 계층이 IEEE 802.11p OCB의 MAC•PHY 전송 계층 위에 놓이는 정적 프로토콜 스택이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
