@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Explainable AI (설명 가능한 AI)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T00:38:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 104
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 인공지능(Artificial Intelligence, AI)의 판단 근거를 사람이 이해•검증할 형태로 제공하는 **설명 가능한 인공지능(Explainable Artificial Intelligence, XAI) 기술**
+- 정의/개념: AI의 판단 근거를 사람이 이해•검증할 형태로 제공하는 **XAI 기술**
 - 배경/필요성: 예측값만으로 **오류 원인•편향•이의제기 근거 확인 곤란**
 
 #### 한줄 요약

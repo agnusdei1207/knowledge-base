@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AI 윤리 (AI Ethics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T01:02:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 109
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 인공지능(Artificial Intelligence, AI)의 목적•사용•영향을 인간 권리와 가치에 따라 판단하는 **AI 윤리 규범 체계**
+- 정의/개념: AI의 목적•사용•영향을 인간 권리와 가치에 따라 판단하는 **AI 윤리 규범 체계**
 - 배경/필요성: 기술 가능성과 법적 최소 요건만으로는 **허용 가능한 사용•가치 충돌** 판단 곤란
 
 #### 한줄 요약
@@ -63,7 +63,7 @@ extra:
 
 </details>
 
-인공지능(Artificial Intelligence, AI) 사용의 필요성 비교 대상: 비인공지능(Non-AI) 대안, 우선 적용 기준: **강제 금지선**
+AI 사용의 필요성 비교 대상: 비AI 대안, 우선 적용 기준: **강제 금지선**
 
 ```mermaid
 block-beta
@@ -133,7 +133,7 @@ sequenceDiagram
 
 </details>
 
-인공지능(Artificial Intelligence, AI)의 가치 원칙은 책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI)의 제품 통제와 인공지능 거버넌스(Artificial Intelligence Governance, AI 거버넌스)의 조직 책임으로 구현한다.
+AI의 가치 원칙은 Responsible AI의 제품 통제와 AI 거버넌스의 조직 책임으로 구현한다.
 
 | 비교 기준 | AI 윤리 원칙 | 책임 있는 AI | AI 거버넌스 |
 |:---|:---|:---|:---|
@@ -174,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 결정 기준: **법적 경계•가치 충돌•피해 구제 가능성**, 결정 대상: **인공지능(Artificial Intelligence, AI) 허용 범위•책임 구조**
+- 결정 기준: **법적 경계•가치 충돌•피해 구제 가능성**, 결정 대상: **AI 허용 범위•책임 구조**
 
 #### 한줄 요약
 - 넘지 말아야 할 선과 선택으로 생길 피해를 보고 누가 승인하고 구제할지 정함

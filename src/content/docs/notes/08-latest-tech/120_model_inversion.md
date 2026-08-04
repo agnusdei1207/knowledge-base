@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모델 역전 (Model Inversion)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T02:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 120
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 역전**: 모델 출력이나 내부 신호를 이용해 학습 데이터의 대표 특징•민감 속성을 역추정하는 공격이다.
+- **모델 역전(Model Inversion)**: 모델 출력이나 내부 신호를 이용해 학습 데이터의 대표 특징•민감 속성을 역추정하는 공격이다.
+- **인공지능(Artificial Intelligence, AI)**: 입력을 바탕으로 예측•생성•의사결정을 수행하는 시스템이다.
 - **학습정보 노출**: 모델의 응답•점수•기울기에서 훈련 데이터의 특징이나 개인 정보를 알아내는 위험이다.
 
 </details>
@@ -32,7 +33,7 @@ extra:
 - 배경/필요성: 상세 점수•기울기•과적합에 따른 **학습정보 노출•민감 속성 추정 가능성 증가**
 
 #### 한줄 요약
-- 인공지능(Artificial Intelligence, AI) 답변과 점수에서 학습 집단의 숨은 특징을 역추정한다.
+- AI 답변과 점수에서 학습 집단의 숨은 특징을 역추정한다.
 
 ## Ⅱ. 특징
 
@@ -128,7 +129,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **멤버십 추론**: 특정 표본이 모델 훈련 데이터에 포함됐는지를 판정하는 공격이다.
-- **모델 추출**: 대량의 응용 프로그래밍 인터페이스(Application Programming Interface, API) 입출력으로 원본 모델의 기능을 모방하는 대체 모델을 만드는 공격이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 시스템 간 기능 호출과 데이터 교환을 위한 규격이다.
+- **모델 추출**: 대량의 API 입출력으로 원본 모델의 기능을 모방하는 대체 모델을 만드는 공격이다.
 
 </details>
 
@@ -177,4 +179,4 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 인공지능(Artificial Intelligence, AI)의 관측 단서를 줄이고 실제 복원•재식별 성공률을 확인한다.
+- AI의 관측 단서를 줄이고 실제 복원•재식별 성공률을 확인한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Responsible AI (책임 있는 AI)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T00:32:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 103
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 공정성•투명성•안전성 원칙을 구현하는 **책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI) 기반 기술•조직 통제**
+- 정의/개념: 공정성•투명성•안전성 원칙을 구현하는 **Responsible AI 기반 기술•조직 통제**
 - 배경/필요성: 정확도만으로는 차별•안전 실패와 **책임 공백** 식별 곤란
 
 #### 한줄 요약
@@ -133,7 +133,7 @@ sequenceDiagram
 
 </details>
 
-인공지능(Artificial Intelligence, AI)의 책임 체계는 가치 원칙, 의사결정 구조, 구현 통제로 구분한다.
+AI의 책임 체계는 가치 원칙, 의사결정 구조, 구현 통제로 구분한다.
 
 | 책임 체계 | 책임 있는 AI | AI 윤리 | AI 거버넌스 |
 |:---|:---|:---|:---|

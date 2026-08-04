@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "LIME (국소 대리 설명)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T00:44:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 105
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 입력 주변의 모델 행동을 단순 모델로 근사하는 **국소 해석 가능 모델 불가지론 설명(Local Interpretable Model-agnostic Explanations, LIME) 기법**
+- 정의/개념: 입력 주변의 모델 행동을 단순 모델로 근사하는 **LIME 기법**
 - 배경/필요성: 블랙박스 출력값만으로는 **개별 예측의 특징 영향** 식별 불가
 
 #### 한줄 요약
@@ -60,7 +60,7 @@ extra:
 - **근접 커널**: 교란 표본과 원본 입력의 거리를 대리모델 학습 가중치로 변환하는 함수이다.
 - **블랙박스 함수**: 내부 구조를 직접 분석하지 않고 입력에 대한 예측값만 반환하는 모델 인터페이스이다.
 - **교란 표본 생성기**: 설명 대상 입력 주변의 특징을 바꾼 표본을 만들어 블랙박스의 국소 행동을 관측하게 한다.
-- **국소 대리모델(Local Surrogate Model)**: 근접 가중치를 적용한 교란 표본과 예측값으로 학습하여 설명 대상 주변의 모델 행동을 단순하게 근사한다.
+- **대리모델 학습**: 근접 가중치를 적용한 표본과 예측값으로 국소 행동을 근사하는 과정이다.
 
 </details>
 
@@ -131,7 +131,7 @@ sequenceDiagram
 
 </details>
 
-국소 해석 가능 모델 불가지론 설명(Local Interpretable Model-agnostic Explanations, LIME)과 샤플리 가산 설명(SHapley Additive exPlanations, SHAP)은 기여도를 계산하는 원리와 비용이 다르다.
+LIME과 SHAP은 기여도를 계산하는 원리와 비용이 다르다.
 
 | 국소 설명 기법 | LIME | SHAP |
 |:---|:---|:---|
@@ -172,7 +172,7 @@ sequenceDiagram
 
 </details>
 
-- 결정 기준: **국소 충실도•설명 안정성**, 결정 대상: **국소 해석 가능 모델 불가지론 설명(Local Interpretable Model-agnostic Explanations, LIME)의 교란 범위•커널 폭**
+- 결정 기준: **국소 충실도•설명 안정성**, 결정 대상: **LIME의 교란 범위•커널 폭**
 
 #### 한줄 요약
 - 설명 범위와 조건에 따라 이유가 바뀔 수 있으므로 같은 입력을 반복 설명해 안정성을 확인해야 합니다.

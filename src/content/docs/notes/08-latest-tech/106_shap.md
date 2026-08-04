@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SHAP 설명 기법 (SHapley Additive exPlanations)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T00:50:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 106
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 기준값과 개별 예측의 차이를 특징별 샤플리 값으로 가산 분해하는 **샤플리 가산 설명(SHapley Additive exPlanations, SHAP) 기법**
+- 정의/개념: 기준값과 개별 예측의 차이를 특징별 샤플리 값으로 분해하는 **SHAP 기법**
 - 배경/필요성: 단순 중요도는 상호작용 특징의 **개별 예측 기여도 배분 기준 부족**
 
 #### 한줄 요약
@@ -67,7 +67,7 @@ extra:
 
 </details>
 
-샤플리 가산 설명(SHapley Additive exPlanations, SHAP)의 계산 요소: **특징 연합•마스커•한계 기여**
+SHAP의 계산 요소: **특징 연합•마스커•한계 기여**
 
 ```mermaid
 block-beta
@@ -104,7 +104,7 @@ block-beta
 
 </details>
 
-샤플리 가산 설명(SHapley Additive exPlanations, SHAP)은 부분집합별 연합 가치를 이용해 특징 추가 전후의 출력 차이를 집계한다.
+SHAP은 부분집합별 연합 가치를 이용해 특징 추가 전후의 출력 차이를 집계한다.
 
 ```mermaid
 sequenceDiagram
@@ -139,7 +139,7 @@ sequenceDiagram
 
 </details>
 
-샤플리 가산 설명(SHapley Additive exPlanations, SHAP)은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식을 선택한다.
+SHAP은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식을 선택한다.
 
 | 비교 기준 | Kernel SHAP | Tree SHAP | Deep SHAP |
 |:---|:---|:---|:---|
@@ -165,7 +165,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 대표성 없는 **배경 분포의 기준 왜곡** | 운영 집단별 배경 표본•기준값 비교 | 기여도 기준의 **타당성 확보** |
 | 상관 특징의 **기여도 임의 분산** | 조건부•독립 마스킹 가정별 민감도 분석 | 의존성 가정의 **영향 공개** |
-| 커널 샤플리 가산 설명(Kernel SHapley Additive exPlanations, Kernel SHAP)의 **조합 계산 폭증** | 모델 구조별 전용 계산기•표본 오차 시험 | 계산 시간 단축과 **근사 오차 관리** |
+| Kernel SHAP의 **조합 계산 폭증** | 모델 구조별 전용 계산기•표본 오차 시험 | 계산 시간 단축과 **근사 오차 관리** |
 
 #### 한줄 요약
 - 배경 집단과 상관 특징 가정에 따른 기여도 변화를 공개한다.
@@ -180,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- 선택 기준: 모델 구조•배경 대표성, 계산기: **샤플리 가산 설명(SHapley Additive exPlanations, SHAP)**, 제한 대상: **해석 범위**
+- 선택 기준: 모델 구조•배경 대표성, 계산기: **SHAP**, 제한 대상: **해석 범위**
 
 #### 한줄 요약
 - 특징 기여도와 함께 계산 방식•배경 집단•상관 특징 가정을 공개한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI Risk Management (AI 위험관리)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T00:26:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 102
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 인공지능(Artificial Intelligence, AI) 위험의 식별•평가•처리•감시를 반복하는 **AI 위험관리 활동**
+- 정의/개념: AI 위험의 식별•평가•처리•감시를 반복하는 **AI 위험관리 활동**
 - 배경/필요성: 배포 전 정확도만으로 **용도•데이터•공격 변화의 지속 통제 곤란**
 
 #### 한줄 요약
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- 미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)의 인공지능(Artificial Intelligence, AI) 위험관리 프레임워크(Risk Management Framework, RMF): **Govern•Map•Measure•Manage 순환**
+- NIST AI RMF의 **Govern•Map•Measure•Manage 순환**
 - 가능성•영향•가역성•불확실성 기반 **위험 평가**
 - 강행 규정 제외와 배포 후 **잔여 위험 감시**
 
@@ -63,7 +63,7 @@ extra:
 
 </details>
 
-인공지능(Artificial Intelligence, AI)의 조직 연결 항목: **위험 대장•허용 한도•통제 효과**, 연결 대상: 승인•사고 대응 구조
+AI의 조직 연결 항목: **위험 대장•허용 한도•통제 효과**, 연결 대상: 승인•사고 대응 구조
 
 ```mermaid
 block-beta
@@ -100,7 +100,7 @@ block-beta
 
 </details>
 
-인공지능(Artificial Intelligence, AI)의 갱신 항목: **위험 시나리오•중단 기준**, 갱신 기준: 통제 효과•잔여 위험
+AI의 갱신 항목: **위험 시나리오•중단 기준**, 갱신 기준: 통제 효과•잔여 위험
 
 ```mermaid
 sequenceDiagram
@@ -135,7 +135,7 @@ sequenceDiagram
 
 </details>
 
-인공지능(Artificial Intelligence, AI) 위험은 데이터 품질, 보안•오남용, 법적•사회적 영역으로 구분해 관리한다.
+AI 위험은 데이터 품질, 보안•오남용, 법적•사회적 영역으로 구분해 관리한다.
 
 | 위험 영역 | 데이터 품질 위험 | 보안•오남용 위험 | 법적•사회적 위험 |
 |:---|:---|:---|:---|
@@ -164,7 +164,7 @@ sequenceDiagram
 | 통제 후 **잔여 위험** 승인 불명확 | 허용 한도•중단 기준과 책임자 지정 | 위험 수용 **책임 추적성** 확보 |
 
 #### 한줄 요약
-- 금융 인공지능(Artificial Intelligence, AI)은 환각•개인정보 유출을, 제조 AI는 환경 변화에 따른 오탐•미탐을 중점 관리합니다.
+- 금융 AI는 환각•개인정보 유출을, 제조 AI는 환경 변화에 따른 오탐•미탐을 중점 관리합니다.
 
 ## Ⅶ. 결론
 
@@ -176,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- 결정 기준: **위험 등급•잔여 위험**, 결정 대상: **인공지능(Artificial Intelligence, AI)의 수용•완화•중단**
+- 결정 기준: **위험 등급•잔여 위험**, 결정 대상: **AI의 수용•완화•중단**
 
 #### 한줄 요약
 - 출시 전 한 번 평가하는 데 그치지 않고 운영 환경이 바뀔 때마다 위험과 통제를 다시 확인해야 합니다.
