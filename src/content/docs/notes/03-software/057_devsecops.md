@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T11:20:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개발•보안•운영(Development, Security and Operations, DevSecOps)**: 개발 수명주기 전반에 보안을 공동 책임과 자동화된 통제로 내재화하는 방식이다.
+- **데브섹옵스(Development, Security and Operations, DevSecOps)**: 개발 전반에 보안을 공동 책임과 자동 통제로 내재화하는 방식이다.
 - **보안 내재화(Security by Design)**: 보안을 별도 사후 점검이 아니라 설계와 구현의 기본 조건으로 포함하는 원칙이다.
 
 </details>
@@ -63,7 +63,8 @@ extra:
 - **위협 모델링(Threat Modeling)**: 자산•공격 경로•위협•대응책을 설계 단계에서 식별하는 활동이다.
 - **보안 게이트(Security Gate)**: 자동 검사 결과와 정책을 근거로 배포 진행•차단•예외를 판정하는 통제 지점이다.
 - **비밀정보 검사(Secret Scanning)**: 소스와 이력에 포함된 비밀번호•토큰•개인키를 탐지하는 검사이다.
-- **보안 파이프라인•보안 관측**: 파이프라인은 소스•의존성•비밀을 자동 검사하고, 보안 관측은 운영 취약 행위와 공격 징후를 수집한다.
+- **보안 파이프라인(Security Pipeline)**: 소스와 의존성 및 비밀을 자동 검사하는 흐름이다.
+- **보안 관측(Security Observability)**: 운영 취약 행위와 공격 징후를 수집하는 활동이다.
 
 </details>
 
@@ -138,7 +139,6 @@ sequenceDiagram
 
 - **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: 실행 중인 애플리케이션의 외부 인터페이스를 공격 관점에서 검사한다.
 - **대화형 애플리케이션 보안 테스트(Interactive Application Security Testing, IAST)**: 실행 중 내부 계측 정보와 테스트 입력을 결합해 취약점을 탐지한다.
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 패키지의 취약점•라이선스•출처를 분석한다.
 
 </details>
 
@@ -162,11 +162,15 @@ sequenceDiagram
 - **오탐(False Positive)**: 실제 취약점이 아닌 대상을 검사 도구가 위험으로 잘못 판정한 결과이다.
 - **예외 만료(Exception Expiration)**: 일시 허용한 보안 위험을 정해진 날짜에 다시 검토하거나 차단하는 통제이다.
 - **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 패키지•버전•의존성 목록이다.
-- **위험별 검사•증분 분석**: 변경한 코드•의존성과 위험 등급에 맞는 검사를 선택해 전체 재검사 비용을 줄이는 방식이다.
+- **위험별 검사(Risk-based Testing)**: 위험 등급에 맞는 보안 검사를 선택하는 방식이다.
+- **증분 분석(Incremental Analysis)**: 변경한 코드와 의존성만 우선 검사하는 방식이다.
 - **오탐 기준선(False-positive Baseline)**: 검토를 거쳐 오탐으로 확정한 결과를 반복 경보에서 제외하되 변경 시 재평가하는 기록이다.
-- **공통 위험 식별자•소유자**: 여러 보안 도구의 같은 위험을 하나로 연결하는 값과 처리 책임자이다.
-- **보완 통제•잔존 위험(Compensating Control•Residual Risk)**: 직접 수정 전 위험을 줄이는 대체 통제와 적용 후에도 남아 있는 위험이다.
-- **서명 검증•신뢰 저장소**: 패키지•이미지의 출처와 무결성을 확인하고 승인한 구성요소만 제공하는 공급망 통제이다.
+- **공통 위험 식별자(Common Risk Identifier)**: 여러 도구가 찾은 같은 위험을 연결하는 값이다.
+- **위험 소유자(Risk Owner)**: 발견된 위험의 처리를 책임지는 주체다.
+- **보완 통제(Compensating Control)**: 직접 수정 전 위험을 줄이는 대체 통제다.
+- **잔존 위험(Residual Risk)**: 통제 적용 뒤에도 남은 위험이다.
+- **서명 검증(Signature Verification)**: 패키지와 이미지의 출처 및 무결성을 확인하는 통제다.
+- **신뢰 저장소(Trusted Repository)**: 승인한 구성요소만 제공하는 저장소다.
 - **런타임 위험(Runtime Risk)**: 실제 운영 환경의 구성•호출•공격 조건에서 드러나는 취약성과 영향이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "화이트박스•블랙박스 테스트 (White-box Black-box Testing)"
-date: "2026-08-03T09:19:05+09:00"
+date: "2026-08-04T11:24:00+09:00"
 tags:
   - "notes-software"
 weight: 60
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **화이트박스•블랙박스 테스트(White-box and Black-box Testing)**: 같은 소프트웨어를 코드 내부 구조와 외부 명세라는 서로 다른 근거로 검증하는 두 방식이다.
+- **화이트박스 테스트(White-box Testing)**: 코드 내부 구조와 실행 경로를 근거로 검증하는 방식이다.
+- **블랙박스 테스트(Black-box Testing)**: 외부 명세와 입출력을 근거로 검증하는 방식이다.
 - **테스트 근거(Test Basis)**: 테스트 조건과 기대 결과를 도출하는 요구사항•설계•코드 구조 같은 정보이다.
 
 </details>
@@ -133,8 +134,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **화이트박스 테스트(White-box Testing)**: 코드 구조와 실행 경로를 근거로 내부 결함을 찾는 방식이다.
-- **블랙박스 테스트(Black-box Testing)**: 외부 명세와 입출력을 근거로 요구 불일치를 찾는 방식이다.
 
 </details>
 
@@ -156,14 +155,17 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **커버리지 맹신(Coverage Fallacy)**: 높은 구조 커버리지를 결함 부재나 요구 충족의 증거로 잘못 해석하는 오류이다.
-- **동등 분할•경계값 분석(Equivalence Partitioning and Boundary Value Analysis)**: 비슷한 입력을 묶고 오류가 잦은 범위 경계를 검사하는 기법이다.
+- **동등 분할(Equivalence Partitioning)**: 비슷한 동작을 보이는 입력을 같은 집합으로 묶는 기법이다.
+- **경계값 분석(Boundary Value Analysis)**: 오류가 잦은 입력 범위의 경계를 검사하는 기법이다.
 - **커버리지 도구(Coverage Tool)**: 실행 이력을 수집해 구조별 실행 비율과 미실행 경로를 표시하는 도구이다.
 - **보상 분기(Compensation Branch)**: 완료되지 않은 작업의 영향을 되돌리는 내부 실행 경로이다.
 - **의미 있는 단언(Meaningful Assertion)**: 단순 실행 여부가 아니라 요구한 값•상태•부작용을 구체적으로 확인하는 판정문이다.
 - **독립 오라클(Independent Oracle)**: 시험 대상과 같은 잘못된 규칙을 공유하지 않고 별도 업무 근거로 기대 결과를 판단하는 기준이다.
-- **제어•데이터 위험**: 중요한 분기가 실행되지 않거나 변수의 정의•사용•갱신 경로가 잘못되어 결과가 틀릴 위험이다.
+- **제어 위험(Control Risk)**: 중요한 분기가 실행되지 않아 결함을 놓칠 위험이다.
+- **데이터 위험(Data Risk)**: 변수의 정의와 사용 및 갱신 경로가 잘못될 위험이다.
 - **리팩터링 내성(Refactoring Resilience)**: 외부 동작을 유지한 내부 구조 변경에 테스트가 불필요하게 실패하지 않는 성질이다.
-- **요구•코드 추적성**: 각 테스트 케이스를 검증할 요구와 실행할 코드 경로에 연결해 기능•구조 공백을 찾는 관계이다.
+- **요구 추적성(Requirement Traceability)**: 테스트 케이스를 검증할 요구에 연결하는 관계다.
+- **코드 추적성(Code Traceability)**: 테스트 케이스를 실행할 코드 경로에 연결하는 관계다.
 
 </details>
 

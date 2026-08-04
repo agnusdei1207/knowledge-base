@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T11:17:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -40,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **목표 상태•실제 상태(Desired and Actual State)**: Git에 승인한 운영 모습과 현재 환경에서 관찰한 모습을 뜻하는 상태 쌍이다.
+- **목표 상태(Desired State)**: Git에 승인한 운영 환경의 선언 상태다.
+- **실제 상태(Actual State)**: 현재 운영 환경에서 관찰한 리소스 상태다.
 - **조정 루프(Reconciliation Loop)**: 제어기가 두 상태의 차이를 반복 관찰하고 목표 상태를 다시 적용하는 동작이다.
 - **드리프트(Drift)**: 수동 변경이나 실패로 실제 상태가 Git의 목표 상태와 달라진 상황이다.
 - **Git 선언 기준선**: 검토•승인을 거쳐 Git에 병합되어 운영 목표 상태의 공식 기준이 된 선언 버전이다.
@@ -63,7 +64,8 @@ extra:
 
 - **상태 저장소(State Repository)**: 승인된 선언과 버전 이력을 보관하는 Git 저장소이다.
 - **깃옵스 제어기(GitOps Controller)**: 목표 상태와 실제 상태를 반복 비교하고 차이를 자동 적용하는 구성요소이다.
-- **건강•동기화 상태(Health•Synchronization Status)**: 자원의 정상 동작 여부와 실제 구성이 Git 목표에 일치하는지를 나타낸다.
+- **건강 상태(Health Status)**: 운영 자원의 정상 동작 여부를 나타낸다.
+- **동기화 상태(Synchronization Status)**: 실제 구성이 Git 목표와 일치하는지를 나타낸다.
 - **보고 채널(Reporting Channel)**: 조정 결과•건강 상태•실패 원인을 운영자에게 전달하는 알림•상태 인터페이스이다.
 
 </details>
@@ -165,10 +167,13 @@ sequenceDiagram
 - **승인 정책(Approval Policy)**: 운영 선언의 변경 권한•검토•병합 기준을 통제하는 규칙이다.
 - **밀봉된 비밀(Sealed Secret)**: 저장소에는 암호문만 두고 대상 환경의 제어기만 복호화하도록 만든 비밀정보이다.
 - **의존 순서(Dependency Order)**: 여러 리소스를 안전하게 생성•갱신하기 위해 지켜야 하는 적용 선후 관계이다.
-- **정책•구문 검증(Policy•Syntax Validation)**: 선언이 형식과 조직 운영 규칙을 충족하는지 병합•적용 전에 검사하는 통제이다.
+- **정책 검증(Policy Validation)**: 선언이 조직 운영 규칙을 충족하는지 검사하는 통제이다.
+- **구문 검증(Syntax Validation)**: 선언이 정한 형식을 충족하는지 검사하는 통제이다.
 - **외부 비밀 저장소(External Secret Store)**: 자격 증명을 Git 밖에서 암호화해 보관하고 실행 시점에 대상 환경으로 제공하는 시스템이다.
-- **영역별 제어기•최소 권한**: 환경•조직 영역마다 제어 범위를 나누고 각 제어기에 필요한 리소스 변경 권한만 부여하는 설계이다.
-- **동기화 단계•건강 조건(Sync Wave•Health Condition)**: 리소스 적용 순서를 단계로 나누고 앞 단계가 정상일 때만 다음 단계를 진행하는 기준이다.
+- **영역별 제어기(Scoped Controller)**: 환경과 조직 영역마다 제어 범위를 나눈 구성요소다.
+- **최소 권한(Least Privilege)**: 제어기에 필요한 리소스 변경 권한만 주는 원칙이다.
+- **동기화 단계(Sync Wave)**: 리소스 적용 순서를 나눈 단계다.
+- **건강 조건(Health Condition)**: 앞 단계가 정상일 때 다음 단계를 허용하는 기준이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOLID 원칙 (SOLID Principles)"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T11:01:00+09:00"
 tags:
   - "notes-software"
 weight: 46
@@ -161,10 +161,13 @@ sequenceDiagram
 
 - **과잉 설계(Overengineering)**: 실제 변경 가능성보다 많은 추상화•계층•확장 지점을 미리 만드는 설계다.
 - **계약 시험(Contract Test)**: 여러 구현이 같은 입력•출력•오류•상태 규칙을 지키는지 공통 시험으로 검증하는 방식이다.
-- **선행조건•후행조건•불변식(Precondition•Postcondition•Invariant)**: 호출 전 요구•호출 후 보장•객체 수명 동안 유지할 계약 규칙이다.
+- **선행조건(Precondition)**: 호출 전에 충족해야 하는 계약 규칙이다.
+- **후행조건(Postcondition)**: 호출 뒤에 보장해야 하는 계약 규칙이다.
+- **불변식(Invariant)**: 객체 수명 동안 유지해야 하는 계약 규칙이다.
 - **응집도(Cohesion)**: 서로 관련된 책임과 변경 이유가 한 모듈 안에 함께 모여 있는 정도다.
 - **확장점(Extension Point)**: 기존 호출부를 바꾸지 않고 새 구현이나 동작을 연결하도록 마련한 계약 지점이다.
-- **인터페이스 소유•의존 방향**: 상위 업무 정책이 필요한 계약을 정의하고 구체 구현이 그 계약을 따르도록 의존을 향하게 하는 구조다.
+- **인터페이스 소유(Interface Ownership)**: 상위 업무 정책이 필요한 계약을 정의하는 원칙이다.
+- **의존 방향(Dependency Direction)**: 구체 구현에서 상위 정책의 계약으로 향하는 관계다.
 
 </details>
 

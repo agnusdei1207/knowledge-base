@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T11:18:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **개발•운영(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동으로 책임지는 협업 문화와 방법론이다.
+- **데브옵스(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동 책임지는 협업 문화다.
 - **피드백 루프(Feedback Loop)**: 운영 지표와 장애 원인을 다음 개발•운영 정책에 반영하는 순환이다.
 
 </details>
@@ -61,7 +61,8 @@ extra:
 - **지속적 전달(Continuous Delivery, CD)**: 검증한 변경을 언제든 운영에 배포할 수 있는 상태로 준비하는 활동이다.
 - **아티팩트 저장소(Artifact Repository)**: 검증한 산출물의 버전과 무결성을 보존하는 저장소이다.
 - **관측 가능성(Observability)**: 로그•메트릭•트레이스로 시스템 내부 상태를 추론하는 능력이다.
-- **변경 저장소•통합 실행기**: 변경 저장소는 코드•설정•이력을 공동 보관하고, 통합 실행기는 빌드•시험•정책 검증을 수행한다.
+- **변경 저장소(Change Repository)**: 코드와 설정 및 변경 이력을 보관하는 저장소다.
+- **통합 실행기(Integration Runner)**: 빌드와 시험 및 정책 검증을 수행하는 구성요소다.
 - **전달 제어기(Delivery Controller)**: 승인 산출물을 운영에 반영하고 장애 시 검증된 기준선으로 복귀시키는 구성요소이다.
 
 </details>
@@ -163,9 +164,11 @@ sequenceDiagram
 - **인프라 코드화(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언해 버전 관리하고 자동 적용하는 방식이다.
 - **심리적 안전(Psychological Safety)**: 비난 우려 없이 장애와 실수를 공유하고 개선에 참여할 수 있는 팀 환경이다.
 - **허영 지표(Vanity Metric)**: 실제 성과 개선과 연결되지 않지만 좋아 보이는 수치이다.
-- **공동 목표•소유권**: 제품의 전달 속도와 운영 안정성을 개발•운영이 같은 목표로 측정하고 결과를 함께 책임지는 원칙이다.
+- **공동 목표(Shared Goal)**: 전달 속도와 운영 안정성을 함께 측정하는 목표다.
+- **공동 소유권(Shared Ownership)**: 개발과 운영 결과를 함께 책임지는 원칙이다.
 - **업무 성과(Business Outcome)**: 배포 활동이 사용자 가치•매출•업무 성공률에 만든 실제 결과이다.
-- **재현성•감사성(Reproducibility•Auditability)**: 같은 선언으로 환경을 다시 만들 수 있고 누가 어떤 변경을 적용했는지 이력으로 확인할 수 있는 성질이다.
+- **재현성(Reproducibility)**: 같은 선언으로 환경을 다시 만들 수 있는 성질이다.
+- **감사성(Auditability)**: 누가 어떤 변경을 적용했는지 이력으로 확인하는 성질이다.
 - **비난 없는 분석(Blameless Analysis)**: 개인 처벌보다 사건의 조건•통제 실패•개선 행동을 찾는 장애 검토 방식이다.
 - **복구 절차(Recovery Procedure)**: 장애 감지부터 격리•복귀•검증까지 정상화를 위해 수행할 단계와 책임을 정한 절차이다.
 

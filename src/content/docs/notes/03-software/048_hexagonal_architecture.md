@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "헥사고날 아키텍처: 포트•어댑터 (Hexagonal Architecture)"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T11:05:00+09:00"
 tags:
   - "notes-software"
 weight: 48
@@ -60,9 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인바운드 포트•어댑터(Inbound Port•Adapter)**: 핵심이 제공하는 유스케이스 계약과 외부 입력을 그 계약 호출로 바꾸는 구현이다.
+- **인바운드 포트(Inbound Port)**: 핵심이 외부에 제공하는 유스케이스 계약이다.
+- **인바운드 어댑터(Inbound Adapter)**: 외부 입력을 인바운드 포트 호출로 바꾸는 구현이다.
 - **애플리케이션 핵심(Application Core)**: 외부 기술과 분리되어 유스케이스와 업무 규칙을 실행하는 내부 영역이다.
-- **아웃바운드 포트•어댑터(Outbound Port•Adapter)**: 핵심이 요구하는 외부 기능 계약과 이를 특정 기술 호출로 구현하는 구성이다.
+- **아웃바운드 포트(Outbound Port)**: 핵심이 외부에 요구하는 기능 계약이다.
+- **아웃바운드 어댑터(Outbound Adapter)**: 아웃바운드 포트를 특정 기술 호출로 구현하는 구성이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "이벤트 소싱•CQRS (Event Sourcing CQRS)"
-date: "2026-08-03T15:18:00+09:00"
+date: "2026-08-04T10:56:00+09:00"
 tags:
   - "notes-software"
 weight: 43
@@ -93,7 +93,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **스트림 버전•예상 버전(Stream•Expected Version)**: 저장된 이벤트 순서와 명령이 읽은 버전을 비교해 동시 변경 충돌을 막는 값이다.
+- **스트림 버전(Stream Version)**: 저장된 이벤트의 순서를 나타내는 값이다.
 - **식별자(Identifier)**: 같은 업무 객체의 명령•이벤트•스트림을 묶어 조회하는 고유 값이다.
 - **낙관적 동시성 제어(Optimistic Concurrency Control)**: 저장 시 버전을 비교해 겹친 변경을 거절하는 방식이다.
 
@@ -162,8 +162,10 @@ sequenceDiagram
 - **멱등 중복 처리(Idempotent Duplicate Handling)**: 같은 이벤트가 재전달돼도 프로젝션 결과를 한 번 반영한 상태와 같게 유지하는 처리다.
 - **프로젝션 지연(Projection Lag)**: 이벤트 저장부터 조회 모델 반영까지의 시간 차다.
 - **스냅샷(Snapshot)**: 전체 이벤트를 다시 읽지 않도록 특정 시점의 계산 상태를 저장한 복사본이다.
-- **이벤트 불변•호환 변환**: 저장한 과거 이벤트는 고치지 않고 새 코드가 읽을 수 있도록 버전별 변환 규칙을 적용하는 원칙이다.
-- **재생 시험•결과 대조**: 과거 이벤트를 새 코드로 끝까지 재생하고 기존 기준 상태와 비교해 스키마•프로젝션 변경을 검증하는 시험이다.
+- **이벤트 불변(Event Immutability)**: 저장한 과거 이벤트를 수정하지 않는 원칙이다.
+- **호환 변환(Compatible Transformation)**: 새 코드가 과거 이벤트를 읽도록 버전별 변환을 적용하는 규칙이다.
+- **재생 시험(Replay Test)**: 과거 이벤트를 새 코드로 끝까지 재생하는 시험이다.
+- **결과 대조(Result Comparison)**: 재생 결과를 기존 기준 상태와 비교하는 검증이다.
 - **파생 상태(Derived State)**: 이벤트 원본을 순서대로 반영해 만든 조회 모델이나 계산 상태다.
 
 </details>
