@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보이론: 엔트로피•채널 용량•섀넌 한계 (Information Theory Shannon)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T21:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 29
@@ -101,16 +101,17 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 통신 응용
     participant SE as 소스 부호기
     participant CE as 채널 부호기
     participant CH as 잡음 채널
     participant DE as 복호기
-    Note over SE: 원본 정보 입력
+    Q->>SE: 원본 정보 전달
     SE->>CE: 1. 압축 비트열 전달
     CE->>CH: 2. 채널 코드워드 전달
     CH->>DE: 3. 수신 신호 전달
     DE->>DE: 4. 오류 정정•압축 해제
-    DE->>DE: 복원 정보 확정
+    DE-->>Q: 복원 정보 반환
 ```
 
 $$

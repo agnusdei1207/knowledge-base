@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T20:35:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -100,11 +100,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant P as 파서
     participant G as 문법 저장소
     participant I as 입력 토큰 스트림
     participant T as 구문 트리 저장소
-    I->>P: 입력 토큰•파싱 요청
+    Q->>P: 입력 토큰•파싱 요청
     loop 유도 상태에 기호 존재
         alt 현재 기호가 비단말
             P->>G: 1. 생성 규칙 요청
@@ -117,7 +118,7 @@ sequenceDiagram
         end
     end
     P->>T: 5. 트리 확정 요청
-    P-->>T: 수용 여부•구문 트리 확정
+    P-->>Q: 수용 여부•구문 트리 반환
 ```
 
 ### 동작 원리
@@ -126,7 +127,7 @@ sequenceDiagram
 - **2. 트리 확장 정보 전달**: 우변 기호열•관계 기록
 - **3. 다음 토큰 요청**: 현재 단말과 비교할 입력 조회
 - **4. 일치 단말 전달**: 일치 시 소비, 불일치 시 오류
-- **5. 트리 확정 요청**: 입력 소진 후 완성 트리 반환
+- **5. 트리 확정 요청**: 입력 소진 후 수용 상태와 트리 저장 확정
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T20:58:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -102,10 +102,11 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant E as 해밍 부호기
     participant M as 전송•저장 매체
     participant D as 해밍 복호기
-    Note over E: 원본 데이터 입력
+    Q->>E: 원본 데이터 전달
     E->>M: 1. 코드워드 전달
     M->>D: 수신 코드워드 전달
     D->>D: 2. 신드롬 계산
@@ -115,6 +116,7 @@ sequenceDiagram
     else 신드롬이 0
         D->>D: 정상 데이터 확정
     end
+    D-->>Q: 정정 데이터 반환
 ```
 
 > 비트 배치: 패리티는 1•2•4•8… 위치에 삽입

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T21:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 34
@@ -103,12 +103,14 @@ sequenceDiagram
     participant D as 모형 진단기
     participant E as 성능 평가기
     A->>M: 학습•검증 데이터 전달
-    M->>M: 1. OLS 모형 적합
-    M->>D: 2. 계수•잔차 전달
-    D->>D: 3. 가정 위반 판정
-    D-->>A: 가정 진단 결과 반환
-    alt 가정 위반
-        A->>M: 변수•모형 수정 요청
+    loop 잔차 가정 충족까지
+        M->>M: 1. OLS 모형 적합
+        M->>D: 2. 계수•잔차 전달
+        D->>D: 3. 가정 위반 판정
+        D-->>A: 가정 진단 결과 반환
+        opt 가정 위반
+            A->>M: 변수•모형 수정 요청
+        end
     end
     M->>E: 4. 검증 예측값 전달
     E->>E: 5. 성능 지표 산출

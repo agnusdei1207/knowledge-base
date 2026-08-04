@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "순차 논리 회로: 플립플롭•레지스터 (Sequential Logic)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T20:53:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 27
@@ -102,12 +102,15 @@ sequenceDiagram
     participant R as 상태 레지스터
     participant C as 클록 발생기
     participant O as 출력 논리
-    R->>N: 1. 현재 상태 전달
-    I->>N: 현재 입력 전달
-    N->>R: 2. 다음 상태 전달
-    C->>R: 3. 클록 엣지 전달
-    R->>O: 4. 갱신 상태 전달
-    I->>O: 현재 입력 전달
+    loop 클록 주기마다
+        R->>N: 1. 현재 상태 전달
+        I->>N: 현재 입력 전달
+        N->>R: 2. 다음 상태 전달
+        C->>R: 3. 클록 엣지 전달
+        R->>O: 4. 갱신 상태 전달
+        I->>O: 현재 입력 전달
+        O-->>I: 외부 출력 반환
+    end
 ```
 
 ### 동작 원리

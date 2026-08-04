@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T21:24:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -103,7 +103,8 @@ sequenceDiagram
     T->>T: 1. 검정 통계량 산출
     T->>T: 2. 유의확률 계산
     A->>T: 유의수준 전달
-    T-->>A: 3. 기각 결과 반환
+    T->>T: 3. 기각 여부 판정
+    T-->>A: 기각 결과 반환
     T->>C: 추정값•표준오차 전달
     C->>C: 4. 신뢰구간 산출
     C-->>A: 신뢰구간 반환

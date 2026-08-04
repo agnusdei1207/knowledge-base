@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T21:10:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -99,23 +99,25 @@ block-beta
 sequenceDiagram
     participant SE as 소스 부호기
     participant CE as 채널 부호기
+    participant CH as 잡음 채널
     participant CD as 채널 복호기
     participant SD as 소스 복호기
     Note over SE: 원본 정보 입력
     SE->>CE: 1. 압축 비트열 전달
-    Note over CE,CD: 잡음 채널 전송
-    CE->>CD: 2. 보호 코드워드 전달
-    CD->>SD: 3. 정정 비트열 전달
-    SD->>SD: 4. 압축 데이터 복원
-    SD->>SD: 원본 정보 복원
+    CE->>CH: 2. 보호 코드워드 전달
+    CH->>CD: 3. 수신 코드워드 전달
+    CD->>SD: 4. 정정 비트열 전달
+    SD->>SD: 5. 압축 데이터 복원
+    Note over SD: 원본 정보 출력
 ```
 
 ### 동작 원리
 
 - **1. 압축 비트열 전달**: 정보원의 통계적 중복 제거
 - **2. 보호 코드워드 전달**: 보호 비트 추가•채널 전송
-- **3. 정정 비트열 전달**: 오류를 고쳐 압축 데이터 회복
-- **4. 압축 데이터 복원**: 압축을 풀어 원본 재구성
+- **3. 수신 코드워드 전달**: 채널 잡음이 반영된 비트열 제공
+- **4. 정정 비트열 전달**: 오류를 고쳐 압축 데이터 회복
+- **5. 압축 데이터 복원**: 압축을 풀어 원본 재구성
 
 #### 한줄 요약
 
