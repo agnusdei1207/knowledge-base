@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 진흥법 (Software Promotion Act)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:07:00+09:00"
 tags: ["notes-software"]
 weight: 227
 extra:
@@ -134,8 +134,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **과업심의**: 과업심의는 공공 소프트웨어사업의 과업 확정•변경과 이에 따른 계약 조정을 위원회가 판단하는 제도다.
-- **요구사항 상세화(Requirements Specification)**: 발주 전에 과업 규모와 검수 기준을 명확히 하는 제도이다.
-- **상용 소프트웨어 직접구매(Direct Purchase of Commercial Software, 상용SW 직접구매)**: 기준 대상 상용 제품을 구축 용역과 분리해 구매하는 제도이다.
+- **요구사항 상세화 적용**: 발주 전 과업 규모와 검수 기준 명확화
+- **상용SW 직접구매 적용**: 기준 대상 제품을 구축 용역과 분리 구매
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보화 기본법 (Framework Act on Intelligent Informatization)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:06:00+09:00"
 tags: ["notes-software"]
 weight: 226
 extra:
@@ -134,7 +134,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **지능정보화 기본법**: 지능정보화 기본법은 국가•기관의 정책•계획•기반을 규율하고 세부 권리•의무는 관련 특별법과 나눠 적용한다.
+- **기본법 적용 범위**: 국가•기관의 정책•계획•기반 규율
 - **디지털포용법(Digital Inclusion Act)**: 디지털 접근•역량•이용 편의와 취약계층 포용을 다루는 법률이다.
 - **인공지능기본법(Artificial Intelligence Framework Act)**: 인공지능 산업 진흥과 신뢰 기반 및 사업자의 책임을 다루는 법률이다.
 

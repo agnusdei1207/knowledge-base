@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "성능 테스트 지표: TPS•응답시간•동시 사용자 (Performance Test Metrics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:02:00+09:00"
 tags: ["notes-software"]
 weight: 222
 extra:
@@ -138,7 +138,7 @@ sequenceDiagram
 
 - **응답 시간**: 응답 시간은 사용자의 요청 전송부터 전체 응답 수신까지 걸린 시간의 분포로 체감 성능을 나타낸다.
 - **동시 사용자(Concurrent User)**: 같은 시점에 시스템과 상호작용하거나 세션을 유지하는 활동 사용자 수이다.
-- **초당 거래 수(Transactions Per Second, TPS)**: 단위 시간의 완료 거래량으로 처리 용량을 나타내는 지표이다.
+- **TPS 적용**: 단위 시간의 완료 거래량으로 처리 용량 측정
 
 </details>
 

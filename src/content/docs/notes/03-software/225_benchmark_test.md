@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "BMT 벤치마크 테스트 (Benchmark Test BMT)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:05:00+09:00"
 tags: ["notes-software"]
 weight: 225
 extra:
@@ -134,7 +134,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **벤치마크 테스트(BMT)**: 벤치마크 테스트는 제품 간 기능•성능의 수치 차이를 같은 실행 조건에서 직접 확인한다.
+- **BMT 역할**: 동일 실행 조건에서 제품 간 기능•성능 차이 확인
 - **개념 증명(Proof of Concept, PoC)**: 신기술이나 설계 방안의 구현 가능성을 제한된 범위에서 검증하는 시험이다.
 - **문서 평가(Document Evaluation)**: 제안 내용•실적•수행 계획을 증거 자료로 검토해 시험 전 후보를 선별하는 방식이다.
 

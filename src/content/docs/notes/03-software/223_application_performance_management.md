@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:03:00+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -38,7 +38,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Trace ID•Span**: Trace ID는 한 분산 요청을 묶고 Span은 서비스별 작업 구간을 기록해 지연 경로를 연결한다.
 - **추적 식별자(Trace Identifier, Trace ID)**: 한 분산 요청에서 생성된 모든 작업 구간을 같은 경로로 묶는 식별자이다.
 - **작업 구간(Span)**: 분산 요청 안의 개별 서비스 호출이나 코드 작업의 시작•종료와 상태를 기록한 단위이다.
 - **요청률•오류•처리시간(Rate, Errors, Duration, RED)**: 서비스 요청량•실패량•지연을 함께 관측하는 핵심 지표 묶음이다.
@@ -133,7 +132,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Tracing**: Tracing은 Trace ID와 Span으로 분산 호출 경로를 연결해 서비스별 병목 원인을 분석한다.
+- **분산 추적 역할**: Trace ID•Span으로 서비스별 병목 원인 분석
 - **실사용자 모니터링(Real User Monitoring, RUM)**: 실제 사용자 단말에서 지역•기기별 체감 성능과 오류를 수집하는 방식이다.
 - **합성 모니터링(Synthetic Monitoring)**: 가상 요청을 정기 실행해 주요 경로의 가용성과 지연을 사전 감시하는 방식이다.
 
@@ -180,7 +179,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Synthetic**: 실제 체감 분석은 RUM, 사전 경로 감시는 Synthetic, 서비스별 원인 추적은 Tracing을 선택한다.
+- **합성 감시 적용**: 주요 경로의 가용성•지연을 가상 요청으로 사전 감시
 - **관측 방식 선택**: 실제 체감은 RUM, 사전 경로 감시는 합성 모니터링, 서비스별 원인 추적은 분산 추적을 사용하는 원칙이다.
 
 </details>
