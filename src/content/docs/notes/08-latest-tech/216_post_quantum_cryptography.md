@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자내성암호 (Post-Quantum Cryptography, PQC)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:36:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 216
@@ -24,11 +24,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계하면서 고전 컴퓨터와 통신망에서 실행하는 공개키 암호 체계다.
+- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난제에 기반한 공개키 암호 체계다.
+- **타원 곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원 곡선 이산로그 난제에 기반한 공개키 암호 체계다.
 
 </details>
 
-- 정의/개념: **양자내성암호(Post-Quantum Cryptography, PQC)** 는 양자 공격에 안전하도록 설계한 고전 컴퓨터용 공개키 암호
-- 배경/필요성: **RSA(Rivest-Shamir-Adleman)•타원 곡선 암호(Elliptic Curve Cryptography, ECC)** 는 쇼어 알고리즘으로 **선취 후 복호화 위험** 노출
+- 정의/개념: **PQC** 는 양자 공격에 안전하도록 설계한 고전 컴퓨터용 공개키 암호
+- 배경/필요성: **RSA•ECC** 는 쇼어 알고리즘으로 **선취 후 복호화 위험** 노출
 
 #### 한줄 요약
 
@@ -39,11 +41,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **모듈 격자 기반 키 캡슐화 메커니즘(ML-KEM)**: 모듈 격자 문제를 기반으로 공유 비밀을 캡슐화•복원하는 표준 양자내성 키 설정 방식이다.
+- **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 모듈 격자 문제로 공유 비밀을 캡슐화•복원하는 표준 키 설정 방식이다.
+- **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: 모듈 격자 문제 기반의 표준 양자내성 전자서명 방식이다.
+- **무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**: 해시 함수 기반의 무상태 양자내성 전자서명 방식이다.
 
 </details>
 
-- 키 설정용 **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)** 과 서명용 **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)•무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**
+- 키 설정용 **ML-KEM** 과 서명용 **ML-DSA•SLH-DSA**
 - 기존 공개키 암호와 다른 **큰 키•서명•연산 특성**
 - 자산 목록•하이브리드 운용•암호 민첩성 기반 **점진적 전환**
 #### 한줄 요약
@@ -55,37 +59,38 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **키 캡슐화 메커니즘(KEM)**: 공유 비밀키를 직접 전송하지 않고 공개키로 캡슐화하고 개인키로 복원하는 키 설정 방식이다.
+- **키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)**: 공유 비밀키를 직접 전송하지 않고 공개키로 캡슐화하고 개인키로 복원하는 키 설정 방식이다.
 - **양자내성 전자서명**: 양자 공격을 고려한 수학적 난제에 기반해 메시지의 진위와 무결성을 검증하는 방식이다.
 - **암호 자산 목록(Crypto Inventory)**: 알고리즘•키•인증서•프로토콜•라이브러리의 위치와 의존성을 추적한 전환 기준선이다.
 - **하이브리드 운영**: 기존 암호와 양자내성 암호를 함께 적용해 전환기 상호운용성과 방어 심도를 확보하는 방식이다.
 - **암호 민첩성(Crypto Agility)**: 알고리즘과 키 규격을 정책에 따라 발견•교체•검증할 수 있는 설계 역량이다.
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 암호키를 보호하며 암호 연산을 수행하는 전용 장치다.
 
 </details>
 
-**키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)** 을 적용할 암호 자산과 **하드웨어 보안 모듈(Hardware Security Module, HSM)** 호환성을 목록화한다.
+**KEM** 을 적용할 암호 자산과 **HSM** 호환성을 목록화한다.
 
 ```mermaid
 block-beta
   columns 3
-  N0["Crypto Inventory"]
-  N1["Algorithm Profile"]
-  N2["Hybrid 운영"]
-  N3["Governance"]
+  N0["암호 자산 목록"]
+  N1["알고리즘 프로필"]
+  N2["하이브리드 운영"]
+  N3["전환 거버넌스"]
   N0 --- N1 --- N2
   N2 --- N3
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Crypto Inventory | **암호 자산•라이브러리•HSM** 식별 |
-| Algorithm Profile | **표준 알고리즘•파라미터** 선택 |
-| Hybrid 운영 | 기존 암호 병행과 **downgrade 방지** |
-| Governance | **상호운용성•성능•수명주기** 관리 |
+| 암호 자산 목록 | **암호 자산•라이브러리•HSM** 식별 |
+| 알고리즘 프로필 | **표준 알고리즘•파라미터** 선택 |
+| 하이브리드 운영 | 기존 암호 병행과 **downgrade 방지** |
+| 전환 거버넌스 | **상호운용성•성능•수명주기** 관리 |
 
 #### 한줄 요약
 
-- 중요 자료부터 새 자물쇠를 맞추고 단계적으로 교체함
+- 암호 자산•알고리즘•하이브리드 운영•거버넌스의 연결
 
 ## Ⅳ. 흐름도
 
@@ -107,31 +112,32 @@ sequenceDiagram
   P->>H: 2. 표준 알고리즘 선택
   H->>S: 3. 병행 구성•통합
   S->>G: 4. 상호운용•성능 검증
-  G-->>I: 5. 기존 암호 폐기
+  G->>I: 5. 기존 암호 폐기
 ```
 
 **동작 원리**
 
-- **1. 자산•위험 우선순위**: 데이터 수명•노출도•암호 위치 평가
-- **2. 표준 알고리즘 선택**: 용도•파라미터•구현 적합성 결정
-- **3. 병행 구성•통합**: 기존 암호와 **양자내성암호(Post-Quantum Cryptography, PQC) 키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)** •서명 결합
-- **4. 상호운용•성능 검증**: 프로토콜•**하드웨어 보안 모듈(Hardware Security Module, HSM)** •인증서 크기와 지연 시험
-- **5. 기존 암호 폐기**: 단계 배포 후 downgrade 경로 제거
+1. **자산•위험 우선순위**: 데이터 수명•노출도•암호 위치 평가
+2. **표준 알고리즘 선택**: 용도•파라미터•구현 적합성 결정
+3. **병행 구성•통합**: 기존 암호와 **PQC KEM•서명** 결합
+4. **상호운용•성능 검증**: 프로토콜•**HSM** •인증서 크기와 지연 시험
+5. **기존 암호 폐기**: 단계 배포 후 downgrade 경로 제거
 
 #### 한줄 요약
 
-- 중요 보안 자산부터 문제없는 것을 확인하고 옛 방식 폐기함
+- 고위험 암호 자산의 하이브리드 검증 후 기존 암호 폐기
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **모듈 격자 기반 디지털 서명 알고리즘(ML-DSA)**: 모듈 격자 문제를 기반으로 메시지의 출처와 무결성을 증명하는 표준 양자내성 전자서명 방식이다.
+- **고전 공개키(Classical Public Key, Classical PK)**: 인수분해•이산로그 난제에 기반한 기존 공개키 암호다.
+- **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용해 도청을 탐지하며 대칭키를 분배하는 기술이다.
 
 </details>
 
-| 판단 기준 | 고전 공개키(Classical Public Key, Classical PK) | 양자내성암호(Post-Quantum Cryptography, PQC) | 양자 키 분배(Quantum Key Distribution, QKD) |
+| 판단 기준 | Classical PK | PQC | QKD |
 |:---|:---|:---|:---|
 | 적용 기준 | 기존 **키 설정•전자서명** | 양자내성 **키 설정•전자서명** | 전용망 **대칭키 분배** |
 | 핵심 특징 | **인수분해•이산로그 난제** | **격자•해시 난제** | **양자 측정 교란** 기반 |
@@ -146,30 +152,30 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **암호 민첩성**: 알고리즘•키•라이브러리를 서비스 중단과 대규모 재설계 없이 교체할 수 있는 능력이다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크가 단편화 없이 전송할 수 있는 최대 패킷 크기다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 긴 데이터 수명의 **선취 후 해독** 위험 | **암호 자산 목록•우선순위 전환** | **장기 기밀성** 보호 |
-| **큰 키•서명**으로 프로토콜 초과 | **최대 전송 단위(Maximum Transmission Unit, MTU)•인증서•하드웨어 보안 모듈(Hardware Security Module, HSM) 성능 시험** | **운영 호환성** 확보 |
+| **큰 키•서명**으로 프로토콜 초과 | **MTU•인증서•HSM 성능 시험** | **운영 호환성** 확보 |
 | 하이브리드 **downgrade** | **조합 협상 고정•로그•폐기 기준** | 전환기 **보안 약화 방지** |
 
 #### 한줄 요약
 
-- 금융 게이트웨이는 표준 **양자내성암호(Post-Quantum Cryptography, PQC) 키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)** 을 기존 키 합의와 병행해 단말 호환성•핸드셰이크 크기•지연•실패 복구를 검증한 뒤 단계 배포한다.
+- PQC KEM 병행 시 호환성•핸드셰이크 크기•지연 검증
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **선취 후 복호화(HNDL)**: 현재 수집한 암호문을 보관했다가 미래의 양자컴퓨터로 복호화하려는 선취 위협이다.
+- **선취 후 복호화(Harvest Now, Decrypt Later, HNDL)**: 현재 수집한 암호문을 보관했다가 미래 양자컴퓨터로 복호화하려는 위협이다.
 
 </details>
 
-- **선취 후 복호화(Harvest Now, Decrypt Later, HNDL)** 위험이 큰 자산부터 **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)•모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)** 으로 **단계 전환**
+- HNDL 위험이 큰 자산부터 **ML-KEM•ML-DSA** 로 **단계 전환**
 
 #### 한줄 요약
 

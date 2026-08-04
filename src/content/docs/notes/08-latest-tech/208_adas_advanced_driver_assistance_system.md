@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "첨단 운전자 지원 시스템 (Advanced Driver Assistance System, ADAS)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:28:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 208
@@ -27,12 +27,12 @@ extra:
 
 </details>
 
-- 정의/개념: 환경•운전자 상태를 인지해 경고•조향•가감속을 보조하는 **첨단 운전자 지원 시스템(Advanced Driver Assistance System, ADAS)**
+- 정의/개념: 환경•운전자 상태를 인지해 경고•조향•가감속을 보조하는 **ADAS**
 - 배경/필요성: 운전자 오류 보조 기능의 확대는 **기능 한계•감독 책임 혼동** 위험
 
 #### 한줄 요약
 
-- 카메라와 레이더가 주변 위험을 먼저 살피고 운전자에게 알리거나 일부 조작을 돕지만, 지원 수준의 책임 경계는 유지된다.
+- 환경•운전자 인지 기반 경고•제어 보조와 감독 책임 유지
 
 ## Ⅱ. 특징
 
@@ -40,11 +40,15 @@ extra:
 <summary>핵심 용어</summary>
 
 - **운전자 모니터링 시스템(Driver Monitoring System, DMS)**: 운전자의 주의•졸음•응답 상태를 확인하여 감독 가능성을 판단하는 시스템이다.
+- **국제자동차기술자협회(Society of Automotive Engineers International, SAE International)**: 자동차 기술 표준을 개발하는 국제 전문 단체이다.
+- **자동 긴급 제동(Automatic Emergency Braking, AEB)**: 충돌 위험 시 자동으로 제동하는 기능이다.
+- **적응형 순항 제어(Adaptive Cruise Control, ACC)**: 선행 차량과 간격을 유지하며 속도를 조절하는 기능이다.
+- **차로 유지 보조(Lane Keeping Assist, LKA)**: 차량이 차로를 벗어나지 않도록 조향을 보조하는 기능이다.
 
 </details>
 
 - 다중 센서 융합 기반 **객체•차선•충돌 위험 인지**
-- 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) Level 0~2 범위에서 수행하는 **자동 긴급 제동(Automatic Emergency Braking, AEB)•적응형 순항 제어(Adaptive Cruise Control, ACC) 종방향 제어 및 차로 유지 보조(Lane Keeping Assist, LKA) 횡방향 제어**
+- SAE Level 0~2의 **AEB•ACC 종방향, LKA 횡방향 보조**
 - DMS•센서 감시 기반 **운전자 감독•기능 저하 전환**
 #### 한줄 요약
 
@@ -57,13 +61,13 @@ extra:
 
 - **센서 융합**: 카메라•레이더 등 여러 센서의 관측을 결합해 객체•차선•자차 상태를 추정하는 과정이다.
 - **환경 센서**: 카메라•레이더•라이다•초음파로 도로•차선•객체•거리를 관측하는 입력 계층이다.
-- **운전자 모니터링 시스템(DMS)**: 시선•눈꺼풀•자세 등으로 운전자의 주의와 개입 가능 상태를 판단한다.
 - **위험•경로 판단**: 인지 결과에서 충돌 위험을 평가하고 경고•감속•조향 목표를 결정하는 기능이다.
-- **인간-기계 인터페이스(HMI)•차량 제어**: 운전자에게 기능 상태와 경고를 알리고 제한된 종•횡방향 제어를 실행한다.
+- **인간-기계 인터페이스(Human-Machine Interface, HMI)**: 운전자에게 기능 상태•경고•인수 요청을 전달하는 접점이다.
+- **차량 제어**: 제한된 종•횡방향 조향•제동•가속 명령을 실행하는 기능이다.
 
 </details>
 
-운전자 모니터링 시스템(Driver Monitoring System, DMS)과 인간-기계 인터페이스(Human-Machine Interface, HMI)가 운전자 상태와 경고•제어 결과를 연결한다.
+**DMS•HMI** 가 운전자 상태와 경고•제어 결과를 연결한다.
 
 ```mermaid
 block-beta
@@ -98,7 +102,7 @@ block-beta
 
 </details>
 
-인간-기계 인터페이스(Human-Machine Interface, HMI)와 운전자 모니터링 시스템(Driver Monitoring System, DMS)이 기능 한계와 운전자 대응을 감시한다.
+**HMI•DMS** 가 기능 한계와 운전자 대응을 감시한다.
 
 ```mermaid
 sequenceDiagram
@@ -135,7 +139,7 @@ sequenceDiagram
 
 </details>
 
-국제자동차기술자협회(Society of Automotive Engineers International, SAE International)의 지원 수준에 따라 동적 주행 과업의 역할을 구분한다.
+SAE 지원 수준에 따라 동적 주행 과업의 역할을 구분한다.
 
 | SAE 지원 수준 | Level 0 | Level 1 | Level 2 |
 |:---|:---|:---|:---|
@@ -156,7 +160,7 @@ sequenceDiagram
 
 </details>
 
-첨단 운전자 지원 시스템(Advanced Driver Assistance System, ADAS)은 운행 설계 영역(Operational Design Domain, ODD), 인간-기계 인터페이스(Human-Machine Interface, HMI), 운전자 모니터링 시스템(Driver Monitoring System, DMS)을 함께 검증한다.
+ADAS는 ODD•HMI•DMS를 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -173,11 +177,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SAE Level 2**: 국제자동차기술자협회(Society of Automotive Engineers International, SAE International) 기준에서 시스템이 조향과 가감속을 동시에 보조하지만 운전자가 환경 감시와 대응 책임을 유지하는 수준이다.
+- **SAE Level 2**: 시스템이 조향과 가감속을 동시에 보조하지만 운전자가 환경 감시와 대응 책임을 유지하는 수준이다.
 
 </details>
 
-- **운행 설계 영역(Operational Design Domain, ODD)•센서 한계 원칙**: 기능을 저하•해제하고 운전자 감독 책임 유지
+- ODD•센서 한계 초과 시 **기능 저하•해제**, **운전자 감독 책임** 유지
 
 #### 한줄 요약
 

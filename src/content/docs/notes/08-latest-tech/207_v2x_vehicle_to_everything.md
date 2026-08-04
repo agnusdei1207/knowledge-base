@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차량•사물 통신 (Vehicle-to-Everything, V2X)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:27:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 207
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 차량이 주변 참여자•인프라•망과 위험 정보를 교환하는 **차량•사물 통신(Vehicle-to-Everything, V2X) 체계**
+- 정의/개념: 차량이 주변 참여자•인프라•망과 위험 정보를 교환하는 **V2X 체계**
 - 배경/필요성: 탑재 센서만으로는 사각지대와 **가시거리 밖 위험 조기 인지 불가**
 
 #### 한줄 요약
@@ -40,10 +40,14 @@ extra:
 <summary>핵심 용어</summary>
 
 - **셀룰러 차량•사물 통신(Cellular Vehicle-to-Everything, C-V2X)**: 셀룰러 기술을 기반으로 차량의 직접 통신과 광역 망 통신을 지원하는 방식이다.
+- **차량 간 통신(Vehicle-to-Vehicle, V2V)**: 차량끼리 위치•속도•위험 정보를 직접 교환하는 통신이다.
+- **차량•인프라 통신(Vehicle-to-Infrastructure, V2I)**: 차량과 도로•신호 인프라가 정보를 교환하는 통신이다.
+- **차량•보행자 통신(Vehicle-to-Pedestrian, V2P)**: 차량과 보행자 단말이 위치•위험 정보를 교환하는 통신이다.
+- **차량•네트워크 통신(Vehicle-to-Network, V2N)**: 차량이 기지국•서버를 통해 광역 서비스를 이용하는 통신이다.
 
 </details>
 
-- 차량 간(Vehicle-to-Vehicle, V2V)•차량-인프라 간(Vehicle-to-Infrastructure, V2I)•차량-보행자 간(Vehicle-to-Pedestrian, V2P)•차량-네트워크 간(Vehicle-to-Network, V2N) **다중 교통 참여자 통신**
+- V2V•V2I•V2P•V2N **다중 교통 참여자 통신**
 - PC5•Uu 기반 **저지연 직접•광역 망 통신**
 - 서명•시간•위치•센서 일치성 기반 **메시지 신뢰 검증**
 #### 한줄 요약
@@ -58,11 +62,11 @@ extra:
 - **차량 탑재 장치(On-Board Unit, OBU)**: 차량에 탑재되어 V2X 메시지를 생성•송수신•검증하고 센서 정보와 융합하는 장치이다.
 - **노변 장치(Roadside Unit, RSU)**: 도로 인프라와 차량 사이에서 교통•안전 메시지를 중계하는 통신 장치이다.
 - **V2V•V2I•V2P•V2N**: 차량이 차량•인프라•보행자•네트워크와 정보를 교환하는 V2X의 주요 통신 관계이다.
-- **V2X 공개키 기반구조(PKI)**: 단기 인증서와 서명을 이용해 메시지의 발신 신뢰와 무결성을 검증하는 보안 체계이다.
+- **V2X 공개키 기반구조(Public Key Infrastructure, PKI)**: 단기 인증서와 서명으로 메시지의 발신 신뢰와 무결성을 검증하는 체계이다.
 
 </details>
 
-차량•사물 통신(Vehicle-to-Everything, V2X), 노변 장치(Roadside Unit, RSU), 공개키 기반구조(Public Key Infrastructure, PKI)가 메시지 전달과 신뢰 관리를 분담한다.
+**V2X•RSU•PKI** 가 메시지 전달과 신뢰 관리를 분담한다.
 
 ```mermaid
 block-beta
@@ -93,11 +97,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서를 발급•검증•폐기하여 차량•사물 통신(Vehicle-to-Everything, V2X) 메시지 송신자의 신뢰를 관리하는 체계이다.
+- **신뢰 검증**: 인증서•서명•신선도•물리 가능성을 확인해 메시지 수용 여부를 정하는 절차이다.
 
 </details>
 
-차량 탑재 장치(On-Board Unit, OBU)와 노변 장치(Roadside Unit, RSU)가 V2X 메시지를 교환한다.
+**OBU•RSU** 가 V2X 메시지를 교환한다.
 
 ```mermaid
 sequenceDiagram
@@ -109,8 +113,8 @@ sequenceDiagram
     S->>P: 1. 서명 상태•위험정보 전달
     P->>R: 2. V2X 메시지 전달
     R->>K: 3. 인증서•신선도 전달
-    K-->>R: 4. 신뢰 검증 결과 전달
-    R->>V: 5. 검증•융합 정보 전달
+    K-->>R: 신뢰 검증 결과
+    R->>V: 4. 검증•융합 정보 전달
 ```
 
 **동작 원리**
@@ -118,8 +122,7 @@ sequenceDiagram
 1. **서명 상태•위험정보 전달**: 위치•속도•사건•발생 시각을 표준 메시지로 구성•서명
 2. **V2X 메시지 전달**: 인접 안전정보는 PC5, 광역 서비스는 Uu 경로로 교환
 3. **인증서•신선도 전달**: 송신 인증서•서명•발생 시각•재전송 여부 검사
-4. **신뢰 검증 결과 전달**: 인증서 상태와 메시지 무결성 기반 신뢰 여부 판정
-5. **검증•융합 정보 전달**: 위치•물리 가능성을 차량 센서와 대조해 경고•보조 결정
+4. **검증•융합 정보 전달**: 위치•물리 가능성을 차량 센서와 대조해 경고•보조 결정
 
 #### 한줄 요약
 
@@ -130,16 +133,19 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **PC5 인터페이스**: 기지국을 거치지 않고 인접 차량과 단말이 직접 통신하는 셀룰러 차량•사물 통신(Cellular Vehicle-to-Everything, C-V2X) 인터페이스이다.
+- **PC5 인터페이스**: 기지국을 거치지 않고 인접 차량과 단말이 직접 통신하는 C-V2X 인터페이스이다.
+- **근거리 전용 통신(Dedicated Short-Range Communications, DSRC)**: 차량 안전 메시지를 위한 근거리 직접 통신 방식이다.
+- **지능형 교통 시스템 G5(Intelligent Transport Systems G5, ITS-G5)**: 유럽의 차량•도로 인프라 직접 통신 규격이다.
+- **국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•컴퓨팅 기술 표준을 개발하는 전문 단체이다.
 
 </details>
 
-근거리 전용 통신(Dedicated Short-Range Communications, DSRC), 지능형 교통 시스템 G5(Intelligent Transport Systems G5, ITS-G5), 셀룰러 차량•사물 통신(Cellular Vehicle-to-Everything, C-V2X)의 직접•망 접속을 비교한다.
+DSRC•ITS-G5•C-V2X의 직접•망 접속을 비교한다.
 
 | V2X 접속 방식 | DSRC•ITS-G5 | C-V2X PC5 | C-V2X Uu |
 |:---|:---|:---|:---|
 | 적용 기준 | 근거리 **직접 안전 통신** | 근거리 **셀룰러 직접 통신** | **광역 망 기반 서비스** |
-| 핵심 특징 | 국제전기전자공학회(Institute of Electrical and Electronics Engineers, IEEE) 802.11 계열 **직접 통신** | 기지국 비경유 **PC5 통신** | 기지국•서버 경유 **Uu 통신** |
+| 핵심 특징 | IEEE 802.11 계열 **직접 통신** | 기지국 비경유 **PC5 통신** | 기지국•서버 경유 **Uu 통신** |
 | 한계 | 별도 **노변 인프라** 필요 | 단말•자원 **운용 복잡도** | 망 **지연•가용성 의존** |
 
 #### 한줄 요약
@@ -158,7 +164,7 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **통신 품질** 미검증 시 혼잡•음영의 **지연•손실** | 채널 부하 제어•다중 경로•**성능 시험** | 통신 **지연•손실률** 감소 |
-| **메시지 신뢰** 미검증 시 위조•재전송•**위치 조작** | 공개키 기반구조(Public Key Infrastructure, PKI)•신선도•물리 가능성 **교차 검증** | 위조•재전송 **수용률** 감소 |
+| **메시지 신뢰** 미검증 시 위조•재전송•**위치 조작** | PKI•신선도•물리 가능성 **교차 검증** | 위조•재전송 **수용률** 감소 |
 | **차량 융합** 미검증 시 외부 정보의 **오경보•오제어** | 탑재 센서 대조•신뢰도•**안전한 실패** | **오경보•오제어** 방지 |
 
 #### 한줄 요약
@@ -174,8 +180,8 @@ sequenceDiagram
 
 </details>
 
-- **PC5•Uu 선택 원칙**: 인접 위험은 직접 통신, 광역 서비스는 망 통신으로 교환하고 공개키 기반구조(Public Key Infrastructure, PKI)•센서로 검증
+- 인접 위험은 **PC5**, 광역 서비스는 **Uu** 로 교환하고 PKI•센서로 검증
 
 #### 한줄 요약
 
-- 차량•사물 통신(Vehicle-to-Everything, V2X) 메시지는 유용한 추가 센서이지만 차량의 자체 센서와 검증한 뒤 사용해야 한다.
+- V2X 메시지의 PKI•차량 센서 교차 검증 후 제한적 사용

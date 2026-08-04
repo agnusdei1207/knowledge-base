@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:26:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -23,11 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 전자제어장치(Electronic Control Unit, ECU)의 애플리케이션을 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 프로세스와 동적 서비스로 실행•관리하는 차량 소프트웨어 플랫폼이다.
+- **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행•관리하는 차량 소프트웨어 플랫폼이다.
+- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능의 센서 입력•연산•제어 출력을 담당하는 컴퓨터이다.
+- **이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX)**: 운영체제 간 호환 가능한 프로세스•파일•통신 인터페이스 표준이다.
 
 </details>
 
-- 정의/개념: 고성능 전자제어장치(Electronic Control Unit, ECU) 애플리케이션을 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**
+- 정의/개념: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**
 - 배경/필요성: Classic의 정적 구성은 고성능 서비스의 **동적 배포•갱신 수용 곤란**
 
 #### 한줄 요약
@@ -56,22 +58,22 @@ extra:
 <summary>핵심 용어</summary>
 
 - **실행 관리(Execution Management)**: 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작•중지•상태를 관리하는 서비스이다.
-- **ARA•ara::com**: ARA는 Adaptive 애플리케이션에 플랫폼 서비스와 응용 프로그래밍 인터페이스(Application Programming Interface, API)를 제공하는 런타임이며, `ara::com`은 그 안의 서비스 지향 통신 API이다.
-- **업데이트•구성 관리(UCM)**: 소프트웨어 패키지와 차량 구성을 검증•설치•활성화•롤백하는 플랫폼 서비스이다.
-- **플랫폼 건강 관리(PHM)**: 애플리케이션과 플랫폼의 생존•기한•논리 상태를 감시해 오류 대응을 유도하는 서비스이다.
-- **POSIX 운영체제**: 동적 애플리케이션과 고성능 컴퓨팅을 위한 프로세스•메모리•파일•네트워크 실행 기반이다.
+- **ara::com**: ARA에서 서비스 탐색과 이벤트•메서드•필드 통신을 제공하는 인터페이스이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 간 기능•데이터 교환 규칙을 정의한 접점이다.
+- **업데이트•구성 관리(Update and Configuration Management, UCM)**: 소프트웨어 패키지와 차량 구성을 검증•설치•활성화•롤백하는 서비스이다.
+- **플랫폼 건강 관리(Platform Health Management, PHM)**: 애플리케이션과 플랫폼의 생존•기한•논리 상태를 감시하는 서비스이다.
 
 </details>
 
-Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA), 업데이트•구성 관리(Update and Configuration Management, UCM), 플랫폼 건강 관리(Platform Health Management, PHM), 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX)가 실행 기반을 구성한다.
+**ARA•UCM•PHM•POSIX** 가 Adaptive 애플리케이션의 실행 기반을 구성한다.
 
 ```mermaid
 block-beta
   columns 3
-  N0["Adaptive Application"]
-  N1["ARA•ara::com"]
-  N2["Execution Management"]
-  N3["UCM•PHM"]
+  N0["ARA•ara::com"]
+  N1["Execution Management"]
+  N2["UCM"]
+  N3["PHM"]
   N4["POSIX 운영체제"]
   N0 --- N1 --- N2
   N2 --- N3 --- N4
@@ -79,10 +81,10 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Adaptive Application | **인지•경로•연결 서비스 기능 실행** |
 | ARA•ara::com | 플랫폼 기능 접근과 **서비스 탐색•통신** |
 | Execution Management | 프로세스 **시작•중지•상태 관리** |
-| UCM•PHM | **패키지 갱신•구성•건강 감시** |
+| UCM | 패키지 **검증•설치•활성화•롤백** |
+| PHM | 애플리케이션•플랫폼의 **건강 상태 감시** |
 | POSIX 운영체제 | **프로세스•자원•격리 기반 제공** |
 
 #### 한줄 요약
@@ -98,7 +100,7 @@ block-beta
 
 </details>
 
-업데이트•구성 관리(Update and Configuration Management, UCM), 플랫폼 건강 관리(Platform Health Management, PHM), Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)이 배포•통신•건강 상태를 관리한다.
+**UCM•PHM•ARA** 가 배포•통신•건강 상태를 관리한다.
 
 ```mermaid
 sequenceDiagram
@@ -110,8 +112,8 @@ sequenceDiagram
     U->>E: 1. 검증 패키지•Manifest 전달
     E->>A: 2. 프로세스 상태 전달
     A->>C: 3. 서비스 탐색 요청 전달
-    C-->>A: 4. 서비스 통신 상태 전달
-    A->>H: 5. 건강•오류 상태 전달
+    C-->>A: 서비스 통신 상태
+    A->>H: 4. 건강•오류 상태 전달
 ```
 
 **동작 원리**
@@ -119,8 +121,7 @@ sequenceDiagram
 1. **검증 패키지•Manifest 전달**: 서명•호환성 확인 후 실행•서비스 구성 설치
 2. **프로세스 상태 전달**: 의존성과 실행 상태에 따른 프로세스 시작•중지
 3. **서비스 탐색 요청 전달**: 제공•요청 서비스의 런타임 위치와 인스턴스 탐색
-4. **서비스 통신 상태 전달**: 표준 인터페이스 기반 이벤트•메서드•필드 교환
-5. **건강•오류 상태 전달**: 감시 결과에 따른 재시작•기능 저하•안전 상태 전환
+4. **건강•오류 상태 전달**: 감시 결과에 따른 재시작•기능 저하•안전 상태 전환
 
 #### 한줄 요약
 
@@ -131,11 +132,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Classic Platform**: 마이크로컨트롤러 유닛(Microcontroller Unit, MCU) 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
+- **Classic Platform**: MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
+- **마이크로컨트롤러 유닛(Microcontroller Unit, MCU)**: 프로세서•메모리•입출력을 단일 칩에 통합한 제어용 컴퓨터이다.
 
 </details>
 
-자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)의 Classic Platform과 이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX) 기반 Adaptive Platform은 제어 특성과 실행 기반이 다르다.
+AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 실행 기반이 다르다.
 
 | AUTOSAR 구성 | Classic Platform | Adaptive Platform | 혼합 아키텍처 |
 |:---|:---|:---|:---|
@@ -152,14 +154,14 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **플랫폼 건강 관리(Platform Health Management, PHM)**: 애플리케이션과 플랫폼의 건강 상태를 감시하고 오류 시 재시작이나 기능 저하를 요청하는 서비스이다.
+- **시간 예산**: 기능이 입력부터 출력까지 완료해야 하는 최대 허용 시간이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | **실시간 경계** 미검증 시 일반 프로세스의 **결정성 부족** | 엄격 제어의 Classic 분리와 **시간 예산 검증** | 플랫폼 **결정성 경계** 보존 |
-| **서비스 계약** 미검증 시 버전•인터페이스의 **호환성 실패** | 매니페스트(Manifest)•응용 프로그래밍 인터페이스(Application Programming Interface, API) 버전•**통합 시험** | 서비스 **버전 호환성** 확보 |
+| **서비스 계약** 미검증 시 버전•인터페이스의 **호환성 실패** | 매니페스트•API 버전•**통합 시험** | 서비스 **버전 호환성** 확보 |
 | **동적 갱신** 미검증 시 불완전 패키지의 **기능•안전 영향** | 서명•원자 설치•롤백•**재시작 전략** | 갱신 실패 **안전 영향** 제한 |
 
 #### 한줄 요약
