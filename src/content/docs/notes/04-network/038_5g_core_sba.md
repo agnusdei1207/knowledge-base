@@ -4,7 +4,7 @@ sidebar:
   label: "038. 5G 코어 SBA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 코어 SBA"
-date: "2026-08-04T16:32:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 38
 extra:
@@ -64,14 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["접속•이동 기능(AMF)"] --- B["서비스 통신 계층"] --- C["세션 기능(SMF)"]
-    D["가입자 기능(UDM)"] --- B
-    E["기능 저장소(NRF)"] --- B
-    C --- F["사용자면 기능(UPF)"]
+```text
+                     [접속•이동 기능(AMF)]
+                                |
+[가입자 기능(UDM)] ----- [서비스 통신 계층] ----- [세션 기능(SMF)]
+                                |                       |
+                     [기능 저장소(NRF)]       [사용자면 기능(UPF)]
 ```
+
+선의 의미: 서비스 통신 계층을 중심으로 AMF•UDM•NRF•SMF의 제어면 기능이 결합되고, 세션 기능(SMF) 아래에는 별도 사용자면 패킷 전달 경계인 사용자면 기능(UPF)이 놓이는 정적 5G 코어 SBA 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

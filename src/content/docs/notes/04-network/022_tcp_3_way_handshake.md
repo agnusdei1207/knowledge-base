@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-08-04T15:28:00+09:00"
+date: "2026-08-05T01:25:48+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -65,17 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["수신 대기 소켓"]
-    B["반쪽 연결 큐"]
-    C["완료 연결 큐"]
-    D["연결 소켓"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[수신 대기 소켓]---[반쪽 연결 큐]---[완료 연결 큐]---[연결 소켓]
 ```
+
+선의 의미: 각 선은 서버 포트의 연결 요청 수용, 반쪽•완료 연결 상태 보관과 종단 주소•ISN•TCP 상태를 가진 연결 소켓 사이의 관리 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

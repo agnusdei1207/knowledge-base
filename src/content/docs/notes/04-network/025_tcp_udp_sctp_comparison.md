@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TCP•UDP•SCTP 비교 (TCP UDP SCTP Comparison)"
-date: "2026-08-04T15:40:00+09:00"
+date: "2026-08-05T01:25:48+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -60,17 +60,11 @@ extra:
 - **SCTP 연관(SCTP Association)**: 여러 주소와 스트림을 포함하는 두 종단 사이의 통신 상태이다.
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["송신 응용"]
-    B["송신 전송 종단"]
-    C["수신 전송 종단"]
-    D["수신 응용"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[송신 응용]---[송신 전송 종단]---[수신 전송 종단]---[수신 응용]
 ```
+
+선의 의미: 각 선은 응용의 바이트•메시지 경계와 선택된 TCP•UDP•SCTP 전송 단위, 수신 측 순서•복구 정책 및 복원 데이터 소비가 서로 대응하는 종단 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

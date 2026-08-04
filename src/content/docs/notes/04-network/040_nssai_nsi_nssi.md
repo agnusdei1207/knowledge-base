@@ -4,7 +4,7 @@ sidebar:
   label: "040. NSSAI•NSI•NSSI"
   badge: { text: "기출 • 50%", variant: note }
 title: "네트워크 슬라이스 식별 체계"
-date: "2026-08-04T16:40:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 40
 extra:
@@ -62,14 +62,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    A["NSSAI"] --- B["S-NSSAI(SST•SD)"] --- C["AMF•NSSF"] --- D["종단 NSI"]
-    D --- E["무선 NSSI"]
-    D --- F["전송 NSSI"]
-    D --- G["코어 NSSI"]
+```text
+[NSSAI] ----- [S-NSSAI(SST•SD)] ----- [AMF•NSSF] ----- [종단 NSI]
+                                                            /    |    \
+                                                 [무선 NSSI] [전송 NSSI] [코어 NSSI]
 ```
+
+선의 의미: NSSAI와 S-NSSAI는 AMF•NSSF의 슬라이스 선택 정보에 결합되고, 선택된 종단 NSI 아래에는 논리망을 구성하는 무선•전송•코어 NSSI가 놓이는 정적 식별•인스턴스 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-04T14:23:06+09:00"
+date: "2026-08-05T07:45:00+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -62,15 +62,13 @@ extra:
 - **지연 중복 세그먼트(Delayed Duplicate Segment)**: 종료 후 늦게 도착한 이전 연결의 데이터이다.
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["TIME_WAIT 상태"]
-    B["2MSL 타이머"]
-    C["연결 4-튜플"]
-    A --- B
-    B --- C
+```text
+             [TIME_WAIT 상태]
+               /          \
+        [2MSL 타이머]   [연결 4-튜플]
 ```
+
+선의 의미: TIME_WAIT 상태가 종료 연결을 격리하는 2MSL 타이머와 이전 연결을 식별하는 4-튜플을 함께 보유하는 정적 포함 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -4,7 +4,7 @@ sidebar:
   label: "036. 5G 서비스 eMBB•URLLC•mMTC"
   badge: { text: "기출 • 30%", variant: note }
 title: "5G 서비스 eMBB•URLLC•mMTC"
-date: "2026-08-04T16:24:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 36
 extra:
@@ -55,14 +55,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["서비스 요구 프로필"] --- B["QoS 정책 제어"]
-    B --- C["무선 자원 제어"]
-    B --- D["전송망 경로 제어"]
-    D --- E["사용자면 기능(UPF)"]
+```text
+                          [서비스 요구 프로필]
+                                   |
+                           [QoS 정책 제어]
+                              /          \
+                    [무선 자원 제어] [전송망 경로 제어]
+                                             |
+                                   [사용자면 기능(UPF)]
 ```
+
+선의 의미: 서비스 요구 프로필 아래에는 품질 목표를 관리하는 QoS 정책 제어가 놓이고, 이 제어 계층은 무선 자원과 전송망 경로에 결합되며 전송망 경로는 사용자면 기능(UPF)의 패킷 전달 경계와 연결되는 정적 5G 자원 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -4,7 +4,7 @@ sidebar:
   label: "037. 5G SA와 NSA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G SA와 NSA"
-date: "2026-08-04T16:28:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 37
 extra:
@@ -58,12 +58,13 @@ extra:
 
 NR은 단말과 기지국 사이의 5G 무선 접속을 제공한다.
 
-```mermaid
-block-beta
-    columns 3
-    A["NSA 단말"] --- B["LTE•NR 이중 연결"] --- C["LTE 코어(EPC)"]
-    D["SA 단말"] --- E["NR 단독 연결"] --- F["5G 코어(5GC)"]
+```text
+NSA 경계: [NSA 단말] ----- [LTE•NR 이중 연결] ----- [LTE 코어(EPC)]
+
+ SA 경계: [SA 단말]  ----- [NR 단독 연결]      ----- [5G 코어(5GC)]
 ```
+
+선의 의미: 위 경계는 LTE 제어와 NR 데이터를 EPC에 결합하는 NSA 구성이고, 아래 경계는 LTE 의존 없이 NR과 5GC를 결합하는 SA 구성으로서 서로 다른 구축 추상화를 분리해 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

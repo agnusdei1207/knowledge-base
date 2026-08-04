@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 4-way Handshake•연결 해제 (TCP 4-way Handshake)"
-date: "2026-08-04T15:32:00+09:00"
+date: "2026-08-05T01:25:48+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -64,18 +64,15 @@ extra:
 - **LAST_ACK(Last Acknowledgment)**: 수동 종료 측이 마지막 FIN의 ACK를 기다리는 상태이다.
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["능동 종료 TCP"]
-    B["수동 종료 TCP"]
-    C[("TCP 상태 저장소")]
-    D["TIME_WAIT 타이머"]
-    A --- B
-    A --- C
-    B --- C
-    A --- D
+```text
+[능동 종료 TCP]---[수동 종료 TCP]
+       |                 |
+       +---[TCP 상태 저장소]---+
+       |
+[TIME_WAIT 타이머]
 ```
+
+선의 의미: 두 TCP 종단은 방향별 순서 번호•종료 상태를 같은 TCP 상태 저장소와 결속하고, TIME_WAIT 타이머는 능동 종료 TCP의 최종 ACK 재응답•지연 세그먼트 격리 상태와 연결된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

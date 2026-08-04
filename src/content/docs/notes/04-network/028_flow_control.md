@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TCP 흐름•혼잡 제어 : 슬라이딩 윈도우•Slow Start"
-date: "2026-08-04T15:52:00+09:00"
+date: "2026-08-05T07:45:00+09:00"
 tags:
   - "notes-network"
 weight: 28
@@ -68,19 +68,15 @@ extra:
 - **ECN(Explicit Congestion Notification)**: 패킷을 폐기하지 않고 종단에 혼잡을 알리는 기능이다.
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["송신 TCP"]
-    B[("송신 버퍼")]
-    C["혼잡 제어기"]
-    D["수신 TCP"]
-    E[("수신 버퍼")]
-    A --- B
-    A --- C
-    A --- D
-    D --- E
+```text
+        [송신 버퍼]             [수신 버퍼]
+             |                       |
+         [송신 TCP] -- [수신 TCP]
+             |
+        [혼잡 제어기]
 ```
+
+선의 의미: 송신 TCP는 송신 버퍼와 혼잡 제어기를 소유하고 수신 TCP와 연결되며, 수신 TCP는 수신 버퍼의 여유를 관리하는 정적 TCP 종단 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

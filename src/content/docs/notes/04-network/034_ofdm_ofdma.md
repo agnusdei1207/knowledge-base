@@ -4,7 +4,7 @@ sidebar:
   label: "034. OFDM과 OFDMA"
   badge: { text: "기출 • 30%", variant: note }
 title: "OFDM과 OFDMA"
-date: "2026-08-04T16:16:00+09:00"
+date: "2026-08-05T07:45:00+09:00"
 tags: ["notes-network"]
 weight: 34
 extra:
@@ -62,19 +62,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["자원 스케줄러"]
-    B["심볼•자원 매퍼"]
-    C["IFFT•CP 송신기"]
-    D["무선 채널"]
-    E["FFT 수신기"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+ [자원 스케줄러] -- [심볼•자원 매퍼] -- [IFFT•CP 송신기]
+                                              |
+                                         [무선 채널]
+                                              |
+                                         [FFT 수신기]
 ```
+
+선의 의미: 자원 스케줄러와 심볼•자원 매퍼가 송신기의 부반송파 구성을 정의하고, IFFT•CP 송신기와 FFT 수신기가 무선 채널 양단의 정적 신호처리 구조를 이룬다.
 
 | 구성요소 | 책임 |
 |:---|:---|

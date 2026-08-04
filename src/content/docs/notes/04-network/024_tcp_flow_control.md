@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-08-04T14:23:06+09:00"
+date: "2026-08-05T01:25:48+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -59,19 +59,15 @@ extra:
 - **슬라이딩 윈도**: 윈도 범위의 데이터를 연속 전송하고 ACK에 따라 범위를 이동하는 방식이다.
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["송신 TCP"]
-    B[("송신 버퍼")]
-    C["수신 TCP"]
-    D[("수신 버퍼")]
-    E["지속 타이머"]
-    A --- B
-    A --- C
-    C --- D
-    A --- E
+```text
+[송신 TCP]---[송신 버퍼]
+     |
+     +---[수신 TCP]---[수신 버퍼]
+     |
+[지속 타이머]
 ```
+
+선의 의미: 송신 TCP는 송신 버퍼, 수신 TCP의 rwnd•ACK 및 지속 타이머와 결속되고, 수신 TCP는 수신 바이트를 보관하는 수신 버퍼와 연결된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

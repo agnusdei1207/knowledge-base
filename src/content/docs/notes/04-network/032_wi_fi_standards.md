@@ -4,7 +4,7 @@ sidebar:
   label: "032. Wi-Fi 표준"
   badge: { text: "기출 • 50%", variant: note }
 title: "Wi-Fi 표준"
-date: "2026-08-04T16:08:00+09:00"
+date: "2026-08-05T07:45:00+09:00"
 tags: ["notes-network"]
 weight: 32
 extra:
@@ -60,17 +60,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["무선 단말"]
-    B["무선 매체"]
-    C["접근점(AP)"]
-    D["분배 시스템"]
-    A --- B
-    B --- C
-    C --- D
+```text
+ [무선 단말] -- [무선 매체] -- [접근점(AP)] -- [분배 시스템]
 ```
+
+선의 의미: 무선 단말과 접근점이 무선 매체를 공유하고, 접근점이 분배 시스템을 통해 외부 네트워크 경계와 연결되는 정적 무선랜 토폴로지이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

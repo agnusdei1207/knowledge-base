@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "오류 제어 : ARQ•Go-Back-N•SR (ARQ Error Control)"
-date: "2026-08-04T14:23:06+09:00"
+date: "2026-08-05T01:25:48+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -60,19 +60,15 @@ extra:
 - **RTT(Round-trip Time)**: 프레임 전송부터 ACK 수신까지 걸리는 왕복 시간이다.
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["송신부"]
-    B["송신 윈도우"]
-    C["수신부"]
-    D["수신 버퍼"]
-    E["재전송 타이머"]
-    A --- B
-    A --- E
-    A --- C
-    C --- D
+```text
+[송신부]---[송신 윈도우]
+    |
+    +---[수신부]---[수신 버퍼]
+    |
+[재전송 타이머]
 ```
+
+선의 의미: 송신부는 송신 윈도우, 수신부의 ACK•NAK 및 재전송 타이머와 결속되고, 수신부는 후속 프레임을 보관하는 수신 버퍼와 연결된다.
 
 | 구성요소 | 책임 |
 |:---|:---|
