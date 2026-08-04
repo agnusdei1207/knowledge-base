@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:33:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 모델이 입력•근거•검증 사실과 불일치하는 내용을 사실처럼 생성하는 **인공지능(Artificial Intelligence, AI) 환각 현상**
+- 정의/개념: 모델이 입력•근거•검증 사실과 불일치하는 내용을 생성하는 **AI 환각 현상**
 - 배경/필요성: 다음 토큰 확률 기반 생성의 **사실성•충실성 보장 불가**
 
 #### 한줄 요약

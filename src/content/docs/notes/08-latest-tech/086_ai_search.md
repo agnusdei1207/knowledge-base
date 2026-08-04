@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-03T09:08:40+09:00"
+date: "2026-08-04T15:36:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 86
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 질의 해석•복수 검색•재순위로 근거 답변을 제공하는 **인공지능(Artificial Intelligence, AI) 검색 방식**
+- 정의/개념: 질의 해석•복수 검색•재순위로 근거 답변을 제공하는 **AI 검색 방식**
 - 배경/필요성: 키워드 일치만으로는 표현 변형과 복합 근거의 **통합 검색 곤란**
 
 #### 한줄 요약

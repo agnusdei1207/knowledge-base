@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Diffusion Model (확산모델)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:40:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 90
@@ -25,11 +25,12 @@ extra:
 
 - **확산모델**: 데이터에 잡음을 더하는 순방향 과정과 잡음을 제거하는 역방향 과정을 학습해 새 표본을 생성하는 모델이다.
 - **모드 붕괴**: 생성 모델이 학습 분포의 일부 유형만 반복해서 생성하는 현상이다.
+- **생성적 적대 신경망(Generative Adversarial Network, GAN)**: 생성기와 판별기의 경쟁으로 데이터를 생성하는 모델이다.
 
 </details>
 
 - 정의/개념: 순방향 잡음 추가와 역방향 제거를 학습해 표본을 생성하는 **확산모델**
-- 배경/필요성: 생성적 적대 신경망(Generative Adversarial Network, GAN)의 적대적 학습은 **학습 불안정•모드 붕괴 위험**
+- 배경/필요성: GAN의 적대적 학습은 **학습 불안정•모드 붕괴 위험**
 
 #### 한줄 요약
 - 학습 때는 단계별 잡음을 예측하고 생성 때는 무작위 잡음에서 시작해 이를 반복해서 제거합니다.
@@ -131,7 +132,7 @@ sequenceDiagram
 
 </details>
 
-잡음 제거 확산 확률 모델(Denoising Diffusion Probabilistic Model, DDPM)과 잡음 제거 확산 암시 모델(Denoising Diffusion Implicit Model, DDIM)은 역전이의 확률성과 단계 수가 다르다.
+DDPM과 DDIM은 역전이의 확률성과 단계 수가 다르다.
 
 | 확산 샘플러 | DDPM | DDIM |
 |:---|:---|:---|
@@ -172,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- 판단 기준: **생성 지연•표본 다양성•품질**, 선택 대상: 잡음 제거 확산 확률 모델(Denoising Diffusion Probabilistic Model, DDPM)•잡음 제거 확산 암시 모델(Denoising Diffusion Implicit Model, DDIM)•역전이 단계 수
+- 판단 기준: **생성 지연•표본 다양성•품질**, 선택 대상: DDPM•DDIM•역전이 단계 수
 
 #### 한줄 요약
 - 샘플러 유형에 따라 경로의 결정성•다양성이 달라지고, 단계 수를 늘리면 보통 품질과 지연이 함께 증가합니다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 트리탐색 (Monte Carlo Tree Search)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:48:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 98
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **몬테카를로 트리탐색(Monte Carlo Tree Search, MCTS)** 은 모의 보상 통계를 누적해 유망한 분기를 찾는 트리 탐색
+- 정의/개념: **MCTS** 는 모의 보상 통계를 누적해 유망한 분기를 찾는 트리 탐색
 - 배경/필요성: 분기 폭이 큰 트리의 완전 탐색은 **시간•메모리 예산 초과**
 
 #### 한줄 요약
@@ -188,7 +188,7 @@ sequenceDiagram
 
 </details>
 
-- 롤아웃 신뢰도•탐색 예산을 보고 **몬테카를로 트리탐색(Monte Carlo Tree Search, MCTS) 적용** 여부와 **트리 상한 신뢰도(Upper Confidence Bounds applied to Trees, UCT) 탐험 계수** 결정
+- 롤아웃 신뢰도•탐색 예산으로 **MCTS 적용•UCT 탐험 계수** 결정
 
 #### 한줄 요약
 

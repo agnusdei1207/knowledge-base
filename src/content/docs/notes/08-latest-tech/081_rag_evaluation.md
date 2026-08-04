@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RAG 평가 (RAG Evaluation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:31:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 81
@@ -172,7 +172,7 @@ sequenceDiagram
 
 </details>
 
-- 검색 회수•문맥 충실성•평가자 신뢰도를 기준으로 **검색 증강 생성(Retrieval-Augmented Generation, RAG) 실패 단계와 개선 우선순위** 결정
+- 검색 회수•문맥 충실성•평가자 신뢰도로 **RAG 실패 단계•개선 우선순위** 결정
 
 #### 한줄 요약
 - 검색과 생성 중 어느 단계가 실제로 점수를 떨어뜨렸는지 확인해 먼저 고칠 곳을 정함

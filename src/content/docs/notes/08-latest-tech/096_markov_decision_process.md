@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "마르코프 결정과정 (Markov Decision Process)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:46:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 96
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **마르코프 결정과정(Markov Decision Process, MDP)** 은 상태•행동•전이확률•보상으로 순차 의사결정을 표현하는 수학 모델
+- 정의/개념: **MDP** 는 상태•행동•전이확률•보상으로 순차 의사결정을 표현하는 수학 모델
 - 배경/필요성: 단발 의사결정의 **미래 상태•장기 보상** 미반영
 
 #### 한줄 요약

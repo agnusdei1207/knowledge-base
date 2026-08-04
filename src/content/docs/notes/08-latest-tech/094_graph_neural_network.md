@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그래프 신경망 (Graph Neural Network)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:44:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 94
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **그래프 신경망(Graph Neural Network, GNN)** 은 이웃 메시지를 집계해 노드•링크•그래프 표현을 학습하는 신경망
+- 정의/개념: **GNN** 은 이웃 메시지를 집계해 노드•링크•그래프 표현을 학습하는 신경망
 - 배경/필요성: 독립 표본 모델은 노드 사이 **간선 관계 활용 불가**
 
 #### 한줄 요약
@@ -47,7 +47,7 @@ extra:
 
 ![GNN 전파 깊이에 따른 노드 표현 과평활](/study/diagrams/gnn-oversmoothing.svg)
 
-> 개념도: **그래프 신경망(Graph Neural Network, GNN)** 전파 층수 증가에 따른 표현 분산 감소와 과평활 심화
+> 개념도: **GNN** 전파 층수 증가에 따른 표현 분산 감소와 과평활 심화
 
 - 이웃 노드•간선의 전달 정보를 계산하는 **메시지 함수**
 - 노드 표현을 반복 개선하는 **순서 불변 집계•갱신**
@@ -137,7 +137,7 @@ sequenceDiagram
 
 </details>
 
-**그래프 합성곱 신경망(Graph Convolutional Network, GCN)**, **그래프 표본화•집계(Graph Sample and Aggregate, GraphSAGE)**, **그래프 어텐션 신경망(Graph Attention Network, GAT)** 은 이웃을 결합하는 방식이 다르다.
+**GCN•GraphSAGE•GAT** 은 이웃을 결합하는 방식이 다르다.
 
 | GNN 방식 | GCN | GraphSAGE | GAT |
 |:---|:---|:---|:---|

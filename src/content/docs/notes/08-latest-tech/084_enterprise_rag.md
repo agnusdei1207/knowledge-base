@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "기업 RAG (Enterprise RAG)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:34:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 84
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 사내 지식의 버전•권한•계보를 수집•검색•생성 전 과정에 통합한 **기업 검색 증강 생성(Enterprise Retrieval-Augmented Generation, 기업 RAG) 체계**
-- 배경/필요성: 일반 검색 증강 생성(Retrieval-Augmented Generation, RAG)은 다중 원천의 **최신성•접근권한•감사 책임 관리 곤란**
+- 배경/필요성: 일반 RAG은 다중 원천의 **최신성•권한•감사 책임 관리 곤란**
 
 #### 한줄 요약
 - 최신 버전•열람 권한•답변 근거 경로를 전 과정에서 유지한다.

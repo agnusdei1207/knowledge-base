@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "RAGAS"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:32:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 82
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 구조화 표본과 자동 지표로 검색 증강 생성(Retrieval-Augmented Generation, RAG)의 검색•생성 품질을 반복 평가하는 **검색 증강 생성 평가(Retrieval-Augmented Generation Assessment, RAGAS) 프레임워크**
+- 정의/개념: 구조화 표본과 자동 지표로 RAG 품질을 반복 평가하는 **RAGAS 프레임워크**
 - 배경/필요성: 수작업 RAG 평가의 **반복 실험 비용•판정 편차 증가**
 
 #### 한줄 요약

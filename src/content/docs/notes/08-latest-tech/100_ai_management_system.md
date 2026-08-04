@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:50:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -183,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- 조직 범위•인공지능(Artificial Intelligence, AI) 위험 수준에 맞춘 **인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 운영**, 시정 기준: **통제 효과**, 운영 원칙: **지속 개선**
+- 조직 범위•AI 위험 수준에 맞춘 **AIMS 운영**, 시정 기준: **통제 효과**, 원칙: **지속 개선**
 
 #### 한줄 요약
 - 인증서보다 AI 관리 절차가 일상에서 작동하고 문제가 생길 때 실제로 고쳐지는지가 중요합니다.

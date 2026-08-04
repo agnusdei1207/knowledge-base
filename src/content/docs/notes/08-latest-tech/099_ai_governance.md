@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 거버넌스 (AI Governance)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:49:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 99
@@ -183,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- **인공지능(Artificial Intelligence, AI) 영향도•조직 책임 범위** 에 따라 승인권을 배분하고 **시정•중지 체계** 운영
+- **AI 영향도•조직 책임 범위** 에 따라 승인권 배분, **시정•중지 체계** 운영
 
 #### 한줄 요약
 - 규칙을 만드는 데 그치지 않고 개발과 운영에서 실제로 위험을 줄이는지 계속 확인해야 합니다.
