@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "디자인 패턴: GoF 23종 (Design Patterns GoF)"
-date: "2026-08-04T11:03:00+09:00"
+date: "2026-08-05T01:01:42+09:00"
 tags:
   - "notes-software"
 weight: 47
@@ -67,20 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:PATTERN["패턴 명세"]
-        columns 4
-        CONTEXT["문제 맥락"]
-        INTENT["패턴 의도"]
-        COLLABORATION["참여자•협력"]
-        TRADEOFF["결과•상충 관계"]
-    end
-    CONTEXT --- INTENT
-    INTENT --- COLLABORATION
-    COLLABORATION --- TRADEOFF
+```text
++------------------------------ 패턴 명세 ------------------------------+
+|                                                                       |
+|  [문제 맥락]    [패턴 의도]    [참여자•협력]    [결과•상충 관계]     |
+|                                                                       |
++-----------------------------------------------------------------------+
 ```
+
+선의 의미: 바깥 경계선은 문제 맥락•패턴 의도•참여자와 협력•결과와 상충 관계가 하나의 패턴 명세를 이루는 동등한 설명 요소임을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOLID 원칙 (SOLID Principles)"
-date: "2026-08-04T11:01:00+09:00"
+date: "2026-08-05T01:01:42+09:00"
 tags:
   - "notes-software"
 weight: 46
@@ -67,22 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SOLID["SOLID"]
-        columns 5
-        SRP["SRP"]
-        OCP["OCP"]
-        LSP["LSP"]
-        ISP["ISP"]
-        DIP["DIP"]
-    end
-    SRP --- OCP
-    OCP --- LSP
-    LSP --- ISP
-    ISP --- DIP
+```text
++------------------------------ SOLID 원칙 ------------------------------+
+|                                                                        |
+|        [SRP]        [OCP]        [LSP]        [ISP]        [DIP]       |
+|                                                                        |
++------------------------------------------------------------------------+
 ```
+
+선의 의미: 바깥 경계선은 SRP•OCP•LSP•ISP•DIP가 SOLID를 구성하는 동등한 다섯 설계 원칙임을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

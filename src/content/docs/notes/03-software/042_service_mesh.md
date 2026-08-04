@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "서비스 메시: Istio•Envoy (Service Mesh)"
-date: "2026-08-04T10:55:00+09:00"
+date: "2026-08-05T01:01:42+09:00"
 tags:
   - "notes-software"
 weight: 42
@@ -65,18 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  C["Istio 제어 플레인"]
-  A["호출 워크로드"]
-  P["Envoy 데이터 플레인"]
-  B["대상 워크로드"]
-  T["텔레메트리 백엔드"]
-  C --- P
-  A --- P --- B
-  P --- T
+```text
+                         [Istio 제어 플레인]
+                                  |
+                                  |
+[호출 워크로드] -------- [Envoy 데이터 플레인] -------- [대상 워크로드]
+                                  |
+                                  |
+                         [텔레메트리 백엔드]
 ```
+
+선의 의미: Istio 제어 플레인과 Envoy 데이터 플레인의 선은 정책•구성•인증서 배포 관계, 호출 워크로드와 대상 워크로드를 잇는 선은 Envoy가 중계하는 서비스 통신 관계, Envoy와 텔레메트리 백엔드의 선은 메트릭•로그•분산 추적 전달 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
