@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티코어 프로세서 (Multicore Processor)"
-date: "2026-08-04T23:10:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 10

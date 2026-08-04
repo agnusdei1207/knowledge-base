@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라인 포워딩•분기 예측 (Pipeline Forwarding Branch Prediction)"
-date: "2026-08-04T22:58:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 8

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-04T23:04:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 9

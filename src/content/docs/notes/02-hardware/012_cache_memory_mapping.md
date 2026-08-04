@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "캐시 메모리 구조: 직접•연관•집합 연관 매핑 (Cache Memory Mapping)"
-date: "2026-08-04T23:22:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 12

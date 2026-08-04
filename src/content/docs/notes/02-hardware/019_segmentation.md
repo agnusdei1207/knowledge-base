@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "세그멘테이션 (Segmentation)"
-date: "2026-08-04T23:40:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 19

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-04T22:52:00+09:00"
+date: "2026-08-04T14:05:58+09:00"
 tags:
   - "notes-hardware"
 weight: 1
