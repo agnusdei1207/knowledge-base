@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RLHF (인간 피드백 강화학습)"
-date: "2026-08-04T13:57:55+09:00"
+date: "2026-08-05T02:11:12+09:00"
 tags:
   - "notes-latest_tech"
 weight: 65
@@ -67,20 +67,6 @@ extra:
 </details>
 
 **지도 파인튜닝(Supervised Fine-Tuning, SFT) 정책** 은 **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)** 의 초기 정책과 참조 기준을 제공한다.
-
-```mermaid
-block-beta
-    columns 3
-    S["SFT 정책"]
-    P["선호 데이터"]
-    R["보상 모델"]
-    A["정책•가치 모델"]
-    K["참조 정책•KL 제약"]
-    S --- P
-    P --- R
-    R --- A
-    A --- K
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

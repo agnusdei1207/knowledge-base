@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Data Augmentation (데이터 증강)"
-date: "2026-08-04T13:59:19+09:00"
+date: "2026-08-05T14:26:49+09:00"
 tags:
   - "notes-latest_tech"
 weight: 69
@@ -64,20 +64,6 @@ extra:
 - **혼합 비율**: 원본과 증강 표본을 학습에 공급하는 상대 비중이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["원본 데이터"]
-  B["변환 정책"]
-  C["보존 규칙"]
-  D["증강 선택기"]
-  E["혼합 비율"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

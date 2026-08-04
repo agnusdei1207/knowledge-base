@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "신경망 재순위 모델 (Neural Reranker)"
-date: "2026-08-04T15:28:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 78
@@ -64,20 +64,6 @@ extra:
 - **반환 정책**: 응답 지연과 문맥 한도 안에서 최종 제공할 문서 수를 정한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  retriever["1차 검색기"]
-  builder["입력 구성기"]
-  reranker["신경망 재순위기"]
-  sorter["점수 정렬기"]
-  policy["반환 정책기"]
-  retriever --- builder
-  builder --- reranker
-  reranker --- sorter
-  sorter --- policy
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

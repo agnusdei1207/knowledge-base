@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "지식그래프 (Knowledge Graph)"
-date: "2026-08-04T15:29:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 79
@@ -66,20 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  entity["개체 저장소"]
-  relation["관계 저장소"]
-  property["속성 저장소"]
-  schema["스키마•온톨로지"]
-  provenance["출처•시점 저장소"]
-  entity --- relation
-  relation --- property
-  schema --- entity
-  schema --- relation
-  provenance --- relation
+```text
+                    [스키마•온톨로지]
+                      /          \
+[개체 저장소] ----- [관계 저장소] ----- [속성 저장소]
+                          |
+                  [출처•시점 저장소]
 ```
+
+선의 의미: 스키마•온톨로지는 개체 저장소와 관계 저장소의 허용 구조를 규정하고, 관계 저장소는 개체•속성 및 출처•시점 저장소를 결합해 사실의 의미와 근거를 함께 보존하는 정적 지식망을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Vector Database (벡터 데이터베이스)"
-date: "2026-08-04T14:02:01+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 75
@@ -67,19 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  store["벡터 저장소"]
-  index["근사 색인"]
-  distance["거리 함수"]
-  filter["필터부"]
-  change["변경 관리"]
-  store --- index
-  index --- distance
-  distance --- filter
-  filter --- change
+```text
+                   [변경 관리]
+                     /     \
+          [벡터 저장소] ----- [근사 색인]
+                              /       \
+                       [거리 함수]   [필터부]
 ```
+
+선의 의미: 벡터 저장소와 근사 색인은 동일한 벡터•원문•메타데이터 집합을 공유하고, 근사 색인은 거리 함수와 필터부를 검색 경계로 사용하며 변경 관리는 저장소와 색인의 버전 정합성을 함께 통제하는 정적 검색 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Hybrid Search (하이브리드 검색)"
-date: "2026-08-04T14:01:00+09:00"
+date: "2026-08-05T14:26:53+09:00"
 tags:
   - "notes-latest_tech"
 weight: 73
@@ -70,19 +70,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  sparse["희소 색인"]
-  dense["밀집 색인"]
-  fusion["융합기"]
-  dedup["중복 제거기"]
-  reranker["재순위 모델"]
-  sparse --- fusion
-  dense --- fusion
-  fusion --- dedup
-  dedup --- reranker
+```text
+                 [희소 색인]     [밀집 색인]
+                        \         /
+                          [융합기]
+                              |
+                        [중복 제거기]
+                              |
+                        [재순위 모델]
 ```
+
+선의 의미: 융합기는 희소 색인과 밀집 색인의 후보 집합을 결합하고, 중복 제거기와 재순위 모델은 통합 후보 집합의 정합성과 관련성을 담당한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

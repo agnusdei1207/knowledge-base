@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "임베딩 (Embedding)"
-date: "2026-08-04T14:02:26+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 76
@@ -68,20 +68,6 @@ extra:
 - **벡터 규격**: 모델 버전•차원•거리 함수•정규화 여부를 묶어 저장과 검색의 호환성을 보장하는 계약이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  preprocessor["전처리기"]
-  encoder["인코더"]
-  pooler["풀링기"]
-  registry["벡터 규격 저장소"]
-  similarity["유사도 계산기"]
-  preprocessor --- encoder
-  encoder --- pooler
-  pooler --- registry
-  registry --- similarity
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

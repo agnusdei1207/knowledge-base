@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI Alignment (AI 정렬)"
-date: "2026-08-04T13:58:39+09:00"
+date: "2026-08-05T02:11:12+09:00"
 tags:
   - "notes-latest_tech"
 weight: 67
@@ -66,20 +66,6 @@ extra:
 - **운영 피드백**: 배포 중 발견한 실패를 정책•학습•평가 기준에 다시 반영한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["정책 명세"]
-  B["정렬 학습"]
-  C["감독 평가"]
-  D["배포 통제"]
-  E["운영 피드백"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Graph RAG (지식그래프 융합형 RAG)"
-date: "2026-08-04T14:00:21+09:00"
+date: "2026-08-05T14:26:52+09:00"
 tags:
   - "notes-latest_tech"
 weight: 72
@@ -65,19 +65,17 @@ extra:
 
 정규화 단계: **개체명 통합•관계 추출**, 결과: 원문 속 별칭과 관계를 그래프 식별자와 간선으로 연결
 
-```mermaid
-block-beta
-  columns 3
-  source["텍스트•출처"]
-  extractor["추출기"]
-  resolver["정규화부"]
-  graph["그래프 저장소"]
-  retriever["검색기"]
-  source --- extractor
-  extractor --- resolver
-  resolver --- graph
-  graph --- retriever
+```text
+                      [그래프 저장소]
+                       /           \
+                 [정규화부]       [검색기]
+                      |
+                   [추출기]
+                      |
+                [텍스트•출처]
 ```
+
+선의 의미: 그래프 저장소는 정규화된 개체•관계와 검색 인터페이스를 함께 보유하고, 정규화부는 추출기가 텍스트•출처에서 식별한 개체•관계를 통합한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

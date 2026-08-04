@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "온톨로지 (Ontology)"
-date: "2026-08-04T14:04:07+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 80
@@ -66,21 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  cls["클래스 저장소"]
-  individual["개체 저장소"]
-  object["객체 속성 저장소"]
-  data["데이터 속성 저장소"]
-  axiom["공리•제약 저장소"]
-  cls --- individual
-  cls --- object
-  individual --- object
-  individual --- data
-  axiom --- cls
-  axiom --- object
+```text
+                         [공리•제약 저장소]
+                       /          |          \
+          [클래스 저장소] ----- [개체 저장소] ----- [데이터 속성 저장소]
+                    \              /
+                    [객체 속성 저장소]
 ```
+
+선의 의미: 공리•제약 저장소는 클래스•개체•데이터 속성의 의미 제약을 포괄하고, 클래스와 개체는 객체 속성 저장소를 통해 개체 간 관계를 공유하는 정적 온톨로지 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

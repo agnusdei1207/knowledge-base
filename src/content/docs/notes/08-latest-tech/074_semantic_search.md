@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Semantic Search (의미 검색)"
-date: "2026-08-04T15:24:00+09:00"
+date: "2026-08-05T14:26:54+09:00"
 tags:
   - "notes-latest_tech"
 weight: 74
@@ -64,19 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  encoder["표현 모델"]
-  index["의미 색인"]
-  similarity["유사도 함수"]
-  lexical["문자열 경로"]
-  metadata["메타데이터 필터"]
-  encoder --- index
-  index --- similarity
-  similarity --- lexical
-  lexical --- metadata
+```text
+               [표현 모델]-----[의미 색인]-----[유사도 함수]
+                                      |
+                              [문자열 경로]-----[메타데이터 필터]
 ```
+
+선의 의미: 표현 모델과 의미 색인•유사도 함수가 공동 벡터 공간을 구성하고, 문자열 경로와 메타데이터 필터가 의미 후보의 식별자•접근 조건을 보완한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 80%"
     variant: note
 title: "Agentic RAG (에이전틱 RAG)"
-date: "2026-08-04T13:59:58+09:00"
+date: "2026-08-05T14:26:51+09:00"
 tags:
   - "notes-latest_tech"
 weight: 71
@@ -63,19 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  planner["계획기"]
-  memory["상태•메모리"]
-  router["도구 라우터"]
-  evaluator["근거 평가기"]
-  policy["정책 통제기"]
-  planner --- memory
-  memory --- router
-  router --- evaluator
-  evaluator --- policy
+```text
+                        [정책 통제기]
+                     /         |         \
+                [계획기]  [도구 라우터]  [근거 평가기]
+                     \         |         /
+                       [상태•메모리]
 ```
+
+선의 의미: 정책 통제기는 계획기, 도구 라우터, 근거 평가기의 권한•비용•중단 경계를 제한하고, 세 구성요소는 상태•메모리를 공통 실행 근거로 사용한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

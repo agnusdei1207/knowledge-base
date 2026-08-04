@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "청킹 (Chunking)"
-date: "2026-08-04T14:02:48+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 77
@@ -64,20 +64,6 @@ extra:
 - **크기 정책**: 청크의 최소•최대 토큰 범위를 정한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  parser["구조 파서"]
-  boundary["경계 정책기"]
-  size["크기 정책기"]
-  overlap["중첩 정책기"]
-  metadata["메타데이터 기록기"]
-  parser --- boundary
-  boundary --- size
-  size --- overlap
-  overlap --- metadata
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
