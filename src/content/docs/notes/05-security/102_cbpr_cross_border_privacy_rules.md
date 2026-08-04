@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CBPR 국경 간 개인정보 규칙 (CBPR Cross-Border Privacy Rules)"
-date: "2026-08-03T14:24:00+09:00"
+date: "2026-08-04T14:45:00+09:00"
 tags:
   - "notes-security"
 weight: 102
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Global CBPR**: 국경 간 개인정보를 처리하는 컨트롤러의 보호조치와 책임성을 제3자가 인증하는 체계이다.
+- **Global CBPR(Global Cross-Border Privacy Rules)** 은 국경 간 개인정보를 처리하는 컨트롤러의 책임성을 제3자가 인증하는 체계다.
 - **국경 간 책임성**: 여러 관할로 개인정보를 이전•처리해도 역할별 보호조치와 민원•시정 책임을 계속 입증하는 능력이다.
 
 </details>
@@ -38,8 +38,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CBPR(Cross-Border Privacy Rules)•PRP(Privacy Recognition for Processors)**: CBPR은 처리 목적과 수단을 정하는 컨트롤러, PRP는 그 지시에 따라 위탁 처리하는 프로세서의 책임성을 인증한다.
-- **공개 명부•민원•시정**: 인증 범위와 상태를 공개하고 정보주체 민원과 결함 시정 결과를 사후관리하는 운영 구조이다.
+- **CBPR(Cross-Border Privacy Rules)** 은 개인정보 컨트롤러의 책임성 체계를 인증한다.
+- **PRP(Privacy Recognition for Processors)** 는 개인정보 프로세서의 위탁 처리 통제를 인증한다.
+- **공개 명부** 는 인증 조직의 역할•범위•상태•유효기간을 공개한 목록이다.
+- **민원** 은 정보주체가 인증 조직의 개인정보 처리에 제기한 이의와 구제 요구다.
+- **시정** 은 인증 결함과 민원 원인을 개선하고 결과를 검증하는 사후조치다.
 
 </details>
 
@@ -55,7 +58,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Global CBPR Forum•책임성 인증기관**: 포럼은 프로그램 요구와 규칙을 관리하고 공인기관은 조직 심사•인증•민원•사후관리를 수행한다.
+- **Global CBPR Forum** 은 프로그램 요구사항과 운영 규칙을 관리하는 국제 협력체다.
+- **책임성 인증기관** 은 조직의 심사•인증•민원•사후관리를 수행하는 공인기관이다.
 - **Global CAPE(Cooperation Arrangement for Privacy Enforcement)**: 참여 개인정보 감독기관이 국경 간 민원•조사•집행 정보를 공유하고 협력하는 체계이다.
 
 </details>
@@ -124,16 +128,14 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국경 간 개인정보보호 규칙(Cross-Border Privacy Rules, CBPR)**: 개인정보 컨트롤러의 책임성 체계를 인증한다.
-- **개인정보 처리자 인정(Privacy Recognition for Processors, PRP)**: 개인정보 프로세서의 위탁 처리 통제를 인증한다.
 - **관할 법률**: 실제 국외 이전의 적법 근거와 정보주체 권리를 판단한다.
 
 </details>
 
 | 규율 요소 | 담당 역할 | 판단 범위 |
 |:---|:---|:---|
-| **글로벌 국경 간 개인정보보호 규칙(Global Cross-Border Privacy Rules, Global CBPR)** | **컨트롤러 책임성 체계 인증** | 인증 범위의 처리 관행과 통제 역량 |
-| **글로벌 개인정보 처리자 인정(Global Privacy Recognition for Processors, Global PRP)** | **프로세서 위탁 처리 통제 인증** | 프로세서의 계약•보안•감독 역량 |
+| **Global CBPR** | **컨트롤러 책임성 체계 인증** | 인증 범위의 처리 관행과 통제 역량 |
+| **Global PRP** | **프로세서 위탁 처리 통제 인증** | 프로세서의 계약•보안•감독 역량 |
 | **관할 법률** | **이전 적법성•정보주체 권리 판정** | 국가별 이전 근거•통지•구제 요건 |
 
 #### 한줄 요약
@@ -144,7 +146,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **컨트롤러•프로세서 책임성**: 실제 처리 목적•지시 관계에 맞는 CBPR 또는 PRP 인증 범위와 통제 증거를 확인하는 기준이다.
+- **컨트롤러 책임성** 은 처리 목적•수단을 결정하는 조직의 CBPR 범위와 통제 증거를 확인하는 기준이다.
+- **프로세서 책임성** 은 위탁 지시에 따라 처리하는 조직의 PRP 범위와 통제 증거를 확인하는 기준이다.
 - **국가 간 집행 협력**: Global CAPE 참여와 관할 감독기관의 민원•조사 공조 절차를 확인하는 활동이다.
 
 </details>
@@ -163,7 +166,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **인증•이전법 병행 검증**: CBPR•PRP 인증 범위와 실제 이전 국가•처리자•법적 근거를 모두 대조해야 한다는 원칙이다.
+- **인증 검증** 은 CBPR•PRP의 역할•범위•유효기간과 실제 처리 관계를 대조하는 절차다.
+- **이전법 검증** 은 실제 이전 국가•처리자•법적 근거를 관할 법률과 대조하는 절차다.
 
 </details>
 

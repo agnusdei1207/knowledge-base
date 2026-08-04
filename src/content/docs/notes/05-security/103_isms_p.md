@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "정보보호 관리체계 ISMS-P (ISMS-P)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:49:00+09:00"
 tags:
   - "notes-security"
 weight: 103
@@ -22,7 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ISMS(Information Security Management System)•ISMS-P(Information Security Management System-Personal Information)**: ISMS는 정보보호 위험과 통제를 관리하고 ISMS-P는 여기에 개인정보 처리단계별 보호 요구사항을 결합한 인증 체계이다.
+- **ISMS(Information Security Management System)** 는 정보보호 위험과 통제를 관리하는 인증 체계다.
+- **ISMS-P(Information Security Management System-Personal Information)** 는 ISMS에 개인정보 처리단계 보호 요구를 결합한 인증 체계다.
 - **통합 관리체계**: 서비스 위험과 개인정보 수집•이용•제공•위탁•보유•파기의 책임을 하나의 범위에서 운영•심사하는 체계이다.
 
 </details>
@@ -38,9 +39,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **인증 범위•위험평가**: 심사할 서비스•조직•시스템 경계를 확정하고 그 안의 자산•위협•취약점•개인정보 흐름을 평가한다.
+- **인증 범위** 는 심사할 서비스•조직•시스템과 운영 기간의 경계다.
+- **위험평가** 는 범위 안의 자산•위협•취약점•개인정보 흐름을 분석하는 활동이다.
 - **운영 증적**: 정책과 통제가 실제 작동했음을 보여 주는 로그•승인•점검•시정 기록이다.
-- **3개 영역•102개 기준**: 관리체계 수립•운영 16개, 보호대책 64개, 개인정보 처리단계 22개 요구사항으로 구성된 ISMS-P 심사 구조이다.
+- **3개 영역** 은 관리체계 수립•운영, 보호대책, 개인정보 처리단계의 심사 구분이다.
+- **102개 기준** 은 16개 관리체계, 64개 보호대책, 22개 개인정보 요구사항이다.
 
 </details>
 
@@ -91,7 +94,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **심사 발견사항•시정조치**: 통제의 부적합과 운영 결함을 증거로 확인하고 근본 원인을 제거해 재발을 막는 개선 과정이다.
+- **심사 발견사항** 은 통제의 부적합과 운영 결함을 증거로 확인한 결과다.
+- **시정조치** 는 발견사항의 근본 원인을 제거해 재발을 막는 개선 활동이다.
 - **위험-통제-증적 연결**: 식별 위험과 선택한 보호대책, 실제 운영 결과를 일대일로 추적하여 심사 가능하게 하는 구조이다.
 
 </details>
@@ -126,8 +130,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ISMS•ISMS-P 기준**: ISMS는 정보보호 관리체계와 보호대책을, ISMS-P는 개인정보 처리단계 보호 요구까지 함께 심사한다.
-
 </details>
 
 | 국내 관리체계 인증 | ISMS | ISMS-P |
@@ -144,8 +146,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **정보통신망법 제47조•개인정보 보호법 제32조의2**: 정보보호 및 개인정보보호 관리체계 인증의 법적 근거와 유효기간을 규정한다.
+- **정보통신망법 제47조** 는 정보보호 관리체계 인증의 법적 근거를 규정한다.
+- **개인정보 보호법 제32조의2** 는 개인정보보호 관리체계 인증과 유효기간을 규정한다.
 - **ISMS-P 세부 기준**: 인증 범위 안에서 관리체계•보호대책•개인정보 처리단계별 통제 누락을 확인하는 심사 기준이다.
+- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
 
 </details>
 

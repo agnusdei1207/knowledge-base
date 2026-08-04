@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "딥페이크 탐지 (Deepfake Detection)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T13:59:00+09:00"
 tags:
   - "notes-security"
 weight: 92
@@ -38,8 +38,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **분포 이동•미탐•오탐**: 새 생성기와 코덱으로 입력 특성이 바뀌면 조작을 놓치거나 정상을 조작으로 판정하는 오류율이 달라진다.
-- **생체•다중모달•출처**: 실제 생체 반응, 얼굴•음성 동기, 서명된 생성•편집 이력을 독립 증거로 결합한다.
+- **분포 이동** 은 새 생성기와 코덱으로 입력 특성이 탐지기 학습 시점과 달라지는 현상이다.
+- **미탐** 은 조작된 콘텐츠를 정상으로 잘못 판정하는 오류다.
+- **오탐** 은 정상 콘텐츠를 조작되었다고 잘못 판정하는 오류다.
+- **생체 증거** 는 실제 사용자의 무작위 반응과 생체 특성을 확인한 자료다.
+- **다중모달 증거** 는 얼굴•음성•행동 사이의 시간적 일관성을 확인한 자료다.
+- **출처 증거** 는 전자서명된 콘텐츠 생성•편집 이력을 확인한 자료다.
 
 </details>
 
@@ -125,7 +129,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **콘텐츠 흔적•생체 반응•서명 출처**: 저장 미디어 선별, 실시간 신원 확인, 지원 도구의 생성•편집 이력 검증에 각각 적합한 방식이다.
+- **콘텐츠 흔적** 은 합성 과정에서 영상•음성에 남은 통계적•주파수 특징이다.
+- **생체 반응** 은 실시간 도전에 대한 사용자의 얼굴•음성•행동 반응이다.
+- **서명 출처** 는 전자서명으로 검증하는 콘텐츠 생성•편집 이력이다.
 
 </details>
 
@@ -143,8 +149,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST AI 100-4•C2PA(Coalition for Content Provenance and Authenticity) 2.4**: 합성 탐지•워터마킹•출처 기술의 한계를 구분하고 서명된 생성•편집 이력을 검증한다.
-- **ISO/IEC 30107-3:2023**: 얼굴•음성 등 생체 제시 공격 탐지의 성능 시험과 보고 방법을 규정한 국제표준이다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **AI(Artificial Intelligence) 100-4** 는 합성 탐지•워터마킹•출처 기술의 역할과 한계를 분석한다.
+- **C2PA(Coalition for Content Provenance and Authenticity) 2.4** 는 콘텐츠 출처와 진위 이력의 상호운용 규격이다.
+- **ISO(International Organization for Standardization)** 는 국제 표준을 개발•발행하는 기구다.
+- **IEC(International Electrotechnical Commission)** 는 전기•전자 분야 국제 표준을 개발하는 기구다.
+- **ISO/IEC 30107-3:2023** 은 생체 제시 공격 탐지의 성능 시험과 보고 방법을 규정한다.
 
 </details>
 
