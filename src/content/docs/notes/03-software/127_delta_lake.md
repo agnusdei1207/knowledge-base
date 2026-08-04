@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:27:00+09:00"
 tags:
   - "notes-software"
 weight: 127
@@ -140,7 +140,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Delta Lake**: 동시 변경과 과거 버전 조회가 필요한 Parquet 테이블에 적합한 저장 방식이다.
 - **일반 Parquet 파일 집합**: 별도 트랜잭션 로그 없이 디렉터리의 불변 열 파일 목록을 직접 분석하는 방식이다.
 
 </details>
@@ -184,7 +183,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **트랜잭션 로그**: 현재와 과거의 유효 파일 집합을 재현하도록 버전별 변경을 기록하는 핵심 구성이다.
+- **채택 기준**: 동시 변경과 버전 복원의 필요성을 판단하는 기준이다.
 
 </details>
 
