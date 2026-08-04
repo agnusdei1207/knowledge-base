@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "C2PA 콘텐츠 출처 표준 (Coalition for Content Provenance and Authenticity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T02:44:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 127
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 콘텐츠의 생성•편집 도구와 이력을 서명 매니페스트로 연결하는 **콘텐츠 출처 및 진위 연합(Coalition for Content Provenance and Authenticity, C2PA) 출처 표준**
+- 정의/개념: 콘텐츠의 생성•편집 도구와 이력을 서명 매니페스트로 연결하는 **C2PA 출처 표준**
 - 배경/필요성: 일반 메타데이터의 **편집 이력•변조 검증** 한계
 
 #### 한줄 요약
@@ -136,7 +136,7 @@ sequenceDiagram
 
 </details>
 
-콘텐츠 출처 및 진위 연합(Coalition for Content Provenance and Authenticity, C2PA)은 편집 이력 연결, 일반 메타데이터는 속성 교환, 파일 해시 공증은 존재 시점 증명에 사용한다.
+C2PA는 편집 이력 연결, 일반 메타데이터는 속성 교환, 파일 해시 공증은 존재 시점 증명에 사용한다.
 
 | 판단 기준 | C2PA | 일반 메타데이터 | 파일 해시 공증 |
 |:---|:---|:---|:---|
@@ -164,7 +164,7 @@ sequenceDiagram
 | **매니페스트 제거** | **소프트 바인딩•외부 저장소** 병행 | 출처 이력의 **재발견** |
 | 서명 키•자격증명의 **폐기** | 신뢰 목록과 **폐기 상태** 검증 | 무효 **발행자 차단** |
 | 유효 서명의 **사실성 오인** | 서명 상태와 **내용 검증** 분리 표시 | 출처•진실성의 **혼동 방지** |
-| 버전별 **형식•자산 지원 차이** | **콘텐츠 출처 및 진위 연합(Coalition for Content Provenance and Authenticity, C2PA) 2.4 프로파일•상호운용 시험** | 버전 간 **검증 실패 방지** |
+| 버전별 **형식•자산 지원 차이** | **C2PA 2.4 프로파일•상호운용 시험** | 버전 간 **검증 실패 방지** |
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- 출처 이력: **콘텐츠 출처 및 진위 연합(Coalition for Content Provenance and Authenticity, C2PA) 2.4 연결**, 판정 분리: **서명 검증•내용 사실성**
+- 출처 이력: **C2PA 2.4 연결**, 판정 분리: **서명 검증•내용 사실성**
 
 #### 한줄 요약
 

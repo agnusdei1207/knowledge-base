@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 운영 (DataOps)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T03:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 131
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **데이터 운영(Data Operations, DataOps)** 은 데이터 파이프라인의 개발•검증•배포•품질•계보 관측을 자동화하여 신뢰할 수 있는 데이터 제공을 지속하는 운영 체계
+- 정의/개념: **DataOps**는 데이터 파이프라인의 개발•검증•배포•품질•계보 관측을 자동화하는 운영 체계
 - 배경/필요성: 수동 변경은 **스키마 오류 전파•영향 추적 불가**
 
 #### 한줄 요약
@@ -134,7 +134,7 @@ sequenceDiagram
 
 </details>
 
-**데이터 운영(Data Operations, DataOps)**, **개발•운영(Development and Operations, DevOps)**, **기계학습 운영(Machine Learning Operations, MLOps)** 은 각각 데이터 공정, 서비스 코드, 모델 수명주기를 중심으로 관리한다.
+**DataOps**, **DevOps**, **MLOps**는 각각 데이터 공정, 서비스 코드, 모델 수명주기를 중심으로 관리한다.
 
 | 운영 체계 | DataOps | DevOps | MLOps |
 |:---|:---|:---|:---|

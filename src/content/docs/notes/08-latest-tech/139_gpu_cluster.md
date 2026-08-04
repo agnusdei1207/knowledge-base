@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "GPU 클러스터 (GPU Cluster)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T03:44:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 139
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 여러 그래픽 처리장치(Graphics Processing Unit, GPU) 서버를 고속망•저장소로 연결한 **분산 인공지능 병렬 인프라**
+- 정의/개념: 여러 GPU 서버를 고속망•저장소로 연결한 **분산 AI 병렬 인프라**
 - 배경/필요성: 단일 서버는 대형 모델의 **장치 메모리•학습 처리량** 충족 곤란
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 병렬화(Data Parallelism)**: 각 그래픽 처리장치(Graphics Processing Unit, GPU)가 다른 데이터 조각으로 같은 모델을 계산하고 기울기를 합치는 방식이다.
+- **데이터 병렬화(Data Parallelism)**: 각 GPU가 다른 데이터 조각으로 같은 모델을 계산하고 기울기를 합치는 방식이다.
 - **텐서 병렬화(Tensor Parallelism)**: 하나의 큰 텐서 연산을 여러 GPU에 나누어 동시에 계산하는 방식이다.
 - **파이프라인 병렬화(Pipeline Parallelism)**: 모델 층을 여러 GPU 단계로 나누고 작은 배치를 연속 전달하는 방식이다.
 
@@ -76,7 +76,7 @@ block-beta
     S --- R
 ```
 
-그래픽 처리장치(Graphics Processing Unit, GPU) 연산 노드는 모델 샤드의 연산과 장치 메모리를 제공한다.
+GPU 연산 노드는 모델 샤드의 연산과 장치 메모리를 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -112,7 +112,7 @@ sequenceDiagram
     N-->>R: 5. 분산 상태 저장•장애 복구
 ```
 
-그래픽 처리장치(Graphics Processing Unit, GPU) 노드는 병렬 전략에 따라 샤드를 계산하고 통신한다.
+GPU 노드는 병렬 전략에 따라 샤드를 계산하고 통신한다.
 
 1. **모델 메모리•통신량 분석**: 모델•배치가 요구하는 **분할 규모** 산정
 2. **병렬 전략•인접 GPU 동시 배치**: 통신 패턴에 맞는 노드를 확보하는 **동일 실행 시점**
@@ -133,7 +133,7 @@ sequenceDiagram
 
 </details>
 
-그래픽 처리장치(Graphics Processing Unit, GPU) 클러스터는 서버 외부 통신을 이용해 확장한다.
+GPU 클러스터는 서버 외부 통신을 이용해 확장한다.
 
 | 비교 기준 | 단일 GPU 서버 | GPU 클러스터 | 전용 가속기 클러스터 |
 |:---|:---|:---|:---|
@@ -154,7 +154,7 @@ sequenceDiagram
 
 </details>
 
-그래픽 처리장치(Graphics Processing Unit, GPU)는 통신 경로가 가까운 노드에 배치해야 한다.
+GPU는 통신 경로가 가까운 노드에 배치해야 한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -175,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- 그래픽 처리장치(Graphics Processing Unit, GPU)의 모델 분할•통신 토폴로지•복구 비용을 기준으로 **병렬 전략과 확장 규모 결정**
+- GPU의 모델 분할•통신 토폴로지•복구 비용을 기준으로 **병렬 전략과 확장 규모 결정**
 
 #### 한줄 요약
 - 작업대를 늘린 이득이 전달과 복구 비용보다 큰 범위까지만 클러스터를 확장함

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "적대적 예제 (Adversarial Example)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T02:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 123
@@ -139,7 +139,7 @@ sequenceDiagram
 
 </details>
 
-빠른 기울기 부호 방법(Fast Gradient Sign Method, FGSM), 투영 경사 하강법(Projected Gradient Descent, PGD), 칼리니-와그너 공격(Carlini and Wagner Attack, C&W)은 탐색 반복과 교란 최적화 강도가 다르다.
+FGSM, PGD, C&W는 탐색 반복과 교란 최적화 강도가 다르다.
 
 | 적대적 예제 생성 방식 | FGSM | PGD | C&W |
 |:---|:---|:---|:---|
@@ -164,7 +164,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 약한 공격으로 **방어 과대평가** | **빠른 기울기 부호 방법(Fast Gradient Sign Method, FGSM)•투영 경사 하강법(Projected Gradient Descent, PGD)•칼리니-와그너 공격(Carlini and Wagner Attack, C&W) 비교** | 기울기 은폐의 **오판 완화** |
+| 약한 공격으로 **방어 과대평가** | **FGSM•PGD•C&W 비교** | 기울기 은폐의 **오판 완화** |
 | 교란 예산의 **의미 불일치** | 입력별 **거리 규범•ε** 명시 | 강건성의 **주장 범위** 고정 |
 | **공격 설정 비공개** | 반복•초기값•성공 조건•**강건 정확도 공개** | **공격 재현성 확보** |
 

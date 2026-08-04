@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T03:02:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -24,11 +24,12 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인공지능 기반 정보기술 운영(Artificial Intelligence for Information Technology Operations, AIOps)**: 로그•메트릭•트레이스 같은 운영 신호를 인공지능으로 분석해 사건•원인•조치 판단을 지원하는 정보기술 운영 체계이다.
+- **인공지능(Artificial Intelligence, AI)**: 입력을 바탕으로 예측•생성•의사결정을 수행하는 시스템이다.
 - **경보 상관관계**: 여러 경보가 같은 장애 원인과 서비스 영향으로 연결되는 관계이다.
 
 </details>
 
-- 정의/개념: **인공지능 기반 정보기술 운영(Artificial Intelligence for Information Technology Operations, AIOps)** 은 로그•지표•추적•이벤트 같은 운영 신호를 인공지능으로 상관 분석하여 사건•원인•조치 후보를 도출하는 정보기술 운영 체계
+- 정의/개념: **AIOps**는 로그•지표•추적•이벤트를 AI로 상관 분석해 사건•원인•조치 후보를 도출하는 운영 체계
 - 배경/필요성: 개별 경보만으로는 **경보 폭주•장애 상관관계 누락**
 
 #### 한줄 요약
@@ -46,7 +47,7 @@ extra:
 
 </details>
 
-규칙 기반 운영과 **인공지능 기반 정보기술 운영(Artificial Intelligence for Information Technology Operations, AIOps)** 은 정상 기준과 경보 상관분석 방식이 다르다.
+규칙 기반 운영과 **AIOps**는 정상 기준과 경보 상관분석 방식이 다르다.
 
 - 다중 신호•토폴로지 기반 **경보 상관분석**
 - 동적 정상 기준 기반 **이상 탐지**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T02:50:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 128
@@ -25,11 +25,14 @@ extra:
 
 - **기계학습 운영(Machine Learning Operations, MLOps)**: 데이터•코드•모델의 학습•배포•운영을 재현 가능한 자동화 수명주기로 연결하는 체계이다.
 - **모델 계보**: 모델을 만든 코드•데이터•특징•실행 환경과 평가•배포 이력을 추적하는 기록이다.
+- **기계학습(Machine Learning, ML)**: 데이터에서 패턴을 학습해 예측•분류를 수행하는 기술이다.
+- **개발•운영(Development and Operations, DevOps)**: 코드와 인프라의 빌드•시험•배포를 자동화하는 운영체계이다.
+- **인공지능(Artificial Intelligence, AI)**: 입력을 바탕으로 예측•생성•의사결정을 수행하는 시스템이다.
 
 </details>
 
-- 정의/개념: 기계학습(Machine Learning, ML)의 데이터•코드•학습•모델•배포•관측을 연결하는 **기계학습 운영(Machine Learning Operations, MLOps) 체계**
-- 배경/필요성: 개발•운영(Development and Operations, DevOps)의 **데이터•모델 계보•재학습 관리 한계**
+- 정의/개념: ML의 데이터•코드•학습•모델•배포•관측을 연결하는 **MLOps 체계**
+- 배경/필요성: DevOps의 **데이터•모델 계보•재학습 관리 한계**
 
 #### 한줄 요약
 
@@ -47,7 +50,7 @@ extra:
 </details>
 
 - 학습 결과를 재현•복구하는 **코드•데이터•모델 계보**
-- 검증된 모델만 배포하는 **지속적 통합(Continuous Integration, CI)•지속적 학습(Continuous Training, CT)•지속적 전달(Continuous Delivery, CD)•승격 게이트**
+- 검증된 모델만 배포하는 **CI•CT•CD•승격 게이트**
 - 재학습•롤백을 정하는 **드리프트•서비스 성능 관측**
 
 #### 한줄 요약
@@ -118,9 +121,9 @@ sequenceDiagram
 ```
 
 1. **검증 데이터•변경 정보**: 코드•스키마•특징 변경 입력
-2. **지속적 통합(Continuous Integration, CI)•지속적 학습(Continuous Training, CT) 실행 계보**: 파이프라인 검증과 후보 학습 재현
+2. **CI•CT 실행 계보**: 파이프라인 검증과 후보 학습 재현
 3. **후보 모델•평가 결과**: 모델 버전과 승격 근거 연결
-4. **승인 버전•지속적 전달(Continuous Delivery, CD) 배포**: 검증 통과 모델만 단계 배포
+4. **승인 버전•CD 배포**: 검증 통과 모델만 단계 배포
 5. **드리프트•재학습 신호**: 운영 품질 변화로 CT 재실행 판정
 
 #### 한줄 요약
@@ -132,12 +135,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **개발•운영(Development and Operations, DevOps)**: 애플리케이션 코드와 인프라의 빌드•시험•배포를 자동화하는 운영체계이다.
+- **DevOps 적용**: 애플리케이션 코드와 인프라의 배포를 자동화하는 방식이다.
 - **거대 언어 모델 운영(Large Language Model Operations, LLMOps)**: 프롬프트•검색•모델•도구의 생성 응답을 품질•안전•비용 기준으로 운영하는 체계이다.
 
 </details>
 
-인공지능(Artificial Intelligence, AI) 운영은 기계학습 운영(Machine Learning Operations, MLOps), 개발•운영(Development and Operations, DevOps), 거대 언어 모델 운영(Large Language Model Operations, LLMOps)의 관리 대상을 구분한다.
+AI 운영은 MLOps, DevOps, LLMOps의 관리 대상을 구분한다.
 
 | AI 운영 수명주기 | MLOps | DevOps | LLMOps |
 |:---|:---|:---|:---|
@@ -164,7 +167,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 학습 결과의 **재현 불가** | 코드•데이터•특징•실행의 **계보 연결** | 모델 **재생성•복구** |
 | **미검증 모델 승격** | 평가 게이트•**레지스트리 상태** 적용 | **배포 품질 보존** |
-| **불필요한 자동 재학습** | 데이터•개념 드리프트의 **지속적 학습(Continuous Training, CT) 조건 설정** | **학습•회귀 방지** |
+| **불필요한 자동 재학습** | 데이터•개념 드리프트의 **CT 조건 설정** | **학습•회귀 방지** |
 
 #### 한줄 요약
 
@@ -180,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- 예측 모델 운영: **기계학습 운영(Machine Learning Operations, MLOps)의 계보•승격 통제**, 재학습 조건: **드리프트 임계치 충족**
+- 예측 모델 운영: **MLOps의 계보•승격 통제**, 재학습 조건: **드리프트 임계치 충족**
 
 #### 한줄 요약
 

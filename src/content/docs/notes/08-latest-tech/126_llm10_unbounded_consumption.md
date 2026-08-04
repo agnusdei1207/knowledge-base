@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T02:38:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 126
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 거대 언어 모델(Large Language Model, LLM)과 도구의 무제한 사용으로 **자원•비용•용량을 소진하는 LLM10 위험**
+- 정의/개념: LLM과 도구의 무제한 사용으로 **자원•비용•용량을 소진하는 LLM10 위험**
 - 배경/필요성: 요청 건수만으로는 **토큰•시간•도구 비용 편차** 포착 불가
 
 #### 한줄 요약
