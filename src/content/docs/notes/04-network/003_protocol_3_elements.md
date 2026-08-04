@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "네트워크 프로토콜 3요소 (Protocol 3 Elements)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:24:00+09:00"
 tags:
   - "notes-network"
 weight: 3
@@ -117,9 +117,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **상호운용성 검증**: 구문•의미•타이밍을 각각 시험하여 형식•동작•교환 시점의 불일치 원인을 분리한다.
-- **구문(Syntax)**: 메시지의 필드 경계•길이•순서•인코딩을 정하는 표현 규칙이다.
-- **의미(Semantics)**: 필드값에 따라 수행할 동작•응답•상태 전이를 정하는 규칙이다.
-- **타이밍(Timing)**: 메시지의 교환 순서•속도•대기 시간을 정하는 규칙이다.
 
 </details>
 

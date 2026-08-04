@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:48:00+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **경계 게이트웨이 프로토콜•자율 시스템(Border Gateway Protocol/Autonomous System, BGP•AS)**: 자율 시스템 사이에서 프리픽스•경로 속성을 교환하는 프로토콜과 공통 정책 아래 운영되는 네트워크 집합이다.
+- **BGP(Border Gateway Protocol)**: 자율 시스템 사이에서 프리픽스와 경로 속성을 교환하는 프로토콜이다.
+- **AS(Autonomous System)**: 공통 라우팅 정책과 관리 아래 운영되는 네트워크 집합이다.
 - **네트워크 계층 도달 가능성 정보(Network Layer Reachability Information, NLRI)**: BGP가 도달 가능하다고 광고하는 프리픽스 정보이다.
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 목적지까지의 경로를 계산하는 라우팅 프로토콜이다.
 
@@ -59,7 +60,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP 피어•갱신 메시지(Border Gateway Protocol Peer/UPDATE Message, BGP 피어•UPDATE)**: 경로 교환 상대와 NLRI•경로 속성•철회를 전달하는 메시지이다.
+- **BGP 피어(BGP Peer)**: BGP 세션을 맺고 경로를 교환하는 상대 라우터이다.
+- **UPDATE 메시지(Update Message)**: NLRI와 경로 속성 및 철회 정보를 전달하는 메시지이다.
 - **최선 경로**: 정책과 경로 속성 비교를 통과해 라우팅 표에 설치되는 BGP 경로이다.
 
 </details>
@@ -99,7 +101,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **수신•선택•광고 정책**: 받은 경로를 검증하고 내부 최선 경로를 정한 뒤 이웃별 공개 범위를 다시 제한하는 단계이다.
+- **수신 정책(Inbound Policy)**: 피어에게 받은 경로의 허용 여부와 속성을 검증하는 정책이다.
+- **선택 정책(Selection Policy)**: 유효 후보 가운데 내부 최선 경로를 결정하는 정책이다.
+- **광고 정책(Outbound Policy)**: 이웃별 경로 공개 범위와 속성을 제한하는 정책이다.
 
 </details>
 
@@ -134,7 +138,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **외부•내부 경계 게이트웨이 프로토콜•경로 반사기(External/Internal Border Gateway Protocol/Route Reflector, eBGP•iBGP•경로 반사기)**: AS 간 경로 교환, AS 내부 배포, 내부 피어 연결 수를 줄이는 역할이다.
+- **eBGP(External BGP)**: 서로 다른 AS 사이에서 경로를 교환하는 세션이다.
+- **iBGP(Internal BGP)**: 같은 AS 안에서 외부 경로를 배포하는 세션이다.
+- **경로 반사기(Route Reflector)**: iBGP 피어 연결 수를 줄이도록 경로를 재광고하는 라우터이다.
 
 </details>
 
@@ -155,7 +161,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **리소스 공개키 기반구조•프리픽스 필터(Resource Public Key Infrastructure/Prefix Filter, RPKI•프리픽스 필터)**: 프리픽스 기원 AS 권한을 검증하고 수신•광고할 주소 범위를 제한하는 통제이다.
+- **RPKI(Resource Public Key Infrastructure)**: 프리픽스 기원 AS의 광고 권한을 검증하는 공개키 기반구조이다.
+- **프리픽스 필터(Prefix Filter)**: 수신하거나 광고할 주소 범위와 길이를 제한하는 통제이다.
 - **로컬 선호도(Local Preference, LOCAL_PREF)**: 한 AS에서 외부로 나갈 경로의 우선순위를 나타내는 속성이다.
 
 </details>

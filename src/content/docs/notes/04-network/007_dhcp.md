@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "DHCP (Dynamic Host Configuration Protocol)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:33:00+09:00"
 tags:
   - "notes-network"
 weight: 7
@@ -24,6 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 서버가 단말에 인터넷 프로토콜 주소와 네트워크 설정을 일정 기간 자동으로 임대하는 프로토콜이다.
+- **IP(Internet Protocol)**: 논리 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
 
 </details>
 
@@ -60,6 +61,7 @@ extra:
 
 - **DHCP 클라이언트**: 주소와 옵션을 탐색하고 서버에 임대를 요청한다.
 - **DHCP 옵션**: 인터넷 프로토콜 주소와 함께 프리픽스•기본 게이트웨이•도메인 이름 시스템 서버 등의 네트워크 설정을 전달한다.
+- **DNS(Domain Name System)**: 도메인 이름과 IP 주소를 대응시키는 분산 이름 체계이다.
 
 </details>
 
@@ -94,7 +96,11 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **탐색•제안•요청•승인(Discover, Offer, Request, Acknowledge, DORA)**: DHCPDISCOVER로 서버를 찾고 DHCPOFFER를 받은 뒤 DHCPREQUEST를 보내 DHCPACK으로 임대를 확정하는 절차이다.
+- **DORA(Discover, Offer, Request, Acknowledge)**: DHCP 주소 임대를 탐색부터 승인까지 수행하는 절차이다.
+- **Discover**: DHCPDISCOVER로 사용 가능한 서버를 찾는 단계이다.
+- **Offer**: DHCPOFFER로 주소와 네트워크 옵션을 제안하는 단계이다.
+- **Request**: DHCPREQUEST로 선택한 서버와 주소의 임대를 요청하는 단계이다.
+- **Acknowledge**: DHCPACK으로 주소 임대를 확정하는 단계이다.
 - **브로드캐스트**: 주소가 없는 초기 단말이 같은 링크의 모든 DHCP 서버 후보에 탐색 요청을 보내게 한다.
 
 </details>
@@ -151,7 +157,8 @@ sequenceDiagram
 
 - **DHCP 스누핑**: 스위치가 신뢰 포트의 서버 응답만 허용하고 주소•단말•포트 바인딩을 기록한다.
 - **릴레이 에이전트 정보 옵션(Relay Agent Information Option, Option 82)**: 릴레이가 단말의 접속 회선과 장치 정보를 DHCP 서버에 전달하는 옵션이다.
-- **갱신 시점(T1)과 재결합 시점(T2)**: 단말이 각각 기존 서버에 임대를 갱신하고 모든 서버에 재결합을 요청하는 시점이다.
+- **T1(Renewal Time Value)**: 단말이 기존 서버에 임대 갱신을 요청하는 시점이다.
+- **T2(Rebinding Time Value)**: 단말이 모든 서버에 임대 재결합을 요청하는 시점이다.
 
 </details>
 

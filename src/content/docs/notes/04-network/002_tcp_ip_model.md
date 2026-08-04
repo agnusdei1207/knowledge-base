@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TCP/IP 4계층 모델 (TCP/IP Model)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:21:00+09:00"
 tags:
   - "notes-network"
 weight: 2
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜/인터넷 프로토콜 모델(Transmission Control Protocol/Internet Protocol Model, TCP/IP 모델)**: 인터넷 통신 기능을 공통 IP 계층 중심의 네 계층으로 묶은 실제 구현 모델이다.
+- **TCP(Transmission Control Protocol)**: 순서와 재전송을 제어하여 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜이다.
+- **IP(Internet Protocol)**: 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
+- **TCP/IP 모델**: 인터넷 통신 기능을 공통 IP 계층 중심의 네 계층으로 묶은 구현 모델이다.
 
 </details>
 
@@ -59,7 +61,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **포트**: 한 호스트 안에서 데이터가 도착할 응용 프로세스를 구분하는 번호이다.
-- **인터넷 프로토콜(Internet Protocol, IP) 주소**: 패킷의 출발지와 목적지 호스트를 식별하여 네트워크 간 전달 경로를 정하게 한다.
+- **IP 주소**: 패킷의 출발지와 목적지 호스트를 식별하여 네트워크 간 전달 경로를 정하게 한다.
 - **네트워크 접근 계층**: 링크별 프레임과 매체 규칙으로 인접 장치 사이의 전송을 담당한다.
 
 </details>
@@ -147,7 +149,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 연결을 설정하고 순서•재전송을 제어하여 신뢰성 있는 바이트 흐름을 제공한다.
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 설정과 재전송 없이 데이터그램을 보내어 전송 지연과 제어 부담을 줄인다.
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 한 링크에서 단편화 없이 전달할 수 있는 최대 패킷 크기이다.
 

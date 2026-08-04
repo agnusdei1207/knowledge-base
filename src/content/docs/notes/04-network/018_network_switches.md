@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스위칭 계층 : L2•L3•L4•L7 스위치 (Network Switches)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:12:00+09:00"
 tags:
   - "notes-network"
 weight: 18
@@ -24,7 +24,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스위칭 계층**: 장비가 전달 대상을 정할 때 읽는 링크•네트워크•전송•응용 계층 정보의 구분이다.
-- **2•3•4•7계층 스위치(Layer 2/Layer 3/Layer 4/Layer 7 Switch, L2•L3•L4•L7 스위치)**: 링크 주소부터 응용 요청까지 서로 다른 계층 정보를 기준으로 전달 대상을 고르는 장비이다.
+- **L2 스위치(Layer 2 Switch)**: 링크 계층 주소로 출력 포트를 고르는 장비이다.
+- **L3 스위치(Layer 3 Switch)**: 네트워크 계층 주소로 다음 홉을 고르는 장비이다.
+- **L4 스위치(Layer 4 Switch)**: 전송 계층 연결 정보로 대상 서버를 고르는 장비이다.
+- **L7 스위치(Layer 7 Switch)**: 응용 계층 요청 내용으로 서비스를 고르는 장비이다.
 
 </details>
 
@@ -40,8 +43,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **2•3•4•7계층 스위치(Layer 2/Layer 3/Layer 4/Layer 7 Switch, L2•L3•L4•L7 스위치)**: MAC, IP, 5-튜플, URL•헤더를 각각 기준으로 전달 대상을 고르는 장비이다.
-- **매체 접근 제어•인터넷 프로토콜•통합 자원 식별자(Media Access Control/Internet Protocol/Uniform Resource Locator, MAC•IP•URL)**: 링크 주소, 네트워크 주소, 웹 자원의 위치를 나타내는 식별 정보이다.
+- **MAC(Media Access Control)**: 같은 링크의 인터페이스를 식별하는 주소 체계이다.
+- **IP(Internet Protocol)**: 네트워크 주소를 기반으로 패킷 경로를 정하는 프로토콜이다.
+- **URL(Uniform Resource Locator)**: 웹 자원의 위치와 접근 방법을 나타내는 식별자이다.
 
 </details>
 
@@ -58,9 +62,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **매체 접근 제어 주소•전달 정보 기반(Media Access Control Address/Forwarding Information Base, MAC 주소•FIB)**: 같은 링크의 인터페이스를 식별하는 주소와 프리픽스별 다음 홉을 저장한 전달 표이다.
-- **5-튜플•통합 자원 식별자(Five-Tuple/Uniform Resource Locator, 5-튜플•URL)**: 연결을 식별하는 프로토콜•양쪽 주소•포트 묶음과 웹 자원의 위치•접근 방법이다.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 주소를 기반으로 서로 다른 서브넷 사이의 패킷 경로를 정하는 프로토콜이다.
+- **FIB(Forwarding Information Base)**: 프리픽스별 다음 홉을 저장한 패킷 전달 표이다.
+- **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
 
 </details>
 
@@ -95,7 +98,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **전달 정책 조회(Forwarding Policy Lookup)**: 담당 계층의 주소•포트•요청 내용으로 포트•다음 홉•서버•서비스를 결정하는 동작이다.
-- **매체 접근 제어•인터넷 프로토콜(Media Access Control/Internet Protocol, MAC•IP)**: 링크 인터페이스와 네트워크 목적지를 식별하는 주소 정보이다.
 
 </details>
 
@@ -128,7 +130,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전송 계층 보안 종료(Transport Layer Security Termination, TLS 종료)**: 암호화 세션을 장비에서 끝내 응용 요청을 해석하는 처리로, 가시성과 연산 부하가 함께 증가한다.
-- **매체 접근 제어•인터넷 프로토콜•통합 자원 식별자(Media Access Control/Internet Protocol/Uniform Resource Locator, MAC•IP•URL)**: 계층별 전달과 콘텐츠 분기에 사용하는 주소•요청 식별 정보이다.
 
 </details>
 
@@ -149,8 +150,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상태 확인•상태 동기화(Health Check/State Synchronization)**: 서버 가용성을 판정하고 이중화 장비 간 연결•정책 상태를 맞추는 기능이다.
-- **4•7계층 스위치(Layer 4/Layer 7 Switch, L4•L7 스위치)**: 연결 상태 또는 응용 요청을 기준으로 대상 서버와 서비스를 선택하는 장비이다.
+- **상태 확인(Health Check)**: 서버가 요청을 처리할 수 있는지 주기적으로 판정하는 기능이다.
+- **상태 동기화(State Synchronization)**: 이중화 장비 사이의 연결과 정책 상태를 맞추는 기능이다.
 
 </details>
 

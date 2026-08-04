@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DNS 구조•동작 (DNS Domain Name System)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:36:00+09:00"
 tags:
   - "notes-network"
 weight: 8
@@ -43,6 +43,7 @@ extra:
 - **위임**: 상위 DNS 영역이 하위 이름 영역의 관리 권한과 권한 서버 정보를 다른 서버에 넘기는 관계이다.
 - **유효 시간(Time To Live, TTL)**: 리졸버가 자원 레코드를 새로 조회하지 않고 캐시에 보관할 수 있는 시간이다.
 - **도메인 이름 시스템 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명 체인으로 DNS 응답의 출처와 무결성을 검증한다.
+- **TLD(Top-level Domain)**: 루트 바로 아래에서 국가나 일반 도메인 범주를 나타내는 최상위 영역이다.
 
 </details>
 
@@ -100,7 +101,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **캐시 미스**: 요청한 이름의 유효한 자원 레코드가 리졸버 캐시에 없는 상태이다.
-- **루트와 최상위 도메인(Top-Level Domain, TLD) 서버**: 질의 이름을 담당하는 다음 하위 권한 서버의 위치를 안내한다.
+- **루트 서버(Root Server)**: TLD 서버의 위치를 안내하는 DNS 계층의 시작점이다.
+- **TLD 서버**: 질의 이름을 담당하는 다음 하위 권한 서버의 위치를 안내한다.
 
 </details>
 

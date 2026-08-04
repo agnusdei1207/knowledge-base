@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MAC 주소 구조 (MAC Address)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:30:00+09:00"
 tags:
   - "notes-network"
 weight: 6
@@ -24,6 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **매체 접근 제어(Media Access Control, MAC) 주소**: 같은 링크에서 이더넷 프레임의 출발지와 목적지 인터페이스를 식별하는 데이터링크 계층 주소이다.
+- **IP(Internet Protocol)**: 논리 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
 
 </details>
 
@@ -40,7 +41,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **옥텟**: 8비트 묶음이며 일반 이더넷 MAC 주소는 여섯 옥텟인 48비트로 구성된다.
-- **개별/그룹(Individual/Group, I/G) 비트와 전역/로컬(Universal/Local, U/L) 비트**: 첫 옥텟에서 각각 수신 범위와 관리 주체를 구분한다.
+- **I/G(Individual/Group) 비트**: 첫 옥텟에서 개별 주소와 그룹 주소를 구분한다.
+- **U/L(Universal/Local) 비트**: 첫 옥텟에서 전역 관리와 로컬 관리 주소를 구분한다.
 
 </details>
 

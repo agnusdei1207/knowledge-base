@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF•OSPFv3 (OSPF Link State Routing)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:45:00+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -25,6 +25,9 @@ extra:
 
 - **최단 경로 우선 개방형 프로토콜(Open Shortest Path First, OSPF)**: 링크 상태를 공유하고 각 라우터가 최단 경로를 계산하는 내부 라우팅 프로토콜이다.
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 경로를 교환하는 라우팅 프로토콜이다.
+- **LSA(Link-state Advertisement)**: 라우터가 링크 상태와 도달 정보를 영역에 알리는 광고이다.
+- **LSDB(Link-state Database)**: 영역에서 공유하는 링크 상태 토폴로지 데이터베이스이다.
+- **SPF(Shortest Path First)**: LSDB를 기반으로 최소 비용 경로를 계산하는 알고리즘이다.
 
 </details>
 
@@ -40,8 +43,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **링크 상태 광고•데이터베이스•최단 경로 우선(Link-State Advertisement/Link-State Database/Shortest Path First, LSA•LSDB•SPF)**: 링크 상태 광고, 영역의 공통 토폴로지 정보, 최단 경로 계산 알고리즘이다.
-- **영역•플러딩**: LSA 전파와 SPF 계산 범위를 제한하는 구역과 새 LSA를 영역에 전달하는 동작이다.
+- **영역(Area)**: LSA 전파와 SPF 계산 범위를 제한하는 논리 구역이다.
+- **플러딩(Flooding)**: 새 LSA를 영역의 모든 OSPF 라우터에 전달하는 동작이다.
 
 </details>
 
@@ -58,8 +61,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Hello•인접 관계**: 이웃 조건을 교환하는 메시지와 LSDB를 동기화할 수 있도록 맺는 관계이다.
-- **영역 경계 라우터(Area Border Router, ABR)•경로 요약**: 영역 0과 다른 영역을 연결하고 여러 프리픽스를 공통 상위 프리픽스로 묶는 기능이다.
+- **Hello**: OSPF 이웃 조건과 생존 상태를 교환하는 메시지이다.
+- **인접 관계(Adjacency)**: 이웃 라우터가 LSDB를 동기화할 수 있도록 맺는 관계이다.
+- **ABR(Area Border Router)**: 영역 0과 다른 영역을 연결하는 라우터이다.
+- **경로 요약(Route Summarization)**: 여러 프리픽스를 공통 상위 프리픽스로 묶는 기능이다.
 
 </details>
 
@@ -137,7 +142,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OSPF 버전 2•3(Open Shortest Path First version 2/3, OSPFv2•OSPFv3)**: 인터넷 프로토콜 버전 4 프리픽스를 다루는 버전과 인터넷 프로토콜 버전 6•링크 로컬 인접 관계를 지원하는 버전이다.
+- **IPv4(Internet Protocol version 4)**: 32비트 주소를 사용하는 IP 버전이다.
+- **IPv6(Internet Protocol version 6)**: 128비트 주소를 사용하는 IP 버전이다.
+- **OSPFv2**: IPv4 프리픽스를 처리하는 OSPF 버전이다.
+- **OSPFv3**: IPv6와 다중 주소군 확장을 지원하는 OSPF 버전이다.
 
 </details>
 
@@ -158,7 +166,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **영역 0•지정/백업 지정 라우터(Designated Router/Backup Designated Router, DR/BDR)**: 영역 간 연결의 백본과 공유 링크에서 LSA 교환 관계를 줄이는 대표•예비 라우터이다.
+- **영역 0(Area 0)**: 모든 OSPF 영역을 연결하는 백본 영역이다.
+- **DR(Designated Router)**: 공유 링크에서 LSA 교환 관계를 줄이는 대표 라우터이다.
+- **BDR(Backup Designated Router)**: DR 장애에 대비하는 예비 대표 라우터이다.
 - **최대 전송 단위(Maximum Transmission Unit, MTU) 불일치**: 이웃 간 최대 전송 단위가 달라 데이터베이스 교환이 완료되지 않는 상태이다.
 
 </details>

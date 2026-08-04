@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OSI 7계층 모델 (OSI 7-Layer Model)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:18:00+09:00"
 tags:
   - "notes-network"
 weight: 1
@@ -41,7 +41,8 @@ extra:
 
 - **계층 인터페이스**: 인접한 두 계층이 서비스를 요청하고 처리 결과를 전달하는 경계이다.
 - **프로토콜 데이터 단위(Protocol Data Unit, PDU)**: 각 계층이 자신의 제어 정보를 붙여 처리하는 데이터 단위이다.
-- **캡슐화와 역캡슐화**: 송신 계층이 제어 정보를 붙이고 수신 계층이 반대 순서로 제거하는 과정이다.
+- **캡슐화(Encapsulation)**: 송신 계층이 데이터에 제어 정보를 붙이는 과정이다.
+- **역캡슐화(Decapsulation)**: 수신 계층이 제어 정보를 반대 순서로 제거하는 과정이다.
 
 </details>
 
@@ -95,7 +96,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **세그먼트•패킷•프레임•비트**: 각각 전송•네트워크•데이터링크•물리 계층이 처리하는 데이터 단위이다.
+- **세그먼트(Segment)**: 전송 계층이 처리하는 데이터 단위이다.
+- **패킷(Packet)**: 네트워크 계층이 처리하는 데이터 단위이다.
+- **프레임(Frame)**: 데이터링크 계층이 처리하는 데이터 단위이다.
+- **비트(Bit)**: 물리 계층이 처리하는 데이터 단위이다.
 
 </details>
 
@@ -128,7 +132,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 제어 프로토콜/인터넷 프로토콜 모델(Transmission Control Protocol/Internet Protocol Model, TCP/IP 모델)**: 인터넷에서 실제 사용하는 프로토콜을 응용•전송•인터넷•네트워크 접근의 네 계층으로 묶는다.
+- **TCP/IP 모델**: 인터넷 프로토콜을 응용•전송•인터넷•네트워크 접근의 네 계층으로 묶은 모델이다.
 
 </details>
 

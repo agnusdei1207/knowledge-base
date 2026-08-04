@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "NAT•PAT (NAT PAT Network Address Translation)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:39:00+09:00"
 tags:
   - "notes-network"
 weight: 9
@@ -25,6 +25,8 @@ extra:
 
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 경계 장비가 패킷의 사설 인터넷 프로토콜 주소와 공인 인터넷 프로토콜 주소를 변환하여 서로 다른 주소 영역을 연결한다.
 - **포트 주소 변환(Port Address Translation, PAT)**: 여러 내부 연결을 하나 또는 소수의 공인 주소와 서로 다른 포트로 구분하여 변환한다.
+- **IP(Internet Protocol)**: 논리 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
+- **IPv4(Internet Protocol version 4)**: 32비트 주소를 사용하는 IP 버전이다.
 
 </details>
 
@@ -58,7 +60,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **사설 인터넷 프로토콜(Internet Protocol, IP) 주소**: 인터넷에서 직접 라우팅하지 않고 조직 내부에서 사용하는 예약 주소이다.
+- **사설 IP 주소**: 인터넷에서 직접 라우팅하지 않고 조직 내부에서 사용하는 예약 주소이다.
 - **공인 IP 주소**: 인터넷에서 전역적으로 고유하며 외부 라우팅에 사용하는 주소이다.
 - **주소 풀**: NAT 장비가 변환에 할당할 수 있도록 보유한 공인 주소 범위이다.
 
@@ -130,9 +132,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **정적 네트워크 주소 변환(Static Network Address Translation, 정적 NAT)**: 내부 주소와 외부 주소를 일대일로 미리 고정하여 연결한다.
-- **동적 네트워크 주소 변환(Dynamic Network Address Translation, 동적 NAT)**: 연결 요청이 발생할 때 공인 주소 풀에서 주소를 선택하여 일대일로 임시 연결한다.
-- **포트 주소 변환(Port Address Translation, PAT)**: 여러 내부 주소•포트를 하나의 공인 주소에서 서로 다른 포트로 다대일 매핑한다.
+- **정적 NAT**: 내부 주소와 외부 주소를 일대일로 미리 고정하여 연결한다.
+- **동적 NAT**: 연결 요청이 발생할 때 공인 주소 풀에서 주소를 선택하여 일대일로 임시 연결한다.
 
 </details>
 

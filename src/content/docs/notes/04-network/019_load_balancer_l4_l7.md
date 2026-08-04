@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "로드 밸런서 L4•L7 (Load Balancer L4 L7)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:16:00+09:00"
 tags:
   - "notes-network"
 weight: 19
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **로드 밸런서•가상 인터넷 프로토콜 주소(Load Balancer/Virtual Internet Protocol Address, 로드 밸런서•VIP)**: 하나의 대표 서비스 주소로 받은 연결•요청을 여러 정상 백엔드에 분산하는 장비와 주소이다.
+- **로드 밸런서(Load Balancer)**: 연결과 요청을 여러 정상 백엔드에 분산하는 장비이다.
+- **VIP(Virtual Internet Protocol Address)**: 클라이언트가 접속하는 대표 서비스 주소이다.
 
 </details>
 
@@ -39,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **4•7계층 로드 밸런서(Layer 4/Layer 7 Load Balancer, L4•L7 로드 밸런서)**: 주소•포트•연결 상태와 URL•헤더•쿠키를 각각 기준으로 백엔드를 선택하는 장비이다.
+- **L4 로드 밸런서(Layer 4 Load Balancer)**: 주소•포트•연결 상태로 백엔드를 선택하는 장비이다.
+- **L7 로드 밸런서(Layer 7 Load Balancer)**: URL•헤더•쿠키로 백엔드를 선택하는 장비이다.
 - **통합 자원 식별자(Uniform Resource Locator, URL)**: 웹 자원의 위치와 접근 방법을 나타내는 요청 정보이다.
-- **가상 인터넷 프로토콜 주소(Virtual Internet Protocol Address, VIP)**: 클라이언트가 접속하는 대표 서비스 주소이다.
 
 </details>
 
@@ -58,9 +59,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **리스너•서버 풀•스케줄러(Listener/Server Pool/Scheduler)**: 서비스 요청을 받는 입구, 같은 기능의 백엔드 집합, 그중 대상을 고르는 기능이다.
+- **리스너(Listener)**: 서비스 주소와 포트에서 요청을 받는 입구이다.
+- **서버 풀(Server Pool)**: 같은 기능을 제공하는 백엔드 서버 집합이다.
+- **스케줄러(Scheduler)**: 정상 서버 가운데 분산 정책에 맞는 대상을 고르는 기능이다.
 - **세션 고정**: 같은 사용자나 세션의 요청을 일정 기간 같은 백엔드로 보내는 기능이다.
-- **가상 인터넷 프로토콜 주소(Virtual Internet Protocol Address, VIP)**: 리스너가 연결과 요청을 받는 대표 서비스 주소이다.
 
 </details>
 
@@ -97,7 +99,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **상태 확인(Health Check)**: 백엔드의 포트 연결이나 실제 응용 응답을 검사해 분산 대상 포함 여부를 정하는 기능이다.
-- **가상 인터넷 프로토콜 주소(Virtual Internet Protocol Address, VIP)**: 정상 백엔드 집합 앞에서 클라이언트 요청을 받는 대표 주소이다.
 
 </details>
 
@@ -134,9 +135,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **5-튜플•역방향 프록시(Five-Tuple/Reverse Proxy)**: 연결을 식별하는 다섯 필드 묶음과 요청 내용을 해석해 백엔드에 새 요청을 보내는 중계 방식이다.
-- **4•7계층 로드 밸런서(Layer 4/Layer 7 Load Balancer, L4•L7 로드 밸런서)**: 연결 정보 또는 응용 요청 내용을 기준으로 백엔드를 선택하는 장비이다.
-- **통합 자원 식별자•전송 계층 보안(Uniform Resource Locator/Transport Layer Security, URL•TLS)**: 콘텐츠 분기 정보와 암호화 세션 보호 기술이다.
+- **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
+- **역방향 프록시(Reverse Proxy)**: 요청을 해석하고 백엔드에 새 요청을 보내는 중계 방식이다.
+- **TLS(Transport Layer Security)**: 전송 구간의 기밀성과 무결성을 보호하는 보안 프로토콜이다.
 
 </details>
 
@@ -180,7 +181,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정상 집합(Healthy Backend Set)**: 상태 검사를 통과해 새 연결•요청을 받을 수 있다고 판정된 백엔드 목록이다.
-- **4•7계층 로드 밸런서(Layer 4/Layer 7 Load Balancer, L4•L7 로드 밸런서)**: 연결 처리량과 콘텐츠 분기 요구에 따라 선택하는 부하 분산 장비이다.
 
 </details>
 

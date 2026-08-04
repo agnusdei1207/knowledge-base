@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IP 주소 체계: IPv4•IPv6 (IP Addressing IPv4 IPv6)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:27:00+09:00"
 tags:
   - "notes-network"
 weight: 4
@@ -24,6 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인터넷 프로토콜(Internet Protocol, IP) 주소**: 네트워크와 인터페이스를 식별하여 패킷의 출발지와 목적지를 나타내는 계층형 논리 주소이다.
+- **IPv4(Internet Protocol version 4)**: 32비트 주소를 점으로 구분한 10진수로 표현하는 IP 버전이다.
+- **IPv6(Internet Protocol version 6)**: 128비트 주소를 콜론으로 구분한 16진수로 표현하는 IP 버전이다.
 
 </details>
 
@@ -121,8 +123,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **인터넷 프로토콜 버전 4(Internet Protocol version 4, IPv4)**: 32비트 주소를 점으로 구분한 10진수로 표현한다.
-- **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소를 콜론으로 구분한 16진수로 표현하여 주소 공간을 확장한다.
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 경계 장비에서 사설 IPv4 주소와 공인 IPv4 주소를 변환한다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:52:00+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **다중 프로토콜 레이블 스위칭•전달 등가 클래스(Multiprotocol Label Switching/Forwarding Equivalence Class, MPLS•FEC)**: 패킷에 레이블을 붙여 논리 경로로 전달하는 기술과 같은 처리 정책을 적용할 패킷 묶음이다.
+- **MPLS(Multiprotocol Label Switching)**: 패킷에 레이블을 붙여 논리 경로로 전달하는 기술이다.
+- **FEC(Forwarding Equivalence Class)**: 같은 전달 정책을 적용할 패킷 묶음이다.
+- **IP(Internet Protocol)**: 논리 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
 - **레이블 스위치 경로(Label Switched Path, LSP)**: 입구부터 출구까지 레이블 교환으로 패킷을 전달하는 단방향 논리 경로이다.
 
 </details>
@@ -40,7 +42,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **레이블 경계 라우터•레이블 스위칭 라우터•레이블 스위치 경로(Label Edge Router/Label Switching Router/Label Switched Path, LER•LSR•LSP)**: MPLS 영역의 경계 라우터, 내부 레이블 교환 라우터, 이들을 잇는 단방향 논리 경로이다.
+- **LER(Label Edge Router)**: MPLS 영역 경계에서 레이블을 부착하거나 제거하는 라우터이다.
+- **LSR(Label Switching Router)**: MPLS 영역 내부에서 레이블을 교환하는 라우터이다.
 - **레이블 스택**: 전송 경로•고객 서비스 등 여러 전달 문맥을 표현하도록 레이블을 겹친 구조이다.
 
 </details>
@@ -90,8 +93,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **푸시•스왑•팝(Push•Swap•Pop)**: 입구에서 레이블을 붙이고 중간에서 교환하며 출구에서 제거하는 동작이다.
-- **레이블 전달 정보 기반(Label Forwarding Information Base, LFIB)**: 입력 레이블을 조회해 출력 레이블, 다음 홉, 교환 동작을 결정하는 전달 표이다.
+- **푸시(Push)**: 입구에서 패킷에 새 레이블을 붙이는 동작이다.
+- **스왑(Swap)**: 중계 구간에서 입력 레이블을 출력 레이블로 교환하는 동작이다.
+- **팝(Pop)**: 출구에서 패킷의 최상위 레이블을 제거하는 동작이다.
 
 </details>
 
@@ -126,7 +130,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **다중 프로토콜 레이블 스위칭•인터넷 프로토콜 전달(Multiprotocol Label Switching/Internet Protocol, MPLS•IP 전달)**: 입구에서 정한 FEC별 레이블과 매 홉의 목적지 프리픽스를 각각 조회하는 전달 방식이다.
 - **가상 사설망(Virtual Private Network, VPN)**: 공용 전달망 위에서 고객별 주소와 경로를 논리적으로 격리한 사설망이다.
 
 </details>
@@ -148,8 +151,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **레이블 배포 프로토콜•트래픽 공학용 자원 예약 프로토콜(Label Distribution Protocol/Resource Reservation Protocol-Traffic Engineering, LDP•RSVP-TE)**: 프리픽스-레이블 연결을 교환하는 프로토콜과 제약 기반 명시적 LSP를 설정하는 프로토콜이다.
-- **양방향 전달 탐지•고속 재라우팅•경로 최대 전송 단위(Bidirectional Forwarding Detection/Fast Reroute/Path Maximum Transmission Unit, BFD•FRR•경로 MTU)**: 장애를 빠르게 탐지•우회하고 레이블 스택을 포함한 최대 패킷 크기를 관리하는 기준이다.
+- **LDP(Label Distribution Protocol)**: 프리픽스와 레이블의 연결 정보를 교환하는 프로토콜이다.
+- **RSVP-TE(Resource Reservation Protocol-Traffic Engineering)**: 제약 기반 명시적 LSP를 설정하는 프로토콜이다.
+- **BFD(Bidirectional Forwarding Detection)**: 인접 전달 경로 장애를 빠르게 탐지하는 프로토콜이다.
+- **FRR(Fast Reroute)**: 장애 시 미리 계산한 보호 경로로 신속히 우회하는 기술이다.
+- **경로 MTU(Path Maximum Transmission Unit)**: 경로 전체에서 단편화 없이 전달할 수 있는 최대 패킷 크기이다.
 
 </details>
 
@@ -169,8 +175,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 격리**: 가상 사설망(Virtual Private Network, VPN)별 내부 레이블과 백본 전달 레이블을 나눠 고객 경로가 섞이지 않게 하는 방식이다.
-- **경로 최대 전송 단위(Path Maximum Transmission Unit, 경로 MTU)**: 전달 경로 전체에서 단편화 없이 보낼 수 있는 최대 패킷 크기이다.
+- **서비스 격리**: VPN별 내부 레이블과 백본 전달 레이블을 나눠 고객 경로가 섞이지 않게 하는 방식이다.
 
 </details>
 

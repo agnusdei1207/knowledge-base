@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "방화벽 : 패킷 필터•상태기반•NGFW (Firewall Types)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T15:20:00+09:00"
 tags:
   - "notes-network"
 weight: 20
@@ -39,7 +39,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **기본 차단•상태 추적•심층 패킷 검사(Default Deny/Stateful Inspection/Deep Packet Inspection, 기본 차단•상태 추적•DPI)**: 명시적 허용 외 통신을 거부하고 연결 상태와 응용 내용을 검사하는 기능이다.
+- **기본 차단(Default Deny)**: 명시적으로 허용하지 않은 통신을 거부하는 정책이다.
+- **상태 추적(Stateful Inspection)**: 연결 상태를 기록하여 요청과 응답의 연관성을 검사하는 기능이다.
+- **DPI(Deep Packet Inspection)**: 패킷 페이로드의 응용 정보와 위협 패턴까지 분석하는 검사이다.
 
 </details>
 
@@ -56,8 +58,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **보안 존•접근 제어 목록•상태 테이블(Security Zone/Access Control List/State Table, 보안 존•ACL•상태 테이블)**: 정책 방향을 적용할 구간, 순서화된 허용•차단 규칙, 허용 연결 상태를 저장한 표이다.
-- **위협 엔진•정책 로그**: 공격 패턴을 분석하는 기능과 적용 규칙•판정 결과를 기록한 데이터이다.
+- **보안 존(Security Zone)**: 정책 방향을 적용할 신뢰 구간이다.
+- **ACL(Access Control List)**: 순서에 따라 평가하는 허용•차단 규칙 목록이다.
+- **상태 테이블(State Table)**: 허용한 연결의 양방향 상태를 저장한 표이다.
+- **위협 엔진(Threat Engine)**: 응용 데이터에서 공격 패턴을 분석하는 기능이다.
+- **정책 로그(Policy Log)**: 적용 규칙과 판정 결과를 기록한 데이터이다.
 
 </details>
 
@@ -97,7 +102,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **정책 판정(Policy Decision)**: 보안 존•연결 상태•첫 일치 규칙•위협 검사 결과를 결합해 허용 여부를 결정하는 과정이다.
-- **접근 제어 목록(Access Control List, ACL)**: 위에서부터 평가해 처음 일치한 허용•차단 동작을 적용하는 규칙 목록이다.
 
 </details>
 
@@ -137,8 +141,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **패킷 필터•상태 기반•차세대 방화벽(Packet Filter/Stateful Firewall/Next-Generation Firewall, 패킷 필터•상태 기반•NGFW)**: 패킷 필드, 연결 문맥, 응용•사용자•위협 정보를 각각 기준으로 통제하는 방화벽이다.
-- **심층 패킷 검사(Deep Packet Inspection, DPI)**: 패킷 페이로드의 응용 정보와 위협 패턴까지 분석하는 검사이다.
+- **패킷 필터(Packet Filter)**: 주소와 포트 같은 패킷 필드로 통제하는 방화벽이다.
+- **상태 기반 방화벽(Stateful Firewall)**: 연결 상태와 양방향 문맥으로 통제하는 방화벽이다.
+- **NGFW(Next-generation Firewall)**: 응용•사용자•위협 정보로 통제하는 차세대 방화벽이다.
 
 </details>
 
@@ -159,7 +164,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **비무장 지대•규칙 그림자(DeMilitarized Zone/Rule Shadowing, DMZ•규칙 그림자)**: 공개 서버를 내부망과 분리한 구간과 앞선 광범위 규칙 때문에 뒤 규칙이 적용되지 않는 현상이다.
+- **DMZ(Demilitarized Zone)**: 공개 서버를 내부망과 분리한 경계 구간이다.
+- **규칙 그림자(Rule Shadowing)**: 앞선 광범위 규칙 때문에 뒤 규칙이 적용되지 않는 현상이다.
 - **복호화 예외**: 암호화 트래픽 검사 시 개인정보•법적 요구•성능을 고려해 검사하지 않을 범위를 정한 정책이다.
 
 </details>
@@ -182,7 +188,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **검사 범위 최소화(Minimum Inspection Scope)**: 필요한 주소•연결•응용 문맥까지만 검사해 통제 정밀도와 처리 비용을 균형화하는 원칙이다.
-- **차세대 방화벽(Next-Generation Firewall, NGFW)**: 응용•사용자•위협 정보까지 식별해 세밀한 보안 정책을 적용하는 방화벽이다.
 
 </details>
 
