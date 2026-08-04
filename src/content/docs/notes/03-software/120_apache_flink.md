@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-04T13:20:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -117,7 +117,7 @@ sequenceDiagram
     participant K as Sink
     J->>S: 1. 체크포인트 ID
     S->>O: 2. Barrier•입력 위치
-    O->>J: 3. 상태 스냅숏•영속 완료
+    O->>J: 3. 상태 스냅숏
     O->>K: 4. 미확정 트랜잭션
     K-->>J: Sink 확인
     J->>K: 5. 커밋 결정

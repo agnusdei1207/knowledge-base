@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Redis 인메모리 DB (Redis In-Memory Database)"
-date: "2026-08-04T13:06:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -110,11 +110,12 @@ sequenceDiagram
     participant C as 클라이언트
     participant R as 클러스터 라우팅
     participant P as 담당 주 노드
+    participant L as AOF 로그
     participant S as 복제본
     C->>R: 키•명령
     R->>P: 1. 키•자료구조 명령
-    P->>P: 2. AOF 명령 레코드
-    P->>P: 3. fsync 완료
+    P->>L: 2. AOF 명령 레코드
+    L-->>P: 3. fsync 결과
     P->>S: 4. 복제 스트림
     S-->>P: 5. 복제 오프셋
     P-->>R: 실행 결과
@@ -124,8 +125,8 @@ sequenceDiagram
 **동작 원리**
 
 1. **키•자료구조 명령**: 해시 슬롯으로 주 노드를 찾아 원자 연산 전달
-2. **추가 전용 파일(Append Only File, AOF) 명령 레코드**: 재실행 가능한 변경 명령을 로그에 추가
-3. **파일 동기화(File Synchronization, fsync) 결과**: 설정된 동기화 정책에 따른 디스크 기록 상태 확인
+2. **AOF 명령 레코드**: 재실행 가능한 변경 명령을 로그에 추가
+3. **fsync 결과**: 설정된 동기화 정책에 따른 디스크 기록 상태 확인
 4. **복제 스트림**: 주 노드의 변경 순서를 복제본에 전달
 5. **복제 오프셋**: 복제본이 반영한 변경 위치로 복제 상태 판정
 

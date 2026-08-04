@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "분산 데이터베이스 (Distributed Database)"
-date: "2026-08-04T13:14:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 114
@@ -115,11 +115,12 @@ block-beta
 sequenceDiagram
     participant C as 클라이언트
     participant R as 라우터
+    participant M as 파티션 맵
     participant L as 파티션 리더
     participant F as 복제본
     C->>R: 키•일관성 요구
-    R->>R: 1. 파티션 키•배치 정보 조회
-    R->>R: 2. 리더 위치 선택
+    R->>M: 1. 파티션 키•배치 정보 조회
+    M-->>R: 2. 리더 위치 선택
     R->>L: 3. 파티션 연산
     L->>F: 4. 복제 로그 항목
     F-->>L: 5. 복제 확인

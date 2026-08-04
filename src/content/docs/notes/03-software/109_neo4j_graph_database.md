@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Neo4j 그래프 DB (Neo4j Graph Database)"
-date: "2026-08-04T13:09:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 109
@@ -117,11 +117,13 @@ block-beta
 sequenceDiagram
     participant C as 클라이언트
     participant P as Cypher 실행•경로 탐색기
+    participant O as 경로 계획기
     participant G as 그래프 저장소
     C->>P: Cypher 패턴
     P->>G: 1. 시작 노드 조건•인덱스 조회
     G-->>P: 2. 노드 식별자
-    P->>P: 3. 관계 확장 계획
+    P->>O: 3. 관계 확장 계획
+    O-->>P: 확장 순서
     P->>G: 4. 인접 관계 요청
     G-->>P: 5. 인접 관계•속성
     P-->>C: 질의 결과
@@ -129,7 +131,7 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **시작 노드 조건**: 선택도 높은 레이블•속성을 인덱스에 전달
+1. **시작 노드 조건•인덱스 조회**: 선택도 높은 레이블•속성을 인덱스에 전달
 2. **노드 식별자**: 인덱스가 탐색 출발 집합을 축소해 반환
 3. **관계 확장 계획**: 유형•방향•깊이별 확장 순서 결정
 4. **인접 관계 요청**: 현재 노드에 연결된 관계와 이웃 조회

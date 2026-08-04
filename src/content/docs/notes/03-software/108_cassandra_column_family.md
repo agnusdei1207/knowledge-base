@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 DB (Cassandra Column Family)"
-date: "2026-08-04T13:08:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -111,6 +111,7 @@ sequenceDiagram
     participant O as 조정자
     participant A as 복제본 A
     participant B as 복제본 B
+    participant S as SSTable 저장소
     C->>O: 파티션 키•일관성 수준
     par 담당 복제본 쓰기
         O->>A: 1. 쓰기 레코드
@@ -120,14 +121,14 @@ sequenceDiagram
     A-->>O: 2. 로컬 반영 확인
     B-->>O: 로컬 반영 확인
     O-->>C: 쓰기 성공
-    A->>A: 3. Memtable을 SSTable로 저장
+    A->>S: 3. SSTable 저장
 ```
 
 **동작 원리**
 
 1. **쓰기 레코드**: 토큰 범위의 담당 복제본에 변경 병렬 전달
 2. **로컬 반영 확인**: 커밋 로그(Commit Log)•메모리 테이블(Memtable) 기록 완료를 조정자에 통지
-3. **정렬된 메모리 테이블 데이터**: 메모리 한도 도달 시 불변 정렬 문자열 테이블(Sorted String Table, SSTable) 생성
+3. **SSTable 저장**: 메모리 한도 도달 시 불변 정렬 문자열 테이블(Sorted String Table, SSTable) 생성
 
 #### 한줄 요약
 

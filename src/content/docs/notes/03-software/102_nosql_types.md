@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-04T12:55:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -114,10 +114,12 @@ block-beta
 sequenceDiagram
     participant A as 응용
     participant D as 모델 API•요청 라우터
+    participant K as 모델•키 메타데이터
     participant P as 주 파티션
     participant S as 복제 파티션
     A->>D: 모델별 쓰기 요청
-    D->>D: 1. 저장 단위•키 해석
+    D->>K: 1. 저장 단위•키
+    K-->>D: 키 해석 결과
     D->>P: 2. 파티션 식별자
     P->>S: 3. 변경 레코드
     S-->>P: 4. 복제 확인

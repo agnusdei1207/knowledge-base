@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CAP 정리 (CAP Theorem)"
-date: "2026-08-04T12:57:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 103
@@ -112,10 +112,11 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant C as 클라이언트
+    participant N as 분할 감지기
     participant O as 요청 조정자
     participant A as 복제 노드 A
     participant B as 복제 노드 B
-    O->>O: 1. 분할 상태 감지
+    N->>O: 1. 분할 상태
     C->>O: 분할 중 연산 요청
     O->>A: 2. 복제본 확인 요청
     A->>B: 3. 최신 버전 조회

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MongoDB 도큐먼트 DB (MongoDB Document Database)"
-date: "2026-08-04T13:03:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 106
@@ -132,8 +132,8 @@ sequenceDiagram
 
 1. **청크 메타데이터 요청**: 샤드 키가 속한 청크의 배치 위치 조회
 2. **대상 샤드 위치**: 구성 서버가 담당 레플리카셋 주소 반환
-3. **바이너리 제이슨(Binary JSON, BSON) 변경 레코드**: 주 구성원이 문서 단위 변경을 원자 적용
-4. **연산 로그(Operation Log, oplog) 항목**: 확정된 변경 순서를 보조 구성원에 전달
+3. **BSON 변경 레코드**: 주 구성원이 문서 단위 변경을 원자 적용
+4. **oplog 항목**: 확정된 변경 순서를 보조 구성원에 전달
 5. **복제 확인**: 요구된 쓰기 확인 수를 충족하면 성공 판정
 
 #### 한줄 요약

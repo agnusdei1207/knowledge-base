@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-04T13:17:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -112,12 +112,14 @@ block-beta
 sequenceDiagram
     participant U as 응용 프로그램
     participant D as Driver
+    participant C as Catalyst•AQE
+    participant S as Scheduler
     participant E as Executor
     U->>D: 변환•액션 제출
-    D->>D: 1. Catalyst 논리 계획
-    D->>D: 2. AQE 최적 실행 계획
-    D->>D: 3. DAG•Stage 구성
-    D->>E: 4. 파티션 Task
+    D->>C: 1. Catalyst 논리 계획
+    C-->>D: 2. AQE 최적 실행 계획
+    D->>S: 3. DAG•Stage 구성
+    S->>E: 4. 파티션 Task
     E-->>D: 5. 실행 통계
 ```
 

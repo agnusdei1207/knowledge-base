@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터 독립성 - 논리•물리 (Data Independence)"
-date: "2026-08-04T13:11:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 111
@@ -106,13 +106,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 응용
-    participant D as DBMS 매핑 계층
+    participant E as 외부-개념 매핑
+    participant D as 개념-내부 매핑
     participant S as 내부 저장 구조
-    A->>D: 외부 뷰 질의
-    D->>D: 1. 개념 질의•논리 연산 변환
+    A->>E: 외부 뷰 질의
+    E->>D: 1. 개념 질의•논리 연산 변환
     D->>S: 2. 물리 접근 요청
     S-->>D: 3. 레코드
-    D-->>A: 4. 외부 뷰 행•질의 결과
+    D-->>E: 개념 결과
+    E-->>A: 4. 외부 뷰 행•질의 결과
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터베이스 용량 산정 (DB Capacity Planning)"
-date: "2026-08-04T12:53:00+09:00"
+date: "2026-08-04T14:21:33+09:00"
 tags:
   - "notes-software"
 weight: 101
@@ -121,12 +121,14 @@ sequenceDiagram
     participant F as 예측•증설 계획
     participant T as 부하 시험
     participant I as 인프라 공급자
+    participant C as 용량 산정기
     F->>I: 조달 조건 조회
     I-->>F: 준비 기간
     M->>F: 1. 성장률•피크 시계열
     F->>T: 2. 예측 부하 시나리오
     T-->>F: 3. 병목 실측값
-    F->>F: 4. 용량 한계일•증설 시점 결정
+    F->>C: 4. 용량 한계일
+    C-->>F: 증설 시점
     F->>I: 5. 선행 증설 요청
     I-->>F: 증설 일정
 ```
