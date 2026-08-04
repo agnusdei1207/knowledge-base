@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-03T09:18:33+09:00"
+date: "2026-08-04T12:06:00+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO 26262•자동차 안전 무결성 수준(Automotive Safety Integrity Level, ASIL)**: 차량 전기•전자 시스템의 오동작 위험을 ASIL 등급별 안전 수명주기 활동으로 통제하는 기능 안전 표준과 위험 등급이다.
+- **ISO 26262**: 차량 전기•전자 시스템의 기능 안전 국제표준이다.
+- **자동차 안전 무결성 수준(Automotive Safety Integrity Level, ASIL)**: 차량 오동작 위험에 따른 안전 등급이다.
 - **고위험 기능의 안전 강도 부족**: 모든 기능에 같은 검증을 적용해 심각한 위해에 필요한 엄격도가 확보되지 않는 문제이다.
 
 </details>
@@ -40,8 +41,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **S•E•C 조합**: 심각도(Severity)•노출가능성(Exposure)•제어가능성(Controllability)을 결합한 위해 평가 기준이다.
-- **검증 엄격도•독립성**: ASIL이 높을수록 강화되는 시험 깊이와 개발 책임으로부터의 검증 분리 수준이다.
+- **심각도(Severity, S)**: 위험 사건이 초래하는 피해의 크기다.
+- **노출 가능성(Exposure, E)**: 위험 운전 상황에 놓이는 빈도다.
+- **제어 가능성(Controllability, C)**: 운전자가 위험을 피하거나 통제할 수 있는 정도다.
+- **검증 엄격도(Verification Rigor)**: ASIL에 따라 강화되는 시험의 깊이다.
+- **검증 독립성(Verification Independence)**: 검증 역할을 개발 책임과 분리하는 수준이다.
 - **구현•시험까지 양방향 추적**: 안전 목표와 상세 요구, 코드•회로, 결과를 앞뒤로 연결하는 성질이다.
 
 </details>
@@ -59,11 +63,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **HARA(Hazard Analysis and Risk Assessment, 위험원 분석 및 위험 평가)**: 운전 상황별 위해를 분석해 ASIL과 안전 목표를 도출하는 과정이다.
-- **S•E•C 평가**: 위해의 심각도(Severity), 운전 상황 노출 가능성(Exposure), 운전자의 제어 가능성(Controllability)을 조합해 ASIL을 정하는 평가이다.
+- **위험원 분석 및 위험 평가(Hazard Analysis and Risk Assessment, HARA)**: 운전 상황별 위해에서 ASIL과 안전 목표를 도출하는 과정이다.
 - **차량 수준 요구**: 개별 부품이 아니라 차량 전체의 위험한 동작을 방지하도록 정의한 안전 목표이다.
-- **FSR•TSR(Functional•Technical Safety Requirement)**: 안전 목표를 기능•기술 안전 요구로 분해한 항목이다.
-- **HSR•SSR(Hardware•Software Safety Requirement)**: 기술 요구를 하드웨어와 소프트웨어에 할당한 안전 요구이다.
+- **기능 안전 요구사항(Functional Safety Requirement, FSR)**: 안전 목표를 기능 관점으로 분해한 요구다.
+- **기술 안전 요구사항(Technical Safety Requirement, TSR)**: 기능 안전 요구를 기술 관점으로 분해한 요구다.
+- **하드웨어 안전 요구사항(Hardware Safety Requirement, HSR)**: 기술 안전 요구를 하드웨어에 할당한 요구다.
+- **소프트웨어 안전 요구사항(Software Safety Requirement, SSR)**: 기술 안전 요구를 소프트웨어에 할당한 요구다.
 
 </details>
 
@@ -133,8 +138,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ASIL A~D(Automotive Safety Integrity Level)**: 인명 위해의 심각도•노출•제어 가능성에 따라 엄격도를 구분한 등급이다.
-- **QM(Quality Management, 품질관리)**: ASIL이 도출되지 않은 항목을 일반 품질 절차로 관리하는 분류이다.
+- **ASIL A~D**: 심각도와 노출 및 제어 가능성으로 구분한 안전 등급이다.
+- **품질관리(Quality Management, QM)**: ASIL 미도출 항목을 일반 품질 절차로 관리하는 분류다.
 
 </details>
 
@@ -155,12 +160,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상황•오동작•영향 조합**: 드문 위해를 빠뜨리지 않도록 운전 맥락과 기능 실패 및 피해를 함께 검토한 단위이다.
-- **등급 근거•가정•독립 검토**: S•E•C 판정 자료와 전제조건을 남기고 개발팀과 분리된 검토자가 등급의 타당성을 확인하는 통제이다.
-- **목표•FSR•TSR•구현•시험**: 안전 목표에서 상세 요구와 구현 및 검증 결과까지 잇는 추적 사슬이다.
+- **운전 상황(Operational Situation)**: 위험을 평가할 차량 운행 맥락이다.
+- **오동작(Malfunction)**: 기능이 의도와 다르게 수행되는 상태다.
+- **영향(Impact)**: 오동작이 차량과 사람에 미치는 피해다.
+- **등급 근거(Classification Rationale)**: S와 E 및 C 판정에 사용한 자료다.
+- **평가 가정(Assessment Assumption)**: ASIL 판정이 성립하는 전제조건이다.
+- **독립 검토(Independent Review)**: 개발팀과 분리해 등급 타당성을 확인하는 통제다.
+- **안전 목표(Safety Goal)**: 위험 사건 방지를 위해 차량 수준에 부여한 목표다.
 - **ASIL별 검증 독립성**: 안전 등급에 따라 개발자와 검증•승인 역할을 분리하는 수준이다.
-- **영향 분석•안전 회귀 시험**: 변경이 안전 논증에 미치는 범위를 찾고 기존 메커니즘을 다시 검증하는 활동이다.
-- **EPS(Electric Power Steering, 전동식 조향 장치)**: 전기 모터로 운전자의 조향을 보조하며 기능 상실 시 차량 제어에 영향을 줄 수 있는 장치이다.
+- **영향 분석(Impact Analysis)**: 변경이 안전 논증에 미치는 범위를 찾는 활동이다.
+- **안전 회귀 시험(Safety Regression Test)**: 변경 뒤 기존 안전 메커니즘을 다시 검증하는 시험이다.
+- **전동식 조향 장치(Electric Power Steering, EPS)**: 전기 모터로 운전자의 조향을 보조하는 장치다.
 
 </details>
 
@@ -183,8 +193,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **안전 요구•검증 독립성**: ASIL이 높아질수록 강화해야 하는 요구 엄격도와 검증 역할 분리이다.
-- **QM**: ASIL이 도출되지 않은 비안전 품질 항목에 적용하는 일반 품질관리 분류이다.
+- **안전 요구 엄격도(Safety Requirement Rigor)**: ASIL에 따라 강화하는 요구의 구체성과 검증 수준이다.
 
 </details>
 

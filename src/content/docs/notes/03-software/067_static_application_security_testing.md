@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정적 분석 SAST (Static Application Security Testing)"
-date: "2026-08-03T09:18:33+09:00"
+date: "2026-08-04T11:40:00+09:00"
 tags:
   - "notes-software"
 weight: 67
@@ -42,7 +42,8 @@ extra:
 
 - **화이트박스 분석(White-box Analysis)**: 코드 내부 구조와 구현을 볼 수 있는 상태에서 수행하는 분석이다.
 - **시프트 레프트(Shift Left)**: 보안 검증을 개발•빌드 초기 단계로 앞당기는 원칙이다.
-- **오탐•미탐(False Positive•False Negative)**: 정상 코드를 취약하다고 판단하거나 실제 취약점을 놓치는 오류이다.
+- **오탐(False Positive)**: 정상 코드를 취약하다고 잘못 판단한 결과다.
+- **미탐(False Negative)**: 실제 취약점을 놓친 결과다.
 
 </details>
 
@@ -95,9 +96,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **AST(Abstract Syntax Tree, 추상 구문 트리)**: 소스 코드의 문법 구조를 트리로 표현한 자료구조이다.
-- **CFG(Control Flow Graph, 제어 흐름 그래프)**: 프로그램에서 실행 가능한 제어 경로를 그래프로 표현한 구조이다.
-- **DFG(Data Flow Graph, 데이터 흐름 그래프)**: 값의 정의•사용•전파 관계를 그래프로 표현한 구조이다.
+- **추상 구문 트리(Abstract Syntax Tree, AST)**: 소스 코드의 문법 구조를 표현한 트리다.
+- **제어 흐름 그래프(Control Flow Graph, CFG)**: 실행 가능한 제어 경로를 표현한 그래프다.
+- **데이터 흐름 그래프(Data Flow Graph, DFG)**: 값의 정의와 사용 및 전파 관계를 표현한 그래프다.
 - **오염 경로(Taint Path)**: 외부 입력이 새니타이저를 거치지 않고 위험한 싱크까지 도달하는 경로이다.
 - **규칙 프로필(Rule Profile)**: 언어•프레임워크별 취약 소스•싱크•새니타이저 조건을 묶어 적용하는 분석 규칙 집합이다.
 - **심각도(Severity)**: 취약점이 악용됐을 때 기밀성•무결성•가용성에 미치는 피해 등급이다.
@@ -132,8 +133,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SAST(Static Application Security Testing, 정적 애플리케이션 보안 테스트)**: 코드 내부 경로를 분석해 개발 중 결함을 조기에 찾는 보안 테스트이다.
-- **DAST(Dynamic Application Security Testing, 동적 애플리케이션 보안 테스트)**: 실행 중인 서비스에 요청을 보내 외부 공격 가능성을 검증하는 테스트이다.
+- **동적 애플리케이션 보안 테스트(Dynamic Application Security Testing, DAST)**: 실행 중인 서비스의 외부 공격 가능성을 검증하는 테스트다.
 
 </details>
 
@@ -160,9 +160,11 @@ sequenceDiagram
 - **실행 가능성 검토(Reachability Review)**: 탐지 경로가 실제 입력•설정•호출 조건에서 실행될 수 있는지 확인하는 검토이다.
 - **경고 피로(Alert Fatigue)**: 오탐•중복 경고가 많아져 중요한 취약점까지 검토가 늦거나 무시되는 현상이다.
 - **분석기 갱신(Analyzer Update)**: 새 언어•프레임워크 흐름과 취약 패턴을 인식하도록 엔진과 규칙을 최신화하는 작업이다.
-- **저장소•산출물 기준 범위**: 직접 작성 코드뿐 아니라 생성 코드와 빌드에 포함된 의존성까지 분석 대상으로 정한 경계이다.
+- **저장소 범위(Repository Scope)**: 직접 작성 코드와 생성 코드를 포함한 분석 경계다.
+- **산출물 범위(Artifact Scope)**: 빌드에 포함된 의존성까지 포함한 분석 경계다.
 - **주기적 전체 분석(Periodic Full Analysis)**: 증분 검사에서 놓칠 교차 모듈 경로를 찾도록 전체 저장소를 정기적으로 다시 분석하는 방식이다.
-- **노출•자산 영향(Exposure•Asset Impact)**: 취약 경로가 외부 입력에 열려 있는 정도와 침해 시 보호 대상에 미치는 피해이다.
+- **노출(Exposure)**: 취약 경로가 외부 입력에 열려 있는 정도다.
+- **자산 영향(Asset Impact)**: 침해 시 보호 대상에 미치는 피해다.
 
 </details>
 
@@ -185,7 +187,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **코드 경로•실행 가능성•자산 영향**: SAST 결과의 실제 위험과 조치 순서를 판단하는 세 가지 기준이다.
+- **코드 경로(Code Path)**: SAST 결과의 위험 위치를 판단하는 기준이다.
+- **실행 가능성(Reachability)**: 탐지 경로의 실제 실행 여부를 판단하는 기준이다.
 - **SAST 조치 우선순위**: 탐지 결과 중 먼저 수정하거나 차단할 항목의 순서이다.
 
 </details>

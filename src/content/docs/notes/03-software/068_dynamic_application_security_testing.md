@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
-date: "2026-08-03T09:18:33+09:00"
+date: "2026-08-04T11:42:00+09:00"
 tags:
   - "notes-software"
 weight: 68
@@ -98,7 +98,9 @@ block-beta
 
 - **공격 표면(Attack Surface)**: 외부에서 접근 가능한 경로•매개변수•기능의 집합이다.
 - **공격 엔진(Attack Engine)**: 입력점별로 공격 페이로드와 인증 상태를 조합해 요청하는 구성요소이다.
-- **상태 코드•본문•응답 시간**: 공격 결과의 취약 징후를 판정하는 외부 관측 자료이다.
+- **상태 코드(Status Code)**: 공격 요청의 처리 결과를 나타내는 응답 코드다.
+- **응답 본문(Response Body)**: 공격 결과의 출력 데이터를 담은 응답 내용이다.
+- **응답 시간(Response Time)**: 공격 요청부터 응답까지 걸린 시간이다.
 
 </details>
 
@@ -136,8 +138,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DAST(Dynamic Application Security Testing, 동적 애플리케이션 보안 테스트)**: 실행 서비스의 요청•응답으로 공격 가능성을 검증하는 테스트이다.
-- **SAST(Static Application Security Testing, 정적 애플리케이션 보안 테스트)**: 소스•바이너리의 내부 경로를 분석해 코드 결함을 찾는 테스트이다.
+- **정적 애플리케이션 보안 테스트(Static Application Security Testing, SAST)**: 소스와 바이너리의 내부 경로에서 결함을 찾는 테스트다.
 
 </details>
 
@@ -163,9 +164,13 @@ sequenceDiagram
 - **요청 식별자(Request ID)**: 외부 요청과 내부 로그•코드 실행을 연결하는 고유 값이다.
 - **스테이징 환경(Staging Environment)**: 운영과 유사하되 실제 사용자 영향 없이 보안 검증을 수행하는 시험 환경이다.
 - **수동 경로(Manual Path)**: 자동 크롤러가 찾지 못하는 비공개 API•업무 흐름을 테스터가 직접 정의한 검사 경로이다.
-- **역할별 계정•권한 전환**: 서로 다른 권한의 시험 계정을 준비하고 같은 기능을 역할별 세션으로 검사하는 방식이다.
-- **격리 환경•요청 제한•시험 데이터**: 운영과 분리된 환경에서 공격 요청 속도•수를 제한하고 폐기 가능한 데이터를 사용하는 안전 통제이다.
-- **원본 요청 재현•수동 검토**: 공격 변조 전 정상 요청과 결과를 다시 비교하고 사람이 실제 취약 반응인지 확인하는 절차이다.
+- **역할별 계정(Role-specific Account)**: 서로 다른 권한으로 준비한 시험 계정이다.
+- **권한 전환(Privilege Switching)**: 같은 기능을 역할별 세션으로 검사하는 방식이다.
+- **격리 환경(Isolated Environment)**: 운영과 분리해 공격 시험을 수행하는 환경이다.
+- **요청 제한(Request Limit)**: 공격 요청의 속도와 수를 제한하는 통제다.
+- **시험 데이터(Test Data)**: 공격 시험 뒤 폐기할 수 있는 전용 데이터다.
+- **원본 요청 재현(Baseline Replay)**: 공격 변조 전 정상 요청과 결과를 다시 비교하는 절차다.
+- **수동 검토(Manual Review)**: 사람이 실제 취약 반응인지 확인하는 절차다.
 
 </details>
 
@@ -188,7 +193,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **공격 표면•권한•운영 영향**: DAST의 탐색 범위와 안전 통제를 결정하는 세 가지 기준이다.
+- **권한(Privilege)**: DAST의 역할별 탐색 범위를 정하는 기준이다.
+- **운영 영향(Operational Impact)**: DAST의 안전 통제 강도를 정하는 기준이다.
 - **DAST 범위**: 동적 공격 검사를 수행할 경로•역할•기능•환경의 경계이다.
 
 </details>

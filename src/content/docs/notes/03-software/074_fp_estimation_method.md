@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SW 기능점수 간이법•정통법 (FP Estimation Method)"
-date: "2026-08-03T09:18:33+09:00"
+date: "2026-08-04T11:56:00+09:00"
 tags:
   - "notes-software"
 weight: 74
@@ -23,7 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **기능점수 간이법•정통법(FP Estimation Method)**: 요구 상세도에 따라 기능 유형별 평균 가중치 또는 DET•RET•FTR 기반 복잡도별 가중치로 기능점수를 계산하는 하위 산정법이다.
+- **기능점수(Function Point, FP)**: 사용자 기능의 논리 규모를 측정하는 단위다.
+- **간이법(Simplified Method)**: 기능 유형별 평균 가중치로 FP를 추정하는 방법이다.
+- **정통법(Detailed Method)**: 복잡도별 가중치로 FP를 계산하는 방법이다.
 - **정통법 산정 불가**: DET•RET•FTR 정보가 부족해 기능별 복잡도를 상세 판정할 수 없는 상태이다.
 
 </details>
@@ -40,8 +42,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **간이법**: 기능 유형별 평균 복잡도 가중치로 초기 규모를 빠르게 추정하는 방법이다.
-- **정통법**: DET•RET•FTR 수로 각 기능의 상세 복잡도를 판정하는 방법이다.
 - **간이값을 정통법으로 재산정**: 요구가 구체화되면 초기 추정치를 상세 근거로 다시 계산하는 절차이다.
 
 </details>
@@ -59,9 +59,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **업무 범위•기능 목록•상세도**: 산정법을 선택하고 기능 누락을 검토하는 입력 요구 정보이다.
+- **업무 범위(Business Scope)**: 기능점수 측정에 포함할 업무 경계다.
+- **기능 목록(Function List)**: 측정 대상으로 식별한 사용자 기능 집합이다.
+- **요구 상세도(Requirement Detail)**: 기능 복잡도를 판정할 수 있는 요구 구체성이다.
 - **평균 가중치**: 간이법에서 기능 유형별로 동일하게 적용하는 대표 복잡도 값이다.
-- **DET•RET•FTR(Data Element Type•Record Element Type•File Type Referenced)**: 정통법에서 사용자 식별 필드, 논리 파일 하위 그룹, 참조•유지 파일 수를 세는 복잡도 요소이다.
+- **데이터 요소 유형(Data Element Type, DET)**: 사용자가 식별하는 필드 유형이다.
+- **레코드 요소 유형(Record Element Type, RET)**: 논리 파일의 하위 레코드 그룹 유형이다.
+- **참조 파일 유형(File Type Referenced, FTR)**: 트랜잭션이 참조하거나 유지하는 파일 유형이다.
 
 </details>
 
@@ -92,8 +96,13 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **다섯 기능 유형 후보**: EI•EO•EQ•ILF•EIF로 식별한 초기 기능 목록이다.
-- **산정법•UFP•판정 근거**: 적용한 방법, 미조정 기능점수, 분류•가중치의 근거이다.
+- **외부 입력(External Input, EI)**: 외부에서 내부 논리 파일을 변경하는 기능이다.
+- **외부 출력(External Output, EO)**: 계산을 포함해 외부로 데이터를 내보내는 기능이다.
+- **외부 조회(External Inquiry, EQ)**: 계산 없이 데이터를 조회하는 기능이다.
+- **내부 논리 파일(Internal Logical File, ILF)**: 측정 대상이 유지하는 논리 데이터다.
+- **외부 연계 파일(External Interface File, EIF)**: 외부가 유지하고 측정 대상이 참조하는 데이터다.
+- **산정법(Estimation Method)**: 기능점수 계산에 적용한 방법이다.
+- **판정 근거(Estimation Rationale)**: 기능 분류와 가중치를 선택한 이유다.
 - **기능점수 기준선**: 요구 버전•범위•규칙을 고정해 변경 전후 규모를 비교하는 기준이다.
 - **미조정 기능점수(Unadjusted Function Point, UFP)**: 다섯 기능 유형의 개수와 복잡도 가중치를 합산한 조정 전 기능점수이다.
 
@@ -159,10 +168,15 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **가짜 정밀도(False Precision)**: 불충분한 입력으로 계산한 값을 실제보다 정확해 보이게 제시하는 오류이다.
-- **경계•버전•제외 범위**: 산정값 비교 가능성을 위해 기준선에 고정할 정보이다.
-- **산정법•규칙 판본•근거**: 가중치 혼용을 막도록 함께 기록하는 산정 메타데이터이다.
-- **사용자 목적•독립 처리**: 사용자가 인식하는 하나의 완결된 업무 목표를 기준으로 화면•API 구현과 무관하게 기능을 식별하는 원칙이다.
-- **추가•삭제•복잡도별 증감**: 이전 기준선과 비교해 기능이 새로 생기거나 사라진 변화와 복잡도 등급 변화가 점수에 미친 값이다.
+- **측정 경계(Measurement Boundary)**: 산정값 비교를 위해 고정할 시스템 안팎의 기준이다.
+- **요구 버전(Requirement Version)**: 기능점수 산정에 사용한 요구의 판본이다.
+- **제외 범위(Exclusion Scope)**: 기능점수 산정에서 빼기로 합의한 대상이다.
+- **규칙 판본(Rule Version)**: 산정에 사용한 가중치 규칙의 버전이다.
+- **사용자 목적(User Goal)**: 사용자가 인식하는 완결된 업무 목표다.
+- **독립 처리(Elementary Process)**: 화면과 API 구현에 무관한 최소 기능 단위다.
+- **추가 증감(Addition Delta)**: 새 기능이 점수에 더한 값이다.
+- **삭제 증감(Deletion Delta)**: 제거 기능이 점수에서 빠진 값이다.
+- **복잡도 증감(Complexity Delta)**: 복잡도 등급 변화가 점수에 미친 값이다.
 
 </details>
 
@@ -185,8 +199,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **간이법**: 초기•개략 예산을 평균 가중치로 추정하는 기능점수 산정법이다.
-- **정통법**: 상세•최종 정산을 기능별 복잡도 가중치로 계산하는 기능점수 산정법이다.
 
 </details>
 

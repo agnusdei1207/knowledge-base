@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알파•베타•인수 테스트 (Alpha Beta Acceptance Testing)"
-date: "2026-08-03T09:18:33+09:00"
+date: "2026-08-04T11:29:00+09:00"
 tags:
   - "notes-software"
 weight: 62
@@ -24,7 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인수 테스트(Acceptance Testing)**: 사용자•발주자의 업무•계약•운영 기준 충족 여부를 증거로 판정하는 테스트이다.
-- **업무•현장 적합성**: 시스템이 실제 사용자의 업무 흐름과 운영 환경에 맞는 정도이다.
+- **업무 적합성(Business Fit)**: 시스템이 사용자의 실제 업무 흐름에 맞는 정도다.
+- **현장 적합성(Field Fit)**: 시스템이 실제 운영 환경에 맞는 정도다.
 
 </details>
 
@@ -93,7 +94,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **UAT(User Acceptance Testing, 사용자 인수 테스트)**: 최종 사용자가 업무 시나리오와 수용 기준의 충족 여부를 확인하는 시험이다.
+- **사용자 인수 테스트(User Acceptance Testing, UAT)**: 최종 사용자가 업무 수용 기준의 충족 여부를 확인하는 시험이다.
 - **테스트 증거(Test Evidence)**: 실행 결과•결함•사용자 의견을 인수 기준과 연결한 판정 기록이다.
 - **잔여 위험(Residual Risk)**: 통제 조치 후에도 남아 승인 여부를 판단해야 하는 위험이다.
 
@@ -153,13 +154,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **대표 사용자•환경 표본**: 현장의 역할•장치•네트워크 차이를 반영하도록 선정한 시험 참여자와 조건이다.
+- **대표 사용자(Representative User)**: 현장의 역할 차이를 반영해 선정한 시험 참여자다.
+- **환경 표본(Environment Sample)**: 장치와 네트워크 차이를 반영해 선정한 시험 조건이다.
 - **최소화(Data Minimization)**: 시험 목적에 필요한 최소한의 사용자•업무 데이터만 수집•보관하는 원칙이다.
 - **가명화(Pseudonymization)**: 추가 정보 없이는 개인을 식별할 수 없도록 데이터를 바꾸는 조치이다.
 - **측정 가능한 판정 조건**: 값•범위•관찰 방법을 명시해 합격 여부를 같은 기준으로 판단할 수 있는 인수 조건이다.
-- **진단 정보•재현 절차**: 결함 발생 시각•환경•입력•로그와 같은 오류를 다시 만드는 실행 순서이다.
+- **진단 정보(Diagnostic Information)**: 결함 시각과 환경 및 입력과 로그를 담은 정보다.
+- **재현 절차(Reproduction Procedure)**: 같은 오류를 다시 만드는 실행 순서다.
 - **보관 기한(Retention Period)**: 시험 데이터와 증거를 유지한 뒤 삭제해야 하는 기간이다.
-- **심각도•위험 책임자(Severity•Risk Owner)**: 결함 영향의 등급과 미해결 위험의 수용•완화를 책임지는 주체이다.
+- **심각도(Severity)**: 결함이 업무에 미치는 영향의 등급이다.
+- **위험 책임자(Risk Owner)**: 미해결 위험의 수용과 완화를 책임지는 주체다.
 
 </details>
 
@@ -182,7 +186,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **알파•베타•UAT**: 내부 통제 검증, 외부 현장 검증, 사용자 수용 판정을 구분하는 시험 단계이다.
 - **수용 판정**: 인수 기준과 테스트 증거를 대조해 수용•보완•거부를 결정하는 활동이다.
 
 </details>
