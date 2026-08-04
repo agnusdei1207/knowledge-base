@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "유사도 측정: 코사인•자카드•유클리드 (Similarity Measures)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 37
@@ -65,11 +65,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    T["표현 변환기"] --- F["척도 함수"] --- R["후보 선정기"]
+```text
+[척도 함수]
+    |
+    +-- [표현 변환기]
+    `-- [후보 선정기]
 ```
+
+선의 의미: 척도 함수가 사용하는 비교 표현과 점수를 소비하는 후보 선정기의 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

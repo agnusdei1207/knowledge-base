@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-08-04T20:58:00+09:00"
+date: "2026-08-05T00:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -73,11 +73,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    E["해밍 부호기"] --- M["전송•저장 매체"] --- D["해밍 복호기"] --- S["신드롬 판정기"]
+```text
+[해밍 부호기] -- [전송•저장 매체] -- [해밍 복호기]
+                                             |
+                                   [신드롬 판정기]
 ```
+
+선의 의미: 부호기와 복호기가 전송•저장 매체의 코드워드에 접하고, 복호기가 신드롬 판정기를 이용하는 정적 연결 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

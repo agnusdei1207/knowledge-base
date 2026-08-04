@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "클러스터링: K-Means•DBSCAN (Clustering)"
-date: "2026-08-04T21:38:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 35
@@ -66,11 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    P["특징 전처리기"] --- K["K-Means 군집기"] --- D["DBSCAN 군집기"] --- E["군집 평가기"]
+```text
+                       [K-Means 군집기]
+                      /                 \
+[특징 전처리기] -----+                   +----- [군집 평가기]
+                      \                 /
+                       [DBSCAN 군집기]
 ```
+
+선의 의미: 공통 전처리기와 평가기 사이에 K-Means•DBSCAN 군집기가 대안으로 연결된 정적 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38
@@ -67,11 +67,16 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["폴드 분할기"] --- M["모델 학습기"] --- E["성능 평가기"] --- G["점수 집계기"]
+```text
+[K-Fold 검증 구조]
+    |
+    +-- [폴드 분할기]
+    +-- [모델 학습기]
+    +-- [성능 평가기]
+    `-- [점수 집계기]
 ```
+
+선의 의미: 검증 구조가 포함하는 분할•학습•평가•집계 책임의 정적 구성 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
@@ -72,11 +72,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    M["학습 모델"] --- E["오차 측정기"] --- D["적합 진단기"] --- C["복잡도 조정기"]
+```text
+                  [오차 측정기]
+                  /           \
+       [학습 모델]             [적합 진단기]
+                  \           /
+                 [복잡도 조정기]
 ```
+
+선의 의미: 학습 모델을 중심으로 오차 측정•적합 진단•복잡도 조정이 연결된 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

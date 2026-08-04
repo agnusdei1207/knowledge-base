@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-08-04T21:10:00+09:00"
+date: "2026-08-05T00:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -66,11 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    SE["소스 부호기"] --- CE["채널 부호기"] --- CH["잡음 채널"] --- CD["채널 복호기"] --- SD["소스 복호기"]
+```text
+[소스 부호기] -- [채널 부호기] -- [잡음 채널]
+                                      |
+                  [소스 복호기] -- [채널 복호기]
 ```
+
+선의 의미: 송수신 부호기•복호기와 잡음 채널 사이에서 압축 비트열과 보호 코드워드를 공유하는 정적 인터페이스 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

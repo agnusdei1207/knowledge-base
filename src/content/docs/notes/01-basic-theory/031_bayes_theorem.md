@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 31
@@ -73,11 +73,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    L["우도 모형"] --- U["갱신 연산기"] --- P["확률 상태"]
+```text
+ [우도 모형]
+       |
+[갱신 연산기] -- [확률 상태]
 ```
+
+선의 의미: 갱신 연산기가 우도 모형의 가설별 적합도와 확률 상태의 사전•사후 확률을 함께 사용하는 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

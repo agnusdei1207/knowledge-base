@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 40
@@ -70,11 +70,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    P["이전 층"] --- F["활성화 함수"] --- N["다음 층"]
+```text
+[이전 층] ----- [활성화 함수] ----- [다음 층]
 ```
+
+선의 의미: 활성화 함수가 이전 층과 다음 층 사이의 뉴런 경계에 결합된 정적 계층 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

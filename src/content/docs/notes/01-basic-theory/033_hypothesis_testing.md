@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-08-04T21:24:00+09:00"
+date: "2026-08-05T00:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -64,11 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    T["검정 통계량 산출기"] --- N["귀무분포 모형"] --- P["유의확률 계산기"] --- J["기각 판정기"] --- C["구간 추정기"]
+```text
+[검정 통계량 산출기] -- [유의확률 계산기] -- [기각 판정기]
+          |                     |
+    [구간 추정기]        [귀무분포 모형]
 ```
+
+선의 의미: 검정 통계량을 구간 추정과 유의확률 계산이 공유하고, 유의확률 계산이 귀무분포와 기각 판정에 접하는 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

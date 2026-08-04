@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "튜링 머신 (Turing Machine)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:38:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 22
@@ -70,11 +70,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["상태 제어부"] --- T["전이 함수"] --- H["헤드"] --- P["테이프"]
+```text
+[상태 제어부] -- [전이 함수] -- [헤드] -- [테이프]
 ```
+
+선의 의미: 유한 제어 영역에서 테이프 저장 영역까지 서로 맞물린 구성요소의 정적 연결이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

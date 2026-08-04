@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-08-04T20:47:00+09:00"
+date: "2026-08-05T00:38:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
@@ -71,11 +71,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    I["입력 인버터"] --- A["AND 평면"] --- O["OR 평면"]
+```text
+[입력 인버터] -- [AND 평면] -- [OR 평면]
 ```
+
+선의 의미: 세 노드는 SOP 논리망을 이루는 직렬 배선 관계이며 상하 포함 관계가 아니다.
 
 | 구성요소 | 책임 |
 |:---|:---|

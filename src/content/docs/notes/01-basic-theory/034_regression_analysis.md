@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-08-04T21:30:00+09:00"
+date: "2026-08-05T00:45:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 34
@@ -70,11 +70,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    M["회귀 모형"] --- D["모형 진단기"] --- E["성능 평가기"]
+```text
+       [회귀 모형]
+         /     \
+[모형 진단기]   [성능 평가기]
 ```
+
+선의 의미: 회귀 모형의 계수•잔차를 모형 진단기가, 검증 예측값을 성능 평가기가 사용하는 정적 의존 관계
 
 | 구성요소 | 책임 |
 |:---|:---|
