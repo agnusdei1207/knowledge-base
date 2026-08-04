@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 보안 접근 서비스 경계(Secure Access Service Edge, SASE) 아키텍처
-date: "2026-08-04T18:31:00+09:00"
+date: "2026-08-04T14:32:30+09:00"
 tags:
   - notes-security
 weight: 141
@@ -109,7 +109,8 @@ sequenceDiagram
   S->>S: 1. 지연•가용성 기반 PoP 선택
   S->>S: 2. 맥락•위험•데이터 정책 판정
   S->>S: 3. SSE 검사 정책 적용
-  S->>A: 4. SD-WAN 경로•접근 집행
+  S->>S: 4. SD-WAN 경로•접근 집행
+  S->>A: 허용된 응용 접근 전달
   A->>S: 세션 행위•장애 정보 전달
   S->>S: 5. 세션 위험 지속 평가
   A-->>U: 허용 응용 응답

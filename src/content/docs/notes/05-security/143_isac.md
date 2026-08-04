@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 보안 정보 공유 플랫폼 — ISAC (ISAC)
-date: "2026-08-04T18:43:00+09:00"
+date: "2026-08-04T14:33:02+09:00"
 tags:
   - notes-security
 weight: 143
@@ -109,7 +109,8 @@ sequenceDiagram
   participant R as 회원 CSIRT
   M->>G: CTI•출처•공유조건 제출
   G->>G: 1. 출처•공유조건 검증
-  G->>A: 2. TLP•비식별•법적근거 확인
+  G->>G: 2. TLP•비식별•법적근거 확인
+  G->>A: 검증된 CTI 전달
   A->>A: 3. 신뢰도•산업 영향•시효 분석
   A->>A: 4. STIX•TAXII 배포객체 생성
   A-->>R: TLP 범위 내 제한 배포
