@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-04T11:48:00+09:00"
+date: "2026-08-05T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 71
@@ -69,17 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  B["사업 동인"]
-  U["유틸리티 트리"]
-  A["아키텍처 접근법"]
-  N["시나리오 분석"]
-  R["평가 결과"]
-  B --- U --- N --- R
-  A --- N
+```text
+[사업 동인] -- [유틸리티 트리]
+                         \
+                      [시나리오 분석] -- [평가 결과]
+                         /
+              [아키텍처 접근법]
 ```
+
+선의 의미: 사업 동인은 유틸리티 트리의 품질 우선순위를 정하고, 시나리오 분석은 유틸리티 트리와 아키텍처 접근법을 함께 검토해 평가 결과를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

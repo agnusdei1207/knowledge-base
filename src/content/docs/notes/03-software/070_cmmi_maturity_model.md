@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CMMI 성숙도 모델 (Capability Maturity Model Integration)"
-date: "2026-08-04T11:46:00+09:00"
+date: "2026-08-05T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 70
@@ -69,16 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  B["사업 목표"]
-  P["실천 영역"]
-  E["객관적 증거"]
-  A["평가"]
-  I["개선 과제"]
-  B --- P --- E --- A --- I
+```text
+[사업 목표] -- [실천 영역]
+                    |
+              [객관적 증거] -- [평가] -- [개선 과제]
 ```
+
+선의 의미: 사업 목표는 필요한 실천 영역을 정하고, 객관적 증거는 해당 실천의 수행 상태를 입증하며, 평가는 증거를 기준으로 개선 과제를 식별한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

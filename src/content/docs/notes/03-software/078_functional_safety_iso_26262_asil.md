@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-04T17:55:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -72,15 +72,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  H["HARA"]
-  G["안전 목표"]
-  F["FSR•TSR"]
-  D["HSR•SSR"]
-  H --- G --- F --- D
+```text
+[HARA] ----- [안전 목표] ----- [FSR•TSR] ----- [HSR•SSR]
 ```
+
+선의 의미: 선은 위험 평가, 차량 수준 안전 목표, 기능•기술 요구와 하드웨어•소프트웨어 요구 사이의 정적 요구 분해 및 추적 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
-date: "2026-08-04T12:00:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 76
@@ -76,15 +76,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  C["맥락"]
-  D["결정"]
-  R["결과"]
-  S["상태"]
-  C --- D --- R --- S
+```text
+[맥락] ----- [결정] ----- [결과]
+                |
+              [상태]
 ```
+
+선의 의미: 가로선은 하나의 ADR 안에서 맥락, 결정과 결과가 결합되는 문서 구조이고, 세로선은 해당 결정의 현재 유효 상태를 함께 관리하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

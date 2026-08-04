@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 25010 소프트웨어 제품 품질 모델 (Software Product Quality Model)"
-date: "2026-08-04T11:44:00+09:00"
+date: "2026-08-05T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 69
@@ -70,16 +70,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  C["사용 맥락"]
-  Q["품질 특성"]
-  S["부특성"]
-  M["품질 측정값"]
-  A["허용 기준"]
-  C --- Q --- S --- M --- A
+```text
+[사용 맥락] -- [품질 특성]
+                    |
+                [부특성]
+                    |
+             [품질 측정값] -- [허용 기준]
 ```
+
+선의 의미: 사용 맥락에 맞춰 품질 특성을 선택하고 부특성으로 세분하며, 품질 측정값은 부특성의 충족 정도를 나타내고 허용 기준은 그 합격 범위를 정한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

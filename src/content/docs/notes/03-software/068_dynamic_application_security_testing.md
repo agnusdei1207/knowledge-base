@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
-date: "2026-08-04T11:42:00+09:00"
+date: "2026-08-05T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 68
@@ -66,18 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  C["크롤러"]
-  A["공격 엔진"]
-  X["인증 컨텍스트"]
-  O["응답 분석기"]
-  R["취약점 보고서"]
-  C --- A
-  X --- A
-  A --- O --- R
+```text
+             [크롤러]
+                 \
+              [공격 엔진] -- [응답 분석기] -- [취약점 보고서]
+                 /
+         [인증 컨텍스트]
 ```
+
+선의 의미: 공격 엔진은 크롤러가 수집한 공격 표면과 인증 컨텍스트를 함께 사용하고, 응답 분석기는 공격 결과를 판정해 취약점 보고서의 증거를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SW 기능점수 FP 측정 (Function Point)"
-date: "2026-08-04T11:54:00+09:00"
+date: "2026-08-05T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 73
@@ -69,25 +69,18 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  FP["기능점수(FP)"]
-  T["트랜잭션 기능"]
-  D["데이터 기능"]
-  EI["외부 입력(EI)"]
-  EO["외부 출력(EO)"]
-  EQ["외부 조회(EQ)"]
-  ILF["내부 논리 파일(ILF)"]
-  EIF["외부 인터페이스 파일(EIF)"]
-  FP --- T
-  FP --- D
-  T --- EI
-  T --- EO
-  T --- EQ
-  D --- ILF
-  D --- EIF
+```text
+[기능점수(FP)]
++-- [트랜잭션 기능]
+|   +-- [외부 입력(EI)]
+|   +-- [외부 출력(EO)]
+|   +-- [외부 조회(EQ)]
++-- [데이터 기능]
+    +-- [내부 논리 파일(ILF)]
+    +-- [외부 인터페이스 파일(EIF)]
 ```
+
+선의 의미: 기능점수는 트랜잭션 기능과 데이터 기능으로 나뉘며, 트랜잭션 기능은 EI•EO•EQ를 포함하고 데이터 기능은 ILF•EIF를 포함한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

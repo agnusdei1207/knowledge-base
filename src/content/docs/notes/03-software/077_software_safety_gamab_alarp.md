@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
-date: "2026-08-04T17:53:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 77
@@ -70,15 +70,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  H["위험 평가"]
-  R["안전 요구"]
-  V["저감 검증"]
-  C["안전 사례"]
-  H --- R --- V --- C
+```text
+[위험 평가] ----- [안전 요구] ----- [저감 검증]
+                        |
+                   [안전 사례]
 ```
+
+선의 의미: 위험 평가, 안전 요구와 저감 검증은 안전 논증의 상호 연결된 근거이며, 안전 사례는 이 세 요소를 포함해 잔여 위험의 수용 근거를 구성하는 정적 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
