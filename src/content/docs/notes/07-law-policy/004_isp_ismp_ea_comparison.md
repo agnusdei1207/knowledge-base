@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISP•ISMP•EA 비교 (ISP, ISMP, EA Comparison)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 4
@@ -61,18 +61,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    I["ISP 전략•투자"] E["EA 구조•표준"]
-    M["ISMP 발주 상세"]:2
-    B["구축 사업"] G["전주기 거버넌스"]
-    I --- M
-    E --- M
-    M --- B
-    B --- G
-    E --- G
+```text
+[ISP 전략•투자]---[EA 구조•표준]
+        |                 |
+[ISMP 발주 상세]---[구축 사업]---[전주기 거버넌스]
 ```
+
+선의 의미: ISP 투자와 EA 구조•표준이 ISMP 발주 상세, 구축 사업, 전주기 거버넌스와 결합되는 정보화 계획 체계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

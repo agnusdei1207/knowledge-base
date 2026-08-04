@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "인시던트•문제•변경 관리 (Incident, Problem, Change Management)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 7
@@ -68,19 +68,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["서비스 데스크"]
-    B["우선순위 기준"]
-    C["KEDB"]
-    D["CAB"]
-    E["CMDB"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[서비스 데스크]---[우선순위 기준]
+        |                 |
+      [KEDB]-----------[CAB]---[CMDB]
 ```
+
+선의 의미: 서비스 데스크와 우선순위 기준이 KEDB, CAB, CMDB의 오류•변경•구성 정보와 결합되는 ITSM 운영 구조를 나타낸다.
 
 
 | 구성요소 | 책임 |

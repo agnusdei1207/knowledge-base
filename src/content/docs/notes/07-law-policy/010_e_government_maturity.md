@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "전자정부 성숙도 모형 (E-Government Maturity Model)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T14:20:10+09:00"
 tags:
   - "notes-law_policy"
 weight: 10
@@ -63,20 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["OSI"]
-    B["TII"]
-    C["HCI"]
-    D["EGDI"]
-    E["EPI"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                       [EGDI]                  [EPI]
+                      /   |   \
+                   [OSI] [TII] [HCI]
 ```
 
+선의 의미: EGDI는 OSI, TII, HCI를 결합한 지수이고, EPI는 이 결합식에 포함되지 않는 별도의 전자참여 지수이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

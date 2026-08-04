@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "PMO (Project Management Office)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T14:20:08+09:00"
 tags:
   - "notes-law_policy"
 weight: 8
@@ -66,20 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["관리 기준"]
-    B["통합 보고"]
-    C["위험 관리"]
-    D["품질 관리"]
-    E["의사결정 지원"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                         [관리 기준]
+                    /         |         \
+          [통합 보고]    [위험 관리]    [품질 관리]
+                    \         |         /
+                    [의사결정 지원]
 ```
 
+선의 의미: 관리 기준은 통합 보고, 위험 관리, 품질 관리에 공통으로 적용되고, 세 관리 영역의 정보는 의사결정 지원에 함께 사용된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 플랫폼 정부 (Digital Platform Government)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T14:20:09+09:00"
 tags:
   - "notes-law_policy"
 weight: 9
@@ -67,20 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["공공 데이터"]
-    B["API 플랫폼"]
-    C["디지털 신원"]
-    D["민간 참여"]
-    E["보안•개인정보"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                       [API 플랫폼]
+                      /      |      \
+          [공공 데이터] [디지털 신원] [민간 참여]
+                      \      |      /
+                    [보안•개인정보]
 ```
 
+선의 의미: API 플랫폼은 공공 데이터, 디지털 신원, 민간 참여를 연결하며, 보안•개인정보 통제는 세 영역의 이용 경계를 함께 보호한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보화 사업 BMT 수행 (Benchmark Test)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 20
@@ -66,20 +66,6 @@ extra:
 - **판정 보고서**: 합격 기준 적용 결과와 근거를 기록한 문서이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["시험 요구사항"]
-  B["공통 테스트베드"]
-  C["업무 시나리오•부하"]
-  D["측정 지표•도구"]
-  E["원자료•판정 보고서"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

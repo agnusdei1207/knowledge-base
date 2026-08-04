@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ISP (Information Strategy Planning)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 2
@@ -65,20 +65,6 @@ extra:
 - **현황 분석**: 현행 업무•정보시스템•데이터•기술의 문제를 목표 모델과 비교하는 단계이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    A["환경•전략 분석"]
-    B["현황 분석"]
-    C["목표 모델"]
-    D["과제 포트폴리오"]
-    E["이행 계획"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

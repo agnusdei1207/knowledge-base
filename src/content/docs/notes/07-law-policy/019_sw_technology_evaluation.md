@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 기술성 평가 (SW Technology Evaluation)"
-date: "2026-08-04T10:35:37+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 19
@@ -70,20 +70,6 @@ extra:
 - **평가 기록**: 점수 근거•위원 의견•이해충돌 조치를 추적 가능하게 보존한 자료이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["발주기관"]
-  B["제안요청서•평가기준"]
-  C["제안업체"]
-  D["평가위원회"]
-  E["평가 결과•협상"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

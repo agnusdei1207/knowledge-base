@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 대가 산정 (SW Cost Estimation)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 18
@@ -67,20 +67,6 @@ extra:
 - **외부 조회(External Query, EQ)**: 내부 데이터를 변경하지 않고 요청 조건에 맞는 정보를 조회•반환하는 기능이다.
 - **조정 계수(Adjustment Factor, AF)**: 시스템 특성•복잡도 등 보정 요소를 기능 규모나 단가에 반영하는 계수이다.
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["사업범위"]
-  B["기능 규모"]
-  C["단가보정"]
-  D["비용항목"]
-  E["변경기준"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "국가 디지털 경쟁력 지수 (National Digital Competitiveness)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T14:20:11+09:00"
 tags:
   - "notes-law_policy"
 weight: 11
@@ -61,18 +61,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["지식"]
-    B["기술"]
-    C["미래준비도"]
-    D["평가 자료"]
-    A --- B
-    B --- C
-    C --- D
+```text
+                       [평가 자료]
+                      /     |     \
+                  [지식]  [기술]  [미래준비도]
 ```
 
+선의 의미: 평가 자료의 정량 통계와 경영진 설문이 지식, 기술, 미래준비도의 세 평가 축을 공통으로 뒷받침한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

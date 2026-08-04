@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "ITIL v4와 IT 서비스 관리 (ITIL v4 IT Service Management)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 6
@@ -64,19 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["지도 원칙"]
-    B["거버넌스"]
-    C["서비스 가치 사슬"]
-    D["관리 관행"]
-    E["지속적 개선"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[지도 원칙]---[거버넌스]
+      |             |
+[서비스 가치 사슬]---[관리 관행]---[지속적 개선]
 ```
+
+선의 의미: 지도 원칙과 거버넌스 아래 서비스 가치 사슬, 관리 관행, 지속적 개선이 결합되는 ITIL 서비스 가치 시스템 구조를 나타낸다.
 
 
 | 구성요소 | 책임 |

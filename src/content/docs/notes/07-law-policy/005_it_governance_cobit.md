@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IT 거버넌스와 COBIT (IT Governance & COBIT)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 5
@@ -67,19 +67,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["목표 연계"]
-    B["EDM 영역"]
-    C["APO•BAI•DSS•MEA"]
-    D["역할•책임"]
-    E["성과•통제 지표"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                 [목표 연계]
+                      |
+                 [EDM 영역]
+                      |
+          [APO•BAI•DSS•MEA]
+                      |
+        +-------------+-------------+
+        |                           |
+   [역할•책임]              [성과•통제 지표]
 ```
+
+선의 의미: 목표 연계와 EDM 거버넌스 아래 관리 영역, 역할•책임, 성과•통제 지표가 결합되는 COBIT 책임 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

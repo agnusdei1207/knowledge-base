@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISMP (Information System Master Plan)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T01:58:46+09:00"
 tags:
   - "notes-law_policy"
 weight: 3
@@ -64,20 +64,6 @@ extra:
 - **이행 방안**: 구축 방식•일정•예산•조달•전환•검수 계획을 실행 가능한 사업 단위로 정리한 방안이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    A["사업 목표•경계"]
-    B["요구사항 기준선"]
-    C["목표 구조•규모"]
-    D["이행 방안"]
-    E["RFP"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

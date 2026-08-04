@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 접근성과 WCAG (Digital Accessibility & WCAG)"
-date: "2026-08-04T14:49:50+09:00"
+date: "2026-08-05T14:20:13+09:00"
 tags:
   - "notes-law_policy"
 weight: 13
@@ -66,20 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["요구사항"]
-    B["UI 구현"]
-    C["보조기술"]
-    D["테스트"]
-    E["운영관리"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                        [운영관리]
+                       /          \
+               [요구사항]       [테스트]
+                   |               |
+               [UI 구현]-----[보조기술]
 ```
 
+선의 의미: 운영관리는 요구사항과 테스트 기준을 함께 유지하고, UI 구현은 요구사항을 반영해 보조기술과 호환되며, 테스트는 그 호환성을 검증한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
