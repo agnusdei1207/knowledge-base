@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "영지식 증명 (Zero-Knowledge Proof, ZKP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T06:06:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 222
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **영지식 증명(Zero-Knowledge Proof, ZKP)** 은 증명자가 비밀 증거를 공개하지 않고 공개 명제가 참임을 검증자에게 입증하는 암호 기술
+- 정의/개념: **ZKP** 는 증명자가 비밀 증거를 공개하지 않고 공개 명제가 참임을 검증자에게 입증하는 암호 기술
 - 배경/필요성: 원본 제출 검증은 비밀번호•소득•거래의 **과다 공개 유발**
 
 #### 한줄 요약
@@ -40,6 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **영지식성**: 검증자가 명제의 참 여부 외에는 비밀 증거에 관한 추가 정보를 얻지 못하는 성질이다.
+- **완전성**: 참인 명제와 올바른 증명을 정직한 검증자가 수락하는 성질이다.
+- **건전성**: 거짓 명제의 증명이 검증을 통과할 확률을 제한하는 성질이다.
 
 </details>
 
@@ -56,32 +58,35 @@ extra:
 <summary>핵심 용어</summary>
 
 - **관계 $R(x,w)=1$**: 공개 명제 $x$와 비밀 증거 $w$가 정해진 검증 조건을 만족한다는 뜻이다.
-- **증명자(Prover)•검증자(Verifier)**: 비밀을 공개하지 않고 명제의 참을 증명하는 주체와 증명을 확인하는 주체이다.
+- **증명자(Prover)**: 비밀 증거로 공개 명제가 참임을 입증하는 증명을 생성한다.
+- **검증자(Verifier)**: 공개 명제와 증명을 이용해 명제의 참 여부를 확인한다.
 - **공개 명제(Statement)**: 검증자가 알고 있으며 참인지 확인하려는 공개 입력 $x$이다.
 - **비밀 증거(Witness)**: 관계를 만족하지만 검증자에게 노출하지 않는 비밀 입력 $w$이다.
-- **완전성•건전성•영지식성**: 참인 명제는 수락되고 거짓 증명은 어렵고 증명에서 비밀 지식이 새지 않아야 한다는 세 속성이다.
+- **공개 매개변수(Public Parameter)**: 증명 생성과 검증에 공통으로 사용하는 공개 설정값이다.
 
 </details>
 
 ```mermaid
 block-beta
   columns 3
-  N0["Statement"]
-  N1["Witness"]
-  N2["Relation•Parameter"]
-  N3["Prover"]
-  N4["Verifier"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
+  N0["공개 명제"]
+  N1["비밀 증거"]
+  N2["관계"]
+  N5["공개 매개변수"]
+  N3["증명자"]
+  N4["검증자"]
+  N0 --- N2 --- N1
+  N2 --- N5 --- N3 --- N4
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Statement | 검증 대상 **공개 명제** |
-| Witness | 증명자만 아는 **비밀 증거** |
-| Relation•Parameter | **$R(x,w)=1$ 관계•공개 매개변수** |
-| Prover | **witness 기반 proof** 생성 |
-| Verifier | **statement•proof** 검증 |
+| 공개 명제 | 검증 대상 **공개 입력** |
+| 비밀 증거 | 증명자만 아는 **비밀 입력** |
+| 관계 | **$R(x,w)=1$ 만족 조건** 정의 |
+| 공개 매개변수 | **증명•검증 공통 설정값** 제공 |
+| 증명자 | **비밀 증거 기반 증명** 생성 |
+| 검증자 | **공개 명제•증명** 검증 |
 
 #### 한줄 요약
 
@@ -126,13 +131,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **영지식 확장 가능 투명 지식 논증(zk-STARK)**: 신뢰 설정 없이 투명한 공개 파라미터를 사용하고 대규모 계산의 증명을 지원하는 영지식 증명 방식이다.
+- **대화형 영지식 증명(Interactive Zero-Knowledge Proof, Interactive ZKP)**: 증명자와 검증자가 여러 차례 질의•응답하는 방식이다.
+- **영지식 간결 비대화형 지식 논증(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, zk-SNARK)**: 작은 비대화형 증명을 제공하는 방식이다.
+- **영지식 확장 가능 투명 지식 논증(Zero-Knowledge Scalable Transparent Argument of Knowledge, zk-STARK)**: 투명한 공개 매개변수로 대규모 계산을 증명하는 방식이다.
 
 </details>
 
-| 판단 기준 | 대화형 영지식 증명(Interactive Zero-Knowledge Proof, Interactive ZKP) | 영지식 간결 비대화형 지식 논증(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, zk-SNARK) | 영지식 확장 가능 투명 지식 논증(Zero-Knowledge Scalable Transparent Argument of Knowledge, zk-STARK) |
+| 판단 기준 | Interactive ZKP | zk-SNARK | zk-STARK |
 |:---|:---|:---|:---|
-| 적용 기준 | **온라인 인증•직접 검증** | **온체인 검증•작은 proof** | **큰 계산•투명 setup** |
+| 적용 기준 | **온라인 인증•직접 검증** | **온체인 검증•작은 증명** | **큰 계산•투명 설정** |
 | 핵심 특징 | **다회 질의•응답** | **짧은 비대화형 증명** | **투명 설정•해시 기반 증명** |
 | 한계 | **상호작용•동시성 제약** | 구현에 따라 **신뢰 설정•곡선 가정** | **큰 증명•검증 비용** |
 
@@ -166,11 +173,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **건전성**: 거짓 명제를 가진 부정한 증명자가 검증을 통과할 확률이 무시할 만큼 작아야 하는 성질이다.
+- **건전성 검증**: 거짓 명제의 증명이 통과할 확률을 허용 범위 안으로 제한한다.
 
 </details>
 
-- 작은 증명•온체인은 **영지식 간결 비대화형 지식 논증(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, zk-SNARK)**, 투명 설정•대형 계산은 **영지식 확장 가능 투명 지식 논증(Zero-Knowledge Scalable Transparent Argument of Knowledge, zk-STARK)** 선택
+- 작은 증명•온체인은 **zk-SNARK**, 투명 설정•대형 계산은 **zk-STARK** 선택
 
 #### 한줄 요약
 
