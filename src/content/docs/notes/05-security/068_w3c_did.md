@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "W3C DID 표준 (W3C DID Standard)"
-date: "2026-08-05T10:44:00+09:00"
+date: "2026-08-05T11:20:00+09:00"
 tags:
   - "notes-security"
 weight: 68
@@ -65,16 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["DID 주체•제어자"]
-  B["DID"]
-  C["DID 방법"]
-  D["DID 해석기"]
-  E["DID 문서•검증 관계"]
-  A --- B --- C --- D --- E
+```text
+                     [DID 주체•제어자]
+                              |
+                            [DID]
+                              |
+                         [DID 방법]
+                              |
+                         [DID 해석기] -- [DID 문서•검증 관계]
 ```
+
+선의 의미: DID 주체•제어자와 식별자를 결합하고, 식별자에 포함된 DID 방법을 해석기가 적용하여 DID 문서•검증 관계와 연결하는 정적 해석 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (Cloud Access Security Broker)"
-date: "2026-08-05T11:00:00+09:00"
+date: "2026-08-05T11:24:00+09:00"
 tags:
   - "notes-security"
 weight: 72
@@ -64,19 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["클라우드 발견"]
-  B["정책 엔진•신호"]
-  C["프록시•API 집행"]
-  D["SaaS"]
-  E["위협•운영 분석"]
-  A --- B --- C --- D
-  E --- B
-  C --- E
-  D --- E
+```text
+                        [정책 엔진•신호]
+                         /            \
+                 [클라우드 발견]  [프록시•API 집행] -- [SaaS]
+                         \            /                 /
+                         [위협•운영 분석]
 ```
+
+선의 의미: 클라우드 발견과 위협•운영 분석의 신호를 정책 엔진에 결합하고, 프록시•API 집행 영역이 SaaS의 접근 및 저장 상태를 통제하는 정적 CASB 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

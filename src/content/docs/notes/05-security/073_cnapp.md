@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "클라우드 네이티브 애플리케이션 보호 플랫폼 (Cloud-Native Application Protection Platform, CNAPP)"
-date: "2026-08-05T11:04:00+09:00"
+date: "2026-08-05T11:25:00+09:00"
 tags:
   - "notes-security"
 weight: 73
@@ -65,18 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["코드•IaC•이미지"]
-  B["CSPM•CIEM"]
-  C["CWPP"]
-  D["자산 관계 그래프"]
-  E["소유자•파이프라인 연계"]
-  A --- D
-  B --- D
-  C --- D --- E
+```text
+                         [자산 관계 그래프]
+                      /          |          \
+         [코드•IaC•이미지]  [CSPM•CIEM]  [CWPP]
+                      \          |          /
+                    [소유자•파이프라인 연계]
 ```
+
+선의 의미: 자산 관계 그래프가 개발 산출물, 형상•권한, 워크로드 위험을 통합하고 소유자•파이프라인 연계가 각 위험을 원본 수정 책임과 연결하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

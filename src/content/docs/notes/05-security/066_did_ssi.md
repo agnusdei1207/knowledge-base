@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 신원 — DID•SSI (Decentralized Identity DID SSI)"
-date: "2026-08-05T10:36:00+09:00"
+date: "2026-08-05T01:43:14+09:00"
 tags:
   - "notes-security"
 weight: 66
@@ -65,21 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["DID•DID 문서"]
-  B["발급자"]
-  C["보유자•지갑"]
-  D["검증자"]
-  E["신뢰•상태•키 관리"]
-  B --- C --- D
-  A --- B
-  A --- C
-  A --- D
-  E --- B
-  E --- D
+```text
+[DID•DID 문서]---[발급자]---[보유자•지갑]---[검증자]
+        |              |                         |
+        +------[신뢰•상태•키 관리]-------------+
 ```
+
+선의 의미: DID 문서와 신뢰•상태•키 관리 기반 위에서 발급자•보유자•검증자가 연결되는 분산 신원 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
