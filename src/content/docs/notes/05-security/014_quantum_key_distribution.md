@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "QKD 양자 키 분배 (Quantum Key Distribution)"
-date: "2026-08-04T10:19:00+09:00"
+date: "2026-08-05T07:48:00+09:00"
 tags:
   - "notes-security"
 weight: 14
@@ -107,15 +107,15 @@ block-beta
 sequenceDiagram
     participant A as 송신자
     participant B as 수신자
+    participant P as 송수신 후처리
     participant K as 키 관리 시스템
     A->>B: 1. 양자 상태 전송
-    A->>B: 송신 기저 정보
-    B->>B: 2. 기저 선별•QBER 추정
-    A->>B: 3. 오류 보정 정보 교환
-    A->>A: 4. 프라이버시 증폭
-    B->>B: 4. 프라이버시 증폭
-    A->>K: 5. 최종 키 등록
-    B->>K: 5. 최종 키 등록
+    A->>P: 송신 비트•기저 정보
+    B->>P: 측정 비트•기저 정보
+    P->>P: 2. 기저 선별•QBER 추정
+    P->>P: 3. 오류 보정 정보 교환
+    P->>P: 4. 프라이버시 증폭
+    P->>K: 5. 최종 키 등록
     K-->>A: 등록 결과
     K-->>B: 등록 결과
 ```

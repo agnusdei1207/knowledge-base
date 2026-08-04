@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
-date: "2026-08-04T10:13:00+09:00"
+date: "2026-08-05T07:36:00+09:00"
 tags:
   - "notes-security"
 weight: 11
@@ -116,9 +116,7 @@ sequenceDiagram
     C->>C: 3. 핸드셰이크 키 도출
     S-->>C: CertificateVerify•Finished
     C->>C: 4. 인증서•Finished 검증
-    C->>S: Finished
-    C->>C: 5. 응용 트래픽 키 전환
-    S->>S: 5. 응용 트래픽 키 전환
+    C->>S: 5. Finished•응용 트래픽 키 전환
 ```
 
 **동작 원리**
@@ -127,7 +125,7 @@ sequenceDiagram
 2. **ServerHello 반환**: 선택 결과•서버 키 공유값 반환
 3. **핸드셰이크 키 도출**: ECDHE•대화 해시로 보호키 생성
 4. **인증서•Finished 검증**: 서버 신원•협상 무결성 판정
-5. **응용 트래픽 키 전환**: 방향별 AEAD 키 활성화
+5. **Finished•응용 트래픽 키 전환**: 클라이언트 완료 검증 후 방향별 AEAD 키 활성화
 
 
 #### 한줄 요약

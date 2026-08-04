@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자내성암호 PQC (Post-Quantum Cryptography)"
-date: "2026-08-04T10:15:00+09:00"
+date: "2026-08-05T07:42:00+09:00"
 tags:
   - "notes-security"
 weight: 12
@@ -108,16 +108,13 @@ block-beta
 sequenceDiagram
     participant R as 수신자
     participant S as 송신자
-    participant K as KEM 엔진
-    participant D as KDF
-    R->>K: 1. ML-KEM 키 쌍 생성
-    K-->>S: ML-KEM 공개키
-    S->>K: 2. 공유 비밀•암호문 캡슐화
-    K-->>S: 공유 비밀•암호문
+    R->>R: 1. ML-KEM 키 쌍 생성
+    R-->>S: ML-KEM 공개키
+    S->>S: 2. 공유 비밀•암호문 캡슐화
     S->>R: 캡슐화 암호문
-    R->>K: 3. 공유 비밀 디캡슐화
-    K->>D: 4. 세션키 도출
-    D-->>R: 세션키
+    R->>R: 3. 공유 비밀 디캡슐화
+    S->>S: 4. 송신 세션키 도출
+    R->>R: 5. 수신 세션키 도출
 ```
 
 **동작 원리**
@@ -125,7 +122,8 @@ sequenceDiagram
 1. **ML-KEM 키 쌍 생성**: 공개키 배포•개인키 격리
 2. **공유 비밀•암호문 캡슐화**: 공개키로 비밀과 암호문 생성
 3. **공유 비밀 디캡슐화**: 개인키로 동일 비밀 복구
-4. **세션키 도출**: 복구한 비밀에 KDF 적용
+4. **송신 세션키 도출**: 캡슐화로 얻은 비밀에 KDF 적용
+5. **수신 세션키 도출**: 복구한 비밀에 동일 KDF 적용
 
 
 #### 한줄 요약
