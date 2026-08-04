@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-04T13:28:00+09:00"
+date: "2026-08-05T05:30:00+09:00"
 tags:
   - "notes-software"
 weight: 128
@@ -69,28 +69,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    C["카탈로그"]
-    block:metadata
-        columns 1
-        M["메타데이터 파일"]
-        block:snapshot
-            columns 1
-            S["스냅숏•매니페스트 목록"]
-            block:manifest
-                columns 1
-                F["매니페스트"]
-                D["데이터•삭제 파일"]
-            end
-        end
-    end
-    C --- M
-    M --- S
-    S --- F
-    F --- D
+```text
+[카탈로그]
+    |
+[메타데이터 파일]
+    |
+[스냅숏•매니페스트 목록]
+    |
+[매니페스트]
+    |
+[데이터•삭제 파일]
 ```
+
+선의 의미: 카탈로그는 현재 메타데이터 파일을 가리키고, 메타데이터 파일은 스냅숏•매니페스트 목록을 포함하며, 매니페스트가 해당 버전의 데이터•삭제 파일을 참조한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

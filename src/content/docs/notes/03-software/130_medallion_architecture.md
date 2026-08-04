@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-08-04T13:30:00+09:00"
+date: "2026-08-05T05:30:00+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -68,24 +68,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:MEDALLION["메달리온 아키텍처"]
-        columns 1
-        A["Bronze"]
-        B["품질 게이트•격리"]
-        C["Silver"]
-        D["Gold"]
-        E["카탈로그•계보"]
-    end
-    A --- B
-    B --- C
-    C --- D
-    E --- A
-    E --- C
-    E --- D
+```text
+[카탈로그•계보]
+    |
+[Bronze]
+    |
+[품질 게이트•격리]
+    |
+[Silver]
+    |
+[Gold]
 ```
+
+선의 의미: Bronze·Silver·Gold는 품질 게이트•격리로 구분된 품질 계층이고, 카탈로그•계보는 각 계층의 소유자·품질·변환 관계를 연결한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

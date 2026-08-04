@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-04T13:39:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -72,19 +72,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["DAG 번들•처리기"]
-    B["스케줄러•실행자"]
-    C["API 서버"]
-    D["메타데이터 DB"]
-    E["작업자"]
-    A --- D
-    B --- D
-    C --- D
-    D --- E
+```text
+                       [DAG 번들•처리기]
+                               |
+[스케줄러•실행자] ----- [메타데이터 DB] ----- [API 서버]
+                               |
+                           [작업자]
 ```
+
+선의 의미: 메타데이터 DB를 중심으로 DAG 정의, 스케줄•실행 상태, 사용자•작업자 통신과 실제 태스크 실행 요소가 결합되는 정적 오케스트레이션 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
