@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "감리 점검 항목 (Audit Checklist)"
-date: "2026-08-04T23:28:00+09:00"
+date: "2026-08-04T14:52:05+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -77,6 +77,8 @@ block-beta
   R --- Q --- E
   E --- J --- C
 ```
+
+**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

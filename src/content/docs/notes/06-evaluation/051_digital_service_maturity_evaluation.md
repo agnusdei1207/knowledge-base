@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디지털 서비스 성숙도 모형 평가 (Digital Service Maturity Evaluation)"
-date: "2026-08-05T00:14:00+09:00"
+date: "2026-08-04T14:53:41+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -77,6 +77,8 @@ block-beta
   C --- E --- P
   P --- G --- R
 ```
+
+**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 개발 사업 감리 특수 점검 (AI Development Audit)"
-date: "2026-08-04T23:34:00+09:00"
+date: "2026-08-04T14:52:18+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -76,6 +76,8 @@ block-beta
   P --- D --- M
   M --- E --- O
 ```
+
+**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

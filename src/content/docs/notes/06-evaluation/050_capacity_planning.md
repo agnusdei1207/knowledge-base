@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "용량 계획 (Capacity Planning)"
-date: "2026-08-05T00:08:00+09:00"
+date: "2026-08-04T14:53:26+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -76,6 +76,8 @@ block-beta
   D --- M --- H
   H --- A --- R
 ```
+
+**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|
