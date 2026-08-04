@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "위협 인텔리전스 - STIX•TAXII (Threat Intelligence STIX TAXII)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:28:00+09:00"
 tags: ["notes-network"]
 weight: 96
 extra:
@@ -41,7 +41,6 @@ extra:
 - **위협 지표(Indicator)**: 악성 주소•파일값처럼 특정 공격 활동을 탐지할 수 있는 조건과 유효 기간을 가진 정보다.
 - **관측 자료(Observed Data)**: 네트워크나 시스템에서 실제로 발견한 주소•파일•행위와 관측 시각을 기록한 사실이다.
 - **신뢰도•유효 기간**: 정보 출처를 믿을 정도와 탐지•차단에 사용할 수 있는 기간이다.
-- **STIX•TAXII**: 구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)은 위협 의미를 표현하고 신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)은 이를 조직•도구 사이에 전달하는 표준
 - **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: 위협 정보의 재공유 범위를 색상 등급으로 표시하는 규약
 
 </details>
@@ -58,8 +57,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX) 객체 저장소**: 위협 개체•관계•공유 표시를 보존하는 저장소
-- **신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII) 서버**: 컬렉션별 조회•게시•접근 권한을 제공하는 서버
+- **STIX 객체 저장소**: 위협 개체•관계•공유 표시를 보존하는 저장소
+- **TAXII 서버**: 컬렉션별 조회•게시•접근 권한을 제공하는 서버
 - **보안 도구 소비자**: STIX 객체를 내부 탐지•차단 형식으로 변환하는 도구
 
 </details>
@@ -97,8 +96,6 @@ block-beta
 - **증분 동기화**: 마지막 수신 뒤 추가•변경된 객체만 교환하는 방식이다.
 - **스키마 검증•매핑**: 표준 객체를 내부 형식으로 정확히 변환했는지 확인하는 절차다.
 - **위협 검증•보강**: 출처•신뢰도•수명•관계를 확인하고 맥락을 추가하는 처리다.
-- **STIX•TAXII**: 구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)으로 객체를 등록하고 신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)으로 증분 배포하는 표준
-- **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: 컬렉션 객체의 재공유 범위를 표시하는 규약
 
 </details>
 
@@ -134,16 +131,14 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)**: 위협 개체와 관계를 기계가 읽을 수 있게 표현하는 표준 자료 모델이다.
-- **신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: STIX 자료를 조직과 도구 사이에서 조회•게시하는 표준 전송 규약이다.
 - **TAXII 컬렉션**: 접근 권한과 공유 목적에 따라 STIX 객체를 묶어 게시•조회하는 저장 단위다.
 
 </details>
 
 | 표준 | 역할 | 연계 결과 |
 |:---|:---|:---|
-| **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)** | **위협 객체•관계•수명 표현** | 도구가 해석할 공통 위협 정보 데이터 생성 |
-| **신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)** | **컬렉션 기반 조회•게시** | 권한이 적용된 STIX 객체 전송 |
+| **STIX** | **위협 객체•관계•수명 표현** | 도구가 해석할 공통 위협 정보 데이터 생성 |
+| **TAXII** | **컬렉션 기반 조회•게시** | 권한이 적용된 STIX 객체 전송 |
 
 > 요약: STIX로 위협 정보를 표현하고 TAXII로 권한에 맞게 교환
 
@@ -152,14 +147,6 @@ sequenceDiagram
 - 공격 정보를 어떤 항목과 관계로 쓸지는 STIX, 그 묶음을 어디에 누구에게 전달할지는 TAXII가 맡는다.
 
 ## Ⅵ. 실무 고려사항 및 대책
-
-<details><summary>핵심 용어</summary>
-
-- **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: 위협 정보를 누구에게 어디까지 재공유할 수 있는지 색상 등급으로 표시하는 규약이다.
-- **신뢰도•유효 기간**: 정보 출처를 믿을 정도와 탐지•차단에 사용할 수 있는 기간이다.
-- **스키마 검증•매핑**: 표준 객체를 내부 형식으로 정확히 변환했는지 확인하는 절차다.
-
-</details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -175,9 +162,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **OASIS STIX 2.1**: 구조화 정보 표준화 기구(Organization for the Advancement of Structured Information Standards, OASIS)가 구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)의 위협 개체와 관계를 규정한 표준
-- **OASIS TAXII 2.1**: OASIS가 신뢰 가능한 위협 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)의 컬렉션 기반 교환 인터페이스를 규정한 표준
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격자•기법•대상•흔적을 근거와 맥락으로 분석해 방어 판단에 쓰는 정보다.
+- **구조화 정보 표준화 기구(Organization for the Advancement of Structured Information Standards, OASIS)**: 정보 교환 표준을 개발하는 국제 비영리 기구
+- **OASIS STIX 2.1**: STIX 위협 개체와 관계를 규정한 표준
+- **OASIS TAXII 2.1**: TAXII 컬렉션 교환 인터페이스를 규정한 표준
 
 </details>
 

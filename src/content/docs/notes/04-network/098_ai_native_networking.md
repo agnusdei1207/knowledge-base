@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "AI 네이티브 네트워킹 (AI-Native Networking)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:32:00+09:00"
 tags: ["notes-network"]
 weight: 98
 extra:
@@ -57,10 +57,10 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **관측•맥락 계층**: 텔레메트리•구성•의도를 시간 기준으로 결합하는 계층이다.
-- **AI 추론 계층**: 인공지능(Artificial Intelligence, AI) 모델로 이상•수요•원인과 대응 후보를 계산하는 계층이다.
+- **AI 추론 계층**: AI 모델로 이상•수요•원인과 대응 후보를 계산하는 계층이다.
 - **망 제어•집행기**: 승인된 설정을 장비에 적용하고 결과를 검증하는 구성요소다.
-- **정책 가드레일**: 모델이 바꿀 수 있는 대상•범위•속도와 금지 조건을 강제하는 안전 규칙
-- **카나리 적용(Canary Deployment)•롤백(Rollback)**: 변경을 일부 장비에 먼저 적용하고 목표 위반 시 이전 설정으로 되돌리는 절차
+- **카나리 적용(Canary Deployment)**: 일부 장비에 먼저 변경해 효과를 확인하는 방식
+- **롤백(Rollback)**: 목표 위반 시 이전 설정으로 되돌리는 조치
 
 </details>
 
@@ -92,10 +92,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **텔레메트리(Telemetry)**: 장비와 서비스의 상태•성능•이벤트를 원격 수집 지점으로 지속 전송하는 자료다. 인공지능(Artificial Intelligence, AI) 엔진의 운영 입력으로 사용된다.
+- **텔레메트리(Telemetry)**: 장비와 서비스의 상태•성능•이벤트를 원격 수집 지점으로 지속 전송하는 자료다. AI 엔진의 운영 입력으로 사용된다.
 - **의도(Intent)**: 서비스가 달성해야 할 연결성•지연•가용성•보안 목표를 선언한 정책이다.
-- **카나리 적용(Canary Deployment)**: 전체가 아닌 일부 장비•트래픽에 먼저 변경해 효과와 부작용을 확인하는 방식이다.
-- **롤백(Rollback)**: 변경이 목표를 위반하면 이전에 검증된 망 설정으로 되돌리는 조치다.
 
 </details>
 
@@ -128,7 +126,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **인공지능 네이티브 네트워킹(Artificial Intelligence-Native Networking, AI-Native Networking)**: 망 관측•추론•정책•설정•검증을 학습 모델과 폐루프로 연결해 운영 판단을 보조•자동화하는 구조
 - **규칙 자동화(Rule-based Automation)**: 미리 정한 조건과 임계값이 충족되면 고정된 운영 조치를 실행하는 방식이다.
 - **수동 운영(Manual Operation)**: 운영자가 상황의 맥락과 위험을 직접 판단해 변경과 복구를 수행하는 방식이다.
 
@@ -150,10 +147,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **입력 품질**: 인공지능(Artificial Intelligence, AI) 모델에 수집되는 자료의 누락•지연•오류•시간 일관성을 나타내는 수준이다.
+- **입력 품질**: AI 모델에 수집되는 자료의 누락•지연•오류•시간 일관성을 나타내는 수준이다.
 - **감사 기록**: 누가 어떤 근거로 변경을 승인•실행했는지 남긴 기록이다.
-- **정책 가드레일**: 모델이 바꿀 수 있는 대상•범위•속도와 금지 조건을 강제하는 안전 규칙이다.
-- **드리프트(Drift)**: 운영 입력 분포나 모델 성능이 학습•검증 때와 달라지는 현상
 
 </details>
 
@@ -171,8 +166,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **카나리 적용(Canary Deployment)**: 인공지능(Artificial Intelligence, AI)이 제안한 변경을 전체가 아닌 일부 장비•트래픽에 먼저 적용해 효과와 부작용을 확인하는 방식이다.
-- **롤백(Rollback)**: 변경이 목표를 위반하면 이전에 검증된 망 설정으로 되돌리는 조치다.
 
 </details>
 

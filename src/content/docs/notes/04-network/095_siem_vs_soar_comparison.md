@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR Comparison)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:26:00+09:00"
 tags: ["notes-network"]
 weight: 95
 extra:
@@ -40,7 +40,6 @@ extra:
 - **상관분석**: 시간•사용자•자산•주소가 연결된 여러 이벤트를 하나의 공격 흐름으로 묶는 분석이다.
 - **플레이북**: 사건 조건, 정보 조회, 승인, 조치와 결과 검증을 실행 가능한 순서로 정의한 절차다.
 - **폐루프 관제**: 탐지 근거가 대응을 만들고 대응 결과가 다시 탐지 규칙과 플레이북을 개선하는 순환 체계다.
-- **SIEM•SOAR**: 보안 정보•이벤트 관리(Security Information and Event Management, SIEM)는 경보를 생성하고 보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)은 경보의 조사•조치를 실행하는 플랫폼
 
 </details>
 
@@ -56,7 +55,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **경보 계약**: 보안 정보•이벤트 관리(Security Information and Event Management, SIEM)가 보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)에 전달할 사건 식별자, 신뢰도, 근거, 자산과 권장 조치를 정한 자료 규격
+- **경보 계약**: SIEM이 SOAR에 전달할 사건 ID•신뢰도•근거•자산을 정한 자료 규격
 - **탐지 규칙**: 공격 조건과 임계값을 논리로 표현한 경보 생성 기준이다.
 - **보안 통제 도구**: 계정•단말•메일•네트워크 상태를 바꾸는 제품이다.
 
@@ -90,10 +89,9 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **조치 증거**: 보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)이 어떤 권한으로 무엇을 실행했고 실제 상태가 어떻게 바뀌었는지 남긴 기록
+- **조치 증거**: SOAR가 실행한 권한•조치와 실제 상태 변화를 남긴 기록
 - **대상 상태 재조회**: 조치 뒤 실제 자원 상태를 다시 확인하는 검증이다.
 - **정보 보강**: 경보에 자산•신원•위협 정보를 추가하는 처리다.
-- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 조치 증거를 받아 탐지 규칙과 경보 품질을 개선하는 플랫폼
 
 </details>
 
@@ -130,14 +128,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 이종 로그를 정규화•상관분석해 근거가 있는 보안 경보를 생성하는 플랫폼이다.
-- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 경보를 보강하고 승인•조치•원복 절차를 플레이북으로 실행하는 플랫폼이다.
-- **폐루프 관제**: 탐지 근거가 대응을 만들고 대응 결과가 다시 탐지 규칙과 플레이북을 개선하는 순환 체계다.
-
-</details>
-
 | 보안 관제 플랫폼 | SIEM | SOAR |
 |:---|:---|:---|
 | 적용 기준 | 이종 로그의 **공격 근거 탐지** | 반복 사건의 **조사•조치 표준화** |
@@ -156,8 +146,6 @@ sequenceDiagram
 
 - **신뢰도**: 경보가 실제 공격일 가능성을 나타내는 판단 값이다.
 - **권한 집중**: 대응 플랫폼에 여러 통제 도구의 강한 권한이 모이는 위험이다.
-- **대상 상태 재조회**: 조치 뒤 실제 자원 상태를 다시 확인하는 검증이다.
-- **SIEM•SOAR**: 보안 정보•이벤트 관리(Security Information and Event Management, SIEM)의 경보와 보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)의 조치를 연결하는 플랫폼
 
 </details>
 
@@ -172,14 +160,6 @@ sequenceDiagram
 - SIEM이 낯선 로그인과 권한 변경을 상관분석해 경보를 만들면 SOAR가 영향도를 확인하고 승인 후 계정을 잠근다.
 
 ## Ⅶ. 결론
-
-<details><summary>핵심 용어</summary>
-
-- **폐루프 관제**: 탐지 근거가 대응을 만들고 대응 결과가 다시 탐지 규칙과 플레이북을 개선하는 순환 체계다.
-- **조치 증거**: 보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)이 어떤 권한으로 무엇을 실행했고 실제 상태가 어떻게 바뀌었는지 남긴 기록
-- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 대응 결과를 받아 탐지 규칙을 개선하는 관제 플랫폼
-
-</details>
 
 - 공격 근거는 **SIEM**, 반복 조치는 **SOAR**, 결과는 폐루프 환류
 

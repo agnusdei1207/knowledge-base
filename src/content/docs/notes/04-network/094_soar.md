@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SOAR 보안 오케스트레이션•자동화•대응 (Security Orchestration, Automation, and Response)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:24:00+09:00"
 tags: ["notes-network"]
 weight: 94
 extra:
@@ -94,8 +94,6 @@ block-beta
 - **원복(Rollback)**: 자동 조치가 잘못됐을 때 차단•격리•계정 상태를 조치 전으로 되돌리는 기능이다.
 - **보상 단계**: 일부 조치 실패 시 앞서 수행한 변경을 상쇄하는 절차다.
 - **타임아웃**: 정해진 시간 내 응답이 없으면 호출 실패로 판정하는 제한이다.
-- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)•보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 경보를 생성하고 플레이북으로 조사•승인•조치를 실행하는 연계 플랫폼
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: SOAR가 보안 도구의 조회•조치 기능을 호출하는 규약
 
 </details>
 
@@ -137,9 +135,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 보안 도구를 연결하고 반복 사건 대응을 플레이북으로 자동•승인 실행하는 플랫폼이다.
-- **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 여러 로그를 상관분석해 조사할 보안 경보를 만드는 플랫폼이다.
-- **플레이북(Playbook)**: 사건 조건, 정보 수집, 분기, 승인, 조치와 원복 순서를 실행 가능한 절차로 정의한 문서다.
 
 </details>
 
@@ -162,8 +157,7 @@ sequenceDiagram
 - **승인•권한 관문**: 조치 영향도별 승인과 최소 권한을 적용하는 통제 지점이다.
 - **타임아웃**: 정해진 시간 내 응답이 없으면 호출 실패로 판정하는 제한이다.
 - **가역성**: 실행한 보안 조치를 이전 상태로 되돌릴 수 있는 정도다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)•멱등 키(Idempotency Key)**: 보안 도구를 호출하고 재시도에서도 중복 조치를 막는 규약과 식별자
-- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 플레이북으로 반복 보안 대응을 자동•승인 실행하는 플랫폼
+- **멱등 키(Idempotency Key)**: 재시도에서도 중복 조치를 막는 요청 식별자
 
 </details>
 
@@ -181,9 +175,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **가역성**: 실행한 보안 조치를 이전 상태로 되돌릴 수 있는 정도다.
-- **원복(Rollback)**: 자동 조치가 잘못됐을 때 차단•격리•계정 상태를 조치 전으로 되돌리는 기능이다.
-- **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 가역성과 승인 기준에 따라 반복 사건 대응을 자동화하는 플랫폼
 
 </details>
 

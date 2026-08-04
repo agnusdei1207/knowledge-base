@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:02:00+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -23,7 +23,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 차량 IP망에서 ECU 기능을 서비스로 발견하고 호출•구독하는 AUTOSAR 서비스 지향 미들웨어 규약이다.
-- **자동차 개방형 시스템 아키텍처•전자제어장치(Automotive Open System Architecture/Electronic Control Unit, AUTOSAR•ECU)**: 차량 소프트웨어 아키텍처 표준과 차량 기능을 제어하는 장치이다.
+- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 아키텍처 표준
+- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능을 제어하는 장치
 
 </details>
 
@@ -60,7 +61,6 @@ extra:
 
 - **서비스 소비자•제공자**: 소비자는 메서드를 호출하거나 이벤트를 구독하고 제공자는 기능 실행과 이벤트 발행을 담당한다.
 - **종단 간 보호(End-to-End Protection, E2E 보호)**: 순서 번호와 검사값으로 서비스 메시지의 손상•반복•누락을 검출하는 방식이다.
-- **SOME/IP 서비스 탐색•생존 시간(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery/Time to Live, SOME/IP-SD•TTL)**: 제공자를 찾고 광고•구독의 유효 기간을 관리하는 규약•값이다.
 
 </details>
 
@@ -100,7 +100,6 @@ block-beta
 
 - **서비스 제공•탐색(OfferService/FindService)**: 제공자는 서비스 ID•버전•종단점•TTL을 광고하고 소비자는 필요한 서비스 조건으로 탐색한다.
 - **이벤트 그룹**: 소비자가 관련 상태 이벤트를 하나의 단위로 묶어 구독하도록 정의한 집합이다.
-- **식별자•생존 시간•종단 간 보호(Identifier/Time to Live/End-to-End Protection, ID•TTL•E2E)**: 서비스와 메시지를 구별하고 상태 유효기간과 전송 오류를 관리하는 정보이다.
 
 </details>
 
@@ -136,7 +135,6 @@ sequenceDiagram
 
 - **요청•응답•무응답 요청**: 결과가 필요하면 응답을 받고 지연을 우선하면 처리 결과를 기다리지 않는 호출 방식이다.
 - **이벤트 통지**: 제공자가 상태 변화를 구독한 여러 소비자에게 배포하는 통신 방식이다.
-- **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 메서드 호출과 이벤트 통지를 제공하는 차량 서비스 미들웨어이다.
 
 </details>
 
@@ -157,7 +155,7 @@ sequenceDiagram
 
 - **계약 테스트(Contract Test)**: 서비스 소비자와 제공자의 ID•버전•자료형•직렬화 호환성을 검증하는 시험이다.
 - **생존 시간 튜닝(Time to Live Tuning, TTL 튜닝)**: 서비스 광고와 구독 상태의 유효 시간을 탐색 부하와 장애 재발견 시간에 맞춰 조정하는 작업이다.
-- **서비스 탐색•순환 중복 검사•종단 간 보호(Service Discovery/Cyclic Redundancy Check/End-to-End Protection, SD•CRC•E2E)**: 제공자 발견, 메시지 오류 검출과 누락•반복 보호에 사용하는 기능이다.
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 나머지로 메시지 오류를 검출하는 방식
 
 </details>
 
@@ -177,7 +175,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **통신 방식 선택(Communication Pattern Selection)**: 결과 필요 여부•지연 허용치•구독자 수에 따라 요청•응답•무응답•이벤트를 결정하는 과정이다.
-- **생존 시간(Time to Live, TTL)**: 서비스 계약의 광고와 구독 상태를 유지할 유효 기간이다.
 
 </details>
 

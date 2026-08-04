@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "망분리 - 물리적•논리적 (Network Separation)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:12:00+09:00"
 tags: ["notes-network"]
 weight: 88
 extra:
@@ -155,7 +155,8 @@ sequenceDiagram
 
 - **콘텐츠 무해화(Content Disarm and Reconstruction, CDR)**: 문서의 실행 코드와 위험 요소를 제거하고 안전한 내용으로 재구성하는 기술
 - **특권 접근 관리(Privileged Access Management, PAM)**: 관리자 권한•승인•세션•명령 기록을 통제해 특권 접근을 관리하는 체계
-- **가상 근거리 통신망(Virtual LAN, VLAN)•가상 라우팅 및 포워딩(Virtual Routing and Forwarding, VRF)**: 공유 장비에서 논리 영역과 라우팅 테이블을 분리하는 기술
+- **가상 근거리 통신망(Virtual LAN, VLAN)**: 공유 장비에서 논리적인 링크 영역을 분리하는 기술
+- **가상 라우팅 및 포워딩(Virtual Routing and Forwarding, VRF)**: 장비 안에서 라우팅 테이블을 분리하는 기술
 
 </details>
 

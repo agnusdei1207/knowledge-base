@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (CASB)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T18:20:00+09:00"
 tags: ["notes-network"]
 weight: 92
 extra:
@@ -23,11 +23,12 @@ extra:
 
 - **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 클라우드 사용•위험•자료 이동을 가시화하고 정책을 집행하는 보안 체계
 - **섀도 IT(Shadow IT)**: 조직의 승인과 관리 없이 사용자가 업무 자료를 처리하는 클라우드 서비스나 기술이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 네트워크를 통해 응용 기능을 구독 형태로 제공하는 서비스
 
 </details>
 
 - 정의/개념: 클라우드 사용•자료 이동을 통제하는 **CASB 보안 중개 체계**
-- 배경/필요성: 미승인 서비스형 소프트웨어(Software as a Service, SaaS)의 **계정•자료 유출 비가시성**
+- 배경/필요성: 미승인 SaaS의 **계정•자료 유출 비가시성**
 
 #### 한줄 요약
 
@@ -39,7 +40,7 @@ extra:
 
 - **데이터 유출 방지(Data Loss Prevention, DLP)**: 자료의 내용과 등급을 식별해 허가되지 않은 전송•공유를 차단하는 기술이다.
 - **순방향 프록시**: 사용자에서 클라우드로 나가는 통신을 중계해 접속과 업로드를 실시간 검사하는 방식이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)가 클라우드 서비스에 연결해 저장 자료•공유 설정•계정 상태를 검사하는 통로
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: CASB가 저장 자료•공유 설정•계정 상태를 검사하는 호출 통로
 
 </details>
 
@@ -56,9 +57,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **접근 중개기**: 프록시와 API로 세션•저장 자료를 검사하는 구성요소다.
-- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB) 정책 엔진**: 신원•단말•자료•서비스 위험으로 조치를 결정하는 구성요소
+- **CASB 정책 엔진**: 신원•단말•자료•서비스 위험으로 조치를 결정하는 구성요소
 - **클라우드 위험 카탈로그**: 서비스별 보안 기능, 법적 위치와 사고 이력 등을 평가해 승인 판단에 쓰는 목록이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 접근 중개기가 저장 자료•공유 설정•계정 상태를 검사하는 호출 통로
 
 </details>
 
@@ -91,10 +91,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)가 클라우드 서비스에 연결해 저장 자료•공유 설정•계정 상태를 검사하는 통로
 - **격리•공유 회수**: 위험 자료를 분리하거나 기존 외부 공유 권한을 제거하는 조치다.
 - **역방향 프록시**: 클라우드 서비스로 들어가는 세션 앞에서 접속을 중계해 관리•비관리 단말의 행위를 통제하는 방식이다.
-- **서비스형 소프트웨어(Software as a Service, SaaS)**: 네트워크를 통해 응용 기능을 구독 형태로 제공하는 클라우드 서비스
 
 </details>
 
@@ -127,15 +125,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **순방향 프록시**: 사용자에서 클라우드로 나가는 통신을 중계해 접속과 업로드를 실시간 검사하는 방식이다.
-- **역방향 프록시**: 클라우드 서비스로 들어가는 세션 앞에서 접속을 중계해 관리•비관리 단말의 행위를 통제하는 방식이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)가 클라우드 서비스에 연결해 저장 자료•공유 설정•계정 상태를 검사하는 통로
-- **서비스형 소프트웨어(Software as a Service, SaaS)**: 프록시 또는 API로 사용•저장 자료•공유 설정을 통제할 클라우드 응용
-
-</details>
-
 | CASB 연동 방식 | 순방향 프록시 | 역방향 프록시 | API 연동 |
 |:---|:---|:---|:---|
 | 적용 기준 | 관리 단말의 **업로드•웹 통제** | 비관리 단말의 **제한 접속** | 기존 저장물•**외부 공유 점검** |
@@ -154,10 +143,6 @@ sequenceDiagram
 
 - **관리 단말**: 조직이 보안 상태와 통신 경로를 통제하는 업무 기기다.
 - **비관리 단말**: 조직의 직접 관리 밖에서 클라우드에 접속하는 기기다.
-- **격리•공유 회수**: 위험 자료를 분리하거나 기존 외부 공유 권한을 제거하는 조치다.
-- **서비스형 소프트웨어(Software as a Service, SaaS)**: 사용자가 네트워크를 통해 이용하는 클라우드 응용 서비스
-- **데이터 유출 방지(Data Loss Prevention, DLP)•응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 이동 중 중요 자료를 차단하고 저장 자료•공유 권한을 사후 점검하는 기술과 통로
-- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 프록시와 API로 클라우드 자료 행위를 통제하는 보안 체계
 
 </details>
 
@@ -175,9 +160,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 클라우드 사용•위험•자료 이동을 가시화하고 정책을 집행하는 보안 체계
-- **데이터 유출 방지(Data Loss Prevention, DLP)**: 자료의 내용과 등급을 식별해 허가되지 않은 전송•공유를 차단하는 기술이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 저장 자료와 공유 설정을 사후 점검•회수하는 호출 통로
 
 </details>
 
