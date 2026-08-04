@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 프로세스 생성•종료•상태 전이 (Process Lifecycle)
-date: "2026-08-04T16:43:00+09:00"
+date: "2026-08-05T00:56:17+09:00"
 tags: [notes-software]
 weight: 3
 extra:
@@ -64,16 +64,20 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  P["PCB"] R["준비 큐"] S["스케줄러"]
-  W["대기 큐"] space C["CPU"]
-  P --- R
-  P --- W
-  R --- S
-  S --- C
+```text
+                 [PCB]
+                 /   \
+                /     \
+         [준비 큐]     [대기 큐]
+             |
+             |
+         [스케줄러]
+             |
+             |
+            [CPU]
 ```
+
+선의 의미: PCB에서 두 큐로 갈라지는 선은 프로세스 상태에 따라 준비 큐 또는 대기 큐에 소속되는 관계, 준비 큐와 스케줄러의 선은 실행 후보 제공 관계, 스케줄러와 CPU의 선은 선택한 프로세스에 실행 자원을 배정하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

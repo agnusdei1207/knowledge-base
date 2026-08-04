@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 다중프로그래밍•다중처리 (Multiprogramming•Multiprocessing)
-date: "2026-08-04T16:57:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: [notes-software]
 weight: 17
 extra:
@@ -63,15 +63,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 5
-  J["작업 집합"] R["준비 큐"] S["스케줄러"] C["코어 1•2"] M["공유 메모리"]
-  J --- R
-  R --- S
-  S --- C
-  C --- M
+```text
+[작업 집합] ----- [준비 큐] ----- [스케줄러] ----- [코어 1•2] ----- [공유 메모리]
 ```
+
+선의 의미: 선은 실행 후보, 코어 배정과 공유 상태가 결합되는 인접 구성요소의 정적 스케줄링 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

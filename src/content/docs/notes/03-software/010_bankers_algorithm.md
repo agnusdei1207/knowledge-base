@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 은행원 알고리즘 (Banker's Algorithm)
-date: "2026-08-04T10:10:00+09:00"
+date: "2026-08-05T02:30:00+09:00"
 tags: [notes-software]
 weight: 10
 extra:
@@ -66,14 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 4
-  P["요청 프로세스"] C["요청 제어기"] S["자원 상태"] A["안전성 검사기"]
-  P --- C
-  C --- S
-  S --- A
+```text
+[요청 프로세스] -- [요청 제어기] -- [자원 상태]
+                                         |
+                                  [안전성 검사기]
 ```
+
+선의 의미: 요청 제어기는 요청 프로세스의 요구를 자원 상태와 대조하고, 안전성 검사기는 그 자원 상태가 안전 순서를 허용하는지 검사한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

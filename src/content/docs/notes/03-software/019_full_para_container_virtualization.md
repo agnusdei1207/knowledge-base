@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 전가상화•반가상화•컨테이너 비교 (Full•Para•Container Virtualization)
-date: "2026-08-04T10:23:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -63,19 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  W["워크로드"] space space
-  F["전가상화 계층"] P["반가상화 계층"] C["컨테이너 계층"]
-  H["하이퍼바이저•호스트 커널"] space space
-  W --- F
-  W --- P
-  W --- C
-  F --- H
-  P --- H
-  C --- H
+```text
+                           [워크로드]
+                        /      |      \
+              [전가상화 계층] [반가상화 계층] [컨테이너 계층]
+                        \      |      /
+                  [하이퍼바이저•호스트 커널]
 ```
+
+선의 의미: 위 가지는 워크로드가 선택할 수 있는 세 대안 실행 계층이고, 아래 가지는 각 계층이 공통 자원 중재 경계에 결합되는 정적 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "프로세스 스케줄링 알고리즘: FCFS•SJF•RR•MLFQ•CFS (Process Scheduling)"
-date: "2026-08-04T10:01:00+09:00"
+date: "2026-08-05T00:56:17+09:00"
 tags: [notes-software]
 weight: 4
 extra:
@@ -68,16 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  Q["준비 큐"] S["스케줄러"] D["디스패처"]
-  T["타이머"] space C["CPU"]
-  Q --- S
-  S --- D
-  T --- D
-  D --- C
+```text
+[준비 큐] -------- [스케줄러] -------- [디스패처] -------- [CPU]
+                                             |
+                                             |
+                                          [타이머]
 ```
+
+선의 의미: 준비 큐와 스케줄러의 선은 실행 후보 제공 관계, 스케줄러와 디스패처의 선은 선택 결과 전달 관계, 디스패처와 CPU의 선은 문맥 복원과 제어권 이전 관계, 타이머와 디스패처의 선은 할당량 만료 통지 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "가상화: Type 1•Type 2 하이퍼바이저 (Virtualization•Hypervisor)"
-date: "2026-08-04T10:22:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: [notes-software]
 weight: 18
 extra:
@@ -67,28 +67,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 2
-  block:T1["Type 1 스택"]
-    columns 1
-    M1["Type 1 가상머신 집합"]
-    H1["Type 1 하이퍼바이저"]
-    P1["Type 1 물리 하드웨어"]
-  end
-  block:T2["Type 2 스택"]
-    columns 1
-    M2["Type 2 가상머신 집합"]
-    H2["Type 2 하이퍼바이저"]
-    O["호스트 OS"]
-    P2["Type 2 물리 하드웨어"]
-  end
-  M1 --- H1
-  H1 --- P1
-  M2 --- H2
-  H2 --- O
-  O --- P2
+```text
+       Type 1 스택                         Type 2 스택
+
+[Type 1 가상머신 집합]              [Type 2 가상머신 집합]
+           |                                  |
+[Type 1 하이퍼바이저]              [Type 2 하이퍼바이저]
+           |                                  |
+[Type 1 물리 하드웨어]                    [호스트 OS]
+                                              |
+                                  [Type 2 물리 하드웨어]
 ```
+
+선의 의미: 각 세로선은 가상머신에서 물리 하드웨어까지의 정적 계층을 뜻하며, Type 2 스택에만 하이퍼바이저와 하드웨어 사이의 호스트 OS 계층이 존재한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
