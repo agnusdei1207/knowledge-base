@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "HDLC 프레임 구조와 동작 모드 (HDLC)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 71
@@ -67,19 +67,11 @@ extra:
 
 제어 필드는 **I•S•U 프레임**을 구분하고 **FCS**가 전송 오류를 검출한다.
 
-```mermaid
-block-beta
-    columns 1
-    A["시작 Flag"]
-    B["Address"]
-    C["Control"]
-    D["Information"]
-    E["FCS•종료 Flag"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+ [시작 Flag] -- [Address] -- [Control] -- [Information] -- [FCS•종료 Flag]
 ```
+
+선의 의미: HDLC 프레임 안에서 시작 플래그부터 주소•제어•정보•FCS 및 종료 플래그가 차례로 배치되는 정적 필드 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

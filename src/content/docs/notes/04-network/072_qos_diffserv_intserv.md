@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "QoS, DiffServ, IntServ"
-date: "2026-08-04T17:40:00+09:00"
+date: "2026-08-05T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 72
@@ -64,17 +64,17 @@ extra:
 
 **DSCP**로 등급을 표시하고 **PHB**가 큐잉을 집행하며 **SLA**로 품질을 판정한다.
 
-```mermaid
-block-beta
-    columns 1
-    A["분류•표시"]
-    B["수용•트래픽 제어"]
-    C["PHB•큐잉"]
-    D["측정•SLA"]
-    A --- B
-    B --- C
-    C --- D
+```text
+        [분류•표시]
+              |
+      [수용•트래픽 제어]
+              |
+         [PHB•큐잉]
+              |
+         [측정•SLA]
 ```
+
+선의 의미: 트래픽 분류•표시와 수용 제어가 PHB•큐잉의 처리 기준을 구성하고, 측정•SLA 계층이 전체 QoS 처리 결과를 판정하는 정적 정책 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

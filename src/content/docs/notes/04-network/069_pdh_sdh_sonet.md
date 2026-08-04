@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "PDH•SDH•SONET 디지털 계위 (PDH SDH SONET)"
-date: "2026-08-04T17:34:00+09:00"
+date: "2026-08-05T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 69
@@ -69,19 +69,19 @@ extra:
 
 **VC•SPE**가 신호를 수용하고 **STM•STS•OC**가 전송 계위를 구성한다. **ADM•DXC**가 신호를 분기•연결한다.
 
-```mermaid
-block-beta
-    columns 1
-    A["신호 매퍼"]
-    B["VC•SPE•포인터"]
-    C["STM•STS/OC 프레임"]
-    D["ADM•DXC"]
-    E["OAM•보호"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+            [신호 매퍼]
+                  |
+          [VC•SPE•포인터]
+                  |
+        [STM•STS/OC 프레임]
+                  |
+              [ADM•DXC]
+                  |
+             [OAM•보호]
 ```
+
+선의 의미: 하위 신호 매핑과 페이로드 위치 정보가 동기 프레임 계층을 구성하고, ADM•DXC 및 OAM•보호가 프레임의 분기•연결과 운용 보호를 담당하는 정적 전송 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

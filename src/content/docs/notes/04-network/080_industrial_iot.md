@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "산업용 IoT (Industrial IoT, IIoT)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 80
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    IT["IT 분석•업무 시스템"]
-    DMZ["OT DMZ"]
-    EDGE["게이트웨이•엣지"]
-    CONTROL["PLC•SCADA"]
-    FIELD["센서•액추에이터•안전 연동"]
-    FIELD --- CONTROL
-    CONTROL --- EDGE
-    EDGE --- DMZ
-    DMZ --- IT
+```text
+       [IT 분석•업무 시스템]
+                  |
+              [OT DMZ]
+                  |
+          [게이트웨이•엣지]
+                  |
+            [PLC•SCADA]
+                  |
+ [센서•액추에이터•안전 연동]
 ```
+
+선의 의미: 세로선은 IT 분석•업무 영역과 OT 현장 사이에 OT DMZ와 게이트웨이•엣지를 경계로 두고, PLC•SCADA 및 센서•액추에이터•안전 연동으로 이어지는 정적 IIoT 계층과 책임 분리를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -65,22 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    ORCH["슬라이스 오케스트레이터"]
-    NSI["NSI"]
-    block:DOMAINS
-        columns 3
-        RAN["RAN NSSI"]
-        TN["TN NSSI"]
-        CN["CN NSSI"]
-    end
-    ORCH --- NSI
-    NSI --- RAN
-    NSI --- TN
-    NSI --- CN
+```text
+                    [슬라이스 오케스트레이터]
+                                |
+                              [NSI]
+                         /       |       \
+               [RAN NSSI]   [TN NSSI]   [CN NSSI]
 ```
+
+선의 의미: 세로선은 슬라이스 오케스트레이터가 종단 NSI의 자원 구성을 관리하는 관계이고, 아래 세 가지는 NSI가 무선•전송•코어 도메인의 NSSI를 하나의 종단 논리망으로 결합하는 계층 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

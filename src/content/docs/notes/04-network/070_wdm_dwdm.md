@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "WDM•DWDM 광 다중화 (WDM DWDM)"
-date: "2026-08-04T17:36:00+09:00"
+date: "2026-08-05T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 70
@@ -66,19 +66,13 @@ extra:
 
 **ROADM**이 파장을 분기•우회하고 **EDFA**가 신호를 증폭하며 **OCM**이 채널 품질을 측정한다.
 
-```mermaid
-block-beta
-    columns 1
-    A["트랜스폰더"]
-    B["광 다중화•역다중화기"]
-    C["ROADM"]
-    D["광섬유•EDFA 구간"]
-    E["OCM"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+ [트랜스폰더] -- [광 다중화•역다중화기] -- [ROADM] -- [광섬유•EDFA 구간]
+                                                 \              /
+                                                       [OCM]
 ```
+
+선의 의미: 트랜스폰더•광 다중화기•ROADM•광섬유/EDFA가 파장 전송 경로를 구성하고, OCM이 ROADM과 광 구간의 채널 품질을 감시하는 정적 광전송 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

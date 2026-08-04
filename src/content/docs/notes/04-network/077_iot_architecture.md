@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "IoT 아키텍처 (IoT Architecture)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 77
@@ -61,19 +61,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    APP["응용"]
-    PLATFORM["IoT 플랫폼"]
-    EDGE["엣지"]
-    GATEWAY["게이트웨이"]
-    DEVICE["디바이스"]
-    DEVICE --- GATEWAY
-    GATEWAY --- EDGE
-    EDGE --- PLATFORM
-    PLATFORM --- APP
+```text
+     [응용]
+       |
+ [IoT 플랫폼]
+       |
+     [엣지]
+       |
+  [게이트웨이]
+       |
+   [디바이스]
 ```
+
+선의 의미: 세로선은 업무 응용과 중앙 IoT 플랫폼, 현장 판단을 담당하는 엣지, 이기종 통신을 연결하는 게이트웨이와 실제 상태를 측정•제어하는 디바이스가 결합되는 정적 IoT 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

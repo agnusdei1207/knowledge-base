@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "MQTT 경량 메시징 (MQTT)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 78
@@ -61,21 +61,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    PUB["발행 클라이언트"]
-    block:BROKER["브로커"]
-        columns 2
-        TOPIC["토픽•구독 엔진"]
-        SESSION["세션•전달 저장소"]
-    end
-    SUB["구독 클라이언트"]
-    PUB --- TOPIC
-    TOPIC --- SESSION
-    TOPIC --- SUB
-    SESSION --- SUB
+```text
+[발행 클라이언트] ----- [브로커] ----- [구독 클라이언트]
+                           |
+                  [토픽•구독 엔진]
+                           |
+                  [세션•전달 저장소]
 ```
+
+선의 의미: 가로선은 발행•구독 클라이언트가 브로커를 중심으로 비결합되는 관계이고, 브로커 아래에는 수신자를 선택하는 토픽•구독 엔진과 구독•대기•미확인 상태를 보존하는 세션•전달 저장소가 놓이는 정적 내부 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

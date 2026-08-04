@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC UA)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 79
@@ -63,20 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    CLIENT["클라이언트•PubSub 소비자"]
-    SERVER["OPC UA 서버"]
-    MODEL["정보 모델•주소 공간"]
-    DEVICE["PLC•센서"]
-    SECURITY["인증서•역할 정책"]
-    DEVICE --- MODEL
-    MODEL --- SERVER
-    SERVER --- CLIENT
-    SECURITY --- SERVER
-    SECURITY --- CLIENT
+```text
+                                                      [인증서•역할 정책]
+                                                        /             \
+[PLC•센서] ----- [정보 모델•주소 공간] ----- [OPC UA 서버] ----- [클라이언트•PubSub 소비자]
 ```
+
+선의 의미: 가로선은 현장 설비, 의미를 부여하는 정보 모델•주소 공간, 이를 제공하는 OPC UA 서버와 데이터를 활용하는 소비자의 정적 결합 관계이고, 위 가지는 인증서•역할 정책이 서버와 소비자의 신뢰•권한 경계를 함께 제한하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

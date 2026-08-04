@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-04T17:22:00+09:00"
+date: "2026-08-05T01:30:12+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -67,20 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["인그레스 컨트롤러"]
-    B["Service"]
-    C["EndpointSlice"]
-    D["NetworkPolicy"]
-    E["프록시•eBPF 데이터 경로"]
-    A --- B
-    A --- E
-    B --- C
-    C --- E
-    D --- E
+```text
+[인그레스 컨트롤러]---[Service]---[EndpointSlice]
+          |                              |
+          +------------------------------+---+
+                                             |
+                    [NetworkPolicy]----------[프록시•eBPF 데이터 경로]
 ```
+
+선의 의미: 인그레스 컨트롤러는 Service 및 데이터 경로의 외부 경로 규칙과 결속되고, Service•EndpointSlice는 고정 접근점과 준비 파드 목록 관계이며, NetworkPolicy•EndpointSlice는 데이터 경로의 차단•분산 규칙 근거이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

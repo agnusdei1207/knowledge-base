@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "채널 용량 : 섀넌 한계 (Shannon Channel Capacity)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T01:30:12+09:00"
 tags:
   - "notes-network"
 weight: 65
@@ -66,19 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["대역폭 B"]
-    B["신호 전력 S"]
-    C["잡음 전력 N"]
-    D["SNR S/N"]
-    E["용량 C"]
-    B --- D
-    C --- D
-    A --- E
-    D --- E
+```text
+[대역폭 B]---------------------------+
+                                      |
+[신호 전력 S]---+                    |
+                 |                    |
+[잡음 전력 N]---[SNR S/N]----------[용량 C]
 ```
+
+선의 의미: 신호 전력 S와 잡음 전력 N은 선형비 SNR S/N의 구성 관계이고, 대역폭 B와 SNR S/N은 섀넌 식으로 정의되는 용량 C의 입력 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "트래픽 셰이핑과 폴리싱 (Traffic Shaping, Policing)"
-date: "2026-08-04T17:42:00+09:00"
+date: "2026-08-05T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 73
@@ -63,17 +63,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["분류기"]
-    B["토큰 버킷"]
-    C["셰이퍼"]
-    D["폴리서"]
-    A --- B
-    B --- C
-    B --- D
+```text
+           [분류기]
+               |
+          [토큰 버킷]
+            /       \
+       [셰이퍼]   [폴리서]
 ```
+
+선의 의미: 분류기 아래의 토큰 버킷이 공통 속도•버스트 판정 계층을 이루고, 셰이퍼와 폴리서가 서로 다른 초과 트래픽 집행 경계를 구성하는 정적 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

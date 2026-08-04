@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "네트워크 자동화 - Ansible•RESTCONF•NETCONF (Network Automation)"
-date: "2026-08-04T14:34:12+09:00"
+date: "2026-08-05T01:30:12+09:00"
 tags:
   - "notes-network"
 weight: 61
@@ -69,19 +69,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["진실의 원천"]
-    B["Git•CI 파이프라인"]
-    C["Ansible"]
-    D["YANG•관리 API"]
-    E["네트워크 장비"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[진실의 원천]---[Git•CI 파이프라인]---[Ansible]---[YANG•관리 API]---[네트워크 장비]
 ```
+
+선의 의미: 각 선은 목표 주소•토폴로지•정책, 변경 검증•승인, 배포 조율, 모델 기반 설정 인터페이스와 실제 장비 상태가 서로 추적되는 자동화 관리 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
