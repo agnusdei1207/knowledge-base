@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "표면 코드 (Surface Code)"
-date: "2026-08-04T16:34:00+09:00"
+date: "2026-08-04T14:56:15+09:00"
 tags:
   - "notes-latest-tech"
 weight: 214
@@ -107,10 +107,12 @@ sequenceDiagram
   participant D as 해독기
   participant F as 논리 프레임
   P->>S: 1. 보호 구역 설정
-  S->>H: 2. 안정자 주기 검사
-  H->>D: 3. 검출 사건 수집
-  D->>F: 4. 오류 경로 해독
-  F->>P: 5. 프레임 갱신
+  loop 안정자 측정 주기
+    S->>H: 2. 안정자 주기 검사
+    H->>D: 3. 검출 사건 수집
+    D->>F: 4. 오류 경로 해독
+    F->>P: 5. 프레임 갱신
+  end
 ```
 
 **동작 원리**

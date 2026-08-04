@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "분산 식별자(Decentralized Identifier, DID)"
-date: "2026-08-04T16:40:00+09:00"
+date: "2026-08-04T14:58:10+09:00"
 tags:
   - "notes-latest-tech"
 weight: 220
@@ -103,23 +103,22 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-  participant S as DID 주체
-  participant M as DID 메서드
-  participant R as DID 리졸버
   participant V as 검증자
-  S->>M: 1. DID 생성
+  participant R as DID 리졸버
+  participant M as DID 메서드
+  participant D as 분산 저장소
   V->>R: DID 해석 요청
-  R->>M: 2. DID 문서 조회
-  M-->>R: DID 문서
-  R-->>V: 검증 정보
-  S->>M: 3. 문서 갱신•비활성화
+  R->>M: 1. 메서드 식별
+  M->>D: 2. 최신 문서•상태 조회
+  D-->>M: DID 문서•메타데이터
+  M-->>R: 해석 결과
+  R-->>V: DID 문서•검증 정보
 ```
 
 **동작 원리**
 
-1. **DID 생성**: 메서드 규칙에 따라 식별자와 문서 등록
-2. **DID 문서 조회**: 기반 시스템에서 최신 문서 확보
-3. **문서 갱신•비활성화**: 제어권으로 생명주기 변경
+1. **메서드 식별**: DID 문자열에서 해석 규칙과 기반 시스템 선택
+2. **최신 문서•상태 조회**: 갱신•비활성화 상태와 검증 방법 확보
 
 #### 한줄 요약
 

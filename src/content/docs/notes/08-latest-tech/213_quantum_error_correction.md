@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "양자 오류 정정 (Quantum Error Correction)"
-date: "2026-08-04T16:33:00+09:00"
+date: "2026-08-04T14:56:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 213
@@ -109,8 +109,10 @@ sequenceDiagram
   H->>C: 1. 노이즈 분석
   C->>I: 2. 코드 선택
   I->>S: 3. 상태 인코딩
-  S->>D: 4. 주기 검사
-  D->>I: 5. 오류 보정
+  loop 오류 정정 주기
+    S->>D: 4. 주기 검사
+    D->>I: 5. 오류 보정
+  end
 ```
 
 **동작 원리**

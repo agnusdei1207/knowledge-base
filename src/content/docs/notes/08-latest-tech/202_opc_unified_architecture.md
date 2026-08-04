@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-04T12:40:00+09:00"
+date: "2026-08-04T14:52:33+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -111,20 +111,25 @@ sequenceDiagram
   participant S as Server
   participant T as 인증서•신뢰 체계
   participant A as AddressSpace
-  participant P as Publisher•Subscriber
   C->>S: Endpoint 탐색 요청
-  S->>T: 1. 인증서•정책 검증
-  T-->>S: 2. 보안 채널•세션
-  C->>A: 3. 탐색•읽기•구독
-  A->>P: 4. 의미 기반 데이터 교환
+  S-->>C: Endpoint 목록
+  C->>S: 1. 보안 채널 요청
+  S->>T: 2. 인증서•정책 검증
+  T-->>S: 검증 결과
+  S-->>C: 3. 보안 채널•세션 수립
+  C->>S: 4. 탐색•읽기•구독 요청
+  S->>A: 5. 노드 조회•구독 등록
+  A-->>S: 상태•값
+  S-->>C: 서비스 결과•변경 통지
 ```
 
 **동작 원리**
 
-1. **인증서•정책 검증**: 발급자•유효기간•폐기•신뢰 목록 확인
-2. **보안 채널•세션**: 서명•암호화와 사용자 인증 수립
-3. **탐색•읽기•구독**: AddressSpace의 노드•속성•참조 이용
-4. **의미 기반 데이터 교환**: 클라이언트-서버 또는 **PubSub** 로 값과 의미 전달
+1. **보안 채널 요청**: 보안 정책과 메시지 보호 방식 제안
+2. **인증서•정책 검증**: 발급자•유효기간•폐기•신뢰 목록 확인
+3. **보안 채널•세션 수립**: 서명•암호화와 사용자 인증 적용
+4. **탐색•읽기•구독 요청**: 필요한 노드와 서비스 지정
+5. **노드 조회•구독 등록**: AddressSpace에서 값과 변경 통지 연결
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "자동주행 시스템 (Automated Driving System, ADS)"
-date: "2026-08-04T16:29:00+09:00"
+date: "2026-08-04T14:54:23+09:00"
 tags:
   - "notes-latest-tech"
 weight: 209
@@ -108,11 +108,18 @@ sequenceDiagram
     participant C as 계획•제어
     participant S as 안전 감시
     participant F as DDT fallback
-    O->>P: 1. 유효 ODD•활성 상태 전달
-    P->>C: 2. 객체•사건 대응정보 전달
-    C->>S: 3. DDT•차량 상태 전달
-    S->>F: 4. 경계•고장 상태 전달
-    F->>O: 5. 인계•MRM 결과 전달
+    loop ADS 활성 중
+        O->>P: 1. 유효 ODD•활성 상태 전달
+        P->>C: 2. 객체•사건 대응정보 전달
+        C->>S: 3. DDT•차량 상태 전달
+        alt ODD 유효•시스템 정상
+            S-->>O: 감시 결과
+        else ODD 이탈•시스템 고장
+            S->>F: 4. fallback 작동 요청
+            F->>C: 5. 인계•MRM 목표 전달
+            C-->>O: fallback 결과
+        end
+    end
 ```
 
 **동작 원리**
@@ -120,8 +127,8 @@ sequenceDiagram
 1. **유효 ODD•활성 상태 전달**: 도로•날씨•속도와 시스템 가용성 기반 기능 진입
 2. **객체•사건 대응정보 전달**: 환경 인지•예측과 관련 객체•사건 대응 생성
 3. **DDT•차량 상태 전달**: 행동•경로•조향•가감속 실행 결과의 지속 감시
-4. **경계•고장 상태 전달**: ODD 이탈 예상•센서•제어 고장과 대응 가능 시간 판정
-5. **인계•MRM 결과 전달**: 자동화 수준별 운전자 인계 또는 시스템 MRM•MRC 완료
+4. **fallback 작동 요청**: ODD 이탈•고장과 대응 가능 시간을 판정해 전환 개시
+5. **인계•MRM 목표 전달**: 자동화 수준에 따라 운전자 인계 또는 MRC 도달 지시
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/PAS 8800 인공지능 안전"
-date: "2026-08-04T16:30:00+09:00"
+date: "2026-08-04T14:54:46+09:00"
 tags:
   - "notes-latest-tech"
 weight: 210
@@ -110,10 +110,12 @@ sequenceDiagram
     participant V as V&V•안전 케이스
     participant O as 운영•변경 통제
     C->>R: 1. 위험•운행 조건 전달
-    R->>D: 2. 부족성•안전 요구 전달
-    D->>V: 3. 데이터•모델 증거 전달
-    V->>O: 4. 검증•보증 결과 전달
-    O->>R: 5. 현장 위험•변경 영향 전달
+    loop AI 안전 수명주기
+        R->>D: 2. 부족성•안전 요구 전달
+        D->>V: 3. 데이터•모델 증거 전달
+        V->>O: 4. 검증•보증 결과 전달
+        O->>R: 5. 현장 위험•변경 영향 전달
+    end
 ```
 
 **동작 원리**

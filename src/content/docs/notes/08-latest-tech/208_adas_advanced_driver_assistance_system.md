@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "첨단 운전자 지원 시스템 (Advanced Driver Assistance System, ADAS)"
-date: "2026-08-04T16:28:00+09:00"
+date: "2026-08-04T14:54:07+09:00"
 tags:
   - "notes-latest-tech"
 weight: 208
@@ -111,11 +111,13 @@ sequenceDiagram
     participant R as 위험 판단
     participant C as HMI•차량 제어
     participant D as DMS•안전 감시
-    S->>P: 1. 환경•차량 상태 전달
-    P->>R: 2. 객체•차선 추정 전달
-    R->>C: 3. 위험•목표 제어 전달
-    C->>D: 4. 기능•운전자 상태 전달
-    D-->>C: 5. 지속•저하•해제 결정 전달
+    loop ADAS 활성 중
+        S->>P: 1. 환경•차량 상태 전달
+        P->>R: 2. 객체•차선 추정 전달
+        R->>C: 3. 위험•목표 제어 전달
+        C->>D: 4. 기능•운전자 상태 전달
+        D-->>C: 5. 지속•저하•해제 결정 전달
+    end
 ```
 
 **동작 원리**
