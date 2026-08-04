@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/PAS 8800 인공지능 안전"
-date: "2026-08-04T14:54:46+09:00"
+date: "2026-08-05T16:11:50+09:00"
 tags:
   - "notes-latest-tech"
 weight: 210
@@ -68,18 +68,6 @@ extra:
 </details>
 
 AI 안전 요구와 V&V 증거를 안전 보증 논증에 연결한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["AI 시스템 정의•맥락"]
-  N1["AI 안전 요구•부족성"]
-  N2["데이터셋•모델 개발"]
-  N3["V&V•보증 논증"]
-  N4["운영 감시•변경 통제"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

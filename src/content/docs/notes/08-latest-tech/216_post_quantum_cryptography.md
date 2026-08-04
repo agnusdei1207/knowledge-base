@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자내성암호 (Post-Quantum Cryptography, PQC)"
-date: "2026-08-04T16:36:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 216
@@ -69,17 +69,6 @@ extra:
 </details>
 
 **KEM** 을 적용할 암호 자산과 **HSM** 호환성을 목록화한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["암호 자산 목록"]
-  N1["알고리즘 프로필"]
-  N2["하이브리드 운영"]
-  N3["전환 거버넌스"]
-  N0 --- N1 --- N2
-  N2 --- N3
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

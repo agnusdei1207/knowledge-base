@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 정의 차량 (Software Defined Vehicle)"
-date: "2026-08-04T14:52:58+09:00"
+date: "2026-08-05T02:22:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 204
@@ -72,22 +72,25 @@ extra:
 
 Vehicle OS와 HPC는 API로 기능과 장치를 분리한다.
 
-```mermaid
-block-beta
-  columns 4
-  N0["기능 애플리케이션"]
-  N1["서비스 계층"]
-  N2["차량 API"]
-  N3["Vehicle OS"]
-  N4["중앙 HPC"]
-  N5["구역 제어기"]
-  N6["센서"]
-  N7["구동기"]
-  N0 --- N1 --- N2 --- N3
-  N3 --- N4 --- N5
-  N5 --- N6
-  N5 --- N7
+```text
+              [기능 애플리케이션]
+                       |
+                  [서비스 계층]
+                       |
+                   [차량 API]
+                       |
+                 [Vehicle OS]
+                       |
+                  [중앙 HPC]
+                       |
+                 [구역 제어기]
+                       |
+             +---------+---------+
+             |                   |
+           [센서]              [구동기]
 ```
+
+선의 의미: 기능 애플리케이션과 서비스 계층이 차량 API를 통해 Vehicle OS 및 중앙 HPC와 분리되고, 구역 제어기가 센서와 구동기의 물리 입출력 경계를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

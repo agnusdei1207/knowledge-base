@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차량•사물 통신 (Vehicle-to-Everything, V2X)"
-date: "2026-08-04T16:27:00+09:00"
+date: "2026-08-05T02:22:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 207
@@ -68,17 +68,19 @@ extra:
 
 **V2X•RSU•PKI** 가 메시지 전달과 신뢰 관리를 분담한다.
 
-```mermaid
-block-beta
-  columns 3
-  N0["차량 OBU"]
-  N1["주변 차량•보행자"]
-  N2["RSU•교통 인프라"]
-  N3["셀룰러 망•V2X 서버"]
-  N4["V2X PKI"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
+```text
+                 [차량 OBU]
+                      |
+              [주변 차량•보행자]
+                      |
+              [RSU•교통 인프라]
+                      |
+             [셀룰러 망•V2X 서버]
+                      |
+                  [V2X PKI]
 ```
+
+선의 의미: 차량 OBU가 주변 차량•보행자 및 RSU•교통 인프라와 통신 관계를 구성하고, 셀룰러 망•V2X 서버와 V2X PKI가 광역 서비스 및 신뢰 경계를 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

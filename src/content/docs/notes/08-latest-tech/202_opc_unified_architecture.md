@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-04T14:52:33+09:00"
+date: "2026-08-05T02:22:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -69,19 +69,21 @@ extra:
 
 **OPC UA** 서버의 AddressSpace를 클라이언트가 탐색하며, **PubSub** 는 데이터셋을 여러 구독자에게 전달한다.
 
-```mermaid
-block-beta
-  columns 3
-  N0["Client"]
-  N1["Server"]
-  N2["AddressSpace"]
-  N3["Publisher"]
-  N4["Subscriber"]
-  N5["인증서•신뢰 체계"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-  N1 --- N5
+```text
+                    [Client]
+                       |
+                    [Server]
+                       |
+                 [AddressSpace]
+                       |
+              +--------+--------+
+              |                 |
+         [Publisher]       [Subscriber]
+              |
+       [인증서•신뢰 체계]
 ```
+
+선의 의미: Client와 Server가 AddressSpace의 정보 모델을 공유하고, Publisher와 Subscriber가 데이터셋 통신 관계를 구성하며 인증서•신뢰 체계가 전체 통신의 신원 및 보호 경계를 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

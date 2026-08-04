@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "무선 업데이트 (Over-the-Air Update, OTA)"
-date: "2026-08-04T14:53:26+09:00"
+date: "2026-08-05T02:22:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 205
@@ -67,21 +67,6 @@ extra:
 - **복구 영역**: 실패 시 이전 정상 버전으로 롤백하거나 재설치하는 안전 영역이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 4
-  N0["빌드 시스템"]
-  N1["서명 저장소"]
-  N2["SUMS"]
-  N3["배포 백엔드"]
-  N4["업데이트 클라이언트"]
-  N5["보안 설치기"]
-  N6["부트 관리자"]
-  N7["복구 영역"]
-  N0 --- N1 --- N2 --- N3
-  N3 --- N4 --- N5 --- N6 --- N7
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

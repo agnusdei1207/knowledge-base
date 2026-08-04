@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "자동주행 시스템 (Automated Driving System, ADS)"
-date: "2026-08-04T14:54:23+09:00"
+date: "2026-08-05T16:11:49+09:00"
 tags:
   - "notes-latest-tech"
 weight: 209
@@ -66,17 +66,16 @@ extra:
 
 **ADS** 는 ODD•OEDR•MRM을 함께 관리한다.
 
-```mermaid
-block-beta
-  columns 3
-  N0["ODD•기능 관리자"]
-  N1["인지•OEDR"]
-  N2["예측•계획•제어"]
-  N3["DDT fallback"]
-  N4["안전 감시•기록"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
+```text
+                [ODD•기능 관리자]   [안전 감시•기록]
+                         \          /
+                         [인지•OEDR]
+                              |
+                     [예측•계획•제어]
+                              |
+                       [DDT fallback]
 ```
+선의 의미: ODD•기능 관리자와 안전 감시•기록은 인지•OEDR에 각각 작동 범위와 독립 감시 경계를 제공하고, 예측•계획•제어는 인지 결과를 정상 DDT와 DDT fallback의 인계•MRM 제어 경계에 연결한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

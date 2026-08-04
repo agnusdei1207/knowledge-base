@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "분산 식별자(Decentralized Identifier, DID)"
-date: "2026-08-04T14:58:10+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 220
@@ -68,18 +68,15 @@ extra:
 
 **DID 주체** 가 키를 제어하고 리졸버가 메서드에 따라 DID 문서를 해석한다.
 
-```mermaid
-block-beta
-  columns 3
-  A["DID 주체"]
-  B["DID 메서드"]
-  C["DID 문서"]
-  D["DID 리졸버"]
-  A --- B
-  B --- C
-  B --- D
-  C --- D
+```text
+                         [DID 주체]
+                              |
+                        [DID 메서드]
+                         /          \
+                  [DID 문서] ----- [DID 리졸버]
 ```
+
+선의 의미: DID 주체가 DID 메서드의 수명주기 규칙으로 식별자를 제어하고, DID 리졸버가 같은 메서드에 따라 DID 문서의 검증 방법과 서비스 정보를 해석하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

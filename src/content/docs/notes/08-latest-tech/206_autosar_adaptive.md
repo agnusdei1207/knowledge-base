@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-04T14:53:45+09:00"
+date: "2026-08-05T02:22:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -67,17 +67,19 @@ extra:
 
 **ARA•UCM•PHM•POSIX** 가 Adaptive 애플리케이션의 실행 기반을 구성한다.
 
-```mermaid
-block-beta
-  columns 3
-  N0["ARA•ara::com"]
-  N1["Execution Management"]
-  N2["UCM"]
-  N3["PHM"]
-  N4["POSIX 운영체제"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
+```text
+                [ARA•ara::com]
+                       |
+             [Execution Management]
+                       |
+                      [UCM]
+                       |
+                      [PHM]
+                       |
+                [POSIX 운영체제]
 ```
+
+선의 의미: ARA•ara::com과 Execution Management가 애플리케이션 서비스 경계를 구성하고, UCM과 PHM이 POSIX 운영체제 위에서 갱신 및 건강 관리 기능을 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
