@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Test-Time Compute (테스트 타임 컴퓨트)"
-date: "2026-08-04T14:53:00+09:00"
+date: "2026-08-04T13:44:13+09:00"
 tags: ["notes-latest_tech"]
 weight: 40
 extra:
@@ -115,8 +115,11 @@ sequenceDiagram
   participant O as 관측기
   B->>B: 1. 난도•위험 추정
   B->>I: 2. 추론 예산 할당
-  I->>V: 3. 후보 생성•탐색
-  V->>O: 4. 품질•안전 검증
+  loop 품질 통과•예산 소진 전
+    I->>V: 3. 후보 생성•탐색
+    V->>O: 4. 품질•안전 검증
+    O-->>I: 검증 결과 반환
+  end
   O->>O: 5. 종료•정책 환류
   O-->>B: 예산 정책 보정값 전달
 ```

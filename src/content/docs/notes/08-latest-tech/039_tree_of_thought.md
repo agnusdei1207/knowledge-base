@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Tree-of-Thought (탐색 추론)"
-date: "2026-08-04T14:48:00+09:00"
+date: "2026-08-04T13:43:58+09:00"
 tags: ["notes-latest_tech"]
 weight: 39
 extra:
@@ -111,9 +111,12 @@ sequenceDiagram
   participant E as 상태 평가기
   participant V as 검증기
   C->>G: 1. 초기 상태 정의
-  G->>E: 2. 후보 상태 확장
-  E-->>C: 3. 후보 가치 평가
-  C->>V: 4. 가지치기•경로 선택
+  loop 종료 조건 충족 전
+    G->>E: 2. 후보 상태 확장
+    E-->>C: 3. 후보 가치 평가
+    C->>C: 4. 가지치기•경로 선택
+  end
+  C->>V: 완성 후보 전달
   V->>V: 5. 완성 답 독립 검증
   V-->>C: 검증 결과 반환
 ```
