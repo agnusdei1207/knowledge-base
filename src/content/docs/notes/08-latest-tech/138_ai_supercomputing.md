@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 슈퍼컴퓨팅 (AI Supercomputing)"
-date: "2026-08-05T03:38:00+09:00"
+date: "2026-08-04T14:37:04+09:00"
 tags:
   - "notes-latest_tech"
 weight: 138
@@ -105,11 +105,15 @@ sequenceDiagram
     participant F as 집단 통신망
     participant M as 모델 상태 관리자
     participant C as 체크포인트 관리자
-    S->>N: 1. 학습 데이터 병렬 공급
-    N->>F: 2. 노드별 모델 계산
-    F->>M: 3. 갱신값 집단 통신
-    M->>N: 4. 모델 상태 동기화
-    N-->>C: 5. 중간 상태 병렬 저장
+    loop 학습 종료까지
+        S->>N: 1. 학습 데이터 병렬 공급
+        N->>F: 2. 노드별 모델 계산
+        F->>M: 3. 갱신값 집단 통신
+        M->>N: 4. 모델 상태 동기화
+        opt 체크포인트 주기 도달
+            N-->>C: 5. 중간 상태 병렬 저장
+        end
+    end
 ```
 
 1. **학습 데이터 병렬 공급**: 작업자별 데이터 조각을 저장 대역폭에 맞춰 **병렬 전달**

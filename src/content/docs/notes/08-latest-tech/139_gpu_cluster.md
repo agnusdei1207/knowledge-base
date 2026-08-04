@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "GPU 클러스터 (GPU Cluster)"
-date: "2026-08-05T03:44:00+09:00"
+date: "2026-08-04T14:37:04+09:00"
 tags:
   - "notes-latest_tech"
 weight: 139
@@ -107,9 +107,13 @@ sequenceDiagram
     participant R as 체크포인트 저장소
     O->>O: 1. 모델 메모리•통신량 분석
     O->>N: 2. 병렬 전략•인접 GPU 동시 배치
-    N->>C: 3. 샤드 적재•모델 계산
-    C->>N: 4. 집단 통신•상태 동기화
-    N-->>R: 5. 분산 상태 저장•장애 복구
+    loop 학습 종료까지
+        N->>C: 3. 샤드 적재•모델 계산
+        C->>N: 4. 집단 통신•상태 동기화
+        opt 체크포인트•장애 발생
+            N-->>R: 5. 분산 상태 저장•장애 복구
+        end
+    end
 ```
 
 GPU 노드는 병렬 전략에 따라 샤드를 계산하고 통신한다.

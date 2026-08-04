@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (Large Language Model Operations)"
-date: "2026-08-05T02:56:00+09:00"
+date: "2026-08-04T14:32:39+09:00"
 tags:
   - "notes-latest-tech"
 weight: 129
@@ -111,11 +111,13 @@ sequenceDiagram
   participant H as 평가 하네스
   participant G as 모델 게이트웨이
   participant T as 추적•피드백 저장소
-  R->>H: 1. 프롬프트•모델•검색 후보
-  H->>G: 2. 회귀 평가•승인 구성
-  G->>T: 3. 질의•근거•응답•비용
-  T-->>H: 4. 운영 품질•사람 피드백
-  H-->>R: 5. 유지•롤백•수정 판정
+  loop 실행 구성 운영 종료까지
+    R->>H: 1. 프롬프트•모델•검색 후보
+    H->>G: 2. 회귀 평가•승인 구성
+    G->>T: 3. 질의•근거•응답•비용
+    T-->>H: 4. 운영 품질•사람 피드백
+    H-->>R: 5. 유지•롤백•수정 판정
+  end
 ```
 
 1. **프롬프트•모델•검색 후보**: 실행 구성 전체를 버전 결합

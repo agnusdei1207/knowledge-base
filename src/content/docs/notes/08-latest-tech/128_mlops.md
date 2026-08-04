@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
-date: "2026-08-05T02:50:00+09:00"
+date: "2026-08-04T14:32:39+09:00"
 tags:
   - "notes-latest-tech"
 weight: 128
@@ -113,11 +113,13 @@ sequenceDiagram
   participant M as 메타데이터 저장소
   participant R as 모델 레지스트리
   participant S as 서빙•모니터링 플랫폼
-  D->>O: 1. 검증 데이터•변경 정보
-  O->>M: 2. CI•CT 실행 계보
-  M->>R: 3. 후보 모델•평가 결과
-  R->>S: 4. 승인 버전•CD 배포
-  S-->>O: 5. 드리프트•재학습 신호
+  loop 모델 운영 종료까지
+    D->>O: 1. 검증 데이터•변경 정보
+    O->>M: 2. CI•CT 실행 계보
+    M->>R: 3. 후보 모델•평가 결과
+    R->>S: 4. 승인 버전•CD 배포
+    S-->>O: 5. 드리프트•재학습 신호
+  end
 ```
 
 1. **검증 데이터•변경 정보**: 코드•스키마•특징 변경 입력
