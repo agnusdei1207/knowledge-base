@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "다중 프로세서 스케줄링: SQMS•MQMS (Multiprocessor Scheduling SQMS MQMS)"
-date: "2026-08-04T10:36:00+09:00"
+date: "2026-08-05T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 28
@@ -68,23 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SCHED["다중 프로세서 스케줄러"]
-        columns 2
-        A["작업 배치기"]
-        G["전역 실행 큐"]
-        L["코어별 로컬 실행 큐"]
-        B["부하 분산기"]
-        C["CPU 코어 집합"]
-    end
-    A --- G
-    A --- L
-    G --- C
-    L --- C
-    L --- B
+```text
+                         [작업 배치기]
+                          /          \
+              [전역 실행 큐]      [코어별 로컬 실행 큐] -- [부하 분산기]
+                          \          /
+                        [CPU 코어 집합]
 ```
+
+선의 의미: 작업 배치기는 전역 실행 큐 또는 코어별 로컬 실행 큐에 작업을 배치하고, 두 큐는 CPU 코어 집합과 연결되며, 부하 분산기는 로컬 실행 큐 사이의 불균형을 조정한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "UML 다이어그램 유형 (UML Diagrams)"
-date: "2026-08-04T17:17:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 37
@@ -66,16 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 2
-  U["UML 다이어그램"] space
-  S["구조 다이어그램"] B["행위 다이어그램"]
-  space I["상호작용 다이어그램"]
-  U --- S
-  U --- B
-  B --- I
+```text
+                         [UML 다이어그램]
+                          /             \
+              [구조 다이어그램]     [행위 다이어그램]
+                                          |
+                                [상호작용 다이어그램]
 ```
+
+선의 의미: 첫 두 가지는 UML 다이어그램의 구조•행위 유형 분류이고, 세로선은 상호작용 다이어그램이 행위 다이어그램에 포함되는 계층 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

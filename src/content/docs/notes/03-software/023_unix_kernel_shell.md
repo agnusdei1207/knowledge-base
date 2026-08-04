@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "UNIX 커널•쉘•파일시스템 3요소 (UNIX Kernel Shell)"
-date: "2026-08-04T10:29:00+09:00"
+date: "2026-08-05T00:59:02+09:00"
 tags:
   - "notes-software"
 weight: 23
@@ -64,13 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  S["셸"] K["커널"] F["파일 시스템"]
-  S --- K
-  K --- F
+```text
+[셸] -------- [커널] -------- [파일 시스템]
 ```
+
+선의 의미: 셸과 커널의 선은 명령을 시스템 호출로 요청하는 관계, 커널과 파일 시스템의 선은 경로•권한•저장 블록을 특권 경계에서 관리하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

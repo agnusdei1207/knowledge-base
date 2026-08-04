@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "XP: 페어 프로그래밍•TDD (Extreme Programming)"
-date: "2026-08-04T17:11:00+09:00"
+date: "2026-08-05T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 34
@@ -67,16 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  P["개발 페어"]
-  T["TDD•자동 테스트"]
-  R["리팩터링"]
-  I["지속 통합"]
-  P --- T --- R
-  R --- I
+```text
+                     [TDD•자동 테스트]
+                      /              \
+               [개발 페어] -- [리팩터링] -- [지속 통합]
 ```
+
+선의 의미: 개발 페어는 TDD•자동 테스트를 기준으로 코드를 작성하고 리팩터링하며, 리팩터링된 변경은 자동 테스트와 함께 지속 통합 체계에서 검증된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

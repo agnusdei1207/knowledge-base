@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-08-04T10:38:00+09:00"
+date: "2026-08-05T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 29
@@ -66,21 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SCHED["NUMA 인지 스케줄러"]
-        columns 2
-        T["토폴로지 관리자"]
-        P["배치 정책"]
-        R["재배치 제어기"]
-        N["NUMA 노드 집합"]
-    end
-    T --- P
-    P --- N
-    N --- R
-    R --- T
+```text
+                     [토폴로지 관리자]
+                      /              \
+             [배치 정책]          [재배치 제어기]
+                      \              /
+                     [NUMA 노드 집합]
 ```
+
+선의 의미: 토폴로지 관리자가 파악한 노드 정보를 배치 정책과 재배치 제어기가 함께 사용하며, 두 구성요소는 NUMA 노드 집합의 최초 배치와 이후 재배치를 담당한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

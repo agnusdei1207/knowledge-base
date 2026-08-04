@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "소프트웨어 개발 생명주기 SDLC (Software Development Lifecycle)"
-date: "2026-08-04T10:39:00+09:00"
+date: "2026-08-05T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 30
@@ -64,21 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:SDLC["SDLC 관리 체계"]
-        columns 2
-        M["생명주기 모델"]
-        G["단계 게이트"]
-        A["수행 활동"]
-        R["산출물•추적성 저장소"]
-    end
-    M --- G
-    G --- A
-    A --- R
-    R --- G
+```text
+                         [생명주기 모델]
+                                |
+[산출물•추적성 저장소] -- [단계 게이트] -- [수행 활동]
 ```
+
+선의 의미: 생명주기 모델은 단계 게이트의 통제 규칙을 정하고, 단계 게이트는 수행 활동과 산출물•추적성 저장소를 기준으로 진입·종료 조건을 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "폭포수 모델 vs 애자일 (Waterfall vs Agile)"
-date: "2026-08-04T17:07:00+09:00"
+date: "2026-08-05T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 31
@@ -64,22 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:WATER["폭포수 모델"]
-        columns 2
-        B["요구 기준선"]
-        G["단계 승인"]
-    end
-    block:AGILE["애자일"]
-        columns 2
-        L["제품 백로그"]
-        I["제품 증분"]
-    end
-    B --- G
-    L --- I
+```text
+[요구 기준선] -- [단계 승인]
+
+[제품 백로그] -- [제품 증분]
 ```
+
+선의 의미: 위 연결은 폭포수 모델에서 요구 기준선이 단계 승인의 기준이 되는 관계이고, 아래 연결은 애자일에서 제품 백로그가 제품 증분의 범위를 구성하는 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|
