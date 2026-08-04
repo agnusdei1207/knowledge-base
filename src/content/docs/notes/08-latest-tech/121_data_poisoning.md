@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
-date: "2026-08-04T14:22:35+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 121
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  access["기여자 권한 관리기"]
-  lineage["데이터 계보 저장소"]
-  quarantine["격리 데이터셋"]
-  version["버전 저장소"]
-  evaluation["기준 평가기"]
-  access --- lineage
-  lineage --- quarantine
-  quarantine --- version
-  version --- evaluation
+```text
+                [기여자 권한 관리기]
+                         |
+                [데이터 계보 저장소]
+                         |
+                  [격리 데이터셋]
+                         |
+                   [버전 저장소]
+                         |
+                    [기준 평가기]
 ```
+
+선의 의미: 기여자 권한과 데이터 계보가 격리 데이터셋 및 버전 저장소의 변경 경계를 통제하고, 기준 평가기가 승인 후보의 행동을 검증하는 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

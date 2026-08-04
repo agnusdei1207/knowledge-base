@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "OWASP LLM Top 10 (OWASP LLM Top 10)"
-date: "2026-08-05T02:32:00+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 125
@@ -68,19 +68,19 @@ extra:
 
 LLM 응용의 입력•정보•공급망•검색•자원 경계에 2025판 위험 식별자를 연결한다.
 
-```mermaid
-block-beta
-  columns 3
-  io["입력•출력 경계"]
-  info["정보•지시 경계"]
-  supply["공급•학습 경계"]
-  action["검색•행동 경계"]
-  resource["판단•자원 경계"]
-  io --- info
-  info --- supply
-  supply --- action
-  action --- resource
+```text
+                 [입력•출력 경계]
+                         |
+                  [정보•지시 경계]
+                         |
+                  [공급•학습 경계]
+                         |
+                  [검색•행동 경계]
+                         |
+                  [판단•자원 경계]
 ```
+
+선의 의미: 입력•출력, 정보•지시, 공급•학습, 검색•행동, 판단•자원 경계가 LLM 응용의 연쇄 위험을 분리해 담당 통제와 연결하는 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

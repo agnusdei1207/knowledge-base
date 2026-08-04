@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
-date: "2026-08-05T02:38:00+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 126
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  gateway["자원 게이트웨이"]
-  ledger["예산 원장"]
-  admission["입장 제어기"]
-  monitor["실행 감시기"]
-  pool["격리 실행 풀"]
-  gateway --- ledger
-  ledger --- admission
-  admission --- pool
-  pool --- monitor
+```text
+                 [자원 게이트웨이]
+                         |
+                    [예산 원장]
+                         |
+                   [입장 제어기]
+                         |
+              +----------+----------+
+              |                     |
+         [실행 감시기]          [격리 실행 풀]
 ```
+
+선의 의미: 자원 게이트웨이와 예산 원장이 입장 제어기의 허용 범위를 제공하고, 실행 감시기와 격리 실행 풀이 소비 상한 및 테넌트 용량 경계를 강제한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

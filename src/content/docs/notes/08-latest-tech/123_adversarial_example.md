@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "적대적 예제 (Adversarial Example)"
-date: "2026-08-04T14:22:35+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 123
@@ -69,19 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  threat["위협 모델 저장소"]
-  objective["목적함수"]
-  constraint["교란 제약기"]
-  attacker["공격 알고리즘"]
-  evaluator["강건성 평가기"]
-  threat --- attacker
-  objective --- attacker
-  constraint --- attacker
-  attacker --- evaluator
+```text
+[위협 모델 저장소]---[목적함수]---[교란 제약기]
+         |                |              |
+         +----------[공격 알고리즘]------+
+                          |
+                    [강건성 평가기]
 ```
+
+선의 의미: 위협 모델, 목적함수, 교란 제약기가 공격 알고리즘의 탐색 경계를 정의하고, 강건성 평가기가 해당 위협 범위의 방어 성능을 측정하는 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

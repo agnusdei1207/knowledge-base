@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "C2PA 콘텐츠 출처 표준 (Coalition for Content Provenance and Authenticity)"
-date: "2026-08-05T02:44:00+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 127
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  assertion["진술 저장소"]
-  claim["클레임 구성기"]
-  signer["서명•자격증명부"]
-  manifest["매니페스트 저장소"]
-  verifier["매니페스트 검증기"]
-  assertion --- claim
-  claim --- signer
-  signer --- manifest
-  manifest --- verifier
+```text
+                   [진술 저장소]
+                         |
+                  [클레임 구성기]
+                         |
+                [서명•자격증명부]
+                         |
+                [매니페스트 저장소]
+                         |
+                [매니페스트 검증기]
 ```
+
+선의 의미: 진술과 콘텐츠 바인딩을 클레임 구성기가 결합하고, 서명•자격증명부와 매니페스트 저장소 및 검증기가 무결성•신뢰 경계를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

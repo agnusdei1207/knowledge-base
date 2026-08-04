@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
-date: "2026-08-04T14:32:39+09:00"
+date: "2026-08-05T14:29:48+09:00"
 tags:
   - "notes-latest-tech"
 weight: 128
@@ -70,19 +70,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  data["데이터 파이프라인"]
-  orchestration["파이프라인 오케스트레이터"]
-  metadata["메타데이터 저장소"]
-  registry["모델 레지스트리"]
-  serving["서빙•모니터링 플랫폼"]
-  data --- orchestration
-  orchestration --- metadata
-  metadata --- registry
-  registry --- serving
+```text
+                    [파이프라인 오케스트레이터]
+                     /          |          \
+          [데이터 파이프라인] [메타데이터 저장소] [모델 레지스트리]
+                     \          |          /
+                    [서빙•모니터링 플랫폼]
 ```
+선의 의미: 파이프라인 오케스트레이터는 데이터 파이프라인, 메타데이터 저장소, 모델 레지스트리의 작업•계보•버전 경계를 통제하고, 서빙•모니터링 플랫폼은 세 영역의 운영 상태를 함께 관측한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

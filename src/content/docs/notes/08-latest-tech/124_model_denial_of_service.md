@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모델 서비스 거부 (Model Denial of Service)"
-date: "2026-08-04T14:22:35+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 124
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  gateway["요청 게이트웨이"]
-  meter["작업량 계량기"]
-  scheduler["대기열•스케줄러"]
-  inference["추론 실행기"]
-  tool["도구 실행기"]
-  gateway --- meter
-  meter --- scheduler
-  scheduler --- inference
-  scheduler --- tool
+```text
+                 [요청 게이트웨이]
+                         |
+                  [작업량 계량기]
+                         |
+                [대기열•스케줄러]
+                         |
+              +----------+----------+
+              |                     |
+         [추론 실행기]          [도구 실행기]
 ```
+
+선의 의미: 요청 게이트웨이와 작업량 계량기가 주체별 소비를 통제하고, 대기열•스케줄러가 추론 실행기와 도구 실행기의 격리된 자원 경계를 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "백도어 공격 (Backdoor Attack)"
-date: "2026-08-04T14:22:35+09:00"
+date: "2026-08-05T02:15:47+09:00"
 tags:
   - "notes-latest_tech"
 weight: 122
@@ -70,19 +70,17 @@ extra:
 
 ASR은 트리거 변형별 표적 행동 발생률을 측정하고, 은닉성은 정상 입력 성능으로 평가한다.
 
-```mermaid
-block-beta
-  columns 3
-  trigger["트리거 생성기"]
-  target["표적 행동 정의부"]
-  channel["주입 채널"]
-  model["손상 모델"]
-  evaluator["이중 평가기"]
-  trigger --- channel
-  target --- channel
-  channel --- model
-  model --- evaluator
+```text
+[트리거 생성기]---[표적 행동 정의부]
+        |                  |
+        +----------[주입 채널]
+                         |
+                    [손상 모델]
+                         |
+                    [이중 평가기]
 ```
+
+선의 의미: 트리거 생성기와 표적 행동 정의부가 주입 채널에 결합되고, 손상 모델과 이중 평가기가 조건부 악성 행동 및 정상 성능의 검증 경계를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

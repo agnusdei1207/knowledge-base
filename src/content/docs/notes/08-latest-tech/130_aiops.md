@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-04T14:32:39+09:00"
+date: "2026-08-05T14:29:50+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -68,19 +68,16 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  telemetry["관측 데이터 저장소"]
-  topology["서비스 토폴로지"]
-  incident["사건 분석 엔진"]
-  cause["원인 추정 모델"]
-  runbook["런북•정책 제어기"]
-  telemetry --- incident
-  topology --- incident
-  incident --- cause
-  cause --- runbook
+```text
+              [관측 데이터 저장소]   [서비스 토폴로지]
+                         \           /
+                       [사건 분석 엔진]
+                              |
+                       [원인 추정 모델]
+                              |
+                    [런북•정책 제어기]
 ```
+선의 의미: 사건 분석 엔진은 관측 데이터 저장소의 신호와 서비스 토폴로지의 의존 관계를 함께 사용하고, 원인 추정 모델과 런북•정책 제어기는 사건의 진단•조치 통제 경계를 구성한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
