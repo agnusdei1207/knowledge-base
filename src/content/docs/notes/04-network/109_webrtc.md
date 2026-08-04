@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "WebRTC (WebRTC)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T19:46:00+09:00"
 tags: ["notes-network"]
 weight: 109
 extra:
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 브라우저 간 **실시간 음성•영상•자료** 를 암호화해 교환하는 통신 기술
+- 정의/개념: 브라우저 간 **실시간 음성•영상•자료**를 암호화해 교환하는 통신 기술
 - 배경/필요성: 플러그인•NAT의 **배포•직접 경로 제약**
 
 #### 한줄 요약
@@ -39,8 +39,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **직접•중계 경로 선택(Direct/Relay Path Selection)**: 상호 연결 설정(Interactive Connectivity Establishment, ICE)이 NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN) 후보와 NAT 릴레이 통과(Traversal Using Relays around NAT, TURN) 후보의 연결성을 검사해 실제 왕복 경로를 고른다.
-- **세션 기술 프로토콜•데이터그램 전송 계층 보안•보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP•DTLS•SRTP)**: 통화 조건 협상, 키 합의와 미디어 암호화를 담당하는 프로토콜이다.
+- **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: 후보 쌍의 연결성을 검사해 실제 경로를 선택하는 절차
+- **NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN)**: NAT 밖에서 보이는 공인 주소를 확인하는 프로토콜
+- **NAT 릴레이 통과(Traversal Using Relays around NAT, TURN)**: 직접 연결 실패 시 중계 경로를 제공하는 프로토콜
+- **세션 기술 프로토콜(Session Description Protocol, SDP)**: 코덱•주소•전송 방향을 기술하는 형식
+- **데이터그램 전송 계층 보안(Datagram Transport Layer Security, DTLS)**: 데이터그램 구간에서 인증과 키 합의를 제공하는 보안 프로토콜
+- **보안 실시간 전송 프로토콜(Secure Real-time Transport Protocol, SRTP)**: 실시간 미디어를 암호화•인증하는 프로토콜
 
 </details>
 
@@ -57,9 +61,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STUN•TURN 서버(Session Traversal Utilities for NAT/Traversal Using Relays around NAT Server)**: NAT 밖 공인 주소를 알려 주고 직접 연결이 실패하면 미디어•데이터 중계 경로를 제공한다.
-- **선택 전달•다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU•MCU)**: 미디어를 선택 전달하거나 합성•변환하는 다자 회의 서버이다.
-- **세션 기술 프로토콜•상호 연결 설정(Session Description Protocol/Interactive Connectivity Establishment, SDP•ICE)**: 미디어 조건과 실제 통신 경로 후보를 협상하는 프로토콜이다.
+- **단말 A**: SDP 제안과 미디어 송신을 수행하는 종단
+- **시그널링 서버**: SDP와 ICE 후보를 상대 단말에 전달하는 서버
+- **단말 B**: SDP 응답과 미디어 수신을 수행하는 종단
+- **STUN•TURN 서버**: 공인 주소 탐색과 중계 경로를 제공하는 서버
+- **SFU•MCU 서버**: 선택 전달이나 미디어 합성을 수행하는 서버
+- **품질•세션 관측기**: 손실•지터•중계 비율을 수집하는 구성요소
 
 </details>
 
@@ -94,8 +101,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **ICE 경로 검사•선택(Interactive Connectivity Establishment Path Check/Selection)**: 단말은 호스트•공인•중계 후보 쌍의 양방향 연결성을 검사해 성공하는 최적 경로를 선택한다.
-- **세션 기술 프로토콜•데이터그램 전송 계층 보안•보안 실시간 전송 프로토콜(Session Description Protocol/Datagram Transport Layer Security/Secure Real-time Transport Protocol, SDP•DTLS•SRTP)**: 통화 조건 협상과 미디어 보안 전송을 담당한다.
+- **ICE 경로 검사•선택**: 호스트•공인•중계 후보 쌍을 검사해 최적 경로를 선택하는 절차
 
 </details>
 
@@ -130,8 +136,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **선택 전달 장치(Selective Forwarding Unit, SFU)**: 참가자의 미디어를 합성하지 않고 수신자별로 선택 전달해 일반 다자 회의의 단말 부담을 줄인다.
-- **개인 간•다중점 제어 장치(Peer-to-Peer/Multipoint Control Unit, P2P•MCU)**: 참가자 직접 연결 방식과 미디어 합성•변환 서버이다.
+- **선택 전달 장치(Selective Forwarding Unit, SFU)**: 미디어를 합성하지 않고 수신자별로 선택 전달하는 서버
+- **개인 간 통신(Peer-to-Peer, P2P)**: 중앙 미디어 서버 없이 참가자끼리 스트림을 교환하는 방식
+- **다중점 제어 장치(Multipoint Control Unit, MCU)**: 미디어를 합성•변환해 참가자에게 전달하는 서버
 
 </details>
 
@@ -152,9 +159,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **직접 사용자 데이터그램 프로토콜 차단(Direct User Datagram Protocol Blocking, 직접 UDP 차단)**: 기업망 방화벽이나 NAT 정책이 단말 후보 사이의 미디어 경로를 허용하지 않는 문제다.
-- **요청 의견서•상호 연결 설정•NAT 릴레이 통과(Request for Comments/Interactive Connectivity Establishment/Traversal Using Relays around NAT, RFC•ICE•TURN)**: 표준 문서와 직접•중계 경로 선택 기술이다.
-- **W3C•SFU•MCU(World Wide Web Consortium/Selective Forwarding Unit/Multipoint Control Unit)**: 웹 표준화 기구와 다자 미디어 전달•합성 서버이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜
+- **직접 UDP 차단**: 방화벽이나 NAT 정책이 단말 간 미디어 경로를 막는 문제
+- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 기술 표준을 개발하는 국제 공동체
 
 </details>
 
@@ -169,14 +177,6 @@ sequenceDiagram
 - 직접 경로와 TURN 대체 성공률을 측정하고 참여 규모에 맞는 미디어 서버 구조를 선택해야 한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **개인 간 통신(Peer-to-Peer, P2P)**: 중앙 미디어 서버 없이 참가자끼리 스트림을 교환해 1:1이나 소수 참여자 통신에 적합하다.
-- **선택 전달•다중점 제어 장치(Selective Forwarding Unit/Multipoint Control Unit, SFU•MCU)**: 일반 다자 전달과 합성•변환에 각각 사용하는 서버이다.
-
-</details>
 
 - 소수 직접 연결은 **P2P**, 일반 다자는 **SFU**, 합성•변환은 MCU 선택
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "글로벌 CDN 아키텍처 (Global CDN Architecture)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:31:00+09:00"
 tags: ["notes-network"]
 weight: 107
 extra:
@@ -22,8 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **분산 콘텐츠 전송망**: 글로벌 콘텐츠 전송망(Content Delivery Network, CDN)은 여러 지역의 엣지 거점이 원본 콘텐츠를 캐시•전달해 원거리 지연과 원본 집중을 줄이는 분산 전송망이다.
-- **엣지 거점(Edge Point of Presence)**: 사용자와 가까운 지역에서 콘텐츠 캐시•보안•전송을 수행하는 CDN 접점이다.
+- **콘텐츠 전송망(Content Delivery Network, CDN)**: 여러 지역의 엣지가 콘텐츠를 캐시•전달하는 분산 전송망
+- **엣지 서비스 거점(Edge Point of Presence, PoP)**: 사용자와 가까운 지역에서 캐시•보안•전송을 수행하는 CDN 접점
 
 </details>
 
@@ -39,7 +39,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **캐시 적중•실패**: 캐시 적중은 콘텐츠 전송망(Content Delivery Network, CDN) 엣지가 객체를 즉시 제공하는 상태이고 실패는 보호 캐시나 원본에 상위 요청해야 하는 상태다. 객체의 생존 시간(Time to Live, TTL)으로 신선도를 판정한다.
+- **캐시 적중(Cache Hit)**: CDN 엣지가 저장한 객체를 즉시 제공하는 상태
+- **캐시 실패(Cache Miss)**: 보호 캐시나 원본에 객체를 요청해야 하는 상태
+- **생존 시간(Time to Live, TTL)**: 캐시 객체를 유효하게 사용할 수 있는 기간
 - **캐시 키(Cache Key)**: 요청 가운데 같은 캐시 객체를 구분하도록 선택한 주소•헤더•질의값 등의 조합이다.
 
 </details>
@@ -57,8 +59,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **원본 보호 캐시**: 원본 보호 캐시는 여러 서비스 거점(Point of Presence, PoP)에서 발생한 같은 객체의 실패 요청을 병합해 원본의 중복 처리와 폭주를 줄인다.
-- **전송 기반 기술**: 도메인 이름 시스템(Domain Name System, DNS)은 거점을 선택하고 전송 계층 보안(Transport Layer Security, TLS)은 구간을 보호하며 생존 시간(Time to Live, TTL)은 캐시 신선도를 제한한다.
+- **글로벌 요청 라우터**: DNS•애니캐스트로 정상 PoP를 선택하는 구성요소
+- **엣지 PoP**: 캐시•보안•콘텐츠 전달을 수행하는 지역 접점
+- **캐시 정책 엔진**: 캐시 키•TTL•저장 제외 규칙을 결정하는 구성요소
+- **원본 보호 캐시**: 여러 PoP의 같은 실패 요청을 병합하는 상위 캐시
+- **원본 서버**: 정본 콘텐츠와 재검증 정보를 제공하는 서버
+- **도메인 이름 시스템(Domain Name System, DNS)**: 도메인 이름을 접속 주소로 변환하는 체계
+- **전송 계층 보안(Transport Layer Security, TLS)**: 전송 구간을 암호화하고 상대를 인증하는 프로토콜
 - **애니캐스트(Anycast)**: 여러 거점이 같은 네트워크 주소를 알리고 라우팅상 가까운 정상 거점으로 요청을 보내는 방식이다.
 
 </details>
@@ -90,16 +97,6 @@ block-beta
 - 라우터가 가까운 엣지로 보내고 그곳에 없으면 보호 캐시가 여러 요청을 합쳐 원본에서 한 번만 가져온다.
 
 ## Ⅳ. 흐름도
-
-<details>
-<summary>핵심 용어</summary>
-
-- **2. 실패 요청 병합**: 보호 캐시는 같은 객체를 동시에 요구하는 여러 서비스 거점(Point of Presence, PoP)의 요청을 하나의 원본 재검증으로 합친다. 객체의 생존 시간(Time to Live, TTL)이 끝나면 재검증한다.
-- **1. 캐시 키•신선도 판정**: 요청의 변형 조건과 TTL 및 저장 가능성을 검사하는 단계이다.
-- **3. 원본 재검증**: 조건부 요청으로 객체 변경 여부를 확인하고 필요하면 최신 객체를 받는 단계이다.
-- **4. 보호 캐시 갱신**: 재검증한 최신 객체를 상위 캐시에 저장해 여러 엣지에 제공하는 단계이다.
-
-</details>
 
 ```mermaid
 sequenceDiagram
@@ -139,7 +136,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **글로벌 CDN**: 글로벌 콘텐츠 전송망(Content Delivery Network, CDN)은 전 세계 사용자와 대량 콘텐츠에 다지역 라우팅•계층 캐시•공격 완충을 제공하며 생존 시간(Time to Live, TTL)으로 객체 신선도를 관리한다.
 - **지역 캐시(Regional Cache)**: 제한된 지역이나 내부망의 반복 요청을 단일 지역에서 캐시하는 전달 방식이다.
 - **원본 직접 제공(Direct Origin Delivery)**: 엣지 캐시 없이 모든 요청을 원본 서버가 직접 처리하는 방식이다.
 
@@ -160,7 +156,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **공유 캐시 노출**: 공유 캐시 노출은 사용자별 개인 응답을 같은 캐시 키로 저장해 다른 사용자에게 전달하는 정보 유출 문제다. 의견 요청 문서(Request for Comments, RFC) 9111의 캐시 규칙으로 저장 가능성을 검증한다.
+- **공유 캐시 노출**: 개인 응답을 같은 캐시 키로 저장해 다른 사용자에게 전달하는 정보 유출 문제
+- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계
+- **RFC 9111**: HTTP 캐시 동작과 저장 가능성을 규정한 표준
 - **선택 무효화(Selective Invalidation)**: 변경된 객체의 캐시만 지정해 만료 전에 제거하는 갱신 방식이다.
 - **오래된 응답 제공(Serve Stale)**: 원본 장애 시 제한된 시간 동안 만료된 캐시 객체를 제공해 연속성을 유지하는 방식이다.
 
@@ -182,8 +180,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **원본 제공**: 원본 제공은 요청마다 내용이 달라 콘텐츠 전송망(Content Delivery Network, CDN)에 안전하게 캐시할 수 없는 소규모•개인화 서비스에 적합하다.
-- **원본 보호(Origin Protection)**: 보호 캐시•요청 병합•접근 제한으로 원본의 부하와 외부 노출을 줄이는 설계 원칙이다.
+- **원본 보호(Origin Protection)**: 보호 캐시•요청 병합•접근 제한으로 원본 부하와 노출을 줄이는 원칙
 
 </details>
 

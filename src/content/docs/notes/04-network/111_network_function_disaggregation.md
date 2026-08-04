@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "네트워크 기능 분리"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T06:42:00+09:00"
 tags:
   - "notes-network"
 weight: 111
@@ -23,7 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 기능 분리(Network Function Disaggregation)**: 5세대(Fifth Generation, 5G) 무선접속망(Radio Access Network, RAN)의 차세대 노드 B(next-generation Node B, gNB) 기능을 중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)로 나눠 배치하는 구조이다.
+- **5세대(Fifth Generation, 5G)**: 초고속•초저지연•초연결을 목표로 하는 이동통신 세대이다.
+- **무선접속망(Radio Access Network, RAN)**: 단말을 이동통신 코어망에 연결하는 무선 네트워크이다.
+- **차세대 노드 B(next-generation Node B, gNB)**: 5G RAN의 무선 기지국이다.
+- **중앙 장치(Central Unit, CU)**: gNB의 상위 무선 계층과 정책을 처리하는 장치이다.
+- **분산 장치(Distributed Unit, DU)**: 스케줄링과 상위 물리 계층을 처리하는 장치이다.
+- **무선 장치(Radio Unit, RU)**: 하위 물리 계층과 무선주파수 변환을 수행하는 장치이다.
+- **네트워크 기능 분리(Network Function Disaggregation)**: gNB 기능을 CU•DU•RU로 나눠 배치하는 구조이다.
 
 </details>
 
@@ -39,7 +45,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)**: CU는 상위 무선 계층, DU는 시간 민감 스케줄링•물리 처리, RU는 무선주파수 변환을 담당한다.
+- **CU 중앙화**: 여러 DU의 상위 무선 계층 처리 자원을 중앙에서 공유한다.
+- **DU 현장 처리**: 시간 민감 스케줄링과 상위 물리 처리를 현장에서 수행한다.
+- **RU 전파 변환**: 안테나 가까이에서 하위 물리 처리와 무선주파수 변환을 수행한다.
 - **개방 프론트홀**: 다중 공급사의 DU와 RU가 신호•제어•관리•동기 정보를 교환하도록 규정한 연결 구간이다.
 
 </details>
@@ -57,8 +65,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **F1 인터페이스(F1 Interface)**: 3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)가 CU와 DU 사이의 제어 평면과 사용자 평면 연결을 규정한 표준 인터페이스이다.
-- **중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)**: 상위 처리, 스케줄링•물리 처리와 전파 변환을 각각 담당하는 장치이다.
+- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 이동통신 규격을 개발하는 국제 표준화 협력체이다.
+- **F1 인터페이스(F1 Interface)**: 3GPP가 CU와 DU 사이의 제어 평면과 사용자 평면 연결을 규정한 표준 인터페이스이다.
+- **CU•DU•RU 처리 경계**: 상위 처리•스케줄링•전파 변환의 장치별 책임을 구분한다.
 - **처리 시한**: 각 무선 기능이 다음 계층에 결과를 전달해야 하는 최대 시간으로 기능 배치 위치를 정하는 기준이다.
 
 </details>
@@ -96,7 +105,7 @@ block-beta
 
 - **상위 계층 전달**: CU가 처리한 정책•패킷 정보를 F1을 통해 DU에 보내는 과정이다.
 - **자원 상태 환류**: DU가 무선 측정과 처리 자원 상태를 CU에 돌려보내 다음 정책에 반영하는 과정이다.
-- **중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)**: 상위 계층부터 전파 변환까지 단계별 처리를 담당하는 장치이다.
+- **CU•DU•RU 처리 연계**: 상위 계층부터 전파 변환까지 장치별 결과를 순서대로 전달한다.
 
 </details>
 
@@ -135,7 +144,7 @@ sequenceDiagram
 
 - **일체형•분리형 기지국**: 일체형은 기능을 한 장비에 결합하고 분리형은 표준 인터페이스로 기능별 장치를 연결한다.
 - **분리점**: 기지국 프로토콜 계층 중 기능을 서로 다른 장치•위치로 나누는 경계이다.
-- **중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)**: 분리형 기지국의 기능 배치 단위이다.
+- **CU•DU•RU 배치 단위**: 분리형 기지국에서 처리 시한별 기능 위치를 정하는 단위이다.
 
 </details>
 
@@ -178,7 +187,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **분리 적용 조건**: 장치 간 전송 지연•용량•동기가 분리한 기능의 처리 시한을 충족하는 조건이다.
-- **중앙•분산•무선 장치(Central/Distributed/Radio Unit, CU•DU•RU)**: 전송•동기 조건을 만족할 때 분리 배치하는 기지국 기능 단위이다.
+- **CU•DU•RU 분리 검증**: 전송•동기 조건이 각 기능의 처리 시한을 만족하는지 확인한다.
 
 </details>
 

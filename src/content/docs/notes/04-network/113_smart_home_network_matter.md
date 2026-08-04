@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "스마트 홈 통합 Matter"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-05T06:54:00+09:00"
 tags:
   - "notes-network"
 weight: 113
@@ -42,6 +42,7 @@ extra:
 - **공통 데이터 모델**: 제조사와 전송망이 달라도 기기의 기능•속성•명령 의미를 동일하게 표현하는 규격이다.
 - **다중 관리자**: 여러 생태계의 관리자가 하나의 Matter 기기를 각 패브릭에서 제어하는 기능이다.
 - **무선 근거리망(Wireless Fidelity, Wi-Fi)**: Matter 기기에 고대역 IP 연결을 제공하는 무선망이다.
+- **스레드(Thread)**: 저전력 기기에 IPv6 메시 연결을 제공하는 무선 네트워크 기술이다.
 
 </details>
 
@@ -59,21 +60,27 @@ extra:
 <summary>핵심 용어</summary>
 
 - **패브릭**: Matter 기기와 관리자가 운영 인증서•키•권한을 공유하는 신뢰 영역이다.
-- **Thread 경계 라우터•기기 브리지(Thread Border Router/Device Bridge)**: 경계 라우터는 Thread와 외부 인터넷 프로토콜(Internet Protocol, IP)망을 연결하고 브리지는 비 Matter 기기 모델을 변환한다.
+- **가입 제어기**: 새 기기의 진위를 확인하고 패브릭 운영 자격을 설치한다.
+- **패브릭 제어기**: 패브릭의 인증서•키•접근 권한과 기기 상태를 관리한다.
+- **IP 연결 계층**: 주소 기반으로 제어기와 Matter 기기의 통신 경로를 제공한다.
+- **Matter 기기**: 공통 데이터 모델에 따른 기능•속성•명령을 제공한다.
+- **Thread 경계 라우터(Thread Border Router)**: Thread와 외부 IP망을 연결한다.
+- **기기 브리지(Device Bridge)**: 비 Matter 기기의 기능과 명령을 Matter 모델로 변환한다.
 
 </details>
 
 ```mermaid
 block-beta
   columns 3
-  A["가입•패브릭 제어기"] --- C["IP 연결 계층"] --- B["Matter 기기"]
+  A["가입 제어기"] --- F["패브릭 제어기"] --- C["IP 연결 계층"] --- B["Matter 기기"]
   D["Thread 경계 라우터"] --- C
   E["기기 브리지"] --- C
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 가입•패브릭 제어기 | **기기 가입•인증서•권한 관리** |
+| 가입 제어기 | **기기 증명•운영 자격 설치** |
+| 패브릭 제어기 | **인증서•키•권한 관리** |
 | Matter 기기 | **공통 기능•속성•명령 제공** |
 | IP 연결 계층 | **주소 기반 연결 제공** |
 | Thread 경계 라우터 | **Thread•외부 IP망 라우팅** |
@@ -90,7 +97,8 @@ block-beta
 
 - **커미셔닝**: 새 기기의 진위를 확인하고 패브릭 운영 자격과 접근 권한을 설치하는 가입 절차이다.
 - **신뢰 저장소**: 제조사 인증기관 정보를 보관해 기기 증명서의 신뢰 체인을 검증하는 저장소이다.
-- **저전력 블루투스•인터넷 프로토콜(Bluetooth Low Energy/Internet Protocol, BLE•IP)**: 초기 기기 가입과 운영망 통신에 각각 사용하는 연결 기술이다.
+- **저전력 블루투스(Bluetooth Low Energy, BLE)**: 초기 기기 발견과 가입에 사용하는 저전력 무선 기술이다.
+- **IP 운영 통신**: 가입 뒤 패브릭의 기기 제어와 상태 교환에 사용하는 연결이다.
 
 </details>
 
@@ -123,8 +131,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Thread•Wi-Fi 연결(Thread/Wireless Fidelity Connectivity)**: Thread는 저전력 인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6) 메시 경로를, Wi-Fi는 고대역 IP 직접 연결을 Matter 기기에 제공한다.
-- **기기 브리지**: 기존 비 Matter 기기의 기능과 명령을 Matter 데이터 모델로 변환하는 장치이다.
+- **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소 체계를 사용하는 IP 버전이다.
+- **Thread 연결**: 저전력 IPv6 메시 경로를 Matter 기기에 제공한다.
+- **Wi-Fi 연결**: 고대역 IP 직접 연결을 Matter 기기에 제공한다.
+- **브리지 연결**: 기존 비 Matter 기기의 기능과 명령을 Matter 모델로 변환한다.
 
 </details>
 
@@ -147,7 +157,8 @@ sequenceDiagram
 
 - **서명 무선 갱신(Signed Over-the-Air Update, 서명 OTA)**: 디지털 서명으로 출처와 무결성을 검증한 소프트웨어만 기기에 원격 설치하는 갱신 방식이다.
 - **기기 발견 트래픽**: 제어기가 같은 IP망에서 Matter 기기와 서비스를 찾기 위해 교환하는 탐색 메시지이다.
-- **연결 표준 연합•전기전자공학자협회(Connectivity Standards Alliance/Institute of Electrical and Electronics Engineers, CSA•IEEE)**: Matter 규격과 저전력 무선 규격의 표준화 조직이다.
+- **연결 표준 연합(Connectivity Standards Alliance, CSA)**: Matter 규격과 인증 프로그램을 관리하는 표준화 조직이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 통신•컴퓨팅 기술 표준을 개발하는 전문 조직이다.
 
 </details>
 
@@ -168,7 +179,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **연결 방식 선택**: 기기의 전력•대역폭•기존 자산 호환성을 비교해 Thread•Wi-Fi•브리지를 결정하는 과정이다.
-- **무선 근거리망(Wireless Fidelity, Wi-Fi)**: 고대역폭 Matter 기기의 IP 연결에 사용하는 무선망이다.
+- **Wi-Fi 적용 조건**: 고대역폭과 전원 공급이 가능한 Matter 기기에 적용한다.
 
 </details>
 

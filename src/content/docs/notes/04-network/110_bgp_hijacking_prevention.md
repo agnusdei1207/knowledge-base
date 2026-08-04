@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BGP 하이재킹 방지 (BGP Hijacking Prevention)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-05T06:36:00+09:00"
 tags: ["notes-network"]
 weight: 110
 extra:
@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **경계 게이트웨이 프로토콜 하이재킹 방지(Border Gateway Protocol Hijacking Prevention, BGP 하이재킹 방지)**: 원점 권한•접두어 길이•AS 관계를 검증해 비인가 경로 전환을 막는 인터넷 라우팅 보안 체계다.
+- **경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP)**: AS 사이에서 인터넷 경로 정보를 교환하는 라우팅 프로토콜이다.
+- **BGP 하이재킹 방지(BGP Hijacking Prevention)**: 원점 권한•접두어 길이•AS 관계를 검증해 비인가 경로 전환을 막는 보안 체계다.
 - **자율 시스템(Autonomous System, AS)**: 하나의 관리 정책 아래 운영되는 네트워크와 라우터의 집합이다.
 
 </details>
@@ -39,7 +40,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **다층 검증(Multi-Layer Validation)**: 경로 기원 인가(Route Origin Authorization, ROA) 원점 권한•허용 접두어 길이•이웃 자율 시스템(Autonomous System, AS) 관계 정책과 외부 전파 상태를 함께 확인한다.
+- **경로 기원 인가(Route Origin Authorization, ROA)**: 접두어를 광고할 수 있는 원점 AS와 최대 길이를 명시한 서명 객체이다.
+- **다층 검증(Multi-Layer Validation)**: ROA 원점 권한•허용 접두어 길이•이웃 AS 관계 정책과 외부 전파 상태를 함께 확인한다.
 
 </details>
 
@@ -56,27 +58,35 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP 수용 필터(Border Gateway Protocol Import Filter)**: 이웃에게 받은 경로를 경로 기원 검증(Route Origin Validation, ROV)•접두어 길이•AS 관계 정책과 대조해 수용•차단한다.
-- **리소스 공개키 기반구조•인터넷 라우팅 등록소(Resource Public Key Infrastructure/Internet Routing Registry, RPKI•IRR)**: 경로 원점 권한과 라우팅 정책의 등록 근거를 제공하는 신뢰원이다.
+- **경로 기원 검증(Route Origin Validation, ROV)**: BGP 광고의 원점 AS와 접두어 길이를 ROA와 대조한다.
+- **리소스 공개키 기반구조(Resource Public Key Infrastructure, RPKI)**: 인터넷 번호 자원과 경로 기원 권한을 인증하는 기반구조이다.
+- **인터넷 라우팅 등록소(Internet Routing Registry, IRR)**: 사업자의 접두어와 라우팅 정책을 등록하는 데이터베이스이다.
+- **BGP 수용 필터**: 이웃 경로를 ROV•접두어 길이•AS 관계 정책과 대조해 수용•차단한다.
+- **라우팅 제어 평면**: 유효한 BGP 경로를 선택•전파•철회한다.
+- **외부 경로 관측기**: 외부 관측점에서 실제 원점과 AS 경로 변화를 탐지한다.
+- **격리 체계**: 의심 경로를 수용 필터에서 차단하여 영향 범위를 제한한다.
+- **복구 체계**: 상류 사업자와 광고를 철회하고 정상 경로 수렴을 확인한다.
 
 </details>
 
 ```mermaid
 block-beta
     columns 3
-    A["RPKI•IRR 신뢰원"] --- B["BGP 수용 필터"] --- C["라우팅 제어 평면"]
-    D["외부 경로 관측기"] --- E["격리•복구 체계"]
+    A["RPKI"] --- F["IRR"] --- B["BGP 수용 필터"] --- C["라우팅 제어 평면"]
+    D["외부 경로 관측기"] --- E["격리 체계"] --- G["복구 체계"]
     C --- D
     E --- B
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| RPKI•IRR 신뢰원 | **원점 권한•허용 접두어** 근거 제공 |
+| RPKI | **원점 권한•허용 접두어** 근거 제공 |
+| IRR | **접두어•라우팅 정책** 등록 제공 |
 | BGP 수용 필터 | **ROV•접두어•AS 관계** 정책 검사 |
 | 라우팅 제어 평면 | 유효 경로 **선택•전파•철회** 수행 |
 | 외부 경로 관측기 | 실제 **원점•경로 변화** 탐지 |
-| 격리•복구 체계 | 상류 협력•필터•**정상 수렴** 확인 |
+| 격리 체계 | 의심 경로 **차단•영향 제한** |
+| 복구 체계 | 상류 협력•철회•**정상 수렴** 확인 |
 
 > 요약: 원점•접두어•AS 관계 검증과 외부 관측
 
@@ -90,7 +100,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **원점•접두어 검증(Origin/Prefix Validation)**: 라우터는 광고 접두어의 원점 AS와 길이를 ROA의 허용 원점•최대 길이와 대조한다.
-- **경로 기원 인가•경계 게이트웨이 프로토콜(Route Origin Authorization/Border Gateway Protocol, ROA•BGP)**: 허용 원점•최대 길이 정책과 이를 전달하는 라우팅 프로토콜이다.
+- **ROA 정책 등록**: 허용 원점 AS와 최대 접두어 길이를 RPKI에 게시한다.
 
 </details>
 
@@ -125,8 +135,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **경로 누출(Route Leak)**: 원점 자율 시스템(Autonomous System, AS)은 정상이지만 고객•제공자•동료 관계 정책에 어긋나게 배운 경로를 재광고하는 사고다.
-- **경로 기원 인가•검증(Route Origin Authorization/Validation, ROA•ROV)**: 허용 원점•최대 길이를 등록하고 광고 경로와 대조하는 체계이다.
+- **경로 누출(Route Leak)**: 원점 AS는 정상이지만 고객•제공자•동료 관계 정책에 어긋나게 배운 경로를 재광고하는 사고다.
+- **ROA•ROV 불일치**: 광고 원점이나 접두어 길이가 등록된 권한 범위를 벗어난 상태이다.
 
 </details>
 
@@ -148,7 +158,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **외부 전파 지속(Continued External Propagation)**: 로컬에서 경로를 차단해도 다른 사업자가 잘못된 광고를 계속 선택•재전파하는 문제다.
-- **요청 의견서•경로 기원 인가•검증(Request for Comments/Route Origin Authorization/Validation, RFC•ROA•ROV)**: 인터넷 표준 문서와 경로 원점 권한 등록•검증 체계이다.
+- **요청 의견서(Request for Comments, RFC)**: 인터넷 기술과 운영 규칙을 공개한 표준 문서 체계이다.
 - **제공자 역할 표시(Only-To-Customer, OTC)**: 고객에게만 전달해야 하는 경로임을 표시해 관계 위반 재광고를 탐지하는 속성이다.
 
 </details>
@@ -168,8 +178,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **차단•철회(Block/Withdraw)**: 원점•최대 길이•자율 시스템(Autonomous System, AS) 관계가 불일치한 경로는 수용 필터로 차단하고 상류 사업자와 협력해 광고 철회와 정상 수렴을 확인한다.
-- **리소스 공개키 기반구조(Resource Public Key Infrastructure, RPKI)**: 경로 기원 권한을 인증서와 서명 객체로 검증하는 기반구조이다.
+- **차단•철회(Block/Withdraw)**: 원점•최대 길이•AS 관계가 불일치한 경로를 차단하고 광고 철회와 정상 수렴을 확인한다.
+- **RPKI 검증 운영**: 인증서와 서명 객체를 최신 상태로 유지하고 검증 실패를 감시한다.
 
 </details>
 

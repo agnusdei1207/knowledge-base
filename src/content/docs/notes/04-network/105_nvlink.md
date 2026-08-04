@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:17:00+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -22,13 +22,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **고대역폭 스케일업 연결**: NVIDIA NVLink는 한 고속 도메인 안의 그래픽처리장치(Graphics Processing Unit, GPU)와 중앙처리장치(Central Processing Unit, CPU) 메모리 사이에 높은 대역폭의 접근과 전송을 제공하는 스케일업 연결이다.
 - **NVLink**: NVIDIA가 GPU•CPU 등 처리기 사이의 고대역폭 직접 통신을 위해 제공하는 전용 인터커넥트이다.
+- **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치
+- **고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)**: 호스트와 주변장치를 연결하는 고속 직렬 버스
 
 </details>
 
 - 정의/개념: GPU•CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**
-- 배경/필요성: 고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)의 **GPU 간 대역폭 병목**
+- 배경/필요성: PCIe의 **GPU 간 대역폭 병목**
 
 #### 한줄 요약
 
@@ -39,8 +41,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **토폴로지 인식 집합 통신**: 토폴로지 인식 집합 통신은 그래픽처리장치(Graphics Processing Unit, GPU)•NVIDIA NVSwitch 연결과 링크 상태에 따라 NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)가 링•트리 경로를 선택한다.
+- **토폴로지 인식 집합 통신**: GPU•NVSwitch 연결과 링크 상태에 따라 NCCL이 링•트리 경로를 선택하는 방식
 - **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치이다.
+- **NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: 다중 GPU 집합 통신 경로를 선택하는 라이브러리
 
 </details>
 
@@ -57,8 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NVSwitch 패브릭**: NVIDIA NVSwitch 패브릭은 여러 NVLink 포트를 교차 연결해 다수 그래픽처리장치(Graphics Processing Unit, GPU)가 동시에 통신할 고대역폭 경로를 제공한다. NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)가 이 토폴로지에 맞는 경로를 선택한다.
-- **패브릭 관리자(Fabric Manager)**: 링크•파티션•접근 상태를 관리해 GPU 통신 도메인을 구성하는 제어 구성요소이다.
+- **GPU•CPU 메모리 도메인**: 자료 저장과 상호 접근 경계를 제공하는 영역
+- **NVLink 포트**: 처리기 사이의 고속 링크를 제공하는 접속부
+- **NVSwitch 패브릭**: 여러 포트의 동시 교차 경로를 제공하는 전송망
+- **패브릭 관리자(Fabric Manager)**: 링크•파티션•접근 상태를 관리하는 구성요소
+- **NCCL 통신 계층**: 토폴로지별 집합 통신 경로를 선택하는 계층
 
 </details>
 
@@ -93,7 +99,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **3. 통신 순위•자료 배치**: NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)는 자주 데이터를 교환하는 그래픽처리장치(Graphics Processing Unit, GPU) 순위를 같은 NVSwitch 도메인과 가까운 링크에 배치한다.
+- **통신 순위•자료 배치**: NCCL이 자주 교환하는 GPU 순위를 가까운 링크에 배치하는 방식
 - **집합 통신(Collective Communication)**: 여러 GPU가 하나의 그룹으로 브로드캐스트•리듀스•전체 리듀스 등을 수행하는 통신 방식이다.
 
 </details>
@@ -129,9 +135,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand•RoCE**: InfiniBand와 통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)은 서버와 랙 경계를 넘어 그래픽처리장치(Graphics Processing Unit, GPU) 집합 통신을 확장하는 스케일아웃 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 망이다.
-- **PCIe**: 고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)은 호스트와 가속기•저장•망 장치를 잇는 범용 버스다.
-- **모델•텐서 병렬(Model/Tensor Parallelism)**: 하나의 모델이나 텐서 연산을 여러 GPU에 나눠 동시에 처리하는 병렬화 방식이다.
+- **InfiniBand**: 전용 RDMA와 크레딧 제어를 제공하는 클러스터 인터커넥트
+- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술
+- **모델 병렬(Model Parallelism)**: 하나의 모델을 여러 GPU에 나누는 병렬화 방식
+- **텐서 병렬(Tensor Parallelism)**: 하나의 텐서 연산을 여러 GPU에 나누는 병렬화 방식
 
 </details>
 
@@ -150,7 +158,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **사용률 편중**: 일부 링크의 사용률 편중은 그래픽처리장치(Graphics Processing Unit, GPU) 집합 통신 경로가 같은 NVIDIA NVLink•NVSwitch 포트에 집중돼 유효 대역폭을 제한하는 문제다.
+- **사용률 편중**: GPU 집합 통신 경로가 같은 NVLink•NVSwitch 포트에 집중되는 문제
 - **토폴로지 인식 순위 배치(Topology-Aware Rank Placement)**: 통신량이 큰 GPU 순위를 가까운 링크와 같은 스위치 도메인에 배치하는 기법이다.
 - **경로 재구성(Path Reconfiguration)**: 링크 장애나 혼잡 시 집합 통신의 링•트리 경로를 다시 선택하는 복구 방식이다.
 
@@ -167,13 +175,6 @@ sequenceDiagram
 - 텐서 통신량이 큰 GPU를 같은 NVSwitch 도메인에 배치하고 링크 편중과 장애 링크의 대체 경로를 확인한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **RDMA망**: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 망은 서버 밖으로 확장하는 그래픽처리장치(Graphics Processing Unit, GPU) 통신을 담당하고 한 NVIDIA NVSwitch 도메인의 스케일업 통신은 NVLink가 담당한다.
-
-</details>
 
 - 한 도메인 스케일업은 **NVLink**, 서버 간 확장은 **RDMA망** 선택
 

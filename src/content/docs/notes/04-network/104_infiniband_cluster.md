@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:09:00+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -22,7 +22,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand 패브릭**: 호스트 채널 어댑터(Host Channel Adapter, HCA)와 스위치를 연결해 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)과 수신 버퍼 크레딧 기반 무손실 전송을 제공하는 클러스터 인터커넥트
+- **InfiniBand 패브릭**: HCA와 스위치를 연결해 RDMA와 크레딧 기반 무손실 전송을 제공하는 인터커넥트
+- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버를 InfiniBand 패브릭에 연결하는 장치
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술
 
 </details>
 
@@ -38,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **링크 무손실 흐름 제어**: 호스트 채널 어댑터(Host Channel Adapter, HCA)가 수신 버퍼의 여유 크레딧 범위에서 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 자료를 전송하게 해 링크 손실을 방지하는 방식
+- **링크 무손실 흐름 제어**: HCA가 수신 버퍼의 여유 크레딧 범위에서 RDMA 자료를 보내는 방식
 - **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소•경로•파티션을 계산•배포하는 중앙 제어 기능
 
 </details>
@@ -56,9 +58,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **서브넷 관리자**: 서브넷 관리자는 패브릭 토폴로지를 발견하고 로컬 식별자(Local Identifier, LID)•가상 레인(Virtual Lane, VL) 경로•파티션 키(Partition Key, P_Key)를 계산•배포하는 중앙 제어 기능이다.
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버 메모리의 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업을 실행하는 장치
-- **패브릭 관측기**: 포트•링크•오류•혼잡 상태를 수집해 경로와 무손실 동작을 검증하는 구성요소
+- **컴퓨트 HCA**: 서버 메모리의 RDMA 작업을 실행하는 장치
+- **InfiniBand 스위치 패브릭**: HCA 간 무손실 패킷 경로를 제공하는 전송망
+- **저장 HCA**: 저장 장치의 RDMA 종단을 제공하는 장치
+- **서브넷 관리자**: 토폴로지를 발견하고 주소•경로•파티션을 배포하는 기능
+- **패브릭 관측기**: 포트•링크•오류•혼잡 상태를 수집하는 구성요소
+- **로컬 식별자(Local Identifier, LID)**: 서브넷 내부 포트를 식별하는 주소
+- **가상 레인(Virtual Lane, VL)**: 링크에서 트래픽을 논리적으로 분리하는 전송 통로
+- **파티션 키(Partition Key, P_Key)**: 통신 가능한 종단 그룹을 구분하는 격리 키
 
 </details>
 
@@ -93,8 +100,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **크레딧 RDMA 전송**: 호스트 채널 어댑터(Host Channel Adapter, HCA)와 스위치가 다음 홉의 수신 버퍼 크레딧 범위에서만 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 보내 손실을 억제하는 방식
-- **LID•P_Key•QP**: 로컬 식별자(Local Identifier, LID), 파티션 키(Partition Key, P_Key), 큐 페어(Queue Pair, QP)는 주소•격리 그룹•전송 작업 연결을 구성하는 정보와 자원
+- **크레딧 RDMA 전송**: HCA와 스위치가 다음 홉의 수신 버퍼 여유 안에서 RDMA 패킷을 보내는 방식
+- **큐 페어(Queue Pair, QP)**: 송수신 작업 요청을 HCA에 게시하는 큐 쌍
 
 </details>
 
@@ -117,8 +124,8 @@ sequenceDiagram
 
 1. **토폴로지 발견**: 링크•스위치•HCA 상태 수집
 2. **경로•파티션 계산**: 목적지 경로와 통신 그룹 결정
-3. **LID•P_Key 할당**: 로컬 식별자(Local Identifier, LID)와 파티션 키(Partition Key, P_Key) 배포
-4. **QP•키 연결 설정**: 큐 페어(Queue Pair, QP)와 원격 메모리 정보 공유
+3. **LID•P_Key 할당**: LID와 P_Key 배포
+4. **QP•키 연결 설정**: QP와 원격 메모리 정보 공유
 5. **크레딧 RDMA 전송**: 수신 버퍼 여유 안에서 전달
 #### 한줄 요약
 
@@ -129,9 +136,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand**: InfiniBand는 최고 성능 연산 클러스터에 전용 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)과 크레딧 흐름 제어를 제공하지만 전용 장비와 관리가 필요하다.
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 인터넷 프로토콜(Internet Protocol, IP) 이더넷에서 RDMA를 제공한다.
-- **TCP**: 전송 제어 프로토콜(Transmission Control Protocol, TCP)은 범용 커널 소켓에서 신뢰 전송을 제공하며 중앙처리장치(Central Processing Unit, CPU) 처리를 사용한다.
+- **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 이더넷에서 RDMA를 제공하는 전송 방식
+- **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 프로토콜
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치
 
 </details>
 
@@ -151,7 +159,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **서브넷 관리자 단일 장애**: 토폴로지•주소•경로•파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험
-- **InfiniBand 상호운용 규격**: InfiniBand 무역협회(InfiniBand Trade Association, IBTA)의 InfiniBand 아키텍처(InfiniBand Architecture, IBA) 규격으로 장비 호환성을 검증하는 기준
+- **InfiniBand 무역협회(InfiniBand Trade Association, IBTA)**: InfiniBand 규격과 상호운용을 관리하는 협회
+- **InfiniBand 아키텍처(InfiniBand Architecture, IBA)**: InfiniBand 장치•링크•전송 동작을 규정한 규격
 
 </details>
 
@@ -166,14 +175,6 @@ sequenceDiagram
 - 집단 통신 부하로 비차단 용량을 산정하고 서브넷 관리자 장애 전환과 장비 상호운용을 사전 검증한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 기존 이더넷 장비를 재사용해 라우팅 가능한 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 망을 구성할 때 InfiniBand의 대안이 된다.
-- **InfiniBand**: 전용 RDMA와 크레딧 흐름 제어로 최고 성능 연산 클러스터를 연결하는 패브릭
-
-</details>
 
 - 전용 최고 성능은 **InfiniBand**, 이더넷 재사용은 **RoCEv2** 선택
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:01:00+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -22,12 +22,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 기존 이더넷 패브릭에서 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC) 간 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)을 제공하는 전송 기술
+- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술
+- **RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)**: RDMA 전송과 혼잡 제어를 처리하는 장치
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치
 
 </details>
 
-- 정의/개념: **RoCE** 는 이더넷 패브릭에서 RNIC 간 원격 직접 메모리 접근을 제공하는 **이더넷 기반 RDMA 전송 기술**
-- 배경/필요성: 전송 제어 프로토콜(Transmission Control Protocol, TCP) 소켓의 복사•커널 처리로 **중앙처리장치(Central Processing Unit, CPU) 부하•지연 증가**
+- 정의/개념: **RoCE**는 이더넷 패브릭에서 RNIC 간 직접 전송을 제공하는 기술
+- 배경/필요성: TCP 소켓의 복사•커널 처리로 **CPU 부하•지연 증가**
 
 #### 한줄 요약
 
@@ -38,10 +42,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **혼잡 조기 통제**: 혼잡 조기 통제는 명시적 혼잡 알림(Explicit Congestion Notification, ECN)과 혼잡 알림 패킷(Congestion Notification Packet, CNP)으로 송신률을 낮추고 우선순위 흐름 제어(Priority Flow Control, PFC)는 순간 손실 억제에 제한적으로 사용한다.
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 인터넷 프로토콜(Internet Protocol, IP) 라우팅을 지원한다.
-- **RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)**: 등록 메모리 간 직접 전송과 혼잡 제어를 실행하는 네트워크 장치
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령을 처리하며 RNIC의 직접 전송으로 복사•커널 처리 부하를 줄일 대상
+- **명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: 혼잡을 패킷 표시에 담아 송신률 감소를 유도하는 기능
+- **혼잡 알림 패킷(Congestion Notification Packet, CNP)**: 수신 RNIC가 송신 RNIC에 혼잡을 알리는 패킷
+- **우선순위 흐름 제어(Priority Flow Control, PFC)**: 지정 우선순위의 링크 전송을 일시 정지하는 기능
+- **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 라우팅을 지원하는 RoCE 버전
+- **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 네트워크 프로토콜
+- **데이터센터 정량화 혼잡 알림(Data Center Quantized Congestion Notification, DCQCN)**: CNP 피드백으로 RoCE 송신률을 조정하는 방식
 
 </details>
 
@@ -58,9 +64,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **패브릭 관측기**: 패브릭 관측기는 경로별 명시적 혼잡 알림(Explicit Congestion Notification, ECN)•우선순위 흐름 제어(Priority Flow Control, PFC)•손실•지연을 측정해 혼잡 제어의 실제 효과를 확인한다.
-- **데이터센터 정량화 혼잡 알림(Data Center Quantized Congestion Notification, DCQCN)**: 혼잡 알림 패킷(Congestion Notification Packet, CNP) 피드백으로 RoCE 송신률을 조정하는 방식
-- **RoCE RNIC**: 통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)을 실행하는 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)
+- **송신 RoCE RNIC**: 작업 전송과 DCQCN 송신률을 조정하는 장치
+- **이더넷 패브릭**: 경로•버퍼•ECN 표시를 제공하는 전송망
+- **수신 RoCE RNIC**: 패킷을 수신하고 CNP 피드백을 생성하는 장치
+- **혼잡•PFC 제어기**: 큐 분류•ECN•순간 정지를 통제하는 구성요소
+- **패브릭 관측기**: 경로별 ECN•PFC•손실•지연을 측정하는 구성요소
 
 </details>
 
@@ -95,8 +103,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **CNP 혼잡 피드백**: 수신 RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)가 명시적 혼잡 알림(Explicit Congestion Notification, ECN)을 확인해 송신 RNIC에 혼잡 알림 패킷(Congestion Notification Packet, CNP)을 보내 해당 흐름의 전송 속도 감소를 요청하는 절차
-- **RoCE**: 통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE) 트래픽을 이더넷 패브릭에서 전달하는 방식
+- **CNP 혼잡 피드백**: 수신 RNIC가 ECN을 확인해 송신 RNIC에 속도 감소를 요청하는 절차
 
 </details>
 
@@ -129,9 +136,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)과 인터넷 프로토콜(Internet Protocol, IP)로 전달하지만 ECN•PFC 조정이 필요하다.
 - **iWARP**: 인터넷 광역 원격 직접 메모리 접근 프로토콜(Internet Wide Area RDMA Protocol, iWARP)은 TCP의 신뢰 전송과 혼잡 제어를 이용한다.
 - **RoCEv1**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 1(RDMA over Converged Ethernet version 1, RoCEv1)은 RDMA 프레임을 계층 2에서 직접 전달하는 방식
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜
 
 </details>
 
@@ -150,8 +157,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **PFC 멈춤의 경로 전파**: 우선순위 흐름 제어(Priority Flow Control, PFC) 멈춤의 경로 전파는 한 우선순위 큐의 정지가 상류 링크로 확산돼 무관한 흐름까지 막는 문제다.
-- **표준 기준**: 의견 요청 문서(Request for Comments, RFC) 3168은 명시적 혼잡 알림(Explicit Congestion Notification, ECN)을, 전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.1Qbb는 우선순위 흐름 제어 기준을 제공한다.
+- **PFC 멈춤의 경로 전파**: 한 우선순위 큐의 정지가 상류로 확산돼 무관한 흐름까지 막는 문제
+- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계
+- **RFC 3168**: ECN 동작을 규정한 인터넷 표준
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문 기구
+- **IEEE 802.1Qbb**: PFC 동작을 규정한 이더넷 표준
 
 </details>
 
@@ -166,15 +176,6 @@ sequenceDiagram
 - 혼잡 임계값을 실측해 ECN을 먼저 사용하고 PFC는 지정 우선순위의 순간 손실 방지에만 제한한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **RoCEv1**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 1(RDMA over Converged Ethernet version 1, RoCEv1)은 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 프레임을 2계층에서 직접 전달해 단일 방송 영역의 소규모 무손실망에 적합하다.
-- **PFC**: 우선순위 흐름 제어(Priority Flow Control, PFC)는 지정 우선순위의 링크 전송을 일시 정지해 순간 손실을 억제한다.
-- **RoCEv2**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 2(RDMA over Converged Ethernet version 2, RoCEv2)는 인터넷 프로토콜 라우팅을 지원하는 방식
-
-</details>
 
 - 단일 2계층은 **RoCEv1**, 라우팅 패브릭은 **RoCEv2** 선택
 

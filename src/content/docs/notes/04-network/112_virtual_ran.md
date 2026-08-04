@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "가상 기지국 vRAN"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-05T06:48:00+09:00"
 tags:
   - "notes-network"
 weight: 112
@@ -23,7 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 무선접속망(Virtualized Radio Access Network, vRAN)**: 기지국 중앙•분산 장치(Central/Distributed Unit, CU•DU) 기능을 범용 서버와 가속기에서 소프트웨어로 실행하는 구조이다.
+- **무선접속망(Radio Access Network, RAN)**: 단말을 이동통신 코어망에 연결하는 무선 네트워크이다.
+- **중앙 장치(Central Unit, CU)**: 기지국의 상위 무선 계층과 정책을 처리하는 장치이다.
+- **분산 장치(Distributed Unit, DU)**: 스케줄링과 상위 물리 계층을 처리하는 장치이다.
+- **가상 무선접속망(Virtualized Radio Access Network, vRAN)**: CU•DU 기능을 범용 서버와 가속기에서 소프트웨어로 실행하는 구조이다.
 
 </details>
 
@@ -40,7 +43,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **무선 가속기(Radio Accelerator)**: 처리 시한이 엄격한 물리 계층 연산을 범용 중앙처리장치(Central Processing Unit, CPU) 대신 전담하는 장치이다.
-- **중앙•분산 장치(Central/Distributed Unit, CU•DU)**: 상위 무선 계층과 시간 민감 제어•물리 처리를 각각 담당하는 기능이다.
+- **CU 소프트웨어 처리**: 상위 무선 계층을 범용 서버에서 독립적으로 실행한다.
+- **DU 소프트웨어 처리**: 시간 민감 제어•물리 처리를 격리된 자원에서 실행한다.
 - **클라우드 오케스트레이션**: 소프트웨어 CU•DU의 배포•확장•복구를 자원 상태와 정책에 따라 자동화하는 기능이다.
 
 </details>
@@ -58,28 +62,35 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 중앙•분산 장치(Virtualized Central/Distributed Unit, 가상 CU•DU)**: 가상 CU는 상위 무선 계층•코어 연동을, 가상 DU는 실시간 제어•상위 물리 처리를 수행한다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 서버에서 소프트웨어 무선 기능을 실행하는 연산 장치이다.
+- **운영 제어기**: 무선 품질과 자원 상태를 감시하여 배치•확장•복구를 결정한다.
+- **클라우드 플랫폼**: 가상 CU•DU 실행 환경의 배포•격리•확장을 제공한다.
+- **가상 CU(Virtualized CU)**: 상위 무선 계층과 코어망 연동을 소프트웨어로 수행한다.
+- **가상 DU(Virtualized DU)**: 실시간 제어와 상위 물리 처리를 소프트웨어로 수행한다.
+- **CPU 자원**: 범용 서버에서 소프트웨어 무선 기능을 실행한다.
 - **범용 컴퓨팅**: 표준 CPU•메모리•네트워크 자원을 소프트웨어 무선 기능에 제공하는 상용 서버 기반이다.
+- **무선 장치**: 하위 물리 처리와 무선주파수 변환 및 안테나 연결을 수행한다.
 
 </details>
 
 ```mermaid
 block-beta
   columns 3
-  A["운영•클라우드 플랫폼"] --- B["가상 CU"] --- C["가상 DU"]
-  A --- D["범용 컴퓨팅•가속기"]
+  A["운영 제어기"] --- F["클라우드 플랫폼"] --- B["가상 CU"] --- C["가상 DU"]
+  F --- D["범용 컴퓨팅"]
+  D --- G["무선 가속기"]
   D --- B
-  D --- C
+  G --- C
   C --- E["무선 장치"]
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 운영•클라우드 플랫폼 | **배포•격리•확장•복구 실행** |
+| 운영 제어기 | **품질•자원 감시와 배치 결정** |
+| 클라우드 플랫폼 | **배포•격리•확장•복구 실행** |
 | 가상 CU | **상위 무선 계층•코어망 연동** |
 | 가상 DU | **실시간 제어•상위 물리 처리** |
-| 범용 컴퓨팅•가속기 | **일반 자원•무선 연산 제공** |
+| 범용 컴퓨팅 | **CPU•메모리•네트워크 자원** 제공 |
+| 무선 가속기 | **시간 민감 무선 연산** 제공 |
 | 무선 장치 | **전파 변환•안테나 연결** |
 
 #### 한줄 요약
@@ -93,7 +104,7 @@ block-beta
 
 - **프런트홀**: DU와 무선 장치 사이에서 디지털 무선 신호와 제어 정보를 전달하는 구간이다.
 - **서비스 품질 보고**: CU•DU 처리 지연과 무선 품질을 운영 제어기에 전달해 자원 조정을 유도하는 정보이다.
-- **중앙•분산 장치(Central/Distributed Unit, CU•DU)**: 프런트홀 신호 처리와 상위 무선 데이터 처리를 분담하는 기능이다.
+- **CU•DU 품질 환류**: 처리 지연과 무선 품질을 운영 제어기에 전달한다.
 
 </details>
 
@@ -126,7 +137,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가상머신•컨테이너 가상 무선접속망(Virtual Machine/Container Virtualized Radio Access Network, 가상머신•컨테이너 vRAN)**: 가상머신은 운영체제 단위로 강하게 격리하고 컨테이너는 커널을 공유해 가볍게 배포한다.
+- **가상머신 vRAN(Virtual Machine vRAN)**: 운영체제 단위로 기능을 강하게 격리하는 실행 방식이다.
+- **컨테이너 vRAN(Container vRAN)**: 호스트 커널을 공유하여 기능을 가볍게 배포하는 실행 방식이다.
 - **처리 지터**: 공유 자원 경쟁으로 무선 기능의 실행 시간이 주기마다 불규칙하게 흔들리는 현상이다.
 
 </details>
@@ -148,7 +160,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **자원 격리(Resource Isolation)**: 전용 중앙처리장치(Central Processing Unit, CPU) 코어•메모리•가속기를 배정해 다른 워크로드의 경쟁 영향을 차단하는 방식이다.
+- **자원 격리(Resource Isolation)**: 전용 CPU 코어•메모리•가속기를 배정해 다른 워크로드의 경쟁 영향을 차단하는 방식이다.
 - **3GPP 기술규격 38.401(3rd Generation Partnership Project Technical Specification 38.401, 3GPP TS 38.401)**: 차세대 무선접속망과 CU•DU 구조를 규정한 기술규격이다.
 - **잔여 용량**: 서버 장애 뒤 남은 노드가 셀 부하를 계속 처리할 수 있는 여유 자원이다.
 
@@ -169,7 +181,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 무선접속망 적용 조건(Virtualized Radio Access Network Deployment Condition, vRAN 적용 조건)**: 처리 시한•자원 격리•장애 후 잔여 용량을 모두 만족하는 배치 조건이다.
+- **vRAN 적용 조건**: 처리 시한•자원 격리•장애 후 잔여 용량을 모두 만족하는 배치 조건이다.
 
 </details>
 

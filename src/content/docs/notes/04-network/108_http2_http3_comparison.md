@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:38:00+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -22,8 +22,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **하이퍼텍스트 전송 프로토콜 2•3(Hypertext Transfer Protocol 2/3, HTTP/2•HTTP/3)**: 같은 HTTP 의미를 각각 TCP•QUIC 스트림에 다중화해 전달하는 웹 전송 표준이다.
-- **전송 제어 프로토콜•빠른 UDP 인터넷 연결(Transmission Control Protocol/Quick UDP Internet Connections, TCP•QUIC)**: HTTP/2와 HTTP/3가 각각 사용하는 전송 기반이다.
+- **하이퍼텍스트 전송 프로토콜 버전 2(Hypertext Transfer Protocol version 2, HTTP/2)**: TCP에서 다중 스트림을 제공하는 웹 전송 표준
+- **하이퍼텍스트 전송 프로토콜 버전 3(Hypertext Transfer Protocol version 3, HTTP/3)**: QUIC에서 독립 스트림을 제공하는 웹 전송 표준
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜
+- **빠른 UDP 인터넷 연결(Quick UDP Internet Connections, QUIC)**: UDP 기반 연결•스트림•보안을 통합한 전송 프로토콜
 
 </details>
 
@@ -39,8 +41,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/3 운영•보안 제약(Hypertext Transfer Protocol 3 Operational/Security Constraint)**: UDP 차단•암호화 관측 저하와 0-RTT 재전송 위험을 함께 관리해야 하는 점이다.
-- **사용자 데이터그램 프로토콜•왕복 시간(User Datagram Protocol/Round-Trip Time, UDP•RTT)**: 비연결형 전송 프로토콜과 요청•응답이 왕복하는 시간이다.
+- **HTTP/3 운영•보안 제약**: UDP 차단•암호화 관측 저하•0-RTT 재전송 위험
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜
+- **왕복 시간(Round-Trip Time, RTT)**: 요청 전송부터 응답 수신까지 걸리는 시간
 - **대체 서비스(Alternative Service, Alt-Svc)**: 서버가 지원하는 대체 프로토콜•주소를 클라이언트에 알리는 HTTP 필드이다.
 
 </details>
@@ -58,8 +61,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **빠른 UDP 인터넷 연결•전송 계층 보안 1.3 전송부(Quick UDP Internet Connections/Transport Layer Security 1.3, QUIC•TLS 1.3 전송부)**: HTTP/3에 독립 스트림•손실 복구•연결 이동•통합 보안을 제공한다.
-- **전송 제어 프로토콜•HTTP/2 헤더 압축(Transmission Control Protocol/HTTP/2 Header Compression, TCP•HPACK)**: HTTP/2의 신뢰 전송과 헤더 압축을 담당하는 기술이다.
+- **전송 계층 보안 1.3(Transport Layer Security 1.3, TLS 1.3)**: 전송 구간 암호화와 인증을 제공하는 보안 프로토콜
+- **HTTP/2 헤더 압축(HTTP/2 Header Compression, HPACK)**: HTTP/2 필드의 중복을 줄이는 압축 방식
 - **HTTP/3 헤더 압축(HTTP/3 Header Compression, QPACK)**: QUIC의 독립 스트림에 맞게 설계된 헤더 압축 방식이다.
 
 </details>
@@ -97,9 +100,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/2 대체(Hypertext Transfer Protocol 2 Fallback)**: 클라이언트는 UDP 차단이나 QUIC 협상 실패 시 TCP•TLS 기반 HTTP/2 경로로 자동 전환한다.
-- **빠른 UDP 인터넷 연결•전송 계층 보안(Quick UDP Internet Connections/Transport Layer Security, QUIC•TLS)**: HTTP/3 연결과 암호화를 통합해 협상하는 기술이다.
-- **사용자 데이터그램•전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP•TCP)**: HTTP/3와 HTTP/2가 각각 사용하는 전송 프로토콜이다.
+- **HTTP/2 대체(Fallback)**: UDP 차단이나 QUIC 실패 시 TCP•TLS 기반 HTTP/2로 전환하는 동작
 
 </details>
 
@@ -139,9 +140,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **하이퍼텍스트 전송 프로토콜 3(Hypertext Transfer Protocol 3, HTTP/3)**: QUIC의 독립 스트림으로 손실을 격리하고 연결 이동을 지원해 손실•주소 변경이 잦은 환경에 유리하다.
-- **요청 의견서•왕복 시간(Request for Comments/Round-Trip Time, RFC•RTT)**: 인터넷 표준 문서 계열과 요청•응답의 왕복 시간이다.
-- **사용자 데이터그램•전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP•TCP)**: HTTP/3와 HTTP/2의 기반 전송 프로토콜이다.
+- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계
 
 </details>
 
@@ -163,7 +162,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
-- **하이퍼텍스트 전송 프로토콜 2•3•사용자 데이터그램 프로토콜(Hypertext Transfer Protocol 2/3/User Datagram Protocol, HTTP/2•HTTP/3•UDP)**: 자동 대체 대상 프로토콜과 HTTP/3의 기반 전송 프로토콜이다.
 
 </details>
 
@@ -178,14 +176,6 @@ sequenceDiagram
 - 일부 사용자부터 HTTP/3를 적용하고 지연•손실•HTTP/2 대체 비율을 검증한 뒤 범위를 확대한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **하이퍼텍스트 전송 프로토콜 2(Hypertext Transfer Protocol 2, HTTP/2)**: 저손실 고정망과 UDP가 차단된 기업망에서 기존 TCP 기반 장비•관측 체계를 활용하기에 적합하다.
-- **사용자 데이터그램•전송 제어 프로토콜(User Datagram Protocol/Transmission Control Protocol, UDP•TCP)**: HTTP/3와 HTTP/2의 전송 기반을 구분하는 프로토콜이다.
-
-</details>
 
 - 저손실•UDP 차단 환경은 **HTTP/2**, 손실•이동 환경은 **HTTP/3** 선택
 
