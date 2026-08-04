@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "버스 중재 방식 (Bus Arbitration)"
-date: "2026-08-04T11:32:00+09:00"
+date: "2026-08-04T14:07:00+09:00"
 tags:
   - "notes-hardware"
 weight: 36
@@ -105,7 +105,7 @@ sequenceDiagram
     par 동시 사용권 요청
         C->>A: 1. 동시 사용권 요청
     and
-        D->>A: 동시 사용권 요청
+        D->>A: 1. 동시 사용권 요청
     end
     A-->>C: 2. 단일 마스터 승인
     A-->>D: 비승인 대기 유지
