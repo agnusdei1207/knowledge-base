@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "단일 장애점 SPOF 제거 (SPOF Elimination)"
-date: "2026-08-04T14:42:34+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 18
@@ -64,20 +64,6 @@ extra:
 - **종단 의존성 맵**: DNS•망•응용•DB•외부 서비스의 의존 지도이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["종단 의존성 맵"]
-  B["기능•제어•경로 이중화"]
-  C["장애 도메인 분리"]
-  D["자동 승계•대체 용량"]
-  E["장애 주입•복원력 검증"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

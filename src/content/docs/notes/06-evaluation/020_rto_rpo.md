@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "RTO•RPO 정의•측정 (RTO RPO)"
-date: "2026-08-04T14:43:20+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 20
@@ -63,20 +63,6 @@ extra:
 - **스냅숏•백업**: 특정 시점 상태를 빠르게 복원하거나 원본과 분리된 복사본으로 장기 복구하는 보호 수단이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  B["BIA•업무 우선순위"]
-  O["RTO•RPO 목표"]
-  D["복제•백업•복구 시점"]
-  R["선언•승계•업무 재개"]
-  V["훈련•실측•개선"]
-  B --- O
-  O --- D
-  D --- R
-  R --- V
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

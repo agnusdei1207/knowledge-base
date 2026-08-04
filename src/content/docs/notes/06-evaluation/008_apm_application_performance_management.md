@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-04T14:39:09+09:00"
+date: "2026-08-05T13:20:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -63,19 +63,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  I["계측•추적 문맥"]
-  S["Span•Metric•Log"]
-  C["수집•처리 계층"]
-  D["시계열•추적 저장소"]
-  A["분석•서비스 지도•알림"]
-  I --- S
-  S --- C
-  C --- D
-  D --- A
+```text
+                     [계측•추적 문맥]
+                              |
+                     [Span•Metric•Log]
+                              |
+                       [수집•처리 계층]
+                              |
+                    [시계열•추적 저장소] -- [분석•서비스 지도•알림]
 ```
+
+선의 의미: 추적 문맥이 세 관측 신호를 결합하고 수집•처리 계층과 저장소를 거쳐 분석•서비스 지도•알림 영역에서 함께 참조되는 정적 APM 계층 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

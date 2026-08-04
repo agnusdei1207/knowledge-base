@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SLO•SLI (Service Level Objective•Indicator)"
-date: "2026-08-04T14:41:34+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 15
@@ -60,20 +60,6 @@ extra:
 - **꼬리 지연**: 응답시간 분포에서 상위 백분위에 속하는 느린 일부 요청의 지연이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  J["핵심 사용자 여정"]
-  I["SLI 정의•좋은 사건"]
-  W["측정 창•데이터 품질"]
-  O["SLO•오류 예산"]
-  P["배포•안정화 정책"]
-  J --- I
-  I --- W
-  W --- O
-  O --- P
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "병목 분석 (Bottleneck Analysis)"
-date: "2026-08-04T14:36:56+09:00"
+date: "2026-08-05T01:52:35+09:00"
 tags:
   - "notes-evaluation"
 weight: 2
@@ -62,20 +62,6 @@ extra:
 - **프로파일러**: 코드별 실행시간과 자원 사용량을 측정하는 도구이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  W["업무 부하•기준선"]
-  S["서비스 RED 지표"]
-  R["자원 USE 지표"]
-  T["추적•프로파일 증거"]
-  V["개선•재측정"]
-  W --- S
-  S --- R
-  R --- T
-  T --- V
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

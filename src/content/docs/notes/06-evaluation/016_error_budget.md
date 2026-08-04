@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: "2026-08-04T14:41:56+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 16
@@ -64,20 +64,6 @@ extra:
 - **실제 실패량**: 측정 창에서 SLI 성공 조건을 충족하지 못한 이벤트 수나 시간이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  I["SLI•좋은 사건"]
-  O["SLO•측정 창"]
-  B["허용•실제•잔여 예산"]
-  R["단기•장기 소진율"]
-  G["배포•안정화 관문"]
-  I --- O
-  O --- B
-  B --- R
-  R --- G
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

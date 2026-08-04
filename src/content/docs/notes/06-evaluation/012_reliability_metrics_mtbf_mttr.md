@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "시스템 신뢰성 지표 - MTBF•MTTR•MTTF (Reliability Metrics)"
-date: "2026-08-04T14:40:29+09:00"
+date: "2026-08-05T13:24:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 12
@@ -63,19 +63,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  S["대상•수리 가능성"]
-  F["고장 사건•가동 구간"]
-  R["탐지•수리•복구 경계"]
-  M["MTBF•MTTR•MTTF"]
-  A["가용성•분포•신뢰구간"]
-  S --- F
-  F --- R
-  R --- M
-  M --- A
+```text
+                         [대상•수리 가능성]
+                          /             \
+               [고장 사건•가동 구간] [탐지•수리•복구 경계]
+                          \             /
+                       [MTBF•MTTR•MTTF]
+                                |
+                    [가용성•분포•신뢰구간]
 ```
+
+선의 의미: 대상의 수리 가능성 아래 고장•가동 구간과 탐지•수리•복구 경계를 분리하고, 신뢰성 평균과 가용성•분포•신뢰구간 계산에 결합한 측정 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

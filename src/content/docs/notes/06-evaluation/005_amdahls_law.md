@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암달의 법칙 - 병렬화 한계 (Amdahl's Law)"
-date: "2026-08-04T14:38:04+09:00"
+date: "2026-08-05T01:52:35+09:00"
 tags:
   - "notes-evaluation"
 weight: 5
@@ -61,20 +61,6 @@ extra:
 - **병렬 효율($S(N)/N$)**: 병렬 자원 하나당 얻은 가속 효과로 자원 증설의 효율을 판단하는 지표이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  B["기준 실행시간"]
-  S["순차 비율 1-P"]
-  P["병렬 비율 P"]
-  N["병렬 자원 수 N"]
-  R["가속비•효율•상한"]
-  B --- S
-  S --- P
-  P --- N
-  N --- R
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
