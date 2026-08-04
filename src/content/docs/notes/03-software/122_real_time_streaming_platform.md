@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-04T13:22:00+09:00"
+date: "2026-08-04T14:25:03+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -118,10 +118,11 @@ sequenceDiagram
     participant P as 생산자
     participant B as 브로커
     participant E as 처리기
+    participant C as 체크포인트 저장소
     participant S as 싱크
     P->>B: 1. 키•스키마 포함 이벤트
     B->>E: 2. 파티션 순서 이벤트
-    E->>E: 3. 입력 위치•처리 상태 체크포인트
+    E->>C: 3. 입력 위치•처리 상태 체크포인트
     E->>S: 4. 확정 대상 결과
     S-->>E: 외부 커밋 결과
     E->>B: 5. 완료 오프셋

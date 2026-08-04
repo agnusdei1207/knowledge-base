@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "데이터 품질 관리: 완전성•정확성•일관성 (Data Quality Management)"
-date: "2026-08-04T13:37:00+09:00"
+date: "2026-08-04T14:25:03+09:00"
 tags:
   - "notes-software"
 weight: 137
@@ -109,11 +109,13 @@ block-beta
 sequenceDiagram
     participant P as 프로파일러
     participant V as 검증 엔진
+    participant R as 품질 규칙 저장소
     participant G as 품질 게이트
     participant O as 데이터 소유자
     P->>V: 1. 기준선•품질 규칙 후보
     O->>V: 목적•임계값•책임자 확정
-    V->>V: 2. 승인 버전 규칙 적용
+    V->>R: 2. 승인 버전 규칙 적용
+    R-->>V: 적용 규칙
     V->>G: 3. 품질 판정•격리
     G-->>O: 위반•영향 근거 통지
     O->>V: 4. 원인 수정•재검증 요청

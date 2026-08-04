@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터 메시 (Data Mesh)"
-date: "2026-08-04T13:31:00+09:00"
+date: "2026-08-04T14:25:03+09:00"
 tags:
   - "notes-software"
 weight: 131
@@ -112,15 +112,16 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant D as 도메인 팀
-    participant S as 셀프서비스 플랫폼•카탈로그
+    participant S as 셀프서비스 플랫폼
+    participant C as 데이터 카탈로그
     participant G as 연합 거버넌스
     participant U as 소비자
     D->>S: 1. 데이터 제품•계약•SLO
     S->>G: 2. 정책 검증 대상•증거
     G-->>S: 위반•게시 승인 반환
-    S->>S: 3. 승인 제품•계보•접근 정보 게시
-    U->>S: 목적•품질 조건
-    S-->>U: 계약•소유자 정보 제공
+    S->>C: 3. 승인 제품•계보•접근 정보
+    U->>C: 목적•품질 조건
+    C-->>U: 계약•소유자 정보 제공
     U->>D: 4. 계약 위반•품질 피드백
 ```
 

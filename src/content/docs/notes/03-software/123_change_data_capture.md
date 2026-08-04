@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
-date: "2026-08-04T13:23:00+09:00"
+date: "2026-08-04T14:25:03+09:00"
 tags:
   - "notes-software"
 weight: 123
@@ -115,13 +115,14 @@ sequenceDiagram
     participant C as CDC 커넥터
     participant B as 브로커
     participant S as 싱크 커넥터
+    participant O as 오프셋 저장소
     C->>D: 1. 스냅숏 기준 위치 요청
     D-->>C: 2. 기존 행•시작 로그 위치
     C->>B: 3. 초기 상태 이벤트
     D-->>C: 4. 커밋 순서 변경 로그
     C->>B: 5. 키•전후 값 변경 이벤트
     B->>S: 파티션 순서 전달
-    C->>C: 확정 원천 오프셋 기록
+    C->>O: 확정 원천 오프셋 기록
 ```
 
 **동작 원리**

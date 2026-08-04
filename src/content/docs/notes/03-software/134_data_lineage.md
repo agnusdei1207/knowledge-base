@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 계보 Data Lineage (Data Lineage)"
-date: "2026-08-04T13:34:00+09:00"
+date: "2026-08-04T14:25:03+09:00"
 tags:
   - "notes-software"
 weight: 134
@@ -114,11 +114,12 @@ block-beta
 sequenceDiagram
     participant O as 오케스트레이터
     participant E as 처리 엔진
-    participant G as 계보 수집기•그래프
+    participant C as 계보 수집기
+    participant G as 계보 그래프
     participant U as 사용자
     O->>E: 1. 작업명•실행 식별자
-    E->>G: 2. 입출력•열 변환 계보 이벤트
-    G->>G: 3. 자산•실행 관계 정합화
+    E->>C: 2. 입출력•열 변환 계보 이벤트
+    C->>G: 3. 정합화된 자산•실행 관계
     U->>G: 상•하류 영향 조건
     G-->>U: 원인•책임 경로
 ```
