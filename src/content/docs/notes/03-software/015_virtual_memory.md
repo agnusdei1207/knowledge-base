@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리•페이징•세그멘테이션 (Virtual Memory)"
-date: "2026-08-04T10:18:00+09:00"
+date: "2026-08-04T16:55:00+09:00"
 tags:
   - "notes-software"
 weight: 15
@@ -100,11 +100,12 @@ block-beta
 sequenceDiagram
     participant C as 프로세서
     participant L as MMU•TLB
+    participant T as 페이지 테이블
     participant H as 폴트 처리기
     participant B as 메모리•저장소
     C->>L: 1. 가상 주소•접근 유형
-    L->>L: 2. TLB•페이지 테이블 조회
-    L-->>L: 3. 프레임•상주•권한 정보
+    L->>T: 2. TLB•페이지 테이블 조회
+    T-->>L: 3. 프레임•상주•권한 정보
     alt 상주•접근 허용
         L-->>C: 물리 주소
     else 페이지 부재

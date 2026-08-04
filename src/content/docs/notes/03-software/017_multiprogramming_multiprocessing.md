@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 다중프로그래밍•다중처리 (Multiprogramming•Multiprocessing)
-date: "2026-08-04T10:20:00+09:00"
+date: "2026-08-04T16:57:00+09:00"
 tags: [notes-software]
 weight: 17
 extra:
@@ -101,12 +101,11 @@ sequenceDiagram
     participant C1 as 코어 1
     participant C2 as 코어 2
     participant M as 공유 메모리
+    S->>C1: 1. 작업•코어 배정
     alt 다중프로그래밍
-        S->>C1: 1. 작업•코어 배정
         C1-->>S: 2. I/O 대기•실행 상태
         S->>C1: 3. 다음 작업•문맥
     else 다중처리
-        S->>C1: 1. 작업•코어 배정
         S->>C2: 4. 병렬 작업•코어 배정
         C1->>M: 5. 공유 데이터•동기화 신호
     end

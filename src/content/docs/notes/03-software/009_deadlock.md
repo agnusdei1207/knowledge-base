@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: 교착상태 조건•예방•회피•탐지•복구 (Deadlock)
-date: "2026-08-04T10:09:00+09:00"
+date: "2026-08-04T16:49:00+09:00"
 tags: [notes-software]
 weight: 9
 extra:
@@ -105,10 +105,11 @@ sequenceDiagram
     participant P as 경쟁 프로세스
     participant R as 자원 관리자
     participant G as 대기 그래프
+    participant V as 희생 선택기
     P->>R: 1. 자원 요청 관계
     R->>G: 2. 대기 간선
-    G-->>R: 3. 순환 경로
-    R->>R: 4. 희생 트랜잭션 선택
+    G->>V: 3. 순환 경로
+    V->>R: 4. 희생 트랜잭션 선택
     R->>P: 5. 롤백•자원 회수
     R-->>P: 재시도 통지
 ```

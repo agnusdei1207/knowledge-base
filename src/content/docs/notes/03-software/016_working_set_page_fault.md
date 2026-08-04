@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 워킹 셋•페이지 폴트 (Working Set•Page Fault)
-date: "2026-08-04T10:19:00+09:00"
+date: "2026-08-04T16:56:00+09:00"
 tags: [notes-software]
 weight: 16
 extra:
@@ -103,11 +103,13 @@ block-beta
 sequenceDiagram
     participant P as 프로세스
     participant H as 폴트 처리기
+    participant W as 워킹 셋 추정기
+    participant F as 프레임 할당기
     participant B as 메모리•저장소
     P->>H: 1. 가상 페이지•참조 시각
-    H->>H: 2. 부재 페이지•프레임 상태 확인
-    H->>H: 3. 워킹 셋 크기•폴트율 산정
-    H->>B: 4. 희생 페이지•요구 페이지
+    H->>F: 2. 부재 페이지•프레임 상태 확인
+    H->>W: 3. 워킹 셋 크기•폴트율 산정
+    F->>B: 4. 희생 페이지•요구 페이지
     B-->>H: 5. 적재 페이지
     H-->>P: 상주 집합 갱신•명령 재실행
 ```

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
-date: "2026-08-04T10:25:00+09:00"
+date: "2026-08-04T17:00:00+09:00"
 tags: [notes-software]
 weight: 20
 extra:
@@ -105,13 +105,15 @@ block-beta
 sequenceDiagram
     participant A as 애플리케이션
     participant F as 파일 시스템
+    participant M as 디렉터리•메타데이터
+    participant B as 블록 할당 관리자
     participant D as 블록 장치
     A->>F: 파일 경로•쓰기 데이터
-    F->>F: 1. 경로•권한 조회
-    F->>F: 2. 블록 할당•일관성 처리
-    F->>D: 3. 데이터•복구 레코드
+    F->>M: 1. 경로•권한 조회
+    F->>B: 2. 블록 할당•일관성 처리
+    B->>D: 3. 데이터•복구 레코드
     D-->>F: 4. 기록 완료•블록 위치
-    F->>F: 5. 매핑•메타데이터 확정
+    F->>M: 5. 매핑•메타데이터 확정
     F-->>A: 완료 바이트•오류
 ```
 

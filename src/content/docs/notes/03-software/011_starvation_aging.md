@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 기아•에이징 (Starvation Aging)
-date: "2026-08-04T10:12:00+09:00"
+date: "2026-08-04T16:51:00+09:00"
 tags: [notes-software]
 weight: 11
 extra:
@@ -104,10 +104,12 @@ sequenceDiagram
     participant T as 주기 타이머
     participant S as 스케줄러
     P->>Q: 대기 작업
-    Q->>S: 1. 누적 대기시간
-    T->>S: 2. 에이징 주기 신호
-    S->>Q: 3. 보정 우선순위
-    Q->>S: 4. 최고 우선순위 작업
+    loop 저우선 작업 대기 중
+        Q->>S: 1. 누적 대기시간
+        T->>S: 2. 에이징 주기 신호
+        S->>Q: 3. 보정 우선순위
+        Q->>S: 4. 최고 우선순위 작업
+    end
     S->>P: 5. 실행 문맥
 ```
 

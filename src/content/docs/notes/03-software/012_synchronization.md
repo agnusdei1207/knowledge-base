@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 세마포어•뮤텍스•모니터 (Semaphore Mutex Monitor)
-date: "2026-08-04T10:13:00+09:00"
+date: "2026-08-04T16:52:00+09:00"
 tags: [notes-software]
 weight: 12
 extra:
@@ -104,10 +104,11 @@ sequenceDiagram
     participant P as 생산자
     participant M as 버퍼 모니터
     participant C as 소비자
+    participant B as 공유 버퍼
     P->>M: 항목 삽입 요청
-    M->>M: 1. 생산자 조건 대기
+    M->>P: 1. 생산자 조건 대기
     C->>M: 항목 소비 요청
-    M->>M: 2. 항목 제거•빈 공간 생성
+    M->>B: 2. 항목 제거•빈 공간 생성
     M-->>P: 3. 빈 공간 신호
     P->>M: 삽입 재시도
     M-->>P: 삽입 결과

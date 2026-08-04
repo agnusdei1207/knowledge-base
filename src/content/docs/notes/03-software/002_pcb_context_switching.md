@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: PCB•컨텍스트 스위칭 (PCB Context Switching)
-date: "2026-08-04T09:56:00+09:00"
+date: "2026-08-04T16:42:00+09:00"
 tags: [notes-software]
 weight: 2
 extra:
@@ -108,11 +108,12 @@ sequenceDiagram
     participant C as CPU
     participant K as 커널
     participant Q as 런 큐
+    participant M as PCB•TCB•주소 공간
     C->>K: 선점 인터럽트
-    K->>K: 1. 현재 실행 문맥 저장
+    K->>M: 1. 현재 실행 문맥 저장
     K->>Q: 2. 스케줄 요청
     Q-->>K: 3. 다음 실행 주체•문맥
-    K->>K: 4. 주소 공간 전환
+    K->>M: 4. 주소 공간 전환
     K-->>C: 실행 재개
 ```
 
