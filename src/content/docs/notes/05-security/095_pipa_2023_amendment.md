@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "개인정보보호법 2023 개정 — 마이데이터•과징금 (PIPA 2023 Amendment)"
-date: "2026-08-04T14:13:00+09:00"
+date: "2026-08-05T11:52:00+09:00"
 tags:
   - "notes-security"
 weight: 95
@@ -109,8 +109,10 @@ sequenceDiagram
     participant P as 제품팀
     participant S as 서비스
     participant U as 정보주체
-    L->>P: 1. 조문•시행일•대상 매핑
-    P->>S: 2. 전송•거부•설명 기능 구현
+    L->>L: 1. 조문•시행일•대상 매핑
+    L->>P: 적용 법령•업무 요구
+    P->>P: 2. 전송•거부•설명 기능 구현
+    P->>S: 권리 처리 기능
     U->>S: 본인 확인•권리 요구
     S->>S: 3. 적용 대상•예외 판단
     S->>S: 4. 근거•전송•결정 증적 보관

@@ -4,7 +4,7 @@ sidebar:
   label: "100. 개인정보보호 강화기술 PET"
   badge: { text: "기출 • 85%", variant: note }
 title: "개인정보보호 강화기술 PET"
-date: "2026-08-04T14:36:00+09:00"
+date: "2026-08-05T11:57:00+09:00"
 tags: ["notes-security"]
 weight: 100
 extra:
@@ -104,10 +104,13 @@ sequenceDiagram
     participant O as 데이터 관리자
     participant P as 프라이버시 설계자
     participant C as 계산 엔진
-    O->>P: 1. 목적•공격자•정확도 정의
+    O->>O: 1. 목적•공격자•정확도 정의
+    O->>P: 보호 요구•성능 한도
     P->>P: 2. 입력•계산•출력 노출 분석
-    P->>C: 3. 잡음•암호•분산 설정
-    C->>P: 4. 보호 계산•제한 출력
+    P->>P: 3. 잡음•암호•분산 설정
+    P->>C: 보호 계산 설정
+    C->>C: 4. 보호 계산•제한 출력
+    C->>P: 제한 결과
     P->>P: 5. 위험•유용성•비용 검증
     P-->>O: PET 적용 결과 제공
 ```

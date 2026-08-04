@@ -4,7 +4,7 @@ sidebar:
   label: "099. 마이데이터 서비스 보안"
   badge: { text: "기출 • 50%", variant: note }
 title: "마이데이터 서비스 보안"
-date: "2026-08-04T14:32:00+09:00"
+date: "2026-08-05T11:56:00+09:00"
 tags: ["notes-security"]
 weight: 99
 extra:
@@ -104,7 +104,8 @@ sequenceDiagram
     participant R as 정보수신자
     participant H as 정보전송자
     U->>A: 목적•항목•수신자 동의
-    A-->>R: 1. 제한•송신자 결속 토큰 발급
+    A->>A: 1. 제한•송신자 결속 토큰 발급
+    A-->>R: 접근 토큰
     R->>R: 2. 서명•난수 포함 요청 생성
     R->>H: 데이터 전송 요청
     H->>H: 3. 토큰•동의•요청 검증
