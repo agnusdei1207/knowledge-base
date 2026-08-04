@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CSAP 클라우드 보안인증 (Cloud Security Assurance Program)"
-date: "2026-08-04T16:04:00+09:00"
+date: "2026-08-05T02:21:27+09:00"
 tags: ["notes-latest-tech"]
 weight: 184
 extra:
@@ -63,18 +63,6 @@ extra:
 - **인증•사후관리**: 평가 결과에 따라 인증을 부여하고 유효기간 동안 변경•취약점•준수 상태를 지속 확인하는 절차이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  N0["인증신청인"]
-  N1["인증 범위"]
-  N2["보안인증기준"]
-  N3["평가기관"]
-  N4["인증•사후관리"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

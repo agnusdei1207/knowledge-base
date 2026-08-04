@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "실시간 스트리밍 (Real-Time Streaming)"
-date: "2026-08-04T16:15:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 195
@@ -64,18 +64,6 @@ extra:
 - **출력 저장소**: 처리 결과를 후속 서비스•데이터베이스•메시지 주제로 전달하는 목적지이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  N0["이벤트 소스•로그"]
-  N1["시간•워터마크"]
-  N2["윈도우•상태 연산"]
-  N3["체크포인트"]
-  N4["출력 저장소"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그린 소프트웨어 (Green Software)"
-date: "2026-08-04T16:16:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 196
@@ -70,18 +70,6 @@ extra:
 - **서비스 수준 목표(Service Level Objective, SLO)**: 탄소 감축 과정에서도 달성해야 할 사용자 중심 품질 목표이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  N0["기능 단위•경계"]
-  N1["에너지 계측"]
-  N2["탄소 강도 정보"]
-  N3["내재 탄소 배분"]
-  N4["감축•검증 정책"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

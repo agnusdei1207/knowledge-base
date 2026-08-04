@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "전력 사용 효과성 (Power Usage Effectiveness)"
-date: "2026-08-04T16:18:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 198
@@ -68,18 +68,6 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 </details>
 
 **IT 장비 계측** 과 총 시설 계측은 같은 경계와 기간을 사용한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["총 시설 계측"]
-  N1["IT 장비 계측"]
-  N2["경계•기간 명세"]
-  N3["오버헤드 분해"]
-  N4["보조 지표"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

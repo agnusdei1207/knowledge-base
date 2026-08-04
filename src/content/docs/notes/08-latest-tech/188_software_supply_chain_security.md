@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 공급망 보안 (Software Supply Chain Security)"
-date: "2026-08-04T16:08:00+09:00"
+date: "2026-08-05T15:49:48+09:00"
 tags:
   - "notes-latest-tech"
 weight: 188
@@ -64,18 +64,6 @@ extra:
 </details>
 
 **SBOM•출처 증명** 을 빌드 증거로 생성한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["소스•의존성 통제"]
-  N1["격리 빌드"]
-  N2["SBOM•Provenance"]
-  N3["서명•유통 저장소"]
-  N4["배포 승인 제어"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

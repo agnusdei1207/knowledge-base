@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "물 사용 효과성 (Water Usage Effectiveness)"
-date: "2026-08-04T16:19:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 199
@@ -70,18 +70,6 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 - **냉각 방식**: 공랭•증발 냉각•액체 냉각 등 물과 전력 소비의 교환관계를 결정하는 설비 선택이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  N0["수원별 취수 계측"]
-  N1["물 수지"]
-  N2["IT 에너지 계측"]
-  N3["냉각 방식"]
-  N4["지역 거버넌스"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
