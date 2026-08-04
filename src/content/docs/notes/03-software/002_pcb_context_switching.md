@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: PCB•컨텍스트 스위칭 (PCB Context Switching)
-date: "2026-08-03T09:03:00+09:00"
+date: "2026-08-04T09:56:00+09:00"
 tags: [notes-software]
 weight: 2
 extra:
@@ -42,7 +42,8 @@ extra:
 
 - **변환 색인 버퍼(Translation Lookaside Buffer, TLB)**: 가상 주소의 물리 주소 변환 결과를 저장하는 캐시
 - **캐시 지역성(Cache Locality)**: 최근 사용한 코드•데이터가 프로세서 캐시에 남아 재사용되는 성질
-- **PCB•TCB 문맥 보존**: 프로세스와 스레드의 실행 상태를 각 제어 블록에 저장해 선점 뒤 복구할 수 있게 하는 처리
+- **PCB 문맥 보존**: 프로세스 상태와 자원 참조를 저장하는 처리
+- **TCB 문맥 보존**: 스레드 레지스터와 스택 포인터를 저장하는 처리
 
 </details>
 
@@ -60,7 +61,6 @@ extra:
 
 - **운영체제 커널(Operating System Kernel)**: 문맥 저장•복원과 다음 실행 주체 선택을 수행하는 운영체제 핵심
 - **스케줄러(Scheduler)**: 실행 가능 주체 중 다음 실행 대상을 선택하는 커널 구성요소
-- **PCB•TCB**: 프로세스의 주소 공간•자원과 스레드의 실행 문맥을 각각 보관하는 제어 블록
 
 </details>
 
@@ -160,7 +160,6 @@ sequenceDiagram
 - **백분위(Percentile)**: 측정값을 작은 순서로 놓았을 때 특정 비율이 그 이하인 경계값
 - **보호 구간(Critical Section)**: 공유 커널 상태의 일관성을 위해 한 실행 주체만 진입하도록 제한한 코드 범위
 - **최악 실행시간(Worst-Case Execution Time, WCET)**: 특정 코드 경로가 완료되는 데 걸릴 수 있는 최대 시간
-- **프로세서 친화도(Processor Affinity)**: 스레드가 실행될 프로세서를 제한해 캐시 재사용 가능성을 높이는 정책
 - **런 큐 길이(Run-queue Length)**: CPU 실행을 기다리는 준비 상태 작업의 수
 
 </details>

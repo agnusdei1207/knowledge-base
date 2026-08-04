@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 은행원 알고리즘 (Banker's Algorithm)
-date: "2026-08-03T09:16:00+09:00"
+date: "2026-08-04T10:10:00+09:00"
 tags: [notes-software]
 weight: 10
 extra:
@@ -38,7 +38,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가용량•최대 요구량•할당량•잔여 요구량(Available•Max•Allocation•Need)**: 현재 가용 벡터와 프로세스별 최대•현재•남은 요구 행렬
+- **가용량(Available)**: 현재 즉시 할당할 수 있는 자원 벡터
+- **최대 요구량(Max)**: 프로세스별 최대 자원 요구 행렬
+- **할당량(Allocation)**: 프로세스별 현재 자원 보유 행렬
+- **잔여 요구량(Need)**: 최대 요구량에서 할당량을 뺀 행렬
 - **가상 할당(Tentative Allocation)**: 요청을 임시 반영해 안전 순서가 유지되는지 검사하고 불안전하면 복원하는 동작
 
 </details>
@@ -100,7 +103,7 @@ $$
 <details>
 <summary>핵심 용어</summary>
 
-- **검사 가용량•완료 여부(Work•Finish)**: 안전성 검사에서 가상 회수 자원과 각 프로세스의 완료 가능 여부를 기록하는 변수
+- **검사 가용량(Work)**: 안전성 검사에서 가상 회수 자원을 누적하는 벡터
 - **상태 버전**: 검사 중 자원 상태가 바뀌지 않았는지 비교하는 변경 번호
 
 </details>
@@ -181,7 +184,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **최대 요구량 신뢰성•검사 지연**: 은행원 알고리즘을 요청 승인에 적용할 수 있는지를 가르는 기준
+- **최대 요구량 신뢰성**: 자원 상한을 정확히 알 수 있는지의 적용 기준
+- **검사 지연**: 안전성 검사 비용을 감당할 수 있는지의 적용 기준
 
 </details>
 

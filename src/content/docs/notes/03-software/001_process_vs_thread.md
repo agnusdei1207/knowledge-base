@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 프로세스 vs 스레드 (Process vs Thread)
-date: "2026-08-03T09:02:00+09:00"
+date: "2026-08-04T09:53:55+09:00"
 tags: [notes-software]
 weight: 1
 extra:
@@ -39,7 +39,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **주소 공간(Address Space)**: 운영체제가 프로세스별로 격리한 가상 메모리 주소 범위
-- **격리•공유 범위**: 프로세스와 스레드가 주소 공간•자원을 독립해서 쓰거나 함께 쓰는 경계
+- **격리 범위**: 프로세스별 주소 공간과 자원을 분리하는 경계
+- **공유 범위**: 스레드가 함께 접근하는 주소 공간과 자원의 경계
 
 </details>
 
@@ -60,7 +61,8 @@ extra:
 - **스레드 제어 블록(Thread Control Block, TCB)**: 레지스터•스택 포인터•스케줄 상태를 저장하는 스레드별 자료구조
 - **실행 문맥(Execution Context)**: 중단된 스레드의 실행을 잇는 프로그램 카운터•레지스터•스택 포인터 상태
 - **프로세스 간 통신(Inter-Process Communication, IPC)**: 격리된 프로세스 주소 공간 사이에서 데이터를 교환하는 방식
-- **스케줄러•디스패치(Scheduler•Dispatch)**: 스케줄러는 다음 스레드를 선택하고 디스패치는 그 스레드에 CPU 제어권을 넘긴다.
+- **스케줄러(Scheduler)**: 다음에 실행할 스레드를 선택하는 운영체제 구성요소
+- **디스패치(Dispatch)**: 선택한 스레드에 CPU 제어권을 넘기는 처리
 
 </details>
 
@@ -97,7 +99,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **프로그램 카운터(Program Counter, PC)**: 다음에 실행할 명령 주소와 스레드별 중단 위치를 저장하는 레지스터
-- **잠금•보호 구간(Lock•Critical Section)**: 잠금은 공유 상태 접근을 직렬화하고 보호 구간은 동시에 실행하면 안 되는 코드 범위
+- **잠금(Lock)**: 공유 상태 접근을 직렬화하는 동기화 수단
+- **보호 구간(Critical Section)**: 동시에 실행하면 안 되는 공유 코드 범위
 - **직렬화(Serialization)**: 메모리 객체를 프로세스 경계를 넘는 바이트 형식으로 변환하는 처리
 - **역직렬화(Deserialization)**: 전달받은 바이트 형식을 프로그램이 사용할 객체로 복원하는 처리
 
@@ -135,7 +138,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **동기화(Synchronization)**: 여러 스레드의 공유 상태 접근 순서와 값의 가시성을 맞추는 제어
-- **프로세스 간 통신(Inter-Process Communication, IPC)**: 격리된 프로세스 사이에서 데이터를 교환하는 방식
 
 </details>
 
@@ -157,7 +159,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **불변성(Immutability)**: 생성 뒤 값을 바꾸지 않아 동시 접근 충돌을 줄이는 성질
-- **감독•재시작(Supervision•Restart)**: 상위 관리자가 실패한 프로세스를 감지해 다시 실행하는 복구 방식
+- **감독(Supervision)**: 상위 관리자가 하위 프로세스 실패를 감지하는 방식
+- **재시작(Restart)**: 실패한 프로세스를 다시 실행하는 복구 방식
 - **신뢰 경계(Trust Boundary)**: 서로 다른 권한과 장애 전파 범위를 분리하는 시스템 경계
 - **포화 정책(Saturation Policy)**: 요청 큐가 한도에 도달했을 때 작업 거부•대기•호출자 실행 중 하나를 정하는 규칙
 - **공유 메모리(Shared Memory)**: 여러 프로세스가 같은 물리 메모리 영역을 매핑해 데이터를 교환하는 IPC 방식
@@ -182,7 +185,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **격리•공유**: 장애를 가둘 필요와 상태를 함께 쓸 빈도에 따라 실행 단위 선택을 가르는 기준
+- **격리**: 장애 전파를 차단해야 할 때 프로세스를 고르는 기준
+- **공유**: 상태 교환이 빈번할 때 스레드를 고르는 기준
 
 </details>
 

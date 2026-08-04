@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
-date: "2026-08-03T09:28:00+09:00"
+date: "2026-08-04T10:25:00+09:00"
 tags: [notes-software]
 weight: 20
 extra:
@@ -41,7 +41,8 @@ extra:
 - **메타데이터(Metadata)**: 파일의 크기•위치•권한•시간을 설명하는 관리 정보
 - **저널링(Journaling)**: 변경 의도를 로그에 기록해 장애 뒤 재실행•복구하는 방식
 - **쓰기 시 복사(Copy-on-Write, COW)**: 변경 데이터를 새 블록에 기록한 뒤 참조를 전환하는 갱신 방식
-- **디렉터리•블록**: 디렉터리는 파일 이름과 경로 관계를, 블록은 저장장치에 파일 내용을 기록하는 고정 크기 단위를 뜻한다.
+- **디렉터리(Directory)**: 파일 이름과 경로 관계를 관리하는 구조
+- **블록(Block)**: 저장장치에 파일 내용을 기록하는 고정 크기 단위
 - **내부 단편화(Internal Fragmentation)**: 파일에 배정된 마지막 블록 안에서 사용되지 않고 남는 공간
 
 </details>
@@ -95,8 +96,8 @@ block-beta
 
 - **경로 해석(Path Resolution)**: 디렉터리 이름을 순서대로 따라 대상 파일 메타데이터를 찾는 과정
 - **복구 레코드**: 쓰기 도중 장애가 나도 변경을 재실행하거나 되돌릴 수 있도록 기록한 정보
-- **커밋(Commit)**: 데이터•메타데이터 변경이 정한 일관성 범위에서 영구 저장됐음을 확정하는 동작
-- **저널•COW 복구 정보**: 저널은 변경 의도를 기록하고, COW는 새 블록과 이전 참조를 남겨 장애 뒤 일관된 상태를 찾게 한다.
+- **저널 복구 정보**: 장애 후 재실행할 변경 의도를 기록한 정보
+- **COW 복구 정보**: 새 블록과 이전 참조를 남긴 복구 정보
 
 </details>
 
@@ -131,7 +132,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FAT•NTFS•ext4•APFS**: 할당표, MFT•ACL•저널, 아이노드•익스텐트•저널, COW•스냅샷을 각각 핵심 구조로 쓰는 파일 시스템
+- **파일 할당 테이블(File Allocation Table, FAT)**: 블록 연결을 할당표로 관리하는 파일 시스템
+- **신기술 파일 시스템(New Technology File System, NTFS)**: MFT와 ACL 및 저널을 쓰는 파일 시스템
+- **4차 확장 파일 시스템(Fourth Extended File System, ext4)**: 아이노드와 익스텐트 및 저널을 쓰는 파일 시스템
+- **애플 파일 시스템(Apple File System, APFS)**: COW와 스냅샷을 쓰는 파일 시스템
 - **아이노드(Index Node, inode)**: 파일 이름을 제외한 유형•권한•크기•블록 위치를 저장하는 유닉스 계열 구조
 - **마스터 파일 테이블(Master File Table, MFT)**: NTFS에서 파일•디렉터리의 속성과 데이터 위치를 레코드로 관리하는 핵심 구조
 - **접근 제어 목록(Access Control List, ACL)**: 사용자•그룹별 파일 접근 허용과 거부 권한을 나열한 목록
@@ -160,9 +164,9 @@ sequenceDiagram
 - **내구성(Durability)**: 쓰기 완료로 확정한 데이터가 비정상 종료 뒤에도 영구 저장소에 남는 성질
 - **강제 동기화(Filesystem Synchronization, fsync)**: 파일 변경 내용을 저장장치까지 확정하도록 요청하는 시스템 호출
 - **장애 주입 시험(Fault-injection Test)**: 쓰기 중 전원 차단•오류를 의도적으로 발생시켜 복구를 검증하는 시험
-- **내부 단편화(Internal Fragmentation)**: 파일의 마지막 할당 블록 안에서 사용되지 않고 남는 공간
 - **쓰기 증폭(Write Amplification)**: 논리 변경량보다 저장장치에 실제 기록되는 데이터가 더 많아지는 현상
-- **보존 기간•정리 비용**: 스냅샷을 유지할 기간과 만료된 참조•블록을 회수하는 데 필요한 처리량•시간
+- **보존 기간(Retention Period)**: 스냅샷을 유지하는 시간
+- **정리 비용(Cleanup Cost)**: 만료 참조와 블록을 회수하는 데 드는 처리량과 시간
 
 </details>
 
@@ -182,7 +186,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **이동식 호환•운영체제•스냅샷 요구**: FAT•NTFS•ext4•APFS 중 파일 시스템을 선택하는 기준
+- **이동식 호환**: FAT를 선택하는 장치 호환성 기준
+- **운영체제 연계**: NTFS와 ext4를 선택하는 플랫폼 기준
+- **스냅샷 요구**: APFS를 선택하는 복구 기능 기준
 
 </details>
 

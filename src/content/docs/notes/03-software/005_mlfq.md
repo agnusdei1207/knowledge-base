@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 멀티레벨 피드백 큐 MLFQ (Multilevel Feedback Queue)
-date: "2026-08-03T09:06:00+09:00"
+date: "2026-08-04T10:03:00+09:00"
 tags: [notes-software]
 weight: 5
 extra:
@@ -38,9 +38,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **강등•우선순위 상향**: CPU를 오래 쓴 작업은 하위 큐로 내리고 오래 기다린 작업은 상위 큐로 올리는 피드백 정책
+- **강등(Demotion)**: CPU를 오래 쓴 작업을 하위 큐로 내리는 정책
+- **우선순위 상향(Priority Boost)**: 오래 기다린 작업을 상위 큐로 올리는 정책
 - **기아(Starvation)**: 낮은 우선순위 작업이 실행 기회를 계속 얻지 못하는 상태
-- **대화형•CPU 집중 작업**: 대화형 작업은 짧은 CPU 실행과 입력 대기를 반복하고, CPU 집중 작업은 연산을 오래 이어가는 부하 유형
+- **대화형 작업(Interactive Job)**: 짧은 CPU 실행과 입력 대기를 반복하는 부하 유형
+- **CPU 집중 작업(CPU-bound Job)**: CPU 연산을 오래 이어가는 부하 유형
 
 </details>
 
@@ -150,7 +152,8 @@ sequenceDiagram
 - **기하급수 할당량(Geometric Quantum)**: 하위 큐로 갈수록 일정 배수로 길어지는 시간 할당량
 - **꼬리 응답시간(Tail Response Time)**: 응답시간 분포의 상위 백분위에 해당하는 느린 작업 시간
 - **스케줄링 오버헤드**: 큐 관리와 문맥 전환처럼 실제 작업 실행 외에 CPU를 소비하는 관리 비용
-- **분산 상향•상향 예산**: 승격 시점을 작업별로 분산하고 한 번에 상향할 작업 수를 제한해 상위 큐 집중을 막는 정책
+- **분산 상향(Staggered Boost)**: 작업별 승격 시점을 분산하는 정책
+- **상향 예산(Boost Budget)**: 한 번에 승격할 작업 수를 제한하는 정책
 
 </details>
 

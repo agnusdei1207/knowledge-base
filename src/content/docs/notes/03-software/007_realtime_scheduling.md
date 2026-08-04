@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "실시간 스케줄링: Rate Monotonic•EDF (Real-Time Scheduling)"
-date: "2026-08-03T09:09:00+09:00"
+date: "2026-08-04T10:06:00+09:00"
 tags: [notes-software]
 weight: 7
 extra:
@@ -57,11 +57,15 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스케줄 가능성(Schedulability)**: 작업 집합의 모든 마감을 지킬 수 있는 성질
-- **$C_i$•$T_i$•$D_i$**: $i$번째 작업의 최악 실행시간•주기•상대 마감시간을 나타내는 모수
+- **실행시간($C_i$)**: $i$번째 작업의 최악 실행시간 모수
+- **주기($T_i$)**: $i$번째 작업의 반복 간격 모수
+- **상대 마감시간($D_i$)**: 릴리스부터 완료까지 허용된 시간 모수
 - **이용률($U$)**: 각 작업의 실행시간을 주기로 나눈 CPU 수요 비율의 합
 - **암시적 마감(Implicit Deadline)**: 상대 마감시간과 주기가 같은 조건
-- **RM•EDF**: RM은 짧은 주기에 고정 우선순위를 주고, EDF는 절대 마감시간이 이른 작업을 먼저 실행하는 방식
-- **차단•간섭 비용**: 공유 자원 대기와 높은 우선순위 작업의 선점 때문에 대상 작업이 실행하지 못하는 시간
+- **주기 단조 스케줄링(Rate Monotonic, RM)**: 주기가 짧은 작업에 높은 고정 우선순위를 주는 방식
+- **최단 마감시간 우선(Earliest Deadline First, EDF)**: 절대 마감시간이 이른 작업을 먼저 실행하는 방식
+- **차단 비용(Blocking Cost)**: 공유 자원 대기로 실행하지 못한 시간
+- **간섭 비용(Interference Cost)**: 높은 우선순위 작업의 선점으로 실행하지 못한 시간
 
 </details>
 
@@ -103,7 +107,6 @@ $$
 
 - **작업 릴리스(Job Release)**: 주기나 외부 사건에 따라 새 작업 인스턴스가 실행 가능해지는 시점
 - **절대 마감시간(Absolute Deadline)**: 개별 작업 인스턴스가 완료돼야 하는 실제 시각
-- **최단 마감시간 우선(Earliest Deadline First, EDF)**: 절대 마감시간이 가장 이른 작업을 먼저 선택하는 방식
 - **실행 문맥(Execution Context)**: 중단한 작업을 이어 실행하는 데 필요한 프로그램 카운터•레지스터•스택 상태
 
 </details>
@@ -144,8 +147,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **주기 단조 스케줄링(Rate Monotonic, RM)**: 주기가 짧은 작업에 높은 고정 우선순위를 부여하는 방식
-- **최단 마감시간 우선(Earliest Deadline First, EDF)**: 절대 마감시간이 가장 이른 작업에 동적 우선순위를 부여하는 방식
 - **과부하(Overload)**: 작업의 CPU 수요가 처리 가능량을 넘어 마감 위반이 연쇄될 수 있는 상태
 
 </details>
@@ -169,7 +170,8 @@ sequenceDiagram
 
 - **마감 미스(Deadline Miss)**: 작업이 정해진 마감시간까지 완료되지 못한 상태
 - **수용 제어(Admission Control)**: 신규 작업을 받아도 기존 마감을 지킬 수 있는지 검사해 수용을 결정하는 절차
-- **우선순위 상속•천장(Priority Inheritance•Ceiling)**: 낮은 우선순위 작업의 잠금이 높은 우선순위 작업을 오래 막는 현상을 제한하는 규칙
+- **우선순위 상속(Priority Inheritance)**: 잠금 보유자에게 대기자의 우선순위를 임시 부여하는 규칙
+- **우선순위 천장(Priority Ceiling)**: 자원별 최고 우선순위로 잠금 차단을 제한하는 규칙
 - **중요도(Criticality)**: 마감 실패가 시스템에 미치는 위험의 크기에 따른 작업 등급
 - **우선순위 역전(Priority Inversion)**: 낮은 우선순위 작업이 보유한 자원 때문에 높은 우선순위 작업이 대기하는 현상
 - **과부하 모드**: CPU 수요가 처리 용량을 넘을 때 중요도가 낮은 작업을 줄여 핵심 마감을 보호하는 운용 상태
@@ -192,7 +194,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **고정 주기•절대 마감**: RM과 EDF 중 우선순위 정책을 선택하는 기준
+- **고정 주기**: 주기 예측이 가능할 때 RM을 선택하는 기준
+- **절대 마감**: 동적 마감 순서가 중요할 때 EDF를 선택하는 기준
 
 </details>
 

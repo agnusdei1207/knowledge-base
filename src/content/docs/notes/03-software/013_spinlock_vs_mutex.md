@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 스핀락 vs 뮤텍스 (Spinlock vs Mutex)
-date: "2026-08-03T09:19:00+09:00"
+date: "2026-08-04T10:15:00+09:00"
 tags: [notes-software]
 weight: 13
 extra:
@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **스핀락•뮤텍스**: 경합 시 각각 CPU 반복 검사와 대기 큐 수면으로 기다리는 두 상호 배제 잠금 방식
+- **스핀락(Spinlock)**: 경합 시 CPU에서 잠금 상태를 반복 검사하는 방식
+- **뮤텍스(Mutual Exclusion, Mutex)**: 경합한 스레드를 대기 큐에서 재우는 상호 배제 방식
 
 </details>
 
@@ -157,7 +158,8 @@ sequenceDiagram
 - **다중 소켓(Multi-socket)**: 여러 물리 CPU 패키지가 메모리와 캐시 일관성 통신을 공유하는 구조
 - **블로킹 락(Blocking Lock)**: 락을 얻지 못한 스레드를 수면 상태로 전환하는 잠금
 - **스핀 상한(Spin Limit)**: 락 상태를 반복 검사할 최대 횟수나 시간을 정해 CPU 낭비를 제한하는 값
-- **락 분할•데이터 지역화**: 공유 잠금을 나누고 데이터를 사용하는 CPU 가까이에 배치해 캐시 라인 경합을 줄이는 기법
+- **락 분할(Lock Striping)**: 공유 잠금을 여러 독립 잠금으로 나누는 기법
+- **데이터 지역화(Data Localization)**: 데이터를 사용하는 CPU 가까이에 배치하는 기법
 - **캐시 일관성 트래픽(Cache-coherence Traffic)**: 여러 CPU 캐시에 있는 같은 데이터의 상태를 맞추기 위해 오가는 통신량
 
 </details>

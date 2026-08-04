@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 스레드 스케줄링•스레드 풀 (Thread Scheduling•Thread Pool)
-date: "2026-08-03T09:13:00+09:00"
+date: "2026-08-04T10:07:00+09:00"
 tags: [notes-software]
 weight: 8
 extra:
@@ -173,7 +173,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **워커 상한•큐 상한**: 동시 실행 수와 대기 작업 수를 제한해 하위 자원 고갈과 지연을 통제하는 값
+- **워커 상한**: 동시 실행 수를 제한해 하위 자원 고갈을 막는 값
+- **큐 상한**: 대기 작업 수를 제한해 지연 증가를 통제하는 값
 
 </details>
 

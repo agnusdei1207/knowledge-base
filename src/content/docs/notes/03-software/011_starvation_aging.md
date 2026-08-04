@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 기아•에이징 (Starvation Aging)
-date: "2026-08-03T09:17:00+09:00"
+date: "2026-08-04T10:12:00+09:00"
 tags: [notes-software]
 weight: 11
 extra:
@@ -38,7 +38,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **상향 주기•폭•상한**: 우선순위를 올리는 간격과 단계, 도달할 수 있는 최고 순위
+- **상향 주기(Boost Interval)**: 우선순위를 올리는 시간 간격
+- **상향 폭(Boost Step)**: 한 번에 올리는 우선순위 단계
+- **우선순위 상한(Priority Ceiling)**: 작업이 도달할 수 있는 최고 순위
 
 </details>
 
@@ -57,7 +59,8 @@ extra:
 
 - **대기시간 계수기(Waiting-time Counter)**: 작업별 누적 대기시간을 기록해 에이징 입력으로 제공하는 장치
 - **우선순위 준비 큐**: 보정된 우선순위 순서로 실행 후보를 보관하는 대기열
-- **스케줄러•디스패치(Scheduler•Dispatch)**: 스케줄러는 다음 작업을 선택하고 디스패치는 그 작업에 CPU 제어권을 넘긴다.
+- **스케줄러(Scheduler)**: 보정 우선순위로 다음 작업을 선택하는 구성요소
+- **디스패치(Dispatch)**: 선택한 작업에 CPU 제어권을 넘기는 처리
 
 </details>
 
@@ -90,7 +93,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **주기 타이머(Periodic Timer)**: 정한 간격마다 우선순위 상향 평가 시점을 알리는 장치
-- **보정 우선순위**: 기본 우선순위에 대기 주기 수와 상향 폭을 반영한 값
 - **실행 문맥(Execution Context)**: 중단한 작업을 이어 실행하는 데 필요한 프로그램 카운터•레지스터•스택 상태
 
 </details>
@@ -170,7 +172,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상향 주기•폭•상한**: 최대 대기와 긴급 작업 보호를 함께 맞추는 에이징 조정값
+- **최대 대기 목표**: 상향 주기와 폭을 정하는 응답 기준
+- **긴급 작업 보호**: 우선순위 상한을 정하는 중요도 기준
 
 </details>
 

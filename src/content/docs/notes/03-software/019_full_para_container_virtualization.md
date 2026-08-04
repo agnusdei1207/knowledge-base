@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 전가상화•반가상화•컨테이너 비교 (Full•Para•Container Virtualization)
-date: "2026-08-03T09:27:00+09:00"
+date: "2026-08-04T10:23:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -22,7 +22,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전가상화•반가상화•컨테이너**: 게스트 수정 여부와 커널 공유 범위가 서로 다른 격리 실행 방식
+- **전가상화(Full Virtualization)**: 게스트 수정 없이 가상 하드웨어를 제공하는 방식
+- **반가상화(Paravirtualization)**: 수정된 게스트가 하이퍼콜로 중재를 요청하는 방식
+- **컨테이너(Container)**: 호스트 커널을 공유하는 프로세스 격리 단위
 
 </details>
 
@@ -135,9 +137,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전가상화(Full Virtualization)**: 게스트 운영체제 수정 없이 가상 하드웨어를 제공하는 방식
-- **반가상화(Paravirtualization)**: 수정된 게스트가 하이퍼콜로 자원 중재를 요청하는 방식
-- **컨테이너(Container)**: 호스트 커널을 공유하는 프로세스 격리 단위
 
 </details>
 
@@ -163,7 +162,8 @@ sequenceDiagram
 - **시끄러운 이웃(Noisy Neighbor)**: 같은 장비의 다른 워크로드가 자원을 과도하게 써 성능을 떨어뜨리는 현상
 - **이미지 출처 증명(Image Provenance)**: 실행 이미지를 누가 어떤 재료와 절차로 만들었는지 검증할 수 있는 기록
 - **반가상 장치 드라이버**: 게스트가 하이퍼바이저와 협력해 장치 모사 비용을 줄이는 드라이버
-- **자원 제한•예약(Resource Limit•Reservation)**: 워크로드가 넘을 수 없는 사용량 상한과 항상 보장받을 최소 자원량
+- **자원 제한(Resource Limit)**: 워크로드가 넘을 수 없는 사용량 상한
+- **자원 예약(Resource Reservation)**: 워크로드가 항상 보장받을 최소 자원량
 - **취약점 검사(Vulnerability Scanning)**: 이미지의 패키지•설정을 알려진 보안 결함 목록과 비교하는 점검
 - **공급망 신뢰성(Supply-chain Trust)**: 이미지의 출처•서명•구성 재료가 검증되어 빌드부터 배포까지 변조되지 않았음을 신뢰할 수 있는 성질
 
@@ -185,7 +185,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **게스트 수정•커널 격리•커널 공유**: 전가상화•반가상화•컨테이너 중 실행 방식을 선택하는 기준
+- **게스트 수정 여부**: 미수정 게스트는 전가상화를 고르는 기준
+- **커널 격리**: 독립 커널이 필요하면 반가상화를 고르는 기준
+- **커널 공유**: 경량 실행이 중요하면 컨테이너를 고르는 기준
 
 </details>
 

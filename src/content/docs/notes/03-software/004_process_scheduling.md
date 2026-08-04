@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "프로세스 스케줄링 알고리즘: FCFS•SJF•RR•MLFQ•CFS (Process Scheduling)"
-date: "2026-08-03T09:05:00+09:00"
+date: "2026-08-04T10:01:00+09:00"
 tags: [notes-software]
 weight: 4
 extra:
@@ -23,7 +23,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **프로세스 스케줄링(Process Scheduling)**: CPU를 줄 프로세스와 실행 시간을 정하는 운영체제 정책
-- **응답시간•처리량•공정성**: 첫 실행까지의 시간, 단위 시간 완료 수, CPU 몫의 지속적 배분을 나타내는 상충 지표
+- **응답시간(Response Time)**: 요청부터 첫 실행까지 걸린 시간
+- **처리량(Throughput)**: 단위 시간에 완료한 작업 수
+- **공정성(Fairness)**: 작업별 CPU 몫을 지속적으로 배분하는 성질
 
 </details>
 
@@ -60,7 +62,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **준비 큐(Ready Queue)**: CPU를 기다리는 실행 가능 프로세스를 정책 순서로 보관하는 대기열
-- **디스패처•타이머(Dispatcher•Timer)**: 디스패처는 CPU 제어권을 넘기고 타이머는 할당량 만료를 알린다.
+- **디스패처(Dispatcher)**: 선택된 프로세스에 CPU 제어권을 넘기는 구성요소
+- **타이머(Timer)**: 시간 할당량 만료를 알리는 하드웨어 장치
 - **스케줄러(Scheduler)**: 준비 큐의 후보를 정책 기준으로 평가해 다음 실행 대상을 고르는 운영체제 구성요소
 
 </details>
@@ -93,7 +96,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **선점(Preemption)**: 실행 중인 프로세스에서 CPU를 회수해 다른 프로세스에 배분하는 동작
 - **문맥 전환(Context Switch)**: 현재 실행 상태를 저장하고 다음 실행 상태를 복원하는 작업
 
 </details>
@@ -126,11 +128,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FCFS•SJF•RR•MLFQ•CFS**: 도착 순서, 최단 버스트, 시간 순환, 실행 이력, 가상 실행시간을 각각 선택 기준으로 삼는 스케줄링 방식
+- **선입선처리(First-Come First-Served, FCFS)**: 도착 순서대로 CPU를 배정하는 방식
+- **최단 작업 우선(Shortest Job First, SJF)**: CPU 버스트가 가장 짧은 작업을 고르는 방식
+- **라운드 로빈(Round Robin, RR)**: 시간 할당량만큼 작업을 순환 실행하는 방식
+- **다단계 피드백 큐(Multilevel Feedback Queue, MLFQ)**: 실행 이력에 따라 작업 큐와 우선순위를 조정하는 방식
+- **완전 공정 스케줄러(Completely Fair Scheduler, CFS)**: 가상 실행시간이 작은 작업에 CPU를 배정하는 방식
 - **호위 효과(Convoy Effect)**: 짧은 작업이 긴 작업 뒤에서 함께 지연되는 현상
 - **가상 실행시간(Virtual Runtime)**: 실제 CPU 사용시간을 가중치로 보정해 CFS가 CPU 몫을 배분하는 기준
 - **비선점(Non-preemptive)**: 선택된 프로세스가 종료되거나 스스로 대기하기 전에는 CPU를 강제로 회수하지 않는 방식
-- **배치•대화형 작업**: 배치는 묶인 작업의 처리량을, 대화형 작업은 사용자 입력에 대한 빠른 응답을 중시하는 부하 유형
+- **배치 작업(Batch Job)**: 묶인 작업의 처리량을 중시하는 부하 유형
+- **대화형 작업(Interactive Job)**: 사용자 입력에 대한 빠른 응답을 중시하는 부하 유형
 
 </details>
 
@@ -175,7 +182,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **버스트 예측•응답•CPU 몫**: SJF, RR•MLFQ, CFS 중 정책 선택을 가르는 세 기준
+- **버스트 예측**: SJF 적용 가능성을 가르는 작업시간 예측 기준
+- **응답 목표**: RR과 MLFQ 적용을 가르는 지연 기준
+- **CPU 몫**: CFS 적용을 가르는 공정성 기준
 
 </details>
 

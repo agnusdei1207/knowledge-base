@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 프로세스 생성•종료•상태 전이 (Process Lifecycle)
-date: "2026-08-03T09:04:00+09:00"
+date: "2026-08-04T09:58:00+09:00"
 tags: [notes-software]
 weight: 3
 extra:
@@ -23,6 +23,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **프로세스 수명주기(Process Lifecycle)**: 생성된 프로세스가 준비•실행•대기 상태를 거쳐 종료되는 운영체제 관리 과정
+- **중앙처리장치(Central Processing Unit, CPU)**: 실행 상태의 프로세스 명령을 처리하는 장치
 
 </details>
 
@@ -57,7 +58,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **프로세스 제어 블록(Process Control Block, PCB)**: 프로세스 상태•실행 문맥•주소 공간•자원 참조를 저장하는 운영체제 자료구조
-- **준비 큐•대기 큐(Ready Queue•Wait Queue)**: 준비 큐는 CPU를 기다리는 프로세스를, 대기 큐는 특정 이벤트를 기다리는 프로세스를 보관한다.
+- **준비 큐(Ready Queue)**: CPU 실행을 기다리는 프로세스를 보관하는 큐
+- **대기 큐(Wait Queue)**: 특정 이벤트를 기다리는 프로세스를 보관하는 큐
 - **스케줄러(Scheduler)**: 준비 큐에서 다음 실행 프로세스를 선택하는 운영체제 구성요소
 
 </details>
@@ -131,9 +133,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **준비 상태**: CPU만 기다려 즉시 실행할 수 있는 프로세스 상태
-- **실행 상태**: 중앙처리장치(Central Processing Unit, CPU)를 할당받아 명령을 처리하는 프로세스 상태
-- **대기 상태**: 입출력이나 이벤트가 끝나기 전에는 실행할 수 없는 프로세스 상태
 - **종료 상태**: 실행을 마치고 종료 코드를 남긴 뒤 운영체제가 문맥•주소 공간 등 관리 자원을 회수하는 상태
 
 </details>
@@ -182,7 +181,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **준비 큐•대기 큐**: 실행 가능 여부와 대기 원인에 따라 프로세스를 나누어 보관하는 상태 큐
 
 </details>
 

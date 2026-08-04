@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "가상화: Type 1•Type 2 하이퍼바이저 (Virtualization•Hypervisor)"
-date: "2026-08-03T09:26:00+09:00"
+date: "2026-08-04T10:22:00+09:00"
 tags: [notes-software]
 weight: 18
 extra:
@@ -39,9 +39,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상머신 엑시트•엔트리(VM Exit•VM Entry)**: 게스트 상태를 저장해 하이퍼바이저로 나오고 다시 복원해 게스트로 들어가는 전환
+- **가상머신 엑시트(Virtual Machine Exit, VM Exit)**: 게스트 상태를 저장하고 하이퍼바이저로 나오는 전환
+- **가상머신 엔트리(Virtual Machine Entry, VM Entry)**: 게스트 상태를 복원하고 가상머신으로 들어가는 전환
 - **하드웨어 보조 가상화**: 프로세서가 게스트 실행과 상태 전환을 직접 지원하는 기능
-- **가상 CPU•메모리•장치**: 하이퍼바이저가 물리 자원을 나눠 각 게스트에 독립된 하드웨어처럼 제공하는 논리 자원
+- **가상 중앙처리장치(Virtual CPU, vCPU)**: 게스트에 제공하는 논리 프로세서
+- **가상 메모리(Virtual Memory)**: 게스트에 제공하는 논리 메모리 공간
+- **가상 장치(Virtual Device)**: 게스트에 제공하는 논리 입출력 장치
 
 </details>
 
@@ -171,9 +174,11 @@ sequenceDiagram
 
 - **자원 초과 할당(Oversubscription)**: 물리 자원보다 많은 vCPU•메모리를 VM에 논리적으로 배정하는 방식
 - **vCPU 준비 시간**: 가상 CPU가 실행 가능하지만 물리 CPU를 받지 못해 기다린 시간
-- **준가상 드라이버•장치 직접 할당**: 효율적 하이퍼바이저 통신과 특정 VM의 물리 장치 직접 사용으로 중재를 줄이는 방식
+- **준가상 드라이버(Paravirtualized Driver)**: 하이퍼바이저와 직접 통신해 장치 중재를 줄이는 드라이버
+- **장치 직접 할당(Device Passthrough)**: 특정 VM에 물리 장치를 직접 배정하는 방식
 - **관리면(Management Plane)**: VM 생성•배치•이동•권한을 제어하는 운영 인터페이스
-- **스냅숏•실시간 이동**: VM 상태를 저장하거나 실행 중인 VM을 다른 호스트로 옮기는 기능
+- **스냅숏(Snapshot)**: 특정 시점의 VM 상태를 저장하는 기능
+- **실시간 이동(Live Migration)**: 실행 중인 VM을 다른 호스트로 옮기는 기능
 - **수용 제어(Admission Control)**: 물리 자원 여유와 서비스 목표를 검사해 새 VM 배치 여부를 결정하는 절차
 - **이미지 무결성(Image Integrity)**: VM 이미지가 승인되지 않은 변경이나 손상 없이 신뢰할 수 있는 상태를 유지하는 성질
 - **상태 정합성(State Consistency)**: 스냅숏•이동 전후의 CPU•메모리•장치 상태가 서로 맞아 실행을 안전하게 이을 수 있는 성질
@@ -196,7 +201,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **운영 격리•호스트 장치 활용**: Type 1과 Type 2 하이퍼바이저 중 배치 방식을 선택하는 기준
+- **운영 격리**: 하이퍼바이저를 직접 배치하는 Type 1 선택 기준
+- **호스트 장치 활용**: 호스트 운영체제를 쓰는 Type 2 선택 기준
 
 </details>
 
