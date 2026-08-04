@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "사이드카 프록시 (Sidecar Proxy)"
-date: "2026-08-04T14:44:32+09:00"
+date: "2026-08-05T02:19:35+09:00"
 tags:
   - "notes-latest-tech"
 weight: 164
@@ -66,19 +66,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  control["제어 평면"]
-  redirect["트래픽 전환 규칙"]
-  proxy["사이드카 프록시"]
-  app["애플리케이션"]
-  telemetry["관측 파이프라인"]
-  control --- proxy
-  redirect --- proxy
-  app --- proxy
-  proxy --- telemetry
+```text
+             [제어 평면]
+                  |
+         [트래픽 전환 규칙]
+                  |
+          [사이드카 프록시]
+                  |
+        +---------+---------+
+        |                   |
+ [애플리케이션]       [관측 파이프라인]
 ```
+
+선의 의미: 제어 평면과 트래픽 전환 규칙이 사이드카 프록시의 통신 경계를 구성하고, 프록시는 애플리케이션 및 관측 파이프라인과 결합된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

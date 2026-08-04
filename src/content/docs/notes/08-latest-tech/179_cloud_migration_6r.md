@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-08-05T05:48:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 179
@@ -73,19 +73,6 @@ extra:
 - **전환(Cutover)**: 데이터 검증 뒤 운영 트래픽을 새 환경으로 넘기는 실행 단계이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  N0["자산 인벤토리"]
-  N1["종속성 지도"]
-  N2["6R 의사결정"]
-  N3["랜딩 존"]
-  N4["이전 웨이브"]
-  N5["Cutover"]
-  N0 --- N1 --- N2
-  N2 --- N3 --- N4 --- N5
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

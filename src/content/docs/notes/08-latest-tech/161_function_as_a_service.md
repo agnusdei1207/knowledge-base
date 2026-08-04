@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "서비스형 함수 (Function as a Service, FaaS)"
-date: "2026-08-04T14:43:29+09:00"
+date: "2026-08-05T02:19:35+09:00"
 tags:
   - "notes-latest-tech"
 weight: 161
@@ -70,21 +70,21 @@ extra:
 
 트리거는 **HTTP 요청**, 메시지, 파일 생성 같은 이벤트를 함수 런타임에 연결한다.
 
-```mermaid
-block-beta
-  columns 3
-  source["이벤트 소스"]
-  trigger["트리거"]
-  router["라우터"]
-  runtime["함수 런타임"]
-  function["함수 코드"]
-  state["외부 상태 저장소"]
-  source --- trigger
-  trigger --- router
-  router --- runtime
-  runtime --- function
-  function --- state
+```text
+                 [이벤트 소스]
+                       |
+                   [트리거]
+                       |
+                   [라우터]
+                       |
+                [함수 런타임]
+                       |
+                 [함수 코드]
+                       |
+              [외부 상태 저장소]
 ```
+
+선의 의미: 이벤트 소스와 트리거를 라우터가 함수 런타임에 연결하고, 런타임 안의 함수 코드가 실행 환경 밖의 상태 저장소를 사용한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "eBPF (Extended Berkeley Packet Filter)"
-date: "2026-08-05T04:24:00+09:00"
+date: "2026-08-05T02:19:35+09:00"
 tags:
   - "notes-latest-tech"
 weight: 165
@@ -72,23 +72,23 @@ extra:
 
 검증된 **eBPF** 바이트코드는 **JIT** 을 거쳐 **CPU** 기계어로 실행되고 eBPF 맵과 상태를 공유한다.
 
-```mermaid
-block-beta
-  columns 3
-  loader["사용자 공간 로더"]
-  verifier["검증기"]
-  runtime["eBPF 실행기"]
-  jit["JIT"]
-  hook["커널 훅"]
-  helper["도움 함수"]
-  map["eBPF 맵"]
-  loader --- verifier
-  verifier --- runtime
-  runtime --- jit
-  runtime --- hook
-  hook --- helper
-  runtime --- map
+```text
+              [사용자 공간 로더]
+                      |
+                   [검증기]
+                      |
+               [eBPF 실행기]
+                      |
+         +------------+------------+
+         |                         |
+       [JIT]                    [커널 훅]
+                                   |
+                               [도움 함수]
+                                   |
+                               [eBPF 맵]
 ```
+
+선의 의미: 사용자 공간 로더와 검증기가 eBPF 실행기의 적재 경계를 구성하고, 실행기는 JIT, 커널 훅, eBPF 맵과 결합되며 도움 함수가 커널 훅 문맥의 허용 기능을 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

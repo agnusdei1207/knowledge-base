@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-08-05T04:12:00+09:00"
+date: "2026-08-05T02:19:35+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -71,19 +71,19 @@ extra:
 
 구성 **API** 의 의도는 **xDS** 로 전달되며, 데이터 평면은 **L4•L7** 정책을 집행한다.
 
-```mermaid
-block-beta
-  columns 3
-  api["구성 API"]
-  istiod["Istiod"]
-  sidecar["Sidecar Envoy"]
-  ztunnel["Ambient ztunnel"]
-  waypoint["Ambient waypoint"]
-  api --- istiod
-  istiod --- sidecar
-  istiod --- ztunnel
-  ztunnel --- waypoint
+```text
+                    [구성 API]
+                        |
+                     [Istiod]
+                        |
+             +----------+----------+
+             |                     |
+      [Sidecar Envoy]       [Ambient ztunnel]
+                                   |
+                         [Ambient waypoint]
 ```
+
+선의 의미: 구성 API와 Istiod가 제어 평면을 이루고, Sidecar Envoy 또는 Ambient ztunnel이 데이터 평면을 구성하며 Ambient waypoint가 선택 범위의 L7 정책 경계를 제공한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

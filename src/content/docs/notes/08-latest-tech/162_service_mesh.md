@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "서비스 메시 (Service Mesh)"
-date: "2026-08-05T04:06:00+09:00"
+date: "2026-08-05T02:19:35+09:00"
 tags:
   - "notes-latest-tech"
 weight: 162
@@ -68,21 +68,21 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  registry["서비스 레지스트리"]
-  control["제어 평면"]
-  data["데이터 평면"]
-  workload["서비스 워크로드"]
-  telemetry["관측 계층"]
-  governance["거버넌스"]
-  registry --- control
-  control --- data
-  data --- workload
-  data --- telemetry
-  telemetry --- governance
+```text
+               [서비스 레지스트리]
+                        |
+                   [제어 평면]
+                        |
+                   [데이터 평면]
+                        |
+             +----------+----------+
+             |                     |
+      [서비스 워크로드]         [관측 계층]
+                                   |
+                              [거버넌스]
 ```
+
+선의 의미: 서비스 레지스트리와 제어 평면이 데이터 평면의 정책 기반을 구성하고, 데이터 평면은 서비스 워크로드의 통신 및 관측 계층과 결합되며 거버넌스가 관측 정보의 운영 경계를 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

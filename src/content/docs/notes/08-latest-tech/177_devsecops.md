@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-05T05:36:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 177
@@ -73,20 +73,6 @@ extra:
 </details>
 
 개발 보안 피드백은 **SAST•SCA** 결과를 제공하고, 공급망 증거는 **SBOM** 으로 구성요소를 추적한다.
-
-```mermaid
-block-beta
-  columns 3
-  N0["위협 모델"]
-  N5["보안 요구"]
-  N1["개발 보안 피드백"]
-  N2["정책 게이트"]
-  N3["공급망 증거"]
-  N4["운영 탐지"]
-  N6["보안 환류"]
-  N0 --- N5 --- N1 --- N2
-  N2 --- N3 --- N4 --- N6
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
