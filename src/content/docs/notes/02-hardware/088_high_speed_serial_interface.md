@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:54:00+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -23,7 +23,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **고속 직렬 인터페이스**: 적은 차동 신호선으로 비트를 순차 고속 전송하는 연결 규격이다.
-- **USB-C**: 상하 구분 없는 커넥터 형상이며 그 자체로 속도•전력•영상 기능을 보장하지는 않는다.
+- **USB(Universal Serial Bus)**: 데이터 전송과 전력 공급을 지원하는 범용 직렬 인터페이스이다.
+- **USB-C(Universal Serial Bus Type-C)**: 상하 구분 없는 커넥터 형상이며 속도•전력•영상 기능 자체를 보장하지는 않는다.
 
 </details>
 
@@ -41,6 +42,9 @@ extra:
 - **기능 탐색**: 호스트•장치•케이블이 지원 기능을 교환하여 공통 속도•전력•영상 모드를 찾는 절차이다.
 - **차동 신호**: 두 선의 전압 차이로 비트를 표현하여 공통 잡음의 영향을 줄이는 방식이다.
 - **터널링**: 한 프로토콜의 패킷을 다른 링크의 전송 형식에 실어 전달하는 방식이다.
+- **USB PD(USB Power Delivery)**: USB 연결에서 전력 방향•전압•전류를 협상하는 규격이다.
+- **PCIe(Peripheral Component Interconnect Express)**: 처리기와 주변장치를 연결하는 고속 직렬 인터페이스이다.
+- **DMA(Direct Memory Access)**: 장치가 처리기를 거치지 않고 메모리에 직접 접근하는 방식이다.
 
 </details>
 
@@ -57,8 +61,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **레인(Lane)**: 차동 신호선 쌍으로 구성된 송수신 경로이다.
-- **e-Marker**: 케이블이 지원하는 전류•속도 등급을 저장해 포트에 알리는 칩이다.
-- **구성 채널(CC)**: USB-C의 연결 방향•전원 역할•기능 협상에 쓰는 신호선이다.
+- **e-Marker(Electronic Marker)**: 케이블이 지원하는 전류•속도 등급을 저장해 포트에 알리는 칩이다.
+- **CC(Configuration Channel)**: USB-C의 연결 방향•전원 역할•기능 협상에 쓰는 신호선이다.
+- **IOMMU(Input-Output Memory Management Unit)**: 외부 장치의 DMA 주소를 변환하고 메모리 접근 범위를 제한하는 하드웨어이다.
 
 </details>
 
@@ -91,7 +96,6 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **USB 전력 전송(USB PD)**: USB 연결에서 전력 방향•전압•전류를 장치 간 협상하는 규격이다.
 - **대체 모드**: USB-C 신호선을 DisplayPort 같은 다른 프로토콜에 배정하는 동작 모드이다.
 
 </details>
@@ -125,7 +129,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **USB**: 범용 주변장치의 데이터 전송과 전력 공급을 함께 지원하는 직렬 인터페이스이다.
 - **Thunderbolt**: PCIe•DisplayPort 패킷을 하나의 고속 직렬 링크로 터널링하는 인터페이스이다.
 
 </details>
@@ -148,7 +151,6 @@ sequenceDiagram
 
 - **다운트레이닝**: 링크가 목표보다 낮은 속도나 레인 수로 설정되는 현상이다.
 - **재협상**: 연결 중 전력•속도•기능 조건을 다시 합의하는 절차이다.
-- **IOMMU**: 외부 장치의 DMA 주소를 변환하고 접근 가능한 메모리 범위를 제한하는 하드웨어이다.
 
 </details>
 
@@ -168,7 +170,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **도킹 스테이션**: 단일 포트를 전원•화면•네트워크•주변장치 연결로 확장하는 장치이다.
-- **PCIe**: 프로세서와 주변장치를 고속 직렬 점대점 링크로 연결하는 인터커넥트이다.
 
 </details>
 

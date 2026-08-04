@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:44:00+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -24,6 +24,8 @@ extra:
 
 - **하드웨어 가상화**: 처리기가 게스트 명령의 직접 실행과 자원 격리를 지원하는 기술이다.
 - **하이퍼바이저**: 가상머신의 물리 자원과 실행 상태를 중재하는 제어 계층이다.
+- **CPU(Central Processing Unit)**: 명령 실행과 시스템 자원 제어를 담당하는 중앙 처리 장치이다.
+- **VM(Virtual Machine)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행하는 시스템이다.
 
 </details>
 
@@ -38,9 +40,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **VT-x•AMD-V**: x86 처리기에 게스트 실행 모드와 하이퍼바이저 전환 기능을 제공하는 가상화 확장이다.
-- **VMCS•VMCB**: 게스트 상태와 VM 진입•탈출 조건을 저장하는 인텔•AMD의 제어 구조이다.
-- **EPT•NPT**: 게스트 물리 주소를 호스트 물리 주소로 바꾸는 2단계 주소 변환 표이다.
+- **VT-x(Intel Virtualization Technology for x86)**: 인텔 x86 처리기에 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
+- **AMD-V(AMD Virtualization)**: AMD 처리기에 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
+- **VMCS(Virtual Machine Control Structure)**: 인텔 처리기에서 게스트 상태와 VM 전환 조건을 저장하는 구조이다.
+- **VMCB(Virtual Machine Control Block)**: AMD 처리기에서 게스트 상태와 VM 전환 조건을 저장하는 구조이다.
+- **EPT(Extended Page Tables)**: 인텔 처리기의 2단계 주소 변환 표이다.
+- **NPT(Nested Page Tables)**: AMD 처리기의 2단계 주소 변환 표이다.
 
 </details>
 
@@ -56,9 +61,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **가상머신(VM)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행하는 시스템이다.
-- **가상 CPU(vCPU)**: VM에 할당되어 물리 CPU 시간으로 실행되는 논리 처리기이다.
-- **IOMMU**: 장치 DMA 주소를 변환하고 장치별 메모리 접근 범위를 격리하는 하드웨어이다.
+- **vCPU(Virtual Central Processing Unit)**: VM에 할당되어 물리 CPU 시간으로 실행되는 논리 처리기이다.
+- **I/O(Input/Output)**: 처리기와 장치 사이에서 데이터나 제어 신호를 주고받는 입출력 동작이다.
+- **DMA(Direct Memory Access)**: 장치가 CPU를 거치지 않고 메모리에 직접 접근하는 방식이다.
+- **IOMMU(Input-Output Memory Management Unit)**: 장치 DMA 주소를 변환하고 메모리 접근 범위를 격리하는 하드웨어이다.
 
 </details>
 
@@ -128,8 +134,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **명령어 집합 구조(ISA)**: 처리기가 지원하는 명령 형식과 동작의 규약이다.
-- **에뮬레이션•이진 변환**: 다른 하드웨어 동작을 소프트웨어로 재현하거나 게스트 명령을 호스트 명령으로 바꾸는 실행 방식이다.
+- **ISA(Instruction Set Architecture)**: 처리기가 지원하는 명령 형식과 동작의 규약이다.
+- **에뮬레이션(Emulation)**: 다른 하드웨어의 명령과 장치 동작을 소프트웨어로 재현하는 방식이다.
+- **이진 변환(Binary Translation)**: 게스트 명령을 호스트가 실행할 수 있는 명령으로 바꾸는 방식이다.
 
 </details>
 
@@ -149,8 +156,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
+- **TLB(Translation Lookaside Buffer)**: 최근 가상•물리 주소 변환을 저장하는 고속 캐시이다.
 - **TLB 미스**: 필요한 주소 변환이 TLB에 없어 페이지 테이블 순회가 발생하는 상태이다.
 - **큰 페이지**: 한 TLB 항목이 더 넓은 메모리 범위를 덮도록 기본보다 큰 주소 단위를 쓰는 페이지이다.
+- **NUMA(Non-uniform Memory Access)**: 처리기와 메모리 위치에 따라 접근 시간이 달라지는 구조이다.
 - **NUMA 노드**: CPU와 가까운 로컬 메모리를 하나의 접근 지연 영역으로 묶은 단위이다.
 
 </details>

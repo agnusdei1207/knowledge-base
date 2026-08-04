@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "RAID 컨트롤러•JBOD (RAID Controller and JBOD)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T14:06:00+09:00"
 tags:
   - "notes-hardware"
 weight: 92
@@ -22,8 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **RAID 컨트롤러**: 여러 디스크의 분산•중복과 캐시를 관리하여 하나의 논리 볼륨으로 제공하는 장치이다.
-- **JBOD**: 하드웨어 RAID를 구성하지 않고 개별 디스크를 상위 소프트웨어에 직접 노출하는 방식이다.
+- **RAID(Redundant Array of Independent Disks)**: 여러 디스크에 데이터를 분산•중복하여 장애를 견디는 저장 기술이다.
+- **RAID 컨트롤러**: RAID 구성과 캐시를 관리하여 하나의 논리 볼륨으로 제공하는 장치이다.
+- **JBOD(Just a Bunch of Disks)**: 하드웨어 RAID 없이 개별 디스크를 상위 소프트웨어에 직접 노출하는 방식이다.
+- **I/O(Input/Output)**: 호스트와 저장장치 사이에서 데이터를 읽거나 쓰는 입출력 작업이다.
 
 </details>
 
@@ -41,6 +43,7 @@ extra:
 - **전원 보호 쓰기 캐시**: 정전이 발생해도 디스크에 반영되지 않은 쓰기 데이터를 보존하는 캐시이다.
 - **라이트백**: 데이터를 보호 캐시에 기록한 뒤 완료를 알리고 디스크에는 나중에 반영하는 방식이다.
 - **패스스루**: 디스크 명령과 상태를 상위 계층에 그대로 전달하는 방식이다.
+- **SDS(Software-defined Storage)**: 범용 서버 소프트웨어가 데이터 배치•복제•복구 정책을 담당하는 구조이다.
 
 </details>
 
@@ -125,7 +128,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **논리 볼륨**: 여러 물리 디스크의 용량을 묶어 호스트에 하나의 블록 장치로 제공하는 공간이다.
-- **소프트웨어 정의 스토리지(SDS)**: 범용 서버 소프트웨어가 데이터 배치•복제•장애 복구 정책을 담당하는 구조이다.
 
 </details>
 

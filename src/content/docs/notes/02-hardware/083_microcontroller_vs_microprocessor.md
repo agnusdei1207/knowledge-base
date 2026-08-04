@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:37:00+09:00"
 tags:
   - "notes-hardware"
 weight: 83
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **마이크로컨트롤러(MCU)**: 처리기•메모리•주변장치를 한 칩에 통합한 제어용 반도체이다.
-- **마이크로프로세서(MPU)**: 외부 메모리•입출력을 확장하는 처리기 중심 반도체이다.
+- **MCU(Microcontroller Unit)**: 처리기•메모리•주변장치를 한 칩에 통합한 제어용 반도체이다.
+- **MPU(Microprocessor Unit)**: 외부 메모리•입출력을 확장하는 처리기 중심 반도체이다.
 
 </details>
 
@@ -39,8 +39,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **온칩(On-Chip)**: 처리기와 메모리•주변장치가 같은 칩 안에 배치된 상태이다.
-- **메모리 관리 장치(MMU)**: 주소를 변환하고 프로세스 메모리를 격리하는 하드웨어이다.
-- **실시간 운영체제(RTOS)**: 태스크의 실행 시점을 예측할 수 있도록 결정적 스케줄링을 지원하는 운영체제이다.
+- **MMU(Memory Management Unit)**: 주소를 변환하고 프로세스 메모리를 격리하는 하드웨어이다.
+- **RTOS(Real-time Operating System)**: 태스크의 실행 시점을 예측할 수 있도록 결정적 스케줄링을 지원하는 운영체제이다.
+- **OS(Operating System)**: 하드웨어 자원을 관리하고 응용 실행 환경을 제공하는 운영체제이다.
 
 </details>
 
@@ -57,7 +58,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **주변장치(Peripheral)**: 타이머•변환기•통신•입출력 제어를 담당하는 모듈이다.
-- **입출력(I/O)**: 처리기와 외부 장치가 데이터나 제어 신호를 주고받는 동작이다.
+- **I/O(Input/Output)**: 처리기와 외부 장치가 데이터나 제어 신호를 주고받는 동작이다.
 
 </details>
 
@@ -143,7 +144,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **최악 실행 시간(WCET)**: 태스크가 가장 오래 걸리는 경로의 실행 시간 상한이다.
+- **WCET(Worst-case Execution Time)**: 태스크가 가장 오래 걸리는 경로의 실행 시간 상한이다.
 - **지터(Jitter)**: 주기 작업의 실제 시작•완료 시각이 기준 시각에서 흔들리는 정도이다.
 - **신호 무결성**: 전기 신호가 왜곡•잡음 없이 수신 조건을 만족하는 성질이다.
 

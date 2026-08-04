@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 가상화 (Storage Virtualization)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:31:00+09:00"
 tags:
   - "notes-hardware"
 weight: 81
@@ -25,6 +25,7 @@ extra:
 - **스토리지 가상화(Storage Virtualization)**: 여러 물리 저장장치의 위치와 차이를 숨기고 통합된 논리 저장공간으로 제공하는 기술이다.
 - **논리 저장 계층(Logical Storage Layer)**: 호스트의 블록 주소를 물리 장치 위치로 변환하며 중간에서 I/O를 제어하는 계층이다.
 - **이기종 스토리지(Heterogeneous Storage)**: 제조사와 성능 및 접속 방식이 서로 다른 저장장치들의 집합이다.
+- **I/O(Input/Output)**: 호스트와 저장장치 사이에서 데이터를 읽거나 쓰는 입출력 작업이다.
 
 </details>
 
@@ -153,7 +154,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **용량 임계치(Capacity Threshold)**: 물리 여유 공간 부족 전에 할당 제한이나 증설을 시작하는 기준값이다.
-- **저널•스냅숏(Journal•Snapshot)**: 변경 순서를 기록하는 로그와 특정 시점의 메타데이터 상태를 보존한 복구 기준이다.
+- **저널(Journal)**: 메타데이터 변경 순서를 기록하여 장애 후 재실행하는 로그이다.
+- **스냅숏(Snapshot)**: 특정 시점의 메타데이터와 데이터 참조 상태를 보존한 복구 기준이다.
 - **변경 블록 추적(Changed-block Tracking)**: 마이그레이션 중 새로 변경된 블록을 표시하여 대상 복제본에 다시 반영하는 기능이다.
 - **장애 영역(Failure Domain)**: 하나의 제어기나 장치 고장이 동시에 영향을 줄 수 있는 볼륨과 자원의 범위이다.
 
@@ -175,6 +177,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **통합 범위(Integration Scope)**: 가상화 계층이 하나의 서버와 배열 또는 여러 배열 중 어디까지 묶어 관리하는지 나타내는 범위이다.
+- **CPU(Central Processing Unit)**: 명령을 해석하고 연산과 장치 제어를 수행하는 중앙 처리 장치이다.
 - **호스트 부하(Host Overhead)**: 서버 CPU와 메모리가 가상화 매핑 및 I/O 처리에 추가로 사용하는 자원이다.
 - **배열 종속(Array Lock-in)**: 가상화 기능과 데이터 형식이 특정 스토리지 배열에 의존하여 이전이 어려운 상태이다.
 

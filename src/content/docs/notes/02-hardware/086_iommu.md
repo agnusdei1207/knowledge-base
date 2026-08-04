@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "입출력 메모리 관리 장치 (IOMMU)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T13:48:00+09:00"
 tags:
   - "notes-hardware"
 weight: 86
@@ -22,8 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IOMMU**: 장치가 낸 IOVA를 물리 주소로 변환하고 DMA 접근 권한을 검사하는 하드웨어이다.
-- **직접 메모리 접근(DMA)**: 장치가 처리기를 거치지 않고 메모리를 읽고 쓰는 방식이다.
+- **IOVA(Input/Output Virtual Address)**: 장치가 DMA 요청에 사용하는 가상 주소이다.
+- **DMA(Direct Memory Access)**: 장치가 처리기를 거치지 않고 메모리를 읽고 쓰는 방식이다.
+- **IOMMU(Input-Output Memory Management Unit)**: IOVA를 물리 주소로 변환하고 DMA 접근 권한을 검사하는 하드웨어이다.
+- **VM(Virtual Machine)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행하는 시스템이다.
 
 </details>
 
@@ -39,8 +41,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **IOMMU 도메인**: 변환표와 접근 권한을 공유하는 장치 격리 단위이다.
-- **입출력 가상 주소(IOVA)**: 장치가 DMA 요청에 사용하는 가상 주소이다.
-- **IOTLB**: 최근의 IOVA 변환 결과를 저장하는 주소 변환 캐시이다.
+- **IOTLB(Input/Output Translation Lookaside Buffer)**: 최근의 IOVA 변환 결과를 저장하는 주소 변환 캐시이다.
 
 </details>
 
@@ -57,7 +58,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **페이지 테이블**: IOVA와 물리 주소의 대응 및 접근 권한을 기록하는 계층형 자료구조이다.
-- **SR-IOV 가상 기능(VF)**: 하나의 PCIe 장치가 VM별 직접 할당을 위해 제공하는 경량 기능이다.
+- **PCIe(Peripheral Component Interconnect Express)**: 고속 직렬 링크로 처리기와 주변장치를 연결하는 인터페이스이다.
+- **SR-IOV(Single Root I/O Virtualization)**: 하나의 PCIe 장치를 여러 VM에 직접 할당하는 가상화 규격이다.
+- **VF(Virtual Function)**: SR-IOV 장치가 VM별 직접 할당을 위해 제공하는 경량 기능이다.
 
 </details>
 
