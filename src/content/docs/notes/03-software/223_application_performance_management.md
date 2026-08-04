@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-04T14:45:37+09:00"
+date: "2026-08-05T01:19:37+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -64,19 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["계측 에이전트"]
-    B["샘플링 제어"]
-    C["서비스 토폴로지"]
-    D["분석 엔진"]
-    E["경보 워크플로"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[계측 에이전트•SDK]---[샘플링 제어]---[서비스 토폴로지]---[분석 엔진]---[경보 워크플로]
 ```
+
+선의 의미: 각 선은 요청•코드•자원 관측 신호, 수집 비용 통제, 호출 의존 관계, 이상 원인 근거와 경보•Runbook이 서로 결속되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

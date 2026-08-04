@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "소프트웨어 아키텍처 패턴: MVC•MSA•이벤트드리븐 (Architecture Patterns)"
-date: "2026-08-04T10:49:00+09:00"
+date: "2026-08-05T01:20:00+09:00"
 tags:
   - "notes-software"
 weight: 38
@@ -66,12 +66,6 @@ extra:
 - **캡슐화(Encapsulation)**: 상태와 업무 규칙을 경계 안에 숨기고 정해진 동작만 외부에 제공하는 원칙이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  M["MVC"] S["MSA"] E["EDA"]
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

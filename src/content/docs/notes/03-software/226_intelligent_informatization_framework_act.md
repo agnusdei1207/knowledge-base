@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보화 기본법 (Framework Act on Intelligent Informatization)"
-date: "2026-08-04T15:06:00+09:00"
+date: "2026-08-05T07:15:00+09:00"
 tags: ["notes-software"]
 weight: 226
 extra:
@@ -65,19 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["종합계획"]
-    B["정보통신전략위원회"]
-    C["기관 실행계획"]
-    D["공동 점검체계"]
-    E["예산 연계"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+ [정보통신전략위원회] -- [종합계획]
+                              |
+                       [기관 실행계획]
+                              |
+                       [공동 점검체계]
+                              |
+                         [예산 연계]
 ```
+
+선의 의미: 정보통신전략위원회가 심의하는 종합계획 아래에 기관 실행계획이 놓이고, 공동 점검체계와 예산 연계가 기관 계획의 성과 및 재원 통제 구조를 이루는 정적 계획 계층이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

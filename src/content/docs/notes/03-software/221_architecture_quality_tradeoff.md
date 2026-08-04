@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 아키텍처 품질 속성 트레이드오프 (Architecture Quality Tradeoff)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-05T01:19:37+09:00"
 tags: ["notes-software"]
 weight: 221
 extra:
@@ -63,17 +63,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["비즈니스 제약"]
-    B["유틸리티 트리"]
-    C["설계 전략"]
-    D["민감도 분석"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[비즈니스 제약]---[유틸리티 트리]---[설계 전략]---[민감도 분석]
 ```
+
+선의 의미: 각 선은 사업 목표•제약, 우선순위가 부여된 품질 시나리오, 택틱•패턴과 품질 영향•상충 근거가 서로 추적되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

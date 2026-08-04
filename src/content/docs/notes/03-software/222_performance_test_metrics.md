@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "성능 테스트 지표: TPS•응답시간•동시 사용자 (Performance Test Metrics)"
-date: "2026-08-04T14:45:37+09:00"
+date: "2026-08-05T01:19:37+09:00"
 tags: ["notes-software"]
 weight: 222
 extra:
@@ -66,19 +66,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["부하 모델"]
-    B["부하 생성기"]
-    C["시험 대상 시스템"]
-    D["지표 수집기"]
-    E["분석•판정기"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[부하 모델]---[부하 생성기]---[시험 대상 시스템]---[지표 수집기]---[분석•판정기]
 ```
+
+선의 의미: 각 선은 사용자 경로•Think Time 조건, 재현 부하, 실제 배포 구조, TPS•지연•오류•자원 측정값과 목표•병목 판정이 서로 대응하는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

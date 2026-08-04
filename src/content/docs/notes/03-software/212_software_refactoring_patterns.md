@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 리팩터링 패턴 (Refactoring Patterns)"
-date: "2026-08-04T14:52:00+09:00"
+date: "2026-08-05T01:20:00+09:00"
 tags: ["notes-software"]
 weight: 212
 extra:
@@ -67,17 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["코드 악취"]
-    B["동작 계약"]
-    C["변환 패턴"]
-    D["회귀 검증"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[코드 악취] ----- [변환 패턴]
+                       |
+                 [회귀 검증] ----- [동작 계약]
 ```
+
+선의 의미: 코드 악취는 적용할 변환 패턴의 선택 근거이며, 회귀 검증은 변환 패턴이 동작 계약을 보존하는지 확인하는 정적 대응 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|
