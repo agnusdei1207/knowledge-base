@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NUMA 비균등 메모리 접근 (Non-Uniform Memory Access)"
-date: "2026-08-04T10:47:00+09:00"
+date: "2026-08-05T00:45:06+09:00"
 tags:
   - "notes-hardware"
 weight: 21
@@ -68,11 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    O["NUMA 인지 운영체제"] --- N["NUMA 노드"] --- I["노드 간 인터커넥트"] --- M["로컬 메모리"]
+```text
+                  [NUMA 인지 운영체제]
+                            |
+                            |
+[로컬 메모리] -- [NUMA 노드] -- [노드 간 인터커넥트]
 ```
+
+선의 의미: NUMA 노드가 로컬 메모리와 노드 간 연결망에 결합되고, 운영체제가 노드의 배치 정책을 관리하는 정적 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

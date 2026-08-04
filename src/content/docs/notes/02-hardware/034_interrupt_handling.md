@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인터럽트 처리 방식: 벡터•데이지체인 (Interrupt Handling)"
-date: "2026-08-04T14:06:00+09:00"
+date: "2026-08-05T01:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 34
@@ -64,17 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    D["IRQ 원천"]
-    C["인터럽트 제어기"]
-    I["벡터•체인 식별 경로"]
-    P["CPU•ISR 문맥"]
-    D --- C
-    C --- I
-    I --- P
+```text
+[IRQ 원천] -- [인터럽트 제어기] -- [벡터•체인 식별 경로]
+                                            |
+                                      [CPU•ISR 문맥]
 ```
+
+선의 의미: IRQ 원천과 중재 제어기, 원인 식별 경로, CPU의 ISR 문맥을 잇는 정적 하드웨어•문맥 인터페이스 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

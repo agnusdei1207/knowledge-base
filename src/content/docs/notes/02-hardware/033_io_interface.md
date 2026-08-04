@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "I/O 인터페이스: 폴링•인터럽트•DMA•채널 I/O (I/O Interface)"
-date: "2026-08-04T11:23:00+09:00"
+date: "2026-08-05T01:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 33
@@ -65,18 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    C["CPU•드라이버"]
-    M["주기억장치"]
-    E["DMA•채널 엔진"]
-    D["장치•제어기"]
-    C --- M
-    C --- E
-    E --- M
-    E --- D
+```text
+[CPU•드라이버] -- [주기억장치]
+       \              /
+       [DMA•채널 엔진] -- [장치•제어기]
 ```
+
+선의 의미: CPU•드라이버가 주기억장치와 전용 엔진을 제어하고 DMA•채널 엔진이 메모리와 장치 제어기에 함께 접하는 정적 I/O 네트워크 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

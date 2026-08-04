@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RAID 레벨 0•1•5•6•10 비교 (RAID Levels)"
-date: "2026-08-04T14:05:30+09:00"
+date: "2026-08-05T01:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 32
@@ -65,20 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:C["RAID 컨트롤러"]
-        columns 2
-        M["스트라이프 매퍼"]
-        R["중복 엔진"]
-    end
-    D["멤버 디스크•장애 도메인"]
-    C --- M
-    C --- R
-    M --- D
-    R --- D
+```text
+              [RAID 컨트롤러]
+                 /        \
+    [스트라이프 매퍼]   [중복 엔진]
+                 \        /
+        [멤버 디스크•장애 도메인]
 ```
+
+선의 의미: RAID 컨트롤러가 스트라이프 매퍼와 중복 엔진을 소유하고 두 내부 기능이 같은 멤버 디스크 집합에 접하는 정적 제어•연결 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

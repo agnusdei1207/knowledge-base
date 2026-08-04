@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3D V-NAND와 2D NAND 비교 (3D vs 2D NAND)"
-date: "2026-08-04T11:17:00+09:00"
+date: "2026-08-05T01:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 31
@@ -64,20 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:N["3D NAND 셀 배열"]
-        columns 2
-        WL["워드라인 적층"]
-        CELL["전하 저장 셀"]
-        CH["수직 채널 스트링"]
-        PB["페이지•블록 배열"]
-        WL --- CELL
-        CELL --- CH
-        CH --- PB
-    end
+```text
+3D NAND 셀 배열 경계
+|
++-- [워드라인 적층] -- [전하 저장 셀]
+|                           |
+`-- [페이지•블록 배열] -- [수직 채널 스트링]
 ```
+
+선의 의미: 셀 배열 경계 안에서 워드라인과 수직 채널이 전하 저장 셀을 선택하고 페이지•블록 배열이 이 셀 집합을 묶는 정적 연결•포함 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

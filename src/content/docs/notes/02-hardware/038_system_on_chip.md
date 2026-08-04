@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SoC 시스템온칩 (System on Chip)"
-date: "2026-08-04T11:38:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 38
@@ -67,20 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    IP["연산•기능 IP"]
-    NOC["NoC•인터커넥트"]
-    MEM["메모리 서브시스템"]
-    IO["I/O 서브시스템"]
-    PM["전력•클록•리셋 관리기"]
-    IP --- NOC
-    NOC --- MEM
-    NOC --- IO
-    PM --- IP
-    PM --- NOC
+```text
+            [전력•클록•리셋 관리기]
+                  /           \
+     [연산•기능 IP] ----- [NoC•인터커넥트] ----- [메모리 서브시스템]
+                                  |
+                           [I/O 서브시스템]
 ```
+
+선의 의미: 가로•세로선은 NoC에 결합된 연산•메모리•I/O 경계이고, 사선은 관리기가 연산 IP와 NoC의 전력•클록•리셋 경계에 함께 연결됨을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

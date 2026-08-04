@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDR SDRAM과 리프레시 방식 (DDR SDRAM Refresh)"
-date: "2026-08-04T10:56:00+09:00"
+date: "2026-08-05T00:45:06+09:00"
 tags:
   - "notes-hardware"
 weight: 24
@@ -66,11 +66,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    MC["메모리 컨트롤러"] --- PHY["DDR 채널•PHY"] --- BANK["뱅크•행 버퍼"] --- RC["리프레시 카운터"]
+```text
+[메모리 컨트롤러] -- [DDR 채널•PHY] -- [뱅크•행 버퍼]
+                                               |
+                                               |
+                                      [리프레시 카운터]
 ```
+
+선의 의미: 컨트롤러와 PHY는 뱅크 데이터 경로에 결합되고, 리프레시 카운터는 뱅크•행 버퍼의 갱신 주소를 제공하는 정적 연결이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

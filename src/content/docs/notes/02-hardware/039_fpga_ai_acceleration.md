@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FPGA AI 가속 (FPGA AI Acceleration)"
-date: "2026-08-04T14:07:30+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 39
@@ -69,18 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    CFG["비트스트림•구성 메모리"]
-    DMA["DMA•스트림 인터페이스"]
-    BUF["BRAM•URAM 버퍼"]
-    PE["LUT•FF•DSP 파이프라인"]
-    CFG --- DMA
-    CFG --- PE
-    DMA --- BUF
-    BUF --- PE
+```text
+[비트스트림•구성 메모리] ------------------------------------+
+             |                                                |
+[DMA•스트림 인터페이스] ----- [BRAM•URAM 버퍼] ----- [LUT•FF•DSP 파이프라인]
 ```
+
+선의 의미: 아래 선은 전송•버퍼•연산 자원의 데이터 경계이고, 위 선은 구성 메모리가 DMA 인터페이스와 연산 파이프라인에 함께 결합되는 정적 설정 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NVMe•PCIe 인터페이스 (NVMe PCIe)"
-date: "2026-08-04T11:11:00+09:00"
+date: "2026-08-05T01:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 29
@@ -69,20 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    H["NVMe 호스트 드라이버"]
-    block:M["호스트 메모리"]
-        columns 1
-        Q["제출•완료 큐"]
-    end
-    P["PCIe 링크"]
-    C["NVMe 컨트롤러•SSD"]
-    H --- Q
-    Q --- P
-    P --- C
+```text
+[NVMe 호스트 드라이버] -- [제출•완료 큐] -- [PCIe 링크]
+                                                   |
+                                      [NVMe 컨트롤러•SSD]
 ```
+
+선의 의미: 호스트 드라이버가 메모리 큐를 공유하고 PCIe 링크가 해당 큐와 NVMe 컨트롤러•SSD를 잇는 정적 인터페이스 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

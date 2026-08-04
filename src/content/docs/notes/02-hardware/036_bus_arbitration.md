@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "버스 중재 방식 (Bus Arbitration)"
-date: "2026-08-04T14:07:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 36
@@ -65,15 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    M["버스 마스터 집합"]
-    A["중재기"]
-    B["공유 버스"]
-    M --- A
-    A --- B
+```text
+[버스 마스터 집합] ----- [중재기] ----- [공유 버스]
 ```
+
+선의 의미: 선은 요청•승인 신호와 배타적 버스 사용권을 공유하는 인접 구성요소의 정적 중재 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

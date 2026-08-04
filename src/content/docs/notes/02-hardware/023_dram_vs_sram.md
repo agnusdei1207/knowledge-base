@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DRAM과 SRAM 비교 (DRAM vs SRAM)"
-date: "2026-08-04T14:03:45+09:00"
+date: "2026-08-05T00:45:06+09:00"
 tags:
   - "notes-hardware"
 weight: 23
@@ -64,11 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    DC["DRAM 1T1C 셀 배열"] --- DS["DRAM 감지•복원 회로"] --- SC["SRAM 6T 셀 배열"] --- SS["SRAM 읽기•쓰기 회로"]
+```text
+DRAM 구조: [DRAM 1T1C 셀 배열] -- [DRAM 감지•복원 회로]
+
+SRAM 구조: [SRAM 6T 셀 배열] -- [SRAM 읽기•쓰기 회로]
 ```
+
+선의 의미: 각 선은 셀 배열과 해당 주변 회로의 정적 결합이며, DRAM과 SRAM 두 구조 사이의 직접 연결은 없다.
 
 | 구성요소 | 책임 |
 |:---|:---|

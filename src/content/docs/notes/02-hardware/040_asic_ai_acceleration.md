@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ASIC AI 가속 (ASIC AI Acceleration)"
-date: "2026-08-04T14:08:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 40
@@ -72,17 +72,11 @@ $$
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    H["호스트•DMA 인터페이스"]
-    S["온칩 SRAM•출력 버퍼"]
-    N["NoC•멀티캐스트"]
-    P["PE•MAC 배열"]
-    H --- S
-    S --- N
-    N --- P
+```text
+[호스트•DMA 인터페이스] ----- [온칩 SRAM•출력 버퍼] ----- [NoC•멀티캐스트] ----- [PE•MAC 배열]
 ```
+
+선의 의미: 선은 타일•부분합과 멀티캐스트 데이터를 공유하는 인접 가속기 구성요소의 정적 데이터 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
