@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "집합 통신 All-Reduce (All-Reduce Collective Communication)"
-date: "2026-08-04T19:24:00+09:00"
+date: "2026-08-04T14:44:17+09:00"
 tags: ["notes-network"]
 weight: 106
 extra:
@@ -105,8 +105,12 @@ sequenceDiagram
     R->>S: All-Reduce 호출
     S->>S: 1. 호출 계약 확인
     S->>C: 2. 텐서 버킷 구성
-    C->>N: 3. 축소 분산 교환
-    N->>C: 4. 전체 수집 교환
+    loop 모든 조각 축소까지
+        C->>N: 3. 축소 분산 교환
+    end
+    loop 모든 조각 수집까지
+        N->>C: 4. 전체 수집 교환
+    end
     C-->>R: 동일 집계 결과
 ```
 

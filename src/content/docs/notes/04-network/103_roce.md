@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-04T19:01:00+09:00"
+date: "2026-08-04T14:44:17+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -112,12 +112,14 @@ sequenceDiagram
     participant 송신RNIC
     participant 스위치
     participant 수신RNIC
-    송신RNIC->>스위치: 1. RoCE 큐 분류
-    스위치->>수신RNIC: 2. 다중 경로 전달
-    스위치->>수신RNIC: 3. ECN 혼잡 표시
-    수신RNIC->>송신RNIC: 4. CNP 혼잡 피드백
-    송신RNIC->>송신RNIC: 5. 송신률 조정
-    송신RNIC->>스위치: 조정된 RoCE 트래픽
+    loop 혼잡 제어 주기
+        송신RNIC->>스위치: 1. RoCE 큐 분류
+        스위치->>수신RNIC: 2. 다중 경로 전달
+        스위치->>수신RNIC: 3. ECN 혼잡 표시
+        수신RNIC->>송신RNIC: 4. CNP 혼잡 피드백
+        송신RNIC->>송신RNIC: 5. 송신률 조정
+        송신RNIC->>스위치: 조정된 RoCE 트래픽
+    end
 ```
 
 **동작 원리**
