@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-04T23:03:00+09:00"
+date: "2026-08-04T14:50:20+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -104,22 +104,31 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 운영자
-    participant W as 용수계측기
-    participant I as IT계측기
-    participant A as 환경분석기
-    O->>W: 1. 물 경계•기간 전달
-    W->>A: 2. 수원•용도별 물 사용량 전달
-    I->>A: 3. IT 장비 에너지 전달
-    A-->>O: WUE•지역 물 부담
-    O->>A: 4. 냉각 대안 비교 요청
-    A-->>O: 냉각 대안 비교 결과
+  participant O as 운영자
+  participant W as 용수계측기
+  participant I as IT계측기
+  participant A as 환경분석기
+  O->>O: 1. 물 계측 경계•기간 확정
+  O->>W: 측정 조건 전달
+  O->>I: 측정 조건 전달
+  W->>W: 2. 수원•용도별 물 사용량 집계
+  W->>A: 물 사용량 전달
+  I->>I: 3. IT 장비 에너지 집계
+  I->>A: IT 에너지 전달
+  A->>A: 4. WUE•지역 물 부담 산출
+  A-->>O: WUE 결과 반환
+  O->>A: 냉각 대안 비교 요청
+  A->>A: 5. WUE•PUE•탄소•가용성 비교
+  A-->>O: 냉각 대안 결과 반환
 ```
 
-1. **물 경계•기간 전달**: 직접•간접 물 구분과 **수원•시설•시간 범위** 제공
-2. **수원•용도별 물 사용량 전달**: 상수•지하수•재이용수의 **분리 집계**
-3. **IT 장비 에너지 전달**: 물 계측과 같은 기간의 **IT 에너지** 제공
-4. **냉각 대안 비교 요청**: 방식별 **WUE•PUE•탄소•가용성** 비교
+**동작 원리**
+
+1. **물 계측 경계•기간 확정**: **수원•시설•시간 범위** 통일
+2. **수원•용도별 물 사용량 집계**: 상수•지하수•재이용수 분리
+3. **IT 장비 에너지 집계**: 물 계측과 같은 기간의 에너지 합산
+4. **WUE•지역 물 부담 산출**: 물 사용량을 IT 에너지로 나눠 계산
+5. **WUE•PUE•탄소•가용성 비교**: 냉각 대안의 부담 전가 평가
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 전력 효율 지표 (PUE, Power Usage Effectiveness)"
-date: "2026-08-04T22:57:00+09:00"
+date: "2026-08-04T14:49:55+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -102,19 +102,27 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 운영자
-    participant F as 시설계측기
-    participant I as IT계측기
-    participant A as 에너지분석기
-    O->>F: 1. 측정 경계•기간 전달
-    F->>A: 2. 총 시설 에너지 전달
-    I->>A: 3. IT 장비 에너지 전달
-    A-->>O: PUE•비IT 손실 추세
+  participant O as 운영자
+  participant F as 시설계측기
+  participant I as IT계측기
+  participant A as 에너지분석기
+  O->>O: 1. 측정 경계•기간 확정
+  O->>F: 측정 조건 전달
+  O->>I: 측정 조건 전달
+  F->>F: 2. 총 시설 에너지 집계
+  F->>A: 시설 에너지 전달
+  I->>I: 3. IT 장비 에너지 집계
+  I->>A: IT 에너지 전달
+  A->>A: 4. PUE•비IT 손실 추세 분석
+  A-->>O: 분석 결과 반환
 ```
 
-1. **측정 경계•기간 전달**: 혼합용도 부하 분리와 **공간•시간 범위** 일치
-2. **총 시설 에너지 전달**: 수전•현장 발전을 포함한 **전체 에너지** 집계
-3. **IT 장비 에너지 전달**: UPS•PDU 출력단의 **IT 장비 에너지** 집계
+**동작 원리**
+
+1. **측정 경계•기간 확정**: 혼합용도 부하와 **공간•시간 범위** 통일
+2. **총 시설 에너지 집계**: 수전•현장 발전을 포함한 **전체 에너지** 합산
+3. **IT 장비 에너지 집계**: UPS•PDU 출력단의 장비 에너지 합산
+4. **PUE•비IT 손실 추세 분석**: 에너지 비율과 지원 설비 부담 비교
 
 #### 한줄 요약
 

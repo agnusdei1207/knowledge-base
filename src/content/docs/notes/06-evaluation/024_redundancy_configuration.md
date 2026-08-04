@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "이중화 구성 - N+1•2N•2N+1 (Redundancy Configuration)"
-date: "2026-08-04T21:22:00+09:00"
+date: "2026-08-04T14:44:53+09:00"
 tags:
   - "notes-evaluation"
 weight: 24
@@ -110,13 +110,19 @@ sequenceDiagram
   participant D as 설계팀
   participant T as 장애 시험기
   participant M as SLO 감시기
-  O->>C: 1. 피크 부하•필요 용량 N 산정
-  C->>D: 2. 허용 장애•정비 조건 정의
-  D->>T: 3. N+1•2N•2N+1 구성
-  T->>M: 4. 장애 주입•자동 승계 실행
+  O->>C: 용량 산정 요청
+  C->>C: 1. 피크 부하•필요 용량 N 산정
+  C->>D: 산정 결과 전달
+  D->>D: 2. 허용 장애•정비 조건 정의
+  D->>D: 3. N+1•2N•2N+1 구성
+  D->>T: 장애 시험 조건 전달
+  T->>T: 4. 장애 주입•자동 승계 실행
+  T->>M: 시험 결과 전달
   M->>M: 5. 잔여 용량•SLO•비용 판정
   M-->>O: 이중화 검증 결과 전달
 ```
+
+**동작 원리**
 
 1. **피크 부하•필요 용량 N 산정**: 처리량•성장•헤드룸 반영
 2. **허용 장애•정비 조건 정의**: 동시고장•계획정비 확정
