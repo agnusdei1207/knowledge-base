@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "서브네팅•CIDR (Subnetting CIDR)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T14:20:29+09:00"
 tags:
   - "notes-network"
 weight: 5
@@ -106,14 +106,15 @@ sequenceDiagram
     participant I as IPAM
     participant R as 라우터
     D->>I: 주소 수요
-    I-->>D: 1. 검증된 주소 계획
+    I->>I: 1. 주소 계획 검증
+    I-->>D: 검증된 주소 계획
     D->>R: 2. 집약 프리픽스
     R-->>D: 경로 반영 결과
 ```
 
 **동작 원리**
 
-1. **검증된 주소 계획**: 수요별 블록의 경계•중복•상위 범위 확인
+1. **주소 계획 검증**: 수요별 블록의 경계•중복•상위 범위 확인
 2. **집약 프리픽스**: 연속 하위 블록의 공통 앞 비트로 경로 축약
 
 #### 한줄 요약

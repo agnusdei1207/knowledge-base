@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-08-04T15:08:00+09:00"
+date: "2026-08-04T14:20:29+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -100,7 +100,8 @@ sequenceDiagram
     participant 이웃스위치
     participant 로컬스위치
     participant 포트상태
-    이웃스위치->>로컬스위치: 1. BPDU 비교
+    이웃스위치->>로컬스위치: BPDU
+    로컬스위치->>로컬스위치: 1. BPDU 비교
     로컬스위치->>로컬스위치: 2. 루트 브리지 선출
     로컬스위치->>포트상태: 3. 루트 포트 선택
     로컬스위치->>포트상태: 4. 지정 포트 선택
