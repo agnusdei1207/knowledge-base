@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "Neural Processing Unit (NPU)"
-date: "2026-08-04T13:49:59+09:00"
+date: "2026-08-05T14:25:52+09:00"
 tags:
   - "notes-latest_tech"
 weight: 52
@@ -73,19 +73,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["실행 소프트웨어"]
-  B["DMA 전송 엔진"]
-  C["온칩 SRAM"]
-  D["MAC 연산 배열"]
-  E["폴백 프로세서"]
-  A --- B
-  B --- C
-  C --- D
-  A --- E
+```text
+                       [실행 소프트웨어]
+                        /           \
+                [DMA 전송 엔진]   [폴백 프로세서]
+                        |
+                    [온칩 SRAM]
+                        |
+                   [MAC 연산 배열]
 ```
+
+선의 의미: 실행 소프트웨어는 NPU의 DMA 전송 엔진과 폴백 프로세서를 함께 제어하고, DMA 전송 엔진은 온칩 SRAM을 통해 MAC 연산 배열에 텐서를 공급한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

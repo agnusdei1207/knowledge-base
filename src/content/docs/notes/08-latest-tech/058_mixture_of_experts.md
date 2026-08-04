@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Mixture of Experts (전문가 혼합)"
-date: "2026-08-04T15:58:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 58
@@ -65,19 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  router["Top-k 라우터"]
-  dispatcher["디스패처"]
-  experts["전문가 블록"]
-  balance["부하 제어기"]
-  combiner["결합기"]
-  router --- dispatcher
-  dispatcher --- experts
-  experts --- balance
-  balance --- combiner
+```text
+                     [부하 제어기]
+                       /       \
+[Top-k 라우터] ----- [디스패처] ----- [전문가 블록] ----- [결합기]
 ```
+
+선의 의미: Top-k 라우터, 디스패처, 전문가 블록, 결합기는 희소 전문가 계산의 정적 데이터 경로를 이루고, 부하 제어기는 디스패처와 전문가 블록의 용량•쏠림 경계를 함께 통제하는 MoE 네트워크를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

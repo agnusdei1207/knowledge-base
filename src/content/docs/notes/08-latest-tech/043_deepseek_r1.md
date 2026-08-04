@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DeepSeek-R1 추론 모델 (DeepSeek-R1)"
-date: "2026-08-04T15:09:00+09:00"
+date: "2026-08-05T02:09:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 43
@@ -63,20 +63,6 @@ extra:
 - **거부 표본 추출(Rejection Sampling)**: 생성 후보 중 정확성•품질 기준을 통과한 응답만 후속 학습 데이터로 선별하는 방법이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    B["V3-Base"]
-    C["콜드 스타트 SFT"]
-    R["GRPO•검증 보상"]
-    S["거부 표본•후속 학습"]
-    D["Qwen•Llama 증류"]
-    B --- C
-    C --- R
-    R --- S
-    S --- D
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

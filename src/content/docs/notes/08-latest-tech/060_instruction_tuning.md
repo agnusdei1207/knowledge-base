@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Instruction Tuning (지시 튜닝)"
-date: "2026-08-04T13:52:21+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 60
@@ -65,20 +65,6 @@ extra:
 - **평가기**: 격리 평가셋으로 미학습 지시•사실성•안전성을 측정하는 구성요소이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  schema["데이터 스키마"]
-  mixer["과제 혼합기"]
-  template["대화 템플릿"]
-  trainer["지도 학습기"]
-  evaluator["평가기"]
-  schema --- mixer
-  mixer --- template
-  template --- trainer
-  trainer --- evaluator
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

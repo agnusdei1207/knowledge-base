@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "Edge TPU (엣지 텐서 처리 장치)"
-date: "2026-08-04T15:53:00+09:00"
+date: "2026-08-05T14:25:53+09:00"
 tags:
   - "notes-latest_tech"
 weight: 53
@@ -67,19 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["모델 변환기"]
-  B["Edge TPU 컴파일러"]
-  C["실행 제어기"]
-  D["Edge TPU ASIC"]
-  E["CPU 폴백"]
-  A --- B
-  B --- C
-  C --- D
-  C --- E
+```text
+                     [Edge TPU 컴파일러]
+                       /             \
+                [모델 변환기]     [실행 제어기]
+                                   /           \
+                           [Edge TPU ASIC]   [CPU 폴백]
 ```
+
+선의 의미: Edge TPU 컴파일러는 모델 변환기의 완전 INT8 모델을 지원 구간으로 분할해 실행 제어기에 제공하고, 실행 제어기는 Edge TPU ASIC과 CPU 폴백의 실행 경계를 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Model Compression (모델 압축)"
-date: "2026-08-04T13:50:30+09:00"
+date: "2026-08-05T14:25:54+09:00"
 tags:
   - "notes-latest_tech"
 weight: 54
@@ -66,20 +66,6 @@ extra:
 - **목표 런타임**: 압축된 연산•자료형•희소 패턴을 실제 장치에서 실행하는 소프트웨어 환경이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["기준선 관리기"]
-  B["병목 프로파일러"]
-  C["압축 변환기"]
-  D["보정•재학습기"]
-  E["배포 검증기"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

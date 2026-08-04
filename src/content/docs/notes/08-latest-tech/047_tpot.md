@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "TPOT (토큰당 출력 지연)"
-date: "2026-08-04T13:46:55+09:00"
+date: "2026-08-05T02:09:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 47
@@ -66,20 +66,6 @@ extra:
 - **스트리머(Streamer)**: 선택한 토큰을 클라이언트에 순차 전송하고 토큰 간 도착 시간을 측정하는 구성요소이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    S["디코드 스케줄러"]
-    K["KV 캐시 관리자"]
-    E["모델 엔진"]
-    P["샘플러"]
-    T["스트리머"]
-    S --- K
-    K --- E
-    E --- P
-    P --- T
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

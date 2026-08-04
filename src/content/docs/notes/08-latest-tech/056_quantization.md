@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Quantization (양자화)"
-date: "2026-08-04T13:51:08+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 56
@@ -67,20 +67,6 @@ extra:
 - **양자화 커널**: 목표 장치에서 저비트 행렬 연산을 실제 수행하는 실행 코드다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  observer["분포 관측기"]
-  parameter["형식 설계기"]
-  value["양자화 변환기"]
-  restore["복원기"]
-  kernel["실행 커널"]
-  observer --- parameter
-  parameter --- value
-  value --- restore
-  restore --- kernel
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

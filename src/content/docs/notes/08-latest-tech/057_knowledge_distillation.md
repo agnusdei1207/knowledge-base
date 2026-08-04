@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Knowledge Distillation (지식 증류)"
-date: "2026-08-04T13:51:27+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 57
@@ -70,19 +70,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  teacher["교사 모델"]
-  transform["신호 변환기"]
-  student["학생 모델"]
-  loss["복합 손실"]
-  evaluator["독립 평가기"]
-  teacher --- transform
-  transform --- student
-  student --- loss
-  loss --- evaluator
+```text
+[교사 모델] ----- [신호 변환기]
+                         |
+                    [복합 손실] ----- [학생 모델]
+                                            |
+                                      [독립 평가기]
 ```
+
+선의 의미: 신호 변환기는 교사 모델의 출력•특징•관계를 복합 손실의 비교 대상으로 정렬하고, 복합 손실은 학생 모델의 학습 기준을 구성하며 독립 평가기는 학생 모델만의 품질•자원을 확인하는 정적 증류 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

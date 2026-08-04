@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "PagedAttention (페이지드 어텐션)"
-date: "2026-08-04T13:46:32+09:00"
+date: "2026-08-05T02:09:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 45
@@ -64,19 +64,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    L["논리 KV 블록"]
-    T["블록 테이블"]
-    P["물리 블록 풀"]
-    K["페이지드 커널"]
-    C["공유•COW"]
-    L --- T
-    T --- P
-    P --- K
-    K --- C
+```text
+                  [논리 KV 블록]
+                         |
+                    [블록 테이블]
+                         |
+                  [물리 블록 풀]
+                         |
+                   [페이지드 커널]
+                         |
+                     [공유•COW]
 ```
+
+선의 의미: 논리 KV 블록과 물리 블록 풀을 블록 테이블이 대응시키고, 페이지드 커널 및 공유•COW가 조회와 참조 경계를 담당하는 메모리 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

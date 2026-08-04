@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Fine-Tuning (파인튜닝)"
-date: "2026-08-04T13:52:05+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 59
@@ -63,20 +63,6 @@ extra:
 - **버전 자산**: 모델•토크나이저•데이터•학습 설정•평가 결과를 추적 가능하게 연결한 묶음이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  base["기반 모델 저장소"]
-  data["데이터 관리기"]
-  parameter["학습기"]
-  objective["평가기"]
-  version["버전 저장소"]
-  base --- data
-  data --- parameter
-  parameter --- objective
-  objective --- version
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

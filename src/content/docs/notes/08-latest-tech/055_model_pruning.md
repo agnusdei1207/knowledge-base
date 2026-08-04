@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Model Pruning (모델 가지치기)"
-date: "2026-08-04T13:50:52+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 55
@@ -67,20 +67,6 @@ extra:
 - **희소 실행 커널**: 목표 하드웨어가 가지치기 패턴의 0 연산을 실제로 건너뛰어 지연•메모리 이득을 내게 하는 실행부다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["중요도 평가기"]
-  B["희소도 제어기"]
-  C["가지치기 변환기"]
-  D["품질 복구기"]
-  E["실행 커널"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

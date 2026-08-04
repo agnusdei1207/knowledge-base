@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "On-Device AI (온디바이스 AI)"
-date: "2026-08-04T13:49:14+09:00"
+date: "2026-08-05T14:25:50+09:00"
 tags:
   - "notes-latest_tech"
 weight: 50
@@ -67,21 +67,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    I["입력•권한"]
-    M["모델 패키지"]
-    C["모델 컴파일러"]
-    R["추론 런타임"]
-    A["NPU•GPU•CPU"]
-    P["실행 정책"]
-    I --- M
-    M --- C
-    C --- R
-    R --- A
-    A --- P
+```text
+                          [실행 정책]
+                         /           \
+                   [입력•권한]     [모델 패키지]
+                                      |
+                                [모델 컴파일러]
+                                      |
+                                [추론 런타임]
+                                      |
+                                [NPU•GPU•CPU]
 ```
+
+선의 의미: 실행 정책은 입력•권한 경계와 사용할 모델 패키지를 통제하고, 모델 패키지는 모델 컴파일러•추론 런타임•NPU•GPU•CPU의 장치 실행 계층에 속한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "TTFT (최초 토큰 지연)"
-date: "2026-08-04T15:27:00+09:00"
+date: "2026-08-05T02:09:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 46
@@ -64,20 +64,6 @@ extra:
 - **KV Cache(Key-Value Cache)**: 프리필의 K•V 상태를 저장해 생성에 재사용하는 메모리다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    C["클라이언트"]
-    G["API 게이트웨이"]
-    Q["요청 대기열"]
-    P["프리필 엔진"]
-    S["스트리머"]
-    C --- G
-    G --- Q
-    Q --- P
-    P --- S
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

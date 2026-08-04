@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "KV Cache 최적화 (KV Cache Optimization)"
-date: "2026-08-04T13:46:15+09:00"
+date: "2026-08-05T02:09:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 44
@@ -77,19 +77,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    L["캐시 레이아웃"]
-    A["블록 할당기"]
-    C["압축 계층"]
-    R["재사용•회수"]
-    S["스케줄러"]
-    L --- A
-    A --- C
-    C --- R
-    R --- S
+```text
+                 [캐시 레이아웃]
+                         |
+                   [블록 할당기]
+                         |
+                    [압축 계층]
+                         |
+                   [재사용•회수]
+                         |
+                     [스케줄러]
 ```
+
+선의 의미: 캐시 레이아웃을 블록 할당기와 압축 계층이 관리하고, 재사용•회수 및 스케줄러가 메모리 수명과 자원 경계를 통제하는 KV Cache 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
