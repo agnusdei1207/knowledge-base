@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Data Augmentation (데이터 증강)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T13:59:19+09:00"
 tags:
   - "notes-latest_tech"
 weight: 69
@@ -108,9 +108,11 @@ sequenceDiagram
     participant V as 보존 검증기
     participant T as 학습기
     O->>P: 1. 원본•라벨 제공
-    P->>V: 2. 증강 후보 생성
-    V->>T: 3. 라벨 보존 표본 전달
-    T-->>P: 4. 검증 성능 피드백
+    loop 미증강 검증 목표 충족 전
+        P->>V: 2. 증강 후보 생성
+        V->>T: 3. 라벨 보존 표본 전달
+        T-->>P: 4. 검증 성능 피드백
+    end
 ```
 
 **동작 원리**

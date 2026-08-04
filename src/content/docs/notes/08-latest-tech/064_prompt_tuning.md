@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Prompt Tuning (프롬프트 튜닝)"
-date: "2026-08-04T15:14:00+09:00"
+date: "2026-08-04T13:57:33+09:00"
 tags:
   - "notes-latest_tech"
 weight: 64
@@ -105,9 +105,11 @@ sequenceDiagram
     participant L as 과업 손실기
     participant R as 실행 관리자
     P->>P: 1. 가상 토큰 길이•차원 초기화
-    P->>B: 2. 가상•실제 임베딩 결합
-    B->>L: 3. 동결 모델 과업 출력
-    L->>P: 4. 가상 토큰만 갱신
+    loop 학습 종료 전
+        P->>B: 2. 가상•실제 임베딩 결합
+        B->>L: 3. 동결 모델 과업 출력
+        L->>P: 4. 가상 토큰만 갱신
+    end
     P-->>R: 5. 과업별 프롬프트 저장•적재
 ```
 

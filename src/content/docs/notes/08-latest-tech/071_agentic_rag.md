@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 80%"
     variant: note
 title: "Agentic RAG (에이전틱 RAG)"
-date: "2026-08-04T15:21:00+09:00"
+date: "2026-08-04T13:59:58+09:00"
 tags:
   - "notes-latest_tech"
 weight: 71
@@ -107,10 +107,12 @@ sequenceDiagram
   participant R as 도구 라우터
   participant E as 근거 평가기
   P->>M: 1. 하위 목표•완료 조건 저장
-  M->>R: 2. 목표별 도구 선택
-  R->>M: 3. 실행 결과•오류 기록
-  M->>E: 4. 근거 관련성•충분성 평가
-  E-->>P: 5. 재탐색•종료 판정
+  loop 근거 충족•행동 예산 소진 전
+    M->>R: 2. 목표별 도구 선택
+    R->>M: 3. 실행 결과•오류 기록
+    M->>E: 4. 근거 관련성•충분성 평가
+    E-->>P: 5. 재탐색•종료 판정
+  end
 ```
 
 **동작 원리**

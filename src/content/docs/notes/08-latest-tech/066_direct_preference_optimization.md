@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "DPO (직접 선호 최적화)"
-date: "2026-08-04T15:16:00+09:00"
+date: "2026-08-04T13:58:15+09:00"
 tags:
   - "notes-latest_tech"
 weight: 66
@@ -111,10 +111,12 @@ sequenceDiagram
     participant P as 정책 모델
     participant R as 참조 모델
     participant L as DPO 손실
-    D->>P: 1. 선택•비선택 응답 제공
-    P->>L: 2. 정책 로그확률 전달
-    R->>L: 3. 참조 로그확률 전달
-    L->>P: 4. 상대 선호 손실 역전파
+    loop 학습 종료 전
+        D->>P: 1. 선택•비선택 응답 제공
+        P->>L: 2. 정책 로그확률 전달
+        R->>L: 3. 참조 로그확률 전달
+        L->>P: 4. 상대 선호 손실 역전파
+    end
 ```
 
 **동작 원리**
