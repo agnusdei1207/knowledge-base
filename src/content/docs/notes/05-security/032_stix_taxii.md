@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STIX•TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-04T10:55:00+09:00"
+date: "2026-08-05T08:24:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -107,9 +107,11 @@ sequenceDiagram
     participant T as TAXII 서버
     participant C as CTI 소비자
     P->>P: 1. STIX 객체•프로파일 검증
-    P->>T: 2. 검증된 STIX 객체 게시 요청
+    P->>T: STIX 객체 게시 요청
+    T->>T: 2. 권한 검증•객체 저장
     T-->>P: 게시 상태
-    C->>T: 3. TAXII 변경분 조회
+    C->>T: TAXII 변경분 조회
+    T->>T: 3. 변경•철회 객체 선별
     T-->>C: 변경•철회 객체
     C->>C: 4. 검증 객체 적용
     C-->>P: 활용 효과
@@ -118,8 +120,8 @@ sequenceDiagram
 **동작 원리**
 
 1. **STIX 객체•프로파일 검증**: 객체•관계•표식•허용 범위 확인
-2. **검증된 STIX 객체 게시 요청**: 스키마•버전•철회 확인 후 게시
-3. **TAXII 변경분 조회**: 컬렉션의 수정 시각 이후 객체 요청
+2. **권한 검증•객체 저장**: 게시 권한과 스키마 확인 후 저장
+3. **변경•철회 객체 선별**: 수정 시각 이후 객체와 상태 추출
 4. **검증 객체 적용**: 중복•철회•자산 적합성 확인 후 통제 반영
 
 

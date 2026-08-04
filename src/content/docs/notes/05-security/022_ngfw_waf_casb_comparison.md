@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-04T10:35:00+09:00"
+date: "2026-08-05T08:00:00+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -109,22 +109,25 @@ sequenceDiagram
     participant W as WAF
     participant C as CASB
     par 네트워크•앱 검사
-        U->>N: 1. 네트워크•앱 판정 요청
+        U->>N: 네트워크 트래픽 전달
+        N->>N: 1. 네트워크•앱 식별•통제
         N-->>U: 판정 결과
     and 웹•API 검사
-        U->>W: 2. 웹•API 공격 판정 요청
+        U->>W: 웹•API 요청 전달
+        W->>W: 2. 웹•API 공격 검사•통제
         W-->>U: 판정 결과
     and SaaS•데이터 검사
-        U->>C: 3. SaaS•데이터 판정 요청
+        U->>C: SaaS 이용 요청 전달
+        C->>C: 3. SaaS•데이터 정책 검사•통제
         C-->>U: 판정 결과
     end
 ```
 
 **동작 원리**
 
-1. **네트워크•앱 판정 요청**: 흐름•사용자•응용 식별과 통제 요청
-2. **웹•API 공격 판정 요청**: HTTP 요청 문맥과 공격 검사 요청
-3. **SaaS•데이터 판정 요청**: 계정 행위와 데이터 유출 검사 요청
+1. **네트워크•앱 식별•통제**: 흐름•사용자•응용 기반 허용•차단
+2. **웹•API 공격 검사•통제**: HTTP 문맥과 공격 징후 기반 허용•차단
+3. **SaaS•데이터 정책 검사•통제**: 계정 행위와 데이터 유출 정책 집행
 
 
 #### 한줄 요약
