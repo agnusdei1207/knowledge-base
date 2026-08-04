@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ITU•ISO•IEEE•IETF 표준화 기구 (International Standards Bodies)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:38:41+09:00"
 tags:
   - "notes-law-policy"
 weight: 42
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 국제 권고•표준•RFC를 개발•승인•배포하는 **표준개발기구(Standards Development Organization, SDO)**
+- 정의/개념: 국제 권고•표준•RFC를 개발•승인•배포하는 **SDO**
 - 배경/필요성: 개별 규격만으로는 국가 간 **상호운용성 확보** 및 무역•안전 기준 통일 곤란
 
 #### 한줄 요약
@@ -58,8 +58,10 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **국제전기통신연합(International Telecommunication Union, ITU)**: 전기통신•전파 분야의 국제표준과 주파수•위성궤도를 조정하는 유엔 전문기구이다.
-- **국제표준화기구(International Organization for Standardization, ISO)•국제전기기술위원회(International Electrotechnical Commission, IEC)**: 산업 전반과 전기•전자•정보기술 분야의 국제표준을 국가 표준기관 참여로 제정하는 기구이다.
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)•인터넷국제표준화기구(Internet Engineering Task Force, IETF)**: 전기•전자•컴퓨터 기술표준과 인터넷 표준을 각각 전문가 합의로 개발하는 조직이다.
+- **국제표준화기구(International Organization for Standardization, ISO)**: 산업 전반의 국제표준을 국가 표준기관 참여로 제정하는 기구이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: 전기•전자•정보기술 분야 국제표준을 제정하는 기구이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•컴퓨터 기술표준을 전문가 합의로 개발하는 조직이다.
+- **인터넷국제표준화기구(Internet Engineering Task Force, IETF)**: 인터넷 프로토콜과 운용 표준을 공개 합의로 개발하는 조직이다.
 - **의견요청서(Request for Comments, RFC)**: 인터넷 프로토콜•절차•기술 정보를 공개하고 합의 결과를 기록하는 IETF 문서군이다.
 
 </details>
@@ -89,7 +91,8 @@ block-beta
 
 - **작업 항목**: 표준화 필요성•범위•일정•참여 조직을 정하여 공식 개발을 시작하는 제안이다.
 - **의견 해결**: 초안 검토에서 제기된 기술•법적 의견을 반영하거나 근거를 들어 처리하는 절차이다.
-- **합의•투표**: 기구별 승인 규칙에 따라 이해관계자의 동의를 확인하고 표준안을 공식 채택하는 절차이다.
+- **합의**: 이해관계자의 기술적 의견을 조정해 동의를 형성하는 절차이다.
+- **투표**: 기구별 승인 규칙에 따라 표준안의 공식 채택 여부를 결정하는 절차이다.
 
 </details>
 
@@ -117,9 +120,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **권고•국제표준**: 국제전기통신연합(International Telecommunication Union, ITU)•국제표준화기구(International Organization for Standardization, ISO)•국제전기기술위원회(International Electrotechnical Commission, IEC)가 회원 절차로 승인하여 발행하는 규격이다.
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 표준**: 기술 전문가•산업 참여자가 위원회와 투표 절차로 개발하는 표준이다.
-- **의견요청서(Request for Comments, RFC)**: 인터넷국제표준화기구(Internet Engineering Task Force, IETF)가 인터넷 프로토콜•절차•기술 정보를 정의하여 공개하는 문서군이다.
+- **권고**: ITU가 전기통신 분야의 국제 합의로 발행하는 규격이다.
+- **국제표준**: ISO•IEC가 국가 회원 절차로 승인해 발행하는 규격이다.
+- **IEEE 표준**: 기술 전문가•산업 참여자가 위원회와 투표 절차로 개발하는 표준이다.
 
 </details>
 
@@ -160,7 +163,7 @@ sequenceDiagram
 
 </details>
 
-- 공식 합의는 **국제전기통신연합(International Telecommunication Union, ITU)•국제표준화기구(International Organization for Standardization, ISO)•국제전기기술위원회(International Electrotechnical Commission, IEC)**, 구현 합의는 **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)•인터넷국제표준화기구(Internet Engineering Task Force, IETF)** 중심으로 선정
+- 공식 합의는 **ITU•ISO•IEC**, 구현 합의는 **IEEE•IETF** 중심으로 선정
 
 #### 한줄 요약
 - 자사 기술이 국제 표준으로 채택되도록 기구별 투표권 행사 규정과 표준 제정 동향을 실시간 감시해야 합니다.

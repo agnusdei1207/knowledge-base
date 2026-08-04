@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "오픈소스 컴플라이언스•SBOM (Open Source Compliance SBOM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:36:22+09:00"
 tags:
   - "notes-law-policy"
 weight: 41
@@ -58,11 +58,6 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **오픈소스 프로그램 사무국(Open Source Program Office, OSPO)**: 조직의 오픈소스 활용•기여•라이선스 준수 정책을 총괄하는 전담 조직이다.
-- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 소프트웨어의 오픈소스 구성요소와 취약점•라이선스 위험을 식별하는 분석이다.
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 실제 빌드에 포함된 구성요소•버전•관계를 기록하여 법률•보안 검토의 기준으로 쓰는 명세서이다.
-- **패키지 URL(Package URL, PURL)**: 패키지의 생태계•이름•버전•배포 위치를 일관되게 식별하는 표준 주소이다.
-- **공통 취약점 및 노출(Common Vulnerabilities and Exposures, CVE)**: 보안 분석에서 구성요소의 알려진 취약점을 식별하는 공통 번호 체계이다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 특정 취약점의 제품 영향•도달성•조치 상태를 전달하는 문서이다.
 
 </details>
 
@@ -93,9 +88,6 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **소프트웨어 패키지 데이터 교환(Software Package Data Exchange, SPDX)**: 소프트웨어 구성요소•라이선스•저작권과 공급망 정보를 교환하는 표준 형식이다.
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 버전•해시•관계로 실제 배포 구성을 확인하고 신규 취약점과 지속 대조하는 구성 명세서이다.
-- **공통 취약점 및 노출(Common Vulnerabilities and Exposures, CVE)**: 공개된 보안 취약점에 공통 식별번호를 부여하는 체계이다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 해당 제품에서 취약점의 실제 영향과 조치 상태를 전달하는 문서이다.
 
 </details>
 
@@ -125,8 +117,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **라이선스 목록**: 제품에 포함된 오픈소스의 라이선스•저작권 표시와 배포 의무 정보를 정리한 목록이다.
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 제품에 어떤 컴포넌트와 버전•의존관계가 포함되었는지 전달하는 구성 명세이다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 알려진 취약점이 해당 제품 구성과 실행 조건에서 실제 영향을 미치는지 전달하는 문서이다.
 
 </details>
 
@@ -144,11 +134,10 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **라이선스 의무**: 고지•저작권 표시•소스 제공 등 배포 조건에 따라 이행해야 하는 요구이다.
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)-실제 빌드 불일치**: 명세에 기록된 컴포넌트와 최종 배포 이미지의 실제 파일•버전이 다른 문제이다.
+- **SBOM-실제 빌드 불일치**: 명세에 기록된 컴포넌트와 최종 배포 이미지의 실제 파일•버전이 다른 문제이다.
 - **취약점 오탐**: 패키지 버전만 일치하지만 취약 코드가 포함•도달되지 않아 실제 악용 가능성이 없는 경고이다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 취약점 오탐을 구분하고 실제 영향과 조치 상태를 기록하는 문서이다.
 - **미국 사이버보안•인프라보안국(Cybersecurity and Infrastructure Security Agency, CISA) 최소 요소**: SBOM 자동 교환을 위해 요구되는 기본 데이터 필드와 관행이다.
-- **소프트웨어 패키지 데이터 교환 3.0(Software Package Data Exchange 3.0, SPDX 3.0)**: 소프트웨어 구성과 공급망 정보를 구조화해 교환하는 표준 형식의 버전이다.
+- **SPDX 3.0**: 소프트웨어 구성과 공급망 정보를 구조화해 교환하는 표준 형식의 버전이다.
 
 </details>
 
@@ -167,8 +156,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **공급망 추적성**: 제품에서 컴포넌트•공급자•라이선스•취약점•수정 버전까지 역으로 연결할 수 있는 성질이다.
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 제품 구성과 의존관계를 공개하여 공급망 추적성의 기준이 되는 명세서이다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 제품 구성에서 알려진 취약점의 실제 영향과 대응 상태를 전달하는 문서이다.
 
 </details>
 
