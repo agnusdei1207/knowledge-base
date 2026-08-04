@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 트리탐색 (Monte Carlo Tree Search)"
-date: "2026-08-04T15:48:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 98
@@ -71,19 +71,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  tree["탐색 트리"]
-  stats["노드 통계 저장소"]
-  selector["UCT 선택기"]
-  rollout["롤아웃 정책"]
-  budget["탐색 예산 제어기"]
-  tree --- stats
-  stats --- selector
-  selector --- rollout
-  rollout --- budget
+```text
+                         [탐색 예산 제어기]
+                                  |
+ [롤아웃 정책] ----- [탐색 트리] ----- [노드 통계 저장소]
+                           \              /
+       [트리 상한 신뢰도(Upper Confidence Bounds applied to Trees, UCT) 선택기]
 ```
+
+선의 의미: 탐색 트리는 롤아웃 정책과 노드 통계 저장소를 결합하고, 트리 상한 신뢰도 선택기는 트리 구조와 방문•보상 통계를 함께 참조하며 탐색 예산 제어기가 전체 탐색 범위를 제한하는 정적 MCTS 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

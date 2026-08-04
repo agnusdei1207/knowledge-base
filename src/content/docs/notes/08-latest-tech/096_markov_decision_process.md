@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "마르코프 결정과정 (Markov Decision Process)"
-date: "2026-08-04T14:12:20+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 96
@@ -68,19 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  state["상태 저장소"]
-  action["행동 선택기"]
-  transition["전이 모델"]
-  reward["보상 함수"]
-  policy["정책•가치 평가기"]
-  state --- action
-  action --- transition
-  transition --- reward
-  reward --- policy
+```text
+                  [상태 저장소] ----- [행동 선택기]
+                     \                   /      \
+                  [정책•가치 평가기]       [전이 모델]
+                                                |
+                                           [보상 함수]
 ```
+
+선의 의미: 상태 저장소와 행동 선택기는 정책•가치 평가기의 의사결정 범위를 구성하고, 전이 모델과 보상 함수는 상태•행동 조합의 환경 동역학과 성과를 정의하는 정적 MDP 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

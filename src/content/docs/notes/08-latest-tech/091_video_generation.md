@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "영상 생성 (Video Generation)"
-date: "2026-08-04T14:09:46+09:00"
+date: "2026-08-05T14:27:51+09:00"
 tags:
   - "notes-latest_tech"
 weight: 91
@@ -64,19 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  condition["조건 인코더"]
-  latent["시공간 표현 저장소"]
-  generator["생성 모델"]
-  motion["움직임 제어기"]
-  evaluator["일관성 평가기"]
-  condition --- generator
-  latent --- generator
-  motion --- generator
-  generator --- evaluator
+```text
+                         [생성 모델]
+                   /          |          \
+          [조건 인코더] [시공간 표현 저장소] [움직임 제어기]
+                   \          |          /
+                       [일관성 평가기]
 ```
+
+선의 의미: 생성 모델은 조건 인코더, 시공간 표현 저장소, 움직임 제어기의 입력 경계를 결합하고, 일관성 평가기는 세 조건이 반영된 생성 결과의 시간•물리 관계를 검증한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

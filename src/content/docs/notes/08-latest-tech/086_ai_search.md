@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-04T15:36:00+09:00"
+date: "2026-08-05T02:12:45+09:00"
 tags:
   - "notes-latest_tech"
 weight: 86
@@ -62,20 +62,6 @@ extra:
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색한 문서를 모델 문맥에 넣어 근거가 있는 답변을 생성하는 기법이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["질의 이해 계층"]
-  B["희소•밀집 검색기"]
-  C["후보 융합 계층"]
-  D["재순위기"]
-  E["답변 생성기"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

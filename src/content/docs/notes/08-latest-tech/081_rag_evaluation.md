@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RAG 평가 (RAG Evaluation)"
-date: "2026-08-04T14:04:49+09:00"
+date: "2026-08-05T02:12:45+09:00"
 tags:
   - "notes-latest_tech"
 weight: 81
@@ -66,20 +66,6 @@ extra:
 </details>
 
 **검색 증강 생성(Retrieval-Augmented Generation, RAG) 실행기** 는 검색 후보•문맥•응답•인용을 같은 실행 식별자로 연결한다.
-
-```mermaid
-block-beta
-    columns 3
-    D["평가 데이터셋"]
-    X["RAG 실행기"]
-    R["검색 평가기"]
-    G["생성 평가기"]
-    A["실패 분석기"]
-    D --- X
-    X --- R
-    R --- G
-    G --- A
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

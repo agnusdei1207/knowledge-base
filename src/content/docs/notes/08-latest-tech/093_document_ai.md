@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "문서 AI (Document AI)"
-date: "2026-08-04T15:43:00+09:00"
+date: "2026-08-05T14:27:53+09:00"
 tags:
   - "notes-latest_tech"
 weight: 93
@@ -61,19 +61,7 @@ extra:
 - **검토 라우터**: 규칙과 신뢰도를 기준으로 자동 승인 또는 사람 검토 경로를 결정한다.
 
 </details>
-```mermaid
-block-beta
-  columns 3
-  classifier["문서 분류기"]
-  layout["레이아웃 분석기"]
-  ocr["문자 인식기"]
-  extractor["정보 추출기"]
-  router["검증•검토 라우터"]
-  classifier --- layout
-  layout --- ocr
-  ocr --- extractor
-  extractor --- router
-```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 문서 분류기 | 문서 유형별 **추출 스키마** 결정 |

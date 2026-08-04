@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그래프 신경망 (Graph Neural Network)"
-date: "2026-08-04T14:10:34+09:00"
+date: "2026-08-05T14:27:54+09:00"
 tags:
   - "notes-latest_tech"
 weight: 94
@@ -66,20 +66,6 @@ extra:
 - **읽기 함수**: 학습한 노드 표현을 노드•링크•그래프 단위의 과업 출력으로 변환한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  feature["특징 저장소"]
-  message["메시지 함수"]
-  aggregate["집계 함수"]
-  update["갱신 함수"]
-  readout["읽기 함수"]
-  feature --- message
-  message --- aggregate
-  aggregate --- update
-  update --- readout
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

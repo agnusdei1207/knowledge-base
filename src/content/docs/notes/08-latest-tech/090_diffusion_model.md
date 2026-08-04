@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Diffusion Model (확산모델)"
-date: "2026-08-04T15:40:00+09:00"
+date: "2026-08-05T14:27:50+09:00"
 tags:
   - "notes-latest_tech"
 weight: 90
@@ -62,20 +62,6 @@ extra:
 - **샘플러**: 역방향 상태 갱신을 반복해 무작위 잡음에서 최종 표본을 만드는 알고리즘이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["잡음 스케줄"]
-  B["시점별 잡음 상태"]
-  C["잡음 제거 모델"]
-  D["역전이 규칙"]
-  E["샘플러"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "멀티모달 RAG (Multimodal RAG)"
-date: "2026-08-04T14:09:46+09:00"
+date: "2026-08-05T14:27:52+09:00"
 tags:
   - "notes-latest_tech"
 weight: 92
@@ -57,19 +57,15 @@ extra:
 - **근거 연결부**: 답변의 각 주장과 원본 문단•표 셀•이미지 영역을 연결한다.
 
 </details>
-```mermaid
-block-beta
-  columns 3
-  extractor["모달 추출기"]
-  aligner["모달 정렬기"]
-  index["모달 색인"]
-  retriever["검색•융합기"]
-  citation["근거 연결부"]
-  extractor --- aligner
-  aligner --- index
-  index --- retriever
-  retriever --- citation
+```text
+                         [모달 색인]
+                        /           \
+                 [모달 정렬기]    [검색•융합기]
+                        |              |
+                  [모달 추출기]    [근거 연결부]
 ```
+
+선의 의미: 모달 색인은 추출•정렬된 모달 표현과 검색•융합 인터페이스를 함께 보유하고, 모달 추출기는 정렬기의 원본 좌표를 제공하며, 근거 연결부는 검색 결과를 원본 영역과 연결한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

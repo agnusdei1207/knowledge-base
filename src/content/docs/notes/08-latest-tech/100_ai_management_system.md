@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-04T14:12:48+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -69,19 +69,16 @@ extra:
 
 인공지능 경영시스템(Artificial Intelligence Management System, AIMS)의 조직 연결 항목: **경계•위험 평가•부적합 시정**, 인공지능(Artificial Intelligence, AI)의 평가 대상: 위험•기회•영향
 
-```mermaid
-block-beta
-  columns 3
-  policy["범위•정책 기구"]
-  leadership["리더십•자원 책임자"]
-  risk["위험 평가부"]
-  operation["운영 통제부"]
-  audit["성과•개선부"]
-  policy --- leadership
-  leadership --- risk
-  risk --- operation
-  operation --- audit
+```text
+                      [범위•정책 기구]
+                              |
+                    [리더십•자원 책임자]
+                    /          |          \
+             [위험 평가부] [운영 통제부] [성과•개선부]
 ```
+
+선의 의미: 범위•정책 기구는 AIMS의 관리 경계를 정하고, 리더십•자원 책임자는 위험 평가부•운영 통제부•성과•개선부에 책임•권한•자원을 배정하는 정적 경영시스템 계층을 뜻한다.
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 범위•정책 기구 | **AIMS 경계•목표•정책** 수립 |

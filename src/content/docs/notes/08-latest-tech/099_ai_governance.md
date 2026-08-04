@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 거버넌스 (AI Governance)"
-date: "2026-08-04T14:12:05+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 99
@@ -69,19 +69,16 @@ extra:
 
 **인공지능(Artificial Intelligence, AI) 등록부** 는 목적•소유자•사용 범위와 위험 등급을 보관하고 승인 기구와 수명주기 통제를 연결한다.
 
-```mermaid
-block-beta
-  columns 3
-  criteria["위험 기준 위원회"]
-  registry["AI 등록부"]
-  approval["승인 기구"]
-  lifecycle["수명주기 통제부"]
-  response["사고 대응부"]
-  criteria --- registry
-  registry --- approval
-  approval --- lifecycle
-  lifecycle --- response
+```text
+                     [위험 기준 위원회]
+                              |
+                         [AI 등록부]
+                    /          |          \
+             [승인 기구] [수명주기 통제부] [사고 대응부]
 ```
+
+선의 의미: 위험 기준 위원회는 AI 등록부의 등급•통제 기준을 규정하고, 등록부는 승인 기구•수명주기 통제부•사고 대응부가 동일한 목적•소유자•위험 정보를 공유하는 정적 거버넌스 계층을 뜻한다.
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 위험 기준 위원회 | 영향도별 **금지•허용•통제 기준** 수립 |

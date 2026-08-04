@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "벨만 방정식 (Bellman Equation)"
-date: "2026-08-04T14:11:14+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 97
@@ -69,19 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  policy["정책 저장소"]
-  transition["전이 모델"]
-  reward["보상 함수"]
-  value["가치 함수"]
-  operator["벨만 연산자"]
-  policy --- operator
-  transition --- operator
-  reward --- operator
-  value --- operator
+```text
+ [정책 저장소]   [전이 모델]   [보상 함수]   [가치 함수]
+          \          |          |          /
+                       [벨만 연산자]
 ```
+
+선의 의미: 벨만 연산자는 정책 저장소, 전이 모델, 보상 함수, 가치 함수를 공통 입력 관계로 결합해 기대 또는 최적 가치 규칙을 정의하는 정적 계산 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-04T15:33:00+09:00"
+date: "2026-08-05T02:12:45+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -63,20 +63,6 @@ extra:
 - **대응 정책(Response Policy)**: 검증 오류와 업무 위험에 따라 출력을 수정•보류•거절한다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    G["생성 모델"]
-    C["주장 분해기"]
-    F["사실 검증기"]
-    A["근거 귀속기"]
-    P["대응 정책"]
-    G --- C
-    C --- F
-    F --- A
-    A --- P
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

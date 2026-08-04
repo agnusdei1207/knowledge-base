@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "강화학습 (Reinforcement Learning)"
-date: "2026-08-04T14:11:38+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 95
@@ -67,19 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  agent["에이전트"]
-  environment["환경"]
-  policy["정책"]
-  reward["보상 함수"]
-  value["가치 함수"]
-  agent --- environment
-  agent --- policy
-  environment --- reward
-  policy --- value
+```text
+[가치 함수] ----- [정책] ----- [에이전트] ----- [환경]
+                                                |
+                                           [보상 함수]
 ```
+
+선의 의미: 에이전트는 정책의 행동 규칙과 가치 함수의 누적 보상 추정을 결합하고, 환경 및 보상 함수와 상호작용하는 정적 강화학습 구성 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
