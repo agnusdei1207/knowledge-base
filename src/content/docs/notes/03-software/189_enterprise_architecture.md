@@ -4,7 +4,7 @@ sidebar:
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
   badge: { text: "기출 • 85%", variant: note }
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
-date: "2026-08-04T14:29:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags: ["notes-software"]
 weight: 189
 extra:
@@ -113,11 +113,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant S as 전략 조직
-    participant E as EA 조직•저장소
+    participant E as EA 조직
+    participant R as EA 저장소
     participant P as 사업 조직
     participant G as 심의 조직
     S->>E: 전략 변화 전달
-    E->>E: 1. 현행 기준선 조회
+    E->>R: 1. 현행 기준선 조회
+    R-->>E: 현행 기준선
     E->>P: 2. 목표•표준
     P->>G: 3. 설계•예외
     G->>E: 4. 정합성 검토 결과

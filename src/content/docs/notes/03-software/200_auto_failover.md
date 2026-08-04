@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버 (Auto Failover)"
-date: "2026-08-04T14:40:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags:
   - "notes-software"
 weight: 200
@@ -110,10 +110,12 @@ block-beta
 sequenceDiagram
     participant D as 감지•결정기
     participant P as 이전 Primary
+    participant Q as 장애 판정 쿼럼
     participant S as Standby
     participant R as 라우터
-    D->>D: 1. 상태 감시
-    D->>D: 2. 장애 판정
+    P->>D: 1. 상태 감시
+    D->>Q: 2. 장애 판정
+    Q-->>D: 장애 승인
     D->>P: 3. 이전 노드 차단
     D->>S: 4. 예비 노드 승격
     D->>R: 5. 트래픽 전환

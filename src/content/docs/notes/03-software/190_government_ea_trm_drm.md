@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
   badge: { text: "기출 • 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
-date: "2026-08-04T14:30:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -104,10 +104,12 @@ block-beta
 sequenceDiagram
     participant I as 기관
     participant M as 참조 모형•EA 저장소
+    participant C as 공통 코드 매퍼
     participant A as 범정부 분석
     participant G as 투자 거버넌스
     I->>M: 기관 자산 제출
-    M->>M: 1. 공통 코드 매핑
+    M->>C: 1. 공통 코드 매핑
+    C-->>M: 매핑 결과
     M->>I: 2. 유사 자산
     M->>A: 3. 범정부 자산 집합
     A->>G: 4. 중복•공유 후보

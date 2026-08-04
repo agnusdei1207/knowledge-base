@@ -4,7 +4,7 @@ sidebar:
   label: "187. ISMP 정보화 마스터플랜 (ISMP)"
   badge: { text: "기출 • 70%", variant: note }
 title: "ISMP 정보화 마스터플랜 (ISMP)"
-date: "2026-08-04T14:27:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags: ["notes-software"]
 weight: 187
 extra:
@@ -105,17 +105,17 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 주관기관
     participant T as ISMP 수립•분석팀
     participant U as 업무•기술 담당
+    participant D as 목표 모델 저장소
+    participant C as 규모•비용 분석기
     participant R as 검토 주체
-    O->>T: 목표•범위 제시
     T->>U: 1. 현황•요구 자료 요청
     U-->>T: 현황•요구 자료
-    T->>T: 2. 목표 모델 설계
-    T->>T: 3. 규모•비용 분석
+    T->>D: 2. 목표 모델 설계
+    D->>C: 3. 규모•비용 분석
+    C-->>T: 규모•비용 결과
     T->>R: 4. 로드맵•발주안
-    R-->>O: 검토 결과 반환
 ```
 
 **동작 원리**

@@ -4,7 +4,7 @@ sidebar:
   label: "186. TTA 소프트웨어 품질 시험"
   badge: { text: "기출 • 70%", variant: note }
 title: "TTA 소프트웨어 품질 시험"
-date: "2026-08-04T14:26:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags: ["notes-software"]
 weight: 186
 extra:
@@ -105,12 +105,14 @@ block-beta
 sequenceDiagram
     participant C as 의뢰기관
     participant T as 시험기관•환경
+    participant E as 시험 구성 저장소
     participant P as 시험 제품
     participant R as 결과 검토
     C->>T: 시험 신청
     T->>C: 1. 범위•기준안
     C-->>T: 합의 조건
-    T->>T: 2. 환경•케이스 구성
+    T->>E: 2. 환경•케이스 구성
+    E-->>T: 고정 시험 구성
     T->>P: 3. 시험 입력•부하
     P-->>T: 측정 결과
     T->>R: 4. 측정•결함 증적

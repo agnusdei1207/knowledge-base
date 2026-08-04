@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 접근성: WCAG 2.1 (Digital Accessibility WCAG)"
-date: "2026-08-04T14:34:00+09:00"
+date: "2026-08-04T14:42:06+09:00"
 tags:
   - "notes-software"
 weight: 194
@@ -104,12 +104,13 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant P as 사용자
-    participant U as 사용자 인터페이스•접근성 트리
+    participant U as 사용자 인터페이스
+    participant A as 접근성 트리
     participant T as 보조기술
     participant V as 평가자
-    U->>U: 1. 시맨틱 구조 노출
-    T->>U: 2. 이름•역할•값 요청
-    U-->>T: 이름•역할•값
+    U->>A: 1. 시맨틱 구조 노출
+    T->>A: 2. 이름•역할•값 요청
+    A-->>T: 이름•역할•값
     P->>T: 키보드 입력
     T->>U: 3. 키보드•초점 입력
     U-->>P: 과업 결과
