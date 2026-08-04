@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "칩렛 (Chiplet)"
-date: "2026-08-04T11:52:00+09:00"
+date: "2026-08-05T15:02:48+09:00"
 tags:
   - "notes-latest-tech"
 weight: 148
@@ -70,19 +70,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  chiplet["기능 칩렛"]
-  interconnect["인터커넥트"]
-  package["패키지 기판"]
-  manager["시스템 관리기"]
-  test["테스트 구조"]
-  chiplet --- interconnect
-  interconnect --- package
-  package --- manager
-  manager --- test
+```text
+              [시스템 관리기]   [테스트 구조]
+                       \           /
+                       [패키지 기판]
+                         /       \
+                  [기능 칩렛]---[인터커넥트]
 ```
+선의 의미: 패키지 기판은 기능 칩렛과 인터커넥트를 물리적으로 수용하고, 시스템 관리기와 테스트 구조는 패키지의 운영 상태와 결함 경계를 공통으로 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

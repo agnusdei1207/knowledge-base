@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "InfiniBand"
-date: "2026-08-04T12:02:00+09:00"
+date: "2026-08-05T15:02:51+09:00"
 tags:
   - "notes-latest_tech"
 weight: 151
@@ -67,20 +67,16 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    H["HCA"]
-    S["InfiniBand 스위치"]
-    M["서브넷 관리자"]
-    T["전송•큐 계층"]
-    C["혼잡•서비스 계층"]
-    H --- S
-    S --- M
-    H --- T
-    T --- C
-    C --- S
+```text
+                    [서브넷 관리자]
+                             |
+                    [InfiniBand 스위치]
+                         /          \
+                      [HCA]   [혼잡•서비스 계층]
+                        |
+                  [전송•큐 계층]
 ```
+선의 의미: 서브넷 관리자는 InfiniBand 스위치의 주소•경로•분할 경계를 구성하고, 스위치는 HCA와 혼잡•서비스 계층의 제어를 패브릭에 결합하며 HCA는 전송•큐 계층의 호스트 종단이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

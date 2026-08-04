@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
-date: "2026-08-04T11:55:00+09:00"
+date: "2026-08-05T15:02:49+09:00"
 tags:
   - "notes-latest-tech"
 weight: 149
@@ -66,19 +66,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  encoder["센서•인코더"]
-  synapse["시냅스 메모리"]
-  neuron["뉴런 코어"]
-  router["이벤트 라우터"]
-  interface["외부 인터페이스"]
-  encoder --- router
-  router --- neuron
-  synapse --- neuron
-  neuron --- interface
+```text
+[센서•인코더]---[이벤트 라우터]---[뉴런 코어]---[외부 인터페이스]
+                                      |
+                              [시냅스 메모리]
 ```
+선의 의미: 이벤트 라우터는 센서•인코더와 뉴런 코어 사이의 스파이크 연결을 제공하고, 뉴런 코어는 시냅스 메모리의 연결 상태를 참조하며 외부 인터페이스와 모델•출력 경계를 이룬다.
 
 | 구성요소 | 책임 |
 |:---|:---|

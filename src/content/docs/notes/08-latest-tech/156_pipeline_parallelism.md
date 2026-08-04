@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Pipeline Parallelism (파이프라인 병렬)"
-date: "2026-08-04T12:18:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 156
@@ -65,20 +65,6 @@ extra:
 - **활성값 재계산**: 메모리를 줄이기 위해 순전파 중간값을 버리고 역전파 때 다시 계산하는 기법이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["단계 분할기"]
-  B["마이크로배치 분할기"]
-  C["활성값 채널"]
-  D["스케줄 엔진"]
-  E["활성값 관리자"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

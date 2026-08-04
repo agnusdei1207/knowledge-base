@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "Kubernetes (쿠버네티스)"
-date: "2026-08-04T14:41:47+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 158
@@ -65,19 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["API 서버"]
-  B["etcd"]
-  C["컨트롤러 관리자"]
-  D["스케줄러"]
-  E["kubelet"]
-  A --- B
-  A --- C
-  A --- D
-  D --- E
+```text
+                         [API 서버]
+                    /        |        \
+              [etcd] [컨트롤러 관리자] [스케줄러]
+                                              |
+                                          [kubelet]
 ```
+
+선의 의미: API 서버가 etcd, 컨트롤러 관리자, 스케줄러의 공통 제어면 창구이고, 스케줄러가 정한 노드 배치를 kubelet이 실제 컨테이너 실행으로 구현하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

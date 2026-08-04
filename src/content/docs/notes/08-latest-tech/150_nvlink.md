@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink"
-date: "2026-08-04T11:58:00+09:00"
+date: "2026-08-05T15:02:50+09:00"
 tags:
   - "notes-latest-tech"
 weight: 150
@@ -69,19 +69,16 @@ extra:
 
 GPU 종단은 NVLink 패킷과 메모리 요청을 처리한다.
 
-```mermaid
-block-beta
-  columns 3
-  gpu["GPU 종단"]
-  link["물리 경로"]
-  switch["NVSwitch"]
-  manager["관리 계층"]
-  communication["통신 계층"]
-  gpu --- link
-  link --- switch
-  switch --- manager
-  manager --- communication
+```text
+                 [관리 계층]   [통신 계층]
+                       \       /
+                       [NVSwitch]
+                            |
+                       [물리 경로]
+                            |
+                       [GPU 종단]
 ```
+선의 의미: NVSwitch와 물리 경로는 GPU 종단의 다대다 연결 패브릭을 구성하고, 관리 계층과 통신 계층은 각각 경로•오류 상태와 GPU 집단 연산 배치를 NVSwitch 도메인에 연결한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
