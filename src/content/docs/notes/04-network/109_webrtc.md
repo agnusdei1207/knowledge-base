@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "WebRTC (WebRTC)"
-date: "2026-08-04T14:44:17+09:00"
+date: "2026-08-05T08:45:00+09:00"
 tags: ["notes-network"]
 weight: 109
 extra:
@@ -70,16 +70,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["단말 A"] --- B["시그널링 서버"] --- C["단말 B"]
-    A --- D["STUN•TURN 서버"] --- C
-    A --- E["SFU•MCU 서버"] --- C
-    F["품질•세션 관측기"] --- B
-    F --- D
-    F --- E
+```text
+ [단말 A] -- [시그널링 서버] -- [단말 B]
+      |                                |
+      +------ [STUN•TURN 서버] --------+
+      |                                |
+      +------- [SFU•MCU 서버] ---------+
+                  \      |      /
+                [품질•세션 관측기]
 ```
+
+선의 의미: 단말 A와 단말 B 사이에 시그널링, STUN•TURN, SFU•MCU라는 서로 다른 연결 경로가 놓이고, 품질•세션 관측기가 세 서버 영역을 공통 관측하는 정적 WebRTC 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

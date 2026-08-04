@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-08-04T19:38:00+09:00"
+date: "2026-08-05T08:45:00+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -67,19 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    A["HTTP 의미 계층"]:2
-    B["HTTP/2•HPACK 계층"]
-    D["HTTP/3•QPACK 계층"]
-    C["TCP•TLS 전송부"]
-    E["QUIC•TLS 1.3 전송부"]
-    A --- B
-    A --- D
-    B --- C
-    D --- E
+```text
+                       [HTTP 의미 계층]
+                       /              \
+          [HTTP/2•HPACK 계층]     [HTTP/3•QPACK 계층]
+                    |                       |
+           [TCP•TLS 전송부]       [QUIC•TLS 1.3 전송부]
 ```
+
+선의 의미: 공통 HTTP 의미 계층 아래에서 HTTP/2•HPACK과 TCP•TLS, HTTP/3•QPACK과 QUIC•TLS 1.3이 각각 독립된 정적 프로토콜 스택을 이룬다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BGP 하이재킹 방지 (BGP Hijacking Prevention)"
-date: "2026-08-04T14:44:17+09:00"
+date: "2026-08-05T08:45:00+09:00"
 tags: ["notes-network"]
 weight: 110
 extra:
@@ -69,14 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["RPKI"] --- F["IRR"] --- B["BGP 수용 필터"] --- C["라우팅 제어 평면"]
-    D["외부 경로 관측기"] --- E["격리 체계"] --- G["복구 체계"]
-    C --- D
-    E --- B
+```text
+          [RPKI]      [IRR]
+              \        /
+             [BGP 수용 필터] -- [라우팅 제어 평면]
+                    |                  |
+                [격리 체계] -- [외부 경로 관측기]
+                    |
+                [복구 체계]
 ```
+
+선의 의미: RPKI와 IRR이 BGP 수용 필터의 검증 근거를 제공하고, 라우팅 제어 평면과 외부 경로 관측기가 실제 경로 상태를 함께 감시하며, 격리•복구 체계가 이상 경로의 영향 경계를 통제하는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

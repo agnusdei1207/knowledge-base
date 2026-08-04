@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-04T19:17:00+09:00"
+date: "2026-08-05T01:33:51+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -68,19 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["GPU•CPU 메모리 도메인"]
-    B["NVLink 포트"]
-    C["NVSwitch 패브릭"]
-    D["패브릭 관리자"]
-    E["NCCL 통신 계층"]
-    A --- B
-    B --- C
-    C --- D
-    C --- E
+```text
+[GPU•CPU 메모리 도메인]---[NVLink 포트]---[NVSwitch 패브릭]
+                                                |
+                                    +-----------+-----------+
+                                    |                       |
+                              [패브릭 관리자]          [NCCL 통신 계층]
 ```
+
+선의 의미: GPU•CPU 메모리 도메인과 NVLink 포트는 고대역폭 접근 관계이고, NVSwitch 패브릭은 패브릭 관리자 및 NCCL 통신 계층과 링크•파티션•접근 상태 관리와 집합 통신 경로 선택 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-04T14:44:17+09:00"
+date: "2026-08-05T01:33:51+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -72,19 +72,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["송신 RoCE RNIC"]
-    B["이더넷 패브릭"]
-    C["수신 RoCE RNIC"]
-    D["혼잡•PFC 제어기"]
-    E["패브릭 관측기"]
-    A --- B
-    B --- C
-    B --- D
-    B --- E
+```text
+[송신 RoCE RNIC]---[이더넷 패브릭]---[수신 RoCE RNIC]
+                           |
+               +-----------+-----------+
+               |                       |
+       [혼잡•PFC 제어기]          [패브릭 관측기]
 ```
+
+선의 의미: 두 RoCE RNIC는 이더넷 패브릭의 경로•버퍼•ECN 관계이고, 패브릭은 혼잡•PFC 제어기 및 관측기와 큐 통제•ECN•PFC•손실•지연 측정 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

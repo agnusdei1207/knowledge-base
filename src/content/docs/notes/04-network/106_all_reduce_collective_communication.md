@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "집합 통신 All-Reduce (All-Reduce Collective Communication)"
-date: "2026-08-04T14:44:17+09:00"
+date: "2026-08-05T01:33:51+09:00"
 tags: ["notes-network"]
 weight: 106
 extra:
@@ -68,19 +68,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["순위 통신 그룹"]
-    B["집계 연산 계약"]
-    C["버킷 스케줄러"]
-    D["집합 통신 엔진"]
-    E["토폴로지 경로"]
-    A --- C
-    B --- C
-    C --- D
-    D --- E
+```text
+[순위 통신 그룹]---+
+                    |
+[집계 연산 계약]---[버킷 스케줄러]---[집합 통신 엔진]---[토폴로지 경로]
 ```
+
+선의 의미: 순위 통신 그룹과 집계 연산 계약은 버킷 스케줄러의 참여 범위•형상•자료형•연산 조건 관계이고, 스케줄러는 집합 통신 엔진 및 NVLink•RDMA 토폴로지 경로와 결속된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

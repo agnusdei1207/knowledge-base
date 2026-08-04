@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-08-04T19:09:00+09:00"
+date: "2026-08-05T01:33:51+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -69,19 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["컴퓨트 HCA"]
-    B["InfiniBand 스위치 패브릭"]
-    C["저장 HCA"]
-    D["서브넷 관리자"]
-    E["패브릭 관측기"]
-    A --- B
-    B --- C
-    B --- D
-    B --- E
+```text
+[컴퓨트 HCA]---[InfiniBand 스위치 패브릭]---[저장 HCA]
+                            |
+                +-----------+-----------+
+                |                       |
+          [서브넷 관리자]          [패브릭 관측기]
 ```
+
+선의 의미: 컴퓨트•저장 HCA는 InfiniBand 스위치 패브릭의 LID•VL 경로 관계이고, 패브릭은 서브넷 관리자 및 관측기와 주소•경로•P_Key 관리와 포트•링크•오류•혼잡 관측 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

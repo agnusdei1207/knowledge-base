@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "글로벌 CDN 아키텍처 (Global CDN Architecture)"
-date: "2026-08-04T19:31:00+09:00"
+date: "2026-08-05T08:45:00+09:00"
 tags: ["notes-network"]
 weight: 107
 extra:
@@ -70,19 +70,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["글로벌 요청 라우터"]
-    B["엣지 PoP"]
-    C["캐시 정책 엔진"]
-    D["원본 보호 캐시"]
-    E["원본 서버"]
-    A --- B
-    B --- C
-    B --- D
-    D --- E
+```text
+          [글로벌 요청 라우터]
+                    |
+                [엣지 PoP]
+                /        \
+       [캐시 정책 엔진] [원본 보호 캐시]
+                              |
+                         [원본 서버]
 ```
+
+선의 의미: 글로벌 요청 라우터 아래의 엣지 PoP가 지역 전송 경계를 이루고, 캐시 정책 엔진과 원본 보호 캐시 및 원본 서버가 캐시 정책•상위 캐시•정본 책임으로 분리된 정적 CDN 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
