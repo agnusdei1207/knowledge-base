@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-03T09:19:05+09:00"
+date: "2026-08-04T12:44:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **B-Tree**: 균형 잡힌 정렬 페이지에서 값을 제자리 갱신해 점•범위 조회에 안정적인 저장 구조이다.
-- **LSM-Tree(Log-Structured Merge-Tree)**: 변경을 메모리에 모아 정렬 파일로 순차 기록하고 후속 병합해 쓰기 처리량을 높이는 저장 구조이다.
+- **로그 구조 병합 트리(Log-Structured Merge-Tree, LSM-Tree)**: 변경을 메모리에 모아 정렬 파일로 병합하는 저장 구조다.
 
 </details>
 
@@ -59,10 +59,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **WAL(Write-Ahead Log)**: 메모리 데이터보다 변경 기록을 먼저 영속화해 장애 복구를 지원하는 로그이다.
-- **Memtable**: WAL 기록 후 최신 변경을 키순으로 누적하는 메모리 자료구조이다.
-- **SSTable(Sorted String Table)**: 키순으로 정렬되어 생성 후 내용이 바뀌지 않는 디스크 파일이다.
-- **Bloom Filter(블룸 필터)**: 키가 파일에 확실히 없음을 빠르게 판정해 불필요한 디스크 읽기를 줄이는 확률적 구조이다.
+- **선행 기록 로그(Write-Ahead Log, WAL)**: 메모리 데이터보다 변경을 먼저 영속화하는 로그다.
+- **메모리 테이블(Memory Table, Memtable)**: 최신 변경을 키순으로 누적하는 메모리 구조다.
+- **정렬 문자열 테이블(Sorted String Table, SSTable)**: 키순으로 정렬된 불변 디스크 파일이다.
+- **블룸 필터(Bloom Filter)**: 키가 파일에 없음을 빠르게 판정하는 확률적 구조다.
 
 </details>
 
@@ -136,8 +136,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **B-Tree**: 정렬된 페이지를 제자리 갱신해 점 조회와 범위 조회에 안정적인 구조이다.
-- **LSM-Tree**: WAL과 Memtable로 쓰기를 흡수한 뒤 SSTable 병합으로 데이터를 정리하는 구조이다.
 
 </details>
 
@@ -158,11 +156,20 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **점•범위•갱신•피크 부하**: 단일 키 조회와 구간 조회, 변경 비율, 최대 유입량을 나눠 저장 구조를 평가하는 워크로드 기준이다.
-- **읽기•쓰기•공간 증폭**: 한 논리 작업이나 데이터 크기에 비해 실제 읽기•쓰기•저장량이 늘어나는 비율이다.
-- **대역폭•백로그 경보**: 컴팩션 처리 용량과 대기 파일량을 감시해 쓰기 정체 전에 알리는 통제이다.
-- **캐시•쓰기 버퍼 예산**: 읽기 가속과 쓰기 흡수에 사용할 메모리를 워크로드에 맞춰 나눈 한도이다.
-- **체크포인트•플러시•RTO**: 복구 시작점을 만들고 메모리 변경을 저장하며 목표 복구 시간 안에 재시작되는지 검증하는 기준이다.
+- **점 조회(Point Lookup)**: 단일 키로 데이터를 찾는 조회 유형이다.
+- **범위 조회(Range Scan)**: 연속된 키 구간의 데이터를 찾는 조회 유형이다.
+- **갱신 비율(Update Ratio)**: 전체 작업 중 데이터 변경이 차지하는 비율이다.
+- **피크 부하(Peak Load)**: 단위 시간의 최대 요청 유입량이다.
+- **읽기 증폭(Read Amplification)**: 한 논리 조회에 실제로 읽는 데이터 증가 비율이다.
+- **쓰기 증폭(Write Amplification)**: 한 논리 쓰기에 실제로 기록하는 데이터 증가 비율이다.
+- **공간 증폭(Space Amplification)**: 논리 데이터보다 실제 저장량이 늘어난 비율이다.
+- **컴팩션 대역폭(Compaction Bandwidth)**: 단위 시간에 병합할 수 있는 데이터 양이다.
+- **컴팩션 백로그(Compaction Backlog)**: 병합을 기다리는 정렬 파일의 양이다.
+- **캐시 예산(Cache Budget)**: 읽기 가속에 사용할 메모리 한도다.
+- **쓰기 버퍼 예산(Write-buffer Budget)**: 쓰기 흡수에 사용할 메모리 한도다.
+- **체크포인트(Checkpoint)**: 장애 복구를 시작할 저장 지점이다.
+- **플러시(Flush)**: 메모리 변경을 디스크에 저장하는 처리다.
+- **복구 시간 목표(Recovery Time Objective, RTO)**: 서비스 재시작에 허용된 최대 시간이다.
 
 </details>
 
@@ -185,7 +192,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **LSM-Tree**: 쓰기 집중 워크로드에서 순차 기록과 후속 병합을 활용하는 저장 구조이다.
 
 </details>
 
