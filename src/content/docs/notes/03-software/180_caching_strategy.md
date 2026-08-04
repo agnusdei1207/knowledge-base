@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
-date: "2026-08-04T14:20:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -114,14 +114,16 @@ block-beta
 sequenceDiagram
     participant U as 클라이언트
     participant A as 응용•요청 병합기
+    participant Q as 요청 병합 상태
     participant C as 캐시
     participant D as 원본 저장소
     U->>A: 자원 조회
     A->>C: 1. 격리 키 조회 요청
     C-->>A: 2. 캐시 미스 결과
-    A->>A: 3. 미스 키 병합
-    A->>D: 4. 대표 원본 조회 요청
-    D-->>A: 공유 원본 값•버전
+    A->>Q: 3. 미스 키 병합 요청
+    Q->>D: 4. 대표 원본 조회 요청
+    D-->>Q: 공유 원본 값•버전
+    Q-->>A: 대표 조회 결과
     A->>C: 5. 값•버전•TTL 저장 요청
     C-->>A: 저장 결과
     A-->>U: 조회 결과

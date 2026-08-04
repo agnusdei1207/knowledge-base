@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-08-04T14:13:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -112,22 +112,24 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant C as 호출자•클라이언트 스텁
+    participant C as 호출자
+    participant P as 클라이언트 스텁
     participant H as HTTP/2 채널
     participant R as 서버 런타임
     participant S as 서비스 처리기
-    C->>C: 요청 객체•기한 직렬화
-    C->>H: 1. 요청•메타데이터 전송
+    C->>P: 요청 객체•기한
+    P->>H: 1. 요청•메타데이터 전송
     H->>R: 2. HTTP/2 요청 스트림 전달
     R->>S: 3. 서비스 메서드 요청
     S-->>R: 메서드 결과
     R-->>H: 4. 응답•상태 스트림 전달
-    H-->>C: 직렬화 응답
+    H-->>P: 직렬화 응답
+    P-->>C: 호출 결과
 ```
 
 **동작 원리**
 
-1. **직렬화 요청•메타데이터 전송**: Protobuf•인증•추적 정보 구성
+1. **요청•메타데이터 전송**: Protobuf•인증•추적 정보 구성
 2. **HTTP/2 요청 스트림 전달**: 연결을 다중화해 대상 서버로 전송
 3. **서비스 메서드 요청**: 역직렬화 후 기한•취소 조건 적용
 4. **응답•상태 스트림 전달**: 응답 객체 또는 표준 오류 복원

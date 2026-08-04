@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-04T14:07:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 167
@@ -118,11 +118,12 @@ sequenceDiagram
     participant I as 수집•정규화
     participant A as 분석 엔진
     participant M as 사건 관리
+    participant G as 승인 게이트
     O->>I: 1. 신호•변경 전송
     I->>A: 2. 공통 문맥 전달
     A->>M: 3. 사건•원인 후보 전달
-    M->>M: 4. 위험별 런북 선택•승인
-    M->>O: 5. 승인 런북 명령
+    M->>G: 4. 위험별 런북 선택•승인
+    G->>O: 5. 승인 런북 명령
     O-->>A: 조치 후 상태 전송
 ```
 
@@ -131,7 +132,7 @@ sequenceDiagram
 1. **신호•변경 전송**: 로그•지표•추적•배포 사건 수집
 2. **공통 문맥 전달**: 시간•자원•토폴로지 정렬
 3. **사건•원인 후보 전달**: 이상•중복•변경 관계 분석
-4. **위험별 대응 요청**: 영향•신뢰도 기반 실행 단계 결정
+4. **위험별 런북 선택•승인**: 영향•신뢰도 기반 실행 단계 결정
 5. **승인 런북 명령**: 가역 조치 후 회복•부작용 검증
 
 #### 한줄 요약

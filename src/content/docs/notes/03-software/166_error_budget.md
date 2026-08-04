@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: "2026-08-04T14:06:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 166
@@ -116,10 +116,12 @@ sequenceDiagram
     participant S as 서비스
     participant M as SLI 측정
     participant P as 오류 예산 계산•정책
+    participant B as 예산 상태
     participant D as 배포 시스템
     S->>M: 1. 유효•나쁜 이벤트 전송
     M->>P: 2. 구간별 오류율 전달
-    P->>P: 3. 잔여량•소진 속도 계산
+    P->>B: 3. 잔여량•소진 속도 전달
+    B-->>P: 예산 상태
     P->>D: 4. 변경 상태 지시
     D->>S: 5. 배포•롤백 명령
     S-->>M: 변경 후 SLI 전송

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-08-04T14:12:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -112,12 +112,14 @@ sequenceDiagram
     participant C as 클라이언트
     participant G as 게이트웨이•검증기
     participant E as 실행 엔진•리졸버
+    participant L as 데이터 로더
     participant D as 데이터 원천
     C->>G: 작업•변수
     G->>E: 1. 검증된 실행 계획 전달
-    E->>E: 2. 필드 해석•데이터 로딩 계획
-    E->>D: 3. 배치 조회 요청
-    D-->>E: 원천 데이터
+    E->>L: 2. 필드 해석•데이터 로딩 계획
+    L->>D: 3. 배치 조회 요청
+    D-->>L: 원천 데이터
+    L-->>E: 배치 결과
     E-->>G: 데이터•부분 오류
     G-->>C: GraphQL 응답
 ```
@@ -125,7 +127,7 @@ sequenceDiagram
 **동작 원리**
 
 1. **검증된 실행 계획 전달**: 타입•깊이•비용 조건을 통과한 선택 집합 구성
-2. **필드 해석 요청**: 필드 권한과 하위 선택 순서 결정
+2. **필드 해석•데이터 로딩 계획**: 필드 권한과 하위 선택 순서 결정
 3. **배치 조회 요청**: 같은 실행 주기의 키를 묶어 N+1 완화
 
 #### 한줄 요약

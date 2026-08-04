@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-04T14:11:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -112,10 +112,12 @@ sequenceDiagram
     participant C as 클라이언트
     participant G as API Gateway
     participant A as REST API•도메인 서비스
+    participant P as 조건부 요청 해석기
     participant S as 자원 저장소
     C->>G: 자원•메서드 요청
     G->>A: 1. 인증된 자원 요청
-    A->>A: 2. 조건부 연산 검증
+    A->>P: 2. 조건부 연산 요청
+    P-->>A: 검증 결과
     A->>S: 3. 자원•버전 조회 요청
     S-->>A: 자원•버전
     A->>S: 4. 검증된 상태 변경

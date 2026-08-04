@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 네이티브 관측성 (Cloud Native Observability)"
-date: "2026-08-04T14:01:00+09:00"
+date: "2026-08-04T14:38:47+09:00"
 tags:
   - "notes-software"
 weight: 161
@@ -112,12 +112,13 @@ block-beta
 sequenceDiagram
     participant U as 사용자
     participant A as 서비스 계측 지점
+    participant D as 하위 서비스
     participant C as 수집•처리 계층
     participant S as 분석•경보 계층
     U->>A: 업무 요청
-    A->>A: 1. 하위 호출에 추적 문맥 전파
+    A->>D: 1. 추적 문맥 전파
     A->>C: 2. 진입 신호•속성 전송
-    A->>C: 3. 하위 신호•속성 전송
+    D->>C: 3. 하위 신호•속성 전송
     C->>S: 4. 정규화 신호•상관 키 전송
     S-->>U: 사용자 영향 경보
 ```
