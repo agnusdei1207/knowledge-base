@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "백도어 공격 (Backdoor Attack)"
-date: "2026-08-05T11:44:00+09:00"
+date: "2026-08-05T01:45:09+09:00"
 tags:
   - "notes-security"
 weight: 85
@@ -61,20 +61,6 @@ extra:
 - **승격•복구 게이트**: 평가 기준을 통과한 모델만 배포하고 실패하면 오염 자산을 격리해 안전 버전으로 복원하는 통제이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["정상•오염 자산"]
-  B["학습 파이프라인"]
-  C["후보 모델"]
-  D["트리거 평가기"]
-  E["승격•복구 게이트"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

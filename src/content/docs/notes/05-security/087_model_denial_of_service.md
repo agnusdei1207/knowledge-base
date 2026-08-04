@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 DoS (Model Denial of Service)"
-date: "2026-08-05T11:47:00+09:00"
+date: "2026-08-05T01:45:09+09:00"
 tags:
   - "notes-security"
 weight: 87
@@ -66,20 +66,6 @@ extra:
 - **회로 차단기** 는 실행 중 누적 비용이 임계치를 넘으면 연쇄 호출을 중단하는 통제다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["인증 게이트웨이"]
-  B["비용 추정기"]
-  C["입장 제어기"]
-  D["공정 스케줄러"]
-  E["예산•회로 차단기"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

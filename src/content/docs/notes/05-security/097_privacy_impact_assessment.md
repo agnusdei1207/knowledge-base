@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "개인정보 영향평가 PIA (Privacy Impact Assessment)"
-date: "2026-08-05T11:54:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 97
@@ -61,20 +61,6 @@ extra:
 - **이행 증거**: 개선 항목이 정책 문서뿐 아니라 설계•코드•설정•운영 절차에 실제 반영됐음을 입증하는 자료이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["대상•법적 근거"]
-  B["처리 흐름•구조"]
-  C["침해요인•위험도"]
-  D["개선계획"]
-  E["이행•잔여위험 확인"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

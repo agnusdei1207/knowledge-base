@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "개인정보 비식별 처리•가명화•익명화 (De-identification)"
-date: "2026-08-05T11:55:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 98
@@ -65,20 +65,6 @@ extra:
 - **t-근접성** 은 집단의 민감 속성 분포가 전체 분포와 일정 거리 안에 있게 하는 기준이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["목적•법적 근거"]
-  B["식별 위험 분석"]
-  C["비식별 처리 규칙"]
-  D["추가정보•이용 통제"]
-  E["적정성•재평가"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 공급망 보안 (AI Supply Chain Security)"
-date: "2026-08-04T14:04:00+09:00"
+date: "2026-08-05T12:05:00+09:00"
 tags:
   - "notes-security"
 weight: 93
@@ -66,19 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["AI-BOM•계보"]
-  B["격리 반입소"]
-  C["출처 검증기"]
-  D["행동 평가기"]
-  E["승격•회수 게이트"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
+```text
+                           [AI-BOM•계보]
+                       /          |          \
+                [격리 반입소] [출처 검증기] [행동 평가기]
+                       \          |          /
+                       [승격•회수 게이트]
 ```
+
+선의 의미: AI-BOM•계보가 격리 반입, 출처 검증, 행동 평가 영역의 자산 관계를 묶고 승격•회수 게이트가 세 검증 경계의 승인 및 영향 통제를 담당하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

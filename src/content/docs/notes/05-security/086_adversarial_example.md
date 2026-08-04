@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "적대적 예제 공격 (Adversarial Example)"
-date: "2026-08-04T13:32:00+09:00"
+date: "2026-08-05T01:45:09+09:00"
 tags:
   - "notes-security"
 weight: 86
@@ -63,20 +63,6 @@ extra:
 - **안전 처리기** 는 안전 중요 판단이 불확실할 때 다른 센서나 보수적 상태로 전환한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["위협 모델"]
-  B["교란 생성기"]
-  C["대상 모델"]
-  D["질의 관측점"]
-  E["강건•안전 처리기"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

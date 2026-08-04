@@ -4,7 +4,7 @@ sidebar:
   label: "100. 개인정보보호 강화기술 PET"
   badge: { text: "기출 • 85%", variant: note }
 title: "개인정보보호 강화기술 PET"
-date: "2026-08-05T11:57:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-security"]
 weight: 100
 extra:
@@ -61,20 +61,6 @@ extra:
 - **예산 통제** 는 반복 질의의 누적 정보 노출이 허용 한도를 넘지 않게 관리한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["목적•위협 모델"]
-  B["입력 최소화"]
-  C["보호 변환"]
-  D["보호 계산 엔진"]
-  E["출력•키•예산 통제"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

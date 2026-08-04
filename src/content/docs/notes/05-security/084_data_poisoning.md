@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
-date: "2026-08-05T11:40:00+09:00"
+date: "2026-08-05T01:45:09+09:00"
 tags:
   - "notes-security"
 weight: 84
@@ -63,20 +63,6 @@ extra:
 - **불변 학습 버전**: 검증을 통과한 표본만 반영하고 변경 이력을 고정하여 영향 모델과 원인 데이터를 재현할 수 있게 한 학습 세트이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["출처 등록부"]
-  B["수집 격리소"]
-  C["품질•라벨 검증"]
-  D["버전 학습 세트"]
-  E["계보•기준 평가"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
