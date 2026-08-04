@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SoC 시스템온칩 (System on Chip)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:38:00+09:00"
 tags:
   - "notes-hardware"
 weight: 38
@@ -22,9 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **시스템온칩(System on Chip, SoC)**: 연산•메모리•입출력 기능을 하나의 반도체 다이에 통합한 시스템이다.
+- **SoC**: System on Chip, 연산•메모리•I/O를 단일 다이에 통합한 시스템
+- **I/O**: Input/Output, 칩과 외부 장치 사이의 입출력
 - **다이(Die)**: 웨이퍼에서 절단하여 패키지에 넣는 하나의 반도체 회로 조각이다.
-- **입출력 전력(I/O Power)**: 칩 사이의 물리 연결을 통해 신호를 송수신할 때 소비되는 전력이다.
+- **I/O 전력**: 칩 사이 신호를 송수신할 때 소비되는 전력
 
 </details>
 
@@ -39,8 +40,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **온칩 네트워크(Network on Chip, NoC)**: 하나의 칩 안에서 여러 IP 블록 사이의 트랜잭션을 라우팅하고 중재하는 연결망이다.
-- **지식재산(Intellectual Property, IP) 블록**: 검증된 연산•제어 기능을 재사용하도록 모듈화한 설계 블록이다.
+- **NoC**: Network on Chip, 칩 내부 IP 사이의 트랜잭션 연결망
+- **IP 블록**: Intellectual Property Block, 재사용 가능한 설계 블록
 - **전력 도메인(Power Domain)**: 전원을 다른 영역과 독립적으로 공급하거나 차단할 수 있도록 구분한 회로 영역이다.
 - **클록 게이팅(Clock Gating)**: 유휴 블록에 공급되는 클록을 차단하여 불필요한 동적 전력을 줄이는 기법이다.
 
@@ -58,11 +59,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **지식재산 블록(Intellectual Property Block, IP Block)**: 검증된 연산•제어 기능을 재사용할 수 있도록 모듈화한 반도체 설계 블록이다.
 - **메모리 서브시스템(Memory Subsystem)**: 캐시와 메모리 제어기를 통해 연산 블록에 명령과 데이터를 공급하는 구성이다.
 - **리셋 관리기(Reset Manager)**: 전원과 클록의 준비 순서에 맞춰 각 블록의 초기화와 해제를 제어하는 회로이다.
-- **온칩 네트워크(Network on Chip, NoC)•서비스 품질(Quality of Service, QoS)**: IP 사이의 요청을 라우팅하고 트래픽별 대역폭•지연 목표를 적용하는 연결망과 정책이다.
-- **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)•입출력(Input/Output, I/O)•메모리 맵 입출력(Memory-Mapped I/O, MMIO)**: 메모리 데이터 공급과 외부 전송 및 장치 레지스터 접근을 담당하는 구성이다.
+- **QoS**: Quality of Service, 트래픽별 대역폭•지연 목표를 적용하는 정책
+- **DRAM**: Dynamic Random-Access Memory, 동적 주기억장치
+- **MMIO**: Memory-Mapped I/O, 메모리 주소로 장치 레지스터에 접근하는 방식
 
 </details>
 
@@ -97,11 +98,9 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **메모리 맵 입출력(Memory-mapped I/O, MMIO)**: 장치 제어 레지스터를 메모리 주소 공간에 배치하여 읽기•쓰기로 제어하는 방식이다.
-- **서비스 품질(Quality of Service, QoS)**: 트래픽 종류별 우선순위와 대역폭 및 지연 목표를 보장하도록 자원을 제어하는 정책이다.
 - **전력 게이팅(Power Gating)**: 사용하지 않는 회로 블록의 전원을 차단하여 누설 전력을 줄이는 기법이다.
-- **중앙 처리 장치(Central Processing Unit, CPU)•신경망 처리 장치(Neural Processing Unit, NPU)**: 작업을 설정하는 범용 프로세서와 신경망 연산을 가속하는 전용 처리기이다.
-- **온칩 네트워크(Network on Chip, NoC)•지식재산(Intellectual Property, IP) 블록**: SoC 내부 요청을 전달하는 연결망과 재사용 가능한 기능 블록이다.
+- **CPU**: Central Processing Unit, 범용 명령을 실행하는 처리 장치
+- **NPU**: Neural Processing Unit, 신경망 연산 전용 처리 장치
 
 </details>
 
@@ -147,8 +146,7 @@ sequenceDiagram
 - **패키지 내 시스템(System in Package, SiP)**: 서로 다른 기능이나 공정의 여러 다이를 하나의 패키지 안에서 연결한 시스템이다.
 - **마이크로프로세서 기반 보드(MPU-based Board)**: 독립 프로세서와 메모리 및 주변 칩을 인쇄회로기판 배선으로 결합한 시스템이다.
 - **칩렛(Chiplet)**: 기능별로 나눈 작은 다이를 패키지 안에서 연결하여 하나의 시스템처럼 사용하는 구성 단위이다.
-- **시스템온칩(System on Chip, SoC)•온칩 네트워크(Network on Chip, NoC)**: 단일 다이에 기능을 통합하고 내부 연결망으로 블록을 잇는 방식이다.
-- **인쇄회로기판(Printed Circuit Board, PCB)•입출력(Input/Output, I/O)**: 독립 칩을 보드 배선으로 연결하는 기판과 칩 사이 데이터 전송 경로이다.
+- **PCB**: Printed Circuit Board, 독립 칩을 배선으로 연결하는 기판
 
 </details>
 
@@ -172,9 +170,7 @@ sequenceDiagram
 - **캐시 일관성(Cache Coherence)**: 여러 연산 주체가 가진 공유 데이터의 캐시 복사본을 동일하게 유지하는 규칙이다.
 - **동적 전압•주파수 조절(Dynamic Voltage and Frequency Scaling, DVFS)**: 부하와 전력•열 한도에 맞춰 동작 전압과 주파수를 조절하는 기법이다.
 - **수율(Yield)**: 제조한 전체 다이 가운데 요구 기능과 품질 기준을 통과한 다이의 비율이다.
-- **온칩 네트워크(Network on Chip, NoC)•서비스 품질(Quality of Service, QoS)**: 칩 내부 트래픽을 전달하고 흐름별 대역폭•지연을 제어하는 연결망과 정책이다.
 - **지식재산(Intellectual Property, IP)•이미지 신호 처리기(Image Signal Processor, ISP)•신경망 처리 장치(Neural Processing Unit, NPU)**: 재사용 설계 블록과 영상•신경망 전용 가속 블록이다.
-- **시스템온칩(System on Chip, SoC)**: 연산•메모리•입출력 기능을 단일 다이에 통합한 시스템이다.
 
 </details>
 
@@ -198,7 +194,6 @@ sequenceDiagram
 - **이종 공정(Heterogeneous Process)**: 기능별 블록을 서로 다른 제조 공정으로 구현하여 비용과 성능을 최적화하는 방식이다.
 - **통합 범위(Integration Scope)**: 한 다이•한 패키지•한 보드 중 시스템 기능을 묶어 구현하는 물리적 경계이다.
 - **사양 변경 주기(Specification Change Cycle)**: 제품 기능이나 인터페이스 요구가 갱신되어 설계를 수정해야 하는 시간 간격이다.
-- **시스템온칩(System on Chip, SoC)•패키지 내 시스템(System in Package, SiP)**: 기능을 한 다이에 통합하거나 여러 다이를 한 패키지에 연결하는 구현 방식이다.
 
 </details>
 

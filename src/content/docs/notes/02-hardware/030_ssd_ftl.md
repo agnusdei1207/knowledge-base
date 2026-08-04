@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SSD FTL 플래시 변환 계층 (Flash Translation Layer)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:14:00+09:00"
 tags:
   - "notes-hardware"
 weight: 30
@@ -22,8 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 호스트 논리 주소를 낸드(Not AND, NAND) 물리 위치로 변환해 삭제•마모 제약을 숨기는 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 펌웨어 계층
-- **낸드(Not AND, NAND) 플래시**: 페이지 단위로 기록하고 여러 페이지를 묶은 블록 단위로 삭제하는 비휘발성 메모리
+- **FTL**: Flash Translation Layer, 논리 주소를 NAND 물리 위치로 변환하는 계층
+- **NAND**: Not AND, 페이지 기록과 블록 삭제를 사용하는 플래시 메모리
+- **SSD**: Solid-State Drive, NAND와 컨트롤러로 구성한 저장장치
 
 </details>
 
@@ -41,8 +42,7 @@ extra:
 - **비제자리 갱신**: 새 물리 페이지에 데이터를 기록한 뒤 기존 페이지를 무효화하는 방식
 - **가비지 컬렉션**: 유효 페이지를 옮기고 희생 블록을 삭제해 쓰기 가능한 공간을 회수하는 작업
 - **마모도 평준화**: 프로그램•삭제 횟수를 여러 NAND 블록에 분산하는 기법
-- **낸드(Not AND, NAND)**: 페이지 쓰기와 블록 삭제 제약을 가진 플래시 메모리 구조
-- **가비지 컬렉션(Garbage Collection, GC)**: 유효 페이지 이주와 블록 삭제로 빈 공간을 회수하는 작업
+- **GC**: Garbage Collection, 유효 페이지 이주와 블록 삭제로 공간을 회수하는 작업
 
 </details>
 
@@ -64,10 +64,11 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **논리 페이지 번호(Logical Page Number, LPN)→물리 페이지 주소(Physical Page Address, PPA) 매핑**: 논리 페이지 번호를 채널•다이•플레인•블록•페이지의 최신 물리 위치에 연결하는 정보
+- **LPN**: Logical Page Number, 호스트가 지정하는 논리 페이지 번호
+- **PPA**: Physical Page Address, NAND 내부의 최신 물리 페이지 주소
+- **LPN→PPA 매핑**: 논리 페이지를 최신 물리 페이지 위치에 연결하는 정보
 - **가비지 컬렉터**: 유효 페이지 이주와 블록 삭제를 실행해 여유 공간을 만드는 구성요소
 - **메타데이터 복구기**: 체크포인트와 저널을 이용해 정전 후 주소 매핑을 복원하는 구성요소
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 주소 매핑•가비지 컬렉션•마모도 평준화•복구를 담당하는 SSD 펌웨어
 
 </details>
 
@@ -98,9 +99,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 논리 쓰기를 새 물리 위치에 기록하고 매핑을 갱신하는 펌웨어 계층
-- **논리 페이지 번호(Logical Page Number, LPN)→물리 페이지 주소(Physical Page Address, PPA)**: 호스트 논리 페이지와 최신 NAND 물리 위치의 대응 정보
-- **페이지 프로그램•블록 삭제**: 빈 낸드(Not AND, NAND) 페이지에 데이터를 쓰는 동작과 블록 전체를 초기화하는 동작
+- **페이지 프로그램**: 빈 NAND 페이지에 데이터를 기록하는 동작
+- **블록 삭제**: NAND 블록 전체를 초기화하는 동작
 - **매핑 저널**: 새 물리 위치를 활성화하기 전에 주소 변경 기록을 영구 저장하는 로그
 - **희생 블록**: 유효 페이지를 옮긴 뒤 삭제해 여유 공간으로 회수할 NAND 블록
 
@@ -147,7 +147,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 호스트 논리 주소를 낸드(Not AND, NAND) 물리 위치로 변환하는 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 펌웨어 계층
 - **페이지 매핑 FTL**: 논리 페이지마다 물리 페이지를 직접 연결해 임의 쓰기 지연을 줄이는 방식
 - **블록 매핑 FTL**: 논리 블록과 물리 블록을 연결해 매핑 메모리를 줄이는 방식
 - **하이브리드 FTL**: 데이터 블록과 로그 블록 매핑을 결합해 지연과 메타데이터 크기를 절충하는 방식
@@ -170,10 +169,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **초과 예비 공간•트림(Trim, TRIM)**: 호스트에 숨긴 여유 블록과 사용하지 않는 논리 주소를 솔리드 스테이트 드라이브(Solid-State Drive, SSD)에 알리는 명령
-- **쓰기 증폭**: 호스트가 쓴 논리 데이터 양에 비해 낸드(Not AND, NAND)에 실제로 기록한 물리 데이터 양의 비율
-- **체크포인트•저널**: 매핑 기준 상태와 이후 변경을 기록해 정전 후 일관성을 복구하는 메타데이터
-- **가비지 컬렉션(Garbage Collection, GC)**: 유효 페이지를 옮기고 블록을 삭제해 여유 공간을 만드는 작업
+- **초과 예비 공간**: 호스트에 노출하지 않고 GC에 사용하는 여유 블록
+- **TRIM**: Trim, 사용하지 않는 논리 주소를 SSD에 알리는 명령
+- **쓰기 증폭**: 논리 쓰기량 대비 NAND 물리 쓰기량의 비율
+- **체크포인트**: 복구 기준이 되는 매핑 상태를 기록한 메타데이터
+- **저널**: 체크포인트 이후 매핑 변경을 기록한 로그
 
 </details>
 
@@ -194,10 +194,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **임의•순차 쓰기**: 떨어진 논리 주소를 갱신하거나 연속 주소를 차례로 기록하는 쓰기 패턴
-- **매핑 메모리**: 논리 주소와 물리 위치의 대응 정보를 솔리드 스테이트 드라이브(Solid-State Drive, SSD) 컨트롤러가 보관하는 메모리
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 쓰기 패턴에 따라 페이지•블록•하이브리드 매핑을 선택하는 SSD 펌웨어 계층
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 낸드(Not AND, NAND) 플래시와 컨트롤러로 구성한 비휘발성 저장장치
+- **임의 쓰기**: 떨어진 논리 주소를 갱신하는 쓰기 패턴
+- **순차 쓰기**: 연속 논리 주소를 차례로 기록하는 쓰기 패턴
+- **매핑 메모리**: SSD 컨트롤러가 논리•물리 주소 대응을 보관하는 메모리
 
 </details>
 

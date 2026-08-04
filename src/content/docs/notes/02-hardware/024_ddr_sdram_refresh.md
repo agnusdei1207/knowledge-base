@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDR SDRAM과 리프레시 방식 (DDR SDRAM Refresh)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:56:00+09:00"
 tags:
   - "notes-hardware"
 weight: 24
@@ -42,7 +42,6 @@ extra:
 - **양 엣지 전송**: 한 클록 주기의 상승과 하강 순간 모두에 데이터를 전달하는 방식
 - **뱅크 병렬성**: 독립 셀 배열과 행 버퍼를 가진 여러 뱅크가 접근을 겹쳐 수행하는 성질
 - **버스트 전송**: 열 명령 한 번으로 연속 데이터를 여러 엣지에 걸쳐 보내는 방식
-- **두 배 데이터율(Double Data Rate, DDR)**: 클록의 상승•하강 엣지 모두에서 데이터를 전송하는 방식
 - **리프레시**: 누설되는 셀 전하를 보충하기 위해 메모리 행을 주기적으로 읽고 복원하는 동작
 
 </details>
@@ -61,7 +60,8 @@ extra:
 
 - **메모리 컨트롤러**: 주소를 채널•랭크•뱅크•행•열로 나누고 접근과 리프레시 순서를 조정하는 회로
 - **두 배 데이터율 물리 계층(Double Data Rate Physical Layer, DDR PHY)**: 컨트롤러 명령과 데이터를 메모리 버스의 전기 신호로 변환하는 회로
-- **데이터 입출력(Data Input/Output, DQ)•데이터 스트로브(Data Strobe, DQS)**: 실제 데이터 비트를 운반하고 수신기의 샘플링 시점을 알려 주는 신호
+- **DQ**: Data Input/Output, 실제 데이터 비트를 운반하는 신호
+- **DQS**: Data Strobe, 수신기의 데이터 샘플링 시점을 알리는 신호
 - **행 버퍼**: 활성화한 행 전체를 보관하며 감지와 복원을 수행하는 회로
 
 </details>
@@ -87,10 +87,10 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **행 활성(Activate, ACT)•프리차지(Precharge, PRE)**: 대상 행을 열고 다음 행 접근 전에 현재 행을 닫는 DDR 명령
+- **ACT**: Activate, 대상 DRAM 행을 여는 DDR 명령
+- **PRE**: Precharge, 다음 행 접근 전에 현재 행을 닫는 DDR 명령
 - **리프레시 간격(Refresh Interval, tREFI)**: 연속 리프레시 명령 사이에 허용되는 평균 시간 간격
 - **리프레시 주기 시간(Refresh Cycle Time, tRFC)**: 리프레시 수행으로 메모리 접근이 제한되는 시간
-- **두 배 데이터율 물리 계층(Double Data Rate Physical Layer, DDR PHY)**: 컨트롤러와 메모리 사이의 명령•주소•데이터 신호를 전달하는 회로
 
 </details>
 
@@ -134,7 +134,6 @@ sequenceDiagram
 - **전체 뱅크 리프레시**: 명령 하나로 랭크의 모든 뱅크를 함께 갱신하는 방식
 - **뱅크별 리프레시**: 대상 뱅크만 갱신하고 나머지 뱅크의 접근을 허용하는 방식
 - **자체 리프레시**: 절전 상태에서 메모리가 내부 타이머로 스스로 전하를 복원하는 방식
-- **리프레시 주기 시간(Refresh Cycle Time, tRFC)**: 전체 뱅크 리프레시 동안 랭크 접근이 차단되는 시간
 
 </details>
 
@@ -156,8 +155,7 @@ sequenceDiagram
 
 - **꼬리 지연**: 일부 요청이 리프레시 차단과 겹쳐 평균보다 크게 늦어지는 응답 시간
 - **행 적중**: 이미 활성화된 행에서 열만 선택해 ACT•PRE 비용을 피하는 접근
-- **행 활성(Activate, ACT)•프리차지(Precharge, PRE)**: 행을 열고 닫는 명령으로 행 미적중 때 추가 지연을 만든다.
-- **물리 계층 트레이닝(Physical Layer Training, PHY 트레이닝)**: 데이터 입출력(Data Input/Output, DQ)과 데이터 스트로브(Data Strobe, DQS)의 지연을 보정해 고속 샘플링 시점을 맞추는 절차
+- **PHY 트레이닝**: Physical Layer Training, DQ와 DQS 지연을 보정해 샘플링 시점을 맞추는 절차
 
 </details>
 

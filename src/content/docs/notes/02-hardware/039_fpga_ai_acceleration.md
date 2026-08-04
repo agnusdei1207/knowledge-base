@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FPGA AI 가속 (FPGA AI Acceleration)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:41:00+09:00"
 tags:
   - "notes-hardware"
 weight: 39
@@ -25,7 +25,9 @@ extra:
 - **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리 기능과 내부 배선을 다시 구성할 수 있는 반도체이다.
 - **재구성 회로(Reconfigurable Circuit)**: 설정 데이터를 바꾸어 동일한 하드웨어 자원을 다른 연산 구조로 재편할 수 있는 회로이다.
 - **지연 상한(Latency Bound)**: 입력부터 결과까지 걸리는 시간이 넘지 않아야 하는 최대 허용 한계이다.
-- **인공지능(Artificial Intelligence, AI)•주문형 반도체(Application-Specific Integrated Circuit, ASIC)•그래픽 처리 장치(Graphics Processing Unit, GPU)**: 가속 대상 기술과 고정 회로 및 프로그램식 병렬 가속기이다.
+- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
+- **ASIC**: Application-Specific Integrated Circuit, 기능이 고정된 전용 반도체
+- **GPU**: Graphics Processing Unit, 프로그램식 병렬 처리 장치
 
 </details>
 
@@ -44,7 +46,6 @@ extra:
 - **개시 간격(Initiation Interval, II)**: 파이프라인이 연속된 새 입력을 받아들이는 사이의 클록 간격이다.
 - **비트스트림(Bitstream)**: FPGA의 논리 기능과 배선 연결 및 메모리 구성을 담은 설정 파일이다.
 - **온칩 메모리 재사용(On-chip Memory Reuse)**: 외부 전송을 반복하지 않도록 데이터를 칩 내부 메모리에 유지하며 여러 연산에 사용하는 방식이다.
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 비트스트림으로 공간 병렬 파이프라인을 재구성하는 반도체이다.
 
 </details>
 
@@ -145,7 +146,6 @@ sequenceDiagram
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 다수의 코어로 대규모 병렬 연산을 수행하는 프로세서이다.
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 기능과 데이터 경로를 제조 시점에 고정하여 구현한 전용 반도체이다.
 - **배치 처리량(Batch Throughput)**: 여러 입력을 묶어 처리할 때 단위 시간당 완료하는 입력의 수이다.
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리와 배선을 재구성할 수 있는 가속기이다.
 
 </details>
 
@@ -169,7 +169,6 @@ sequenceDiagram
 - **양자화(Quantization)**: 가중치와 활성값의 수치 비트 수를 줄여 연산량과 메모리 사용량을 낮추는 변환이다.
 - **부분 재구성(Partial Reconfiguration)**: FPGA 전체를 정지하지 않고 지정한 일부 영역의 회로 구성만 교체하는 기능이다.
 - **롤백 이미지(Rollback Image)**: 새 비트스트림의 검증이나 기동에 실패했을 때 복구할 수 있도록 보관한 정상 구성이다.
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 부분 재구성과 롤백 이미지로 회로 기능을 갱신할 수 있는 반도체이다.
 - **룩업 테이블(Look-Up Table, LUT)•디지털 신호 처리(Digital Signal Processing, DSP)•블록 램(Block RAM, BRAM)**: 논리•수치 연산•온칩 저장을 담당하는 FPGA 자원이다.
 
 </details>
@@ -194,7 +193,6 @@ sequenceDiagram
 - **모델 변경 주기(Model Change Cycle)**: 배포한 인공지능 모델의 구조나 연산 요구를 갱신하는 시간 간격이다.
 - **엄격한 지연 상한(Strict Latency Bound)**: 최악 조건에서도 응답 시간이 정해진 제한을 초과하지 않아야 하는 요구사항이다.
 - **고정 대량 생산(Fixed High-volume Production)**: 기능 변경이 드물고 동일한 설계를 많은 수량으로 제조하는 생산 조건이다.
-- **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)•그래픽 처리 장치(Graphics Processing Unit, GPU)•주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 재구성 빈도와 생산량에 따라 선택하는 대표 가속기이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인터럽트 처리 방식: 벡터•데이지체인 (Interrupt Handling)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:26:00+09:00"
 tags:
   - "notes-hardware"
 weight: 34
@@ -23,7 +23,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **인터럽트 처리**: 비동기 요청으로 실행을 전환해 원인을 처리한 뒤 이전 문맥으로 복귀하는 절차
-- **인터럽트 요청(Interrupt Request, IRQ)**: 장치나 타이머가 중앙 처리 장치(Central Processing Unit, CPU)에 비동기 처리를 요구하는 신호
+- **IRQ**: Interrupt Request, 장치나 타이머가 CPU에 비동기 처리를 요구하는 신호
+- **CPU**: Central Processing Unit, 명령을 실행하는 중앙 처리 장치
 
 </details>
 
@@ -38,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 원인을 확인하고 긴급한 최소 처리를 수행하는 전용 코드
+- **ISR**: Interrupt Service Routine, 인터럽트 원인의 긴급 처리를 수행하는 코드
 - **인터럽트 지연**: 요청이 발생한 시점부터 ISR 실행이 시작될 때까지 걸리는 시간
 - **중첩 인터럽트**: ISR 실행 중 더 높은 우선순위 요청의 진입을 허용하는 방식
 
@@ -56,8 +57,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **인터럽트 제어기**: 요청 마스킹•우선순위 중재 후 대상 중앙 처리 장치(Central Processing Unit, CPU)에 인터럽트 요청(Interrupt Request, IRQ)을 전달하는 하드웨어
-- **인터럽트 벡터•테이블**: 원인별 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)을 식별하는 번호와 진입 주소를 저장한 표
+- **인터럽트 제어기**: 마스킹•우선순위 중재 후 대상 CPU에 IRQ를 전달하는 하드웨어
+- **인터럽트 벡터**: 원인별 ISR을 식별하는 번호
+- **인터럽트 벡터 테이블**: 인터럽트 벡터별 ISR 진입 주소를 저장한 표
 - **실행 문맥**: 인터럽트 복귀를 위해 저장하는 프로그램 카운터•레지스터•상태 정보
 
 </details>
@@ -89,9 +91,9 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **마스킹•중재**: 특정 요청을 차단하고 여러 IRQ 중 처리할 하나를 우선순위로 선택하는 제어
-- **인터럽트 요청(Interrupt Request, IRQ)**: 장치가 중앙 처리 장치(Central Processing Unit, CPU)에 비동기 처리를 요구하는 신호
-- **인터럽트 종료(End of Interrupt, EOI)**: 인터럽트 서비스 루틴(Interrupt Service Routine, ISR)이 처리를 끝냈음을 제어기에 알려 다음 요청을 허용하는 신호
+- **마스킹**: 특정 인터럽트 요청의 CPU 전달을 차단하는 제어
+- **중재**: 여러 IRQ 중 처리할 하나를 우선순위로 선택하는 제어
+- **EOI**: End of Interrupt, ISR 완료를 제어기에 알리는 신호
 - **원인 해제**: 장치의 완료•오류 상태를 확인하고 IRQ가 다시 발생하지 않도록 상태를 정리하는 동작
 
 </details>
@@ -126,7 +128,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **벡터 방식**: 인터럽트 번호로 인터럽트 서비스 루틴(Interrupt Service Routine, ISR) 주소를 직접 찾아 빠르게 원인을 식별하는 방식
+- **벡터 방식**: 인터럽트 번호로 ISR 주소를 직접 찾아 원인을 식별하는 방식
 - **데이지체인**: 승인 신호를 장치 연결 순서대로 전달해 요청자와 고정 우선순위를 찾는 방식
 - **기아**: 낮은 우선순위 요청이 높은 요청에 계속 밀려 처리되지 못하는 상태
 
@@ -148,9 +150,9 @@ sequenceDiagram
 
 - **지연 처리**: ISR에서는 원인만 해제하고 긴 작업을 별도 커널 작업으로 넘기는 방식
 - **우선순위 노화**: 오래 기다린 낮은 우선순위 요청의 순위를 점차 높여 기아를 막는 방법
-- **메시지 신호 인터럽트 확장(Message Signaled Interrupts eXtended, MSI-X) 벡터 친화도**: 독립 인터럽트 벡터를 담당 큐와 중앙 처리 장치(Central Processing Unit, CPU)에 배정해 처리 편중을 줄이는 정책
+- **MSI-X**: Message Signaled Interrupts eXtended, 메시지 기반 다중 인터럽트 방식
+- **MSI-X 벡터 친화도**: 독립 벡터를 담당 큐와 CPU에 배정하는 정책
 - **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 멀티큐별 MSI-X 벡터를 사용할 수 있는 저장장치 인터페이스
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 원인 해제 등 긴급 작업만 수행하고 나머지를 지연 처리로 넘기는 코드
 
 </details>
 
@@ -173,7 +175,6 @@ sequenceDiagram
 
 - **빠른 원인 식별**: 다수 요청 중 해당 ISR을 짧은 시간에 직접 선택하는 능력
 - **고정 순위**: 물리 연결 순서로 장치 우선순위가 미리 결정되는 방식
-- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 원인을 처리하도록 벡터나 승인 순서로 선택되는 전용 코드
 
 </details>
 

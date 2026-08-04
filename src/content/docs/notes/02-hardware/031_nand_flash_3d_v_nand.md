@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3D V-NAND와 2D NAND 비교 (3D vs 2D NAND)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:17:00+09:00"
 tags:
   - "notes-hardware"
 weight: 31
@@ -22,8 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **3차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)**: 워드라인 층과 채널을 수직 적층해 면적당 저장 용량을 높인 낸드(Not AND, NAND) 구조
-- **2차원 낸드(Two-Dimensional NAND, 2D NAND)**: 기판 평면에서 셀 간격을 줄여 집적도를 높이는 NAND 구조
+- **3D V-NAND**: Three-Dimensional Vertical NAND, 워드라인과 채널을 수직 적층한 구조
+- **2D NAND**: Two-Dimensional NAND, 기판 평면에서 셀 간격을 줄인 구조
+- **NAND**: Not AND, 페이지 기록과 블록 삭제를 사용하는 플래시 메모리
 
 </details>
 
@@ -39,7 +40,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **수직 층수**: 평면 미세화 대신 위로 쌓아 집적도를 높이는 워드라인 적층 수
-- **셀 간섭•누설**: 인접 전기장이나 저장 전하 유출로 셀 임계 전압이 흔들리는 현상
+- **셀 간섭**: 인접 셀의 전기장으로 임계 전압이 흔들리는 현상
+- **전하 누설**: 저장 전하가 빠져나가 셀 임계 전압이 변하는 현상
 - **고종횡비 식각**: 깊고 좁은 수직 채널 구멍을 여러 적층에 균일하게 뚫는 공정
 
 </details>
@@ -59,7 +61,6 @@ extra:
 - **워드라인 적층**: 같은 높이의 셀 게이트를 선택하도록 층별로 배치한 배선
 - **전하 트랩 셀**: 절연막에 전자를 가두고 임계 전압 구간으로 비트를 표현하는 셀
 - **수직 채널 스트링**: 여러 적층 셀을 직렬로 연결해 비트라인으로 이어 주는 수직 통로
-- **3차원 낸드(Three-Dimensional NAND, 3D NAND)**: 워드라인 적층과 수직 채널 스트링으로 셀을 쌓는 NAND 구조
 
 </details>
 
@@ -96,8 +97,8 @@ block-beta
 - **점진적 단계 펄스 프로그래밍(Incremental Step Pulse Programming, ISPP)**: 프로그램 펄스와 검증을 반복해 셀을 목표 임계 전압에 단계적으로 도달시키는 방식
 - **페이지 버퍼**: 한 페이지의 프로그램 데이터와 판독 결과를 임시 보관하는 회로
 - **프로그램 검증**: 셀 임계 전압이 목표 구간에 들어왔는지 감지 회로로 확인하는 과정
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)•오류 정정 코드(Error-Correcting Code, ECC)**: 페이지 데이터 전송을 제어하는 저장장치와 추가 비트로 오류를 정정하는 기법
-- **3차원 낸드(Three-Dimensional NAND, 3D NAND)**: ISPP로 적층 셀의 임계 전압을 단계적으로 조정하는 플래시 구조
+- **SSD**: Solid-State Drive, NAND와 컨트롤러로 구성한 저장장치
+- **ECC**: Error-Correcting Code, 추가 검사 비트로 데이터 오류를 검출•정정하는 기법
 
 </details>
 
@@ -142,7 +143,6 @@ sequenceDiagram
 - **평면 미세화**: 셀 간격과 배선 폭을 줄여 2차원 면적당 용량을 높이는 방식
 - **층 균일도**: 적층 높이와 위치가 달라도 셀과 채널의 전기 특성이 일정한 정도
 - **면적당 용량**: 칩의 평면 면적 하나에 저장할 수 있는 총 데이터 양
-- **3차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)•2차원 낸드(Two-Dimensional NAND, 2D NAND)**: 각각 수직 적층과 평면 미세화로 집적도를 높이는 구조
 
 </details>
 
@@ -162,11 +162,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **원시 비트 오류•오류 정정 코드(Error-Correcting Code, ECC)**: 감지 회로가 읽은 교정 전 오류와 이를 검출•정정하는 부호
+- **원시 비트 오류**: 감지 회로가 읽은 ECC 교정 전 비트 오류
 - **프로그램 간섭**: 인접 워드라인의 쓰기 전압이 다른 셀 임계 전압을 변화시키는 현상
-- **단일 레벨 셀(Single-Level Cell, SLC) 캐시**: 낸드(Not AND, NAND) 일부를 셀당 1비트처럼 사용해 짧은 구간의 쓰기 속도를 높이는 영역
-- **점진적 단계 펄스 프로그래밍(Incremental Step Pulse Programming, ISPP)**: 프로그램 전압을 단계적으로 높이며 셀 상태를 검증하는 방식
-- **삼중 레벨 셀(Triple-Level Cell, TLC)**: 한 셀에 3비트를 저장해 용량을 높이는 플래시 셀 방식
+- **SLC 캐시**: Single-Level Cell Cache, 셀당 1비트로 동작해 쓰기 속도를 높이는 영역
+- **TLC**: Triple-Level Cell, 한 셀에 3비트를 저장하는 플래시 셀 방식
 
 </details>
 
@@ -187,10 +186,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **고집적 솔리드 스테이트 드라이브(High-Density Solid-State Drive, 고집적 SSD)**: 제한된 칩 면적에 많은 낸드(Not AND, NAND) 용량을 제공해야 하는 저장장치
+- **고집적 SSD**: 제한된 칩 면적에 많은 NAND 용량을 제공하는 저장장치
 - **성숙 평면 공정**: 제조 경험과 수율이 안정된 2차원 NAND 생산 기술
-- **3차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)•2차원 낸드(Two-Dimensional NAND, 2D NAND)**: 고집적 수직 구조와 성숙한 평면 구조를 각각 대표하는 플래시 방식
-- **오류 정정 코드(Error-Correcting Code, ECC)**: 셀당 비트 증가로 커지는 원시 오류를 추가 검사 비트로 검출•정정하는 기법
 
 </details>
 
