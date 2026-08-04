@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-04T19:45:00+09:00"
+date: "2026-08-04T14:39:09+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -107,15 +107,22 @@ sequenceDiagram
   participant O as 수집 계층
   participant A as 분석기
   C->>G: API 요청•루트 Trace ID 생성
-  G->>S: 1. W3C Trace Context 전파
-  S->>O: 2. 하위 Span•Metric•Log 전송
-  O->>A: 3. 표본•저장•호출 경로 조립
+  G->>G: 1. W3C Trace Context 주입
+  G->>S: 추적 문맥•하위 요청 전달
+  S->>S: 2. 하위 Span•Metric•Log 생성
+  S->>O: 관측 데이터 전달
+  O->>O: 3. 표본•저장•호출 경로 조립
+  O->>A: 조립된 추적 전달
+  A->>A: 4. 이상 탐지•병목 원인 분석
   A-->>C: 이상 탐지•병목 원인 결과
 ```
 
-1. **W3C Trace Context 전파**: 부모 관계•벤더 상태 전달
-2. **하위 Span•Metric•Log 전송**: 지연•오류•자원 사건 수집
+**동작 원리**
+
+1. **W3C Trace Context 주입**: 부모 관계•벤더 상태를 요청에 삽입
+2. **하위 Span•Metric•Log 생성**: 지연•오류•자원 사건 기록
 3. **표본•저장•호출 경로 조립**: 같은 Trace ID 구간 연결
+4. **이상 탐지•병목 원인 분석**: 오류•지연 구간과 의존 호출 판별
 
 #### 한줄 요약
 - Trace ID와 Span 정보를 활용해 데이터베이스 쿼리나 외부 API 호출 중 느리거나 실패한 구간을 찾아냅니다.

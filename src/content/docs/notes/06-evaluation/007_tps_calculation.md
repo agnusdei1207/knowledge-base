@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TPS 계산 - 동시 사용자•응답 시간 공식 (TPS Calculation)"
-date: "2026-08-04T19:39:00+09:00"
+date: "2026-08-04T14:38:41+09:00"
 tags:
   - "notes-evaluation"
 weight: 7
@@ -104,15 +104,19 @@ sequenceDiagram
   participant M as 측정기
   participant C as 계산•검증기
   O->>A: 거래 경계•피크 비율 전달
-  A->>M: 1. N•R•Z 측정 조건 전송
-  M->>C: 2. N•R•Z 표본 전송
+  A->>A: 1. N•R•Z 측정 조건 확정
+  A->>M: 측정 조건 전달
+  M->>M: 2. N•R•Z 표본 수집
+  M->>C: 측정 표본 전달
   C->>C: 3. X=N/(R+Z) 계산
   C->>C: 4. 업무 비율•피크 TPS 보정
   C-->>O: 목표 TPS•시험 부하 결과
 ```
 
-1. **N•R•Z 측정 조건 전송**: 성공 거래와 집중 시간 확정
-2. **N•R•Z 표본 전송**: 사용자 수와 주기 분포 수집
+**동작 원리**
+
+1. **N•R•Z 측정 조건 확정**: 성공 거래와 집중 시간 확정
+2. **N•R•Z 표본 수집**: 사용자 수와 주기 분포 수집
 3. **X=N/(R+Z) 계산**: 폐쇄형 평균 TPS 산출
 4. **업무 비율•피크 TPS 보정**: 거래별 최대 부하 변환
 

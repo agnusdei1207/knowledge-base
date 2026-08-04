@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: "2026-08-04T20:33:00+09:00"
+date: "2026-08-04T14:41:56+09:00"
 tags:
   - "notes-evaluation"
 weight: 16
@@ -103,15 +103,20 @@ block-beta
 sequenceDiagram
   participant O as 서비스 책임자
   participant M as 품질 측정기
-    participant B as 예산 계산•소진율 감시기
+  participant B as 예산 계산•소진율 감시기
   participant G as 배포 관문
-  O->>M: 1. SLI•SLO•측정 창 정의
-  M->>B: 2. 허용•실제 실패량 계산
-    B->>B: 3. 잔여 예산•소진율 산출
-    B->>G: 4. 다중 창 경보•정책 판정
+  O->>O: 1. SLI•SLO•측정 창 정의
+  O->>M: 측정 기준 전달
+  M->>M: 2. 허용•실제 실패량 계산
+  M->>B: 실패량 전달
+  B->>B: 3. 잔여 예산•소진율 산출
+  B->>B: 4. 다중 창 경보•정책 판정
+  B->>G: 경보•판정 결과 전달
   G->>G: 5. 배포•안정화•예외 결정
   G-->>O: 변경 정책 결과 전달
 ```
+
+**동작 원리**
 
 1. **SLI•SLO•측정 창 정의**: 분자•분모•목표 확정
 2. **허용•실제 실패량 계산**: 전체•나쁜 사건 집계

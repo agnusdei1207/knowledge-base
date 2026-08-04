@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SLO•SLI (Service Level Objective•Indicator)"
-date: "2026-08-04T20:27:00+09:00"
+date: "2026-08-04T14:41:34+09:00"
 tags:
   - "notes-evaluation"
 weight: 15
@@ -97,21 +97,26 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant O as 사용자 경로•서비스 책임자
+  participant O as 사용자 경로•서비스 책임자
   participant C as 데이터 수집기
   participant I as SLI 계산기
   participant P as 운영 정책
-    O->>O: 1. 사용자 여정•좋은 사건 정의
-    O->>C: 2. 성공•오류•지연 데이터 수집
-  C->>I: 3. 측정 창 SLI•예산 계산
-  I->>P: 4. 소진율•SLO 충족 판정
+  O->>O: 1. 사용자 여정•좋은 사건 정의
+  O->>C: 측정 정의 전달
+  C->>C: 2. 성공•오류•지연 데이터 수집
+  C->>I: 원시 측정값 전달
+  I->>I: 3. 측정 창 SLI•오류 예산 계산
+  I->>P: SLI•예산 사용량 전달
+  P->>P: 4. 소진율•SLO 충족 판정
   P->>P: 5. 배포•안정화•목표 조정
   P-->>O: 운영 정책 결과 전달
 ```
 
+**동작 원리**
+
 1. **사용자 여정•좋은 사건 정의**: 경계•분자•분모 확정
 2. **성공•오류•지연 데이터 수집**: 체감 품질 원시값 확보
-3. **측정 창 SLI•예산 계산**: 실제값•허용실패량 산출
+3. **측정 창 SLI•오류 예산 계산**: 실제값•허용실패량 산출
 4. **소진율•SLO 충족 판정**: 위험•예산 소비속도 평가
 5. **배포•안정화•목표 조정**: 변경 중지•개선•재설정
 

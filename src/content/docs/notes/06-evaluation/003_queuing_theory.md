@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "큐잉 이론 - M/M/1•M/M/c (Queuing Theory)"
-date: "2026-08-04T19:27:00+09:00"
+date: "2026-08-04T14:37:23+09:00"
 tags:
   - "notes-evaluation"
 weight: 3
@@ -112,15 +112,21 @@ block-beta
 sequenceDiagram
   participant A as 분석가
   participant M as 측정기
-    participant C as 모형 선정•계산기
+  participant C as 모형 선정•계산기
   participant V as 검증기
-  A->>M: 1. 도착•서비스 표본 수집
-    M->>C: 2. Kendall 모형•가정 선정
-    C->>C: 3. 이용률•안정 조건 계산
-  C->>V: 4. 대기길이•체류시간 예측
-  V->>C: 5. 실측 오차•용량 보정
+  A->>M: 표본 측정 요청
+  M->>M: 1. 도착•서비스 표본 수집
+  M->>C: 측정 표본 전달
+  C->>C: 2. Kendall 모형•가정 선정
+  C->>C: 3. 이용률•안정 조건 계산
+  C->>C: 4. 대기길이•체류시간 예측
+  C->>V: 예측 결과 전달
+  V->>V: 5. 실측 오차•용량 보정
+  V->>C: 보정 결과 전달
   C-->>A: 대기 예측•용량 결과
 ```
+
+**동작 원리**
 
 1. **도착•서비스 표본 수집**: 평균•분포•변동성 측정
 2. **Kendall 모형•가정 선정**: 서버•용량•규칙 명시
