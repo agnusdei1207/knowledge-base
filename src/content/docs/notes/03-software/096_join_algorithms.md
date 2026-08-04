@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "096. 조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
-date: "2026-08-04T12:42:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 96
@@ -65,19 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  I["입력"]
-  C["조인 조건"]
-  R["입력 역할"]
-  M["작업 메모리"]
-  T["임시 디스크"]
-  I --- R
-  C --- R
-  R --- M
-  M --- T
+```text
+                   [입력]
+                     |
+[조인 조건] ----- [입력 역할] ----- [작업 메모리] ----- [임시 디스크]
 ```
+
+선의 의미: 입력 역할은 입력과 조인 조건에 의해 정의되는 정적 실행 구성이고, 작업 메모리와 임시 디스크는 해당 조인 구성에 결합되는 작업 공간 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

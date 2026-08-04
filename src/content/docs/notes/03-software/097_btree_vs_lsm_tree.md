@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-04T14:18:59+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -66,21 +66,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  W["워크로드"]
-  B["B-Tree 페이지"]
-  L["WAL•Memtable"]
-  S["SSTable"]
-  C["Compaction"]
-  F["Bloom Filter"]
-  W --- B
-  W --- L
-  L --- S
-  S --- C
-  F --- S
+```text
+                           [워크로드]
+                            /      \
+              [B-Tree 페이지]    [WAL•Memtable]
+                                      |
+                                [SSTable] ----- [Compaction]
+                                      |
+                               [Bloom Filter]
 ```
+
+선의 의미: 워크로드 아래에는 B-Tree 페이지 구조와 LSM 계열 구조가 병렬로 놓이며, LSM 계열은 WAL•Memtable, SSTable, Compaction과 Bloom Filter가 결합되는 정적 저장 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

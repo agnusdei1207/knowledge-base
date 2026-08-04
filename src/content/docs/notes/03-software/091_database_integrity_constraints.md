@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-04T14:18:59+09:00"
+date: "2026-08-05T04:30:00+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -69,20 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  S["SQL 처리기"]
-  D["도메인 제약"]
-  E["개체 제약"]
-  R["참조 제약"]
-  I["키 인덱스"]
-  S --- D
-  S --- E
-  S --- R
-  I --- E
-  I --- R
+```text
+                 [도메인 제약]
+                       |
+                 [SQL 처리기]
+                  /         \
+          [개체 제약]     [참조 제약]
+                  \         /
+                  [키 인덱스]
 ```
+
+선의 의미: SQL 처리기는 도메인·개체·참조 제약을 적용하고, 키 인덱스는 개체 제약의 유일성 검사와 참조 제약의 부모 키 탐색을 지원한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
