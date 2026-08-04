@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "병렬 컴퓨터 분류: Flynn 분류 (Flynn's Taxonomy)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 52
@@ -120,8 +120,6 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT)**: 하나의 명령을 워프의 여러 스레드 상태에 공통 발행하되 각 스레드가 독립 상태를 유지하는 실행 모델이다.
-- **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**: 하나의 명령으로 여러 데이터 레인을 동시에 처리하는 실행 구조이다.
-- **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)**: 여러 실행 단위가 서로 다른 명령과 데이터를 독립적으로 처리하는 구조이다.
 - **명령 발행 단위(Instruction Issue Unit)**: 하나의 명령이 동시에 적용되는 하드웨어 레인이나 스레드의 묶음이다.
 - **혼합 병렬성(Hybrid Parallelism)**: 하나의 시스템이 계층에 따라 데이터 병렬성과 작업 병렬성을 함께 사용하는 구조이다.
 
@@ -130,8 +128,8 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 코어•칩•노드 경계를 섞어 분류 | 비교 대상마다 **분석 경계** 선지정 | **분류 일관성** 확보 |
-| 그래픽 처리장치(Graphics Processing Unit, GPU)의 SIMT를 하드웨어 SIMD와 동일시 | **명령 발행 단위•스레드 상태** 구분 | **실행 모델** 오분류 방지 |
-| 이기종 시스템 전체를 단일 범주로 단순화 | **중앙처리장치(Central Processing Unit, CPU)•GPU•노드** 계층별 분리 분류 | **혼합 병렬성** 표현 |
+| GPU의 SIMT를 하드웨어 SIMD와 동일시 | **명령 발행 단위•스레드 상태** 구분 | **실행 모델** 오분류 방지 |
+| 이기종 시스템 전체를 단일 범주로 단순화 | **CPU•GPU•노드** 계층별 분리 분류 | **혼합 병렬성** 표현 |
 
 > 요약: GPU 워프는 **SIMD**, 여러 GPU•노드는 **MIMD** 관점 분류
 
@@ -149,7 +147,7 @@ extra:
 
 </details>
 
-- 동일 연산•다중 데이터는 **단일 명령 다중 데이터(Single Instruction Multiple Data, SIMD)**, 독립 작업은 **다중 명령 다중 데이터(Multiple Instruction Multiple Data, MIMD)** 분류
+- 동일 연산•다중 데이터는 **SIMD**, 독립 작업은 **MIMD** 분류
 
 #### 한줄 요약
 

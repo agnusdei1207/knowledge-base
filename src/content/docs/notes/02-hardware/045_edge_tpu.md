@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:59:00+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -41,7 +41,8 @@ extra:
 
 - **완전 정수 양자화(Full Integer Quantization)**: 모델의 가중치와 활성값 및 입출력을 정수 형식으로 변환하는 기법이다.
 - **지원 연산 컴파일(Supported-operation Compilation)**: 장치가 직접 실행할 수 있는 연산자를 찾아 전용 실행 코드로 변환하는 과정이다.
-- **중앙 처리 장치 폴백(Central Processing Unit Fallback, CPU 폴백)**: 에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)가 지원하지 않는 연산을 호스트 CPU에서 대체 실행하는 처리이다.
+- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
+- **CPU 폴백**: Edge TPU 미지원 연산을 CPU에서 대체 실행하는 처리
 - **장치 전환 비용(Device-transition Cost)**: 서로 다른 처리 장치 사이에서 텐서를 복사하고 실행을 동기화할 때 생기는 시간과 전력 비용이다.
 
 </details>
@@ -59,7 +60,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **텐서플로 라이트(TensorFlow Lite, TFLite)**: 모바일과 에지 장치용 추론 모델 형식 및 경량 실행 런타임이다.
-- **에지 텐서 처리 장치 컴파일러(Edge Tensor Processing Unit Compiler, Edge TPU 컴파일러)**: 지원 연산을 찾아 모델을 분할하고 Edge TPU 장치 코드를 생성하는 도구이다.
+- **Edge TPU 컴파일러**: 지원 연산을 찾아 모델을 분할하고 장치 코드를 생성하는 도구
 - **텐서플로 라이트 런타임(TensorFlow Lite Runtime, TFLite 런타임)**: 모델 구간을 중앙 처리 장치(Central Processing Unit, CPU)와 Edge TPU에 제출하고 버퍼 및 결과를 관리하는 실행 소프트웨어이다.
 
 </details>
@@ -91,11 +92,9 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **정수 실행 계획(Integer Execution Plan)**: 모델의 연산 순서와 에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU) 및 중앙 처리 장치(Central Processing Unit, CPU)에 배치된 구간을 기록한 실행 정보이다.
+- **정수 실행 계획(Integer Execution Plan)**: 모델 연산 순서와 Edge TPU•CPU 배치를 기록한 정보
 - **경계 텐서(Boundary Tensor)**: Edge TPU 구간과 CPU 구간 사이에서 전달되는 중간 데이터이다.
 - **지원 구간(Supported Segment)**: Edge TPU가 직접 실행할 수 있는 연속된 정수 연산자 묶음이다.
-- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)•중앙 처리 장치(Central Processing Unit, CPU)**: 지원 구간과 폴백 구간을 각각 실행하는 장치이다.
-- **텐서플로 라이트(TensorFlow Lite, TFLite)**: 실행 계획과 장치별 모델 구간을 관리하는 경량 런타임이다.
 
 </details>
 
@@ -137,7 +136,6 @@ sequenceDiagram
 
 - **온디바이스 신경망 처리 장치(On-device Neural Processing Unit, 온디바이스 NPU)**: 제품의 시스템 온 칩(System on Chip, SoC)에 내장되어 단말 신경망 추론을 실행하는 가속기이다.
 - **클라우드 텐서 처리 장치(Cloud Tensor Processing Unit, 클라우드 TPU)**: 데이터센터에서 대규모 학습과 추론을 처리하도록 제공되는 TPU 자원이다.
-- **에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: 현장 센서에 연결해 저전력 정수 추론을 수행하는 가속기이다.
 - **네트워크 왕복 지연(Network Round-trip Latency)**: 단말이 서버에 요청을 전송하고 결과를 받을 때까지 발생하는 통신 지연이다.
 
 </details>
@@ -162,7 +160,6 @@ sequenceDiagram
 - **지원 연산자 대체(Operator Substitution)**: 비지원 연산을 의미가 같은 지원 연산 조합으로 바꾸어 가속 구간을 넓히는 작업이다.
 - **원자적 모델 교체(Atomic Model Replacement)**: 새 모델을 완전히 검증한 뒤 한 번의 전환으로 활성 모델을 바꾸는 배포 방식이다.
 - **모델 롤백(Model Rollback)**: 새 모델의 정확도나 호환성에 문제가 생기면 이전 정상 모델로 되돌리는 복구 절차이다.
-- **중앙 처리 장치(Central Processing Unit, CPU)•에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)**: 비지원 연산과 지원 정수 연산을 각각 실행하는 장치이다.
 
 </details>
 
@@ -183,7 +180,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **지원 연산률(Supported-operation Ratio)**: 전체 모델 연산 가운데 에지 텐서 처리 장치(Edge Tensor Processing Unit, Edge TPU)에서 직접 실행되는 연산의 비율이다.
+- **지원 연산률(Supported-operation Ratio)**: 전체 모델 연산 중 Edge TPU 직접 실행 비율
 - **오프라인 추론(Offline Inference)**: 외부 네트워크 연결 없이 단말 내부 자원만으로 모델 결과를 계산하는 방식이다.
 - **지속 추론(Sustained Inference)**: 장시간의 전력과 열 한도에서도 목표 실행 주기와 지연을 유지하는 추론이다.
 

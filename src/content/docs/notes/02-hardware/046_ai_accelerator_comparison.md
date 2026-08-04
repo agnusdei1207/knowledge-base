@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:02:00+09:00"
 tags:
   - "notes-hardware"
 weight: 46
@@ -57,7 +57,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **컴파일러•런타임(Compiler•Runtime)**: 모델을 장치 코드로 변환하고 실행 순서와 버퍼 및 장치 전환을 관리하는 소프트웨어이다.
+- **컴파일러(Compiler)**: 모델을 장치 코드로 변환하는 소프트웨어
+- **런타임(Runtime)**: 실행 순서와 버퍼 및 장치 전환을 관리하는 소프트웨어
 - **호스트 중앙 처리 장치(Host Central Processing Unit, 호스트 CPU)**: 동적 분기와 전후처리 및 가속기가 지원하지 않는 연산을 실행하는 프로세서이다.
 - **인터커넥트(Interconnect)**: CPU와 가속기 및 메모리 사이에서 텐서와 제어 신호를 전달하는 연결이다.
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)•신경망 처리 장치(Neural Processing Unit, NPU)•필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)•주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 병렬•전용•재구성•고정 회로 연산을 담당하는 가속기이다.
@@ -159,8 +160,6 @@ sequenceDiagram
 - **정점 성능(Peak Performance)**: 모든 연산 자원을 이상적으로 활용할 때 가능한 이론상의 최대 처리량이다.
 - **연산자•정밀도 지원 범위(Operator•Precision Coverage)**: 모델의 연산 종류와 수치 형식 가운데 장치가 직접 실행할 수 있는 범위이다.
 - **재사용률(Data Reuse Ratio)**: 한 번 전송한 입력이나 가중치를 연산기 가까이에서 반복 사용하는 정도이다.
-- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: 주문형 반도체(Application-Specific Integrated Circuit, ASIC) 설계와 검증 및 마스크 제작에 한 번 발생하는 초기 비용이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 데이터 병렬 학습에 사용하는 프로그램 가능 가속기이다.
 
 </details>
 
@@ -184,7 +183,6 @@ sequenceDiagram
 - **가변 병렬 학습(Variable Parallel Training)**: 모델과 커널이 바뀌면서도 많은 데이터를 병렬 처리해야 하는 학습 작업이다.
 - **저전력 추론(Low-power Inference)**: 제한된 배터리와 열 한도 안에서 모델 예측을 수행하는 실행 조건이다.
 - **대량 고정 배포(Fixed High-volume Deployment)**: 기능 변경이 드문 동일 설계를 많은 수량으로 배포하는 조건이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•신경망 처리 장치(Neural Processing Unit, NPU)•주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 가변 학습•저전력 추론•대량 고정 배포에 각각 적합한 가속기이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "임베디드 시스템 구조 (Embedded System Architecture)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:40:00+09:00"
 tags:
   - "notes-hardware"
 weight: 60
@@ -60,7 +60,8 @@ extra:
 - **입력부(Input Unit)**: 센서 신호를 디지털 값으로 변환하고 이벤트를 인터럽트로 처리부에 전달하는 구성이다.
 - **실시간 운영체제(Real-time Operating System, RTOS)**: 작업이 정한 마감시간 안에 완료되도록 우선순위와 실행 순서를 관리하는 운영체제이다.
 - **통신부(Communication Unit)**: 외부 시스템과 운용 데이터 및 펌웨어 업데이트 이미지를 송수신하는 구성이다.
-- **출력•복구부(Output•Recovery Unit)**: 액추에이터를 제어하고 오류 시 안전 출력과 재부팅을 수행하는 구성이다.
+- **출력부(Output Unit)**: 액추에이터에 제어 신호를 전달하는 구성
+- **복구부(Recovery Unit)**: 오류 시 안전 출력과 재부팅을 수행하는 구성
 
 </details>
 
@@ -98,7 +99,6 @@ block-beta
 - **워치독(Watchdog)**: 정해진 시간 동안 정상 완료 보고가 없는 펌웨어를 감지하여 안전 출력이나 재시작을 실행하는 장치이다.
 - **안전 상태(Safe State)**: 오류나 마감시간 초과 때 액추에이터를 정지하거나 제한하여 위험을 줄이는 출력 상태이다.
 - **검증 이미지(Validated Image)**: 무결성과 정상 동작을 확인하여 장애 복구 시 부팅할 수 있는 펌웨어 이미지이다.
-- **실시간 운영체제(Real-time Operating System, RTOS)**: 제어 작업의 우선순위와 실행 순서를 관리해 마감시간 준수를 지원하는 운영체제이다.
 
 </details>
 
@@ -188,7 +188,7 @@ sequenceDiagram
 
 </details>
 
-- 실시간•저전력 제어에는 **마이크로컨트롤러(Microcontroller Unit, MCU)**, 화면•통신에는 **마이크로프로세서(Microprocessor Unit, MPU)•시스템온칩(System on Chip, SoC)** 선택
+- 실시간•저전력 제어에는 **MCU**, 화면•통신에는 **MPU•SoC** 선택
 
 #### 한줄 요약
 

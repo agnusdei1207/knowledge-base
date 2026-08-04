@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 42
@@ -40,10 +40,11 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **커널(Kernel)**: GPU의 다수 스레드가 서로 다른 데이터에 병렬로 실행하는 함수이다.
-- **그리드•블록•스레드(Grid•Block•Thread)**: 전체 작업과 협력 가능한 스레드 묶음 및 개별 실행 단위를 나타내는 CUDA 실행 계층이다.
+- **그리드(Grid)**: 커널이 실행하는 전체 스레드 블록 집합
+- **블록(Block)**: 협력 가능한 CUDA 스레드 묶음
+- **스레드(Thread)**: CUDA 커널의 개별 실행 단위
 - **병합 접근(Coalesced Access)**: 인접 스레드의 연속 메모리 요청을 적은 수의 전송으로 합치는 접근 방식이다.
 - **스트림(Stream)**: 등록한 복사와 커널 작업을 순서대로 처리하면서 다른 스트림과의 중첩 실행을 허용하는 대기열이다.
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)•그래픽 처리 장치(Graphics Processing Unit, GPU)**: 커널을 다수 스레드로 실행하는 프로그래밍 모델과 병렬 프로세서이다.
 
 </details>
 
@@ -62,7 +63,6 @@ extra:
 - **호스트 런타임(Host Runtime)**: 장치 메모리 할당과 데이터 복사 및 커널 실행 요청을 관리하는 소프트웨어 계층이다.
 - **커널 실행 계층(Kernel Execution Hierarchy)**: 그리드의 블록을 SM에 배치하고 블록의 스레드를 병렬 실행하는 구조이다.
 - **장치 메모리 계층(Device Memory Hierarchy)**: 레지스터와 공유 메모리 및 전역 메모리를 접근 범위와 지연에 따라 구성한 저장 구조이다.
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)**: 스트림•커널•장치 메모리를 관리하는 NVIDIA 병렬 플랫폼이다.
 - **스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 커널의 스레드 블록을 배치해 실행하는 그래픽 처리 장치(Graphics Processing Unit, GPU) 연산 단위이다.
 
 </details>
@@ -97,7 +97,6 @@ block-beta
 - **복사 엔진(Copy Engine)**: 그래픽 처리 장치(Graphics Processing Unit, GPU) 연산 코어와 별도로 호스트와 장치 메모리 사이의 직접 메모리 접근(Direct Memory Access, DMA) 전송을 수행하는 하드웨어이다.
 - **호스트-장치 전송(Host-to-Device•Device-to-Host, H2D•D2H)**: 중앙 처리 장치(Central Processing Unit, CPU) 메모리에서 GPU 메모리로 입력을 보내고 결과를 반대로 가져오는 데이터 이동이다.
 - **이벤트(Event)**: 스트림 사이의 작업 의존성과 비동기 완료 시점을 표시하는 동기화 객체이다.
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)•스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 스트림 작업을 관리하는 플랫폼과 커널 블록을 실행하는 장치 단위이다.
 
 </details>
 
@@ -144,7 +143,6 @@ sequenceDiagram
 - **SYCL**: 여러 제조사의 가속기를 표준 C++ 코드로 제어하는 이식형 병렬 프로그래밍 모델이다.
 - **다차원 실행 범위(N-Dimensional Range, ND-range)**: SYCL에서 전체 작업 항목과 작업 그룹의 다차원 배치를 나타내는 실행 범위이다.
 - **중앙 처리 장치 멀티스레딩(Central Processing Unit Multithreading, CPU 멀티스레딩)**: 여러 독립 스레드나 태스크를 CPU 코어에 배치하여 동시에 실행하는 방식이다.
-- **통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)•중앙 처리 장치(Central Processing Unit, CPU)**: NVIDIA 가속기용 병렬 모델과 범용 프로세서 실행 환경이다.
 
 </details>
 
@@ -168,7 +166,6 @@ sequenceDiagram
 - **고정 호스트 메모리(Pinned Host Memory)**: 비동기 DMA 전송을 위해 운영체제가 물리 페이지를 교체하지 않도록 고정한 호스트 메모리이다.
 - **점유율(Occupancy)**: 스트리밍 멀티프로세서(Streaming Multiprocessor, SM)에 상주하는 워프 수가 하드웨어 최대치에서 차지하는 비율이다.
 - **연산 집약도(Arithmetic Intensity)**: 메모리에서 이동한 데이터 양에 비해 수행한 연산량의 비율이다.
-- **직접 메모리 접근(Direct Memory Access, DMA)•스트리밍 멀티프로세서(Streaming Multiprocessor, SM)**: 호스트 전송을 수행하는 엔진 방식과 워프를 실행하는 GPU 단위이다.
 
 </details>
 
@@ -192,7 +189,6 @@ sequenceDiagram
 - **공급자 종속(Vendor Lock-in)**: 코드와 최적화가 특정 제조사의 하드웨어 및 소프트웨어 생태계에 의존하는 상태이다.
 - **이식성(Portability)**: 같은 프로그램을 여러 제조사의 가속기에서 적은 수정으로 실행할 수 있는 성질이다.
 - **세부 최적화(Hardware-specific Optimization)**: 특정 그래픽 처리 장치(Graphics Processing Unit, GPU)의 실행 구조와 메모리 계층에 맞춰 성능을 조정하는 작업이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•통합 컴퓨팅 장치 구조(Compute Unified Device Architecture, CUDA)•SYCL**: 병렬 가속기와 NVIDIA 전용 모델 및 다중 제조사 이식형 모델이다.
 
 </details>
 

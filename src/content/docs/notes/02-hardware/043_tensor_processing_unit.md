@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T11:53:00+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -59,10 +59,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **행렬 곱셈 장치(Matrix Multiply Unit, MXU)**: 곱셈•누산 배열로 대규모 행렬 곱을 처리하는 TPU의 핵심 연산 장치이다.
 - **벡터 유닛(Vector Unit)**: 활성화와 정규화처럼 행렬 곱 이외의 원소별•벡터 연산을 처리하는 장치이다.
 - **텐서 처리 장치 런타임(Tensor Processing Unit Runtime, TPU 런타임)**: 컴파일된 작업을 장치에 제출하고 입출력과 상태 및 오류를 관리하는 실행 소프트웨어이다.
-- **가속 선형 대수(Accelerated Linear Algebra, XLA)•고대역폭 메모리(High Bandwidth Memory, HBM)•칩 간 연결망(Inter-Chip Interconnect, ICI)**: 작업을 컴파일하고 단일•다중 칩 데이터 경로를 제공하는 구성이다.
 
 </details>
 
@@ -96,9 +94,7 @@ block-beta
 - **연산 그래프(Computation Graph)**: 신경망의 연산자와 텐서 의존 관계를 노드와 간선으로 나타낸 구조이다.
 - **타일링(Tiling)**: 큰 텐서를 장치의 메모리와 연산 배열 크기에 맞는 작은 블록으로 나누는 최적화이다.
 - **집단 통신(Collective Communication)**: 여러 칩이 부분 결과를 합산•분배•교환하는 다자간 통신이다.
-- **인공지능(Artificial Intelligence, AI)•텐서 처리 장치(Tensor Processing Unit, TPU)•TPU Pod**: 신경망 작업과 이를 단일•다중 칩에서 처리하는 가속기 환경이다.
-- **가속 선형 대수(Accelerated Linear Algebra, XLA)•고대역폭 메모리(High Bandwidth Memory, HBM)**: 연산 그래프를 컴파일하고 타일 데이터를 공급하는 구성이다.
-- **행렬 곱셈 장치(Matrix Multiply Unit, MXU)•칩 간 연결망(Inter-Chip Interconnect, ICI)**: 타일 연산과 칩별 부분 결과 통신을 담당하는 장치이다.
+- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
 
 </details>
 
@@ -164,10 +160,10 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **모양 버킷화(Shape Bucketing)**: 가변 길이 입력을 몇 개의 대표 텐서 모양으로 묶어 컴파일 결과의 종류를 제한하는 기법이다.
-- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프와 텐서 모양의 가속 선형 대수(Accelerated Linear Algebra, XLA) 결과를 저장하여 재컴파일을 피하는 저장소이다.
-- **폴백(Fallback)**: 텐서 처리 장치(Tensor Processing Unit, TPU)가 지원하지 않는 연산을 중앙 처리 장치(Central Processing Unit, CPU) 같은 다른 장치에서 실행하는 대체 처리이다.
+- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프와 모양의 XLA 결과를 저장하는 공간
+- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
+- **폴백(Fallback)**: TPU 미지원 연산을 CPU 같은 다른 장치에서 실행하는 처리
 - **샤딩(Sharding)**: 모델이나 데이터를 여러 TPU 칩에 나누어 배치하고 병렬 처리하는 방식이다.
-- **고대역폭 메모리(High Bandwidth Memory, HBM)•행렬 곱셈 장치(Matrix Multiply Unit, MXU)•칩 간 연결망(Inter-Chip Interconnect, ICI)**: 데이터 공급과 행렬 연산 및 다중 칩 통신을 담당하는 장치이다.
 
 </details>
 
@@ -191,7 +187,6 @@ sequenceDiagram
 - **대규모 행렬 연산(Large-scale Matrix Computation)**: 충분히 큰 행렬 곱을 반복하여 전용 배열의 처리량을 활용하는 작업이다.
 - **다중 칩 학습(Multi-chip Training)**: 모델이나 데이터를 여러 가속기에 분할하고 집단 통신으로 결과를 동기화하는 학습 방식이다.
 - **가변 커널(Variable Kernel)**: 모델이나 작업에 따라 실행 코드와 제어 흐름이 자주 달라지는 병렬 연산 함수이다.
-- **텐서 처리 장치(Tensor Processing Unit, TPU)•그래픽 처리 장치(Graphics Processing Unit, GPU)•TPU Pod**: 대규모 행렬과 가변 커널 및 다중 칩 학습에 사용하는 가속기 환경이다.
 
 </details>
 

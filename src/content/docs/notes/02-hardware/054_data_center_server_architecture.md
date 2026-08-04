@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:22:00+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -22,7 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서버 노드(Server Node)**: 중앙처리장치(Central Processing Unit, CPU)와 메모리, 스토리지 및 네트워크 장치를 하나의 운영 단위로 관리하는 컴퓨터이다.
+- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
+- **서버 노드(Server Node)**: CPU•메모리•스토리지•네트워크를 묶은 운영 단위
 - **서버 아키텍처(Server Architecture)**: 연산과 저장 및 입출력 자원을 연결하고 전력•냉각•관리를 함께 제공하는 구조이다.
 - **장애 범위(Failure Domain)**: 하나의 하드웨어나 전원 고장이 동시에 영향을 미치는 노드•섀시•랙의 범위이다.
 
@@ -41,12 +42,13 @@ extra:
 
 - **종단 병목(End-to-end Bottleneck)**: 요청 경로에서 처리량이 가장 낮아 전체 성능을 제한하는 자원이나 구간이다.
 - **랙 전력 밀도(Rack Power Density)**: 하나의 랙에 공급하고 냉각할 수 있는 전력 용량과 실제 장비 소비 전력의 수준이다.
-- **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키기 위해 중앙처리장치(Central Processing Unit, CPU)나 그래픽 처리장치(Graphics Processing Unit, GPU)의 주파수와 전력 및 처리량을 낮추는 제어이다.
+- **GPU**: Graphics Processing Unit, 대규모 병렬 연산 처리 장치
+- **열 스로틀링(Thermal Throttling)**: 온도 한도를 위해 CPU•GPU 처리량을 낮추는 제어
 - **관리망(Management Network)**: 서비스 데이터망과 분리하여 서버 전원•콘솔•펌웨어의 원격 관리에 사용하는 네트워크이다.
 
 </details>
 
-- 연산•메모리•입출력(Input/Output, I/O)의 **자원 균형 붕괴** 시 최저 처리량 자원이 종단 병목
+- 연산•메모리•**I/O 자원 균형 붕괴** 시 최저 처리량 자원이 종단 병목
 - **전력•냉각 한도** 초과 시 스로틀링•중단 발생
 - **관리망•장애 범위 분리** 로 원격 복구와 가용성 확보
 
@@ -58,9 +60,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **연산 계층(Compute Layer)**: 중앙처리장치(Central Processing Unit, CPU)와 그래픽 처리장치(Graphics Processing Unit, GPU) 같은 프로세서로 범용 및 가속 연산을 수행하는 자원 계층이다.
+- **연산 계층(Compute Layer)**: CPU•GPU로 범용 및 가속 연산을 수행하는 자원 계층
 - **메모리•스토리지 계층(Memory•Storage Layer)**: 실행 데이터와 영구 데이터를 저장하고 연산기에 공급하는 계층이다.
-- **네트워크•입출력 계층(Network•Input/Output Layer, Network•I/O Layer)**: 서비스 요청과 클러스터 통신 및 주변장치 데이터를 전송하는 계층이다.
+- **I/O**: Input/Output, 호스트와 장치 사이의 입출력
+- **네트워크•I/O 계층**: 서비스•클러스터•주변장치 데이터를 전송하는 계층
 - **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: 운영체제와 독립적으로 전원과 온도 및 센서를 감시하고 원격 제어하는 장치이다.
 
 </details>
@@ -105,9 +108,9 @@ block-beta
 - **비휘발성 메모리 익스프레스(Non-volatile Memory Express, NVMe)**: 주변장치 상호연결 익스프레스(Peripheral Component Interconnect Express, PCIe) 기반 솔리드 스테이트 드라이브(Solid-state Drive, SSD)를 위한 병렬 명령 큐와 인터페이스 규격이다.
 - **가속 작업(Accelerated Workload)**: 중앙처리장치(Central Processing Unit, CPU)가 준비한 대규모 병렬 계산을 그래픽 처리장치(Graphics Processing Unit, GPU) 같은 전용 장치에 맡겨 실행하는 작업이다.
 - **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 서버와 데이터센터 네트워크 사이에서 패킷 송수신을 담당하는 장치이다.
-- **중앙처리장치(Central Processing Unit, CPU)•그래픽 처리장치(Graphics Processing Unit, GPU)**: 범용 제어 연산과 대규모 병렬 가속 연산을 각각 담당하는 처리장치이다.
 - **동적 임의 접근 메모리(Dynamic Random Access Memory, DRAM)**: 실행 중인 데이터를 휘발성 셀에 저장하여 프로세서에 제공하는 주 메모리이다.
-- **인공지능(Artificial Intelligence, AI)•고성능 컴퓨팅(High-performance Computing, HPC)**: 대규모 병렬 연산과 높은 데이터 처리량을 요구하는 대표 가속 워크로드이다.
+- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
+- **HPC**: High-Performance Computing, 대규모 과학•공학 병렬 계산
 
 </details>
 
@@ -155,7 +158,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **범용 데이터센터 서버(General-purpose Data-center Server)**: 웹 서비스와 가상화를 위해 중앙처리장치(Central Processing Unit, CPU)•메모리•입출력(Input/Output, I/O)의 균형을 중시하는 서버이다.
-- **AI•HPC 가속 서버**: 인공지능(Artificial Intelligence, AI)•고성능 컴퓨팅(High-performance Computing, HPC)을 위해 그래픽 처리장치(Graphics Processing Unit, GPU)와 고대역폭 메모리(High Bandwidth Memory, HBM) 및 고속 연결에 자원을 집중한 병렬 연산 서버이다.
+- **HBM**: High Bandwidth Memory, 가속기에 고대역폭을 제공하는 적층 메모리
+- **AI•HPC 가속 서버**: GPU•HBM•고속 연결에 자원을 집중한 병렬 연산 서버
 - **가상화(Virtualization)**: 한 물리 서버의 CPU와 메모리 및 장치를 여러 격리된 가상 머신에 나누어 제공하는 기술이다.
 
 </details>
@@ -205,7 +209,6 @@ sequenceDiagram
 
 - **자원 균형(Resource Balance)**: 연산과 메모리 및 입출력(Input/Output, I/O) 중 한 자원이 전체 처리량을 과도하게 제한하지 않는 구성이다.
 - **가속 서버(Accelerated Server)**: 특정 병렬 워크로드를 위해 그래픽 처리장치(Graphics Processing Unit, GPU) 등 가속기와 전력•냉각 자원을 집중한 서버이다.
-- **인공지능(Artificial Intelligence, AI)•고성능 컴퓨팅(High-performance Computing, HPC)**: 높은 연산 밀도와 메모리 대역폭이 필요한 가속 서버의 대표 워크로드이다.
 - **지속 성능(Sustained Performance)**: 장시간 부하에서 전력과 열 한도를 지키면서 유지할 수 있는 실제 처리 성능이다.
 
 </details>

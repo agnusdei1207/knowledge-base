@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "냉각 시스템 (공랭•직접 수랭•액침냉각)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:31:00+09:00"
 tags:
   - "notes-hardware"
 weight: 57
@@ -60,7 +60,8 @@ extra:
 - **열 수집부(Heat Collection Unit)**: 장비 표면이나 배기 공기에서 발생한 열을 냉각 매체로 흡수하는 구성이다.
 - **열 전달부(Heat Transport Unit)**: 팬이나 펌프로 가열된 냉각 매체를 방열 장치까지 순환시키는 구성이다.
 - **열 방출부(Heat Rejection Unit)**: 냉각 매체가 가진 열을 외기나 외부 냉각수 계통으로 내보내는 구성이다.
-- **감시•제어부(Monitoring•Control Unit)**: 온도와 유량 및 압력을 측정하여 팬•펌프와 밸브를 제어하는 구성이다.
+- **감시부(Monitoring Unit)**: 온도•유량•압력을 측정하는 구성
+- **제어부(Control Unit)**: 측정값에 따라 팬•펌프•밸브를 제어하는 구성
 
 </details>
 
@@ -134,7 +135,9 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **공랭(Air Cooling)**: 팬으로 순환시킨 공기가 장비 열을 흡수하고 공조 설비로 전달하는 방식이다.
-- **직접 수랭(Direct Liquid Cooling)**: 중앙처리장치(Central Processing Unit, CPU)나 그래픽 처리장치(Graphics Processing Unit, GPU)에 밀착한 콜드플레이트의 냉각수가 열을 직접 흡수하는 방식이다.
+- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
+- **GPU**: Graphics Processing Unit, 대규모 병렬 연산 처리 장치
+- **직접 수랭(Direct Liquid Cooling)**: CPU•GPU 콜드플레이트가 열을 직접 흡수하는 방식
 - **액침냉각(Immersion Cooling)**: 전자 장비를 전기가 통하지 않는 절연액에 담가 표면 전체에서 열을 흡수하는 방식이다.
 
 </details>
@@ -176,7 +179,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **발열 밀도(Heat Density)**: 랙이나 장비의 단위 면적 또는 부피에서 발생하는 열의 크기이다.
-- **콜드플레이트(Cold Plate)**: 중앙처리장치(Central Processing Unit, CPU)나 그래픽 처리장치(Graphics Processing Unit, GPU) 표면에 밀착하여 내부 냉각수로 열을 직접 흡수하는 판형 열교환기이다.
+- **콜드플레이트(Cold Plate)**: CPU•GPU 표면에 밀착해 냉각수로 열을 흡수하는 판형 열교환기
 - **절연액(Dielectric Fluid)**: 전기가 통하지 않아 전자 장비를 담근 상태로 열을 흡수할 수 있는 냉각액이다.
 
 </details>

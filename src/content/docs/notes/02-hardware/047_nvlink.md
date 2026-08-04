@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:05:00+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -43,7 +43,6 @@ extra:
 - **NVSwitch**: 여러 NVLink 엔드포인트를 다대다 경로로 연결하는 NVIDIA의 전용 스위치이다.
 - **토폴로지(Topology)**: GPU와 링크 및 스위치가 서로 연결된 물리적 형태이다.
 - **집단 통신(Collective Communication)**: 여러 GPU가 각자의 데이터를 합산•분배•교환하는 다자간 통신이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•엔비디아 NVLink(NVIDIA NVLink, NVLink)•엔비디아 NVSwitch(NVIDIA NVSwitch, NVSwitch)**: 병렬 프로세서와 직접 링크 및 다대다 스위치이다.
 
 </details>
 
@@ -62,8 +61,6 @@ extra:
 - **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: 그래픽 처리 장치(Graphics Processing Unit, GPU) 토폴로지에 맞춰 집단 통신 경로와 전송 연산을 실행하는 라이브러리이다.
 - **엔드포인트(Endpoint)**: 링크에 연결되어 데이터를 송수신하는 GPU나 CPU의 통신 종단이다.
 - **패브릭(Fabric)**: 여러 엔드포인트와 스위치를 묶어 다수의 통신 경로를 제공하는 연결망이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•중앙 처리 장치(Central Processing Unit, CPU)**: 집단 통신 데이터를 송수신하는 가속기와 호스트 엔드포인트이다.
-- **엔비디아 NVLink(NVIDIA NVLink, NVLink)•엔비디아 NVSwitch(NVIDIA NVSwitch, NVSwitch)**: 피어 직접 전송과 다대다 경로 분기를 담당하는 링크와 스위치이다.
 
 </details>
 
@@ -95,8 +92,6 @@ block-beta
 - **축소-분산(Reduce-Scatter)**: 값을 합산하면서 최종 결과의 서로 다른 조각을 각 GPU가 나누어 갖는 단계이다.
 - **전체-수집(All-Gather)**: 각 GPU가 가진 결과 조각을 서로 교환하여 모든 GPU가 전체 결과를 얻는 단계이다.
 - **통신 조각(Communication Chunk)**: 큰 텐서를 집단 통신 파이프라인과 링크 특성에 맞게 나눈 전송 단위이다.
-- **엔비디아 집단 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)•그래픽 처리 장치(Graphics Processing Unit, GPU)**: 집단 통신 경로를 구성하는 라이브러리와 통신 참여 가속기이다.
-- **엔비디아 NVLink(NVIDIA NVLink, NVLink)•엔비디아 NVSwitch(NVIDIA NVSwitch, NVSwitch)**: 조각을 피어 사이에 전달하는 링크와 스위치이다.
 
 </details>
 
@@ -140,7 +135,6 @@ sequenceDiagram
 - **직접 NVLink(Direct NVLink)**: 소수 GPU를 점대점 링크로 직접 연결하여 피어 통신을 제공하는 구성이다.
 - **NVSwitch 패브릭(NVSwitch Fabric)**: 스위치를 통해 다수 GPU에 다대다 NVLink 경로를 제공하는 구성이다.
 - **주변 구성요소 상호연결 익스프레스(PCI Express, PCIe)**: 중앙 처리 장치(Central Processing Unit, CPU)와 범용 주변장치를 계층형 점대점 링크로 연결하는 표준 인터커넥트이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•중앙 처리 장치(Central Processing Unit, CPU)**: 직접•스위치•호스트 경로로 연결되는 가속기와 프로세서이다.
 
 </details>
 
@@ -188,7 +182,6 @@ sequenceDiagram
 - **피어 통신(Peer Communication)**: 한 그래픽 처리 장치(Graphics Processing Unit, GPU)가 호스트 메모리를 경유하지 않고 다른 GPU와 직접 데이터를 교환하는 통신이다.
 - **전대역 연결(Full-bandwidth Connectivity)**: 다수 엔드포인트 쌍이 동시에 통신해도 충분한 경로와 대역폭을 제공하는 연결 조건이다.
 - **GPU 규모(GPU Scale)**: 하나의 시스템에서 함께 연결하고 집단 통신에 참여시키는 GPU의 수이다.
-- **그래픽 처리 장치(Graphics Processing Unit, GPU)•엔비디아 NVLink(NVIDIA NVLink, NVLink)•엔비디아 NVSwitch(NVIDIA NVSwitch, NVSwitch)**: 피어 통신 참여 장치와 소수•다수 장치 연결 방식이다.
 
 </details>
 

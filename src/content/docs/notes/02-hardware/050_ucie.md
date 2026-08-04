@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "UCIe 칩렛 인터커넥트 (Universal Chiplet Interconnect Express)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T12:10:00+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -43,7 +43,6 @@ extra:
 - **플릿(Flit)**: D2D 어댑터가 링크를 통해 전송하는 고정 형식의 흐름 제어 단위이다.
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 송수신 플릿의 검사값을 비교하여 전송 비트 오류를 검출하는 기법이다.
 - **상호운용성(Interoperability)**: 서로 다른 공급자의 칩렛이 실제 조합에서 올바르게 통신하는 성질이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•다이 간 연결(Die-to-Die, D2D)**: 표준 칩렛 인터페이스와 패키지 내부 다이 연결 방식이다.
 - **피시아이 익스프레스(Peripheral Component Interconnect Express, PCIe)•컴퓨트 익스프레스 링크(Compute Express Link, CXL)**: UCIe가 수용할 수 있는 범용 입출력 및 일관성 프로토콜이다.
 
 </details>
@@ -64,7 +63,6 @@ extra:
 - **다이 간 연결 어댑터(Die-to-Die Adapter, D2D 어댑터)**: 트랜잭션을 플릿으로 바꾸고 순환 중복 검사(Cyclic Redundancy Check, CRC)와 재시도 및 링크 상태를 관리하는 계층이다.
 - **물리 계층(Physical Layer, PHY)**: 패키지 배선으로 전기 신호를 송수신하고 링크의 레인과 타이밍을 맞추는 계층이다.
 - **패키지 채널(Package Channel)**: 두 다이의 PHY 사이에서 고속 전기 신호가 이동하는 패키지 내부 배선 경로이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)**: 프로토콜•어댑터•물리 계층을 표준화한 칩렛 인터페이스이다.
 
 </details>
 
@@ -147,7 +145,6 @@ sequenceDiagram
 - **독자 D2D 링크(Proprietary D2D Link)**: 특정 공급자가 제품에 맞춰 물리•어댑터•프로토콜 계층을 자체 정의한 연결이다.
 - **칩렛 재사용(Chiplet Reuse)**: 검증된 칩렛을 여러 제품과 패키지 조합에서 반복 활용하는 방식이다.
 - **전용 최적화(Dedicated Optimization)**: 단일 제품의 성능과 전력 목표에 맞춰 인터페이스를 제한 없이 조정하는 설계이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•물리 계층(Physical Layer, PHY)**: 표준 D2D 인터페이스와 전기 신호 계층이다.
 
 </details>
 
@@ -194,7 +191,6 @@ sequenceDiagram
 - **멀티벤더(Multi-vendor)**: 서로 다른 공급자가 만든 칩렛과 도구를 하나의 시스템에서 함께 사용하는 구성이다.
 - **생태계(Ecosystem)**: 표준을 중심으로 칩렛•패키지•검증 도구와 공급사가 상호 협력하는 산업 환경이다.
 - **전용 성능(Dedicated Performance)**: 특정 제품만을 위해 조정한 인터페이스에서 얻는 지연과 대역폭 및 전력상의 이점이다.
-- **범용 칩렛 상호연결 익스프레스(Universal Chiplet Interconnect Express, UCIe)•다이 간 연결(Die-to-Die, D2D)**: 멀티벤더 재사용을 위한 표준과 단일 제품 최적화를 포함하는 칩렛 연결 방식이다.
 
 </details>
 

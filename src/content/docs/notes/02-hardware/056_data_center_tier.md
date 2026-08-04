@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 등급 (Tier I~IV•Rated 1~4)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:28:00+09:00"
 tags:
   - "notes-hardware"
 weight: 56
@@ -39,8 +39,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **업타임 인스티튜트 티어(Uptime Institute Tier)**: 데이터센터 설비의 중복성과 정비 가능성 및 장애 허용성을 Tier I~IV로 평가하는 체계이다.
-- **통신산업협회 942 등급(Telecommunications Industry Association 942 Rated, TIA-942 Rated)**: TIA 표준에 따라 데이터센터 시설을 Rated 1~4로 평가하는 독립된 체계이다.
+- **Uptime Tier**: Uptime Institute Tier, 시설 복원력을 Tier I~IV로 평가하는 체계
+- **TIA-942 Rated**: Telecommunications Industry Association 942 Rated, Rated 1~4 평가 체계
 - **최약 필수 경로(Weakest Critical Path)**: 핵심 부하 공급에 반드시 필요하면서 복원력이 가장 낮아 전체 수준을 제한하는 경로이다.
 - **장애 허용(Fault Tolerance)**: 하나의 설비나 경로에 예기치 않은 장애가 발생해도 핵심 부하를 유지하는 능력이다.
 
@@ -118,7 +118,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **Tier I•II**: Tier I은 기본 용량과 단일 경로이고, Tier II는 예비 구성요소가 있지만 분배 경로는 단일인 수준이다.
+- **Tier I**: 기본 용량과 단일 분배 경로를 사용하는 수준
+- **Tier II**: 예비 구성요소가 있지만 분배 경로는 단일인 수준
 - **Tier III**: 복수 분배 경로를 이용하여 계획된 설비 정비 중에도 핵심 부하를 유지하는 수준이다.
 - **Tier IV**: 독립 경로와 중복 설비로 예기치 않은 단일 장애 중에도 핵심 부하를 유지하는 수준이다.
 - **동시 유지보수(Concurrent Maintainability)**: 서비스 중단 없이 계획된 설비를 격리하고 정비할 수 있는 성질이다.
