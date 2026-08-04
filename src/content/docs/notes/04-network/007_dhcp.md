@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "DHCP (Dynamic Host Configuration Protocol)"
-date: "2026-08-04T14:33:00+09:00"
+date: "2026-08-05T01:23:27+09:00"
 tags:
   - "notes-network"
 weight: 7
@@ -65,20 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    C["DHCP 클라이언트"]
-    R["DHCP 릴레이"]
-    block:SERVER
-        columns 2
-        S["DHCP 서버"]
-        L["주소•바인딩 저장소"]
-    end
-    C --- R
-    R --- S
-    S --- L
+```text
+[DHCP 클라이언트]---[DHCP 릴레이]---[DHCP 서버]---[주소•바인딩 저장소]
 ```
+
+선의 의미: 각 선은 단말의 주소•옵션 요청, 서브넷 경계의 중계, 서버의 임대 정책과 주소•단말•만료 시각 바인딩이 서로 연결되는 네트워크 구성 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

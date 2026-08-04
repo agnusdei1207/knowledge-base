@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DNS 구조•동작 (DNS Domain Name System)"
-date: "2026-08-04T14:36:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 8
@@ -66,22 +66,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    C["스텁 리졸버"]
-    R["재귀 리졸버"]
-    block:AUTHORITY
-        columns 3
-        T["루트•TLD 서버"]
-        A["권한 서버"]
-        Z[("자원 레코드")]
-    end
-    C --- R
-    R --- T
-    T --- A
-    A --- Z
+```text
+       [스텁 리졸버]
+              |
+       [재귀 리졸버]
+              |
+       [루트•TLD 서버]
+              |
+          [권한 서버]
+              |
+         [자원 레코드]
 ```
+
+선의 의미: 스텁과 재귀 리졸버가 DNS 권한 계층에 연결되고, 루트•TLD 서버 아래의 권한 서버가 담당 영역의 자원 레코드를 소유하는 정적 위임 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "로드 밸런서 L4•L7 (Load Balancer L4 L7)"
-date: "2026-08-04T15:16:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 19
@@ -66,20 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    VIP["VIP•리스너"]
-    SCH["스케줄러"]
-    POOL["서버 풀"]
-    HC["상태 확인기"]
-    space
-    SESSION["세션 상태"]
-    VIP --- SCH
-    SCH --- POOL
-    HC --- SCH
-    SESSION --- SCH
+```text
+                      [상태 확인기]
+                            |
+[VIP•리스너] ----- [스케줄러] ----- [서버 풀]
+                            |
+                       [세션 상태]
 ```
+
+선의 의미: 스케줄러를 중심으로 VIP•리스너와 서버 풀이 연결되고, 정상 백엔드 집합을 제공하는 상태 확인기와 연결 추적•고정 정보를 제공하는 세션 상태가 결합되는 정적 부하 분산 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

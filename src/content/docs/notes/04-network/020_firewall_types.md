@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "방화벽 : 패킷 필터•상태기반•NGFW (Firewall Types)"
-date: "2026-08-04T15:20:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 20
@@ -66,23 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    ZONE["보안 존"]
-    LOG["정책 로그"]
-    block:POLICY["정책 판정"]
-        columns 3
-        RULE["규칙 집합"]
-        STATE["상태 테이블"]
-        THREAT["위협 엔진"]
-    end
-    ZONE --- POLICY
-    RULE --- POLICY
-    STATE --- POLICY
-    THREAT --- POLICY
-    POLICY --- LOG
+```text
+                      [보안 존]
+                          |
+[상태 테이블] ----- [규칙 집합] ----- [위협 엔진]
+                          |
+                     [정책 로그]
 ```
+
+선의 의미: 규칙 집합을 중심으로 정책 방향을 정하는 보안 존, 연결 문맥을 제공하는 상태 테이블, 응용 위협을 판별하는 위협 엔진과 판정 근거를 보존하는 정책 로그가 결합되는 정적 방화벽 통제 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

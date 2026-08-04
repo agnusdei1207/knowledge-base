@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스위칭 계층 : L2•L3•L4•L7 스위치 (Network Switches)"
-date: "2026-08-04T15:12:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 18
@@ -67,19 +67,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 4
-    INFO["전달 판단 정보"]:4
-    L2["L2 스위치"]
-    L3["L3 스위치"]
-    L4["L4 스위치"]
-    L7["L7 스위치"]
-    INFO --- L2
-    INFO --- L3
-    INFO --- L4
-    INFO --- L7
+```text
+[L7 스위치]
+     |
+[L4 스위치]
+     |
+[L3 스위치]
+     |
+[L2 스위치]
 ```
+
+선의 의미: 세로선은 스위치의 전달 판단 범위가 링크 계층의 L2, 네트워크 계층의 L3, 전송 계층의 L4와 응용 계층의 L7 정보로 구분되는 정적 프로토콜 계층 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

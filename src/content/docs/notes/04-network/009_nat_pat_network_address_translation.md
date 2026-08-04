@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "NAT•PAT (NAT PAT Network Address Translation)"
-date: "2026-08-04T14:39:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 9
@@ -66,22 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    I["내부 주소 영역"]
-    block:NAT_BOUNDARY
-        columns 3
-        P["변환 정책"]
-        T["변환 상태표"]
-        G["경계 변환기"]
-    end
-    O["외부 주소 풀"]
-    I --- G
-    G --- P
-    G --- T
-    G --- O
+```text
+                      [변환 정책]
+                           |
+ [내부 주소 영역] -- [경계 변환기] -- [외부 주소 풀]
+                           |
+                      [변환 상태표]
 ```
+
+선의 의미: 경계 변환기가 내부와 외부 주소 영역의 경계를 이루며, 변환 정책과 변환 상태표가 주소•포트 매핑의 규칙 및 연결 상태를 뒷받침하는 정적 NAT 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

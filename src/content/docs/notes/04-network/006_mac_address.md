@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MAC 주소 구조 (MAC Address)"
-date: "2026-08-04T14:30:00+09:00"
+date: "2026-08-05T01:23:27+09:00"
 tags:
   - "notes-network"
 weight: 6
@@ -64,17 +64,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:MAC_ADDRESS
-        columns 2
-        O["상위 24비트 OUI"]
-        I["하위 24비트 인터페이스 식별자"]
-        F["첫 옥텟 I/G•U/L 비트"]
-    end
-    O --- F
+```text
+MAC 주소 48비트
++---[상위 24비트 OUI]---+---[하위 24비트 인터페이스 식별자]---+
+          |
+ [첫 옥텟 I/G•U/L 비트]
 ```
+
+선의 의미: 바깥선은 48비트 MAC 주소 경계이고, 가운데 선은 할당 조직과 개별 인터페이스 영역을 구분하며, 아래 선은 OUI 첫 옥텟에 포함된 수신 범위•관리 주체 비트의 소속 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-08-04T14:52:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -65,18 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:LSP
-        columns 3
-        I["입구 LER"]
-        T["중계 LSR"]
-        E["출구 LER"]
-    end
-    I --- T
-    T --- E
+```text
+ [입구 LER] -- [중계 LSR] -- [출구 LER]
 ```
+
+선의 의미: 입구 LER와 출구 LER 사이에 중계 LSR이 놓이는 MPLS 영역의 정적 LSP 연결 토폴로지이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

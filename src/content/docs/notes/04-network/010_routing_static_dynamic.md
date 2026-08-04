@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "라우팅 기본: 정적•동적 라우팅 (Routing Static Dynamic)"
-date: "2026-08-04T14:42:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 10
@@ -67,25 +67,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    S["경로 출처"]
-    block:CONTROL
-        columns 2
-        P["라우팅 프로세스"]
-        R[("RIB")]
-    end
-    block:DATA
-        columns 2
-        F[("FIB")]
-        E["포워딩 엔진"]
-    end
-    S --- P
-    P --- R
-    R --- F
-    F --- E
+```text
+              [경로 출처]
+                   |
+            [라우팅 프로세스]
+                   |
+                 [RIB]
+                   |
+                 [FIB]
+                   |
+            [포워딩 엔진]
 ```
+
+선의 의미: 경로 출처•라우팅 프로세스•RIB가 제어 평면을 구성하고, 선택 경로를 담은 FIB와 포워딩 엔진이 데이터 평면을 구성하는 정적 계층 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

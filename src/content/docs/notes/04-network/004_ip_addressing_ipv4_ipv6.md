@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IP 주소 체계: IPv4•IPv6 (IP Addressing IPv4 IPv6)"
-date: "2026-08-04T14:27:00+09:00"
+date: "2026-08-05T01:23:27+09:00"
 tags:
   - "notes-network"
 weight: 4
@@ -64,15 +64,12 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:IP_ADDRESS["IP 주소"]
-        columns 2
-        P["네트워크 프리픽스"]
-        I["인터페이스 식별자"]
-    end
+```text
+IP 주소
++---[네트워크 프리픽스]---+---[인터페이스 식별자]---+
 ```
+
+선의 의미: 바깥선은 하나의 IP 주소 경계이고, 가운데 선은 네트워크 범위를 나타내는 프리픽스와 그 내부의 개별 인터페이스 식별 영역을 구분한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "서브네팅•CIDR (Subnetting CIDR)"
-date: "2026-08-04T14:20:29+09:00"
+date: "2026-08-05T01:23:27+09:00"
 tags:
   - "notes-network"
 weight: 5
@@ -68,17 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    block:ADDRESS
-        columns 2
-        P["네트워크 프리픽스"]
-        H["호스트 비트"]
-    end
-    A["집약 경로"]
-    ADDRESS --- A
+```text
+주소 블록
++---[네트워크 프리픽스]---+---[호스트 비트]---+
+             |
+        [집약 경로]
 ```
+
+선의 의미: 바깥선은 프리픽스와 호스트 비트로 구성된 주소 블록 경계이고, 아래 선은 공통 네트워크 프리픽스와 하위 주소 블록을 대표하는 집약 경로의 포함 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-08-04T15:04:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -68,19 +68,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["액세스 포트•PVID"]
-    B["VLAN 식별자"]
-    C["트렁크•허용 목록"]
-    D["네이티브 VLAN"]
-    E["SVI•게이트웨이"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[액세스 포트•PVID] ----- [VLAN 식별자] ----- [트렁크•허용 목록]
+                               |                       |
+                       [SVI•게이트웨이]         [네이티브 VLAN]
 ```
+
+선의 의미: 액세스 포트•PVID와 트렁크•허용 목록은 VLAN 식별자를 공유하는 2계층 경계를 이루며, VLAN 식별자에는 계층 간 경로를 제공하는 SVI•게이트웨이가, 트렁크에는 무태그 분류 기준인 네이티브 VLAN이 결합되는 정적 네트워크 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

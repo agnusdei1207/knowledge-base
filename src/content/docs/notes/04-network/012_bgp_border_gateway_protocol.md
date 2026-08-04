@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-08-04T14:48:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -66,23 +66,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    P["BGP 피어 집합"]
-    block:BGP_ROUTER
-        columns 3
-        I["수신 정책"]
-        R[("BGP 경로표")]
-        S["최선 경로 선택기"]
-    end
-    O["광고 정책"]
-    P --- I
-    I --- R
-    R --- S
-    S --- O
-    O --- P
+```text
+                  [BGP 피어 집합]
+                   /          \
+              [수신 정책]   [광고 정책]
+                   |          /
+              [BGP 경로표]  /
+                   |       /
+             [최선 경로 선택기]
 ```
+
+선의 의미: BGP 피어 집합과 라우터 사이에 수신•광고 정책 경계가 놓이고, BGP 경로표와 최선 경로 선택기가 내부 경로 보관 및 선택 구조를 이룬다.
 
 | 구성요소 | 책임 |
 |:---|:---|

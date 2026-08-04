@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF•OSPFv3 (OSPF Link State Routing)"
-date: "2026-08-04T14:45:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -68,22 +68,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    N["OSPF 이웃"]
-    block:ROUTER
-        columns 3
-        P["OSPF 프로세스"]
-        D[("LSDB")]
-        S["SPF 계산기"]
-    end
-    A["영역 경계 라우터"]
-    N --- P
-    P --- D
-    D --- S
-    P --- A
+```text
+                  [OSPF 이웃]
+                       |
+                [OSPF 프로세스]
+                  /           \
+               [LSDB]     [영역 경계 라우터]
+                  |
+             [SPF 계산기]
 ```
+
+선의 의미: OSPF 프로세스가 이웃 및 영역 경계 라우터와 인접 관계를 관리하고, 동일 영역의 LSDB와 SPF 계산기가 라우터 내부 토폴로지 계산 구조를 이룬다.
 
 | 구성요소 | 책임 |
 |:---|:---|

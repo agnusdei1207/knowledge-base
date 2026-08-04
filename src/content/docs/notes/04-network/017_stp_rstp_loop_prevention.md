@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-08-04T14:20:29+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -67,19 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    ROOT["루트 브리지"]:3
-    RP["루트 포트"]
-    DP["지정 포트"]
-    AP["대체 포트"]
-    BPDU["BPDU"]:3
-    ROOT --- RP
-    ROOT --- DP
-    ROOT --- AP
-    BPDU --- ROOT
+```text
+                            [BPDU]
+                               |
+                         [루트 브리지]
+                         /      |      \
+                 [루트 포트] [지정 포트] [대체 포트]
 ```
+
+선의 의미: BPDU는 루트 브리지와 경로 비용 정보를 제공하고, 루트 브리지 아래에는 활성 트리를 구성하는 루트 포트•지정 포트와 중복 경로를 보존하는 대체 포트가 놓이는 정적 스패닝 트리 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

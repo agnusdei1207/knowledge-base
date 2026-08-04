@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "ICMP•IGMP (ICMP IGMP)"
-date: "2026-08-04T14:56:00+09:00"
+date: "2026-08-05T07:30:00+09:00"
 tags:
   - "notes-network"
 weight: 14
@@ -69,20 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    H["IP•멀티캐스트 호스트"]
-    block:CONTROL
-        columns 2
-        I["ICMP 처리기"]
-        Q["IGMP 질의자"]
-    end
-    S[("IGMP 스누핑 표")]
-    H --- I
-    H --- Q
-    Q --- S
+```text
+              [IP•멀티캐스트 호스트]
+                    /           \
+             [ICMP 처리기]   [IGMP 질의자]
+                                  |
+                           [IGMP 스누핑 표]
 ```
+
+선의 의미: IP•멀티캐스트 호스트가 ICMP 오류 처리와 IGMP 가입 관리라는 두 제어 영역에 연결되고, IGMP 질의자 아래의 스누핑 표가 그룹별 가입 포트 상태를 보존하는 정적 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
