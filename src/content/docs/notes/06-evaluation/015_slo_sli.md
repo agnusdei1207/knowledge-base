@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SLO•SLI (Service Level Objective•Indicator)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:27:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 15
@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 사용자 요청의 품질을 정한 방식으로 측정한 값이다.
-- **서비스 수준 목표(Service Level Objective, SLO)**: 특정 기간에 서비스 수준 지표가 달성해야 할 내부 서비스 품질 목표이다.
+- **SLI(Service Level Indicator)**: 실제 사용자 요청의 품질 측정값이다.
+- **SLO(Service Level Objective)**: 일정 기간에 SLI가 달성할 내부 목표이다.
 
 </details>
 
-- 정의/개념: **서비스 수준 지표(Service Level Indicator, SLI)•서비스 수준 목표(Service Level Objective, SLO)** — 사용자 관점의 서비스 품질을 SLI로 측정하고 일정 기간에 달성할 내부 목표 수준을 SLO로 정해 신뢰성을 관리하는 지표 체계
+- 정의/개념: 사용자 품질을 **SLI** 로 측정하고 **SLO** 로 목표를 관리하는 체계
 - 배경/필요성: 서버 평균 지표만으로는 **여정 실패•꼬리 지연 판단 불가**
 
 #### 한줄 요약
@@ -37,7 +37,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: SLI•SLO•오류 예산으로 신뢰성과 변경 속도를 조정하는 운영 방식이다.
+- **SRE(Site Reliability Engineering)**: SLI•SLO•오류 예산으로 신뢰성을 관리하는 방식이다.
 - **이동 측정 창**: 현재 시점을 기준으로 일정 길이의 과거 측정 구간을 계속 갱신하는 창이다.
 - **백분위수**: p95•p99처럼 일정 비율의 요청이 해당 시간 이하에서 완료되는 지연값이다.
 
@@ -122,17 +122,17 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 목표(Service Level Objective, SLO)**: 운영•배포 판단을 위한 내부 품질 목표이다.
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 사용자 관점의 실제 품질 측정값이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 고객과 품질 목표•측정•위반 책임을 합의한 외부 계약이다.
+- **SLI 역할**: 사용자 관점의 실제 품질을 측정한다.
+- **SLO 역할**: 운영•배포의 내부 목표를 제공한다.
+- **SLA(Service Level Agreement)**: 품질 목표•측정•책임의 외부 계약이다.
 
 </details>
 
 | 서비스 수준 요소 | 역할 | 산출•판정 |
 |:---|:---|:---|
-| 서비스 수준 지표(Service Level Indicator, SLI) | 사용자 관점의 **실제 품질 측정** | 성공률•지연•가용성 측정값 |
-| 서비스 수준 목표(Service Level Objective, SLO) | 일정 기간의 **내부 품질 목표** | 오류 예산•배포•안정화 판단 |
-| 서비스 수준 협약(Service Level Agreement, SLA) | 고객과 합의한 **외부 품질 계약** | 미달 판정•책임•보상 기준 |
+| SLI | 사용자 관점의 **실제 품질 측정** | 성공률•지연•가용성 측정값 |
+| SLO | 일정 기간의 **내부 품질 목표** | 오류 예산•배포•안정화 판단 |
+| SLA | 고객과 합의한 **외부 품질 계약** | 미달 판정•책임•보상 기준 |
 
 > 요약: **SLI•SLO** 로 배포를 조율하고 **SLA** 책임 관리
 
@@ -146,6 +146,8 @@ sequenceDiagram
 - **오류 예산**: SLO가 허용하는 실패량에서 실제 실패량을 뺀 변경•실험의 여유이다.
 - **오류 예산 정책**: 남은 오류 예산에 따라 배포•안정화 우선순위를 정하는 운영 규칙이다.
 - **측정 경계**: SLI에 포함할 사용자•기능•지역•응답 코드•시간대를 정한 범위이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -163,7 +165,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **사용자 여정 SLI**: 서버 내부 지표가 아니라 사용자가 목적을 완료하는 경로의 성공•지연을 측정한 지표이다.
-- **국제표준화기구•국제전기기술위원회 20000-1(International Organization for Standardization/International Electrotechnical Commission 20000-1, ISO/IEC 20000-1)**: 합의한 서비스 수준의 감시•보고•검토 요구사항을 규정한 국제표준이다.
+- **ISO/IEC 20000-1**: 서비스 수준의 감시•보고•검토 요구표준이다.
 - **배포 판단**: 오류 예산 소진율이 높으면 변경을 중지하고 안정화하며 여유가 있으면 변경을 진행하는 결정이다.
 
 </details>

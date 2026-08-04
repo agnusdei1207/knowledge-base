@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "병목 분석 (Bottleneck Analysis)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:21:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 2
@@ -56,8 +56,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **이용률•포화도•오류 방법론(Utilization, Saturation, Errors Method, USE 방법론)**: 중앙처리장치(Central Processing Unit, CPU)•메모리•디스크 같은 자원별 이용률•포화도•오류를 점검하는 분석법이다.
-- **요청률•오류율•처리시간 방법론(Requests, Errors, Duration Method, RED 방법론)**: 서비스별 요청률•오류율•처리시간을 점검하는 분석법이다.
+- **USE(Utilization, Saturation, Errors)**: 자원별 이용률•포화도•오류를 점검하는 방법론이다.
+- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
+- **RED(Requests, Errors, Duration)**: 서비스별 요청률•오류율•처리시간을 점검하는 방법론이다.
 - **프로파일러**: 코드별 실행시간과 자원 사용량을 측정하는 도구이다.
 
 </details>
@@ -124,7 +125,8 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **자원 병목**: CPU•메모리•디스크•네트워크의 이용률과 대기 때문에 성능이 제한되는 상태이다.
-- **구간 병목**: 분산 요청 경로의 특정 서비스•데이터베이스(Database, DB) 호출이 종단 지연을 지배하는 상태이다.
+- **DB(Database)**: 구조화 데이터를 저장•관리하는 데이터베이스이다.
+- **구간 병목**: 특정 서비스•DB 호출이 종단 지연을 지배하는 상태이다.
 - **자원•서비스 연계 분석**: 자원 중심 USE 방법론과 서비스 중심 RED 방법론을 함께 적용해 요청 지연의 내부 원인을 연결하는 방식이다.
 
 </details>
@@ -146,7 +148,9 @@ sequenceDiagram
 
 - **부하곡선**: 부하 증가에 따른 처리량•응답시간•오류•자원 사용 변화를 함께 나타낸 곡선이다.
 - **병목 이동**: 한 자원을 개선한 뒤 다음으로 제한적인 자원이나 구간이 새 병목이 되는 현상이다.
-- **국제표준화기구•국제전기기술위원회 25023(International Organization for Standardization/International Electrotechnical Commission 25023, ISO/IEC 25023)**: 시간 동작•자원 이용 등 소프트웨어 제품 품질의 측정 방법을 제시하는 국제표준이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 25023**: 소프트웨어 제품 품질 측정 방법 표준이다.
 
 </details>
 

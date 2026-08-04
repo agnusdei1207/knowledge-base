@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:45:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **애플리케이션 성능 관리(Application Performance Management, APM)**: 요청 경로와 자원 지표를 연계하여 지연•오류의 원인을 추적하는 관리 체계이다.
-- **마이크로서비스 아키텍처(Microservices Architecture, MSA)**: 서비스를 독립 개발•배포 가능한 작은 단위로 분리한 구조이다.
+- **APM(Application Performance Management)**: 요청 경로와 자원 지표를 연계하는 성능 관리 체계이다.
+- **MSA(Microservices Architecture)**: 서비스를 독립 배포 단위로 분리한 구조이다.
 
 </details>
 
@@ -92,8 +92,10 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **추적 식별자(Trace Identifier, Trace ID)**: 한 요청에서 파생된 모든 서비스•데이터베이스(Database, DB) 호출을 종단 간 연결하는 식별자이다.
-- **월드 와이드 웹 컨소시엄 추적 문맥(World Wide Web Consortium Trace Context, W3C Trace Context)**: traceparent•tracestate 헤더로 분산 추적 문맥 전파를 표준화한 권고안이다.
+- **Trace ID(Trace Identifier)**: 한 요청에서 파생된 모든 호출을 연결하는 식별자이다.
+- **DB(Database)**: 구조화 데이터를 저장•관리하는 데이터베이스이다.
+- **W3C(World Wide Web Consortium)**: 웹 표준을 개발하는 국제 컨소시엄이다.
+- **W3C Trace Context**: 분산 추적 문맥 전파를 표준화한 권고안이다.
 
 </details>
 
@@ -143,7 +145,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **계측 오버헤드**: 에이전트와 추적 코드가 원래 요청 처리에 추가하는 중앙처리장치(Central Processing Unit, CPU)•메모리•지연 비용이다.
+- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
+- **계측 오버헤드**: 계측이 추가하는 CPU•메모리•지연 비용이다.
 - **표본률**: 전체 요청 중 상세 추적 데이터를 수집하도록 선택하는 비율이다.
 - **민감정보 마스킹**: URL•헤더•질의에 포함된 개인정보•인증정보를 저장 전에 제거하거나 치환하는 조치이다.
 - **호출 문맥 단절**: 서비스 사이에서 추적 헤더가 전달되지 않아 하나의 요청 경로가 여러 추적으로 분리되는 문제이다.

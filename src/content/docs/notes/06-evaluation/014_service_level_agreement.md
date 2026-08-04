@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SLA 서비스 수준 협약 (Service Level Agreement)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:21:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 14
@@ -22,11 +22,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 고객과 제공자가 품질 목표•측정•면책•미달 책임을 합의한 외부 계약이다.
+- **SLA(Service Level Agreement)**: 고객과 제공자가 품질•측정•책임을 합의한 계약이다.
 
 </details>
 
-- 정의/개념: **서비스 수준 협약(Service Level Agreement, SLA)** — 고객과 제공자가 서비스 목표•측정•면책과 미달 책임을 합의한 **외부 품질 계약**
+- 정의/개념: **SLA** — 서비스 목표•측정•면책•미달 책임의 외부 품질 계약
 - 배경/필요성: 추상적 품질 약속만으로는 **미달 여부•책임•보상** 을 검증하고 정산하기 곤란
 
 #### 한줄 요약
@@ -36,7 +36,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 목표(Service Level Objective, SLO)**: 조직 내부에서 서비스 수준 지표에 설정한 운영 목표값이다.
+- **SLI(Service Level Indicator)**: 실제 서비스 품질을 측정한 지표이다.
+- **SLO(Service Level Objective)**: SLI에 설정한 내부 운영 목표값이다.
 - **면책 조항**: 계획 정지•고객 원인처럼 제공자의 SLA 책임에서 제외할 조건이다.
 - **서비스 크레딧**: SLA 목표 미달 시 고객 요금에서 차감하는 계약상 보상이다.
 
@@ -122,9 +123,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 서비스 품질을 보여 주는 측정값이다.
-- **서비스 수준 목표(Service Level Objective, SLO)**: 장애 예방과 배포 판단에 사용하는 내부 품질 목표이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 목표 미달의 외부 책임과 보상을 포함하는 품질 계약이다.
+- **SLI 역할**: 실제 품질 측정값을 제공한다.
+- **SLO 역할**: 장애 예방과 배포의 내부 목표를 제공한다.
+- **SLA 역할**: 목표 미달의 외부 책임과 보상을 정한다.
 
 </details>
 
@@ -132,9 +133,9 @@ sequenceDiagram
 
 | 관리 요소 | 역할 | 표현•주요 쟁점 |
 |:---|:---|:---|
-| 서비스 수준 지표(Service Level Indicator, SLI) | 실제 **품질 측정값** | 가용률•지연•오류율과 측정 경계 |
-| 서비스 수준 목표(Service Level Objective, SLO) | 달성할 **내부 품질 목표** | 대상 기간•목표치•허용 실패량 |
-| 서비스 수준 협약(Service Level Agreement, SLA) | 미달 책임을 정한 **외부 계약** | 목표•면책•서비스 크레딧•분쟁 기준 |
+| SLI | 실제 **품질 측정값** | 가용률•지연•오류율과 측정 경계 |
+| SLO | 달성할 **내부 품질 목표** | 대상 기간•목표치•허용 실패량 |
+| SLA | 미달 책임을 정한 **외부 계약** | 목표•면책•서비스 크레딧•분쟁 기준 |
 
 > 요약: **SLI로 SLO 판정**, **SLA로 책임 정산**
 
@@ -147,6 +148,8 @@ sequenceDiagram
 
 - **측정 경계 오류**: 고객 여정과 다른 시작•종료•제외 조건으로 품질을 계산하여 결과가 왜곡되는 문제이다.
 - **과도한 목표**: 사용자 가치보다 지나치게 높은 SLO•SLA가 비용과 변경 제약을 키우는 상태이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -163,8 +166,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회 20000-1(International Organization for Standardization/International Electrotechnical Commission 20000-1, ISO/IEC 20000-1)**: 서비스 수준 합의•감시•검토를 포함한 서비스관리시스템 요구사항을 규정한 국제표준이다.
-- **국제표준화기구•국제전기기술위원회 20000-2(International Organization for Standardization/International Electrotechnical Commission 20000-2, ISO/IEC 20000-2)**: ISO/IEC 20000-1 요구사항의 적용 지침을 제공하는 국제표준이다.
+- **ISO/IEC 20000-1**: 서비스관리시스템 요구사항 표준이다.
+- **ISO/IEC 20000-2**: ISO/IEC 20000-1 적용 지침이다.
 - **관리 책임 분리**: 고객 대상 책임은 서비스 수준 협약과 서비스 크레딧, 내부 품질 관리는 서비스 수준 목표로 운영하는 결정이다.
 
 </details>

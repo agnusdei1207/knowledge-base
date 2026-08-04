@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "성능 모델링 (Performance Modeling)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:03:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 11
@@ -57,7 +57,9 @@ extra:
 
 - **도착률($\lambda$)**: 단위 시간에 시스템으로 유입되는 평균 요청 수이다.
 - **서비스율($\mu$)**: 자원 하나가 단위 시간에 처리할 수 있는 평균 작업 수이다.
-- **용량 제약**: 중앙처리장치(Central Processing Unit, CPU)•메모리•입출력(Input/Output, I/O)처럼 처리량을 제한할 수 있는 자원의 상한이다.
+- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
+- **I/O(Input/Output)**: 시스템과 외부 사이의 입출력이다.
+- **용량 제약**: CPU•메모리•I/O 등 처리 자원의 상한이다.
 - **예측 범위**: 명시한 구조•부하•가정이 유효해 모델 결과를 적용할 수 있는 조건과 경계이다.
 
 </details>
@@ -145,6 +147,8 @@ sequenceDiagram
 - **모형 오류**: 실제 구조•의존성•분포를 잘못 추상화하여 예측이 체계적으로 빗나가는 문제이다.
 - **민감도 분석**: 입력값을 일정 범위에서 바꾸며 결과에 가장 큰 영향을 주는 변수를 찾는 분석이다.
 - **외삽 오류**: 보정•검증한 부하와 구조의 범위를 넘어 모델 결과를 적용해 예측이 크게 빗나가는 문제이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -161,8 +165,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회 25010(International Organization for Standardization/International Electrotechnical Commission 25010, ISO/IEC 25010)**: 제품 품질의 성능 효율성을 시간 동작•자원 이용•용량 관점으로 분류한 국제표준이다.
-- **국제표준화기구•국제전기기술위원회 25023(International Organization for Standardization/International Electrotechnical Commission 25023, ISO/IEC 25023)**: 성능 효율성 등 제품 품질 특성의 정량 측정 방법을 제시한 국제표준이다.
+- **ISO/IEC 25010**: 성능 효율성을 시간•자원•용량으로 분류한 표준이다.
+- **ISO/IEC 25023**: 제품 품질의 정량 측정 방법 표준이다.
 - **자원안 선택**: 목표를 충족한 대안 중 보정 오차가 작고 부하 변화에 대한 민감도가 낮은 구성을 선택하는 결정이다.
 
 </details>

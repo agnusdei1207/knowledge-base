@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "시스템 성능 지표 - TPS•응답시간•처리량•가용성 (System KPI)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:15:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 1
@@ -22,13 +22,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **핵심 성과 지표(Key Performance Indicator, KPI)**: 서비스 목표 달성 여부를 정량적으로 판정하는 핵심 측정값이다.
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 가용성•지연•오류율처럼 서비스 수준을 직접 측정한 값이다.
-- **포화•꼬리 지연•중단**: 부하 증가에 처리량이 정체되는 상태, 일부 느린 요청, 서비스 불능 구간을 함께 구분하는 성능 이상 징후이다.
+- **KPI(Key Performance Indicator)**: 목표 달성 여부를 판정하는 핵심 성과 지표이다.
+- **SLI(Service Level Indicator)**: 서비스 수준을 직접 측정한 지표이다.
+- **포화**: 부하가 늘어도 처리량이 증가하지 않는 상태이다.
+- **꼬리 지연**: 일부 요청의 응답시간이 길어지는 현상이다.
+- **중단**: 서비스를 정상 제공하지 못하는 구간이다.
 
 </details>
 
-- 정의/개념: 처리량•응답시간•오류율 등의 **핵심 성과 지표(Key Performance Indicator, KPI)** 와 사용자 관점의 **서비스 수준 지표(Service Level Indicator, SLI)** 로 성능 목표 달성 여부를 판정
+- 정의/개념: 처리량•응답시간 등의 **KPI•SLI** 로 성능 목표 달성 여부 판정
 - 배경/필요성: 평균값만으로는 부하 증가에 따른 **포화•꼬리 지연•중단** 을 구분하기 어려움
 
 #### 한줄 요약
@@ -58,10 +60,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **초당 트랜잭션 처리 건수(Transactions Per Second, TPS)**: 1초에 성공적으로 완료한 업무 거래 수이다.
-- **초당 요청 처리 건수(Requests Per Second, RPS)**: 1초에 처리한 개별 요청 수이다.
+- **TPS(Transactions Per Second)**: 1초에 성공적으로 완료한 업무 거래 수이다.
+- **RPS(Requests Per Second)**: 1초에 처리한 개별 요청 수이다.
 - **가용성**: 합의한 운영 시간 중 정상 서비스를 제공한 시간의 비율이다.
-- **평균 복구 시간(Mean Time To Repair, MTTR)**: 장애 발생 뒤 서비스를 정상 상태로 복구하는 데 걸린 평균 시간이다.
+- **MTTR(Mean Time To Repair)**: 장애 뒤 정상 상태로 복구하는 평균 시간이다.
 
 </details>
 
@@ -149,8 +151,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 목표(Service Level Objective, SLO)**: 서비스 수준 지표에 대해 내부적으로 달성해야 할 목표값이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 측정 기준•목표•위반 책임을 고객과 합의한 계약이다.
+- **SLO(Service Level Objective)**: SLI에 대해 내부적으로 달성할 목표값이다.
+- **SLA(Service Level Agreement)**: 측정 기준•목표•책임을 합의한 계약이다.
 - **오류율**: 전체 요청 중 실패로 판정한 요청이 차지하는 비율이다.
 - **부하 대표성**: 피크 업무 비율•동시성•지속시간이 실제 운영 조건을 충분히 재현하는 정도이다.
 

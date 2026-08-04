@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "BMT 벤치마크 테스트 방법론 (BMT Methodology)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:57:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 10
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **벤치마크 테스트(Benchmark Test, BMT)**: 동일한 업무 부하와 측정 조건에서 도입 후보의 성능•적합성을 비교하는 시험이다.
+- **BMT(Benchmark Test)**: 동일 조건에서 도입 후보의 성능•적합성을 비교하는 시험이다.
 - **공정 비교**: 모든 후보에 같은 환경•데이터•부하•측정 규칙을 적용하여 차이를 판정하는 원칙이다.
 
 </details>
@@ -123,7 +123,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **개념 증명(Proof of Concept, PoC)**: 제한된 범위의 구현과 실험으로 기술의 실현 가능성과 핵심 가정을 검증하는 활동이다.
+- **PoC(Proof of Concept)**: 제한된 구현으로 기술의 실현 가능성을 검증하는 활동이다.
 - **상대 비교**: 동일 조건에서 여러 후보의 결과를 대조하여 우선순위를 정하는 방식이다.
 - **검증 방식 선택**: 다수 후보의 공정한 성능 대조는 벤치마크 테스트, 한 기술의 구현 가능성 확인은 개념 증명을 적용하는 구분이다.
 
@@ -148,6 +148,10 @@ sequenceDiagram
 - **블라인드 분석**: 후보 식별 정보를 숨긴 상태에서 원시 데이터와 계산 결과를 검토하는 방식이다.
 - **감사 추적성**: 최종 점수에서 원시 데이터•실행 로그•환경 설정까지 역으로 확인할 수 있는 성질이다.
 - **국제표준 시험 프로세스**: 계획•감시•설계•실행•완료 단계와 증거 통제를 표준화해 시험의 재현성과 감사 가능성을 확보하는 절차이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **IEEE(Institute of Electrical and Electronics Engineers)**: 전기전자 기술표준을 개발하는 학회이다.
+- **TPC(Transaction Processing Performance Council)**: 거래처리 벤치마크를 관리하는 위원회이다.
 
 </details>
 
@@ -164,8 +168,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **거래처리성능위원회(Transaction Processing Performance Council, TPC)**: 거래처리•데이터 시스템의 벤치마크 규격과 검증 결과를 공개하는 비영리 단체이다.
-- **국제표준화기구•국제전기기술위원회•전기전자공학자협회 29119-2(ISO/IEC/IEEE 29119-2)**: 테스트 계획•감시•설계•실행•완료 프로세스를 정의한 국제표준이다.
+- **ISO/IEC/IEEE 29119-2**: 테스트 계획•설계•실행•완료 프로세스 표준이다.
 - **제품 선정**: 필수 조건을 충족한 후보 중 대표 부하의 반복 성능과 민감도 안정성이 높은 제품을 선택하는 결정이다.
 
 </details>

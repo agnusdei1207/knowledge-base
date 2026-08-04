@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "가용성 계산 - 99.9% vs 99.99% (Availability Calculation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:15:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 13
@@ -57,11 +57,12 @@ extra:
 
 - **측정 기간**: 월•분기•연처럼 가동시간과 중단시간을 합산하는 기준 구간이다.
 - **계획 정지**: 사전에 공지한 유지보수 중단으로 SLA 정의에 따라 가용성 계산에 포함하거나 제외하는 시간이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스 목표•측정 방법•면책 조건•위반 책임을 고객과 합의한 계약이다.
-- **단일 실패 지점(Single Point of Failure, SPOF)**: 하나의 구성요소 고장만으로 전체 서비스 경로가 중단되는 요소이다.
+- **SLA(Service Level Agreement)**: 서비스 목표•측정•책임을 합의한 계약이다.
+- **SPOF(Single Point of Failure)**: 하나의 고장으로 전체 서비스가 중단되는 요소이다.
 - **가용성 산정 변수**: $U$는 가동시간, $D$는 중단시간, $T=U+D$는 전체 측정시간, $A_{target}$은 목표 가용성, $D_{budget}$은 허용 중단시간이다.
 - **독립 직렬•병렬 구성**: 직렬은 모든 구성요소가 정상이어야 하고 병렬은 하나 이상이 정상이면 서비스가 유지된다고 가정한 구성이다.
-- **평균 고장 간격•평균 복구시간(Mean Time Between Failures/Mean Time To Repair, MTBF•MTTR)**: 수리 가능한 시스템의 고장 간 평균 운전시간과 장애 뒤 서비스 복구까지의 평균 시간이다.
+- **MTBF(Mean Time Between Failures)**: 장애 사이의 평균 가동시간이다.
+- **MTTR(Mean Time To Repair)**: 장애 뒤 서비스 복구까지의 평균 시간이다.
 - **구성 가용성 변수**: $A_i$는 구성요소 $i$의 가용성, $A_s$는 직렬 경로, $A_p$는 병렬 중복 구성의 가용성이다.
 
 </details>
@@ -150,8 +151,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **평균 복구시간(Mean Time To Repair, MTTR)**: 장애 발생부터 서비스 복구까지의 평균 시간이다.
-- **단일 실패 지점(Single Point of Failure, SPOF)**: 하나의 구성요소 고장만으로 전체 서비스가 중단되는 요소이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **공통 원인 장애**: 분리했다고 본 여러 자원이 같은 전원•망•시설 원인으로 동시에 고장 나는 현상이다.
 
 </details>
@@ -170,7 +171,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **자동 복구**: 장애 탐지 뒤 사람의 개입을 기다리지 않고 대체 자원으로 전환하여 MTTR을 줄이는 기능이다.
-- **국제표준화기구•국제전기기술위원회 20000-1(International Organization for Standardization/International Electrotechnical Commission 20000-1, ISO/IEC 20000-1)**: 서비스 수준과 가용성을 포함한 서비스관리시스템 요구사항을 규정한 국제표준이다.
+- **ISO/IEC 20000-1**: 서비스관리시스템 요구사항 표준이다.
 - **가용성 등급 선택**: 연간 중단 예산이 약 8.76시간이면 99.9%, 약 52.6분이면 99.99% 이상을 적용하는 결정이다.
 
 </details>

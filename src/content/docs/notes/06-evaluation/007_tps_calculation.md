@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TPS 계산 - 동시 사용자•응답 시간 공식 (TPS Calculation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T19:39:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 7
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **초당 트랜잭션 처리 건수(Transactions Per Second, TPS)**: 시스템이 1초 동안 성공적으로 완료한 업무 거래 수이다.
+- **TPS(Transactions Per Second)**: 1초 동안 성공적으로 완료한 업무 거래 수이다.
 - **폐쇄형 부하**: 고정된 사용자들이 요청•응답•생각시간의 주기를 반복하는 부하 모형이다.
 - **처리율 산정**: 동시 사용자 수를 응답시간과 생각시간의 합으로 나누어 폐쇄형 부하의 평균 처리율을 구하는 계산이다.
 
@@ -125,7 +125,9 @@ sequenceDiagram
 
 - **폐쇄형 부하 모델**: 응답이 끝난 사용자가 생각시간 뒤 다음 요청을 보내도록 동시 사용자 수를 고정하는 모델이다.
 - **개방형 부하 모델**: 응답 완료 여부와 무관하게 정한 요청률로 새 요청이 도착하는 모델이다.
-- **초당 요청 처리 건수(Requests Per Second, RPS)**: 시스템이 1초 동안 처리한 개별 응용 프로그래밍 인터페이스(Application Programming Interface, API)•하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 요청 수이다.
+- **RPS(Requests Per Second)**: 1초 동안 처리한 개별 요청 수이다.
+- **API(Application Programming Interface)**: 응용 기능을 호출하는 연결 규격이다.
+- **HTTP(Hypertext Transfer Protocol)**: 웹 요청•응답 전송 프로토콜이다.
 - **모델 선택**: 사람의 반복 행동은 동시 사용자 기반 폐쇄형 모델, 기계적 요청은 요청률 기반 개방형 모델로 재현하는 구분이다.
 
 </details>

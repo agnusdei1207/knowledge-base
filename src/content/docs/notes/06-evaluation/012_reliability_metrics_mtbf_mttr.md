@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "시스템 신뢰성 지표 - MTBF•MTTR•MTTF (Reliability Metrics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:09:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 12
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **평균 고장 간격(Mean Time Between Failures, MTBF)**: 수리 가능한 시스템에서 한 장애 복구 후 다음 장애까지의 평균 가동시간이다.
-- **평균 복구시간(Mean Time To Repair, MTTR)**: 장애 발생부터 정상 서비스 복구까지 걸린 평균 시간이다.
-- **평균 고장시간(Mean Time To Failure, MTTF)**: 수리하지 않는 품목이 사용 시작 후 고장 날 때까지의 평균 시간이다.
+- **MTBF(Mean Time Between Failures)**: 수리 시스템의 장애 사이 평균 가동시간이다.
+- **MTTR(Mean Time To Repair)**: 장애 발생부터 정상 복구까지의 평균 시간이다.
+- **MTTF(Mean Time To Failure)**: 비수리 품목의 최초 고장까지 평균 시간이다.
 - **개선 책임 구분**: 고장 간격•복구시간•부품 수명을 분리해 예방정비•복구 절차•교체 정책의 책임을 나누는 방식이다.
 
 </details>
 
-- 정의/개념: 수리 시스템의 **평균 고장 간격(Mean Time Between Failures, MTBF)•평균 복구시간(Mean Time To Repair, MTTR)** 과 비수리 품목의 **평균 고장시간(Mean Time To Failure, MTTF)** 을 측정하는 신뢰성 평균 지표
+- 정의/개념: 수리 시스템의 **MTBF•MTTR** 과 비수리 품목의 **MTTF** 측정
 - 배경/필요성: 고장 빈도•복구 소요시간•비수리 부품 수명을 하나의 평균으로 나타내면 예방•복구•교체 정책의 **개선 책임 구분** 이 어려움
 
 #### 한줄 요약
@@ -123,17 +123,17 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **평균 고장 간격(Mean Time Between Failures, MTBF)**: 수리 가능한 시스템에서 장애와 다음 장애 사이의 평균 가동시간이다.
-- **평균 복구시간(Mean Time To Repair, MTTR)**: 장애 발생부터 정상 서비스 복구까지 걸린 평균 시간이다.
-- **평균 고장시간(Mean Time To Failure, MTTF)**: 비수리 품목이 사용 시작 후 고장 날 때까지의 평균 시간이다.
+- **MTBF 적용**: 수리 가능한 시스템의 예방정비 판단에 사용한다.
+- **MTTR 적용**: 장애 후 복구 절차 개선에 사용한다.
+- **MTTF 적용**: 비수리 품목의 교체 계획에 사용한다.
 
 </details>
 
 | 신뢰성 지표 | 적용 대상 | 측정 의미 | 활용 판단 |
 |:---|:---|:---|:---|
-| 평균 고장 간격(Mean Time Between Failures, MTBF) | 수리 가능한 시스템 | 장애 사이 **평균 가동시간** | 예방정비•점검 주기 설정 |
-| 평균 복구시간(Mean Time To Repair, MTTR) | 장애 후 복구 대상 | 장애 발생 후 **평균 복구시간** | 복구 절차•서비스 수준 개선 |
-| 평균 고장시간(Mean Time To Failure, MTTF) | 비수리 품목 | 사용 시작부터 고장까지 **평균 수명** | 교체 시점•예비품 계획 |
+| MTBF | 수리 가능한 시스템 | 장애 사이 **평균 가동시간** | 예방정비•점검 주기 설정 |
+| MTTR | 장애 후 복구 대상 | 장애 발생 후 **평균 복구시간** | 복구 절차•서비스 수준 개선 |
+| MTTF | 비수리 품목 | 사용 시작부터 고장까지 **평균 수명** | 교체 시점•예비품 계획 |
 
 > 요약: 가동은 **MTBF**, 복구는 **MTTR**, 수명은 MTTF
 
@@ -147,6 +147,7 @@ sequenceDiagram
 - **장애 정의**: 어떤 기능•성능 저하를 고장으로 집계할지 정한 판정 기준이다.
 - **복구 종료 기준**: 단순 프로세스 기동이 아니라 업무 처리•데이터 정합성까지 정상화되었는지 판단하는 기준이다.
 - **꼬리 복구시간**: 평균에 가려지는 장기 장애를 확인하도록 상위 백분위로 집계한 복구시간이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -163,8 +164,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제전기기술위원회 60050-192(International Electrotechnical Commission 60050-192, IEC 60050-192)**: 신뢰성•가용성•유지보수성 등 신인성 용어를 정의한 국제전기기술용어 표준이다.
-- **국제전기기술위원회 61703(International Electrotechnical Commission 61703, IEC 61703)**: 신뢰성•가용성•유지보수성 지표의 수학적 표현을 제시한 국제표준이다.
+- **IEC 60050-192**: 신뢰성•가용성•유지보수성 용어 표준이다.
+- **IEC 61703**: 신인성 지표의 수학적 표현 표준이다.
 - **개선 결정**: 평균 고장 간격이 짧으면 예방정비, 평균 복구시간이 길면 복구 절차를 개선하고 비수리 부품은 평균 고장시간 전에 교체하는 판단이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T20:33:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 16
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 목표(Service Level Objective, SLO)**: 특정 기간에 서비스 수준 지표가 달성해야 할 내부 품질 목표이다.
+- **SLO(Service Level Objective)**: 일정 기간에 서비스 지표가 달성할 내부 품질 목표이다.
 - **오류 예산**: 서비스 수준 목표가 허용하는 실패량에서 측정 창의 실제 실패량을 뺀 여유이다.
 
 </details>
@@ -59,7 +59,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 사용자 요청의 성공률•지연처럼 서비스 품질을 측정한 값이다.
+- **SLI(Service Level Indicator)**: 실제 사용자 요청의 서비스 품질 측정값이다.
 - **허용 실패량**: 전체 유효 이벤트 중 SLO 목표가 실패해도 된다고 정한 최대 이벤트 수나 시간이다.
 - **실제 실패량**: 측정 창에서 SLI 성공 조건을 충족하지 못한 이벤트 수나 시간이다.
 
@@ -147,9 +147,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **지속적 통합•지속적 제공(Continuous Integration/Continuous Delivery, CI/CD)**: 변경을 자동으로 통합•시험•배포하는 체계이다.
+- **CI/CD(Continuous Integration/Continuous Delivery)**: 변경을 자동 통합•시험•배포하는 체계이다.
 - **오류 예산 정책**: 잔여 예산과 소진율에 따라 배포•실험•안정화 우선순위를 정한 운영 규칙이다.
 - **잘못된 SLI**: 실제 사용자 피해와 무관한 신호를 측정하여 예산 소진 판단을 왜곡하는 지표이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 
 </details>
 
@@ -167,7 +169,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **신뢰성 투자**: 오류 예산이 부족할 때 장애 원인 제거•자동 복구•관측성 개선에 우선 투입하는 작업이다.
-- **국제표준화기구•국제전기기술위원회 20000-1(International Organization for Standardization/International Electrotechnical Commission 20000-1, ISO/IEC 20000-1)**: 서비스 수준의 합의•감시•보고•검토 요구사항을 규정한 국제표준이다.
+- **ISO/IEC 20000-1**: 서비스 수준의 합의•감시•검토 요구표준이다.
 - **운영 정책 선택**: 예산 여유 시 자동 배포를 진행하고 급속 소진 시 변경을 중지•안정화하며 예외는 책임자가 승인하는 결정이다.
 
 </details>
