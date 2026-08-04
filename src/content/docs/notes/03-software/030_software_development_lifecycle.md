@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "소프트웨어 개발 생명주기 SDLC (Software Development Lifecycle)"
-date: "2026-08-03T09:13:00+09:00"
+date: "2026-08-04T10:39:00+09:00"
 tags:
   - "notes-software"
 weight: 30
@@ -190,7 +190,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **단계 게이트**: 규제•감사 강도가 높을 때 산출물과 승인을 단계별로 통제하는 기준이다.
 - **연속 피드백**: 변경과 운영 결과를 짧은 주기로 다음 개발 활동에 반영하는 방식이다.
 
 </details>

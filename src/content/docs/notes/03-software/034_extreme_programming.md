@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "XP: 페어 프로그래밍•TDD (Extreme Programming)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:44:00+09:00"
 tags:
   - "notes-software"
 weight: 34
@@ -61,8 +61,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **페어 프로그래밍(Pair Programming)**: 두 개발자가 한 작업을 함께 구현하고 검토하는 실천이다.
-- **드라이버•내비게이터(Driver•Navigator)**: 코드 작성과 설계•결함 검토를 맡아 교대하는 페어 역할이다.
+- **드라이버(Driver)**: 페어 프로그래밍에서 코드를 작성하는 역할이다.
+- **내비게이터(Navigator)**: 설계 방향과 결함을 검토하는 역할이다.
 - **리팩터링(Refactoring)**: 외부 동작을 유지하면서 내부 코드 구조를 개선하는 활동이다.
 
 </details>

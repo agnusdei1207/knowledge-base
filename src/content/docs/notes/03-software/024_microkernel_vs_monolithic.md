@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "마이크로커널 vs 모놀리식 커널 (Microkernel vs Monolithic)"
-date: "2026-08-03T09:32:00+09:00"
+date: "2026-08-04T10:30:00+09:00"
 tags:
   - "notes-software"
 weight: 24
@@ -143,13 +143,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **공유 메모리•무복사(Shared Memory•Zero-copy)**: 같은 메모리 영역을 매핑하고 중간 버퍼 복제를 줄여 IPC 전달 비용을 낮추는 방식이다.
+- **공유 메모리(Shared Memory)**: 같은 메모리 영역을 매핑해 데이터를 교환하는 방식이다.
+- **무복사(Zero-copy)**: 중간 버퍼 복제를 줄여 IPC 비용을 낮추는 방식이다.
 - **상태 체크포인트(State Checkpoint)**: 재시작 뒤 서비스를 복구할 수 있도록 필요한 상태를 저장한 시점별 사본이다.
 - **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 보안을 유지하려면 반드시 신뢰해야 하는 특권 코드와 구성요소 범위다.
 - **꼬리 지연(Tail Latency)**: 요청 지연 분포에서 가장 느린 일부 요청의 응답 시간이다.
 - **요청 묶음(Request Batching)**: 여러 IPC 요청을 한 번에 전달해 경계 왕복과 호출 횟수를 줄이는 방식이다.
-- **감독•멱등 요청(Supervision•Idempotent Request)**: 감독은 실패 서버를 감지해 재시작하고, 멱등 요청은 같은 요청을 반복해도 결과가 달라지지 않게 한다.
-- **공격면•권한 분리**: 공격면은 외부 입력이 닿는 코드•인터페이스 범위이고, 권한 분리는 구성요소별 특권을 필요한 범위로 나누는 통제다.
+- **감독(Supervision)**: 실패한 서버를 감지해 재시작하는 복구 방식이다.
+- **멱등 요청(Idempotent Request)**: 반복해도 결과가 달라지지 않는 요청이다.
+- **공격면(Attack Surface)**: 외부 입력이 닿는 코드와 인터페이스 범위다.
+- **권한 분리(Privilege Separation)**: 구성요소별 특권을 필요한 범위로 나누는 통제다.
 
 </details>
 

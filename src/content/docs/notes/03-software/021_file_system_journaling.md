@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템 저널링 (File System Journaling)"
-date: "2026-08-03T09:29:00+09:00"
+date: "2026-08-04T10:27:00+09:00"
 tags:
   - "notes-software"
 weight: 21
@@ -180,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **보호 범위**: 장애 복구 대상으로 메타데이터만 둘지 파일 데이터까지 포함할지를 정하는 기준이다.
-- **저널 모드**: 보호 범위와 쓰기량•복구 시간의 균형에 따라 선택하는 기록 정책이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비동기 I/O•이벤트 루프 (Async I/O Event Loop)"
-date: "2026-08-03T09:12:00+09:00"
+date: "2026-08-04T10:33:00+09:00"
 tags:
   - "notes-software"
 weight: 26
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비동기 입출력(Asynchronous Input/Output, 비동기 I/O)**: 요청 완료 전에 제어권을 반환하고 완료 이벤트로 결과를 전달하는 방식이다.
+- **비동기 입출력(Asynchronous Input/Output, AIO)**: 요청 완료 전에 제어권을 반환하고 완료 이벤트로 결과를 전달하는 방식이다.
 - **완료 이벤트**: 운영체제가 입출력 작업의 준비 또는 완료 상태를 실행 흐름에 알리는 신호다.
 
 </details>
@@ -60,11 +60,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **비차단 입출력(Non-blocking Input/Output, 비차단 I/O)**: 입출력이 준비되지 않았을 때 기다리지 않고 즉시 반환하는 방식이다.
+- **비차단 입출력(Non-blocking Input/Output)**: 입출력이 준비되지 않았을 때 기다리지 않고 즉시 반환하는 방식이다.
 - **이벤트 감시기(Event Demultiplexer)**: 여러 입출력의 준비•완료 사건을 한곳에 모으는 구성요소다.
 - **디스패치(Dispatch)**: 큐에서 꺼낸 이벤트에 연결된 완료 처리기를 선택해 실행하는 동작이다.
 - **I/O 등록 인터페이스**: 응용이 비동기 작업과 완료 때 호출할 처리기를 런타임에 제출하는 진입점이다.
-- **이벤트 큐•완료 처리기**: 이벤트 큐는 실행 대기 사건을 보관하고 완료 처리기는 결과 처리와 후속 I/O 등록을 수행한다.
+- **이벤트 큐(Event Queue)**: 실행을 기다리는 준비•완료 사건을 보관하는 큐다.
+- **완료 처리기(Completion Handler)**: 결과 처리와 후속 I/O 등록을 수행하는 함수다.
 
 </details>
 
@@ -104,7 +105,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **운영체제(Operating System, OS)**: 장치 작업을 수행하고 준비•완료 상태를 이벤트 감시기에 통지하는 시스템 소프트웨어다.
-- **완료 처리기(Completion Handler)**: 비동기 요청 결과를 처리하고 후속 입출력을 등록하는 콜백 함수다.
 
 </details>
 
@@ -136,7 +136,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **동기 입출력(Synchronous Input/Output, 동기 I/O)**: 결과를 받을 때까지 현재 실행 흐름과 스레드를 대기시키는 방식이다.
+- **동기 입출력(Synchronous Input/Output)**: 결과를 받을 때까지 현재 실행 흐름과 스레드를 대기시키는 방식이다.
 - **문맥 전환(Context Switch)**: 실행 대상을 바꾸기 위해 레지스터와 스택 상태를 저장•복원하는 작업이다.
 
 </details>
@@ -158,8 +158,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **큐 상한•읽기 일시 중지(Queue Limit•Read Pause)**: 대기 이벤트 수를 제한하고 한도 도달 시 새 입력 수신을 멈추는 역압 수단이다.
-- **시간 제한•취소 전파(Timeout•Cancellation Propagation)**: 늦은 작업을 중단하고 하위 작업에도 취소를 전달하는 방식이다.
+- **읽기 일시 중지(Read Pause)**: 큐 한도에 도달하면 새 입력 수신을 멈추는 역압 수단이다.
+- **시간 제한(Timeout)**: 허용시간을 넘긴 작업을 중단하는 제어다.
+- **취소 전파(Cancellation Propagation)**: 상위 작업의 취소를 하위 작업에도 전달하는 방식이다.
 - **상관 식별자(Correlation Identifier)**: 여러 비동기 단계로 나뉜 하나의 요청 흐름을 연결해 추적하는 값이다.
 - **꼬리 지연(Tail Latency)**: 요청 지연 분포에서 가장 느린 일부 요청의 응답 시간이다.
 - **처리기 시간 상한**: 하나의 완료 처리기가 이벤트 루프를 연속 점유할 수 있는 최대 실행시간이다.
@@ -185,7 +186,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **대기 연결**: 입출력 결과를 기다리지만 CPU 작업은 수행하지 않는 네트워크•장치 연결이다.
-- **작업 풀**: 이벤트 루프를 오래 점유할 차단•계산 작업을 분리하는 실행 구조다.
 
 </details>
 

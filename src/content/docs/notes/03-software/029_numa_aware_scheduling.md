@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-08-03T09:12:45+09:00"
+date: "2026-08-04T10:38:00+09:00"
 tags:
   - "notes-software"
 weight: 29
@@ -24,6 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **비균일 메모리 접근(Non-Uniform Memory Access, NUMA)**: CPU 노드와 메모리의 위치 관계에 따라 접근 시간이 달라지는 구조다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령을 실행하는 프로세서 장치다.
 - **원격 메모리(Remote Memory)**: CPU가 인터커넥트를 거쳐 다른 NUMA 노드에서 접근하는 메모리다.
 
 </details>
@@ -41,7 +42,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **퍼스트 터치(First-touch)**: 페이지를 처음 접근한 스레드의 NUMA 노드에 물리 메모리를 할당하는 정책이다.
-- **중앙처리장치(Central Processing Unit, CPU) 친화도**: 스레드의 허용•선호 CPU 범위를 정하는 정책이다.
+- **프로세서 친화도(Processor Affinity)**: 스레드의 허용•선호 CPU 범위를 정하는 정책이다.
 - **이주 비용**: 스레드나 페이지를 다른 노드로 옮길 때 복사•캐시 재적재에 드는 비용이다.
 
 </details>
@@ -159,8 +160,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **메모리 대역폭(Memory Bandwidth)**: 단위 시간에 CPU와 메모리 사이에서 전송할 수 있는 데이터 양이다.
-- **히스테리시스•재이주 대기시간(Hysteresis•Cooldown)**: 배치 기준에 여유 구간을 두고 재변경을 늦춰 반복 이주를 줄이는 제어다.
-- **가상 중앙처리장치(Virtual Central Processing Unit, vCPU)**: 가상 머신에 제공되는 논리 CPU다.
+- **히스테리시스(Hysteresis)**: 배치 기준에 여유 구간을 두는 제어다.
+- **재이주 대기시간(Cooldown)**: 재배치를 일정 시간 늦추는 제어다.
+- **가상 중앙처리장치(Virtual CPU, vCPU)**: 가상 머신에 제공되는 논리 CPU다.
 - **가상 비균일 메모리 접근(Virtual Non-Uniform Memory Access, vNUMA)**: 가상 머신에 물리 NUMA와 대응하는 CPU•메모리 토폴로지를 노출하는 구조다.
 - **병렬 초기화(Parallel Initialization)**: 여러 작업 스레드가 자신이 사용할 페이지를 각 노드에서 처음 접근해 메모리를 분산 배치하는 방식이다.
 - **절감 임계값(Savings Threshold)**: 예상 원격 접근 감소가 이주 비용보다 얼마나 커야 재배치를 실행할지 정한 기준이다.

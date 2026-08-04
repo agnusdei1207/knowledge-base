@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "요구사항 분석•명세 (Requirements Analysis)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:46:00+09:00"
 tags:
   - "notes-software"
 weight: 36
@@ -42,7 +42,8 @@ extra:
 
 - **수용 기준(Acceptance Criteria)**: 요구 충족 여부를 객관적으로 판정하는 검증 조건이다.
 - **양방향 추적성(Bidirectional Traceability)**: 요구에서 후속 산출물로, 산출물에서 원래 요구로 모두 연결을 확인할 수 있는 성질이다.
-- **완전성•일관성**: 필요한 요구가 빠지지 않고 서로 충돌하지 않는 품질 속성이다.
+- **완전성(Completeness)**: 필요한 요구가 빠지지 않은 품질 속성이다.
+- **일관성(Consistency)**: 요구 사이에 충돌이 없는 품질 속성이다.
 
 </details>
 
@@ -160,7 +161,8 @@ sequenceDiagram
 - **규제 요구(Regulatory Requirement)**: 법령•표준•감독 규칙이 시스템에 요구해 설계와 시험까지 추적해야 하는 조건이다.
 - **요구 식별자(Requirement Identifier)**: 각 요구를 고유하게 참조해 기준선•추적 관계•변경 이력을 연결하는 이름이다.
 - **설계 대안(Design Alternative)**: 같은 사용자 목표와 제약을 충족할 수 있는 서로 다른 구현•구조 선택지다.
-- **목표값•측정법**: 품질 속성이 도달해야 할 수치와 그 수치를 같은 조건에서 확인하는 절차다.
+- **목표값(Target Value)**: 품질 속성이 도달해야 할 수치다.
+- **측정법(Measurement Method)**: 목표 수치를 같은 조건에서 확인하는 절차다.
 - **우선순위 기준(Prioritization Criteria)**: 가치•위험•비용•규제 의무를 비교해 상충 요구의 처리 순서를 정하는 기준이다.
 
 </details>

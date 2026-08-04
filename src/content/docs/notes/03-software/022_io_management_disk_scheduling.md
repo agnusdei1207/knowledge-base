@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-08-03T09:30:00+09:00"
+date: "2026-08-04T10:28:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -43,7 +43,8 @@ extra:
 - **하드 디스크 드라이브(Hard Disk Drive, HDD)**: 회전 원판과 이동 헤드로 데이터를 읽고 쓰는 저장장치다.
 - **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe 저장장치를 위한 다중 큐 기반 명령 인터페이스다.
 - **솔리드 스테이트 드라이브(Solid State Drive, SSD)**: 회전 부품 없이 반도체 메모리에 데이터를 저장해 병렬 접근하는 저장장치다.
-- **탐색 거리•회전 지연**: HDD 헤드가 목표 트랙으로 이동하는 거리와 원하는 섹터가 헤드 아래에 올 때까지 기다리는 시간이다.
+- **탐색 거리(Seek Distance)**: HDD 헤드가 목표 트랙으로 이동하는 거리다.
+- **회전 지연(Rotational Latency)**: 원하는 섹터가 헤드 아래에 올 때까지 기다리는 시간이다.
 - **꼬리 지연(Tail Latency)**: 요청 지연 분포에서 가장 느린 일부 요청의 응답 시간이다.
 
 </details>
@@ -95,7 +96,8 @@ block-beta
 
 - **논리 블록(Logical Block)**: 저장장치 위치를 연속 번호로 지정하는 운영체제의 저장 단위다.
 - **버퍼(Buffer)**: 입출력 데이터를 메모리에 임시 보관해 장치 명령에 전달하는 영역이다.
-- **인터럽트•완료 큐(Interrupt•Completion Queue)**: 장치 완료를 CPU에 알리고 끝난 명령 상태를 기록해 작업을 재개하는 수단이다.
+- **인터럽트(Interrupt)**: 장치의 명령 완료를 CPU에 알리는 신호다.
+- **완료 큐(Completion Queue)**: 끝난 명령 상태를 기록해 작업 재개를 돕는 큐다.
 
 </details>
 
@@ -156,7 +158,8 @@ sequenceDiagram
 - **큐 깊이(Queue Depth)**: 동시에 대기하거나 실행 중인 입출력 요청 수다.
 - **상위 백분위(Upper Percentile)**: 지연을 짧은 순서로 정렬했을 때 대부분의 요청이 넘지 않는 상단 경곗값이다.
 - **공정성(Fairness)**: 특정 요청 종류가 처리 기회를 계속 잃지 않도록 순서를 배분하는 성질이다.
-- **인터럽트 병합•폴링(Interrupt Coalescing•Polling)**: 완료 사건을 묶어 알리거나 CPU가 완료 큐를 반복 확인해 완료 처리 비용을 조절하는 방식이다.
+- **인터럽트 병합(Interrupt Coalescing)**: 여러 완료 사건을 묶어 CPU에 알리는 방식이다.
+- **폴링(Polling)**: CPU가 완료 큐를 반복 확인하는 방식이다.
 - **큐 상한(Queue Limit)**: 꼬리 지연과 메모리 사용을 제한하기 위해 동시에 대기시킬 요청 수에 둔 최댓값이다.
 - **기아(Starvation)**: 특정 종류의 요청이 다른 요청에 계속 밀려 처리 기회를 얻지 못하는 상태다.
 

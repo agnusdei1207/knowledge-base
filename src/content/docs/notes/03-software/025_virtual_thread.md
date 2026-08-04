@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "가상 스레드: Java Project Loom (Virtual Thread)"
-date: "2026-08-03T09:34:00+09:00"
+date: "2026-08-04T10:32:00+09:00"
 tags: [notes-software]
 weight: 25
 extra:
@@ -91,9 +91,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **탑재•분리(Mount•Unmount)**: 가상 스레드를 캐리어에 연결하거나 대기 시 해제하는 동작이다.
+- **탑재(Mount)**: 가상 스레드를 캐리어에 연결하는 동작이다.
 - **고정(Pinning)**: 가상 스레드가 특정 차단 구간에서 캐리어로부터 분리되지 못하는 상태다.
-- **네이티브•외부 함수(Native•Foreign Function)**: JVM 밖의 기계어 코드나 외부 인터페이스를 호출하는 함수다.
+- **네이티브 함수(Native Function)**: JVM 밖의 기계어 코드를 호출하는 함수다.
+- **외부 함수(Foreign Function)**: 외부 인터페이스의 코드를 호출하는 함수다.
 
 </details>
 
@@ -183,7 +184,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **고정 구간**: 가상 스레드가 캐리어를 놓지 못해 다중화 확장성을 제한하는 실행 구간이다.
-- **플랫폼 스레드 풀**: CPU 중심 계산을 물리 코어 수에 맞춰 제한하는 실행 구조다.
 
 </details>
 

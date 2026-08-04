@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "다중 프로세서 스케줄링: SQMS•MQMS (Multiprocessor Scheduling SQMS MQMS)"
-date: "2026-08-03T09:12:30+09:00"
+date: "2026-08-04T10:36:00+09:00"
 tags:
   - "notes-software"
 weight: 28
@@ -43,7 +43,8 @@ extra:
 - **단일 큐 다중 프로세서 스케줄링(Single Queue Multiprocessor Scheduling, SQMS)**: 모든 코어가 하나의 전역 실행 큐를 공유하는 방식이다.
 - **다중 큐 다중 프로세서 스케줄링(Multi-Queue Multiprocessor Scheduling, MQMS)**: 코어별 로컬 실행 큐를 두는 방식이다.
 - **캐시 지역성(Cache Locality)**: 작업이 같은 코어의 캐시 데이터를 다시 사용해 메모리 접근을 줄이는 성질이다.
-- **밀기 이동•작업 훔치기(Push Migration•Work Stealing)**: 바쁜 큐가 작업을 유휴 코어로 보내거나 유휴 코어가 다른 큐에서 작업을 가져오는 부하 분산 방식이다.
+- **밀기 이동(Push Migration)**: 바쁜 큐가 작업을 유휴 코어로 보내는 방식이다.
+- **작업 훔치기(Work Stealing)**: 유휴 코어가 다른 큐에서 작업을 가져오는 방식이다.
 
 </details>
 
@@ -62,7 +63,8 @@ extra:
 
 - **중앙처리장치(Central Processing Unit, CPU) 친화도**: 작업이 실행할 수 있거나 우선 배정되는 CPU 코어 범위다.
 - **부하 분산(Load Balancing)**: 코어별 실행 큐 길이와 처리 부하의 편차를 줄이는 작업 이동이다.
-- **작업 배치기•부하 분산기**: 작업 배치기는 초기 코어와 큐를 정하고, 부하 분산기는 실행 중인 큐 편차를 감지해 작업을 옮긴다.
+- **작업 배치기(Task Placer)**: 작업의 초기 코어와 큐를 정하는 구성요소다.
+- **부하 분산기(Load Balancer)**: 실행 큐 편차를 감지해 작업을 옮기는 구성요소다.
 
 </details>
 
@@ -101,7 +103,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **작업 훔치기(Work Stealing)**: 유휴 코어가 바쁜 코어의 로컬 큐에서 작업을 가져오는 방식이다.
 - **유휴 코어(Idle Core)**: 실행할 로컬 작업이 없어 쉬며 작업 훔치기를 요청하는 처리 코어다.
 
 </details>
