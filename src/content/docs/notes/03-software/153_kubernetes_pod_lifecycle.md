@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-04T13:53:00+09:00"
+date: "2026-08-05T06:00:00+09:00"
 tags: ["notes-software"]
 weight: 153
 extra:
@@ -69,19 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["스케줄러•kubelet"]
-    B["초기화•주 컨테이너"]
-    C["시작 프로브"]
-    D["활성•준비 프로브"]
-    E["종료 제어"]
-    A --- B
-    B --- C
-    B --- D
-    A --- E
+```text
+                 [시작 프로브]
+                       \
+[스케줄러•kubelet] -- [초기화•주 컨테이너] -- [활성•준비 프로브]
+          |
+      [종료 제어]
 ```
+
+선의 의미: 스케줄러•kubelet은 초기화•주 컨테이너와 종료 제어를 관리하고, 시작 프로브와 활성•준비 프로브는 컨테이너의 기동·생존·트래픽 준비 상태를 서로 다른 기준으로 검사한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

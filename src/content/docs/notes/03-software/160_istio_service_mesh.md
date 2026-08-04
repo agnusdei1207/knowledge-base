@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
-date: "2026-08-04T14:00:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 160
@@ -70,19 +70,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  I["Istiod"]
-  D["Sidecar•Ambient 데이터면"]
-  G["Gateway"]
-  P["정책 리소스"]
-  O["관측 연동"]
-  I --- P
-  I --- D
-  D --- G
-  D --- O
+```text
+[정책 리소스] ----- [Istiod] ----- [Sidecar•Ambient 데이터면]
+                                          /              \
+                                    [Gateway]          [관측 연동]
 ```
+
+선의 의미: 정책 리소스와 Istiod는 Sidecar•Ambient 데이터면의 제어 경계에 결합되고, 데이터면 아래에는 메시 경계를 담당하는 Gateway와 통신 정보를 전달하는 관측 연동이 놓이는 정적 서비스 메시 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 | --- | --- |

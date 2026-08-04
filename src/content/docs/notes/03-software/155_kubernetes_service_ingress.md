@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-04T13:55:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -65,19 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["Service"]
-    B["EndpointSlice"]
-    C["Service 데이터면"]
-    D["Ingress•Controller"]
-    E["DNS•TLS Secret"]
-    E --- D
-    D --- A
-    A --- B
-    A --- C
+```text
+[DNS•TLS Secret] ----- [Ingress•Controller] ----- [Service]
+                                                    /     \
+                                      [EndpointSlice] [Service 데이터면]
 ```
+
+선의 의미: DNS•TLS Secret과 Ingress•Controller는 Service의 외부 웹 진입 경계에 결합되고, Service 아래에는 준비 백엔드 정보를 담는 EndpointSlice와 실제 L4 전달을 맡는 Service 데이터면이 놓이는 정적 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

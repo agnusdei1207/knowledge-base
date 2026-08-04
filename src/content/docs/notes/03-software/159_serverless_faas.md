@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "서버리스 컴퓨팅•FaaS (Serverless Computing•FaaS)"
-date: "2026-08-04T13:59:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 159
@@ -68,19 +68,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["이벤트 소스•Trigger"]
-    B["함수 제어 계층"]
-    C["격리 런타임"]
-    D["외부 상태 서비스"]
-    E["관측•과금"]
-    A --- B
-    B --- C
-    C --- D
-    C --- E
+```text
+[이벤트 소스•Trigger] ----- [함수 제어 계층] ----- [격리 런타임]
+                                                    /       \
+                                        [외부 상태 서비스] [관측•과금]
 ```
+
+선의 의미: 이벤트 소스•Trigger와 함수 제어 계층은 격리 런타임의 실행 경계에 결합되고, 런타임 아래에는 영속 상태를 담당하는 외부 상태 서비스와 실행 정보를 담당하는 관측•과금이 놓이는 정적 FaaS 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

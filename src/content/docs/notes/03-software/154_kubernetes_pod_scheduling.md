@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-08-04T13:54:00+09:00"
+date: "2026-08-05T06:00:00+09:00"
 tags:
   - "notes-software"
 weight: 154
@@ -68,19 +68,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["스케줄링 큐•캐시"]
-    B["Filter 플러그인"]
-    C["Score 플러그인"]
-    D["Reserve•Permit"]
-    E["Bind 플러그인"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                    [스케줄링 큐•캐시]
+                       /           \
+             [Filter 플러그인]   [Score 플러그인]
+                       \           /
+                     [Reserve•Permit]
+                              |
+                       [Bind 플러그인]
 ```
+
+선의 의미: 스케줄링 큐•캐시는 Filter·Score 플러그인에 파드와 노드 상태를 제공하고, 두 플러그인의 판정은 Reserve•Permit의 예약·허가와 Bind 플러그인의 파드·노드 관계 기록에 사용된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

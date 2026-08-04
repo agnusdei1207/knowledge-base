@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
-date: "2026-08-04T13:50:00+09:00"
+date: "2026-08-05T06:00:00+09:00"
 tags: ["notes-software"]
 weight: 150
 extra:
@@ -69,19 +69,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    B["Dockerfile•빌더"]
-    R["레지스트리"]
-    C["컨테이너 런타임"]
-    K["네임스페이스•cgroup"]
-    V["볼륨•외부 저장소"]
-    B --- R
-    R --- C
-    C --- K
-    C --- V
+```text
+[Dockerfile•빌더] -- [레지스트리] -- [컨테이너 런타임]
+                                           /         \
+                              [네임스페이스•cgroup] [볼륨•외부 저장소]
 ```
+
+선의 의미: Dockerfile•빌더가 만든 이미지 계층은 레지스트리에 보관되고, 컨테이너 런타임은 해당 이미지를 네임스페이스•cgroup으로 격리하며 볼륨•외부 저장소에 영속 상태를 연결한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

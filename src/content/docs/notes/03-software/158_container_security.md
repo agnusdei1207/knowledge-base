@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-04T14:33:57+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -64,19 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["이미지 공급망"]
-    B["Admission•Gatekeeper"]
-    C["SecurityContext•프로필"]
-    D["컨테이너 런타임"]
-    E["Linux 커널•탐지"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[이미지 공급망] ----- [Admission•Gatekeeper] ----- [SecurityContext•프로필]
+                                                          |
+                                                 [컨테이너 런타임]
+                                                          |
+                                                [Linux 커널•탐지]
 ```
+
+선의 의미: 이미지 공급망과 Admission•Gatekeeper는 SecurityContext•프로필의 배포 보안 경계에 결합되고, 그 아래에는 OCI 설정을 구현하는 컨테이너 런타임과 접근을 강제하는 Linux 커널•탐지가 놓이는 정적 다층 보안 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

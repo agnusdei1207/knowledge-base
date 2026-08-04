@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "쿠버네티스 아키텍처 (Kubernetes Architecture)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-05T06:00:00+09:00"
 tags: ["notes-software"]
 weight: 152
 extra:
@@ -62,19 +62,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["API 서버•etcd"]
-    B["스케줄러"]
-    C["컨트롤러 관리자"]
-    D["kubelet"]
-    E["컨테이너 런타임"]
-    A --- B
-    A --- C
-    A --- D
-    D --- E
+```text
+             [스케줄러]
+                  \
+            [API 서버•etcd] -- [kubelet] -- [컨테이너 런타임]
+                  /
+         [컨트롤러 관리자]
 ```
+
+선의 의미: API 서버•etcd는 스케줄러와 컨트롤러 관리자가 공유하는 제어면 상태를 제공하고, kubelet은 배정된 명세를 받아 컨테이너 런타임으로 파드와 컨테이너를 실행한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

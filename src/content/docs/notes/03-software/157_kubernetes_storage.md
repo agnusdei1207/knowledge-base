@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-04T13:57:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -67,19 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["PVC•PV 제어기"]
-    B["StorageClass"]
-    C["CSI Controller"]
-    D["PV"]
-    E["CSI Node•kubelet"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[PVC•PV 제어기] ----- [StorageClass] ----- [CSI Controller] ----- [PV]
+                                                                   |
+                                                       [CSI Node•kubelet]
 ```
+
+선의 의미: 가로선은 볼륨 요청 제어, 공급 정책, 백엔드 제어와 실제 볼륨 표현이 결합되는 정적 저장 제어 구조이고, 세로선은 PV가 노드 게시•파드 마운트 계층인 CSI Node•kubelet과 결합되는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

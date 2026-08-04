@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "오토 스케일링 HPA•VPA (Auto Scaling HPA VPA)"
-date: "2026-08-04T13:49:00+09:00"
+date: "2026-08-05T06:00:00+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -71,20 +71,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    M["메트릭 API"]
-    H["HPA 객체•제어기"]
-    V["VPA 추천기•갱신기"]
-    W["워크로드 제어기"]
-    S["스케줄러•노드"]
-    M --- H
-    M --- V
-    H --- W
-    V --- W
-    W --- S
+```text
+                         [메트릭 API]
+                          /        \
+             [HPA 객체•제어기]   [VPA 추천기•갱신기]
+                          \        /
+                      [워크로드 제어기]
+                              |
+                       [스케줄러•노드]
 ```
+
+선의 의미: 메트릭 API는 HPA 객체•제어기와 VPA 추천기•갱신기에 지표를 제공하고, 두 제어 결과는 워크로드 제어기에 반영되며 스케줄러•노드가 실제 배치 가능성을 결정한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

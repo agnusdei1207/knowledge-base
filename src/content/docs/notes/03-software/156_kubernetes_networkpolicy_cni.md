@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-04T14:33:57+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -65,19 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["컨테이너 런타임"]
-    B["CNI•IPAM"]
-    C["파드•네임스페이스 레이블"]
-    D["NetworkPolicy"]
-    E["정책 제어기•데이터면"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[컨테이너 런타임] ----- [CNI•IPAM] ----- [파드•네임스페이스 레이블]
+                                                |
+                                      [NetworkPolicy]
+                                                |
+                                    [정책 제어기•데이터면]
 ```
+
+선의 의미: 컨테이너 런타임과 CNI•IPAM은 파드 네트워크 및 레이블 자원에 결합되고, 레이블 아래에는 허용 통신을 선언하는 NetworkPolicy와 이를 집행하는 정책 제어기•데이터면이 놓이는 정적 정책 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
