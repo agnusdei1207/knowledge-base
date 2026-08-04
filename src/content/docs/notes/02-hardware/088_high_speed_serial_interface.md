@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-04T13:54:00+09:00"
+date: "2026-08-05T02:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -67,18 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  H["호스트 컨트롤러"]
-  P["USB-C 포트"]
-  C["케이블•e-Marker"]
-  D["장치 컨트롤러"]
-  I["IOMMU"]
-  H --- P --- C
-  C --- D
-  H --- I
+```text
+[IOMMU] -- [호스트 컨트롤러] -- [USB-C 포트]
+                                      |
+                          [케이블•e-Marker] -- [장치 컨트롤러]
 ```
+
+선의 의미: 호스트와 장치 컨트롤러를 포트•케이블이 연결하고 IOMMU가 호스트 측 외부 DMA 접근 경계를 제공하는 정적 인터페이스 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

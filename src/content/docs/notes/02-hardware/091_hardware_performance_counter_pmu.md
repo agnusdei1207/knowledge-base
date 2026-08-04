@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "하드웨어 성능 카운터•PMU (Hardware Performance Counter and PMU)"
-date: "2026-08-04T14:03:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 91
@@ -79,16 +79,11 @@ $$
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  E["이벤트 원천"]
-  S["이벤트 선택기"]
-  C["성능 카운터"]
-  T["수집•분석 도구"]
-  E --- S --- C
-  C --- T
+```text
+[이벤트 원천] ----- [이벤트 선택기] ----- [성능 카운터] ----- [수집•분석 도구]
 ```
+
+선의 의미: 선은 CPU 사건 선택, 하드웨어 계수와 분석 도구가 결합되는 인접 구성요소의 정적 계측 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

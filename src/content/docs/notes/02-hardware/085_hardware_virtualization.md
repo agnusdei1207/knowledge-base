@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-04T13:44:00+09:00"
+date: "2026-08-05T00:52:39+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -68,18 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  G["게스트 VM"]
-  C["CPU 가상화 확장"]
-  H["하이퍼바이저"]
-  M["EPT•NPT"]
-  I["가상 I/O•IOMMU"]
-  G --- C --- H
-  C --- M
-  H --- I
+```text
+                         [EPT•NPT]
+                             |
+                             |
+[게스트 VM] -- [CPU 가상화 확장] -- [하이퍼바이저] -- [가상 I/O•IOMMU]
 ```
+
+선의 의미: 게스트 실행과 하이퍼바이저 사이에 CPU 가상화 확장이 놓이고, 주소 변환과 장치 격리 자원이 결합된 정적 가상화 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

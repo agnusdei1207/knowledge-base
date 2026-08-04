@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "서버 가상화: Type 1•Type 2 하이퍼바이저 (Hypervisor Types)"
-date: "2026-08-04T13:51:00+09:00"
+date: "2026-08-05T02:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 87
@@ -62,16 +62,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  H["물리 하드웨어"]
-  O["호스트 OS"]
-  V["하이퍼바이저"]
-  G["게스트 VM"]
-  H --- V --- G
-  H --- O --- V
+```text
+              [게스트 VM]
+                   |
+             [하이퍼바이저]
+                /       \
+      [물리 하드웨어] -- [호스트 OS]
 ```
+
+선의 의미: 게스트 VM은 하이퍼바이저 위에 있고, 하이퍼바이저가 하드웨어에 직접 접하면 Type 1, 호스트 OS를 함께 매개하면 Type 2인 정적 배치 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

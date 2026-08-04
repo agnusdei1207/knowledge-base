@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "멀티소켓 서버•SMP (Multi-Socket Server•SMP)"
-date: "2026-08-04T14:09:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 93
@@ -65,16 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  O["운영체제 NUMA 정책"]
-  N0["NUMA 노드 0"]
-  I["일관성 인터커넥트"]
-  N1["NUMA 노드 1"]
-  O --- N0 --- I
-  I --- N1 --- O
+```text
+                   [운영체제 NUMA 정책]
+                    /                 \
+        [NUMA 노드 0] ----- [일관성 인터커넥트] ----- [NUMA 노드 1]
 ```
+
+선의 의미: 가로선은 두 NUMA 노드를 묶는 일관성 인터커넥트 경계이고, 사선은 운영체제 정책이 두 노드의 CPU•페이지 배치에 공통 결합되는 관리 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "퍼시스턴트 메모리 (Persistent Memory)"
-date: "2026-08-04T13:34:00+09:00"
+date: "2026-08-05T00:52:39+09:00"
 tags:
   - "notes-hardware"
 weight: 82
@@ -67,16 +67,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["영속 자료구조"]
-  B["DAX 매핑"]
-  C["캐시•영속 제어"]
-  D["영속성 영역"]
-  A --- B --- C
-  C --- D
+```text
+[영속 자료구조] -- [DAX 매핑] -- [캐시•영속 제어] -- [영속성 영역]
 ```
+
+선의 의미: 애플리케이션 자료구조의 주소 매핑부터 캐시 영속 제어와 비휘발 경계까지 결합된 정적 메모리 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

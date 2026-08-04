@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
-date: "2026-08-04T13:37:00+09:00"
+date: "2026-08-05T00:52:39+09:00"
 tags:
   - "notes-hardware"
 weight: 83
@@ -62,16 +62,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["MCU 제어부"]
-  B["MCU 온칩 자원"]
-  C["MPU 처리부"]
-  D["MPU 외부 자원"]
-  A --- B
-  C --- D
+```text
+MCU 구조: [MCU 제어부] -- [MCU 온칩 자원]
+
+MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 ```
+
+선의 의미: 각 선은 MCU 내부 통합 또는 MPU 외부 확장 관계이며, 두 처리기 구조 사이의 직접 연결은 없다.
 
 | 구성요소 | 책임 |
 |:---|:---|

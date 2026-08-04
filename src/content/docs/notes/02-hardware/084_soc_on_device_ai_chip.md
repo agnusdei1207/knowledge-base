@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SoC AI 온디바이스 칩 (SoC On-Device AI Chip)"
-date: "2026-08-04T13:40:00+09:00"
+date: "2026-08-05T00:52:39+09:00"
 tags:
   - "notes-hardware"
 weight: 84
@@ -65,16 +65,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["CPU•GPU 호스트"]
-  B["NPU"]
-  C["메모리•온칩 버퍼"]
-  D["전력•열 제어"]
-  A --- C --- B
-  B --- D
+```text
+[CPU•GPU 호스트] -- [메모리•온칩 버퍼] -- [NPU]
+                                                |
+                                                |
+                                        [전력•열 제어]
 ```
+
+선의 의미: 호스트와 NPU가 메모리 계층을 공유하고 NPU가 전력•열 제어에 결합된 정적 온디바이스 SoC 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

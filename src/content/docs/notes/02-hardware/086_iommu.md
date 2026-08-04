@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "입출력 메모리 관리 장치 (IOMMU)"
-date: "2026-08-04T13:48:00+09:00"
+date: "2026-08-05T02:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 86
@@ -64,16 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  O["도메인 관리자"]
-  T["페이지 테이블"]
-  I["IOMMU•IOTLB"]
-  D["DMA 장치"]
-  O --- T --- I
-  I --- D
+```text
+[도메인 관리자] -- [페이지 테이블] -- [IOMMU•IOTLB] -- [DMA 장치]
 ```
+
+선의 의미: 도메인 관리자가 페이지 테이블의 주소•권한을 관리하고 IOMMU•IOTLB가 이를 참조해 DMA 장치 접근을 중재하는 정적 의존 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

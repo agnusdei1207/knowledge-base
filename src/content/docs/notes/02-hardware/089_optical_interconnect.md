@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "광 인터커넥트 (Optical Interconnect)"
-date: "2026-08-04T13:57:00+09:00"
+date: "2026-08-05T02:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 89
@@ -77,17 +77,13 @@ $$
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  S["SerDes"]
-  T["광 송신부"]
-  W["WDM 결합•분리기"]
-  F["광섬유 경로"]
-  R["광 수신부"]
-  S --- T --- W
-  W --- F --- R
+```text
+[SerDes] -- [광 송신부] -- [WDM 결합•분리기]
+                                      |
+                           [광섬유 경로] -- [광 수신부]
 ```
+
+선의 의미: 직렬 전기 인터페이스와 광 송신부, 파장 결합부, 광섬유, 광 수신부 사이의 정적 광전 링크 연결 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|
