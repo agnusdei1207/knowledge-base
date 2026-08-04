@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-03T09:15:35+09:00"
+date: "2026-08-04T23:03:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -43,6 +43,8 @@ extra:
 - **간접 물 사용**: 데이터센터가 소비한 전력의 생산 등 공급망에서 사용한 물이다.
 - **물 부족도**: 지역의 물 수요가 이용 가능한 수자원에 주는 압박 정도이다.
 - **전력-물 상충**: 물 소비를 줄이는 냉각 방식이 전력 소비와 탄소 배출을 늘리거나 그 반대가 되는 관계이다.
+- **전력 사용 효율(Power Usage Effectiveness, PUE)**: 총 시설 에너지를 IT 장비 에너지로 나눈 전력 지원 부담 지표이다.
+- **국제표준화기구•국제전기기술위원회 30134-9(International Organization for Standardization/International Electrotechnical Commission 30134-9, ISO/IEC 30134-9)**: WUE의 정의•측정•계산•보고 기준을 규정한 국제표준이다.
 
 </details>
 
@@ -127,8 +129,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **물 사용 효율(Water Usage Effectiveness, WUE)**: IT 에너지 대비 현장 물 사용량으로 데이터센터의 직접 물 부담을 평가하는 지표이다.
-- **전력 사용 효율(Power Usage Effectiveness, PUE)**: 총 시설 에너지를 IT 장비 에너지로 나누어 지원 설비의 전력 부담을 평가하는 지표이다.
+- **WUE 적용**: IT 에너지 대비 현장 물 사용량으로 직접 물 부담을 평가하는 방식이다.
+- **PUE 적용**: IT 에너지 대비 총 시설 에너지로 전력 지원 부담을 평가하는 방식이다.
 - **간접 물 지표**: 전력 생산에 쓰인 물까지 포함하여 전력원 구성에 따른 공급망 물 부담을 평가하는 관점이다.
 
 </details>
@@ -149,7 +151,7 @@ sequenceDiagram
 
 - **전력원 구성**: 데이터센터가 사용하는 전기가 화력•원자력•재생에너지 등으로 생산된 비율이다.
 - **지역 가중 판단**: 같은 WUE라도 물 부족 지역의 물 소비를 더 큰 위험으로 평가하는 방식이다.
-- **전력-물 상충**: 물을 덜 쓰는 냉각 방식이 전력 소비를 늘리거나 그 반대가 되는 관계이다.
+- **전력-물 통합 판단**: 물 절감 조치가 전력•탄소•가용성에 미치는 영향을 함께 평가하는 원칙이다.
 - **재이용수 우선**: 물 부족 지역에서 상수 취수 부담을 줄이도록 처리수•우수 등 비음용 수원을 먼저 활용하는 원칙이다.
 
 </details>
@@ -168,7 +170,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회 30134-9(International Organization for Standardization/International Electrotechnical Commission 30134-9, ISO/IEC 30134-9)**: WUE의 정의•측정•계산•보고 기준을 규정한 국제표준이다.
 - **물 절감 우선순위**: WUE 절대값뿐 아니라 지역 물 부족도•재이용수 비율•전력 증가를 함께 고려하여 조치를 선택하는 원칙이다.
 - **냉각 방식 결정**: 물 부족 지역은 재이용수를 우선하고 WUE 개선이 전력 사용 효율•탄소를 악화하면 대안을 다시 선택하는 판단이다.
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보기술 감리 (Intelligent IT Audit)"
-date: "2026-08-03T14:48:00+09:00"
+date: "2026-08-04T23:41:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -43,6 +43,7 @@ extra:
 - **공동 책임 모델**: 클라우드 제공자와 이용자가 계층별 보안•운영 책임을 나누는 원칙이다.
 - **다학제 감리팀**: AI•데이터•클라우드•네트워크•보안 전문가를 함께 구성한 감리 조직이다.
 - **계층 경계 위험**: 각 기술은 정상이어도 데이터•권한•책임이 다음 계층으로 넘어가는 구간에서 생기는 복합 위험이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 시스템 간 기능 호출과 데이터 교환을 위한 규격이다.
 
 </details>
 
@@ -93,7 +94,6 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **사물인터넷(Internet of Things, IoT)**: 센서와 기기를 네트워크로 연결하여 데이터를 수집하고 원격 제어하는 기술이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 시스템 간 기능 호출과 데이터 교환을 위한 규격이다.
 - **복원력**: 장애나 공격이 발생해도 서비스를 유지하고 정한 수준으로 복구하는 능력이다.
 
 </details>
@@ -129,10 +129,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **지능정보기술 감리**: 융합 계층의 데이터•권한•물리 동작•책임 경계를 종단 검증하는 감리이다.
+- **지능정보기술 감리 적용**: 융합 계층의 종단 위험과 공동 책임을 검증하는 방식이다.
 - **일반 정보시스템 감리**: 사업관리•소프트웨어•인프라의 준거와 산출물 적정성을 검증하는 감리이다.
 - **AI 활용 감리**: 로그 분류•이상 탐지•문서 분석 등 감리 업무 자체에 AI를 보조 도구로 사용하는 방식이다.
 - **대상•수단 구분**: 지능정보기술 감리는 융합 시스템을 검증하는 대상 중심 방식이고 AI 활용 감리는 분석 도구로 AI를 사용하는 수단 중심 방식이다.
+- **소프트웨어(Software, SW)**: 시스템에서 업무 기능과 데이터 처리를 수행하는 프로그램이다.
 
 </details>
 
@@ -150,10 +151,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **계층 경계 위험**: 개별 기술 통제는 정상이어도 API•데이터 전달•책임 인계 구간에서 생기는 위험이다.
+- **계층 경계 통제**: API•데이터 전달•책임 인계 구간의 값과 담당자를 종단 증거로 확인하는 조치이다.
 - **AI 보조 오탐**: 감리 보조 모델이 정상 항목을 이상으로 분류하거나 실제 문제를 놓치는 오류이다.
 - **물리 안전 영향**: AI•IoT 판단 오류가 현장 장비 동작을 통해 사람•재산•환경에 피해를 줄 수 있는 영향이다.
 - **추적 식별자(Trace Identifier, Trace ID)**: 센서 입력부터 변환•판단•명령까지 같은 거래의 데이터 경로를 연결하는 식별자이다.
+- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 거버넌스•맥락•측정•관리 기능으로 AI 위험을 관리하는 프레임워크이다.
+- **국제표준화기구•국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: AI 관리체계의 수립•운영•지속 개선 요구사항을 규정한 국제표준이다.
 
 </details>
 
@@ -172,8 +175,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 거버넌스•맥락•측정•관리 기능으로 AI 위험을 관리하는 프레임워크이다.
-- **국제표준화기구•국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: AI 관리체계의 수립•운영•유지•지속 개선 요구사항을 규정한 국제표준이다.
 - **승인 결정**: 물리 영향이 큰 시스템은 종단 경로와 인간 중단 통제가 입증된 경우에만 승인하는 판단이다.
 
 </details>

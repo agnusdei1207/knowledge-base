@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-03T09:15:35+09:00"
+date: "2026-08-04T22:45:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -126,7 +126,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **아키텍처 트레이드오프 분석 방법(Architecture Tradeoff Analysis Method, ATAM)**: 여러 품질 시나리오의 위험•민감점•상충점을 평가하는 방법이다.
+- **ATAM 적용**: 여러 품질 속성의 균형과 설계 위험을 함께 평가하는 방식이다.
 - **소프트웨어 아키텍처 분석 방법(Software Architecture Analysis Method, SAAM)**: 변경 시나리오가 아키텍처와 구성요소에 미치는 수정 영향을 평가하는 방법이다.
 - **비용편익 분석 방법(Cost Benefit Analysis Method, CBAM)**: 품질 개선 대안의 비용과 기대 편익을 비교하여 투자 우선순위를 정하는 방법이다.
 
@@ -146,7 +146,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **위험 주제**: 여러 시나리오에서 반복해서 나타나는 근본적인 아키텍처 불확실성이나 취약 패턴이다.
+- **위험 주제 대응**: 반복되는 아키텍처 불확실성을 설계 변경이나 검증 계획으로 연결하는 활동이다.
 - **이해관계자 편향**: 일부 역할의 시나리오만 우선되어 운영•보안•사용성 위험이 누락되는 문제이다.
 - **측정 불가능한 시나리오**: 반응과 측정값이 모호하여 설계 대안의 충족 여부를 검증할 수 없는 품질 요구이다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API) 품질 상충**: 통신 암호화 같은 보안 설계가 피크 응답시간 등 성능 목표에 미치는 영향을 함께 검증해야 하는 관계이다.

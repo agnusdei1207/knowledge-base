@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 개발 사업 감리 특수 점검 (AI Development Audit)"
-date: "2026-08-03T14:48:00+09:00"
+date: "2026-08-04T23:34:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -94,7 +94,7 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **데이터 누수**: 평가 시점에 알 수 없는 정보가 학습 데이터에 들어가 성능이 과대평가되는 오류이다.
-- **인간 감독**: 사람이 고위험 AI 결과를 검토•거부하고 필요하면 서비스를 중단하는 통제이다.
+- **인간 감독 실행**: 고위험 결과의 검토•거부•서비스 중단 권한을 실제 절차로 수행하는 활동이다.
 - **롤백**: 새 모델에 문제가 생기면 검증된 이전 모델로 되돌리는 복구 절차이다.
 - **배포 승인 조건**: 재현 시험•공정성•강건성•운영 감시와 인간 감독•롤백이 검증되어야 모델 배포를 허용하는 기준이다.
 
@@ -151,8 +151,11 @@ sequenceDiagram
 
 - **환각**: 생성형 AI가 사실과 맞지 않는 내용을 그럴듯하게 생성하는 현상이다.
 - **프롬프트 주입**: 공격자가 입력 지시로 모델의 원래 규칙과 도구 통제를 우회하도록 유도하는 공격이다.
-- **오탐•미탐**: 정상 대상을 문제로 판정한 오류와 실제 문제를 놓친 오류이다.
+- **오탐**: 정상 대상을 문제로 잘못 판정한 오류이다.
+- **미탐**: 실제 문제 대상을 정상으로 잘못 판정한 오류이다.
 - **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 인공지능 위험을 거버넌스•맥락•측정•관리 활동으로 다루는 지침이다.
+- **국제표준화기구•국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: AI 관리체계의 수립•운영•지속 개선 요구사항을 규정한 국제표준이다.
+- **국제표준화기구•국제전기기술위원회 23894(International Organization for Standardization/International Electrotechnical Commission 23894, ISO/IEC 23894)**: AI 위험관리를 조직 활동에 통합하기 위한 국제 지침이다.
 
 </details>
 
@@ -172,8 +175,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: AI 관리체계의 수립•운영•유지•지속 개선 요구사항을 규정한 국제표준이다.
-- **국제표준화기구•국제전기기술위원회 23894(International Organization for Standardization/International Electrotechnical Commission 23894, ISO/IEC 23894)**: AI 위험관리를 조직 활동에 통합하기 위한 국제 지침이다.
 - **배포 결정**: 오류 비용과 영향 집단에 맞춘 재현 시험•운영 감시와 인간 감독•롤백이 입증된 모델만 배포하는 판단이다.
 
 </details>

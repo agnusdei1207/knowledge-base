@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 전력 효율 지표 (PUE, Power Usage Effectiveness)"
-date: "2026-08-03T09:15:35+09:00"
+date: "2026-08-04T22:57:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -42,6 +42,7 @@ extra:
 - **PUE≥1**: 총 시설 에너지가 IT 장비 에너지보다 작을 수 없으므로 PUE는 1 이상이며 1에 가까울수록 지원 설비 부담이 작다.
 - **측정 경계•기간 정합성**: 분자와 분모가 같은 시설 경계와 관측 기간의 에너지를 사용해야 한다는 조건이다.
 - **부하•계절 민감성**: 정보기술 부하와 외기 조건 변화에 따라 지원 설비의 고정•변동 에너지 비중과 PUE가 달라지는 특성이다.
+- **국제표준화기구•국제전기기술위원회 30134-2(International Organization for Standardization/International Electrotechnical Commission 30134-2, ISO/IEC 30134-2)**: PUE의 정의•측정•계산•보고 기준을 규정한 국제표준이다.
 
 </details>
 
@@ -123,7 +124,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **전력 사용 효율(Power Usage Effectiveness, PUE)**: IT 장비 에너지 대비 총 시설 에너지로 전력 지원 부담을 평가하는 지표이다.
+- **PUE 적용**: IT 장비 대비 냉각•배전 등 시설의 전력 지원 부담을 평가하는 방식이다.
 - **탄소 사용 효율(Carbon Usage Effectiveness, CUE)**: IT 장비 에너지 대비 데이터센터 운영의 탄소 배출량을 평가하는 지표이다.
 - **물 사용 효율(Water Usage Effectiveness, WUE)**: IT 장비 에너지 대비 데이터센터의 현장 물 사용량을 평가하는 지표이다.
 
@@ -164,7 +165,6 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회 30134-2(International Organization for Standardization/International Electrotechnical Commission 30134-2, ISO/IEC 30134-2)**: PUE의 정의•측정•계산•보고 기준을 규정한 국제표준이다.
 - **효율과 생산성 구분**: PUE가 시설 지원 에너지 비율만 나타내며 IT 작업량•서비스 가치나 절대 탄소 배출은 측정하지 않는다는 구분이다.
 - **개선 결정**: 같은 경계•계절•부하의 PUE 추세로 냉각•배전을 개선하되 온습도와 가용성을 우선하는 판단이다.
 
