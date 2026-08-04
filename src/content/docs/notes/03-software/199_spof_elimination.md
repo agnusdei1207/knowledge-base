@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "단일 장애점 SPOF 제거 (SPOF Elimination)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:39:00+09:00"
 tags:
   - "notes-software"
 weight: 199
@@ -38,9 +38,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **의존성 지도•FMEA**: 의존성 지도와 FMEA는 물리•논리 구성요소의 고장 원인과 전체 서비스 영향을 따라 단일 장애점을 식별한다.
+- **의존성 지도(Dependency Map)**: 물리•논리 구성요소와 서비스 사이의 의존 관계를 나타낸 지도이다.
 - **고장 형태 및 영향 분석(Failure Mode and Effects Analysis, FMEA)**: 구성요소별 고장 형태•원인•영향•탐지•우선순위를 분석하는 기법이다.
-- **도메인 이름 시스템(Domain Name System, DNS)•제어 경로**: 이름 해석과 장애 판정•전환을 담당하므로 데이터 경로와 독립된 장애 도메인이 필요한 기반이다.
+- **도메인 이름 시스템(Domain Name System, DNS)**: 도메인 이름을 서비스 주소로 해석하는 분산 시스템이다.
+- **제어 경로(Control Path)**: 장애 판정•트래픽 전환을 담당하는 관리 경로이다.
 - **서킷 브레이커(Circuit Breaker)**: 의존 서비스 실패가 임계치를 넘으면 호출을 일시 차단해 장애 전파를 막는 장치이다.
 
 </details>

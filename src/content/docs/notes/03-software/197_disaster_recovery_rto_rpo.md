@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "재해 복구 RTO•RPO (Disaster Recovery RTO RPO)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:37:00+09:00"
 tags:
   - "notes-software"
 weight: 197
@@ -23,9 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **복구 전략**: 재해 복구는 업무별 RTO와 RPO에 맞춰 데이터와 서비스를 대체 환경에서 복원하는 복구 전략이다.
 - **재해 복구(Disaster Recovery, DR)**: 업무별 허용 중단•데이터 손실 목표에 맞춰 데이터와 서비스를 대체 환경에서 복원하는 업무 연속성 전략이다.
-- **복구 시간 목표(Recovery Time Objective, RTO)•복구 시점 목표(Recovery Point Objective, RPO)**: 장애 후 허용할 최대 복구 시간과 시간 기준의 최대 데이터 손실 범위이다.
+- **복구 시간 목표(Recovery Time Objective, RTO)**: 장애 후 서비스를 복구해야 하는 최대 허용 시간이다.
+- **복구 시점 목표(Recovery Point Objective, RPO)**: 복구 시 허용할 수 있는 최대 데이터 손실 구간이다.
 
 </details>
 
@@ -40,10 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BIA•MTD**: BIA는 업무 중단 영향을 분석하고 MTD는 견딜 수 있는 최대 중단 시간을 정해 RTO•RPO의 근거가 된다.
 - **업무 영향 분석(Business Impact Analysis, BIA)**: 업무 중단 시간에 따른 재무•법률•고객•운영 피해를 분석해 복구 우선순위를 정하는 활동이다.
 - **최대 허용 중단 시간(Maximum Tolerable Downtime, MTD)**: 업무가 생존 가능성을 잃기 전에 견딜 수 있는 최대 중단 시간이다.
-- **장애 전환•복귀(Failover•Failback)**: 주 환경에서 대체 환경으로 서비스를 넘기고 정상화 후 검증해 원 환경으로 돌아오는 절차이다.
+- **장애 전환(Failover)**: 주 환경의 서비스를 대체 환경으로 넘기는 절차이다.
+- **복귀(Failback)**: 정상화와 검증 후 서비스를 원 환경으로 되돌리는 절차이다.
 
 </details>
 
@@ -106,8 +106,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **5. 전환•검증 결과**: 대체 환경으로 전환한 뒤 업무 거래, 데이터 무결성, 의존 서비스를 대사한 결과로 복귀를 승인한다.
-- **1. 데이터 보호 요구**: 복구 시점 목표(Recovery Point Objective, RPO)에 맞춰 복제•백업 주기와 보존을 지정하는 단계이다.
-- **2. 예비 환경 요구**: 복구 시간 목표(Recovery Time Objective, RTO)에 맞춰 대체 자원의 준비 수준을 정하는 단계이다.
+- **1. 데이터 보호 요구**: RPO에 맞춰 복제•백업 주기와 보존을 지정하는 단계이다.
+- **2. 예비 환경 요구**: RTO에 맞춰 대체 자원의 준비 수준을 정하는 단계이다.
 - **3. 복구점 자료**: 허용 손실 범위 안에서 서로 일관된 데이터 복구 시점을 제공하는 단계이다.
 - **4. 대체 환경 준비 상태**: 용량•네트워크•신원•의존 서비스와 전환 가능성을 확인한 결과이다.
 
@@ -146,7 +146,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Active-Active**: Active-Active는 둘 이상의 환경이 평상시에도 동시에 요청을 처리해 매우 짧은 RTO•RPO를 지원한다.
 - **백업 복구(Backup Restore)**: 저장한 백업으로 환경과 데이터를 재구성해 긴 복구 목표를 지원하는 방식이다.
 - **웜 스탠바이(Warm Standby)**: 축소된 대체 환경을 상시 운영하고 장애 시 확장•전환하는 방식이다.
 - **액티브-액티브(Active-Active)**: 둘 이상의 환경이 평상시 동시에 요청을 처리해 매우 짧은 복구 목표를 지원하는 방식이다.

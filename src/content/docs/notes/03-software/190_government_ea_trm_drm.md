@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
   badge: { text: "기출 • 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:30:00+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -36,9 +36,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DRM•TRM**: DRM은 데이터 의미와 교환 기준을, TRM은 기술 서비스와 호환•표준 기준을 제공한다.
-- **업무 참조모형(Business Reference Model, BRM)•서비스 참조모형(Service Reference Model, SRM)**: 정부 업무 기능과 이를 지원하는 서비스 구성요소를 공통 분류하는 모형이다.
-- **데이터 참조모형(Data Reference Model, DRM)•기술 참조모형(Technical Reference Model, TRM)**: 데이터 의미•교환과 기술 서비스•호환 표준을 공통 분류하는 모형이다.
+- **업무 참조모형(Business Reference Model, BRM)**: 정부 업무 기능을 공통 기준으로 분류하는 모형이다.
+- **서비스 참조모형(Service Reference Model, SRM)**: 업무를 지원하는 서비스 구성요소를 분류하는 모형이다.
+- **데이터 참조모형(Data Reference Model, DRM)**: 데이터 의미•형식•교환 기준을 공통 분류하는 모형이다.
+- **기술 참조모형(Technical Reference Model, TRM)**: 기술 서비스•호환 표준을 공통 분류하는 모형이다.
 - **성과 참조모형(Performance Reference Model, PRM)**: 정보화 투자와 사업의 성과 지표를 공통 기준으로 분류•추적하는 모형이다.
 
 </details>
@@ -57,8 +58,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **EA 저장소**: EA 저장소는 기관 자산과 참조 코드, 관계, 표준, 예외와 변경 이력을 함께 보존한다.
-- **전사 아키텍처 저장소(Enterprise Architecture Repository, EA Repository)**: 기관 자산•참조 코드•관계•표준•예외와 변경 이력을 보존하는 구성요소이다.
+- **EA 저장소**: 기관 자산•참조 코드•관계•표준•예외와 변경 이력을 보존하는 구성요소이다.
 
 </details>
 
@@ -129,8 +129,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 참조모형(Data Reference Model, DRM)**: 데이터 주제•요소•의미•형식과 메타데이터를 분류해 기관 간 공유•교환 기준을 맞춘다.
-- **기술 참조모형(Technical Reference Model, TRM)**: 기술 서비스•플랫폼•표준을 분류해 호환성과 기술 전환 기준을 맞춘다.
+- **DRM 역할**: 데이터 주제•요소•의미•형식과 메타데이터 분류
+- **TRM 역할**: 기술 서비스•플랫폼•표준과 전환 기준 분류
 
 </details>
 

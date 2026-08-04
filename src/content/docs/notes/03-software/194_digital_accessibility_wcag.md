@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 접근성: WCAG 2.1 (Digital Accessibility WCAG)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:34:00+09:00"
 tags:
   - "notes-software"
 weight: 194
@@ -38,10 +38,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **WCAG•POUR 원칙**: WCAG의 POUR 원칙은 콘텐츠 접근성을 인식 가능, 운용 가능, 이해 가능, 견고성 관점으로 분류한다.
 - **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 웹 콘텐츠가 장애 사용자에게 접근 가능하도록 적합 기준과 시험 가능한 성공 기준을 제공하는 국제 지침이다.
 - **인식•운용•이해•견고(Perceivable, Operable, Understandable, Robust, POUR)**: WCAG 접근성 요구를 네 관점으로 분류한 핵심 원칙이다.
-- **스크린 리더•접근성 트리**: 화면 요소의 의미 구조를 음성•점자 등 대체 출력으로 전달하는 보조기술과 기반 정보이다.
+- **스크린 리더(Screen Reader)**: 화면 요소의 의미를 음성•점자로 전달하는 보조기술이다.
+- **접근성 트리(Accessibility Tree)**: 화면 요소의 이름•역할•상태•관계를 담은 의미 구조이다.
 
 </details>
 
@@ -135,10 +135,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Level AA**: Level AA는 일반 디지털 서비스가 주요 접근성 장벽을 제거하기 위해 사용하는 보편적인 준수 목표다.
-- **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG) 수준 A**: 기본 기능 접근을 막는 최소 장벽을 제거하는 적합 수준이다.
-- **WCAG 수준 AA(Level AA)**: 일반 디지털 서비스의 주요 접근성 장벽을 추가로 제거하는 보편적 준수 목표이다.
-- **WCAG 수준 AAA(Level AAA)**: 특정 고접근성 요구를 위해 가장 엄격한 성공 기준까지 충족하는 수준이다.
+- **수준 A**: 기본 기능 접근을 막는 최소 장벽을 제거하는 적합 수준이다.
+- **수준 AA**: 일반 서비스의 주요 접근성 장벽을 추가로 제거하는 준수 목표이다.
+- **수준 AAA**: 특정 고접근성 요구의 가장 엄격한 성공 기준까지 충족하는 수준이다.
 
 </details>
 
