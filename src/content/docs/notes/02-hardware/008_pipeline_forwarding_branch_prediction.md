@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라인 포워딩•분기 예측 (Pipeline Forwarding Branch Prediction)"
-date: "2026-08-04T10:20:32+09:00"
+date: "2026-08-04T22:58:00+09:00"
 tags:
   - "notes-hardware"
 weight: 8
@@ -111,14 +111,14 @@ sequenceDiagram
     alt RAW 데이터 해저드
         C->>D: 1. 판정 입력 전달
         D-->>C: 2. 경로 제어 정보 반환
-        C->>E: 3. 파이프라인 입력 전달
+        C->>E: 3. 파이프라인 입력 적용
         opt 적재값 미준비
             D-->>C: 1주기 정체
         end
     else 분기 제어 해저드
         C->>B: 1. 판정 입력 전달
         B-->>C: 2. 경로 제어 정보 반환
-        C->>C: 3. 예측 주소로 인출
+        C->>C: 3. 파이프라인 입력 적용
         E->>B: 4. 실제 분기 결과 전달
         alt 방향•대상 오예측
             B->>C: 5. 복구 주소•갱신 정보 전달

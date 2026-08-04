@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티코어 프로세서 (Multicore Processor)"
-date: "2026-08-04T10:21:38+09:00"
+date: "2026-08-04T23:10:00+09:00"
 tags:
   - "notes-hardware"
 weight: 10
@@ -109,12 +109,12 @@ sequenceDiagram
     par 스레드 병렬 배치
         S->>A: 1. 독립 스레드 전달
     and
-        S->>B: 독립 스레드 배치
+        S->>B: 1. 독립 스레드 전달
     end
     par 데이터 병렬 접근
         A->>L: 2. 데이터 접근 요청
     and
-        B->>L: 데이터 접근
+        B->>L: 2. 데이터 접근 요청
     end
     alt 동일 캐시 줄에 쓰기
         A->>I: 3. 쓰기 소유권 요청

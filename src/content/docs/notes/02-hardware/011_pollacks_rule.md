@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "폴락의 법칙 (Pollack's Rule)"
-date: "2026-08-04T10:22:36+09:00"
+date: "2026-08-04T23:16:00+09:00"
 tags:
   - "notes-hardware"
 weight: 11
@@ -117,13 +117,15 @@ sequenceDiagram
     participant D as 설계 의사결정자
 
     M->>C: 1. 워크로드•면적 조건 전달
-    C->>E: 2. 후보 구성 전달
-    E->>E: 3. 성능•운영 상한 평가
-    E->>D: 4. 평가 결과 전달
-    alt 목표 또는 상한 미충족
-        D-->>C: 5. 조정 조건 반환
-    else 목표와 제약 충족
-        D-->>M: 최종 후보 확정
+    loop 목표와 제약 충족까지
+        C->>E: 2. 후보 구성 전달
+        E->>E: 3. 성능•운영 상한 평가
+        E->>D: 4. 평가 결과 전달
+        alt 목표 또는 상한 미충족
+            D-->>C: 5. 조정 조건 반환
+        else 목표와 제약 충족
+            D-->>M: 최종 후보 확정
+        end
     end
 ```
 

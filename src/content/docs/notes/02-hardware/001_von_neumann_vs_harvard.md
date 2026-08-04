@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-04T10:16:12+09:00"
+date: "2026-08-04T22:52:00+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -108,14 +108,14 @@ sequenceDiagram
     participant D as 데이터 메모리•버스
     participant M as 통합 메모리•버스
     alt 폰 노이만 통합 경로
-        C->>M: 1. 명령어•데이터 순차 요청
+        C->>M: 1. 경로별 접근 요청
         M-->>C: 명령어•데이터 반환
     else 하버드 분리 경로
         par 명령어 인출
-            C->>I: 1. 명령어 요청
+            C->>I: 1. 경로별 접근 요청
             I-->>C: 명령어 반환
         and 데이터 접근
-            C->>D: 1. 데이터 요청
+            C->>D: 1. 경로별 접근 요청
             D-->>C: 데이터 반환
         end
     end

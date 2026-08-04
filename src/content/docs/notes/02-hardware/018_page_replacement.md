@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
-date: "2026-08-04T10:38:00+09:00"
+date: "2026-08-04T23:34:00+09:00"
 tags:
   - "notes-hardware"
 weight: 18
@@ -110,7 +110,7 @@ sequenceDiagram
     alt 빈 프레임 존재
         F-->>O: 사용 가능한 프레임 할당
     else 빈 프레임 없음
-        O->>F: 2. 프레임•이력으로 희생 프레임 지정
+        O->>F: 2. 희생 프레임 지정
         opt 희생 페이지가 더티
             O->>S: 3. 수정 페이지 전달
             S-->>O: 기록 완료

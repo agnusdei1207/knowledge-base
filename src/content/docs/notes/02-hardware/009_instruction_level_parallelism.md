@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-04T10:21:01+09:00"
+date: "2026-08-04T23:04:00+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -114,9 +114,10 @@ sequenceDiagram
         E->>R: 4. 실행 결과•완료 상태 전달
         E-->>W: 종속 명령 깨우기
     end
-    R-->>F: 5. 순차 커밋•복구
-    alt 분기 오예측 또는 예외
-        R-->>F: 잘못된 명령 제거•복구
+    alt 정상 완료
+        R-->>F: 5. 순차 커밋•복구
+    else 분기 오예측 또는 예외
+        R-->>F: 5. 순차 커밋•복구
     end
 ```
 
