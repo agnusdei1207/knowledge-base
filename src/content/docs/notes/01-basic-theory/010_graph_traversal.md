@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "그래프 탐색: BFS•DFS (Graph Traversal)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-04T20:08:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -103,11 +103,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
+    participant Q as 호출자
     participant C as 탐색 제어기
     participant F as 탐색 프런티어
     participant G as 그래프
     participant V as 방문 기록
-    C->>G: 시작 노드•탐색 요청
+    Q->>C: 시작 노드•탐색 요청
     C->>F: 시작 노드 삽입
     loop 프런티어가 빌 때까지
         C->>F: 1. 다음 노드 요청
@@ -119,7 +120,7 @@ sequenceDiagram
         C->>V: 4. 발견 상태 전달
         C->>F: 5. 미방문 이웃 전달
     end
-    C-->>G: 도달성•경로 결과 확정
+    C-->>Q: 도달성•경로 결과 반환
 ```
 
 **동작 원리**
