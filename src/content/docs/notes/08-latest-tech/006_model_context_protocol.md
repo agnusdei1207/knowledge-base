@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 컨텍스트 프로토콜 (Model Context Protocol, MCP)"
-date: "2026-08-04T11:59:28+09:00"
+date: "2026-08-05T02:05:12+09:00"
 tags:
   - "notes-latest_tech"
 weight: 6
@@ -63,17 +63,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    H["MCP 호스트"]
-    C["MCP 클라이언트"]
-    T["MCP 서버"]
-    S["JSON-RPC•전송 계층"]
-    H --- C
-    C --- T
-    T --- S
+```text
+                  [MCP 호스트]
+                       |
+                [MCP 클라이언트]
+                       |
+                  [MCP 서버]
+                       |
+             [JSON-RPC•전송 계층]
 ```
+
+선의 의미: MCP 호스트 내부의 클라이언트가 MCP 서버와 연결되고, JSON-RPC•전송 계층이 양측 메시지 교환 경계를 제공하는 프로토콜 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

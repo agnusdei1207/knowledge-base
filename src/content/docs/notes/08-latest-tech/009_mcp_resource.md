@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Resource (모델 컨텍스트 프로토콜 리소스)"
-date: "2026-08-04T12:06:39+09:00"
+date: "2026-08-05T14:23:09+09:00"
 tags:
   - "notes-latest_tech"
 weight: 9
@@ -64,17 +64,13 @@ extra:
 
 - **URI Template•MIME Type•JSON-RPC** 기반으로 리소스를 식별하고 반환한다.
 
-```mermaid
-block-beta
-    columns 3
-    D["리소스 명세"]
-    T["URI 템플릿"]
-    P["내용 제공기"]
-    U["구독 관리자"]
-    D --- T
-    T --- P
-    P --- U
+```text
+                       [리소스 명세]
+                      /       |       \
+             [URI 템플릿] [내용 제공기] [구독 관리자]
 ```
+
+선의 의미: 리소스 명세는 URI 범위를 정의하는 URI 템플릿, 실제 콘텐츠를 반환하는 내용 제공기, 변경 대상을 관리하는 구독 관리자의 공통 계약이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

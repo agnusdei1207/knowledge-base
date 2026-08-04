@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ReAct 패턴 (Reasoning and Acting)"
-date: "2026-08-04T11:53:36+09:00"
+date: "2026-08-05T02:05:12+09:00"
 tags:
   - "notes-latest_tech"
 weight: 3
@@ -60,18 +60,6 @@ extra:
 - **데이터베이스(Database, DB)**: 외부 상태와 관찰 결과를 저장하여 다음 추론의 근거로 제공하는 저장소이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    R["추론•정책"]
-    A["행동 실행기"]
-    O["관찰 처리기"]
-    L["루프 제어기"]
-    R --- A
-    A --- O
-    O --- L
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

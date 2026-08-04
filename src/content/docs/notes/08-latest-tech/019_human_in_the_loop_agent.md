@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "Human-in-the-Loop Agent (인간 개입 에이전트)"
-date: "2026-08-04T12:59:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 19
@@ -62,20 +62,6 @@ extra:
 - **에스컬레이션(Escalation)**: 정해진 시간이나 권한으로 처리할 수 없는 예외를 상위 담당자에게 넘기는 절차다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    A["위험 평가기"]
-    B["중단 계층"]
-    C["검토 계층"]
-    D["결정 라우터"]
-    E["정책 관리"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Agent Planning (에이전트 플래닝)"
-date: "2026-08-04T12:38:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 15
@@ -62,20 +62,6 @@ extra:
 - **휴리스틱(Heuristic)**: 비용•성공 가능성 같은 기준으로 유망한 계획 후보를 우선 탐색하게 하는 평가 기준이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    G["목표•제약"]
-    D["과업 분해기"]
-    R["계획 표현"]
-    X["실행기"]
-    E["평가•재계획기"]
-    G --- D
-    D --- R
-    R --- X
-    X --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
