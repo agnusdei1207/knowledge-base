@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:28:02+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -38,7 +38,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **자발적 범용성**: 산업 중립적인 인공지능(Artificial Intelligence, AI) 위험관리 틀을 다양한 조직과 AI 수명주기에 자발적으로 적용할 수 있는 특성이다.
+- **자발적 범용성**: 산업 중립적인 AI 위험관리 틀을 다양한 조직과 AI 수명주기에 자발적으로 적용할 수 있는 특성이다.
 - **거버넌스 중심성**: 정책•책임•위험 허용수준이 맥락 파악•측정•위험 처리 기능의 방향을 지속 조정하는 특성이다.
 - **시험•평가•검증•확인(Test, Evaluation, Verification and Validation, TEVV)**: AI의 성능•안전•편향•설명성 등 신뢰성 특성을 증거로 확인하는 활동 묶음이다.
 - **증거 기반 반복성**: TEVV 결과와 불확실성•잔여 위험을 기록하고 운영 변화에 따라 위험 판단을 갱신하는 특성이다.
@@ -57,9 +57,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **거버넌스(Govern)**: 정책•책임•문화•위험 허용수준을 정해 모든 인공지능(Artificial Intelligence, AI) 위험관리 기능을 조정한다.
+- **거버넌스(Govern)**: 정책•책임•문화•위험 허용수준을 정해 모든 AI 위험관리 기능을 조정한다.
 - **매핑(Map)**: 사용 맥락•행위자•영향받는 공동체와 긍정•부정 영향을 파악해 위험 시나리오를 정의한다.
-- **측정(Measure)**: AI 위험과 신뢰성 특성을 시험•평가•검증•확인(Test, Evaluation, Verification and Validation, TEVV), 지표•불확실성•추적 증거로 측정한다.
+- **측정(Measure)**: AI 위험과 신뢰성 특성을 TEVV•지표•불확실성•추적 증거로 측정한다.
 - **관리(Manage)**: 측정한 위험의 우선순위를 정하고 완화•감시•소통하며 배포•중단 결정을 연결한다.
 
 </details>
@@ -88,9 +88,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **위험 허용수준**: 조직이 목표를 달성하면서 받아들일 수 있다고 정한 인공지능(Artificial Intelligence, AI) 위험의 한계이다.
+- **위험 허용수준**: 조직이 목표를 달성하면서 받아들일 수 있다고 정한 AI 위험의 한계이다.
 - **영향받는 공동체**: AI의 개발•배포•사용 결과로 이익이나 피해를 받을 수 있어 위험 요구사항과 경험을 제공하는 집단이다.
-- **시험•평가•검증•확인(Test, Evaluation, Verification and Validation, TEVV) 결과•처리안**: 사용 맥락에 맞는 신뢰성 지표와 불확실성을 측정하고 완화 대안을 비교한 보고이다.
+- **TEVV 결과**: 사용 맥락에 맞는 신뢰성 지표와 불확실성을 측정한 보고이다.
+- **위험 처리안**: 측정 결과에 따라 완화•수용•중단 대안을 비교한 제안이다.
 - **잔여 위험**: 위험 완화 조치를 적용한 뒤에도 남아 허용•추가 완화•중단 판단이 필요한 위험이다.
 
 </details>
@@ -121,7 +122,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 사용사례별 AI 위험관리 결과와 행동을 설계하는 자발적 프레임워크다.
 - **국제표준화기구/국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: 조직의 인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 요구사항과 선택적 인증 기준을 정한 국제표준이다.
 
 </details>
@@ -141,9 +141,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **영향 대상 누락**: 사용 맥락과 영향받는 공동체를 매핑(Map)하지 않아 실제 피해 시나리오가 위험 측정에서 빠지는 문제다.
-- **시험•평가•검증•확인(Test, Evaluation, Verification and Validation, TEVV)**: 성능뿐 아니라 안전•편향•개인정보 등 신뢰성 특성을 함께 측정하는 활동이다.
 - **모델•환경 변화**: 배포 후 데이터•사용자•업무 환경이나 모델이 달라져 기존 위험 측정과 통제의 유효성이 떨어지는 변화이다.
-- **인공지능 위험관리 프레임워크 1.0(Artificial Intelligence Risk Management Framework 1.0, AI RMF 1.0)**: 적용 시 최신 미국 국립표준기술연구소 버전과 사용사례별 프로필을 함께 확인해야 하는 프레임워크 버전이다.
+- **AI RMF 1.0**: 적용 시 최신 NIST 버전과 사용사례별 프로필을 함께 확인해야 하는 프레임워크 버전이다.
 
 </details>
 
@@ -161,9 +160,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **인공지능 위험관리 프레임워크 1.0(Artificial Intelligence Risk Management Framework 1.0, AI RMF 1.0)**: 사용사례의 맥락•영향•측정 결과를 위험 처리 결정으로 연결하는 자발적 프레임워크이다.
-- **잔여 위험**: 측정•완화 뒤 남은 위험으로, 조직의 허용수준과 비교해 배포•추가 완화•중단 중 하나를 결정해야 한다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:25:44+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -61,18 +61,20 @@ extra:
 - **식별(Identify)**: 자산•업무 환경•위험과 개선 필요를 파악하여 보호 우선순위의 근거를 만드는 기능이다.
 - **보호(Protect)**: 신원•데이터•플랫폼•인프라에 예방 통제를 적용해 사이버 위험의 발생 가능성과 영향을 낮추는 기능이다.
 - **탐지(Detect)**: 이상과 침해 징후를 지속 관찰하고 분석해 사고를 조기에 확인하는 기능이다.
-- **대응•복구(Respond•Recover)**: 사고를 억제•완화하고 영향을 받은 자산과 서비스를 정상 상태로 복원하는 기능이다.
+- **대응(Respond)**: 사고를 분석•억제•완화하고 이해관계자와 소통하는 기능이다.
+- **복구(Recover)**: 영향을 받은 자산과 서비스를 정상 상태로 복원하는 기능이다.
 
 </details>
 
 ```mermaid
 block-beta
-    columns 5
-    G["Govern"] I["Identify"] P["Protect"] D["Detect"] R["Respond•Recover"]
+    columns 6
+    G["Govern"] I["Identify"] P["Protect"] D["Detect"] R["Respond"] C["Recover"]
     G --- I
     I --- P
     P --- D
     D --- R
+    R --- C
 ```
 
 | 구성요소 | 책임 |
@@ -81,7 +83,8 @@ block-beta
 | **Identify** | 자산•위험•개선 필요 파악 |
 | **Protect** | 신원•데이터•플랫폼•인프라 보호 |
 | **Detect** | 이상•침해 징후 탐지•분석 |
-| **Respond•Recover** | 사고 완화와 자산•서비스 복구 |
+| **Respond** | 사고 분석•억제•완화와 소통 |
+| **Recover** | 자산•서비스 복원과 개선 |
 
 #### 한줄 요약
 - Govern이 방향을 정하고 다섯 기능이 예방부터 복구까지 움직이며 사고 교훈이 다시 위험 식별로 돌아감
@@ -94,7 +97,8 @@ block-beta
 - **위험 허용수준**: 조직이 임무와 목표를 달성하면서 감수할 수 있다고 정한 사이버보안 위험의 한계이다.
 - **현재 프로파일**: 기능•범주•하위범주별로 조직이 현재 달성한 사이버보안 성과를 표현한 상태이다.
 - **성과 격차**: 현재 프로파일과 목표 프로파일 사이에서 추가로 달성해야 할 사이버보안 성과의 차이이다.
-- **목표 프로파일•우선과제**: 성과 격차를 위험 감소•비용•의존성으로 정렬해 정한 목표 상태와 실행 순서이다.
+- **목표 프로파일**: 성과 격차를 반영해 조직이 달성할 사이버보안 성과를 정한 상태이다.
+- **우선과제**: 위험 감소•비용•의존성으로 정렬한 실행 순서이다.
 
 </details>
 
@@ -124,7 +128,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 사이버보안 프레임워크(National Institute of Standards and Technology Cybersecurity Framework, NIST CSF) 1.1•2.0**: 2.0은 1.1의 식별•보호•탐지•대응•복구에 거버넌스(Govern)를 추가해 경영 책임과 공급망 위험을 명확히 한 버전이다.
+- **NIST CSF 1.1•2.0**: 2.0은 1.1의 다섯 기능에 Govern을 추가해 경영 책임과 공급망 위험을 명확히 한 버전이다.
 
 </details>
 
@@ -162,9 +166,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **사이버보안 프레임워크 2.0(Cybersecurity Framework 2.0, CSF 2.0)**: 전사 위험과 여섯 기능의 사이버보안 성과를 연결하는 미국 국립표준기술연구소 프레임워크이다.
-- **목표 프로파일**: 조직이 위험 허용수준에 맞춰 달성할 하위범주 성과를 정의하고 투자 우선순위를 확정하는 기준이다.
 
 </details>
 
