@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Fine-Tuning (파인튜닝)"
-date: "2026-08-04T15:59:00+09:00"
+date: "2026-08-04T13:52:05+09:00"
 tags:
   - "notes-latest_tech"
 weight: 59
@@ -110,7 +110,7 @@ sequenceDiagram
   D->>T: 2. 학습•평가 데이터 분리
   T->>E: 3. 갱신 범위•목적함수 학습
   E->>R: 4. 목표•회귀•안전 평가
-  R-->>E: 5. 버전 등록•배포
+  E->>R: 5. 버전 등록•배포
 ```
 
 **동작 원리**

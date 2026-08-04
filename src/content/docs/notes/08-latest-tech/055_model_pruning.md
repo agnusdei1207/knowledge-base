@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Model Pruning (모델 가지치기)"
-date: "2026-08-04T15:55:00+09:00"
+date: "2026-08-04T13:50:52+09:00"
 tags:
   - "notes-latest_tech"
 weight: 55
@@ -112,10 +112,12 @@ sequenceDiagram
     participant T as 학습기
     participant R as 목표 런타임
     B->>E: 기준 모델
-    E->>P: 1. 중요도 점수 산정
-    P->>T: 2. 희소 패턴 적용
-    T->>R: 3. 미세조정 수행
-    R-->>E: 4. 품질•지연 검증
+    loop 목표 희소도•허용 품질 충족 전
+        E->>P: 1. 중요도 점수 산정
+        P->>T: 2. 희소 패턴 적용
+        T->>R: 3. 미세조정 수행
+        R-->>E: 4. 품질•지연 검증
+    end
 ```
 
 **동작 원리**

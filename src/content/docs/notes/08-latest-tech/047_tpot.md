@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "TPOT (토큰당 출력 지연)"
-date: "2026-08-04T15:32:00+09:00"
+date: "2026-08-04T13:46:55+09:00"
 tags:
   - "notes-latest_tech"
 weight: 47
@@ -109,11 +109,13 @@ sequenceDiagram
     participant E as 모델 엔진
     participant P as 샘플러
     participant T as 스트리머
-    S->>K: 1. 활성 요청 배치 편성
-    K->>E: 2. 이전 키•값 조회
-    E->>P: 3. 다음 토큰 로짓 계산
-    P->>K: 4. 토큰 선택•신규 값 추가
-    K-->>T: 5. 토큰 전송•간격 기록
+    loop 생성 종료 전
+        S->>K: 1. 활성 요청 배치 편성
+        K->>E: 2. 이전 키•값 조회
+        E->>P: 3. 다음 토큰 로짓 계산
+        P->>K: 4. 토큰 선택•신규 값 추가
+        K-->>T: 5. 토큰 전송•간격 기록
+    end
 ```
 
 1. **활성 요청 배치 편성**: 실행 가능한 요청을 묶어 **디코드 순서** 결정

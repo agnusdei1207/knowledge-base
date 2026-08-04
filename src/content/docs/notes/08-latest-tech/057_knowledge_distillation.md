@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Knowledge Distillation (지식 증류)"
-date: "2026-08-04T15:57:00+09:00"
+date: "2026-08-04T13:51:27+09:00"
 tags:
   - "notes-latest_tech"
 weight: 57
@@ -113,9 +113,11 @@ sequenceDiagram
   participant S as 학생
   participant E as 평가기
   L->>T: 1. 증류 신호 선택
-  T->>S: 2. 교사 지식 생성
-  S-->>L: 3. 학생 예측 생성
-  L->>S: 4. 복합 손실 갱신
+  loop 학습 종료 전
+    T->>S: 2. 교사 지식 생성
+    S-->>L: 3. 학생 예측 생성
+    L->>S: 4. 복합 손실 갱신
+  end
   S->>E: 5. 학생 단독 평가
 ```
 

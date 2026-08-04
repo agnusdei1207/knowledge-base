@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Instruction Tuning (지시 튜닝)"
-date: "2026-08-04T16:00:00+09:00"
+date: "2026-08-04T13:52:21+09:00"
 tags:
   - "notes-latest_tech"
 weight: 60
@@ -109,9 +109,10 @@ sequenceDiagram
   participant T as 학습기
   participant E as 평가기
   S->>D: 1. 목표 행동 정의
-  D->>T: 2. 지시•응답 자료 구성
-  T-->>D: 3. 중복•평가 누출 차단
-  D->>T: 4. 다과제 응답 지도 학습
+  D->>D: 2. 지시•응답 자료 구성
+  D->>D: 3. 중복•평가 누출 차단
+  D->>T: 격리 학습 자료 전달
+  T->>T: 4. 다과제 응답 지도 학습
   T->>E: 5. 미학습 지시 분리 평가
 ```
 
