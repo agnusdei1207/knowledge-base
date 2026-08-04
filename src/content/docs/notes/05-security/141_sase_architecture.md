@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 보안 접근 서비스 경계(Secure Access Service Edge, SASE) 아키텍처
-date: "2026-08-04T14:32:30+09:00"
+date: "2026-08-05T01:50:48+09:00"
 tags:
   - notes-security
 weight: 141
@@ -66,17 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  C["사용자•지점•SD-WAN 연결"]
-  X["신원•기기•위험 맥락"]
-  P["정책 결정•통합 관제"]
-  S["SWG•CASB•ZTNA•FWaaS"]
-  N["분산 PoP•공급자 백본"]
-  C --- X --- P
-  P --- S --- N
+```text
+[사용자•지점•SD-WAN 연결]---[신원•기기•위험 맥락]---[정책 결정•통합 관제]
+              |                                            |
+     [SWG•CASB•ZTNA•FWaaS]----------------[분산 PoP•공급자 백본]
 ```
+
+선의 의미: 사용자•지점 연결과 신원•기기 맥락을 공통 정책, SSE 보안 기능, 분산 PoP•백본이 함께 사용하는 SASE 배치 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

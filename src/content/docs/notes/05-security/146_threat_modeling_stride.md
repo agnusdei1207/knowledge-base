@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: 위협 모델링 — STRIDE•DREAD (Threat Modeling STRIDE)
-date: "2026-08-04T14:33:41+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - notes-security
 weight: 146
@@ -62,18 +62,6 @@ extra:
 - **신뢰 경계**: 데이터나 실행 주체가 이동할 때 정책•권한•신뢰 수준이 달라지는 지점이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  S["범위•자산•가정"]
-  D["DFD•신뢰 경계"]
-  T["공격자•STRIDE 시나리오"]
-  R["위험•대응•잔여위험"]
-  V["보안 요구•시험•추적"]
-  S --- D --- T
-  T --- R --- V
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: SAST•DAST•IAST•RASP
-date: "2026-08-04T18:55:00+09:00"
+date: "2026-08-05T13:01:00+09:00"
 tags:
   - notes-security
 weight: 145
@@ -65,17 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  S["SAST•SCA 코드 검사"]
-  I["IAST 내부 실행 계측"]
-  D["DAST 외부 동적 검증"]
-  R["RASP 운영 보호"]
-  M["도달 가능성•영향 위험관리"]
-  S --- I --- D
-  D --- R --- M
+```text
+                    [도달 가능성•영향 위험관리]
+                    /          |          |          \
+       [SAST•SCA 코드 검사] [IAST 내부 실행 계측] [DAST 외부 동적 검증] [RASP 운영 보호]
 ```
+
+선의 의미: 도달 가능성•영향 위험관리가 정적 코드, 내부 실행, 외부 동적, 운영 보호의 독립 결과를 실제 노출과 업무 영향 기준으로 결합하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

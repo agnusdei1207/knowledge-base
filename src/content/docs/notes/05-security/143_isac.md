@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 보안 정보 공유 플랫폼 — ISAC (ISAC)
-date: "2026-08-04T14:33:02+09:00"
+date: "2026-08-05T01:50:48+09:00"
 tags:
   - notes-security
 weight: 143
@@ -66,18 +66,6 @@ extra:
 - **API(Application Programming Interface)**: 시스템 기능을 호출하는 연결 규격이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  G["회원•공유 거버넌스"]
-  C["회원•정부 CTI 수집"]
-  A["출처•산업 영향 분석"]
-  D["STIX•TAXII•TLP 배포"]
-  F["적중•오탐•철회 환류"]
-  G --- C --- A
-  A --- D --- F
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

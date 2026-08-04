@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
-date: "2026-08-04T14:34:02+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - notes-security
 weight: 147
@@ -64,18 +64,6 @@ extra:
 - **격차•의존성 로드맵**: 현재와 목표의 차이를 위험•선후관계에 따라 배열하고 책임자와 일정을 지정한 개선 계획이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  S["평가 목적•위험 범위"]
-  C["영역•관행•증거 기준"]
-  P["현재•목표 프로파일"]
-  R["격차•의존성 로드맵"]
-  M["성과 지표•주기 재평가"]
-  S --- C --- P
-  P --- R --- M
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
