@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-05T10:04:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -65,20 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["사용자 브라우저"]
-  B["SP"]
-  C["IdP"]
-  D["SAML Assertion"]
-  E["메타데이터•검증 체계"]
-    A --- B
-    A --- C
-    C --- D
-    E --- B
-    E --- C
+```text
+                   [사용자 브라우저]
+                      /          \
+                   [SP]         [IdP] ----- [SAML Assertion]
+                      \          /
+                  [메타데이터•검증 체계]
 ```
+
+선의 의미: 사용자 브라우저 아래에는 주장을 검증하는 SP와 사용자를 인증하는 IdP가 분리되고, IdP는 SAML Assertion을 발급하며, SP와 IdP는 메타데이터•검증 체계의 식별자•주소•인증서 신뢰 경계를 공유하는 정적 연합 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

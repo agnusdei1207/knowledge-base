@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FIDO2•WebAuthn (FIDO2 WebAuthn)"
-date: "2026-08-05T09:52:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 55
@@ -65,20 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["RP 서버"]
-  B["WebAuthn 클라이언트"]
-  C["인증자"]
-  D["자격 증명 저장소"]
-  E["등록•복구 정책"]
-    A --- B
-    B --- C
-    A --- D
-    E --- A
-    E --- C
+```text
+                               [등록•복구 정책]
+                                 /           \
+[자격 증명 저장소] ----- [RP 서버] ----- [WebAuthn 클라이언트] ----- [인증자]
 ```
+
+선의 의미: 가로선은 공개키 자격 증명 저장소와 RP 서버, 서비스 원본을 확인하는 WebAuthn 클라이언트 및 개인키를 보호하는 인증자의 정적 인증 경계이고, 위 가지는 등록•복구 정책이 RP와 인증자의 수명주기를 함께 통제하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

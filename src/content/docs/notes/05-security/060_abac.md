@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)"
-date: "2026-08-05T10:12:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -66,19 +66,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["정책 집행점 PEP"]
-  B["정책 결정점 PDP"]
-  C["정책 저장소"]
-  D["속성 정보점 PIP"]
-  E["속성 권위자"]
-    A --- B
-    B --- C
-    B --- D
-    D --- E
+```text
+[정책 집행점 PEP] ----- [정책 결정점 PDP]
+                              /       \
+                       [정책 저장소]   [속성 정보점 PIP]
+                                             |
+                                       [속성 권위자]
 ```
+
+선의 의미: 정책 집행점과 정책 결정점은 집행•판단 경계를 이루고, 결정점 아래에는 규칙을 제공하는 정책 저장소와 신뢰 속성을 조회하는 속성 정보점이 분리되며, 속성 권위자는 정보점의 속성 생성•갱신 근거가 되는 정적 ABAC 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

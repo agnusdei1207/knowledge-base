@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "보안 구성 관리 (Security Configuration Management)"
-date: "2026-08-05T09:12:00+09:00"
+date: "2026-08-05T01:41:13+09:00"
 tags:
   - "notes-security"
 weight: 44
@@ -63,19 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["자산 정보"]
-  B["버전 기준"]
-  C["정책 검사"]
-  D["편차 탐지"]
-  E["예외 복구"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
+```text
+[자산 정보]---[버전 기준]---[정책 검사]
+                                |
+                         [편차 탐지]---[예외 복구]
 ```
+
+선의 의미: 자산별 승인 기준과 정책 검사, 실제 상태의 편차 탐지, 예외•복구 통제가 연결된 구성 관리 체계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

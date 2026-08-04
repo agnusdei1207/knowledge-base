@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쉘코드•ROP 공격 (Shellcode ROP)"
-date: "2026-08-04T10:42:00+09:00"
+date: "2026-08-05T10:02:00+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -65,20 +65,6 @@ extra:
 - **가젯** 은 ROP가 연결해 사용하는 짧은 기존 명령열이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["메모리 안전"]
-  B["NX•메모리 권한"]
-  C["ASLR"]
-  D["CFI"]
-  E["그림자 스택"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

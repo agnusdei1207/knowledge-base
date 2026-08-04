@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSRF (Cross-Site Request Forgery)"
-date: "2026-08-05T09:28:00+09:00"
+date: "2026-08-05T10:00:00+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -65,19 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["세션 쿠키"]
-  B["상태 변경 경로"]
-  C["CSRF 토큰"]
-  D["출처 정책"]
-  E["쿠키 정책"]
-  A --- B
-  C --- B
-  D --- B
-  E --- A
+```text
+                         [상태 변경 경로]
+                       /         |         \
+              [세션 쿠키]   [CSRF 토큰]   [출처 정책]
+                   |
+              [쿠키 정책]
 ```
+
+선의 의미: 상태 변경 경로가 세션 인증뿐 아니라 CSRF 토큰과 출처 정책의 보호를 받고, 세션 쿠키의 자동 첨부 범위를 쿠키 정책이 제한하는 정적 검증 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

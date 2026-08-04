@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SQL 인젝션 (SQL Injection)"
-date: "2026-08-05T09:20:00+09:00"
+date: "2026-08-05T01:41:13+09:00"
 tags:
   - "notes-security"
 weight: 46
@@ -67,19 +67,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["비신뢰 입력"]
-  B["질의 생성"]
-  C["DB 드라이버"]
-  D["DB 계정"]
-  E["오류•감사"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
+```text
+[비신뢰 입력]---[질의 생성]---[DB 드라이버]---[DB 계정]---[오류•감사]
 ```
+
+선의 의미: 외부 값, SQL 구조, 값 바인딩, 데이터베이스 권한, 감사 통제가 맞닿는 SQL 실행 경계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-08-05T09:16:00+09:00"
+date: "2026-08-05T01:41:13+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -64,20 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["Top 10 위험 범주"]
-  B["ASVS 보안 요구"]
-  C["WSTG 시험 절차"]
-  D["SDLC 통제"]
-  E["운영 근거"]
-  A --- B
-  B --- D
-  C --- D
-  D --- E
-  E --- A
+```text
+[Top 10 위험 범주]---[ASVS 보안 요구]
+         |                    |
+[WSTG 시험 절차]------[SDLC 통제]---[운영 근거]
 ```
+
+선의 의미: 위험 분류와 보안 요구•시험 절차가 SDLC 통제 및 운영 근거와 연결되는 OWASP 활용 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

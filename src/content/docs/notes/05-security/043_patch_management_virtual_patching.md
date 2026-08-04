@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "패치 관리•가상 패치 (Patch Management Virtual Patching)"
-date: "2026-08-05T09:08:00+09:00"
+date: "2026-08-05T01:41:13+09:00"
 tags:
   - "notes-security"
 weight: 43
@@ -61,20 +61,6 @@ extra:
 - **단계 배포** 는 제한된 대표 자산부터 적용 결과를 확인하며 배포 범위를 확대한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["자산 정보"]
-  B["정책 평가"]
-  C["검증 승인"]
-  D["배포 통제"]
-  E["효과 검증"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "입력값 검증•파라미터 바인딩 (Input Validation Parameter Binding)"
-date: "2026-08-05T09:40:00+09:00"
+date: "2026-08-05T10:04:00+09:00"
 tags:
   - "notes-security"
 weight: 52
@@ -61,19 +61,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["입력 계약"]
-  B["단일 파서"]
-  C["서버 검증기"]
-  D["안전 실행 API"]
-  E["오류•감사"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+                          [입력 계약]
+                               |
+                           [단일 파서]
+                               |
+                          [서버 검증기]
+                          /           \
+                 [안전 실행 API]   [오류•감사]
 ```
+
+선의 의미: 입력 계약이 단일 파서와 서버 검증기의 해석•판정 경계를 제한하고, 검증기는 안전 실행 API와 오류•감사 영역에 공통으로 결합되는 정적 입력 통제 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
