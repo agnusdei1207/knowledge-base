@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "인터럽트 레이턴시•우선순위 역전"
-date: "2026-08-04T12:49:00+09:00"
+date: "2026-08-04T14:14:41+09:00"
 tags:
   - "notes-hardware"
 weight: 63
@@ -115,11 +115,14 @@ sequenceDiagram
     participant H as 고순위 태스크
     participant M as 뮤텍스
 
-    I->>E: 1. IRQ 벡터•우선순위
-    E->>S: 2. 후속 태스크 정보
-    H->>M: 3. 공유 자원 요청
-    M->>S: 4. 락 소유자 정보
-    S-->>M: 5. 상속 우선순위
+    par 인터럽트 처리
+        I->>E: 1. IRQ 벡터•우선순위
+        E->>S: 2. 후속 태스크 정보
+    and 우선순위 역전 완화
+        H->>M: 3. 공유 자원 요청
+        M->>S: 4. 락 소유자 정보
+        S-->>M: 5. 상속 우선순위
+    end
 ```
 
 **동작 원리**
