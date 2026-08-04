@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "카나리 배포•블루-그린 배포 (Canary Blue-Green Deployment)"
-date: "2026-08-04T11:31:00+09:00"
+date: "2026-08-04T17:45:00+09:00"
 tags:
   - "notes-software"
 weight: 63
@@ -119,12 +119,15 @@ sequenceDiagram
     participant O as 관측 시스템
     D->>V: 1. 버전 산출물•호환성 규칙
     D->>R: 2. 후보 트래픽 가중치
-    R->>V: 3. 안정•후보 버전 요청
-    V->>O: 4. 버전별 운영 지표
-    O-->>D: 관찰 기준 판정 결과
-    alt 기준 통과
-        D->>R: 5. 확대•복귀 라우팅 정책
-    else 기준 위반
+    loop 카나리 점진 확대 시 반복
+        R->>V: 3. 안정•후보 버전 요청
+        V->>O: 4. 버전별 운영 지표
+        O-->>D: 관찰 기준 판정 결과
+        alt 기준 통과
+            Note over D: 노출 확대 결정
+        else 기준 위반
+            Note over D: 기준선 복귀 결정
+        end
         D->>R: 5. 확대•복귀 라우팅 정책
     end
 ```

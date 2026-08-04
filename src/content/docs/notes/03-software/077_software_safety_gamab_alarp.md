@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
-date: "2026-08-04T12:03:00+09:00"
+date: "2026-08-04T17:53:00+09:00"
 tags:
   - "notes-software"
 weight: 77
@@ -106,10 +106,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 분석자
+    participant T as 참조 시스템•운용 통계
     participant S as 안전 설계자
     participant V as 독립 평가자
     participant R as 승인자
-    A->>A: 1. 참조 위험•운용 통계 비교
+    A->>T: 1. 참조 위험•운용 통계 비교
+    T-->>A: 비교 기준
     A->>S: 2. 위험원 목록•안전 요구
     S-->>A: 3. 구현•저감 검증 증거
     A->>V: 4. 안전 사례•잔여 위험

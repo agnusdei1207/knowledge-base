@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "ISO 29119 테스트 설계 (ISO 29119 Test Design)"
-date: "2026-08-04T12:08:00+09:00"
+date: "2026-08-04T17:57:00+09:00"
 tags:
   - "notes-software"
 weight: 79
@@ -109,13 +109,15 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant A as 분석자
+    participant B as 테스트 베이시스
     participant D as 설계자
     participant M as 관리자
+    participant C as 추적•커버리지 정보
     M->>A: 시험 범위•위험 우선순위
-    A->>A: 1. 테스트 베이시스 분석
+    A->>B: 1. 테스트 베이시스 분석
     A->>D: 2. 테스트 조건•설계 기법
     D->>M: 3. 케이스•절차•추적 링크
-    M->>M: 4. 커버리지 공백•잔여 위험 평가
+    M->>C: 4. 커버리지 공백•잔여 위험 평가
     M->>D: 5. 고위험 보강 순위•종료 기준
 ```
 

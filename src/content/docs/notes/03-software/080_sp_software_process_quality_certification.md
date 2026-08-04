@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SP 소프트웨어 프로세스 품질 인증 (SP Quality Certification)"
-date: "2026-08-04T12:10:00+09:00"
+date: "2026-08-04T17:59:00+09:00"
 tags:
   - "notes-software"
 weight: 80
@@ -120,10 +120,12 @@ block-beta
 ```mermaid
 sequenceDiagram
     participant O as 조직
+    participant I as 내부 진단
     participant A as 인증심사팀
     participant C as 인증심의회
     participant N as 인증기관
-    O->>O: 1. 내부 진단•시정
+    O->>I: 1. 표준 프로세스•프로젝트 증적
+    I-->>O: 내부 진단•시정 결과
     O->>N: 인증 신청서•목표 등급
     N->>A: 2. 심사 범위•목표 등급•심사팀
     A->>O: 3. 증적 표본•면담 대상

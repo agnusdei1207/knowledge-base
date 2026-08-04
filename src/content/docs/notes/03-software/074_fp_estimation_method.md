@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SW 기능점수 간이법•정통법 (FP Estimation Method)"
-date: "2026-08-04T11:56:00+09:00"
+date: "2026-08-04T17:51:00+09:00"
 tags:
   - "notes-software"
 weight: 74
@@ -118,10 +118,11 @@ sequenceDiagram
     U-->>O: 요구 버전•기능 목록
     O->>F: 1. 다섯 기능 유형 후보
     alt 초기 요구
-        F-->>O: 2. 기능 개수•적용 가중치
+        Note over F: 평균 가중치 적용
     else 상세 요구
-        F-->>O: 2. 기능 개수•적용 가중치
+        Note over F: DET•RET•FTR 복잡도 적용
     end
+    F-->>O: 2. 기능 개수•적용 가중치
     O->>R: 3. 산정법•UFP•판정 근거
     R-->>O: 누락•중복 검토 결과
     O-->>U: 기능점수 기준선

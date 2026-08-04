@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정적 분석 SAST (Static Application Security Testing)"
-date: "2026-08-04T11:40:00+09:00"
+date: "2026-08-04T17:49:00+09:00"
 tags:
   - "notes-software"
 weight: 67
@@ -110,9 +110,11 @@ sequenceDiagram
     participant B as 빌드 파이프라인
     participant P as 파서
     participant A as 분석 엔진
+    participant R as 취약점 규칙
     B->>P: 소스 코드•의존성 목록
     P->>A: 1. AST•CFG•DFG 모델
-    A->>A: 2. 규칙 프로필 대조
+    A->>R: 2. 규칙 프로필 대조
+    R-->>A: 규칙 대조 결과
     A-->>B: 3. 결함 위치•오염 경로•심각도
 ```
 

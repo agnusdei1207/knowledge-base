@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-04T12:06:00+09:00"
+date: "2026-08-04T17:55:00+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -107,11 +107,12 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant A as HARA•시스템 설계
+    participant H as HARA 평가
+    participant A as 시스템 설계
     participant W as 하드웨어•소프트웨어
     participant V as 검증팀
     participant S as 안전 책임자
-    A->>A: 1. 위험 사건•S•E•C•ASIL
+    H->>A: 1. 위험 사건•S•E•C•ASIL
     A->>W: 2. FSR•TSR•HSR•SSR
     W-->>A: 3. 안전 메커니즘•구현 증거
     A->>V: 4. 추적성 행렬•결함 주입 시나리오

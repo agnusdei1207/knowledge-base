@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 플래그 (Feature Flag)"
-date: "2026-08-04T11:33:00+09:00"
+date: "2026-08-04T17:47:00+09:00"
 tags:
   - "notes-software"
 weight: 64
@@ -110,12 +110,14 @@ sequenceDiagram
     participant A as 애플리케이션
     participant E as 평가 모듈
     participant S as 설정 저장소
+    participant F as 기능 경로
+    participant L as 감사 기록
     A->>E: 플래그 키•요청 속성
     E->>S: 1. 플래그 키•규칙 버전
     S-->>E: 현재 규칙•안전 기본값
     E-->>A: 변형값•평가 근거
-    A->>A: 2. 변형값에 맞는 기능 실행
-    E->>E: 3. 평가 결과•규칙 버전 기록
+    A->>F: 2. 변형값에 맞는 기능 실행
+    E->>L: 3. 평가 결과•규칙 버전 기록
 ```
 
 **동작 원리**
