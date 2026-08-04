@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "신뢰성 성장 모델 (Reliability Growth Model)"
-date: "2026-08-04T14:45:14+09:00"
+date: "2026-08-05T01:54:30+09:00"
 tags:
   - "notes-evaluation"
 weight: 25
@@ -64,20 +64,6 @@ extra:
 - **Duane•Crow-AMSAA 산정 변수**: $t$는 누적 시험시간, $K•\lambda$는 척도 모수, $\alpha•\beta$는 각 모델의 성장 추세 모수이다. $MTBF_c(t)$는 누적 평균 고장 간격, $N(t)$는 누적 기대 고장 수이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  O["운용 프로파일•형상"]
-  F["고장 시점•누적 시간"]
-  C["원인 분석•수정 이력"]
-  M["Duane•Crow-AMSAA 모수"]
-  D["목표•신뢰구간•종료"]
-  O --- F
-  F --- C
-  C --- M
-  M --- D
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

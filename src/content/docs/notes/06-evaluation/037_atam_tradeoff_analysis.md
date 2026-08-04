@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-04T14:49:08+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,18 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    B["비즈니스 동인"] A["아키텍처 결정"]
-    U["유틸리티 트리"]:2
-    M["결정-시나리오 매핑"]:2
-    R["평가•검증 결과"]:2
-    B --- U
-    U --- M
-    A --- M
-    M --- R
+```text
+[비즈니스 동인] ----- [유틸리티 트리]
+                              |
+                  [결정-시나리오 매핑] ----- [아키텍처 결정]
+                              |
+                     [평가•검증 결과]
 ```
+
+선의 의미: 비즈니스 동인은 유틸리티 트리의 품질 우선순위를 규정하고, 결정-시나리오 매핑은 품질 시나리오와 아키텍처 결정을 결합하며 평가•검증 결과의 근거가 되는 정적 ATAM 분석 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

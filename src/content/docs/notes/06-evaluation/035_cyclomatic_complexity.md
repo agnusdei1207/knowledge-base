@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "순환 복잡도 (McCabe's Cyclomatic Complexity)"
-date: "2026-08-04T14:48:26+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 35
@@ -69,17 +69,6 @@ extra:
 - **임계값 정책**: 복잡도 기준을 넘는 함수에 시험 보강•검토•리팩터링을 요구하는 품질 통제 규칙이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    B["분석 경계"] C["CFG"]
-    V["복잡도 산출"] P["임계값 정책"]
-    B --- C
-    C --- V
-    V --- P
-  B --- V
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

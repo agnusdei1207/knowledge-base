@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 등급 표준 (TIA-942 Rated)"
-date: "2026-08-04T14:49:30+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,19 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    P["전력 계통"] C["냉각 계통"] T["통신 계통"]
-    I["IT 부하"]:3
-    F["건축•안전•보안"]:3
-    P --- I
-    C --- I
-    T --- I
-    F --- P
-    F --- C
-    F --- T
+```text
+ [전력 계통]   [냉각 계통]   [통신 계통]
+       \           |           /
+                 [IT 부하]
+                     |
+             [건축•안전•보안]
 ```
+
+선의 의미: 전력•냉각•통신 계통은 IT 부하에 연속 공급을 제공하고, 건축•안전•보안은 계통과 부하를 둘러싼 공통 원인 장애의 물리적 통제 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

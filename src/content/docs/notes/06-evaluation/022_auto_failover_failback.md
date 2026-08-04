@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버•페일백 (Auto Failover Failback)"
-date: "2026-08-04T14:44:17+09:00"
+date: "2026-08-05T01:54:30+09:00"
 tags:
   - "notes-evaluation"
 weight: 22
@@ -65,20 +65,6 @@ extra:
 - **도메인 이름 시스템(Domain Name System, DNS)**: 서비스 이름을 새 정상 노드의 주소로 연결하는 체계이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  H["상태확인•쿼럼"]
-  F["펜싱•역할 전환"]
-  E["VIP•LB•DNS 진입점"]
-  D["순방향•역방향 복제"]
-  P["유예•승인•복귀 정책"]
-  H --- F
-  F --- E
-  E --- D
-  D --- P
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

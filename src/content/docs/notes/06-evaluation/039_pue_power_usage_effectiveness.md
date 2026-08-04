@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 전력 효율 지표 (PUE, Power Usage Effectiveness)"
-date: "2026-08-04T14:49:55+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,18 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    F["총 시설 에너지 계측"] I["IT 장비 에너지 계측"]
-    B["경계•기간 관리"]:2
-    P["PUE 계산"]:2
-    A["추세•손실 분석"]:2
-    F --- B
-    I --- B
-    B --- P
-    P --- A
+```text
+[총 시설 에너지 계측]   [IT 장비 에너지 계측]
+              \             /
+               [경계•기간 관리]
+                       |
+                  [PUE 계산]
+                       |
+                [추세•손실 분석]
 ```
+
+선의 의미: 두 계측 지점은 동일한 경계•기간 관리 아래 결합되고, PUE 계산과 추세•손실 분석이 그 계측 범위에 종속되는 정적 에너지 측정 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

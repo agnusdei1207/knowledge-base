@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정적 분석 결과 해석 (Static Analysis Result Interpretation)"
-date: "2026-08-04T14:48:44+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 36
@@ -65,18 +65,6 @@ extra:
 - **판정 이력**: 경고별 검토 결과•근거•승인•변경 내역을 추적할 수 있게 보존한 기록이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    I["분석 입력"] E["정적 분석 엔진"]
-    W["경고 저장소"]:2
-    T["분류 검토"] G["품질 게이트"]
-    I --- E
-    E --- W
-    W --- T
-    T --- G
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

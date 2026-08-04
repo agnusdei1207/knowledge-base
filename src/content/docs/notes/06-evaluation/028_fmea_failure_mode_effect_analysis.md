@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
-date: "2026-08-04T14:46:07+09:00"
+date: "2026-08-05T13:40:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 28
@@ -65,17 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  F["기능•공정•요구"]
-  M["고장 모드•영향"]
-  C["원인•현재 통제"]
-  R["S•O•D•고심각도"]
-  A["조치•책임•잔여위험"]
-  F --- M --- C
-  C --- R --- A
+```text
+                      [고장 모드•영향]
+                      /          \
+             [기능•공정•요구] [원인•현재 통제]
+                      \          /
+                   [S•O•D•고심각도]
+                            |
+                  [조치•책임•잔여위험]
 ```
+
+선의 의미: 고장 모드•영향을 기능•공정 요구와 원인•현재 통제에 연결하고, 위험 평가 기준 및 조치•책임•잔여위험에 결합한 정적 FMEA 분석 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

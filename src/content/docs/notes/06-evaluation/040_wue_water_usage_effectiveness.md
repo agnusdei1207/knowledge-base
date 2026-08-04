@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-04T14:50:20+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -68,17 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    W["물 경계•용도 계측"] I["IT 에너지 계측"]
-    C["WUE 계산"]:2
-    S["지역 물 부족도"] A["물•전력 통합 분석"]
-    W --- C
-    I --- C
-    C --- A
-    S --- A
+```text
+[물 경계•용도 계측]   [IT 에너지 계측]
+             \           /
+                  [WUE 계산] ----- [지역 물 부족도]
+                       |
+               [물•전력 통합 분석]
 ```
+
+선의 의미: 물과 IT 에너지 계측은 WUE 계산의 공통 측정 경계를 이루고, 지역 물 부족도와 물•전력 통합 분석은 계산값에 지역 자원 부담과 전력 상충을 결합하는 정적 환경 평가 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

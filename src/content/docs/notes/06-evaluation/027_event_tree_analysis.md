@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "ETA 이벤트 나무 분석 (Event Tree Analysis)"
-date: "2026-08-04T14:45:49+09:00"
+date: "2026-08-05T01:54:30+09:00"
 tags:
   - "notes-evaluation"
 weight: 27
@@ -62,18 +62,6 @@ extra:
 - **완전 시나리오**: 초기 사건부터 모든 장벽 분기를 거쳐 하나의 최종 결과에 도달하는 전체 경로이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  I["초기 사건•경계"]
-  B["방어 장벽•순서"]
-  P["성공•실패 분기확률"]
-  S["완전 시나리오"]
-  C["최종 결과•피해확률"]
-  I --- B --- P
-  P --- S --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
