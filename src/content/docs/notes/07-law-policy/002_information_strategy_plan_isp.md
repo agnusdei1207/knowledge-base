@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ISP (Information Strategy Planning)"
-date: "2026-08-04T09:56:10+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 2
@@ -114,6 +114,8 @@ sequenceDiagram
     P->>I: 4. 투자 우선순위•승인 전송
     I-->>M: 투자•이행 로드맵 결과
 ```
+
+**동작 원리**
 
 1. **목표 모델•갭 과제 전송**: 현행과 목표의 차이를 사업 후보로 변환
 2. **과제 타당성•의존성 회신**: 중복•선행 조건•실행 역량 검증

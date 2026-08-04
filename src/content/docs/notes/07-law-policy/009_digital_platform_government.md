@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 플랫폼 정부 (Digital Platform Government)"
-date: "2026-08-04T10:09:36+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 9
@@ -114,6 +114,8 @@ sequenceDiagram
     D-->>P: 검증 데이터
     P-->>U: 융합 서비스
 ```
+
+**동작 원리**
 
 1. **이용 근거•권한 확인 요청**: 법적 근거•동의•**접근 권한** 검증
 2. **공공 데이터 조회 요청**: 공통 **API** 로 기관 자료 요청

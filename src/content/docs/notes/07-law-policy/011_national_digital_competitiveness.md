@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "국가 디지털 경쟁력 지수 (National Digital Competitiveness)"
-date: "2026-08-04T10:14:21+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 11
@@ -106,6 +106,8 @@ sequenceDiagram
     G->>E: 4. 비교국•투자 제약 전송
     E-->>G: 취약 요인•개선 우선순위 결과
 ```
+
+**동작 원리**
 
 1. **요인별 통계•설문 자료 요청**: 세부 지표•표본•기준시점 결정
 2. **기준시점 자료 전송**: 정량 통계와 경영진 설문 확보

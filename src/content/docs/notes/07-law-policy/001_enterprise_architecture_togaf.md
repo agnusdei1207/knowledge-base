@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EA와 TOGAF (Enterprise Architecture & TOGAF)"
-date: "2026-08-04T09:54:02+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 1
@@ -103,12 +103,16 @@ sequenceDiagram
     participant P as 사업포트폴리오
     participant G as 거버넌스위원회
     S->>A: 전략•비전•범위 전달
-    A->>P: 1. 현행•목표•갭 모델 전송
-    P->>G: 2. 전환 로드맵•투자안 제출
-    G->>P: 3. 준수•예외 결정 전송
-    P->>A: 4. 구현 결과•변경 요구 전송
+    loop 아키텍처 개발•변경 주기
+        A->>P: 1. 현행•목표•갭 모델 전송
+        P->>G: 2. 전환 로드맵•투자안 제출
+        G->>P: 3. 준수•예외 결정 전송
+        P->>A: 4. 구현 결과•변경 요구 전송
+    end
     A-->>S: EA 현행화•투자 결과
 ```
+
+**동작 원리**
 
 1. **현행•목표•갭 모델 전송**: 도메인별 중복•단절•표준 차이 식별
 2. **전환 로드맵•투자안 제출**: 과제•선행 관계•비용•효과 구성

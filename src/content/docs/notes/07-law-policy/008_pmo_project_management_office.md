@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "PMO (Project Management Office)"
-date: "2026-08-04T10:07:42+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 8
@@ -107,11 +107,15 @@ sequenceDiagram
     participant P as PMO
     participant O as 발주기관
     P->>T: 1. 관리 기준 배포
-    T->>P: 2. 사업 현황 보고
-    P->>O: 3. 쟁점•대안 보고
-    O->>P: 4. 조치 결정
-    P->>T: 5. 이행 지시•추적
+    loop 사업 관리 주기
+        T->>P: 2. 사업 현황 보고
+        P->>O: 3. 쟁점•대안 보고
+        O->>P: 4. 조치 결정
+        P->>T: 5. 이행 지시•추적
+    end
 ```
+
+**동작 원리**
 
 1. **관리 기준 배포**: 표준 양식•관리 지침과 보고 주기 정의
 2. **사업 현황 보고**: 진척•비용•품질•위험 자료 수집

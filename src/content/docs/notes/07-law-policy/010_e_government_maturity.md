@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "전자정부 성숙도 모형 (E-Government Maturity Model)"
-date: "2026-08-04T10:12:18+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 10
@@ -104,12 +104,16 @@ sequenceDiagram
     participant D as 데이터기관
     participant P as 정책기관
     P->>G: 평가 범위•목표 전달
-    G->>D: 1. OSI•TII•HCI•EPI 자료 요청
-    D->>G: 2. 표준화 지표 자료 전송
-    G->>P: 3. EGDI•격차 분석 결과 제출
-    P->>D: 4. 개선 과제•책임 전송
-    D-->>P: 개선 성과 결과
+    loop 성숙도 평가•개선 주기
+        G->>D: 1. OSI•TII•HCI•EPI 자료 요청
+        D->>G: 2. 표준화 지표 자료 전송
+        G->>P: 3. EGDI•격차 분석 결과 제출
+        P->>D: 4. 개선 과제•책임 전송
+        D-->>P: 개선 성과 결과
+    end
 ```
+
+**동작 원리**
 
 1. **OSI•TII•HCI•EPI 자료 요청**: 대상•기준시점•자료 기준 제시
 2. **표준화 지표 자료 전송**: 서비스•통신•인적 자본•참여 자료 확보

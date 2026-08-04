@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "인시던트•문제•변경 관리 (Incident, Problem, Change Management)"
-date: "2026-08-04T10:05:31+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 7
@@ -116,6 +116,8 @@ sequenceDiagram
     P->>C: 2. 변경 요청•위험 평가 요청
     C-->>U: 변경 적용•사후 검토 결과
 ```
+
+**동작 원리**
 
 1. **문제 등록•원인 분석 요청**: 반복 인시던트의 **근본 원인** 규명
 2. **변경 요청•위험 평가 요청**: 구성항목 영향과 **롤백 계획** 검토

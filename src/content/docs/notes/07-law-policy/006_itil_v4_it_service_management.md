@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "ITIL v4와 IT 서비스 관리 (ITIL v4 IT Service Management)"
-date: "2026-08-04T10:03:44+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 6
@@ -107,12 +107,16 @@ sequenceDiagram
     participant S as 서비스팀
     participant O as 운영팀
     C->>S: 기회•수요 전달
-    S->>O: 1. 가치 흐름•관리 관행 전송
-    O->>C: 서비스 제공•지원
-    O->>S: 2. 서비스 수준•경험 지표 전송
-    S->>O: 3. 지속적 개선안 전송
+    loop 서비스 가치•개선 주기
+        S->>O: 1. 가치 흐름•관리 관행 전송
+        O->>C: 서비스 제공•지원
+        O->>S: 2. 서비스 수준•경험 지표 전송
+        S->>O: 3. 지속적 개선안 전송
+    end
     O-->>C: 개선된 서비스 결과
 ```
+
+**동작 원리**
 
 1. **가치 흐름•관리 관행 전송**: 활동•서비스 자원 조합
 2. **서비스 수준•경험 지표 전송**: SLA•이용자 경험 측정

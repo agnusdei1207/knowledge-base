@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISMP (Information System Master Plan)"
-date: "2026-08-04T09:58:31+09:00"
+date: "2026-08-04T14:49:50+09:00"
 tags:
   - "notes-law_policy"
 weight: 3
@@ -112,6 +112,8 @@ sequenceDiagram
     P->>I: 4. 조달•예산 조건 전송
     I-->>O: RFP•발주 기준 결과
 ```
+
+**동작 원리**
 
 1. **목표 구조•요구 기준선 전송**: 검증 가능한 요구와 구조 연결
 2. **수용 기준•범위 승인 전송**: 인수 조건과 변경 기준선 확정
