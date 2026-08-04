@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "BASE vs ACID (BASE vs ACID)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T12:59:00+09:00"
 tags:
   - "notes-software"
 weight: 104
@@ -41,8 +41,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **복구 차이**: 진행 중 거래의 롤백과 이미 완료된 분산 업무의 보상을 구분하는 특성이다.
-- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션 안의 변경을 즉시 확정하고 불변식과 장애 복구를 보장하는 모델이다.
-- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 비동기 전파와 재시도로 분산 사본을 최종 수렴시키는 모델이다.
 
 </details>
 
@@ -63,7 +61,9 @@ extra:
 - **트랜잭션 경계**: 함께 성공하거나 실패해야 하는 변경과 업무 불변식의 원자 확정 범위이다.
 - **ACID 저장소**: 기준 데이터와 아웃박스 기록을 한 트랜잭션으로 확정하는 저장소이다.
 - **BASE 파생 상태**: 기준 변경을 비동기로 받아 검색•조회•알림 용도로 최종 수렴하는 복제 상태이다.
-- **재시도•보상•대사**: 전달 실패를 다시 처리하고 완료된 업무를 반대 작업으로 보정하며 기준값과 차이를 검사하는 복구 수단이다.
+- **재시도(Retry)**: 실패한 이벤트 전달을 다시 수행하는 수단이다.
+- **보상(Compensation)**: 완료된 업무를 반대 작업으로 보정하는 수단이다.
+- **대사(Reconciliation)**: 기준값과 파생 상태의 차이를 검사하는 수단이다.
 
 </details>
 
@@ -144,8 +144,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 업무 불변식과 거래 결과를 확정하는 모델이다.
-- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 가용성을 우선하고 비동기 전파 뒤 최종 일관성으로 상태를 맞추는 모델이다.
 
 </details>
 
@@ -167,10 +165,14 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **ACID 트랜잭션 경계**: 금액•재고처럼 즉시 지켜야 하는 불변식을 한 번에 확정하는 범위이다.
-- **로컬 원자성•이벤트 분리**: 각 서비스의 지역 거래를 먼저 확정하고 다른 상태는 이벤트로 전달하는 설계이다.
-- **아웃박스•변경 데이터 캡처(Change Data Capture, CDC)**: 업무 변경과 발행 기록을 원자화하고 확정된 변경만 이벤트로 추출하는 방식이다.
-- **멱등 키•버전 검사**: 반복•역순 이벤트가 같은 효과를 중복 적용하거나 최신값을 덮지 않도록 하는 통제이다.
-- **최대 수렴 지연•경보 임계치**: 파생 상태가 기준 상태를 따라와야 할 시간 목표와 장애로 판단할 한도이다.
+- **로컬 원자성(Local Atomicity)**: 각 서비스의 지역 거래를 먼저 확정하는 보장이다.
+- **이벤트 분리(Event Decoupling)**: 다른 서비스 상태를 이벤트로 전달하는 설계다.
+- **아웃박스(Outbox)**: 업무 변경과 발행 기록을 한 거래로 저장하는 구조다.
+- **변경 데이터 캡처(Change Data Capture, CDC)**: 확정된 변경만 이벤트로 추출하는 방식이다.
+- **멱등 키(Idempotency Key)**: 반복 이벤트의 중복 효과를 막는 식별값이다.
+- **버전 검사(Version Check)**: 역순 이벤트가 최신값을 덮는지 검사하는 통제다.
+- **최대 수렴 지연(Maximum Convergence Lag)**: 파생 상태가 기준 상태를 따라와야 할 시간이다.
+- **경보 임계치(Alert Threshold)**: 수렴 지연을 장애로 판단할 한도다.
 
 </details>
 
@@ -191,8 +193,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 커밋 즉시 지켜야 하는 업무 불변식에 적용하는 트랜잭션 보장 모델이다.
-- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventual Consistency, BASE)**: 지연을 허용하는 파생 상태를 비동기 전파 후 수렴시키는 모델이다.
 
 </details>
 

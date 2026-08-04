@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Redis 인메모리 DB (Redis In-Memory Database)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:06:00+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -39,14 +39,16 @@ extra:
 <summary>핵심 용어</summary>
 
 - **원자 명령**: 다른 명령이 중간에 개입하지 않은 것처럼 자료구조 변경을 한 단위로 실행하는 특성이다.
-- **키 유효 시간(Time To Live, TTL)•제거 정책**: 키의 만료 시점과 메모리 한도에서 제거할 대상을 정하는 수명 관리 기준이다.
-- **Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)•추가 전용 파일(Append Only File, AOF)**: 메모리 상태를 주기적 스냅샷이나 변경 명령 로그로 영속화하는 복구 방식이다.
+- **키 유효 시간(Time To Live, TTL)**: 키가 자동 만료되기까지 남은 시간이다.
+- **제거 정책(Eviction Policy)**: 메모리 한도에서 삭제할 키를 정하는 규칙이다.
+- **Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)**: 메모리 상태를 주기적으로 저장한 파일이다.
+- **추가 전용 파일(Append Only File, AOF)**: 변경 명령을 순서대로 기록한 로그 파일이다.
 
 </details>
 
 - **원자 명령**: 서버에서 자료구조를 직접 갱신
-- **수명 관리**: 키 유효 시간(Time To Live, TTL)•제거 정책으로 메모리 통제
-- **복구•분산**: Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)•추가 전용 파일(Append Only File, AOF)•복제•클러스터 제공
+- **수명 관리**: **TTL•제거 정책**으로 메모리 통제
+- **복구•분산**: **RDB•AOF•복제•클러스터** 제공
 
 #### 한줄 요약
 - 빠르지만 메모리 한도와 재시작 복구 및 주 노드 장애를 함께 설계해야 한다.
@@ -56,8 +58,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)•추가 전용 파일(Append Only File, AOF)**: 스냅샷과 명령 로그로 메모리 상태를 재시작 뒤 복구하는 구성요소이다.
-- **키 유효 시간(Time To Live, TTL)•제거 정책**: 키 만료와 메모리 부족 시 삭제 대상을 결정하는 구성요소이다.
 - **Sentinel**: Redis 주 노드와 복제본을 감시하고 장애 시 새 주 노드 선출을 조정하는 구성요소이다.
 - **Redis Cluster**: 키를 해시 슬롯에 배정하고 여러 노드로 분산 라우팅하는 클러스터 방식이다.
 
@@ -97,7 +97,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **2. 추가 전용 파일(Append Only File, AOF) 명령 레코드**: 변경 명령을 재실행 가능한 형태로 순서대로 로그에 추가하는 단계이다.
+- **2. AOF 명령 레코드**: 변경 명령을 재실행 가능한 형태로 순서대로 로그에 추가하는 단계이다.
 - **1. 키•자료구조 명령**: 키의 해시 슬롯으로 담당 주 노드를 찾고 원자 연산을 전달하는 단계이다.
 - **3. 파일 동기화(File Synchronization, fsync) 결과**: 설정한 동기화 정책에 따라 로그가 디스크에 기록됐는지 확인한 상태이다.
 - **4. 복제 스트림**: 주 노드의 변경 명령과 순서를 복제본에 전달하는 흐름이다.
@@ -140,7 +140,6 @@ sequenceDiagram
 
 - **Redis**: 자료구조 연산과 영속성 및 복제가 필요한 인메모리 캐시에 적합한 저장소이다.
 - **Memcached**: 재생성 가능한 단순 키값 객체를 여러 노드의 메모리에 분산 저장하는 캐시이다.
-- **키 유효 시간(Time To Live, TTL)**: 캐시 항목이 자동 만료되기까지 남은 생존 시간이다.
 
 </details>
 
@@ -159,11 +158,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **복구 시점 목표(Recovery Point Objective, RPO)별 저장 역할**: 허용 데이터 손실량과 재생성 가능성에 따라 캐시•원본 역할을 나누는 기준이다.
-- **메모리 한도•제거 정책**: 메모리 부족(Out Of Memory, OOM)을 막고 중요 키를 보호하도록 최대 사용량과 퇴출 방식을 정하는 통제이다.
-- **키 유효 시간(Time To Live, TTL) 편차•요청 병합**: 인기 키의 만료 시점을 분산하고 동시에 들어온 원본 조회를 하나로 합쳐 캐시 스탬피드를 줄이는 방식이다.
-- **키 분할•명령 시간 감시**: 핫키•빅키를 여러 키로 나누고 장시간 명령을 관찰해 단일 노드 지연을 줄이는 활동이다.
-- **Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)•추가 전용 파일(Append Only File, AOF) 독립 백업•복구 훈련**: 영속성 파일 손상에 대비해 별도 사본을 만들고 실제 복원을 검증하는 활동이다.
+- **복구 시점 목표(Recovery Point Objective, RPO)**: 장애 시 허용하는 최대 데이터 손실 시점이다.
+- **메모리 부족(Out of Memory, OOM)**: 사용량이 메모리 한도를 넘은 상태다.
+- **메모리 한도(Memory Limit)**: Redis가 사용할 수 있는 최대 메모리 양이다.
+- **TTL 편차(TTL Jitter)**: 인기 키의 만료 시점을 분산하는 값이다.
+- **요청 병합(Request Coalescing)**: 동시 원본 조회를 하나로 합치는 방식이다.
+- **키 분할(Key Splitting)**: 핫키와 빅키를 여러 키로 나누는 활동이다.
+- **명령 시간 감시(Command-time Monitoring)**: 장시간 명령을 관찰하는 활동이다.
+- **독립 백업(Independent Backup)**: RDB와 AOF를 별도 위치에 보관한 사본이다.
+- **복구 훈련(Recovery Drill)**: 백업에서 실제 복원을 검증하는 활동이다.
 
 </details>
 
@@ -184,7 +187,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **추가 전용 파일(Append Only File, AOF)•복제•백업**: 낮은 복구 시점 목표(Recovery Point Objective, RPO)가 필요한 데이터에 적용해 장애 시 손실과 복구 위험을 낮추는 수단이다.
+- **복제(Replication)**: Redis 변경을 다른 노드에 전파하는 방식이다.
+- **백업(Backup)**: Redis 영속성 파일을 별도로 보관한 사본이다.
 
 </details>
 

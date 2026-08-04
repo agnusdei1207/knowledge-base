@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터베이스 용량 산정 (DB Capacity Planning)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T12:53:00+09:00"
 tags:
   - "notes-software"
 weight: 101
@@ -42,6 +42,9 @@ extra:
 - **선행 증설**: 용량 한계일에서 자원 조달 기간을 역산해 미리 확장을 시작하는 방식이다.
 - **저장 산정**: 원본 데이터 외에 인덱스•로그•복제본과 여유 공간까지 합산하는 예측이다.
 - **처리 산정**: 피크 초당 트랜잭션 수와 동시성 및 CPU•IOPS를 반영해 처리 자원을 예측하는 활동이다.
+- **초당 트랜잭션 수(Transactions Per Second, TPS)**: 1초에 처리하는 거래 수다.
+- **초당 입출력 작업 수(Input/Output Operations Per Second, IOPS)**: 1초에 처리하는 입출력 연산 수다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 데이터베이스 명령을 처리하는 프로세서다.
 
 </details>
 
@@ -50,7 +53,7 @@ extra:
 > 파란 예측선이 5개월째 운영 한계선에 닿고 증설 리드타임을 2개월로 가정했으므로 3개월째 착수해야 한다는 예시이며, 실제 성장률과 여유율은 관측 자료로 산정한다.
 
 - **저장 산정**: 원본•인덱스•로그•복제 포함
-- **처리 산정**: 피크 **초당 트랜잭션 수(Transactions Per Second, TPS)•동시성•초당 입출력 작업 수(Input/Output Operations Per Second, IOPS)** 반영
+- **처리 산정**: 피크 **TPS•동시성•IOPS** 반영
 - **선행 증설**: 준비 기간을 한계일에서 역산
 
 #### 한줄 요약
@@ -63,7 +66,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **저장 모델**: 원본 데이터와 인덱스•로그•복제본 등 운영 오버헤드를 합쳐 저장 수요를 예측하는 구성요소이다.
-- **처리 모델**: 중앙처리장치(Central Processing Unit, CPU)와 메모리 및 초당 입출력 작업 수(Input/Output Operations Per Second, IOPS)의 미래 수요를 예측하는 구성요소이다.
+- **처리 모델**: CPU와 메모리 및 IOPS의 미래 수요를 예측하는 구성요소이다.
 - **부하 시험**: 예상 질의와 거래를 실행해 어떤 자원이 먼저 한계에 도달하는지 검증하는 시험이다.
 - **용량 기준선**: 운영 헤드룸과 자원별 증설 시점을 정해 관리하는 기준이다.
 
@@ -145,7 +148,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **처리 용량**: 피크 초당 트랜잭션 수(Transactions Per Second, TPS)•동시성과 중앙처리장치(Central Processing Unit, CPU)•메모리•초당 입출력 작업 수(Input/Output Operations Per Second, IOPS) 수요를 중심으로 산정하는 용량이다.
+- **처리 용량**: 피크 TPS와 동시성 및 CPU와 메모리와 IOPS 수요로 산정하는 용량이다.
 - **저장 용량**: 데이터 증가량과 보관 기간 및 인덱스•로그•복제 오버헤드를 합산한 용량이다.
 - **가용성 용량**: 노드 장애 후에도 목표 처리량을 유지하도록 대기 자원과 헤드룸을 포함한 용량이다.
 
@@ -195,7 +198,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **선행 증설**: 용량 고갈 전에 준비를 끝내도록 조달 기간만큼 앞서 착수하는 활동이다.
 
 </details>
 

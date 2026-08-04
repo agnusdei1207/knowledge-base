@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CAP 정리 (CAP Theorem)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T12:57:00+09:00"
 tags:
   - "notes-software"
 weight: 103
@@ -23,8 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CAP 정리(Consistency, Availability, Partition Tolerance Theorem)**: 네트워크 분할 중 일관성과 가용성을 동시에 완전히 보장할 수 없다는 분산 시스템 정리이다.
-- **일관성(Consistency, C)•가용성(Availability, A)•분할 내성(Partition Tolerance, P)**: 모든 노드의 최신값 보장, 모든 요청의 응답 보장, 노드 간 통신 단절에서도 시스템이 동작하는 성질이다.
+- **CAP 정리(Consistency, Availability, Partition Tolerance Theorem, CAP)**: 분할 중 일관성과 가용성을 모두 보장할 수 없다는 정리다.
+- **일관성(Consistency, C)**: 모든 노드가 최신값을 제공하는 성질이다.
+- **가용성(Availability, A)**: 모든 유효 요청에 응답하는 성질이다.
+- **분할 내성(Partition Tolerance, P)**: 노드 간 통신 단절에도 시스템이 동작하는 성질이다.
 
 </details>
 
@@ -41,8 +43,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **네트워크 분할**: 복제 노드 사이의 통신 단절로 일관성과 가용성 중 하나를 선택하게 만드는 조건이다.
-- **분할 중 일관성•가용성 선택**: 통신 단절 상태에서 최신값을 확인하지 못한 요청을 거부할지 지역 상태로 응답할지 정하는 판단이다.
-- **PACELC(Partition, Availability, Consistency, Else, Latency, Consistency)**: 분할 시 가용성•일관성뿐 아니라 정상 상태에서도 지연시간•일관성의 절충이 있음을 설명하는 확장 관점이다.
+- **분할 중 일관성 선택(Partition-time Consistency Choice)**: 최신값을 확인하지 못한 요청을 제한하는 판단이다.
+- **분할 중 가용성 선택(Partition-time Availability Choice)**: 지역 상태로 요청에 응답하는 판단이다.
+- **PACELC 관점(Partition, Availability, Consistency, Else, Latency, Consistency, PACELC)**: 정상 상태의 지연과 일관성 절충까지 설명하는 관점이다.
 
 </details>
 
@@ -141,8 +144,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **일관성•분할 내성(Consistency and Partition Tolerance, CP)**: 분할 중 최신 상태를 확인할 수 없으면 요청을 거부하거나 지연해 일관성을 지키는 선택이다.
-- **가용성•분할 내성(Availability and Partition Tolerance, AP)**: 분할 중에도 도달 가능한 복제본에서 지역 처리해 응답을 유지하는 선택이다.
 - **일관성•가용성(Consistency and Availability, CA)**: 네트워크 분할이 없다는 전제에서 최신 상태와 모든 요청 응답을 함께 보장하는 선택이다.
 
 </details>
@@ -164,11 +165,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **연산별 일관성(Consistency, C)•가용성(Availability, A) 정책**: 불일치 비용과 중단 비용에 따라 요청마다 분할 대응을 달리 정하는 기준이다.
-- **타임아웃•정족수**: 응답 대기 한도와 최신 상태를 인정할 최소 노드 수를 함께 검증하는 분할 판정 기준이다.
+- **연산별 일관성 정책(Operation-level Consistency Policy)**: 불일치 비용에 따라 요청별 최신성 보장을 정하는 정책이다.
+- **연산별 가용성 정책(Operation-level Availability Policy)**: 중단 비용에 따라 요청별 응답 보장을 정하는 정책이다.
+- **타임아웃(Timeout)**: 응답을 기다릴 최대 시간이다.
+- **정족수(Quorum)**: 최신 상태를 인정할 최소 노드 수다.
 - **지수 백오프(Exponential Backoff)**: 재시도 간격을 지수적으로 늘려 동시 요청 폭주를 줄이는 방식이다.
-- **버전 벡터•업무 병합**: 복제본별 변경 계보를 판별하고 충돌 값을 업무 의미에 맞게 합치는 방식이다.
-- **안티 엔트로피(Anti-Entropy)•불변식 재검증**: 복제본 차이를 주기적으로 교환•복구하고 수렴 결과가 업무 규칙을 지키는지 확인하는 활동이다.
+- **버전 벡터(Version Vector)**: 복제본별 변경 계보를 판별하는 자료다.
+- **업무 병합(Business Merge)**: 충돌 값을 업무 의미에 맞게 합치는 방식이다.
+- **안티 엔트로피(Anti-Entropy)**: 복제본 차이를 주기적으로 교환하고 복구하는 활동이다.
+- **불변식 재검증(Invariant Revalidation)**: 수렴 결과가 업무 규칙을 지키는지 확인하는 활동이다.
 
 </details>
 
@@ -189,8 +194,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가용성•분할 내성(Availability and Partition Tolerance, AP)**: 분할 중에도 지역 복제본으로 응답해 중단 비용을 줄이는 선택이다.
-- **일관성•분할 내성(Consistency and Partition Tolerance, CP)**: 분할 중 최신 상태를 확인할 수 없으면 요청을 제한해 불일치 비용을 줄이는 선택이다.
 
 </details>
 

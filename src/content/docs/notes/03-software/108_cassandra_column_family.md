@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 DB (Cassandra Column Family)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:08:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -56,9 +56,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **커밋 로그(Commit Log)•메모리 테이블(Memtable)**: 변경을 내구 로그와 메모리 정렬 구조에 누적하는 구성요소이다.
+- **커밋 로그(Commit Log)**: 변경을 먼저 기록하는 내구 로그다.
+- **메모리 테이블(Memory Table, Memtable)**: 최신 변경을 키순으로 누적하는 메모리 구조다.
 - **조정자(Coordinator)**: 요청을 담당 복제본에 전달하고 일관성 수준에 필요한 응답 수를 집계하는 노드이다.
-- **정렬 문자열 테이블(Sorted String Table, SSTable)•컴팩션(Compaction)**: 키순 불변 파일로 데이터를 저장하고 여러 파일의 중복•삭제 표식을 병합 정리하는 구조이다.
+- **정렬 문자열 테이블(Sorted String Table, SSTable)**: 키순으로 정렬된 불변 디스크 파일이다.
+- **컴팩션(Compaction)**: 여러 SSTable의 중복과 삭제 표식을 병합 정리하는 작업이다.
 - **수선(Repair)**: 복제본 사이의 누락•불일치 데이터를 비교해 다시 맞추는 활동이다.
 
 </details>
@@ -97,9 +99,9 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **2. 로컬 반영 확인**: 커밋 로그(Commit Log)와 메모리 테이블(Memtable) 기록 완료를 조정자에게 통지하는 단계이다.
+- **2. 로컬 반영 확인**: 커밋 로그와 Memtable 기록 완료를 조정자에게 통지하는 단계이다.
 - **1. 쓰기 레코드**: 파티션 키의 토큰 범위를 담당하는 복제본에 병렬 전달하는 변경 정보이다.
-- **3. 정렬 문자열 테이블(Sorted String Table, SSTable) 저장**: 메모리 테이블이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
+- **3. SSTable 저장**: Memtable이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
 
 </details>
 
@@ -139,7 +141,9 @@ sequenceDiagram
 - **한 복제본(ONE)**: 복제본 하나의 응답만 요구해 지연과 가용성을 우선하는 일관성 수준이다.
 - **정족수(QUORUM)**: 과반 복제본의 응답을 요구해 최신성과 가용성을 절충하는 일관성 수준이다.
 - **전체 복제본(ALL)**: 모든 복제본의 응답을 요구해 확인 범위를 강화하지만 장애 허용을 낮추는 수준이다.
-- **읽기 응답 수(Read Responses, R)•쓰기 응답 수(Write Responses, W)•복제 계수(Replication Factor, RF)**: 읽기•쓰기 성공에 필요한 응답 수와 데이터 사본 수를 나타내는 값이다.
+- **읽기 응답 수(Read Responses, R)**: 읽기 성공에 필요한 복제본 응답 수다.
+- **쓰기 응답 수(Write Responses, W)**: 쓰기 성공에 필요한 복제본 응답 수다.
+- **복제 계수(Replication Factor, RF)**: 데이터의 전체 사본 수다.
 
 </details>
 
@@ -160,11 +164,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **테이블•키 선설계**: 핵심 질의별로 필요한 파티션과 정렬 범위를 먼저 정한 뒤 테이블과 키를 만드는 방식이다.
-- **시간 버킷•행 수 상한**: 시계열 데이터를 기간별 파티션으로 나누고 한 파티션의 최대 행 수를 제한하는 통제이다.
+- **테이블 선설계(Query-first Table Design)**: 핵심 질의에 맞춰 테이블을 먼저 정하는 방식이다.
+- **키 선설계(Key-first Design)**: 파티션과 정렬 범위에 맞춰 키를 먼저 정하는 방식이다.
+- **시간 버킷(Time Bucket)**: 시계열 데이터를 기간별 파티션으로 나누는 단위다.
+- **행 수 상한(Row-count Limit)**: 한 파티션의 최대 행 수다.
 - **파티션 키 검증**: 실제 값 분포와 요청량으로 데이터•부하 편중 여부를 확인하는 활동이다.
-- **보존•컴팩션•수선 주기**: 삭제 표식 보존 기간과 파일 병합 및 복제본 복구 간격을 함께 조정하는 기준이다.
-- **여유 공간•백로그 감시**: 컴팩션 대기량과 임시 파일에 필요한 디스크 공간을 관찰하는 통제이다.
+- **삭제 표식 보존(Tombstone Retention)**: 삭제 표식을 유지하는 기간이다.
+- **컴팩션 주기(Compaction Cycle)**: SSTable을 병합하는 시간 간격이다.
+- **수선 주기(Repair Cycle)**: 복제본 불일치를 복구하는 시간 간격이다.
+- **여유 공간(Free Space)**: 컴팩션 임시 파일에 사용할 디스크 공간이다.
+- **백로그 감시(Backlog Monitoring)**: 컴팩션 대기량을 관찰하는 통제다.
 
 </details>
 
@@ -185,7 +194,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **파티션•클러스터링 키**: 조회 범위와 파티션 내부 정렬을 기준으로 함께 결정해야 하는 키이다.
+- **파티션 키(Partition Key)**: 데이터가 저장될 파티션을 정하는 키다.
+- **클러스터링 키(Clustering Key)**: 파티션 내부의 행 정렬 순서를 정하는 키다.
 
 </details>
 
