@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-04T14:38:47+09:00"
+date: "2026-08-05T06:30:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -71,17 +71,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["API Gateway"]
-    B["REST API"]
-    C["도메인 서비스"]
-    D["자원 저장소"]
-    A --- B
-    B --- C
-    C --- D
+```text
+       [API Gateway]
+              |
+          [REST API]
+              |
+       [도메인 서비스]
+              |
+        [자원 저장소]
 ```
+
+선의 의미: 외부 진입 경계인 API Gateway 아래에 REST API, 도메인 서비스, 자원 저장소가 차례로 의존하는 정적 계층 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

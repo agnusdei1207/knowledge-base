@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-08-04T14:03:00+09:00"
+date: "2026-08-05T01:12:49+09:00"
 tags:
   - "notes-software"
 weight: 163
@@ -67,18 +67,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["서비스 A 트레이서"]
-    B["서비스 B 트레이서"]
-    C["Collector"]
-    D["Trace 백엔드"]
-    A --- B
-    A --- C
-    B --- C
-    C --- D
+```text
+[서비스 A 트레이서] -------- [서비스 B 트레이서]
+          \                         /
+           \                       /
+                   [Collector]
+                        |
+                        |
+                 [Trace 백엔드]
 ```
+
+선의 의미: 두 서비스 트레이서 사이의 선은 부모•자식 추적 문맥 연결 관계, 각 트레이서와 Collector의 선은 완성 스팬의 수신•가공•배치 관계, Collector와 Trace 백엔드의 선은 추적 식별자•부모 관계를 보존한 스팬 전달과 경로 조립 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

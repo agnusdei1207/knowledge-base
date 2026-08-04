@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
-date: "2026-08-04T14:18:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -69,20 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["실시간 게이트웨이"]
-    B["WebSocket 처리기"]
-    C["SSE 처리기"]
-    D["메시지 브로커"]
-    E["재생 저장소"]
-    A --- B
-    A --- C
-    B --- D
-    C --- D
-    C --- E
+```text
+                       [실시간 게이트웨이]
+                         /             \
+             [WebSocket 처리기]     [SSE 처리기]
+                         \             /     \
+                       [메시지 브로커]   [재생 저장소]
 ```
+
+선의 의미: 실시간 게이트웨이 아래에는 WebSocket과 SSE 처리기가 병렬로 놓이고 두 처리기는 메시지 브로커를 공유하며, SSE 처리기는 연결 복구를 위한 재생 저장소와 추가로 결합되는 정적 실시간 통신 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

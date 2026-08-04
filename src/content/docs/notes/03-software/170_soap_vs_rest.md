@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-08-04T14:10:00+09:00"
+date: "2026-08-05T06:30:00+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -69,21 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["클라이언트"]
-    B["SOAP 종단점"]
-    C["REST 종단점"]
-    D["계약•보안 계층"]
-    E["업무 서비스"]
-    A --- B
-    A --- C
-    B --- D
-    C --- D
-    B --- E
-    C --- E
+```text
+                   [클라이언트]
+                    /        \
+          [SOAP 종단점]    [REST 종단점]
+                    \        /
+                [계약•보안 계층]
+                         |
+                   [업무 서비스]
 ```
+
+선의 의미: 클라이언트가 SOAP 또는 REST 종단점과 맞닿고, 두 종단점이 공통 계약•보안 계층 및 업무 서비스를 공유하는 정적 분기 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

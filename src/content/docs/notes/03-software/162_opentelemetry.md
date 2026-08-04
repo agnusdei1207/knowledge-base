@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-08-04T14:02:00+09:00"
+date: "2026-08-05T01:12:49+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -68,19 +68,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["API•자동 계측"]
-    B["SDK•문맥 전파기"]
-    C["OTLP"]
-    D["Collector"]
-    E["관측 백엔드"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[API•자동 계측] -------- [SDK•문맥 전파기] -------- [OTLP] -------- [Collector] -------- [관측 백엔드]
 ```
+
+선의 의미: API•자동 계측과 SDK•문맥 전파기의 선은 스팬•메트릭•로그 생성 및 추적 연결 관계, SDK와 OTLP의 선은 처리된 신호의 표준 형식 변환 관계, OTLP와 Collector의 선은 표준 신호 전송 관계, Collector와 관측 백엔드의 선은 수신•가공된 신호의 저장•조회•시각화•경보 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
