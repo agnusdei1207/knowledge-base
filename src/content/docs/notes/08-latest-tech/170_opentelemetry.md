@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "OpenTelemetry"
-date: "2026-08-05T04:54:00+09:00"
+date: "2026-08-04T14:45:29+09:00"
 tags: ["notes-latest-tech"]
 weight: 170
 extra:
@@ -112,21 +112,19 @@ API로 생성한 신호를 SDK가 처리하고 OTLP로 전송한다.
 ```mermaid
 sequenceDiagram
   participant A as 애플리케이션
-    participant S as SDK
+  participant S as SDK
   participant C as Collector
   participant B as 백엔드
-  A->>S: 1. 계측 계약 전달
-  A->>S: 2. 신호 생성
-    S->>S: 3. 신호 처리
-    S->>C: 4. OTLP 표준 전송
-  C->>B: 5. 신호 라우팅
+  A->>S: 1. 신호 생성
+  S->>S: 2. 신호 처리
+  S->>C: 3. OTLP 표준 전송
+  C->>B: 4. 신호 라우팅
 ```
 
-1. **계측 계약 전달**: 맥락 전파 방식과 시맨틱 규약에 맞는 속성 정의
-2. **신호 생성**: 자동•수동 계측이 API를 통해 메트릭, 로그, 추적 생성
-3. **신호 처리**: SDK가 자원 정보를 결합하고 샘플링•일괄 처리 수행
-4. **OTLP 표준 전송**: 내보내기 모듈이 Collector에 신호 전달
-5. **신호 라우팅**: Collector가 수신•변환•필터링 후 목적별 백엔드로 전송
+1. **신호 생성**: API와 시맨틱 규약으로 메트릭•로그•추적 생성
+2. **신호 처리**: SDK가 자원 정보를 결합하고 샘플링•일괄 처리 수행
+3. **OTLP 표준 전송**: 내보내기 모듈이 Collector에 신호 전달
+4. **신호 라우팅**: Collector가 수신•변환•필터링 후 백엔드 전송
 
 #### 한줄 요약
 

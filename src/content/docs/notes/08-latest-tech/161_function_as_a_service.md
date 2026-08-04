@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "서비스형 함수 (Function as a Service, FaaS)"
-date: "2026-08-05T04:00:00+09:00"
+date: "2026-08-04T14:43:29+09:00"
 tags:
   - "notes-latest-tech"
 weight: 161
@@ -122,7 +122,8 @@ sequenceDiagram
   T->>R: 1. 함수 호출 요청
   R->>F: 2. 실행 환경 할당
   F->>S: 3. 멱등 확인•상태 반영
-  S-->>T: 처리 결과 반환
+  S-->>F: 상태 반영 결과 반환
+  F-->>E: 처리 결과 반환
 ```
 
 1. **함수 호출 요청**: 조건과 대상 함수 및 동시성 정책 확인
