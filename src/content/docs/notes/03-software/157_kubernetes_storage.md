@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:57:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -24,10 +24,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **쿠버네티스 영속 스토리지(Kubernetes Persistent Storage)**: PVC가 워크로드의 저장 요구를 선언하고 PV가 실제 저장 자원을 제공하며 StorageClass가 동적 프로비저닝 정책을 정의하는 구조이다.
+- **영속 볼륨 요청(Persistent Volume Claim, PVC)**: 애플리케이션의 저장 요구를 선언하는 리소스이다.
+- **영속 볼륨(Persistent Volume, PV)**: 클러스터가 제공하는 실제 영속 저장 자원이다.
+- **스토리지 클래스(StorageClass)**: 동적 볼륨의 공급과 회수 정책을 정의하는 리소스이다.
 
 </details>
 
-- 정의/개념: **영속 볼륨 요청(Persistent Volume Claim, PVC)•영속 볼륨(Persistent Volume, PV)•스토리지 클래스(StorageClass)** 기반으로 워크로드 저장 요구와 인프라 구현을 분리하는 쿠버네티스 영속 스토리지 구조
+- 정의/개념: **PVC•PV•StorageClass** 로 요구와 구현을 분리한 저장 구조
 - 배경/필요성: 파드 로컬 저장은 재생성•노드 장애 시 **데이터 소실**
 
 #### 한줄 요약
@@ -39,7 +42,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **회수 정책**: 회수 정책은 PVC 해제 뒤 PV와 실제 저장 데이터를 삭제할지 보존할지 결정한다.
-- **영속 볼륨 요청(Persistent Volume Claim, PVC)•영속 볼륨(Persistent Volume, PV) 분리**: 애플리케이션의 저장 요구와 실제 저장 자원 구현을 분리하는 추상화이다.
+- **요구•구현 분리**: PVC와 PV로 애플리케이션 요구와 저장 구현을 분리하는 추상화이다.
 - **컨테이너 스토리지 인터페이스(Container Storage Interface, CSI)**: 쿠버네티스가 저장소 공급자별 볼륨 생성•연결•마운트를 호출하는 표준 인터페이스이다.
 
 </details>
@@ -57,9 +60,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **StorageClass**: StorageClass는 동적 프로비저닝에 사용할 저장 유형, 프로비저너, 매개변수를 정의한다.
-- **영속 볼륨 요청•영속 볼륨(Persistent Volume Claim•Persistent Volume, PVC•PV) 제어기**: 저장 요청과 조건이 맞는 볼륨을 찾아 바인딩하는 구성요소이다.
-- **컨테이너 스토리지 인터페이스 제어기(Container Storage Interface Controller, CSI Controller)**: 백엔드 볼륨의 생성•삭제•연결을 수행하는 구성요소이다.
-- **CSI 노드•큐블릿(CSI Node•kubelet)**: 볼륨을 노드에 게시하고 파드 경로에 마운트하는 구성요소이다.
+- **PVC•PV 제어기**: 저장 요청과 조건이 맞는 볼륨을 찾아 바인딩하는 구성요소이다.
+- **CSI Controller**: 백엔드 볼륨의 생성•삭제•연결을 수행하는 구성요소이다.
+- **CSI Node**: 볼륨을 실행 노드에 게시하는 구성요소이다.
+- **큐블릿(kubelet)**: 볼륨을 파드 경로에 마운트하는 노드 에이전트이다.
 
 </details>
 
@@ -137,10 +141,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **PV**: PV는 클러스터가 제공하는 지속성 저장 자원을 나타내는 API 리소스다.
-- **영속 볼륨 요청(Persistent Volume Claim, PVC)**: 애플리케이션이 용량•접근 모드•스토리지 클래스를 선언하는 저장 요청이다.
-- **영속 볼륨(Persistent Volume, PV)**: 클러스터가 제공하는 지속성 저장 자원을 나타내는 리소스이다.
-- **스토리지 클래스(StorageClass)**: 동적 볼륨의 프로비저너•회수•바인딩 정책을 정의하는 리소스이다.
+- **저장 객체 선택 축**: 저장 요구•실제 자원•공급 정책의 역할 구분이다.
 
 </details>
 

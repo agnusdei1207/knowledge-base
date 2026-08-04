@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:55:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -23,7 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **쿠버네티스 서비스•인그레스(Kubernetes Service•Ingress)**: 서비스는 변하는 파드 집합에 고정 접점과 부하 분산을 제공하고, 인그레스는 외부 HTTP•HTTPS 요청의 호스트•경로를 서비스로 연결한다.
+- **쿠버네티스 서비스(Kubernetes Service)**: 변하는 파드 집합에 고정 접점과 부하 분산을 제공한다.
+- **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 웹 요청의 호스트•경로를 서비스로 연결한다.
 
 </details>
 
@@ -59,7 +60,8 @@ extra:
 - **EndpointSlice**: EndpointSlice는 서비스가 사용할 백엔드 네트워크 주소와 준비 상태를 분산 저장하는 리소스다.
 - **서비스 데이터면**: 가상 인터넷 프로토콜 주소와 포트를 준비된 백엔드로 전달하는 실행 경로이다.
 - **인그레스 컨트롤러(Ingress Controller)**: 인그레스 규칙을 실제 프록시•로드밸런서 설정으로 구현하는 구성요소이다.
-- **도메인 이름 시스템(Domain Name System, DNS)•TLS 시크릿**: 외부 서비스 이름과 암호화 통신용 인증서를 제공하는 구성요소이다.
+- **도메인 이름 시스템(Domain Name System, DNS)**: 외부 서비스 이름을 네트워크 주소에 연결하는 체계이다.
+- **TLS 시크릿**: 암호화 통신용 인증서와 개인 키를 보관하는 리소스이다.
 
 </details>
 
@@ -131,9 +133,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Ingress**: Ingress는 호스트와 경로 규칙에 따라 외부 L7 요청을 내부 서비스로 라우팅하는 API 리소스다.
 - **서비스(Service)**: 변하는 파드 집합에 고정 이름•가상 주소와 전송 계층(Layer 4, L4) 부하 분산을 제공하는 리소스이다.
-- **인그레스(Ingress)**: 호스트와 경로 규칙에 따라 외부 응용 계층(Layer 7, L7) 요청을 내부 서비스로 라우팅하는 응용 프로그래밍 인터페이스(Application Programming Interface, API) 리소스이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 기능을 요청•응답 규칙으로 제공하는 접점이다.
 
 </details>
 
@@ -152,8 +153,10 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **백엔드 누락**: 백엔드 누락은 선택자 불일치나 준비 실패로 서비스에 연결할 엔드포인트가 없는 문제다.
-- **연결 배출•유예**: 종료 파드를 준비 대상에서 제외하고 진행 중인 연결이 끝날 시간을 보장하는 절차이다.
-- **네트워크 정책(NetworkPolicy)•웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 파드 간 네트워크와 외부 웹 요청의 비인가 접근을 제한하는 통제이다.
+- **연결 배출**: 종료 파드를 준비 대상에서 제외하는 절차이다.
+- **종료 유예**: 진행 중인 연결이 끝날 시간을 보장하는 절차이다.
+- **네트워크 정책(NetworkPolicy)**: 파드 간 비인가 네트워크 접근을 제한하는 통제이다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: 외부 웹 요청의 공격을 차단하는 통제이다.
 
 </details>
 

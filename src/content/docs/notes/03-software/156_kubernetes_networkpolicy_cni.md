@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:56:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -23,11 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)•네트워크 정책(NetworkPolicy)**: CNI 플러그인은 파드 인터페이스와 연결성을 구현하고 NetworkPolicy는 선택한 파드의 허용 송수신 통신을 선언한다.
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드 인터페이스와 연결성을 구현하는 플러그인 규격이다.
+- **네트워크 정책(NetworkPolicy)**: 선택한 파드의 허용 송수신 통신을 선언하는 리소스이다.
 
 </details>
 
-- 정의/개념: 파드 연결을 구현하는 **컨테이너 네트워크 인터페이스(Container Network Interface, CNI) 플러그인** 과 허용 통신을 선언하는 **네트워크 정책(NetworkPolicy)** 기반 네트워크 제어 체계
+- 정의/개념: 파드 연결과 허용 통신을 분리한 **CNI•NetworkPolicy** 체계
 - 배경/필요성: 평면 네트워크는 침해 파드의 **불필요한 횡적 이동** 허용
 
 #### 한줄 요약
@@ -39,7 +40,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **송신•수신 양방향 허용**: 통신은 송신 측 Egress와 수신 측 Ingress 정책이 각각 허용해야 성립할 수 있다.
-- **연결 구성•정책 통제 분리**: 파드 주소•경로 생성과 패킷 허용•차단을 서로 다른 책임으로 나누는 원칙이다.
+- **연결 구성**: 파드 주소와 네트워크 경로를 생성하는 책임이다.
+- **정책 통제**: 패킷의 허용과 차단을 판정하는 책임이다.
 - **선택 방향 격리**: 네트워크 정책이 선택한 파드와 지정한 송신•수신 방향에만 기본 격리가 적용되는 특성이다.
 
 </details>
@@ -56,10 +58,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **정책 제어기•데이터면**: 정책 제어기는 NetworkPolicy를 해석하고 데이터면은 실제 패킷 허용•차단을 집행한다.
+- **정책 제어기**: NetworkPolicy를 해석해 집행 규칙으로 변환하는 구성요소이다.
+- **데이터면**: 실제 패킷의 허용과 차단을 집행하는 구성요소이다.
 - **인터넷 프로토콜 주소 관리(Internet Protocol Address Management, IPAM)**: 파드에 인터넷 프로토콜 주소를 할당•회수하고 주소 풀을 관리하는 기능이다.
 - **파드•네임스페이스 레이블**: 보호 대상과 허용 상대를 선택하는 키•값 메타데이터이다.
-- **네트워크 정책(NetworkPolicy)**: 허용할 통신 방향•상대•포트를 선언하는 쿠버네티스 리소스이다.
 
 </details>
 
@@ -135,8 +137,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드 인터페이스•주소•경로를 구성하는 플러그인 규격이다.
-- **네트워크 정책(NetworkPolicy)**: 파드 간 또는 외부와의 수신•송신 트래픽 허용 조건을 선언하는 리소스이다.
 - **인터넷 프로토콜 블록(Internet Protocol Block, IPBlock)**: 허용하거나 제외할 외부 인터넷 프로토콜 주소 대역을 표현하는 선택 조건이다.
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크 경로에서 분할 없이 전달할 수 있는 최대 패킷 크기이다.
 

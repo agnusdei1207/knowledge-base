@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "VM vs 컨테이너 비교 (VM vs Container)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:51:00+09:00"
 tags: ["notes-software"]
 weight: 151
 extra:
@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 머신(Virtual Machine, VM)•컨테이너(Container)**: 가상 머신은 하이퍼바이저 위에서 독립 운영체제를 실행하고, 컨테이너는 호스트 커널을 공유하며 네임스페이스•제어 그룹으로 프로세스와 자원을 격리한다.
+- **가상 머신(Virtual Machine, VM)**: 하이퍼바이저 위에서 독립 운영체제를 실행하는 환경이다.
+- **컨테이너(Container)**: 호스트 커널을 공유하며 프로세스와 자원을 격리하는 환경이다.
 
 </details>
 
@@ -39,7 +40,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **VM 독립 커널**: 가상 머신은 하이퍼바이저 위에서 게스트 운영체제와 독립 커널을 실행해 강한 격리를 제공한다.
-- **네임스페이스(Namespace)•제어 그룹(Control Group, cgroup)**: 컨테이너가 볼 수 있는 커널 자원을 분리하고 중앙처리장치•메모리 사용량을 제한하는 기능이다.
+- **네임스페이스(Namespace)**: 컨테이너가 볼 수 있는 커널 자원을 분리하는 기능이다.
+- **제어 그룹(Control Group, cgroup)**: 컨테이너의 CPU•메모리 사용량을 제한하는 기능이다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하는 컴퓨팅 자원이다.
 
 </details>
 
@@ -92,8 +95,8 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **5. RootFS•격리•자원 명세**: 컨테이너 실행 전에 루트 파일 시스템, 격리 경계, CPU•메모리 한도를 함께 명세해야 한다.
 - **루트 파일시스템(Root File System, RootFS)**: 컨테이너 프로세스가 루트 경로로 보는 이미지 기반 파일 체계이다.
+- **5. RootFS•격리•자원 명세**: 컨테이너 실행 전에 파일 체계와 자원 한도를 명세하는 단계이다.
 
 </details>
 
@@ -133,8 +136,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 머신**: 가상 머신은 하드웨어를 가상화해 각 인스턴스가 독립 운영체제를 갖도록 하는 실행 환경이다.
-- **컨테이너(Container)**: 호스트 커널을 공유하면서 프로세스•파일•네트워크•자원 사용을 격리한 실행 환경이다.
+- **실행 환경 선택 축**: 커널 격리와 시작 속도•밀도의 비교 기준이다.
 
 </details>
 

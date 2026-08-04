@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T13:58:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -38,7 +38,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Seccomp•AppArmor**: Seccomp는 시스템 호출을 제한하고 AppArmor는 프로세스의 파일•기능 접근을 정책으로 통제한다.
 - **보안 컴퓨팅 모드(Secure Computing Mode, Seccomp)**: 컨테이너 프로세스가 사용할 수 있는 리눅스 시스템 호출을 제한하는 커널 보안 기능이다.
 - **앱아머(AppArmor)**: 프로세스별 프로필로 파일•장치•기능 접근을 제한하는 리눅스 강제 접근 통제 기능이다.
 
@@ -56,9 +55,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SecurityContext•프로필**: SecurityContext와 보안 프로필은 사용자 권한, 기능, 파일 시스템, 시스템 호출 제한을 실행 시점에 적용한다.
+- **SecurityContext**: 사용자•기능 권한과 파일 시스템 설정을 파드에 선언하는 필드이다.
+- **보안 프로필**: 시스템 호출과 자원 접근 제한을 실행 시점에 적용하는 정책이다.
 - **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 이미지에 포함된 소프트웨어 구성요소와 버전을 기록한 목록이다.
-- **승인 제어(Admission Control)•게이트키퍼(Gatekeeper)**: 배포 객체를 저장하기 전에 정책 위반 여부를 검사•차단하는 구성요소이다.
+- **승인 제어(Admission Control)**: 배포 객체를 저장하기 전에 정책을 검사하는 단계이다.
+- **게이트키퍼(Gatekeeper)**: 승인 단계에서 정책 위반 객체를 차단하는 구성요소이다.
 - **오픈 컨테이너 이니셔티브(Open Container Initiative, OCI) 실행 명세**: 런타임이 컨테이너 프로세스를 만들 때 사용할 표준 설정 형식이다.
 
 </details>
@@ -97,7 +98,7 @@ block-beta
 - **5. 호출•접근 판정**: Seccomp와 AppArmor 프로필이 시스템 호출과 자원 접근의 허용 여부를 판정한다.
 - **1. 이미지•보안 설정 검증**: 이미지 출처•서명과 특권•보안 프로필의 정책 위반 여부를 판정하는 단계이다.
 - **2. 승인 파드•프로필 전달**: 승인된 파드 명세와 커널 보안 프로필을 실행 노드에 제공하는 단계이다.
-- **3. 사용자•권한 설정 전달**: 사용자•기능 권한을 오픈 컨테이너 이니셔티브 실행 명세로 변환하는 단계이다.
+- **3. 사용자•권한 설정 전달**: 사용자•기능 권한을 OCI 실행 명세로 변환하는 단계이다.
 - **4. 격리 프로세스 시작**: 제어 그룹과 커널 프로필을 적용해 컨테이너 프로세스를 시작하는 단계이다.
 
 </details>
@@ -135,8 +136,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OPA•Gatekeeper**: OPA•Gatekeeper는 쿠버네티스 승인 단계에서 정책 위반 리소스의 생성을 차단한다.
-- **오픈 정책 에이전트(Open Policy Agent, OPA)•게이트키퍼(Gatekeeper)**: 쿠버네티스 승인 단계에서 정책 위반 리소스의 생성을 차단하는 통제이다.
+- **오픈 정책 에이전트(Open Policy Agent, OPA)**: 정책을 코드로 판정하는 범용 엔진이다.
+- **Gatekeeper 연동**: OPA 정책을 쿠버네티스 승인 단계에 적용하는 통제이다.
 - **보안 강화 리눅스(Security-Enhanced Linux, SELinux)**: 보안 레이블과 정책으로 프로세스의 자원 접근을 강제 통제하는 기능이다.
 
 </details>
