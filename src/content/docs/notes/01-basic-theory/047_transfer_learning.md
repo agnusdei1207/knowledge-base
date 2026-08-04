@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "전이 학습 (Transfer Learning)"
-date: "2026-08-04T22:01:00+09:00"
+date: "2026-08-05T00:35:28+09:00"
 tags:
   - "notes-basic-theory"
 weight: 47
@@ -66,15 +66,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    F["전이 전략"]
-    B["사전 학습 백본"]
-    H["태스크 헤드"]
-    F --- B
-    B --- H
+```text
+             [전이 전략]
+                  |
+                  |
+        [사전 학습 백본] -- [태스크 헤드]
 ```
+
+선의 의미: 사전 학습 백본과 태스크 헤드는 모델의 정적 결합이고, 전이 전략은 두 구성의 재학습 범위를 규정하는 연결이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

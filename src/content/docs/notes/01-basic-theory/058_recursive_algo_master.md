@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "재귀 알고리즘•마스터 정리 (Recursive Algorithm Master Theorem)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 58
@@ -64,17 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    F["재귀 함수"]
-    S["호출 스택"]
-    R["점화식"]
-    M["마스터 정리"]
-    F --- S
-    F --- R
-    R --- M
+```text
+[호출 스택] ----- [재귀 함수] ----- [점화식] ----- [마스터 정리]
 ```
+
+선의 의미: 선은 재귀 함수의 실행 구조를 호출 스택이, 비용 구조를 점화식과 마스터 정리가 각각 모델링하는 정적 분석 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

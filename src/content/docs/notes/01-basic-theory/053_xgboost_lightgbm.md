@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "XGBoost•LightGBM (XGBoost and LightGBM)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T01:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 53
@@ -66,17 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    O["목적 함수"]
-    T["트리 학습기"]
-    M["앙상블 모델"]
-    V["검증 평가기"]
-    O --- T
-    T --- M
-    M --- V
+```text
+[목적 함수] -- [트리 학습기] -- [앙상블 모델]
+                                      |
+                                [검증 평가기]
 ```
+
+선의 의미: 트리 학습기가 목적 함수의 미분값을 사용하고, 앙상블 모델이 보정 트리를 보유하며 검증 평가기가 모델 예측을 참조하는 정적 의존 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

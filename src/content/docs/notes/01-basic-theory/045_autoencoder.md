@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오토인코더 (Autoencoder)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:35:28+09:00"
 tags:
   - "notes-basic-theory"
 weight: 45
@@ -65,19 +65,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    E["인코더"]
-    Z["잠재 공간•병목"]
-    D["디코더"]
-    space
-    L["재구성 손실 함수"]
-    space
-    E --- Z
-    Z --- D
-    D --- L
+```text
+[인코더] -- [잠재 공간•병목] -- [디코더]
+                                      |
+                                      |
+                            [재구성 손실 함수]
 ```
+
+선의 의미: 인코더, 잠재 공간•병목, 디코더는 직렬 모델 구조이고 재구성 손실 함수는 디코더의 복원 결과와 결합된 구성이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

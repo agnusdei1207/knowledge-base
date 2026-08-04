@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "손실 함수: Cross-Entropy•MSE (Loss Functions)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:35:28+09:00"
 tags:
   - "notes-basic-theory"
 weight: 42
@@ -71,18 +71,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    L["학습 루프"]
-    M["모델"]
-    F["손실 함수"]
-    R["축소 연산기"]
-    L --- M
-    L --- F
-    M --- F
-    F --- R
+```text
+             [학습 루프]
+               /     \
+              /       \
+          [모델] -- [손실 함수] -- [축소 연산기]
 ```
+
+선의 의미: 학습 루프와 모델이 손실 함수 및 축소 연산기와 결합된 정적 학습 구성 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

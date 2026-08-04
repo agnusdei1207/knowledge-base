@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-04T22:24:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -69,17 +69,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    I["입력 전처리기"]
-    B["특징 추출 백본"]
-    G["특징 집계"]
-    H["분류 헤드"]
-    I --- B
-    B --- G
-    G --- H
+```text
+[입력 전처리기] ----- [특징 추출 백본] ----- [특징 집계] ----- [분류 헤드]
 ```
+
+선의 의미: 선은 입력 텐서, 특징 맵과 집계 벡터를 공유하는 인접 구성요소의 정적 인터페이스 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

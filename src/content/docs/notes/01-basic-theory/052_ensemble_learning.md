@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "앙상블 학습: 배깅•부스팅•스태킹 (Ensemble Learning)"
-date: "2026-08-04T22:18:00+09:00"
+date: "2026-08-05T01:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 52
@@ -65,15 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["표본 생성기"]
-    B["기본 학습기"]
-    A["예측 결합기"]
-    S --- B
-    B --- A
+```text
+[표본 생성기] -- [기본 학습기] -- [예측 결합기]
 ```
+
+선의 의미: 기본 학습기가 표본 생성기의 학습 집합을 사용하고 예측 결합기가 기본 학습기의 개별 예측을 공유하는 정적 의존 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

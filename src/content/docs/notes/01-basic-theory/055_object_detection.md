@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "객체 탐지: YOLO•R-CNN (Object Detection)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 55
@@ -68,15 +68,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    F["특징 추출기"]
-    H["탐지 헤드"]
-    N["NMS 후처리"]
-    F --- H
-    H --- N
+```text
+[특징 추출기] ----- [탐지 헤드] ----- [NMS 후처리]
 ```
+
+선의 의미: 선은 다중 해상도 특징과 후보 박스를 공유하는 인접 구성요소의 정적 인터페이스 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

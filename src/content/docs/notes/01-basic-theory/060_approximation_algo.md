@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "근사 알고리즘 (Approximation Algorithm)"
-date: "2026-08-04T22:34:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 60
@@ -69,17 +69,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    M["문제 모델"]
-    C["해 구성기"]
-    V["실행 가능성 검사"]
-    B["근사비 분석"]
-    M --- C
-    C --- V
-    V --- B
+```text
+[문제 모델] ----- [해 구성기] ----- [실행 가능성 검사] ----- [근사비 분석]
 ```
+
+선의 의미: 선은 목적 함수•제약, 후보 해와 품질 경계를 공유하는 인접 구성요소의 정적 의존 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

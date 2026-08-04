@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:35:28+09:00"
 tags:
   - "notes-basic-theory"
 weight: 41
@@ -68,18 +68,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    L["학습 루프"]
-    M["모델"]
-    O["최적화기"]
-    S["최적화기 상태"]
-    L --- M
-    L --- O
-    M --- O
-    O --- S
+```text
+             [학습 루프]
+               /     \
+              /       \
+          [모델] -- [최적화기] -- [최적화기 상태]
 ```
+
+선의 의미: 네 구성요소가 학습 제어, 모델 계산, 파라미터 최적화, 최적화 상태 보관을 위해 직접 연결된 정적 협력 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

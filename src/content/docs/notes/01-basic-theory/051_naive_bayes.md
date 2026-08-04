@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "나이브 베이즈 분류(Naive Bayes Classifier)"
-date: "2026-08-04T22:13:00+09:00"
+date: "2026-08-05T01:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 51
@@ -66,15 +66,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    E["확률 추정기"]
-    M["확률 모델"]
-    C["MAP 분류기"]
-    E --- M
-    M --- C
+```text
+[확률 추정기] -- [확률 모델] -- [MAP 분류기]
 ```
+
+선의 의미: 확률 추정기가 만든 파라미터를 확률 모델이 보관하고 MAP 분류기가 해당 모델을 참조하는 정적 의존 관계다.
 
 | 구성요소 | 책임 |
 |:---|:---|

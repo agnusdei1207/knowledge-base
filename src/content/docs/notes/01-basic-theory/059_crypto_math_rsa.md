@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암호 수학: 이산 대수•RSA 원리(Cryptography Mathematics)"
-date: "2026-08-04T09:53:42+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 59
@@ -70,17 +70,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 2
-    G["키 생성기"]
-    S["개인키 저장소"]
-    O["OAEP•PSS 처리기"]
-    K["공개키•개인키 연산기"]
-    G --- S
-    G --- K
-    O --- K
+```text
+[개인키 저장소] ----- [키 생성기] ----- [공개키•개인키 연산기] ----- [OAEP•PSS 처리기]
 ```
+
+선의 의미: 선은 비밀 키 재료, 키 쌍과 패딩 블록을 공유하는 RSA 구성요소 사이의 정적 의존 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

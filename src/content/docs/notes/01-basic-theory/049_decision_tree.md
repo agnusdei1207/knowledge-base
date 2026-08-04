@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "결정 트리 (Decision Tree)"
-date: "2026-08-04T22:07:00+09:00"
+date: "2026-08-05T01:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 49
@@ -68,15 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    R["루트 노드"]
-    N["내부 노드"]
-    L["리프 노드"]
-    R --- N
-    N --- L
+```text
+[루트 노드]
+     |
+[내부 노드]
+     |
+[리프 노드]
 ```
+
+선의 의미: 루트 노드가 내부 노드를 포함하고 내부 노드가 리프 노드를 자식으로 갖는 결정 트리의 정적 부모•자식 계층이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

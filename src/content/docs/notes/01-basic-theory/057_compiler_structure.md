@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "컴파일러 구조: 어휘•구문•의미 분석 (Compiler Structure)"
-date: "2026-08-04T22:29:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 57
@@ -71,19 +71,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    FE["전단부"]
-    ST["심볼 테이블"]
-    IR["중간 표현"]
-    OPT["최적화기"]
-    BE["후단부"]
-    FE --- ST
-    FE --- IR
-    IR --- OPT
-    OPT --- BE
+```text
+   [심볼 테이블]
+          |
+      [전단부] ----- [중간 표현] ----- [최적화기] ----- [후단부]
 ```
+
+선의 의미: 가로선은 IR을 중심으로 결합된 컴파일러 모듈 경계이고, 세로선은 전단부가 생성•참조하는 심볼 테이블의 정적 의존 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
