@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "WDM•DWDM 광 다중화 (WDM DWDM)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:36:00+09:00"
 tags:
   - "notes-network"
 weight: 70
@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: 여러 광 파장을 한 광섬유로 보내는 **파장 분할 다중화(Wavelength Division Multiplexing, WDM) 광 다중화 기술**
+- 정의/개념: 여러 광 파장을 한 광섬유로 보내는 **WDM 광 다중화 기술**
 - 배경/필요성: 단일 파장 링크는 용량 확대마다 **광섬유 증설 부담**
 
 #### 한줄 요약
@@ -40,7 +40,6 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **파장 분할 다중화(Wavelength Division Multiplexing, WDM)**: 서로 다른 광 파장을 한 광섬유에 결합해 병렬 전송하는 기술
 - **인접 채널 간섭(Adjacent Channel Interference)**: 가까운 파장 채널의 신호 성분이 서로 겹쳐 품질을 낮추는 현상
 - **광 신호대잡음비(Optical Signal-to-Noise Ratio, OSNR•오에스엔알)**: SNR 앞에 광을 뜻하는 O를 붙인 표기이며, 기준 대역의 광 신호 전력과 잡음 전력 비로 복호 여유를 판단하는 지표
 
@@ -48,7 +47,7 @@ extra:
 
 - **용량 확장**: 파장 다중화로 광섬유당 병렬 전송
 - **채널 간섭**: 좁은 간격에서 인접 파장 간섭 증가
-- **증폭 한계**: 신호와 잡음 동시 증폭으로 **광 신호대잡음비(Optical Signal-to-Noise Ratio, OSNR)** 저하
+- **증폭 한계**: 신호와 잡음 동시 증폭으로 **OSNR** 저하
 
 #### 한줄 요약
 
@@ -65,7 +64,7 @@ extra:
 
 </details>
 
-**재구성 광 분기결합 다중화기(Reconfigurable Optical Add-Drop Multiplexer, ROADM)** 가 파장을 분기•우회하고 **에르븀 첨가 광섬유 증폭기(Erbium-Doped Fiber Amplifier, EDFA)** 가 신호를 증폭하며 **광 채널 모니터(Optical Channel Monitor, OCM)** 가 채널 품질을 측정한다.
+**ROADM**이 파장을 분기•우회하고 **EDFA**가 신호를 증폭하며 **OCM**이 채널 품질을 측정한다.
 
 ```mermaid
 block-beta
@@ -122,8 +121,8 @@ sequenceDiagram
 1. **경로•연속 슬롯 조회**: 모든 구간의 같은 파장•슬롯 확인
 2. **광 자원 할당**: 연속성과 경합을 만족하는 후보 지정
 3. **파장•변조 신호 전달**: 거리•용량에 맞는 광 신호 생성
-4. **파장 경로 구성**: **재구성 광 분기결합 다중화기(Reconfigurable Optical Add-Drop Multiplexer, ROADM)** 의 추가•분기 포트 연결
-5. **광 품질 측정 요청**: 종단 전력•파장•**광 신호대잡음비(Optical Signal-to-Noise Ratio, OSNR)** 확인
+4. **파장 경로 구성**: **ROADM**의 추가•분기 포트 연결
+5. **광 품질 측정 요청**: 종단 전력•파장•**OSNR** 확인
 
 #### 한줄 요약
 
@@ -131,15 +130,7 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **저밀도 파장 분할 다중화(Coarse Wavelength Division Multiplexing, CWDM)**: 넓은 파장 간격과 비냉각 레이저로 비용을 낮춘 WDM 방식
-- **고밀도 파장 분할 다중화(Dense Wavelength Division Multiplexing, DWDM)**: 좁은 주파수 간격으로 많은 광 채널을 전송하는 WDM 방식
-- **유연 격자(Flexible Grid, Flex-Grid•플렉스 그리드)**: Flexible을 Flex로 줄이고 Grid와 결합한 표기이며, 광 채널의 중심 주파수와 슬롯 폭을 세밀한 단위로 가변 할당하는 방식
-
-</details>
-
-| 판단 기준 | **저밀도 파장 분할 다중화(Coarse Wavelength Division Multiplexing, CWDM)** | **고밀도 파장 분할 다중화(Dense Wavelength Division Multiplexing, DWDM)** | **유연 격자(Flexible Grid, Flex-Grid)** |
+| 판단 기준 | **CWDM** | **DWDM** | **Flex-Grid** |
 |:---|:---|:---|:---|
 | 적용 기준 | 단거리•저비용 링크 | 장거리•다채널 백본 | 고속 채널별 폭 최적화 |
 | 핵심 특징 | 넓은 간격•적은 채널 | 고정 격자•고밀도 채널 | 가변 중심 주파수•슬롯 폭 |
@@ -157,15 +148,14 @@ sequenceDiagram
 
 - **광 손실(Optical Loss)**: 광섬유와 접속점에서 신호 전력이 감소하는 현상
 - **스펙트럼 단편화(Spectrum Fragmentation)**: 빈 슬롯이 흩어져 필요한 연속 폭을 할당하지 못하는 상태
-- **인접 채널 간섭(Adjacent Channel Interference)**: 가까운 파장 채널의 신호 성분이 서로 겹쳐 품질을 낮추는 현상
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 전 구간의 연속 파장•슬롯 부재 | **연속성•경합 검사** 수행 | 개통 실패 방지 |
-| 장거리 증폭으로 수신 **광 신호대잡음비(Optical Signal-to-Noise Ratio, OSNR)** 부족 | **거리별 변조•증폭•출력** 조정 | 복호 여유 확보 |
-| 흩어진 빈 슬롯으로 폭 할당 실패 | **유연 격자(Flexible Grid, Flex-Grid) 슬롯 재배치** | 대역 활용 향상 |
+| 장거리 증폭으로 수신 **OSNR** 부족 | **거리별 변조•증폭•출력** 조정 | 복호 여유 확보 |
+| 흩어진 빈 슬롯으로 폭 할당 실패 | **Flex-Grid 슬롯 재배치** | 대역 활용 향상 |
 
 #### 한줄 요약
 
@@ -175,13 +165,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **EDFA•ROADM•OCM**: 각각 광 신호 증폭•원격 파장 분기결합•채널 품질 측정을 담당하는 광전송 장비
 - **신규 광섬유 없는 용량 확장**: 기존 한 가닥의 광섬유에 여러 파장을 병렬 전송해 포설 없이 전송 용량을 늘리는 효과
 - **광 경로 공학 제약**: 채널 수가 늘수록 OSNR•간섭•손실•파장 연속성을 함께 설계해야 하는 조건
 
 </details>
 
-- 단거리•저비용은 **저밀도 파장 분할 다중화(Coarse Wavelength Division Multiplexing, CWDM)**, 장거리•다채널은 **고밀도 파장 분할 다중화(Dense Wavelength Division Multiplexing, DWDM)**, 가변 폭은 **유연 격자(Flexible Grid, Flex-Grid)**
+- 단거리•저비용은 **CWDM**, 장거리•다채널은 **DWDM**, 가변 폭은 **Flex-Grid**
 
 #### 한줄 요약
 

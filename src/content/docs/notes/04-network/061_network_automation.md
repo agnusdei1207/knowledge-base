@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "네트워크 자동화 - Ansible•RESTCONF•NETCONF (Network Automation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:20:00+09:00"
 tags:
   - "notes-network"
 weight: 61
@@ -24,11 +24,13 @@ extra:
 
 - **네트워크 자동화(Network Automation)**: 목표 네트워크 상태를 모델과 코드로 정의하고 반복 가능한 절차로 검증•배포•복구하는 운영 체계
 - **진실의 원천(Source of Truth)**: 주소•토폴로지•정책의 의도 상태를 유일한 기준으로 관리하는 저장소
+- **명령줄 인터페이스(Command-Line Interface, CLI)**: 텍스트 명령과 비구조 출력을 사용하는 조작 방식
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 구조화된 요청으로 설정과 상태를 다루는 호출 규격
 
 </details>
 
 - 정의/개념: 목표 망 상태를 모델•코드로 배포하는 **운영 자동화 체계**
-- 배경/필요성: 장비별 수동 명령줄 인터페이스(Command-Line Interface, CLI)는 **설정 편차•감사 누락** 유발
+- 배경/필요성: 장비별 수동 CLI는 **설정 편차•감사 누락** 유발
 
 #### 한줄 요약
 
@@ -57,12 +59,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **YANG**: 네트워크 설정•상태 데이터의 계층•자료형•제약을 정의하는 모델링 언어
-- **네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)**: YANG 데이터를 원격 프로시저 호출(Remote Procedure Call, RPC)로 조회•변경하며 잠금•검증•커밋을 지원하는 프로토콜
-- **RESTCONF(REST Configuration Protocol)**: 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 메서드와 자바스크립트 객체 표기법(JavaScript Object Notation, JSON)•확장성 마크업 언어(Extensible Markup Language, XML)로 YANG 데이터를 조회•변경하는 프로토콜
+- **네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)**: YANG 데이터를 RPC로 조회•변경하는 관리 프로토콜
+- **원격 프로시저 호출(Remote Procedure Call, RPC)**: 원격 시스템의 기능을 호출하는 통신 방식
+- **REST 설정 프로토콜(REST Configuration Protocol, RESTCONF)**: HTTP와 JSON•XML로 YANG 데이터를 다루는 프로토콜
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 자원을 요청•응답으로 전달하는 프로토콜
+- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)**: 키와 값으로 구조화 데이터를 표현하는 형식
+- **확장성 마크업 언어(Extensible Markup Language, XML)**: 태그로 구조화 데이터를 표현하는 언어
 - **앤서블(Ansible)**: 인벤토리와 선언형 작업 파일로 여러 장비의 설정 작업을 조율하는 자동화 도구
-- **지속적 통합(Continuous Integration, CI)•응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 변경 검증을 자동화하고 구조화된 설정 요청을 전달하는 개발•호출 방식
-- **진실의 원천(Source of Truth)**: 주소•토폴로지•정책의 의도 상태를 유일한 기준으로 관리하는 저장소
 
 </details>
 
@@ -96,11 +99,10 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **후보 설정(Candidate Configuration)**: 실행 설정에 반영하기 전에 변경을 편집•검증하는 네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF) 데이터 저장소
+- **후보 설정(Candidate Configuration)**: 실행 설정에 반영하기 전에 변경을 검증하는 NETCONF 저장소
 - **기능 광고(Capability Advertisement)**: 장비가 지원하는 NETCONF 기능을 관리 체계에 알리는 절차
 - **롤백(Rollback)**: 실패한 변경을 이전의 정상 설정으로 되돌리는 복구 작업
-- **깃(Git)•지속적 통합(Continuous Integration, CI)**: 설정 변경 이력을 관리하고 구문•YANG•정책 검사를 자동 실행하는 도구와 방식
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 자동화 실행기가 장비의 설정과 상태를 구조화해 다루는 호출 규약
+- **깃(Git)**: 설정 코드의 변경•리뷰•승인 이력을 관리하는 버전 관리 도구
 
 </details>
 
@@ -135,14 +137,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **YANG•NETCONF•RESTCONF**: YANG은 장비 설정•상태 모델을 정의하고, 네트워크 설정 프로토콜(Network Configuration Protocol, NETCONF)과 REST 설정 프로토콜(REST Configuration Protocol, RESTCONF)은 해당 모델 기반 데이터를 조회•변경하는 관리 프로토콜
-- **RPC•HTTP•JSON•XML**: 원격 프로시저 호출(Remote Procedure Call, RPC), 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP), 자바스크립트 객체 표기법(JavaScript Object Notation, JSON), 확장성 마크업 언어(Extensible Markup Language, XML)는 호출•전송•표현 방식
-- **CI•API•CLI**: 지속적 통합(Continuous Integration, CI), 응용 프로그래밍 인터페이스(Application Programming Interface, API), 명령줄 인터페이스(Command-Line Interface, CLI)는 자동 검증•구조화 호출•명령행 조작 방식
-
-</details>
-
 | 판단 기준 | **NETCONF** | **RESTCONF** | **CLI 자동화** |
 |:---|:---|:---|:---|
 | 적용 기준 | 잠금•검증•커밋 필요 | 웹 응용•포털 API 연계 | 구조화 API 없는 장비 |
@@ -162,8 +156,6 @@ sequenceDiagram
 - **템플릿(Template)**: 변수와 공통 형식으로 장비별 설정을 생성하는 코드
 - **도달성(Reachability)**: 출발지에서 목적지까지 패킷이 전달될 수 있는 상태
 - **텔레메트리(Telemetry)**: 장비의 상태•성능 데이터를 지속 수집해 관리 체계에 전달하는 기능
-- **YANG 모델•응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 장비 설정•상태의 구조와 자동화 호출 규격
-- **명령줄 인터페이스(Command-Line Interface, CLI)**: 텍스트 명령과 비구조화 출력을 사용하는 장비 조작 방식
 
 </details>
 
@@ -179,13 +171,6 @@ sequenceDiagram
 - 일부 스위치에서 먼저 설정을 검증하고 트래픽 경로가 유지될 때 나머지에 적용한다
 
 ## Ⅶ. 결론
-
-<details><summary>핵심 용어</summary>
-
-- **깃(Git)**: 네트워크 설정 코드의 변경•리뷰•승인 이력을 관리하는 버전 관리 도구
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어가 구조화된 요청으로 장비 설정과 상태를 다루는 호출 규약
-
-</details>
 
 - 영향 큰 변경은 **소수 선행 배포**, 복구 목표 초과 시 **자동 롤백**
 

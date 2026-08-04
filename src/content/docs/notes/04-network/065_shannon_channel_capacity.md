@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "채널 용량 : 섀넌 한계 (Shannon Channel Capacity)"
-date: "2026-08-03T15:05:00+09:00"
+date: "2026-08-04T17:26:00+09:00"
 tags:
   - "notes-network"
 weight: 65
@@ -24,10 +24,11 @@ extra:
 
 - **채널 용량(Channel Capacity)**: 채널 부호를 충분히 길게 설계할 때 신뢰성 있게 전달 가능한 최대 정보율 $C$
 - **섀넌 한계(Shannon Limit)**: 주어진 채널에서 오류 확률을 임의로 낮출 수 있는 정보 전송률의 이론적 경계
+- **가산 백색 가우스 잡음(Additive White Gaussian Noise, AWGN)**: 전력 밀도가 일정하고 진폭이 가우스 분포인 잡음
 
 </details>
 
-- 정의/개념: 가산 백색 가우스 잡음(Additive White Gaussian Noise, AWGN) 채널이 신뢰성 있게 전달할 **최대 정보율의 이론 경계**
+- 정의/개념: AWGN 채널이 신뢰성 있게 전달할 **최대 정보율의 이론 경계**
 - 배경/필요성: 경험적 속도 산정의 **가능성 오판**
 
 #### 한줄 요약
@@ -41,12 +42,13 @@ extra:
 - **대역폭(Bandwidth)**: 채널이 사용하는 주파수 범위 $B$
 - **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력 $S$를 같은 대역의 잡음 전력 $N$으로 나눈 비율
 - **로그 관계(Logarithmic Relationship)**: SNR 증가에 따른 용량 증가가 로그 함수 형태로 점차 둔화되는 관계
+- **메가헤르츠(Megahertz, MHz)**: 초당 백만 주기의 주파수 단위
 
 </details>
 
 ![대역폭과 신호대잡음비에 따른 Shannon 이론 채널 용량](/study/diagrams/shannon-capacity.svg)
 
-> 파란 1메가헤르츠(Megahertz, MHz)와 붉은 2MHz 선은 대역폭을 두 배로 하면 용량도 두 배가 되지만 SNR 증가는 로그 형태로 용량을 높이는 이론 상한이며, 실제 변조•부호화 처리량은 이보다 낮다.
+> 파란 1MHz와 붉은 2MHz 선은 대역폭을 두 배로 하면 용량도 두 배가 되지만 SNR 증가는 로그 형태로 용량을 높이는 이론 상한이며, 실제 변조•부호화 처리량은 이보다 낮다.
 
 - **달성 가능 영역**: 용량 미만에서 오류 확률 감소
 - **불가능 영역**: 용량 초과에서 신뢰 통신 불가
@@ -60,7 +62,6 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **가산 백색 가우스 잡음(Additive White Gaussian Noise, AWGN)**: 신호에 더해지며 주파수별 전력 밀도가 일정하고 진폭이 가우스 분포인 잡음
 - **수식 기호 읽기와 역할**: $C$•$B$•$S$•$N$은 씨•비•에스•엔으로 읽고 Capacity•Bandwidth•Signal•Noise의 머리글자를 딴 기호이며, 용량•대역폭•신호 전력•잡음 전력을 뜻함
 
 </details>
@@ -95,7 +96,7 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **구현 격차(Implementation Gap)**: 이론 한계와 실제 변조•부호•수신기가 요구하는 신호대잡음비(Signal-to-Noise Ratio, SNR)의 차이
+- **구현 격차(Implementation Gap)**: 이론 한계와 실제 장비가 요구하는 SNR의 차이
 - **타당성 여유(Feasibility Margin)**: 요구 전송률과 이론 채널 용량 사이에 확보한 차이
 - **블록 오류율(Block Error Rate, BLER)**: 전체 수신 블록 중 오류가 남은 블록의 비율로 목표 전송률의 신뢰성을 검증하는 지표
 
@@ -133,7 +134,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **대역폭 증대**: 사용 주파수 범위를 넓혀 용량을 거의 선형적으로 높이는 접근
-- **신호대잡음비(Signal-to-Noise Ratio, SNR) 증대**: 송신 전력이나 수신 품질을 개선해 용량을 로그적으로 높이는 접근
+- **SNR 증대**: 송신 전력이나 수신 품질을 개선해 용량을 로그적으로 높이는 접근
 
 </details>
 
@@ -154,9 +155,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **스펙트럼 효율(Spectral Efficiency)**: 단위 대역폭당 정보 전송률을 나타내는 bit/s/Hz 값
-- **블록 오류율(Block Error Rate, BLER)**: 전체 수신 블록 중 하나 이상의 오류가 남은 블록의 비율
 - **굿풋(Goodput)**: 헤더•재전송을 제외하고 응용에 실제 전달된 유효 정보율
-- **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 신호 전력을 같은 대역의 잡음 전력으로 나눈 비율
 
 </details>
 

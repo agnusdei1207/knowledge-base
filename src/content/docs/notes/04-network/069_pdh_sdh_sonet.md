@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "PDH•SDH•SONET 디지털 계위 (PDH SDH SONET)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:34:00+09:00"
 tags:
   - "notes-network"
 weight: 69
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)•동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)•동기식 광 네트워크(Synchronous Optical Network, SONET)** 는 디지털 신호의 다중화 속도와 프레임을 정한 전송 표준
+- 정의/개념: **PDH•SDH•SONET**은 다중화 속도와 프레임을 정한 전송 표준
 - 배경/필요성: PDH의 **다단 역다중화•관리 제약**
 
 #### 한줄 요약
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **준동기 다중화**: **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)** 의 비트 채움으로 속도 편차 흡수
-- **직접 분기**: **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)•동기식 광 네트워크(Synchronous Optical Network, SONET)** 포인터로 하위 신호 접근
-- **운용 보호**: 전송 오버헤드로 **운용•관리•유지보수(Operations, Administration and Maintenance, OAM)** •보호 절체
+- **준동기 다중화**: **PDH**의 비트 채움으로 속도 편차 흡수
+- **직접 분기**: **SDH•SONET** 포인터로 하위 신호 접근
+- **운용 보호**: 전송 오버헤드로 **OAM•보호 절체**
 
 #### 한줄 요약
 
@@ -62,10 +62,12 @@ extra:
 - **동기 전송 모듈(Synchronous Transport Module, STM)**: SDH의 동기 프레임 전송 계위
 - **동기 전송 신호(Synchronous Transport Signal, STS)**: SONET 전기 신호 계위이며 OC와 속도가 대응함
 - **광 반송파(Optical Carrier, OC)**: SONET 광 신호 전송 계위
+- **분기결합 다중화기(Add-Drop Multiplexer, ADM)**: 전체 역다중화 없이 선택 신호를 분기•결합하는 장비
+- **디지털 교차 연결기(Digital Cross-Connect, DXC)**: 다수 디지털 경로를 전자적으로 교차 연결하는 장비
 
 </details>
 
-**가상 컨테이너(Virtual Container, VC)•동기 페이로드 봉투(Synchronous Payload Envelope, SPE)** 가 신호를 수용하고 **동기 전송 모듈(Synchronous Transport Module, STM)•동기 전송 신호(Synchronous Transport Signal, STS)•광 반송파(Optical Carrier, OC)** 가 전송 계위를 구성한다. **분기결합 다중화기(Add-Drop Multiplexer, ADM)•디지털 교차 연결기(Digital Cross-Connect, DXC)** 가 신호를 분기•연결한다.
+**VC•SPE**가 신호를 수용하고 **STM•STS•OC**가 전송 계위를 구성한다. **ADM•DXC**가 신호를 분기•연결한다.
 
 ```mermaid
 block-beta
@@ -120,9 +122,9 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **가상 컨테이너(Virtual Container, VC)•동기 페이로드 봉투(Synchronous Payload Envelope, SPE) 매핑**: 하위 신호와 경로 오버헤드 수용
+1. **VC•SPE 매핑**: 하위 신호와 경로 오버헤드 수용
 2. **포인터 위치 조정**: 클럭 차이에 따라 시작 위치 변경
-3. **동기 프레임 전송**: **동기 전송 모듈(Synchronous Transport Module, STM)•동기 전송 신호(Synchronous Transport Signal, STS)** 계위로 다중화해 전달
+3. **동기 프레임 전송**: **STM•STS** 계위로 다중화해 전달
 4. **오류•품질 감시**: 오버헤드로 경로 상태 판정
 5. **경로 처리 지시**: 정상 분기 또는 장애 보호 절체
 
@@ -132,15 +134,7 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-- **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**: 서로 미세하게 다른 장비 클럭을 비트 채움으로 맞춰 다중화하는 전송 계위
-- **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 공통 클럭•STM 프레임•포인터로 신호를 다중화하는 국제 표준
-- **동기식 광 네트워크(Synchronous Optical Network, SONET)**: STS•OC 프레임과 SPE를 사용하는 북미 동기식 광전송 표준
-
-</details>
-
-| 디지털 전송 계위 | **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)** | **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)** | **동기식 광 네트워크(Synchronous Optical Network, SONET)** |
+| 디지털 전송 계위 | **PDH** | **SDH** | **SONET** |
 |:---|:---|:---|:---|
 | 적용 기준 | 기존 준동기 회선 연동 | 국제 SDH 계위 연동 | 북미 SONET 계위 연동 |
 | 핵심 특징 | 비트 채움 준동기 다중화 | STM•VC 동기 프레임 | STS/OC•SPE 동기 프레임 |
@@ -164,7 +158,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 지역별 계위 대응 오류로 연동 실패 | **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)•동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)•동기식 광 네트워크(Synchronous Optical Network, SONET) 매핑표** 검증 | 회선 상호운용 확보 |
+| 지역별 계위 대응 오류로 연동 실패 | **PDH•SDH•SONET 매핑표** 검증 | 회선 상호운용 확보 |
 | 동기 품질 저하로 포인터 조정 증가 | **동기 품질•포인터 이벤트** 감시 | 지터 억제 |
 | 보호 절체 미시험으로 복구 지연 | **장애 유형별 예비 경로** 훈련 | 전송 연속성 확보 |
 
@@ -174,15 +168,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **분기결합 다중화기(Add-Drop Multiplexer, ADM)**: 전체 역다중화 없이 선택한 하위 신호를 분기•결합하는 장비
-- **디지털 교차 연결기(Digital Cross-Connect, DXC)**: 다수 디지털 경로를 전자적으로 교차 연결하는 장비
-- **운용•관리•유지보수(Operations, Administration and Maintenance, OAM)**: 오류•성능•경로•보호 상태를 감시•관리하는 기능
-
-</details>
-
-- 기존 준동기 연동은 **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**, 국제 계위는 **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**, 북미 계위는 **동기식 광 네트워크(Synchronous Optical Network, SONET)**
+- 기존 준동기 연동은 **PDH**, 국제 계위는 **SDH**, 북미 계위는 **SONET**
 
 #### 한줄 요약
 

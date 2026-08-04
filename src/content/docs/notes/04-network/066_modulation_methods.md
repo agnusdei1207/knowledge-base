@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "변조 방식 : AM•FM•QAM•QPSK (Modulation Methods)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:28:00+09:00"
 tags:
   - "notes-network"
 weight: 66
@@ -65,7 +65,7 @@ extra:
 
 </details>
 
-변조•부호화 조합(Modulation and Coding Scheme, MCS)에 맞춰 심벌을 생성하고 무선 주파수부(Radio Frequency, RF)가 반송파 변환•증폭을 수행한다.
+MCS에 맞춰 심벌을 생성하고 RF부가 반송파 변환•증폭을 수행한다.
 
 ```mermaid
 block-beta
@@ -100,7 +100,7 @@ block-beta
 - **동기화(Synchronization)**: 수신 신호의 시간•주파수•위상 기준을 맞추는 처리
 - **등화(Equalization)**: 채널이 만든 진폭•위상 왜곡을 추정해 보상하는 처리
 - **복조(Demodulation)**: 수신 파형에서 반송파 상태를 판정해 원래 정보 심벌을 복원하는 과정
-- **신호대잡음비(Signal-to-Noise Ratio, SNR)•오류 벡터 크기(Error Vector Magnitude, EVM)**: 채널 품질과 수신 심벌의 이상점 대비 오차를 나타내는 지표
+- **오류 벡터 크기(Error Vector Magnitude, EVM)**: 이상 심벌점과 실제 수신점 사이의 오차 크기
 
 </details>
 
@@ -139,8 +139,6 @@ sequenceDiagram
 - **진폭 변조(Amplitude Modulation, AM)**: 정보 신호에 따라 반송파 진폭을 연속적으로 바꾸는 아날로그 변조
 - **주파수 변조(Frequency Modulation, FM)**: 정보 신호에 따라 반송파 순간 주파수를 연속적으로 바꾸는 아날로그 변조
 - **직교 위상 편이 변조(Quadrature Phase Shift Keying, QPSK)**: 네 위상 상태에 심벌당 2비트를 매핑하는 디지털 변조
-- **직교 진폭 변조(Quadrature Amplitude Modulation, QAM)**: 직교 반송파의 진폭을 조합해 다수의 진폭•위상 심벌을 만드는 디지털 변조
-- **신호대잡음비(Signal-to-Noise Ratio, SNR)•오류 벡터 크기(Error Vector Magnitude, EVM)•첨두전력대평균전력비(Peak-to-Average Power Ratio, PAPR)**: 변조 방식의 잡음 내성•심벌 왜곡•증폭 효율을 판단하는 지표
 
 </details>
 
@@ -160,11 +158,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **오류 벡터 크기(Error Vector Magnitude, EVM)**: 이상적인 심벌점과 실제 수신점 사이 오차의 크기
-- **첨두전력대평균전력비(Peak-to-Average Power Ratio, PAPR)**: 신호 최대 전력과 평균 전력의 비율
 - **출력 백오프(Output Back-off)**: 증폭기 비선형 왜곡을 줄이도록 최대 출력보다 낮게 운용하는 방식
-- **적응 변조•부호화(Adaptive Modulation and Coding, AMC)**: 신호대잡음비(Signal-to-Noise Ratio, SNR)와 오류율에 따라 변조 차수와 부호율을 조정하는 방식
-- **직교 진폭 변조(Quadrature Amplitude Modulation, QAM)**: 다수의 진폭•위상 심벌로 높은 전송률을 제공하는 디지털 변조
+- **적응 변조•부호화(Adaptive Modulation and Coding, AMC)**: SNR과 오류율에 따라 변조 차수와 부호율을 조정하는 방식
 
 </details>
 
@@ -182,10 +177,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **적응 변조•부호화(Adaptive Modulation and Coding, AMC)**: 채널 품질에 따라 변조 차수와 부호율을 바꾸는 방식
-- **변조•부호화 조합(Modulation and Coding Scheme, MCS•엠씨에스)**: 영문 핵심 단어의 머리글자를 딴 표기이며, 링크가 함께 적용할 변조 차수와 부호율 조합을 나타냄
-- **효율•강인성 절충**: 변조 차수가 높을수록 전송률은 커지지만 같은 오류율에 더 높은 신호대잡음비(Signal-to-Noise Ratio, SNR)가 필요한 관계
-- **AM•FM•QPSK•QAM**: 진폭 변조(Amplitude Modulation, AM), 주파수 변조(Frequency Modulation, FM), 직교 위상 편이 변조(Quadrature Phase Shift Keying, QPSK), 직교 진폭 변조(Quadrature Amplitude Modulation, QAM)의 대표 변조 방식
+- **효율•강인성 절충**: 변조 차수가 높을수록 전송률과 요구 SNR이 함께 커지는 관계
 
 </details>
 

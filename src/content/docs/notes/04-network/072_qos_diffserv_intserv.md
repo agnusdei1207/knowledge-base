@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "QoS, DiffServ, IntServ"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:40:00+09:00"
 tags:
   - "notes-network"
 weight: 72
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **서비스 품질(Quality of Service, QoS)** 은 분류•표시•큐잉으로 지연•지터•손실•대역폭 자원을 차등 배분하는 네트워크 트래픽 품질 관리 체계
+- 정의/개념: **QoS**는 분류•표시•큐잉으로 네트워크 자원을 차등 배분하는 체계
 - 배경/필요성: 최선형 동일 처리는 혼잡 시 **서비스별 품질 보장 불가**
 
 #### 한줄 요약
@@ -40,11 +40,12 @@ extra:
 <summary>핵심 용어</summary>
 
 - **정책 연속성**: 도메인 경계의 차등 서비스 코드 포인트 표시와 내부 홉별 동작 규칙을 정렬해 종단 경로에서 같은 서비스 등급을 유지한다.
+- **홉별 동작(Per-Hop Behavior, PHB)**: 표시된 등급에 따라 큐•대역폭•폐기를 차등 적용하는 동작
 
 </details>
 
 - **차등 처리**: 큐잉•폐기로 중요 흐름 손실 감소
-- **정책 연속성**: 도메인별 표시•**홉별 동작(Per-Hop Behavior, PHB)** 정합으로 종단 유지
+- **정책 연속성**: 도메인별 표시•**PHB** 정합으로 종단 유지
 - **자원 배분**: 등급별 대역폭•버퍼•폐기 기준 적용
 
 #### 한줄 요약
@@ -56,11 +57,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **홉별 동작•큐잉(PHB•큐잉)**: 표시된 등급에 따라 패킷의 버퍼•전송 순서•대역폭•혼잡 폐기 방식을 실행한다.
+- **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)**: 패킷의 서비스 등급을 표시하는 IP 헤더 값
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 품질 목표와 미달 책임을 정한 협약
 
 </details>
 
-**차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)** 로 등급을 표시하고 **홉별 동작(Per-Hop Behavior, PHB)** 이 큐잉을 집행하며 **서비스 수준 협약(Service Level Agreement, SLA)** 으로 품질을 판정한다.
+**DSCP**로 등급을 표시하고 **PHB**가 큐잉을 집행하며 **SLA**로 품질을 판정한다.
 
 ```mermaid
 block-beta
@@ -87,13 +89,6 @@ block-beta
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
-
-- **4. PHB•큐잉 처리**: 코어 라우터는 DSCP 등급을 PHB에 매핑해 큐 순서•할당 대역•폐기 정책을 적용한다.
-
-</details>
-
 ```mermaid
 sequenceDiagram
     participant 송신흐름
@@ -111,10 +106,10 @@ sequenceDiagram
 
 **동작 원리**
 
-1. **분류•표시**: 트래픽을 식별해 **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)** 등급 설정
+1. **분류•표시**: 트래픽을 식별해 **DSCP** 등급 설정
 2. **수용•트래픽 제어**: 할당량과 속도 정책 적용
 3. **등급 패킷 전달**: 표시를 보존해 코어 영역으로 전달
-4. **홉별 동작(Per-Hop Behavior, PHB)•큐잉 처리**: 등급별 순서•대역•폐기 정책 실행
+4. **PHB•큐잉 처리**: 등급별 순서•대역•폐기 정책 실행
 5. **품질 측정값 전달**: 지연•지터•손실•대역폭 제공
 
 #### 한줄 요약
@@ -126,14 +121,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **차등 서비스(DiffServ)**: 개별 흐름 상태 대신 차등 서비스 코드 포인트 등급을 집계하고 각 홉에서 홉별 동작을 적용해 대규모 인터넷 프로토콜망의 트래픽을 차등 처리한다.
+- **통합 서비스(Integrated Services, IntServ)**: 흐름별 종단 자원을 예약해 품질을 보장하는 방식
+- **차등 서비스(Differentiated Services, DiffServ)**: DSCP 등급과 PHB로 트래픽을 차등 처리하는 방식
+- **자원 예약 프로토콜(Resource Reservation Protocol, RSVP)**: IntServ의 흐름별 자원을 예약하는 신호 프로토콜
 
 </details>
 
-| 판단 기준 | **통합 서비스(Integrated Services, IntServ)** | **차등 서비스(Differentiated Services, DiffServ)** |
+| 판단 기준 | **IntServ** | **DiffServ** |
 |:---|:---|:---|
 | 적용 기준 | 소수 흐름의 명시적 자원 예약 | 대규모 IP망의 통계적 차등 |
-| 핵심 특징 | 흐름별 **자원 예약 프로토콜(Resource Reservation Protocol, RSVP)** 예약•상태 | 등급별 **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)•홉별 동작(Per-Hop Behavior, PHB)** 처리 |
+| 핵심 특징 | 흐름별 **RSVP 예약•상태** | 등급별 **DSCP•PHB 처리** |
 | 한계 | 라우터 상태•신호 부하 증가 | 종단 자원 보장•도메인 정합 한계 |
 
 > 요약: IntServ는 흐름 예약, DiffServ는 등급 처리다
@@ -153,9 +150,9 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 도메인 경계에서 **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)** 변경 | **표시 보존•재표시 정책** 합의 | 종단 차등 유지 |
+| 도메인 경계에서 **DSCP** 변경 | **표시 보존•재표시 정책** 합의 | 종단 차등 유지 |
 | 우선 큐 과다 할당으로 일반 흐름 고갈 | **수용 제어•대역 상한** 설정 | 일반 트래픽 보호 |
-| 흐름별 상태 증가로 라우터 확장 제약 | **차등 서비스(Differentiated Services, DiffServ) 등급 집계** 적용 | 라우터 상태 절감 |
+| 흐름별 상태 증가로 라우터 확장 제약 | **DiffServ 등급 집계** 적용 | 라우터 상태 절감 |
 
 #### 한줄 요약
 
@@ -163,14 +160,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
-
-- **통합 서비스(IntServ)**: 자원 예약 프로토콜로 흐름별 종단 자원을 예약하고 라우터가 개별 상태를 유지해 명시적 품질을 보장한다.
-
-</details>
-
-- 소수 흐름의 명시적 예약은 **통합 서비스(Integrated Services, IntServ)**, 대규모 등급 차등은 **차등 서비스(Differentiated Services, DiffServ)**
+- 소수 흐름의 명시적 예약은 **IntServ**, 대규모 등급 차등은 **DiffServ**
 
 #### 한줄 요약
 

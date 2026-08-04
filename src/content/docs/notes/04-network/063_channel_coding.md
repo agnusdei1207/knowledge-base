@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "채널 코딩 : 해밍•리드-솔로몬•터보 (Channel Coding)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:24:00+09:00"
 tags:
   - "notes-network"
 weight: 63
@@ -90,8 +90,7 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **연판정(Soft Decision)**: 수신 비트를 0•1로 확정하지 않고 각 값의 가능도와 함께 복호하는 방식
-- **혼성 자동 재전송 요청(Hybrid Automatic Repeat Request, HARQ)**: 순방향 오류 정정(Forward Error Correction, FEC) 복호와 오류 패킷 재전송•결합을 함께 사용하는 방식
-- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 복호 후 남은 오류를 다항식 나눗셈의 나머지로 검출하는 방식
+- **혼성 자동 재전송 요청(Hybrid Automatic Repeat Request, HARQ)**: FEC 복호와 오류 패킷 재전송•결합을 함께 사용하는 방식
 
 </details>
 
@@ -176,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- 채널 페이딩과 오류 형태에 따라 단일 비트•저비용은 **해밍**, 버스트는 **리드-솔로몬 부호(Reed-Solomon Code, RS)**, 코딩 이득은 **터보** 선택
+- 채널 페이딩과 오류 형태에 따라 단일 비트는 **해밍**, 버스트는 **RS**, 코딩 이득은 **터보** 선택
 
 #### 한줄 요약
 

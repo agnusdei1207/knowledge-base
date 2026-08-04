@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "소스 코딩 : 허프만•산술 (Source Coding)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T17:25:00+09:00"
 tags:
   - "notes-network"
 weight: 64
@@ -91,7 +91,6 @@ block-beta
 <details><summary>핵심 용어</summary>
 
 - **재시작 지점(Restart Point)**: 복호 상태를 초기화해 비트 오류의 전파 범위를 제한하는 블록 경계
-- **순환 중복 검사(Cyclic Redundancy Check, CRC•씨알씨)**: 영문 머리글자를 딴 표기이며, 다항식 나눗셈의 나머지로 압축 블록의 잔여 오류를 검출하는 방식
 
 </details>
 
@@ -149,7 +148,6 @@ sequenceDiagram
 
 - **오류 전파(Error Propagation)**: 압축 비트열의 작은 손상이 이후 여러 심벌의 잘못된 복호로 이어지는 현상
 - **모델 불일치(Model Mismatch)**: 실제 심벌 분포와 압축 모델의 확률 추정이 달라 압축 효율이 낮아지는 상태
-- **재시작 지점(Restart Point)•순환 중복 검사(Cyclic Redundancy Check, CRC)**: 복호 상태를 초기화하고 압축 블록의 잔여 오류를 검출해 오류 전파 범위를 제한하는 장치
 
 </details>
 
@@ -169,7 +167,6 @@ sequenceDiagram
 
 - **무손실 복원(Lossless Reconstruction)**: 압축 해제 후 원본 비트열을 완전히 동일하게 복구하는 성질
 - **엔트로피 한계(Entropy Bound)**: 무손실 부호의 평균 길이가 정보원 엔트로피보다 작을 수 없다는 이론적 경계
-- **허프만 부호화(Huffman Coding)•산술 부호화(Arithmetic Coding)**: 접두 부호의 단순성과 확률 구간의 엔트로피 근접 압축을 각각 활용하는 무손실 방식
 
 </details>
 
