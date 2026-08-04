@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI Risk Management (AI 위험관리)"
-date: "2026-08-04T14:15:02+09:00"
+date: "2026-08-05T02:14:18+09:00"
 tags:
   - "notes-latest_tech"
 weight: 102
@@ -64,20 +64,6 @@ extra:
 </details>
 
 AI의 조직 연결 항목: **위험 대장•허용 한도•통제 효과**, 연결 대상: 승인•사고 대응 구조
-
-```mermaid
-block-beta
-  columns 3
-  A["위험 기준•승인"]
-  B["AI 목록•맥락"]
-  C["위험 대장•평가"]
-  D["통제•담당자"]
-  E["감시•사고 대응"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

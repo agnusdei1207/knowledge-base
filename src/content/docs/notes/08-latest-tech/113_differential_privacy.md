@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
-date: "2026-08-04T14:21:49+09:00"
+date: "2026-08-05T14:28:53+09:00"
 tags:
   - "notes-latest_tech"
 weight: 113
@@ -69,20 +69,6 @@ extra:
 - **예산 회계 기준**: $\epsilon$과 $\delta$로 반복 처리의 누적 허용 한도를 정한다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    A["인접성 정의기"]
-    C["민감도•클리핑기"]
-    N["잡음 메커니즘"]
-    P["프라이버시 회계기"]
-    R["공개 판정기"]
-    A --- C
-    C --- N
-    N --- P
-    P --- R
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

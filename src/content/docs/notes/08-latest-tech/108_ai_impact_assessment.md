@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI 영향평가 (AI Impact Assessment)"
-date: "2026-08-05T00:56:00+09:00"
+date: "2026-08-05T14:28:48+09:00"
 tags:
   - "notes-latest_tech"
 weight: 108
@@ -62,20 +62,6 @@ extra:
 - **구제 조치**: 피해가 발생한 뒤 정정•보상•이의제기를 제공해 영향을 회복하는 통제이다.
 
 </details>
-
-```mermaid
-block-beta
-    columns 3
-    C["시스템 맥락"]
-    S["영향 집단"]
-    H["피해 시나리오"]
-    M["완화•구제 조치"]
-    R["잔여 영향 관리"]
-    C --- S
-    S --- H
-    H --- M
-    M --- R
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

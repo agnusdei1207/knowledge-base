@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Explainable AI (설명 가능한 AI)"
-date: "2026-08-04T14:16:45+09:00"
+date: "2026-08-05T02:14:18+09:00"
 tags:
   - "notes-latest_tech"
 weight: 104
@@ -62,20 +62,6 @@ extra:
 - **품질 평가**: 충실도•안정성•이해도를 측정해 설명의 사용 가능 범위와 한계를 판정한다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  A["설명 대상 모델"]
-  B["설명 범위"]
-  C["설명 기법"]
-  D["설명 산출물"]
-  E["품질 평가"]
-  A --- B
-  B --- C
-  C --- D
-  D --- E
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

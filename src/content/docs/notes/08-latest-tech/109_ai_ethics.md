@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AI 윤리 (AI Ethics)"
-date: "2026-08-05T01:02:00+09:00"
+date: "2026-08-05T14:28:49+09:00"
 tags:
   - "notes-latest_tech"
 weight: 109
@@ -64,20 +64,6 @@ extra:
 </details>
 
 AI 사용의 필요성 비교 대상: 비AI 대안, 우선 적용 기준: **강제 금지선**
-
-```mermaid
-block-beta
-    columns 3
-    V["가치 헌장"]
-    I["영향평가"]
-    D["이해관계자 숙의"]
-    R["결정 기록"]
-    C["통제•구제"]
-    V --- I
-    I --- D
-    D --- R
-    R --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
