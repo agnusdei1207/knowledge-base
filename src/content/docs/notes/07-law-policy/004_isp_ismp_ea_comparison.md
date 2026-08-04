@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISP•ISMP•EA 비교 (ISP, ISMP, EA Comparison)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:00:12+09:00"
 tags:
   - "notes-law_policy"
 weight: 4
@@ -23,8 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISP•ISMP•EA**: 정보전략계획(Information Strategy Planning, ISP)은 중장기 투자, 정보시스템 마스터플랜(Information System Master Plan, ISMP)은 개별 발주, 전사 아키텍처(Enterprise Architecture, EA)는 전사 구조를 담당한다.
-- **투자•발주•구조 역할**: 투자•발주•구조 역할은 ISP가 투자, ISMP가 발주, EA가 전사 구조 통제를 각각 담당하도록 구분한다.
+- **정보전략계획(Information Strategy Planning, ISP)**: 중장기 정보화 과제와 투자 로드맵을 수립하는 계획이다.
+- **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 개별 사업의 요구•규모•예산을 발주 수준으로 구체화하는 계획이다.
+- **전사 아키텍처(Enterprise Architecture, EA)**: 전사 정보자원의 구조•표준과 변경을 통제하는 체계이다.
 
 </details>
 
@@ -39,7 +40,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISP•ISMP•EA**: ISP는 투자 축, ISMP는 발주 축, EA는 구조 축의 판단과 산출물을 각각 소유하는 정보화 계획 체계이다.
 - **제안요청서(Request for Proposal, RFP)**: ISMP에서 확정한 요구•규모•예산•평가•검수 기준을 공급자에게 제시하는 발주 문서이다.
 - **구조 축**: 구조 축은 EA를 통해 현행 자원•목표 구조•표준•변경의 전사 정합성을 유지한다.
 
@@ -57,8 +57,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISP•ISMP•EA**: ISP의 투자 과제를 ISMP가 발주 기준으로 구체화하고 EA가 구조•표준 정합성을 통제하는 연계 체계이다.
-- **제안요청서(Request for Proposal, RFP)**: ISMP의 요구•구조•규모•예산을 계약•평가•검수 조건으로 확정한 발주 문서이다.
 - **전주기 거버넌스**: 전주기 거버넌스는 ISP 투자부터 ISMP 발주와 구축 결과의 EA 현행화까지 승인•변경을 연결한다.
 
 </details>
@@ -92,8 +90,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **ISP•ISMP•EA**: ISP의 우선 과제를 EA가 구조•표준 관점에서 검토하고 ISMP가 발주 요건으로 전환하는 연계 체계이다.
-- **제안요청서(Request for Proposal, RFP)**: ISMP에서 확정한 요구•규모•예산•계약•검수 기준을 구축사업에 전달하는 문서이다.
 - **구조•표준•중복 검토**: 우선 과제를 현행 자원•공동 활용 가능성•표준과 대조해 중복과 예외를 판정하는 절차이다.
 
 </details>
@@ -125,8 +121,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정보화 계획 체계**: 정보화 계획 체계는 중장기 투자•개별 발주•전사 구조라는 서로 다른 판단 범위를 연결한다.
-- **ISP•ISMP•EA**: 정보전략계획(Information Strategy Planning, ISP), 정보시스템 마스터플랜(Information System Master Plan, ISMP), 전사 아키텍처(Enterprise Architecture, EA)를 투자•발주•구조 범위로 구분한 체계이다.
-- **제안요청서(Request for Proposal, RFP)**: ISMP가 개별 사업의 요구•규모•예산과 함께 구체화하는 발주 문서이다.
 
 </details>
 
@@ -149,7 +143,6 @@ sequenceDiagram
 - **사업 목적 변질**: 사업 목적 변질은 ISP에서 승인한 전략 과제와 ISMP 요구•산출물•검수 기준의 추적 관계가 끊길 때 발생한다.
 - **과제 식별자(과제 ID)**: ISP 과제를 ISMP의 요구•산출물•검수 기준까지 추적하기 위해 부여한 고유 번호이다.
 - **EA 저장소**: 현행 정보자원•목표 구조•표준•예외와 구축 결과를 등록해 투자 검토에 사용하는 전사 아키텍처 저장소이다.
-- **제안요청서(Request for Proposal, RFP)**: 요구사항•규모•예산과 계약•검수 범위를 공급자에게 제시하는 발주 문서이다.
 
 </details>
 
@@ -167,7 +160,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISP•ISMP•EA**: ISP와 ISMP는 중장기 투자와 개별 발주를 구체화하고 EA는 전사 구조•표준을 통제하는 체계이다.
 - **전사 구조**: 전사 구조는 EA 원칙과 표준으로 통제하고 중장기 투자와 개별 발주는 ISP•ISMP로 구체화한다.
 
 </details>

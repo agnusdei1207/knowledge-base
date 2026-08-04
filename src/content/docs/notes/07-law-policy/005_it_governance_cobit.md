@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IT 거버넌스와 COBIT (IT Governance & COBIT)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:02:06+09:00"
 tags:
   - "notes-law_policy"
 weight: 5
@@ -98,8 +98,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **잔여 위험**: 통제를 적용한 뒤에도 남아 경영진이 추가 개선이나 수용 여부를 결정해야 하는 위험이다.
-- **평가•지시•감독(Evaluate, Direct and Monitor, EDM)**: 관리 활동의 증거를 목표•위험 한도와 대조해 개선 또는 잔여 위험 수용을 결정하는 거버넌스 영역이다.
-
 </details>
 
 ```mermaid
@@ -150,8 +148,6 @@ sequenceDiagram
 
 - **위험 수용 주체 불명확**: 위험 수용 주체 불명확은 거버넌스의 결정 책임과 관리 영역의 실행 책임이 섞일 때 발생한다.
 - **설계요인**: 조직의 전략•위험•규제•위협•기술 환경에 맞춰 우선 적용할 COBIT 목표와 통제 수준을 선택하는 조건이다.
-- **평가•지시•감독(Evaluate, Direct and Monitor, EDM)**: 이사회 등 지배기구가 위험 수용과 방향을 결정하고 관리영역의 실행을 감독하는 거버넌스 영역이다.
-
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -167,9 +163,6 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
-
-- **설계요인**: 조직별 전략•위험•규제•기술 환경에 맞는 COBIT 목표를 선별하는 조건이다.
-- **평가•지시•감독(Evaluate, Direct and Monitor, EDM)**: 지배기구가 대안을 평가하고 방향을 지시하며 관리 영역의 실행 결과를 감독하는 거버넌스 영역이다.
 
 </details>
 

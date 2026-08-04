@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EA와 TOGAF (Enterprise Architecture & TOGAF)"
-date: "2026-08-03T09:08:40+09:00"
+date: "2026-08-04T09:54:02+09:00"
 tags:
   - "notes-law_policy"
 weight: 1
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **전사 아키텍처(Enterprise Architecture, EA)**: 조직의 전략을 업무•데이터•애플리케이션•기술 구조와 연결해 전사 관점에서 관리하는 체계이다.
-- **TOGAF 10판 ADM**: TOGAF 10판 ADM은 전사 아키텍처의 비전 수립부터 도메인 설계•이행•변경 관리까지 순환시키는 개발 방법이다.
+- **아키텍처 개발 방법(Architecture Development Method, ADM)**: TOGAF 10판에서 비전 수립부터 도메인 설계•이행•변경 관리까지 순환시키는 개발 방법이다.
 
 </details>
 
@@ -39,8 +39,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **아키텍처 개발 방법(Architecture Development Method, ADM)**: 현행 분석부터 목표 설계•이행•변경 관리까지 전사 아키텍처를 순환 개발하는 TOGAF의 절차이다.
-- **BA•DA•AA•TA**: 업무•데이터•애플리케이션•기술 아키텍처를 구분해 도메인별 책임과 의존 관계를 관리하는 네 가지 관점이다.
+- **업무 아키텍처(Business Architecture, BA)**: 전략을 조직•기능•프로세스•서비스 구조로 구체화하는 관점이다.
+- **데이터 아키텍처(Data Architecture, DA)**: 데이터 모델•흐름•소유권•표준을 정의하는 관점이다.
+- **애플리케이션 아키텍처(Application Architecture, AA)**: 시스템•서비스•인터페이스의 책임을 정의하는 관점이다.
+- **기술 아키텍처(Technology Architecture, TA)**: 애플리케이션을 실행하는 기술 기반을 정의하는 관점이다.
 - **현행•목표•갭**: 현행•목표•갭 분석은 현재 구조와 목표 구조의 차이를 찾아 전환 과제를 도출한다.
 - **아키텍처 거버넌스**: 전사 원칙•표준•예외와 변경 승인 기준으로 도메인 간 정합성을 통제하는 체계이다.
 
@@ -57,12 +59,6 @@ extra:
 
 <details>
 <summary>핵심 용어</summary>
-
-- **아키텍처 거버넌스**: 아키텍처 거버넌스는 전사 원칙•표준•예외•변경 승인을 관리해 도메인 정합성을 통제한다.
-- **업무 아키텍처**: 전사 전략을 조직•기능•프로세스•서비스 구조로 구체화하는 관점이다.
-- **데이터 아키텍처**: 데이터의 모델•흐름•소유권•표준을 전사 관점에서 정의하는 구조이다.
-- **애플리케이션 아키텍처**: 시스템•서비스•인터페이스의 책임과 상호작용을 정의하는 구조이다.
-- **기술 아키텍처**: 애플리케이션을 실행하는 서버•네트워크•보안•클라우드 기반을 정의하는 구조이다.
 
 </details>
 
@@ -98,8 +94,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **아키텍처 준수성**: 구현안이 승인된 목표 구조와 원칙•표준을 따르는지 심사하는 판단 기준이다.
-- **아키텍처 개발 방법(Architecture Development Method, ADM)**: 구현 결과와 변경 요구를 다시 반영해 전사 아키텍처를 순환 갱신하는 TOGAF의 절차이다.
-
 </details>
 
 ```mermaid
@@ -130,7 +124,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정보화 계획 체계**: 정보화 계획 체계는 전사 구조를 관리하는 EA와 투자•발주를 구체화하는 ISP•ISMP의 역할을 구분한다.
-- **전사 아키텍처(Enterprise Architecture, EA)**: 전사 구조•표준과 변경 거버넌스를 지속적으로 관리하는 체계이다.
 - **정보전략계획(Information Strategy Planning, ISP)**: 경영전략에 맞춘 중장기 정보화 과제와 투자 로드맵을 수립하는 계획이다.
 - **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 개별 정보시스템 사업의 요구사항•규모•예산과 발주 규격을 구체화하는 계획이다.
 
@@ -174,7 +167,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전사 아키텍처(Enterprise Architecture, EA)**: 조직 전체의 업무•데이터•애플리케이션•기술 구조를 전략에 맞춰 통제하는 체계이다.
 - **TOGAF ADM 로드맵**: TOGAF ADM 로드맵은 품질 기준을 충족하는 갭 과제를 선행 관계와 투자 순서에 따라 배치한다.
 
 </details>

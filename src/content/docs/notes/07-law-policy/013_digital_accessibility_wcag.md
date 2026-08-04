@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 접근성과 WCAG (Digital Accessibility & WCAG)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:19:26+09:00"
 tags:
   - "notes-law_policy"
 weight: 13
@@ -60,7 +60,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 웹 콘텐츠를 인식•운용•이해하고 보조기술과 호환되게 만드는 국제 성공 기준이다.
-- **POUR 원칙**: 인식 가능(Perceivable)•운용 가능(Operable)•이해 가능(Understandable)•견고(Robust)를 뜻하는 WCAG의 네 가지 원칙이다.
 - **사용자 인터페이스(User Interface, UI)**: 사용자가 서비스 정보를 인식하고 기능을 조작하는 화면과 입력 요소의 접점이다.
 - **웹 접근성 이니셔티브의 접근 가능한 리치 인터넷 애플리케이션(Web Accessibility Initiative-Accessible Rich Internet Applications, WAI-ARIA)**: 동적 UI의 역할•상태•속성을 보조기술에 전달하는 기술 명세이다.
 - **접근성 회귀**: 기능 변경 뒤 기존 키보드 조작•대체 텍스트•화면 낭독기 동작이 다시 깨지는 현상이다.
@@ -98,7 +97,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 사용자 장벽을 검증 가능한 성공 기준과 연결하는 국제 지침이다.
 - **대체 텍스트**: 이미지를 보지 못하는 사용자에게 시각 정보의 의미와 기능을 문자로 전달하는 설명이다.
 - **키보드 초점 순서**: 키보드만 사용할 때 입력•버튼•링크로 이동하는 논리적 순서이다.
 - **접근성 회귀 시험**: 기능 변경 뒤 기존 접근성 동작과 공통 구성요소 결함이 재발하지 않았는지 확인하는 시험이다.
@@ -132,7 +130,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **POUR 원칙**: 웹 접근성을 인식성•운용성•이해성•견고성으로 구분한 네 가지 설계 원칙이다.
 - **견고성**: 견고성은 표준 마크업과 접근성 의미를 사용해 다양한 브라우저와 보조기술의 호환성을 확보하는 원칙이다.
 
 </details>
@@ -153,8 +150,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **접근성 회귀**: 접근성 회귀는 기능 변경 뒤 기존 키보드 조작•대체 텍스트•화면 낭독 동작이 다시 깨지는 문제다.
-- **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 개발 완료 기준에 반영해 접근성 적합성을 지속 검증하는 국제 지침이다.
 - **사용자 시험**: 장애 사용자가 실제 과업을 수행하며 자동 검사로 찾기 어려운 이용 장벽을 확인하는 시험이다.
 
 </details>
@@ -173,7 +168,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **웹 콘텐츠 접근성 지침 2.2 AA(Web Content Accessibility Guidelines 2.2 AA, WCAG 2.2 AA)**: A와 AA 성공 기준을 모두 충족하는 중간 수준이며, 실제 의무 여부와 적용 범위는 관할 법령•계약•조직 정책에 따라 정해진다.
+- **WCAG 2.2 AA**: A와 AA 성공 기준을 모두 충족하는 중간 수준이며, 실제 의무 여부와 적용 범위는 관할 법령•계약•조직 정책에 따라 정해진다.
 
 </details>
 
