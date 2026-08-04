@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
-date: "2026-08-04T13:19:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 119
@@ -74,20 +74,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["Kafka 경계"]:3
-  P["Producer"]
-  T["Topic•Partition•Offset"]
-  B["Broker•Leader•Follower"]
-  C["Controller"]
-  G["Consumer Group•Coordinator"]
-  P --- T
-  T --- B
-  B --- C
-  B --- G
+```text
+[Producer] ----- [Topic•Partition•Offset] ----- [Broker•Leader•Follower]
+                                                       /       \
+                                           [Controller] [Consumer Group•Coordinator]
 ```
+
+선의 의미: Producer와 Topic•Partition•Offset은 Broker•Leader•Follower의 로그 저장 경계에 결합되고, 브로커 아래에는 클러스터 메타데이터를 관리하는 Controller와 소비 배정을 관리하는 Consumer Group•Coordinator가 놓이는 정적 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

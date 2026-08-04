@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Neo4j 그래프 DB (Neo4j Graph Database)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T05:00:00+09:00"
 tags:
   - "notes-software"
 weight: 109
@@ -68,24 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  block:G["Neo4j 속성 그래프"]
-    columns 2
-    N["노드•레이블"]
-    R["관계•방향•유형"]
-    P["속성"]
-    I["인덱스•제약"]
-    C["Cypher 실행기"]
-  end
-  N --- R
-  N --- P
-  R --- P
-  I --- N
-  C --- I
-  C --- R
+```text
+              [인덱스•제약]
+                    |
+             [노드•레이블] -- [관계•방향•유형]
+                    \          /         |
+                      [속성]       [Cypher 실행기]
 ```
+
+선의 의미: 인덱스•제약은 노드•레이블의 탐색과 유일성을 지원하고, 노드와 관계는 속성을 가지며, Cypher 실행기는 관계•방향•유형을 기준으로 그래프 패턴을 탐색한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

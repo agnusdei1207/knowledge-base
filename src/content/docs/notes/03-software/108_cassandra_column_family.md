@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 DB (Cassandra Column Family)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T05:00:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -65,22 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  block:C["Cassandra 노드"]
-    columns 2
-    K["파티션•클러스터링 키"]
-    O["Coordinator"]
-    M["Commit Log•Memtable"]
-    S["SSTable•Compaction"]
-    R["Repair"]
-  end
-  K --- O
-  O --- M
-  M --- S
-  S --- R
+```text
+[Coordinator]
++-- [파티션•클러스터링 키]
++-- [커밋 로그(Commit Log)•메모리 테이블(Memtable)]
+    +-- [정렬 문자열 테이블(Sorted String Table, SSTable)•컴팩션(Compaction)]
+        +-- [Repair]
 ```
+
+선의 의미: Coordinator는 파티션•클러스터링 키로 담당 복제본을 정하고 Commit Log•Memtable에 연결되며, SSTable•Compaction은 메모리 변경의 디스크 구조이고 Repair는 복제본 데이터를 맞춘다.
 
 | 구성요소 | 책임 |
 |:---|:---|

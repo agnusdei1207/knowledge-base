@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MongoDB 도큐먼트 DB (MongoDB Document Database)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T01:07:46+09:00"
 tags:
   - "notes-software"
 weight: 106
@@ -67,24 +67,21 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  A["애플리케이션"]
-  block:M["MongoDB 클러스터"]
-    columns 2
-    G["mongos"]
-    C["Config Server"]
-    R["레플리카셋"]
-    B["BSON 문서•컬렉션"]
-    I["인덱스•집계"]
-  end
-  A --- G
-  G --- C
-  G --- R
-  R --- B
-  B --- I
+```text
++----------------------------- MongoDB 클러스터 -----------------------------+
+|                                                                             |
+|  [Config Server] -------- [mongos] -------- [레플리카셋]                    |
+|                                                |                            |
+|                                                |                            |
+|                                     [BSON 문서•컬렉션]                      |
+|                                                |                            |
+|                                                |                            |
+|                                        [인덱스•집계]                        |
+|                                                                             |
++-----------------------------------------------------------------------------+
 ```
+
+선의 의미: Config Server와 mongos의 선은 청크•샤드 위치 메타데이터 제공 관계, mongos와 레플리카셋의 선은 샤드 라우팅•결과 병합 관계, 레플리카셋과 BSON 문서•컬렉션의 선은 문서 저장과 oplog 복제 관계, BSON 문서•컬렉션과 인덱스•집계의 선은 필드 탐색•변환•집계 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

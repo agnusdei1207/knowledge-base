@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Redis 인메모리 DB (Redis In-Memory Database)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T01:07:46+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -63,22 +63,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  block:R["Redis 저장 체계"]
-    columns 2
-    K["키•자료구조"]
-    T["TTL•제거 정책"]
-    P["RDB•AOF"]
-    S["복제•Sentinel"]
-    C["Redis Cluster"]
-  end
-  K --- T
-  K --- P
-  K --- S
-  S --- C
+```text
+[키 유효 시간(Time To Live, TTL)•제거 정책] -------- [키•자료구조] -------- [Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)•추가 전용 파일(Append Only File, AOF)]
+                                                           |
+                                                           |
+                                                   [복제•Sentinel] -------- [Redis Cluster]
 ```
+
+선의 의미: 키•자료구조에서 갈라지는 선은 키 만료•메모리 제거 정책, RDB•AOF 복구 기록, 복제•장애 전환 기능의 결합 관계를 뜻하며, 복제•Sentinel과 Redis Cluster의 선은 복제본 관리와 해시 슬롯•노드 라우팅을 함께 구성하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

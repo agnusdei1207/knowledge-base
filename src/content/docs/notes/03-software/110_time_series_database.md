@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "시계열 데이터베이스 (Time Series Database)"
-date: "2026-08-04T13:10:00+09:00"
+date: "2026-08-05T05:00:00+09:00"
 tags:
   - "notes-software"
 weight: 110
@@ -67,22 +67,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  block:T["시계열 저장 체계"]
-    columns 2
-    S["시계열 식별자"]
-    I["Series•Tag Index"]
-    P["쓰기 버퍼•시간 파티션"]
-    C["압축 청크"]
-    D["다운샘플•보존 계층"]
-  end
-  S --- I
-  S --- P
-  P --- C
-  C --- D
+```text
+[시계열•태그 인덱스(Series and Tag Index)] -- [시계열 식별자]
+                                                        |
+                                          [쓰기 버퍼•시간 파티션]
+                                                        |
+                                                 [압축 청크]
+                                                        |
+                                          [다운샘플•보존 계층]
 ```
+
+선의 의미: 시계열•태그 인덱스는 시계열 식별자를 찾고, 식별자별 표본은 쓰기 버퍼•시간 파티션과 압축 청크에 저장되며, 다운샘플•보존 계층이 해상도와 수명을 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
-date: "2026-08-04T13:16:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -67,21 +67,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["Hadoop 처리 경계"]:3
-  H["HDFS"]
-  Y["YARN"]
-  I["Input Split"]
-  M["Map•Combiner"]
-  R["Shuffle•Sort•Reduce"]
-  H --- I
-  Y --- M
-  I --- M
-  M --- R
-  R --- H
+```text
+                      [YARN]
+                         |
+[HDFS] ----- [Input Split] ----- [Map•Combiner] ----- [Shuffle•Sort•Reduce]
+   \___________________________________________________________/
 ```
+
+선의 의미: 가로선은 HDFS의 논리 입력 범위와 Map•Combiner 및 Shuffle•Sort•Reduce가 결합되는 정적 처리 구성이고, YARN은 계산 자원에 결합되며 아래 선은 HDFS가 입력과 결과 저장 경계를 함께 담당함을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

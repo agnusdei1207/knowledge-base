@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -68,20 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["Spark 실행 경계"]:3
-  D["Driver•SparkSession"]
-  C["Catalyst•AQE"]
-  S["Scheduler•Cluster Manager"]
-  E["Executor•Partition"]
-  P["Checkpoint•State Store"]
-  D --- C
-  D --- S
-  S --- E
-  E --- P
+```text
+                  [Catalyst•AQE]
+                         |
+[Driver•SparkSession] ----- [Scheduler•Cluster Manager] ----- [Executor•Partition]
+                                                                     |
+                                                        [Checkpoint•State Store]
 ```
+
+선의 의미: Driver•SparkSession은 계획 최적화 계층인 Catalyst•AQE와 실행 자원 계층인 Scheduler•Cluster Manager에 결합되고, Executor•Partition 아래에는 상태 복구를 위한 Checkpoint•State Store가 놓이는 정적 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

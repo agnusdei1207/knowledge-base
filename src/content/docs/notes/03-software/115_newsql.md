@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NewSQL: CockroachDB•Spanner (NewSQL)"
-date: "2026-08-04T13:15:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 115
@@ -65,20 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["NewSQL 경계"]:3
-  G["SQL 게이트웨이"]
-  D["범위 디렉터리"]
-  C["트랜잭션 조정자"]
-  R["합의 복제 그룹"]
-  M["MVCC•분산 시계"]
-  G --- D
-  G --- C
-  C --- R
-  C --- M
+```text
+[범위 디렉터리] ----- [SQL 게이트웨이] ----- [트랜잭션 조정자]
+                                                 /       \
+                                  [합의 복제 그룹] [MVCC•분산 시계]
 ```
+
+선의 의미: SQL 게이트웨이는 범위 디렉터리와 트랜잭션 조정자를 결합하며, 조정자 아래에는 분산 거래의 내구성과 가시성•직렬 순서를 담당하는 합의 복제 그룹과 MVCC•분산 시계가 놓이는 정적 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

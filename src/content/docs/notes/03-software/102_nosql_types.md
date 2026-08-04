@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T01:07:46+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -69,22 +69,14 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  A["접근 패턴"]
-  block:N["비관계형 데이터베이스 저장 체계"]
-    columns 2
-    M["데이터 모델"]
-    I["모델 API"]
-    P["파티션•복제"]
-    C["일관성 정책"]
-  end
-  A --- M
-  M --- I
-  M --- P
-  P --- C
+```text
+[접근 패턴] -------- [데이터 모델] -------- [모델 응용 프로그램 인터페이스(Model Application Programming Interface, Model API)]
+                          |
+                          |
+                    [파티션•복제] -------- [일관성 정책]
 ```
+
+선의 의미: 접근 패턴과 데이터 모델의 선은 조회•갱신•집계 단위에 맞는 저장 구조 선택 관계, 데이터 모델에서 갈라지는 선은 모델별 API와 파티션•복제 구조의 결합 관계, 파티션•복제와 일관성 정책의 선은 읽기•쓰기 성공에 필요한 복제본 확인 수준 적용 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-04T14:21:33+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -69,20 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["Flink 실행 경계"]:3
-  J["JobManager"]
-  T["TaskManager•Slot"]
-  S["Source•Watermark"]
-  O["연산자•State Backend"]
-  C["Checkpoint Storage•Sink"]
-  J --- T
-  T --- S
-  T --- O
-  O --- C
+```text
+                         [JobManager]
+                              |
+                     [TaskManager•Slot]
+                       /              \
+          [Source•Watermark]     [연산자•State Backend]
+                                        |
+                           [Checkpoint Storage•Sink]
 ```
+
+선의 의미: JobManager 아래에는 실행 자원인 TaskManager•Slot이 놓이고, 이 실행 경계는 Source•Watermark와 연산자•State Backend로 나뉘며 상태 연산자는 Checkpoint Storage•Sink와 결합되는 정적 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
