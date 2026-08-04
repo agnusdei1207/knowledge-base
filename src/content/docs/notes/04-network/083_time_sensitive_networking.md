@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 83
 extra:
@@ -65,21 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    TALKER["송신자"]
-    BRIDGE["TSN 브리지"]
-    LISTENER["수신자"]
-    TIME["시간 동기 도메인"]
-    CNC["CNC"]
-    TALKER --- BRIDGE
-    BRIDGE --- LISTENER
-    TIME --- TALKER
-    TIME --- BRIDGE
-    TIME --- LISTENER
-    CNC --- BRIDGE
+```text
+[송신자]---[TSN 브리지]---[수신자]
+    |            |            |
+    +------[시간 동기 도메인]--+
+                 |
+               [CNC]
 ```
+
+선의 의미: 송신자•TSN 브리지•수신자는 하나의 스트림 경로 관계이고 공통 시간 동기 도메인을 공유하며, CNC는 TSN 브리지의 경로•대역폭•GCL 구성 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "촉각 인터넷 (Tactile Internet)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 85
 extra:
@@ -61,19 +61,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    HAPTIC["햅틱 조작기"]
-    NETWORK["초저지연 전송망"]
-    EDGE["엣지 제어기"]
-    ROBOT["원격 로봇"]
-    SAFETY["로컬 안전 제어기"]
-    HAPTIC --- NETWORK
-    NETWORK --- EDGE
-    EDGE --- ROBOT
-    SAFETY --- ROBOT
+```text
+[햅틱 조작기]---[초저지연 전송망]---[엣지 제어기]---[원격 로봇]
+                                                       |
+                                              [로컬 안전 제어기]
 ```
+
+선의 의미: 주 구조는 위치•힘 명령과 촉각 피드백의 폐루프 통신 관계이고, 원격 로봇은 통신 실패에도 힘•위치 한계와 정지를 적용하는 로컬 안전 제어기와 결속된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

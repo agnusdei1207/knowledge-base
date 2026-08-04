@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDoS 공격 기법•대응 - SYN Flood•증폭 (DDoS Attack Mitigation)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 87
 extra:
@@ -62,20 +62,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    EDGE["CDN 엣지망"]
-    DETECTOR["DDoS 탐지기"]
-    CARRIER["상위 통신사업자"]
-    SCRUB["정화 센터"]
-    ORIGIN["원본 서비스"]
-    DETECTOR --- EDGE
-    DETECTOR --- CARRIER
-    CARRIER --- SCRUB
-    SCRUB --- ORIGIN
-    EDGE --- ORIGIN
+```text
+[CDN 엣지망]-----------------------------------------------+
+       |                                                   |
+[DDoS 탐지기]---[상위 통신사업자]---[정화 센터]---[원본 서비스]
 ```
+
+선의 의미: CDN 엣지망은 DDoS 탐지기 및 원본 서비스의 분산•허용 경로 관계이고, 탐지기는 상위 통신사업자•정화 센터•원본 서비스로 구성된 상위 완화 경로와 결속된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

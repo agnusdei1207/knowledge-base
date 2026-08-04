@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SIEM vs SOAR 비교 (SIEM vs SOAR Comparison)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 95
 extra:
@@ -61,17 +61,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    SIEM["SIEM 탐지부"]
-    CONTRACT["경보 계약"]
-    SOAR["SOAR 대응부"]
-    TOOL["보안 통제 도구"]
-    FEEDBACK["대응 결과 환류부"]
-    SIEM --- CONTRACT --- SOAR --- TOOL
-    TOOL --- FEEDBACK --- SIEM
+```text
+[SIEM 탐지부] ----- [경보 계약] ----- [SOAR 대응부] ----- [보안 통제 도구]
+       \                                                    /
+                       [대응 결과 환류부]
 ```
+
+선의 의미: 가로선은 SIEM 탐지 결과가 경보 계약을 경계로 SOAR 대응부 및 보안 통제 도구에 결합되는 관계이고, 아래 가지는 통제 도구의 실제 결과를 SIEM 규칙과 대응 절차에 연결하는 환류 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

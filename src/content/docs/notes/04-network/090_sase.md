@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SASE - SD-WAN•CASB•SWG•ZTNA (SASE)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 90
 extra:
@@ -64,18 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    EDGE["사용자•지사 엣지"]
-    SDWAN["SD-WAN 연결부"]
-    POP["PoP•SSE 보안부"]
-    POLICY["통합 정책 제어기"]
-    APP["인터넷•클라우드•사설 응용"]
-    EDGE --- SDWAN --- POP --- APP
-    POLICY --- SDWAN
-    POLICY --- POP
+```text
+ [사용자•지사 엣지] -- [SD-WAN 연결부] -- [PoP•SSE 보안부] -- [인터넷•클라우드•사설 응용]
+                              \                /
+                              [통합 정책 제어기]
 ```
+
+선의 의미: 사용자•지사 엣지에서 목적 응용까지 SD-WAN과 PoP•SSE가 연결•보안 경계를 구성하고, 통합 정책 제어기가 두 집행부에 공통 정책을 제공하는 정적 SASE 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

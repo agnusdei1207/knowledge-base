@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "위협 인텔리전스 - STIX•TAXII (Threat Intelligence STIX TAXII)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags: ["notes-network"]
 weight: 96
 extra:
@@ -63,17 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["위협 검증•보강기"]
-    B["STIX 객체 저장소"]
-    C["TAXII 교환 서버"]
-    D["보안 도구 소비자"]
-    E["품질 환류기"]
-    A --- B --- C --- D
-    D --- E --- A
+```text
+[위협 검증•보강기] ----- [STIX 객체 저장소] ----- [TAXII 교환 서버] ----- [보안 도구 소비자]
+          \                                                               /
+                                  [품질 환류기]
 ```
+
+선의 의미: 가로선은 검증•보강 기능, STIX 객체 저장소, TAXII 교환 서버와 보안 도구 소비자의 정적 정보 연계이고, 아래 가지는 소비자의 적중•오탐 결과를 검증•보강 기준에 연결하는 품질 환류 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

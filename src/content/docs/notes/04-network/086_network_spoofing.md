@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 86
 extra:
@@ -64,17 +64,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    SOURCE["신뢰 정보원"]
-    LAYER["계층 검증기"]
-    ENDPOINT["종단 인증기"]
-    RECOVERY["대응•복구기"]
-    SOURCE --- LAYER
-    LAYER --- ENDPOINT
-    LAYER --- RECOVERY
+```text
+[신뢰 정보원]---[계층 검증기]---[종단 인증기]
+                       |
+                 [대응•복구기]
 ```
+
+선의 의미: 신뢰 정보원과 계층 검증기는 주소 바인딩•경로•서명의 기준 대조 관계이고, 계층 검증기는 종단 인증기 및 대응•복구기와 실제 상대 확인•오염 상태 정리 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

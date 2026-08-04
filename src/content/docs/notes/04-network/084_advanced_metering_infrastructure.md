@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스마트 미터 AMI (Advanced Metering Infrastructure)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 84
 extra:
@@ -62,19 +62,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    METER["스마트 미터"]
-    NETWORK["현장 통신망"]
-    HES["헤드엔드 시스템"]
-    MDMS["계량자료 관리시스템"]
-    BIZ["전력 업무시스템"]
-    METER --- NETWORK
-    NETWORK --- HES
-    HES --- MDMS
-    MDMS --- BIZ
+```text
+[스마트 미터]---[현장 통신망]---[헤드엔드 시스템]---[계량자료 관리시스템]---[전력 업무시스템]
 ```
+
+선의 의미: 각 선은 계량값•상태•명령, 현장 전달망, 통신 세션, 저장•VEE 결과와 요금•정전•수요반응 업무가 서로 결속되는 AMI 구성 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

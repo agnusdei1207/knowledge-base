@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAN 버스 자동차 통신 (CAN Bus)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 81
 extra:
@@ -63,17 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    ECU["전자제어장치"]
-    TRANSCEIVER["CAN 송수신기"]
-    BUS["차동 공유 버스"]
-    TERM["양끝 종단 저항"]
-    ECU --- TRANSCEIVER
-    TRANSCEIVER --- BUS
-    TERM --- BUS
+```text
+[전자제어장치]---[CAN 송수신기]---[차동 공유 버스]
+                                         |
+                                  [양끝 종단 저항]
 ```
+
+선의 의미: 전자제어장치와 CAN 송수신기는 논리 비트•차동 전압 변환 관계이고, 차동 공유 버스는 모든 노드의 공통 프레임 전달 매체이며 양끝 종단 저항과 신호 반사 억제 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

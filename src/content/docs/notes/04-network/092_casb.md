@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (CASB)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 92
 extra:
@@ -62,18 +62,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    USER["사용자•단말"]
-    BROKER["접근 중개기"]
-    CONTEXT["신원•자료•위험 저장소"]
-    POLICY["CASB 정책 엔진"]
-    CLOUD["클라우드 서비스"]
-    USER --- BROKER --- CLOUD
-    BROKER --- POLICY
-    CONTEXT --- POLICY
+```text
+ [사용자•단말] -- [접근 중개기] -- [클라우드 서비스]
+                         |
+                  [CASB 정책 엔진]
+                         |
+              [신원•자료•위험 저장소]
 ```
+
+선의 의미: 접근 중개기가 사용자•단말과 클라우드 서비스 사이의 통제 경계를 이루고, CASB 정책 엔진이 신원•자료•위험 저장소의 근거로 중개 정책을 결정하는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

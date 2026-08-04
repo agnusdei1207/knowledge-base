@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T01:32:00+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -64,22 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    CONSUMER["서비스 소비자"]
-    DISCOVERY["양단 SOME/IP-SD"]
-    PROVIDER["서비스 제공자"]
-    CONTRACT["서비스 인터페이스"]
-    E2E["E2E 보호"]
-    CONTRACT --- CONSUMER
-    CONTRACT --- PROVIDER
-    CONSUMER --- DISCOVERY
-    PROVIDER --- DISCOVERY
-    CONSUMER --- PROVIDER
-    E2E --- CONSUMER
-    E2E --- PROVIDER
+```text
+[서비스 소비자]---[양단 SOME/IP-SD]---[서비스 제공자]
+       |                                      |
+[서비스 인터페이스]---------------------------+
+       |                                      |
+   [E2E 보호]---------------------------------+
 ```
+
+선의 의미: 서비스 소비자와 제공자는 SOME/IP-SD의 위치•버전•TTL 관계이고, 양 종단은 같은 서비스 인터페이스 계약과 메시지 손상•반복•누락을 검출하는 E2E 보호 관계를 공유한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

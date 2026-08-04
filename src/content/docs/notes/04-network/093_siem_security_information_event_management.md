@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "융합 보안 관제 SIEM (Security Information and Event Management)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 93
 extra:
@@ -60,17 +60,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    INGEST["로그 수집•품질 검사기"]
-    NORMALIZER["정규화•보강기"]
-    STORE["보안 자료 저장소"]
-    ANALYTICS["상관분석 엔진"]
-    WORKBENCH["경보•조사 작업대"]
-    INGEST --- NORMALIZER --- STORE
-    STORE --- ANALYTICS --- WORKBENCH
+```text
+       [로그 수집•품질 검사기]
+                   |
+           [정규화•보강기]
+                   |
+          [보안 자료 저장소]
+                   |
+            [상관분석 엔진]
+                   |
+          [경보•조사 작업대]
 ```
+
+선의 의미: 로그 품질 검사와 정규화•보강, 자료 저장, 상관분석, 조사 작업대가 수집•보존•분석•조사 책임으로 나뉜 정적 SIEM 계층이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

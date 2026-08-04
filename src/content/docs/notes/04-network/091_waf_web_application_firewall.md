@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "WAF 웹 애플리케이션 방화벽 (Web Application Firewall)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 91
 extra:
@@ -63,17 +63,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    TLS["TLS 종단기"]
-    NORMALIZER["HTTP 해석•정규화기"]
-    POLICY["WAF 정책 엔진"]
-    ORIGIN["원본 웹 서버"]
-    TUNING["관측•튜닝기"]
-    TLS --- NORMALIZER --- POLICY --- ORIGIN
-    TUNING --- POLICY
+```text
+ [TLS 종단기] -- [HTTP 해석•정규화기] -- [WAF 정책 엔진] -- [원본 웹 서버]
+                                               |
+                                         [관측•튜닝기]
 ```
+
+선의 의미: TLS 종단과 HTTP 정규화 및 WAF 정책 엔진이 원본 웹 서버 앞의 응용 보안 경계를 이루고, 관측•튜닝기가 정책 엔진의 규칙 품질을 관리하는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

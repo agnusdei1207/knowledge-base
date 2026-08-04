@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "망분리 - 물리적•논리적 (Network Separation)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 88
 extra:
@@ -61,21 +61,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    DMZ["비무장지대"]
-    WORK["업무 영역"]
-    CORE["핵심 영역"]
-    DATA["자료 전송 관문"]
-    ADMIN["관리 접속 관문"]
-    DMZ --- WORK
-    WORK --- CORE
-    DATA --- WORK
-    DATA --- CORE
-    ADMIN --- WORK
-    ADMIN --- CORE
+```text
+             [비무장지대]
+                   |
+               [업무 영역]
+                /       \
+       [자료 전송 관문] [관리 접속 관문]
+                \       /
+               [핵심 영역]
 ```
+
+선의 의미: 비무장지대•업무 영역•핵심 영역이 신뢰 수준별로 분리되고, 업무 영역과 핵심 영역 사이는 자료 전송 관문과 관리 접속 관문이라는 전용 통제 경계로만 연결되는 정적 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

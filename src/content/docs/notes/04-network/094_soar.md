@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SOAR 보안 오케스트레이션•자동화•대응 (Security Orchestration, Automation, and Response)"
-date: "2026-08-04T14:39:15+09:00"
+date: "2026-08-05T08:30:00+09:00"
 tags: ["notes-network"]
 weight: 94
 extra:
@@ -62,17 +62,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    CONTEXT["사건 맥락 입력부"]
-    PLAYBOOK["플레이북 엔진"]
-    APPROVAL["승인•권한 관문"]
-    ADAPTER["연동 어댑터"]
-    TOOL["보안 통제 도구"]
-    CONTEXT --- PLAYBOOK --- APPROVAL
-    APPROVAL --- ADAPTER --- TOOL
+```text
+          [사건 맥락 입력부]
+                   |
+            [플레이북 엔진]
+                   |
+           [승인•권한 관문]
+                   |
+             [연동 어댑터]
+                   |
+           [보안 통제 도구]
 ```
+
+선의 의미: 사건 맥락과 플레이북 엔진 아래에 승인•권한 관문이 놓이고, 연동 어댑터가 최소 권한 범위에서 보안 통제 도구를 연결하는 정적 SOAR 플랫폼 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
