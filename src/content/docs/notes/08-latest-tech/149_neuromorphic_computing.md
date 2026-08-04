@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:55:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 149
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **뉴로모픽 컴퓨팅(Neuromorphic Computing, NC)** 은 인간 뇌의 신경망 구조를 모방해 **스파이킹 신경망(Spiking Neural Network, SNN)** 으로 뉴런•시냅스 상태를 갱신하는 비폰노이만형 컴퓨팅
+- 정의/개념: **NC** 는 인간 뇌의 신경망 구조를 모방해 **SNN** 으로 뉴런•시냅스 상태를 갱신하는 비폰노이만형 컴퓨팅
 - 배경/필요성: 밀집 연산의 **희소 센서 이벤트•초저전력 처리** 한계
 
 #### 한줄 요약
@@ -42,12 +42,13 @@ extra:
 
 - **이벤트 기반 처리**: 입력 변화가 발생한 시점에 관련 연산만 수행해 전력 소모를 줄이는 방식이다.
 - **비동기 연산**: 공통 클록의 고정 주기보다 개별 이벤트 도착에 따라 실행되는 연산 방식이다.
+- **인공신경망(Artificial Neural Network, ANN)**: 연속 활성값과 밀집 텐서 연산을 주로 사용하는 신경망이다.
 
 </details>
 
 - **활성 축**: 이벤트 발생 뉴런만 비동기 연산
 - **배치 축**: 시냅스 인접 저장•스파이크 라우팅
-- **한계 축**: **인공신경망(Artificial Neural Network, ANN)-스파이킹 신경망(Spiking Neural Network, SNN) 변환 오차** 와 이벤트 혼잡
+- **한계 축**: **ANN-SNN 변환 오차** 와 이벤트 혼잡
 
 #### 한줄 요약
 
@@ -128,12 +129,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **인공신경망(Artificial Neural Network, ANN)**: 연속 활성값과 밀집 텐서 연산을 주로 사용하는 신경망이다.
 - **엣지 마이크로컨트롤러 유닛(Microcontroller Unit, MCU)**: 센서 가까이에서 소형 제어와 경량 추론을 수행하는 저전력 마이크로컨트롤러이다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 밀집 텐서 연산을 병렬 실행하는 범용 가속기이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델로 인식•추론을 수행하는 기술이다.
 
 </details>
 
-**뉴로모픽 컴퓨팅(Neuromorphic Computing, NC)**, **그래픽 처리장치(Graphics Processing Unit, GPU) 기반 인공지능(Artificial Intelligence, AI)**, **엣지 마이크로컨트롤러 유닛(Microcontroller Unit, MCU)** 은 전력•범용성•제어 복잡도의 우선순위가 다르다.
+**NC**, **GPU 기반 AI**, **엣지 MCU** 는 전력•범용성•제어 복잡도의 우선순위가 다르다.
 
 | 에지 계산 방식 | 뉴로모픽 | GPU AI | 엣지 MCU |
 |:---|:---|:---|:---|
@@ -160,7 +162,7 @@ sequenceDiagram
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 이벤트 폭주로 **라우터 혼잡** | 이벤트율 제한•**라우팅 용량** 설계 | 지연 급증 방지 |
-| **인공신경망(Artificial Neural Network, ANN)-스파이킹 신경망(Spiking Neural Network, SNN) 변환** 으로 정확도 저하 | 임계값•시간창별 **변환 오차** 검증 | 과업 정확도 보존 |
+| **ANN-SNN 변환** 으로 정확도 저하 | 임계값•시간창별 **변환 오차** 검증 | 과업 정확도 보존 |
 | 낮은 희소성으로 **전력 이득 감소** | 실제 이벤트율로 **전력 절감량** 측정 | 부적합 적용 방지 |
 
 #### 한줄 요약
@@ -177,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 희소 이벤트•초저전력은 **뉴로모픽 컴퓨팅(Neuromorphic Computing, NC)**, 범용•저희소성은 **그래픽 처리장치(Graphics Processing Unit, GPU)** 선택
+- 희소 이벤트•초저전력은 **NC**, 범용•저희소성은 **GPU** 선택
 
 #### 한줄 요약
 

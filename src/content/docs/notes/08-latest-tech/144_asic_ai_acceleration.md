@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ASIC AI Acceleration (ASIC AI 가속)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:40:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 144
@@ -23,12 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 인공지능(Artificial Intelligence, AI) 연산과 데이터 흐름을 제조할 때 고정한 전용 반도체이다.
+- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 연산과 데이터 흐름을 제조할 때 고정한 전용 반도체이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 인식•추론 작업을 수행하는 기술이다.
 - **전용 데이터 흐름**: 특정 연산에 맞춰 데이터 이동과 재사용 경로를 하드웨어로 고정한 구조이다.
 
 </details>
 
-- 정의/개념: 주문형 집적회로(Application-Specific Integrated Circuit, ASIC)가 인공지능(Artificial Intelligence, AI) 연산•데이터 흐름을 제조할 때 고정해 처리량•전력 효율을 높이는 **전용 하드웨어 가속 방식**
+- 정의/개념: ASIC가 AI 연산•데이터 흐름을 제조 시 고정하는 **전용 하드웨어 가속 방식**
 - 배경/필요성: 범용•재구성 회로에서 발생하는 **제어•배선 오버헤드** 때문에 전력 효율 제약
 
 #### 한줄 요약
@@ -47,7 +48,7 @@ extra:
 
 - **구조 축**: 제어•배선을 제거한 전용 데이터흐름
 - **효율 축**: 온칩 재사용으로 전력당 처리량 극대화
-- **경제 축**: 양산량이 적거나 연산이 바뀌면 비반복 공학비(Non-Recurring Engineering, NRE) 회수 곤란
+- **경제 축**: 양산량이 적거나 연산이 바뀌면 NRE 회수 곤란
 
 #### 한줄 요약
 
@@ -131,7 +132,7 @@ sequenceDiagram
 
 </details>
 
-주문형 집적회로(Application-Specific Integrated Circuit, ASIC), 그래픽 처리장치(Graphics Processing Unit, GPU), 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)은 변경 가능성과 전력 효율이 다르다.
+ASIC, GPU, FPGA는 변경 가능성과 전력 효율이 다르다.
 
 | 가속기 | ASIC | GPU | FPGA |
 |:---|:---|:---|:---|
@@ -151,7 +152,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **워크로드 수명**: 전용 칩이 지원할 모델과 연산 구성이 유효하게 유지될 예상 기간이다.
-- **손익분기점**: 누적 효율 절감액이 비반복 공학비(Non-Recurring Engineering, NRE)와 제조 비용을 상쇄하는 생산량이나 사용 기간이다.
+- **손익분기점**: 누적 효율 절감액이 NRE와 제조 비용을 상쇄하는 생산량이나 사용 기간이다.
 
 </details>
 
@@ -174,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- **연산 안정성•양산량별 선택**: 비반복 공학비(Non-Recurring Engineering, NRE) 회수가 가능한 안정적 대량 작업은 주문형 집적회로(Application-Specific Integrated Circuit, ASIC), 잦은 변경은 그래픽 처리장치(Graphics Processing Unit, GPU)
+- **연산 안정성•양산량별 선택**: NRE 회수 가능한 안정적 대량 작업은 ASIC, 잦은 변경은 GPU
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "HBM (고대역폭 메모리)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:43:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 145
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **고대역폭 메모리(High Bandwidth Memory, HBM)** 는 적층 **동적 임의접근 메모리(Dynamic Random-Access Memory, DRAM)** 와 초광폭 인터페이스로 가속기에 높은 대역폭을 제공하는 패키지 근접 메모리
+- 정의/개념: **HBM** 은 적층 **DRAM** 과 초광폭 인터페이스로 가속기에 높은 대역폭을 제공하는 패키지 근접 메모리
 - 배경/필요성: 보드 메모리의 제한된 **핀 폭** 으로 가속기 데이터 공급 병목
 
 #### 한줄 요약
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- **적층 축**: **실리콘 관통전극(Through-Silicon Via, TSV)** 기반 **동적 임의접근 메모리(Dynamic Random-Access Memory, DRAM) 다이** 수직 연결
+- **적층 축**: **TSV** 기반 **DRAM 다이** 수직 연결
 - **대역폭 축**: 다수 저속 핀의 초광폭 병렬 채널
 - **패키지 축**: 근접 배치로 전송 전력은 감소하나 열•수율 비용 증가
 
@@ -59,14 +59,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인터포저(Interposer)**: 가속기와 고대역폭 메모리를 넓고 짧은 배선으로 연결하는 패키지 기판이다.
-- **적층 동적 임의접근 메모리(Stacked Dynamic Random-Access Memory, Stacked DRAM)**: 여러 메모리 다이를 수직으로 쌓아 작은 패키지 면적에 큰 용량과 넓은 입출력 폭을 제공한다.
-- **실리콘 관통전극(Through-Silicon Via, TSV)**: 적층 다이를 수직으로 관통하여 데이터•전원•제어 신호를 연결하는 배선이다.
+- **적층 DRAM**: 여러 메모리 다이를 수직으로 쌓아 작은 면적에 큰 용량과 넓은 입출력 폭을 제공한다.
 - **독립 채널**: 메모리 요청을 나누어 여러 뱅크에 동시에 접근하도록 제공하는 병렬 경로이다.
 - **열•전력 관리**: 적층 메모리와 가속기의 온도•전력•대역폭을 함께 제어하여 스로틀링과 신뢰성 저하를 방지한다.
 
 </details>
 
-**인터포저(Interposer)** 는 가속기와 **고대역폭 메모리(High Bandwidth Memory, HBM)** 를 연결하고, **실리콘 관통전극(Through-Silicon Via, TSV)** 은 적층 **동적 임의접근 메모리(Dynamic Random-Access Memory, DRAM)** 다이를 수직으로 잇는다.
+**인터포저** 는 가속기와 **HBM** 을 연결하고, **TSV** 는 적층 **DRAM** 다이를 수직으로 잇는다.
 
 ```mermaid
 block-beta
@@ -119,8 +118,8 @@ sequenceDiagram
 ```
 
 1. **채널•뱅크 주소 전달**: 요청 분산•병렬 접근
-2. **다이 데이터 전달**: 선택 **동적 임의접근 메모리(Dynamic Random-Access Memory, DRAM) 다이•뱅크** 읽기
-3. **수직 병렬 데이터 전달**: **실리콘 관통전극(Through-Silicon Via, TSV)•인터포저** 로 신호 전송
+2. **다이 데이터 전달**: 선택 **DRAM 다이•뱅크** 읽기
+3. **수직 병렬 데이터 전달**: **TSV•인터포저** 로 신호 전송
 
 #### 한줄 요약
 
@@ -131,12 +130,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **그래픽 DDR(Graphics Double Data Rate, GDDR)**: 그래픽 처리용으로 높은 핀 속도를 제공하는 보드 실장 메모리이다.
+- **그래픽 이중 데이터 전송률(Graphics Double Data Rate, GDDR)**: 그래픽 처리용으로 높은 핀 속도를 제공하는 보드 실장 메모리이다.
 - **DDR(Double Data Rate)**: 클록의 상승•하강 양쪽 변에서 데이터를 전송하는 범용 메모리이다.
 
 </details>
 
-**고대역폭 메모리(High Bandwidth Memory, HBM)**, **그래픽 이중 데이터 전송률 메모리(Graphics Double Data Rate, GDDR)**, **이중 데이터 전송률 메모리(Double Data Rate, DDR)** 는 대역폭•비용•용량 확장성의 우선순위가 다르다.
+**HBM**, **GDDR**, **DDR** 은 대역폭•비용•용량 확장성의 우선순위가 다르다.
 
 | 메모리 | HBM | GDDR | DDR |
 |:---|:---|:---|:---|
@@ -162,7 +161,7 @@ sequenceDiagram
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 불균형 접근으로 **채널 대역폭** 미활용 | 주소 인터리빙•뱅크 병렬 배치 | **고대역폭 메모리(High Bandwidth Memory, HBM) 유효 대역폭** 향상 |
+| 불균형 접근으로 **채널 대역폭** 미활용 | 주소 인터리빙•뱅크 병렬 배치 | **HBM 유효 대역폭** 향상 |
 | 적층•근접 배치로 **열 밀도** 상승 | 열 경로•전력 제한•온도 감시 | 패키지 **성능 저하 방지** |
 
 #### 한줄 요약
@@ -179,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-- 대역폭 병목은 **고대역폭 메모리(High Bandwidth Memory, HBM)**, 용량•확장성 우선은 **이중 데이터 전송률 메모리(Double Data Rate, DDR)** 선택
+- 대역폭 병목은 **HBM**, 용량•확장성 우선은 **DDR** 선택
 
 #### 한줄 요약
 

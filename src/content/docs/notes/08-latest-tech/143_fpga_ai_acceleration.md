@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "FPGA AI Acceleration (FPGA AI 가속)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:37:30+09:00"
 tags:
   - "notes-latest-tech"
 weight: 143
@@ -23,12 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리•배선을 재구성해 인공지능(Artificial Intelligence, AI) 데이터 경로를 구현하는 반도체이다.
+- **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리•배선을 재구성하는 반도체이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 인식•추론 작업을 수행하는 기술이다.
 - **결정적 지연**: 같은 조건에서 처리 시간이 예측 가능한 상한 안에 유지되는 특성이다.
 
 </details>
 
-- 정의/개념: 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 재구성 논리•배선으로 인공지능(Artificial Intelligence, AI) 데이터 경로를 구현하는 **하드웨어 가속 방식**
+- 정의/개념: FPGA의 재구성 논리•배선으로 AI 데이터 경로를 구현하는 **하드웨어 가속 방식**
 - 배경/필요성: 범용 가속기의 **맞춤 데이터경로•결정적 지연** 확보 한계
 
 #### 한줄 요약
@@ -51,7 +52,7 @@ extra:
 
 #### 한줄 요약
 
-- 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)은 생산라인을 다시 만들 수 있지만 새 배치를 설계하고 모든 통로가 제시간에 연결되는지 확인하는 데 시간이 걸림
+- FPGA는 생산라인을 다시 만들 수 있지만 새 배치를 설계하고 모든 통로가 제시간에 연결되는지 확인하는 데 시간이 걸림
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -64,7 +65,7 @@ extra:
 
 </details>
 
-룩업 테이블(Look-Up Table, LUT), 디지털 신호처리(Digital Signal Processing, DSP) 블록, 블록 메모리(Block RAM, BRAM)를 조합해 맞춤 데이터 경로를 구성한다.
+LUT, DSP 블록, BRAM을 조합해 맞춤 데이터 경로를 구성한다.
 
 ```mermaid
 block-beta
@@ -97,7 +98,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **합성**: 설계한 연산과 제어 논리를 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 룩업 테이블(Look-Up Table, LUT)•디지털 신호처리(Digital Signal Processing, DSP) 블록•메모리 자원으로 변환하는 과정이다.
+- **합성**: 설계한 연산과 제어 논리를 FPGA의 LUT•DSP•메모리 자원으로 변환하는 과정이다.
 - **타이밍 검증**: 배치•배선된 신호가 정한 클록 주기 안에 도착하는지 확인하는 절차이다.
 
 </details>
@@ -134,7 +135,7 @@ sequenceDiagram
 
 </details>
 
-현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA), 그래픽 처리장치(Graphics Processing Unit, GPU), 주문형 집적회로(Application-Specific Integrated Circuit, ASIC)는 변경 주기와 효율이 다르다.
+FPGA, GPU, ASIC는 변경 주기와 효율이 다르다.
 
 | 가속기 | FPGA | GPU | ASIC |
 |:---|:---|:---|:---|
@@ -158,7 +159,7 @@ sequenceDiagram
 
 </details>
 
-룩업 테이블(Look-Up Table, LUT)•디지털 신호처리(Digital Signal Processing, DSP) 블록•블록 메모리(Block RAM, BRAM)의 자원 예산과 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)의 타이밍을 함께 검증한다.
+LUT•DSP•BRAM 자원 예산과 FPGA 타이밍을 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -179,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- **재구성성•구현 복잡성별 선택**: 잦은 변경은 그래픽 처리장치(Graphics Processing Unit, GPU), 결정적 지연•재구성은 현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)
+- **재구성성•구현 복잡성별 선택**: 잦은 변경은 GPU, 결정적 지연•재구성은 FPGA
 
 #### 한줄 요약
 

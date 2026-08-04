@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "InfiniBand"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:02:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 151
@@ -23,13 +23,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인피니밴드(InfiniBand)**: 고성능 컴퓨팅•인공지능(Artificial Intelligence, AI) 클러스터의 노드 사이에 저지연•고대역폭 원격 메모리 통신을 제공하는 전용 스위치 패브릭이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 중앙처리장치(Central Processing Unit, CPU)•커널 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
+- **인피니밴드(InfiniBand, IB)**: 고성능 컴퓨팅•AI 클러스터 노드 사이에 저지연•고대역폭 원격 메모리 통신을 제공하는 전용 스위치 패브릭이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU•커널 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델로 인식•추론을 수행하는 기술이다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 복잡한 제어와 순차 작업을 처리하는 범용 프로세서이다.
 
 </details>
 
-- 정의/개념: 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)•서브넷 관리•혼잡 제어를 통합한 **인피니밴드(InfiniBand) 저지연 스위치 패브릭**
-- 배경/필요성: 일반 소켓•이더넷은 대규모 집단 통신에서 **지연•중앙처리장치(Central Processing Unit, CPU) 부하•손실 증가**
+- 정의/개념: RDMA•서브넷 관리•혼잡 제어를 통합한 **IB 저지연 스위치 패브릭**
+- 배경/필요성: 일반 소켓•이더넷은 대규모 집단 통신에서 **지연•CPU 부하•손실 증가**
 
 #### 한줄 요약
 - 서버마다 전용 출입구를 달고 관리자가 주소•차선•우회로를 정하는 클러스터 전용 도로망임
@@ -41,12 +43,13 @@ extra:
 
 - **서비스 수준(Service Level, SL)**: 트래픽 종류별 우선순위와 가상 통로 매핑을 정하는 서비스 속성이다.
 - **적응형 경로(Adaptive Routing)**: 혼잡 상태에 따라 같은 목적지로 가는 여러 경로 중 전송 경로를 동적으로 선택하는 방식이다.
+- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버의 메모리 작업을 IB 패킷으로 만들고 완료를 처리하는 장치이다.
 
 </details>
 
 - **관리 축**: 서브넷 관리자의 주소•경로•분할 설정
-- **전송 축**: 호스트 채널 어댑터(Host Channel Adapter, HCA)의 등록 메모리 기반 저부하 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)
-- **혼잡 축**: 서비스 수준(Service Level, SL)•가상 통로•적응형 경로 기반 부하 분산
+- **전송 축**: HCA의 등록 메모리 기반 저부하 RDMA
+- **혼잡 축**: SL•가상 통로•적응형 경로 기반 부하 분산
 
 #### 한줄 요약
 - 관리자가 도로와 통행 구역을 정하고 서버 출입구가 메모리를 직접 보내며 정체 시 다른 길로 분산함
@@ -56,7 +59,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버의 메모리 작업 요청을 InfiniBand 패킷으로 만들고 완료를 처리하는 장치이다.
 - **InfiniBand 스위치**: 목적지 주소와 서브넷 경로에 따라 패킷을 전환하는 저지연 패브릭 장치이다.
 - **서브넷 관리자(Subnet Manager)**: 패브릭 장치를 발견하고 주소•경로•분할 정책을 설정하는 관리 주체이다.
 - **전송•큐 계층**: 큐 페어•완료 큐와 신뢰•비신뢰 전송 서비스를 이용해 원격 직접 메모리 접근 작업을 처리한다.
@@ -82,11 +84,11 @@ block-beta
 
 | 구성요소 | 책임 |
 |:---|:---|
-| HCA | 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업 요청•패킷•완료의 **호스트 종단 처리** |
+| HCA | RDMA 작업 요청•패킷•완료의 **호스트 종단 처리** |
 | InfiniBand 스위치 | 주소•경로표 기반 **패킷 전달** |
 | 서브넷 관리자 | 장치 발견•주소•경로•P_Key의 **패브릭 구성** |
 | 전송•큐 계층 | 연결•순서•재전송과 **송수신 큐 관리** |
-| 혼잡•서비스 계층 | 서비스 수준(Service Level, SL)•가상 통로•혼잡 신호의 **트래픽 제어** |
+| 혼잡•서비스 계층 | SL•가상 통로•혼잡 신호의 **트래픽 제어** |
 
 #### 한줄 요약
 - 서버 출입구와 교차로, 주소 관리자, 배송 줄, 정체 관제소가 하나의 전용 도로망을 구성함
@@ -101,7 +103,7 @@ block-beta
 
 </details>
 
-호스트 채널 어댑터(Host Channel Adapter, HCA)와 인피니밴드(InfiniBand, IB) 스위치는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 패킷을 서비스 수준(Service Level, SL)과 분할 키(Partition Key, P_Key)에 맞춰 전달한다.
+HCA와 IB 스위치는 RDMA 패킷을 SL과 P_Key에 맞춰 전달한다.
 
 ```mermaid
 sequenceDiagram
@@ -130,7 +132,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **융합 이더넷 기반 RDMA(RDMA over Converged Ethernet, RoCE)**: 이더넷의 무손실•혼잡 설정 위에서 RDMA를 제공하는 방식이다.
-- **NVLink•NVSwitch**: 그래픽 처리장치(Graphics Processing Unit, GPU) 메모리 사이를 고대역폭으로 연결하고 다수 GPU의 다대다 통신을 구성하는 기술이다.
+- **NVLink•NVSwitch**: GPU 메모리 사이를 고대역폭으로 연결하고 다수 GPU의 다대다 통신을 구성하는 기술이다.
+- **그래픽 처리장치(Graphics Processing Unit, GPU)**: 대량 데이터에 같은 연산을 병렬 적용하는 프로세서이다.
 
 </details>
 
@@ -155,7 +158,7 @@ sequenceDiagram
 
 </details>
 
-분할 키(Partition Key, P_Key), 호스트 채널 어댑터(Host Channel Adapter, HCA), 서비스 수준(Service Level, SL)을 함께 검증한다.
+P_Key, HCA, SL을 함께 검증한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
@@ -172,11 +175,11 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전용 패브릭**: 장치•스위치•관리 체계를 고성능 클러스터 통신에 맞춰 함께 구성한 네트워크이다.
-- **패브릭 격리**: 분할 키(Partition Key, P_Key) 등으로 통신 가능한 종단 집단을 나누어 상호 접근을 제한하는 통제이다.
+- **패브릭 격리**: P_Key 등으로 통신 가능한 종단 집단을 나누어 상호 접근을 제한하는 통제이다.
 
 </details>
 
-- **전용 패브릭•패브릭 격리별 선택**: 전용 다중 노드는 인피니밴드(InfiniBand), 기존 이더넷 활용은 융합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)
+- **전용 패브릭•패브릭 격리별 선택**: 전용 다중 노드는 IB, 기존 이더넷 활용은 RoCE
 
 #### 한줄 요약
 - 빠른 선로뿐 아니라 누가 통신하고 정체 때 어느 길로 우회할지 함께 정함
