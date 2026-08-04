@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "X.509 인증서 (X.509 Certificate)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:07:00+09:00"
 tags:
   - "notes-security"
 weight: 8
@@ -24,6 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **X.509 인증서** 는 공개키•소유자•용도•유효기간을 인증기관의 전자서명으로 연결하는 표준 전자 문서이다.
+- **인증기관(Certificate Authority, CA)** 은 공개키와 소유자 신원을 확인하여 인증서에 서명하는 기관이다.
 
 </details>
 
@@ -39,8 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TBS 인증서** 는 주체•공개키•유효기간•확장 정보를 담아 발급자 서명의 입력이 되는 인증서 본문이다.
-- **SAN** 은 인증서가 유효한 도메인이나 IP 주소를 나열하고, **KU•EKU** 는 공개키 연산과 구체적인 인증서 용도를 제한한다.
+- **서명 대상(To Be Signed, TBS) 인증서** 는 주체•공개키•유효기간•확장 정보를 담은 인증서 본문이다.
+- **주체 대체 이름(Subject Alternative Name, SAN)** 은 인증서가 유효한 도메인이나 IP 주소를 나열한다.
+- **키 용도(Key Usage, KU)** 는 인증서 공개키에 허용된 암호 연산을 제한한다.
+- **확장 키 용도(Extended Key Usage, EKU)** 는 인증서의 구체적인 사용 목적을 제한한다.
 
 </details>
 
@@ -57,8 +60,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **주체와 발급자** 는 각각 인증서가 공개키와 연결하는 소유자와 인증서에 서명한 CA를 나타낸다.
-- **SPKI** 는 공개키 알고리즘과 주체의 공개키 값을 담는 인증서 필드이다.
+- **주체** 는 인증서가 공개키와 연결하는 소유자를 나타낸다.
+- **발급자** 는 인증서에 서명한 CA를 나타낸다.
+- **주체 공개키 정보(Subject Public Key Info, SPKI)** 는 공개키 알고리즘과 주체의 공개키 값을 담는 필드이다.
 - **인증서 체인** 은 주체 인증서에서 중간 CA와 신뢰 기준점까지 서명 관계를 연결한다.
 
 </details>
@@ -95,8 +99,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **CSR** 은 공개키•주체 정보와 개인키 보유 증명을 담아 CA에 제출하는 인증서 발급 요청이다.
-- **경로•이름•용도 검증** 은 신뢰 기준점까지의 서명, SAN의 대상 이름, KU•EKU의 사용 목적을 모두 확인한다.
+- **인증서 서명 요청(Certificate Signing Request, CSR)** 은 공개키•주체 정보와 개인키 보유 증명을 담은 발급 요청이다.
+- **경로 검증** 은 인증서 서명이 신뢰 기준점까지 유효하게 이어지는지 확인한다.
+- **이름 검증** 은 SAN이 검증 대상의 도메인이나 IP 주소와 일치하는지 확인한다.
+- **용도 검증** 은 KU•EKU가 검증자가 기대한 사용 목적을 허용하는지 확인한다.
 
 </details>
 
@@ -136,7 +142,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서버 인증서** 는 TLS 서버의 도메인과 공개키를, **클라이언트 인증서** 는 mTLS 사용자나 장비와 공개키를 연결한다.
+- **전송 계층 보안(Transport Layer Security, TLS)** 은 통신 상대 인증과 전송 구간 보호를 제공하는 프로토콜이다.
+- **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)** 은 양측이 인증서를 교환하여 서로의 신원을 검증하는 방식이다.
+- **서버 인증서** 는 TLS 서버의 도메인과 공개키를 연결한다.
+- **클라이언트 인증서** 는 mTLS 사용자나 장비와 공개키를 연결한다.
 - **코드 서명 인증서** 는 소프트웨어 배포자와 서명키를 연결하여 산출물의 출처를 검증하게 한다.
 
 </details>
@@ -158,9 +167,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RFC 5280** 은 인터넷 X.509 v3 인증서•CRL 프로파일과 경로 검증 절차를 규정한다.
-- **ITU-T X.509** 는 공개키 인증서와 인증서 폐지 목록의 기본 구조 및 인증 프레임워크를 규정한다.
-- **HSM** 은 인증서의 개인키를 외부로 노출하지 않고 내부에서 서명 연산을 수행한다.
+- **의견 요청 문서(Request for Comments, RFC) 5280** 은 인터넷 X.509 v3 인증서•CRL 프로파일과 경로 검증 절차를 규정한다.
+- **국제전기통신연합 전기통신표준화부문(International Telecommunication Union Telecommunication Standardization Sector, ITU-T) X.509** 는 인증서와 폐지 목록의 기본 구조를 규정한다.
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)** 은 인증서의 개인키를 외부로 노출하지 않고 내부에서 서명 연산을 수행한다.
 
 </details>
 

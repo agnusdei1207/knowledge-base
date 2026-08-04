@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "기밀 컴퓨팅 (Confidential Computing)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:29:00+09:00"
 tags:
   - "notes-security"
 weight: 19
@@ -25,7 +25,6 @@ extra:
 
 - **기밀 컴퓨팅(Confidential Computing)** 은 하드웨어 기반 격리와 원격 증명으로 사용 중 데이터와 코드를 보호하는 기술이다.
 - **사용 중 데이터(Data in Use)** 는 응용이 메모리에 적재하여 연산 중인 데이터다.
-- **TEE•원격 증명** 은 실행 환경을 하드웨어로 격리하고 그 코드와 설정 상태를 외부 검증자에게 증명하는 보호 수단이다.
 
 </details>
 
@@ -158,8 +157,10 @@ sequenceDiagram
 
 - **부채널 공격(Side-channel Attack)** 은 처리 시간•전력•캐시 등 간접 정보를 분석하여 비밀값을 추론하는 공격이다.
 - **직접 메모리 접근(DMA)** 은 주변장치가 CPU를 거치지 않고 메모리에 직접 접근하는 방식이다.
-- **IETF RFC 9334** 는 원격 증명 아키텍처를, **IETF RFC 9711** 은 EAT 토큰 형식을 규정한다.
-- **EAT(Entity Attestation Token)** 는 증명 대상의 신원과 보안 상태를 표준 클레임으로 전달하는 토큰 형식이다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 프로토콜 표준을 개발하는 조직이다.
+- **의견 요청 문서(Request for Comments, RFC) 9334** 는 원격 증명 아키텍처를 규정한다.
+- **RFC 9711** 은 EAT 토큰 형식을 규정한다.
+- **엔티티 증명 토큰(Entity Attestation Token, EAT)** 은 증명 대상의 신원과 보안 상태를 표준 클레임으로 전달한다.
 
 </details>
 
@@ -180,7 +181,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **보호 범위 선택** 은 응용 수정 부담과 TCB 크기, 장치 경로까지 포함한 공격 표면을 함께 비교해 결정한다.
-- **엔클레이브•기밀 VM 선택** 은 작은 민감 코드만 격리하려면 전자를, 기존 응용 전체를 이관하려면 후자를 적용하는 판단이다.
 
 </details>
 

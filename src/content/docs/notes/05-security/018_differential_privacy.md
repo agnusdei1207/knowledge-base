@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:27:00+09:00"
 tags:
   - "notes-security"
 weight: 18
@@ -102,8 +102,7 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **프라이버시 회계(Privacy Accounting)** 는 반복 공개로 누적되는 프라이버시 손실을 계산하는 절차다.
-- **노이즈 주입•예산 차감** 은 승인된 오차를 결과에 더하고 해당 공개가 소비한 ε•δ를 기록하는 처리다.
+- **예산 차감** 은 결과 공개가 소비한 ε•δ를 누적 사용량에 기록하는 처리다.
 
 </details>
 
@@ -139,7 +138,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **중앙 DP** 는 신뢰하는 수집자가 집계 결과에 노이즈를 넣고, **로컬 DP** 는 각 단말이 전송 전에 값을 무작위화한다.
+- **중앙 DP** 는 신뢰하는 수집자가 집계 결과에 노이즈를 넣는 방식이다.
+- **로컬 DP** 는 각 단말이 수집자에게 전송하기 전에 값을 무작위화하는 방식이다.
 - **셔플 DP(Shuffle DP)** 는 무작위화한 보고의 순서와 출처를 섞는 방식이다.
 
 </details>
@@ -161,9 +161,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DP-SGD** 는 표본별 기울기를 제한하고 노이즈를 추가하는 차등 프라이버시 확률적 경사 하강법이다.
+- **차등 프라이버시 확률적 경사 하강법(Differentially Private Stochastic Gradient Descent, DP-SGD)** 은 표본별 기울기를 제한하고 노이즈를 추가하는 학습 방식이다.
 - **기울기 클리핑(Gradient Clipping)** 은 학습 표본별 기울기 크기를 상한으로 제한하는 기법이다.
-- **NIST SP 800-226** 은 차등 프라이버시 보장의 평가 요소와 구현상 위험을 제시한 공식 지침이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-226** 은 차등 프라이버시의 평가 요소와 구현상 위험을 제시한다.
 
 </details>
 
@@ -184,7 +185,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **방식 선택 기준** 은 수집자 신뢰 범위, 반복 공개 횟수, 허용 오차와 개인별 기여량이다.
-- **중앙 DP•로컬 DP 선택** 은 원자료 수집자를 신뢰하면 중앙에서, 신뢰하지 않으면 각 단말에서 값을 무작위화하는 판단이다.
 
 </details>
 

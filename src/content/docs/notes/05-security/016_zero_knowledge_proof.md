@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "영지식 증명 ZKP (Zero-Knowledge Proof)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:23:00+09:00"
 tags:
   - "notes-security"
 weight: 16
@@ -61,8 +61,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **관계•회로(Relation•Circuit)** 는 공개 입력과 비밀 증거가 만족할 조건을 제약식으로 표현한 구조다.
-- **증명자•검증자(Prover•Verifier)** 는 증명을 만드는 주체와 유효성을 판정하는 주체다.
+- **관계(Relation)** 는 공개 입력과 비밀 증거가 만족해야 할 조건이다.
+- **회로(Circuit)** 는 관계를 계산 가능한 제약식으로 표현한 구조다.
+- **증명자(Prover)** 는 비밀 증거를 이용해 증명을 만드는 주체다.
+- **검증자(Verifier)** 는 공개 입력과 증명으로 명제의 유효성을 판정하는 주체다.
 - **공통 파라미터(Common Parameters)** 는 증명 생성과 검증에 공통으로 쓰는 공개 설정값이다.
 
 </details>
@@ -101,7 +103,8 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **문맥 결합** 은 서비스 식별자•회로 버전•요청값을 공개 입력에 포함해 증명 재사용을 막는 통제다.
-- **증명•검증 파라미터** 는 증명 생성과 유효성 판정에 각각 사용하는 공개 설정값이다.
+- **증명 파라미터** 는 증명 생성에 사용하는 공개 설정값이다.
+- **검증 파라미터** 는 증명의 유효성 판정에 사용하는 공개 설정값이다.
 
 </details>
 
@@ -137,8 +140,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **zk-SNARK** 는 짧은 증명과 빠른 검증을 제공하는 비대화형 방식이다.
-- **zk-STARK** 는 신뢰 설정 없이 해시 함수로 확장 가능한 증명을 생성하는 방식이다.
+- **영지식 간결 비대화형 지식 논증(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, zk-SNARK)** 은 짧은 증명과 빠른 검증을 제공한다.
+- **영지식 확장 가능 투명 지식 논증(Zero-Knowledge Scalable Transparent Argument of Knowledge, zk-STARK)** 은 신뢰 설정 없이 확장 가능한 증명을 생성한다.
 - **범위 증명(Range Proof)** 은 비밀값을 공개하지 않고 정해진 수치 구간에 속함을 증명한다.
 
 </details>
@@ -160,7 +163,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 9798-5:2009** 는 영지식 기법을 이용한 엔티티 인증 메커니즘을 규정한 국제 표준이다.
+- **국제표준화기구/국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 9798-5:2009** 는 영지식 기반 엔티티 인증 메커니즘을 규정한다.
 - **신뢰 설정(Trusted Setup)** 은 일부 증명 방식에서 공통 파라미터를 만들 때 비밀값이 안전하게 폐기되었다고 가정하는 초기 절차다.
 - **현실 진실성** 은 회로에 입력한 사실 자체가 참인지 신뢰 발급자의 서명 등 외부 근거로 확인하는 성질이다.
 
@@ -178,14 +181,6 @@ sequenceDiagram
 - 성인 인증은 생년월일 전체를 보내지 않고 신뢰된 신분 정보의 나이가 기준 이상이라는 사실만 증명한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **현실 진실성** 은 증명이 내부 관계의 참을 보장하더라도 입력 사실 자체는 신뢰된 발급자의 서명 등으로 별도 확인해야 한다는 원칙이다.
-- **zk-SNARK•zk-STARK 선택** 은 짧은 증명과 빠른 검증에는 전자를, 신뢰 설정을 피하려면 후자를 적용하는 판단이다.
-
-</details>
 
 - 짧은 증명은 **zk-SNARK**, 신뢰 설정 회피는 **zk-STARK** 선택
 

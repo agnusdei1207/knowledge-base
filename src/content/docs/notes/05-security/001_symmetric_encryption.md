@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "대칭 암호화 (Symmetric Encryption)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T09:00:00+09:00"
 tags:
   - "notes-security"
 weight: 1
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **블록 암호** 는 평문을 고정 길이 블록으로 나누어 비밀키로 변환하고, **스트림 암호** 는 키스트림과 평문을 연속적으로 결합한다.
+- **블록 암호** 는 평문을 고정 길이 블록으로 나누어 비밀키로 변환한다.
+- **스트림 암호** 는 키스트림과 평문을 연속적으로 결합한다.
 - **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)** 는 평문의 기밀성과 평문•부가 인증 데이터의 무결성을 함께 보장한다.
 - **초기화 벡터(Initialization Vector, IV)** 는 같은 키로 암호화한 결과가 매번 달라지도록 암호 연산에 함께 넣는 초기화 값이다.
 - **논스** 는 특정 키에서 반복하지 않도록 관리하는 일회성 입력값이다.
@@ -133,9 +134,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **고급 암호화 표준(Advanced Encryption Standard, AES) 갈루아/카운터 모드(Galois/Counter Mode, GCM; AES-GCM)** 는 AES 카운터 암호화와 갈루아 인증을 결합한 AEAD 방식이다.
+- **고급 암호화 표준(Advanced Encryption Standard, AES)** 은 128비트 블록과 128•192•256비트 키를 사용하는 블록 암호 표준이다.
+- **갈루아/카운터 모드(Galois/Counter Mode, GCM)** 는 카운터 암호화와 갈루아 인증을 결합한 AEAD 운용 모드이다.
+- **AES-GCM** 은 AES에 GCM을 적용한 인증 암호 방식이다.
 - **ChaCha20-Poly1305** 는 ChaCha20 스트림 암호와 Poly1305 인증자를 결합한 AEAD 방식이다.
-- **배타적 논리합-암호화-배타적 논리합(XOR-Encrypt-XOR, XEX) 기반 조정 코드북 모드와 암호문 훔치기(XEX-based Tweaked-codebook mode with ciphertext Stealing, XTS)를 적용한 AES(AES-XTS)** 는 저장장치의 블록 위치별로 다른 변환을 적용하는 디스크 암호화 모드이다.
+- **배타적 논리합-암호화-배타적 논리합(XOR-Encrypt-XOR, XEX)** 은 블록 위치를 반영하는 조정값 기반 암호 구조이다.
+- **조정 코드북 모드와 암호문 훔치기(XEX-based Tweaked-codebook mode with ciphertext Stealing, XTS)** 는 저장장치 블록 위치별로 다른 변환을 적용하는 모드이다.
+- **AES-XTS** 는 AES에 XTS를 적용한 디스크 암호 방식이다.
 
 </details>
 

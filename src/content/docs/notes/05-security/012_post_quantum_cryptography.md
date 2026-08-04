@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자내성암호 PQC (Post-Quantum Cryptography)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:15:00+09:00"
 tags:
   - "notes-security"
 weight: 12
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PQC** 는 양자•고전 컴퓨터의 공격에 견디도록 설계하고 기존 컴퓨터와 네트워크에서 실행하는 공개키 암호 기술이다.
+- **양자내성암호(Post-Quantum Cryptography, PQC)** 는 양자•고전 컴퓨터의 공격에 견디도록 설계한 공개키 암호 기술이다.
 - **쇼어 알고리즘** 은 양자컴퓨터에서 소인수분해와 이산대수를 효율적으로 풀어 RSA•DH•ECC를 위협한다.
 
 </details>
@@ -40,8 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **KEM과 전자서명** 은 각각 공유 비밀 설정과 주체•데이터 인증을 담당한다.
-- **HNDL** 은 현재 암호문을 수집해 두었다가 미래의 양자컴퓨터로 해독하려는 위협이다.
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)** 은 공개키로 공유 비밀을 설정하는 방식이다.
+- **전자서명** 은 개인키로 주체와 데이터의 무결성을 증명하는 방식이다.
+- **선수집 후해독(Harvest Now, Decrypt Later, HNDL)** 은 현재 암호문을 수집해 미래의 양자컴퓨터로 해독하려는 위협이다.
 
 </details>
 
@@ -96,9 +97,10 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **캡슐화와 디캡슐화** 는 공개키로 공유 비밀•암호문을 만들고 개인키로 같은 비밀을 복구하는 KEM 연산이다.
-- **KDF** 는 KEM 공유 비밀에서 실제 세션키를 도출한다.
-- **ML-KEM** 은 모듈 격자 문제를 기반으로 공개키와 개인키 사이의 공유 비밀을 캡슐화하는 양자내성 KEM이다.
+- **캡슐화** 는 공개키로 공유 비밀과 암호문을 만드는 KEM 연산이다.
+- **디캡슐화** 는 개인키로 암호문에서 같은 공유 비밀을 복구하는 KEM 연산이다.
+- **키 유도 함수(Key Derivation Function, KDF)** 는 KEM 공유 비밀에서 실제 세션키를 도출한다.
+- **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)** 은 모듈 격자 문제를 기반으로 공유 비밀을 캡슐화한다.
 
 </details>
 
@@ -135,8 +137,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ML-KEM** 은 모듈 격자 기반 키 캡슐화이고, **ML-DSA** 는 모듈 격자 기반 전자서명이다.
-- **SLH-DSA** 는 해시 함수의 안전성을 기반으로 하는 상태 비저장 전자서명이다.
+- **모듈 격자 기반 전자서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)** 은 모듈 격자 기반 전자서명 방식이다.
+- **상태 비저장 해시 기반 전자서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)** 은 해시 함수의 안전성을 기반으로 하는 서명 방식이다.
 
 </details>
 
@@ -157,10 +159,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FIPS 203과 FIPS 204** 는 각각 ML-KEM과 ML-DSA를 규정한다.
+- **연방 정보 처리 표준(Federal Information Processing Standards, FIPS) 203** 은 ML-KEM을 규정한다.
+- **FIPS 204** 는 ML-DSA를 규정한다.
 - **다운그레이드 공격** 은 협상을 조작하여 지원 가능한 방식보다 약한 암호를 선택하게 한다.
-- **HNDL** 은 현재 암호문을 수집한 뒤 미래의 양자컴퓨터로 복호화하려는 위협이다.
-- **암호 자산 목록•민첩성** 은 숨은 암호 의존성을 추적하고 알고리즘을 교체할 수 있게 하는 전환 기반이다.
 
 </details>
 
@@ -180,7 +181,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전환 우선순위** 는 데이터의 비밀 유지 기간과 인증 증거의 보존 기간을 기준으로 정한다.
-- **ML-KEM•ML-DSA 우선 전환** 은 장기 기밀 데이터의 키 설정에는 전자를, 장기 인증 증거에는 후자를 먼저 적용하는 판단이다.
 
 </details>
 

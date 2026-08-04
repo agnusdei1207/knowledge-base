@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "하이브리드 암호 (Hybrid Cryptography)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T09:57:00+09:00"
 tags:
   - "notes-security"
 weight: 3
@@ -24,7 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **하이브리드 암호** 는 공개키 암호로 임시 공유 비밀을 설정하고 대칭키 암호로 실제 데이터를 보호하는 결합 방식이다.
-- **KEM과 DEM** 은 각각 공개키로 공유 비밀을 설정하고 그 비밀에서 얻은 대칭키로 본문을 암호화한다.
+- **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)** 은 공개키로 공유 비밀을 설정하는 방식이다.
+- **데이터 캡슐화 메커니즘(Data Encapsulation Mechanism, DEM)** 은 공유 비밀에서 얻은 대칭키로 본문을 암호화하는 방식이다.
 
 </details>
 
@@ -41,7 +42,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **세션키** 는 하나의 통신 연결이나 제한된 기간의 데이터 보호에 사용하는 임시 대칭키이다.
-- **KDF** 는 공유 비밀에서 용도와 통신 방향별로 서로 다른 암호키를 생성한다.
+- **키 유도 함수(Key Derivation Function, KDF)** 는 공유 비밀에서 용도와 통신 방향별로 서로 다른 암호키를 생성한다.
 
 </details>
 
@@ -59,8 +60,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **키 스케줄** 은 하나의 공유 비밀에서 연결 단계와 용도별 키를 순서대로 도출하고 갱신한다.
-- **KEM** 은 공개키로 공유 비밀을 캡슐화하고 개인키로 같은 비밀을 복구하는 키 설정 방식이다.
-- **AEAD** 는 본문의 기밀성과 본문•부가 데이터의 무결성을 함께 보호한다.
+- **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)** 는 본문의 기밀성과 본문•부가 데이터의 무결성을 함께 보호한다.
 
 </details>
 
@@ -94,9 +94,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **협상 기록 인증** 은 양측이 교환한 알고리즘 제안과 선택 결과를 검증하여 다운그레이드 조작을 탐지한다.
-- **ECDHE** 는 연결마다 임시 타원곡선 키를 만들어 공유 비밀을 합의한다.
-- **KEM•KDF** 는 공유 비밀을 캡슐화하고 그 결과에서 통신 방향과 용도별 키를 도출한다.
-- **AEAD 본문 보호** 는 도출한 대칭키로 본문의 기밀성과 무결성을 함께 보장한다.
+- **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)** 은 연결마다 임시 타원곡선 키를 만들어 공유 비밀을 합의한다.
 
 </details>
 
@@ -134,6 +132,7 @@ sequenceDiagram
 
 - **순방향 비밀성** 은 장기 개인키가 유출되어도 이전 세션키와 암호문을 보호하는 성질이다.
 - **RSA 키 전송** 은 수신자의 RSA 공개키로 세션키를 암호화하여 전달하므로 장기 개인키 유출 시 과거 복호화 위험이 있다.
+- **양자 내성 암호(Post-Quantum Cryptography, PQC)** 는 양자컴퓨터 공격에도 안전하도록 설계한 암호 기술이다.
 - **PQC KEM 결합** 은 기존 키 합의와 양자 내성 KEM의 두 비밀을 KDF로 결합한다.
 
 </details>
@@ -157,7 +156,10 @@ sequenceDiagram
 
 - **다운그레이드 공격** 은 협상 정보를 조작하여 양측이 지원하는 방식보다 약한 알고리즘을 선택하게 한다.
 - **영역 분리** 는 같은 공유 비밀에서 파생한 키가 용도와 방향에 따라 서로 대체되지 않도록 구분한다.
-- **RFC 9180** 은 HPKE의 KDF 영역 분리와 키 스케줄을 규정하고, **RFC 9846** 은 TLS 1.3의 하이브리드 키 교환 방식을 규정한다.
+- **인터넷 표준 문서(Request for Comments, RFC) 9180** 은 HPKE의 KDF 영역 분리와 키 스케줄을 규정한다.
+- **하이브리드 공개키 암호(Hybrid Public Key Encryption, HPKE)** 는 KEM•KDF•AEAD를 결합한 공개키 암호 체계이다.
+- **전송 계층 보안(Transport Layer Security, TLS)** 은 통신 상대 인증과 전송 데이터 보호를 제공하는 프로토콜이다.
+- **RFC 9846** 은 TLS 1.3의 하이브리드 키 교환 방식을 규정한다.
 
 </details>
 
@@ -172,14 +174,6 @@ sequenceDiagram
 - 상대와 협상 기록을 인증하고 공유 비밀에서 방향•용도별 키를 분리한 뒤 본문을 AEAD로 보호한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-- **TLS형 하이브리드 보호** 는 상대 인증, 임시 키 설정, 키 스케줄과 AEAD 본문 보호를 연속된 신뢰 과정으로 결합한다.
-- **ECDHE•AEAD와 ECDHE•PQC KEM 선택** 은 현재 통신에는 임시 키 합의와 인증 암호를, 양자 전환기에는 양자 내성 KEM을 함께 적용하는 판단이다.
-
-</details>
 
 - 현재 통신은 **ECDHE•AEAD**, 양자 전환은 **ECDHE•PQC KEM** 선택
 

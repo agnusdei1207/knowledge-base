@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "QKD 양자 키 분배 (Quantum Key Distribution)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:19:00+09:00"
 tags:
   - "notes-security"
 weight: 14
@@ -98,7 +98,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **기저(Basis)** 는 양자 비트를 표현하고 측정할 때 선택하는 방향 또는 규칙이다.
-- **QBER•KMS** 는 선별한 비트의 오류율로 키 사용 여부를 판정하고 통과한 최종 키를 저장•동기화하는 지표와 시스템이다.
 - **오류 보정(Error Correction)** 은 공개 정보 교환으로 송수신 원시 비트의 차이를 맞추는 후처리다.
 - **프라이버시 증폭(Privacy Amplification)** 은 공격자가 알 수 있는 정보를 줄이도록 비트열을 더 짧은 키로 압축하는 후처리다.
 
@@ -184,7 +183,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **키 등록 조건** 은 QBER 임계치, 고전 채널 인증, 후처리 검증을 모두 통과한 경우로 한정한다.
-- **QBER•KMS 처리** 는 오류율이 임계치를 넘으면 원시 키를 폐기하고 모든 검증을 통과한 키만 관리 시스템에 등록하는 원칙이다.
 
 </details>
 

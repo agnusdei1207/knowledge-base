@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "PQC 전환 로드맵•하이브리드 방식 (PQC Migration Hybrid)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:17:00+09:00"
 tags:
   - "notes-security"
 weight: 13
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PQC 전환(Post-Quantum Cryptography Migration)** 은 양자 공격에 취약한 공개키 암호를 양자내성 키 설정•서명 방식으로 단계적으로 교체하는 작업이다.
+- **양자내성암호(Post-Quantum Cryptography, PQC) 전환** 은 양자 공격에 취약한 공개키 암호를 양자내성 키 설정•서명 방식으로 단계적으로 교체하는 작업이다.
 - **지금 수집•나중 해독(Harvest Now, Decrypt Later, HNDL)** 은 현재 암호문을 수집•보관한 뒤 미래의 양자컴퓨터로 해독하려는 위협이다.
 
 </details>
@@ -157,8 +157,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST CSWP 15** 는 PQC 도입 과제와 암호 자산 식별•전환 계획을 제시한 공식 지침이다.
-- **NIST SP 800-227** 은 KEM의 안전한 구현•사용과 공유 비밀 설정 권고를 제시한 공식 지침이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **사이버보안 백서(Cybersecurity White Paper, CSWP) 15** 는 PQC 도입 과제와 암호 자산 식별•전환 계획을 제시한다.
+- **특별 간행물(Special Publication, SP) 800-227** 은 KEM의 안전한 구현•사용과 공유 비밀 설정을 권고한다.
 - **다운그레이드 공격(Downgrade Attack)** 은 협상 정보를 조작하여 지원 가능한 방식보다 약한 암호를 선택하게 하는 공격이다.
 
 </details>
@@ -179,7 +180,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **전환 완료 기준** 은 PQC 적용률뿐 아니라 실제 연결에서 고전 방식이 더 이상 선택되지 않는 상태까지 포함한다.
-- **하이브리드•PQC 단독 선택** 은 지원 장비가 섞인 구간에서는 비밀을 결합하고 전 구간 지원 뒤에는 고전 방식을 제거하는 판단이다.
 
 </details>
 

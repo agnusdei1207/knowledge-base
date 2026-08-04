@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "키 관리 - HSM•KMS (Key Management HSM KMS)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:31:00+09:00"
 tags:
   - "notes-security"
 weight: 20
@@ -40,9 +40,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 암호화 키(DEK)** 는 실제 데이터를 암호화하는 하위 대칭키이고, **키 암호화 키(KEK)** 는 DEK 등 다른 키를 보호하는 상위 키다.
-- **하드웨어 보안 모듈(HSM)** 은 암호키를 외부로 노출하지 않고 내부에서 암호 연산을 수행하는 전용 보안 장비다.
-- **키 관리 시스템(KMS)** 은 암호키의 정책•권한•버전•수명주기와 사용 이력을 관리하는 시스템이다.
+- **데이터 암호화 키(Data Encryption Key, DEK)** 는 실제 데이터를 암호화하는 하위 대칭키다.
+- **키 암호화 키(Key Encryption Key, KEK)** 는 DEK 등 다른 키를 보호하는 상위 키다.
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)** 은 암호키를 외부로 노출하지 않고 내부에서 암호 연산을 수행한다.
+- **키 관리 시스템(Key Management System, KMS)** 은 암호키의 정책•권한•버전•수명주기와 사용 이력을 관리한다.
 
 </details>
 
@@ -59,7 +60,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신원•접근 관리(IAM)** 는 사용자와 서비스의 신원을 확인하고 자원 접근 권한을 통제하는 체계다.
+- **신원•접근 관리(Identity and Access Management, IAM)** 는 사용자와 서비스의 신원을 확인하고 자원 접근 권한을 통제하는 체계다.
 - **키 래핑(Key Wrapping)** 은 한 암호키로 다른 암호키의 기밀성과 무결성을 보호하는 처리다.
 
 </details>
@@ -133,7 +134,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **비밀 관리기(Secret Manager)** 는 비밀번호•토큰•API 키 등 응용 비밀정보의 저장•배포•회전을 관리하는 서비스다.
-- **HSM•KMS** 는 각각 키와 암호 연산의 하드웨어 보안 경계와 키 정책•권한•버전의 중앙 수명주기 통제를 담당한다.
 
 </details>
 
@@ -154,8 +154,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **이중 통제(Dual Control)** 는 중요 작업에 둘 이상의 독립된 승인을 요구하고, **분할 지식(Split Knowledge)** 은 한 사람이 전체 비밀을 알지 못하게 나누는 원칙이다.
-- **NIST SP 800-57 Part 1 Rev. 5** 는 키 수명주기 지침을, **NIST FIPS 140-3** 은 암호 모듈 보안 요구사항을 제시한다.
+- **이중 통제(Dual Control)** 는 중요 작업에 둘 이상의 독립된 승인을 요구하는 원칙이다.
+- **분할 지식(Split Knowledge)** 은 한 사람이 전체 비밀을 알지 못하도록 나누는 원칙이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-57 Part 1 Rev. 5** 는 키 수명주기 지침을 제시한다.
+- **연방 정보 처리 표준(Federal Information Processing Standards, FIPS) 140-3** 은 암호 모듈 보안 요구사항을 제시한다.
 
 </details>
 
@@ -176,7 +179,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **역할 분리** 는 HSM이 키의 보안 경계를, KMS가 키 수명주기 정책을 담당하도록 책임을 구분하는 원칙이다.
-- **HSM•KMS 선택** 은 루트•서명키의 비반출 보호에는 HSM을, 서비스 키의 정책과 수명주기 관리에는 KMS를 적용하는 판단이다.
 
 </details>
 

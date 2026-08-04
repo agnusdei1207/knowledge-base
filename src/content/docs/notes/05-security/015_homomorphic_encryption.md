@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "동형 암호 (Homomorphic Encryption)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T10:21:00+09:00"
 tags:
   - "notes-security"
 weight: 15
@@ -130,7 +130,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BFV** 는 정확한 정수•모듈러 연산, **BGV** 는 레벨별 깊은 정수 연산, **CKKS** 는 실수•복소수의 근사 연산을 지원한다.
+- **브라커스키-판-베르코테런(Brakerski/Fan-Vercauteren, BFV)** 은 정확한 정수•모듈러 연산을 지원한다.
+- **브라커스키-젠트리-바이쿤타나탄(Brakerski-Gentry-Vaikuntanathan, BGV)** 은 레벨별 깊은 정수 연산을 지원한다.
+- **천-김-김-송(Cheon-Kim-Kim-Song, CKKS)** 은 실수•복소수의 근사 연산을 지원한다.
 - **제한 동형 암호(Leveled Homomorphic Encryption)** 는 미리 정한 회로 깊이 안에서 덧셈•곱셈을 수행하는 방식이다.
 
 </details>
@@ -156,7 +158,7 @@ sequenceDiagram
 
 - **레벨(Level)** 은 남은 모듈러스 단계와 추가로 수행할 수 있는 곱셈 범위다.
 - **스케일(Scale)** 은 CKKS에서 실숫값의 정밀도를 관리하는 배율이다.
-- **ISO/IEC 18033-6:2019** 는 Exponential ElGamal•Paillier 동형 암호 메커니즘을 규정한 국제 표준이다.
+- **국제표준화기구/국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 18033-6:2019** 는 Exponential ElGamal•Paillier 동형 암호 메커니즘을 규정한다.
 
 </details>
 
