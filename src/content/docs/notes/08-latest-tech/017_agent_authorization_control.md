@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Agent Authorization & Control (에이전트 권한 제어)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:49:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 17
@@ -43,12 +43,16 @@ extra:
 - **권한 위임(Delegation)**: 사용자가 에이전트에게 수행할 행동의 범위와 기간을 정해 권한을 넘기는 행위다.
 - **정책 결정점(Policy Decision Point, PDP)**: 정책과 주체•자원•환경 속성을 평가하여 접근 허용 여부를 판단한다.
 - **정책 집행점(Policy Enforcement Point, PEP)**: PDP의 결정을 도구 호출 직전에 허용이나 거부로 강제한다.
+- **인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동을 사람이 검토하고 승인하는 통제 방식이다.
 
 </details>
 
-- **인증•권한 위임**: 사용자•에이전트•도구 신원과 대리 범위 분리
-- **정책 결정점(Policy Decision Point, PDP)•정책 집행점(Policy Enforcement Point, PEP)**: 정책 판단을 도구 호출 전에 강제
-- **최소 권한•인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동의 권한과 피해 범위 제한
+- **인증**: 사용자•에이전트•도구 신원 확인
+- **권한 위임**: 대리 행동의 범위•기간 제한
+- **PDP**: 주체•자원•환경 속성으로 허용 판단
+- **PEP**: 정책 판단을 도구 호출 전에 강제
+- **최소 권한**: 실행 권한과 피해 범위 제한
+- **HITL**: 고위험 행동을 사람의 승인으로 제한
 
 #### 한줄 요약
 - 문서 열람•삭제 권한 분리와 작업 재확인
@@ -59,10 +63,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **정책 관리**: 역할•속성•금지 규칙과 정책 버전을 정의하고 변경하는 기능이다.
-- **인증•위임**: 사용자와 에이전트의 신원을 확인하고 대리 행동의 목적•기간•범위를 연결하는 과정이다.
-- **정책 결정점(Policy Decision Point, PDP)**: 주체•자원•행동•환경 속성을 정책과 평가해 허용•거부•추가 승인 결정을 내리는 구성요소이다.
-- **정책 집행점(Policy Enforcement Point, PEP)**: 도구나 응용 프로그래밍 인터페이스 호출 경계에서 정책 결정 결과를 실제로 강제하는 구성요소이다.
-- **인간 개입(Human-in-the-Loop, HITL)**: 고위험 행동의 대상과 영향을 사람이 재확인하고 승인하는 통제다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 에이전트가 외부 기능을 요청하는 호출 경계로, PEP가 정책을 집행하는 지점이 된다.
 
 </details>
@@ -86,7 +86,7 @@ block-beta
 | 인증•위임 | 사용자•에이전트의 **신원•대리 범위** 확인 |
 | 정책 관리 | 역할•속성•**금지 규칙** 정의 |
 | 정책 결정점 | 주체•자원•환경으로 **허용 여부** 판단 |
-| 정책 집행점 | **응용 프로그래밍 인터페이스(Application Programming Interface, API) 호출 전 허용•거부** 강제 |
+| 정책 집행점 | **API 호출 전 허용•거부** 강제 |
 | 승인•감사 | 고위험 행동의 **인간 승인•결과 기록** |
 
 #### 한줄 요약
@@ -102,7 +102,7 @@ block-beta
 
 </details>
 
-- **정책 집행점(Policy Enforcement Point, PEP)** 측에서 **정책 결정점(Policy Decision Point, PDP)** 판단을 받아 **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 호출 직전에 허용•거부와 추가 승인을 강제한다.
+- **PEP** 측에서 **PDP** 판단을 받아 **API** 호출 직전에 허용•거부와 추가 승인을 강제한다.
 
 ```mermaid
 sequenceDiagram
@@ -141,7 +141,7 @@ sequenceDiagram
 
 </details>
 
-- **역할 기반 접근통제(Role-Based Access Control, RBAC)** 및 **속성 기반 접근통제(Attribute-Based Access Control, ABAC)** 사이를 안정적 직무 권한과 동적 상황 판단 기준으로 구분한다.
+- **RBAC** 및 **ABAC** 사이를 안정적 직무 권한과 동적 상황 판단 기준으로 구분한다.
 
 | 접근통제 | RBAC | ABAC |
 |:---|:---|:---|
@@ -180,12 +180,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **역할 기반 접근통제 선택 기준(Role-Based Access Control Selection Criteria, RBAC Selection Criteria)**: 직무와 권한 관계가 안정적이고 반복되는 환경에 역할 기반 통제를 적용한다.
-- **속성 기반 접근통제 선택 기준(Attribute-Based Access Control Selection Criteria, ABAC Selection Criteria)**: 사용자•자원•시간•위험도 같은 동적 맥락을 세밀하게 평가해야 할 때 속성 기반 통제를 적용한다.
-
 </details>
 
-- 안정적 직무 권한에는 **역할 기반 접근통제(Role-Based Access Control, RBAC)**, 동적 맥락•도구 조합에는 **속성 기반 접근통제(Attribute-Based Access Control, ABAC)** 선택
+- 안정적 직무 권한에는 **RBAC**, 동적 맥락•도구 조합에는 **ABAC** 선택
 
 #### 한줄 요약
 - 비서에게 업무별 임시 열쇠만 주는 것이 안전함

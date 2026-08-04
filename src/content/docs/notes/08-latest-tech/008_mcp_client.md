@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Client (모델 컨텍스트 프로토콜 클라이언트)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:04:31+09:00"
 tags:
   - "notes-latest_tech"
 weight: 8
@@ -24,10 +24,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 호스트 내부에서 하나의 MCP 서버와 연결 수명주기•기능 협상•JSON-RPC 메시지를 관리하는 구성요소다.
+- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: 요청•응답•알림•오류를 JSON 객체로 표현하는 메시지 형식이다.
 
 </details>
 
-- 정의/개념: 서버 연결과 **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 메시지를 관리하는 **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**
+- 정의/개념: 서버 연결과 **JSON-RPC** 메시지를 관리하는 **MCP Client**
 - 배경/필요성: 서버 직접 연동은 수명주기•추적 구현이 중복돼 **보안 경계 유지 불가**
 
 #### 한줄 요약
@@ -44,7 +45,7 @@ extra:
 </details>
 
 - **세션 축**: 서버별 초기화•기능 협상•종료 관리
-- **추적 축**: **요청 식별자(Request Identifier, Request ID)**•알림•취소 기반 비동기 상태 추적
+- **추적 축**: **Request ID**•알림•취소 기반 비동기 상태 추적
 - **중계 축**: 기능 명세•실행 결과를 호스트에 전달
 
 #### 한줄 요약
@@ -64,7 +65,7 @@ extra:
 
 </details>
 
-- **메시지 디스패처** 중심 구조는 **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 메시지를 분배하고 **표준 입출력(Standard Input/Output, stdio)** 또는 **스트리밍 가능 하이퍼텍스트 전송 프로토콜(Streamable Hypertext Transfer Protocol, Streamable HTTP)** 연결을 관리한다.
+- **메시지 디스패처** 중심 구조는 **JSON-RPC** 메시지를 분배하고 **stdio** 또는 **Streamable HTTP** 연결을 관리한다.
 
 ```mermaid
 block-beta
@@ -94,10 +95,11 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **호출 식별자**: 비동기 JSON-RPC 요청과 나중에 도착한 응답을 정확히 연결하는 값이다.
+- **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)**: 사용자 정책과 여러 MCP Client 연결을 관리하는 AI 애플리케이션이다.
 
 </details>
 
-- **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)**, **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**, **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 사이에서 **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 요청과 응답을 중계한다.
+- **MCP Host•MCP Client•MCP Server** 사이에서 **JSON-RPC** 요청과 응답을 중계한다.
 
 ```mermaid
 sequenceDiagram
@@ -115,7 +117,7 @@ sequenceDiagram
 
 1. **버전•클라이언트 기능 초기화 요청**: 호환 버전•기능 범위 협상
 2. **합의 버전•서버 기능 응답**: 서버 기능•구현 정보 수신
-3. **표준 요청 전송**: **요청 식별자(Request Identifier, Request ID)** 기반 기능•구조화 인자 전달
+3. **표준 요청 전송**: **Request ID** 기반 기능•구조화 인자 전달
 
 #### 한줄 요약
 - 한 서버와 대화한 내용을 호스트가 이해할 수 있게 중간에서 전달함
@@ -130,7 +132,7 @@ sequenceDiagram
 
 </details>
 
-- **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)** 역할과 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 역할을 연결 중개와 기능 제공 기준으로 구분한다.
+- **MCP Client**와 **MCP Server** 역할을 연결 중개와 기능 제공 기준으로 구분한다.
 
 | 판단 기준 | MCP Client | MCP Server |
 |:---|:---|:---|
@@ -149,14 +151,12 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **재연결 정책**: 통신 장애 후 세션을 복구할 때 백오프•재시도 상한•요청 중복 처리를 정하는 규칙이다.
-- **요청 식별자(Request Identifier, Request ID)**: 연결 중단 뒤 미완료 요청의 취소•시간초과•중복 여부를 판별하는 값이다.
-
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 복수 서버 결과 혼합으로 **출처 오인** | 서버별 **독립 세션•출처 식별자** 유지 | 문맥•권한 경계 보존 |
-| 연결 중단으로 **미완료 요청 잔존** | **요청 식별자(Request Identifier, Request ID)•취소•시간초과** 기반 상태 정리 | 유실•중복 실행 방지 |
+| 연결 중단으로 **미완료 요청 잔존** | **Request ID•취소•시간초과** 기반 상태 정리 | 유실•중복 실행 방지 |
 | 기능 변경으로 **허용 정책 불일치** | **목록 변경 알림** 후 정책 재평가 | 변경 기능의 안전한 반영 |
 
 #### 한줄 요약
@@ -171,7 +171,7 @@ sequenceDiagram
 
 </details>
 
-- 서버 연결•메시지 중계에는 **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**, 기능 공개에는 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 선택
+- 서버 연결•메시지 중계에는 **MCP Client**, 기능 공개에는 **MCP Server** 선택
 
 #### 한줄 요약
 - 서버마다 대화방을 나눠 한쪽 문제가 다른 쪽으로 번지지 않게 함

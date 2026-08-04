@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Prompt (모델 컨텍스트 프로토콜 프롬프트)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:18:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 11
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 서버가 **메시지 템플릿** 을 제공하고 사용자가 선택•검토하는 **모델 컨텍스트 프로토콜 프롬프트(Model Context Protocol Prompt, MCP Prompt)**
+- 정의/개념: 서버가 **메시지 템플릿** 을 제공하고 사용자가 선택•검토하는 **MCP Prompt**
 - 배경/필요성: 앱별 지시문은 작업 양식의 **공유•재사용** 과 사용자 통제가 곤란
 
 #### 한줄 요약
@@ -66,7 +66,7 @@ extra:
 
 </details>
 
-- **프롬프트 기술자**, **인자 정의**, **콘텐츠 블록**, **사용자 인터페이스(User Interface, UI)** 구성으로 재사용 작업 양식을 생성하고 검토한다.
+- **프롬프트 기술자**, **인자 정의**, **콘텐츠 블록**, **UI** 구성으로 재사용 작업 양식을 생성하고 검토한다.
 
 ```mermaid
 block-beta
@@ -99,10 +99,12 @@ block-beta
 - **프롬프트 목록(prompts/list)**: 서버가 제공하는 프롬프트의 이름•설명•인자를 조회하는 요청
 - **프롬프트 조회(prompts/get)**: 프롬프트 이름과 인자를 보내 완성된 메시지를 받는 요청
 - **모델 문맥**: 모델이 응답을 생성할 때 함께 참고하는 지시와 입력 정보
+- **MCP Client(Model Context Protocol Client)**: 프롬프트 목록•메시지를 서버에 요청하는 주체
+- **MCP Server(Model Context Protocol Server)**: 프롬프트 계약과 완성 메시지를 제공하는 주체
 
 </details>
 
-- **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)** 및 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)** 사이에서 목록•완성 메시지를 교환하고 사용자가 승인한 결과만 모델에 전달한다.
+- **MCP Client** 및 **MCP Server** 사이에서 목록•완성 메시지를 교환하고 사용자가 승인한 결과만 모델에 전달한다.
 
 ```mermaid
 sequenceDiagram
@@ -138,10 +140,12 @@ sequenceDiagram
 - **Resource**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터
 - **Tool**: 모델이 구조화된 인자로 호출해 외부 행동을 수행하는 기능
 - **Prompt**: 사용자가 선택해 작업 메시지와 입력 틀을 만드는 기능
+- **MCP Resource(Model Context Protocol Resource)**: MCP에서 문맥 데이터를 제공하는 기능
+- **URI(Uniform Resource Identifier)**: 리소스를 식별하고 조회하는 주소
 
 </details>
 
-- **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**, **도구(Tool)**, **프롬프트(Prompt)** 사이를 **통합 자원 식별자(Uniform Resource Identifier, URI) 조회**, 외부 실행, 작업 지시 제공 기준으로 구분한다.
+- **MCP Resource**, **Tool**, **Prompt** 사이를 **URI 조회**, 외부 실행, 작업 지시 제공 기준으로 구분한다.
 
 | MCP 기능 | Resource | Tool | Prompt |
 |:---|:---|:---|:---|
@@ -181,12 +185,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 컨텍스트 프로토콜 프롬프트(Model Context Protocol Prompt, MCP Prompt)**: 반복 작업의 지시 양식을 서버에서 공유하고 사용자가 선택•검토하는 기능
 - **사용자 검토**: 완성된 메시지의 출처와 인자값을 사람이 확인한 뒤 모델 전달을 승인하는 통제
 
 </details>
 
-- 반복 작업의 지시 공유에는 **모델 컨텍스트 프로토콜 프롬프트(Model Context Protocol Prompt, MCP Prompt)** 선택, 출처•인자•사용자 검토로 **모델 전달 통제**
+- 반복 작업의 지시 공유에는 **MCP Prompt** 선택, 출처•인자•사용자 검토로 **모델 전달 통제**
 
 #### 한줄 요약
 

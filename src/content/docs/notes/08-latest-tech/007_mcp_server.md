@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Server (모델 컨텍스트 프로토콜 서버)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:02:16+09:00"
 tags:
   - "notes-latest_tech"
 weight: 7
@@ -24,10 +24,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)**: 도구•리소스•프롬프트를 표준 기능으로 노출하고 백엔드 접근과 실행을 통제하는 프로그램이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습•추론으로 기능을 선택하고 결과를 생성하는 기술이다.
 
 </details>
 
-- 정의/개념: 표준 기능 노출과 백엔드 실행을 통제하는 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)**
+- 정의/개념: 표준 기능 노출과 백엔드 실행을 통제하는 **MCP Server**
 - 배경/필요성: 맞춤 API마다 기능 발견•권한 방식이 달라 **재사용•일관 통제 불가**
 
 #### 한줄 요약
@@ -68,7 +69,7 @@ extra:
 
 </details>
 
-- **도구 제공자** 중심 구조는 **표준 입출력(Standard Input/Output, stdio)** 또는 **스트리밍 가능 하이퍼텍스트 전송 프로토콜(Streamable Hypertext Transfer Protocol, Streamable HTTP)** 연결을 받아 **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 메시지로 처리한다.
+- **도구 제공자** 중심 구조는 **stdio** 또는 **Streamable HTTP** 연결을 받아 **JSON-RPC** 메시지로 처리한다.
 
 ```mermaid
 block-beta
@@ -100,12 +101,12 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **요청•응답 상관관계**: 자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC) 식별자를 이용해 각 실행 요청과 성공•오류 결과를 연결하는 관계다.
+- **요청•응답 상관관계**: JSON-RPC 식별자를 이용해 각 실행 요청과 성공•오류 결과를 연결하는 관계다.
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버와 기능을 협상하고 기능 목록•명세•실행 결과를 교환하는 구성요소이다.
 
 </details>
 
-- 클라이언트인 **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)** 및 서버는 **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 식별자로 요청과 결과를 연결한다.
+- **MCP Client**와 서버는 **JSON-RPC** 식별자로 요청과 결과를 연결한다.
 
 ```mermaid
 sequenceDiagram
@@ -133,17 +134,18 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **로컬 모델 컨텍스트 프로토콜 서버(Local Model Context Protocol Server, Local MCP Server)**: 호스트가 시작한 프로세스로 실행되고 표준 입출력(Standard Input/Output, stdio)을 통해 한 클라이언트와 메시지를 교환하는 서버다.
-- **표현 상태 전송 응용 프로그래밍 인터페이스 서버(Representational State Transfer Application Programming Interface Server, REST API Server)**: 고정된 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 메서드•자원 계약으로 기능을 제공하는 서버이다.
+- **Local MCP Server**: 호스트가 시작한 프로세스로 실행되고 stdio를 통해 한 클라이언트와 메시지를 교환하는 서버다.
+- **REST API Server**: 고정된 HTTP 메서드•자원 계약으로 기능을 제공하는 서버이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹 자원을 식별하는 표준 문자열이다.
 
 </details>
 
-- 두 방식인 **로컬 모델 컨텍스트 프로토콜 서버(Local Model Context Protocol Server, Local MCP Server)**, **표현 상태 전송 응용 프로그래밍 인터페이스 서버(Representational State Transfer Application Programming Interface Server, REST API Server)** 사이를 기능 발견 방식과 전송 계약으로 비교한다.
+- **Local MCP Server**와 **REST API Server**를 기능 발견 방식과 전송 계약으로 비교한다.
 
 | 판단 기준 | MCP Server | REST API 서버 |
 |:---|:---|:---|
 | 적용 기준 | AI의 **동적 기능 선택** | **고정 API 계약** 기반 기능 제공 |
-| 핵심 특징 | **기능 목록•명세** 동적 제공 | **HTTP 메서드•통합 자원 식별자(Uniform Resource Identifier, URI)** 계약 |
+| 핵심 특징 | **기능 목록•명세** 동적 제공 | **HTTP 메서드•URI** 계약 |
 | 한계 | **권한•입력 검증** 책임 | 모델용 **기능 협상 부재** |
 
 > 요약: **MCP 서버 기반 모델 기능 발견**, **REST API 기반 고정 HTTP 계약**
@@ -156,7 +158,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **서버 최소 권한**: 모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)가 제공 기능에 필요한 백엔드 자원과 작업만 접근하도록 계정•경로•명령을 제한하는 원칙이다.
+- **서버 최소 권한**: MCP Server가 제공 기능에 필요한 백엔드 자원과 작업만 접근하도록 계정•경로•명령을 제한하는 원칙이다.
 
 </details>
 
@@ -175,11 +177,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **구조화 오류**: 실패 원인과 재시도 가능 여부를 클라이언트가 판정하도록 코드와 데이터로 표현한 실행 결과다.
-- **표현 상태 전송 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 고정 HTTP 계약 기반 연동에 적용하는 인터페이스이다.
-
 </details>
 
-- 인공지능 동적 기능 발견은 **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)**, 고정 HTTP 계약은 **표현 상태 전송 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)** 선택
+- AI 동적 기능 발견은 **MCP Server**, 고정 HTTP 계약은 **REST API** 선택
 
 #### 한줄 요약
 - 서버가 제공할 기능과 볼 수 있는 자료의 경계를 먼저 정함

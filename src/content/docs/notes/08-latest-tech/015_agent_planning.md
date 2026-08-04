@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Agent Planning (에이전트 플래닝)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:38:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 15
@@ -137,7 +137,7 @@ sequenceDiagram
 
 </details>
 
-- **계획 후 실행(Plan-and-Execute)** 및 **추론-행동(Reasoning and Acting, ReAct)** 사이를 장기 계획과 즉시 적응 기준으로 구분한다.
+- **계획 후 실행** 및 **ReAct** 사이를 장기 계획과 즉시 적응 기준으로 구분한다.
 
 | 계획 방식 | Plan-and-Execute | ReAct |
 |:---|:---|:---|
@@ -178,12 +178,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Plan-and-Execute 선택 기준**: 장기적이고 작업 의존성이 큰 과업에 전체 계획 중심 방식을 적용한다.
-- **ReAct 선택 기준**: 짧고 환경 변화가 잦아 즉시 관찰•적응해야 하는 과업에 반복 방식을 적용한다.
-
 </details>
 
-- 장기•의존 과업에는 **계획 후 실행(Plan-and-Execute)**, 짧은 변동 과업에는 **추론-행동(Reasoning and Acting, ReAct)** 선택
+- 장기•의존 과업에는 **계획 후 실행**, 짧은 변동 과업에는 **ReAct** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 컨텍스트 프로토콜 (Model Context Protocol, MCP)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:59:28+09:00"
 tags:
   - "notes-latest_tech"
 weight: 6
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 호스트•서버의 기능 발견과 메시지 교환을 표준화한 **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**
+- 정의/개념: 호스트•서버의 기능 발견과 메시지 교환을 표준화한 **MCP**
 - 배경/필요성: 맞춤 연동으로 **기능 발견•메시지 처리 중복과 호환성 저하** 발생
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **협상 축**: 초기화에서 리비전과 선택 기능 합의
-- **메시지 축**: **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)** 기반 도구•리소스•프롬프트 교환 통일
+- **메시지 축**: **JSON-RPC** 기반 도구•리소스•프롬프트 교환 통일
 - **책임 축**: 호스트•클라이언트•서버의 정책•세션•기능 분리
 
 #### 한줄 요약
@@ -58,7 +58,8 @@ extra:
 - **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)**: 사용자 동의•보안 정책과 여러 MCP 클라이언트 연결을 관리하는 인공지능 애플리케이션이다.
 - **MCP 클라이언트(MCP Client)**: 서버별 세션과 프로토콜 메시지 교환을 관리하는 호스트 내부 구성요소이다.
 - **MCP 서버(MCP Server)**: 도구•리소스•프롬프트 기능을 표준 메시지로 제공하는 외부 구성요소이다.
-- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: MCP 구성요소 사이의 요청•응답•알림•오류를 표현하는 메시지 형식이다.
+- **표준 입출력(Standard Input/Output, stdio)**: 로컬 MCP 프로세스가 표준 입력•출력 스트림으로 메시지를 교환하는 전송 방식이다.
+- **스트리밍 가능 HTTP(Streamable Hypertext Transfer Protocol, Streamable HTTP)**: HTTP POST와 선택적 이벤트 스트림으로 원격 MCP 메시지를 교환하는 방식이다.
 
 </details>
 
@@ -79,7 +80,7 @@ block-beta
 | MCP 호스트 | **사용자 동의•정책•복수 서버 연결** 관리 |
 | MCP 클라이언트 | 서버별 **세션•메시지 교환** 관리 |
 | MCP 서버 | **도구•리소스•프롬프트** 제공 |
-| JSON-RPC•전송 계층 | **표준 입출력(Standard Input/Output, stdio)•스트리밍 가능 하이퍼텍스트 전송 프로토콜(Streamable Hypertext Transfer Protocol, Streamable HTTP)** 메시지 전달 |
+| JSON-RPC•전송 계층 | **stdio•Streamable HTTP** 메시지 전달 |
 
 #### 한줄 요약
 - 호스트가 서버마다 전담 연결을 두고 필요한 기능만 가져옴
@@ -88,8 +89,6 @@ block-beta
 
 <details>
 <summary>핵심 용어</summary>
-
-- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: 모델 컨텍스트 프로토콜(Model Context Protocol, MCP)의 요청•응답•알림•오류를 JSON 객체로 표현하는 메시지 형식이다.
 
 </details>
 
@@ -118,9 +117,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**: 모델의 도구•컨텍스트 기능 발견과 세션 협상을 표준화하는 프로토콜이다.
 - **개방형 응용 프로그래밍 인터페이스 명세(OpenAPI Specification, OpenAPI)**: 고정된 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) API 계약을 기술하는 명세이다.
-- **스트리밍 가능 HTTP(Streamable Hypertext Transfer Protocol, Streamable HTTP)**: HTTP POST와 선택적 서버 전송 이벤트 스트림으로 원격 MCP 메시지를 교환하는 전송 방식이다.
 
 </details>
 
@@ -130,7 +127,7 @@ sequenceDiagram
 | 핵심 특징 | **기능 발견•호출•컨텍스트 교환** | **HTTP API 계약** 기술 | **구현별 직접 연동** |
 | 한계 | **호스트•서버 보안 구현** 필요 | **세션•기능 협상 없음** | **재사용•상호운용성 부족** |
 
-> 요약: **모델 컨텍스트 프로토콜(Model Context Protocol, MCP) 기반 기능 협상**, **OpenAPI•맞춤 API 기반 HTTP•직접 연동**
+> 요약: **MCP 기반 기능 협상**, **OpenAPI•맞춤 API 기반 HTTP•직접 연동**
 
 #### 한줄 요약
 - AI가 여러 기능을 찾아 쓰면 MCP, 정해진 웹 API만 부르면 OpenAPI를 사용함
@@ -159,12 +156,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **표준 입출력(Standard Input/Output, stdio)**: 로컬 모델 컨텍스트 프로토콜(Model Context Protocol, MCP) 클라이언트와 서버 프로세스가 표준 입력•출력 스트림으로 메시지를 교환하는 전송 방식이다.
-- **개방형 응용 프로그래밍 인터페이스 명세(OpenAPI Specification, OpenAPI)**: 고정 HTTP 계약이 필요한 연동에 적용하는 API 명세이다.
-
 </details>
 
-- 기능 발견•세션 협상은 **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**, 고정 HTTP 계약은 **개방형 응용 프로그래밍 인터페이스 명세(OpenAPI Specification, OpenAPI)** 선택
+- 기능 발견•세션 협상은 **MCP**, 고정 HTTP 계약은 **OpenAPI** 선택
 
 #### 한줄 요약
 - 공통 연결 규칙을 쓰되 서버별 허용 범위는 따로 정함

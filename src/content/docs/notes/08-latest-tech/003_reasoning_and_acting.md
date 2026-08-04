@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ReAct 패턴 (Reasoning and Acting)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T11:53:36+09:00"
 tags:
   - "notes-latest_tech"
 weight: 3
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 외부 행동의 관찰 결과를 다음 추론에 반영하는 **추론-행동(Reasoning and Acting, ReAct) 패턴**
+- 정의/개념: 외부 행동의 관찰 결과를 다음 추론에 반영하는 **ReAct 패턴**
 - 배경/필요성: 모델 내부 추론만으로는 **최신 정보•계산•외부 상태 검증 불가**
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **선택 축**: **대규모 언어 모델(Large Language Model, LLM)** 추론 기반 **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 도구•인자 결정
+- **선택 축**: **LLM** 추론 기반 **API** 도구•인자 결정
 - **관찰 축**: 도구 근거•오류를 반영해 가설과 다음 행동 수정
 - **최대 반복 횟수•근거 충분성•비용•시간** 기준 종료 통제
 
@@ -57,8 +57,6 @@ extra:
 <summary>핵심 용어</summary>
 
 - **행동 선택기**: 현재 목표와 관찰을 바탕으로 호출할 도구와 인자를 결정하는 구성요소다.
-- **대규모 언어 모델(Large Language Model, LLM)**: 정보 공백과 관찰을 해석하여 다음 행동을 선택하는 추론 모델이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 행동 실행기가 스키마•인자•권한을 검증한 뒤 호출하는 외부 도구 인터페이스이다.
 - **데이터베이스(Database, DB)**: 외부 상태와 관찰 결과를 저장하여 다음 추론의 근거로 제공하는 저장소이다.
 
 </details>
@@ -90,8 +88,6 @@ block-beta
 <details>
 <summary>핵심 용어</summary>
 
-- **추론-행동(Reasoning and Acting, ReAct) 루프**: 추론•행동•관찰을 반복하여 정보 공백을 해소하고 답이나 완료 상태에 도달하는 흐름이다.
-
 </details>
 
 ```mermaid
@@ -122,7 +118,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **추론-행동(Reasoning and Acting, ReAct)**: 외부 도구 실행과 관찰을 다음 추론에 반복 반영하는 패턴이다.
 - **사고 사슬(Chain of Thought, CoT)**: 외부 도구 실행 없이 문제를 중간 추론 단계로 나누어 답을 도출하는 추론 기법이다.
 
 </details>
@@ -133,7 +128,7 @@ sequenceDiagram
 | 핵심 특징 | **추론•행동•관찰** 반복 | 입력 후 **단발 응답** | **내부 추론** 후 응답 |
 | 한계 | **반복 비용•도구 오류 누적** | **외부 상태 확인 불가** | **외부 행동•관찰 부족** |
 
-> 요약: **추론-행동(Reasoning and Acting, ReAct)** 중심 외부 행동, **표준 프롬프팅•사고 사슬(Chain of Thought, CoT)** 중심 단발•내부 추론
+> 요약: **ReAct** 중심 외부 행동, **표준 프롬프팅•CoT** 중심 단발•내부 추론
 
 #### 한줄 요약
 - 표준 프롬프팅은 단발 응답, CoT는 내부 추론, ReAct는 도구 실행과 관찰까지 활용한다.
@@ -162,12 +157,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **근거 충분성**: 수집한 관찰이 결론을 뒷받침하고 추가 행동의 비용보다 충분한지를 판단하는 종료 기준이다.
-- **추론-행동(Reasoning and Acting, ReAct)**: 외부 상태 확인과 도구 행동이 필요한 작업에 적용하는 실행 패턴이다.
-- **사고 사슬(Chain of Thought, CoT)**: 외부 행동 없이 내부 추론 분해만 필요한 작업에 적용하는 기법이다.
-
 </details>
 
-- 외부 상태•행동은 **추론-행동(Reasoning and Acting, ReAct)**, 내부 추론은 **사고 사슬(Chain of Thought, CoT)** 선택
+- 외부 상태•행동은 **ReAct**, 내부 추론은 **CoT** 선택
 
 #### 한줄 요약
 - 도구 결과를 다음 추론에 반영하되, 오류와 비용이 누적되지 않도록 실행 횟수와 종료 조건을 함께 설계해야 한다.
