@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-08-04T12:55:00+09:00"
+date: "2026-08-05T00:50:15+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -69,17 +69,14 @@ extra:
 
 TAP 제어기는 TMS와 TCK에 따라 IR과 DR을 전환한다. TDI와 TDO는 JTAG 데이터를 직렬 이동한다.
 
-```mermaid
-block-beta
-  columns 2
-  A["TAP 제어기"]
-  B["명령 레지스터"]
-  C["데이터 레지스터"]
-  D["경계 스캔 셀"]
-  A --- B
-  A --- C
-  C --- D
+```text
+                 [명령 레지스터]
+                        |
+                        |
+                 [TAP 제어기] -- [데이터 레지스터] -- [경계 스캔 셀]
 ```
+
+선의 의미: TAP 제어기가 명령 레지스터와 데이터 레지스터를 선택하고, 데이터 레지스터가 경계 스캔 셀 체인에 결합된 정적 JTAG 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

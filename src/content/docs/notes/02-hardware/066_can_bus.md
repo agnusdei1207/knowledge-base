@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
-date: "2026-08-04T12:58:00+09:00"
+date: "2026-08-05T00:50:15+09:00"
 tags:
   - "notes-hardware"
 weight: 66
@@ -65,17 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 2
-  A["응용 소프트웨어"]
-  B["CAN 컨트롤러"]
-  C["CAN 트랜시버"]
-  D["차동 버스•종단"]
-  A --- B
-  B --- C
-  C --- D
+```text
+[응용 소프트웨어] -- [CAN 컨트롤러] -- [CAN 트랜시버] -- [차동 버스•종단]
 ```
+
+선의 의미: 응용 메시지 계층에서 프레임 제어, 전기 신호 변환, 공유 차동 선로까지 결합된 정적 CAN 노드 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

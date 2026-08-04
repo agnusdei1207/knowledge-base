@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
-date: "2026-08-04T13:28:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -72,20 +72,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  block:STORAGE
-    columns 2
-    A["호스트•클라이언트"]
-    B["파일•블록 접근 계층"]
-    C["직결•네트워크 경로"]
-    D["저장장치•배열"]
-  end
-  A --- B
-  B --- C
-  C --- D
+```text
+[호스트•클라이언트] ----- [파일•블록 접근 계층] ----- [직결•네트워크 경로] ----- [저장장치•배열]
 ```
+
+선의 의미: 선은 저장 요청 해석, DAS•NAS•SAN 연결 경로와 저장 공간이 결합되는 인접 구성요소의 정적 I/O 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

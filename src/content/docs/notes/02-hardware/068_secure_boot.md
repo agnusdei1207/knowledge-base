@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 부팅 (Secure Boot)"
-date: "2026-08-04T13:04:00+09:00"
+date: "2026-08-05T02:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 68
@@ -66,18 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["부트 ROM"]
-  B["신뢰 저장소"]
-  C["이미지 저장소"]
-  D["서명•버전 검증기"]
-  A --- B
-  A --- C
-  B --- D
-  C --- D
+```text
+[부트 ROM] -- [신뢰 저장소]
+     |               |
+[이미지 저장소] -- [서명•버전 검증기]
 ```
+
+선의 의미: 부트 ROM이 신뢰 기준과 이미지를 참조하고 서명•버전 검증기가 두 저장소의 정보를 함께 사용하는 정적 신뢰 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

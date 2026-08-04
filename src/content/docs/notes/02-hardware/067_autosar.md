@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-04T13:01:00+09:00"
+date: "2026-08-05T00:50:15+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -67,18 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  A["응용 SWC"]
-  B["RTE"]
-  C["BSW•MCAL"]
-  D["Adaptive 응용"]
-  E["ARA•기능 클러스터"]
-  A --- B
-  B --- C
-  D --- E
+```text
+Classic 구조:  [응용 SWC] -- [RTE] -- [BSW•MCAL]
+
+Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 ```
+
+선의 의미: 각 선은 Classic 또는 Adaptive 플랫폼 내부 계층의 정적 결합이며, 두 플랫폼 사이의 직접 연결을 뜻하지 않는다.
 
 | 구성요소 | 책임 |
 |:---|:---|

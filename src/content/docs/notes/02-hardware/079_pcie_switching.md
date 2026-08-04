@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
-date: "2026-08-04T13:25:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 79
@@ -70,21 +70,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  R["루트 컴플렉스"]
-  block:SWITCH
-    columns 3
-  A["업스트림 포트"]
-  B["스위칭 패브릭"]
-  C["다운스트림 포트"]
-  end
-  E["엔드포인트"]
-  R --- A
-  A --- B --- C
-  C --- E
+```text
+[업스트림 포트] ----- [스위칭 패브릭] ----- [다운스트림 포트]
 ```
+
+선의 의미: 선은 PCIe 스위치 경계 안에서 업스트림 포트와 다운스트림 포트가 스위칭 패브릭에 결합되는 정적 포트 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

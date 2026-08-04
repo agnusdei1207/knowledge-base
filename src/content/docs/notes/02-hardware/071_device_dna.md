@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디바이스 DNA (Device DNA)"
-date: "2026-08-04T13:13:00+09:00"
+date: "2026-08-05T02:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 71
@@ -67,18 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 2
-  A["특성 수집기"]
-  B["DNA 생성 엔진"]
-  C["기준 DNA 저장소"]
-  D["매칭•위험 엔진"]
-  A --- B
-  B --- C
-  B --- D
-  C --- D
+```text
+[특성 수집기] -- [DNA 생성 엔진]
+                          /     \
+             [기준 DNA 저장소] -- [매칭•위험 엔진]
 ```
+
+선의 의미: DNA 생성 엔진이 수집 특성을 지문화하고 기준 저장소와 매칭•위험 엔진이 생성 지문과 등록 이력을 공유하는 정적 의존망이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
