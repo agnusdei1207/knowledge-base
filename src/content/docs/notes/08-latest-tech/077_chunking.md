@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "청킹 (Chunking)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:27:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 77
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: **청킹(Chunking)** 은 원문을 의미 있는 검색 단위로 나누는 전처리
-- 배경/필요성: **검색 증강 생성(Retrieval-Augmented Generation, RAG)** 에서 문서 전체 검색은 문맥 한도 초과와 검색 잡음을 유발함
+- 배경/필요성: **RAG** 에서 문서 전체 검색은 문맥 한도 초과와 검색 잡음 유발
 
 #### 한줄 요약
 

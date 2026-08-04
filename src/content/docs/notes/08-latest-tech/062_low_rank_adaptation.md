@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "LoRA (저랭크 적응)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:12:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 62
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **저랭크 적응(Low-Rank Adaptation, LoRA)** 은 동결 가중치에 더할 저랭크 변화량 $BA$만 학습하는 **매개변수 효율적 파인튜닝(Parameter-Efficient Fine-Tuning, PEFT)** 기법
+- 정의/개념: **LoRA** 는 동결 가중치에 더할 저랭크 변화량 $BA$만 학습하는 **PEFT** 기법
 - 배경/필요성: 전체 가중치 갱신은 학습 상태 메모리와 **과업별 모델 복제 비용** 유발
 
 #### 한줄 요약
@@ -133,7 +133,7 @@ sequenceDiagram
 
 - **전체 미세조정**: 원본 가중치 전체를 갱신하여 적응 폭은 크지만 학습•저장 비용도 크다.
 - **어댑터(Adapter)**: 모델 층 사이에 직렬 소형 모듈을 삽입하여 중간 표현을 조정한다.
-- **저랭크 적응(Low-Rank Adaptation, LoRA)**: 선형층과 병렬인 저랭크 변화량 경로만 학습한다.
+- **LoRA 적용**: 선형층과 병렬인 저랭크 변화량 경로만 학습
 
 </details>
 

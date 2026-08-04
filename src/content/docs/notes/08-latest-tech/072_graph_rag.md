@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Graph RAG (지식그래프 융합형 RAG)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:22:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 72
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 개체•관계•커뮤니티 요약을 구조화해 검색하는 **그래프 검색 증강 생성(Graph Retrieval-Augmented Generation, GraphRAG) 방식**
-- 배경/필요성: 일반 검색 증강 생성(Retrieval-Augmented Generation, RAG)의 청크 검색만으로는 **다중 홉 질의•전체 주제 탐색 한계**
+- 배경/필요성: 일반 RAG의 청크 검색만으로는 **다중 홉 질의•전체 주제 탐색 한계**
 
 #### 한줄 요약
 
@@ -137,7 +137,7 @@ sequenceDiagram
 
 </details>
 
-검색 증강 생성(Retrieval-Augmented Generation, RAG)은 근거 단위에 따라 그래프형, 벡터형, 하이브리드형으로 구분한다.
+RAG는 근거 단위에 따라 그래프형•벡터형•하이브리드형으로 구분한다.
 
 | RAG 방식 | GraphRAG | 벡터 RAG | 하이브리드 RAG |
 |:---|:---|:---|:---|

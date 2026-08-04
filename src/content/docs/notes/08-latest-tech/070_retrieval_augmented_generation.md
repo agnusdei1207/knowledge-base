@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "RAG (검색 증강 생성)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 70
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 외부 문서를 검색해 근거 문맥으로 답변하는 **검색 증강 생성(Retrieval-Augmented Generation, RAG) 기반 지식 결합 기법**
+- 정의/개념: 외부 문서를 검색해 근거 문맥으로 답변하는 **RAG 기반 지식 결합 기법**
 - 배경/필요성: 모델 내부 지식만으로는 **최신성•전문성•출처** 확보 곤란
 
 #### 한줄 요약

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RLHF (인간 피드백 강화학습)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:15:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 65
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)** 은 인간 선호 보상 모델로 언어 모델의 생성 정책을 강화학습하는 정렬 방식
+- 정의/개념: **RLHF** 는 인간 선호 보상 모델로 언어 모델의 생성 정책을 강화학습하는 정렬 방식
 - 배경/필요성: **지도 파인튜닝(Supervised Fine-Tuning, SFT)** 의 모범 답안 모방만으로는 유용성•안전성 같은 **상대 선호 기준 반영** 에 한계가 있음
 
 #### 한줄 요약
@@ -58,7 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **지도 파인튜닝 정책**: 모범 응답을 지도 학습하여 인간 피드백 강화학습의 초기 생성 정책과 참조 기준을 제공한다.
-- **선호 데이터**: 같은 프롬프트의 복수 응답을 사람이 비교•순위화하여 더 바람직한 출력을 표시한 학습 자료이다.
+- **선호 데이터 구성**: 복수 응답을 사람이 비교•순위화한 학습 자료이다.
 - **보상 모델(Reward Model)**: 선호 데이터를 학습하여 정책이 생성한 응답의 인간 선호 수준을 점수화한다.
 - **가치 모델**: 현재 상태와 응답에서 기대되는 보상을 추정하여 정책 갱신을 돕는다.
 - **참조 정책**: 인간 피드백 강화학습 중 동결되어 현재 정책의 과도한 확률분포 이탈을 측정하는 기준 모델이다.
@@ -134,7 +134,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **지도 파인튜닝(Supervised Fine-Tuning, SFT)**: 모범 응답 토큰을 모방하여 지시 추종의 초기 정책을 학습한다.
-- **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)**: 보상 모델•근접 정책 최적화•쿨백-라이블러 발산 제약으로 정책을 탐색하고 선호 점수를 높인다.
+- **RLHF 적용**: 보상 모델•PPO•KL 제약으로 정책 탐색과 선호 점수 향상
 - **직접 선호 최적화(Direct Preference Optimization, DPO)**: 별도 보상 모델과 온라인 강화학습 없이 선호 응답쌍으로 정책을 직접 조정한다.
 
 </details>
@@ -180,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- 선호 대표성•보상 해킹•정책 이탈을 기준으로 **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF) 보상 모델과 쿨백-라이블러 발산(Kullback-Leibler Divergence, KL) 제약** 조정
+- 선호 대표성•보상 해킹•정책 이탈 기준으로 **RLHF 보상 모델•KL 제약** 조정
 
 #### 한줄 요약
 - 채점표의 대표성과 허점을 확인하면서 모델이 원래 능력을 잃지 않는 제약 강도를 선택함

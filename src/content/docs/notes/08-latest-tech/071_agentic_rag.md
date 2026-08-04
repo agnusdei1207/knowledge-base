@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 80%"
     variant: note
 title: "Agentic RAG (에이전틱 RAG)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:21:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 71
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 계획•도구 호출•근거 평가를 반복하는 **에이전틱 검색 증강 생성(Agentic Retrieval-Augmented Generation, Agentic RAG) 방식**
-- 배경/필요성: 단일 검색 증강 생성(Retrieval-Augmented Generation, RAG)의 **복합 질의 분해•실패 복구 한계**
+- 배경/필요성: 단일 RAG의 **복합 질의 분해•실패 복구 한계**
 
 #### 한줄 요약
 
@@ -136,7 +136,7 @@ sequenceDiagram
 
 </details>
 
-검색 증강 생성(Retrieval-Augmented Generation, RAG)의 실행 방식은 고정형, 워크플로형, 에이전틱형으로 구분한다.
+RAG 실행 방식은 고정형•워크플로형•에이전틱형으로 구분한다.
 
 | RAG 방식 | 고정 RAG | 워크플로 RAG | Agentic RAG |
 |:---|:---|:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Semantic Search (의미 검색)"
-date: "2026-08-03T09:08:40+09:00"
+date: "2026-08-04T15:24:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 74
@@ -120,7 +120,7 @@ sequenceDiagram
 
 1. **문서 벡터 저장**: **문서 의미의 동일 벡터 공간 배치**
 2. **질의 벡터 탐색**: **질의 의도의 임베딩 벡터 변환**
-3. **근사 이웃 후보 전달**: 근사 최근접 이웃(Approximate Nearest Neighbor, ANN) 기반 **탐색 범위 축소**
+3. **근사 이웃 후보 전달**: ANN 기반 **탐색 범위 축소**
 4. **유사도 순위•조건 필터**: 의미 거리와 **메타데이터 조건** 결합
 
 #### 한줄 요약
@@ -158,7 +158,7 @@ sequenceDiagram
 
 </details>
 
-근사 최근접 이웃(Approximate Nearest Neighbor, ANN)의 탐색 폭 점검 항목: **과도한 탐색 축소•후보 회수율 저하**
+ANN 탐색 폭 점검: **과도한 탐색 축소•후보 회수율 저하**
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|

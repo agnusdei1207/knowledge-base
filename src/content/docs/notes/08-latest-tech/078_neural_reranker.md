@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "신경망 재순위 모델 (Neural Reranker)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:28:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 78
@@ -159,7 +159,7 @@ sequenceDiagram
 |:---|:---|:---|
 | Top-k 밖의 **1차 검색 누락** | **상위 k개 재현율(Recall at k, Recall@k)** 확보와 하이브리드 검색 적용 | 재순위의 **정답 포함률** 확보 |
 | 후보•모델 증가에 따른 **꼬리 지연** | k 제한과 경량 모델•**배치 추론** 적용 | **응답 시간•비용** 제한 |
-| 쉬운 부정 표본 중심의 **순위 학습 편향** | 어려운 부정 표본 수집과 **정규화 할인 누적 이득(Normalized Discounted Cumulative Gain, nDCG)•평균 역순위(Mean Reciprocal Rank, MRR)** 평가 | 유사 오답의 **순위 분별력** 향상 |
+| 쉬운 부정 표본 중심의 **순위 학습 편향** | 어려운 부정 표본과 **nDCG•MRR 평가** | 유사 오답의 **순위 분별력** 향상 |
 
 #### 한줄 요약
 
