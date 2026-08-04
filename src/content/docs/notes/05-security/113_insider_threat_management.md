@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "내부자 위협 관리 (Insider Threat Management)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T15:41:00+09:00"
 tags:
   - "notes-security"
 weight: 113
@@ -39,8 +39,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **고의•실수•탈취**: 내부자 위협의 의도와 계정 통제 상태를 구분하는 세 가지 원인이다.
-- **업무 기준선•맥락 비교**: 역할•기기•시간•승인 상태에 따른 정상 행위와 현재 행위를 비교해 같은 행동의 위험도를 다르게 판단하는 방식이다.
+- **고의 행위**: 신뢰된 권한을 의도적으로 남용하는 내부자 위협이다.
+- **실수 행위**: 오발송•절차 누락으로 피해를 만드는 내부자 위협이다.
+- **계정 탈취**: 외부자가 내부자의 계정 통제권을 빼앗은 위협이다.
+- **업무 기준선**: 역할•기기•시간•승인 상태에 따른 정상 행위 기준이다.
+- **맥락 비교**: 현재 행위를 업무 기준선과 비교해 위험도를 판단하는 방식이다.
 
 </details>
 
@@ -59,7 +62,7 @@ extra:
 
 - **최소 권한**: 업무에 필요한 최소 범위와 기간만 권한을 부여하는 원칙이다.
 - **직무 분리**: 한 사람이 중요 업무의 승인과 실행을 모두 맡지 못하게 권한을 나누는 통제이다.
-- **사용자•개체 행위 분석(User and Entity Behavior Analytics, UEBA)**: 사용자•시스템의 기준선과 현재 행위를 비교해 이상을 탐지하는 기법이다.
+- **UEBA(User and Entity Behavior Analytics)**: 사용자•개체의 기준선과 현재 행위를 비교하는 분석 기법이다.
 
 </details>
 
@@ -130,7 +133,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **악의적•부주의•계정 탈취 내부자**: 행위 의도와 계정 지배 주체에 따른 내부자 위협 분류이다.
+- **악의적 내부자**: 권한을 의도적으로 남용하는 내부자이다.
+- **부주의 내부자**: 실수로 정보 노출이나 절차 누락을 일으킨 내부자이다.
+- **탈취 계정**: 외부자가 지배하며 내부자처럼 위장한 계정이다.
 
 </details>
 
@@ -149,9 +154,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물 800-53 프로그램 관리 12(NIST SP 800-53 PM-12)**: 조직 간 협업형 내부자 위협 프로그램을 요구하는 관리 통제이다.
-- **컴퓨터 비상대응팀(Computer Emergency Response Team, CERT) 완화 가이드**: 사례를 토대로 소프트웨어공학연구소(Software Engineering Institute, SEI)가 내부자 위험 완화 실무를 제시한 지침이다.
-- **접근통제 5•6(Access Control 5•6, AC-5•AC-6)**: 중요 업무의 직무 분리와 최소 권한을 각각 요구하는 통제이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST의 특별간행물이다.
+- **PM(Program Management)**: NIST 통제의 프로그램 관리 계열이다.
+- **NIST SP 800-53 PM-12**: 협업형 내부자 위협 프로그램을 요구하는 통제이다.
+- **CERT(Computer Emergency Response Team)**: 컴퓨터 침해사고 대응 조직이다.
+- **SEI(Software Engineering Institute)**: CERT 가이드를 발행한 소프트웨어공학연구소이다.
+- **CERT 완화 가이드**: 사례 기반 내부자 위험 완화 실무 지침이다.
+- **AC(Access Control)**: NIST 통제의 접근통제 계열이다.
+- **AC-5**: 중요 업무의 직무 분리를 요구하는 통제이다.
+- **AC-6**: 사용자와 시스템에 최소 권한을 요구하는 통제이다.
 
 </details>
 

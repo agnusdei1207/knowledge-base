@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보 보호 위험 평가 — 자산•위협•취약점 (Information Security Risk Assessment)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:12:00+09:00"
 tags:
   - "notes-security"
 weight: 108
@@ -39,7 +39,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **위험 기준**: 가능성•결과의 척도와 수용 수준, 평가 범위를 사전에 정의해 서로 다른 위험을 일관되게 비교하는 기준이다.
-- **정성•반정량•정량 평가**: 자료 수준과 의사결정 목적에 따라 등급, 가중 점수, 확률•금액을 사용하는 평가 방식이다.
+- **정성 평가**: 높음•중간•낮음 등급으로 위험을 평가하는 방식이다.
+- **반정량 평가**: 점수와 가중치로 위험 순위를 평가하는 방식이다.
+- **정량 평가**: 확률과 손실액으로 위험을 평가하는 방식이다.
 
 </details>
 
@@ -90,7 +92,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **위험 수준•불확실성**: 가능성과 결과를 기준에 따라 산정한 등급과 자료 부족•가정 변화가 결론에 미치는 정도이다.
+- **위험 수준**: 가능성과 결과를 기준에 따라 산정한 위험 등급이다.
+- **불확실성**: 자료 부족과 가정 변화가 평가 결론에 미치는 정도이다.
 - **위험 소유자**: 평가 결과와 처리 순위를 검토하고 수용•처리 책임 및 재평가 조건을 승인하는 주체이다.
 
 </details>
@@ -124,7 +127,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **정성•반정량•정량**: 자료가 적은 초기 분류는 등급, 내부 순위는 점수, 비용•효과 판단은 확률•손실액을 사용하되 허위 정밀성을 피한다.
+- **정성 평가 적용**: 자료가 적은 초기 분류에 등급을 사용하는 방식이다.
+- **반정량 평가 적용**: 내부 우선순위 비교에 점수를 사용하는 방식이다.
+- **정량 평가 적용**: 비용•효과 판단에 확률•손실액을 사용하는 방식이다.
 
 </details>
 
@@ -142,8 +147,13 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ISO/IEC 27005:2022•IEC 31010:2019**: 정보보안 위험의 평가•처리•소통•감시 절차와 상황별 평가 기법 선택 지침을 각각 제공한다.
-- **ALE(Annual Loss Expectancy) = SLE(Single Loss Expectancy) × ARO(Annualized Rate of Occurrence)**: 한 번의 예상 손실액과 연간 예상 발생 빈도를 곱해 연간 기대 손실을 추정하는 정량식이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27005:2022**: 정보보안 위험의 평가•처리•소통•감시 지침이다.
+- **IEC 31010:2019**: 상황별 위험평가 기법의 선택 지침이다.
+- **SLE(Single Loss Expectancy)**: 사고 한 번의 예상 손실액이다.
+- **ARO(Annualized Rate of Occurrence)**: 사고의 연간 예상 발생 빈도이다.
+- **ALE(Annual Loss Expectancy)**: SLE와 ARO를 곱한 연간 기대 손실이다.
 
 </details>
 

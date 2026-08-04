@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework (NIST CSF)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T15:29:00+09:00"
 tags:
   - "notes-security"
 weight: 111
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국 상무부 산하의 기술 표준•지침 연구기관이다.
-- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과를 공통 언어로 정리한 비규범적 프레임워크이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 상무부 산하의 국립표준기술연구소이다.
+- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과를 공통 언어로 정리한 프레임워크이다.
 
 </details>
 
@@ -42,13 +42,14 @@ extra:
 
 - **결과 중심**: 특정 제품보다 조직이 달성할 보안 결과를 기준으로 관리하는 방식이다.
 - **조직 프로파일**: 현재•목표 보안 결과를 조직 상황에 맞게 선택한 문서이다.
-- **거버넌스(Govern)•구현 계층(Implementation Tier)**: 거버넌스는 전사 위험 방향을 정하고 구현 계층은 위험관리 관행의 엄격성을 네 단계로 설명한다.
+- **Govern**: 전사 사이버보안 위험의 방향과 책임을 정하는 기능이다.
+- **Implementation Tier**: 위험관리 관행의 엄격성을 네 단계로 설명하는 도구이다.
 
 </details>
 
 - 특정 제품•통제를 강제하지 않는 **결과 중심**
-- **거버넌스(Govern)** 포함 6개 기능의 전사 위험 연결
-- 프로파일 차이와 **구현 계층(Implementation Tier)** 의 개선 의사결정
+- **Govern** 포함 6개 기능의 전사 위험 연결
+- 프로파일 차이와 **Implementation Tier** 의 개선 의사결정
 
 #### 한줄 요약
 
@@ -134,17 +135,17 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **사이버보안 프레임워크 핵심부(Cybersecurity Framework Core, CSF Core)**: 보안 결과를 기능•범주•하위범주로 분류하는 공통 체계이다.
-- **조직 프로파일**: 조직이 선택한 현재•목표 보안 결과와 그 차이를 표현하는 문서이다.
-- **구현 계층(Implementation Tier)**: 위험 거버넌스•관리 관행의 엄격성을 네 단계로 설명하는 도구이다.
+- **Core 역할**: 보안 결과를 기능•범주•하위범주로 분류하는 역할이다.
+- **Profile 역할**: 조직별 현재•목표 결과와 격차를 표현하는 역할이다.
+- **Tier 역할**: 위험관리 관행의 엄격성과 일관성을 설명하는 역할이다.
 
 </details>
 
 | CSF 요소 | 역할 | 산출물 |
 |:---|:---|:---|
-| **사이버보안 프레임워크 핵심부(Cybersecurity Framework Core, CSF Core)** | 보안 결과의 **공통 분류•소통** | 기능•범주•하위범주 |
+| **CSF Core** | 보안 결과의 **공통 분류•소통** | 기능•범주•하위범주 |
 | **조직 프로파일** | 조직별 **현재•목표 결과와 격차** 표현 | 현재 프로파일•목표 프로파일 |
-| **구현 계층(Implementation Tier)** | 위험관리 관행의 **엄격성•일관성** 설명 | Tier 1~4의 관행 수준 |
+| **Implementation Tier** | 위험관리 관행의 **엄격성•일관성** 설명 | Tier 1~4의 관행 수준 |
 
 #### 한줄 요약
 
@@ -155,8 +156,11 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST CSWP 29**: NIST Cybersecurity Framework 2.0의 공식 문서 식별자이다.
-- **NIST SP 1301•1302**: 프로파일 작성과 구현 Tier 활용을 안내하는 지침이다.
+- **CSWP(Cybersecurity White Paper)**: NIST의 사이버보안 백서 문서 유형이다.
+- **SP(Special Publication)**: NIST의 전문 지침 문서 유형이다.
+- **NIST CSWP 29**: CSF 2.0의 공식 문서 식별자이다.
+- **NIST SP 1301**: 조직 프로파일 작성 지침이다.
+- **NIST SP 1302**: Implementation Tier 활용 지침이다.
 
 </details>
 
@@ -179,7 +183,7 @@ sequenceDiagram
 
 </details>
 
-- 보안 결과는 **핵심부(Core)**, 현재•목표 격차는 **프로파일(Profile)**, 관행 엄격성은 **구현 계층(Tier)** 으로 설명
+- 보안 결과는 **Core**, 현재•목표 격차는 **Profile**, 관행 엄격성은 **Tier** 로 설명
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "망분리 — CC 인증•보안적합성 (Network Separation CC)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T16:09:00+09:00"
 tags:
   - "notes-security"
 weight: 118
@@ -40,7 +40,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **최소 연계**: 분리된 영역 사이에 필요한 경로만 허용하고 데이터 흐름을 검사하는 원칙이다.
-- **공통평가기준(Common Criteria, CC)**: 정보보호제품의 보안기능과 보증수준을 독립적으로 평가•인증하는 기준이다.
+- **CC(Common Criteria)**: 정보보호제품의 보안기능과 보증수준을 평가•인증하는 공통평가기준이다.
 
 </details>
 
@@ -57,8 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **평가 대상(Target of Evaluation, TOE)**: 공통평가기준 평가에서 제품•구성 중 보안성 평가 범위로 정의한 대상이다.
-- **보호프로파일(Protection Profile, PP)**: 특정 제품군의 공통 보안문제•목표•요구사항을 정의한 문서이다.
+- **TOE(Target of Evaluation)**: CC에서 보안성 평가 범위로 정의한 대상이다.
+- **PP(Protection Profile)**: 제품군의 공통 보안문제•목표•요구사항을 정의한 문서이다.
 
 </details>
 
@@ -92,7 +92,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **보안영역 간 흐름**: 망 경계의 승인된 연계 지점에서만 검사•통제되는 데이터 이동이다.
-- **공통평가기준(Common Criteria, CC) 평가 범위**: 평가 대상(Target of Evaluation, TOE)과 보호프로파일(Protection Profile, PP), 인증 버전•형상으로 한정된 제품 보증 경계이다.
+- **CC 평가 범위**: TOE•PP•인증 버전•형상으로 한정된 제품 보증 경계이다.
 
 </details>
 
@@ -127,7 +127,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **물리•논리 망분리**: 별도 장비•회선으로 격리하는 방식과 가상 데스크톱 인프라(Virtual Desktop Infrastructure, VDI) 등 가상화로 실행영역을 분리하는 방식이다.
+- **물리적 망분리**: 별도 장비•회선으로 보안영역을 격리하는 방식이다.
+- **논리적 망분리**: 가상화로 실행영역을 분리하는 방식이다.
+- **VDI(Virtual Desktop Infrastructure)**: 중앙 서버에서 가상 데스크톱을 제공하는 인프라이다.
 
 </details>
 
@@ -146,7 +148,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 15408•18045**: 공통평가기준(Common Criteria, CC)의 보안기능•보증 평가기준과 평가 방법론을 규정한 국제표준이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 15408**: CC의 보안기능•보증 평가기준을 규정한 표준이다.
+- **ISO/IEC 18045**: CC의 평가 방법론을 규정한 표준이다.
 
 </details>
 

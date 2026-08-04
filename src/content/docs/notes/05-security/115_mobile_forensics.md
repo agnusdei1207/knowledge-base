@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모바일 포렌식 (Mobile Forensics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:52:00+09:00"
 tags:
   - "notes-security"
 weight: 115
@@ -39,7 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **최초 잠금 해제 전(Before First Unlock, BFU)•최초 잠금 해제 후(After First Unlock, AFU)**: 단말의 잠금 해제 전•후 상태로 접근 가능한 암호화 키와 데이터가 달라진다.
+- **BFU(Before First Unlock)**: 부팅 후 한 번도 잠금을 해제하지 않은 상태이다.
+- **AFU(After First Unlock)**: 부팅 후 한 번 이상 잠금을 해제한 상태이다.
 
 </details>
 
@@ -56,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)•데이터베이스(Database, DB)**: 운영체제의 허용된 호출 경계와 앱의 구조화 데이터 저장소이다.
+- **API(Application Programming Interface)**: 운영체제가 허용한 기능과 데이터의 호출 경계이다.
+- **DB(Database)**: 앱의 구조화 데이터를 저장하는 저장소이다.
 - **도구 검증**: 사용한 도구의 기능•정확성과 결과 재현성을 사전에 확인하는 절차이다.
 
 </details>
@@ -124,7 +126,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **논리•파일시스템•물리 추출**: API 허용 데이터, 파일 체계, 저장장치 비트열 순으로 획득 범위가 확장되는 방식이다.
+- **논리 추출**: API나 백업이 허용한 데이터를 수집하는 방식이다.
+- **파일시스템 추출**: 파일 계층과 앱 DB 구조를 수집하는 방식이다.
+- **물리 추출**: 저장 영역의 비트열을 복제하는 방식이다.
 
 </details>
 
@@ -143,9 +147,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-101**: 모바일 증거의 검증•보존•획득•검사•분석•보고 지침이다.
-- **미국 국립표준기술연구소 포렌식 도구 시험(Computer Forensics Tool Testing, NIST CFTT)**: 포렌식 도구의 기능과 정확성을 규격•시험결과로 검증하는 프로그램이다.
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037**: 디지털 증거의 식별•수집•획득•보존 절차를 규정한다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-101**: 모바일 증거의 획득•분석•보고 지침이다.
+- **CFTT(Computer Forensics Tool Testing)**: 포렌식 도구의 기능과 정확성을 검증하는 NIST 프로그램이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27037**: 디지털 증거의 식별•수집•획득•보존 표준이다.
 
 </details>
 

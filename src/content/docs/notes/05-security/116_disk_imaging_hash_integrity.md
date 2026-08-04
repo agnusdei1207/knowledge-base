@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디스크 이미징•해시 무결성 (Disk Imaging Hash Integrity)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:58:00+09:00"
 tags:
   - "notes-security"
 weight: 116
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **쓰기 방지**: 분석 장비에서 원본 매체로 향하는 쓰기 명령을 차단하는 통제이다.
-- **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 256비트 해시값으로 원본과 사본의 동일성•무결성을 검증하는 알고리즘이다.
+- **SHA-256(Secure Hash Algorithm 256)**: 256비트 해시값으로 동일성•무결성을 검증하는 알고리즘이다.
 
 </details>
 
@@ -92,7 +92,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **해시 검증**: 획득 전후의 해시값을 비교해 사본의 동일성과 이후 무변경을 확인하는 절차이다.
-- **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 획득 이미지의 고정 길이 지문을 계산해 동일성을 확인하는 해시 알고리즘이다.
 
 </details>
 
@@ -125,7 +124,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **논리•물리 이미징**: 파일시스템이 보여 주는 데이터만 복사하는 방식과 매체 전체를 비트 단위로 복제하는 방식이다.
+- **논리 획득**: 파일시스템이 보여 주는 선택 데이터를 복사하는 방식이다.
+- **물리 이미징**: 주소 가능한 매체 전체를 비트 단위로 복제하는 방식이다.
 
 </details>
 
@@ -144,10 +144,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)•삭제 블록 통지(Trim, TRIM)**: 플래시 저장장치와 운영체제가 삭제 블록 해제를 알리는 명령으로, 삭제 데이터 보존에 영향을 준다.
-- **연방정보처리표준 간행물(Federal Information Processing Standards Publication, FIPS PUB) 180-4**: 보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256) 등을 규정한 미국 국립표준기술연구소(National Institute of Standards and Technology, NIST) 표준이다.
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037**: 디지털 증거의 식별•수집•획득•보존 절차를 규정한다.
-- **미국 국립표준기술연구소 포렌식 도구 시험(Computer Forensics Tool Testing, NIST CFTT)**: 이미징 도구의 기능•정확성 시험 결과를 제공하는 프로그램이다.
+- **SSD(Solid-State Drive)**: 플래시 메모리를 사용하는 저장장치이다.
+- **TRIM(Trim)**: 운영체제가 SSD에 삭제 블록 해제를 알리는 명령이다.
+- **FIPS PUB(Federal Information Processing Standards Publication)**: 미국 연방정보처리표준 간행물이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **FIPS PUB 180-4**: SHA-256 등 보안 해시 알고리즘을 규정한 표준이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27037**: 디지털 증거의 식별•수집•획득•보존 표준이다.
+- **CFTT(Computer Forensics Tool Testing)**: 이미징 도구의 기능•정확성을 시험하는 NIST 프로그램이다.
 
 </details>
 
@@ -171,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- 범위 파일은 **논리 획득**, 삭제•비할당 영역은 **물리 이미징**, 솔리드 스테이트 드라이브는 **TRIM 상태 기록**
+- 범위 파일은 **논리 획득**, 삭제•비할당 영역은 **물리 이미징**, SSD는 **TRIM 상태 기록**
 
 #### 한줄 요약
 

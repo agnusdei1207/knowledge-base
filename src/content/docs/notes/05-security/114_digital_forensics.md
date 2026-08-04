@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 포렌식 — 증거 수집•체인 오브 커스터디 (Digital Forensics)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T15:46:00+09:00"
 tags:
   - "notes-security"
 weight: 114
@@ -128,7 +128,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **라이브•데드 포렌식**: 실행 중인 시스템에서 휘발성 정보를 수집하는 방식과 전원 차단 후 매체를 분석하는 방식이다.
+- **라이브 포렌식**: 실행 중인 시스템에서 휘발성 정보를 수집하는 방식이다.
+- **데드 포렌식**: 전원 차단 후 저장 매체를 복제해 분석하는 방식이다.
 
 </details>
 
@@ -147,8 +148,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 27037•27042**: 디지털 증거의 획득•보존과 분석•해석을 다루는 국제표준이다.
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-86**: 포렌식 기법을 정보보안 사고대응에 통합하는 실무 지침이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27037**: 디지털 증거의 식별•수집•획득•보존 표준이다.
+- **ISO/IEC 27042**: 디지털 증거의 분석•해석 표준이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-86**: 포렌식 기법을 사고대응에 통합하는 지침이다.
 
 </details>
 
@@ -167,7 +173,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **무결성과 연계보관성**: 증거가 변하지 않았고 취급 이력이 끊기지 않았음을 함께 입증하는 조건이다.
+- **무결성**: 수집 이후 증거가 변하지 않았음을 입증하는 조건이다.
+- **연계보관성**: 증거의 취급•인계 이력이 끊기지 않았음을 입증하는 조건이다.
 
 </details>
 

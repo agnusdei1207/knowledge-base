@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이버 레질리언스 (Cyber Resilience)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T16:14:00+09:00"
 tags:
   - "notes-security"
 weight: 119
@@ -57,7 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **복구시간목표(Recovery Time Objective, RTO)•복구시점목표(Recovery Point Objective, RPO)**: 업무를 복구할 목표 시간과 허용 가능한 데이터 손실의 기준 시점이다.
+- **RTO(Recovery Time Objective)**: 업무를 복구해야 하는 목표 시간이다.
+- **RPO(Recovery Point Objective)**: 허용 가능한 데이터 손실의 기준 시점이다.
 
 </details>
 
@@ -92,7 +93,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **생명주기 회복탄력성**: 설계•구축•운영•사고•복구•개선 전 과정에 회복 능력을 반영하는 접근이다.
-- **복구시간목표(Recovery Time Objective, RTO)•복구시점목표(Recovery Point Objective, RPO)**: 훈련에서 복구 소요시간과 데이터 복구 지점을 판정하는 목표이다.
 
 </details>
 
@@ -145,9 +145,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **미국 국립표준기술연구소 특별간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-160 Vol.2 Rev.1**: 생명주기 시스템 보안공학으로 사이버 회복탄력성을 설계하는 지침이다.
-- **국제표준화기구(International Organization for Standardization, ISO) 22301**: 업무연속성 관리체계의 요구사항을 규정한 국제표준이다.
-- **미국 국립표준기술연구소 사이버보안 프레임워크(NIST Cybersecurity Framework, NIST CSF) 2.0**: 보호•탐지•대응•복구 결과를 전사 위험관리와 연결하는 프레임워크이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **NIST SP 800-160 Vol.2 Rev.1**: 생명주기 회복탄력성 설계 지침이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **ISO 22301**: 업무연속성 관리체계의 요구사항 표준이다.
+- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
+- **NIST CSF 2.0**: 보안 결과를 전사 위험관리와 연결하는 프레임워크이다.
 
 </details>
 

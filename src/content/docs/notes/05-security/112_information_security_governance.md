@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보보호 거버넌스 (Information Security Governance)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T15:35:00+09:00"
 tags:
   - "notes-security"
 weight: 112
@@ -57,7 +57,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **평가•지시•감시•소통**: 위험을 판단하고 방향을 정한 뒤 성과를 감독하는 거버넌스 순환이다.
+- **평가**: 사업 상황과 보안 위험을 판단하는 활동이다.
+- **지시**: 위험 처리 방향과 책임을 정하는 활동이다.
+- **감시**: 보안 성과와 준수 상태를 감독하는 활동이다.
+- **소통**: 위험과 의사결정 결과를 이해관계자와 공유하는 활동이다.
 
 </details>
 
@@ -92,7 +95,7 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **위험 소유자**: 담당 업무의 위험 처리와 잔여위험 수용을 승인하는 책임자이다.
-- **최고정보보호책임자(Chief Information Security Officer, CISO)**: 정보보호 전략•위험•통제•사고 대응을 총괄하고 경영진에 보고하는 책임자이다.
+- **CISO(Chief Information Security Officer)**: 정보보호 전략•위험•통제를 총괄하는 최고정보보호책임자이다.
 
 </details>
 
@@ -146,10 +149,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **ISO/IEC 27014**: 정보보안을 평가•지시•감시•소통하는 거버넌스 지침이다.
-- **정보•기술(Information and Technology, I&T) 거버넌스 프레임워크 COBIT 2019**: 정보시스템감사통제협회(Information Systems Audit and Control Association, ISACA)가 기업 I&T의 거버넌스와 관리를 구분한 프레임워크이다.
-- **평가•지시•모니터링(Evaluate, Direct and Monitor, EDM)**: COBIT에서 경영진의 거버넌스 책임을 평가•방향 설정•감독으로 구분한 영역이다.
-- **미국 국립표준기술연구소 사이버보안 프레임워크(NIST Cybersecurity Framework, NIST CSF) 거버넌스(Govern)**: 사이버 위험을 전사 위험관리와 연결하는 기능이다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **ISO/IEC 27014**: 정보보안의 평가•지시•감시•소통 지침이다.
+- **I&T(Information and Technology)**: 기업이 사용하는 정보와 기술이다.
+- **COBIT(Control Objectives for Information and Related Technologies)**: I&T 거버넌스와 관리를 구분한 프레임워크이다.
+- **ISACA(Information Systems Audit and Control Association)**: COBIT을 개발•관리하는 정보시스템감사통제협회이다.
+- **EDM(Evaluate, Direct and Monitor)**: COBIT의 평가•지시•모니터링 거버넌스 영역이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
+- **Govern**: CSF에서 사이버 위험을 전사 위험관리와 연결하는 기능이다.
 
 </details>
 

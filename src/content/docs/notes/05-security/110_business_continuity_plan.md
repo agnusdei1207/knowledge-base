@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
-date: "2026-08-03T14:30:00+09:00"
+date: "2026-08-04T15:23:00+09:00"
 tags:
   - "notes-security"
 weight: 110
@@ -38,8 +38,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **BIA(Business Impact Analysis)•MTPD(Maximum Tolerable Period of Disruption)•RTO(Recovery Time Objective)•RPO(Recovery Point Objective)**: 업무 영향을 분석해 최대 허용 중단시간, 목표 복구시간, 허용 데이터 손실 시점을 정한다.
-- **훈련•지속 개선**: 계획의 발동•전환•복귀를 실제로 실행해 목표 달성 여부와 공백을 확인하고 자원•절차를 보완한다.
+- **BIA(Business Impact Analysis)**: 업무 중단의 영향과 우선순위를 분석하는 활동이다.
+- **MTPD(Maximum Tolerable Period of Disruption)**: 업무가 견딜 수 있는 최대 중단 기간이다.
+- **RTO(Recovery Time Objective)**: 업무를 복구해야 하는 목표 시간이다.
+- **RPO(Recovery Point Objective)**: 복구 시 허용하는 데이터 손실 시점이다.
+- **훈련**: 계획의 발동•전환•복귀를 실제로 시험하는 활동이다.
+- **지속 개선**: 훈련에서 발견한 공백에 따라 자원•절차를 보완하는 활동이다.
 
 </details>
 
@@ -56,7 +60,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **연속성 전략**: 대체 인력•장소•기술•공급자와 최소 업무 수준을 조합하여 정해진 복구 목표를 달성하는 방식이다.
-- **지휘•소통•복귀 기준**: 계획 발동 권한•역할•연락망•이해관계자 통지와 대체 상태에서 정상 운영으로 돌아갈 조건이다.
+- **지휘 체계**: 계획 발동 권한과 역할을 정한 책임 구조이다.
+- **소통 체계**: 연락망과 이해관계자 통지 절차이다.
+- **복귀 기준**: 대체 상태에서 정상 운영으로 돌아갈 조건이다.
 
 </details>
 
@@ -126,15 +132,15 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **업무연속성계획(Business Continuity Plan, BCP)**: 인력•시설•공급망을 포함한 업무 전체의 지속•재개 계획이다.
-- **재해복구계획(Disaster Recovery Plan, DRP)**: BCP 안에서 정보시스템과 데이터를 복구하는 계획이다.
+- **DRP(Disaster Recovery Plan)**: BCP 안에서 정보시스템과 데이터를 복구하는 계획이다.
+- **IT(Information Technology)**: 정보의 처리•저장•전송에 사용하는 기술이다.
 
 </details>
 
 | 계획 | 범위 | 상호 관계 |
 |:---|:---|:---|
-| **업무연속성계획(Business Continuity Plan, BCP)** | **인력•시설•공급망•업무 전체의 지속•재개** | 업무 복구 목표와 우선순위를 재해복구계획에 전달 |
-| **재해복구계획(Disaster Recovery Plan, DRP)** | **정보기술(Information Technology, IT) 시스템•네트워크•데이터 복구** | BCP의 업무 목표를 기술 복구 절차로 구체화 |
+| **BCP** | **인력•시설•공급망•업무 전체의 지속•재개** | 업무 복구 목표와 우선순위를 DRP에 전달 |
+| **DRP** | **IT 시스템•네트워크•데이터 복구** | BCP의 업무 목표를 기술 복구 절차로 구체화 |
 
 #### 한줄 요약
 
@@ -144,8 +150,14 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ISO 22301:2019•ISO/TS 22317:2021**: BCMS 요구사항과 조직에 적합한 BIA 절차 수립•유지 지침을 각각 제공한다.
-- **ITSCM(IT Service Continuity Management)•NIST SP 800-34**: 업무 복구 목표를 IT•데이터 복구 설계와 훈련에 연결하고 정보시스템 비상계획을 구체화한다.
+- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
+- **TS(Technical Specification)**: 국제표준 제정 전 기술 요구를 담은 기술시방서이다.
+- **ISO 22301:2019**: BCMS 요구사항을 제공하는 국제표준이다.
+- **ISO/TS 22317:2021**: 조직에 적합한 BIA 절차의 수립•유지 지침이다.
+- **ITSCM(IT Service Continuity Management)**: IT 서비스의 연속성을 관리하는 활동이다.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **SP(Special Publication)**: NIST가 발행하는 전문 지침 문서이다.
+- **NIST SP 800-34**: 정보시스템 비상계획 수립 지침이다.
 
 </details>
 

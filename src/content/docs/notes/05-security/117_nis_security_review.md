@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "국가정보원 보안성 검토 (NIS Security Review)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T16:03:00+09:00"
 tags:
   - "notes-security"
 weight: 117
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **보안성 검토**: 국가•공공기관 정보화사업의 계획 단계에서 보안대책 적절성을 확인하는 사전 절차이다.
-- **국가정보원(National Intelligence Service, NIS)**: 국가 정보보안 지침을 수립하고 위임된 정보화사업의 보안 적합성을 검토하는 기관이다.
+- **NIS(National Intelligence Service)**: 국가 정보보안 지침을 수립하는 국가정보원이다.
 
 </details>
 
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **제안요청서(Request for Proposal, RFP)**: 발주할 사업의 기능•보안 요구사항과 평가•검증 기준을 명시한 문서이다.
+- **RFP(Request for Proposal)**: 사업의 기능•보안 요구와 평가•검증 기준을 명시한 제안요청서이다.
 
 </details>
 
@@ -58,7 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **검토 범위**: 사업 목적•데이터•네트워크•제품•연계 구조를 기준으로 정한 사전 검토 대상이다.
-- **제안요청서(Request for Proposal, RFP) 추적**: 검토 의견을 발주 요구사항과 설계•검수 결과까지 연결해 이행 여부를 확인하는 활동이다.
+- **RFP 추적**: 검토 의견을 발주 요구와 설계•검수 결과까지 연결하는 활동이다.
 
 </details>
 
@@ -92,7 +92,6 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **검토 의견 반영**: 보안성 검토 결과를 조달•계약•구축•시험 조건으로 연결하는 활동이다.
-- **제안요청서(Request for Proposal, RFP)**: 확정된 보안 요구사항을 공급자 제안과 검수 기준에 반영하는 발주 문서이다.
 
 </details>
 
@@ -128,7 +127,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **보안적합성 검증**: 도입 정보보호제품의 안전성과 실제 구성 적합성을 확인하는 절차이다.
-- **제안요청서(Request for Proposal, RFP)**: 보안성 검토 결과를 사업 공고 전 설계•계약 조건으로 명시하는 문서이다.
 
 </details>
 
@@ -147,7 +145,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전자정부법 제56조•시행령 제69조**: 정보보안 대책과 사전 보안성 검토의 법적 근거이다.
+- **전자정부법 제56조**: 행정기관의 정보통신망 안전성 확보 근거이다.
+- **전자정부법 시행령 제69조**: 사전 보안성 검토 절차의 근거이다.
 - **국가 사이버보안 기본지침**: 보안성 검토 대상•절차•위임 기준을 정한 지침이다.
 
 </details>
@@ -168,7 +167,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **계약 전 반영**: 보안 요구를 사업 초기의 제안요청서•계약•시험 기준에 포함하는 원칙이다.
-- **제안요청서(Request for Proposal, RFP)**: 계약 전에 보안 요구와 시험•검수 기준을 공급자에게 명확히 전달하는 문서이다.
 
 </details>
 
