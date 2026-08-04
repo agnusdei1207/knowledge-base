@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SRE 사이트 신뢰성 공학 (Site Reliability Engineering)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:04:00+09:00"
 tags:
   - "notes-software"
 weight: 164
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰성•운영 자동화 체계**: SRE는 소프트웨어 공학을 운영에 적용해 서비스 신뢰성과 반복 운영의 자동화를 함께 관리하는 체계다.
+- **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: 소프트웨어 공학을 운영에 적용해 신뢰성과 자동화를 관리하는 체계이다.
 
 </details>
 
@@ -127,7 +127,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SRE**: SRE는 사용자 관점의 지표와 정량 정책을 활용하고 토일을 자동화하는 운영 방식이다.
+- **운영 방식 선택 축**: 정량 신뢰성 정책과 반복 작업 자동화의 필요성이다.
 
 </details>
 
@@ -167,7 +167,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **사용자 가치•예산 소진•변경 위험**: 배포와 안정화의 우선순위는 사용자 가치, 오류 예산 소진 상태, 변경 위험을 함께 고려해 결정한다.
+- **사용자 가치**: 변경으로 사용자가 얻는 업무 효과이다.
+- **변경 위험**: 배포가 서비스 신뢰성을 훼손할 가능성이다.
 
 </details>
 

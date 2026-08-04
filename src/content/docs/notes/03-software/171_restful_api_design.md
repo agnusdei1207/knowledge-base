@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-03T09:14:20+09:00"
+date: "2026-08-04T14:11:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -23,12 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP 균일 인터페이스**: RESTful API는 자원을 URI로 식별하고 HTTP 메서드•상태•헤더의 일관된 의미로 조작한다.
 - **표현 상태 전이(Representational State Transfer, REST) 응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 자원을 통합 자원 식별자로 식별하고 하이퍼텍스트 전송 프로토콜의 균일 인터페이스로 조작하는 웹 API 설계 방식이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹 자원을 고유하게 식별하는 문자열이다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청과 응답의 메서드•상태•헤더를 정의한 프로토콜이다.
 
 </details>
 
-- 정의/개념: 자원을 통합 자원 식별자(Uniform Resource Identifier, URI)로 식별하고 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 메서드•상태•표현을 균일하게 적용하는 **RESTful API** 설계 방식
+- 정의/개념: 자원에 **URI•HTTP 균일 인터페이스** 를 적용한 **RESTful API**
 - 배경/필요성: 동작명 중심 개별 규칙으로는 **클라이언트 결합•응답 편차 증가**
 
 #### 한줄 요약
@@ -40,10 +41,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **명사형 URI•표현**: 명사형 URI는 자원을 식별하고 표현은 특정 시점의 자원 상태를 JSON이나 XML 같은 형식으로 전달한다.
-- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹에서 자원을 고유하게 식별하는 주소 형식이다.
-- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)•확장 가능 마크업 언어(Extensible Markup Language, XML)**: 자원 상태 표현을 전달하는 대표적인 데이터 형식이다.
-- **무상태•캐시•계층화**: 서버 세션 의존을 줄이고 응답 재사용과 중간 계층을 허용해 웹 확장성을 높이는 제약이다.
+- **명사형 URI**: 연산이 아닌 자원 이름으로 주소를 구성하는 원칙이다.
+- **자원 표현**: 특정 시점의 자원 상태를 전달한 데이터이다.
+- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)**: 키•값 구조로 자원 표현을 전달하는 형식이다.
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 태그 구조로 자원 표현을 전달하는 형식이다.
+- **무상태**: 서버가 클라이언트 세션에 의존하지 않는 제약이다.
+- **캐시**: 응답의 재사용 가능 여부를 명시하는 제약이다.
+- **계층화**: 중간 계층을 통한 요청 처리를 허용하는 제약이다.
 
 </details>
 
@@ -60,9 +64,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **REST API**: REST API는 URI, 메서드, 표현과 조건부 요청을 해석해 도메인 서비스의 자원 연산으로 연결한다.
-- **응용 프로그래밍 인터페이스 게이트웨이(Application Programming Interface Gateway, API Gateway)**: 인증•호출 제한•라우팅을 통합 수행하는 진입 구성요소이다.
-- **표현 상태 전이 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 자원 식별자•메서드•표현•조건부 요청을 도메인 연산으로 연결하는 구성요소이다.
+- **API 게이트웨이(API Gateway)**: 인증•호출 제한•라우팅을 통합 수행하는 진입 구성요소이다.
+- **REST API 처리기**: URI•메서드•표현•조건부 요청을 도메인 연산으로 연결한다.
 - **도메인 서비스**: 업무 규칙에 따라 자원 조회•생성•변경•삭제를 수행하는 구성요소이다.
 - **자원 저장소**: 자원 상태와 동시성 검증용 표현 버전을 보존하는 구성요소이다.
 
@@ -137,9 +140,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **RESTful API**: RESTful API는 URI와 HTTP 균일 인터페이스를 사용해 웹 자원을 공개하고 연계하는 데 적합하다.
 - **원격 프로시저 호출(Remote Procedure Call, RPC)식 API**: 연산명과 매개변수를 직접 계약해 원격 업무 명령을 호출하는 방식이다.
-- **RESTful API**: 통합 자원 식별자와 하이퍼텍스트 전송 프로토콜 균일 인터페이스로 웹 자원을 공개하는 방식이다.
 
 </details>
 
@@ -182,7 +183,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **자원 수명•재시도•캐시**: URI, 메서드, 조건부 요청은 자원의 수명주기, 요청 재시도, 캐시 요구를 기준으로 설계해야 한다.
+- **자원 수명**: 생성부터 변경•삭제까지 자원 상태가 유지되는 기간이다.
 
 </details>
 
