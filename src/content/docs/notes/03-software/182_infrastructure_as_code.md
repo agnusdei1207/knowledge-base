@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-08-04T14:22:00+09:00"
+date: "2026-08-05T01:15:56+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -69,19 +69,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["코드 저장소"]
-    B["검증 파이프라인"]
-    C["IaC Engine•Provider"]
-    D["원격 상태 저장소"]
-    E["편차 탐지"]
-    A --- B
-    B --- C
-    C --- D
-    C --- E
+```text
+[코드 저장소]---[검증 파이프라인]---[IaC Engine•Provider]
+                                            |
+                              +-------------+-------------+
+                              |                           |
+                    [원격 상태 저장소]              [편차 탐지]
 ```
+
+선의 의미: 코드 저장소와 검증 파이프라인은 IaC 정의의 보관 및 검증 관계이고, IaC Engine•Provider는 원격 상태 저장소 및 편차 탐지와 자원 매핑•실제 상태 비교 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SBOM 소프트웨어 자재명세서 (SBOM)"
-date: "2026-08-04T14:23:00+09:00"
+date: "2026-08-05T01:15:56+09:00"
 tags:
   - "notes-software"
 weight: 183
@@ -65,19 +65,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["소스•빌드 산출물"]
-    B["SBOM Generator"]
-    C["검증•서명"]
-    D["SBOM Repository"]
-    E["위험 분석"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+[소스•빌드 산출물]---[SBOM Generator]---[검증•서명]---[SBOM Repository]---[위험 분석]
 ```
+
+선의 의미: 각 선은 실제 구성 입력, 표준 식별자, 제품 해시•서명, 보관 명세가 서로 결속되어 위험 분석의 근거가 되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

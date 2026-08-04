@@ -4,7 +4,7 @@ sidebar:
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
   badge: { text: "기출 • 85%", variant: note }
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
-date: "2026-08-04T14:42:06+09:00"
+date: "2026-08-05T06:45:00+09:00"
 tags: ["notes-software"]
 weight: 189
 extra:
@@ -65,24 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["EA 거버넌스"]
-    B["BA"]
-    C["DA"]
-    D["AA"]
-    E["TA"]
-    F["EA 저장소"]
-    A --- B
-    A --- C
-    A --- D
-    A --- E
-    B --- F
-    C --- F
-    D --- F
-    E --- F
+```text
+                     [EA 거버넌스]
+                  /      |  |      \
+               [BA]    [DA] [AA]    [TA]
+                  \      |  |      /
+                      [EA 저장소]
 ```
+
+선의 의미: EA 거버넌스가 BA•DA•AA•TA 네 영역을 함께 통제하고, 모든 영역이 공통 EA 저장소의 모델과 이력을 공유하는 정적 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

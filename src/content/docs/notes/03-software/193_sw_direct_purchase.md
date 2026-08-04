@@ -4,7 +4,7 @@ sidebar:
   label: "193. SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
   badge: { text: "기출 • 70%", variant: note }
 title: "SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
-date: "2026-08-04T14:33:00+09:00"
+date: "2026-08-05T06:45:00+09:00"
 tags: ["notes-software"]
 weight: 193
 extra:
@@ -62,20 +62,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["발주기관"]
-    B["구매 절차"]
-    C["SW 공급자"]
-    D["구축사"]
-    E["검수 체계"]
-    A --- B
-    B --- C
-    A --- D
-    C --- E
-    D --- E
+```text
+                     [발주기관]
+                    /          \
+               [구매 절차]    [구축사]
+                    |          /
+               [SW 공급자]   /
+                    \        /
+                    [검수 체계]
 ```
+
+선의 의미: 발주기관이 구매 절차를 통해 SW 공급자를 계약하고 구축사에 통합 책임을 부여하며, 공급 결과와 구축 결과가 공통 검수 체계에 결합되는 정적 책임 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

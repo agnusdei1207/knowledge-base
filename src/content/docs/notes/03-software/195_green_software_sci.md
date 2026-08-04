@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 그린 엔지니어링 SCI 지수 (Green Software SCI)"
-date: "2026-08-04T14:35:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 195
@@ -67,17 +67,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    O["측정 책임자"]
-    T["텔레메트리 수집기"]
-    C["SCI 계산기"]
-    R["검토•보고 체계"]
-    O --- T
-    T --- C
-    C --- R
+```text
+[측정 책임자] ----- [텔레메트리 수집기] ----- [SCI 계산기] ----- [검토•보고 체계]
 ```
+
+선의 의미: 선은 측정 경계와 기능 단위를 정의하는 책임자, 배출 자료 수집기, SCI 계산기와 변경 효과를 검토•공개하는 보고 체계가 결합되는 정적 측정 구조를 뜻한다.
 
 $\mathrm{SCI} = (O + M) / R$
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "고가용성 설계: Active-Active•Active-Standby (High Availability Design)"
-date: "2026-08-04T14:38:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-software"
 weight: 198
@@ -71,20 +71,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["트래픽 제어"]
-    B["활성 인스턴스"]
-    C["대체 인스턴스"]
-    D["쿼럼•펜싱"]
-    E["상태 저장소"]
-    A --- B
-    A --- C
-    B --- D
-    C --- D
-    D --- E
+```text
+                         [트래픽 제어]
+                         /           \
+                 [활성 인스턴스] [대체 인스턴스]
+                         \           /
+                         [쿼럼•펜싱]
+                              |
+                         [상태 저장소]
 ```
+
+선의 의미: 트래픽 제어 아래에는 독립 장애 도메인의 활성•대체 인스턴스가 놓이고, 두 인스턴스는 단일 쓰기를 보장하는 쿼럼•펜싱과 업무 상태를 보존하는 상태 저장소에 결합되는 정적 고가용성 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

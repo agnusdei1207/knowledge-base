@@ -4,7 +4,7 @@ sidebar:
   label: "190. 범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
   badge: { text: "기출 • 70%", variant: note }
 title: "범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
-date: "2026-08-04T14:42:06+09:00"
+date: "2026-08-05T06:45:00+09:00"
 tags: ["notes-software"]
 weight: 190
 extra:
@@ -62,19 +62,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["참조 모형"]
-    B["매핑 체계"]
-    C["EA 저장소"]
-    D["범정부 분석"]
-    E["거버넌스"]
-    A --- B
-    B --- C
-    C --- D
-    D --- E
+```text
+       [참조 모형]
+            |
+        [매핑 체계]
+            |
+        [EA 저장소]
+            |
+       [범정부 분석]
+            |
+         [거버넌스]
 ```
+
+선의 의미: 공통 참조 분류와 기관 자산 매핑이 EA 저장소를 구성하고, 저장된 자산 집합을 범정부 분석과 거버넌스가 의사결정 근거로 사용하는 정적 의존 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|

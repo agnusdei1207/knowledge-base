@@ -4,7 +4,7 @@ sidebar:
   label: "192. 소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
   badge: { text: "기출 • 70%", variant: note }
 title: "소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
-date: "2026-08-04T14:32:00+09:00"
+date: "2026-08-05T06:45:00+09:00"
 tags: ["notes-software"]
 weight: 192
 extra:
@@ -64,19 +64,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 1
-    A["사업기관"]
-    E["평가 담당"]
-    P["공시 체계"]
-    S["SW 사업자"]
-    G["검토기관"]
-    A --- E
-    A --- P
-    P --- S
-    E --- G
+```text
+                  [사업기관]
+                  /        \
+             [평가 담당] [공시 체계]
+                 |           |
+             [검토기관]   [SW 사업자]
 ```
+
+선의 의미: 사업기관의 계획을 평가 담당과 공시 체계가 각각 분석•공개하며, 검토기관은 평가 근거를 심사하고 SW 사업자는 공시된 판정에 근거를 제시하는 정적 참여 관계이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
