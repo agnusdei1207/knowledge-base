@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: ARM TrustZone (ARM TrustZone)
-date: "2026-08-04T14:23:18+09:00"
+date: "2026-08-05T12:40:00+09:00"
 tags:
   - notes-security
 weight: 128
@@ -67,17 +67,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  R["REE•Normal World"]
-  G["SMC•제한 진입점"]
-  T["TEE•Secure World"]
-  M["메모리•버스 보안 속성"]
-  P["DMA•인터럽트 통제"]
-  R --- G --- T
-  T --- M --- P
+```text
+ [REE•Normal World] -- [SMC•제한 진입점] -- [TEE•Secure World]
+                                                    |
+                                      [메모리•버스 보안 속성]
+                                                    |
+                                         [DMA•인터럽트 통제]
 ```
+
+선의 의미: Normal World와 Secure World 사이를 제한 진입점으로 분리하고, Secure World 자원의 메모리•버스 속성과 DMA•인터럽트 접근을 하드웨어 경계로 통제하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

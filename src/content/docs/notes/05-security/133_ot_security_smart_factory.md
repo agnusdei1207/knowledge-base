@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 스마트팩토리 OT 보안 (OT Security Smart Factory)
-date: "2026-08-04T14:24:32+09:00"
+date: "2026-08-05T12:45:00+09:00"
 tags:
   - notes-security
 weight: 133
@@ -69,17 +69,19 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  I["기업 IT 영역"]
-  D["산업 DMZ•원격접속"]
-  O["MES•SCADA 운영 영역"]
-  C["PLC•DCS 제어 영역"]
-  S["현장 장치•독립 SIS"]
-  I --- D --- O
-  O --- C --- S
+```text
+                    [기업 IT 영역]
+                           |
+                  [산업 DMZ•원격접속]
+                           |
+                 [MES•SCADA 운영 영역]
+                           |
+                  [PLC•DCS 제어 영역]
+                           |
+                 [현장 장치•독립 SIS]
 ```
+
+선의 의미: 기업 IT에서 산업 DMZ, 운영, 제어, 현장 안전 영역으로 신뢰 수준을 분리하고 각 영역 사이의 허용 통로만 연결한 OT 심층 경계 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

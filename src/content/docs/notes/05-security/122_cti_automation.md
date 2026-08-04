@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인텔리전스 기반 CTI 자동화 (CTI Automation)"
-date: "2026-08-04T14:21:32+09:00"
+date: "2026-08-05T01:48:44+09:00"
 tags:
   - "notes-security"
 weight: 122
@@ -66,18 +66,6 @@ extra:
 - **API(Application Programming Interface)**: TIP과 보안 도구가 CTI를 교환하는 연결 규격이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 3
-  S["CTI 수집•출처"]
-  N["STIX 2.1 정규화"]
-  E["신뢰도•시효•자산 보강"]
-  D["TAXII 2.1•TLP 2.0 배포"]
-  F["적중•오탐 품질 환류"]
-  S --- N --- E
-  E --- D --- F
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: Secure Boot 보안 부팅 (Secure Boot)
-date: "2026-08-04T14:22:59+09:00"
+date: "2026-08-05T01:48:44+09:00"
 tags:
   - notes-security
 weight: 127
@@ -65,17 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  P["플랫폼 키 PK"]
-  K["키 교환 키 KEK"]
-  A["허용 데이터베이스 db"]
-  R["폐기 데이터베이스 dbx"]
-  V["UEFI 이미지 검증기"]
-  P --- K --- A
-  A --- R --- V
+```text
+[플랫폼 키 PK]---[키 교환 키 KEK]---[허용 데이터베이스 db]
+                         |                       |
+              [폐기 데이터베이스 dbx]---[UEFI 이미지 검증기]
 ```
+
+선의 의미: 플랫폼•키 교환 정책과 허용•폐기 데이터베이스가 UEFI 이미지 검증기에 결합되는 Secure Boot 신뢰 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

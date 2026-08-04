@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: PKI 차량 인증 (Vehicle PKI)
-date: "2026-08-04T14:25:28+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - notes-security
 weight: 136
@@ -66,17 +66,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  R["Root CA•정책 앵커"]
-  E["EA•장기 등록 자격"]
-  A["AA•단기 가명 권한"]
-  V["차량 보안모듈•서명"]
-  M["오동작 탐지•CRL"]
-  R --- E --- A
-  A --- V --- M
+```text
+                    [Root CA•정책 앵커]
+                       /             \
+            [EA•장기 등록 자격]   [AA•단기 가명 권한]
+                                          |
+                               [차량 보안모듈•서명]
+                                          |
+                                [오동작 탐지•CRL]
 ```
+
+선의 의미: Root CA•정책 앵커 아래에는 장기 가입 자격을 확인하는 EA와 단기 가명 권한을 발급하는 AA가 분리되고, 차량 보안모듈과 오동작 탐지•CRL은 AA의 가명 인증서 신뢰 경계에 속하는 정적 차량 PKI 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

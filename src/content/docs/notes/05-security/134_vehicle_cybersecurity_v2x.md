@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 차량 사이버 보안 — V2X 위협 (Vehicle Cybersecurity V2X)
-date: "2026-08-04T14:24:51+09:00"
+date: "2026-08-05T12:46:00+09:00"
 tags:
   - notes-security
 weight: 134
@@ -65,17 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  V["V2X•진단 외부 통신"]
-  G["차량 보안 게이트웨이"]
-  E["ECU•차량 내부망"]
-  U["서명 OTA•안전 복구"]
-  F["CSMS•차량군 관제"]
-  V --- G --- E
-  E --- U --- F
+```text
+                       [차량 보안 게이트웨이]
+                       /          |          \
+          [V2X•진단 외부 통신] [ECU•차량 내부망] [서명 OTA•안전 복구]
+                       \          |          /
+                        [CSMS•차량군 관제]
 ```
+
+선의 의미: 차량 보안 게이트웨이가 외부 통신, 내부 ECU망, 서명 OTA 경계를 분리하고 CSMS•차량군 관제가 각 영역의 상태와 위험을 공통 관리하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

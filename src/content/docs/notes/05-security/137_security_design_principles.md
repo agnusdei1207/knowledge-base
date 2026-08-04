@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 설계 원칙 — 페일 세이프•최소 노출 (Security Design Principles)
-date: "2026-08-04T14:25:50+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - notes-security
 weight: 137
@@ -64,18 +64,6 @@ extra:
 - **최소 공통 메커니즘**: 주체 사이의 공유 상태를 줄이는 원칙이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  D["기본 거부•안전 실패"]
-  L["최소 권한•최소 기능"]
-  M["완전 중재•감사"]
-  E["단순•공개 메커니즘"]
-  S["권한 분리•공유 최소화"]
-  D --- L --- M
-  M --- E --- S
-```
 
 | 구성요소 | 책임 |
 |:---|:---|
