@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAPTCHA•reCAPTCHA (CAPTCHA)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T12:11:00+09:00"
 tags:
   - "notes-security"
 weight: 69
@@ -22,7 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CAPTCHA**: 사람과 자동화 요청을 구분하여 대량 가입•스팸•로그인 같은 봇의 서비스 남용 비용을 높이는 보조 통제이다.
+- **CAPTCHA(Completely Automated Public Turing test to tell Computers and Humans Apart)** 는 사람과 자동화 요청을 구분하는 보조 통제다.
+- **reCAPTCHA** 는 위험 신호와 사용자 도전을 결합한 CAPTCHA 서비스다.
 - **봇**: 정해진 작업을 대량으로 자동 수행하는 프로그램이다.
 
 </details>
@@ -38,8 +39,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **검증 토큰•목적 결속**: CAPTCHA 통과 결과를 짧은 수명의 증표로 만들고 특정 업무 요청에만 사용할 수 있게 묶는 통제이다.
-- **호출률 제한•MFA**: 일정 시간의 요청 수를 제한하고 계정•결제 같은 고위험 요청에는 독립된 인증 요소를 추가하는 다층 통제이다.
+- **검증 토큰** 은 CAPTCHA 통과 결과를 전달하는 짧은 수명의 증표다.
+- **목적 결속** 은 검증 토큰을 발급받은 특정 업무 요청에만 사용하게 하는 통제다.
+- **호출률 제한** 은 일정 시간 동안 주체별 요청 수를 제한하는 통제다.
+- **MFA(Multi-Factor Authentication)** 는 서로 다른 종류의 인증 요소를 둘 이상 확인하는 방식이다.
 
 </details>
 
@@ -123,8 +126,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **문제형•점수형•적응형 CAPTCHA**: 문제형은 사용자가 직접 과제를 풀고 점수형은 행위 신호를 평가하며 적응형은 위험할 때만 과제를 추가한다.
-- **오탐•모델 편향**: 정상 사용자를 봇으로 잘못 판단하거나 특정 환경과 사용자 집단을 체계적으로 불리하게 판정하는 오류이다.
+- **문제형 CAPTCHA** 는 사용자가 이미지•문자•동작 과제를 직접 수행하는 유형이다.
+- **점수형 CAPTCHA** 는 계정•기기•행위 신호로 자동화 가능성을 점수화하는 유형이다.
+- **적응형 CAPTCHA** 는 요청 위험이 높을 때만 추가 도전 문제를 제시하는 유형이다.
+- **오탐** 은 정상 사용자를 봇으로 잘못 판단하는 오류다.
+- **모델 편향** 은 특정 환경이나 사용자 집단을 체계적으로 불리하게 판정하는 오류다.
 
 </details>
 
@@ -142,9 +148,13 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **OWASP OAT-009**: CAPTCHA 우회•대행•자동 풀이 위협을 분류한 자동화 위협 식별자이다.
-- **W3C WCAG 2.2•대체 경로**: 장애나 사용 환경과 관계없이 검증을 완료할 수 있도록 접근성 요구와 다른 인증 수단을 제공하는 기준이다.
-- **AI 풀이**: 인공지능 모델로 이미지•문자•행동 과제를 자동 해결해 CAPTCHA를 우회하는 방식이다.
+- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
+- **OAT(OWASP Automated Threat)-009** 는 CAPTCHA 우회•대행•자동 풀이 위협을 분류한 식별자다.
+- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **WCAG(Web Content Accessibility Guidelines) 2.2** 는 웹 콘텐츠의 접근성 요구를 제시한다.
+- **대체 경로** 는 장애나 사용 환경과 관계없이 검증을 완료할 다른 인증 수단이다.
+- **AI(Artificial Intelligence) 풀이** 는 인공지능 모델로 CAPTCHA 과제를 자동 해결하는 우회 방식이다.
+- **IP(Internet Protocol)** 는 네트워크에서 장치 간 패킷 주소 지정과 전달을 위한 통신 규약이다.
 
 </details>
 
@@ -163,8 +173,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **공격 경제성 저하**: CAPTCHA를 단독 인증으로 보지 않고 호출률•위험 평가•강한 인증과 결합해 자동화 공격의 시간과 비용을 높이는 목표이다.
-- **호출률•적응형 CAPTCHA•MFA 선택**: 저위험, 중위험, 계정•결제 같은 고위험 요청에 맞춰 검증 강도를 높이는 판단이다.
-
 </details>
 
 - 저위험은 **호출률 제한**, 중위험은 **적응형 CAPTCHA**, 계정•결제 고위험은 **MFA**

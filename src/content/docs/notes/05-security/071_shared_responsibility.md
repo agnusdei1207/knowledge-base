@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 보안 공유 책임 모델 (Cloud Shared Responsibility)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T12:20:00+09:00"
 tags:
   - "notes-security"
 weight: 71
@@ -55,8 +55,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **공동•상속 통제**: 공동 통제는 양측이 각 부분을 수행해야 완성되고 상속 통제는 제공자의 수행 결과를 고객 통제의 일부로 활용한다.
-- **SLA•사고 인터페이스**: SLA는 가용성•지원•복구와 책임 범위를 정하고 사고 인터페이스는 탐지•통보•조사•복구의 협업 절차를 정한다.
+- **공동 통제** 는 제공자와 고객이 각자 맡은 부분을 수행해야 완성되는 통제다.
+- **상속 통제** 는 제공자의 수행 결과를 고객 통제의 일부로 활용하는 통제다.
+- **SLA(Service Level Agreement)** 는 가용성•지원•복구 수준과 책임 범위를 정한 계약이다.
+- **사고 인터페이스** 는 제공자와 고객의 탐지•통보•조사•복구 협업 절차다.
 
 </details>
 
@@ -93,7 +95,7 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **RACI**: 통제별 수행자•최종 책임자•협의자•통보 대상을 구분하여 책임과 검증 절차를 연결하는 행렬이다.
+- **RACI(Responsible, Accountable, Consulted, Informed)** 는 통제별 수행•책임•협의•통보 주체를 구분하는 행렬이다.
 - **책임 검증 계획**: 양측의 통제 수행 결과를 어떤 증거와 주기로 확인할지 정한 계획이다.
 
 </details>
@@ -125,7 +127,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **IaaS•PaaS•SaaS**: IaaS는 고객이 OS부터, PaaS는 애플리케이션부터, SaaS는 계정•데이터•업무 설정부터 관리 책임을 진다.
+- **IaaS(Infrastructure as a Service)** 는 고객이 OS부터 상위 계층을 관리하는 클라우드 서비스다.
+- **PaaS(Platform as a Service)** 는 고객이 애플리케이션부터 상위 계층을 관리하는 클라우드 서비스다.
+- **SaaS(Software as a Service)** 는 고객이 계정•데이터•업무 설정을 관리하는 클라우드 서비스다.
+- **OS(Operating System)** 는 하드웨어 자원과 응용 실행 환경을 관리하는 시스템 소프트웨어다.
 
 </details>
 
@@ -143,8 +148,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST SP 800-145**: IaaS•PaaS•SaaS 등 클라우드 서비스와 배치 모델을 정의한 공식 문서이다.
-- **ISO/IEC 27017:2015**: 클라우드 제공자와 고객의 역할별 정보보호 통제 지침을 제시한 국제표준이다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SP(Special Publication) 800-145** 는 클라우드 서비스와 배치 모델을 정의한다.
+- **ISO(International Organization for Standardization)** 는 국제 표준을 개발•발행하는 기구다.
+- **IEC(International Electrotechnical Commission)** 는 전기•전자 분야 국제 표준을 개발하는 기구다.
+- **ISO/IEC 27017:2015** 는 클라우드 제공자와 고객의 역할별 정보보호 통제를 제시한다.
 
 </details>
 

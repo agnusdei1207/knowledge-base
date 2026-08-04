@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 공급망 보안 (Supply Chain Security)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T12:44:00+09:00"
 tags:
   - "notes-security"
 weight: 76
@@ -38,7 +38,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SBOM•VEX**: SBOM은 제품의 부품•버전•관계를 기록하고 VEX는 제품별 취약점 영향 상태와 판단 근거를 전달한다.
+- **SBOM(Software Bill of Materials)** 은 제품의 구성 부품•버전•관계를 기록한 명세서다.
+- **VEX(Vulnerability Exploitability eXchange)** 는 제품별 취약점 영향 상태와 판단 근거를 전달하는 문서다.
 - **출처 증명**: 산출물을 누가 어떤 소스•도구•과정으로 만들었는지 나타내는 검증 정보이다.
 
 </details>
@@ -55,8 +56,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **격리 빌드•단명 자격**: 다른 작업과 권한•파일•네트워크를 분리하고 한 작업에만 유효한 인증 정보로 산출물을 생성한다.
-- **불변 저장소•배포 게이트**: 같은 식별자의 산출물을 덮어쓰지 못하게 보관하고 서명•증적 정책을 통과한 결과만 승격한다.
+- **격리 빌드** 는 작업별 권한•파일•네트워크를 분리한 환경에서 산출물을 생성한다.
+- **단명 자격** 은 하나의 빌드 작업과 짧은 시간에만 유효한 인증 정보다.
+- **불변 저장소** 는 같은 식별자의 산출물을 덮어쓰지 못하게 보관하는 저장소다.
+- **배포 게이트** 는 서명•증적 정책을 통과한 산출물만 운영으로 승격한다.
 
 </details>
 
@@ -91,7 +94,8 @@ block-beta
 
 <details><summary>핵심 용어</summary>
 
-- **서명 산출물•증적**: 빌드 결과와 SBOM•VEX•출처 정보를 함께 서명•등록하여 구성과 생산 이력을 결속한 자료이다.
+- **서명 산출물** 은 무결성과 발행 주체를 확인할 수 있도록 전자서명을 결합한 빌드 결과다.
+- **증적** 은 SBOM•VEX•출처 정보를 산출물과 결속해 보존한 검증 자료다.
 - **운영 영향 추적**: 새 취약점이 발견될 때 영향 제품•실행 가능성•수정 상태를 배포된 산출물까지 다시 연결하는 과정이다.
 
 </details>
@@ -129,16 +133,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 구성 부품•버전•관계를 기록한다.
-- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 취약점이 특정 제품에 미치는 영향을 기록한다.
-- **출처 증명(Provenance Attestation)**: 산출물의 생산 주체와 빌드 과정을 증명한다.
-
 </details>
 
 | 공급망 증적 | 담당 역할 | 결합 효과 |
 |:---|:---|:---|
-| **소프트웨어 자재명세서(Software Bill of Materials, SBOM)** | **부품•버전•관계 기록** | 영향받는 구성요소 식별 |
-| **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)** | **제품별 취약점 영향 상태 기록** | 조치 우선순위와 예외 근거 제공 |
+| **SBOM** | **부품•버전•관계 기록** | 영향받는 구성요소 식별 |
+| **VEX** | **제품별 취약점 영향 상태 기록** | 조치 우선순위와 예외 근거 제공 |
 | **출처 증명** | **생산 주체•빌드 과정 기록** | 산출물 출처•무결성 검증 |
 
 #### 한줄 요약
@@ -149,8 +149,14 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **SSDF 1.1•SLSA 1.2**: SSDF는 안전한 개발 관행을 SDLC에 통합하고 SLSA는 소스•빌드 출처와 무결성 보증을 강화한다.
-- **CISA VEX 최소 요구사항•재현 빌드**: VEX 상태•근거 필드를 통일하고 같은 소스와 조건에서 산출물을 재생성해 빌드 변조를 대조한다.
+- **SSDF(Secure Software Development Framework) 1.1** 은 안전한 개발 관행을 SDLC에 통합하는 지침이다.
+- **SLSA(Supply-chain Levels for Software Artifacts) 1.2** 는 소스•빌드 출처와 무결성 보증 수준을 제시한다.
+- **SDLC(Software Development Life Cycle)** 는 요구•설계•개발•시험•배포•운영의 소프트웨어 생명주기다.
+- **CISA(Cybersecurity and Infrastructure Security Agency)** 는 미국의 사이버 보안•기반시설 보호 기관이다.
+- **VEX 최소 요구사항** 은 취약점 영향 상태와 판단 근거의 필수 필드를 정의한다.
+- **재현 빌드** 는 같은 소스와 조건에서 동일한 산출물을 다시 생성해 변조를 대조하는 방식이다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SP(Special Publication) 800-218** 은 SSDF 1.1의 안전한 소프트웨어 개발 관행을 제시한다.
 
 </details>
 

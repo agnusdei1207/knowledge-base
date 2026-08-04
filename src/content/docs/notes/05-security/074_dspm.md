@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "DSPM 데이터 보안 형상 관리 (Data Security Posture Management)"
-date: "2026-08-03T14:40:00+09:00"
+date: "2026-08-04T12:35:00+09:00"
 tags:
   - "notes-security"
 weight: 74
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DSPM**: 저장 데이터의 민감도•위치•접근•복제•노출을 지속 분석하고 위험을 줄이는 관리 체계이다.
+- **DSPM(Data Security Posture Management)** 은 저장 데이터의 민감도•위치•접근•복제•노출을 지속 분석하는 관리 체계다.
 - **그림자 데이터**: 보안•거버넌스 관리 밖에서 생성•복제•보관되는 데이터이다.
 
 </details>
@@ -38,7 +38,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **데이터 분류•계보**: 내용과 업무 가치로 보호 등급을 정하고 데이터가 생성•변환•복제•이동한 경로를 연결하는 활동이다.
+- **데이터 분류** 는 내용과 업무 가치에 따라 데이터의 보호 등급을 정하는 활동이다.
+- **데이터 계보** 는 데이터가 생성•변환•복제•이동한 경로를 연결한 정보다.
+- **SaaS(Software as a Service)** 는 공급자가 운영하는 완성된 애플리케이션을 인터넷으로 제공하는 서비스 모델이다.
 - **유효 접근**: 직접 권한뿐 아니라 상속•그룹•공개 설정을 모두 합친 실제 접근 가능 범위이다.
 
 </details>
@@ -55,8 +57,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **발견•분류 엔진**: 정형•비정형•SaaS 저장소에서 데이터 위치와 민감도를 자동 식별하는 기능이다.
-- **데이터 소유자•마스킹**: 소유자는 등급•접근•보존•삭제 조치를 승인하고 마스킹은 민감한 일부 값을 알아볼 수 없게 가린다.
+- **발견 엔진** 은 정형•비정형•SaaS 저장소에서 데이터 위치를 자동 식별한다.
+- **분류 엔진** 은 데이터 내용과 업무 문맥을 분석해 민감도를 판정한다.
+- **데이터 소유자** 는 데이터의 등급•접근•보존•삭제 조치를 승인하는 책임자다.
+- **마스킹** 은 민감한 일부 값을 알아볼 수 없게 가리는 보호 처리다.
 
 </details>
 
@@ -122,7 +126,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **DSPM•CSPM•DLP**: DSPM은 저장 데이터와 실제 접근, CSPM은 클라우드 자원 설정, DLP는 데이터 사용•이동과 반출을 통제한다.
+- **CSPM(Cloud Security Posture Management)** 은 클라우드 자원의 설정과 노출 상태를 점검하는 체계다.
+- **DLP(Data Loss Prevention)** 는 민감정보의 사용•이동•반출을 식별하고 통제하는 기술이다.
 
 </details>
 
@@ -140,8 +145,12 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ISO/IEC 27002 통제 5.12**: 정보의 기밀성•무결성•가용성과 이해관계자 요구에 따른 분류를 요구한다.
-- **NIST SP 800-122•PII(Personally Identifiable Information)**: 개인을 식별할 수 있는 정보의 기밀성 영향을 평가하고 그 수준에 맞는 보호 조치를 선정하도록 안내한다.
+- **ISO(International Organization for Standardization)** 는 국제 표준을 개발•발행하는 기구다.
+- **IEC(International Electrotechnical Commission)** 는 전기•전자 분야 국제 표준을 개발하는 기구다.
+- **ISO/IEC 27002 통제 5.12** 는 정보의 가치와 보호 요구에 따른 분류를 요구한다.
+- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **SP(Special Publication) 800-122** 는 개인식별정보의 기밀성 영향과 보호 조치 선정을 안내한다.
+- **PII(Personally Identifiable Information)** 는 개인을 직접 또는 간접으로 식별할 수 있는 정보다.
 
 </details>
 
@@ -160,8 +169,6 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **데이터 위험 감소 성과**: 발견 건수가 아니라 미관리 민감 데이터와 불필요한 접근•복제 경로를 실제로 제거한 정도이다.
-- **DSPM•CSPM•DLP 선택**: 저장 데이터•실제 접근, 클라우드 자원 설정, 실시간 데이터 반출 중 보호 대상에 맞춘 판단이다.
-
 </details>
 
 - 저장 데이터•실제 접근은 **DSPM**, 자원 설정은 **CSPM**, 실시간 반출은 **DLP** 적용
