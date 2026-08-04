@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -99,7 +99,6 @@ block-beta
 - **순회(Traversal)**: 헤드에서 시작해 링크를 따라 각 노드를 차례로 방문하는 작업
 - **현재 노드**: 순회 과정에서 값과 다음 노드 참조를 읽는 노드
 - **후속 노드**: 현재 노드가 가진 링크가 가리키는 다음 방문 대상
-- **널(Null)**: 더 방문할 노드가 없음을 나타내는 종료값
 
 </details>
 

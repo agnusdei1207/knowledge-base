@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "그래프 탐색: BFS•DFS (Graph Traversal)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -24,6 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **그래프 탐색(Graph Traversal)**: 간선을 따라 노드를 중복 없이 방문해 도달성•경로를 분석하는 알고리즘
+- **너비 우선 탐색(Breadth-First Search, BFS)**: 간선 거리가 가까운 노드부터 큐로 확장하는 탐색
+- **깊이 우선 탐색(Depth-First Search, DFS)**: 한 경로를 끝까지 스택으로 추적하는 탐색
 - **도달성(Reachability)**: 두 노드 사이에 연결 경로가 존재하는 성질
 
 </details>
@@ -65,7 +67,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **탐색 제어기**: BFS나 DFS 규칙에 따라 다음 노드와 이웃 확장 순서를 결정하는 주체
-- **큐•스택(Queue•Stack)**: 먼저 발견한 노드 또는 가장 최근 발견한 노드를 먼저 꺼내는 프런티어 구조
+- **큐(Queue)**: 먼저 발견한 노드를 먼저 꺼내는 프런티어 구조
+- **스택(Stack)**: 가장 최근 발견한 노드를 먼저 꺼내는 프런티어 구조
 - **활성 상태**: DFS에서 현재 탐색 경로에 들어와 있지만 처리가 끝나지 않은 노드 상태
 
 </details>
@@ -136,8 +139,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **너비 우선 탐색(Breadth-First Search, BFS)**: 시작점에서 간선 거리가 가까운 노드부터 큐로 확장하는 탐색
-- **깊이 우선 탐색(Depth-First Search, DFS)**: 미방문 이웃을 따라 한 경로를 끝까지 스택으로 추적하는 탐색
 - **무가중치 최단 경로**: 모든 간선 비용이 같을 때 간선 수가 가장 적은 경로
 - **분기 계수(Branching Factor)**: 한 노드에서 다음 단계로 확장되는 평균 이웃 수
 - **스택 오버플로(Stack Overflow)**: 깊은 DFS 호출로 호출 스택이 용량 한도를 넘는 오류
@@ -162,11 +163,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **양방향 탐색(Bidirectional Search)**: 시작점과 목표점에서 동시에 탐색해 두 영역이 만날 때 경로를 연결하는 방식
-- **스택 오버플로(Stack Overflow)**: 깊은 재귀 호출로 호출 스택이 용량 한도를 넘는 오류
 - **명시적 스택**: 재귀 호출 대신 프로그램이 직접 탐색 노드를 넣고 꺼내는 저장 구조
 - **스냅샷(Snapshot)**: 탐색 시작 시점의 그래프 구조를 고정한 사본이나 뷰
 - **그래프 버전**: 탐색 중 구조 변경 여부를 구분하도록 그래프 상태에 부여한 식별값
-- **프런티어(Frontier)**: 다음에 방문할 노드를 보관하는 BFS 큐나 DFS 스택
 
 </details>
 

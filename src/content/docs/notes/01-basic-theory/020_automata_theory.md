@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "오토마타 이론: DFA•NFA (Automata Theory)"
-date: "2026-08-02T09:38:00+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -24,6 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **유한 오토마타(Finite Automaton)**: 유한한 상태와 전이 함수로 입력 문자열의 수용 여부를 판정하는 계산 모델
+- **결정적 유한 오토마타(Deterministic Finite Automaton, DFA)**: 각 입력에서 다음 상태가 하나로 정해지는 유한 오토마타
+- **비결정적 유한 오토마타(Nondeterministic Finite Automaton, NFA)**: 여러 다음 상태와 엡실론 전이를 허용하는 유한 오토마타
 - **형식 언어(Formal Language)**: 알파벳으로 만든 문자열 중 정해진 규칙을 만족하는 집합
 - **전이 함수(Transition Function)**: 현재 상태와 입력을 다음 상태에 대응시키는 함수
 
@@ -43,9 +45,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **정규 언어(Regular Language)**: 유한 오토마타가 인식할 수 있는 문자열의 집합
-- **DFA•NFA**: 하나의 현재 상태를 추적하거나 가능한 상태 집합을 추적하면서 같은 정규 언어를 인식하는 오토마타
 - **순차 처리**: 입력 기호를 앞에서부터 하나씩 소비하며 현재 상태를 갱신하는 방식
-- **전이 함수(Transition Function)**: 현재 상태와 입력 기호를 다음 상태에 대응시키는 함수
 - **인식 능력 동등성**: 서로 다른 오토마타가 같은 문자열 집합을 수용할 수 있는 성질
 
 </details>
@@ -101,7 +101,6 @@ block-beta
 - **현재 상태**: 지금까지 소비한 입력 이력을 유한하게 표현하는 오토마타의 기억 단위
 - **상태 집합**: NFA가 한 입력 위치에서 동시에 도달할 수 있는 모든 상태의 묶음
 - **입력 소진**: 문자열의 모든 기호를 전이 함수에 전달해 더 처리할 기호가 없는 상태
-- **DFA•NFA**: 다음 상태 하나를 추적하는 결정적 오토마타와 가능한 상태 집합을 추적하는 비결정적 오토마타
 - **수용 상태 집합**: 입력을 모두 처리한 뒤 문자열 수용을 확정하는 상태들의 집합
 
 </details>
@@ -139,8 +138,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DFA(Deterministic Finite Automaton)**: 각 상태와 입력 기호에서 다음 상태가 하나로 정해지는 유한 오토마타
-- **NFA(Nondeterministic Finite Automaton)**: 한 입력에서 여러 다음 상태와 엡실론 전이를 허용하는 유한 오토마타
 - **엡실론 전이($\varepsilon$-transition)**: 입력 기호를 소비하지 않고 NFA의 상태를 바꾸는 전이
 - **상태 폭증(State Explosion)**: NFA 상태 조합이 DFA의 개별 상태가 되어 결정화 후 상태 수가 지수적으로 늘어나는 현상
 - **전이표(Transition Table)**: 현재 상태와 입력 기호에 대응하는 다음 상태를 표로 저장한 구조
@@ -166,9 +163,8 @@ sequenceDiagram
 
 - **결정화(Determinization)**: NFA의 가능한 상태 집합을 하나의 DFA 상태로 대응시키는 변환
 - **엡실론 폐쇄(Epsilon Closure)**: 엡실론 전이만 반복해 입력 없이 도달할 수 있는 모든 상태의 집합
-- **ReDoS(Regular Expression Denial of Service)**: 비효율적인 정규식과 악성 입력이 과도한 상태 탐색을 일으켜 자원을 고갈시키는 공격
+- **정규식 서비스 거부(Regular Expression Denial of Service, ReDoS)**: 비효율적인 정규식과 악성 입력으로 자원을 고갈시키는 공격
 - **어휘 분석기(Lexical Analyzer)**: 문자 흐름을 식별자•숫자•연산자 같은 토큰으로 나누는 컴파일러 구성요소
-- **전이표(Transition Table)**: 현재 상태와 입력 기호별 다음 상태를 저장한 표
 - **토큰 우선순위**: 여러 패턴이 동시에 수용될 때 반환할 토큰을 결정하는 순위 규칙
 
 </details>
@@ -191,10 +187,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **전이표**: 현재 상태와 입력 기호에 대응하는 다음 상태를 표로 저장한 구조
 - **상태 수 자원 한도**: 결정화한 DFA 상태와 전이표를 메모리에 유지할 수 있는 최대 규모
-- **결정화(Determinization)**: NFA의 가능한 상태 집합을 하나의 DFA 상태로 대응시키는 변환
-- **DFA•NFA**: 단일 상태를 추적하는 결정적 오토마타와 상태 집합을 추적하는 비결정적 오토마타
 
 </details>
 

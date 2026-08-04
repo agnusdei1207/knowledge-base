@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -43,7 +43,8 @@ extra:
 
 - **정렬 불변식(Sorted Invariant)**: 탐색 중에도 후보 구간의 원소가 키 순서를 유지한다는 전제
 - **로그 시간 $O(\log n)$**: 입력이 배수로 늘어도 처리 단계가 일정한 수만큼 증가하는 시간
-- **하한•상한(Lower•Upper Bound)**: 목표값 이상인 첫 위치와 목표값을 초과하는 첫 위치
+- **하한(Lower Bound)**: 목표값 이상인 첫 위치
+- **상한(Upper Bound)**: 목표값을 초과하는 첫 위치
 
 </details>
 
@@ -66,7 +67,6 @@ extra:
 
 - **임의 접근(Random Access)**: 인덱스로 원하는 배열 원소를 일정한 시간에 읽는 방식
 - **후보 구간**: 목표값이 존재할 가능성이 남아 있는 배열의 인덱스 범위
-- **중앙 키**: 후보 구간의 가운데 원소에서 비교에 사용하는 값
 
 </details>
 
@@ -135,8 +135,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **이진 탐색(Binary Search)**: 정렬된 배열의 중앙 키를 비교해 후보를 절반씩 제거하는 방식
-- **선형 탐색(Linear Search)**: 원소를 처음부터 순서대로 비교하는 방식
 - **해시 조회(Hash Lookup)**: 키를 버킷 위치로 변환해 정확한 키를 조회하는 방식
 - **해시 충돌(Hash Collision)**: 서로 다른 키가 같은 버킷 위치로 변환된 상태
 - **해시값(Hash Value)**: 키를 해시 함수에 넣어 얻은 버킷 위치 계산값
@@ -160,7 +158,6 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **반열린 구간 $[low, high)$**: 시작 인덱스는 포함하고 끝 인덱스는 제외하는 후보 범위
-- **하한•상한(Lower•Upper Bound)**: 중복 키 범위의 시작과 끝을 정하는 경계 위치
 - **비교 함수**: 두 키의 순서와 일치 여부를 동일한 규칙으로 판정하는 함수
 - **배치 정렬(Batch Sorting)**: 여러 갱신을 모은 뒤 한 번에 정렬해 유지 비용을 줄이는 방식
 - **균형 탐색 트리(Balanced Search Tree)**: 높이를 로그 수준으로 유지해 조회와 삽입을 함께 지원하는 트리

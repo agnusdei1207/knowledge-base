@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
-date: "2026-08-02T09:37:00+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 19
@@ -26,7 +26,7 @@ extra:
 - **NP-완전(NP-Complete)**: NP에 속하면서 모든 NP 문제를 다항 시간에 환원받는 결정 문제 부류
 - **결정 문제(Decision Problem)**: 답이 예 또는 아니오로 정해지는 계산 문제
 - **다항 환원(Polynomial-Time Reduction)**: 한 문제를 답이 보존되도록 다른 문제로 바꿔 계산 난도를 전달하는 변환
-- **NP(Nondeterministic Polynomial Time)**: 긍정 답의 인증서를 다항 시간에 검증할 수 있는 결정 문제 집합
+- **비결정론적 다항 시간(Nondeterministic Polynomial Time, NP)**: 긍정 답의 인증서를 다항 시간에 검증할 수 있는 결정 문제 집합
 
 </details>
 
@@ -43,7 +43,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NP(Nondeterministic Polynomial Time)**: 긍정 답의 인증서를 다항 시간에 검증할 수 있는 결정 문제 집합
 - **NP-난해(NP-Hard)**: 모든 NP 문제를 다항 환원받아 적어도 NP만큼 어려운 문제 부류
 - **다항 시간(Polynomial Time)**: 입력 크기의 다항식으로 제한되는 실행 시간
 - **대표성**: 한 NP-완전 문제의 다항 시간 해법이 모든 NP 문제의 해법으로 확장되는 성질
@@ -98,9 +97,6 @@ block-beta
 - **NP 소속 증명**: 인증서 크기와 검증 시간이 입력 크기의 다항식으로 제한됨을 보이는 과정
 - **환원 구성**: 알려진 NP-완전 문제의 인스턴스를 대상 문제의 인스턴스로 변환하는 과정
 - **답 동치**: 원래 인스턴스가 예일 때와 변환 인스턴스가 예일 때가 서로 같은 관계
-- **인증서(Certificate)**: 결정 문제의 긍정 답이 맞음을 검증하는 보조 정보
-- **NP-완전 문제**: NP에 속하며 모든 NP 문제를 다항 시간에 환원받는 결정 문제
-- **다항 시간(Polynomial Time)**: 입력 크기의 다항식으로 제한되는 실행 시간
 
 </details>
 
@@ -135,9 +131,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **P(Polynomial Time)**: 결정론적 알고리즘으로 다항 시간에 풀 수 있는 결정 문제 집합
-- **NP-완전•NP-난해**: NP에도 속하는 결정 문제와 모든 NP 문제 이상의 난도만 보장된 문제 부류
-- **최적화 문제(Optimization Problem)**: 가능한 해 중 목적 함수값이 최소 또는 최대인 해를 찾는 문제
+- **다항 시간(Polynomial Time, P)**: 결정론적 알고리즘으로 다항 시간에 풀 수 있는 결정 문제 집합
 - **정지 문제(Halting Problem)**: 임의 프로그램이 입력에서 멈추는지 판정하는 일반 알고리즘이 존재하지 않는 문제
 - **결정론적 튜링 머신**: 각 상태와 입력 기호에서 다음 동작이 하나로 정해지는 계산 모델
 - **비판정 문제(Undecidable Problem)**: 모든 입력에 대해 정답을 내고 종료하는 일반 알고리즘이 존재하지 않는 문제
@@ -162,7 +156,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **환원 방향**: NP-난해성을 전달하기 위해 알려진 NP-완전 문제에서 대상 문제로 향해야 하는 변환 방향
-- **SAT(Boolean Satisfiability Problem)**: 불 논리식을 참으로 만드는 변수 할당의 존재 여부를 판정하는 문제
+- **불 만족 가능성 문제(Boolean Satisfiability Problem, SAT)**: 불 논리식을 참으로 만드는 변수 할당의 존재 여부를 판정하는 문제
 - **특화 솔버(Specialized Solver)**: 특정 문제 구조에 맞춘 탐색•전파•학습 기법으로 실제 인스턴스를 푸는 프로그램
 - **임곗값 결정형**: 최적화 목적값이 주어진 기준 이상이나 이하인지 예•아니오로 묻도록 바꾼 문제
 
@@ -186,9 +180,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **특화 솔버(Specialized Solver)**: 문제 구조를 활용해 결정형 인스턴스의 해를 찾는 전용 풀이 프로그램
 - **근사해(Approximate Solution)**: 최적해와 같음을 보장하지 않지만 다항 시간에 구하고 품질 경계로 차이를 제한하는 해
-- **결정형•최적화형**: 예•아니오를 답하는 문제 형태와 목적 함수의 최선값을 찾는 문제 형태
+- **결정형**: 예•아니오를 답하는 문제 형태
+- **최적화형**: 목적 함수의 최선값을 찾는 문제 형태
 - **품질 경계**: 근사해가 최적해에서 벗어날 수 있는 비율이나 차이의 보장 한도
 
 </details>

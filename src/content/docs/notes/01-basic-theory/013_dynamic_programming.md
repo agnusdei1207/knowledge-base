@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 13
@@ -42,7 +42,6 @@ extra:
 
 - **중복 부분 문제(Overlapping Subproblems)**: 같은 작은 문제가 여러 계산 경로에서 반복해 나타나는 성질
 - **최적 부분 구조(Optimal Substructure)**: 부분 문제의 최적해로 전체 최적해를 구성할 수 있는 성질
-- **점화식(Recurrence Relation)**: 하위 상태값을 결합해 현재 상태값을 계산하는 식
 - **기저 상태(Base State)**: 점화식 없이 값이 직접 정해지는 시작 상태
 - **계산 순서**: 각 상태보다 의존 상태를 먼저 확정하도록 정한 처리 순서
 
@@ -161,7 +160,6 @@ sequenceDiagram
 - **명시적 스택**: 재귀 호출 대신 프로그램이 직접 미처리 상태를 넣고 꺼내는 저장 구조
 - **상태 전이**: 현재 상태와 선택에서 다음 상태로 이동하는 관계
 - **상태 공간**: 문제에서 정의할 수 있는 모든 상태의 집합
-- **공간복잡도(Space Complexity)**: 입력 크기에 따라 상태 저장 메모리가 증가하는 정도
 
 </details>
 
@@ -181,9 +179,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **상태 공간**: 문제에서 정의할 수 있는 모든 상태의 집합
 - **실제 계산량**: 목표값을 구하는 과정에서 실제로 값을 계산하는 상태의 수
-- **하향식•상향식(Top-down•Bottom-up)**: 목표에서 필요한 상태를 재귀 계산하는 방식과 기저 상태부터 전체 표를 채우는 방식
 
 </details>
 

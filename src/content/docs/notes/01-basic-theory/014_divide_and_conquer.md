@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -92,7 +92,9 @@ block-beta
 <summary>핵심 용어</summary>
 
 - **복귀 문맥**: 재귀 호출을 마친 뒤 돌아갈 위치와 부분 해를 결합하는 데 필요한 정보
-- **분할•정복•결합(Divide•Conquer•Combine)**: 문제를 나누고 부분 문제를 재귀 해결한 뒤 결과를 합치는 세 단계
+- **분할(Divide)**: 문제를 독립된 작은 부분 문제로 나누는 단계
+- **정복(Conquer)**: 부분 문제를 재귀로 해결하는 단계
+- **결합(Combine)**: 부분 문제의 결과를 전체 해로 합치는 단계
 - **상위 해**: 같은 재귀 단계의 부분 해들을 결합해 얻은 더 큰 문제의 결과
 
 </details>
@@ -131,7 +133,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **분할 정복(Divide and Conquer)**: 서로 독립된 부분 문제를 해결한 뒤 결과를 결합하는 기법
 - **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장•재사용하는 기법
 - **점화식(Recurrence Relation)**: 하위 상태값을 결합해 현재 상태값을 계산하는 관계식
 - **상태 공간(State Space)**: 동적 계획법에서 서로 구분해 저장해야 하는 모든 상태의 집합
@@ -157,7 +158,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **불균형 분할**: 부분 문제 크기가 한쪽으로 치우쳐 호출 깊이와 수행시간이 커지는 분할
 - **임계 크기(Threshold Size)**: 재귀 호출보다 반복 처리가 유리해지는 부분 문제의 크기
 - **제자리 결합(In-place Merge)**: 큰 별도 배열 없이 기존 저장 공간에서 부분 해를 합치는 방식
 - **동적 스케줄링(Dynamic Scheduling)**: 실행 중 남은 작업량에 따라 부분 문제를 처리 장치에 다시 배정하는 방식
@@ -184,8 +184,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **병렬 이득**: 독립 부분 문제를 동시에 실행해 줄인 전체 처리 시간
-- **분할•결합 비용**: 문제를 나누고 부분 해를 다시 합치는 데 추가로 필요한 자원
-- **분할 정복(Divide and Conquer)**: 독립 부분 문제를 재귀로 해결한 뒤 부분 해를 결합하는 설계 기법
+- **분할 비용**: 문제를 작은 부분 문제로 나누는 데 필요한 자원
 
 </details>
 

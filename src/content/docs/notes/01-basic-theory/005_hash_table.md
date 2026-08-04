@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "해시 테이블 (Hash Table)"
-date: "2026-08-03T09:07:03+09:00"
+date: "2026-08-04T09:53:42+09:00"
 tags:
   - "notes-basic-theory"
 weight: 5
@@ -66,7 +66,8 @@ extra:
 
 - **해시 함수(Hash Function)**: 키를 고정 범위의 해시값과 버킷 인덱스로 변환하는 함수
 - **엔트리(Entry)**: 해시 테이블에 함께 저장되는 키와 값의 한 쌍
-- **체이닝•개방 주소법(Chaining•Open Addressing)**: 충돌한 엔트리를 연결 구조에 저장하거나 다른 빈 버킷을 탐사하는 방식
+- **체이닝(Chaining)**: 충돌한 엔트리를 연결 구조에 저장하는 방식
+- **개방 주소법(Open Addressing)**: 충돌하면 다른 빈 버킷을 탐사하는 방식
 - **해시값(Hash Value)**: 해시 함수가 키로부터 계산해 버킷 인덱스의 근거로 사용하는 값
 
 </details>
@@ -130,7 +131,6 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **해시 테이블(Hash Table)**: 키 순서 없이 정확한 키의 단건 조회에 적합한 자료구조
 - **균형 이진 탐색 트리(Balanced Binary Search Tree)**: 키 순서와 범위 탐색을 로그 높이로 지원하는 트리
 - **정렬 배열(Sorted Array)**: 키 순서의 연속 공간에 원소를 저장해 이진 탐색을 지원하는 배열
 - **재균형(Rebalancing)**: 탐색 트리 높이가 치우치지 않도록 노드 배치를 다시 조정하는 작업
@@ -157,7 +157,7 @@ sequenceDiagram
 
 - **재해싱(Rehashing)**: 버킷 배열을 늘리고 모든 키의 위치를 다시 계산하는 작업
 - **무작위 해시 시드(Randomized Hash Seed)**: 실행마다 해시 결과를 바꿔 의도적 충돌 예측을 어렵게 하는 값
-- **해시 충돌 서비스 거부(Hash Collision DoS)**: 공격자가 같은 버킷에 몰리는 키를 보내 조회를 선형 탐색으로 퇴화시키는 공격
+- **해시 충돌 서비스 거부(Hash Collision Denial of Service, DoS)**: 같은 버킷에 키를 몰아 조회를 선형 탐색으로 퇴화시키는 공격
 - **동등성 계약**: 두 키가 같다고 판정되면 같은 해시값을 생성해야 한다는 일관성 규칙
 
 </details>
