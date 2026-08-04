@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "BMT 벤치마크 테스트 (Benchmark Test BMT)"
-date: "2026-08-04T15:05:00+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 225
 extra:
@@ -109,12 +109,13 @@ sequenceDiagram
     participant 실행제어기
     participant 후보제품
     participant 측정저장소
+    participant 결과분석기
     평가자->>실행제어기: 1. 시험 조건 확정
     평가자->>후보제품: 2. 환경•설정 동결
     실행제어기->>후보제품: 3. 공통 부하 실행
     후보제품->>측정저장소: 4. 원시 자료 저장
-    측정저장소-->>평가자: 원시 측정 자료 반환
-    평가자->>평가자: 5. 반복 결과 판정
+    측정저장소-->>결과분석기: 원시 측정 자료 반환
+    결과분석기->>평가자: 5. 반복 결과 판정
 ```
 
 **동작 원리**

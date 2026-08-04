@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-04T15:03:00+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -107,10 +107,11 @@ block-beta
 sequenceDiagram
     participant S as 서비스
     participant A as APM 수집•분석
+    participant C as 신호 상관 분석기
     participant O as 운영자
     S->>A: 1. 관측 신호 전송
-    A->>A: 2. 신호 상관 분석
-    A->>O: 3. 원인 경보 전달
+    A->>C: 2. 신호 상관 분석
+    C->>O: 3. 원인 경보 전달
     O->>S: 4. 복구 조치 적용
 
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "성능 테스트 지표: TPS•응답시간•동시 사용자 (Performance Test Metrics)"
-date: "2026-08-04T15:02:00+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 222
 extra:
@@ -111,11 +111,12 @@ sequenceDiagram
     participant S as 시험 대상 시스템
     participant M as 지표 수집기
     participant A as 분석•판정기
+    participant T as SLO•포화 기준
     loop 단계별 부하 증가
         G->>S: 1. 부하 재현
         S->>M: 2. 처리 지표 전송
         M->>A: 3. 집계 지표 전달
-        A->>A: 4. 포화•병목 판정
+        A->>T: 4. 포화•병목 판정
     end
 
 ```

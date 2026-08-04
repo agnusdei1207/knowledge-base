@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 서비스 성숙도 모형 (Digital Service Maturity Model)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 229
 extra:
@@ -110,12 +110,13 @@ sequenceDiagram
     participant 평가체계
     participant 개선책임자
     participant 성과대시보드
+    participant 재평가기
     서비스조직->>평가체계: 1. 평가 범위 합의
     평가체계->>서비스조직: 2. 차원별 수준 판정
     평가체계->>개선책임자: 3. 병목 역량 식별
     개선책임자->>서비스조직: 4. 개선 로드맵 실행
-    성과대시보드->>평가체계: 성과 측정값 전달
-    평가체계->>평가체계: 5. 성과•수준 재평가
+    성과대시보드->>재평가기: 성과 측정값 전달
+    재평가기->>평가체계: 5. 성과•수준 재평가
 ```
 
 **동작 원리**

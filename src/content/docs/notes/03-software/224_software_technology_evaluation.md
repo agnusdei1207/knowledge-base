@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 기술성 평가 (SW Technology Evaluation)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 224
 extra:
@@ -106,18 +106,16 @@ block-beta
 
 ```mermaid
 sequenceDiagram
-    participant 발주자
-    participant 제안자
     participant 평가위원
     participant 평가체계
-    발주자->>평가체계: 사업 요구 전달
-    평가체계->>평가체계: 1. 요구 기준 도출
-    평가체계->>평가체계: 2. 항목•척도 설계
-    제안자->>평가체계: 제안 증거 제출
-    평가체계->>평가위원: 3. 독립 채점 요청
-    평가위원->>평가체계: 4. 채점 결과 제출
-    평가체계->>평가체계: 5. 점수 편차 검토
-    평가체계-->>발주자: 평가 결과 반환
+    participant 요구분석기
+    participant 척도설계기
+    participant 결과검토기
+    평가체계->>요구분석기: 1. 요구 기준 도출
+    요구분석기->>척도설계기: 2. 항목•척도 설계
+    척도설계기->>평가위원: 3. 독립 채점 요청
+    평가위원->>결과검토기: 4. 채점 결과 제출
+    결과검토기->>평가체계: 5. 점수 편차 검토
 
 ```
 

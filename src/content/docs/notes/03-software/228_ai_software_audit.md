@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 소프트웨어 감리 점검 항목 (AI Software Audit)"
-date: "2026-08-03T08:48:47+09:00"
+date: "2026-08-04T14:45:37+09:00"
 tags: ["notes-software"]
 weight: 228
 extra:
@@ -110,8 +110,9 @@ sequenceDiagram
     participant 평가체계
     participant 운영조직
     participant 독립감리
+    participant 위험분류기
     개발조직->>독립감리: 감리 자료 제출
-    독립감리->>독립감리: 1. 위험 등급 분류
+    독립감리->>위험분류기: 1. 위험 등급 분류
     독립감리->>평가체계: 2. 계보•증적 검증 요청
     평가체계-->>독립감리: 3. 모델 위험 결과
     독립감리->>운영조직: 4. 운영 통제 시험 요청
