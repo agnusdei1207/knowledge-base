@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "MQTT 경량 메시징 (MQTT)"
-date: "2026-08-04T17:52:00+09:00"
+date: "2026-08-04T14:34:12+09:00"
 tags:
   - "notes-network"
 weight: 78
@@ -114,6 +114,8 @@ sequenceDiagram
     end
     B-->>P: 발행 구간 완료
 ```
+
+**동작 원리**
 
 1. **세션 연결**: 식별자•인증 후 이전 상태 복구
 2. **토픽 구독**: 토픽 필터와 ACL 허용 범위 등록

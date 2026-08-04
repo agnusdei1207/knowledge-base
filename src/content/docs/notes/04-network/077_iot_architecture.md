@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "IoT 아키텍처 (IoT Architecture)"
-date: "2026-08-04T17:50:00+09:00"
+date: "2026-08-04T14:34:12+09:00"
 tags:
   - "notes-network"
 weight: 77
@@ -111,6 +111,8 @@ sequenceDiagram
     E->>D: 검증된 현장 명령
     P->>D: 5. 수명주기 갱신
 ```
+
+**동작 원리**
 
 1. **장치 등록**: 식별자•소유 관계•자격 증명 연결
 2. **텔레메트리 수집**: 측정값에 시각•순서 정보를 부여

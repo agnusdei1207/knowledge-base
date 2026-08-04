@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
-date: "2026-08-04T17:48:00+09:00"
+date: "2026-08-04T14:34:12+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -105,12 +105,16 @@ sequenceDiagram
     O->>D: 1. 자원 타당성 확인
     D-->>O: 가용 자원•성능 회신
     O->>D: 2. NSI•NSSI 프로비저닝
-    D-->>O: 종단 성능 보고
-    alt SLS 위반
-        O->>D: 3. 병목 자원 최적화
+    loop SLS 관측 주기
+        D-->>O: 종단 성능 보고
+        opt SLS 위반
+            O->>D: 3. 병목 자원 최적화
+        end
     end
     O-->>C: 슬라이스 준비 결과 반환
 ```
+
+**동작 원리**
 
 1. **자원 타당성 확인**: 기존•신규 SLS 동시 충족 판정
 2. **NSI•NSSI 프로비저닝**: 도메인별 자원•정책 인스턴스화
