@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정보시스템 감리 절차 (Information System Audit Procedure)"
-date: "2026-08-04T14:51:35+09:00"
+date: "2026-08-05T01:56:59+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,17 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  C["발주자"]
-  A["감리법인"]
-  S["사업자"]
-  R["준거•증거"]
-  X["시정조치"]
-  C --- A --- S
-  S --- R --- X
+```text
+[발주자]---[감리법인]---[사업자]
+              |            |
+        [준거•증거]---[시정조치]
 ```
+
+선의 의미: 발주자와 사업자 사이의 독립 감리법인이 준거•증거 및 시정조치와 연결되는 정보시스템 감리 역할 경계를 나타낸다.
 
 **동작 원리**
 

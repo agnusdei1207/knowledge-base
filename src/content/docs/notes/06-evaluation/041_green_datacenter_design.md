@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그린 데이터센터 설계 기준 (Green Data Center Design)"
-date: "2026-08-04T14:51:18+09:00"
+date: "2026-08-05T01:56:59+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -67,17 +67,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 3
-  L["입지"] R["에너지•수자원"] I["IT 자원"]
-  F["시설 인프라"] E["전력•물 계측"] C["탄소•재생에너지 계측"]
-  L --- R
-  R --- I
-  I --- F
-  F --- E
-  F --- C
+```text
+[입지]---[에너지•수자원]---[IT 자원]
+  |                            |
+[시설 인프라]---[전력•물 계측]---[탄소•재생에너지 계측]
 ```
+
+선의 의미: 입지와 에너지•수자원 조건 아래 IT 자원, 시설 인프라, 전력•물 및 탄소•재생에너지 계측이 결합되는 그린 데이터센터 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

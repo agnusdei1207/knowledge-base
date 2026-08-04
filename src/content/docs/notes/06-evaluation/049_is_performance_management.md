@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "정보시스템 성능 관리 방법론 (IS Performance Management)"
-date: "2026-08-04T14:53:12+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -64,20 +64,6 @@ extra:
 - **포화도**: CPU•메모리•디스크•네트워크의 처리 여유가 얼마나 소진되었는지 나타내는 정도이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  G["목표•워크로드"]
-  O["관측 체계"]
-  A["응용 계층"]
-  D["DB•인프라 계층"]
-  V["병목 개선•검증"]
-  G --- O --- A
-  A --- D --- V
-```
-
-**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

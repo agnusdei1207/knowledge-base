@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "정보시스템 감리 유형 (Audit Types)"
-date: "2026-08-04T14:51:51+09:00"
+date: "2026-08-05T01:56:59+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -66,18 +66,6 @@ extra:
 - **감리 증거 이력**: 유형이 달라도 판정 근거•지적 사항•시정조치를 공통 식별자로 연결한 기록이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  R["사업 위험•준거"]
-  T["시점•관여 방식"]
-  P["인력•전문분야"]
-  E["증거•지적 이력"]
-  C["조치 확인"]
-  R --- T --- P
-  P --- E --- C
-```
 
 | 구성요소 | 책임 |
 |:---|:---|

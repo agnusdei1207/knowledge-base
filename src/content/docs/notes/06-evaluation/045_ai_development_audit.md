@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 개발 사업 감리 특수 점검 (AI Development Audit)"
-date: "2026-08-04T14:52:18+09:00"
+date: "2026-08-05T14:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,17 +65,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  P["목적•위험"]
-  D["데이터"]
-  M["모델"]
-  E["버전•증거"]
-  O["운영•책임"]
-  P --- D --- M
-  M --- E --- O
+```text
+                         [목적•위험]
+                         /         \
+                    [데이터]     [모델]
+                         \         /
+                         [버전•증거]
+                              |
+                         [운영•책임]
 ```
+
+선의 의미: AI의 목적•위험 아래 데이터와 모델 평가영역을 분리하고, 버전•증거가 양측의 재현 근거를 연결하며 운영•책임 영역이 배포 이후 통제를 담당하는 구조
 
 **동작 원리**
 

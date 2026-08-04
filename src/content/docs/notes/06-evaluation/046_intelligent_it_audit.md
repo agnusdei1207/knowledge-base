@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보기술 감리 (Intelligent IT Audit)"
-date: "2026-08-04T14:52:29+09:00"
+date: "2026-08-05T14:01:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,17 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  H["업무•인간 책임"]
-  D["데이터•AI"]
-  C["클라우드•API"]
-  I["기기•통신"]
-  O["운영 통제"]
-  H --- D --- C
-  C --- I --- O
+```text
+                         [업무•인간 책임]
+                    /          |          \
+              [데이터•AI] [클라우드•API] [기기•통신]
+                    \          |          /
+                          [운영 통제]
 ```
+
+선의 의미: 업무•인간 책임 아래 데이터•AI, 클라우드•API, 기기•통신 계층을 분리하고 운영 통제가 세 기술 경계의 변경•복구 책임을 공통 관리하는 구조
 
 **동작 원리**
 

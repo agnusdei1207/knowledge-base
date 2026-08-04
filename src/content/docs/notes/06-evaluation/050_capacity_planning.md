@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "용량 계획 (Capacity Planning)"
-date: "2026-08-04T14:53:26+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -64,20 +64,6 @@ extra:
 - **조달 리드타임**: 자원을 주문한 시점부터 설치•시험•전환하여 사용할 때까지 걸리는 시간이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  D["수요•SLO"]
-  M["자원 모델"]
-  H["리드타임•헤드룸"]
-  A["확장 대안•비용"]
-  R["용량 로드맵•실측"]
-  D --- M --- H
-  H --- A --- R
-```
-
-**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

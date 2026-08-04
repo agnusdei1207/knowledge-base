@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디지털 서비스 성숙도 모형 평가 (Digital Service Maturity Evaluation)"
-date: "2026-08-04T14:53:41+09:00"
+date: "2026-08-05T00:00:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -65,20 +65,6 @@ extra:
 - **개선 로드맵**: 역량 갭을 선행관계에 따라 과제•책임자•일정•예산•성과지표로 배열한 실행 계획이다.
 
 </details>
-
-```mermaid
-block-beta
-  columns 1
-  C["목적•영역•수준 기준"]
-  E["실행•성과 증거"]
-  P["현재 수준 프로파일"]
-  G["목표 수준•갭"]
-  R["개선 로드맵•KPI"]
-  C --- E --- P
-  P --- G --- R
-```
-
-**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "감리 점검 항목 (Audit Checklist)"
-date: "2026-08-04T14:52:05+09:00"
+date: "2026-08-05T01:56:59+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -66,17 +66,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-  columns 1
-  R["항목 ID•점검 준거"]
-  Q["검증 질문"]
-  E["증거•표본"]
-  J["판정 기준"]
-  C["지적•시정조치"]
-  R --- Q --- E
-  E --- J --- C
+```text
+[항목 ID•점검 준거]---[검증 질문]
+          |                   |
+     [증거•표본]---[판정 기준]---[지적•시정조치]
 ```
+
+선의 의미: 공통 항목 ID와 점검 준거를 기준으로 검증 질문, 증거•표본, 판정 기준, 지적•시정조치가 연결되는 감리 점검표 추적 구조를 나타낸다.
 
 **동작 원리**
 
