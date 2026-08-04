@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CRL•OCSP 인증서 폐지 (CRL OCSP Certificate Revocation)"
-date: "2026-08-04T10:11:00+09:00"
+date: "2026-08-05T09:02:00+09:00"
 tags:
   - "notes-security"
 weight: 10
@@ -69,20 +69,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    C["CA 폐지 상태 저장소"]
-    L["CRL 배포점"]
-    O["OCSP 응답자"]
-    V["검증자 캐시•정책"]
-    T["CA•응답자 검증키"]
-    C --- L
-    C --- O
-    L --- V
-    O --- V
-    V --- T
+```text
+                 [CA 폐지 상태 저장소]
+                    /                 \
+           [CRL 배포점]           [OCSP 응답자]
+                    \                 /
+                 [검증자 캐시•정책]
+                          |
+                 [CA•응답자 검증키]
 ```
+
+선의 의미: CA의 폐지 상태를 CRL과 OCSP가 각각 제공하고 검증자 정책이 이를 참조하며, 응답의 신뢰를 검증키가 뒷받침하는 정적 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

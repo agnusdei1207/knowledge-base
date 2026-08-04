@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "안전한 다자간 연산 MPC (Secure Multi-Party Computation)"
-date: "2026-08-04T10:25:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 17
@@ -68,19 +68,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["참여자 A"]
-    B["참여자 B"]
-    C["참여자 C"]
-    P["전처리 저장소"]
-    O["출력 정책•재구성기"]
-    A --- P
-    B --- P
-    C --- P
-    P --- O
+```text
+            [참여자 A]   [참여자 B]   [참여자 C]
+                    \         |         /
+                       [전처리 저장소]
+                              |
+                    [출력 정책•재구성기]
 ```
+
+선의 의미: 위 세 가지는 각 참여자가 공동 연산용 비버 트리플•MAC 재료를 제공받는 정적 MPC 참여 경계이고, 아래 선은 전처리 저장소와 출력 정책•재구성기가 결과의 무결성과 공개 범위를 함께 통제하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

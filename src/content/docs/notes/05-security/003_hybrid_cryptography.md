@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "하이브리드 암호 (Hybrid Cryptography)"
-date: "2026-08-05T07:18:00+09:00"
+date: "2026-08-05T01:35:49+09:00"
 tags:
   - "notes-security"
 weight: 3
@@ -64,17 +64,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["인증 모듈"]
-    B["키 설정 모듈"]
-    C["KDF•키 스케줄"]
-    D["AEAD 모듈"]
-    A --- B
-    B --- C
-    C --- D
+```text
+[인증 모듈]---[키 설정 모듈]---[KDF•키 스케줄]---[AEAD 모듈]
 ```
+
+선의 의미: 각 선은 공개키 소유자•협상 기록, 키 합의•KEM 공유 비밀, 용도별 대칭키와 본문•태그 보호가 서로 결속되는 하이브리드 암호 구성 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

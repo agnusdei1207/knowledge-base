@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "QKD 양자 키 분배 (Quantum Key Distribution)"
-date: "2026-08-05T07:48:00+09:00"
+date: "2026-08-05T09:06:00+09:00"
 tags:
   - "notes-security"
 weight: 14
@@ -64,20 +64,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["QKD 송수신 모듈"]
-    Q["양자 채널"]
-    C["인증된 고전 채널"]
-    P["후처리 모듈"]
-    K["키 관리 시스템"]
-    S --- Q
-    S --- C
-    Q --- P
-    C --- P
-    P --- K
+```text
+                        [QKD 송수신 모듈]
+                          /             \
+                  [양자 채널]     [인증된 고전 채널]
+                          \             /
+                         [후처리 모듈]
+                                |
+                         [키 관리 시스템]
 ```
+
+선의 의미: QKD 송수신 모듈과 후처리 모듈 사이를 양자 채널과 인증된 고전 채널이 서로 다른 역할로 연결하고, 후처리 결과를 키 관리 시스템이 관리하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|

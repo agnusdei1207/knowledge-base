@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
-date: "2026-08-05T07:36:00+09:00"
+date: "2026-08-05T09:03:00+09:00"
 tags:
   - "notes-security"
 weight: 11
@@ -67,19 +67,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    N["협상 메시지"]
-    H["대화 기록 해시"]
-    A["인증서 검증기"]
-    K["HKDF 키 스케줄"]
-    E["AEAD 레코드 계층"]
-    N --- H
-    H --- A
-    H --- K
-    K --- E
+```text
+                    [협상 메시지]
+                          |
+                   [대화 기록 해시]
+                      /          \
+             [인증서 검증기]   [HKDF 키 스케줄]
+                                      |
+                              [AEAD 레코드 계층]
 ```
+
+선의 의미: 협상 메시지를 결합한 대화 기록 해시가 인증 검증과 키 스케줄의 공통 근거가 되고, 키 스케줄이 AEAD 레코드 계층을 지지하는 정적 의존관계
 
 | 구성요소 | 책임 |
 |:---|:---|

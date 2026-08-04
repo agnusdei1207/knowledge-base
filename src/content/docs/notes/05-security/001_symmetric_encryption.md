@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "대칭 암호화 (Symmetric Encryption)"
-date: "2026-08-04T09:00:00+09:00"
+date: "2026-08-05T01:35:49+09:00"
 tags:
   - "notes-security"
 weight: 1
@@ -70,15 +70,11 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    A["응용"]
-    B["AEAD 암호 모듈"]
-    C["키 관리 시스템"]
-    A --- B
-    B --- C
+```text
+[응용]---[AEAD 암호 모듈]---[키 관리 시스템]
 ```
+
+선의 의미: 응용과 AEAD 암호 모듈은 평문•AAD•정책과 암호문•태그 처리 관계이고, 암호 모듈은 키 관리 시스템의 비밀키 권한•수명 통제와 결속된다.
 
 | 구성요소 | 책임 |
 |:---|:---|

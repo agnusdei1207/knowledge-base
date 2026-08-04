@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "PQC 전환 로드맵•하이브리드 방식 (PQC Migration Hybrid)"
-date: "2026-08-04T10:17:00+09:00"
+date: "2026-08-05T09:05:00+09:00"
 tags:
   - "notes-security"
 weight: 13
@@ -64,19 +64,17 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["서비스•민첩성 결합기"]
-    C["고전 암호 공급자"]
-    P["PQC 공급자"]
-    B["CBOM•위험 우선순위"]
-    V["검증•전환 정책"]
-    S --- C
-    S --- P
-    S --- V
-    B --- V
+```text
+              [고전 암호 공급자]     [PQC 공급자]
+                         \             /
+                    [서비스•민첩성 결합기]
+                              |
+                       [검증•전환 정책]
+                              |
+                    [CBOM•위험 우선순위]
 ```
+
+선의 의미: 서비스 결합기가 고전•PQC 공급자를 함께 수용하고, 검증•전환 정책과 CBOM의 자산 위험 정보가 그 결합 경계를 통제하는 정적 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

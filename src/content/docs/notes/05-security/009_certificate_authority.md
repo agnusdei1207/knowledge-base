@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CA 인증 기관•인증서 발급 절차 (Certificate Authority)"
-date: "2026-08-04T10:09:00+09:00"
+date: "2026-08-05T09:01:00+09:00"
 tags:
   - "notes-security"
 weight: 9
@@ -65,19 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    P["정책•등록 통제"]
-    R["오프라인 루트 CA"]
-    I["중간 CA"]
-    C["발급 CA•HSM"]
-    S["인증서•상태 저장소"]
-    P --- C
-    R --- I
-    I --- C
-    C --- S
+```text
+                 [오프라인 루트 CA]
+                          |
+                      [중간 CA]
+                          |
+ [정책•등록 통제] -- [발급 CA•HSM] -- [인증서•상태 저장소]
 ```
+
+선의 의미: 루트 CA에서 중간 CA와 발급 CA로 이어지는 인증 위임 계층, 발급 CA에 결합된 정책 통제와 인증서•상태 저장 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

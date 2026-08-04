@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "키 관리 - HSM•KMS (Key Management HSM KMS)"
-date: "2026-08-04T10:31:00+09:00"
+date: "2026-08-05T00:00:00+09:00"
 tags:
   - "notes-security"
 weight: 20
@@ -65,17 +65,15 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    M["KMS•IAM"]
-    H["HSM•KEK"]
-    D["DEK"]
-    E["키 메타데이터"]
-    M --- H
-    H --- D
-    M --- E
+```text
+                   [KMS•IAM]
+                     /     \
+              [HSM•KEK]   [키 메타데이터]
+                   |
+                 [DEK]
 ```
+
+선의 의미: KMS•IAM 아래에는 상위 키와 암호 연산을 보호하는 HSM•KEK 및 정책 상태를 기록하는 키 메타데이터가 놓이고, DEK는 HSM의 KEK 보호 경계에 속하는 정적 봉투 암호화 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|

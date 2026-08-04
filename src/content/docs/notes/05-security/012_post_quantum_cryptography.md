@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자내성암호 PQC (Post-Quantum Cryptography)"
-date: "2026-08-05T07:42:00+09:00"
+date: "2026-08-05T09:04:00+09:00"
 tags:
   - "notes-security"
 weight: 12
@@ -65,19 +65,13 @@ extra:
 
 </details>
 
-```mermaid
-block-beta
-    columns 3
-    S["서비스•민첩성 정책"]
-    C["고전 암호 공급자"]
-    K["PQC KEM 공급자"]
-    D["PQC 서명 공급자"]
-    I["암호 자산•검증 체계"]
-    S --- C
-    S --- K
-    S --- D
-    S --- I
+```text
+                         [서비스•민첩성 정책]
+                    /          |          |          \
+       [고전 암호 공급자] [PQC KEM 공급자] [PQC 서명 공급자] [암호 자산•검증 체계]
 ```
+
+선의 의미: 서비스•민첩성 정책이 고전 암호, PQC 키 설정, PQC 서명 공급자와 암호 자산 검증 체계를 하나의 교체 가능한 통제 경계로 묶는 관계
 
 | 구성요소 | 책임 |
 |:---|:---|
