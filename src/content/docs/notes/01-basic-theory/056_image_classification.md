@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-05T11:20:26+09:00"
+date: "2026-08-05T17:33:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: **이미지 분류** 는 합성곱 신경망 등으로 이미지 전체의 클래스별 점수를 산출해 범주를 판정하는 **컴퓨터 비전 기법**
+- 정의/개념: 이미지 전체의 **클래스별 점수**로 범주를 판정하는 **비전 기법**
 - 배경/필요성: 수작업 판정은 대량 이미지의 **일관성•처리량 제약**
 
 #### 한줄 요약
