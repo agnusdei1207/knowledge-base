@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
-date: "2026-08-05T01:45:09+09:00"
+date: "2026-08-05T17:36:39+09:00"
 tags:
   - "notes-security"
 weight: 84
@@ -64,6 +64,18 @@ extra:
 
 </details>
 
+```text
+데이터 오염 방어 구조
+├─ 수집 경계
+│  ├─ 출처 등록부
+│  └─ 수집 격리소
+├─ 검증 경계
+│  └─ 품질•라벨 검증
+└─ 학습•평가 경계
+   ├─ 버전 학습 세트
+   └─ 계보•기준 평가
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 출처 등록부 | **제공자•경로•해시•책임** 기록 |
@@ -87,22 +99,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 공격자
-    participant D as 데이터 파이프라인
-    participant M as 학습 모델
-    participant S as 배포 서비스
-    A->>D: 조작 표본•라벨 주입
-    D->>D: 1. 오염 표본•정상 데이터 혼합
-    D->>M: 오염 학습 세트
-    M->>M: 2. 조작 표본 반복 학습
-    M->>M: 3. 결정 경계•트리거 연관 변조
-    M->>S: 오염 모델
-    S->>S: 4. 정상 평균 성능으로 잠복
-    A->>S: 표적•트리거 입력
-    S->>S: 5. 표적 오판•백도어 행동 실행
-    S-->>A: 공격 목표 결과
+```text
+조작 표본•라벨 주입
+          |
+          v
+1. 오염 표본•정상 데이터 혼합
+          |
+          v
+2. 조작 표본 반복 학습
+          |
+          v
+3. 결정 경계•트리거 연관 변조
+          |
+          v
+4. 정상 평균 성능으로 잠복
+          |
+     표적•트리거 입력
+          |
+          v
+5. 표적 오판•백도어 행동 실행
+          |
+          v
+     공격 목표 결과
 ```
 
 **동작 원리**
@@ -141,9 +159,9 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **AI 100-2e2025** 는 오염 공격을 공격 목표와 역량별로 분류한 보고서다.
+- **AI(Artificial Intelligence) 100-2e2025** 는 오염 공격을 공격 목표와 역량별로 분류한 보고서다.
 - **RMF(Risk Management Framework)** 는 위험을 식별•측정•대응•관리하는 구조화된 프레임워크다.
-- **AI RMF** 는 AI 위험을 Govern•Map•Measure•Manage 기능으로 관리한다.
+- **AI RMF(Artificial Intelligence Risk Management Framework)** 는 AI 위험을 Govern•Map•Measure•Manage 기능으로 관리한다.
 - **피드백 재학습** 은 운영 중 수집한 사용자 반응과 입력을 다시 모델 학습에 사용하는 과정이다.
 - **데이터 드리프트** 는 운영 데이터의 분포가 학습 시점과 달라지는 정상적 또는 비정상적 변화다.
 

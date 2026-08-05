@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 역전 공격 (Model Inversion Attack)"
-date: "2026-08-05T01:45:09+09:00"
+date: "2026-08-05T17:33:01+09:00"
 tags:
   - "notes-security"
 weight: 82
@@ -93,22 +93,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 공격자
-    participant M as 대상 모델
-    participant O as 복원 최적화기
-    participant P as 프라이버시 평가
-    A->>O: 목표•사전 정보
-    loop 복원 후보 반복
-        O->>O: 1. 복원 후보 생성
-        O->>M: 후보 입력 질의
-        M-->>O: 출력 신호
-        O->>O: 2. 후보 최적화
-    end
-    O->>P: 수렴 후보
-    P->>P: 3. 유사성•식별성 판정
-    P-->>A: 프라이버시 위험
+```text
+목표•사전 정보
+       |
+       v
+1. 복원 후보 생성
+       |
+       v
+대상 모델 질의 ──> 출력 신호
+       ^                 |
+       |                 v
+       +──── 2. 후보 최적화
+              | 미수렴: 반복
+              | 수렴
+              v
+3. 유사성•식별성 판정
+              |
+              v
+       프라이버시 위험
 ```
 
 **동작 원리**

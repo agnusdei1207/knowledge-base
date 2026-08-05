@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "적대적 예제 공격 (Adversarial Example)"
-date: "2026-08-05T01:45:09+09:00"
+date: "2026-08-05T17:39:34+09:00"
 tags:
   - "notes-security"
 weight: 86
@@ -64,6 +64,18 @@ extra:
 
 </details>
 
+```text
+적대적 예제 시험 구조
+├─ 시험 조건
+│  └─ 위협 모델
+├─ 공격 경로
+│  ├─ 교란 생성기
+│  ├─ 대상 모델
+│  └─ 질의 관측점
+└─ 방어 경로
+   └─ 강건•안전 처리기
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 위협 모델 | **지식•목표•교란 한도** 정의 |
@@ -87,22 +99,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 공격자
-    participant G as 교란 생성기
-    participant M as 대상 모델
-    participant E as 강건성 평가
-    A->>G: 목표•섭동 예산
-    loop 교란 탐색 반복
-        G->>G: 1. 교란 후보 생성
-        G->>M: 후보 입력
-        M-->>G: 라벨•점수
-    end
-    G->>E: 성공 교란
-    E->>E: 2. 환경 변형 재현
-    E->>E: 3. ASR•정상성 판정
-    E-->>A: 강건성 결과
+```text
+목표•섭동 예산
+       |
+       v
+1. 교란 후보 생성
+       |
+       v
+대상 모델 질의 ──> 라벨•점수
+       ^                 |
+       |   목표 미달     |
+       +─────────────────+
+       |
+       | 공격 성공
+       v
+2. 환경 변형 재현
+       |
+       v
+3. ASR•정상성 판정
+       |
+       v
+    강건성 결과
 ```
 
 **동작 원리**

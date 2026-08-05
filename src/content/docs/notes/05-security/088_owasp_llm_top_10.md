@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "OWASP LLM Top 10 (OWASP LLM Top 10)"
-date: "2026-08-05T11:48:00+09:00"
+date: "2026-08-05T17:42:52+09:00"
 tags:
   - "notes-security"
 weight: 88
@@ -71,6 +71,15 @@ extra:
 
 </details>
 
+```text
+OWASP LLM Top 10 2025
+├─ 입력•출력 경계
+├─ 정보•지시 경계
+├─ 공급•학습 경계
+├─ 검색•행동 경계
+└─ 판단•자원 경계
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 입력•출력 경계 | **LLM01 인젝션•LLM05 출력** |
@@ -92,21 +101,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 서비스 소유자
-    participant C as 위협•통제 설계자
-    participant R as 레드팀
-    participant G as 위험 관리자
-    O->>O: 1. 자산•신뢰 경계 확정
-    O->>C: 서비스 자산•경계
-    C->>C: 2. LLM01~LLM10 시나리오 매핑
-    C->>C: 3. 예방•탐지•복구 통제 설계
-    C->>R: 공격 시나리오•통제
-    R->>R: 4. 실제 공격•잔여 위험 평가
-    R->>G: 평가 결과
-    G->>G: 5. 우선순위•통제 갱신
-    G-->>O: 위험 처리 계획
+```text
+서비스 자산•경계
+        |
+        v
+1. 자산•신뢰 경계 확정
+        |
+        v
+2. LLM01~LLM10 시나리오 매핑
+        |
+        v
+3. 예방•탐지•복구 통제 설계
+        |
+        v
+4. 실제 공격•잔여 위험 평가
+        |
+        v
+5. 우선순위•통제 갱신
+        |
+        v
+   위험 처리 계획
 ```
 
 **동작 원리**

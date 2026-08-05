@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "탈옥 Jailbreak 공격 (Jailbreak Attack)"
-date: "2026-08-05T01:45:09+09:00"
+date: "2026-08-05T17:31:33+09:00"
 tags:
   - "notes-security"
 weight: 81
@@ -101,22 +101,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 공격 사용자
-    participant A as AI 응용
-    participant M as 안전 정렬 모델
-    participant T as 출력•도구 경계
-    U->>A: 역할극•분할•인코딩 변형 요청
-    A->>A: 1. 다중 턴 공격 문맥 누적
-    A->>M: 결합된 대화 문맥
-    M->>M: 2. 변형 표현의 위험 의도 오인
-    M->>M: 3. 안전 거부 정책 우회
-    M-->>A: 금지 응답•기능 제안
-    A->>A: 4. 독립 출력•권한 검증 누락
-    A->>T: 금지 출력•과도한 기능 요청
-    T->>T: 5. 유해 내용•기능 실행
-    T-->>U: 금지 응답•행동 결과
+```text
+역할극•분할•인코딩 변형 요청
+                |
+                v
+1. 다중 턴 공격 문맥 누적
+                |
+                v
+2. 변형 표현의 위험 의도 오인
+                |
+                v
+3. 안전 거부 정책 우회
+                |
+                v
+4. 독립 출력•권한 검증 누락
+                |
+                v
+5. 유해 내용•기능 실행
+                |
+                v
+금지 응답•행동 결과
 ```
 
 **동작 원리**

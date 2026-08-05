@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 레드팀 (AI Red Teaming)"
-date: "2026-08-05T12:01:00+09:00"
+date: "2026-08-05T17:44:20+09:00"
 tags:
   - "notes-security"
 weight: 89
@@ -63,13 +63,15 @@ extra:
 </details>
 
 ```text
-                       [범위•위협 모델]
-                         /           \
-                [시나리오 저장소]  [하네스•샌드박스]
-                         \           /
-                       [증거•위험 분류]
-                               |
-                       [완화•회귀 체계]
+AI 레드팀 체계
+├─ 설계
+│  ├─ 범위•위협 모델
+│  └─ 시나리오 저장소
+├─ 실행
+│  └─ 하네스•샌드박스
+└─ 판정•개선
+   ├─ 증거•위험 분류
+   └─ 완화•회귀 체계
 ```
 
 선의 의미: 범위•위협 모델 아래 시험 시나리오와 격리 실행 환경을 분리하고, 공통 증거•위험 분류 및 완화•회귀 체계에 연결한 정적 AI 평가 구조
@@ -95,21 +97,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 서비스 소유자
-    participant R as 레드팀
-    participant D as 방어팀
-    participant G as 위험 관리자
-    O->>R: 자산•범위•중단 조건
-    R->>R: 1. 교전 규칙•안전 한도 검증
-    R->>R: 2. 공격 시나리오 안전 실행
-    R->>D: 재현 증거•원인
-    D->>D: 3. 근본 원인•완화 구현
-    D->>G: 완화 결과•공격 증적
-    G->>G: 4. 잔여 위험 재산정
-    G->>G: 5. 변형 회귀•배포 결정
-    G-->>O: 배포 판정
+```text
+자산•범위•중단 조건
+          |
+          v
+1. 교전 규칙•안전 한도 검증
+          |
+          v
+2. 공격 시나리오 안전 실행
+          |
+          v
+3. 근본 원인•완화 구현
+          |
+          v
+4. 잔여 위험 재산정
+          |
+          v
+5. 변형 회귀•배포 결정
+          |
+          v
+       배포 판정
 ```
 
 **동작 원리**
@@ -150,7 +157,7 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **AI 600-1** 은 생성형 AI의 오용•유출•연쇄 피해 측정과 적대적 시험을 제시한다.
+- **AI(Artificial Intelligence) 600-1** 은 생성형 AI의 오용•유출•연쇄 피해 측정과 적대적 시험을 제시한다.
 - **RMF(Risk Management Framework)** 는 위험을 식별•측정•대응•관리하는 구조화된 프레임워크다.
 - **ATLAS(Adversarial Threat Landscape for AI Systems)** 는 AI 시스템 공격 전술•기법을 분류하는 MITRE 지식베이스다.
 - **RAG(Retrieval-Augmented Generation)** 는 외부 자료를 검색해 모델의 생성 문맥에 결합하는 방식이다.
