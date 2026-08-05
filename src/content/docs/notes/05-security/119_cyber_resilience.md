@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "사이버 레질리언스 (Cyber Resilience)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T18:06:58+09:00"
 tags:
   - "notes-security"
 weight: 119
@@ -57,10 +57,24 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **RTO(Recovery Time Objective)**: 업무를 복구해야 하는 목표 시간이다.
-- **RPO(Recovery Point Objective)**: 허용 가능한 데이터 손실의 기준 시점이다.
+- **복구 시간 목표(Recovery Time Objective, RTO)**: 업무를 복구해야 하는 목표 시간이다.
+- **복구 시점 목표(Recovery Point Objective, RPO)**: 허용 가능한 데이터 손실의 기준 시점이다.
 
 </details>
+
+```text
+사이버 회복탄력성 구조
+├─ 필수 임무 · 의존성
+│  └─ 유지 기능 · 자원 · 허용 수준
+├─ 격리 · 다양성 · 안전한 저하
+│  └─ 피해 범위 · 단일 실패 제한
+├─ 신뢰 복구 기반
+│  └─ 격리 백업 · 대체 환경
+├─ 관측 · 지휘 · 소통
+│  └─ 상태 · 전환 · 책임
+└─ 훈련 · 측정 · 적응
+   └─ 지속 · 복구 · 학습 검증
+```
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -83,30 +97,32 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 임무 담당
-  participant A as 위협•아키텍처 담당
-  participant O as 운영 담당
-  participant G as 거버넌스
-  M->>M: 1. 필수 임무•의존성 정의
-  M->>A: 임무•의존성 전달
-  A->>A: 2. 역경•침해•저하 시나리오
-  A->>A: 3. 지속•격리•복구 설계
-  A->>O: 회복 설계 전달
-  O->>O: 4. 전환•복구 훈련•목표 측정
-  O->>G: 훈련 결과 전달
-  G->>G: 5. 전략•구조 개선 결정
-  G->>A: 개선 결정 전달
+```text
+1. 필수 임무•의존성 정의
+              │
+              ▼
+2. 역경•침해•저하 시나리오
+              │
+              ▼
+3. 지속•격리•복구 설계
+              │
+              ▼
+4. 전환•복구 훈련•목표 측정
+       ┌──────┴──────┐
+       │ 목표 달성   │ 목표 미달
+       ▼             ▼
+   설계 유지      5. 전략•구조 개선 결정
+                       │
+                       └─ 시나리오 · 설계로 환류
 ```
 
 **동작 원리**
 
-- **1. 필수 임무•의존성 정의**: 기능•자원•허용 수준 식별
-- **2. 역경•침해•저하 시나리오**: 공격•실패•성능 저하 정의
-- **3. 지속•격리•복구 설계**: 중복•분할•신뢰 복구 결정
-- **4. 전환•복구 훈련•목표 측정**: RTO•RPO•임무 수준 측정
-- **5. 전략•구조 개선 결정**: 교훈•위협 변화 기반 설계 보완 결정
+1. **필수 임무•의존성 정의**: 기능•자원•허용 수준 식별
+2. **역경•침해•저하 시나리오**: 공격•실패•성능 저하 정의
+3. **지속•격리•복구 설계**: 중복•분할•신뢰 복구 결정
+4. **전환•복구 훈련•목표 측정**: RTO•RPO•임무 수준 측정
+5. **전략•구조 개선 결정**: 교훈•위협 변화 기반 설계 보완 결정
 
 #### 한줄 요약
 
@@ -136,12 +152,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
+- **특별 간행물(Special Publication, SP)**: NIST가 발행하는 전문 지침 문서이다.
 - **NIST SP 800-160 Vol.2 Rev.1**: 생명주기 회복탄력성 설계 지침이다.
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **ISO 22301**: 업무연속성 관리체계의 요구사항 표준이다.
-- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과 프레임워크이다.
 - **NIST CSF 2.0**: 보안 결과를 전사 위험관리와 연결하는 프레임워크이다.
 
 </details>

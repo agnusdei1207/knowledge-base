@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디스크 이미징•해시 무결성 (Disk Imaging Hash Integrity)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T18:02:07+09:00"
 tags:
   - "notes-security"
 weight: 116
@@ -41,13 +41,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **쓰기 방지**: 분석 장비에서 원본 매체로 향하는 쓰기 명령을 차단하는 통제이다.
-- **SHA-256(Secure Hash Algorithm 256)**: 256비트 해시값으로 동일성•무결성을 검증하는 알고리즘이다.
+- **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 256비트 해시값으로 동일성•무결성을 검증하는 알고리즘이다.
 
 </details>
 
 - 주소 가능한 전체 영역의 **비트스트림 획득**
 - 쓰기 방지•해시의 **원본•사본 무결성**
-- 오류•도구•인계 기록의 **재현성•출처성**
+- 오류•도구•인계 기록의 **재현성•출처 추적성**
 
 #### 한줄 요약
 
@@ -61,6 +61,20 @@ extra:
 - **비트스트림 이미지**: 파일뿐 아니라 주소 가능한 매체 영역 전체를 그대로 복제한 사본이다.
 
 </details>
+
+```text
+디스크 이미징 증거 구조
+├─ 원본 매체 · 식별정보
+│  └─ 종류 · 일련번호 · 연결 방식
+├─ 쓰기 방지 장치
+│  └─ 쓰기 명령 차단 · 시험
+├─ 비트스트림 증거 이미지
+│  └─ 전체 영역 · 메타데이터
+├─ 해시 · 읽기 오류
+│  └─ 동일성 · 누락 범위
+└─ 연계보관 · 분석 사본
+   └─ 접근 · 복사 · 보관 이력
+```
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -83,29 +97,34 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant I as 조사자
-  participant A as 포렌식 이미징 체계
-  participant D as 원본 디스크
-  participant R as 증거 보관소
-  I->>A: 이미징 요청
-  A->>A: 1. 매체 식별•쓰기 방지 검증
-  A->>A: 2. 원본 읽기 전용 연결
-  A->>D: 원본 데이터 읽기
-  D->>A: 디스크 데이터 반환
-  A->>A: 3. 비트 이미지•오류 획득
-  A->>A: 4. SHA-256 해시 대조•봉인
-  A->>R: 이미지•해시•취급 기록 전달
-  R-->>I: 분석 사본•취급 이력
+```text
+이미징 요청
+     │
+     ▼
+1. 매체 식별•쓰기 방지 검증
+     │
+     ▼
+2. 원본 읽기 전용 연결
+     │
+     ▼
+3. 비트 이미지•오류 획득
+     │
+     ▼
+4. SHA-256 해시 대조•봉인
+     │
+     ▼
+이미지 · 해시 · 취급 기록 보관
+     │
+     ▼
+분석 사본 · 취급 이력
 ```
 
 **동작 원리**
 
-- **1. 매체 식별•쓰기 방지 검증**: 일련번호•차단 기능 확인
-- **2. 원본 읽기 전용 연결**: 원본 상태 변경 방지
-- **3. 비트 이미지•오류 획득**: 전체 영역•읽기 실패 기록
-- **4. SHA-256 해시 대조•봉인**: 이미지 동일성•원본 보존
+1. **매체 식별•쓰기 방지 검증**: 일련번호•차단 기능 확인
+2. **원본 읽기 전용 연결**: 원본 상태 변경 방지
+3. **비트 이미지•오류 획득**: 전체 영역•읽기 실패 기록
+4. **SHA-256 해시 대조•봉인**: 이미지 동일성•원본 보존
 
 #### 한줄 요약
 
@@ -136,15 +155,15 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SSD(Solid-State Drive)**: 플래시 메모리를 사용하는 저장장치이다.
-- **TRIM(Trim)**: 운영체제가 SSD에 삭제 블록 해제를 알리는 명령이다.
-- **FIPS PUB(Federal Information Processing Standards Publication)**: 미국 연방정보처리표준 간행물이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
+- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 플래시 메모리를 사용하는 저장장치이다.
+- **TRIM**: 운영체제가 SSD에 삭제 블록 해제를 알리는 명령이다.
+- **연방정보처리표준 간행물(Federal Information Processing Standards Publication, FIPS PUB)**: 미국 연방정부의 정보처리 표준 문서이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
 - **FIPS PUB 180-4**: SHA-256 등 보안 해시 알고리즘을 규정한 표준이다.
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 - **ISO/IEC 27037**: 디지털 증거의 식별•수집•획득•보존 표준이다.
-- **CFTT(Computer Forensics Tool Testing)**: 이미징 도구의 기능•정확성을 시험하는 NIST 프로그램이다.
+- **컴퓨터 포렌식 도구 시험(Computer Forensics Tool Testing, CFTT)**: 이미징 도구의 기능•정확성을 시험하는 NIST 프로그램이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모바일 포렌식 (Mobile Forensics)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T18:00:11+09:00"
 tags:
   - "notes-security"
 weight: 115
@@ -39,8 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BFU(Before First Unlock)**: 부팅 후 한 번도 잠금을 해제하지 않은 상태이다.
-- **AFU(After First Unlock)**: 부팅 후 한 번 이상 잠금을 해제한 상태이다.
+- **최초 잠금 해제 전(Before First Unlock, BFU)**: 부팅 후 한 번도 잠금을 해제하지 않은 상태이다.
+- **최초 잠금 해제 후(After First Unlock, AFU)**: 부팅 후 한 번 이상 잠금을 해제한 상태이다.
 
 </details>
 
@@ -57,11 +57,25 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **API(Application Programming Interface)**: 운영체제가 허용한 기능과 데이터의 호출 경계이다.
-- **DB(Database)**: 앱의 구조화 데이터를 저장하는 저장소이다.
+- **응용 프로그램 인터페이스(Application Programming Interface, API)**: 운영체제가 허용한 기능과 데이터의 호출 경계이다.
+- **데이터베이스(Database, DB)**: 앱의 구조화 데이터를 저장하는 저장소이다.
 - **도구 검증**: 사용한 도구의 기능•정확성과 결과 재현성을 사전에 확인하는 절차이다.
 
 </details>
+
+```text
+모바일 포렌식 증거 구조
+├─ 단말 · 잠금 상태
+│  └─ 화면 · 전원 · BFU · AFU
+├─ 격리 · 전원 보존
+│  └─ 원격 변경 · 키 소실 위험
+├─ 추출 방식 · 도구 검증
+│  └─ 획득 범위 · 해시 · 오류
+├─ 앱 · 시간 · 삭제 흔적
+│  └─ DB · 타임스탬프 관계
+└─ 백업 · 클라우드 연계
+   └─ 별도 권한 · 교차 확인
+```
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -84,28 +98,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant I as 조사자
-  participant D as 단말
-  participant C as 클라우드
-  participant A as 분석자
-  I->>D: 증거 보존 요청
-  D-->>I: 전원•잠금•BFU•AFU 상태
-  I->>I: 1. 격리•보존•추출 전략 적용
-  I->>I: 2. 추출 사본•해시•오류 검증
-  I->>A: 검증된 추출 사본 전달
-  A->>C: 클라우드 연계 증거 요청
-  C-->>A: 클라우드 증거
-  A->>A: 3. 단말•클라우드 증거 교차 검증
-  A-->>I: 교차 검증 결과•한계
+```text
+전원 · 잠금 · BFU · AFU 상태
+              │
+       ┌──────┴──────┐
+       │ 키 보존     │ 원격 변경 위험
+       ▼             ▼
+   전원 유지 검토   통신 격리 검토
+       └──────┬──────┘
+              ▼
+1. 격리•보존•추출 전략 적용
+              │
+              ▼
+2. 추출 사본•해시•오류 검증
+              │
+       별도 권한의 클라우드 증거
+              ▼
+3. 단말•클라우드 증거 교차 검증
+              │
+              ▼
+       교차 검증 결과 · 한계
 ```
 
 **동작 원리**
 
-- **1. 격리•보존•추출 전략 적용**: 원격 명령•키•배터리 위험을 고려해 획득 절차 실행
-- **2. 추출 사본•해시•오류 검증**: 논리•파일•물리 획득 결과 검증
-- **3. 단말•클라우드 증거 교차 검증**: 별도 권한의 자료와 단말 증거 대조
+1. **격리•보존•추출 전략 적용**: 원격 명령•키•배터리 위험을 고려해 획득 절차 실행
+2. **추출 사본•해시•오류 검증**: 논리•파일•물리 획득 결과 검증
+3. **단말•클라우드 증거 교차 검증**: 별도 권한의 자료와 단말 증거 대조
 
 #### 한줄 요약
 
@@ -137,10 +156,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
+- **특별 간행물(Special Publication, SP)**: NIST가 발행하는 전문 지침 문서이다.
 - **NIST SP 800-101**: 모바일 증거의 획득•분석•보고 지침이다.
-- **CFTT(Computer Forensics Tool Testing)**: 포렌식 도구의 기능과 정확성을 검증하는 NIST 프로그램이다.
+- **컴퓨터 포렌식 도구 시험(Computer Forensics Tool Testing, CFTT)**: 포렌식 도구의 기능과 정확성을 검증하는 NIST 프로그램이다.
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 - **ISO/IEC 27037**: 디지털 증거의 식별•수집•획득•보존 표준이다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보 보호 위험 평가 — 자산•위협•취약점 (Information Security Risk Assessment)"
-date: "2026-08-05T12:20:00+09:00"
+date: "2026-08-05T17:47:35+09:00"
 tags:
   - "notes-security"
 weight: 108
@@ -63,16 +63,18 @@ extra:
 </details>
 
 ```text
-                          [위험 기준]
-                         /          \
-              [업무•자산 의존성] [위협•취약점 시나리오]
-                         \          /
-                      [가능성•결과 분석]
-                               |
-                         [위험 등록부]
+정보보호 위험평가
+├─ 위험 기준
+│  └─ 가능성 · 결과 척도 · 허용 수준
+├─ 업무 · 자산 의존성
+│  └─ 핵심 업무 · 지원 자산
+├─ 위협 · 취약점 시나리오
+│  └─ 원인 · 사건 · 업무 결과
+├─ 가능성 · 결과 분석
+│  └─ 위험 수준 · 불확실성
+└─ 위험 등록부
+   └─ 위험 · 소유자 · 재평가 조건
 ```
-
-선의 의미: 위험 기준 아래 업무•자산 의존성과 위협•취약점 시나리오를 분리하고, 가능성•결과 분석 및 위험 등록부에 결합한 정적 위험평가 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,21 +98,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 위험 소유자
-  participant C as 기준 담당
-  participant A as 자산 담당
-  participant E as 평가자
-  O->>O: 1. 평가 범위•위험 기준 확정
-  O->>C: 범위•기준 전달
-  C->>C: 2. 자산•시나리오 식별 기준 수립
-  C->>A: 식별 기준 전달
-  A->>A: 3. 위협•취약점•업무 영향 분석
-  A->>E: 분석 근거 전달
-  E->>E: 4. 위험 수준•불확실성 산정
-  E->>O: 평가 결과 전달
-  O->>O: 5. 우선순위•소유자 등록
+```text
+1. 평가 범위•위험 기준 확정
+              │
+              ▼
+2. 자산•시나리오 식별 기준 수립
+              │
+              ▼
+3. 위협•취약점•업무 영향 분석
+              │
+              ▼
+4. 위험 수준•불확실성 산정
+              │
+              ▼
+5. 우선순위•소유자 등록
+              │
+       ┌──────┴──────┐
+       │ 수용 초과   │ 수용 가능
+       ▼             ▼
+    처리 계획      수용 근거 기록
+       │
+       └──── 처리 · 재평가 조건 관리
 ```
 
 **동작 원리**
@@ -153,9 +161,9 @@ sequenceDiagram
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 - **ISO/IEC 27005:2022**: 정보보안 위험의 평가•처리•소통•감시 지침이다.
 - **IEC 31010:2019**: 상황별 위험평가 기법의 선택 지침이다.
-- **SLE(Single Loss Expectancy)**: 사고 한 번의 예상 손실액이다.
-- **ARO(Annualized Rate of Occurrence)**: 사고의 연간 예상 발생 빈도이다.
-- **ALE(Annual Loss Expectancy)**: SLE와 ARO를 곱한 연간 기대 손실이다.
+- **단일 손실 예상액(Single Loss Expectancy, SLE)**: 사고 한 번의 예상 손실액이다.
+- **연간 발생 빈도(Annualized Rate of Occurrence, ARO)**: 사고의 연간 예상 발생 빈도이다.
+- **연간 기대 손실(Annual Loss Expectancy, ALE)**: SLE와 ARO를 곱한 연간 기대 손실이다.
 
 </details>
 

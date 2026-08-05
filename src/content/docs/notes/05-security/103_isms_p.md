@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "정보보호 관리체계 ISMS-P (ISMS-P)"
-date: "2026-08-05T01:46:59+09:00"
+date: "2026-08-05T17:40:12+09:00"
 tags:
   - "notes-security"
 weight: 103
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **ISMS(Information Security Management System)** 는 정보보호 위험과 통제를 관리하는 인증 체계다.
-- **ISMS-P(Information Security Management System-Personal Information)** 는 ISMS에 개인정보 처리단계 보호 요구를 결합한 인증 체계다.
+- **ISMS-P(Personal Information & Information Security Management System)** 는 개인정보보호 및 정보보호 관리체계 인증이다.
 - **통합 관리체계**: 서비스 위험과 개인정보 수집•이용•제공•위탁•보유•파기의 책임을 하나의 범위에서 운영•심사하는 체계이다.
 
 </details>
@@ -64,6 +64,20 @@ extra:
 
 </details>
 
+```text
+ISMS-P 통합 관리체계
+├─ 관리체계 수립 · 운영
+│  └─ 범위 · 조직 · 정책 · 자원
+├─ 위험관리
+│  └─ 자산 · 위협 · 취약점 평가
+├─ 보호대책 요구사항
+│  └─ 관리 · 물리 · 기술 통제
+├─ 개인정보 처리단계
+│  └─ 수집부터 파기까지 보호
+└─ 감사 · 지속 개선
+   └─ 운영 기록 · 시정 · 재검증
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | 관리체계 수립•운영 | **범위•조직•정책•자원** 설정 |
@@ -86,22 +100,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 경영진
-  participant M as 관리체계 담당
-  participant C as 위험•통제 담당
-  participant A as 심사기관
-  O->>O: 1. 인증 범위•정책 확정
-  O->>M: 범위•정책
-  M->>M: 2. 자산•위협•위험 평가
-  M->>C: 위험 처리 계획
-  C->>C: 3. 보호대책•개인정보 통제
-  C->>C: 4. 운영 증적•심사 자료 구성
-  C->>A: 운영 증적•심사 자료
-  A-->>M: 심사 발견사항
-  M->>M: 5. 발견사항 원인•시정 결정
-  M->>C: 시정조치
+```text
+1. 인증 범위•정책 확정
+              │
+              ▼
+2. 자산•위협•위험 평가
+              │
+              ▼
+3. 보호대책•개인정보 통제
+              │
+              ▼
+4. 운영 증적•심사 자료 구성
+              │
+              ▼
+         심사 발견사항
+              │
+              ▼
+5. 발견사항 원인•시정 결정
+              │
+              └──── 통제 갱신 ────┐
+                                  └─ 위험 평가로 환류
 ```
 
 **동작 원리**

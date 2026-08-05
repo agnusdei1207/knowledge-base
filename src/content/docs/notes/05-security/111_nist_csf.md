@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework (NIST CSF)"
-date: "2026-08-05T12:23:00+09:00"
+date: "2026-08-05T17:53:14+09:00"
 tags:
   - "notes-security"
 weight: 111
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)**: 미국 상무부 산하의 국립표준기술연구소이다.
-- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과를 공통 언어로 정리한 프레임워크이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국 상무부 산하의 기술 표준 연구기관이다.
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과를 공통 언어로 정리한 체계이다.
 
 </details>
 
@@ -65,17 +65,26 @@ extra:
 </details>
 
 ```text
-                             [Govern]
-                    /          |          |          \
-       [Identify•Protect]   [Detect]   [Respond]   [Recover]
+CSF 핵심부
+├─ Govern
+│  └─ 전략 · 정책 · 역할 · 공급망 위험
+├─ Identify
+│  └─ 자산 · 환경 · 위험 식별
+├─ Protect
+│  └─ 식별 위험의 보호조치
+├─ Detect
+│  └─ 지속 감시 · 사건 분석
+├─ Respond
+│  └─ 사고 관리 · 완화 · 소통
+└─ Recover
+   └─ 자산 · 운영 복원 · 개선
 ```
-
-선의 의미: Govern이 전략•정책•책임의 상위 기능으로서 식별•보호, 탐지, 대응, 복구의 네 결과 영역을 공통 통제하는 CSF 정적 계층
 
 | 구성요소 | 책임 |
 |:---|:---|
 | Govern | **전략•정책•역할•공급망 위험** 관리 |
-| Identify•Protect | **자산•위험 식별•보호조치** |
+| Identify | **자산•환경•위험 식별** |
+| Protect | 식별 위험의 **보호조치** 적용 |
 | Detect | **지속 감시•분석** 기반 사건 발견 |
 | Respond | **사고 관리•완화•보고•소통** |
 | Recover | **자산•운영 복원•복구 개선** |
@@ -93,24 +102,23 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant E as 경영진
-  participant C as CSF 담당
-  participant B as 업무 담당
-  participant S as 보안 담당
-  E->>E: 1. 조직 상황•위험 허용 설정
-  E->>C: 상황•허용 수준 전달
-  C->>B: 현재 결과 증적 요청
-  B->>B: 2. 현재 프로파일•증적 구성
-  B-->>C: 현재 프로파일 증적
-  C->>C: 3. 목표 프로파일•격차 분석
-  C->>S: 목표•격차 전달
-  S->>S: 4. 개선 계획•성과지표 수립
-  S->>C: 실행안 전달
-  C-->>E: 성과 평가 결과
-  E->>E: 5. 투자•개선 우선순위 결정
-  E->>C: 우선순위 전달
+```text
+1. 조직 상황•위험 허용 설정
+              │
+              ▼
+2. 현재 프로파일•증적 구성
+              │
+              ▼
+3. 목표 프로파일•격차 분석
+              │
+              ▼
+4. 개선 계획•성과지표 수립
+              │
+              ▼
+5. 투자•개선 우선순위 결정
+              │
+              └──── 실행 · 성과평가 ────┐
+                                        └─ 현재 프로파일 갱신
 ```
 
 **동작 원리**
@@ -151,8 +159,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CSWP(Cybersecurity White Paper)**: NIST의 사이버보안 백서 문서 유형이다.
-- **SP(Special Publication)**: NIST의 전문 지침 문서 유형이다.
+- **사이버보안 백서(Cybersecurity White Paper, CSWP)**: NIST의 사이버보안 백서 문서 유형이다.
+- **특별 간행물(Special Publication, SP)**: NIST의 전문 지침 문서 유형이다.
 - **NIST CSWP 29**: CSF 2.0의 공식 문서 식별자이다.
 - **NIST SP 1301**: 조직 프로파일 작성 지침이다.
 - **NIST SP 1302**: Implementation Tier 활용 지침이다.

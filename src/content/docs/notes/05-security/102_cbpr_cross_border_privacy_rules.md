@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CBPR 국경 간 개인정보 규칙 (CBPR Cross-Border Privacy Rules)"
-date: "2026-08-05T01:46:59+09:00"
+date: "2026-08-05T17:38:31+09:00"
 tags:
   - "notes-security"
 weight: 102
@@ -65,12 +65,18 @@ extra:
 </details>
 
 ```text
-[Global CBPR Forum]---[참여 관할]---[책임성 인증기관]---[인증 조직]
-                            |
-                      [Global CAPE]
+Global CBPR 인증 생태계
+├─ Global CBPR Forum
+│  └─ 인증 요구사항 · 운영 규칙
+├─ 참여 관할
+│  └─ 제도 참여 · 집행 · 국제 협력
+├─ 책임성 인증기관
+│  └─ 심사 · 인증 · 민원 관리
+├─ 인증 조직
+│  └─ 역할별 요구사항 · 시정조치
+└─ Global CAPE
+   └─ 감독기관 간 집행 협력
 ```
-
-선의 의미: Global CBPR Forum의 규칙 아래 참여 관할, 책임성 인증기관, 인증 조직 및 Global CAPE 집행 협력이 연결되는 인증 생태계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -93,22 +99,30 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 신청 조직
-  participant A as 책임성 인증기관
-  participant D as 인증 목록
-  participant E as 집행기관
-  O->>A: 처리 역할•인증 범위 신청
-  A->>A: 1. 역할별 심사 기준•범위 설정
-  A->>O: 증적 요청
-  O->>O: 2. 정책•통제 증적 구성
-  O->>A: 정책•통제 증적
-  A->>A: 3. 적합성•인증 범위 판정
-  A->>D: CBPR•PRP 인증 상태
-  E->>A: 민원•시정 정보
-  A->>A: 4. 민원•시정 사후관리 판정
-  A-->>O: 사후관리 결과
+```text
+처리 역할 · 인증 범위 신청
+              │
+              ▼
+1. 역할별 심사 기준•범위 설정
+              │
+              ▼
+2. 정책•통제 증적 구성
+              │
+              ▼
+3. 적합성•인증 범위 판정
+              │
+       ┌──────┴──────┐
+       │ 적합        │ 부적합
+       ▼             ▼
+CBPR · PRP 등록    보완 · 재심사
+       │
+       ▼
+민원 · 조사 · 변경 발생
+       │
+       ▼
+4. 민원•시정 사후관리 판정
+       │
+       └─ 유지 · 변경 · 취소
 ```
 
 **동작 원리**

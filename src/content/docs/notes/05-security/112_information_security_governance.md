@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보보호 거버넌스 (Information Security Governance)"
-date: "2026-08-05T12:24:00+09:00"
+date: "2026-08-05T17:55:02+09:00"
 tags:
   - "notes-security"
 weight: 112
@@ -65,16 +65,18 @@ extra:
 </details>
 
 ```text
-                           [방향•전략]
-                          /          \
-                [책임•권한 구조]  [정책•위험 기준]
-                          \          /
-                    [위험•자원 의사결정]
-                              |
-                     [성과•독립 보증]
+정보보호 거버넌스
+├─ 방향 · 전략
+│  └─ 사업 목표 · 위험 허용 수준
+├─ 책임 · 권한 구조
+│  └─ 승인 · 실행 · 감사 권한
+├─ 정책 · 위험 기준
+│  └─ 경영 방향 · 수용 한계
+├─ 위험 · 자원 의사결정
+│  └─ 처리 · 예외 · 투자 우선순위
+└─ 성과 · 독립 보증
+   └─ 지표 · 감사 · 준수 확인
 ```
-
-선의 의미: 방향•전략 아래 책임•권한 구조와 정책•위험 기준을 분리하고, 위험•자원 의사결정 및 성과•독립 보증에 연결한 정적 거버넌스 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,37 +96,37 @@ extra:
 <summary>핵심 용어</summary>
 
 - **위험 소유자**: 담당 업무의 위험 처리와 잔여위험 수용을 승인하는 책임자이다.
-- **CISO(Chief Information Security Officer)**: 정보보호 전략•위험•통제를 총괄하는 최고정보보호책임자이다.
+- **최고정보보호책임자(Chief Information Security Officer, CISO)**: 정보보호 전략•위험•통제를 총괄하는 책임자이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as CISO
-  participant B as 이사회•경영진
-  participant R as 위험 소유자
-  participant O as 보안 운영조직
-  participant A as 독립 감사조직
-  C->>C: 1. 사업•보안 위험 평가
-  C->>B: 위험 평가 보고
-  B->>B: 2. 방향•위험 허용 수준 승인
-  B->>R: 승인 결과 전달
-  R->>R: 3. 처리•예산•책임 배정
-  R->>O: 배정 결과 전달
-  O->>O: 4. 성과•준수 증적 생성
-  O->>A: 운영 증적 전달
-  A-->>B: 독립 보증 보고
-  B->>B: 5. 개선 방향•우선순위 결정
-  B->>C: 개선 결정 전달
+```text
+1. 사업•보안 위험 평가
+             │
+             ▼
+2. 방향•위험 허용 수준 승인
+             │
+             ▼
+3. 처리•예산•책임 배정
+             │
+             ▼
+4. 성과•준수 증적 생성
+             │
+        독립 보증 보고
+             ▼
+5. 개선 방향•우선순위 결정
+             │
+             └──── 전략 · 투자 조정 ────┐
+                                        └─ 위험 평가로 환류
 ```
 
 **동작 원리**
 
-- **1. 사업•보안 위험 평가**: 사업 영향•법적 요구 평가
-- **2. 방향•위험 허용 수준 승인**: 목표•수용 한계•우선순위 승인
-- **3. 처리•예산•책임 배정**: 통제•자원•책임자를 운영조직에 지정
-- **4. 성과•준수 증적 생성**: 지표•통제 효과•준수 근거 기록
-- **5. 개선 방향•우선순위 결정**: 감사 결과 기반 전략•투자 조정
+1. **사업•보안 위험 평가**: 사업 영향•법적 요구 평가
+2. **방향•위험 허용 수준 승인**: 목표•수용 한계•우선순위 승인
+3. **처리•예산•책임 배정**: 통제•자원•책임자를 운영조직에 지정
+4. **성과•준수 증적 생성**: 지표•통제 효과•준수 근거 기록
+5. **개선 방향•우선순위 결정**: 감사 결과 기반 전략•투자 조정
 
 #### 한줄 요약
 
@@ -156,12 +158,12 @@ sequenceDiagram
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 - **ISO/IEC 27014**: 정보보안의 평가•지시•감시•소통 지침이다.
-- **I&T(Information and Technology)**: 기업이 사용하는 정보와 기술이다.
-- **COBIT(Control Objectives for Information and Related Technologies)**: I&T 거버넌스와 관리를 구분한 프레임워크이다.
-- **ISACA(Information Systems Audit and Control Association)**: COBIT을 개발•관리하는 정보시스템감사통제협회이다.
-- **EDM(Evaluate, Direct and Monitor)**: COBIT의 평가•지시•모니터링 거버넌스 영역이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
+- **정보와 기술(Information and Technology, I&T)**: 기업이 사용하는 정보와 기술이다.
+- **정보 및 관련 기술 통제 목표(Control Objectives for Information and Related Technologies, COBIT)**: I&T 거버넌스와 관리를 구분한 프레임워크이다.
+- **정보시스템감사통제협회(Information Systems Audit and Control Association, ISACA)**: COBIT을 개발•관리하는 협회이다.
+- **평가•지시•감시(Evaluate, Direct and Monitor, EDM)**: COBIT의 거버넌스 영역이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과 프레임워크이다.
 - **Govern**: CSF에서 사이버 위험을 전사 위험관리와 연결하는 기능이다.
 
 </details>

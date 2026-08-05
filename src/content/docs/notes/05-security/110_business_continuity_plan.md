@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
-date: "2026-08-05T12:22:00+09:00"
+date: "2026-08-05T17:51:06+09:00"
 tags:
   - "notes-security"
 weight: 110
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **BCP(Business Continuity Plan)**: 중단 상황에서도 우선 업무를 최소 허용 수준으로 유지하고 목표 시간 안에 정상 수준으로 복귀하기 위한 업무 연속성 계획이다.
-- **BCMS(Business Continuity Management System)**: 업무 영향 분석•연속성 전략•계획•훈련•성과평가•개선을 지속 운영하는 업무 연속성 관리체계이다.
+- **업무 연속성 계획(Business Continuity Plan, BCP)**: 중단 상황에서도 우선 업무를 유지하고 목표 시간 안에 복귀하기 위한 계획이다.
+- **업무 연속성 관리체계(Business Continuity Management System, BCMS)**: 영향 분석•전략•훈련•개선을 지속 운영하는 관리체계이다.
 
 </details>
 
@@ -38,10 +38,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **BIA(Business Impact Analysis)**: 업무 중단의 영향과 우선순위를 분석하는 활동이다.
-- **MTPD(Maximum Tolerable Period of Disruption)**: 업무가 견딜 수 있는 최대 중단 기간이다.
-- **RTO(Recovery Time Objective)**: 업무를 복구해야 하는 목표 시간이다.
-- **RPO(Recovery Point Objective)**: 복구 시 허용하는 데이터 손실 시점이다.
+- **업무 영향 분석(Business Impact Analysis, BIA)**: 업무 중단의 영향과 우선순위를 분석하는 활동이다.
+- **최대 허용 중단 기간(Maximum Tolerable Period of Disruption, MTPD)**: 업무가 견딜 수 있는 최대 중단 기간이다.
+- **복구 시간 목표(Recovery Time Objective, RTO)**: 업무를 복구해야 하는 목표 시간이다.
+- **복구 시점 목표(Recovery Point Objective, RPO)**: 복구 시 허용하는 데이터 손실 시점이다.
 - **훈련**: 계획의 발동•전환•복귀를 실제로 시험하는 활동이다.
 - **지속 개선**: 훈련에서 발견한 공백에 따라 자원•절차를 보완하는 활동이다.
 
@@ -67,14 +67,16 @@ extra:
 </details>
 
 ```text
-                         [BIA•복구 목표]
-                      /          |          \
-          [업무 연속성 전략] [지휘•소통 체계] [BCP•DRP 실행계획]
-                      \          |          /
-                       [훈련•성과평가•개선]
+BIA · 복구 목표
+├─ 업무 연속성 전략
+│  └─ 대체 인력 · 장소 · 기술 · 공급자
+├─ 지휘 · 소통 체계
+│  └─ 발동 권한 · 역할 · 연락망 · 통지
+├─ BCP · DRP 실행계획
+│  └─ 업무 · IT 발동 · 운영 · 복귀
+└─ 훈련 · 성과평가 · 개선
+   └─ 목표 달성 · 계획 누락 검증
 ```
-
-선의 의미: BIA•복구 목표 아래 연속성 전략, 지휘•소통 책임, BCP•DRP 실행계획을 배치하고 훈련•성과평가•개선이 세 영역의 목표 충족을 공통 검증하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -97,22 +99,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 경영진
-  participant S as BIA•전략 담당
-  participant O as 업무 조직
-  participant A as 평가자
-  M->>M: 1. BIA 범위•업무 우선순위 확정
-  M->>S: 범위•우선순위 전달
-  S->>S: 2. MTPD•RTO•RPO 설정
-  S->>S: 3. 연속성 전략•계획 수립
-  S->>O: 전략•계획 전달
-  O->>O: 4. 발동•전환•복귀 훈련
-  O->>A: 훈련 증적 전달
-  A-->>M: 목표 달성•계획 공백
-  M->>M: 5. 자원•계획 개선 결정
-  M->>S: 개선 결정 전달
+```text
+1. BIA 범위•업무 우선순위 확정
+               │
+               ▼
+2. MTPD•RTO•RPO 설정
+               │
+               ▼
+3. 연속성 전략•계획 수립
+               │
+               ▼
+4. 발동•전환•복귀 훈련
+               │
+       ┌───────┴───────┐
+       │ 목표 달성     │ 목표 미달
+       ▼               ▼
+   계획 유지      5. 자원•계획 개선 결정
+                       │
+                       └─ 전략 · 계획 수립으로 환류
 ```
 
 **동작 원리**
@@ -131,8 +135,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **DRP(Disaster Recovery Plan)**: BCP 안에서 정보시스템과 데이터를 복구하는 계획이다.
-- **IT(Information Technology)**: 정보의 처리•저장•전송에 사용하는 기술이다.
+- **재해 복구 계획(Disaster Recovery Plan, DRP)**: BCP 안에서 정보시스템과 데이터를 복구하는 계획이다.
+- **정보기술(Information Technology, IT)**: 정보의 처리•저장•전송에 사용하는 기술이다.
 
 </details>
 
@@ -150,12 +154,12 @@ sequenceDiagram
 <details><summary>핵심 용어</summary>
 
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
-- **TS(Technical Specification)**: 국제표준 제정 전 기술 요구를 담은 기술시방서이다.
+- **기술시방서(Technical Specification, TS)**: 국제표준 제정 전 기술 요구를 담은 문서이다.
 - **ISO 22301:2019**: BCMS 요구사항을 제공하는 국제표준이다.
 - **ISO/TS 22317:2021**: 조직에 적합한 BIA 절차의 수립•유지 지침이다.
-- **ITSCM(IT Service Continuity Management)**: IT 서비스의 연속성을 관리하는 활동이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SP(Special Publication)**: NIST가 발행하는 전문 지침 문서이다.
+- **IT 서비스 연속성 관리(IT Service Continuity Management, ITSCM)**: IT 서비스의 연속성을 관리하는 활동이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
+- **특별 간행물(Special Publication, SP)**: NIST가 발행하는 전문 지침 문서이다.
 - **NIST SP 800-34**: 정보시스템 비상계획 수립 지침이다.
 
 </details>
