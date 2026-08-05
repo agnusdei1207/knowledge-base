@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-05T00:50:15+09:00"
+date: "2026-08-05T12:18:07+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 여러 회사의 차량 소프트웨어를 공통 설계도와 연결 규칙으로 조립하게 하는 표준이다.
+- 공급사 간 **구조•인터페이스•개발 방법** 표준화
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- 공통 규격을 써도 차량마다 기능 배치, 통신 지연, 안전 경계를 다시 맞춰야 한다.
+- **ARXML 계약** 기반 설계 교환과 차량별 통합 검증
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -61,9 +61,9 @@ extra:
 
 - **소프트웨어 구성요소(Software Component, SWC)**: 차량 기능을 포트와 러너블 단위로 캡슐화한 AUTOSAR 응용 구성요소이다.
 - **런타임 환경(Runtime Environment, RTE)**: Classic SWC와 기본 소프트웨어 사이의 포트 통신과 호출을 중개하는 계층이다.
-- **기본 소프트웨어(Basic Software, BSW)**: 운영체제와 통신•진단•메모리 및 하드웨어 추상화 서비스를 제공하는 계층이다.
-- **ARA**: AUTOSAR Runtime for Adaptive Applications, Adaptive 표준 API 집합
-- **기능 클러스터**: Adaptive 통신•실행•진단•상태 관리 모듈 집합
+- **기본 소프트웨어•MCAL(BSW•MCAL)**: 운영체제•통신•진단과 MCU 하드웨어 추상화를 제공하는 계층이다.
+- **Adaptive 응용(Adaptive Application)**: 고성능 운영체제 위에서 동적 차량 서비스를 실행하는 응용이다.
+- **ARA•기능 클러스터(ARA•Functional Cluster)**: Adaptive 표준 API와 통신•실행•진단•상태 관리 모듈 집합이다.
 
 </details>
 
@@ -85,46 +85,60 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 #### 한줄 요약
 
-- Classic은 고정 계층, Adaptive는 동적 서비스 기반으로 동작한다.
+- **Classic 정적 계층**과 Adaptive 동적 서비스 구조
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **MCU**: Microcontroller Unit, 프로세서•메모리•주변장치 통합 제어 장치
-- **MCAL**: Microcontroller Abstraction Layer, MCU 하드웨어를 추상화하는 계층
-- **러너블(Runnable)**: 입력 이벤트나 주기에 따라 RTE가 호출하는 SWC 내부의 실행 코드 단위이다.
-- **표준 제어값(Standardized Control Value)**: SWC의 출력이 BSW와 MCAL을 거쳐 액추에이터 장치 형식으로 변환되는 값이다.
+- **플랫폼 할당(Platform Allocation)**: 시간 요구와 변경성에 따라 기능을 Classic 또는 Adaptive에 배치하는 과정이다.
+- **러너블(Runnable)**: 입력 이벤트나 주기에 따라 RTE가 호출하는 SWC 내부 실행 단위이다.
+- **서비스 탐색(Service Discovery)**: Adaptive 응용이 실행 중 필요한 서비스 인스턴스를 찾는 기능이다.
+- **종단 검증(End-to-end Validation)**: 입력부터 응용•통신•출력까지 시간과 인터페이스 계약을 확인하는 검증이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant D as 센서•액추에이터
-    participant M as MCAL
-    participant B as BSW
-    participant R as RTE
-    participant W as 응용 SWC
-
-    D->>M: 센서 신호
-    M->>B: 1. 표준 센서값
-    B->>R: 2. 러너블 이벤트 전달
-    R->>W: 3. 러너블 호출 정보
-    W->>R: 제어 결과 전달
-    R->>B: 4. 표준 제어값
-    B->>D: 물리 출력 적용
+```text
+[차량 기능•ARXML 계약]
+            │
+            ▼
+1. 기능•인터페이스 구성
+            │
+            ▼
+2. 플랫폼 할당
+     ┌──────┴────────┐
+     │ 결정적 제어   │ 동적 서비스
+     ▼               ▼
+ [Classic]       [Adaptive]
+     └──────┬────────┘
+            ▼
+3. 플랫폼 응용 실행
+   ├─ Classic: SWC•RTE 러너블
+   └─ Adaptive: 응용•ARA 서비스
+            │
+            ▼
+4. 플랫폼 인프라 처리
+   ├─ Classic: BSW•MCAL 제어
+   └─ Adaptive: 기능 클러스터 관리
+            │
+            ▼
+5. 종단 계약 검증
+            │
+            ▼
+   [차량 제어•서비스 결과]
 ```
 
 **동작 원리**
 
-1. **표준 센서값**: 장치별 레지스터 차이를 표준 형식으로 변환
-2. **러너블 이벤트 전달**: 수집 값을 RTE 실행 조건으로 변환
-3. **러너블 호출 정보**: RTE의 SWC 호출과 포트 결과 수신
-4. **표준 제어값**: BSW•MCAL 경로에서 액추에이터 신호로 변환
+1. **기능•인터페이스 구성**: ARXML로 포트•서비스 계약 정의
+2. **플랫폼 할당**: 시간 요구와 변경성으로 실행 플랫폼 결정
+3. **플랫폼 응용 실행**: 러너블 또는 동적 서비스 호출
+4. **플랫폼 인프라 처리**: 장치 추상화 또는 수명주기 관리
+5. **종단 계약 검증**: 지연•데이터•격리 요구 충족 확인
 
 #### 한줄 요약
 
-- SWC는 RTE와 BSW라는 공통 창구 덕분에 센서•칩별 명령을 몰라도 된다.
+- **표준 인터페이스**로 응용과 장치•플랫폼 결합 완화
 
 ## Ⅴ. 종류 및 비교
 
@@ -144,7 +158,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- Classic은 정해진 시간표의 제어반이고 Adaptive는 서비스를 바꿔 싣는 컴퓨터다.
+- **결정적 주기 제어**는 Classic, 동적 서비스는 Adaptive
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -168,7 +182,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 차체 ECU는 주기 실행과 차량 신호 전달 시점을 함께 시험한다.
+- 차체 ECU의 **주기 실행•차량 신호 종단 지연** 공동 검증
 
 ## Ⅶ. 결론
 
@@ -184,4 +198,4 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- 시간표가 고정된 제어는 Classic, 실행 중 바뀌는 서비스는 Adaptive를 선택한다.
+- **결정적 제어**는 Classic, 실행 중 변경 서비스는 Adaptive 선택
