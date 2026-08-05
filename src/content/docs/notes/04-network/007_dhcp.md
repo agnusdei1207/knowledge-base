@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "DHCP (Dynamic Host Configuration Protocol)"
-date: "2026-08-05T01:23:27+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 7
@@ -66,7 +66,10 @@ extra:
 </details>
 
 ```text
-[DHCP 클라이언트]---[DHCP 릴레이]---[DHCP 서버]---[주소•바인딩 저장소]
+DHCP 클라이언트
+└── DHCP 릴레이
+    └── DHCP 서버
+        └── 주소•바인딩 저장소
 ```
 
 선의 의미: 각 선은 단말의 주소•옵션 요청, 서브넷 경계의 중계, 서버의 임대 정책과 주소•단말•만료 시각 바인딩이 서로 연결되는 네트워크 구성 관계를 나타낸다.
@@ -96,16 +99,31 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as DHCP 클라이언트
-    participant S as DHCP 서버
-    participant L as 주소•바인딩 저장소
-    C->>S: 1. DHCPDISCOVER
-    S-->>C: 2. DHCPOFFER
-    C->>S: 3. DHCPREQUEST
-    S->>L: 4. 임대 바인딩
-    S-->>C: DHCPACK
+```text
+DHCP 클라이언트
+      |
+      v
+1. DHCPDISCOVER
+      |
+      `-- 브로드캐스트 ---- DHCP 서버 후보 탐색
+      |
+      v
+2. DHCPOFFER
+      |
+      `-- 주소•옵션•임대 시간 후보
+      |
+      v
+3. DHCPREQUEST
+      |
+      `-- 선택 서버•주소 요청
+                    |
+                    v
+             임대 바인딩 저장
+                    |
+                    v
+              4. DHCPACK
+                    |
+                    `-- 주소•옵션 적용
 ```
 
 **동작 원리**
@@ -113,7 +131,7 @@ sequenceDiagram
 1. **DHCPDISCOVER**: 브로드캐스트로 사용 가능한 서버 탐색
 2. **DHCPOFFER**: 가용 주소•옵션•임대 시간을 후보로 제시
 3. **DHCPREQUEST**: 선택한 서버와 주소의 임대를 요청
-4. **임대 바인딩**: 단말•주소•만료 시각을 연결해 중복 할당 방지
+4. **DHCPACK**: 바인딩 저장 후 주소•옵션 임대 확정
 
 #### 한줄 요약
 

@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 9
-  label: "009. NAT•PAT (NAT PAT Network Address Translation)"
+  label: "009. 네트워크•포트 주소 변환 (NAT•PAT)"
   badge:
     text: "미출 • 30%"
     variant: note
-title: "NAT•PAT (NAT PAT Network Address Translation)"
-date: "2026-08-05T07:30:00+09:00"
+title: "네트워크•포트 주소 변환 (NAT•PAT)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 9
@@ -67,11 +67,11 @@ extra:
 </details>
 
 ```text
-                      [변환 정책]
-                           |
- [내부 주소 영역] -- [경계 변환기] -- [외부 주소 풀]
-                           |
-                      [변환 상태표]
+경계 변환기
+├── 내부 주소 영역
+├── 외부 주소 풀
+├── 변환 정책
+└── 변환 상태표
 ```
 
 선의 의미: 경계 변환기가 내부와 외부 주소 영역의 경계를 이루며, 변환 정책과 변환 상태표가 주소•포트 매핑의 규칙 및 연결 상태를 뒷받침하는 정적 NAT 구조이다.
@@ -98,17 +98,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant I as 내부 단말
-    participant N as NAT 장비
-    participant E as 외부 서버
-    I->>N: 외부 연결 패킷
-    N->>N: 1. 송신 튜플 변환
-    N->>E: 변환 패킷
-    E-->>N: 응답 패킷
-    N->>N: 2. 수신 튜플 복원
-    N-->>I: 복원 패킷
+```text
+내부 송신 패킷
+      |
+      `-- 변환 상태표 조회
+                 |
+                 +-- 기존 매핑 ---- 매핑 재사용
+                 `-- 매핑 없음 ---- 공인 주소•포트 할당
+                                      |
+                                      v
+                            1. 송신 튜플 변환
+                                      |
+                                      `-- 외부 서버 전달
+                                                |
+                                                `-- 응답 패킷
+                                                         |
+                                                         v
+                                               2. 수신 튜플 복원
+                                                         |
+                                                         `-- 내부 단말 전달
 ```
 
 **동작 원리**

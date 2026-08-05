@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF•OSPFv3 (OSPF Link State Routing)"
-date: "2026-08-05T07:30:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -25,9 +25,9 @@ extra:
 
 - **최단 경로 우선 개방형 프로토콜(Open Shortest Path First, OSPF)**: 링크 상태를 공유하고 각 라우터가 최단 경로를 계산하는 내부 라우팅 프로토콜이다.
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 경로를 교환하는 라우팅 프로토콜이다.
-- **LSA(Link-state Advertisement)**: 라우터가 링크 상태와 도달 정보를 영역에 알리는 광고이다.
-- **LSDB(Link-state Database)**: 영역에서 공유하는 링크 상태 토폴로지 데이터베이스이다.
-- **SPF(Shortest Path First)**: LSDB를 기반으로 최소 비용 경로를 계산하는 알고리즘이다.
+- **링크 상태 광고(Link-State Advertisement, LSA)**: 링크 상태와 도달 정보를 영역에 알리는 광고이다.
+- **링크 상태 데이터베이스(Link-State Database, LSDB)**: 영역이 공유하는 토폴로지 데이터베이스이다.
+- **최단 경로 우선(Shortest Path First, SPF)**: LSDB로 최소 비용 경로를 계산하는 알고리즘이다.
 
 </details>
 
@@ -63,19 +63,17 @@ extra:
 
 - **Hello**: OSPF 이웃 조건과 생존 상태를 교환하는 메시지이다.
 - **인접 관계(Adjacency)**: 이웃 라우터가 LSDB를 동기화할 수 있도록 맺는 관계이다.
-- **ABR(Area Border Router)**: 영역 0과 다른 영역을 연결하는 라우터이다.
+- **영역 경계 라우터(Area Border Router, ABR)**: 영역 0과 다른 영역을 연결하는 라우터이다.
 - **경로 요약(Route Summarization)**: 여러 프리픽스를 공통 상위 프리픽스로 묶는 기능이다.
 
 </details>
 
 ```text
-                  [OSPF 이웃]
-                       |
-                [OSPF 프로세스]
-                  /           \
-               [LSDB]     [영역 경계 라우터]
-                  |
-             [SPF 계산기]
+OSPF 프로세스
+├── OSPF 이웃
+├── LSDB
+│   └── SPF 계산기
+└── 영역 경계 라우터
 ```
 
 선의 의미: OSPF 프로세스가 이웃 및 영역 경계 라우터와 인접 관계를 관리하고, 동일 영역의 LSDB와 SPF 계산기가 라우터 내부 토폴로지 계산 구조를 이룬다.
@@ -102,22 +100,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant N as OSPF 이웃
-    participant P as OSPF 프로세스
-    participant D as LSDB
-    participant S as SPF 계산기
-    participant R as 경로표
-    N->>P: Hello 매개변수
-    alt 인접 조건 일치
-        P->>N: 1. 데이터베이스 요약
-        N-->>P: 2. 요청 LSA
-        P->>D: 3. 수신 LSA
-        D->>S: 4. 토폴로지 상태
-        S->>R: 5. 최선 경로
-        R-->>P: 설치 결과
-    end
+```text
+Hello 매개변수 수신
+        |
+        +-- 인접 조건 불일치 ---- 이웃 형성 중단
+        |
+        `-- 인접 조건 일치
+                 |
+                 v
+        1. 데이터베이스 요약
+                 |
+                 v
+           2. 요청 LSA
+                 |
+                 v
+           3. 수신 LSA
+                 |
+                 +-- 오래된 순번 ---- 폐기
+                 |
+                 `-- 최신 순번
+                        |
+                        v
+               4. 토폴로지 상태
+                        |
+                        v
+                 5. 최선 경로
+                        |
+                        `-- 경로표 설치
 ```
 
 **동작 원리**
@@ -162,8 +171,8 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **영역 0(Area 0)**: 모든 OSPF 영역을 연결하는 백본 영역이다.
-- **DR(Designated Router)**: 공유 링크에서 LSA 교환 관계를 줄이는 대표 라우터이다.
-- **BDR(Backup Designated Router)**: DR 장애에 대비하는 예비 대표 라우터이다.
+- **지정 라우터(Designated Router, DR)**: 공유 링크의 LSA 교환 관계를 줄이는 대표 라우터이다.
+- **백업 지정 라우터(Backup Designated Router, BDR)**: DR 장애에 대비하는 예비 라우터이다.
 - **최대 전송 단위(Maximum Transmission Unit, MTU) 불일치**: 이웃 간 최대 전송 단위가 달라 데이터베이스 교환이 완료되지 않는 상태이다.
 
 </details>

@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 12
-  label: "012. BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
+  label: "012. 경계 게이트웨이 프로토콜 (BGP)"
   badge:
     text: "미출 • 50%"
     variant: note
-title: "BGP 경계 게이트웨이 프로토콜 (BGP Border Gateway Protocol)"
-date: "2026-08-05T07:30:00+09:00"
+title: "경계 게이트웨이 프로토콜 (Border Gateway Protocol, BGP)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **BGP(Border Gateway Protocol)**: 자율 시스템 사이에서 프리픽스와 경로 속성을 교환하는 프로토콜이다.
-- **AS(Autonomous System)**: 공통 라우팅 정책과 관리 아래 운영되는 네트워크 집합이다.
+- **경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP)**: 자율 시스템 사이에서 경로를 교환하는 프로토콜이다.
+- **자율 시스템(Autonomous System, AS)**: 공통 라우팅 정책과 관리 아래 운영되는 네트워크 집합이다.
 - **네트워크 계층 도달 가능성 정보(Network Layer Reachability Information, NLRI)**: BGP가 도달 가능하다고 광고하는 프리픽스 정보이다.
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 하나의 자율 시스템 내부에서 목적지까지의 경로를 계산하는 라우팅 프로토콜이다.
 
@@ -67,13 +67,11 @@ extra:
 </details>
 
 ```text
-                  [BGP 피어 집합]
-                   /          \
-              [수신 정책]   [광고 정책]
-                   |          /
-              [BGP 경로표]  /
-                   |       /
-             [최선 경로 선택기]
+BGP 피어 집합
+├── 수신 정책
+│   └── BGP 경로표
+│       └── 최선 경로 선택기
+└── 광고 정책
 ```
 
 선의 의미: BGP 피어 집합과 라우터 사이에 수신•광고 정책 경계가 놓이고, BGP 경로표와 최선 경로 선택기가 내부 경로 보관 및 선택 구조를 이룬다.
@@ -101,27 +99,35 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as BGP 피어 집합
-    participant I as 수신 정책
-    participant R as BGP 경로표
-    participant S as 최선 경로 선택기
-    participant O as 광고 정책
-    P->>I: BGP UPDATE
-    I->>R: 1. 허용 NLRI•속성
-    R->>S: 2. 후보 경로
-    S->>R: 3. 최선 경로
-    R->>O: 4. 선택 경로
-    O-->>P: 정책 승인 UPDATE
+```text
+BGP UPDATE 수신
+       |
+       v
+1. 수신 정책 검증
+       |
+       +-- 정책 거부 ---- 경로 폐기
+       |
+       `-- 정책 허용
+              |
+              v
+       2. 후보 경로 등록
+              |
+              v
+       3. 최선 경로 선택
+              |
+              v
+       4. 광고 정책 검증
+              |
+              +-- 광고 거부 ---- 이웃별 미전파
+              `-- 광고 허용 ---- BGP UPDATE 전송
 ```
 
 **동작 원리**
 
-1. **허용 NLRI•속성**: 출처•프리픽스•경로 속성 정책 통과
-2. **후보 경로**: 같은 목적지의 유효 경로를 선택기에 제공
-3. **최선 경로**: 속성 우선순위로 설치 경로 확정
-4. **선택 경로**: 이웃별 광고 허용 범위와 속성 재검사
+1. **수신 정책 검증**: 출처•프리픽스•속성 허용 판정
+2. **후보 경로 등록**: 목적지별 유효 경로를 표에 저장
+3. **최선 경로 선택**: 정책•속성 우선순위로 경로 확정
+4. **광고 정책 검증**: 이웃별 공개 범위•속성 재검사
 
 #### 한줄 요약
 
@@ -132,8 +138,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **eBGP(External BGP)**: 서로 다른 AS 사이에서 경로를 교환하는 세션이다.
-- **iBGP(Internal BGP)**: 같은 AS 안에서 외부 경로를 배포하는 세션이다.
+- **외부 BGP(External Border Gateway Protocol, eBGP)**: 서로 다른 AS 사이에서 경로를 교환하는 세션이다.
+- **내부 BGP(Internal Border Gateway Protocol, iBGP)**: 같은 AS 안에서 외부 경로를 배포하는 세션이다.
 - **경로 반사기(Route Reflector)**: iBGP 피어 연결 수를 줄이도록 경로를 재광고하는 라우터이다.
 
 </details>

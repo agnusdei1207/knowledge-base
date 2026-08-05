@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 13
-  label: "013. MPLS 레이블 스위칭 (MPLS Label Switching)"
+  label: "013. 다중 프로토콜 레이블 스위칭 (MPLS)"
   badge:
     text: "기출 • 30%"
     variant: note
-title: "MPLS 레이블 스위칭 (MPLS Label Switching)"
-date: "2026-08-05T07:30:00+09:00"
+title: "다중 프로토콜 레이블 스위칭 (Multiprotocol Label Switching, MPLS)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **MPLS(Multiprotocol Label Switching)**: 패킷에 레이블을 붙여 논리 경로로 전달하는 기술이다.
-- **FEC(Forwarding Equivalence Class)**: 같은 전달 정책을 적용할 패킷 묶음이다.
+- **다중 프로토콜 레이블 스위칭(Multiprotocol Label Switching, MPLS)**: 레이블로 패킷을 전달하는 기술이다.
+- **전달 등가 클래스(Forwarding Equivalence Class, FEC)**: 같은 전달 정책을 적용할 패킷 묶음이다.
 - **IP(Internet Protocol)**: 논리 주소를 기반으로 네트워크 사이에서 패킷을 전달하는 프로토콜이다.
 - **레이블 스위치 경로(Label Switched Path, LSP)**: 입구부터 출구까지 레이블 교환으로 패킷을 전달하는 단방향 논리 경로이다.
 
@@ -42,8 +42,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **LER(Label Edge Router)**: MPLS 영역 경계에서 레이블을 부착하거나 제거하는 라우터이다.
-- **LSR(Label Switching Router)**: MPLS 영역 내부에서 레이블을 교환하는 라우터이다.
+- **레이블 경계 라우터(Label Edge Router, LER)**: MPLS 경계에서 레이블을 부착•제거하는 라우터이다.
+- **레이블 스위칭 라우터(Label Switching Router, LSR)**: MPLS 내부에서 레이블을 교환하는 라우터이다.
 - **레이블 스택**: 전송 경로•고객 서비스 등 여러 전달 문맥을 표현하도록 레이블을 겹친 구조이다.
 
 </details>
@@ -66,7 +66,10 @@ extra:
 </details>
 
 ```text
- [입구 LER] -- [중계 LSR] -- [출구 LER]
+MPLS 영역
+├── 입구 LER
+├── 중계 LSR
+└── 출구 LER
 ```
 
 선의 의미: 입구 LER와 출구 LER 사이에 중계 LSR이 놓이는 MPLS 영역의 정적 LSP 연결 토폴로지이다.
@@ -92,27 +95,30 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 출발망
-    participant I as 입구 LER
-    participant T as 중계 LSR
-    participant E as 출구 LER
-    participant D as 목적망
-    S->>I: IP 패킷
-    I->>I: 1. 레이블 부착
-    I->>T: 레이블 패킷
-    T->>T: 2. 레이블 교환
-    T->>E: 교환 패킷
-    E->>E: 3. 레이블 제거
-    E-->>D: IP 패킷
+```text
+출발망 IP 패킷
+       |
+       v
+1. 레이블 푸시
+       |
+       `-- 입구 LER: FEC별 레이블 스택 부착
+                          |
+                          v
+                  2. 레이블 스왑
+                          |
+                          `-- 중계 LSR: LFIB 기반 교환
+                                           |
+                                           v
+                                   3. 레이블 팝
+                                           |
+                                           `-- 출구 LER: 목적망 IP 패킷
 ```
 
 **동작 원리**
 
-1. **레이블 부착**: FEC에 대응하는 레이블 스택 추가
-2. **레이블 교환**: LFIB로 출력 레이블•다음 홉 결정
-3. **레이블 제거**: 출구 LER에서 레이블을 제거해 IP 복원
+1. **레이블 푸시**: FEC에 대응하는 레이블 스택 추가
+2. **레이블 스왑**: LFIB로 출력 레이블•다음 홉 결정
+3. **레이블 팝**: 출구 LER에서 레이블을 제거해 IP 복원
 
 #### 한줄 요약
 
@@ -144,10 +150,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **LDP(Label Distribution Protocol)**: 프리픽스와 레이블의 연결 정보를 교환하는 프로토콜이다.
-- **RSVP-TE(Resource Reservation Protocol-Traffic Engineering)**: 제약 기반 명시적 LSP를 설정하는 프로토콜이다.
-- **BFD(Bidirectional Forwarding Detection)**: 인접 전달 경로 장애를 빠르게 탐지하는 프로토콜이다.
-- **FRR(Fast Reroute)**: 장애 시 미리 계산한 보호 경로로 신속히 우회하는 기술이다.
+- **레이블 분배 프로토콜(Label Distribution Protocol, LDP)**: 프리픽스와 레이블의 연결 정보를 교환한다.
+- **자원 예약 프로토콜-트래픽 엔지니어링(Resource Reservation Protocol-Traffic Engineering, RSVP-TE)**: 제약 기반 LSP를 설정한다.
+- **양방향 전달 탐지(Bidirectional Forwarding Detection, BFD)**: 전달 경로 장애를 빠르게 탐지한다.
+- **고속 우회(Fast Reroute, FRR)**: 장애 시 미리 계산한 보호 경로로 우회한다.
 - **경로 MTU(Path Maximum Transmission Unit)**: 경로 전체에서 단편화 없이 전달할 수 있는 최대 패킷 크기이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "스위칭 계층 : L2•L3•L4•L7 스위치 (Network Switches)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 18
@@ -43,9 +43,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **MAC(Media Access Control)**: 같은 링크의 인터페이스를 식별하는 주소 체계이다.
-- **IP(Internet Protocol)**: 네트워크 주소를 기반으로 패킷 경로를 정하는 프로토콜이다.
-- **URL(Uniform Resource Locator)**: 웹 자원의 위치와 접근 방법을 나타내는 식별자이다.
+- **매체 접근 제어(Media Access Control, MAC)**: 같은 링크의 인터페이스를 식별하는 주소 체계이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 주소를 기반으로 패킷 경로를 정한다.
+- **균일 자원 위치 지정자(Uniform Resource Locator, URL)**: 웹 자원의 위치와 접근 방법을 나타낸다.
 
 </details>
 
@@ -62,19 +62,19 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **FIB(Forwarding Information Base)**: 프리픽스별 다음 홉을 저장한 패킷 전달 표이다.
+- **포워딩 정보 베이스(Forwarding Information Base, FIB)**: 프리픽스별 다음 홉을 저장한 전달 표이다.
 - **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
 
 </details>
 
 ```text
-[L7 스위치]
-     |
-[L4 스위치]
-     |
-[L3 스위치]
-     |
-[L2 스위치]
+L7 스위치
+│
+L4 스위치
+│
+L3 스위치
+│
+L2 스위치
 ```
 
 선의 의미: 세로선은 스위치의 전달 판단 범위가 링크 계층의 L2, 네트워크 계층의 L3, 전송 계층의 L4와 응용 계층의 L7 정보로 구분되는 정적 프로토콜 계층 관계를 뜻한다.
@@ -95,28 +95,18 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전달 정책 조회(Forwarding Policy Lookup)**: 담당 계층의 주소•포트•요청 내용으로 포트•다음 홉•서버•서비스를 결정하는 동작이다.
+- **최소 계층 선택(Minimum Required Layer Selection)**: 필요한 분기 정보를 제공하는 가장 낮은 계층을 고르는 원칙이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신자
-    participant 계층스위치
-    participant 정책표
-    participant 출력대상
-    송신자->>계층스위치: 패킷•요청
-    계층스위치->>계층스위치: 1. 계층 필드 추출
-    계층스위치->>정책표: 2. 전달 정책 조회
-    정책표->>계층스위치: 3. 출력 대상 선택
-    계층스위치-->>출력대상: 전달 트래픽
+```text
+필요한 분기 정보
+      |
+      +-- MAC 주소•같은 링크 -------- L2 스위치
+      +-- IP 프리픽스•서브넷 경로 --- L3 스위치
+      +-- 포트•5-튜플•서버 연결 ------ L4 스위치
+      `-- URL•헤더•응용 내용 --------- L7 스위치
 ```
-
-**동작 원리**
-
-1. **계층 필드 추출**: MAC•IP•5-튜플•요청 내용 식별
-2. **전달 정책 조회**: 담당 계층의 표•규칙 검색
-3. **출력 대상 선택**: 포트•다음 홉•서버•서비스 결정
 
 #### 한줄 요약
 

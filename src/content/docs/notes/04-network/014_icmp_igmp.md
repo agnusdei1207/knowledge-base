@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 14
-  label: "014. ICMP•IGMP (ICMP IGMP)"
+  label: "014. 인터넷 제어•그룹 관리 프로토콜 (ICMP•IGMP)"
   badge:
     text: "기출 • 30%"
     variant: note
-title: "ICMP•IGMP (ICMP IGMP)"
-date: "2026-08-05T07:30:00+09:00"
+title: "인터넷 제어•그룹 관리 프로토콜 (ICMP•IGMP)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 14
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ICMP(Internet Control Message Protocol)**: IP 전달 오류와 진단 상태를 알리는 프로토콜이다.
-- **IGMP(Internet Group Management Protocol)**: IPv4 멀티캐스트 그룹 가입을 관리하는 프로토콜이다.
+- **인터넷 제어 메시지 프로토콜(Internet Control Message Protocol, ICMP)**: IP 전달 오류와 진단 상태를 알린다.
+- **인터넷 그룹 관리 프로토콜(Internet Group Management Protocol, IGMP)**: IPv4 멀티캐스트 그룹 가입을 관리한다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 주소를 기반으로 패킷을 목적지까지 전달하는 네트워크 계층 프로토콜이다.
 - **인터넷 프로토콜 버전 4(Internet Protocol version 4, IPv4)**: 32비트 주소를 사용해 패킷을 목적지까지 전달하는 네트워크 계층 프로토콜이다.
 
@@ -70,11 +70,10 @@ extra:
 </details>
 
 ```text
-              [IP•멀티캐스트 호스트]
-                    /           \
-             [ICMP 처리기]   [IGMP 질의자]
-                                  |
-                           [IGMP 스누핑 표]
+IP•멀티캐스트 호스트
+├── ICMP 처리기
+└── IGMP 질의자
+    └── IGMP 스누핑 표
 ```
 
 선의 의미: IP•멀티캐스트 호스트가 ICMP 오류 처리와 IGMP 가입 관리라는 두 제어 영역에 연결되고, IGMP 질의자 아래의 스누핑 표가 그룹별 가입 포트 상태를 보존하는 정적 관계이다.
@@ -99,20 +98,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant R as 라우터
-    participant H as 호스트
-    participant S as 스위치
-    participant T as IGMP 스누핑 표
-    alt IP 전달 실패
-        R-->>H: 1. ICMP 유형•코드
-    else 멀티캐스트 가입 확인
-        R->>H: 2. IGMP 질의
-        H->>S: 3. IGMP 보고
-        S->>T: 4. 가입 포트 갱신
-        S-->>R: IGMP 보고
-    end
+```text
+ICMP 오류 통보
+IP 전달 실패
+      |
+      v
+1. ICMP 유형•코드
+      |
+      `-- 실패 원인•원 패킷 일부 ---- 송신 호스트
+
+IGMP 가입 관리
+2. IGMP 질의
+      |
+      `-- 그룹 수신자 확인
+                 |
+                 v
+          3. IGMP 보고
+                 |
+                 v
+          4. 가입 포트 갱신
+                 |
+                 `-- VLAN•그룹•포트 상태
 ```
 
 **동작 원리**

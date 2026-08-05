@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "이더넷 프레임 구조•IEEE 802.3 (Ethernet Frame)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 15
@@ -41,8 +41,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **프리앰블(Preamble)**: 수신 클록을 맞추는 반복 비트 패턴이다.
-- **SFD(Start Frame Delimiter)**: 프레임의 시작 경계를 표시하는 비트 패턴이다.
-- **FCS(Frame Check Sequence)**: 프레임의 비트 오류를 검출하는 검사값이다.
+- **프레임 시작 구분자(Start Frame Delimiter, SFD)**: 프레임 시작 경계를 표시하는 비트 패턴이다.
+- **프레임 검사 시퀀스(Frame Check Sequence, FCS)**: 프레임의 비트 오류를 검출하는 검사값이다.
 
 </details>
 
@@ -60,15 +60,20 @@ extra:
 <summary>핵심 용어</summary>
 
 - **이더타입(EtherType)**: 이더넷 II 프레임의 상위 프로토콜을 값으로 표시하는 필드이다.
-- **LLC(Logical Link Control)**: IEEE 802.3 길이 필드 뒤에서 상위 서비스를 구분하는 기능이다.
-- **CRC(Cyclic Redundancy Check)**: 다항식 연산으로 전송 오류를 검출하는 기법이다.
-- **CRC-32(Cyclic Redundancy Check-32)**: 32비트 검사값으로 FCS 오류 검출에 쓰이는 CRC 방식이다.
+- **논리 링크 제어(Logical Link Control, LLC)**: IEEE 802.3 길이 필드 뒤에서 상위 서비스를 구분한다.
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 연산으로 전송 오류를 검출한다.
+- **32비트 순환 중복 검사(Cyclic Redundancy Check-32, CRC-32)**: FCS에 쓰이는 32비트 검사 방식이다.
 - **전기전자공학자협회 802.3(Institute of Electrical and Electronics Engineers 802.3, IEEE 802.3)**: 이더넷의 매체 접근 방식과 프레임 형식을 규정하는 표준이다.
 
 </details>
 
 ```text
-[프리앰블•SFD] ----- [MAC 주소] ----- [유형•길이] ----- [페이로드•패드] ----- [FCS]
+이더넷 프레임 필드 순서
+├── 프리앰블•SFD
+├── MAC 주소
+├── 유형•길이
+├── 페이로드•패드
+└── FCS
 ```
 
 선의 의미: 선은 하나의 이더넷 프레임 안에서 동기•경계, 링크 주소, 상위 형식, 실제 데이터와 오류 검사 필드가 나란히 결합되는 정적 프레임 레이아웃을 뜻한다.
@@ -94,19 +99,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신상위
-    participant 송신NIC
-    participant 스위치
-    participant 수신NIC
-    participant 수신상위
-    송신상위->>송신NIC: 상위 자료
-    송신NIC->>스위치: 1. 프레임 전송
-    스위치->>스위치: 2. MAC 주소 조회
-    스위치->>수신NIC: 3. 출력 포트 중계
-    수신NIC->>수신NIC: 4. FCS 오류 검증
-    수신NIC-->>수신상위: 상위 자료
+```text
+상위 계층 데이터
+       |
+       v
+1. 프레임 전송
+       |
+       v
+2. MAC 주소 조회
+       |
+       v
+3. 출력 포트 중계
+       |
+       v
+4. FCS 오류 검증
+       |
+       +-- CRC 불일치 ---- 프레임 폐기
+       |
+       `-- CRC 일치 ------ 상위 프로토콜 전달
 ```
 
 **동작 원리**
@@ -148,7 +158,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MTU(Maximum Transmission Unit)**: 링크가 운반할 수 있는 최대 상위 데이터 크기이다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 링크가 운반할 수 있는 최대 상위 데이터 크기이다.
 - **점보 프레임(Jumbo Frame)**: 표준 MTU보다 큰 페이로드를 지원하는 이더넷 프레임이다.
 - **가상 근거리 통신망 태그(Virtual Local Area Network Tag, VLAN 태그)**: IEEE 802.1Q가 프레임에 추가하는 VLAN 식별•우선순위 정보이다.
 - **전기전자공학자협회 802.1Q(Institute of Electrical and Electronics Engineers 802.1Q, IEEE 802.1Q)**: 이더넷 프레임에 VLAN 식별자와 우선순위 정보를 삽입하는 표준이다.

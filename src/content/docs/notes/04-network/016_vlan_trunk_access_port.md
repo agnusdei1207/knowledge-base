@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **VLAN(Virtual Local Area Network)**: 하나의 물리 스위치망을 여러 논리 구역으로 나누는 기술이다.
+- **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 하나의 물리 스위치망을 여러 논리 구역으로 나누는 기술이다.
 - **브로드캐스트 영역(Broadcast Domain)**: 브로드캐스트 프레임이 직접 도달하는 범위이다.
 
 </details>
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **액세스 포트(Access Port)**: 일반 단말의 무태그 프레임을 하나의 VLAN에 연결하는 포트이다.
-- **PVID(Port VLAN Identifier)**: 무태그 프레임을 소속 VLAN에 귀속시키는 설정값이다.
+- **포트 VLAN 식별자(Port VLAN Identifier, PVID)**: 무태그 프레임을 소속 VLAN에 귀속시키는 설정값이다.
 - **트렁크 포트(Trunk Port)**: 여러 VLAN의 태그 프레임을 한 링크로 전달하는 포트이다.
 - **IEEE 802.1Q(Institute of Electrical and Electronics Engineers 802.1Q)**: 프레임에 VLAN 식별 정보와 우선순위를 삽입하는 표준이다.
 - **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: VLAN별로 학습되어 링크 인터페이스를 식별하는 주소이다.
@@ -69,9 +69,11 @@ extra:
 </details>
 
 ```text
-[액세스 포트•PVID] ----- [VLAN 식별자] ----- [트렁크•허용 목록]
-                               |                       |
-                       [SVI•게이트웨이]         [네이티브 VLAN]
+VLAN 식별자
+├── 액세스 포트•PVID
+├── 트렁크•허용 목록
+│   └── 네이티브 VLAN
+└── SVI•게이트웨이
 ```
 
 선의 의미: 액세스 포트•PVID와 트렁크•허용 목록은 VLAN 식별자를 공유하는 2계층 경계를 이루며, VLAN 식별자에는 계층 간 경로를 제공하는 SVI•게이트웨이가, 트렁크에는 무태그 분류 기준인 네이티브 VLAN이 결합되는 정적 네트워크 구조를 뜻한다.
@@ -98,19 +100,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신단말
-    participant 송신액세스
-    participant 트렁크
-    participant 수신액세스
-    participant 수신단말
-    송신단말->>송신액세스: 무태그 프레임
-    송신액세스->>송신액세스: 1. PVID 귀속
-    송신액세스->>트렁크: 2. VLAN 태그 부착
-    트렁크->>수신액세스: 3. 허용 VLAN 전달
-    수신액세스->>수신액세스: 4. VLAN 태그 제거
-    수신액세스-->>수신단말: 무태그 프레임
+```text
+송신 단말의 무태그 프레임
+          |
+          v
+     1. PVID 귀속
+          |
+          v
+  2. VLAN 태그 부착
+          |
+          v
+  3. 허용 VLAN 전달
+          |
+          +-- 허용 목록 제외 ---- 프레임 폐기
+          |
+          `-- 허용 목록 포함
+                   |
+                   v
+           4. VLAN 태그 제거
+                   |
+                   `-- 수신 단말의 무태그 프레임
 ```
 
 **동작 원리**
@@ -144,7 +153,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **네이티브 VLAN 불일치**: 트렁크 양단의 무태그 프레임 소속 VLAN이 다른 상태이다.
-- **ACL(Access Control List)**: 트래픽 조건에 따라 통신을 허용하거나 차단하는 규칙 목록이다.
+- **접근 제어 목록(Access Control List, ACL)**: 트래픽 조건에 따라 통신을 허용하거나 차단하는 규칙 목록이다.
 - **SVI ACL**: VLAN 간 네트워크 계층 경로에 적용하는 접근 제어 규칙이다.
 
 </details>

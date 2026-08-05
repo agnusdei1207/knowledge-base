@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 17
-  label: "017. STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
+  label: "017. 스패닝 트리 루프 방지 (STP•RSTP•PVST+)"
   badge:
     text: "기출 • 70%"
     variant: note
-title: "STP•RSTP•PVST+ 루프 방지 (STP RSTP Loop Prevention)"
-date: "2026-08-05T00:00:00+09:00"
+title: "스패닝 트리 루프 방지 (STP•RSTP•PVST+)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -24,8 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **스패닝 트리 프로토콜(Spanning Tree Protocol, STP)**: 중복 링크 일부를 비전달 상태로 두어 루프 없는 활성 트리를 만드는 프로토콜이다.
-- **RSTP(Rapid Spanning Tree Protocol)**: 제안•동의로 장애 후 경로를 빠르게 전환하는 프로토콜이다.
-- **PVST+(Per-VLAN Spanning Tree Plus)**: VLAN마다 독립 스패닝 트리를 구성하는 방식이다.
+- **고속 스패닝 트리 프로토콜(Rapid Spanning Tree Protocol, RSTP)**: 제안•동의로 경로를 빠르게 전환한다.
+- **VLAN별 스패닝 트리 플러스(Per-VLAN Spanning Tree Plus, PVST+)**: VLAN마다 독립 트리를 구성한다.
 - **매체 접근 제어 주소 표(Media Access Control Address Table, MAC 표)**: 스위치가 주소별 출력 포트를 학습해 저장하는 전달 표이다.
 
 </details>
@@ -68,11 +68,11 @@ extra:
 </details>
 
 ```text
-                            [BPDU]
-                               |
-                         [루트 브리지]
-                         /      |      \
-                 [루트 포트] [지정 포트] [대체 포트]
+BPDU
+└── 루트 브리지
+    ├── 루트 포트
+    ├── 지정 포트
+    └── 대체 포트
 ```
 
 선의 의미: BPDU는 루트 브리지와 경로 비용 정보를 제공하고, 루트 브리지 아래에는 활성 트리를 구성하는 루트 포트•지정 포트와 중복 경로를 보존하는 대체 포트가 놓이는 정적 스패닝 트리 구조를 뜻한다.
@@ -91,17 +91,28 @@ extra:
 
 ## Ⅳ. 흐름도
 
-```mermaid
-sequenceDiagram
-    participant 이웃스위치
-    participant 로컬스위치
-    participant 포트상태
-    이웃스위치->>로컬스위치: BPDU
-    로컬스위치->>로컬스위치: 1. BPDU 비교
-    로컬스위치->>로컬스위치: 2. 루트 브리지 선출
-    로컬스위치->>포트상태: 3. 루트 포트 선택
-    로컬스위치->>포트상태: 4. 지정 포트 선택
-    로컬스위치->>포트상태: 5. 대체 포트 대기
+```text
+BPDU 수신
+    |
+    v
+1. BPDU 비교
+    |
+    v
+2. 루트 브리지 선출
+    |
+    +-- 로컬이 루트 ------ 루트 포트 없음
+    |
+    +-- 로컬이 비루트 ---- 3. 루트 포트 선택
+    |
+    `-- 링크별 역할 계산
+             |
+             v
+      4. 지정 포트 선택
+             |
+             v
+      5. 대체 포트 대기
+             |
+             `-- 활성 트리 외 중복 경로 차단
 ```
 
 **동작 원리**

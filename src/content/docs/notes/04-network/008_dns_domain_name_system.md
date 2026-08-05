@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 8
-  label: "008. DNS 구조•동작 (DNS Domain Name System)"
+  label: "008. 도메인 이름 시스템 (Domain Name System, DNS)"
   badge:
     text: "기출 • 50%"
     variant: note
-title: "DNS 구조•동작 (DNS Domain Name System)"
-date: "2026-08-05T07:30:00+09:00"
+title: "도메인 이름 시스템 (Domain Name System, DNS)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 8
@@ -67,15 +67,11 @@ extra:
 </details>
 
 ```text
-       [스텁 리졸버]
-              |
-       [재귀 리졸버]
-              |
-       [루트•TLD 서버]
-              |
-          [권한 서버]
-              |
-         [자원 레코드]
+스텁 리졸버
+└── 재귀 리졸버
+    └── 루트•TLD 서버
+        └── 권한 서버
+            └── 자원 레코드
 ```
 
 선의 의미: 스텁과 재귀 리졸버가 DNS 권한 계층에 연결되고, 루트•TLD 서버 아래의 권한 서버가 담당 영역의 자원 레코드를 소유하는 정적 위임 관계이다.
@@ -99,24 +95,32 @@ extra:
 
 - **캐시 미스**: 요청한 이름의 유효한 자원 레코드가 리졸버 캐시에 없는 상태이다.
 - **루트 서버(Root Server)**: TLD 서버의 위치를 안내하는 DNS 계층의 시작점이다.
-- **TLD 서버**: 질의 이름을 담당하는 다음 하위 권한 서버의 위치를 안내한다.
+- **최상위 도메인(Top-Level Domain, TLD) 서버**: 다음 권한 서버의 위치를 안내한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant R as 재귀 리졸버
-    participant D as 루트•TLD 서버
-    participant A as 권한 서버
-    C->>R: DNS 질의
-    alt 캐시 미스
-        R->>D: 1. 위임 경로 질의
-        D-->>R: 2. 권한 서버 안내
-        R->>A: 3. 원본 레코드 질의
-        A-->>R: 4. 자원 레코드 응답
-    end
-    R-->>C: DNS 응답
+```text
+DNS 질의
+    |
+    `-- 캐시 확인
+           |
+           +-- 캐시 적중 ---- DNS 응답
+           |
+           `-- 캐시 미스
+                  |
+                  v
+          1. 위임 경로 질의
+                  |
+                  v
+          2. 권한 서버 안내
+                  |
+                  v
+          3. 원본 레코드 질의
+                  |
+                  v
+          4. 자원 레코드 응답
+                  |
+                  `-- TTL 캐시 저장 ---- DNS 응답
 ```
 
 **동작 원리**

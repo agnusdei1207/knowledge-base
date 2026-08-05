@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "로드 밸런서 L4•L7 (Load Balancer L4 L7)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 19
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **로드 밸런서(Load Balancer)**: 연결과 요청을 여러 정상 백엔드에 분산하는 장비이다.
-- **VIP(Virtual Internet Protocol Address)**: 클라이언트가 접속하는 대표 서비스 주소이다.
+- **가상 IP 주소(Virtual IP Address, VIP)**: 클라이언트가 접속하는 대표 서비스 주소이다.
 
 </details>
 
@@ -42,7 +42,7 @@ extra:
 
 - **L4 로드 밸런서(Layer 4 Load Balancer)**: 주소•포트•연결 상태로 백엔드를 선택하는 장비이다.
 - **L7 로드 밸런서(Layer 7 Load Balancer)**: URL•헤더•쿠키로 백엔드를 선택하는 장비이다.
-- **통합 자원 식별자(Uniform Resource Locator, URL)**: 웹 자원의 위치와 접근 방법을 나타내는 요청 정보이다.
+- **균일 자원 위치 지정자(Uniform Resource Locator, URL)**: 웹 자원의 위치와 접근 방법을 나타내는 요청 정보이다.
 
 </details>
 
@@ -67,11 +67,11 @@ extra:
 </details>
 
 ```text
-                      [상태 확인기]
-                            |
-[VIP•리스너] ----- [스케줄러] ----- [서버 풀]
-                            |
-                       [세션 상태]
+스케줄러
+├── VIP•리스너
+├── 서버 풀
+├── 상태 확인기
+└── 세션 상태
 ```
 
 선의 의미: 스케줄러를 중심으로 VIP•리스너와 서버 풀이 연결되고, 정상 백엔드 집합을 제공하는 상태 확인기와 연결 추적•고정 정보를 제공하는 세션 상태가 결합되는 정적 부하 분산 구조를 뜻한다.
@@ -97,21 +97,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 클라이언트
-    participant 로드밸런서
-    participant 백엔드
-    loop 상태 확인 주기
-        로드밸런서->>백엔드: 1. 상태 탐사
-        백엔드-->>로드밸런서: 탐사 응답
-        로드밸런서->>로드밸런서: 2. 정상 집합 갱신
-    end
-    클라이언트->>로드밸런서: VIP 요청
-    로드밸런서->>로드밸런서: 3. 백엔드 선택
-    로드밸런서->>백엔드: 4. 요청 전달
-    백엔드-->>로드밸런서: 백엔드 응답
-    로드밸런서-->>클라이언트: 서비스 응답
+```text
+백엔드 상태 관리
+1. 상태 탐사
+      |
+      `-- 탐사 응답
+             |
+             v
+      2. 정상 집합 갱신
+             |
+             `-- 다음 주기 반복
+
+VIP 서비스 요청
+      |
+      v
+3. 백엔드 선택
+      |
+      `-- 정상 집합•정책•세션 확인
+                    |
+                    v
+             4. 요청 전달
+                    |
+                    `-- 백엔드 응답 ---- 서비스 응답
 ```
 
 **동작 원리**
@@ -132,7 +139,7 @@ sequenceDiagram
 
 - **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
 - **역방향 프록시(Reverse Proxy)**: 요청을 해석하고 백엔드에 새 요청을 보내는 중계 방식이다.
-- **TLS(Transport Layer Security)**: 전송 구간의 기밀성과 무결성을 보호하는 보안 프로토콜이다.
+- **전송 계층 보안(Transport Layer Security, TLS)**: 전송 구간의 기밀성과 무결성을 보호하는 프로토콜이다.
 
 </details>
 
