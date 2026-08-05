@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OWASP Top 10 (OWASP Top 10)"
-date: "2026-08-05T01:41:13+09:00"
+date: "2026-08-05T16:18:00+09:00"
 tags:
   - "notes-security"
 weight: 45
@@ -23,12 +23,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침과 시험 도구를 공개하는 비영리 프로젝트다.
+- **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)** 는 애플리케이션 보안 지침과 시험 도구를 공개하는 비영리 프로젝트다.
 - **OWASP Top 10** 은 가장 중요한 웹 애플리케이션 위험 범주 10개를 제시하는 위험 인식 자료다.
 
 </details>
 
-- 정의/개념: **OWASP Top 10** 은 웹 애플리케이션에서 널리 발생하고 영향이 큰 보안 위험을 범주별 원인•공격•대책과 함께 정리한 인식•우선순위 분류 체계
+- 정의/개념: 주요 웹 위험을 정리한 **인식•우선순위 분류 체계**
 - 배경/필요성: 개별 취약점만으로는 **우선순위 공유 곤란**
 
 #### 한줄 요약
@@ -42,8 +42,8 @@ extra:
 
 - **위험 인식 자료** 는 우선 위험을 공통 언어로 제시하지만 검증 표준이나 준수 인증 자체는 아니다.
 - **주기적 갱신** 은 자료와 전문가 검토를 반영해 변화한 웹 공격 위험을 다시 분류한다.
-- **ASVS(Application Security Verification Standard)** 는 애플리케이션 보안 요구사항과 검증 수준을 정의한다.
-- **WSTG(Web Security Testing Guide)** 는 웹 보안 시험 항목과 절차를 제시한다.
+- **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS)** 은 보안 요구사항과 검증 수준을 정의한다.
+- **웹 보안 시험 지침(Web Security Testing Guide, WSTG)** 은 웹 보안 시험 항목과 절차를 제시한다.
 
 </details>
 
@@ -60,17 +60,18 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SDLC(Software Development Life Cycle)** 는 요구•설계•개발•시험•배포•운영의 소프트웨어 생명주기다.
+- **소프트웨어 개발 생명주기(Software Development Life Cycle, SDLC)** 는 요구•설계•개발•시험•배포•운영의 전 과정이다.
 
 </details>
 
 ```text
-[Top 10 위험 범주]---[ASVS 보안 요구]
-         |                    |
-[WSTG 시험 절차]------[SDLC 통제]---[운영 근거]
+OWASP 활용 구조
+├─ Top 10 위험 범주: 주요 웹 위험 분류
+├─ ASVS 보안 요구: 검증 요구•수준 정의
+├─ WSTG 시험 절차: 웹 보안 시험 제공
+├─ SDLC 통제: 개발 전 과정에 통제 반영
+└─ 운영 근거: 사고•변경 결과로 판단 보완
 ```
-
-선의 의미: 위험 분류와 보안 요구•시험 절차가 SDLC 통제 및 운영 근거와 연결되는 OWASP 활용 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -93,23 +94,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 서비스책임자
-    participant 보안설계자
-    participant 개발팀
-    participant 시험팀
-    participant 운영팀
-    서비스책임자->>보안설계자: 서비스 경계•중요도
-    보안설계자->>보안설계자: 1. Top 10 위험 범주 매핑
-    보안설계자->>보안설계자: 2. ASVS 보안 요구 선정
-    보안설계자->>개발팀: 위험•검증 요구
-    개발팀->>개발팀: 3. 보안 통제 구현
-    개발팀->>시험팀: 구현•검증 증거
-    시험팀->>시험팀: 4. WSTG 보안 시험
-    시험팀->>운영팀: 시험 결과
-    운영팀->>운영팀: 5. 사고•변경 근거 환류
-    운영팀-->>서비스책임자: 잔여 위험•개선 결과
+```text
+서비스 경계•중요도
+        |
+        v
+1. Top 10 위험 범주 매핑
+        |
+        v
+2. ASVS 보안 요구 선정
+        |
+        v
+3. 보안 통제 구현
+        |
+        v
+4. WSTG 보안 시험
+        |
+        +-- 미충족 -- 통제•요구 보완
+        |
+        +-- 충족 -- 운영 근거 수집
+                           |
+                           v
+                 5. 사고•변경 근거 환류
 ```
 
 **동작 원리**

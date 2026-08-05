@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FIDO2•WebAuthn (FIDO2 WebAuthn)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:38:00+09:00"
 tags:
   - "notes-security"
 weight: 55
@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **FIDO2(Fast Identity Online 2)** 는 WebAuthn과 CTAP2를 결합해 비밀번호 없는 공개키 인증을 제공하는 표준이다.
-- **WebAuthn(Web Authentication)** 은 브라우저와 서버의 자격 증명 등록•인증 절차를 정의한다.
-- **CTAP2(Client to Authenticator Protocol 2)** 는 클라이언트와 외부 인증자의 통신을 정의한다.
-- **RP(Relying Party)** 는 사용자의 공개키 자격 증명을 등록하고 인증 서명을 검증하는 서비스다.
+- **온라인 신속 신원확인 2(Fast Identity Online 2, FIDO2)** 는 WebAuthn과 CTAP2를 결합한 공개키 인증 표준이다.
+- **웹 인증(Web Authentication, WebAuthn)** 은 브라우저와 서버의 자격 증명 등록•인증 절차를 정의한다.
+- **클라이언트-인증자 프로토콜 2(Client to Authenticator Protocol 2, CTAP2)** 는 클라이언트와 외부 인증자의 통신을 정의한다.
+- **신뢰 당사자(Relying Party, RP)** 는 공개키 자격 증명을 등록하고 인증 서명을 검증하는 서비스다.
 
 </details>
 
@@ -45,6 +45,7 @@ extra:
 - **도전값** 은 인증 응답 재전송을 막기 위해 서버가 발급하는 일회성 무작위 값이다.
 - **사용자 검증** 은 인증기 사용자가 등록된 본인인지 생체•PIN 등으로 확인하는 절차다.
 - **사용자 존재** 는 인증 동작 때 사용자가 인증기를 직접 조작했음을 확인하는 성질이다.
+- **개인 식별 번호(Personal Identification Number, PIN)** 는 인증기 사용자를 확인하는 비밀 번호다.
 
 </details>
 
@@ -66,12 +67,13 @@ extra:
 </details>
 
 ```text
-                               [등록•복구 정책]
-                                 /           \
-[자격 증명 저장소] ----- [RP 서버] ----- [WebAuthn 클라이언트] ----- [인증자]
+FIDO2 인증 구조
+├─ RP 서버: 도전값 발급•서명 검증
+├─ WebAuthn 클라이언트: 원본 확인•중계
+├─ 인증자: 개인키 보관•서명
+├─ 자격 증명 저장소: 공개키•식별자 관리
+└─ 등록•복구 정책: 인증자 수명 통제
 ```
-
-선의 의미: 가로선은 공개키 자격 증명 저장소와 RP 서버, 서비스 원본을 확인하는 WebAuthn 클라이언트 및 개인키를 보호하는 인증자의 정적 인증 경계이고, 위 가지는 등록•복구 정책이 RP와 인증자의 수명주기를 함께 통제하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -93,21 +95,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant R as RP 서버
-    participant B as WebAuthn 클라이언트
-    participant A as 인증자
-    R->>R: 1. 도전값•RP 정책 생성
-    R->>B: WebAuthn 인증 요청
-    B->>B: 2. 원본•RP ID 검증
-    B->>A: 서명 요청
-    A->>A: 3. 사용자 존재•검증 확인
-    A->>A: 4. RP별 개인키 서명
-    A-->>B: 서명 자격 증명
-    B-->>R: 인증 응답
-    R->>R: 5. 도전값•원본•서명 검증
-    R-->>B: 인증 결과
+```text
+1. 도전값•RP 정책 생성
+          |
+          v
+WebAuthn 인증 요청
+          |
+          v
+2. 원본•RP ID 검증
+          |
+          v
+3. 사용자 존재•검증 확인
+          |
+          v
+4. RP별 개인키 서명
+          |
+          v
+5. 도전값•원본•서명 검증
+          |
+          +-- 불일치 -- 인증 거부
+          |
+          +-- 일치 -- 인증 성공
 ```
 
 **동작 원리**
@@ -143,11 +151,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)** 은 웹 기술의 상호운용 표준을 개발한다.
 - **WebAuthn Level 2** 는 웹 공개키 자격 증명의 등록•인증 규격이다.
 - **FIDO CTAP 2.2** 는 클라이언트와 외부 인증자의 상호운용 규격이다.
-- **XSS(Cross-Site Scripting)** 는 비신뢰 데이터가 신뢰 원본의 브라우저에서 스크립트로 실행되는 취약점이다.
-- **CSP(Content Security Policy)** 는 실행 가능한 스크립트와 리소스 출처를 제한하는 브라우저 정책이다.
+- **교차 사이트 스크립팅(Cross-Site Scripting, XSS)** 은 비신뢰 데이터가 신뢰 원본에서 스크립트로 실행되는 취약점이다.
+- **콘텐츠 보안 정책(Content Security Policy, CSP)** 은 실행 가능한 스크립트와 리소스 출처를 제한한다.
 
 </details>
 

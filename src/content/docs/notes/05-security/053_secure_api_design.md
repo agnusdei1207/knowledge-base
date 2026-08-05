@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 응용 프로그래밍 인터페이스 설계 (Secure API Design)"
-date: "2026-08-05T10:05:00+09:00"
+date: "2026-08-05T16:34:00+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 서비스 기능과 데이터를 정해진 형식으로 제공하는 경계다.
 - **보안 API 설계** 는 요청의 채널•토큰•객체 권한•자원 사용을 매 호출마다 검증하는 응용 보안 설계다.
 
 </details>
 
 - 정의/개념: API 요청의 채널•토큰•객체•자원 사용을 검증하는 **응용 보안 설계**
-- 배경/필요성: 호출자 인증만으로는 **객체별 권한과 호출 자원 남용을 통제하기 어려움**
+- 배경/필요성: 호출자 인증만으로는 **객체 권한•자원 남용 통제 곤란**
 
 #### 한줄 요약
 
@@ -65,14 +65,13 @@ extra:
 </details>
 
 ```text
-                 [인증•권한 서버]
-                    /           \
-          [등록 클라이언트] -- [API 게이트웨이] -- [자원 서버]
-                    \           |           /
-                     [키•인증서•감사]
+보안 API 구조
+├─ 등록 클라이언트: 호출 주체 식별
+├─ 인증•권한 서버: 접근 토큰 발급
+├─ API 게이트웨이: 토큰•채널•호출률 검증
+├─ 자원 서버: 객체•기능 권한 집행
+└─ 키•인증서•감사: 신뢰 수명•이력 관리
 ```
-
-선의 의미: 등록 클라이언트가 인증•권한 서버와 API 게이트웨이의 신뢰 경계에 연결되고, 게이트웨이가 자원 서버를 보호하며 키•인증서•감사 영역이 전체 호출 구조를 공통 지원하는 관계
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,29 +89,33 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **JSON(JavaScript Object Notation)** 은 속성과 값을 구조화해 교환하는 경량 데이터 형식이다.
-- **JWT(JSON Web Token)** 는 주체•권한 주장을 서명된 JSON으로 전달하는 토큰 형식이다.
-- **mTLS(Mutual Transport Layer Security)** 는 통신 양측의 인증서를 검증하는 상호 인증 방식이다.
+- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)** 은 속성과 값을 구조화해 교환하는 데이터 형식이다.
+- **JSON 웹 토큰(JSON Web Token, JWT)** 은 주체•권한 주장을 서명된 JSON으로 전달한다.
+- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)** 은 통신 양측의 인증서를 검증한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 등록 클라이언트
-    participant A as 인증•권한 서버
-    participant G as API 게이트웨이
-    participant R as 자원 서버
-    C->>A: 인증•제한 권한 요청
-    A-->>C: JWT 접근 토큰
-    C->>G: API 요청
-    G->>G: 1. mTLS•접근 토큰 검증
-    G->>G: 2. 입력 크기•호출률 통제
-    G->>R: 검증된 API 요청
-    R->>R: 3. 객체 소유권 검증
-    R->>R: 4. 기능•범위 인가
-    R-->>G: 허용된 응답 데이터
-    G->>G: 5. 호출•인가 판정 기록
-    G-->>C: API 응답
+```text
+JWT 접근 토큰•API 요청
+          |
+          v
+1. mTLS•접근 토큰 검증
+          |
+          v
+2. 입력 크기•호출률 통제
+          |
+          v
+3. 객체 소유권 검증
+          |
+          v
+4. 기능•범위 인가
+          |
+          +-- 거부 -- 오류•감사 기록
+          |
+          +-- 허용 -- 5. 호출•인가 판정 기록
+                              |
+                              v
+                         제한된 API 응답
 ```
 
 **동작 원리**
@@ -132,8 +135,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **OAuth(Open Authorization) 2.0** 은 보호 자원에 대한 제한된 접근 권한을 제3자 응용에 위임하는 인가 프레임워크다.
-- **PKCE(Proof Key for Code Exchange)** 는 권한 요청과 토큰 교환을 일회성 검증값으로 결합하는 확장 절차다.
+- **개방형 권한 위임(Open Authorization, OAuth) 2.0** 은 제한된 자원 접근 권한을 제3자 응용에 위임한다.
+- **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)** 는 권한 요청과 토큰 교환을 일회성 검증값으로 결합한다.
 
 </details>
 
@@ -152,11 +155,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
-- **RFC(Request for Comments) 9700** 은 OAuth 보안 모범 사례를 제시한다.
-- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 기술 표준을 개발•공개한다.
+- **의견 요청서(Request for Comments, RFC) 9700** 은 OAuth 보안 모범 사례를 제시한다.
+- **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)** 는 애플리케이션 보안 지침을 공개한다.
 - **OWASP API Top 10:2023** 은 API의 주요 보안 위험 범주를 제시한다.
-- **BOLA(Broken Object Level Authorization)** 는 객체 식별자의 소유권•권한 검사가 빠진 인가 결함이다.
+- **객체 수준 인가 결함(Broken Object Level Authorization, BOLA)** 은 객체 식별자의 소유권•권한 검사가 빠진 결함이다.
 
 </details>
 

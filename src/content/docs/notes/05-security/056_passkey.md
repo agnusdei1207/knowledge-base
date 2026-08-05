@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "패스키 비밀번호 없는 인증 (Passkey Passwordless)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:40:00+09:00"
 tags:
   - "notes-security"
 weight: 56
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **패스키** 는 서비스별 공개키 자격 증명으로 비밀번호를 대신하는 피싱 저항 인증 수단이다.
-- **WebAuthn(Web Authentication)** 은 서비스가 브라우저를 통해 공개키 자격 증명을 등록하고 인증에 사용하도록 정의한 웹 표준이다.
+- **웹 인증(Web Authentication, WebAuthn)** 은 브라우저를 통한 공개키 자격 증명의 등록•인증을 정의한다.
 
 </details>
 
@@ -38,9 +38,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **RP ID** 는 패스키를 특정 서비스 도메인에 결속하는 식별자다.
+- **신뢰 당사자 식별자(Relying Party Identifier, RP ID)** 는 패스키를 특정 서비스 도메인에 결속한다.
 - **사용자 검증** 은 인증기 사용자가 등록된 본인인지 생체•PIN 등으로 확인하는 절차다.
-- **RP(Relying Party)** 는 패스키의 공개키 자격 증명을 등록하고 인증 서명을 검증하는 서비스다.
+- **신뢰 당사자(Relying Party, RP)** 는 패스키의 공개키를 등록하고 인증 서명을 검증하는 서비스다.
 - **동기화 패스키** 는 암호화된 자격 증명을 사용자의 여러 기기로 이전하는 방식이다.
 - **기기 결합 패스키** 는 자격 증명을 생성한 특정 인증자에 고정하는 방식이다.
 
@@ -59,18 +59,19 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **인증자** 는 개인키를 보호하고 PIN•생체 승인 후 서명한다.
-- **PIN(Personal Identification Number)** 은 인증기 안의 개인키 사용을 승인하기 위해 로컬에서 확인하는 번호다.
+- **개인 식별 번호(Personal Identification Number, PIN)** 는 인증기 안의 개인키 사용을 승인하는 번호다.
 - **복구 경로** 는 기기 분실•교체 뒤 계정 접근을 되찾는 절차다.
 
 </details>
 
 ```text
-[RP 서버] ----- [플랫폼•브라우저] ----- [인증자]
-                                          /     \
-                                [사용자 검증]   [동기화•복구 체계]
+패스키 인증 구조
+├─ RP 서버: 도전값 발급•공개키 검증
+├─ 플랫폼•브라우저: 원본 확인•요청 중계
+├─ 인증자: 개인키 보호•서명 생성
+├─ 사용자 검증: PIN•생체로 키 사용 승인
+└─ 동기화•복구 체계: 기기 이전•분실 대응
 ```
-
-선의 의미: 가로선은 RP 서버, 서비스 원본을 확인하는 플랫폼•브라우저와 개인키를 보호하는 인증자의 정적 패스키 인증 경계이고, 아래 가지는 사용자 검증과 동기화•복구 체계가 인증자의 키 사용 및 기기 이전을 각각 통제하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,23 +91,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant R as RP 서버
-    participant P as 플랫폼•브라우저
-    participant A as 인증자
-    U->>R: 인증 요청
-    R->>R: 1. 도전값•RP ID 생성
-    R->>P: 패스키 인증 요청
-    P->>P: 2. 원본•RP ID 검증
-    P->>A: 사용자 검증•서명 요청
-    A->>A: 3. PIN•생체 사용자 검증
-    A->>A: 4. 서비스별 개인키 서명
-    A-->>P: 서명 자격 증명
-    P-->>R: 패스키 인증 응답
-    R->>R: 5. 도전값•공개키 서명 검증
-    R-->>U: 인증 결과
+```text
+인증 요청
+    |
+    v
+1. 도전값•RP ID 생성
+    |
+    v
+2. 원본•RP ID 검증
+    |
+    v
+3. PIN•생체 사용자 검증
+    |
+    v
+4. 서비스별 개인키 서명
+    |
+    v
+5. 도전값•공개키 서명 검증
+    |
+    +-- 불일치 -- 인증 거부
+    |
+    +-- 일치 -- 인증 성공
 ```
 
 **동작 원리**
@@ -144,10 +149,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)** 는 웹 기술의 상호운용 표준을 개발한다.
 - **WebAuthn Level 2** 는 RP에 결속된 공개키 자격 증명의 등록•인증 규격이다.
-- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **SP(Special Publication) 800-63B-4** 는 인증기•세션•복구 요구를 정의한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발한다.
+- **특별 간행물(Special Publication, SP) 800-63B-4** 는 인증기•세션•복구 요구를 정의한다.
 - **자격 증명 폐기** 는 분실•유출된 패스키를 더 이상 인증에 쓰지 못하게 한다.
 
 </details>

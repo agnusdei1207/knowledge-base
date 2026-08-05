@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:42:00+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **OAuth(Open Authorization) 2.0** 은 자원 소유자의 제한된 접근 권한을 클라이언트에 위임하는 인가 프레임워크다.
-- **OIDC(OpenID Connect)** 는 OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달하는 인증 프로토콜이다.
+- **개방형 권한 위임(Open Authorization, OAuth) 2.0** 은 제한된 자원 접근 권한을 클라이언트에 위임한다.
+- **오픈아이디 연결(OpenID Connect, OIDC)** 은 OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달한다.
 
 </details>
 
@@ -39,12 +39,12 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **권한 코드** 는 인가 결과를 토큰으로 교환하기 위한 짧은 수명의 일회성 코드다.
-- **PKCE(Proof Key for Code Exchange)** 는 권한 코드와 원래 요청한 클라이언트를 일회성 검증값으로 결속한다.
-- **URI(Uniform Resource Identifier)** 는 자원의 이름이나 위치를 식별하는 문자열 형식이다.
+- **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)** 는 권한 코드와 원래 요청한 클라이언트를 결속한다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)** 는 자원의 이름이나 위치를 식별한다.
 - **Redirect URI** 는 인가 결과를 돌려받도록 사전에 등록한 클라이언트 반환 주소다.
-- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 서비스 기능과 데이터를 정해진 형식으로 제공하는 경계다.
 - **접근 토큰** 은 보호 API에 허용된 주체의 접근 권한과 범위를 나타낸다.
-- **ID(Identity) 토큰** 은 인증된 사용자의 신원 주장을 클라이언트에 전달한다.
+- **신원(Identity, ID) 토큰** 은 인증된 사용자의 신원 주장을 클라이언트에 전달한다.
 - **Nonce** 는 인증 요청과 ID 토큰을 같은 거래에 결속하는 일회성 값이다.
 - **갱신 토큰 회전** 은 토큰 갱신 때 새 토큰을 발급하고 이전 토큰을 폐기하는 방식이다.
 
@@ -70,14 +70,13 @@ extra:
 </details>
 
 ```text
-[자원 소유자] ----- [클라이언트]
-                       /       \
-          [인가•OIDC 제공자]   [자원 서버]
-                       \       /
-                     [토큰•키 관리]
+OAuth 2.0•OIDC 구조
+├─ 자원 소유자: 인증•제한 권한 동의
+├─ 클라이언트: 인가 요청•토큰 사용
+├─ 인가•OIDC 제공자: 코드•토큰 발급
+├─ 자원 서버: 대상•범위•객체 권한 집행
+└─ 토큰•키 관리: 서명 키•수명 관리
 ```
-
-선의 의미: 자원 소유자는 클라이언트에 제한 권한을 위임하고, 클라이언트 아래에는 코드•신원 주장을 발급하는 인가•OIDC 제공자와 실제 API 권한을 집행하는 자원 서버가 분리되며, 두 서버는 토큰•키 관리 경계를 공유하는 정적 연합 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -97,29 +96,32 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 자원 소유자
-    participant C as 클라이언트
-    participant A as 인가 서버
-    participant R as 자원 서버
-    C->>A: 범위•PKCE•Nonce 인가 요청
-    A->>A: 1. 클라이언트•Redirect URI 검증
-    A->>U: 요청 범위•동의 화면
-    U->>A: 인증•동의 증거
-    A->>A: 2. 권한 코드 생성
-    A-->>C: 권한 코드
-    C->>A: 권한 코드•PKCE 검증값
-    A->>A: 3. 코드•PKCE 결속 검증
-    A->>A: 4. 접근•ID 토큰 발급
-    A-->>C: 접근 토큰•ID 토큰
-    C->>R: API 자원 요청
-    R->>R: 5. 발급자•대상•범위 검증
-    R-->>C: 자원 응답
-    loop 토큰 갱신
-        C->>A: 갱신 토큰
-        A-->>C: 새 토큰•이전 갱신 토큰 폐기
-    end
+```text
+범위•PKCE•Nonce 인가 요청
+            |
+            v
+1. 클라이언트•Redirect URI 검증
+            |
+            v
+사용자 인증•동의
+            |
+            v
+2. 권한 코드 생성
+            |
+            v
+3. 코드•PKCE 결속 검증
+            |
+            v
+4. 접근•ID 토큰 발급
+            |
+            v
+API 자원 요청
+            |
+            v
+5. 발급자•대상•범위 검증
+            |
+            v
+제한된 자원 응답
 ```
 
 **동작 원리**
@@ -154,8 +156,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
-- **RFC(Request for Comments) 9700** 은 OAuth 2.0의 공격 모델과 안전한 구현 관행을 정의한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 기술 표준을 개발•공개한다.
+- **의견 요청서(Request for Comments, RFC) 9700** 은 OAuth 2.0의 공격 모델과 안전한 구현 관행을 정의한다.
 - **OIDC Core 1.0** 은 ID 토큰과 사용자 인증 흐름의 검증 규칙을 정의한다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "시큐어 코딩 가이드 (Secure Coding Guide)"
-date: "2026-08-05T10:03:00+09:00"
+date: "2026-08-05T16:30:00+09:00"
 tags:
   - "notes-security"
 weight: 51
@@ -39,8 +39,8 @@ extra:
 
 - **위협 모델** 은 보호 자산•신뢰 경계•공격 경로•통제를 식별해 구현 우선순위를 정한다.
 - **안전 기본값** 은 별도 설정이 없어도 최소 권한•거부•보호 상태를 적용한다.
-- **SAST(Static Application Security Testing)** 는 소스 코드의 취약 패턴을 실행 전에 검사한다.
-- **DAST(Dynamic Application Security Testing)** 는 실행 중인 애플리케이션의 취약 동작을 외부에서 검사한다.
+- **정적 애플리케이션 보안 시험(Static Application Security Testing, SAST)** 은 소스 코드의 취약 패턴을 실행 전에 검사한다.
+- **동적 애플리케이션 보안 시험(Dynamic Application Security Testing, DAST)** 은 실행 중인 애플리케이션의 취약 동작을 검사한다.
 - **배포 게이트** 는 필수 보안 검사 기준에 미달한 변경의 배포를 차단한다.
 
 </details>
@@ -60,14 +60,13 @@ extra:
 </details>
 
 ```text
-                          [가이드 소유자]
-                     /          |          \
-       [안전 구현•대체 규칙] [개발•코드 리뷰] [자동 검증•배포 게이트]
-                     \          |          /
-                          [예외•개선 관리]
+시큐어 코딩 통제
+├─ 가이드 소유자: 규칙 우선순위 결정
+├─ 안전 구현•대체 규칙: 구현 기준 제공
+├─ 개발•코드 리뷰: 업무 논리 검토
+├─ 자동 검증•배포 게이트: 미달 배포 차단
+└─ 예외•개선 관리: 보상 통제•만료 관리
 ```
-
-선의 의미: 가이드 소유자가 구현 규칙, 사람의 코드 리뷰, 자동 배포 검증을 하나의 통제 체계로 관리하고 예외•개선 관리가 각 영역의 보상 통제와 갱신을 지원하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -87,25 +86,28 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **코드 리뷰** 는 자동 도구가 놓치기 쉬운 업무 권한•복합 논리와 안전 API 적용을 사람이 검토한다.
-- **안전 API(Application Programming Interface)** 는 검증된 입력•인증•암호•오류 처리 기능을 제공하는 인터페이스다.
+- **안전 응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 검증된 입력•인증•암호•오류 처리 기능을 제공한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 가이드소유자
-    participant 개발자
-    participant 리뷰어
-    participant 배포게이트
-    가이드소유자->>가이드소유자: 1. 위협•반복 결함 규칙화
-    가이드소유자->>개발자: 안전 구현 규칙
-    개발자->>개발자: 2. 안전 API•기본값 구현
-    개발자->>리뷰어: 구현•코드 증거
-    리뷰어->>리뷰어: 3. 업무 권한•복합 논리 검토
-    리뷰어->>배포게이트: 논리 검토 결과
-    배포게이트->>배포게이트: 4. SAST•DAST 배포 판정
-    배포게이트-->>가이드소유자: 검사•배포 결과
-    가이드소유자->>가이드소유자: 5. 예외•운영 결함 반영
+```text
+1. 위협•반복 결함 규칙화
+          |
+          v
+2. 안전 API•기본값 구현
+          |
+          v
+3. 업무 권한•복합 논리 검토
+          |
+          v
+4. SAST•DAST 배포 판정
+          |
+          +-- 미달 -- 구현•규칙 보완
+          |
+          +-- 통과 -- 배포•운영 근거 수집
+                              |
+                              v
+                    5. 예외•운영 결함 반영
 ```
 
 **동작 원리**
@@ -141,10 +143,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **SSDF(Secure Software Development Framework) 1.1** 은 안전한 소프트웨어 개발 관행을 제시한다.
-- **ISO(International Organization for Standardization)** 는 국제 표준을 개발•발행하는 기구다.
-- **IEC(International Electrotechnical Commission)** 는 전기•전자 분야 국제 표준을 개발하는 기구다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발한다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF) 1.1** 은 안전한 개발 관행을 제시한다.
+- **국제표준화기구(International Organization for Standardization, ISO)** 는 국제 표준을 개발•발행한다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)** 는 전기•전자 국제 표준을 개발한다.
 - **ISO/IEC 27034-1** 은 애플리케이션 보안 관리 개념•절차•통제를 정의한다.
 - **예외 만료** 는 보상 통제와 담당자를 둔 보안 예외가 재검토 없이 영구화되지 않게 한다.
 

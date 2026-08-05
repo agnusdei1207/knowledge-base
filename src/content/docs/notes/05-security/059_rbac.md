@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RBAC 역할 기반 접근 제어 (Role-Based Access Control)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:46:00+09:00"
 tags:
   - "notes-security"
 weight: 59
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **RBAC(Role-Based Access Control)** 은 권한을 직무별 역할에 묶고 그 역할을 사용자에게 배정하는 접근 제어 모델이다.
+- **역할 기반 접근 제어(Role-Based Access Control, RBAC)** 는 권한을 직무별 역할에 묶어 사용자에게 배정한다.
 
 </details>
 
@@ -64,12 +64,13 @@ extra:
 </details>
 
 ```text
-                         [사용자•역할] ----- [권한] ----- [자원•행위]
-                            /       \
-                 [계층•직무 분리]   [세션•감사]
+RBAC 접근 제어 구조
+├─ 사용자•역할: 주체와 직무 권한 묶음
+├─ 권한: 자원•허용 행위 조합
+├─ 자원•행위: 권한의 대상•동작
+├─ 계층•직무 분리: 상속•상충 통제
+└─ 세션•감사: 역할 활성화•사용 추적
 ```
-
-선의 의미: 가로선은 사용자에게 역할을 배정하고 역할의 권한을 자원•행위에 결합하는 RBAC의 정적 간접 권한 구조이며, 아래 가지는 역할의 상속•상충 제약과 활성 역할•사용 기록이 사용자•역할 경계를 통제하는 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,23 +91,27 @@ extra:
 - **세션**: 사용자가 배정된 역할 중 현재 업무에 필요한 역할만 활성화해 사용하는 범위이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant S as 세션 관리자
-    participant P as RBAC 집행점
-    participant R as 보호 자원
-    U->>S: 역할 활성화 요청
-    S->>S: 1. 사용자•역할 배정 검증
-    S->>S: 2. 동적 직무분리 검증
-    S-->>P: 활성 역할 문맥
-    U->>P: 자원•행위 접근 요청
-    P->>P: 3. 역할 계층•권한 해석
-    P->>P: 4. 자원•행위 인가 판정
-    P->>R: 승인된 자원 행위
-    R-->>P: 자원 처리 결과
-    P->>P: 5. 인가•사용 기록
-    P-->>U: 접근 결과
+```text
+역할 활성화•자원 접근 요청
+            |
+            v
+1. 사용자•역할 배정 검증
+            |
+            v
+2. 동적 직무분리 검증
+            |
+            +-- 상충 -- 접근 거부
+            |
+            +-- 통과 -- 3. 역할 계층•권한 해석
+                                  |
+                                  v
+                       4. 자원•행위 인가 판정
+                                  |
+                      +-----------+-----------+
+                      |                       |
+                    거부                    허용
+                      |                       |
+                      +-- 5. 인가•사용 기록 -+
 ```
 
 **동작 원리**
@@ -146,11 +151,11 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **ANSI(American National Standards Institute)** 는 미국의 민간 표준 개발을 조정•승인하는 기관이다.
-- **INCITS(InterNational Committee for Information Technology Standards)** 는 정보기술 표준을 개발하는 위원회다.
+- **미국 국가표준협회(American National Standards Institute, ANSI)** 는 미국의 민간 표준 개발을 조정•승인한다.
+- **국제 정보기술 표준위원회(InterNational Committee for Information Technology Standards, INCITS)** 는 정보기술 표준을 개발한다.
 - **INCITS 359-2012** 는 핵심•계층•정적•동적 직무 분리 RBAC 모델을 정의한다.
-- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **SP(Special Publication) 800-53 Rev. 5** 는 계정•접근권한의 승인•검토•회수 통제를 제시한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발한다.
+- **특별 간행물(Special Publication, SP) 800-53 Rev. 5** 는 계정•접근권한의 승인•검토•회수 통제를 제시한다.
 - **역할 폭발**: 조직의 모든 예외를 별도 역할로 수용하면서 역할 수와 관리 복잡성이 지나치게 증가하는 현상이다.
 
 </details>

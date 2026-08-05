@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSRF (Cross-Site Request Forgery)"
-date: "2026-08-05T10:00:00+09:00"
+date: "2026-08-05T16:24:00+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CSRF(Cross-Site Request Forgery)** 는 로그인된 브라우저의 자동 인증 정보를 악용해 사용자가 의도하지 않은 상태 변경 요청을 보내는 공격이다.
+- **교차 사이트 요청 위조(Cross-Site Request Forgery, CSRF)** 는 브라우저의 자동 인증을 악용해 의도하지 않은 상태 변경을 유발하는 공격이다.
 
 </details>
 
-- 정의/개념: **CSRF** 는 피해자의 브라우저가 자동으로 첨부하는 세션 인증정보를 이용해 사용자가 의도하지 않은 상태 변경 요청을 전송하게 하는 웹 공격
+- 정의/개념: 자동 인증으로 비승인 상태 변경을 유발하는 **웹 공격**
 - 배경/필요성: 세션 인증만으로는 **사용자 의도 검증 불가**
 
 #### 한줄 요약
@@ -60,20 +60,19 @@ extra:
 
 - **Origin** 은 요청을 생성한 출처의 스킴•호스트•포트를 전달하는 헤더다.
 - **Referer** 는 요청을 보낸 이전 페이지의 주소를 전달하는 헤더다.
-- **HTTP(Hypertext Transfer Protocol)** 는 웹 자원 요청과 응답의 형식•의미를 정의하는 통신 규약이다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)** 은 웹 요청과 응답의 형식•의미를 정의한다.
 - **안전 메서드** 는 조회 의미만 가지며 서버 상태를 변경하지 않아야 하는 GET•HEAD 등의 HTTP 메서드다.
 
 </details>
 
 ```text
-                         [상태 변경 경로]
-                       /         |         \
-              [세션 쿠키]   [CSRF 토큰]   [출처 정책]
-                   |
-              [쿠키 정책]
+CSRF 검증 구조
+├─ 세션 쿠키: 자동 첨부 인증 상태
+├─ 상태 변경 경로: 자금•계정 변경 처리
+├─ CSRF 토큰: 요청 의도 검증값
+├─ 출처 정책: Origin•Referer 검증
+└─ 쿠키 정책: SameSite•안전 메서드 적용
 ```
-
-선의 의미: 상태 변경 경로가 세션 인증뿐 아니라 CSRF 토큰과 출처 정책의 보호를 받고, 세션 쿠키의 자동 첨부 범위를 쿠키 정책이 제한하는 정적 검증 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,22 +95,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 공격자사이트 as 공격자 사이트
-    participant 브라우저 as 피해자 브라우저
-    participant 웹서버
-    participant 업무서비스
-    공격자사이트->>브라우저: 위조 폼•링크
-    브라우저->>브라우저: 1. 위조 상태 변경 요청 생성
-    브라우저->>브라우저: 2. 세션 쿠키 자동 첨부
-    브라우저->>웹서버: 인증된 위조 요청
-    웹서버->>웹서버: 3. 세션 인증 통과
-    웹서버->>웹서버: 4. 사용자 의도 검증 누락
-    웹서버->>업무서비스: 상태 변경 명령
-    업무서비스->>업무서비스: 5. 비승인 상태 변경 실행
-    업무서비스-->>웹서버: 처리 결과
-    웹서버-->>브라우저: 응답 결과
+```text
+위조 폼•링크
+      |
+      v
+1. 위조 상태 변경 요청 생성
+      |
+      v
+2. 세션 쿠키 자동 첨부
+      |
+      v
+3. 세션 인증 통과
+      |
+      v
+4. 사용자 의도 검증 누락
+      |
+      v
+5. 비승인 상태 변경 실행
+      |
+      v
+처리 결과
 ```
 
 **동작 원리**
@@ -148,10 +151,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CWE(Common Weakness Enumeration)-352** 는 요청이 사용자 의도인지 충분히 검증하지 않는 약점을 정의한다.
-- **IETF(Internet Engineering Task Force)** 는 인터넷 기술 표준을 개발•공개하는 국제 공동체다.
-- **RFC(Request for Comments) 9110** 은 GET•HEAD 같은 안전 메서드와 요청 의미를 정의한다.
-- **XSS(Cross-Site Scripting)** 는 비신뢰 데이터가 피해자 브라우저에서 스크립트로 실행되는 취약점이다.
+- **공통 약점 열거(Common Weakness Enumeration, CWE)-352** 는 요청 의도를 충분히 검증하지 않는 약점을 정의한다.
+- **인터넷 기술 태스크포스(Internet Engineering Task Force, IETF)** 는 인터넷 기술 표준을 개발•공개한다.
+- **의견 요청서(Request for Comments, RFC) 9110** 은 GET•HEAD 같은 안전 메서드와 요청 의미를 정의한다.
+- **교차 사이트 스크립팅(Cross-Site Scripting, XSS)** 은 비신뢰 데이터가 브라우저 스크립트로 실행되는 취약점이다.
 
 </details>
 

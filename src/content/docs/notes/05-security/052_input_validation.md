@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "입력값 검증•파라미터 바인딩 (Input Validation Parameter Binding)"
-date: "2026-08-05T10:04:00+09:00"
+date: "2026-08-05T16:32:00+09:00"
 tags:
   - "notes-security"
 weight: 52
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 외부 입력을 허용 범위로 제한하고 실행 구문과 분리하는 **입력 보안 통제**
-- 배경/필요성: 차단 목록과 클라이언트 검증만으로는 변형 입력과 **검증 우회를 일관되게 차단하기 어려움**
+- 배경/필요성: 차단 목록만으로는 변형 입력의 **검증 우회 차단 곤란**
 
 #### 한줄 요약
 
@@ -57,21 +57,18 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **파서** 는 입력 문자열을 정해진 문법 구조에 따라 해석한다.
-- **안전 실행 API(Application Programming Interface)** 는 고정 구문과 검증된 값을 분리해 실행점에 전달한다.
+- **안전 실행 응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 고정 구문과 값을 분리해 실행점에 전달한다.
 
 </details>
 
 ```text
-                          [입력 계약]
-                               |
-                           [단일 파서]
-                               |
-                          [서버 검증기]
-                          /           \
-                 [안전 실행 API]   [오류•감사]
+입력 보안 통제
+├─ 입력 계약: 형식•길이•범위 정의
+├─ 단일 파서: 인코딩•콘텐츠 형식 통일
+├─ 서버 검증기: 허용 목록•업무 규칙 판정
+├─ 안전 실행 API: 구문•외부 값 분리
+└─ 오류•감사: 일반 오류•차단 기록
 ```
-
-선의 의미: 입력 계약이 단일 파서와 서버 검증기의 해석•판정 경계를 제한하고, 검증기는 안전 실행 API와 오류•감사 영역에 공통으로 결합되는 정적 입력 통제 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,25 +87,31 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **입력 계약** 은 형식•길이•범위•배열 개수•중첩 깊이와 전체 크기를 제한한다.
-- **DB(Database)** 는 구조화된 데이터를 저장•질의하는 데이터베이스다.
-- **SQL(Structured Query Language) 구조** 는 DB가 실행할 질의 명령의 고정된 형식이다.
+- **데이터베이스(Database, DB)** 는 구조화된 데이터를 저장•질의한다.
+- **구조화 질의 언어(Structured Query Language, SQL) 구조** 는 DB가 실행할 질의 명령의 고정 형식이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant A as 응용 서버
-    participant D as DB
-    C->>A: 외부 입력 문서
-    A->>A: 1. 정규화 입력
-    A->>A: 2. 허용된 업무 값 검증
-    A->>A: 3. 고정 SQL 구조 생성
-    A->>A: 4. 입력값 파라미터 바인딩
-    A->>D: 준비된 질의
-    D->>D: 5. 최소 권한 질의 실행
-    D-->>A: 제한된 질의 결과
-    A-->>C: 응답 결과
+```text
+외부 입력 문서
+      |
+      v
+1. 정규화 입력
+      |
+      v
+2. 허용된 업무 값 검증
+      |
+      v
+3. 고정 SQL 구조 생성
+      |
+      v
+4. 입력값 파라미터 바인딩
+      |
+      v
+5. 최소 권한 질의 실행
+      |
+      v
+제한된 질의 결과
 ```
 
 **동작 원리**
@@ -144,10 +147,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **CWE(Common Weakness Enumeration)-20** 은 입력의 유효성•속성을 잘못 검증하는 약점을 정의한다.
-- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
-- **ASVS(Application Security Verification Standard) 5.0.0** 은 입력•인젝션 방지 요구를 제시한다.
-- **ORM(Object-Relational Mapping)** 은 객체와 데이터베이스 테이블을 연결하는 계층으로, 원시 질의 사용 시에도 구문과 값을 분리해야 한다.
+- **공통 약점 열거(Common Weakness Enumeration, CWE)-20** 은 입력의 유효성을 잘못 검증하는 약점을 정의한다.
+- **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)** 는 애플리케이션 보안 지침을 공개한다.
+- **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS) 5.0.0** 은 입력•인젝션 방지 요구를 제시한다.
+- **객체 관계 매핑(Object-Relational Mapping, ORM)** 은 객체와 데이터베이스 테이블을 연결하는 계층이다.
 
 </details>
 

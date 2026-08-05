@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:48:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ABAC(Attribute-Based Access Control)** 는 주체•객체•행위•환경 속성을 정책으로 평가하는 접근 제어 모델이다.
-- **RBAC(Role-Based Access Control)** 는 권한을 역할에 묶어 사용자에게 배정하는 접근 제어 모델이다.
+- **속성 기반 접근 제어(Attribute-Based Access Control, ABAC)** 는 주체•객체•행위•환경 속성을 정책으로 평가한다.
+- **역할 기반 접근 제어(Role-Based Access Control, RBAC)** 는 권한을 역할에 묶어 사용자에게 배정한다.
 
 </details>
 
@@ -42,9 +42,9 @@ extra:
 - **객체 속성** 은 대상 자원의 소유자•등급•유형을 나타내는 판단값이다.
 - **행위 속성** 은 읽기•쓰기•승인처럼 요청한 동작을 나타내는 판단값이다.
 - **환경 속성** 은 요청 시점의 시간•위치•기기 상태를 나타내는 판단값이다.
-- **PIP(Policy Information Point)** 는 정책 평가에 필요한 신뢰 속성을 제공한다.
-- **PDP(Policy Decision Point)** 는 속성과 정책을 평가해 허용•거부를 결정한다.
-- **PEP(Policy Enforcement Point)** 는 정책 결정 결과를 실제 접근 요청에 집행한다.
+- **정책 정보점(Policy Information Point, PIP)** 은 정책 평가에 필요한 신뢰 속성을 제공한다.
+- **정책 결정점(Policy Decision Point, PDP)** 은 속성과 정책을 평가해 허용•거부를 결정한다.
+- **정책 집행점(Policy Enforcement Point, PEP)** 은 정책 결정 결과를 실제 요청에 집행한다.
 - **속성 신선도**: 속성값이 요청 시점의 실제 상태를 정확히 반영하는 정도이다.
 
 </details>
@@ -67,14 +67,13 @@ extra:
 </details>
 
 ```text
-[정책 집행점 PEP] ----- [정책 결정점 PDP]
-                              /       \
-                       [정책 저장소]   [속성 정보점 PIP]
-                                             |
-                                       [속성 권위자]
+ABAC 정책 구조
+├─ 정책 집행점 PEP: 정책 결정 집행
+├─ 정책 결정점 PDP: 속성•정책 평가
+├─ 정책 저장소: 규칙•충돌 기준 관리
+├─ 속성 정보점 PIP: 신뢰 속성 조회
+└─ 속성 권위자: 신뢰 속성 생성•갱신
 ```
-
-선의 의미: 정책 집행점과 정책 결정점은 집행•판단 경계를 이루고, 결정점 아래에는 규칙을 제공하는 정책 저장소와 신뢰 속성을 조회하는 속성 정보점이 분리되며, 속성 권위자는 정보점의 속성 생성•갱신 근거가 되는 정적 ABAC 계층을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -92,30 +91,32 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **TTL(Time to Live)** 은 조회한 속성값을 다시 확인하기 전까지 유효하다고 보는 생존 시간이다.
+- **생존 시간(Time to Live, TTL)** 은 조회한 속성값을 다시 확인하기 전까지의 유효 시간이다.
 - **기본 거부**: 평가 오류를 포함해 정책이 명시적으로 허용하지 않은 요청을 거부하는 원칙이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 주체
-    participant E as 정책 집행점 PEP
-    participant D as 정책 결정점 PDP
-    participant I as 속성 정보점 PIP
-    participant R as 보호 자원
-    S->>E: 접근 요청
-    E->>E: 1. 요청 속성•맥락 추출
-    E->>D: 정책 결정 요청
-    D->>D: 2. 적용 정책•충돌 규칙 선택
-    D->>I: 속성 조회 조건
-    I->>I: 3. 권위자•TTL•무결성 검증
-    I-->>D: 최신 신뢰 속성
-    D->>D: 4. 정책 평가•기본 거부
-    D-->>E: 허용•거부 결정
-    E->>E: 5. 결정 집행•감사 기록
-    E->>R: 승인된 자원 행위
-    R-->>S: 접근 결과
+```text
+접근 요청
+    |
+    v
+1. 요청 속성•맥락 추출
+    |
+    v
+2. 적용 정책•충돌 규칙 선택
+    |
+    v
+3. 권위자•TTL•무결성 검증
+    |
+    v
+4. 정책 평가•기본 거부
+    |
+    +-- 오류•불일치 -- 거부
+    |
+    +-- 명시적 허용 -- 5. 결정 집행•감사 기록
+                               |
+                               v
+                          보호 자원 접근
 ```
 
 **동작 원리**
@@ -153,10 +154,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **SP(Special Publication) 800-162** 는 속성 기반 접근 제어의 정의와 설계 고려사항을 제시한다.
-- **OASIS(Organization for the Advancement of Structured Information Standards)** 는 정보 교환 표준을 개발하는 국제 컨소시엄이다.
-- **XACML(eXtensible Access Control Markup Language) 3.0** 은 속성 기반 정책 언어와 처리 모델을 정의한다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발한다.
+- **특별 간행물(Special Publication, SP) 800-162** 는 속성 기반 접근 제어의 정의와 설계 고려사항을 제시한다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 정보 교환 표준을 개발한다.
+- **확장 가능 접근 제어 마크업 언어(eXtensible Access Control Markup Language, XACML) 3.0** 은 속성 기반 정책 언어를 정의한다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:44:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SAML(Security Assertion Markup Language) 2.0** 은 인증 결과와 사용자 속성을 XML 주장으로 전달하는 연합 인증 표준이다.
-- **XML(Extensible Markup Language)** 은 구조화된 문서를 표현•교환하는 마크업 언어다.
-- **SSO(Single Sign-On)** 는 한 번의 인증으로 여러 연계 서비스에 접속하게 하는 인증 방식이다.
+- **보안 주장 마크업 언어(Security Assertion Markup Language, SAML) 2.0** 은 인증 결과와 속성을 XML 주장으로 전달한다.
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)** 는 구조화된 문서를 표현•교환한다.
+- **통합 인증(Single Sign-On, SSO)** 은 한 번의 인증으로 여러 연계 서비스에 접속하게 한다.
 
 </details>
 
@@ -41,9 +41,9 @@ extra:
 
 - **Assertion** 은 사용자•인증•조건을 담아 전달하는 SAML 주장 문서다.
 - **Metadata** 는 기관 식별자•수신 주소•인증서 등 연합 신뢰 설정을 담는 문서다.
-- **IdP(Identity Provider)** 는 사용자를 인증하고 SAML 주장을 발급하는 신원 제공자다.
-- **SP(Service Provider)** 는 SAML 주장을 검증하고 사용자에게 서비스를 제공한다.
-- **ID(Identifier)** 는 요청과 응답을 고유하게 구분하는 식별값이다.
+- **신원 제공자(Identity Provider, IdP)** 는 사용자를 인증하고 SAML 주장을 발급한다.
+- **서비스 제공자(Service Provider, SP)** 는 SAML 주장을 검증하고 서비스를 제공한다.
+- **식별자(Identifier, ID)** 는 요청과 응답을 고유하게 구분한다.
 - **Recipient** 는 SAML 응답을 수신하도록 지정된 주소다.
 - **재전송 공격** 은 이미 사용한 정상 인증 응답을 다시 제출하는 공격이다.
 
@@ -66,14 +66,13 @@ extra:
 </details>
 
 ```text
-                   [사용자 브라우저]
-                      /          \
-                   [SP]         [IdP] ----- [SAML Assertion]
-                      \          /
-                  [메타데이터•검증 체계]
+SAML 연합 인증 구조
+├─ 사용자 브라우저: 요청•응답 중계
+├─ SP: 주장 검증•로컬 세션 생성
+├─ IdP: 사용자 인증•응답 서명
+├─ SAML Assertion: 신원•속성•조건 전달
+└─ 메타데이터•검증 체계: 신뢰•재전송 관리
 ```
-
-선의 의미: 사용자 브라우저 아래에는 주장을 검증하는 SP와 사용자를 인증하는 IdP가 분리되고, IdP는 SAML Assertion을 발급하며, SP와 IdP는 메타데이터•검증 체계의 식별자•주소•인증서 신뢰 경계를 공유하는 정적 연합 구조를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -91,31 +90,32 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AuthnRequest**: SP가 IdP에 사용자 인증을 요구하며 요청 ID와 반환 주소를 전달하는 SAML 메시지이다.
+- **인증 요청(Authentication Request, AuthnRequest)**: SP가 IdP에 사용자 인증을 요구하는 SAML 메시지이다.
 - **응답 ID**: 요청•응답 결속과 중복 사용 여부를 판별하는 고유 식별자이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자 브라우저
-    participant S as SP
-    participant I as IdP
-    participant 재전송저장소
-    U->>S: 서비스 접근
-    S->>S: 1. SAML AuthnRequest 생성
-    S-->>U: SAML AuthnRequest
-    U->>I: 인증 요청 중계
-    I->>I: 2. 사용자 신원 인증
-    I->>I: 3. Assertion 조건•서명 생성
-    I-->>U: SAML 응답
-    U->>S: 인증 응답 중계
-    S->>S: 4. 서명•대상•요청 결속 검증
-    S->>재전송저장소: 응답 ID 조회
-    재전송저장소-->>S: 재사용 상태
-    S->>S: 5. 재전송 차단•로컬 세션 생성
-    S->>재전송저장소: 검증된 응답 ID 저장
-    S-->>U: 로컬 세션 결과
+```text
+서비스 접근
+    |
+    v
+1. SAML AuthnRequest 생성
+    |
+    v
+2. 사용자 신원 인증
+    |
+    v
+3. Assertion 조건•서명 생성
+    |
+    v
+4. 서명•대상•요청 결속 검증
+    |
+    v
+5. 재전송 차단•로컬 세션 생성
+    |
+    +-- 응답 ID 중복 -- 로그인 거부
+    |
+    +-- 신규 응답 ID -- 로컬 세션 발급
 ```
 
 **동작 원리**
@@ -154,10 +154,10 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **OASIS(Organization for the Advancement of Structured Information Standards)** 는 정보 교환 표준을 개발하는 국제 컨소시엄이다.
+- **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)** 는 정보 교환 표준을 개발한다.
 - **SAML 2.0 Core** 는 SAML 주장•프로토콜•조건•서명 처리의 핵심 구문과 의미를 정의한다.
 - **XML 서명 래핑 공격**: 서명된 요소와 애플리케이션이 실제 처리하는 요소의 차이를 악용해 위조 내용을 수용하게 하는 공격이다.
-- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)** 는 웹 기술의 상호운용 표준을 개발한다.
 - **XML Signature 1.1** 은 XML 문서의 서명 대상 요소와 검증 방법을 정의한다.
 
 </details>

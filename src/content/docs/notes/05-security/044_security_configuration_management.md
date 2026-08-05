@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "보안 구성 관리 (Security Configuration Management)"
-date: "2026-08-05T01:41:13+09:00"
+date: "2026-08-05T16:16:00+09:00"
 tags:
   - "notes-security"
 weight: 44
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **보안 구성 관리** 는 시스템별 승인 기준선을 정의하고 실제 설정을 지속 비교•교정하여 구성 드리프트와 오설정을 통제하는 관리 체계
+- 정의/개념: 승인 기준선과 실제 설정을 비교•교정하는 **관리 체계**
 - 배경/필요성: 배포•수동 변경으로 **구성 편차(드리프트) 발생**
 
 #### 한줄 요약
@@ -64,12 +64,13 @@ extra:
 </details>
 
 ```text
-[자산 정보]---[버전 기준]---[정책 검사]
-                                |
-                         [편차 탐지]---[예외 복구]
+보안 구성 관리
+├─ 자산 정보: 자산별 기준 연결
+├─ 버전 기준: 승인 설정•변경 이력 관리
+├─ 정책 검사: 배포 전 위반 판정
+├─ 편차 탐지: 목표•실제 상태 차이 식별
+└─ 예외 복구: 사유•만료•복구 영향 통제
 ```
-
-선의 의미: 자산별 승인 기준과 정책 검사, 실제 상태의 편차 탐지, 예외•복구 통제가 연결된 구성 관리 체계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -88,29 +89,36 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IaC(Infrastructure as Code)** 는 인프라 구성을 코드로 선언•버전 관리하는 방식이다.
-- **CI/CD(Continuous Integration/Continuous Delivery)** 는 변경 통합•검증•배포를 자동화하는 방식이다.
+- **코드형 인프라(Infrastructure as Code, IaC)** 는 인프라 구성을 코드로 선언•버전 관리하는 방식이다.
+- **지속적 통합•제공(Continuous Integration/Continuous Delivery, CI/CD)** 은 변경 통합•검증•배포를 자동화하는 방식이다.
 - **롤백** 은 설정 변경 장애 때 이전 정상 상태로 되돌리는 절차다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 자산관리
-    participant 기준선책임자
-    participant 배포파이프라인 as IaC•CI/CD 배포 파이프라인
-    participant 운영담당
-    자산관리->>기준선책임자: 자산•환경 정보
-    기준선책임자->>기준선책임자: 1. 환경별 보안 기준선 매핑
-    기준선책임자->>배포파이프라인: 승인 기준선•정책 코드
-    배포파이프라인->>배포파이프라인: 2. 배포 전 정책 검사
-    배포파이프라인->>배포파이프라인: 3. 승인 구성 배포
-    배포파이프라인-->>운영담당: 배포•실행 상태
-    loop 실행 중 지속 점검
-        운영담당->>운영담당: 4. 구성 편차•영향 분석
-        운영담당->>운영담당: 5. 자동 복구•예외 처리
-    end
-    운영담당-->>기준선책임자: 복구•예외 결과
+```text
+자산•환경 정보
+       |
+       v
+1. 환경별 보안 기준선 매핑
+       |
+       v
+2. 배포 전 정책 검사
+       |
+       +-- 위반 -- 변경 수정•재검사
+       |
+       +-- 통과 -- 3. 승인 구성 배포
+                         |
+                         v
+                 실행 중 지속 점검
+                         |
+                         v
+              4. 구성 편차•영향 분석
+                         |
+             +-----------+-----------+
+             |                       |
+        복구 안전                  복구 위험
+             |                       |
+             +-- 5. 자동 복구•예외 처리
 ```
 
 **동작 원리**
@@ -151,7 +159,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST SP(National Institute of Standards and Technology Special Publication) 800-128** 은 보안 중심 구성 관리와 기준선•변경 통제를 제시한다.
+- **미국 국립표준기술연구소 특별 간행물(National Institute of Standards and Technology Special Publication, NIST SP) 800-128** 은 보안 중심 구성 관리와 기준선•변경 통제를 제시한다.
 - **CIS Benchmarks** 는 운영체제•클라우드•응용별 합의 기반 안전 구성 권고다.
 - **CIS(Center for Internet Security)** 는 합의 기반 보안 지침을 제공하는 비영리 기관이다.
 

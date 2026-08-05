@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쉘코드•ROP 공격 (Shellcode ROP)"
-date: "2026-08-05T10:02:00+09:00"
+date: "2026-08-05T16:28:00+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -24,11 +24,11 @@ extra:
 <summary>핵심 용어</summary>
 
 - **쉘코드** 는 취약한 프로세스에 주입해 공격 동작을 수행하는 기계어 코드다.
-- **ROP(Return-Oriented Programming)** 는 기존 코드의 짧은 가젯을 연결해 공격 동작을 구성하는 기법이다.
+- **반환 지향 프로그래밍(Return-Oriented Programming, ROP)** 은 기존 코드의 짧은 가젯을 연결해 공격 동작을 구성한다.
 
 </details>
 
-- 정의/개념: **쉘코드•ROP** 는 각각 메모리에 주입한 명령 코드나 기존 실행 파일의 짧은 가젯 연쇄로 프로그램 제어 흐름을 탈취하는 코드 실행 공격 기법
+- 정의/개념: 주입 코드•가젯으로 흐름을 탈취하는 **코드 실행 공격**
 - 배경/필요성: NX만으로는 **코드 재사용 공격 차단 불가**
 
 #### 한줄 요약
@@ -41,9 +41,9 @@ extra:
 <summary>핵심 용어</summary>
 
 - **제어 데이터** 는 반환 주소•함수 포인터처럼 다음 실행 위치를 정하는 값이다.
-- **NX(No-eXecute)** 는 데이터 메모리 페이지의 코드 실행을 금지하는 보호 기능이다.
-- **ASLR(Address Space Layout Randomization)** 은 메모리 영역의 시작 주소를 무작위화하는 보호 기법이다.
-- **CFI(Control-Flow Integrity)** 는 간접 분기와 호출이 허용 대상에만 도달하도록 검증하는 보호 기법이다.
+- **실행 불가(No-eXecute, NX)** 는 데이터 메모리 페이지의 코드 실행을 금지한다.
+- **주소 공간 배치 무작위화(Address Space Layout Randomization, ASLR)** 는 메모리 영역의 시작 주소를 무작위화한다.
+- **제어 흐름 무결성(Control-Flow Integrity, CFI)** 은 간접 분기와 호출이 허용 대상에만 도달하도록 검증한다.
 - **그림자 스택** 은 별도 보호 영역의 반환 주소 사본과 실제 반환 주소를 대조하는 기법이다.
 
 </details>
@@ -65,6 +65,15 @@ extra:
 - **가젯** 은 ROP가 연결해 사용하는 짧은 기존 명령열이다.
 
 </details>
+
+```text
+제어 탈취 다층 방어
+├─ 메모리 안전: 경계 밖 쓰기•수명 오류 방지
+├─ NX•메모리 권한: 데이터 페이지 실행 금지
+├─ ASLR: 코드•라이브러리 주소 무작위화
+├─ CFI: 간접 분기•호출 대상 제한
+└─ 그림자 스택: 반환 주소 사본 대조
+```
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -88,17 +97,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 외부입력
-    participant 취약코드
-    participant 프로세서
-    외부입력->>취약코드: 경계 초과 입력
-    취약코드->>프로세서: 1. 손상된 제어 데이터
-    프로세서->>프로세서: 2. 실행 페이지 속성 확인
-    프로세서->>프로세서: 3. NX 판정
-    프로세서->>프로세서: 4. 분기•반환 대상 확인
-    프로세서->>프로세서: 5. CFI•그림자 스택 판정
+```text
+경계 초과 입력
+      |
+      v
+1. 손상된 제어 데이터
+      |
+      v
+2. 실행 페이지 속성 확인
+      |
+      v
+3. NX 판정
+      |
+      +-- 실행 불가 -- 쉘코드 차단
+      |
+      +-- 실행 가능 -- 4. 분기•반환 대상 확인
+                              |
+                              v
+                    5. CFI•그림자 스택 판정
+                              |
+                  +-----------+-----------+
+                  |                       |
+             불일치 차단             허용 흐름 실행
 ```
 
 **동작 원리**
@@ -135,8 +155,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CWE(Common Weakness Enumeration)-787** 은 경계 밖 쓰기로 제어 데이터가 손상되는 약점을 정의한다.
-- **Intel CET(Control-flow Enforcement Technology)** 는 간접 분기 추적과 하드웨어 그림자 스택으로 ROP를 억제한다.
+- **공통 약점 열거(Common Weakness Enumeration, CWE)-787** 은 경계 밖 쓰기로 제어 데이터가 손상되는 약점을 정의한다.
+- **인텔 제어 흐름 강제 기술(Control-flow Enforcement Technology, Intel CET)** 은 간접 분기 추적과 하드웨어 그림자 스택으로 ROP를 억제한다.
 
 </details>
 

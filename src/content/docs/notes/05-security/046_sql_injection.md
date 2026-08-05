@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SQL 인젝션 (SQL Injection)"
-date: "2026-08-05T01:41:13+09:00"
+date: "2026-08-05T16:20:00+09:00"
 tags:
   - "notes-security"
 weight: 46
@@ -23,11 +23,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SQL(Structured Query Language) 인젝션** 은 외부 입력이 값이 아닌 SQL 명령 구조로 해석돼 질의 의미를 바꾸는 취약점이다.
+- **구조화 질의 언어(Structured Query Language, SQL) 인젝션** 은 외부 입력이 명령 구조로 해석돼 질의 의미를 바꾸는 취약점이다.
 
 </details>
 
-- 정의/개념: **SQL 인젝션** 은 비신뢰 입력이 SQL 명령의 값이 아니라 구문 구조로 해석되어 공격자가 질의 의미를 변경하는 주입 취약점
+- 정의/개념: 비신뢰 입력이 질의 의미를 바꾸는 **주입 취약점**
 - 배경/필요성: 문자열 결합은 **SQL 구조•값 분리 불가**
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 - **응답 기반 추론** 은 반환 결과의 차이로 질의의 참•거짓과 값을 알아내는 공격 방식이다.
 - **오류 기반 추론** 은 DB 오류 메시지의 차이로 내부 정보와 값을 알아내는 공격 방식이다.
 - **시간차 기반 추론** 은 응답 지연의 차이로 질의의 참•거짓과 값을 알아내는 공격 방식이다.
-- **WAF(Web Application Firewall)** 는 웹 요청을 검사해 알려진 공격 패턴을 차단하는 보조 통제다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** 은 웹 요청의 알려진 공격 패턴을 차단하는 보조 통제다.
 
 </details>
 
@@ -62,16 +62,19 @@ extra:
 <summary>핵심 용어</summary>
 
 - **최소 권한 DB 계정** 은 응용에 필요한 스키마•연산만 허용해 주입 성공 때의 피해 범위를 제한한다.
-- **DB(Database)** 는 응용의 구조화 데이터를 저장•질의하는 데이터베이스로, SQL 인젝션에서는 공격 명령이 실행되는 대상이다.
+- **데이터베이스(Database, DB)** 는 응용 데이터를 저장•질의하며 주입된 명령이 실행되는 대상이다.
 - **허용목록** 은 바인딩할 수 없는 테이블•열 같은 동적 식별자를 승인된 값으로 제한한다.
 
 </details>
 
 ```text
-[비신뢰 입력]---[질의 생성]---[DB 드라이버]---[DB 계정]---[오류•감사]
+SQL 실행 경계
+├─ 비신뢰 입력: 외부 값 유입
+├─ 질의 생성: SQL 구조•입력값 분리
+├─ DB 드라이버: 매개변수 값 바인딩
+├─ DB 계정: 허용 스키마•연산 제한
+└─ 오류•감사: 이상 질의 추적•오류 차단
 ```
-
-선의 의미: 외부 값, SQL 구조, 값 바인딩, 데이터베이스 권한, 감사 통제가 맞닿는 SQL 실행 경계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,20 +97,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 사용자
-    participant 응용
-    participant DB
-    사용자->>응용: 외부 입력
-    응용->>응용: 1. 준비된 SQL 구조 생성
-    응용->>응용: 2. 입력값 바인딩
-    응용->>DB: 분리된 질의
-    DB->>DB: 3. SQL 구조 컴파일•값 처리
-    DB->>DB: 4. 최소 권한 질의 실행
-    DB-->>응용: 제한된 질의 결과
-    응용->>응용: 5. 질의•오류 감사 기록
-    응용-->>사용자: 응답 결과
+```text
+외부 입력
+    |
+    v
+1. 준비된 SQL 구조 생성
+    |
+    v
+2. 입력값 바인딩
+    |
+    v
+3. SQL 구조 컴파일•값 처리
+    |
+    v
+4. 최소 권한 질의 실행
+    |
+    v
+5. 질의•오류 감사 기록
+    |
+    v
+제한된 질의 결과
 ```
 
 **동작 원리**
@@ -130,8 +139,8 @@ sequenceDiagram
 - **인밴드** 는 원래 응답 경로에서 공격 결과를 직접 얻는 방식이다.
 - **블라인드** 는 참•거짓이나 시간차를 관찰해 결과를 추론하는 방식이다.
 - **아웃오브밴드** 는 원래 응답과 다른 외부 통신으로 결과를 얻는 방식이다.
-- **DNS(Domain Name System) 외부 경로** 는 DB가 이름 질의를 보내게 해 정보를 유출하는 경로다.
-- **HTTP(Hypertext Transfer Protocol) 외부 경로** 는 DB가 웹 요청을 보내게 해 정보를 유출하는 경로다.
+- **도메인 이름 시스템(Domain Name System, DNS) 외부 경로** 는 DB 이름 질의로 정보를 유출하는 경로다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) 외부 경로** 는 DB 웹 요청으로 정보를 유출하는 경로다.
 
 </details>
 
@@ -150,9 +159,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **CWE(Common Weakness Enumeration)-89** 는 SQL 명령 구조에 사용된 특수 요소의 부적절한 중화를 정의한다.
-- **OWASP(Open Worldwide Application Security Project)** 는 애플리케이션 보안 지침을 공개하는 비영리 프로젝트다.
-- **ASVS(Application Security Verification Standard) 5.0.0** 은 입력 처리•인젝션 방지 요구사항을 제시한다.
+- **공통 약점 열거(Common Weakness Enumeration, CWE)-89** 는 SQL 특수 요소의 부적절한 중화를 정의한다.
+- **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)** 는 애플리케이션 보안 지침을 공개한다.
+- **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS) 5.0.0** 은 인젝션 방지 요구사항을 제시한다.
 
 </details>
 
