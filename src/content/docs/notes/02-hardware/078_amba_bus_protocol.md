@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-05T12:34:09+09:00"
+date: "2026-08-05T17:58:06+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AMBA(Advanced Microcontroller Bus Architecture)**: 시스템온칩 내부 기능 블록의 거래와 응답을 표준화한 Arm 인터페이스 규격군이다.
+- **고급 마이크로컨트롤러 버스 아키텍처(Advanced Microcontroller Bus Architecture, AMBA)**: SoC 내부 기능 블록의 거래와 응답을 표준화한 Arm 인터페이스 규격군이다.
 - **시스템온칩(System on Chip, SoC)**: 처리기와 메모리 제어기 및 주변장치를 하나의 반도체 다이에 통합한 시스템이다.
 - **거래(Transaction)**: 주소와 제어, 데이터 및 응답으로 완결되는 한 번의 읽기 또는 쓰기 작업이다.
 
@@ -39,16 +39,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AXI(Advanced eXtensible Interface)**: 독립 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
-- **AHB(Advanced High-performance Bus)**: 주소와 데이터 단계를 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
-- **APB(Advanced Peripheral Bus)**: 저대역 주변장치 레지스터를 연결하는 단순 AMBA 인터페이스이다.
+- **고급 확장형 인터페이스(Advanced eXtensible Interface, AXI)**: 독립 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
+- **고급 고성능 버스(Advanced High-performance Bus, AHB)**: 주소와 데이터 단계를 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
+- **고급 주변 버스(Advanced Peripheral Bus, APB)**: 저대역 주변장치 레지스터를 연결하는 단순 AMBA 인터페이스이다.
 - **미완료 거래(Outstanding Transaction)**: 요청을 수락했지만 아직 최종 응답이 끝나지 않은 거래이다.
 
 </details>
 
-- **VALID•READY 독립 채널** 과 **미완료 거래** 로 AXI 병렬 처리
-- **AHB 주소•데이터 파이프라인** 으로 중간급 시스템 연결
-- **APB 설정•접근 2단계** 로 저속 제어 레지스터 연결
+- **VALID•READY 독립 채널**과 **미완료 거래**로 AXI 병렬 처리
+- **AHB 주소•데이터 파이프라인**으로 중간급 시스템 연결
+- **APB 설정•접근 2단계**로 저속 제어 레지스터 연결
 
 #### 한줄 요약
 
@@ -58,7 +58,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **관리자 기능 블록(Manager Block)**: 프로세서와 DMA처럼 읽기•쓰기 거래를 발행하는 구성이다.
+- **관리자 기능 블록(Manager Block)**: 프로세서와 직접 메모리 접근(Direct Memory Access, DMA) 장치처럼 읽기•쓰기 거래를 발행하는 구성이다.
 - **고속 상호 연결망(High-speed Interconnect)**: 여러 관리자를 연결하고 주소 디코딩•중재•라우팅을 수행하는 구성이다.
 - **메모리•가속기(Memory•Accelerator)**: 고대역 AXI 또는 AHB 요청을 처리하는 대상 구성이다.
 - **프로토콜 브리지(Protocol Bridge)**: 한 버스의 거래를 다른 버스가 요구하는 신호와 순서로 변환하는 장치이다.

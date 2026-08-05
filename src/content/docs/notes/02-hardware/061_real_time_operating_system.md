@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실시간 운영체제 (RTOS)"
-date: "2026-08-05T12:08:44+09:00"
+date: "2026-08-05T17:27:53+09:00"
 tags:
   - "notes-hardware"
 weight: 61
@@ -47,7 +47,7 @@ extra:
 </details>
 
 - 평균 처리량보다 **최악 지연 상한** 예측 우선
-- **우선순위 선점** 으로 긴급 태스크 응답시간 단축
+- **우선순위 선점**으로 긴급 태스크 응답시간 단축
 - **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)•차단 시간** 증가 시 최악 응답시간 증가
 
 $$
@@ -67,7 +67,7 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **ISR**: Interrupt Service Routine, 인터럽트 사건을 처리하는 루틴
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 사건을 처리하는 루틴이다.
 - **인터럽트 관리(Interrupt Management)**: ISR을 실행하고 관련 태스크를 준비 상태로 전환하는 기능
 - **태스크 제어 블록(Task Control Block, TCB)**: 태스크의 실행 상태와 우선순위, 레지스터 문맥 및 스택 정보를 저장하는 자료구조이다.
 - **준비 큐(Ready Queue)**: 실행할 수 있는 태스크를 우선순위나 스케줄링 정책 순서로 보관하는 대기열이다.

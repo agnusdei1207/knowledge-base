@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-05T12:18:07+09:00"
+date: "2026-08-05T17:40:42+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 차량 소프트웨어의 **구조•인터페이스•개발 방법** 을 표준화한 플랫폼
+- 정의/개념: 차량 소프트웨어의 **구조•인터페이스•개발 방법**을 표준화한 플랫폼
 - 배경/필요성: 공급사별 독자 인터페이스는 **통합•재사용 제약**
 
 #### 한줄 요약
@@ -40,16 +40,16 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **표준 인터페이스(Standard Interface)**: 공급사와 하드웨어가 달라도 데이터 형식과 호출 규칙을 일관되게 유지하는 접점이다.
-- **XML**: Extensible Markup Language, 구조화된 데이터 교환 형식
-- **ARXML**: AUTOSAR XML, 시스템•소프트웨어•통신 설계 정보 교환 형식
+- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 구조화된 데이터 교환 형식이다.
+- **AUTOSAR XML(ARXML)**: 시스템•소프트웨어•통신 설계 정보 교환 형식이다.
 - **Classic Platform**: 정적 구성과 결정적인 주기 제어를 중심으로 하는 AUTOSAR 플랫폼이다.
 - **Adaptive Platform**: 서비스 지향 구조와 고성능 동적 응용을 중심으로 하는 AUTOSAR 플랫폼이다.
 
 </details>
 
-- **표준 인터페이스** 로 응용•하드웨어 결합 완화
-- **ARXML 계약** 으로 공급사•도구 간 설계 정보 교환
-- **Classic•Adaptive** 로 제어•서비스 분리
+- **표준 인터페이스**로 응용•하드웨어 결합 완화
+- **ARXML 계약**으로 공급사•도구 간 설계 정보 교환
+- **Classic•Adaptive**로 제어•서비스 분리
 
 #### 한줄 요약
 
@@ -61,9 +61,10 @@ extra:
 
 - **소프트웨어 구성요소(Software Component, SWC)**: 차량 기능을 포트와 러너블 단위로 캡슐화한 AUTOSAR 응용 구성요소이다.
 - **런타임 환경(Runtime Environment, RTE)**: Classic SWC와 기본 소프트웨어 사이의 포트 통신과 호출을 중개하는 계층이다.
-- **기본 소프트웨어•MCAL(BSW•MCAL)**: 운영체제•통신•진단과 MCU 하드웨어 추상화를 제공하는 계층이다.
+- **기본 소프트웨어(Basic Software, BSW)**: 운영체제•통신•진단 서비스를 제공하는 계층이다.
+- **마이크로컨트롤러 추상화 계층(Microcontroller Abstraction Layer, MCAL)**: MCU 장치 접근을 표준화하는 BSW 하위 계층이다.
 - **Adaptive 응용(Adaptive Application)**: 고성능 운영체제 위에서 동적 차량 서비스를 실행하는 응용이다.
-- **ARA•기능 클러스터(ARA•Functional Cluster)**: Adaptive 표준 API와 통신•실행•진단•상태 관리 모듈 집합이다.
+- **Adaptive 응용 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: Adaptive 표준 API와 기능 클러스터를 제공하는 실행 기반이다.
 
 </details>
 

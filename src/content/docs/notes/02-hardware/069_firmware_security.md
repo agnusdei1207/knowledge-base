@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "펌웨어 보안 취약점"
-date: "2026-08-05T12:20:51+09:00"
+date: "2026-08-05T17:44:08+09:00"
 tags:
   - "notes-hardware"
 weight: 69
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **펌웨어(Firmware)**: 운영체제보다 먼저 실행되어 부팅과 하드웨어 초기화 및 장치 제어를 담당하는 저수준 코드이다.
-- **OS**: Operating System, 하드웨어 자원과 응용 실행을 관리하는 운영체제
+- **운영체제(Operating System, OS)**: 하드웨어 자원과 응용 실행을 관리하는 소프트웨어이다.
 - **펌웨어 취약점(Firmware Vulnerability)**: 공급망과 부팅•갱신•관리 경로에서 고권한 코드의 변조나 오용을 허용하는 보안 결함이다.
 - **침해 잔존성(Compromise Persistence)**: 운영체제를 재설치해도 더 낮은 계층의 악성 코드나 설정이 계속 남아 실행되는 성질이다.
 
@@ -46,8 +46,8 @@ extra:
 
 </details>
 
-- **OS 이전 고권한 실행** 으로 침해 지속성 증가
-- **긴 수명•공급망 분산** 으로 패치 지연 확대
+- **OS 이전 고권한 실행**으로 침해 지속성 증가
+- **긴 수명•공급망 분산**으로 패치 지연 확대
 - 서명 검증만으로 **취약 코드•오설정** 차단 불가
 
 #### 한줄 요약
@@ -58,7 +58,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **자산•배포 관리(Asset•Deployment Management)**: 장치별 펌웨어와 SBOM 및 배포 이력을 추적하는 구성이다.
+- **자산•배포 관리(Asset•Deployment Management)**: 장치별 펌웨어와 소프트웨어 자재 명세서(Software Bill of Materials, SBOM) 및 배포 이력을 추적하는 구성이다.
 - **업데이트 검증(Update Verification)**: 후보 이미지의 서명과 버전, 해시 및 장치 호환성을 설치 전에 판정하는 과정이다.
 - **신뢰 저장소(Trust Store)**: 서명 키와 키 폐기 상태 및 최소 보안 버전을 변조하기 어렵게 보관하는 영역이다.
 - **A/B 슬롯(A/B Slot)**: 새 후보와 기존 정상 이미지를 별도 영역에 보관하여 실패 시 복구할 수 있게 한 구성이다.
@@ -78,7 +78,7 @@ extra:
 |:---|:---|
 | 자산•배포 관리 | **기기•SBOM 추적** |
 | 업데이트 검증 | **서명•버전 판정** |
-| 신뢰 저장소 | **서명 키•보안 버전** 과 폐기 상태 보호 |
+| 신뢰 저장소 | **서명 키•보안 버전**과 폐기 상태 보호 |
 | A/B 슬롯 | **후보•정상본 분리** |
 | 부트•복구 제어 | **활성화•롤백 결정** |
 
@@ -160,8 +160,8 @@ extra:
 - **의존성 검증(Dependency Validation)**: SBOM의 구성요소 버전과 알려진 취약점 및 호환 관계를 설치 전에 확인하는 과정이다.
 - **관리망 격리(Management-network Isolation)**: BMC와 관리 포트를 서비스 데이터망에서 분리하여 접근 경로를 제한하는 통제이다.
 - **다중 키(Multiple Signing Keys)**: 한 서명 키의 폐기나 장애에도 승인된 대체 키로 업데이트와 복구를 계속할 수 있게 한 구성이다.
-- **JTAG**: Joint Test Action Group, 경계 스캔과 칩 디버깅용 인터페이스
-- **UART**: Universal Asynchronous Receiver-transmitter, 비동기 직렬 통신 장치
+- **공동 시험 동작 그룹(Joint Test Action Group, JTAG)**: 경계 스캔과 칩 디버깅용 인터페이스이다.
+- **범용 비동기 송수신기(Universal Asynchronous Receiver-transmitter, UART)**: 비동기 직렬 통신 장치이다.
 
 </details>
 
@@ -186,7 +186,7 @@ extra:
 
 </details>
 
-- **서명•보안 버전** 과 A/B 복구를 검증해 펌웨어 갱신 승인
+- **서명•보안 버전**과 A/B 복구를 검증해 펌웨어 갱신 승인
 
 #### 한줄 요약
 

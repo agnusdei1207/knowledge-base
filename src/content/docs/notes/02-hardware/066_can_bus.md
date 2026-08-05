@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
-date: "2026-08-05T12:16:04+09:00"
+date: "2026-08-05T17:38:07+09:00"
 tags:
   - "notes-hardware"
 weight: 66
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CAN**: Controller Area Network, 여러 ECU가 공유 선로에서 방송하는 차량용 버스
+- **제어기 영역 네트워크(Controller Area Network, CAN)**: 여러 전자제어장치(Electronic Control Unit, ECU)가 공유 선로에서 방송하는 차량용 버스이다.
 - **다중 마스터(Multi-master)**: 여러 노드가 중앙 제어기 없이 버스 사용을 요청하고 중재 결과에 따라 송신하는 구조이다.
 - **비파괴 중재(Non-destructive Arbitration)**: 여러 노드가 동시에 송신해도 우선순위 승자의 프레임을 손상시키지 않는 중재 방식이다.
 
@@ -46,9 +46,9 @@ extra:
 
 </details>
 
-- **메시지 ID 발행•구독** 으로 송수신 노드 결합 완화
-- **우성 비트 비파괴 중재** 로 높은 우선순위 프레임 보존
-- **버스 부하•ID 우선순위** 가 최악 응답시간 결정
+- **메시지 ID 발행•구독**으로 송수신 노드 결합 완화
+- **우성 비트 비파괴 중재**로 높은 우선순위 프레임 보존
+- **버스 부하•ID 우선순위**가 최악 응답시간 결정
 
 #### 한줄 요약
 
@@ -126,7 +126,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CAN FD**: CAN Flexible Data-rate, 64바이트 페이로드와 빠른 데이터 구간을 지원하는 규격
+- **가변 데이터 전송률 CAN(CAN Flexible Data-rate, CAN FD)**: 64바이트 페이로드와 빠른 데이터 구간을 지원하는 규격이다.
 - **자동차 이더넷(Automotive Ethernet)**: 스위치 기반 링크로 카메라와 백본의 대용량 데이터를 전송하는 차량 네트워크이다.
 - **페이로드(Payload)**: 프레임의 식별자와 오류 제어 필드를 제외한 실제 응용 데이터이다.
 
@@ -174,7 +174,7 @@ extra:
 
 </details>
 
-- **짧은 제어** 는 CAN, **확장 데이터** 는 CAN FD, 대용량은 이더넷 선택
+- **짧은 제어**는 CAN, **확장 데이터**는 CAN FD, 대용량은 이더넷 선택
 
 #### 한줄 요약
 

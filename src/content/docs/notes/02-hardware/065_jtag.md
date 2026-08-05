@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-08-05T12:14:26+09:00"
+date: "2026-08-05T17:36:19+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **JTAG**: Joint Test Action Group, 경계 스캔과 칩 디버깅용 직렬 인터페이스
-- **IEEE**: Institute of Electrical and Electronics Engineers, 전기전자 기술 표준 단체
+- **공동 시험 동작 그룹(Joint Test Action Group, JTAG)**: 경계 스캔과 칩 디버깅용 직렬 인터페이스 표준화 조직이다.
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기전자 기술 표준 단체이다.
 - **테스트 접근 포트(Test Access Port, TAP)**: 시험 명령과 데이터를 직렬로 전송하고 상태 머신을 제어하는 JTAG 포트이다.
-- **IC**: Integrated Circuit, 회로를 반도체 다이에 집적한 장치
-- **PCB**: Printed Circuit Board, 전자 부품을 배선으로 연결하는 기판
-- **경계 스캔(Boundary Scan)**: IC 핀 주위 셀을 직렬 체인으로 연결하는 시험 방식
+- **집적회로(Integrated Circuit, IC)**: 회로를 반도체 다이에 집적한 장치이다.
+- **인쇄회로기판(Printed Circuit Board, PCB)**: 전자 부품을 배선으로 연결하는 기판이다.
+- **경계 스캔(Boundary Scan)**: IC 핀 주위 셀을 직렬 체인으로 연결하는 시험 방식이다.
 
 </details>
 
@@ -61,7 +61,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **테스트 접근 포트 제어기(Test Access Port Controller, TAP 제어기)**: 테스트 모드 선택(Test Mode Select, TMS) 입력과 테스트 클록(Test Clock, TCK)에 따라 명령•데이터 캡처, 이동 및 적용 상태를 전환하는 상태 머신이다.
-- **명령 레지스터(Instruction Register, IR)**: 현재 실행할 공동 시험 동작 그룹(Joint Test Action Group, JTAG) 시험 명령을 직렬로 받아 저장하는 레지스터이다.
+- **명령 레지스터(Instruction Register, IR)**: 현재 실행할 JTAG 시험 명령을 직렬로 받아 저장하는 레지스터이다.
 - **데이터 레지스터(Data Register, DR)**: 경계 스캔과 식별 코드(Identification Code, IDCODE) 및 우회(BYPASS) 같은 시험 데이터를 직렬 이동하는 레지스터이다.
 - **테스트 데이터 입력•출력(Test Data In•Test Data Out, TDI•TDO)**: 선택된 JTAG 레지스터에 시험 비트를 직렬 입력하고 관측 비트를 직렬 출력하는 신호이다.
 
