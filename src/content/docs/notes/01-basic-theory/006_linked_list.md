@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-08-05T00:25:07+09:00"
+date: "2026-08-05T10:37:32+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6
@@ -112,18 +112,20 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant Q as 호출자
-    participant L as 연결 리스트
-    participant N as 현재 노드
-    Q->>L: 순회 요청
-    L-->>N: 1. 첫 노드 참조
-    loop 현재 노드가 널이 아닐 동안
-        N-->>Q: 현재 값 전달
-        N->>N: 2. 다음 참조로 이동
-    end
-    N-->>Q: 순회 완료
+```text
+[순회 요청]
+     |
+[1. 첫 노드 참조]
+     |
++---- 현재 노드가 널이 아닐 동안 반복 ----+
+|    [현재 값 반환]                         |
+|           |                               |
+|    [2. 다음 참조로 이동]                  |
+|           |                               |
+|           `--------------- 반복 ----------+
++-------------------------------------------+
+     |
+[순회 완료]
 ```
 
 **동작 원리**

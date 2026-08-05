@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-08-05T00:28:15+09:00"
+date: "2026-08-05T10:40:39+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -103,22 +103,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant Q as 호출자
-    participant R as 재귀 해결기
-    Q->>R: 전체 문제 전달
-    R->>R: 1. 종료 조건 판정
-    alt 최소 문제
-        R->>R: 2. 기저 해 계산
-    else 분할 가능
-        R->>R: 3. 부분 문제 분할
-        loop 독립 부분 문제별
-            R->>R: 4. 부분 문제 재귀 해결
-        end
-        R->>R: 5. 부분 해 결합
-    end
-    R-->>Q: 전체 해 반환
+```text
+[전체 문제]
+     |
+[1. 종료 조건 판정]
+     +---- 최소 문제 ----> [2. 기저 해 계산]
+     |                              |
+     |                        [전체 해 반환]
+     |
+     `---- 분할 가능 ----> [3. 부분 문제 분할]
+                                  |
+                      [4. 부분 문제 재귀 해결]
+                                  |
+                         [5. 부분 해 결합]
+                                  |
+                            [전체 해 반환]
 ```
 
 **동작 원리**
