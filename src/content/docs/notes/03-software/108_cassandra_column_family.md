@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 108
-  label: "108. Cassandra 컬럼 패밀리 DB (Cassandra Column Family)"
+  label: "108. Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
   badge:
     text: "기출 • 30%"
     variant: note
-title: "Cassandra 컬럼 패밀리 DB (Cassandra Column Family)"
-date: "2026-08-05T05:00:00+09:00"
+title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
+date: "2026-08-05T16:18:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 파티션 키로 와이드 컬럼 행을 여러 피어 노드에 분산•복제하여 확장성과 가용성을 제공하는 **Cassandra 와이드 컬럼 데이터베이스(Cassandra Wide-column Database)**
+- 정의/개념: 와이드 컬럼 행을 피어에 분산•복제하는 **Cassandra 데이터베이스**
 - 배경/필요성: 단일 주 노드 구조는 쓰기 집중•장애 전환 중 **처리 중단** 발생
 
 #### 한줄 요약
@@ -66,11 +66,15 @@ extra:
 </details>
 
 ```text
-[Coordinator]
-+-- [파티션•클러스터링 키]
-+-- [커밋 로그(Commit Log)•메모리 테이블(Memtable)]
-    +-- [정렬 문자열 테이블(Sorted String Table, SSTable)•컴팩션(Compaction)]
-        +-- [Repair]
+[조정자]
+    |
+    +-- [파티션•클러스터링 키]
+    |
+    +-- [커밋 로그•Memtable]
+    |
+    +-- [SSTable•컴팩션]
+    |
+    +-- [수선]
 ```
 
 선의 의미: Coordinator는 파티션•클러스터링 키로 담당 복제본을 정하고 Commit Log•Memtable에 연결되며, SSTable•Compaction은 메모리 변경의 디스크 구조이고 Repair는 복제본 데이터를 맞춘다.
@@ -78,10 +82,10 @@ extra:
 | 구성요소 | 책임 |
 |:---|:---|
 | 파티션•클러스터링 키 | **복제본 위치•파티션 내부 정렬** 결정 |
-| Coordinator | **요청 전달•응답 수** 집계 |
-| 커밋 로그(Commit Log)•메모리 테이블(Memtable) | **내구 로그•메모리 쓰기** 누적 |
-| 정렬 문자열 테이블(Sorted String Table, SSTable)•컴팩션(Compaction) | **불변 파일 저장•병합** |
-| Repair | 복제본의 **누락•불일치 데이터** 복구 |
+| 조정자 | **요청 전달•응답 수** 집계 |
+| 커밋 로그•Memtable | **내구 로그•메모리 쓰기** 누적 |
+| SSTable•컴팩션 | **불변 파일 저장•병합** |
+| 수선 | 복제본의 **누락•불일치 데이터** 복구 |
 
 #### 한줄 요약
 
@@ -92,36 +96,33 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **2. 로컬 반영 확인**: 커밋 로그와 Memtable 기록 완료를 조정자에게 통지하는 단계이다.
-- **1. 쓰기 레코드**: 파티션 키의 토큰 범위를 담당하는 복제본에 병렬 전달하는 변경 정보이다.
-- **3. SSTable 저장**: Memtable이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
+- **쓰기 레코드 병렬 전파**: 토큰 범위의 담당 복제본에 변경을 보내는 단계다.
+- **로컬 반영 확인 집계**: 커밋 로그와 Memtable 기록 응답을 모으는 단계다.
+- **SSTable 저장**: Memtable 한도 도달 시 불변 파일로 기록하는 단계다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant O as 조정자
-    participant A as 복제본 A
-    participant B as 복제본 B
-    participant S as SSTable 저장소
-    C->>O: 파티션 키•일관성 수준
-    par 담당 복제본 쓰기
-        O->>A: 1. 쓰기 레코드
-    and
-        O->>B: 쓰기 레코드
-    end
-    A-->>O: 2. 로컬 반영 확인
-    B-->>O: 로컬 반영 확인
-    O-->>C: 쓰기 성공
-    A->>S: 3. SSTable 저장
+```text
+파티션 키•일관성 수준
+          |
+          v
+1. 쓰기 레코드 병렬 전파
+          |
+          v
+2. 로컬 반영 확인 집계
+          |
+          +-- 요구 응답 수 충족 --> 쓰기 성공
+          |
+          +-- 응답 수 미달 ------> 쓰기 실패
+          |
+          +-- Memtable 한도 도달 --> 3. SSTable 저장
 ```
 
 **동작 원리**
 
-1. **쓰기 레코드**: 토큰 범위의 담당 복제본에 변경 병렬 전달
-2. **로컬 반영 확인**: 커밋 로그(Commit Log)•메모리 테이블(Memtable) 기록 완료를 조정자에 통지
-3. **SSTable 저장**: 메모리 한도 도달 시 불변 정렬 문자열 테이블(Sorted String Table, SSTable) 생성
+- **1. 쓰기 레코드 병렬 전파**: 담당 복제본에 변경 전달
+- **2. 로컬 반영 확인 집계**: 로그•Memtable 기록 응답 집계
+- **3. SSTable 저장**: 메모리 한도 도달 시 불변 파일 생성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:12:00+09:00"
 tags:
   - "notes-software"
 weight: 119
@@ -61,8 +61,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **Consumer Group**: 토픽 파티션을 나눠 병렬 소비하는 클라이언트 집합이다.
-- **Coordinator**: 소비자 등록과 파티션 배정•재균형을 조정하는 구성요소이다.
+- **소비자 그룹(Consumer Group)**: 토픽 파티션을 나눠 병렬 소비하는 클라이언트 집합이다.
+- **그룹 코디네이터(Group Coordinator)**: 소비자 등록과 파티션 배정•재균형을 조정하는 구성요소이다.
 - **생산자(Producer)**: 이벤트의 키와 값을 주제 파티션으로 전송하고 실패를 재시도하는 클라이언트이다.
 - **주제(Topic)**: 이벤트를 업무 범주별로 분류하는 이름이다.
 - **파티션(Partition)**: 토픽을 병렬 처리하도록 나눈 순서 로그이다.
@@ -75,9 +75,15 @@ extra:
 </details>
 
 ```text
-[Producer] ----- [Topic•Partition•Offset] ----- [Broker•Leader•Follower]
-                                                       /       \
-                                           [Controller] [Consumer Group•Coordinator]
+[Broker•Leader•Follower]
+    |
+    +-- [Producer]
+    |
+    +-- [Topic•Partition•Offset]
+    |
+    +-- [Controller]
+    |
+    +-- [Consumer Group•Coordinator]
 ```
 
 선의 의미: Producer와 Topic•Partition•Offset은 Broker•Leader•Follower의 로그 저장 경계에 결합되고, 브로커 아래에는 클러스터 메타데이터를 관리하는 Controller와 소비 배정을 관리하는 Consumer Group•Coordinator가 놓이는 정적 구조를 뜻한다.
@@ -99,34 +105,52 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **동기화 복제본 집합(In-Sync Replicas, ISR)**: 리더의 로그를 허용 지연 안에서 따라온 복제본 집합이다.
-- **2. ISR 복제 위치**: 팔로워가 리더와 같은 순서로 반영한 마지막 오프셋을 반환하는 정보이다.
-- **1. 오프셋•레코드**: 리더가 증가 위치를 부여해 동기화 복제본에 전달하는 이벤트 기록이다.
-- **확인 응답(Acknowledgements, acks)**: 생산자 성공 응답 전에 필요한 리더•복제본의 내구성 확인 수준이다.
+- **동기화 복제본 집합(In-Sync Replicas, ISR)**: 리더 로그를 허용 지연 안에서 따라온 복제본 집합이다.
+- **확인 응답(Acknowledgements, acks)**: 생산자 성공 전에 필요한 복제본 확인 수준이다.
+- **파티션 선택•리더 기록**: 키로 파티션을 정하고 오프셋을 부여하는 단계다.
+- **ISR 로그 복제**: 팔로워가 리더의 레코드를 같은 순서로 반영하는 단계다.
+- **acks 내구성 판정**: 설정한 확인 수준을 충족했는지 판정하는 단계다.
+- **소비자 그룹 파티션 배정**: 그룹 구성원에게 담당 파티션을 나누는 단계다.
+- **오프셋 기반 소비•커밋**: 처리 위치 이후 레코드를 읽고 완료점을 저장하는 단계다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as Producer
-    participant L as 파티션 리더
-    participant F as 팔로워
-    participant C as Consumer
-    participant G as 그룹 코디네이터
-    P->>L: 이벤트 키•값
-    L->>F: 1. 오프셋•레코드
-    F-->>L: 2. ISR 복제 위치
-    L-->>P: acks 내구성 확인
-    C->>G: 소비자 그룹 등록
-    G-->>C: 담당 파티션 반환
-    C->>L: 커밋 오프셋 이후 조회
-    L-->>C: 이벤트 레코드
+```text
+생산 경로
+이벤트 키•값
+    |
+    v
+1. 파티션 선택•리더 기록
+    |
+    v
+2. ISR 로그 복제
+    |
+    v
+3. acks 내구성 판정
+    |
+    v
+생산 결과 반환
+
+소비 경로
+소비자 그룹 등록
+    |
+    v
+4. 소비자 그룹 파티션 배정
+    |
+    v
+5. 오프셋 기반 소비•커밋
+    |
+    v
+처리 결과
 ```
 
 **동작 원리**
 
-1. **오프셋•레코드**: 리더가 증가 번호와 이벤트를 팔로워에 전달
-2. **ISR 복제 위치**: 팔로워가 같은 순서로 반영한 오프셋 반환
+- **1. 파티션 선택•리더 기록**: 키로 파티션을 정하고 오프셋 부여
+- **2. ISR 로그 복제**: 팔로워가 같은 순서로 레코드 반영
+- **3. acks 내구성 판정**: 확인 수준 충족 여부 판정
+- **4. 소비자 그룹 파티션 배정**: 구성원별 담당 로그 할당
+- **5. 오프셋 기반 소비•커밋**: 처리 이후 완료 위치 저장
 
 #### 한줄 요약
 
@@ -146,7 +170,7 @@ sequenceDiagram
 |:---|:---|:---|
 | 적용 기준 | **사건 기록•재생** | **개별 작업 분배** |
 | 핵심 특징 | **그룹별 오프셋•로그 보존** | **처리•승인 후 제거** |
-| 한계 | **순서•소비 지연(Consumer Lag)•재균형** | **재전달•대기열 적체** |
+| 한계 | **순서•소비 지연•재균형** | **재전달•대기열 적체** |
 
 #### 한줄 요약
 

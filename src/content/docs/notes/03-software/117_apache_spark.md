@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:01:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -58,6 +58,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **Driver**: 응용의 실행 계획과 Job을 구성하는 구성요소이다.
+- **구조화 질의 언어(Structured Query Language, SQL)**: 관계형 데이터의 정의•조작•분석 언어다.
 - **SparkSession**: 데이터프레임과 SQL 처리 기능의 진입점이다.
 - **Scheduler**: Job을 Stage와 Task로 나누는 구성요소이다.
 - **Cluster Manager**: 실행 자원을 Executor에 할당하는 구성요소이다.
@@ -69,11 +70,15 @@ extra:
 </details>
 
 ```text
-                  [Catalyst•AQE]
-                         |
-[Driver•SparkSession] ----- [Scheduler•Cluster Manager] ----- [Executor•Partition]
-                                                                     |
-                                                        [Checkpoint•State Store]
+[Driver•SparkSession]
+    |
+    +-- [Catalyst•AQE]
+    |
+    +-- [Scheduler•Cluster Manager]
+            |
+            +-- [Executor•Partition]
+                    |
+                    +-- [Checkpoint•State Store]
 ```
 
 선의 의미: Driver•SparkSession은 계획 최적화 계층인 Catalyst•AQE와 실행 자원 계층인 Scheduler•Cluster Manager에 결합되고, Executor•Partition 아래에는 상태 복구를 위한 Checkpoint•State Store가 놓이는 정적 구조를 뜻한다.
@@ -95,36 +100,44 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5. 실행 통계**: 실제 행 수와 셔플량을 AQE에 전달해 실행 계획을 조정하는 정보이다.
-- **1. Catalyst 논리 계획**: Driver가 지연 연산을 최적화 가능한 논리 그래프로 구성한 계획이다.
-- **2. AQE 최적 계획**: 실행 중 통계로 조인 방식과 파티션 수를 다시 선택한 계획이다.
-- **3. DAG•Stage 구성**: 셔플 경계를 기준으로 실행 단계를 나누는 단계이다.
-- **4. 파티션 Task**: Driver가 Executor에 배치하는 파티션 단위 작업이다.
+- **Catalyst 초기 계획**: 지연 연산을 최적화한 실행 그래프로 만드는 단계다.
+- **DAG•Stage 구성**: 셔플 경계를 기준으로 실행 단계를 나누는 단계다.
+- **파티션 Task 실행**: Executor가 파티션 단위 작업을 수행하는 단계다.
+- **실행 통계 수집**: 실제 행 수와 셔플량을 모으는 단계다.
+- **AQE 계획 보정**: 통계로 조인 방식과 파티션 수를 다시 고르는 단계다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 응용 프로그램
-    participant D as Driver
-    participant C as Catalyst•AQE
-    participant S as Scheduler
-    participant E as Executor
-    U->>D: 변환•액션 제출
-    D->>C: 1. Catalyst 논리 계획
-    C-->>D: 2. AQE 최적 실행 계획
-    D->>S: 3. DAG•Stage 구성
-    S->>E: 4. 파티션 Task
-    E-->>D: 5. 실행 통계
+```text
+변환•Action 제출
+        |
+        v
+1. Catalyst 초기 계획
+        |
+        v
+2. DAG•Stage 구성
+        |
+        v
+3. 파티션 Task 실행
+        |
+        v
+4. 실행 통계 수집
+        |
+        v
+5. AQE 계획 보정
+        |
+        +-- 남은 Stage --> 2. DAG•Stage 재구성
+        |
+        +-- 작업 완료 --> 결과 반환
 ```
 
 **동작 원리**
 
-1. **Catalyst 논리 계획**: Driver가 지연 연산을 논리 그래프로 구성
-2. **AQE 최적 실행 계획**: 실행 통계에 맞춰 조인•스캔 방식 선택
-3. **DAG•Stage 구성**: Driver가 셔플 경계별 실행 단계 생성
-4. **파티션 Task**: Driver가 Executor에 파티션 작업 배치
-5. **실행 통계**: Executor가 Driver에 행 수•셔플량 전달
+- **1. Catalyst 초기 계획**: 지연 연산의 실행 그래프 최적화
+- **2. DAG•Stage 구성**: 셔플 경계별 실행 단계 생성
+- **3. 파티션 Task 실행**: Executor에 파티션 작업 배치
+- **4. 실행 통계 수집**: 실제 행 수•셔플량 관측
+- **5. AQE 계획 보정**: 조인 방식•파티션 수 재선택
 
 #### 한줄 요약
 
@@ -135,7 +148,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터프레임 응용 프로그램 인터페이스(DataFrame Application Programming Interface, DataFrame API)**: 스키마가 있는 분산 데이터를 표 형태 연산으로 다루는 접점이다.
+- **응용 프로그램 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능을 호출하는 접점이다.
+- **데이터프레임 API(DataFrame API)**: 스키마가 있는 분산 데이터를 표 형태 연산으로 다루는 접점이다.
 - **Structured Streaming**: DataFrame API로 연속 입력을 증분 처리하고 상태를 관리하는 방식이다.
 - **Spark Batch**: DAG와 캐시로 반복•복합 일괄 분석을 처리하는 방식이다.
 - **SQL 처리**: SQL로 구조화된 분산 데이터를 분석하는 방식이다.

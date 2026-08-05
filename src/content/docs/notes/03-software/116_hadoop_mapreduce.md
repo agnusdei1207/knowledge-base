@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:56:00+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -68,13 +68,16 @@ extra:
 </details>
 
 ```text
-                      [YARN]
-                         |
-[HDFS] ----- [Input Split] ----- [Map•Combiner] ----- [Shuffle•Sort•Reduce]
-   \___________________________________________________________/
+[HDFS] -- [Input Split]
+
+[YARN]
+    |
+    +-- [Map•Combiner]
+    |
+    +-- [Shuffle•Sort•Reduce]
 ```
 
-선의 의미: 가로선은 HDFS의 논리 입력 범위와 Map•Combiner 및 Shuffle•Sort•Reduce가 결합되는 정적 처리 구성이고, YARN은 계산 자원에 결합되며 아래 선은 HDFS가 입력과 결과 저장 경계를 함께 담당함을 뜻한다.
+선의 의미: HDFS와 Input Split은 저장 블록과 논리 입력 범위를 연결하고, YARN은 Map•Combiner 및 Shuffle•Sort•Reduce 자원을 관리한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -93,37 +96,43 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **4. 중간 키값**: Map이 생성해 같은 키를 담당하는 Reduce 파티션으로 전달하는 데이터이다.
-- **1. 입력 경로**: 처리할 파일 위치를 자원 관리자가 분산 파일 시스템에 전달하는 단계이다.
-- **2. 블록 위치•입력 분할**: 파일 블록이 있는 노드와 Map 태스크별 논리 입력 범위를 반환하는 정보이다.
-- **3. 입력 레코드**: 입력 분할에서 읽어 Map 함수에 전달하는 데이터 단위이다.
-- **5. 집계 결과**: Reduce가 키별로 계산해 분산 파일 시스템에 기록한 최종 출력이다.
+- **입력 분할 생성**: HDFS 블록 위치로 Map의 논리 범위를 만드는 단계다.
+- **입력 레코드 읽기**: 각 분할의 레코드를 Map 함수에 공급하는 단계다.
+- **중간 키값 생성**: Map•Combiner가 키값과 부분 집계를 만드는 단계다.
+- **Shuffle•Sort 그룹화**: 같은 키를 Reduce 파티션으로 모으는 단계다.
+- **Reduce 집계•결과 저장**: 키별 결과를 HDFS에 기록하는 단계다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant Y as YARN
-    participant H as HDFS
-    participant M as Map
-    participant R as Reduce
-    C->>Y: 작업•경로 제출
-    Y->>H: 1. 입력 경로
-    H-->>Y: 2. 블록 위치•입력 분할
-    Y->>M: 3. 입력 레코드
-    M->>R: 4. 중간 키값
-    R->>H: 5. 집계 결과
-    Y-->>C: 결과 위치
+```text
+작업•입력 경로 제출
+          |
+          v
+1. 입력 분할 생성
+          |
+          v
+2. 입력 레코드 읽기
+          |
+          v
+3. 중간 키값 생성
+          |
+          v
+4. Shuffle•Sort 그룹화
+          |
+          v
+5. Reduce 집계•결과 저장
+          |
+          v
+결과 위치 반환
 ```
 
 **동작 원리**
 
-1. **입력 경로**: YARN이 HDFS에 처리할 파일 경로 전달
-2. **블록 위치•입력 분할**: HDFS가 지역성 기반 실행 정보 반환
-3. **입력 레코드**: YARN이 Map에 분할별 레코드 전달
-4. **중간 키값**: Map이 Reduce 파티션에 키•값 쌍 전달
-5. **집계 결과**: Reduce가 키별 결과를 HDFS에 기록
+- **1. 입력 분할 생성**: 블록 위치로 Map 논리 범위 구성
+- **2. 입력 레코드 읽기**: 분할별 레코드를 Map에 공급
+- **3. 중간 키값 생성**: Map•Combiner가 부분 집계 생성
+- **4. Shuffle•Sort 그룹화**: 같은 키를 Reduce에 모음
+- **5. Reduce 집계•결과 저장**: 키별 결과를 HDFS에 기록
 
 #### 한줄 요약
 

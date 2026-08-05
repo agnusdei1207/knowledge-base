@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:17:00+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -70,13 +70,15 @@ extra:
 </details>
 
 ```text
-                         [JobManager]
-                              |
-                     [TaskManager•Slot]
-                       /              \
-          [Source•Watermark]     [연산자•State Backend]
-                                        |
-                           [Checkpoint Storage•Sink]
+[JobManager]
+    |
+    +-- [TaskManager•Slot]
+            |
+            +-- [Source•Watermark]
+            |
+            +-- [연산자•State Backend]
+                    |
+                    +-- [Checkpoint Storage•Sink]
 ```
 
 선의 의미: JobManager 아래에는 실행 자원인 TaskManager•Slot이 놓이고, 이 실행 경계는 Source•Watermark와 연산자•State Backend로 나뉘며 상태 연산자는 Checkpoint Storage•Sink와 결합되는 정적 구조를 뜻한다.
@@ -98,35 +100,43 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **3. 상태 스냅숏**: 연산자가 키 상태와 소스 처리 위치를 체크포인트 저장소에 기록하는 단계이다.
-- **1. 체크포인트 식별자(Checkpoint Identifier, Checkpoint ID)**: JobManager가 일관된 스냅숏 촬영을 구분하려고 Source에 전달하는 값이다.
-- **2. 장벽•입력 위치(Barrier•Input Position)**: 모든 연산자에 같은 처리 경계를 전달하는 표식과 소스 오프셋이다.
-- **4. 미확정 트랜잭션**: 체크포인트 완료 전에 Sink에 사전 반영해 아직 외부 확정하지 않은 결과이다.
-- **5. 커밋 결정**: 모든 상태와 Sink 확인이 끝난 뒤 미확정 출력을 확정하는 단계이다.
+- **체크포인트 식별자 발행**: JobManager가 스냅숏 촬영을 구분하는 단계다.
+- **장벽•입력 위치 전파**: 모든 연산자에 같은 처리 경계를 보내는 단계다.
+- **상태 스냅숏•확인**: 키 상태와 소스 위치를 저장하고 완료를 알리는 단계다.
+- **Sink 트랜잭션 사전 확정**: 외부 결과를 아직 커밋하지 않고 준비하는 단계다.
+- **체크포인트 완료•커밋**: 모든 확인 뒤 미확정 출력을 확정하는 단계다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant J as JobManager
-    participant S as Source
-    participant O as 연산자
-    participant K as Sink
-    J->>S: 1. 체크포인트 ID
-    S->>O: 2. Barrier•입력 위치
-    O->>J: 3. 상태 스냅숏
-    O->>K: 4. 미확정 트랜잭션
-    K-->>J: Sink 확인
-    J->>K: 5. 커밋 결정
+```text
+체크포인트 주기 도달
+          |
+          v
+1. 체크포인트 식별자 발행
+          |
+          v
+2. 장벽•입력 위치 전파
+          |
+          v
+3. 상태 스냅숏•확인
+          |
+          v
+4. Sink 트랜잭션 사전 확정
+          |
+          v
+5. 체크포인트 완료•커밋
+          |
+          v
+일관된 복구 지점
 ```
 
 **동작 원리**
 
-1. **체크포인트 ID**: JobManager가 Source에 촬영 식별자 전달
-2. **Barrier•입력 위치**: Source가 연산자에 동일 처리 경계 전달
-3. **상태 스냅숏**: 연산자가 키 상태와 소스 위치를 저장
-4. **미확정 트랜잭션**: 연산자가 Sink에 결과를 사전 반영
-5. **커밋 결정**: JobManager가 확인된 Sink 트랜잭션 확정
+- **1. 체크포인트 식별자 발행**: 촬영 경계 식별자 전달
+- **2. 장벽•입력 위치 전파**: 동일 처리 경계 전달
+- **3. 상태 스냅숏•확인**: 키 상태•소스 위치 저장
+- **4. Sink 트랜잭션 사전 확정**: 외부 결과 커밋 준비
+- **5. 체크포인트 완료•커밋**: 확인된 출력 확정
 
 #### 한줄 요약
 
@@ -168,7 +178,7 @@ sequenceDiagram
 - **입출력(Input/Output, I/O)**: 상태 저장소에서 데이터를 읽고 쓰는 연산이다.
 - **병목 연산자**: 역압력을 일으키는 느린 계산 구성요소이다.
 - **Sink 분석**: 외부 출력 대상의 처리량과 지연을 확인하는 활동이다.
-- **연산자 고유 식별자(Operator Unique Identifier, Operator UID)**: 복원할 상태와 연산자를 연결하는 고정 키이다.
+- **연산자 고유 식별자(Operator Unique Identifier)**: 복원할 상태와 연산자를 연결하는 고정 키이다.
 - **직렬화 호환성**: 업그레이드 뒤 기존 상태를 해석할 수 있는 성질이다.
 - **복원 리허설**: 저장한 상태에서 작업을 실제 복구하는 훈련이다.
 
@@ -180,7 +190,7 @@ sequenceDiagram
 | 만료 없는 키•윈도 상태가 계속 누적 | **TTL•윈도•키 분포 조정** | **저장 폭증** 방지 |
 | 스냅숏 시간이 주기보다 길어 중첩 | **지속시간•실패율•I/O 감시** | **체크포인트 병목** 완화 |
 | 느린 연산자•Sink가 상류 전송 제한 | **병목 연산자•Sink 분석** | **전체 지연 원인** 제거 |
-| 연산자 고유 식별자 변경으로 상태 연결 실패 | **Operator UID•호환성•복원 리허설** | **업그레이드 실패** 방지 |
+| 연산자 식별자 변경으로 상태 연결 실패 | **연산자 식별자•호환성•복원 리허설** | **업그레이드 실패** 방지 |
 
 #### 한줄 요약
 
