@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "네트워크 슬라이스 자원 관리 (Network Slice Resource Management)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:39:20+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -66,22 +66,22 @@ extra:
 </details>
 
 ```text
-                    [슬라이스 오케스트레이터]
-                                |
-                              [NSI]
-                         /       |       \
-               [RAN NSSI]   [TN NSSI]   [CN NSSI]
+슬라이스 오케스트레이터
+└─ NSI
+   ├─ RAN NSSI
+   ├─ TN NSSI
+   └─ CN NSSI
 ```
 
 선의 의미: 세로선은 슬라이스 오케스트레이터가 종단 NSI의 자원 구성을 관리하는 관계이고, 아래 세 가지는 NSI가 무선•전송•코어 도메인의 NSSI를 하나의 종단 논리망으로 결합하는 계층 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 슬라이스 오케스트레이터 | SLS를 NSI•NSSI 자원으로 매핑 |
-| NSI | 도메인 NSSI를 종단망으로 결합 |
-| RAN NSSI | 무선 용량•스케줄링 자원 제공 |
-| TN NSSI | 대역폭•지연•격리 경로 제공 |
-| CN NSSI | 코어 기능•연산 자원 제공 |
+| 슬라이스 오케스트레이터 | **SLS•NSI•NSSI 자원** 매핑 |
+| NSI | **도메인 NSSI•종단망** 결합 |
+| RAN NSSI | **무선 용량•스케줄링** 자원 제공 |
+| TN NSSI | **대역폭•지연•격리** 경로 제공 |
+| CN NSSI | **코어 기능•연산 자원** 제공 |
 
 #### 한줄 요약
 
@@ -89,22 +89,25 @@ extra:
 
 ## Ⅳ. 흐름도
 
-```mermaid
-sequenceDiagram
-    participant C as 서비스 고객
-    participant O as 오케스트레이터
-    participant D as RAN•TN•CN
-    C->>O: SLS 서비스 요청
-    O->>D: 1. 자원 타당성 확인
-    D-->>O: 가용 자원•성능 회신
-    O->>D: 2. NSI•NSSI 프로비저닝
-    loop SLS 관측 주기
-        D-->>O: 종단 성능 보고
-        opt SLS 위반
-            O->>D: 3. 병목 자원 최적화
-        end
-    end
-    O-->>C: 슬라이스 준비 결과 반환
+```text
+SLS 서비스 요청
+      │
+      ▼
+1. 자원 타당성 확인
+      ├─ 수용 불가: 요청 보류•거절
+      └─ 수용 가능
+            │
+            ▼
+2. NSI•NSSI 프로비저닝
+            │
+            ▼
+슬라이스 준비 결과 반환
+            │
+            ▼
+종단•NSSI 성능 관측
+            ├─ SLS 충족: 현재 자원 유지
+            └─ SLS 위반: 3. 병목 자원 최적화
+                              └─ 다음 관측 주기로 반복
 ```
 
 **동작 원리**

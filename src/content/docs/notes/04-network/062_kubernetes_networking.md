@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-05T01:30:12+09:00"
+date: "2026-08-05T15:31:10+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -48,9 +48,9 @@ extra:
 
 </details>
 
-- **파드 연결**: CNI가 인터페이스•IP•노드 경로 구성
-- **서비스 분산**: VIP 요청을 준비된 파드로 전달
-- **정책 선언**: 외부 경로와 허용 통신 대상을 분리
+- **CNI** 기반 파드 인터페이스•IP•경로 구성
+- **Service•EndpointSlice** 기반 준비 파드 분산
+- **Ingress•NetworkPolicy** 기반 외부 경로•통신 통제
 
 #### 한줄 요약
 
@@ -68,22 +68,25 @@ extra:
 </details>
 
 ```text
-[인그레스 컨트롤러]---[Service]---[EndpointSlice]
-          |                              |
-          +------------------------------+---+
-                                             |
-                    [NetworkPolicy]----------[프록시•eBPF 데이터 경로]
+쿠버네티스 네트워킹
+├─ 외부 진입: 인그레스 컨트롤러
+├─ 서비스 발견
+│  ├─ Service
+│  └─ EndpointSlice
+└─ 패킷 실행
+   ├─ NetworkPolicy
+   └─ 프록시•eBPF 데이터 경로
 ```
 
-선의 의미: 인그레스 컨트롤러는 Service 및 데이터 경로의 외부 경로 규칙과 결속되고, Service•EndpointSlice는 고정 접근점과 준비 파드 목록 관계이며, NetworkPolicy•EndpointSlice는 데이터 경로의 차단•분산 규칙 근거이다.
+가지의 의미: 외부 진입•서비스 발견•패킷 실행 기능의 소속을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 인그레스 컨트롤러 | 호스트•경로•TLS 규칙 실행 |
-| Service | VIP 기반 고정 접근점 제공 |
-| EndpointSlice | 준비 파드 IP•포트 관리 |
-| NetworkPolicy | 허용 수신•송신 대상 선언 |
-| 프록시•eBPF 데이터 경로 | 분산•정책 규칙 실행 |
+| 인그레스 컨트롤러 | **호스트•경로•TLS 규칙** 실행 |
+| Service | **VIP 기반 고정 접근점** 제공 |
+| EndpointSlice | **준비 파드 IP•포트** 관리 |
+| NetworkPolicy | **허용 수신•송신 대상** 선언 |
+| 프록시•eBPF 데이터 경로 | **분산•정책 규칙** 실행 |
 
 #### 한줄 요약
 
@@ -102,20 +105,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant API서버
-    participant 인그레스컨트롤러
-    participant 데이터경로
-    participant 클라이언트
-    participant 파드
-    API서버->>인그레스컨트롤러: 1. Ingress 규칙 통지
-    인그레스컨트롤러->>데이터경로: 2. 외부 경로 설치
-    API서버->>데이터경로: 3. EndpointSlice•정책 통지
-    데이터경로->>데이터경로: 4. 종단•정책 규칙 설치
-    클라이언트->>데이터경로: HTTP•HTTPS 요청
-    데이터경로->>파드: 5. 허용 종단 전달
-    파드-->>클라이언트: 서비스 응답 반환
+```text
+1. Ingress 규칙 통지
+        │
+        ▼
+2. 외부 경로 설치
+        │
+        ▼
+3. EndpointSlice•정책 통지
+        │
+        ▼
+4. 종단•정책 규칙 설치
+        │
+        ▼
+HTTP•HTTPS 요청 진입
+        │
+        ▼
+정책 허용•준비 종단 존재 여부
+        ├─ 미충족: 차단 또는 503 반환
+        └─ 충족: 5. 허용 종단 전달
+                         │
+                         ▼
+                    서비스 응답 반환
 ```
 
 **동작 원리**
@@ -138,11 +149,11 @@ sequenceDiagram
 
 </details>
 
-| 외부 트래픽 API | **Ingress** | **Gateway API** |
+| 외부 트래픽 API | Ingress | Gateway API |
 |:---|:---|:---|
-| 적용 기준 | 단순 웹 서비스 외부 노출 | 다중 팀•고급 경로 정책 |
-| 핵심 특징 | HTTP•HTTPS 경로 객체 | 역할 분리•다중 프로토콜 |
-| 한계 | 구현별 확장 기능 종속 | 객체•권한 설계 복잡성 |
+| 적용 기준 | **단순 웹 서비스** 외부 노출 | **다중 팀•고급 경로** 정책 |
+| 핵심 특징 | **HTTP•HTTPS 경로** 객체 | **역할 분리•다중 프로토콜** |
+| 한계 | 구현별 **확장 기능 종속** | **객체•권한 설계** 복잡성 |
 
 > 요약: 단순 웹은 Ingress, 역할 분리는 Gateway API다
 
