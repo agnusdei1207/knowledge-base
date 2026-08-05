@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-05T01:33:51+09:00"
+date: "2026-08-05T16:32:28+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -69,14 +69,15 @@ extra:
 </details>
 
 ```text
-[GPU•CPU 메모리 도메인]---[NVLink 포트]---[NVSwitch 패브릭]
-                                                |
-                                    +-----------+-----------+
-                                    |                       |
-                              [패브릭 관리자]          [NCCL 통신 계층]
+NVLink 인터커넥트
+├─ GPU•CPU 메모리 도메인
+├─ NVLink 포트
+├─ NVSwitch 패브릭
+├─ 패브릭 관리자
+└─ NCCL 통신 계층
 ```
 
-선의 의미: GPU•CPU 메모리 도메인과 NVLink 포트는 고대역폭 접근 관계이고, NVSwitch 패브릭은 패브릭 관리자 및 NCCL 통신 계층과 링크•파티션•접근 상태 관리와 집합 통신 경로 선택 관계이다.
+가지의 의미: 메모리•링크•교차 연결•관리•통신 책임을 분리한 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -100,19 +101,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant GPU
-    participant 관리자
-    participant NCCL
-    participant NVSwitch
-    관리자->>NVSwitch: 1. 링크 토폴로지 발견
-    관리자->>NVSwitch: 2. 도메인•파티션 구성
-    GPU->>NCCL: 집합 통신 요청
-    NCCL->>NCCL: 3. 통신 순위•자료 배치
-    NCCL->>NVSwitch: 4. 집합 경로 활성화
-    GPU->>NVSwitch: 5. 집합 데이터 전송
-    NVSwitch-->>GPU: 집합 통신 결과
+```text
+1. 링크 토폴로지 발견
+        │
+        ▼
+2. 도메인•파티션 구성
+        │
+        ▼
+집합 통신 요청
+        │
+        ▼
+3. 통신 순위•자료 배치
+        │
+        ▼
+4. 집합 경로 활성화
+        │
+        ▼
+5. 집합 데이터 전송
+        │
+        └── 집합 통신 결과 반환
 ```
 
 **동작 원리**

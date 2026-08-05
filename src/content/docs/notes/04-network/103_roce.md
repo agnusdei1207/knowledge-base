@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-05T01:33:51+09:00"
+date: "2026-08-05T16:31:47+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -73,14 +73,15 @@ extra:
 </details>
 
 ```text
-[송신 RoCE RNIC]---[이더넷 패브릭]---[수신 RoCE RNIC]
-                           |
-               +-----------+-----------+
-               |                       |
-       [혼잡•PFC 제어기]          [패브릭 관측기]
+RoCE 패브릭 구조
+├─ 송신 RoCE RNIC
+├─ 이더넷 패브릭
+├─ 수신 RoCE RNIC
+├─ 혼잡•PFC 제어기
+└─ 패브릭 관측기
 ```
 
-선의 의미: 두 RoCE RNIC는 이더넷 패브릭의 경로•버퍼•ECN 관계이고, 패브릭은 혼잡•PFC 제어기 및 관측기와 큐 통제•ECN•PFC•손실•지연 측정 관계이다.
+가지의 의미: 송수신•전달•혼잡 통제•관측 책임을 분리한 정적 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -103,19 +104,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신RNIC
-    participant 스위치
-    participant 수신RNIC
-    loop 혼잡 제어 주기
-        송신RNIC->>스위치: 1. RoCE 큐 분류
-        스위치->>수신RNIC: 2. 다중 경로 전달
-        스위치->>수신RNIC: 3. ECN 혼잡 표시
-        수신RNIC->>송신RNIC: 4. CNP 혼잡 피드백
-        송신RNIC->>송신RNIC: 5. 송신률 조정
-        송신RNIC->>스위치: 조정된 RoCE 트래픽
-    end
+```text
+1. RoCE 큐 분류
+        │
+        ▼
+2. 다중 경로 전달
+        │
+        ▼
+큐 임계값 판정
+        ├─ 미만: 정상 전달
+        └─ 이상
+             │
+             ▼
+     3. ECN 혼잡 표시
+             │
+             ▼
+     4. CNP 혼잡 피드백
+             │
+             ▼
+     5. 송신률 조정
+             │
+             └── 조정된 트래픽 재전송
 ```
 
 **동작 원리**

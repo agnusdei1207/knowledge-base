@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-08-05T01:33:51+09:00"
+date: "2026-08-05T16:32:08+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -70,19 +70,20 @@ extra:
 </details>
 
 ```text
-[컴퓨트 HCA]---[InfiniBand 스위치 패브릭]---[저장 HCA]
-                            |
-                +-----------+-----------+
-                |                       |
-          [서브넷 관리자]          [패브릭 관측기]
+InfiniBand 클러스터
+├─ 컴퓨트 HCA
+├─ InfiniBand 스위치 패브릭
+├─ 저장 HCA
+├─ 서브넷 관리자
+└─ 패브릭 관측기
 ```
 
-선의 의미: 컴퓨트•저장 HCA는 InfiniBand 스위치 패브릭의 LID•VL 경로 관계이고, 패브릭은 서브넷 관리자 및 관측기와 주소•경로•P_Key 관리와 포트•링크•오류•혼잡 관측 관계이다.
+가지의 의미: 연산•전달•저장•경로 관리•관측 책임을 분리한 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
 | 컴퓨트 HCA | 서버 메모리의 **RDMA 작업** 실행 |
-| InfiniBand 스위치 패브릭 | **LID•VL 경로** 로 무손실 패킷 전달 |
+| InfiniBand 스위치 패브릭 | **LID•VL 경로**로 무손실 패킷 전달 |
 | 저장 HCA | 저장 장치의 **RDMA 종단** 제공 |
 | 서브넷 관리자 | **LID•경로•P_Key** 관리 |
 | 패브릭 관측기 | **포트•링크•오류•혼잡 상태** 수집 |
@@ -101,19 +102,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 응용
-    participant HCA
-    participant 서브넷관리자
-    participant 스위치
-    participant 원격HCA
-    서브넷관리자->>스위치: 1. 토폴로지 발견
-    서브넷관리자->>서브넷관리자: 2. 경로•파티션 계산
-    서브넷관리자->>HCA: 3. LID•P_Key 할당
-    응용->>HCA: RDMA 작업
-    HCA->>원격HCA: 4. QP•키 연결 설정
-    HCA->>스위치: 5. 크레딧 RDMA 전송
+```text
+1. 토폴로지 발견
+        │
+        ▼
+2. 경로•파티션 계산
+        │
+        ▼
+3. LID•P_Key 할당
+        │
+        ▼
+RDMA 작업 요청
+        │
+        ▼
+4. QP•키 연결 설정
+        │
+        ▼
+5. 크레딧 RDMA 전송
+        │
+        └── 완료 상태 반환
 ```
 
 **동작 원리**

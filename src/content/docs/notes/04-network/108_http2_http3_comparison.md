@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-08-05T08:45:00+09:00"
+date: "2026-08-05T16:33:41+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -68,14 +68,15 @@ extra:
 </details>
 
 ```text
-                       [HTTP 의미 계층]
-                       /              \
-          [HTTP/2•HPACK 계층]     [HTTP/3•QPACK 계층]
-                    |                       |
-           [TCP•TLS 전송부]       [QUIC•TLS 1.3 전송부]
+HTTP 전송 구조
+├─ HTTP 의미 계층
+├─ HTTP/2•HPACK 계층
+├─ TCP•TLS 전송부
+├─ HTTP/3•QPACK 계층
+└─ QUIC•TLS 1.3 전송부
 ```
 
-선의 의미: 공통 HTTP 의미 계층 아래에서 HTTP/2•HPACK과 TCP•TLS, HTTP/3•QPACK과 QUIC•TLS 1.3이 각각 독립된 정적 프로토콜 스택을 이룬다.
+가지의 의미: 공통 의미와 버전별 압축•전송 책임을 분리한 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -100,24 +101,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 클라이언트
-    participant 서버
-    participant QUIC
-    participant TCP
-    클라이언트->>서버: HTTP 버전 정보 요청
-    서버-->>클라이언트: Alt-Svc•지원 버전
-    클라이언트->>QUIC: 1. QUIC•TLS 협상
-    alt QUIC 사용 가능
-        클라이언트->>QUIC: 2. 독립 스트림 전송
-        QUIC->>서버: HTTP/3 요청
-        서버-->>클라이언트: HTTP 응답
-    else QUIC 실패
-        클라이언트->>TCP: 3. HTTP/2 대체
-        TCP->>서버: HTTP/2 요청
-        서버-->>클라이언트: HTTP 응답
-    end
+```text
+Alt-Svc•지원 버전 확인
+        │
+        ▼
+1. QUIC•TLS 협상
+        ├─ 성공
+        │    │
+        │    ▼
+        │  2. 독립 스트림 전송
+        │    └── HTTP/3 응답 반환
+        │
+        └─ 실패
+             │
+             ▼
+           3. HTTP/2 대체
+             └── HTTP/2 응답 반환
 ```
 
 **동작 원리**

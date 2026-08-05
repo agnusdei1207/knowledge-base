@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "WebRTC (WebRTC)"
-date: "2026-08-05T08:45:00+09:00"
+date: "2026-08-05T16:34:05+09:00"
 tags: ["notes-network"]
 weight: 109
 extra:
@@ -71,16 +71,16 @@ extra:
 </details>
 
 ```text
- [단말 A] -- [시그널링 서버] -- [단말 B]
-      |                                |
-      +------ [STUN•TURN 서버] --------+
-      |                                |
-      +------- [SFU•MCU 서버] ---------+
-                  \      |      /
-                [품질•세션 관측기]
+WebRTC 통신 구조
+├─ 단말 A
+├─ 시그널링 서버
+├─ 단말 B
+├─ STUN•TURN 서버
+├─ SFU•MCU 서버
+└─ 품질•세션 관측기
 ```
 
-선의 의미: 단말 A와 단말 B 사이에 시그널링, STUN•TURN, SFU•MCU라는 서로 다른 연결 경로가 놓이고, 품질•세션 관측기가 세 서버 영역을 공통 관측하는 정적 WebRTC 구조이다.
+가지의 의미: 종단•협상•경로 보조•중계•관측 책임을 분리한 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -106,17 +106,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 단말 A
-    participant S as 시그널링 서버
-    participant T as STUN•TURN
-    participant B as 단말 B
-    A->>S: 1. SDP 제안 등록
-    B->>S: 2. SDP 응답 등록
-    A->>T: 3. ICE 후보 수집
-    A->>B: 4. ICE 경로 검사•선택
-    A->>B: 5. DTLS-SRTP 보안 전송
+```text
+통화 시작 요청
+        │
+        ▼
+1. SDP 제안 등록
+        │
+        ▼
+2. SDP 응답 등록
+        │
+        ▼
+3. ICE 후보 수집
+        │
+        ▼
+4. ICE 경로 검사•선택
+        ├─ 직접 연결 성공: 직접 경로
+        └─ 직접 연결 실패: TURN 중계 경로
+                         │
+                         ▼
+              5. DTLS-SRTP 보안 전송
+                         │
+                         └── 통화 결과 반환
 ```
 
 **동작 원리**
