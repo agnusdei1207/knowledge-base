@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3D V-NAND와 2D NAND 비교 (3D vs 2D NAND)"
-date: "2026-08-05T11:46:21+09:00"
+date: "2026-08-05T17:27:10+09:00"
 tags:
   - "notes-hardware"
 weight: 31
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **3D V-NAND**: Three-Dimensional Vertical NAND, 워드라인과 채널을 수직 적층한 구조
-- **2D NAND**: Two-Dimensional NAND, 기판 평면에서 셀 간격을 줄인 구조
-- **NAND**: Not AND, 페이지 기록과 블록 삭제를 사용하는 플래시 메모리
+- **3차원 수직 낸드(Three-Dimensional Vertical NAND, 3D V-NAND)**: 워드라인과 채널을 수직 적층한 구조
+- **2차원 낸드(Two-Dimensional NAND, 2D NAND)**: 기판 평면에서 셀 간격을 줄인 구조
+- **낸드(Not AND, NAND)**: 페이지 기록과 블록 삭제를 사용하는 플래시 메모리
 
 </details>
 
@@ -143,10 +143,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **원시 비트 오류**: 감지 회로가 읽은 ECC 교정 전 비트 오류
+- **원시 비트 오류**: 감지 회로가 읽은 오류 정정 코드 적용 전 비트 오류
 - **프로그램 간섭**: 인접 워드라인의 쓰기 전압이 다른 셀 임계 전압을 변화시키는 현상
-- **SLC 캐시**: Single-Level Cell Cache, 셀당 1비트로 동작해 쓰기 속도를 높이는 영역
-- **TLC**: Triple-Level Cell, 한 셀에 3비트를 저장하는 플래시 셀 방식
+- **오류 정정 코드(Error-Correcting Code, ECC)**: 추가 검사 비트로 오류를 검출•정정하는 기법
+- **증분 스텝 펄스 프로그래밍(Incremental Step Pulse Programming, ISPP)**: 전압을 단계적으로 높여 목표 임계 전압에 기록하는 방식
+- **단일 레벨 셀 캐시(Single-Level Cell Cache, SLC 캐시)**: 셀당 1비트로 동작해 쓰기 속도를 높이는 영역
+- **삼중 레벨 셀(Triple-Level Cell, TLC)**: 한 셀에 3비트를 저장하는 플래시 셀 방식
 
 </details>
 

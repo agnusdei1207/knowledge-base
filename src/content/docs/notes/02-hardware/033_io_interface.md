@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "I/O 인터페이스: 폴링•인터럽트•DMA•채널 I/O (I/O Interface)"
-date: "2026-08-05T11:47:33+09:00"
+date: "2026-08-05T17:29:00+09:00"
 tags:
   - "notes-hardware"
 weight: 33
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **I/O**: Input/Output, CPU•메모리•주변장치 사이의 입출력
-- **CPU**: Central Processing Unit, 명령을 실행하는 중앙 처리 장치
+- **입출력(Input/Output, I/O)**: CPU•메모리•주변장치 사이의 데이터 전달
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 프로그램 명령을 실행하는 장치
 - **장치 제어기**: 장치 고유 신호를 CPU가 다룰 수 있는 레지스터 상태와 데이터로 변환하는 하드웨어
 
 </details>
@@ -59,7 +59,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **장치 드라이버**: 운영체제 I/O 요청을 장치 제어기 명령으로 바꾸는 소프트웨어
-- **DMA**: Direct Memory Access, CPU 복사 없이 장치와 메모리 사이를 전송하는 방식
+- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 복사 없이 장치와 메모리 사이를 전송하는 방식
 - **DMA 엔진**: DMA 블록 전송을 실행하는 하드웨어
 - **채널 프로세서**: 여러 장치의 복합 I/O 명령열을 CPU 대신 실행하는 전용 처리기
 
@@ -135,7 +135,7 @@ extra:
 
 - **폴링**: CPU가 장치 상태를 반복 확인하는 완료 처리 방식
 - **인터럽트**: 장치가 사건을 CPU에 비동기로 알리는 완료 처리 방식
-- **ISR**: Interrupt Service Routine, 인터럽트 사건을 처리하는 루틴
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 사건을 처리하는 루틴
 - **채널 입출력(Channel Input/Output, 채널 I/O)**: 전용 채널 프로세서가 다중 장치의 I/O 명령열을 실행하는 방식
 
 </details>
@@ -158,8 +158,8 @@ extra:
 - **인터럽트 병합**: 여러 완료 통지를 하나로 모으는 완화 기법
 - **캐시 clean**: CPU 수정분을 메모리에 반영하는 동작
 - **캐시 invalidate**: DMA가 바꾼 메모리의 오래된 캐시 사본을 버리는 동작
-- **IOMMU**: Input-Output Memory Management Unit, 장치 DMA 주소를 변환•격리하는 하드웨어
-- **NVMe**: Non-Volatile Memory Express, DMA와 완료 큐를 사용하는 저장 인터페이스
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: 장치 DMA 주소를 변환•격리하는 하드웨어
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: DMA와 완료 큐를 사용하는 저장 인터페이스
 
 </details>
 

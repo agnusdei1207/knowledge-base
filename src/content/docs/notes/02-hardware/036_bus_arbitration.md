@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "버스 중재 방식 (Bus Arbitration)"
-date: "2026-08-05T11:49:17+09:00"
+date: "2026-08-05T17:32:00+09:00"
 tags:
   - "notes-hardware"
 weight: 36
@@ -23,8 +23,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **버스 중재**: 여러 요청 중 하나에 공유 버스 사용권을 배타적으로 승인해 충돌을 막는 제어
-- **CPU**: Central Processing Unit, 명령을 실행하는 중앙 처리 장치
-- **DMA**: Direct Memory Access, 장치와 메모리 사이를 직접 전송하는 방식
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 프로그램 명령을 실행하는 장치
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치와 메모리 사이를 직접 전송하는 방식
 - **버스 마스터**: 승인 후 버스 트랜잭션을 시작하는 CPU•DMA 등의 주체
 
 </details>
@@ -158,7 +158,7 @@ extra:
 - **꼬리 지연**: 일부 요청의 대기시간이 크게 늘어나는 문제
 - **트래픽 등급**: 긴급도에 따라 버스 요청을 분류한 값
 - **예약 대역폭**: 특정 트래픽 등급에 보장하는 최소 전송량
-- **SoC**: System on Chip, 프로세서•메모리•주변장치를 통합한 반도체
+- **시스템 온 칩(System on Chip, SoC)**: 프로세서•메모리•주변장치를 통합한 반도체
 - **CPU 긴급 요청**: 지연 한도를 위해 우선 승인이 필요한 CPU 트래픽
 
 </details>

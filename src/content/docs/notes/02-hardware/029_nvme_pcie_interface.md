@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NVMe•PCIe 인터페이스 (NVMe PCIe)"
-date: "2026-08-05T11:44:51+09:00"
+date: "2026-08-05T17:24:30+09:00"
 tags:
   - "notes-hardware"
 weight: 29
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NVMe**: Non-Volatile Memory Express, PCIe SSD용 저지연 다중 큐 인터페이스
-- **PCIe**: Peripheral Component Interconnect Express, 점대점 직렬 장치 인터커넥트
-- **SSD**: Solid-State Drive, 플래시 메모리 기반 저장장치
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: PCIe SSD용 저지연 다중 큐 인터페이스
+- **주변 장치 상호 연결 익스프레스(Peripheral Component Interconnect Express, PCIe)**: 점대점 직렬 장치 인터커넥트
+- **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 플래시 메모리 기반 저장장치
 
 </details>
 
@@ -39,12 +39,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SQ**: Submission Queue, 호스트가 저장 명령을 게시하는 메모리 큐
-- **CQ**: Completion Queue, 컨트롤러가 완료 정보를 기록하는 메모리 큐
+- **제출 큐(Submission Queue, SQ)**: 호스트가 저장 명령을 게시하는 메모리 큐
+- **완료 큐(Completion Queue, CQ)**: 컨트롤러가 완료 정보를 기록하는 메모리 큐
 - **도어벨**: 새 큐 포인터를 알리는 MMIO 레지스터
-- **DMA**: Direct Memory Access, 장치가 CPU 복사 없이 메모리를 읽고 쓰는 방식
-- **MMIO**: Memory-Mapped Input/Output, 메모리 주소로 장치 레지스터에 접근하는 방식
-- **CPU**: Central Processing Unit, 명령을 실행하는 중앙 처리 장치
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 CPU 복사 없이 메모리를 읽고 쓰는 방식
+- **메모리 매핑 입출력(Memory-Mapped Input/Output, MMIO)**: 메모리 주소로 장치 레지스터에 접근하는 방식
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 프로그램 명령을 실행하는 장치
 - **큐 깊이**: 큐에 동시에 대기시킬 수 있는 명령 수
 - **99번째 백분위 지연(99th Percentile Latency, p99 지연)**: 전체 요청의 99%가 이 값 이하에 완료되는 꼬리 지연 지표
 
@@ -63,7 +63,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **NVMe 호스트 드라이버**: 운영체제 I/O를 NVMe 명령으로 바꾸고 SQ•CQ를 관리하는 소프트웨어
-- **I/O**: Input/Output, 호스트와 저장장치 사이의 입출력
+- **입출력(Input/Output, I/O)**: 호스트와 저장장치 사이의 데이터 전달
 - **호스트 메모리 큐•버퍼**: 명령•완료 상태와 실제 읽기•쓰기 데이터를 직접 메모리 접근 방식으로 읽고 쓰도록 저장하는 영역
 - **NVMe 컨트롤러**: 큐 명령을 해석하고 플래시 채널에 병렬 실행하는 SSD 제어기
 
@@ -137,8 +137,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SATA**: Serial Advanced Technology Attachment, 전통적인 직렬 저장 인터페이스
-- **AHCI**: Advanced Host Controller Interface, 단일 명령 큐 중심 호스트 인터페이스
+- **직렬 고급 기술 연결(Serial Advanced Technology Attachment, SATA)**: 전통적인 직렬 저장 인터페이스
+- **고급 호스트 제어기 인터페이스(Advanced Host Controller Interface, AHCI)**: 단일 명령 큐 중심 호스트 인터페이스
 - **다중 큐**: 중앙 처리 장치(Central Processing Unit, CPU) 코어나 워크로드별로 독립 제출 큐(Submission Queue, SQ)•완료 큐(Completion Queue, CQ)를 사용해 잠금 경합을 줄이는 구조
 - **직렬 레인**: 두 장치 사이의 한 쌍 송수신 경로로 여러 레인을 묶어 PCIe 대역폭을 늘리는 단위
 
@@ -162,7 +162,7 @@ extra:
 
 - **인터럽트 병합**: 여러 완료 통지를 하나의 인터럽트로 묶는 최적화
 - **적응형 폴링**: 부하에 따라 CQ 확인 방식을 바꾸는 최적화
-- **NUMA**: Non-Uniform Memory Access, 노드별 메모리 지연이 다른 구조
+- **비균등 메모리 접근(Non-Uniform Memory Access, NUMA)**: 노드별 메모리 지연이 다른 구조
 - **NUMA 친화도**: 큐•버퍼•CPU•SSD 경로를 같은 노드에 배치하는 정책
 
 </details>

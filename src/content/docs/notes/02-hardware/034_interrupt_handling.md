@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인터럽트 처리 방식: 벡터•데이지체인 (Interrupt Handling)"
-date: "2026-08-05T11:48:13+09:00"
+date: "2026-08-05T17:30:00+09:00"
 tags:
   - "notes-hardware"
 weight: 34
@@ -23,8 +23,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **인터럽트 처리**: 비동기 요청으로 실행을 전환해 원인을 처리한 뒤 이전 문맥으로 복귀하는 절차
-- **IRQ**: Interrupt Request, 장치나 타이머가 CPU에 비동기 처리를 요구하는 신호
-- **CPU**: Central Processing Unit, 명령을 실행하는 중앙 처리 장치
+- **인터럽트 요청(Interrupt Request, IRQ)**: 장치나 타이머가 CPU에 비동기 처리를 요구하는 신호
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 프로그램 명령을 실행하는 장치
 
 </details>
 
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ISR**: Interrupt Service Routine, 인터럽트 원인의 긴급 처리를 수행하는 코드
+- **인터럽트 서비스 루틴(Interrupt Service Routine, ISR)**: 인터럽트 원인의 긴급 처리를 수행하는 코드
 - **인터럽트 지연**: 요청이 발생한 시점부터 ISR 실행이 시작될 때까지 걸리는 시간
 - **중첩 인터럽트**: ISR 실행 중 더 높은 우선순위 요청의 진입을 허용하는 방식
 
@@ -89,7 +89,7 @@ extra:
 
 - **마스킹**: 특정 인터럽트 요청의 CPU 전달을 차단하는 제어
 - **중재**: 여러 IRQ 중 처리할 하나를 우선순위로 선택하는 제어
-- **EOI**: End of Interrupt, ISR 완료를 제어기에 알리는 신호
+- **인터럽트 종료(End of Interrupt, EOI)**: ISR 완료를 제어기에 알리는 신호
 - **원인 해제**: 장치의 완료•오류 상태를 확인하고 IRQ가 다시 발생하지 않도록 상태를 정리하는 동작
 
 </details>
@@ -103,9 +103,7 @@ extra:
                              |
                          [ISR 진입]
                              |
-                    3. 원인 처리•해제
-                             |
-                         [EOI 전달]
+                3. 원인 처리•해제•EOI 전달
                              |
                     4. 문맥 복원•복귀
                              |
@@ -116,7 +114,7 @@ extra:
 
 - **1. 마스크•우선순위 중재**: 전달할 IRQ 선택
 - **2. 문맥 저장•ISR 주소 식별**: 복귀 상태와 처리 루틴 확보
-- **3. 원인 처리•해제**: 장치 상태 정리와 재발 방지
+- **3. 원인 처리•해제•EOI 전달**: 장치 상태 정리 후 완료 통지
 - **4. 문맥 복원•복귀**: 중단된 명령 흐름 재개
 
 #### 한줄 요약
@@ -149,7 +147,7 @@ extra:
 
 - **지연 처리**: ISR에서는 원인만 해제하고 긴 작업을 별도 커널 작업으로 넘기는 방식
 - **우선순위 노화**: 오래 기다린 낮은 우선순위 요청의 순위를 점차 높여 기아를 막는 방법
-- **MSI-X**: Message Signaled Interrupts eXtended, 메시지 기반 다중 인터럽트 방식
+- **확장 메시지 신호 인터럽트(Message Signaled Interrupts eXtended, MSI-X)**: 메시지 기반 다중 인터럽트 방식
 - **MSI-X 벡터 친화도**: 독립 벡터를 담당 큐와 CPU에 배정하는 정책
 - **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 멀티큐별 MSI-X 벡터를 사용할 수 있는 저장장치 인터페이스
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SoC 시스템온칩 (System on Chip)"
-date: "2026-08-05T11:50:29+09:00"
+date: "2026-08-05T17:34:30+09:00"
 tags:
   - "notes-hardware"
 weight: 38
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SoC**: System on Chip, 연산•메모리•I/O를 단일 다이에 통합한 시스템
-- **I/O**: Input/Output, 칩과 외부 장치 사이의 입출력
+- **시스템 온 칩(System on Chip, SoC)**: 연산•메모리•I/O를 단일 다이에 통합한 시스템
+- **입출력(Input/Output, I/O)**: 칩과 외부 장치 사이의 데이터 전달
 - **다이(Die)**: 웨이퍼에서 절단하여 패키지에 넣는 하나의 반도체 회로 조각이다.
 - **I/O 전력**: 칩 사이 신호를 송수신할 때 소비되는 전력
 
@@ -40,8 +40,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NoC**: Network on Chip, 칩 내부 IP 사이의 트랜잭션 연결망
-- **IP 블록**: Intellectual Property Block, 재사용 가능한 설계 블록
+- **칩 내 네트워크(Network on Chip, NoC)**: 칩 내부 IP 사이의 트랜잭션 연결망
+- **지식재산 블록(Intellectual Property Block, IP 블록)**: 재사용 가능한 설계 블록
 - **전력 도메인(Power Domain)**: 전원을 다른 영역과 독립적으로 공급하거나 차단할 수 있도록 구분한 회로 영역이다.
 - **클록 게이팅(Clock Gating)**: 유휴 블록에 공급되는 클록을 차단하여 불필요한 동적 전력을 줄이는 기법이다.
 
@@ -61,9 +61,9 @@ extra:
 
 - **메모리 서브시스템(Memory Subsystem)**: 캐시와 메모리 제어기를 통해 연산 블록에 명령과 데이터를 공급하는 구성이다.
 - **리셋 관리기(Reset Manager)**: 전원과 클록의 준비 순서에 맞춰 각 블록의 초기화와 해제를 제어하는 회로이다.
-- **QoS**: Quality of Service, 트래픽별 대역폭•지연 목표를 적용하는 정책
-- **DRAM**: Dynamic Random-Access Memory, 동적 주기억장치
-- **MMIO**: Memory-Mapped I/O, 메모리 주소로 장치 레지스터에 접근하는 방식
+- **서비스 품질(Quality of Service, QoS)**: 트래픽별 대역폭•지연 목표를 적용하는 정책
+- **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: 동적 주기억장치
+- **메모리 매핑 입출력(Memory-Mapped Input/Output, MMIO)**: 메모리 주소로 장치 레지스터에 접근하는 방식
 
 </details>
 
@@ -94,8 +94,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **전력 게이팅(Power Gating)**: 사용하지 않는 회로 블록의 전원을 차단하여 누설 전력을 줄이는 기법이다.
-- **CPU**: Central Processing Unit, 범용 명령을 실행하는 처리 장치
-- **NPU**: Neural Processing Unit, 신경망 연산 전용 처리 장치
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령을 실행하는 처리 장치
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 연산 전용 처리 장치
 
 </details>
 
@@ -112,10 +112,10 @@ extra:
                               |
              +---------------------------------+
              | 반복: 작업 데이터•타일        |
-             | 연산 IP ↔ 메모리•I/O 서브시스템 |
+             | 4. 연산 IP•데이터 처리        |
              +---------------------------------+
                               |
-                    4. 완료•결과 상태 전달
+                     [완료•결과 상태 전달]
                               |
                      [유휴 임계치 도달?]
                         /           \
@@ -129,7 +129,7 @@ extra:
 - **1. 전력•클록•리셋 활성화**: 대상 IP 실행 상태 준비
 - **2. MMIO 작업 설정**: 주소•연산 정보를 IP에 전달
 - **3. 주소 라우팅•QoS 중재**: NoC 경로와 대역폭 배정
-- **4. 완료•결과 상태 전달**: 소프트웨어 회수 상태로 전환
+- **4. 연산 IP•데이터 처리**: 메모리•I/O 데이터로 작업 실행
 - **5. 전력•클록 게이팅**: 미사용 IP의 동적•누설 전력 차단
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 - **패키지 내 시스템(System in Package, SiP)**: 서로 다른 기능이나 공정의 여러 다이를 하나의 패키지 안에서 연결한 시스템이다.
 - **마이크로프로세서 기반 보드(MPU-based Board)**: 독립 프로세서와 메모리 및 주변 칩을 인쇄회로기판 배선으로 결합한 시스템이다.
 - **칩렛(Chiplet)**: 기능별로 나눈 작은 다이를 패키지 안에서 연결하여 하나의 시스템처럼 사용하는 구성 단위이다.
-- **PCB**: Printed Circuit Board, 독립 칩을 배선으로 연결하는 기판
+- **인쇄회로기판(Printed Circuit Board, PCB)**: 독립 칩을 배선으로 연결하는 기판
 
 </details>
 

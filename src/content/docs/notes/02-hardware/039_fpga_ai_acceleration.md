@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FPGA AI 가속 (FPGA AI Acceleration)"
-date: "2026-08-05T11:51:31+09:00"
+date: "2026-08-05T17:36:00+09:00"
 tags:
   - "notes-hardware"
 weight: 39
@@ -25,9 +25,9 @@ extra:
 - **필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리 기능과 내부 배선을 다시 구성할 수 있는 반도체이다.
 - **재구성 회로(Reconfigurable Circuit)**: 설정 데이터를 바꾸어 동일한 하드웨어 자원을 다른 연산 구조로 재편할 수 있는 회로이다.
 - **지연 상한(Latency Bound)**: 입력부터 결과까지 걸리는 시간이 넘지 않아야 하는 최대 허용 한계이다.
-- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
-- **ASIC**: Application-Specific Integrated Circuit, 기능이 고정된 전용 반도체
-- **GPU**: Graphics Processing Unit, 프로그램식 병렬 처리 장치
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델 기반 지능형 처리 기술
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 기능이 고정된 전용 반도체
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램식 병렬 처리 장치
 
 </details>
 
@@ -70,12 +70,15 @@ extra:
 </details>
 
 ```text
-[비트스트림•구성 메모리] ------------------------------------+
-             |                                                |
-[DMA•스트림 인터페이스] ----- [BRAM•URAM 버퍼] ----- [LUT•FF•DSP 파이프라인]
+FPGA AI 가속기
+|
++-- [비트스트림•구성 메모리]
++-- [DMA•스트림 인터페이스]
++-- [BRAM•URAM 버퍼]
+`-- [LUT•FF•DSP 파이프라인]
 ```
 
-선의 의미: 아래 선은 전송•버퍼•연산 자원의 데이터 경계이고, 위 선은 구성 메모리가 DMA 인터페이스와 연산 파이프라인에 함께 결합되는 정적 설정 경계를 뜻한다.
+선의 의미: 네 구성요소가 같은 FPGA 가속기 경계에 포함되어 설정•전송•저장•연산 책임을 나누는 정적 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDR SDRAM과 리프레시 방식 (DDR SDRAM Refresh)"
-date: "2026-08-05T11:42:20+09:00"
+date: "2026-08-05T17:19:38+09:00"
 tags:
   - "notes-hardware"
 weight: 24
@@ -60,8 +60,8 @@ extra:
 
 - **메모리 컨트롤러**: 주소를 채널•랭크•뱅크•행•열로 나누고 접근과 리프레시 순서를 조정하는 회로
 - **두 배 데이터율 물리 계층(Double Data Rate Physical Layer, DDR PHY)**: 컨트롤러 명령과 데이터를 메모리 버스의 전기 신호로 변환하는 회로
-- **DQ**: Data Input/Output, 실제 데이터 비트를 운반하는 신호
-- **DQS**: Data Strobe, 수신기의 데이터 샘플링 시점을 알리는 신호
+- **데이터 입출력(Data Input/Output, DQ)**: 실제 데이터 비트를 운반하는 신호
+- **데이터 스트로브(Data Strobe, DQS)**: 수신기의 데이터 샘플링 시점을 알리는 신호
 - **행 버퍼**: 활성화한 행 전체를 보관하며 감지와 복원을 수행하는 회로
 
 </details>
@@ -90,8 +90,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ACT**: Activate, 대상 DRAM 행을 여는 DDR 명령
-- **PRE**: Precharge, 다음 행 접근 전에 현재 행을 닫는 DDR 명령
+- **행 활성(Activate, ACT)**: 대상 DRAM 행을 여는 DDR 명령
+- **프리차지(Precharge, PRE)**: 다음 행 접근 전에 현재 행을 닫는 DDR 명령
 - **리프레시 간격(Refresh Interval, tREFI)**: 연속 리프레시 명령 사이에 허용되는 평균 시간 간격
 - **리프레시 주기 시간(Refresh Cycle Time, tRFC)**: 리프레시 수행으로 메모리 접근이 제한되는 시간
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ASIC AI 가속 (ASIC AI Acceleration)"
-date: "2026-08-05T11:51:58+09:00"
+date: "2026-08-05T17:37:00+09:00"
 tags:
   - "notes-hardware"
 weight: 40
@@ -41,7 +41,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **고정형 데이터플로우(Stationary Dataflow)**: 반복 사용하는 가중치•활성값•부분합 중 하나를 처리 요소 가까이에 유지하는 방식이다.
-- **NRE**: Non-Recurring Engineering, ASIC 설계•검증•마스크의 초기 개발 비용
+- **비반복 엔지니어링(Non-Recurring Engineering, NRE)**: ASIC 설계•검증•마스크의 초기 개발 비용
 - **손익분기 수량(Break-Even Volume)**: ASIC의 초기 개발 비용을 대안 대비 칩당 비용 절감액으로 회수하는 생산 수량이다.
 
 </details>
@@ -66,17 +66,22 @@ $$
 
 - **처리 요소(Processing Element, PE)**: 행렬 연산의 일부를 병렬로 실행하는 가속기 내부의 연산 단위이다.
 - **곱셈-누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 기존 부분합에 더하는 행렬 연산의 기본 동작이다.
-- **온칩 정적 임의 접근 메모리(On-chip SRAM)**: 가중치와 활성값 및 부분합을 가까이 저장하여 재사용하는 고속 메모리이다.
+- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 가중치와 부분합을 온칩에서 재사용하는 고속 메모리이다.
 - **온칩 네트워크(Network on Chip, NoC)**: 피연산자와 결과를 처리 요소 배열에 분배하고 회수하는 칩 내부 연결망이다.
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 호스트 개입 없이 외부 메모리와 온칩 메모리 사이에서 타일을 전송하는 방식이다.
 
 </details>
 
 ```text
-[호스트•DMA 인터페이스] ----- [온칩 SRAM•출력 버퍼] ----- [NoC•멀티캐스트] ----- [PE•MAC 배열]
+ASIC AI 가속기
+|
++-- [호스트•DMA 인터페이스]
++-- [온칩 SRAM•출력 버퍼]
++-- [NoC•멀티캐스트]
+`-- [PE•MAC 배열]
 ```
 
-선의 의미: 선은 타일•부분합과 멀티캐스트 데이터를 공유하는 인접 가속기 구성요소의 정적 데이터 경계를 뜻한다.
+선의 의미: 네 구성요소가 같은 ASIC 가속기 경계에 포함되어 전송•저장•분배•연산 책임을 나누는 정적 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
