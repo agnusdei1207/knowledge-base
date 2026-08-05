@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-05T01:18:22+09:00"
+date: "2026-08-05T23:59:00+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -22,7 +22,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **대규모 언어 모델 운영(Large Language Model Operations, LLMOps)**: 생성형 인공지능 모델•프롬프트•검색 구성을 평가•배포•감시해 품질과 안전을 통제하는 운영 체계이다.
+- **대규모 언어 모델(Large Language Model, LLM)**: 대규모 언어 자료로 학습한 생성 모델이다.
+- **대규모 언어 모델 운영(Large Language Model Operations, LLMOps)**: 모델•프롬프트•검색 구성을 평가•배포•감시하는 운영 체계이다.
 - **생성형 인공지능(Generative Artificial Intelligence, 생성형 AI)**: 학습 데이터의 패턴을 바탕으로 텍스트•이미지 등 새로운 콘텐츠를 생성하는 인공지능이다.
 
 </details>
@@ -64,10 +65,18 @@ extra:
 </details>
 
 ```text
-[구성 카탈로그]---[평가기]---[LLM 게이트웨이]---[가드레일]---[관측기]
+LLMOps 구성 구조
+      |
+      +-- 버전•평가
+      |         +-- [구성 카탈로그]
+      |         +-- [평가기]
+      |
+      +-- 호출•안전
+      |         +-- [LLM 게이트웨이]
+      |         +-- [가드레일]
+      |
+      +-- [관측기]
 ```
-
-선의 의미: 각 선은 모델•프롬프트•RAG 구성, 평가 증적, 중앙 호출 통제, 입출력 안전 판정과 운영 관측값이 서로 결속되는 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -95,18 +104,29 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant V as 버전 관리자
-    participant E as 평가기
-    participant P as 평가 정책
-    participant G as LLM 게이트웨이
-    participant O as 관측기
-    V->>E: 1. 평가 구성 제출
-    E->>P: 2. 품질•안전•비용 검증
-    E->>G: 3. 승인 구성 배포
-    G->>O: 4. 응답•비용 관측
-    O->>V: 5. 개선 조건 환류
+```text
+1. 평가 구성 제출
+      |
+      v
+2. 품질•안전•비용 검증
+      |
+      +-- 하나라도 미달 --> 승격 거부•구성 수정
+      |
+      +-- 모두 통과
+              |
+              v
+3. 승인 구성 배포
+      |
+      v
+4. 응답•비용 관측
+      |
+      +-- 안전 사고•품질 급락 --> 이전 구성 롤백
+      +-- 기준 충족 --> 현재 구성 유지
+      |
+      +-- 저하•새 사고 사례
+                  |
+                  v
+5. 개선 조건 환류 --> 평가 세트 보강•1단계 반복
 ```
 
 **동작 원리**
