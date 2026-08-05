@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "서버 가상화: Type 1•Type 2 하이퍼바이저 (Hypervisor Types)"
-date: "2026-08-05T12:48:11+09:00"
+date: "2026-08-05T17:35:21+09:00"
 tags:
   - "notes-hardware"
 weight: 87
@@ -46,7 +46,7 @@ extra:
 
 </details>
 
-- **하이퍼바이저 실행 위치** 가 I/O 경로•장애 범위 결정
+- **하이퍼바이저 실행 위치**가 I/O 경로•장애 범위 결정
 - Type 1은 **호스트 OS 없는 직접 자원 중재** 제공
 - Type 2는 **호스트 OS 드라이버•도구 재사용** 제공
 
@@ -160,7 +160,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **CPU(Central Processing Unit)**: 명령 실행과 시스템 자원 제어를 담당하는 중앙 처리 장치이다.
-- **vCPU(Virtual Central Processing Unit)**: VM에 할당되어 물리 CPU 시간으로 실행되는 논리 처리기이다.
+- **가상 중앙 처리 장치(Virtual CPU, vCPU)**: VM에 할당되어 물리 CPU 시간으로 실행되는 논리 처리기이다.
 - **CPU 준비 시간**: vCPU가 실행 가능하지만 물리 CPU 할당을 기다린 시간이다.
 - **메모리 회수**: 호스트가 가상머신에 할당한 미사용 메모리를 되찾는 동작이다.
 - **스냅숏**: 특정 시점의 가상머신 디스크와 실행 상태를 보존한 복구 기준이다.

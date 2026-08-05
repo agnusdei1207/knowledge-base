@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "광 인터커넥트 (Optical Interconnect)"
-date: "2026-08-05T12:51:02+09:00"
+date: "2026-08-05T17:36:27+09:00"
 tags:
   - "notes-hardware"
 weight: 89
@@ -38,18 +38,18 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **EMI(Electromagnetic Interference)**: 전자기장이 전기 신호에 유발하는 간섭이다.
-- **WDM(Wavelength Division Multiplexing)**: 서로 다른 파장의 광 채널을 한 광섬유로 동시에 전송하는 기술이다.
-- **ASIC(Application-specific Integrated Circuit)**: 특정 용도의 기능을 구현하도록 설계한 집적회로이다.
-- **CPO(Co-packaged Optics)**: ASIC과 광 엔진을 같은 패키지 가까이에 배치해 전기 경로를 줄이는 구조이다.
-- **dBm(Decibels relative to One Milliwatt)**: 1mW를 기준으로 절대 전력을 나타내는 로그 단위이다.
-- **dB(Decibel)**: 두 전력의 비율을 나타내는 로그 단위이다.
+- **전자기 간섭(Electromagnetic Interference, EMI)**: 전자기장이 전기 신호에 유발하는 간섭이다.
+- **파장 분할 다중화(Wavelength Division Multiplexing, WDM)**: 서로 다른 파장의 광 채널을 한 광섬유로 동시에 전송하는 기술이다.
+- **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 용도의 기능을 구현하도록 설계한 집적회로이다.
+- **공동 패키지 광학(Co-Packaged Optics, CPO)**: ASIC과 광 엔진을 같은 패키지 가까이에 배치해 전기 경로를 줄이는 구조이다.
+- **밀리와트 기준 데시벨(Decibels relative to One Milliwatt, dBm)**: 1mW를 기준으로 절대 전력을 나타내는 로그 단위이다.
+- **데시벨(Decibel, dB)**: 두 전력의 비율을 나타내는 로그 단위이다.
 
 </details>
 
-- **광섬유•EMI 내성** 으로 장거리 감쇠•간섭 감소
-- **WDM 병렬 채널** 로 대역폭 확대
-- **CPO** 로 ASIC•광 엔진의 전기 경로 단축
+- **광섬유•EMI 내성**으로 장거리 감쇠•간섭 감소
+- **WDM 병렬 채널**로 대역폭 확대
+- **CPO**로 ASIC•광 엔진의 전기 경로 단축
 
 광 링크의 수신 전력과 여유는 다음과 같다.
 
@@ -69,7 +69,9 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **SerDes(Serializer/Deserializer)**: 병렬 데이터를 직렬 신호로 변환하고 수신 시 다시 병렬 데이터로 복원하는 회로이다.
+- **직렬화•역직렬화기(Serializer/Deserializer, SerDes)**: 병렬 데이터를 직렬 신호로 변환하고 수신 시 다시 병렬 데이터로 복원하는 회로이다.
+- **전기-광 변환(Electrical-to-Optical Conversion, E/O)**: 전기 데이터를 변조된 광 신호로 바꾸는 과정이다.
+- **광-전기 변환(Optical-to-Electrical Conversion, O/E)**: 수신 광 신호를 전기 데이터로 복원하는 과정이다.
 - **광 송신부(Optical Transmitter)**: 전기 데이터를 레이저와 변조기로 광 신호로 바꾸는 구성이다.
 - **WDM 결합•분리기(WDM Multiplexer•Demultiplexer)**: 여러 파장을 한 광섬유에 결합하고 수신단에서 분리하는 구성이다.
 - **광섬유 경로(Optical-fiber Path)**: 다중 파장 광 신호를 낮은 손실로 전달하는 구성이다.

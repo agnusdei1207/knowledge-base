@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-05T12:45:01+09:00"
+date: "2026-08-05T17:34:54+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: CPU 가상화 확장으로 **게스트 직접 실행•격리** 를 지원하는 기술
+- 정의/개념: CPU 가상화 확장으로 **게스트 직접 실행•격리**를 지원하는 기술
 - 배경/필요성: 소프트웨어 명령 변환의 **실행 비용•호환 복잡도 증가**
 
 #### 한줄 요약
@@ -49,7 +49,7 @@ extra:
 
 </details>
 
-- **VT-x•AMD-V** 의 비특권 명령 직접 실행으로 변환 비용 절감
+- **VT-x•AMD-V**의 비특권 명령 직접 실행으로 변환 비용 절감
 - **VMCS•VMCB** 기반 VM Entry•Exit로 통제 사건 중재
 - **EPT•NPT** 2단계 주소 변환으로 게스트 메모리 격리
 
@@ -65,7 +65,9 @@ extra:
 - **CPU 가상화 확장(CPU Virtualization Extension)**: 게스트 진입•탈출과 직접 실행 모드를 제공하는 구성이다.
 - **하이퍼바이저(Hypervisor)**: VM 실행 상태와 물리 자원 접근을 중재하는 구성이다.
 - **EPT•NPT**: 게스트 물리 주소를 호스트 물리 주소로 변환하는 2단계 페이지 테이블이다.
-- **가상 I/O•IOMMU(Virtual I/O•IOMMU)**: 장치 중재와 DMA 주소 변환•격리를 담당하는 구성이다.
+- **가상 입출력(Virtual I/O)**: 물리 장치를 VM별 논리 장치로 중재하는 구성이다.
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: DMA 주소를 변환하고 장치별 접근 범위를 격리하는 하드웨어이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 CPU를 거치지 않고 메모리를 읽고 쓰는 전송 방식이다.
 
 </details>
 
@@ -167,6 +169,7 @@ extra:
 - **큰 페이지**: 한 TLB 항목이 더 넓은 메모리 범위를 덮도록 기본보다 큰 주소 단위를 쓰는 페이지이다.
 - **NUMA(Non-uniform Memory Access)**: 처리기와 메모리 위치에 따라 접근 시간이 달라지는 구조이다.
 - **NUMA 노드**: CPU와 가까운 로컬 메모리를 하나의 접근 지연 영역으로 묶은 단위이다.
+- **가상 중앙 처리 장치(Virtual CPU, vCPU)**: 물리 CPU 실행 시간을 VM에 제공하는 논리 처리기이다.
 
 </details>
 

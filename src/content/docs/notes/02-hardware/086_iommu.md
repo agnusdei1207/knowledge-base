@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "입출력 메모리 관리 장치 (IOMMU)"
-date: "2026-08-05T12:46:28+09:00"
+date: "2026-08-05T17:35:04+09:00"
 tags:
   - "notes-hardware"
 weight: 86
@@ -42,12 +42,13 @@ extra:
 
 - **IOMMU 도메인**: 변환표와 접근 권한을 공유하는 장치 격리 단위이다.
 - **IOTLB(Input/Output Translation Lookaside Buffer)**: 최근의 IOVA 변환 결과를 저장하는 주소 변환 캐시이다.
+- **단일 루트 입출력 가상화(Single Root I/O Virtualization, SR-IOV)**: 하나의 PCIe 장치를 여러 가상 기능으로 나눠 VM에 직접 할당하는 기술이다.
 
 </details>
 
-- **장치•VM별 도메인•SR-IOV** 로 직접 할당 DMA 범위 분리
-- **IOVA→물리 주소 변환** 과 페이지 권한 동시 검사
-- **IOTLB 미스•무효화** 가 장치 주소 변환 지연 증가
+- **장치•VM별 도메인•SR-IOV**로 직접 할당 DMA 범위 분리
+- **IOVA→물리 주소 변환**과 페이지 권한 동시 검사
+- **IOTLB 미스•무효화**가 장치 주소 변환 지연 증가
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-05T12:49:41+09:00"
+date: "2026-08-05T17:35:56+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -23,8 +23,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **고속 직렬 인터페이스**: 적은 차동 신호선으로 비트를 순차 고속 전송하는 연결 규격이다.
-- **USB(Universal Serial Bus)**: 데이터 전송과 전력 공급을 지원하는 범용 직렬 인터페이스이다.
-- **USB-C(Universal Serial Bus Type-C)**: 상하 구분 없는 커넥터 형상이며 속도•전력•영상 기능 자체를 보장하지는 않는다.
+- **범용 직렬 버스(Universal Serial Bus, USB)**: 데이터 전송과 전력 공급을 지원하는 범용 직렬 인터페이스이다.
+- **범용 직렬 버스 타입 C(Universal Serial Bus Type-C, USB-C)**: 상하 구분 없는 커넥터 형상이며 속도•전력•영상 기능 자체를 보장하지는 않는다.
 
 </details>
 
@@ -42,15 +42,15 @@ extra:
 - **기능 탐색**: 호스트•장치•케이블이 지원 기능을 교환하여 공통 속도•전력•영상 모드를 찾는 절차이다.
 - **차동 신호**: 두 선의 전압 차이로 비트를 표현하여 공통 잡음의 영향을 줄이는 방식이다.
 - **터널링**: 한 프로토콜의 패킷을 다른 링크의 전송 형식에 실어 전달하는 방식이다.
-- **USB PD(USB Power Delivery)**: USB 연결에서 전력 방향•전압•전류를 협상하는 규격이다.
-- **PCIe(Peripheral Component Interconnect Express)**: 처리기와 주변장치를 연결하는 고속 직렬 인터페이스이다.
-- **DMA(Direct Memory Access)**: 장치가 처리기를 거치지 않고 메모리에 직접 접근하는 방식이다.
+- **USB 전력 전송(USB Power Delivery, USB PD)**: USB 연결에서 전력 방향•전압•전류를 협상하는 규격이다.
+- **고속 주변장치 상호연결(Peripheral Component Interconnect Express, PCIe)**: 처리기와 주변장치를 연결하는 고속 직렬 인터페이스이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 처리기를 거치지 않고 메모리에 직접 접근하는 방식이다.
 
 </details>
 
-- **기능 탐색•USB PD** 로 공통 속도•전력•대체 모드 결정
+- **기능 탐색•USB PD**로 공통 속도•전력•대체 모드 결정
 - **차동 신호•레인** 기반 고속 직렬 전송
-- Thunderbolt **PCIe 터널링** 으로 고대역 장치 연결•외부 DMA 공격면 확대
+- Thunderbolt **PCIe 터널링**으로 고대역 장치 연결•외부 DMA 공격면 확대
 
 #### 한줄 요약
 
@@ -62,9 +62,10 @@ extra:
 
 - **호스트 컨트롤러(Host Controller)**: 기능 협상과 데이터•터널 경로를 제어하는 구성이다.
 - **USB-C 포트(USB-C Port)**: CC로 연결 방향과 전원 역할 및 기능을 협상하는 구성이다.
-- **케이블•e-Marker(Cable•e-Marker)**: 지원 속도•전류•레인 등급을 제공하는 구성이다.
+- **구성 채널(Configuration Channel, CC)**: 연결 방향과 전원 역할 및 대체 모드를 협상하는 USB-C 신호선이다.
+- **전자 마커(Electronic Marker, e-Marker)**: 케이블의 지원 속도•전류•레인 등급을 제공하는 칩이다.
 - **장치 컨트롤러(Device Controller)**: 장치 기능을 광고하고 협상된 데이터를 처리하는 구성이다.
-- **IOMMU(Input-Output Memory Management Unit)**: 외부 장치의 DMA 주소와 메모리 접근 범위를 격리하는 구성이다.
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: 외부 장치의 DMA 주소와 메모리 접근 범위를 격리하는 구성이다.
 
 </details>
 
