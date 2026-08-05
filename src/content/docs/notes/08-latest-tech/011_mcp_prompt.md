@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Prompt (모델 컨텍스트 프로토콜 프롬프트)"
-date: "2026-08-05T14:23:11+09:00"
+date: "2026-08-06T01:38:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 11
@@ -104,22 +104,34 @@ extra:
 
 - **MCP Client** 및 **MCP Server** 사이에서 목록•완성 메시지를 교환하고 사용자가 승인한 결과만 모델에 전달한다.
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant C as MCP 클라이언트
-    participant S as MCP 서버
-    participant M as 모델
-    C->>S: 1. 프롬프트 목록 조회
-    S-->>C: 프롬프트 이름•설명•인자 반환
-    U->>C: 템플릿 선택•인자 입력
-    C->>S: 2. 완성 메시지 조회
-    S-->>C: 역할별 프롬프트 메시지 반환
-    C-->>U: 완성 메시지 검토 요청
-    U->>C: 승인한 메시지 전달 요청
-    C->>M: 3. 승인한 메시지 전달
-    M-->>C: 모델 생성 결과 반환
-    C-->>U: 작업 결과 제공
+```text
+MCP 클라이언트
+   │ 1. 프롬프트 목록 조회
+   │    (prompts/list)
+   │ 완성 메시지 조회
+   │    (prompts/get)
+   │ 완성 메시지 검토 요청
+   ▼
+MCP 서버
+   │ 프롬프트 이름•설명•인자 반환
+   │ 역할별 프롬프트 메시지 반환
+   ▼
+MCP 클라이언트
+   ▼
+사용자
+   │ 템플릿 선택•인자 입력
+   │ 승인한 메시지 전달 요청
+   ▼
+MCP 클라이언트
+   │ 3. 승인한 메시지 전달
+   ▼
+모델
+   │ 모델 생성 결과 반환
+   ▼
+MCP 클라이언트
+   │ 작업 결과 제공
+   ▼
+사용자
 ```
 
 1. **프롬프트 목록 조회**: **prompts/list** 로 사용 가능한 템플릿 계약 확인

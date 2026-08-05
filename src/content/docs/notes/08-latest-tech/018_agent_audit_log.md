@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Agent Audit Log (에이전트 감사 로그)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:52:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 18
@@ -96,20 +96,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 에이전트
-    participant P as 정책 집행점
-    participant L as 감사 로그
-    participant W as WORM 저장소
-    participant T as 도구
-    A->>P: 행동•위임 정보 제출
-    P->>L: 1. 신원•위임•정책 결정 기록
-    P->>T: 2. 승인된 행동 실행
-    T-->>P: 실행 결과•상태 변경 반환
-    P->>L: 3. 결과•출처 이력 연결
-    L->>W: 4. Trace ID•해시 봉인
-    P-->>A: 실행 결과 제공
+```text
+에이전트
+   │ 행동•위임 정보 제출
+   ▼
+정책 집행점
+   │ 1. 신원•위임•정책 결정 기록
+   │ 2. 승인된 행동 실행
+   │ 3. 결과•출처 이력 연결
+   ▼
+도구
+   │ 실행 결과•상태 변경 반환
+   ▼
+정책 집행점
+   ▼
+감사 로그
+   │ 4. Trace ID•해시 봉인
+   ▼
+WORM 저장소
 ```
 
 1. **신원•위임•정책 결정 기록**: 권한 출처와 승인 근거 연결
@@ -165,6 +169,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **책임 입증 로그**: 주체•위임•정책 결정•결과를 Trace ID로 연결하고 WORM 저장을 적용해 책임•규정 준수를 입증하는 감사 체계이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "함수 호출 (Function Calling)"
-date: "2026-08-05T02:05:12+09:00"
+date: "2026-08-06T01:26:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 5
@@ -88,18 +88,25 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **호출 식별자(Call ID)**: 병렬•재시도 함수 요청과 각 실행 결과를 정확히 연결하는 고유 값이다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 모델
-    participant H as 호스트
-    participant F as 업무 함수
-    H->>M: 1. 함수명•설명•인자 스키마 제공
-    M->>H: 2. 함수명•인자•호출 ID 제안
-    H->>F: 3. 형식•값•권한 검증 후 실행
-    F-->>H: 4. 실행 결과•오류 반환
-    H-->>M: 5. 호출 ID와 결과 연결
+```text
+호스트
+   │ 1. 함수명•설명•인자 스키마 제공
+   │ 3. 형식•값•권한 검증 후 실행
+   │ 5. 호출 ID와 결과 연결
+   ▼
+모델
+   │ 2. 함수명•인자•호출 ID 제안
+   ▼
+호스트
+   ▼
+업무 함수
+   │ 4. 실행 결과•오류 반환
+   ▼
+호스트
 ```
 
 1. **함수명•설명•인자 스키마 제공**: 선택 가능한 함수와 필수 필드•자료형•허용 범위 제시

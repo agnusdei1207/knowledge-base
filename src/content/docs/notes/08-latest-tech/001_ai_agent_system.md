@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 에이전트 시스템 (AI Agent System)"
-date: "2026-08-05T02:05:12+09:00"
+date: "2026-08-06T01:18:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 1
@@ -93,20 +93,28 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **추론-행동(Reasoning and Acting, ReAct)**: 추론으로 행동을 선택하고 실행 결과를 관찰해 오류 복구와 재계획에 반영하는 반복 방식이다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 오케스트레이터
-    participant S as 상태•기억
-    participant T as 도구•권한
-    O->>S: 1. 목표•완료 조건•예산 등록
-    loop 완료•중단 전까지
-        S-->>O: 2. 현재 상태•기억 제공
-        O->>T: 3. 계획 행동•인자•권한 검증 요청
-        T-->>O: 4. 도구 실행 결과•오류 반환
-        O->>S: 5. 관찰 결과•완료 판정 저장
-    end
+```text
+오케스트레이터
+   │ 1. 목표•완료 조건•예산 등록
+   │    (완료•중단 전까지)
+   ▼
+상태•기억
+   │ 2. 현재 상태•기억 제공
+   ▼
+오케스트레이터
+   │ 3. 계획 행동•인자•권한 검증 요청
+   ▼
+도구•권한
+   │ 4. 도구 실행 결과•오류 반환
+   ▼
+오케스트레이터
+   │ 5. 관찰 결과•완료 판정 저장
+   ▼
+상태•기억
 ```
 
 1. **목표•완료 조건•예산 등록**: 작업 범위와 금지 행동 및 종료 기준 설정

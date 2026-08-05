@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Resource (모델 컨텍스트 프로토콜 리소스)"
-date: "2026-08-05T14:23:09+09:00"
+date: "2026-08-06T01:34:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 9
@@ -95,25 +95,29 @@ extra:
 
 - **MCP Client** 요청은 **MCP Server**가 **URI** 권한을 확인한 뒤 **MIME Type** 정보와 내용으로 반환한다.
 
-```mermaid
-sequenceDiagram
-    participant C as MCP 클라이언트
-    participant S as MCP 서버
-    participant B as 리소스 저장소
-    C->>S: 리소스 목록•템플릿 요청
-    S->>B: 1. 공개 가능한 URI 목록 구성
-    B-->>S: 저장소 URI•형식 제공
-    S-->>C: URI•이름•MIME 명세 반환
-    C->>S: 권한 범위의 URI 읽기 요청
-    S->>B: 2. URI 해석•권한 검증 후 내용 조회
-    B-->>S: 텍스트•바이너리 내용 제공
-    S-->>C: 검증된 리소스 내용 반환
-    C->>S: URI 구독 요청
-    loop 구독 URI 변경 감지 시
-        S->>B: 3. 구독 URI 변경 확인
-        B-->>S: 변경 상태 제공
-        S-->>C: 리소스 변경 알림
-    end
+```text
+MCP 클라이언트
+   │ 리소스 목록•템플릿 요청
+   │ 권한 범위의 URI 읽기 요청
+   │ URI 구독 요청
+   ▼
+MCP 서버
+   │ 1. 공개 가능한 URI 목록 구성
+   │ 2. URI 해석•권한 검증 후 내용 조회
+   │    (구독 URI 변경 감지 시)
+   │ 3. 구독 URI 변경 확인
+   ▼
+리소스 저장소
+   │ 저장소 URI•형식 제공
+   │ 텍스트•바이너리 내용 제공
+   │ 변경 상태 제공
+   ▼
+MCP 서버
+   │ URI•이름•MIME 명세 반환
+   │ 검증된 리소스 내용 반환
+   │ 리소스 변경 알림
+   ▼
+MCP 클라이언트
 ```
 
 1. **공개 가능한 URI 목록 구성**: 권한 범위의 URI•템플릿 선별
@@ -152,6 +156,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
+- **리소스 구독 갱신**: 리소스가 변경될 때 서버가 클라이언트에 새 버전을 알리고 필요 시 재조회하게 하는 운영 방식이다.
+
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -167,6 +173,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **리소스 통제 원칙**: URI 기반 문맥 제공 시 템플릿•테넌트•목적별 최소 필드로 노출 범위를 통제하는 원칙이다.
 
 </details>
 

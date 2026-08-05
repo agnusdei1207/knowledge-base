@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모델 컨텍스트 프로토콜 (Model Context Protocol, MCP)"
-date: "2026-08-05T02:05:12+09:00"
+date: "2026-08-06T01:28:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 6
@@ -90,17 +90,21 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **기능 협상**: 초기화 단계에서 클라이언트와 서버가 프로토콜 리비전과 사용할 선택 기능을 합의하는 과정이다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as MCP 클라이언트
-    participant S as MCP 서버
-    C->>S: 1. 지원 버전•클라이언트 기능 초기화 요청
-    S-->>C: 2. 합의 버전•서버 기능 응답
-    C->>S: 3. 초기화 완료 알림
-    C->>S: 4. 도구•리소스•프롬프트 목록 요청
-    S-->>C: 기능 결과•표준 오류 반환
+```text
+MCP 클라이언트
+   │ 1. 지원 버전•클라이언트 기능 초기화 요청
+   │ 3. 초기화 완료 알림
+   │ 4. 도구•리소스•프롬프트 목록 요청
+   ▼
+MCP 서버
+   │ 2. 합의 버전•서버 기능 응답
+   │    기능 결과•표준 오류 반환
+   ▼
+MCP 클라이언트
 ```
 
 1. **지원 버전•클라이언트 기능 초기화 요청**: 호환 버전과 roots•sampling 등 지원 범위 제안
@@ -155,6 +159,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **MCP 적용 구분**: AI 호스트가 모델의 기능 발견•컨텍스트 교환이 필요할 때 MCP를 적용하고, 고정 HTTP 계약만 필요하면 OpenAPI를 적용하는 구분이다.
 
 </details>
 

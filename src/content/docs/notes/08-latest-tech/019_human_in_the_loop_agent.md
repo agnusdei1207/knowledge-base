@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "Human-in-the-Loop Agent (인간 개입 에이전트)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:54:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 19
@@ -84,19 +84,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 에이전트
-    participant R as 통제 엔진
-    participant H as 승인자
-    participant T as 실행 대상
-    A->>R: 1. 영향•불확실성 평가
-    R-->>A: 2. 실행 중단•상태 저장
-    A->>H: 근거•영향•대안 검토 요청
-    H-->>A: 승인•수정•거부 결정
-    A->>R: 3. 승인 결정 반영•최신 조건 재검증
-    R->>T: 4. 검증된 행동 실행
-    T-->>A: 실행 결과•오류 반환
+```text
+에이전트
+   │ 1. 영향•불확실성 평가
+   ▼
+통제 엔진
+   │ 2. 실행 중단•상태 저장
+   │ 3. 승인 결정 반영•최신 조건 재검증
+   │ 4. 검증된 행동 실행
+   ▼
+실행 대상
+   │ 실행 결과•오류 반환
+   ▼
+에이전트
+   │ 근거•영향•대안 검토 요청
+   ▼
+승인자
+   │ 승인•수정•거부 결정
+   ▼
+에이전트
 ```
 
 1. **영향•불확실성 평가**: 피해 규모와 신뢰도로 **개입 조건** 판정
@@ -156,6 +162,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **개입 시점 구분**: 비가역•고위험 행동에는 HITL을 적용하고, 가역•감시 가능 행동에는 인간 감시를 적용해 통제 비용을 행동 위험도에 맞추는 결정이다.
 
 </details>
 

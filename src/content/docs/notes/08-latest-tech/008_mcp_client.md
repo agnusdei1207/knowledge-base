@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Client (모델 컨텍스트 프로토콜 클라이언트)"
-date: "2026-08-05T14:23:08+09:00"
+date: "2026-08-06T01:32:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 8
@@ -97,18 +97,23 @@ extra:
 
 - **MCP Host•MCP Client•MCP Server** 사이에서 **JSON-RPC** 요청과 응답을 중계한다.
 
-```mermaid
-sequenceDiagram
-    participant H as MCP 호스트
-    participant C as MCP 클라이언트
-    participant S as MCP 서버
-    C->>S: 1. 버전•클라이언트 기능 초기화 요청
-    S-->>C: 2. 합의 버전•서버 기능 응답
-    C-->>H: 서버별 기능 목록•메타데이터 전달
-    H->>C: 선택 기능•인자•정책 결과 제공
-    C->>S: 3. 표준 요청 전송
-    S-->>C: 서버 결과•오류 반환
-    C-->>H: 출처가 구분된 결과 전달
+```text
+MCP 클라이언트
+   │ 1. 버전•클라이언트 기능 초기화 요청
+   │ 서버별 기능 목록•메타데이터 전달
+   │ 3. 표준 요청 전송
+   │    출처가 구분된 결과 전달
+   ▼
+MCP 서버
+   │ 2. 합의 버전•서버 기능 응답
+   │    서버 결과•오류 반환
+   ▼
+MCP 클라이언트
+   ▼
+MCP 호스트
+   │ 선택 기능•인자•정책 결과 제공
+   ▼
+MCP 클라이언트
 ```
 
 1. **버전•클라이언트 기능 초기화 요청**: 호환 버전•기능 범위 협상

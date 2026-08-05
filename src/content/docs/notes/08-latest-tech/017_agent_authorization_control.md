@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Agent Authorization & Control (에이전트 권한 제어)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:50:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 17
@@ -100,23 +100,27 @@ extra:
 
 - **PEP** 측에서 **PDP** 판단을 받아 **API** 호출 직전에 허용•거부와 추가 승인을 강제한다.
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant A as 에이전트
-    participant E as PEP
-    participant D as PDP
-    participant T as 도구 API
-    U->>A: 최소 범위•기간 위임
-    A->>E: 1. 자원•행동•인자 요청
-    E->>D: 2. 주체•환경 정책 질의
-    D-->>E: 3. 허용•거부 결정
-    opt 고위험 행동
-        E->>U: 사용자 추가 승인 요청
-        U-->>E: 승인•거부 결과 반환
-    end
-    E->>T: 4. 승인된 API 행동 실행
-    T-->>A: 실행 결과•오류 반환
+```text
+사용자
+   │ 최소 범위•기간 위임
+   │    (고위험 행동 시)
+   │ 사용자 추가 승인 요청
+   │ 승인•거부 결과 반환
+   ▼
+에이전트
+   │ 1. 자원•행동•인자 요청
+   ▼
+PEP
+   │ 2. 주체•환경 정책 질의
+   │ 3. 허용•거부 결정
+   │ 4. 승인된 API 행동 실행
+   ▼
+도구 API
+   │ 실행 결과•오류 반환
+   ▼
+에이전트
+   ▼
+PDP
 ```
 
 1. **자원•행동•인자 요청**: PEP에 실행 의도 전달
@@ -175,6 +179,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **권한 통제 구분**: 안정적 직무 권한에는 RBAC를, 동적 속성•도구 조합•상황 판단에는 ABAC를 적용해 권한 상승을 통제하는 결정이다.
 
 </details>
 

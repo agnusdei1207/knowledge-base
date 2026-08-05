@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "멀티 에이전트 협업 (Multi-Agent Collaboration)"
-date: "2026-08-05T14:23:13+09:00"
+date: "2026-08-06T01:42:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 13
@@ -100,19 +100,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 조정자
-    participant W as 작업 에이전트
-    participant V as 검증 에이전트
-    participant S as 공유 상태
-    loop 종료 조건을 충족할 때까지
-        C->>W: 1. 역할•완료 조건 위임
-        W->>S: 2. 근거•산출물 공유
-        C->>V: 3. 독립 품질 검증
-        V->>S: 4. 결함•승인 기록
-    end
-    C->>S: 5. 충돌 해결•결과 통합
+```text
+조정자
+   │ 1. 역할•완료 조건 위임
+   │ 3. 독립 품질 검증
+   │ 5. 충돌 해결•결과 통합
+   ▼
+작업 에이전트
+   │ 2. 근거•산출물 공유
+   ▼
+공유 상태
+   ▼
+검증 에이전트
+   │ 4. 결함•승인 기록
+   ▼
+공유 상태
 ```
 
 1. **역할•완료 조건 위임**: 과업 의존성과 능력으로 **책임 경계** 결정
@@ -173,7 +175,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **단일 에이전트**: 역할 분리 이득이 작은 단순 과업을 하나의 에이전트가 일관된 문맥으로 처리하는 방식이다.
+- **역할 분담 결정**: 과업 복잡도와 검증 필요성에 따라 단일 에이전트와 MAS 협업 구조 중 선택하는 결정이다.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ReAct 패턴 (Reasoning and Acting)"
-date: "2026-08-05T02:05:12+09:00"
+date: "2026-08-06T01:22:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 3
@@ -76,20 +76,24 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **관찰**: 도구가 반환한 데이터•오류•외부 상태를 다음 추론이 사용할 수 있도록 기록한 실행 결과다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant R as 추론기
-    participant A as 실행기
-    participant O as 관찰기
-    loop 완료•중단 전까지
-        R->>A: 1. 정보 공백•선택 행동 전달
-        A-->>R: 2. 도구•인자•권한 검증 결과
-        R->>A: 3. 검증된 도구 실행 요청
-        A-->>O: 4. 실행 결과•오류 전달
-        O-->>R: 5. 출처가 확인된 관찰 제공
-    end
+```text
+추론기
+   │ 1. 정보 공백•선택 행동 전달
+   │    (완료•중단 전까지)
+   │ 3. 검증된 도구 실행 요청
+   ▼
+실행기
+   │ 2. 도구•인자•권한 검증 결과
+   │ 4. 실행 결과•오류 전달
+   ▼
+관찰기
+   │ 5. 출처가 확인된 관찰 제공
+   ▼
+추론기
 ```
 
 1. **정보 공백•선택 행동 전달**: 완료 조건과 부족한 근거를 분석해 도구•인자 선택

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Agent Planning (에이전트 플래닝)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:46:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 15
@@ -85,23 +85,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant P as 계획기
-    participant X as 실행기
-    participant E as 평가기
-    U->>P: 목표•완료 조건 전달
-    P->>E: 1. 작업•의존성 계획 검증
-    loop 목표 달성•종료 조건까지
-        E->>X: 2. 실행 가능 작업 전달
-        X-->>E: 3. 작업 결과•환경 관찰
-        opt 목표 미달•환경 변화
-            E->>P: 4. 남은 계획 재수립
-            P-->>E: 수정된 후속 계획 제공
-        end
-    end
-    E-->>U: 최종 결과•근거 반환
+```text
+사용자
+   │ 목표•완료 조건 전달
+   ▼
+계획기
+   │ 1. 작업•의존성 계획 검증
+   │    (목표 달성•종료 조건까지)
+   ▼
+평가기
+   │ 2. 실행 가능 작업 전달
+   │ 3. 작업 결과•환경 관찰
+   │    (목표 미달•환경 변화 시)
+   │ 4. 남은 계획 재수립
+   │    수정된 후속 계획 제공
+   ▼
+실행기
+   ▼
+평가기
+   │ 최종 결과•근거 반환
+   ▼
+사용자
 ```
 
 1. **작업•의존성 계획 검증**: 선후관계와 실행 가능성 확인
@@ -163,6 +167,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **계획 방식 결정**: 과업 의존성과 변화 빈도에 따라 Plan-and-Execute와 ReAct 중 선택하는 결정이다.
 
 </details>
 

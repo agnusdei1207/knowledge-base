@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "Agent Sandbox (에이전트 샌드박스)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:56:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 20
@@ -95,18 +95,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 에이전트
-    participant P as 정책 엔진
-    participant S as 샌드박스
-    participant V as 결과 검증기
-    A->>P: 코드•도구 실행 요청
-    P->>S: 1. 위험도별 격리•권한•할당량 구성
-    A->>S: 2. 코드•도구 제한 실행
-    S-->>V: 3. 출력•행위 기록 검증
-    V->>S: 4. 일회성 환경 폐기
-    V-->>A: 허용 산출물•실행 결과 반환
+```text
+에이전트
+   │ 코드•도구 실행 요청
+   ▼
+정책 엔진
+   │ 1. 위험도별 격리•권한•할당량 구성
+   ▼
+샌드박스
+   │ 2. 코드•도구 제한 실행
+   │ 3. 출력•행위 기록 검증
+   │ 4. 일회성 환경 폐기
+   ▼
+결과 검증기
+   │ 허용 산출물•실행 결과 반환
+   ▼
+에이전트
 ```
 
 1. **위험도별 격리•권한•할당량 구성**: 신뢰도•부작용별 경계 설정
@@ -165,6 +169,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **격리 수준 선택**: 실행 코드의 신뢰도와 부작용 위험에 따라 컨테이너와 MicroVM 등 격리 단계를 구분하는 결정이다.
 
 </details>
 

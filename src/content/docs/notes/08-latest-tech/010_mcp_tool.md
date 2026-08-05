@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Tool (모델 컨텍스트 프로토콜 도구)"
-date: "2026-08-05T14:23:10+09:00"
+date: "2026-08-06T01:36:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 10
@@ -99,22 +99,31 @@ extra:
 
 - **MCP Host**와 **MCP Server** 사이에서 **JSON** 인자를 교환하고 고위험 호출에는 **HITL** 승인을 적용한다.
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant H as MCP 호스트•클라이언트
-    participant S as MCP 서버
-    participant B as 백엔드
-    U->>H: 목표•외부 행동 요청
-    H->>S: 1. 도구 목록•입력 스키마 요청
-    S-->>H: 2. 선택 가능한 도구 명세 제공
-    U->>H: 고위험 도구 승인
-    H->>H: 3. 승인된 도구명•구조화 인자 확정
-    H->>S: 4. tools/call 요청
-    S->>B: 5. 권한•입력 검증 후 백엔드 실행
-    B-->>S: 실행 결과•오류 반환
-    S-->>H: 출처가 구분된 구조화 결과 반환
-    H-->>U: 실행 결과 제공
+```text
+사용자
+   │ 목표•외부 행동 요청
+   │ 고위험 도구 승인
+   │    (HITL)
+   ▼
+MCP 호스트•클라이언트
+   │ 1. 도구 목록•입력 스키마 요청
+   │ 3. 승인된 도구명•구조화 인자 확정
+   │ 4. tools/call 요청
+   ▼
+MCP 서버
+   │ 2. 선택 가능한 도구 명세 제공
+   │ 5. 권한•입력 검증 후 백엔드 실행
+   ▼
+백엔드
+   │ 실행 결과•오류 반환
+   ▼
+MCP 서버
+   │ 출처가 구분된 구조화 결과 반환
+   ▼
+MCP 호스트•클라이언트
+   │ 실행 결과 제공
+   ▼
+사용자
 ```
 
 1. **도구 목록•입력 스키마 요청**: 사용 가능한 행동•인자 계약 탐색
@@ -175,6 +184,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **도구 통제 결정**: 외부 시스템 변경이 필요한 작업은 허용 목록과 최소 권한으로 호출 범위를 좁히고 고위험은 HITL 승인을 적용하는 결정이다.
 
 </details>
 

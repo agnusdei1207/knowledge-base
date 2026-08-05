@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MCP Server (모델 컨텍스트 프로토콜 서버)"
-date: "2026-08-05T02:05:12+09:00"
+date: "2026-08-06T01:30:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 7
@@ -108,17 +108,22 @@ extra:
 
 - **MCP Client**와 서버는 **JSON-RPC** 식별자로 요청과 결과를 연결한다.
 
-```mermaid
-sequenceDiagram
-    participant C as MCP 클라이언트
-    participant S as MCP 서버
-    participant B as 업무 시스템
-    C->>S: 1. 초기화•기능 목록 요청
-    S-->>C: 2. 협상된 기능•명세 제공
-    C->>S: 3. 기능명•구조화 인자 요청
-    S->>B: 4. 권한•입력 검증 후 백엔드 실행
-    B-->>S: 백엔드 결과•오류 반환
-    S-->>C: 서버 변환 결과•오류 반환
+```text
+MCP 클라이언트
+   │ 1. 초기화•기능 목록 요청
+   │ 3. 기능명•구조화 인자 요청
+   ▼
+MCP 서버
+   │ 2. 협상된 기능•명세 제공
+   │ 4. 권한•입력 검증 후 백엔드 실행
+   ▼
+업무 시스템
+   │ 백엔드 결과•오류 반환
+   ▼
+MCP 서버
+   │ 서버 변환 결과•오류 반환
+   ▼
+MCP 클라이언트
 ```
 
 1. **초기화•기능 목록 요청**: 버전•지원 기능 협상과 목록 조회
