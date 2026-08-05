@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
-date: "2026-08-05T17:51:54+09:00"
+date: "2026-08-05T23:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 5
@@ -96,10 +96,9 @@ Arm 아키텍처
 <details>
 <summary>핵심 용어</summary>
 
-- **트랩(Trap)**: 시스템 호출이나 오류를 상위 EL 처리기로 넘기는 제어 전환
-- **예외 라우팅(Exception Routing)**: 원인과 설정에 따라 처리할 EL을 선택하는 과정
+- **프로세서 상태(Processor State, PSTATE)**: 예외 진입 시 보존하고 복귀 시 복원하는 코어 실행 상태의 집합
 - **예외 링크 레지스터(Exception Link Register, ELR_ELx)**: 복귀할 프로그램 카운터(Program Counter, PC)를 보관하는 레지스터
-- **저장 프로그램 상태 레지스터(Saved Program Status Register, SPSR_ELx)**: 예외 전 프로세서 상태(Processor State, PSTATE)를 보관하는 레지스터
+- **저장 프로그램 상태 레지스터(Saved Program Status Register, SPSR_ELx)**: 예외 전 PSTATE를 보관하는 레지스터
 - **벡터 기준 주소 레지스터(Vector Base Address Register, VBAR_ELx)**: 예외 벡터 테이블 기준 주소를 보관하는 레지스터
 - **ELx 예외 처리기(Exception Handler)**: 해당 EL에서 원인 판독과 서비스를 수행하는 루틴
 - **예외 복귀(Exception Return, ERET)**: SPSR_ELx와 ELR_ELx로 이전 실행 상태에 복귀하는 명령
@@ -175,7 +174,6 @@ Arm 아키텍처
 - **네이티브 라이브러리** 는 특정 ISA와 ABI의 기계어로 컴파일되므로 다른 구조로 이식할 때 다시 빌드해야 한다.
 - **런타임 기능 탐지** 는 실행 중인 코어가 NEON•SVE 등의 확장을 지원하는지 확인하여 적합한 코드 경로를 선택한다.
 - **최소 권한**: 각 EL에 작업 수행에 필요한 권한만 부여하는 원칙
-- **트랩 경로**: 예외가 지정된 처리 수준으로 전달되는 제어 경로
 - **대체 코드** 는 특정 명령 확장을 지원하지 않는 코어에서도 같은 기능을 수행하도록 마련한 일반 명령 경로이다.
 - **SoC 벤치마크**: 실제 칩에서 성능과 전력 소비를 측정하는 시험
 - **부하별 벤치마크**: 작업 조건별 성능과 전력 소비를 비교하는 시험
