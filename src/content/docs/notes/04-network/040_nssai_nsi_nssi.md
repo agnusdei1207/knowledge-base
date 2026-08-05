@@ -4,7 +4,7 @@ sidebar:
   label: "040. NSSAI•NSI•NSSI"
   badge: { text: "기출 • 50%", variant: note }
 title: "네트워크 슬라이스 식별 체계"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:18:47+09:00"
 tags: ["notes-network"]
 weight: 40
 extra:
@@ -20,9 +20,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말이 요청하거나 망이 허용하는 슬라이스 식별자 목록
-- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 종단 서비스를 제공하는 논리망 운영 인스턴스
-- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: NSI를 구성하는 영역별 하위망 인스턴스
+- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말이 요청하거나 망이 허용하는 슬라이스 식별자 목록이다.
+- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 종단 서비스를 제공하는 논리망 운영 인스턴스이다.
+- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: NSI를 구성하는 영역별 하위망 인스턴스이다.
 
 </details>
 
@@ -63,12 +63,18 @@ extra:
 </details>
 
 ```text
-[NSSAI] ----- [S-NSSAI(SST•SD)] ----- [AMF•NSSF] ----- [종단 NSI]
-                                                            /    |    \
-                                                 [무선 NSSI] [전송 NSSI] [코어 NSSI]
+슬라이스 식별•인스턴스 구조
+├─ 선택 정보
+│  ├─ NSSAI
+│  ├─ S-NSSAI(SST•SD)
+│  └─ AMF•NSSF
+└─ 종단 NSI
+   ├─ 무선 NSSI
+   ├─ 전송 NSSI
+   └─ 코어 NSSI
 ```
 
-선의 의미: NSSAI와 S-NSSAI는 AMF•NSSF의 슬라이스 선택 정보에 결합되고, 선택된 종단 NSI 아래에는 논리망을 구성하는 무선•전송•코어 NSSI가 놓이는 정적 식별•인스턴스 계층을 뜻한다.
+가지의 의미: 선택 정보와 종단 NSI를 구성하는 영역별 NSSI의 소속을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,19 +100,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 단말
-    participant AMF
-    participant NSSF
-    participant 슬라이스관리
-    participant NSI•NSSI
-    단말->>AMF: NSSAI 요청
-    AMF->>NSSF: 1. 가입•지역 정보 전달
-    NSSF->>슬라이스관리: 2. NSI 매핑 조회
-    슬라이스관리->>NSI•NSSI: 3. NSSI 조합 구성
-    NSI•NSSI->>NSSF: 4. NSI 가용 정보 제공
-    NSSF-->>단말: 허용 S-NSSAI•선택 NSI
+```text
+단말의 NSSAI 요청
+        │
+        ▼
+1. 가입•지역 정보 전달
+        │
+        ▼
+2. NSI 매핑 조회
+        ├─ 매핑 없음: 요청 거절
+        └─ 매핑 있음
+              │
+              ▼
+3. NSSI 조합 구성
+              │
+              ▼
+4. NSI 가용 정보 제공
+              ├─ 사용 불가: 대체 NSI 조회
+              └─ 사용 가능: 허용 S-NSSAI•NSI 반환
 ```
 
 **동작 원리**
@@ -164,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- 가입•지역•가용성에 따른 **S-NSSAI와 NSI•NSSI 간 매핑**
+- 가입•지역•가용성 매핑 일치 시 **S-NSSAI 요청 허용**
 
 #### 한줄 요약
 

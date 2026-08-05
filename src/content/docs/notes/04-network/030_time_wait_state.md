@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-05T07:45:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -24,8 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **시간 대기(Time Wait, TIME_WAIT)**: 최종 ACK를 보낸 종단이 이전 연결의 지연 세그먼트 소멸까지 상태를 유지하는 TCP 종료 상태이다.
-- **ACK(Acknowledgment)**: 세그먼트 수신을 확인하는 응답이다.
-- **TCP(Transmission Control Protocol)**: 연결 상태를 관리하는 전송 프로토콜이다.
+- **확인 응답(Acknowledgment, ACK)**: 세그먼트 수신을 확인하는 응답이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 연결 상태를 관리하는 전송 프로토콜이다.
 - **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 이전 연결의 지연 세그먼트가 사라지도록 기다리는 시간이다.
 </details>
 
@@ -42,7 +42,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
-- **FIN(Finish)**: 송신 방향 종료를 알리는 TCP 제어 플래그이다.
+- **종료(Finish, FIN)**: 송신 방향 종료를 알리는 TCP 제어 플래그이다.
 </details>
 
 - 재전송 FIN에 **ACK 재응답**해 상대 종료 완료
@@ -63,9 +63,9 @@ extra:
 </details>
 
 ```text
-             [TIME_WAIT 상태]
-               /          \
-        [2MSL 타이머]   [연결 4-튜플]
+TIME_WAIT 상태
+├── 2MSL 타이머
+└── 연결 4-튜플
 ```
 
 선의 의미: TIME_WAIT 상태가 종료 연결을 격리하는 2MSL 타이머와 이전 연결을 식별하는 4-튜플을 함께 보유하는 정적 포함 관계이다.
@@ -85,32 +85,41 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **LAST_ACK(Last Acknowledgment)**: 수동 종료 종단이 마지막 FIN의 ACK를 기다리는 상태이다.
+- **최종 확인 대기(Last Acknowledgment, LAST_ACK)**: 수동 종료 종단이 마지막 FIN의 ACK를 기다리는 상태이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 능동종료측
-    participant 수동종료측
-    participant TIMEWAIT상태 as TIME_WAIT 상태
-    능동종료측->>수동종료측: 1. 능동 FIN
-    수동종료측-->>능동종료측: 2. FIN 확인 ACK
-    수동종료측->>능동종료측: 3. 수동 FIN
-    능동종료측-->>수동종료측: 4. 최종 ACK
-    능동종료측->>TIMEWAIT상태: 5. 연결 상태 인계
-    loop 최종 ACK 유실 시 FIN 재전송 동안
-        수동종료측->>능동종료측: FIN 재전송
-        능동종료측-->>수동종료측: ACK 재응답
-    end
+```text
+수동 FIN 수신
+      |
+      v
+1. 최종 ACK 전송
+      |
+      v
+2. 연결 4-튜플 보존
+      |
+      v
+3. 2MSL 타이머 시작
+      |
+      +-- FIN 재수신
+      |      |
+      |      v
+      |   4. ACK 재응답
+      |      |
+      |      `-- TIME_WAIT 유지
+      |
+      `-- 2MSL 만료
+             |
+             v
+      5. 연결 상태 제거
 ```
 
 **동작 원리**
 
-1. **능동 FIN**: 능동 종료 측의 **송신 종료** 통지
-2. **FIN 확인 ACK**: 수동 종료 측이 FIN 순서 번호 확인
-3. **수동 FIN**: 남은 데이터 전송 후 반대 방향 종료 통지
-4. **최종 ACK**: 수동 FIN 수신을 확인해 상대의 **LAST_ACK** 종료
-5. **연결 상태 인계**: 4-튜플을 보존하고 **2MSL 타이머** 시작
+1. **최종 ACK 전송**: 상대의 LAST_ACK 종료 유도
+2. **연결 4-튜플 보존**: 이전 연결 식별 정보 유지
+3. **2MSL 타이머 시작**: 지연 세그먼트 소멸 대기
+4. **ACK 재응답**: 재전송 FIN에 최종 확인 반복
+5. **연결 상태 제거**: 2MSL 뒤 4-튜플 해제
 
 #### 한줄 요약
 
@@ -121,9 +130,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **FIN_WAIT_2(Finish Wait 2)**: 로컬 FIN의 ACK 수신 뒤 상대 FIN을 기다리는 상태이다.
-- **CLOSE_WAIT(Close Wait)**: 상대 FIN 수신 뒤 로컬 응용의 종료를 기다리는 상태이다.
-- **FD(File Descriptor)**: 응용이 열린 소켓을 참조하는 운영체제 번호이다.
+- **종료 대기 2(Finish Wait 2, FIN_WAIT_2)**: 로컬 FIN의 ACK 뒤 상대 FIN을 기다리는 상태이다.
+- **종료 대기(Close Wait, CLOSE_WAIT)**: 상대 FIN 뒤 로컬 응용의 종료를 기다리는 상태이다.
+- **파일 서술자(File Descriptor, FD)**: 응용이 열린 소켓을 참조하는 운영체제 번호이다.
 </details>
 
 | TCP 종료 대기 상태 | `TIME_WAIT` | `FIN_WAIT_2` | `CLOSE_WAIT` |
@@ -144,7 +153,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **임시 포트(Ephemeral Port)**: 새 연결에 일시 할당하는 출발지 포트이다.
-- **MSL(Maximum Segment Lifetime)**: 세그먼트가 네트워크에 남을 수 있는 최대 시간이다.
+- **최대 세그먼트 수명(Maximum Segment Lifetime, MSL)**: 세그먼트가 네트워크에 남을 수 있는 최대 시간이다.
 </details>
 
 | 문제 | 대책 | 효과 |

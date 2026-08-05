@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 4-way Handshake•연결 해제 (TCP 4-way Handshake)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -41,9 +41,9 @@ extra:
 - **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
 - **수동 종료(Passive Close)**: 상대 FIN을 먼저 받고 응용 종료를 기다리는 역할이다.
 - **반쪽 종료(Half-close)**: 한쪽 송신 방향만 닫히고 반대 방향 전송은 가능한 상태이다.
-- **FIN(Finish)**: 더 보낼 데이터가 없음을 알리는 TCP 제어 플래그이다.
-- **ACK(Acknowledgment)**: 상대가 보낸 순서 번호의 수신을 확인하는 플래그이다.
-- **TIME_WAIT(Time Wait)**: 능동 종료 측이 지연 세그먼트와 재전송 FIN을 처리하는 대기 상태이다.
+- **종료(Finish, FIN)**: 더 보낼 데이터가 없음을 알리는 TCP 제어 플래그이다.
+- **확인 응답(Acknowledgment, ACK)**: 상대 순서 번호의 수신을 확인하는 플래그이다.
+- **종료 대기(Time Wait, TIME_WAIT)**: 능동 종료 측이 지연 세그먼트와 재전송 FIN을 처리하는 상태이다.
 </details>
 
 - FIN 순서 번호의 **손실•재전송 추적**
@@ -59,17 +59,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **FIN_WAIT(Finish Wait)**: 능동 종료 측이 상대의 종료 진행을 기다리는 상태이다.
-- **CLOSE_WAIT(Close Wait)**: 수동 종료 측이 응용의 소켓 종료를 기다리는 상태이다.
-- **LAST_ACK(Last Acknowledgment)**: 수동 종료 측이 마지막 FIN의 ACK를 기다리는 상태이다.
+- **능동 종료 대기(Finish Wait, FIN_WAIT)**: 능동 종료 측이 상대의 종료 진행을 기다리는 상태이다.
+- **수동 종료 대기(Close Wait, CLOSE_WAIT)**: 수동 종료 측이 응용의 소켓 종료를 기다리는 상태이다.
+- **최종 확인 대기(Last Acknowledgment, LAST_ACK)**: 수동 종료 측이 마지막 FIN의 ACK를 기다리는 상태이다.
 </details>
 
 ```text
-[능동 종료 TCP]---[수동 종료 TCP]
-       |                 |
-       +---[TCP 상태 저장소]---+
-       |
-[TIME_WAIT 타이머]
+TCP 상태 저장소
+├── 능동 종료 TCP
+│   └── TIME_WAIT 타이머
+└── 수동 종료 TCP
 ```
 
 선의 의미: 두 TCP 종단은 방향별 순서 번호•종료 상태를 같은 TCP 상태 저장소와 결속하고, TIME_WAIT 타이머는 능동 종료 TCP의 최종 ACK 재응답•지연 세그먼트 격리 상태와 연결된다.
@@ -93,16 +92,24 @@ extra:
 - **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 지연 세그먼트 소멸과 최종 ACK 재전송을 위해 기다리는 시간이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 능동종료TCP as 능동 종료 TCP
-    participant 수동종료TCP as 수동 종료 TCP
-    participant 종료타이머 as TIME_WAIT 타이머
-    능동종료TCP->>수동종료TCP: 1. 능동 FIN
-    수동종료TCP-->>능동종료TCP: 2. ACK
-    수동종료TCP->>능동종료TCP: 3. 수동 FIN
-    능동종료TCP-->>수동종료TCP: 4. 최종 ACK
-    능동종료TCP->>종료타이머: 5. 2MSL 타이머 시작
+```text
+능동 종단: 1. 능동 FIN 전송
+          |
+          v
+수동 종단: 2. ACK 전송•반쪽 종료
+          |
+          `-- 남은 데이터 전송
+                     |
+                     v
+수동 종단: 3. 수동 FIN 전송
+          |
+          v
+능동 종단: 4. 최종 ACK 전송
+          |
+          v
+능동 종단: 5. 2MSL 타이머 시작
+          |
+          `-- TIME_WAIT 뒤 연결 상태 제거
 ```
 
 **동작 원리**
@@ -119,11 +126,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
-
-</details>
-
 | 종료 역할 | 핵심 상태 전이 | 운영 위험 |
 |:---|:---|:---|
 | **능동 종료 측** | **FIN 송신•TIME_WAIT 진입** | 임시 포트•TIME_WAIT 누적 |
@@ -136,11 +138,6 @@ sequenceDiagram
 - 먼저 닫은 쪽은 늦은 패킷을 정리하고 요청받은 쪽은 응용이 소켓을 닫을 때까지 기다린다
 
 ## Ⅵ. 실무 고려사항 및 대책
-
-<details>
-<summary>핵심 용어</summary>
-
-</details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|

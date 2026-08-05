@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -38,8 +38,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **rwnd(Receive Window)**: 수신 버퍼 여유를 기준으로 미확인 전송량을 제한하는 값이다.
-- **cwnd(Congestion Window)**: 경로 혼잡 상태를 기준으로 미확인 전송량을 제한하는 값이다.
+- **수신 윈도(Receive Window, rwnd)**: 수신 버퍼 여유로 미확인 전송량을 제한하는 값이다.
+- **혼잡 윈도(Congestion Window, cwnd)**: 경로 혼잡 상태로 미확인 전송량을 제한하는 값이다.
 - **확인 응답(Acknowledgment, ACK)**: 누적 수신 번호와 현재 수신 윈도를 송신자에게 알리는 응답이다.
 </details>
 
@@ -60,11 +60,11 @@ extra:
 </details>
 
 ```text
-[송신 TCP]---[송신 버퍼]
-     |
-     +---[수신 TCP]---[수신 버퍼]
-     |
-[지속 타이머]
+송신 TCP
+├── 송신 버퍼
+├── 수신 TCP
+│   └── 수신 버퍼
+└── 지속 타이머
 ```
 
 선의 의미: 송신 TCP는 송신 버퍼, 수신 TCP의 rwnd•ACK 및 지속 타이머와 결속되고, 수신 TCP는 수신 바이트를 보관하는 수신 버퍼와 연결된다.
@@ -83,20 +83,29 @@ extra:
 
 ## Ⅳ. 흐름도
 
-```mermaid
-sequenceDiagram
-    participant 송신응용
-    participant 송신TCP
-    participant 수신TCP
-    participant 수신버퍼
-    participant 수신응용
-    송신응용->>송신TCP: 응용 데이터
-    loop 전송 데이터가 남아 있는 동안
-        송신TCP->>수신TCP: 1. 윈도 범위 데이터
-        수신TCP->>수신버퍼: 2. 수신 바이트
-        수신TCP-->>송신TCP: 3. ACK•수신 윈도
-        수신버퍼-->>수신응용: 순서화 데이터
-    end
+```text
+전송할 응용 데이터
+       |
+       `-- 유효 윈도 = min(rwnd, cwnd)
+                    |
+                    +-- rwnd = 0
+                    |      |
+                    |      `-- 지속 타이머 ---- 윈도 탐사
+                    |
+                    `-- 유효 윈도 > 0
+                           |
+                           v
+                  1. 윈도 범위 데이터
+                           |
+                           v
+                    2. 수신 바이트
+                           |
+                           `-- 수신 응용 전달
+                                      |
+                                      v
+                          3. ACK•수신 윈도
+                                      |
+                                      `-- 남은 데이터 반복
 ```
 
 **동작 원리**
@@ -115,7 +124,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정지-대기(Stop-and-wait)**: 데이터 하나를 보낸 뒤 ACK를 기다리는 방식이다.
-- **RTT(Round-trip Time)**: 데이터 전송부터 해당 ACK 수신까지 걸리는 왕복 시간이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 데이터 전송부터 해당 ACK 수신까지 걸리는 시간이다.
 </details>
 
 | 흐름 제어 방식 | 슬라이딩 윈도 | 정지-대기 |
@@ -137,7 +146,7 @@ sequenceDiagram
 
 - **제로 윈도(Zero Window)**: 수신 버퍼 여유가 없어 rwnd가 0인 상태이다.
 - **지속 타이머(Persist Timer)**: 윈도 갱신 유실을 막도록 탐사 시점을 관리하는 타이머이다.
-- **BDP(Bandwidth-delay Product)**: 경로 대역폭과 RTT를 곱한 전송 중 데이터량이다.
+- **대역폭-지연 곱(Bandwidth-Delay Product, BDP)**: 경로 대역폭과 RTT를 곱한 전송 중 데이터량이다.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -159,7 +168,7 @@ sequenceDiagram
 - **윈도 배율(Window Scale)**: 큰 수신 윈도를 표현하도록 윈도 필드의 배율을 정하는 TCP 옵션이다.
 </details>
 
-- 수신 버퍼가 병목이면 **rwnd** 를 조정하고 제로 윈도면 **윈도 탐사** 유지
+- 수신 병목은 **버퍼•소비율 개선**, 제로 윈도는 **윈도 탐사** 유지
 
 #### 한줄 요약
 

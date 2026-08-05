@@ -4,7 +4,7 @@ sidebar:
   label: "037. 5G SA와 NSA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G SA와 NSA"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:18:47+09:00"
 tags: ["notes-network"]
 weight: 37
 extra:
@@ -20,11 +20,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SA(Standalone)**: 5G 무선과 코어망만으로 독립 구성하는 구축 방식이다.
-- **NSA(Non-standalone)**: LTE 제어망과 코어에 5G 무선을 결합하는 구축 방식이다.
-- **LTE(Long Term Evolution)**: 4세대 이동통신의 무선과 패킷 통신 규격이다.
-- **5G(Fifth Generation)**: 초고속•초저지연•대규모 접속을 지원하는 5세대 이동통신이다.
-- **5세대 코어(5G Core, 5GC)**: 5G의 가입자 등록•세션•슬라이싱을 제어하는 독립 코어망
+- **독립형(Standalone, SA)**: 5G 무선과 코어망만으로 독립 구성하는 구축 방식이다.
+- **비독립형(Non-standalone, NSA)**: LTE 제어망과 코어에 5G 무선을 결합하는 구축 방식이다.
+- **장기 진화(Long Term Evolution, LTE)**: 4세대 이동통신의 무선과 패킷 통신 규격이다.
+- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•대규모 접속을 지원하는 이동통신이다.
+- **5세대 코어(5G Core, 5GC)**: 5G의 가입자 등록•세션•슬라이싱을 제어하는 독립 코어망이다.
 
 </details>
 
@@ -40,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **EPC(Evolved Packet Core)**: LTE 가입자 등록과 데이터 세션을 제어하는 패킷 코어망이다.
-- **NR(New Radio)**: 단말과 기지국 사이의 5G 무선 접속 규격이다.
-- **VoNR(Voice over New Radio)**: SA의 5G 무선과 코어에서 종단 음성을 제공하는 방식이다.
+- **진화형 패킷 코어(Evolved Packet Core, EPC)**: LTE 가입자 등록과 데이터 세션을 제어하는 코어망이다.
+- **신규 무선(New Radio, NR)**: 단말과 기지국 사이의 5G 무선 접속 규격이다.
+- **신규 무선 기반 음성(Voice over New Radio, VoNR)**: SA의 5G 무선과 코어에서 종단 음성을 제공하는 방식이다.
 
 </details>
 
@@ -59,12 +59,18 @@ extra:
 NR은 단말과 기지국 사이의 5G 무선 접속을 제공한다.
 
 ```text
-NSA 경계: [NSA 단말] ----- [LTE•NR 이중 연결] ----- [LTE 코어(EPC)]
-
- SA 경계: [SA 단말]  ----- [NR 단독 연결]      ----- [5G 코어(5GC)]
+5G 구축 구조
+├─ NSA 경계
+│  ├─ NSA 단말
+│  ├─ LTE•NR 이중 연결
+│  └─ LTE 코어(EPC)
+└─ SA 경계
+   ├─ SA 단말
+   ├─ NR 단독 연결
+   └─ 5G 코어(5GC)
 ```
 
-선의 의미: 위 경계는 LTE 제어와 NR 데이터를 EPC에 결합하는 NSA 구성이고, 아래 경계는 LTE 의존 없이 NR과 5GC를 결합하는 SA 구성으로서 서로 다른 구축 추상화를 분리해 나타낸다.
+가지의 의미: LTE 의존 여부에 따른 NSA와 SA 구성의 소속 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -89,23 +95,20 @@ NSA 경계: [NSA 단말] ----- [LTE•NR 이중 연결] ----- [LTE 코어(EPC)]
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 단말
-    participant LTE•NR기지국
-    participant EPC•5GC
-    단말->>LTE•NR기지국: 접속 요청
-    LTE•NR기지국->>EPC•5GC: 1. 코어 선택 정보 전달
-    EPC•5GC->>LTE•NR기지국: 2. 가입자 등록•인증
-    LTE•NR기지국->>단말: 3. 무선 경로 구성
-    LTE•NR기지국-->>단말: 접속 완료
+```text
+구축 목표 판정
+    ├─ LTE 자산 활용•빠른 도입
+    │      └─ NSA 선택
+    │          ├─ LTE 제어 경로
+    │          ├─ EPC 등록•인증
+    │          └─ LTE•NR 이중 연결
+    │
+    └─ 슬라이싱•저지연•VoNR
+           └─ SA 선택
+               ├─ NR 제어 경로
+               ├─ 5GC 등록•인증
+               └─ NR 단독 연결
 ```
-
-**동작 원리**
-
-1. **코어 선택 정보 전달**: NSA는 EPC, SA는 5GC 경로 지정
-2. **가입자 등록•인증**: 선택된 코어가 가입 권한과 세션 확인
-3. **무선 경로 구성**: NSA는 이중 연결, SA는 NR 단독 연결 수립
 
 #### 한줄 요약
 

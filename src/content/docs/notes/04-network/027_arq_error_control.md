@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "오류 제어 : ARQ•Go-Back-N•SR (ARQ Error Control)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -24,8 +24,8 @@ extra:
 <summary>핵심 용어</summary>
 
 - **자동 재전송 요구(Automatic Repeat reQuest, ARQ)**: ACK•NAK와 타임아웃으로 유실•오류 프레임을 재전송하는 오류 제어 방식이다.
-- **ACK(Acknowledgment)**: 정상 수신을 송신자에게 알리는 응답이다.
-- **NAK(Negative Acknowledgment)**: 오류나 누락 수신을 송신자에게 알리는 응답이다.
+- **확인 응답(Acknowledgment, ACK)**: 정상 수신을 송신자에게 알리는 응답이다.
+- **부정 확인 응답(Negative Acknowledgment, NAK)**: 오류나 누락 수신을 알리는 응답이다.
 </details>
 
 - 정의/개념: **ARQ** — ACK•NAK•순서번호•타임아웃을 이용해 유실되거나 오류가 난 프레임을 송신자가 재전송하게 하는 **오류 제어 방식**
@@ -57,15 +57,15 @@ extra:
 <summary>핵심 용어</summary>
 
 - **송신 윈도(Sender Window)**: ACK 전에 연속 전송할 수 있는 순서 번호 범위이다.
-- **RTT(Round-trip Time)**: 프레임 전송부터 ACK 수신까지 걸리는 왕복 시간이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 프레임 전송부터 ACK 수신까지 걸리는 시간이다.
 </details>
 
 ```text
-[송신부]---[송신 윈도우]
-    |
-    +---[수신부]---[수신 버퍼]
-    |
-[재전송 타이머]
+송신부
+├── 송신 윈도우
+├── 수신부
+│   └── 수신 버퍼
+└── 재전송 타이머
 ```
 
 선의 의미: 송신부는 송신 윈도우, 수신부의 ACK•NAK 및 재전송 타이머와 결속되고, 수신부는 후속 프레임을 보관하는 수신 버퍼와 연결된다.
@@ -90,23 +90,24 @@ extra:
 - **타임아웃 재전송**: 정한 시간 안에 확인 응답이 없으면 프레임을 다시 보내는 동작이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신부
-    participant 전송채널
-    participant 수신부
-    participant 재전송타이머
-    loop ACK 수신까지
-        송신부->>전송채널: 1. 순서 번호 프레임
-        전송채널->>수신부: 2. 수신 프레임
-        alt 오류 검출
-            수신부-->>송신부: 3. NAK
-        else 응답 부재
-            재전송타이머-->>송신부: 4. 타임아웃 신호
-        end
-        송신부->>전송채널: 5. 재전송 프레임
-        수신부-->>송신부: ACK
-    end
+```text
+1. 순서 번호 프레임
+        |
+        v
+2. 수신 프레임
+        |
+        +-- 정상 수신 ---- ACK•윈도 전진
+        |
+        +-- 오류 검출 ---- 3. NAK
+        |
+        +-- 응답 부재 ---- 4. 타임아웃 신호
+        |
+        `-- NAK•타임아웃
+               |
+               v
+        5. 재전송 프레임
+               |
+               `-- ARQ 범위에 따라 반복
 ```
 
 **동작 원리**
@@ -126,9 +127,9 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **Stop-and-Wait**: 프레임 하나를 보내고 ACK를 받은 뒤 다음 프레임을 보내는 방식이다.
-- **Go-Back-N**: 누락 프레임부터 이후 미확인 프레임까지 다시 보내는 방식이다.
-- **SR(Selective Repeat)**: 누락되거나 손상된 프레임만 선택하여 다시 보내는 방식이다.
+- **정지-대기(Stop-and-Wait)**: 프레임 하나의 ACK 뒤 다음 프레임을 보내는 방식이다.
+- **후퇴-N(Go-Back-N)**: 누락 이후의 미확인 프레임까지 다시 보내는 방식이다.
+- **선택 재전송(Selective Repeat, SR)**: 누락되거나 손상된 프레임만 다시 보내는 방식이다.
 </details>
 
 | ARQ 방식 | Go-Back-N ARQ | 선택 재전송 ARQ | 정지-대기 ARQ |

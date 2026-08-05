@@ -4,7 +4,7 @@ sidebar:
   label: "038. 5G 코어 SBA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 코어 SBA"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:18:47+09:00"
 tags: ["notes-network"]
 weight: 38
 extra:
@@ -20,8 +20,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5G(Fifth Generation)**: 초고속•초저지연•대규모 접속을 지원하는 5세대 이동통신이다.
-- **4G(Fourth Generation)**: LTE 중심의 4세대 이동통신이다.
+- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•대규모 접속을 지원하는 이동통신이다.
+- **4세대 이동통신(Fourth Generation, 4G)**: LTE 중심의 이동통신이다.
 - **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 5G 코어의 망 기능을 등록•발견 가능한 서비스 호출로 연결하는 아키텍처이다.
 
 </details>
@@ -65,14 +65,16 @@ extra:
 </details>
 
 ```text
-                     [접속•이동 기능(AMF)]
-                                |
-[가입자 기능(UDM)] ----- [서비스 통신 계층] ----- [세션 기능(SMF)]
-                                |                       |
-                     [기능 저장소(NRF)]       [사용자면 기능(UPF)]
+5G 코어 SBA
+└─ 서비스 통신 계층
+   ├─ 접속•이동 기능(AMF)
+   ├─ 가입자 기능(UDM)
+   ├─ 기능 저장소(NRF)
+   └─ 세션 기능(SMF)
+      └─ 사용자면 기능(UPF)
 ```
 
-선의 의미: 서비스 통신 계층을 중심으로 AMF•UDM•NRF•SMF의 제어면 기능이 결합되고, 세션 기능(SMF) 아래에는 별도 사용자면 패킷 전달 경계인 사용자면 기능(UPF)이 놓이는 정적 5G 코어 SBA 구조를 뜻한다.
+가지의 의미: 서비스 통신 계층에 결합된 제어 기능과 SMF가 제어하는 UPF의 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,19 +98,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 단말
-    participant AMF
-    participant NRF
-    participant SMF
-    participant UPF
-    단말->>AMF: 등록 요청
-    AMF->>NRF: 1. 세션 기능 발견
-    NRF->>AMF: 2. SMF 정보 반환
-    AMF->>SMF: 3. 세션 생성 요청
-    SMF->>UPF: 4. 전달 규칙 설치
-    AMF-->>단말: 등록 완료
+```text
+단말 등록 요청
+      │
+      ▼
+AMF: 1. 세션 기능 발견
+      │
+      ▼
+NRF: 2. SMF 정보 반환
+      │
+      ▼
+AMF: 3. 세션 생성 요청
+      │
+      ▼
+SMF: 4. 전달 규칙 설치
+      │
+      ▼
+UPF 패킷 경로 준비
+      │
+      ▼
+단말 등록 완료
 ```
 
 **동작 원리**
@@ -127,7 +136,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **API(Application Programming Interface)**: 소프트웨어 기능 사이의 요청•응답 규격이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능 사이의 요청•응답 규격이다.
 - **서비스 인터페이스**: 5G 코어 제어 기능들이 기능명과 API로 서로 호출하는 규격이다.
 - **고정 인터페이스**: 정해진 노드 쌍 사이의 전용 연결로 기능을 결합하는 코어망 통신 방식
 

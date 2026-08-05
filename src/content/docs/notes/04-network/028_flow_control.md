@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TCP 흐름•혼잡 제어 : 슬라이딩 윈도우•Slow Start"
-date: "2026-08-05T07:45:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 28
@@ -40,11 +40,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **rwnd(Receive Window)**: 수신 버퍼 여유를 나타내는 미확인 전송 한도이다.
-- **cwnd(Congestion Window)**: 경로 혼잡 상태를 반영한 미확인 전송 한도이다.
+- **수신 윈도(Receive Window, rwnd)**: 수신 버퍼 여유를 나타내는 미확인 전송 한도이다.
+- **혼잡 윈도(Congestion Window, cwnd)**: 경로 혼잡 상태를 반영한 미확인 전송 한도이다.
 - **실제 윈도(Effective Window)**: rwnd와 cwnd 중 작은 실제 송신 한도이다.
-- **ACK(Acknowledgment)**: 누적 수신 번호와 수신 상태를 알리는 응답이다.
-- **ssthresh(Slow Start Threshold)**: 혼잡 윈도 증가 방식을 전환하는 기준값이다.
+- **확인 응답(Acknowledgment, ACK)**: 누적 수신 번호와 수신 상태를 알리는 응답이다.
+- **느린 시작 임계값(Slow Start Threshold, ssthresh)**: 혼잡 윈도 증가 방식을 전환하는 기준값이다.
 </details>
 
 ![수신 윈도와 혼잡 윈도 중 작은 값으로 제한되는 송신 가능량](/study/diagrams/tcp-effective-window.svg)
@@ -65,15 +65,15 @@ extra:
 <summary>핵심 용어</summary>
 
 - **슬라이딩 윈도(Sliding Window)**: 여러 데이터를 연속 전송하고 ACK에 따라 범위를 이동하는 방식이다.
-- **ECN(Explicit Congestion Notification)**: 패킷을 폐기하지 않고 종단에 혼잡을 알리는 기능이다.
+- **명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: 패킷 폐기 없이 종단에 혼잡을 알리는 기능이다.
 </details>
 
 ```text
-        [송신 버퍼]             [수신 버퍼]
-             |                       |
-         [송신 TCP] -- [수신 TCP]
-             |
-        [혼잡 제어기]
+송신 TCP
+├── 송신 버퍼
+├── 혼잡 제어기
+└── 수신 TCP
+    └── 수신 버퍼
 ```
 
 선의 의미: 송신 TCP는 송신 버퍼와 혼잡 제어기를 소유하고 수신 TCP와 연결되며, 수신 TCP는 수신 버퍼의 여유를 관리하는 정적 TCP 종단 구조이다.
@@ -98,21 +98,32 @@ extra:
 - **느린 시작(Slow Start)**: cwnd를 빠르게 늘려 경로 수용량을 탐색하는 알고리즘이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신응용
-    participant 송신TCP
-    participant 혼잡제어기
-    participant 수신TCP
-    participant 수신응용
-    송신응용->>송신TCP: 전송 데이터
-    loop 전송 중
-        송신TCP->>수신TCP: 1. 윈도 제한 데이터
-        수신TCP-->>송신TCP: 2. ACK•rwnd
-        송신TCP->>혼잡제어기: 3. ACK•혼잡 신호
-        혼잡제어기-->>송신TCP: 4. cwnd
-    end
-    수신TCP-->>수신응용: 순서화 데이터
+```text
+전송 데이터
+    |
+    `-- 실제 윈도 = min(rwnd, cwnd)
+                 |
+                 v
+        1. 윈도 제한 데이터
+                 |
+                 v
+           2. ACK•rwnd
+                 |
+                 v
+       3. ACK•혼잡 신호
+                 |
+                 +-- 손실•ECN ---- cwnd 축소•임계값 갱신
+                 |
+                 +-- ACK
+                 |    +-- cwnd < ssthresh ---- 느린 시작
+                 |    `-- cwnd >= ssthresh --- 혼잡 회피
+                 |
+                 `-- 제어 결과
+                              |
+                              v
+                        4. cwnd 갱신
+                              |
+                              `-- 남은 데이터 반복
 ```
 
 **동작 원리**
@@ -152,8 +163,8 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **BDP(Bandwidth-delay Product)**: 경로에 동시에 채울 수 있는 데이터량이다.
-- **RTT(Round-trip Time)**: 데이터 전송부터 ACK 수신까지 걸리는 왕복 시간이다.
+- **대역폭-지연 곱(Bandwidth-Delay Product, BDP)**: 경로에 동시에 채울 수 있는 데이터량이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 데이터 전송부터 ACK 수신까지 걸리는 시간이다.
 </details>
 
 | 문제 | 대책 | 효과 |

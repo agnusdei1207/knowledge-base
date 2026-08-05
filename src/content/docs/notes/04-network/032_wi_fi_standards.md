@@ -4,7 +4,7 @@ sidebar:
   label: "032. Wi-Fi 표준"
   badge: { text: "기출 • 50%", variant: note }
 title: "Wi-Fi 표준"
-date: "2026-08-05T07:45:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags: ["notes-network"]
 weight: 32
 extra:
@@ -61,7 +61,13 @@ extra:
 </details>
 
 ```text
- [무선 단말] -- [무선 매체] -- [접근점(AP)] -- [분배 시스템]
+무선 단말
+│
+무선 매체
+│
+접근점(AP)
+│
+분배 시스템
 ```
 
 선의 의미: 무선 단말과 접근점이 무선 매체를 공유하고, 접근점이 분배 시스템을 통해 외부 네트워크 경계와 연결되는 정적 무선랜 토폴로지이다.
@@ -87,15 +93,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 무선단말
-    participant 접근점
-    접근점->>무선단말: 1. 비콘
-    무선단말->>접근점: 2. 인증 요청
-    접근점-->>무선단말: 3. 인증 응답
-    무선단말->>접근점: 4. 연결 요청
-    접근점-->>무선단말: 5. 연결 응답
+```text
+접근점: 1. 비콘
+      |
+      v
+무선 단말: 2. 인증 요청
+      |
+      v
+접근점: 3. 인증 응답
+      |
+      +-- 인증 실패 ---- 접속 종료
+      |
+      `-- 인증 성공
+             |
+             v
+무선 단말: 4. 연결 요청
+             |
+             v
+접근점: 5. 연결 응답
+             |
+             `-- 공통 기능•연결 식별자 확정
 ```
 
 **동작 원리**
@@ -117,10 +134,10 @@ sequenceDiagram
 
 - **Wi-Fi 6**: 고밀도 단말의 자원 효율을 높인 IEEE 802.11ax 세대이다.
 - **Wi-Fi 6E**: Wi-Fi 6 기능을 6GHz 대역까지 확장한 세대이다.
-- **OFDMA(Orthogonal Frequency Division Multiple Access)**: 부반송파 묶음을 사용자별로 나누는 다중 접속 기법이다.
-- **TWT(Target Wake Time)**: 단말별 송수신 기상 시간을 예약하여 전력과 경합을 줄이는 기능이다.
+- **직교 주파수 분할 다중 접속(Orthogonal Frequency Division Multiple Access, OFDMA)**: 부반송파를 사용자별로 나눈다.
+- **목표 기상 시간(Target Wake Time, TWT)**: 단말별 송수신 시간을 예약해 전력과 경합을 줄인다.
 - **Wi-Fi 7**: 320MHz 채널과 다중 링크로 처리량과 지연을 개선한 IEEE 802.11be 세대이다.
-- **MLO(Multi-link Operation)**: 여러 주파수 대역의 무선 링크를 결합하거나 전환하는 기능이다.
+- **다중 링크 동작(Multi-Link Operation, MLO)**: 여러 주파수 대역의 무선 링크를 결합하거나 전환한다.
 - **다중 입력 다중 출력(Multiple-Input Multiple-Output, MIMO)**: 여러 안테나의 공간 스트림을 이용해 처리량과 사용자 동시 전송을 높이는 기술이다.
 - **메가헤르츠(Megahertz, MHz)**: 채널 폭과 주파수를 초당 백만 진동 단위로 나타내는 단위이다.
 
@@ -160,12 +177,6 @@ sequenceDiagram
 - 교실이 많을수록 확성기 폭과 출력을 줄여 목소리가 겹치지 않게 하듯 AP 밀도에 맞춰 채널 폭•출력•재사용을 계획한다
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-
-</details>
 
 - 다단말 혼잡은 **Wi-Fi 6•6E**, 저지연•다중 링크는 **Wi-Fi 7** 선택
 

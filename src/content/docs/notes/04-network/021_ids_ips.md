@@ -1,12 +1,12 @@
 ---
 sidebar:
   order: 21
-  label: "021. IDS•IPS (IDS IPS)"
+  label: "021. 침입 탐지•방지 시스템 (IDS•IPS)"
   badge:
     text: "기출 • 50%"
     variant: note
-title: "IDS•IPS (IDS IPS)"
-date: "2026-08-05T01:25:48+09:00"
+title: "침입 탐지•방지 시스템 (IDS•IPS)"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 21
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IDS(Intrusion Detection System)**: 복제 트래픽에서 침입을 탐지하고 경보하는 시스템이다.
-- **IPS(Intrusion Prevention System)**: 인라인에서 침입을 탐지하고 공격 트래픽을 차단하는 시스템이다.
+- **침입 탐지 시스템(Intrusion Detection System, IDS)**: 복제 트래픽에서 침입을 탐지•경보한다.
+- **침입 방지 시스템(Intrusion Prevention System, IPS)**: 인라인에서 침입을 탐지•차단한다.
 
 </details>
 
@@ -64,9 +64,11 @@ extra:
 </details>
 
 ```text
-[수집•정규화기]---[탐지 엔진]---[정책 엔진]---[대응 장치]
-                                      |
-                                [이벤트 저장소]
+수집•정규화기
+└── 탐지 엔진
+    └── 정책 엔진
+        ├── 대응 장치
+        └── 이벤트 저장소
 ```
 
 선의 의미: 수집•정규화기와 탐지 엔진은 복원 세션의 분석 관계이고, 정책 엔진은 대응 장치 및 이벤트 저장소와 대응 집행•판정 근거 보존 관계이다.
@@ -93,18 +95,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 트래픽원
-    participant 수집정규화기 as 수집•정규화기
-    participant 탐지엔진
-    participant 정책엔진
-    participant 대응장치
-    트래픽원->>수집정규화기: 네트워크 트래픽
-    수집정규화기->>탐지엔진: 1. 정규화 세션 전달
-    탐지엔진->>정책엔진: 2. 탐지 결과 전달
-    정책엔진->>대응장치: 3. 대응 명령
-    대응장치-->>트래픽원: 경보•차단 결과
+```text
+네트워크 트래픽
+       |
+       v
+1. 정규화 세션 전달
+       |
+       v
+2. 탐지 결과 전달
+       |
+       +-- 공격 미탐지 ---- 통과•관측
+       |
+       `-- 공격 탐지
+              |
+              v
+       3. 대응 명령
+              |
+              +-- 경로 외 IDS ---- 경보•증적 저장
+              `-- 인라인 IPS ---- 차단•연결 종료
 ```
 
 **동작 원리**

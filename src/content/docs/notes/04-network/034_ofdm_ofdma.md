@@ -4,7 +4,7 @@ sidebar:
   label: "034. OFDM과 OFDMA"
   badge: { text: "기출 • 30%", variant: note }
 title: "OFDM과 OFDMA"
-date: "2026-08-05T07:45:00+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags: ["notes-network"]
 weight: 34
 extra:
@@ -58,16 +58,20 @@ extra:
 
 - **역고속 푸리에 변환(Inverse Fast Fourier Transform, IFFT)**: 주파수 영역의 부반송파 심볼을 시간 영역 OFDM 파형으로 합성하는 연산이다.
 - **고속 푸리에 변환(Fast Fourier Transform, FFT)**: 수신 OFDM 파형을 주파수 영역의 부반송파 심볼로 분리하는 연산이다.
-- **CP(Cyclic Prefix)**: 다중 경로의 심볼 간 간섭을 줄이는 보호 구간이다.
+- **순환 전치(Cyclic Prefix, CP)**: 다중 경로의 심볼 간 간섭을 줄이는 보호 구간이다.
 
 </details>
 
 ```text
- [자원 스케줄러] -- [심볼•자원 매퍼] -- [IFFT•CP 송신기]
-                                              |
-                                         [무선 채널]
-                                              |
-                                         [FFT 수신기]
+자원 스케줄러
+│
+심볼•자원 매퍼
+│
+IFFT•CP 송신기
+│
+무선 채널
+│
+FFT 수신기
 ```
 
 선의 의미: 자원 스케줄러와 심볼•자원 매퍼가 송신기의 부반송파 구성을 정의하고, IFFT•CP 송신기와 FFT 수신기가 무선 채널 양단의 정적 신호처리 구조를 이룬다.
@@ -86,20 +90,22 @@ extra:
 
 ## Ⅳ. 흐름도
 
-```mermaid
-sequenceDiagram
-    participant 자원스케줄러
-    participant 심볼자원매퍼 as 심볼•자원 매퍼
-    participant IFFTCP송신기 as IFFT•CP 송신기
-    participant 무선채널
-    participant FFT수신기 as FFT 수신기
-    loop 자원 배정 주기
-        자원스케줄러->>심볼자원매퍼: 1. RU 할당표
-        심볼자원매퍼->>IFFTCP송신기: 2. 부반송파 심볼
-        IFFTCP송신기->>무선채널: 3. CP 포함 OFDM 파형
-        무선채널->>FFT수신기: 4. 다중 경로 파형
-        FFT수신기-->>자원스케줄러: 5. 채널 상태
-    end
+```text
+1. RU 할당표
+      |
+      v
+2. 부반송파 심볼
+      |
+      v
+3. CP 포함 OFDM 파형
+      |
+      v
+4. 다중 경로 파형
+      |
+      v
+5. 채널 상태
+      |
+      `-- 다음 자원 배정 주기 반복
 ```
 
 **동작 원리**

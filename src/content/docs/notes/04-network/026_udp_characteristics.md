@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "UDP 특성•활용 사례 (UDP Characteristics)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 26
@@ -61,9 +61,11 @@ extra:
 
 ```text
 UDP 데이터그램
-+---[출발지 포트]---+---[목적지 포트]---+
-+------[길이]-------+------[체크섬]------+
-+----------------[페이로드]-------------+
+├── 출발지 포트
+├── 목적지 포트
+├── 길이
+├── 체크섬
+└── 페이로드
 ```
 
 선의 의미: 바깥선은 하나의 UDP 데이터그램 경계이고, 내부선은 응용 식별•전체 바이트 수•오류 검출을 담당하는 헤더 필드와 메시지 경계를 보존하는 페이로드 영역을 구분한다.
@@ -90,17 +92,19 @@ UDP 데이터그램
 - **IP(Internet Protocol)**: UDP 데이터그램을 네트워크 패킷으로 전달하는 프로토콜이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신응용
-    participant 송신UDP
-    participant IP계층
-    participant 수신UDP
-    participant 수신응용
-    송신응용->>송신UDP: 응용 메시지
-    송신UDP->>IP계층: 1. 체크섬 포함 데이터그램
-    IP계층->>수신UDP: 2. UDP 데이터그램
-    수신UDP-->>수신응용: 검증된 메시지
+```text
+송신 응용 메시지
+       |
+       v
+1. 체크섬 포함 데이터그램
+       |
+       `-- IP 계층 전달
+                  |
+                  v
+          2. UDP 데이터그램
+                  |
+                  +-- 체크섬 불일치 ---- 폐기
+                  `-- 체크섬 일치 ------ 목적지 포트 전달
 ```
 
 **동작 원리**
@@ -117,7 +121,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP(Transmission Control Protocol)**: 순서와 재전송을 보장하는 연결형 바이트 스트림 프로토콜이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 순서와 재전송을 보장하는 바이트 스트림 프로토콜이다.
 </details>
 
 | 전송 방식 | UDP | TCP |
@@ -139,7 +143,7 @@ sequenceDiagram
 
 - **반사 공격(Reflection Attack)**: 위조한 출발지 주소로 응답을 피해자에게 보내는 공격이다.
 - **증폭 공격(Amplification Attack)**: 작은 요청보다 큰 응답을 생성해 공격 트래픽을 키우는 공격이다.
-- **MTU(Maximum Transmission Unit)**: 링크가 전달할 수 있는 최대 패킷 크기이다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 링크가 전달할 수 있는 최대 패킷 크기이다.
 </details>
 
 | 문제 | 대책 | 효과 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TCP•UDP•SCTP 비교 (TCP UDP SCTP Comparison)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -23,9 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP(Transmission Control Protocol)**: 신뢰성 있는 바이트 스트림을 제공하는 전송 프로토콜이다.
-- **UDP(User Datagram Protocol)**: 연결 없이 독립 데이터그램을 전달하는 전송 프로토콜이다.
-- **SCTP(Stream Control Transmission Protocol)**: 다중 스트림과 경로를 지원하는 메시지 전송 프로토콜이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 스트림을 제공한다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 없이 독립 데이터그램을 전달한다.
+- **스트림 제어 전송 프로토콜(Stream Control Transmission Protocol, SCTP)**: 다중 스트림•경로를 지원한다.
 </details>
 
 - 정의/개념: **TCP•UDP•SCTP 비교** — 연결•신뢰성•메시지 경계•멀티스트리밍•멀티호밍 요구에 따라 세 전송계층 프로토콜을 선택하는 **기준**
@@ -61,7 +61,13 @@ extra:
 </details>
 
 ```text
-[송신 응용]---[송신 전송 종단]---[수신 전송 종단]---[수신 응용]
+송신 응용
+│
+송신 전송 종단
+│
+수신 전송 종단
+│
+수신 응용
 ```
 
 선의 의미: 각 선은 응용의 바이트•메시지 경계와 선택된 TCP•UDP•SCTP 전송 단위, 수신 측 순서•복구 정책 및 복원 데이터 소비가 서로 대응하는 종단 관계를 나타낸다.
@@ -82,33 +88,20 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **확인 응답(Acknowledgment, ACK)**: 수신 범위나 다음 순서 번호를 송신자에게 알리는 응답이다.
+- **전송 프로토콜 선택**: 신뢰성•지연•메시지 경계•다중 경로 요구로 종단 방식을 고른다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신응용
-    participant 송신종단 as 송신 전송 종단
-    participant 수신종단 as 수신 전송 종단
-    participant 수신응용
-    송신응용->>송신종단: 전송 요청
-    alt TCP
-        송신종단->>수신종단: 1. 전송 단위 전달
-    else UDP
-        송신종단->>수신종단: 1. 전송 단위 전달
-    else SCTP
-        송신종단->>수신종단: 1. 전송 단위 전달
-    end
-    opt TCP•SCTP
-        수신종단-->>송신종단: 2. 수신 상태 회신
-    end
-    수신종단-->>수신응용: 수신 데이터
+```text
+전송 요구
+   |
+   +-- 손실보다 낮은 지연•독립 메시지 우선 ---- UDP
+   |
+   `-- 종단 신뢰성 필요
+          |
+          +-- 연속 바이트•단일 경로 ----------- TCP
+          |
+          `-- 메시지 경계•다중 스트림•경로 ---- SCTP
 ```
-
-**동작 원리**
-
-1. **전송 단위 전달**: TCP는 바이트, UDP는 데이터그램, SCTP는 스트림 메시지 전송
-2. **수신 상태 회신**: **TCP•SCTP** 는 ACK로 손실 복구와 흐름 제어
 
 #### 한줄 요약
 
@@ -140,7 +133,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NAT(Network Address Translation)**: 경계 장비가 패킷의 사설 주소와 공인 주소를 변환하는 기능이다.
+- **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 주소와 공인 주소를 변환하는 기능이다.
 - **선두 차단(Head-of-line Blocking)**: 앞선 데이터 손실 때문에 뒤 데이터도 전달되지 못하고 기다리는 현상이다.
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-08-05T01:25:48+09:00"
+date: "2026-08-05T15:01:37+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -39,9 +39,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SYN(Synchronize)**: TCP 연결 시작과 초기 순서 번호를 제안하는 플래그이다.
-- **ACK(Acknowledgment)**: 상대가 보낸 순서 번호의 수신을 확인하는 플래그이다.
-- **ISN(Initial Sequence Number)**: 각 송신 방향의 초기 바이트 순서 번호이다.
+- **동기화(Synchronize, SYN)**: TCP 연결 시작과 초기 순서 번호를 제안하는 플래그이다.
+- **확인 응답(Acknowledgment, ACK)**: 상대 순서 번호의 수신을 확인하는 플래그이다.
+- **초기 순서 번호(Initial Sequence Number, ISN)**: 각 송신 방향의 초기 바이트 순서 번호이다.
 - **최대 세그먼트 크기(Maximum Segment Size, MSS)**: TCP 세그먼트에 담을 수 있는 최대 데이터 크기이다.
 
 </details>
@@ -66,7 +66,10 @@ extra:
 </details>
 
 ```text
-[수신 대기 소켓]---[반쪽 연결 큐]---[완료 연결 큐]---[연결 소켓]
+수신 대기 소켓
+└── 반쪽 연결 큐
+    └── 완료 연결 큐
+        └── 연결 소켓
 ```
 
 선의 의미: 각 선은 서버 포트의 연결 요청 수용, 반쪽•완료 연결 상태 보관과 종단 주소•ISN•TCP 상태를 가진 연결 소켓 사이의 관리 관계를 나타낸다.
@@ -91,17 +94,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 클라이언트
-    participant 서버수신부 as 서버 수신부
-    participant 반쪽연결큐
-    participant 완료연결큐
-    클라이언트->>서버수신부: SYN
-    서버수신부->>반쪽연결큐: 1. 반쪽 연결 상태
-    서버수신부->>클라이언트: 2. SYN-ACK
-    클라이언트->>서버수신부: 3. 최종 ACK
-    반쪽연결큐->>완료연결큐: 4. 완료 연결 상태
+```text
+클라이언트: SYN 전송
+        |
+        v
+서버: 1. 반쪽 연결 상태
+        |
+        v
+서버: 2. SYN-ACK 전송
+        |
+        v
+클라이언트: 3. 최종 ACK 전송
+        |
+        v
+서버: 4. 완료 연결 상태
+        |
+        `-- 응용 인수 대기
 ```
 
 **동작 원리**
@@ -145,7 +153,7 @@ sequenceDiagram
 
 - **SYN Flood**: 대량 SYN으로 서버의 반쪽 연결 자원을 고갈시키는 공격이다.
 - **SYN Cookie**: 최종 ACK 검증 전까지 서버의 연결 상태 저장을 늦추는 방어 기법이다.
-- **MTU(Maximum Transmission Unit)**: 경로에서 단편화 없이 전달할 수 있는 최대 패킷 크기이다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 경로에서 단편화 없이 전달할 수 있는 최대 패킷 크기이다.
 
 </details>
 
