@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-05T11:53:36+09:00"
+date: "2026-08-05T17:28:05+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -88,7 +88,7 @@ extra:
 - **연산 그래프(Computation Graph)**: 신경망의 연산자와 텐서 의존 관계를 노드와 간선으로 나타낸 구조이다.
 - **타일링(Tiling)**: 큰 텐서를 장치의 메모리와 연산 배열 크기에 맞는 작은 블록으로 나누는 최적화이다.
 - **집단 통신(Collective Communication)**: 여러 칩이 부분 결과를 합산•분배•교환하는 다자간 통신이다.
-- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델을 이용해 인식•판단•생성 작업을 수행하는 기술이다.
 
 </details>
 
@@ -156,9 +156,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **모양 버킷화(Shape Bucketing)**: 가변 길이 입력을 몇 개의 대표 텐서 모양으로 묶어 컴파일 결과의 종류를 제한하는 기법이다.
-- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프와 모양의 XLA 결과를 저장하는 공간
-- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
-- **폴백(Fallback)**: TPU 미지원 연산을 CPU 같은 다른 장치에서 실행하는 처리
+- **컴파일 캐시(Compilation Cache)**: 같은 연산 그래프와 모양으로 생성한 XLA 결과를 재사용하도록 저장하는 공간이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령과 TPU 미지원 연산을 실행하는 프로세서이다.
+- **폴백(Fallback)**: TPU 미지원 연산을 CPU 같은 다른 장치에서 대신 실행하는 처리이다.
 - **샤딩(Sharding)**: 모델이나 데이터를 여러 TPU 칩에 나누어 배치하고 병렬 처리하는 방식이다.
 
 </details>

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-08-05T11:54:06+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-hardware"
 weight: 44
@@ -26,8 +26,8 @@ extra:
 - **전용 연산 배열(Dedicated Compute Array)**: 신경망의 반복적인 곱셈•누산을 병렬로 처리하도록 규칙적으로 배치한 회로이다.
 - **근접 메모리(Near-compute Memory)**: 연산기에 데이터를 가까이 보관하여 외부 메모리 전송을 줄이는 저장 구조이다.
 - **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 추론•인식 등 지능형 작업을 수행하는 기술이다.
-- **CPU**: Central Processing Unit, 범용 제어를 담당하는 처리 장치
-- **GPU**: Graphics Processing Unit, 프로그램식 병렬 처리 장치
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 제어와 순차 처리를 담당하는 프로세서이다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 프로그램 가능한 병렬 코어로 대규모 데이터 연산을 처리하는 프로세서이다.
 
 </details>
 

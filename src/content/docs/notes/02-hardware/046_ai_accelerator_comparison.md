@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
-date: "2026-08-05T11:55:16+09:00"
+date: "2026-08-05T17:28:48+09:00"
 tags:
   - "notes-hardware"
 weight: 46
@@ -57,8 +57,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **컴파일러(Compiler)**: 모델을 장치 코드로 변환하는 소프트웨어
-- **런타임(Runtime)**: 실행 순서와 버퍼 및 장치 전환을 관리하는 소프트웨어
+- **컴파일러(Compiler)**: 모델의 연산 그래프를 후보 가속기의 장치 코드로 변환하는 소프트웨어이다.
+- **런타임(Runtime)**: 실행 순서와 버퍼 및 장치 전환을 관리하는 소프트웨어이다.
 - **호스트 중앙 처리 장치(Host Central Processing Unit, 호스트 CPU)**: 동적 분기와 전후처리 및 가속기가 지원하지 않는 연산을 실행하는 프로세서이다.
 - **인터커넥트(Interconnect)**: CPU와 가속기 및 메모리 사이에서 텐서와 제어 신호를 전달하는 연결이다.
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)•신경망 처리 장치(Neural Processing Unit, NPU)•필드 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)•주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 병렬•전용•재구성•고정 회로 연산을 담당하는 가속기이다.
@@ -97,27 +97,28 @@ extra:
 </details>
 
 ```text
-                    [AI 워크로드•제약]
-                             |
-                   1. 실모델 특성 측정
-                             |
-                   2. 제어•병렬성 판정
-                      /             \
-               [제어•소규모]    [대규모 병렬]
-                      |              |
-                 [CPU 후보]   3. 모델 변경 주기 판정
-                                 /            \
-                              [잦음]          [낮음]
-                                |               |
-                           [GPU 후보]  4. 전력•지연•물량 판정
-                                           /     |      \
-                                      [저전력] [결정적] [고정 대량]
-                                         |       |        |
-                                    [NPU 후보] [FPGA 후보] [ASIC 후보]
-                                         \       |        /
-                  5. 종단 성능•수명주기 비용 검증
-                             |
-                       [가속기 확정]
+ [AI 워크로드•제약]
+          |
+ 1. 실모델 특성 측정
+          |
+ 2. 제어•병렬성 판정
+    ├─ 제어•소규모
+    │  └─ [CPU 후보]
+    └─ 대규모 병렬
+       └─ 3. 모델 변경 주기 판정
+          ├─ 잦음
+          │  └─ [GPU 후보]
+          └─ 낮음
+             └─ 4. 전력•지연•물량 판정
+                ├─ 저전력  ─ [NPU 후보]
+                ├─ 결정적  ─ [FPGA 후보]
+                └─ 고정 대량 ─ [ASIC 후보]
+
+ [CPU•GPU•NPU•FPGA•ASIC 후보]
+          |
+ 5. 종단 성능•수명주기 비용 검증
+          |
+     [가속기 확정]
 ```
 
 **동작 원리**

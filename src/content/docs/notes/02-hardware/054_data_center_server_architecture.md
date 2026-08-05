@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 센터 서버 아키텍처 (Data Center Server Architecture)"
-date: "2026-08-05T11:59:31+09:00"
+date: "2026-08-05T17:30:50+09:00"
 tags:
   - "notes-hardware"
 weight: 54
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
-- **서버 노드(Server Node)**: CPU•메모리•스토리지•네트워크를 묶은 운영 단위
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령과 운영체제 제어를 실행하는 프로세서이다.
+- **서버 노드(Server Node)**: CPU•메모리•스토리지•네트워크를 묶은 운영 단위이다.
 - **서버 아키텍처(Server Architecture)**: 연산과 저장 및 입출력 자원을 연결하고 전력•냉각•관리를 함께 제공하는 구조이다.
 - **장애 범위(Failure Domain)**: 하나의 하드웨어나 전원 고장이 동시에 영향을 미치는 노드•섀시•랙의 범위이다.
 
@@ -42,8 +42,8 @@ extra:
 
 - **종단 병목(End-to-end Bottleneck)**: 요청 경로에서 처리량이 가장 낮아 전체 성능을 제한하는 자원이나 구간이다.
 - **랙 전력 밀도(Rack Power Density)**: 하나의 랙에 공급하고 냉각할 수 있는 전력 용량과 실제 장비 소비 전력의 수준이다.
-- **GPU**: Graphics Processing Unit, 대규모 병렬 연산 처리 장치
-- **열 스로틀링(Thermal Throttling)**: 온도 한도를 위해 CPU•GPU 처리량을 낮추는 제어
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 대규모 데이터 병렬 연산을 처리하는 프로세서이다.
+- **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키도록 CPU•GPU 처리량을 낮추는 제어이다.
 - **관리망(Management Network)**: 서비스 데이터망과 분리하여 서버 전원•콘솔•펌웨어의 원격 관리에 사용하는 네트워크이다.
 
 </details>
@@ -60,20 +60,23 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **연산 계층(Compute Layer)**: CPU•GPU로 범용 및 가속 연산을 수행하는 자원 계층
+- **연산 계층(Compute Layer)**: CPU•GPU로 범용 및 가속 연산을 수행하는 자원 계층이다.
 - **메모리•스토리지 계층(Memory•Storage Layer)**: 실행 데이터와 영구 데이터를 저장하고 연산기에 공급하는 계층이다.
-- **I/O**: Input/Output, 호스트와 장치 사이의 입출력
-- **네트워크•I/O 계층**: 서비스•클러스터•주변장치 데이터를 전송하는 계층
+- **입출력(Input/Output, I/O)**: 호스트와 메모리•스토리지•네트워크 장치 사이의 데이터 교환이다.
+- **네트워크•입출력 계층(Network•I/O Layer)**: 서비스•클러스터•주변장치 데이터를 전송하는 계층이다.
 - **베이스보드 관리 제어기(Baseboard Management Controller, BMC)**: 운영체제와 독립적으로 전원과 온도 및 센서를 감시하고 원격 제어하는 장치이다.
 
 </details>
 
 ```text
-서버 자원 경계
-|
-+-- [메모리•스토리지 계층] -- [연산 계층] -- [네트워크•I/O 계층]
-|                                /     \
-지원 경계          [전원•냉각 계층]   [관리 계층]
+데이터센터 서버
+├─ 서버 자원 경계
+│  ├─ [연산 계층]
+│  ├─ [메모리•스토리지 계층]
+│  └─ [네트워크•I/O 계층]
+└─ 지원 경계
+   ├─ [전원•냉각 계층]
+   └─ [관리 계층]
 ```
 
 선의 의미: 서버 자원 경계에서 연산 계층이 저장•전송 계층에 접하고, 지원 경계의 전원•냉각 및 관리 계층이 연산 자원을 지탱하는 정적 경계•의존 관계다.
@@ -99,8 +102,8 @@ extra:
 - **가속 작업(Accelerated Workload)**: 중앙처리장치(Central Processing Unit, CPU)가 준비한 대규모 병렬 계산을 그래픽 처리장치(Graphics Processing Unit, GPU) 같은 전용 장치에 맡겨 실행하는 작업이다.
 - **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 서버와 데이터센터 네트워크 사이에서 패킷 송수신을 담당하는 장치이다.
 - **동적 임의 접근 메모리(Dynamic Random Access Memory, DRAM)**: 실행 중인 데이터를 휘발성 셀에 저장하여 프로세서에 제공하는 주 메모리이다.
-- **AI**: Artificial Intelligence, 학습 모델 기반 지능형 처리 기술
-- **HPC**: High-Performance Computing, 대규모 과학•공학 병렬 계산
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델로 인식•판단•생성 작업을 수행하는 기술이다.
+- **고성능 컴퓨팅(High-Performance Computing, HPC)**: 대규모 과학•공학 문제를 병렬 계산하는 컴퓨팅이다.
 
 </details>
 
@@ -139,8 +142,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **범용 데이터센터 서버(General-purpose Data-center Server)**: 웹 서비스와 가상화를 위해 중앙처리장치(Central Processing Unit, CPU)•메모리•입출력(Input/Output, I/O)의 균형을 중시하는 서버이다.
-- **HBM**: High Bandwidth Memory, 가속기에 고대역폭을 제공하는 적층 메모리
-- **AI•HPC 가속 서버**: GPU•HBM•고속 연결에 자원을 집중한 병렬 연산 서버
+- **고대역폭 메모리(High Bandwidth Memory, HBM)**: 가속기에 높은 전송률을 제공하는 적층 메모리이다.
+- **AI•HPC 가속 서버(AI•HPC Accelerated Server)**: GPU•HBM•고속 연결에 자원을 집중한 병렬 연산 서버이다.
 - **가상화(Virtualization)**: 한 물리 서버의 CPU와 메모리 및 장치를 여러 격리된 가상 머신에 나누어 제공하는 기술이다.
 
 </details>

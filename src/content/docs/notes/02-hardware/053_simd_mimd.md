@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SIMD•MIMD 프로세서 (SIMD MIMD)"
-date: "2026-08-05T11:58:58+09:00"
+date: "2026-08-05T17:30:34+09:00"
 tags:
   - "notes-hardware"
 weight: 53
@@ -58,8 +58,8 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **작업 큐(Work Queue)**: 독립적으로 실행할 작업과 입력 범위를 대기 순서대로 보관하여 여러 코어에 배분하는 자료구조이다.
-- **MIMD 스케줄러(MIMD Scheduler)**: MIMD 작업을 실행 가능한 코어에 할당하는 구성요소
-- **연산 레인(Execution Lane)**: SIMD 명령이 담당하는 데이터 원소를 처리하는 통로
+- **MIMD 스케줄러(MIMD Scheduler)**: 독립 작업을 실행 가능한 코어에 할당하는 구성요소이다.
+- **연산 레인(Execution Lane)**: SIMD 명령이 담당하는 데이터 원소를 처리하는 연산 통로이다.
 - **배리어(Barrier)**: 참여한 모든 작업이 특정 지점에 도달할 때까지 후속 실행을 막는 동기화 기법이다.
 
 </details>
@@ -90,7 +90,7 @@ extra:
 - **작업 기술자(Work Descriptor)**: 실행할 함수와 데이터 범위 및 의존성을 기록하여 코어에 전달하는 정보이다.
 - **벡터 연산(Vector Operation)**: 하나의 명령으로 여러 데이터 원소에 같은 계산을 수행하는 연산이다.
 - **동기화 완료(Synchronization Completion)**: 모든 참여 코어가 필요한 결과를 기록하고 대기 조건을 충족한 상태이다.
-- **계층형 실행(Hierarchical Execution)**: MIMD 작업 안에서 SIMD 벡터 연산을 수행하는 방식
+- **계층형 실행(Hierarchical Execution)**: MIMD 작업 안에서 SIMD 벡터 연산을 수행하는 방식이다.
 
 </details>
 
@@ -151,7 +151,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **분기 발산(Branch Divergence)**: 같은 SIMD 묶음이 다른 경로를 선택해 일부 레인이 비활성화되는 현상
+- **분기 발산(Branch Divergence)**: 같은 SIMD 묶음이 다른 경로를 선택해 일부 레인이 비활성화되는 현상이다.
 - **활성 마스크(Active Mask)**: SIMD 레인 가운데 현재 명령을 실제로 실행할 레인만 표시하는 비트 집합이다.
 - **부하 불균형(Load Imbalance)**: 코어별 작업량이 달라 일부 코어가 작업을 끝낸 뒤 다른 코어를 기다리는 상태이다.
 - **동적 스케줄링(Dynamic Scheduling)**: 실행 중의 완료와 부하 상태를 보고 남은 작업을 유휴 코어에 다시 배치하는 방식이다.
@@ -177,7 +177,7 @@ extra:
 
 - **동일 연산(Uniform Operation)**: 여러 데이터 원소에 같은 계산 순서와 제어 흐름을 반복 적용하는 작업이다.
 - **독립 제어(Independent Control)**: 각 코어나 작업이 다른 명령 순서와 분기를 별도로 결정하는 실행 방식이다.
-- **혼합 실행(Hybrid Execution)**: 비정형 작업은 MIMD, 규칙 구간은 SIMD로 처리하는 방식
+- **혼합 실행(Hybrid Execution)**: 비정형 작업은 MIMD, 규칙 구간은 SIMD로 처리하는 방식이다.
 
 </details>
 

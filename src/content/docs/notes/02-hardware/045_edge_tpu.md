@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Edge TPU (Edge TPU)"
-date: "2026-08-05T11:54:35+09:00"
+date: "2026-08-05T17:28:30+09:00"
 tags:
   - "notes-hardware"
 weight: 45
@@ -41,8 +41,8 @@ extra:
 
 - **완전 정수 양자화(Full Integer Quantization)**: 모델의 가중치와 활성값 및 입출력을 정수 형식으로 변환하는 기법이다.
 - **지원 연산 컴파일(Supported-operation Compilation)**: 장치가 직접 실행할 수 있는 연산자를 찾아 전용 실행 코드로 변환하는 과정이다.
-- **CPU**: Central Processing Unit, 범용 명령을 실행하는 중앙 처리 장치
-- **CPU 폴백**: Edge TPU 미지원 연산을 CPU에서 대체 실행하는 처리
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령과 Edge TPU 미지원 연산을 실행하는 프로세서이다.
+- **중앙 처리 장치 폴백(CPU Fallback)**: Edge TPU 미지원 연산을 CPU에서 대신 실행하는 처리이다.
 - **장치 전환 비용(Device-transition Cost)**: 서로 다른 처리 장치 사이에서 텐서를 복사하고 실행을 동기화할 때 생기는 시간과 전력 비용이다.
 
 </details>
@@ -60,7 +60,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **텐서플로 라이트(TensorFlow Lite, TFLite)**: 모바일과 에지 장치용 추론 모델 형식 및 경량 실행 런타임이다.
-- **Edge TPU 컴파일러**: 지원 연산을 찾아 모델을 분할하고 장치 코드를 생성하는 도구
+- **Edge TPU 컴파일러(Edge TPU Compiler)**: 지원 연산을 찾아 모델을 분할하고 장치 코드를 생성하는 도구이다.
 - **텐서플로 라이트 런타임(TensorFlow Lite Runtime, TFLite 런타임)**: 모델 구간을 중앙 처리 장치(Central Processing Unit, CPU)와 Edge TPU에 제출하고 버퍼 및 결과를 관리하는 실행 소프트웨어이다.
 
 </details>
@@ -86,7 +86,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **정수 실행 계획(Integer Execution Plan)**: 모델 연산 순서와 Edge TPU•CPU 배치를 기록한 정보
+- **정수 실행 계획(Integer Execution Plan)**: 모델 연산 순서와 Edge TPU•CPU 배치를 기록한 정보이다.
 - **경계 텐서(Boundary Tensor)**: Edge TPU 구간과 CPU 구간 사이에서 전달되는 중간 데이터이다.
 - **지원 구간(Supported Segment)**: Edge TPU가 직접 실행할 수 있는 연속된 정수 연산자 묶음이다.
 
@@ -174,7 +174,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **지원 연산률(Supported-operation Ratio)**: 전체 모델 연산 중 Edge TPU 직접 실행 비율
+- **지원 연산률(Supported-operation Ratio)**: 전체 모델 연산 가운데 Edge TPU에서 직접 실행되는 연산의 비율이다.
 - **오프라인 추론(Offline Inference)**: 외부 네트워크 연결 없이 단말 내부 자원만으로 모델 결과를 계산하는 방식이다.
 - **지속 추론(Sustained Inference)**: 장시간의 전력과 열 한도에서도 목표 실행 주기와 지연을 유지하는 추론이다.
 

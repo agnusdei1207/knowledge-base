@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "GPU 아키텍처•SIMT 모델 (GPU SIMT)"
-date: "2026-08-05T11:52:29+09:00"
+date: "2026-08-05T17:27:40+09:00"
 tags:
   - "notes-hardware"
 weight: 41
@@ -62,7 +62,7 @@ extra:
 - **워프 스케줄러(Warp Scheduler)**: 실행 준비가 된 워프를 선택하고 공통 명령을 연산 유닛에 발행하는 하드웨어이다.
 - **공유 메모리(Shared Memory)**: 하나의 스레드 블록이 데이터를 빠르게 교환하고 재사용하는 온칩 메모리이다.
 - **전역 메모리(Global Memory)**: 모든 스레드 블록이 접근할 수 있지만 온칩 메모리보다 지연이 큰 그래픽 처리 장치(Graphics Processing Unit, GPU) 메모리이다.
-- **L2 캐시**: Level 2 Cache, 모든 SM이 공유하는 캐시 계층
+- **2차 캐시(Level 2 Cache, L2 Cache)**: 모든 스트리밍 멀티프로세서가 공유하는 장치 캐시 계층이다.
 
 </details>
 
