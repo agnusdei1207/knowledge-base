@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: Secure Boot 보안 부팅 (Secure Boot)
-date: "2026-08-05T01:48:44+09:00"
+date: "2026-08-05T17:44:55+09:00"
 tags:
   - notes-security
 weight: 127
@@ -66,12 +66,13 @@ extra:
 </details>
 
 ```text
-[플랫폼 키 PK]---[키 교환 키 KEK]---[허용 데이터베이스 db]
-                         |                       |
-              [폐기 데이터베이스 dbx]---[UEFI 이미지 검증기]
+Secure Boot 신뢰 구조
+├─ 플랫폼 키 PK
+├─ 키 교환 키 KEK
+├─ 허용 데이터베이스 db
+├─ 폐기 데이터베이스 dbx
+└─ UEFI 이미지 검증기
 ```
-
-선의 의미: 플랫폼•키 교환 정책과 허용•폐기 데이터베이스가 UEFI 이미지 검증기에 결합되는 Secure Boot 신뢰 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,21 +95,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 플랫폼 소유자
-  participant U as UEFI
-  participant I as 부트 이미지
-  participant T as TPM•복구 환경
-  O->>O: 1. PK•KEK•db•dbx 정책 설정
-  O->>U: 부팅 신뢰 정책 등록
-  U->>I: 검증 대상 요청
-  I->>U: 이미지•서명•인증서 반환
-  U->>U: 2. 이미지 서명•해시 검증
-  U->>U: 3. db 허용•dbx 폐기 여부 확인
-  U->>U: 4. 실행 허용•거부 판정
-  U->>U: 5. 허용 이미지 측정값 생성
-  U->>T: 부팅 측정값 전달
+```text
+부트 이미지•서명•인증서
+   │
+   ▼
+1. PK•KEK•db•dbx 정책 설정
+   │
+   ▼
+2. 이미지 서명•해시 검증
+   │
+   ▼
+3. db 허용•dbx 폐기 여부 확인
+   │
+   ▼
+4. 실행 허용•거부 판정
+   ├─ 미승인•폐기 ──► 실행 거부•복구 전환
+   └─ 승인
+        │
+        ▼
+5. 허용 이미지 측정값 생성
+   │
+   ▼
+다음 부팅 단계 실행•TPM 증적 기록
 ```
 
 **동작 원리**

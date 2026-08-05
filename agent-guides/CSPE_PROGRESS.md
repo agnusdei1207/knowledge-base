@@ -4,8 +4,8 @@
 
 | 항목 | 현재 값 |
 |:---|:---|
-| 현재 포인터 | `05-security/120_vulnerability_prioritization_epss_cvss.md` |
-| 완료 파일 수 | 621 / 970 |
+| 현재 포인터 | `05-security/140_network_separation_bridging.md` |
+| 완료 파일 수 | 641 / 970 |
 | 현재 상태 | 구조·흐름도 포함 7개 검사 통합 재검수 중 |
 | 이번 마지막 빌드 | 2026-08-05 02과목 재점검 완료 정적 빌드 통과 (982 pages) |
 
@@ -24,8 +24,8 @@
 | 02-hardware | 94 | 94 | 완료 |
 | 03-software | 229 | 229 | 완료 |
 | 04-network | 116 | 116 | 완료 |
-| 05-security | 147 | 120 | 진행 중 |
+| 05-security | 147 | 140 | 진행 중 |
 | 06-evaluation | 51 | 0 | 대기 |
 | 07-law-policy | 45 | 0 | 대기 |
 | 08-latest-tech | 226 | 0 | 대기 |
-| 합계 | 970 | 621 | 진행 중 |
+| 합계 | 970 | 641 | 진행 중 |

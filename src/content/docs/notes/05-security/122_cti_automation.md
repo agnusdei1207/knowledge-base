@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인텔리전스 기반 CTI 자동화 (CTI Automation)"
-date: "2026-08-05T01:48:44+09:00"
+date: "2026-08-05T17:44:55+09:00"
 tags:
   - "notes-security"
 weight: 122
@@ -67,6 +67,15 @@ extra:
 
 </details>
 
+```text
+CTI 자동화
+├─ CTI 수집•출처
+├─ STIX 2.1 정규화
+├─ 신뢰도•시효•자산 보강
+├─ TAXII 2.1•TLP 2.0 배포
+└─ 적중•오탐 품질 환류
+```
+
 | 구성요소 | 책임 |
 |:---|:---|
 | CTI 수집•출처 | **OSINT•상용•공유 피드** 수집 |
@@ -88,24 +97,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant D as 방어 조직
-  participant C as CTI 수집기
-  participant T as TIP
-  participant S as 보안 도구
-  participant A as 분석가
-  D->>C: 방어 요구•신뢰 출처
-  C->>C: 1. STIX CTI 객체 구성
-  C->>T: CTI 객체 전달
-  T->>T: 2. CTI 보강•품질 점수 산정
-  T->>A: 보강 CTI 전달
-  A->>A: 3. 배포 승인•공유 범위 결정
-  A->>T: 승인 결과 전달
-  T->>T: 4. TAXII CTI 묶음 생성
-  T->>S: CTI 묶음 전달
-  S->>S: 5. 적중•오탐•만료 평가
-  S->>T: 평가 결과 전달
+```text
+CTI 피드
+   │
+   ▼
+1. STIX CTI 객체 구성
+   │
+   ▼
+2. CTI 보강•품질 점수 산정
+   │
+   ▼
+3. 배포 승인•공유 범위 결정
+   ├─ 기준 충족 ─────► 4. TAXII CTI 묶음 생성
+   │                         │
+   │                         ▼
+   │                  보안 도구 배포
+   │                         │
+   │                         ▼
+   │                  5. 적중•오탐•만료 평가
+   │                         │
+   └─ 기준 미달 ─────► 보류•폐기
+                             │
+                             └── 품질 점수 환류
 ```
 
 **동작 원리**

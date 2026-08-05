@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: ARM TrustZone (ARM TrustZone)
-date: "2026-08-05T12:40:00+09:00"
+date: "2026-08-05T17:44:55+09:00"
 tags:
   - notes-security
 weight: 128
@@ -68,14 +68,13 @@ extra:
 </details>
 
 ```text
- [REE•Normal World] -- [SMC•제한 진입점] -- [TEE•Secure World]
-                                                    |
-                                      [메모리•버스 보안 속성]
-                                                    |
-                                         [DMA•인터럽트 통제]
+Arm TrustZone
+├─ REE•Normal World
+├─ SMC•제한 진입점
+├─ TEE•Secure World
+├─ 메모리•버스 보안 속성
+└─ DMA•인터럽트 통제
 ```
-
-선의 의미: Normal World와 Secure World 사이를 제한 진입점으로 분리하고, Secure World 자원의 메모리•버스 속성과 DMA•인터럽트 접근을 하드웨어 경계로 통제하는 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -99,23 +98,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as REE 클라이언트
-  participant D as TEE 드라이버
-  participant M as 보안 모니터
-  participant T as 신뢰 응용
-  participant H as 보안 자원
-  C->>D: 세션•명령•버퍼 요청
-  D->>D: 1. 공유 주소•길이•권한 검증
-  D->>M: 검증된 호출 전달
-  M->>M: 2. 호출자 신원•TA 명령 검증
-  M->>T: 허용된 TA 명령 전달
-  T->>T: 3. 최소 보안 자원 요청 구성
-  T->>H: 보안 연산 요청
-  H->>H: 4. 제한된 보안 연산 수행
-  H-->>T: 보안 연산 결과 반환
-  T-->>C: 정제된 결과
+```text
+REE•Normal World 요청
+   │ 세션•명령•공유 버퍼
+   ▼
+TrustZone 경계
+   1. 공유 주소•길이•권한 검증
+   2. 호출자 신원•TA 명령 검증
+   │ 허용된 SMC 요청
+   ▼
+TEE•Secure World
+   3. 최소 보안 자원 요청 구성
+   4. 제한된 보안 연산 수행
+   │ 비밀을 제외한 결과
+   ▼
+REE•Normal World 반환
 ```
 
 **동작 원리**
