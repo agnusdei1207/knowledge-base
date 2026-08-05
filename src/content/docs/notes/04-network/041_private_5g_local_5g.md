@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "5G 특화망•로컬 5G (Private 5G / 이음5G)"
-date: "2026-08-05T01:27:35+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 41
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•초연결을 지원하는 이동통신 세대
-- **5G 특화망(Private 5G)**: 한정 구역에서 전용 설비•정책으로 산업 서비스를 제공하는 비공중망
+- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•초연결을 지원하는 이동통신 세대이다.
+- **5G 특화망(Private 5G)**: 한정 구역에서 전용 설비•정책으로 산업 서비스를 제공하는 비공중망이다.
 
 </details>
 
@@ -70,10 +70,13 @@ extra:
 
 ```text
 5G 특화망
-+---[RAN]---[5GC]---[로컬 UPF]---[MEC•OT 연계]---+
+├─ RAN
+├─ 5GC
+├─ 로컬 UPF
+└─ MEC•OT 연계
 ```
 
-선의 의미: 바깥선은 비공중망 경계이고, 내부선은 무선 접속, 가입자•세션•QoS 제어, 현장 사용자 데이터 경로와 MEC•OT 응용의 네트워크 결합 관계를 나타낸다.
+가지의 의미: 비공중망 경계에 속한 무선•코어•현장 처리 기능을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -97,19 +100,25 @@ extra:
 
 RAN, 5GC, UPF, MEC, OT가 인증부터 현장 전달까지 연결한다.
 
-```mermaid
-sequenceDiagram
-    participant 산업단말
-    participant RAN
-    participant 5GC
-    participant 로컬UPF
-    participant MEC•OT
-    산업단말->>RAN: 접속 요청
-    RAN->>5GC: 1. 가입자 인증 요청
-    5GC->>로컬UPF: 2. PDU 세션 규칙
-    5GC->>로컬UPF: 3. QoS 정책
-    로컬UPF->>MEC•OT: 4. 현장 데이터
-    MEC•OT-->>산업단말: 처리 결과
+```text
+산업 단말 접속 요청
+        │
+        ▼
+1. 가입자 인증 요청
+        ├─ 실패: 접속 거절
+        └─ 성공
+            │
+            ▼
+2. PDU 세션 규칙
+            │
+            ▼
+3. QoS 정책
+            │
+            ▼
+4. 현장 데이터
+            │
+            ▼
+MEC•OT 처리 결과 반환
 ```
 
 **동작 원리**

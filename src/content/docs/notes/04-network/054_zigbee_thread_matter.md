@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-08-05T08:00:00+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -70,16 +70,15 @@ extra:
 Thread 경계 라우터는 **IPv6** 패킷을 전달하고 Matter 브리지는 비 Matter 기기의 모델과 명령을 변환한다.
 
 ```text
-             [컨트롤러•커미셔너]
-                       |
-                 [IP 네트워크]
-                  /           \
-      [Thread 경계 라우터]   [매터 브리지]
-                  |
-         [Thread Matter 기기]
+Matter 운영 구조
+└─ 컨트롤러•커미셔너
+   └─ IP 네트워크
+      ├─ Thread 경계 라우터
+      │  └─ Thread Matter 기기
+      └─ 매터 브리지
 ```
 
-선의 의미: 컨트롤러•커미셔너가 IP 네트워크를 통해 Thread 경계 라우터와 매터 브리지에 연결되고, 경계 라우터 아래에 Thread Matter 기기가 놓이는 정적 계층•경계 관계이다.
+가지의 의미: IP망에 연결된 Thread 경계와 비 Matter 기기 변환 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -104,23 +103,25 @@ Thread 경계 라우터는 **IPv6** 패킷을 전달하고 Matter 브리지는 �
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 커미셔너
-    participant Matter기기
-    participant Thread경계라우터
-    커미셔너->>Matter기기: 1. 가입 정보
-    Matter기기->>커미셔너: 2. 기기 증명서
-    커미셔너->>Matter기기: 3. 운영 자격
-    Matter기기->>Thread경계라우터: IPv6 가입 요청
-    Thread경계라우터-->>Matter기기: IPv6 가입 응답
+```text
+BLE•QR Code 가입 정보 확인
+          │
+          ▼
+신규 기기와 보안 세션 수립
+          │
+          ▼
+기기 증명서 검증
+          ├─ 실패: 가입 거절
+          └─ 통과
+              │
+              ▼
+운영 인증서•Thread 접속 자격 전달
+              │
+              ▼
+IPv6 메시망 가입
+              ├─ 실패: 접속 정보 재검증
+              └─ 성공: Matter 패브릭 등록
 ```
-
-**동작 원리**
-
-1. **가입 정보**: **BLE•QR Code 정보**로 신규 기기와 보안 세션 수립
-2. **기기 증명서**: 제조사 발급 정보로 기기 진위 증명
-3. **운영 자격**: 검증된 기기에 Thread 접속•패브릭 자격 전달
 
 #### 한줄 요약
 

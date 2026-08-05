@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
-date: "2026-08-05T01:27:35+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -66,12 +66,14 @@ extra:
 
 ```text
 MEC
-+---[로컬 UPF]---[MEC 호스트]---[MEC 플랫폼]---[MEC 응용]---+
-                         |
-                 [MEC 오케스트레이터]
+├─ MEC 오케스트레이터
+├─ 로컬 UPF
+└─ MEC 호스트
+   ├─ MEC 플랫폼
+   └─ MEC 응용
 ```
 
-선의 의미: 바깥선은 MEC 경계이고, 주 구조는 로컬 사용자 흐름•에지 자원•플랫폼 API•현장 응용의 결합 관계이며, MEC 오케스트레이터는 MEC 호스트의 응용 배치•회수 관리 관계이다.
+가지의 의미: MEC의 관리•전달 기능과 호스트에 속한 실행 기능을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,19 +98,23 @@ MEC
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 오케스트레이터
-    participant MEC호스트
-    participant MEC응용
-    participant 5GC
-    participant 로컬UPF
-    오케스트레이터->>MEC호스트: 1. 응용 배치 명세
-    MEC호스트->>MEC응용: 2. 기동 명령
-    MEC응용->>5GC: 3. 조향 정책 요청
-    5GC->>로컬UPF: 4. PDU 세션 규칙
-    로컬UPF->>MEC응용: 5. 로컬 사용자 데이터
-    MEC응용-->>로컬UPF: 처리 결과
+```text
+1. 응용 배치 명세
+        │
+        ▼
+2. 기동 명령
+        │
+        ▼
+3. 조향 정책 요청
+        │
+        ▼
+4. PDU 세션 규칙
+        │
+        ▼
+5. 로컬 사용자 데이터
+        │
+        ▼
+MEC 응용 처리 결과 반환
 ```
 
 **동작 원리**

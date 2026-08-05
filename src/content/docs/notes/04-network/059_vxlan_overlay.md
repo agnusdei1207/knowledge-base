@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -74,12 +74,17 @@ extra:
 </details>
 
 ```text
-                       [EVPN 제어 평면]
-                         /             \
-[종단 호스트] ----- [VTEP] ----- [IP 언더레이] ----- [VXLAN 게이트웨이]
+VXLAN 오버레이
+├─ 제어 경계
+│  └─ EVPN 제어 평면
+└─ 데이터 경계
+   ├─ 종단 호스트
+   ├─ VTEP
+   ├─ IP 언더레이
+   └─ VXLAN 게이트웨이
 ```
 
-선의 의미: 가로선은 종단 프레임을 VTEP에서 캡슐화해 IP 언더레이와 VXLAN 게이트웨이에 결합하는 오버레이 데이터 경계이고, 위 가지는 VTEP와 게이트웨이에 MAC•IP 위치 정보를 제공하는 EVPN 제어 평면을 분리해 나타낸다.
+가지의 의미: EVPN 제어 경계와 오버레이 패킷 전달 경계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -103,18 +108,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 수신VTEP
-    participant EVPN
-    participant 송신VTEP
-    participant 송신호스트
-    participant 수신호스트
-    수신VTEP->>EVPN: 1. MAC•IP 위치 경로
-    EVPN->>송신VTEP: 2. 원격 VTEP 경로
-    송신호스트->>송신VTEP: 이더넷 프레임
-    송신VTEP->>수신VTEP: 3. VXLAN 패킷
-    수신VTEP-->>수신호스트: 이더넷 프레임
+```text
+1. MAC•IP 위치 경로
+        │
+        ▼
+2. 원격 VTEP 경로
+        │
+        ▼
+송신 호스트의 이더넷 프레임
+        │
+        ▼
+원격 VTEP 위치 보유 여부
+        ├─ 없음: 대상 VNI에 BUM 복제
+        └─ 있음: 3. VXLAN 패킷
+                         │
+                         ▼
+                  원격 VTEP 역캡슐화
+                         │
+                         ▼
+                  수신 호스트에 프레임 전달
 ```
 
 **동작 원리**

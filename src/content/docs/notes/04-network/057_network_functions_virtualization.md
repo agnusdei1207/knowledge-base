@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NFV (Network Functions Virtualization, 네트워크 기능 가상화)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 57
@@ -69,14 +69,17 @@ extra:
 **NFVO**가 서비스를 조정하고 **VNFM**이 기능을 관리하며 **VIM**이 **NFVI** 자원을 할당한다.
 
 ```text
-                         [NFVO]
-                         /    \
-                    [VNFM]   [VIM]
-                       |       |
-                 [VNF•CNF] ----- [NFVI]
+NFV
+├─ MANO
+│  ├─ NFVO
+│  ├─ VNFM
+│  └─ VIM
+└─ 실행 계층
+   ├─ VNF•CNF
+   └─ NFVI
 ```
 
-선의 의미: NFVO 아래에는 기능 수명주기를 관리하는 VNFM과 인프라 자원을 관리하는 VIM이 놓이고, VNF•CNF는 NFVI의 컴퓨팅•저장•네트워크 자원에 결합되는 정적 NFV 관리•실행 구조를 뜻한다.
+가지의 의미: MANO 관리 기능과 VNF•CNF 실행 인프라의 소속을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -99,19 +102,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 서비스관리자
-    participant NFVO•VNFM
-    participant VIM
-    participant VNF•CNF
-    서비스관리자->>NFVO•VNFM: 네트워크 서비스 요청
-    NFVO•VNFM->>VIM: 1. 자원 할당 요청
-    VIM->>NFVO•VNFM: 2. 할당 자원
-    NFVO•VNFM->>VNF•CNF: 3. 인스턴스 구성
-    NFVO•VNFM->>VNF•CNF: 4. 활성화 명령
-    VNF•CNF->>NFVO•VNFM: 5. 상태•성능
-    NFVO•VNFM-->>서비스관리자: 서비스 활성화 결과
+```text
+네트워크 서비스 요청
+        │
+        ▼
+1. 자원 할당 요청
+        │
+        ▼
+2. 할당 자원
+        │
+        ▼
+3. 인스턴스 구성
+        │
+        ▼
+4. 활성화 명령
+        │
+        ▼
+서비스 활성화 결과
+        │
+        ▼
+5. 상태•성능
+        ├─ 장애•과부하: 치유•확장 재수행
+        └─ 정상: 현재 인스턴스 유지
 ```
 
 **동작 원리**

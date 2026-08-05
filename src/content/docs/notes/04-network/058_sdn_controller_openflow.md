@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SDN 컨트롤러와 OpenFlow (SDN Controller & OpenFlow)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -65,12 +65,17 @@ extra:
 </details>
 
 ```text
-[SDN 응용] ----- [SDN 컨트롤러] ----- [OpenFlow 채널] ----- [OpenFlow 데이터 경로]
-                                                                    |
-                                                       [흐름•그룹•미터 테이블]
+OpenFlow 제어 구조
+├─ 제어 평면
+│  ├─ SDN 응용
+│  ├─ SDN 컨트롤러
+│  └─ OpenFlow 채널
+└─ 데이터 평면
+   ├─ OpenFlow 데이터 경로
+   └─ 흐름•그룹•미터 테이블
 ```
 
-선의 의미: SDN 응용과 SDN 컨트롤러는 OpenFlow 채널을 통해 스위치의 OpenFlow 데이터 경로에 결합되고, 데이터 경로 아래에는 패킷 조건•동작•경로•속도를 보존하는 흐름•그룹•미터 테이블이 놓이는 정적 OpenFlow 제어 구조를 뜻한다.
+가지의 의미: OpenFlow 제어 평면과 데이터 평면에 속한 기능을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,16 +99,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신단말
-    participant OpenFlow스위치
-    participant 컨트롤러
-    participant 목적지
-    송신단말->>OpenFlow스위치: 첫 데이터 패킷
-    OpenFlow스위치->>컨트롤러: 1. Packet-In
-    컨트롤러->>OpenFlow스위치: 2. Flow-Mod
-    OpenFlow스위치-->>목적지: 전달 패킷
+```text
+첫 데이터 패킷 입력
+        │
+        ▼
+흐름 테이블 조회
+        ├─ 일치: Match-Action 실행 후 전달
+        └─ Table-Miss
+              │
+              ▼
+        1. Packet-In
+              │
+              ▼
+        컨트롤러의 경로•정책 계산
+              │
+              ▼
+        2. Flow-Mod
+              │
+              ▼
+        규칙 설치•첫 패킷 전달
 ```
 
 **동작 원리**

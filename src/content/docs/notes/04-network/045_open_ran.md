@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-05T01:27:35+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -54,6 +54,7 @@ extra:
 
 - **O-RU•O-DU•O-CU** 기능 분리로 장치별 독립 교체
 - **프론트홀•A1•E2** 개방으로 다중 공급자 연동 표준화
+- **SMO 기반 수명주기•비실시간 정책 관리**
 - **xApp•rApp 기반 제어 주기별 무선 자원 정책 실행**
 
 #### 한줄 요약
@@ -71,10 +72,14 @@ extra:
 
 ```text
 O-RAN
-+---[SMO•비실시간 RIC]---[준실시간 RIC]---[O-CU]---[O-DU]---[O-RU]---+
+├─ SMO•비실시간 RIC
+├─ 준실시간 RIC
+├─ O-CU
+├─ O-DU
+└─ O-RU
 ```
 
-선의 의미: 바깥선은 O-RAN 경계이고, 내부선은 A1 정책•모델, E2 무선 자원 제어, 상위 무선 프로토콜, 시간 민감 처리와 무선주파수 송수신 기능의 개방형 결합 관계를 나타낸다.
+가지의 의미: O-RAN 경계에 속한 관리•제어•무선 처리 기능을 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,18 +95,25 @@ O-RAN
 
 ## Ⅳ. 흐름도
 
-```mermaid
-sequenceDiagram
-    participant 비실시간RIC
-    participant 준실시간RIC
-    participant O-CU•O-DU
-    비실시간RIC->>준실시간RIC: 1. A1 정책
-    준실시간RIC->>O-CU•O-DU: 2. E2 구독 요청
-    loop 준실시간 제어 주기
-        O-CU•O-DU->>준실시간RIC: 3. E2 무선 상태
-        준실시간RIC->>O-CU•O-DU: 4. E2 제어 명령
-        O-CU•O-DU->>준실시간RIC: 5. 제어 결과
-    end
+```text
+1. A1 정책
+      │
+      ▼
+2. E2 구독 요청
+      │
+      ▼
+반복 범위: 구독 유지 중 3~5단계
+      │
+      ▼
+3. E2 무선 상태
+      │
+      ▼
+4. E2 제어 명령
+      │
+      ▼
+5. 제어 결과
+      │
+      └─ 다음 준실시간 제어 주기의 3단계로 반복
 ```
 
 **동작 원리**

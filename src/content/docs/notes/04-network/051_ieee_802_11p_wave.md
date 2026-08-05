@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "IEEE 802.11p WAVE"
-date: "2026-08-05T08:00:00+09:00"
+date: "2026-08-05T15:22:22+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -71,16 +71,13 @@ extra:
 **WSMP•IP**를 **CCH•SCH**로 전달하며, **MAC•PHY** 계층은 IEEE 802.11p가 담당한다.
 
 ```text
-          [IEEE 1609.2]
-                |
-          [IEEE 1609.3]
-                |
-          [IEEE 1609.4]
-                |
-       [IEEE 802.11p OCB]
+IEEE 1609.2
+└─ IEEE 1609.3
+   └─ IEEE 1609.4
+      └─ IEEE 802.11p OCB
 ```
 
-선의 의미: WAVE의 보안•네트워킹•채널 운용 계층이 IEEE 802.11p OCB의 MAC•PHY 전송 계층 위에 놓이는 정적 프로토콜 스택이다.
+가지의 의미: 보안•네트워킹•채널 운용과 MAC•PHY의 계층 관계를 뜻한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -103,19 +100,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant 송신OBU
-    participant 무선채널
-    participant 수신OBU
-    송신OBU->>무선채널: 1. 서명 OCB 프레임
-    무선채널->>수신OBU: 2. 수신 OCB 프레임
+```text
+차량 안전 메시지 생성
+        │
+        ▼
+IEEE 1609.2 전자서명
+        │
+        ▼
+IEEE 1609.3 WSMP•IP 처리
+        │
+        ▼
+IEEE 1609.4 CCH•SCH 선택
+        │
+        ▼
+IEEE 802.11p OCB 프레임 전송
+        │
+        ▼
+인증서•최신성 검증
+        ├─ 실패: 메시지 폐기
+        └─ 통과: 안전 메시지 수용
 ```
-
-**동작 원리**
-
-1. **서명 OCB 프레임**: **IEEE 1609.2** 서명 후 **CCH•SCH**를 선택해 전송
-2. **수신 OCB 프레임**: 인증서•**최신성** 검증을 통과한 메시지만 수용
 
 #### 한줄 요약
 
