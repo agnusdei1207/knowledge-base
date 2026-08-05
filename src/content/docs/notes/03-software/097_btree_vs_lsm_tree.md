@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T15:26:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -67,13 +67,17 @@ extra:
 </details>
 
 ```text
-                           [워크로드]
-                            /      \
-              [B-Tree 페이지]    [WAL•Memtable]
-                                      |
-                                [SSTable] ----- [Compaction]
-                                      |
-                               [Bloom Filter]
+[워크로드]
+    |
+    +-- [B-Tree 페이지]
+    |
+    +-- [WAL•Memtable]
+            |
+            +-- [SSTable]
+                    |
+                    +-- [Compaction]
+                    |
+                    +-- [Bloom Filter]
 ```
 
 선의 의미: 워크로드 아래에는 B-Tree 페이지 구조와 LSM 계열 구조가 병렬로 놓이며, LSM 계열은 WAL•Memtable, SSTable, Compaction과 Bloom Filter가 결합되는 정적 저장 구조를 뜻한다.
@@ -103,22 +107,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant B as B-Tree 페이지
-    participant W as WAL
-    participant M as Memtable
-    participant S as SSTable
-    alt B-Tree
-        C->>B: 1. B-Tree 페이지 탐색•갱신
-        B-->>C: 쓰기 완료 응답
-    else LSM-Tree
-        C->>W: 2. WAL 순차 기록
-        W->>M: 3. Memtable 갱신
-        M-->>C: 쓰기 완료 응답
-        M->>S: 4. SSTable Flush
-    end
+```text
+쓰기 요청
+    |
+    +-- B-Tree
+    |      |
+    |      +--> 1. B-Tree 페이지 탐색•갱신
+    |                 |
+    |                 +--> 쓰기 완료 응답
+    |
+    +-- LSM-Tree
+           |
+           +--> 2. WAL 순차 기록
+                    |
+                    v
+                3. Memtable 갱신
+                    |
+                    +--> 쓰기 완료 응답
+                    |
+                    +-- 임계 도달 --> 4. SSTable Flush
 ```
 
 **동작 원리**
@@ -171,6 +178,7 @@ sequenceDiagram
 - **체크포인트(Checkpoint)**: 장애 복구를 시작할 저장 지점이다.
 - **플러시(Flush)**: 메모리 변경을 디스크에 저장하는 처리다.
 - **복구 시간 목표(Recovery Time Objective, RTO)**: 서비스 재시작에 허용된 최대 시간이다.
+- **99백분위 지연(99th-percentile Latency, p99)**: 요청 99%가 완료되는 지연 경계값이다.
 
 </details>
 
