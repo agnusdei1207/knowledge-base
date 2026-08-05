@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "파이프라이닝 기본 구조 5단계 (Pipelining)"
-date: "2026-08-05T00:42:15+09:00"
+date: "2026-08-05T11:29:27+09:00"
 tags:
   - "notes-hardware"
 weight: 6
@@ -101,26 +101,17 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant F as IF 단계
-    participant D as ID 단계
-    participant E as EX 단계
-    participant M as MEM 단계
-    participant W as WB 단계
-    F->>D: 1. 인출 명령 전달
-    D->>E: 2. 피연산자•제어 신호 전달
-    E->>M: 3. 연산•주소 결과 전달
-    M->>W: 4. 메모리•연산 결과 전달
-    Note over F,W: 인접 명령들은 서로 다른 단계를 동시에 점유
+```text
+클록 주기   1    2    3    4    5    6    7
+------------------------------------------------
+명령 I1    IF   ID   EX   MEM  WB
+명령 I2         IF   ID   EX   MEM  WB
+명령 I3              IF   ID   EX   MEM  WB
+------------------------------------------------
+동시 점유        I1•I2    I1•I2•I3
 ```
 
-**동작 원리**
-
-- **1. 인출 명령 전달**: 명령•PC값을 IF/ID에 저장
-- **2. 피연산자•제어 신호 전달**: 해독 결과를 ID/EX에 저장
-- **3. 연산•주소 결과 전달**: ALU•주소 결과 저장
-- **4. 메모리•연산 결과 전달**: 접근값•연산값을 목적 레지스터에 기록
+- **IF→ID→EX→MEM→WB** 단계 진행과 **클록 경계**별 이동
 
 #### 한줄 요약
 - 단계 사이 파이프라인 레지스터가 중간 결과와 제어 신호를 분리해 여러 명령이 서로 다른 단계를 동시에 점유하게 한다.
@@ -178,12 +169,6 @@ sequenceDiagram
 - 파이프라인 단수뿐 아니라 버블•플러시와 최장 단계 지연을 함께 줄여야 실제 명령 처리량이 증가한다.
 
 ## Ⅶ. 결론
-
-<details>
-<summary>핵심 용어</summary>
-
-
-</details>
 
 - IPC 손실이 큰 **최장 단계•버블•플러시** 부터 개선
 
