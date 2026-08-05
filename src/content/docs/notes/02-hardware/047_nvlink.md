@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-05T00:48:09+09:00"
+date: "2026-08-05T11:55:52+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- GPU 창고 사이에 전용 다리를 놓아 PCIe 교차로를 거치지 않고 상자를 바로 옮기는 장면이다.
+- GPU 집단 통신의 **대역폭•홉 수 병목** 완화
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,7 @@ extra:
 
 #### 한줄 요약
 
-- 여러 전용 차선을 묶어 화물량을 늘리고 먼 GPU 창고의 선반까지 직접 여는 장면이다.
+- 링크 결합•NVSwitch와 **토폴로지 인지 통신**
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -91,36 +91,31 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 학습 런타임
-    participant N as NCCL
-    participant G1 as GPU i
-    participant S as NVLink•NVSwitch
-    participant G2 as GPU i+1•축소 커널
-
-    A->>N: 1. All-Reduce 텐서
-    N->>G1: 2. 링 경로•조각 일정
-    loop Reduce-Scatter GPU 수−1단계
-        G1->>S: 3. 축소 대상 조각
-        S->>G2: 다음 GPU 조각 전달
-        G2->>G2: 4. 조각 축소 연산
-        G2->>S: 축소 조각 전달
-    end
-    loop All-Gather GPU 수−1단계
-        G2->>S: 축소 조각 전송
-        S-->>G1: 5. 축소 완료 조각
-    end
-    N-->>A: 전체 축소 완료
+```text
+                    [All-Reduce 텐서]
+                             |
+                 1. 토폴로지•조각 계획
+                             |
+                   2. Reduce-Scatter 시작
+                             |
+            +--------------------------------+
+            | 반복: GPU 수−1단계          |
+            | 3. 조각 피어 전송              |
+            | 4. 수신•로컬 조각 축소       |
+            +--------------------------------+
+                             |
+                   5. All-Gather 조각 배포
+                             |
+                    [전체 축소 완료]
 ```
 
 **동작 원리**
 
-1. **All-Reduce 텐서**: 모든 GPU의 합산•배포 대상
-2. **링 경로•조각 일정**: 토폴로지별 경로와 크기
-3. **축소 대상 조각**: 피어 전송과 로컬 합산 입력
-4. **조각 축소 연산**: 수신 조각과 로컬 조각을 합산
-5. **축소 완료 조각**: 모든 GPU에 배포할 결과
+- **1. 토폴로지•조각 계획**: 링크 경로와 전송 크기 결정
+- **2. Reduce-Scatter 시작**: 축소 결과 조각의 소유자 배정
+- **3. 조각 피어 전송**: NVLink•NVSwitch로 다음 GPU 전달
+- **4. 수신•로컬 조각 축소**: GPU별 값 합산
+- **5. All-Gather 조각 배포**: 완성 결과를 모든 GPU에 전파
 
 #### 한줄 요약
 
@@ -144,7 +139,7 @@ sequenceDiagram
 
 #### 한줄 요약
 
-- NVLink는 직통 다리, NVSwitch는 전용 교차로, PCIe는 범용 도로에 가깝다
+- 소수 피어는 **NVLink**, 다수 집단 통신은 NVSwitch
 
 ## Ⅵ. 실무 고려사항 및 대책
 
