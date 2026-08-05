@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "객체 탐지: YOLO•R-CNN (Object Detection)"
-date: "2026-08-05T17:31:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 55

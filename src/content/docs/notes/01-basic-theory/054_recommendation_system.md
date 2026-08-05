@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "추천 시스템: 협업 필터링•콘텐츠 기반(Recommendation System)"
-date: "2026-08-05T17:29:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 54

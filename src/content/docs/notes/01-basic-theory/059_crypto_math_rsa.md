@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암호 수학: 이산 대수•RSA 원리(Cryptography Mathematics)"
-date: "2026-08-05T17:42:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 59

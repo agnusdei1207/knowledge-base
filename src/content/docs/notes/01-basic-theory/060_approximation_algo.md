@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "근사 알고리즘 (Approximation Algorithm)"
-date: "2026-08-05T17:45:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 60

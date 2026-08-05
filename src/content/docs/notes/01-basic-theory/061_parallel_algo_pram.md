@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "병렬 알고리즘: PRAM 모델"
-date: "2026-08-05T17:49:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 61

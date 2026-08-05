@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "재귀 알고리즘•마스터 정리 (Recursive Algorithm Master Theorem)"
-date: "2026-08-05T17:38:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 58

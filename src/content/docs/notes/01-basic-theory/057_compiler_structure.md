@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "컴파일러 구조: 어휘•구문•의미 분석 (Compiler Structure)"
-date: "2026-08-05T17:35:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 57

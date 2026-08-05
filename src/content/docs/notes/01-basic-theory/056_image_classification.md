@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-05T17:33:00+09:00"
+date: "2026-08-05T17:28:18+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
