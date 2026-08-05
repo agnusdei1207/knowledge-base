@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "DSPM 데이터 보안 형상 관리 (Data Security Posture Management)"
-date: "2026-08-05T11:26:00+09:00"
+date: "2026-08-05T17:37:47+09:00"
 tags:
   - "notes-security"
 weight: 74
@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DSPM(Data Security Posture Management)** 은 저장 데이터의 민감도•위치•접근•복제•노출을 지속 분석하는 관리 체계다.
+- **데이터 보안 형상 관리(Data Security Posture Management, DSPM)**: 저장 데이터의 민감도•위치•접근•복제•노출을 지속 분석하는 체계
 - **그림자 데이터**: 보안•거버넌스 관리 밖에서 생성•복제•보관되는 데이터이다.
 
 </details>
 
-- 정의/개념: **DSPM** 은 저장 데이터의 위치•민감도•유효 접근•복제•노출을 지속 발견•분석해 위험을 줄이는 **데이터 보안 관리 체계**
+- 정의/개념: 저장 데이터의 민감도•접근•복제를 분석하는 **DSPM 관리 체계**
 - 배경/필요성: 미관리 그림자 데이터로 **과잉 접근•복제 확산**
 
 #### 한줄 요약
@@ -40,7 +40,7 @@ extra:
 
 - **데이터 분류** 는 내용과 업무 가치에 따라 데이터의 보호 등급을 정하는 활동이다.
 - **데이터 계보** 는 데이터가 생성•변환•복제•이동한 경로를 연결한 정보다.
-- **SaaS(Software as a Service)** 는 공급자가 운영하는 완성된 애플리케이션을 인터넷으로 제공하는 서비스 모델이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 완성 애플리케이션을 인터넷으로 제공하는 모델
 - **유효 접근**: 직접 권한뿐 아니라 상속•그룹•공개 설정을 모두 합친 실제 접근 가능 범위이다.
 
 </details>
@@ -97,23 +97,43 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 데이터 저장소
-    participant D as DSPM
-    participant O as 데이터 소유자
-    participant C as 조치 시스템
-    D->>S: 최소 권한 메타데이터 조회
-    S-->>D: 내용•권한•암호화 정보
-    D->>D: 1. 데이터 발견•민감도 분류
-    D->>D: 2. 유효 접근•데이터 계보 계산
-    D->>D: 3. 데이터 위험 우선순위화
-    D-->>O: 데이터 위험 근거
-    O->>O: 4. 보호 조치•소유 책임 확정
-    O->>C: 권한•마스킹•삭제 지시
-    C->>C: 5. 보호 조치 적용
-    C-->>D: 조치 적용 결과
-    D->>D: 잔여 노출 검증
+```text
+[데이터 저장소]
+      |
+      `-- 내용•권한•암호화 정보
+                  |
+                  v
+[DSPM]
+      |
+      v
+1. 데이터 발견•민감도 분류
+      |
+      v
+2. 유효 접근•데이터 계보 계산
+      |
+      v
+3. 데이터 위험 우선순위화
+      |
+      `-- 데이터 위험 근거
+                  |
+                  v
+[데이터 소유자]
+      |
+      v
+4. 보호 조치•소유 책임 확정
+      |
+      `-- 권한•마스킹•삭제 지시
+                  |
+                  v
+[조치 시스템]
+      |
+      v
+5. 보호 조치 적용
+      |
+      `-- 조치 적용 결과
+                  |
+                  v
+[DSPM 잔여 노출 검증]
 ```
 
 **동작 원리**
@@ -131,8 +151,8 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **CSPM(Cloud Security Posture Management)** 은 클라우드 자원의 설정과 노출 상태를 점검하는 체계다.
-- **DLP(Data Loss Prevention)** 는 민감정보의 사용•이동•반출을 식별하고 통제하는 기술이다.
+- **클라우드 보안 형상 관리(Cloud Security Posture Management, CSPM)**: 클라우드 자원의 설정과 노출 상태를 점검하는 체계
+- **데이터 유출 방지(Data Loss Prevention, DLP)**: 민감정보의 사용•이동•반출을 식별하고 통제하는 기술
 
 </details>
 
@@ -155,7 +175,7 @@ sequenceDiagram
 - **ISO/IEC 27002 통제 5.12** 는 정보의 가치와 보호 요구에 따른 분류를 요구한다.
 - **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
 - **SP(Special Publication) 800-122** 는 개인식별정보의 기밀성 영향과 보호 조치 선정을 안내한다.
-- **PII(Personally Identifiable Information)** 는 개인을 직접 또는 간접으로 식별할 수 있는 정보다.
+- **개인 식별 정보(Personally Identifiable Information, PII)**: 개인을 직접 또는 간접으로 식별할 수 있는 정보
 
 </details>
 

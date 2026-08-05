@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 공급망 보안 (Supply Chain Security)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:39:26+09:00"
 tags:
   - "notes-security"
 weight: 76
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **소프트웨어 공급망 보안** 은 소스•의존성•빌드•저장소•배포 전 과정의 출처와 무결성을 통제•검증하는 **소프트웨어 위험관리 체계**
+- 정의/개념: 소스부터 배포까지 **출처•무결성**을 검증하는 **위험관리 체계**
 - 배경/필요성: 전이 의존성의 **오염 범위 식별 곤란**
 
 #### 한줄 요약
@@ -38,8 +38,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SBOM(Software Bill of Materials)** 은 제품의 구성 부품•버전•관계를 기록한 명세서다.
-- **VEX(Vulnerability Exploitability eXchange)** 는 제품별 취약점 영향 상태와 판단 근거를 전달하는 문서다.
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 제품의 구성 부품•버전•관계를 기록한 명세서
+- **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: 제품별 취약점 영향 상태와 판단 근거를 전달하는 문서
 - **출처 증명**: 산출물을 누가 어떤 소스•도구•과정으로 만들었는지 나타내는 검증 정보이다.
 
 </details>
@@ -95,26 +95,44 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant D as 개발자
-    participant B as 격리 빌드
-    participant R as 산출물 저장소
-    participant G as 배포 게이트
-    participant O as 운영 환경
-    D->>B: 승인 소스•의존성
-    B->>B: 1. 출처•버전•해시 검증
-    B->>B: 2. 격리 빌드•산출물 서명
-    B->>R: 서명 산출물•증적
-    R->>R: 3. 불변 저장•증적 결속
-    R->>G: 산출물•SBOM•VEX•출처
-    G->>G: 4. 서명•영향•승격 정책 검증
-    G->>O: 검증된 산출물
-    O->>O: 5. 배포•운영 구성 연계
-    loop 운영 중 신규 취약점 발견
-        O->>G: 신규 취약점•배포 구성
-        G-->>O: 영향 제품•조치 우선순위
-    end
+```text
+[승인 소스•의존성]
+          |
+          v
+1. 출처•버전•해시 검증
+          |
+          v
+2. 격리 빌드•산출물 서명
+          |
+          `-- 서명 산출물•증적
+                      |
+                      v
+[산출물 저장소]
+          |
+          v
+3. 불변 저장•증적 결속
+          |
+          v
+[배포 게이트]
+          |
+          v
+4. 서명•영향•승격 정책 검증
+          |
+          v
+[운영 환경]
+          |
+          v
+5. 배포•운영 구성 연계
+          |
+          v
++----------------------------------+
+| 운영 중 신규 취약점 발견         |
+|                                  |
+|  신규 취약점•배포 구성           |
+|             |                    |
+|             v                    |
+|  영향 제품•조치 우선순위 환류    |
++----------------------------------+
 ```
 
 **동작 원리**
@@ -132,10 +150,6 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
-
-</details>
-
 | 공급망 증적 | 담당 역할 | 결합 효과 |
 |:---|:---|:---|
 | **SBOM** | **부품•버전•관계 기록** | 영향받는 구성요소 식별 |
@@ -150,9 +164,9 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **SSDF(Secure Software Development Framework) 1.1** 은 안전한 개발 관행을 SDLC에 통합하는 지침이다.
-- **SLSA(Supply-chain Levels for Software Artifacts) 1.2** 는 소스•빌드 출처와 무결성 보증 수준을 제시한다.
-- **SDLC(Software Development Life Cycle)** 는 요구•설계•개발•시험•배포•운영의 소프트웨어 생명주기다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF) 1.1**: 안전한 개발 관행을 SDLC에 통합하는 지침
+- **소프트웨어 산출물 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA) 1.2**: 소스•빌드 출처와 무결성 보증 수준
+- **소프트웨어 개발 생명주기(Software Development Life Cycle, SDLC)**: 요구•설계•개발•시험•배포•운영의 생명주기
 - **CISA(Cybersecurity and Infrastructure Security Agency)** 는 미국의 사이버 보안•기반시설 보호 기관이다.
 - **VEX 최소 요구사항** 은 취약점 영향 상태와 판단 근거의 필수 필드를 정의한다.
 - **재현 빌드** 는 같은 소스와 조건에서 동일한 산출물을 다시 생성해 변조를 대조하는 방식이다.

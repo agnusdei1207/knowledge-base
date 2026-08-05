@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "클라우드 네이티브 애플리케이션 보호 플랫폼 (Cloud-Native Application Protection Platform, CNAPP)"
-date: "2026-08-05T11:25:00+09:00"
+date: "2026-08-05T17:37:14+09:00"
 tags:
   - "notes-security"
 weight: 73
@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CNAPP(Cloud-Native Application Protection Platform)** 는 개발 코드부터 런타임까지 위험 관계를 분석하는 통합 보안 플랫폼이다.
+- **클라우드 네이티브 애플리케이션 보호 플랫폼(Cloud-Native Application Protection Platform, CNAPP)**: 코드부터 런타임까지 위험 관계를 분석하는 통합 플랫폼
 - **클라우드 네이티브**: 컨테이너•자동화•관리형 서비스를 활용해 클라우드 특성에 맞게 개발•운영하는 방식이다.
 
 </details>
 
-- 정의/개념: **CNAPP** 는 코드•IaC•이미지부터 런타임까지 클라우드 자산의 형상•권한•취약점•위협 관계를 연결해 공격 경로를 분석하는 **통합 보호 플랫폼**
+- 정의/개념: 코드부터 런타임까지 **공격 경로**를 분석하는 **통합 보호 플랫폼**
 - 배경/필요성: 분리 도구의 **경보 중복•맥락 단절**
 
 #### 한줄 요약
@@ -38,12 +38,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IaC(Infrastructure as Code)** 는 인프라 구성을 코드로 선언•버전 관리하는 방식이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언•버전 관리하는 방식
 - **컨테이너 이미지** 는 애플리케이션과 실행 의존성을 묶은 배포 패키지다.
 - **런타임** 은 배포된 워크로드가 실제로 실행되는 운영 환경이다.
-- **CSPM(Cloud Security Posture Management)** 은 클라우드 자산의 설정과 노출 상태를 점검한다.
-- **CIEM(Cloud Infrastructure Entitlement Management)** 은 클라우드 주체의 유효 권한과 과잉 권한을 분석한다.
-- **CWPP(Cloud Workload Protection Platform)** 는 워크로드 취약점과 런타임 위협을 보호한다.
+- **클라우드 보안 형상 관리(Cloud Security Posture Management, CSPM)**: 클라우드 자산의 설정과 노출 상태 점검
+- **클라우드 인프라 권한 관리(Cloud Infrastructure Entitlement Management, CIEM)**: 클라우드 주체의 유효•과잉 권한 분석
+- **클라우드 워크로드 보호 플랫폼(Cloud Workload Protection Platform, CWPP)**: 워크로드 취약점과 런타임 위협 보호
 
 </details>
 
@@ -96,22 +96,34 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant D as 개발 파이프라인
-    participant C as CNAPP
-    participant R as 클라우드 런타임
-    participant O as 자산 소유자
-    D->>C: 코드•IaC•이미지 발견
-    R->>C: 형상•권한•행위 상태
-    C->>C: 1. 배포 전 발견 정규화
-    C->>C: 2. 코드•런타임 자산 상관
-    C->>C: 3. 공격 경로•위험 우선순위 계산
-    C->>O: 공격 경로•원인 근거
-    O->>D: 원본 코드 수정 지시
-    D->>D: 4. 원본 수정•재배포
-    D-->>C: 재배포 결과
-    C->>C: 5. 공격 경로 단절 검증
+```text
+[CNAPP 입력]
+      |
+      +-- 코드•IaC•이미지 발견
+      `-- 형상•권한•행위 상태
+                  |
+                  v
+1. 배포 전 발견 정규화
+                  |
+                  v
+2. 코드•런타임 자산 상관
+                  |
+                  v
+3. 공격 경로•위험 우선순위 계산
+                  |
+                  `-- 공격 경로•원인 근거
+                              |
+                              v
+[자산 소유자•개발 파이프라인]
+                  |
+                  v
+4. 원본 수정•재배포
+                  |
+                  v
+5. 공격 경로 단절 검증
+                  |
+                  v
+[검증된 위험 제거 결과]
 ```
 
 **동작 원리**
@@ -150,11 +162,11 @@ sequenceDiagram
 
 - **NIST(National Institute of Standards and Technology)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
 - **SP(Special Publication) 800-190** 은 컨테이너 전주기 보안 위험과 대책을 제시한다.
-- **SSDF(Secure Software Development Framework) 1.1** 은 안전한 개발•공급•취약점 대응 관행을 제시한다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF) 1.1**: 안전한 개발•공급•취약점 대응 관행
 - **센서 공백** 은 보안 데이터가 수집되지 않아 분석에서 누락된 자산이나 영역이다.
 - **이식성** 은 자료와 정책을 다른 보안 도구로 옮겨 재사용할 수 있는 성질이다.
-- **API(Application Programming Interface)** 는 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계다.
-- **IAM(Identity and Access Management)** 은 디지털 신원과 접근 권한의 수명주기를 관리하는 체계다.
+- **애플리케이션 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 기능과 데이터를 정해진 형식으로 제공하는 경계
+- **신원•접근 관리(Identity and Access Management, IAM)**: 디지털 신원과 접근 권한의 수명주기 관리 체계
 
 </details>
 

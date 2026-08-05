@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "CAPTCHA•reCAPTCHA (CAPTCHA)"
-date: "2026-08-05T11:21:00+09:00"
+date: "2026-08-05T17:34:16+09:00"
 tags:
   - "notes-security"
 weight: 69
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CAPTCHA(Completely Automated Public Turing test to tell Computers and Humans Apart)** 는 사람과 자동화 요청을 구분하는 보조 통제다.
+- **컴퓨터•사람 구별 완전 자동화 공개 튜링 테스트(Completely Automated Public Turing test to tell Computers and Humans Apart, CAPTCHA)**: 사람과 자동화 요청을 구분하는 보조 통제
 - **reCAPTCHA** 는 위험 신호와 사용자 도전을 결합한 CAPTCHA 서비스다.
 - **봇**: 정해진 작업을 대량으로 자동 수행하는 프로그램이다.
 
 </details>
 
-- 정의/개념: **CAPTCHA** 는 사용자의 상호작용이나 위험 신호를 검사하여 사람의 요청과 자동화된 봇 요청을 구별하는 남용 방지 보조 통제
+- 정의/개념: 사람 요청과 자동화 요청을 구별하는 **봇 남용 방지** **보조 통제**
 - 배경/필요성: 대량 가입•스팸•로그인의 **자동 남용**
 
 #### 한줄 요약
@@ -42,7 +42,7 @@ extra:
 - **검증 토큰** 은 CAPTCHA 통과 결과를 전달하는 짧은 수명의 증표다.
 - **목적 결속** 은 검증 토큰을 발급받은 특정 업무 요청에만 사용하게 하는 통제다.
 - **호출률 제한** 은 일정 시간 동안 주체별 요청 수를 제한하는 통제다.
-- **MFA(Multi-Factor Authentication)** 는 서로 다른 종류의 인증 요소를 둘 이상 확인하는 방식이다.
+- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 서로 다른 종류의 인증 요소를 둘 이상 확인하는 방식
 
 </details>
 
@@ -96,25 +96,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자•봇
-    participant A as 애플리케이션 서버
-    participant R as 위험 엔진
-    participant C as CAPTCHA 서비스
-    U->>A: 가입•로그인•결제 요청
-    A->>A: 1. 계정•기기•행위 맥락 수집
-    A->>R: 위험 평가 요청
-    R->>R: 2. 자동화 위험•도전 수준 산정
-    R-->>A: 위험 점수•도전 수준
-    A->>C: 목적 결속 도전 요청
-    C->>C: 3. 적응형 도전 문제 생성
-    C-->>U: 적응형 도전 문제
-    U->>C: 도전 응답
-    C->>C: 4. 응답 유효성•봇 판정
-    C-->>A: 단기 검증 토큰
-    A->>A: 5. 목적•만료•재사용 검증
-    A-->>U: 업무 요청 결과
+```text
+[가입•로그인•결제 요청]
+          |
+          v
+1. 계정•기기•행위 맥락 수집
+          |
+          v
+2. 자동화 위험•도전 수준 산정
+          |
+          +-- 저위험 ------> [업무 요청 결과]
+          |
+          `-- 중•고위험
+                  |
+                  v
+          3. 적응형 도전 문제 생성
+                  |
+                  v
+          [사용자 도전 응답]
+                  |
+                  v
+          4. 응답 유효성•봇 판정
+                  |
+                  v
+          5. 목적•만료•재사용 검증
+                  |
+                  v
+          [업무 요청 결과]
 ```
 
 **동작 원리**

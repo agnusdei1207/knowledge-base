@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "생체 인식 — 지문•얼굴•홍채 (Biometric Authentication)"
-date: "2026-08-05T11:22:00+09:00"
+date: "2026-08-05T17:35:35+09:00"
 tags:
   - "notes-security"
 weight: 70
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **생체 인증** 은 사용자의 지문•얼굴•홍채 같은 생체 표본을 등록 템플릿과 비교하여 유사도가 임계값을 충족하는지 판정하는 사용자 인증 방식
+- 정의/개념: 생체 표본과 등록 템플릿의 **유사도**를 판정하는 **인증 방식**
 - 배경/필요성: 비밀번호의 **탈취•공유•대리 사용**
 
 #### 한줄 요약
@@ -39,11 +39,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **FMR(False Match Rate)** 은 타인을 등록 사용자로 잘못 수락하는 비율이다.
-- **FNMR(False Non-Match Rate)** 은 등록 사용자를 잘못 거부하는 비율이다.
-- **EER(Equal Error Rate)** 은 FMR과 FNMR이 같아지는 판정 지점의 오류율이다.
+- **오수락률(False Match Rate, FMR)**: 타인을 등록 사용자로 잘못 수락하는 비율
+- **오거부율(False Non-Match Rate, FNMR)**: 등록 사용자를 잘못 거부하는 비율
+- **동일 오류율(Equal Error Rate, EER)**: FMR과 FNMR이 같아지는 판정 지점의 오류율
 - **판정 임계값** 은 유사도 점수를 수락과 거부로 나누는 기준값이다.
-- **PAD(Presentation Attack Detection)** 는 사진•모형•복제 지문 같은 위조 표본을 탐지하는 기술이다.
+- **제시 공격 탐지(Presentation Attack Detection, PAD)**: 사진•모형•복제 지문 같은 위조 표본을 탐지하는 기술
 
 </details>
 
@@ -102,18 +102,23 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant S as 센서
-    participant A as 생체 인증기
-    U->>S: 지문•얼굴•홍채 표본 제시
-    S->>S: 1. 생체 표본 수집•디지털화
-    S->>A: 원시 생체 표본
-    A->>A: 2. 품질•PAD•특징 추출
-    A->>A: 3. 템플릿 유사도 계산
-    A->>A: 4. 임계값•대체 인증 판정
-    A-->>U: 인증 결과
+```text
+[지문•얼굴•홍채 표본]
+          |
+          v
+1. 생체 표본 수집•디지털화
+          |
+          v
+2. 품질•PAD•특징 추출
+          |
+          v
+3. 템플릿 유사도 계산
+          |
+          v
+4. 임계값•대체 인증 판정
+          |
+          v
+[인증 결과]
 ```
 
 **동작 원리**

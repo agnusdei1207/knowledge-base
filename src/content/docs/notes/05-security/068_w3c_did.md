@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "W3C DID 표준 (W3C DID Standard)"
-date: "2026-08-05T11:20:00+09:00"
+date: "2026-08-05T17:33:21+09:00"
 tags:
   - "notes-security"
 weight: 68
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **W3C(World Wide Web Consortium)** 는 웹 기술의 상호운용 표준을 개발하는 국제 협력체다.
-- **DID(Decentralized Identifier)** 는 중앙 등록기관 없이 검증 키와 제어 관계를 확인할 수 있는 식별자다.
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 기술의 상호운용 표준을 개발하는 국제 협력체
+- **분산 식별자(Decentralized Identifier, DID)**: 중앙 등록기관 없이 검증 키와 제어 관계를 확인하는 식별자
 - **W3C DID 표준** 은 DID의 구문•문서•검증 관계•해석 절차를 규정한 표준이다.
-- **URI(Uniform Resource Identifier)** 는 자원의 이름이나 위치를 식별하는 문자열 형식이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 자원의 이름이나 위치를 식별하는 문자열 형식
 
 </details>
 
-- 정의/개념: **W3C DID** 는 중앙 등록기관 없이 주체가 제어하는 식별자의 URI 구문•DID 문서•생성•해석•갱신 절차를 규정한 분산 식별자 표준
+- 정의/개념: DID 구문•문서•해석•갱신을 규정한 **W3C 분산 식별자 표준**
 - 배경/필요성: 방법별 저장•해석 규칙 차이로 **키 해석 불일치**
 
 #### 한줄 요약
@@ -98,19 +98,43 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant V as 검증자
-    participant R as DID 해석기
-    participant M as DID 방법
-    V->>R: 검증 대상 DID 해석 요청
-    R->>R: 1. DID URI•방법 구문 해석
-    R->>M: 현재 상태 조회
-    M->>M: 2. 최신 DID 문서•상태 해석
-    M-->>R: DID 문서•상태
-    R->>R: 3. 문서•해석 메타데이터 검증
-    R-->>V: 문서•해석 메타데이터
-    V->>V: 4. 키 용도•제어 상태 판정
+```text
+[검증자]
+      |
+      `-- 검증 대상 DID 해석 요청
+                  |
+                  v
+[DID 해석기]
+      |
+      v
+1. DID URI•방법 구문 해석
+      |
+      `-- 현재 상태 조회
+                  |
+                  v
+[DID 방법]
+      |
+      v
+2. 최신 DID 문서•상태 해석
+      |
+      `-- DID 문서•상태
+                  |
+                  v
+[DID 해석기]
+      |
+      v
+3. 문서•해석 메타데이터 검증
+      |
+      `-- 문서•해석 메타데이터
+                  |
+                  v
+[검증자]
+      |
+      v
+4. 키 용도•제어 상태 판정
+      |
+      v
+[검증 결과]
 ```
 
 **동작 원리**
@@ -150,7 +174,7 @@ sequenceDiagram
 - **키 회전** 은 기존 검증 키를 새 키로 교체하고 변경 이력을 반영하는 절차다.
 - **키 복구** 는 키 분실 때 검증된 절차로 DID의 통제권을 되찾는 설계다.
 - **쌍별 DID** 는 서비스마다 다른 식별자를 사용해 활동 간 연결을 줄이는 방식이다.
-- **VC(Verifiable Credential)** 는 발급자가 주체의 자격 주장을 디지털 서명한 증명서다.
+- **검증 가능 자격증명(Verifiable Credential, VC)**: 발급자가 주체의 자격 주장을 디지털 서명한 증명서
 
 </details>
 

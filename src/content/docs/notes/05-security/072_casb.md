@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CASB 클라우드 접근 보안 브로커 (Cloud Access Security Broker)"
-date: "2026-08-05T11:24:00+09:00"
+date: "2026-08-05T17:36:44+09:00"
 tags:
   - "notes-security"
 weight: 72
@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CASB(Cloud Access Security Broker)** 는 사용자와 클라우드 서비스 사이에서 접근•데이터•위협•준수 정책을 중개하는 통제 지점이다.
-- **SaaS(Software as a Service)** 는 공급자가 운영하는 완성된 애플리케이션을 인터넷으로 제공하는 서비스 모델이다.
+- **클라우드 접근 보안 브로커(Cloud Access Security Broker, CASB)**: 접근•데이터•위협•준수 정책을 중개하는 통제 지점
+- **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 완성 애플리케이션을 인터넷으로 제공하는 모델
 
 </details>
 
-- 정의/개념: **CASB** 는 사용자와 클라우드 서비스 사이에서 접근•데이터•위협•준수 정책을 중개하고 집행하는 **클라우드 보안 통제 지점**
+- 정의/개념: SaaS의 접근•데이터•위협 정책을 중개하는 **CASB 통제 지점**
 - 배경/필요성: 경계 보안으로는 **SaaS 사용•저장 데이터 파악 불가**
 
 #### 한줄 요약
@@ -93,27 +93,42 @@ extra:
 - **인라인 검사** 는 사용자 요청 경로에서 업로드•다운로드를 즉시 검사하는 방식이다.
 - **API 사후 점검** 은 이미 저장된 데이터와 공유 권한을 API로 다시 확인하는 방식이다.
 - **보호 조치 결정**: 요청 맥락과 데이터 민감도에 따라 허용•차단•암호화•MFA 중 적절한 대응을 선택하는 과정이다.
-- **MFA(Multi-Factor Authentication)** 는 서로 다른 종류의 인증 요소를 둘 이상 확인하는 방식이다.
+- **다중 요소 인증(Multi-Factor Authentication, MFA)**: 서로 다른 종류의 인증 요소를 둘 이상 확인하는 방식
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant P as CASB
-    participant S as SaaS
-    U->>P: 로그인•업로드•공유 요청
-    P->>P: 1. 신원•기기•데이터 맥락 확인
-    P->>P: 2. 보호 조치 결정
-    P->>P: 3. 인라인 DLP•접근 정책 집행
-    P->>S: 승인 작업
-    S-->>U: SaaS 응답
-    loop API 사후 점검
-        P->>S: 저장 데이터•권한 조회
-        S-->>P: 저장 상태•공유 정보
-        P->>P: 4. 저장 데이터•공유 정책 평가
-        P->>P: 5. 위반 조치•정책 환류
-    end
+```text
+실시간 요청 통제
+
+[로그인•업로드•공유 요청]
+          |
+          v
+1. 신원•기기•데이터 맥락 확인
+          |
+          v
+2. 보호 조치 결정
+          |
+          v
+3. 인라인 DLP•접근 정책 집행
+          |
+          v
+[SaaS 응답]
+
+저장 상태 사후 점검
+
+[주기•사건 기반 API 점검]
+          |
+          v
+[저장 데이터•공유 정보 조회]
+          |
+          v
+4. 저장 데이터•공유 정책 평가
+          |
+          v
+5. 위반 조치•정책 환류
+          |
+          v
+[공유 회수•격리 결과]
 ```
 
 **동작 원리**
@@ -131,7 +146,7 @@ sequenceDiagram
 
 <details><summary>핵심 용어</summary>
 
-- **TLS(Transport Layer Security) 검사 부담** 은 암호화 통신의 복호화•재암호화로 생기는 지연과 인증서 운영 비용이다.
+- **전송 계층 보안(Transport Layer Security, TLS) 검사 부담**: 암호화 통신의 복호화•재암호화 지연과 인증서 운영 비용
 
 </details>
 

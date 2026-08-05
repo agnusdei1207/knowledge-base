@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 신원 — DID•SSI (Decentralized Identity DID SSI)"
-date: "2026-08-05T01:43:14+09:00"
+date: "2026-08-05T17:31:58+09:00"
 tags:
   - "notes-security"
 weight: 66
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DID(Decentralized Identifier)** 는 중앙 등록기관 없이 검증 키와 제어 관계를 확인하는 식별자다.
-- **SSI(Self-Sovereign Identity)** 는 개인이 자격을 보유하고 필요한 정보만 제시하는 신원 관리 원칙이다.
-- **VC(Verifiable Credential)** 는 발급자가 주체에 관한 주장을 디지털 서명한 기계 판독형 자격 증명이다.
+- **분산 식별자(Decentralized Identifier, DID)**: 중앙 등록기관 없이 검증 키와 제어 관계를 확인하는 식별자
+- **자기주권 신원(Self-Sovereign Identity, SSI)**: 개인이 자격을 보유하고 필요한 정보만 제시하는 신원 원칙
+- **검증 가능 자격증명(Verifiable Credential, VC)**: 발급자가 주체의 주장을 디지털 서명한 기계 판독형 자격
 
 </details>
 
-- 정의/개념: **DID•SSI** 는 사용자가 분산 식별자와 검증 가능 자격증명을 지갑에 보유하고 필요한 속성만 직접 제시•검증하게 하는 분산 디지털 신원 체계
+- 정의/개념: 보유자가 **VC**를 관리하고 필요한 속성만 제시하는 **DID•SSI 체계**
 - 배경/필요성: 중앙 신원 저장으로 **기관 종속•정보 과다 제공**
 
 #### 한줄 요약
@@ -40,7 +40,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **DID 문서**: DID의 검증 키•서비스 주소•키 용도와 제어 관계를 나타내는 문서이다.
-- **VP(Verifiable Presentation)** 는 보유자가 하나 이상의 VC에서 구성해 검증자에게 제출하는 증명이다.
+- **검증 가능 프레젠테이션(Verifiable Presentation, VP)**: 보유자가 하나 이상의 VC로 구성해 검증자에게 제출하는 증명
 - **선택적 공개** 는 요청 목적에 필요한 자격 속성만 골라 제시하는 기능이다.
 
 </details>
@@ -94,24 +94,58 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant I as 발급자
-    participant H as 보유자•지갑
-    participant V as 검증자
-    participant T as 신뢰•상태 체계
-    H->>I: 주체 정보•자격 발급 요청
-    I->>I: 1. 주체•자격 주장 검증
-    I->>I: 2. DID 키 기반 VC 서명
-    I-->>H: 서명 VC
-    V->>H: 속성•목적 증명 요청
-    H->>H: 3. 동의•선택 공개 VP 생성
-    H-->>V: 최소 VP
-    V->>T: 발급자•상태 조회
-    T-->>V: 신뢰•폐기•기한 정보
-    V->>V: 4. 발급자•상태•키 검증
-    V->>V: 5. 증명•목적 적합성 판정
-    V-->>H: 검증 결과
+```text
+자격 발급
+
+[보유자•지갑]
+      |
+      `-- 주체 정보•자격 발급 요청
+                     |
+                     v
+[발급자]
+      |
+      v
+1. 주체•자격 주장 검증
+      |
+      v
+2. DID 키 기반 VC 서명
+      |
+      `-- 서명 VC ----> [보유자•지갑]
+
+증명 제시•검증
+
+[검증자]
+      |
+      `-- 속성•목적 증명 요청
+                  |
+                  v
+[보유자•지갑]
+      |
+      v
+3. 동의•선택 공개 VP 생성
+      |
+      `-- 최소 VP
+             |
+             v
+[검증자]
+      |
+      `-- 발급자•상태 조회
+                  |
+                  v
+[신뢰•상태 체계]
+      |
+      `-- 신뢰•폐기•기한 정보
+                  |
+                  v
+[검증자]
+      |
+      v
+4. 발급자•상태•키 검증
+      |
+      v
+5. 증명•목적 적합성 판정
+      |
+      `-- 검증 결과 ----> [보유자]
 ```
 
 **동작 원리**
