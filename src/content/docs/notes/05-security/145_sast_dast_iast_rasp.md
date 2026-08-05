@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: SAST•DAST•IAST•RASP
-date: "2026-08-05T13:01:00+09:00"
+date: "2026-08-05T17:50:42+09:00"
 tags:
   - notes-security
 weight: 145
@@ -39,10 +39,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SAST(Static Application Security Testing)**: 소스 코드를 정적으로 검사하는 시험이다.
-- **DAST(Dynamic Application Security Testing)**: 실행 응용을 외부에서 검사하는 시험이다.
-- **IAST(Interactive Application Security Testing)**: 내부 계측으로 실행 경로를 검사하는 시험이다.
-- **RASP(Runtime Application Self-Protection)**: 운영 맥락에서 공격을 탐지•완화하는 기술이다.
+- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 소스 코드를 정적으로 검사하는 시험이다.
+- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 응용을 외부에서 검사하는 시험이다.
+- **상호작용 응용 보안 시험(Interactive Application Security Testing, IAST)**: 내부 계측으로 실행 경로를 검사하는 시험이다.
+- **런타임 응용 자가 보호(Runtime Application Self-Protection, RASP)**: 운영 맥락에서 공격을 탐지•완화하는 기술이다.
 
 </details>
 
@@ -59,19 +59,22 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SCA(Software Composition Analysis)**: 제3자 구성요소의 취약점•라이선스를 분석한다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 제3자 구성요소의 취약점•라이선스를 분석한다.
 - **응용보안 결과 연계**: SAST•DAST•IAST•RASP 결과를 실제 경로와 연결한다.
 - **도달 가능성**: 취약 코드가 실제 입력•실행 경로에서 호출되는지를 나타내는 속성이다.
 
 </details>
 
 ```text
-                    [도달 가능성•영향 위험관리]
-                    /          |          |          \
-       [SAST•SCA 코드 검사] [IAST 내부 실행 계측] [DAST 외부 동적 검증] [RASP 운영 보호]
+응용 보안 검증 체계
+├─ SAST•SCA 코드 검사
+├─ IAST 내부 실행 계측
+├─ DAST 외부 동적 검증
+├─ RASP 운영 보호
+└─ 도달 가능성•영향 위험관리
 ```
 
-선의 의미: 도달 가능성•영향 위험관리가 정적 코드, 내부 실행, 외부 동적, 운영 보호의 독립 결과를 실제 노출과 업무 영향 기준으로 결합하는 구조
+가지의 의미: 코드•실행•운영 관점의 검증과 통합 위험관리 책임을 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -94,25 +97,25 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant T as 제품팀
-  participant S as 정적 검사
-  participant D as 동적•상호작용 검사
-  participant R as 위험관리
-  participant O as 운영 보호
-  T->>S: 코드•구성요소 제출
-  S->>S: 1. 정적 코드•구성요소 분석
-  T->>D: 시험 대상•역할•인증정보 제공
-  D->>D: 2. 동적•상호작용 경로 검증
-  S->>R: 정적 검사 결과 전달
-  D->>R: 동적 검사 결과 전달
-  R->>R: 3. 도달 가능성•악용성•영향 분석
-  R->>T: 수정 대상•우선순위 전달
-  T->>T: 4. 코드•설정•의존성 근본 수정
-  T->>O: 수정 빌드 배포
-  O->>O: 5. 회귀검증•운영 공격 관측
-  O-->>T: 잔여위험 결과 환류
+```text
+코드•구성요소와 시험 대상 제공
+               │
+               ├─ 코드•구성요소
+               │   └─► 1. 정적 코드•구성요소 분석 ─┐
+               │                                    │
+               └─ 실행•시험 경로                    │
+                   └─► 2. 동적•상호작용 경로 검증 ──┤
+                                                    ▼
+                          3. 도달 가능성•악용성•영향 분석
+                                                    │
+                                                    ▼
+                          4. 코드•설정•의존성 근본 수정
+                                                    │
+                                                    ▼
+                          5. 회귀검증•운영 공격 관측
+                                                    │
+                                                    ▼
+                                       잔여위험 결과 환류
 ```
 
 **동작 원리**
@@ -154,12 +157,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
-- **ASVS(Application Security Verification Standard)**: 응용 보안 검증표준이다.
-- **WSTG(Web Security Testing Guide)**: 웹 보안 시험 가이드이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SSDF(Secure Software Development Framework)**: 안전한 소프트웨어 개발 프레임워크이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
+- **응용 보안 검증 표준(Application Security Verification Standard, ASVS)**: 응용 보안 검증 기준이다.
+- **웹 보안 시험 가이드(Web Security Testing Guide, WSTG)**: 웹 보안 시험 지침이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF)**: 안전한 개발 관행 체계이다.
+- **특별간행물(Special Publication, SP)**: NIST가 발행하는 기술 지침이다.
 
 </details>
 

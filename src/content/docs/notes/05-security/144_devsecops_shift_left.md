@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)
-date: "2026-08-05T13:00:00+09:00"
+date: "2026-08-05T17:49:08+09:00"
 tags:
   - notes-security
 weight: 144
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DevSecOps(Development, Security, and Operations)**: 개발•보안•운영팀이 보안을 공동 운영하는 방식이다.
+- **개발•보안•운영(Development, Security, and Operations, DevSecOps)**: 세 팀이 보안을 공동 운영하는 방식이다.
 
 </details>
 
@@ -41,7 +41,7 @@ extra:
 
 - **Shift Left•Right**: 보안을 개발 초기로 앞당기고 운영 관측•사고 결과를 다시 개발로 돌리는 접근이다.
 - **코드형 보안**: 정책•검사•구성•증거를 코드와 버전관리로 반복 실행하는 방식이다.
-- **IaC(Infrastructure as Code)**: 인프라 구성과 정책을 코드로 정의하는 방식이다.
+- **코드형 인프라(Infrastructure as Code, IaC)**: 인프라 구성과 정책을 코드로 정의하는 방식이다.
 
 </details>
 
@@ -59,20 +59,23 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SBOM(Software Bill of Materials)**: 구성요소의 출처•의존성을 기록한 명세서이다.
-- **SAST(Static Application Security Testing)**: 소스 코드를 정적으로 검사하는 시험이다.
-- **SCA(Software Composition Analysis)**: 오픈소스 구성요소를 분석하는 시험이다.
-- **DAST(Dynamic Application Security Testing)**: 실행 중인 응용을 동적으로 검사하는 시험이다.
+- **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 구성요소의 출처•의존성을 기록한 명세서이다.
+- **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 소스 코드를 정적으로 검사하는 시험이다.
+- **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 오픈소스 구성요소를 분석하는 시험이다.
+- **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 중인 응용을 동적으로 검사하는 시험이다.
 
 </details>
 
 ```text
-                       [검증•위험 게이트•배포]
-                    /          |          |          \
-       [보안 요구•위협모델] [코드•의존성 검사] [격리 빌드•SBOM•출처] [운영 관측•사고 환류]
+DevSecOps 통제 구조
+├─ 보안 요구•위협모델
+├─ 코드•의존성 검사
+├─ 격리 빌드•SBOM•출처
+├─ 검증•위험 게이트•배포
+└─ 운영 관측•사고 환류
 ```
 
-선의 의미: 검증•위험 게이트가 보안 요구, 코드•의존성 검사, 격리 빌드•출처 증명, 운영 관측 증거를 공통 판단 근거로 결합하는 정적 DevSecOps 통제 구조
+가지의 의미: 요구부터 운영 환류까지 DevSecOps의 정적 통제 책임을 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -91,28 +94,34 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CI/CD(Continuous Integration/Continuous Delivery)**: 통합•시험•배포를 자동화하는 파이프라인이다.
+- **지속적 통합•제공(Continuous Integration/Continuous Delivery, CI/CD)**: 통합•시험•배포를 자동화하는 파이프라인이다.
 - **보안 게이트**: 위험 기준으로 파이프라인 진행 여부를 결정하는 통제점이다.
 - **IaC 검증**: 인프라 변경을 배포 전 자동 검사하는 활동이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant T as 제품팀
-  participant P as 보안 파이프라인
-  participant O as 운영 환경
-  T->>T: 1. 변경•위협•데이터 흐름 분석
-  T->>P: 변경 정보 전달
-  P->>P: 2. 코드•의존성•IaC 자동 검증
-  P->>P: 3. 위험•예외•출처 기반 배포 판정
-  P->>O: 승인된 변경 배포
-  loop 운영 피드백
-    O->>O: 4. 행위•사고•취약점 관측
-    O->>T: 운영 증거 전달
-    T->>T: 5. 요구•정책•시험 재발 방지
-    T->>P: 갱신 요구 전달
-  end
+```text
+변경 요구•위협•데이터 흐름
+             │
+             ▼
+1. 변경•위협•데이터 흐름 분석
+             │
+             ▼
+2. 코드•의존성•IaC 자동 검증
+             │
+             ▼
+3. 위험•예외•출처 기반 배포 판정
+             │ 승인
+             ▼
+        운영 환경 배포
+             │
+             ▼
+4. 행위•사고•취약점 관측
+             │
+             ▼
+5. 요구•정책•시험 재발 방지
+             │ 갱신된 요구•시험
+             └──────────────────► 1단계부터 반복
 ```
 
 **동작 원리**
@@ -155,12 +164,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SSDF(Secure Software Development Framework)**: 안전한 소프트웨어 개발 관행 프레임워크이다.
-- **SLSA(Supply-chain Levels for Software Artifacts)**: 소프트웨어 공급망 보증 수준 체계이다.
-- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
-- **SAMM(Software Assurance Maturity Model)**: 소프트웨어 보증 성숙도 모델이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
+- **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF)**: 안전한 개발 관행 체계이다.
+- **소프트웨어 아티팩트 공급망 수준(Supply-chain Levels for Software Artifacts, SLSA)**: 공급망 보증 수준 체계이다.
+- **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
+- **소프트웨어 보증 성숙도 모델(Software Assurance Maturity Model, SAMM)**: 소프트웨어 보증 역량 평가 모델이다.
+- **특별간행물(Special Publication, SP)**: NIST가 발행하는 기술 지침이다.
 
 </details>
 

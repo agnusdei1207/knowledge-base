@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 데이터 보안 — DRM•DLP 비교 (DRM DLP)
-date: "2026-08-05T01:50:48+09:00"
+date: "2026-08-05T17:46:10+09:00"
 tags:
   - notes-security
 weight: 142
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DRM(Digital Rights Management)**: 배포 후 파일 사용 권한을 통제하는 기술이다.
-- **DLP(Data Loss Prevention)**: 민감정보의 비인가 이동을 차단하는 통제이다.
+- **디지털 권리 관리(Digital Rights Management, DRM)**: 배포 후 파일 사용 권한을 통제하는 기술이다.
+- **데이터 유출 방지(Data Loss Prevention, DLP)**: 민감정보의 비인가 이동을 차단하는 통제이다.
 
 </details>
 
@@ -60,19 +60,22 @@ extra:
 <summary>핵심 용어</summary>
 
 - **라이선스 서버**: DRM 문서의 권한과 키 사용을 결정하는 서버이다.
-- **USB(Universal Serial Bus)**: 단말과 주변장치를 연결하는 범용 직렬 버스이다.
-- **Endpoint DLP**: USB•인쇄•업로드 등 단말 이동을 통제한다.
-- **API(Application Programming Interface) 검사**: 서비스 간 전송 데이터를 검사하는 통제이다.
+- **범용 직렬 버스(Universal Serial Bus, USB)**: 단말과 주변장치를 연결하는 직렬 버스이다.
+- **엔드포인트 데이터 유출 방지(Endpoint Data Loss Prevention, Endpoint DLP)**: USB•인쇄•업로드 등 단말 이동을 통제한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 검사**: 서비스 간 전송 데이터를 검사하는 통제이다.
 
 </details>
 
 ```text
-[데이터 발견•분류•표시]---[신원•정책•예외 관리]
-             |                         |
-[DRM 암호화•권리 집행]---[DLP 이동 경로 집행]---[감사•사고•정책 환류]
+DRM•DLP 통합 데이터 보안
+├─ 데이터 발견•분류•표시
+├─ 신원•정책•예외 관리
+├─ DRM 암호화•권리 집행
+├─ DLP 이동 경로 집행
+└─ 감사•사고•정책 환류
 ```
 
-선의 의미: 공통 데이터 분류와 신원•정책을 기반으로 DRM 권리 집행, DLP 이동 통제, 감사•사고 관리가 결합되는 데이터 보안 구조를 나타낸다.
+가지의 의미: 공통 분류를 기준으로 권리•이동 집행과 감사 책임을 분해한 정적 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,22 +99,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant U as 사용자
-  participant P as 분류•정책 엔진
-  participant R as DRM 집행
-  participant D as DLP 집행
-  U->>P: 데이터 사용•반출 요청
-  P->>P: 1. 데이터 내용•소유자 식별
-  P->>P: 2. 등급•신원•업무 정책 조회
-  P->>R: 사용 권한 정책 전달
-  R->>R: 3. 열람•편집•출력 권한 집행
-  R->>D: 보호 데이터•반출 맥락 전달
-  D->>D: 4. 복사•전송 경로 검사
-  D->>P: 허용•차단•예외 결과 전달
-  P->>P: 5. 위반•오탐•예외 정책 보정
-  D-->>U: 사용•반출 결과 통지
+```text
+데이터 사용•반출 요청
+          │
+          ▼
+1. 데이터 내용•소유자 식별
+          │
+          ▼
+2. 등급•신원•업무 정책 조회
+          │
+          ├─ 사용 요청
+          │   └─► 3. 열람•편집•출력 권한 집행 ─┐
+          │                                     │
+          └─ 반출 요청                          │
+              └─► 4. 복사•전송 경로 검사 ──────┤
+                                                ▼
+                                     허용•차단•예외 결과
+                                                │
+                                                ▼
+                                     5. 위반•오탐•예외 정책 보정
+                                                │
+                                                ▼
+                                         처리 결과 통지
 ```
 
 **동작 원리**
@@ -131,7 +140,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **IRM(Information Rights Management)**: 기업 정보에 세분화된 권한을 적용하는 체계이다.
+- **정보 권리 관리(Information Rights Management, IRM)**: 기업 정보에 세분화된 권한을 적용하는 체계이다.
 - **저장•전송 암호화(Data-at-rest/In-transit Encryption)**: 저장소와 통신 구간의 데이터를 암호문으로 보호해 탈취•도청 시 평문 노출을 막는다.
 
 </details>
@@ -153,10 +162,10 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **W3C(World Wide Web Consortium)**: 웹 표준을 개발하는 국제 컨소시엄이다.
-- **ODRL(Open Digital Rights Language)**: 디지털 권리 정책 표현 언어이다.
-- **ISO(International Organization for Standardization)**: 국제표준화기구이다.
-- **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
+- **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 표준을 개발하는 국제 컨소시엄이다.
+- **개방형 디지털 권리 언어(Open Digital Rights Language, ODRL)**: 디지털 권리 정책 표현 언어이다.
+- **국제표준화기구(International Organization for Standardization, ISO)**: 국제 표준을 개발하는 기구이다.
+- **국제전기기술위원회(International Electrotechnical Commission, IEC)**: 전기•전자 국제 표준을 개발하는 기구이다.
 - **분류 기반 적용**: 디지털 권리관리(DRM), 데이터 유출방지(DLP), 응용 프로그래밍 인터페이스(Application Programming Interface, API) 전송 통제를 공통 분류 기준으로 운영한다.
 
 </details>

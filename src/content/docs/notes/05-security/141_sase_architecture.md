@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 보안 접근 서비스 경계(Secure Access Service Edge, SASE) 아키텍처
-date: "2026-08-05T01:50:48+09:00"
+date: "2026-08-05T17:44:39+09:00"
 tags:
   - notes-security
 weight: 141
@@ -23,10 +23,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SASE(Secure Access Service Edge)**: 광역망 연결과 보안을 근접 거점에서 제공하는 구조이다.
-- **PoP(Point of Presence)**: 사용자 가까이에서 연결•보안을 처리하는 접속 거점이다.
-- **SD-WAN(Software-Defined Wide Area Network)**: 응용 정책으로 광역망 경로를 선택하는 기술이다.
-- **SSE(Security Service Edge)**: 클라우드 접근 보안을 통합 제공하는 구조이다.
+- **보안 접근 서비스 경계(Secure Access Service Edge, SASE)**: 광역망 연결과 보안을 근접 거점에서 제공하는 구조이다.
+- **접속 거점(Point of Presence, PoP)**: 사용자 가까이에서 연결•보안을 처리하는 접속 거점이다.
+- **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)**: 응용 정책으로 광역망 경로를 선택하는 기술이다.
+- **보안 서비스 경계(Security Service Edge, SSE)**: 클라우드 접근 보안을 통합 제공하는 구조이다.
 
 </details>
 
@@ -58,21 +58,24 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SWG(Secure Web Gateway)**: 웹 트래픽을 검사•통제하는 게이트웨이이다.
-- **CASB(Cloud Access Security Broker)**: 클라우드 접근 보안 중개 기능이다.
-- **ZTNA(Zero Trust Network Access)**: 신원•맥락 기반 응용 접근 기능이다.
-- **FWaaS(Firewall as a Service)**: 클라우드형 방화벽 서비스이다.
-- **IdP(Identity Provider)**: 사용자 신원을 인증•제공하는 체계이다.
+- **보안 웹 게이트웨이(Secure Web Gateway, SWG)**: 웹 트래픽을 검사•통제하는 게이트웨이이다.
+- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 클라우드 접근 보안 중개 기능이다.
+- **제로 트러스트 네트워크 접근(Zero Trust Network Access, ZTNA)**: 신원•맥락 기반 응용 접근 기능이다.
+- **서비스형 방화벽(Firewall as a Service, FWaaS)**: 클라우드형 방화벽 서비스이다.
+- **신원 제공자(Identity Provider, IdP)**: 사용자 신원을 인증•제공하는 체계이다.
 
 </details>
 
 ```text
-[사용자•지점•SD-WAN 연결]---[신원•기기•위험 맥락]---[정책 결정•통합 관제]
-              |                                            |
-     [SWG•CASB•ZTNA•FWaaS]----------------[분산 PoP•공급자 백본]
+SASE 아키텍처
+├─ 사용자•지점•SD-WAN 연결
+├─ 신원•기기•위험 맥락
+├─ 정책 결정•통합 관제
+├─ SWG•CASB•ZTNA•FWaaS
+└─ 분산 PoP•공급자 백본
 ```
 
-선의 의미: 사용자•지점 연결과 신원•기기 맥락을 공통 정책, SSE 보안 기능, 분산 PoP•백본이 함께 사용하는 SASE 배치 구조를 나타낸다.
+가지의 의미: SASE를 연결•맥락•정책•보안•전송 책임으로 분해한 정적 구조를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -96,20 +99,29 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant U as 사용자•지점
-  participant S as SASE 서비스
-  participant A as 대상 응용
-  U->>S: 신원•기기•응용 접근 요청
-  S->>S: 1. 지연•가용성 기반 PoP 선택
-  S->>S: 2. 맥락•위험•데이터 정책 판정
-  S->>S: 3. SSE 검사 정책 적용
-  S->>S: 4. SD-WAN 경로•접근 집행
-  S->>A: 허용된 응용 접근 전달
-  A->>S: 세션 행위•장애 정보 전달
-  S->>S: 5. 세션 위험 지속 평가
-  A-->>U: 허용 응용 응답
+```text
+사용자•지점의 응용 접근 요청
+              │
+              ▼
+1. 지연•가용성 기반 PoP 선택
+              │
+              ▼
+2. 맥락•위험•데이터 정책 판정
+              │
+              ▼
+3. SSE 검사 정책 적용
+              │
+              ▼
+4. SD-WAN 경로•접근 집행
+              │
+              ▼
+허용된 응용 연결과 결과 반환
+              │
+              ▼
+5. 세션 위험 지속 평가
+              │ 행위•장애에 따른 정책 갱신
+              └───────────────────────┐
+                                      └─ 2단계부터 재판정
 ```
 
 **동작 원리**
@@ -151,13 +163,13 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **MEF(Metro Ethernet Forum)**: 네트워크 서비스 표준을 개발하는 산업 포럼이다.
+- **메트로 이더넷 포럼(Metro Ethernet Forum, MEF)**: 네트워크 서비스 표준을 개발하는 산업 포럼이다.
 - **MEF 117**: SASE 서비스 속성 표준이다.
 - **MEF 118.1**: 제로 트러스트 서비스 프레임워크이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
+- **특별간행물(Special Publication, SP)**: NIST가 발행하는 기술 지침이다.
 - **NIST SP 800-207**: 제로 트러스트 아키텍처 지침이다.
-- **SLA(Service Level Agreement)**: 가용성•성능•책임 수준의 계약 기준이다.
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 가용성•성능•책임 수준의 계약 기준이다.
 
 </details>
 
@@ -177,7 +189,7 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **대체 PoP**: 거점 장애 시 세션을 이어가기 위한 다른 공급자 거점이다.
-- **WAN(Wide Area Network)**: 넓은 지역을 연결하는 광역망이다.
+- **광역망(Wide Area Network, WAN)**: 넓은 지역을 연결하는 통신망이다.
 
 </details>
 

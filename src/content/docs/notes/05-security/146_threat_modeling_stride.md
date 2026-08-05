@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: 위협 모델링 — STRIDE•DREAD (Threat Modeling STRIDE)
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:52:31+09:00"
 tags:
   - notes-security
 weight: 146
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **STRIDE(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege)**: 여섯 범주로 위협 누락을 점검하는 분류법이다.
+- **신원 위조•변조•부인•정보 노출•서비스 거부•권한 상승(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: 여섯 범주로 위협 누락을 점검하는 분류법이다.
 - **양방향 추적**: 위협을 보안 요구•통제•시험•운영 결과에 연결하고 반대 방향에서도 근거를 확인할 수 있게 하는 관리 방식이다.
 
 </details>
@@ -58,10 +58,21 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **DFD(Data Flow Diagram)**: 주체•프로세스•저장소•정보 흐름을 표현한 도식이다.
+- **데이터 흐름도(Data Flow Diagram, DFD)**: 주체•프로세스•저장소•정보 흐름을 표현한 도식이다.
 - **신뢰 경계**: 데이터나 실행 주체가 이동할 때 정책•권한•신뢰 수준이 달라지는 지점이다.
 
 </details>
+
+```text
+위협 모델
+├─ 범위•자산•가정
+├─ DFD•신뢰 경계
+├─ 공격자•STRIDE 시나리오
+├─ 위험•대응•잔여위험
+└─ 보안 요구•시험•추적
+```
+
+가지의 의미: 설계 경계에서 위협을 도출해 대응•시험까지 추적하는 정적 구성이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -85,21 +96,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 모델 소유자
-  participant S as 보안 아키텍처팀
-  participant V as 검증팀
-  participant R as 위험 책임자
-  O->>O: 1. 범위•자산•가정 정의
-  O->>S: 모델 범위 전달
-  S->>S: 2. DFD•신뢰 경계 분해
-  S->>S: 3. STRIDE•공격지식 위협 식별
-  S->>V: 위협 시나리오 전달
-  V->>V: 4. 가능성•영향•대응 검증
-  V->>R: 검증 결과 전달
-  R->>R: 5. 잔여위험 승인•갱신 조건 결정
-  R-->>O: 위협 모델 결과 전달
+```text
+시스템 설계•보호 대상
+          │
+          ▼
+1. 범위•자산•가정 정의
+          │
+          ▼
+2. DFD•신뢰 경계 분해
+          │
+          ▼
+3. STRIDE•공격지식 위협 식별
+          │
+          ▼
+4. 가능성•영향•대응 검증
+          │
+          ▼
+5. 잔여위험 승인•갱신 조건 결정
+          │
+          ▼
+  위협 모델 결과 반영
 ```
 
 **동작 원리**
@@ -119,7 +135,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **DREAD(Damage, Reproducibility, Exploitability, Affected Users, Discoverability)**: 다섯 평가 축으로 위험 순위를 참고하는 기법이다.
+- **피해•재현성•악용성•영향 사용자•발견성(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: 다섯 평가 축으로 위험 순위를 참고하는 기법이다.
 - **공격 트리**: 공격 목표를 달성하는 조건과 대체 경로를 계층적으로 분해하는 분석 기법이다.
 
 </details>
@@ -141,12 +157,12 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **SDL(Security Development Lifecycle)**: 보안 활동을 개발 수명주기에 통합하는 방법이다.
+- **보안 개발 수명주기(Security Development Lifecycle, SDL)**: 보안 활동을 개발 수명주기에 통합하는 방법이다.
 - **Microsoft SDL**: STRIDE 위협 식별을 포함한 Microsoft 개발 지침이다.
-- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
+- **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
 - **OWASP Threat Modeling**: 범위•위협•대응•충분성을 묻는 접근법이다.
 - **MITRE**: 공개 사이버보안 지식체계를 운영하는 비영리기관이다.
-- **CAPEC(Common Attack Pattern Enumeration and Classification)**: 공격 패턴을 구조화한 공개 지식기반이다.
+- **공통 공격 패턴 열거 및 분류(Common Attack Pattern Enumeration and Classification, CAPEC)**: 공격 패턴을 구조화한 공개 지식기반이다.
 
 </details>
 

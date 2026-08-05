@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 보안 정보 공유 플랫폼 — ISAC (ISAC)
-date: "2026-08-05T01:50:48+09:00"
+date: "2026-08-05T17:47:34+09:00"
 tags:
   - notes-security
 weight: 143
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **ISAC(Information Sharing and Analysis Center)**: 산업 위협정보를 공동 분석•공유하는 조직이다.
-- **CTI(Cyber Threat Intelligence)**: 공격 주체•행위•지표를 분석한 위협정보이다.
+- **정보공유분석센터(Information Sharing and Analysis Center, ISAC)**: 산업 위협정보를 공동 분석•공유하는 조직이다.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체•행위•지표를 분석한 위협정보이다.
 
 </details>
 
@@ -41,7 +41,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **회원 신뢰 모델**: 참여 자격•공유 범위•비밀 보호•책임을 회원 간 합의한 신뢰 구조이다.
-- **TLP(Traffic Light Protocol)**: 정보의 수신•재공유 범위를 표시하는 규칙이다.
+- **신호등 프로토콜(Traffic Light Protocol, TLP)**: 정보의 수신•재공유 범위를 표시하는 규칙이다.
 - **비식별 공유**: 식별 요소를 제거해 정보 노출을 줄이는 방식이다.
 
 </details>
@@ -59,13 +59,24 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IoC(Indicator of Compromise)**: 침해 흔적을 식별하는 관측 증거이다.
-- **TTP(Tactics, Techniques, and Procedures)**: 위협 행위자의 공격 방식•절차이다.
-- **STIX(Structured Threat Information eXpression)**: 위협 객체•관계의 표현 표준이다.
-- **TAXII(Trusted Automated eXchange of Intelligence Information)**: CTI 교환 프로토콜이다.
-- **API(Application Programming Interface)**: 시스템 기능을 호출하는 연결 규격이다.
+- **침해 지표(Indicator of Compromise, IoC)**: 침해 흔적을 식별하는 관측 증거이다.
+- **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)**: 위협 행위자의 공격 방식•절차이다.
+- **구조화된 위협정보 표현(Structured Threat Information eXpression, STIX)**: 위협 객체•관계의 표현 표준이다.
+- **위협정보 신뢰 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: CTI 교환 프로토콜이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 시스템 기능을 호출하는 연결 규격이다.
 
 </details>
+
+```text
+정보공유분석센터(ISAC)
+├─ 회원•공유 거버넌스
+├─ 회원•정부 CTI 수집
+├─ 출처•산업 영향 분석
+├─ STIX•TAXII•TLP 배포
+└─ 적중•오탐•철회 환류
+```
+
+가지의 의미: 산업별 위협정보의 수집•분석•제한 배포와 품질 환류 책임을 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -84,26 +95,34 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **REST(Representational State Transfer)**: 웹 자원을 상태 없이 교환하는 설계 방식이다.
-- **CSIRT(Computer Security Incident Response Team)**: 조직의 사고를 분석•대응하는 전담 조직이다.
+- **표현 상태 전이(Representational State Transfer, REST)**: 웹 자원을 상태 없이 교환하는 설계 방식이다.
+- **컴퓨터 보안 사고 대응팀(Computer Security Incident Response Team, CSIRT)**: 조직의 사고를 분석•대응하는 전담 조직이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 회원기관
-  participant G as 거버넌스
-  participant A as 분석센터
-  participant R as 회원 CSIRT
-  M->>G: CTI•출처•공유조건 제출
-  G->>G: 1. 출처•공유조건 검증
-  G->>G: 2. TLP•비식별•법적근거 확인
-  G->>A: 검증된 CTI 전달
-  A->>A: 3. 신뢰도•산업 영향•시효 분석
-  A->>A: 4. STIX•TAXII 배포객체 생성
-  A-->>R: TLP 범위 내 제한 배포
-  R->>A: 적중•오탐•철회 결과 전달
-  A->>A: 5. 품질•유효상태 갱신
+```text
+회원기관의 CTI•출처•공유조건 제출
+                 │
+                 ▼
+1. 출처•공유조건 검증
+                 │
+                 ▼
+2. TLP•비식별•법적근거 확인
+                 │
+                 ▼
+3. 신뢰도•산업 영향•시효 분석
+                 │
+                 ▼
+4. STIX•TAXII 배포객체 생성
+                 │
+                 ▼
+       TLP 범위 내 회원 배포
+                 │
+                 ▼
+       적중•오탐•철회 결과
+                 │
+                 ▼
+5. 품질•유효상태 갱신
 ```
 
 **동작 원리**
@@ -146,9 +165,9 @@ sequenceDiagram
 <summary>핵심 용어</summary>
 
 - **정보통신기반 보호법 제16조**: 분야별 정보공유•분석센터의 구축•운영과 수행 업무 근거이다.
-- **FIRST(Forum of Incident Response and Security Teams)**: 사고대응•보안팀 국제 포럼이다.
+- **사고대응•보안팀 포럼(Forum of Incident Response and Security Teams, FIRST)**: 사고대응팀 국제 포럼이다.
 - **FIRST TLP 2.0**: 정보의 공유 범위를 표시하는 규칙이다.
-- **OASIS(Organization for the Advancement of Structured Information Standards)**: 구조화 정보표준 촉진기구이다.
+- **구조화 정보표준 촉진기구(Organization for the Advancement of Structured Information Standards, OASIS)**: 구조화 정보 표준을 개발하는 기구이다.
 
 </details>
 

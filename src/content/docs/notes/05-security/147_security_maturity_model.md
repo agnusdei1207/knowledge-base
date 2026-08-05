@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T17:54:03+09:00"
 tags:
   - notes-security
 weight: 147
@@ -65,6 +65,17 @@ extra:
 
 </details>
 
+```text
+보안 성숙도 평가 체계
+├─ 평가 목적•위험 범위
+├─ 영역•관행•증거 기준
+├─ 현재•목표 프로파일
+├─ 격차•의존성 로드맵
+└─ 성과 지표•주기 재평가
+```
+
+가지의 의미: 평가 범위와 증거에서 개선 로드맵•재평가까지의 정적 구성을 나타낸다.
+
 | 구성요소 | 책임 |
 |:---|:---|
 | **평가 목적•위험 범위** | 자산•업무•법적 의무•**경계** |
@@ -87,23 +98,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 경영진
-  participant A as 평가팀
-  participant R as 영역•위험 책임자
-  participant I as 개선팀
-  M->>M: 1. 평가 목적•범위•모델 선정
-  M->>A: 평가 기준 전달
-  A->>R: 실행 증거 요청
-  R-->>A: 기록•인터뷰•성과 표본 반환
-  A->>A: 2. 표본 기간•실행 증거 검증
-  A->>A: 3. 현재 수준•목표 프로파일 판정
-  A->>R: 평가 결과 전달
-  R->>R: 4. 위험•의존성 기반 로드맵 수립
-  R->>I: 개선 로드맵 전달
-  I->>I: 5. 성과 측정•잔여위험 재평가
-  I-->>M: 개선 효과•투자 결과 보고
+```text
+평가 목적•업무 위험
+         │
+         ▼
+1. 평가 목적•범위•모델 선정
+         │
+         ▼
+2. 표본 기간•실행 증거 검증
+         │
+         ▼
+3. 현재 수준•목표 프로파일 판정
+         │
+         ▼
+4. 위험•의존성 기반 로드맵 수립
+         │
+         ▼
+5. 성과 측정•잔여위험 재평가
+         │
+         ▼
+개선 효과•투자 결과 반영
 ```
 
 **동작 원리**
@@ -123,19 +137,20 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **OWASP(Open Worldwide Application Security Project)**: 웹 응용 보안 공개 프로젝트이다.
-- **SAMM(Software Assurance Maturity Model)**: 소프트웨어 보증 성숙도 모델이다.
-- **BSIMM(Building Security In Maturity Model)**: 관찰 기반 소프트웨어 보안 벤치마킹 모델이다.
-- **DOE(Department of Energy)**: 미국 에너지부이다.
-- **C2M2(Cybersecurity Capability Maturity Model)**: 전사 사이버보안 역량 성숙도 모델이다.
-- **IT(Information Technology)**: 업무 정보를 처리•저장•전송하는 기술이다.
-- **OT(Operational Technology)**: 물리 공정•설비를 감시•제어하는 기술이다.
+- **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
+- **소프트웨어 보증 성숙도 모델(Software Assurance Maturity Model, SAMM)**: 소프트웨어 보증 역량 평가 모델이다.
+- **보안 구축 성숙도 모델(Building Security In Maturity Model, BSIMM)**: 관찰 기반 소프트웨어 보안 벤치마킹 모델이다.
+- **미국 에너지부(Department of Energy, DOE)**: 미국 에너지 정책을 담당하는 정부 부처이다.
+- **사이버보안 역량 성숙도 모델(Cybersecurity Capability Maturity Model, C2M2)**: 전사 사이버보안 역량 평가 모델이다.
+- **성숙도 지표 수준(Maturity Indicator Level, MIL)**: C2M2 관행의 제도화 단계를 나타내는 척도이다.
+- **정보기술(Information Technology, IT)**: 업무 정보를 처리•저장•전송하는 기술이다.
+- **운영기술(Operational Technology, OT)**: 물리 공정•설비를 감시•제어하는 기술이다.
 
 </details>
 
 | 성숙도 모델 | OWASP SAMM v2 | BSIMM | DOE C2M2 v2.1 |
 |:---|:---|:---|:---|
-| **적용 기준** | SW 보증 **로드맵 설계** | 실제 활동 **벤치마킹** | 전사 IT•OT **역량 개선** |
+| **적용 기준** | 소프트웨어 보증 **로드맵 설계** | 실제 활동 **벤치마킹** | 전사 IT•OT **역량 개선** |
 | **핵심 특징** | **5개 기능•15개 관행** | 관찰 기반 **활동 비교** | **10개 영역•3개 MIL** |
 | **한계** | **맥락 없는 일률 목표** | **활동 수와 효과 불일치** | **점수와 위험의 분리** |
 
@@ -150,16 +165,16 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **CSF(Cybersecurity Framework)**: 사이버보안 위험관리 결과 프레임워크이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
+- **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과 체계이다.
+- **특별간행물(Special Publication, SP)**: NIST가 발행하는 기술 지침이다.
 - **NIST SP 1302**: CSF 조직 프로파일 활용 지침이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **SW 보증 역량 개선** | **OWASP SAMM v2 적용** | 관행별 **단계 로드맵** 확보 |
+| **소프트웨어 보증 역량 개선** | **OWASP SAMM v2 적용** | 관행별 **단계 로드맵** 확보 |
 | **전사 IT•OT 역량 평가** | **DOE C2M2 v2.1 적용** | 10개 영역별 **격차 식별** |
 | **위험관리 성숙도 표현** | **NIST CSF 2.0•SP 1302 적용** | **프로파일•티어 연계** |
 
@@ -177,7 +192,7 @@ sequenceDiagram
 
 </details>
 
-- SW 보증은 **SAMM**, 전사 IT•OT는 **C2M2**, 고위험 격차부터 투자
+- 소프트웨어 보증은 **SAMM**, 전사 IT•OT는 **C2M2**, 고위험 격차부터 투자
 
 #### 한줄 요약
 
