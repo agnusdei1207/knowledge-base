@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "국가 디지털 경쟁력 지수 (National Digital Competitiveness)"
-date: "2026-08-05T14:20:11+09:00"
+date: "2026-08-06T00:08:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 11
@@ -89,17 +89,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant E as 평가기관
-    participant D as 자료제공기관
-    participant G as 정책기관
-    G->>E: 평가 범위•정책 목표 전달
-    E->>D: 1. 요인별 통계•설문 자료 요청
-    D->>E: 2. 기준시점 자료 전송
-    E->>G: 3. 표준화 점수•순위 전송
-    G->>E: 4. 비교국•투자 제약 전송
-    E-->>G: 취약 요인•개선 우선순위 결과
+```text
+정책기관
+   │ 평가 범위•정책 목표 전달
+   ▼
+평가기관
+   │ 1. 요인별 통계•설문 자료 요청
+   ▼
+자료제공기관
+   │ 2. 기준시점 자료 회신
+   ▼
+평가기관
+   │ 3. 표준화 점수•순위 산출
+   ▼
+정책기관
+   │ 4. 비교국•투자 제약 회신
+   ▼
+평가기관
+   │ 취약 요인•개선 우선순위 결과
+   ▼
+정책기관
 ```
 
 **동작 원리**

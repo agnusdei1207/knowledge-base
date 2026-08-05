@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "PMO (Project Management Office)"
-date: "2026-08-05T14:20:08+09:00"
+date: "2026-08-06T00:02:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 8
@@ -92,22 +92,26 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **잔여 위험**: 승인된 조치를 이행한 뒤에도 남아 추가 대응이나 수용 판단이 필요한 위험이다.
-
 </details>
 
-```mermaid
-sequenceDiagram
-    participant T as 수행팀
-    participant P as PMO
-    participant O as 발주기관
-    P->>T: 1. 관리 기준 배포
-    loop 사업 관리 주기
-        T->>P: 2. 사업 현황 보고
-        P->>O: 3. 쟁점•대안 보고
-        O->>P: 4. 조치 결정
-        P->>T: 5. 이행 지시•추적
-    end
+```text
+PMO
+   │ 1. 관리 기준 배포
+   ▼
+수행팀
+   │ 2. 사업 현황 보고
+   ▼
+PMO
+   │ 3. 쟁점•대안 보고
+   ▼
+발주기관
+   │ 4. 조치 결정 반환
+   ▼
+PMO
+   │ 5. 이행 지시•추적
+   │    (사업 관리 순환)
+   ▼
+수행팀
 ```
 
 **동작 원리**
@@ -164,6 +168,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **권한 차등 PMO**: 조직의 통제 필요성과 사업 위험에 따라 지원형•통제형•지시형 PMO를 선택하는 결정이다.
 
 </details>
 

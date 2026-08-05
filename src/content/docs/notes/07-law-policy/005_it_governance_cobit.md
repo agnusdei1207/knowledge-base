@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IT 거버넌스와 COBIT (IT Governance & COBIT)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-05T23:56:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 5
@@ -97,21 +97,26 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **잔여 위험**: 통제를 적용한 뒤에도 남아 경영진이 추가 개선이나 수용 여부를 결정해야 하는 위험이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 이해관계자
-    participant G as 거버넌스
-    participant O as 운영조직
-    S->>G: 가치•위험•자원 요구 전달
-    loop 평가•지시•모니터링 주기
-        G->>O: 1. 목표•방향•위험 한도 전송
-        O->>G: 2. 계획•구축•운영 증거 전송
-        G->>O: 3. 개선•위험 수용 결정 전송
-    end
-    G-->>S: 성과•잔여 위험•준수 결과
+```text
+이해관계자
+   │ 가치•위험•자원 요구 전달
+   ▼
+거버넌스
+   │ 1. 목표•방향•위험 한도 설정
+   ▼
+운영조직
+   │ 2. 계획•구축•운영 증거 회신
+   ▼
+거버넌스
+   │ 3. 개선•위험 수용 결정 반환
+   │    (평가•지시•모니터링 순환)
+   ▼
+운영조직
+   │ 성과•잔여 위험•준수 결과
+   ▼
+이해관계자
 ```
 
 **동작 원리**

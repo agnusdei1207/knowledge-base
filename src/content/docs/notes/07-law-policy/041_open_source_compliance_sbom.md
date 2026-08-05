@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "오픈소스 컴플라이언스•SBOM (Open Source Compliance SBOM)"
-date: "2026-08-05T02:03:36+09:00"
+date: "2026-08-06T01:08:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 41
@@ -96,23 +96,29 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant D as 개발팀
-    participant S as 구성 분석
-    participant R as 준수 심사
-    participant O as 운영팀
-    D->>S: 소스•빌드 산출물 전달
-    S->>S: 1. SBOM•구성 동일성 분석
-    S->>R: SBOM•구성 분석 결과 제출
-    R->>R: 2. 라이선스•취약점 조치 판정
-    R-->>D: 라이선스•취약점 조치 요청
-    D->>D: 3. 고지•소스•VEX 배포 준비
-    D-->>O: 제품•SBOM•VEX 배포
-    loop 운영 중 취약점 감시
-        O->>S: 신규 취약점•구성 변경 통보
-        S->>S: 4. 신규 취약점•구성 변경 대조
-    end
+```text
+개발팀
+   │ 소스•빌드 산출물 전달
+   ▼
+구성 분석
+   │ 1. SBOM•구성 동일성 분석
+   │    SBOM•구성 분석 결과 제출
+   ▼
+준수 심사
+   │ 2. 라이선스•취약점 조치 판정
+   │    라이선스•취약점 조치 요청
+   ▼
+개발팀
+   │ 3. 고지•소스•VEX 배포 준비
+   │    제품•SBOM•VEX 배포
+   │    (운영 중 취약점 감시 시)
+   ▼
+운영팀
+   │ 신규 취약점•구성 변경 통보
+   ▼
+구성 분석
+   │ 4. 신규 취약점•구성 변경 대조
+   ▼
 ```
 
 1. **SBOM•구성 동일성 분석**: 버전•해시•관계로 실제 배포 구성 확인

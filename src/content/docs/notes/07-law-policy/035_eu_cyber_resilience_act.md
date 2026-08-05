@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "EU CRA 사이버 레질리언스 법 (EU Cyber Resilience Act)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T00:56:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 35
@@ -104,24 +104,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 제조자
-    participant C as 적합성평가기관
-    participant D as 수입•유통업자
-    participant A as 시장감시기관
-    M->>M: 1. 위험평가•기술문서 작성
-    opt 제3자 적합성 평가 대상
-        M->>C: 적합성 평가 요청
-        C-->>M: 적합성 평가 결과 제공
-    end
-    M->>M: 2. 적합성 선언•CE 표시
-    M->>D: 3. 제품•보안정보•지원기간 제공
-    opt 악용 취약점•중대사고 발생
-        M->>A: 4. 악용 취약점•중대사고 보고
-        A-->>M: 시정•업데이트•회수 명령
-        M->>M: 5. 시정•업데이트•회수 이행
-    end
+```text
+제조자
+   │ 1. 위험평가•기술문서 작성
+   │    (제3자 적합성 평가 대상 시)
+   │ 적합성 평가 요청
+   │ 적합성 평가 결과 수령
+   │ 2. 적합성 선언•CE 표시
+   │ 3. 제품•보안정보•지원기간 제공
+   │    (악용 취약점•중대사고 발생 시)
+   │ 4. 악용 취약점•중대사고 보고
+   │ 5. 시정•업데이트•회수 이행
+   ▼
+시장감시기관
 ```
 
 1. **위험평가•기술문서 작성**: 사용•연결•지원기간의 위험과 보안 통제 문서화
@@ -179,6 +174,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **CRA 생애주기 의무**: 출시 전 보안 적합성 입증과 출시 후 지원기간의 취약점 처리•사고 보고 의무를 연결한 운영 원칙이다.
 
 </details>
 

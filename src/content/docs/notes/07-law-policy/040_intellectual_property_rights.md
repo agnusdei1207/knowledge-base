@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지식재산권 — 특허•저작권•상표•영업비밀 (Intellectual Property Rights)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:06:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 40
@@ -104,16 +104,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant D as 개발 조직
-    participant I as 지식재산 담당
-    participant B as 사업 조직
-    D->>I: 1. 성과•기여자 기록 전달
-    I->>I: 2. 선행기술•타인 권리 조사
-    I->>I: 3. 등록 가능성•침해 위험 분석
-    I->>B: 4. 공개•등록•비밀 전략 제안
-    B-->>I: 5. 출원•계약•감시 실행 승인
+```text
+개발 조직
+   │ 1. 성과•기여자 기록 전달
+   ▼
+지식재산 담당
+   │ 2. 선행기술•타인 권리 조사
+   │ 3. 등록 가능성•침해 위험 분석
+   │ 4. 공개•등록•비밀 전략 제안
+   ▼
+사업 조직
+   │ 5. 출원•계약•감시 실행 승인
+   ▼
+지식재산 담당
 ```
 
 1. **성과•기여자 기록 전달**: 보호할 개발 성과와 기여 내용•시점 기록
@@ -170,6 +173,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **권리 포트폴리오**: 기술•표현•표지•비밀을 특허•저작권•상표권•영업비밀로 조합해 사업 경쟁력과 침해 대응력을 확보한 권리 묶음이다.
 
 </details>
 

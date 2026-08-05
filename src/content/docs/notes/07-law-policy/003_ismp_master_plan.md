@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISMP (Information System Master Plan)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-05T23:52:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 3
@@ -81,22 +81,27 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **수용 기준**: 납품 결과가 요구사항을 충족했는지 시험•검수할 수 있도록 조건과 기대 결과를 명시한 기준이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 발주기관
-    participant I as ISMP팀
-    participant U as 업무•기술부서
-    participant P as 조달•예산부서
-    O->>I: 사업 목표•경계 전달
-    U->>I: 현황•상세 요구 전달
-    I->>U: 1. 목표 구조•요구 기준선 전송
-    U->>I: 2. 수용 기준•범위 승인 전송
-    I->>P: 3. 규모•비용•이행안 제출
-    P->>I: 4. 조달•예산 조건 전송
-    I-->>O: RFP•발주 기준 결과
+```text
+발주기관
+   │ 사업 목표•경계 전달
+   ▼
+ISMP팀
+   │ 1. 목표 구조•요구 기준선 수립
+   ▼
+업무•기술부서
+   │ 2. 수용 기준•범위 승인 반환
+   ▼
+ISMP팀
+   │ 3. 규모•비용•이행안 제출
+   ▼
+조달•예산부서
+   │ 4. 조달•예산 조건 반환
+   ▼
+발주기관
+   │ RFP•발주 기준 결과
+   ▼
 ```
 
 **동작 원리**

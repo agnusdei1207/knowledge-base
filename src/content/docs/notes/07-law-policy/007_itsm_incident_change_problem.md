@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "인시던트•문제•변경 관리 (Incident, Problem, Change Management)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-06T00:00:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 7
@@ -98,17 +98,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant D as 서비스 데스크
-    participant P as 문제관리
-    participant C as 변경관리
-    U->>D: 인시던트 접수
-    D-->>U: 우회 조치•서비스 복구
-    D->>P: 1. 문제 등록•원인 분석 요청
-    P->>C: 2. 변경 요청•위험 평가 요청
-    C-->>U: 변경 적용•사후 검토 결과
+```text
+사용자
+   │ 인시던트 접수
+   ▼
+서비스 데스크
+   │ 우회 조치•서비스 복구
+   │ 1. 문제 등록•원인 분석 요청
+   ▼
+문제관리
+   │ 2. 변경 요청•위험 평가 요청
+   ▼
+변경관리
+   │ 변경 적용•사후 검토
+   ▼
+사용자
 ```
 
 **동작 원리**
@@ -123,6 +127,10 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **인시던트 관리**: 서비스 중단이나 품질 저하를 가능한 빨리 정상화하는 활동이다.
+- **문제 관리**: 반복 인시던트의 근본 원인과 영구 해결책을 관리하는 활동이다.
+- **변경 관리**: 시스템 변경의 가치•위험•영향을 평가해 안전하게 실행하는 활동이다.
 
 </details>
 

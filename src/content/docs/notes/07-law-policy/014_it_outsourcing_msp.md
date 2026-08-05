@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "IT 아웃소싱과 MSP (IT Outsourcing & MSP)"
-date: "2026-08-05T14:20:14+09:00"
+date: "2026-08-06T00:14:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 14
@@ -94,22 +94,32 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **서비스 수준 합의서**: 위탁 서비스의 가용성•복구•응답•보안 목표와 미달 책임을 계약으로 명시한 문서이다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 고객사
-    participant M as MSP
-    participant N as 후속사업자
-    C->>M: 위탁 요구•책임 제시
-    M->>C: 1. 서비스 수준•이행안 합의
-    loop 서비스 운영 주기
-        M->>C: 2. 운영 성과•위험 보고
-        C->>M: 3. 개선•변경 승인
-    end
-    opt 계약 종료•전환
-        M->>N: 4. 자산•데이터•지식 이전
-    end
+```text
+고객사
+   │ 위탁 요구•책임 제시
+   ▼
+MSP
+   │ 1. 서비스 수준•이행안 합의
+   ▼
+고객사
+   │ 2. 운영 성과•위험 보고
+   │    (서비스 운영 주기 순환)
+   ▼
+MSP
+   │ 3. 개선•변경 승인 요청
+   ▼
+고객사
+   │ 개선•변경 승인 반환
+   ▼
+MSP
+   │ 4. 자산•데이터•지식 이전
+   │    (계약 종료•전환 시)
+   ▼
+후속사업자
 ```
 
 **동작 원리**

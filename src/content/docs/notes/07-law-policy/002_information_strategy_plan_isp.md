@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ISP (Information Strategy Planning)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-05T23:50:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 2
@@ -86,19 +86,25 @@ extra:
 - **과제 의존성**: 한 과제를 시작하거나 완료하기 전에 필요한 선행 과제•역량•조달 조건의 관계이다.
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 경영진
-    participant I as ISP팀
-    participant D as 업무부서
-    participant P as 투자심의
-    M->>I: 경영•정책 목표 전달
-    D->>I: 현황•문제•요구 전달
-    I->>D: 1. 목표 모델•갭 과제 전송
-    D->>I: 2. 과제 타당성•의존성 회신
-    I->>P: 3. 과제 포트폴리오 제출
-    P->>I: 4. 투자 우선순위•승인 전송
-    I-->>M: 투자•이행 로드맵 결과
+```text
+경영진
+   │ 경영•정책 목표 전달
+   ▼
+ISP팀
+   │ 1. 목표 모델•갭 과제 도출
+   ▼
+업무부서
+   │ 2. 과제 타당성•의존성 회신
+   ▼
+ISP팀
+   │ 3. 과제 포트폴리오 제출
+   ▼
+투자심의
+   │ 4. 투자 우선순위•승인 반환
+   ▼
+경영진
+   │ 투자•이행 로드맵 결과
+   ▼
 ```
 
 **동작 원리**

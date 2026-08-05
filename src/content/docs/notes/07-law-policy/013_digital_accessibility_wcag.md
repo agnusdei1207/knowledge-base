@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "디지털 접근성과 WCAG (Digital Accessibility & WCAG)"
-date: "2026-08-05T14:20:13+09:00"
+date: "2026-08-06T00:12:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 13
@@ -98,19 +98,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 접근성 담당
-    participant D as 개발자
-    participant U as 사용자
-    A->>D: 1. 사용자 장벽•성공 기준 정의
-    D->>U: 2. 의미 구조•대체 수단 구현
-    U->>A: 3. 키보드•보조기술 시험
-    loop 접근성 결함 해소까지
-        A->>D: 4. 접근성 결함 개선 요청
-        D->>A: 5. 접근성 회귀 시험
-    end
-    D-->>U: 접근 가능한 버전 제공
+```text
+접근성 담당
+   │ 1. 사용자 장벽•성공 기준 정의
+   ▼
+개발자
+   │ 2. 의미 구조•대체 수단 구현
+   ▼
+사용자
+   │ 3. 키보드•보조기술 시험
+   ▼
+접근성 담당
+   │ 4. 접근성 결함 개선 요청
+   │    (접근성 결함 해소까지 순환)
+   ▼
+개발자
+   │ 5. 접근성 회귀 시험
+   ▼
+사용자
+   │ 접근 가능한 버전 제공
+   ▼
 ```
 
 **동작 원리**

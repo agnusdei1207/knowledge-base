@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EU AI Act — 위험 기반 분류 체계 (EU AI Act)"
-date: "2026-08-05T14:21:33+09:00"
+date: "2026-08-06T00:52:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 33
@@ -105,27 +105,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as 제공자
-    participant C as 적합성 평가
-    participant R as EU 등록체계
-    participant U as 배포자
-    participant A as 감독기관
-    P->>P: 1. 역할•위험 분류•요구사항 검증
-    opt 고위험 AI
-        P->>C: 적합성 평가 요청
-        C-->>P: 적합성 평가 결과 제공
-        P->>P: 2. 적합성 선언•CE•등록
-        P->>R: 고위험 AI 등록
-    end
-    P->>U: 3. 시스템•지침•로그 조건 제공
-    loop 출시 후 모니터링
-        U->>P: 4. 운영 성능•위험•사고 정보 환류
-    end
-    opt 중대한 사고 발생
-        P->>A: 5. 중대한 사고 보고•시정
-    end
+```text
+제공자
+   │ 1. 역할•위험 분류•요구사항 검증
+   │    (고위험 AI 시)
+   │ 적합성 평가 요청
+   │ 적합성 평가 결과 수령
+   │ 2. 적합성 선언•CE•등록
+   │    고위험 AI 등록
+   ▼
+배포자
+   │ 3. 시스템•지침•로그 조건 수령
+   │    (출시 후 모니터링)
+   │ 4. 운영 성능•위험•사고 정보 환류
+   │    (중대한 사고 발생 시)
+   ▼
+감독기관
+   │ 5. 중대한 사고 보고•시정 수령
+   ▼
 ```
 
 1. **역할•위험 분류•요구사항 검증**: 공급망 역할과 금지•고위험•투명성•범용 AI 해당 여부를 판단하고 필요한 통제 확인

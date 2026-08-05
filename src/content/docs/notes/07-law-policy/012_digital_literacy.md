@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 리터러시 (Digital Literacy)"
-date: "2026-08-05T14:20:12+09:00"
+date: "2026-08-06T00:10:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 12
@@ -98,17 +98,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant L as 학습자
-    participant E as 교육기관
-    participant S as 지원기관
-    L->>E: 역량 진단•교육 요청
-    E->>L: 1. 정보 판별•안전 과제 전송
-    L->>E: 2. 과업 수행•진단 응답 전송
-    E->>S: 3. 취약 역량•지원 요구 전송
-    S->>E: 4. 접근•활용 지원 자원 전송
-    E-->>L: 맞춤 교육•환경 보완 결과
+```text
+학습자
+   │ 역량 진단•교육 요청
+   ▼
+교육기관
+   │ 1. 정보 판별•안전 과제 제시
+   ▼
+학습자
+   │ 2. 과업 수행•진단 응답 회신
+   ▼
+교육기관
+   │ 3. 취약 역량•지원 요구 전달
+   ▼
+지원기관
+   │ 4. 접근•활용 지원 자원 회신
+   ▼
+교육기관
+   │ 맞춤 교육•환경 보완 결과
+   ▼
+학습자
 ```
 
 **동작 원리**

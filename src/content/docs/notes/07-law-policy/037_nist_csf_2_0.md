@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -99,20 +99,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant G as 경영진
-    participant R as 위험관리자
-    participant O as 보안조직
-    loop 프로파일 개선 주기
-        G->>R: 1. 범위•위험 허용수준 전달
-        R->>O: 현재 성과 자료 요청
-        O-->>R: 현재 성과 자료 제공
-        R->>R: 2. 현재 프로파일 작성
-        R->>R: 3. 현재 성과•격차 분석
-        R->>G: 4. 목표 프로파일•우선과제 제안
-        G-->>O: 5. 목표 승인•실행 지시
-    end
+```text
+경영진
+   │ 1. 범위•위험 허용수준 전달
+   │ 5. 목표 승인•실행 지시
+   │    (프로파일 개선 주기)
+   ▼
+위험관리자
+   │ 2. 현재 프로파일 작성
+   │ 3. 현재 성과•격차 분석
+   │ 4. 목표 프로파일•우선과제 제안
+   ▼
+보안조직
+   │ 현재 성과 자료 제공
+   ▼
+위험관리자
 ```
 
 1. **범위•위험 허용수준 전달**: 임무•이해관계자•위험 한계 확정
@@ -167,6 +168,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **CSF 2.0 전사 정렬**: Govern 기능을 추가해 경영 책임•공급망 위험을 보안 기능과 통합한 프레임워크 적용이다.
 
 </details>
 

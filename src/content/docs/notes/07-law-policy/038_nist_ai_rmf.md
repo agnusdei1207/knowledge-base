@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:02:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -95,20 +95,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant G as AI 거버넌스
-    participant T as AI 팀
-    participant S as 영향받는 공동체
-    G->>T: 1. 정책•역할•위험 허용수준 전달
-    loop AI 생애주기 위험관리
-        T->>S: 피해 경험•요구사항 요청
-        S-->>T: 피해 경험•요구사항 제공
-        T->>T: 2. 목적•맥락•영향 매핑
-        T->>T: 3. TEVV 측정•평가
-        T->>G: 4. TEVV 결과•처리안 보고
-        G-->>T: 5. 배포•완화•중단 결정
-    end
+```text
+AI 거버넌스
+   │ 1. 정책•역할•위험 허용수준 전달
+   │ 5. 배포•완화•중단 결정
+   │    (AI 생애주기 위험관리)
+   ▼
+AI 팀
+   │ 2. 목적•맥락•영향 매핑
+   │ 3. TEVV 측정•평가
+   │ 4. TEVV 결과•처리안 보고
+   ▼
+영향받는 공동체
+   │ 피해 경험•요구사항 제공
+   ▼
+AI 팀
 ```
 
 1. **정책•역할•위험 허용수준 전달**: 책임과 의사결정 기준 및 문서 체계화
@@ -163,6 +164,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **사용사례별 적용**: AI 사용 맥락과 영향을 Map에서 빠뜨리지 않고 Measure의 지표로 반영해 배포•중단 결정으로 연결하는 절차이다.
 
 </details>
 

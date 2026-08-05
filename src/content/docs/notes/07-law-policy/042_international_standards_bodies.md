@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ITU•ISO•IEEE•IETF 표준화 기구 (International Standards Bodies)"
-date: "2026-08-05T02:03:36+09:00"
+date: "2026-08-06T01:10:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 42
@@ -87,24 +87,30 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 시장•회원
-    participant S as 표준 기구
-    participant W as 작업반
-    participant I as 산업계
-    M->>S: 시장 요구•표준화 범위 제안
-    S->>S: 1. 작업 항목•개발 범위 승인
-    S->>W: 초안 개발 요청
-    loop 초안 검토•의견 해결
-        W-->>S: 기술 초안•의견 반영본 제출
-        S->>W: 검토 의견 전달
-        W->>W: 2. 기술 의견 해결•초안 개정
-    end
-    S->>M: 합의•투표 요청
-    M-->>S: 회원 투표 결과 제공
-    S->>S: 3. 합의•투표 승인 결정
-    S-->>I: 승인 표준 발행•개정 통지
+```text
+시장•회원
+   │ 시장 요구•표준화 범위 제안
+   ▼
+표준 기구
+   │ 1. 작업 항목•개발 범위 승인
+   │    초안 개발 요청
+   ▼
+작업반
+   │ (초안 검토•의견 해결)
+   │ 2. 기술 의견 해결•초안 개정
+   │    기술 초안•의견 반영본 제출
+   ▼
+표준 기구
+   │ 합의•투표 요청
+   ▼
+시장•회원
+   │ 회원 투표 결과 제공
+   ▼
+표준 기구
+   │ 3. 합의•투표 승인 결정
+   │    승인 표준 발행•개정 통지
+   ▼
+산업계
 ```
 
 1. **작업 항목•개발 범위 승인**: 담당 위원회•작업반•일정 확정

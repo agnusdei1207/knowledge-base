@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST PQC 표준화 — FIPS 203/204/205 (NIST PQC FIPS)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T01:04:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 39
@@ -102,23 +102,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 암호 책임자
-    participant S as 대상 시스템
-    participant T as 시험환경
-    participant K as 키•인증체계
-    loop 대상 시스템 전환 묶음
-        O->>S: 암호 자산•데이터 수명 자료 요청
-        S-->>O: 암호 자산•의존성 자료 제공
-        O->>O: 1. 암호 자산•데이터 수명 확정
-        O->>O: 2. HNDL 위험•교체 우선순위 결정
-        O->>T: 알고리즘•매개변수 시험 요청
-        T-->>O: 성능•상호운용 검증 결과 제공
-        O->>O: 3. 알고리즘•매개변수 선택
-        O->>K: 4. 하이브리드 구성•키 발급 지시
-        K->>S: 5. 키•인증서 전환 배포
-    end
+```text
+암호 책임자
+   │ 1. 암호 자산•데이터 수명 확정
+   │ 2. HNDL 위험•교체 우선순위 결정
+   │ 알고리즘•매개변수 시험 요청
+   │ 3. 알고리즘•매개변수 선택
+   │    (대상 시스템 전환 묶음)
+   │ 4. 하이브리드 구성•키 발급 지시
+   ▼
+대상 시스템
+   │ 5. 키•인증서 전환 배포
+   ▼
+암호 책임자
 ```
 
 1. **암호 자산•데이터 수명 확정**: 알고리즘•키•인증서•장비와 보호기간 목록화
@@ -134,6 +130,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **PQC 알고리즘**: 양자컴퓨터 공격에도 안전한 공개키 암호 알고리즘으로 NIST가 표준화하는 후보군이다.
 
 </details>
 
@@ -170,6 +168,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **PQC 전환 결정**: 데이터 수명•시스템 의존성•시험 결과를 종합해 ML-KEM•ML-DSA•SLH-DSA 채택 여부를 정하는 판단이다.
 
 </details>
 

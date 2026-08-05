@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "디지털 플랫폼 정부 (Digital Platform Government)"
-date: "2026-08-05T14:20:09+09:00"
+date: "2026-08-06T00:04:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 9
@@ -93,21 +93,28 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **최소 권한**: 서비스 수행에 필요한 범위만 데이터 접근 권한으로 부여하는 보안 원칙이다.
-
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 국민
-    participant P as 플랫폼
-    participant D as 데이터기관
-    U->>P: 맞춤 서비스 요청
-    P->>U: 1. 이용 근거•권한 확인 요청
-    U-->>P: 동의•권한 확인
-    P->>D: 2. 공공 데이터 조회 요청
-    D-->>P: 검증 데이터
-    P-->>U: 융합 서비스
+```text
+국민
+   │ 맞춤 서비스 요청
+   ▼
+플랫폼
+   │ 1. 이용 근거•권한 확인 요청
+   ▼
+국민
+   │ 동의•권한 확인 회신
+   ▼
+플랫폼
+   │ 2. 공공 데이터 조회 요청
+   ▼
+데이터기관
+   │ 검증 데이터 반환
+   ▼
+플랫폼
+   │ 융합 서비스 제공
+   ▼
+국민
 ```
 
 **동작 원리**
@@ -123,6 +130,7 @@ sequenceDiagram
 <details>
 <summary>핵심 용어</summary>
 
+- **디지털 플랫폼 정부(Digital Platform Government, DPG)**: 공공 데이터•행정 기능과 민간 역량을 표준 접점으로 연결해 국민 맞춤 서비스를 제공하는 정부 모델이다.
 - **전자정부**: 기관별 행정 절차를 정보시스템과 온라인 채널로 제공하는 정부 운영 모델이다.
 
 </details>

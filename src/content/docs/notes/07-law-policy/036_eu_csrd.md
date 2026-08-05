@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "EU CSRD 지속가능성 공시 (EU CSRD)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T00:58:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 36
@@ -89,21 +89,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant E as 공시기업
-    participant V as 가치사슬
-    participant A as 검증인
-    participant U as 공시 이용자
-    E->>V: 가치사슬 IRO 자료 요청
-    V-->>E: 영향•위험•기회 데이터 제공
-    E->>E: 1. 가치사슬 경계•IRO 자료 확정
-    E->>E: 2. 중대성 평가•ESRS 보고서 작성
-    E->>A: 제한적 확신 검증 요청
-    A-->>E: 제한적 확신 결과 제공
-    E->>E: 3. 검증 결과•디지털 태그 반영
-    E->>E: 4. 경영보고서 공시 승인
-    E-->>U: 경영보고서•디지털 태그 공시
+```text
+가치사슬
+   │ 가치사슬 IRO 자료 요청
+   │ 영향•위험•기회 데이터 제공
+   ▼
+공시기업
+   │ 1. 가치사슬 경계•IRO 자료 확정
+   │ 2. 중대성 평가•ESRS 보고서 작성
+   │    제한적 확신 검증 요청
+   ▼
+검증인
+   │ 제한적 확신 결과 제공
+   ▼
+공시기업
+   │ 3. 검증 결과•디지털 태그 반영
+   │ 4. 경영보고서 공시 승인
+   ▼
+공시 이용자
 ```
 
 1. **가치사슬 경계•IRO 자료 확정**: 연결기업과 상•하류 활동의 조사 범위와 원천 자료 확정

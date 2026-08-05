@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISP•ISMP•EA 비교 (ISP, ISMP, EA Comparison)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-05T23:54:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 4
@@ -89,19 +89,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 전략•투자부서
-    participant E as EA위원회
-    participant P as 발주부서
-    participant B as 구축사업
-    loop 정보화 계획•구축 주기
-        S->>E: 1. ISP 우선 과제
-        E->>P: 2. 구조•표준•중복 검토
-        P->>B: 3. ISMP•RFP 기준
-        B-->>E: 4. 구축 구조•변경 결과
-        E-->>S: EA 현행화•성과 피드백
-    end
+```text
+전략•투자부서
+   │ 1. ISP 우선 과제 선정
+   ▼
+EA위원회
+   │ 2. 구조•표준•중복 검토
+   ▼
+발주부서
+   │ 3. ISMP•RFP 기준 확정
+   ▼
+구축사업
+   │ 4. 구축 구조•변경 결과 회신
+   │    (전주기 거버넌스 순환)
+   ▼
+EA위원회
+   │ EA 현행화•성과 피드백
+   ▼
+전략•투자부서
 ```
 
 **동작 원리**

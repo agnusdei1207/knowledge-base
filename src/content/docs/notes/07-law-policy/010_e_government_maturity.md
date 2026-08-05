@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "전자정부 성숙도 모형 (E-Government Maturity Model)"
-date: "2026-08-05T14:20:10+09:00"
+date: "2026-08-06T00:06:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 10
@@ -87,23 +87,29 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **격차 분석**: 지표별 현재값과 목표 수준의 차이를 비교해 취약 영역과 개선 우선순위를 찾는 분석이다.
-
 </details>
 
-```mermaid
-sequenceDiagram
-    participant G as 평가기관
-    participant D as 데이터기관
-    participant P as 정책기관
-    P->>G: 평가 범위•목표 전달
-    loop 성숙도 평가•개선 주기
-        G->>D: 1. OSI•TII•HCI•EPI 자료 요청
-        D->>G: 2. 표준화 지표 자료 전송
-        G->>P: 3. EGDI•격차 분석 결과 제출
-        P->>D: 4. 개선 과제•책임 전송
-        D-->>P: 개선 성과 결과
-    end
+```text
+정책기관
+   │ 평가 범위•목표 전달
+   ▼
+평가기관
+   │ 1. OSI•TII•HCI•EPI 자료 요청
+   ▼
+데이터기관
+   │ 2. 표준화 지표 자료 회신
+   ▼
+평가기관
+   │ 3. EGDI•격차 분석 결과 제출
+   ▼
+정책기관
+   │ 4. 개선 과제•책임 전송
+   │    (성숙도 평가•개선 순환)
+   ▼
+데이터기관
+   │ 개선 성과 결과
+   ▼
+정책기관
 ```
 
 **동작 원리**
@@ -160,6 +166,8 @@ sequenceDiagram
 
 <details>
 <summary>핵심 용어</summary>
+
+- **성숙도 단계 선택**: 정보 제공→온라인 거래→통합•연결 단계 중 현재 단계와 목표 단계 사이 격차를 좁히는 평가 기반 선택이다.
 
 </details>
 

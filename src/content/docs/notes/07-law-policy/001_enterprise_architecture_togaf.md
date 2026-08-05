@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "EA와 TOGAF (Enterprise Architecture & TOGAF)"
-date: "2026-08-05T01:58:46+09:00"
+date: "2026-08-05T23:48:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 1
@@ -60,6 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
+- **업무 아키텍처(Business Architecture, BA)**: 전략을 조직•기능•프로세스•서비스 구조로 구체화하는 관점이다.
+- **데이터 아키텍처(Data Architecture, DA)**: 데이터 모델•흐름•소유권•표준을 정의하는 관점이다.
+- **애플리케이션 아키텍처(Application Architecture, AA)**: 시스템•서비스•인터페이스의 책임을 정의하는 관점이다.
+- **기술 아키텍처(Technology Architecture, TA)**: 애플리케이션을 실행하는 기술 기반을 정의하는 관점이다.
+
 </details>
 
 ```text
@@ -92,23 +97,31 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **아키텍처 준수성**: 구현안이 승인된 목표 구조와 원칙•표준을 따르는지 심사하는 판단 기준이다.
+- **ADM(Architecture Development Method) 재순환**: 구현 결과와 변경 요구를 저장소에 반영해 다시 현행•목표•갭 분석으로 돌아가는 ADM의 순환 절차이다.
+
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 경영진
-    participant A as 아키텍처팀
-    participant P as 사업포트폴리오
-    participant G as 거버넌스위원회
-    S->>A: 전략•비전•범위 전달
-    loop 아키텍처 개발•변경 주기
-        A->>P: 1. 현행•목표•갭 모델 전송
-        P->>G: 2. 전환 로드맵•투자안 제출
-        G->>P: 3. 준수•예외 결정 전송
-        P->>A: 4. 구현 결과•변경 요구 전송
-    end
-    A-->>S: EA 현행화•투자 결과
+```text
+경영진
+   │ 전략•비전•범위 전달
+   ▼
+아키텍처팀
+   │ 1. 현행•목표•갭 모델 수립
+   ▼
+사업포트폴리오
+   │ 2. 전환 로드맵•투자안 제출
+   ▼
+거버넌스위원회
+   │ 3. 준수•예외 결정 반환
+   ▼
+사업포트폴리오
+   │ 4. 구현 결과•변경 요구 회신
+   │    (ADM 재순환)
+   ▼
+아키텍처팀
+   │ EA 현행화•투자 결과
+   ▼
+경영진
 ```
 
 **동작 원리**
