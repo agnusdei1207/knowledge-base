@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
-date: "2026-08-05T09:03:00+09:00"
+date: "2026-08-05T16:44:56+09:00"
 tags:
   - "notes-security"
 weight: 11
@@ -47,9 +47,9 @@ extra:
 
 </details>
 
-- **1-RTT 서버 인증•임시 키 합의** 로 연결 지연 단축
-- **AEAD 전용 암호군** 으로 기밀성•무결성 결합
-- **0-RTT 재전송 가능성** 에 따른 멱등 요청 제한
+- **1-RTT 서버 인증•임시 키 합의**로 연결 지연 단축
+- **AEAD 전용 암호군**으로 기밀성•무결성 결합
+- **0-RTT 재전송 가능성**에 따른 멱등 요청 제한
 
 #### 한줄 요약
 
@@ -68,16 +68,15 @@ extra:
 </details>
 
 ```text
-                    [협상 메시지]
-                          |
-                   [대화 기록 해시]
-                      /          \
-             [인증서 검증기]   [HKDF 키 스케줄]
-                                      |
-                              [AEAD 레코드 계층]
+TLS 1.3 구조
+├─ 협상 메시지
+├─ 대화 기록 해시
+├─ 인증서 검증기
+├─ HKDF 키 스케줄
+└─ AEAD 레코드 계층
 ```
 
-선의 의미: 협상 메시지를 결합한 대화 기록 해시가 인증 검증과 키 스케줄의 공통 근거가 되고, 키 스케줄이 AEAD 레코드 계층을 지지하는 정적 의존관계
+가지의 의미: 협상•기록•신원 검증•키 도출•데이터 보호 책임을 나눈 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -105,16 +104,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant S as 서버
-    C->>S: 1. ClientHello 전송
-    S-->>C: 2. ServerHello 반환
-    C->>C: 3. 핸드셰이크 키 도출
-    S-->>C: CertificateVerify•Finished
-    C->>C: 4. 인증서•Finished 검증
-    C->>S: 5. Finished•응용 트래픽 키 전환
+```text
+1. ClientHello 전송
+        │
+        ▼
+2. ServerHello 반환
+        │
+        ▼
+3. 핸드셰이크 키 도출
+        │
+        └── CertificateVerify•Finished 수신
+                    │
+                    ▼
+4. 인증서•Finished 검증
+        ├─ 실패: 연결 중단
+        └─ 성공
+             │
+             ▼
+     5. Finished•응용 트래픽 키 전환
+             │
+             └── 보호된 응용 데이터 전송
 ```
 
 **동작 원리**

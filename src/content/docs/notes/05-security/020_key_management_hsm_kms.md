@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "키 관리 - HSM•KMS (Key Management HSM KMS)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T16:48:28+09:00"
 tags:
   - "notes-security"
 weight: 20
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 암호키의 생성부터 폐기까지 관리하는 **수명주기 통제**
-- 배경/필요성: 응용의 키 직접 보관은 **노출 방지•권한 분리•사용 이력 통제를 어렵게 함**
+- 배경/필요성: 응용 직접 보관은 **키 노출•권한•사용 이력 통제 곤란**
 
 #### 한줄 요약
 
@@ -66,14 +66,14 @@ extra:
 </details>
 
 ```text
-                   [KMS•IAM]
-                     /     \
-              [HSM•KEK]   [키 메타데이터]
-                   |
-                 [DEK]
+키 관리 구조
+├─ KMS•IAM
+├─ HSM•KEK
+├─ DEK
+└─ 키 메타데이터
 ```
 
-선의 의미: KMS•IAM 아래에는 상위 키와 암호 연산을 보호하는 HSM•KEK 및 정책 상태를 기록하는 키 메타데이터가 놓이고, DEK는 HSM의 KEK 보호 경계에 속하는 정적 봉투 암호화 계층을 뜻한다.
+가지의 의미: 정책•상위 키•데이터 키•상태 기록 책임을 나눈 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -97,20 +97,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 응용
-    participant K as KMS
-    participant H as HSM
-    participant S as 저장소
-    A->>K: DEK 생성 요청
-    K->>K: 1. IAM•키 정책 검증
-    K->>H: 2. DEK 생성•KEK 래핑
-    H-->>K: 평문•래핑 DEK
-    K-->>A: 평문 DEK 임시 전달
-    A->>A: 3. 데이터 암호화
-    A->>S: 4. 암호문•래핑 DEK 저장
-    A->>A: 5. 평문 DEK 제로화
+```text
+DEK 생성 요청
+        │
+        ▼
+1. IAM•키 정책 검증
+        ├─ 실패: 키 사용 거부
+        └─ 성공
+             │
+             ▼
+     2. DEK 생성•KEK 래핑
+             │
+             └── 평문 DEK 임시 제공
+                         │
+                         ▼
+                 3. 데이터 암호화
+                         │
+                         ▼
+                 4. 암호문•래핑 DEK 저장
+                         │
+                         ▼
+                 5. 평문 DEK 제로화
 ```
 
 **동작 원리**
