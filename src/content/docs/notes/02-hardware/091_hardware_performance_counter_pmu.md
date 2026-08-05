@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "하드웨어 성능 카운터•PMU (Hardware Performance Counter and PMU)"
-date: "2026-08-05T17:37:14+09:00"
+date: "2026-08-05T17:59:39+09:00"
 tags:
   - "notes-hardware"
 weight: 91
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **하드웨어 성능 카운터와 PMU**는 프로세서 내부 사건을 선택•계수해 CPU 병목 원인을 분석하는 **내장 성능 계측 체계**
+- 정의/개념: CPU 사건을 선택•계수하는 **PMU 성능 계측 체계**
 - 배경/필요성: 실행 시간만으로는 **CPU 병목 원인 식별 불가**
 
 #### 한줄 요약
@@ -47,7 +47,7 @@ extra:
 
 ![PMU 다중화 실행 비율에 따른 보정 배율 차트](/study/diagrams/pmu-multiplex-scale.svg)
 
-> 공식 기반 파란 선은 카운터 실제 실행 비율이 100%→10%로 줄면 $T_{enabled}/T_{running}$ 보정 배율이 1→10으로 커져 짧은 관측 구간의 환산 오차가 증폭될 수 있음을 나타낸다.
+> **실행 비율 10%**에서 다중화 보정 배율 10배 증가
 
 - **하드웨어 계수•샘플링**으로 낮은 간섭의 총량•위치 제공
 - **IPC•캐시 미스율**로 실행•메모리 병목 판별
@@ -59,11 +59,14 @@ $$
 \hat N=N_{\mathrm{raw}}\frac{T_{\mathrm{enabled}}}{T_{\mathrm{running}}}
 $$
 
-- \(N_{\mathrm{retired}},N_{\mathrm{cycles}}\): 은퇴 명령 수와 클록 사이클 수
-- \(N_{\mathrm{miss}},N_{\mathrm{access}}\): 캐시 미스 수와 전체 접근 수
-- \(\hat N,N_{\mathrm{raw}}\): 보정 추정치와 원시 계수
-- \(T_{\mathrm{enabled}},T_{\mathrm{running}}\): 측정 요청 시간과 실제 계수 시간
-- 같은 구간•코어와 일정한 비활성 구간 사건 발생률을 가정한 다중화 추정
+- **\(N_{\mathrm{retired}}\)**: 은퇴 명령 수
+- **\(N_{\mathrm{cycles}}\)**: 클록 사이클 수
+- **\(N_{\mathrm{miss}}\)**: 캐시 미스 수
+- **\(N_{\mathrm{access}}\)**: 전체 캐시 접근 수
+- **\(\hat N,N_{\mathrm{raw}}\)**: 보정 추정치•원시 계수
+- **\(T_{\mathrm{enabled}}\)**: 측정 요청 시간
+- **\(T_{\mathrm{running}}\)**: 실제 계수 시간
+- 같은 구간•코어와 일정한 **사건 발생률**을 가정한 다중화 추정
 
 #### 한줄 요약
 

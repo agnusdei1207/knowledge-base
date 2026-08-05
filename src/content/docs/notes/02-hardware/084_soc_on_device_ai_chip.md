@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SoC AI 온디바이스 칩 (SoC On-Device AI Chip)"
-date: "2026-08-05T17:34:32+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 84
@@ -22,11 +22,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SoC(System on Chip)**: 연산•메모리•입출력 제어 기능을 한 칩에 통합한 반도체이다.
-- **AI(Artificial Intelligence)**: 데이터로 학습한 모델을 이용해 인식•판단을 수행하는 기술이다.
-- **CPU(Central Processing Unit)**: 범용 명령과 제어 중심 연산을 수행하는 중앙 처리 장치이다.
-- **GPU(Graphics Processing Unit)**: 다수 연산 코어로 데이터 병렬 처리를 수행하는 장치이다.
-- **NPU(Neural Processing Unit)**: 신경망의 텐서 연산을 병렬 처리하는 AI 가속기이다.
+- **시스템 온 칩(System on Chip, SoC)**: 연산•메모리•입출력 제어 기능을 한 칩에 통합한 반도체이다.
+- **인공지능(Artificial Intelligence, AI)**: 학습 모델로 인식•판단을 수행하는 기술이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 범용 명령과 제어 중심 연산을 수행한다.
+- **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 다수 연산 코어로 데이터 병렬 처리를 수행한다.
+- **신경망 처리 장치(Neural Processing Unit, NPU)**: 신경망 텐서 연산을 병렬 처리하는 AI 가속기이다.
 - **온디바이스 AI**: 단말 내부 자원으로 학습 모델의 추론을 수행하는 기술이다.
 
 </details>
@@ -42,10 +42,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **TOPS(Tera Operations per Second)**: 특정 수치 정밀도에서 가속기가 수행하는 초당 수조 연산 지표이다.
+- **초당 테라 연산(Tera Operations per Second, TOPS)**: 특정 정밀도에서 가속기가 수행하는 초당 수조 연산 지표이다.
 - **메모리 대역폭**: 단위 시간에 메모리에서 연산기로 공급할 수 있는 데이터양이다.
-- **TDP(Thermal Design Power)**: 냉각 설계가 지속적으로 처리해야 하는 기준 발열량이다.
-- **DVFS(Dynamic Voltage and Frequency Scaling)**: 부하와 온도에 따라 전압•주파수를 조절하는 전력 관리 기법이다.
+- **열 설계 전력(Thermal Design Power, TDP)**: 냉각 설계가 지속적으로 처리해야 하는 기준 발열량이다.
+- **동적 전압•주파수 조정(Dynamic Voltage and Frequency Scaling, DVFS)**: 부하와 온도에 따라 전압•주파수를 조절하는 기법이다.
 
 </details>
 
@@ -62,7 +62,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **CPU•GPU 호스트(CPU•GPU Host)**: 전후처리와 미지원 연산 및 런타임 제어를 수행하는 구성이다.
-- **NPU(Neural Processing Unit)**: 지원되는 텐서 연산을 병렬 가속하는 구성이다.
+- **NPU 실행부**: 지원되는 텐서 연산을 병렬 가속하는 구성이다.
 - **메모리•온칩 버퍼(Memory•On-chip Buffer)**: 가중치와 활성값을 공급하고 재사용하는 구성이다.
 - **전력•열 제어(Power•Thermal Control)**: 부하와 온도에 따라 DVFS와 실행 한도를 조절하는 구성이다.
 

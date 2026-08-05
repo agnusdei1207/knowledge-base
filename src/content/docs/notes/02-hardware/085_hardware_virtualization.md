@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-05T17:34:54+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -24,8 +24,8 @@ extra:
 
 - **하드웨어 가상화**: 처리기가 게스트 명령의 직접 실행과 자원 격리를 지원하는 기술이다.
 - **하이퍼바이저**: 가상머신의 물리 자원과 실행 상태를 중재하는 제어 계층이다.
-- **CPU(Central Processing Unit)**: 명령 실행과 시스템 자원 제어를 담당하는 중앙 처리 장치이다.
-- **VM(Virtual Machine)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행하는 시스템이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 명령 실행과 시스템 자원 제어를 담당한다.
+- **가상 머신(Virtual Machine, VM)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행한다.
 
 </details>
 
@@ -40,12 +40,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **VT-x(Intel Virtualization Technology for x86)**: 인텔 x86 처리기에 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
-- **AMD-V(AMD Virtualization)**: AMD 처리기에 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
-- **VMCS(Virtual Machine Control Structure)**: 인텔 처리기에서 게스트 상태와 VM 전환 조건을 저장하는 구조이다.
-- **VMCB(Virtual Machine Control Block)**: AMD 처리기에서 게스트 상태와 VM 전환 조건을 저장하는 구조이다.
-- **EPT(Extended Page Tables)**: 인텔 처리기의 2단계 주소 변환 표이다.
-- **NPT(Nested Page Tables)**: AMD 처리기의 2단계 주소 변환 표이다.
+- **인텔 x86 가상화 기술(Intel Virtualization Technology for x86, VT-x)**: 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
+- **AMD 가상화(AMD Virtualization, AMD-V)**: AMD 처리기에 게스트 실행 모드와 전환 기능을 제공하는 확장이다.
+- **가상 머신 제어 구조(Virtual Machine Control Structure, VMCS)**: 인텔 처리기의 게스트 상태와 전환 조건 저장 구조이다.
+- **가상 머신 제어 블록(Virtual Machine Control Block, VMCB)**: AMD 처리기의 게스트 상태와 전환 조건 저장 구조이다.
+- **확장 페이지 테이블(Extended Page Tables, EPT)**: 인텔 처리기의 2단계 주소 변환 표이다.
+- **중첩 페이지 테이블(Nested Page Tables, NPT)**: AMD 처리기의 2단계 주소 변환 표이다.
 
 </details>
 
@@ -142,7 +142,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ISA(Instruction Set Architecture)**: 처리기가 지원하는 명령 형식과 동작의 규약이다.
+- **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 처리기가 지원하는 명령 형식과 동작의 규약이다.
 - **에뮬레이션(Emulation)**: 다른 하드웨어의 명령과 장치 동작을 소프트웨어로 재현하는 방식이다.
 - **이진 변환(Binary Translation)**: 게스트 명령을 호스트가 실행할 수 있는 명령으로 바꾸는 방식이다.
 
@@ -164,10 +164,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **TLB(Translation Lookaside Buffer)**: 최근 가상•물리 주소 변환을 저장하는 고속 캐시이다.
+- **변환 색인 버퍼(Translation Lookaside Buffer, TLB)**: 최근 가상•물리 주소 변환을 저장하는 고속 캐시이다.
 - **TLB 미스**: 필요한 주소 변환이 TLB에 없어 페이지 테이블 순회가 발생하는 상태이다.
 - **큰 페이지**: 한 TLB 항목이 더 넓은 메모리 범위를 덮도록 기본보다 큰 주소 단위를 쓰는 페이지이다.
-- **NUMA(Non-uniform Memory Access)**: 처리기와 메모리 위치에 따라 접근 시간이 달라지는 구조이다.
+- **비균일 메모리 접근(Non-uniform Memory Access, NUMA)**: 처리기와 메모리 위치에 따라 접근 시간이 달라지는 구조이다.
 - **NUMA 노드**: CPU와 가까운 로컬 메모리를 하나의 접근 지연 영역으로 묶은 단위이다.
 - **가상 중앙 처리 장치(Virtual CPU, vCPU)**: 물리 CPU 실행 시간을 VM에 제공하는 논리 처리기이다.
 

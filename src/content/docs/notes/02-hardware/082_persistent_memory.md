@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "퍼시스턴트 메모리 (Persistent Memory)"
-date: "2026-08-05T12:40:34+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 82
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CPU(Central Processing Unit)**: 명령을 해석하고 연산과 메모리 제어를 수행하는 중앙 처리 장치이다.
-- **I/O(Input/Output)**: 컴퓨터와 장치 사이에서 데이터를 읽거나 쓰는 입출력 작업이다.
+- **중앙 처리 장치(Central Processing Unit, CPU)**: 명령을 해석하고 연산과 메모리 제어를 수행한다.
+- **입출력(Input/Output, I/O)**: 컴퓨터와 장치 사이에서 데이터를 읽거나 쓰는 작업이다.
 - **퍼시스턴트 메모리(Persistent Memory)**: CPU가 바이트 주소로 직접 접근하며 전원 차단 뒤에도 값을 보존하는 메모리이다.
 - **바이트 주소 지정(Byte Addressability)**: CPU가 블록 I/O 대신 개별 메모리 주소 단위로 데이터를 읽고 쓸 수 있는 성질이다.
 - **재시작 지연(Restart Latency)**: 장애 후 저장장치에서 상태를 다시 읽고 자료구조를 복원하는 데 걸리는 시간이다.
@@ -136,8 +136,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DRAM(Dynamic Random-access Memory)**: CPU가 바이트 단위로 접근하지만 전원 차단 시 데이터가 사라지는 작업 메모리이다.
-- **SSD(Solid-state Drive)**: 플래시로 비휘발 대용량 저장을 제공하지만 블록 I/O 계층으로 접근하는 장치이다.
+- **동적 임의 접근 메모리(Dynamic Random-access Memory, DRAM)**: CPU가 바이트 단위로 접근하는 휘발성 작업 메모리이다.
+- **반도체 드라이브(Solid-state Drive, SSD)**: 플래시 기반 비휘발 대용량 블록 저장장치이다.
 - **블록 계층 동기화(Block-layer Synchronization)**: 파일시스템과 운영체제 및 장치 캐시를 거쳐 데이터 영속 완료를 확인하는 처리이다.
 
 </details>

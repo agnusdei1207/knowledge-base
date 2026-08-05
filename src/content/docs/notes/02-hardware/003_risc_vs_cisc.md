@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-08-05T17:06:36+09:00"
+date: "2026-08-05T17:51:54+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -30,7 +30,7 @@ extra:
 
 </details>
 
-- 정의/개념: **RISC와 CISC** 는 명령 형식을 각각 단순•규칙적으로 구성하거나 복합 기능 중심으로 구성하는 **ISA 설계 방식**
+- 정의/개념: **RISC•CISC** 명령 형식을 단순형•복합형으로 나눈 **ISA 설계 방식**
 - 배경/필요성: 복합 가변 명령은 병렬 **해독 처리량 확장 제약**
 
 #### 한줄 요약

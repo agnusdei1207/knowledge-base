@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-05T17:58:06+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -95,9 +95,9 @@ extra:
 - **VALID•READY 핸드셰이크**: 송신 VALID와 수신 READY가 동시에 참일 때 채널 정보를 전달하는 AXI 규칙이다.
 - **APB 설정 단계(APB Setup Phase)**: PSEL과 주소 및 쓰기 데이터를 고정하여 대상 주변장치를 선택하는 첫 주기이다.
 - **APB 접근 단계(APB Access Phase)**: PENABLE을 활성화하고 PREADY 완료 또는 오류 응답까지 요청을 유지하는 단계이다.
-- **PSEL(Peripheral Select)**: APB에서 접근 대상 주변장치를 선택하는 신호이다.
-- **PENABLE(Peripheral Enable)**: APB 설정 다음 주기에 접근 단계를 활성화하는 신호이다.
-- **PREADY(Peripheral Ready)**: APB 주변장치가 접근 완료 여부를 알리는 신호이다.
+- **주변장치 선택 신호(Peripheral Select, PSEL)**: APB에서 접근 대상 주변장치를 선택하는 신호이다.
+- **주변장치 활성 신호(Peripheral Enable, PENABLE)**: APB 설정 다음 주기에 접근 단계를 활성화하는 신호이다.
+- **주변장치 준비 신호(Peripheral Ready, PREADY)**: APB 주변장치가 접근 완료 여부를 알리는 신호이다.
 
 </details>
 

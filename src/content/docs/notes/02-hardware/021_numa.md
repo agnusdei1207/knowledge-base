@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NUMA 비균등 메모리 접근 (Non-Uniform Memory Access)"
-date: "2026-08-05T11:40:40+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 21
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: CPU와 메모리를 노드별로 분산해 **로컬•원격 메모리 접근 지연** 이 다른 다중 프로세서 구조
+- 정의/개념: 노드별 **로컬•원격 메모리 지연**이 다른 NUMA 구조
 - 배경/필요성: 단일 메모리 경로의 **경합•지연** 완화
 
 #### 한줄 요약

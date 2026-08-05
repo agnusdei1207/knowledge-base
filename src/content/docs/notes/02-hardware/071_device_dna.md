@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디바이스 DNA (Device DNA)"
-date: "2026-08-05T17:47:34+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 71
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- 특성 안정성•구분력이 충분하고 개인정보 위험이 낮을 때만 **Device DNA 보조 인증** 적용
+- 특성 안정성•구분력이 높고 개인정보 위험이 낮을 때 **Device DNA** 적용
 
 #### 한줄 요약
 

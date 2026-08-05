@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
-date: "2026-08-05T18:03:22+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -32,7 +32,7 @@ extra:
 
 </details>
 
-- 정의/개념: 서버 직결 DAS, 파일 공유 NAS, 저장망 블록 공유 SAN으로 **블록•파일 I/O**를 제공하는 스토리지 연결 구조
+- 정의/개념: **DAS•NAS•SAN**의 블록•파일 I/O 연결 구조
 - 배경/필요성: 서버 직결만으로는 **다중 사용자•서버 공유 요구 충족 불가**
 
 #### 한줄 요약

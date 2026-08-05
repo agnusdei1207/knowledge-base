@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "입출력 메모리 관리 장치 (IOMMU)"
-date: "2026-08-05T17:35:04+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 86
@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IOVA(Input/Output Virtual Address)**: 장치가 DMA 요청에 사용하는 가상 주소이다.
-- **DMA(Direct Memory Access)**: 장치가 처리기를 거치지 않고 메모리를 읽고 쓰는 방식이다.
-- **IOMMU(Input-Output Memory Management Unit)**: IOVA를 물리 주소로 변환하고 DMA 접근 권한을 검사하는 하드웨어이다.
-- **VM(Virtual Machine)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행하는 시스템이다.
+- **입출력 가상 주소(Input/Output Virtual Address, IOVA)**: 장치가 DMA 요청에 사용하는 가상 주소이다.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: 장치가 처리기를 거치지 않고 메모리를 읽고 쓰는 방식이다.
+- **입출력 메모리 관리 장치(Input-Output Memory Management Unit, IOMMU)**: IOVA를 물리 주소로 변환하고 DMA 권한을 검사한다.
+- **가상 머신(Virtual Machine, VM)**: 격리된 가상 하드웨어에서 게스트 운영체제를 실행한다.
 
 </details>
 
@@ -41,7 +41,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **IOMMU 도메인**: 변환표와 접근 권한을 공유하는 장치 격리 단위이다.
-- **IOTLB(Input/Output Translation Lookaside Buffer)**: 최근의 IOVA 변환 결과를 저장하는 주소 변환 캐시이다.
+- **입출력 변환 색인 버퍼(Input/Output Translation Lookaside Buffer, IOTLB)**: 최근 IOVA 변환 결과를 저장하는 캐시이다.
 - **단일 루트 입출력 가상화(Single Root I/O Virtualization, SR-IOV)**: 하나의 PCIe 장치를 여러 가상 기능으로 나눠 VM에 직접 할당하는 기술이다.
 
 </details>

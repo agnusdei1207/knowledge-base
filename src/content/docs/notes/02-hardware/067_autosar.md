@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-05T17:40:42+09:00"
+date: "2026-08-05T17:56:24+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AUTOSAR(Automotive Open System Architecture)**: 차량 소프트웨어의 구조와 인터페이스 및 개발 방법을 표준화한 플랫폼이다.
+- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 구조와 인터페이스를 표준화한 플랫폼이다.
 - **전자제어장치(Electronic Control Unit, ECU)**: 센서 입력과 제어 소프트웨어에 따라 차량 기능을 실행하는 내장 컴퓨터이다.
 - **소프트웨어 재사용(Software Reuse)**: 표준 인터페이스를 지킨 기능을 여러 차량과 하드웨어 구성에서 반복 활용하는 방식이다.
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RISC-V 개방형 ISA (RISC-V Open Standard ISA)"
-date: "2026-08-05T17:06:36+09:00"
+date: "2026-08-05T17:51:54+09:00"
 tags:
   - "notes-hardware"
 weight: 4
@@ -30,8 +30,8 @@ extra:
 
 </details>
 
-- 정의/개념: **RISC-V** 는 공개된 기본 명령어 집합에 표준•사용자 정의 확장을 조합하는 **개방형 ISA 규격**
-- 배경/필요성: 폐쇄형 ISA는 라이선스와 변경 권한 때문에 **전용 명령•독자 코어 구현이 제약**
+- 정의/개념: **RISC-V** 기본 명령어 집합에 확장을 조합한 **개방형 ISA**
+- 배경/필요성: 폐쇄형 ISA 라이선스로 **전용 명령•독자 코어 구현 제약**
 
 #### 한줄 요약
 

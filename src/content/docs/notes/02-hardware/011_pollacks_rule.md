@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "폴락의 법칙 (Pollack's Rule)"
-date: "2026-08-05T17:06:36+09:00"
+date: "2026-08-05T17:59:39+09:00"
 tags:
   - "notes-hardware"
 weight: 11
@@ -51,7 +51,7 @@ extra:
 
 ![코어 복잡도에 따른 단일 스레드 성능의 제곱근 증가 차트](/study/diagrams/pollacks-rule-growth.svg)
 
-> 공식 기반 파란 선은 정규화 코어 복잡도가 1→16으로 늘어도 단일 스레드 성능은 1→4로 제곱근 증가해 투자 대비 성능 이득이 둔화됨을 나타낸다.
+> **코어 복잡도 16배**에도 단일 스레드 성능은 4배 증가
 
 $$
 \frac{P_1}{P_0} \approx \sqrt{\frac{C_1}{C_0}}

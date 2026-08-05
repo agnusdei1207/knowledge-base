@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Arm TrustZone 보안 확장"
-date: "2026-08-05T17:34:11+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 64
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **Arm TrustZone 보안 확장**, 실행 환경과 자원에 보안 상태•거래 속성 격리 적용
+- 정의/개념: 실행 환경•자원을 격리하는 **Arm TrustZone 보안 확장**
 - 배경/필요성: **OS 권한 격리**만으로는 커널 침해 시 보안 자산 보호 불가
 
 #### 한줄 요약

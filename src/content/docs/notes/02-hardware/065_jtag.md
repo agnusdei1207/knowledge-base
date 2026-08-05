@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "JTAG 디버깅 인터페이스 (JTAG)"
-date: "2026-08-05T17:36:19+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 65
@@ -31,7 +31,7 @@ extra:
 
 </details>
 
-- 정의/개념: IC•PCB 연결 검사에 **IEEE 1149.1 TAP•경계 스캔**을 사용하는 JTAG
+- 정의/개념: IC•PCB 연결을 검사하는 **IEEE 1149.1 경계 스캔**
 - 배경/필요성: 물리 탐침으로는 패키지 내부 **핀•배선 관측 불가**
 
 #### 한줄 요약

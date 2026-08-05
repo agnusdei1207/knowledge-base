@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-05T17:29:26+09:00"
+date: "2026-08-05T17:59:39+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -167,7 +167,7 @@ extra:
 | 경로가 특정 포트에 **집중** | 토폴로지 배치와 **다중 경로** 조정 | **핫스폿** 완화 |
 | **크레딧 부족** 의 상류 전파 | 크레딧•대기•**집단 통신 지연** 감시 | **혼잡 원인** 식별 |
 
-> 분산 AI 학습은 GPUDirect RDMA로 GPU 메모리와 원격 HCA가 직접 데이터를 교환해 CPU 복사와 집단 통신 대기를 줄인다.
+> **GPUDirect RDMA**로 CPU 복사•집단 통신 대기 감소
 
 #### 한줄 요약
 

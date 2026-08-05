@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-05T11:55:52+09:00"
+date: "2026-08-05T17:59:39+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -162,7 +162,7 @@ extra:
 | 링크 오류•세대 차이로 **대역폭 축소** | 링크 감시와 **호환 구성 검증** | **장애 조기 식별** |
 | 버퍼 재사용•**연산 유휴** | 이벤트 수명 보장과 **통신•연산 중첩** | **정합성•가동률** 향상 |
 
-> DGX 학습은 NCCL All-Reduce를 NVLink•NVSwitch에 배치해 CPU 호스트 메모리•PCIe 경로를 거치지 않고 기울기를 집계한다.
+> **NVLink•NVSwitch**에서 NCCL 기울기 직접 집계
 
 #### 한줄 요약
 

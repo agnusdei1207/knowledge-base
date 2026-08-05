@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DRAM과 SRAM 비교 (DRAM vs SRAM)"
-date: "2026-08-05T11:41:48+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 23
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **전하 셀** 기반 DRAM은 고밀도를, **래치 셀** 기반 SRAM은 짧은 지연을 구현하는 휘발성 메모리
+- 정의/개념: **전하 셀 DRAM**과 **래치 셀 SRAM** 기반 휘발성 메모리
 - 배경/필요성: 단일 셀 구조로는 **고밀도•저지연 동시 확보 곤란**
 
 #### 한줄 요약

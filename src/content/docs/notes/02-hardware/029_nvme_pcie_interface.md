@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NVMe•PCIe 인터페이스 (NVMe PCIe)"
-date: "2026-08-05T17:24:30+09:00"
+date: "2026-08-05T17:53:06+09:00"
 tags:
   - "notes-hardware"
 weight: 29
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: PCIe SSD의 플래시 병렬성을 활용하도록 설계한 **저지연 다중 큐 저장 인터페이스**
+- 정의/개념: PCIe SSD 병렬성을 활용하는 **NVMe 다중 큐 인터페이스**
 - 배경/필요성: 단일 큐의 **플래시 병렬성 제한** 해소
 
 #### 한줄 요약
