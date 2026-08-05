@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정적 분석 결과 해석 (Static Analysis Result Interpretation)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 36
@@ -88,22 +88,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant D as 개발자
-  participant T as 분석 도구
-  participant R as 검토자
-  participant G as 품질 게이트
-  D->>T: 분석 대상•룰셋 제출
-  T->>T: 1. 정적 경고•오염 흐름 분석
-  T->>R: 분석 결과 전달
-  R->>D: 실행 경로•통제 근거 요청
-  D-->>R: 실행 조건•통제 근거 반환
-  R->>R: 2. 실행 가능성•통제 유효성 검증
-  R->>R: 3. TP•FP•위험 수용 판정
-  R->>G: 판정•조치 전달
-  G->>G: 4. 수정•예외•통과 결정
-  G-->>D: 게이트 결과 전달
+```text
+분석 도구
+   │ 1. 정적 경고•오염 흐름 분석
+   │    위험 함수까지의 경로•신뢰도 산출
+   ▼
+검토자
+   │ 2. 실행 가능성•통제 유효성 검증
+   │    호출 조건과 검증•권한 통제 확인
+   ▼
+검토자
+   │ 3. TP•FP•위험 수용 판정
+   │    실제 결함•오탐•수용 상태 구분
+   ▼
+품질 게이트
+   │ 4. 수정•예외•통과 결정
+   │    위험 수용의 기한•통제 기록
 ```
 
 **동작 원리**

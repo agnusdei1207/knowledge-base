@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSAP 클라우드 보안 인증 평가 (CSAP Assessment)"
-date: "2026-08-05T14:03:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -108,23 +108,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 신청기관
-    participant K as 인증기관
-    participant E as 평가기관
-    participant B as 인증위원회
-    C->>K: 인증 신청•범위 명세
-    K->>K: 1. 신청•범위 예비검토
-    K->>E: 평가 배정
-    E->>E: 2. 서면•현장 평가
-    E->>C: 보완조치 요청
-    C-->>E: 보완조치 증거
-    E->>E: 3. 보완조치 확인
-    E->>B: 평가보고서 상정
-    B->>B: 4. 인증 심의
-    B-->>K: 인증 여부•범위
-    K-->>C: 인증 결과
+```text
+              [신청기관]
+                  │ 인증 신청•범위 명세
+                  ▼
+              [인증기관(KISA)]
+                  │ 1. 신청•범위 예비검토
+                  │   평가 배정
+                  ▼
+              [평가기관]
+                  │ 2. 서면•현장 평가
+                  │   보완 요청
+                  ▼
+              [신청기관]
+                  │ 보완조치 증거
+                  ▼
+              [평가기관]
+                  │ 3. 보완조치 확인
+                  │   평가보고서 상정
+                  ▼
+              [인증위원회]
+                  │ 4. 인증 심의
+                  │   인증 여부•범위 반환
+                  ▼
+              [인증기관(KISA)]
+                  │ 인증 결과
+                  ▼
+              [신청기관]
 ```
 
 1. **신청•범위 예비검토**: 유형•등급•인증 범위와 평가 가능성 확인

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "결함 허용 시스템 (Fault-Tolerant System)"
-date: "2026-08-05T01:54:30+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 23
@@ -95,22 +95,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant I as 입력 제어기
-  participant M as 중복 모듈
-  participant V as 표결기
-  participant D as 진단기
-  participant R as 재통합 제어기
-  I->>I: 1. 동일 입력 복제•배포
-  I->>M: 복제 입력 전달
-  M->>M: 2. 중복 모듈 독립 실행
-  M->>V: 모듈별 결과 전달
-  V->>V: 3. 결과 비교•다수값 선택
-  V->>D: 불일치 정보 전달
-  D->>D: 4. 결함 위치 진단•격리
-  D->>R: 격리 결과 전달
-  R->>R: 5. 복구•동기화•재통합
+```text
+       입력 제어기
+              │ 1. 동일 입력 복제•배포
+              │    복제 입력 전달
+              ▼
+       중복 모듈
+              │ 2. 중복 모듈 독립 실행
+              │    모듈별 결과 전달
+              ▼
+       표결기
+              │ 3. 결과 비교•다수값 선택
+              │    불일치 정보 전달
+              ▼
+       진단기
+              │ 4. 결함 위치 진단•격리
+              │    격리 결과 전달
+              ▼
+   재통합 제어기
+              │ 5. 복구•동기화•재통합
+              ▼
+                중복성 회복
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "디지털 서비스 성숙도 모형 평가 (Digital Service Maturity Evaluation)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -88,22 +88,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant E as 평가자
-    participant O as 서비스 조직
-    participant S as 운영 시스템
-    O->>E: 성숙도 평가 요청
-    E->>E: 1. 목적•수준 기준 설정
-    E->>O: 실행•성과 증거 요청
-    O->>S: 정책•로그•성과 조회
-    S-->>E: 실행•성과 증거
-    E->>E: 2. 현재 수준 판정
-    E->>E: 3. 목표 수준•갭 분석
-    E-->>O: 현재 수준•갭 프로파일
-    O-->>E: 로드맵 KPI•개선 증거
-    E->>E: 4. KPI•수준 재평가
-    E-->>O: 재평가 결과
+```text
+              [서비스 조직]
+                  │ 성숙도 평가 요청
+                  ▼
+              [평가자]
+                  │ 1. 목적•수준 기준 설정
+                  │   실행•성과 증거 요청
+                  ▼
+              [서비스 조직]
+                  │ 정책•로그•성과 조회
+                  ▼
+              [운영 시스템]
+                  │ 실행•성과 증거
+                  ▼
+              [평가자]
+                  │ 2. 현재 수준 판정
+                  │ 3. 목표 수준•갭 분석
+                  │   현재 수준•갭 프로파일 반환
+                  ▼
+              [서비스 조직]
+                  │ 로드맵 KPI•개선 증거
+                  ▼
+              [평가자]
+                  │ 4. KPI•수준 재평가
+                  │   재평가 결과
+                  ▼
+              [서비스 조직]
 ```
 
 1. **목적•수준 기준 설정**: 사업 목표•평가 범위•단계별 충족 증거 확정

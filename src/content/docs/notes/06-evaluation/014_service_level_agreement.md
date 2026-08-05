@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SLA 서비스 수준 협약 (Service Level Agreement)"
-date: "2026-08-05T13:26:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 14
@@ -92,24 +92,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant P as 서비스 제공자
-  participant C as 고객
-  participant M as 측정 시스템
-  participant R as 검토위원회
-  participant S as 정산 시스템
-  P->>C: SLA 초안
-  C->>C: 1. 수정 조건•보상안 검토
-  C->>P: 조정 요구 전달
-  P->>P: 2. 측정•면책•보상 기준 확정
-  P->>M: 확정 측정 기준 전달
-  M->>M: 3. 고객•제공자 병행 측정•대조
-  M->>R: 측정 결과 전달
-  R->>R: 4. 미달•책임•크레딧 판정
-  R->>S: 판정 결과 전달
-  S->>S: 5. 보고•보상•개선 이행 추적
-  S-->>P: 보고•보상•개선 추적 결과
+```text
+서비스 제공자·고객
+   │ 1. 수정 조건·보상안 검토
+   │ 2. 측정·면책·보상 기준 확정
+   ▼
+측정 시스템
+   │ 3. 고객·제공자 병행 측정·대조
+   ▼
+검토위원회
+   │ 4. 미달·책임·크레딧 판정
+   ▼
+정산 시스템
+   │ 5. 보고·보상·개선 이행 추적
+   ▼
+보고·보상·개선 추적 결과
 ```
 
 **동작 원리**

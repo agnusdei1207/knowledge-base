@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 등급 표준 (TIA-942 Rated)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T23:30:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -99,23 +99,28 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as 사업주
-  participant A as 설계자
-  participant T as 평가기관
-  C->>A: 복원력 요구
-  A-->>C: BIA•RTO 분석 자료
-  C->>C: 1. BIA•RTO 기반 목표 Rated 결정
-  C->>A: 목표 등급 전달
-  A->>A: 2. 전력•냉각•통신 경로 설계
-  A->>T: 설계 검증 요청
-  T->>T: 3. 단일 장애점•공통 원인 검증
-  T->>A: 보완 설계 요구
-  A->>A: 4. 보완 시공•종합 시운전 수행
-  A->>T: 시공•시운전 증거 전달
-  T->>T: 5. 설계•현장 Rated 판정
-  T-->>C: Rated 결과 반환
+```text
+              [사업주]
+                  │ BIA•RTO 분석 자료
+                  ▼
+              [설계자]
+                  │ 1. BIA•RTO 기반 목표 Rated 결정
+                  │ 2. 전력•냉각•통신 경로 설계
+                  │   설계 검증 요청
+                  ▼
+              [평가기관]
+                  │ 3. 단일 장애점•공통 원인 검증
+                  │   보완 설계 요구
+                  ▼
+              [시공자]
+                  │ 4. 보완 시공•종합 시운전 수행
+                  │   시공•시운전 증거 전달
+                  ▼
+              [평가기관]
+                  │ 5. 설계•현장 Rated 판정
+                  │
+                  ▼
+              [사업주]
 ```
 
 **동작 원리**

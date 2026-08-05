@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "시스템 신뢰성 지표 - MTBF•MTTR•MTTF (Reliability Metrics)"
-date: "2026-08-05T13:24:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 12
@@ -96,22 +96,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 지표 책임자
-  participant M as 감시 시스템
-  participant I as 장애 관리
-  participant R as 복구 담당
-  participant C as 지표 계산기
-  O->>M: 대상•고장•복구 경계 전달
-  M->>M: 1. 가동•고장 사건 기록
-  M->>I: 상태 사건 전달
-  I->>I: 2. 탐지•진단•수리 구간 분해
-  I->>R: 장애 시간선 전달
-  R->>R: 3. 복구 완료•정상화 시각 검증
-  R->>C: 가동•복구 시간 전달
-  C->>C: 4. MTBF•MTTR•가용성 산출
-  C-->>O: 분포•가용성•개선축 판정
+```text
+지표 책임자
+   │ 대상·고장·복구 경계 전달
+   ▼
+감시 시스템·장애 관리
+   │ 1. 가동·고장 사건 기록
+   │ 2. 탐지·진단·수리 구간 분해
+   ▼
+복구 담당
+   │ 3. 복구 완료·정상화 시각 검증
+   ▼
+지표 계산기
+   │ 4. MTBF·MTTR·가용성 산출
+   ▼
+분포·가용성·개선축 판정
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "TPS 계산 - 동시 사용자•응답 시간 공식 (TPS Calculation)"
-date: "2026-08-05T01:52:35+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 7
@@ -97,20 +97,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 업무 책임자
-  participant A as 분석가
-  participant M as 측정기
-  participant C as 계산•검증기
-  O->>A: 거래 경계•피크 비율 전달
-  A->>A: 1. N•R•Z 측정 조건 확정
-  A->>M: 측정 조건 전달
-  M->>M: 2. N•R•Z 표본 수집
-  M->>C: 측정 표본 전달
-  C->>C: 3. X=N/(R+Z) 계산
-  C->>C: 4. 업무 비율•피크 TPS 보정
-  C-->>O: 목표 TPS•시험 부하 결과
+```text
+업무 책임자
+   │ 거래 경계·피크 비율 전달
+   ▼
+분석가·측정기
+   │ 1. N·R·Z 측정 조건 확정
+   │ 2. N·R·Z 표본 수집
+   ▼
+계산·검증기
+   │ 3. X=N/(R+Z) 계산
+   │ 4. 업무 비율·피크 TPS 보정
+   ▼
+목표 TPS·시험 부하 결과
 ```
 
 **동작 원리**

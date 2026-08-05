@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 전력 효율 지표 (PUE, Power Usage Effectiveness)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -99,21 +99,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 운영자
-  participant F as 시설계측기
-  participant I as IT계측기
-  participant A as 에너지분석기
-  O->>O: 1. 측정 경계•기간 확정
-  O->>F: 측정 조건 전달
-  O->>I: 측정 조건 전달
-  F->>F: 2. 총 시설 에너지 집계
-  F->>A: 시설 에너지 전달
-  I->>I: 3. IT 장비 에너지 집계
-  I->>A: IT 에너지 전달
-  A->>A: 4. PUE•비IT 손실 추세 분석
-  A-->>O: 분석 결과 반환
+```text
+              [운영자]
+                  │ 1. 측정 경계•기간 확정
+                  │   측정 조건 전달
+                  ▼
+   ┌─────────────────┴─────────────────┐
+   ▼ 2. 총 시설 에너지 집계             ▼ 3. IT 장비 에너지 집계
+[시설계측기]                       [IT계측기]
+   │ 시설 에너지 전달                    │ IT 에너지 전달
+   └─────────────────┬─────────────────┘
+                     ▼
+              [에너지분석기]
+                  │ 4. PUE•비IT 손실 추세 분석
+                  │
+                  ▼
+              [운영자]
 ```
 
 **동작 원리**

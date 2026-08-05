@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "가용성 계산 - 99.9% vs 99.99% (Availability Calculation)"
-date: "2026-08-05T13:25:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 13
@@ -102,20 +102,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 서비스•의사결정 책임자
-  participant M as 감시 시스템
-  participant C as 가용성 계산기
-  participant A as 구조 분석기
-  O->>M: 측정 경계•중단 규칙 전달
-  M->>M: 1. 가동•중단 구간 판정•합산
-  M->>C: 측정 구간 전달
-  C->>C: 2. 실측 가용성•중단 예산 산출
-  C->>A: 가용성 결과 전달
-  A->>A: 3. 경로 가용성•의존성 분석
-  A->>O: 구조 분석 결과 전달
-  O->>O: 4. 목표•복구•이중화 결정
+```text
+서비스·의사결정 책임자
+   │ 측정 경계·중단 규칙 전달
+   ▼
+감시 시스템
+   │ 1. 가동·중단 구간 판정·합산
+   ▼
+가용성 계산기
+   │ 2. 실측 가용성·중단 예산 산출
+   │ 3. 경로 가용성·의존성 분석
+   ▼
+구조 분석기
+   │ 4. 목표·복구·이중화 결정
+   ▼
+목표·복구·이중화 개선안
 ```
 
 **동작 원리**

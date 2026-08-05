@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "정보시스템 감리 유형 (Audit Types)"
-date: "2026-08-05T01:56:59+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -89,19 +89,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 발주자
-    participant A as 감리책임자
-    participant T as 감리팀
-    C->>A: 사업 위험•준거 전달
-    A->>A: 1. 사업 위험 분석
-    A->>A: 2. 유형•시점 선정
-    A->>A: 3. 범위•전문분야 배정
-    A->>T: 감리 범위 전달
-    T-->>A: 점검 결과•지적 이력
-    A->>A: 4. 조치•잔여 위험 판정
-    A-->>C: 감리 결과
+```text
+              [발주자]
+                  │ 사업 위험•준거 전달
+                  ▼
+              [감리책임자]
+                  │ 1. 사업 위험 분석
+                  │ 2. 유형•시점 선정
+                  │ 3. 범위•전문분야 배정
+                  │   감리 범위 전달
+                  ▼
+              [감리팀]
+                  │ 점검 결과•지적 이력
+                  ▼
+              [감리책임자]
+                  │ 4. 조치•잔여 위험 판정
+                  │   결과 반환
+                  ▼
+              [발주자]
 ```
 
 **동작 원리**

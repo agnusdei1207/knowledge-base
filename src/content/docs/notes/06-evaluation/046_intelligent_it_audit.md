@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보기술 감리 (Intelligent IT Audit)"
-date: "2026-08-05T14:01:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -98,22 +98,30 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 감리인
-    participant B as 업무 책임자
-    participant S as 융합 시스템
-    participant O as 운영자
-    B->>A: 융합 시스템 감리 요청
-    A->>A: 1. 책임•위험 정의
-    A->>S: 종단 경로 시험 요청
-    S-->>A: 데이터•판단•동작 증거
-    A->>A: 2. 종단 경로 검증
-    A->>O: 운영 통제 증거 요청
-    O-->>A: 배포•장애•개입 기록
-    A->>A: 3. 변경•복구 통제 검증
-    A->>A: 4. 복합 위험•책임 판정
-    A-->>B: 감리 결과
+```text
+              [업무 책임자]
+                  │ 융합 시스템 감리 요청
+                  ▼
+              [감리인]
+                  │ 1. 책임•위험 정의
+                  │   종단 경로 시험 요청
+                  ▼
+              [융합 시스템]
+                  │ 데이터•판단•동작 증거
+                  ▼
+              [감리인]
+                  │ 2. 종단 경로 검증
+                  │   운영 통제 증거 요청
+                  ▼
+              [운영자]
+                  │ 배포•장애•개입 기록
+                  ▼
+              [감리인]
+                  │ 3. 변경•복구 통제 검증
+                  │ 4. 복합 위험•책임 판정
+                  │
+                  ▼
+              [업무 책임자]
 ```
 
 1. **책임•위험 정의**: 자동화 목적•오류 비용•승인•중단 책임 확정

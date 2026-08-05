@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "용량 계획 (Capacity Planning)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -86,21 +86,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as 계획자
-    participant B as 업무부서
-    participant S as 대상 시스템
-    participant V as 공급자
-    B->>P: 성장•피크•장애 수요
-    P->>S: 기준선 측정 요청
-    S-->>P: 처리량•지연•포화 한계
-    P->>P: 1. 기준선•자원 모델 수립
-    P->>P: 2. 미래 수요 예측
-    P->>P: 3. 용량•확장 시점 결정
-    P->>V: 조달•확장 요청
-    V-->>P: 조달•부하 시험 결과
-    P->>P: 4. 부하 검증•모델 보정
+```text
+              [업무부서]
+                  │ 성장•피크•장애 수요
+                  ▼
+              [계획자]
+                  │ 기준선 측정 요청
+                  ▼
+              [대상 시스템]
+                  │ 처리량•지연•포화 한계
+                  ▼
+              [계획자]
+                  │ 1. 기준선•자원 모델 수립
+                  │ 2. 미래 수요 예측
+                  │ 3. 용량•확장 시점 결정
+                  │   조달•확장 요청
+                  ▼
+              [공급자]
+                  │ 조달•부하 시험 결과
+                  ▼
+              [계획자]
+                  │ 4. 부하 검증•모델 보정
 ```
 
 1. **기준선•자원 모델 수립**: 워크로드별 성능과 병목 자원 관계 측정

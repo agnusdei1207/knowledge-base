@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "병목 분석 (Bottleneck Analysis)"
-date: "2026-08-05T01:52:35+09:00"
+date: "2026-08-05T23:05:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 2
@@ -57,9 +57,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **USE(Utilization, Saturation, Errors)**: 자원별 이용률•포화도•오류를 점검하는 방법론이다.
-- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
 - **RED(Requests, Errors, Duration)**: 서비스별 요청률•오류율•처리시간을 점검하는 방법론이다.
-- **프로파일러**: 코드별 실행시간과 자원 사용량을 측정하는 도구이다.
 
 </details>
 
@@ -78,29 +76,25 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **분산 추적**: 하나의 요청이 여러 서비스에서 거친 구간과 시간을 연결한 기록이다.
-- **핫스폿**: 실행시간이나 자원 사용이 집중되어 개선 효과가 큰 코드 구간이다.
 - **재현 조건**: 병목 후보의 전후 결과를 비교할 수 있도록 요청률•데이터•환경을 동일하게 고정한 시험 조건이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 분석가
-  participant L as 부하도구
-  participant S as 서비스
-  participant M as 자원 수집기
-  A->>L: 재현 조건 전달
-  L->>L: 1. 기준 부하 실행
-  L->>S: 시험 요청 전송
-  S->>M: 추적•자원 원자료 전달
-  M->>M: 2. 요청 추적•자원 지표 수집
-  M->>M: 3. USE•RED 지표 상관 분석
-  M->>A: 상관 분석 결과 전달
-  A->>A: 4. 병목 후보 검증 조건 수립
-  A->>L: 검증 조건 전달
-  L->>S: 검증 부하 전송
-  S-->>A: 개선 전후 처리량•지연 결과
+```text
+분석가
+   │ 재현 조건 확정
+   ▼
+부하 도구
+   │ 1. 기준 부하 실행
+   ▼
+시험 대상·자원 수집기
+   │ 2. 요청 추적·자원 지표 수집
+   │ 3. USE·RED 상관 분석
+   ▼
+검증 책임자
+   │ 4. 병목 후보 검증 조건 수립
+   ▼
+개선 전후 처리량·지연 결과
 ```
 
 **동작 원리**

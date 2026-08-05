@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "FTA 결함 나무 분석 (Fault Tree Analysis)"
-date: "2026-08-05T01:54:30+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 26
@@ -95,23 +95,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 안전 분석가
-  participant S as 시스템 설계
-  participant T as 결함수 도구
-  participant Q as 위험 계산기
-  participant O as 위험 책임자
-  A->>A: 1. 최상위 사건•경계 정의
-  A->>S: 분석 범위 전달
-  S->>S: 2. 기본 사건•논리 관계 분해
-  S->>T: 결함수 구조 전달
-  T->>T: 3. 최소 컷셋 도출
-  T->>Q: 컷셋 전달
-  Q->>Q: 4. 확률•중요도•공통원인 평가
-  Q->>O: 위험 평가 전달
-  O->>O: 5. 설계 통제•잔여위험 결정
-  O-->>A: 분석•통제 결과 전달
+```text
+       안전 분석가
+              │ 1. 최상위 사건•경계 정의
+              │    분석 범위 전달
+              ▼
+       시스템 설계
+              │ 2. 기본 사건•논리 관계 분해
+              │    결함수 구조 전달
+              ▼
+       결함수 도구
+              │ 3. 최소 컷셋 도출
+              │    컷셋 전달
+              ▼
+       위험 계산기
+              │ 4. 확률•중요도•공통원인 평가
+              │    위험 평가 전달
+              ▼
+       위험 책임자
+              │ 5. 설계 통제•잔여위험 결정
+              ▼
+                분석•통제 결과
 ```
 
 **동작 원리**

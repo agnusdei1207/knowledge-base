@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "장애 복구 전략 - 핫•웜•콜드 사이트 (Disaster Recovery Site)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 19
@@ -97,24 +97,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant P as 주 센터
-  participant M as 재해 책임자
-  participant D as DR 사이트
-  participant N as 네트워크 제어
-  participant U as 업무 사용자
-  P->>P: 1. 영향 업무•예상 중단시간 분석
-  P->>M: 재해 영향 전달
-  M->>M: 2. 재해 선언•복구 목표 결정
-  M->>D: 재해 선언•복구 목표 전달
-  D->>D: 3. 일관된 복제본•우선 업무 복구
-  D->>N: 복구 서비스•접속 주소 전달
-  N->>N: 4. DR 접속 경로 전환
-  N->>U: 전환 접점•검증 범위 전달
-  U->>U: 5. 기능•데이터•RTO 검증
-  U-->>M: 기능•데이터•RTO 검증 결과
-  M->>P: 장애 복귀 승인
+```text
+       주 센터
+              │ 1. 영향 업무•예상 중단시간 분석
+              │    재해 영향 전달
+              ▼
+       재해 책임자
+              │ 2. 재해 선언•복구 목표 결정
+              │    재해 선언•복구 목표 전달
+              ▼
+       DR 사이트
+              │ 3. 일관된 복제본•우선 업무 복구
+              │    복구 서비스•접속 주소 전달
+              ▼
+   네트워크 제어
+              │ 4. DR 접속 경로 전환
+              │    전환 접점•검증 범위 전달
+              ▼
+       업무 사용자
+              │ 5. 기능•데이터•RTO 검증
+              ▼
+                검증 결과
 ```
 
 **동작 원리**

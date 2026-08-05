@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버•페일백 (Auto Failover Failback)"
-date: "2026-08-05T01:54:30+09:00"
+date: "2026-08-05T23:22:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 22
@@ -88,24 +88,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 상태 감시기
-  participant C as 전환 제어기
-  participant P as 주 노드
-  participant S as 대기 노드
-  participant E as 서비스 진입점
-  M->>M: 1. 장애•쿼럼•지속시간 판정
-  M->>C: 장애 판정 전달
-  C->>C: 2. 기존 쓰기 펜싱
-  C->>P: 쓰기 차단 명령
-  C->>C: 3. 대기 승격•진입점 전환
-  C->>S: 승격 명령
-  S->>E: 서비스 경로 갱신
-  S->>S: 4. 역복제•안정성 검증
-  S->>P: 변경분 역복제
-  C->>C: 5. 승인•점진 페일백
-  C->>E: 페일백 경로 전달
+```text
+       상태 감시기
+              │ 1. 장애•쿼럼•지속시간 판정
+              │    장애 판정 전달
+              ▼
+       전환 제어기
+              ├─ 2. 기존 쓰기 펜싱
+              │    쓰기 차단 명령
+              └─ 3. 대기 승격•진입점 전환
+                   승격 명령•서비스 경로 갱신
+                          │
+                          ▼
+       대기 노드
+              │ 4. 역복제•안정성 검증
+              │    변경분 역복제
+              ▼
+       페일백 승인자
+              │ 5. 승인•점진 페일백
+              │    페일백 경로 전달
+              ▼
+                전환 절차 완료
 ```
 
 **동작 원리**

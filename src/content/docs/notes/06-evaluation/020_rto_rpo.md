@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "RTO•RPO 정의•측정 (RTO RPO)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 20
@@ -85,22 +85,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 업무 책임자
-  participant A as BIA 분석가
-  participant B as 보호 체계
-  participant R as 복구 환경
-  participant V as 검증팀
-  O->>A: 업무•의존성•중단•손실 영향
-  A->>A: 1. RTO•RPO•업무 우선순위 산정
-  A->>B: 승인된 복구 목표 전달
-  B->>B: 2. 복제 주기•복구•승계 조건 설계
-  B->>R: 보호 설계 전달
-  R->>R: 3. 재해 선언•복구•업무 재개 실행
-  R->>V: 복구 결과 전달
-  V->>V: 4. 실제 RTO•RPO•정합성 검증
-  V-->>O: 실제 복구시간•데이터 손실•격차
+```text
+       업무 책임자
+              │ 업무•의존성•중단•손실 영향
+              ▼
+       BIA 분석가
+              │ 1. RTO•RPO•업무 우선순위 산정
+              │    승인된 복구 목표 전달
+              ▼
+       보호 체계
+              │ 2. 복제 주기•복구•승계 조건 설계
+              │    보호 설계 전달
+              ▼
+       복구 환경
+              │ 3. 재해 선언•복구•업무 재개 실행
+              │    복구 결과 전달
+              ▼
+       검증팀
+              │ 4. 실제 RTO•RPO•정합성 검증
+              ▼
+                실제 복구시간•데이터 손실•격차
 ```
 
 **동작 원리**

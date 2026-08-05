@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "시스템 성능 지표 - TPS•응답시간•처리량•가용성 (System KPI)"
-date: "2026-08-05T01:52:35+09:00"
+date: "2026-08-05T22:50:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 1
@@ -103,20 +103,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 서비스 책임자
-  participant L as 부하 발생기
-  participant S as 서비스
-  participant C as 수집•분석기
-  O->>O: 1. 업무•부하•목표 정의
-  O->>L: 시험 조건 전달
-  L->>L: 2. 동시성•요청률 부하 생성
-  L->>S: 시험 요청 전송
-  S->>S: 3. 완료•오류•구간 기록
-  S->>C: 측정 기록 전달
-  C->>C: 4. TPS•지연•가용성 산출
-  C-->>O: SLO 충족•병목 판정 결과
+```text
+측정 책임자
+     │ 1. 업무•부하•목표 정의
+     │    거래•기간•성공•SLO 확정
+     ▼
+부하 발생기
+     │ 2. 동시성•요청률 부하 생성
+     │    시험 부하 조건 재현
+     ▼
+서비스
+     │ 3. 완료•오류•구간 기록
+     │    종료시각•상태•추적 수집
+     ▼
+수집•분석기
+     │ 4. TPS•지연•가용성 산출
+     │    분모•백분위•중단 계산
+     ▼
+SLO 충족•병목 판정
 ```
 
 **동작 원리**

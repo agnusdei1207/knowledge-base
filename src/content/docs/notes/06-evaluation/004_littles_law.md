@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "리틀의 법칙 (Little's Law)"
-date: "2026-08-05T01:52:35+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 4
@@ -101,21 +101,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 분석가
-  participant M as 측정•지표 시스템
-  participant C as 계산기
-  participant V as 검증기
-  A->>M: 작업•측정 경계 전달
-  M->>M: 1. 안정 구간 지표 저장
-  M->>M: 2. L•λ•W 평균값 산출
-  M->>C: 관측 평균값 전달
-  C->>C: 3. L=λW 계산값 산출
-  C->>V: 계산값 전달
-  V->>V: 4. 관측값•가정 교차검증
-  V->>M: 검증 결과 전달
-  M-->>A: 동시성•처리율•체류시간 결과
+```text
+분석가
+   │ 작업·측정 경계 확정
+   ▼
+측정·지표 시스템
+   │ 1. 안정 구간 지표 저장
+   │ 2. L·λ·W 평균값 산출
+   ▼
+계산기
+   │ 3. L=λW 계산값 산출
+   ▼
+검증기
+   │ 4. 관측값·가정 교차검증
+   ▼
+동시성·처리율·체류시간 결과
 ```
 
 **동작 원리**

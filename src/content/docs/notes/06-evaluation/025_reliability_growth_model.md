@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "신뢰성 성장 모델 (Reliability Growth Model)"
-date: "2026-08-05T01:54:30+09:00"
+date: "2026-08-05T23:24:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 25
@@ -90,25 +90,27 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant T as 시험 환경
-  participant A as 결함 분석팀
-  participant F as 수정 형상
-  participant M as 성장 모델
-  participant D as 출시 판단
-  loop TAAF 반복
-    T->>T: 1. 동일 프로파일 고장•시간 수집
-    T->>A: 고장 기록 전달
-    A->>A: 2. 원인 분석•수정안 수립
-    A->>F: 수정안 전달
-    F->>F: 3. 수정 형상 생성•재시험 투입
-    F->>T: 수정 형상 전달
-  end
-  T->>M: 누적 시험 기록 전달
-  M->>M: 4. 성장 모수•신뢰구간 추정
-  M->>D: 추정 모수•불확실성 전달
-  D->>D: 5. 목표•잔여위험•종료 판정
+```text
+       시험 환경
+              │ 1. 동일 프로파일 고장•시간 수집
+              │    고장 기록 전달
+              ▼
+       결함 분석팀
+              │ 2. 원인 분석•수정안 수립
+              │    수정안 전달
+              ▼
+       수정 형상
+              │ 3. 수정 형상 생성•재시험 투입
+              │    수정 형상 전달
+              ▼
+       성장 모델
+              │ 4. 성장 모수•신뢰구간 추정
+              │    추정 모수•불확실성 전달
+              ▼
+       출시 판단
+              │ 5. 목표•잔여위험•종료 판정
+              ▼
+                시험 종료 결정
 ```
 
 **동작 원리**

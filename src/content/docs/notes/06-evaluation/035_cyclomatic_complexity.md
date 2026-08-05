@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "순환 복잡도 (McCabe's Cyclomatic Complexity)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T23:28:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 35
@@ -91,19 +91,22 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant D as 개발자
-  participant A as 정적분석도구
-  participant T as 시험관리자
-  D->>A: 함수•메서드 전달
-  A->>A: 1. CFG•순환 복잡도 산출
-  A-->>T: 복잡도 근거 전달
-  T->>T: 2. 기본 경로•리팩터링 우선순위 결정
-  T->>D: 시험•리팩터링 대상 전달
-  D->>D: 3. 독립 경로 시험•구조 개선
-  D-->>T: 경로별 시험 증거
-  T->>T: 4. 경로 충족•복잡도 감소 검증
+```text
+정적분석도구
+   │ 1. CFG•순환 복잡도 산출
+   │    제어 이동으로 독립 경로 수 계산
+   ▼
+시험관리자
+   │ 2. 기본 경로•리팩터링 우선순위 결정
+   │    임계값•결함 이력 반영
+   ▼
+개발자
+   │ 3. 독립 경로 시험•구조 개선
+   │    경로 시험과 복잡 함수 분리
+   ▼
+시험관리자
+   │ 4. 경로 충족•복잡도 감소 검증
+   │    시험 증거와 재산출값 확인
 ```
 
 **동작 원리**

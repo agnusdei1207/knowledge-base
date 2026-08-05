@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터센터 물 사용 효율 지표 (WUE, Water Usage Effectiveness)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -100,24 +100,23 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 운영자
-  participant W as 용수계측기
-  participant I as IT계측기
-  participant A as 환경분석기
-  O->>O: 1. 물 계측 경계•기간 확정
-  O->>W: 측정 조건 전달
-  O->>I: 측정 조건 전달
-  W->>W: 2. 수원•용도별 물 사용량 집계
-  W->>A: 물 사용량 전달
-  I->>I: 3. IT 장비 에너지 집계
-  I->>A: IT 에너지 전달
-  A->>A: 4. WUE•지역 물 부담 산출
-  A-->>O: WUE 결과 반환
-  O->>A: 냉각 대안 비교 요청
-  A->>A: 5. WUE•PUE•탄소•가용성 비교
-  A-->>O: 냉각 대안 결과 반환
+```text
+              [운영자]
+                  │ 1. 물 계측 경계•기간 확정
+                  │   측정 조건 전달
+                  ▼
+   ┌─────────────────┴─────────────────┐
+   ▼ 2. 수원•용도별 물 사용량 집계       ▼ 3. IT 장비 에너지 집계
+[용수계측기]                         [IT계측기]
+   │ 물 사용량 전달                       │ IT 에너지 전달
+   └─────────────────┬─────────────────┘
+                     ▼
+              [환경분석기]
+                  │ 4. WUE•지역 물 부담 산출
+                  │ 5. WUE•PUE•탄소•가용성 비교
+                  │
+                  ▼
+              [운영자]
 ```
 
 **동작 원리**

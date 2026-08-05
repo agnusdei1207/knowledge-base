@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "정보시스템 감리 절차 (Information System Audit Procedure)"
-date: "2026-08-05T01:56:59+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -97,21 +97,33 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 발주자
-    participant S as 사업자
-    participant A as 감리법인
-    C->>A: 사업 자료•감리 요청
-    A->>A: 1. 예비조사•감리계획
-    A->>S: 현장 자료 요청
-    A->>A: 2. 현장감리
-    A->>A: 3. 감리보고서 작성
-    A-->>C: 감리보고서 전달
-    C->>S: 시정조치 요구
-    S->>A: 조치 결과•증거 제출
-    A->>A: 4. 시정조치 확인
-    A-->>C: 확인 결과
+```text
+              [발주자]
+                  │ 사업 자료•감리 요청
+                  ▼
+              [감리법인]
+                  │ 1. 예비조사•감리계획
+                  │   현장 자료 요청
+                  ▼
+              [사업자]
+                  │ 증거•산출물 제출
+                  ▼
+              [감리법인]
+                  │ 2. 현장감리
+                  │ 3. 감리보고서 작성
+                  │   보고서 전달
+                  ▼
+              [발주자]
+                  │ 시정조치 요구
+                  ▼
+              [사업자]
+                  │ 조치 결과•증거
+                  ▼
+              [감리법인]
+                  │ 4. 시정조치 확인
+                  │
+                  ▼
+              [발주자]
 ```
 
 1. **예비조사•감리계획**: 사업 위험에 따라 범위•중점•인력•증거 요구 확정

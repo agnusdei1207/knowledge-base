@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AI 개발 사업 감리 특수 점검 (AI Development Audit)"
-date: "2026-08-05T14:00:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -102,19 +102,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 발주자
-    participant A as 감리인
-    participant S as 사업자
-    C->>A: AI 감리 요청
-    A->>A: 1. 용도•위험 정의
-    A->>S: 수명주기 증거 요청
-    S-->>A: 데이터•학습•운영 증거
-    A->>A: 2. 데이터 증거 검증
-    A->>A: 3. 모델 재현 시험
-    A->>A: 4. 배포•감시 통제 검증
-    A-->>C: 잔여 위험•승인 조건
+```text
+              [발주자]
+                  │ AI 감리 요청
+                  ▼
+              [감리인]
+                  │ 1. 용도•위험 정의
+                  │   수명주기 증거 요청
+                  ▼
+              [사업자]
+                  │ 데이터•학습•운영 증거
+                  ▼
+              [감리인]
+                  │ 2. 데이터 증거 검증
+                  │ 3. 모델 재현 시험
+                  │ 4. 배포•감시 통제 검증
+                  │   잔여 위험•승인 조건 반환
+                  ▼
+              [발주자]
 ```
 
 1. **용도•위험 정의**: 오류 비용과 영향 집단에 맞춰 성능•안전 허용 기준 확정

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "감리 점검 항목 (Audit Checklist)"
-date: "2026-08-05T01:56:59+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -98,21 +98,30 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 발주자
-    participant A as 감리팀
-    participant S as 사업자
-    C->>A: 점검 범위 전달
-    A->>A: 1. 준거•질문 설계
-    A->>A: 2. 위험 표본 선정
-    A->>S: 항목별 증거 요청
-    S-->>A: 증거•실행 결과
-    A->>A: 3. 판정•시정 기준 적용
-    A->>S: 시정조치 요구
-    S-->>A: 조치 증거
-    A->>A: 4. 조치 재검증
-    A-->>C: 점검 결과
+```text
+              [발주자]
+                  │ 점검 범위 전달
+                  ▼
+              [감리팀]
+                  │ 1. 준거•질문 설계
+                  │ 2. 위험 표본 선정
+                  │   증거 요청
+                  ▼
+              [사업자]
+                  │ 증거•실행 결과
+                  ▼
+              [감리팀]
+                  │ 3. 판정•시정 기준 적용
+                  │   시정 요구
+                  ▼
+              [사업자]
+                  │ 조치 증거
+                  ▼
+              [감리팀]
+                  │ 4. 조치 재검증
+                  │
+                  ▼
+              [발주자]
 ```
 
 1. **준거•질문 설계**: 점검 준거를 검증 질문과 판정 조건으로 변환

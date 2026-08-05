@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그린 데이터센터 설계 기준 (Green Data Center Design)"
-date: "2026-08-05T01:56:59+09:00"
+date: "2026-08-05T22:55:00+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -97,18 +97,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant P as 기획자
-  participant A as 설계자
-  participant V as 검증원
-  P->>A: 설계 검토 요청
-  A->>A: 1. 입지•지표 설정
-  A->>A: 2. 통합 설계
-  A->>V: 시운전 요청
-  V->>V: 3. 부하별 시운전
-  V->>V: 4. LCA•LCC 검증
-  V-->>P: 검증 결과
+```text
+              [기획자]
+                  │ 설계 검토 요청
+                  ▼
+              [설계자]
+                  │ 1. 입지•지표 설정
+                  │ 2. 통합 설계
+                  │   시운전 요청
+                  ▼
+              [검증원]
+                  │ 3. 부하별 시운전
+                  │ 4. LCA•LCC 검증
+                  │
+                  ▼
+              [기획자]
 ```
 
 **동작 원리**

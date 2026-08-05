@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Split Brain•쿼럼 (Split Brain Quorum)"
-date: "2026-08-05T01:54:30+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 21
@@ -94,24 +94,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 후보 노드
-  participant Q as 쿼럼 관리자
-  participant W as 증인 노드
-  participant F as 펜싱 장치
-  participant L as 새 리더
-  A->>A: 1. 분할 감지•새 임기 시작
-  A->>Q: 선거 요청
-  Q->>Q: 2. 과반수 투표•로그 확인
-  Q->>W: 쿼럼 확인 요청
-  W-->>Q: 증인 투표 반환
-  Q->>F: 펜싱 요청
-  F->>F: 3. 고립 노드 펜싱 실행
-  F->>Q: 펜싱 결과 전달
-  Q->>L: 리더 승인 전달
-  L->>L: 4. 단일 임대권•리더 활성화
-  L->>L: 5. 로그 재동기화•쓰기 재개
+```text
+       후보 노드
+              │ 1. 분할 감지•새 임기 시작
+              │    선거 요청
+              ▼
+       쿼럼 관리자
+              │ 2. 과반수 투표•로그 확인
+              │    증인 투표 반환
+              ▼
+       펜싱 장치
+              │ 3. 고립 노드 펜싱 실행
+              │    펜싱 결과 전달
+              ▼
+       새 리더
+              ├─ 4. 단일 임대권•리더 활성화
+              │    리더 승인 전달
+              └─ 5. 로그 재동기화•쓰기 재개
+                          │
+                          ▼
+                합류 상태 복구
 ```
 
 **동작 원리**

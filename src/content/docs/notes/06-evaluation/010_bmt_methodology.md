@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "BMT 벤치마크 테스트 방법론 (BMT Methodology)"
-date: "2026-08-05T13:22:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 10
@@ -95,23 +95,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 평가 책임자
-  participant C as 시험 제어기
-  participant P as 후보 제품
-  participant M as 측정기
-  participant A as 평가위원회
-  O->>O: 1. 항목•가중치•합격선 동결
-  O->>C: 평가 기준 전달
-  C->>C: 2. 공통 환경•데이터 구성
-  C->>P: 시험 조건 전달
-  P->>P: 3. 후보별 반복 시험 실행
-  P->>M: 실행 결과 전달
-  M->>M: 4. 원시값•편차•증거 측정
-  M->>A: 측정 증거 전달
-  A->>A: 5. 점수•위험•민감도 판정
-  A-->>O: 점수•위험•민감도 판정
+```text
+평가 책임자
+   │ 1. 항목·가중치·합격선 동결
+   ▼
+시험 제어기
+   │ 2. 공통 환경·데이터 구성
+   │ 3. 후보별 반복 시험 실행
+   ▼
+측정기
+   │ 4. 원시값·편차·증거 측정
+   ▼
+평가위원회
+   │ 5. 점수·위험·민감도 판정
+   ▼
+점수·위험·민감도 판정 결과
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 규모 산정 지침 - TPS 기반 (HW Sizing TPS-based)"
-date: "2026-08-05T13:21:00+09:00"
+date: "2026-08-05T23:13:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 9
@@ -100,24 +100,24 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 업무 책임자
-  participant A as 산정 담당자
-  participant C as 산정 도구
-  participant V as 공급자
-  participant B as BMT 환경
-  O->>A: 업무량•목표 TPS 전달
-  A->>A: 1. 거래별 자원 원단위 산정
-  A->>C: 자원 원단위 전달
-  C->>C: 2. 피크•성장•N-1 요구량 보정
-  C->>V: 보정 요구량 전달
-  V->>V: 3. 후보 사양•BMT 구성 설계
-  V->>B: 후보 구성 전달
-  B->>B: 4. TPC 참조•BMT 성능 측정
-  B->>C: BMT 측정값 전달
-  C->>C: 5. 요구량•측정값 비교•사양 선정
-  C-->>O: 권고 자원 사양•검증 결과
+```text
+업무 책임자
+   │ 업무량·목표 TPS 전달
+   ▼
+산정 담당자
+   │ 1. 거래별 자원 원단위 산정
+   │ 2. 피크·성장·N-1 요구량 보정
+   ▼
+공급자
+   │ 3. 후보 사양·BMT 구성 설계
+   ▼
+BMT 환경
+   │ 4. TPC 참조·BMT 성능 측정
+   ▼
+사양 선정자
+   │ 5. 요구량·측정값 비교·사양 선정
+   ▼
+권고 자원 사양·검증 결과
 ```
 
 **동작 원리**

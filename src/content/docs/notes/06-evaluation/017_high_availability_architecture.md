@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "고가용성 설계 - Active-Active•Active-Standby (High Availability Architecture)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T23:18:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 17
@@ -94,23 +94,23 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant M as 상태 감시기
-  participant Q as 쿼럼 제어기
-  participant F as 장애 노드
-  participant S as 대체 노드
-  participant L as 진입 제어기
-  M->>M: 1. 다중 신호 장애 판정
-  M->>Q: 장애 판정 전달
-  Q->>Q: 2. 구 노드 펜싱•쓰기 차단
-  Q->>F: 펜싱 명령 전달
-  Q->>S: 승격 검증 요청
-  S->>S: 3. 복제 정합성•승격 검증
-  S->>L: 승격 결과 전달
-  L->>L: 4. 트래픽•서비스 전환
-  L->>M: 전환 결과•서비스 지표 전달
-  M->>M: 5. RTO•N-1•복귀 검증
+```text
+       상태 감시기
+              │ 1. 다중 신호 장애 판정
+              ▼
+       쿼럼 제어기
+              │ 2. 구 노드 펜싱•쓰기 차단
+              ▼
+       대체 노드
+              │ 3. 복제 정합성•승격 검증
+              ▼
+       진입 제어기
+              │ 4. 트래픽•서비스 전환
+              ▼
+       검증자
+              │ 5. RTO•N-1•복귀 검증
+              ▼
+                검증 결과
 ```
 
 **동작 원리**

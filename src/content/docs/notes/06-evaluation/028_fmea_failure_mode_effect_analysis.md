@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
-date: "2026-08-05T13:40:00+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 28
@@ -98,23 +98,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 기능 책임자
-  participant A as FMEA 분석팀
-  participant C as 통제 책임자
-  participant R as 위험 평가표
-  participant M as 변경 관리
-  O->>O: 1. 기능•공정•요구 범위 정의
-  O->>A: 분석 범위 전달
-  A->>A: 2. 고장 모드•원인•영향 식별
-  A->>C: 고장 분석 전달
-  C->>C: 3. 현재 통제•S•O•D 평가
-  C->>R: 평가 결과 전달
-  R->>R: 4. 조치•책임•기한 결정
-  R->>M: 조치 계획 전달
-  M->>M: 5. 효과 검증•잔여위험 승인
-  M-->>O: 조치•잔여위험 결과 전달
+```text
+기능 책임자
+   │ 1. 기능•공정•요구 범위 정의
+   │    대상•경계•의도 확정
+   ▼
+FMEA 분석팀
+   │ 2. 고장 모드•원인•영향 식별
+   │    실패형태•파급 연결
+   ▼
+통제 책임자
+   │ 3. 현재 통제•S•O•D 평가
+   │    예방•검출•고심각도 판정
+   ▼
+위험 평가표
+   │ 4. 조치•책임•기한 결정
+   │    제거•감소•검증 배정
+   ▼
+변경 관리
+   │ 5. 효과 검증•잔여위험 승인
+   │    재평가•수용근거 기록
 ```
 
 **동작 원리**

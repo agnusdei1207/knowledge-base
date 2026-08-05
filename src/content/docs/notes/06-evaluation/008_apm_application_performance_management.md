@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-05T13:20:00+09:00"
+date: "2026-08-05T23:12:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -91,28 +91,28 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Trace ID(Trace Identifier)**: 한 요청에서 파생된 모든 호출을 연결하는 식별자이다.
-- **DB(Database)**: 구조화 데이터를 저장•관리하는 데이터베이스이다.
 - **W3C(World Wide Web Consortium)**: 웹 표준을 개발하는 국제 컨소시엄이다.
 - **W3C Trace Context**: 분산 추적 문맥 전파를 표준화한 권고안이다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as 클라이언트
-  participant G as 게이트웨이
-  participant S as 하위 서비스
-  participant O as 수집 계층
-  participant A as 분석기
-  C->>G: API 요청•루트 Trace ID 생성
-  G->>G: 1. W3C Trace Context 주입
-  G->>S: 추적 문맥•하위 요청 전달
-  S->>S: 2. 하위 Span•Metric•Log 생성
-  S->>O: 관측 데이터 전달
-  O->>O: 3. 표본•저장•호출 경로 조립
-  O->>A: 조립된 추적 전달
-  A->>A: 4. 이상 탐지•병목 원인 분석
-  A-->>C: 이상 탐지•병목 원인 결과
+```text
+클라이언트
+   │ API 요청·루트 Trace ID 생성
+   ▼
+게이트웨이
+   │ 1. W3C Trace Context 주입
+   ▼
+하위 서비스
+   │ 2. 하위 Span·Metric·Log 생성
+   ▼
+수집 계층
+   │ 3. 표본·저장·호출 경로 조립
+   ▼
+분석기
+   │ 4. 이상 탐지·병목 원인 분석
+   ▼
+이상 탐지·병목 원인 결과
 ```
 
 **동작 원리**

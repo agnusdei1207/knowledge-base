@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "암달의 법칙 - 병렬화 한계 (Amdahl's Law)"
-date: "2026-08-05T01:52:35+09:00"
+date: "2026-08-05T22:55:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 5
@@ -83,21 +83,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 분석가
-  participant P as 프로파일러
-  participant C as 구간 분류•계산기
-  participant V as 검증기
-  A->>P: 고정 작업 분석 요청
-  P->>P: 1. 기준시간•실행 프로파일 측정
-  P->>C: 측정 결과 전달
-  C->>C: 2. P•N•추가비용 분류
-  C->>C: 3. 가속비•효율•상한 산출
-  C->>V: 예측값 전달
-  V->>V: 4. 실측 편차•경제성 보정
-  V->>C: 보정 결과 전달
-  C-->>A: 튜닝•증설 투자안
+```text
+분석가
+   │ 고정 작업 분석 요청
+   ▼
+프로파일러
+   │ 1. 기준시간·실행 프로파일 측정
+   ▼
+구간 분류·계산기
+   │ 2. P·N·추가비용 분류
+   │ 3. 가속비·효율·상한 산출
+   ▼
+검증기
+   │ 4. 실측 편차·경제성 보정
+   ▼
+튜닝·증설 투자안
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "단일 장애점 SPOF 제거 (SPOF Elimination)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-05T23:20:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 18
@@ -86,24 +86,26 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 서비스 책임자
-  participant A as 의존성 분석기
-  participant D as 설계팀
-  participant C as 장애 주입기
-  participant M as 감시기
-  O->>A: 종단 의존성 분석 요청
-  A->>A: 1. SPOF•장애 도메인 식별
-  A->>D: 의존성 분석 결과 전달
-  D->>D: 2. 이중화•장애 주입 시나리오 설계
-  D->>C: 시험 시나리오 전달
-  C->>C: 3. 장애 주입•자동 승계 실행
-  C->>M: 시험 상태 전달
-  M->>M: 4. 중단•복구•N-1 증거 검증
-  M->>D: 검증 증거 전달
-  D->>D: 5. 잔여 SPOF•개선 설계 확정
-  D-->>O: 잔여 SPOF•개선 설계 결과
+```text
+       서비스 책임자
+              │ 종단 의존성 분석 요청
+              ▼
+       의존성 분석기
+              │ 1. SPOF•장애 도메인 식별
+              ▼
+       설계팀
+              │ 2. 이중화•장애 주입 시나리오 설계
+              ▼
+       장애 주입기
+              │ 3. 장애 주입•자동 승계 실행
+              ▼
+       감시기
+              │ 4. 중단•복구•N-1 증거 검증
+              ▼
+       개선 설계자
+              │ 5. 잔여 SPOF•개선 설계 확정
+              ▼
+                잔여 SPOF•개선 설계 결과
 ```
 
 **동작 원리**
