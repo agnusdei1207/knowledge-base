@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
-date: "2026-08-05T12:32:49+09:00"
+date: "2026-08-05T12:43:25+09:00"
 tags:
   - "notes-hardware"
 weight: 5
@@ -98,12 +98,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **트랩** 은 시스템 호출이나 오류를 현재 실행 주체보다 높은 예외 수준의 처리기로 넘기는 제어 전환이다.
-- **예외 라우팅** 은 예외 원인과 설정된 규칙에 따라 예외를 처리할 EL을 선택하는 과정이다.
-- **ELR_ELx** 는 예외 처리 후 복귀할 프로그램 카운터를 보관하는 레지스터이다.
-- **SPSR_ELx** 는 예외 발생 전 PSTATE를 보관하는 저장 프로그램 상태 레지스터이다.
-- **VBAR_ELx** 는 예외 처리 루틴을 선택할 벡터 테이블 기준 주소를 보관하는 레지스터이다.
-- **ELx 예외 처리기** 는 해당 예외 수준에서 원인을 판독하고 필요한 서비스를 수행하는 루틴이다.
-- **ERET** 은 SPSR_ELx와 ELR_ELx를 이용해 이전 실행 상태로 복귀하는 명령이다.
+- **예외 수준(Exception Level, ELx)** 은 실행 권한을 EL0부터 EL3까지 구분한 단계이다.
+- **예외 라우팅** 은 예외 원인과 설정된 규칙에 따라 처리할 ELx를 선택하는 과정이다.
+- **예외 링크 레지스터(Exception Link Register, ELR_ELx)** 는 예외 처리 후 복귀할 프로그램 카운터를 보관한다.
+- **저장 프로그램 상태 레지스터(Saved Program Status Register, SPSR_ELx)** 는 예외 발생 전 PSTATE를 보관한다.
+- **예외 벡터 기준 주소 레지스터(Vector Base Address Register, VBAR_ELx)** 는 예외 벡터 테이블의 기준 주소를 보관한다.
+- **ELx 예외 처리기(Exception Handler)** 는 해당 예외 수준에서 원인을 판독하고 필요한 서비스를 수행한다.
+- **예외 복귀(Exception Return, ERET)** 는 SPSR_ELx와 ELR_ELx를 이용해 이전 실행 상태로 돌아가는 명령이다.
 
 </details>
 
