@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-05T01:39:26+09:00"
+date: "2026-08-05T16:50:05+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: **NGFW•WAF•CASB** 는 각각 네트워크 흐름, 웹•API 요청, 클라우드 서비스 이용과 데이터 문맥을 검사•통제하는 **계층별 보안 수단**
+- 정의/개념: 망•웹•SaaS 문맥을 나눠 통제하는 **NGFW•WAF•CASB**
 - 배경/필요성: 단일 제품으로는 계층별 공격•데이터 이용 **문맥을 모두 식별 불가**
 
 #### 한줄 요약
@@ -65,18 +65,15 @@ extra:
 </details>
 
 ```text
-                 [사용자•데이터]
-                        |
-          +-------------+-------------+
-          |             |             |
-   [NGFW 계층]   [WAF•API 계층]   [CASB 계층]
-          |             |             |
-          +-------------+-------------+
-                        |
-                 [로그•정책 통합]
+계층별 보안 구조
+├─ 사용자•데이터
+├─ NGFW 계층
+├─ WAF•API 계층
+├─ CASB 계층
+└─ 로그•정책 통합
 ```
 
-선의 의미: 공통 신원•데이터 문맥을 세 보안 계층이 함께 사용하고, 각 계층의 정보가 로그•정책 통합부에 연결되는 관계를 나타낸다.
+가지의 의미: 공통 문맥•계층별 통제•로그 통합 책임을 나눈 구조다.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -100,25 +97,16 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant N as NGFW
-    participant W as WAF
-    participant C as CASB
-    par 네트워크•앱 검사
-        U->>N: 네트워크 트래픽 전달
-        N->>N: 1. 네트워크•앱 식별•통제
-        N-->>U: 판정 결과
-    and 웹•API 검사
-        U->>W: 웹•API 요청 전달
-        W->>W: 2. 웹•API 공격 검사•통제
-        W-->>U: 판정 결과
-    and SaaS•데이터 검사
-        U->>C: SaaS 이용 요청 전달
-        C->>C: 3. SaaS•데이터 정책 검사•통제
-        C-->>U: 판정 결과
-    end
+```text
+보호 대상•요청 문맥 판정
+        ├─ 네트워크•앱 흐름
+        │      └─ 1. 네트워크•앱 식별•통제
+        ├─ 웹•API 요청
+        │      └─ 2. 웹•API 공격 검사•통제
+        └─ SaaS•데이터 이용
+               └─ 3. SaaS•데이터 정책 검사•통제
+                          │
+                          └── 판정•로그 통합
 ```
 
 **동작 원리**
@@ -179,7 +167,7 @@ sequenceDiagram
 
 ## Ⅶ. 결론
 
-- 네트워크•앱은 **NGFW**, 웹•API는 **WAF**, SaaS•데이터는 **CASB** 배치
+- 망•앱 NGFW, 웹•API WAF, SaaS•데이터 CASB의 **계층별 배치**
 
 #### 한줄 요약
 
