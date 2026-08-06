@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "오픈 테이블 포맷 (Open Table Format)"
-date: "2026-08-05T15:49:52+09:00"
+date: "2026-08-06T23:52:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 192
@@ -97,20 +97,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant E as 처리 엔진
-  participant C as 포맷 커넥터
-  participant F as 데이터•삭제 파일
-  participant M as 테이블 메타데이터
-  participant A as 카탈로그•커밋
-  E->>C: 테이블 변경 요청
-  C->>A: 1. 기준 스냅샷 조회
-  A-->>C: 기준 스냅샷 반환
-  C->>F: 2. 새 불변 파일 생성
-  C->>M: 3. 변경 메타데이터 생성
-  M->>A: 4. 충돌 검증•원자 커밋
-  A-->>E: 새 스냅샷 공개
+```text
+[처리 엔진] ── 테이블 변경 요청 ──▶ [포맷 커넥터]
+                                          │ 1. 기준 스냅샷 조회
+                                          ▼
+                                    [카탈로그•커밋]
+                                          │ 기준 스냅샷 반환
+                                          ▼
+                                    [포맷 커넥터]
+       ├─ 2. 새 불변 파일 생성 ─────────▶ [데이터•삭제 파일]
+       └─ 3. 변경 메타데이터 생성 ──────▶ [테이블 메타데이터]
+                                              │ 4. 충돌 검증•원자 커밋
+                                              ▼
+[처리 엔진] ◀──────── 새 스냅샷 공개 ─── [카탈로그•커밋]
 ```
 
 **동작 원리**

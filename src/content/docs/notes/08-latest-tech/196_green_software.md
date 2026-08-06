@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "그린 소프트웨어 (Green Software)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:56:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 196
@@ -93,16 +93,14 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant O as 서비스 조직
-    participant M as 측정•분석 체계
-  participant P as 실행 정책
-  participant V as 검증 체계
-  O->>M: 기능•측정 경계
-  M->>P: 1. 기준선•탄소 원인 전달
-  P->>V: 2. 감축 조치•예상값 전달
-  V-->>O: 검증 결과
+```text
+[서비스 조직] ── 기능•측정 경계 ──▶ [측정•분석 체계]
+                                          │ 1. 기준선•탄소 원인
+                                          ▼
+                                      [실행 정책]
+                                          │ 2. 감축 조치•예상값
+                                          ▼
+[서비스 조직] ◀────── 검증 결과 ────── [검증 체계]
 ```
 
 **동작 원리**

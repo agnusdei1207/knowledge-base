@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터 패브릭 (Data Fabric)"
-date: "2026-08-05T15:49:54+09:00"
+date: "2026-08-06T23:54:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 194
@@ -97,20 +97,20 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant S as 분산 데이터 자산
-  participant M as 메타데이터 수집
-  participant K as 카탈로그•지식 그래프
-  participant G as 거버넌스 자동화
-  participant I as 통합 서비스
-  loop 메타데이터•사용 결과 변경 시
-    S->>M: 1. 메타데이터 신호 전달
-    M->>K: 2. 관계•업무 의미 전달
-    K->>G: 3. 품질•접근 조건 전달
-    G->>I: 4. 통합•접근 조치 전달
-    I-->>K: 5. 사용•변경 결과 전달
-  end
+```text
+[분산 데이터 자산]
+       │ 1. 메타데이터 신호
+       ▼
+[메타데이터 수집]
+       │ 2. 관계•업무 의미
+       ▼
+[카탈로그•지식 그래프]
+       │ 3. 품질•접근 조건
+       ▼
+[거버넌스 자동화]
+       │ 4. 통합•접근 조치
+       ▼
+[통합 서비스] ── 5. 사용•변경 결과 ──▶ [카탈로그•지식 그래프]
 ```
 
 **동작 원리**

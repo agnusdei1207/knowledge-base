@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-05T15:49:51+09:00"
+date: "2026-08-06T23:51:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 191
@@ -98,19 +98,14 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant W as 쓰기 엔진
-  participant C as 카탈로그
-  participant F as 데이터•삭제 파일
-  participant M as 매니페스트•메타데이터
-  participant R as 읽기 엔진
-  W->>C: 1. 기준 스냅샷 조회
-  C-->>W: 기준 스냅샷 반환
-  W->>F: 2. 데이터•삭제 파일 생성
-  W->>M: 3. 매니페스트•메타데이터 생성
-  M->>C: 4. 포인터 비교•원자 커밋
-  C-->>R: 확정 스냅샷 제공
+```text
+[쓰기 엔진] ── 1. 기준 스냅샷 조회 ──▶ [카탈로그]
+[쓰기 엔진] ◀──── 기준 스냅샷 반환 ──── [카탈로그]
+      ├─ 2. 데이터•삭제 파일 생성 ─────▶ [데이터•삭제 파일]
+      └─ 3. 매니페스트•메타데이터 생성 ▶ [매니페스트•메타데이터]
+                                              │ 4. 포인터 비교•원자 커밋
+                                              ▼
+[읽기 엔진] ◀──── 확정 스냅샷 제공 ───── [카탈로그]
 ```
 
 **동작 원리**

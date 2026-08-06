@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "실시간 스트리밍 (Real-Time Streaming)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:55:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 195
@@ -87,20 +87,18 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant S as 이벤트 소스•로그
-  participant T as 시간•워터마크
-  participant O as 윈도우•상태 연산
-  participant C as 체크포인트
-  participant K as 출력 저장소
-  S->>T: 1. 이벤트•발생 시각 전달
-  T->>O: 2. 워터마크•윈도우 전달
-  O->>C: 3. 입력 위치•상태 전달
-  O->>K: 4. 결과•멱등 키 전달
-  alt 장애 발생
-    C-->>O: 5. 체크포인트 상태 전달
-  end
+```text
+[이벤트 소스•로그]
+       │ 1. 이벤트•발생 시각
+       ▼
+[시간•워터마크]
+       │ 2. 워터마크•윈도우
+       ▼
+[윈도우•상태 연산]
+       ├─ 3. 입력 위치•상태 ──▶ [체크포인트]
+       └─ 4. 결과•멱등 키 ────▶ [출력 저장소]
+
+[체크포인트] ── 5. 장애 시 상태 복구 ──▶ [윈도우•상태 연산]
 ```
 
 **동작 원리**

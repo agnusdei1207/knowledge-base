@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "데이터 메시 (Data Mesh)"
-date: "2026-08-05T15:49:53+09:00"
+date: "2026-08-06T23:53:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 193
@@ -97,21 +97,18 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as 데이터 소비자
-  participant D as 도메인 제품팀
-  participant P as 셀프서비스 플랫폼
-  participant G as 연합 거버넌스
-  participant K as 카탈로그
-  C->>D: 사용 목적•품질 요구
-  D->>P: 1. 데이터 제품•계약 전달
-  P->>G: 2. 정책 검증 결과 전달
-  G->>K: 3. 승인 제품 전달
-  K-->>C: 제품 정보•접근 경로
-  loop 제품 운영 중
-    C->>D: 사용•SLO 피드백
-  end
+```text
+[데이터 소비자] ── 사용 목적•품질 요구 ──▶ [도메인 제품팀]
+                                                │ 1. 데이터 제품•계약
+                                                ▼
+                                        [셀프서비스 플랫폼]
+                                                │ 2. 정책 검증 결과
+                                                ▼
+                                         [연합 거버넌스]
+                                                │ 3. 승인 제품
+                                                ▼
+[데이터 소비자] ◀── 제품 정보•접근 경로 ─── [카탈로그]
+       └────────── 사용•SLO 피드백 ──────────▶ [도메인 제품팀]
 ```
 
 **동작 원리**
@@ -154,7 +151,7 @@ sequenceDiagram
 
 </details>
 
-**SLO•온콜 책임** 을 데이터 제품별로 운영한다.
+**SLO•온콜 책임**을 데이터 제품별로 운영한다.
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|

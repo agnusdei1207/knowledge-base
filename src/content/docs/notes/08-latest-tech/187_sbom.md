@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 자재명세서 (Software Bill of Materials, SBOM)"
-date: "2026-08-05T02:21:27+09:00"
+date: "2026-08-06T23:47:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 187
@@ -64,7 +64,7 @@ extra:
 
 </details>
 
-**VEX** 는 구성요소별 영향•조치 상태를 관리한다.
+**VEX**는 구성요소별 영향•조치 상태를 관리한다.
 
 ```text
                   [대상 제품]
@@ -102,20 +102,22 @@ extra:
 
 </details>
 
-**SBOM•VEX** 를 빌드•배포 자산에 연결한다.
+**SBOM•VEX**를 빌드•배포 자산에 연결한다.
 
-```mermaid
-sequenceDiagram
-    participant B as 빌드 시스템
-    participant S as SBOM 생성기
-    participant A as 제품•자산 관리
-    participant V as 취약점•VEX
-    participant O as 조치 담당
-    B->>S: 1. 구성요소•관계 전달
-    S->>A: 2. 결속 SBOM 전달
-    A->>V: 3. 배포 구성정보 전달
-    V->>O: 4. 영향 상태 전달
-    O-->>A: 조치 결과
+```text
+[빌드 시스템]
+      │ 1. 구성요소•관계
+      ▼
+[SBOM 생성기]
+      │ 2. 결속 SBOM
+      ▼
+[제품•자산 관리]
+      │ 3. 배포 구성정보
+      ▼
+[취약점•VEX]
+      │ 4. 영향 상태
+      ▼
+[조치 담당] ── 조치 결과 ──▶ [제품•자산 관리]
 ```
 
 **동작 원리**
@@ -181,7 +183,7 @@ SBOM은 구성, VEX는 영향 상태, 출처 증명은 생성 과정을 설명�
 
 </details>
 
-- **배포 자산 매핑•취약점 영향 판정**: 구성요소는 SBOM으로 식별하고 영향 상태는 VEX로 분리•연계
+- 구성요소는 **SBOM**으로 식별하고 **배포 자산 매핑•VEX 영향 판정**으로 조치 대상을 결정
 
 #### 한줄 요약
 
