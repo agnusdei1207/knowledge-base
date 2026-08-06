@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 가속기 (AI Accelerator)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 140
@@ -109,18 +109,20 @@ MAC 배열은 텐서 연산을 병렬로 처리한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 모델 개발자
-    participant C as 컴파일러
-    participant O as 메모리 배치기
-    participant A as 가속기
-    participant E as 성능 평가기
-    M->>C: 1. 모델•연산•자료형 지원 검사
-    C->>O: 2. 그래프 융합•정밀도 변환
-    O->>A: 3. 텐서•타일 메모리 배치
-    A->>E: 4. 병렬 MAC•데이터 재사용
-    E-->>M: 지연•전력•정확도 검증 결과
+```text
+모델 개발자
+   │ 1. 모델•연산•자료형 지원 검사
+   ▼
+컴파일러
+   │ 2. 그래프 융합•정밀도 변환
+   ▼
+메모리 배치기
+   │ 3. 텐서•타일 메모리 배치
+   ▼
+가속기
+   │ 4. 병렬 MAC•데이터 재사용
+   ▼
+성능 평가기 ── 지연•전력•정확도 검증 결과 ──▶ 모델 개발자
 ```
 
 1. **모델•연산•자료형 지원 검사**: 장치가 전체 그래프를 실행할 **호환 범위** 확인
@@ -182,7 +184,7 @@ GPU, NPU, ASIC, FPGA는 유연성과 효율의 균형이 다르다.
 
 </details>
 
-- **전력 효율•연산 지원 범위별 선택**: 모델 변경은 GPU, 고정 저전력은 NPU•ASIC, 맞춤 입출력은 FPGA
+- **전력 효율•연산 지원 범위**로 GPU•NPU•ASIC•FPGA 선택
 
 #### 한줄 요약
 - 최고 속도 숫자보다 실제 모델 전체를 정한 시간•전력•정확도로 처리하는 장치를 고름

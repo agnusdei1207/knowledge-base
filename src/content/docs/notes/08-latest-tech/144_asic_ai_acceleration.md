@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ASIC AI Acceleration (ASIC AI 가속)"
-date: "2026-08-05T02:18:09+09:00"
+date: "2026-08-06T23:20:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 144
@@ -96,18 +96,18 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant W as 제품 기획자
-    participant D as 칩 설계자
-    participant V as 검증 담당자
-    participant F as 제조사
-    participant R as 모델 런타임
-    W->>D: 워크로드•양산 조건 전달
-    D->>V: 1. 전용 데이터흐름 설계
-    V->>F: 2. 기능•전력•타이밍 검증•테이프아웃
-    F->>R: 3. 웨이퍼•패키지•수율 시험
-    R-->>W: 지원 모델 성능 반환
+```text
+제품 기획자 ── 워크로드•양산 조건 ──▶ 칩 설계자
+칩 설계자
+   │ 1. 전용 데이터흐름 설계
+   ▼
+검증 담당자
+   │ 2. 기능•전력•타이밍 검증•테이프아웃
+   ▼
+제조사
+   │ 3. 웨이퍼•패키지•수율 시험
+   ▼
+모델 런타임 ── 지원 모델 성능 ──▶ 제품 기획자
 ```
 
 1. **전용 데이터흐름 설계**: 연산 배열•메모리•연결망 고정
@@ -171,7 +171,7 @@ ASIC, GPU, FPGA는 변경 가능성과 전력 효율이 다르다.
 
 </details>
 
-- **연산 안정성•양산량별 선택**: NRE 회수 가능한 안정적 대량 작업은 ASIC, 잦은 변경은 GPU
+- **연산 안정성•양산량**으로 ASIC과 GPU 선택
 
 #### 한줄 요약
 

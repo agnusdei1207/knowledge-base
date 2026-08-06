@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "FPGA AI Acceleration (FPGA AI 가속)"
-date: "2026-08-05T02:18:09+09:00"
+date: "2026-08-06T23:20:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 143
@@ -99,18 +99,15 @@ LUT, DSP 블록, BRAM을 조합해 맞춤 데이터 경로를 구성한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant W as 워크로드 설계자
-    participant T as 구현•타이밍 검증 도구
-    participant F as FPGA
-    participant I as 외부 인터페이스
-    W->>T: 데이터경로•정밀도 전달
-    T->>T: 1. 합성•배치•타이밍 검증
-    T->>T: 2. 타이밍 충족 설계 확정
-    T->>F: 3. 검증된 비트스트림 적재
-    I->>F: 입력 스트림 전달
-    F-->>I: 파이프라인 결과 반환
+```text
+워크로드 설계자 ── 데이터경로•정밀도 ──▶ 구현•타이밍 검증 도구
+구현•타이밍 검증 도구
+   │ 1. 합성•배치•타이밍 검증
+   │ 2. 타이밍 충족 설계 확정
+   │ 3. 검증된 비트스트림 적재
+   ▼
+FPGA ◀── 입력 스트림 ── 외부 인터페이스
+FPGA ── 파이프라인 결과 ──▶ 외부 인터페이스
 ```
 
 1. **합성•배치•타이밍 검증**: 논리 변환•클록 제약 판정
@@ -176,7 +173,7 @@ LUT•DSP•BRAM 자원 예산과 FPGA 타이밍을 함께 검증한다.
 
 </details>
 
-- **재구성성•구현 복잡성별 선택**: 잦은 변경은 GPU, 결정적 지연•재구성은 FPGA
+- **재구성성•구현 복잡성**으로 GPU와 FPGA 선택
 
 #### 한줄 요약
 

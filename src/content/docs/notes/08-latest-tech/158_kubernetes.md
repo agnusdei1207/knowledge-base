@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "Kubernetes (쿠버네티스)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:35:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 158
@@ -99,23 +99,17 @@ extra:
 
 API 서버는 Pod의 목표•실제 상태를 각 제어 구성요소에 전달한다.
 
-```mermaid
-sequenceDiagram
-    participant U as 운영자
-    participant A as API 서버
-    participant C as 컨트롤러 관리자
-    participant S as 스케줄러
-    participant K as kubelet
-    U->>A: 선언 객체 요청
-    loop 목표 상태와 실제 상태가 다를 때
-        A->>C: 1. 목표•실제 상태 감시
-        C->>A: 2. 부족 Pod 생성 요청
-        A->>S: 3. 미배치 Pod 감시
-        S->>A: 4. 노드 바인딩 기록
-        A->>K: 5. 바인딩된 Pod 전달
-        K-->>A: 실행•준비 상태 보고
-    end
-    A-->>U: 현재 워크로드 상태 반환
+```text
+운영자 ── 선언 객체 요청 ──▶ API 서버
+┌──────── 목표 상태와 실제 상태 불일치 시 ────────┐
+│ API 서버 ── 1. 목표•실제 상태 감시 ──▶ 컨트롤러 관리자
+│ API 서버 ◀─ 2. 부족 Pod 생성 요청 ── 컨트롤러 관리자
+│ API 서버 ── 3. 미배치 Pod 감시 ──▶ 스케줄러
+│ API 서버 ◀─ 4. 노드 바인딩 기록 ── 스케줄러
+│ API 서버 ── 5. 바인딩된 Pod 전달 ──▶ kubelet
+│ API 서버 ◀── 실행•준비 상태 ───────── kubelet
+└───────────────────────────────────────────────┘
+운영자 ◀── 현재 워크로드 상태 ── API 서버
 ```
 
 1. **목표•실제 상태 감시**: 컨트롤러의 복제본 차이 계산
@@ -181,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- **무상태 서비스•영속 볼륨별 선택**: 교체 가능한 워크로드는 Deployment, 고정 식별•저장 워크로드는 StatefulSet
+- **무상태 서비스•영속 볼륨**에 따라 Deployment와 StatefulSet 선택
 
 #### 한줄 요약
 

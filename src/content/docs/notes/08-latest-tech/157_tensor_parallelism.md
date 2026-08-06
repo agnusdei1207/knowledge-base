@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Tensor Parallelism (텐서 병렬)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:35:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 157
@@ -100,18 +100,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as 레이아웃 계획기
-    participant W as 분할 가중치•활성값
-    participant E as 로컬 행렬곱 엔진
-    participant C as 통신 그룹
-    participant A as 분산 자동미분
-    P->>W: 1. 분할 축•그룹 전달
-    W->>E: 2. 로컬 텐서 조각 전달
-    E->>C: 3. 부분 출력 전달
-    C->>A: 4. 통합 출력 전달
-    A-->>E: 5. 분할 기울기 전달
+```text
+레이아웃 계획기
+   │ 1. 분할 축•그룹 전달
+   ▼
+분할 가중치•활성값
+   │ 2. 로컬 텐서 조각 전달
+   ▼
+로컬 행렬곱 엔진
+   │ 3. 부분 출력 전달
+   ▼
+통신 그룹
+   │ 4. 통합 출력 전달
+   ▼
+분산 자동미분
+   └── 5. 분할 기울기 전달 ──▶ 로컬 행렬곱 엔진
 ```
 
 - **1. 분할 축•그룹 전달**: 다음 연산 레이아웃 기반 행•열 축 결정
@@ -175,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-- **단일 층 용량•중간 동기화별 선택**: 단일 층 초과는 텐서 병렬, 계층 묶음 분할은 파이프라인 병렬
+- **단일 층 용량•중간 동기화**에 따라 텐서•파이프라인 병렬 선택
 
 #### 한줄 요약
 

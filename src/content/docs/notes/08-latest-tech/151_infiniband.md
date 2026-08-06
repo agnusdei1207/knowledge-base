@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "InfiniBand"
-date: "2026-08-05T15:02:51+09:00"
+date: "2026-08-06T23:30:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 151
@@ -101,17 +101,12 @@ extra:
 
 HCA와 IB 스위치는 RDMA 패킷을 SL과 P_Key에 맞춰 전달한다.
 
-```mermaid
-sequenceDiagram
-    participant S as 서브넷 관리자
-    participant H as HCA
-    participant W as IB 스위치
-    participant D as 목적지 HCA
-    S->>H: 1. 장치 발견•주소•P_Key 설정
-    S->>W: 2. 경로•SL•가상 통로 구성
-    H->>W: 3. RDMA 작업 패킷 전송
-    W->>D: 4. 경로표 기반 패킷 전달
-    D-->>H: 완료•혼잡 신호 반환
+```text
+서브넷 관리자 ── 1. 장치 발견•주소•P_Key 설정 ──▶ HCA
+서브넷 관리자 ── 2. 경로•SL•가상 통로 구성 ──▶ IB 스위치
+HCA ── 3. RDMA 작업 패킷 전송 ──▶ IB 스위치
+IB 스위치 ── 4. 경로표 기반 패킷 전달 ──▶ 목적지 HCA
+HCA ◀── 완료•혼잡 신호 ───────────── 목적지 HCA
 ```
 
 1. **장치 발견•주소•P_Key 설정**: 포트 상태를 수집해 **통신 종단•분할 경계** 확정
@@ -175,7 +170,7 @@ P_Key, HCA, SL을 함께 검증한다.
 
 </details>
 
-- **전용 패브릭•패브릭 격리별 선택**: 전용 다중 노드는 IB, 기존 이더넷 활용은 RoCE
+- **전용 패브릭•패브릭 격리**가 필요하면 IB, 기존 이더넷 활용은 RoCE 선택
 
 #### 한줄 요약
 - 빠른 선로뿐 아니라 누가 통신하고 정체 때 어느 길로 우회할지 함께 정함

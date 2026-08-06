@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink"
-date: "2026-08-05T15:02:50+09:00"
+date: "2026-08-06T23:30:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 150
@@ -104,17 +104,19 @@ GPU 종단은 NVLink 패킷과 메모리 요청을 처리한다.
 
 GPU의 통신량과 범위를 측정해 토폴로지를 배치한다.
 
-```mermaid
-sequenceDiagram
-  participant C as 통신 계층
-  participant M as 관리 계층
-  participant G as GPU 종단
-  participant S as NVSwitch
-  C->>M: 1. 집단 통신량•범위
-  M->>G: 2. 직접 NVLink 경로
-  G->>S: 3. 다대다 스위치 트래픽
-  S-->>M: 4. 경로 대역폭•오류 상태
-  M-->>C: 작업 배치•외부 패브릭 경계 반환
+```text
+통신 계층
+   │ 1. 집단 통신량•범위
+   ▼
+관리 계층
+   │ 2. 직접 NVLink 경로
+   ▼
+GPU 종단
+   │ 3. 다대다 스위치 트래픽
+   ▼
+NVSwitch
+   └── 4. 경로 대역폭•오류 상태 ──▶ 관리 계층
+통신 계층 ◀── 작업 배치•외부 패브릭 경계 ── 관리 계층
 ```
 
 1. **집단 통신량•범위**: GPU별 전송량과 통신 패턴 측정
@@ -183,7 +185,7 @@ GPU 간 통신은 링크 계층별 속도 차이를 반영해야 한다.
 
 </details>
 
-- **연결 범위별 선택**: 소수의 인접 GPU는 직접 NVLink, 다수 도메인은 NVSwitch, 도메인 밖은 외부 패브릭
+- **연결 범위**에 따라 직접 NVLink•NVSwitch•외부 패브릭 선택
 
 #### 한줄 요약
 

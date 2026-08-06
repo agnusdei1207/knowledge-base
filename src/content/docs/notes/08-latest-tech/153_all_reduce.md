@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "All-Reduce 집단 통신"
-date: "2026-08-05T15:02:53+09:00"
+date: "2026-08-06T23:30:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 153
@@ -98,18 +98,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 통신 계약 관리자
-    participant B as 작업•버킷 관리자
-    participant A as 알고리즘 선택기
-    participant R as Reduce-Scatter
-    participant G as All-Gather
-    C->>B: 1. 참여•자료형•연산 조건 확인
-    B->>A: 2. 기울기 청크•버킷 분할
-    A->>R: 3. 메시지•토폴로지별 경로 선택
-    R->>G: 4. 청크 축약•분산
-    G-->>C: 5. 결과 청크 교환
+```text
+통신 계약 관리자
+   │ 1. 참여•자료형•연산 조건 확인
+   ▼
+작업•버킷 관리자
+   │ 2. 기울기 청크•버킷 분할
+   ▼
+알고리즘 선택기
+   │ 3. 메시지•토폴로지별 경로 선택
+   ▼
+Reduce-Scatter
+   │ 4. 청크 축약•분산
+   ▼
+All-Gather
+   └── 5. 결과 청크 교환 ──▶ 통신 계약 관리자
 ```
 
 1. **참여•자료형•연산 조건 확인**: 모든 순위의 원소 수•형식•호출 순서 **일치 여부** 검증
@@ -171,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- **단계 지연•링크 계층별 선택**: 큰 메시지는 링, 작은 메시지는 트리, 노드 내외 링크 차이는 계층형 올리듀스
+- **단계 지연•링크 계층**에 따라 링•트리•계층형 올리듀스 선택
 
 #### 한줄 요약
 - 짐 크기와 사람 수, 실제 길 구조에 맞춰 링•트리•계층형과 짐 조각 크기를 고름
