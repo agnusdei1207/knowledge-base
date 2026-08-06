@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "NB-IoT와 LTE-M (NB-IoT LTE-M)"
-date: "2026-08-05T15:22:22+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
 weight: 55
@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**: 협대역과 반복 전송으로 고정 센서를 연결하는 기술
-- **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M)**: 이동성과 중간 전송률을 지원하는 IoT 기술
-- **저전력 광역망(Low-Power Wide-Area Network, LPWAN)**: 저전력 단말을 넓은 지역에 연결하는 통신망
+- **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**: 협대역과 반복 전송으로 고정 센서를 연결하는 기술이다.
+- **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M)**: 이동성과 중간 전송률을 지원하는 IoT 기술이다.
+- **저전력 광역망(Low-Power Wide-Area Network, LPWAN)**: 저전력 단말을 넓은 지역에 연결하는 통신망이다.
 
 </details>
 
-- 정의/개념: 면허 대역에서 저전력 단말을 연결하는 **NB-IoT•LTE-M 셀룰러 LPWAN**
-- 배경/필요성: 기존 셀룰러 모뎀은 **소량 센서에 전력•비용 과다**
+- 정의/개념: 면허 대역에서 저전력 단말을 연결하는 **NB-IoT•LTE-M 셀룰러 LPWAN**이다.
+- 배경/필요성: 기존 셀룰러 모뎀은 **소량 센서에 전력•비용 과다**가 발생한다.
 
 #### 한줄 요약
 
@@ -41,25 +41,25 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **킬로헤르츠(kilohertz, kHz)**: 초당 천 주기의 주파수 단위
+- **킬로헤르츠(kilohertz, kHz)**: 초당 천 주기의 주파수 단위이다.
 
 </details>
 
-- **NB-IoT**의 180kHz•반복 전송을 통한 깊은 실내 도달
-- **LTE-M**의 핸드오버•음성•중간 전송률 지원
-- 절전 시간이 길수록 **배터리 수명 증가•하향 응답 지연**
+- **NB-IoT**의 180kHz•반복 전송을 통한 깊은 실내 도달이 핵심이다.
+- **LTE-M**의 핸드오버•음성•중간 전송률을 지원한다.
+- 절전 시간이 길수록 **배터리 수명 증가•하향 응답 지연**이 핵심이다.
 
 #### 한줄 요약
 
-- 오래 잠들수록 배터리는 절약되지만 서버 명령을 늦게 받는다
+- 오래 잠들수록 배터리는 절약되지만 서버 명령을 늦게 받는다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)**: 가입자 식별자와 인증 키를 저장하는 모듈
-- **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계
+- **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)**: 가입자 식별자와 인증 키를 저장하는 모듈이다.
+- **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계이다.
 - **코어망**: 가입자 등록•이동성•절전 타이머와 외부 IoT 플랫폼 연결을 관리하는 이동통신 중심망이다.
 
 </details>
@@ -92,8 +92,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **절전 모드(Power Saving Mode, PSM)**: 망 등록을 유지한 채 무선 회로를 꺼 전력을 줄이는 모드
-- **확장 불연속 수신(extended Discontinuous Reception, eDRX)**: 하향 호출 확인 주기를 늘려 수신 대기 전력을 줄이는 방식
+- **절전 모드(Power Saving Mode, PSM)**: 망 등록을 유지한 채 무선 회로를 꺼 전력을 줄이는 모드이다.
+- **확장 불연속 수신(extended Discontinuous Reception, eDRX)**: 하향 호출 확인 주기를 늘려 수신 대기 전력을 줄이는 방식이다.
 
 </details>
 
@@ -127,7 +127,7 @@ USIM 가입자 인증•망 등록
 
 - **핸드오버**: 이동 단말의 활성 연결을 인접 기지국으로 넘겨 세션을 이어 가는 절차이다.
 - **NB-IoT 배치 방식**: NB-IoT 반송파를 LTE 대역 안•보호 대역•별도 주파수에 배치하는 방식이다.
-- **롱텀 에볼루션(Long-Term Evolution, LTE)**: 4세대 이동통신 무선 접속 규격
+- **롱텀 에볼루션(Long-Term Evolution, LTE)**: 4세대 이동통신 무선 접속 규격이다.
 
 </details>
 
@@ -138,7 +138,7 @@ USIM 가입자 인증•망 등록
 | 배치 방식 | **대역 내•보호 대역•독립 운용** | **LTE 대역 내 자원 배치** |
 | 한계 | 긴 하향 응답•**제한된 이동성** | 모듈 비용•**소비 전력 증가** |
 
-> 요약: NB-IoT 고정형, LTE-M 이동 응답형
+> 요약: NB-IoT 고정형, LTE-M 이동 응답형이 핵심이다.
 
 #### 한줄 요약
 
@@ -173,7 +173,7 @@ USIM 가입자 인증•망 등록
 
 </details>
 
-- 고정•저속•깊은 실내는 **NB-IoT**, 이동•빠른 응답은 **LTE-M** 선택
+- 고정•저속•깊은 실내는 **NB-IoT**, 이동•빠른 응답은 **LTE-M**을 선택한다.
 
 #### 한줄 요약
 

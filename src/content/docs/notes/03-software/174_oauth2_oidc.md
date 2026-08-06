@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-05T23:59:00+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: **OAuth 2.0과 OIDC**는 권한 위임과 로그인 확인 체계
-- 배경/필요성: 제3자와 비밀번호를 공유하면 **과도한 권한•자격 증명 노출**
+- 정의/개념: **OAuth 2.0과 OIDC**는 권한 위임과 로그인 확인 체계이다.
+- 배경/필요성: 제3자와 비밀번호를 공유하면 **과도한 권한•자격 증명 노출**이 발생한다.
 
 #### 한줄 요약
 
@@ -52,9 +52,9 @@ extra:
 
 </details>
 
-- **Access Token•Scope** 기반 API 권한 위임
-- **ID Token•신원 Claim** 기반 로그인 확인
-- **인가 코드•PKCE•state•nonce** 기반 탈취 방지
+- **Access Token•Scope** 기반 API 권한 위이다.
+- **ID Token•신원 Claim** 기반 로그인을 확인한다.
+- **인가 코드•PKCE•state•nonce** 기반 탈취를 방지한다.
 
 #### 한줄 요약
 
@@ -130,11 +130,11 @@ OAuth 2.0•OIDC 참여 구조
 
 **동작 원리**
 
-1. **PKCE 인가 요청**: state•nonce•변환값•URI 제공
-2. **인가 코드 전달**: 등록 URI로 일회성 코드 반환
-3. **코드•검증값 교환**: PKCE 원값과 변환값 대조
-4. **ID•Access Token 전달**: 인증 결과와 위임 권한 분리 발급
-5. **Access Token•자원 요청**: 서명•대상•Scope•만료 검사
+1. **PKCE 인가 요청**: state•nonce•변환값•URI을 제공한다.
+2. **인가 코드 전달**: 등록 URI로 일회성 코드를 반환한다.
+3. **코드•검증값 교환**: PKCE 원값과 변환값을 대조한다.
+4. **ID•Access Token 전달**: 인증 결과는 ID Token으로, 위임 권한은 Access Token으로 분리하여 발급한다.
+5. **Access Token•자원 요청**: 서명•대상•Scope•만료를 검사한다.
 
 #### 한줄 요약
 
@@ -145,7 +145,7 @@ OAuth 2.0•OIDC 참여 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **인증•인가 구분 축**: 로그인 결과 확인과 API 접근 권한 위임의 차이이다.
+- **인증•인가 구분 축**: 로그인 결과 확인과 API 접근 권한 위임의 차이다.
 
 </details>
 
@@ -192,7 +192,7 @@ OAuth 2.0•OIDC 참여 구조
 
 </details>
 
-- 로그인은 **OIDC ID Token**, API 권한은 **OAuth Access Token** 검증
+- 로그인은 **OIDC ID Token**, API 권한은 **OAuth Access Token**을 검증한다.
 
 #### 한줄 요약
 

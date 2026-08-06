@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-08-05T16:33:41+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -22,15 +22,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **하이퍼텍스트 전송 프로토콜 버전 2(Hypertext Transfer Protocol version 2, HTTP/2)**: TCP에서 다중 스트림을 제공하는 웹 전송 표준
-- **하이퍼텍스트 전송 프로토콜 버전 3(Hypertext Transfer Protocol version 3, HTTP/3)**: QUIC에서 독립 스트림을 제공하는 웹 전송 표준
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜
-- **빠른 UDP 인터넷 연결(Quick UDP Internet Connections, QUIC)**: UDP 기반 연결•스트림•보안을 통합한 전송 프로토콜
+- **하이퍼텍스트 전송 프로토콜 버전 2(Hypertext Transfer Protocol version 2, HTTP/2)**: TCP에서 다중 스트림을 제공하는 웹 전송 표준이다.
+- **하이퍼텍스트 전송 프로토콜 버전 3(Hypertext Transfer Protocol version 3, HTTP/3)**: QUIC에서 독립 스트림을 제공하는 웹 전송 표준이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜이다.
+- **빠른 UDP 인터넷 연결(Quick UDP Internet Connections, QUIC)**: UDP 기반 연결•스트림•보안을 통합한 전송 프로토콜이다.
 
 </details>
 
-- 정의/개념: **HTTP/2•HTTP/3** — 같은 HTTP 의미를 각각 TCP와 QUIC의 다중 스트림으로 전달하는 **웹 전송 표준**
-- 배경/필요성: TCP 손실의 **스트림 간 선두 차단** 완화
+- 정의/개념: **HTTP/2•HTTP/3** — 같은 HTTP 의미를 각각 TCP와 QUIC의 다중 스트림으로 전달하는 **웹 전송 표준**이다.
+- 배경/필요성: TCP 손실의 **스트림 간 선두 차단** 완화가 필요하다.
 
 #### 한줄 요약
 
@@ -41,16 +41,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/3 운영•보안 제약**: UDP 차단•암호화 관측 저하•0-RTT 재전송 위험
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜
-- **왕복 시간(Round-Trip Time, RTT)**: 요청 전송부터 응답 수신까지 걸리는 시간
+- **HTTP/3 운영•보안 제약**: UDP 차단•암호화 관측 저하•0-RTT 재전송 위험이다.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜이다.
+- **왕복 시간(Round-Trip Time, RTT)**: 요청 전송부터 응답 수신까지 걸리는 시간이다.
 - **대체 서비스(Alternative Service, Alt-Svc)**: 서버가 지원하는 대체 프로토콜•주소를 클라이언트에 알리는 HTTP 필드이다.
 
 </details>
 
-- 공통 HTTP 의미와 **TCP•QUIC 전송 계층 차이**
-- **Alt-Svc** 발견과 스트림 손실 격리•연결 이동
-- UDP 차단•0-RTT의 **운영•보안 제약**
+- 공통 HTTP 의미와 **TCP•QUIC 전송 계층 차이**가 핵심이다.
+- **Alt-Svc** 발견과 스트림 손실 격리•연결 이동이 핵심이다.
+- UDP 차단•0-RTT의 **운영•보안 제약**이 핵심이다.
 
 #### 한줄 요약
 
@@ -61,8 +61,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전송 계층 보안 1.3(Transport Layer Security 1.3, TLS 1.3)**: 전송 구간 암호화와 인증을 제공하는 보안 프로토콜
-- **HTTP/2 헤더 압축(HTTP/2 Header Compression, HPACK)**: HTTP/2 필드의 중복을 줄이는 압축 방식
+- **전송 계층 보안 1.3(Transport Layer Security 1.3, TLS 1.3)**: 전송 구간 암호화와 인증을 제공하는 보안 프로토콜이다.
+- **HTTP/2 헤더 압축(HTTP/2 Header Compression, HPACK)**: HTTP/2 필드의 중복을 줄이는 압축 방식이다.
 - **HTTP/3 헤더 압축(HTTP/3 Header Compression, QPACK)**: QUIC의 독립 스트림에 맞게 설계된 헤더 압축 방식이다.
 
 </details>
@@ -86,7 +86,7 @@ HTTP 전송 구조
 | HTTP/3•QPACK 계층 | QUIC 스트림의 **프레임•헤더 압축** |
 | QUIC•TLS 1.3 전송부 | HTTP/3의 **스트림•복구•보안** 제공 |
 
-> 요약: HTTP 의미는 같고 전송•압축 계층이 다름
+> 요약: HTTP 의미는 같고 전송•압축 계층이 다르다.
 
 #### 한줄 요약
 
@@ -97,7 +97,7 @@ HTTP 전송 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **HTTP/2 대체(Fallback)**: UDP 차단이나 QUIC 실패 시 TCP•TLS 기반 HTTP/2로 전환하는 동작
+- **HTTP/2 대체(Fallback)**: UDP 차단이나 QUIC 실패 시 TCP•TLS 기반 HTTP/2로 전환하는 동작이다.
 
 </details>
 
@@ -121,10 +121,10 @@ Alt-Svc•지원 버전 확인
 
 **동작 원리**
 
-1. **QUIC•TLS 협상**: UDP 연결•암호•연결 ID 생성
-2. **독립 스트림 전송**: 요청별 QUIC 스트림으로 전달
-3. **HTTP/2 대체**: QUIC 실패 시 TCP 연결로 전환
-> 요약: HTTP/3 우선 협상 후 실패 시 HTTP/2 전환
+1. **QUIC•TLS 협상**: UDP 연결•암호•연결 ID을 생성한다.
+2. **독립 스트림 전송**: 요청별 QUIC 스트림으로 전달한다.
+3. **HTTP/2 대체**: QUIC 실패 시 TCP 연결로 전환한다.
+> 요약: HTTP/3 우선 협상 후 실패 시 HTTP/2을 전환한다.
 
 #### 한줄 요약
 
@@ -135,7 +135,7 @@ Alt-Svc•지원 버전 확인
 <details>
 <summary>핵심 용어</summary>
 
-- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계
+- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계이다.
 
 </details>
 
@@ -145,7 +145,7 @@ Alt-Svc•지원 버전 확인
 | 핵심 특징 | **RFC 9113 TCP•HPACK** | **RFC 9114 QUIC•QPACK** |
 | 한계 | TCP 손실의 **전체 스트림 지연** | **UDP 차단•0-RTT 재전송•관측 제약** |
 
-> 요약: 손실•이동성•UDP 통과로 버전 선택
+> 요약: 손실•이동성•UDP 통과로 버전을 선택한다.
 
 #### 한줄 요약
 
@@ -156,7 +156,7 @@ Alt-Svc•지원 버전 확인
 <details>
 <summary>핵심 용어</summary>
 
-- **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
+- **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게할 수 있는 위험이다.
 
 </details>
 
@@ -172,7 +172,7 @@ Alt-Svc•지원 버전 확인
 
 ## Ⅶ. 결론
 
-- 저손실•UDP 차단 환경은 **HTTP/2**, 손실•이동 환경은 **HTTP/3** 선택
+- 저손실•UDP 차단 환경은 **HTTP/2**, 손실•이동 환경은 **HTTP/3**을 선택한다.
 
 #### 한줄 요약
 

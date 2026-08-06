@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Zigbee, Thread, Matter"
-date: "2026-08-05T15:22:22+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -23,17 +23,17 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지그비(Zigbee)**: 자체 메시망과 응용 프로파일로 저전력 기기를 연결하는 표준
-- **스레드(Thread)**: 저전력 IPv6 메시 전달 경로를 제공하는 망 표준
-- **매터(Matter)**: 기기 모델•명령•보안 의미를 통일하는 응용 표준
-- **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소를 사용하는 IP 규격
-- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 네트워크 프로토콜
-- **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계
+- **지그비(Zigbee)**: 자체 메시망과 응용 프로파일로 저전력 기기를 연결하는 표준이다.
+- **스레드(Thread)**: 저전력 IPv6 메시 전달 경로를 제공하는 망 표준이다.
+- **매터(Matter)**: 기기 모델•명령•보안 의미를 통일하는 응용 표준이다.
+- **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소를 사용하는 IP 규격이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 네트워크 프로토콜이다.
+- **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계이다.
 
 </details>
 
-- 정의/개념: Zigbee•Thread•Matter는 자체망•**IPv6 경로•IP 응용**을 담당하는 **IoT 표준**
-- 배경/필요성: 제조사별 기기 규격은 **명령•보안 상호운용 곤란**
+- 정의/개념: Zigbee•Thread•Matter는 자체망•**IPv6 경로•IP 응용**을 담당하는 **IoT 표준**이다.
+- 배경/필요성: 제조사별 기기 규격은 **명령•보안 상호운용하기 어렵다**.
 
 #### 한줄 요약
 
@@ -44,14 +44,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문기관
-- **블루투스 저에너지(Bluetooth Low Energy, BLE)**: 저전력 근거리 무선 통신 기술
+- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문기관이다.
+- **블루투스 저에너지(Bluetooth Low Energy, BLE)**: 저전력 근거리 무선 통신 기술이다.
 
 </details>
 
-- **Zigbee** 의 자체 메시망•응용 프로파일 사용
-- **Thread**의 **IEEE 802.15.4** 기반 **IPv6 메시 경로** 제공
-- **Matter**의 **IP 기기 모델•명령•보안** 통일
+- **Zigbee**의 자체 메시망•응용 프로파일 사용이 핵심이다.
+- **Thread**의 **IEEE 802.15.4** 기반 **IPv6 메시 경로**를 제공한다.
+- **Matter**의 **IP 기기 모델•명령•보안** 통일이 핵심이다.
 
 #### 한줄 요약
 
@@ -99,7 +99,7 @@ Matter 운영 구조
 
 - **커미셔닝**: 기기 진위•네트워크 자격•운영 권한을 검증하고 신뢰 영역에 등록하는 절차이다.
 - **기기 증명서**: 제조사가 발급해 신규 기기의 출처와 진위를 확인하게 하는 정보이다.
-- **빠른 응답 코드(Quick Response Code, QR Code)**: 기기 가입 정보를 광학적으로 전달하는 이차원 코드
+- **빠른 응답 코드(Quick Response Code, QR Code)**: 기기 가입 정보를 광학적으로 전달하는 이차원 코드이다.
 
 </details>
 
@@ -135,7 +135,7 @@ IPv6 메시망 가입
 | **Thread** | **저전력 IPv6 메시 전달** | Matter 기기의 IP 경로 제공 |
 | **Matter** | **기기 모델•명령•보안 상호운용** | Thread•Wi-Fi•유선망 위 응용 계층 제공 |
 
-> 요약: Zigbee는 자체 생태계, Thread는 IP 경로, Matter는 응용 상호운용을 담당
+> 요약: Zigbee는 자체 생태계, Thread는 IP 경로, Matter는 응용 상호운용을 담당이 핵심이다.
 
 #### 한줄 요약
 
@@ -170,7 +170,7 @@ IPv6 메시망 가입
 
 </details>
 
-- 저전력 **IP 경로**는 **Thread**, 제조사 간 제어는 **Matter**, 기존 Zigbee는 브리지 선택
+- 저전력 **IP 경로**는 **Thread**, 제조사 간 제어는 **Matter**, 기존 Zigbee는 브리지를 선택한다.
 
 #### 한줄 요약
 

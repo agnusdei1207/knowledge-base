@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SOME/IP 차량 이더넷 (SOME/IP Automotive Ethernet)"
-date: "2026-08-05T15:42:33+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags: ["notes-network"]
 weight: 82
 extra:
@@ -23,13 +23,13 @@ extra:
 <summary>핵심 용어</summary>
 
 - **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 차량 IP망에서 ECU 기능을 서비스로 발견하고 호출•구독하는 AUTOSAR 서비스 지향 미들웨어 규약이다.
-- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 아키텍처 표준
-- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능을 제어하는 장치
+- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 아키텍처 표준이다.
+- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능을 제어하는 장치이다.
 
 </details>
 
-- 정의/개념: 차량 IP망에서 기능을 호출•구독하는 **서비스 지향 미들웨어 규약**
-- 배경/필요성: ECU 주소 고정 호출은 **기능 재배치•버전 변경 대응 곤란**
+- 정의/개념: 차량 IP망에서 기능을 호출•구독하는 **서비스 지향 미들웨어 규약**이다.
+- 배경/필요성: ECU 주소 고정 호출은 **기능 재배치•버전 변경 대응하기 어렵다**.
 
 #### 한줄 요약
 
@@ -46,9 +46,9 @@ extra:
 
 </details>
 
-- **계약 식별**: 서비스 ID•버전으로 호환 인터페이스 선택
-- **통신 다양성**: 요청•응답•무응답•이벤트 방식 제공
-- **SOME/IP-SD**: 제공자 위치•버전•TTL 동적 발견
+- **계약 식별**: 서비스 ID•버전으로 호환 인터페이스를 선택한다.
+- **통신 다양성**: 요청•응답•무응답•이벤트 방식을 제공한다.
+- **SOME/IP-SD**: 제공자 위치•버전•TTL 동적 발견이다.
 
 #### 한줄 요약
 
@@ -122,11 +122,11 @@ SOME/IP
 
 **동작 원리**
 
-1. **OfferService 광고**: 제공 ID•버전•종단점•TTL 공지
-2. **FindService 탐색**: 요구 ID•버전의 제공자 조회
-3. **이벤트 그룹 구독**: 이벤트 묶음과 구독 **TTL** 등록
-4. **서비스 메시지 교환**: 메서드 결과•이벤트•E2E 상태 전달
-5. **OfferService 갱신**: 만료 전 광고 갱신•실패 시 재탐색
+1. **OfferService 광고**: 제공 ID•버전•종단점•TTL을 공지한다.
+2. **FindService 탐색**: 요구 ID•버전의 제공자를 조회한다.
+3. **이벤트 그룹 구독**: 이벤트 묶음과 구독 **TTL**을 등록한다.
+4. **서비스 메시지 교환**: 메서드 결과•이벤트•E2E 상태를 전달한다.
+5. **OfferService 갱신**: 만료 전 광고 갱신•실패 시를 재탐색한다.
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ SOME/IP
 
 - **계약 테스트(Contract Test)**: 서비스 소비자와 제공자의 ID•버전•자료형•직렬화 호환성을 검증하는 시험이다.
 - **생존 시간 튜닝(Time to Live Tuning, TTL 튜닝)**: 서비스 광고와 구독 상태의 유효 시간을 탐색 부하와 장애 재발견 시간에 맞춰 조정하는 작업이다.
-- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 나머지로 메시지 오류를 검출하는 방식
+- **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 나머지로 메시지 오류를 검출하는 방식이다.
 
 </details>
 
@@ -182,7 +182,7 @@ SOME/IP
 
 </details>
 
-- 결과가 필요하면 **요청•응답**, 지연 우선은 **무응답**, 다중 배포는 **이벤트**
+- 결과가 필요하면 **요청•응답**, 지연 우선은 **무응답**, 다중 배포는 **이벤트**가 핵심이다.
 
 #### 한줄 요약
 

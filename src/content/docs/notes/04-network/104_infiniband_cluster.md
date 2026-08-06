@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand 클러스터 인터커넥트 (InfiniBand Cluster)"
-date: "2026-08-05T16:32:08+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags: ["notes-network"]
 weight: 104
 extra:
@@ -22,14 +22,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand 패브릭**: HCA와 스위치를 연결해 RDMA와 크레딧 기반 무손실 전송을 제공하는 인터커넥트
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버를 InfiniBand 패브릭에 연결하는 장치
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술
+- **InfiniBand 패브릭**: HCA와 스위치를 연결해 RDMA와 크레딧 기반 무손실 전송을 제공하는 인터커넥트이다.
+- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버를 InfiniBand 패브릭에 연결하는 장치이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술이다.
 
 </details>
 
-- 정의/개념: HCA와 스위치를 잇는 **RDMA•크레딧 제어 패브릭**
-- 배경/필요성: 범용망의 복사와 손실로 인한 **지연 변동**
+- 정의/개념: HCA와 스위치를 잇는 **RDMA•크레딧 제어 패브릭**이다.
+- 배경/필요성: 범용망의 복사와 손실로 인한 **지연 변동**이 발생한다.
 
 #### 한줄 요약
 
@@ -40,14 +40,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **링크 무손실 흐름 제어**: HCA가 수신 버퍼의 여유 크레딧 범위에서 RDMA 자료를 보내는 방식
-- **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소•경로•파티션을 계산•배포하는 중앙 제어 기능
+- **링크 무손실 흐름 제어**: HCA가 수신 버퍼의 여유 크레딧 범위에서 RDMA 자료를 보내는 방식이다.
+- **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소•경로•파티션을 계산•배포하는 중앙 제어 기능이다.
 
 </details>
 
-- HCA 기반 **RDMA 전송**
-- 크레딧 기반 **링크 무손실 흐름 제어**
-- 서브넷 관리자 기반 **주소•경로 관리**
+- HCA 기반 **RDMA 전송**이 핵심이다.
+- 크레딧 기반 **링크 무손실 흐름 제어**가 핵심이다.
+- 서브넷 관리자 기반 **주소•경로 관리**가 핵심이다.
 
 #### 한줄 요약
 
@@ -58,14 +58,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **컴퓨트 HCA**: 서버 메모리의 RDMA 작업을 실행하는 장치
-- **InfiniBand 스위치 패브릭**: HCA 간 무손실 패킷 경로를 제공하는 전송망
-- **저장 HCA**: 저장 장치의 RDMA 종단을 제공하는 장치
-- **서브넷 관리자**: 토폴로지를 발견하고 주소•경로•파티션을 배포하는 기능
-- **패브릭 관측기**: 포트•링크•오류•혼잡 상태를 수집하는 구성요소
-- **로컬 식별자(Local Identifier, LID)**: 서브넷 내부 포트를 식별하는 주소
-- **가상 레인(Virtual Lane, VL)**: 링크에서 트래픽을 논리적으로 분리하는 전송 통로
-- **파티션 키(Partition Key, P_Key)**: 통신 가능한 종단 그룹을 구분하는 격리 키
+- **컴퓨트 HCA**: 서버 메모리의 RDMA 작업을 실행하는 장치이다.
+- **InfiniBand 스위치 패브릭**: HCA 간 무손실 패킷 경로를 제공하는 전송망이다.
+- **저장 HCA**: 저장 장치의 RDMA 종단을 제공하는 장치이다.
+- **서브넷 관리자**: 토폴로지를 발견하고 주소•경로•파티션을 배포하는 기능이다.
+- **패브릭 관측기**: 포트•링크•오류•혼잡 상태를 수집하는 구성요소이다.
+- **로컬 식별자(Local Identifier, LID)**: 서브넷 내부 포트를 식별하는 주소이다.
+- **가상 레인(Virtual Lane, VL)**: 링크에서 트래픽을 논리적으로 분리하는 전송 통로이다.
+- **파티션 키(Partition Key, P_Key)**: 통신 가능한 종단 그룹을 구분하는 격리 키이다.
 
 </details>
 
@@ -97,8 +97,8 @@ InfiniBand 클러스터
 <details>
 <summary>핵심 용어</summary>
 
-- **크레딧 RDMA 전송**: HCA와 스위치가 다음 홉의 수신 버퍼 여유 안에서 RDMA 패킷을 보내는 방식
-- **큐 페어(Queue Pair, QP)**: 송수신 작업 요청을 HCA에 게시하는 큐 쌍
+- **크레딧 RDMA 전송**: HCA와 스위치가 다음 홉의 수신 버퍼 여유 안에서 RDMA 패킷을 보내는 방식이다.
+- **큐 페어(Queue Pair, QP)**: 송수신 작업 요청을 HCA에 게시하는 큐 쌍이다.
 
 </details>
 
@@ -125,11 +125,11 @@ RDMA 작업 요청
 
 **동작 원리**
 
-1. **토폴로지 발견**: 링크•스위치•HCA 상태 수집
-2. **경로•파티션 계산**: 목적지 경로와 통신 그룹 결정
-3. **LID•P_Key 할당**: LID와 P_Key 배포
-4. **QP•키 연결 설정**: QP와 원격 메모리 정보 공유
-5. **크레딧 RDMA 전송**: 수신 버퍼 여유 안에서 전달
+1. **토폴로지 발견**: 링크•스위치•HCA 상태를 수집한다.
+2. **경로•파티션 계산**: 목적지 경로와 통신 그룹을 결정한다.
+3. **LID•P_Key 할당**: LID와 P_Key을 배포한다.
+4. **QP•키 연결 설정**: QP와 원격 메모리 정보를 공유한다.
+5. **크레딧 RDMA 전송**: 수신 버퍼 여유 안에서 전달한다.
 #### 한줄 요약
 
 - 관리자가 주소와 길을 정하면 서버들이 작업 큐를 연결하고 각 링크가 받을 공간만큼만 자료를 보낸다.
@@ -139,10 +139,10 @@ RDMA 작업 요청
 <details>
 <summary>핵심 용어</summary>
 
-- **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 이더넷에서 RDMA를 제공하는 전송 방식
-- **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 프로토콜
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치
+- **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 이더넷에서 RDMA를 제공하는 전송 방식이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 프로토콜이다.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜이다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치이다.
 
 </details>
 
@@ -161,9 +161,9 @@ RDMA 작업 요청
 <details>
 <summary>핵심 용어</summary>
 
-- **서브넷 관리자 단일 장애**: 토폴로지•주소•경로•파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험
-- **InfiniBand 무역협회(InfiniBand Trade Association, IBTA)**: InfiniBand 규격과 상호운용을 관리하는 협회
-- **InfiniBand 아키텍처(InfiniBand Architecture, IBA)**: InfiniBand 장치•링크•전송 동작을 규정한 규격
+- **서브넷 관리자 단일 장애**: 토폴로지•주소•경로•파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험이다.
+- **InfiniBand 무역협회(InfiniBand Trade Association, IBTA)**: InfiniBand 규격과 상호운용을 관리하는 협회이다.
+- **InfiniBand 아키텍처(InfiniBand Architecture, IBA)**: InfiniBand 장치•링크•전송 동작을 규정한 규격이다.
 
 </details>
 
@@ -179,7 +179,7 @@ RDMA 작업 요청
 
 ## Ⅶ. 결론
 
-- 전용 최고 성능은 **InfiniBand**, 이더넷 재사용은 **RoCEv2** 선택
+- 전용 최고 성능은 **InfiniBand**, 이더넷 재사용은 **RoCEv2**을 선택한다.
 
 #### 한줄 요약
 

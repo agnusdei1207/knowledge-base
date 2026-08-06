@@ -4,7 +4,7 @@ sidebar:
   label: "040. NSSAI•NSI•NSSI"
   badge: { text: "기출 • 50%", variant: note }
 title: "네트워크 슬라이스 식별 체계"
-date: "2026-08-05T15:18:47+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags: ["notes-network"]
 weight: 40
 extra:
@@ -26,8 +26,8 @@ extra:
 
 </details>
 
-- 정의/개념: 슬라이스의 **NSSAI-NSI•NSSI 연결 체계**
-- 배경/필요성: 식별자만으로는 **실제 종단망 선택 불가**
+- 정의/개념: 슬라이스의 **NSSAI-NSI•NSSI 연결 체계**이다.
+- 배경/필요성: 식별자만으로는 **실제 종단망 선택할 수 없다**.
 
 #### 한줄 요약
 
@@ -38,15 +38,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)**: 하나의 네트워크 슬라이스를 선택하는 식별자
-- **슬라이스•서비스 유형(Slice/Service Type, SST)**: 슬라이스의 서비스 유형을 나타내는 코드
-- **슬라이스 구분자(Slice Differentiator, SD)**: 같은 SST 내 슬라이스를 구분하는 선택 값
+- **단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)**: 하나의 네트워크 슬라이스를 선택하는 식별자이다.
+- **슬라이스•서비스 유형(Slice/Service Type, SST)**: 슬라이스의 서비스 유형을 나타내는 코드이다.
+- **슬라이스 구분자(Slice Differentiator, SD)**: 같은 SST 내 슬라이스를 구분하는 선택 값이다.
 
 </details>
 
-- SST•SD 기반 **S-NSSAI 식별**
-- 가입•지역•가용성 기반 **NSI 선택**
-- 영역별 NSSI의 **종단 NSI 조립**
+- SST•SD 기반 **S-NSSAI 식별**이 핵심이다.
+- 가입•지역•가용성 기반 **NSI 선택**이 핵심이다.
+- 영역별 NSSI의 **종단 NSI 조립**이 핵심이다.
 
 #### 한줄 요약
 
@@ -57,8 +57,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입•지역•가용성을 바탕으로 요청에 맞는 네트워크 슬라이스를 선택하는 망 기능
-- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 접속 정보를 받아 NSSF에 슬라이스 선택을 요청하는 망 기능
+- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입•지역•가용성을 바탕으로 요청에 맞는 네트워크 슬라이스를 선택하는 망 기능이다.
+- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 접속 정보를 받아 NSSF에 슬라이스 선택을 요청하는 망 기능이다.
 
 </details>
 
@@ -95,8 +95,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **NSI 매핑**: 요청된 S-NSSAI를 조건에 맞는 NSI에 연결하는 과정
-- **NSSI 조합**: 영역별 NSSI를 연결해 종단 NSI를 구성하는 과정
+- **NSI 매핑**: 요청된 S-NSSAI를 조건에 맞는 NSI에 연결하는 과정이다.
+- **NSSI 조합**: 영역별 NSSI를 연결해 종단 NSI를 구성하는 과정이다.
 
 </details>
 
@@ -122,10 +122,10 @@ extra:
 
 **동작 원리**
 
-1. **가입•지역 정보 전달**: AMF가 단말 요청과 접속 정보를 NSSF에 제공
-2. **NSI 매핑 조회**: NSSF가 S-NSSAI에 맞는 종단망 검색
-3. **NSSI 조합 구성**: 무선•전송•코어 하위망을 종단망으로 연결
-4. **NSI 가용 정보 제공**: 구성된 종단망의 지역•상태 정보 반환
+1. **가입•지역 정보 전달**: AMF가 단말 요청과 접속 정보를 NSSF에 제공한다.
+2. **NSI 매핑 조회**: NSSF가 S-NSSAI에 맞는 종단망을 검색한다.
+3. **NSSI 조합 구성**: 무선•전송•코어 하위망을 종단망으로 연결한다.
+4. **NSI 가용 정보 제공**: 구성된 종단망의 지역•상태 정보를 반환한다.
 
 #### 한줄 요약
 
@@ -139,7 +139,7 @@ extra:
 | **NSI** | **종단 논리망 서비스 운영** | 하나 이상의 NSSI로 구성 |
 | **NSSI** | **영역별 하위망 기능 제공** | 여러 NSI가 공유 가능 |
 
-> 요약: NSSAI로 슬라이스를 선택하고 NSI를 NSSI 조합으로 운영
+> 요약: NSSAI로 슬라이스를 선택하고 NSI를 NSSI 조합으로 운영이 핵심이다.
 
 #### 한줄 요약
 
@@ -150,9 +150,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **고아 자원**: 상위 NSI와 연결이 끊긴 채 남은 NSSI 또는 자원
-- **매핑 불일치**: 허용 S-NSSAI가 의도한 NSI와 연결되지 않는 오류
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 지역별 NSI가 보장해야 할 지연•용량•가용성 목표와 책임을 정한 협약
+- **고아 자원**: 상위 NSI와 연결이 끊긴 채 남은 NSSI 또는 자원이다.
+- **매핑 불일치**: 허용 S-NSSAI가 의도한 NSI와 연결되지 않는 오류이다.
+- **서비스 수준 협약(Service Level Agreement, SLA)**: 지역별 NSI가 보장해야 할 지연•용량•가용성 목표와 책임을 정한 협약이다.
 
 </details>
 
@@ -171,11 +171,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **슬라이스 가용성**: 요청 S-NSSAI에 대응하는 NSI와 NSSI의 정상 제공 상태
+- **슬라이스 가용성**: 요청 S-NSSAI에 대응하는 NSI와 NSSI의 정상 제공 상태이다.
 
 </details>
 
-- 가입•지역•가용성 매핑 일치 시 **S-NSSAI 요청 허용**
+- 가입•지역•가용성 매핑 일치 시 **S-NSSAI 요청 허용**이 핵심이다.
 
 #### 한줄 요약
 

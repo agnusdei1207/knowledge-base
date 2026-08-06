@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "PDH•SDH•SONET 디지털 계위 (PDH SDH SONET)"
-date: "2026-08-05T15:31:10+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
 weight: 69
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**: 서로 미세하게 다른 장비 클럭을 비트 채움으로 맞춰 다중화하는 전송 계위
-- **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 공통 클럭•STM 프레임•포인터로 신호를 다중화하는 국제 표준
-- **동기식 광 네트워크(Synchronous Optical Network, SONET)**: STS•OC 프레임과 SPE를 사용하는 북미 동기식 광전송 표준
+- **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**: 서로 미세하게 다른 장비 클럭을 비트 채움으로 맞춰 다중화하는 전송 계위이다.
+- **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 공통 클럭•STM 프레임•포인터로 신호를 다중화하는 국제 표준이다.
+- **동기식 광 네트워크(Synchronous Optical Network, SONET)**: STS•OC 프레임과 SPE를 사용하는 북미 동기식 광전송 표준이다.
 
 </details>
 
-- 정의/개념: **PDH•SDH•SONET**은 다중화 속도와 프레임을 정한 전송 표준
-- 배경/필요성: PDH의 **다단 역다중화•관리 제약**
+- 정의/개념: **PDH•SDH•SONET**은 다중화 속도와 프레임을 정한 전송 표준이다.
+- 배경/필요성: PDH의 **다단 역다중화•관리 제약**이 발생한다.
 
 #### 한줄 요약
 
@@ -39,31 +39,31 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **비트 채움(Bit Stuffing)**: 입력 신호의 속도 차이를 흡수하도록 여분 비트를 삽입하는 PDH 방식
-- **포인터(Pointer)**: 동기 프레임 안에서 페이로드가 시작되는 위치를 나타내는 값
-- **운용•관리•유지보수(Operations, Administration and Maintenance, OAM)**: 오류•성능•경로•보호 상태를 감시•관리하는 기능
+- **비트 채움(Bit Stuffing)**: 입력 신호의 속도 차이를 흡수하도록 여분 비트를 삽입하는 PDH 방식이다.
+- **포인터(Pointer)**: 동기 프레임 안에서 페이로드가 시작되는 위치를 나타내는 값이다.
+- **운용•관리•유지보수(Operations, Administration and Maintenance, OAM)**: 오류•성능•경로•보호 상태를 감시•관리하는 기능이다.
 
 </details>
 
-- **준동기 다중화**: **PDH**의 비트 채움으로 속도 편차 흡수
-- **직접 분기**: **SDH•SONET** 포인터로 하위 신호 접근
-- **운용 보호**: 전송 오버헤드로 **OAM•보호 절체**
+- **준동기 다중화**: **PDH**의 비트 채움으로 속도 편차 흡수이다.
+- **직접 분기**: **SDH•SONET** 포인터로 하위 신호 접근한다.
+- **운용 보호**: 전송 오버헤드로 **OAM•보호 절체**이다.
 
 #### 한줄 요약
 
-- 포인터는 페이로드의 시작 위치를 알려 클럭 차이가 생겨도 전체 프레임을 다시 맞추지 않게 한다
+- 포인터는 페이로드의 시작 위치를 알려 클럭 차이가 생겨도 전체 프레임을 다시 맞추지 않게 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **가상 컨테이너(Virtual Container, VC)**: SDH에서 하위 신호와 경로 오버헤드를 담는 논리적 전송 단위
-- **동기 페이로드 봉투(Synchronous Payload Envelope, SPE)**: SONET에서 사용자 신호와 경로 오버헤드를 담는 영역
-- **동기 전송 모듈(Synchronous Transport Module, STM)**: SDH의 동기 프레임 전송 계위
-- **동기 전송 신호(Synchronous Transport Signal, STS)**: SONET 전기 신호 계위이며 OC와 속도가 대응함
-- **광 반송파(Optical Carrier, OC)**: SONET 광 신호 전송 계위
-- **분기결합 다중화기(Add-Drop Multiplexer, ADM)**: 전체 역다중화 없이 선택 신호를 분기•결합하는 장비
-- **디지털 교차 연결기(Digital Cross-Connect, DXC)**: 다수 디지털 경로를 전자적으로 교차 연결하는 장비
+- **가상 컨테이너(Virtual Container, VC)**: SDH에서 하위 신호와 경로 오버헤드를 담는 논리적 전송 단위이다.
+- **동기 페이로드 봉투(Synchronous Payload Envelope, SPE)**: SONET에서 사용자 신호와 경로 오버헤드를 담는 영역이다.
+- **동기 전송 모듈(Synchronous Transport Module, STM)**: SDH의 동기 프레임 전송 계위이다.
+- **동기 전송 신호(Synchronous Transport Signal, STS)**: SONET 전기 신호 계위이며 OC와 속도가 대응함이다.
+- **광 반송파(Optical Carrier, OC)**: SONET 광 신호 전송 계위이다.
+- **분기결합 다중화기(Add-Drop Multiplexer, ADM)**: 전체 역다중화 없이 선택 신호를 분기•결합하는 장비이다.
+- **디지털 교차 연결기(Digital Cross-Connect, DXC)**: 다수 디지털 경로를 전자적으로 교차 연결하는 장비이다.
 
 </details>
 
@@ -89,15 +89,15 @@ extra:
 
 #### 한줄 요약
 
-- 포인터로 신호 시작점을 찾아 전체 포장을 풀지 않고 필요한 회선만 꺼낸다
+- 포인터로 신호 시작점을 찾아 전체 포장을 풀지 않고 필요한 회선만 꺼낸다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **신호 매퍼(Signal Mapper)**: 하위 계위 신호를 VC나 SPE의 정해진 위치에 수용하는 기능
-- **경로 오버헤드(Path Overhead)**: 페이로드와 함께 전달되어 경로 상태•오류를 감시하는 제어 정보
-- **보호 절체(Protection Switching)**: 주 경로 장애 시 예비 경로로 신호를 전환하는 기능
+- **신호 매퍼(Signal Mapper)**: 하위 계위 신호를 VC나 SPE의 정해진 위치에 수용하는 기능이다.
+- **경로 오버헤드(Path Overhead)**: 페이로드와 함께 전달되어 경로 상태•오류를 감시하는 제어 정보이다.
+- **보호 절체(Protection Switching)**: 주 경로 장애 시 예비 경로로 신호를 전환하는 기능이다.
 
 </details>
 
@@ -124,11 +124,11 @@ extra:
 
 **동작 원리**
 
-1. **VC•SPE 매핑**: 하위 신호와 경로 오버헤드 수용
-2. **포인터 위치 조정**: 클럭 차이에 따라 시작 위치 변경
-3. **동기 프레임 전송**: **STM•STS** 계위로 다중화해 전달
-4. **오류•품질 감시**: 오버헤드로 경로 상태 판정
-5. **경로 처리 지시**: 정상 분기 또는 장애 보호 절체
+1. **VC•SPE 매핑**: 하위 신호와 경로 오버헤드를 수용한다.
+2. **포인터 위치 조정**: 클럭 차이에 따라 시작 위치를 변경한다.
+3. **동기 프레임 전송**: **STM•STS** 계위로 다중화해 전달한다.
+4. **오류•품질 감시**: 오버헤드로 경로 상태를 판정한다.
+5. **경로 처리 지시**: 정상 분기 또는 장애 보호를 절체한다.
 
 #### 한줄 요약
 
@@ -142,7 +142,7 @@ extra:
 | 핵심 특징 | **비트 채움 준동기 다중화** | **STM•VC 동기 프레임** | **STS•OC•SPE 동기 프레임** |
 | 한계 | **다단 역다중화•계위 차이** | **포인터 조정•동기 품질** | **SDH 계위•용어 변환** 필요 |
 
-> 요약: SDH•SONET은 동기 프레임으로 PDH를 개선한다
+> 요약: SDH•SONET은 동기 프레임으로 PDH를 개선한다.
 
 #### 한줄 요약
 
@@ -152,9 +152,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **지터(Jitter)**: 디지털 신호의 천이 시점이 이상적인 위치에서 흔들리는 현상
-- **클럭 품질(Clock Quality)**: 전송 장비의 주파수 정확도와 안정성을 나타내며 계위 다중화의 오류•지터에 영향을 주는 특성
-- **상호 연동(Interworking)**: 서로 다른 PDH•SDH•SONET 계위와 인터페이스 사이에서 신호를 매핑•변환하는 기능
+- **지터(Jitter)**: 디지털 신호의 천이 시점이 이상적인 위치에서 흔들리는 현상이다.
+- **클럭 품질(Clock Quality)**: 전송 장비의 주파수 정확도와 안정성을 나타내며 계위 다중화의 오류•지터에 영향을 주는 특성이다.
+- **상호 연동(Interworking)**: 서로 다른 PDH•SDH•SONET 계위와 인터페이스 사이에서 신호를 매핑•변환하는 기능이다.
 
 </details>
 
@@ -166,11 +166,11 @@ extra:
 
 #### 한줄 요약
 
-- 기존 준동기 회선을 알맞은 가상 컨테이너에 매핑해 전체 계위의 역다중화 없이 필요한 저속 회선을 분기한다
+- 기존 준동기 회선을 알맞은 가상 컨테이너에 매핑해 전체 계위의 역다중화 없이 필요한 저속 회선을 분기한다.
 
 ## Ⅶ. 결론
 
-- 기존 준동기 연동은 **PDH**, 국제 계위는 **SDH**, 북미 계위는 **SONET**
+- 기존 준동기 연동은 **PDH**, 국제 계위는 **SDH**, 북미 계위는 **SONET**가 핵심이다.
 
 #### 한줄 요약
 

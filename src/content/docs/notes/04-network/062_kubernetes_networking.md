@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-05T15:31:10+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -22,48 +22,48 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 네트워킹(Kubernetes Networking)**: 동적으로 생성•삭제되는 파드의 통신, 서비스 발견, 외부 노출과 정책을 제공하는 네트워크 체계
-- **쿠버네티스(Kubernetes)**: 컨테이너 응용의 배포•확장•복구를 선언적으로 관리하는 플랫폼
-- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 프로토콜
-- **파드(Pod)**: 하나 이상의 컨테이너가 네트워크 이름공간과 IP 주소를 공유하는 실행 단위
-- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드의 인터페이스•주소•경로를 구성하는 플러그인 규격
-- **서비스(Service)**: 변하는 파드 집합에 고정 접근점을 제공하는 객체
-- **인그레스(Ingress)**: 외부 요청을 Service로 전달하는 경로 규칙 객체
+- **쿠버네티스 네트워킹(Kubernetes Networking)**: 동적으로 생성•삭제되는 파드의 통신, 서비스 발견, 외부 노출과 정책을 제공하는 네트워크 체계이다.
+- **쿠버네티스(Kubernetes)**: 컨테이너 응용의 배포•확장•복구를 선언적으로 관리하는 플랫폼이다.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 프로토콜이다.
+- **파드(Pod)**: 하나 이상의 컨테이너가 네트워크 이름공간과 IP 주소를 공유하는 실행 단위이다.
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드의 인터페이스•주소•경로를 구성하는 플러그인 규격이다.
+- **서비스(Service)**: 변하는 파드 집합에 고정 접근점을 제공하는 객체이다.
+- **인그레스(Ingress)**: 외부 요청을 Service로 전달하는 경로 규칙 객체이다.
 
 </details>
 
-- 정의/개념: CNI•Service•Ingress로 연결을 제공하는 **컨테이너 네트워크 체계**
-- 배경/필요성: 파드 IP 변동은 **고정 접근점•정책 유지 곤란**
+- 정의/개념: CNI•Service•Ingress로 연결을 제공하는 **컨테이너 네트워크 체계**이다.
+- 배경/필요성: 파드 IP 변동은 **고정 접근점•정책 유지하기 어렵다**.
 
 #### 한줄 요약
 
-- 파드가 바뀌어도 Service 이름과 외부 진입 규칙은 유지돼 사용자가 같은 서비스에 접속한다
+- 파드가 바뀌어도 Service 이름과 외부 진입 규칙은 유지돼 사용자가 같은 서비스에 접속한다.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **가상 IP 주소(Virtual IP Address, VIP)**: 여러 파드 종단을 하나의 고정 IP 주소로 나타내는 접근점
-- **준비 상태(Readiness)**: 파드가 서비스 요청을 받을 수 있는지 나타내는 상태
+- **가상 IP 주소(Virtual IP Address, VIP)**: 여러 파드 종단을 하나의 고정 IP 주소로 나타내는 접근점이다.
+- **준비 상태(Readiness)**: 파드가 서비스 요청을 받을 수 있는지 나타내는 상태이다.
 
 </details>
 
-- **CNI** 기반 파드 인터페이스•IP•경로 구성
-- **Service•EndpointSlice** 기반 준비 파드 분산
-- **Ingress•NetworkPolicy** 기반 외부 경로•통신 통제
+- **CNI** 기반 파드 인터페이스•IP•경로를 구성한다.
+- **Service•EndpointSlice** 기반 준비 파드 분산이 핵심이다.
+- **Ingress•NetworkPolicy** 기반 외부 경로•통신을 통제한다.
 
 #### 한줄 요약
 
-- 정책 객체만 만들어도 CNI 플러그인이 실행 규칙으로 바꾸지 않으면 실제 패킷은 차단되지 않는다
+- 정책 객체만 만들어도 CNI 플러그인이 실행 규칙으로 바꾸지 않으면 실제 패킷은 차단되지 않는다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **엔드포인트슬라이스(EndpointSlice)**: 서비스가 선택한 준비된 파드의 IP•포트 목록을 분할 저장하는 객체
-- **네트워크 정책(NetworkPolicy)**: 선택한 파드에 허용할 수신•송신 대상을 선언하는 객체
-- **전송 계층 보안(Transport Layer Security, TLS)**: 외부 요청의 서버 인증과 전송 암호화를 제공하는 프로토콜
-- **확장 버클리 패킷 필터(extended Berkeley Packet Filter, eBPF)**: 커널에서 서비스 분산과 네트워크 정책 규칙을 실행하는 기술
+- **엔드포인트슬라이스(EndpointSlice)**: 서비스가 선택한 준비된 파드의 IP•포트 목록을 분할 저장하는 객체이다.
+- **네트워크 정책(NetworkPolicy)**: 선택한 파드에 허용할 수신•송신 대상을 선언하는 객체이다.
+- **전송 계층 보안(Transport Layer Security, TLS)**: 외부 요청의 서버 인증과 전송 암호화를 제공하는 프로토콜이다.
+- **확장 버클리 패킷 필터(extended Berkeley Packet Filter, eBPF)**: 커널에서 서비스 분산과 네트워크 정책 규칙을 실행하는 기술이다.
 
 </details>
 
@@ -90,18 +90,18 @@ extra:
 
 #### 한줄 요약
 
-- 외부 요청은 인그레스가 서비스를 고르고 데이터 경로가 준비된 파드 하나로 보낸다
+- 외부 요청은 인그레스가 서비스를 고르고 데이터 경로가 준비된 파드 하나로 보낸다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **데이터 경로(Data Path)**: 프록시나 eBPF로 실제 패킷의 분산•정책 규칙을 실행하는 경로
-- **프록시(Proxy)**: 요청을 대신 받아 선택한 서비스 종단으로 전달하는 중계 구성요소
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 구조화된 요청으로 객체와 기능을 다루는 호출 규격
-- **API 서버**: 쿠버네티스 객체의 생성•조회•변경과 상태 통지를 제공하는 구성요소
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청•응답을 전달하는 프로토콜
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: TLS를 적용한 암호화 웹 통신 프로토콜
+- **데이터 경로(Data Path)**: 프록시나 eBPF로 실제 패킷의 분산•정책 규칙을 실행하는 경로이다.
+- **프록시(Proxy)**: 요청을 대신 받아 선택한 서비스 종단으로 전달하는 중계 구성요소이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 구조화된 요청으로 객체와 기능을 다루는 호출 규격이다.
+- **API 서버**: 쿠버네티스 객체의 생성•조회•변경과 상태 통지를 제공하는 구성요소이다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 요청•응답을 전달하는 프로토콜이다.
+- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: TLS를 적용한 암호화 웹 통신 프로토콜이다.
 
 </details>
 
@@ -131,21 +131,21 @@ HTTP•HTTPS 요청 진입
 
 **동작 원리**
 
-1. **Ingress 규칙 통지**: API 서버가 외부 경로 객체 전달
-2. **외부 경로 설치**: 컨트롤러가 실제 전달 규칙 생성
-3. **EndpointSlice•정책 통지**: 준비 종단•허용 통신 전달
-4. **종단•정책 규칙 설치**: 데이터 경로에 분산•차단 반영
-5. **허용 종단 전달**: 정책을 통과한 준비 파드로 전송
+1. **Ingress 규칙 통지**: API 서버가 외부 경로 객체를 전달한다.
+2. **외부 경로 설치**: 컨트롤러가 실제 전달 규칙을 생성한다.
+3. **EndpointSlice•정책 통지**: 준비 종단•허용 통신을 전달한다.
+4. **종단•정책 규칙 설치**: 데이터 경로에 분산•차단을 반영한다.
+5. **허용 종단 전달**: 정책을 통과한 준비 파드로 전송한다.
 
 #### 한줄 요약
 
-- 준비 상태가 실패한 파드는 후보 목록에서 빠져 정상 파드에만 요청이 전달된다
+- 준비 상태가 실패한 파드는 후보 목록에서 빠져 정상 파드에만 요청이 전달된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
-- **게이트웨이 응용 프로그래밍 인터페이스(Gateway Application Programming Interface, Gateway API)**: 인프라•경로 역할을 분리해 다양한 외부 트래픽 전달을 선언하는 쿠버네티스 API
+- **게이트웨이 응용 프로그래밍 인터페이스(Gateway Application Programming Interface, Gateway API)**: 인프라•경로 역할을 분리해 다양한 외부 트래픽 전달을 선언하는 쿠버네티스 API이다.
 
 </details>
 
@@ -155,17 +155,17 @@ HTTP•HTTPS 요청 진입
 | 핵심 특징 | **HTTP•HTTPS 경로** 객체 | **역할 분리•다중 프로토콜** |
 | 한계 | 구현별 **확장 기능 종속** | **객체•권한 설계** 복잡성 |
 
-> 요약: 단순 웹은 Ingress, 역할 분리는 Gateway API다
+> 요약: 단순 웹은 Ingress, 역할 분리는 Gateway API다.
 
 #### 한줄 요약
 
-- 한 팀의 단순 웹 경로는 Ingress, 플랫폼팀과 응용팀이 권한을 나누면 Gateway API가 맞다
+- 한 팀의 단순 웹 경로는 Ingress, 플랫폼팀과 응용팀이 권한을 나누면 Gateway API가 맞다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
-- **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 HTTP 상태 코드
+- **서비스 불가(Service Unavailable, 503)**: 처리 가능한 서버가 없을 때 반환하는 HTTP 상태 코드이다.
 
 </details>
 
@@ -178,11 +178,11 @@ HTTP•HTTPS 요청 진입
 
 #### 한줄 요약
 
-- 외부 주소가 정상이어도 EndpointSlice에 준비된 파드가 없으면 요청은 전달되지 않는다
+- 외부 주소가 정상이어도 EndpointSlice에 준비된 파드가 없으면 요청은 전달되지 않는다.
 
 ## Ⅶ. 결론
 
-- 정책 차단은 **CNI 검증**, 단순 웹은 **Ingress**, 역할 분리는 **Gateway API**
+- 정책 차단은 **CNI 검증**, 단순 웹은 **Ingress**, 역할 분리는 **Gateway API**가 핵심이다.
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-05T16:50:05+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **차세대 방화벽(Next-Generation Firewall, NGFW)** 은 네트워크와 응용 흐름을 식별•통제한다.
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)** 은 웹•API 요청의 공격 문맥을 식별•통제한다.
-- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)** 는 클라우드 이용과 데이터 문맥을 식별•통제한다.
+- **차세대 방화벽(Next-Generation Firewall, NGFW)**은 네트워크와 응용 흐름을 식별•통제한다.
+- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**은 웹•API 요청의 공격 문맥을 식별•통제한다.
+- **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**는 클라우드 이용과 데이터 문맥을 식별•통제한다.
 
 </details>
 
-- 정의/개념: 망•웹•SaaS 문맥을 나눠 통제하는 **NGFW•WAF•CASB**
-- 배경/필요성: 단일 제품으로는 계층별 공격•데이터 이용 **문맥을 모두 식별 불가**
+- 정의/개념: 망•웹•SaaS 문맥을 나눠 통제하는 **NGFW•WAF•CASB**이다.
+- 배경/필요성: 단일 제품으로는 계층별 공격•데이터 이용 **문맥을 모두 식별할 수 없다**.
 
 #### 한줄 요약
 
@@ -41,14 +41,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **App-ID** 는 포트와 무관하게 응용프로그램을 식별하는 기능이다.
-- **서비스형 소프트웨어(Software as a Service, SaaS)** 는 응용 소프트웨어를 인터넷으로 제공하는 서비스 모델이다.
+- **App-ID**는 포트와 무관하게 응용프로그램을 식별하는 기능이다.
+- **서비스형 소프트웨어(Software as a Service, SaaS)**는 응용 소프트웨어를 인터넷으로 제공하는 서비스 모델이다.
 
 </details>
 
-- NGFW의 **App-ID•사용자 식별**
-- WAF의 **웹•API 공격 문맥 검사**
-- CASB의 **SaaS 계정•데이터 통제**
+- NGFW의 **App-ID•사용자 식별**이 핵심이다.
+- WAF의 **웹•API 공격 문맥 검사**가 핵심이다.
+- CASB의 **SaaS 계정•데이터 통제**가 핵심이다.
 
 #### 한줄 요약
 
@@ -59,8 +59,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 유출 방지(Data Loss Prevention, DLP)** 는 민감 데이터의 저장•이동•사용을 식별하여 유출을 통제한다.
-- **신원 제공자(Identity Provider, IdP)** 는 사용자를 인증하고 서비스에 신원•권한 정보를 제공한다.
+- **데이터 유출 방지(Data Loss Prevention, DLP)**는 민감 데이터의 저장•이동•사용을 식별하여 유출을 통제한다.
+- **신원 제공자(Identity Provider, IdP)**는 사용자를 인증하고 서비스에 신원•권한 정보를 제공한다.
 
 </details>
 
@@ -93,7 +93,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **공통 정책 문맥** 은 계층별 판정을 같은 신원•자산•정책 기준으로 연결하여 일관된 허용•차단과 대응을 수행하게 한다.
+- **공통 정책 문맥**은 계층별 판정을 같은 신원•자산•정책 기준으로 연결하여 일관된 허용•차단과 대응을 수행하게 한다.
 
 </details>
 
@@ -111,9 +111,9 @@ extra:
 
 **동작 원리**
 
-1. **네트워크•앱 식별•통제**: 흐름•사용자•응용 기반 허용•차단
-2. **웹•API 공격 검사•통제**: HTTP 문맥과 공격 징후 기반 허용•차단
-3. **SaaS•데이터 정책 검사•통제**: 계정 행위와 데이터 유출 정책 집행
+1. **네트워크•앱 식별•통제**: 흐름•사용자•응용 기반을 허용•차단한다.
+2. **웹•API 공격 검사•통제**: HTTP 문맥과 공격 징후 기반을 허용•차단한다.
+3. **SaaS•데이터 정책 검사•통제**: 계정 행위와 데이터 유출 정책을 집행한다.
 
 
 #### 한줄 요약
@@ -125,9 +125,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)** 은 웹 요청•응답을 전달한다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)** 는 서비스 간 기능 호출과 데이터 형식을 정의한다.
-- **전송 계층 보안(Transport Layer Security, TLS)** 은 통신의 기밀성과 무결성을 보호한다.
+- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**은 웹 요청•응답을 전달한다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**는 서비스 간 기능 호출과 데이터 형식을 정의한다.
+- **전송 계층 보안(Transport Layer Security, TLS)**은 통신의 기밀성과 무결성을 보호한다.
 
 </details>
 
@@ -137,7 +137,7 @@ extra:
 | 핵심 특징 | **사용자•앱 흐름** 판단 | **웹 요청 문맥** 판단 | **SaaS 계정•데이터** 판단 |
 | 한계 | **암호화 가시성** 부족 | **원본 서버 직접 경로** 노출 | **비연계 앱** 사각지대 |
 
-> 요약: 문맥에 맞춰 솔루션 보완 배치함
+> 요약: 문맥에 맞춰 솔루션 보완 배치하는 것이 핵심이다.
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **섀도 IT(Shadow IT)** 는 조직 승인 없이 사용하는 정보기술•클라우드 서비스다.
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **특별 간행물(Special Publication, SP) 800-41 Rev. 1** 은 방화벽 종류와 정책•배치를 권고한다.
+- **섀도 IT(Shadow IT)**는 조직 승인 없이 사용하는 정보기술•클라우드 서비스다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-41 Rev. 1**은 방화벽 종류와 정책•배치를 권고한다.
 
 </details>
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 망•앱 NGFW, 웹•API WAF, SaaS•데이터 CASB의 **계층별 배치**
+- 망•앱 NGFW, 웹•API WAF, SaaS•데이터 CASB의 **계층별 배치**가 핵심이다.
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-06T22:35:00+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 인공지능(Artificial Intelligence, AI) 경영시스템(Artificial Intelligence Management System, AIMS)의 수립•운영•개선 요구사항을 정한 **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 42001 표준**
-- 배경/필요성: 개별 모델 점검만으로는 조직의 AI 책임•위험에 대한 **지속 관리 불가**
+- 정의/개념: 인공지능(Artificial Intelligence, AI) 경영시스템(Artificial Intelligence Management System, AIMS)의 수립•운영•개선 요구사항을 정한 **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 42001 표준**이다.
+- 배경/필요성: 개별 모델 점검만으로는 조직의 AI 책임•위험에 대한 **지속 관리할 수 없다**.
 
 #### 한줄 요약
 
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- 조직 맥락 기반 **인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 범위•책임 설정**
-- **계획-실행-점검-개선(Plan-Do-Check-Act, PDCA) 기반 정책•운영•평가•시정 연결**
-- 인공지능(Artificial Intelligence, AI) 데이터•영향•공급자 통제와 **모델 보증 한계**
+- 조직 맥락 기반 **인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 범위•책임 설정**이 핵심이다.
+- **계획-실행-점검-개선(Plan-Do-Check-Act, PDCA) 기반 정책•운영•평가•시정 연결**이 핵심이다.
+- 인공지능(Artificial Intelligence, AI) 데이터•영향•공급자 통제와 **모델 보증 한계**가 핵심이다.
 
 #### 한줄 요약
 
@@ -96,7 +96,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **위험 처리 계획**: 평가한 위험을 회피•완화•수용하기 위한 통제와 담당자•기한을 정한 계획이다.
-- **운영 증적**: 경영시스템의 절차와 통제가 실제 수행됐음을 보여 주는 기록이다.
+- **운영 증적**: 경영시스템의 절차와 통제가 실제 수행됐음을 보여 주는 기록한다.
 
 </details>
 
@@ -116,11 +116,11 @@ extra:
 
 **동작 원리**
 
-1. **AIMS 범위•정책**: 조직 맥락과 이해관계자 요구로 관리 경계 결정
-2. **책임•자원•위험 기준**: 통제 소유자와 평가 기준 배정
-3. **위험 처리 계획•통제**: AI 수명주기에 필요한 조치 실행
-4. **운영 증적•성과 지표**: 내부 심사로 통제 효과 측정
-5. **부적합 시정•개선안**: 원인 제거 결과를 다음 계획에 반영
+1. **AIMS 범위•정책**: 조직 맥락과 이해관계자 요구로 관리 경계를 결정한다.
+2. **책임•자원•위험 기준**: 통제 소유자와 평가 기준을 배정한다.
+3. **위험 처리 계획•통제**: AI 수명주기에 필요한 조치를 실행한다.
+4. **운영 증적•성과 지표**: 내부 심사로 통제 효과를 측정한다.
+5. **부적합 시정•개선안**: 원인 제거 결과를 다음 계획에 반영한다.
 
 #### 한줄 요약
 - 계획한 AI 통제를 실행•점검하고 부적합을 시정해 다음 계획에 반영합니다.
@@ -143,7 +143,7 @@ extra:
 | 핵심 특징 | **AI 경영시스템 요구사항** | **정보보호 경영시스템** | **AI 위험관리 지침** |
 | 한계 | **제품 성능 인증과 구별** | **AI 고유 위험 범위 부족** | **인증 요구사항과 구별** |
 
-> 요약: **경영시스템•위험지침** 역할에 따른 ISO 표준 구분
+> 요약: **경영시스템•위험지침** 역할에 따른 ISO 표준을 구분한다.
 
 #### 한줄 요약
 - ISO/IEC 42001은 경영시스템, ISO/IEC 23894는 AI 위험관리 지침에 초점을 둡니다.
@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- 조직 범위•AI 위험 수준에 맞춰 **AIMS**를 운영하고 통제 효과로 지속 개선
+- 조직 범위•AI 위험 수준에 맞춰 **AIMS**를 운영하고 통제 효과로 지속을 개선한다.
 
 #### 한줄 요약
 - 인증서보다 AI 관리 절차가 일상에서 작동하고 문제가 생길 때 실제로 고쳐지는지가 중요합니다.

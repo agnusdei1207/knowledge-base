@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "키 관리 - HSM•KMS (Key Management HSM KMS)"
-date: "2026-08-05T16:48:28+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-security"
 weight: 20
@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **키 관리(Key Management)** 는 암호키의 생성•보관•배포•사용•교체•폐기를 수명주기 전체에서 통제하는 활동이다.
-- **루트 키(Root Key)** 는 하위 키를 보호하며 조직 암호체계의 최상위 신뢰점이 되는 키다.
+- **키 관리(Key Management)**는 암호키의 생성•보관•배포•사용•교체•폐기를 수명주기 전체에서 통제하는 활동이다.
+- **루트 키(Root Key)**는 하위 키를 보호하며 조직 암호체계의 최상위 신뢰점이 되는 키다.
 
 </details>
 
-- 정의/개념: 암호키의 생성부터 폐기까지 관리하는 **수명주기 통제**
-- 배경/필요성: 응용 직접 보관은 **키 노출•권한•사용 이력 통제 곤란**
+- 정의/개념: 암호키의 생성부터 폐기까지 관리하는 **수명주기 통제**이다.
+- 배경/필요성: 응용 직접 보관은 **키 노출•권한•사용 이력 통제하기 어렵다**.
 
 #### 한줄 요약
 
@@ -40,16 +40,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **데이터 암호화 키(Data Encryption Key, DEK)** 는 실제 데이터를 암호화하는 하위 대칭키다.
-- **키 암호화 키(Key Encryption Key, KEK)** 는 DEK 등 다른 키를 보호하는 상위 키다.
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)** 은 암호키를 외부로 노출하지 않고 내부에서 암호 연산을 수행한다.
-- **키 관리 시스템(Key Management System, KMS)** 은 암호키의 정책•권한•버전•수명주기와 사용 이력을 관리한다.
+- **데이터 암호화 키(Data Encryption Key, DEK)**는 실제 데이터를 암호화하는 하위 대칭키다.
+- **키 암호화 키(Key Encryption Key, KEK)**는 DEK 등 다른 키를 보호하는 상위 키다.
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**은 암호키를 외부로 노출하지 않고 내부에서 암호 연산을 수행한다.
+- **키 관리 시스템(Key Management System, KMS)**은 암호키의 정책•권한•버전•수명주기와 사용 이력을 관리한다.
 
 </details>
 
-- KEK•DEK 분리의 **노출 범위 축소**
-- HSM 내부 생성•연산의 **키 비반출**
-- KMS 정책•권한•버전의 **수명주기 통제**
+- KEK•DEK 분리의 **노출 범위 축소**가 핵심이다.
+- HSM 내부 생성•연산의 **키 비반출**이 핵심이다.
+- KMS 정책•권한•버전의 **수명주기 통제**가 핵심이다.
 
 #### 한줄 요약
 
@@ -60,8 +60,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신원•접근 관리(Identity and Access Management, IAM)** 는 사용자와 서비스의 신원을 확인하고 자원 접근 권한을 통제하는 체계다.
-- **키 래핑(Key Wrapping)** 은 한 암호키로 다른 암호키의 기밀성과 무결성을 보호하는 처리다.
+- **신원•접근 관리(Identity and Access Management, IAM)**는 사용자와 서비스의 신원을 확인하고 자원 접근 권한을 통제하는 체계다.
+- **키 래핑(Key Wrapping)**은 한 암호키로 다른 암호키의 기밀성과 무결성을 보호하는 처리다.
 
 </details>
 
@@ -92,8 +92,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **봉투 암호화(Envelope Encryption)** 는 DEK로 데이터를 암호화하고 KEK로 DEK를 다시 암호화하는 방식이다.
-- **제로화(Zeroization)** 는 암호키를 메모리와 저장매체에서 복구할 수 없도록 삭제하는 처리다.
+- **봉투 암호화(Envelope Encryption)**는 DEK로 데이터를 암호화하고 KEK로 DEK를 다시 암호화하는 방식이다.
+- **제로화(Zeroization)**는 암호키를 메모리와 저장매체에서 복구할 수 없도록 삭제하는 처리다.
 
 </details>
 
@@ -122,11 +122,11 @@ DEK 생성 요청
 
 **동작 원리**
 
-1. **IAM•키 정책 검증**: 주체•용도•권한•키 상태 확인
-2. **DEK 생성•KEK 래핑**: 데이터 키 생성 후 상위 키로 보호
-3. **데이터 암호화**: 평문 DEK를 메모리에서만 사용
-4. **암호문•래핑 DEK 저장**: 데이터와 봉투 암호화 키 보관
-5. **평문 DEK 제로화**: 사용 완료 키를 메모리에서 제거
+1. **IAM•키 정책 검증**: 주체•용도•권한•키 상태를 확인한다.
+2. **DEK 생성•KEK 래핑**: 데이터 키 생성 후 상위 키로 보호한다.
+3. **데이터 암호화**: 평문 DEK를 메모리에서만을 사용한다.
+4. **암호문•래핑 DEK 저장**: 데이터와 봉투 암호화 키를 보관한다.
+5. **평문 DEK 제로화**: 사용 완료 키를 메모리에서 제거한다.
 
 
 #### 한줄 요약
@@ -138,7 +138,7 @@ DEK 생성 요청
 <details>
 <summary>핵심 용어</summary>
 
-- **비밀 관리기(Secret Manager)** 는 비밀번호•토큰•API 키 등 응용 비밀정보의 저장•배포•회전을 관리하는 서비스다.
+- **비밀 관리기(Secret Manager)**는 비밀번호•토큰•API 키 등 응용 비밀정보의 저장•배포•회전을 관리하는 서비스다.
 
 </details>
 
@@ -148,7 +148,7 @@ DEK 생성 요청
 | 핵심 특징 | **키•연산 장비 보호** | **키 수명주기 통제** | **비밀번호•토큰 보관** |
 | 한계 | **장비 장애** | **권한 정책 오류** | 응용의 **비밀 노출** |
 
-> 요약: HSM은 보안 경계이고 KMS는 수명주기 통제 수단임
+> 요약: HSM은 보안 경계이고 KMS는 수명주기 통제 수단이다.
 
 #### 한줄 요약
 
@@ -159,11 +159,11 @@ DEK 생성 요청
 <details>
 <summary>핵심 용어</summary>
 
-- **이중 통제(Dual Control)** 는 중요 작업에 둘 이상의 독립된 승인을 요구하는 원칙이다.
-- **분할 지식(Split Knowledge)** 은 한 사람이 전체 비밀을 알지 못하도록 나누는 원칙이다.
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)** 는 미국의 기술 표준과 지침을 개발하는 기관이다.
-- **특별 간행물(Special Publication, SP) 800-57 Part 1 Rev. 5** 는 키 수명주기 지침을 제시한다.
-- **연방 정보 처리 표준(Federal Information Processing Standards, FIPS) 140-3** 은 암호 모듈 보안 요구사항을 제시한다.
+- **이중 통제(Dual Control)**는 중요 작업에 둘 이상의 독립된 승인을 요구하는 원칙이다.
+- **분할 지식(Split Knowledge)**은 한 사람이 전체 비밀을 알지 못하도록 나누는 원칙이다.
+- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**는 미국의 기술 표준과 지침을 개발하는 기관이다.
+- **특별 간행물(Special Publication, SP) 800-57 Part 1 Rev. 5**는 키 수명주기 지침을 제시한다.
+- **연방 정보 처리 표준(Federal Information Processing Standards, FIPS) 140-3**은 암호 모듈 보안 요구사항을 제시한다.
 
 </details>
 
@@ -183,11 +183,11 @@ DEK 생성 요청
 <details>
 <summary>핵심 용어</summary>
 
-- **역할 분리** 는 HSM이 키의 보안 경계를, KMS가 키 수명주기 정책을 담당하도록 책임을 구분하는 원칙이다.
+- **역할 분리**는 HSM이 키의 보안 경계를, KMS가 키 수명주기 정책을 담당하도록 책임을 구분하는 원칙이다.
 
 </details>
 
-- 루트•서명키는 **HSM**, 서비스 키 수명주기는 **KMS** 선택
+- 루트•서명키는 **HSM**, 서비스 키 수명주기는 **KMS**을 선택한다.
 
 #### 한줄 요약
 

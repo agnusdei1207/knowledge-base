@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-05T16:32:28+09:00"
+date: "2026-08-06T23:27:50+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -23,14 +23,14 @@ extra:
 <summary>핵심 용어</summary>
 
 - **NVLink**: NVIDIA가 GPU•CPU 등 처리기 사이의 고대역폭 직접 통신을 위해 제공하는 전용 인터커넥트이다.
-- **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치
-- **고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)**: 호스트와 주변장치를 연결하는 고속 직렬 버스
+- **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기이다.
+- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치이다.
+- **고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)**: 호스트와 주변장치를 연결하는 고속 직렬 버스이다.
 
 </details>
 
-- 정의/개념: GPU•CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**
-- 배경/필요성: PCIe의 **GPU 간 대역폭 병목**
+- 정의/개념: GPU•CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**이다.
+- 배경/필요성: PCIe의 **GPU 간 대역폭 병목**이 발생한다.
 
 #### 한줄 요약
 
@@ -41,15 +41,15 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **토폴로지 인식 집합 통신**: GPU•NVSwitch 연결과 링크 상태에 따라 NCCL이 링•트리 경로를 선택하는 방식
+- **토폴로지 인식 집합 통신**: GPU•NVSwitch 연결과 링크 상태에 따라 NCCL이 링•트리 경로를 선택하는 방식이다.
 - **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치이다.
-- **NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: 다중 GPU 집합 통신 경로를 선택하는 라이브러리
+- **NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: 다중 GPU 집합 통신 경로를 선택하는 라이브러리이다.
 
 </details>
 
-- GPU•CPU 간 **상호 메모리 접근**
-- NVSwitch 기반 **다중 GPU 교차 연결**
-- NCCL 기반 **토폴로지 인식 집합 통신**
+- GPU•CPU 간 **상호 메모리 접근**이 핵심이다.
+- NVSwitch 기반 **다중 GPU 교차 연결**이 핵심이다.
+- NCCL 기반 **토폴로지 인식 집합 통신**이 핵심이다.
 
 #### 한줄 요약
 
@@ -60,11 +60,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **GPU•CPU 메모리 도메인**: 자료 저장과 상호 접근 경계를 제공하는 영역
-- **NVLink 포트**: 처리기 사이의 고속 링크를 제공하는 접속부
-- **NVSwitch 패브릭**: 여러 포트의 동시 교차 경로를 제공하는 전송망
-- **패브릭 관리자(Fabric Manager)**: 링크•파티션•접근 상태를 관리하는 구성요소
-- **NCCL 통신 계층**: 토폴로지별 집합 통신 경로를 선택하는 계층
+- **GPU•CPU 메모리 도메인**: 자료 저장과 상호 접근 경계를 제공하는 영역이다.
+- **NVLink 포트**: 처리기 사이의 고속 링크를 제공하는 접속부이다.
+- **NVSwitch 패브릭**: 여러 포트의 동시 교차 경로를 제공하는 전송망이다.
+- **패브릭 관리자(Fabric Manager)**: 링크•파티션•접근 상태를 관리하는 구성요소이다.
+- **NCCL 통신 계층**: 토폴로지별 집합 통신 경로를 선택하는 계층이다.
 
 </details>
 
@@ -96,7 +96,7 @@ NVLink 인터커넥트
 <details>
 <summary>핵심 용어</summary>
 
-- **통신 순위•자료 배치**: NCCL이 자주 교환하는 GPU 순위를 가까운 링크에 배치하는 방식
+- **통신 순위•자료 배치**: NCCL이 자주 교환하는 GPU 순위를 가까운 링크에 배치하는 방식이다.
 - **집합 통신(Collective Communication)**: 여러 GPU가 하나의 그룹으로 브로드캐스트•리듀스•전체 리듀스 등을 수행하는 통신 방식이다.
 
 </details>
@@ -124,11 +124,11 @@ NVLink 인터커넥트
 
 **동작 원리**
 
-1. **링크 토폴로지 발견**: GPU•포트•스위치 연결 수집
-2. **도메인•파티션 구성**: 상호 접근 경계와 권한 설정
-3. **통신 순위•자료 배치**: 자주 교환할 GPU를 가까이 배치
-4. **집합 경로 활성화**: 연산별 링•트리 경로 설정
-5. **집합 데이터 전송**: 선택 경로로 GPU 자료 교환
+1. **링크 토폴로지 발견**: GPU•포트•스위치 연결을 수집한다.
+2. **도메인•파티션 구성**: 상호 접근 경계와 권한을 설정한다.
+3. **통신 순위•자료 배치**: 자주 교환할 GPU를 가까이 배치한다.
+4. **집합 경로 활성화**: 연산별 링•트리 경로를 설정한다.
+5. **집합 데이터 전송**: 선택 경로로 GPU 자료를 교환한다.
 #### 한줄 요약
 
 - 연결 구조를 먼저 확인해 자주 통신하는 GPU를 가깝게 놓고 NCCL이 연산에 맞는 링이나 트리 경로를 사용한다.
@@ -138,11 +138,11 @@ NVLink 인터커넥트
 <details>
 <summary>핵심 용어</summary>
 
-- **InfiniBand**: 전용 RDMA와 크레딧 제어를 제공하는 클러스터 인터커넥트
-- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술
-- **모델 병렬(Model Parallelism)**: 하나의 모델을 여러 GPU에 나누는 병렬화 방식
-- **텐서 병렬(Tensor Parallelism)**: 하나의 텐서 연산을 여러 GPU에 나누는 병렬화 방식
+- **InfiniBand**: 전용 RDMA와 크레딧 제어를 제공하는 클러스터 인터커넥트이다.
+- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술이다.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술이다.
+- **모델 병렬(Model Parallelism)**: 하나의 모델을 여러 GPU에 나누는 병렬화 방식이다.
+- **텐서 병렬(Tensor Parallelism)**: 하나의 텐서 연산을 여러 GPU에 나누는 병렬화 방식이다.
 
 </details>
 
@@ -161,7 +161,7 @@ NVLink 인터커넥트
 <details>
 <summary>핵심 용어</summary>
 
-- **사용률 편중**: GPU 집합 통신 경로가 같은 NVLink•NVSwitch 포트에 집중되는 문제
+- **사용률 편중**: GPU 집합 통신 경로가 같은 NVLink•NVSwitch 포트에 집중되는 문제이다.
 - **토폴로지 인식 순위 배치(Topology-Aware Rank Placement)**: 통신량이 큰 GPU 순위를 가까운 링크와 같은 스위치 도메인에 배치하는 기법이다.
 - **경로 재구성(Path Reconfiguration)**: 링크 장애나 혼잡 시 집합 통신의 링•트리 경로를 다시 선택하는 복구 방식이다.
 
@@ -179,7 +179,7 @@ NVLink 인터커넥트
 
 ## Ⅶ. 결론
 
-- 한 도메인 스케일업은 **NVLink**, 서버 간 확장은 **RDMA망** 선택
+- 한 도메인 스케일업은 **NVLink**, 서버 간 확장은 **RDMA망**을 선택한다.
 
 #### 한줄 요약
 
