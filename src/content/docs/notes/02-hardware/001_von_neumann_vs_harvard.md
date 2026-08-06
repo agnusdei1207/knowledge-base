@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-05T17:51:54+09:00"
+date: "2026-08-06T18:10:00+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -30,7 +30,7 @@ extra:
 
 </details>
 
-- 정의/개념: 명령어•데이터 경로를 나눈 **폰 노이만•하버드 구조**
+- 정의/개념: 명령어•데이터 경로의 공유와 분리로 구분되는 **컴퓨터 구조 비교**
 - 배경/필요성: 공유 경로의 인출•접근 경쟁으로 **동시 접근 병목**
 
 #### 한줄 요약
