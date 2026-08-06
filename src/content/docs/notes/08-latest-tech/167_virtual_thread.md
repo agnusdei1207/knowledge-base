@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "가상 스레드 (Virtual Thread)"
-date: "2026-08-05T02:19:35+09:00"
+date: "2026-08-06T23:45:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 167
@@ -103,19 +103,15 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 애플리케이션
-  participant S as JVM 스케줄러
-  participant C as 캐리어
-  participant I as 입출력 자원
-  A->>S: 작업 생성 요청
-  S->>C: 1. 작업 마운트
-  C->>I: 2. 입출력 대기•언마운트
-  I->>S: 입출력 완료 통지
-  S->>S: 3. 준비 큐 등록
-  S->>C: 4. 작업 재마운트
-  C-->>A: 작업 결과 반환
+```text
+애플리케이션 ── 작업 생성 요청 ──▶ JVM 스케줄러
+JVM 스케줄러 ── 1. 작업 마운트 ──▶ 캐리어
+캐리어 ── 2. 입출력 대기•언마운트 ──▶ 입출력 자원
+JVM 스케줄러 ◀── 입출력 완료 ───────── 입출력 자원
+JVM 스케줄러
+   │ 3. 준비 큐 등록
+   └── 4. 작업 재마운트 ──▶ 캐리어
+애플리케이션 ◀── 작업 결과 ─── 캐리어
 ```
 
 1. **작업 마운트**: 실행 가능한 가상 스레드를 캐리어에 연결
@@ -177,7 +173,7 @@ sequenceDiagram
 
 </details>
 
-- **캐리어 다중화•하류 동시성별 적용**: 많은 입출력 대기, 적은 native 피닝, 제한 가능한 하류 용량
+- **캐리어 다중화•하류 동시성**을 통제할 수 있는 입출력 대기 작업에 적용
 
 #### 한줄 요약
 

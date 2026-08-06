@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "리액티브 시스템 (Reactive System)"
-date: "2026-08-05T15:27:48+09:00"
+date: "2026-08-06T23:45:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 168
 extra:
@@ -103,17 +103,17 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant G as 요청•응답 경계
-  participant M as 메시지 채널
-  participant W as 격리 구성요소
-  participant C as 제어기
-    G->>G: 요청 접수
-  G->>M: 1. 메시지 전달
-  M->>W: 2. 격리 처리
-  W->>C: 3. 상태 대응
-    C-->>G: 처리 결과 반환
+```text
+요청•응답 경계 ── 요청 접수
+   │ 1. 메시지 전달
+   ▼
+메시지 채널
+   │ 2. 격리 처리
+   ▼
+격리 구성요소
+   │ 3. 상태 대응
+   ▼
+제어기 ── 처리 결과 ──▶ 요청•응답 경계
 ```
 
 1. **메시지 전달**: 비동기 채널이 송신자와 처리자의 속도 차이 완충
@@ -175,7 +175,7 @@ sequenceDiagram
 
 </details>
 
-- **리액티브 구조 선택 조건**: 응답 기한•장애 격리와 부하 조절 정책의 공동 운영
+- **응답 기한•장애 격리•부하 조절 정책**을 함께 운영할 수 있을 때 리액티브 구조 선택
 
 #### 한줄 요약
 

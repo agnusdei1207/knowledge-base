@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-08-05T15:27:51+09:00"
+date: "2026-08-06T23:50:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 171
@@ -106,18 +106,20 @@ Trace ID와 Span ID를 부모•자식 관계로 보존한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant C as 호출 서비스
-    participant P as 문맥 전파기
-    participant S as 피호출 서비스
-    participant O as 수집기•샘플러
-    participant B as 추적 백엔드
-    C->>P: 1. 스팬 컨텍스트 전달
-    P->>S: 2. 추적 문맥 전달
-    S->>O: 3. 자식 스팬 전달
-    C->>O: 4. 부모 스팬 전달
-    O->>B: 5. 선별 스팬 전달
+```text
+호출 서비스
+   │ 1. 스팬 컨텍스트 전달
+   ▼
+문맥 전파기
+   │ 2. 추적 문맥 전달
+   ▼
+피호출 서비스 ── 3. 자식 스팬 전달 ─┐
+호출 서비스 ── 4. 부모 스팬 전달 ───┤
+                                      ▼
+                                수집기•샘플러
+                                      │ 5. 선별 스팬 전달
+                                      ▼
+                                  추적 백엔드
 ```
 
 **동작 원리**
@@ -182,7 +184,7 @@ sequenceDiagram
 
 </details>
 
-- **추적 연속성•샘플링 예산 원칙**: 문맥 전파•스팬 경계를 보존하고 오류•고지연 추적 우선 저장
+- **추적 연속성•샘플링 예산**을 지키며 오류•고지연 추적 우선 저장
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-08-05T02:19:35+09:00"
+date: "2026-08-06T23:40:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: **이스티오** 는 Istiod 제어 평면과 사이드카 또는 앰비언트 데이터 평면을 이용해 서비스 간 통신 정책을 집행하는 서비스 메시 플랫폼
+- 정의/개념: **이스티오**는 Istiod 제어 평면과 사이드카 또는 앰비언트 데이터 평면을 이용해 서비스 간 통신 정책을 집행하는 서비스 메시 플랫폼
 - 배경/필요성: 마이크로서비스별 **보안•라우팅•관측 구현 중복과 정책 불일치** 완화
 
 #### 한줄 요약
@@ -69,7 +69,7 @@ extra:
 
 </details>
 
-구성 **API** 의 의도는 **xDS** 로 전달되며, 데이터 평면은 **L4•L7** 정책을 집행한다.
+구성 **API**의 의도는 **xDS**로 전달되며, 데이터 평면은 **L4•L7** 정책을 집행한다.
 
 ```text
                     [구성 API]
@@ -108,21 +108,15 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as 호출 서비스
-  participant I as Istiod
-  participant Z as ztunnel
-  participant W as waypoint
-  participant T as 대상 서비스
-  I->>Z: 1. L4 구성•인증서 배포
-  I->>W: 2. L7 구성 배포
-  C->>Z: 서비스 요청 전달
-  Z->>W: 3. 선택적 L7 정책 위임
-  W->>T: 4. L7 인가•라우팅 집행
-  T-->>W: 서비스 응답
-  W-->>Z: 응답 전달
-  Z-->>C: 처리 결과 반환
+```text
+Istiod ── 1. L4 구성•인증서 배포 ──▶ ztunnel
+Istiod ── 2. L7 구성 배포 ─────────▶ waypoint
+호출 서비스 ── 서비스 요청 ────────▶ ztunnel
+ztunnel ── 3. 선택적 L7 정책 위임 ──▶ waypoint
+waypoint ── 4. L7 인가•라우팅 집행 ──▶ 대상 서비스
+waypoint ◀── 서비스 응답 ───────────── 대상 서비스
+ztunnel ◀── 응답 ─────────────────── waypoint
+호출 서비스 ◀── 처리 결과 ────────── ztunnel
 ```
 
 1. **L4 구성•인증서 배포**: Istiod가 **xDS** 구성과 워크로드 인증서 전달
@@ -144,7 +138,7 @@ sequenceDiagram
 
 </details>
 
-데이터 평면은 **L4•L7** 을 분리하며, **mTLS•HTTP** 정책의 적용 범위가 다르다.
+데이터 평면은 **L4•L7**을 분리하며, **mTLS•HTTP** 정책의 적용 범위가 다르다.
 
 | Istio 데이터 평면 | Sidecar 모드 | Ambient ztunnel | Ambient ztunnel+waypoint |
 |:---|:---|:---|:---|
@@ -186,7 +180,7 @@ sequenceDiagram
 
 </details>
 
-- 워크로드별 격리는 사이드카, **L4** 기본망은 **ztunnel**, 선택 **L7** 은 **waypoint** 적용
+- 워크로드별 격리는 사이드카, **L4** 기본망은 ztunnel, 선택 **L7**은 waypoint 적용
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "OpenTelemetry"
-date: "2026-08-05T15:27:50+09:00"
+date: "2026-08-06T23:50:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 170
 extra:
@@ -106,16 +106,18 @@ extra:
 
 API로 생성한 신호를 SDK가 처리하고 OTLP로 전송한다.
 
-```mermaid
-sequenceDiagram
-  participant A as 애플리케이션
-  participant S as SDK
-  participant C as Collector
-  participant B as 백엔드
-  A->>S: 1. 신호 생성
-  S->>S: 2. 신호 처리
-  S->>C: 3. OTLP 표준 전송
-  C->>B: 4. 신호 라우팅
+```text
+애플리케이션
+   │ 1. 신호 생성
+   ▼
+SDK
+   │ 2. 신호 처리
+   │ 3. OTLP 표준 전송
+   ▼
+Collector
+   │ 4. 신호 라우팅
+   ▼
+백엔드
 ```
 
 1. **신호 생성**: API와 시맨틱 규약으로 메트릭•로그•추적 생성
@@ -179,7 +181,7 @@ API, SDK, Collector는 신호 생성•처리•수집을 분담한다.
 
 </details>
 
-- **계측•백엔드 분리•핵심 신호 보존율 조건**: 속성•맥락 일관성과 Collector 용량 확보 후 OTel 적용
+- **계측•백엔드 분리•핵심 신호 보존율**을 보장할 때 OTel 적용
 
 #### 한줄 요약
 
