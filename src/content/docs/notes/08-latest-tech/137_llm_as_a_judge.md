@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "LLM 평가자 (LLM-as-a-Judge)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:15:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 137
@@ -92,17 +92,21 @@ LLM 판정기는 기준표에 따라 점수•선호•이유를 생성한다.
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 평가•결과 책임자
-    participant B as 블라인드 변환기
-    participant J as LLM 판정기
-    participant H as 인간 교정자
-    O->>B: 1. 대표 표본•기준표 구성
-    B->>J: 2. 식별 제거•후보 순서 교환
-    J->>H: 3. 반복 점수•선호 판정
-    H->>O: 4. 사람 판단•편향 대조
-    O->>O: 5. 자동 채택•인간 전환 결정
+```text
+평가•결과 책임자
+   │ 1. 대표 표본•기준표 구성
+   ▼
+블라인드 변환기
+   │ 2. 식별 제거•후보 순서 교환
+   ▼
+LLM 판정기
+   │ 3. 반복 점수•선호 판정
+   ▼
+인간 교정자
+   │ 4. 사람 판단•편향 대조
+   ▼
+평가•결과 책임자
+   └ 5. 자동 채택•인간 전환 결정
 ```
 
 LLM 판정 결과는 순서 교환 결과 및 인간 판정과 대조한다.

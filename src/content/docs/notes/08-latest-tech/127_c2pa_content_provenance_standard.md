@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "C2PA 콘텐츠 출처 표준 (Coalition for Content Provenance and Authenticity)"
-date: "2026-08-05T02:15:47+09:00"
+date: "2026-08-06T23:05:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 127
@@ -102,18 +102,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as 진술 저장소
-  participant C as 클레임 구성기
-  participant S as 서명•자격증명부
-  participant M as 매니페스트 저장소
-  participant V as 매니페스트 검증기
-  A->>C: 1. 생성•편집 진술
-  C->>S: 2. 진술 참조•콘텐츠 바인딩
-  S->>M: 3. 서명 클레임•자격증명
-  M->>V: 4. 내장•원격 매니페스트
-  V-->>M: 5. 서명•바인딩•폐기 상태
+```text
+진술 저장소
+   │ 1. 생성•편집 진술
+   ▼
+클레임 구성기
+   │ 2. 진술 참조•콘텐츠 바인딩
+   ▼
+서명•자격증명부
+   │ 3. 서명 클레임•자격증명
+   ▼
+매니페스트 저장소
+   │ 4. 내장•원격 매니페스트
+   ▼
+매니페스트 검증기
+   └── 5. 서명•바인딩•폐기 상태 ──▶ 매니페스트 저장소
 ```
 
 1. **생성•편집 진술**: 출처 이력과 구성 자산 기록
@@ -180,7 +183,7 @@ C2PA는 편집 이력 연결, 일반 메타데이터는 속성 교환, 파일 �
 
 </details>
 
-- 출처 이력: **C2PA 2.4 연결**, 판정 분리: **서명 검증•내용 사실성**
+- 출처 이력은 **C2PA 2.4**로 연결하되 서명 검증과 내용 사실성을 분리 판정
 
 #### 한줄 요약
 

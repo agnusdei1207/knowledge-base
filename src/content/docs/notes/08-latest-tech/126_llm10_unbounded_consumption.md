@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
-date: "2026-08-05T02:15:47+09:00"
+date: "2026-08-06T23:05:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 126
@@ -101,17 +101,20 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant G as 자원 게이트•입장 제어기
-  participant L as 예산 원장
-  participant P as 격리 실행 풀
-  participant M as 실행 감시기
-  G->>L: 1. 주체•모델•최대 소비량
-  L->>G: 2. 예약 가능 예산
-  G->>P: 3. 승인 요청•실행 상한
-  P->>M: 4. 토큰•시간•도구 사용량
-  M-->>L: 5. 중단 상태•실제 소비 정산
+```text
+자원 게이트•입장 제어기
+   │ 1. 주체•모델•최대 소비량
+   ▼
+예산 원장
+   └── 2. 예약 가능 예산 ──▶ 자원 게이트•입장 제어기
+자원 게이트•입장 제어기
+   │ 3. 승인 요청•실행 상한
+   ▼
+격리 실행 풀
+   │ 4. 토큰•시간•도구 사용량
+   ▼
+실행 감시기
+   └── 5. 중단 상태•실제 소비 정산 ──▶ 예산 원장
 ```
 
 1. **주체•모델•최대 소비량**: 사용자별 비용 상한 산정
@@ -176,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 주체별 통제: **토큰•시간 예산•도구•동시성 상한**, 초과 대응: **작업 중단**
+- 주체별 **토큰•시간 예산•도구•동시성 상한**을 두고 초과 작업 중단
 
 #### 한줄 요약
 

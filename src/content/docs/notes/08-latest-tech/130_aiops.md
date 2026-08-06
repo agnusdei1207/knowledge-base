@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-05T14:29:50+09:00"
+date: "2026-08-06T23:10:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -101,19 +101,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant T as 관측 데이터 저장소
-  participant S as 서비스 토폴로지
-  participant I as 사건 분석 엔진
-  participant C as 원인 추정 모델
-  participant R as 런북•정책 제어기
-  T->>I: 1. 정규화 로그•메트릭•트레이스
-  S->>I: 2. 서비스 의존•영향 관계
-  I->>C: 3. 상관 사건•이상 패턴
-  C->>R: 4. 원인 후보•근거 순위
-  R->>R: 5. 승인 런북 실행
-  R-->>I: 복구 결과 피드백
+```text
+관측 데이터 저장소 ── 1. 정규화 로그•메트릭•트레이스 ─┐
+서비스 토폴로지 ── 2. 서비스 의존•영향 관계 ──────────┤
+                                                        ▼
+                                                  사건 분석 엔진
+                                                        │ 3. 상관 사건•이상 패턴
+                                                        ▼
+                                                  원인 추정 모델
+                                                        │ 4. 원인 후보•근거 순위
+                                                        ▼
+                                                 런북•정책 제어기
+                                                        │ 5. 승인 런북 실행
+                                                        └── 복구 결과 ──▶ 사건 분석 엔진
 ```
 
 1. **정규화 로그•메트릭•트레이스**: 시간•서비스 식별자로 신호 정렬
@@ -177,7 +177,7 @@ sequenceDiagram
 
 </details>
 
-- **원인 신뢰도** 나 **조치 가역성** 이 낮으면 사람 승인, 모두 높으면 저위험 런북 자동 실행
+- **원인 신뢰도**나 **조치 가역성**이 낮으면 사람 승인, 모두 높으면 저위험 런북 자동 실행
 
 #### 한줄 요약
 

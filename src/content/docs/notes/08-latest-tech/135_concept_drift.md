@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "개념 드리프트 (Concept Drift)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:15:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 135
@@ -93,16 +93,15 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as 예측 로그
-    participant L as 정답 저장소
-    participant D as 드리프트 검출기
-    participant A as 적응 정책
-    P->>D: 1. 시각•모델별 예측 기록
-    L->>D: 2. 지연 정답 시각 정합
-    D->>A: 3. 조건부 관계•부분집단 변화 탐지
-    A-->>D: 4. 라벨 정책•모델 갱신 판정
+```text
+예측 로그 ── 1. 시각•모델별 예측 기록 ─┐
+정답 저장소 ── 2. 지연 정답 시각 정합 ──┤
+                                            ▼
+                                      드리프트 검출기
+                                            │ 3. 조건부 관계•부분집단 변화 탐지
+                                            ▼
+                                        적응 정책
+                                            └── 4. 라벨 정책•모델 갱신 판정 ──▶ 검출기
 ```
 
 1. **시각•모델별 예측 기록**: 입력•버전•부분집단 정보 저장

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-08-05T14:29:52+09:00"
+date: "2026-08-06T23:10:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 132
@@ -98,19 +98,15 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant R as 레지스트리
-    participant O as 오프라인 저장소
-    participant P as 처리 엔진
-    participant N as 온라인 저장소
-    participant S as 피처 서버
-    R->>P: 1. 공통 피처 정의•버전 로드
-    O->>P: 2. 시점 정합 학습 피처 계산
-    P->>O: 3. 학습 피처셋 물질화
-    P->>N: 4. 최신 피처값 동기화
-    S->>N: 엔터티 피처 조회
-    N-->>S: 저지연 최신값 반환
+```text
+레지스트리 ── 1. 공통 피처 정의•버전 로드 ─┐
+오프라인 저장소 ── 2. 시점 정합 학습 피처 계산 ─┤
+                                                   ▼
+                                                처리 엔진
+                          ├─ 3. 학습 피처셋 물질화 ──▶ 오프라인 저장소
+                          └─ 4. 최신 피처값 동기화 ──▶ 온라인 저장소
+피처 서버 ── 엔터티 피처 조회 ──▶ 온라인 저장소
+피처 서버 ◀── 저지연 최신값 ───── 온라인 저장소
 ```
 
 1. **공통 피처 정의•버전 로드**: 학습•추론 변환 로직 고정
