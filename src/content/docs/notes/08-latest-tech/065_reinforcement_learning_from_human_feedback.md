@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RLHF (인간 피드백 강화학습)"
-date: "2026-08-07T00:18:00+09:00"
+date: "2026-08-06T22:01:31+09:00"
 tags:
   - "notes-latest_tech"
 weight: 65
@@ -25,6 +25,7 @@ extra:
 
 - **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)**: 사람이 더 낫다고 고른 응답을 보상 신호로 바꾸어 언어 모델의 생성 정책을 조정하는 학습 방식이다.
 - **상대 선호**: 같은 입력에 대한 여러 응답 중 어느 답이 더 유용•안전한지 비교한 판단이다.
+- **지도 파인튜닝(Supervised Fine-Tuning, SFT)**: 모범 응답을 지도 학습하여 지시 추종의 초기 정책을 만드는 방식이다.
 
 </details>
 
@@ -132,7 +133,6 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **지도 파인튜닝(Supervised Fine-Tuning, SFT)**: 모범 응답 토큰을 모방하여 지시 추종의 초기 정책을 학습한다.
 - **RLHF 적용**: 보상 모델•PPO•KL 제약으로 정책 탐색과 선호 점수 향상
 - **직접 선호 최적화(Direct Preference Optimization, DPO)**: 별도 보상 모델과 온라인 강화학습 없이 선호 응답쌍으로 정책을 직접 조정한다.
 
