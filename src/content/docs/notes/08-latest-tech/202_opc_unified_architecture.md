@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:42:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: **OPC UA** 는 산업 데이터의 의미•통신•보안을 통합한 상호운용 표준
-- 배경/필요성: 공급사별 태그의 **의미•주소 체계 불일치** 로 설비 연계 제약
+- 정의/개념: **OPC UA**는 산업 데이터의 의미•통신•보안을 통합한 상호운용 표준
+- 배경/필요성: 공급사별 태그의 **의미•주소 체계 불일치**로 설비 연계 제약
 
 #### 한줄 요약
 
@@ -46,7 +46,7 @@ extra:
 </details>
 
 - 노드•속성•참조로 설비를 표현하는 **의미 기반 정보 모델**
-- 클라이언트-서버•**PubSub** 를 지원하는 **복수 통신 모델**
+- 클라이언트-서버•**PubSub**를 지원하는 **복수 통신 모델**
 - 인증•서명•암호화•권한 제어를 제공하는 **통합 보안**
 #### 한줄 요약
 
@@ -67,7 +67,7 @@ extra:
 
 </details>
 
-**OPC UA** 서버의 AddressSpace를 클라이언트가 탐색하며, **PubSub** 는 데이터셋을 여러 구독자에게 전달한다.
+**OPC UA** 서버의 AddressSpace를 클라이언트가 탐색하며, **PubSub**는 데이터셋을 여러 구독자에게 전달한다.
 
 ```text
                     [Client]
@@ -107,22 +107,23 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant C as Client
-  participant S as Server
-  participant T as 인증서•신뢰 체계
-  participant A as AddressSpace
-  C->>S: Endpoint 탐색 요청
-  S-->>C: Endpoint 목록
-  C->>S: 1. 보안 채널 요청
-  S->>T: 2. 인증서•정책 검증
-  T-->>S: 검증 결과
-  S-->>C: 3. 보안 채널•세션 수립
-  C->>S: 4. 탐색•읽기•구독 요청
-  S->>A: 5. 노드 조회•구독 등록
-  A-->>S: 상태•값
-  S-->>C: 서비스 결과•변경 통지
+```text
+[Client] ── Endpoint 탐색 요청 ──▶ [Server]
+[Client] ◀──── Endpoint 목록 ────── [Server]
+    │ 1. 보안 채널 요청
+    └─────────────────────────────▶ [Server]
+                                        │ 2. 인증서•정책 검증
+                                        ▼
+                              [인증서•신뢰 체계]
+                                        │ 검증 결과
+                                        ▼
+[Client] ◀── 3. 보안 채널•세션 수립 ── [Server]
+    │ 4. 탐색•읽기•구독 요청
+    └─────────────────────────────▶ [Server]
+                                        │ 5. 노드 조회•구독 등록
+                                        ▼
+                                  [AddressSpace]
+[Client] ◀── 서비스 결과•변경 통지 ─── [Server]
 ```
 
 **동작 원리**
@@ -184,8 +185,8 @@ sequenceDiagram
 
 </details>
 
-- 질의•배포 패턴에 따라 **클라이언트-서버•PubSub** 를 선택하고 **인증서** 검증
+- 질의•배포 패턴에 따라 **클라이언트-서버•PubSub**를 선택하고 **인증서** 검증
 
 #### 한줄 요약
 
-- **OPC UA** 는 연결 방식과 함께 설비 의미와 신뢰 관리를 표준화해야 한다.
+- **OPC UA**는 연결 방식과 함께 설비 의미와 신뢰 관리를 표준화해야 한다.

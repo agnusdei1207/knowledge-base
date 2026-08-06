@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "자동주행 시스템 (Automated Driving System, ADS)"
-date: "2026-08-05T16:11:49+09:00"
+date: "2026-08-06T23:49:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 209
@@ -64,7 +64,7 @@ extra:
 
 </details>
 
-**ADS** 는 ODD•OEDR•MRM을 함께 관리한다.
+**ADS**는 ODD•OEDR•MRM을 함께 관리한다.
 
 ```text
                 [ODD•기능 관리자]   [안전 감시•기록]
@@ -100,25 +100,22 @@ extra:
 
 OEDR과 DDT 상태에 따라 MRC 도달을 판단한다.
 
-```mermaid
-sequenceDiagram
-    participant O as ODD•기능 관리자
-    participant P as 인지•OEDR
-    participant C as 계획•제어
-    participant S as 안전 감시
-    participant F as DDT fallback
-    loop ADS 활성 중
-        O->>P: 1. 유효 ODD•활성 상태 전달
-        P->>C: 2. 객체•사건 대응정보 전달
-        C->>S: 3. DDT•차량 상태 전달
-        alt ODD 유효•시스템 정상
-            S-->>O: 감시 결과
-        else ODD 이탈•시스템 고장
-            S->>F: 4. fallback 작동 요청
-            F->>C: 5. 인계•MRM 목표 전달
-            C-->>O: fallback 결과
-        end
-    end
+```text
+[ODD•기능 관리자]
+       │ 1. 유효 ODD•활성 상태
+       ▼
+   [인지•OEDR]
+       │ 2. 객체•사건 대응정보
+       ▼
+    [계획•제어]
+       │ 3. DDT•차량 상태
+       ▼
+    [안전 감시]
+       ├─ 정상 ──────────────▶ [ODD•기능 관리자]
+       └─ 4. fallback 작동 요청 ──▶ [DDT fallback]
+                                         │ 5. 인계•MRM 목표
+                                         ▼
+                                     [계획•제어]
 ```
 
 **동작 원리**

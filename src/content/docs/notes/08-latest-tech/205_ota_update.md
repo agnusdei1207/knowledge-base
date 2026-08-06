@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "무선 업데이트 (Over-the-Air Update, OTA)"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:45:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 205
@@ -95,20 +95,22 @@ extra:
 
 SUMS가 차량별 배포와 복구 이력을 관리한다.
 
-```mermaid
-sequenceDiagram
-  participant R as 빌드•서명 저장소
-  participant B as SUMS•배포 Backend
-  participant C as 차량 Update Client
-  participant I as Secure Installer
-  participant O as Boot•Recovery
-  R->>B: 1. 서명 패키지 등록
-  B->>C: 2. 대상•단계 배포
-  C->>I: 3. 서명•호환성 검증
-  I->>O: 4. 안전 조건 설치
-  O-->>C: 부팅 결과
-  C->>O: 5. 정상 슬롯 활성화
-  C-->>B: 배포 결과
+```text
+[빌드•서명 저장소]
+       │ 1. 서명 패키지 등록
+       ▼
+[SUMS•배포 Backend]
+       │ 2. 대상•단계 배포
+       ▼
+[차량 Update Client]
+       │ 3. 서명•호환성 검증
+       ▼
+[Secure Installer]
+       │ 4. 안전 조건 설치
+       ▼
+[Boot•Recovery] ── 부팅 결과 ──▶ [차량 Update Client]
+                                      │ 5. 정상 슬롯 활성화
+                                      └────────▶ [Boot•Recovery]
 ```
 
 **동작 원리**

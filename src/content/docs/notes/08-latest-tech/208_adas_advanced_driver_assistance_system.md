@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "첨단 운전자 지원 시스템 (Advanced Driver Assistance System, ADAS)"
-date: "2026-08-05T16:11:48+09:00"
+date: "2026-08-06T23:48:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 208
@@ -67,7 +67,7 @@ extra:
 
 </details>
 
-**DMS•HMI** 가 운전자 상태와 경고•제어 결과를 연결한다.
+**DMS•HMI**가 운전자 상태와 경고•제어 결과를 연결한다.
 
 ```text
                   [환경 센서]   [DMS•차량 상태]
@@ -101,22 +101,22 @@ extra:
 
 </details>
 
-**HMI•DMS** 가 기능 한계와 운전자 대응을 감시한다.
+**HMI•DMS**가 기능 한계와 운전자 대응을 감시한다.
 
-```mermaid
-sequenceDiagram
-    participant S as 환경 센서
-    participant P as 인지•융합
-    participant R as 위험 판단
-    participant C as HMI•차량 제어
-    participant D as DMS•안전 감시
-    loop ADAS 활성 중
-        S->>P: 1. 환경•차량 상태 전달
-        P->>R: 2. 객체•차선 추정 전달
-        R->>C: 3. 위험•목표 제어 전달
-        C->>D: 4. 기능•운전자 상태 전달
-        D-->>C: 5. 지속•저하•해제 결정 전달
-    end
+```text
+[환경 센서]
+    │ 1. 환경•차량 상태
+    ▼
+[인지•융합]
+    │ 2. 객체•차선 추정
+    ▼
+[위험 판단]
+    │ 3. 위험•목표 제어
+    ▼
+[HMI•차량 제어]
+    │ 4. 기능•운전자 상태
+    ▼
+[DMS•안전 감시] ── 5. 지속•저하•해제 결정 ──▶ [HMI•차량 제어]
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:46:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -65,7 +65,7 @@ extra:
 
 </details>
 
-**ARA•UCM•PHM•POSIX** 가 Adaptive 애플리케이션의 실행 기반을 구성한다.
+**ARA•UCM•PHM•POSIX**가 Adaptive 애플리케이션의 실행 기반을 구성한다.
 
 ```text
                 [ARA•ara::com]
@@ -102,23 +102,20 @@ extra:
 
 </details>
 
-**UCM•PHM•ARA** 가 배포•통신•건강 상태를 관리한다.
+**UCM•PHM•ARA**가 배포•통신•건강 상태를 관리한다.
 
-```mermaid
-sequenceDiagram
-    participant U as UCM
-    participant E as 실행 관리자
-    participant A as Adaptive App
-    participant C as ara::com
-    participant H as PHM
-    U->>E: 1. 검증 패키지•Manifest 전달
-    E->>A: 2. 프로세스 시작
-    A->>C: 3. 서비스 탐색 요청
-    C-->>A: 서비스 인스턴스
-    loop 실행 중 건강 감시
-        A->>H: 4. 건강 체크포인트
-        H-->>E: 5. 오류 대응 지시
-    end
+```text
+[UCM]
+  │ 1. 검증 패키지•Manifest
+  ▼
+[실행 관리자]
+  │ 2. 프로세스 시작
+  ▼
+[Adaptive App] ── 3. 서비스 탐색 요청 ──▶ [ara::com]
+[Adaptive App] ◀──── 서비스 인스턴스 ───── [ara::com]
+  │ 4. 건강 체크포인트
+  ▼
+[PHM] ── 5. 오류 대응 지시 ──▶ [실행 관리자]
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 정의 차량 (Software Defined Vehicle)"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:44:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 204
@@ -118,18 +118,17 @@ Vehicle OS와 HPC는 API로 기능과 장치를 분리한다.
 
 API, Vehicle OS, HPC가 서비스 계약에 따라 기능을 실행한다.
 
-```mermaid
-sequenceDiagram
-  participant A as 기능 애플리케이션
-  participant P as 서비스•차량 API
-  participant O as Vehicle OS
-  participant H as 중앙 HPC
-  participant Z as 구역 제어기
-  A->>P: 차량 기능 요청
-  P->>O: 1. 서비스 계약•권한 확인
-  O->>H: 2. 자원•안전 영역 배치
-  H->>Z: 3. 구역 제어 명령
-  Z-->>A: 상태•진단 결과
+```text
+[기능 애플리케이션] ── 차량 기능 요청 ──▶ [서비스•차량 API]
+                                               │ 1. 서비스 계약•권한 확인
+                                               ▼
+                                         [Vehicle OS]
+                                               │ 2. 자원•안전 영역 배치
+                                               ▼
+                                          [중앙 HPC]
+                                               │ 3. 구역 제어 명령
+                                               ▼
+[기능 애플리케이션] ◀──── 상태•진단 결과 ── [구역 제어기]
 ```
 
 **동작 원리**
@@ -193,7 +192,7 @@ ECU, SDV, HW•SW의 결합 수준을 비교한다.
 
 </details>
 
-- **SDV 적용**: 변경이 잦은 기능은 서비스화하고 안전 기능은 격리 실행
+- 변경이 잦은 기능은 **서비스화**, 안전 기능은 **격리 실행**하는 SDV 적용
 
 #### 한줄 요약
 

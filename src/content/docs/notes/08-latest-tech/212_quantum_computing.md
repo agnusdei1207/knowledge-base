@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "양자컴퓨팅 (Quantum Computing)"
-date: "2026-08-05T16:11:52+09:00"
+date: "2026-08-06T23:52:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 212
@@ -102,21 +102,21 @@ extra:
 </details>
 
 
-```mermaid
-sequenceDiagram
-  participant A as 알고리즘 설계
-  participant C as 컴파일러
-  participant Q as 양자 장치
-  participant M as 측정 체계
-  participant V as 고전 검증
-  A->>C: 1. 문제•회로 설계
-  C->>Q: 2. 매핑•상태 준비
-  loop 샷 반복
-    Q->>M: 3. 양자 게이트 실행
-    M->>V: 4. 측정 표본 전달
-  end
-  A->>V: 5. 고전 기준선 전달
-  V-->>A: 양자 이점 검증 결과
+```text
+[알고리즘 설계]
+      │ 1. 문제•회로 설계
+      ▼
+   [컴파일러]
+      │ 2. 매핑•상태 준비
+      ▼
+   [양자 장치]
+      │ 3. 양자 게이트 실행
+      ▼
+   [측정 체계]
+      │ 4. 측정 표본
+      ▼
+   [고전 검증] ◀─ 5. 고전 기준선 ─ [알고리즘 설계]
+      └──────────── 양자 이점 검증 결과 ───────────▶ [알고리즘 설계]
 ```
 
 **동작 원리**

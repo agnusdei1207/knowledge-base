@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차량•사물 통신 (Vehicle-to-Everything, V2X)"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:47:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 207
@@ -66,7 +66,7 @@ extra:
 
 </details>
 
-**V2X•RSU•PKI** 가 메시지 전달과 신뢰 관리를 분담한다.
+**V2X•RSU•PKI**가 메시지 전달과 신뢰 관리를 분담한다.
 
 ```text
                  [차량 OBU]
@@ -103,20 +103,22 @@ extra:
 
 </details>
 
-**OBU•RSU** 가 V2X 메시지를 교환한다.
+**OBU•RSU**가 V2X 메시지를 교환한다.
 
-```mermaid
-sequenceDiagram
-    participant S as 송신 OBU•RSU
-    participant P as PC5•Uu 통신
-    participant R as 수신 OBU
-    participant K as V2X PKI
-    participant V as 차량 판단
-    S->>P: 1. 서명 상태•위험정보 전달
-    P->>R: 2. V2X 메시지 전달
-    R->>K: 3. 인증서•신선도 전달
-    K-->>R: 신뢰 검증 결과
-    R->>V: 4. 검증•융합 정보 전달
+```text
+[송신 OBU•RSU]
+       │ 1. 서명 상태•위험정보
+       ▼
+  [PC5•Uu 통신]
+       │ 2. V2X 메시지
+       ▼
+    [수신 OBU]
+       │ 3. 인증서•신선도
+       ▼
+    [V2X PKI] ── 신뢰 검증 결과 ──▶ [수신 OBU]
+                                         │ 4. 검증•융합 정보
+                                         ▼
+                                      [차량 판단]
 ```
 
 **동작 원리**
@@ -182,7 +184,7 @@ DSRC•ITS-G5•C-V2X의 직접•망 접속을 비교한다.
 
 </details>
 
-- 인접 위험은 **PC5**, 광역 서비스는 **Uu** 로 교환하고 PKI•센서로 검증
+- 인접 위험은 **PC5**, 광역 서비스는 **Uu**로 교환하고 PKI•센서로 검증
 
 #### 한줄 요약
 

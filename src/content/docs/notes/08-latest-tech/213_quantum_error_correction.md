@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "양자 오류 정정 (Quantum Error Correction)"
-date: "2026-08-05T16:11:53+09:00"
+date: "2026-08-06T23:53:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 213
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **QEC** 는 논리 정보를 다수 물리 큐비트에 인코딩해 오류를 검출•정정하는 기술
+- 정의/개념: **QEC**는 논리 정보를 다수 물리 큐비트에 인코딩해 오류를 검출•정정하는 기술
 - 배경/필요성: 물리 큐비트의 게이트•측정 오류 누적은 **긴 양자 계산 붕괴** 초래
 
 #### 한줄 요약
@@ -98,20 +98,20 @@ extra:
 </details>
 
 
-```mermaid
-sequenceDiagram
-  participant H as 양자 하드웨어
-  participant C as 코드 설계
-  participant I as 인코더
-  participant S as 신드롬 회로
-  participant D as 해독기
-  H->>C: 1. 노이즈 분석
-  C->>I: 2. 코드 선택
-  I->>S: 3. 상태 인코딩
-  loop 오류 정정 주기
-    S->>D: 4. 주기 검사
-    D->>I: 5. 오류 보정
-  end
+```text
+[양자 하드웨어]
+      │ 1. 노이즈 분석
+      ▼
+  [코드 설계]
+      │ 2. 코드 선택
+      ▼
+   [인코더]
+      │ 3. 상태 인코딩
+      ▼
+[신드롬 회로]
+      │ 4. 주기 검사
+      ▼
+   [해독기] ── 5. 오류 보정 ──▶ [인코더]
 ```
 
 **동작 원리**
@@ -176,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- 목표 논리 오류율에 맞춰 **코드 거리** 를 정하고 **실시간 해독기** 배치
+- 목표 논리 오류율에 맞춰 **코드 거리**를 정하고 **실시간 해독기** 배치
 
 #### 한줄 요약
 

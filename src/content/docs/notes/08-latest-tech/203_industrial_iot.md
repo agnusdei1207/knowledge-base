@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "산업용 사물인터넷 (Industrial IoT)"
-date: "2026-08-05T02:22:30+09:00"
+date: "2026-08-06T23:43:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 203
@@ -114,18 +114,20 @@ PLC 데이터를 IIoT 플랫폼에 연결한다.
 
 PLC 상태를 IIoT 플랫폼으로 전달한다.
 
-```mermaid
-sequenceDiagram
-  participant F as 센서•PLC
-  participant E as Edge•Gateway
-  participant N as 보안 네트워크
-  participant P as IIoT 플랫폼
-  participant O as 분석•운영 계층
-  F->>E: 1. 상태•공정 데이터
-  E->>N: 2. 검증•변환•버퍼
-  N->>P: 3. 보안 전송•자산 연결
-  P->>O: 4. 이상•정비 분석
-  O-->>E: 5. 승인된 현장 정책
+```text
+[센서•PLC]
+    │ 1. 상태•공정 데이터
+    ▼
+[Edge•Gateway]
+    │ 2. 검증•변환•버퍼
+    ▼
+[보안 네트워크]
+    │ 3. 보안 전송•자산 연결
+    ▼
+[IIoT 플랫폼]
+    │ 4. 이상•정비 분석
+    ▼
+[분석•운영 계층] ── 5. 승인된 현장 정책 ──▶ [Edge•Gateway]
 ```
 
 **동작 원리**

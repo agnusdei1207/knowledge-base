@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "양자키분배 (Quantum Key Distribution, QKD)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T23:57:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 217
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **QKD** 는 양자 상태의 측정 교란으로 도청을 탐지하며 대칭키를 분배하는 기술
+- 정의/개념: **QKD**는 양자 상태의 측정 교란으로 도청을 탐지하며 대칭키를 분배하는 기술
 - 배경/필요성: 기존 키 교환은 통신 중 **도청 여부 직접 확인 불가**
 
 #### 한줄 요약
@@ -63,7 +63,7 @@ extra:
 
 </details>
 
-프로토콜은 **QKD 보안 파라미터** 와 **QBER 임계값** 을 정의한다.
+프로토콜은 **QKD 보안 파라미터**와 **QBER 임계값**을 정의한다.
 
 ```text
                     [프로토콜•모델]
@@ -95,23 +95,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant A as Alice 양자 모듈
-  participant Q as 양자 채널
-  participant B as Bob 양자 모듈
-  participant C as 인증 고전 채널•후처리
-  participant K as 키 관리•암호 장비
-  loop 원시 키 길이 확보
-    A->>Q: 1. 양자 상태 전송
-    Q-->>B: 양자 상태
-    B->>C: 2. 기저•측정 기록 전달
-  end
-  A->>C: 3. 송신 기저 기록 전달
-  C->>K: 4. 선별 비트•QBER 전달
-  C->>K: 5. 오류 정정•프라이버시 증폭
-  K-->>A: 최종 키
-  K-->>B: 최종 키
+```text
+[Alice 양자 모듈]
+       │ 1. 양자 상태 전송
+       ▼
+   [양자 채널] ── 양자 상태 ──▶ [Bob 양자 모듈]
+                                      │ 2. 기저•측정 기록
+                                      ▼
+[인증 고전 채널•후처리] ◀─ 3. 송신 기저 기록 ─ [Alice 양자 모듈]
+       │ 4. 선별 비트•QBER
+       │ 5. 오류 정정•프라이버시 증폭
+       ▼
+[키 관리•암호 장비] ── 최종 키 ──▶ [Alice 양자 모듈]
+       └────────────── 최종 키 ──▶ [Bob 양자 모듈]
 ```
 
 **동작 원리**
@@ -175,7 +171,7 @@ sequenceDiagram
 
 </details>
 
-- 거리•**QBER•키율** 을 충족하는 **고가치 전용 구간** 에만 QKD 적용
+- 거리•**QBER•키율**을 충족하는 **고가치 전용 구간**에만 QKD 적용
 
 #### 한줄 요약
 

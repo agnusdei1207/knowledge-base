@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "디지털 제품 여권 (Digital Product Passport)"
-date: "2026-08-05T16:11:51+09:00"
+date: "2026-08-06T23:51:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 211
@@ -99,22 +99,18 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-  participant R as 규정 담당
-  participant I as 식별 체계
-  participant S as 공급망
-  participant X as 중앙 색인
-  participant U as 이용자
-  R->>I: 1. 필수 항목 정의
-  I->>S: 2. 식별자•매체 설계
-  loop 생산•수리•재활용 사건
-    S->>X: 3. 생애주기 이력 등록
-  end
-  U->>X: 제품 여권 조회
-  X->>S: 4. 권한•원천 위치 확인
-  S-->>X: 5. 검증 이력 제공
-  X-->>U: 제품 여권 정보
+```text
+[규정 담당]
+    │ 1. 필수 항목 정의
+    ▼
+[식별 체계]
+    │ 2. 식별자•매체 설계
+    ▼
+[공급망] ── 3. 생애주기 이력 등록 ──▶ [중앙 색인]
+[이용자] ───── 제품 여권 조회 ───────▶ [중앙 색인]
+[중앙 색인] ── 4. 권한•원천 위치 확인 ▶ [공급망]
+[중앙 색인] ◀─ 5. 검증 이력 제공 ───── [공급망]
+[이용자] ◀──── 제품 여권 정보 ──────── [중앙 색인]
 ```
 
 **동작 원리**
