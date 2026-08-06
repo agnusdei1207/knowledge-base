@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:15:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -85,17 +85,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant M as 생성 모델
-    participant C as 주장 분해기
-    participant F as 사실•근거 검증기
-    participant P as 대응 정책
-    M->>C: 1. 입력•문맥•응답 기록
-    C->>F: 2. 검증 가능 주장 분해
-    F->>F: 3. 외부 사실•문맥 대조
-    F->>P: 4. 오류 유형•위험 판정
-    P-->>M: 5. 수정•보류•거절 적용
+```text
+생성 모델
+   │ 1. 입력•문맥•응답 기록
+   ▼
+주장 분해기
+   │ 2. 검증 가능 주장 분해
+   ▼
+사실•근거 검증기
+   │ 3. 외부 사실•문맥 대조
+   │ 4. 오류 유형•위험 판정
+   ▼
+대응 정책
+   └── 5. 수정•보류•거절 적용 ──▶ 생성 모델
 ```
 
 1. **입력•문맥•응답 기록**: 환각 원인 추적을 위한 **생성 조건** 보존

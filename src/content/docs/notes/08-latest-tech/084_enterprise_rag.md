@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "기업 RAG (Enterprise RAG)"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:15:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 84
@@ -98,18 +98,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant S as 지식 원천
-    participant C as 동기화•색인
-    participant R as 권한 검색기
-    participant G as 생성기
-    participant O as 운영•평가기
-    S->>C: 1. 문서•버전•권한 변경 수집
-    C->>R: 2. 조각•메타데이터 색인 게시
-    R->>G: 3. 사용자 권한 내 근거 검색
-    G->>O: 4. 답변•인용•계보 기록
-    O-->>C: 5. 최신성•품질•비용 개선
+```text
+지식 원천
+   │ 1. 문서•버전•권한 변경 수집
+   ▼
+동기화•색인
+   │ 2. 조각•메타데이터 색인 게시
+   ▼
+권한 검색기
+   │ 3. 사용자 권한 내 근거 검색
+   ▼
+생성기
+   │ 4. 답변•인용•계보 기록
+   ▼
+운영•평가기
+   └── 5. 최신성•품질•비용 개선 ──▶ 동기화•색인
 ```
 
 **동작 원리**
@@ -173,7 +176,7 @@ sequenceDiagram
 
 </details>
 
-- **운영 경계 결정 기준**: 지식 최신성•권한 일치•데이터 계보, 적용 대상: **기업 검색 증강 생성(Enterprise Retrieval-Augmented Generation, 기업 RAG)의 동기화•검색•감사 경계**
+- **지식 최신성•권한 일치•데이터 계보**로 기업 RAG의 동기화•검색•감사 경계 결정
 
 #### 한줄 요약
 - 최신 문서•권한 검색•출처 추적의 책임 경계를 정한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "Multimodal AI (멀티모달 AI)"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 87
@@ -100,17 +100,20 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant I as 모달 인코더
-    participant A as 표현 정렬
-    participant F as 융합 모듈
-    participant R as 공유 추론
-    participant O as 출력 계층
-    I->>A: 1. 모달별 특징 인코딩
-    A->>F: 2. 시간•의미 표현 정렬
-    F->>R: 3. 교차 모달 문맥 융합
-    R->>O: 4. 공동 추론•출력 생성
+```text
+모달 인코더
+   │ 1. 모달별 특징 인코딩
+   ▼
+표현 정렬
+   │ 2. 시간•의미 표현 정렬
+   ▼
+융합 모듈
+   │ 3. 교차 모달 문맥 융합
+   ▼
+공유 추론
+   │ 4. 공동 추론•출력 생성
+   ▼
+출력 계층
 ```
 
 **동작 원리**
@@ -176,7 +179,7 @@ sequenceDiagram
 
 </details>
 
-- 결정 기준: **모달 상호작용•누락 가능성**, 결정 대상: **초기•중간•후기 융합 시점**
+- **모달 상호작용•누락 가능성**을 기준으로 초기•중간•후기 융합 시점 결정
 
 #### 한줄 요약
 

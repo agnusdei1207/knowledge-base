@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "권한 인지 RAG (Permission-Aware RAG)"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 85
@@ -99,19 +99,19 @@ extra:
 
 신원•접근 관리(Identity and Access Management, IAM)에서 계산한 유효 권한으로 사전 필터링하고, 문맥 전달 전에 반환 권한을 재검증한다.
 
-```mermaid
-sequenceDiagram
-    participant U as 요청자
-    participant I as IAM
-    participant R as 권한 검색기
-    participant C as 문맥•캐시 통제기
-    participant G as 생성기
-    U->>I: 질의•세션 전달
-    I->>R: 1. 신원•유효 권한 계산
-    R->>C: 2. 허용 공간 사전 필터 검색
-    C->>G: 3. 후보 권한 재검증
-    G->>G: 4. 허용 문맥 기반 답변 생성
-    G-->>U: 허용 문맥 기반 답변
+```text
+요청자 ── 질의•세션 ──▶ IAM
+                           │ 1. 신원•유효 권한 계산
+                           ▼
+                       권한 검색기
+                           │ 2. 허용 공간 사전 필터 검색
+                           ▼
+                    문맥•캐시 통제기
+                           │ 3. 후보 권한 재검증
+                           ▼
+                         생성기
+                           │ 4. 허용 문맥 기반 답변 생성
+요청자 ◀── 허용 문맥 기반 답변 ──┘
 ```
 
 **동작 원리**

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "RAGAS"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:15:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 82
@@ -94,19 +94,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 평가 책임자
-    participant D as 평가 데이터셋
-    participant E as 지표•평가 실행기
-    participant H as 인간 검증자
-    O->>D: 1. 평가 목적•표본 스키마 정의
-    D->>E: 2. 지표•평가 모델 선택
-    E->>E: 3. 프롬프트•버전•재시도 고정
-    E->>E: 4. 표본 지표 점수 실행
-    E->>H: 자동 평가 결과 전달
-    H->>H: 5. 대표 표본 인간 검증
-    H-->>O: 평가 결과 보고
+```text
+평가 책임자
+   │ 1. 평가 목적•표본 스키마 정의
+   ▼
+평가 데이터셋
+   │ 2. 지표•평가 모델 선택
+   ▼
+지표•평가 실행기
+   │ 3. 프롬프트•버전•재시도 고정
+   │ 4. 표본 지표 점수 실행
+   │ 자동 평가 결과
+   ▼
+인간 검증자
+   │ 5. 대표 표본 인간 검증
+   └── 평가 결과 ──▶ 평가 책임자
 ```
 
 **동작 원리**
@@ -170,7 +172,7 @@ sequenceDiagram
 
 </details>
 
-- **지표 선택 기준**: 평가 목적•스키마 완전성•판정 일치도, 선택 대상: **검색 증강 생성 평가(Retrieval-Augmented Generation Assessment, RAGAS) 지표•평가 모델**
+- **평가 목적•스키마 완전성•판정 일치도**로 RAGAS 지표와 평가 모델 선택
 
 #### 한줄 요약
 - 스키마가 완전하고 인간 판단과 일관된 지표•평가 모델을 선택한다.

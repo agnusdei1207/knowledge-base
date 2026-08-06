@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Vision-Language Model (시각언어모델)"
-date: "2026-08-05T14:27:48+09:00"
+date: "2026-08-06T22:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 88
@@ -99,15 +99,17 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant I as 이미지 인코더
-    participant C as 연결 계층
-    participant L as 언어 디코더
-    participant O as 출력 계층
-    I->>C: 1. 시각 표현 정렬
-    C->>L: 2. 시각 조건 주입
-    L->>O: 3. 판별•응답 생성
+```text
+이미지 인코더
+   │ 1. 시각 표현 정렬
+   ▼
+연결 계층
+   │ 2. 시각 조건 주입
+   ▼
+언어 디코더
+   │ 3. 판별•응답 생성
+   ▼
+출력 계층
 ```
 
 **동작 원리**
@@ -172,7 +174,7 @@ sequenceDiagram
 
 </details>
 
-- 선택 기준: **문자 정확도•공간 관계 충실성**, 적용 모델: **VLM 판별•생성 방식**
+- **문자 정확도•공간 관계 충실성**을 기준으로 VLM 판별•생성 방식 선택
 
 #### 한줄 요약
 

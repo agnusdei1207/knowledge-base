@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-05T02:12:45+09:00"
+date: "2026-08-06T22:20:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 86
@@ -85,19 +85,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 사용자
-    participant Q as 질의 이해 계층
-    participant S as 검색기
-    participant R as 재순위기
-    participant G as 답변 생성기
-    U->>Q: 질의•제약 전달
-    Q->>S: 1. 검색 경로 결정
-    S->>R: 2. 후보 융합
-    R->>G: 3. 상위 근거 선별
-    G->>G: 4. 근거 답변 생성
-    G-->>U: 답변•출처 반환
+```text
+사용자 ── 질의•제약 ──▶ 질의 이해 계층
+                            │ 1. 검색 경로 결정
+                            ▼
+                          검색기
+                            │ 2. 후보 융합
+                            ▼
+                         재순위기
+                            │ 3. 상위 근거 선별
+                            ▼
+                       답변 생성기
+                            │ 4. 근거 답변 생성
+사용자 ◀── 답변•출처 ──────┘
 ```
 
 **동작 원리**
@@ -164,7 +164,7 @@ sequenceDiagram
 
 </details>
 
-- 분리 평가 지표: **검색 회수율•답변 충실성**, 통제 대상: **인공지능(Artificial Intelligence, AI) 검색의 재순위•생성**
+- **검색 회수율•답변 충실성**을 분리 측정해 AI 검색의 재순위•생성 경로 조정
 
 #### 한줄 요약
 
