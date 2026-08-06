@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-05T23:12:00+09:00"
+date: "2026-08-06T17:07:10+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -23,11 +23,10 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **APM(Application Performance Management)**: 요청 경로와 자원 지표를 연계하는 성능 관리 체계이다.
-- **MSA(Microservices Architecture)**: 서비스를 독립 배포 단위로 분리한 구조이다.
 
 </details>
 
-- 정의/개념: **APM** — 애플리케이션 요청의 종단 경로를 추적하고 서비스•코드•질의•자원별 지연과 오류 원인을 분석하는 성능 관리 체계
+- 정의/개념: 요청 경로와 관측 신호를 연계하는 **APM 성능 관리 체계**
 - 배경/필요성: 집계 메트릭만으로는 **서비스•코드•질의 원인 식별 불가**
 
 #### 한줄 요약
@@ -98,19 +97,19 @@ extra:
 
 ```text
 클라이언트
-   │ API 요청·루트 Trace ID 생성
+   │ API 요청
    ▼
 게이트웨이
    │ 1. W3C Trace Context 주입
    ▼
 하위 서비스
-   │ 2. 하위 Span·Metric·Log 생성
+   │ 2. 하위 Span•Metric•Log 생성
    ▼
 수집 계층
-   │ 3. 표본·저장·호출 경로 조립
+   │ 3. 표본•저장•호출 경로 조립
    ▼
 분석기
-   │ 4. 이상 탐지·병목 원인 분석
+   │ 4. 이상 탐지•병목 원인 분석
    ▼
 이상 탐지·병목 원인 결과
 ```
