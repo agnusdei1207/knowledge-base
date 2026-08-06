@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "PEFT (매개변수 효율적 미세조정)"
-date: "2026-08-07T00:02:00+09:00"
+date: "2026-08-06T23:02:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 61

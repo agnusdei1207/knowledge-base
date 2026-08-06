@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "LoRA (저랭크 적응)"
-date: "2026-08-07T00:06:00+09:00"
+date: "2026-08-06T23:06:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 62

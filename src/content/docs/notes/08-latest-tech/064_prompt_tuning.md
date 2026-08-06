@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Prompt Tuning (프롬프트 튜닝)"
-date: "2026-08-07T00:14:00+09:00"
+date: "2026-08-06T23:14:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 64

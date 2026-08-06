@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "QLoRA (양자화 저랭크 적응)"
-date: "2026-08-07T00:10:00+09:00"
+date: "2026-08-06T23:10:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 63
@@ -49,7 +49,7 @@ extra:
 - 계산 자료형 **역양자화•LoRA**를 결합한 혼합 정밀도 학습
 - **페이지드 옵티마이저**를 활용한 순간 메모리 급증 완화
 
-페이지드 옵티마이저는 **중앙처리장치(Central Processing Unit, CPU)** 와 **그래픽 처리장치(Graphics Processing Unit, GPU)** 사이에서 상태를 이동한다.
+페이지드 옵티마이저는 **중앙처리장치(Central Processing Unit, CPU)**와 **그래픽 처리장치(Graphics Processing Unit, GPU)** 사이에서 상태를 이동한다.
 
 #### 한줄 요약
 - **NF4•역양자화•페이지드 옵티마이저**로 메모리 절감
