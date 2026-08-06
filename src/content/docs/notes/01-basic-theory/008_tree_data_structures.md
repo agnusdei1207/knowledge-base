@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-05T17:15:26+09:00"
+date: "2026-08-06T23:08:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -201,7 +201,7 @@ extra:
 
 </details>
 
-- I/O는 **B-Tree**, 조회는 **AVL**, 갱신은 레드블랙 선택
+- 외부 저장소는 **B-Tree**, 메모리는 조회•갱신 비율로 **AVL•레드블랙** 선택
 
 #### 한줄 요약
 

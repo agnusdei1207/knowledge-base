@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "최단 경로: 다익스트라•벨만-포드•플로이드-워셜 (Shortest Path)"
-date: "2026-08-05T17:19:33+09:00"
+date: "2026-08-06T23:11:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 11
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- 비음수 **다익스트라**•음수 **벨만-포드**•전 쌍 플로이드-워셜 적용
+- 비음수 SSSP는 **다익스트라**, 음수 SSSP는 **벨만-포드**, APSP는 플로이드-워셜 선택
 
 #### 한줄 요약
 
