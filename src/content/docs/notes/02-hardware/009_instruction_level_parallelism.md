@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-05T17:06:36+09:00"
+date: "2026-08-06T18:15:00+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: **ILP** 는 한 스레드의 독립 명령들을 동시에 실행하는 **단일 스레드 병렬성**
+- 정의/개념: 한 스레드의 독립 명령들을 동시에 실행하는 **단일 스레드 병렬성**
 - 배경/필요성: 순차 발행은 독립 명령에도 **실행 유닛 유휴** 발생
 
 #### 한줄 요약
