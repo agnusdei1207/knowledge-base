@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 60%"
     variant: note
 title: "보안 집계 (Secure Aggregation)"
-date: "2026-08-05T14:28:52+09:00"
+date: "2026-08-06T22:45:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 112
@@ -96,17 +96,19 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant P as 참여자
-    participant K as 키•비밀 분산기
-    participant M as 업데이트 마스커
-    participant S as 집계•이탈 복구 서버
-    P->>K: 1. 참여자 공개키 전달
-    K->>M: 2. 비밀 조각•마스크 재료 전달
-    M->>S: 3. 마스킹 업데이트 전달
-    S->>S: 4. 생존•이탈 목록 확인
-    S->>S: 5. 복구 합계 계산
+```text
+참여자
+   │ 1. 참여자 공개키 전달
+   ▼
+키•비밀 분산기
+   │ 2. 비밀 조각•마스크 재료 전달
+   ▼
+업데이트 마스커
+   │ 3. 마스킹 업데이트 전달
+   ▼
+집계•이탈 복구 서버
+   │ 4. 생존•이탈 목록 확인
+   └ 5. 복구 합계 계산
 ```
 
 1. **참여자 공개키 전달**: 라운드 참여자의 **쌍별 비밀** 설정 자료 제공

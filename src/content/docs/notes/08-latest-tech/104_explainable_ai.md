@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "Explainable AI (설명 가능한 AI)"
-date: "2026-08-05T02:14:18+09:00"
+date: "2026-08-06T22:35:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 104
@@ -84,17 +84,16 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant U as 설명 사용자
-    participant M as 설명 대상 모델
-    participant X as 설명 기법
-    participant E as 품질 평가자
-    U->>M: 설명 대상 입력•목적•범위
-    M->>X: 1. 예측•모델 정보 수집
-    X->>X: 2. 판단 근거 산출
-    X->>E: 3. 설명 품질 평가
-    E-->>U: 설명•품질•한계 결과
+```text
+설명 사용자 ── 입력•목적•범위 ──▶ 설명 대상 모델
+                                       │ 1. 예측•모델 정보 수집
+                                       ▼
+                                    설명 기법
+                                       │ 2. 판단 근거 산출
+                                       │ 3. 설명 품질 평가
+                                       ▼
+                                   품질 평가자
+                                       └── 설명•품질•한계 ──▶ 설명 사용자
 ```
 
 1. **예측•모델 정보 수집**: 설명에 필요한 입력•출력•내부 정보 확보

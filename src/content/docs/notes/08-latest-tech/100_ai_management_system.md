@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T22:35:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -102,20 +102,16 @@ extra:
 
 인공지능 경영시스템(Artificial Intelligence Management System, AIMS)의 관리 경계에서 인공지능(Artificial Intelligence, AI) 위험 처리 계획과 운영 증적을 순환시킨다.
 
-```mermaid
-sequenceDiagram
-  participant P as 범위•정책 기구
-  participant L as 리더십•자원 책임자
-  participant R as 위험 평가부
-  participant O as 운영 통제부
-  participant A as 성과•개선부
-  loop 경영시스템 지속 개선
-    P->>L: 1. AIMS 범위•정책
-    L->>R: 2. 책임•자원•위험 기준
-    R->>O: 3. 위험 처리 계획•통제
-    O->>A: 4. 운영 증적•성과 지표
-    A-->>P: 5. 부적합 시정•개선안
-  end
+```text
+┌──────────── 경영시스템 지속 개선 ────────────┐
+│ 범위•정책 기구                              │
+│   │ 1. AIMS 범위•정책                      │
+│   ▼                                          │
+│ 리더십•자원 책임자 ── 2. 책임•자원•위험 기준 ──▶ 위험 평가부
+│ 위험 평가부 ── 3. 위험 처리 계획•통제 ──▶ 운영 통제부
+│ 운영 통제부 ── 4. 운영 증적•성과 지표 ──▶ 성과•개선부
+│ 범위•정책 기구 ◀─ 5. 부적합 시정•개선안 ─ 성과•개선부
+└──────────────────────────────────────────────┘
 ```
 
 **동작 원리**
@@ -182,7 +178,7 @@ sequenceDiagram
 
 </details>
 
-- 조직 범위•AI 위험 수준에 맞춘 **AIMS 운영**, 시정 기준: **통제 효과**, 원칙: **지속 개선**
+- 조직 범위•AI 위험 수준에 맞춰 **AIMS**를 운영하고 통제 효과로 지속 개선
 
 #### 한줄 요약
 - 인증서보다 AI 관리 절차가 일상에서 작동하고 문제가 생길 때 실제로 고쳐지는지가 중요합니다.

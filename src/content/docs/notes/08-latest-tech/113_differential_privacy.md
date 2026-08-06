@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
-date: "2026-08-05T14:28:53+09:00"
+date: "2026-08-06T22:45:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 113
@@ -91,18 +91,20 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant A as 보호 목표•인접성 정의기
-    participant C as 민감도 제한기
-    participant N as 잡음 메커니즘
-    participant P as 회계•공개 판정기
-    A->>C: 1. 보호 단위•인접성 정의
-    C->>C: 2. 민감도 계산•클리핑
-    C->>N: 3. 잡음 보정•적용
-    N->>P: 4. 프라이버시 예산 회계
-    P->>P: 5. 효용•예산 기반 공개 판정
-    P-->>A: 공개•중단 판정
+```text
+보호 목표•인접성 정의기
+   │ 1. 보호 단위•인접성 정의
+   ▼
+민감도 제한기
+   │ 2. 민감도 계산•클리핑
+   │ 3. 잡음 보정•적용
+   ▼
+잡음 메커니즘
+   │ 4. 프라이버시 예산 회계
+   ▼
+회계•공개 판정기
+   │ 5. 효용•예산 기반 공개 판정
+   └── 공개•중단 판정 ──▶ 보호 책임자
 ```
 
 1. **보호 단위•인접성 정의**: 한 사람•레코드 중 보장 대상 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "AI 레드팀 (AI Red Teaming)"
-date: "2026-08-05T00:00:00+09:00"
+date: "2026-08-06T22:50:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 115
@@ -96,18 +96,21 @@ extra:
 
 </details>
 
-```mermaid
-sequenceDiagram
-    participant O as 승인자
-    participant T as 위협 분석가
-    participant H as 공격 하네스
-    participant M as 완화 책임자
-    participant V as 회귀 검증자
-    O->>T: 1. 교전 규칙•위협 모델 승인
-    T->>H: 2. 공격 코퍼스•변형 실행
-    H->>M: 3. 피해•재현 증거 분류
-    M->>V: 4. 원인별 완화 적용
-    V-->>O: 5. 홀드아웃 회귀 결과 전달
+```text
+승인자
+   │ 1. 교전 규칙•위협 모델 승인
+   ▼
+위협 분석가
+   │ 2. 공격 코퍼스•변형 실행
+   ▼
+공격 하네스
+   │ 3. 피해•재현 증거 분류
+   ▼
+완화 책임자
+   │ 4. 원인별 완화 적용
+   ▼
+회귀 검증자
+   └── 5. 홀드아웃 회귀 결과 ──▶ 승인자
 ```
 
 1. **교전 규칙•위협 모델 승인**: 공격 범위와 자산•경로•중단 조건의 **안전 경계** 확정
