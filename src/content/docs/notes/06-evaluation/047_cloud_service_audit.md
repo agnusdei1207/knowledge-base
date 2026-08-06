@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 서비스 감리 (Cloud Service Audit)"
-date: "2026-08-05T22:55:00+09:00"
+date: "2026-08-06T17:31:50+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -74,8 +74,6 @@ extra:
 ```
 
 선의 의미: 서비스 모델별 책임 경계가 구성, 데이터, 운영 복원력, 계약•출구의 네 통제영역에 공통 적용되는 정적 클라우드 감리 구조
-
-**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

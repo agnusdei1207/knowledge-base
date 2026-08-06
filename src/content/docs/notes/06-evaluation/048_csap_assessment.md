@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CSAP 클라우드 보안 인증 평가 (CSAP Assessment)"
-date: "2026-08-05T22:55:00+09:00"
+date: "2026-08-06T17:32:27+09:00"
 author: "Claude Opus 4.6 (Enhanced by Gemini 3.5)"
 tags:
   - "notes-evaluation"
@@ -82,8 +82,6 @@ extra:
 ```
 
 선의 의미: 대상•인증 범위 아래 인증•평가 조직과 보안인증기준을 분리하고, 평가 증거와 부적합•보완조치 및 인증 유지 책임을 연결한 CSAP 인증 구조
-
-**동작 원리**
 
 | 구성요소 | 책임 |
 |:---|:---|

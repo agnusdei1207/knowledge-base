@@ -4,10 +4,10 @@
 
 | 항목 | 현재 값 |
 |:---|:---|
-| 현재 포인터 | `06-evaluation/040_wue_water_usage_effectiveness.md` |
-| 완료 파일 수 | 688 / 970 |
-| 현재 상태 | 06-evaluation 001~040 완료, 041부터 재검수 예정 |
-| 이번 마지막 빌드 | 2026-08-05 05과목 완료 정적 빌드 통과 (982 pages) |
+| 현재 포인터 | `06-evaluation/051_digital_service_maturity_evaluation.md` |
+| 완료 파일 수 | 699 / 970 |
+| 현재 상태 | 06-evaluation 재검수 완료, 07-law-policy 001부터 재검수 예정 |
+| 이번 마지막 빌드 | 2026-08-06 06과목 완료 정적 빌드 통과 (982 pages) |
 
 ## 완료 과목 재점검
 
@@ -25,7 +25,7 @@
 | 03-software | 229 | 229 | 완료 |
 | 04-network | 116 | 116 | 완료 |
 | 05-security | 147 | 147 | 완료 |
-| 06-evaluation | 51 | 40 | 진행 중 |
+| 06-evaluation | 51 | 51 | 완료 |
 | 07-law-policy | 45 | 0 | 대기 |
 | 08-latest-tech | 226 | 0 | 대기 |
-| 합계 | 970 | 688 | 진행 중 |
+| 합계 | 970 | 699 | 진행 중 |
