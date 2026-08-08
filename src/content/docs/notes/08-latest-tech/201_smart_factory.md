@@ -145,7 +145,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **디지털 팩토리(Digital Factory)**: 가상 모델과 시뮬레이션을 이용해 공장과 생산 공정을 설계•검증하는 체계다.
+- **디지털 팩토리(Digital Factory)**: 가상 모델과 시뮬레이션을 이용해 공장과 생산 공정을 설계•검증하는 체계이다.
 
 </details>
 

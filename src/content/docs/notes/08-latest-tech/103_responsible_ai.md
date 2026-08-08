@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI)**: 공정성•투명성•안전성 원칙을 측정 가능한 기술•조직 통제로 구현하는 인공지능 운영 접근한다.
+- **책임 있는 인공지능(Responsible Artificial Intelligence, Responsible AI)**: 공정성•투명성•안전성 원칙을 측정 가능한 기술•조직 통제로 구현하는 인공지능 운영 접근하는 개념이다.
 - **책임 공백**: AI의 오류나 피해 발생 시 검토•시정•구제 책임자가 정해지지 않은 상태이다.
 
 </details>

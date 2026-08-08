@@ -23,9 +23,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계하면서 고전 컴퓨터와 통신망에서 실행하는 공개키 암호 체계다.
-- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난제에 기반한 공개키 암호 체계다.
-- **타원 곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원 곡선 이산로그 난제에 기반한 공개키 암호 체계다.
+- **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계하면서 고전 컴퓨터와 통신망에서 실행하는 공개키 암호 체계이다.
+- **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난제에 기반한 공개키 암호 체계이다.
+- **타원 곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원 곡선 이산로그 난제에 기반한 공개키 암호 체계이다.
 
 </details>
 
@@ -64,7 +64,7 @@ extra:
 - **암호 자산 목록(Crypto Inventory)**: 알고리즘•키•인증서•프로토콜•라이브러리의 위치와 의존성을 추적한 전환 기준선이다.
 - **하이브리드 운영**: 기존 암호와 양자내성 암호를 함께 적용해 전환기 상호운용성과 방어 심도를 확보하는 방식이다.
 - **암호 민첩성(Crypto Agility)**: 알고리즘과 키 규격을 정책에 따라 발견•교체•검증할 수 있는 설계 역량이다.
-- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 암호키를 보호하며 암호 연산을 수행하는 전용 장치다.
+- **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 암호키를 보호하며 암호 연산을 수행하는 전용 장치이다.
 
 </details>
 
@@ -123,7 +123,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **고전 공개키(Classical Public Key, Classical PK)**: 인수분해•이산로그 난제에 기반한 기존 공개키 암호다.
+- **고전 공개키(Classical Public Key, Classical PK)**: 인수분해•이산로그 난제에 기반한 기존 공개키 암호이다.
 - **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용해 도청을 탐지하며 대칭키를 분배하는 기술이다.
 
 </details>
@@ -143,7 +143,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크가 단편화 없이 전송할 수 있는 최대 패킷 크기다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크가 단편화 없이 전송할 수 있는 최대 패킷 크기이다.
 
 </details>
 

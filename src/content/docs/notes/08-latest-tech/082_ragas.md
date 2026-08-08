@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **검색 증강 생성 평가(Retrieval-Augmented Generation Assessment, RAGAS)**: 질의•검색 문맥•응답•기준 정보를 묶어 RAG 품질을 여러 지표로 자동 평가하는 프레임워크다.
+- **검색 증강 생성 평가(Retrieval-Augmented Generation Assessment, RAGAS)**: 질의•검색 문맥•응답•기준 정보를 묶어 RAG 품질을 여러 지표로 자동 평가하는 프레임워크이다.
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 질의와 관련된 외부 문서를 검색하여 생성 답변의 근거로 제공하는 방식이다.
 
 </details>
@@ -39,8 +39,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **충실성(Faithfulness)**: 응답 주장이 검색 문맥으로 뒷받침되는 정도다.
-- **문맥 정밀도•재현율(Context Precision•Recall)**: 관련 근거의 앞순위 배치와 필요한 근거의 포함 정도를 각각 측정한다.
+- **충실성(Faithfulness)**: 응답 주장이 검색 문맥으로 뒷받침되는 정도이다.
+- **문맥 정밀도•재현율(Context Precision•Recall)**: 관련 근거의 앞순위 배치와 필요한 근거의 포함 정도를 각각 측정하는 지표이다.
 
 </details>
 
@@ -56,11 +56,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **평가 모델(Evaluation Model)**: 자연어 의미와 지표 규칙으로 표본을 판정한다.
-- **임베딩 모델(Embedding Model)**: 문장을 벡터로 바꿔 의미 유사도를 계산한다.
-- **평가 스키마(Evaluation Schema)**: 지표 계산에 필요한 질의•응답•문맥•기준 답 필드의 구조다.
+- **평가 모델(Evaluation Model)**: 자연어 의미와 지표 규칙으로 표본을 판정하는 모델이다.
+- **임베딩 모델(Embedding Model)**: 문장을 벡터로 바꿔 의미 유사도를 계산하는 모델이다.
+- **평가 스키마(Evaluation Schema)**: 지표 계산에 필요한 질의•응답•문맥•기준 답 필드의 구조이다.
 - **지표 모음(Metrics Suite)**: 문맥 정밀도•재현율, 답변 관련성•충실성 등 검색과 생성을 분리 측정하는 지표 집합이다.
-- **평가 실행기**: 평가 스키마의 표본을 지표•모델에 전달하고 결과•비용•버전을 같은 실행으로 기록한다.
+- **평가 실행기**: 평가 스키마의 표본을 지표•모델에 전달하고 결과•비용•버전을 같은 실행으로 기록하는 구성요소이다.
 
 </details>
 
@@ -90,7 +90,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **실행 조건 고정(Execution-condition Pinning)**: 평가 모델•프롬프트•버전•재시도 설정을 기록해 변경 전후 비교를 가능하게 한다.
+- **실행 조건 고정(Execution-condition Pinning)**: 평가 모델•프롬프트•버전•재시도 설정을 기록해 변경 전후 비교를 가능하게 하는 방식이다.
 
 </details>
 
@@ -127,9 +127,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **거대 언어 모델 기반 평가(Large Language Model-based Evaluation, LLM 기반 평가)**: 프롬프트와 모델의 의미 이해를 이용해 판정한다.
-- **비거대 언어 모델 기반 평가(Non-LLM-based Evaluation)**: 문자열•통계•임베딩 등 결정론적 계산으로 판정한다.
-- **인간 평가(Human Evaluation)**: 전문가 지침과 판단으로 고위험 결과를 직접 판정한다.
+- **거대 언어 모델 기반 평가(Large Language Model-based Evaluation, LLM 기반 평가)**: 프롬프트와 모델의 의미 이해를 이용해 판정하는 활동이다.
+- **비거대 언어 모델 기반 평가(Non-LLM-based Evaluation)**: 문자열•통계•임베딩 등 결정론적 계산으로 판정하는 활동이다.
+- **인간 평가(Human Evaluation)**: 전문가 지침과 판단으로 고위험 결과를 직접 판정하는 활동이다.
 
 </details>
 
@@ -150,7 +150,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **점수 기준 이동(Score Baseline Shift)**: 평가 모델이나 프롬프트 변경으로 같은 표본의 점수 의미가 달라지는 현상이다.
-- **반복 실행 분포(Repeated-run Distribution)**: 비결정 평가를 여러 번 수행해 점수의 평균•분산•범위를 확인한 결과다.
+- **반복 실행 분포(Repeated-run Distribution)**: 비결정 평가를 여러 번 수행해 점수의 평균•분산•범위를 확인한 결과이다.
 
 </details>
 

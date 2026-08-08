@@ -178,7 +178,7 @@ SAE Level 3•DMS•MRM의 인계•대응 조건을 검증한다.
 <details>
 <summary>핵심 용어</summary>
 
-- **자동화 수준별 대체 대응**: SAE Level 3는 운전자, Level 4 이상은 시스템이 대체 대응을 맡는 구분한다.
+- **자동화 수준별 대체 대응**: SAE Level 3는 운전자, Level 4 이상은 시스템이 대체 대응을 맡는 구분하는 개념이다.
 
 </details>
 
