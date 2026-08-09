@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 문제집 답을 외워 훈련 점수만 높은 학생과 원리를 배운 학생을 가르려면, 처음 보는 검증 문제의 오차를 함께 봐야 한다.
+- Total Expected Error $E[(y - \hat{f}(x))^2] = \text{Bias}^2(\hat{f}(x)) + \text{Var}(\hat{f}(x)) + \sigma^2$ 분해 수식에 의거하여 Generalization Gap 및 Validation Loss minimum 지점을 탐색한다.
 
 ## Ⅱ. 특징
 
@@ -61,7 +61,8 @@ extra:
 
 #### 한줄 요약
 
-- 곧은 자는 곡선을 놓치고 너무 굽은 자는 잡음까지 따르므로, 검증 오차가 가장 낮은 복잡도를 고른다.
+- Model Capacity 증가 시 High Bias/Underfitting에서 High Variance/Overfitting으로 전이되며, Cross-Validation Minimum Error Point를 최적 Model Complexity로 선택한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -138,7 +139,7 @@ extra:
 
 #### 한줄 요약
 
-- 모델이 문제집•새 시험 답을 내면 측정기가 두 오차와 간격을 재고, 진단 결과에 따라 표현력을 늘리거나 규제 브레이크를 건다.
+- Training Set Loss와 Validation Set Loss의 divergence 여부를 모니터링하여 Early Stopping, Weight Decay(L1/L2 Regularization), Dropout 조치를 취한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -158,7 +159,7 @@ extra:
 
 #### 한줄 요약
 
-- 문제집 점수만 좋고 새 시험이 나쁘면 과적합이라 규제를 걸고, 두 점수가 모두 나쁘면 과소적합이라 모델 표현력을 늘린다.
+- High Bias 시 Model Capacity 증대/Feature Engineering, High Variance 시 Regularization/Data Augmentation/Ensemble 기법을 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -182,7 +183,8 @@ extra:
 | 운영 **입력 분포 변화** | 성능•격차 감시와 **재학습** | **적정 적합** 유지 |
 
 #### 한줄 요약
-- 훈련선과 검증선이 벌어지면 L2•조기 종료로 잡음 암기를 막고, 두 선이 함께 높으면 특징과 모델 용량을 늘린다.
+
+- Validation Loss Curve 분기 발생 시 L2 Regularization, Early Stopping, Data Augmentation을 적용하고, High Bias 경향 시 Model Depth/Capacity를 확장한다.
 
 ## Ⅶ. 결론
 
@@ -197,4 +199,5 @@ extra:
 
 #### 한줄 요약
 
-- 훈련•검증 오차의 간격이 크면 규제를 강화하고 둘 다 높으면 용량을 늘려, 검증 오차가 가장 낮은 복잡도에 맞춘다.
+- Bias-Variance Trade-off 곡선의 Minimum Generalization Error 지점을 최적 모델 매개변수로 확정한다.
+

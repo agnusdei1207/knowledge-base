@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 번호판이 끝에서 처음으로 이어지는 원형 눈금처럼, 뺄 수의 비트를 뒤집고 1을 더하면 같은 가산기로 반대 방향만큼 이동해 뺄셈이 된다.
+- 2의 보수(Two's Complement) 표현은 $-X \equiv 2^n - X \pmod{2^n}$의 모듈러 연산 구조를 가져 감산(Subtraction)을 덧셈기(Adder)로 통합 수행한다.
 
 
 ## Ⅱ. 특징
@@ -53,7 +53,8 @@ extra:
 
 #### 한줄 요약
 
-- 4비트 눈금은 -8부터 7까지라 0 표시는 하나지만 음수 칸이 하나 더 많아, -8을 같은 폭의 +8로 뒤집어 담을 수 없다.
+- $n$비트 2의 보수 체계는 $-2^{n-1}$부터 $2^{n-1}-1$까지의 비대칭 범위(Asymmetric Range)와 유일한 0 표현(Unique Zero Representation) 특성을 갖는다.
+
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -137,7 +138,7 @@ extra:
 
 #### 한줄 요약
 
-- 뺄 수만 뒤집어 1을 더한 뒤 같은 계산대에 넣고, 검출기는 두 입력 부호와 결과 부호를 대조해 범위를 넘었는지 판정한다.
+- Subtrahend 비트 반전 후 Bitwise NOT + 1 ($2$'s Complementing) 연산을 적용하고, MSB Carry In / Carry Out XOR로 Overflow를 감지한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -160,7 +161,7 @@ extra:
 
 #### 한줄 요약
 
-- 1의 보수와 부호-크기는 별도 처리가 필요하지만, 2의 보수는 0 표현이 하나이고 같은 가산기로 계산한다.
+- 1의 보수(Dual Zero, End-around Carry) 및 부호-크기(Sign-Magnitude)와 달리 2의 보수는 ALU 가산 회로 단순화에 최적화되어 있다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -184,7 +185,7 @@ extra:
 
 #### 한줄 요약
 
-- 작은 상자를 큰 상자로 옮길 때 음수의 왼쪽 1을 채워 값을 보존하고, 반대로 줄일 때는 잘리는 비트와 최솟값 절댓값 초과를 검사한다.
+- Bit-width 확대 시 MSB Sign Bit을 복제하는 Sign Extension을 적용하고, Truncation 시 Overflow 및 Underflow Bound Check를 집행한다.
 
 
 ## Ⅶ. 결론
@@ -200,4 +201,5 @@ extra:
 
 #### 한줄 요약
 
-- 덧셈과 뺄셈은 2의 보수 가산기 하나로 처리하되, 상자 크기를 바꿀 때는 부호 확장과 범위 검사를 함께 적용한다.
+- 2의 보수 Arithmetic Logic Unit(ALU) 설계 기반 가감산 통합과 Sign Extension & Overflow Check로 정수 연산의 정합성을 보장한다.
+

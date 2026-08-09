@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- 의사가 질병의 평소 발생률을 출발점으로 삼고 검사 결과가 각 질병에서 나올 우도를 반영하듯, 증거로 원인의 확률을 갱신한다.
+- Bayes' Theorem $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$를 통해 Prior Probability $P(H)$와 Likelihood $P(E \mid H)$를 결합하여 Evidence $E$ 관측 후의 Posterior Probability $P(H \mid E)$를 Update한다.
 
 ## Ⅱ. 특징
 
@@ -60,7 +60,8 @@ extra:
 
 #### 한줄 요약
 
-- 만 명 중 환자 백 명인 검사에서는 건강한 사람의 10% 오탐이 실제 환자 수보다 많아질 수 있으므로, 양성 해석에 기저율을 함께 넣는다.
+- Base Rate Fallacy(기저율의 오류)를 방지하기 위해 Evidence의 Sensitivity/Specificity뿐만 아니라 Prior Rate $P(H)$를 반영한 Positive Predictive Value(PPV)를 산출한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -132,7 +133,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- 저울의 각 가설 접시에 사전 확률을 올리고 관측 증거의 우도만큼 무게를 곱한 뒤, 전체가 1이 되게 나눈 값이 새 사후 확률이다.
+- Prior $P(H)$ $\times$ Likelihood $P(E \mid H)$의 곱을 Total Probability Theorem 기반 Marginal Likelihood $P(E) = \sum P(E \mid H_i)P(H_i)$로 Normalization하여 Posterior를 획정한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -154,7 +155,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- 베이지안은 기존 믿음의 확률을 새 증거마다 고치고, 빈도주의는 같은 실험을 오래 반복했을 때의 추정값과 오류율로 고정 모수를 판단한다.
+- Prior-Posterior Updating 중심의 Bayesian Inference와 Long-run Frequency/Fixed Parameter 기반 Frequentist Inference의 패러다임을 차등 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -180,7 +181,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- 같은 증거를 두 번 올린 저울이 기울듯, 의존 증거를 중복 계산하지 않도록 모형에 반영한다.
+- Naive Bayes의 Conditional Independence 가정이 깨질 경우 Joint Likelihood 모형화 및 Calibration / Retraining으로 Overshooting을 방지한다.
 
 ## Ⅶ. 결론
 
@@ -195,4 +196,5 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- 희귀 질병은 양성 한 번으로 확정하지 않고 기저율에서 시작해 독립적인 추가 검사 우도를 차례로 반영한 사후 확률로 결정한다.
+- Rare Event Inference 시 Prior Rate 기저율 지정 후 Conditionally Independent Multi-Evidence Likelihood를 Sequential Updating 방식으로 수렴시킨다.
+

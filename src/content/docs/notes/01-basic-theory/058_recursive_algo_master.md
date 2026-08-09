@@ -34,7 +34,7 @@ extra:
 - 배경/필요성: 재귀 알고리즘은 호출 수와 입력 축소 및 단계별 결합 비용이 여러 깊이에 중첩되어 **스택 증가율**과 전체 시간 증가율을 직관만으로 판정하기 어렵다.
 
 #### 한줄 요약
-- 재귀가 작은 러시아 인형을 계속 열어 마지막 인형에서 멈춘다면, 마스터 정리는 각 층의 호출 비용과 결합 비용 중 무엇이 전체 시간을 지배하는지 판정한다.
+- Divide-and-Conquer Recurrence Relation $T(n) = aT(n/b) + f(n)$ ($a \ge 1, b > 1$)에서 Subproblem Work $O(n^{\log_b a})$와 Combine Work $f(n)$의 Dominance를 판정하여 Asymptotic Time Complexity를 산출한다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,8 @@ extra:
 - **마스터 정리**로 균등 분할 점화식의 점근 복잡도를 판정한다.
 
 #### 한줄 요약
-- 러시아 인형마다 작은 인형 수와 포장 비용을 적고 어느 층의 비용 더미가 가장 큰지 고르는 장면이다.
+- Recursion Tree의 Depth $\log_b n$ 및 Leaf Node 개수 $n^{\log_b a}$와 각 Level별 $f(n)$ Cost Summation을 통해 Master Theorem Case 1, 2, 3으로 분류한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -83,7 +84,7 @@ extra:
 | 마스터 정리 | 점화식의 **시간 증가율**을 비교해 점근 시간 복잡도 판정 |
 
 #### 한줄 요약
-- 재귀 인형을 열 때마다 호출 카드가 쌓이고, 점화식 장부가 그 카드 더미의 증가율을 계산하는 장면이다.
+- Activation Record / Stack Frame의 Allocation 및 Deallocation으로 Space Complexity $O(\text{Max Depth})$를 결정한다.
 
 ## Ⅳ. 흐름도
 
@@ -134,7 +135,7 @@ extra:
 - **4. 최대 재귀 깊이 분석**: 호출 스택의 점근 공간을 산정한다.
 
 #### 한줄 요약
-- 호출 카드가 스택에 한 장씩 쌓이고, 분기 수•축소율•결합 비용표가 시간 눈금을 정하는 장면이다.
+- Subproblem Scaling Factor $a$, Division Factor $b$, Overhead $f(n)$의 Asymptotic Growth Rate 비교를 통해 $T(n)$을 결정한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -161,7 +162,7 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 > 요약: **다항식 차이**•**정규성 조건**으로 Case를 판정한다.
 
 #### 한줄 요약
-- 재귀 나무의 잎 더미가 크면 Case 1, 모든 층이 같으면 Case 2, 뿌리 비용이 크면 Case 3인 장면이다.
+- Case 1 ($f(n) = O(n^{\log_b a - \epsilon}) \Rightarrow \Theta(n^{\log_b a})$), Case 2 ($f(n) = \Theta(n^{\log_b a}) \Rightarrow \Theta(n^{\log_b a} \log n)$), Case 3 ($f(n) = \Omega(n^{\log_b a + \epsilon}) \text{ and Regularity} \Rightarrow \Theta(f(n))$)으로 판정한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -183,7 +184,7 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 | 이론 차수와 실행 시간이 크게 다름 | 입력 규모별 측정과 **상수 비용**•**메모리 비용** 분석 | 실제 병목 보완 |
 
 #### 한줄 요약
-- 호출 카드가 천장에 닿기 전에 런타임 스택 대신 직접 관리하는 카드 상자로 옮기는 장면이다.
+- Deep Recursion으로 인한 Call Stack Overflow 방지를 위해 Tail Call Optimization(TCO) 또는 Explicit Stack Iterative Algorithm으로 전환한다.
 
 ## Ⅶ. 결론
 
@@ -198,4 +199,5 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 - **재귀 분석 선택 기준**에 따라 **깊은 호출**은 **명시적 스택**으로 바꾸고, **불균등 분할**은 **대입법**으로 분석한다.
 
 #### 한줄 요약
-- 호출 카드가 높으면 명시적 스택 상자, 가지 크기가 다르면 재귀 트리 계산판을 고르는 장면이다.
+- Balanced Recurrence에는 Master Theorem, Non-uniform Recurrence에는 Recursion Tree / Substitution Method, Deep Recursion에는 Iteration / Tail Call Elimination을 채택한다.
+

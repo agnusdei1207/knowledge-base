@@ -34,7 +34,7 @@ extra:
 
 #### 한줄 요약
 
-- 끝없이 이어진 종이띠의 한 칸을 읽고 고쳐 쓴 뒤 좌우로 움직이는 기계만으로, 어떤 계산을 절차로 수행할 수 있는지 정의한다.
+- 무한 Tape, Read/Write Head, Finite State Control 및 Transition Function $\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R\}$로 알고리즘적 계산 가능성(Computability)의 한계를 정의한다.
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,8 @@ extra:
 
 #### 한줄 요약
 
-- 종이띠나 선택 갈래를 늘려도 계산 가능 범위는 같고, 모든 프로그램의 정지를 판정하는 기계는 만들 수 없다.
+- Church-Turing Thesis에 따라 Multi-tape TM 및 Nondeterministic TM의 Computational Power는 Single-tape Deterministic TM과 등가(Equivalence)이며, Halting Problem으로 Undecidability를 입증한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -131,7 +132,7 @@ extra:
 
 #### 한줄 요약
 
-- 기계가 종이띠 한 칸을 읽으면 전이표가 새 기호•헤드 이동 방향•다음 상태를 한꺼번에 지시하고, 정지 상태까지 같은 순서를 반복한다.
+- Head Read $\rightarrow$ Transition Table Lookup $\rightarrow$ Symbol Overwrite & Head Move(L/R) $\rightarrow$ Next State Update 과정을 Halting State($q_{accept}, q_{reject}$) 도달 시까지 루프 수행한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -155,7 +156,7 @@ extra:
 
 #### 한줄 요약
 
-- 유한 오토마타는 머릿속 상태만, 푸시다운 오토마타는 접시 더미 같은 스택까지, 튜링 머신은 양방향 종이띠까지 기억에 사용한다.
+- FA(No Auxiliary Memory), PDA(LIFO Stack), TM(Unbounded Read/Write Tape)으로 Chomsky Hierarchy 4단계 레벨의 메모리 및 언어 인지 구조를 규정한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -181,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- 언제 멈출지 미리 알 수 없는 프로그램을 격리실에 넣듯, 실행 단계•메모리•입출력 권한에 상한을 두어 무한 실행과 자원 고갈을 가둔다.
+- Halting Problem의 비판정성(Undecidability)에 대응하여 Execution Timeout, Memory Limit, Sandbox Environment 등 런타임 제약(Resource Bound)을 집행한다.
 
 ## Ⅶ. 결론
 
@@ -197,4 +198,5 @@ extra:
 
 #### 한줄 요약
 
-- 어떤 계산도 표현할 수 있는 범용 기계를 실제로 실행할 때는 타이머•메모리 벽•권한 울타리로 운영 한계를 강제한다.
+- Universal Turing Machine(UTM) 기반의 추상 모델을 구체 시스템에 구현할 때 Sandbox Isolation 및 Resource Limit Bounding을 물리적으로 적용한다.
+

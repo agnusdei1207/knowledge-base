@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- 자판기가 버튼마다 상태를 바꾸듯 오토마타는 입력 기호마다 상태를 전이한다.
+- 입력 알파벳 $\Sigma$에 대한 State Transition Function $\delta(q, a)$의 결정적/비결정적 매핑을 통해 정규 언어(Regular Language)의 수용 여부(Acceptance)를 판정한다.
 
 
 ## Ⅱ. 특징
@@ -60,7 +60,8 @@ extra:
 
 #### 한줄 요약
 
-- NFA의 여러 경로를 상태 집합으로 묶으면 DFA와 같은 정규 언어를 판정한다.
+- Subset Construction (Powerset Construction) 알고리즘으로 NFA $\rightarrow$ DFA 변환이 가능하며, 두 오토마타의 정규 언어 인지 능력(Expressive Power)은 등가(Equivalence)이다.
+
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -97,7 +98,7 @@ extra:
 
 #### 한줄 요약
 
-- 5튜플은 사용할 상태와 입력 기호, 이동 규칙, 시작점과 수용 종착점을 한 묶음으로 정의한다.
+- $M = (Q, \Sigma, \delta, q_0, F)$의 5-tuple로 유망/비유망 상태 공간 및 델타 전이 도메인을 수학적으로 정의한다.
 
 ## Ⅳ. 흐름도
 
@@ -142,7 +143,7 @@ extra:
 
 #### 한줄 요약
 
-- 실행기는 기호마다 전이 결과로 현재 상태를 바꾸고, 입력이 끝나면 수용 상태인지 확인한다.
+- State Memory 디코딩 및 Symbol-by-symbol Transition을 집계하여 최종 소진 시점의 $q \in F$ 여부로 Accept/Reject를 반환한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -165,7 +166,7 @@ extra:
 
 #### 한줄 요약
 
-- DFA는 한 상태만 실행하고 NFA는 여러 후보 상태를 함께 추적한다.
+- DFA는 $O(1)$ Time per Symbol의 deterministic 1-state transition을 보장하고, NFA는 Multi-state tracking/Epsilon closure 연산을 동반한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -191,7 +192,7 @@ extra:
 
 #### 한줄 요약
 
-- 도달 가능한 NFA 상태 조합만 만들어 DFA 상태 폭증을 줄인다.
+- Lazy Determinization / On-the-fly Subset Construction 기법을 적용하여 DFA State Explosion 및 ReDoS 취약점을 방지한다.
 
 
 ## Ⅶ. 결론
@@ -207,4 +208,5 @@ extra:
 
 #### 한줄 요약
 
-- 결정화 상태 수가 자원 한도 이내면 DFA, 초과하면 NFA 실행을 선택한다.
+- 메모리 Footprint 및 Lookup Latency 허용치에 맞춰 DFA(Table Lookup) 또는 NFA(State Set Tracking) 엔진을 선택한다.
+

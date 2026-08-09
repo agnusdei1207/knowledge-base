@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 스위치의 켜짐•꺼짐을 1•0 식으로 적고 같은 진리표를 만드는 더 적은 게이트로 바꿔, 기능은 유지하면서 회로를 줄인다.
+- Boolean Algebra(부울 대수) 식 최소화를 통해 Truth Table의 등가성(Equivalence)을 유지하면서 Literal 및 Gate Count, Propagation Delay를 최적화한다.
 
 
 ## Ⅱ. 특징
@@ -55,7 +55,8 @@ extra:
 
 #### 한줄 요약
 
-- 모든 스위치 조합의 전등 결과를 진리표로 대조하고, 같은 출력을 만드는 식끼리 묶어 게이트 수와 신호 통과 단계를 줄인다.
+- Truth Table 기반 Minterm/Maxterm 도출 후 Karnaugh Map 또는 Quine-McCluskey 알고리즘으로 SOP/POS 2단 논리를 합성한다.
+
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -129,7 +130,7 @@ extra:
 
 #### 한줄 요약
 
-- 스위치 입력과 뒤집은 입력을 준비해 AND 줄에서 동시에 맞아야 할 조건을 만들고, OR 줄이 그 조건 중 하나라도 맞으면 전등을 켠다.
+- Inverter $\rightarrow$ AND Plane (Minterm Generation) $\rightarrow$ OR Plane (Function Aggregation)의 Two-level Logic Network로 구현한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -154,7 +155,7 @@ extra:
 
 #### 한줄 요약
 
-- 조건 조합은 AND•OR•NOT, 다름 판정은 XOR, 단일 게이트 구현은 NAND•NOR를 고른다.
+- Basic Gates(AND/OR/NOT), Exclusive Gates(XOR/XNOR), Universal Gates(NAND/NOR - Functional Completeness)로 설계 목적에 맞게 소자를 선택한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -181,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- 회로를 줄인 뒤 모든 스위치 조합의 출력이 같은지 확인하고, 신호가 다른 길로 늦게 도착해 전등이 순간 깜박이는 글리치까지 검사한다.
+- Formal Equivalence Checking을 통해 논리적 등가성을 검증하고, Hazard/Glitch 방지를 위한 Consensus Term 추가 및 Critical Path Timing Constraint를 만족시킨다.
 
 
 ## Ⅶ. 결론
@@ -196,4 +197,5 @@ extra:
 
 #### 한줄 요약
 
-- 부울식을 작은 게이트망으로 옮긴 뒤에도 진리표가 같고 가장 느린 신호가 타이밍 제약 안에 도착해야 구현을 확정한다.
+- Logical Synthesis $\rightarrow$ Static Timing Analysis(STA) $\rightarrow$ Formal Verification 단계를 거쳐 최종 Gate-level Netlist를 확정한다.
+

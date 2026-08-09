@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 괄호 안에 다시 수식이 오는 재귀 규칙으로 임의 깊이의 중첩 구문을 표현한다.
+- 단일 Non-terminal symbol 좌변을 둔 생성 규칙 $A \rightarrow \alpha$의 재귀적 적용을 통해 임의 깊이의 Nested Structure를 기술한다.
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,8 @@ extra:
 
 #### 한줄 요약
 
-- 주변 기호와 무관하게 규칙을 적용하며 같은 문자열에 구문 트리가 둘이면 문법이 모호하다.
+- Context-Independent Substitution으로 무제한 유도를 수행하되, 동일 문자열에 2개 이상의 Parse Tree가 생성되면 Ambiguous Grammar로 분류한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -135,7 +136,7 @@ extra:
 
 #### 한줄 요약
 
-- 설계도의 빈 구문 칸을 생성 규칙으로 펼치고 입력 토큰과 맞춘 결과를 부모•자식 가지로 붙여 구문 트리를 완성한다.
+- Top-down / Bottom-up Parsing 방식으로 Production Rule을 적용하여 Derivation Sequence를 도출하고 Parse Tree를 구축한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -157,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- 선형 패턴은 정규 문법, 중첩은 CFG, 주변 문맥 제약은 문맥 의존 문법이 적합하다.
+- Regular Grammar(Finite Automata), CFG(Pushdown Automata), CSG(Linear Bounded Automata)로 Chomsky Hierarchy의 표현력과 계산 복잡도를 차등 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -187,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- 모호성과 좌재귀를 제거하고 파싱 충돌•오류 복구 정책을 검증한다.
+- Elimination of Left Recursion, Left Factoring, FIRST/FOLLOW Set 기반의 Parsing Table 구축으로 LL/LR Parsing Conflict를 해소한다.
 
 ## Ⅶ. 결론
 
@@ -202,4 +203,5 @@ extra:
 
 #### 한줄 요약
 
-- 중첩 구조는 CFG로 표현하고 하향식 파서에서는 좌재귀를 제거한다.
+- Recursive Descent Parser 구축 시 Left-recursion 억제 및 Ambiguity 제거를 위한 Grammar Refactoring을 필수 집행한다.
+

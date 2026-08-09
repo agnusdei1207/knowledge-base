@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- 공개키는 누구나 편지를 넣는 우편함 투입구이고, 개인키는 소유자만 우편함을 여는 열쇠다.
+- Trapdoor One-way Function(단방향 함정함수) 특성을 활용하여 $C \equiv M^e \pmod n$, $M \equiv C^d \pmod n$의 asymmetric key pair 연산을 수행한다.
 
 ## Ⅱ. 특징
 
@@ -60,7 +60,8 @@ extra:
 
 #### 한줄 요약
 
-- 큰 화물은 빠른 대칭키 상자에 넣고, 그 상자 열쇠만 공개키 자물쇠로 잠그는 장면이다.
+- Symmetric Key (AES)로 Bulk Data를 암호화하고, Asymmetric Key (RSA/ECC)로 Session Key를 래핑하는 Hybrid Cryptosystem 구조를 채택한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -92,7 +93,7 @@ extra:
 | 공개키•개인키 연산기 | 공개•개인 지수로 암호화•**복호화**•서명•검증 수행 |
 
 #### 한줄 요약
-- 열쇠 공장이 키 쌍을 만들고 개인키는 금고에 넣으며, OAEP 포장대와 연산기가 암호 상자를 처리하는 장면이다.
+- Key Generator($n=pq, \phi(n)=(p-1)(q-1), ed \equiv 1 \pmod{\phi(n)}$), HSM Key Store, OAEP/PSS Formatting Unit으로 PKI 기반 아키텍처를 구성한다.
 
 ## Ⅳ. 흐름도
 
@@ -140,7 +141,7 @@ extra:
 
 #### 한줄 요약
 
-- 평문이 OAEP 포장지와 공개키 자물쇠를 거쳐 암호 상자가 되고, 개인키 금고에서 다시 열리는 장면이다.
+- Plaintext M $\rightarrow$ OAEP Encoding $\rightarrow$ Modular Exponentiation $C = M^e \pmod n \rightarrow$ HSM Private Key Operation $\rightarrow$ OAEP Validation 순으로 진술된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -165,7 +166,7 @@ extra:
 
 #### 한줄 요약
 
-- RSA 벽은 소인수분해, DH•ECC 벽은 이산 로그로 서 있지만 쇼어 굴착기가 두 벽을 모두 뚫는 장면이다.
+- RSA(Prime Factorization), DH/ECC(Discrete Log Problem) 모두 Shor's Algorithm에 의해 Polynomial Time $O((\log N)^3)$으로 해독되므로 PQC(Post-Quantum Cryptography)로의 마이그레이션이 필수적이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -190,7 +191,7 @@ extra:
 
 #### 한줄 요약
 
-- 성공 상자와 실패 상자가 같은 시간 뒤 같은 모양으로 나와 공격자가 차이를 못 보는 장면이다.
+- Padding Oracle Attack 및 Timing Side-channel Attack을 차단하기 위해 Constant-time Execution 및 Blinded Modulo Exponentiation을 적용한다.
 
 ## Ⅶ. 결론
 
@@ -205,4 +206,5 @@ extra:
 
 #### 한줄 요약
 
-- 큰 화물은 대칭키 상자, 상자 열쇠는 공개키 봉투, 오래 보관할 금고는 PQC 자물쇠로 바꾸는 장면이다.
+- Bulk Data에는 AES-GCM 대칭키, Session Key Exchange에는 RSA-OAEP / ECDH, Long-term Security / Harvest-now Decrypt-later 위협에는 PQC(NIST ML-KEM/ML-DSA)를 채택한다.
+

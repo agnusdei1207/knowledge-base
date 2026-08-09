@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 여러 검사원이 서로 다른 자리 묶음을 확인해 실패한 검사 번호를 합치면, 재전송 없이도 뒤집힌 비트 한 칸의 위치를 찾아 되돌릴 수 있다.
+- Parity Bit를 $2^k$ (1, 2, 4, 8...) 위치에 배치하고 Parity Check 결과의 이진 조합인 Syndrome Vector $S$를 통해 단일 비트 오류 위치(Single Error Correction)를 실시간 복구한다.
 
 ## Ⅱ. 특징
 
@@ -59,7 +59,8 @@ extra:
 
 #### 한줄 요약
 
-- 1•2•4번 검사 결과인 신드롬이 오류 위치를 가리키고, 전체 패리티가 2비트 오류를 구분한다.
+- Syndrome Vector가 Error Location Index를 직접 지시하며, Overall Parity Bit를 추가한 SECDED(Single Error Correction Double Error Detection) 구조로 최소 해밍 거리 $d_{min}=4$를 확보한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -140,7 +141,7 @@ extra:
 
 #### 한줄 요약
 
-- 부호기가 자리별 검사표를 붙여 보내면 복호기는 실패한 검사 번호를 이진 위치로 읽고, 그 자리만 뒤집어 원본 데이터를 꺼낸다.
+- $2^p \ge d+p+1$ 수식에 따라 Parity Bit를 계산 및 수신 측에서 Syndrome $S = S_p S_{p-1} \dots S_1$ 산출 후 $S \neq 0$인 경우 비트 반전 정정을 수행한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -165,7 +166,7 @@ extra:
 
 #### 한줄 요약
 
-- 한 칸을 현장에서 고치면 SEC, 두 칸 손상까지 구별하면 SECDED, 연속 구간 손상을 찾아 재전송할 수 있으면 CRC가 맞는다.
+- SEC(Single Error Correction), SECDED(ECC Memory), CRC(Cyclic Redundancy Check - Polynomial Division based Detection)로 가용성 및 신뢰성 환경에 맞춤 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -187,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- 메모리를 주기적으로 읽어 잠복한 한 칸 오류를 먼저 고치고, 연속 오류는 여러 코드워드에 흩어 SECDED의 정정 범위 안으로 나눈다.
+- DRAM Controller의 Memory Scrubbing 및 Data Interleaving을 결합하여 Latent Error Accumulation 및 Burst Error를 방지한다.
 
 ## Ⅶ. 결론
 
@@ -202,4 +203,5 @@ extra:
 
 #### 한줄 요약
 
-- 재전송 없이 한 비트를 고치면 SEC, 두 비트까지 구별하면 SECDED, 연속 오류를 검출해 다시 받으면 CRC를 선택한다.
+- In-place Single Bit Correction은 SEC/SECDED, ARQ 기반 Network Retransmission 구간은 CRC Error Detection을 적용한다.
+
