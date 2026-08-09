@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 파이프라이닝은 서로 다른 명령이 각 처리 단계를 동시에 사용하게 해 유휴 시간을 줄인다.
+- Pipelining은 Instruction Execution Phase를 나누고 각 단계를 Overlap(중첩) 실행하여 Instruction Throughput(IPC)을 상향시키는 하드웨어 병렬 구조이다.
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,8 @@ extra:
 
 #### 한줄 요약
 
-- 개별 명령 지연은 줄지 않아도 단계 중첩으로 단위 시간당 완료 명령 수는 늘어난다.
+- Instruction Latency 자체는 대등하거나 미증(Pipeline Register Delay 추가)하나, Throughput($1/\text{Cycle Time}$)은 Stage 개수 비례 증대한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -142,7 +143,7 @@ extra:
 
 #### 한줄 요약
 
-- 파이프라인은 단계를 겹쳐 처리량을 높이지만 해저드가 생기면 빈 주기가 발생한다.
+- Pipeline Stage Overlapping을 통해 ideal IPC 1을 달성하나, Structural/Data/Control Hazard 발생 시 Pipeline Bubble 및 Flush Penalty가 수반된다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -170,7 +171,7 @@ extra:
 
 #### 한줄 요약
 
-- 파이프라인 단수뿐 아니라 버블•플러시와 최장 단계 지연을 함께 줄여야 실제 명령 처리량이 증가한다.
+- Data Forwarding, Branch Prediction, Stage Balancing(최장 Delay 단축)을 통합 적용하여 Pipeline Stall/Flush를 최소화한다.
 
 ## Ⅶ. 결론
 
@@ -185,4 +186,5 @@ extra:
 
 #### 한줄 요약
 
-- 최장 단계 지연과 버블•플러시 비용을 함께 줄여야 파이프라인 처리량이 향상된다.
+- $\text{Execution Time} = \text{IC} \times \text{CPI} \times \text{Clock Cycle Time}$ 공식에 입각하여 CPI(Bubble/Flush 감소)와 Clock Cycle Time(Stage Delay 균등화)을 동시 최적화한다.
+

@@ -34,7 +34,7 @@ extra:
 - 배경/필요성: 해저드를 제어하지 않으면 잘못된 피연산자나 분기 경로를 실행할 수 있어 **포워딩**•**스톨**•**플러시**가 필요하다.
 
 #### 한줄 요약
-- 여러 명령을 겹쳐 실행하면 값•분기 경로•하드웨어 사용 시점이 충돌하므로, 원인을 구분해 실행 순서와 결과를 바로잡아야 한다.
+- Instruction Pipelining 시 발생하는 Structural/Data/Control Hazard를 Hazard Detection Unit과 Control Logic을 통해 즉각 감지 및 해소해야 한다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,8 @@ extra:
 - 해저드 발생 빈도와 해소에 필요한 지연 클록 수가 **CPI** 상승 폭을 결정한다.
 
 #### 한줄 요약
-- 해저드가 자주 발생하거나 해소에 오래 걸릴수록 빈 실행 칸이 늘어 평균 CPI가 높아진다.
+- Hazard 발생 빈도와 Stall Cycle / Flush Penalty가 누적됨에 따라 Ideal CPI(1.0)에 추가적인 CPI Overhead가 가산된다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -87,7 +88,7 @@ extra:
 | **자원 중재기** | 공유 자원의 사용 순서•스톨 결정 |
 
 #### 한줄 요약
-- 단계별 명령 상태를 감지기가 비교하고, 포워딩•분기 제어•자원 중재 회로가 원인에 맞는 제어를 맡는다.
+- Hazard Detection Unit이 Register Dependency 및 Resource Contention을 디코딩하고, Forwarding Unit, Branch Control Unit, Resource Arbiter가 수습 제어를 담당한다.
 
 ## Ⅳ. 흐름도
 
@@ -129,7 +130,7 @@ extra:
 3. **파이프라인 상태 갱신**: **완화 제어 신호**로 다음 입력과 단계 진행 여부를 확정한다.
 
 #### 한줄 요약
-- 감지 회로가 값•분기•자원 충돌을 구분하면 제어 회로가 포워딩•스톨•플러시•중재 중 필요한 동작을 적용한다.
+- Hazard Detection $\rightarrow$ Mitigation Strategy Selection(Forwarding / Stall / Flush / Arbitration) $\rightarrow$ Control Signal Assembly 및 State Update 순서로 처리된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -155,7 +156,7 @@ extra:
 > 요약: 원인별 **포워딩**•**분기 예측**•**자원 복제**를 적용한다.
 
 #### 한줄 요약
-- 값 지연은 포워딩, 분기 불확실성은 예측, 자원 경합은 복제•중재로 완화한다.
+- Data Hazard는 Bypass/Forwarding/Stall, Control Hazard는 Branch Predictor/Flush, Structural Hazard는 Resource Duplication/Arbiter로 완화한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -181,7 +182,7 @@ extra:
 | 단일 포트•연산기 경합 증가 | **자원 복제**•**다중 포트**•**중재 정책** 적용 | **구조적 해저드** 감소 |
 
 #### 한줄 요약
-- 해저드별 발생 빈도와 추가 CPI를 측정하면 면적•전력 대비 효과가 큰 완화 회로부터 적용할 수 있다.
+- Load-Use Hazard 시 1-cycle Stall 및 Code Reordering(Scheduling)을 적용하고, Control Hazard 시 BTB/Dynamic Predictor, Structural Hazard 시 Multi-port RAM/Duplication 기법을 배정한다.
 
 ## Ⅶ. 결론
 
@@ -197,4 +198,5 @@ extra:
 - **완화 회로 선택 기준**에 따라 해저드별 **추가 CPI**와 **면적•전력 비용**을 비교해 포워딩•예측•자원 복제를 선택한다.
 
 #### 한줄 요약
-- 해저드 완화 회로는 CPI 감소 효과와 면적•전력 비용을 함께 비교해 선택한다.
+- Hazard Mitigation Unit 설계 시 $\Delta \text{CPI}$ 감소 폭과 Area/Power Overhead trade-off를 정밀 계측하여 하드웨어 자원을 할당한다.
+

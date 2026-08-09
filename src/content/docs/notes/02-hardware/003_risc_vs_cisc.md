@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- RISC는 기본 동작을 규칙적으로 조합하고 CISC는 자주 묶이는 동작을 한 명령에도 담는다.
+- RISC는 Fixed-length Instruction, Load/Store Architecture로 Pipeline Latency를 극소화하고, CISC는 Variable-length Instruction, Memory-to-Memory Operations로 Code Density를 극대화한다.
 
 ## Ⅱ. 특징
 
@@ -56,7 +56,8 @@ extra:
 
 #### 한줄 요약
 
-- 같은 메뉴판을 써도 주방 구조가 다르면 속도와 전력 사용이 달라져 메뉴판만으로 성능을 단정할 수 없다.
+- 동일 ISA 라도 Microarchitecture Implementation(Pipeline Depth, Out-of-Order Engine, Decoder Array)에 따라 CPI(Cycles Per Instruction)와 Power Dissipation이 결정된다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -134,7 +135,7 @@ ISA 구현 구조
 
 #### 한줄 요약
 
-- RISC는 규칙적인 명령을 곧바로 해독하고, CISC는 가변 길이 명령의 경계를 찾은 뒤 필요하면 여러 내부 연산으로 나눠 실행한다.
+- RISC는 Direct Hardware Control Signal Mapping, CISC는 Instruction Pre-decoding 및 $\mu \text{op}$ (Micro-op) Decomposition 후 Execution Unit으로 전달한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -163,7 +164,7 @@ ISA 구현 구조
 
 #### 한줄 요약
 
-- RISC는 주문 해석을 단순하게 만들고 CISC는 한 주문서에 더 많은 일을 담는다.
+- RISC는 Simple Decoder Array 기반 파이프라인 최적화, CISC는 Complex Microcode ROM/Decoder 및 $\mu \text{op}$ Fusion으로 Instruction Stream을 구동한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -205,4 +206,5 @@ ISA 구현 구조
 
 #### 한줄 요약
 
-- 이름만으로 선택하지 말고 기존 프로그램 호환성과 명령 해독 회로 복잡도를 함께 따져야 한다.
+- Binary Compatibility, Code Density Requirement, Frontend Decode Power Consumption 및 Real-world Workload Benchmark(SPECint, SPECfp)를 다각적 평가한다.
+

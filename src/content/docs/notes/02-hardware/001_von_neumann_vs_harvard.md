@@ -34,7 +34,7 @@ extra:
 - 배경/필요성: 공유 버스에서는 명령어 인출과 데이터 접근의 **동시 접근 병목**이 발생할 수 있다.
 
 #### 한줄 요약
-- 폰 노이만 구조는 명령어와 데이터가 같은 경로를 공유해 접근이 겹치면 대기하고, 하버드 구조는 경로를 분리해 동시 접근한다.
+- 폰 노이만 구조는 단일 버스 공유에 의한 폰 노이만 병목(Von Neumann Bottleneck)을 유발하며, 하버드 구조는 물리적 분리 버스를 통해 Instruction Fetch와 Data Access의 Parallel Access를 지원한다.
 
 ## Ⅱ. 특징
 
@@ -57,7 +57,8 @@ extra:
 - 이 절충 구조가 **수정 하버드 구조**이다.
 
 #### 한줄 요약
-- 경로를 나누면 명령어 인출과 데이터 접근을 함께 처리할 수 있고, 메모리를 합치면 코드와 데이터가 저장 공간을 유연하게 나눠 쓴다.
+- 독립된 버스를 통한 Concurrent Fetch/Access를 구현하되, Main Memory 레벨 통합과 L1 Cache 계층 분리를 적용한 Modified Harvard Architecture로 공간 효율성을 극대화한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -94,7 +95,7 @@ extra:
 | 통합 메모리•버스 | 폰 노이만의 **공유 경로** 제공 |
 
 #### 한줄 요약
-- 폰 노이만은 한 메모리 경로를 공유하고, 하버드는 명령어와 데이터가 서로 다른 메모리 경로에 연결된다.
+- 폰 노이만은 단일 Shared Bus, 하버드는 Instruction/Data Dedicated Bus 인프라를 형성한다.
 
 ## Ⅳ. 흐름도
 
@@ -126,7 +127,7 @@ extra:
 - 하버드의 **분리 경로**가 두 접근을 독립적으로 운반한다.
 
 #### 한줄 요약
-- 폰 노이만 구조는 한 통로의 사용 순서를 조정하고, 하버드 구조는 명령어와 데이터를 서로 다른 통로로 동시에 전달한다.
+- 폰 노이만 구조는 Time-multiplexed Bus Access, 하버드 구조는 Dual Independent Bus Pipeline Access 방식으로 작동한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -151,7 +152,7 @@ extra:
 > 요약: 하버드의 **용량 고정**을 주기억 통합으로 완화한 수정 하버드가 핵심이다.
 
 #### 한줄 요약
-- 폰 노이만은 한 경로를 공유하고 하버드는 두 경로를 분리하며, 수정 하버드는 주기억을 합치고 L1 캐시만 나눠 절충한다.
+- Bus Contention 기반의 대역폭 한계(Von Neumann), Static Memory Partitioning 제약(Harvard), L1 Split Cache 구조(Modified Harvard)로 서술된다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -174,7 +175,7 @@ extra:
 | 분리 메모리의 **용량 고정** | 주기억을 공유하는 **수정 하버드 구조** 채택 | 코드·데이터 간 용량 재배분 |
 
 #### 한줄 요약
-- 공유 구조는 버스 대기를 줄이고, 분리 구조는 명령 캐시 동기화와 코드·데이터 용량 배분을 함께 관리해야 한다.
+- Cache Line Flush & Instruction Cache Invalidation(I-Cache Invalidation)을 통한 Cache Coherency 유지 및 Prefetch/Bus Pipeline 최적화를 수행한다.
 
 ## Ⅶ. 결론
 
@@ -190,4 +191,5 @@ extra:
 - **구조 선택 기준**에 따라 용량 유연성이 중요하면 **수정 하버드 구조**, **DSP**처럼 **결정적 처리량**을 위한 동시 접근이 중요하면 **하버드 구조**를 선택한다.
 
 #### 한줄 요약
-- 범용 시스템은 수정 하버드로 저장 공간을 유연하게 쓰고, 신호 처리 장비는 하버드 구조로 명령어 인출과 데이터 접근을 동시에 수행한다.
+- 범용 프로세서에는 Modified Harvard Architecture(L1 Split Cache), Deterministic Latency가 필수적인 DSP/임베디드에는 순수 Harvard Architecture를 채택한다.
+

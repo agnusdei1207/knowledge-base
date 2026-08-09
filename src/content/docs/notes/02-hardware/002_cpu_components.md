@@ -31,7 +31,7 @@ extra:
 - 배경/필요성: 명령을 정확히 실행하려면 연산•상태 보관•제어•데이터 전송 책임을 각각 맡는 구성요소가 필요하다.
 
 #### 한줄 요약
-- CPU는 명령어를 가져와 뜻을 해석하고 계산한 뒤 결과를 내부 상태에 기록하는 장치이다.
+- Control Path(CU)의 Instruction Fetch-Decode와 Data Path(ALU, Register File, Bus)의 Execute-Writeback 구분을 통해 파이프라인 제어를 다룬다.
 
 ## Ⅱ. 특징
 
@@ -50,7 +50,7 @@ extra:
 - **클록 엣지**마다 연산 결과로 레지스터 상태를 동기 갱신한다.
 
 #### 한줄 요약
-- 제어 회로가 길을 정하면 레지스터의 값이 계산 회로로 이동하고 클록 순간마다 결과가 새 상태로 저장된다.
+- Control Unit의 Control Signals 생성에 의하여 Data Path의 MUX/ALU 연산이 선택되고, Clock Edge(Rising/Falling) 시점에 Flip-Flop 레지스터 상태가 동기화 갱신된다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -88,7 +88,7 @@ CPU
 | **내부 버스** | 레지스터•ALU 사이 피연산자와 결과 전송 |
 
 #### 한줄 요약
-- 제어장치는 명령을 해석하고, 레지스터는 계산할 값과 현재 상태를 쥐고, 산술논리장치와 버스는 계산과 이동을 맡는다.
+- Control Path(CU, PC, IR)가 제어 타이밍을 통제하고, Data Path(GPR, ALU, Internal Bus)가 피연산자 연산 및 데이터 래칭을 수행한다.
 
 ## Ⅳ. 흐름도
 
@@ -137,7 +137,7 @@ CPU
 5. **결과 기록**: 연산 결과를 목적 레지스터에 쓰고 **상태 비트**를 갱신한다.
 
 #### 한줄 요약
-- 프로그램 카운터가 가리킨 명령을 명령어 레지스터에 담고, 제어장치가 고른 레지스터 값을 계산한 뒤 결과를 다시 레지스터에 넣는다.
+- PC $\rightarrow$ MAR $\rightarrow$ Memory Read $\rightarrow$ MDR $\rightarrow$ IR Fetch 과정을 거쳐 CU Decoder $\rightarrow$ ALU Execution $\rightarrow$ Register Writeback 순서로 수행된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -160,7 +160,7 @@ CPU
 | **상태 레지스터** | 플래그 레지스터 | 0•부호•캐리•오버플로 | 조건 분기와 예외의 판정 근거 |
 
 #### 한줄 요약
-- 레지스터는 모두 빠른 저장소이지만, 범용 레지스터는 계산값을 담고 특수 목적 레지스터는 실행 순서•주소•판정 상태를 맡는다.
+- GPR은 피연산자/중간 연산값, Control/Status Register(PC, IR, PSR, SP)는 CPU의 Execution State 및 Control Flow 트래킹을 담당한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -187,7 +187,7 @@ CPU
 | 데이터 경로 지연과 불일치한 **제어 신호 타이밍** | 최악 경로 기준 클록•제어 논리 검증 | **설정•유지 시간** 충족 |
 
 #### 한줄 요약
-- 여러 명령이 같은 레지스터와 버스를 동시에 쓰려 할 때 포트를 나누고 의존 결과를 우회 전달하며 신호 시점을 맞춰야 한다.
+- Multi-ported Register File, Forwarding Unit, Pipeline Hazard Detection/Interlock, Bus Arbiter 기법으로 Data Hazard 및 Bus Contention을 예방한다.
 
 ## Ⅶ. 결론
 
@@ -202,4 +202,5 @@ CPU
 - **CPU 구성 설계 기준**에 따라 **ISA**의 피연산자 수•폭에 맞춘 **레지스터 파일**과 **데이터 경로**를 설계한다.
 
 #### 한줄 요약
-- 명령어가 한 번에 읽고 쓰는 값의 개수와 크기에 맞춰 레지스터 포트와 계산•전송 경로를 설계해야 한다.
+- ISA 사양(Register Bit Width, Operand Code Field)에 맞추어 Register File Read/Write Port 수 및 Data Path Multiplexer/ALU Bit-width를 통합 설계한다.
+
