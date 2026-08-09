@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 서로 다른 장비도 같은 계층의 약속을 따르면 통신하고 장애 위치도 계층별로 좁힐 수 있다.
+- Heterogeneous System 간의 상호운용성(Interoperability) 보장 및 Layered Architecture 기반의 Fault Isolation(장애 격리)을 제공한다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,8 @@ extra:
 
 #### 한줄 요약
 
-- 각 층의 내부 구현이 바뀌어도 약속된 연결 규칙을 지키면 다른 층은 그대로 동작한다.
+- Layer Decoupling 및 Defined Service Interface(SAP)를 통해 하위 계층 구현 변경이 상위 계층에 미치는 영향도를 억제한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 

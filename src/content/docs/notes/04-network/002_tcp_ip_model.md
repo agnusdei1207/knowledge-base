@@ -34,7 +34,7 @@ extra:
 
 #### 한줄 요약
 
-- 다양한 앱과 유무선 장비가 가운데의 같은 IP 규칙을 사용해 서로 통신한다.
+- Heterogeneous Network & Application 간의 Decoupling을 위해 IP(Internet Protocol) 계층을 중심으로 하는 Hourglass (Thin-Waist) Architecture를 적용한다.
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,8 @@ extra:
 
 #### 한줄 요약
 
-- 중간망은 패킷 전달에 집중하고 송수신 컴퓨터가 누락과 순서를 처리한다.
+- End-to-End Principle에 따라 Intermediate Routers는 Best-Effort Packet Forwarding만 수행하고, End-Host Transport Layer(TCP)에서 Reliability and Congestion Control을 전담한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -87,7 +88,7 @@ extra:
 
 #### 한줄 요약
 
-- 앱의 메시지는 포트와 IP 주소를 차례로 붙인 뒤 링크에 맞는 프레임으로 전달된다.
+- Application Layer Message $\rightarrow$ Transport Layer Segment (Port No.) $\rightarrow$ Internet Layer Packet (IP Address) $\rightarrow$ Network Access Layer Frame (MAC Address) 수순으로 캡슐화된다.
 
 ## Ⅳ. 흐름도
 
@@ -129,7 +130,7 @@ extra:
 
 #### 한줄 요약
 
-- 송신 측이 계층별 배송표를 붙이면 수신 측은 반대 순서로 떼어 앱에 원문을 준다.
+- Data Encapsulation(Header Tagging) 및 Decapsulation (Header Stripping) 대칭 처리를 집행한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -150,7 +151,7 @@ extra:
 
 #### 한줄 요약
 
-- TCP/IP는 실제 인터넷 묶음이고 OSI는 통신 업무를 더 잘게 나눈 설명 도구다.
+- TCP/IP 4-Layer는 Practical Internet Standard Protocol Suite, OSI 7-Layer는 Structural Reference & Diagnostic Model로 역할이 분이된다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -171,7 +172,7 @@ extra:
 
 #### 한줄 요약
 
-- 웹이 열리지 않으면 연결선부터 IP 주소, 포트, 웹 응용 순서로 범위를 좁힌다.
+- Network Access $\rightarrow$ Internet (IP) $\rightarrow$ Transport (Port) $\rightarrow$ Application 계층 순으로 Bottom-Up Troubleshooting을 수행한다.
 
 ## Ⅶ. 결론
 
@@ -186,4 +187,5 @@ extra:
 
 #### 한줄 요약
 
-- 실제 프로토콜은 TCP/IP로 구현하고 장애 책임은 OSI 계층으로 세분해 확인한다.
+- 인터넷 표준 시스템 구축 시 TCP/IP Protocol Stack 구현과 PMTU (Path MTU Discovery) 및 Layered Troubleshooting 절차를 정립한다.
+
