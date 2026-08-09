@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 워킹 셋을 수용하지 못하면 페이지 교체가 유효한 실행을 압도한다.
+- Working Set(최근 $\Delta$ 시간 동안 참조된 Page 집합)의 크기 합이 가용 Page Frame 수량을 초과하여 Page Fault 및 Swap I/O Thrashing이 발생하는 가상메모리 붕괴 상태이다.
 
 ## Ⅱ. 특징
 
@@ -56,7 +56,8 @@ extra:
 
 #### 한줄 요약
 
-- 프레임 부족이 **교체 I/O•CPU 유휴**를 연쇄 증폭이 핵심이다.
+- Page Frame 부족으로 인한 Page Fault/Swap Out-In 연쇄 발생이 I/O Waiting Time을 증가시켜 CPU Utilization 및 System Throughput을 급감시킨다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -148,7 +149,7 @@ extra:
 
 #### 한줄 요약
 
-- 폴트•I/O•CPU 유휴의 악순환을 차단한다.
+- Thrashing Cascade Loop(High Page Fault $\rightarrow$ Disk I/O Throttling $\rightarrow$ CPU Idle $\rightarrow$ Multiprogramming Level 상승 오판 $\rightarrow$ Frame reallocation 악화)를 차단한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -170,7 +171,7 @@ extra:
 
 #### 한줄 요약
 
-- 워킹 셋 수용 여부와 재참조 폴트로 정상•스레싱을 구분한다.
+- Working Set 포함 여부 및 Page Refault Rate 지표를 모니터링하여 Demand Paging 정상 상태와 Thrashing 상태를 수치적으로 구별한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -195,7 +196,7 @@ extra:
 
 #### 한줄 요약
 
-- 폴트율 상한을 넘으면 **수용 제어**와 프레임 재배분을 수행한다.
+- Major/Minor Page Fault 구분 계측, Admission Control 기반 수용 제어, Container Memory cgroups Limit 지정을 통해 Thrashing 방지책을 구성한다.
 
 ## Ⅶ. 결론
 
@@ -212,4 +213,5 @@ extra:
 
 #### 한줄 요약
 
-- 폴트율 초과•워킹 셋 미수용 시 작업 수를 줄인다.
+- Page Fault Frequency(PFF) 알고리즘 및 Working Set Model을 기반으로 Degree of Multiprogramming(DOM)을 제어하고 Frame Re-allocation을 수행한다.
+

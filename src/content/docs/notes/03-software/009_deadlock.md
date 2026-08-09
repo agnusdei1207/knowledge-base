@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- **환형 대기**로 전체 진행이 중단되는 동시성 실패가 핵심이다.
+- 상호배제(Mutual Exclusion), 점유대기(Hold and Wait), 비선점(No Preemption), 환형대기(Circular Wait) 4가지 필요조건이 동시 충족될 때 발생하는 정지 상태이다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,8 @@ extra:
 
 #### 한줄 요약
 
-- 네 필요조건이 동시에 성립하면 **교착상태**가 발생한다.
+- Resource-allocation Graph 내의 Directed Cycle 형성이 Deadlock 발생의 필요충분/필요 조건이 된다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -136,7 +137,7 @@ extra:
 
 #### 한줄 요약
 
-- **예방 가능성 판정**과 **회피 가능성 판정** 결과에 따라 대응 방식을 선택한다.
+- Prevention(필요조건 제거) $\rightarrow$ Avoidance(Banker's Algorithm / Safe State 유지) $\rightarrow$ Detection & Recovery(Wait-for Graph & Victim Selection) 순으로 전략을 결정한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -161,7 +162,7 @@ extra:
 
 #### 한줄 요약
 
-- 순서 강제는 **예방**, 최대 요구량 파악은 **회피**를 선택한다.
+- Lock Order Enforcement는 Prevention, Max Resource Claim 파악은 Avoidance(Banker's Algorithm)를 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -173,7 +174,7 @@ extra:
 - **상관 식별자(Correlation Identifier)**: 여러 시스템을 지나는 하나의 요청 흐름을 연결해 추적하는 공통 값이다.
 - **임대(Lease)**: 잠금 소유권에 유효시간을 두는 방식이다.
 - **펜싱 토큰(Fencing Token)**: 증가 번호로 만료 소유자의 쓰기를 차단하는 값이다.
-- **희생 정책(Victim Policy)**: 진행량•롤백 비용•재시도 이력으로 교착 해소 대상을 고르는 기준이다.
+- **희생 정책(Victim Policy)**: 진행량•롤백 비용•재시도 이력으로 교착 해소 대식을 고르는 기준이다.
 
 </details>
 
@@ -186,7 +187,7 @@ extra:
 
 #### 한줄 요약
 
-- **전역 잠금 획득 순서**, **대기 그래프**, **희생 정책**을 결합한다.
+- Lock Hierarchy / Global Lock Ordering을 통한 Prevention과 Lock Timeout / Fencing Token 기반 분산 Deadlock 복구 기법을 적용한다.
 
 ## Ⅶ. 결론
 
@@ -204,4 +205,5 @@ extra:
 
 #### 한줄 요약
 
-- 통제 가능성•사전 정보•롤백 비용을 기준으로 대응법을 선택한다.
+- Control Overhead vs Resource Utilization Trade-off 분석에 의거하여 예방, 회피, 탐지/복구 기법을 산정한다.
+

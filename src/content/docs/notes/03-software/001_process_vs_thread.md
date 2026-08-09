@@ -183,7 +183,7 @@ extra:
 
 #### 한줄 요약
 
-- 브라우저 화면을 프로세스로 분리하고 **감독**과 **재시작**을 적용한다.
+- 웹 브라우저 탭(Tab)별 Multi-process Architecture 적용 및 Watchdog 기반 프로세스 Supervisor/Restart 패턴을 도입하여 Fault Isolation을 보장한다.
 
 ## Ⅶ. 결론
 
@@ -198,4 +198,5 @@ extra:
 
 #### 한줄 요약
 
-- 격리 요구는 프로세스, 공유 빈도는 스레드를 선택한다.
+- Fault Tolerance & Privilege Boundary에는 Process isolation, Intra-process Parallelism & In-Memory State Exchange에는 Thread concurrency 모델을 적용한다.
+

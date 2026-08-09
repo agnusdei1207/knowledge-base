@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 원자성•일관성•격리성•지속성을 함께 보장하는 **ACID**가 핵심이다.
+- 트랜잭션의 Complete Execution / All-or-Nothing(Atomicity), Consistency Preserving, Concurrency Control(Isolation), State Persistence(Durability)를 정립한다.
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,8 @@ extra:
 
 #### 한줄 요약
 
-- **원자성**, **일관성**, **격리성**, **지속성**의 결합이 핵심이다.
+- Atomicity(Undo Log/Rollback), Consistency(DB Constraints), Isolation(2PL/MVCC), Durability(WAL/Redo Log)의 상호 결합 메커니즘을 정의한다.
+
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -138,7 +139,7 @@ extra:
 
 #### 한줄 요약
 
-- 격리•불변식•선행 로그 기반 **커밋•롤백 흐름**이 핵심이다.
+- Concurrency Control Phase $\rightarrow$ Invariant Validation Phase $\rightarrow$ Write-Ahead Logging(WAL) Phase $\rightarrow$ Commit/Rollback Execution 흐름으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -159,7 +160,7 @@ extra:
 
 #### 한줄 요약
 
-- 거래 불변식은 **ACID**, 지연 수렴은 **기본 가용성•유연 상태•최종 일관성**이 적합하다.
+- Strict Consistency/Financial Domain에는 ACID, High Availability & Scalability 분산 노드 환경에는 BASE(Basically Available, Soft-state, Eventual consistency)를 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -192,7 +193,7 @@ extra:
 
 #### 한줄 요약
 
-- **불변식을 지키는 최소 연산**, **격리 수준**, **멱등성**이 핵심이다.
+- Minimum Invariant Scope, Isolation Level Tuning, Idempotent Producer/Consumer 및 Saga Protocol(Compensating Transaction)을 적용한다.
 
 ## Ⅶ. 결론
 
@@ -210,4 +211,5 @@ extra:
 
 #### 한줄 요약
 
-- 업무 위험에 맞는 **거래 경계 선택 기준**이 핵심이다.
+- Business Invariant, Isolation Level, Recovery Point/Time Objective(RPO/RTO) 요구사항에 맞추어 Transaction Boundary를 정밀 획정한다.
+
