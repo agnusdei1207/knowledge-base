@@ -89,7 +89,7 @@ extra:
 
 #### 한줄 요약
 
-- 파일 창고, 작업 배정자, 입력 묶음, 이름표 작업자, 집계자로 구성된다.
+- HDFS, JobTracker, InputSplit, Mapper, Reducer로 구성된다.
 
 ## Ⅳ. 흐름도
 
