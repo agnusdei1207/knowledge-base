@@ -38,7 +38,7 @@ extra:
 
 #### 한줄 요약
 
-- 수많은 게임 수를 모두 읽는 대신 몇 번의 모의 대국으로 유망한 수를 찾고, 남은 탐색 예산을 그 주변에 집중한다.
+- 거대한 상태 공간(State Space)에서 UCT(Upper Confidence Bound applied to Trees) 기반의 4단계(Selection-Expansion-Rollout-Backpropagation) 시뮬레이션으로 유망 탐색 경로를 동적 확정한다.
 
 
 ## Ⅱ. 특징
@@ -66,7 +66,8 @@ extra:
 
 #### 한줄 요약
 
-- UCT는 고보상 수와 저방문 수의 선택 기회를 조절한다.
+- UCT 공식을 적용하여 기존 고보상 경로의 활용(Exploitation)과 미탐색 경로의 탐험(Exploration) 간의 밸런싱을 보장한다.
+
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -139,7 +140,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 유망한 가지를 고르고 새 수를 붙여 끝까지 모의 대국한 뒤, 승패 보상을 지나온 노드에 거꾸로 적어 다음 UCT 선택에 재사용한다.
+- Selection(UCT) $\rightarrow$ Expansion $\rightarrow$ Simulation(Rollout) $\rightarrow$ Backpropagation(통계 갱신) 순서의 루프를 탐색 예산 소진 시까지 집계한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -162,7 +163,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 둘 수가 너무 많아 전부 읽기 어렵지만 모의 대국은 가능하면 MCTS, 수가 적고 중간 판세 점수가 정확하면 미니맥스가 맞는다.
+- 분기 계수(Branching Factor)가 극도로 크고 평가 함수(Evaluation Function) 수립이 곤란할 때는 MCTS, 도메인 평가 함수가 정밀할 때는 Minimax를 채택한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -188,7 +189,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 롤아웃 정책이 한 수에 치우치면 보상 추정도 편향된다.
+- Rollout Policy의 편향성 완화를 위해 Value Network 교차 검증 및 Parallel MCTS의 Virtual Loss 기법을 적용한다.
 
 
 ## Ⅶ. 결론
@@ -205,4 +206,5 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 선택지가 많고 모의 실행이 가능하면 MCTS, 중간 평가가 정확하면 미니맥스를 선택한다.
+- 시뮬레이션 기반 추정과 도메인 평가 함수 정밀성을 비교하여 MCTS와 Minimax 알고리즘을 구분 적용한다.
+
