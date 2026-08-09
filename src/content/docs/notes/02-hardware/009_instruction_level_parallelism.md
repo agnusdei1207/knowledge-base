@@ -33,7 +33,7 @@ extra:
 - 배경/필요성: 순차 발행은 독립 명령이 있어도 **실행 유닛**을 유휴 상태로 두어 **IPC**를 제한한다.
 
 #### 한줄 요약
-- 앞 명령의 결과가 필요 없는 명령들을 여러 실행 유닛에 함께 보내 한 스레드의 완료 속도를 높인다.
+- Data-Independent Instructions를 Superscalar Issue Width만큼 Multiple Execution Units에 동시 Dispatch하여 Single-thread IPC를 극대화한다.
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,7 @@ extra:
 - **비순서 실행**•**순차 커밋**으로 병렬 실행과 정확한 상태 확정을 양립시킨다.
 
 #### 한줄 요약
-- 손이 많아도 선후 관계나 재료 대기가 남으면 동시 작업은 늘지 않는다.
+- Issue Width를 확장해도 RAW Dependency Chain, Branch Misprediction, Memory Latency에 의해 Issue Slot Utilization이 제한된다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -140,7 +140,7 @@ ILP 실행 구조
 5. **순차 커밋•복구**: **정밀 복구**로 프로그램 순서대로 상태를 확정하거나 후속 결과를 폐기한다.
 
 #### 한줄 요약
-- 여러 일을 먼저 끝내도 번호표 순서대로 결과를 내놓는다.
+- Out-of-Order Execution으로 완료된 결과를 Reorder Buffer(ROB)를 통해 Program Order대로 In-order Commit한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -177,7 +177,7 @@ ILP 실행 구조
 > 요약: 가변 지연은 동적, 규칙 연산은 정적 ILP가 핵심이다.
 
 #### 한줄 요약
-- 양손 작업은 ILP, 요리사 분담은 TLP, 같은 재료 묶음은 DLP에 해당한다.
+- ILP는 Single-thread Instruction Overlap, TLP는 Multi-thread Concurrent Execution, DLP는 SIMD/Vector Parallel Data Operation으로 구분된다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
