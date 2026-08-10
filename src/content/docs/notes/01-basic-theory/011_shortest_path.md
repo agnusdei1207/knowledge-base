@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "최단 경로: 다익스트라•벨만-포드•플로이드-워셜 (Shortest Path)"
-date: "2026-08-08T03:22:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 11
@@ -87,7 +87,7 @@ extra:
 
 #### 한줄 요약
 
-- 간선 가중치를 기반으로 Relaxation 연산을 수행하고, 갱신 시 최단 거리 테이블(Distance Array)과 선행 정점(Predecessor)을 갱신한다.
+- 간선 가중치를 기반으로 완화 연산을 수행하고, 갱신 시 최단 거리 테이블(Distance Array)과 선행 정점(Predecessor)을 갱신한다.
 
 ## Ⅳ. 흐름도
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "빅오 표기법 (Big-O Notation)"
-date: "2026-08-08T02:06:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 2
@@ -139,7 +139,7 @@ $$
 
 #### 한줄 요약
 
-- 상한 경계는 Big-O, 하한 경계는 Big-Omega, 상·하한 동시 바운딩은 Big-Theta 표기법을 적용한다.
+- 상한 경계는 Big-O, 하한 경계는 빅오메가, 상·하한 동시 바운딩은 빅세타 표기법을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

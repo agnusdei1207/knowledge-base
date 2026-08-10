@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "스택•큐•덱 (Stack Queue Deque)"
-date: "2026-08-08T02:48:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 7
@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 허용되는 데이터 엔드포인트(Top, Front, Rear)의 제약을 통해 LIFO, FIFO, Deque 메커니즘을 보장한다.
+- 허용되는 데이터 엔드포인트(Top, Front, Rear)의 제약을 통해 LIFO, FIFO, 덱 메커니즘을 보장한다.
 
 ## Ⅱ. 특징
 

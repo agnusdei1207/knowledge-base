@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -155,7 +155,7 @@ extra:
 
 #### 한줄 요약
 
-- 개별 요청은 Client-Server, 다수 배포는 PubSub가 적합하며 둘 다 정보 모델이 필요하다.
+- 개별 요청은 클라이언트-서버, 다수 배포는 발행-구독가 적합하며 둘 다 정보 모델이 필요하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

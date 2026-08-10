@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -167,7 +167,7 @@ DAG 번들•일정
 
 #### 한줄 요약
 
-- Airflow는 앞 작업의 결과를 보고 다음 일을 정하고 Cron은 정해진 시각에 알람만 울린다.
+- Airflow는 앞 작업의 결과를 보고 다음 일을 정하고 오케스트레이션 선택 기준**에 따라 복합 의존•백필은 **Airflow**, 독립 시간 작업은 **크론은 정해진 시각에 알람만 울린다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

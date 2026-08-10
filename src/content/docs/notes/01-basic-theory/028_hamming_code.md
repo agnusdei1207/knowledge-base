@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-08-08T05:49:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- Parity Bit를 $2^k$ (1, 2, 4, 8...) 위치에 배치하고 Parity Check 결과의 이진 조합인 Syndrome Vector $S$를 통해 단일 비트 오류 위치(Single Error Correction)를 실시간 복구한다.
+- 패리티 비트를 $2^k$ (1, 2, 4, 8...) 위치에 배치하고 Parity Check 결과의 이진 조합인 신드롬 Vector $S$를 통해 단일 비트 오류 위치(Single Error Correction)를 실시간 복구한다.
 
 ## Ⅱ. 특징
 
@@ -59,7 +59,7 @@ extra:
 
 #### 한줄 요약
 
-- Syndrome Vector가 Error Location Index를 직접 지시하며, Overall Parity Bit를 추가한 SECDED(Single Error Correction Double Error Detection) 구조로 최소 해밍 거리 $d_{min}=4$를 확보한다.
+- 신드롬 Vector가 Error Location Index를 직접 지시하며, Overall 패리티 비트를 추가한 SECDED(Single Error Correction Double Error Detection) 구조로 최소 해밍 거리 $d_{min}=4$를 확보한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -141,7 +141,7 @@ extra:
 
 #### 한줄 요약
 
-- $2^p \ge d+p+1$ 수식에 따라 Parity Bit를 계산 및 수신 측에서 Syndrome $S = S_p S_{p-1} \dots S_1$ 산출 후 $S \neq 0$인 경우 비트 반전 정정을 수행한다.
+- $2^p \ge d+p+1$ 수식에 따라 패리티 비트를 계산 및 수신 측에서 신드롬 $S = S_p S_{p-1} \dots S_1$ 산출 후 $S \neq 0$인 경우 비트 반전 정정을 수행한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -188,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- DRAM Controller의 Memory Scrubbing 및 Data Interleaving을 결합하여 Latent Error Accumulation 및 Burst Error를 방지한다.
+- DRAM Controller의 Memory Scrubbing 및 Data 인터리빙을 결합하여 잠복 오류 Accumulation 및 버스트 오류를 방지한다.
 
 ## Ⅶ. 결론
 

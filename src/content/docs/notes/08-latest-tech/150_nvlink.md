@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 150
@@ -151,7 +151,7 @@ GPU의 연결 범위에 따라 직접 링크•스위치•서버 간 패브릭�
 
 #### 한줄 요약
 
-- 인접 GPU의 고정 통신은 직접 링크, 도메인 내 다대다는 NVSwitch, 랙 간 확장은 InfiniBand가 맡는다.
+- 인접 GPU의 고정 통신은 직접 링크, 도메인 내 다대다는 NVSwitch, 랙 간 확장은 인피니밴드가 맡는다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-08-08T04:20:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -140,7 +140,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- Selection(UCT) $\rightarrow$ Expansion $\rightarrow$ Simulation(Rollout) $\rightarrow$ Backpropagation(통계 갱신) 순서의 루프를 탐색 예산 소진 시까지 집계한다.
+- 선택(UCT) $\rightarrow$ 확장 $\rightarrow$ Simulation(Rollout) $\rightarrow$ 역전파(통계 갱신) 순서의 루프를 탐색 예산 소진 시까지 집계한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -163,7 +163,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 분기 계수(Branching Factor)가 극도로 크고 평가 함수(Evaluation Function) 수립이 곤란할 때는 MCTS, 도메인 평가 함수가 정밀할 때는 Minimax를 채택한다.
+- 분기 계수(Branching Factor)가 극도로 크고 평가 함수(Evaluation Function) 수립이 곤란할 때는 MCTS, 도메인 평가 함수가 정밀할 때는 미니맥스를 채택한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -189,7 +189,7 @@ MCTS 구조
 
 #### 한줄 요약
 
-- Rollout Policy의 편향성 완화를 위해 Value Network 교차 검증 및 Parallel MCTS의 Virtual Loss 기법을 적용한다.
+- 롤아웃 정책의 편향성 완화를 위해 Value Network 교차 검증 및 Parallel MCTS의 가상 손실 기법을 적용한다.
 
 
 ## Ⅶ. 결론
@@ -206,5 +206,5 @@ MCTS 구조
 
 #### 한줄 요약
 
-- 시뮬레이션 기반 추정과 도메인 평가 함수 정밀성을 비교하여 MCTS와 Minimax 알고리즘을 구분 적용한다.
+- 시뮬레이션 기반 추정과 도메인 평가 함수 정밀성을 비교하여 MCTS와 미니맥스 알고리즘을 구분 적용한다.
 

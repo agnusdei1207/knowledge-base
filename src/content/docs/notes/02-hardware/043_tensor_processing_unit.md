@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "TPU 텐서 처리 장치 (Tensor Processing Unit)"
-date: "2026-08-08T19:25:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 43
@@ -155,7 +155,7 @@ extra:
 
 #### 한줄 요약
 
-- 대규모 행렬과 TPU Pod 학습에는 TPU, 가변적인 범용 병렬 커널에는 GPU, 전력 제한이 큰 단말 추론에는 NPU가 적합하다.
+- 대규모 행렬과 텐서 처리 장치 포드 학습에는 TPU, 가변적인 범용 병렬 커널에는 GPU, 전력 제한이 큰 단말 추론에는 NPU가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

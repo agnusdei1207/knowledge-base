@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "FIDO2•WebAuthn (FIDO2 WebAuthn)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-security"
 weight: 55
@@ -152,7 +152,7 @@ WebAuthn 인증 요청
 
 #### 한줄 요약
 
-- **FIDO2 구성 역할 분리**에 따라 FIDO2는 전체 체계, WebAuthn은 웹 연동, CTAP2는 외부 인증자 통신을 담당한다.
+- **FIDO2 구성 역할 분리**에 따라 FIDO2는 전체 체계, 웹 인증은 웹 연동, CTAP2는 외부 인증자 통신을 담당한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -161,7 +161,7 @@ extra:
 
 #### 한줄 요약
 
-- Raft는 리더 선출과 로그 복제 절차를 분리해 설명하고 Paxos는 번호가 더 큰 제안이 과거 승인값을 이어받는 원리를 중심으로 한다.
+- 래프트는 리더 선출과 로그 복제 절차를 분리해 설명하고 팩소스는 번호가 더 큰 제안이 과거 승인값을 이어받는 원리를 중심으로 한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

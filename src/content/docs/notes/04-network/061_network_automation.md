@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "네트워크 자동화 - Ansible•RESTCONF•NETCONF (Network Automation)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-network"
 weight: 61
@@ -93,7 +93,7 @@ extra:
 
 #### 한줄 요약
 
-- Source of Truth와 실제 장비 상태의 차이를 찾아야 자동화 코드가 오래된 설정을 다시 덮어쓰지 않음이 핵심이다.
+- 진실의 원천와 실제 장비 상태의 차이를 찾아야 자동화 코드가 오래된 설정을 다시 덮어쓰지 않음이 핵심이다.
 
 ## Ⅳ. 흐름도
 

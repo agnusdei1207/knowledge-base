@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-08T04:47:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -55,7 +55,7 @@ extra:
 
 #### 한줄 요약
 
-- Context-Independent Substitution으로 무제한 유도를 수행하되, 동일 문자열에 2개 이상의 Parse Tree가 생성되면 Ambiguous Grammar로 분류한다.
+- Context-Independent Substitution으로 무제한 유도를 수행하되, 동일 문자열에 2개 이상의 구문 트리가 생성되면 Ambiguous Grammar로 분류한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -136,7 +136,7 @@ extra:
 
 #### 한줄 요약
 
-- Top-down / Bottom-up Parsing 방식으로 Production Rule을 적용하여 Derivation Sequence를 도출하고 Parse Tree를 구축한다.
+- Top-down / Bottom-up Parsing 방식으로 생성 규칙을 적용하여 유도 Sequence를 도출하고 구문 트리를 구축한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -158,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- Regular Grammar(Finite Automata), CFG(Pushdown Automata), CSG(Linear Bounded Automata)로 Chomsky Hierarchy의 표현력과 계산 복잡도를 차등 적용한다.
+- 정규 문법(Finite Automata), CFG(Pushdown Automata), CSG(Linear Bounded Automata)로 Chomsky Hierarchy의 표현력과 계산 복잡도를 차등 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -188,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- Elimination of Left Recursion, Left Factoring, FIRST/FOLLOW Set 기반의 Parsing Table 구축으로 LL/LR Parsing Conflict를 해소한다.
+- Elimination of 좌재귀, 좌인수분해, FIRST/FOLLOW Set 기반의 파싱표 구축으로 LL/LR 파싱 충돌를 해소한다.
 
 ## Ⅶ. 결론
 
@@ -203,5 +203,5 @@ extra:
 
 #### 한줄 요약
 
-- Recursive Descent Parser 구축 시 Left-recursion 억제 및 Ambiguity 제거를 위한 Grammar Refactoring을 필수 집행한다.
+- Recursive Descent 파서 구축 시 Left-recursion 억제 및 모호성 제거를 위한 Grammar Refactoring을 필수 집행한다.
 

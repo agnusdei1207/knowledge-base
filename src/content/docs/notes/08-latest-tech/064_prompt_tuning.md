@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Prompt Tuning (프롬프트 튜닝)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 64
@@ -183,4 +183,4 @@ extra:
 - **과업 복잡도•문맥 예산•모델 호환성**으로 적응 방식을 결정한다.
 
 #### 한줄 요약
-- **복잡도•문맥 예산**으로 Prompt•Prefix Tuning을 선택한다.
+- **복잡도•문맥 예산**으로 Prompt•접두어 튜닝을 선택한다.

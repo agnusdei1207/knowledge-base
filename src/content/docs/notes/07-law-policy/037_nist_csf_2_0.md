@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -146,7 +146,7 @@ extra:
 | 한계 | 1.1은 경영•공급망 연결이 상대적으로 약함 | 2.0도 성과보다 통제 목록으로 오용 가능 |
 
 #### 한줄 요약
-- **NIST CSF 1.1•2.0**의 차이는 Govern 추가와 경영•공급망 책임 강화이다.
+- **NIST CSF 1.1•2.0**의 차이는 거버넌스 추가와 경영•공급망 책임 강화이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

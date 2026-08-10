@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 서비스 모델: IaaS•PaaS•SaaS (Cloud Service Models)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 141
@@ -158,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- IaaS는 운영체제부터, PaaS는 앱부터 관리하고 SaaS는 완성된 앱의 사용자와 데이터를 관리한다.
+- 서비스형 인프라는 운영체제부터, 서비스형 플랫폼는 앱부터 관리하고 서비스형 소프트웨어는 완성된 앱의 사용자와 데이터를 관리한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "ReAct 패턴 (Reasoning and Acting)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 3
@@ -168,4 +168,4 @@ extra:
 - 외부 상태•행동은 **ReAct**, 내부 추론은 **CoT**을 선택한다.
 
 #### 한줄 요약
-- **근거 충분성**과 반복 한도를 갖춘 ReAct 루프를 적용한다.
+- **근거 충분성**과 반복 한도를 갖춘 추론-행동 루프를 적용한다.

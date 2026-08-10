@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-08-08T03:47:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14
@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 원형 문제를 상호 독립적인 Subproblem으로 분할(Divide)하고, 재귀적으로 정복(Conquer)한 후, Combine 연산으로 최종 해를 구축한다.
+- 원형 문제를 상호 독립적인 Subproblem으로 분할(Divide)하고, 재귀적으로 정복(Conquer)한 후, 결합 연산으로 최종 해를 구축한다.
 
 ## Ⅱ. 특징
 
@@ -57,7 +57,7 @@ extra:
 
 #### 한줄 요약
 
-- 부분 문제 간의 상호 비의존성(Mutual Independence)을 활용하여 병렬화(Parallelization)를 달성하되, Combine 단계의 시간/공간 오버헤드를 제어해야 한다.
+- 부분 문제 간의 상호 비의존성(Mutual Independence)을 활용하여 병렬화(Parallelization)를 달성하되, 결합 단계의 시간/공간 오버헤드를 제어해야 한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -90,7 +90,7 @@ extra:
 
 #### 한줄 요약
 
-- 재귀 제어기(Base Case 판정), Call Stack(복귀 문맥), Combine 함수가 연계되어 하위 정복 결과를 통합한다.
+- 재귀 제어기(Base Case 판정), 호출 스택(복귀 문맥), 결합 함수가 연계되어 하위 정복 결과를 통합한다.
 
 ## Ⅳ. 흐름도
 
@@ -138,7 +138,7 @@ extra:
 
 #### 한줄 요약
 
-- Base Case 도달 시까지 분할을 반복하고, 하위 콜 스택을 해제하며 부분해(Sub-solution)를 상위로 결합한다.
+- 종료 조건 도달 시까지 분할을 반복하고, 하위 콜 스택을 해제하며 부분해(Sub-solution)를 상위로 결합한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -205,5 +205,5 @@ extra:
 
 #### 한줄 요약
 
-- Divide 및 Combine 단계의 시간/공간 비용의 합이 병렬화로 얻는 속도 향상(Speedup) 이득보다 적을 때 정당성을 가진다.
+- 분할 및 결합 단계의 시간/공간 비용의 합이 병렬화로 얻는 속도 향상(Speedup) 이득보다 적을 때 정당성을 가진다.
 

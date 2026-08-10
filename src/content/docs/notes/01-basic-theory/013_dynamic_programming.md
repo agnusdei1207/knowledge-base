@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "동적 계획법 (Dynamic Programming)"
-date: "2026-08-08T03:39:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 13
@@ -156,7 +156,7 @@ extra:
 
 #### 한줄 요약
 
-- 도달 가능한 희소 상태 공간에는 Top-down(Memoization), 전체 상태 공간 도달 시에는 Bottom-up(Tabulation) 방식을 채택한다.
+- 도달 가능한 희소 상태 공간에는 하향식(Memoization), 전체 상태 공간 도달 시에는 상향식(Tabulation) 방식을 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -195,5 +195,5 @@ extra:
 
 #### 한줄 요약
 
-- 실제 도달하는 상태의 조밀도(Density)와 호출 스택 제한을 고려하여 Top-down 또는 Bottom-up DP 방식을 채택한다.
+- 실제 도달하는 상태의 조밀도(Density)와 호출 스택 제한을 고려하여 하향식 또는 상향식 DP 방식을 채택한다.
 

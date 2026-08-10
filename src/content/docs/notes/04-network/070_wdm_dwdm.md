@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "WDM•DWDM 광 다중화 (WDM DWDM)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-network"
 weight: 70
@@ -147,7 +147,7 @@ WDM 광전송 구조
 
 #### 한줄 요약
 
-- 짧고 저렴하면 CWDM, 멀리 많은 채널을 보내면 DWDM, 채널마다 폭을 달리하면 Flex-Grid를 쓴다.
+- 짧고 저렴하면 CWDM, 멀리 많은 채널을 보내면 DWDM, 채널마다 폭을 달리하면 유연 격자를 쓴다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

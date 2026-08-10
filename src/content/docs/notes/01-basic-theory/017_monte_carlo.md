@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 방법 (Monte Carlo Method)"
-date: "2026-08-08T04:11:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 17
@@ -189,7 +189,7 @@ $$
 
 #### 한줄 요약
 
-- Pseudo-random Number Generator(PRNG)의 시드 분리로 독립 난수 스트림을 확보하고 Variance Reduction 기법(Importance Sampling 등)을 적용한다.
+- Pseudo-random Number Generator(PRNG)의 시드 분리로 독립 난수 스트림을 확보하고 분산 Reduction 기법(Importance Sampling 등)을 적용한다.
 
 ## Ⅶ. 결론
 

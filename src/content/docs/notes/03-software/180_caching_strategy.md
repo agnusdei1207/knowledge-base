@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -201,4 +201,4 @@ Write-Through 쓰기
 
 #### 한줄 요약
 
-- 조회 중심은 Cache-Aside로 시작하고 TTL•요청 병합•버전 무효화를 함께 설계해 속도와 원본 보호를 동시에 확보해야 한다.
+- 조회 중심은 캐싱 전략 선택 기준**에 따라 조회 중심은 **캐시 어사이드로 시작하고 TTL•요청 병합•버전 무효화를 함께 설계해 속도와 원본 보호를 동시에 확보해야 한다.

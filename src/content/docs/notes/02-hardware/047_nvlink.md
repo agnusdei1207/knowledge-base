@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고속 인터커넥트 (NVLink)"
-date: "2026-08-08T20:25:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 47
@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- NVLink는 GPU 사이에 고대역폭 피어 경로를 제공하고 NVSwitch는 다수 GPU의 다대다 경로를 구성해 집단 통신 병목을 줄인다.
+- 엔비디아 NVLink는 GPU 사이에 고대역폭 피어 경로를 제공하고 NVSwitch는 다수 GPU의 다대다 경로를 구성해 집단 통신 병목을 줄인다.
 
 ## Ⅱ. 특징
 
@@ -80,7 +80,7 @@ extra:
 
 #### 한줄 요약
 
-- NCCL이 경로를 정하면 NVLink와 NVSwitch가 GPU 사이의 데이터를 직접 전달한다.
+- NCCL이 경로를 정하면 엔비디아 NVLink와 NVSwitch가 GPU 사이의 데이터를 직접 전달한다.
 
 ## Ⅳ. 흐름도
 
@@ -126,7 +126,7 @@ extra:
 
 #### 한줄 요약
 
-- NCCL은 토폴로지에 맞춰 Reduce-Scatter에서 조각을 합산하고 All-Gather에서 완성 조각을 모든 GPU에 배포한다.
+- NCCL은 토폴로지에 맞춰 축소-분산에서 조각을 합산하고 전체-수집에서 완성 조각을 모든 GPU에 배포한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -146,7 +146,7 @@ extra:
 
 #### 한줄 요약
 
-- 소수 GPU의 빈번한 피어 통신은 직접 NVLink, 다수 GPU의 다대다 집단 통신은 NVSwitch, 범용 호스트·장치 연결은 PCIe가 적합하다.
+- 소수 GPU의 빈번한 피어 통신은 직접 엔비디아 NVLink, 다수 GPU의 다대다 집단 통신은 NVSwitch, 범용 호스트·장치 연결은 중앙 처리 장치가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -172,7 +172,7 @@ extra:
 
 #### 한줄 요약
 
-- GPU 배치를 NVLink•NVSwitch 경로에 맞추고 통신 조각을 조정해 All-Reduce의 느린 구간을 줄인다.
+- GPU 배치를 엔비디아 NVLink•NVSwitch 경로에 맞추고 통신 조각을 조정해 전체 축소의 느린 구간을 줄인다.
 
 ## Ⅶ. 결론
 
@@ -189,4 +189,4 @@ extra:
 
 #### 한줄 요약
 
-- 소수 GPU는 NVLink로 직접 연결하고 다수 GPU의 전대역 연결에는 NVSwitch를 적용한다.
+- 소수 GPU는 엔비디아 NVLink로 직접 연결하고 다수 GPU의 전대역 연결에는 NVSwitch를 적용한다.

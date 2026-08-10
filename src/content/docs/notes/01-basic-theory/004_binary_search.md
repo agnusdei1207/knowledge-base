@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "이진 탐색 (Binary Search)"
-date: "2026-08-08T02:24:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 4
@@ -58,7 +58,7 @@ extra:
 
 #### 한줄 요약
 
-- 입력 데이터(N)가 2배 확장되어도 비교 횟수는 1회 증가하는 점근적 로그 시간 $O(\log N)$ 성능을 제공하며 Lower/Upper Bound 탐색으로 확장 가능하다.
+- 입력 데이터(N)가 2배 확장되어도 비교 횟수는 1회 증가하는 점근적 로그 시간 $O(\log N)$ 성능을 제공하며 Lower/상한 탐색으로 확장 가능하다.
 
 ## Ⅲ. 구조 및 구성요소
 

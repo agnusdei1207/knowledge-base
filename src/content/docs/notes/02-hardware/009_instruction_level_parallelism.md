@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-08T12:28:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -140,7 +140,7 @@ ILP 실행 구조
 5. **순차 커밋•복구**: **정밀 복구**로 프로그램 순서대로 상태를 확정하거나 후속 결과를 폐기한다.
 
 #### 한줄 요약
-- Out-of-Order Execution으로 완료된 결과를 Reorder Buffer(ROB)를 통해 Program Order대로 In-order Commit한다.
+- Out-of-Order Execution으로 완료된 결과를 재정렬 버퍼(ROB)를 통해 Program Order대로 In-order Commit한다.
 
 ## Ⅴ. 종류 및 비교
 

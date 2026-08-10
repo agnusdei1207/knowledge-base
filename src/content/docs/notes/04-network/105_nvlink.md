@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -162,7 +162,7 @@ NVLink 인터커넥트
 
 #### 한줄 요약
 
-- 한 시스템의 GPU 통신은 NVLink, 범용 장치는 PCIe, 서버 밖 클러스터 통신은 InfiniBand나 RoCE가 맡는다.
+- 한 시스템의 GPU 통신은 NVLink, 범용 장치는 고속 주변기기 연결, 서버 밖 클러스터 통신은 InfiniBand나 통합 이더넷 기반 원격 직접 메모리 접근가 맡는다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

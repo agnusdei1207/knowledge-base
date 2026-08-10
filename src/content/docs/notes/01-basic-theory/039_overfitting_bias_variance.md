@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-08-08T07:30:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
@@ -61,7 +61,7 @@ extra:
 
 #### 한줄 요약
 
-- Model Capacity 증가 시 High Bias/Underfitting에서 High Variance/Overfitting으로 전이되며, Cross-Validation Minimum Error Point를 최적 Model Complexity로 선택한다.
+- Model Capacity 증가 시 High 편향/과소적합에서 High 분산/과적합으로 전이되며, Cross-Validation Minimum Error Point를 최적 Model Complexity로 선택한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -159,7 +159,7 @@ extra:
 
 #### 한줄 요약
 
-- High Bias 시 Model Capacity 증대/Feature Engineering, High Variance 시 Regularization/Data Augmentation/Ensemble 기법을 채택한다.
+- High 편향 시 Model Capacity 증대/Feature Engineering, High 분산 시 Regularization/Data Augmentation/Ensemble 기법을 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -184,7 +184,7 @@ extra:
 
 #### 한줄 요약
 
-- Validation Loss Curve 분기 발생 시 L2 Regularization, Early Stopping, Data Augmentation을 적용하고, High Bias 경향 시 Model Depth/Capacity를 확장한다.
+- Validation Loss Curve 분기 발생 시 L2 규제, Early Stopping, Data Augmentation을 적용하고, High 편향 경향 시 Model Depth/Capacity를 확장한다.
 
 ## Ⅶ. 결론
 
@@ -199,5 +199,5 @@ extra:
 
 #### 한줄 요약
 
-- Bias-Variance Trade-off 곡선의 Minimum Generalization Error 지점을 최적 모델 매개변수로 확정한다.
+- 편향-분산 Trade-off 곡선의 Minimum Generalization Error 지점을 최적 모델 매개변수로 확정한다.
 

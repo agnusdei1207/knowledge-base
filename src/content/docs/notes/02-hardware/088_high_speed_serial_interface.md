@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -154,7 +154,7 @@ extra:
 
 #### 한줄 요약
 
-- 범용 장치•충전은 USB, 외장 PCIe•다중 화면은 Thunderbolt가 적합하다.
+- 범용 장치•충전은 USB, 외장 고속 주변장치 상호연결•다중 화면은 Thunderbolt가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

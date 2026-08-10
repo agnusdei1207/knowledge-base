@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags: ["notes-software"]
 weight: 223
 extra:
@@ -183,7 +183,7 @@ extra:
 | 높은 **라벨 카디널리티(Label Cardinality)** | 라벨 차원•보존 기간 제한 | 저장•질의 비용 통제 |
 
 #### 한줄 요약
-- 결제 요청의 Span별 시간으로 병목 서비스를 찾음이 핵심이다.
+- 결제 요청의 작업 구간별 시간으로 병목 서비스를 찾음이 핵심이다.
 
 
 

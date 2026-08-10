@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-08T11:16:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -175,7 +175,7 @@ extra:
 | 분리 메모리의 **용량 고정** | 주기억을 공유하는 **수정 하버드 구조** 채택 | 코드·데이터 간 용량 재배분 |
 
 #### 한줄 요약
-- Cache Line Flush & Instruction Cache Invalidation(I-Cache Invalidation)을 통한 Cache Coherency 유지 및 Prefetch/Bus Pipeline 최적화를 수행한다.
+- Cache Line Flush & Instruction Cache Invalidation(I-Cache Invalidation)을 통한 Cache Coherency 유지 및 프리페치/Bus Pipeline 최적화를 수행한다.
 
 ## Ⅶ. 결론
 

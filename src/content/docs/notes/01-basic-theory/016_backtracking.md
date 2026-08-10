@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "백트래킹 (Backtracking)"
-date: "2026-08-08T04:03:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 16
@@ -34,7 +34,7 @@ extra:
 
 #### 한줄 요약
 
-- 상태 공간 트리(State Space Tree) 탐색 중 제약 조건을 위반하는 분기(Non-promising Node)를 Pruning(가지치기)하여 탐색 공간을 감축한다.
+- 상태 공간 트리(State Space Tree) 탐색 중 제약 조건을 위반하는 분기(Non-promising Node)를 가지치기(가지치기)하여 탐색 공간을 감축한다.
 
 
 ## Ⅱ. 특징
@@ -138,7 +138,7 @@ extra:
 
 #### 한줄 요약
 
-- 후보 선택 $\rightarrow$ State Assignment $\rightarrow$ Promising Test $\rightarrow$ (유망 시 하위 재귀 / 무망 시 State Rollback) 순서의 트래버설을 수행한다.
+- 후보 선택 $\rightarrow$ State Assignment $\rightarrow$ 유망성 Test $\rightarrow$ (유망 시 하위 재귀 / 무망 시 State Rollback) 순서의 트래버설을 수행한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -165,7 +165,7 @@ extra:
 
 #### 한줄 요약
 
-- 제약 충족 문제(CSP)에서 제약 위반 시 백트래킹, 최적화 문제에서 Bounding Function으로 전역 최적 가능성 상실 시 분기 한정(Branch and Bound)을 적용한다.
+- 제약 충족 문제(CSP)에서 제약 위반 시 백트래킹, 최적화 문제에서 경계ing Function으로 전역 최적 가능성 상실 시 분기 한정(Branch and Bound)을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -206,5 +206,5 @@ extra:
 
 #### 한줄 요약
 
-- 부분 문제 단계에서의 Early Pruning 가능 여부에 따라 백트래킹의 탐색 감축 효율이 결정된다.
+- 부분 문제 단계에서의 Early 가지치기 가능 여부에 따라 백트래킹의 탐색 감축 효율이 결정된다.
 

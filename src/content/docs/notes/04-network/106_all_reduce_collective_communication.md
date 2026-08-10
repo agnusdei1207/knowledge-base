@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "집합 통신 All-Reduce (All-Reduce Collective Communication)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags: ["notes-network"]
 weight: 106
 extra:
@@ -193,4 +193,4 @@ All-Reduce 호출
 
 #### 한줄 요약
 
-- All-Reduce는 단일 링크 속도보다 가장 느린 순위와 내부•외부 경로를 함께 보고 전체 완료 시간을 줄여야 한다.
+- 전체 축소는 단일 링크 속도보다 가장 느린 순위와 내부•외부 경로를 함께 보고 전체 완료 시간을 줄여야 한다.

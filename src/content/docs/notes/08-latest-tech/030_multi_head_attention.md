@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Multi-Head Attention (멀티 헤드 어텐션)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 30
@@ -171,7 +171,7 @@ extra:
 | MHA↔GQA 변환의 체크포인트 비호환 | **체크포인트 변환**과 회귀 시험 | 변환 후 품질•배포 안정성 확보 |
 
 #### 한줄 요약
-- **GQA•MQA**로 KV Cache•대역폭 병목을 완화한다.
+- **GQA•MQA**로 키-값 캐시•대역폭 병목을 완화한다.
 
 ## Ⅶ. 결론
 

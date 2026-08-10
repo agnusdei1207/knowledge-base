@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 응용 프로그래밍 인터페이스 설계 (Secure API Design)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -154,7 +154,7 @@ JWT 접근 토큰•API 요청
 
 #### 한줄 요약
 
-- 계층형 통제는 전체 경로, JWT는 주장, OAuth는 위임, mTLS는 통신 주체를 보호한다.
+- 계층형 통제는 전체 경로, JWT는 주장, OAuth는 위임, 상호 전송 계층 보안는 통신 주체를 보호한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

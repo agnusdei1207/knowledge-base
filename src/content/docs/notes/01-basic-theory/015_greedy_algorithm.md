@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "탐욕 알고리즘 (Greedy Algorithm)"
-date: "2026-08-08T03:55:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 15
@@ -158,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- Greedy Choice Property와 Exchange Argument로 전역 최적성을 입증하거나, Counterexample 수립 시 DP 또는 백트래킹으로 전환한다.
+- 탐욕 선택 속성와 교환 논증로 전역 최적성을 입증하거나, 반례 수립 시 DP 또는 백트래킹으로 전환한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -183,7 +183,7 @@ extra:
 
 #### 한줄 요약
 
-- Exchange Argument 기반 최적성 증명 및 엣지 케이스(Edge Case) 반례 검증으로 알고리즘 타당성을 학술적으로 입증한다.
+- 교환 논증 기반 최적성 증명 및 엣지 케이스(Edge Case) 반례 검증으로 알고리즘 타당성을 학술적으로 입증한다.
 
 ## Ⅶ. 결론
 

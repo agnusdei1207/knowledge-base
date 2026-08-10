@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "파이프라인 해저드: 데이터•제어•구조 (Pipeline Hazards)"
-date: "2026-08-08T12:10:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 7
@@ -31,10 +31,10 @@ extra:
 </details>
 
 - 정의/개념: **파이프라인 해저드**는 명령 중첩 시 데이터 의존•분기•자원 경합이 정상 실행을 방해하는 조건이다.
-- 배경/필요성: 해저드를 제어하지 않으면 잘못된 피연산자나 분기 경로를 실행할 수 있어 **포워딩**•**스톨**•**플러시**가 필요하다.
+- 배경/필요성: 해저드 미감지 시 잘못된 **피연산자**나 오분기 경로가 그대로 실행되어 연산 결과 오류 발생.
 
 #### 한줄 요약
-- Instruction Pipelining 시 발생하는 Structural/Data/Control Hazard를 Hazard Detection Unit과 Control Logic을 통해 즉각 감지 및 해소해야 한다.
+- 파이프라인에서 명령을 겹쳐 실행할 때 데이터 의존·분기·자원 경합으로 해저드가 발생하면, 감지 회로가 포워딩·스톨·플러시를 즉시 적용해 정상 흐름을 유지해야 한다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,7 @@ extra:
 - 해저드 발생 빈도와 해소에 필요한 지연 클록 수가 **CPI** 상승 폭을 결정한다.
 
 #### 한줄 요약
-- Hazard 발생 빈도와 Stall Cycle / Flush Penalty가 누적됨에 따라 Ideal CPI(1.0)에 추가적인 CPI Overhead가 가산된다.
+- 해저드 빈도와 스톨·플러시 비용이 누적될수록 이상 CPI(1.0) 위에 추가 오버헤드가 쌓여 명령 처리량이 떨어진다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -88,7 +88,7 @@ extra:
 | **자원 중재기** | 공유 자원의 사용 순서•스톨 결정 |
 
 #### 한줄 요약
-- Hazard Detection Unit이 Register Dependency 및 Resource Contention을 디코딩하고, Forwarding Unit, Branch Control Unit, Resource Arbiter가 수습 제어를 담당한다.
+- 해저드 감지기가 레지스터 의존성과 자원 충돌을 판별하고, 포워딩 경로·분기 제어기·자원 중재기가 원인별 수습을 담당한다.
 
 ## Ⅳ. 흐름도
 
@@ -130,7 +130,7 @@ extra:
 3. **파이프라인 상태 갱신**: **완화 제어 신호**로 다음 입력과 단계 진행 여부를 확정한다.
 
 #### 한줄 요약
-- Hazard Detection $\rightarrow$ Mitigation Strategy Selection(Forwarding / Stall / Flush / Arbitration) $\rightarrow$ Control Signal Assembly 및 State Update 순서로 처리된다.
+- 해저드 탐지 → 완화 방식 선택(포워딩·스톨·플러시·중재) → 제어 신호 조립과 파이프라인 상태 갱신 순서로 처리된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -156,7 +156,7 @@ extra:
 > 요약: 원인별 **포워딩**•**분기 예측**•**자원 복제**를 적용한다.
 
 #### 한줄 요약
-- Data Hazard는 Bypass/Forwarding/Stall, Control Hazard는 Branch Predictor/Flush, Structural Hazard는 Resource Duplication/Arbiter로 완화한다.
+- 데이터 해저드는 포워딩·스톨, 제어 해저드는 분기 예측·플러시, 구조적 해저드는 자원 복제·중재로 각각 완화한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -182,7 +182,7 @@ extra:
 | 단일 포트•연산기 경합 증가 | **자원 복제**•**다중 포트**•**중재 정책** 적용 | **구조적 해저드** 감소 |
 
 #### 한줄 요약
-- Load-Use Hazard 시 1-cycle Stall 및 Code Reordering(Scheduling)을 적용하고, Control Hazard 시 BTB/Dynamic Predictor, Structural Hazard 시 Multi-port RAM/Duplication 기법을 배정한다.
+- 적재-사용 의존에는 1사이클 스톨과 명령 스케줄링, 제어 해저드에는 BTB·동적 예측기, 구조적 해저드에는 다중 포트·자원 복제를 배정한다.
 
 ## Ⅶ. 결론
 
@@ -198,5 +198,5 @@ extra:
 - **완화 회로 선택 기준**에 따라 해저드별 **추가 CPI**와 **면적•전력 비용**을 비교해 포워딩•예측•자원 복제를 선택한다.
 
 #### 한줄 요약
-- Hazard Mitigation Unit 설계 시 $\Delta \text{CPI}$ 감소 폭과 Area/Power Overhead trade-off를 정밀 계측하여 하드웨어 자원을 할당한다.
+- 해저드 완화 회로 설계 시 추가 CPI 감소 폭과 면적·전력 비용의 절충을 계측하여 하드웨어 자원을 배분한다.
 

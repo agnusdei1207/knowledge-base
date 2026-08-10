@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - notes-security
 weight: 144
@@ -162,7 +162,7 @@ DevSecOps 통제 구조
 
 #### 한줄 요약
 
-- 왼쪽에서 예방하고 오른쪽에서 배운 결과를 다시 왼쪽으로 보내야 DevSecOps가 완성되는 것이 핵심이다.
+- 왼쪽에서 예방하고 오른쪽에서 배운 결과를 다시 왼쪽으로 보내야 개발•보안•운영가 완성되는 것이 핵심이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

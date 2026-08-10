@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 트랜잭션의 Complete Execution / All-or-Nothing(Atomicity), Consistency Preserving, Concurrency Control(Isolation), State Persistence(Durability)를 정립한다.
+- 트랜잭션의 Complete Execution / All-or-Nothing(Atomicity), 일관성 Preserving, Concurrency Control(Isolation), State Persistence(Durability)를 정립한다.
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,7 @@ extra:
 
 #### 한줄 요약
 
-- Atomicity(Undo Log/Rollback), Consistency(DB Constraints), Isolation(2PL/MVCC), Durability(WAL/Redo Log)의 상호 결합 메커니즘을 정의한다.
+- 원자성(Undo Log/Rollback), 일관성(DB Constraints), 격리성(2PL/MVCC), 지속성(WAL/Redo Log)의 상호 결합 메커니즘을 정의한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -139,7 +139,7 @@ extra:
 
 #### 한줄 요약
 
-- Concurrency Control Phase $\rightarrow$ Invariant Validation Phase $\rightarrow$ Write-Ahead Logging(WAL) Phase $\rightarrow$ Commit/Rollback Execution 흐름으로 진행된다.
+- Concurrency Control Phase $\rightarrow$ Invariant Validation Phase $\rightarrow$ 선행 기록 로그(WAL) Phase $\rightarrow$ Commit/롤백 Execution 흐름으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -160,7 +160,7 @@ extra:
 
 #### 한줄 요약
 
-- Strict Consistency/Financial Domain에는 ACID, High Availability & Scalability 분산 노드 환경에는 BASE(Basically Available, Soft-state, Eventual consistency)를 채택한다.
+- Strict 일관성/Financial Domain에는 ACID, High Availability & Scalability 분산 노드 환경에는 BASE(Basically Available, Soft-state, Eventual consistency)를 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -193,7 +193,7 @@ extra:
 
 #### 한줄 요약
 
-- Minimum Invariant Scope, Isolation Level Tuning, Idempotent Producer/Consumer 및 Saga Protocol(Compensating Transaction)을 적용한다.
+- Minimum Invariant Scope, 격리 수준 Tuning, Idempotent Producer/Consumer 및 Saga Protocol(Compensating Transaction)을 적용한다.
 
 ## Ⅶ. 결론
 
@@ -211,5 +211,5 @@ extra:
 
 #### 한줄 요약
 
-- Business Invariant, Isolation Level, Recovery Point/Time Objective(RPO/RTO) 요구사항에 맞추어 Transaction Boundary를 정밀 획정한다.
+- 업무 불변식, 격리 수준, Recovery Point/Time Objective(RPO/RTO) 요구사항에 맞추어 Transaction Boundary를 정밀 획정한다.
 

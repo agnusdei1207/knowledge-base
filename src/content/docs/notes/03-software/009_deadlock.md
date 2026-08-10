@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: 교착상태 조건•예방•회피•탐지•복구 (Deadlock)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags: [notes-software]
 weight: 9
 extra:
@@ -52,7 +52,7 @@ extra:
 
 #### 한줄 요약
 
-- Resource-allocation Graph 내의 Directed Cycle 형성이 Deadlock 발생의 필요충분/필요 조건이 된다.
+- 자원 할당 그래프 내의 Directed Cycle 형성이 교착상태 발생의 필요충분/필요 조건이 된다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -137,7 +137,7 @@ extra:
 
 #### 한줄 요약
 
-- Prevention(필요조건 제거) $\rightarrow$ Avoidance(Banker's Algorithm / Safe State 유지) $\rightarrow$ Detection & Recovery(Wait-for Graph & Victim Selection) 순으로 전략을 결정한다.
+- 예방(필요조건 제거) $\rightarrow$ 회피(Banker's Algorithm / Safe State 유지) $\rightarrow$ 탐지 & 복구(Wait-for Graph & Victim Selection) 순으로 전략을 결정한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -162,7 +162,7 @@ extra:
 
 #### 한줄 요약
 
-- Lock Order Enforcement는 Prevention, Max Resource Claim 파악은 Avoidance(Banker's Algorithm)를 채택한다.
+- Lock Order Enforcement는 예방, Max Resource Claim 파악은 회피(Banker's Algorithm)를 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -187,7 +187,7 @@ extra:
 
 #### 한줄 요약
 
-- Lock Hierarchy / Global Lock Ordering을 통한 Prevention과 Lock Timeout / Fencing Token 기반 분산 Deadlock 복구 기법을 적용한다.
+- Lock Hierarchy / 전역 잠금 획득 순서을 통한 예방과 Lock Timeout / 펜싱 토큰 기반 분산 교착상태 복구 기법을 적용한다.
 
 ## Ⅶ. 결론
 

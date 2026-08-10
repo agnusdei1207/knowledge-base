@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
-date: "2026-08-08T06:16:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 31
@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- Bayes' Theorem $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$를 통해 Prior Probability $P(H)$와 Likelihood $P(E \mid H)$를 결합하여 Evidence $E$ 관측 후의 Posterior Probability $P(H \mid E)$를 Update한다.
+- Bayes' Theorem $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$를 통해 사전 확률 $P(H)$와 우도 $P(E \mid H)$를 결합하여 Evidence $E$ 관측 후의 사후 확률 $P(H \mid E)$를 Update한다.
 
 ## Ⅱ. 특징
 
@@ -60,7 +60,7 @@ extra:
 
 #### 한줄 요약
 
-- Base Rate Fallacy(기저율의 오류)를 방지하기 위해 Evidence의 Sensitivity/Specificity뿐만 아니라 Prior Rate $P(H)$를 반영한 Positive Predictive Value(PPV)를 산출한다.
+- 기저율 Fallacy(기저율의 오류)를 방지하기 위해 Evidence의 민감도/특이도뿐만 아니라 Prior Rate $P(H)$를 반영한 양성 예측도(PPV)를 산출한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -133,7 +133,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Prior $P(H)$ $\times$ Likelihood $P(E \mid H)$의 곱을 Total Probability Theorem 기반 Marginal Likelihood $P(E) = \sum P(E \mid H_i)P(H_i)$로 Normalization하여 Posterior를 획정한다.
+- Prior $P(H)$ $\times$ 우도 $P(E \mid H)$의 곱을 Total Probability Theorem 기반 Marginal 우도 $P(E) = \sum P(E \mid H_i)P(H_i)$로 정규화하여 Posterior를 획정한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -155,7 +155,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Prior-Posterior Updating 중심의 Bayesian Inference와 Long-run Frequency/Fixed Parameter 기반 Frequentist Inference의 패러다임을 차등 적용한다.
+- Prior-Posterior Updating 중심의 Bayesian Inference와 Long-run Frequency/Fixed 모수 기반 Frequentist Inference의 패러다임을 차등 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -181,7 +181,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Naive Bayes의 Conditional Independence 가정이 깨질 경우 Joint Likelihood 모형화 및 Calibration / Retraining으로 Overshooting을 방지한다.
+- Naive Bayes의 Conditional Independence 가정이 깨질 경우 Joint 우도 모형화 및 Calibration / 재학습으로 Overshooting을 방지한다.
 
 ## Ⅶ. 결론
 
@@ -196,5 +196,5 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Rare Event Inference 시 Prior Rate 기저율 지정 후 Conditionally Independent Multi-Evidence Likelihood를 Sequential Updating 방식으로 수렴시킨다.
+- Rare Event Inference 시 Prior Rate 기저율 지정 후 Conditionally Independent Multi-Evidence 우도를 Sequential Updating 방식으로 수렴시킨다.
 

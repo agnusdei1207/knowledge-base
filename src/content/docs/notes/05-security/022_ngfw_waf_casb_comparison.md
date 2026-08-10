@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "차세대 방화벽 NGFW vs WAF vs CASB 비교 (NGFW WAF CASB Comparison)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -168,7 +168,7 @@ extra:
 
 #### 한줄 요약
 
-- 승인되지 않은 SaaS와 우회 경로를 지속적으로 탐지하여 계정•데이터 보호정책을 동일하게 적용해야 한다.
+- 승인되지 않은 서비스형 소프트웨어와 우회 경로를 지속적으로 탐지하여 계정•데이터 보호정책을 동일하게 적용해야 한다.
 
 ## Ⅶ. 결론
 

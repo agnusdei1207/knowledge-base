@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-08T10:04:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -163,7 +163,7 @@ extra:
 
 #### 한줄 요약
 
-- VGG는 동일 합성곱 계층을 반복 적층하고, ResNet은 잔차 연결로 입력을 후속 계층 출력에 더하며, EfficientNet은 깊이·너비·해상도를 복합 스케일링하는 구조이다.
+- VGG는 동일 합성곱 계층을 반복 적층하고, 잔차 신경망은 잔차 연결로 입력을 후속 계층 출력에 더하며, EfficientNet은 깊이·너비·해상도를 복합 스케일링하는 구조이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -205,4 +205,4 @@ extra:
 
 #### 한줄 요약
 
-- 심층 안정성이 우선이면 ResNet의 잔차 연결, 제한된 장치이면 EfficientNet의 경량 백본을 선택하는 과정이다.
+- 심층 안정성이 우선이면 잔차 신경망의 잔차 연결, 제한된 장치이면 EfficientNet의 경량 백본을 선택하는 과정이다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CPU 구성: ALU•CU•레지스터•버스 (CPU Components)"
-date: "2026-08-08T11:25:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 2
@@ -50,7 +50,7 @@ extra:
 - **클록 엣지**마다 연산 결과로 레지스터 상태를 동기 갱신한다.
 
 #### 한줄 요약
-- Control Unit의 Control Signals 생성에 의하여 Data Path의 MUX/ALU 연산이 선택되고, Clock Edge(Rising/Falling) 시점에 Flip-Flop 레지스터 상태가 동기화 갱신된다.
+- 제어장치의 Control Signals 생성에 의하여 Data Path의 MUX/ALU 연산이 선택되고, Clock Edge(Rising/Falling) 시점에 Flip-Flop 레지스터 상태가 동기화 갱신된다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -160,7 +160,7 @@ CPU
 | **상태 레지스터** | 플래그 레지스터 | 0•부호•캐리•오버플로 | 조건 분기와 예외의 판정 근거 |
 
 #### 한줄 요약
-- GPR은 피연산자/중간 연산값, Control/Status Register(PC, IR, PSR, SP)는 CPU의 Execution State 및 Control Flow 트래킹을 담당한다.
+- GPR은 피연산자/중간 연산값, Control/상태 레지스터(PC, IR, PSR, SP)는 CPU의 Execution State 및 Control Flow 트래킹을 담당한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -187,7 +187,7 @@ CPU
 | 데이터 경로 지연과 불일치한 **제어 신호 타이밍** | 최악 경로 기준 클록•제어 논리 검증 | **설정•유지 시간** 충족 |
 
 #### 한줄 요약
-- Multi-ported Register File, Forwarding Unit, Pipeline Hazard Detection/Interlock, Bus Arbiter 기법으로 Data Hazard 및 Bus Contention을 예방한다.
+- Multi-ported Register File, 포워딩 Unit, Pipeline Hazard Detection/Interlock, Bus Arbiter 기법으로 데이터 해저드 및 Bus Contention을 예방한다.
 
 ## Ⅶ. 결론
 

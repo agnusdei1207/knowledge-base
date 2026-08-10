@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-08-08T05:22:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- Boolean Algebra(부울 대수) 식 최소화를 통해 Truth Table의 등가성(Equivalence)을 유지하면서 Literal 및 Gate Count, Propagation Delay를 최적화한다.
+- 부울 대수(부울 대수) 식 최소화를 통해 진리표의 등가성(Equivalence)을 유지하면서 리터럴 및 Gate Count, 전파 지연를 최적화한다.
 
 
 ## Ⅱ. 특징
@@ -55,7 +55,7 @@ extra:
 
 #### 한줄 요약
 
-- Truth Table 기반 Minterm/Maxterm 도출 후 Karnaugh Map 또는 Quine-McCluskey 알고리즘으로 SOP/POS 2단 논리를 합성한다.
+- 진리표 기반 Minterm/Maxterm 도출 후 카르노 맵 또는 Quine-McCluskey 알고리즘으로 SOP/POS 2단 논리를 합성한다.
 
 
 
@@ -130,7 +130,7 @@ extra:
 
 #### 한줄 요약
 
-- Inverter $\rightarrow$ AND Plane (Minterm Generation) $\rightarrow$ OR Plane (Function Aggregation)의 Two-level Logic Network로 구현한다.
+- 입력 인버터 $\rightarrow$ AND Plane (Minterm Generation) $\rightarrow$ OR Plane (Function Aggregation)의 2단 논리 Network로 구현한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -182,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- Formal Equivalence Checking을 통해 논리적 등가성을 검증하고, Hazard/Glitch 방지를 위한 Consensus Term 추가 및 Critical Path Timing Constraint를 만족시킨다.
+- 형식 등가성 Checking을 통해 논리적 등가성을 검증하고, Hazard/글리치 방지를 위한 합의항 추가 및 임계 경로 Timing Constraint를 만족시킨다.
 
 
 ## Ⅶ. 결론

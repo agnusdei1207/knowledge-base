@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 프로세스 vs 스레드 (Process vs Thread)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags: [notes-software]
 weight: 1
 extra:
@@ -183,7 +183,7 @@ extra:
 
 #### 한줄 요약
 
-- 웹 브라우저 탭(Tab)별 Multi-process Architecture 적용 및 Watchdog 기반 프로세스 Supervisor/Restart 패턴을 도입하여 Fault Isolation을 보장한다.
+- 웹 브라우저 탭(Tab)별 Multi-process Architecture 적용 및 Watchdog 기반 프로세스 Supervisor/재시작 패턴을 도입하여 Fault Isolation을 보장한다.
 
 ## Ⅶ. 결론
 

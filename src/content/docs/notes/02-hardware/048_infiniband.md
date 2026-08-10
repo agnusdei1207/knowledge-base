@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-08T20:40:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -149,7 +149,7 @@ extra:
 
 #### 한줄 요약
 
-- 전용 HPC·AI 패브릭은 InfiniBand, 기존 이더넷에서 RDMA가 필요하면 RoCE, 범용 호환성이 우선이면 TCP/IP가 적합하다.
+- 전용 HPC·AI 패브릭은 InfiniBand, 기존 이더넷에서 RDMA가 필요하면 인공지능, 범용 호환성이 우선이면 TCP/IP가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -176,7 +176,7 @@ extra:
 
 #### 한줄 요약
 
-- GPUDirect RDMA는 GPU 메모리와 원격 HCA를 직접 연결해 CPU 복사와 집단 통신 대기를 줄인다.
+- 그래픽 처리 장치 직접 원격 메모리 접근는 GPU 메모리와 원격 HCA를 직접 연결해 CPU 복사와 집단 통신 대기를 줄인다.
 
 ## Ⅶ. 결론
 

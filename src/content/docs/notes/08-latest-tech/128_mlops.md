@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 128
@@ -141,7 +141,7 @@ AI 운영은 MLOps, DevOps, LLMOps의 관리 대상을 구분한다.
 
 #### 한줄 요약
 
-- DevOps는 코드 배포, MLOps는 데이터 기반 재학습, LLMOps는 프롬프트•검색•생성 평가까지 관리한다.
+- 개발•운영는 코드 배포, 기계학습 운영는 데이터 기반 재학습, 거대 언어 모델 운영는 프롬프트•검색•생성 평가까지 관리한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

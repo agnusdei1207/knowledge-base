@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -144,7 +144,7 @@ extra:
 
 #### 한줄 요약
 
-- 규칙 기반은 경보별 고정 기준을 보고 AIOps는 여러 신호의 시간•서비스 관계를 하나의 사건으로 해석한다.
+- 규칙 기반은 경보별 고정 기준을 보고 인공지능 기반 정보기술 운영는 여러 신호의 시간•서비스 관계를 하나의 사건으로 해석한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

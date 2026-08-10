@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -136,7 +136,7 @@ O-RAN
 
 #### 한줄 요약
 
-- 장기 목표를 받은 xApp이 기지국 상태를 보고 설정을 바꾼 뒤 결과를 다시 확인한다.
+- 장기 목표를 받은 확장 응용이 기지국 상태를 보고 설정을 바꾼 뒤 결과를 다시 확인한다.
 
 ## Ⅴ. 종류 및 비교
 

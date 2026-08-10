@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 40%"
     variant: note
 title: "Edge TPU (엣지 텐서 처리 장치)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 53
@@ -174,4 +174,4 @@ CPU•GPU•Edge TPU는 범용성과 전력 효율이 다르다.
 - **INT8 품질•지원률** 충족 시 Edge TPU, 미지원 연산은 **CPU 폴백**이 핵심이다.
 
 #### 한줄 요약
-- **INT8 품질•지원률**에 따라 Edge TPU 배치를 결정한다.
+- **INT8 품질•지원률**에 따라 엣지 텐서 처리장치 배치를 결정한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (Large Language Model Operations)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 129
@@ -140,7 +140,7 @@ AI 운영에서 LLMOps는 생성 응답 구성을, MLOps는 예측 모델의 학
 
 #### 한줄 요약
 
-- MLOps는 데이터로 예측 모델을 재학습하고 LLMOps는 프롬프트•검색•모델 조합의 응답을 평가한다.
+- 기계학습 운영는 데이터로 예측 모델을 재학습하고 거대 언어 모델 운영는 프롬프트•검색•모델 조합의 응답을 평가한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 

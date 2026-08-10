@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "오토마타 이론: DFA•NFA (Automata Theory)"
-date: "2026-08-08T04:38:00+09:00"
+date: "2026-08-10T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -36,7 +36,7 @@ extra:
 
 #### 한줄 요약
 
-- 입력 알파벳 $\Sigma$에 대한 State Transition Function $\delta(q, a)$의 결정적/비결정적 매핑을 통해 정규 언어(Regular Language)의 수용 여부(Acceptance)를 판정한다.
+- 입력 알파벳 $\Sigma$에 대한 State 전이 함수 $\delta(q, a)$의 결정적/비결정적 매핑을 통해 정규 언어(Regular Language)의 수용 여부(Acceptance)를 판정한다.
 
 
 ## Ⅱ. 특징
@@ -192,7 +192,7 @@ extra:
 
 #### 한줄 요약
 
-- Lazy Determinization / On-the-fly Subset Construction 기법을 적용하여 DFA State Explosion 및 ReDoS 취약점을 방지한다.
+- Lazy 결정화 / On-the-fly Subset Construction 기법을 적용하여 DFA 상태 폭증 및 정규식 서비스 거부 취약점을 방지한다.
 
 
 ## Ⅶ. 결론
