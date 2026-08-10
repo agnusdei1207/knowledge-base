@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비대칭 암호화 (Asymmetric Encryption)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-security"
 weight: 2
@@ -31,7 +31,7 @@ extra:
 </details>
 
 - 정의/개념: 공개키•개인키로 **키 설정•전자서명**을 수행하는 **비대칭키 암호**이다.
-- 배경/필요성: 송수신자 간 대칭 비밀키를 사전에 안전하게 분배하고 관리하는 데 있어 심각한 어려움(Key Distribution Problem)이 존재한다.
+- 배경/필요성: 대칭키 암호 방식은 송수신자 간 비밀키의 사전 안전 분배 및 관리 복잡도(Key Distribution Problem)라는 한계가 존재한다.
 
 #### 한줄 요약
 

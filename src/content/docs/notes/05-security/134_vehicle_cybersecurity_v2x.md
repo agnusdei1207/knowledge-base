@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 차량 사이버 보안 — V2X 위협 (Vehicle Cybersecurity V2X)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - notes-security
 weight: 134
@@ -173,7 +173,7 @@ extra:
 |:---|:---|:---|
 | 설계 단계 위험이 운영 중 차량군까지 이어짐 | **ISO**•**SAE**의 **ISO/SAE 21434** 적용 | 보안 목표•증거 추적 |
 | 제조사 위험관리가 없으면 형식별 대응이 단절됨 | **UN**의 **UN Regulation 155** 준수 | CSMS•차량 위험 지속 관리 |
-| 업데이트 이력이 없으면 안전성과 호환성을 입증하기 어려움 | **UN Regulation 156** 준수 | SUMS•업데이트 추적성 |
+| 무선 업데이트 이력 및 소프트웨어 호환성 입증의 한계 | **UN Regulation 156** 준수 | SUMS•업데이트 추적성 |
 
 #### 한줄 요약
 
