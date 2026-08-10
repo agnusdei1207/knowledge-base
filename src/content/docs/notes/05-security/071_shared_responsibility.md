@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 보안 공유 책임 모델 (Cloud Shared Responsibility)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-10T10:30:00+09:00"
 tags:
   - "notes-security"
 weight: 71
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **통제 소유권**으로 제공자•고객의 수행 책임을 지정한다.
-- IaaS•PaaS•SaaS에 따라 고객 관리 범위가 달라진다.
+- 서비스형 인프라•서비스형 플랫폼•서비스형 소프트웨어에 따라 고객 관리 범위가 달라진다.
 - 계약•설정•로그 같은 **운영 증적**으로 책임 이행을 확인한다.
 
 #### 한줄 요약
