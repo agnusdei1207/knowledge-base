@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- Total Expected Error $E[(y - \hat{f}(x))^2] = \text{Bias}^2(\hat{f}(x)) + \text{Var}(\hat{f}(x)) + \sigma^2$ 분해 수식에 의거하여 Generalization Gap 및 Validation Loss minimum 지점을 탐색한다.
+- 총 기대 오차 $E[(y - \hat{f}(x))^2] = \text{Bias}^2(\hat{f}(x)) + \text{Var}(\hat{f}(x)) + \sigma^2$ 분해식에 따라 일반화 격차 및 검증 손실 최소 지점을 탐색한다.
 
 ## Ⅱ. 특징
 

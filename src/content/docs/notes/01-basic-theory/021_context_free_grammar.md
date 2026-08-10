@@ -35,7 +35,7 @@ extra:
 
 #### 한줄 요약
 
-- 단일 Non-terminal symbol 좌변을 둔 생성 규칙 $A \rightarrow \alpha$의 재귀적 적용을 통해 임의 깊이의 Nested Structure를 기술한다.
+- 단일 비단말 기호 좌변을 둔 생성 규칙 $A \rightarrow \alpha$의 재귀적 적용을 통해 임의 깊이의 중첩 구조를 기술한다.
 
 ## Ⅱ. 특징
 
@@ -55,7 +55,7 @@ extra:
 
 #### 한줄 요약
 
-- Context-Independent Substitution으로 무제한 유도를 수행하되, 동일 문자열에 2개 이상의 구문 트리가 생성되면 Ambiguous Grammar로 분류한다.
+- 문맥 독립적 치환으로 무제한 유도를 수행하되, 동일 문자열에 2개 이상의 구문 트리가 생성되면 모호한 문법으로 분류한다.
 
 
 ## Ⅲ. 구조 및 구성요소

@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 각 단계에서의 국소 최적 선택(Local Optimal Choice)을 되돌림 없이(Irrevocable) 누적하여 해를 구축한다.
+- 각 단계에서의 국소 최적 선택을 되돌림 없이 누적하여 해를 구축한다.
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- 탐욕 선택 속성(Greedy Choice Property)과 최적 부분 구조(Optimal Substructure)가 성립할 때 전역 최적해(Global Optimum)가 보장된다.
+- 탐욕 선택 속성과 최적 부분 구조가 성립할 때 전역 최적해가 보장된다.
 
 ## Ⅲ. 구조 및 구성요소
 
