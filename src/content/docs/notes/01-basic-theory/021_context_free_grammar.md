@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -188,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- Elimination of 좌재귀, 좌인수분해, FIRST/FOLLOW Set 기반의 파싱표 구축으로 LL/LR 파싱 충돌를 해소한다.
+- 좌재귀 제거, 좌인수분해, FIRST/FOLLOW 집합 기반의 파싱표 구축으로 LL/LR 파싱 충돌을 해소한다.
 
 ## Ⅶ. 결론
 
