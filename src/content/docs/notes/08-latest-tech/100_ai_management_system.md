@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 인공지능(Artificial Intelligence, AI) 경영시스템(Artificial Intelligence Management System, AIMS)의 수립•운영•개선 요구사항을 정한 **국제표준화기구•국제전기기술위원회(International Organization for Standardization/International Electrotechnical Commission, ISO/IEC) 42001 표준**이다.
-- 배경/필요성: 개별 모델 점검만으로는 조직의 AI 책임•위험에 대한 **지속 관리할 수 없다**.
+- 배경/필요성: 개별 모델 점검만으로는 조직의 AI 책임•위험에 대한 **지속 관리**가 어렵다.
 
 #### 한줄 요약
 
