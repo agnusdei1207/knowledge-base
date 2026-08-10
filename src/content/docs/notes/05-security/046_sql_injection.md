@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SQL 인젝션 (SQL Injection)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-security"
 weight: 46
@@ -164,7 +164,7 @@ SQL 실행 경계
 <details>
 <summary>핵심 용어</summary>
 
-- **MITRE CWE-89**: SQL 특수 요소의 부적절한 중화를 정의한 공통 약점 분류이다.
+- **MITRE CWE-89**: 입력값 검토 및 특수 문자 필터링 누락으로 발생하는 SQL 인젝션 약점을 정의한 공통 약점 분류이다.
 - **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 애플리케이션 보안 지침을 공개하는 비영리 프로젝트이다.
 - **애플리케이션 보안 검증 표준(Application Security Verification Standard, ASVS) 5.0.0**: 인젝션 방지 요구사항을 제시하는 검증 표준판이다.
 

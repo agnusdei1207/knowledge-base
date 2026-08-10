@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -153,7 +153,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **출력 통제 수준(Output-control Level)**: 오류 유형과 업무 영향에 따라 수정•보류•거절 중 적절한 조치를 선택한 결과이다.
+- **출력 통제 수준(Output-control Level)**: 환각 오류 유형과 업무 리스크 크기에 따라 자동 수정, 인간 재검토, 응답 거절을 차등 적용하는 제어 수준이다.
 
 </details>
 

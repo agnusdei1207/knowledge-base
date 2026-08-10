@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-software"
 weight: 77
@@ -215,7 +215,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **위험 수용 원칙 선택 기준**: 검증된 참조 시스템의 존재 여부와 추가 저감의 합리성 판단 필요에 따라 GAMAB와 ALARP 적용 범위를 정하는 기준이다.
+- **위험 수용 원칙 선택 기준**: 검증된 참조 시스템과의 동등성 또는 리스크 저감 비용의 합리성에 따라 GAMAB과 ALARP의 적용 대상을 구분하는 판단 기준이다.
 
 </details>
 

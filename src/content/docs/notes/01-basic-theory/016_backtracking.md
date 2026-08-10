@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "백트래킹 (Backtracking)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-10T23:40:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 16
@@ -165,7 +165,7 @@ extra:
 
 #### 한줄 요약
 
-- 제약 충족 문제(CSP)에서 제약 위반 시 백트래킹, 최적화 문제에서 경계ing Function으로 전역 최적 가능성 상실 시 분기 한정(Branch and Bound)을 적용한다.
+- 제약 충족 문제(CSP)에서 제약 위반 시 백트래킹, 최적화 문제에서 경계 함수(Bounding Function)로 전역 최적 가능성 상실 시 분기 한정을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
