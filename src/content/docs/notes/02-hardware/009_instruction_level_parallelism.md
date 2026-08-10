@@ -33,7 +33,7 @@ extra:
 - 배경/필요성: 순차 발행은 독립 명령이 있어도 **실행 유닛**을 유휴 상태로 두어 **IPC**를 제한한다.
 
 #### 한줄 요약
-- Data-Independent Instructions를 Superscalar Issue Width만큼 Multiple Execution Units에 동시 Dispatch하여 Single-thread IPC를 극대화한다.
+- 의존성이 없는 독립 명령어를 슈퍼스칼라 발행 폭만큼 다중 실행 유닛에 동시 디스패치하여 단일 스레드 처리량(IPC)을 극대화한다.
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,8 @@ extra:
 - **비순서 실행**•**순차 커밋**으로 병렬 실행과 정확한 상태 확정을 양립시킨다.
 
 #### 한줄 요약
-- Issue Width를 확장해도 RAW Dependency Chain, Branch Misprediction, Memory Latency에 의해 Issue Slot Utilization이 제한된다.
+
+- 발행 폭을 확장해도 데이터 의존성 사슬, 분기 오예측, 메모리 지연으로 인해 발행 슬롯 활용률이 제한된다.
 
 ## Ⅲ. 구조 및 구성요소
 

@@ -31,12 +31,12 @@ extra:
 
 </details>
 
-- 정의/개념: **ISA**의 명령 복잡도•길이•메모리 접근 방식에 따라 **RISC**와 **CISC** 설계로 구분한다.
-- 배경/필요성: 복합 가변 길이 명령의 경계 판정•변환은 **해독 처리량**을 제한하므로 코드 밀도•호환성과의 **설계 절충**이 필요하다.
+- 정의/개념: 명령어 복잡도, 길이 규칙, 메모리 접근 방식에 따라 축소형과 복합형으로 대립되는 **명령어 집합 아키텍처(ISA) 설계 방식**이다.
+- 배경/필요성: 복합 가변 길이 명령어 체계에서는 해독 회로가 복잡해져 파이프라인 단계를 고속화하고 병렬 처리를 확장하는 데 한계가 있다.
 
 #### 한줄 요약
 
-- RISC는 Fixed-length Instruction, Load/Store Architecture로 Pipeline Latency를 극소화하고, CISC는 Variable-length Instruction, Memory-to-Memory Operations로 Code Density를 극대화한다.
+- RISC는 고정 길이 명령어와 로드·스토어 구조로 파이프라인 지연을 최소화하고, CISC는 가변 길이 명령어와 다양한 메모리 연산으로 코드 밀도를 높인다.
 
 ## Ⅱ. 특징
 
@@ -56,7 +56,7 @@ extra:
 
 #### 한줄 요약
 
-- 동일 ISA 라도 Microarchitecture Implementation(Pipeline Depth, Out-of-Order Engine, Decoder Array)에 따라 CPI(Cycles Per Instruction)와 Power Dissipation이 결정된다.
+- 동일한 ISA라도 파이프라인 깊이, 비순차 실행 엔진 등 마이크로아키텍처 구현 방식에 따라 명령당 주파수(CPI)와 전력 소비 특성이 달라진다.
 
 
 ## Ⅲ. 구조 및 구성요소
