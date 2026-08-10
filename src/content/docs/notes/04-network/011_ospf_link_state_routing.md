@@ -32,7 +32,7 @@ extra:
 </details>
 
 - 정의/개념: **OSPF**는 **IGP**로서 **LSA**를 공유해 **LSDB**를 동기화하고 **SPF**로 최단 경로를 계산한다.
-- 배경/필요성: 거리 벡터의 느린 수렴과 루프 한계를 해소해야 한다.
+- 배경/필요성: 거리 벡터(Distance Vector) 방식 고유의 느린 수렴(Slow Convergence) 및 무한 루프(Routing Loop) 문제가 발생한다.
 
 #### 한줄 요약
 

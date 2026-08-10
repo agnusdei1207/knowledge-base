@@ -34,7 +34,7 @@ extra:
 
 #### 한줄 요약
 
-- Heterogeneous Network & Application 간의 Decoupling을 위해 IP(Internet Protocol) 계층을 중심으로 하는 Hourglass (Thin-Waist) Architecture를 적용한다.
+- 이기종 네트워크 및 응용 간의 결합도 분리를 위해 IP 계층 중심의 모래시계(Thin-Waist) 아키텍처를 적용한다.
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- End-to-End Principle에 따라 Intermediate Routers는 Best-Effort Packet Forwarding만 수행하고, End-Host Transport Layer(TCP)에서 Reliability and Congestion Control을 전담한다.
+- 종단 간 원칙(End-to-End Principle)에 따라 중간 라우터는 최선형 패킷 전송만 수행하고 종단 호스트의 TCP가 신뢰성 및 혼잡 제어를 전담한다.
 
 
 ## Ⅲ. 구조 및 구성요소

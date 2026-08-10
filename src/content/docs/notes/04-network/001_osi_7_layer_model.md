@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- Heterogeneous System 간의 상호운용성(Interoperability) 보장 및 Layered Architecture 기반의 Fault Isolation(장애 격리)을 제공한다.
+- 이기종 시스템 간 상호운용성 보장 및 계층화 아키텍처 기반 장애 격리 기능을 제공한다.
 
 ## Ⅱ. 특징
 
@@ -52,7 +52,7 @@ extra:
 
 #### 한줄 요약
 
-- Layer Decoupling 및 Defined Service Interface(SAP)를 통해 하위 계층 구현 변경이 상위 계층에 미치는 영향도를 억제한다.
+- 계층 결합도 분리와 서비스 접근점(SAP) 정의를 통해 하위 계층 변경이 상위 계층에 미치는 파급 효과를 차단한다.
 
 
 ## Ⅲ. 구조 및 구성요소
