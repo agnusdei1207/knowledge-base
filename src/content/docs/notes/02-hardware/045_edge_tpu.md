@@ -154,7 +154,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **대표 보정 데이터(Representative Calibration Data)**: 실제 입력 분포를 대표하여 정수 양자화의 값 범위와 스케일을 정하는 데이터이다.
+- **대표 보정 데이터(Representative Calibration Data)**: 입력 분포를 대표하여 정수 양자화의 값 범위와 스케일을 정하는 데이터이다.
 - **지원 연산자 대체(Operator Substitution)**: 비지원 연산을 의미가 같은 지원 연산 조합으로 바꾸어 가속 구간을 넓히는 작업이다.
 - **원자적 모델 교체(Atomic Model Replacement)**: 새 모델을 완전히 검증한 뒤 한 번의 전환으로 활성 모델을 바꾸는 배포 방식이다.
 - **모델 롤백(Model Rollback)**: 새 모델의 정확도나 호환성에 문제가 생기면 이전 정상 모델로 되돌리는 복구 절차이다.

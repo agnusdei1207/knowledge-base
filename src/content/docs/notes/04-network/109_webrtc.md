@@ -41,7 +41,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: 후보 쌍의 연결성을 검사해 실제 경로를 선택하는 절차이다.
+- **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: 후보 쌍의 연결성을 검사해 경로를 선택하는 절차이다.
 - **NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN)**: NAT 밖에서 보이는 공인 주소를 확인하는 프로토콜이다.
 - **NAT 릴레이 통과(Traversal Using Relays around NAT, TURN)**: 직접 연결 실패 시 중계 경로를 제공하는 프로토콜이다.
 - **세션 기술 프로토콜(Session Description Protocol, SDP)**: 코덱•주소•전송 방향을 기술하는 형식이다.
@@ -146,7 +146,7 @@ WebRTC 통신 구조
 
 #### 한줄 요약
 
-- 통화 형식을 합의하고 직접 주소와 중계 주소를 시험해 실제로 되는 길을 선택한 뒤 암호키를 만들고 미디어를 보낸다.
+- 통화 형식을 합의하고 직접 주소와 중계 주소를 시험해 되는 길을 선택한 뒤 암호키를 만들고 미디어를 보낸다.
 
 ## Ⅴ. 종류 및 비교
 

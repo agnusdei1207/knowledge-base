@@ -61,7 +61,7 @@ extra:
 - **게스트 VM(Guest VM)**: 가상 하드웨어에서 운영체제와 응용을 실행하는 구성이다.
 - **하이퍼바이저 제어부(Hypervisor Control)**: VM별 물리 자원 배정과 격리를 중재하는 구성이다.
 - **호스트 OS(Host OS)**: Type 2에서 프로세스•메모리•장치 서비스를 제공하는 구성이다.
-- **물리 하드웨어(Physical Hardware)**: CPU•메모리•장치의 실제 실행 자원을 제공하는 구성이다.
+- **물리 하드웨어(Physical Hardware)**: CPU•메모리•장치의 실행 자원을 제공하는 구성이다.
 
 </details>
 

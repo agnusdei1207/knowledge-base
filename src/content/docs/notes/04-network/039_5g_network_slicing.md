@@ -169,7 +169,7 @@ SLA 요구 입력
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 서비스 성능을 측정해 SLA 달성 여부를 판단하는 공통 품질 지표이다.
+- **서비스 수준 지표(Service Level Indicator, SLI)**: 서비스 성능을 측정해 SLA 달성 여부를 판단하는 공통 품질 지표이다.
 
 </details>
 

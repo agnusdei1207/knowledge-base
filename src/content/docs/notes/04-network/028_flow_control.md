@@ -42,14 +42,14 @@ extra:
 
 - **수신 윈도(Receive Window, rwnd)**: 수신 버퍼 여유를 나타내는 미확인 전송 한도이다.
 - **혼잡 윈도(Congestion Window, cwnd)**: 경로 혼잡 상태를 반영한 미확인 전송 한도이다.
-- **실제 윈도(Effective Window)**: rwnd와 cwnd 중 작은 실제 송신 한도이다.
+- **실제 윈도(Effective Window)**: rwnd와 cwnd 중 작은 송신 한도이다.
 - **확인 응답(Acknowledgment, ACK)**: 누적 수신 번호와 수신 상태를 알리는 응답이다.
 - **느린 시작 임계값(Slow Start Threshold, ssthresh)**: 혼잡 윈도 증가 방식을 전환하는 기준값이다.
 </details>
 
 ![수신 윈도와 혼잡 윈도 중 작은 값으로 제한되는 송신 가능량](/study/diagrams/tcp-effective-window.svg)
 
-> 수신 윈도를 64KiB로 고정한 예시에서 초록 실제 송신 한도는 cwnd가 더 작을 때 함께 증가하지만 64KiB 이후에는 rwnd에 막히며, 실제 값은 연결의 ACK와 혼잡 신호에 따라 계속 변한다.
+> 수신 윈도를 64KiB로 고정한 예시에서 초록 송신 한도는 cwnd가 더 작을 때 함께 증가하지만 64KiB 이후에는 rwnd에 막히며, 값은 연결의 ACK와 혼잡 신호에 따라 계속 변한다.
 
 - **rwnd**는 수신 버퍼 여유를 광고한다.
 - **cwnd**는 네트워크 혼잡 한도를 추정한다.
@@ -194,4 +194,4 @@ extra:
 
 #### 한줄 요약
 
-- rwnd가 작으면 수신 버퍼·응용 소비율을 개선하고, cwnd가 작으면 혼잡 제어 파라미터를 조정하여 실제 병목부터 해소한다.
+- rwnd가 작으면 수신 버퍼·응용 소비율을 개선하고, cwnd가 작으면 혼잡 제어 파라미터를 조정하여 병목부터 해소한다.

@@ -24,7 +24,7 @@ extra:
 
 - **전력사용효율(Power Usage Effectiveness, PUE)**: 데이터센터 전체 시설 에너지를 IT 장비 에너지로 나누어 비IT 시설 오버헤드를 나타내는 지표이다.
 - **전체 시설 에너지(Total Facility Energy)**: 데이터센터 인입 경계 안에서 IT 장비와 냉각 및 배전 설비가 소비한 총에너지이다.
-- **정보기술 장비 에너지(Information Technology Equipment Energy, IT Equipment Energy)**: 서버와 스토리지 및 네트워크 장비가 실제 계산과 저장•전송에 소비한 에너지이다.
+- **정보기술 장비 에너지(Information Technology Equipment Energy, IT Equipment Energy)**: 서버와 스토리지 및 네트워크 장비가 계산과 저장•전송에 소비한 에너지이다.
 
 </details>
 

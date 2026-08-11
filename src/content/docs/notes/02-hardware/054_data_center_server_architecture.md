@@ -41,7 +41,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **종단 병목(End-to-end Bottleneck)**: 요청 경로에서 처리량이 가장 낮아 전체 성능을 제한하는 자원이나 구간이다.
-- **랙 전력 밀도(Rack Power Density)**: 하나의 랙에 공급하고 냉각할 수 있는 전력 용량과 실제 장비 소비 전력의 수준이다.
+- **랙 전력 밀도(Rack Power Density)**: 하나의 랙에 공급하고 냉각할 수 있는 전력 용량과 장비 소비 전력의 수준이다.
 - **그래픽 처리 장치(Graphics Processing Unit, GPU)**: 대규모 데이터 병렬 연산을 처리하는 프로세서이다.
 - **열 스로틀링(Thermal Throttling)**: 온도 한도를 지키도록 CPU•GPU 처리량을 낮추는 제어 현상이다.
 - **관리망(Management Network)**: 서비스 데이터망과 분리하여 서버 전원•콘솔•펌웨어의 원격 관리에 사용하는 네트워크이다.
