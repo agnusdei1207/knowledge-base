@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 대용량 단일 테이블을 파티션 키(Range, Hash, List) 기준으로 물리적 독립 파일로 분할하여 **Partition Pruning**을 통해 I/O 성능을 극대화하고 데이터 수명주기를 관리하는 기법인 **Table Partitioning**
-- 배경/필요성: 단일 거대 테이블(수억 건+) 스캔 시 발생하는 I/O 병목 해소, 오래된 과거 이력 데이터의 손쉬운 백업 및 일괄 삭제(DROP PARTITION) 운용 필요성
+- **정의**: 대용량 단일 테이블을 파티션 키(`Range`, `Hash`, `List`) 기준으로 물리적 독립 파일로 분할하여 **파티션 프루닝(Partition Pruning)** 을 통해 입출력 성능을 극대화하고 데이터 수명주기를 관리하는 기법.
+- **필요성**: 단일 거대 테이블(수억 건 이상) 스캔 시 발생하는 I/O 병목 해소 및 과거 이력 데이터의 일괄 삭제(`DROP PARTITION`)를 통한 관리 효율화.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Partition Pruning**을 통한 디스크 I/O 대폭 감소
-- **High Availability & Manageability (파티션 단위 백업/복구/삭제)**
-- **Global Index 대 Local Index** 간의 락/인덱스 관리 Trade-off
+- **파티션 프루닝(Partition Pruning)**: 조건에 부합하는 특정 파티션만 선별적으로 스캔하여 디스크 I/O 대폭 감소.
+- **수명주기 관리(Lifecycle Management)**: 파티션 단위 백업, 복구 및 일괄 삭제 수행.
+- **인덱스 관리**: 로컬 인덱스(Local Index)와 글로벌 인덱스(Global Index) 간 락/관리 효율성 비교.
 
 #### 한줄 요약
 
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- **파티셔닝 수립 기준**에 따라 수억 건 대용량 이력 DB 설계 시 **Range Partitioning & Local Index** 필수 적용
+- **파티셔닝 수립 기준 적용** (수억 건 대용량 이력 DB 설계 시 `Range Partitioning` 및 `Local Index` 필수 수용)
 
 #### 한줄 요약
 
