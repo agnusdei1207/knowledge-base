@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 59
-  label: "059. VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
+  label: "059. VXLAN과 오버레이 네트워크 (VXLAN Overlay)"
   badge:
     text: "기출 • 50%"
     variant: note
-title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay Network)"
+title: "VXLAN과 오버레이 네트워크 (VXLAN Overlay)"
 date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
@@ -13,8 +13,9 @@ weight: 59
 extra:
   question_no: "059"
   source_status: "기출"
-  source_history: "123회"
+  source_history: "135회"
   priority: 50
+  priority_note: "구조•설계형: 135회 VXLAN 장문 출제"
 ---
 
 ## Ⅰ. 개요
@@ -22,155 +23,157 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **가상 확장 근거리 통신망(Virtual Extensible LAN, VXLAN)**: 기존 L2 이더넷 프레임을 L4 UDP 및 L3 IP 패킷으로 캡슐화(MAC-in-UDP)하여 L3 라우팅 네트워크 상에서 논리적인 L2 오버레이 네트워크를 구축하는 광역 터널링 프로토콜 기술이다.
-- **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 12비트 IEEE 802.1Q 태그 식별자를 활용하여 단일 물리적 L2 브로드캐스트 도메인을 논리적으로 분할하는 네트워크 가상화 기술이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 송수신 간 연결 설정 과정 없이 패킷을 빠른 속도로 전송하며 4789번 포트를 VXLAN 터널링에 활용하는 4계층 전송 프로토콜이다.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 패킷의 논리적 주소 지정(Addressing)과 경로 설정(Routing)을 담당하는 3계층 네트워크 프로토콜이다.
-- **계층 3 네트워크(Layer 3 Network, L3 Network)**: IP 주소 기반의 라우팅 기능을 제공하여 스위칭 계층 경계를 넘어 패킷을 전달하는 OSI 3계층 네트워크 영역이다.
-- **계층 2 네트워크(Layer 2 Network, L2 Network)**: MAC 주소 기반의 프레임 전송 및 스위칭 기능을 제공하는 OSI 2계층 네트워크 영역이다.
+- **가상 확장성 무선/유선 가상 랜(Virtual Extensible LAN, VXLAN)**: L2 이더넷 프레임을 L4 UDP 패킷으로 캡슐화(MAC-in-UDP)하여 L3 네트워크를 가로지르는 대규모 오버레이 가상 네트워크를 구축하는 IETF 표준 프로토콜이다.
+- **오버레이 네트워크(Overlay Network)**: 물리적 인프라(Underlay) 위에 터널링 기술을 적용하여 상위에 구축된 논리적 가상 네트워크층이다.
+- **언더레이 네트워크(Underlay Network)**: VTEP 장비 간의 L3 IP Reachability 및 높은 전송 대역폭을 보장하는 스파인-리프(Spine-Leaf) 물리 네트워크 인프라이다.
 
 </details>
 
-- 정의/개념: **VXLAN**(Virtual Extensible LAN)은 이더넷 프레임을 **UDP**(Destination Port 4789) 및 **IP** 패킷으로 캡슐화(MAC-in-UDP)하여, L3 IP 라우팅 언더레이 인프라 위에 대규모 멀티테넌트 가상 L2 오버레이 네트워크를 구성하는 포장 전송 프로토콜 기술이다.
-- 배경/필요성: 기존 **VLAN**은 12비트 VID 한계로 최대 4,094개의 세그먼트만 지원하며, 스패닝 트리 프로토콜(STP)에 따른 대역폭 손실과 L2 확장성 한계가 존재하여, 클라우드 데이터센터의 대규모 VM/컨테이너 이동성(Live Migration)을 보장하기 위해 도입되었다.
+- 정의/개념: **VXLAN(Virtual Extensible LAN)**은 기존 L2 VLAN의 4,094개 세그먼트 수량 한계를 극복하기 위해 L2 이더넷 프레임을 L4 UDP 패킷으로 캡슐화(MAC-in-UDP)하여, L3 IP 라우팅 인프라(Underlay) 상위에 독립된 L2 가상 네트워크(Overlay)를 대규모 구축하는 캡슐화 프로토콜 기술이다.
+- 배경/필요성: 대규모 클라우드 데이터센터(SDDC)의 멀티 테넌트 가상머신(VM) 및 컨테이너 폭증으로 인한 L2 세그먼트 부족 문제와, L3 경계를 넘어선 VM Live Migration을 무손실 보장하기 위해 IETF RFC 7348로 제정되었다.
 
 #### 한줄 요약
 
-- 서버의 이더넷 프레임을 UDP/IP 소포에 캡슐화하여 L3 언더레이 망을 통해 멀리 떨어진 데이터센터 간 L2 연결성 확장 체계 적용.
+- L2 이더넷 프레임을 L4 UDP 패킷으로 캡슐화(MAC-in-UDP)하여 L3 라우팅망 위에 1,600만 개의 가상 네트워크(VNI)를 형성하는 오버레이 기술.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **VXLAN 네트워크 식별자(VXLAN Network Identifier, VNI)**: 멀티테넌트 환경에서 각각의 논리적 L2 오버레이 세그먼트를 독자적으로 구분하기 위해 사용하는 24비트 확장 식별자이다.
-- **이더넷 가상 사설망(Ethernet Virtual Private Network, EVPN)**: MP-BGP 프로토콜을 활용하여 MAC/IP 주소 및 VTEP 위치 정보를 데이터 평면의 플러딩 없이 제어 평면에서 동적으로 학습·배포하는 메커니즘이다.
-- **경계 경로 프로토콜(Border Gateway Protocol, BGP)**: 자율시스템(AS) 간 또는 AS 내부 라우터 간에 경로 정보 및 제어 메타데이터를 교환하는 외부 라우팅 프로토콜이다.
-- **매체 접근 제어 주소(Media Access Control Address, MAC Address)**: 네트워크 인터페이스 카드(NIC)에 부여된 하드웨어 고유 식별 주소이다.
-- **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: 원본 이더넷 프레임의 VXLAN 캡슐화(Encapsulation) 및 역캡슐화(Decapsulation)를 직접 처리하는 물리 스위치 또는 가상 스위치 장치이다.
-- **등가 비용 다중 경로(Equal-Cost Multi-Path, ECMP)**: 동일한 라우팅 메트릭을 가진 복수의 L3 라우팅 경로로 트래픽을 균등하게 로드밸런싱하는 기법이다.
-- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크 패킷 단편화 없이 전송할 수 있는 데이터의 최대 바이트 크기이다.
-- **BUM 트래픽(Broadcast, Unknown Unicast, Multicast Traffic, BUM Traffic)**: 목적지 MAC 주소를 알 수 없거나 전체 호스트에 전송해야 하여 오버레이 상에서 복제 전송이 발생하는 트래픽 종류이다.
+- **가상 네트워크 식별자(VXLAN Network Identifier, VNI)**: 기존 12비트 VLAN ID를 대체하여 최대 약 1,600만 개(24비트)의 개별 가상 세그먼트를 식별하는 고유 테넌트 ID이다.
+- **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: 원본 L2 프레임에 Outer IP/UDP/VXLAN 헤더를 캡슐화(Encapsulation)하고 역캡슐화(Decapsulation)를 수행하는 가상/물리 스위치 노드이다.
+- **이더넷 가상 사설망(Ethernet VPN, EVPN)**: MP-BGP 프로토콜을 이용해 호스트의 MAC 및 IP 주소를 VTEP 간에 사전 교환하여 BUM 트래픽 플러딩을 억제하는 제어 평면 규격이다.
 
 </details>
 
-- **VNI**(VXLAN Network Identifier)는 24비트 식별자를 도입해 최대 1,600만 개(16,777,216개)의 논리 세그먼트를 분리함으로써 초대형 멀티테넌트 클라우드 환경을 지원한다.
-- **VTEP**(VXLAN Tunnel Endpoint)는 원본 L2 프레임에 50바이트의 Outer 헤더(UDP/IP/VXLAN)를 덧붙이는 캡슐화를 수행하고, **ECMP**(Equal-Cost Multi-Path)를 통해 L3 언더레이의 모든 경로를 활성화하여 대역폭 사용률을 극대화한다.
-- **EVPN**(Ethernet VPN) 제어 평면은 **BGP**(Border Gateway Protocol) Type-2/Type-3 경로를 통해 호스트의 **MAC** 및 IP 정보를 사전 배포하여 불필요한 **BUM 트래픽** 플러딩을 획기적으로 차단한다.
-- VXLAN 추가 헤더 오버헤드(50바이트)로 인한 패킷 단편화를 방지하기 위해 물리 언더레이 네트워크의 **MTU**를 1,550바이트 이상(Jumbo Frame 설정)으로 확대해야 한다.
+- **24비트 VNI 기반 세그먼트 극대화**: 16,777,216개의 VNI 식별자를 보장하여 대규모 클라우드 센터의 멀티 테넌트 격리 및 세그먼트 생성을 완벽히 수용한다.
+- **MAC-in-UDP 패킷 캡슐화**: 원본 이더넷 프레임에 Outer Ethernet, Outer IP, Outer UDP(Port 4789), 8바이트 VXLAN 헤더를 결합하여 L3 망을 통해 유연 수송한다.
+- **MP-BGP EVPN 제어 평면 기반 BUM 억제**: 호스트 MAC/IP 주소를 Control Plane에서 BGP Type-2 패킷으로 미리 공유하여 불필요한 브로드캐스트 플러딩을 방지한다.
 
 #### 한줄 요약
 
-- 24비트 VNI로 테넌트를 분리하고 EVPN 제어 평면과 VTEP 캡슐화를 통해 L3 ECMP 경로 기반 고성능 오버레이 구축 체계 적용.
+- 24비트 VNI 식별자 적용, MAC-in-UDP 캡슐화 전송, MP-BGP EVPN 제어 평면 연동을 통한 대규모 SDDC 가상화 제공.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **언더레이 네트워크(Underlay Network)**: VTEP 상호 간의 IP 도달성(IP Reachability)과 높은 전송 대역폭을 제공하는 물리적 L3 스파인-리프(Spine-Leaf) 라우팅 인프라이다.
-- **오버레이 네트워크(Overlay Network)**: 물리 언더레이 인프라 상위에 VXLAN 터널을 형성하여 독립적인 L2/L3 가상 상호연결 서비스를 제공하는 논리적 네트워크이다.
+- **브로드캐스트·미지의 유니캐스트·멀티캐스트(Broadcast, Unknown Unicast, Multicast, BUM Traffic)**: 수신 VTEP 위치를 모를 때 물리 언더레이망으로 복제 전송되는 무선/유선 플러딩 트래픽 세트이다.
+- **등가 다중 경로(Equal-Cost Multi-Path, ECMP)**: L3 스파인-리프 인프라에서 모든 이중화 물리 링크 대역폭을 100% 동시에 활용하는 라우팅 기술이다.
 
 </details>
 
-- **언더레이 네트워크**는 VTEP 장비 간 완전한 IP 도달성을 보장하고, **오버레이 네트워크**는 물리 망의 토폴로지 변경 없이 독립적인 L2 방송 도메인을 논리적으로 생성한다.
-
 ```text
-+-----------------------------------------------------------------------+
-| 오버레이 (Overlay Network) : L2 Ethernet (VNI 100 / VNI 200 가상 분리)  |
-+-----------------------------------------------------------------------+
-   │                                                                 │
-   ├─ VTEP (가상/물리 스위치 캡슐화 및 역캡슐화 처리)                        │
-   ├─ IP 언더레이 (Spine-Leaf L3 Fabric, ECMP 지원)                      │
-   │                                                                 │
-+-----------------------------------------------------------------------+
-| 언더레이 (Underlay Network) : L3 IP Routing (Spine-Leaf Fabric)       |
-+-----------------------------------------------------------------------+
+VXLAN 오버레이-언더레이 이중 구조
+├─ 오케스트레이션 오버레이 계층 (Overlay Layer - Virtual L2 Networks)
+│  ├─ 테넌트 가상 세그먼트 (Tenant VNI 100, VNI 200)
+│  └─ VXLAN 터널 종단점 (VTEP - VXLAN Tunnel Endpoint)
+└─ 물리적 전송 언더레이 계층 (Underlay Layer - Physical L3 Fabric)
+   ├─ L3 스파인-리프 패브릭 (Spine-Leaf L3 Fabric & ECMP)
+   └─ MP-BGP EVPN 제어 평면 (EVPN Control Plane - Type-2 / Type-3)
 ```
 
-| 구성요소 | 역할 및 핵심 특징 |
-| :--- | :--- |
-| **VTEP (VXLAN Tunnel Endpoint)** | VNI 매핑, 50바이트 Outer 헤더(IP/UDP/VXLAN) 캡슐화 및 역캡슐화 수행 |
-| **IP 언더레이 (IP Underlay)** | Spine-Leaf 구조 상에서 VTEP 간 IP 도달성 보장 및 ECMP 로드 분산 제공 |
-| **EVPN 제어 평면 (EVPN Control Plane)** | MP-BGP를 통해 호스트 MAC/IP 및 VTEP 매핑 정보를 사전 동기화 및 플러딩 차단 |
-| **VXLAN 헤더 (VXLAN Header)** | 24비트 VNI 식별자 및 캡슐화 상태 정보를 포함하는 8바이트 전용 헤더 |
+선의 의미: 상위 테넌트의 L2 오버레이 패킷이 VTEP에서 캡슐화되어 하부 L3 스파인-리프 언더레이 패브릭을 타고 ECMP 경로로 수송되는 2계층 구조이다.
+
+| 구성요소 | 책임 |
+|:---|:---|
+| VXLAN 터널 종단점 (VTEP) | hypervisor 스위치나 리프 스위치에 위치하며 L2 프레임의 VNI 매핑 및 UDP 캡슐화/역캡슐화 실행 |
+| VXLAN 헤더 (VXLAN Header) | 24비트 VNI 식별자와 캡슐화 플래그 정보를 보유한 8바이트 크기의 전용 헤더 모듈 |
+| IP 언더레이 패브릭 | L3 Spine-Leaf 토폴로지 상에서 VTEP 간 IP 도달성을 제공하고 L3 ECMP 대역폭 분산 수용 |
+| MP-BGP EVPN (Control Plane) | 호스트 MAC/IP 위치(Type-2) 및 VTEP 자동 발견(Type-3) 정보를 BGP 메시지로 전파 |
+| 테넌트 VNI 세그먼트 | 24비트 고유 ID로 지정된 가상 L2 세그먼트로, 상호 간 완전한 세그먼트 보안 격리 보장 |
 
 #### 한줄 요약
 
-- EVPN 제어 평면이 수신 VTEP 위치를 미리 학습시키면 송신 VTEP가 원본 프레임을 UDP 패킷으로 감싸 L3 언더레이망으로 수송하는 구조 적용.
+- VTEP 장비가 원본 프레임을 UDP 패킷으로 캡슐화하여 L3 스파인-리프 언더레이망을 통해 수송하고 EVPN 제어 평면이 MAC/IP 매핑을 공유하는 아키텍처.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **MAC·IP 위치 경로(MAC/IP Advertisement Route)**: EVPN BGP(Type-2)를 통해 특정 호스트의 MAC/IP 주소와 이를 수용하는 VTEP IP를 매핑하여 전송하는 정보이다.
-- **원격 VTEP 경로(Remote VTEP Route)**: 목적지 MAC 주소로 패킷을 보내기 위해 캡슐화 대상이 되는 원격 VTEP의 IP 주소 매핑 테이블이다.
-- **VXLAN 패킷(VXLAN Encapsulated Packet)**: 원본 L2 이더넷 프레임 전면에 Outer Ethernet, Outer IP, Outer UDP, VXLAN 헤더가 부가된 캡슐화 데이터 단위이다.
+- **MAC·IP 위치 경로(MAC/IP Advertisement Route / EVPN Type-2)**: MP-BGP EVPN을 통해 단말의 MAC/IP 및 수용 VTEP IP 주소를 타 VTEP로 전달하는 경로 정보이다.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 패킷 단편화를 막기 위해 무선/유선 라우터 인터페이스에 설정하는 최대 프레임 크기이다.
 
 </details>
 
 ```text
-[송신 호스트]
-     │ (원본 L2 프레임 발신)
-     ▼
-[송신 VTEP] ──(EVPN 경로 조회)──► VTEP 테이블 내 목적지 MAC 매핑 존재 여부
-     │                                ├─ (존재 시) Unicast VTEP IP 캡슐화
-     ▼                                └─ (미존재 시) BUM Multicast/Ingress Replication
-[Outer IP/UDP/VXLAN 헤더 결합]
-     │
-     ▼
-[IP 언더레이망 전송 (ECMP)]
-     │
-     ▼
-[수신 VTEP] ──► Outer 헤더 제거 (Decapsulation) ──► [수신 호스트로 원본 L2 프레임 전달]
+1. 송신 호스트 원본 L2 이더넷 프레임 발신 (Original Frame)
+      │
+      v
+2. 송신 VTEP: EVPN Type-2 테이블에서 목적지 MAC 매핑 조회 (VTEP Table Lookup)
+      │
+      ├─ 매핑 성공 ── 3a. Unicast 목적지 VTEP IP 주소 지정 및 캡슐화
+      └─ 매핑 실패 ── 3b. BUM Multicast / Ingress Replication 복제
+            │
+            v
+      4. L3 IP 언더레이 패브릭을 통한 UDP 패킷 무선/유선 전달 (Underlay ECMP)
+            │
+            v
+      5. 수신 VTEP: Outer 헤더 역캡슐화 후 목적지 호스트로 전달 (Decapsulation)
 ```
 
 ### 동작 원리
 
-1. **MAC·IP 위치 경로 광고**: 수신 VTEP는 로컬에 접속된 호스트의 MAC 및 IP 주소를 감지하고, MP-BGP EVPN Type-2 메시지를 통해 전체 VTEP에 동적으로 배포한다.
-2. **원격 VTEP 경로 매핑**: 송신 VTEP는 수신한 EVPN 경로 정보를 기반으로 [목적지 MAC → 원격 VTEP IP] 매핑 테이블을 갱신한다.
-3. **VXLAN 패킷 캡슐화 및 전송**: 송신 호스트가 프레임을 발신하면 VTEP가 Outer IP/UDP/VXLAN 헤더를 결합하여 언더레이 망으로 전송하고, 수신 VTEP는 이를 역캡슐화하여 실제 호스트에 전달한다.
+1. **원본 L2 프레임 송신**: 테넌트 가상머신(VM)이 목적지 MAC 주소를 포함한 기본 이더넷 프레임을 발신한다.
+2. **VTEP 매핑 조회**: 송신 VTEP가 MP-BGP EVPN으로 수집된 전역 테이블에서 [목적지 MAC → 수신 VTEP IP] 엔트리를 검색한다.
+3. **Outer 헤더 캡슐화**: 목적지 VTEP IP를 수신자로 설정하고 Outer IP/UDP(4789번) 및 24비트 VNI 헤더( 총 50바이트 추가)를 캡슐화한다.
+4. **L3 언더레이 전송**: L3 스파인-리프 인프라의 ECMP 다중 경로를 활용하여 IP 패킷을 고속 수송한다.
+5. **역캡슐화 및 전달**: 수신 VTEP가 Outer 헤더를 제거(Decapsulation)하고 VNI를 확인한 뒤 원본 L2 프레임만 목적지 VM에 전달한다.
 
 #### 한줄 요약
 
-- 목적지 VTEP IP를 알면 Unicast 캡슐화로 직접 전송하고, 모를 경우 BUM 복제 터널 전송을 통해 트래픽을 처리하는 제어 프로세스 준수.
+- 원본 프레임 발신, 송신 VTEP 매핑 조회, Unicast/BUM 캡슐화, L3 언더레이 ECMP 수송 및 수신 VTEP 역캡슐화 절차.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **VLAN 식별자(VLAN Identifier, VID)**: IEEE 802.1Q 프레임 헤더에 위치하며 12비트로 구성된 가상 LAN 식별자이다.
+- **VLAN 식별자(VLAN Identifier, VID)**: IEEE 802.1Q 프레임 헤더 내 12비트 크기로 위치하여 기존 L2 가상망을 구별하던 식별자이다.
 
 </details>
 
-| 비교 항목 | VXLAN (Virtual Extensible LAN) | VLAN (Virtual Local Area Network) |
-| :--- | :--- | :--- |
-| **기본 캡슐화** | MAC-in-UDP (L4 UDP 4789 캡슐화) | IEEE 802.1Q (L2 Tagging) |
-| **세그먼트 식별자** | 24비트 **VNI** (최대 약 1,600만 개 지원) | 12비트 **VLAN 식별자** (최대 4,094개 지원) |
-| **언더레이 의존성** | L3 IP 라우팅 인프라 상위 오버레이 | L2 스위칭 인프라 직접 의존 |
-| **경로 최적화** | L3 **ECMP** 기반 멀티패스 활성화 및 대역폭 활용 | **STP** 기반 블로킹 포트 발생으로 대역폭 제한 |
-| **기술적 한계** | 50바이트 헤더 오버헤드, MTU 조정 필수, BUM 제어 필요 | 식별자 수 부족, L2 브로드캐스트 도메인 확산 한계 |
+| 비교 항목 | **VXLAN (Virtual Extensible LAN)** | **VLAN (Virtual Local Area Network)** |
+|:---|:---|:---|
+| 캡슐화 방식 | MAC-in-UDP (L4 UDP 4789번 터널링) | IEEE 802.1Q (L2 이더넷 Tagging) |
+| 세그먼트 식별자 | 24비트 VNI (최대 16,777,216개 지원) | 12비트 VID (최대 4,094개 한계) |
+| 전송 기반 인프라 | L3 IP 라우팅 언더레이망 (Spine-Leaf) | L2 물리 스위칭 네트워크 직접 종속 |
+| 경로 효율성 | L3 ECMP 지원으로 모든 이중화 경로 100% 사용 | STP(Spanning Tree)에 의한 차단 포트 발생 |
+| 제어 및 관리 | MP-BGP EVPN 연동 컨트롤 플레인 자동화 | 개별 스위치 수동 VLAN DB 및 Trunk 설정 |
 
-> 요약: 소규모 단일 L2 브로드캐스트 영역 분리에는 **VLAN**, 대규모 SDDC 및 L3 경계 초과 테넌트 가상화에는 **VXLAN** 패러다임을 적용한다.
+> 요약: VLAN은 4,094개 수량 한계 및 STP 포트 블로킹이 발생하나, VXLAN은 1,600만 개 VNI와 L3 ECMP 대역폭 활용을 제공.
 
 #### 한줄 요약
 
-- VLAN은 4K 개 세그먼트 한계와 STP 한계가 존재하나, VXLAN은 16M 개 VNI와 L3 ECMP 인프라를 활용하여 광역 가상화를 구현하는 모델 비교.
+- VLAN은 4,094개 수량 한계 및 STP 포트 블로킹이 발생하나, VXLAN은 1,600만 개 VNI와 L3 ECMP 대역폭 활용을 제공.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-| 실무 문제점 | 발생 원인 | 해결 대책 | 기대 효과 |
-| :--- | :--- | :--- | :--- |
-| **오버레이 패킷 폐기** | 50바이트 추가 헤더로 인해 언더레이 MTU(1500b) 초과 단편화 발생 | 언더레이 스위치 및 호스트 **MTU**를 1,550~9,216바이트(Jumbo Frame)로 일괄 확대 | 패킷 단편화 방지 및 캡슐화 오버헤드로 인한 전송 성능 저하 해결 |
-| **BUM 트래픽 폭증** | 목적지 MAC 미학습 시 전체 VTEP로 브로드캐스트 복제 트래픽 가중 | Control Plane에 **MP-BGP EVPN** 및 ARP Suppression 기술 도입 | 불필요한 데이터 평면 플러딩 차단 및 언더레이 대역폭 보존 |
-| **터널 단절 및 비대칭** | 언더레이 물리 링크 장애 또는 VTEP 라우팅 재수렴 지연 | **ECMP** 다중 경로 구성 및 BFD(Bidirectional Forwarding Detection) 연동 | 하위 링크 장애 시 ms 단위의 초고속 경로 전환 및 가용성 유지 |
+<details>
+<summary>핵심 용어</summary>
+
+- **점보 프레임(Jumbo Frame / MTU Expansion)**: VXLAN 캡슐화 헤더 50바이트 오버헤드로 인한 IP 단편화를 막기 위해 언더레이 MTU를 1,550~9,216바이트로 확장하는 설정이다.
+
+</details>
+
+| 문제점 | 발생 원인 | 실무 대응 대책 | 기대 효과 |
+|:---|:---|:---|:---|
+| 캡슐화 패킷 단편화 (Fragmentation) | 50Byte 헤더 부가로 언더레이 MTU(1500b) 초과 | 언더레이 스위치/라우터 MTU 1550b 이상 점보 설정 | 패킷 분할 재조합 오버헤드 제거 및 속도 저하 차단 |
+| 데이터 평면 BUM 폭주 | 목적지 MAC 미학습 시 전체 VTEP로 플러딩 | MP-BGP EVPN 및 ARP Suppression 기술 도입 | 데이터 평면 플러딩 최소화 및 언더레이 대역폭 보존 |
+| 터널 캡슐화 연산 부하 | 백엔드 NIC CPU에서 캡슐화/역캡슐화 처리 | SmartNIC / DPU 하드웨어 VXLAN Offload 채택 | 호스트 CPU 사용률 절감 및 라인 레이트 처리 |
+| VTEP 간 동기화 오손 | 수신 VTEP IP 정보 변경 시 오버레이 경로 차단 | BFD(Bidirectional Forwarding) 연동 ECMP 절체 | ms 단위 초고속 장애 회복 및 고가용성 보장 |
 
 #### 한줄 요약
 
-- 점보 프레임 적용으로 MTU를 확보하고 EVPN 제어 평면을 적용하여 BUM 트래픽을 억제하며 ECMP로 고가용성(High Availability) 확보 체계 구축.
+- 언더레이 점보 프레임(MTU 1550+ Byte) 활성화, EVPN ARP Suppression 적용, BFD 연동 ECMP 기반 가용성 확립으로 VXLAN 오버레이 완성.
 
 ## Ⅶ. 결론
 
-- 대규모 데이터센터 가상화를 위한 24비트 VNI 기반 VXLAN 오버레이 및 MP-BGP EVPN 제어 평면 통합 네트워킹 구조 수립 및 MTU 최적화 체계 적용.
+- SDDC 데이터센터 가상화 구축 시 **24비트 VNI 기반 VXLAN 오버레이 도입**, **MP-BGP EVPN 제어 평면 연동**, **언더레이 MTU 점보 프레임 설정 필수**.
+
+#### 한줄 요약
+
+- 24비트 VNI 기반 VXLAN 오버레이 및 MP-BGP EVPN 제어 평면 수립과 점보 프레임(MTU 1550+) 설정 필수.

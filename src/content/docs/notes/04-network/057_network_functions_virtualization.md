@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 57
-  label: "057. NFV (Network Functions Virtualization, 네트워크 기능 가상화)"
+  label: "057. 네트워크 기능 가상화 (NFV, Network Functions Virtualization)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 • 30%"
     variant: note
-title: "NFV (Network Functions Virtualization, 네트워크 기능 가상화)"
+title: "네트워크 기능 가상화 (NFV, Network Functions Virtualization)"
 date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-network"
@@ -23,179 +23,166 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 기능 가상화(Network Functions Virtualization, NFV)**: 전용 장비의 네트워크 기능을 범용 인프라의 가상•클라우드 네트워크 기능 소프트웨어로 구현하는 구조이다.
-- **가상 네트워크 기능(Virtual Network Function, VNF)**: 가상머신에서 실행하는 네트워크 기능이다.
-- **클라우드 네이티브 네트워크 기능(Cloud-native Network Function, CNF)**: 컨테이너 기반으로 실행하는 네트워크 기능이다.
+- **네트워크 기능 가상화(Network Functions Virtualization, NFV)**: 라우터, 방화벽, L4/L7 스위치 등 전용 장비의 제어 및 전달 기능을 범용 하드웨어 상의 소프트웨어 가상화 환경으로 구현하는 ETSI 아키텍처이다.
+- **가상 네트워크 기능(Virtual Network Function, VNF)**: 하이퍼바이저 기반 가상머신(VM) 위에서 독립 구동되는 라우팅/보안 소프트웨어 모듈이다.
+- **클라우드 네이티브 네트워크 기능(Cloud-native Network Function, CNF)**: K8s 컨테이너 런타임 위에서 가볍게 구동되는 차세대 Microservice 형태의 네트워크 모듈이다.
 
 </details>
 
-- 정의/개념: **NFV**는 전용 장비의 망 기능을 **VNF** 또는 **CNF** 소프트웨어로 구현하는 구조이다.
-- 배경/필요성: 전용 장비는 조달과 증설이 늦고 특정 공급자에 종속되기 쉽다.
+- 정의/개념: **네트워크 기능 가상화(NFV, Network Functions Virtualization)**는 전통적인 전용 하드웨어 네트워크 장비(라우터, 방화벽, L4 스위치)의 소프트웨어 기능을 범용 COTS 서버 하드웨어 상의 가상화(VNF) 또는 컨테이너(CNF) 환경으로 분리하여 구현하는 ETSI 표준 아키텍처이다.
+- 배경/필요성: 벤더 전용 하드웨어 어플라이언스의 긴 신규 도입 주기(CAPEX 부담) 및 고정된 자원 용량으로 인한 운용 비효율성(OPEX 증가)을 해결하기 위해 통신사업자(Telco) 주도로 제정되었다.
 
 #### 한줄 요약
 
-- 전용 장비를 새로 사는 대신 범용 서버에 필요한 방화벽•라우터 소프트웨어를 띄운다.
+- 전용 네트워크 장비의 소프트웨어 기능을 COTS 서버 하드웨어 상의 가상화(VNF) 및 컨테이너(CNF)로 분리 구현하는 ETSI 표준 아키텍처.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **관리 및 오케스트레이션(Management and Orchestration, MANO)**: 서비스와 기능•인프라의 수명주기를 관리하는 체계이다.
-- **상태 동기화**: 기능 인스턴스를 확장•이동할 때 기존 세션 정보를 복제본과 일치시키는 과정이다.
+- **관리 및 오케스트레이션(Management and Orchestration, MANO)**: VNF/CNF 및 NFVI 컴퓨팅/저장/네트워크 자원의 수명주기를 관리하는 ETSI 표준 오케스트레이션 체계이다.
+- **상태 동기화(State Synchronization / Session Migration)**: VNF 인스턴스가 오토스케일링되거나 타 노드로 이관될 때 수신 패킷의 L4/L7 세션 컨텍스트를 동기화하는 기술이다.
 
 </details>
 
-- 기능과 하드웨어의 수명주기를 분리해 독립적으로 배치•교체한다.
-- **MANO**를 통해 **VNF**와 **CNF**의 배치•확장•치유를 자동화한다.
-- **상태 동기화** 비용은 상태 기반 기능의 확장성과 성능을 제약한다.
+- **SW 및 HW 수명주기 분리**: 범용 x86/ARM COTS 서버 하드웨어를 수용함으로써 벤더 종속(Lock-in)을 차단하고 유연한 자원 배치가 가능하다.
+- **ETSI MANO 연동 자동화**: NFVO, VNFM, VIM 모듈의 상호작용을 통해 VNF/CNF 인스턴스의 생성, 설정, 상태 감시 및 소멸을 자동 통제한다.
+- **탄력적 오토스케일링 (Elastic Scaling)**: 트래픽 증감에 맞춰 동적으로 VM/컨테이너 개수(Scale-Out/In) 및 자원 용량(Scale-Up/Down)을 가변 조정한다.
 
 #### 한줄 요약
 
-- 기능은 쉽게 복제할 수 있어도 연결 상태를 가진 방화벽은 상태까지 옮겨야 세션이 끊기지 않는다.
+- HW/SW 기능 분리, ETSI MANO 기반 자동 오케스트레이션, 트래픽에 따른 동적 탄력 확장성 제공.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **NFV 오케스트레이터(Network Functions Virtualization Orchestrator, NFVO)**: 네트워크 서비스와 인프라 자원을 조정하는 기능이다.
-- **VNF 관리자(Virtual Network Function Manager, VNFM)**: VNF 인스턴스의 수명주기를 관리하는 기능이다.
-- **가상화 인프라 관리자(Virtualized Infrastructure Manager, VIM)**: 가상화 인프라 자원을 할당•감시•회수하는 기능이다.
-- **NFV 인프라(Network Functions Virtualization Infrastructure, NFVI)**: 컴퓨팅•저장•네트워크 자원을 제공하는 범용 인프라이다.
+- **NFV 오케스트레이터(NFV Orchestrator, NFVO)**: 네트워크 서비스 오케스트레이션 및 NFVI 전역 자원 할당을 총괄하는 중앙 모듈이다.
+- **VNF 관리자(VNF Manager, VNFM)**: 각 VNF 인스턴스의 인스턴스화, 배포, 파기 및 스케일링을 관리하는 모듈이다.
+- **가상화 인프라 관리자(Virtualized Infrastructure Manager, VIM)**: OpenStack 또는 K8s와 연동되어 NFVI 가상화 하드웨어 자원을 직접 할당·제어하는 모듈이다.
+- **NFV 인프라(NFV Infrastructure, NFVI)**: 컴퓨팅, 저장장치, 네트워크 하드웨어와 하이퍼바이저/컨테이너 가상화 레이어를 합친 물리/가상 기반 구조이다.
 
 </details>
 
-**NFVO**가 서비스를 조정하고 **VNFM**이 기능을 관리하며 **VIM**이 **NFVI** 자원을 할당한다.
-
 ```text
-NFV
-├─ MANO
-│  ├─ NFVO
-│  ├─ VNFM
-│  └─ VIM
-└─ 실행 계층
-   ├─ VNF•CNF
-   └─ NFVI
+ETSI NFV 참조 아키텍처
+├─ 오케스트레이션 관리 계층 (NFV MANO - MANO Framework)
+│  ├─ 서비스 오케스트레이터 (NFV Orchestrator - NFVO)
+│  ├─ 가상 기능 관리자 (VNF Manager - VNFM)
+│  └─ 가상 인프라 관리자 (Virtualized Infrastructure Manager - VIM / OpenStack, K8s)
+└─ 실행 인프라 및 기능 계층 (Execution Layer)
+   ├─ 가상/클라우드 네트워크 기능 (VNF / CNF - vRouter, vFW, vEPC)
+   └─ 하드웨어 및 가상 인프라 (NFVI - COTS Hardware, Hypervisor / Container Runtime)
 ```
 
-가지의 의미: MANO 관리 기능과 VNF•CNF 실행 인프라의 소속을 뜻한다.
+선의 의미: MANO 계층의 NFVO, VNFM, VIM이 하부의 가상 네트워크 기능(VNF) 및 물리 인프라(NFVI) 자원을 수직 통제하는 참조 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| NFVO | 서비스 구성과 인프라 자원 조정 |
-| VNFM | 기능 인스턴스의 수명주기 관리 |
-| VIM | NFVI 자원의 할당•감시•회수 |
-| VNF•CNF | 소프트웨어 네트워크 기능 실행 |
-| NFVI | 컴퓨팅•저장•네트워크 제공 |
+| NFV 오케스트레이터 (NFVO) | NSD(네트워크 서비스 명세)를 해석하여 인프라 자원을 예약하고 E2E 네트워크 서비스를 토폴로지 구성 |
+| VNF 관리자 (VNFM) | VNF/CNF 인스턴스의 생애주기(Instantiation, Scaling, Healing, Termination) 직접 수행 |
+| 가상 인프라 관리자 (VIM) | OpenStack, Kubernetes 기반으로 NFVI 하드웨어(CPU, RAM, Disk, NIC) 자원을 직접 프로비저닝 |
+| 가상 네트워크 기능 (VNF / CNF) | vFW(가상 방화벽), vDNS, vEPC, vUPF 등 과거 전용 장비가 수행하던 소프트웨어 패킷 연산 실행 |
+| NFV 인프라 (NFVI) | 범용 COTS 서버, SAN 저장장치, L2/L3 스위치 및 KVM/Docker 가상화 런타임 환경 제공 |
 
 #### 한줄 요약
 
-- NFVO가 서비스 전체를 조립하고 VNFM이 기능을 관리하며 VIM이 실행할 서버 자원을 내준다.
+- MANO(NFVO/VNFM/VIM)가 자원과 수명주기를 오케스트레이션하고 VNF/CNF가 소프트웨어 패킷 연산을 수행하며 NFVI가 하드웨어/가상화를 제공하는 구조.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 서비스 명세(Network Service Descriptor, NSD)**: 기능 구성과 배치•연결•자원 요구를 선언한 명세이다.
-- **자원 할당 요청**: 네트워크 서비스 명세의 기능 요구량과 위치에 맞는 인프라 자원을 요구하는 단계이다.
-- **할당 자원**: 가상화 인프라 관리자가 선택해 식별자를 반환한 NFV 인프라 자원이다.
-- **인스턴스 구성**: 할당 자원에 검증된 기능 이미지와 연결 정책을 배포하는 단계이다.
-- **활성화 명령**: 구성된 가상•클라우드 네트워크 기능의 실행을 지시하는 단계이다.
-- **상태•성능**: 실행 인스턴스의 장애•부하•처리량을 나타내는 운영 정보이다.
+- **네트워크 서비스 명세(Network Service Descriptor, NSD)**: 서비스 구축에 필요한 VNF 모듈 목록, 연결 토폴로지(VLD) 및 자원 SLA 파라미터를 정의한 청사진 파일이다.
 
 </details>
 
 ```text
-네트워크 서비스 요청
-        │
-        ▼
-1. 자원 할당 요청
-        │
-        ▼
-2. 할당 자원
-        │
-        ▼
-3. 인스턴스 구성
-        │
-        ▼
-4. 활성화 명령
-        │
-        ▼
-서비스 활성화 결과
-        │
-        ▼
-5. 상태•성능
-        ├─ 장애•과부하: 치유•확장 재수행
-        └─ 정상: 현재 인스턴스 유지
+1. OSS/BSS의 네트워크 서비스 생성 요청 (NSD Service Request)
+      │
+      v
+2. NFVO -> VIM: NSD 프로필 기반 NFVI 범용 자원 할당 요청 (Resource Allocation)
+      │
+      v
+3. VIM -> VNFM: 가상 VM/컨테이너 자원 식별자 할당 완료 통보 (Resource Granted)
+      │
+      v
+4. VNFM: VNF/CNF 패키지 이미지 수송 및 런타임 인스턴스화 (Instantiation)
+      │
+      v
+5. 패킷 인터페이스 결합 및 텔레메트리 기반 자율 오토스케일링 (State & Scaling)
 ```
 
 ### 동작 원리
 
-1. **자원 할당 요청**: **자원 할당 요청** 단계에서 **NSD**의 기능 요구량•위치에 맞는 자원을 요청한다.
-2. **할당 자원**: **할당 자원**은 **VIM**이 제공한 **NFVI** 자원 식별자로 확인한다.
-3. **인스턴스 구성**: **인스턴스 구성** 단계에서 검증된 이미지와 연결 정책을 배포한다.
-4. **활성화 명령**: **활성화 명령**으로 구성된 **VNF**와 **CNF**의 실행을 지시한다.
-5. **상태•성능**: **상태•성능** 정보로 장애•부하와 인스턴스 상태를 확인한다.
+1. **네트워크 서비스 개통 요청**: OSS/BSS 시스템이 신규 서비스 요청 및 NSD(Network Service Descriptor) 청사진을 NFVO에 전달한다.
+2. **NFVI 자원 할당 요청**: NFVO가 서비스 용량을 분석하고 VIM에 필요한 CPU, 메모리, vNIC 가상 자원 프로비저닝을 명령한다.
+3. **자원 바인딩 완료**: VIM이 하이퍼바이저/K8s 노드에 자원을 격리 할당하고 자원 식별자를 VNFM에 회신한다.
+4. **VNF/CNF 인스턴스화**: VNFM이 해당 자원에 소프트웨어 패키지 이미지를 다운로드하여 VM/컨테이너를 인스턴스화하고 네트워크 카드를 연동한다.
+5. **서비스 체이닝 및 오토스케일링**: VNF 간 패킷 연결(Service Function Chaining)을 완료하고 실시간 텔레메트리에 따라 자동 확장을 수행한다.
 
 #### 한줄 요약
 
-- 기능 명세가 필요한 자원을 알려 주면 MANO가 서버를 배정하고 장애나 부하에 따라 복제한다.
+- 서비스 요청, NFVO 자원 요구, VIM 자원 할당, VNFM 인스턴스화 및 텔레메트리 오토스케일링 절차.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **전용 어플라이언스**: 네트워크 기능과 전용 하드웨어를 하나의 장비로 통합한 구현 방식이다.
+- **전용 어플라이언스(Dedicated Hardware Appliance)**: 전용 ASIC 파이프라인과 독점 하드웨어가 일체형으로 고정 판매되는 기존 장비이다.
 
 </details>
 
-| 네트워크 기능 구현 | NFV | 전용 어플라이언스 |
+| 비교 항목 | **네트워크 기능 가상화 (NFV / VNF, CNF)** | **전용 하드웨어 어플라이언스 (Dedicated HW)** |
 |:---|:---|:---|
-| 적용 기준 | **NFV**는 탄력 확장•서비스 조합이 필요할 때 | **전용 어플라이언스**는 고정 부하•전용 성능이 필요할 때 |
-| 핵심 특징 | 기능과 범용 하드웨어 분리 | 기능과 전용 하드웨어 통합 |
-| 한계 | 가상화 오버헤드•상태 이동 | 증설 지연•공급자 종속 |
+| 하드웨어 가용성 | 범용 x86/COTS 서버 활용 (특정 벤더 종속 해제) | 제조사 전용 ASIC/FPGA 탑재 하드웨어 장비 |
+| 구축 및 확장 속도 | 클릭 몇 번으로 수 분 내 VNF/CNF 배포 (Scale-Out) | 발주, 입고, 가동까지 수주~수개월 소요 |
+| 하드웨어 성능 | 가상화 층 오버헤드로 인한 상대적 락 발생 가능 | 전용 ASIC 처리 기반의 최고 입출력 성능 보장 |
+| 서비스 체이닝 | Service Function Chaining(SFC) 유연 구현 | 물리 유선 케이블 재배치 필요로 체이닝 불연속 |
+| CAPEX / OPEX | 초기에 범용 인프라 구축 후 확장 시 비용 대폭 절감 | 신규 서비스 도입 시마다 고가 장비 개별 구매 |
 
-> 요약: 전용 장비는 고성능, NFV는 민첩한 확장에 적합이 핵심이다.
+> 요약: NFV는 COTS 서버 기반의 유연한 자동 확장성 및 서비스 체이닝을 제공하고, 전용 장비는 최고 수준의 전용 HW 성능을 제공.
 
 #### 한줄 요약
 
-- 부하에 따라 기능을 자주 늘리고 바꾸면 NFV, 일정한 최고 성능이 우선이면 전용 장비가 맞다.
+- NFV는 COTS 서버 기반의 유연한 자동 확장성 및 서비스 체이닝을 제공하고, 전용 장비는 최고 수준의 전용 HW 성능을 제공.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **가상화 오버헤드**: 가상 실행 계층 때문에 네트워크 기능 처리에 추가되는 중앙처리장치•메모리•입출력 비용이다.
-- **이미지 서명**: 배포할 소프트웨어 이미지의 출처와 무결성을 암호학적으로 검증하는 값이다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 명령을 해석하고 연산을 수행하는 처리 장치이다.
+- **가상화 오버헤드(Virtualization & Packet IO Overhead)**: 하이퍼바이저 패킷 복사 및 OS 컨텍스트 스위칭으로 인해 패킷 스루풋이 저하되는 현상이다.
+- **중앙처리장치(Central Processing Unit, CPU / NUMA Pinning)**: 가상화 인프라의 CPU 소켓 및 코어를 VNF 메모리 버스에 직접 고정 고립 할당하여 지연을 줄이는 기법이다.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| 상태 기능을 즉시 복제하면 기존 세션 단절 | 세션 동기화 후 트래픽 전환 | 확장 중에도 기존 연결 유지 |
-| **가상화 오버헤드**로 목표 처리량 미달 | 가속기•메모리 근접성과 **CPU** 코어 고정 시험 | 부하별 성능 예측 가능성 확보 |
-| 변조된 이미지 배포로 망 기능 장악 | **이미지 서명**•취약점•출처 검증 | 실행 기능의 무결성 확보 |
+| 문제점 | 발생 원인 | 실무 대응 대책 | 기대 효과 |
+|:---|:---|:---|:---|
+| 가상 패킷 I/O 병목 | 커널 소켓 패킷 복사 및 컨텍스트 스위칭 처리 복잡 | DPDK(Data Plane Dev Kit) 및 SR-IOV 직결 적용 | 라인 레이트 패킷 처리 속도 확보 |
+| NUMA 메모리 지연 | 이종 CPU 소켓 전송에 따른 메모리 버스 지연 | CPU NUMA Pinning 및 HugePages 기법 적용 | 메모리 엑세스 오버헤드 최소화 |
+| VNF 간 복잡한 체이닝 | 다수 VNF 패킷 순차 전달 시 포워딩 복잡도 증가 | NSH(Network Service Header) 기반 SFC 오케스트레이션 | 유연하고 투명한 VNF 트래픽 체이닝 완성 |
+| VNF 이미지 무결성 위협 | 인스턴스화 이미지 변조 및 해킹 | TPM 기반 Remote Attestation 및 이미지 암호화 서명 | 인프라 내 위변조 VNF 인스턴스 구동 차단 |
 
 #### 한줄 요약
 
-- 방화벽 복제본에 현재 연결 상태를 옮긴 뒤 트래픽을 나눠야 기존 접속이 끊기지 않는다.
+- DPDK/SR-IOV 기반 입출력 가속, NUMA 코어 핀닝, NSH 기반 Service Function Chaining으로 NFV 가상화 성능 최적화.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **탄력 확장**: 부하 변화에 맞춰 네트워크 기능 인스턴스와 자원을 자동으로 늘리거나 줄이는 능력이다.
+- **탄력 확장(Elastic Auto-Scaling)**: 실시간 트래픽 폭주 시 VNF/CNF 인스턴스를 자동으로 증설하고 유휴 시 회수하는 동적 가용성 관리이다.
 
 </details>
 
-- **탄력 확장** 이득이 상태 이전•가상화 비용보다 크면 **NFV**, 아니면 **전용 어플라이언스**를 선택한다.
+- 차세대 데이터센터 및 5G/6G 코어 구축 시 **ETSI MANO 아키텍처 준수**, **DPDK/SR-IOV 기반 I/O 가속**, **SFC(Service Function Chaining) 자동화 체계 구현 필수**.
 
 #### 한줄 요약
 
-- 기능 복제 이득이 상태 이전과 가상화 성능 비용보다 큰 기능부터 NFV로 전환해야 한다.
+- ETSI MANO 준수 및 DPDK/SR-IOV 가속 기반 가상 네트워크 기능(VNF/CNF) 오케스트레이션 구현 필수.
