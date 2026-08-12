@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IRQ(Interrupt Request)**: 외부 하드웨어 장치가 프로세서(CPU)에 비동기적 서비스 처리를 요청하는 신호.
-- **ISR(Interrupt Service Routine)**: IRQ 발생 시 커널이 인터럽트 벡터 테이블(IVT)을 참조하여 최우선 구동하는 지연 최소화 루틴.
-- **인터럽트 레이턴시(Interrupt Latency)**: 하드웨어 IRQ 인가 시점부터 대응 ISR의 최초 명령어가 수행되기까지 걸리는 시간적 지연.
-- **우선순위 역전(Priority Inversion)**: 높은 우선순위 태스크가 낮은 태스크의 자원 락(Lock) 점유로 인해 대기하는 동안, 중간 우선순위 태스크가 코어를 먼저 점유하는 거꾸로 선점 현상.
+- **IRQ(Interrupt Request)**: 외부 장치가 프로세서에 비동기적 처리를 요청하는 신호
+- **ISR(Interrupt Service Routine)**: IRQ 발생 시 커널이 최우선 구동하는 지연 최소화 루틴
+- **인터럽트 레이턴시(Interrupt Latency)**: IRQ 인가 시점부터 ISR 최초 명령어 수행까지의 시간적 지연
+- **우선순위 역전(Priority Inversion)**: 고순위 태스크가 저순위 태스크의 자원 잠금(Lock)으로 인해 대기하는 동안, 중순위 태스크가 코어를 점유하는 선점 현상
 
 </details>
 
@@ -40,8 +40,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **인터럽트 마스킹(Interrupt Masking)**: 임계 구역 진입 시 추가 인터럽트 간섭을 막기 위해 CPU의 IRQ 수용을 비활성화하는 구간.
-- **중순위 선점(Medium-Priority Preemption)**: 뮤텍스를 쥔 낮은 태스크가 무관한 중간 태스크에 의해 선점당함으로써 높은 태스크의 대기 시간이 기하급수적으로 늘어나는 현상.
+- **인터럽트 마스킹(Interrupt Masking)**: 임계 구역 진입 시 CPU의 IRQ 수용을 비활성화하는 구간
+- **중순위 선점(Medium-Priority Preemption)**: 잠금을 보유한 저순위 태스크가 무관한 중순위 태스크에 의해 선점되어 고순위 태스크의 대기 시간이 증가하는 현상
 
 </details>
 
@@ -169,12 +169,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **지연 완화 선택 기준(Latency Mitigation Selection Criteria)**: 하드웨어 응답 지연 및 소프트웨어 자원 차단 대기시간을 개별 측정하여 수립하는 실시간 대책 기준.
+- **지연 완화(Latency Mitigation)**: HW 반응 지연 및 SW 자원 차단 지연을 개별 측정하여 수립하는 실시간 대책 체계
 
 </details>
 
-- **지연 완화 선택 기준**에 따라 HW 반응 지연은 ISR 지연 처리, SW 락 차단은 **우선순위 상속** 적용
+- **지연 완화**에 따라 HW 반응 지연은 ISR 지연 처리, SW 잠금 차단은 **우선순위 상속** 적용
 
 #### 한줄 요약
 
-- HW 반응 지연 방지를 위한 ISR 지연 처리 및 SW 락 차단 방지를 위한 우선순위 상속 기반 실시간 지연 통제 체계 적용.
+- 하드웨어 반응 지연 방지를 위한 ISR 지연 처리 및 소프트웨어 잠금 차단 방지를 위한 우선순위 상속 기반 실시간 지연 통제 체계 적용.

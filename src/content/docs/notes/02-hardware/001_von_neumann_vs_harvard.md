@@ -34,7 +34,7 @@ extra:
 - 배경/필요성: 단일 버스 환경에서 CPU 연산 속도 증가 대비 메모리 접근 속도 지연으로 **동시 접근 병목(Bus Contention)**이 심화됨에 따라, 파이프라인 처리량 증대를 위한 물리적 경로 분리 및 캐시 계층 기반 최적화 기법이 필수로 요구됨.
 
 #### 한줄 요약
-- 폰 노이만 구조는 단일 버스 공유로 인한 순차 접근 병목을 유발하며, 하버드 구조는 물리적 분리 버스를 통해 명령어 인출과 데이터 접근의 완전한 병렬 처리를 보장함.
+- 폰 노이만 구조(Von Neumann Architecture, VNA)는 단일 버스 공유로 인한 순차 접근 병목 유발하며, 하버드 구조(Harvard Architecture, HA)는 물리적 분리 버스를 통해 명령어 인출과 데이터 접근의 완전한 병렬 처리 보장.
 
 ## Ⅱ. 특징
 
@@ -57,7 +57,7 @@ extra:
 - 실무 범용 CPU(x86, ARM, RISC-V 등) 설계 시 이러한 절충형 모델인 **수정 하버드 구조(Modified Harvard Architecture, MHA)**를 글로벌 표준으로 채용.
 
 #### 한줄 요약
-- 독립 버스를 통해 파이프라인 정지를 방지하고 메인 메모리 통합 및 L1 캐시 분리형 수정 하버드 구조를 채택하여 성능과 용량 유연성을 동시 달성함.
+- 독립 버스를 통해 파이프라인 정지 방지, 메인 메모리 통합 및 L1 캐시 분리형 수정 하버드 구조(Modified Harvard Architecture, MHA) 채택으로 성능과 용량 유연성 동시 달성.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -93,7 +93,7 @@ extra:
 | **통합 메모리•버스** | **공유 경로(Shared Bus)**를 통해 구조를 단순화하고 시스템 제작 하드웨어 단가 절감 | 폰 노이만 구조의 구현 용이성 및 범용성 제공 |
 
 #### 한줄 요약
-- 폰 노이만 구조는 단일 Shared Bus 기반의 시분할 전송으로 하드웨어를 단순화하며, 하버드 구조는 Dual Dedicated Bus 시스템으로 전송 병렬성을 실현함.
+- 폰 노이만 구조는 단일 공유 버스(Shared Bus) 기반 시분할 전송으로 하드웨어 단순화 구현, 하버드 구조는 듀얼 전용 버스(Dual Dedicated Bus) 시스템으로 전송 병렬성 실현.
 
 ## Ⅳ. 흐름도
 
@@ -125,7 +125,7 @@ extra:
 2. **분리 버스 접근(Split Bus Access)**: 명령어 Fetch unit과 Data Access unit이 **분리 경로(Separate Path)**를 통해 각각 독립된 Memory 및 Bus로 통신하므로, 동일 클록 내에서 명령어 인출과 데이터 로드가 간섭 없이 확정 실행됨.
 
 #### 한줄 요약
-- 폰 노이만 구조는 Time-multiplexed 순차 접근 방식을 취하고, 하버드 구조는 Dual Bus를 활용한 Concurrent Parallel Access 방식으로 작동함.
+- 폰 노이만 구조는 시분할 순차 접근 방식, 하버드 구조는 독립 버스 활용 병렬 접근 방식 채택.
 
 ## Ⅴ. 종류 및 비교
 
@@ -148,7 +148,7 @@ extra:
 | **치명적 한계** | 공유 버스 경쟁으로 인한 **대역폭 제한(Bandwidth Limitation)** 및 병목 | 남는 공간 재배치가 불가능한 **용량 고정(Fixed Partitioning)** 문제 | JIT 컴파일 시 복잡한 **명령 캐시 동기화(Cache Synchronization)** 수반 |
 
 #### 한줄 요약
-- Bus Contention 한계의 폰 노이만, Memory Partitioning 고정 제약의 하버드, L1 Cache Split 기반의 수정 하버드로 아키텍처가 진화함.
+- 버스 병목(Bus Contention) 한계 폰 노이만, 메모리 고정 제약 하버드, L1 캐시 분리(L1 Cache Split) 기반 수정 하버드로 아키텍처 진화.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -171,7 +171,7 @@ extra:
 | 순수 하버드 구조 도입 시 분리 메모리로 인한 공간 파편화 및 **용량 고정** 현상 | 주기억장치는 통폐합하고 internal 계층만 분리하는 **수정 하버드 구조(Modified Harvard)** 기반 SoC 설계 | 실행 애플리케이션의 메모리 요구량 변화에 맞춘 동적 공간 활용 극대화 |
 
 #### 한줄 요약
-- Cache Line Clean & Instruction Cache Invalidation을 통한 일관성 확보 및 Prefetching/Multi-Channel 버스 설계를 통한 대역폭 최적화를 수행함.
+- 캐시 무효화(Cache Invalidation)를 통한 일관성 확보 및 프리페치(Prefetch)/다중 채널 버스 설계를 통한 대역폭 최적화 수행.
 
 ## Ⅶ. 결론
 
@@ -187,4 +187,4 @@ extra:
 - **구조 선택 기준(Architecture Selection Criteria)**에 의거하여, 일반 범용 서버 및 모바일 SoC에서는 메모리 동적 활용성이 뛰어난 **수정 하버드 구조(Modified Harvard Architecture)**를 적용하고, 초고속 실시간 제어가 필수적인 **디지털 신호 처리기(DSP)** 및 자동차 MCU 분야에서는 **결정적 처리량(Deterministic Throughput)**을 보장하는 물리적 **하버드 구조(Harvard Architecture)**의 채택과 버스 대역폭 최적화 체계 적용.
 
 #### 한줄 요약
-- 범용 시스템을 위한 L1 Cache Split 기반 수정 하버드 구조 채택 및 실시간 시스템을 위한 순수 하버드 아키텍처 적용을 통한 성능 및 지연시간 확정성 확보 체계 적용.
+- 범용 시스템을 위한 L1 캐시 분리 기반 수정 하버드 구조 채택 및 실시간 시스템을 위한 순수 하버드 아키텍처 적용을 통한 성능 및 지연시간 확정성 확보 체계 적용.

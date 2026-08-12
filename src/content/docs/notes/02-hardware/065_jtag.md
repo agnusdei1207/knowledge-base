@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **JTAG(Joint Test Action Group)**: IEEE 1149.1 표준 기반으로 IC 칩셋 및 PCB 기판의 핀 연결 상태를 직렬 경계 스캔(Boundary Scan)으로 검사/디버깅하는 물리 인터페이스.
-- **TAP(Test Access Port)**: JTAG 통신을 위한 4~5개 전용 물리 신호 핀(TCK, TMS, TDI, TDO, TRST)을 관리하는 포트 제어기.
-- **경계 스캔(Boundary Scan)**: IC 물리 핀과 코어 로직 사이에 전용 경계 셀(Cell)을 직렬 배치하여 외부 탐침 없이 전기적 핀 상태를 강제 인가/관측하는 검사 기술.
+- **JTAG(Joint Test Action Group)**: IC 칩셋 및 PCB 핀 연결 상태를 직렬 경계 스캔으로 검사하는 물리 인터페이스
+- **TAP(Test Access Port)**: JTAG 통신을 위한 4~5개 물리 신호 핀을 관리하는 포트 제어기
+- **경계 스캔(Boundary Scan)**: IC 물리 핀과 로직 사이에 전용 셀을 배치하여 외부 탐침 없이 전기적 상태를 강제 인가/관측하는 검사 기술
 
 </details>
 
@@ -39,8 +39,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **직렬 스캔 체인(Serial Scan Chain)**: 복수의 IC 칩셋 경계 셀들을 TDI->TDO 형태로 한 줄로 수평 엮어 직렬 데이터를 시프트 전송하는 경로.
-- **경계 스캔 셀(Boundary-Scan Cell)**: 각 IC 물리 핀마다 결합되어 핀의 값을 강제 구동(Drive)하거나 캡처(Capture)하는 하드웨어 래치.
+- **직렬 스캔 체인(Serial Scan Chain)**: 복수의 IC 경계 셀들을 TDI-TDO 형태로 엮어 데이터를 직렬 전송하는 경로
+- **경계 스캔 셀(Boundary-Scan Cell)**: 물리 핀에 결합되어 값을 강제 구동하거나 캡처하는 하드웨어 래치
 
 </details>
 
@@ -164,11 +164,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **JTAG 운영 기준(JTAG Operation Criteria)**: 생산 양산 검사 단계의 BSR 테스팅과 출하 후 보안 Lock 설정 간의 생애주기 관리 기준.
+- **JTAG 운영(JTAG Operation)**: 양산 검사 단계의 BSR 테스트와 출하 후 보안 Lock 설정 기반의 생애주기 관리
 
 </details>
 
-- **JTAG 운영 기준**에 따라 양산 공정은 **EXTEST** 스캔 테스팅, 출하 후에는 하드웨어 eFuse 기반 **JTAG Lock** 인가
+- **JTAG 운영**에 따라 양산 공정은 **EXTEST** 스캔 테스팅, 출하 후에는 eFuse 기반 **JTAG Lock** 인가
 
 #### 한줄 요약
 

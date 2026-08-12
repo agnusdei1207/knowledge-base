@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Arm TrustZone**: 프로세서 코어, 버스 아키텍처 및 메모리/주변장치 레벨에서 시스템을 보안(Secure)과 비보안(Non-secure)의 2개 도메인으로 수평 격리하는 하드웨어 기술.
-- **보안 상태(Secure State)**: 암호 키, TEE 및 보안 자원에 하드웨어 직결 억세스가 허용되는 실행 도메인.
-- **비보안 상태(Non-Secure State)**: 범용 OS(Linux/Android) 및 일반 애플리케이션이 구동되며 보안 메모리/자원 접근이 하드웨어에 의해 완전 차단되는 도메인.
+- **Arm TrustZone**: 시스템을 보안(Secure)과 비보안(Non-secure)의 2개 도메인으로 수평 격리하는 하드웨어 기술
+- **보안 상태(Secure State)**: 암호 키, TEE 및 보안 자원에 하드웨어 직결 접근이 허용되는 실행 도메인
+- **비보안 상태(Non-Secure State)**: 범용 OS 및 일반 애플리케이션이 구동되며 보안 자원 접근이 차단되는 도메인
 
 </details>
 
@@ -39,8 +39,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NS 비트(Non-Secure Bit)**: AMBA AXI/AHB 버스 트랜잭션 신호선 상에 탑재되어 해당 요청이 Secure/Non-secure 영역에서 발원했는지 파악하는 하드웨어 제어 신호.
-- **공유 버퍼(Shared Buffer)**: Normal World와 Secure World 간의 요청 파라미터 및 텐서 데이터를 교환하기 위해 지정된 비보안 영역 메모리.
+- **NS 비트(Non-Secure Bit)**: 버스 트랜잭션 신호선에 탑재되어 요청 발원지를 파악하는 하드웨어 제어 신호
+- **공유 버퍼(Shared Buffer)**: 비보안 영역과 보안 영역 간 데이터를 교환하기 위해 지정된 비보안 영역 메모리
 
 </details>
 
@@ -169,11 +169,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **TrustZone 적용 기준(TrustZone Adoption Criteria)**: 보호 대상 데이터의 치명도, OS 커널 신뢰성 수준 및 하드웨어 가용성에 따른 채택 지표.
+- **보안 격리 지표(Security Isolation Metrics)**: 보호 데이터 치명도 및 커널 신뢰성 기반 TrustZone 채택 기준
 
 </details>
 
-- **TrustZone 적용 기준**에 따라 루트 암호 키, 생체 인증, DRM 자산은 하드웨어 **Arm TrustZone** Secure World 배치를 통한 근본적 격리 달성
+- **보안 격리 지표**에 따라 루트 암호 키, 생체 인증, DRM 자산은 **Arm TrustZone** Secure World 배치를 통한 근본적 격리 달성
 
 #### 한줄 요약
 

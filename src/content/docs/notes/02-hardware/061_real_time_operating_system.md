@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **RTOS(Real-Time Operating System)**: 태스크 실행의 응답시간 및 마감시간(Deadline) 준수를 결정론적(Deterministic)으로 보장하는 실시간 전용 커널.
-- **태스크(Task)**: RTOS 커널 스케줄러에 의해 우선순위, 상태(Ready/Running/Blocked)가 관리되는 독립 실행 프로그램 단위.
-- **데드라인(Deadline)**: 외부 이벤트 또는 센서 요구 발생 후 제어 출력이 반드시 완결되어야 하는 시간적 한계.
+- **RTOS(Real-Time Operating System)**: 태스크 실행의 응답시간 및 마감시간(Deadline) 준수를 결정론적으로 보장하는 전용 커널
+- **태스크(Task)**: 커널 스케줄러에 의해 우선순위 및 상태가 관리되는 독립 실행 단위
+- **데드라인(Deadline)**: 이벤트 발생 후 제어 출력이 반드시 완결되어야 하는 시간적 한계
 
 </details>
 
@@ -39,10 +39,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **결정성(Determinism)**: 동일 조건 시 최악의 응답 지연시간 상한을 정밀 예측하고 항상 일정히 재현하는 특성.
-- **WCET(Worst-Case Execution Time)**: 선점 및 대기를 제외한 태스크 순수 연산의 최대 이론적 실행 시간.
-- **WCRT(Worst-Case Response Time)**: 이벤트 발생부터 태스크의 차단 시간 및 상위 태스크 간섭을 포함한 최종 완료까지의 최대 반응 시간.
-- **우선순위 선점(Priority-Based Preemption)**: 높은 우선순위 태스크 발생 시 실행 중인 낮은 우선순위 태스크를 즉각 선점(Interrupt)하는 스케줄링.
+- **결정성(Determinism)**: 최악 응답 지연 상한을 정밀 예측하고 항상 일정하게 재현하는 특성
+- **WCET(Worst-Case Execution Time)**: 태스크 순수 연산의 최대 이론적 실행 시간
+- **WCRT(Worst-Case Response Time)**: 이벤트 발생부터 완료까지의 최대 반응 시간
+- **우선순위 선점(Priority-Based Preemption)**: 고우선순위 태스크 발생 시 저우선순위 태스크를 즉각 중단하는 스케줄링
 
 </details>
 
@@ -175,13 +175,13 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **스케줄 가능성(Schedulability)**: 모든 태스크의 최악 응답시간(WCRT)이 데드라인 이하임을 이론적/실험적으로 증명하는 성질.
-- **RTOS 선택 기준(RTOS Selection Criteria)**: 마감시간 임계성, 시스템 복잡도, 풋프린트 및 벤더 서포트에 기초한 OS 선정 체계.
+- **스케줄 가능성(Schedulability)**: 모든 태스크의 WCRT가 데드라인 이하임을 증명하는 성질
+- **OS 선정(OS Selection)**: 마감시간 임계성 및 풋프린트 기반 OS 선정 체계
 
 </details>
 
-- **RTOS 선택 기준**에 따라 마감시간 지연 보장이 필수적인 전장/항공/산업용 시스템에는 **RTOS** 채택
+- **OS 선정**에 따라 실시간 보장이 필수적인 전장·항공·산업용 시스템에 **RTOS** 채택
 
 #### 한줄 요약
 
-- 우선순위 기반 선점형 스케줄링 및 WCRT 상한 보장을 통한 실시간 결정성 확보 체계 적용.
+- 우선순위 선점 스케줄링 및 WCRT 상한 보장을 통한 실시간 결정성 확보 체계 적용.

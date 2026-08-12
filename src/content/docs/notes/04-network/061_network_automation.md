@@ -22,26 +22,26 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **네트워크 자동화(Network Automation)**: 네트워크 목표 상태를 선언적 모델과 코드로 정의하고, 자동 파이프라인으로 검증•배포•복구하는 인프라 자율 운영 체계.
-- **진실의 원천(Source of Truth, SoT)**: IP, VLAN, 보안 정책의 목표 상태(Intent)를 관리하는 유일한 단일 기준 데이터 저장소.
-- **명령줄 인터페이스(Command-Line Interface, CLI)**: 장비별 전용 텍스트 명령과 비구조화(Unstructured) 문자열 기반의 수동 조작 방식.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: JSON/XML 등 구조화 데이터 스키마 기반의 네트워크 설정 및 상태 프로그래밍 제어 인터페이스.
+- **네트워크 자동화(Network Automation)**: 네트워크 목표 상태를 선언적 모델과 코드로 정의하고, 파이프라인으로 검증·배포·복구하는 자율 운영 인프라 체계.
+- **진실의 원천(SoT, Source of Truth)**: IP, VLAN, 보안 정책 등 네트워크 목표 상태(Intent)를 관리하는 단일 기준 데이터 저장소.
+- **명령줄 인터페이스(CLI, Command-Line Interface)**: 장비별 전용 명령과 비구조화(Unstructured) 문자열 기반 수동 조작 방식.
+- **응용 프로그래밍 인터페이스(API, Application Programming Interface)**: JSON/XML 등 구조화 데이터 스키마 기반 네트워크 설정 및 상태 제어 인터페이스.
 
 </details>
 
-- **개념**: **네트워크 자동화(Network Automation)**는 **진실의 원천(SoT)**에 정의된 목표 상태를 YANG 데이터 모델 및 코드(IaC)로 변환, 수동 개입 없이 검증•배포•복구하는 자율 운영 프로토콜 체계.
+- **개념**: **네트워크 자동화(Network Automation)**는 **진실의 원천(SoT)** 기반 목표 상태를 **YANG(Yet Another Next Generation)** 데이터 모델 및 코드(IaC, Infrastructure as Code)로 변환, 수동 개입 없이 검증·배포·복구하는 자율 운영 프로토콜 체계.
 - **필요성**: 장비별 수동 **CLI**는 사람의 실수(Human Error), 설정 파편화, 감사 누락을 유발하므로 **API** 기반 프로그래밍 가능 네트워크(Programmable Network) 전환 필수.
 
 #### 한줄 요약
-- 선언적 IaC 기반 목표 상태 정의 및 CI/CD 파이프라인 자동화 체계 적용.
+- 선언적 IaC 및 CI/CD 자동화 파이프라인 체계 적용.
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
 - **설정 드리프트(Configuration Drift)**: 장비 설정이 SoT 목표 상태에서 이탈하여 임의 변경된 현상.
 - **멱등성(Idempotency)**: 자동화 스크립트 반복 실행 시 항상 동일한 결과 상태를 보장하는 성질.
-- **지속적 통합(Continuous Integration, CI)**: 코드 변경 시 구문 검사(Linting), YANG 검증, 테스트를 자동 수행하는 메커니즘.
-- **YANG 모델(YANG Data Model)**: NETCONF/RESTCONF의 설정 및 상태 계층 구조와 자료형을 정의하는 데이터 모델링 언어(RFC 6020/7950).
+- **지속적 통합(CI, Continuous Integration)**: 코드 변경 시 린팅(Linting), YANG 검증, 테스트를 자동 수행하는 메커니즘.
+- **YANG 모델(YANG Data Model)**: NETCONF/RESTCONF의 설정·상태 계층 구조와 자료형을 정의하는 모델링 언어(RFC 6020/7950).
 
 </details>
 
@@ -70,10 +70,10 @@ extra:
 
 ```text
 네트워크 자동화 아키텍처
-├─ 단일 진실 원천 (NetBox / Nautobot)
+├─ 단일 진실 원천(SoT)
 ├─ 깃(Git) 기반 지속적 통합/배포 파이프라인
-├─ 자동화 조율 엔진 (Ansible / NSO)
-├─ 통신 프로토콜 및 모델 (NETCONF / RESTCONF / YANG)
+├─ 자동화 조율 엔진(Ansible/NSO)
+├─ 통신 프로토콜 및 모델(NETCONF/RESTCONF/YANG)
 └─ 다중 벤더 네트워크 장비
 ```
 
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **자동화 배포 범위** 설정 시 SoT 데이터베이스 및 YANG 모델을 선행 정립하고, Confirmed Commit 기반 롤백을 통합 구축하는 지능형 자동화 체계 적용.
+- **자동화 배포 범위** 설정 시 SoT 데이터베이스 및 YANG 모델 선행 정립, Confirmed Commit 기반 롤백 통합 구축 지능형 자동화 체계 적용.
 
 #### 한줄 요약
-- 선언형 IaC와 YANG 기반 자동화 파이프라인 활용 자율 운용 네트워크 구축 체계 적용.
+- 선언형 IaC 및 YANG 기반 자동화 파이프라인 활용 자율 운용 네트워크 구축 체계 적용.
