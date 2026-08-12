@@ -20,176 +20,136 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **데이터 계약(Data Contract)**: 생산자와 소비자가 데이터 구조•의미•품질•변경 규칙에 합의하고 자동 검사할 수 있게 만든 규약이다.
+- **Data Contract (데이터 계약)**: 데이터 생산자(Producer)와 데이터 소비자(Consumer) 간에 주고받을 데이터의 스키마 구조, 데이터 타입, 의미(Semantics), SLA, 품질 지표(Expectations) 및 파괴적 변경(Breaking Change) 예고 수칙을 명시적으로 서명 체결하는 시스템 간 구두/코드 약정서.
+- **Breaking Change (파괴적 변경)**: 생산자가 컬럼 삭제나 타겟 타입 변경(`String -> Int`)을 예고 없이 감행하여 하류 파이프라인(Snowflake, Dashboard)을 전면 붕괴시키는 현상.
+- **Schema & Quality Enforcement**: CI/CD 파이프라인 내에서 Data Contract 명세서(YAML/JSON)와 실제 데이터간 일치성을 자동 검증하여 위반 시 적재를 즉시 블로킹하는 기술.
 
 </details>
 
-- 정의/개념: 데이터 생산자와 소비자가 스키마•의미•품질•변경 호환성에 합의하고 자동 검증하도록 만든 **데이터 계약(Data Contract)** 규약이다.
-- 배경/필요성: 생산자의 일방적 변경은 소비자의 하류 처리 실패를 유발한다.
+- 정의/개념: 데이터 생산자와 소비자가 데이터 스키마, 데이터 타입, SLA, 변경 예고 수칙을 명시적 계약서(YAML)로 체결하고 CI/CD 테스트로 자동 강제하는 협약 메커니즘인 **Data Contract**
+- 배경/필요성: 서비스 DB의 컬럼 수정이 하류 DW/BI 대시보드 연쇄 붕괴(Breaking Change)로 이어지는 문제 해결, Data Mesh의 Data-as-a-Product 핵심 구현 요구성
 
 #### 한줄 요약
 
-- 자료의 모양•뜻•품질•변경 예고를 자동 검사할 수 있는 납품 약속이다.
+- 자료의 모양·뜻·품질·변경 예고를 자동 검사할 수 있는 납품 약속이다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (Data Contract 3대 보장 축)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **변경 호환성**: 스키마 변경의 허용 범위와 공지•유예•버전 전환 절차를 정하는 특성이다.
-- **구문 보장**: 열•타입 같은 데이터 구조를 계약에 명시하는 특성이다.
-- **의미 보장**: 업무 용어•단위•집계 기준을 계약에 명시하는 특성이다.
-- **서비스 수준 목표(Service Level Objective, SLO)**: 품질 지표의 측정식•목표값•관찰 구간을 정한 운영 목표이다.
+- **Syntax & Semantic Guarantee**: 데이터 포맷 규격(Syntax) 및 업무 의미(Semantic)를 100% 보장.
+- **SLA & Quality Bound**: 데이터 유입 지연 시간(SLA) 및 널 비율(Quality)을 명시적 수치화.
 
 </details>
 
-- **구문 보장**과 **의미 보장**은 구조와 업무 해석을 함께 명시한다.
-- **서비스 수준 목표(SLO)**는 측정식•목표•관찰 구간을 정의한다.
-- **변경 호환성**: 공지•유예•버전 전환 절차를 결정한다.
+- **Explicit Binding between Producer & Consumer (생산자와 소비자 간 명시적 책임 배정)**
+- **Syntax, Semantics, Quality, SLA 4대 종합 명세 정의**
+- **Automated CI/CD Breaking Change Prevention (CI/CD 상에서 파괴적 변경 사전 블로킹)**
 
 #### 한줄 요약
 
 - 약속 문서만 두지 않고 설계 변경과 실제 납품 자료를 같은 규칙으로 검사해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Data Contract YAML Specification 명세 구조)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **버전 레지스트리**: 계약 판본과 호환성 규칙을 관리하는 구성요소이다.
-- **검증 레지스트리**: 실제 구조•품질 검사 결과를 관리하는 구성요소이다.
-- **스키마**: 열•타입•필수 여부를 정의하는 구성요소이다.
-- **키**: 레코드를 식별하는 값과 형식을 정의하는 구성요소이다.
-- **의미 정의**: 업무 용어•단위•코드값과 집계 기준을 설명하는 구성요소이다.
-- **품질 목표**: 품질 측정식•분모•목표값을 명시한 기준이다.
-- **위반 조치**: SLO 미달 시 차단•격리•통보 방법을 정한 기준이다.
-- **소유권**: 생산자•소비자와 계약 승인 책임자를 정하는 구성요소이다.
-- **지원 책임**: 데이터 장애 대응 주체와 범위를 정하는 구성요소이다.
+- **Data Contract Spec (OpenDataContract Standard)**: `schema`, `quality`, `terms`, `servicelevel` 4대 파트로 작성되는 YAML 기반 규약서.
 
 </details>
 
 ```text
-[데이터 계약]
-       |
-       +-- [스키마•키]
-       |
-       +-- [의미 정의]
-       |
-       +-- [품질•SLO]
-       |
-       +-- [소유권•지원]
-       |
-       +-- [버전•검증 레지스트리]
+┌────────────────────────────────────────────────────────────────────────┐
+│                      Data Contract Specification (YAML)                │
+├────────────────────────────────────────────────────────────────────────┤
+│ dataset: "orders_v1"                                                   │
+│ owner: "team-checkout@company.com"                                     │
+│ schema:                                                                │
+│   - column: "order_id", type: "string", required: true                 │
+│   - column: "amount", type: "decimal", required: true                  │
+│ quality:                                                               │
+│   - type: "row_count", min: 1000                                       │
+│   - type: "null_check", column: "order_id", max_null_percentage: 0.0   │
+│ serviceLevel:                                                          │
+│   freshness: "1 hour", availability: "99.9%"                           │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 버전•검증 레지스트리를 중심으로 데이터 구조, 업무 의미, 품질 목표와 생산•소비 책임이 하나의 계약 판본과 검사 근거에 결합되는 정적 데이터 계약 구조를 뜻한다.
+선의 의미: 데이터 생산자가 작성한 Contract YAML 명세서에 따라 CI/CD 및 파이프라인에서 자동 검증을 렌더링하는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 스키마•키 | **스키마**와 **키**가 열•타입•필수 여부•식별 형식 정의 |
-| 의미 정의 | **의미 정의**가 업무 용어•단위•코드•집계 기준 설명 |
-| 품질•SLO | **품질 목표**와 **위반 조치**가 측정식•분모•목표•대응 명시 |
-| 소유권•지원 | **소유권**과 **지원 책임**이 생산자•소비자•승인•대응 책임 배정 |
-| 버전•검증 레지스트리 | **버전 레지스트리**와 **검증 레지스트리**가 계약 버전•호환 규칙•검사 결과 관리 |
+| Data Contract 영역 | 주요 기술 구성 요소 | 실무 구현 내용 |
+|:---|:---|:---|
+| **1. Metadata & Owner**| **데이터셋 명칭, 버전을 담당하는 소유자(Owner) 이메일 명시**| `owner: team-checkout` |
+| **2. Schema & Syntax** | **컬럼명, 데이터 타입, 널 허용 여부(Required), Primary Key**| `column: order_id, type: string` |
+| **3. Quality Rules** | **데이터 건수, 널 비율, 수치 범위 등 품질 가이드라인** | `max_null_percentage: 0.0` |
+| **4. SLA & Terms** | **데이터 신선도(Freshness), 보존 기한 및 PII 포함 여부** | `freshness: 1 hour` |
 
 #### 한줄 요약
 
-- 데이터의 모양•뜻•품질•변경 예고를 납품 약속으로 정한다.
+- 데이터의 모양·뜻·품질·변경 예고를 납품 약속으로 정한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Data Contract CI/CD 검증 및 파이프라인 적용 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **새 계약 후보 등록**: 구조•의미•SLO•적용 시점을 계약 레지스트리에 제출하는 단계이다.
-- **호환성•소비자 영향 검사**: 기존 계약과 의존성에서 파괴적 변경과 전환 대상을 찾는 단계이다.
-- **지속적 통합(Continuous Integration, CI) 검사**: 계약 변경을 반영하기 전에 호환성과 소비자 영향을 자동 검증하는 검사이다.
-- **승인 계약 버전 게시**: 소유자 승인과 공지•유예를 거친 계약 판본을 확정하는 단계이다.
-- **계약 버전 기반 생산•검증**: 실제 데이터에 계약 판본을 연결해 구조•품질 위반을 판정하는 단계이다.
+- **Contract CI/CD Gate**: DB 마이그레이션(PR) 시 Data Contract 명세와 비교하여 파괴적 변경 발생 시 PR Merge를 자동 차단하는 게이트.
 
 </details>
 
 ```text
-계약 변경안
-    |
-    v
-1. 새 계약 후보 등록
-    |
-    v
-2. 호환성•소비자 영향 검사
-    |
-    +-- 파괴적 변경 --> 새 버전•공지•유예
-    |
-    +-- 호환 변경 ------+
-                         |
-                         v
-                  3. 지속적 통합 검사
-                         |
-                         v
-                  4. 승인 계약 버전 게시
-                         |
-                         v
-                  5. 계약 버전 기반 생산•검증
-                         |
-                         +-- 위반 --> 게시 차단•통보
-                         |
-                         +-- 통과 --> 데이터•품질 상태 제공
+[Dev DB Migration PR (Alter Table)] ──► [Contract CI/CD Checker]
+                                                  │
+                                 ┌────────────────┴────────────────┐
+                                 ▼ (No Breaking Change)            ▼ (Breaking Change Detected)
+                       [PR Merge Allowed]                [PR Blocked & Alert to Downstream]
 ```
 
 ### 동작 원리
 
-- **1. 새 계약 후보 등록**: **새 계약 후보 등록**은 구조•의미•SLO•적용 시점을 제출한다.
-- **2. 호환성•소비자 영향 검사**: **호환성•소비자 영향 검사**는 파괴적 변경•전환 대상을 식별한다.
-- **3. 지속적 통합 검사**: **지속적 통합(CI) 검사**는 계약 반영 전에 호환성과 소비자 영향을 자동 검증한다.
-- **4. 승인 계약 버전 게시**: **승인 계약 버전 게시**는 승인•공지•유예를 거친 판본을 확정한다.
-- **5. 계약 버전 기반 생산•검증**: **계약 버전 기반 생산•검증**은 게시 경계에서 구조•품질 위반을 판정한다.
+1. **PR Created**: 체크아웃 팀이 DB `order_id` 컬럼을 삭제하는 PR 생성.
+2. **Contract Check**: CI/CD 체커가 Data Contract 명세를 대조하여 하류 DW가 파형됨을 감지.
+3. **Merge Block**: PR 자동 차단 및 하류 데이터팀에 파괴적 변경 협의 이메일 발송 (**Data Contract 완결**).
 
 #### 한줄 요약
 
 - 납품 규격을 바꾸기 전에 기존 사용처가 깨지는지 검사하고 실제 자료도 같은 규격으로 검사한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (API Contract 대 Data Contract)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스 계약(Application Programming Interface Contract, API Contract)**: 서비스의 요청•응답 경로, 메서드, 오류와 버전 동작을 합의한 규약이다.
+- **API vs Data Contract**: API Contract(OpenAPI/Swagger)는 서비스 통신용 인터페이스 계약, Data Contract는 파이프라인 수집/품질/SLA 데이터용 계약.
 
 </details>
 
-| 비교 항목 | 데이터 계약 | API 계약 |
+| 비교 항목 | API Contract (OpenAPI/Swagger) | Data Contract (OpenDataContract) |
 |:---|:---|:---|
-| 적용 기준 | **데이터 계약**: 데이터셋 의미와 품질•최신성 | **응용 프로그래밍 인터페이스 계약(API Contract)**: 서비스 요청•응답 동작 |
-| 핵심 특징 | 구조•의미와 SLO•소유권 | 경로•메서드와 오류•버전 |
-| 한계 | 우회 데이터•SLO 미측정 | 명세•구현 불일치 |
+| **주요 대상** | **Microservice 간 REST API 통신** | **이종 데이터 파이프라인 및 DW/Lake 수집** |
+| **명세 내용** | Endpoint URL, Request/Response Body | **Schema, Quality Expectation, SLA, Freshness** |
+| **파괴적 변경 대응**| API URL 버저닝 (`/v1/user` $\rightarrow$ `/v2/user`)| **Data Contract 버저닝 및 하류 의존성 차단** |
+| **핵심 목적** | 서비스 동작 연동 보장 | **데이터 무결성 및 파이프라인 붕괴 방지** |
 
 #### 한줄 요약
 
 - 데이터 계약은 납품 내용과 품질, API 계약은 주문하고 받는 통신 규칙에 더 가깝다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Data Contract 도입 실무 3대 지침)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **파괴적 변경**: 기존 소비자의 처리를 깨뜨릴 수 있어 새 버전과 유예•폐기일 관리가 필요한 변경이다.
-- **소비 의존성**: 데이터셋을 사용하는 하류 소비자와 처리 경로의 관계이다.
-- **계약 시험**: 변경 후에도 합의한 처리가 유지되는지 검사하는 수단이다.
-- **SLO 측정**: 계산식과 관찰 구간으로 품질•최신성 목표 달성 여부를 판정하는 활동이다.
-- **게시 경계 검증**: 데이터가 소비자에게 공개되는 모든 경로에서 계약 준수 여부를 검사하는 통제이다.
+- **Producer Resistance (생산자 저항)**: 데이터 계약 작성이 백엔드 개발자에게 추가 부담으로 작용하여 거부하는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 도입 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 의미 해석 차이 | **의미 정의**에 용어•단위•집계 기준 명시 | 해석 변경 방지 |
-| 호환성 판단 곤란 | **소비 의존성**•**계약 시험** 적용 | 하류 처리 실패 예방 |
-| 품질 측정값 불일치 | **SLO 측정**에 계산식•관찰 구간 정의 | 측정 결과 일치 |
-| 미계약 데이터의 검사 경로 우회 | 모든 **게시 경계 검증** 적용 | 검사 우회 차단 |
-| **파괴적 변경** 필요 | 공지 후 유예•폐기일 관리 | 즉시 전환 위험 감소 |
+| **1. Producer Resistance**| 백엔드 개발자가 YAML 작성 귀찮아함 | **DB DDL/Protobuf 에서 Contract YAML 자동 추출 도구 배포**|
+| **2. Contract Drift** | 계약서만 써 두고 시스템 자동 검증 부재 | **GitHub Actions CI/CD 게이트웨이에 Contract 검증 자동화**|
+| **3. Legacy System Sync** | 레거시 DB의 컬럼 타입 무차별 변경 | **Schema Registry 기반 Kafka Topic 과 Contract 연동** |
+
+> 사례: **토스 / 당근마켓 / Databricks Data Contract 적용 사례**
 
 #### 한줄 요약
 
@@ -197,16 +157,13 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **게시 차단**: 계약의 품질 SLO를 위반한 데이터가 소비자에게 전달되지 않도록 막는 조치이다.
-- **새 버전**: 파괴적 변경을 분리해 게시하는 계약 판본이다.
-- **유예 전환**: 소비자에게 구버전에서 이전할 기간을 제공하는 절차이다.
+- **Data Contract 수립 기준(Data Contract Standards)**: OpenDataContract YAML 표준, CI/CD Gate, Data Mesh 통합 및 dbt/Great Expectations 연동성에 의거한 체계.
 
 </details>
 
-- 파괴적 변경은 **새 버전**과 **유예 전환**, SLO 위반은 **게시 차단**으로 통제한다.
+- **Data Contract 수립 기준**에 따라 Data Mesh 및 모던 파이프라인 구축 시 **Data Contract & OpenDataContract Specification** 필수 적용
 
 #### 한줄 요약
 
