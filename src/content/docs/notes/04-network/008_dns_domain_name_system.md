@@ -68,14 +68,14 @@ extra:
 </details>
 
 ```text
-[ Client Device ] -> (Stub Resolver)
+[ 클라이언트 단말 ] -> (스텁 리졸버)
                            |
-                           v  (Recursive Query)
-                [ Recursive Resolver (Local DNS) ]
+                           v  (재귀 질의)
+                [ 재귀 리졸버 (로컬 DNS) ]
                 /          |          \
- (Iterative)   /           |           \ (Iterative)
+(반복 질의)    /           |           \ (반복 질의)
               v            v            v
-     [ Root Server ]  [ TLD Server ]  [ Authoritative Server ]
+     [ 루트 서버 ]    [ TLD 서버 ]    [ 권한 서버 ]
 ```
 
 *스텁 리졸버, 재귀 리졸버, 계층별 네임서버 간 분산 협력 구조.*
@@ -106,12 +106,6 @@ extra:
 </details>
 
 ```text
-[ Client ] ---> (1) Recursive Query ---------------------> [ Recursive Resolver ]
-                                                               | (Cache Miss)
-                                                               v
-                                   [ Root Server ] <--- (2) Iterative Query (www.example.com?)
-                                   [ Root Server ] ---> (3) TLD Server IP Referral (.com)
-                                                               |
                                    [ TLD Server ]  <--- (4) Iterative Query (www.example.com?)
                                    [ TLD Server ]  ---> (5) Auth Server IP Referral (example.com)
                                                                |

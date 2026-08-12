@@ -21,16 +21,16 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 네트워크 계층에서 송수신 호스트 및 인터페이스를 고유하게 식별하여 패킷 라우팅을 가능하게 하는 논리적 주소.
-- **IPv4(Internet Protocol version 4)**: 32비트 주소 체계를 사용하며 8비트씩 4개 옥텟(Octet)으로 구분하여 10진수로 표기하는 4세대 인터넷 프로토콜.
-- **IPv6(Internet Protocol version 6)**: IPv4 주소 고갈 문제를 근본적으로 해결하기 위해 128비트 주소 체계를 채택하고 16비트씩 8개 그룹으로 구분하여 16진수로 표기하는 차세대 프로토콜.
+- **IP 주소(IP Address)**: 네트워크 계층에서 호스트 인터페이스를 식별하여 패킷 라우팅을 수행하는 논리적 주소.
+- **IPv4**: 32비트 주소 체계로 8비트씩 4개 옥텟을 10진수로 표기하는 4세대 프로토콜.
+- **IPv6**: 128비트 주소 체계로 16비트씩 8개 그룹을 16진수로 표기하는 차세대 프로토콜.
 
 </details>
 
-- 정의: 이기종 네트워크 간 패킷 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계.
-- 배경: IoT, 모바일 장비 폭증에 따른 32비트 IPv4 주소 고갈 한계 극복 및 주소 공간 확장, 보안(IPsec 내장), 무상태 자동 설정을 제공하는 IPv6 전환 필요성 증대.
+- 정의: 이기종 망 간 패킷 라우팅 및 호스트 식별을 위해 제정된 계층적 논리 주소 체계.
+- 배경: IPv4 주소 고갈 한계 극복, 주소 공간 확장, 보안(IPsec) 내장, 자동 설정(SLAAC) 제공 IPv6 전환 필요.
 
 #### 한줄 요약
 
@@ -39,10 +39,10 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **최장 프리픽스 일치(Longest Prefix Match, LPM)**: 라우터가 IP 패킷을 포워딩할 때 라우팅 테이블 항목 중 비트가 가장 길게 일치하는 경로를 최적 경로로 선택하는 알고리즘.
-- **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**: 별도 DHCP 서버 없이 라우터 광고(RA) 메시지의 서브넷 프리픽스와 인터페이스 ID를 조합하여 IPv6 주소를 자동 생성하는 기법.
+- **LPM(Longest Prefix Match)**: 라우팅 테이블 항목 중 비트가 가장 길게 일치하는 경로를 최적 경로로 선택하는 알고리즘.
+- **SLAAC(Stateless Address Autoconfiguration)**: DHCP 서버 없이 라우터 광고(RA) 메시지로 IPv6 주소를 자동 생성하는 기법.
 
 </details>
 

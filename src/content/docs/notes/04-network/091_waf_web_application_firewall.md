@@ -21,28 +21,28 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: HTTP/HTTPS 페이로드와 문맥을 분석하여 SQLi, XSS 등 L7 응용 공격을 탐지•차단하는 웹 전용 보안 장비이다.
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: 웹 클라이언트와 서버 간 메시지(URL, Header, Body)를 교환하는 응용 계층 프로토콜이다.
-- **응용 계층 보안 통제(Application Layer Security Control)**: IP/Port 통제를 넘어 HTTP 헤더와 페이로드의 악성 입력값을 심층 검사하는 보안 메커니즘이다.
-- **응용 입력•업무 공격 미식별(Unidentified Application Input & Business Attack)**: L3/L4 방화벽이 허용된 80/443 포트 내부의 악성 웹 페이로드를 식별하지 못하는 한계이다.
+- **웹 애플리케이션 방화벽(WAF, Web Application Firewall)**: HTTP/HTTPS 페이로드와 문맥을 심층 분석하여 SQL Injection, XSS 등 L7 응용 계층 공격을 탐지 및 차단하는 웹 전용 보안 시스템이다.
+- **하이퍼텍스트 전송 프로토콜(HTTP, Hypertext Transfer Protocol)**: 웹 클라이언트와 서버 간 데이터(URL, Header, Body)를 교환하는 L7 응용 계층 프로토콜이다.
+- **응용 계층 보안 통제(Application Layer Security Control)**: IP/Port 중심 통제를 넘어 HTTP 요청/응답 페이로드의 악성 입력값을 심층 검사하는 보안 메커니즘이다.
+- **응용 입력•업무 공격 미식별(Unidentified Application Input & Business Attack)**: L3/L4 방화벽이 허용 포트(80/443) 내부에 은닉된 L7 악성 페이로드를 식별하지 못하는 한계점이다.
 
 </details>
 
-- 정의/개념: HTTP/HTTPS 문맥 심층 분석을 통해 웹 공격을 차단하는 **응용 계층 보안 통제**이다.
-- 배경/필요성: L3/L4 방화벽의 **응용 입력•업무 공격 미식별** 한계 극복 및 웹 취약점 공격 방어가 시급하다.
+- 정의/개념: HTTP/HTTPS 문맥 심층 분석으로 웹 공격을 차단하는 **응용 계층 보안 통제**.
+- 배경/필요성: L3/L4 방화벽의 **응용 입력•업무 공격 미식별** 한계 극복 및 L7 웹 취약점 방어 시급.
 
 #### 한줄 요약
 
-- L7 HTTP 요청/응답 페이로드를 검사하여 정상 트래픽과 웹 공격 입력을 판별.
+- L7 HTTP 페이로드 검사를 통해 정상 트래픽과 웹 공격 입력을 정밀 판별.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **정규화(Normalization)**: URL 인코딩, Base64 등 다중 인코딩된 입력을 표준 형태로 변환하여 탐지 우회를 방지하는 기법이다.
-- **공격 서명(Attack Signature)**: 알려진 웹 공격의 문자열 패턴 및 구조적 특징을 정의한 규칙 집합이다.
-- **가상 패치(Virtual Patch)**: 소스코드 수정 전 WAF 규칙 등록으로 취약점 악용 요청을 즉시 임시 차단하는 조치이다.
-- **HTTP 문맥 분석(HTTP Context Analysis)**: URL, Header, Body 간의 상관관계를 해석하여 정상 동작 여부를 종합 판별하는 검사 기법이다.
+- **정규화(Normalization)**: URL 인코딩, Base64 등 다중 인코딩된 난독화 입력을 표준 디코딩 형태로 변환하여 탐지 우회를 차단하는 기술이다.
+- **공격 서명(Attack Signature)**: 알려진 웹 공격 패턴 및 규칙 기반의 식별 문자열 집합이다.
+- **가상 패치(Virtual Patch)**: 소스코드 직접 수정 전 WAF 차단 규칙 등록을 통해 제로데이 취약점 악용 요청을 즉시 1차 방어하는 기술이다.
+- **HTTP 문맥 분석(HTTP Context Analysis)**: URL, Header, Body 간 연관관계를 종합 해석하여 정상 동작 여부를 판별하는 심층 검사 기법이다.
 
 </details>
 
@@ -52,18 +52,18 @@ extra:
 
 #### 한줄 요약
 
-- 인코딩 우회 무력화 및 공격 서명 비교를 통해 웹 공격을 차단하며 정교한 정책 튜닝 필요.
+- 인코딩 우회 무력화 및 공격 서명 매칭을 통한 웹 공격 차단과 정교한 정책 튜닝 필요.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
 - **역방향 대리자(Reverse Proxy)**: 클라이언트와 원본 서버 사이에서 트래픽을 대리 수신 및 검사 후 전달하는 중계 구조이다.
-- **전송 계층 보안 종단기(Transport Layer Security Terminal, TLS Terminal)**: SSL/TLS 암호화 세션을 종단하여 복호화된 HTTP 페이로드를 탐지 엔진에 제공하는 구성요소이다.
+- **전송 계층 보안 종단기(TLS Terminal, Transport Layer Security Terminal)**: SSL/TLS 암호화 세션을 종단하여 복호화된 HTTP 페이로드를 탐지 엔진에 제공하는 구성요소이다.
 - **HTTP 해석•정규화기(HTTP Parser & Normalizer)**: 복호화된 웹 요청을 구조화하고 인코딩을 정규화하는 파싱 엔진이다.
 - **WAF 정책 엔진(WAF Policy Engine)**: 서명 매칭, 긍정/부정 보안 모델, 속도 제한 규칙을 적용하여 공격을 판정하는 핵심 엔진이다.
-- **원본 웹 서버(Origin Web Server)**: WAF의 검증을 통과한 유효 트래픽만 수신하여 비즈니스 로직을 처리하는 내부 서버이다.
-- **균일 자원 위치 지정자(Uniform Resource Locator, URL)**: 웹 리소스의 위치와 접근 프로토콜을 명시하는 식별자이다.
+- **원본 웹 서버(Origin Web Server)**: WAF 검증을 통과한 유효 트래픽만 수신하여 비즈니스 로직을 처리하는 내부 서버이다.
+- **균일 자원 위치 지정자(URL, Uniform Resource Locator)**: 웹 리소스의 위치와 접근 프로토콜을 명시하는 식별자이다.
 - **관측•튜닝기(Observability & Tuning Engine)**: 로그 분석, 오탐/미탐 모니터링을 통해 WAF 탐지 규칙을 최적화하는 관리 도구이다.
 
 </details>
@@ -83,11 +83,11 @@ WAF는 **역방향 대리자** 방식으로 배치되어 외부 요청을 선제
 
 | 구성요소 | 책임 |
 |:---|:---|
-| TLS 종단기 | **TLS 종단기**가 SSL/TLS 암호 세션 종단 및 HTTP 복호화 수행 |
-| HTTP 해석•정규화기 | **HTTP 해석•정규화기**가 URL, Header, Body 파싱 및 인코딩 정규화 |
-| WAF 정책 엔진 | **WAF 정책 엔진**이 서명, 행위, 속도 기반 탐지 규칙 판정 |
-| 원본 웹 서버 | **원본 웹 서버**가 WAF 검증 필터링을 통과한 허용 요청만 처리 |
-| 관측•튜닝기 | **관측•튜닝기**가 오탐/미탐 모니터링 및 탐지 규칙 주기적 최적화 |
+| TLS 종단기 | SSL/TLS 암호 세션 종단 및 HTTP 복호화 수행 |
+| HTTP 해석•정규화기 | URL, Header, Body 파싱 및 인코딩 정규화 |
+| WAF 정책 엔진 | 서명, 행위, 임계치(Rate Limit) 기반 탐지 규칙 판정 |
+| 원본 웹 서버 | WAF 검증 필터링을 통과한 허용 요청만 처리 |
+| 관측•튜닝기 | 오탐/미탐 모니터링 및 탐지 규칙 주기적 최적화 |
 
 #### 한줄 요약
 
@@ -97,8 +97,8 @@ WAF는 **역방향 대리자** 방식으로 배치되어 외부 요청을 선제
 
 <details><summary>핵심 용어</summary>
 
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: TLS 암호화 계층을 추가하여 데이터 보안성을 보장하는 HTTP 프로토콜이다.
-- **TLS 요청 복호화(TLS Request Decryption)**: HTTPS 암호화 세션을 해제하여 명문 HTTP 패킷을 추출하는 전처리 과정이다.
+- **보안 하이퍼텍스트 전송 프로토콜(HTTPS, Hypertext Transfer Protocol Secure)**: TLS 암호화 계층을 추가하여 데이터 보안성을 보장하는 HTTP 프로토콜이다.
+- **TLS 요청 복호화(TLS Request Decryption)**: HTTPS 암호화 세션을 해제하여 평문 HTTP 패킷을 추출하는 전처리 과정이다.
 - **HTTP 요청 정규화(HTTP Request Normalization)**: 다양한 난독화/인코딩 형태를 표준 HTTP 데이터 규격으로 일관화하는 단계이다.
 - **공격 문맥 판정(Attack Context Decision)**: 서명 매칭, 긍정 모델, 속도 제어 규칙을 종합하여 이상 유무를 판단하는 프로세스이다.
 - **허용 요청 중계(Allowed Request Proxying)**: 정상 요청으로 판정된 트래픽을 원본 웹 서버로 안전하게 포워딩하는 동작이다.
@@ -125,10 +125,10 @@ HTTPS 요청
 
 ### 동작 원리
 
-1. **TLS 요청 복호화**: **HTTPS** 세션 종단 후 복호화하여 명문 HTTP 데이터를 추출.
-2. **HTTP 요청 정규화**: 인코딩 난독화 문자를 **HTTP 요청 정규화** 프로세스로 일관된 표준 규격 변환.
-3. **공격 문맥 판정**: 규칙 모음 및 행위 기반으로 **공격 문맥 판정** 수행 (공격 시 즉시 차단/로그).
-4. **허용 요청 중계**: 검증 완료된 트래픽을 **허용 요청 중계**로 내부 원본 서버에 전달.
+1. **TLS 요청 복호화**: HTTPS 세션 종단 후 복호화하여 평문 HTTP 데이터 추출.
+2. **HTTP 요청 정규화**: 인코딩 난독화 문자를 표준 규격으로 일관 변환.
+3. **공격 문맥 판정**: 규칙 모음 및 행위 기반 판정 수행 (공격 시 차단 및 로그 기록).
+4. **허용 요청 중계**: 검증 완료된 트래픽을 내부 원본 서버에 전송.
 
 #### 한줄 요약
 
@@ -160,7 +160,7 @@ HTTPS 요청
 <details><summary>핵심 용어</summary>
 
 - **오탐(False Positive)**: 정상적인 사용자 요청을 공격 트래픽으로 잘못 판단하여 차단하는 오류 현상이다.
-- **관측•튜닝(Observability & Tuning)**: 탐지 로그 및 오탐 내역을 분석하여 탐지 정책 정책을 최적화하는 운영 활동이다.
+- **관측•튜닝(Observability & Tuning)**: 탐지 로그 및 오탐 내역을 분석하여 탐지 정책을 최적화하는 운영 활동이다.
 
 </details>
 
@@ -172,7 +172,7 @@ HTTPS 요청
 
 #### 한줄 요약
 
-- 가상 패치로 즉시 방어망을 구축하고 지속적 정책 튜닝으로 오탐 최소화 및 Performance 유지.
+- 가상 패치로 즉시 방어망을 구축하고 지속적 정책 튜닝으로 오탐 최소화 및 성능 유지.
 
 ## Ⅶ. 결론
 
