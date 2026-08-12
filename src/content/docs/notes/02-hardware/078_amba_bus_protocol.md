@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **고급 마이크로컨트롤러 버스 아키텍처(Advanced Microcontroller Bus Architecture, AMBA)**: SoC 내부 기능 블록의 거래와 응답을 표준화한 Arm 인터페이스 규격군이다.
-- **시스템온칩(System on Chip, SoC)**: 처리기와 메모리 제어기 및 주변장치를 하나의 반도체 다이에 통합한 시스템이다.
-- **거래(Transaction)**: 주소와 제어, 데이터 및 응답으로 완결되는 한 번의 읽기 또는 쓰기 작업이다.
+- **AMBA(Advanced Microcontroller Bus Architecture)**: Arm 사가 제정한 System-on-Chip(SoC) 내 CPU 코어, 메모리 컨트롤러, 온칩 주변장치 간의 표준 개방형 버스 규격.
+- **SoC(System on Chip)**: CPU, GPU, NPU, 메모리 인터페이스, 입출력 레지스터가 단일 실리콘 다이에 통합된 시스템 칩.
+- **거래(Transaction)**: 버스 상에서 주소(Address), 제어(Control), 데이터(Data) 패킷이 인가되어 처리 완결되는 단일 버스 동작 단위.
 
 </details>
 
-- 정의/개념: **SoC** 내부 관리자와 대상 기능 블록 사이의 **거래** 규칙을 표준화한 Arm 인터페이스 규격군인 **AMBA**이다.
-- 배경/필요성: 기능 블록마다 독자 인터페이스를 사용하면 연결 회로와 검증 환경을 반복 개발해야 하므로 통합 비용이 증가한다.
+- 정의/개념: SoC 내부 서브시스템 기능 블록 간의 연동 신호 규격 및 **거래** 프로토콜을 계층별로 구율한 표준 규격인 **AMBA**
+- 배경/필요성: IP(Intellectual Property) 부품 간 독자 인터페이스 사용 시 발생하는 재설계 오버헤드 해소 및 SoC 온칩 통합 효율성 극대화
 
 #### 한줄 요약
 
@@ -39,16 +39,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **고급 확장형 인터페이스(Advanced eXtensible Interface, AXI)**: 독립 채널과 여러 미완료 거래를 지원하는 고성능 AMBA 인터페이스이다.
-- **고급 고성능 버스(Advanced High-performance Bus, AHB)**: 주소와 데이터 단계를 겹쳐 처리하는 중간급 AMBA 시스템 버스이다.
-- **고급 주변 버스(Advanced Peripheral Bus, APB)**: 저대역 주변장치 레지스터를 연결하는 단순 AMBA 인터페이스이다.
-- **미완료 거래(Outstanding Transaction)**: 요청을 수락했지만 아직 최종 응답이 끝나지 않은 거래이다.
+- **AXI(Advanced eXtensible Interface)**: 읽기/쓰기 채널 분리, Out-of-Order 실행 및 5개 독립 채널을 지원하는 최고성능 AMBA 3/4/5 온칩 버스 규격.
+- **AHB(Advanced High-Performance Bus)**: 주소와 데이터 단계를 겹쳐 파이프라이닝을 지원하는 버퍼링 시스템 버스 규격.
+- **APB(Advanced Peripheral Bus)**: 단순한 2-Phase 핸드셰이크 구조를 지닌 저속/저전력 주변장치 제어용 버스 규격.
+- **미완료 거래(Outstanding Transaction)**: 이전 요청에 대한 최종 응답(Response) 수신 전이라도 신규 요청을 연속 발행(Burst)하는 기법.
 
 </details>
 
-- **AXI**는 독립 채널과 **미완료 거래**로 여러 요청을 병렬 처리한다.
-- **AHB**는 주소와 데이터 단계를 겹쳐 중간급 시스템을 연결한다.
-- **APB**는 설정·접근 2단계로 저속 제어 레지스터를 연결한다.
+- 고성능 대용량 데이터 전송을 위한 **AXI**의 5개 독립 채널 및 **미완료 거래** 보장
+- 파이프라인 버스트 전송을 보장하는 **AHB** 시스템 온칩 인터커넥트
+- 저전력/저속 제어 레지스터 연결을 보장하는 **APB** 미들웨어 계층 구조
 
 #### 한줄 요약
 
@@ -58,11 +58,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **관리자 기능 블록(Manager Block)**: 프로세서와 직접 메모리 접근(Direct Memory Access, DMA) 장치처럼 읽기•쓰기 거래를 발행하는 구성이다.
-- **고속 상호 연결망(High-speed Interconnect)**: 여러 관리자를 연결하고 주소 디코딩•중재•라우팅을 수행하는 구성이다.
-- **메모리•가속기(Memory•Accelerator)**: 고대역 AXI 또는 AHB 요청을 처리하는 대상 구성이다.
-- **프로토콜 브리지(Protocol Bridge)**: 한 버스의 거래를 다른 버스가 요구하는 신호와 순서로 변환하는 장치이다.
-- **저속 주변장치(Low-speed Peripheral)**: APB를 통해 제어•상태 레지스터를 제공하는 구성이다.
+- **Manager Block**: 읽기/쓰기 트랜잭션을 능동 발상(Master)시키는 CPU, DMA 등의 주 장치.
+- **Subordinate/Target Block**: 주 장치 요청을 전달받아 메모리/레지스터 억세스를 수행(Slave)하는 종속 장치.
+- **프로토콜 브리지(Protocol Bridge)**: AXI<->AHB, AHB<->APB 간 신호 패킷 변환 및 속도차 버퍼링을 담당하는 버스 브리지 칩셋.
 
 </details>
 
@@ -74,33 +72,25 @@ extra:
                         [저속 주변장치]
 ```
 
-선의 의미: 가로선은 고속 AMBA 경계이고, 세로선은 고속 상호 연결망에 브리지와 저속 주변장치가 계층적으로 결합되는 주변장치 경계를 뜻한다.
+선의 의미: 주 관리자(Manager) 블록이 고속 상호 연결망(AXI)을 거쳐 메모리/가속기로 연동되고, 브리지를 거쳐 저속 APB 주변장치로 분기되는 아키텍처.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 관리자 기능 블록 | 읽기•쓰기 거래 발행 |
-| 고속 상호 연결망 | 디코딩•중재•라우팅 |
-| 메모리•가속기 | 고대역 요청 처리 |
-| 프로토콜 브리지 | AXI•APB 거래 변환 |
-| 저속 주변장치 | 제어 레지스터 제공 |
+| 관리자(Manager/Master) | 주소, 제어 및 읽기/쓰기 **거래** 트랜잭션 능동 발행 |
+| 고속 상호 연결망 | AXI 5-Channel(AR, R, AW, W, B) 라우팅, 중재 및 디코딩 |
+| 프로토콜 브리지 | 고속 AXI/AHB 요청을 저속 **APB** 2-Phase 파이프라인으로 패킷 변환 |
+| 저속 주변장치 | UART, Timer, GPIO 등 저속 제어 레지스터 **APB** 응답 처리 |
 
 #### 한줄 요약
 
-- **고속 상호 연결망**과 **프로토콜 브리지**가 **관리자 기능 블록·메모리·가속기·저속 주변장치**를 계층형 SoC로 연결한다.
+- 고속 상호 연결망과 프로토콜 브리지가 관리자 기능 블록·메모리·가속기·저속 주변장치를 계층형 SoC로 연결한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **VALID•READY 핸드셰이크**: 송신 VALID와 수신 READY가 동시에 참일 때 채널 정보를 전달하는 AXI 규칙이다.
-- **APB 설정 단계(APB Setup Phase)**: PSEL과 주소 및 쓰기 데이터를 고정하여 대상 주변장치를 선택하는 첫 주기이다.
-- **APB 접근 단계(APB Access Phase)**: PENABLE을 활성화하고 PREADY 완료 또는 오류 응답까지 요청을 유지하는 단계이다.
-- **주변장치 선택 신호(Peripheral Select, PSEL)**: APB에서 접근 대상 주변장치를 선택하는 신호이다.
-- **주변장치 활성 신호(Peripheral Enable, PENABLE)**: APB 설정 다음 주기에 접근 단계를 활성화하는 신호이다.
-- **주변장치 준비 신호(Peripheral Ready, PREADY)**: APB 주변장치가 접근 완료 여부를 알리는 신호이다.
-- **주소 디코딩·중재**: 요청 주소로 대상을 찾고 공유 경로를 사용할 관리자를 고르는 단계이다.
-- **대상 프로토콜 실행**: 대상에 맞는 AXI·AHB 또는 APB 전송 규칙을 수행하는 단계이다.
-- **응답 변환·순서 정합**: 완료·오류 응답을 원래 프로토콜과 순서 규칙에 맞춰 반환하는 단계이다.
+- **VALID/READY 핸드셰이크**: AXI 5개 채널 상에서 송신측(VALID)과 수신측(READY) 신호가 모두 High(1)일 때 데이터 전송이 성립되는 메커니즘.
+- **PSEL/PENABLE/PREADY**: APB 버스의 2-Phase(Setup Phase -> Enable Phase) 전송을 제어하는 고유 핸드셰이크 신호.
 
 </details>
 
@@ -129,9 +119,10 @@ extra:
 
 ### 동작 원리
 
-1. **주소 디코딩•중재**: 상호 연결망이 요청 주소로 대상 장치를 찾고 공유 경로를 사용할 관리자를 선택한다.
-2. **대상 프로토콜 실행**: AXI 채널은 **VALID•READY 핸드셰이크**를 수행하고, AHB 경로는 파이프라인 규칙을 따르며, 브리지는 요청을 APB 설정•접근 단계로 변환한다.
-3. **응답 변환•순서 정합**: 대상의 완료•오류 응답을 원래 프로토콜과 순서 규칙에 맞춰 관리자에게 반환한다.
+1. **주소 디코딩·중재**: Master의 주소 전송 및 Interconnect 상의 주소 디코딩 및 중재(Arbitration).
+2. **AXI 독립 채널 핸드셰이크**: AXI 계층에서 **VALID/READY 핸드셰이크**를 통한 병렬 Read/Write 실행.
+3. **APB 브리지 변환**: 주변장치 접근 시 AXI/AHB 브리지에 의한 **PSEL**(Setup) -> **PENABLE/PREADY**(Enable) 2-Phase 신호 변환.
+4. **응답 변환·순서 정합**: 완료 응답(BRESP, RRESP) 수용 및 Master로 거래 종료 반환.
 
 #### 한줄 요약
 
@@ -141,17 +132,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **독립 채널(Independent Channel)**: AXI에서 읽기•쓰기 주소와 데이터 및 응답을 각각 별도 핸드셰이크로 전달하는 경로이다.
-- **주소•데이터 파이프라인(Address•Data Pipeline)**: AHB에서 현재 거래의 데이터와 다음 거래의 주소를 겹쳐 처리하는 구조이다.
-- **제어 레지스터(Control Register)**: 주변장치의 동작 설정과 상태를 작은 읽기•쓰기 거래로 제어하는 레지스터이다.
+- **독립 채널(Independent Channel)**: AXI 버스 상의 5개 전용 물리 선로 (Read Addr, Read Data, Write Addr, Write Data, Write Resp).
 
 </details>
 
-| AMBA 인터페이스 | AXI | AHB | APB |
+| 비교 항목 | AXI (Advanced eXtensible Interface) | AHB (Advanced High-performance) | APB (Advanced Peripheral Bus) |
 |:---|:---|:---|:---|
-| 적용 기준 | 메모리•가속기 | 중간급 시스템 경로 | **제어 레지스터** |
-| 핵심 특징 | AXI의 **독립 채널**•다중 거래 | AHB의 **주소·데이터 파이프라인** | APB 설정•접근 2단계 |
-| 한계 | 채널•순서 제어 복잡 | 공유 경로 중재 | 낮은 처리량 |
+| 적용 기준 | 고성능 CPU, GPU, DDR/NPU 메모리 시 | 온칩 SRAM, DMA 등 중간급 인프라 시 | UART, GPIO, Timer 등 저속 I/O 제어 시 |
+| 전송 구조 | 5개 **독립 채널**, Out-of-Order 실행 | 파이프라이닝 버스트, Single-Bus | 2-Phase (Setup/Enable) 단순 핸드셰이크 |
+| 성능/복잡도 | 최고 성능, 높은 면적/복잡도 | 중간 성능, 표준 버스 면적 | 저성능/저전력, 극소 로직 면적 |
 
 #### 한줄 요약
 
@@ -161,19 +150,18 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **프로토콜 검사기(Protocol Checker)**: 버스 신호와 거래 순서가 인터페이스 규칙을 따르는지 자동 판정하는 검증 도구이다.
-- **응답 순서(Response Ordering)**: 같은 식별자나 규칙이 요구하는 순서에 맞춰 완료 응답을 반환하는 제약이다.
-- **클록 도메인 교차(Clock Domain Crossing, CDC)**: 서로 다른 클록 영역 사이에서 신호와 거래를 안전하게 전달하는 기술이다.
-- **준안정(Metastability)**: 비동기 신호를 받은 플립플롭 출력이 일정 시간 0이나 1로 확정되지 않는 상태이다.
+- **CDC(Clock Domain Crossing)**: 서로 다른 동작 클록(Hz)을 사용하는 버스 블록 간 신호 수용 시 발생하는 준안정성(Metastability) 방지 기술.
+- **Protocol Checker**: AMBA 핸드셰이크 라이프사이클 위반을 RTL 시뮬레이션 상에서 실시간 탐지하는 Verification IP.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| AXI 식별자별 **응답 순서**를 어겨 거래 혼선 | **프로토콜 검사기**와 순서 점검 | 교착•응답 혼선 방지 |
-| APB 대기 상태가 브리지 버퍼에 누적 | 버퍼 깊이•타임아웃 설정 | 지연 전파 제한 |
-| 주소 지도가 겹쳐 여러 종속 장치가 선택 | 단일 주소 명세•자동 디코더 | 오접근 방지 |
-| **CDC**의 비동기 신호가 **준안정** 상태 | CDC•리셋 경로 검증 | 준안정 오류 감소 |
+| AXI Out-of-Order ID 혼선 시 데드락 발생 | **Protocol Checker** 및 Transaction Tracker 배치 | 핸드셰이크 에러 탐지 |
+| 서브시스템 간 클록 속도 차이에 의한 **Metastability** | **CDC** Async FIFO 및 2-FF Synchronizer 구축 | 클록 도메인 도서 신호 안정화 |
+| APB 억세스 병목으로 인한 AXI 버퍼 팽창 | 브리지 버퍼 튜닝 및 PREADY 타임아웃 예외 처리 | 고속 버스 지연 방지 |
+
+> 사례: **AXI4** 고속 백본 및 **APB** 주변장치 브리지 융합 SoC 아키텍처 구축
 
 #### 한줄 요약
 
@@ -183,14 +171,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **고대역 다중 거래(High-bandwidth Concurrent Transactions)**: 여러 읽기와 쓰기를 동시에 진행하여 메모리와 가속기 처리량을 높이는 작업이다.
-- **중간급 시스템 경로(Mid-range System Path)**: 단순 주변장치보다 높은 처리량이 필요하지만 AXI 복잡도는 불필요한 연결이다.
-- **저속 주변 경로(Low-speed Peripheral Path)**: 작은 설정•상태 레지스터를 낮은 회로 비용으로 연결하는 경로이다.
-- **AMBA 인터페이스 선택 기준**: 대역폭과 동시 거래 수 및 제어 역할로 AXI·AHB·APB를 고르는 기준이다.
+- **AMBA 선택 기준(AMBA Selection Criteria)**: 대상 IP의 데이터 전송률, 동시성, 인터페이스 회로 면적에 기반한 채택 체계.
 
 </details>
 
-- **AMBA 인터페이스 선택 기준**에 따라 **고대역 다중 거래**에는 **AXI**, **중간급 시스템 경로**에는 **AHB**, **저속 주변 경로**에는 **APB**를 선택한다.
+- **AMBA 선택 기준**에 따라 고속 컴퓨팅은 **AXI**, 중간 인프라는 **AHB**, 단순 주변장치 제어는 **APB** 적용
 
 #### 한줄 요약
 
