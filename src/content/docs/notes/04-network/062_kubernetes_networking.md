@@ -22,128 +22,124 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 네트워킹(Kubernetes Networking)**: 클러스터 내 동적 파드(Pod) 간 직접 IP 통신, 서비스 발견, L7 인그레스 노출 및 보안 정책을 제공하는 가상 네트워크 모델.
-- **쿠버네티스(Kubernetes, K8s)**: 컨테이너화된 애플리케이션의 자동 배포, 스케일링, 복구를 선언적으로 관리하는 오픈소스 오케스트레이션 플랫폼.
+- **쿠버네티스 네트워킹(Kubernetes Networking)**: 파드(Pod) 간 직접 통신, 서비스 발견, 인그레스 노출, 보안 정책을 제공하는 가상 네트워크 모델.
+- **쿠버네티스(Kubernetes, K8s)**: 컨테이너 자동 배포, 스케일링, 복구를 관리하는 오픈소스 오케스트레이션 플랫폼.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 패킷의 논리적 주소 지정과 3계층 라우팅을 담당하는 프로토콜.
-- **파드(Pod)**: 하나 이상의 컨테이너가 동일한 리눅스 네트워크 네임스페이스 및 IP 주소를 공유하는 쿠버네티스 최소 배포 단위.
-- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 파드 생성 시 가상 veth 인터페이스 생성, IP 할당 및 라우팅 테이블 구성을 담당하는 플러그인 표준 규격.
-- **서비스(Service)**: 동적 IP 파드 집합 전면에 단일 고정 가상 IP(ClusterIP) 및 DNS 이름을 제공하는 L4 로드밸런싱 객체.
-- **인그레스(Ingress)**: 클러스터 외부의 HTTP/HTTPS 트래픽을 L7 라우팅 규칙(Host/Path)에 따라 클러스터 내부 서비스로 전달하는 프록시 객체.
+- **파드(Pod)**: 하나 이상의 컨테이너가 리눅스 네트워크 네임스페이스와 IP를 공유하는 최소 배포 단위.
+- **CNI(Container Network Interface)**: 파드 생성 시 인터페이스 생성, IP 할당, 라우팅 테이블 구성을 담당하는 플러그인 표준.
+- **서비스(Service)**: 동적 파드 집합 전면에 고정 가상 IP(ClusterIP) 및 DNS를 제공하는 L4 로드밸런싱 객체.
+- **인그레스(Ingress)**: 클러스터 외부 HTTP/HTTPS 트래픽을 L7 라우팅 규칙에 따라 내부 서비스로 전달하는 프록시 객체.
 
 </details>
 
-- 정의/개념: **쿠버네티스 네트워킹(Kubernetes Networking)**은 모든 **파드(Pod)**가 NAT 없이 1:1 통신 가능한 **IP 주소**를 보유하도록 **CNI(Container Network Interface)** 플러그인으로 구성하고, **서비스(Service)** 및 **인그레스(Ingress)**를 통해 가상 IP 로드밸런싱과 외부 L7 트래픽 진입 경로를 제공하는 클라우드 네이티브 네트워크 체계.
-- 배경/필요성: 컨테이너 오토스케일링 및 재시작 시 파드 IP가 유동적으로 변하므로, 서비스 디스커버리를 위한 고정 접근점과 오버레이/언더레이 L2/L3 통신 격리 및 보안 정책 수립 필수.
+- **개념**: **쿠버네티스 네트워킹**은 모든 **파드(Pod)**가 NAT 없이 1:1 통신 가능한 IP를 보유하도록 **CNI**로 구성, **서비스(Service)**와 **인그레스(Ingress)**로 가상 IP 로드밸런싱과 외부 L7 경로를 제공하는 체계.
+- **필요성**: 파드 IP 유동성에 따른 고정 접근점 제공과 오버레이/언더레이 L2/L3 통신 격리 및 보안 정책 수립 필수.
 
 #### 한줄 요약
-
-- 파드의 동적 IP 생명주기를 CNI 및 가상 IP 서비스 계층으로 추상화하여 고가용성 인그레스 트래픽을 수용하는 네트워킹 아키텍처 적용.
+- CNI 및 가상 IP 기반 파드 동적 생명주기 관리와 인그레스 트래픽 수용 네트워킹 아키텍처 적용.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **가상 IP 주소(Virtual IP Address, VIP)**: 소프트웨어 정의 프록시(kube-proxy/eBPF)에 의해 제어되며 복수의 파드 종단으로 분산되는 고정 대표 IP 주소.
-- **준비 상태(Readiness Probe / Readiness State)**: 파드 내부 트래픽 수용 가능 여부를 진단하여 서비스 로드밸런싱 엔드포인트 등록 여부를 동적으로 결정하는 상태 지표.
+- **가상 IP(Virtual IP, VIP)**: 프록시(kube-proxy/eBPF)가 제어하며 파드 종단으로 분산되는 고정 대표 IP.
+- **준비 상태(Readiness Probe)**: 파드 내부 통신 가능 여부를 진단하여 서비스 로드밸런싱 엔드포인트 등록을 결정하는 지표.
 
 </details>
 
-- 모든 파드는 독자적인 고유 **IP 주소**를 할당받아 컨테이너 간 포트 중복 충돌 없이 1:1 직접 통신(Pod-to-Pod) 수행.
-- **서비스(Service)** 객체는 **가상 IP 주소(Virtual IP Address, VIP)**를 부여하여 헬스체크를 통과한 **준비 상태(Readiness State)**의 파드 엔드포인트로 패킷을 자동 로드밸런싱.
-- **인그레스(Ingress)**는 L7 영역에서 TLS 종단(TLS Termination), 도메인 기반 네임 호스팅, URL 경로 기반 라우팅을 선언적으로 일관 실행.
+- 모든 파드는 고유 **IP**를 할당받아 포트 충돌 없이 1:1 직접 통신 수행.
+- **서비스**는 **가상 IP(VIP)**를 부여하여 **준비 상태(Readiness)**인 파드로 자동 로드밸런싱.
+- **인그레스**는 L7에서 TLS 종단(Termination), 호스팅, 경로 기반 라우팅을 일관 실행.
 
 #### 한줄 요약
-
-- CNI 기반 Flat IP 모델과 VIP 서비스 분산, L7 Ingress 라우팅을 융합하여 서비스 연속성을 확보하는 기본 원칙 준수.
+- CNI 기반 Flat IP 모델과 VIP 서비스, L7 인그레스 라우팅으로 서비스 연속성을 확보하는 기본 원칙 준수.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **엔드포인트슬라이스(EndpointSlice)**: 대규모 클러스터 성능 향상을 위해 파드의 IP•포트•준비 상태 정보를 100개 단위로 분할 관리하는 확장성 개체.
-- **네트워크 정책(NetworkPolicy)**: 파드 라벨(Label) 및 IP CIDR 기반으로 Ingress/Egress 트래픽의 허용/차단을 선언하여 Zero-Trust를 구현하는 보안 객체.
-- **전송 계층 보안(Transport Layer Security, TLS)**: 외부 사용자 및 인그레스 게이트웨이 간 패킷 암호화 및 서버 인증서 검증을 수행하는 보안 프로토콜.
-- **확장 버클리 패킷 필터(extended Berkeley Packet Filter, eBPF)**: 리눅스 커널 이벤트 영역에서 iptables 오버헤드 없이 고성능 바이패스 라우팅 및 NetworkPolicy를 커널 레벨에서 동적 실행하는 기술.
+- **엔드포인트슬라이스(EndpointSlice)**: 파드의 IP•포트•준비 상태 정보를 단위별 분할 관리하여 대규모 클러스터 성능을 향상하는 개체.
+- **네트워크 정책(NetworkPolicy)**: 파드 라벨(Label) 기반 Ingress/Egress 트래픽을 허용/차단하여 Zero-Trust를 구현하는 보안 객체.
+- **TLS(Transport Layer Security)**: 외부 사용자 및 인그레스 게이트웨이 간 패킷 암호화 및 인증을 수행하는 프로토콜.
+- **eBPF(extended Berkeley Packet Filter)**: 리눅스 커널 이벤트 영역에서 iptables 오버헤드 없이 고성능 라우팅 및 정책을 실행하는 기술.
 
 </details>
 
-- **EndpointSlice** 객체는 파드 Scale-Out 시 API 서버와 kube-proxy 간 전송 데이터를 최적화하고, **NetworkPolicy**는 L3/L4 격리 정책을 선언.
-- Cilium 등 고성능 CNI는 리눅스 커널 내 **eBPF** 엔진을 활용하여 iptables 병목 없는 바이패스 데이터 패스 포워딩을 수행하며, 인그레스 컨트롤러는 **TLS** 암호화를 지원.
+</details>
+
+- **EndpointSlice**는 파드 Scale-Out 시 API 서버와 프록시 간 데이터를 최적화하고, **NetworkPolicy**는 L3/L4 격리 정책을 선언.
+- 고성능 CNI는 **eBPF** 엔진으로 iptables 병목 없이 바이패스 포워딩을 수행하며, 인그레스는 **TLS** 암호화를 지원.
 
 ```text
 쿠버네티스 네트워킹 아키텍처
-├─ 외부 L7 진입: 인그레스 컨트롤러 (엔진엑스 / 엔보이 / 게이트웨이 API)
+├─ 외부 L7 진입: 인그레스 컨트롤러 (Nginx / Envoy / Gateway API)
 ├─ 서비스 탐색 계층
-│  ├─ 서비스 객체 (클러스터IP / 노드포트 / 로드밸런서)
-│  └─ 엔드포인트 분할 객체 (엔드포인트슬라이스)
+│  ├─ 서비스 객체 (ClusterIP / NodePort / LB)
+│  └─ 엔드포인트 분할 객체 (EndpointSlice)
 └─ 파드 데이터 경로 및 보안
-   ├─ 네트워크 보안 정책 (네트워크정책)
-   └─ CNI 데이터 경로 (실리움 eBPF / 칼리코 iptables / 플래널 가상확장LAN)
+   ├─ 네트워크 보안 정책 (NetworkPolicy)
+   └─ CNI 데이터 경로 (eBPF / iptables / VXLAN)
 ```
 
 | 구성요소 | 역할 및 핵심 기능 |
 |:---|:---|
-| **인그레스 컨트롤러(Ingress Controller)** | 외부 L7 Host/Path 라우팅 규칙 해석 및 SSL/TLS Termination 실행 |
-| **서비스 객체(Service)** | ClusterIP, NodePort, LoadBalancer 타입의 고정 VIP 제공 및 로드밸런싱 |
-| **엔드포인트슬라이스(EndpointSlice)** | Pod 개수 증가 시 준비 상태(Readiness)의 Pod IP/Port 매핑 정보를 분할 수용 |
-| **네트워크 정책(NetworkPolicy)** | Pod Label Selector 기반 Ingress/Egress 트래픽의 L3/L4 접근제어 허용 목록 설정 |
-| **CNI 데이터 패스(CNI Data Path)** | eBPF/iptables/OVS 기반 CNI 터널링(VXLAN/Geneve) 및 커널 레벨 패킷 포워딩 |
+| **인그레스 컨트롤러** | 외부 L7 라우팅 및 TLS Termination 실행 |
+| **서비스(Service)** | 고정 VIP 제공 및 로드밸런싱 |
+| **EndpointSlice** | 준비 상태의 Pod IP/Port 매핑 정보를 분할 수용 |
+| **NetworkPolicy** | Pod Label 기반 트래픽 L3/L4 접근제어 |
+| **CNI Data Path** | eBPF/iptables 기반 터널링 및 커널 패킷 포워딩 |
 
 #### 한줄 요약
-
-- Ingress 컨트롤러, EndpointSlice 기반 디스커버리, eBPF CNI 패킷 포워딩이 결합된 클라우드 네이티브 네트워크 아키텍처 구현 필수.
+- Ingress, EndpointSlice, eBPF 기반 고성능 클라우드 네이티브 네트워크 아키텍처 구현 필수.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **데이터 경로(Data Path)**: 패킷이 파드 간 또는 외부에서 내부로 수신될 때 eBPF/iptables 모듈을 통해 포워딩되는 통신 경로.
-- **프록시(kube-proxy)**: 각 노드에서 서비스 VIP 요청을 탐지하여 파드로 라우팅 규칙을 업데이트하는 데몬 프로세스.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: K8s 컨트롤 플레인 자원과 클라이언트 간 통신을 정의하는 REST API 명세.
-- **API 서버(kube-apiserver)**: 클러스터의 리소스 상태 변경 요청을 검증하고 etcd에 수용하며 이벤트를 알리는 컨트롤 플레인 모듈.
-- **하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP)**: L7 웹 트래픽 전송 표준 규격.
-- **보안 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol Secure, HTTPS)**: TLS 상에서 패킷을 암호화 전송하는 L7 프로토콜.
-- **Ingress 규칙 통지(Ingress Rule Notification)**: API 서버가 인그레스 설정 변경 이벤트를 인그레스 컨트롤러로 알리는 단계.
-- **외부 경로 설치(External Route Provisioning)**: 프록시에 L7 가상 호스트 및 업스트림 서버 구성을 동적 반영하는 단계.
-- **EndpointSlice·정책 통지(EndpointSlice & Policy Notification)**: 파드의 헬스체크 및 보안 정책 업데이트 이벤트를 감지하는 단계.
-- **종단·정책 규칙 설치(Endpoint & Policy Rule Installation)**: eBPF 맵 또는 iptables 룰셋에 로드밸런싱 테이블과 차단 정책을 적용하는 단계.
-- **허용 종단 전달(Forwarding to Allowed Endpoint)**: NetworkPolicy 검사를 통과한 요청을 최종 Pod 가상 인터페이스로 포워딩하는 단계.
+- **데이터 경로(Data Path)**: 패킷이 파드 간/외부 통신 시 eBPF/iptables를 거치는 경로.
+- **kube-proxy**: 서비스 VIP 요청을 탐지하여 파드로 라우팅 규칙을 갱신하는 데몬.
+- **API 서버(kube-apiserver)**: 클러스터 상태 변경 요청 검증 및 etcd 수용 컨트롤 플레인.
+- **Ingress 통지**: 인그레스 설정 변경을 인그레스 컨트롤러로 알리는 단계.
+- **외부 경로 설치**: 프록시에 L7 가상 호스트 구성을 동적 반영하는 단계.
+- **EndpointSlice/정책 통지**: 파드 상태 및 보안 정책 업데이트 이벤트를 감지하는 단계.
+- **종단/정책 규칙 설치**: eBPF 맵 또는 iptables에 룰셋을 적용하는 단계.
+- **종단 전달**: 정책 검사를 통과한 요청을 파드로 포워딩하는 단계.
+
+</details>
 
 </details>
 
 ```text
-1. 인그레스 규칙 변경 등록 (API 서버 알림)
+1. Ingress 규칙 변경 알림 (API 서버)
         │
         ▼
-2. 외부 경로 및 전송계층보안 설정 반영 (인그레스 컨트롤러 갱신)
+2. 경로/보안 설정 반영 (Ingress 컨트롤러)
         │
         ▼
-3. 엔드포인트 분할 및 네트워크 정책 변경 알림 (API 서버 감시)
+3. 파드/정책 변경 알림 (API 서버)
         │
         ▼
-4. eBPF / iptables 패킷 포워딩 규칙 설치 (CNI 및 프록시)
+4. 포워딩 규칙 설치 (eBPF / iptables)
         │
         ▼
-외부 웹 트래픽(HTTP / HTTPS) 클라이언트 요청 진입
+외부 웹 트래픽 요청 진입
         │
         ▼
-네트워크 정책 수신 검사 및 준비 상태 점검
-        ├─ [불충족/비정상] 패킷 차단 또는 HTTP 503 오류 반환
-        └─ [충족/정상] 5. 허용 종단 파드 전달 (파드 간 직접 포워딩)
+정책 검사 및 준비 상태 점검
+        ├─ [비정상] 차단/503 오류
+        └─ [정상] 5. 파드 전달
 ```
 
 ### 동작 원리
 
-1. **Ingress 규칙 통지**: Ingress 규칙 생성 시 **API 서버(kube-apiserver)**가 이벤트를 감지하여 Ingress 컨트롤러에 전달.
-2. **외부 경로 설치**: Ingress 컨트롤러가 Envoy/NGINX 내부 라우팅 테이블 및 **TLS** 인증서를 동적 갱신.
-3. **EndpointSlice·정책 통지**: 파드 변동에 따른 **EndpointSlice** 변화와 **NetworkPolicy**를 CNI 데몬에 전달.
-4. **종단·정책 규칙 설치**: CNI 데몬이 커널 레벨의 **eBPF** 맵이나 iptables에 로드밸런싱 대상 및 접근제어 규칙 반영.
-5. **허용 종단 전달**: 외부 **HTTPS** 요청 진입 시 L7 라우팅 및 보안 검사를 통과한 요청을 최종 **파드(Pod)**로 전달.
+1. **Ingress 통지**: 규칙 생성 시 **API 서버**가 이벤트를 감지하여 컨트롤러에 전달.
+2. **경로 설치**: 컨트롤러가 내부 라우팅 테이블 및 **TLS**를 갱신.
+3. **EndpointSlice/정책 통지**: 파드 변동과 정책을 CNI 데몬에 전달.
+4. **규칙 설치**: CNI 데몬이 커널 **eBPF** 맵이나 iptables에 규칙 반영.
+5. **종단 전달**: 요청 진입 시 L7 라우팅 및 보안 검사를 통과한 요청을 최종 **파드**로 전달.
 
 #### 한줄 요약
-
-- Control Plane 이벤트 관측 기반으로 Ingress 프록시 및 eBPF 커널 맵을 동적 업데이트하여 파드에 패킷을 전달하는 프로세스 준수.
-
+- Control Plane 관측 기반 프록시 및 eBPF 맵 동적 업데이트 프로세스 준수.
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
@@ -163,9 +159,7 @@ extra:
 > 요약: 단순 웹 애플리케이션 외부 노출에는 **Ingress**, 대규모 조직의 역할 분리 및 gRPC/L4 다중 트래픽 제어에는 **Gateway API** 적용.
 
 #### 한줄 요약
-
-- 단순 L7 호스팅 인그레스와 역할 기반 L4~L7 확장성을 제공하는 Gateway API 특성 비교 분석 모델 수용.
-
+- 단순 인그레스와 역할 기반 L4~L7 확장성을 제공하는 Gateway API 비교 모델 수용.
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
@@ -182,9 +176,7 @@ extra:
 | **대규모 커널 병목** | 수만 개 파드 환경에서 iptables 룰 폭증으로 인한 성능 저하 | iptables를 대체하는 **eBPF** 기반 CNI(Cilium) 전면 도입 | 커널 패킷 처리 지연 최소화 및 10배 이상 처리량 향상 |
 
 #### 한줄 요약
-
-- eBPF CNI 기반 NetworkPolicy 실행 검증과 Readiness Probe 최적화, Gateway API 도입을 통한 실무 운영성 확보 체계 구축.
-
+- eBPF 기반 보안 검증과 Readiness Probe 최적화, Gateway API 도입을 통한 실무 운영성 확보 체계 구축.
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
@@ -193,8 +185,7 @@ extra:
 
 </details>
 
-- **외부 경로 선택** 시 단순 L7 라우팅은 **Ingress**, 멀티테넌트 역할 분리 및 gRPC 제어에는 **Gateway API**를 표준으로 채택하고, 리눅스 커널 내 **eBPF** 기반 CNI를 연동하여 보안과 데이터 패스 성능을 동시에 확보하는 쿠버네티스 통합 네트워킹 구축 체계 적용.
+- **외부 경로 선택** 시 단순 L7은 **Ingress**, 멀티테넌트 및 gRPC 제어에는 **Gateway API**를 표준 채택하고, **eBPF** CNI를 연동하여 보안과 데이터 패스 성능을 확보하는 체계 적용.
 
 #### 한줄 요약
-
-- eBPF 기반 CNI 패스트 패스 연동 및 Gateway API 표준 적용을 통한 차세대 쿠버네티스 네트워킹 수용 체계 구축.
+- eBPF 기반 CNI 패스트 패스 및 Gateway API 적용 차세대 네트워킹 구축 체계 적용.
