@@ -20,16 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **데이터 파이프라인 오케스트레이션**: 데이터 작업의 일정•의존성•상태•재시도를 조정해 올바른 순서로 실행하는 활동이다.
-- **크론(Cron)**: 정해진 시각이나 주기에 독립 명령을 실행하는 시간 기반 작업 스케줄러이다.
+- **Data Pipeline Orchestration**: 이종의 수십~수백 개 데이터 연산 파이프라인(Task) 간의 실행 순서, 의존성(Dependency), 실패 재시도(Retry), 과거 데이터 재처리(Backfill)를 제어하고 모니터링하는 오케스트레이터 관리 체계.
+- **Apache Airflow**: Airbnb가 제안한 파이썬(Python) 기반 오픈소스 표준 워크플로 오케스트레이션 플랫폼.
+- **DAG (Directed Acyclic Graph)**: 순과정(Acyclic)이 없는 방향성 그래프 구조로, 작업(Task) 간의 `Task_A >> Task_B` 선후 의존 관계를 정의하는 워크플로 표현 단위.
 
 </details>
 
-- 정의/개념: 데이터 작업의 일정•의존성•실행 상태•재시도•복구를 워크플로로 조정하는 **데이터 파이프라인 오케스트레이션** 체계이다.
-- 배경/필요성: Cron만으로는 복합 작업의 의존 상태•실패 복구를 관리하기 어렵다.
+- 정의/개념: 분산 환경의 무수한 데이터 처리 작업(Task)들을 DAG(방향성 비순환 그래프) 코드로 엮어, 스케줄링, 의존성 제어, 백필(Backfill), 실패 복구를 자동 제어하는 체계인 **Data Pipeline Orchestration**
+- Background: 기존 단순 CronTab 스케줄러의 태스크 간 선후 의존성 제어 불가, 장애 발생 시 조건부 재시도 및 실패 알림 한계 극복 요구성
 
 #### 한줄 요약
 
@@ -37,157 +37,115 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **부하 통제**: Pool로 공유 자원의 동시 실행량을 제한하는 특성이다.
-- **복구 통제**: 재시도•백필로 실패와 과거 구간을 재처리하는 특성이다.
-- **방향성 비순환 그래프(Directed Acyclic Graph, DAG)**: 순환 없이 태스크의 선후 의존 관계를 나타내는 워크플로 구조이다.
-- **트리거 규칙**: 선행 태스크의 성공•실패•완료 상태 조합에 따라 후속 태스크 실행 여부를 정하는 조건이다.
-- **풀(Pool)**: 특정 자원이나 작업군이 동시에 사용할 수 있는 실행 슬롯 수를 제한하는 장치이다.
-- **백필(Backfill)**: 실행하지 못했거나 다시 계산해야 하는 과거 데이터 구간의 작업을 재처리하는 실행이다.
-- **워크플로 코드화**: 태스크•의존성•일정을 코드로 선언하고 버전 관리하는 방식이다.
+- **Workflow-as-Code**: 파이썬 코드로 DAG 워크플로를 작성하므로 Git 버전 관리, CI/CD 테스트, 동적 DAG 생성 가능.
+- **Backfill & Re-execution**: 과거 실패했던 3년 치 파티션 구간을 단 한 줄의 CLI 명령으로 자동 순차 재계산(Backfill).
 
 </details>
 
-- **워크플로 코드화**는 **방향성 비순환 그래프(DAG)**로 태스크•의존성•일정을 선언한다.
-- **트리거 규칙**: 선행 태스크 상태에 따라 후속을 실행한다.
-- **부하 통제**와 **복구 통제**는 **풀(Pool)**•재시도•**백필**로 실행량을 조정한다.
+- **Workflow-as-Code (Python 코드 기반의 DAG 선언 및 Git 버전 통제)**
+- **Robust Failure Recovery & Backfill (실패 시 조건부 Retry, SLA 모니터링, 과거 파티션 백필)**
+- **Extensible Architecture (Operator, Sensor, Hook을 활용한 모든 클라우드/DB 연동)**
 
 #### 한줄 요약
 
 - 순서표가 있어도 작업을 한꺼번에 너무 많이 보내면 공용 창구가 막히므로 동시 실행 수를 제한해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Apache Airflow 4대 분산 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **스케줄러**: DAG Run을 만들고 태스크 실행 조건을 판정하는 구성요소이다.
-- **실행자**: 준비된 태스크를 작업자에게 제출하는 구성요소이다.
-- **DAG 번들**: 워크플로 정의와 코드를 실행 가능한 판본으로 묶은 자료이다.
-- **DAG 처리기**: 워크플로 코드를 파싱•직렬화해 저장하는 구성요소이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 서버**: 사용자 요청과 작업자 상태 보고를 받아 메타데이터 계층에 전달하는 구성요소이다.
-- **메타데이터 데이터베이스(Metadata Database, Metadata DB)**: 워크플로 실행과 개별 태스크 인스턴스의 상태•이력을 저장하는 구성요소이다.
-- **작업자**: 스케줄러가 제출한 특정 코드 판본과 태스크를 실제로 실행하는 구성요소이다.
+- **Scheduler, Webserver, Celery Executor, Metadata DB**: Airflow 분산 가동을 지탱하는 4대 코어 물리 컴포넌트.
 
 </details>
 
 ```text
-[파이프라인 오케스트레이션]
-          |
-          +-- [DAG 번들•처리기]
-          |
-          +-- [스케줄러•실행자]
-          |
-          +-- [API 서버]
-          |
-          +-- [메타데이터 DB]
-          |
-          +-- [작업자]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Apache Airflow Architecture                     │
+├────────────────────────────────────────────────────────────────────────┤
+│ [User Browser] ──► [Airflow Webserver (UI)]                            │
+│                         │ (Read / Write Metadata)                      │
+│                         ▼                                              │
+│ [Airflow Scheduler] ──► [Metadata DB (PostgreSQL)]                     │
+│   (DAG Parsing)         ▲ (Task State Update)                          │
+│                         │                                              │
+│ [Celery / Kubernetes Executor] ──► [Worker Node 1] [Worker Node 2]     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 메타데이터 DB를 중심으로 DAG 정의, 스케줄•실행 상태, 사용자•작업자 통신과 실제 태스크 실행 요소가 결합되는 정적 오케스트레이션 구조를 뜻한다.
+선의 의미: Scheduler가 DAG를 파싱해 Metadata DB 및 Executor를 거쳐 Worker 노드로 Task를 분산 할당하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| DAG 번들•처리기 | **DAG 번들**과 **DAG 처리기**가 워크플로 코드를 파싱•직렬화해 저장 |
-| 스케줄러•실행자 | **스케줄러**와 **실행자**가 DAG Run 생성•조건 판정•태스크 제출 |
-| API 서버 | **응용 프로그래밍 인터페이스(API) 서버**가 사용자 요청•작업자 상태 통신 제공 |
-| 메타데이터 DB | **메타데이터 데이터베이스(Metadata DB)**가 DAG Run•Task Instance 상태 저장 |
-| 작업자 | **작업자**가 지정 DAG 버전•태스크 코드 실행 |
+| 핵심 구성요소 | 역할 및 기술 메커니즘 | 실무 튜닝 파라미터 |
+|:---|:---|:---|
+| **Airflow Scheduler** | **DAG 파일 주기적 파싱, 실행 준비된 Task 감지** | `min_file_process_interval` |
+| **Metadata DB** | **DAG Run, Task Instance 실행 상태 및 오프셋 보존** | **PostgreSQL / MySQL (SQLite 금지)** |
+| **Executor** | **Task를 실행할 노드(CeleryQueue, K8s Pod)로 스케줄**| **CeleryExecutor / KubernetesExecutor** |
+| **Worker Node** | **실제 Python 코딩 연산 또는 Bash 스크립트 실행 노드** | `worker_concurrency` 튜닝 |
 
 #### 한줄 요약
 
 - 상태 장부를 보고 준비된 작업만 작업자에게 보낸다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Airflow DAG Task 의존성 및 백필 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **DAG 파싱•직렬화 저장**: 일정•태스크•의존성을 실행 가능한 형태로 등록하는 단계이다.
-- **DAG Run•실행 조건 평가**: 실행 단위를 만들고 선행 상태•동시성으로 준비 여부를 판정하는 단계이다.
-- **준비 태스크•버전 제출**: 코드•데이터 구간•시도 번호를 고정해 작업자에게 보내는 단계이다.
-- **실행 상태•증거 보고**: 시작•완료•실패와 로그•산출물 위치를 상태 장부에 기록하는 단계이다.
-- **후속•재시도 태스크 결정**: 갱신된 상태와 재시도 정책으로 다음 실행을 고르는 단계이다.
+- **Trigger Rule**: `all_success`, `one_failed`, `all_done` 등 선행 Task의 성공/실패 여부에 따라 후속 Task의 실행 진입 여부를 정하는 로직.
 
 </details>
 
 ```text
-DAG 번들•일정
-      |
-      v
-1. DAG 파싱•직렬화 저장
-      |
-      v
-2. DAG Run•실행 조건 평가
-      |
-      +-- 미충족 --> 대기•건너뛰기
-      |
-      +-- 충족 --> 3. 준비 태스크•버전 제출
-                            |
-                            v
-                     4. 실행 상태•증거 보고
-                            |
-                            v
-                     5. 후속•재시도 태스크 결정
-                            |
-                            +-- 2번 평가로 순환
+[Task 1: S3 Ingest] ──► [Task 2: Spark Silver Processing]
+                                │ (Trigger Rule: all_success)
+                                ▼
+                       [Task 3: Snowflake Gold Mart] ──► [Task 4: Slack Alert]
 ```
 
 ### 동작 원리
 
-- **1. DAG 파싱•직렬화 저장**: **DAG 파싱•직렬화 저장**은 일정•태스크•의존성을 등록한다.
-- **2. DAG Run•실행 조건 평가**: **DAG Run•실행 조건 평가**는 선행 상태•동시성으로 준비 여부를 판정한다.
-- **3. 준비 태스크•버전 제출**: **준비 태스크•버전 제출**은 코드•데이터 구간•시도 번호를 고정한다.
-- **4. 실행 상태•증거 보고**: **실행 상태•증거 보고**는 상태•로그•산출 위치를 장부에 반영한다.
-- **5. 후속•재시도 태스크 결정**: **후속•재시도 태스크 결정**은 의존 상태•재시도 정책으로 다음 실행을 선택한다.
+1. **Dependency Validation**: Task 1이 성공 완료되어야만 Scheduler가 Task 2의 상태를 `QUEUED`로 전환.
+2. **Execution & State Return**: Worker가 Task 2를 수행하고 성공 시 Metadata DB에 `SUCCESS` 업데이트.
+3. **Branching**: Task 2 결과에 따라 Task 3와 Task 4를 동시/조건부 가동 (**Airflow Orchestration 완결**).
 
 #### 한줄 요약
 
 - 설계도와 상태 장부를 보고 준비된 작업만 보내고 결과가 적힐 때마다 다음 작업을 다시 고른다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Crontab vs Apache Airflow vs Prefect/Dagster)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Airflow 오케스트레이션**: 복합 의존성의 태스크 상태•재시도•백필을 DAG Run 단위로 관리하는 방식이다.
-- **방향성 비순환 그래프 실행(Directed Acyclic Graph Run, DAG Run)**: 하나의 워크플로 정의를 특정 일정이나 데이터 구간에 대해 실행한 인스턴스이다.
-- **Cron 중심 실행**: 작업 간 상태 의존성을 별도 관리하지 않고 지정 시각에 독립 명령을 실행하는 방식이다.
+- **Crontab vs Airflow**: Crontab은 단순 1회성 시간 기반 실행, Airflow는 DAG 기반 복합 의존성 및 UI 모니터링 보장.
 
 </details>
 
-| 비교 항목 | Airflow 오케스트레이션 | Cron 중심 실행 |
-|:---|:---|:---|
-| 적용 기준 | **Airflow 오케스트레이션**: 복합 의존성의 상태•백필 관리 | **Cron 중심 실행**: 작고 독립적인 시간 실행 |
-| 핵심 특징 | **방향성 비순환 그래프 실행(DAG Run)** 기반 태스크 상태•Pool | 지정 시각의 독립 명령 |
-| 한계 | 상태 DB 병목•백필 폭주 | 숨은 의존성•실패 추적 한계 |
+| 비교 항목 | Linux Crontab | Apache Airflow | Prefect / Dagster (3세대) |
+|:---|:---|:---|:---|
+| **의존성 제어** | **불가능 (시간 차로 어림잡아 실행)**| **완벽 (DAG 기반 선후 관계 보장)** | **완벽 (Data-centric DAG 및 Dataflow)**|
+| **모니터링 UI** | 없음 (로그 파일 파싱 필요) | **우수 (웹 UI에서 Task 상태 시각화)**| **최상 (모던 데이터 아키텍처 UI)** |
+| **과거 백필 (Backfill)**| 불가능 (수동 스크립트 개별 가동)| **CLI 한 줄로 파티션 백필 완전 자동화**| 완전 자동화 |
+| **설정 방식** | 텍스트 Cron 표현식 | **Python DAG 코드** | Python Code & Asset 중심 |
 
 #### 한줄 요약
 
-- Airflow는 앞 작업의 결과를 보고 다음 일을 정하고 오케스트레이션 선택 기준**에 따라 복합 의존•백필은 **Airflow**, 독립 시간 작업은 **크론은 정해진 시각에 알람만 울린다.
+- Airflow는 앞 작업의 결과를 보고 다음 일을 정하고 크론은 정해진 시각에 알람만 울린다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Airflow 운영 3대 장애 해결책)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **멱등성**: 같은 데이터 구간의 태스크를 여러 번 실행해도 최종 결과가 한 번 실행한 것과 같게 유지되는 성질이다.
-- **센서**: 외부 데이터나 작업의 완료 여부를 감지하는 수단이다.
-- **데이터 계약**: 입력의 구조•품질•제공 조건을 명시한 약속이다.
-- **DAG 파싱**: 워크플로 코드에서 태스크와 의존 관계를 해석하는 처리이다.
+- **Top-Level Code Heavy Operations**: DAG 파이썬 파일의 Top-Level 위치에 DB 연결이나 API 호출 코드를 넣으면, Scheduler가 매초 파싱할 때마다 시스템 전체가 다운되는 안티패턴.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 Airflow 장애 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 태스크 재시도 | 데이터 구간•업무 키로 **멱등성** 확보 | 중복 적재 방지 |
-| 숨은 선행 조건 존재 | **센서**•**데이터 계약**으로 명시 | 불필요한 대기 제거 |
-| 과거 구간 **백필** | 별도 **풀(Pool)**•동시성 적용 | 현재 작업의 부하 보호 |
-| 느린 **DAG 파싱** | 가벼운 최상위 코드와 **DAG 번들** 사용 | 파싱 부하•버전 차이 감소 |
-| **메타데이터 데이터베이스(Metadata DB)** 비대화 | 보존 기간•태스크 크기 조정 | 상태 처리 병목 억제 |
+| **1. Scheduler Lag / Stalls**| Top-Level 파이썬 코드에 DB Heavy 쿼리 작성 | **Heavy 연산은 무조건 Operator 함수 내부 배치** |
+| **2. Database Bottleneck** | Task 수가 수만 개로 늘어나 DB Connection 차올라감| **PGBouncer 연동 및 Task Concurrency 제한** |
+| **3. OOM on Worker** | Worker 노드 메모리를 초과하는 대용량 DataFrame 연산 | **KubernetesPodOperator로 작업 노드 물리 분리** |
+
+> 사례: **쿠팡 / 카카오 / 네이버 MWAA (Amazon Managed Workflows for Apache Airflow) 운용**
 
 #### 한줄 요약
 
@@ -195,15 +153,13 @@ DAG 번들•일정
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Airflow**: 복합 의존성과 과거 구간 재처리를 관리할 때 적합한 오케스트레이션 플랫폼이다.
-- **오케스트레이션 선택 기준**: 복합 의존성•백필과 독립 시간 실행의 비교 축이다.
+- **Orchestration 수립 기준(Orchestration Standards)**: Airflow 2.x, Python DAG, Celery/K8s Executor, Top-Level Code 분리 및 Backfill 튜닝성에 의거한 체계.
 
 </details>
 
-- **오케스트레이션 선택 기준**에 따라 복합 의존•백필은 **Airflow**, 독립 시간 작업은 **크론(Cron)**을 선택한다.
+- **Orchestration 수립 기준**에 따라 복잡한 파이프라인 관리 구축 시 **Apache Airflow & KubernetesPodOperator** 필수 수용
 
 #### 한줄 요약
 
