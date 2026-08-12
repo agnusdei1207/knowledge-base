@@ -20,170 +20,129 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Hadoop MapReduce**: Map과 Reduce 태스크로 대규모 데이터를 일괄 처리하는 분산 계산 체계이다.
-- **하둡 분산 파일 시스템(Hadoop Distributed File System, HDFS)**: 파일을 블록으로 나눠 여러 노드에 복제하는 저장 체계이다.
-- **또 다른 자원 협상자(Yet Another Resource Negotiator, YARN)**: 컨테이너 자원과 태스크 실행을 관리하는 체계이다.
+- **Hadoop (Apache Hadoop)**: 대용량 데이터의 수평 분산 저장(HDFS)과 분산 배치 연산(MapReduce)을 지원하는 오픈소스 1세대 빅데이터 처리 프레임워크.
+- **HDFS (Hadoop Distributed File System)**: 수백 대의 범용 서버 디스크를 128MB 단위 분산 블록(Block)으로 쪼개고, 3중 복제(Replication Factor = 3)하여 대용량 파일 내구성 및 병렬 읽기를 보장하는 디스크 파일 시스템.
+- **MapReduce**: 데이터를 Key-Value 쌍으로 변환(Map Phase)한 후, 동일 Key 데이터를 네트워크로 모아(Shuffle & Sort) 최종 집계(Reduce Phase)하는 맵-리듀스 2단계 분산 배치 연산 프로토콜.
 
 </details>
 
-- 정의/개념: **HDFS•YARN**과 태스크를 결합한 **Hadoop MapReduce**이다.
-- 배경/필요성: 단일 서버는 대용량 파일의 저장•집계 시간이 한 장비 용량에 종속된다.
+- 정의/개념: 페타바이트(PB)급 대용량 비정형 데이터를 HDFS 분산 블록으로 저장하고, Map-Shuffle-Reduce 3단계 연산 파이프라인으로 수평 분산 처리하는 빅데이터 1세대 프레임워크인 **Hadoop MapReduce**
+- 배경/필요성: 단일 서버의 RDBMS 디스크 수용 한계 극복, 범용 하드웨어(Commodity Hardware)를 연결하여 저비용 대용량 로그 분석 및 가용성(HA) 수용 요구성
 
 #### 한줄 요약
+
 - 파일을 작업자에게 나눠 맡기고 같은 열쇠 결과를 한곳에 모아 집계하는 처리이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **실패 복구**: 실패한 태스크를 다른 복제 블록이나 노드에서 다시 실행하는 특성이다.
-- **분산 저장**: HDFS가 파일을 블록으로 나눠 여러 노드에 복제하는 방식이다.
-- **키 처리**: Map이 중간 키값을 만들고 Shuffle이 같은 키를 모으며 Reduce가 최종 집계하는 흐름이다.
+- **Data Locality (데이터 지역성)**: 데이터가 저장된 HDFS 블록 노드로 계산 프로그램(Map Code)을 직접 이동시켜 처리하는 "Moving Computation to Data" 기법.
+- **Batch Processing**: 실시간 Stream 처리가 아닌 대용량 데이터 집계용 Batch(일괄) 연산 지향.
 
 </details>
 
-- **분산 저장**: HDFS 블록 분할•복제이다.
-- **키 처리**: Map•Shuffle•Reduce 집계한다.
-- **실패 복구**: 복제 블록으로 태스크 재실행한다.
+- **Data Locality (Moving Computation, Not Data)**
+- **Fault-Tolerance (블록 3중 복제 & 태스크 실패 시 재시도)**
+- **Disk I/O Based Sequential Processing (Map $\rightarrow$ Disk Spill $\rightarrow$ Reduce)**
 
 #### 한줄 요약
+
 - 대용량 파일과 장애 재실행에는 강하지만 반복과 저지연 작업에는 느리다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (HDFS & MapReduce 3대 핵심 레이어)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Shuffle**: 같은 중간 키를 담당 Reduce로 전송하는 구성요소이다.
-- **Sort**: Reduce 입력을 키별로 그룹화하고 정렬하는 구성요소이다.
-- **Reduce**: 키별 값에서 최종 결과를 집계하는 구성요소이다.
-- **입력 분할(Input Split)**: 하나의 Map 태스크가 논리적으로 처리할 입력 레코드 범위이다.
-- **Map**: 입력 레코드를 중간 키값으로 변환하는 단계이다.
-- **Combiner**: 같은 Map 태스크 안에서 중간값을 부분 집계하는 단계이다.
+- **YARN (Yet Another Resource Negotiator)**: 하둡 2.0부터 도입되어 ResourceManager와 NodeManager를 통해 분산 노드의 CPU/Memory 컨테이너(Container) 자원을 할당 관리하는 오케스트레이터.
 
 </details>
 
 ```text
-[HDFS] -- [Input Split]
-
-[YARN]
-    |
-    +-- [Map•Combiner]
-    |
-    +-- [Shuffle•Sort•Reduce]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Hadoop 3대 코어 아키텍처                        │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ 1. Storage Layer (HDFS)           │ 2. Resource Layer (YARN)           │
+│   • NameNode (메타데이터 맵핑)    │   • ResourceManager (전역 자원)    │
+│   • DataNode (128MB 블록 3중 복제)│   • NodeManager (노드 자원 관리)   │
+├───────────────────────────────────┴────────────────────────────────────┤
+│ 3. Processing Layer (MapReduce Framework: Map -> Shuffle -> Reduce)    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: HDFS와 Input Split은 저장 블록과 논리 입력 범위를 연결하고, YARN은 Map•Combiner 및 Shuffle•Sort•Reduce 자원을 관리한다.
+선의 의미: HDFS 분산 저장소, YARN 자원 오케스트레이터, MapReduce 연산 프레임워크 3대 레이어가 상호작용하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| HDFS | **하둡 분산 파일 시스템**에 입력 블록•결과 저장 |
-| YARN | **YARN**이 컨테이너•상태 관리 |
-| Input Split | **입력 분할**로 Map의 논리 범위 정의 |
-| Map•Combiner | **Map**•**Combiner**가 중간 키값•부분 집계 생성 |
-| Shuffle•Sort•Reduce | **Shuffle**•**Sort**•**Reduce**가 그룹화•집계 |
+| 구성요소 (Component) | 역할 및 주요 메커니즘 | 핵심 수행 기능 |
+|:---|:---|:---|
+| **NameNode (HDFS)** | **HDFS 분산 파일 메타데이터(Block Location) 총괄 관리** | Single Point of Failure (SPOF 주시 대상) |
+| **DataNode (HDFS)** | **128MB 크기 데이터 블록 실체 저장 (Default 3중 복제)** | Block Report를 NameNode에 송신 |
+| **Map Phase** | **입력 레코드를 읽어 `(Key, Value)` 형태로 파싱 분할** | Data Locality 노드에서 병렬 연산 |
+| **Shuffle & Sort** | **Map 출력을 동일한 Key 기준으로 네트워크로 모아 정렬**| 디스크 I/O 및 네트워크 트래픽 병목 지점 |
+| **Reduce Phase** | **동일 Key 모음 집합을 최종 합산(`SUM, COUNT`) 연산** | HDFS에 최종 결과 파일 생성 |
 
 #### 한줄 요약
 
 - HDFS, JobTracker, InputSplit, Mapper, Reducer로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (MapReduce 3단계 Execution Flow)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **입력 분할 생성**: HDFS 블록 위치로 Map의 논리 범위를 만드는 단계이다.
-- **입력 레코드 읽기**: 각 분할의 레코드를 Map 함수에 공급하는 단계이다.
-- **중간 키값 생성**: Map•Combiner가 키값과 부분 집계를 만드는 단계이다.
-- **Shuffle•Sort 그룹화**: 같은 키를 Reduce 파티션으로 모으는 단계이다.
-- **Reduce 집계•결과 저장**: 키별 결과를 HDFS에 기록하는 단계이다.
+- **Shuffle & Sort Phase**: Map 단계의 디스크 Output 결과를 동일 Key끼리 묶어 Reduce 노드로 전송하는 네트워크 병목 발생 단계.
 
 </details>
 
 ```text
-작업•입력 경로 제출
-          |
-          v
-1. 입력 분할 생성
-          |
-          v
-2. 입력 레코드 읽기
-          |
-          v
-3. 중간 키값 생성
-          |
-          v
-4. Shuffle•Sort 그룹화
-          |
-          v
-5. Reduce 집계•결과 저장
-          |
-          v
-결과 위치 반환
+[Input HDFS Block] ──► [1. Map Phase] ──► [2. Shuffle & Sort Phase] ──► [3. Reduce Phase] ──► [Output HDFS]
+(Text Data)             (Key, Value)       (Network Disk Transfer)      (Aggregated Output)
 ```
 
 ### 동작 원리
 
-- **1. 입력 분할 생성**: **입력 분할 생성**으로 Map 논리 범위를 구성한다.
-- **2. 입력 레코드 읽기**: **입력 레코드 읽기**로 분할별 레코드를 Map에 공급한다.
-- **3. 중간 키값 생성**: **중간 키값 생성**으로 부분 집계를 만든다.
-- **4. Shuffle•Sort 그룹화**: **Shuffle•Sort 그룹화**로 같은 키를 Reduce에 모은다.
-- **5. Reduce 집계•결과 저장**: **Reduce 집계•결과 저장**으로 HDFS에 기록한다.
+1. **Map Phase**: HDFS 블록 데이터를 읽어 `(Word, 1)` 형태의 Key-Value 튜플 생성.
+2. **Shuffle & Sort Phase**: 동일한 Word(Key)를 지닌 데이터들을 로컬 디스크에 임시 기록 후 네트워크로 모아 정렬 (Network Spill).
+3. **Reduce Phase**: 동일 Word 키 그룹별로 1을 최종 `SUM` 합산하여 HDFS 출력 파일 생성 완료.
 
 #### 한줄 요약
 
 - 파일 조각을 가까운 작업자에게 맡기고 같은 이름표의 결과를 모아 합산한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Hadoop MapReduce 대 Apache Spark)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **메모리 분산 엔진**: 중간 결과를 메모리에 재사용하고 방향성 비순환 그래프(Directed Acyclic Graph, DAG)로 반복•대화형 분석을 처리하는 엔진이다.
-- **단일 서버**: 한 노드의 로컬 파일과 메모리만 사용해 소규모 작업을 단순하게 처리하는 방식이다.
-- **분산 처리 엔진 선택 기준**: 대형 일괄 처리와 반복•대화형 분석 및 단일 노드 규모를 구분하는 기준이다.
+- **Disk vs In-Memory**: MapReduce는 단계마다 디스크 I/O를 수행하여 속도가 느린 반면, Spark는 인메모리(RAM RDD) 처리를 통해 100배 빠른 성능을 제공.
 
 </details>
 
-| 분산 처리 엔진 | Hadoop MapReduce | 메모리 분산 엔진 | 단일 서버 |
-|:---|:---|:---|:---|
-| 적용 기준 | 대형 정렬•집계 | 반복•대화형 분석 | 한 노드 이내 소규모 작업 |
-| 핵심 특징 | **Hadoop MapReduce** | **메모리 분산 엔진** | **단일 서버** |
-| 한계 | 셔플•높은 시작 지연 | 메모리•클러스터 비용 | 용량 상한•단일 장애 |
+| 비교 항목 | Hadoop MapReduce (1세대) | Apache Spark (2세대) |
+|:---|:---|:---|
+| **연산 저장 매체** | **디스크 I/O 기반 (Map Disk Spill 후 Reduce)**| **인메모리 기반 (RAM RDD / DataFrame)** |
+| **처리 속도** | 상대적으로 느림 (배치 전용) | **MapReduce 대비 10~100배 초고속** |
+| **적합 연산** | 대규모 1회성 Batch ETL 연산 | **반복적 머신러닝, 실시간 Stream, Interactive Query**|
+| **장애 복구 방식** | 블록 재실행 (Re-Execution) | **RDD Lineage ( 계보 추적 기반 재계산)** |
 
 #### 한줄 요약
 
-- **분산 처리 엔진 선택 기준**에서 Map은 키를 만들고 Shuffle은 같은 키를 모으며 Reduce는 집계한다.
+- 분산 처리 엔진 선택 기준에서 Map은 키를 만들고 Shuffle은 같은 키를 모으며 Reduce는 집계한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (MapReduce 디스크/네트워크 병목 해결)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **파일 병합**: 작은 파일을 큰 파일로 묶어 태스크 시작 비용을 줄이는 방식이다.
-- **컨테이너 형식**: 여러 레코드를 한 파일에 저장해 메타데이터 수를 줄이는 형식이다.
-- **샘플링**: 처리 전에 키 분포를 측정하는 활동이다.
-- **키 분할**: 편향 키에 보조 값을 붙여 여러 Reduce로 나누는 방식이다.
-- **중간값 압축**: 셔플 데이터를 압축해 전송량을 줄이는 통제이다.
-- **작업 수 조정**: 병렬 태스크 수를 자원량에 맞추는 통제이다.
-- **블록 배치**: 입력 블록을 처리 노드 가까이에 두는 방식이다.
-- **자원 균형**: 노드별 태스크 자원을 고르게 배정하는 통제이다.
-- **멱등 출력**: 재실행에도 중복 결과를 만들지 않는 출력 방식이다.
-- **임시 경로**: 결과를 확정하기 전에 태스크별 출력을 기록하는 위치이다.
+- **Combiner (Mini-Reducer)**: Map 노드 디스크에서 네트워크로 셔플 데이터를 보내기 직전, 로컬 상에서 미리 1차 집계를 수행해 네트워크 트래픽을 폭감시키는 임시 리듀서.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 문제 및 병목 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 파일마다 메타데이터•태스크 시작 비용 발생 | **파일 병합**•**컨테이너 형식** 사용 | 태스크 시작 비용 감소 |
-| 일부 키에 중간값이 집중되어 Reduce 지연 | **샘플링**•**키 분할** 적용 | Reduce 병목 완화 |
-| 중간값 전량 전송으로 망•디스크 포화 | **Combiner**•**중간값 압축**•**작업 수 조정** | 전송•입출력 부하 감소 |
-| 원격 블록 처리로 네트워크 전송 증가 | **블록 배치**•**자원 균형** | 원격 전송 감소 |
-| 실패 작업의 중복 기록으로 결과 오염 | **멱등 출력**•**임시 경로** 사용 | 중복 부작용 방지 |
+| Shuffle 단계에서 네트워크 전송 폭주 | Map Output 데이터 전량이 네트워크로 이동 | **Combiner(로컬 Mini-Reducer) 사전 집계 적용** |
+| Data Skew (특정 Reduce 키 쏠림) | 특정 Key(예: Null Key)에 90% 트래픽 몰림 | **Custom Partitioner 및 Salting(임의 핑) 부여** |
+| Small File Problem | 128MB 미만의 자잘한 파일 수백만 개 유발 | **SequenceFile / Har 묶음 파일로 컴팩션 조치** |
+
+> 사례: **하둡 3.0 Erasure Coding 적용 및 Spark-on-YARN 대용량 배치 처리**
 
 #### 한줄 요약
 
@@ -191,15 +150,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **MapReduce 적용 판단 기준**: 일괄 처리 규모와 반복 계산 비율 및 시작•셔플 비용을 함께 평가하는 기준이다.
+- **Hadoop 수립 기준(Hadoop Architecture Standards)**: HDFS 3중 복제, Data Locality, Combiner 최적화 및 Spark와의 조합성에 의거한 체계.
 
 </details>
 
-- **MapReduce 적용 판단 기준**에 따라 대형 일괄 집계는 **MapReduce**, 반복•대화형 분석은 **메모리 분산 엔진**을 선택한다.
+- **Hadoop 수립 기준**에 따라 대용량 로그 저장/배치 시스템 구축 시 **HDFS & YARN 기반 하둡 클러스터** 필수 수용
 
 #### 한줄 요약
 
-- **MapReduce 적용 판단 기준**은 대형 파일 분산 처리와 빠른 반복 작업을 구분한다.
+- MapReduce 적용 판단 기준은 대형 파일 분산 처리와 빠른 반복 작업을 구분한다.
