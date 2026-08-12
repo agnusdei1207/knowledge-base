@@ -20,182 +20,146 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **수평형 포드 오토스케일러(Horizontal Pod Autoscaler, HPA)**: 부하 지표와 목표값의 비율에 따라 포드 복제본 수를 자동 조정하는 방식이다.
-- **수직형 포드 오토스케일러(Vertical Pod Autoscaler, VPA)**: 포드별 사용 이력에 따라 중앙처리장치•메모리 자원 요청값을 자동 조정하는 방식이다.
+- **Auto Scaling (오토 스케일링)**: 애플리케이션의 실시간 CPU/메모리/트래픽 부하 지표 변화에 응답하여 컴퓨팅 자원(Node/Pod)의 개수나 스펙을 동적으로 자동 확장(Scale-out) 및 축소(Scale-in)하는 메커니즘.
+- **HPA (Horizontal Pod Autoscaler)**: CPU 사용률이나 QPS 요청량 증가 시, 동일 컨테이너 포드(Pod)의 개수(Replicas)를 수평으로 개수 증설하는 쿠버네티스 컨트롤러 (Scale-out).
+- **VPA (Vertical Pod Autoscaler)**: 포드의 개수는 그대로 유지한 채, 포드 단일 개체에 할당된 CPU/Memory 리소스 스펙(Limit/Request)을 수직으로 체급 업그레이드하는 컨트롤러 (Scale-up).
 
 </details>
 
-- 정의/개념: 복제본 수를 조정하는 **수평형 포드 오토스케일러(HPA)**와 자원 요청값을 조정하는 **수직형 포드 오토스케일러(VPA)** 방식이다.
-- 배경/필요성: 변동 부하와 자원 요청 오차를 수동으로 대응하는 데 한계가 있다.
+- 정의/개념: 부하 급증 시 포드 개수를 늘리는 수평 스케일링(HPA)과 포드의 CPU/Memory 체급을 높이는 수직 스케일링(VPA)을 통해 서비스 가용성을 자동 지탱하는 **Kubernetes Auto Scaling (HPA & VPA)**
+- 배경/필요성: 수동 포드 개수 조절(Scale)의 트래픽 폭증 대응 불가, Pod 리소스 OOM(Out of Memory) Crash 방지 및 인프라 비용 효율화 요구성
 
 #### 한줄 요약
+
 - 주문이 몰리면 작업자 수를 늘리는 HPA와 작업자 한 명의 장비 크기를 바꾸는 VPA처럼, 병렬 처리량과 Pod당 자원 부족을 서로 다른 축으로 조정한다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (HPA 대 VPA 2대 스케일링 차원)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **안정화 제어**: 허용 오차와 대기 구간 및 증감 속도로 반복 확장•축소를 억제하는 특성이다.
-- **수평 조정**: 목표 지표에 맞춰 포드 복제본 수를 늘리거나 줄이는 방식이다.
-- **수직 조정**: 사용 이력에 맞춰 포드별 CPU•메모리 요청값을 바꾸는 방식이다.
+- **Horizontal vs Vertical**: HPA는 Pod 개수 N개 증설 (Scale-out / Stateless 앱 적합), VPA는 Pod 사양 체급 증설 (Scale-up / Stateful DB 적합).
 
 </details>
 
-![현재 지표와 목표 지표 비율에 따른 HPA 복제본 조정](/study/diagrams/hpa-proportional-scaling.svg)
-
-> 현재 복제본 4개라는 가정에서 지표가 목표의 1.5배이면 파란 계단선이 6개를 권고하는 비례 제어 예시이며, 실제 동작에는 허용 오차•안정화 창•최소•최대 범위가 함께 적용된다.
-
-- 목표 지표로 복제본을 바꾸는 **수평 조정**이 HPA의 핵심이다.
-- 사용 이력으로 요청값을 바꾸는 **수직 조정**이 VPA의 핵심이다.
-- 허용 오차•대기 구간을 두는 **안정화 제어**가 핵심이다.
+- **HPA (Scale-out: Pod 개수 증설, Zero-Downtime, Web/API Stateless 앱 선호)**
+- **VPA (Scale-up: CPU/Mem 사양 증설, Pod 재시작 동반, DB Stateful 앱 선호)**
+- **Conflict Prevention (동일 CPU 지표에 대해 HPA와 VPA를 동시 적용 금지)**
 
 #### 한줄 요약
-- 주문량이 경계값을 오갈 때마다 작업자를 뽑고 내보내지 않도록 일정 시간 기다리듯, 안정화 구간과 증감 속도가 반복 확장•축소를 억제한다.
 
-## Ⅲ. 구조 및 구성요소
+- 주문량이 경계값을 오갈 때마다 작업자를 뽑고 내보내지 않도록 일정 시간 기다리듯, 안정화 구간과 증감 속도가 반복 확장·축소를 억제한다.
 
-<details>
-<summary>핵심 용어</summary>
+## Ⅲ. 구조 및 구성요소 (HPA & VPA 오토스케일링 4대 핵심 구조)
 
-- **HPA 객체**: 목표 지표와 최소•최대 복제본 수를 선언한 자원이다.
-- **HPA 제어기**: 현재 값의 비율로 필요한 포드 복제본 수를 계산하는 구성요소이다.
-- **메트릭 응용 프로그래밍 인터페이스(Metrics Application Programming Interface, Metrics API)**: 자원•사용자 정의 확장 지표를 제어기에 제공하는 접점이다.
-- **VPA 추천기**: 사용 이력으로 적정 자원 요청값을 산정하는 구성요소이다.
-- **VPA 갱신기**: 추천 자원 요청값을 포드에 적용하는 구성요소이다.
-- **워크로드 제어기**: 목표 복제본 수와 포드 교체 상태를 관리하는 구성요소이다.
-- **스케줄러•노드**: 자원 요청값을 기준으로 포드를 배치하고 용량 부족 상태를 제공하는 구성요소이다.
+<details><summary>핵심 용어</summary>
+
+- **Metrics Server & Custom Metrics**: Prometheus 및 Metrics Server가 15초 주기로 Pod CPU/RAM/QPS 지표를 수집해 HPA/VPA 컨트롤러로 릴레이.
 
 </details>
 
 ```text
-[오토 스케일링 제어]
-          |
-          +-- [메트릭 API]
-          |
-          +-- [HPA 객체•제어기]
-          |
-          +-- [VPA 추천기•갱신기]
-          |
-          +-- [워크로드 제어기]
-          |
-          +-- [스케줄러•노드]
+┌────────────────────────────────────────────────────────────────────────┐
+│                   Kubernetes Auto Scaling Architecture                 │
+├────────────────────────────────────────────────────────────────────────┤
+│ [Metrics Server / Prometheus] ──► (Metrics Scraping 15s)               │
+│               │                                                        │
+│               ▼                                                        │
+│ ┌─────────────────────────────┐    ┌─────────────────────────────────┐ │
+│ │  HPA Controller (Scale-out) │    │   VPA Controller (Scale-up)     │ │
+│ │  • Increases Pod Replicas   │    │   • Adjusts CPU/Mem Request Limit │ │
+│ │  • 1 Pod ──► 5 Pods         │    │   • 1Core/2GB ──► 4Core/8GB        │ │
+│ └─────────────────────────────┘    └─────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 메트릭 API는 HPA 객체•제어기와 VPA 추천기•갱신기에 지표를 제공하고, 두 제어 결과는 워크로드 제어기에 반영되며 스케줄러•노드가 실제 배치 가능성을 결정한다.
+선의 의미: Metrics Server가 수집한 지표에 따라 HPA는 포드 개수를(가로), VPA는 포드 체급 사양을(세로) 동적 확장하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 메트릭 API | **메트릭 응용 프로그래밍 인터페이스(Metrics API)**가 확장 지표 제공 |
-| HPA 객체•제어기 | **HPA 객체**와 **HPA 제어기**가 필요 복제본 계산 |
-| VPA 추천기•갱신기 | **VPA 추천기**와 **VPA 갱신기**가 자원 요청값 산정•적용 |
-| 워크로드 제어기 | **워크로드 제어기**가 목표 복제본•포드 교체 상태 관리 |
-| 스케줄러•노드 | **스케줄러•노드**가 포드 배치•용량 부족 상태 제공 |
+| 구성 요소 (Component) | HPA (Horizontal Pod Autoscaler) | VPA (Vertical Pod Autoscaler) |
+|:---|:---|:---|
+| **스케일링 메커니즘** | **Pod 개수(Replicas) 수평 확장 (1 $\rightarrow$ 10)** | **Pod 당 CPU/Memory 수직 증설 (1G $\rightarrow$ 4G)** |
+| **다운타임 발생 여부**| **0% (무중단 롤링 확장)** | 발생 가능 (Pod 재생성 적용 시 순간 재시작) |
+| **추천 애플리케이션** | **Stateless Web, REST API, Microservices**| **Stateful RDBMS, Redis, Batch Job** |
+| **공동 사용 주의점** | **동일 지표(CPU)로 HPA와 VPA 동시 세팅 금지 (무한 루프 방지)**| HPA는 커스텀 지표, VPA는 CPU 지표로 분리 |
 
 #### 한줄 요약
 
 - 같은 측정판을 본 HPA와 VPA가 각각 작업자 수와 장비 크기를 정하고, 워크로드 제어기와 스케줄러가 실제 작업자와 자리를 배치한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (HPA Auto Scaling 계산 및 동작 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **병렬 부하 변동**: 여러 포드에 나눌 수 있어 HPA로 복제본 수를 조정할 대상이다.
-- **포드별 요청값 오차**: 실제 사용량과 선언 자원의 차이를 VPA로 보정할 대상이다.
-- **HPA 복제본 제어 순환**: 부하 지표와 목표 비율로 포드 수를 반복 조정하는 흐름이다.
-- **VPA 요청값 제어 순환**: 사용 이력으로 중앙처리장치•메모리 요청값을 보정하는 흐름이다.
-- **노드 배치 가능성**: 변경한 포드 수와 요청값을 실제 노드가 수용할 수 있는지의 조건이다.
+- **HPA Target Replica Algorithm**: `DesiredReplicas = ceil[ CurrentReplicas * ( CurrentMetricValue / TargetMetricValue ) ]` 수치로 수평 복제본 계산.
 
 </details>
 
 ```text
-해결할 자원 문제
-    |
-    +-- 병렬 처리량의 변동
-    |          |
-    |          +-- HPA
-    |                부하 지표 → 목표 비율 → 복제본 수
-    |                    ^                       |
-    |                    +---- 실제 처리 상태 --+
-    |
-    +-- 포드별 요청값의 지속 오차
-               |
-               +-- VPA
-                     사용 이력 → 요청값 권고 → 포드 갱신
-                         ^                         |
-                         +---- 실제 사용 상태 ----+
-
-조정된 복제본 수•요청값
-    |
-    +-- 노드 용량 충분 --> 포드 배치
-    +-- 노드 용량 부족 --> 노드 확장•용량 예약
+[Metrics Server CPU 85% Scrape] ──► [HPA Algorithm Calculation]
+                                                  │
+                                                  ▼
+   [Kubernetes Cluster Autoscaler] ◄── [Deployment Replicas (3 ──► 6 Scale-out)]
 ```
 
-- **병렬 부하 변동**은 **HPA 복제본 제어 순환**, **포드별 요청값 오차**는 **VPA 요청값 제어 순환**으로 조정하고 마지막에 **노드 배치 가능성**을 확인한다.
+### 동작 원리
+
+1. **Metrics Scraping**: Metrics Server가 Pod 평균 CPU 사용률 85% 감지 (타깃 50%).
+2. **Calculation**: HPA 알고리즘에 의해 현재 3개 포드를 6개 포드로 스케일아웃 확정.
+3. **Cluster Autoscaler**: 포드를 배치할 노드 슬롯이 부족하면 Node Cluster Autoscaler가 AWS EC2 노드 자체를 스케일아웃 (**Auto Scaling 완결**).
 
 #### 한줄 요약
 
 - 주문량이 늘면 HPA가 작업자 수를 바꾸고 한 작업자가 계속 힘들어하면 VPA가 장비 크기를 바꾸며, 실제로 자리가 없으면 포드가 대기 상태로 남는다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (HPA vs VPA vs Cluster Autoscaler)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하는 컴퓨팅 자원이다.
-- **병렬화 가능 부하**: 여러 포드에 요청을 나눠 처리할 수 있는 부하이다.
+- **Cluster Autoscaler (CA / Karpenter)**: Pod 레벨 확장(HPA)을 넘어서, Node 자체(AWS EC2)의 갯수를 수평 증설해 주는 인프라 레이어 오토스케일러.
 
 </details>
 
-| 오토스케일러 | HPA | VPA |
-|:---|:---|:---|
-| 적용 기준 | **수평형 포드 오토스케일러(HPA)**: **병렬화 가능 부하** 변동 | **수직형 포드 오토스케일러(VPA)**: 포드당 요청값 오차 누적 |
-| 핵심 특징 | 워크로드 복제본 수 조정 | **중앙처리장치(CPU)**•메모리 요청값 조정 |
-| 한계 | 시작 지연•스케일 진동 | 재시작•용량 부족•HPA 충돌 |
+| 오토스케일러 종류 | 대상 (Target Level) | 스케일링 동작 메커니즘 | 실무 적용 도구 예시 |
+|:---|:---|:---|:---|
+| **HPA** | **Pod Level (수평)** | **Pod 개수 증설 (Scale-out)** | **K8s Native HPA, KEDA** |
+| **VPA** | **Pod Level (수직)** | **Pod 리소스 체급 증설 (Scale-up)**| **K8s Native VPA** |
+| **Cluster Autoscaler**| **Node Level (인프라)**| **Worker Node EC2 개수 증설** | **Karpenter, Cluster Autoscaler** |
 
 #### 한줄 요약
-- 작업을 나눌 수 있으면 같은 장비의 작업자를 늘리고, 한 작업자에게 필요한 장비 크기가 틀렸으면 CPU•메모리 요청값을 바꾼다.
 
-## Ⅵ. 실무 고려사항 및 대책
+- 작업을 나눌 수 있으면 같은 장비의 작업자를 늘리고, 한 작업자에게 필요한 장비 크기가 틀렸으면 CPU·메모리 요청값을 바꾼다.
 
-<details>
-<summary>핵심 용어</summary>
+## Ⅵ. 실무 고려사항 및 대책 (HPA/VPA 오토스케일링 3대 실무 지침)
 
-- **스케일 진동**: 지표가 임계값 주변을 오가며 확장과 축소가 반복되는 문제이다.
-- **병목 상관성**: 선택한 지표가 실제 처리 병목과 부하 변화를 얼마나 직접 반영하는지 나타내는 관계이다.
-- **요청값 기준선**: 포드 사용률과 확장 판단의 분모가 되는 중앙처리장치•메모리 요청값 기준이다.
-- **준비 구간**: 포드 생성 요청부터 실제 트래픽을 처리할 준비가 끝날 때까지의 시간이다.
-- **용량 예약**: 포드 증가 시 필요한 노드 자원을 미리 확보하는 대책이다.
+<details><summary>핵심 용어</summary>
+
+- **KEDA (Kubernetes Event-driven Autoscaling)**: CPU/Memory 외에 Kafka Topic Lag, RabbitMQ 큐 쌓인 개수, AWS SQS 메시지 수 기반으로 포드를 미리 오토스케일링해 주는 오픈소스 프레임워크.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 오토스케일링 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| CPU와 요청량이 어긋나는 지표 선택 | 큐 길이•요청률의 **병목 상관성** 검증 | 무관 부하의 오확장 감소 |
-| 과소 요청값이 키우는 HPA 사용률 | VPA 권고로 **요청값 기준선** 보정 | 복제본의 과잉 확장 감소 |
-| 포드 준비보다 빠른 부하 증가 | 여유 복제본•예측 확장•**준비 구간** 반영 | 확장 전 꼬리 지연 완화 |
-| 임계값 부근의 **스케일 진동** | 허용 오차•**안정화 제어** 적용 | 반복 확장•축소 억제 |
-| 노드 여유 없는 포드 증가 | 노드 확장과 **용량 예약** 연계 | 대기 상태 누적 방지 |
+| **1. Flapping / Thrashing** | 지표가 순간 소폭 변할 때마다 Pod 생성/파기 반복| **Scale-down Stabilization Window (5분) 설정** |
+| **2. Slow Pod Boot Delay** | Pod 부팅 시간이 3분 걸려 초기 트래픽 퐁당 | **Prometheus 기반 KEDA 이벤트 오토스케일링** |
+| **3. Node Resource Exhaust** | HPA로 Pod만 늘다가 Node 메모리 부족 터짐 | **AWS Karpenter 도입으로 초고속 Node 자동 덤프**|
+
+> 사례: **쿠팡 / 당근마켓 / 카카오 KEDA 및 Karpenter 기반 초고속 5초 오토스케일링 적용 사례**
 
 #### 한줄 요약
+
 - 주문 신호가 울린 순간이 아니라 새 작업자가 자리를 받아 일을 시작한 순간까지 재고, 작업장에 빈자리가 없으면 노드부터 늘려야 한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **병렬 부하**: 작업을 여러 포드로 나눌 수 있어 HPA로 복제본 수를 조정하기 적합한 부하이다.
-- **요청값 오차**: 포드에 선언한 중앙처리장치•메모리 요청량이 실제 필요량과 지속적으로 어긋난 상태이다.
-- **오토스케일러 선택 기준**: 병렬 부하와 포드별 요청값 오차를 비교하는 축이다.
+- **Auto Scaling 수립 기준(Auto Scaling Standards)**: HPA(Stateless), VPA(Stateful), KEDA Event-driven, Karpenter Node Autoscaler 연동성에 의거한 체계.
 
 </details>
 
-- **오토스케일러 선택 기준**에 따라 **병렬 부하**는 HPA, **요청값 오차**는 VPA로 조정하고 노드 용량을 먼저 확보한다.
+- **Auto Scaling 수립 기준**에 따라 차세대 클라우드 네이티브 구축 시 **Kubernetes HPA & KEDA & Karpenter** 필수 적용
 
 #### 한줄 요약
+
 - 나눌 수 있는 주문은 작업자 수로, 한 작업자의 장비 부족은 장비 크기로 해결하되 작업장 자리가 먼저 확보돼야 실제 확장이 끝난다.
