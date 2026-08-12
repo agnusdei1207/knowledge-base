@@ -20,16 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Apache Iceberg 오픈 테이블 포맷(Open Table Format)**: 스냅숏과 매니페스트로 현재 테이블의 유효 파일을 추적하는 공개 명세이다.
-- **매니페스트**: 데이터•삭제 파일의 경로와 파티션 값 및 열 통계를 기록하는 불변 메타데이터 파일이다.
+- **Apache Iceberg**: Netflix가 창시하여 Apache 재단 top-level 프로젝트로 공개된 대규모 오픈형 Open Table Format 기술로, 거대한 파일 파티션을 3계층 메타데이터 트리(Metadata File $\rightarrow$ Manifest List $\rightarrow$ Manifest File)로 추적하여 초고속 데이터 Pruning 및 ACID 트랜잭션을 보장.
+- **Hidden Partitioning (숨겨진 파티셔닝)**: 사용자가 SQL 쿼리 작성 시 `WHERE date = '2026-08-12'`와 같이 파티션 변환 함수를 명시하지 않아도, Iceberg가 알아서 `days(timestamp)` 파티션을 자동 추적하여 쿼리를 가속해 주는 기능.
+- **Field ID Schema Evolution**: 컬럼명을 바꾸거나 이동해도 컬럼 이름이 아닌 고유 필드 ID(Field ID)를 통해 데이터를 매핑함으로써 스키마 변경 시 데이터 유실을 0% 방지하는 기술.
 
 </details>
 
-- 정의/개념: 스냅숏과 **매니페스트**로 유효 파일을 추적하는 **Apache Iceberg 오픈 테이블 포맷**이다.
-- 배경/필요성: 디렉터리 기반 표는 파일 탐색•동시 커밋•구조 변경의 일관성을 제약한다.
+- 정의/개념: S3 객체 스토리지 파일들을 3계층 트리 메타데이터로 관리하여, 엔진 독립적 ACID 트랜잭션, Hidden Partitioning, Field ID 기반 스키마 진화를 제공하는 표준 Open Table Format인 **Apache Iceberg**
+- 배경/필요성: 기존 Hive 파티션 방식의 수백만 파일 S3 `ListBucket` 쿼리 지연 극복, 엔진 중립적(Spark, Trino, Flink, Snowflake) 멀티 레이크하우스 접근 요구성
 
 #### 한줄 요약
 
@@ -37,144 +37,121 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **필드 식별자(Field Identifier, Field ID)**: 열 이름이 바뀌어도 같은 논리 열을 식별하는 고정 번호이다.
-- **숨은 파티셔닝(Hidden Partitioning)**: 물리 파티션 경로를 질의에서 숨기고 조건을 변환하는 기능이다.
-- **스냅숏 격리**: 읽기가 시작한 커밋의 불변 파일 집합을 끝까지 일관되게 보는 특성이다.
-- **매니페스트 가지치기(Manifest Pruning)**: 파티션 요약과 열 통계로 조건에 맞지 않는 파일 목록을 계획 단계에서 제외하는 최적화이다.
+- **Engine-Agnostic Format**: 특정 엔진(Spark/Databricks)에 종속되지 않고 Trino, Presto, Flink, Snowflake, BigQuery에서 100% 동일 테이블 접근.
+- **Manifest-Level Data Pruning**: 각 Manifest File에 기록된 컬럼별 Min/Max 통계값을 읽어 무의미한 Parquet 파일 조회를 99% Skip.
 
 </details>
 
-- 커밋별 불변 파일 집합을 제공하는 **스냅숏 격리**가 핵심이다.
-- 파티션 요약•열 통계 기반 **매니페스트 가지치기**가 핵심이다.
-- **필드 식별자(Field ID)**와 **숨은 파티셔닝** 기반 스키마•파티션 진화가 핵심이다.
+- **3-Tier Tree Metadata Architecture (Metadata File $\rightarrow$ Manifest List $\rightarrow$ Manifest File)**
+- **Hidden Partitioning & Field ID Based Schema Evolution**
+- **Row-Level Deletes (Position Delete & Equality Delete)** 및 **Engine-Agnostic Open Standard**
 
 #### 한줄 요약
 
 - 열 이름이나 파티션이 바뀌어도 필드 ID와 매니페스트가 같은 데이터를 추적하지만 만료된 스냅숏과 고아 파일은 정리해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Iceberg 3계층 메타데이터 트레이스 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **카탈로그**: 테이블 이름과 현재 메타데이터 파일 위치를 원자적으로 관리하는 구성요소이다.
-- **메타데이터 파일**: 스키마•파티션 명세•스냅숏 이력을 저장하는 파일이다.
-- **스냅숏**: 특정 커밋의 테이블 버전을 나타내는 메타데이터이다.
-- **매니페스트 목록**: 스냅숏에 속한 매니페스트 집합과 파티션 요약을 정의하는 파일이다.
-- **데이터 파일**: 실제 테이블 행을 저장하는 불변 파일이다.
-- **삭제 파일**: 위치 삭제와 동등 삭제 조건을 저장하는 불변 파일이다.
+- **Manifest File**: 실제 Parquet 데이터 파일들의 경로, 용량, Row Count, 컬럼별 Min/Max 값 등의 통계가 세밀하게 기록된 AVRO 파일.
 
 </details>
 
 ```text
-[카탈로그]
-    |
-[메타데이터 파일]
-    |
-[스냅숏•매니페스트 목록]
-    |
-[매니페스트]
-    |
-[데이터•삭제 파일]
+┌────────────────────────────────────────────────────────────────────────┐
+│                     Apache Iceberg 3-Tier Metadata Tree                │
+├────────────────────────────────────────────────────────────────────────┤
+│ Catalog (Iceberg Catalog: REST, Hive Metastore, AWS Glue)              │
+│    │ (Pointer to Current Metadata File)                                │
+│    ▼                                                                   │
+│ [v1.metadata.json] (Schema, Partition Spec, Snapshots)                 │
+│    │                                                                   │
+│    ▼                                                                   │
+│ [snap-1.avro (Manifest List)] (Contains array of Manifest Files)       │
+│    │                                                                   │
+│    ▼                                                                   │
+│ [manifest-1.avro (Manifest File)] (File Paths, Min/Max Stats per Col) │
+│    │                                                                   │
+│    ▼                                                                   │
+│ [part-0001.parquet] [part-0002.parquet] (Data Files)                   │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 카탈로그는 현재 메타데이터 파일을 가리키고, 메타데이터 파일은 스냅숏•매니페스트 목록을 포함하며, 매니페스트가 해당 버전의 데이터•삭제 파일을 참조한다.
+선의 의미: Catalog가 메타데이터 파일을 가리키고, Manifest List와 Manifest File 트리를 타고 내려가 최종 데이터 파일로 좁혀나가는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 카탈로그 | **카탈로그**가 테이블 이름과 현재 메타데이터 포인터 관리 |
-| 메타데이터 파일 | **메타데이터 파일**이 스키마•파티션 명세•스냅숏 이력 저장 |
-| 스냅숏•매니페스트 목록 | **스냅숏**과 **매니페스트 목록**이 커밋별 매니페스트 집합•파티션 요약 정의 |
-| 매니페스트 | **매니페스트**가 데이터•삭제 파일의 경로•열 통계 기록 |
-| 데이터•삭제 파일 | **데이터 파일**과 **삭제 파일**이 실제 행과 위치•동등 삭제 정보 저장 |
+| 메타데이터 계층 | 주요 파일 및 역할 | 포함 정보 및 주요 이점 |
+|:---|:---|:---|
+| **Catalog (카탈로그)** | **테이블 이름과 최신 `vN.metadata.json` 주소 맵핑** | Atomic Commit 지원 (REST, Glue) |
+| **Metadata File** | **테이블 스키마(Field ID), 파티션 규격, 스냅샷 목록**| `v1.metadata.json` 타임트래블 지점 |
+| **Manifest List** | **해당 스냅샷에 속한 Manifest File들의 묶음 목록** | 파티션 범위 정보로 Manifest 가지치기 |
+| **Manifest File** | **실제 Parquet 데이터 파일들의 경로 및 컬럼 Min/Max**| **Sub-second File Pruning 가속화** |
 
 #### 한줄 요약
 
 - 단계별 목록표가 현재 테이블에 속한 파일을 찾아 준다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Iceberg Position Delete 대 Equality Delete)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **기준 메타데이터 포인터 적재**: 현재 스냅숏과 Field ID 기반 스키마를 가져오는 단계이다.
-- **새 데이터•삭제 파일 기록**: 변경 행과 위치•동등 삭제를 불변 파일로 저장하는 단계이다.
-- **매니페스트•스냅숏 구성**: 새 파일의 통계•파티션 정보를 메타데이터 트리에 연결하는 단계이다.
-- **기준 포인터 비교•원자 전환**: 기준이 같을 때만 카탈로그의 현재 참조를 바꾸는 단계이다.
+- **Position Delete vs Equality Delete**: Position Delete는 지워질 행의 파일 경로와 Offset 위치를 직접 찍어 지우는 방식, Equality Delete는 `id=101`처럼 삭제 조건값을 기록해 두었다가 읽기 시점에 조인해 지우는 방식.
 
 </details>
 
 ```text
-테이블 변경 요청
-       |
-       v
-1. 기준 메타데이터 포인터 적재
-       |
-       v
-2. 새 데이터•삭제 파일 기록
-       |
-       v
-3. 매니페스트•스냅숏 구성
-       |
-       v
-4. 기준 포인터 비교•원자 전환
-       |
-       +-- 충돌 --> 최신 스냅숏에서 재시도
-       |
-       +-- 성공 --> 확정 스냅숏 공개
+[1. Position Delete (Merge-on-Read)]
+ Data File: part-001.parquet ──► Delete File: (part-001.parquet, Row #40) ──► Read Time Skip!
+
+[2. Copy-on-Write]
+ Data File ──► [Rewrite Whole Parquet File without Row #40] ──► New Data File
 ```
 
 ### 동작 원리
 
-- **1. 기준 메타데이터 포인터 적재**: **기준 메타데이터 포인터 적재**는 스냅숏과 Field ID 기반 스키마를 확보한다.
-- **2. 새 데이터•삭제 파일 기록**: **새 데이터•삭제 파일 기록**은 변경 행과 삭제 정보를 불변 파일로 저장한다.
-- **3. 매니페스트•스냅숏 구성**: **매니페스트•스냅숏 구성**은 파일 통계•파티션 정보를 메타데이터에 연결한다.
-- **4. 기준 포인터 비교•원자 전환**: **기준 포인터 비교•원자 전환**은 기준이 같을 때만 현재 참조를 변경한다.
+1. **Merge-on-Read (Position Delete)**: 삭제 시 원본 파일을 안 건드리고 삭제 위치(`part-001, Row 40`)만 기록해 두었다가 Read 시점에 걸러냄 (**초고속 쓰기**).
+2. **Copy-on-Write**: 삭제 시 원본 Parquet 전체를 다시 덮어써서 새 파일로 보관 (**읽기 성능 최적화**).
 
 #### 한줄 요약
 
 - 새 자료와 목록표를 모두 만든 뒤 카탈로그의 현재 위치표 한 칸만 원자적으로 바꾼다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Apache Iceberg 대 Delta Lake)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Hive식 파일 테이블**: 디렉터리와 파티션 경로를 테이블 구조로 직접 해석하는 파일 저장 방식이다.
+- **Open Standard Maturity**: Iceberg는 Snowflake, AWS Athena, BigQuery, StarRocks 등 모든 상용/오픈소스 DW 엔진에서 퍼스트 클래스로 동등 지원.
 
 </details>
 
-| 테이블 형식 | Apache Iceberg | Hive식 파일 테이블 |
+| 비교 항목 | Apache Iceberg | Delta Lake |
 |:---|:---|:---|
-| 적용 기준 | **Apache Iceberg 오픈 테이블 포맷**: 다중 엔진•구조 진화 테이블 | **Hive식 파일 테이블**: 단순 경로 기반 파일 테이블 |
-| 핵심 특징 | 스냅숏•매니페스트•Field ID | 디렉터리•파티션 경로 |
-| 한계 | 매니페스트•삭제 파일•스냅숏 관리 | 동시성•구조 변경을 직접 관리 |
+| **오픈소스 주도** | **Apache Foundation (Netflix, Apple 개방 생태계)** | Databricks 주도 오픈소스 |
+| **메타데이터 구조** | **3-Tier AVRO Tree (Manifest List/File)** | JSON Transaction Log (`_delta_log`) |
+| **파티셔닝 기술** | **Hidden Partitioning (쿼리 자동 추적 파티셔닝)** | Explicit Partitioning (명시적 컬럼 파티션) |
+| **엔진 중립성** | **극상 (Trino, Athena, Snowflake, Flink, Spark 등등)**| 상 (Spark / Databricks 최적화) |
 
 #### 한줄 요약
 
 - Hive식 표는 서랍 이름으로 자료를 찾고 Iceberg는 버전 있는 목록표로 자료를 찾는다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Iceberg 메타데이터 유지관리)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **읽기 병합 비용**: 조회할 때 데이터 파일과 많은 삭제 정보를 함께 적용해야 하는 문제이다.
-- **매니페스트 병합**: 작은 매니페스트를 목표 크기로 합쳐 계획 단계의 메타데이터 읽기를 줄이는 처리이다.
-- **데이터 파일 재작성**: 작은 파일이나 삭제가 많이 적용된 파일을 새 최적 크기 파일로 다시 만드는 처리이다.
-- **스냅숏 보존**: 실행 중 조회와 복구 가능 기간보다 길게 과거 버전과 참조 파일을 유지하는 정책이다.
+- **Expire Snapshots**: 수개월 지난 구버전 스냅샷 메타데이터와 고아(Orphan) Parquet 파일들을 정리해 스토리지 비용을 감축시키는 작업.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 튜닝 영역 | 발생 원인 및 위협 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 매니페스트가 늘면 쿼리 계획 읽기 비용 증가 | 목표 크기와 **매니페스트 병합** 주기 설정 | 계획 단계의 메타데이터 읽기 감소 |
-| 작은 파일 누적으로 파일 스캔 횟수 증가 | 쓰기 크기 조정과 **데이터 파일 재작성** | 스캔의 파일 열기 비용 감소 |
-| 삭제 파일 누적으로 **읽기 병합 비용** 증가 | 삭제 파일 관찰과 **데이터 파일 재작성** | 조회 시 삭제 적용 비용 억제 |
-| 스냅숏 보존이 짧으면 실행 중인 과거 파일 삭제 | 작업•복구 기간 기반 **스냅숏 보존** | 실행 중인 조회와 과거 버전 보호 |
+| **Manifest File 누적** | 빈번한 스트리밍 커밋으로 Manifest 수천 개 | **`rewrite_manifests()` 연산으로 Manifest 병합** |
+| **Small Data Files** | 초 단위 쓰기로 1MB 이하 파일 폭발 | **`rewrite_data_files()` 병합 (Bin-packing)** |
+| **Orphan Data Files** | 실패한 트랜잭션의 더미 파일 찌꺼기 | **`remove_orphan_files()` 정기 스케줄 실행** |
+
+> 사례: **Snowflake / AWS Athena / Trino 모던 데이터 레이크하우스 아키텍처로 Apache Iceberg 채택**
 
 #### 한줄 요약
 
@@ -182,14 +159,13 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Apache Iceberg 채택 기준**: 다중 엔진 사용과 스키마•파티션 진화의 필요성이다.
+- **Iceberg 수립 기준(Apache Iceberg Standards)**: 3계층 트래버스 메타데이터, Hidden Partitioning, Engine-Agnostic 중립성 및 Manifest Compaction에 의거한 체계.
 
 </details>
 
-- **Apache Iceberg 채택 기준**에 따라 다중 엔진과 스키마•파티션 진화가 필요하면 **Apache Iceberg 오픈 테이블 포맷**을 채택한다.
+- **Iceberg 수립 기준**에 따라 멀티 엔진(Trino+Spark+Snowflake) 레이크하우스 구축 시 **Apache Iceberg Open Table Format** 필수 수용
 
 #### 한줄 요약
 
