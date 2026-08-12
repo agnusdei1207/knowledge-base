@@ -21,8 +21,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **가상머신(VM, Virtual Machine)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS)를 독립 실행하는 중량급 하드웨어 가상화 기술.
-- **컨테이너(Container)**: 호스트 OS(Host OS) 커널을 공유하며 리눅스 cgroups/Namespaces로 프로세스 수준에서 격리하는 경량 가상화 기술.
+- **가상머신(VM, Virtual Machine)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS)를 독립적으로 실행하는 중량급 하드웨어 가상화 기술.
+- **컨테이너(Container)**: 호스트 OS(Host OS) 커널을 공유하며 리눅스 cgroups/Namespaces를 통해 프로세스 수준에서 격리하는 경량 가상화 기술.
 - **하이퍼바이저(Hypervisor)**: 물리적 자원을 가상화하여 다수의 Guest OS가 하드웨어를 공유하도록 제어하는 가상화 엔진.
 
 </details>
@@ -36,13 +36,12 @@ extra:
 
 ## Ⅱ. 특징 (VM 대 Container 3대 격리 차원 비교)
 
-- **커널 공유 취약점(Kernel Sharing Risk)**: 컨테이너는 호스트 커널 공유로, 커널 취약점 발생 시 호스트 및 타 컨테이너로 영향 전파 위험.
+- **커널 공유 취약점(Kernel Sharing Risk)**: 컨테이너는 호스트 커널 공유로 인해 커널 취약점 발생 시 동일 호스트 내 다른 컨테이너로 영향 전파 위험.
+- **VM(Hardware-level Virtualization)**: 개별 Guest OS 구동으로 커널 분리, 강력한 보안성과 고립된 환경 제공(수 GB 단위 용량).
+- **Container(OS-level Virtualization)**: 호스트 커널 공유 및 프로세스 격리 수행, 경량 실행으로 빠른 배포와 자원 효율 극대화(수 MB 단위 용량).
+- **격리 강도(Isolation Strength)**: 물리적 하드웨어 격리(VM) 대비 프로세스 단위 격리(Container)로 보안 강도 차이 발생.
 
-- **VM (Hardware-level Virtualization)**: Guest OS 구동, 커널 분리, 고립된 보안 수준(수 GB 단위).
-- **Container (OS-level Virtualization)**: Host Kernel 공유, 프로세스 격리, 경량 실행(수 MB 단위).
-- **격리 강도(Isolation Strength)**: 하드웨어 수준(VM) 대비 프로세스 수준(Container) 격리 보안성 차이.
-
-- VM은 하드웨어 분리로 안정적이나 무거움, 컨테이너는 커널 공유로 빠르나 공동 경계 보안 위협 상존.
+- VM은 하드웨어 분리로 안정적이나 무거우며, 컨테이너는 커널 공유로 빠르나 공동 경계 보안 위협 상존.
 
 ## Ⅲ. 구조 및 구성요소 (VM vs Container 스택 1:1 아키텍처 비교)
 
@@ -121,8 +120,5 @@ extra:
 
 ## Ⅶ. 결론
 
-- **VM/컨테이너 수립 기준(VM vs Container Standards)**: 하드웨어 가상화(VM), OS 가상화(Container), MicroVM 보안성에 의거한 가상화 체계.
-
-- VM(독점 자원)과 컨테이너(Stateless 앱)의 하이브리드 아키텍처 적용.
-
-- 하이브리드 격리 및 밀도 기반 아키텍처 최적화 구현 필수.
+- **가상화 기술 적용 원칙 준수**
+- **VM 및 컨테이너 하이브리드 아키텍처 최적화 구현 필수**
