@@ -20,16 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **B-Tree**: 균형 잡힌 정렬 페이지에서 값을 제자리 갱신해 점•범위 조회에 안정적인 저장 구조이다.
-- **로그 구조 병합 트리(Log-Structured Merge-Tree, LSM-Tree)**: 변경을 메모리에 모아 정렬 파일로 병합하는 저장 구조이다.
+- **B-Tree (Balance Tree)**: 데이터 페이지를 디스크상의 지정된 위치에 제자리 수정(In-Place Update) 방식으로 저장하여, 읽기(Read) 성능을 최적화한 전통적 RDBMS(MySQL InnoDB, PostgreSQL) 스토리지 엔진 구조.
+- **LSM-Tree (Log-Structured Merge-Tree)**: 데이터를 인메모리(MemTable)에 먼저 기록한 후 디스크에 순차적 Append-Only(Out-of-Place Update)로 덤프(SSTable)하고, 지속적 병합(Compaction)을 거쳐 쓰기(Write) 속도를 극대화한 NoSQL(RocksDB, Cassandra) 스토리지 엔진 구조.
+- **In-Place Update vs Out-of-Place Update**: In-Place는 디스크의 해당 블록 위치를 직접 찾아가서 덮어쓰는 방식, Out-of-Place는 무조건 파일 끝에 계속 덧붙이고(Append) 과거 데이터는 정제(Compaction) 시 청소하는 방식.
 
 </details>
 
-- 정의/개념: **B-Tree**의 제자리 갱신과 **LSM-Tree**의 순차 병합을 비교한다.
-- 배경/필요성: 단일 저장 구조는 읽기•쓰기 편향에 취약하다.
+- 정의/개념: 전통적 RDBMS의 제자리 수정(In-Place Update) 기반 읽기 최적화 엔진인 **B-Tree** 와, 현대 NoSQL/시계열 DB의 순차 덧붙이기(Out-of-Place Update) 기반 쓰기 최적화 엔진인 **LSM-Tree**
+- 배경/필요성: 대규모 로깅 및 IoT 시계열 적재 시 발생되는 디스크 Random Write 병목 극복, 쓰기 처리량(Write Throughput)과 읽기 응답속도 간의 아키텍처 적합성 선택 요구성
 
 #### 한줄 요약
 
@@ -37,124 +37,95 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **컴팩션**: 여러 정렬 파일을 병합하며 중복과 삭제 표식을 정리하는 작업이다.
-- **제자리 페이지 갱신**: B-Tree가 기존 키 위치의 페이지를 직접 바꾸고 필요하면 분할하는 쓰기 방식이다.
-- **메모리 흡수 후 정렬 파일 기록**: LSM-Tree가 변경을 메모리에 누적한 뒤 키순 불변 파일로 내려 쓰는 방식이다.
+- **Random Write vs Sequential Write**: B-Tree는 디스크 블록 파편화에 따른 무작위 I/O 발생, LSM-Tree는 100% 순차 디스크 I/O 처리.
+- **Write Amplification vs Read Amplification**: B-Tree는 랜덤 쓰기로 인한 쓰기 증폭 발생, LSM-Tree는 여러 계층의 SSTable 스캔으로 인한 읽기 증폭 발생.
 
 </details>
 
-- **B-Tree**: 균형 트리에서 **제자리 페이지 갱신**을 수행한다.
-- **LSM-Tree**: **메모리 흡수 후 정렬 파일 기록**을 수행한다.
-- **컴팩션**: 중복 정리와 쓰기 증폭 발생이다.
+- **B-Tree**: Read-Heavy 최적화, In-Place Update, $O(\log N)$ 읽기 보장, Page Split 발생
+- **LSM-Tree**: Write-Heavy 최적화, Out-of-Place Append-Only, **Compaction & Bloom Filter** 사용
+- **Write Amplification Factor (WAF, 쓰기 증폭)** 대 **Read Amplification (읽기 증폭)** 간의 Trade-off
 
 #### 한줄 요약
 
 - 즉시 정리하면 읽기 경로가 짧고 몰아서 정리하면 쓰기가 효율적이지만 나중에 찾고 합치는 비용이 생긴다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (B-Tree 대 LSM-Tree 아키텍처 수용 구조)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **선행 기록 로그(Write-Ahead Log, WAL)**: 메모리 데이터보다 변경을 먼저 영속화하는 로그이다.
-- **메모리 테이블(Memory Table, Memtable)**: 최신 변경을 키순으로 누적하는 메모리 구조이다.
-- **정렬 문자열 테이블(Sorted String Table, SSTable)**: 키순으로 정렬된 불변 디스크 파일이다.
-- **블룸 필터(Bloom Filter)**: 키가 파일에 없음을 빠르게 판정하는 확률적 구조이다.
+- **MemTable & SSTable (Sorted String Table)**: LSM-Tree의 메모리 정렬 버퍼(MemTable)와 디스크 불변 정렬 파일(SSTable).
+- **Bloom Filter**: LSM-Tree 읽기 시 특정 키(Key)가 SSTable 파일에 존재하는지 안 하는지를 확률적으로 빠르게 판별해 무의미한 디스크 I/O를 막아주는 필터.
 
 </details>
 
 ```text
-[워크로드]
-    |
-    +-- [B-Tree 페이지]
-    |
-    +-- [WAL•Memtable]
-            |
-            +-- [SSTable]
-                    |
-                    +-- [Compaction]
-                    |
-                    +-- [Bloom Filter]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        B-Tree vs LSM-Tree 아키텍처                     │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ 1. B-Tree (In-Place Update)       │ 2. LSM-Tree (Out-of-Place Append)  │
+├───────────────────────────────────┼────────────────────────────────────┤
+│  Root ──► Branch ──► Leaf Page    │  Write ──► WAL ──► MemTable (RAM)  │
+│  (디스크 지정 블록 제자리 Overwrite) │                     │ (Flush)      │
+│                                   │                    ▼               │
+│                                   │          SSTable L0 ──► L1 (Compaction)│
+└───────────────────────────────────┴────────────────────────────────────┘
 ```
 
-선의 의미: 워크로드 아래에는 B-Tree 페이지 구조와 LSM 계열 구조가 병렬로 놓이며, LSM 계열은 WAL•Memtable, SSTable, Compaction과 Bloom Filter가 결합되는 정적 저장 구조를 뜻한다.
+선의 의미: B-Tree는 덮어쓰기 방식으로 디스크 페이지를 수정하고, LSM-Tree는 WAL과 MemTable을 거쳐 SSTable 디스크 파일로 순차 누적 후 Compaction 병합하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| B-Tree 페이지 | **B-Tree**의 정렬 탐색•갱신•분할 수행 |
-| 워크로드 | 읽기•쓰기 비율•지연 목표 제공 |
-| WAL•Memtable | **선행 기록 로그**•**메모리 테이블**로 변경 복구•누적 |
-| SSTable | **정렬 문자열 테이블**에 키순 불변 파일 저장 |
-| Compaction | **컴팩션**으로 파일 병합•중복 정리 |
-| Bloom Filter | **블룸 필터**로 없는 키의 파일 읽기 차단 |
+| 구성요소 / 지표 | B-Tree Engine (MySQL InnoDB) | LSM-Tree Engine (RocksDB, Cassandra) |
+|:---|:---|:---|
+| **데이터 수정 방식** | **In-Place Update (지정 블록 덮어쓰기)** | **Out-of-Place Append-Only (순차 덧붙이기)** |
+| **핵심 구성 아키텍처**| **Root - Branch - Leaf Pages, WAL** | **WAL, MemTable, SSTable, Bloom Filter** |
+| **쓰기(Write) 성능** | 낮음 (디스크 Random Write & Page Split) | **매우 높음 (100% Sequential Write)** |
+| **읽기(Read) 성능** | **매우 높음 (단일 B+Tree $O(\log N)$ 탐색)** | 낮음 (여러 SSTable 레벨 스캔 필요) |
+| **쓰기 증폭 (WAF)** | 높음 (작은 수정에도 16KB 페이지 전체 기록) | 낮음~중간 (Compaction 시점에만 증폭 발생) |
 
 #### 한줄 요약
 
 - 즉시 고치는 페이지와 모아 병합하는 파일 구조의 구성 차이다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (LSM-Tree 쓰기/읽기 및 Compaction 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **B-Tree 페이지 탐색•갱신**: 정렬 페이지에서 키를 찾아 값을 제자리 갱신하는 단계이다.
-- **WAL 순차 기록**: 메모리 테이블 갱신 전에 복구 로그를 영속화하는 단계이다.
-- **Memtable 갱신**: 영속화된 변경의 최신 값을 메모리 정렬 구조에 반영하는 단계이다.
-- **SSTable Flush**: Memtable이 한도에 도달하면 키순 불변 파일로 디스크에 기록하는 단계이다.
+- **Compaction**: LSM-Tree 디스크 상의 여러 계층(Level 0, Level 1...)에 파편화된 SSTable 파일들을 배경(Background)에서 정렬하여 하나로 합치고, 오래된 삭제/수정 데드 레코드를 청소하는 주 정리 작업.
 
 </details>
 
 ```text
-쓰기 요청
-    |
-    +-- B-Tree
-    |      |
-    |      +--> 1. B-Tree 페이지 탐색•갱신
-    |                 |
-    |                 +--> 쓰기 완료 응답
-    |
-    +-- LSM-Tree
-           |
-           +--> 2. WAL 순차 기록
-                    |
-                    v
-                3. Memtable 갱신
-                    |
-                    +--> 쓰기 완료 응답
-                    |
-                    +-- 임계 도달 --> 4. SSTable Flush
+[Write Flow]  : Client ──► WAL (Disk) + MemTable (RAM) ──► (Flush) ──► SSTable L0
+[Read Flow]   : Client ──► MemTable ──► Bloom Filter ──► SSTable L0..LN ──► Merge Result
+[Compaction]  : Background Thread ──► Merge SSTable L0 & L1 ──► Purge Dead Keys
 ```
 
 ### 동작 원리
 
-- **1. B-Tree 페이지 탐색•갱신**: **B-Tree 페이지 탐색•갱신**으로 정렬 페이지의 키를 찾아 값을 제자리 변경한다.
-- **2. WAL 순차 기록**: **WAL 순차 기록**으로 Memtable보다 먼저 복구 로그를 보존한다.
-- **3. Memtable 갱신**: **Memtable 갱신**으로 메모리 정렬 구조에 최신 값을 반영한다.
-- **4. SSTable Flush**: **SSTable Flush**로 한도 도달 시 정렬 파일에 영속화한다.
+1. **Write Phase**: WAL 로그 기록 후 MemTable 메모리에 튜플 저장 $\rightarrow$ 사용자에게 즉시 쓰기 OK 응답 (**초고속 쓰기**).
+2. **Flush Phase**: MemTable이 가득 차면 불변(Immutable) 상태로 전환 후 디스크 SSTable Level 0 파일로 순차 내려씀.
+3. **Compaction Phase**: 백그라운드 스레드가 L0~L1 SSTable들을 합병 정렬(Merge Sort)하여 중복 키를 지우고 공간 회수.
 
 #### 한줄 요약
 
 - 로그 구조 병합 트리는 변경을 복구 장부와 메모리에 먼저 적고, 모이면 정렬 파일로 내려 쓴다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (상용 DB 엔진 적용 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **저장 구조 비교 기준**: 점•범위 읽기 지연과 순차 쓰기 처리량 및 증폭 비용을 함께 평가하는 기준이다.
+- **RocksDB / LevelDB**: Facebook 및 Google이 오픈소스로 공개한 대표적 LSM-Tree 스토리지 엔진.
 
 </details>
 
-| 판단 기준 | B-Tree | LSM-Tree |
+| 비교 항목 | B-Tree 기반 데이터베이스 | LSM-Tree 기반 데이터베이스 |
 |:---|:---|:---|
-| 적용 기준 | 점•범위 읽기•안정 지연 | 높은 순차 쓰기 처리량 |
-| 핵심 특징 | **B-Tree**의 정렬 페이지 제자리 갱신 | **LSM-Tree**의 WAL•Memtable 후 파일 병합 |
-| 한계 | 페이지 분할•임의 쓰기 | 컴팩션•읽기•공간 증폭 |
-
-> **저장 구조 비교 기준**은 데이터 크기•캐시•저장장치•정책을 반영한 읽기•쓰기 실측이다.
+| 대표 DB 제품 | **MySQL (InnoDB), Oracle, PostgreSQL** | **RocksDB, Apache Cassandra, RocksDB, LevelDB** |
+| 주 타깃 워크로드 | **OLTP (결제, 계좌, 회원 정보 등)** | **시계열, IoT 센서 로그, 대규모 쓰기 부하** |
+| 디스크 메커니즘 | **Page-based Random I/O** | **File Segment-based Sequential I/O** |
+| 읽기 가속 수단 | B+Tree Leaf Node Pointer | **Bloom Filter (블룸 필터)** |
 
 #### 한줄 요약
 
@@ -162,36 +133,19 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **점 조회(Point Lookup)**: 단일 키로 데이터를 찾는 조회 유형이다.
-- **범위 조회(Range Scan)**: 연속된 키 구간의 데이터를 찾는 조회 유형이다.
-- **갱신 비율(Update Ratio)**: 전체 작업 중 데이터 변경이 차지하는 비율이다.
-- **피크 부하(Peak Load)**: 단위 시간의 최대 요청 유입량이다.
-- **읽기 증폭(Read Amplification)**: 한 논리 조회에 실제로 읽는 데이터 증가 비율이다.
-- **쓰기 증폭(Write Amplification)**: 한 논리 쓰기에 실제로 기록하는 데이터 증가 비율이다.
-- **공간 증폭(Space Amplification)**: 논리 데이터보다 실제 저장량이 늘어난 비율이다.
-- **컴팩션 대역폭(Compaction Bandwidth)**: 단위 시간에 병합할 수 있는 데이터 양이다.
-- **컴팩션 백로그(Compaction Backlog)**: 병합을 기다리는 정렬 파일의 양이다.
-- **캐시 예산(Cache Budget)**: 읽기 가속에 사용할 메모리 한도이다.
-- **쓰기 버퍼 예산(Write-buffer Budget)**: 쓰기 흡수에 사용할 메모리 한도이다.
-- **체크포인트(Checkpoint)**: 장애 복구를 시작할 저장 지점이다.
-- **플러시(Flush)**: 메모리 변경을 디스크에 저장하는 처리이다.
-- **복구 시간 목표(Recovery Time Objective, RTO)**: 서비스 재시작에 허용된 최대 시간이다.
-- **99백분위 지연(99th-percentile Latency, p99)**: 요청 99%가 완료되는 지연 경계값이다.
+- **Compaction Stall (컴팩션 정체)**: LSM-Tree 쓰기 트래픽이 너무 폭증하여 백그라운드 Compaction 속도가 따라가지 못해 DB가 잠시 쓰기 연산을 멈춰 세우는 병목 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 평균 비율이 피크 부하를 은폐 | **점 조회**•**범위 조회**•**갱신 비율**•**피크 부하** 측정 | 워크로드 오판 방지 |
-| 증폭 증가로 장치 수명•용량 저하 | **읽기 증폭**•**쓰기 증폭**•**공간 증폭** 계측 | 장치 수명•용량 통제 |
-| 컴팩션 적체로 쓰기 정체 발생 | **컴팩션 대역폭**•**컴팩션 백로그** 경보 조정 | 꼬리 지연 감소 |
-| 캐시와 쓰기 버퍼의 메모리 경쟁 | **캐시 예산**•**쓰기 버퍼 예산** 분리 | 메모리 경쟁 완화 |
-| 긴 로그 재생으로 RTO 초과 | **체크포인트**•**플러시**•**복구 시간 목표** 검증 | 재시작 지연 통제 |
+| LSM-Tree 사용 시 쓰기 폭증으로 인한 **Compaction Stall** 발생 | **Compaction 백그라운드 스레드 수 증가 및 SSD I/O 쿼터 확장**| 쓰기 멈춤 현상 해소 |
+| LSM-Tree에서 읽기 속도가 저하되는 현상 | **Bloom Filter 바이트 수 확장 및 MemTable 크기 튜닝** | 읽기 성능 회복 |
+| B-Tree 사용 시 무작위 PK로 인한 디스크 파편화 | **B-Tree PK는 반드시 Auto-Increment / TSID 등 순차 키 지정** | Random Write 최소화 |
 
-> 적용 사례: 거래 원장의 점•범위 조회에는 B-Tree를, 고속 시계열 적재에는 LSM-Tree를 후보로 두되 실제 증폭과 **99백분위 지연**으로 선택
+> 사례: **카카오 / 네이버 시계열 로그 DB로 RocksDB/Cassandra (LSM-Tree) 채택**
 
 #### 한줄 요약
 
@@ -199,15 +153,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **저장 구조 선택 검증 기준**: 조회 유형과 쓰기 집중도 및 컴팩션•증폭•꼬리 지연을 함께 확인하는 기준이다.
+- **스토리지 엔진 선택 기준(Storage Engine Selection Standards)**: Read/Write 워크로드 비율, Latency p99 및 WAF/Compaction 오버헤드에 의거한 체계.
 
 </details>
 
-- **저장 구조 선택 검증 기준**에 따라 점•범위 읽기는 **B-Tree**, 쓰기 집중은 **LSM-Tree**를 선택한다.
+- **스토리지 엔진 선택 기준**에 따라 OLTP 읽기 중심은 **B-Tree (InnoDB)**, 대용량 쓰기 중심은 **LSM-Tree (RocksDB)** 필수 적용
 
 #### 한줄 요약
 
-- **저장 구조 선택 검증 기준**으로 찾기•쓰기•정리 비용을 모두 측정한다.
+- 저장 구조 선택 검증 기준으로 찾기•쓰기•정리 비용을 모두 측정한다.
