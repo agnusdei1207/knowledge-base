@@ -20,214 +20,154 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **데브옵스(Development and Operations, DevOps)**: 개발부터 운영 피드백까지 공동 책임지는 협업 문화이다.
-- **피드백 루프(Feedback Loop)**: 운영 지표와 장애 원인을 다음 개발•운영 정책에 반영하는 순환이다.
-- **데브옵스 파이프라인(DevOps Pipeline)**: 개발 변경의 통합•전달과 운영 관측•개선 피드백을 자동화 단계로 연결한 흐름이다.
+- **DevOps (Development + Operations)**: 소프트웨어 개발(Development)과 정보기술 운영(Operations) 조직 간의 장벽을 허물고, 애자일 문화 및 자동화 도구를 기반으로 빠른 변경 릴리스와 신뢰성을 달성하는 문화적/기술적 협업 패러다임.
+- **CALMS Framework**: DevOps의 성공적 정착을 측정하는 5가지 척도 (Culture: 문화, Automation: 자동화, Lean: 린 프로세스, Measurement: 측정, Sharing: 공유).
+- **Feedback Loop**: 실운영 환경의 모니터링 로그/지표를 개발팀으로 실시간 환류하여 다음 스프린트의 기능 개선에 즉시 피드백 반영하는 선순환 구조.
 
 </details>
 
-- 정의/개념: 개발•운영의 변경 전달과 피드백을 연결한 **데브옵스 파이프라인**이다.
-- 배경/필요성: 조직 분리에서 비롯되는 인수 지연과 운영 책임 단절을 해소한다.
+- 정의/개념: 소프트웨어 계획(Plan)부터 코딩, 빌드, 테스트, 출시, 배포, 운영 및 모니터링 무한 루프를 자동화된 도구 체인(Toolchain)으로 연결한 **DevOps Pipeline**
+- 배경/필요성: 개발(변경 요구)과 운영(안정성 요구) 간의 이념적 대립(Wall of Confusion) 해소, 출시 리드 타임(Lead Time) 단축 및 고품질 시스템 구현 요구성
 
 #### 한줄 요약
 
-- **데브옵스**의 공동 책임과 **피드백 루프**를 자동 전달 과정에 연결하는 것이 핵심이다.
+- 데브옵스의 공동 책임과 피드백 루프를 자동 전달 과정에 연결하는 것이 핵심이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **공동 소유(Shared Ownership)**: 제품의 개발과 운영 결과를 한 팀이 함께 책임지는 원칙이다.
-- **지속적 통합(Continuous Integration, CI)**: 작은 코드 변경을 자주 병합하고 자동 빌드•테스트로 검증하는 활동이다.
+- **Infinity Loop (무한 루프 8자 고리)**: DevOps의 생명주기를 나타내는 표준 모델로, Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Test $\rightarrow$ Release $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 의 선순환 순환고리.
+- **Continuous Everything (무한 연속성)**: 지속적 계획(Plan), 지속적 통합(CI), 지속적 테스트(CT), 지속적 배포(CD), 지속적 모니터링(CM)을 통합 추구.
 
 </details>
 
-- 개발•운영의 **공동 소유**로 제품 결과를 함께 책임진다.
-- **지속적 통합**으로 빌드와 시험의 자동화•일관성을 확보한다.
-- 운영 지표를 **피드백 루프**로 다음 개발에 환류한다.
+- **CALMS Framework (Culture, Automation, Lean, Measurement, Sharing)** 지향
+- **DevOps Infinity Loop** 8자 생명주기 자동화
+- **DORA Metrics (Deployment Frequency, Lead Time for Changes, MTTR, Change Failure Rate)** 성과 측정
 
 #### 한줄 요약
 
-- **공동 소유**, **지속적 통합**, **피드백 루프**가 핵심이다.
+- 공동 소유, 지속적 통합, 피드백 루프가 핵심이다.
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **지속적 전달(Continuous Delivery, CD)**: 검증한 변경을 언제든 운영에 배포할 수 있는 상태로 준비하는 활동이다.
-- **아티팩트 저장소(Artifact Repository)**: 검증한 산출물의 버전과 무결성을 보존하는 저장소이다.
-- **관측 가능성(Observability)**: 로그•메트릭•트레이스로 시스템 내부 상태를 추론하는 능력이다.
-- **변경 저장소(Change Repository)**: 코드와 설정 및 변경 이력을 보관하는 저장소이다.
-- **통합 실행기(Integration Runner)**: 빌드와 시험 및 정책 검증을 수행하는 구성요소이다.
-- **전달 제어기(Delivery Controller)**: 승인 산출물을 운영에 반영하고 장애 시 검증된 기준선으로 복귀시키는 구성요소이다.
-- **관측 플랫폼(Observability Platform)**: 로그•메트릭•트레이스를 수집해 운영 상태와 장애 원인을 분석하는 시스템이다.
+- **DevOps Toolchain**: Plan부터 Monitor까지 각 단계별로 사용되는 최적 자동화 도구들의 유기적 조합 묶음 (Jira, Git, Jenkins, SonarQube, Terraform, K8s, Prometheus).
 
 </details>
 
 ```text
-[변경 저장소]
-      |
-[통합 실행기]
-      |
-[아티팩트 저장소]
-      |
-[전달 제어기]
-      |
-[관측 플랫폼]
+       [Plan / Issue (Jira)] ──► [Code / Version (Git)]
+                ▲                         │
+                │                         ▼
+     [Monitor (Prometheus)] ◄── [Build & Test (Jenkins)]
+                ▲                         │
+                │                         ▼
+     [Operate (Kubernetes)] ◄── [Deploy (ArgoCD)]
 ```
 
-선의 의미: 세로선은 변경 저장소에서 통합 실행기와 아티팩트 저장소 및 전달 제어기를 거쳐 관측 플랫폼으로 이어지는 전달•피드백 경로이다.
+선의 의미: Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 과정이 끊임없이 순환 환류(Infinity Loop)되는 DevOps 파이프라인 도구 체인 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 변경 저장소 | 코드•설정•변경 이력 공동 관리 |
-| 통합 실행기 | **지속적 통합**과 자동 검증 수행 |
-| 아티팩트 저장소 | 산출물 버전과 무결성 보존 |
-| 전달 제어기 | **지속적 전달**과 기준선 복귀 실행 |
-| 관측 플랫폼 | **관측 가능성** 정보로 운영 상태와 장애 원인 추적 |
+| 파이프라인 단계 | 주요 역할 및 활동 내용 | 대표적 DevOps Toolchain |
+|:---|:---|:---|
+| **1. Plan (계획)** | 요구사항 관리, 백로그 정의, 작업 스케줄링 | Jira, Confluence, Trello |
+| **2. Code (개발)** | 소스코드 작성, 분산 형상 관리, 코드 리뷰 | Git, GitHub, GitLab |
+| **3. Build & Test** | 자동 컴파일, 단윗/통합 테스트, 정적 코드 분석 | Gradle, Jenkins, SonarQube |
+| **4. Release & Deploy** | **불변 바이너리 패키징, IaC 기반 인프라 자동 프로비저닝** | Docker, Terraform, ArgoCD |
+| **5. Operate & Monitor**| **컨테이너 오케스트레이션, 메트릭/로그 모니터링** | Kubernetes, Prometheus, Grafana |
 
 #### 한줄 요약
 
-- **변경 저장소**, **통합 실행기**, **아티팩트 저장소**, **전달 제어기**, **관측 플랫폼**의 연결 구조가 핵심이다.
+- 변경 저장소, 통합 실행기, 아티팩트 저장소, 전달 제어기, 관측 플랫폼의 연결 구조가 핵심이다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **통합 검증(Integration Validation)**: 작은 변경을 빌드•시험•정책 기준으로 자동 확인하는 동작이다.
-- **검증 산출물 등록(Validated Artifact Registration)**: 통과한 불변 산출물의 버전과 무결성을 보존하는 동작이다.
-- **승인 버전 전달(Approved Version Delivery)**: 검증한 같은 산출물을 대상 운영 환경에 반영하는 동작이다.
-- **운영 상태 판정(Operational State Decision)**: 성능•오류•업무 지표로 유지 또는 복귀를 결정하는 동작이다.
-- **개선 피드백 환류(Improvement Feedback Loop)**: 성과와 장애 원인을 다음 변경•자동화 개선에 반영하는 동작이다.
-- **기준선(Baseline)**: 장애 때 복귀할 수 있도록 승인하고 검증한 안정 버전이다.
+- **DORA 4 Key Metrics**: DevOps 팀의 성숙도를 측정하는 4대 지표 (배포 빈도, 변경 리드타임, 서비스 복구 시간 MTTR, 변경 실패율).
 
 </details>
 
 ```text
-[작은 변경 제출]
-       |
-       v
-+---------------------------+
-| 1. 통합 검증              |
-+---------------------------+
-       |
-       v
-+---------------------------+
-| 2. 검증 산출물 등록       |
-+---------------------------+
-       |
-       v
-+---------------------------+
-| 3. 승인 버전 전달         |
-+---------------------------+
-       |
-       v
-+---------------------------+
-| 4. 운영 상태 판정         |
-+---------------------------+
-       |
-       +-- 정상 ------> [성과 확인] --------+
-       |                                    |
-       `-- 장애 ------> [기준선 복귀] ------+
-                                            |
-                                            v
-                                 +---------------------------+
-                                 | 5. 개선 피드백 환류      |
-                                 +---------------------------+
-                                            |
-                                            v
-                                     [다음 작은 변경]
+┌──────────────────────────────┐
+│ Jira Issue / Git Branch 생성 │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 1. CI (Jenkins 빌드&테스트)  │
+│ 2. SAST 정적 보안 검증       │
+│ 3. CD (ArgoCD 자동 배포)     │
+│ 4. Prometheus 관측 & 메트릭  │
+│ 5. DORA Metrics 피드백 측정  │
+└──────────────┬───────────────┘
+               ▼
+ [다음 스프린트 피드백 환류 완료]
 ```
 
 ### 동작 원리
 
-1. **통합 검증**: 작은 변경의 빌드•시험•정책을 확인한다.
-2. **검증 산출물 등록**: 통과 버전•무결성을 보존한다.
-3. **승인 버전 전달**: 같은 산출물을 운영에 반영한다.
-4. **운영 상태 판정**: 지표로 유지•복귀를 결정한다.
-5. **개선 피드백 환류**: 성과•장애 원인을 다음 변경에 반영한다.
-
-> 요약: **통합 검증**과 **승인 버전 전달** 후 **운영 상태 판정** 결과를 **개선 피드백 환류**로 되돌린다.
+1. **Plan & Code**: Jira 이슈 기반 Git Feature 브랜치 생성 및 소스 작성.
+2. **CI & QA**: PR 생성 시 Jenkins/GitHub Actions가 빌드, 테스트 및 SonarQube 정적 분석 자동 검증.
+3. **Deploy & IaC**: Terraform으로 서버 자원 획득 후 ArgoCD가 Kubernetes에 무장애 배포.
+4. **Monitor & Feedback**: Prometheus/Grafana 지표 수거 후 장애 시 **MTTR (Mean Time to Recovery)** 단축 및 개발팀 환류.
 
 #### 한줄 요약
 
-- **검증 산출물 등록**, **승인 버전 전달**, **개선 피드백 환류**의 순환이 핵심이다.
+- 검증 산출물 등록, 승인 버전 전달, 개선 피드백 환류의 순환이 핵심이다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **DevOps 통합 운영(Integrated DevOps Operation)**: 제품팀이 개발과 운영을 함께 책임지는 운영 모델이다.
-- **단계별 인계(Stage Handoff)**: 기능별 조직이 산출물을 승인 절차에 따라 다음 조직으로 넘기는 방식이다.
+- **Traditional Waterfall Silo vs DevOps Cross-Functional**: Traditional은 개발/QA/운영이 장벽(Silo)으로 분리되어 책임 전가 발생, DevOps는 1개 전담 팀(Cross-Functional Team)이 계획부터 운영까지 전권 소유.
 
 </details>
 
-| 운영 모델 | DevOps 통합 운영 | 개발•운영 분리 |
+| 비교 항목 | Traditional Silo Structure | DevOps Cross-Functional Structure |
 |:---|:---|:---|
-| 적용 기준 | 잦은 변경과 신속한 피드백 | 안정 우선과 엄격한 인수 절차 |
-| 핵심 특징 | 제품팀의 **공동 소유** | 기능별 조직의 **단계별 인계** |
-| 한계 | 역할 확대와 자동화 투자 부담 | 인계 대기와 책임 단절 |
-
-> 요약: 변경 속도와 공동 책임 요구가 운영 모델을 결정한다.
+| 조직 형태 | 개발팀, QA팀, 운영팀 완격 분리 (Silo) | **개발+운영 융합 전담 팀 (Cross-Functional)** |
+| 릴리스 주기 | 수개월 단위의 대규모 릴리스 | **매일/수시 소규모 연속 릴리스 (Continuous)** |
+| 책임 소재 | "배포 후엔 운영팀 책임" 책임 전가 | **"You Build It, You Run It" 공동 책임** |
+| 인프라 관리 | 서버 관리자에 의한 수동 작업 | **Infrastructure as Code (IaC) 자동화** |
 
 #### 한줄 요약
 
-- 잦은 변경에는 **DevOps 통합 운영**, 엄격한 인수에는 **단계별 인계**가 적합하다.
+- 잦은 변경에는 DevOps 통합 운영, 엄격한 인수에는 단계별 인계가 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **개발•운영 연구 및 평가(DevOps Research and Assessment, DORA)**: 배포 빈도•변경 리드 타임•변경 실패율•복구 시간으로 전달 성과를 평가하는 체계이다.
-- **평균 복구 시간(Mean Time to Recovery, MTTR)**: 장애 발생부터 서비스 정상 복구까지 걸린 평균 시간이다.
-- **인프라 코드화(Infrastructure as Code, IaC)**: 인프라 구성을 코드로 선언해 버전 관리하고 자동 적용하는 방식이다.
-- **심리적 안전(Psychological Safety)**: 비난 우려 없이 장애와 실수를 공유하고 개선에 참여할 수 있는 팀 환경이다.
-- **허영 지표(Vanity Metric)**: 실제 성과 개선과 연결되지 않지만 좋아 보이는 수치이다.
-- **공동 목표(Shared Goal)**: 전달 속도와 운영 안정성을 함께 측정하는 목표다.
-- **공동 소유권(Shared Ownership)**: 개발과 운영 결과를 함께 책임지는 원칙이다.
-- **업무 성과(Business Outcome)**: 배포 활동이 사용자 가치•매출•업무 성공률에 만든 실제 결과이다.
-- **재현성(Reproducibility)**: 같은 선언으로 환경을 다시 만들 수 있는 성질이다.
-- **감사성(Auditability)**: 누가 어떤 변경을 적용했는지 이력으로 확인하는 성질이다.
-- **비난 없는 분석(Blameless Analysis)**: 개인 처벌보다 사건의 조건•통제 실패•개선 행동을 찾는 장애 검토 방식이다.
-- **복구 절차(Recovery Procedure)**: 장애 감지부터 격리•복귀•검증까지 정상화를 위해 수행할 단계와 책임을 정한 절차이다.
+- **You Build It, You Run It**: 아마존 CTO 버너 보겔스(Werner Vogels)가 주창한 멘토링 구호로, 코드를 작성한 개발자가 해당 서비스의 실운영(On-call)까지 직접 책임진다는 문화적 원칙.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 협업 방식 없이 자동화 도구만 도입함 | **공동 목표**, **공동 소유권**, 피드백 절차 확립 | 책임 단절 해소 |
-| 개발•운영 간 인계마다 승인 대기 발생 | **지속적 통합**과 **지속적 전달**에 운영•보안 검증 통합 | 변경 리드 타임 단축 |
-| 배포 횟수 같은 **허영 지표**만 목표로 삼음 | **개발•운영 연구 및 평가**와 **업무 성과**를 함께 해석 | 속도와 안정성 균형 |
-| 장애 내부 상태와 배포 위험의 가시성 부재 | **관측 가능성**과 운영 안전 기준 구축 | 점진적 전달 판정 지원 |
-| 수동 인프라 변경으로 환경 편차가 발생함 | **인프라 코드화** 적용 | **재현성**과 **감사성** 확보 |
-| 장애 책임 추궁으로 실패 원인이 은폐됨 | **심리적 안전**과 **비난 없는 분석** 보장 | 학습과 재발 방지 촉진 |
-| 복구 소요 시간을 측정하지 않아 개선이 정체됨 | **평균 복구 시간**과 **복구 절차** 관리 | 복구 시간 단축 |
+| 문화적 변화 없이 도구(Jenkins/K8s)만 도입하여 실패 | **CALMS 프레임워크 기반 멘탈리티 혁신 & C-Level 지원** | DevOps 조직 문화 정착 |
+| 자동화 테스트 부족으로 배포 장애 수시 발생 | **Test Automation (단위/통합 커버리지 80% 이상)** | 배포 변경 실패율 급감 |
+| 운영 지표 가시성 부재 | **Prometheus + Grafana + OpenTelemetry 통합 구축** | MTTR 시간 극대화 단축 |
+
+> 사례: **Atlassian Jira + Git + Jenkins + SonarQube + K8s + Grafana** 기반 DevOps 파이프라인 구축
 
 #### 한줄 요약
 
-- **개발•운영 연구 및 평가**, **인프라 코드화**, **관측 가능성**에 기반한 개선이 핵심이다.
+- 개발•운영 연구 및 평가, 인프라 코드화, 관측 가능성에 기반한 개선이 핵심이다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **점진적 전달(Progressive Delivery)**: 새 버전이나 기능의 운영 노출 범위를 단계적으로 확대하는 방식이다.
-- **가드레일(Guardrail)**: 운영 지표의 허용 한계로 배포 확대•중단•복귀를 판정하는 안전 기준이다.
-- **운영 모델 선택 기준**: 변경 빈도, 피드백 속도, 공동 책임 가능성, 인수 통제 필요성을 함께 평가해 통합 운영과 단계별 인계 중 하나를 정하는 기준이다.
+- **DevOps 파이프라인 구축 기준(DevOps Pipeline Build Standards)**: DORA 지표 목표치, Toolchain 자동화율 및 조직 문화 성숙도에 의거한 체계.
 
 </details>
 
-- **운영 모델 선택 기준**에 따라 변경이 잦고 운영 피드백이 중요하면 **DevOps 통합 운영**, 엄격한 인수가 필요하면 **단계별 인계**를 선택한다.
+- **DevOps 파이프라인 구축 기준**에 따라 애자일 및 Cloud-Native 조직으로 진화 시 **DevOps Toolchain & DORA Metrics** 수용
 
 #### 한줄 요약
 
-- **DevOps 통합 운영**에서는 **점진적 전달**과 **가드레일**로 속도와 안정성을 함께 관리하는 것이 핵심이다.
+- DevOps 통합 운영에서는 점진적 전달과 가드레일로 속도와 안정성을 함께 관리하는 것이 핵심이다.
