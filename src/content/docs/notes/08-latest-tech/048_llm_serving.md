@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **대규모 언어 모델 서빙(Large Language Model Serving, LLM Serving)**: 언어 모델 추론을 다중 요청에 제공하며 자원•지연•품질을 통제하는 운영 체계다.
-- **서비스 목표**: 요청 처리에서 달성해야 할 품질•지연•처리량•비용 기준을 말한다.
-- **GPU(Graphics Processing Unit)**: 모델 추론을 병렬 처리하는 연산 장치다.
+- **대규모 언어 모델 서빙(Large Language Model Serving, LLM Serving)**: 언어 모델 추론을 다중 요청에 제공하며 자원•지연•품질을 통제하는 운영 체계로 정의된다.
+- **서비스 목표(Service Objective)**: 요청 처리에서 달성해야 할 품질•지연•처리량•비용 기준을 뜻한다.
+- **GPU(Graphics Processing Unit)**: 모델 추론을 병렬 처리하는 연산 장치를 말한다.
 
 </details>
 
 - 정의/개념: 언어 모델 추론을 다중 요청에 제공하며 자원•지연•품질을 통제하는 **LLM Serving**임.
-- 배경/필요성: 가변 길이•동시 요청은 **GPU 메모리•지연 변동**을 일으켜 서비스 목표를 보장하기 어렵음.
+- 배경/필요성: 가변 길이•동시 요청은 **GPU 메모리•지연 변동**을 일으켜 서비스 목표를 보장하기 어려움.
 
 #### 한줄 요약
 - **접수•라우팅•스케줄링•추론•운영 통제**를 한 체계로 묶는다.
@@ -40,9 +40,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **연속 배치(Continuous Batching)**: 완료 요청을 배치에서 제거하고 새 요청을 실행 중인 배치에 추가하는 방식이다.
-- **프리필(Prefill)**: 입력 전체를 처리해 생성에 필요한 키-값 캐시(Key-Value Cache, KV Cache)를 만드는 단계다.
-- **디코드(Decode)**: 저장된 키-값(Key-Value, KV)을 이용해 다음 출력 토큰을 반복 생성하는 단계다.
+- **연속 배치(Continuous Batching)**: 완료 요청을 배치에서 제거하고 새 요청을 실행 중인 배치에 추가하는 방식을 의미한다.
+- **프리필(Prefill)**: 입력 전체를 처리해 생성에 필요한 키-값 캐시(Key-Value Cache, KV Cache)를 만드는 단계를 나타낸다.
+- **디코드(Decode)**: 저장된 키-값(Key-Value, KV)을 이용해 다음 출력 토큰을 반복 생성하는 단계를 뜻한다.
 
 </details>
 
@@ -58,10 +58,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 라우터**: 과업과 부하에 따라 사용할 모델과 복제본을 선택한다.
-- **스케줄러**: 연속 배치와 KV 메모리를 고려하여 실행 순서를 관리한다.
-- **제어 평면**: 모델 배포•확장•관측•장애 복구 정책을 관리하는 운영 계층로 정의된다.
-- **API Gateway(Application Programming Interface Gateway)**: 인증•할당량•스트리밍을 통제하는 요청 경계다.
+- **모델 라우터(Model Router)**: 과업과 부하에 따라 사용할 모델과 복제본을 선택하는 구성요소를 말한다.
+- **스케줄러(Scheduler)**: 연속 배치와 KV 메모리를 고려하여 실행 순서를 관리하는 모듈로 정의된다.
+- **제어 평면(Control Plane)**: 모델 배포•확장•관측•장애 복구 정책을 관리하는 운영 계층을 의미한다.
+- **API Gateway(Application Programming Interface Gateway)**: 인증•할당량•스트리밍을 통제하는 요청 경계를 나타낸다.
 
 </details>
 
@@ -72,7 +72,7 @@ extra:
               +------------+------------+------------+
 ```
 
-선의 의미: 제어 평면은 API Gateway, 모델 라우터, 스케줄러, 추론 엔진의 배포•확장•관측 정책을 통제하고, 하단 선은 네 구성요소가 하나의 서빙 경계에 속함을 뜻한다.
+선의 의미: 상단 선은 제어 평면의 배포•확장•관측 정책 통제, 하단 선은 네 구성요소의 단일 서빙 경계 귀속을 나타냄.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -90,8 +90,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **할당량(Quota)**: 사용자나 서비스가 일정 시간 동안 사용할 수 있는 요청•토큰•자원의 상한을 의미한다.
-- **복제본(Replica)**: 동일 모델을 독립 실행하여 요청을 분산 처리하는 인스턴스다.
+- **할당량(Quota)**: 사용자나 서비스가 일정 시간 동안 사용할 수 있는 요청•토큰•자원의 상한을 뜻한다.
+- **복제본(Replica)**: 동일 모델을 독립 실행하여 요청을 분산 처리하는 인스턴스를 의미한다.
 
 </details>
 
@@ -129,10 +129,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **오프라인 추론**: 즉시 응답 없이 대량 데이터를 고정 배치로 처리하여 비용과 처리량을 최적화한다.
-- **온라인 서빙**: 대화형 요청을 동적 배치로 처리하여 TTFT와 TPOT을 관리한다.
-- **비동기 배치 응용 프로그래밍 인터페이스(Asynchronous Batch Application Programming Interface, Asynchronous Batch API)**: 완료 시점이 유연한 대량 요청을 작업 큐에 넣고 나중에 결과를 제공한다.
-- **TTFT(Time to First Token)**: 요청부터 첫 출력 토큰까지의 초기 지연을 말한다.
+- **오프라인 추론(Offline Inference)**: 즉시 응답 없이 대량 데이터를 고정 배치로 처리하여 비용과 처리량을 최적화하는 기법을 말한다.
+- **온라인 서빙(Online Serving)**: 대화형 요청을 동적 배치로 처리하여 TTFT와 TPOT을 관리하는 방식으로 정의된다.
+- **비동기 배치 응용 프로그래밍 인터페이스(Asynchronous Batch Application Programming Interface, Asynchronous Batch API)**: 완료 시점이 유연한 대량 요청을 작업 큐에 넣고 나중에 결과를 제공하는 구조를 나타낸다.
+- **TTFT(Time to First Token)**: 요청부터 첫 출력 토큰까지의 초기 지연을 뜻한다.
 - **TPOT(Time per Output Token)**: 첫 토큰 뒤 출력 토큰당 평균 지연을 의미한다.
 
 </details>
@@ -151,11 +151,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **유효 처리량(Goodput)**: 품질•지연 목표를 모두 만족하면서 처리한 유효 요청이나 토큰의 양을 의미한다.
-- **페이지드 캐시**: KV Cache를 고정 크기 비연속 블록으로 나눠 동적 할당•회수하는 방식을 의미한다.
-- **회로 차단(Circuit Breaker)**: 장애가 반복되는 복제본의 요청을 일시 중단해 실패 확산을 막는다.
-- **그림자 트래픽•카나리 배포**: 새 모델을 응답에 반영하지 않고 비교한 뒤 일부 요청부터 단계적으로 적용하는 검증 방식을 말한다.
-- **SLO(Service Level Objective)**: 지연•품질 등 서비스가 달성해야 하는 운영 목표다.
+- **유효 처리량(Goodput)**: 품질•지연 목표를 모두 만족하면서 처리한 유효 요청이나 토큰의 양을 말한다.
+- **페이지드 캐시(Paged Cache)**: KV Cache를 고정 크기 비연속 블록으로 나눠 동적 할당•회수하는 방식을 의미한다.
+- **회로 차단(Circuit Breaker)**: 장애가 반복되는 복제본의 요청을 일시 중단해 실패 확산을 막는 패턴으로 정의된다.
+- **그림자 트래픽•카나리 배포(Shadow Traffic & Canary Deployment)**: 새 모델을 응답에 반영하지 않고 비교한 뒤 일부 요청부터 단계적으로 적용하는 검증 방식을 뜻한다.
+- **SLO(Service Level Objective)**: 지연•품질 등 서비스가 달성해야 하는 운영 목표를 나타낸다.
 
 </details>
 
@@ -175,11 +175,12 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **온라인 동적 배치**: 즉시 스트리밍 응답이 필요한 요청을 지연 목표에 맞춰 실행 중 재편한다.
-- **비동기 응용 프로그래밍 인터페이스(Asynchronous Application Programming Interface, Asynchronous API)**: 완료 시점이 유연한 대량 요청을 작업 큐로 처리한다.
+- **온라인 동적 배치(Online Dynamic Batching)**: 즉시 스트리밍 응답이 필요한 요청을 지연 목표에 맞춰 실행 중 재편하는 방식을 말한다.
+- **비동기 응용 프로그래밍 인터페이스(Asynchronous Application Programming Interface, Asynchronous API)**: 완료 시점이 유연한 대량 요청을 작업 큐로 처리하는 방식을 의미한다.
 </details>
 
 - 실시간에는 **온라인 동적 배치**, 완료 유연 작업에는 **비동기 API**, 대량 처리에는 **오프라인 추론**을 선택함.
 
 #### 한줄 요약
 - **응답 시급성•작업량**에 따라 서빙 방식을 선택한다.
+
