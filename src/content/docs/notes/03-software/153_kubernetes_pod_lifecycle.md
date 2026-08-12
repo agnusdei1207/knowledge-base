@@ -21,8 +21,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **파드 생명주기(Pod Lifecycle)**: 파드의 생성(Pending)부터 실행(Running), 종료(Succeeded/Failed/Unknown)까지의 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
-- **프로브(Probe)**: kubelet이 파드 내 컨테이너의 생존 여부와 트래픽 서빙 준비 상태를 주기적으로 확인하는 3대 메커니즘(Liveness, Readiness, Startup Probe).
+- **파드 생명주기(Pod Lifecycle)**: 파드의 생성부터 종료까지의 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
+- **프로브(Probe)**: Kubelet이 컨테이너의 생존 및 트래픽 서빙 준비 상태를 주기적으로 확인하는 메커니즘(Liveness, Readiness, Startup Probe).
 - **정상 종료(Graceful Termination)**: 파드 삭제 요청 시 `preStop` 훅과 `SIGTERM` 신호를 통해 기존 연결을 안전하게 정리(Drain)한 후 프로세스를 종료하는 절차.
 
 </details>
@@ -44,7 +44,7 @@ extra:
 
 - **5대 상태 전이**: Pending → Running → Succeeded/Failed/Unknown.
 - **3대 상태 점검(Probes)**: Startup, Liveness, Readiness.
-- **정상 종료 보장**: preStop 훅 → SIGTERM → 종료 유예 기간 → SIGKILL 강제 종료.
+- **정상 종료 보장**: preStop 훅(Hook) → SIGTERM → 종료 유예 기간 → SIGKILL 강제 종료.
 
 #### 한줄 요약
 
@@ -73,9 +73,9 @@ extra:
 | 구분 | Startup Probe | Liveness Probe | Readiness Probe |
 |:---|:---|:---|:---|
 | **목적** | 초기 부팅 완료 체크 | 생존(Deadlock) 체크 | 트래픽 서빙 가능 체크 |
-| **실패 결과**| 컨테이너 재시작 | 컨테이너 재시작 | 엔드포인트에서 제외(트래픽 차단) |
-| **적용 시점** | 생성 직후 (유예) | 부팅 성공 후 | 부팅 성공 후 |
-| **사례** | Java/Spring 앱 | 무한 루프, 데드락 | DB 연결, 캐시 로딩 |
+| **실패 결과**| 컨테이너 재시작 | 컨테이너 재시작 | 엔드포인트(Endpoint) 제외(차단) |
+| **적용 시점** | 생성 직후 | 부팅 성공 후 | 부팅 성공 후 |
+| **사례** | Java/Spring 앱 | Deadlock, 무한 루프 | DB 연결, 캐시 로딩 |
 
 #### 한줄 요약
 
@@ -98,9 +98,9 @@ extra:
 
 ### 동작 원리
 
-1. **Endpoint Detach & preStop**: delete 명령 수신 즉시 K8s Service Endpoint에서 Pod IP를 제거하여 신규 트래픽 유입 차단 후 preStop 훅 실행.
-2. **SIGTERM & Grace Period**: 프로세스에 `SIGTERM` 신호를 보내 처리 중인 기존 커넥션 마무리 유예(기본 30초).
-3. **SIGKILL**: 30초 경과 후에도 종료 안 되면 `SIGKILL`로 강제 파기 (**Graceful Termination 완결**).
+1. **Endpoint Detach & preStop**: delete 명령 시 Service Endpoint에서 Pod IP를 제거하여 트래픽 차단 후 preStop 훅 실행.
+2. **SIGTERM & Grace Period**: 프로세스에 `SIGTERM` 신호를 보내 커넥션 마무리 유예(기본 30초).
+3. **SIGKILL**: 30초 경과 시 `SIGKILL`로 강제 파기(Graceful Termination 완결).
 
 #### 한줄 요약
 
@@ -147,5 +147,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **파드 3대 프로브(Startup/Liveness/Readiness) 최적화 설정**
-- **정상 종료(Graceful Termination)를 위한 preStop 훅 및 셧다운 체계 적용 필수**
+- **파드 3대 프로브 최적화 및 무중단 정상 종료 체계 구현**

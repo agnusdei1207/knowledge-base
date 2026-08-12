@@ -20,9 +20,9 @@ extra:
 
 ## Ⅰ. 개요
 
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU•커널 개입 없이 등록 메모리 간 직접 데이터 전송 기술.
-- **중앙처리장치(Central Processing Unit, CPU)**: 복잡한 제어와 순차 작업을 처리하는 범용 프로세서.
-- **메모리 등록(Memory Registration)**: 전송할 주소, 길이, 접근 권한을 네트워크 어댑터에 미리 고정하는 절차.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 시스템의 CPU 및 커널 개입 없이 호스트 메모리 데이터를 직접 송수신하는 고성능 데이터 전송 기술.
+- **중앙처리장치(Central Processing Unit, CPU)**: 시스템 제어 및 범용 연산을 수행하는 프로세서.
+- **메모리 등록(Memory Registration)**: 전송할 메모리의 물리적 주소, 크기, 접근 권한을 네트워크 어댑터(NIC)에 미리 고정하고 보안 키(L_Key/R_Key)를 생성하는 필수 절차.
 
 </details>
 
@@ -34,10 +34,10 @@ extra:
 
 ## Ⅱ. 특징
 
-- **메모리 영역(Memory Region, MR)**: 어댑터에 등록된 접근 범위.
-- **지역•원격 키(L_Key, R_Key)**: 로컬•원격 접근 권한 검증 식별값.
-- **큐 페어(Queue Pair, QP)**: 송•수신 큐 결합 RDMA 통신 종단.
-- **완료 큐(Completion Queue, CQ)**: 작업의 성공•오류 등 결과 기록 큐.
+- **메모리 영역(Memory Region, MR)**: RDMA 전송을 위해 어댑터에 등록되어 접근이 승인된 가상 메모리 공간.
+- **지역/원격 키(Local Key/Remote Key, L_Key/R_Key)**: 로컬 노드 및 원격 노드에서 메모리 접근 권한을 검증하기 위한 고유 식별값.
+- **큐 페어(Queue Pair, QP)**: 송신 큐(Send Queue)와 수신 큐(Receive Queue)로 구성되어 RDMA 데이터 패킷을 처리하는 통신 종단점.
+- **완료 큐(Completion Queue, CQ)**: RDMA 작업 요청이 완료되었을 때, 결과(성공/실패) 정보가 기록되는 비동기식 큐.
 
 </details>
 
@@ -50,10 +50,10 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-- **보호 영역(Protection Domain, PD)**: RDMA 자원 격리 경계.
-- **등록 메모리(Registered Memory)**: 접근 범위 고정 및 키 발급 영역.
-- **동사(Verb)**: RDMA 자원 조작 API.
-- **작업 요청(Work Request, WR)**: 연산, 버퍼, 키 기술 서술자.
+- **보호 영역(Protection Domain, PD)**: RDMA 자원(QP, MR)들을 논리적으로 그룹화하여 자원 간의 접근을 격리하는 보안 경계.
+- **등록 메모리(Registered Memory)**: 어댑터에 접근 권한이 고정되어 RDMA 작업이 허용된 메모리 영역.
+- **동사(Verb)**: RDMA 하드웨어 자원을 생성, 구성, 조작하기 위한 추상화 API 세트.
+- **작업 요청(Work Request, WR)**: RDMA 전송 수행을 위해 큐에 게시하는 동작 사양(연산 타입, 버퍼 주소, 보안 키 등).
 
 </details>
 
@@ -166,4 +166,4 @@ R_Key, QP, CQ의 수명과 상태를 함께 관리한다.
 - **직접 메모리 조작•완료 상태**에 따라 단측 RDMA와 양측 송수신 방식 선정.
 
 #### 한줄 요약
-- 메모리 접근 범위, 키, 작업/완료 큐 기반 RDMA 통신 구현 필수.
+- **메모리 접근 범위, 보안 키, 작업/완료 큐 기반 RDMA 통신 구현 필수.**
