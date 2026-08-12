@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Arm TrustZone**: 하드웨어 보안 상태와 버스 거래 속성을 이용해 실행 환경과 자원을 격리하는 Arm 보안 기술이다.
-- **보안 상태(Secure State)**: 승인된 보안 코드가 보안 메모리와 주변장치에 접근할 수 있는 프로세서 실행 상태이다.
-- **비보안 상태(Non-secure State)**: 일반 운영체제와 응용이 실행되며 보안 자원 접근이 하드웨어로 차단되는 상태이다.
+- **Arm TrustZone**: 프로세서 코어, 버스 아키텍처 및 메모리/주변장치 레벨에서 시스템을 보안(Secure)과 비보안(Non-secure)의 2개 도메인으로 수평 격리하는 하드웨어 기술.
+- **보안 상태(Secure State)**: 암호 키, TEE 및 보안 자원에 하드웨어 직결 억세스가 허용되는 실행 도메인.
+- **비보안 상태(Non-Secure State)**: 범용 OS(Linux/Android) 및 일반 애플리케이션이 구동되며 보안 메모리/자원 접근이 하드웨어에 의해 완전 차단되는 도메인.
 
 </details>
 
-- 정의/개념: 프로세서 보안 상태와 시스템 버스·메모리·주변장치의 보안 속성으로 실행 환경을 분리하는 **Arm TrustZone**이다.
-- 배경/필요성: 소프트웨어 기반의 OS 커널 보호만으로는 커널 권한 탈취 공격 시 암호화 키, 암호화 알고리즘 및 생체 인증 데이터가 노출된다.
+- 정의/개념: 하드웨어 기반 2개 실행 도메인(Secure World vs Normal World) 및 버스 트랜잭션 속성을 통해 시스템 전반을 수평 격리하는 **Arm TrustZone**
+- 배경/필요성: 리눅스/안드로이드 등 범용 OS 커널 탈취(Kernel Compromise) 시에도 암호 키, DRM, 생체 정보 등 핵심 보안 자산의 하드웨어 보호 요구성
 
 #### 한줄 요약
 
@@ -39,15 +39,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **거래 보안 속성(Transaction Security Attribute)**: 버스 접근이 보안과 비보안 중 어느 상태에서 발생했는지 표시하는 하드웨어 신호이다.
-- **자원 보안 속성(Resource Security Attribution)**: 메모리나 주변장치가 보안 또는 비보안 영역에 속하도록 지정한 접근 속성이다.
-- **공유 버퍼(Shared Buffer)**: 보안 코드와 비보안 코드가 요청과 결과를 교환하는 비보안 메모리 영역이다.
+- **NS 비트(Non-Secure Bit)**: AMBA AXI/AHB 버스 트랜잭션 신호선 상에 탑재되어 해당 요청이 Secure/Non-secure 영역에서 발원했는지 파악하는 하드웨어 제어 신호.
+- **공유 버퍼(Shared Buffer)**: Normal World와 Secure World 간의 요청 파라미터 및 텐서 데이터를 교환하기 위해 지정된 비보안 영역 메모리.
 
 </details>
 
-- **보안•비보안 상태** 분리에 따른 실행 환경 격리가 핵심이다.
-- **거래 보안 속성•자원 보안 속성** 비교에 따른 메모리•장치 접근을 통제한다.
-- 비보안 입력은 승인된 진입점과 **공유 버퍼** 검증으로 제한한다.
+- 프로세서 상태에 따른 **Normal World**와 **Secure World**의 시스템 차원 수평 격리
+- AMBA 버스 상의 **NS 비트**를 통한 메모리 및 주변장치 하드웨어 물리 접근 통제
+- **공유 버퍼** 검증 및 안전한 모니터(Secure Monitor) 진입점을 통한 도메인 상호 전환
 
 #### 한줄 요약
 
@@ -57,15 +56,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **보안 전환 경로(Secure Transition Path)**: 비보안 호출을 검증하고 프로세서를 보안 상태의 승인된 진입점으로 전환하는 경로이다.
-- **운영체제(Operating System, OS)**: 하드웨어 자원과 응용 실행을 관리하는 소프트웨어이다.
-- **신뢰 실행 환경(Trusted Execution Environment, TEE)**: 민감한 코드와 데이터를 일반 실행 환경에서 격리하여 실행하는 보안 환경이다.
-- **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 시스템 보안 보장에 반드시 신뢰해야 하는 최소 하드웨어와 소프트웨어의 집합이다.
-- **자원 보안 제어(Resource Security Control)**: 거래 속성과 자원 귀속을 비교하여 메모리와 장치 접근을 허용하거나 차단하는 하드웨어이다.
+- **SMC(Secure Monitor Call)**: A-profile 상에서 Non-secure 구역에서 Secure World로 전환하기 위해 발생시키는 예외 인스트럭션.
+- **TEE(Trusted Execution Environment)**: TrustZone Secure World 상에서 구동되는 경량 보안 OS(OP-TEE, QSEE 등).
+- **TCB(Trusted Computing Base)**: 시스템의 보안성을 유지하기 위해 무조건 신뢰해야 하는 하드웨어/소프트웨어 컴포넌트의 집합.
+- **TZASC/TZPC**: 메모리(DRAM) 및 주변장치(Peripheral)의 Secure/Non-secure 귀속 속성을 프로그래밍 관리하는 하드웨어 컨트롤러.
 
 </details>
-
-비보안 실행 기반: 일반 **OS**, 보안 민감 서비스: **보안 전환 경로·TEE**, 접근 강제: **TCB·자원 보안 제어**
 
 ```text
 ┌──────── 비보안 상태 ────────┐     ┌──────── 보안 상태 ─────────┐
@@ -76,14 +72,14 @@ extra:
                   [자원 보안 제어]
 ```
 
-선의 의미: 비보안 실행 영역과 TEE 사이의 전환 경계 및 보안 자원 접근 제어가 결합된 정적 TrustZone 격리 구조다.
+선의 의미: 비보안 OS와 Secure World TEE가 보안 전환 경로(SMC) 및 하드웨어 자원 보안 제어기(TZASC/TZPC)에 의해 상호 격리/연동되는 구조.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 비보안 영역 | 일반 OS•응용 실행 |
-| 보안 전환 경로 | 호출•상태 전환 검증 |
-| 신뢰 펌웨어•TEE | 민감 서비스 실행 |
-| 자원 보안 제어 | 메모리•장치 접근 판정 |
+| 비보안 영역 | 범용 Rich OS(Linux/Android) 및 일반 사용자 App 구동 |
+| 보안 전환 경로 | **SMC** 명령 및 Secure Monitor/SG 가드를 통한 모드 전환 제어 |
+| 신뢰 펌웨어•TEE | 보안 펌웨어(ATF), **TEE** 보안 OS 및 보안 App(TA) 구동 |
+| 자원 보안 제어 | **TZASC**(메모리), **TZPC**(주변장치) 컨트롤러 기반 **NS 비트** 바인딩 |
 
 #### 한줄 요약
 
@@ -93,16 +89,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **보안 전환 진입점**: A-profile의 SMC·보안 모니터 또는 M-profile의 Secure Gateway처럼 비보안 요청을 승인된 보안 코드로 전달하는 프로파일별 경계이다.
-- **공유 버퍼 검증(Shared-buffer Validation)**: 비보안 코드가 전달한 주소와 길이가 허용된 메모리 범위인지 확인하는 절차이다.
-- **보안 연산(Secure Operation)**: 키와 비밀 데이터를 보안 영역 밖으로 노출하지 않고 신뢰 실행 환경(Trusted Execution Environment, TEE)이나 보안 장치에서 수행하는 연산이다.
-- **보안 전환 진입점 검증**: 요청이 승인된 서비스와 공유 버퍼 범위를 사용하는지 확인하는 단계이다.
-- **보안 상태·자원 속성 강제**: 보안 상태로 전환하고 거래 속성과 자원 귀속을 비교하는 단계이다.
-- **보안 서비스 실행·복귀**: 보안 연산을 수행한 뒤 비민감 결과만 호출자에게 돌려주는 단계이다.
+- **Secure Monitor**: Normal World와 Secure World 간의 Context Switch(레지스터 저장/복원)를 관장하는 최고 권한 펌웨어 계층.
+- **공유 버퍼 검증(Shared-Buffer Validation)**: Normal World에서 인가된 주소 파라미터가 NS 영역 내에 존재하는지 TEE가 사전에 검증하는 보안 절차.
 
 </details>
-
-보안 서비스는 프로파일별 승인 진입점으로 요청을 받고 **공유 버퍼 검증** 후 필요한 결과만 반환한다.
 
 ```text
 [비보안 OS•응용의 보안 서비스 요청]
@@ -128,9 +118,9 @@ extra:
 
 ### 동작 원리
 
-1. **보안 전환 진입점 검증**: A-profile SMC·보안 모니터 또는 M-profile Secure Gateway의 승인된 서비스와 공유 버퍼 범위를 확인한다.
-2. **보안 상태·자원 속성 강제**: 프로파일 규칙에 따라 보안 상태로 전환하고 거래 속성과 메모리·장치 귀속을 비교한다.
-3. **보안 서비스 실행·복귀**: 키를 보안 영역 밖으로 내보내지 않는 **보안 연산** 뒤 비민감 결과와 상태만 비보안 호출자에 반환한다.
+1. **보안 전환 진입점 검증**: Normal World에서 **SMC** 수행 및 **Secure Monitor**를 통해 **공유 버퍼 검증** 진행.
+2. **보안 상태·자원 속성 강제**: CPU 코어의 보안 상태 전환 및 AMBA **NS 비트** 하드웨어 통제 가동.
+3. **TEE 보안 연산**: **TEE** 및 Secure App(TA) 구동을 통한 비밀 키 연산 수행 후 non-sensitive 결과만 Normal World로 복귀 전달.
 
 #### 한줄 요약
 
@@ -140,17 +130,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **운영체제 권한 격리(Operating System Privilege Isolation, OS Privilege Isolation)**: 페이지 테이블과 프로세스 권한으로 일반 응용의 주소 공간과 자원 접근을 분리하는 방식이다.
-- **페이지 권한(Page Permission)**: 가상 메모리 페이지별로 읽기와 쓰기 및 실행 가능 여부를 지정하는 운영체제 속성이다.
-- **커널 침해(Kernel Compromise)**: 공격자가 운영체제 최고 권한을 얻어 프로세스와 페이지 권한을 우회할 수 있는 상태이다.
+- **OS 권한 격리**: Ring/EL(Execution Level) 기반 소프트웨어 관점 프로세스 간 페이지 테이블(MMU) 보호 방식.
 
 </details>
 
-| 격리 방식 | Arm TrustZone | 운영체제 권한 격리 |
+| 격리 방식 | Arm TrustZone (Hardware Isolation) | OS 권한 격리 (Software Isolation) |
 |:---|:---|:---|
-| 적용 기준 | 키•부팅 코드 보호 | 응용•프로세스 분리 |
-| 핵심 특징 | **Arm TrustZone**의 상태•버스 속성 격리 | **운영체제 권한 격리**의 **페이지 권한** |
-| 한계 | 진입점•속성 설정 오류 | **커널 침해** 시 무력화 |
+| 적용 기준 | 억세스 암호 키, 부팅 로직, 생체 정보 보호 시 | 일반 애플리케이션 및 유저 프로세스 격리 시 |
+| 핵심 특징 | 하드웨어 **NS 비트** 및 물리 상태(Secure/NS) 수평 분리 | MMU 페이지 테이블 및 커널 링(Ring 0~3) 기반 수직 분리 |
+| 한계 | TEE 펌웨어 및 **SMC** 진입점 취약점 관리 요구 | **커널 침해**(Rooting/Exploit) 발생 시 전체 보안 와해 |
 
 #### 한줄 요약
 
@@ -160,21 +148,18 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **신뢰 컴퓨팅 기반 최소화(Trusted Computing Base Minimization, TCB 최소화)**: 보안 영역에 필수 서비스만 남겨 검증해야 할 코드와 자원의 범위를 줄이는 원칙이다.
-- **경계 취약점(Boundary Vulnerability)**: 보안•비보안 영역 사이의 입력 검증이나 상태 전환 오류로 생기는 보안 결함이다.
-- **직접 메모리 접근 보안 속성(Direct Memory Access Security Attribution, DMA 보안 속성)**: 장치의 직접 메모리 접근이 보안 또는 비보안 거래로 처리되도록 지정한 속성이다.
-- **경계 상태 정리(Boundary-state Sanitization)**: 보안 서비스 복귀 전에 공유 버퍼와 반환 레지스터 등에 남은 불필요한 민감 정보를 제거하는 처리이다.
+- **TCB 최소화(TCB Minimization)**: 공격 표면(Attack Surface)을 줄이기 위해 TEE 내부 코드 및 드라이버 수용을 극소화하는 원칙.
+- **경계 취약점(Boundary Vulnerability)**: Normal World에서 전달된 잘못된 포인터(Point-to-Secure)를 TEE가 무비판 수용 시 발생하는 메모리 침범.
 
 </details>
 
-TEE와 TCB를 작게 유지하고 DMA를 포함한 경계 입력을 검증한다.
-
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 보안 영역 기능이 늘어 TCB 코드·자원 검증 범위 확대 | 키 관리 등 필수 서비스만 남겨 **TCB 최소화** | 공격 표면과 검증 대상 축소 |
-| 비보안 공유 버퍼의 주소·길이를 믿어 **경계 취약점** 발생 | 범위·정수 오버플로를 검증한 뒤 필요한 데이터만 보안 영역으로 복사 | 비보안 포인터의 경계 침범 방지 |
-| 메모리·주변장치·DMA의 보안 귀속이 잘못되어 비보안 접근 허용 | 부팅 초기에 **DMA 보안 속성**을 포함한 전체 자원 귀속 검증·잠금 | 비보안 CPU·DMA의 보안 자원 접근 차단 |
-| 보안 서비스 반환 버퍼·레지스터에 민감 정보 잔존 | 반환값을 최소화하고 **경계 상태 정리** | 비보안 호출자에 대한 정보 누출 방지 |
+| TEE 내부 팽창에 따른 **TCB** 공격 표면 확대 | 보안 펌웨어 기능 극소화(**TCB 최소화**) 및 TA 분리 | 하드웨어 보안 영역 안정성 확보 |
+| Normal World 포인터 수용 시 **경계 취약점** 발생 | **공유 버퍼 검증** 및 NS 영역 주소 범위 강제 바인딩 | Secure World 메모리 오염 방지 |
+| DMA 컨트롤러를 통한 보안 메모리 무단 억세스 위험 | S-MMU 및 DMA 컨트롤러 상의 **NS 비트** 물리 바인딩 | DMA 하드웨어 무단 억세스 차단 |
+
+> 사례: **Arm TrustZone** 기반 암호화 키 보관 및 TEE 결제 모듈 구동
 
 #### 한줄 요약
 
@@ -184,14 +169,11 @@ TEE와 TCB를 작게 유지하고 DMA를 포함한 경계 입력을 검증한다
 
 <details><summary>핵심 용어</summary>
 
-- **핵심 자산(Critical Asset)**: 암호 키와 부팅 코드처럼 노출이나 변조 시 시스템 보안이 무너지는 데이터와 코드이다.
-- **하드웨어 격리(Hardware Isolation)**: 운영체제 권한과 독립된 프로세서 상태 및 버스 제어로 접근 경계를 강제하는 방식이다.
-- **최소 권한(Least Privilege)**: 각 보안 서비스에 기능 수행에 필요한 최소 자원과 권한만 부여하는 원칙이다.
-- **TrustZone 적용 기준**: 핵심 자산을 운영체제와 독립된 하드웨어 격리로 보호해야 하는지 판단하는 기준이다.
+- **TrustZone 적용 기준(TrustZone Adoption Criteria)**: 보호 대상 데이터의 치명도, OS 커널 신뢰성 수준 및 하드웨어 가용성에 따른 채택 지표.
 
 </details>
 
-- **TrustZone 적용 기준**에 따라 **핵심 자산**을 **하드웨어 격리**가 필요한 TrustZone 보안 영역에 배치하고 **최소 권한**을 적용한다.
+- **TrustZone 적용 기준**에 따라 루트 암호 키, 생체 인증, DRM 자산은 하드웨어 **Arm TrustZone** Secure World 배치를 통한 근본적 격리 달성
 
 #### 한줄 요약
 
