@@ -20,17 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **추출•변환•적재(Extract, Transform, Load, ETL)**: 원천 데이터를 추출해 외부에서 변환한 뒤 목표 저장소에 적재하는 처리 흐름이다.
-- **추출•적재•변환(Extract, Load, Transform, ELT)**: 원천 데이터를 목표 저장소에 먼저 적재한 뒤 저장소 내부에서 변환하는 처리 흐름이다.
-- **순서와 연산 위치**: 추출•변환•적재를 어떤 순서로 어느 처리 계층에서 수행할지 정하는 기준이다.
+- **ETL (Extract, Transform, Load)**: 소스 DB에서 데이터를 추출(Extract)하여 별도의 중간 변환 서버(Spark/ETL Tool)에서 정제/변환(Transform)을 모두 마친 후, 타깃 DW/DB에 적재(Load)하는 전통적 파이프라인.
+- **ELT (Extract, Load, Transform)**: 소스 DB의 날것 그대로 데이터(Raw Data)를 타깃 데이터 레이크/DW(S3, Snowflake)에 일단 우선 적재(Load)한 후, 타깃 엔진의 초고속 컴퓨팅 파워로 내부 변환(Transform)을 수행하는 모던 파이프라인.
+- **dbt (data build tool)**: ELT 파이프라인에서 SQL 기반으로 타깃 DW 내부 변환 로직(Transform)을 모듈화하고 테스팅하는 대표 오픈소스 툴.
 
 </details>
 
-- 정의/개념: 변환과 적재 순서를 달리하는 **ETL**과 **ELT** 처리 흐름이다.
-- 배경/필요성: 단일 적재 순서로는 원천 보존과 선처리 통제를 동시에 충족하기 어렵다.
+- 정의/개념: 데이터의 추출(Extract), 변환(Transform), 적재(Load) 연산의 시점과 컴퓨터 레이어 위치를 다르게 가져가는 데이터 엔지니어링 2대 파이프라인 패턴인 **ETL vs ELT**
+- 배경/필요성: 과거 비싼 DW 디스크 스토리지 환경(ETL)에서, 현대 클라우드 가성비 S3 객체 스토리지 및 Snowflake MPPE 엔진 출현(ELT)으로 패러다임 전환 요구성
 
 #### 한줄 요약
 
@@ -38,155 +37,108 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **멱등성**: 재실행에도 목표 결과를 한 번 처리한 상태로 유지하는 성질이다.
-- **대사**: 원천과 목표의 건수•합계•키를 비교하는 검증이다.
-- **증분 처리**: 전체 데이터를 다시 읽지 않고 마지막 성공 위치 이후 새로 생기거나 바뀐 구간만 처리하는 방식이다.
+- **Compute Layer Offloading**: ETL은 중간 서버 컴퓨터가 변환 연산 부담, ELT는 타깃 클라우드 DW(Snowflake, BigQuery)가 변환 연산 부담.
+- **Data Preservation (원본 보존성)**: ELT는 Raw 데이터가 타깃 S3에 100% 보존되어 언제든 재가공 가능.
 
 </details>
 
-- **순서와 연산 위치**에 따라 ETL은 외부, ELT는 목표 저장소에서 변환한다.
-- **증분 처리**: 마지막 성공 위치 이후 구간만 조회한다.
-- **멱등성**과 **대사**로 재실행 중복을 막고 원천•목표를 비교한다.
+- **ETL (Transform Pre-Load: 보안/PII 선 마스킹 및 레거시 DW에 적합)**
+- **ELT (Transform Post-Load: Raw 보존, 클라우드 레이크하우스 & dbt 연동에 적합)**
+- **Pipeline Latency & Scalability Tradeoff (적재 속도 및 확장성 트레이드오프)**
 
 #### 한줄 요약
 
 - 어디까지 성공했는지 기억하고 같은 구간을 다시 넣어도 결과가 한 번만 남게 만든다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (ETL 대 ELT 파이프라인 아키텍처 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **스테이징 영역**: 입력 데이터와 출처•처리 위치를 실패 후 다시 처리할 수 있게 보존하는 구성요소이다.
-- **원천 커넥터**: 원천 데이터•스키마와 마지막 성공 이후의 증분 위치를 수집하는 구성요소이다.
-- **변환 엔진**: 형식•키•품질•업무 규칙과 민감값 마스킹을 데이터에 적용하는 구성요소이다.
-- **목표 저장소**: 변환 결과와 원천 데이터를 보존하고 내부 연산을 제공하는 구성요소이다.
-- **적재기**: 처리 결과를 목표 저장소에 중복 없이 반영하는 구성요소이다.
-- **실행 제어**: 작업 의존성과 완료 위치를 관리하는 구성요소이다.
-- **실행 메타데이터**: 코드 버전과 대사 결과를 기록하는 정보이다.
+- **Transformation Offloading Layer**: ETL의 경우 Spark/Informatica 서버, ELT의 경우 Snowflake/BigQuery/dbt internal SQL 연산.
 
 </details>
 
 ```text
-[ETL•ELT 파이프라인]
-          |
-          +-- [원천 커넥터]
-          |
-          +-- [스테이징 영역]
-          |
-          +-- [변환 엔진]
-          |
-          +-- [목표 저장소•적재기]
-          |
-          +-- [실행 제어•메타데이터]
+[1. ETL Pipeline Architecture]
+ Source System ──► [Extract] ──► [Transform (Spark ETL Server)] ──► [Load] ──► Legacy DW
+
+[2. ELT Pipeline Architecture]
+ Source System ──► [Extract] ──► [Load Raw Data (AWS S3)] ──► [Transform (dbt / Snowflake)] ──► Gold DW
 ```
 
-선의 의미: 가로선은 원천 연결, 재처리 입력 보존, 변환과 목표 저장을 구성하는 정적 데이터 파이프라인 경계이고, 세로선은 변환 계층에 실행 제어•메타데이터가 결합되어 의존성과 실행 근거를 관리하는 관계를 뜻한다.
+선의 의미: 데이터 변환(Transform)이 적재(Load) 이전에 일어나느냐(ETL), 적재 이후 타깃 내부에서 일어나느냐(ELT)의 흐름 차이.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 원천 커넥터 | **원천 커넥터**가 원천 데이터•스키마•증분 위치 수집 |
-| 스테이징 영역 | **스테이징 영역**이 입력•출처•위치를 재처리 가능 상태로 보존 |
-| 변환 엔진 | **변환 엔진**이 형식•키•품질•업무 규칙•마스킹 적용 |
-| 목표 저장소•적재기 | **목표 저장소**와 **적재기**가 결과를 멱등 반영하고 내부 연산 제공 |
-| 실행 제어•메타데이터 | **실행 제어**와 **실행 메타데이터**가 의존성•코드 버전•대사•완료 위치 관리 |
+| 비교 요소 | Traditional ETL Pipeline | Modern ELT Pipeline |
+|:---|:---|:---|
+| **변환 연산 위치** | **독립된 중간 변환 서버 (Spark, Talend)** | **타깃 클라우드 DW / Lake (Snowflake, BigQuery)** |
+| **적재 속도 (Load Time)**| 느림 (변환이 모두 끝나야 적재) | **초고속 (Raw Data를 S3에 즉시 덤프 적재)** |
+| **원본 보존성** | 없음 (변환된 최종 결과만 적재) | **100% 완벽 보존 (Bronze Zone Raw 데이터)** |
+| **핵심 변환 기술** | Python, Scala, Java, Spark | **SQL, dbt (data build tool)** |
 
 #### 한줄 요약
 
 - 밖에서 정리해 넣거나 먼저 넣고 안에서 정리한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Modern ELT + dbt 변환 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **증분 처리 구간 고정**: 마지막 성공 위치부터 이번 실행의 입력 범위를 확정하는 단계이다.
-- **변환 위치 선택**: 선처리 통제와 원본 반복 가공 중 우선 요구를 판정하는 단계이다.
-- **ETL 외부 변환•적재**: 적재 전에 정제•차폐하고 결과를 멱등 반영하는 단계이다.
-- **ELT 원천 적재•내부 변환**: 원천을 먼저 보존하고 저장소 연산으로 모델을 만드는 단계이다.
-- **대사•완료 위치 확정**: 변환•적재 검증이 성공한 뒤 다음 시작점을 갱신하는 단계이다.
+- **dbt Transformation Flow**: S3/Snowflake에 덤프된 Bronze Raw 테이블을 dbt SQL 모델로 가공하여 Silver/Gold 테이블로 승격시키는 ELT 변환 과정.
 
 </details>
 
 ```text
-원천 변경 데이터
-       |
-       v
-1. 증분 처리 구간 고정
-       |
-       v
-2. 변환 위치 선택
-       |
-       +-- 적재 전 차폐•고정 스키마
-       |          |
-       |          +-- 3. ETL 외부 변환•적재
-       |
-       +-- 원본 보존•반복 가공
-                  |
-                  +-- 4. ELT 원천 적재•내부 변환
-                              |
-                              v
-                       5. 대사•완료 위치 확정
+[Source DB] ──► [Fivetran / Airbyte (Extract & Load)] ──► [Snowflake Bronze Raw Table]
+                                                                  │
+                                                                  ▼
+ [Gold Analytics Mart] ◄── [dbt Compile & Test] ◄── [dbt SQL Model Transformation]
 ```
 
 ### 동작 원리
 
-- **1. 증분 처리 구간 고정**: **증분 처리 구간 고정**은 재처리할 입력 위치•구조를 확정한다.
-- **2. 변환 위치 선택**: **변환 위치 선택**은 선처리 통제와 원본 보존 우선순위를 판정한다.
-- **3. ETL 외부 변환•적재**: **ETL 외부 변환•적재**는 정제•차폐 결과를 멱등하게 반영한다.
-- **4. ELT 원천 적재•내부 변환**: **ELT 원천 적재•내부 변환**은 원천 보존 뒤 내부 모델을 생성한다.
-- **5. 대사•완료 위치 확정**: **대사•완료 위치 확정**은 검증 성공 뒤 다음 시작점을 갱신한다.
+1. **Extract & Load**: Fivetran/Debezium 커넥터가 변환 0회로 소스 데이터를 Snowflake Bronze 영역에 덤프 적재.
+2. **dbt Transformation**: 데이터 엔지니어가 SQL 선언적 아티팩트(`dbt run`)를 돌려 Snowflake 인프라 파워로 Silver/Gold 변환 연산 수행 (**Modern ELT 완결**).
 
 #### 한줄 요약
 
 - 새 자료를 따로 보관하고 선택한 순서로 처리한 뒤 결과가 맞아야 완료 표시를 옮긴다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (ETL 대 ELT 적합 도메인 선택 기준)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **처리 위치 기준**: 변환을 외부 계층과 목표 저장소 중 어디서 수행할지 정하는 축이다.
+- **Domain Selection Criteria**: 보안/PII 민감 데이터는 ETL, 대용량 빅데이터 및 실시간 머신러닝은 ELT.
 
 </details>
 
-| **처리 위치 기준** | ETL | ELT |
+| 선택 요구사항 | ETL (Extract-Transform-Load) | ELT (Extract-Load-Transform) |
 |:---|:---|:---|
-| 적용 기준 | **ETL**: 적재 전 선처리•고정 스키마 | **ELT**: 원본 보존•반복 변환 |
-| 핵심 특징 | 추출→외부 변환→적재 | 추출→원천 적재→내부 변환 |
-| 한계 | 외부 병목•이동 비용 | 원문 노출•저장소 종속 |
+| **보안 및 규제 (PII)** | **적재 전 PII 암호화 필수 시 (ETL 우수)** | 타깃 저장소 보안 정책으로 커버 |
+| **데이터 스토리지 비용**| 온프레미스 디스크가 비싼 경우 | **클라우드 S3 스토리지 가격이 매우 저렴한 경우** |
+| **유연성 및 재가공** | 변환 로직 변경 시 소스부터 재수집 필요 | **Raw 보존으로 dbt SQL만 고쳐서 재가공** |
+| **엔지니어링 기술** | Spark, Scala 전문 엔지니어 필요 | **SQL 숙련 데이터 분석가도 파이프라인 개발** |
 
 #### 한줄 요약
 
 - 밖에서 가려야 할 값은 먼저 처리하고 반복 분석할 원본은 안에 보관해 다시 가공할 수 있다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (ELT 도입 시 3대 난제 대책)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **증분 경계**: 마지막 성공 이후 읽을 구간의 중첩이나 공백으로 누락•중복이 생길 수 있는 경계이다.
-- **로그 위치**: 변경 로그에서 마지막으로 처리한 지점이다.
-- **워터마크**: 시간이나 순번으로 완료 처리 범위를 나타내는 표식이다.
-- **멱등 적재**: 같은 입력 구간을 여러 번 실행해도 목표 저장소의 최종 결과가 한 번 실행한 것과 같게 하는 적재 방식이다.
-- **호환 규칙**: 원천 스키마 변경을 허용할 범위이다.
-- **버전 파서**: 각 스키마 판본을 해석하는 처리기이다.
-- **마스킹**: 민감값을 가리거나 대체하는 보호 수단이다.
-- **접근 통제**: 허가된 주체만 원문에 접근하게 하는 보호 수단이다.
-- **연산 밀어넣기(Pushdown)**: 데이터 이동을 줄이기 위해 필터•집계•변환 연산을 원천이나 목표 저장소에서 실행하는 최적화 방식이다.
+- **Snowflake Compute Credit Explosion**: ELT 변환 쿼리가 비효율적일 경우 타깃 클라우드 DW의 컴퓨팅 노드 사용료(Credit) 폭증 위험.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 ELT 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **증분 경계**의 중첩•공백 | **로그 위치**•**워터마크** 대사 | 누락•중복 방지 |
-| 동일 구간 재실행 | 업무 키 기반 **멱등 적재** 적용 | 재시도 중복 억제 |
-| 원천 스키마 변경 | **호환 규칙**•**버전 파서** 적용 | 중단•오독 방지 |
-| 민감 원문 적재 | **마스킹**•**접근 통제** 적용 | 원문 노출 감소 |
-| 데이터 이동량 증가 | **연산 밀어넣기(Pushdown)**•**증분 처리** 적용 | 이동•연산비 통제 |
+| **1. Target DW Cost Surge**| ELT dbt 변환 SQL 과다 실행으로 쿼리 비용 폭발| **`dbt incremental` 모델로 변환 쿼리 증분화** |
+| **2. PII Data Exposure** | PII 생값이 S3/DW Raw 영역에 그대로 노출 | **Ingestion 커넥터 단에서 PII Hash 단방향 암호화**|
+| **3. Raw Data Swamp** | ELT Raw 지대에 자잘한 쓰레기 파일 폭발 | **Lifecycle Policy 적용하여 90일 후 Cold Storage**|
+
+> 사례: **카카오 / 당근마켓 / 쿠팡 Fivetran + Snowflake + dbt 기반 Modern Data Stack ELT 운용**
 
 #### 한줄 요약
 
@@ -194,14 +146,13 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **ETL•ELT 선택 기준**: 적재 전 차폐와 원본 반복 가공의 우선순위이다.
+- **ELT 수립 기준(Modern Data Stack Standards)**: Cloud DW, S3 Raw Preserved, dbt SQL Transformation 및 Airflow Orchestration에 의거한 체계.
 
 </details>
 
-- **ETL•ELT 선택 기준**에 따라 적재 전 차폐는 **ETL**, 원본 반복 가공은 **ELT**를 선택한다.
+- **ELT 수립 기준**에 따라 차세대 모던 데이터 스택 구축 시 **Modern ELT (Airbyte + Snowflake + dbt)** 필수 수용
 
 #### 한줄 요약
 
