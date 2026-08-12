@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 구조와 인터페이스를 표준화한 플랫폼이다.
-- **전자제어장치(Electronic Control Unit, ECU)**: 센서 입력과 제어 소프트웨어에 따라 차량 기능을 실행하는 내장 컴퓨터이다.
-- **소프트웨어 재사용(Software Reuse)**: 표준 인터페이스를 지킨 기능을 여러 차량과 하드웨어 구성에서 반복 활용하는 방식이다.
+- **AUTOSAR(Automotive Open System Architecture)**: 글로벌 완성차(OEM) 및 부품사(Tier-1)가 공동 제정한 자동차 전자제어장치(ECU) 소프트웨어 개방형 표준 아키텍처.
+- **ECU(Electronic Control Unit)**: 차량 내 각 기능(엔진, 섀시, ADAS 등)을 제어하는 임베디드 컴퓨터 단말.
+- **소프트웨어 재사용(Software Reuse)**: 하드웨어 종속성이 제거된 표준화된 SWC(Software Component)를 타 칩셋/타 차량 플랫폼에 재배치하여 재활용하는 성질.
 
 </details>
 
-- 정의/개념: 차량 소프트웨어의 구조·인터페이스·개발 방법을 표준화하여 응용과 하드웨어의 결합을 줄이는 **AUTOSAR** 플랫폼이다.
-- 배경/필요성: 다수의 티어(Tier) 부품사가 개발하는 파편화된 전장 SW 구조에서는 ECU 재사용성이 저하되고 통합 소프트웨어의 유지보수 비용이 급증한다.
+- 정의/개념: 차량용 전장 소프트웨어 계층(Application-RTE-BSW/ARA) 구조 및 인터페이스 메커니즘을 규격화한 **AUTOSAR** 플랫폼
+- 배경/필요성: 벤더별 파편화된 전장 SW 구조로 인한 하드웨어/소프트웨어 강한 결합(Tight Coupling) 해소 및 SW 재사용성 극대화 요구
 
 #### 한줄 요약
 
@@ -39,32 +39,30 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **표준 인터페이스(Standard Interface)**: 공급사와 하드웨어가 달라도 데이터 형식과 호출 규칙을 일관되게 유지하는 접점이다.
-- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 구조화된 데이터 교환 형식이다.
-- **AUTOSAR XML(ARXML)**: 시스템•소프트웨어•통신 설계 정보 교환 형식이다.
-- **Classic Platform**: 정적 구성과 결정적인 주기 제어를 중심으로 하는 AUTOSAR 플랫폼이다.
-- **Adaptive Platform**: 서비스 지향 구조와 고성능 동적 응용을 중심으로 하는 AUTOSAR 플랫폼이다.
+- **표준 인터페이스(Standardized Interface)**: 애플리케이션(SWC)과 기본 소프트웨어(BSW) 간 데이터 교환 및 함수 호출 규칙 규격.
+- **ARXML(AUTOSAR XML)**: SWC 포트 사양, BSW 설정, CAN/Ethernet 통신 매핑 정보를 규정하는 AUTOSAR 전용 표준 XML 설명 파일.
+- **Classic Platform**: MCU 기반 저전력, 하드 실시간 및 정적 스케줄링(Deep Embedded)을 전용 처리하는 아키텍처.
+- **Adaptive Platform**: MPU/SoC 기반 고성능 컴퓨팅, 동적 SOA(Service-Oriented Architecture) 및 자율주행/연결성을 수용하는 아키텍처.
 
 </details>
 
-- **표준 인터페이스**는 응용이 특정 하드웨어와 공급사 구현에 직접 의존하지 않게 한다.
-- **XML** 기반 **ARXML**은 공급사와 개발 도구 사이에서 동일한 시스템•통신 설계 정보를 교환하게 한다.
-- **Classic Platform**과 **Adaptive Platform**은 결정적 제어와 동적 고성능 서비스에 서로 다른 실행 구조를 제공한다.
+- 응용 SW와 하드웨어를 분리(Decoupling)하는 **표준 인터페이스** 도입
+- 툴 체인 간 아키텍처 메타데이터를 상호 교환하는 표준 **ARXML** 지원
+- 정적 제어 중심의 **Classic Platform**과 고성능 서비스 지향의 **Adaptive Platform** 이원화 구율
 
 #### 한줄 요약
 
-- **ARXML**로 설계 정보를 교환하더라도 차량별 생성 결과와 통합 동작은 별도로 검증해야 한다.
+- ARXML로 설계 정보를 교환하더라도 차량별 생성 결과와 통합 동작은 별도로 검증해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **소프트웨어 구성요소(Software Component, SWC)**: 차량 기능을 포트와 러너블 단위로 캡슐화한 AUTOSAR 응용 구성요소이다.
-- **런타임 환경(Runtime Environment, RTE)**: Classic SWC와 기본 소프트웨어 사이의 포트 통신과 호출을 중개하는 계층이다.
-- **기본 소프트웨어(Basic Software, BSW)**: 운영체제•통신•진단 서비스를 제공하는 계층이다.
-- **마이크로컨트롤러 추상화 계층(Microcontroller Abstraction Layer, MCAL)**: MCU 장치 접근을 표준화하는 BSW 하위 계층이다.
-- **Adaptive 응용(Adaptive Application)**: 고성능 운영체제 위에서 동적 차량 서비스를 실행하는 응용이다.
-- **Adaptive 응용 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: Adaptive 표준 API와 기능 클러스터를 제공하는 실행 기반이다.
+- **SWC(Software Component)**: 차량 기능(예: 제동, 조향 등)을 구현하는 최상위 애플리케이션 소프트웨어 캡슐화 단원.
+- **RTE(Runtime Environment)**: SWC 간 또는 SWC와 BSW 간의 포트 통신 및 함수 호출을 중개하는 추상화 미들웨어 계층.
+- **BSW(Basic Software)**: OS, 메모리, 진단(DoIP/UDS), 통신(CAN/Eth) 및 칩셋 추상화(**MCAL**) 서비스를 제공하는 하단 인프라 SW.
+- **MCAL(Microcontroller Abstraction Layer)**: 하드웨어 MCU 핀 및 온칩 주변장치를 표준 API로 추상화하는 BSW 최하위 레이어.
+- **ARA(AUTOSAR Runtime for Adaptive Applications)**: Adaptive 환경에서 C++14 기반 서비스 인터페이스, 옥타브 통신 및 보안을 제공하는 미들웨어.
 
 </details>
 
@@ -74,33 +72,27 @@ Classic 구조:  [응용 SWC] -- [RTE] -- [BSW•MCAL]
 Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 ```
 
-선의 의미: 각 선은 Classic 또는 Adaptive 플랫폼 내부 계층의 정적 결합이며, 두 플랫폼 사이의 직접 연결을 뜻하지 않는다.
+선의 의미: Classic 및 Adaptive 아키텍처 상에서 상위 응용 레이어가 미들웨어(RTE/ARA)를 거쳐 하부 BSW/기능 클러스터로 연동되는 표준 스택.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 응용 SWC | 차량 제어 기능 실행 |
-| RTE | 포트•호출 중개 |
-| BSW•MCAL | 서비스•장치 추상화 |
-| Adaptive 응용 | 고성능 서비스 실행 |
-| ARA•기능 클러스터 | 탐색•수명주기 관리 |
+| 응용 SWC | 포트(Port) 기반 차량 로직 수행 및 하드웨어 독립성 보유 |
+| RTE | SWC 간 통신 및 BSW 서비스 호출에 대한 **RTE** 가상 버스 맵핑 |
+| BSW•MCAL | OS 타이머, CAN/LIN 통신, UDS 진단 및 **MCAL** 하드웨어 제어 |
+| Adaptive 응용 | POSIX 기반 C++14 ADAS/자율주행 서비스 로직 실행 |
+| ARA•기능 클러스터 | **ARA** 서비스 탐색(SOME/IP), 보안(SecOC) 및 OTA 갱신 관리 |
 
 #### 한줄 요약
 
-- AUTOSAR는 **Classic Platform**의 정적 계층과 **Adaptive Platform**의 동적 서비스 구조를 용도에 따라 구분한다.
+- AUTOSAR는 Classic Platform의 정적 계층과 Adaptive Platform의 동적 서비스 구조를 용도에 따라 구분한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **플랫폼 할당(Platform Allocation)**: 시간 요구와 변경성에 따라 기능을 Classic 또는 Adaptive에 배치하는 과정이다.
-- **러너블(Runnable)**: 입력 이벤트나 주기에 따라 RTE가 호출하는 SWC 내부 실행 단위이다.
-- **서비스 탐색(Service Discovery)**: Adaptive 응용이 실행 중 필요한 서비스 인스턴스를 찾는 기능이다.
-- **종단 검증(End-to-end Validation)**: 입력부터 응용•통신•출력까지 시간과 인터페이스 계약을 확인하는 검증이다.
-- **기능·인터페이스 구성**: ARXML로 포트와 서비스의 데이터·호출 계약을 정하는 단계이다.
-- **플랫폼 할당**: 시간 요구와 변경성에 따라 Classic 또는 Adaptive에 기능을 배치하는 단계이다.
-- **플랫폼 응용 실행**: Classic 러너블이나 Adaptive 서비스를 호출하는 단계이다.
-- **플랫폼 인프라 처리**: BSW·MCAL 또는 기능 클러스터가 장치와 수명주기를 관리하는 단계이다.
-- **종단 계약 검증**: 입력부터 출력까지 지연과 데이터 및 격리 요구를 확인하는 단계이다.
+- **플랫폼 할당(Platform Allocation)**: 차량 기능 속성(실시간 제어 vs 동적 서비스)에 따라 Classic 또는 Adaptive 노드로 SWC를 배분하는 공정.
+- **러너블(Runnable)**: RTE가 수신 이벤트 또는 정속 주기에 맞춰 호출 실행하는 SWC 내부 코드 엔티티.
+- **서비스 탐색(Service Discovery)**: SOME/IP SD 프로토콜을 통하여 Adaptive 인스턴스 간 연결을 런타임에 동적 매핑하는 절차.
 
 </details>
 
@@ -112,22 +104,22 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
             │
             ▼
 2. 플랫폼 할당
-     ┌──────┴────────┐
-     │ 결정적 제어   │ 동적 서비스
-     ▼               ▼
- [Classic]       [Adaptive]
-     └──────┬────────┘
-            ▼
+      ┌──────┴────────┐
+      │ 결정적 제어   │ 동적 서비스
+      ▼               ▼
+  [Classic]       [Adaptive]
+      └──────┬────────┘
+             ▼
 3. 플랫폼 응용 실행
    ├─ Classic: SWC•RTE 러너블
    └─ Adaptive: 응용•ARA 서비스
-            │
-            ▼
+             │
+             ▼
 4. 플랫폼 인프라 처리
    ├─ Classic: BSW•MCAL 제어
    └─ Adaptive: 기능 클러스터 관리
-            │
-            ▼
+             │
+             ▼
 5. 종단 계약 검증
             │
             ▼
@@ -136,31 +128,30 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ### 동작 원리
 
-1. **기능•인터페이스 구성**: ARXML로 포트와 서비스의 데이터•호출 계약을 정의한다.
-2. **플랫폼 할당**: 기능의 실시간 요구와 실행 중 변경 필요성에 따라 Classic 또는 Adaptive를 선택한다.
-3. **플랫폼 응용 실행**: Classic은 RTE가 러너블을 호출하고, Adaptive는 ARA의 **서비스 탐색**으로 인스턴스를 찾아 호출한다.
-4. **플랫폼 인프라 처리**: Classic의 BSW•MCAL은 장치를 제어하고, Adaptive 기능 클러스터는 응용 수명주기를 관리한다.
-5. **종단 계약 검증**: 두 플랫폼을 통과하는 지연과 데이터 및 격리 요구의 충족 여부를 확인한다.
+1. **기능·인터페이스 구성**: **ARXML** 기반 시스템 묘사를 통해 SWC 포트, 데이터 인터페이스 및 맵핑 정의.
+2. **플랫폼 할당**: 제어 실시간성 여부에 따라 **Classic Platform** 또는 **Adaptive Platform**으로 노드 할당.
+3. **플랫폼 응용 실행**: Classic의 **RTE 러너블** 스케줄링 또는 Adaptive의 SOME/IP **서비스 탐색** 기반 호출 전개.
+4. **플랫폼 인프라 처리**: BSW/MCAL을 통한 MCU 제어 또는 ARA 기능 클러스터를 통한 서비스 갱신 관리.
+5. **종단 계약 검증**: E2E(End-to-End) 데이터 무결성 및 시스템 마감시간 보장 검증.
 
 #### 한줄 요약
 
-- **표준 인터페이스**는 응용과 장치•플랫폼 사이의 결합을 줄이고 종단 검증 기준을 제공한다.
+- 표준 인터페이스는 응용과 장치·플랫폼 사이의 결합을 줄이고 종단 검증 기준을 제공한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
-- **정적 구성(Static Configuration)**: 빌드와 배포 전에 태스크와 통신 및 메모리 배치를 확정하는 방식이다.
-- **서비스 지향 아키텍처(Service-oriented Architecture, SOA)**: 기능을 독립 서비스로 제공하고 실행 중 탐색하여 호출하는 구조이다.
-- **동적 업데이트(Dynamic Update)**: 시스템 운용 중 응용이나 서비스를 교체하고 수명주기를 관리하는 기능이다.
+- **정적 구성(Static Configuration)**: 빌드 타임에 전역 태스크, RTE 맵핑 및 BSW 메모리 배치가 완전 결정되는 아키텍처.
+- **SOA(Service-Oriented Architecture)**: 서비스 바인딩 및 발견을 런타임에 동적으로 매핑하는 서비스 지향 아키텍처.
 
 </details>
 
-| AUTOSAR 플랫폼 | Classic | Adaptive |
+| AUTOSAR 플랫폼 | Classic Platform | Adaptive Platform |
 |:---|:---|:---|
-| 적용 기준 | 하드 실시간•주기 제어 | 고성능•**동적 업데이트** |
-| 핵심 특징 | Classic의 **정적 구성**과 SWC•RTE•BSW | Adaptive의 **SOA**와 ARA 서비스 |
-| 한계 | 정적 설정•통합 복잡성 | 수명주기•자원•업데이트 복잡성 |
+| 적용 기준 | MCU 기반 하드 실시간 섀시, 파워트레인 제어 시 | MPU 기반 ADAS, 인포테인먼트, 자율주행 서버 구축 시 |
+| 핵심 특징 | **정적 구성**, C 언어 기반, OSEK/VDX OS, **BSW/MCAL** 스택 | **SOA** 서비스 바인딩, C++14, POSIX OS, **ARA** 스택 |
+| 한계 | 동적 SW 업데이트 한계 및 고성능 컴퓨팅 수용 불가 | 결정적 하드 실시간 보장 복잡성 및 풋프린트 오버헤드 |
 
 #### 한줄 요약
 
@@ -170,21 +161,18 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 <details><summary>핵심 용어</summary>
 
-- **ARXML 스키마**: 허용 요소와 데이터 형식을 정의한 계약이다.
-- **ARXML 프로파일**: 프로젝트가 사용할 규칙 범위를 고정한 계약이다.
-- **종단 최악 지연(End-to-end Worst-case Latency)**: 센서 입력부터 태스크와 통신을 거쳐 제어 출력 완료까지 걸리는 최대 시간이다.
-- **원자적 갱신(Atomic Update)**: 전체 변경을 한 단위로 반영하는 방식이다.
-- **롤백(Rollback)**: 실패하면 이전 정상 버전으로 복귀하는 방식이다.
-- **인터페이스 계약(Interface Contract)**: 서비스의 데이터 형식과 호출 조건 및 오류 응답을 합의한 규칙이다.
+- **ARXML 스키마**: 툴 벤더 간 맵핑 불일치를 차단하기 위해 엄격히 동기화하는 메타모델 규격.
+- **원자적 갱신(Atomic Update)**: Adaptive 펌웨어 OTA 적용 시 서비스 모듈을 무중단 롤백 가능하게 업데이트하는 기법.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 도구별 ARXML 스키마 버전 불일치 | **ARXML 스키마**와 **ARXML 프로파일** 고정 | 도구 간 통합 오류 감소 |
-| 태스크•통신 지연으로 제어 마감시간 초과 | **종단 최악 지연** 분석 | Classic 데드라인 충족 입증 |
-| Adaptive 업데이트 중 서비스 상태 불일치 | **원자적 갱신·롤백** | 서비스 상태를 정상 버전으로 복구 |
-| Classic•Adaptive 경계의 인터페이스•격리 불일치 | **인터페이스 계약**과 격리 시험 | 플랫폼 경계 위반 검출 |
+| 툴 벤더 간 **ARXML** 메타모델 스키마 버전 불일치 | 시스템 전반의 **ARXML 스키마** 버전에 대한 통일 및 검증 | 툴 체인 간 호환성 에러 차단 |
+| RTE 래퍼 및 **BSW** 레이어 적용으로 인한 메모리 overhead | MCAL/BSW 유닛 미사용 모듈 가지치기(Pruning) | 오버헤드 단축 및 스택 경량화 |
+| Adaptive 모듈 갱신 중 시스템 장애 위험 | **원자적 갱신 및 롤백** 기반 무중단 OTA 구현 | 소프트웨어 업데이트 가용성 확보 |
+
+> 사례: **Classic** 기반 BSW 튜닝 및 **Adaptive** SOME/IP 연동 통합 플랫폼 구축
 
 #### 한줄 요약
 
@@ -194,14 +182,12 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 <details><summary>핵심 용어</summary>
 
-- **결정적 제어(Deterministic Control)**: 최악 조건에서도 정해진 주기와 데드라인 안에 센서 처리와 출력을 완료하는 제어이다.
-- **동적 서비스(Dynamic Service)**: 실행 중 탐색•시작•중지•업데이트가 가능한 독립 소프트웨어 기능이다.
-- **플랫폼 선택(Platform Selection)**: 차량 기능의 시간 요구와 변경성 및 자원 규모에 따라 Classic 또는 Adaptive를 정하는 판단이다.
+- **플랫폼 선택 기준(Platform Selection Criteria)**: 하드 실시간성, 컴퓨팅 파워, 동적 서비스 요구량에 기반한 아키텍처 결정 체계.
 
 </details>
 
-- **플랫폼 선택** 기준에 따라 **결정적 제어**에는 **Classic Platform**, 고성능 **동적 서비스**에는 **Adaptive Platform**을 선택한다.
+- **플랫폼 선택 기준**에 따라 하드 실시간 제어는 **Classic Platform**, 고성능 데이터 가속은 **Adaptive Platform** 적용
 
 #### 한줄 요약
 
-- **결정적 제어**에는 Classic, 실행 중 탐색•변경되는 서비스에는 Adaptive를 선택한다.
+- 결정적 제어에는 Classic, 실행 중 탐색•변경되는 서비스에는 Adaptive를 선택한다.
