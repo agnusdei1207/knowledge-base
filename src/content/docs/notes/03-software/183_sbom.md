@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 183
-  label: "183. SBOM 소프트웨어 자재명세서 (SBOM)"
+  label: "183. SBOM 소프트웨어 자재명세서"
   badge:
     text: "기출 • 85%"
     variant: note
-title: "SBOM 소프트웨어 자재명세서 (SBOM)"
+title: "SBOM 소프트웨어 자재명세서 (Software Bill of Materials)"
 date: "2026-08-06T23:27:50+09:00"
 tags:
   - "notes-software"
@@ -22,81 +22,110 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **SBOM (Software Bill of Materials, 소프트웨어 자재 명세서)**: 소프트웨어 구성 오픈소스, 서드파티 라이브러리, 컴포넌트의 이름, 버전, 라이선스, 의존성 관계를 기계 판독 가능한 형태(Machine-Readable)로 명세한 문서.
-- **Log4Shell**: 2021년 Log4j 취약점 사태. 자사 시스템 내 Log4j 존재 여부를 파악하지 못해 발생한 대규모 피해로 SBOM 도입의 결정적 계기.
-- **NTIA (국가통신정보청)**: 미국 상무부 산하 기관. 행정명령(EO 14028)에 따라 연방정부 납품 소프트웨어의 SBOM 제출 의무화 및 최소 요건(Minimum Elements) 제정.
+- **SBOM(Software Bill of Materials)**: SW 구성 오픈소스, 라이브러리, 의존성 관계를 기계 판독 가능한 형태(Machine-Readable)로 명세한 디지털 부품표.
+- **Log4Shell**: Log4j 취약점 사태. 자사 내 취약 컴포넌트 식별 실패로 인한 SBOM 도입의 계기.
+- **NTIA(National Telecommunications and Information Administration)**: 미 상무부 기관. 행정명령을 통해 연방 납품 SW 대상 SBOM 제출 의무화.
 
 </details>
 
-- 정의: 패키지 내 직접 의존성 및 전이(Transitive) 의존성을 추적하여 구성요소 가시성을 확보하는 소프트웨어 부품 명세서.
-- 배경: 오픈소스 의존성 증가에 따른 구성요소 취약점(CVE) 및 라이선스 리스크 투명성 확보 요구.
+- 정의: SW 패키지의 직접 의존성 및 **전이 의존성(Transitive Dependency)**을 추적하여 구성요소 가시성을 확보하는 부품 명세서.
+- 배경: 오픈소스 의존성 증가에 따른 CVE 취약점 및 라이선스 리스크 투명성 확보 요구.
 
-#### 한줄 요약
-
-- 완제품 안에 어떤 부품과 버전이 어떤 관계로 들어갔는지 적어 문제 부품이 발견됐을 때 영향 제품을 바로 찾는 디지털 부품표다.
-
-## Ⅱ. 특징 (SBOM이 갖추어야 할 3대 최소 요건 - NTIA 기준)
+## Ⅱ. 핵심 요건 (NTIA 기준)
 
 <details><summary>핵심 용어</summary>
 
-- **Transitive Dependency (전이 의존성)**: 개발자가 직접 포함한 라이브러리(A)가 내부적으로 의존하고 있는 또 다른 라이브러리(B, C). 해커들이 주로 공격하는 공급망의 숨겨진 사각지대.
+- **전이 의존성(Transitive Dependency)**: 개발자가 직접 포함한 라이브러리가 다시 의존하고 있는 간접 라이브러리.
 
 </details>
 
-- **Data Fields (데이터 필드)**: 공급자명, 컴포넌트명, 버전, 식별자(purl 등), 의존성 관계 등 부품 고유 식별 필수 메타데이터.
-- **Automation Support (자동화 지원)**: SPDX, CycloneDX, SWID 등 표준 포맷을 활용한 기계(CI/CD) 기반 자동 생성 및 분석 체계.
-- **Practices & Processes (운영 프로세스)**: 릴리즈별 SBOM 갱신, 하위 의존성 추적, 접근 통제 등 관리 절차.
+- **Data Fields**: 공급자, 컴포넌트명, 버전, 식별자(**purl** 등), 의존성 관계 등 필수 메타데이터.
+- **Automation Support**: **SPDX**, **CycloneDX**, SWID 등 표준 포맷 기반 자동 생성.
+- **Practices & Processes**: 릴리즈별 SBOM 갱신, 하위 의존성 추적 등 관리 절차.
 
-#### 한줄 요약
-
-- 이름만 적은 목록이 아니라 제품 버전·해시와 부품 관계를 연결해야 다른 빌드의 SBOM을 잘못 적용하지 않는다.
-
-## Ⅲ. 구조 및 구성요소 (SBOM 포맷 및 생성 아키텍처)
+## Ⅲ. 아키텍처 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **SPDX (Software Package Data Exchange)**: 리눅스 재단이 주도하는 ISO 표준(ISO/IEC 5962) SBOM 포맷으로, 라이선스 호환성 검증에 특화된 광범위한 스펙.
-- **CycloneDX (사이클론DX)**: OWASP가 주도하는 포맷으로, 취약점 분석과 소프트웨어 공급망 보안(AppSec) 목적에 가벼우면서도 매우 적합하게 설계된 XML/JSON 규격.
+- **SPDX(Software Package Data Exchange)**: 리눅스 재단 주도 ISO 표준(ISO/IEC 5962) SBOM 포맷. 라이선스 호환성 검증에 특화.
+- **CycloneDX**: OWASP 주도 포맷. 취약점 분석 및 공급망 보안(AppSec) 목적의 최적화된 경량 규격.
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   SBOM Generation & Usage Architecture                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. [Source Code / CI Pipeline] (package.json, pom.xml)                 │
-│         │                                                              │
-│         ▼ (SCA Tools: Syft, Trivy)                                     │
-│ 2. [SBOM Generator] ──► 3. [SBOM Document (SPDX / CycloneDX 포맷)]     │
-│                                 │ (JSON / XML)                         │
-│                                 ▼                                      │
-│ 4. [Vulnerability Database (NVD, CVE)] ◄──(비교 대조)──► [Security Ops]│
-└────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────┐
+│                  SBOM 생성 및 사용 구조                    │
+├────────────────────────────────────────────────────────────┤
+│ 1. [CI Pipeline] ──► 2. [SCA(Syft, Trivy)] ──► 3. [SBOM]   │
+│                                                 │          │
+│ 4. [Vulnerability DB(NVD)] ◄───(비교 대조)──────┘          │
+└────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 빌드 파이프라인에서 SCA(소프트웨어 구성 분석) 도구가 소스와 바이너리를 스캔하여 SBOM 문서를 뽑아내면, 보안 시스템이 이를 CVE DB와 대조하여 취약 여부를 지속 판정하는 자동화 흐름.
-
-| 핵심 구성요소 | 역할 및 정의 | 대표 도구 / 표준 |
+| 핵심 구성요소 | 역할 및 정의 | 대표 표준 |
 |:---|:---|:---|
-| **SCA Tool** | **소스 및 바이너리에서 의존성 트리를 추출하는 분석기** | Syft, Trivy, Snyk |
-| **Standard Format**| **추출된 데이터를 담아내는 국제 표준 데이터 포맷** | **SPDX, CycloneDX** |
-| **Component ID** | **전 세계에서 패키지를 유일하게 식별하는 고유 식별자** | **purl** (Package URL) |
-| **VEX (보완재)** | **발견된 취약점이 실제 악용 가능한지(Exploitable) 명세**| CSAF VEX |
+| **SCA Tool** | 소스/바이너리 의존성 트리 추출 | Syft, Trivy |
+| **Standard Format**| 추출 데이터 표준 포맷 | SPDX, CycloneDX |
+| **Component ID** | 고유 식별자 | **purl**(Package URL) |
+| **VEX(보완재)** | 취약점 실제 악용 가능성 명세 | CSAF VEX |
 
-#### 한줄 요약
-
-- 빌드에서 실제 부품을 뽑아 표준 목록을 만들고 제품 해시와 묶어 서명한 뒤 취약점 목록과 대조한다.
-
-## Ⅳ. 흐름도 (SBOM 생성부터 취약점 대응 파이프라인)
+## Ⅳ. 취약점 대응 파이프라인
 
 <details><summary>핵심 용어</summary>
 
-- **VEX (Vulnerability Exploitability eXchange)**: SBOM을 통해 취약점(CVE)이 발견되었더라도, 실제 해당 소프트웨어의 구동 환경에서는 그 취약점을 찌를 수 없는 상태(Not Affected)임을 해명하여 불필요한 패치 경고(False Positive)를 없애주는 상태 명세서.
+- **VEX(Vulnerability Exploitability eXchange)**: 취약점이 존재해도 구동 환경상 실제 악용(Exploit) 불가함을 명세하여 거짓 양성(False Positive)을 제거하는 상태서.
 
 </details>
 
 ```text
-[DevOps Pipeline]
+[Pipeline]
+   │
+   ├─ 1. Build(컴파일)
+   ├─ 2. SBOM 생성 (SCA 도구)
+   ├─ 3. 서명(전자 서명, In-toto)
+   ├─ 4. 배포(이미지+SBOM)
+   └─ 5. 모니터링 ──(CVE 발생)──► [VEX 발행] ──► [패치]
+```
+
+- 원리: 빌드 시 부품 추출/서명 후, 운영 중 NVD와 실시간 매칭 및 VEX 기반 대응.
+
+## Ⅴ. SBOM 생성 시점 비교
+
+<details><summary>핵심 용어</summary>
+
+- **바이너리 분석(Binary Analysis)**: 소스코드 없는 레거시 시스템을 역분석하여 포함 라이브러리 목록을 강제 추출하는 기법.
+
+</details>
+
+| 항목 | Source-time SBOM | Binary-time SBOM |
+|:---|:---|:---|
+| **대상** | 소스코드, 패키지 관리 파일 | 컨테이너 이미지, 실행 파일 |
+| **정확도** | 전이 의존성 식별 탁월 | 난독화/정적 링킹 누락 가능 |
+| **주요 목적** | 납품용 투명성 증명 | 타사 벤더 SW 검증 |
+
+## Ⅵ. 실무 난제 및 대책
+
+<details><summary>핵심 용어</summary>
+
+- **purl**: `pkg:npm/lodash@4.17.21` 등 패키지 생태계 무관 전 세계 공통 고유 식별 주소 체계.
+
+</details>
+
+| 난제 | 원인 | 대책 |
+|:---|:---|:---|
+| **이름 오탐지** | 생태계별 동일 패키지명 | **purl** 식별자 강제 |
+| **경고 폭탄** | 미사용 라이브러리 취약점 | **VEX** 동반 False Positive 제거 |
+| **위변조** | 공급망 악성 부품 삽입 | **SLSA** 프레임워크 및 무결성 서명 |
+
+## Ⅶ. 결론
+
+<details><summary>핵심 용어</summary>
+
+- **공급망 보안(Software Supply Chain Security)**: 개발부터 운영까지 외부 라이브러리 오염을 막는 보안 체계.
+
+</details>
+
+- 공공/금융 인프라 대상 SPDX/CycloneDX 표준 생성 및 VEX 결합 자동화 체계 적용.
    │
    ├─ 1. Build Phase (소스코드 컴파일 및 패키징)
    │
