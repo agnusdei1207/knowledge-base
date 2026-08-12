@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Kubernetes Service**: 수시로 IP가 생성/소멸하는 수십 개의 Pod들에 고정된 단일 Virtual IP(ClusterIP, NodePort, LoadBalancer)를 부여하여 L4 로드밸런싱 및 서비스 디스커버리를 제공하는 객체.
-- **Kubernetes Ingress**: 클러스터 외부의 HTTP/HTTPS 트래픽을 URL 경로(`/api`, `/users`) 및 도메인 호스트 기반으로 백엔드 Service로 분기 라우팅하는 L7 로드밸런싱 관문.
-- **Ingress Controller (NGINX / ALB Controller)**: Ingress YAML 명세서를 감지하여 실제 AWS ALB나 NGINX Reverse Proxy 설정으로 렌더링하고 TLS/SSL Certificate를 Termination 처리하는 실체 엔진.
+- **쿠버네티스 서비스(Kubernetes Service)**: IP가 수시로 변경되는 Pod들에 단일 가상 IP(VIP)를 부여하여 로드밸런싱 및 서비스 디스커버리를 제공하는 객체.
+- **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 HTTP/HTTPS 트래픽을 경로(URL Path) 및 도메인 기반으로 백엔드 Service로 분기 라우팅하는 L7 로드밸런서.
+- **인그레스 컨트롤러(Ingress Controller)**: Ingress 규칙을 감지하여 NGINX나 AWS ALB 등 실체 엔진의 설정을 변경하고 TLS/SSL 처리를 수행하는 엔진.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Service (ClusterIP, NodePort, LoadBalancer, ExternalName 4대 노출 옵션)**
-- **Ingress (L7 URL-based Path Routing `/api/v1`, Host-based Routing `api.company.com`)**
-- **SSL/TLS Termination & Certificate Management (cert-manager 기반 자동 TLS 암호화)**
+- **서비스(Service)**: ClusterIP, NodePort, LoadBalancer, ExternalName 4대 노출 옵션 제공.
+- **인그레스(Ingress)**: L7 경로 기반 분기(URL Path) 및 호스트 기반 라우팅 제공.
+- **TLS 종료(TLS Termination)**: cert-manager 기반 SSL/TLS 인증서 자동 관리 및 종료 처리.
 
 #### 한줄 요약
 
@@ -77,10 +77,10 @@ extra:
 
 | 구분 요소 | Kubernetes Service (L4) | Kubernetes Ingress (L7) |
 |:---|:---|:---|
-| **OSI 계층 레벨** | **Layer 4 (Transport Layer - TCP/UDP)** | **Layer 7 (Application Layer - HTTP/HTTPS)** |
-| **핵심 라우팅 방식**| **Virtual IP (ClusterIP) 기반 로드밸런싱** | **Domain Host & URL Path (`/api`, `/web`) 분기** |
-| **클라우드 자원 비용**| Type: LoadBalancer 사용 시 개별 ELB 생성 (비쌈) | **단 1개의 ALB로 수십 개 서비스 L7 통합 (가성비)** |
-| **SSL/TLS 기능** | 불가능 | **SSL/TLS Termination 및 cert-manager 자동 연동** |
+| **OSI 계층** | Layer 4 (Transport) | Layer 7 (Application) |
+| **라우팅 방식**| 가상 IP(ClusterIP) 기반 로드밸런싱 | 도메인 호스트 및 URL 경로 분기 |
+| **비용 효율** | LoadBalancer 사용 시 개별 ELB 생성 | 단일 ALB로 다수 서비스 통합 |
+| **SSL/TLS** | 불가능 | SSL/TLS Termination 및 자동 연동 |
 
 #### 한줄 요약
 
@@ -152,14 +152,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Service/Ingress 수립 기준(Networking Standards)**: ClusterIP(내부), Ingress(L7 외부), Target-Type IP 및 cert-manager SSL 자동화성에 의거한 체계.
-
-</details>
-
-- **Service/Ingress 수립 기준**에 따라 전사 K8s 네트워크 구축 시 **Ingress Controller & ClusterIP Service** 필수 적용
-
-#### 한줄 요약
-
-- 내부 통신은 서비스 이름을 기준으로 하고 외부 웹 진입만 Ingress에 모아 주소 안정성과 경로 정책을 분리해야 한다.
+- **Service 및 Ingress 기반 네트워크 통합 관리 체계 확립**

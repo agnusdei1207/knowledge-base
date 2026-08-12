@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CNI (Container Network Interface)**: K8s Pod 간에 IP를 할당하고 veth pair 네트워크 오버레이(VXLAN) 통신 망을 뚫어주는 네트워크 드라이버 표준 인터페이스 규격 (Calico, Cilium, AWS VPC CNI).
-- **NetworkPolicy (네트워크 정책)**: K8s Pod 간 통신을 L3/L4 IP 및 Port 레벨로 차단/허용하는 방화벽(Micro-segmentation) 선언 객체.
-- **Zero-Trust Security**: 기본적으로 모든 Pod 간 통신을 차단(Default Deny)하고, 명시된 허용(Allow) 규칙만 뚫어주는 미세 격리 보안 정책.
+- **CNI (Container Network Interface)**: Pod 간 IP 할당 및 네트워크(VXLAN) 통신을 가능하게 하는 네트워크 드라이버 표준 인터페이스(Calico, Cilium, AWS VPC CNI).
+- **네트워크 정책(NetworkPolicy)**: Pod 간 통신을 L3/L4 계층에서 IP 및 Port 단위로 차단/허용하는 미세 격리(Micro-segmentation) 객체.
+- **제로 트러스트 보안(Zero-Trust Security)**: 기본적으로 모든 Pod 통신을 차단(Default Deny)하고, 승인된 허용(Allow) 규칙만 적용하는 보안 모델.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **CNI (Pod IP Allocation & Overlay Network Tunneling - Calico, Cilium, AWS CNI)**
-- **NetworkPolicy (L3/L4 Ingress & Egress Traffic Isolation - Ingress Rules & Egress Rules)**
-- **Default Deny All Policy (기본 100% 차단 후 핀포인트 Allow 룰 허용)**
+- **CNI**: Pod IP 할당 및 오버레이 네트워크 터널링(Calico, Cilium, AWS CNI).
+- **NetworkPolicy**: L3/L4 인그레스(Ingress) 및 이그레스(Egress) 트래픽 격리 규칙 집행.
+- **기본 거부 정책(Default Deny All)**: 전체 트래픽 차단 후 핀포인트 허용 규칙(Allow Rule)을 통한 통신 제한.
 
 #### 한줄 요약
 
@@ -75,11 +75,11 @@ extra:
 
 선의 의미: NetworkPolicy 명세서가 CNI(Cilium eBPF)를 통해 리눅스 커널 패킷 레벨에서 인가된 포트(5432)만 통과시키는 구조.
 
-| CNI 드라이버 종류 | 네트워크 통신 방식 | NetworkPolicy 지원 여부 | 실무 대표 특징 |
+| CNI 드라이버 | 네트워크 방식 | NetworkPolicy 지원 | 실무 특징 |
 |:---|:---|:---|:---|
-| **AWS VPC CNI** | **AWS Native Secondary IP (VPC Direct)**| **기본 미지원 (Calico/Cilium 추가 필요)**| AWS ENI 직결로 Latency 0% |
-| **Calico CNI** | **BGP Routing & VXLAN Overlay** | **지원 (iptables / IPVS 기반 방화벽)** | 온프레미스 K8s 대세 도구 |
-| **Cilium CNI** | **eBPF (Kernel Bypass Architecture)**| **최상 지원 (L3/L4/L7 eBPF 방화벽)** | **차세대 초고속 표준 CNI** |
+| **AWS VPC CNI** | AWS Native Secondary IP | 기본 미지원 | ENI 직결로 Latency 최적 |
+| **Calico CNI** | BGP, VXLAN | 지원 (iptables) | 온프레미스 대세 도구 |
+| **Cilium CNI** | eBPF (Kernel Bypass) | 최상 지원 (L3/L4/L7) | 차세대 초고속 CNI |
 
 #### 한줄 요약
 
@@ -151,14 +151,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **NetworkPolicy/CNI 수립 기준(Networking Security Standards)**: Cilium eBPF CNI, Default Deny All, Hubble 시각화 및 L7 NetworkPolicy 규격성에 의거한 체계.
-
-</details>
-
-- **NetworkPolicy/CNI 수립 기준**에 따라 전사 클러스터 보안 구축 시 **Cilium eBPF CNI & NetworkPolicy** 필수 적용
-
-#### 한줄 요약
-
-- 업무 호출 관계를 기준으로 양방향 기본 거부를 세우고 사용하는 CNI의 실제 집행 결과까지 시험해야 정책이 통제로 완성된다.
+- **Cilium eBPF 기반 제로 트러스트 네트워크 보안 체계 구축**

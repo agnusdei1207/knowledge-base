@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Container Security**: 컨테이너 이미지 빌드(Dev), 레지스트리 저장, K8s 배포(Admission), 런타임(Runtime Execution) 4단계 전 라이프사이클에 걸쳐 보안 위협을 차단하는 다층 방어(Defense-in-Depth) 보안 체계.
-- **Seccomp (Secure Computing Mode)**: 컨테이너 프로세스가 리눅스 커널로 요청하는 300여 개의 시스템 콜(System Call: `ptrace`, `reboot` 등) 중 불필요한 시스템 콜을 억제 차단하는 리눅스 커널 보안 모듈.
-- **AppArmor / SELinux**: 컨테이너의 파일 시스템 접근 경로, 네트워크 포트, 프로세스 실행 자격을 규제하는 리눅스 MAC(Mandatory Access Control) 보안 모듈.
-- **OPA / Gatekeeper (Open Policy Agent)**: K8s Admission Webhook 단계에서 `privileged: true` 설정이나 `latest` 태그 이미지를 가진 위험한 Pod의 생성을 사전에 자동 차단하는 선언적 정책 엔진.
+- **컨테이너 보안(Container Security)**: 이미지 빌드부터 배포(Admission), 런타임까지 전 주기에서 위협을 차단하는 다층 방어 보안 체계.
+- **Seccomp (Secure Computing Mode)**: 컨테이너의 불필요한 시스템 콜(System Call)을 커널 레벨에서 차단하는 보안 모듈.
+- **AppArmor / SELinux**: 컨테이너의 파일 접근, 네트워크, 프로세스 실행 권한을 규제하는 강제 접근 제어(MAC) 보안 모듈.
+- **OPA / Gatekeeper**: 특권(Privileged) 설정이나 태그 오용 등 위험한 파드 생성을 배포 시점에 자동 차단하는 정책 엔진.
 
 </details>
 
@@ -44,10 +44,10 @@ extra:
 
 </details>
 
-- **1. Build Phase (Trivy / Grype 이미지 CVE 취약점 스캔 & Cosign 서명)**
-- **2. Admission Phase (OPA Gatekeeper / Kyverno 선언적 정책 차단)**
-- **3. Runtime Phase (Seccomp System Call 제한 & AppArmor Profile 적용)**
-- **4. Behavioral Monitoring (Falco 기반 런타임 쉘 접속 및 이상 행위 실시간 감시)**
+- **빌드 단계(Build)**: Trivy/Grype 이미지 CVE 스캔 및 서명(Cosign).
+- **배포 단계(Admission)**: OPA Gatekeeper/Kyverno 정책 기반 위험 파드 차단.
+- **런타임 단계(Runtime)**: Seccomp 시스템 콜 제한 및 AppArmor 프로필 적용.
+- **이상 행위 감시(Monitoring)**: Falco 기반 비정상 행위(쉘 접속 등) 실시간 탐지.
 
 #### 한줄 요약
 
@@ -74,12 +74,12 @@ extra:
 
 선의 의미: 빌드 단계부터 런타임 감시까지 4단계로 철통 보안을 거치는 파이프라인.
 
-| 보안 레이어 | 담당 도구 (Tool) | 주요 역할 및 실무 기술 메커니즘 |
+| 보안 레이어 | 담당 도구 | 주요 기술 메커니즘 |
 |:---|:---|:---|
-| **Build & Image** | **Trivy, Cosign** | **이미지 CVE 취약점 스캔 및 디지털 서명 검증** |
-| **Admission Control**| **OPA Gatekeeper, Kyverno**| **`privileged: true` 및 `root` 실행 Pod 생성 차단**|
-| **Kernel Hardening** | **Seccomp, AppArmor** | **불필요한 Linux System Call 및 파일 경로 차단** |
-| **Runtime Detection**| **Falco (eBPF)** | **컨테이너 해킹/쉘 접속 이상 행위 실시간 감지** |
+| **Build/Image** | Trivy, Cosign | 이미지 CVE 취약점 스캔 및 서명 검증 |
+| **Admission** | OPA Gatekeeper | 특권 Pod 및 루트 실행 차단 |
+| **Kernel** | Seccomp, AppArmor | 불필요 시스템 콜 및 파일 접근 제한 |
+| **Detection** | Falco (eBPF) | 해킹 및 쉘 접속 이상 행위 감지 |
 
 #### 한줄 요약
 
@@ -150,14 +150,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Container Security 수립 기준(Security Standards)**: Trivy CI/CD Scan, OPA Gatekeeper Admission, Seccomp/AppArmor Profile 및 Falco eBPF Detection에 의거한 체계.
-
-</details>
-
-- **Container Security 수립 기준**에 따라 차세대 DevSecOps 구축 시 **Trivy & OPA Gatekeeper & Seccomp & Falco** 필수 적용
-
-#### 한줄 요약
-
-- 신뢰 이미지만 승인하고 비Root를 기본값으로 삼되 실제 업무 호출을 시험한 커널 프로필과 감사 사건을 함께 운영해야 한다.
+- **다층 방어 보안 체계 구축 및 컨테이너 런타임 보안 강화 체계 확립**

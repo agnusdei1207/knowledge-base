@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Kubernetes Persistent Storage**: Pod가 파기되어도 데이터가 소멸하지 않고 영속(Stateful) 저장되도록 PVC(요청서), PV(실체 자원), StorageClass(자동 프로비저닝 규칙)로 추상화한 스토리지 체계.
-- **PVC (PersistentVolumeClaim)**: 개발자가 "10GB SSD 용량과 ReadWriteOnce 권한을 가진 디스크를 달라"고 선언하는 스토리지 요청 객체.
-- **PV (PersistentVolume)**: 실제 클라우드 EKS의 AWS EBS 디스크나 NFS 네트워크 드라이버가 할당한 영속 물리 스토리지 자원.
-- **StorageClass (SC)**: 개발자가 PVC를 신청하면 관리자의 수동 개입 없이 AWS EBS `gp3` 인스턴스를 자동으로 즉시 동적 생성(Dynamic Provisioning)해 주는 스토리지 정책 객체.
+- **쿠버네티스 영속 스토리지(Persistent Storage)**: Pod 파기 후에도 데이터를 보존하기 위해 PVC(요청), PV(자원), StorageClass(자동 설정)로 추상화한 체계.
+- **PVC (PersistentVolumeClaim)**: 스토리지 용량과 접근 모드 등을 명시하여 사용자(개발자)가 자원을 요청하는 객체.
+- **PV (PersistentVolume)**: 실제 클라우드 EBS나 NFS 등 할당된 영속 스토리지 물리 자원.
+- **StorageClass (SC)**: 관리자 설정에 따라 PVC 요청 시 특정 스토리지(AWS EBS `gp3` 등)를 자동 생성(Dynamic Provisioning)하는 규격 객체.
 
 </details>
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Decoupling of Storage & Application (개발자의 스토리지 요구 선언 PVC와 관리자의 물리 자원 PV 분리)**
-- **Dynamic Provisioning (StorageClass 기반 AWS EBS / EFS 디스크 실시간 자동 프로비저닝)**
-- **Access Modes Control (ReadWriteOnce - RWO, ReadOnlyMany - ROX, ReadWriteMany - RWX)**
+- **스토리지 추상화**: PVC(요청)와 PV(자원)를 분리하여 애플리케이션 종속성 제거.
+- **동적 프로비저닝(Dynamic Provisioning)**: StorageClass 기반 AWS EBS/EFS 실시간 자동 생성.
+- **접근 모드 제어(Access Modes)**: RWO(ReadWriteOnce), ROX(ReadOnlyMany), RWX(ReadWriteMany) 권한 관리.
 
 #### 한줄 요약
 
@@ -76,12 +76,12 @@ extra:
 
 선의 의미: Pod가 PVC를 요청하면 StorageClass와 CSI가 실제 AWS EBS 디스크(PV)를 자동으로 뚫어 마운트하는 구조.
 
-| 스토리지 객체/컴포넌트 | 작성 및 관리 주체 | 핵심 역할 및 기능 |
+| 객체/컴포넌트 | 관리 주체 | 핵심 역할 |
 |:---|:---|:---|
-| **PVC (VolumeClaim)** | **개발자 (Developer)** | **"10GB 용량이 필요하다"고 스토리지 주문서 작성** |
-| **StorageClass (SC)**| **클러스터 관리자 (Admin)**| **AWS EBS `gp3` 디스크 자동 생성 프로비저닝 규격 지정**|
-| **PV (PersistentVolume)**| **StorageClass 또는 관리자**| **실제 생성된 10GB AWS EBS 디스크 실체 자원** |
-| **CSI Driver** | **스토리지 벤더 (AWS/NetApp)**| **K8s Node에 EBS 디스크를 물리적으로 Attaching/Mount**|
+| **PVC** | 개발자 | 스토리지 주문서 작성 |
+| **StorageClass**| 관리자 | 프로비저닝 규격 지정 |
+| **PV** | 시스템 | 실제 할당된 자원 실체 |
+| **CSI Driver** | 벤더 | 볼륨 마운트/연결 수행 |
 
 #### 한줄 요약
 
@@ -152,14 +152,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Kubernetes Storage 수립 기준(Storage Standards)**: PVC/PV/StorageClass 3계층, CSI 표준, RWO/RWX 구분, Retain Reclaim Policy 및 WaitForFirstConsumer에 의거한 체계.
-
-</details>
-
-- **Kubernetes Storage 수립 기준**에 따라 Stateful DB 및 클라우드 네이티브 구축 시 **Kubernetes Storage & AWS EBS/EFS CSI Driver** 필수 적용
-
-#### 한줄 요약
-
-- 용량만 요청하지 말고 파드 위치, 동시 접근, 삭제 후 보존, 다른 환경 복원까지 기준으로 저장 수명주기를 선택해야 한다.
+- **영속 볼륨 기반 데이터 보존 체계 및 스토리지 동적 프로비저닝 최적화 구현**

@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 파드 스케줄링(Kubernetes Pod Scheduling)**: `kube-scheduler`가 생성 요청된 미배치(Pending) 파드를 워커 노드 중 리소스 여유, Taints/Tolerations, Affinity/Anti-affinity 규칙을 평가하여 가장 적합한 최적 노드에 배치(Binding)하는 프로세스.
-- **필터링 & 스코어링(Filtering & Scoring)**: 스케줄러의 2단계 알고리즘으로, 1단계 필터링(부적합 노드 배제) 후 2단계 스코어링(최적 노드 선정)을 통해 파드를 배치.
-- **노드 어피니티(Node Affinity/Anti-Affinity)**: 특정 파드를 특정 노드군에 배치하거나(Affinity), 동일 노드에 중복 배치를 방지(Anti-Affinity)하는 선언적 배치 제약 조건.
+- **쿠버네티스 파드 스케줄링(Kubernetes Pod Scheduling)**: `kube-scheduler`가 대기(Pending) 상태 파드를 리소스 여유, 테인트(Taints), 어피니티(Affinity) 규칙을 평가하여 적합한 노드에 배치(Binding)하는 프로세스.
+- **필터링 & 스코어링(Filtering & Scoring)**: 스케줄러 알고리즘으로, 1단계 필터링(부적합 노드 배제) 후 2단계 스코어링(최적 노드 선정)을 수행.
+- **노드 어피니티(Node Affinity/Anti-Affinity)**: 특정 파드를 특정 노드군에 배치하거나(Affinity), 중복 배치를 방지(Anti-Affinity)하는 선언적 배치 제약 조건.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **2단계 스케줄링 파이프라인(Two-Phase Scheduling Pipeline)**: 필터링(Filtering)으로 부적합 노드를 제외하고, 스코어링(Scoring)으로 적합도가 높은 노드를 채점하여 우선순위 결정.
+- **2단계 스케줄링 파이프라인(Two-Phase Scheduling Pipeline)**: 필터링으로 부적합 노드를 제외하고, 스코어링으로 적합도가 높은 노드를 채점하여 우선순위 결정.
 - **제약 조건 정책(Constraint Policies)**: 노드 어피니티, 파드 안티-어피니티, 테인트/톨러레이션(Taints & Tolerations)을 적용하여 세밀한 배치 통제.
-- **우선순위 및 선점(Priority & Preemption)**: 우선순위가 높은 파드를 긴급 배치하기 위해 저우선순위 파드를 강제로 축출(Eviction)하는 매커니즘.
+- **우선순위 및 선점(Priority & Preemption)**: 우선순위 높은 파드를 배치하기 위해 저우선순위 파드를 강제로 축출(Eviction)하는 기법.
 
 #### 한줄 요약
 
@@ -151,5 +151,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **필터링(Filtering) 및 스코어링(Scoring) 파이프라인 최적화**
-- **어피니티(Affinity) 및 테인트(Taints/Tolerations) 기반 배치 정책 적용 필수**
+- **필터링 및 스코어링 파이프라인 최적화 체계 확립**
