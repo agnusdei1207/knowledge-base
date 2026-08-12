@@ -20,201 +20,152 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **깃옵스(GitOps)**: Git 저장소에 선언한 목표 상태와 실제 운영 상태를 제어기가 지속적으로 일치시키는 운영 방식이다.
-- **선언적 구성(Declarative Configuration)**: 수행 명령이 아니라 시스템이 최종적으로 도달해야 할 상태를 기술하는 방식이다.
+- **GitOps**: Weaveworks에서 제안한 Cloud-Native 인프라 및 애플리케이션 배포 운용 패러다임으로, Git 리포지토리를 시스템 상태의 '유일한 진실의 원천(Single Source of Truth)'으로 삼고 Pull 기반의 에이전트가 이를 클러스터에 자동 동기화(Reconciliation)하는 방식.
+- **Single Source of Truth (SSOT)**: 모든 인프라(IaC) 및 애플리케이션 K8s 매니페스트 설정의 불변 원본을 오직 Git 저장소 단 한 곳으로 통합 정의하는 사상.
+- **Declarative Infrastructure**: "어떻게(How)" 스크립트를 실행할지가 아닌 "무엇을(What)" 배치할 것인지를 K8s YAML 매니페스트로 선언하여 관리하는 방식.
 
 </details>
 
-- 정의/개념: Git의 선언 상태와 실제 운영 상태를 맞추는 **깃옵스** 방식이다.
-- 배경/필요성: 수동 변경에 따른 목표 상태와 실제 상태의 불일치를 해소한다.
+- 정의/개념: Git 저장소를 유일한 진실의 원천(Single Source of Truth)으로 선언하고, K8s 클러스터 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**
+- 배경/필요성: CI/CD 푸시(Push) 파이프라인의 K8s 클러스터 접근 권한(Kubeconfig Secret) 유출 위험 차단, 수동 조작으로 인한 Cluster Drift 발생 문제 소멸 요구성
 
 #### 한줄 요약
 
-- Git의 **선언적 구성**을 실제 상태와 지속해서 맞추는 **깃옵스**가 핵심이다.
+- Git의 선언적 구성을 실제 상태와 지속해서 맞추는 깃옵스가 핵심이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **목표 상태(Desired State)**: Git에 승인한 운영 환경의 선언 상태다.
-- **실제 상태(Actual State)**: 현재 운영 환경에서 관찰한 리소스 상태다.
-- **조정 루프(Reconciliation Loop)**: 제어기가 두 상태의 차이를 반복 관찰하고 목표 상태를 다시 적용하는 동작이다.
-- **드리프트(Drift)**: 수동 변경이나 실패로 실제 상태가 Git의 목표 상태와 달라진 상황이다.
-- **Git 선언 기준선**: 검토•승인을 거쳐 Git에 병합되어 운영 목표 상태의 공식 기준이 된 선언 버전이다.
-- **풀 기반 제어기(Pull-based Controller)**: 운영 환경 안에서 저장소의 선언을 가져와 실제 리소스에 적용하는 구성요소이다.
+- **Reconciliation Loop (조정 루프)**: GitOps 컨트롤러가 Git 저장소의 Desired State와 K8s 클러스터의 Actual State 간의 차이(Drift)를 주기적으로(e.g., 3분) 비교하고 자동 수정 동기화하는 무한 루프.
+- **Pull-based Deployment**: K8s 내부의 GitOps 에이전트(ArgoCD)가 외부 Git 저장소에서 상태를 끌어와(Pull) 배포함으로써, 클러스터 외부로의 6443/TCP 포트 오픈 및 보안 키 유출을 차단하는 기술.
 
 </details>
 
-- **Git 선언 기준선**으로 목표 상태를 관리한다.
-- **풀 기반 제어기**로 선언을 운영에 적용한다.
-- **조정 루프**와 Git 이력으로 **드리프트**를 복구하고 변경을 감사한다.
+- 4대 핵심 원칙 (**Declarative, Versioned/Immutable, Pulled Automatically, Continuously Reconciled**)
+- Push 기반 대 **Pull 기반 배포 아키텍처**로 보안성 극대화
+- 자동 **Drift Detection & Self-healing (자동 복구)** 제공
 
 #### 한줄 요약
 
-- **Git 선언 기준선**, **풀 기반 제어기**, **드리프트** 복구가 핵심이다.
+- Git 선언 기준선, 풀 기반 제어기, 드리프트 복구가 핵심이다.
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **상태 저장소(State Repository)**: 승인된 선언과 버전 이력을 보관하는 Git 저장소이다.
-- **깃옵스 제어기(GitOps Controller)**: 목표 상태와 실제 상태를 반복 비교하고 차이를 자동 적용하는 구성요소이다.
-- **건강 상태(Health Status)**: 운영 자원의 정상 동작 여부를 나타내는 상태값이다.
-- **동기화 상태(Synchronization Status)**: 실제 구성이 Git 목표와 일치하는지를 나타내는 상태값이다.
-- **보고 채널(Reporting Channel)**: 조정 결과•건강 상태•실패 원인을 운영자에게 전달하는 알림•상태 인터페이스이다.
+- **ArgoCD / FluxCD**: CNCF 아키텍처 상의 표준 GitOps 툴로, Kubernetes Custom Resource Definition(CRD)을 기반으로 Git의 YAML 파일과 K8s 상태를 실시간 동기화.
 
 </details>
 
 ```text
-[승인 정책]
-     |
-[상태 저장소]
-     |
-[GitOps 제어기] --- [보고 채널]
-     |
-[대상 환경]
+[개발자 Commit & PR] ──► [Git Manifest Repository (SSOT)]
+                                    ▲
+                                    │ (Pull & Watch)
+ [K8s Cluster 내 ArgoCD Engine] ─────┴─────► [K8s Target Cluster (Actual State)]
 ```
 
-선의 의미: 세로선은 승인 정책에서 상태 저장소와 제어기를 거쳐 대상 환경으로 이어지는 선언 적용 경로이고, 가로선은 제어기와 보고 채널 사이의 상태 전달 관계이다.
+선의 의미: Git 저장소가 SSOT 역할을 수행하고, K8s 내부에 상주하는 ArgoCD Engine이 Git의 Desired State를 주기적 Watch/Pull 하여 Target Cluster에 Apply 하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 승인 정책 | 변경 권한과 병합 기준 통제 |
-| 상태 저장소 | 승인 선언과 버전 이력 보관 |
-| GitOps 제어기 | **목표 상태**와 **실제 상태**의 차이 조정 |
-| 대상 환경 | 운영 리소스의 **실제 상태** 제공 |
-| 보고 채널 | **건강 상태**와 **동기화 상태** 및 실패 알림 |
+| 구성요소 | 핵심 역할 및 기능 | 주요 적용 기술 |
+|:---|:---|:---|
+| **Git Repository (SSOT)**| 인프라 및 앱의 원하는 상태(Desired State) 선언 보관 | GitHub, GitLab |
+| **GitOps Controller** | Git과 K8s 상태 비교, **Drift 감지 및 Reconciliation** | **ArgoCD, FluxCD** |
+| **K8s Custom Resource** | ArgoCD용 Application/AppSet 등 배포 단위 CRD 선언 | `Application.yaml` |
+| **Sealed Secrets / Vault**| Git에 비밀키를 암호화하여 저장(GitOps-friendly)하는 도구 | Bitnami Sealed Secrets, Vault |
+| **Notification Engine** | 동기화 성공/실패, OutOfSync(Drift) 상태 알림 수송 | Slack, ArgoCD Notifications |
 
 #### 한줄 요약
 
-- **상태 저장소**, **깃옵스 제어기**, **보고 채널**의 선언 적용과 상태 보고 구조가 핵심이다.
+- 상태 저장소, 깃옵스 제어기, 보고 채널의 선언 적용과 상태 보고 구조가 핵심이다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **목표 상태 조회(Desired State Retrieval)**: 제어기가 상태 저장소에서 승인된 최신 선언을 가져오는 동작이다.
-- **실제 상태 관찰(Actual State Observation)**: 대상 환경의 현재 구성과 건강 상태를 읽는 동작이다.
-- **상태 차이 판정(State Difference Decision)**: 목표와 실제 상태를 비교해 드리프트 존재 여부를 결정하는 동작이다.
-- **목표 상태 적용(Desired State Application)**: 드리프트가 있으면 승인 선언에 맞게 대상 자원을 조정하는 동작이다.
-- **조정 상태 보고(Reconciliation Status Reporting)**: 건강•동기화 상태와 실패 원인을 운영자에게 전달하는 동작이다.
+- **OutOfSync & Synced**: ArgoCD 상에서 Git의 선언 상태와 K8s 실물 상태가 다를 때 `OutOfSync`, 완벽히 일치할 때 `Synced`로 표시되는 상태 구분.
 
 </details>
 
 ```text
-[승인 선언 병합]
-       |
-       v
-+------------------------------------------+
-| 반복 범위: 목표 상태와 실제 상태의 조정  |
-|                                          |
-| [1. 목표 상태 조회]                     |
-|            |                             |
-|            v                             |
-| [2. 실제 상태 관찰]                     |
-|            |                             |
-|            v                             |
-| [3. 상태 차이 판정]                     |
-|            |                             |
-|       +----+----+                        |
-|       | 일치    | 드리프트               |
-|       |         v                        |
-|       |  [4. 목표 상태 적용]             |
-|       |         |                        |
-|       +----+----+                        |
-|            v                             |
-| [5. 조정 상태 보고] ---------------------+
-+------------------------------------------+
+┌──────────────────────────────┐
+│ Git Manifest PR Approved     │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 1. Git Push (Desired State)  │
+│ 2. ArgoCD Watch (3분 주기)   │
+│ 3. State Compare (OutOfSync) │
+│ 4. Auto Sync (k8s apply)     │
+│ 5. Self-Healing (Drift 원복) │
+└──────────────┬───────────────┘
+               ▼
+  [Synced & Healthy 상태 유지]
 ```
 
 ### 동작 원리
 
-1. **목표 상태 조회**: 승인 선언을 저장소에서 수신한다.
-2. **실제 상태 관찰**: 운영 자원의 구성•건강 정보를 조회한다.
-3. **상태 차이 판정**: 목표•실제 상태의 드리프트를 확인한다.
-4. **목표 상태 적용**: 승인 선언에 맞게 자원을 재조정한다.
-5. **조정 상태 보고**: 건강•동기화 상태와 실패를 전달한다.
-
-> 요약: **상태 차이 판정**으로 드리프트를 찾고 **목표 상태 적용**과 **조정 상태 보고**를 반복한다.
+1. **Git Commit**: K8s YAML 파일(Pod 개수 3 $\rightarrow$ 5 변경)을 Git 매니페스트 저장소에 `push`.
+2. **ArgoCD Watch**: K8s 내부 ArgoCD가 Git의 커밋 변경을 3분 주기 렌더링으로 감지.
+3. **OutOfSync 감지**: Git의 Desired State (Pod 5개)와 K8s Actual State (Pod 3개) 차이 확인 후 `OutOfSync` 상태 표시.
+4. **Auto-Sync Execution**: ArgoCD가 K8s API를 호출하여 `kubectl apply` 자동으로 수행.
+5. **Self-Healing**: 누군가 수동으로 `kubectl delete` 시, ArgoCD가 드리프트를 감지하여 1초 만에 Git 상태로 자동 복원.
 
 #### 한줄 요약
 
-- **실제 상태 관찰**, **상태 차이 판정**, **목표 상태 적용**의 순환이 핵심이다.
+- 실제 상태 관찰, 상태 차이 판정, 목표 상태 적용의 순환이 핵심이다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **푸시 배포(Push-based Deployment)**: 외부 파이프라인이 운영 자격 증명으로 대상 환경에 변경 명령을 직접 전송하는 방식이다.
-- **명령형 작업(Imperative Operation)**: 최종 상태보다 수행할 명령 순서를 지정하는 일회성 운영 작업이다.
-- **자격 증명(Credential)**: 대상 환경의 변경 권한을 증명하는 키•토큰이다.
+- **Push-based CI/CD vs Pull-based GitOps**: Push 기반(Jenkins, GitHub Actions)은 CI 서버가 K8s 6443 포트에 직접 접속하여 명령 전송, Pull 기반(ArgoCD)은 K8s 내부 에이전트가 Git을 끌어당겨 내부 적용.
 
 </details>
 
-| 비교 항목 | GitOps 풀 기반 조정 | 푸시 배포 |
+| 비교 항목 | Traditional Push-based CI/CD (Jenkins, Actions) | GitOps Pull-based Pattern (ArgoCD, Flux) |
 |:---|:---|:---|
-| 적용 기준 | **선언적 구성**과 제어기 설치가 가능할 때 | **명령형 작업**이나 제어기 미지원 환경 |
-| 핵심 특징 | **풀 기반 제어기**의 Git 선언 지속 조정 | 외부 파이프라인의 변경 명령 전송 |
-| 한계 | 잘못된 선언의 반복 적용 | **자격 증명** 노출과 **드리프트** |
-
-> 요약: 선언 상태는 GitOps, 명령형 작업은 푸시를 선택한다.
+| 배포 주체 | 외부 CI/CD 서버 | **K8s 클러스터 내부 에이전트** |
+| 방화벽 / 보안 | 외부에서 K8s API 서버(6443) 권한 주입 필요 | **내부에서 Outbound Git 통신만 수행 (보안 극대화)** |
+| 수동 변경 대응 | 수동 변경(kubectl) 시 Git과 꼬이고 복구 불가 | **Self-healing 기능으로 수동 오작동 즉시 복원** |
+| 롤백 (Rollback) | CI 파이프라인 재구동 | **`git revert` 커밋 하나로 1초 만에 롤백** |
 
 #### 한줄 요약
 
-- 선언 상태는 깃옵스, 명령 작업은 **푸시 배포**가 핵심이다.
+- 선언 상태는 깃옵스, 명령 작업은 푸시 배포가 핵심이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **승인 정책(Approval Policy)**: 운영 선언의 변경 권한•검토•병합 기준을 통제하는 규칙이다.
-- **밀봉된 비밀(Sealed Secret)**: 저장소에는 암호문만 두고 대상 환경의 제어기만 복호화하도록 만든 비밀정보이다.
-- **의존 순서(Dependency Order)**: 여러 리소스를 안전하게 생성•갱신하기 위해 지켜야 하는 적용 선후 관계이다.
-- **정책 검증(Policy Validation)**: 선언이 조직 운영 규칙을 충족하는지 검사하는 통제이다.
-- **구문 검증(Syntax Validation)**: 선언이 정한 형식을 충족하는지 검사하는 통제이다.
-- **외부 비밀 저장소(External Secret Store)**: 자격 증명을 Git 밖에서 암호화해 보관하고 실행 시점에 대상 환경으로 제공하는 시스템이다.
-- **영역별 제어기(Scoped Controller)**: 환경과 조직 영역마다 제어 범위를 나눈 구성요소다.
-- **최소 권한(Least Privilege)**: 제어기에 필요한 리소스 변경 권한만 주는 원칙이다.
-- **동기화 단계(Sync Wave)**: 리소스 적용 순서를 나눈 단계다.
-- **건강 조건(Health Condition)**: 앞 단계가 정상일 때 다음 단계를 허용하는 기준이다.
-- **쿠버네티스(Kubernetes)**: 선언한 리소스의 목표 상태를 제어 루프로 유지하는 컨테이너 오케스트레이션 플랫폼이다.
+- **Sealed Secrets**: Git-first 사상을 유지하기 위해 DB 암호나 토큰을 비대칭키로 암호화하여 Git에 안전하게 commit 한 후, K8s 내부 컨트롤러만 복호화하게 만드는 기법.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 잘못된 선언이 모든 환경에 반복 적용됨 | **정책 검증**, **구문 검증**, 자동 중단 | 오류 반복 적용 방지 |
-| 긴급 수동 변경으로 Git 기준선과 달라짐 | 변경을 **Git 선언 기준선**에 반영하고 직접 변경 제한 | 기준선 일치 회복 |
-| 비밀정보를 평문 선언과 함께 저장함 | **외부 비밀 저장소** 또는 **밀봉된 비밀** 사용 | **자격 증명** 보호 |
-| 제어기 침해 시 전체 환경 변경이 가능함 | **영역별 제어기**와 **최소 권한** 적용 | 침해 범위 제한 |
-| 의존 리소스를 순서 없이 함께 적용함 | **동기화 단계**, **건강 조건**, 재시도 정의 | **의존 순서** 보장 |
-| **쿠버네티스** 리소스가 수동 변경됨 | **조정 루프**와 **드리프트** 탐지 적용 | 선언 상태 자동 복원 |
+| Git 저장소에 K8s Secret 비밀키 평문 저장 위험 | **Sealed Secrets / External Secrets Operator + Vault** | 보안 유출 파괴 차단 |
+| 수십~수백 개 앱 매니페스트 관리 복잡도 | **ArgoCD ApplicationSet + Helm / Kustomize** | 매니페스트 중복 제거 |
+| CI 파이프라인과 CD 파이프라인의 저장소 엉킴 | **App Source Repo 대 Deployment Manifest Repo 분리** | 권한 및 보안 격리 |
+
+> 사례: **Kubernetes + ArgoCD + Kustomize + Sealed Secrets** 기업 표준 GitOps 스택
 
 #### 한줄 요약
 
-- **정책 검증**, **외부 비밀 저장소**, **최소 권한**에 기반한 조정 통제가 핵심이다.
+- 정책 검증, 외부 비밀 저장소, 최소 권한에 기반한 조정 통제가 핵심이다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **운영 감사성(Operational Auditability)**: 누가 어떤 선언을 승인하고 환경에 반영했는지 변경 이력으로 확인할 수 있는 성질이다.
-- **자동 복구(Self-healing)**: 실제 상태가 목표에서 벗어나면 제어기가 승인된 선언을 다시 적용해 차이를 해소하는 동작이다.
-- **배포 제어 방식 선택 기준**: 상태 선언 가능성, 환경 내 제어기 운영 가능성, 직접 명령 필요성을 평가해 풀 기반 조정과 푸시 배포 중 하나를 정하는 기준이다.
+- **GitOps 채택 기준(GitOps Adoption Criteria)**: K8s 오케스트레이션 사용 유무, Zero-Trust 보안 수준 및 CI/CD 자동화 성숙도에 따른 체계.
 
 </details>
 
-- **배포 제어 방식 선택 기준**에 따라 상태 선언과 직접 변경 통제가 가능하면 **깃옵스**, 일회성 **명령형 작업**이면 **푸시 배포**를 선택한다.
+- **GitOps 채택 기준**에 따라 Cloud-Native K8s 인프라 구축 시 **ArgoCD 기반 Pull-based GitOps** 필수 채택
 
 #### 한줄 요약
 
-- **깃옵스**의 **자동 복구**와 **운영 감사성**을 확보할 수 있는지가 핵심이다.
+- 깃옵스의 자동 복구와 운영 감사성을 확보할 수 있는지가 핵심이다.
