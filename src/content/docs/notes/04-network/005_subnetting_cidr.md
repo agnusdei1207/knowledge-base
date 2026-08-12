@@ -21,15 +21,15 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **서브네팅(Subnetting)**: 대규모 단일 IP 주소 공간을 서브넷 마스크를 이용하여 다수의 작은 논리적 네트워크(Subnet)로 분할하는 기술.
-- **클래스 없는 도메인 간 라우팅(Classless Inter-Domain Routing, CIDR)**: 기존의 클래스(Class A/B/C) 경계를 제거하고 빗금 표기법(Slash Notation, 예: /24)을 사용하여 임의 비트 단위로 주소를 할당 및 라우팅 경로를 축약(Route Aggregation)하는 기술.
+- **서브네팅(Subnetting)**: 대형 IP 주소 공간을 서브넷 마스크로 소형 논리망으로 분할하는 기술.
+- **CIDR(Classless Inter-Domain Routing)**: 클래스 경계를 제거하고 슬래시 표기법(/N)으로 주소를 할당 및 경로를 집약(Route Aggregation)하는 기술.
 
 </details>
 
-- 정의/개념: IP 주소의 낭비를 최소화하기 위해 주소 블록을 필요한 크기대로 분할하는 **서브네팅(Subnetting)**과 연속된 복수의 서브넷을 하나의 라우팅 경로로 묶어 라우팅 테이블을 효율화하는 **클래스 없는 도메인 간 라우팅(Classless Inter-Domain Routing, CIDR)**.
-- 배경/필요성: Classful 주소 체계의 비효율적 할당으로 인한 IPv4 주소 조기 고갈 문제를 완화하고, 인터넷 백본 라우터의 라우팅 테이블 엔트리 폭발(Routing Table Explosion) 현상을 억제하기 위함.
+- 정의: IP 주소 낭비 최소화를 위한 주소 분할(서브네팅)과 라우팅 테이블 효율화를 위한 경로 집약(CIDR) 기술.
+- 배경: IPv4 주소 고갈 완화 및 라우팅 테이블 폭발(Routing Table Explosion) 억제 필요.
 
 #### 한줄 요약
 
@@ -38,11 +38,11 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **프리픽스 길이(Prefix Length)**: IP 주소에서 네트워크 영역을 나타내는 비트의 수(예: 192.168.1.0/24의 프리픽스는 24).
-- **가변 길이 서브넷 마스크(Variable Length Subnet Mask, VLSM)**: 동일한 네트워크 블록 내에서 조직의 규모와 호스트 수요에 맞춰 서브넷 마스크 크기를 서로 다르게 가변 적용하는 주소 설계 기법.
-- **경로 집약(Route Aggregation / Supernetting)**: 공통 네트워크 프리픽스를 공유하는 연속된 다수의 서브넷을 단일 라우팅 대표 경로로 요약 광고하는 기법.
+- **프리픽스 길이(Prefix Length)**: 네트워크 영역을 나타내는 비트 수(예: /24).
+- **VLSM(Variable Length Subnet Mask)**: 규모와 호스트 수요에 맞춰 서브넷 마스크를 가변 적용하는 기법.
+- **경로 집약(Route Aggregation)**: 연속 서브넷을 단일 대표 경로로 요약 광고하는 기법.
 
 </details>
 
