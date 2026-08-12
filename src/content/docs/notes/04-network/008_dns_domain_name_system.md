@@ -23,179 +23,168 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **도메인 이름 시스템(Domain Name System, DNS)**: 계층형 도메인 이름을 인터넷 프로토콜 주소 등의 자원 정보로 변환하는 분산 데이터베이스이다.
-- **자원 레코드(Resource Record, RR)**: 도메인 이름•레코드 유형•값과 유효 기간을 저장하는 DNS 데이터 단위이다.
+- **도메인 이름 시스템(Domain Name System, DNS)**: 사람이 읽기 쉬운 문자열 도메인 주소(예: www.example.com)를 컴퓨터가 상호 통신할 수 있는 IP 주소로 상호 변환해주는 전 세계 분산 계층형 데이터베이스 시스템.
+- **자원 레코드(Resource Record, RR)**: 도메인 이름, 레코드 타입(A, AAAA, CNAME, MX 등), 값 및 TTL 정보로構成된 DNS 기본 정보 등록 단위.
 
 </details>
 
-- 정의/개념: **DNS**는 계층형 이름을 **자원 레코드**로 해석하는 분산 데이터베이스이다.
-- 배경/필요성: 단일 파일/중앙 서버 기반 관리 방식은 데이터 증가 시 확장 한계와 단일 장애점(SPOF) 문제를 일으킨다.
+- 정의/개념: 인터넷 인프라의 핵심 분산 데이터베이스로서 문자열 도메인을 IP 주소 및 매핑 레코드로 변환 해석하는 **도메인 이름 시스템(Domain Name System, DNS)**.
+- 배경/필요성: 단일 파일(`hosts.txt`) 및 중앙 집중형 서버 관리 방식의 데이터 폭증에 따른 한계를 극복하고, 단일 장애점(SPOF) 차단과 분산 위임 관리를 통한 가용성 확보 필요.
 
 #### 한줄 요약
 
-- 도메인 이름을 단일 테이블에 집중하지 않고 계층별 네임서버가 분산 관리하며 IP 주소를 응답한다.
+- 분산 계층형 도메인 네임스페이스 및 IP 매핑 자원 레코드 관리 체계 구현.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **위임**: 상위 DNS 영역이 하위 이름 영역의 관리 권한과 권한 서버 정보를 다른 서버에 넘기는 관계이다.
-- **유효 시간(Time To Live, TTL)**: 리졸버가 자원 레코드를 새로 조회하지 않고 캐시에 보관할 수 있는 시간이다.
-- **도메인 이름 시스템 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 전자서명 체인으로 DNS 응답의 출처와 무결성을 검증하는 보안 확장이다.
-- **TLD(Top-level Domain)**: 루트 바로 아래에서 국가나 일반 도메인 범주를 나타내는 최상위 영역이다.
+- **위임(Delegation)**: 상위 도메인 존(Zone)이 하위 도메인 영역의 관리 권한과 권한 있는 네임서버(NS 레코드) 정보를 분산 이관하는 메커니즘.
+- **유효 시간(Time To Live, TTL)**: DNS 리졸버가 특정 자원 레코드를 재조회하지 않고 캐시(Cache) 메모리에 보관 및 응답할 수 있는 유효 시간 규격.
+- **도메인 이름 시스템 보안 확장(Domain Name System Security Extensions, DNSSEC)**: 비대칭키 공개키 암호화 전자서명을 통해 DNS 응답 정보의 위변조(DNS Spoofing/Poisoning) 방지 및 무결성을 검증하는 보안 기술.
+- **최상위 도메인(Top-Level Domain, TLD)**: Root 도메인 바로 아래에 위치하는 국가/일반 범주 도메인 영역(.com, .net, .kr 등).
 
 </details>
 
-- 루트와 **TLD**에서 권한 서버로 이어지는 **위임**이 핵심이다.
-- **TTL**이 길면 조회 지연은 줄지만 변경 전파는 늦어진다.
-- **DNSSEC**는 응답 출처와 무결성을 검증한다.
+- 루트(Root) 및 **최상위 도메인(Top-Level Domain, TLD)** 네임서버 체계 중심의 계층적 **위임(Delegation)** 아키텍처 적용.
+- **유효 시간(Time To Live, TTL)** 튜닝을 통해 트래픽 부하 분산과 도메인 변경 사항의 조기 전파 속도 조율.
+- **DNSSEC(Domain Name System Security Extensions)**을 통한 응답 데이터의 출처 인증 및 데이터 무결성 보장.
 
 #### 한줄 요약
 
-- 한번 찾은 주소를 오래 기억하면 빠르지만 서버 주소가 바뀌어도 기억이 끝날 때까지 옛 주소를 줄 수 있다.
+- 계층적 위임(Delegation), TTL 캐싱 제어 및 DNSSEC 전자서명 무결성 검증 체계 구축.
+
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **스텁 리졸버**: 단말에서 재귀 리졸버에 이름 조회를 요청하고 최종 응답을 받는 구성요소이다.
-- **재귀 리졸버**: 클라이언트 대신 DNS 계층을 조회하고 결과를 캐시에 저장하는 서버이다.
-- **권한 서버**: 자신이 관리하는 존의 원본 자원 레코드에 대해 최종 권한 응답을 제공하는 서버이다.
+- **스텁 리졸버(Stub Resolver)**: 클라이언트 OS 단에 내장되어 재귀 리졸버로 DNS 질의를 전송하고 최종 결과를 반환받는 최소 기능 리졸버.
+- **재귀 리졸버(Recursive Resolver / Local DNS)**: 클라이언트 대신 Root-TLD-Authoritative 계층을 직접 순회하며 질의하고 결과를 캐싱하는 네임서버.
+- **권한 있는 네임서버(Authoritative Name Server)**: 해당 도메인 존(Zone)의 원본 자원 레코드(RR)를 관리하고 최종 정답(Authoritative Answer)을 반환하는 네임서버.
 
 </details>
 
 ```text
-스텁 리졸버
-└── 재귀 리졸버
-    └── 루트•TLD 서버
-        └── 권한 서버
-            └── 자원 레코드
+[ Client Device ] -> (Stub Resolver)
+                           |
+                           v  (Recursive Query)
+                [ Recursive Resolver (Local DNS) ]
+                /          |          \
+ (Iterative)   /           |           \ (Iterative)
+              v            v            v
+     [ Root Server ]  [ TLD Server ]  [ Authoritative Server ]
 ```
 
-선의 의미: 스텁과 재귀 리졸버가 DNS 권한 계층에 연결되고, 루트•TLD 서버 아래의 권한 서버가 담당 영역의 자원 레코드를 소유하는 정적 위임 관계이다.
+*스텁 리졸버, 재귀 리졸버, 계층별 네임서버 간 분산 협력 구조.*
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 스텁 리졸버 | **스텁 리졸버**가 단말의 이름 조회 요청 생성 |
-| 재귀 리졸버 | **재귀 리졸버**가 위임 추적•응답 캐시 관리 |
-| 루트•TLD 서버 | **위임**으로 하위 권한 서버 위치 안내 |
-| 권한 서버 | **권한 서버**가 관리 존의 원본 레코드 응답 |
-| 자원 레코드 | **자원 레코드**로 이름•주소•메일•별칭 정보 표현 |
+| 구성요소 | 역할 및 세부 기능 | 대표 레코드/구조 |
+|:---|:---|:---|
+| **스텁 리졸버 (Stub Resolver)** | 애플리케이션의 DNS 요청 수신, Local DNS로 재귀 질의 전달 | OS DNS Client Service |
+| **재귀 리졸버 (Local DNS)** | Iterative 질의 순회 실행, TTL Caching, 질의 결과 최종 클라이언트 반환 | ISP DNS, 8.8.8.8, 1.1.1.1 |
+| **루트 네임서버 (Root Server)** | 전 세계 13개 대표 IP(Anycast 라우팅), TLD 네임서버 위치 안내 | Root Zone (`.`) |
+| **TLD 네임서버 (TLD Server)** | `.com`, `.net`, `.kr` 등 최상위 도메인의 권한 있는 네임서버 정보 안내 | gTLD / ccTLD Server |
+| **권한 있는 네임서버 (Authoritative)** | 특정 도메인의 원본 **자원 레코드(Resource Record)** 관리 및 정답 응답 | Primary/Secondary DNS |
+| **자원 레코드 (Resource Record)** | A(IPv4), AAAA(IPv6), CNAME(별칭), MX(메일), NS(네임서버), TXT 등 | Zone File 정보 레코드 |
 
 #### 한줄 요약
 
-- 리졸버는 루트 안내소에서 시작해 하위 안내소를 거쳐 이름을 맡은 최종 서버에서 주소를 받는다.
+- Stub-Recursive-Authoritative 3단계 분산 질의 및 Resource Record 관리 체계 준수.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **캐시 미스**: 요청한 이름의 유효한 자원 레코드가 리졸버 캐시에 없는 상태이다.
-- **루트 서버(Root Server)**: TLD 서버의 위치를 안내하는 DNS 계층의 시작점이다.
-- **최상위 도메인(Top-Level Domain, TLD) 서버**: 다음 권한 서버의 위치를 안내하는 DNS 서버이다.
-- **위임 경로 질의**: 루트부터 질의 이름을 담당하는 권한 서버까지 위임 관계를 따라가는 절차이다.
-- **권한 서버 안내**: 현재 DNS 서버가 다음 위임 서버의 이름과 주소를 반환하는 절차이다.
-- **원본 레코드 질의**: 최종 권한 서버에 질의 이름의 원본 자원 레코드를 요청하는 절차이다.
-- **자원 레코드 응답**: 권한 서버의 응답 값을 받아 TTL 동안 캐시에 저장하는 절차이다.
+- **캐시 미스(Cache Miss)**: 질의 도메인의 유효한 RR이 재귀 리졸버의 캐시 메모리에 존재하지 않아 상위 네임서버 추적이 필요한 상태.
+- **루트 서버(Root Server)**: DNS 계층 구조의 최상단에서 TLD 서버의 IP 주소를 안내하는 시작점.
+- **위임 경로 질의(Delegation Path Query)**: Root -> TLD -> Authoritative 네임서버 순으로 반복(Iterative)하여 질의를 전달하는 절차.
+- **권한 서버 안내(Authoritative Server Referral)**: 상위 네임서버가 하위 권한 서버의 NS 레코드 및 A 레코드(Glue Record)를 반환하는 응답 단계.
 
 </details>
 
 ```text
-DNS 질의
-    |
-    `-- 캐시 확인
-           |
-           +-- 캐시 적중 ---- DNS 응답
-           |
-           `-- 캐시 미스
-                  |
-                  v
-          1. 위임 경로 질의
-                  |
-                  v
-          2. 권한 서버 안내
-                  |
-                  v
-          3. 원본 레코드 질의
-                  |
-                  v
-          4. 자원 레코드 응답
-                  |
-                  `-- TTL 캐시 저장 ---- DNS 응답
+[ Client ] ---> (1) Recursive Query ---------------------> [ Recursive Resolver ]
+                                                               | (Cache Miss)
+                                                               v
+                                   [ Root Server ] <--- (2) Iterative Query (www.example.com?)
+                                   [ Root Server ] ---> (3) TLD Server IP Referral (.com)
+                                                               |
+                                   [ TLD Server ]  <--- (4) Iterative Query (www.example.com?)
+                                   [ TLD Server ]  ---> (5) Auth Server IP Referral (example.com)
+                                                               |
+                                   [ Auth Server ] <--- (6) Iterative Query (www.example.com?)
+                                   [ Auth Server ] ---> (7) Authoritative Answer (A Record IP)
+                                                               |
+[ Client ] <--- (8) Final Answer (TTL Caching) <----------------+
 ```
 
 ### 동작 원리
 
-**캐시 미스**이면 **루트 서버**와 **TLD 서버**의 안내를 따라 권한 서버를 찾는다.
-
-1. **위임 경로 질의**: 루트부터 질의 이름의 위임 경로를 탐색한다.
-2. **권한 서버 안내**: 다음 위임 서버의 이름•주소를 반환한다.
-3. **원본 레코드 질의**: 최종 권한 서버에 원본 값을 요청한다.
-4. **자원 레코드 응답**: 응답 값을 TTL 동안 캐시에 저장한다.
+1. **재귀 질의 및 캐시 점검 (Recursive Query & Cache Check)**: 클라이언트 스텁 리졸버는 재귀 리졸버에 **재귀 질의** 전송, 캐시 적중(Cache Hit) 시 즉시 응답.
+2. **반복 질의 및 위임 추적 (Iterative Traversal)**: **캐시 미스(Cache Miss)** 발생 시 **루트 서버**부터 **TLD 서버**, **권한 있는 네임서버** 순으로 **위임 경로 질의(Iterative)**를 수행하여 최종 A/AAAA 레코드를 획득하고 TTL 동안 Caching.
 
 #### 한줄 요약
 
-- 기억한 답이 없으면 루트부터 담당 서버를 안내받아 최종 답을 찾고 다음 요청을 위해 저장한다.
+- Root-TLD-Authoritative 계층 질의 및 TTL 기반 캐시 룩업 프로세스 구동.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **재귀 질의**: 클라이언트가 재귀 리졸버에 최종 답이나 오류를 반환하도록 요청하는 방식이다.
-- **반복 질의**: 리졸버가 루트부터 위임받은 다음 서버를 차례로 직접 조회하는 방식이다.
+- **재귀 질의(Recursive Query)**: 요청을 받은 리졸버가 최종 정답이나 에러 결과를 얻을 때까지 책임을 지고 상위 서버들을 추적하여 응답하는 방식.
+- **반복 질의(Iterative Query)**: 요청을 받은 네임서버가 스스로 추적하지 않고, 자신이 아는 다음 상위/하위 네임서버의 위치(Referral)만을 즉시 응답하는 방식.
 
 </details>
 
-| DNS 질의 방식 | **재귀 질의** | **반복 질의** |
+| 비교 항목 | **재귀 질의 (Recursive Query)** | **반복 질의 (Iterative Query)** |
 |:---|:---|:---|
-| 적용 기준 | 클라이언트가 최종 응답을 위임 | 리졸버가 DNS 계층을 직접 추적 |
-| 핵심 특징 | 최종 답•오류를 반환하는 단일 요청 | 다음 위임 서버를 반복 조회 |
-| 한계 | 공개 재귀 서버의 증폭 공격 악용 | 다중 왕복에 따른 조회 지연 |
+| 질의 주체 | Client -> Recursive Resolver (Local DNS) | Recursive Resolver -> Root/TLD/Auth Server |
+| 응답 형태 | 최종 IP 주소 (또는 NXDOMAIN 에러) | 다음 위임 네임서버의 IP 주소 (Referral) |
+| 서버 부하 및 보안 | 리졸버 서버에 메모리/CPU 부하 가중, Open Resolver DDoS 악용 위험 | 권한 네임서버 부하 최소화, 단시간 내 Referral 반환 |
 
-> 요약: 클라이언트는 재귀, 리졸버는 반복 질의가 핵심이다.
+> 요약: 클라이언트 단의 단순 편의성을 위한 재귀 질의와 DNS 서버 간의 분산 처리 및 서버 보호를 위한 반복 질의의 구별.
 
 #### 한줄 요약
 
-- 클라이언트는 최종 답을 맡기고 리졸버는 안내받은 서버를 직접 따라가며 답을 찾는다.
+- 클라이언트 재귀 질의(Recursive)와 리졸버 반복 질의(Iterative)의 역할 분리 체계 수립.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **DNS 증폭 공격**: 출발지 주소를 위조한 작은 질의로 큰 응답을 피해자에게 보내 트래픽을 증폭하는 공격이다.
-- **트랜잭션 서명(Transaction Signature, TSIG)**: 공유 비밀키 기반 메시지 인증 코드로 DNS 서버 간 요청의 출처와 무결성을 확인하는 인증 방식이다.
+- **DNS 증폭 공격(DNS Amplification Attack)**: UDP 프로토콜의 IP Spoofing 및 EDNS0 특징을 악용하여 위조된 피해자 IP로 대용량 DNS 응답을 집중 유도하는 반사 DDoS 공격.
+- **트랜잭션 서명(Transaction Signature, TSIG)**: Primary-Secondary DNS 간의 Zone Transfer(존 동기화) 시 HMAC 공유키를 사용하여 전송 데이터의 인가 여부와 무결성을 검증하는 기술.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| 긴 TTL로 변경 전 옛 레코드가 잔존 | 전환 전 **TTL** 선제 단축 | 주소 전환 지연 통제 |
-| 단일 권한 서버 장애로 존 응답 중단 | 다중 망•사업자에 **권한 서버** 이중화 | 질의 가용성 확보 |
-| 위조된 DNS 응답을 정상 값으로 수용 | **DNSSEC** 서명 체인 검증 | 응답 출처•무결성 확보 |
-| 공개 재귀 서버가 큰 응답을 반사 | **DNS 증폭 공격** 탐지•응답률 제한 | 증폭 트래픽 감소 |
-| 비인가 서버가 존 전송을 요청 | 허용 서버 제한•**TSIG** 인증 | 내부 자원 정보 노출 방지 |
+| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
+|:---|:---|:---|:---|
+| IP 변경 시 캐시 잔존 장애 | 긴 TTL 설정으로 타 네임서버 캐시 갱신 지연 | 주소 이관 작업 24~48시간 전 **TTL**을 300초로 사전 축소 | IP 전환 후 접속 에러 즉시 해결 |
+| **DNS 증폭 공격** 반사체 활용 | Open Recursive Resolver 방치 | 외부 IP 재귀 질의 차단 및 Response Rate Limiting(RRL) 설정 | DDoS 반사체 활용 원천 차단 |
+| DNS 캐시 포이즈닝 (Spoofing) | 질의 TxID 및 Port 예측을 통한 위조 응답 삽입 | **DNSSEC** 도입 및 Source Port Randomization 적용 | 위조 주소 유도 공격 차단 |
+| Zone File 유출 | 비인가 IP의 Zone Transfer 요청 허용 | **TSIG** 서명 적용 및 허용된 Secondary IP만 렌더링 | DNS 내부 자원 식별 정보 보호 |
 
 #### 한줄 요약
 
-- 서버 주소를 바꾸기 전에 허용 가능한 전파 시간만큼 기억 시간을 줄인다.
+- DNSSEC 서명 검증, TSIG Zone Transfer 통제 및 RRL(Response Rate Limiting) 방어 체계 수립.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **TTL 전환 계획**: 주소 변경 전에 캐시 시간을 줄이고 전환 뒤 다시 늘려 최신성과 조회 효율을 조정하는 운영 계획이다.
-- **운영 정책 결정**: 변경 전파 허용 시간에 맞춰 TTL을 설정하고 위조 위험 구간에는 DNSSEC 검증을 적용하는 판단이다.
+- **TTL 전환 계획(TTL Transition Planning)**: 서비스 IP 변경 및 컷오버(Cutover) 시 사전에 TTL을 축소하고 작업 완료 후 원복하는 단계별 가이드라인.
+- **운영 정책 결정(Operation Policy Selection)**: 고가용성 멀티 벤더 Authoritative DNS 이중화 및 DNSSEC 무결성 검증 정책을 결정하는 체계.
 
 </details>
 
-- **운영 정책 결정**은 변경 전파 허용 시간에 맞춰 **TTL 전환 계획**을 수립하고 위조 위험 구간에 **DNSSEC** 검증을 적용하는 판단이다.
+- 인터넷 서비스의 중단 없는 접속성 확보와 고가용성 제공을 위해 **TTL 전환 계획(TTL Transition Planning)** 수립 및 **운영 정책 결정(Operation Policy Selection)**에 기반한 DNSSEC 및 이중화 체계 구축 필수.
 
 #### 한줄 요약
 
-- 주소 변경 허용 시간에 맞춰 TTL을 정해야 조회 속도와 최신성을 맞출 수 있다.
+- DNSSEC 무결성 검증 체계 수립 및 TTL 사전 축소를 통한 DNS 변경 관리 구현 필수.
