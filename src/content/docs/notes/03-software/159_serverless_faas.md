@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Serverless Computing (서버리스 컴퓨팅)**: 개발자가 서버 인프라(OS, EC2)를 직접 프로비저닝하거나 관리하지 않고, 코드 작성에만 집중하는 클라우드 실행 모델.
-- **FaaS (Function as a Service / 서비스형 함수)**: 서버리스의 핵심 구현 방식으로, 특정 이벤트(S3 파일 업로드, HTTP 요청) 발생 시에만 1회성 함수(AWS Lambda) 코드가 0.1초 만에 실행된 후 종료되는 모델.
-- **Cold Start (콜드 스타트)**: 한동안 호출되지 않아 쿨다운된 런타임 환경에 첫 요청이 유입될 때, 컨테이너 인스턴스를 최초 부팅하느라 1~3초 응답 지연(Latency)이 발생하는 현상.
+- **서버리스 컴퓨팅(Serverless Computing)**: 클라우드 제공자가 인프라를 전담 관리하고, 개발자는 코드 실행에만 집중하는 컴퓨팅 모델.
+- **FaaS (Function as a Service)**: 이벤트 발생 시 1회성 함수(AWS Lambda)가 짧게 실행 후 종료되는 서버리스 구현 방식.
+- **콜드 스타트(Cold Start)**: 런타임 환경 최초 부팅 시 컨테이너를 새로 생성하며 발생하는 1~3초의 응답 지연(Latency) 현상.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Zero Server Management (OS 패치, 서버 프로비저닝, 가상머신 관리 100% 불필요)**
-- **Event-Driven Auto-Scaling (이벤트 폭증 시 0개에서 수천 개 Lambda 인스턴스 자동 확장)**
-- **Pay-per-Execution Billing (유휴 시간 과금 0원, 실행 시간 100ms 단위 실효 청구)**
+- **인프라 관리 부재**: OS 패치, 서버 프로비저닝, 가상머신 관리 불필요.
+- **이벤트 구동 자동 확장(Event-Driven Auto-Scaling)**: 요청 유입 시 즉시 필요 수량만큼 인스턴스 자동 생성.
+- **종량제 과금(Pay-per-Execution)**: 유휴 시간 과금 0원, 실행 시간(ms) 및 메모리 사용량 기준 청구.
 
 #### 한줄 요약
 
@@ -75,11 +75,11 @@ extra:
 
 선의 의미: 이종 이벤트 소스가 발생하면 FaaS(AWS Lambda)가 즉시 1회성 구동되어 결과를 외부 영속 DB에 저장하고 소멸하는 구조.
 
-| FaaS 구성 요소 | 기술 역할 및 메커니즘 | 실무 예시 (AWS Stack) |
+| FaaS 구성 | 기술 역할 | 실무 예시 |
 |:---|:---|:---|
-| **Event Source (Trigger)**| **FaaS 함수를 0.1초 만에 깨우는 이벤트 소스** | **AWS S3, API Gateway, SQS** |
-| **FaaS Engine (Execution)**| **이벤트 수신 시 1회성 함수 코드를 초고속 구동**| **AWS Lambda, GCP Cloud Functions**|
-| **Stateless State Store** | **Lambda 소멸 후에도 상태를 보존할 외부 DB** | **Amazon DynamoDB, Redis** |
+| **트리거(Trigger)** | FaaS 함수를 작동시키는 이벤트 소스 | AWS S3, API Gateway, SQS |
+| **FaaS 엔진** | 1회성 함수 코드를 초고속 실행 | AWS Lambda, GCP Cloud Functions |
+| **상태 저장(State)** | 함수 소멸 후 데이터 보존 DB | Amazon DynamoDB, Redis |
 
 #### 한줄 요약
 
@@ -149,14 +149,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Serverless/FaaS 수립 기준(Serverless Standards)**: AWS Lambda, Provisioned Concurrency, RDS Proxy, Step Functions 및 Event-Driven Architecture에 의거한 체계.
-
-</details>
-
-- **Serverless/FaaS 수립 기준**에 따라 이벤트 구동형 앱 구축 시 **Serverless FaaS & AWS Lambda & RDS Proxy** 필수 적용
-
-#### 한줄 요약
-
-- 짧고 재처리 가능한 사건은 서비스형 함수로, 지속 연결이나 긴 상태 작업은 관리형 컨테이너로 나눠 실행 모델을 선택해야 한다.
+- **이벤트 구동형 아키텍처 및 서버리스 컴퓨팅 최적 실행 체계 확립**
