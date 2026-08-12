@@ -21,15 +21,15 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**: 네트워크에 접속하는 단말 장치에 IP 주소, 서브넷 마스크, 게이트웨이, DNS 서버 정보 등의 네트워크 설정 파라미터를 동적으로 자동 임대(Lease)해주는 응용 계층 프로토콜(UDP 67/68 포트 사용).
-- **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 계층에서 호스트 식별 및 패킷 라우팅을 담당하는 논리적 주소 체계.
+- **DHCP(Dynamic Host Configuration Protocol)**: 단말에 IP 주소 및 설정 정보를 동적으로 임대(Lease)하는 응용 계층 프로토콜.
+- **IP 주소(IP Address)**: 네트워크 계층에서 호스트 식별 및 라우팅을 담당하는 논리 주소.
 
 </details>
 
-- 정의/개념: 단말이 네트워크에 접속할 때 **인터넷 프로토콜(Internet Protocol, IP)** 주소 및 접속 설정 정보를 중앙 서버가 일정 임대 기간(Lease Time) 동안 자동 부여하는 **동적 호스트 구성 프로토콜(Dynamic Host Configuration Protocol, DHCP)**.
-- 배경/필요성: 수동 IP 설정 시 발생하는 중복 IP 충돌, 관리 오버헤드, 이동 단말 관리의 한계를 극복하고 IP 자원의 효율적 재활용 체계 마련.
+- 정의: 단말 접속 시 IP 주소 및 설정 정보를 서버가 일정 임대 기간(Lease Time) 동안 자동 부여하는 동적 호스트 구성 프로토콜(DHCP).
+- 배경: 수동 설정 시의 IP 충돌, 관리 오버헤드, 이동 단말 관리의 한계 극복 및 자원 효율적 재활용.
 
 #### 한줄 요약
 
@@ -38,11 +38,11 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **주소 풀(Address Pool)**: DHCP 서버가 수용 클라이언트들에게 임대해주기 위해 사전에 정의해 놓은 유효 IP 주소 대역.
-- **바인딩(Binding)**: DHCP 서버가 특정 클라이언트의 MAC 주소와 임대한 IP 주소, 임대 만료 시간을 1:1 매핑하여 관리하는 상태 정보.
-- **DHCP 릴레이 에이전트(DHCP Relay Agent)**: 라우터가 L2 브로드캐스트인 DHCP 요청 패킷을 유니캐스트 패킷으로 변환하여 타 서브넷의 중앙 DHCP 서버로 전달하는 기능.
+- **Address Pool**: 클라이언트 임대용 유효 IP 주소 대역.
+- **Binding**: 클라이언트 MAC과 IP 주소, 만료 시간을 1:1 매핑하여 관리하는 상태 정보.
+- **DHCP Relay Agent**: 브로드캐스트 요청 패킷을 유니캐스트로 변환하여 타 서브넷 서버로 전달하는 기능.
 
 </details>
 

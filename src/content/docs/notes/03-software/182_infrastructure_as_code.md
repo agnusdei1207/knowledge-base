@@ -22,30 +22,40 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IaC (Infrastructure as Code)**: 서버, 네트워크, 데이터베이스 등 클라우드 인프라의 프로비저닝과 관리를 수동 GUI 조작이 아닌 기계가 읽을 수 있는 선언적 코드(Declarative Code)로 정의하고 배포하는 자동화 관행.
-- **Terraform (테라폼)**: HashiCorp가 개발한 오픈소스 IaC 도구로, 특정 클라우드(AWS, GCP, Azure)에 종속되지 않고 자체 언어인 HCL(HashiCorp Configuration Language)을 사용하여 인프라를 구축하는 업계 표준 플랫폼.
-- **Idempotency (멱등성)**: 코드를 한 번 실행하든 백 번 실행하든, 인프라의 최종 상태(End-State)는 항상 동일하게 유지되어야 한다는 선언형 IaC의 가장 중요한 철학.
+- **IaC (Infrastructure as Code)**: 서버, DB 등 클라우드 인프라를 수동 조작이 아닌 기계가 읽을 수 있는 선언적 코드(Declarative Code)로 정의·배포하는 자동화 관행.
+- **Terraform (테라폼)**: HashiCorp가 개발한 오픈소스 IaC 도구. HCL(HashiCorp Configuration Language)을 사용하여 인프라를 구축하는 업계 표준 플랫폼.
+- **Idempotency (멱등성)**: 코드를 수회 실행해도 최종 인프라 상태(End-State)는 항상 동일하게 유지되어야 한다는 선언형 IaC 핵심 철학.
 
 </details>
 
-- 정의/개념: 인프라 구성 요소를 소스 코드로 정의하여 버전 관리(Git), 테스트, CI/CD 파이프라인 적용 등 소프트웨어 엔지니어링의 생태계를 인프라 관리로 확장한 **코드형 인프라(IaC)** 아키텍처
-- 배경/필요성: 관리자 수작업(Click-Ops)으로 인한 휴먼 에러, 환경 불일치(Dev/Prod 편차), 인프라 복제 불가능성 등 레거시 운영 방식의 한계성 극복
+- 정의: 인프라 구성 요소를 코드로 정의하여 버전 관리(Git), 테스트, CI/CD 등 엔지니어링 생태계를 인프라로 확장한 코드형 인프라(IaC).
+- 배경: 수동 관리(Click-Ops)로 인한 휴먼 에러, 환경 불일치, 복제 불가능성 극복.
 
 #### 한줄 요약
 
-- 서버 설치 설명서를 실행 코드로 만들고 실제 변경 전 생성·교체·삭제 목록을 검토해 같은 환경을 반복 재현한다.
+- **IaC (Infrastructure as Code)**: 클라우드 인프라를 수동 조작 대신 기계가 읽는 선언적 코드(Declarative Code)로 정의·배포하는 자동화 관행.
+- **Terraform (테라폼)**: HashiCorp의 HCL 기반 오픈소스 IaC 도구로, 인프라 구축의 업계 표준 플랫폼.
+- **Idempotency (멱등성)**: 반복 실행해도 최종 인프라 상태(End-State)가 동일하게 유지되어야 하는 선언형 IaC의 핵심 철학.
+
+</details>
+
+- 정의: 인프라 구성 요소를 코드로 정의하여 버전 관리(Git), 테스트, CI/CD 등 엔지니어링 생태계를 인프라 영역으로 확장한 기술.
+- 배경: 수동 관리(Click-Ops) 방식의 휴먼 에러, 환경 불일치, 복제 불가능성 등의 한계 극복.
+
+#### 한줄 요약
+
+- 서버 설치 설명서를 실행 코드로 변환하여 변경 전 계획 검토 및 환경 재현을 지원하는 인프라 관리 기술.
 
 ## Ⅱ. 특징 (IaC 3대 핵심 성질)
 
 <details><summary>핵심 용어</summary>
 
-- **Immutable Infrastructure (불변 인프라)**: 서버에 패치가 필요할 때 접속해서 수정(Update)하는 것이 아니라, 새로운 버전의 서버 이미지(AMI, Docker)를 새로 띄우고(Replace) 기존 서버는 폐기하는 클라우드 네이티브 아키텍처 철학.
+- **Immutable Infrastructure (불변 인프라)**: 기존 서버 수정(Update) 대신 신규 서버 이미지(AMI, Docker)로 대체(Replace)하는 클라우드 네이티브 철학.
+- **Declarative Approach (선언형 접근)**: 절차적 스크립트가 아닌, 최종 필요한 상태(What)만 선언 시 엔진이 생성·변경 수행.
+- **Version Control & Auditing (버전 관리 및 감사)**: 변경 사항을 Git 로그로 관리하여 추적 및 롤백 지원.
+- **Drift Detection (편차 탐지)**: 선언적 목표 상태와 실제 인프라 상태 간의 차이를 자동 식별하여 동기화.
 
 </details>
-
-- **Declarative Approach (선언형 접근)**: "어떻게(How)" 서버를 만들지 절차를 적는 스크립트 방식이 아니라, "무엇(What)"이 필요한지 최종 상태만 선언하면 IaC 엔진이 알아서 생성 및 변경.
-- **Version Control & Auditing (버전 관리 및 감사)**: 인프라의 모든 변경 사항이 Git 커밋 로그로 남으므로, 누가 언제 왜 인프라를 바꿨는지 추적하고 롤백 가능.
-- **Drift Detection (편차 탐지)**: 코드로 선언된 목표 상태(Desired State)와 실제 클라우드 인프라의 상태(Actual State) 간의 차이를 자동으로 찾아내어 다시 코드로 동기화.
 
 #### 한줄 요약
 
@@ -116,9 +126,9 @@ extra:
 
 ### 동작 원리
 
-1. **Init**: 프로젝트 폴더 초기화 및 필요한 클라우드 Provider 플러그인 다운로드.
-2. **Plan**: 로컬 코드 $\leftrightarrow$ State 파일 $\leftrightarrow$ 실제 클라우드 상태 3가지를 대조(Diff)하여 인프라 변경 시나리오 도출 및 관리자 승인 대기.
-3. **Apply**: 시나리오대로 클라우드 API를 호출하여 리소스를 조작(CRUD)한 후, 최종 결과물을 원격 State 파일에 반영하여 동기화 (**IaC 적용 파이프라인 완결**).
+1. **Init**: 프로젝트 초기화 및 Provider 플러그인 다운로드.
+2. **Plan**: 코드, State, 실제 상태를 대조(Diff)하여 변경 시나리오 도출 및 승인 대기.
+3. **Apply**: 시나리오에 따라 클라우드 API 호출(CRUD) 후 State 파일 업데이트.
 
 #### 한줄 요약
 
@@ -171,7 +181,7 @@ extra:
 
 </details>
 
-- **IaC 아키텍처 수립 기준**에 따라 Cloud-Native MSA 환경 설계 시 **선언형 프로비저닝(Terraform) 및 Immutable Infrastructure 체계** 필수 적용
+- IaC 아키텍처 수립 기준에 따라 Cloud-Native MSA 환경 설계 시 선언형 프로비저닝(Terraform) 및 불변 인프라(Immutable Infrastructure) 체계 필수 적용.
 
 #### 한줄 요약
 
