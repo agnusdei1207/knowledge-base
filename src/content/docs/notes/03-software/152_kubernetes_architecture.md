@@ -21,8 +21,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 실제 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 오케스트레이션 구조.
-- **제어면(Control Plane)**: API 서버, etcd, 스케줄러, 컨트롤러 관리자로 구성되어 클러스터 전체의 뇌 역할을 담당하는 관리 서버.
+- **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 실제 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 오케스트레이션(Orchestration) 구조.
+- **제어면(Control Plane)**: API 서버, etcd, 스케줄러, 컨트롤러 관리자로 구성되어 클러스터 전체의 제어 기능을 담당하는 핵심 관리 서버.
 - **작업 노드(Worker Node)**: kubelet, kube-proxy, 컨테이너 런타임(containerd)으로 구성되어 실제 파드(Pod)를 실행하는 컴퓨팅 서버.
 
 </details>
@@ -38,7 +38,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Reconciliation Loop (조정 루프)**: `Desired State (목표 상태)`와 `Current State (현재 상태)`를 매초 비교하여 일치시키는 지속적 자가 치유 메커니즘.
+- **조정 루프(Reconciliation Loop)**: 클러스터의 '목표 상태(Desired State)'와 '현재 상태(Current State)'를 지속적으로 비교하고 격차를 해소하여 클러스터 상태를 동기화하는 자가 치유(Self-healing) 메커니즘.
 
 </details>
 
@@ -149,14 +149,5 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **K8s Architecture 수립 기준(Kubernetes Standards)**: Control Plane 3대 Multi-AZ, etcd Snapshot, kubelet System-Reserved 메모리 확보 및 EKS/GKE 관리형 서비스 도입성에 의거한 체계.
-
-</details>
-
-- **K8s 아키텍처 수립 기준**에 따라 전사 클러스터 구축 시 **Kubernetes 아키텍처 및 관리형 서비스(EKS/GKE)** 적용 필수.
-
-#### 한줄 요약
-
-- 관리 기능이 멈춰도 기존 파드는 잠시 동작할 수 있지만 새 배치와 복구는 중단되므로 요구 복구 시간에 맞춰 제어면과 노드를 각각 설계해야 한다.
+- **고가용성 제어면 및 분산 상태 관리 체계 준수**
+- **클러스터 워크로드 자가 치유 메커니즘 적용 필수**

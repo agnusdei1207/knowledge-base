@@ -21,9 +21,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **파드 생명주기(Pod Lifecycle)**: 파드의 생성(Pending)부터 실행(Running), 종료(Succeeded/Failed)까지의 상태 전이 단계와 상태 점검(Probe) 절차.
-- **프로브(Probe)**: kubelet이 파드 내 컨테이너의 생존 여부와 트래픽 서빙 준비 상태를 주기적으로 점검하는 3대 메커니즘(Liveness, Readiness, Startup).
-- **정상 종료(Graceful Termination)**: 파드 삭제 시 `preStop` 훅과 `SIGTERM` 신호를 통해 연결을 안전하게 정리(Drain) 후 종료하는 절차.
+- **파드 생명주기(Pod Lifecycle)**: 파드의 생성(Pending)부터 실행(Running), 종료(Succeeded/Failed/Unknown)까지의 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
+- **프로브(Probe)**: kubelet이 파드 내 컨테이너의 생존 여부와 트래픽 서빙 준비 상태를 주기적으로 확인하는 3대 메커니즘(Liveness, Readiness, Startup Probe).
+- **정상 종료(Graceful Termination)**: 파드 삭제 요청 시 `preStop` 훅과 `SIGTERM` 신호를 통해 기존 연결을 안전하게 정리(Drain)한 후 프로세스를 종료하는 절차.
 
 </details>
 
@@ -38,7 +38,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Liveness vs Readiness**: Liveness는 고장 시 컨테이너 재시작, Readiness는 미준비 시 Service 엔드포인트 트래픽 차단.
+- **생존 vs 준비 프로브(Liveness vs Readiness Probe)**: Liveness Probe는 고장 시 컨테이너를 재시작하여 정상 상태 회복, Readiness Probe는 미준비 상태 시 서비스 엔드포인트에서 제외하여 트래픽 유입 차단.
 
 </details>
 
@@ -147,14 +147,5 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Pod Lifecycle 수립 기준(Pod Lifecycle Standards)**: 3대 Probes(Startup/Liveness/Readiness), preStop sleep 15s 훅 및 Graceful Termination 30s에 의거한 체계.
-
-</details>
-
-- **파드 생명주기 수립 기준**에 따라 무중단 배포 구축 시 **3대 프로브 및 preStop 훅** 필수 적용.
-
-#### 한줄 요약
-
-- 느린 시작은 기다리고 내부 정지는 재시작하며 외부 의존 장애는 요청만 차단하는 기준으로 파드 생명주기를 설계해야 한다.
+- **파드 3대 프로브(Startup/Liveness/Readiness) 최적화 설정**
+- **정상 종료(Graceful Termination)를 위한 preStop 훅 및 셧다운 체계 적용 필수**
