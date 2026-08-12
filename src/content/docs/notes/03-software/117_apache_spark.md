@@ -20,183 +20,132 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Apache Spark 분산 처리 엔진**: 방향성 비순환 그래프(Directed Acyclic Graph, DAG)로 작업 의존성을 구성하고 파티션별 태스크를 메모리 중심으로 병렬 실행하는 엔진이다.
-- **방향성 비순환 그래프(Directed Acyclic Graph, DAG)**: 순환 없이 작업 의존성과 실행 순서를 표현한 그래프이다.
+- **Apache Spark**: 기존 MapReduce의 디스크 I/O 병목을 극복하기 위해 인메모리(In-Memory) 기반 RDD(Resilient Distributed Dataset) 및 DAG(Directed Acyclic Graph) 실행 엔진을 활용하여, 배치 및 스트리밍 연산을 최대 100배 빠르게 연산하는 2세대 분산 데이터 처리 엔진.
+- **RDD (Resilient Distributed Dataset)**: 장애 발생 시 계보(Lineage) 추적을 통해 메모리상에서 즉시 복원 가능한, 불변(Immutable) 분산 데이터 집합.
+- **DAG Engine (방향성 비순환 그래프)**: 연산 과정(Transformation)을 순과정이 없는 방향 그래프로 묶어 두었다가, 최적의 실행 경로(Stage)로 나누어 연산하는 최적화 엔진.
 
 </details>
 
-- 정의/개념: 연산을 **DAG**로 계획하는 **Apache Spark 분산 처리 엔진**이다.
-- 배경/필요성: MapReduce의 단계별 디스크 기록은 반복 분석마다 입출력 지연을 유발한다.
+- 정의/개념: 인메모리 RDD 및 DAG 연산 그래프 최적화를 통해 기존 MapReduce 대비 100배 빠른 초고속 분산 처리를 수행하는 2세대 빅데이터 컴퓨팅 엔진인 **Apache Spark**
+- 배경/필요성: 1세대 MapReduce의 단계별 디스크 Spill 및 네트워크 Shuffle I/O 병목 극복, 머신러닝 Iterative(반복) 연산 및 실시간 Stream 데이터 통합 연산 요구성
 
 #### 한줄 요약
+
 - 계산을 작업 그래프로 묶고 자주 쓰는 중간 자료를 재사용하는 엔진이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **DAG 스케줄링**: 셔플 경계를 기준으로 작업을 Stage와 Task로 나누어 실행하는 특성이다.
-- **지연 실행(Lazy Evaluation)**: 변환을 즉시 수행하지 않고 Action이 호출될 때 전체 실행 계획을 구성하는 방식이다.
-- **Catalyst**: 논리•물리 실행 계획을 규칙과 비용으로 최적화하는 기능이다.
-- **적응형 질의 실행(Adaptive Query Execution, AQE)**: 실행 통계로 조인•파티션 계획을 보정하는 기능이다.
+- **Lazy Evaluation (지연 연산)**: Action(예: `count()`, `collect()`) 구문이 호출되기 전까지는 실제 연산을 수행하지 않고 DAG 최적화 그래프만 축적하는 특성.
+- **Catalyst Optimizer**: SQL 및 DataFrame 연산을 논리적/물리적 계획(Logical/Physical Plan)으로 자동 튜닝해 주는 내부 쿼리 최적화 엔진.
 
 </details>
 
-- **지연 실행**: Action에서 계산 시작이다.
-- **DAG 스케줄링**: 셔플 경계로 Stage 분할한다.
-- **Catalyst**•**적응형 질의 실행**: 초기 계획과 실행 중 계획을 최적화한다.
+- **In-Memory Computing (RAM 중심의 RDD / DataFrame 연산)**
+- **Lazy Evaluation (Transformation 지연 연산 & Action 시점 최적화 실행)**
+- **Catalyst Optimizer & AQE (Adaptive Query Execution 동적 쿼리 최적화)**
 
 #### 한줄 요약
+
 - 반복 분석은 빠르지만 파티션 쏠림과 메모리 상태 등을 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Spark 4대 핵심 컴포넌트 & 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Driver**: 응용의 실행 계획과 Job을 구성하는 구성요소이다.
-- **구조화 질의 언어(Structured Query Language, SQL)**: 관계형 데이터의 정의•조작•분석 언어이다.
-- **SparkSession**: 데이터프레임과 SQL 처리 기능의 진입점이다.
-- **Scheduler**: Job을 Stage와 Task로 나누는 구성요소이다.
-- **Cluster Manager**: 실행 자원을 Executor에 할당하는 구성요소이다.
-- **Executor**: 태스크와 캐시 및 셔플 연산을 실행하는 프로세스이다.
-- **Partition**: 하나의 Task가 처리하는 분산 데이터 조각이다.
-- **Checkpoint**: 스트림 진행 위치와 상태를 영속화한 복구 지점이다.
-- **State Store**: 스트림의 키별 상태를 저장하는 구성요소이다.
+- **Driver vs Executor**: Driver는 main() 함수를 실행하며 DAG 맵을 짜고 Task를 배정하는 마스터, Executor는 각 노드 메모리상에서 Task를 실행하고 결과를 리턴하는 일꾼.
 
 </details>
 
 ```text
-[Driver•SparkSession]
-    |
-    +-- [Catalyst•AQE]
-    |
-    +-- [Scheduler•Cluster Manager]
-            |
-            +-- [Executor•Partition]
-                    |
-                    +-- [Checkpoint•State Store]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Apache Spark Architecture                       │
+├────────────────────────────────────────────────────────────────────────┤
+│ [Driver Program (SparkSession / Catalyst Optimizer / DAG Scheduler)]   │
+│                                │ (Task Dispatch)                       │
+│        ┌───────────────────────┼───────────────────────┐               │
+│        ▼                       ▼                       ▼               │
+│  [Executor Node 1]      [Executor Node 2]      [Executor Node 3]       │
+│  (RAM RDD Task 1, 2)    (RAM RDD Task 3, 4)    (RAM RDD Task 5, 6)     │
+├────────────────────────────────────────────────────────────────────────┤
+│ Spark Ecosystem: Spark SQL | Spark Streaming | MLlib | GraphX          │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: Driver•SparkSession은 계획 최적화 계층인 Catalyst•AQE와 실행 자원 계층인 Scheduler•Cluster Manager에 결합되고, Executor•Partition 아래에는 상태 복구를 위한 Checkpoint•State Store가 놓이는 정적 구조를 뜻한다.
+선의 의미: Driver가 Catalyst 및 DAG 스케줄러를 통해 연산을 최적화하고, Cluster Manager를 거쳐 각 Executor 노드의 RAM 파티션으로 Task를 분산 전파하는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Driver•SparkSession | **Driver**•**SparkSession**이 계획•Job 조정 |
-| Catalyst•AQE | **Catalyst**•**적응형 질의 실행**이 계획 보정 |
-| Scheduler•Cluster Manager | **Scheduler**•**Cluster Manager**가 자원 할당 |
-| Executor•Partition | **Executor**•**Partition**이 태스크 실행 |
-| Checkpoint•State Store | **Checkpoint**•**State Store**로 상태 복구 |
+| 구성요소 (Component) | 역할 및 주요 메커니즘 | 실무 튜닝 포인트 |
+|:---|:---|:---|
+| **Driver Program** | **main() 실행, SparkSession 생성, DAG 그래프 최적화** | Driver Memory 부족 시 OOM 장애 발생 |
+| **Executor** | **분산 노드 RAM 상에서 Task 실행 및 RDD 블록 저장** | Executor Cores & Memory 사양 배정 |
+| **RDD / DataFrame** | **불변 분산 데이터 구조 (Lineage 계보 정보 보존)** | `.cache()` / `.persist()` 인메모리 튜닝 |
+| **AQE Engine** | **실행 중 동적으로 Join 방식(Broadcast) 변경 및 파티션 병합** | `spark.sql.adaptive.enabled=true` |
 
 #### 한줄 요약
 
 - 계획자, 최적화 담당자, 작업 배정자, 실행자, 복구 저장소로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Catalyst Optimizer 4단계 연산 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Catalyst 초기 계획**: 지연 연산을 최적화한 실행 그래프로 만드는 단계이다.
-- **DAG•Stage 구성**: 셔플 경계를 기준으로 실행 단계를 나누는 단계이다.
-- **파티션 Task 실행**: Executor가 파티션 단위 작업을 수행하는 단계이다.
-- **실행 통계 수집**: 실제 행 수와 셔플량을 모으는 단계이다.
-- **AQE 계획 보정**: 통계로 조인 방식과 파티션 수를 다시 고르는 단계이다.
+- **BroadCast Hash Join**: 대용량 테이블과 소용량 테이블 조인 시, 소용량 테이블을 모든 Executor 메모리에 복제(Broadcast)하여 Shuffle I/O 0회로 조인하는 기법.
 
 </details>
 
 ```text
-변환•Action 제출
-        |
-        v
-1. Catalyst 초기 계획
-        |
-        v
-2. DAG•Stage 구성
-        |
-        v
-3. 파티션 Task 실행
-        |
-        v
-4. 실행 통계 수집
-        |
-        v
-5. AQE 계획 보정
-        |
-        +-- 남은 Stage --> 2. DAG•Stage 재구성
-        |
-        +-- 작업 완료 --> 결과 반환
+[Unresolved Logical Plan] ──► [Analysis (Catalog)] ──► [Logical Optimization (Rule-based)]
+                                                                │
+                                                                ▼
+[Physical Plan (Cost-based)] ◄── [Code Generation] ◄── [Physical Planning]
 ```
 
 ### 동작 원리
 
-- **1. Catalyst 초기 계획**: **Catalyst 초기 계획**으로 지연 연산의 실행 그래프를 최적화한다.
-- **2. DAG•Stage 구성**: **DAG•Stage 구성**으로 셔플 경계별 단계를 생성한다.
-- **3. 파티션 Task 실행**: **파티션 Task 실행**으로 Executor에 작업을 배치한다.
-- **4. 실행 통계 수집**: **실행 통계 수집**으로 실제 행 수•셔플량을 관측한다.
-- **5. AQE 계획 보정**: **AQE 계획 보정**으로 조인 방식•파티션 수를 재선택한다.
+1. **Analysis**: SQL/DataFrame 구문을 내장 카탈로그와 대조하여 컬럼 및 타입 검증.
+2. **Logical Optimization**: 조건절 푸시다운(Filter Pushdown), 불필요 컬럼 제거(Pruning) 수행.
+3. **Physical Planning**: CBO 기반으로 Broadcast Hash Join 대 Sort Merge Join 등 최적 물리 연산 선택 후 코드로 컴파일 실행.
 
 #### 한줄 요약
 
 - 계산표를 먼저 최적화하고 셔플 경계로 나눠 여러 실행자에게 맡긴 뒤 실제 크기로 계획을 보정한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Transformation 대 Action)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **응용 프로그램 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능을 호출하는 접점이다.
-- **데이터프레임 API(DataFrame API)**: 스키마가 있는 분산 데이터를 표 형태 연산으로 다루는 접점이다.
-- **Structured Streaming**: DataFrame API로 연속 입력을 증분 처리하고 상태를 관리하는 방식이다.
-- **Spark Batch**: DAG와 캐시로 반복•복합 일괄 분석을 처리하는 방식이다.
-- **SQL 처리**: SQL로 구조화된 분산 데이터를 분석하는 방식이다.
-- **Hadoop MapReduce**: 파일 기반 Map•Shuffle•Reduce 단계를 디스크에 기록하며 대형 단순 배치를 처리하는 엔진이다.
-- **입출력(Input/Output, I/O)**: 디스크나 네트워크에서 데이터를 읽고 쓰는 연산이다.
+- **Transformation vs Action**: Transformation(`map`, `filter`, `groupBy`)은 지연 연산으로 DAG 구성, Action(`select`, `collect`, `save`)은 연산 즉시 실행.
 
 </details>
 
-| Spark 처리 방식 | Spark Batch•SQL | Structured Streaming | Hadoop MapReduce |
-|:---|:---|:---|:---|
-| 적용 기준 | 반복•복합 배치 | 연속 증분 처리 | 대형 단순 배치 |
-| 핵심 특징 | **Spark Batch**•**SQL 처리** | **Structured Streaming**•**데이터프레임 API** | **Hadoop MapReduce** |
-| 한계 | 메모리•셔플•편향 | 상태•늦은 이벤트 | 디스크 **입출력**•시작 지연 |
+| 연산 분류 (Operation) | 주요 메소드 종류 | 실행 특성 및 메커니즘 |
+|:---|:---|:---|
+| **Narrow Transformation** | **`map()`, `filter()`, `flatMap()`** | **1:1 파티션 맵핑 (Shuffle 없음, 초고속)** |
+| **Wide Transformation** | **`groupBy()`, `join()`, `distinct()`** | **N:M 파티션 맵핑 (Shuffle 디스크/네트워크 I/O 발생)** |
+| **Action** | **`collect()`, `count()`, `saveAsTextFile()`** | **DAG 지연 연산을 확정 짓고 실제 Executor 가동** |
 
 #### 한줄 요약
 
 - Spark는 계산 그래프를 이어 실행하고 필요한 중간 자료만 캐시해 반복 작업을 줄인다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Spark OOM & Shuffle 병목 해결)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **입력량 기반 파티션 조정**: 파티션 크기를 데이터 양에 맞추는 활동이다.
-- **코어 기반 파티션 조정**: 병렬 자원 수에 맞춰 파티션 수를 정하는 활동이다.
-- **셔플량 기반 파티션 조정**: 네트워크 이동량에 맞춰 파티션 수를 정하는 활동이다.
-- **키 분할**: 편향 키를 보조 키로 나눠 여러 파티션에 배치하는 통제이다.
-- **사전 집계**: 셔플 전에 같은 키의 값을 부분 집계하는 통제이다.
-- **재사용 비용**: 캐시 데이터가 반복 연산을 줄이는 이익이다.
-- **재계산 비용**: 캐시 없이 계보를 따라 결과를 다시 만드는 비용이다.
-- **필터 설계**: 조인 전에 불필요한 행과 열을 제거하는 방식이다.
-- **브로드캐스트 설계**: 작은 입력을 실행 노드마다 복제하는 조인 방식이다.
-- **분할 설계**: 큰 입력의 키 배치를 맞춰 셔플을 줄이는 방식이다.
-- **워터마크(Watermark)**: 늦은 이벤트를 허용할 시간 경계이다.
-- **키 유효 시간(Time To Live, TTL)**: 키별 상태를 유지한 뒤 만료할 기간이다.
-- **상태 지표**: State Store의 크기와 처리량을 나타내는 관측값이다.
+- **Data Skew Salting**: 특정 Key에 파티션 데이터가 몰려 Executor OOM 발생 시, Key 뒤에 임의 숫자(Salting)를 붙여 균등 수평 분산시키는 튜닝 기법.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 실무 장애 및 병목 | 발생 원인 | 해결 대책 및 튜닝 파라미터 |
 |:---|:---|:---|
-| 파티션 수가 코어•입력량과 불균형 | **입력량 기반 파티션 조정**•**코어 기반 파티션 조정**•**셔플량 기반 파티션 조정** | 유휴•스케줄 비용 감소 |
-| 일부 키에 조인•집계 레코드 집중 | **AQE**•**키 분할**•**사전 집계** | 느린 Task 완화 |
-| 재사용 없는 데이터가 메모리 점유 | **재사용 비용**•**재계산 비용**으로 캐시 결정 | 메모리 압박 방지 |
-| 대형 조인으로 네트워크•디스크 포화 | **필터 설계**•**브로드캐스트 설계**•**분할 설계** | 셔플 부하 감소 |
-| 워터마크 없이 키별 상태 누적 | **워터마크**•**키 유효 시간**•**상태 지표** | 상태 무한 증가 방지 |
+| Driver OOM (Out Of Memory) | `collect()` 호출로 거대 데이터가 Driver 몰림 | **`collect()` 사용 금지, `take()` 또는 파일 저장** |
+| Executor Data Skew OOM | 특정 Key 파티션 데이터 폭발 | **Salting 적용 및 Broadcast Hash Join 전환** |
+| Garbage Collection (GC) 지연 | RDD 객체 생성 과다로 Java GC 병목 | **Kryo Serializer 적용 및 DataFrame API 전환** |
+
+> 사례: **카카오 / 당근마켓 EMR Spark Cluster & Databricks Lakehouse 빅데이터 분석**
 
 #### 한줄 요약
 
@@ -204,15 +153,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Spark 처리 방식 선택 기준**: 반복•복합 배치와 연속 증분 처리의 상태•지연 요구를 비교하는 기준이다.
+- **Spark 아키텍처 수립 기준(Apache Spark Standards)**: In-Memory RDD 튜닝, Catalyst/AQE 최적화, Data Skew Salting 및 Structured Streaming 수용성에 의거한 체계.
 
 </details>
 
-- **Spark 처리 방식 선택 기준**에 따라 반복 배치는 **Spark Batch**, 연속 증분 처리는 **Structured Streaming**을 선택한다.
+- **Spark 아키텍처 수립 기준**에 따라 빅데이터 2세대 분석/ML 시스템 구축 시 **Apache Spark & AQE & Delta Lake** 필수 수용
 
 #### 한줄 요약
 
-- **Spark 처리 방식 선택 기준**은 파티션•셔플•상태의 실제 실행량을 함께 확인한다.
+- Spark 처리 방식 선택 기준은 파티션•셔플•상태의 실제 실행량을 함께 확인한다.
