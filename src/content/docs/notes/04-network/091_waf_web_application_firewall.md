@@ -21,15 +21,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **웹 애플리케이션 방화벽(WAF, Web Application Firewall)**: HTTP/HTTPS 페이로드와 문맥을 심층 분석하여 SQL Injection, XSS 등 L7 응용 계층 공격을 탐지 및 차단하는 웹 전용 보안 시스템이다.
-- **하이퍼텍스트 전송 프로토콜(HTTP, Hypertext Transfer Protocol)**: 웹 클라이언트와 서버 간 데이터(URL, Header, Body)를 교환하는 L7 응용 계층 프로토콜이다.
-- **응용 계층 보안 통제(Application Layer Security Control)**: IP/Port 중심 통제를 넘어 HTTP 요청/응답 페이로드의 악성 입력값을 심층 검사하는 보안 메커니즘이다.
-- **응용 입력•업무 공격 미식별(Unidentified Application Input & Business Attack)**: L3/L4 방화벽이 허용 포트(80/443) 내부에 은닉된 L7 악성 페이로드를 식별하지 못하는 한계점이다.
+- **웹 애플리케이션 방화벽(WAF, Web Application Firewall)**: HTTP/HTTPS 페이로드와 문맥을 심층 분석하여 SQL Injection, XSS 등 L7 응용 계층 공격을 탐지/차단하는 웹 전용 보안 시스템.
+- **하이퍼텍스트 전송 프로토콜(HTTP, Hypertext Transfer Protocol)**: 웹 클라이언트-서버 간 데이터(URL, Header, Body)를 교환하는 L7 응용 계층 표준 프로토콜.
+- **응용 계층 보안 통제(Application Layer Security Control)**: IP/Port 중심 통제를 넘어 HTTP 요청/응답 페이로드의 악성 입력값을 심층 검사하는 보안 메커니즘.
+- **응용 입력/업무 공격 미식별(Unidentified Application Input & Business Attack)**: L3/L4 방화벽이 허용 포트(80/443) 내 은닉된 L7 악성 페이로드를 식별하지 못하는 한계점.
 
 </details>
 
-- 정의/개념: HTTP/HTTPS 문맥 심층 분석으로 웹 공격을 차단하는 **응용 계층 보안 통제**.
-- 배경/필요성: L3/L4 방화벽의 **응용 입력•업무 공격 미식별** 한계 극복 및 L7 웹 취약점 방어 시급.
+- 정의/개념: HTTP/HTTPS 문맥 심층 분석으로 웹 공격을 차단하는 **응용 계층 보안 통제(Application Layer Security Control)**.
+- 배경/필요성: L3/L4 방화벽의 **응용 입력/업무 공격 미식별(Unidentified Application Input & Business Attack)** 한계 극복 및 L7 웹 취약점 방어 시급.
 
 #### 한줄 요약
 
@@ -39,16 +39,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **정규화(Normalization)**: URL 인코딩, Base64 등 다중 인코딩된 난독화 입력을 표준 디코딩 형태로 변환하여 탐지 우회를 차단하는 기술이다.
-- **공격 서명(Attack Signature)**: 알려진 웹 공격 패턴 및 규칙 기반의 식별 문자열 집합이다.
-- **가상 패치(Virtual Patch)**: 소스코드 직접 수정 전 WAF 차단 규칙 등록을 통해 제로데이 취약점 악용 요청을 즉시 1차 방어하는 기술이다.
-- **HTTP 문맥 분석(HTTP Context Analysis)**: URL, Header, Body 간 연관관계를 종합 해석하여 정상 동작 여부를 판별하는 심층 검사 기법이다.
+- **정규화(Normalization)**: URL 인코딩, Base64 등 다중 인코딩된 난독화 입력을 표준 디코딩 형태로 변환하여 탐지 우회를 차단하는 기술.
+- **공격 서명(Attack Signature)**: 알려진 웹 공격 패턴 및 규칙 기반의 식별 문자열 집합.
+- **가상 패치(Virtual Patch)**: 소스코드 수정 전 WAF 차단 규칙 등록을 통해 제로데이 취약점 악용 요청을 즉시 1차 방어하는 기술.
+- **HTTP 문맥 분석(HTTP Context Analysis)**: URL, Header, Body 간 연관관계를 종합 해석하여 정상 동작 여부를 판별하는 심층 검사 기법.
 
 </details>
 
-- **HTTP 문맥 분석**: URL, Header, Body 전반의 **공격 서명** 및 비정상 행위 식별.
-- **정규화**: URL 인코딩 등 우회 공격 기법 무력화.
-- **가상 패치**: 소스코드 수정 전 신규 취약점 즉시 임시 차단.
+- **HTTP 문맥 분석**: URL, Header, Body 전반의 **공격 서명(Attack Signature)** 및 비정상 행위 심층 식별.
+- **정규화(Normalization)**: URL 인코딩 등 우회 공격 기법 무력화 및 표준화.
+- **가상 패치(Virtual Patch)**: 소스코드 수정 전 신규 취약점 즉시 임시 차단 및 대응.
 
 #### 한줄 요약
 
@@ -70,24 +70,24 @@ extra:
 
 ```text
 WAF
-├─ TLS 종단기
+├─ 전송 계층 보안 종단기
 ├─ HTTP 해석•정규화기
-├─ WAF 정책 엔진
+├─ 정책 엔진
 ├─ 원본 웹 서버
 └─ 관측•튜닝기
 ```
 
-선의 의미: TLS 종단, HTTP 정규화, WAF 정책 엔진이 원본 웹 서버 전단에서 보안 경계를 형성하고 관측•튜닝기가 정책 품질을 지속 관리하는 구조이다.
+선의 의미: TLS 종단, HTTP 정규화, 정책 엔진이 원본 웹 서버 전단에서 보안 경계를 형성하고 관측•튜닝기가 정책 품질을 지속 관리하는 구조.
 
 WAF는 **역방향 대리자** 방식으로 배치되어 외부 요청을 선제 검사한다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| TLS 종단기 | SSL/TLS 암호 세션 종단 및 HTTP 복호화 수행 |
-| HTTP 해석•정규화기 | URL, Header, Body 파싱 및 인코딩 정규화 |
-| WAF 정책 엔진 | 서명, 행위, 임계치(Rate Limit) 기반 탐지 규칙 판정 |
-| 원본 웹 서버 | WAF 검증 필터링을 통과한 허용 요청만 처리 |
-| 관측•튜닝기 | 오탐/미탐 모니터링 및 탐지 규칙 주기적 최적화 |
+| 전송 계층 보안 종단기(TLS Terminal) | SSL/TLS 암호 세션 종단 및 HTTP 복호화 수행 |
+| HTTP 해석•정규화기(Parser) | URL, Header, Body 파싱 및 인코딩 정규화 |
+| WAF 정책 엔진(Policy Engine) | 서명, 행위, 임계치(Rate Limit) 기반 탐지 규칙 판정 |
+| 원본 웹 서버(Origin Server) | WAF 검증 필터링을 통과한 허용 요청 처리 |
+| 관측•튜닝기(Tuning Engine) | 오탐/미탐 모니터링 및 탐지 규칙 주기적 최적화 |
 
 #### 한줄 요약
 
@@ -112,12 +112,15 @@ HTTPS 요청
 1. TLS 요청 복호화
       │
       ▼
-2. HTTP 요청 정규화
+1. TLS 요청 복호화 (TLS Decryption)
       │
       ▼
-3. 공격 문맥 판정
+2. HTTP 요청 정규화 (Normalization)
+      │
+      ▼
+3. 공격 문맥 판정 (Context Decision)
       ├─ 공격: 차단 및 로그 기록
-      └─ 정상: 4. 허용 요청 중계
+      └─ 정상: 4. 허용 요청 중계 (Proxying)
                          │
                          ▼
                     HTTP 응답 반환
@@ -125,10 +128,10 @@ HTTPS 요청
 
 ### 동작 원리
 
-1. **TLS 요청 복호화**: HTTPS 세션 종단 후 복호화하여 평문 HTTP 데이터 추출.
-2. **HTTP 요청 정규화**: 인코딩 난독화 문자를 표준 규격으로 일관 변환.
-3. **공격 문맥 판정**: 규칙 모음 및 행위 기반 판정 수행 (공격 시 차단 및 로그 기록).
-4. **허용 요청 중계**: 검증 완료된 트래픽을 내부 원본 서버에 전송.
+1. **TLS 요청 복호화(TLS Decryption)**: HTTPS 세션 종단 후 복호화하여 평문 HTTP 데이터 추출.
+2. **HTTP 요청 정규화(Normalization)**: 인코딩 난독화 문자를 표준 규격으로 일관 변환.
+3. **공격 문맥 판정(Context Decision)**: 규칙 및 행위 기반 판정 수행 (공격 시 차단 및 로그 기록).
+4. **허용 요청 중계(Proxying)**: 검증 완료된 트래픽을 내부 원본 서버에 전송.
 
 #### 한줄 요약
 
@@ -149,7 +152,7 @@ HTTPS 요청
 | **네트워크 방화벽** | IP 주소, Port, TCP 상태 | L3/L4 네트워크 접근 통제, 허용 포트 내 L7 웹 공격 통과 |
 | **응용 코드 검증** | 입력 매개변수, 세션/권한, 업무 로직 | 비즈니스 고유 통제 수행, 개발자 숙련도에 따른 구현 누락 발생 |
 
-> 요약: L3/L4 경계 방화벽, L7 WAF, 시큐어 코딩의 다층 심층 방어 체계 구축이 필수적이다.
+> 요약: L3/L4 경계 방화벽, L7 WAF, 시큐어 코딩의 다층 심층 방어 체계 구축.
 
 #### 한줄 요약
 
@@ -166,8 +169,8 @@ HTTPS 요청
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 신규 취약점 패치 지연 | 악용 패턴 분석 기반 **가상 패치** 긴급 적용 | 소스코드 수정 전 제로데이/1-Day 공격 선제 차단 |
-| 정상 트래픽 **오탐** 발생 | 탐지 모드(Bypass/Audit) 및 예외 규칙 **관측•튜닝** | 업무 서비스 중단 예방 및 차단 정책 정교화 |
+| 신규 취약점 패치 지연 | 악용 패턴 분석 기반 **가상 패치(Virtual Patch)** 긴급 적용 | 소스코드 수정 전 제로데이/1-Day 공격 선제 차단 |
+| 정상 트래픽 **오탐(False Positive)** 발생 | 탐지 모드(Bypass/Audit) 및 예외 규칙 **관측/튜닝(Tuning)** | 업무 서비스 중단 예방 및 차단 정책 정교화 |
 | TLS 복호화 처리 병목 | SSL Offloading 전용 장비 적용 및 세션 재사용 | WAF 부하 분산 및 웹 서비스 응답 지연 최소화 |
 
 #### 한줄 요약
