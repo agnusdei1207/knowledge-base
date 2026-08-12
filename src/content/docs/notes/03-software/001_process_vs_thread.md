@@ -19,19 +19,18 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어 (Key Terminology)</summary>
 
-- **프로세스(Process)**: OS로부터 독립된 가상 주소 공간(Code, Data, Heap, Stack)과 PCB, 시스템 자원을 할당받아 실행되는 독립 단위.
-- **스레드(Thread)**: 프로세스 내부에서 주소 공간(Code, Data, Heap)과 자원을 공유하며, 독자적인 Stack 및 TCB를 갖고 실행되는 CPU 스케줄링의 기본 단위.
+- **프로세스(Process)**: 커널로부터 고유의 가상 주소 공간(Code, Data, Heap, Stack)과 PCB, 자원을 할당받아 실행되는 독립적인 자원 보호 및 실행 단위.
+- **스레드(Thread)**: 프로세스 내부에서 주소 공간을 공유하며, 독자적인 Stack 및 TCB를 갖고 CPU 스케줄링의 최소 단위로 실행되는 제어 흐름.
 
 </details>
 
-- 정의/개념: 독립된 가상 메모리 주소 공간 및 자원 보호 컨테이너를 갖는 **프로세스** 및 자원 공유 기반 경량 CPU 스케줄링 실행 단위인 **스레드**
-- 배경/필요성: 프로세스 간 독자 메모리 격리를 통한 안전성 확보 및 스레드 간 낮은 문맥 전환(Context Switch) 오버헤드를 통한 고성능 병렬성 달성 요구
+- 정의: 독립된 가상 주소 공간과 자원 보호 컨테이너를 갖는 프로세스 및 자원 공유 기반 경량 CPU 스케줄링 실행 단위인 스레드
+- 배경: 메모리 격리를 통한 안전성 확보 및 낮은 문맥 전환(Context Switching) 오버헤드를 통한 고성능 병렬성 달성
 
 #### 한줄 요약
-
-- 장애 격리와 상태 공유 빈도에 따라 프로세스 또는 스레드를 선택한다.
+- 장애 격리와 상태 공유 빈도에 따른 프로세스 또는 스레드 선택 전략.
 
 ## Ⅱ. 특징
 
@@ -175,5 +174,4 @@ extra:
 - **실행 단위 선택 기준**에 따라 완전 격리 및 안전성은 **프로세스**, 초고속 데이터 통신 및 병동 처리는 **스레드** 채택
 
 #### 한줄 요약
-
-- Fault Tolerance & Privilege Boundary에는 Process isolation, Intra-process Parallelism & In-Memory State Exchange에는 Thread concurrency 모델을 적용한다.
+- 결함 격리와 자원 공유 우선순위에 따른 최적 실행 단위 체계 적용.

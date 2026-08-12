@@ -21,15 +21,15 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **매체 접근 제어 주소(Media Access Control Address, MAC Address)**: 데이터링크 계층(L2)의 이더넷 프레임 통신에서 각 네트워크 인터페이스 카드(NIC)를 고유하게 식별하기 위해 부여된 48비트(6바이트) 물리적 하드웨어 주소.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 계층(L3)에서 종단 간 패킷 라우팅을 위해 할당되는 32비트(IPv4) 또는 128비트(IPv6) 논리적 주소.
+- **MAC 주소(MAC Address)**: L2 이더넷 프레임 통신에서 NIC를 식별하기 위해 부여된 48비트 물리적 주소.
+- **IP 주소(IP Address)**: L3에서 종단 간 패킷 라우팅을 위해 할당되는 논리적 주소.
 
 </details>
 
-- 정의/개념: 동일 데이터 링크(Broadcast Domain) 내에서 장치 간 프레임 송수신을 위한 48비트 하드웨어 식별자인 **매체 접근 제어 주소(Media Access Control Address, MAC Address)**.
-- 배경/필요성: L3 **인터넷 프로토콜(Internet Protocol, IP)** 주소만으로는 물리적 매체 상의 인접 노드에 프레임을 직접 전송할 수 없으므로, L2 스위칭 및 프레임 전달을 위한 전용 하드웨어 물리 주소 체계 구축이 필수적임.
+- 정의: 동일 데이터 링크 내 프레임 송수신을 위한 48비트 하드웨어 식별자(MAC Address).
+- 배경: L3 IP 주소만으로 물리 매체 상의 인접 노드 전송 불가, L2 스위칭용 물리 주소 체계 필요.
 
 #### 한줄 요약
 
@@ -38,11 +38,11 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>핵심 용어(Key Terms)</summary>
 
-- **옥텟(Octet)**: 8개의 비트로 구성된 1바이트 크기의 기본 2진 데이터 단위.
-- **개별/그룹 비트(Individual/Group Bit, I/G Bit)**: MAC 주소 첫 번째 옥텟의 최하위 비트(LSB)로, 단일 대상 전송(Unicast, 0)과 그룹 대상 전송(Multicast/Broadcast, 1)을 구별하는 제어 비트.
-- **전역/로컬 비트(Universal/Local Bit, U/L Bit)**: MAC 주소 첫 번째 옥텟의 하위 두 번째 비트로, IEEE 전역 할당 주소(UAA, 0)와 소프트웨어 로컬 지정 주소(LAA, 1)를 구별하는 제어 비트.
+- **옥텟(Octet)**: 8비트 데이터 단위.
+- **I/G Bit(Individual/Group Bit)**: MAC 주소 첫 번째 옥텟의 LSB로, 유니캐스트(0)와 멀티/브로드캐스트(1)를 구별하는 제어 비트.
+- **U/L Bit(Universal/Local Bit)**: 첫 번째 옥텟의 하위 두 번째 비트로, 전역 할당 주소(UAA, 0)와 로컬 지정 주소(LAA, 1)를 구별하는 제어 비트.
 
 </details>
 
