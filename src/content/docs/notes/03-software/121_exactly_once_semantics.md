@@ -22,25 +22,25 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **EOS (Exactly-Once Semantics / 정확히 한 번 처리)**: 메시징/스트리밍 시스템에서 네트워크 재시도, 시스템 다운, 컨슈머 장애가 발생하더라도 메시지 유실(Zero Loss)과 메시지 중복(Zero Duplication)을 동시에 100% 방지하여, 최종 결과 시스템에 단 1번만 계산 결과가 반영되는 최고 등급 데이터 처리 보장 보증.
-- **At-Least-Once (최소 한 번 처리)**: 메시지 유실은 없으나 수신 재시도로 인한 데이터 중복이 발생할 수 있는 보장 레벨.
+- **EOS (Exactly-Once Semantics / 정확히 한 번 처리)**: 메시징/스트리밍 시스템에서 네트워크 재시도, 시스템 다운 등 장애 상황에서도 메시지 유실(Zero Loss)과 메시지 중복(Zero Duplication)을 방지하여 최종 목적지에 단 1회만 계산 결과가 반영되도록 보장하는 고신뢰 데이터 처리 메커니즘.
+- **At-Least-Once (최소 한 번 처리)**: 메시지 유실은 없으나 수신 재시도로 인해 데이터 중복이 발생할 수 있는 보장 레벨.
 - **At-Most-Once (최대 한 번 처리)**: 메시지 중복은 없으나 네트워크 장애 시 데이터 유실이 발생할 수 있는 보장 레벨.
 
 </details>
 
-- 정의/개념: 시스템 분산 장애 및 재시도(Retry) 속에서도 데이터 유실과 데이터 중복을 100% 차단하여 최종 타깃 시스템에 단 한 번(Exactly-Once)만 비즈니스 결과를 렌더링하는 최고 등급 메시징 처리 보장 메커니즘인 **EOS**
-- 배경/필요성: 금융 이체, 결제 승인, 실시간 계산기 등 1건의 중복이나 유실도 허용되지 않는 미션 크리티컬 도메인의 데이터 무결성 보장 요구성
+- 정의/개념: 분산 환경의 장애 및 재시도(Retry) 과정에서 데이터 유실과 중복을 차단하여 최종 타깃에 단 한 번(Exactly-Once)만 비즈니스 결과가 반영되도록 하는 최고 등급 메시징 처리 보장 메커니즘.
+- 배경/필요성: 금융 이체, 결제 승인 등 데이터 무결성과 정합성이 필수적인 미션 크리티컬 도메인의 요구사항 충족.
 
 #### 한줄 요약
 
-- 이벤트를 다시 읽더라도 장부에는 한 번 반영된 효과를 만듦이 핵심이다.
+- 장애 발생 시 재처리해도 타깃 시스템에 결과가 중복 반영되지 않도록 관리하는 원칙.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **Idempotency (멱등성)**: 동일한 연산을 N번 반복 수행하더라도 최종 결과 상태가 1번 수행한 결과와 완전히 동일하게 유지되는 성질.
-- **Two-Phase Commit (2PC) Sink**: 스트림 처리 엔진과 타깃 저장소(DB, Kafka) 간에 2단계 커밋을 적용하여 비동기 커밋 원자성 달성.
+- **Idempotency (멱등성)**: 동일 연산을 반복 수행해도 최종 상태가 1번 수행한 결과와 동일하게 유지되는 성질.
+- **2PC (Two-Phase Commit / 2단계 커밋)**: 스트림 처리 엔진과 타깃 저장소 간 트랜잭션을 준비(Prepare)와 커밋(Commit) 단계로 나누어 원자성을 보장하는 분산 트랜잭션 프로토콜.
 
 </details>
 
@@ -50,7 +50,7 @@ extra:
 
 #### 한줄 요약
 
-- 정확히 한 번은 내부 함수 호출 횟수가 아니라 재시도 뒤 최종 장부에 남는 논리적 효과가 한 번임을 뜻하는 것이 핵심이다.
+- 재시도 시에도 데이터 처리의 최종 장부상 반영 횟수가 단 1회임을 보장하는 논리적 정합성 원칙.
 
 ## Ⅲ. 구조 및 구성요소 (End-to-End EOS 3대 통합 레벨)
 
@@ -65,8 +65,7 @@ extra:
 │                   End-to-End Exactly-Once Semantics (EOS)              │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [1. Replayable Source]  ──► [2. Stateful Engine]  ──► [3. Transactional Sink]
-│ (Kafka Partition Offset)     (Flink/Spark Checkpoint) (Two-Phase Commit 2PC)
-│ (재생 가능 소스)             (상태 스냅샷)            (원자적 출력 확정)
+│ (카프카 파티션 오프셋)     (플링크/스파크 스냅샷) (2단계 커밋 확정)
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -74,13 +73,13 @@ extra:
 
 | EOS 구현 영역 | 필수 전제 조건 및 기술 메커니즘 | 미충족 시 발생하는 위험 요소 |
 |:---|:---|:---|
-| **1. Replayable Source** | **과거 특정 Offset으로 되돌아가 재시작 가능 (Kafka)** | 파티션 데이터 소멸 시 유실 발생 |
-| **2. Stateful Engine** | **Chandy-Lamport 알고리즘 기반 Checkpoint 스냅샷**| 엔진 다운 시 연산 상태 파행 |
-| **3. Transactional / Idempotent Sink**| **2PC (Two-Phase Commit) 또는 Idempotency Key 적용**| 타깃 DB에 중복 인서트 렌더링 |
+| **1. 재생 가능 소스 (Replayable Source)** | **과거 특정 오프셋 재시작 가능 (카프카)** | 파티션 데이터 소멸 시 유실 발생 |
+| **2. 상태 유지 엔진 (Stateful Engine)** | **Chandy-Lamport 알고리즘 기반 스냅샷**| 엔진 장애 시 연산 상태 파행 |
+| **3. 트랜잭션/멱등 출력 (Transactional Sink)**| **2단계 커밋(2PC) 또는 멱등 식별자 적용**| 타깃 DB에 중복 반영 |
 
 #### 한줄 요약
 
-- 재생 원본, 계산 상태, 복구 사진, 확정 관리자, 중복 방지 장부로 구성된다.
+- 재생 가능한 원본, 엔진 상태 스냅샷, 분산 트랜잭션 확정 관리자로 구성.
 
 ## Ⅳ. 흐름도 (Kafka & Flink 2PC 기반 End-to-End EOS 흐름)
 
@@ -91,27 +90,27 @@ extra:
 </details>
 
 ```text
-[Source Read] ──► [Pre-Commit Phase: Target DB에 임시 Transaction 열고 Write]
-                           │
-                           ▼ (Engine Checkpoint Barrier 도달 성공 시)
-                  [Commit Phase: Target DB 임시 Transaction 최종 Commit!]
+[소스 읽기] ──► [준비 단계: 타깃 DB에 임시 트랜잭션 열고 쓰기]
+                            │
+                            ▼ (엔진 스냅샷 성공 시)
+                   [확정 단계: 타깃 DB 임시 트랜잭션 최종 커밋!]
 ```
 
 ### 동작 원리
 
-1. **Pre-Commit Phase**: Flink가 Sink DB에 트랜잭션을 열고 데이터를 렌더링하되 아직 Commit하지 않음 (Uncommitted 상태).
-2. **Checkpoint Barrier**: Engine의 모든 Checkpoint 저장이 무사히 성공.
-3. **Commit Phase**: Flink가 Sink DB에 `commit()` 신호를 전파하여 타깃 DB에 데이터를 단 1번 최종 커밋 확정 (**End-to-End EOS 완결**).
+1. **준비 단계(Pre-Commit)**: Sink DB에 트랜잭션을 열고 데이터를 쓰되 확정하지 않음(미커밋 상태).
+2. **스냅샷 장벽(Checkpoint Barrier)**: 엔진 상태 저장이 성공.
+3. **확정 단계(Commit)**: `commit()` 신호를 전파하여 타깃 DB에 데이터를 단 1회 확정.
 
 #### 한줄 요약
 
-- 읽던 위치와 계산 상태의 사진이 안전하게 저장된 뒤 그 구간의 외부 결과를 확정한다.
+- 입력 오프셋과 상태 스냅샷이 동기화된 이후 외부 확정을 수행하여 정합성 보장.
 
 ## Ⅴ. 종류 및 비교 (메시징 3대 처리 보장 수준 비교)
 
 <details><summary>핵심 용어</summary>
 
-- **Processing Guarantee Tradeoff**: Exactly-Once는 최고 안전성을 제공하지만, 2PC 락 및 멱등성 검사로 인해 Latency가 At-Least-Once 대비 약 20~30% 저하.
+- **트랜잭션 비용 (Performance Tradeoff)**: 2PC 락 및 멱등성 검사로 인해 최소 1번 처리(At-Least-Once) 대비 지연 시간 발생.
 
 </details>
 
@@ -124,37 +123,37 @@ extra:
 
 #### 한줄 요약
 
-- 다시 실행해도 장부 효과가 한 번만 남도록 입력•계산•출력의 확정을 묶는다.
+- 데이터 처리 시 입력, 계산, 출력 단계별 확정 관리로 결과 무결성 달성.
 
 ## Ⅵ. 실무 고려사항 및 대책 (EOS 구현 시 2대 난제 해결책)
 
 <details><summary>핵심 용어</summary>
 
-- **Non-Idempotent Sink Danger**: Sink DB가 `INSERT` 전용이고 Unique Key가 없는 구조일 경우 2PC가 실패하면 무조건 중복 데이터 발생.
+- **멱등성 부재 출력 위험 (Non-Idempotent Sink)**: Sink DB가 Unique Key 없는 INSERT 전용일 경우 장애 시 중복 데이터 발생 위험.
 
 </details>
 
 | 2대 EOS 장애 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Non-Idempotent Sink** | Unique Constraint 없는 일반 RDBMS `INSERT` | **`UPSERT` (Merge Into) 또는 Unique Key 멱등 식별자 부여** |
-| **2. Transaction Timeout** | Kafka/Flink 트랜잭션 보존 시간(`transaction.timeout.ms`) 초과 | **`transaction.timeout.ms` 확장 및 Checkpoint 주기 동기화**|
+| **1. 멱등성 미지원** | Unique Constraint 없는 일반 INSERT | **UPSERT(Merge Into) 또는 고유 식별자 부여** |
+| **2. 트랜잭션 타임아웃** | 보존 시간(`transaction.timeout.ms`) 초과 | **설정값 확장 및 스냅샷 주기 동기화**|
 
 > 사례: **카카오페이 / 토스 실시간 결제 스트림 파이프라인 Kafka-Flink EOS 적용**
 
 #### 한줄 요약
 
-- 같은 결제 번호가 다시 와도 새 거래로 세지 않고 처음 결과를 재사용한다.
+- 동일한 거래 식별자 기반의 중복 요청 필터링을 통해 결과 무결성 유지.
 
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
 
-- **EOS 수립 기준(Exactly-Once Semantics Standards)**: Replayable Source, Flink Checkpoint, 2PC Sink 및 Idempotent UPSERT에 의거한 체계.
+- **EOS 수립 기준**: 재생 가능 소스, 엔진 스냅샷, 2단계 커밋 확정 및 멱등성 기반의 데이터 처리 체계.
 
 </details>
 
-- **EOS 수립 기준**에 따라 금융/결제 스트림 구축 시 **End-to-End Exactly-Once (Kafka + Flink 2PC)** 필수 적용
+- **EOS 수립 기준**에 따라 금융/결제 스트림 구축 시 End-to-End Exactly-Once(Kafka+Flink 2PC) 체계 적용
 
 #### 한줄 요약
 
-- 몇 번 다시 실행됐는지가 아니라 최종 장부에 몇 번 반영됐는지가 기준이다.
+- 최종 데이터 반영 정합성 보장 체계 적용
