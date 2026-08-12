@@ -19,162 +19,129 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **가상 머신(Virtual Machine, VM)**: 하이퍼바이저 위에서 독립 운영체제를 실행하는 환경이다.
-- **컨테이너(Container)**: 호스트 커널을 공유하며 프로세스와 자원을 격리하는 환경이다.
+- **Virtual Machine (VM / 가상머신)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS) 커널을 독자적으로 돌리는 중량급 하드웨어 가상화 기술.
+- **Container (컨테이너)**: 호스트 OS(Host OS)의 커널을 공용으로 공유하면서, 리눅스 cgroups/Namespaces 격리로 프로세스 레벨만 가볍게 가상화하는 경량 가상화 기술.
+- **Hypervisor Layer (하이퍼바이저 계층)**: Type-1 (Bare-metal: ESXi) 및 Type-2 (Hosted: VirtualBox) 로 물리 하드웨어 자원을 VM별로 나눌 수 있게 중계하는 하드웨어 추상화 엔진.
 
 </details>
 
-- 정의/개념: 독립 운영체제를 실행하는 **가상 머신(VM)**과 호스트 커널을 공유하는 **컨테이너**를 대비하는 구조이다.
-- 배경/필요성: 격리 수준의 안전성 요구와 자원 효율성 및 부팅 속도 간 선택 절충 필요성이 존재한다.
+- 정의/개념: 하이퍼바이저 기반 Guest OS 레벨의 무거운 하드웨어 가상화(VM)와 호스트 커널 공유 기반 프로세스 레벨의 초경량 가상화(Container)를 기술 구조별로 대비하는 체계인 **VM vs Container**
+- 배경/필요성: 100% 완전한 보안/OS 독점 격리성(VM)과 초고속 1초 배포/수평 오토스케일링(Container)의 기술적 트레이드오프 선택 지침 요구성
 
 #### 한줄 요약
 
-- VM은 집마다 전기•배관까지 따로 두고 컨테이너는 한 건물 설비를 공유한 채 방만 나누듯, 커널 분리 여부가 격리 강도와 실행 무게를 가른다.
+- VM은 집마다 전기·배관까지 따로 두고 컨테이너는 한 건물 설비를 공유한 채 방만 나누듯, 커널 분리 여부가 격리 강도와 실행 무게를 가른다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (VM 대 Container 3대 격리 차원 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **VM 독립 커널**: 가상 머신이 하이퍼바이저 위에서 게스트 운영체제와 독립 커널을 실행해 강한 격리를 제공하는 특성이다.
-- **네임스페이스(Namespace)**: 컨테이너가 볼 수 있는 커널 자원을 분리하는 기능이다.
-- **제어 그룹(Control Group, cgroup)**: 컨테이너의 CPU•메모리 사용량을 제한하는 기능이다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 명령어를 실행하는 컴퓨팅 자원이다.
-- **컨테이너 공유 커널**: 여러 컨테이너가 동일한 호스트 커널을 사용하면서 프로세스 범위만 분리하는 구조이다.
-- **VM•컨테이너 계층 결합**: VM의 커널 경계 안에 컨테이너를 배치해 격리와 배포 밀도를 함께 확보하는 구조이다.
+- **Kernel Sharing Risk**: 컨테이너는 호스트 커널을 100% 공유하므로, 커널 취약점 해킹 시 호스트 전체 및 타 컨테이너로 파형 유출될 위험 보유.
 
 </details>
 
-- 가상 하드웨어마다 부팅하는 **VM 독립 커널**이 핵심이다.
-- **네임스페이스**와 **제어 그룹(cgroup)** 기반 **컨테이너 공유 커널**이 핵심이다.
-- VM 신뢰 경계 안의 **VM•컨테이너 계층 결합**이 핵심이다.
-- 제어 그룹은 **중앙처리장치(CPU)**•메모리 사용량을 제한한다.
+- **VM (Hardware-level Virtualization: Guest OS 전체 구동, 100% 완전 커널 격리, 수 GB Heavy)**
+- **Container (OS-level Virtualization: Host OS Kernel 공유, 초고속 1초 부팅, 수 MB Light)**
+- **Isolation Strength (VM은 하드웨어 수준 최상 보안, Container는 프로세스 수준 보통 보안)**
 
 #### 한줄 요약
 
 - 집 설비까지 분리하면 무겁지만 이웃 고장의 영향이 작고, 한 건물 설비를 공유하면 방은 빨리 만들 수 있지만 커널 결함이 공동 경계를 흔든다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (VM vs Container 스택 1:1 아키텍처 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **컨테이너 런타임**: 이미지로부터 컨테이너를 생성하고 실행 수명주기를 관리하는 구성요소이다.
-- **하이퍼바이저(Hypervisor)**: 가상 머신별 가상 하드웨어와 격리 경계를 제공하는 구성요소이다.
-- **게스트 운영체제(Guest Operating System, Guest OS)**: 가상 머신 안에서 독립 커널과 시스템 서비스를 실행하는 운영체제이다.
-- **호스트 커널**: 여러 컨테이너에 프로세스•메모리•네트워크 같은 커널 자원을 제공하는 구성요소이다.
-- **격리 정책**: 네임스페이스•제어 그룹•권한으로 컨테이너의 접근과 사용량 경계를 정하는 규칙이다.
+- **Hypervisor vs Docker Engine**: VM은 Hypervisor(ESXi)가 가상 하드웨어를 만듦, Container는 Docker Engine(containerd)이 커널 cgroups/NS를 엮음.
 
 </details>
 
 ```text
-[가상 머신]
-    |
-    +-- [하이퍼바이저]
-    +-- [게스트 OS]
-
-[컨테이너]
-    |
-    +-- [호스트 커널]
-    +-- [컨테이너 런타임]
-    +-- [격리 정책]
+┌────────────────────────────────────────────────────────────────────────┐
+│                     VM vs Container Architecture                       │
+├──────────────────────────────────┬─────────────────────────────────────┤
+│ [ Virtual Machine Architecture ] │ [ Container Architecture ]          │
+├──────────────────────────────────┼─────────────────────────────────────┤
+│ App A          │ App B           │ App A            │ App B            │
+│ Bins/Libs      │ Bins/Libs       │ Bins/Libs        │ Bins/Libs        │
+│ Guest OS       │ Guest OS        │ Docker Engine (cgroups/NS)         │
+│ Hypervisor (ESXi / KVM)          │ Host Operating System (Linux Kernel)│
+│ Physical Server Infrastructure   │ Physical Server Infrastructure      │
+└──────────────────────────────────┴─────────────────────────────────────┘
 ```
 
-선의 의미: 위 연결은 하이퍼바이저가 게스트 OS별 독립 커널 경계를 제공하는 VM 구조이고, 아래 연결은 호스트 커널을 컨테이너 런타임과 격리 정책이 나눠 사용하는 컨테이너 구조다.
+선의 의미: VM은 각 앱마다 무거운 Guest OS를 통째로 얹고 가고, Container는 Guest OS를 제거하고 Host OS 커널을 직접 공유하는 차이점.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 하이퍼바이저 | **하이퍼바이저**가 VM별 가상 하드웨어 제공 |
-| 게스트 OS | **게스트 운영체제(Guest OS)**가 독립 커널•시스템 서비스 제공 |
-| 호스트 커널 | **호스트 커널**이 컨테이너에 공유 커널 자원 제공 |
-| 컨테이너 런타임 | **컨테이너 런타임**이 이미지 기반 격리 프로세스 생성 |
-| 격리 정책 | **격리 정책**이 네임스페이스•cgroup•권한 경계 통제 |
+| 비교 항목 | Virtual Machine (VM / 가상머신) | Container (도커 컨테이너) |
+|:---|:---|:---|
+| **가상화 계층** | **하드웨어 수준 가상화 (Hypervisor)** | **OS 커널 수준 가상화 (Container Engine)** |
+| **운영체제(OS)** | **개별 독립 Guest OS 100% 탑재** | **Guest OS 0% (Host OS Kernel 공유)** |
+| **부팅 속도 (Boot)** | 느림 (수분 소요) | **초고속 (수 밀리초 ~ 1초 이내)** |
+| **자원 효율성** | 낮음 (Guest OS 자체 메모리 먹음) | **최상 (프로세스 실행 메모리만 소비)** |
+| **보안 격리성** | **최상 (Guest OS 붕괴되어도 타 VM 안전)**| 보통 (Host Kernel 유출 시 전 파동 위험)|
 
 #### 한줄 요약
 
 - 하이퍼바이저와 게스트 OS는 집마다 설비를 나누고, 호스트 커널과 런타임은 같은 건물 안에서 방과 사용량 경계만 나눈다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (VM 대 Container 배포 프로세스 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **루트 파일시스템(Root File System, RootFS)**: 컨테이너 프로세스가 루트 경로로 보는 이미지 기반 파일 체계이다.
-- **가상 머신 시작 경로**: 가상 하드웨어를 만든 뒤 게스트 운영체제와 서비스를 부팅하는 흐름이다.
-- **컨테이너 시작 경로**: 이미지 파일 체계와 격리 정책을 적용해 호스트 프로세스를 생성하는 흐름이다.
+- **Startup Latency**: VM은 BIOS init 및 OS 커널 로딩에 2분 소요, Container는 `execve()` 커널 시스템 콜로 0.1초 소요.
 
 </details>
 
 ```text
-[가상 머신 시작]
-가상 CPU•메모리•장치
-        |
-        v
-하이퍼바이저의 가상 하드웨어
-        |
-        v
-게스트 운영체제•독립 커널 부팅
-        |
-        v
-시스템 서비스•애플리케이션 준비
-
-[컨테이너 시작]
-이미지•환경•권한 명세
-        |
-        v
-RootFS 계층 조립
-        |
-        v
-네임스페이스•cgroup 적용
-        |
-        v
-호스트의 격리 프로세스 준비
+[VM Deployment]        ──► Hypervisor ──► Guest OS Boot (2-Min) ──► App Execution
+[Container Deployment] ──► Docker Engine ──► execve() Syscall (0.1s) ──► App Execution
 ```
 
-- **가상 머신 시작 경로**는 운영체제를 부팅하고, **컨테이너 시작 경로**는 **루트 파일시스템(RootFS)**과 격리 정책으로 호스트 프로세스를 만든다.
+### 동작 원리
+
+1. **VM Launch**: 하이퍼바이저가 가상 메모리를 떼어 주고 Guest OS 커널 부팅 2분 소요.
+2. **Container Launch**: 도커 엔진이 이미 켜져 있는 Host Kernel에 cgroups/NS만 걸어 `execve()` 시스템 콜 즉시 가동 (**VM vs Container 완결**).
 
 #### 한줄 요약
 
 - VM은 빈 집의 설비와 운영체제를 모두 켠 뒤 입주하고, 컨테이너는 이미 켜진 건물에 새 방과 전기 한도만 만들어 들어간다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (VM과 Container의 하이브리드 조합: Kata Containers)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **실행 환경 선택 축**: 커널 격리와 시작 속도•밀도의 비교 기준이다.
+- **Kata Containers / Firecracker**: Container의 초고속 부팅 속도와 VM의 100% 완전 커널 격리 장점만을 융합한 MicroVM / Secure Container 기술.
 
 </details>
 
-| **실행 환경 선택 축** | 가상 머신 | 컨테이너 |
-|:---|:---|:---|
-| 적용 기준 | **가상 머신(VM)**: 테넌트 격리•다른 OS | **컨테이너**: 빠른 배포•수평 확장 |
-| 핵심 특징 | 가상 하드웨어•독립 커널 | 호스트 커널 공유 격리 프로세스 |
-| 한계 | 부팅 시간•큰 메모리 점유 | 커널 제약•공유 공격면 |
+| 비교 기술 | Pure VM | Pure Container | Secure Container (Kata / Firecracker) |
+|:---|:---|:---|:---|
+| **격리 경계** | Hypervisor / Guest OS | Host Kernel Sharing | **MicroVM Lightweight Hypervisor** |
+| **부팅 속도** | 2분 내외 | **0.1초 이내** | **0.5초 이내 (초경량 MicroVM)** |
+| **보안 수준** | 최상 | 보통 | **최상 (독자 MicroVM 커널 보유)** |
+| **사용 도메인**| 금융 코어 시스템 | 일반 MSA 웹/앱 API | **AWS Lambda, 멀티테넌트 SaaS** |
 
 #### 한줄 요약
 
 - 서로 믿지 못하거나 다른 운영체제가 필요하면 집을 나누는 VM을, 같은 커널에서 빠르게 복제해야 하면 방을 나누는 컨테이너를 선택한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (실무 선택 3대 의사결정 지침)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **공유 커널 위험**: 공유 커널 위험은 커널 취약점이 컨테이너 격리 경계를 넘어 호스트나 다른 워크로드에 영향을 줄 수 있는 위험이다.
-- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 이미지에 포함된 소프트웨어 구성요소와 버전을 기록한 목록이다.
+- **Multi-Tenant Security Risk**: 이종 고객사(Tenant A vs Tenant B)를 동일 호스트 인프라에서 구동할 시 컨테이너 대신 VM 사용 필수.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 구축 의사결정 상황 | 최적 추천 아키텍처 기술 | 선택 사유 및 실무 대책 |
 |:---|:---|:---|
-| 비신뢰 테넌트의 **공유 커널 위험** | 테넌트별 VM•전용 노드•샌드박스 | 커널 경계의 침해 영향 격리 |
-| 다른 커널•드라이버의 OS 요구 | VM 선택•호스트 이미지 호환 검증 | 커널•드라이버 불일치 방지 |
-| 이미지 계층의 공급망 취약점 | 신뢰 원본•**소프트웨어 자재 명세서(SBOM)**•서명 검증 | 취약•변조 이미지 차단 |
-| 공유 호스트의 이웃 자원 간섭 | 예약•제한•우선순위•I/O 계측 | 워크로드별 성능 편차 감소 |
+| **1. 멀티테넌트 SaaS 보안** | **VM 또는 Kata Containers** | **타 고객사 데이터 유출 0% 완전 커널 격리** |
+| **2. K8s 수평 오토스케일링**| **Docker Container** | **트래픽 폭발 시 1초 내 수백 개 Pod 확장** |
+| **3. Windows 레거시 SW** | **VM (Windows Guest OS)** | Linux Host 커널에서 Windows SW 구동 불가 |
+
+> 사례: **AWS Lambda (Firecracker MicroVM 사용) 및 쿠팡 / 당근마켓 K8s Container 혼용**
 
 #### 한줄 요약
 
@@ -182,15 +149,13 @@ RootFS 계층 조립
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **동일 커널•고밀도 배포**: 운영체제 중복이 적은 컨테이너로 빠른 시작과 높은 배포 밀도를 확보하는 조건이다.
-- **VM 선택 조건**: 비신뢰 테넌트나 서로 다른 운영체제로 커널 경계를 분리해야 하는 조건이다.
+- **VM vs Container 수립 기준(VM and Container Standards)**: 하드웨어 가상화(VM), OS 가상화(Container), Kata MicroVM 및 Multi-Tenancy 보안성에 의거한 체계.
 
 </details>
 
-- **VM 선택 조건**이면 **가상 머신(VM)**, **동일 커널•고밀도 배포** 조건이면 **컨테이너**를 선택한다.
+- **VM vs Container 수립 기준**에 따라 Enterprise 아키텍처 설계 시 **VM (Core Storage) + Container (Stateless App)** 필수 혼용 적용
 
 #### 한줄 요약
 
