@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 대용량 데이터의 수평 확장성(Scale-Out)과 가변 스키마(Schema-Flexibility)를 지원하기 위해 데이터 표현 방식에 따라 4대 유형으로 특화 분류된 비관계형 데이터베이스 기술인 **NoSQL Types**
-- 배경/필요성: 빅데이터 및 비정형 데이터(JSON, 그래프, 시계열) 폭증, RDBMS의 `JOIN` 및 고정 스키마로 인한 수평 분산 제약 극복 요구성
+- **정의**: RDBMS의 엄격한 스키마, `JOIN` 오버헤드, 수평 확장(Scale-Out)의 한계를 극복하기 위해 데이터 모델과 접근 패턴에 맞춰 고안된 비관계형 데이터베이스 분류 체계인 **NoSQL(Not Only SQL)**.
+- **필요성**: 빅데이터 및 비정형 데이터(JSON, 그래프, 시계열) 폭증에 대응하는 유연한 데이터 모델과 수평 분산 확장성 확보.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Horizontal Scale-Out (수평 분산 노드 확장성 최적화)**
-- **Schema-Less / Dynamic Schema (가변적 비정형 구조 수용)**
-- **Query-Driven Modeling (조회 패턴 중심 데이터 설계)** 및 **Polyglot Persistence** 수용
+- **수평 확장(Horizontal Scale-Out)**: 분산 노드 증설을 통한 저장 용량 및 처리량 확장.
+- **가변 스키마(Dynamic Schema)**: 사전 정의 없이 자유로운 데이터 삽입 및 필드 확장 지원.
+- **운영 Trade-off**: 조회 패턴 중심 데이터 설계(`Query-Driven Modeling`) 및 `BASE` 일관성 모델 채택.
 
 #### 한줄 요약
 
@@ -163,7 +163,7 @@ extra:
 
 </details>
 
-- **NoSQL 수립 기준**에 따라 현대 대용량 서비스 구축 시 **Polyglot Persistence (Key-Value + Document + RDBMS) 아키텍처** 필수 적용
+- **NoSQL 수립 기준 적용** (대용량 서비스 구축 시 `Polyglot Persistence` (Key-Value + Document + RDBMS) 아키텍처 필수 수용)
 
 #### 한줄 요약
 

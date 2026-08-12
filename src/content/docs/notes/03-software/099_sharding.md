@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 단일 DB의 수직 확장 한계를 극복하기 위해 샤드 키 기반으로 수평 분산 노드(Shard Node)를 구축하여 데이터베이스의 저장 용량과 TPS를 수평 확장(Scale-Out)하는 기술인 **Database Sharding**
-- 배경/필요성: 단일 데이터베이스 물리 디스크 용량 한계 및 CPU/Connection 병목 극복, 무제한 데이터 스케일링을 통한 초고가용성 분산 IT 인프라 구축 요구성
+- **정의**: 단일 DB의 수직 확장 한계를 극복하기 위해 샤드 키(`Shard Key`) 기반으로 데이터를 분할하여 다수의 독립된 물리 DB 노드(`Shard Node`)에 수평 분산(`Scale-Out`)하는 기술인 **데이터베이스 샤딩(Database Sharding)**.
+- **필요성**: 단일 데이터베이스의 용량 한계 및 병목 극복, 무제한 데이터 스케일링을 통한 초고가용성 분산 인프라 구축.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Horizontal Scale-Out (수평적 디스크/TPS 확장성)**
-- **Shard Key** 선택에 따른 데이터 균등 분산 성능 결정
-- **Cross-Shard Join / Distributed Transaction** 복잡도 폭증 Trade-off
+- **수평 확장(Horizontal Scale-Out)**: DB 노드 증설을 통한 저장 용량 및 처리량 무제한 확장.
+- **분산 성능 결정**: 샤드 키(`Shard Key`) 선정에 따른 데이터 균등 분산 중요.
+- **운영 Trade-off**: 교차 샤드 조인(`Cross-Shard Join`) 및 분산 트랜잭션 복잡도 증가.
 
 #### 한줄 요약
 
@@ -158,7 +158,7 @@ extra:
 
 </details>
 
-- **샤딩 아키텍처 수립 기준**에 따라 초대규모 트래픽 DB 구축 시 **Consistent Hashing & Vitess 샤딩 미들웨어** 필수 적용
+- **샤딩 아키텍처 수립 기준 적용** (초대규모 트래픽 DB 설계 시 `Consistent Hashing` 및 샤딩 미들웨어 `Vitess` 필수 수용)
 
 #### 한줄 요약
 

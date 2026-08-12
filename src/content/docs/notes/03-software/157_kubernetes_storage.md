@@ -22,10 +22,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 영속 스토리지(Persistent Storage)**: Pod 파기 후에도 데이터를 보존하기 위해 PVC(요청), PV(자원), StorageClass(자동 설정)로 추상화한 체계.
-- **PVC (PersistentVolumeClaim)**: 스토리지 용량과 접근 모드 등을 명시하여 사용자(개발자)가 자원을 요청하는 객체.
-- **PV (PersistentVolume)**: 실제 클라우드 EBS나 NFS 등 할당된 영속 스토리지 물리 자원.
-- **StorageClass (SC)**: 관리자 설정에 따라 PVC 요청 시 특정 스토리지(AWS EBS `gp3` 등)를 자동 생성(Dynamic Provisioning)하는 규격 객체.
+- **쿠버네티스 영속 스토리지(Persistent Storage)**: 파드(Pod) 파기 후에도 데이터를 보존하기 위해 PVC(요청), PV(자원), StorageClass(자동 설정)로 추상화한 체계.
+- **PVC(PersistentVolumeClaim)**: 스토리지 용량과 접근 모드 등을 명시하여 사용자(개발자)가 자원을 요청하는 객체.
+- **PV(PersistentVolume)**: 실제 클라우드 EBS나 NFS 등 할당된 영속 스토리지 물리 자원.
+- **StorageClass(SC)**: 관리자 설정에 따라 PVC 요청 시 특정 스토리지(AWS EBS `gp3` 등)를 자동 생성(Dynamic Provisioning)하는 규격 객체.
 
 </details>
 
@@ -62,15 +62,15 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                  Kubernetes Storage 3-Tier Architecture                │
+│                  쿠버네티스 스토리지 3계층 아키텍처                    │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [Stateful Pod] ──► [PVC Request (10GB RWO)]                            │
+│ [상태 유지 파드] ──► [PVC 요청 (10GB RWO)]                            │
 │                         │                                              │
 │                         ▼                                              │
-│ [StorageClass (gp3)] ──► [CSI Controller (AWS EBS Plugin)]             │
+│ [스토리지 클래스 (gp3)] ──► [CSI 컨트롤러 (AWS EBS 플러그인)]          │
 │                         │                                              │
 │                         ▼                                              │
-│ [PV (PersistentVolume)] ──► [Actual Physical Storage (AWS EBS Volume)] │
+│ [PV (영속 볼륨)] ──► [실제 물리 스토리지 (AWS EBS 볼륨)]               │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -96,10 +96,10 @@ extra:
 </details>
 
 ```text
-[Create PVC (10GB gp3)] ──► [StorageClass Calls AWS CSI Driver]
-                                          │
-                                          ▼
-   [Pod Mounts EBS at /data] ◄── [PV Bound to PVC & Attach to Node] ◄── [Create AWS EBS Volume]
+[PVC 생성 (10GB gp3)] ──► [스토리지 클래스가 AWS CSI 드라이버 호출]
+                                            │
+                                            ▼
+ [파드에 /data 마운트] ◄── [PV-PVC 바인딩 및 노드 연결] ◄── [AWS EBS 볼륨 생성]
 ```
 
 ### 동작 원리
@@ -152,4 +152,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **영속 볼륨 기반 데이터 보존 체계 및 스토리지 동적 프로비저닝 최적화 구현**
+- **영속 볼륨 기반 데이터 보존 체계 및 스토리지 동적 프로비저닝 최적화 구현 완료**

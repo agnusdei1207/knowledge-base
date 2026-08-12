@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터베이스의 가용성과 읽기 성능 확장을 목적으로, 데이터 갱신 트랜잭션 로그를 복제 대상 노드로 실시간 전파하여 사본(Copy)을 유지하는 아키텍처인 **Database Replication**
-- 배경/필요성: 단일 데이터베이스 노드 장애 발생 시 서비스 중단(Downtime) 차단 및 RTO/RPO 0에 가까운 Failover 시스템 정립, 읽기 트래픽 폭증 시 Read Scale-Out 분산 처리 요구성
+- **정의**: 가용성(HA), 재해 복구(DR), 트래픽 분산(Read Scale-Out)을 위해 원본 데이터베이스 노드의 갱신 데이터(`Binary Log` / `WAL`)를 타 노드로 지속 동기화하는 복제 아키텍처.
+- **필요성**: 장애 발생 시 서비스 중단(Downtime) 차단 및 RTO/RPO 0에 가까운 Failover 시스템 구축, 읽기 트래픽 분산 처리.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Read Scale-Out (읽기 쿼리 부하 분산)** 및 고가용성(**HA**) 확보
-- **Synchronous (동기식) vs Asynchronous (비동기식) vs Semi-Synchronous (반동기식)** 복제 방식
-- **Replication Lag (복제 지연)** 발생에 따른 읽기 정합성(Read Consistency) 파괴 수용
+- **읽기 부하 분산(Read Scale-Out)**: 복제 노드 활용을 통한 읽기 성능 향상 및 고가용성(`HA`) 확보.
+- **복제 방식**: 동기식(`Synchronous`), 비동기식(`Asynchronous`), 반동기식(`Semi-Synchronous`) 복제 지원.
+- **운영 Trade-off**: 복제 지연(`Replication Lag`) 발생에 따른 읽기 정합성 관리 필요.
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **복제 수립 기준**에 따라 대용량 OLTP 가용성 구축 시 **Master-Replica + Semi-Sync & ProxySQL 분산** 필수 수용
+- **복제 수립 기준 적용** (대용량 OLTP 가용성 구축 시 `Master-Replica` + `Semi-Sync` & `ProxySQL` 분산 필수 수용)
 
 #### 한줄 요약
 

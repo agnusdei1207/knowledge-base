@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **서버리스 컴퓨팅(Serverless Computing)**: 클라우드 제공자가 인프라를 전담 관리하고, 개발자는 코드 실행에만 집중하는 컴퓨팅 모델.
-- **FaaS (Function as a Service)**: 이벤트 발생 시 1회성 함수(AWS Lambda)가 짧게 실행 후 종료되는 서버리스 구현 방식.
+- **FaaS(Function as a Service)**: 이벤트 발생 시 1회성 함수(AWS Lambda)가 짧게 실행 후 종료되는 서버리스 구현 방식.
 - **콜드 스타트(Cold Start)**: 런타임 환경 최초 부팅 시 컨테이너를 새로 생성하며 발생하는 1~3초의 응답 지연(Latency) 현상.
 
 </details>
@@ -61,15 +61,15 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   Serverless FaaS (AWS Lambda) Pipeline                │
+│                   서버리스 FaaS (AWS 람다) 파이프라인                  │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [1. Event Source] ──► S3 Upload / API Gateway HTTP / DynamoDB Stream   │
+│ [1. 이벤트 소스] ──► S3 업로드 / API 게이트웨이 HTTP / DynamoDB 스트림 |
 │                             │                                          │
-│                             ▼ (Event Trigger)                          │
-│ [2. FaaS Container] ──► AWS Lambda Function (MicroVM Firecracker)      │
-│                             │ (Stateless Execution 100ms)              │
+│                             ▼ (이벤트 트리거)                          │
+│ [2. FaaS 컨테이너] ──► AWS 람다 함수 (MicroVM Firecracker)             │
+│                             │ (상태 비저장 실행 100ms)                 │
 │                             ▼                                          │
-│ [3. State Persistence]► AWS DynamoDB / ElastiCache Redis / S3 Bucket   │
+│ [3. 상태 저장] ────► AWS DynamoDB / ElastiCache Redis / S3 버킷        │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,9 +94,9 @@ extra:
 </details>
 
 ```text
-[First Request (Cold Start)] ──► [Init MicroVM (1-3s Latency)] ──► [Execute Code] ──► [Warm Container]
-                                                                                           │
-[Second Request (Warm Start)] ─────────────────────────────────────────────────────────────┘ (Execute <10ms)
+[최초 요청 (콜드 스타트)] ──► [MicroVM 초기화 (1~3초 지연)] ──► [코드 실행] ──► [웜 컨테이너]
+                                                                                                  │
+[2번째 요청 (웜 스타트)] ──────────────────────────────────────────────────────────────────────────┘ (실행 시간 <10ms)
 ```
 
 ### 동작 원리
@@ -149,4 +149,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **이벤트 구동형 아키텍처 및 서버리스 컴퓨팅 최적 실행 체계 확립**
+- **이벤트 구동형 아키텍처 및 서버리스 컴퓨팅 최적 실행 체계 확보 완료**

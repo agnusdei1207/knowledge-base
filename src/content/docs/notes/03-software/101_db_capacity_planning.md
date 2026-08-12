@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 향후 비즈니스 증가율과 피크 트랜잭션 부하를 산술적으로 예측하여, DB 저장 디스크 용량, 인덱스 오버헤드, IOPS, Memory 및 CPU 증설 시점을 선제적으로 결정하는 용량 설계 공학인 **Capacity Planning**
-- 배경/필요성: 디스크 100% 꽉 참(Disk Full)으로 인한 DB 서버 락업 사태 예방, 피크 타임 CPU/Memory 고갈로 인한 쿼리 타임아웃 차단 요구성
+- **정의**: 비즈니스 성장률, 피크 타임 성능(`TPS`/`IOPS`), 데이터 수명주기를 정량 분석하여 저장 공간, 메모리, CPU 사양 및 증설 타임라인을 사전 설계하는 자원 관리 공학인 **데이터베이스 용량 산정(Database Capacity Planning)**.
+- **필요성**: 디스크 과부하(`Disk Full`)로 인한 서버 락업 예방 및 피크 타임 자원 고갈에 따른 쿼리 타임아웃 차단.
 
 #### 한줄 요약
 
@@ -44,10 +44,9 @@ extra:
 
 </details>
 
-- **Multi-Vector Capacity Sizing (Disk Storage, IOPS, Memory Buffer, CPU 4대 요소)**
-- **Pure Data Size + Index & Log & Replica Overhead (순수 데이터 + 2배 오버헤드 반영)**
-- **Lead Time 기반 Proactive Scaling (자원 고갈 선행 대응)**
-
+- **다차원 산정(Multi-Vector Sizing)**: 저장 용량(`Storage`), 입출력(`IOPS`), 메모리(`Buffer Pool`), 처리 능력(`CPU`) 4대 축 기반 산정.
+- **오버헤드 반영(Overhead Multiplier)**: 순수 데이터 대비 인덱스, 로그, 복제본 등 2배 수준의 용량 산정.
+- **선제적 대응(Lead Time Scaling)**: 자원 고갈 임계치(`Threshold`) 도달 전 사전 증설 수행.
 #### 한줄 요약
 
 - 평균치가 아니라 가장 붐비는 시간과 성장 속도, 새 자원의 준비 시간을 함께 계산한다.
@@ -169,7 +168,7 @@ extra:
 
 </details>
 
-- **용량 산정 수립 기준**에 따라 신규 IT 시스템 구축 시 **Storage/Memory/IOPS 3년 치 선제 용량 산정** 필수 수용
+- **용량 산정 수립 기준 적용** (신규 IT 시스템 구축 시 3년 주기 `Storage`/`Memory`/`IOPS` 선제 용량 산정 필수 수용)
 
 #### 한줄 요약
 

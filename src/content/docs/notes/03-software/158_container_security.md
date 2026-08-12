@@ -23,9 +23,9 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **컨테이너 보안(Container Security)**: 이미지 빌드부터 배포(Admission), 런타임까지 전 주기에서 위협을 차단하는 다층 방어 보안 체계.
-- **Seccomp (Secure Computing Mode)**: 컨테이너의 불필요한 시스템 콜(System Call)을 커널 레벨에서 차단하는 보안 모듈.
-- **AppArmor / SELinux**: 컨테이너의 파일 접근, 네트워크, 프로세스 실행 권한을 규제하는 강제 접근 제어(MAC) 보안 모듈.
-- **OPA / Gatekeeper**: 특권(Privileged) 설정이나 태그 오용 등 위험한 파드 생성을 배포 시점에 자동 차단하는 정책 엔진.
+- **Seccomp(Secure Computing Mode)**: 컨테이너의 불필요한 시스템 콜(System Call)을 커널 레벨에서 차단하는 보안 모듈.
+- **AppArmor / SELinux**: 컨테이너의 파일 접근, 네트워크, 프로세스 실행 권한을 규제하는 강제 접근 제어(MAC, Mandatory Access Control) 보안 모듈.
+- **OPA / Gatekeeper**: 특권(Privileged) 설정이나 태그 오용 등 위험한 파드 생성을 배포 시점에 자동 차단하는 정책 엔진(Policy Engine).
 
 </details>
 
@@ -63,12 +63,12 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   Container Security Defense-in-Depth                  │
+│                   컨테이너 심층 방어 보안 (Defense-in-Depth)           │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [1. Build: Trivy CVE Scan] ──► [2. Admission: OPA Gatekeeper Check]   │
-│                                           │ (Check Passed)             │
+│ [1. 빌드: Trivy 취약점 스캔] ──► [2. 배포: OPA Gatekeeper 검증]       │
+│                                           │ (검증 통과)                │
 │                                           ▼                            │
-│ [3. Runtime: Seccomp / AppArmor Profile] ──► [4. Detection: Falco eBPF] │
+│ [3. 런타임: Seccomp / AppArmor 프로필] ──► [4. 이상 행위 감지: Falco eBPF] │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,10 +94,10 @@ extra:
 </details>
 
 ```text
-[kubectl apply pod.yaml] ──► [kube-apiserver Admission Webhook]
-                                            │
-                                            ▼ (Check OPA Policy)
- [Pod Run on Node with Seccomp] ◄── [Allow] ┴ ── [Deny: Privileged Root Pod Blocked]
+[kubectl apply 파드.yaml] ──► [API 서버 Admission 웹훅]
+                                             │
+                                             ▼ (OPA 정책 검사)
+ [파드 실행 (Seccomp 적용 노드)] ◄── [통과] ┴ ── [차단: 특권 루트 파드 거부]
 ```
 
 ### 동작 원리
@@ -150,4 +150,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **다층 방어 보안 체계 구축 및 컨테이너 런타임 보안 강화 체계 확립**
+- **다층 방어 보안 체계 구축 및 컨테이너 런타임 보안 강화 체계 확보 완료**
