@@ -22,50 +22,48 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **개방형 권한 위임(Open Authorization, OAuth) 2.0**: 제한된 자원 접근 권한을 클라이언트에 위임하는 프레임워크이다.
-- **오픈아이디 연결(OpenID Connect, OIDC)**: OAuth 2.0 위에서 사용자 인증 결과와 신원 정보를 전달하는 인증 계층이다.
+- **개방형 권한 위임 2.0(Open Authorization 2.0, OAuth 2.0)**: 사용자 비밀번호 노출 없이 제3자 애플리케이션(Client)에게 자원 접근 권한을 안전하게 위임하는 오픈 표준 프레임워크.
+- **오픈아이디 연결(OpenID Connect, OIDC)**: OAuth 2.0 프로토콜 레이어 상단에 사용자 신원 인증(Authentication) 및 ID 토큰(JWT) 전달 기능을 확장한 신원 표준.
 
 </details>
 
-- 정의/개념: **OAuth 2.0**은 권한을 위임하고 **OIDC**는 인증된 사용자의 신원을 전달한다.
-- 배경/필요성: 비밀번호 공유 방식은 과도한 권한 부여와 자격 증명 유출을 일으킨다.
+- 정의/개념: 자원 소유자의 자격증명을 직접 공유하지 않고 **OAuth 2.0**을 통한 자원 접근 권한 위임(Authorization)과 **OIDC** 기반 신원 인증(Authentication)을 통합 처리하는 현대적 접근 통제 체계.
+- 배경/필요성: 서드파티 앱에 대한 패스워드 직접 노출 차단, 과다 권한 분배 방지 및 모바일/웹 SSO 통합 지원.
 
 #### 한줄 요약
 
-- OAuth는 필요한 일만 맡기는 위임장이고 OIDC는 그 위임 과정에서 확인한 사용자의 신원 확인서를 함께 전달한다.
+- OAuth 2.0 기반의 리소스 접근 권한 위임과 OIDC 기반의 사용자 신원 인증을 통합 연계함.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **권한 코드**: 인가 결과를 토큰으로 교환하기 위한 짧은 수명의 일회성 코드이다.
-- **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)**: 권한 코드와 원래 요청한 클라이언트를 결속하는 검증값이다.
-- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 자원의 이름이나 위치를 식별하는 문자열이다.
-- **Redirect URI**: 인가 결과를 돌려받도록 사전에 등록한 클라이언트 반환 주소이다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 서비스 기능과 데이터를 정해진 형식으로 제공하는 경계이다.
-- **접근 토큰**: 보호 API에 허용된 주체의 접근 권한과 범위를 나타내는 토큰이다.
-- **신원(Identity, ID) 토큰**: 인증된 사용자의 신원 주장을 클라이언트에 전달하는 토큰이다.
-- **Nonce**: 인증 요청과 ID 토큰을 같은 거래에 결속하는 일회성 값이다.
-- **갱신 토큰 회전**: 토큰 갱신 때 새 토큰을 발급하고 이전 토큰을 폐기하는 방식이다.
+- **권한 코드(Authorization Code)**: 인가 서버가 사용자 동의 승인 후 클라이언트에 임시 발급하는 일회성/단기 교환용 코드.
+- **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)**: 모바일/SPA의 인가 코드 탈취 및 재전송 공격을 막기 위해 챌린지/검증 키를 결합하는 표준 확장.
+- **Redirect URI**: 인가 코드 및 토큰을 수신할 사전에 인가 서버에 등록된 클라이언트의 정식 주소.
+- **접근 토큰(Access Token)**: 자원 서버의 API 리소스에 접근할 수 있는 권한 및 Scope가 담긴 서명 토큰.
+- **신원 토큰(Identity Token, ID Token)**: 사용자 식별자(sub), 발급자(iss), 만료시간(exp)이 담긴 OIDC 전용 JWT 서명 문서.
+- **Nonce**: OIDC에서 Replay 공격 및 ID 토큰 주입 공격을 막기 위해 검증하는 일회성 난수.
+- **갱신 토큰 회전(Refresh Token Rotation)**: Access Token 재발급 시 Refresh Token도 동시에 재발급하여 탈취된 토큰의 재사용을 무력화하는 기술.
 
 </details>
 
-- **권한 코드**와 **PKCE**•정확한 **URI**인 **Redirect URI**를 결속해 코드 탈취를 차단한다.
-- API 권한용 **접근 토큰**과 클라이언트 인증용 **ID 토큰**을 분리한다.
-- 발급자•대상•범위•만료와 **Nonce**를 검증하고 **갱신 토큰 회전**을 적용한다.
+- **권한 코드(Authorization Code)** 교환 시 **PKCE** 및 엄격한 **Redirect URI** 결속 검증.
+- API 자원 접근용 **접근 토큰(Access Token)**과 클라이언트 사용자 신원확인용 **신원 토큰(ID Token)** 역할 분리.
+- 서명(iss, aud, exp) 및 **Nonce** 검증, 보안성 강화를 위한 **갱신 토큰 회전(Refresh Token Rotation)** 적용.
 
 #### 한줄 요약
 
-- 임시 교환권은 요청한 앱만 바꾸게 하고 API 출입증과 로그인 확인서를 목적에 맞게 구분해야 한다.
+- PKCE 기반 인가 코드 결속, Access/ID 토큰 역할 분리 및 Refresh Token Rotation을 통한 세션 관리.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **자원 소유자**: 보호 자원의 접근 권한을 가진 사용자이다.
-- **클라이언트**: 사용자의 동의를 받아 제한된 자원 접근을 요청하는 애플리케이션이다.
-- **인가 서버**: 사용자를 인증하고 권한 코드와 토큰을 발급하는 서버이다.
-- **자원 서버**: 접근 토큰을 검증하고 보호 API를 제공하는 서버이다.
+- **자원 소유자(Resource Owner)**: 보호 대상 자원 접근 권한을 소유한 실제 사용자.
+- **클라이언트(Client)**: 사용자의 자원에 접근하기 위해 인가 서버에 권한 위임을 요청하는 서드파티 앱.
+- **인가 서버(Authorization Server / IdP)**: 사용자를 인증하고 접근 동의를 받아 Authorization Code 및 Access/ID Token을 발급하는 서버.
+- **자원 서버(Resource Server)**: Access Token의 유효성 및 Scope를 검증하여 API 데이터를 제공하는 백엔드.
 
 </details>
 
@@ -80,115 +78,115 @@ OAuth 2.0•OIDC 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 자원 소유자 | **자원 소유자**의 인증•제한 권한 동의 |
-| 클라이언트 | **클라이언트**의 인가 요청•토큰 사용 |
-| 인가•OIDC 제공자 | **인가 서버**의 코드•토큰•신원 주장 발급 |
-| 자원 서버 | **자원 서버**의 대상•범위•객체 권한 집행 |
-| 토큰•키 관리 | 서명 키•토큰 수명 관리 |
+| 자원 소유자 | 신원 인증 및 클라이언트 접근 권한 동의 표명 |
+| 클라이언트 | **OAuth 2.0/PKCE** 인가 요청, 토큰 수신 및 API 호출 |
+| 인가•OIDC 제공자 | **인가 서버(IdP)**로서 사용자 인증, Authorization Code, Access Token 및 ID Token 발급 |
+| 자원 서버 | API 호출 시 제출된 Access Token 서명, 만료, Scope 및 객체 권한 2차 검증 |
+| 토큰•키 관리 | JWKS 공개키 배포, 토큰 유효기간(TTL) 및 Refresh Token 수명 통제 |
 
 #### 한줄 요약
 
-- 제공자는 토큰을 발급하고 클라이언트는 목적에 맞게 사용하며 자원 서버는 실제 API 권한을 다시 확인한다.
+- 자원 소유자, 클라이언트, 인가 서버(IdP), 자원 서버 및 JWKS 키 관리 구조로 구성됨.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **클라이언트•Redirect URI 검증**: 등록된 클라이언트와 정확히 일치하는 반환 주소인지 확인하는 단계이다.
-- **권한 코드 생성**: 사용자 동의 범위에 결속된 일회성 단기 코드를 발급하는 단계이다.
-- **코드•PKCE 결속 검증**: 권한 코드와 원래 인가를 요청한 클라이언트의 검증값을 대조하는 단계이다.
-- **접근•ID 토큰 발급**: 위임 범위와 신원 주장을 각각 목적에 맞는 토큰으로 생성하는 단계이다.
-- **발급자•대상•범위 검증**: 자원 서버가 토큰 발급 주체•수신 대상•허용 행위를 판정하는 단계이다.
+- **클라이언트•Redirect URI 검증**: 사전 등록된 Client ID 및 정확한 Redirect URI 매칭 확인 단계.
+- **권한 코드 생성**: 사용자 동의 후 일회성 Authorization Code 발급 단계.
+- **코드•PKCE 결속 검증**: code_verifier와 code_challenge 서명을 검증하는 단계.
+- **접근•ID 토큰 발급**: Access Token(JWT/Opaque) 및 ID Token(JWT) 동시 발급 단계.
+- **발급자•대상•범위 검증**: 자원 서버에서 iss, aud, exp, scope 검증 단계.
 
 </details>
 
 ```text
 범위•PKCE•Nonce 인가 요청
-            |
-            v
+            │
+            ▼
 1. 클라이언트•Redirect URI 검증
-            |
-            v
+            │
+            ▼
 사용자 인증•동의
-            |
-            v
+            │
+            ▼
 2. 권한 코드 생성
-            |
-            v
+            │
+            ▼
 3. 코드•PKCE 결속 검증
-            |
-            v
+            │
+            ▼
 4. 접근•ID 토큰 발급
-            |
-            v
+            │
+            ▼
 API 자원 요청
-            |
-            v
+            │
+            ▼
 5. 발급자•대상•범위 검증
-            |
-            v
+            │
+            ▼
 제한된 자원 응답
 ```
 
 ### 동작 원리
 
-1. **클라이언트•Redirect URI 검증**: 등록 앱과 반환 주소에 대해 클라이언트•Redirect URI 검증을 수행한다.
-2. **권한 코드 생성**: 동의 범위에 결속된 일회성 단기 권한 코드를 생성한다.
-3. **코드•PKCE 결속 검증**: 코드와 원래 요청 클라이언트에 대해 코드•PKCE 결속 검증을 수행한다.
-4. **접근•ID 토큰 발급**: 위임 범위와 신원 주장에 맞는 접근•ID 토큰을 발급한다.
-5. **발급자•대상•범위 검증**: 자원 서버가 API 권한에 대해 발급자•대상•범위를 검증한다.
-
+1. **클라이언트•Redirect URI 검증**: 클라이언트 요청의 Redirect URI 및 PKCE 조건 1차 대조.
+2. **권한 코드 생성**: 자원 소유자 인증 및 Scope 동의 후 Authorization Code 발급.
+3. **코드•PKCE 결속 검증**: 클라이언트가 제출한 code_verifier 검증 후 코드 교환 허용.
+4. **접근•ID 토큰 발급**: API용 **접근 토큰** 및 사용자 정보용 **신원 토큰(ID Token)** 생성 전송.
+5. **발급자•대상•범위 검증**: 자원 서버에서 토큰 서명(iss, aud), exp 및 Scope 인가 판정.
 
 #### 한줄 요약
 
-- 앱은 일회 코드를 자기만 아는 검증값과 함께 토큰으로 바꾼 뒤 허용된 **API**만 호출한다.
+- Redirect URI/PKCE 검증, Authorization Code 발급, PKCE 대조, Access/ID Token 발급 및 API 서명 검증을 집행함.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
-- **OAuth•OIDC 역할 분리**: API 권한 위임은 OAuth 2.0, 사용자 인증 결과 전달은 OIDC가 담당하는 구분 원칙이다.
+- **OAuth•OIDC 역할 분리(OAuth vs OIDC Separation)**: OAuth 2.0은 API 리소스 접근 권한 위임(Authorization), OIDC는 사용자 신원 인증(Authentication)을 담당하는 명확한 기술적 역할 분담.
 
 </details>
 
-| 표준 | 역할 | 검증 초점 |
-|:---|:---|:---|
-| **OAuth 2.0** | 보호 자원의 제한 권한 위임 | 범위•대상•Redirect URI 제한 |
-| **OIDC** | 사용자 인증 결과 전달 | 발급자•대상•Nonce 검증 |
+| 표준 | 역할 | 핵심 토큰 및 산출물 | 검증 핵심 |
+|:---|:---|:---|:---|
+| **OAuth 2.0** | 자원 접근 권한 위임(Authorization) | Access Token, Refresh Token | Scope 범위, Redirect URI, PKCE |
+| **OIDC** | 사용자 신원 인증(Authentication) | ID Token (JWT) | iss, sub, aud, Nonce 서명 검증 |
 
 #### 한줄 요약
 
-- **OAuth•OIDC 역할 분리**에 따라 API 사용 권한은 OAuth, 사용자 신원 전달은 OIDC를 적용한다.
+- 권한 위임 프로토콜 OAuth 2.0과 신원 인증 레이어 OIDC를 역할에 맞게 명확히 분리 적용함.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
-- **IETF RFC 9700**: OAuth 2.0의 공격 모델과 안전한 구현 관행을 정의하는 인터넷 표준 문서이다.
-- **OIDC Core 1.0**: ID 토큰과 사용자 인증 흐름의 검증 규칙을 정의하는 표준이다.
+- **IETF RFC 9700**: OAuth 2.0 Security Best Current Practice(BCP) 표준 문서로 Implicit Grant 사용 금지 및 PKCE 의무화 지정.
+- **OIDC Core 1.0**: OpenID Connect 1.0 핵심 명세로 ID 토큰 무결성 및 사용자 인증 흐름 검증 지침.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 코드•토큰 탈취로 다른 클라이언트가 권한 획득 | **IETF RFC 9700** 적용 | 코드•토큰 탈취와 재사용 차단 |
-| ID Token을 잘못 검증하면 위조 신원 수용 | **OIDC Core 1.0** 준수 | 발급자•대상•Nonce 검증 |
-| 접근 토큰과 ID Token 혼동으로 권한 오용 | **접근 토큰**•**ID 토큰** 분리 | 토큰 목적 혼동에 따른 비인가 API 접근 방지 |
+| 인가 코드 탈취 및 재전송 공격 | **IETF RFC 9700** 가이드 준수 및 **PKCE** 적용 | 모바일/SPA 환경의 코드 탈취 및 재전송 완전 차단 |
+| ID Token 서명 검증 누락 | **OIDC Core 1.0** 지침 준수 및 iss, aud, Nonce 검증 | 위조 ID Token 주입 및 사용자 신원 도용 차단 |
+| Access Token 및 Refresh Token 탈취 | **갱신 토큰 회전(Refresh Token Rotation)** 및 mTLS/DPoP 결속 | 토큰 유출 시에도 재사용 및 권한 남용 불가능 조치 |
 
 #### 한줄 요약
 
-- 모바일 앱은 권한 요청 때 만든 PKCE 검증값으로 토큰 교환을 묶어, 공격자가 권한 코드를 가로채도 접근 토큰을 받지 못하게 한다.
+- IETF RFC 9700 모범 사례를 준수하여 PKCE를 적용하고, OIDC Core 1.0 기준 ID 토큰 검증 및 Refresh Token Rotation을 집행함.
 
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
 
-- **연동 목적별 표준 선택 기준**: API 권한 위임에는 OAuth 2.0, 사용자 로그인과 신원 전달에는 OIDC를 추가하는 판단 기준이다.
+- **연동 목적별 표준 선택 기준(Standard Selection Criteria)**: API 권한 위임은 OAuth 2.0, 사용자 SSO 및 신원 전달은 OIDC를 선택하고 PKCE와 DPoP 보안을 적용하는 아키텍처 지침.
 
 </details>
 
-- **연동 목적별 표준 선택 기준**에 따라 API 권한 위임은 **OAuth 2.0**, 사용자 로그인•신원 전달은 **OIDC**를 추가한다.
+- **연동 목적별 표준 선택 기준**을 수립하여 리소스 접근은 **OAuth 2.0**, SSO 신원 연동은 **OIDC**를 적용하고 **PKCE** 및 **갱신 토큰 회전**을 필수로 구축.
 
 #### 한줄 요약
 
-- 위임장과 신원 확인서를 구분하고 각 토큰의 발급자•대상•범위•수명을 검증해야 안전한 연동이 완성된다.
+- OAuth 2.0 권한 위임 및 OIDC 신원 인증 체계 수립과 PKCE•Token 검증 강화 필수.
+

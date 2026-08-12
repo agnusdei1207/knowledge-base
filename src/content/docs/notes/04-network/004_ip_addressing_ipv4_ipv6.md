@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: 이기종 네트워크 간 패킷 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계.
-- 배경/필요성: IoT, 모바일 장비 폭증으로 인한 32비트 **IPv4(Internet Protocol version 4)** 주소 고갈 한계 직면 및 주소 공간 확장, 보안(IPsec 내장), 주소 자동 설정을 제공하는 **IPv6(Internet Protocol version 6)**로의 전환 필요성 증대.
+- 정의: 이기종 네트워크 간 패킷 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계.
+- 배경: IoT, 모바일 장비 폭증에 따른 32비트 IPv4 주소 고갈 한계 극복 및 주소 공간 확장, 보안(IPsec 내장), 무상태 자동 설정을 제공하는 IPv6 전환 필요성 증대.
 
 #### 한줄 요약
 
@@ -41,14 +41,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **최장 프리픽스 일치(Longest Prefix Match, LPM)**: 라우터가 IP 패킷을 포워딩할 때 라우팅 테이블 entry 중 비트가 가장 길게 일치하는 경로를 최적 라우팅 경로로 선택하는 알고리즘.
-- **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**: 별도의 DHCP 서버 없이 라우터 광고(RA) 메시지의 서브넷 프리픽스와 자신의 EUI-64/랜덤 인터페이스 ID를 조합하여 IPv6 주소를 자동 생성하는 기법.
+- **최장 프리픽스 일치(Longest Prefix Match, LPM)**: 라우터가 IP 패킷을 포워딩할 때 라우팅 테이블 항목 중 비트가 가장 길게 일치하는 경로를 최적 경로로 선택하는 알고리즘.
+- **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**: 별도 DHCP 서버 없이 라우터 광고(RA) 메시지의 서브넷 프리픽스와 인터페이스 ID를 조합하여 IPv6 주소를 자동 생성하는 기법.
 
 </details>
 
-- 계층적 비트 구조를 활용하여 네트워크 프리픽스 단위 라우팅 테이블 요약(Route Aggregation) 지원.
-- 라우팅 포워딩 시 **최장 프리픽스 일치(Longest Prefix Match, LPM)** 메커니즘을 적용하여 가장 세부적인 라우팅 경로 선별.
-- **IPv6(Internet Protocol version 6)** 환경에서 **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**을 통한 호스트 플러그 앤 플레이(Plug-and-Play) 주소 할당 지원.
+- 계층적 비트 구조를 활용한 네트워크 프리픽스 단위 라우팅 경로 요약(Route Aggregation) 지원.
+- 라우팅 포워딩 시 **최장 프리픽스 일치(LPM)** 메커니즘을 적용하여 가장 정밀한 경로 선별.
+- IPv6 환경에서 **무상태 주소 자동 설정(SLAAC)**을 통한 호스트 플러그 앤 플레이 주소 할당 지원.
 
 #### 한줄 요약
 
@@ -77,12 +77,12 @@ extra:
 
 *네트워크 프리픽스(라우팅 영역)와 인터페이스 식별자(호스트 영역)로 이분화된 계층형 주소 구조.*
 
-| 구성 요약 | **IPv4(Internet Protocol version 4)** | **IPv6(Internet Protocol version 6)** |
+| 구성 요약 | **IPv4 주소 체계** | **IPv6 주소 체계** |
 |:---|:---|:---|
-| 주소 길이 및 표기 | 32-bit (4 Bytes), 10진수 4옥텟 (예: 192.168.1.1) | 128-bit (16 Bytes), 16진수 8그룹 (예: 2001:db8::1) |
-| 주소 구분 방식 | 클래스(A~E) 및 CIDR (Classless Subnet Mask) | **네트워크 프리픽스** (64-bit) + **인터페이스 식별자** (64-bit) |
-| 주소 유형 분류 | Unicast, Broadcast, Multicast | Unicast, Multicast, Anycast (Broadcast 폐지) |
-| 헤더 구조 및 크기 | 20~60 Bytes 가변 헤더 (옵션 포함) | 40 Bytes 고정 헤더 + 확장 헤더(Extension Header) 체계 |
+| 주소 길이 및 표기 | 32비트 (4바이트), 10진수 4옥텟 | 128비트 (16바이트), 16진수 8그룹 |
+| 주소 구분 방식 | 클래스(A~E) 및 CIDR | 네트워크 프리픽스(64비트) + 인터페이스 식별자(64비트) |
+| 주소 유형 분류 | 유니캐스트, 브로드캐스트, 멀티캐스트 | 유니캐스트, 멀티캐스트, 애니캐스트 (브로드캐스트 폐지) |
+| 헤더 구조 및 크기 | 20~60바이트 가변 헤더 | 40바이트 고정 헤더 + 확장 헤더 체계 |
 
 #### 한줄 요약
 
@@ -96,9 +96,7 @@ extra:
 - **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: IPv4 주소를 기반으로 동일 L2 브로드캐스트 도메인 내 대상의 MAC 주소를 조회하는 프로토콜.
 - **이웃 탐색 프로토콜(Neighbor Discovery Protocol, NDP)**: ICMPv6 메시지를 활용하여 이웃 L2 MAC 주소 해석, 라우터 발견 및 주소 중복 검사(DAD)를 수행하는 IPv6 프로토콜.
 - **다음 홉(Next Hop)**: 목적지 IP로 패킷을 전송하기 위해 거쳐야 하는 인접 라우터의 IP 주소 또는 출구 인터페이스.
-- **경로 프리픽스 비교(Prefix Comparison)**: 목적지 IP 주소와 라우팅 테이블 내 서브넷 마스크 비트를 앤드(AND) 연산하여 일치 여부를 판단하는 프로세스.
-- **다음 홉 결정(Next-Hop Selection)**: LPM 규칙에 의해 최종 확정된 출구 라우팅 경로로 패킷 스위칭을 명령하는 단계.
-- **링크 주소 해석(Link Address Resolution)**: L3 주소를 물리적 이더넷 전송이 가능하도록 L2 MAC 주소로 변환하는 프로토콜 실행 단계.
+- **경로 프리픽스 비교(Prefix Comparison)**: 목적지 IP 주소와 라우팅 테이블 내 서브넷 마스크 비트를 비트 AND 연산하여 일치 여부를 판단하는 프로세스.
 
 </details>
 
@@ -106,7 +104,7 @@ extra:
 [ 목적지 IP 패킷 도달 ]
           |
           v
-[ 1. 경로 프리픽스 비교 ] ---> 라우팅 테이블 검색 (AND 연산)
+[ 1. 경로 프리픽스 비교 ] ---> 라우팅 테이블 검색 (비트 AND 연산)
           |
           v
 [ 2. 다음 홉 결정 ] ---------> LPM에 의해 최적 다음 홉 선별
@@ -120,8 +118,8 @@ extra:
 
 ### 동작 원리
 
-1. **경로 탐색 및 LPM 결정(Prefix Comparison & Next-Hop Selection)**: 라우터는 패킷의 목적지 IP를 라우팅 테이블의 서브넷과 비트 단위로 비교(**Prefix Comparison**)하여 **최장 프리픽스 일치(LPM)** 경로의 **다음 홉(Next Hop)** 확정.
-2. **L2 주소 해석 및 전송(Link Address Resolution)**: 대상 노드의 L2 MAC 주소를 획득하기 위해 IPv4는 **주소 결정 프로토콜(ARP)**, IPv6는 **이웃 탐색 프로토콜(NDP)**을 실행하여 프레임 전송.
+1. **경로 탐색 및 LPM 결정**: 라우터는 패킷 목적지 IP를 라우팅 테이블의 서브넷과 비트 비교하여 **최장 프리픽스 일치(LPM)** 경로의 다음 홉 확정.
+2. **L2 주소 해석 및 전송**: 대상 노드의 L2 MAC 주소를 획득하기 위해 IPv4는 **주소 결정 프로토콜(ARP)**, IPv6는 **이웃 탐색 프로토콜(NDP)**을 실행하여 프레임 전송.
 
 #### 한줄 요약
 
@@ -138,10 +136,10 @@ extra:
 
 | 비교 항목 | **IPv4 주소 체계** | **IPv6 주소 체계** |
 |:---|:---|:---|
-| 주소 고갈 대책 | **네트워크 주소 변환(NAT)**, CIDR, VLSM 의존 | $2^{128}$개의 무제한 주소 공간으로 근본적 해결 |
-| IP 자동 할당 | DHCP 서버에만 의존하는 상태보존형(Stateful) | SLAAC (무상태) 및 DHCPv6 (상태보존형) 동시 지원 |
-| 보안 기능 (IPsec) | 선택적 (AH/ESP 옵션 적용 필요) | 기본 프로토콜 스택에 표준 내장 (Mandatory) |
-| 패킷 단편화 (Fragmentation) | 라우터 및 송신 호스트 모두에서 처리 | 송신 호스트(Host)에서만 처리 (Path MTU Discovery 필수) |
+| 주소 고갈 대책 | **네트워크 주소 변환(NAT)**, CIDR, VLSM 의존 | $2^{128}$개 무제한 주소 공간으로 근본적 해결 |
+| IP 자동 할당 | DHCP 서버에만 의존하는 상태보존형 | SLAAC (무상태) 및 DHCPv6 (상태보존형) 동시 지원 |
+| 보안 기능 (IPsec) | 선택적 (AH/ESP 옵션 적용 필요) | 기본 프로토콜 스택에 표준 내장 |
+| 패킷 단편화 | 라우터 및 송신 호스트 모두에서 처리 | 송신 호스트에서만 처리 (Path MTU Discovery 필수) |
 
 > 요약: 주소 고갈 완화책(NAT) 중심의 IPv4 체계에서 대용량 주소 공간 및 SLAAC/IPsec이 표준화된 IPv6 체계로의 발전.
 
@@ -155,16 +153,16 @@ extra:
 <summary>핵심 용어</summary>
 
 - **듀얼 스택(Dual Stack)**: 동일 네트워크 장비 및 서버의 OS에 IPv4와 IPv6 프로토콜 스택을 동시에 활성화하여 병행 운용하는 기술.
-- **라우터 광고(Router Advertisement, RA)**: 라우터가 네트워크 호스트에게 프리픽스, MTU, Default Gateway 정보를 정기적으로 공지하는 ICMPv6 메시지.
-- **동적 호스트 구성 프로토콜 버전 6(Dynamic Host Configuration Protocol version 6, DHCPv6)**: IPv6 환경에서 호스트에게 DNS 서버 및 고정 IP 정보를 정밀하게 할당하는 통제 프로토콜.
+- **라우터 광고(Router Advertisement, RA)**: 라우터가 네트워크 호스트에게 프리픽스, MTU, 기본 게이트웨이 정보를 정기적으로 공지하는 ICMPv6 메시지.
+- **동적 호스트 구성 프로토콜 버전 6(Dynamic Host Configuration Protocol version 6, DHCPv6)**: IPv6 환경에서 호스트에게 DNS 서버 및 고정 IP 정보를 정밀 할당하는 통제 프로토콜.
 
 </details>
 
 | 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
 |:---|:---|:---|:---|
-| IPv4/IPv6 공존 시 보안 구멍 | IPv6 패킷에 대한 Firewall/ACL 정책 누락 | 네트워크 전 장비 대상 **듀얼 스택(Dual Stack)** 동시 보안 정책 수립 | IPv6 터널링 방화벽 우회 차단 |
-| Rogue RA 보안 위협 | 비인가 장비가 위조 **라우터 광고(RA)**를 유포 | L2 스위치에 RA Guard 기능 활성화 및 RA 검증 | 비인가 게이트웨이 유도 차단 |
-| IPv6 주소 관리 복잡성 | SLAAC에 의한 가변적 IP 생성으로 추적 난항 | Stateful **DHCPv6** 병행 도입 및 IPAM(IP Address Management) 연동 | 호스트 주소 이력 관리 투명성 확보 |
+| IPv4/IPv6 공존 시 보안 구멍 | IPv6 패킷에 대한 방화벽/ACL 정책 누락 | 네트워크 전 장비 대상 **듀얼 스택** 동시 보안 정책 수립 | IPv6 터널링 방화벽 우회 차단 |
+| 비인가 RA 보안 위협 | 비인가 장비가 위조 **라우터 광고(RA)**를 유포 | L2 스위치에 RA Guard 기능 활성화 및 RA 검증 | 비인가 게이트웨이 유도 차단 |
+| IPv6 주소 관리 복잡성 | SLAAC에 의한 가변적 IP 생성으로 추적 난항 | 상태보존형 **DHCPv6** 병행 도입 및 IPAM 연동 | 호스트 주소 이력 관리 투명성 확보 |
 
 #### 한줄 요약
 
@@ -175,13 +173,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **IPv6 전환(IPv6 Transition)**: IPv4 인프라를 IPv6로 이행하기 위한 듀얼 스택(Dual Stack), 터널링(6to4/GRE), 변환(NAT64/DNS64) 메커니즘 체계.
+- **IPv6 전환(IPv6 Transition)**: IPv4 인프라를 IPv6로 이행하기 위한 듀얼 스택, 터널링(6to4/GRE), 변환(NAT64/DNS64) 메커니즘 체계.
 - **전환 방식 결정(Transition Strategy Selection)**: 서비스 연동성, 인프라 노후도 및 보안 정책을 검토하여 시스템별 최적의 IPv6 전환 로드맵을 확정하는 절차.
 
 </details>
 
-- 차세대 네트워크 구축 시 **전환 방식 결정(Transition Strategy Selection)**을 바탕으로 안전한 **IPv6 전환(IPv6 Transition)** 및 듀얼 스택 기반의 주소 관리 최적화 구현 필수.
+- 차세대 네트워크 구축 시 전환 방식 결정을 바탕으로 안전한 IPv6 전환 및 듀얼 스택 기반 주소 관리 최적화 구현 필수.
 
 #### 한줄 요약
 
-- Dual Stack/Tunneling 기반 IPv6 단계적 전환 및 LPM 라우팅 최적화 구현 필수.
+- Dual Stack/Tunneling 기반 IPv6 단계적 전환 및 LPM 라우팅 최적화 체계 적용.
+

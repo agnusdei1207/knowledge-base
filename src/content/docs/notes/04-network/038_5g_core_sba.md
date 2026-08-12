@@ -20,177 +20,173 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **5세대 이동통신(Fifth Generation, 5G)**: 초고속•초저지연•대규모 접속을 지원하는 이동통신이다.
-- **4세대 이동통신(Fourth Generation, 4G)**: LTE 중심의 이동통신이다.
-- **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 5G 코어의 망 기능을 등록•발견 가능한 서비스 호출로 연결하는 아키텍처이다.
+- **5세대 이동통신(Fifth-Generation Mobile Communication, 5G)**: 초고속, 초저지연, 대규모 연결을 제공하는 차세대 이동통신 기술 표준이다.
+- **4세대 이동통신(Fourth-Generation Mobile Communication, 4G)**: LTE 중심의 4세대 이동통신 기술 표준 규격이다.
+- **서비스 기반 아키텍처(Service-Based Architecture, SBA)**: 5G 코어의 제어 평면 망 기능(NF)들을 독립적인 웹 서비스 단위로 모듈화하고 RESTful API 기반으로 통신하는 아키텍처이다.
 
 </details>
 
-- 정의/개념: **SBA**는 **5G** 코어 망 기능을 등록•발견 가능한 서비스 호출로 연결한다.
-- 배경/필요성: 4G EPC의 점대점(P2P) 전용 인터페이스 결합은 제어면 기능의 독립 확장과 유연한 변경을 제약한다.
+- 정의/개념: **5G 코어 SBA(Service-Based Architecture)**는 5G 코어망의 제어 평면(Control Plane) Network Function(NF)들을 웹 표준 RESTful API 기반으로 모듈화하고, NRF를 통해 동적 서비스 등록, 발견, 호출을 수행하는 클라우드 네이티브 코어 아키텍처이다.
+- 배경/필요성: 기존 4G EPC의 점대점(Point-to-Point) 하드코딩 인터페이스 구조로 인한 망 확장성 제약, 신규 기능 추가의 복잡성 및 제어/사용자 평면 결합 한계를 극복하기 위해 도입되었다.
 
 #### 한줄 요약
 
-- 코어 기능이 필요한 서비스를 찾아 호출한다.
+- 5G 코어 제어 평면의 NF들을 RESTful API 기반 서비스 단위로 모듈화하여 NRF 자동 발견 및 유연한 자원 확장을 제공하는 클라우드 네이티브 아키텍처.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **망 기능(Network Function, NF)**: 5세대 이동통신(Fifth Generation, 5G) 코어에서 독립적으로 배치•확장하며 서비스를 제공하는 기능 단위이다.
-- **망 기능 저장소(Network Repository Function, NRF)**: 망 기능의 등록•상태•발견 정보를 제공하는 저장소 기능이다.
-- **세션 관리 기능(Session Management Function, SMF)**: 데이터 세션 정책과 사용자면 전달 규칙을 제어하는 망 기능이다.
-- **사용자면 기능(User Plane Function, UPF)**: SMF가 설치한 규칙에 따라 사용자 패킷을 전달하는 망 기능이다.
-- **느슨한 결합**: 기능이 상대의 고정 위치보다 서비스 인터페이스에 의존해 독립적으로 변경•확장되는 구조적 성질이다.
+- **망 기능(Network Function, NF)**: 5G 코어 아키텍처 내에서 독자적인 기능과 서비스 API를 제공하는 소프트웨어 모듈 단위이다.
+- **망 기능 저장소(Network Repository Function, NRF)**: NF 인스턴스의 프로필 등록, 상태 관리 및 동적 서비스 검색(Discovery)을 전담하는 코어 엔티티이다.
+- **세션 관리 기능(Session Management Function, SMF)**: PDU 세션의 생성을 제어하고 UPF의 사용자 패킷 전달 규칙을 지정하는 제어 평면 NF이다.
+- **사용자면 기능(User Plane Function, UPF)**: SMF의 PFCP 제어 신호에 따라 사용자 데이터 패킷의 라우팅, 캡슐화 및 엣지 분기를 수행하는 사용자 평면 NF이다.
+- **느슨한 결합(Loose Coupling)**: NF 인스턴스가 타 NF의 IP나 하드웨어 위치에 고정되지 않고 API 인터페이스 수준에서 유연하게 연동되는 구조적 특성이다.
 
 </details>
 
-- **NRF**를 기반으로 **NF**를 등록•발견한다.
-- **느슨한 결합**으로 기능을 독립 변경•확장한다.
-- **SMF** 제어면과 **UPF** 사용자면의 역할을 분리한다.
+- **RESTful API 기반 SBI 통신**: HTTP/2, JSON, OpenAPI 규격을 사용하여 제어 평면 NF 간 표준 서비스 기반 인터페이스(SBI) 통신을 실행한다.
+- **NRF 중심 동적 발견(Discovery)**: 신규 NF 인스턴스는 NRF에 프로필을 동적 등록하며, 타 NF는 NRF 조회를 통해 최적의 대상 NF를 자동 발굴·연결한다.
+- **제어/사용자 평면 완벽 분리(CUPS)**: 세션 제어(SMF)와 패킷 전달(UPF)을 완전 분리하여 독립적인 오토스케일링과 에지 전진 배치를 구현한다.
 
 #### 한줄 요약
 
-- 판단 기능과 패킷 전달 기능을 나눈다.
+- NRF 기반 NF 자동 등록 및 동적 발견, HTTP/2 REST API 표준 인터페이스 적용, CUPS 분리를 통한 독립적 자원 스케일링 제공.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **접속•이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 등록•인증•이동성을 제어하는 5G 코어 망 기능이다.
-- **통합 데이터 관리(Unified Data Management, UDM)**: 가입자 식별•인증•서비스 정보를 관리하는 망 기능이다.
+- **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 무선 접속, 가입자 인증 및 이동성을 관장하는 5G 제어 평면 NF이다.
+- **통합 데이터 관리(Unified Data Management, UDM)**: 가입자 프로필, 인증 자격 증명 및 암호화 키를 관리하는 5G 데이터베이스 NF이다.
 
 </details>
 
 ```text
-5G 코어 SBA
-└─ 서비스 통신 계층
-   ├─ 접속•이동 기능(AMF)
-   ├─ 가입자 기능(UDM)
-   ├─ 기능 저장소(NRF)
-   └─ 세션 기능(SMF)
-      └─ 사용자면 기능(UPF)
+5G 코어 서비스 기반 아키텍처 (5GC SBA)
+└─ 서비스 기반 인터페이스 통신 버스 (SBI Bus)
+   ├─ 접속 및 이동성 관리 기능 (AMF)
+   ├─ 통합 데이터 관리 (UDM)
+   ├─ 망 기능 저장소 (NRF)
+   ├─ 정책 제어 기능 (PCF)
+   └─ 세션 관리 기능 (SMF)
+      └─ 사용자 평면 기능 (UPF - N3/N4/N6)
 ```
 
-가지의 의미: 서비스 통신 계층에 결합된 제어 기능과 SMF가 제어하는 UPF의 관계를 뜻한다.
+선의 의미: HTTP/2 기반 SBI 통신 버스를 중심으로 제어 평면 NF들이 연동되고, SMF가 PFCP(N4) 프로토콜을 통해 UPF를 제어하는 아키텍처 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 접속•이동 기능(AMF) | **AMF**가 단말 등록•인증•이동성 제어 |
-| 서비스 통신 계층 | 제어 기능 간 서비스 호출 전달 |
-| 세션 기능(SMF) | **SMF**가 세션 정책과 UPF 규칙 제어 |
-| 가입자 기능(UDM) | **UDM**이 가입자•인증 정보 관리 |
-| 기능 저장소(NRF) | **NRF**가 망 기능 등록•상태•발견 제공 |
-| 사용자면 기능(UPF) | **UPF**가 설치된 규칙에 따라 패킷 전달 |
+| AMF (Access & Mobility Mgmt Function) | 단말 N1/N2 무선 제어 신호 수신, 가입자 5G 인증 및 이동성 관리 |
+| UDM (Unified Data Management) | 5G 가입자 식별자(SUPI/SUCI) 및 서비스 권한 프로필 통합 관리 |
+| NRF (Network Repository Function) | 전체 NF 인스턴스 등록, 상태 모니터링 및 동적 서비스 발견(Discovery) 검색 제공 |
+| PCF (Policy Control Function) | 서비스별 QoS 정책 및 네트워크 슬라이스 인가 규칙을 통제하여 SMF에 제공 |
+| SMF (Session Management Function) | PDU 세션 생성/변경/해제 및 UPF 패킷 전달 규칙(PDR/FAR) 생성 및 하향 전달 |
+| UPF (User Plane Function) | N4 규격(PFCP) 제어에 따라 N3 무선 구간과 N6 외부망 간 사용자 패킷 라우팅 |
 
 #### 한줄 요약
 
-- 제어 기능은 서로 호출하고 UPF는 패킷을 보낸다.
+- AMF, SMF, UDM, PCF 등의 제어 NF들이 SBI 통신 버스로 연결되고 NRF를 통해 상호 발견하며 SMF가 UPF 데이터 경로를 제어하는 구조.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **전달 규칙**: SMF가 UPF에 설치해 사용자 패킷의 경로와 처리 동작을 지정하는 제어 정보이다.
-- **세션 기능 발견**: AMF가 NRF에서 요구 조건에 맞는 가용 SMF를 검색하는 절차이다.
-- **SMF 정보 반환**: NRF가 선택 가능한 세션 관리 기능의 주소와 상태를 제공하는 절차이다.
-- **세션 생성 요청**: AMF가 선택한 SMF에 품질•주소•정책 생성을 요구하는 절차이다.
-- **전달 규칙 설치**: SMF가 사용자 패킷의 경로와 처리 규칙을 UPF에 설정하는 절차이다.
+- **전달 규칙(Forwarding Rule, PFCP)**: SMF가 PFCP 프로토콜을 통해 UPF에 설치하는 패킷 탐지(PDR) 및 전달 행동(FAR) 지침이다.
+- **세션 기능 발견(NF Discovery)**: AMF가 가입자 요구 세션을 처리하기 위해 NRF에 최적의 가용 SMF 인스턴스 검색을 요청하는 절차이다.
 
 </details>
 
 ```text
-단말 등록 요청
+1. AMF: 가입자 접속 및 세션 발생 (Access Request)
       │
-      ▼
-AMF: 1. 세션 기능 발견
+      v
+2. AMF -> NRF: 가용 SMF 검색 및 서비스 발견 (NF Discovery Request)
       │
-      ▼
-NRF: 2. SMF 정보 반환
+      v
+3. NRF -> AMF: 가용 SMF 엔드포인트 및 상태 반환 (NF Discovery Response)
       │
-      ▼
-AMF: 3. 세션 생성 요청
+      v
+4. AMF -> SMF: 세션 생성 요청 (Nsmf_PDUSession_CreateSMContext)
       │
-      ▼
-SMF: 4. 전달 규칙 설치
+      v
+5. SMF -> UPF: N4 인터페이스 PFCP 패킷 전달 규칙 설치 (Session Establishment)
       │
-      ▼
-UPF 패킷 경로 준비
-      │
-      ▼
-단말 등록 완료
+      v
+6. 수신 UPF 데이터 라우팅 준비 및 PDU 세션 확립 완료
 ```
 
 ### 동작 원리
 
-1. **세션 기능 발견**: AMF가 NRF에서 가용 SMF을 검색한다.
-2. **SMF 정보 반환**: NRF가 가용 기능 정보를 제공한다.
-3. **세션 생성 요청**: AMF가 품질•주소•정책 생성을 요청한다.
-4. **전달 규칙 설치**: SMF가 UPF에 **전달 규칙**을 설정한다.
+1. **가입자 접속 및 세션 이벤트 발생**: 단말 접속에 따라 AMF가 가입자 인증을 완료하고 PDU 세션 생성 요청을 수신한다.
+2. **NRF 서비스 발견(Discovery)**: AMF가 NRF로 대상 지역, 슬라이스(S-NSSAI)를 지원하는 가용 SMF 인스턴스 조회를 요청한다.
+3. **SMF 엔드포인트 반환**: NRF가 상태 및 서비스 용량을 검증한 후 최적의 SMF URI 엔드포인트를 AMF에 응답한다.
+4. **REST API 세션 생성 호출**: AMF가 지정된 SMF의 RESTful HTTP/2 API를 직접 호출하여 PDU 세션 컨텍스트 생성을 요청한다.
+5. **UPF 패킷 전달 규칙 설치**: SMF가 PCF의 QoS 정책에 맞춰 UPF로 PFCP 세션 생성 및 패킷 전달 규칙(PDR/FAR)을 하향 설치하여 데이터 통로를 확립한다.
 
 #### 한줄 요약
 
-- 안내 기능을 찾아 경로를 만든 뒤 데이터를 보낸다.
+- AMF의 NRF 세션 기능 발견, SMF 정보 수신, 세션 생성 요청 및 SMF-UPF 간 PFCP 규칙 설치를 통한 PDU 세션 확립 절차.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능 사이의 요청•응답 규격이다.
-- **서비스 인터페이스**: 5G 코어 제어 기능들이 기능명과 API로 서로 호출하는 규격이다.
-- **고정 인터페이스**: 정해진 노드 쌍 사이의 전용 연결로 기능을 결합하는 코어망 통신 방식이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 모듈 간 기능 및 데이터를 표준 규격으로 주고받는 통신 인터페이스이다.
+- **서비스 기반 인터페이스(Service-Based Interface, SBI)**: 5G 코어 제어 평면 NF 간 HTTP/2 RESTful 통신을 가능하게 하는 3GPP 표준 인터페이스 버스이다.
 
 </details>
 
-SBA는 5G 코어 기능을 서비스 단위로 연결하고, 4G는 노드 간 고정 인터페이스를 주로 사용한다.
-
-| 코어망 연결 구조 | **SBA** | **고정 인터페이스** |
+| 비교 항목 | **5G 코어 SBA (Service-Based Architecture)** | **4G EPC P2P (Point-to-Point)** |
 |:---|:---|:---|
-| 적용 기준 | 기능별 확장•슬라이싱 | 고정 구성•단순 운영 |
-| 핵심 특징 | **서비스 인터페이스**와 **API** 기반 등록•발견•호출 | 노드 간 전용 연결 |
-| 한계 | 호출 장애•보안 복잡성 | 결합도•증설 경직성 |
+| 네트워크 구조 | 클라우드 네이티브 서비스 통신 버스 (SBI) | 노드 간 1:1 하드코딩 전용 인터페이스 |
+| 핵심 프로토콜 | HTTP/2, JSON, OpenAPI RESTful API | GTP-C, Diameter, S1-AP/X2-AP |
+| 서비스 발견 및 확장 | NRF 기반 동적 서비스 자동 발견 및 NF 독립 스케일링 | MME/SGW 노드에 IP 및 포트 고정 하드코딩 |
+| 제어/사용자 분리 | CUPS 체계 적용으로 SMF와 UPF 완전 독립 구성 | SGW/PGW 제어 및 사용자 기능 부분 결합 |
+| 네트워크 슬라이싱 | 슬라이스별 전용 NF 생성 및 가상화 동적 배정 | 슬라이스 논리적 분리 및 차등 제어 불가능 |
 
-> 요약: SBA는 기능 독립성과 호출 의존성 공존이 핵심이다.
+> 요약: 4G P2P 구조 대비 5G SBA는 클라우드 네이티브 기반 서비스 동적 발견과 독립적 오토스케일링을 지원.
 
 #### 한줄 요약
 
-- 연결이 유연해진 대신 발견과 호출을 관리해야 한다.
+- 4G EPC의 점대점 구조 대비 5G SBA는 HTTP/2 API 기반 동적 서비스 발견과 유연한 독립 확장을 제공하는 아키텍처.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **회로 차단기**: 연속 실패한 서비스 호출을 일정 시간 차단해 장애가 다른 기능으로 확산되는 것을 막는 패턴이다.
-- **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)**: 서비스 호출 양쪽의 인증서를 검증해 망 기능의 상호 신원을 확인하는 전송 계층 보안(Transport Layer Security, TLS) 방식이다.
+- **회로 차단기(Circuit Breaker)**: 연동 NF의 트래픽 폭주나 장애 발생 시 호출을 즉시 차단하고 우회하여 연쇄 장애(Cascading Failure)를 방지하는 소프트웨어 패턴이다.
+- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: SBI API 통신 양단간 X.509 인증서를 통해 기계 신원을 상호 검증하는 보안 기술이다.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| NRF가 만료 기능 반환 | 상태 검사•등록 만료 자동화 | 호출 실패 감소 |
-| 서비스 API 무단 호출 | **mTLS**•토큰•권한 범위 적용 | 제어면 접근 통제 |
-| 연쇄 호출 장애 확산 | 시간제한•**회로 차단기**•대체 기능 | 코어 장애 격리 |
+| 문제점 | 발생 원인 | 실무 대응 대책 | 기대 효과 |
+|:---|:---|:---|:---|
+| NRF 만료 노드 반환 | NF 인스턴스 비정상 종료 시 NRF 등록 캐시 잔류 | NRF 헬스체크 Heartbeat 주기화 및 만료 자동 즉시 제거 | 비정상 NF 호출 실패 사전 예방 |
+| SBI API 무단 호출 | 서비스 버스 내 불인가 NF의 REST API 부적절 접근 | mTLS 암호화 채널 및 OAuth 2.0 기반 API 토큰 인가 적용 | 코어망 위장 호출 차단 및 보안성 확보 |
+| 연쇄 장애 확산 | 특정 NF (예: UDM) 지연 시 타 NF(AMF)의 호출 대기 폭주 | Service Mesh 연동 타임아웃 및 Circuit Breaker 패턴 도입 | 연쇄 장애 차단 및 시스템 복원력 확보 |
+| API 버전 불일치 | 신규 NF 업데이트 시 레거시 NF 간 API 규격 상충 | OpenAPI 스키마 버전 관리 및 API 게이트웨이(BSF) 수용 | 하위 호환성 유지 및 무중단 업그레이드 |
 
 #### 한줄 요약
 
-- NRF에서 응답하지 않는 망 기능의 등록 정보를 지워 다른 인스턴스를 찾게 한다.
+- mTLS/OAuth2 인증 통제, NRF 헬스체크 자동화, Service Mesh 기반 Circuit Breaker 도입으로 5G 코어 SBA 안정성 확보.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **서비스 발견**: 호출자가 NRF에서 요구 기능과 상태 조건에 맞는 NF 인스턴스를 찾는 과정이다.
+- **서비스 발견(Service Discovery)**: NRF를 통해 가용 NF의 URI, 지원 슬라이스 및 주소 정보를 수신하여 서비스 호출 대상을 결정하는 동적 매핑 과정이다.
 
 </details>
 
-- 기능별 독립 확장이 필요하면 **SBA**를 적용하고 **서비스 발견**과 호출 장애를 통제한다.
+- 5G 코어 구축 시 **클라우드 네이티브 SBA 아키텍처 도입**, **OAuth2/mTLS 기반 SBI 보안 강화**, **Service Mesh 기반 트래픽 제어 체계** 구현 필수.
 
 #### 한줄 요약
 
-- 망 기능을 독립 확장하려면 NRF 등록 상태와 서비스 호출 실패를 함께 통제해야 한다.
+- NRF 중심 동적 서비스 발견 체계 및 서킷 브레이커 기반 코어망 장애 격리 통제 구현 필수.
