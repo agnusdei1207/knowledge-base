@@ -22,172 +22,157 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DDR SDRAM(Double Data Rate Synchronous DRAM)**: 클록 상승•하강 엣지에서 데이터를 전송하고 주기적으로 전하를 복원하는 메모리.
-- **DRAM(Dynamic Random-Access Memory)**: 셀 전하로 비트를 저장해 주기적인 복원이 필요한 휘발성 메모리.
-- **전하 누설(Charge Leakage)**: DRAM 셀의 저장 전하가 시간이 지나며 줄어 데이터 보존을 위해 복원이 필요한 현상.
+- **DDR SDRAM (Double Data Rate Synchronous DRAM)**: 시스템 버스 클록의 상승 엣지(Rising Edge)와 하강 엣지(Falling Edge) 모두에서 데이터를 전송(Double Data Rate)하여 단일 엣지 대비 데이터 전송율을 2배 높인 동기식 DRAM 규격.
+- **DRAM (Dynamic Random-Access Memory)**: 1T1C 커패시터 전하 저장 방식을 사용하여 시간이 지남에 따라 전하 방전이 일어나므로 주기적인 리프레시(Refresh) 연산이 강제되는 메모리.
+- **전하 누설 (Charge Leakage)**: 커패시터 하단 및 트랜지스터 서브스레시홀드 구간을 통해 DRAM 1비트 전하가 서서히 방전되어 데이터 1이 0으로 변질되는 물리적 현상.
 
 </details>
 
-- 정의/개념: 클록의 상승·하강 엣지에서 데이터를 전송하고 셀 전하를 주기적으로 복원하는 **DDR SDRAM** 규격
-- 배경/필요성: 단일 엣지 전송은 대역폭 확장에 한계, DRAM 커패시터의 **전하 누설** 방지 불가
+- 정의/개념: 클록의 상승/하강 양 엣지에서 데이터를 전송(Double Data Rate)하며, 1T1C 커패시터의 **전하 누설(Charge Leakage)**을 차단하기 위해 **tREFI/tRFC** 타이밍 규격 기반의 주기적 전하 복원을 구동하는 **DDR SDRAM** 메인 메모리 기술.
+- 배경/필요성: 단일 엣지(SDR) 전송 한계를 극복하고 CPU와의 데이터 전송 대역폭을 극대화함과 동시에, 초미세 공정화에 따라 급증한 전하 누설 문제를 하드웨어 리프레시 타이밍 통제로 완벽 수습할 필요성 대두.
 
 #### 한줄 요약
-
-- DDR은 양 에지 전송으로 대역폭을 높이고 리프레시로 누설 전하를 복원한다.
+- 양 엣지(Double Edge) 데이터 전송과 뱅크 병렬성을 결합하고, tREFI 타이밍 규격 기반의 전하 리프레시를 구동하는 메인 메모리 기술.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **양 엣지 전송(Double-Edge Transfer)**: 한 클록 주기의 상승과 하강 순간 모두에 데이터를 전달하는 방식.
-- **뱅크 병렬성(Bank-Level Parallelism)**: 독립 셀 배열과 행 버퍼를 가진 여러 뱅크가 접근을 겹쳐 수행하는 성질.
-- **버스트 전송(Burst Transfer)**: 열 명령 한 번으로 연속 데이터를 여러 데이터 엣지에 걸쳐 보내는 방식.
-- **리프레시(Refresh)**: 누설되는 셀 전하를 보충하기 위해 메모리 행을 주기적으로 읽고 복원하는 동작.
+- **양 엣지 전송(Double-Edge Transfer)**: 1개 클록 주파수 주기 내에서 0->1 상승 엣지와 1->0 하강 엣지 2번 모두에 데이터를 싣는 버스 동기화 기술.
+- **뱅크 병렬성(Bank-Level Parallelism, BLP)**: 단일 칩 내부를 8개~32개의 독립적인 뱅크(Bank) 구조로 파티셔닝하여 뱅크 0의 Precharge 중 뱅크 1의 Read/Write를 동시 가동하는 아키텍처.
+- **버스트 전송(Burst Transfer)**: 단 1회의 Column Read/Write 명령 발송으로 지정된 버스트 길이(BL4, BL8, BL16)만큼 연속 메모리 묶음 데이터를 1클록 연속 인출하는 기법.
+- **리프레시(Refresh)**: DRAM 셀 커패시터 전하가 완전 소멸하기 전에 Sense Amplifier로 행을 읽어 1.0V/0.0V 전압으로 다시 강제 재충전해주는 행위.
 
 </details>
 
-- 같은 I/O 클록의 **양 엣지 전송**으로 핀당 전송률 향상
-- **뱅크 병렬성**·**버스트 전송**으로 행 처리와 데이터 전송을 겹쳐 연속 처리량 확대
-- 누설 전하를 메우는 주기적 **리프레시** 강제
+- 클록의 **양 엣지 전송(Double-Edge Transfer)** 기술을 적용하여 SDR 대비 동일 버스 클록 주파수에서 2배의 전송 속도(MT/s) 달성.
+- 다중 뱅크 구성을 통한 **뱅크 병렬성(Bank-Level Parallelism)** 및 **버스트 전송(Burst Length)**을 연동하여 행 변경 지연(Row Miss) 오버헤드를 완벽히 은닉.
+- 매 64ms 시간 이내에 모든 행을 재충전해야 하는 **tREFI(Refresh Interval)** 및 **tRFC(Refresh Cycle Time)** 대기 시간 수반.
 
 #### 한줄 요약
-
-- DDR은 양 에지 전송과 뱅크 병렬성으로 처리량을 높이지만, 리프레시 동안 일부 또는 전체 접근이 제한된다.
+- Double-Edge clocking 및 Bank-Level Parallelism을 통한 고대역폭 인출 특성과 tREFI/tRFC 타이밍 제어 기반 전하 복원 특성을 지님.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **메모리 컨트롤러(Memory Controller)**: 주소를 채널•랭크•뱅크•행•열로 나누고 접근과 리프레시 순서를 조정하는 회로.
-- **DDR PHY(DDR Physical Layer)**: 컨트롤러 명령과 데이터를 메모리 버스의 전기 신호로 변환하는 회로.
-- **DQ(Data Input/Output)**: 데이터 비트를 운반하는 신호.
-- **DQS(Data Strobe)**: 수신기의 데이터 샘플링 시점을 알리는 신호.
-- **행 버퍼(Row Buffer)**: 활성화한 행 전체를 보관하며 감지와 복원을 수행하는 회로.
-- **리프레시 카운터(Refresh Counter)**: 주기적으로 복원할 DRAM 행 주소를 순서대로 생성하는 회로.
+- **메모리 컨트롤러(Memory Controller)**: CPU 소켓 내에 배치되어 주소를 Channel, Rank, Bank, Row, Column 비트로 파싱하고 ACT, PRE, REF 명령 타이밍을 스케줄링하는 유닛.
+- **DDR PHY(DDR Physical Layer)**: 컨트롤러 명령 신호를 수십 GHz 고주파 미세 아날로그 전기 신호로 구동 정밀 변환하는 물리 계층 IC 블록.
+- **DQ / DQS**: 실제 8/16-bit 데이터 라인(DQ)과 데이터를 보정 래칭하기 위한 데이터 스트로브 동기 신호(DQS).
+- **행 버퍼(Row Buffer)**: 뱅크 내부에서 ACT 명령 구동 시 선택된 Row 행 전체(8KB)의 전하를 읽어온 후 래칭 보관하는 SRAM 성격의 고속 버퍼.
+- **리프레시 카운터(Refresh Counter)**: 매 tREFI 주기마다 리프레시를 실행할 DRAM 칩 내부의 Row 주소를 0번부터 순차적으로 올리는 칩 내장 카운터.
 
 </details>
 
 ```text
-[메모리 컨트롤러] -- [DDR 채널•PHY] -- [뱅크•행 버퍼]
-                                               |
-                                               |
-                                      [리프레시 카운터]
+[ DDR SDRAM Interface & Controller Architecture ]
+┌───────────────────────────────────────────────────────────┐
+│ Memory Controller (Address Scheduler : Act, Read, Ref)    │
+│  └─ Command Scheduler & Refresh Queue (tREFI Timer)       │
+├───────────────────────────────────────────────────────────┤
+│ DDR PHY (Physical I/O Layer : DQ / DQS Signal Training)   │
+├───────────────────────────────────────────────────────────┤
+│ DRAM Chip Array (Multi-Bank Group)                        │
+│  ├─ Bank 0 ~ Bank N (Row Buffer + Sense Amplifiers)       │
+│  └─ Internal Refresh Counter (Row Address Increment)      │
+└───────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 컨트롤러와 PHY는 뱅크 데이터 경로에 결합되고, 리프레시 카운터는 뱅크•행 버퍼의 갱신 주소를 제공하는 정적 연결.
-
-| 구성요소 | 책임 |
-|:---|:---|
-| 메모리 컨트롤러 | 주소 매핑•명령 순서 조정 |
-| DDR 채널•PHY | 명령•**DQ**•**DQS** 신호 변환 |
-| 뱅크•행 버퍼 | 행•열 접근과 전하 복원 |
-| 리프레시 카운터 | 갱신 대상 행 순환 지정 |
+| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
+|:---|:---|:---|
+| **메모리 컨트롤러** | 주소 비트 매핑, Command Scheduling 및 tREFI 리프레시 큐 타이밍 관리 | 행 적중(Row Hit) 스케줄링 및 리프레시 대기 지연 최소화 통제 |
+| **DDR PHY 인터페이스**| DQ(Data) 및 DQS(Strobe) 신호의 셋업/홀드 타임 정밀 트레이닝 | Gbit/s 초고속 전송 시 비트 반전 및 타이밍 스큐(Skew) 방지 |
+| **행 버퍼 (Row Buffer)**| ACT 명령 수신 시 1개 행 전체를 래칭 보관 | 연속 Column Read 시 Precharge 없이 15ns 초고속 Read 구동 |
+| **리프레시 카운터** | 칩 내부에 탑재되어 다음 번 리프레시 대상 Row 주소 자동 가산 | 외부 주소 버스 점유 없이 REF 명령 단독으로 전하 재충전 실행 |
 
 #### 한줄 요약
-
-- 컨트롤러와 PHY가 명령을 전달하고 뱅크와 카운터가 데이터 접근과 전하 복원을 수행한다.
+- Memory Controller, DDR PHY(DQ/DQS Training), Row Buffer 및 Internal Refresh Counter가 연동 구동됨.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **행 활성(Activate, ACT)**: 대상 DRAM 행을 여는 DDR 명령.
-- **프리차지(Precharge, PRE)**: 다음 행 접근 전에 현재 행을 닫는 DDR 명령.
-- **리프레시 간격(Refresh Interval, tREFI)**: 연속 리프레시 명령 사이에 허용되는 평균 시간 간격.
-- **리프레시 주기 시간(Refresh Cycle Time, tRFC)**: 리프레시 수행으로 메모리 접근이 제한되는 시간.
+- **행 활성(Activate, ACT)**: 해당 Bank의 특정 Row를 열어 행 버퍼로 로드시키는 명령.
+- **프리차지(Precharge, PRE)**: 오픈된 Row를 닫고 비트라인을 VCC/2 수준으로 초기화하는 명령.
+- **리프레시 간격(Refresh Interval, tREFI)**: 64ms 주기 동안 전체 행을 나누어 전하 충전하기 위해 발송되는 평균 리프레시 명령 간격 (일반적으로 7.8us).
+- **리프레시 주기 시간(Refresh Cycle Time, tRFC)**: REF 명령 수신 시 칩 내부가 리프레시를 완료할 때까지 타 명령을 거부하고 전면 대기하는 시간 (예: 110~350ns).
 
 </details>
 
 ```text
-                    [DDR 요청 대기열]
-                            |
-                  1. tREFI 기한 판정
-                      /           \
-                  [여유]          [도래]
-                    |               |
-          2. ACT•행 버퍼 활성   4. 리프레시 범위 선택
-                    |               |
-          3. 열 선택•버스트 전송  5. 대상 행 전하 복원
-                    |               |
-               [행 유지?]      [tRFC 완료]
-                /       \           |
-              [예]      [아니요]     |
-               |          |          |
-          [열 접근 지속] [PRE]       |
-               |          |          |
-               +----+-----+----------+
-                    |
-              [다음 요청 처리]
+[ Memory Controller Command Execution Loop ]
+                    │
+                    ▼
+          [ tREFI Timer Expired Check ? ]
+          ├─ Timer Expired (기한 도래)
+          │   1. AUTO REFRESH (REF) Command 발송
+          │   2. DRAM 칩 내부 tRFC 동안 전면 대기 (110~350ns Stall)
+          │   3. Internal Refresh Counter 주소 Row 충전 완결
+          │
+          └─ Normal Operation (일반 접근)
+              1. ACT (Row Activation) ──> Row Buffer 로드
+              2. CAS Read/Write ──> DQ/DQS Double-Edge Data Burst Transfer
+              3. PRE (Precharge) ──> Bitline VCC/2 Equalize
 ```
 
 ### 동작 원리
 
-1. **리프레시 기한 판정**: **tREFI** 허용 범위 안에서 일반 접근과 리프레시 명령의 실행 순서 결정.
-2. **행 버퍼 활성화**: 일반 접근이면 **ACT** 명령으로 대상 행을 감지 증폭기에 연결.
-3. **열 선택·버스트 전송**: 활성 행의 열 데이터를 선택해 DQ·DQS 신호로 양 엣지 전송.
-4. **리프레시 범위 선택**: 기한 도래 시 지원 방식에 따라 전체 뱅크 또는 특정 뱅크를 갱신 대상으로 지정.
-5. **셀 전하 복원**: **tRFC** 동안 대상 행을 읽고 다시 기록해 누설된 전하 보충.
+1. **타이머 체크**: 컨트롤러는 **tREFI(7.8us)** 타이머를 모니터링하여 기한 도래 시 리프레시 명령(REF)을 우선 구동함.
+2. **리프레시 락업**: REF 명령 수신 시 DRAM 칩은 **내장 카운터** 주소의 Row를 충전하며, **tRFC** 시간 동안 버스 명령 수신을 락업함.
+3. **일반 억세스 구동**: 리프레시가 없을 경우 **ACT** 명령으로 행 버퍼를 켜고, **CAS** 명령으로 DQ/DQS 핀을 통해 양 엣지 버스트 전송을 완결한 뒤 **PRE**로 행을 닫음.
 
 #### 한줄 요약
-
-- 메모리 컨트롤러는 tREFI 기한을 지키면서 일반 요청과 리프레시를 배치해 데이터 보존과 접근 지연을 절충한다.
+- tREFI 기한 감시 후 REF 명령으로 tRFC 락업 전하 충전을 가동하며 일반 접근 시 ACT->CAS 버스트 전송->PRE를 수행함.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
-- **전체 뱅크 리프레시(All-Bank Refresh)**: 명령 하나로 랭크의 모든 뱅크를 함께 갱신하는 방식.
-- **뱅크별 리프레시(Per-Bank Refresh)**: 대상 뱅크만 갱신하고 나머지 뱅크의 접근을 허용하는 방식.
-- **자체 리프레시(Self Refresh)**: 절전 상태에서 메모리가 내부 타이머로 스스로 전하를 복원하는 방식.
+- **전체 뱅크 리프레시(All-Bank Refresh / REFab)**: 단일 REF 명령으로 랭크 내의 모든 뱅크를 일제히 락업시키고 리프레시를 수행하는 방식.
+- **뱅크별 리프레시(Per-Bank Refresh / REFpb)**: 특정 1개 뱅크만 락업하여 리프레시하고, 타 뱅크는 정상적인 Read/Write 연산을 병렬 허용하는 LPDDR/DDR5 방식.
+- **자체 리프레시(Self Refresh / SR)**: 시스템이 C-State/S3 절전 대기 모드 진입 시 외부 컨트롤러 클록을 끄고 DRAM 칩 내부 온-칩 타이머로 리프레시를 자율 수행하는 상태.
 
 </details>
 
-| 리프레시 방식 | 전체 뱅크 | 뱅크별 | 자체 리프레시 |
+| 리프레시 방식 | All-Bank Refresh (REFab) | Per-Bank Refresh (REFpb) | Self Refresh (SR) |
 |:---|:---|:---|:---|
-| 적용 기준 | 메모리 접근이 한산한 구간 | 지연 민감 요청이 지속되는 구간 | 외부 접근 없는 절전 대기 진입 시 |
-| 핵심 특징 | **전체 뱅크 리프레시** | **뱅크별 리프레시** | **자체 리프레시** |
-| 한계 | **tRFC** 동안 랭크 전체 차단 | 갱신 횟수 증가로 명령 대역 소모 | 외부 접근 전면 차단 |
-
-> 요약: 뱅크별 리프레시는 전체 갱신의 랭크 차단 범위를 특정 뱅크로 축소.
+| **작동 메커니즘** | 랭크 내 모든 뱅크 일제히 락업 리프레시 | 1개 뱅크만 선택 락업, 타 뱅크 가동 | 외부 클록 차단 후 On-chip 타이머 자율 충전 |
+| **버스 대기 영향** | **tRFC 동안 랭크 전면 접근 불가** (Tail Latency) | **타 뱅크 정상 접근 가능** (지연 최소화) | 외부 메모리 버스 접근 전면 차단 |
+| **적용 아키텍처** | DDR3, DDR4 표준 | LPDDR4, LPDDR5, DDR5 표준 | 모바일, 노트북 S3/Sleep 절전 모드 |
+| **제어 복잡도** | 단순함 | 메모리 컨트롤러 스케줄러 복잡함 | DRAM 칩 내부 자체 전력 회로 복잡 |
 
 #### 한줄 요약
-
-- 전체 뱅크 방식은 제어가 단순하고, 뱅크별 방식은 접근 차단 범위를 줄이며, 자체 방식은 절전 중 데이터만 보존한다.
+- All-Bank(단순하나 랭크 전체 락업), Per-Bank(타 뱅크 억세스 허용으로 꼬리 지연 차단), Self Refresh(절전 모드 자율 유지)로 나뉨.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
-- **꼬리 지연(Tail Latency)**: 일부 요청이 리프레시 차단과 겹쳐 평균보다 크게 늦어지는 응답 시간.
-- **행 적중(Row Hit)**: 이미 활성화된 행에서 열만 선택해 ACT•PRE 비용을 피하는 접근.
-- **PHY 트레이닝(Physical Layer Training)**: DQ와 DQS 지연을 보정해 샘플링 시점을 맞추는 절차.
-- **주소 매핑(Address Mapping)**: 연속 주소를 채널·랭크·뱅크·행·열에 배정하는 규칙.
-- **요청 재정렬(Request Reordering)**: 데이터 의존성과 기한을 지키면서 메모리 요청의 실행 순서를 바꾸는 기법.
+- **꼬리 지연(Tail Latency / p99 Latency)**: 실시간 트랜잭션 요청이 하필 tRFC 리프레시 락업 주기와 겹쳐 응답 지연이 급증하는 99번째 백분위수 지연 현상.
+- **로해머 (Rowhammer Attack)**: 특정 DRAM 행(Row)을 짧은 시간 내 수백만 번 집중 억세스(ACT/PRE)하여 인접 행 셀 커패시터 전하를 누설 강제 유출시켜 비트를 반전시키는 보안 공격.
+- **TRR (Target Row Refresh)**: 로해머 공격을 방지하기 위해 집중 억세스되는 인접 행을 하드웨어적으로 감지하여 추가 리프레시를 강제 집행하는 방어 회로.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 전체 뱅크 리프레시와 요청이 겹쳐 **꼬리 지연** 증가 | **뱅크별 리프레시** 또는 한산 구간 실행으로 차단 분산 | 지연 민감 요청의 최대 대기 시간 완화 |
-| 행 미적중이 반복되어 ACT·PRE 명령 증가 | 행 지역성을 높이는 **주소 매핑**·**요청 재정렬** | **행 적중** 증가로 명령 비용 감소·처리량 향상 |
-| 고온에서 전하 누설이 빨라져 데이터 보존 시간 단축 | 온도 센서에 따라 리프레시 주기 단축 | 전하 손실 전 복원으로 데이터 보존 확보 |
-| 전송률 상승으로 DQ·DQS 샘플링 마진 감소 | 부팅·운용 중 **PHY 트레이닝**과 오류 감시 | 데이터 샘플링 지점 보정으로 신호 무결성 유지 |
+| All-Bank Refresh 시 tRFC 락업으로 인한 실시간 **꼬리 지연(Tail Latency)** 증대 | DDR5 / LPDDR5 **Per-Bank Refresh (REFpb)** 및 뱅크 스케줄링 적용 | 억세스 차단 시간 분산 및 p99 지연 대폭 감소 |
+| 특정 Row 집중 억세스로 인접 비트를 파괴하는 **로해머(Rowhammer)** 보안 취약점 | 컨트롤러/DRAM 내장 **TRR(Target Row Refresh)** 및 RFM 연동 | 인접 행 전하 강제 충전으로 비트 반전 공격 차단 |
+| 고온 환경(85℃ 이상) 작동 시 DRAM 전하 누설 속도 급증으로 데이터 파손 | 온도 센서 연동 2x Refresh (tREFI 간격 7.8us -> 3.9us 단축) | 고온 환경 데이터 보존성 완벽 유지 |
+| 초고속 전송(6400+ MT/s) 시 DQ/DQS 신호 스큐로 데이터 오류 | 부팅 시 **PHY Write/Read Training** 및 DQS Centering 수행 | 데이터 샘플링 마진 확보 및 신호 무결성 유지 |
 
 #### 한줄 요약
-
-- 뱅크별 리프레시는 갱신 중에도 다른 뱅크 접근을 허용해 전체 랭크 차단에 따른 꼬리 지연을 줄인다.
+- REFpb(Tail Latency 차단), TRR 연동(Rowhammer 방어), Temperature-based 2x Refresh 및 PHY Training을 구동함.
 
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
 
-- **지연 민감 구간(Latency-Sensitive Phase)**: 리프레시로 인한 일시 중단이 서비스 응답 목표를 위반할 수 있는 처리 구간.
-- **절전 대기(Standby)**: 외부 접근이 없는 동안 컨트롤러와 클록을 멈추고 메모리만 데이터를 보존하는 상태.
+- **DDR/Refresh 최적화 기준(DDR Refresh Optimization Criteria)**: 대상 시스템의 리얼타임 응답 목표(p99 Latency), 동작 온도 범위, 보안 위협(Rowhammer)을 평가하여 REFpb 및 TRR 타이밍 파라미터를 확정하는 프레임워크.
 
 </details>
 
-- **지연 민감 구간**에는 **뱅크별 리프레시**, **절전 대기**에는 **자체 리프레시** 선택
+- **DDR/Refresh 최적화 기준(DDR Refresh Optimization Criteria)**에 의거하여 초고속 데이터센터 및 모바일 AP 메모리 아키텍처 설계 시, Double-Edge 고대역폭을 지원하는 DDR5/LPDDR5 규격을 채택하고 **Per-Bank Refresh (REFpb)** 스케줄링, **TRR 로해머 방어 회로** 및 온도 가변 리프레시 제어 체계 적용 필수.
 
 #### 한줄 요약
-
-- 지연 민감 요청이 계속되면 뱅크별 리프레시를, 외부 접근이 없는 절전 상태에서는 자체 리프레시를 선택한다.
+- Double-Edge 전송 및 Bank-Level Parallelism 기반 대역폭 확보와 Per-Bank Refresh 및 TRR Rowhammer 방어를 결합한 메인 메모리 구축 체계 적용.

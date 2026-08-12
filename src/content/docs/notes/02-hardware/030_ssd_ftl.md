@@ -22,188 +22,170 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **플래시 변환 계층(Flash Translation Layer, FTL)**: 논리 주소를 NAND 물리 위치로 변환하는 계층.
-- **낸드(Not AND, NAND)**: 페이지 기록과 블록 삭제를 사용하는 플래시 메모리.
-- **SSD(Solid-State Drive)**: NAND와 컨트롤러로 구성한 저장장치.
+- **플래시 변환 계층 (Flash Translation Layer, FTL)**: SSD 컨트롤러 내부 펌웨어 형태로 탑재되어, 호스트의 파일 시스템 논리 주소(LPN/LBA)를 물리 NAND 플래시 주소(PPN/PBA)로 동적 매핑하고 가비지 컬렉션(GC) 및 마모도 평준화(Wear Leveling)를 총괄하는 핵심 펌웨어 엔지니어링 레이어.
+- **비제자리 갱신 (Out-of-Place Update)**: NAND Flash 하드웨어 물리 특성상 '제자리 덮어쓰기(Overwrite)'가 불가능하여, 덮어쓸 데이터를 항상 물리적 클린 빈 페이지(Clean Page)에 새로 쓰고 기존 페이지를 무효화(Invalidate)하는 동작 방식.
+- **NAND 플래시 (NAND Flash)**: 데이터 읽기/쓰기는 4KB~16KB 페이지(Page) 단위로 실행하고, 삭제는 2MB~8MB 블록(Block) 단위로만 실행 가능한 비휘발성 반도체.
 
 </details>
 
-- 정의/개념: 호스트 논리 페이지를 NAND의 최신 물리 페이지에 매핑하는 **FTL**
-- 배경/필요성: NAND는 빈 페이지에 기록하고 블록 단위로만 삭제할 수 있어 기존 페이지의 제자리 갱신 불가
+- 정의/개념: 호스트의 논리적 덮어쓰기 요청을 물리 **비제자리 갱신(Out-of-Place Update)** 방식으로 수습하고, 논리 주소(LPN)와 물리 주소(PPA)를 동적 매핑 변환하는 SSD 핵심 펌웨어 아키텍처 **FTL(Flash Translation Layer)**.
+- 배경/필요성: NAND Flash 반도체 고유의 "Erase-before-Write"(쓰기 전 블록 단위 삭제 필수) 및 페이지 읽기/쓰기 대 블록 삭제 단위 불일치 하드웨어 제약을 호스트 OS 파일 시스템에 노출시키지 않고 은닉하기 위해 필수 도입.
 
 #### 한줄 요약
-
-- FTL은 새 물리 페이지에 데이터를 기록하고 논리 매핑을 전환해 NAND의 제자리 갱신 제약을 숨긴다.
+- NAND Flash의 비제자리 갱신, Erase-before-Write 및 수명 한계 제약을 은닉하여 호스트 OS에 일반 블록 장치 형태의 투명한 LPN-PPA 변환을 제공하는 FTL 펌웨어 계층.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **비제자리 갱신(Out-of-Place Update)**: 새 물리 페이지에 데이터를 기록한 뒤 기존 페이지를 무효화하는 방식.
-- **마모도 평준화(Wear Leveling)**: 프로그램•삭제 횟수를 여러 NAND 블록에 분산하는 기법.
-- **가비지 컬렉션(Garbage Collection, GC)**: 유효 페이지 이주와 블록 삭제로 공간을 회수하는 작업.
-- **쓰기 증폭(Write Amplification)**: 호스트 논리 쓰기량 대비 NAND 물리 쓰기량의 비율.
+- **가비지 컬렉션 (Garbage Collection, GC)**: 무효화된(Invalid) 페이지가 적재된 희생 블록(Victim Block)에서 유효(Valid) 페이지만 딴 클린 블록으로 복사 인출한 뒤, 해당 희생 블록 전체를 Erase 복구시키는 재활용 과정.
+- **마모도 평준화 (Wear Leveling)**: P/E Cycle(Program/Erase Cycle) 수명 한계를 지닌 NAND 블록들이 특정 블록만 집중 마모되는 것을 막기 위해 전 블록의 P/E Count를 균등화 스위칭하는 기법.
+- **쓰기 증폭 (Write Amplification Factor, WAF)**: 호스트가 요청한 논리 쓰기 데이터량 대비, GC 유효 페이지 이동 및 메타데이터 갱신 등으로 실제 NAND Flash에 물리적 기록된 데이터량의 비율 ($WAF \ge 1.0$).
 
 </details>
 
-- 기존 페이지 덮어쓰기를 피하는 **비제자리 갱신**
-- 무효 페이지 블록을 회수하는 **가비지 컬렉션**
-- 프로그램•삭제 횟수를 분산하는 **마모도 평준화**
+- **비제자리 갱신(Out-of-Place Update)** 방식을 적용하여 새 빈 페이지에 데이터 로드 후 기존 페이지를 무효 상태(Invalid)로 변경.
+- **가비지 컬렉션(GC)**을 비동기 수행하여 무효 페이지가 차 있는 희생 블록을 물리 Erase 시키고 재사용 프레임으로 회수.
+- GC 유효 페이지 이동 오버헤드로 인해 **쓰기 증폭(WAF)** 지표가 1.0 이상으로 상승하는 상충 관계 수반.
 
 $$
-Write\ Amplification = \frac{NAND\ Physical\ Write\ Amount}{Host\ Logical\ Write\ Amount}
+Write\ Amplification\ Factor\ (WAF) = \frac{NAND\ Physical\ Write\ Amount\ (Bytes)}{Host\ Logical\ Write\ Amount\ (Bytes)}
 $$
-
-> GC•메타데이터 쓰기도 물리 쓰기에 포함
 
 #### 한줄 요약
-
-- FTL은 비제자리 갱신과 주소 매핑으로 페이지 기록·블록 삭제 단위 차이를 흡수하고, GC로 빈 블록을 회수한다.
+- Out-of-Place Update 기반 LPN-PPA 매핑, Garbage Collection 및 Wear Leveling을 통해 SSD의 수명 평준화 및 WAF 최소화를 도모함.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
-- **LPN(Logical Page Number)**: 호스트가 지정하는 페이지 번호.
-- **PPA(Physical Page Address)**: NAND 내부의 최신 페이지 주소.
-- **LPN-PPA 매핑(LPN-PPA Mapping)**: 논리 페이지를 최신 물리 페이지 위치에 연결하는 정보.
-- **가비지 컬렉터(Garbage Collector)**: 유효 페이지 이주와 블록 삭제를 실행해 여유 공간을 만드는 구성요소.
-- **메타데이터 복구기(Metadata Recovery Engine)**: 체크포인트와 저널을 이용해 정전 후 주소 매핑을 복원하는 구성요소.
-- **마모도 평준화기(Wear Leveling Engine)**: 블록별 프로그램•삭제 횟수를 분산해 NAND 수명을 고르게 사용하는 구성요소.
+- **LPN-PPA 매핑 테이블 (LPN-PPA Mapping Table)**: 호스트 논리 페이지 번호(Logical Page Number)를 실제 낸드 물리 페이지 주소(Physical Page Address)로 대조 변환해 주는 SRAM/DRAM 상의 룩업 표.
+- **메타데이터 복구기 (Metadata Recovery Engine / Power-Loss Protection)**: 갑작스러운 불시 정전(SPO) 발생 시, 저널링 로그와 DRAM 매핑 체크포인트를 결합하여 LPN-PPA 테이블을 무결하게 100% 복구하는 하드웨어/소프트웨어 블록.
+- **마모도 평준화기 (Wear Leveling Engine)**: 동적(Dynamic) 및 정적(Static) 마모도 알고리즘을 가동하여 P/E Cycle 이력을 실시간 대조하는 유닛.
 
 </details>
 
 ```text
-FTL 펌웨어 경계
-|
-+-- [LPN-PPA 매핑 테이블]
-+-- [가비지 컬렉터]
-+-- [마모도 평준화기]
-`-- [메타데이터 복구기]
+[ SSD Controller Internal FTL Architecture ]
+┌───────────────────────────────────────────────────────────┐
+│ Host Interface (NVMe / PCIe Protocol Handler)             │
+├───────────────────────────────────────────────────────────┤
+│ FTL (Flash Translation Layer Firmware)                    │
+│  ├─ LPN-PPA Mapping Engine (Page / Block / Hybrid)        │
+│  ├─ Garbage Collector (Victim Block Select & Copy Engine) │
+│  ├─ Wear Leveling Engine (Dynamic / Static P/E Control)   │
+│  └─ Power-Loss Protection (PLP & Mapping Journal Recover) │
+├───────────────────────────────────────────────────────────┤
+│ SRAM Buffer (Mapping Table & Journal) / On-Board DRAM     │
+├───────────────────────────────────────────────────────────┤
+│ NAND Flash Interface Controller (Multi-Channel / Multi-Die)│
+└───────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 네 구성요소가 동일한 FTL 펌웨어 경계에 포함되어 주소 변환•공간 회수•마모 분산•복구 책임을 나누는 정적 포함 관계.
-
-| 구성요소 | 책임 |
-|:---|:---|
-| LPN-PPA 매핑 테이블 | 논리 페이지의 최신 물리 위치 제공 |
-| 가비지 컬렉터 | 유효 페이지 이주와 블록 회수 |
-| 마모도 평준화기 | 블록별 삭제 부하 분산 |
-| 메타데이터 복구기 | 저널 기반 매핑 복원 |
+| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
+|:---|:---|:---|
+| **LPN-PPA 매핑 엔진** | LPN 주소를 신규 물리 PPA로 변환 및 테이블 업데이트 | Page-level 매핑을 통해 임의 쓰기(Random Write) 지연시간 극소화 |
+| **가비지 컬렉터 (GC)** | Victim Block 선택, 유효 페이지 이주 및 Erase 집행 | 빈 물리 블록(Free Block) 공급을 지속 유지하여 쓰기 마비 차단 |
+| **Wear Leveler** | P/E Cycle 카운터를 대조하여 Hot/Cold 데이터 위치 교체| 특정 낸드 블록 조기 파괴 방지 및 SSD 전체 수명 최대화 |
+| **Power-Loss Protection**| 불시 정전 시 대용량 커패시터 전력으로 Journal 로그 보존 | 정전 직후 부팅 시 LPN-PPA 매핑 테이블 100% 무결 복구 |
 
 #### 한줄 요약
-
-- 매핑 테이블이 최신 물리 위치를 제공하고, 가비지 컬렉터·마모도 평준화기·복구기가 각각 공간·수명·정전 복구를 관리한다.
+- LPN-PPA Mapping Engine, Garbage Collector, Wear Leveler 및 Power-Loss Protection(PLP) 복구 유닛으로 통합 구동됨.
 
 ## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **페이지 프로그램(Page Program)**: 빈 NAND 페이지에 데이터를 기록하는 동작.
-- **블록 삭제(Block Erase)**: NAND 블록 전체를 초기화하는 동작.
-- **매핑 저널(Mapping Journal)**: 새 물리 위치를 활성화하기 전에 주소 변경 기록을 영구 저장하는 로그.
-- **희생 블록(Victim Block)**: 유효 페이지를 옮긴 뒤 삭제해 여유 공간으로 회수할 NAND 블록.
+- **희생 블록 (Victim Block)**: 가비지 컬렉션(GC) 실행 시 무효(Invalid) 페이지 비율이 가장 높아 유효 데이터 이동 오버헤드가 적은 최적의 소거 대상 물리 블록.
+- **매핑 저널 (Mapping Journal)**: LPN-PPA 변경 이력을 Flash NAND 전용 저널링 블록에 로그 형태로 영구 적재하는 복구 롤링 기법.
 
 </details>
 
 ```text
-                      [논리 쓰기 요청]
-                               |
-                       1. 빈 페이지 할당
-                               |
-                       2. 새 페이지 프로그램
-                               |
-                       3. 매핑 저널 보존
-                               |
-                 4. 새 매핑 활성화•기존 무효화
-                               |
-                          [쓰기 완료]
-                               |
-                    [여유 블록 임계치 미만?]
-                        /              \
-                     [아니요]           [예]
-                        |                |
-                     [종료]   +--------------------------------+
-                              | 반복: 희생 블록의 유효 페이지 |
-                              | 5. 유효 페이지 이주•블록 삭제 |
-                              +--------------------------------+
-                                           |
-                                    [공간 회수]
+[ Host OS Logical Page Write Request (LPN) ]
+                     │
+                     ▼
+      [ 1. Allocate New Clean Physical Page (PPA) ]
+                     │
+                     ▼
+      [ 2. Flash Page Program (Write Data to New PPA) ]
+                     │
+                     ▼
+      [ 3. Update LPN-PPA Mapping Table & Write Mapping Journal ]
+                     │
+                     ▼
+      [ 4. Mark Old PPA as INVALID ] ──> Host Write Completed
+                     │
+         [ Free Block Count < Threshold Check ]
+                     ├─ False : Normal Operation Complete
+                     └─ True (여유 블록 부족)
+                         │
+                         ▼
+        [ 5. Background Garbage Collection (GC) Execution ]
+          - Select Victim Block (Highest Invalid Ratio)
+          - Copy Valid Pages from Victim Block to New Clean Block
+          - Execute Physical ERASE on Victim Block ──> Recycled Free Block
 ```
 
 ### 동작 원리
 
-1. **빈 페이지 할당**: 쓰기 가능한 NAND 블록에서 새 물리 페이지 주소 확보.
-2. **새 페이지 프로그램**: 기존 페이지를 덮어쓰지 않고 새 물리 페이지에 호스트 데이터 기록.
-3. **매핑 저널 보존**: 정전 후 변경을 재현할 수 있도록 새 **LPN**-**PPA** 대응 기록 확정.
-4. **매핑 전환·기존 페이지 무효화**: 새 PPA를 최신 위치로 활성화하고 이전 물리 페이지를 무효 상태로 변경.
-5. **유효 페이지 이주·블록 삭제**: 여유 블록 부족 시 **희생 블록**의 유효 페이지를 옮긴 뒤 **블록 삭제**.
+1. **신규 갱신 및 프로그래밍**: 호스트 LPN 쓰기 요청 수신 시 빈 **PPA**를 할당받아 낸드에 데이터를 **Page Program**함.
+2. **매핑 테이블 및 저널 업데이트**: **LPN-PPA 매핑 테이블**을 신규 PPA로 활성화하고 이전 PPA를 무효화(Invalid) 처리하며, **매핑 저널**을 보존함.
+3. **여유 블록 점검 및 GC**: 여유 블록 수치가 임계치 이하로 떨어지면 **희생 블록(Victim Block)**을 선택하여 유효 페이지를 옮기고 해당 블록을 **Physical Erase**하여 빈 블록을 회수함.
 
 #### 한줄 요약
-
-- FTL은 새 데이터와 매핑 저널을 확정한 뒤 최신 물리 위치를 전환하고, 여유 공간이 부족하면 GC로 블록을 회수한다.
+- New Page Write -> LPN-PPA Table/Journal Update -> Old Page Invalidate -> (Free Block 부족 시) GC Valid Copy & Block Erase 순으로 실행됨.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
-- **페이지 매핑 FTL(Page-Level Mapping FTL)**: 논리 페이지마다 물리 페이지를 직접 연결해 임의 쓰기 지연을 줄이는 방식.
-- **블록 매핑 FTL(Block-Level Mapping FTL)**: 논리 블록과 물리 블록을 연결해 매핑 메모리를 줄이는 방식.
-- **하이브리드 FTL(Hybrid Mapping FTL)**: 데이터 블록과 로그 블록 매핑을 결합해 지연과 메타데이터 크기를 절충하는 방식.
-- **매핑 메모리(Mapping Memory)**: SSD 컨트롤러가 논리•물리 주소 대응을 보관하는 메모리.
+- **페이지 매핑 FTL (Page-Level Mapping FTL)**: LPN 4KB 단위마다 독립적인 PPA 4KB를 매핑하는 방식으로, 임의 쓰기 성능은 극상이나 매핑 테이블 크기(DRAM 용량)가 매우 커지는 방식.
+- **블록 매핑 FTL (Block-Level Mapping FTL)**: LBN(논리 블록)과 PBN(물리 블록)만 매핑하는 방식으로 매핑 테이블은 극도로 작으나 임의 쓰기 시 병합(Merge) 오버헤드로 WAF가 폭증하는 방식.
+- **하이브리드 매핑 FTL (Hybrid Mapping FTL)**: 기본은 블록 매핑을 사용하되, 쓰기는 임시 로그 블록(Log Block)에 페이지 매핑으로 처리한 후 덮어쓰는 혼합 기법.
 
 </details>
 
-| FTL 방식 | 페이지 매핑 FTL | 블록 매핑 FTL | 하이브리드 FTL |
+| 매핑 FTL 방식 | 페이지 매핑 (Page-Level) | 블록 매핑 (Block-Level) | 하이브리드 매핑 (Hybrid) |
 |:---|:---|:---|:---|
-| 적용 기준 | 임의 쓰기 지연 축소 중요 시 | 순차 쓰기 중심이며 **매핑 메모리** 절감 중요 시 | 임의·순차 혼합 쓰기 절충 시 |
-| 핵심 특징 | 논리 페이지별 직접 매핑 | 논리•물리 블록 단위 매핑 | 데이터•로그 블록 매핑 결합 |
-| 한계 | 큰 **매핑 메모리** | 블록 병합의 **쓰기 증폭** | 병합•메타데이터 복잡도 |
-
-> 요약: 쓰기 패턴과 매핑 메모리 규모 기준으로 FTL 방식 선택.
+| **매핑 굵기 단위** | 4KB Page 단위 세밀 매핑 | 2MB~8MB Block 단위 굵은 매핑 | Block 단위 + Log Block Page 매핑 |
+| **DRAM 메모리 사용**| **매우 큼** (1TB SSD 당 1GB DRAM) | **매우 작음** (수 MB 이하) | 중간 수준 |
+| **임의 쓰기 성능** | **최고 성능** (WAF 극소화) | 최악 성능 (잦은 Block Merge) | 보통 수준 (Log Block 포화 시 병목) |
+| **쓰기 증폭 (WAF)** | 낮음 ($WAF \approx 1.0 ~ 1.5$) | 매우 높음 ($WAF > 5.0$) | 보통 수준 ($WAF \approx 2.0$) |
+| **대표 채택 솔루션**| **엔터프라이즈/소비자용 고성능 SSD 표준** | 과거 구형 SD카드, 저가형 플래시 | 초기 2.5인치 SSD |
 
 #### 한줄 요약
-
-- 임의 쓰기는 페이지 매핑, 순차 쓰기는 블록 매핑, 두 패턴이 섞이면 하이브리드 매핑으로 지연과 메타데이터 크기를 절충한다.
+- Page-level 매핑(고성능, 대용량 DRAM 요구, 표준 채택), Block-level 매핑(저용량 DRAM, WAF 취약), Hybrid 매핑(중간 형태)으로 나뉨.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
-- **초과 예비 공간(Over-Provisioning)**: 호스트에 노출하지 않고 GC에 사용하는 여유 블록.
-- **TRIM(Trim Command)**: 사용하지 않는 논리 주소를 SSD에 알리는 명령.
-- **체크포인트(Checkpoint)**: 복구 기준이 되는 매핑 상태를 기록한 메타데이터.
-- **저널(Journal)**: 체크포인트 이후 매핑 변경을 기록한 로그.
-- **동적 마모도 평준화(Dynamic Wear Leveling)**: 새 쓰기를 삭제 횟수가 적은 빈 블록에 배치하는 기법.
-- **정적 마모도 평준화(Static Wear Leveling)**: 오래 고정된 데이터도 옮겨 모든 블록의 삭제 횟수를 분산하는 기법.
+- **초과 예비 공간 (Over-Provisioning, OP)**: 전체 물리 낸드 용량 중 호스트 유저에게 노출하지 않고 FTL가 가비지 컬렉션(GC) 및 Wear Leveling 전용 공간으로 감추어 두는 여유 낸드 비율 (보통 7% ~ 28%).
+- **TRIM 명령 (TRIM Command)**: 호스트 OS가 파일 삭제 시 해당 논리 블록이 더 이상 쓰이지 않음을 SSD FTL에 명시적으로 통지하여 FTL이 사전 무효화(Invalidate) 처리하도록 돕는 SATA/NVMe 명령.
+- **정적 마모도 평준화 (Static Wear Leveling)**: 갱신이 거의 없는 읽기 전용 Cold Data를 억지로 다른 블록으로 옮기고, P/E Count가 적은 깨끗한 블록을 차출하여 Hot Write에 투입하는 정밀 수명 관리 기법.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 여유 블록 고갈되어 호스트 쓰기 중 전경 GC 발생 | **초과 예비 공간**·**TRIM**으로 무효 페이지를 미리 식별 | 쓰기 경로의 GC 감소로 꼬리 지연 완화 |
-| 작은 임의 쓰기로 희생 블록의 유효 페이지 이주 증가 | 작은 쓰기를 병합·순차화하고 GC 시작 임계치 조정 | 추가 물리 쓰기 감소로 **쓰기 증폭** 완화 |
-| 일부 블록에 프로그램·삭제 집중으로 수명 편차 증가 | **동적 마모도 평준화**·**정적 마모도 평준화**와 블록별 삭제 횟수 감시 | 삭제 부하 분산으로 NAND 수명 균등화 |
-| 매핑 전환 중 전원이 끊겨 최신 물리 주소 손실 | **체크포인트**·**저널**을 보존하고 장애 주입으로 복구 순서 검증 | 정전 후 최신 매핑 복원으로 주소 일관성 확보 |
-
-> 사례: 여유 공간•TRIM으로 GC 지연 완화
+| 호스트 쓰기 지속 시 전경 GC(Foreground GC) 발동으로 **p99 지연** 폭증 | **Over-Provisioning(OP)** 공간 20% 이상 확충 및 **TRIM** 연동 | 전경 GC 발생 90% 차단 및 p99 쓰기 지연시간 평탄화 |
+| 소규모 무작위 쓰기(Random Write) 지속 시 **쓰기 증폭(WAF)** 지표 폭증 | FTL 내 **Write Buffer Aggregation** 및 Page-level 매핑 구동 | WAF 1.2 이하 안정화 및 SSD 낸드 물리 수명 연장 |
+| 특정 Read Only 데이터가 적재된 블록의 마모율 불균형으로 조기 불량 | **Static Wear Leveling** 가동으로 Cold Data 블록 정기 이주 | 전체 낸드 블록의 P/E Count 수명 균등화 |
+| 불시 정전(SPO) 시 DRAM 상의 LPN-PPA 매핑 테이블 유실 및 데이터 파손 | 칩 전용 **탄탈륨 커패시터(PLP)** 탑재 및 **매핑 저널** 회복 | 정전 후 부팅 시 LPN-PPA 매핑 100% 무결 복구 |
 
 #### 한줄 요약
-
-- 예비 공간과 TRIM으로 미리 회수할 블록을 확보하면 호스트 쓰기 경로의 전경 GC와 꼬리 지연을 줄일 수 있다.
+- Over-Provisioning(OP) 확충, OS TRIM 연동, Static Wear Leveling 및 PLP Tantalum Capacitor 회로 대책을 가동함.
 
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
 
-- **임의 쓰기(Random Write)**: 떨어진 논리 주소를 갱신하는 쓰기 패턴.
-- **순차 쓰기(Sequential Write)**: 연속 논리 주소를 차례로 기록하는 쓰기 패턴.
-- **FTL 선택 기준**: 쓰기 패턴과 매핑 메모리 크기로 페이지·블록·하이브리드 FTL을 고르는 기준.
+- **FTL 최적화 기준 (FTL Optimization Criteria)**: 워크로드의 임의 쓰기 비율, Over-Provisioning(OP) 공간 비율, WAF 및 TRIM 연동 여부를 종합 분석하여 FTL 펌웨어 파라미터를 확정하는 프레임워크.
 
 </details>
 
-- **FTL 선택 기준**에 따라 **임의 쓰기**에는 **페이지 매핑 FTL**, **순차 쓰기**에는 **블록 매핑 FTL**, 혼합 쓰기에는 **하이브리드 FTL** 선택
+- **FTL 최적화 기준 (FTL Optimization Criteria)**에 의거하여 데이터센터 및 하이엔드 엔터프라이즈 SSD 구축 시, 임의 쓰기 저지연 및 WAF 절감을 달성하기 위해 **Page-Level Mapping FTL**과 1GB DRAM 매핑 공간을 기본 탑재하고, 20% 이상의 **Over-Provisioning(OP)** 공간 확충, OS **TRIM 연동** 및 **PLP 정전 보호** 제어 체계 적용 필수.
 
 #### 한줄 요약
-
-- 임의 쓰기는 페이지 매핑, 순차 쓰기는 블록 매핑, 혼합 쓰기는 하이브리드 FTL이 적합하다.
+- NAND Flash 하드웨어 제약 극복을 위한 Page-level FTL 아키텍처 채택 및 Over-Provisioning 확충과 TRIM 연동을 결합한 SSD 제어 체계 적용.

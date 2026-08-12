@@ -190,4 +190,4 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 #### 한줄 요약
 
-- 결정적 제어에는 Classic, 실행 중 탐색•변경되는 서비스에는 Adaptive를 선택한다.
+- 차량 전장 소프트웨어 추상화 및 재사용성 극대화를 위한 Classic/Adaptive AUTOSAR 플랫폼 구축 체계 적용.

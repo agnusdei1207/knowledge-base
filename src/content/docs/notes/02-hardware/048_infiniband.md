@@ -141,7 +141,7 @@ extra:
 
 #### 한줄 요약
 
-- 전용 HPC·AI 패브릭은 InfiniBand, 기존 이더넷에서 RDMA가 필요하면 인공지능, 범용 호환성이 우선이면 TCP/IP가 적합하다.
+- 전용 HPC·AI 패브릭은 InfiniBand, 기존 이더넷 환경에서 RDMA 가속이 필요하면 RoCE, 범용 호환성이 우선이면 TCP/IP 선택이 적합하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
