@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터를 디스크가 아닌 메인 메모리(RAM)에 상주시키고 풍부한 자료구조(String, Hash, List, Set, ZSet)를 단일 스레드로 원자 처리하는 초고속 캐시/데이터베이스인 **Redis**
-- Background/Necessity: RDBMS 디스크 I/O 응답 지연 극복, 초당 수십만 건(100k+ QPS)의 초고속 랭킹 시스템, 세션 관리, Pub/Sub 및 분산 락(Redlock) 처리 요구성
+- **정의**: 모든 데이터를 메인 메모리(`RAM`)에 상주시켜 서브밀리초(`Sub-millisecond`) 단위의 초고속 응답을 제공하는 인메모리 키-값(`In-Memory Key-Value`) 저장소인 **Redis(Remote Dictionary Server)**.
+- **필요성**: RDBMS 디스크 I/O 병목 극복, 랭킹 시스템, 세션 관리, Pub/Sub 및 분산 락(`Redlock`) 처리 등 초고속 QPS 대응 요구성.
 
 #### 한줄 요약
 
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **Sub-millisecond 속도 & Single-Threaded Event Loop**
-- 다양한 풍부한 **Rich Data Structures** 내장 지원
-- 영속성 옵션 **RDB (Snapshotting)** 및 **AOF (Append Only File)** 지원
+- **고성능 연산**: 단일 스레드 이벤트 루프(`Single-Threaded Event Loop`) 기반의 원자적 연산 보장.
+- **자료구조 지원**: `Strings`, `Hashes`, `Lists`, `Sets`, `Sorted Sets` 등 풍부한 내장 자료구조 지원.
+- **운영 안정성**: 스냅샷(`RDB`) 및 변경 로그(`AOF`) 기반의 영속성 보장.
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **Redis 수립 기준**에 따라 초고속 세션/캐시/랭킹 시스템 구축 시 **Redis Cluster & Sentinel HA** 필수 적용
+- **Redis 수립 기준 적용** (초고속 세션/캐시/랭킹 시스템 구축 시 `Redis Cluster` 및 `Sentinel HA` 필수 수용)
 
 #### 한줄 요약
 
