@@ -22,35 +22,29 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **데이터베이스 무결성 제약(Database Integrity Constraints)**: DB 내 저장되는 데이터의 정확성, 유효성, 일관성 유지를 위해 DBMS 스키마 수준에서 강제하는 규칙 및 제약 메커니즘.
-- **고아 데이터(Orphan Data)**: 참조 무결성(Referential Integrity) 미비로 부모 데이터 삭제 후 자식 테이블에 홀로 남은 부정확한 데이터.
-- **선언적 강제(Declarative Enforcement)**: 애플리케이션 코드 의존성을 제거하고 DDL(`PK`, `FK`, `CHECK`, `NOT NULL`)을 통해 DBMS 엔진이 런타임에 직접 데이터를 검증하도록 선언하는 방식.
+- **데이터베이스 무결성 제약(Database Integrity Constraints)**: DB에 저장된 데이터의 정확성, 유효성, 일관성 유지를 위해 DBMS 스키마 수준에서 강제하는 규칙 및 메커니즘.
+- **고아 데이터(Orphan Data)**: 참조 무결성(Referential Integrity) 결여로 부모 데이터 삭제 후 자식 테이블에 잔존하는 부정확한 데이터.
+- **선언적 강제(Declarative Enforcement)**: DDL(`PK`, `FK`, `CHECK`, `NOT NULL`)을 통해 DBMS 엔진이 런타임에 직접 데이터를 검증하도록 하는 방식.
 
 </details>
 
-- **정의**: 데이터베이스 내 결함이나 이상 데이터 저장을 방지하기 위해 스키마 수준에서 데이터의 유효성, 식별성, 참조 관계 규칙을 강제하는 **무결성 제약(Integrity Constraints)** 메커니즘.
-- **필요성**: 애플리케이션 검증 로직 파편화에 따른 무결성 누락 방지 및 다중 시스템 접근 시 일관된 무결성 샌드박스 보장.
-
-#### 한줄 요약
-
-- 장부 자체에 규칙을 걸어 잘못된 값과 끊어진 관계가 기록되지 않게 한다.
+- **정의**: 데이터베이스 내 이상 데이터 저장을 방지하기 위해 스키마 수준에서 유효성, 식별성, 참조 관계 규칙을 강제하는 메커니즘.
+- **필요성**: 애플리케이션 검증 로직 파편화 방지 및 다중 시스템 접근 시 일관성 보장.
+- **요약**: 데이터베이스 엔진 레벨의 데이터 일관성 규칙 강제.
 
 ## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
-- **선제적 런타임 차단(Pre-Validation)**: `INSERT/UPDATE/DELETE` 시 DBMS 엔진이 규칙을 검사하여 위반 시 트랜잭션 즉시 Abort/Rollback 수행.
-- **중앙집중식 규칙 관리(Centralized Rule Management)**: 애플리케이션 레벨이 아닌 DB 엔진 레벨의 통합 통제로 데이터 무결성 보장.
+- **선제적 런타임 차단(Pre-Validation)**: `INSERT/UPDATE/DELETE` 시 DBMS 엔진이 규칙 검사 후 위반 시 즉시 Abort/Rollback.
+- **중앙집중식 규칙 관리(Centralized Rule Management)**: DB 엔진 레벨의 통합 통제로 데이터 무결성 보장.
 
 </details>
 
-- **중앙집중식 엔진 통제(Centralized Engine Enforcement)**: DBMS 레벨의 통합 규칙 적용으로 데이터 일관성 보장.
-- **선제적 런타임 차단(Pre-Validation)**: `INSERT/UPDATE` 시점 위반 사항 즉시 차단 및 트랜잭션 롤백.
-- **선언적 DDL 활용**: `NOT NULL`, `UNIQUE`, `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` 등 DDL 기반 제약 선언.
-
-#### 한줄 요약
-
-- DB가 모든 입력을 같은 규칙으로 검사하므로 안전하지만 검사 비용은 든다.
+- **중앙집중식 엔진 통제**: DBMS 레벨의 통합 규칙 적용으로 데이터 일관성 보장.
+- **선제적 런타임 차단**: `INSERT/UPDATE` 시점 위반 사항 즉시 차단 및 롤백.
+- **선언적 DDL 활용**: `NOT NULL`, `UNIQUE`, `PK`, `FK`, `CHECK` 등 DDL 기반 규칙 선언.
+- **요약**: DBMS 엔진 기반의 선제적 위반 차단 및 일관성 관리.
 
 ## Ⅲ. 구조 및 구성요소 (데이터베이스 4대 핵심 무결성 제약조건)
 
@@ -65,7 +59,7 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
-│              데이터베이스 4대 무결성 제약 아키텍처         │
+│              데이터베이스 4대 무결성 제약 구조             │
 ├───────────────────┬───────────────────┬────────────────────┤
 │ 1. 개체 무결성    │ 2. 참조 무결성    │ 3. 도메인 무결성   │
 │   (Entity)        │   (Referential)   │   (Domain)         │
@@ -169,7 +163,7 @@ extra:
 
 </details>
 
-- **데이터베이스 무결성 수립 체계 적용** (상용 RDBMS 설계 시 PK/FK/NOT NULL 제약 및 FK 인덱스 100% 수용)
+- **데이터베이스 무결성 수립 체계 적용** (상용 RDBMS 설계 시 PK/FK/NOT NULL 제약 및 FK 인덱스 설계 필수 적용)
 
 #### 한줄 요약
 
