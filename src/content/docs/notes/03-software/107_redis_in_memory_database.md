@@ -20,166 +20,135 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Redis 인메모리 데이터 저장소(Redis In-Memory Data Store)**: 문자열•해시•목록•집합 같은 자료구조를 메모리에 저장하고 키 기반 명령으로 낮은 지연에 처리하는 저장소이다.
+- **Redis (Remote Dictionary Server)**: 모든 데이터를 메인 메모리(RAM)에 상주시시켜 서브밀리초(Sub-millisecond) 단위의 초고속 응답을 렌더링하는 인메모리 키-값(In-Memory Key-Value) 데이터 구조 저장소.
+- **Rich Data Structures**: 단순 String 외에 Hashes, Lists, Sets, Sorted Sets(ZSet), Bitmaps, HyperLogLog, Geospatial 등 풍부한 내장 자료구조(Data Structure)를 원자적(Atomic)으로 제공하는 특성.
+- **Single-Threaded Event Loop**: 메인 쿼리 연산을 단일 스레드 비동기 이벤트를 통해 락(Lock) 경합 및 컨텍스트 스위칭 오버헤드 없이 순차 처리하는 커널 아키텍처.
 
 </details>
 
-- 정의/개념: **Redis 인메모리 데이터 저장소**는 키 기반 자료구조를 메모리에서 처리한다.
-- 배경/필요성: 디스크 중심 저장은 반복 조회•카운터 갱신의 응답 지연을 늘린다.
+- 정의/개념: 데이터를 디스크가 아닌 메인 메모리(RAM)에 상주시키고 풍부한 자료구조(String, Hash, List, Set, ZSet)를 단일 스레드로 원자 처리하는 초고속 캐시/데이터베이스인 **Redis**
+- Background/Necessity: RDBMS 디스크 I/O 응답 지연 극복, 초당 수십만 건(100k+ QPS)의 초고속 랭킹 시스템, 세션 관리, Pub/Sub 및 분산 락(Redlock) 처리 요구성
 
 #### 한줄 요약
+
 - 디스크 창고 대신 메모리 책상에서 다양한 자료형을 바로 계산하는 키값 저장소이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **원자 명령**: 다른 명령이 중간에 개입하지 않은 것처럼 자료구조 변경을 한 단위로 실행하는 특성이다.
-- **키 유효 시간(Time To Live, TTL)**: 키가 자동 만료되기까지 남은 시간이다.
-- **제거 정책(Eviction Policy)**: 메모리 한도에서 삭제할 키를 정하는 규칙이다.
-- **Redis 데이터베이스 스냅샷(Redis Database Snapshot, RDB)**: 메모리 상태를 주기적으로 저장한 파일이다.
-- **추가 전용 파일(Append Only File, AOF)**: 변경 명령을 순서대로 기록한 로그 파일이다.
+- **In-Memory Speed**: RAM 기반 $1\text{ms}$ 이하의 Sub-millisecond 초저지연 성능.
+- **Atomic Operations**: 단일 스레드 기반으로 모든 자료구조 명령어가 동시성 충돌 없이 원자적(Atomic)으로 수행.
+- **Persistence Support (RDB & AOF)**: 인메모리 휘발성(Volatility) 단점을 극복하기 위해 디스크에 스냅샷(RDB) 및 변경 로그(AOF)를 기록하는 영속성 기능.
 
 </details>
 
-- **원자 명령**: 서버에서 자료구조를 직접을 갱신한다.
-- **키 유효 시간**•**제거 정책**: 키 수명과 메모리를 통제한다.
-- **RDB**•**AOF**: 스냅샷과 명령 로그로 복구한다.
+- **Sub-millisecond 속도 & Single-Threaded Event Loop**
+- 다양한 풍부한 **Rich Data Structures** 내장 지원
+- 영속성 옵션 **RDB (Snapshotting)** 및 **AOF (Append Only File)** 지원
 
 #### 한줄 요약
+
 - 빠르지만 메모리 한도와 재시작 복구 및 주 노드 장애를 함께 설계해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Redis 5대 자료구조 & 영속성 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Sentinel**: Redis 주 노드와 복제본을 감시하고 장애 시 새 주 노드 선출을 조정하는 구성요소이다.
-- **Redis Cluster**: 키를 해시 슬롯에 배정하고 여러 노드로 분산 라우팅하는 클러스터 방식이다.
+- **Sorted Set (ZSet)**: 각 멤버에 점수(Score)를 부여하여 랭킹 및 순위판(Leaderboard)을 $O(\log N)$으로 유지해 주는 대표 자료구조.
+- **RDB vs AOF**: RDB는 특정 시점의 메모리 덤프 파일, AOF는 모든 CUD 명령어를 파일 끝에 덧붙여 기록하는 로그 파일.
 
 </details>
 
 ```text
-[키•자료구조]
-    |
-    +-- [TTL•제거 정책]
-    |
-    +-- [RDB•AOF]
-    |
-    +-- [복제•Sentinel]
-    |
-    +-- [Redis Cluster]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Redis Architecture & Persistence                │
+├───────────────────┬───────────────────┬────────────────────────────────┤
+│ Data Structures   │ In-Memory RAM     │ Disk Persistence               │
+├───────────────────┼───────────────────┼────────────────────────────────┤
+│ • Strings, Hashes │ • Memory Cache    │ • RDB (Point-in-Time Snapshot) │
+│ • Lists, Sets     │ • Single-Thread   │ • AOF (Append Only Log File)   │
+│ • Sorted Sets     │   Event Loop      │ (Replication / Cluster HA)     │
+└───────────────────┴───────────────────┴────────────────────────────────┘
 ```
 
-선의 의미: 키•자료구조에서 갈라지는 선은 키 만료•메모리 제거 정책, RDB•AOF 복구 기록, 복제•장애 전환 기능의 결합 관계를 뜻하며, 복제•Sentinel과 Redis Cluster의 선은 복제본 관리와 해시 슬롯•노드 라우팅을 함께 구성하는 관계를 뜻한다.
+선의 의미: 인메모리 RAM 상의 5대 자료구조를 단일 스레드로 연산하고, RDB/AOF 디스크 백업 및 Cluster 라우팅으로 영속성을 수용하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 키•자료구조 | 저장 단위와 **원자 명령** 정의 |
-| TTL•제거 정책 | **키 유효 시간**•**제거 정책** 관리 |
-| RDB•AOF | **Redis 데이터베이스 스냅샷**•**추가 전용 파일** 기반 복구 |
-| 복제•Sentinel | **Sentinel**이 복제본•장애 전환 관리 |
-| Redis Cluster | **Redis Cluster**가 해시 슬롯•노드 라우팅 관리 |
+| 자료구조 (Data Structure) | 주요 내부 구조 및 특징 | 실무 활용 도메인 및 유스케이스 |
+|:---|:---|:---|
+| **String** | 가장 기본 키-값 형태, 최대 512MB | **HTML 캐싱, 세션 저장소, 앰플리튜드 카운터** |
+| **Hash** | Field-Value 쌍을 지닌 객체 구조 | **유저 프로필, 객체 데이터 구조 표현** |
+| **List** | Linked List 구조, 좌/우 푸시 팝 | **최근 메시지 큐, 타임라인 피드** |
+| **Set** | 중복 없는 무순서 집합 | **유저 방문자 수(UV), 교집합/합집합 연산** |
+| **Sorted Set (ZSet)** | **Score 기반 자동 정렬 (SkipList)** | **실시간 실시간 검색어, 게임 리더보드 랭킹** |
 
 #### 한줄 요약
 
 - 메모리 서랍과 만료표, 복구 기록, 사본, 슬롯 안내자로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Redis Eviction Policy & Cache Expiration)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **키•자료구조 명령**: 해시 슬롯의 담당 노드에 원자 연산을 보내는 단계이다.
-- **AOF 명령 기록**: 재실행 가능한 변경 명령을 로그에 추가하는 단계이다.
-- **파일 동기화(File Synchronization, fsync)**: 정책에 따라 로그를 디스크에 기록하는 단계이다.
-- **복제 스트림 전파**: 변경 명령과 순서를 복제본에 보내는 단계이다.
-- **복제 오프셋 확인**: 복제본의 마지막 반영 위치를 확인하는 단계이다.
+- **Maxmemory Policy (제거 정책)**: 메모리가 `maxmemory` 한계치에 도달했을 때 키를 삭제하는 정책 (LRU, LFU, Volatile-LRU 등).
+- **TTL (Time To Live)**: 키에 만료 시간(Seconds)을 설정하여 자동 소멸시키는 캐시 제어 지표.
 
 </details>
 
 ```text
-키•명령 요청
-    |
-    v
-1. 키•자료구조 명령
-    |
-    +-- 영속성 경로
-    |       |
-    |       +--> 2. AOF 명령 기록
-    |                 |
-    |                 +--> 3. 파일 동기화
-    |
-    +-- 복제 경로
-            |
-            +--> 4. 복제 스트림 전파
-                      |
-                      +--> 5. 복제 오프셋 확인
-    |
-    v
-정책 충족 결과 반환
+[Client Write Request] ──► [Memory Usage Check vs maxmemory]
+                                     │
+       ┌─────────────────────────────┴─────────────────────────────┐
+       ▼ (Under Limit)                                             ▼ (Over Limit)
+[Normal RAM Memory Allocation]             [Eviction Policy (LRU / LFU) 튜플 삭제]
 ```
 
 ### 동작 원리
 
-- **1. 키•자료구조 명령**: **키•자료구조 명령**으로 주 노드에 원자 연산을 전달한다.
-- **2. AOF 명령 기록**: **AOF 명령 기록**으로 재실행 가능한 변경을 추가한다.
-- **3. 파일 동기화**: **파일 동기화**로 정책에 따른 디스크 기록을 수행한다.
-- **4. 복제 스트림 전파**: **복제 스트림 전파**로 변경 순서를 복제본에 전달한다.
-- **5. 복제 오프셋 확인**: **복제 오프셋 확인**으로 복제본의 반영 위치를 판정한다.
+1. **Memory Allocation**: 데이터 삽입 시 `maxmemory` 설정값 체크.
+2. **Eviction Execution**: 메모리가 부족할 경우 설정된 정책(`allkeys-lru`: 가장 오래 사용되지 않은 키 삭제)에 따라 데이터를 쫓아내고(Evict) 메모리 확보 후 쓰기 완료.
 
 #### 한줄 요약
 
 - 키 담당 노드가 메모리 값을 바로 고치고 복구 로그와 사본에 변경을 남긴다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Redis 대 Memcached)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Redis**: 자료구조 연산과 영속성 및 복제가 필요한 인메모리 캐시에 적합한 저장소이다.
-- **Memcached**: 재생성 가능한 단순 키값 객체를 여러 노드의 메모리에 분산 저장하는 캐시이다.
+- **Redis vs Memcached**: Redis는 다채로운 자료구조, 영속성, 클러스터링을 지원하는 종합 저장소, Memcached는 단순 String 전용 멀티스레드 정적 캐시.
 
 </details>
 
-| 인메모리 캐시 | Redis | Memcached |
+| 비교 항목 | Redis (Remote Dictionary Server) | Memcached |
 |:---|:---|:---|
-| 적용 기준 | 자료구조 연산•복구 필요 | 재생성 가능한 단순 객체 캐시 |
-| 핵심 특징 | **Redis** | **Memcached** |
-| 한계 | 복구•복제•슬롯 운영 복잡성 | 노드 변경 시 키 재분배 |
+| 데이터 구조 | **Strings, Hashes, Lists, Sets, ZSets 등 다채로움**| **단순 String (Key-Value) 전용** |
+| 아키텍처 스레드 | **단일 스레드 (Single-Threaded Event Loop)**| **멀티 스레드 (Multi-Threaded)** |
+| 영속성 (Persistence)| **지원 (RDB 스냅샷 & AOF 로그)** | **미지원 (메모리 휘발성 100%)** |
+| 고가용성 (HA) | **Sentinel (자동 승격) & Redis Cluster** | 독립 노드 운영 (외부 라우팅 필요) |
 
 #### 한줄 요약
 
 - 복구와 계산이 필요하면 Redis, 다시 만들 수 있는 단순 임시 값이면 Memcached를 검토한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Redis 3대 안티패턴 및 튜닝)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **복구 시점 목표(Recovery Point Objective, RPO)**: 장애 시 허용하는 최대 데이터 손실 시점이다.
-- **메모리 부족(Out of Memory, OOM)**: 사용량이 메모리 한도를 넘은 상태이다.
-- **메모리 한도(Memory Limit)**: Redis가 사용할 수 있는 최대 메모리 양이다.
-- **TTL 편차(TTL Jitter)**: 인기 키의 만료 시점을 분산하는 값이다.
-- **요청 병합(Request Coalescing)**: 동시 원본 조회를 하나로 합치는 방식이다.
-- **키 분할(Key Splitting)**: 핫키와 빅키를 여러 키로 나누는 활동이다.
-- **명령 시간 감시(Command-time Monitoring)**: 장시간 명령을 관찰하는 활동이다.
-- **독립 백업(Independent Backup)**: RDB와 AOF를 별도 위치에 보관한 사본이다.
-- **복구 훈련(Recovery Drill)**: 백업에서 실제 복원을 검증하는 활동이다.
+- **Cache Stampede (캐시 재앙)**: 대량의 핫키(Hot Key) TTL이 동시에 만료되어 순간적으로 수만 건의 쿼리가 RDBMS로 직접 몰려 DB가 다운되는 현상.
+- **O(N) Command Threat**: 단일 스레드 특성상 `KEYS *` 또는 `FLUSHALL` 같은 $O(N)$ 명령을 실행하면 전체 Redis가 먹통(Lockup)이 되는 심각한 위협.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 안티패턴 | 발생 원인 및 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 원본을 Redis에만 두면 장애 시 RPO 초과 | 재생성 여부•**복구 시점 목표**별 저장 역할 분리 | 원본 데이터 손실 방지 |
-| 메모리 한도 도달 시 OOM이나 중요 키 제거 | **메모리 한도**•**제거 정책** 설정 | **메모리 부족**•중요 키 제거 방지 |
-| 인기 키의 동일 TTL은 원본 요청을 동시에 유발 | **TTL 편차**•**요청 병합** 적용 | 캐시 스탬피드 완화 |
-| 핫키•빅키는 담당 노드의 단일 스레드 지연 유발 | **키 분할**•**명령 시간 감시** | 단일 노드 지연 감소 |
-| RDB•AOF만 의존하면 파일 손상 시 복구 불가 | **독립 백업**•**복구 훈련** | 영속성 파일 손실 대응 |
+| **1. `KEYS *` 명령 실행** | 단일 스레드 블로킹으로 전사 서비스 중단 | **`KEYS` 사용 절대 금지, `SCAN` 명령으로 대체** |
+| **2. Cache Stampede** | 핫키 TTL 동시 만료로 DB 폭사 | **TTL에 Random Jitter(가변 오차) 추가 및 Probabilistic Early Expiration** |
+| **3. Big Key (거대 키)** | Hash/ZSet 내 10만 개 이상 튜플 축적 | **키 분할 (Key Sharding) 및 주기적 분선** |
+
+> 사례: **카카오 / 쿠팡 Redis Cluster (16384 Hash Slot) 기반 분산 인메모리 캐시 운용**
 
 #### 한줄 요약
 
@@ -187,18 +156,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **복제(Replication)**: Redis 변경을 다른 노드에 전파하는 방식이다.
-- **백업(Backup)**: Redis 영속성 파일을 별도로 보관한 사본이다.
-- **캐시(Cache)**: 원본에서 다시 만들 수 있는 값을 빠른 조회를 위해 임시 저장한 사본이다.
-- **Redis 저장 역할 선택 기준**: 값의 재생성 가능성과 허용 데이터 손실 및 복구 책임을 함께 평가하는 기준이다.
+- **Redis 수립 기준(Redis Architecture Standards)**: 인메모리 사양, Maxmemory LRU 정책, RDB/AOF 영속성 및 Redis Cluster 구축에 의거한 체계.
 
 </details>
 
-- **Redis 저장 역할 선택 기준**에 따라 재생성 가능 값만 **캐시**로 두고 낮은 RPO에는 **AOF**•**복제**•**백업**을 적용한다.
+- **Redis 수립 기준**에 따라 초고속 세션/캐시/랭킹 시스템 구축 시 **Redis Cluster & Sentinel HA** 필수 적용
 
 #### 한줄 요약
 
-- **Redis 저장 역할 선택 기준**은 값의 재생성 가능성부터 확인한다.
+- Redis 저장 역할 선택 기준은 값의 재생성 가능성부터 확인한다.
