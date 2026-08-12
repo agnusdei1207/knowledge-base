@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Cloud-Native Observability (관측성)**: 분산 클라우드 네이티브 아키텍처에서 외부 텔레메트리(Telemetry) 신호인 3대 기둥(Metrics, Logs, Traces)을 통합 렌더링하여 시스템 내부의 복잡한 비정상 상태(Unknown Unknowns) 원인을 추론하고 시각화하는 기술.
-- **Metrics, Logs, Traces (Observability 3 Pillars)**: 수치 집계(Metrics), 이벤트 기록(Logs), 분산 엔드-투-엔드 이동 경로(Traces)의 3대 핵심 텔레메트리 데이터.
-- **OpenTelemetry (OTel)**: 메트릭, 로그, 트레이스 데이터를 수집/표준화하기 위한 CNCF 산하의 글로벌 텔레메트리 표준 오픈소스 프로젝트.
+- **관측성(Observability)**: Metrics, Logs, Traces(3대 기둥)를 통합 분석하여 복잡한 시스템의 비정상 원인을 추론하는 기술.
+- **관측성 3대 기둥(3 Pillars)**: 수치 집계(Metrics), 이벤트 기록(Logs), 분산 엔드-투-엔드 이동 경로(Traces) 데이터.
+- **오픈텔레메트리(OpenTelemetry, OTel)**: 텔레메트리 데이터 수집 및 표준화를 위한 CNCF 오픈소스 프로젝트.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Metrics (Prometheus 기반 CPU/RAM/QPS 시각화 및 이상 징후 알림)**
-- **Logs (Loki / Fluentbit 기반 구조화 JSON 로그 및 상세 오류 문맥 파악)**
-- **Traces (Jaeger / Tempo 기반 분산 서비스 간 HTTP 호출 병목 핑퐁 추적)**
+- **지표(Metrics)**: Prometheus 기반 시스템 자원(CPU/RAM) 및 서비스 성능(QPS) 시각화.
+- **로그(Logs)**: Loki/Fluentbit 기반 구조화(JSON) 및 오류 상세 문맥 파악.
+- **추적(Traces)**: Jaeger/Tempo 기반 분산 서비스 간 호출 경로 및 병목 구간 추적.
 
 #### 한줄 요약
 
@@ -79,11 +79,11 @@ extra:
 
 선의 의미: OTel Collector를 통해 수집된 3대 텔레메트리가 각각의 전용 저장소로 저장된 후 Grafana 단일 뷰 대시보드로 통합 연동되는 아키텍처.
 
-| 관측성 3대 기둥 (Pillar) | 핵심 역할 및 기술 메커니즘 | 대표 기술 스택 도구 |
+| 관측성 3대 기둥 | 역할 및 기술 메커니즘 | 대표 기술 스택 |
 |:---|:---|:---|
-| **1. Metrics (지표)** | **시간 흐름에 따른 수치 집계 (CPU %, QPS, 500 Error Count)**| **Prometheus, Datadog** |
-| **2. Logs (로그)** | **이벤트 발생 시점의 상세 텍스트/JSON 문맥 기록** | **Grafana Loki, Fluentbit, ELK** |
-| **3. Traces (추적)** | **유저 1개 요청이 수십 개 MSA를 거쳐가는 구간별 Latency**| **Jaeger, Grafana Tempo, Zipkin** |
+| **Metrics (지표)** | 시간 흐름에 따른 수치 집계(QPS, 에러율) | Prometheus, Datadog |
+| **Logs (로그)** | 이벤트 발생 시점의 상세 문맥 기록 | Grafana Loki, Fluentbit |
+| **Traces (추적)** | 요청의 구간별 Latency 및 이동 경로 | Jaeger, Grafana Tempo |
 
 #### 한줄 요약
 
@@ -155,14 +155,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Observability 수립 기준(Observability Standards)**: OpenTelemetry 표준, 3-Pillar(Prometheus+Loki+Tempo), Trace ID Correlation 및 Tail-based Sampling에 의거한 체계.
-
-</details>
-
-- **Observability 수립 기준**에 따라 차세대 MSA 구축 시 **Cloud-Native Observability & OpenTelemetry** 필수 적용
-
-#### 한줄 요약
-
-- SLO 이상에서 대표 추적와 같은 식별자의 로그까지 이동할 수 있는 신호만 남기고 원인 분석에 쓰이지 않는 수집량은 줄여야 한다.
+- **분산 환경 관측성 3대 기둥 기반 통합 모니터링 체계 확립**
