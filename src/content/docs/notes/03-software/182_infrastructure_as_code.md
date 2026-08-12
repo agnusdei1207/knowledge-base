@@ -33,13 +33,13 @@ extra:
 
 #### 한줄 요약
 
-- **IaC (Infrastructure as Code)**: 클라우드 인프라를 수동 조작 대신 기계가 읽는 선언적 코드(Declarative Code)로 정의·배포하는 자동화 관행.
-- **Terraform (테라폼)**: HashiCorp의 HCL 기반 오픈소스 IaC 도구로, 인프라 구축의 업계 표준 플랫폼.
-- **Idempotency (멱등성)**: 반복 실행해도 최종 인프라 상태(End-State)가 동일하게 유지되어야 하는 선언형 IaC의 핵심 철학.
+- **IaC(Infrastructure as Code)**: 서버, 데이터베이스 등 클라우드 인프라를 수동 조작 대신 기계가 읽을 수 있는 선언적 코드(Declarative Code)로 정의·배포하는 자동화 관행.
+- **테라폼(Terraform)**: HashiCorp가 개발한 HCL(HashiCorp Configuration Language) 기반 오픈소스 IaC 도구로, 인프라 구축의 업계 표준 플랫폼.
+- **멱등성(Idempotency)**: 반복 실행해도 최종 인프라 상태(End-State)가 동일하게 유지되어야 하는 선언형 IaC의 핵심 철학.
 
 </details>
 
-- 정의: 인프라 구성 요소를 코드로 정의하여 버전 관리(Git), 테스트, CI/CD 등 엔지니어링 생태계를 인프라 영역으로 확장한 기술.
+- 정의: 인프라 구성 요소를 코드로 정의하고 버전 관리(Git), 테스트, CI/CD 등 엔지니어링 생태계를 인프라 영역으로 확장한 자동화 기술.
 - 배경: 수동 관리(Click-Ops) 방식의 휴먼 에러, 환경 불일치, 복제 불가능성 등의 한계 극복.
 
 #### 한줄 요약
@@ -50,10 +50,10 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Immutable Infrastructure (불변 인프라)**: 기존 서버 수정(Update) 대신 신규 서버 이미지(AMI, Docker)로 대체(Replace)하는 클라우드 네이티브 철학.
-- **Declarative Approach (선언형 접근)**: 절차적 스크립트가 아닌, 최종 필요한 상태(What)만 선언 시 엔진이 생성·변경 수행.
-- **Version Control & Auditing (버전 관리 및 감사)**: 변경 사항을 Git 로그로 관리하여 추적 및 롤백 지원.
-- **Drift Detection (편차 탐지)**: 선언적 목표 상태와 실제 인프라 상태 간의 차이를 자동 식별하여 동기화.
+- **불변 인프라(Immutable Infrastructure)**: 기존 서버 수정(Update) 대신 신규 서버 이미지(AMI, Docker)로 대체(Replace)하여 환경 일관성을 보장하는 클라우드 네이티브 철학.
+- **선언형 접근(Declarative Approach)**: 절차적 스크립트가 아닌 최종 필요한 상태(What)만 선언 시 엔진이 생성 및 변경을 수행하는 방식.
+- **버전 관리 및 감사(Version Control & Auditing)**: 변경 사항을 Git 등으로 관리하여 이력 추적 및 롤백을 지원하는 체계.
+- **편차 탐지(Drift Detection)**: 선언적 목표 상태와 실제 인프라 상태 간의 불일치를 자동 식별하여 동기화를 유도하는 기능.
 
 </details>
 
@@ -65,24 +65,24 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **State File (상태 파일)**: Terraform이 실제 클라우드 인프라에 어떤 리소스를 만들었는지 매핑 정보를 기록해 둔 JSON 형식의 장부 파일(`.tfstate`). 선언된 코드와 실제 환경을 비교하는 핵심 기준점.
+- **상태 파일(State File)**: Terraform이 실제 클라우드 인프라에 생성한 리소스 정보를 매핑한 JSON 형식의 장부(`.tfstate`). 선언된 코드와 실제 환경을 비교하는 핵심 기준점.
 
 </details>
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   Terraform IaC Execution Architecture                 │
+│                   테라폼 기반 IaC 실행 아키텍처                        │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 1. [Developer Code] (main.tf)                                          │
+│ 1. [개발자 코드] (main.tf)                                             │
 │         │                                                              │
 │         ▼                                                              │
-│ 2. [Terraform Core Engine] ◄──(비교)── 3. [State File (.tfstate)]      │
-│         │ (Plan & Apply)                      (S3 / Terraform Cloud)   │
+│ 2. [테라폼 코어 엔진] ◄──(비교)── 3. [상태 파일 (.tfstate)]          │
+│         │ (계획 및 적용)                      (S3 / Terraform Cloud)   │
 │         ▼                                                              │
-│ 4. [Provider Plugins] (AWS, GCP, K8s API 번역기)                       │
+│ 4. [프로바이더 플러그인] (AWS, GCP, K8s API 변역기)                  │
 │         │                                                              │
-│         ▼ (API Calls)                                                  │
-│ 5. [Actual Cloud Infrastructure] (EC2, VPC, RDS 등 생성/삭제)          │
+│         ▼ (API 호출)                                                   │
+│ 5. [실제 클라우드 인프라] (EC2, VPC, RDS 등)                         │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -138,7 +138,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Configuration Management (구성 관리 도구)**: 서버 인프라 전체를 띄우는 것보다, 이미 띄워진 OS 내부에 들어가서 패키지(Nginx, MySQL)를 설치하고 설정 파일(conf)을 맞추는 데 특화된 Ansible, Chef 류의 도구.
+- **구성 관리 도구(Configuration Management)**: 인프라 프로비저닝 후 이미 실행 중인 OS 내부에 접속하여 패키지 설치 및 환경 설정 파일(conf)을 제어하는 데 특화된 Ansible, Chef 등 도구.
 
 </details>
 
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- IaC 아키텍처 수립 기준에 따라 Cloud-Native MSA 환경 설계 시 선언형 프로비저닝(Terraform) 및 불변 인프라(Immutable Infrastructure) 체계 필수 적용.
+- IaC 아키텍처 기반 클라우드 네이티브 MSA 환경 설계 시 선언형 프로비저닝 및 불변 인프라 체계 적용.
 
 #### 한줄 요약
 
