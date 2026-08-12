@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 전통적 RDBMS의 제자리 수정(In-Place Update) 기반 읽기 최적화 엔진인 **B-Tree** 와, 현대 NoSQL/시계열 DB의 순차 덧붙이기(Out-of-Place Update) 기반 쓰기 최적화 엔진인 **LSM-Tree**
-- 배경/필요성: 대규모 로깅 및 IoT 시계열 적재 시 발생되는 디스크 Random Write 병목 극복, 쓰기 처리량(Write Throughput)과 읽기 응답속도 간의 아키텍처 적합성 선택 요구성
+- **정의**: 데이터를 디스크 페이지에 제자리 수정(`In-Place Update`) 방식으로 저장하여 읽기 성능을 최적화한 **B-Tree** 엔진과, 인메모리 기록 후 순차 덧붙이기(`Out-of-Place Append-Only`) 및 병합(`Compaction`)으로 쓰기 속도를 극대화한 **LSM-Tree** 엔진.
+- **필요성**: 대규모 로깅 및 IoT 시계열 데이터 적재 시 디스크 무작위 쓰기(Random Write) 병목 극복, 쓰기 처리량과 읽기 응답속도 간의 아키텍처 적합성 선택.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **B-Tree**: Read-Heavy 최적화, In-Place Update, $O(\log N)$ 읽기 보장, Page Split 발생
-- **LSM-Tree**: Write-Heavy 최적화, Out-of-Place Append-Only, **Compaction & Bloom Filter** 사용
-- **Write Amplification Factor (WAF, 쓰기 증폭)** 대 **Read Amplification (읽기 증폭)** 간의 Trade-off
+- **B-Tree**: 읽기 최적화(`Read-Heavy`), 제자리 수정(`In-Place Update`), 페이지 분할(`Page Split`) 발생.
+- **LSM-Tree**: 쓰기 최적화(`Write-Heavy`), 순차 덧붙이기(`Out-of-Place Append-Only`), 블룸 필터(`Bloom Filter`) 기반 읽기 보완.
+- **운영 Trade-off**: 쓰기 증폭(`WAF`) 대 읽기 증폭(`Read Amplification`) 관리.
 
 #### 한줄 요약
 
@@ -65,12 +65,12 @@ extra:
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        B-Tree vs LSM-Tree 아키텍처                     │
 ├───────────────────────────────────┬────────────────────────────────────┤
-│ 1. B-Tree (In-Place Update)       │ 2. LSM-Tree (Out-of-Place Append)  │
+│ 1. B-Tree (제자리 수정)           │ 2. LSM-Tree (순차 덧붙이기)        │
 ├───────────────────────────────────┼────────────────────────────────────┤
-│  Root ──► Branch ──► Leaf Page    │  Write ──► WAL ──► MemTable (RAM)  │
-│  (디스크 지정 블록 제자리 Overwrite) │                     │ (Flush)      │
+│  루트 ──► 브랜치 ──► 리프 페이지  │  쓰기 ──► WAL ──► MemTable (RAM)  │
+│  (디스크 지정 블록 덮어쓰기)      │                     │ (Flush)      │
 │                                   │                    ▼               │
-│                                   │          SSTable L0 ──► L1 (Compaction)│
+│                                   │          SSTable L0 ──► L1 (병합)  │
 └───────────────────────────────────┴────────────────────────────────────┘
 ```
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- **스토리지 엔진 선택 기준**에 따라 OLTP 읽기 중심은 **B-Tree (InnoDB)**, 대용량 쓰기 중심은 **LSM-Tree (RocksDB)** 필수 적용
+- **스토리지 엔진 선택 기준 적용** (OLTP 읽기 중심은 `B-Tree` (InnoDB), 대용량 쓰기 중심은 `LSM-Tree` (RocksDB) 필수 수용)
 
 #### 한줄 요약
 

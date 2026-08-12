@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 서비스(Kubernetes Service)**: IP가 수시로 변경되는 Pod들에 단일 가상 IP(VIP)를 부여하여 로드밸런싱 및 서비스 디스커버리를 제공하는 객체.
-- **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 HTTP/HTTPS 트래픽을 경로(URL Path) 및 도메인 기반으로 백엔드 Service로 분기 라우팅하는 L7 로드밸런서.
-- **인그레스 컨트롤러(Ingress Controller)**: Ingress 규칙을 감지하여 NGINX나 AWS ALB 등 실체 엔진의 설정을 변경하고 TLS/SSL 처리를 수행하는 엔진.
+- **쿠버네티스 서비스(Kubernetes Service)**: IP가 수시로 변경되는 파드(Pod)들에 단일 가상 IP(VIP)를 부여하여 로드밸런싱 및 서비스 디스커버리(Service Discovery)를 제공하는 객체.
+- **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 HTTP/HTTPS 트래픽을 도메인 및 경로(URL Path) 기반으로 백엔드 서비스로 분기 라우팅하는 L7 계층 로드밸런서.
+- **인그레스 컨트롤러(Ingress Controller)**: 인그레스(Ingress) 규칙을 감지하여 NGINX나 AWS ALB 등 실체 엔진의 설정을 변경하고 TLS(Transport Layer Security) 인증서 처리를 수행하는 엔진.
 
 </details>
 
@@ -61,15 +61,15 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   Service & Ingress Network Topology                   │
+│                   서비스 및 인그레스 네트워크 토폴로지                 │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [External Client Request] ──► [Ingress (L7 ALB / NGINX)]                │
-│                                 │ (Host / Path Routing)                │
+│ [외부 클라이언트 요청] ──► [인그레스 (L7 ALB / NGINX)]                │
+│                                 │ (호스트 / 경로 라우팅)               │
 │                                 ▼                                      │
-│                           [Service (L4 ClusterIP VIP)]                 │
-│                                 │ (kube-proxy / IPVS)                  │
+│                           [서비스 (L4 ClusterIP VIP)]                  │
+│                                 │ (큐브 프록시 / IPVS)                 │
 │                                 ▼                                      │
-│                     [Pod 1 (10.244.1.5)]  [Pod 2 (10.244.2.8)]          │
+│                     [파드 1 (10.244.1.5)]  [파드 2 (10.244.2.8)]       │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -95,10 +95,10 @@ extra:
 </details>
 
 ```text
-[HTTP Request: app.com/pay] ──► [AWS ALB Ingress Controller]
-                                           │
-                                           ▼ (Match Path /pay)
- [Pay Pods (10.244.x.x)] ◄── [kube-proxy IPVS] ◄── [Pay Service (ClusterIP)]
+[HTTP 요청: app.com/pay] ──► [AWS ALB 인그레스 컨트롤러]
+                                            │
+                                            ▼ (경로 /pay 매칭)
+ [결제 파드 (10.244.x.x)] ◄── [큐브 프록시 IPVS] ◄── [결제 서비스 (ClusterIP)]
 ```
 
 ### 동작 원리
@@ -152,4 +152,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **Service 및 Ingress 기반 네트워크 통합 관리 체계 확립**
+- **서비스 및 인그레스 기반 네트워크 통합 관리 체계 확보 완료**

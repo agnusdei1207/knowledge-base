@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CNI (Container Network Interface)**: Pod 간 IP 할당 및 네트워크(VXLAN) 통신을 가능하게 하는 네트워크 드라이버 표준 인터페이스(Calico, Cilium, AWS VPC CNI).
-- **네트워크 정책(NetworkPolicy)**: Pod 간 통신을 L3/L4 계층에서 IP 및 Port 단위로 차단/허용하는 미세 격리(Micro-segmentation) 객체.
-- **제로 트러스트 보안(Zero-Trust Security)**: 기본적으로 모든 Pod 통신을 차단(Default Deny)하고, 승인된 허용(Allow) 규칙만 적용하는 보안 모델.
+- **CNI(Container Network Interface)**: 파드(Pod) 간 IP 할당 및 네트워크(VXLAN 등) 통신을 가능하게 하는 네트워크 드라이버 표준 인터페이스(Calico, Cilium, AWS VPC CNI).
+- **네트워크 정책(NetworkPolicy)**: 파드 간 통신을 L3/L4 계층에서 IP 및 포트(Port) 단위로 차단하거나 허용하는 미세 격리(Micro-segmentation) 객체.
+- **제로 트러스트 보안(Zero-Trust Security)**: 기본적으로 모든 파드 통신을 차단(Default Deny)하고, 승인된 허용(Allow) 규칙만 적용하는 보안 모델.
 
 </details>
 
@@ -61,15 +61,15 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   Kubernetes Network & Security Layer                  │
+│                   쿠버네티스 네트워크 및 보안 계층                     │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [Pod A (Web)] ──► [NetworkPolicy: Ingress / Egress Allow Rule]         │
-│                         │ (eBPF Kernel Filtering by Cilium CNI)        │
+│ [파드 A (웹)] ──► [네트워크 정책: 인그레스 / 이그레스 허용 규칙]        │
+│                         │ (실리움 CNI eBPF 커널 필터링)                │
 │                         ▼                                              │
-│ [CNI Overlay Network: VXLAN / AWS Secondary IP Tunneling]              │
+│ [CNI 오버레이 네트워크: VXLAN / AWS 보조 IP 터널링]                     │
 │                         │                                              │
 │                         ▼                                              │
-│ [Pod B (DB)] ──► [Allowed Port 5432 Only]                              │
+│ [파드 B (데이터베이스)] ──► [허용 포트 5432 전용]                      │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,10 +94,10 @@ extra:
 </details>
 
 ```text
-[Default Deny All Policy Applied] ──► Web Pod ──(Port 5432 Blocked)──► DB Pod
-                                           │
-                                           ▼ (Apply Allow YAML: app=web -> app=db:5432)
-[Traffic Allowed Only for Web-to-DB] ──────┴──────────────────────────► DB Pod (Success)
+[기본 거부 정책 적용] ──► 웹 파드 ──(포트 5432 차단)──► 데이터베이스 파드
+                                            │
+                                            ▼ (허용 YAML 적용: 웹앱 -> 데이터베이스앱:5432)
+[통신 허용 (웹에서 데이터베이스)] ──────┴──────────────────────────► 데이터베이스 파드 (성공)
 ```
 
 ### 동작 원리
@@ -151,4 +151,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **Cilium eBPF 기반 제로 트러스트 네트워크 보안 체계 구축**
+- **Cilium eBPF 기반 제로 트러스트 네트워크 보안 체계 구축 완료**
