@@ -20,51 +20,43 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **헥사고날 아키텍처(Hexagonal Architecture)**: 애플리케이션 핵심을 포트로 격리하고 어댑터로 외부 기술과 연결하는 구조이다.
-- **포트(Port)**: 핵심이 제공하거나 요구하는 기능을 기술과 무관한 호출 계약으로 정의한 경계이다.
-- **어댑터(Adapter)**: 웹•데이터베이스•메시지 형식을 포트 호출과 업무 데이터로 변환하는 기술별 구현이다.
+- **Hexagonal Architecture (포트와 어댑터 아키텍처)**: Alistair Cockburn이 제안한 아키텍처로, 순수 비즈니스 도메인(Core)을 중심에 두고 외부 기술(웹 프레임워크, DB, 메시지 큐)을 Port와 Adapter 인터페이스로 완벽히 격리시키는 객체지향 아키텍처.
+- **Port (포트)**: 애플리케이션 코어와 외부 세계를 연결하는 기술 독립적인 인터페이스 계약 (Primary/Inbound Port, Secondary/Outbound Port).
+- **Adapter (어댑터)**: 외부 기술 표준(REST, GraphQL, JPA, Kafka)을 Port 인터페이스 규격에 맞춰 상호 데이터 변환(Mapping) 및 연결해 주는 구체 모듈.
 
 </details>
 
-- 정의/개념: **헥사고날 아키텍처**는 핵심이 소유한 **포트**로 외부 의존을 격리하고 **어댑터**로 기술별 연결을 구현한다.
-- 배경/필요성: 핵심이 외부 기술에 직접 의존하면 기술 교체가 업무 코드로 전파되고 격리 시험이 어려워진다.
+- 정의/개념: 외부 프레임워크 및 DB 기술의 변경이 비즈니스 도메인 로직에 침범하지 못하도록 **Ports & Adapters** 인터페이스 장벽을 구축하는 **Hexagonal Architecture**
+- 배경/필요성: traditional 계층형(Layered) 아키텍처에서 DB 기술(JPA, MyBatis) 및 프레임워크에 도메인이 강하게 결합되는 폐단 방지, 도메인 단위 테스트(Unit Test) 독립성 확보 요구성
 
 #### 한줄 요약
 
-- **포트**와 **어댑터**를 통한 **헥사고날 아키텍처**의 외부 의존 격리가 핵심이다.
+- 포트와 어댑터를 통한 헥사고날 아키텍처의 외부 의존 격리가 핵심이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **유스케이스(Use Case)**: 외부 행위자가 목표를 달성하도록 애플리케이션이 제공하는 한 가지 업무 처리 흐름이다.
-- **테스트 대역(Test Double)**: 실제 외부 시스템 대신 포트 계약을 구현해 핵심을 격리 검증하는 대체 구현이다.
-- **오류 변환(Error Translation)**: 외부 기술 오류를 핵심이 이해하는 업무 오류로 바꾸는 처리이다.
+- **Inbound vs Outbound Port**: Inbound Port는 외부에서 도메인을 호출하는 유스케이스(Use Case) 창구, Outbound Port는 도메인이 외부 자원(DB, API)을 호출할 때 사용하는 인터페이스.
+- **Dependency Inversion**: 외부에 존재하는 어댑터가 내부의 포트(인터페이스)를 구체화(Implement)하도록 하여 의존성 방향을 항상 내부(Core Domain)로만 향하게 만드는 원칙.
 
 </details>
 
-- 포트로 **유스케이스**와 외부 기능 계약을 표현한다.
-- 어댑터로 외부 형식과 **오류 변환**을 구현한다.
-- **테스트 대역**으로 핵심 업무 규칙 격리를 검증한다.
+- **Outside-In / Inside-Out** 완벽 격리 및 **Dependency Inversion** 집행
+- Primary(Driving/Inbound) 대 Secondary(Driven/Outbound) **Ports & Adapters** 구조
+- 외부 DB/UI 없이 순수 도메인 로직 단위 테스트(Unit Test) 100% 가능
 
 #### 한줄 요약
 
-- **유스케이스**, **오류 변환**, **테스트 대역** 기반 격리가 핵심이다.
+- 유스케이스, 오류 변환, 테스트 대역 기반 격리가 핵심이다.
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **인바운드 포트(Inbound Port)**: 핵심이 외부에 제공하는 유스케이스 계약이다.
-- **인바운드 어댑터(Inbound Adapter)**: 외부 입력을 인바운드 포트 호출로 바꾸는 구현이다.
-- **애플리케이션 핵심(Application Core)**: 외부 기술과 분리되어 유스케이스와 업무 규칙을 실행하는 내부 영역이다.
-- **아웃바운드 포트(Outbound Port)**: 핵심이 외부에 요구하는 기능 계약이다.
-- **아웃바운드 어댑터(Outbound Adapter)**: 아웃바운드 포트를 특정 기술 호출로 구현하는 구성이다.
+- **Domain Core (도메인 코어)**: 프레임워크나 외부 기술 의존성(Annotation, Library)이 0%인 순수한 엔티티(Entity) 및 비즈니스 유스케이스(Use Case) 로직의 집합.
 
 </details>
 
@@ -73,148 +65,111 @@ extra:
          |
  [인바운드 포트]
          |
-[애플리케이션 핵심]
+[애플리케이션 핵심 (Domain Core)]
          |
  [아웃바운드 포트]
          |
 [아웃바운드 어댑터]
 ```
 
-선의 의미: 애플리케이션 핵심은 인바운드 포트와 아웃바운드 포트를 소유하고, 각 포트의 바깥쪽 어댑터가 외부 기술과 핵심 사이의 형식을 변환한다.
+선의 의미: 외부 요청이 Inbound Adapter를 통해 Inbound Port로 주입되어 Domain Core를 구동하고, Outbound Port를 통해 Outbound Adapter(DB/Infra)로 나아가는 육각형 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 인바운드 어댑터 | **인바운드 어댑터**가 외부 입력을 유스케이스 호출로 변환 |
-| 인바운드 포트 | **인바운드 포트**가 외부 제공 유스케이스 계약 정의 |
-| 애플리케이션 핵심 | **애플리케이션 핵심**이 업무 규칙 실행 |
-| 아웃바운드 포트 | **아웃바운드 포트**가 필요한 외부 기능 계약 정의 |
-| 아웃바운드 어댑터 | **아웃바운드 어댑터**가 포트를 기술별 호출로 구현 |
+| 분 류 | 구성요소 (Components) | 주요 기술 및 구현 예시 |
+|:---|:---|:---|
+| **Inbound / Primary** | **Driving / Inbound Adapter** | REST Controller, gRPC Receiver, CLI, Message Consumer |
+| | **Driving / Inbound Port** | Use Case Interface (e.g. `CreateOrderUseCase`) |
+| **Domain Core** | **Application / Domain Core** | Entity, Value Object(VO), Domain Service (Pure POJO) |
+| **Outbound / Secondary**| **Driven / Outbound Port** | Repository Interface (e.g. `OrderRepositoryPort`) |
+| | **Driven / Outbound Adapter** | JPA Adapter, Redis Adapter, Kafka Producer Adapter |
 
 #### 한줄 요약
 
-- **인바운드 어댑터**부터 **아웃바운드 어댑터**까지의 경계 구조가 핵심이다.
+- 인바운드 어댑터부터 아웃바운드 어댑터까지의 경계 구조가 핵심이다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **인바운드 매핑(Inbound Mapping)**: 외부 요청 형식을 인바운드 포트의 업무 입력으로 변환하는 동작이다.
-- **유스케이스 실행(Use Case Execution)**: 애플리케이션 핵심이 포트 입력에 따라 업무 규칙을 수행하는 동작이다.
-- **아웃바운드 포트 호출(Outbound Port Call)**: 핵심이 필요한 외부 기능을 기술 독립 계약으로 요청하는 동작이다.
-- **기술 어댑터 실행(Technology Adapter Execution)**: 포트 요청을 특정 외부 기술의 형식과 통신으로 구현하는 동작이다.
-- **응답•오류 변환(Response and Error Translation)**: 기술 응답과 오류를 핵심 및 외부 계약 형식으로 바꾸는 동작이다.
+- **Domain Model Mapping**: 외부 DTO(REST Request/JPA Entity) 데이터를 순수 Domain Entity 객체로 어댑터 상에서 매핑 변환하는 과정.
 
 </details>
 
 ```text
-[외부 요청]
-     |
-     v
-+--------------------------+
-| 1. 인바운드 매핑         |
-+--------------------------+
-     |
-     v
-+--------------------------+
-| 2. 유스케이스 실행       |
-+--------------------------+
-     |
-     v
-+--------------------------+
-| 3. 아웃바운드 포트 호출  |
-+--------------------------+
-     |
-     v
-+--------------------------+
-| 4. 기술 어댑터 실행      |
-+--------------------------+
-     |
-     v
-+--------------------------+
-| 5. 응답•오류 변환        |
-+--------------------------+
-     |
-     v
-[외부 응답]
+┌──────────────────────────────┐
+│ 외부 HTTP REST Controller    │ (Inbound Adapter)
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 1. Inbound Port (Use Case)   │
+│ 2. Domain Core (POJO 로직)   │
+│ 3. Outbound Port (Interface) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 외부 JPA / Kafka Adapter     │ (Outbound Adapter)
+└──────────────────────────────┘
 ```
 
-**동작 원리**
+### 동작 원리
 
-1. **인바운드 매핑**으로 외부 요청을 업무 입력으로 변환한다.
-2. **유스케이스 실행**으로 핵심이 업무 규칙을 수행한다.
-3. **아웃바운드 포트 호출**로 외부 기능을 계약으로 요청한다.
-4. **기술 어댑터 실행**으로 기술별 형식•통신을 구현한다.
-5. **응답•오류 변환**으로 기술 결과를 안정된 계약으로 변환한다.
-
-> 요약: **애플리케이션 핵심**이 포트를 소유하고 **어댑터**가 외부 형식을 변환한다.
+1. **Inbound Adapter 수신**: REST Controller가 HTTP DTO 수신 후 Domain Command 객체로 변환.
+2. **Inbound Port 호출**: `CreateOrderUseCase` 인터페이스를 거쳐 Domain Core 진입.
+3. **Domain Core 실행**: 순수 POJO 상태의 도메인 엔티티 비즈니스 유무 검증 및 연산.
+4. **Outbound Port 인가**: DB 저장을 위해 `OrderRepositoryPort` 인터페이스 호출.
+5. **Outbound Adapter 매핑**: JPA Adapter가 포트를 상속받아 DB에 실제 물리 기재 후 결과 반환.
 
 #### 한줄 요약
 
-- **인바운드 매핑**부터 **응답•오류 변환**까지의 흐름이 핵심이다.
+- 인바운드 매핑부터 응답•오류 변환까지의 흐름이 핵심이다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **계층형 아키텍처(Layered Architecture)**: 표현•업무•데이터 계층이 위에서 아래의 하위 기술을 호출하는 구조이다.
-- **애플리케이션 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능을 정해진 요청•응답 계약으로 호출하게 하는 인터페이스이다.
-- **기술 교체**: 핵심 업무 코드를 바꾸지 않고 외부 데이터베이스•API 어댑터만 변경하는 능력이다.
+- **Clean Architecture vs Hexagonal Architecture**: Clean Architecture(Robert C. Martin)는 동심원 계층(Entities, Use Cases, Controllers, Presenters)으로 고도화한 형태이며, Hexagonal은 Port/Adapter 2원화 중심의 동일한 관점 표현.
 
 </details>
 
-| 애플리케이션 구조 | 헥사고날 아키텍처 | 계층형 아키텍처 |
+| 비교 항목 | Traditional Layered (계층형) | Hexagonal Architecture (포트/어댑터) |
 |:---|:---|:---|
-| 적용 기준 | 외부 기술 교체•격리 검증 반복 | 고정 연동•단순 처리 |
-| 핵심 특징 | 헥사고날은 핵심이 포트를 소유하고 어댑터가 의존 | **계층형 아키텍처**는 상위 계층이 하위 기술 호출 |
-| 한계 | 포트•어댑터 수 증가와 매핑 비용 | 하위 기술 변경의 상위 전파 |
-
-> 요약: 고정 외부 연동은 **계층형 아키텍처**, 반복 **기술 교체**는 헥사고날이 핵심이다.
+| 의존성 방향 | Presentation $\rightarrow$ Domain $\rightarrow$ Persistence (DB) | **Adapter $\rightarrow$ Port $\rightarrow$ Domain Core (항상 도메인 중심)** |
+| DB 기술 결합 | Domain이 JPA Entity `@Entity` 기술에 무단 결합 | **Domain은 순수 POJO, Adapter가 매핑 변환** |
+| 단위 테스트 | DB Mocking 또는 H2 인메모리 테스트 필요 | **DB 없이 포트 Stubbing 만으로 빠른 단독 테스트** |
+| 코드 초기 복잡도 | 낮음 (빠른 작성 가능) | 높음 (Port, Adapter, Mapping 보일러플레이트 코드) |
 
 #### 한줄 요약
 
-- 고정 연동은 **계층형 아키텍처**, 반복 **기술 교체**는 **헥사고날 아키텍처**가 핵심이다.
+- 고정 연동은 계층형 아키텍처, 반복 기술 교체는 헥사고날 아키텍처가 핵심이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **업무 용어 포트**: 데이터베이스•API 제품명이 아니라 핵심이 필요한 업무 기능으로 이름 붙인 계약이다.
-- **계약 테스트(Contract Test)**: 실제 어댑터와 대체 구현이 같은 포트 요청•응답 규칙을 지키는지 검증하는 시험이다.
-- **통합 시험**: 실제 외부 기술과 어댑터를 연결해 매핑•통신•오류 처리를 검증하는 시험이다.
-- **기술 매핑 격리**: 외부 제품의 데이터 형식•프로토콜 변환을 어댑터 안에 한정해 핵심 계약으로 새지 않게 하는 설계이다.
-- **구조 복잡도(Structural Complexity)**: 포트•어댑터•매핑 객체가 늘어 설계와 호출 흐름을 이해•유지하는 데 드는 비용이다.
-- **명시적 매핑(Explicit Mapping)**: 외부 필드와 업무 데이터의 대응•변환 규칙을 코드나 설정에 분명히 표현하는 방식이다.
-- **업무 오류 변환(Business Error Translation)**: 연결•타임아웃•제품별 오류를 핵심이 처리할 안정된 업무 오류 계약으로 바꾸는 처리이다.
+- **Boilerplate Code**: Port, Adapter, DTO-Domain간 Mapper 클래스가 대량으로 늘어나 초기 클래스 개수가 폭증하는 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 포트 이름이 데이터베이스•API 기술을 노출 | **업무 용어 포트**•**기술 매핑 격리** | 핵심의 기술 독립성 유지 |
-| 모든 기능을 포트로 분리해 객체•매핑 급증 | 반복 변경•격리 시험 경계에만 포트 적용 | **구조 복잡도** 제한 |
-| 외부 형식과 업무 데이터의 매핑 누락 | **명시적 매핑**•**계약 테스트** | 업무 의미 보존 |
-| 외부 기술 오류가 핵심으로 직접 전파 | 어댑터의 **업무 오류 변환** | 오류 계약 안정화 |
-| 테스트 대역만 검증해 실제 어댑터 결함 누락 | 실제 어댑터의 계약•**통합 시험** | 운영 구현 결함 검출 |
+| 도메인 엔티티 내에 JPA `@Entity`, `@Table` 등이 오염됨 | JPA 전용 Entity와 Domain Entity 완전 분리 및 MapStruct 매핑 | 도메인 순수성 100% 보장 |
+| 초기 보일러플레이트 코드 증가로 인한 생산성 저하 | **MapStruct / ModelMapper** 매핑 자동화 및 필수 도메인에만 채택 | 매핑 오버헤드 완화 |
+| 프레임워크 변경 가능성이 적은 프로젝트에 과잉 적용 | 프로젝트 성격 판단 후 헥사고날 또는 Modulith 선택 | 오버엔지니어링 차단 |
+
+> 사례: **DDD (Domain-Driven Design) + Hexagonal Architecture + Spring Boot 3** 조합 구축
 
 #### 한줄 요약
 
-- **업무 용어 포트**, **계약 테스트**, **통합 시험** 기반 격리가 핵심이다.
+- 업무 용어 포트, 계약 테스트, 통합 시험 기반 격리가 핵심이다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **격리 시험**: 외부 기술 없이 테스트 대역으로 애플리케이션 핵심만 빠르게 검증하는 시험이다.
-- **고정 연동**: 외부 기술이 바뀌지 않아 별도 포트•어댑터 경계의 이익이 작은 연결이다.
-- **아키텍처 경계 선택 기준**: 기술 교체•격리 시험 빈도와 고정 연동 여부를 비교해 헥사고날과 계층형 구조 중 적합한 방식을 고르는 기준이다.
+- **헥사고날 아키텍처 채택 기준(Hexagonal Architecture Selection Criteria)**: 도메인 로직 복잡성, 외부 기술 교체 가능성 및 테스트 자동화 목표에 의거한 체계.
 
 </details>
 
-- 외부 **기술 교체**와 **격리 시험**이 반복되면 **헥사고날 아키텍처**, **고정 연동**이면 **계층형 아키텍처**를 선택하는 것이 **아키텍처 경계 선택 기준**이다.
+- **헥사고날 아키텍처 채택 기준**에 따라 도메인 보호 및 DDD 엔터프라이즈 시스템 구축 시 **Hexagonal Architecture** 필수 수용
 
 #### 한줄 요약
 
