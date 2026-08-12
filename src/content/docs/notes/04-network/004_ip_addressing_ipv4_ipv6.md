@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: 이기종 네트워크 간 데이터 패킷의 정확한 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계인 **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**.
+- 정의/개념: 이기종 네트워크 간 패킷 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계.
 - 배경/필요성: IoT, 모바일 장비 폭증으로 인한 32비트 **IPv4(Internet Protocol version 4)** 주소 고갈 한계 직면 및 주소 공간 확장, 보안(IPsec 내장), 주소 자동 설정을 제공하는 **IPv6(Internet Protocol version 6)**로의 전환 필요성 증대.
 
 #### 한줄 요약
@@ -67,11 +67,11 @@ extra:
 
 ```text
 +---------------------------------------------------------------------------------+
-|                       IPv4 구조 (32-bit: Octet.Octet.Octet.Octet)               |
-|  [ Network Prefix (Subnet Mask) ] [ Host Identifier (Interface ID) ]           |
+|                       IPv4 구조 (32비트)                                          |
+|  [ 네트워크 프리픽스 (서브넷 마스크) ] [ 호스트 식별자 ]                             |
 +---------------------------------------------------------------------------------+
-|                       IPv6 구조 (128-bit: XXXX:XXXX:XXXX:XXXX:...)             |
-|  [ Global Routing Prefix (48-bit) | Subnet ID (16-bit) ] [ Interface ID (64-bit) ]|
+|                       IPv6 구조 (128비트)                                         |
+|  [ 글로벌 라우팅 프리픽스 | 서브넷 ID ] [ 인터페이스 식별자 ]                          |
 +---------------------------------------------------------------------------------+
 ```
 
@@ -109,13 +109,13 @@ extra:
 [ 1. 경로 프리픽스 비교 ] ---> 라우팅 테이블 검색 (AND 연산)
           |
           v
-[ 2. 다음 홉 결정 ] ---------> LPM(Longest Prefix Match)에 의해 최적 Next-Hop 선별
+[ 2. 다음 홉 결정 ] ---------> LPM에 의해 최적 다음 홉 선별
           |
           v
-[ 3. 링크 주소 해석 ] -------> IPv4: ARP Request/Reply (Broadcast -> Unicast)
-          |                    IPv6: NDP Solicitation/Advertisement (Multicast)
+[ 3. 링크 주소 해석 ] -------> IPv4: ARP 요청/응답 (브로드캐스트 -> 유니캐스트)
+          |                    IPv6: NDP 요청/알림 (멀티캐스트)
           v
-[ L2 Frame 전송 ] -----------> MAC Header 부착 후 물리 매체 전송
+[ L2 프레임 전송 ] -----------> MAC 헤더 부착 후 물리 매체 전송
 ```
 
 ### 동작 원리
