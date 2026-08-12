@@ -22,15 +22,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **InfiniBand**: RDMA와 저지연 스위칭을 제공하는 고성능 컴퓨팅용 네트워크 패브릭이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 사전 등록한 원격 메모리에 상대 CPU의 복사 개입 없이 직접 접근하는 통신 방식이다.
-- **커널 우회(Kernel Bypass)**: 통신 데이터 경로에서 운영체제 커널의 반복적인 처리와 문맥 전환을 줄이는 방식이다.
-- **중앙 처리 장치(Central Processing Unit, CPU)**: 일반 네트워크에서 데이터 복사와 커널 프로토콜 처리를 수행하는 프로세서이다.
+- **InfiniBand**: 초고속·저지연 Switched Fabric 기반 고성능 컴퓨팅(HPC) 및 AI 클러스터용 상호연결망 기술.
+- **RDMA(Remote Direct Memory Access)**: OS 커널 개입 및 CPU 개입 없이 노드 간 전용 억세스로 원격 메모리에 읽기/쓰기를 수행하는 기술.
+- **커널 우회(Kernel Bypass)**: 네트워크 I/O 시 OS 프로토콜 스택 처리 및 잦은 Context Switch를 방지하는 제어 구조.
+- **CPU(Central Processing Unit)**: 일반 네트워크 프로토콜 스택(TCP/IP) 처리 및 패킷 소켓 버퍼 복사를 총괄하는 중앙 연산 장치.
 
 </details>
 
-- 정의/개념: HCA·스위치와 RDMA 전송으로 컴퓨팅 노드의 등록 메모리를 연결하는 **InfiniBand** 패브릭이다.
-- 배경/필요성: 커널 네트워크 경로와 CPU 데이터 복사를 반복하면 통신 지연과 CPU 사용량이 증가한다.
+- 정의/개념: HCA 어댑터, 전용 스위치 및 **RDMA** 하드웨어 전송 기법을 통해 노드 간 메모리를 고속 연결하는 **InfiniBand** 패브릭
+- 배경/필요성: 기존 소켓 기반 커널 TCP/IP 네트워크의 데이터 복사 오버헤드, 커널 문맥 전환 지연 및 높은 CPU 점유율 극복
 
 #### 한줄 요약
 
@@ -40,17 +40,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **메모리 등록(Memory Registration)**: HCA가 접근할 메모리 주소 범위와 권한 키를 미리 등록하는 절차이다.
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 호스트 메모리와 InfiniBand 패브릭 사이에서 RDMA 전송을 처리하는 어댑터이다.
-- **크레딧 기반 흐름 제어(Credit-based Flow Control)**: 수신 버퍼의 여유만큼만 전송하여 버퍼 초과 손실을 방지하는 제어 방식이다.
-- **집단 통신(Collective Communication)**: 여러 계산 노드가 데이터를 합산•분배•교환하는 다자간 통신이다.
-- **인피니밴드(InfiniBand)•원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 저지연 패브릭과 원격 메모리 직접 접근 방식이다.
+- **메모리 등록(Memory Registration)**: RDMA 전송 대상 메모리 영역을 HCA에 핀(Pin) 고정하고 가상-물리 주소 변환 및 접근 키(rkey/lkey)를 할당하는 사전 작업.
+- **HCA(Host Channel Adapter)**: 호스트 메모리 버스(PCIe)와 InfiniBand 패브릭을 연결하는 전용 네트워크 하드웨어 인라인 카드.
+- **크레딧 기반 흐름 제어(Credit-Based Flow Control)**: 수신 버퍼의 여유 크레딧(Credit) 수량만큼만 송신하여 버퍼 오버플로우 패킷 드랍을 원천 차단하는 무손실 제어.
+- **집단 통신(Collective Communication)**: 분산 클러스터 간 All-Reduce, All-Gather 등 대용량 데이터 축소 및 공유 연산 패브릭 통신.
 
 </details>
 
-- **메모리 등록**으로 만든 등록 메모리와 HCA가 원격 CPU•커널을 거치지 않고 전송한다.
-- 무손실 링크를 만드는 **크레딧 기반 흐름 제어**가 핵심이다.
-- **InfiniBand·RDMA**에서 혼잡이 증가하거나 토폴로지가 비효율적이면 **집단 통신** 처리량이 저하된다.
+- **메모리 등록** 기반 원격 메모리 직결 및 **커널 우회** 구현
+- 수신 버퍼 오버플로우에 따른 신호 손실을 방지하는 **크레딧 기반 흐름 제어**
+- HPC 및 AI 분산 클러스터링의 **집단 통신** 대역폭 극대화
 
 #### 한줄 요약
 
@@ -60,10 +59,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **큐 페어(Queue Pair, QP)**: 송신 큐와 수신 큐로 구성되어 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 작업을 게시하는 통신 종단점이다.
-- **완료 큐(Completion Queue, CQ)**: 게시한 RDMA 작업의 성공이나 오류 완료 상태를 응용에 전달하는 큐이다.
-- **서브넷 관리자(Subnet Manager)**: InfiniBand의 주소와 경로, 파티션 및 포트 상태를 설정하는 관리자이다.
-- **호스트 채널 어댑터(Host Channel Adapter, HCA)•직접 메모리 접근(Direct Memory Access, DMA)**: 큐 작업을 처리하고 호스트 메모리를 직접 전송하는 어댑터와 방식이다.
+- **QP(Queue Pair)**: RDMA 작업을 요청하는 송신 큐(SQ)와 수신 큐(RQ)의 쌍으로 구성된 통신 종단점.
+- **CQ(Completion Queue)**: QP에 등록된 요청 작업의 완료 상태(Work Completion) 결과를 비동기 통지받는 큐.
+- **서브넷 관리자(Subnet Manager)**: InfiniBand 서브넷 내의 노드 탐색, 주소(LID) 할당, 라우팅 테이블 및 QoS 구성을 관리하는 제어 소프트웨어.
 
 </details>
 
@@ -73,13 +71,13 @@ extra:
                                  [서브넷 관리자]
 ```
 
-선의 의미: 엔드포인트 집합이 스위치 패브릭에 접속하고 서브넷 관리자가 해당 패브릭의 주소•경로•접근 경계를 관리하는 정적 연결 관계다.
+선의 의미: 엔드포인트 집합이 스위치 패브릭에 물리 연결되고 서브넷 관리자가 해당 패브릭의 토폴로지 및 라우팅 경로를 총괄 제어하는 아키텍처.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| HCA•QP•CQ 엔드포인트 집합 | DMA 송수신•완료 처리 |
-| 스위치 패브릭 | 전달•흐름 제어•경로 선택 |
-| 서브넷 관리자 | 주소•경로•접근 경계 설정 |
+| HCA•QP•CQ 엔드포인트 집합 | RDMA 요청 생성, 하드웨어 DMA 전송 및 **CQ** 작업 완료 통지 |
+| 스위치 패브릭 | 무손실 패킷 라우팅, **크레딧 기반 흐름 제어** 및 패킷 스위칭 |
+| 서브넷 관리자 | LID 주소 관리, 파티셔닝 정책 설정 및 최적 경로 구축 |
 
 #### 한줄 요약
 
@@ -89,13 +87,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **작업 요청(Work Request)**: 응용이 큐 페어(Queue Pair, QP)에 게시하는 송수신 또는 원격 직접 메모리 접근(Remote Direct Memory Access, RDMA) 읽기•쓰기 명령이다.
-- **등록 키(Registration Key)**: 호스트 채널 어댑터(Host Channel Adapter, HCA)가 원격 메모리의 주소 범위와 접근 권한을 검증하는 값이다.
-- **직접 메모리 접근(Direct Memory Access, DMA)**: HCA가 CPU 복사 없이 호스트 메모리와 장치 사이에서 데이터를 전송하는 방식이다.
-- **송신 버퍼 DMA 읽기**: 송신 HCA가 로컬 등록 메모리에서 데이터를 직접 가져오는 단계이다.
-- **QP 패킷·패브릭 전달**: QP 상태와 링크 크레딧을 확인해 스위치 경로로 패킷을 보내는 단계이다.
-- **원격 키·권한 검증**: 수신 HCA가 등록 키와 원격 주소 범위 및 권한을 확인하는 단계이다.
-- **원격 메모리 기록·완료**: 수신 HCA가 데이터를 등록 메모리에 쓰고 송신 CQ에 완료를 생성하는 단계이다.
+- **작업 요청(Work Request, WR)**: 애플리케이션이 QP의 SQ/RQ에 제출하는 RDMA Read/Write 명령 객체.
+- **등록 키(Registration Key, rkey/lkey)**: HCA가 원격/로컬 메모리 영역의 접근 권한 및 물리 주소를 검증하는 인증 키.
+- **DMA(Direct Memory Access)**: CPU 조율 없이 HCA 하드웨어가 호스트 메모리와 이더넷/패브릭선 간 데이터를 직접 이동시키는 기술.
 
 </details>
 
@@ -111,17 +105,17 @@ extra:
               | 4. 원격 등록 메모리 DMA 쓰기    |
               +----------------------------------+
                                |
-                     [전송 확인 응답]
+                      [전송 확인 응답]
                                |
-                       [CQ 완료 상태]
+                        [CQ 완료 상태]
 ```
 
 ### 동작 원리
 
-1. **송신 버퍼 DMA 읽기**: 송신 HCA가 작업 요청의 로컬 등록 메모리에서 CPU 복사 없이 데이터를 회수한다.
-2. **QP 패킷·패브릭 전달**: QP 전송 상태와 링크 크레딧을 확인해 스위치 경로로 패킷을 전달한다.
-3. **원격 키·권한 검증**: 수신 HCA가 등록 키, 원격 주소 범위와 쓰기 권한을 확인한다.
-4. **원격 메모리 기록·완료**: 수신 HCA가 등록 메모리에 DMA 기록하고 확인 응답을 보내 송신 측 CQ에 완료 상태를 생성한다.
+1. **송신 버퍼 DMA 읽기**: 애플리케이션의 RDMA Write **작업 요청** 인가 시, 송신 HCA가 **DMA**로 로컬 등록 메모리 데이터 인출.
+2. **QP 패킷·패브릭 전달**: **QP** 및 하드웨어 흐름 제어 조건 검증 후 InfiniBand 패브릭으로 패킷 분할 송출.
+3. **수신 등록 키·권한 검증**: 수신 노드 HCA가 패킷 내 포함된 원격 **등록 키** 및 가상 주소 접근 권한 검증.
+4. **원격 등록 메모리 DMA 쓰기**: 수신 HCA가 원격 등록 메모리에 **DMA** 쓰기 직결 수행 및 ACK 응답 송신 후 **CQ** 이벤트 기록.
 
 #### 한줄 요약
 
@@ -131,21 +125,19 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **융합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷에서 RDMA Verbs와 네트워크 어댑터로 원격 메모리에 접근하는 방식이다.
-- **원격 직접 메모리 접근 동작(Remote Direct Memory Access Verbs, RDMA Verbs)**: 메모리 등록과 큐 생성, 작업 게시 및 완료 회수를 응용에 제공하는 표준 인터페이스이다.
-- **전송 제어 프로토콜•인터넷 프로토콜(Transmission Control Protocol•Internet Protocol, TCP/IP)**: 신뢰 전송과 주소 및 라우팅을 제공하는 범용 인터넷 프로토콜 모음이다.
-- **고성능 컴퓨팅(High-Performance Computing, HPC)•인공지능(Artificial Intelligence, AI)**: 대규모 병렬 계산과 신경망 학습을 수행하는 워크로드이다.
-- **원격 직접 메모리 접근 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)•우선순위 기반 흐름 제어(Priority Flow Control, PFC)•명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: RoCE 전송과 무손실•혼잡 제어를 담당하는 장치 및 기능이다.
+- **RoCE(RDMA over Converged Ethernet)**: 표준 이더넷 망 상에서 UDP/IP 캡슐화를 통해 RDMA Verbs를 구동하는 통신 기술.
+- **RDMA Verbs**: 원격 메모리 억세스를 위해 애플리케이션에 제공되는 표준 API 인터페이스.
+- **TCP/IP**: OS 커널 스택을 경유하여 계층적 데이터 전송을 수행하는 범용 인터넷 프로토콜.
 
 </details>
 
-| 원격 통신 방식 | InfiniBand | RoCE | TCP/IP |
+| 원격 통신 방식 | InfiniBand | RoCE (RoCEv2) | TCP/IP |
 |:---|:---|:---|:---|
-| 적용 기준 | HPC•AI **집단 통신** | 기존 이더넷 기반 **RDMA** | 범용 연결•호환성 |
-| 핵심 특징 | **InfiniBand·HCA·RDMA Verbs** | **RoCE·RNIC·PFC·ECN** | **TCP/IP** |
-| 한계 | 전용 장비•운영 비용 | PFC•ECN 조정 복잡도 | CPU•커널 경로 오버헤드 |
+| 적용 기준 | 미션크리티컬 HPC/AI **집단 통신** 환경 | 기존 이더넷 기반 데이터센터 **RDMA** 구축 시 | 범용 서버 간 네트워크 및 인프라 통신 시 |
+| 핵심 특징 | **InfiniBand** 전용 패브릭 및 HCA 하드웨어 | **RoCE** 무손실 이더넷(PFC/ECN) 활용 | 범용 **TCP/IP** OS 커널 프로토콜 스택 |
+| 한계 | 전용 하드웨어 도입 단가 및 관리 복잡성 | PFC 튜닝 복잡성 및 쇄도 동결(Pause Flood) 위험 | CPU 커널 복사 및 높은 대기 지연시간 |
 
-> 요약: 전용망은 InfiniBand, 이더넷은 RoCE가 적합하다.
+> 요약: 극초저지연은 InfiniBand, 이더넷 재활용은 RoCE, 범용은 TCP/IP 선택.
 
 #### 한줄 요약
 
@@ -155,24 +147,20 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **키 폐기(Key Revocation)**: 등록 메모리의 사용이 끝난 뒤 기존 접근 권한이 다시 쓰이지 못하도록 무효화하는 절차이다.
-- **QP 오류 상태(QP Error State)**: 전송 실패나 시간 초과 후 해당 큐 페어가 정상 작업을 수행할 수 없는 상태이다.
-- **핫스폿(Hotspot)**: 특정 통신 경로나 스위치 포트에 트래픽이 집중되어 대기와 지연이 커지는 병목 지점이다.
-- **상류 전파(Upstream Propagation)**: 하류 버퍼의 크레딧 부족이 앞선 링크들의 송신 정지와 대기로 연쇄 확산되는 현상이다.
-- **그래픽 처리 장치 직접 원격 메모리 접근(GPUDirect Remote Direct Memory Access, GPUDirect RDMA)**: 그래픽 처리 장치(Graphics Processing Unit, GPU) 메모리와 원격 호스트 채널 어댑터(Host Channel Adapter, HCA)가 중앙 처리 장치(Central Processing Unit, CPU) 복사 없이 직접 통신하는 방식이다.
-- **인공지능(Artificial Intelligence, AI)**: 다중 가속기의 집단 통신을 요구하는 학습 워크로드이다.
-- **다중 경로 부하 분산(Multipath Load Balancing)**: 트래픽을 여러 패브릭 경로에 나누어 핫스폿을 줄이는 기법이다.
+- **키 폐기(Key Revocation)**: RDMA 전송 완료 후 기할당된 rkey/lkey를 즉시 무효화하여 무단 메로리 접근을 차단하는 보안 절차.
+- **QP 오류 상태(QP Error State)**: 전송 타임아웃 또는 미인가 접근 발생 시 해당 QP가 잠김 처리되는 예외 상태.
+- **GPUDirect RDMA**: CPU 메인 메모리 간복사를 완전히 제거하고 GPU VRAM과 HCA 간에 PCIe 버스로 직접 RDMA 전송하는 기술.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 등록 키·버퍼 수명이 맞지 않아 허용 범위 밖 메모리 접근 | 필요한 범위만 등록하고 사용 후 **키 폐기**와 버퍼 소유권 검증 | 오래된 키 재사용 차단 |
-| 링크·노드 장애 후 **QP 오류 상태**가 남아 통신 재개 불가 | 오류 원인을 분류하고 QP와 대체 경로 재생성 | 실패 연결 복구 |
-| 집단 통신 경로가 특정 스위치 포트에 몰려 **핫스폿** 발생 | 통신 토폴로지에 맞춘 작업 배치와 **다중 경로 부하 분산** | 포트별 트래픽 균등화 |
-| 하류 크레딧 부족이 앞선 링크에 전파되어 패브릭 전체 대기 증가 | 포트별 크레딧·대기와 집단 통신 지연 감시 | **상류 전파** 제한 |
+| 낡은 **등록 키** 노출에 따른 원격 메모리 무단 침범 위험 | RDMA 전송 완료 후 즉시 **키 폐기** 및 영역 해제 | 메모리 경계 오염 및 세그먼트 오류 방지 |
+| 네트워크 순간 패킷 에러에 의한 **QP 오류 상태** 전환 | 에러 복구 핸들러 구축 및 자동 QP 리셋/재연결 | 시스템 세션 가용성 확보 |
+| 특정 스위치 링크로 트래픽이 쏠려 혼잡 발생 | Adaptive Routing 및 **다중 경로 부하 분산** 적용 | 트래픽 핫스폿 방지 및 대역폭 균등화 |
+| CPU-GPU 간 데이터 전송 복사로 인한 병목 | **GPUDirect RDMA** 기술 기반 VRAM-HCA 직결 | CPU 점유율 제어 및 통신 지연시간 최소화 |
 
-> **AI** 학습에서 **GPUDirect RDMA**로 CPU 복사•집단 통신 대기 감소
+> 사례: 대규모 GPU 클러스터 간 **GPUDirect RDMA** 기반 All-Reduce 통신 가속
 
 #### 한줄 요약
 
@@ -182,15 +170,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **고성능 컴퓨팅(High-performance Computing, HPC)**: 여러 계산 노드로 대규모 과학•공학 연산을 병렬 처리하는 컴퓨팅이다.
-- **전용 패브릭(Dedicated Fabric)**: 특정 고성능 통신을 위해 전용 어댑터와 스위치 및 관리 체계를 사용하는 연결망이다.
-- **기존 이더넷(Existing Ethernet)**: 범용 네트워크 인프라를 유지하면서 원격 직접 메모리 접근 등의 기능을 추가해 사용하는 환경이다.
-- **인공지능(Artificial Intelligence, AI)•융합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 대규모 집단 통신 워크로드와 기존 이더넷에서 사용하는 원격 메모리 접근 방식이다.
-- **패브릭 선택 기준**: 전용망 요구와 기존 이더넷 활용 여부로 InfiniBand와 RoCE를 고르는 기준이다.
+- **패브릭 선택 기준(Fabric Selection Criteria)**: 지연시간 상한, 네트워크 구축 예산, 기존 인프라 호환성을 평가하여 최적 패브릭을 결정하는 기준.
 
 </details>
 
-- **패브릭 선택 기준**에 따라 HPC·AI용 **전용 패브릭**은 **InfiniBand**, **기존 이더넷**은 **RoCE**를 선택한다.
+- **패브릭 선택 기준**에 따라 최고 성능의 초저지연망은 **InfiniBand**, 기존 이더넷 인프라 활용 시 **RoCE** 적용
 
 #### 한줄 요약
 
