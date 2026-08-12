@@ -21,14 +21,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Virtual Machine (VM / 가상머신)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS) 커널을 독자적으로 돌리는 중량급 하드웨어 가상화 기술.
-- **Container (컨테이너)**: 호스트 OS(Host OS)의 커널을 공용으로 공유하면서, 리눅스 cgroups/Namespaces 격리로 프로세스 레벨만 가볍게 가상화하는 경량 가상화 기술.
-- **Hypervisor Layer (하이퍼바이저 계층)**: Type-1 (Bare-metal: ESXi) 및 Type-2 (Hosted: VirtualBox) 로 물리 하드웨어 자원을 VM별로 나눌 수 있게 중계하는 하드웨어 추상화 엔진.
+- **가상머신(VM, Virtual Machine)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS) 커널을 독립 실행하는 중량급 하드웨어 가상화 기술.
+- **컨테이너(Container)**: 호스트 OS(Host OS)의 커널을 공유하며 리눅스 cgroups/Namespaces로 프로세스 수준에서 격리하는 경량 가상화 기술.
+- **하이퍼바이저(Hypervisor)**: 물리적 자원을 가상화하여 다수의 Guest OS가 하드웨어를 공유하도록 제어하는 하드웨어 추상화 엔진.
 
 </details>
 
-- 정의/개념: 하이퍼바이저 기반 Guest OS 레벨의 무거운 하드웨어 가상화(VM)와 호스트 커널 공유 기반 프로세스 레벨의 초경량 가상화(Container)를 기술 구조별로 대비하는 체계인 **VM vs Container**
-- 배경/필요성: 100% 완전한 보안/OS 독점 격리성(VM)과 초고속 1초 배포/수평 오토스케일링(Container)의 기술적 트레이드오프 선택 지침 요구성
+- 정의: 하이퍼바이저 기반 Guest OS 독점적 하드웨어 가상화(VM)와 호스트 커널 공유 기반 프로세스 격리(Container)의 구조적 비교 기술.
+- 배경: 완전 격리(VM)의 보안성과 고속 배포/수평 확장의 탄력성(Container) 간 트레이드오프에 따른 상황별 기술 선택 필요.
 
 #### 한줄 요약
 
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- **VM (Hardware-level Virtualization: Guest OS 전체 구동, 100% 완전 커널 격리, 수 GB Heavy)**
-- **Container (OS-level Virtualization: Host OS Kernel 공유, 초고속 1초 부팅, 수 MB Light)**
-- **Isolation Strength (VM은 하드웨어 수준 최상 보안, Container는 프로세스 수준 보통 보안)**
+- **VM (Hardware-level Virtualization)**: 전체 Guest OS 구동, 커널 분리, 고립된 보안 수준(수 GB).
+- **Container (OS-level Virtualization)**: Host Kernel 공유, 프로세스 격리, 경량 실행(수 MB).
+- **Isolation Strength**: 하드웨어 수준(VM) 대비 프로세스 수준(Container) 격리 보안성 차이.
 
 #### 한줄 요약
 
@@ -59,28 +59,26 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                     VM vs Container Architecture                       │
-├──────────────────────────────────┬─────────────────────────────────────┤
-│ [ Virtual Machine Architecture ] │ [ Container Architecture ]          │
-├──────────────────────────────────┼─────────────────────────────────────┤
-│ App A          │ App B           │ App A            │ App B            │
-│ Bins/Libs      │ Bins/Libs       │ Bins/Libs        │ Bins/Libs        │
-│ Guest OS       │ Guest OS        │ Docker Engine (cgroups/NS)         │
-│ Hypervisor (ESXi / KVM)          │ Host Operating System (Linux Kernel)│
-│ Physical Server Infrastructure   │ Physical Server Infrastructure      │
-└──────────────────────────────────┴─────────────────────────────────────┘
+┌────────────────────────────────────────┬──────────────────────────────────────────┐
+│           가상머신 아키텍처             │            컨테이너 아키텍처              │
+├────────────────────────────────────────┼──────────────────────────────────────────┤
+│ 앱 A       │ 앱 B                      │ 앱 A             │ 앱 B                  │
+│ 라이브러리 │ 라이브러리                │ 라이브러리       │ 라이브러리            │
+│ 게스트 OS  │ 게스트 OS                 │ 컨테이너 엔진(cgroups/NS)                │
+│ 하이퍼바이저 (ESXi/KVM)                │ 호스트 OS (리눅스 커널)                  │
+│ 물리 하드웨어 인프라                   │ 물리 하드웨어 인프라                     │
+└────────────────────────────────────────┴──────────────────────────────────────────┘
 ```
 
 선의 의미: VM은 각 앱마다 무거운 Guest OS를 통째로 얹고 가고, Container는 Guest OS를 제거하고 Host OS 커널을 직접 공유하는 차이점.
 
-| 비교 항목 | Virtual Machine (VM / 가상머신) | Container (도커 컨테이너) |
+| 비교 항목 | 가상머신(VM) | 컨테이너(Container) |
 |:---|:---|:---|
-| **가상화 계층** | **하드웨어 수준 가상화 (Hypervisor)** | **OS 커널 수준 가상화 (Container Engine)** |
-| **운영체제(OS)** | **개별 독립 Guest OS 100% 탑재** | **Guest OS 0% (Host OS Kernel 공유)** |
-| **부팅 속도 (Boot)** | 느림 (수분 소요) | **초고속 (수 밀리초 ~ 1초 이내)** |
-| **자원 효율성** | 낮음 (Guest OS 자체 메모리 먹음) | **최상 (프로세스 실행 메모리만 소비)** |
-| **보안 격리성** | **최상 (Guest OS 붕괴되어도 타 VM 안전)**| 보통 (Host Kernel 유출 시 전 파동 위험)|
+| **가상화 계층** | 하드웨어 수준 (Hypervisor) | OS 커널 수준 (Container Engine) |
+| **운영체제(OS)** | 개별 독립 Guest OS 탑재 | Guest OS 없음 (Host Kernel 공유) |
+| **부팅 속도** | 느림 (분 단위) | 초고속 (초 단위) |
+| **자원 효율성** | 낮음 (Guest OS 메모리 점유) | 높음 (프로세스 메모리만 사용) |
+| **보안 격리성** | 최상 (커널 수준 격리) | 보통 (커널 공유 취약점 노출) |
 
 #### 한줄 요약
 
@@ -95,8 +93,8 @@ extra:
 </details>
 
 ```text
-[VM Deployment]        ──► Hypervisor ──► Guest OS Boot (2-Min) ──► App Execution
-[Container Deployment] ──► Docker Engine ──► execve() Syscall (0.1s) ──► App Execution
+[VM 배포]        ──► 하이퍼바이저 ──► 게스트 OS 부팅(분) ──► 앱 실행
+[컨테이너 배포]  ──► 컨테이너 엔진 ──► 시스템 콜(0.1초) ──► 앱 실행
 ```
 
 ### 동작 원리
@@ -116,12 +114,12 @@ extra:
 
 </details>
 
-| 비교 기술 | Pure VM | Pure Container | Secure Container (Kata / Firecracker) |
+| 비교 기술 | Pure VM | Pure Container | Secure Container |
 |:---|:---|:---|:---|
-| **격리 경계** | Hypervisor / Guest OS | Host Kernel Sharing | **MicroVM Lightweight Hypervisor** |
-| **부팅 속도** | 2분 내외 | **0.1초 이내** | **0.5초 이내 (초경량 MicroVM)** |
-| **보안 수준** | 최상 | 보통 | **최상 (독자 MicroVM 커널 보유)** |
-| **사용 도메인**| 금융 코어 시스템 | 일반 MSA 웹/앱 API | **AWS Lambda, 멀티테넌트 SaaS** |
+| **격리 경계** | Hypervisor/Guest OS | Host Kernel | MicroVM Hypervisor |
+| **부팅 속도** | 분 단위 | 0.1초 이내 | 0.5초 이내 |
+| **보안 수준** | 최상 | 보통 | 최상 |
+| **도메인** | 금융 코어 | 일반 MSA | AWS Lambda, SaaS |
 
 #### 한줄 요약
 
@@ -155,7 +153,7 @@ extra:
 
 </details>
 
-- **VM vs Container 수립 기준**에 따라 Enterprise 아키텍처 설계 시 **VM (Core Storage) + Container (Stateless App)** 필수 혼용 적용
+- **VM/컨테이너 선택 기준**에 의거, Enterprise 아키텍처 설계 시 **VM (핵심 저장소/독점 자원) + 컨테이너 (Stateless 앱/동적 확장)**의 혼합 적용.
 
 #### 한줄 요약
 
