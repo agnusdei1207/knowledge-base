@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터 무결성과 즉각적 엄격한 일관성을 보장하는 전통적 **ACID** 와, 초고가용성 및 분산 확장을 위해 지연 수렴과 최종 일관성을 수용하는 현대적 **BASE**
-- 배경/필요성: 분산 IT 인프라 확장에 따른 CAP 정리상의 트레이드오프 수용, 100% ACID 강제 시 발생하는 분산 트랜잭션(2PC) 성능 병목 극복 요구성
+- **정의**: 데이터 무결성과 즉각적인 강한 일관성(`Strict Immediate Consistency`)을 최우선 보장하는 **ACID** 와, 가용성(`High Availability`)과 수평 확장성을 위해 최종 일관성(`Eventual Consistency`)을 수용하는 **BASE** 모델.
+- **필요성**: 분산 시스템 확장에 따른 CAP 트레이드오프 수용 및 ACID 강제 시 발생하는 분산 트랜잭션 성능 병목 극복.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **ACID**: Strict Consistency (즉시 일관성), 2PL / WAL / Undo Log 중심, RDBMS 기반
-- **BASE**: Eventual Consistency (최종 일관성), Asynchronous Event / Saga Pattern 중심, NoSQL 기반
-- **Pessimistic Locking (ACID)** 대 **Optimistic / Asynchronous Convergence (BASE)**
+- **ACID**: 즉시 일관성(`Strict Consistency`), 2PL/WAL 중심, RDBMS 기반 원자성 보장.
+- **BASE**: 최종 일관성(`Eventual Consistency`), 이벤트 기반(`Saga Pattern`) 비동기 수렴, NoSQL/MSA 기반 가용성 중시.
+- **운영 Trade-off**: 비관적 락(`Pessimistic Locking`) 대 낙관적/비동기 수렴(`Optimistic/Asynchronous Convergence`).
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **트랜잭션 수립 기준**에 따라 핵심 결제/재고는 **ACID (RDBMS)**, 비동기 파생 서비스는 **BASE (Outbox/Kafka)** 필수 분리 적용
+- **트랜잭션 수립 기준 적용** (결제/재고 등 핵심 도메인은 `ACID`(RDBMS), 파생 서비스는 `BASE`(Outbox/Kafka) 필수 분리 수용)
 
 #### 한줄 요약
 

@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 중첩된 JSON/BSON 문서 형태의 데이터를 조인 없이 단일 문서(Single Document) 단위로 적재하여, 뛰어난 가변 스키마 및 수평 확장성을 제공하는 Document NoSQL인 **MongoDB**
-- 배경/필요성: RDBMS의 복잡한 정규화 및 `JOIN` 연산 병목 극복, E-Commerce 상품 카탈로그나 CMS처럼 구조가 자주 바뀌는 데이터의 유연한 적재 및 분산 수용 요구성
+- **정의**: JSON/BSON(`Binary JSON`) 형태의 가변 데이터 모델을 사용하여 데이터를 단일 문서(`Single Document`) 단위로 적재하고 조인 없는 쿼리를 지원하는 Document NoSQL인 **MongoDB**.
+- **필요성**: RDBMS의 복잡한 정규화 및 `JOIN` 병목 극복, 구조가 잦게 변하는 데이터(상품 카탈로그, CMS)의 유연한 적재 및 수평 분산 요구성.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **BSON Document Model** 기반 데이터 내포(Embedding) 지원
-- **Single Document Atomicity (단일 문서 100% 원자성 보장)**
-- **WiredTiger Engine** (B+Tree 기반, 행 레벨 락, 데이터 압축) 및 **Replica Set / Sharding** 지원
+- **BSON 기반 모델링**: 데이터 내포(`Embedding`) 지원으로 데이터 접근성 최적화.
+- **원자성 보장**: 단일 문서(`Single Document`) 수준에서 100% 원자성(Atomicity) 제공.
+- **운영 엔진**: `WiredTiger` 엔진(B+Tree 기반, 행 레벨 락, 데이터 압축) 및 `Replica Set`/`Sharding` 지원.
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **MongoDB 모델 수립 기준**에 따라 가변 스키마 카탈로그/CMS 구축 시 **BSON Embedded Model & WiredTiger Engine** 필수 적용
+- **MongoDB 모델 수립 기준 적용** (가변 스키마 카탈로그/CMS 구축 시 `BSON Embedded Model` 및 `WiredTiger Engine` 필수 수용)
 
 #### 한줄 요약
 
