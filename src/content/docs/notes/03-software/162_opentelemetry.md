@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **OpenTelemetry (OTel / 오픈텔레메트리)**: CNCF의 2위 인기 오픈소스 프로젝트로, 이종의 관측성 툴(Datadog, New Relic, Jaeger, Prometheus)에 묶이지 않고 Metrics, Logs, Traces 텔레메트리 데이터를 표준화된 OTLP 프로토콜로 수집 전송하는 글로벌 표준 계측 프레임워크.
-- **OTLP (OpenTelemetry Protocol)**: gRPC / HTTP Protobuf 기반의 초경량 텔레메트리 전송 표준 프로토콜.
-- **OTel Collector**: Receiver(수집), Processor(가공/마스킹), Exporter(전송) 파이프라인으로 구성되어 이종의 APM 벤더(Datadog, Jaeger)로 텔레메트리를 다중 전송하는 프록시 서비스.
+- **오픈텔레메트리(OpenTelemetry, OTel)**: 메트릭, 로그, 트레이스를 표준화된 OTLP 프로토콜로 수집·전송하는 벤더 중립적 계측 프레임워크.
+- **OTLP (OpenTelemetry Protocol)**: gRPC 및 HTTP Protobuf 기반의 텔레메트리 데이터 전송 표준 프로토콜.
+- **OTel 컬렉터(Collector)**: 데이터를 수집(Receiver), 가공(Processor), 전송(Exporter)하는 파이프라인 구조의 텔레메트리 중계 엔진.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Vendor Agnostic (단일 OTel SDK로 Datadog, Jaeger, Prometheus 백엔드 100% 지원)**
-- **Unified Telemetry API & SDK (Metrics, Logs, Traces 3대 기둥 통합 수집 표준)**
-- **Auto-Instrumentation (코드 수정 없이 Java Agent / Node.js 훅으로 자동 계측)**
+- **벤더 중립(Vendor Agnostic)**: 단일 OTel SDK로 Datadog, Jaeger, Prometheus 등 백엔드 유연성 확보.
+- **통합 API(Unified Telemetry API)**: Metrics, Logs, Traces 3대 데이터의 통합 수집 표준화.
+- **자동 계측(Auto-Instrumentation)**: 코드 수정 없는 Java Agent 및 라이브러리 훅 기반 자동 데이터 수집.
 
 #### 한줄 요약
 
@@ -76,12 +76,12 @@ extra:
 
 선의 의미: App 코드가 OTel SDK 및 OTLP 프로토콜로 OTel Collector에 전송 후 Receiver, Processor, Exporter를 타고 다중 백엔드로 분기 전송되는 구조.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 적용 포인트 |
+| 구성 요소 | 역할 및 메커니즘 | 실무 예시 |
 |:---|:---|:---|
-| **OTel API** | **앱 코드상에서 Trace/Metric 수집을 위한 언어별 표준 규약**| `tracer.startSpan()` |
-| **OTel SDK** | **API 구체 구현체, 메모리 버퍼링 및 Batch Processor 처리** | `BatchSpanProcessor` |
-| **OTLP Protocol** | **Protobuf gRPC/HTTP 기반 초경량 텔레메트리 직렬화 전송** | `otlp/grpc:4317` 포트 |
-| **OTel Collector** | **중앙 수집 프록시 (Receiver $\rightarrow$ Processor $\rightarrow$ Exporter)**| PII 개인정보 마스킹 파이프라인 |
+| **OTel API** | 앱 코드 내 수집 표준 규약 | `tracer.startSpan()` |
+| **OTel SDK** | API 구현체, 메모리 버퍼링 및 배치 처리 | `BatchSpanProcessor` |
+| **OTLP 프로토콜**| Protobuf 기반 직렬화 전송 표준 | `otlp/grpc:4317` |
+| **OTel 컬렉터** | 수집-가공-전송 중계 프록시 엔진 | PII 마스킹 파이프라인 |
 
 #### 한줄 요약
 
@@ -152,14 +152,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **OpenTelemetry 수립 기준(OTel Standards)**: OTLP 표준 프로토콜, OTel Collector DaemonSet/Gateway, PII Processor 마스킹 및 Auto-Instrumentation에 의거한 체계.
-
-</details>
-
-- **OpenTelemetry 수립 기준**에 따라 전사 관측성 인프라 수립 시 **OpenTelemetry & OTLP & OTel Collector** 필수 적용
-
-#### 한줄 요약
-
-- 작은 단일 환경은 SDK 직접 전송으로 시작하되 공통 처리와 다중 목적지가 필요해지면 컬렉터를 이중화해 계측 코드와 전송 정책을 분리해야 한다.
+- **표준 기반 오픈텔레메트리 관측성 수집 파이프라인 체계 확립**

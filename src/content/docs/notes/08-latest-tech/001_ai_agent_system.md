@@ -178,12 +178,5 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
-
-</details>
-
-- 다단계 외부 행동은 AI 에이전트(AI Agent)를 통해 수행하고, 자산 변경 등 고위험 작업은 인간 참여형 통제(HITL, Human-in-the-Loop) 승인을 거쳐 실무 안정성 확보.
-
-#### 한줄 요약
-- **최소 권한**과 **HITL** 기반의 실행 및 비용 검증 체계 적용
+- 다단계 외부 행동은 **AI 에이전트(AI Agent)**를 통해 수행하고, 자산 변경 등 고위험 작업은 **인간 참여형 통제(HITL, Human-in-the-Loop)** 승인을 거쳐 실무 안정성 확보.
+- **최소 권한(Least Privilege)**과 **인간 참여형 통제(HITL)** 기반의 실행 및 비용 검증 체계 적용

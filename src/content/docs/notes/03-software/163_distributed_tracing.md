@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Distributed Tracing (분산 추적)**: 1개의 사용자 요청이 수십 개의 MSA(마이크로서비스)를 넘나들 때, 모든 체인 구간을 단일 ID로 묶어 지연(Latency)과 에러(Error)의 정확한 발생 지점을 추적하는 Observability 핵심 기술.
-- **Trace & Span**: **Trace**는 1개 요청의 전체 처음~끝 라이프사이클을 묶는 최상위 식별자이고, **Span**은 해당 요청이 거쳐 간 개별 마이크로서비스 내부의 실행 구간 단위.
-- **Trace Context Propagation**: A 서비스가 B 서비스를 HTTP/gRPC로 호출할 때 헤더(Header)에 `trace_id`를 실어 보내어 추적 고리를 끊기지 않게 연결하는 문맥 전파 기술.
+- **분산 추적(Distributed Tracing)**: 요청 경로의 모든 구간을 단일 ID로 묶어 지연(Latency)과 에러 지점을 추적하는 기술.
+- **Trace & Span**: **Trace**는 1개 요청의 전체 라이프사이클 식별자이며, **Span**은 서비스 내부의 실행 구간 단위.
+- **문맥 전파(Context Propagation)**: A가 B를 호출할 때 헤더에 `trace_id`를 실어 추적 고리를 연결하는 기술.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Trace ID Injection (모든 요청에 글로벌 고유 식별자 Trace ID 최초 주입)**
-- **Context Propagation (HTTP Header 기반 W3C Trace Context 규약 전파)**
-- **Waterfall Visualization (Jaeger/Tempo UI 기반 계층형 트리 폭포수 지연 시각화)**
+- **추적 ID 주입(Trace ID Injection)**: 모든 요청에 글로벌 고유 식별자 주입.
+- **문맥 전파(Context Propagation)**: HTTP 헤더 기반 W3C Trace Context 규약 전파.
+- **계층 시각화(Waterfall Visualization)**: Jaeger/Tempo 기반 계층형 트리 지연 시각화.
 
 #### 한줄 요약
 
@@ -73,12 +73,12 @@ extra:
 
 선의 의미: 1개의 Trace가 최상위 Span A에서 시작하여 B, C를 거치고, 최종 DB Span D에서 소요된 트리 형태의 지연 폭포수 구조.
 
-| 핵심 구성요소 | 데이터 스키마 역할 | 실무 기술 속성 |
+| 핵심 요소 | 역할 및 데이터 스키마 | 기술 속성 |
 |:---|:---|:---|
-| **Trace ID** | **전체 요청 흐름을 묶는 1개의 최상위 글로벌 Key** | `trace_id: 128-bit` |
-| **Span ID** | **각 MSA 서비스 내 단위 작업 구간 식별자** | `span_id: 64-bit` |
-| **Parent Span ID**| **이전 호출 서비스의 Span ID를 저장 (트리 구조 연결)** | `parent_id` 맵핑 |
-| **Span Attributes**| **상세 문맥 (HTTP Method, Status Code, DB 쿼리 문장)**| Key-Value Tag 저장 |
+| **Trace ID** | 전체 요청 흐름을 묶는 최상위 글로벌 Key | `trace_id: 128-bit` |
+| **Span ID** | 서비스 내 단위 작업 구간 식별자 | `span_id: 64-bit` |
+| **Parent Span ID**| 이전 호출 서비스의 Span ID(트리 구조 연결) | `parent_id` 맵핑 |
+| **Span Attributes**| 상세 문맥(HTTP Method, 쿼리 등) | Key-Value Tag |
 
 #### 한줄 요약
 
@@ -153,14 +153,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Distributed Tracing 수립 기준(Tracing Standards)**: W3C Trace Context 표준, Tail Sampling 최적화, OTel SDK 및 Jaeger/Tempo 시각화에 의거한 체계.
-
-</details>
-
-- **Distributed Tracing 수립 기준**에 따라 Cloud-Native MSA 병목 관제 시 **OpenTelemetry Tracing & Tail Sampling** 필수 적용
-
-#### 한줄 요약
-
-- 동기 호출은 부모·자식 관계를 끝까지 전파하고 비동기 작업은 링크를 사용하며 희귀 장애는 테일 샘플링으로 보존해야 한다.
+- **표준 기반 분산 추적 수집 및 관측성 병목 구간 분석 체계 확립**

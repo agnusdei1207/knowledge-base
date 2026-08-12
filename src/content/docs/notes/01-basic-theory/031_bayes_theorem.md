@@ -22,12 +22,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior Probability)과 증거 우도(Likelihood)를 결합하여 데이터 관측 후 사후 확률(Posterior Probability)을 갱신하는 조건부 확률 정리.
-- **조건부 확률(Conditional Probability)**: 특정 사건 A 발생을 전제로 사건 B가 발생할 확률.
-- **사전 확률(Prior Probability)**: 새로운 증거 관측 이전의 가설 H에 대한 확률.
-- **사후 확률(Posterior Probability)**: 증거 E 관측을 반영하여 갱신된 가설 H의 확률.
-- **우도(Likelihood)**: 주어진 가설 H가 참일 때 증거 E가 관측될 가능성($P(E|H)$).
-- **기저율(Base Rate)**: 전체 모집단에서 특정 사건이 발생하는 근본적인 비율.
+- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior)과 증거 우도(Likelihood)를 결합, 데이터 관측 후 사후 확률(Posterior)을 갱신하는 조건부 확률 정리.
+- **조건부 확률(Conditional Probability)**: 특정 사건 A 발생을 전제로 B가 발생할 확률 $P(B|A)$.
+- **사전 확률(Prior Probability)**: 증거 관측 전 가설 H에 대한 초기 신뢰도.
+- **사후 확률(Posterior Probability)**: 증거 E 관측 후 갱신된 가설 H의 확률 $P(H|E)$.
+- **우도(Likelihood)**: 가설 H가 참일 때 증거 E가 관측될 가능성 $P(E|H)$.
+- **기저율(Base Rate)**: 모집단 내 특정 사건의 고유 발생 비율.
 
 </details>
 
@@ -42,7 +42,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **양성 예측도(Positive Predictive Value, PPV)**: 검사 결과가 양성일 때 실제 양성일 확률.
+- **양성 예측도(Positive Predictive Value, PPV)**: 검사 양성 판정 시 실제 양성일 확률.
 - **민감도(Sensitivity)**: 실제 양성을 양성으로 판정하는 비율.
 - **특이도(Specificity)**: 실제 음성을 음성으로 판정하는 비율.
 - **오탐(False Positive)**: 실제 음성을 양성으로 오판하는 비율.
@@ -52,14 +52,14 @@ extra:
 
 ![기저율에 따른 양성 사후확률 차트](/study/diagrams/bayes-base-rate-ppv.svg)
 
-> 민감도•특이도 90%라는 계산 조건이 같아도 기저율이 1%→50%로 높아지면 양성 사후확률은 8.33%→90%로 상승한다.
+> 기저율 1%→50% 시 민감도·특이도 90% 동일 조건에서 양성 사후확률은 8.33%→90%로 상승.
 
-- **역확률 추론(Inverse Probability Inference)**: 관측된 결과(증거)로부터 원인(가설)의 확률을 사후 갱신하는 통계적 추론 방법.
-- **기저율 오류 방지(Base Rate Fallacy Prevention)**: 민감도(Sensitivity) 및 특이도(Specificity) 외 기저율(Prior Rate)을 반영한 양성 예측도(PPV, Positive Predictive Value) 산출을 통한 확률 추론의 정확도 제고.
+- **역확률 추론**: 관측된 증거로부터 원인(가설)의 확률을 사후 갱신하는 통계적 추론.
+- **기저율 오류 방지**: 민감도·특이도 외 기저율을 반영한 PPV 산출을 통해 확률 추론 정확도 제고.
 
 #### 한줄 요약
 
-- 기저율 Fallacy(기저율의 오류)를 방지하기 위해 Evidence의 민감도/특이도뿐만 아니라 Prior Rate $P(H)$를 반영한 양성 예측도(PPV)를 산출한다.
+- 기저율 오류(Base Rate Fallacy) 방지를 위해 증거의 민감도·특이도와 기저율($P(H)$)을 반영한 PPV 산출.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -191,5 +191,5 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 </details>
 
-- **희귀 사건** 기저율 적용 및 **독립적 추가 증거(Independent Evidence)** 기반 순차적 사후 확률 갱신 체계 적용.
+- **희귀 사건** 기저율 반영 및 **독립적 추가 증거(Independent Evidence)** 기반 순차적 사후 확률 갱신 체계 적용.
 
