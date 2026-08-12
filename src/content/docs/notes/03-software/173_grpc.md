@@ -20,172 +20,143 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **gRPC 원격 프로시저 호출(gRPC Remote Procedure Calls, gRPC)**: IDL 계약과 코드 생성 기반 원격 호출 프레임워크이다.
-- **인터페이스 정의 언어(Interface Definition Language, IDL)**: 서비스와 메시지 계약을 언어 중립적으로 정의하는 언어이다.
+- **gRPC (gRPC Remote Procedure Calls)**: 구글(Google)이 개발한 고성능 오픈소스 RPC 프레임워크로, HTTP/2와 Protocol Buffers를 기반으로 마이크로서비스 간의 초고속 양방향 통신을 지원하는 기술.
+- **Protocol Buffers (Protobuf)**: XML이나 JSON 대비 크기가 절반 이하로 작고 파싱(Parsing) 속도가 수십 배 빠른, 구글이 개발한 이진(Binary) 직렬화 데이터 포맷.
+- **IDL (Interface Definition Language)**: 클라이언트와 서버가 주고받을 데이터 구조와 메서드를 언어에 구애받지 않고 명확하게 정의하는 `.proto` 파일 규격.
 
 </details>
 
-- 정의/개념: **인터페이스 정의 언어(Interface Definition Language, IDL)** 계약과 코드 생성 기반 **gRPC 원격 프로시저 호출(gRPC Remote Procedure Calls, gRPC)** 프레임워크이다.
-- 배경/필요성: 언어별 수작업 계약으로는 직렬화•오류•호출 규칙의 일관성을 확보하기 어렵다.
+- 정의/개념: HTTP/2의 멀티플렉싱(Multiplexing) 성능과 Protobuf의 직렬화 효율을 결합하여 이기종 언어로 작성된 마이크로서비스(MSA) 간의 함수를 로컬 함수처럼 직접 호출하는 원격 프로시저 호출 프레임워크인 **gRPC**
+- 배경/필요성: REST API(HTTP/1.1 + JSON) 체계에서 발생하는 무거운 페이로드(Payload) 크기, 텍스트 파싱 지연, 단방향 통신의 한계를 극복하고 내부 네트워크 연계 성능을 극대화하기 위한 요구성
 
 #### 한줄 요약
 
-- 공통 `.proto` 설계도에서 각 언어의 송신•수신 코드를 만들어 다른 서버의 함수를 타입이 정해진 로컬 함수처럼 호출한다.
+- 공통 `.proto` 설계도에서 각 언어의 송신·수신 코드를 만들어 다른 서버의 함수를 타입이 정해진 로컬 함수처럼 호출한다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (gRPC 3대 핵심 기술 요소)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **기한**: 원격 호출이 완료되어야 하는 시간 상한이다.
-- **취소 전파**: 상위 호출의 취소를 하위 호출에 전달하는 기능이다.
-- **상태 코드**: 원격 호출 결과와 오류 종류를 표준화한 값이다.
-- **프로토콜 버퍼(Protobuf)**: 메시지 구조와 서비스를 정의하는 직렬화 형식이다.
-- **스텁(Stub)**: IDL 계약에서 생성된 원격 호출 대리 코드이다.
-- **하이퍼텍스트 전송 프로토콜 2(Hypertext Transfer Protocol Version 2, HTTP/2) 다중화**: 하나의 연결에서 여러 독립 호출 스트림을 동시에 전송하는 기능이다.
+- **Deadline / Timeout (기한/타임아웃)**: gRPC 호출 시 클라이언트가 "언제까지 응답이 안 오면 호출을 취소하겠다"고 명시하는 시간 제약으로, MSA 환경에서 무한 대기(Cascading Failure)를 방지하는 방어 기제.
 
 </details>
 
-- **프로토콜 버퍼(Protobuf)** **인터페이스 정의 언어(IDL)**와 **스텁(Stub)** 기반 계약 우선 개발이 핵심이다.
-- **하이퍼텍스트 전송 프로토콜 2(Hypertext Transfer Protocol Version 2, HTTP/2) 다중화** 기반 단항•스트리밍 호출이 핵심이다.
-- **기한**•**취소 전파**•**상태 코드** 기반 호출 수명주기가 핵심이다.
+- **HTTP/2 Transport (바이너리 프레이밍, 멀티플렉싱, 헤더 압축, 서버 푸시 지원)**
+- **Protocol Buffers Serialization (JSON 텍스트 포맷 대비 작고 빠른 이진 직렬화 메커니즘)**
+- **Polyglot & Code Generation (하나의 `.proto` 파일에서 Java, Go, Python 등 다국어 클라이언트/서버 스텁(Stub) 코드 자동 생성)**
 
 #### 한줄 요약
 
 - 한 연결에서 여러 통화를 동시에 처리하되 호출자가 기다릴 시간을 넘기면 하위 서비스까지 취소를 전달해 불필요한 작업을 멈춘다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (gRPC 클라이언트-서버 통신 구조)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **서버 런타임**: 요청 역직렬화와 기한•취소•상태 처리를 담당해 서비스 처리기로 연결하는 구성요소이다.
-- **Protobuf IDL**: 메서드와 메시지 계약을 정의한 명세이다.
-- **IDL 컴파일러**: 계약에서 언어별 클라이언트•서버 코드를 생성하는 구성요소이다.
-- **클라이언트 스텁(Client Stub)**: 요청을 직렬화하고 원격 호출을 로컬 메서드처럼 추상화하는 구성요소이다.
-- **채널(Channel)**: 대상 서버 연결과 하이퍼텍스트 전송 프로토콜 2 스트림을 관리하는 구성요소이다.
-- **서비스 처리기(Service Handler)**: 생성된 서버 인터페이스에 실제 업무 로직을 구현하는 구성요소이다.
+- **Stub (스텁)**: `.proto` 파일을 컴파일(protoc)하여 자동 생성된 클라이언트 측 프록시 객체로, 네트워크 통신과 직렬화의 복잡성을 숨기고 마치 로컬 메서드를 부르는 것처럼 보이게 하는 대리자.
 
 </details>
 
 ```text
-gRPC 호출 구조
-      |
-      +-- 계약•코드 생성
-      |         +-- [프로토 IDL•컴파일러]
-      |
-      +-- 클라이언트
-      |         +-- [클라이언트 스텁]
-      |         +-- [채널]
-      |
-      +-- 서버
-                +-- [서버 런타임]
-                +-- [서비스 처리기]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        gRPC Client-Server Architecture                 │
+├────────────────────────────────────────────────────────────────────────┤
+│                      [ .proto (IDL Contract) ]                         │
+│                                  │ (Code Generation)                   │
+│                                  ▼                                     │
+│ [Client App (Go)]                                [Server App (Java)]   │
+│   │                                                ▲                   │
+│   ▼                                                │                   │
+│ [gRPC Client Stub] ──(HTTP/2 + Protobuf)──► [gRPC Server Skeleton]     │
+│ (직렬화, 압축, 라우팅)                       (역직렬화, 비즈니스 매핑) │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 프로토 IDL•컴파일러 | **Protobuf IDL**이 계약을 정의하고 **IDL 컴파일러**가 언어별 코드를 생성 |
-| 클라이언트 스텁 | **클라이언트 스텁(Client Stub)**이 요청을 직렬화하고 원격 호출을 추상화 |
-| 채널 | **채널(Channel)**이 대상•연결•HTTP/2 스트림을 관리 |
-| 서버 런타임 | **서버 런타임**이 역직렬화•기한•취소•상태를 처리 |
-| 서비스 처리기 | **서비스 처리기(Service Handler)**가 생성 인터페이스에 업무 로직을 구현 |
+선의 의미: 언어 독립적인 `.proto` 명세로부터 생성된 클라이언트 스텁과 서버 스켈레톤(Skeleton) 사이를 HTTP/2 기반의 Protobuf 바이너리 메시지가 오가며 고속으로 데이터를 교환하는 구조.
+
+| 구성요소 | 핵심 역할 및 기능 | 실무 적용 |
+|:---|:---|:---|
+| **Protobuf IDL** | **서비스(RPC)와 메시지(Message) 구조를 정의한 계약서**| `user.proto` 파일 작성 |
+| **protoc (컴파일러)**| **IDL을 읽어 특정 언어용 스텁/스켈레톤 코드 자동 생성**| Go, Java용 소스코드 생성 |
+| **gRPC Channel** | **클라이언트와 서버 간의 HTTP/2 기반 장기 지속 연결** | 다중 요청을 1개 채널로 전송 |
+| **Server Runtime** | **바이너리 요청 수신 $\rightarrow$ 역직렬화 $\rightarrow$ 비즈니스 로직(Handler) 연결** | gRPC 프레임워크 내장 처리 |
 
 #### 한줄 요약
 
 - IDL이 통화 규격, 스텁이 송수화기, 채널이 회선, Runtime이 교환기, Handler가 실제 업무 담당자 역할을 한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (gRPC 양방향 스트리밍 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **요청•메타데이터 직렬화**: Protobuf 요청과 인증•추적•기한을 구성하는 단계이다.
-- **HTTP/2 요청 스트림 전송**: 다중화 연결로 요청을 대상 서버에 보내는 단계이다.
-- **서비스 메서드 실행**: 역직렬화와 기한•취소 검사 후 업무 로직을 호출하는 단계이다.
-- **응답•상태 직렬화**: 처리 결과나 표준 오류를 응답 메시지로 구성하는 단계이다.
+- **Bidirectional Streaming (양방향 스트리밍)**: 클라이언트와 서버가 하나의 HTTP/2 연결(Connection) 위에서 독립적인 데이터 스트림을 비동기적으로 동시에 주고받는 gRPC의 가장 강력한 통신 모델.
 
 </details>
 
 ```text
-요청 객체•기한
-      |
-      v
-1. 요청•메타데이터 직렬화
-      |
-      v
-2. HTTP/2 요청 스트림 전송
-      |
-      +-- 기한 초과•취소 --> 취소 전파•오류 상태 반환
-      |
-      +-- 서버 수신
-              |
-              v
-3. 서비스 메서드 실행
-              |
-              +-- 처리 성공 --> 응답 객체
-              +-- 처리 실패 --> 표준 오류 상태
-                              |
-                              v
-4. 응답•상태 직렬화
-              |
-              v
-          호출 결과 반환
+[Client]                                         [Server]
+   │                                                │
+   ├─ 1. HTTP/2 Connection Establishment (TLS) ────►│
+   │                                                │
+   ├─ 2. Send Stream Request (Stream A: Msg 1) ────►│ (Process Msg 1)
+   │                                                │
+   ├─ 3. Send Stream Request (Stream A: Msg 2) ────►│ (Process Msg 2)
+   │                                                │
+   │◄── 4. Send Stream Response (Stream B: Res 1) ──┤ (Reply for Msg 1)
+   │                                                │
+   ├─ 5. Client Close Stream ──────────────────────►│
+   │                                                │
+   │◄── 6. Send Stream Response (Stream B: Res 2) ──┤ (Reply for Msg 2)
+   │◄── 7. Server Close Stream (Trailers) ──────────┤
 ```
 
 ### 동작 원리
 
-1. **요청•메타데이터 직렬화**: **요청•메타데이터 직렬화**로 Protobuf•인증•추적•기한을 구성한다.
-2. **HTTP/2 요청 스트림 전송**: **HTTP/2 요청 스트림 전송**으로 다중화 연결에서 요청을 보낸다.
-3. **서비스 메서드 실행**: **서비스 메서드 실행**으로 역직렬화 후 기한•취소 조건을 적용한다.
-4. **응답•상태 직렬화**: **응답•상태 직렬화**로 응답 객체 또는 표준 오류를 구성한다.
+1. **Connection**: 클라이언트가 서버와 TLS 기반 HTTP/2 롱 커넥션 채널(Channel) 오픈.
+2. **Stream Initiate**: 클라이언트가 데이터를 스트리밍으로 전송 시작 (요청-1, 요청-2).
+3. **Concurrent Reply**: 서버도 요청이 모두 끝나길 기다리지 않고, 처리되는 대로 즉각 스트리밍 응답 전송(응답-1 반환).
+4. **Graceful Close**: 양측이 더 이상 보낼 데이터가 없음을 알리고(`Close`) 스트림을 안전하게 닫음 (**스트리밍 통신 완결**).
 
 #### 한줄 요약
 
 - 호출 객체는 스텁에서 이진 메시지가 되고 서버 Handler의 결과는 다시 객체로 복원되며 기한이 지나면 같은 취소 문맥이 전체 경로에 전달된다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (REST API 대 gRPC 1:1 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **gRPC 적용 기준**: 타입 계약•낮은 지연•연속 스트리밍이 중요한 통신이다.
-- **표현 상태 전이 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 공개 웹 자원과 브라우저•외부 소비자 연계에 적합한 방식이다.
-- **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)**: REST API에서 널리 사용하는 텍스트 표현 형식이다.
+- **Unary RPC (단항 RPC)**: REST API처럼 1개의 요청을 보내면 1개의 응답을 받는 가장 기본적이고 단순한 gRPC 통신 방식.
 
 </details>
 
-| 서비스 연계 방식 | **gRPC 적용 기준** | **표현 상태 전이 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)** |
+| 비교 항목 | REST API (JSON) | gRPC (Protobuf) |
 |:---|:---|:---|
-| 적용 기준 | 내부 저지연•스트리밍 호출 | 공개 웹•자원 연계 |
-| 핵심 특징 | Protobuf•코드 생성•HTTP/2 | **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)**•URI•HTTP 의미 |
-| 한계 | 브라우저•프록시•디버깅 제약 | 메시지 크기•계약 편차 |
+| **통신 프로토콜** | **HTTP/1.1 (기본)** | **HTTP/2 (필수 강제, 멀티플렉싱)** |
+| **페이로드(Payload)**| **JSON (텍스트 기반, 파싱 속도 느림, 용량 큼)**| **Protobuf (바이너리, 파싱 초고속, 용량 50% 축소)**|
+| **계약(Contract)** | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
+| **브라우저 지원** | 네이티브 지원 (Chrome 등 직접 호출 가능) | **브라우저 직접 호출 불가 (gRPC-Web 프록시 필요)**|
 
 #### 한줄 요약
 
 - 내부 서비스의 타입 계약과 연속 메시지가 중요하면 gRPC를, 브라우저와 외부 소비자의 접근성과 웹 캐시가 중요하면 REST를 선택한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (gRPC 3대 실무 난제 대책)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **연결 고갈**: 기한 없는 느린 호출이 연결과 서버 자원을 계속 점유해 새 요청 처리를 막는 문제이다.
-- **원격 프로시저 호출(Remote Procedure Call, RPC) 취소 전파**: 상위 호출의 취소 상태를 하위 원격 호출에 전달해 불필요한 작업을 멈추는 방식이다.
-- **예약 필드 번호(Reserved Field Number)**: 삭제한 프로토콜 버퍼 필드 번호를 다시 쓰지 못하게 표시해 구버전 오해석을 막는 호환성 수단이다.
+- **Load Balancing Issue**: HTTP/2는 장기 지속 연결(Long-Lived Connection)을 맺으므로, L4(TCP) 로드밸런서를 쓰면 트래픽 분산이 안 되고 특정 서버로 요청이 몰리는 연결 쏠림 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 gRPC 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 무기한 호출의 **연결 고갈** | 모든 호출에 기한 설정 | 지연 작업 회수 |
-| 상위 종료 뒤 하위 작업 지속 | **원격 프로시저 호출(Remote Procedure Call, RPC) 취소 전파** | 불필요한 처리 중단 |
-| 재시도의 중복 업무•폭주 | 멱등 구분•재시도 간격•횟수 제한 | 장애 증폭 방지 |
-| 필드 번호 재사용의 오해석 | **예약 필드 번호(Reserved Field Number)**로 삭제 번호 처리 | 스키마 후방 호환 |
-| 장기 연결의 서버 편중 | 연결 수명•부하 분산 정책 조정 | 요청 분산 개선 |
+| **1. L4 로드밸런싱 실패** | HTTP/2의 단일 Connection 유지 특성 | **Envoy, Istio 등 L7(Application) 로드밸런서 도입**|
+| **2. 프론트엔드 연동 불가**| 브라우저는 HTTP/2 프레이밍 직접 조작 불가| **gRPC-Web 또는 REST-to-gRPC Gateway (Envoy) 구축**|
+| **3. 구버전 스키마 충돌** | 필드를 삭제한 뒤 동일 필드 번호 재사용 | **`reserved` 키워드를 사용하여 번호 재사용 원천 금지**|
+
+> 사례: **토스 / 배달의민족 마이크로서비스 내부(East-West) 통신 속도 개선을 위한 REST $\rightarrow$ gRPC 대규모 마이그레이션**
 
 #### 한줄 요약
 
@@ -193,15 +164,14 @@ gRPC 호출 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **브라우저 접근성**: 웹 브라우저와 외부 소비자가 직접 호출할 수 있는 정도이다.
+- **gRPC 수립 기준**: `.proto` 계약(IDL) 관리, HTTP/2 인프라 호환성(L7 로드밸런서), Deadline(기한) 전파 및 하위 호환성 유지 룰(reserved)에 의거한 체계.
 
 </details>
 
-- **gRPC 적용 기준**과 **브라우저 접근성**으로 gRPC•REST를 결정한다.
+- **gRPC 수립 기준**에 따라 Cloud-Native MSA 백엔드 내부 망 설계 시 **Protobuf 직렬화 및 HTTP/2 스트리밍** 필수 적용
 
 #### 한줄 요약
 
-- 타입 계약과 스트리밍이 필요한 내부 통신은 gRPC로 구성하되 모든 호출에 기한•취소•호환성 정책을 함께 적용해야 한다.
+- 타입 계약과 스트리밍이 필요한 내부 통신은 gRPC로 구성하되 모든 호출에 기한·취소·호환성 정책을 함께 적용해야 한다.
