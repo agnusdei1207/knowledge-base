@@ -20,188 +20,133 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Apache Kafka 이벤트 스트리밍 플랫폼**: 생산자가 발행한 이벤트를 복제된 파티션 로그에 순서대로 보존하고 여러 소비자가 독립적으로 읽게 하는 분산 플랫폼이다.
+- **Apache Kafka**: LinkedIn이 개발한 분산 이벤트 스트리밍 플랫폼(Distributed Event Streaming Platform)으로, 초당 수백만 건의 메시지를 디스크 Append-Only Commit Log에 순차 저장하여 초저지연 수평 분산 송수신을 담당하는 비동기 메시지 브로커.
+- **Partition & Offset**: 토픽(Topic)을 수평 분할한 카프카의 기본 병렬 처리 단위(Partition)와, 파티션 내부에서 메시지마다 64-bit 순차 정수로 부여되는 고유 식별자(Offset).
+- **Consumer Group**: 동일한 Topic을 병렬 소비하기 위해 다수의 컨슈머 인스턴스를 하나로 묶은 클라이언트 집합으로, 1개의 파티션은 그룹 내 단 1개의 컨슈머만 1:1 매핑 점유.
 
 </details>
 
-- 정의/개념: 생산자가 발행한 이벤트를 복제된 파티션 로그에 순서대로 보존하고 소비자가 독립적으로 읽게 하는 **Apache Kafka 이벤트 스트리밍 플랫폼**이다.
-- 배경/필요성: 직접 연동은 소비자 지연•장애를 생산자 처리 중단으로 전파한다.
+- 정의/개념: 대규모 실시간 스트림 데이터를 순차 Commit Log 파티션에 Append-Only 디스크 전송하여, 생산자(Producer)와 소비자(Consumer) 간 결합도를 완벽히 분리하는 분산 이벤트 스트리밍인 **Apache Kafka**
+- 배경/필요성: 기존 Message Queue(RabbitMQ)의 디스크 렌더링 한계 및 1:1 소모성 메시징 한계 극복, 1:N 이종 시스템으로의 대용량 실시간 이벤트 데이터 Pub/Sub 수용 요구성
 
 #### 한줄 요약
+
 - 이벤트를 분산 일지에 보존하고 여러 독자가 각자 읽는 플랫폼이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **파티션 순서**: 같은 키의 이벤트를 하나의 파티션에 기록해 로그 순서를 유지하는 특성이다.
-- **독립 소비**: 소비자 그룹마다 파티션 배정과 처리 오프셋을 별도로 관리하는 특성이다.
-- **로그 보존**: 이벤트를 정한 기간 유지해 과거 재생을 지원하는 특성이다.
-- **로그 복제**: 복제본을 유지해 리더 장애를 견디는 특성이다.
-- **로그 압축(Log Compaction)**: 키별 최신 레코드를 보존해 상태를 재구성할 수 있게 하는 정리 방식이다.
-- **트랜잭션 프로듀서(Transactional Producer)**: 여러 레코드와 소비 오프셋을 하나의 트랜잭션으로 원자 커밋하는 생산자이다.
+- **Zero-Copy Technology**: OS Kernel의 `sendfile()` 시스템 콜을 활용해, 디스크 페이지 캐시에서 네트워크 NIC 버퍼로 직접 데이터를 전송하여 CPU/메모리 복사 오버헤드를 0으로 차단.
+- **ISR (In-Sync Replicas)**: Leader 파티션의 최신 Offset을 지연 없이 실시간 추종하고 있는 하이 퀄리티 Follower 레플리카 노드들의 집합.
 
 </details>
 
-- **파티션 순서**: 같은 키의 기록 순서를 유지한다.
-- **독립 소비**: 그룹별 오프셋•배정을 관리한다.
-- **로그 보존**•**로그 복제**: 재생과 리더 장애 전환을 지원한다.
-- **로그 압축**: 키별 최신 레코드로 상태 재구성한다.
-- **트랜잭션 프로듀서**: 레코드•소비 오프셋 원자 커밋이다.
+- **High Throughput & Low Latency (Zero-Copy & PageCache 기술 활용)**
+- **Decoupled Architecture & Message Replay (Offset 조작으로 과거 이벤트 재처리)**
+- **Distributed Replication (Leader-Follower ISR 기반 고가용성 보장)**
 
 #### 한줄 요약
+
 - 병렬성과 재처리는 좋으나 순서 보장과 편중 및 재배정을 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Kafka 4대 아키텍처 및 ISR 구조)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **소비자 그룹(Consumer Group)**: 토픽 파티션을 나눠 병렬 소비하는 클라이언트 집합이다.
-- **그룹 코디네이터(Group Coordinator)**: 소비자 등록과 파티션 배정•재균형을 조정하는 구성요소이다.
-- **생산자(Producer)**: 이벤트의 키와 값을 주제 파티션으로 전송하고 실패를 재시도하는 클라이언트이다.
-- **주제(Topic)**: 이벤트를 업무 범주별로 분류하는 이름이다.
-- **파티션(Partition)**: 토픽을 병렬 처리하도록 나눈 순서 로그이다.
-- **오프셋(Offset)**: 파티션 로그 안에서 증가하는 레코드 위치이다.
-- **브로커(Broker)**: 파티션 로그를 저장하고 요청을 처리하는 서버이다.
-- **리더(Leader)**: 파티션의 읽기와 쓰기를 담당하는 복제본이다.
-- **팔로워(Follower)**: 리더 로그를 복제하는 사본이다.
-- **컨트롤러(Controller)**: 클러스터 메타데이터와 파티션 리더 변경을 조정하는 구성요소이다.
+- **Producer, Broker, Consumer, Controller**: 카프카 시스템을 이끄는 4대 물리적 핵심 요소.
 
 </details>
 
 ```text
-[Broker•Leader•Follower]
-    |
-    +-- [Producer]
-    |
-    +-- [Topic•Partition•Offset]
-    |
-    +-- [Controller]
-    |
-    +-- [Consumer Group•Coordinator]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Apache Kafka Cluster Architecture               │
+├────────────────────────────────────────────────────────────────────────┤
+│ [Producer] ──► [Broker 1 (Topic A - Partition 0 Leader)] ──► [Consumer A]│
+│                [Broker 2 (Topic A - Partition 1 Leader)] ──► [Consumer B]│
+│                     │ (ISR Replication)                                │
+│                     ▼                                                  │
+│                [Broker 3 (Topic A - Partition 0/1 Follower)]           │
+├────────────────────────────────────────────────────────────────────────┤
+│ Cluster Metadata Management: Apache ZooKeeper or KRaft (Kafka Raft)    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: Producer와 Topic•Partition•Offset은 Broker•Leader•Follower의 로그 저장 경계에 결합되고, 브로커 아래에는 클러스터 메타데이터를 관리하는 Controller와 소비 배정을 관리하는 Consumer Group•Coordinator가 놓이는 정적 구조를 뜻한다.
+선의 의미: Producer가 메시지를 아키텍처 파티션 리더 노드에 보내고, ISR 팔로워 노드가 이를 복제하며, 컨슈머 그룹이 오프셋을 읽어 처리하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Producer | **생산자**가 키•값 전송•재시도 |
-| Topic•Partition•Offset | **주제**•**파티션**•**오프셋**으로 로그 관리 |
-| Broker•Leader•Follower | **브로커**•**리더**•**팔로워**가 저장•복제 |
-| Controller | **컨트롤러**가 메타데이터•리더 변경 |
-| Consumer Group•Coordinator | **소비자 그룹**•**그룹 코디네이터**가 배정 관리 |
+| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 튜닝 파라미터 |
+|:---|:---|:---|
+| **Topic & Partition** | 메시지가 분류 저장되는 단위 및 수평 병렬 처리 축 | 파티션 수 = 최대 컨슈머 개수 |
+| **Offset** | 파티션 내 메시지 순서 번호 (0, 1, 2, 3...) | **`__consumer_offsets` 자동 커밋** |
+| **ISR (In-Sync Replicas)**| Leader의 최신 오프셋을 바짝 추적하는 Follower 집합| `min.insync.replicas=2` |
+| **KRaft (Kafka Raft)** | ZooKeeper를 대체하는 카프카 전용 내장 합의 엔진 | Controller 노드 메타데이터 튜닝 |
 
 #### 한줄 요약
 
 - 작성자, 번호 일지, 사본 서버, 관리자, 독자 모임으로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Kafka acks 옵션에 따른 내구성/성능 트레이드오프)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **동기화 복제본 집합(In-Sync Replicas, ISR)**: 리더 로그를 허용 지연 안에서 따라온 복제본 집합이다.
-- **확인 응답(Acknowledgements, acks)**: 생산자 성공 전에 필요한 복제본 확인 수준이다.
-- **파티션 선택•리더 기록**: 키로 파티션을 정하고 오프셋을 부여하는 단계이다.
-- **ISR 로그 복제**: 팔로워가 리더의 레코드를 같은 순서로 반영하는 단계이다.
-- **acks 내구성 판정**: 설정한 확인 수준을 충족했는지 판정하는 단계이다.
-- **소비자 그룹 파티션 배정**: 그룹 구성원에게 담당 파티션을 나누는 단계이다.
-- **오프셋 기반 소비•커밋**: 처리 위치 이후 레코드를 읽고 완료점을 저장하는 단계이다.
+- **`acks=all` (`acks=-1`)**: Leader 파티션뿐만 아니라 ISR 그룹 내의 모든 `min.insync.replicas` 노드가 유효하게 기록 완료 메시지(ACK)를 보낼 때까지 Producer가 기다리는 최고 안전성 옵션.
 
 </details>
 
 ```text
-생산 경로
-이벤트 키•값
-    |
-    v
-1. 파티션 선택•리더 기록
-    |
-    v
-2. ISR 로그 복제
-    |
-    v
-3. acks 내구성 판정
-    |
-    v
-생산 결과 반환
-
-소비 경로
-소비자 그룹 등록
-    |
-    v
-4. 소비자 그룹 파티션 배정
-    |
-    v
-5. 오프셋 기반 소비•커밋
-    |
-    v
-처리 결과
+[Producer Write (acks=all)] ──► [Partition Leader Node]
+                                       │
+                                       ▼ (ISR Replication)
+                                [ISR Follower Nodes] ──► [ACK Sent] ──► [Producer OK]
 ```
 
 ### 동작 원리
 
-- **1. 파티션 선택•리더 기록**: **파티션 선택•리더 기록**으로 오프셋을 부여한다.
-- **2. ISR 로그 복제**: **ISR 로그 복제**로 팔로워가 같은 순서로 반영한다.
-- **3. acks 내구성 판정**: **acks 내구성 판정**으로 **확인 응답** 수준을 검증한다.
-- **4. 소비자 그룹 파티션 배정**: **소비자 그룹 파티션 배정**으로 담당 로그를 할당한다.
-- **5. 오프셋 기반 소비•커밋**: **오프셋 기반 소비•커밋**으로 완료 위치를 저장한다.
+1. **`acks=0`**: Leader에 쓰여졌는지 확인하지 않고 무조건 다음 메시지 송신 (속도 극대화, 유실 위험).
+2. **`acks=1`**: Leader 노드 디스크 PageCache 기록만 확인 후 ACK 수신 (기본값).
+3. **`acks=all`**: Leader 및 ISR 지정 노드가 모두 기록 완료할 때까지 대기 (**유실 0% 완벽 보장**).
 
 #### 한줄 요약
 
 - 작성자는 번호 붙은 일지에 기록하고 독자는 마지막으로 처리한 번호를 책갈피로 저장한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Message Queue 대 Event Streaming Platform)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **전통 작업 큐**: 작업을 한 소비자에게 분배하고 처리•승인 뒤 대기열에서 제거하는 메시징 방식이다.
-- **소비 지연(Consumer Lag)**: 생산된 최신 오프셋과 소비자가 처리•커밋한 오프셋의 차이다.
+- **RabbitMQ vs Kafka**: RabbitMQ는 메시지 발송 후 소멸되는 전통적 AMQP 큐, Kafka는 디스크 보존형 Pub/Sub 이벤트 로그 플랫폼.
 
 </details>
 
-| 메시징 방식 | Apache Kafka | 전통 작업 큐 |
+| 비교 항목 | Traditional Message Queue (RabbitMQ) | Event Streaming Platform (Kafka) |
 |:---|:---|:---|
-| 적용 기준 | 사건 기록•재생 | 개별 작업 분배 |
-| 핵심 특징 | **Apache Kafka 이벤트 스트리밍 플랫폼** | **전통 작업 큐** |
-| 한계 | 순서•**소비 지연**•재균형 | 재전달•대기열 적체 |
+| **메시지 보존 방식** | **소비자(Consumer) 수신 즉시 Queue에서 삭제** | **디스크 영속성 보존 (일수/용량 단위 retention)** |
+| **메시지 재처리** | 삭제되므로 과거 메시지 재처리 불가능 | **Offset 수동 조작으로 과거 이벤트 N번 재처리** |
+| **처리 성능 (TPS)** | 보통 (초당 수만 건 내외) | **초고속 (Zero-Copy 기반 초당 수백만 건)** |
+| **라우팅 기능** | 복잡한 Exchange / Binding 라우팅 우수 | Simple Topic/Partition 라우팅 중심 |
 
 #### 한줄 요약
 
 - 작업 큐는 일을 나눠 끝내는 데, Kafka는 사건을 남겨 여러 독자가 다시 읽는 데 초점을 둔다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Kafka Rebalance 병목 & Consumer Lag)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **순서 경계**: 함께 순서를 보장할 사건 범위이다.
-- **키 분포 검증**: 실제 키별 요청 편중을 확인하는 활동이다.
-- **처리량 기반 파티션 산정**: 목표 병렬 처리량에 맞춰 파티션 수를 정하는 기준이다.
-- **소비자 수 기반 파티션 산정**: 그룹별 최대 소비자 수에 맞춰 파티션 수를 정하는 기준이다.
-- **멱등성 설정**: 생산자 재시도의 중복 기록을 억제하는 통제이다.
-- **acks 설정**: 성공 전에 필요한 복제본 확인 수준을 정하는 통제이다.
-- **재시도 설정**: 전송 실패 시 재전송 횟수와 간격을 정하는 통제이다.
-- **처리•커밋 순서**: 업무 처리 성공 뒤 오프셋을 커밋하는 원칙이다.
-- **멱등성 설계**: 재처리에도 중복 효과를 막는 소비자 설계이다.
-- **파티션별 지연 감시**: 각 로그의 소비 오프셋 차이를 관찰하는 활동이다.
-- **소비자 확장**: 병목 그룹의 처리 인스턴스를 늘리는 대응이다.
+- **Consumer Lag**: Producer의 최신 메시지 생성 오프셋과 Consumer가 현재 소비 완료한 오프셋 간의 지연 격차 지표.
+- **Rebalance Storm**: 컨슈머 추가/가동중단 시 전체 컨슈머 그룹의 파티션 매핑이 일시 멈추고 다시 배정되는 락업 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 실무 장애 및 병목 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 편향 키로 특정 파티션에 생산 집중 | **순서 경계**•**키 분포 검증** | 핫 파티션 방지 |
-| 소비자보다 적거나 과도한 파티션 설정 | **처리량 기반 파티션 산정**•**소비자 수 기반 파티션 산정** | 병렬성•재균형 균형 |
-| 재시도 중 중복•순서 역전 발생 | **멱등성 설정**•**acks 설정**•**재시도 설정** | 중복•역전 억제 |
-| 처리 전 커밋 또는 처리 후 미커밋 | **처리•커밋 순서**•**멱등성 설계** | 유실•중복 통제 |
-| 처리량이 생산량보다 낮아 적체 증가 | **파티션별 지연 감시**•**소비자 확장** | 국소 적체 해소 |
+| **Consumer Lag 폭증** | 컨슈머 연산 속도가 프로듀서 전송 속도를 못 따라감 | **파티션 개수 확장 및 컨슈머 인스턴스 동시 증설** |
+| **Rebalance Storm 발생**| `max.poll.interval.ms` 시간 초과로 컨슈머 쫓겨남 | **`max.poll.records` 단축 및 Cooperative Rebalance 적용** |
+| 메시지 중복 수신 (At-Least-Once) | 컨슈머 처리 성공 후 오프셋 커밋 전 튕김 발생 | **Consumer 로직 멱등성(Idempotency) 구현** |
+
+> 사례: **쿠팡 / 네이버 Kafka 기반 실시간 로그 수집 & Flink Stream 파이프라인 연동**
 
 #### 한줄 요약
 
@@ -209,15 +154,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **선택 기준**: 사건 재생•다중 소비와 일회성 작업 분배의 비교 축이다.
+- **Kafka 수립 기준(Apache Kafka Standards)**: Zero-Copy 파이프라인, `acks=all` 내구성, KRaft 메타데이터 및 Consumer Lag 모니터링 체계에 의거한 기준.
 
 </details>
 
-- **선택 기준**에 따라 사건 재생•다중 소비에는 **Apache Kafka 이벤트 스트리밍 플랫폼**, 일회성 분배에는 **전통 작업 큐**를 선택한다.
+- **Kafka 수립 기준**에 따라 대용량 실시간 이벤트 아키텍처 구축 시 **Kafka Cluster & `acks=all` & KRaft** 필수 적용
 
 #### 한줄 요약
 
-- **선택 기준**은 순서 경계와 사건 재생 기간을 함께 정한다.
+- 선택 기준은 순서 경계와 사건 재생 기간을 함께 정한다.
