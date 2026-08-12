@@ -176,7 +176,7 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 <details>
 <summary>핵심 용어</summary>
 
-- **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리하는 구조을 의미한다.
+- **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리하는 구조을 의미 체계 적용
 
 </details>
 
