@@ -20,175 +20,144 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **컨테이너 보안(Container Security)**: 이미지 공급망부터 배포•실행•네트워크•관찰 단계까지 권한과 공유 커널 위험을 여러 통제로 제한하는 생명주기 다층 보안 체계이다.
+- **Container Security**: 컨테이너 이미지 빌드(Dev), 레지스트리 저장, K8s 배포(Admission), 런타임(Runtime Execution) 4단계 전 라이프사이클에 걸쳐 보안 위협을 차단하는 다층 방어(Defense-in-Depth) 보안 체계.
+- **Seccomp (Secure Computing Mode)**: 컨테이너 프로세스가 리눅스 커널로 요청하는 300여 개의 시스템 콜(System Call: `ptrace`, `reboot` 등) 중 불필요한 시스템 콜을 억제 차단하는 리눅스 커널 보안 모듈.
+- **AppArmor / SELinux**: 컨테이너의 파일 시스템 접근 경로, 네트워크 포트, 프로세스 실행 자격을 규제하는 리눅스 MAC(Mandatory Access Control) 보안 모듈.
+- **OPA / Gatekeeper (Open Policy Agent)**: K8s Admission Webhook 단계에서 `privileged: true` 설정이나 `latest` 태그 이미지를 가진 위험한 Pod의 생성을 사전에 자동 차단하는 선언적 정책 엔진.
 
 </details>
 
-- 정의/개념: 이미지 공급망•실행 권한•커널 격리•네트워크 정책으로 생명주기 위험을 제한하는 **컨테이너 보안** 체계이다.
-- 배경/필요성: 단일 격리 경계만으로는 공유 커널의 권한 남용을 차단할 수 없다.
+- 정의/개념: 이미지 취약점 스캔, Admission Webhook (OPA/Gatekeeper) 차단, 런타임 커널 시스템 콜 차단(Seccomp/AppArmor)으로 컨테이너 탈출 해킹을 미연에 방지하는 **Container Security Framework**
+- 배경/필요성: 컨테이너 해킹 시 호스트 OS 커널(Host Kernel) 탈출(Container Escape)을 통한 전사 클러스터 붕괴 사고 차단 필요성
 
 #### 한줄 요약
+
 - 이미지 반입, 배포 승인, 실행 권한, 실행 중 행동을 서로 다른 지점에서 검사해야 하나의 통제가 뚫려도 다음 통제가 피해를 막는다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (컨테이너 4단계 다층 보안 레이어)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **보안 컴퓨팅 모드(Secure Computing Mode, Seccomp)**: 컨테이너 프로세스가 사용할 수 있는 리눅스 시스템 호출을 제한하는 커널 보안 기능이다.
-- **앱아머(AppArmor)**: 프로세스별 프로필로 파일•장치•기능 접근을 제한하는 리눅스 강제 접근 통제 기능이다.
-- **이미지•승인 제어**: 이미지 출처와 배포 객체의 정책 위반을 실행 전에 차단하는 통제이다.
-- **감사•행위 신호**: 실행 중 시스템 호출•파일 접근•정책 위반을 기록한 탐지 자료이다.
+- **Shift-Left Security**: 개발/빌드 단계(CI/CD)로 보안 검사를 전진 배치하여 이미지 취약점을 사전에 차단하는 보안 사상.
 
 </details>
 
-- **이미지•승인 제어** 기반 위험 배포 차단이 핵심이다.
-- **보안 컴퓨팅 모드(Seccomp)**와 **앱아머(AppArmor)** 기반 커널 강제가 핵심이다.
-- **감사•행위 신호** 기반 런타임 탐지가 핵심이다.
+- **1. Build Phase (Trivy / Grype 이미지 CVE 취약점 스캔 & Cosign 서명)**
+- **2. Admission Phase (OPA Gatekeeper / Kyverno 선언적 정책 차단)**
+- **3. Runtime Phase (Seccomp System Call 제한 & AppArmor Profile 적용)**
+- **4. Behavioral Monitoring (Falco 기반 런타임 쉘 접속 및 이상 행위 실시간 감시)**
 
 #### 한줄 요약
+
 - 게이트키퍼가 특권 설정을 입구에서 거부하고 보안 컴퓨팅 모드와 앱아머가 승인된 컨테이너의 시스템 호출과 파일 접근을 실행 중에 제한한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (4대 런타임/배포 보안 툴 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **SecurityContext**: 사용자•기능 권한과 파일 시스템 설정을 파드에 선언하는 필드이다.
-- **보안 프로필**: 시스템 호출과 자원 접근 제한을 실행 시점에 적용하는 정책이다.
-- **소프트웨어 자재 명세서(Software Bill of Materials, SBOM)**: 이미지에 포함된 소프트웨어 구성요소와 버전을 기록한 목록이다.
-- **승인 제어(Admission Control)**: 배포 객체를 저장하기 전에 정책을 검사하는 단계이다.
-- **게이트키퍼(Gatekeeper)**: 승인 단계에서 정책 위반 객체를 차단하는 구성요소이다.
-- **오픈 컨테이너 이니셔티브(Open Container Initiative, OCI) 실행 명세**: 런타임이 컨테이너 프로세스를 만들 때 사용할 표준 설정 형식이다.
+- **Falco (Runtime Threat Detection)**: eBPF를 활용해 컨테이너 내부에서 `/etc/shadow` 읽기, `bash` 쉘 획득 등 비정상 악성 행위를 실시간 감지해 Slack 알림을 쏘는 CNCF 오픈소스.
 
 </details>
 
 ```text
-[컨테이너 다층 보안]
-          |
-          +-- [이미지 공급망]
-          |
-          +-- [Admission•Gatekeeper]
-          |
-          +-- [SecurityContext•프로필]
-          |
-          +-- [컨테이너 런타임]
-          |
-          +-- [Linux 커널•탐지]
+┌────────────────────────────────────────────────────────────────────────┐
+│                   Container Security Defense-in-Depth                  │
+├────────────────────────────────────────────────────────────────────────┤
+│ [1. Build: Trivy CVE Scan] ──► [2. Admission: OPA Gatekeeper Check]   │
+│                                           │ (Check Passed)             │
+│                                           ▼                            │
+│ [3. Runtime: Seccomp / AppArmor Profile] ──► [4. Detection: Falco eBPF] │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 이미지 공급망과 Admission•Gatekeeper는 SecurityContext•프로필의 배포 보안 경계에 결합되고, 그 아래에는 OCI 설정을 구현하는 컨테이너 런타임과 접근을 강제하는 Linux 커널•탐지가 놓이는 정적 다층 보안 구조를 뜻한다.
+선의 의미: 빌드 단계부터 런타임 감시까지 4단계로 철통 보안을 거치는 파이프라인.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 이미지 공급망 | **소프트웨어 자재 명세서(SBOM)**•서명•취약점 검사 |
-| Admission•Gatekeeper | **승인 제어**와 **게이트키퍼**가 배포 객체 정책 판정 |
-| SecurityContext•프로필 | **SecurityContext**와 **보안 프로필**이 사용자•권한•커널 정책 설정 |
-| 컨테이너 런타임 | **오픈 컨테이너 이니셔티브(OCI) 실행 명세**로 설정 변환 |
-| Linux 커널•탐지 | 커널 접근 강제와 **감사•행위 신호** 기록 |
+| 보안 레이어 | 담당 도구 (Tool) | 주요 역할 및 실무 기술 메커니즘 |
+|:---|:---|:---|
+| **Build & Image** | **Trivy, Cosign** | **이미지 CVE 취약점 스캔 및 디지털 서명 검증** |
+| **Admission Control**| **OPA Gatekeeper, Kyverno**| **`privileged: true` 및 `root` 실행 Pod 생성 차단**|
+| **Kernel Hardening** | **Seccomp, AppArmor** | **불필요한 Linux System Call 및 파일 경로 차단** |
+| **Runtime Detection**| **Falco (eBPF)** | **컨테이너 해킹/쉘 접속 이상 행위 실시간 감지** |
 
 #### 한줄 요약
 
 - 서명된 이미지가 입장권이라면 Admission은 복장 검사, SecurityContext는 지급 권한, Linux 커널은 실제 행동을 막는 잠금장치다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (OPA Gatekeeper & Seccomp 런타임 검증 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **이미지•보안 설정 검증**: 출처•서명•특권•프로필의 정책 위반을 판정하는 단계이다.
-- **승인 파드•프로필 전달**: 승인된 명세와 커널 보안 프로필을 실행 노드에 제공하는 단계이다.
-- **사용자•권한 실행 명세 변환**: 사용자와 기능 권한을 OCI 실행 명세로 만드는 단계이다.
-- **격리 프로세스 시작**: 제어 그룹과 커널 프로필을 적용해 프로세스를 생성하는 단계이다.
-- **시스템 호출•자원 접근 판정**: Seccomp와 AppArmor가 실행 중 접근을 강제하는 단계이다.
+- **Admission Webhook**: K8s API 서버가 Resource를 etcd에 기재하기 직전, OPA/Kyverno 로 검증 요청을 보내 통과(Allow) 여부를 묻는 훅.
 
 </details>
 
 ```text
-컨테이너 배포 요청
-       |
-       v
-1. 이미지•보안 설정 검증
-       |
-       +-- 위반 --> 배포 차단•감사 기록
-       |
-       +-- 승인 --> 2. 승인 파드•프로필 전달
-                         |
-                         v
-                  3. 사용자•권한 실행 명세 변환
-                         |
-                         v
-                  4. 격리 프로세스 시작
-                         |
-                         v
-                  5. 시스템 호출•자원 접근 판정
+[kubectl apply pod.yaml] ──► [kube-apiserver Admission Webhook]
+                                            │
+                                            ▼ (Check OPA Policy)
+ [Pod Run on Node with Seccomp] ◄── [Allow] ┴ ── [Deny: Privileged Root Pod Blocked]
 ```
 
 ### 동작 원리
 
-- **1. 이미지•보안 설정 검증**: **이미지•보안 설정 검증**은 출처•특권•정책 위반을 판정한다.
-- **2. 승인 파드•프로필 전달**: **승인 파드•프로필 전달**은 대상 노드에 실행 정책을 제공한다.
-- **3. 사용자•권한 실행 명세 변환**: **사용자•권한 실행 명세 변환**은 OCI 실행 명세를 생성한다.
-- **4. 격리 프로세스 시작**: **격리 프로세스 시작**은 제어 그룹•커널 프로필을 적용한다.
-- **5. 시스템 호출•자원 접근 판정**: **시스템 호출•자원 접근 판정**은 호출•파일 접근을 강제한다.
+1. **Admission Webhook**: 개발자가 `privileged: true` (Root 권한) Pod 배포 시도.
+2. **OPA Policy Check**: Gatekeeper가 Rego 정책 위반을 감지하여 API 서버에서 `Deny` 차단.
+3. **Seccomp Enforcement**: 정상 통과된 Pod만 Node 상에서 `Seccomp default profile` 적용 구동 (**Container Security 완결**).
 
 #### 한줄 요약
 
 - 배포 전에 특권과 이미지 출처를 검사하고 실행 시에는 런타임이 전달한 프로필을 커널이 매 호출과 접근마다 강제한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (SecurityContext 3대 핵심 옵션 1:1 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **오픈 정책 에이전트(Open Policy Agent, OPA)**: 정책을 코드로 판정하는 범용 엔진이다.
-- **Gatekeeper 연동**: OPA 정책을 쿠버네티스 승인 단계에 적용하는 통제이다.
-- **보안 강화 리눅스(Security-Enhanced Linux, SELinux)**: 보안 레이블과 정책으로 프로세스의 자원 접근을 강제 통제하는 기능이다.
+- **securityContext Attributes**: `readOnlyRootFilesystem: true`, `runAsNonRoot: true`, `allowPrivilegeEscalation: false`.
 
 </details>
 
-| 보안 통제 | Seccomp | AppArmor•SELinux | OPA•Gatekeeper |
-|:---|:---|:---|:---|
-| 적용 기준 | **보안 컴퓨팅 모드(Seccomp)**: 시스템 호출 제한 | **앱아머(AppArmor)**•**보안 강화 리눅스(SELinux)**: 파일•장치 접근 제한 | **오픈 정책 에이전트(OPA)**•**Gatekeeper 연동**: 배포 객체 사전 검증 |
-| 핵심 특징 | 커널 Seccomp 판정 | AppArmor 경로•SELinux 레이블 | 어드미션•OPA 정책 |
-| 한계 | 호출 차단•프로필 노후 | 프로필 누락•규칙 오설정 | 오탐•Webhook 장애•예외 남용 |
-
-#### 한줄 요약
-- OPA는 위험한 배포 명세를 막고 보안 컴퓨팅 모드는 호출 종류를, 앱아머와 보안 강화 리눅스는 파일•장치 접근 범위를 줄인다.
-
-## Ⅵ. 실무 고려사항 및 대책
-
-<details>
-<summary>핵심 용어</summary>
-
-- **루트 권한 실행**: 컨테이너 침해가 호스트나 다른 자원에 더 큰 영향으로 이어질 수 있는 설정이다.
-
-</details>
-
-| 문제 | 대책 | 효과 |
+| securityContext 설정 옵션 | 보안 위험 예방 효과 | 실무 필수 적용 기준 |
 |:---|:---|:---|
-| 이미지 태그 교체 | 다이제스트•서명 검증 강제 | 미승인 이미지 반입 차단 |
-| **루트 권한 실행** | 비루트•Capability 제거•읽기 전용 | 호스트 접근 범위 축소 |
-| 프로필의 정상 호출 차단 | 관찰 모드•통합 시험•버전 배포 | 업무 중단•노드 차이 완화 |
-| 정책 엔진 장애 | 이중화•위험별 실패 정책 적용 | 전체 중단•미검증 배포 허용 방지 |
-| 장기 예외 방치 | 소유자•범위•만료•보완 통제 | 영구 특권 방지 |
+| **`runAsNonRoot: true`** | **Container가 Root 계정으로 구동되어 호스트 점령 예방**| 필수 적용 |
+| **`allowPrivilegeEscalation: false`** | SUID 바이너리로 권한 상승 해킹 시도 차단 | 필수 적용 |
+| **`readOnlyRootFilesystem: true`**| 악성코드나 웹쉘 파일 다운로드 자체를 차단 | **필수 적용 (불변 런타임)**|
 
 #### 한줄 요약
+
+- OPA는 위험한 배포 명세를 막고 보안 컴퓨팅 모드는 호출 종류를, 앱아머와 보안 강화 리눅스는 파일·장치 접근 범위를 줄인다.
+
+## Ⅵ. 실무 고려사항 및 대책 (컨테이너 보안 3대 난제 대책)
+
+<details><summary>핵심 용어</summary>
+
+- **Container Escape Vulnerability**: `runC` 및 리눅스 커널 취약점(CVE-2019-5736)으로 컨테이너 내부에서 호스트 노드 Root 권한을 탈취하는 대형 사고.
+
+</details>
+
+| 3대 컨테이너 보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+|:---|:---|:---|
+| **1. Container Escape** | `privileged: true` 부여로 커널 탈취 | **OPA Gatekeeper로 Privileged Pod 생성 100% 금지**|
+| **2. Vulnerable Base Image**| Ubuntu/Debian 베이스 이미지 CVE 속출 | **Chainguard / Distroless 최소 베이스 이미지 전환**|
+| **3. Secret File Leaks** | DB 비번을 이미지 내부나 환경변수로 박음 | **HashiCorp Vault / External Secrets Operator 연동** |
+
+> 사례: **토스 / 당근마켓 / 쿠팡 OPA Gatekeeper & Falco & Trivy 통합 데브섹옵스(DevSecOps) 적용 사례**
+
+#### 한줄 요약
+
 - 새 프로필은 관찰 모드에서 정상 호출을 수집한 뒤 단계 배포하고 예외에는 소유자와 만료일을 붙여 통제 공백을 제한해야 한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **공급망•권한•업무 호출**: 이미지 공급망 검증•최소 권한•업무 호출 허용 범위를 함께 정하는 기준이다.
+- **Container Security 수립 기준(Security Standards)**: Trivy CI/CD Scan, OPA Gatekeeper Admission, Seccomp/AppArmor Profile 및 Falco eBPF Detection에 의거한 체계.
 
 </details>
 
-- **공급망•권한•업무 호출**로 배포 정책•커널 프로필을 결정한다.
+- **Container Security 수립 기준**에 따라 차세대 DevSecOps 구축 시 **Trivy & OPA Gatekeeper & Seccomp & Falco** 필수 적용
 
 #### 한줄 요약
+
 - 신뢰 이미지만 승인하고 비Root를 기본값으로 삼되 실제 업무 호출을 시험한 커널 프로필과 감사 사건을 함께 운영해야 한다.
