@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior)과 증거 우도(Likelihood)를 결합, 데이터 관측 후 사후 확률(Posterior)을 갱신하는 조건부 확률 정리.
+- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior Probability)과 증거 우도(Likelihood)를 결합하여 관측 데이터 기반 사후 확률(Posterior Probability)을 갱신하는 조건부 확률 이론.
 - **조건부 확률(Conditional Probability)**: 특정 사건 A 발생을 전제로 B가 발생할 확률 $P(B|A)$.
-- **사전 확률(Prior Probability)**: 증거 관측 전 가설 H에 대한 초기 신뢰도.
+- **사전 확률(Prior Probability)**: 새로운 증거 관측 전 가설 H에 대한 초기 신뢰도.
 - **사후 확률(Posterior Probability)**: 증거 E 관측 후 갱신된 가설 H의 확률 $P(H|E)$.
 - **우도(Likelihood)**: 가설 H가 참일 때 증거 E가 관측될 가능성 $P(E|H)$.
 - **기저율(Base Rate)**: 모집단 내 특정 사건의 고유 발생 비율.
@@ -32,7 +32,7 @@ extra:
 </details>
 
 - **정의**: 기저율(Prior)과 우도(Likelihood)를 결합하고 주변 확률(Marginal Probability)로 정규화하여 사후 확률(Posterior)을 갱신하는 베이지안 추론(Bayesian Inference) 체계.
-- **배경**: 기저율을 간과한 관측은 기저율의 오류(Base Rate Fallacy)를 야기하여 사후 확률 결과를 심각하게 왜곡.
+- **배경**: 기저율을 간과한 관측은 기저율 오류(Base Rate Fallacy)를 야기하여 사후 확률 결과를 심각하게 왜곡하므로 반드시 반영 필요.
 
 #### 한줄 요약
 
@@ -54,8 +54,8 @@ extra:
 
 > 기저율 1%→50% 시 민감도·특이도 90% 동일 조건에서 양성 사후확률은 8.33%→90%로 상승.
 
-- **역확률 추론**: 관측된 증거로부터 원인(가설)의 확률을 사후 갱신하는 통계적 추론.
-- **기저율 오류 방지**: 민감도·특이도 외 기저율을 반영한 PPV 산출을 통해 확률 추론 정확도 제고.
+- **역확률 추론**: 관측된 증거로부터 원인(가설)의 확률을 사후 갱신하는 통계적 추론 과정.
+- **기저율 오류 방지**: 민감도(Sensitivity), 특이도(Specificity) 외 기저율(Base Rate)을 반영한 PPV(Positive Predictive Value) 산출을 통해 확률 추론 정확도 제고.
 
 #### 한줄 요약
 
@@ -83,9 +83,9 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 우도 모형 | 가설별 **우도(Likelihood)** $P(E \mid H)$ 산출 |
-| 갱신 연산기 | 주변 확률로 **사후 확률(Posterior)** 정규화 |
-| 확률 상태 | 갱신 결과를 다음 **사전 확률(Prior)**로 보관 |
+| 우도 모형(Likelihood Model) | 가설별 우도(Likelihood) $P(E \mid H)$ 산출 |
+| 갱신 연산기(Updater) | 주변 확률로 사후 확률(Posterior) 정규화 |
+| 확률 상태(Probability State) | 갱신 결과를 다음 사전 확률(Prior)로 보관 |
 
 #### 한줄 요약
 
