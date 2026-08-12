@@ -20,175 +20,132 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **구조화 질의 언어(Structured Query Language, SQL)**: 관계형 데이터의 정의•조작•제어 언어이다.
-- **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션의 원자 확정과 상태 보장이다.
-- **뉴SQL(NewSQL) 데이터베이스**: SQL•ACID와 합의 복제로 수평 확장하는 데이터베이스이다.
+- **NewSQL**: RDBMS의 전통적 100% ACID 트랜잭션과 표준 SQL 인터페이스를 그대로 유지하면서, NoSQL이 가진 무한한 수평 확장성(Scale-Out)과 고가용성을 결합한 차세대 분산 관계형 데이터베이스 분류.
+- **Google Spanner**: 원자 시계(Atomic Clock)와 GPS 기반의 TrueTime API를 활용하여 글로벌 마티노드 간 전역 직렬성(External Consistency / Serializability)을 100% 달성한 글로벌 NewSQL 표준 DB.
+- **CockroachDB**: Google Spanner 아키텍처 논문을 참조해 오픈소스로 구현된 distributed SQL DB로, Raft consensus 및 Hybrid Logical Clock(HLC) 기반의 멀티노드 수평 확장 지원.
 
 </details>
 
-- 정의/개념: **SQL•ACID**를 유지하며 수평 확장하는 **NewSQL** 계열이다.
-- 배경/필요성: 단일 노드 관계형 DB는 저장•처리 용량이 한 장비 한계에 종속된다.
+- 정의/개념: RDBMS의 100% Strict ACID 트랜잭션 무결성과 NoSQL의 수평 확장성(Scale-Out)을 동시 만족시키는 현대 분산 SQL 데이터베이스 기술인 **NewSQL**
+- 배경/필요성: 기존 RDBMS의 단일 노드 스케일링 한계와 NoSQL의 ACID/SQL 미지원(BASE 모델의 데이터 정합성 파괴) 문제를 동시에 극복하려는 요구성
 
 #### 한줄 요약
+
 - SQL 장부를 지점에 나누고 합의로 하나의 거래처럼 처리한다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **합의 복제**: 범위별 복제본이 변경 로그 순서와 확정 지점에 동의하는 특성이다.
-- **분산 실행**: SQL 연산을 키 범위별로 나누고 여러 노드의 중간 결과를 병합하는 방식이다.
-- **분산 거래**: 여러 키 범위의 읽기•쓰기를 하나의 ACID 트랜잭션으로 확정하는 방식이다.
+- **Distributed ACID & 2PC**: 다중 분산 노드에 걸쳐 100% ACID 트랜잭션 보장.
+- **Raft / Paxos Consensus**: 복제 노드 간 데이터 일관성을 위해 Raft/Paxos 합의 알고리즘 수용.
 
 </details>
 
-- **분산 실행**: SQL을 범위 연산으로 분할•병합이다.
-- **합의 복제**: 범위별 변경 순서•확정점 합의이다.
-- **분산 거래**: 여러 범위 쓰기를 원자 확정이다.
+- **Standard SQL Support & 100% Strict ACID Guarantees**
+- **Distributed Shared-Nothing Scale-Out Architecture**
+- **Consensus Protocol (Raft / Paxos)** 및 **Distributed Time Sync (TrueTime / HLC)**
 
 #### 한줄 요약
+
 - 확장과 ACID를 함께 제공하지만 합의 왕복과 재시도 비용이 생긴다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (CockroachDB vs Google Spanner 기술 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **트랜잭션 조정자**: 충돌과 여러 키 범위에 걸친 원자적 커밋을 조정하는 구성요소이다.
-- **SQL 게이트웨이**: 질의를 분석하고 키 범위별 분산 계획과 결과 병합을 수행하는 접점이다.
-- **범위 디렉터리**: 키 범위와 합의 복제 그룹 및 현재 리더 위치를 제공하는 구성요소이다.
-- **합의 복제 그룹**: 범위별 변경 로그 순서와 내구성 확정점에 동의하는 복제본 묶음이다.
-- **다중 버전 동시성 제어(Multi-Version Concurrency Control, MVCC)**: 데이터 버전의 가시성을 관리하는 동시성 제어 방식이다.
-- **분산 시계**: 여러 노드의 사건에 전역 직렬 순서를 부여하는 구성요소이다.
+- **TrueTime API vs HLC**: Spanner는 GPS+원자시계 하드웨어로 시간 오차 $\epsilon$를 $O(1\text{ms})$로 제어, CockroachDB는 소프트웨어적 HLC(Hybrid Logical Clock)로 시계열 순서 관리.
 
 </details>
 
 ```text
-[SQL 게이트웨이]
-    |
-    +-- [범위 디렉터리]
-    |
-    +-- [트랜잭션 조정자]
-            |
-            +-- [합의 복제 그룹]
-            |
-            +-- [MVCC•분산 시계]
+┌────────────────────────────────────────────────────────────────────────┐
+│                   NewSQL 2대 대표 제품 아키텍처                        │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ 1. Google Spanner                 │ 2. CockroachDB                     │
+├───────────────────────────────────┼────────────────────────────────────┤
+│ • TrueTime API (GPS + Atomic Clock)│ • Hybrid Logical Clock (HLC)       │
+│ • Paxos Consensus Engine          │ • Raft Consensus Engine            │
+│ • Multi-Region Distributed ACID   │ • PostgreSQL Wire-Protocol 호환    │
+└───────────────────────────────────┴────────────────────────────────────┘
 ```
 
-선의 의미: SQL 게이트웨이는 범위 디렉터리와 트랜잭션 조정자를 결합하며, 조정자 아래에는 분산 거래의 내구성과 가시성•직렬 순서를 담당하는 합의 복제 그룹과 MVCC•분산 시계가 놓이는 정적 구조를 뜻한다.
+선의 의미: 시계열 동기화(TrueTime/HLC) 및 합의 알고리즘(Paxos/Raft)을 기반으로 분산 ACID를 수용하는 NewSQL 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| SQL 게이트웨이 | **SQL 게이트웨이**가 질의 분석•분산 계획•병합 |
-| 범위 디렉터리 | **범위 디렉터리**가 범위•리더 위치 제공 |
-| 트랜잭션 조정자 | **트랜잭션 조정자**가 교차 범위 커밋 조정 |
-| 합의 복제 그룹 | **합의 복제 그룹**이 로그 순서•내구성 합의 |
-| MVCC•분산 시계 | **다중 버전 동시성 제어**•**분산 시계**로 순서 관리 |
+| 구성 요소 / 기술 | Google Spanner | CockroachDB |
+|:---|:---|:---|
+| **시간 동기화 방식** | **TrueTime API (GPS hardware + Atomic Clock)** | **Hybrid Logical Clock (HLC - Software)** |
+| **분산 합의 알고리즘**| **Paxos Protocol** | **Raft Protocol** |
+| **SQL 인터페이스 호환**| Google Standard SQL / PostgreSQL dialect | **PostgreSQL Wire-Protocol 100% 호환** |
+| **운영 인프라 형태** | **Google Cloud Platform (GCP) 전용 PaaS** | **On-Premise / Multi-Cloud 자율 배포 가능** |
 
 #### 한줄 요약
 
 - SQL 접수자, 위치표, 거래 조정자, 합의 사본, 순서 시계로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (NewSQL 분산 ACID 트랜잭션 렌더링)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **대상 키 범위 추출**: 질의 조건에서 담당 키 구간을 찾는 단계이다.
-- **범위•리더 위치 확인**: 합의 복제 그룹과 현재 리더를 찾는 단계이다.
-- **범위별 실행 계획**: SQL 연산을 키 구간별 작업으로 나누는 단계이다.
-- **합의 로그 항목 복제**: 각 복제 그룹에 변경 기록을 보내는 단계이다.
-- **분산 커밋•충돌 판정**: 모든 범위의 확정이나 취소를 결정하는 단계이다.
+- **Distributed Lock-Free Read (TrueTime Read)**: TrueTime / HLC 기반 타임스탬프를 통해 읽기 연산 시 락(Lock)을 전혀 걸지 않고 과거 특정 시점의 Snapshot Read를 즉시 수행하는 기술.
 
 </details>
 
 ```text
-SQL 트랜잭션 요청
-        |
-        v
-1. 대상 키 범위 추출
-        |
-        v
-2. 범위•리더 위치 확인
-        |
-        v
-3. 범위별 실행 계획
-        |
-        v
-4. 합의 로그 항목 복제
-        |
-        v
-5. 분산 커밋•충돌 판정
-        |
-        +-- 충돌 --> 취소•멱등 재시도
-        |
-        +-- 성공 --> 원자적 커밋 결과
+[Client SQL Transaction] ──► [SQL Gateway Node]
+                                    │
+                                    ▼ (Range Location Lookup)
+[Range 1 (Raft Leader Node A)] ◄─── 2PC ───► [Range 2 (Raft Leader Node B)]
+  • Raft Log Replication                     • Raft Log Replication
+  • Quorum Commit                            • Quorum Commit
 ```
 
 ### 동작 원리
 
-- **1. 대상 키 범위 추출**: **대상 키 범위 추출**로 질의의 키 구간을 식별한다.
-- **2. 범위•리더 위치 확인**: **범위•리더 위치 확인**으로 복제 그룹과 리더를 찾는다.
-- **3. 범위별 실행 계획**: **범위별 실행 계획**으로 SQL 연산을 분산 작업으로 나눈다.
-- **4. 합의 로그 항목 복제**: **합의 로그 항목 복제**로 변경 기록을 전달한다.
-- **5. 분산 커밋•충돌 판정**: **분산 커밋•충돌 판정**으로 원자 확정 또는 취소를 결정한다.
+1. **SQL Routing**: SQL 게이트웨이 노드가 쿼리를 받아 데이터 Range 위치 추적.
+2. **Distributed 2PC**: 2개 이상의 Range 노드에 걸친 분산 2PC(Two-Phase Commit) 개시.
+3. **Raft Consensus**: 각 Range 내부의 Raft 복제본 과반수 승인을 거쳐 **글로벌 원자 커밋 완결**.
 
 #### 한줄 요약
 
 - SQL을 담당 구간에 나누어 보내고 모든 구간의 사본 확인 뒤 하나의 거래로 확정한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (RDBMS vs NoSQL vs NewSQL 3대 축 종합 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **하이브리드 논리 시계(Hybrid Logical Clock, HLC)**: 물리 시각과 논리 카운터를 결합한 분산 시계이다.
-- **CockroachDB**: Range•Raft•HLC로 분산 SQL 트랜잭션을 제공하는 NewSQL 제품이다.
-- **Spanner**: Split•Paxos•TrueTime으로 글로벌 분산 SQL 트랜잭션을 제공하는 관리형 NewSQL 제품이다.
+- **NewSQL Position**: RDBMS의 ACID/SQL과 NoSQL의 Scale-Out 장점만을 완전 결합.
 
 </details>
 
-| 뉴SQL(NewSQL) 제품 | CockroachDB | Spanner |
-|:---|:---|:---|
-| 적용 기준 | 배포 선택•지역성 제어 | 글로벌 관리형 운영 |
-| 핵심 특징 | **CockroachDB**와 **HLC** | **Spanner** |
-| 한계 | 배치•재시도•운영 책임 | 리전 지연•서비스 종속 |
+| 비교 항목 | Traditional RDBMS (MySQL) | NoSQL (Cassandra, MongoDB) | NewSQL (CockroachDB, Spanner) |
+|:---|:---|:---|:---|
+| **트랜잭션 모델** | **Strict ACID** | **BASE (Eventual Consistency)**| **Strict ACID** |
+| **수평 확장성** | 매우 낮음 (Scale-Up 위주) | **극대화 (Scale-Out)** | **극대화 (Scale-Out)** |
+| **SQL 인터페이스**| **표준 SQL 지원** | NoSQL / Proprietary API | **표준 SQL 100% 지원** |
+| **합의 알고리즘** | 단일 Master 복제 | Gossip Protocol | **Raft / Paxos Consensus** |
 
 #### 한줄 요약
 
 - 둘 다 분산 SQL 거래를 제공하지만 배포 방식과 범위 배치•시간 순서 구현이 다르다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (NewSQL 실무 도입 시 유의사항)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **분포 부하 시험**: 실제 키 편중을 재현해 핫스팟을 확인하는 시험이다.
-- **분할 부하 시험**: 범위 분할 시점과 이동 부하를 확인하는 시험이다.
-- **지역성 부하 시험**: 사용자와 리더의 거리에 따른 지연을 확인하는 시험이다.
-- **동시 갱신 행의 지역 배치**: 한 거래에서 함께 바꾸는 데이터를 같은 지역에 둬 교차 리전 합의를 줄이는 방식이다.
-- **짧은 거래**: 잠금과 충돌이 유지되는 구간을 줄이는 통제이다.
-- **멱등 재시도**: 직렬화 실패를 중복 효과 없이 다시 처리하는 통제이다.
-- **생존 지역**: 장애 시 복제본을 유지할 지역이다.
-- **읽기 지역**: 조회 요청을 처리할 지역이다.
-- **쓰기 지역**: 커밋과 합의를 처리할 지역이다.
-- **노드 장애 훈련**: 노드 실패 시 정족수 유지를 검증하는 활동이다.
-- **리전 장애 훈련**: 지역 상실 시 서비스 복구를 검증하는 활동이다.
-- **복구 시간 목표(Recovery Time Objective, RTO)**: 장애 뒤 서비스를 복구해야 하는 목표 시간이다.
+- **Multi-Region Network Latency**: 여러 리전에 분산 노드가 흩어져 있을 경우 Raft/Paxos 합의 네트워크 왕복(RTT)으로 인해 쓰기 Latency가 수십 ms로 증가하는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 고려사항 및 문제 | 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 순차•편향 키로 특정 범위에 쓰기 집중 | **분포 부하 시험**•**분할 부하 시험**•**지역성 부하 시험** | 핫스팟 방지 |
-| 함께 갱신할 행이 여러 리전에 분산 | **동시 갱신 행의 지역 배치** | 합의 왕복 감소 |
-| 긴 거래가 같은 키를 반복 점유 | **짧은 거래**•**멱등 재시도** | 충돌•중단 감소 |
-| 쓰기 리더와 사용자의 거리가 증가 | **생존 지역**•**읽기 지역**•**쓰기 지역** 분리 | 커밋 지연 통제 |
-| 리전 상실로 정족수와 복구시간 불명확 | **노드 장애 훈련**•**리전 장애 훈련**과 **복구 시간 목표** 측정 | 정족수 상실 대응 |
+| Cross-Region 트랜잭션 시 RTT 네트워크 지연 폭증 | Paxos/Raft 합의 왕복시간 증대 | **Locality-aware Partitioning (지역 밀착형 핑 배치)** |
+| 순차 증가 PK 사용 시 특정 Range로 쓰기 쏠림 | 단일 Range 노드 핫스팟 병목 | **PK에 Hash / UUID / TSID 조합으로 수평 분산** |
+| 클럭 오차로 인한 HLC 시계 왜곡 | 트랜잭션 충돌 및 Retry 폭증 | **NTP 클럭 동기화 주기 단축 및 관리** |
+
+> 사례: **토스뱅크 / 카카오페이 CockroachDB 기반 코어 뱅킹 Distributed SQL 운용**
 
 #### 한줄 요약
 
@@ -196,16 +153,14 @@ SQL 트랜잭션 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **분산 조정 비용**: 합의와 교차 범위 거래로 추가되는 네트워크 비용이다.
-- **NewSQL 적용 판단 기준**: SQL•ACID 수평 확장 가치와 분산 조정 비용을 함께 평가하는 기준이다.
+- **NewSQL 수립 기준(NewSQL Architecture Standards)**: 100% Distributed ACID, Raft/Paxos 합의, HLC/TrueTime 시계열 및 Multi-Cloud 수용성에 의거한 체계.
 
 </details>
 
-- **NewSQL 적용 판단 기준**에 따라 수평 확장과 **ACID**의 가치가 **분산 조정 비용**보다 크면 **NewSQL 데이터베이스**를 선택한다.
+- **NewSQL 수립 기준**에 따라 글로벌 대규모 트래픽 뱅킹/결제 시스템 구축 시 **CockroachDB / Spanner** 필수 수용
 
 #### 한줄 요약
 
-- **NewSQL 적용 판단 기준**은 분산 거래 가치와 합의 지연을 함께 비교한다.
+- NewSQL 적용 판단 기준은 분산 거래 가치와 합의 지연을 함께 비교한다.
