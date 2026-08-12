@@ -203,5 +203,5 @@ extra:
 
 #### 한줄 요약
 
-- Recursive Descent 파서 구축 시 Left-recursion 억제 및 모호성 제거를 위한 Grammar Refactoring을 필수 집행한다.
+- Recursive Descent 파서 구축 시 Left-recursion 억제 및 모호성 제거를 위한 Grammar Refactoring을 필수 집행 체계 적용
 

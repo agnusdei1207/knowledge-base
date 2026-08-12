@@ -199,5 +199,5 @@ extra:
 
 #### 한줄 요약
 
-- 편향-분산 Trade-off 곡선의 Minimum Generalization Error 지점을 최적 모델 매개변수로 확정한다.
+- 편향-분산 Trade-off 곡선의 Minimum Generalization Error 지점을 최적 모델 매개변수로 확정 체계 적용
 

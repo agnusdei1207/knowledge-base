@@ -198,5 +198,5 @@ extra:
 
 #### 한줄 요약
 
-- Universal 튜링 머신(UTM) 기반의 추상 모델을 구체 시스템에 구현할 때 샌드박스 Isolation 및 Resource Limit Bounding을 물리적으로 적용한다.
+- Universal 튜링 머신(UTM) 기반의 추상 모델을 구체 시스템에 구현할 때 샌드박스 Isolation 및 Resource Limit Bounding을 물리적으로 적용 체계 적용
 

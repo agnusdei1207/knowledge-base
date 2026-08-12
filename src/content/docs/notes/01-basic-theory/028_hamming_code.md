@@ -203,5 +203,5 @@ extra:
 
 #### 한줄 요약
 
-- In-place Single Bit Correction은 SEC/SECDED, ARQ 기반 Network Retransmission 구간은 CRC Error Detection을 적용한다.
+- In-place Single Bit Correction은 SEC/SECDED, ARQ 기반 Network Retransmission 구간은 CRC Error Detection을 적용 체계 적용
 

@@ -208,5 +208,5 @@ extra:
 
 #### 한줄 요약
 
-- 메모리 Footprint 및 Lookup Latency 허용치에 맞춰 DFA(Table Lookup) 또는 NFA(State Set Tracking) 엔진을 선택한다.
+- 메모리 Footprint 및 Lookup Latency 허용치에 맞춰 DFA(Table Lookup) 또는 NFA(State Set Tracking) 엔진을 선택 체계 적용
 

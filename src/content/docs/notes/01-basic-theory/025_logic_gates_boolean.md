@@ -197,5 +197,5 @@ extra:
 
 #### 한줄 요약
 
-- Logical Synthesis $\rightarrow$ Static Timing Analysis(STA) $\rightarrow$ Formal Verification 단계를 거쳐 최종 Gate-level Netlist를 확정한다.
+- Logical Synthesis $\rightarrow$ Static Timing Analysis(STA) $\rightarrow$ Formal Verification 단계를 거쳐 최종 Gate-level Netlist를 확정 체계 적용
 

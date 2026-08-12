@@ -211,5 +211,5 @@ extra:
 
 #### 한줄 요약
 
-- 저장 매체(Disck/NVMe vs RAM)와 워크로드 패턴(Read-Heavy vs Write-Heavy)에 맞춰 B-Tree, AVL, Red-Black 트리를 최적 선택한다.
+- 저장 매체(Disck/NVMe vs RAM)와 워크로드 패턴(Read-Heavy vs Write-Heavy)에 맞춰 B-Tree, AVL, Red-Black 트리를 최적 선택 체계 적용
 

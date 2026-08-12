@@ -202,5 +202,5 @@ NP-완전성
 
 #### 한줄 요약
 
-- 결정형 문제(Decision Problem)에는 SAT/SMT 솔버를 적용하고, 최적화 문제(Optimization Problem)에는 다항 시간 근사 알고리즘(Approximation Bound) 또는 휴리스틱을 채택한다.
+- 결정형 문제(Decision Problem)에는 SAT/SMT 솔버를 적용하고, 최적화 문제(Optimization Problem)에는 다항 시간 근사 알고리즘(Approximation Bound) 또는 휴리스틱을 채택 체계 적용
 

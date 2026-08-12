@@ -199,5 +199,5 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 - **재귀 분석 선택 기준**에 따라 **깊은 호출**은 **명시적 스택**으로 바꾸고, **불균등 분할**은 **대입법**으로 분석한다.
 
 #### 한줄 요약
-- Balanced Recurrence에는 마스터 정리, Non-uniform Recurrence에는 Recursion Tree / Substitution Method, Deep Recursion에는 Iteration / Tail Call Elimination을 채택한다.
+- Balanced Recurrence에는 마스터 정리, Non-uniform Recurrence에는 Recursion Tree / Substitution Method, Deep Recursion에는 Iteration / Tail Call Elimination을 채택 체계 적용
 

@@ -206,5 +206,5 @@ $$
 
 #### 한줄 요약
 
-- 목표 정밀도($\operatorname{SE} = \sigma / \sqrt{N}$)와 가용 연산 자원(Computational Budget)을 교차 검증하여 표본 크기 $N$을 책정한다.
+- 목표 정밀도($\operatorname{SE} = \sigma / \sqrt{N}$)와 가용 연산 자원(Computational Budget)을 교차 검증하여 표본 크기 $N$을 책정 체계 적용
 

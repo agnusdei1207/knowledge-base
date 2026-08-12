@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **알고리즘 복잡도(Algorithmic Complexity)**: 입력 크기(Input Size)에 따른 자원 사용 증가를 분석하는 상위 개념 (시간/공간 복잡도로 구분)
-- **점근 분석(Asymptotic Analysis)**: 상수와 하위항을 배제하고 대규모 입력의 증가 형태를 비교·분석
-- **자원 한도(Resource Limit)**: 시스템이 허용하는 최대 처리 시간 및 메모리 사용량
+- **알고리즘 복잡도(Algorithmic Complexity)**: 입력 크기(Input Size)에 따른 연산량 및 추가 메모리의 증가율을 하드웨어 의존성 없이 수학적으로 추상화하여 분석하는 상위 개념 (시간/공간 복잡도로 구분)
+- **점근 분석(Asymptotic Analysis)**: 상수와 하위항을 배제하고 대규모 입력이 주어졌을 때 지배항(Dominant Term) 중심으로 자원 소모의 점근적 상·하한을 평가하는 방법
+- **자원 한도(Resource Limit)**: 시스템 아키텍처 및 서비스 수준 협약(SLA)에서 허용하는 최대 요청 처리 시간 및 가용 메모리 임계치
 
 </details>
 
-- 정의/개념: 입력 크기에 따른 연산량 및 추가 메모리의 점근적 증가율을 나타내는 **알고리즘 복잡도(Algorithmic Complexity)**
-- 배경/필요성: 소규모 입력의 실행 시간 측정만으로는 대규모 입력 시 초과할 자원 한도(시간·메모리) 예측 한계 존재
+- 정의/개념: 입력 데이터 규모(Input Size)가 증가함에 따라 요구되는 연산 횟수와 추가 메모리의 점근적 증가율을 수학적으로 추상화한 성능 평가 지표인 **알고리즘 복잡도(Algorithmic Complexity)**
+- 배경/필요성: 소규모 테스트 환경의 실측값만으로는 실운영 환경의 대규모 데이터 유입 시 발생할 수 있는 자원 고갈(OOM) 및 타임아웃을 예측하기 어려워, 하드웨어 독립적인 분석 체계가 필수적임
 
 #### 한줄 요약
 
@@ -56,10 +56,10 @@ extra:
 
 > 입력 크기가 커질수록 붉은 O(n²)와 초록 O(n log n)이 파란 O(log n)•O(n)보다 빠르게 벌어지며, 기본 연산(Basic Operation)량을 정규화한 이론적 증가율임
 
-- 하드웨어 성능과 무관한 **점근 증가율(Asymptotic Growth Rate) 및 Big-O 표기**가 핵심
-- 정확 차수와 하한을 명확히 구분하는 **Theta 및 Omega 표기** 활용
-- 재계산과 중간 결과 저장 간의 **시간•공간 상충(Time-Space Tradeoff)** 관계 고려
-- **최선•평균•최악(Best/Average/Worst)** 입력 사례별 비용 범위를 분리하여 평가
+- 하드웨어 성능과 무관한 **점근 증가율(Asymptotic Growth Rate) 및 Big-O 표기**를 통해 최악의 시나리오에서도 자원 한도를 초과하지 않음을 입증
+- 정확 차수와 하한을 명확히 구분하는 **Theta 및 Omega 표기**를 활용하여 알고리즘의 평균 및 최선의 성능 특성을 세밀하게 분석
+- 재계산과 중간 결과 저장 간의 **시간•공간 상충(Time-Space Tradeoff)** 관계를 고려하여, 메모리 여유분에 따라 처리 속도를 최적화하는 전략 적용
+- **최선•평균•최악(Best/Average/Worst)** 입력 사례별 자원 소모 비용 범위를 분리하여, 운영 환경의 데이터 분포에 적합한 기법 선택
 
 #### 한줄 요약
 
@@ -172,8 +172,8 @@ extra:
 
 </details>
 
-- **응답시간(Response Time) 및 메모리(Memory) 한도** 중 선행 초과가 예상되는 임계 자원(Critical Resource)을 기준으로 알고리즘 채택
+- **응답시간(Response Time) 및 메모리(Memory) 한도** 중 선행 초과가 예상되는 임계 자원(Critical Resource)을 기준으로 알고리즘 최적 대안 채택
 
 #### 한줄 요약
 
-- 임계 자원(Critical Resource: 응답시간/메모리 한도)의 병목(Bottleneck) 여부를 최우선으로 판단하여, 실무 환경에 최적화된 시간·공간 복잡도(Time/Space Complexity) 기반 알고리즘 선정
+- 임계 자원(Critical Resource: 응답시간/메모리 한도)의 병목(Bottleneck) 여부를 최우선으로 판단하여, 실무 환경에 최적화된 시간·공간 복잡도(Time/Space Complexity) 기반 알고리즘 선정 필수
