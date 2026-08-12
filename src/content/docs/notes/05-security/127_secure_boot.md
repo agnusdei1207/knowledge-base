@@ -23,13 +23,13 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **UEFI(Unified Extensible Firmware Interface)**: 부팅 서비스와 보안 변수를 관리하는 펌웨어 인터페이스이다.
-- **Secure Boot**: UEFI의 키•허용 목록•폐기 목록으로 승인된 코드만 실행하는 기술이다.
+- **UEFI(Unified Extensible Firmware Interface)**: 부팅 서비스와 보안 변수를 관리하는 펌웨어 인터페이스 지칭.
+- **Secure Boot(Secure Boot)**: UEFI의 키•허용 목록•폐기 목록으로 승인된 코드만 실행하는 기술에 해당함.
 
 </details>
 
-- 정의/개념: **UEFI** 신뢰 정책으로 승인된 코드만 실행하는 **Secure Boot**이다.
-- 배경/필요성: 운영체제 보안만으로는 선행 부트킷의 권한 탈취를 차단할 수 없다.
+- 정의/개념: **UEFI** 신뢰 정책으로 승인된 코드만 실행하는 **Secure Boot** 적용.
+- 배경/필요성: 운영체제 보안만으로는 선행 부트킷의 권한 탈취 차단 불가능에 따른 부팅 신뢰 보장 필요성 증대.
 
 #### 한줄 요약
 
@@ -40,16 +40,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PK(Platform Key)**: 플랫폼 정책의 소유권을 설정하는 키이다.
-- **KEK(Key Exchange Key)**: 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키이다.
-- **db(Signature Database)**: 실행을 허용할 서명•인증서•해시 목록이다.
-- **dbx(Forbidden Signature Database)**: 실행을 금지할 취약•폐기 대상 목록이다.
+- **PK(Platform Key)**: 플랫폼 정책의 소유권을 설정하는 키를 일컫음.
+- **KEK(Key Exchange Key)**: 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키를 의미함.
+- **db(Signature Database)**: 실행을 허용할 서명•인증서•해시 목록에 해당함.
+- **dbx(Forbidden Signature Database)**: 실행을 금지할 취약•폐기 대상 목록 지칭.
 
 </details>
 
-- **PK**•**KEK**로 정책 소유권과 갱신 권한을 통제한다.
-- **db**•**dbx**로 허용•폐기를 판정한다.
-- 펌웨어•부트로더를 연속 검증해 신뢰를 잇는다.
+- **PK**•**KEK**로 정책 소유권과 갱신 권한 통제.
+- **db**•**dbx**로 허용•폐기 판정 수행.
+- 펌웨어•부트로더를 연속 검증하여 부팅 신뢰 체계 연계.
 
 #### 한줄 요약
 
@@ -60,8 +60,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **신뢰 사슬**: 첫 신뢰 키에서 시작해 다음 부팅 구성요소를 연속 검증하는 구조이다.
-- **UEFI 이미지 검증기**: 부트 이미지의 서명 체인과 허용•폐기 정책을 확인하는 판정기이다.
+- **신뢰 사슬(Chain of Trust)**: 첫 신뢰 키에서 시작해 다음 부팅 구성요소를 연속 검증하는 구조를 뜻함.
+- **UEFI 이미지 검증기(UEFI Image Verifier)**: 부트 이미지의 서명 체인과 허용•폐기 정책을 확인하는 판정 메커니즘.
 
 </details>
 
@@ -91,12 +91,12 @@ Secure Boot 신뢰 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **TPM(Trusted Platform Module)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈이다.
-- **PK•KEK•db•dbx 정책 설정**: 소유권•갱신•허용•폐기 정책을 구성하는 단계이다.
-- **이미지 서명•해시 검증**: 부트 구성요소의 진위와 무결성을 확인하는 단계이다.
-- **db 허용•dbx 폐기 여부 확인**: 신뢰 체인과 폐기 상태를 정책에 대조하는 단계이다.
-- **실행 허용•거부 판정**: 정책 결과에 따라 실행 차단 또는 복구를 결정하는 단계이다.
-- **허용 이미지 측정값 생성**: 승인된 부팅 구성요소의 측정값을 증적으로 남기는 단계이다.
+- **TPM(Trusted Platform Module)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈을 의미함.
+- **PK•KEK•db•dbx 정책 설정(PK/KEK/db/dbx Policy Configuration)**: 소유권•갱신•허용•폐기 정책을 구성하는 단계 지칭.
+- **이미지 서명•해시 검증(Image Signature & Hash Verification)**: 부트 구성요소의 진위와 무결성을 확인하는 절차.
+- **db 허용•dbx 폐기 여부 확인(db Allow & dbx Revocation Check)**: 신뢰 체인과 폐기 상태를 정책에 대조하는 과정.
+- **실행 허용•거부 판정(Execution Decision)**: 정책 결과에 따라 실행 차단 또는 복구를 결정하는 프로세스.
+- **허용 이미지 측정값 생성(Allowed Image Measurement Generation)**: 승인된 부팅 구성요소의 측정값을 증적으로 남기는 단계.
 
 </details>
 
@@ -126,11 +126,11 @@ Secure Boot 신뢰 구조
 
 ### 동작 원리
 
-- **1. PK•KEK•db•dbx 정책 설정**: **PK•KEK•db•dbx 정책 설정**으로 소유권•갱신•허용 정책을 구성한다.
-- **2. 이미지 서명•해시 검증**: **이미지 서명•해시 검증**으로 부트로더•드라이버의 진위와 무결성을 확인한다.
-- **3. db 허용•dbx 폐기 여부 확인**: **db 허용•dbx 폐기 여부 확인**으로 신뢰 체인과 폐기 상태를 대조한다.
-- **4. 실행 허용•거부 판정**: **실행 허용•거부 판정**에 따라 미승인 코드 차단•복구를 전환한다.
-- **5. 허용 이미지 측정값 생성**: **허용 이미지 측정값 생성** 후 다음 단계 실행과 TPM 증적을 기록한다.
+- **1. PK•KEK•db•dbx 정책 설정**: **PK•KEK•db•dbx 정책 설정**을 통한 소유권•갱신•허용 정책 구성.
+- **2. 이미지 서명•해시 검증**: **이미지 서명•해시 검증**을 수행하여 부트로더•드라이버 진위와 무결성 확인.
+- **3. db 허용•dbx 폐기 여부 확인**: **db 허용•dbx 폐기 여부 확인**으로 신뢰 체인과 폐기 상태 대조.
+- **4. 실행 허용•거부 판정**: **실행 허용•거부 판정** 결과에 따라 미승인 코드 차단 및 복구 전환.
+- **5. 허용 이미지 측정값 생성**: **허용 이미지 측정값 생성** 후 다음 단계 실행 및 TPM 증적 기록.
 
 #### 한줄 요약
 
@@ -141,10 +141,10 @@ Secure Boot 신뢰 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **Secure Boot 역할**: 미승인 부트 이미지의 실행을 차단하는 역할이다.
-- **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제이다.
-- **Trusted Boot**: OS 구성요소까지 연속해서 진위를 검증하는 방식이다.
-- **Measured Boot**: 부팅 구성요소의 측정값을 TPM에 기록하는 방식이다.
+- **Secure Boot 역할(Role of Secure Boot)**: 미승인 부트 이미지의 실행을 차단하는 기능.
+- **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제 지칭.
+- **Trusted Boot(Trusted Boot)**: OS 구성요소까지 연속해서 진위를 검증하는 방식.
+- **Measured Boot(Measured Boot)**: 부팅 구성요소의 측정값을 TPM에 기록하는 메커니즘.
 
 </details>
 
@@ -154,7 +154,7 @@ Secure Boot 신뢰 구조
 | **Trusted Boot** | **OS** 구성요소까지 연속 검증 | 앞 단계의 신뢰를 다음 구성요소로 확장 |
 | **Measured Boot** | **TPM**에 측정값 기록 | 실제 부팅 상태를 판정할 증거 제공 |
 
-> 요약: 실행 차단, 연속 검증, 상태 증명을 구분하는 것이 핵심이다.
+> 요약: 실행 차단, 연속 검증, 상태 증명의 체계적 구분.
 
 #### 한줄 요약
 
@@ -165,12 +165,12 @@ Secure Boot 신뢰 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **UEFI Specification 2.11**: Secure Boot•드라이버 서명•키 교환 규격이다.
-- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
-- **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
-- **NIST SP 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 지침이다.
-- **TCG(Trusted Computing Group)**: 신뢰 컴퓨팅 표준을 개발하는 산업단체이다.
-- **TCG TPM 2.0**: 부팅 측정값 보호와 원격 증명의 규격이다.
+- **UEFI Specification 2.11(UEFI Specification 2.11)**: Secure Boot•드라이버 서명•키 교환 규격 지정.
+- **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소 지칭.
+- **SP(Special Publication)**: NIST가 발행하는 특별간행물을 의미함.
+- **NIST SP 800-193(NIST Special Publication 800-193)**: 플랫폼 펌웨어의 보호•탐지•복구 지침에 해당함.
+- **TCG(Trusted Computing Group)**: 신뢰 컴퓨팅 표준을 개발하는 산업단체 지칭.
+- **TCG TPM 2.0(TCG Trusted Platform Module 2.0)**: 부팅 측정값 보호와 원격 증명의 규격.
 
 </details>
 
@@ -189,11 +189,11 @@ Secure Boot 신뢰 구조
 <details>
 <summary>핵심 용어</summary>
 
-- **허용•폐기 동시 판정**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙이다.
+- **허용•폐기 동시 판정(Simultaneous Verification of Allow and Revocation)**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙을 의미함.
 
 </details>
 
-- **허용•폐기 동시 판정**으로 db 허용과 dbx 비폐기를 모두 충족한 부트 이미지만 실행한다.
+- **허용•폐기 동시 판정**으로 db 허용과 dbx 비폐기를 모두 충족한 부트 이미지만 실행 허용.
 
 #### 한줄 요약
 

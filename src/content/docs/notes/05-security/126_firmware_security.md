@@ -153,12 +153,12 @@ extra:
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소 지칭.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물을 의미함.
-- **NIST SP 800-193**: 플랫폼 펌웨어의 보호•탐지•복구 지침 규정.
+- **NIST SP 800-193(NIST Special Publication 800-193, NIST SP 800-193)**: 플랫폼 펌웨어의 보호•탐지•복구 지침 규정을 지칭.
 - **IETF(Internet Engineering Task Force)**: 인터넷 표준을 개발하는 국제 기술기구.
 - **RFC(Request for Comments)**: IETF의 인터넷 표준 문서 유형에 해당함.
 - **IoT(Internet of Things)**: 사물과 네트워크를 연결한 사물인터넷 기술.
-- **IETF RFC 9019**: IoT 펌웨어 업데이트 구조를 정의한 표준 규격.
-- **IETF RFC 9124**: 펌웨어 매니페스트 정보 모델을 정의한 표준 메커니즘.
+- **IETF RFC 9019(IETF Request for Comments 9019, RFC 9019)**: IoT 펌웨어 업데이트 구조를 정의한 표준 규격.
+- **IETF RFC 9124(IETF Request for Comments 9124, RFC 9124)**: 펌웨어 매니페스트 정보 모델을 정의한 표준 메커니즘.
 
 </details>
 
