@@ -20,18 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **ACID(Atomicity, Consistency, Isolation, Durability)**: 트랜잭션이 장애와 동시 실행 중에도 원자성•일관성•격리성•지속성을 지키도록 요구하는 네 가지 속성이다.
-- **부분 반영(Partial Commit)**: 트랜잭션 일부 변경만 저장된 오류이다.
-- **불변식 위반(Invariant Violation)**: 거래 뒤 업무 규칙이 깨진 오류이다.
-- **확정 결과 소실(Committed-data Loss)**: 커밋된 결과가 장애 뒤 사라진 오류이다.
+- **Transaction (트랜잭션)**: 데이터베이스의 상태를 변화시키는 논리적 작업 단위(Logical Unit of Work, LUW).
+- **ACID Property (ACID 특성)**: 트랜잭션의 정합성과 무결성을 완벽히 보장하기 위한 4가지 대원칙 (Atomicity, Consistency, Isolation, Durability).
+- **All-or-Nothing Rule**: 원자성(Atomicity)의 핵심 사상으로, 트랜잭션 내 모든 연산이 100% 반영되거나(Commit) 전혀 반영되지 않는(Rollback) 이분법적 실행 보장.
 
 </details>
 
-- 정의/개념: **ACID**는 트랜잭션이 장애와 동시 실행 중에도 네 가지 거래 속성을 지키도록 요구하는 원칙이다.
-- 배경/필요성: 장애•동시 실행은 **부분 반영**, **불변식 위반**, **확정 결과 소실**을 유발한다.
+- 정의/개념: 데이터베이스 관리 시스템(DBMS)이 복수의 데이터 연산 집합을 하나의 논리적 단위로 처리하며 무결성을 보장하기 위해 준수해야 하는 4대 근본 속성인 **ACID (Atomicity, Consistency, Isolation, Durability)**
+- 배경/필요성: 동시성(Concurrency) 제어 미비로 인한 데이터 붕괴 방지, 런타임 시스템 다운 시 데이터 유실 소실을 복구(Recovery)하기 위한 트랜잭션 안전망 제공 요구성
 
 #### 한줄 요약
 
@@ -39,124 +37,107 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **원자성(Atomicity)**: 묶인 변경을 모두 반영하거나 모두 취소하는 성질이다.
-- **일관성(Consistency)**: 트랜잭션 전후에 업무 불변식을 유지하는 성질이다.
-- **격리성(Isolation)**: 동시 트랜잭션의 허용 밖 간섭을 막는 성질이다.
-- **지속성(Durability)**: 커밋한 결과를 장애 뒤에도 복구할 수 있게 보존하는 성질이다.
+- **Atomicity (원자성)**: 트랜잭션 내 연산들이 모두 수행(All)되거나 전혀 수행되지 않음(Nothing)을 보장하는 특성.
+- **Consistency (일관성)**: 트랜잭션 수행 전과 수행 후 데이터베이스가 무결성 제약조건(Integrity Constraint)을 완벽히 준수하는 상태.
+- **Isolation (격리성/고립성)**: 동시에 실행되는 여러 트랜잭션들이 서로 간섭하지 못하도록 통제하여, 마치 단일 트랜잭션이 순차 수행(Serial)되는 듯한 효과 제공.
+- **Durability (지속성/영속성)**: 성공적으로 완료(Commit)된 트랜잭션 결과는 향후 시스템 정전이나 장애가 발생해도 데이터베이스에 영구적으로 보존됨.
 
 </details>
 
-- **원자성**은 모든 연산을 함께 반영하거나 취소한다.
-- **일관성**은 불변식을, **격리성**은 동시 간섭을 통제한다.
-- **지속성**은 커밋 결과를 장애 뒤에도 복구한다.
+- **All-or-Nothing** 원자적 수행 (**Atomicity**)
+- DB 무결성 규칙(Integrity Constraints)의 항시 준수 (**Consistency**)
+- **Concurrency Control & Lock / MVCC** 기반 동시 간섭 차단 (**Isolation**) 및 **WAL (Write-Ahead Logging)** 영구 보존 (**Durability**)
 
 #### 한줄 요약
 
 - 원자성(Undo Log/Rollback), 일관성(DB Constraints), 격리성(2PL/MVCC), 지속성(WAL/Redo Log)의 상호 결합 메커니즘을 정의한다.
 
+## Ⅲ. 구조 및 구성요소 (ACID 4대 속성의 구현 메커니즘 맵핑)
 
-## Ⅲ. 구조 및 구성요소
+<details><summary>핵심 용어</summary>
 
-<details>
-<summary>핵심 용어</summary>
-
-- **트랜잭션 관리자(Transaction Manager)**: 경계•격리•커밋•롤백을 조정하는 구성요소이다.
-- **실행 취소 로그(Undo Log)**: 미완료 변경의 이전 값을 기록하는 로그이다.
-- **롤백(Rollback)**: 미완료 변경을 이전 값으로 되돌리는 처리이다.
-- **선행 기록 로그(Write-Ahead Logging, WAL)**: 데이터 페이지보다 복구 로그를 먼저 저장하는 방식이다.
-- **장애 복구(Crash Recovery)**: WAL로 커밋 결과를 복원하는 처리이다.
+- **Undo Log & Redo Log**: Undo Log는 트랜잭션 실패 시 이전 상태로 되돌리는(Rollback) 원자성 메커니즘, Redo Log는 시스템 다운 시 Commit된 데이터를 재현 복구하는 지속성 메커니즘.
 
 </details>
 
 ```text
-                  [원자성 제어]       [일관성 규칙]
-                             \         /
-                              \       /
-                          [트랜잭션 관리자]
-                              /       \
-                             /         \
-                  [격리성 제어]       [지속성 장치]
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Transaction ACID 4대 보장 메커니즘                    │
+├─────────────────────┬───────────────────┬──────────────────────────────┤
+│ ACID 속성 (Property)│ 보장 메커니즘     │ DBMS 엔진 기술 요소          │
+├─────────────────────┼───────────────────┼──────────────────────────────┤
+│ Atomicity (원자성)  │ Rollback / Undo   │ Undo Log, Savepoint          │
+│ Consistency (일관성)│ Integrity Checks  │ Primary/Foreign Key, Trigger │
+│ Isolation (격리성)  │ Concurrency Ctrl  │ 2PL Lock, MVCC, Isolation Lvl│
+│ Durability (지속성) │ Recovery / Redo   │ WAL (Write-Ahead Log), Redo  │
+└─────────────────────┴───────────────────┴──────────────────────────────┘
 ```
 
-선의 의미: 트랜잭션 관리자를 중심으로 한 네 선은 거래 경계•커밋•롤백 조정에 원자성의 취소, 일관성의 불변식 판정, 격리성의 동시 간섭 통제, 지속성의 로그•복구 장치를 결합하는 관계를 뜻한다.
+선의 의미: ACID 4가지 속성이 각각 DBMS 내부의 Undo Log, DB 제약조건, Lock/MVCC, WAL/Redo Log 엔진 요소에 대입되어 결합되는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 트랜잭션 관리자 | 경계•격리•커밋•롤백 조정 |
-| 원자성 제어 | **실행 취소 로그**와 **롤백**으로 전체 취소 |
-| 일관성 규칙 | 제약•업무 불변식으로 상태 판정 |
-| 격리성 제어 | 잠금•버전 가시성으로 동시 간섭 통제 |
-| 지속성 장치 | **선행 기록 로그**와 **장애 복구**로 커밋 결과 보존 |
+| ACID 4대 속성 | 핵심 개념 및 보장 내용 | DBMS 내부 구현 메커니즘 |
+|:---|:---|:---|
+| **Atomicity (원자성)** | 중간 단계 실패 시 이전으로 100% 원복 (**All or Nothing**) | **Undo Log**를 통한 `ROLLBACK` 연산 처리 |
+| **Consistency (일관성)**| 송금 전후 통장 잔액 합계 등 비즈니스 불변식(Invariant) 유효 | **Primary Key, Foreign Key, Check 제약조건** 강제 |
+| **Isolation (격리성)** | 동시 실행 중인 타 트랜잭션의 중간 미확정 연산 관찰 불가 | **2PL (Two-Phase Locking), MVCC (Multi-Version)** |
+| **Durability (지속성)**| Commit 완료 후 디스크에 불변 보존 (장애 시 복구 가능) | **WAL (Write-Ahead Logging), Redo Log** 기록 |
 
 #### 한줄 요약
 
-- **트랜잭션 관리자**와 로그•복구 장치의 제어 구조가 핵심이다.
+- 트랜잭션 관리자와 로그•복구 장치의 제어 구조가 핵심이다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (트랜잭션 상태 전이: State Transition Diagram)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **읽기•쓰기 집합•잠금•버전**: 격리 수준에 맞춰 동시 관찰과 변경 충돌을 통제하는 정보이다.
-- **변경 후보•제약 컨텍스트**: 업무 불변식과 데이터베이스 제약을 검사할 미확정 상태이다.
-- **WAL•Undo 기록**: 장애 복구와 미완료 변경 취소에 필요한 로그이다.
-- **커밋•롤백 지시**: 성공 변경을 확정하거나 실패 변경을 취소하는 결정이다.
+- **Commit vs Abort**: Commit은 트랜잭션 연산의 성공적 완료 및 영구 저장, Abort는 트랜잭션 중단 및 Undo Log를 이용한 초기 상태 복원.
 
 </details>
 
 ```text
-[트랜잭션 경계•격리 수준]
-          |
-          v
-1. 읽기•쓰기 집합•잠금•버전
-          |
-          v
-2. 변경 후보•제약 컨텍스트
-          |
-          +-- 위반 --> [롤백]
-          |
-          v
-3. WAL•Undo 기록
-          |
-          v
-4. 커밋•롤백 지시
-          |
-          v
-[업무 결과•복구 가능한 거래 상태]
+             ┌───────────┐
+             │ Active    │ (트랜잭션 시작 및 DML 수행)
+             └─────┬─────┘
+                   │ (마지막 DML 연산 완료)
+                   ▼
+             ┌───────────┐
+             │ Partially │
+             │ Committed │
+             └───┬───┬───┘
+   (Commit 통가) │   │ (에러 발생)
+                 ▼   ▼
+       ┌───────────┐ ┌───────────┐
+       │ Committed │ │ Failed    │ ──► [Aborted] (Undo Log 롤백)
+       └───────────┘ └───────────┘
 ```
 
 ### 동작 원리
 
-1. **읽기•쓰기 집합•잠금•버전**: 격리 수준에 맞춰 동시 관찰을 통제한다.
-2. **변경 후보•제약 컨텍스트**: 제약•업무 불변식의 유효 상태를 확인한다.
-3. **WAL•Undo 기록**: 데이터보다 복구•취소 정보를 먼저 보존한다.
-4. **커밋•롤백 지시**: 성공 변경은 확정하고 미완료 변경은 취소한다.
-
-> 요약: 동시 실행을 격리하고 유효 상태만 WAL로 커밋해 장애 뒤에도를 복구한다.
+1. **Active**: 트랜잭션이 구동되어 SQL DML 문장이 실행되는 상태.
+2. **Partially Committed**: 마지막 SQL 명령이 끝났으나, Redo Log가 디스크 WAL에 완전 플러시(Flush)되지 않은 순간.
+3. **Committed**: WAL 플러시 완결 후 데이터베이스에 영구적 반영이 완결된 최종 성공 상태.
+4. **Failed / Aborted**: 도중 에러 발생 시 `Failed` 전환 후 Undo Log 스캔을 통해 `Aborted` 원복 상태 수용.
 
 #### 한줄 요약
 
 - Concurrency Control Phase $\rightarrow$ Invariant Validation Phase $\rightarrow$ 선행 기록 로그(WAL) Phase $\rightarrow$ Commit/롤백 Execution 흐름으로 진행된다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (ACID vs BASE)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **기본 가용성•유연 상태•최종 일관성(Basically Available, Soft State, Eventually Consistent, BASE)**: 분산 가용성을 우선하는 관점이다.
+- **BASE (Basically Available, Soft-state, Eventual Consistency)**: 분산 가용성을 최우선하여 강한 격리를 포기하고, 시간이 지나면 결국 일관성(Eventual Consistency)에 도달하는 NoSQL 대전제.
 
 </details>
 
-| 분산 데이터 모델 | ACID | BASE |
+| 비교 항목 | ACID (관계형 DBMS) | BASE (분산 NoSQL DBMS) |
 |:---|:---|:---|
-| 적용 기준 | 명확한 트랜잭션 경계와 불변식 | 지연 수렴을 허용하는 분산 상태 |
-| 핵심 특징 | 원자성•일관성•격리성•지속성 | 가용성•유연 상태•최종 일관성 |
-| 한계 | 강한 격리와 분산 합의 비용 | 일시 불일치•충돌•보상 부담 |
-
-> 요약: **ACID**는 거래 신뢰성, **기본 가용성•유연 상태•최종 일관성**은 분산 가용성을 우선한다.
+| 일관성 모델 | **Strict Consistency (즉시 강한 일관성)** | **Eventual Consistency (최종 일관성)** |
+| 동시성 및 가용성 | 격리성(Isolation) 보장으로 동시 처리량 제한 | **High Availability (고가용성) 및 분산 확장성** |
+| 응용 도메인 | **금융 뱅킹, 결제, 계좌 이체, 주식 거래** | **SNS 피드, 스트리밍, 로그 수집, 장바구니** |
+| 복구 메커니즘 | **WAL, Undo Log, Redo Log** | **CRDT, Read Repair, Hinted Handoff** |
 
 #### 한줄 요약
 
@@ -164,32 +145,19 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **불변식을 지키는 최소 연산**: 잠금 경합을 줄이면서 업무 규칙을 보존하도록 묶은 거래 범위이다.
-- **격리 수준(Isolation Level)**: 허용할 동시성 이상을 정하는 범위이다.
-- **명시적 잠금(Explicit Lock)**: 동시 변경을 직렬화하도록 직접 거는 잠금이다.
-- **데이터베이스 제약(Database Constraint)**: 저장 값의 업무 규칙을 강제하는 규칙이다.
-- **원자 연산(Atomic Operation)**: 조건 확인과 변경을 한 단계로 수행하는 연산이다.
-- **멱등성(Idempotency)**: 반복 요청의 업무 효과를 한 번만 반영하는 성질이다.
-- **제한 재시도(Bounded Retry)**: 일시 충돌을 정한 횟수 안에서 다시 수행하는 방식이다.
-- **충돌 피드백(Conflict Feedback)**: 충돌 원인과 재시도 가능성을 호출자에게 알리는 정보이다.
-- **로컬 ACID(Local ACID)**: 한 서비스 저장소 안에서 보장하는 거래 속성이다.
-- **메시지(Message)**: 서비스 사이의 비동기 상태 변경을 전달하는 정보이다.
-- **보상 처리(Compensation)**: 완료된 분산 변경을 반대 업무로 상쇄하는 처리이다.
+- **Long-Running Transaction**: 트랜잭션 범위가 지나치게 길어 Lock을 오랫동안 점유하여 전체 데이터베이스 TPS를 추락시키는 안티패턴.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 넓은 거래 경계가 잠금을 오래 보유해 지연 증가 | **불변식을 지키는 최소 연산**만 묶음 | 잠금 경합과 지연 감소 |
-| 낮은 격리 수준이 업무상 허용 못 할 이상 노출 | **격리 수준**과 **명시적 잠금** 선택 | 동시성 이상 방지 |
-| 일관성을 데이터베이스 엔진 책임으로만 보아 업무 규칙 누락 | **데이터베이스 제약**과 **원자 연산** 함께 설계 | 업무 불변식 누락 방지 |
-| 충돌 재시도가 없거나 무제한이라 실패•중복 확대 | **멱등성**, **제한 재시도**, **충돌 피드백** | 일시 충돌 사용자 노출 감소 |
-| 분산 작업 전체를 원자화해 장시간 합의와 결합 증가 | **로컬 ACID**, **메시지**, **보상 처리** 분리 | 장시간 합의 결합 감소 |
+| 트랜잭션 경계가 너무 길어 커넥션 풀 및 Lock 고사 | **외부 API 호출 및 I/O 연산을 트랜잭션 경계 밖으로 분리**| DB 처리량(TPS) 향상 |
+| 분산 마이크로서비스(MSA)에서 ACID 보장 불가 | **Saga Pattern (Choreography/Orchestration) & 보상 트랜잭션** | 최종 일관성 확보 |
+| 데드락(Deadlock) 교착 상태 빈발 | **테이블 접근 순서 동일화 및 Lock Timeout 설정** | 교착 상태 즉시 해제 |
 
-> 적용 사례: 출금•입금을 한 트랜잭션으로 묶어 송금 전후 잔액 합계를 보존
+> 사례: **Spring `@Transactional` 선언적 트랜잭션 및 MySQL InnoDB WAL 튜닝**
 
 #### 한줄 요약
 
@@ -197,19 +165,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **업무 불변식(Business Invariant)**: 거래 경계를 정하는 업무 규칙이다.
-- **복구 목표(Recovery Objective)**: 장애 뒤 거래 상태를 복원할 기준이다.
-- **거래 경계**: 함께 성공하거나 실패해야 하는 데이터 연산의 논리 범위이다.
-- **거래 경계 선택 기준**: 업무 불변식, 격리 수준, 복구 목표를 평가해 함께 묶을 데이터 연산 범위를 정하는 기준이다.
+- **ACID 수립 기준(ACID Transaction Standards)**: 데이터 일관성 등급, RPO/RTO 복구 목표 및 마이크로서비스 분산 트랜잭션 요구에 의거한 체계.
 
 </details>
 
-- **거래 경계 선택 기준**에 따라 **업무 불변식**, **격리 수준**, **복구 목표**로 **거래 경계**를 결정한다.
+- **ACID 수립 기준**에 따라 금융/이체 등 무결성 최우선 서비스 구축 시 **RDBMS ACID 트랜잭션** 필수 인가
 
 #### 한줄 요약
 
 - 업무 불변식, 격리 수준, Recovery Point/Time Objective(RPO/RTO) 요구사항에 맞추어 Transaction Boundary를 정밀 획정한다.
-
