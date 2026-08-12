@@ -20,17 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **제이슨(JavaScript Object Notation, JSON)**: 객체와 배열을 표현하는 텍스트 데이터 형식이다.
-- **바이너리 제이슨(Binary JSON, BSON)**: JSON 계열 문서를 이진 형식으로 표현한 데이터 형식이다.
-- **MongoDB 문서 데이터베이스(MongoDB Document Database)**: BSON 문서를 저장•조회•원자 갱신 단위로 사용하는 분산 데이터베이스이다.
+- **MongoDB**: JSON/BSON(Binary JSON) 문서 형태의 가변 데이터 모델(Document Model)을 사용하는 대표적인 범용 오픈소스 NoSQL 문서 데이터베이스.
+- **BSON (Binary JSON)**: JSON 구조의 유연성을 유지하면서, 이진(Binary) 직렬화를 통해 빠르게 파싱하고 추가적인 데이터 타입(Date, 64-bit Int 등)을 인덱싱 지원하는 바이너리 문서 형식.
+- **Replica Set & Sharding**: 1개의 Primary 노드와 n개의 Secondary 노드로 고가용성(HA)을 보장하는 Replica Set, 및 Config Server + Mongos 라우터를 기반으로 수평 확장(Scale-Out)하는 Sharding 아키텍처.
 
 </details>
 
-- 정의/개념: **MongoDB 문서 데이터베이스**는 중첩 BSON 문서를 저장•조회•원자 갱신한다.
-- 배경/필요성: 관계형 조인•다중 테이블 갱신은 중첩 객체 처리 왕복을 늘린다.
+- 정의/개념: 중첩된 JSON/BSON 문서 형태의 데이터를 조인 없이 단일 문서(Single Document) 단위로 적재하여, 뛰어난 가변 스키마 및 수평 확장성을 제공하는 Document NoSQL인 **MongoDB**
+- 배경/필요성: RDBMS의 복잡한 정규화 및 `JOIN` 연산 병목 극복, E-Commerce 상품 카탈로그나 CMS처럼 구조가 자주 바뀌는 데이터의 유연한 적재 및 분산 수용 요구성
 
 #### 한줄 요약
 
@@ -38,128 +37,98 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **문서 모델**: 중첩 객체•배열과 가변 필드를 한 문서 안에 표현하는 저장 특성이다.
-- **단일 문서 원자성**: 한 문서에 대한 여러 필드 변경을 모두 반영하거나 모두 취소하는 보장이다.
-- **레플리카셋(Replica Set)**: 복제 묶음으로 고가용성을 제공하는 구조이다.
-- **샤딩(Sharding)**: 데이터를 여러 샤드로 나눠 수평 확장하는 기능이다.
+- **Single Document Atomicity**: RDBMS의 다중 테이블 ACID 트랜잭션 대신, 단일 문서(Document) 내부의 서브 필드/배열 수정에 대해 100% 원자성(Atomicity) 보장.
+- **Dynamic Schema**: 사전 `ALTER TABLE` DDL 없이 컬럼(필드)을 자유롭게 추가/수정 가능.
 
 </details>
 
-- **문서 모델**: 중첩 객체•배열•가변 필드를 지원한다.
-- **단일 문서 원자성**: 한 문서 쓰기를 원자 확정한다.
-- **레플리카셋**•**샤딩**: 복제 고가용성과 수평 확장을 제공한다.
+- **BSON Document Model** 기반 데이터 내포(Embedding) 지원
+- **Single Document Atomicity (단일 문서 100% 원자성 보장)**
+- **WiredTiger Engine** (B+Tree 기반, 행 레벨 락, 데이터 압축) 및 **Replica Set / Sharding** 지원
 
 #### 한줄 요약
 
 - 함께 쓰는 정보는 묶되 끝없이 커지거나 자주 중복되는 정보는 분리해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (MongoDB 아키텍처 및 3대 데이터 모델링)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **BSON 문서(BSON Document)**: 중첩 필드와 배열을 가진 저장 단위이다.
-- **컬렉션(Collection)**: BSON 문서를 모은 논리 저장 단위이다.
-- **연산 로그(Operation Log, oplog)**: 주 구성원의 확정 변경 순서를 보조 구성원에 복제하는 로그이다.
-- **mongos**: 샤드 키와 구성 정보를 이용해 요청을 담당 샤드로 보내고 결과를 병합하는 라우터이다.
-- **구성 서버(Config Server)**: 청크 경계와 샤드 배치 위치를 관리하는 메타데이터 서버이다.
+- **Embedded vs Referenced**: 서브 문서로 내포(Embedded)하여 조인 0회를 달성할 것인가, DBRef 식별자로 참조(Referenced)하여 데이터를 쪼갤 것인가의 데이터 모델링 선택.
 
 </details>
 
 ```text
-[mongos]
-    |
-    +-- [Config Server]
-    |
-    +-- [레플리카셋]
-            |
-            +-- [BSON 문서•컬렉션]
-                    |
-                    +-- [인덱스•집계]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        MongoDB Document Modeling                       │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ 1. Embedded Document Pattern      │ 2. Referenced Document Pattern     │
+├───────────────────────────────────┼────────────────────────────────────┤
+│ {                                 │ {                                  │
+│   _id: 101,                       │   _id: 101,                        │
+│   name: "홍길동",                 │   name: "홍길동",                  │
+│   address: { city: "SEOUL" }      │   address_id: 901  (Reference FK)  │
+│ } (1번의 I/O로 조인 없이 인출)    │ } (독립적 수명주기, JOIN 필요)     │
+└───────────────────────────────────┴────────────────────────────────────┘
 ```
 
-선의 의미: Config Server와 mongos의 선은 청크•샤드 위치 메타데이터 제공 관계, mongos와 레플리카셋의 선은 샤드 라우팅•결과 병합 관계, 레플리카셋과 BSON 문서•컬렉션의 선은 문서 저장과 oplog 복제 관계, BSON 문서•컬렉션과 인덱스•집계의 선은 필드 탐색•변환•집계 관계를 뜻한다.
+선의 의미: 데이터의 수명주기 및 접근 패턴에 따라 Embedded(내포) 패턴 또는 Referenced(참조) 패턴을 선택하는 MongoDB 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| BSON 문서•컬렉션 | **BSON 문서**와 **컬렉션**에 중첩 필드•배열 저장 |
-| 인덱스•집계 | 필드 탐색•변환•집계 수행 |
-| 레플리카셋 | **연산 로그**로 변경 복제•주 구성원 선출 |
-| mongos | **mongos**가 샤드 라우팅•결과 병합 |
-| Config Server | **구성 서버**가 청크•샤드 위치 관리 |
+| 구조 요소 | 역할 및 핵심 기능 | 실무 적용 고려사항 |
+|:---|:---|:---|
+| **BSON Document** | 개별 데이터 저장 단위 (최대 16MB 용량 한계) | 16MB 초과 시 GridFS 사용 필요 |
+| **Collection** | RDBMS의 Table에 대응되는 문서들의 집합체 | 가변 스키마 문서 수용 공간 |
+| **WiredTiger Engine** | B+Tree 기반 스토리지 엔진 (메모리 60% 캐싱) | Document Level Concurrency 제어 |
+| **Replica Set** | Primary 1개 + Secondary n개 + Oplog 동기화 | **Poin-In-Time Failover & High Availability** |
 
 #### 한줄 요약
 
 - 문서 보관함과 색인, 사본 묶음, 안내자, 위치표로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (MongoDB Replica Set Failover 메커니즘)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **청크 메타데이터 요청**: 샤드 키의 현재 배치 위치를 묻는 단계이다.
-- **대상 샤드 위치 확인**: 담당 레플리카셋 주소를 확인하는 단계이다.
-- **BSON 문서 변경**: 주 구성원이 문서 변경을 원자 적용하는 단계이다.
-- **oplog 항목 전파**: 확정된 변경 순서를 보조 구성원에 보내는 단계이다.
-- **복제 확인**: 요구한 수의 구성원이 변경 수신을 알리는 단계이다.
+- **Oplog (Operations Log)**: Primary 노드의 모든 CUD 데이터 변경 사항이 시계열 이진 기록으로 남는 특수 캡드 컬렉션(Capped Collection)으로, Secondary 노드가 이를 릴레이 복제.
 
 </details>
 
 ```text
-샤드 키•BSON 문서
-        |
-        v
-1. 청크 메타데이터 요청
-        |
-        v
-2. 대상 샤드 위치 확인
-        |
-        v
-3. BSON 문서 변경
-        |
-        v
-4. oplog 항목 전파
-        |
-        v
-5. 복제 확인
-        |
-        v
-쓰기 확인 수준 충족 결과
+[Primary Node Down!] ──► [Secondary Nodes Heartbeat Timeout]
+                                    │
+                                    ▼
+       [Raft/Paxos 기반 Leader Election (투표 1초 만에 완료)]
+                                    │
+                                    ▼
+       [가장 최신 Oplog 보유 Secondary 가 신규 Primary 로 승격 완료!]
 ```
 
 ### 동작 원리
 
-- **1. 청크 메타데이터 요청**: **청크 메타데이터 요청**으로 샤드 키의 배치 위치를 조회한다.
-- **2. 대상 샤드 위치 확인**: **대상 샤드 위치 확인**으로 담당 레플리카셋 주소를 찾는다.
-- **3. BSON 문서 변경**: **BSON 문서 변경**으로 주 구성원이 문서를 원자 적용한다.
-- **4. oplog 항목 전파**: **oplog 항목 전파**로 확정된 변경 순서를 전달한다.
-- **5. 복제 확인**: **복제 확인**으로 쓰기 확인 수 충족을 판정한다.
+1. **Heartbeat Audit**: 2초 주기로 노드 간 핑(Ping) 체크.
+2. **Election Trigger**: Primary가 10초간 응답 없을 경우 Secondary 노드들이 투표(Election) 개시.
+3. **Failover Execution**: 가장 최신 Oplog 포인터를 가진 Secondary가 과반수 표를 얻어 신규 Primary로 즉시 승격.
 
 #### 한줄 요약
 
 - 안내자가 문서의 담당 샤드와 원본을 찾아 저장하고 요구한 사본 확인 뒤 응답한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Embedded Pattern vs Referenced Pattern)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **내장**: 함께 읽고 갱신하는 유한한 하위 데이터를 한 문서에 포함하는 모델링 방식이다.
-- **참조**: 독립 수명주기나 공유 관계를 가진 데이터를 별도 문서에 두고 식별자로 연결하는 방식이다.
-- **문서 관계 모델링 선택 기준**: 함께 읽고 갱신할 유한 데이터와 독립 수명주기•공유 데이터를 구분하는 기준이다.
+- **Data Modeling Tradeoff**: Embedded는 조인이 없어 조회가 압도적으로 빠르나 문서 크기가 커지고 무한 성장 시 16MB 제한 도달, Referenced는 문서 크기가 작고 중복이 없으나 조인(`$lookup`) 연산 오버헤드 발생.
 
 </details>
 
-| 문서 관계 모델링 | 내장 | 참조 |
+| 비교 항목 | Embedded Document Pattern (내포) | Referenced Document Pattern (참조) |
 |:---|:---|:---|
-| 적용 기준 | 함께 읽고 갱신하는 유한 데이터 | 독립 수명주기•공유 데이터 |
-| 핵심 특징 | **내장** | **참조** |
-| 한계 | 문서 크기 한도•무한 배열 | 추가 조회•다중 문서 정합성 |
-
-> 요약: **문서 관계 모델링 선택 기준**으로 문서 경계를 먼저 설계한다.
+| 데이터 결합 방식 | **단일 BSON 문서 내 서브 문서/배열 내포** | **`$lookup` 또는 앱 단 식별자 참조 결합** |
+| `JOIN` 발생 횟수 | **0회 (단일 디스크 I/O 완결)** | 1회 이상 (RDBMS 조인과 유사) |
+| 데이터 갱신 오버헤드| 데이터 중복 시 연쇄 수정 필요 | 단일 위치 갱신으로 무결성 우수 |
+| 적합 데이터 유형 | **1:1 또는 1:N 유한한 서브 데이터 (주소 등)**| **1:N 무한 성과, N:M 복잡 다대다 데이터** |
 
 #### 한줄 요약
 
@@ -167,30 +136,19 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **유한한 동시 조회 데이터만 내장**: 함께 읽고 갱신하면서 크기 상한이 분명한 하위 데이터만 한 문서에 넣는 원칙이다.
-- **스키마 검증(Schema Validation)**: 가변 문서의 필수값과 자료형을 검사하는 활동이다.
-- **버전 이관(Version Migration)**: 기존 문서를 새 구조로 단계적으로 변환하는 활동이다.
-- **실제 질의(Actual Query)**: 운영에서 반복 실행되는 조회 조건이다.
-- **인덱스 크기(Index Size)**: 인덱스가 차지하는 저장 공간이다.
-- **샤드 키 분포(Shard-key Distribution)**: 샤드 키 값의 균등성이다.
-- **데이터 지역성(Data Locality)**: 함께 접근하는 데이터가 가까이 배치된 정도이다.
-- **키 포함률(Key Coverage Ratio)**: 질의가 샤드 키를 포함하는 비율이다.
-- **읽기 우선순위(Read Preference)**: 읽기 요청을 보낼 구성원을 정하는 정책이다.
-- **읽기 관심 수준(Read Concern)**: 읽기가 허용할 데이터 최신성 수준이다.
-- **쓰기 관심 수준(Write Concern)**: 쓰기 성공에 필요한 복제 확인 범위이다.
+- **16MB Document Limit**: MongoDB 단일 Document의 최대 크기 한계로, 배열이 무한 성장(Unbounded Array)하면 16MB 에러가 나므로 분리 필수.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 무한 배열을 내장하면 문서 크기 한도 초과 | **유한한 동시 조회 데이터만 내장** | 문서 크기 초과 방지 |
-| 가변 필드를 무검증 저장하면 자료형•필수값 불일치 | **스키마 검증**•**버전 이관** 적용 | 필드 불일치 감소 |
-| 저선택도 인덱스 누적은 쓰기•메모리 비용 증가 | **실제 질의**•**인덱스 크기**로 선별 | 색인 비대 방지 |
-| 편향•저포함률 샤드 키는 부하 집중•전수 질의 유발 | **샤드 키 분포**•**데이터 지역성**•**키 포함률** 검증 | 핫 샤드•팬아웃 완화 |
-| 읽기•쓰기 보장 미설정은 최신성•내구성 오해 유발 | **읽기 우선순위**•**읽기 관심 수준**•**쓰기 관심 수준** 명시 | 업무 보장 범위 명확화 |
+| 댓글 배열이 무한 성장하여 16MB 문서 제한 초과 | **댓글은 Referenced 패턴으로 별도 Collection 분리** | 16MB 제한 에러 방지 |
+| Schema-Less 특성으로 무분별한 필드 파행 발생 | **JSON Schema Validation 도입으로 필수 필드 DB 레벨 검증**| 데이터 유효성 보존 |
+| 복제 지연 시 읽기 불일치 발생 | **Read Concern / Write Concern 옵션 (`majority`) 강제** | 강한 일관성 달성 |
+
+> 사례: **E-Commerce 상품-옵션 내포(Embedded) 모델링 및 MongoDB Replica Set 튜닝**
 
 #### 한줄 요약
 
@@ -198,15 +156,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **MongoDB 모델 적용 기준**: 문서 경계와 샤드 키 분포 및 읽기•쓰기 보장 수준을 함께 평가하는 기준이다.
+- **MongoDB 모델 수립 기준(MongoDB Architecture Standards)**: BSON 내포 구조 적합성, 16MB 한계 준수 및 Replica Set HA 구성에 의거한 체계.
 
 </details>
 
-- **MongoDB 모델 적용 기준**에 따라 함께 읽고 유한하면 **내장**, 독립 수명주기•무한 성장은 **참조**를 선택한다.
+- **MongoDB 모델 수립 기준**에 따라 가변 스키마 카탈로그/CMS 구축 시 **BSON Embedded Model & WiredTiger Engine** 필수 적용
 
 #### 한줄 요약
 
-- **MongoDB 모델 적용 기준**은 함께 쓰는 자료의 문서 경계와 자주 찾는 분산 키를 맞춘다.
+- MongoDB 모델 적용 기준은 함께 쓰는 자료의 문서 경계와 자주 찾는 분산 키를 맞춘다.
