@@ -22,15 +22,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **회귀 분석(Regression Analysis)**: 입력 변수와 결과 변수 간의 조건부 관계를 모형화하여 영향력 추정 및 값을 예측하는 기법.
-- **독립 변수(Independent Variable)**: 결과를 설명하는 입력 변수(Predictor).
-- **종속 변수(Dependent Variable)**: 예측 대상이 되는 결과 변수(Response).
-- **조건부 관계(Conditional Relationship)**: 다른 변수를 통제한 상태에서 특정 입력과 결과 사이의 확률적 의존 관계.
-- **변수별 영향력(Feature Importance)**: 입력 단위 변화에 따른 예측값 변화량 및 방향.
+- **회귀 분석(Regression Analysis)**: 입력 변수와 결과 변수 간의 조건부 관계를 모형화하여 영향력 추정 및 값을 예측하는 통계적 분석 기법.
+- **독립 변수(Independent Variable)**: 결과를 설명하는 입력 변수(Predictor, Feature).
+- **종속 변수(Dependent Variable)**: 예측 대상이 되는 결과 변수(Response, Target).
+- **조건부 관계(Conditional Relationship)**: 타 변수를 통제한 상태에서 특정 입력과 결과 사이의 확률적 의존성.
+- **변수별 영향력(Feature Importance)**: 입력 단위 변화에 따른 예측값의 변화량 및 방향성.
 
 </details>
 
-- **정의**: 입력변수와 연속형 결과변수 간의 조건부 평균을 모형화하여 계수를 추정하는 분석 기법.
+- **정의**: 독립변수(X)와 연속형 종속변수(Y) 간의 조건부 평균(Conditional Mean)을 선형 함수로 모형화하여 최적 계수를 추정하는 분석 기법.
 - **배경**: 단순 관측 나열로는 미래 예측 및 변수 통제 기반의 변화량 계산 불가.
 
 #### 한줄 요약
@@ -196,4 +196,4 @@ extra:
 
 </details>
 
-- **잔차 가정** 및 **검증 오차** 분석을 통하여 타당성이 확인된 입력 범위 내에서만 예측 및 운영 적용 체계 적용.
+- **잔차 가정** 및 **검증 오차(Validation Error)** 분석을 통해 타당성이 입증된 입력 범위(Input Range) 내에서의 예측값 산출 및 모델 운영 적용 체계 적용.
