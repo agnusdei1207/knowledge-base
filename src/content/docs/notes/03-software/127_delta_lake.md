@@ -20,16 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Delta Lake**: Parquet 파일의 추가•제거를 트랜잭션 로그에 순서대로 기록해 테이블 상태와 과거 버전을 재현하는 테이블 형식이다.
-- **트랜잭션 로그(Transaction Log)**: 파일 추가•제거와 스키마 변경을 버전별로 기록해 원자 커밋과 스냅숏을 제공하는 로그이다.
+- **Delta Lake**: Databricks가 개발하여 오픈소스화한 대표적인 Open Table Format 기술로, 클라우드 객체 스토리지(S3, ADLS)의 불변 Parquet 파일 상에 JSON 트랜잭션 로그(`_delta_log/`)를 추가하여 ACID 트랜잭션, 타임 트래블, 멱등성 병합(UPSERT/MERGE)을 보장하는 스토리지 레이어.
+- **Delta Transaction Log (`_delta_log`)**: 테이블의 모든 파일 추가/삭제(Add/Remove Actions), 스키마 변경 이력이 순차적 JSON 커밋 파일(0000.json, 0001.json...)로 기록되는 산출물 디렉터리.
+- **ACID & Time Travel**: `_delta_log` 버전을 추적하여 과거 시점의 데이터를 복원하거나 조회하는 기능 및 동시성 100% 보장.
 
 </details>
 
-- 정의/개념: Parquet 파일을 **트랜잭션 로그**로 버전 관리하는 **Delta Lake** 테이블 형식이다.
-- 배경/필요성: 객체 스토리지 고유의 불변성(Immutability)으로 인해 부분 파일 쓰기 실패 및 동시 변경 충돌 시 정합성 훼손 문제가 발생한다.
+- 정의/개념: 가성비 높은 S3 객체 스토리지의 Parquet 파일 상에 트랜잭션 로그(`_delta_log`)를 레이어링하여, ACID 트랜잭션, 스키마 강제, 타임 트래블을 구현한 오픈소스 Open Table Format 기술인 **Delta Lake**
+- 배경/필요성: 기존 S3 Parquet 파일의 동시 쓰기 시 파일 덮어쓰기 파행 및 부분 실패(Partial Fail)로 인한 데이터 오염 극복 요구성
 
 #### 한줄 요약
 
@@ -37,141 +37,115 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **낙관적 커밋**: 변경 파일을 먼저 만든 뒤 기준 버전 이후의 충돌을 검사해 새 버전을 확정하는 특성이다.
-- **로그 스냅숏**: Add•Remove 동작을 특정 버전까지 재생해 그 시점의 유효 파일 집합을 계산한 상태이다.
-- **테이블 버전 관리**: 스키마와 과거 조회 및 파일 보존•정리를 로그 버전과 연결하는 방식이다.
+- **ACID Transactions**: S3 위에서 멀티노드 동시 Write/Read 시 100% 원자성 및 일관성 보장.
+- **UPSERT & MERGE Support**: RDBMS처럼 `MERGE INTO` 구문으로 소스 데이터를 타깃 Delta 테이블에 멱등 병합.
 
 </details>
 
-- Add•Remove 동작으로 유효 파일을 결정하는 **로그 스냅숏**이 핵심이다.
-- 기준 버전 이후의 변경 충돌을 검사하는 **낙관적 커밋**이 핵심이다.
-- 스키마•과거 조회•파일 정리를 연결한 **테이블 버전 관리**가 핵심이다.
+- **JSON Transaction Log (`_delta_log`) 기반 ACID 및 Time Travel 지원**
+- **Unified Batch and Streaming (Spark Structured Streaming과 100% 통합)**
+- **Schema Enforcement & Schema Evolution (잘못된 컬럼 유입 시 자동 블로킹 및 차단)**
 
 #### 한줄 요약
 
 - 장부가 남아도 가리키는 옛 파일을 지우면 그 시점으로 돌아갈 수 없으므로 보존 기간을 함께 정해야 한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Delta Log 메커니즘 및 3대 액션)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **체크포인트 파일**: 누적 로그 동작을 집약해 현재 스냅숏을 복원할 때 읽을 범위를 줄이는 구성요소이다.
-- **Parquet 데이터 파일**: 테이블 행을 불변 열 지향 형식으로 저장하는 객체 파일이다.
-- **커밋 로그 파일**: 버전별 Add•Remove와 스키마 변경을 순서대로 기록하는 파일이다.
-- **트랜잭션 프로토콜**: 기준 버전과 읽기•쓰기 범위의 충돌을 검사하고 다음 로그 버전을 원자 확정하는 규칙이다.
+- **Add & Remove File Actions**: Delta Log 파일 내부의 핵심 JSON 액션으로, 새 파티션 파일이 생성되면 `AddFile`, 이전 파일이 삭제/병합되면 `RemoveFile`을 기록.
 
 </details>
 
 ```text
-[Delta Lake 테이블]
-          |
-          +-- [Parquet 데이터 파일]
-          |
-          +-- [커밋 로그 파일]
-          |          |
-          |          +-- [체크포인트 파일]
-          |
-          +-- [트랜잭션 프로토콜]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Delta Lake Storage Architecture                 │
+├────────────────────────────────────────────────────────────────────────┤
+│ MyTable/                                                               │
+│ ├── _delta_log/                                                        │
+│ │   ├── 00000000000000000000.json  (AddFile: part-00001.parquet)       │
+│ │   ├── 00000000000000000001.json  (RemoveFile: part-00001, Add: 00002)│
+│ │   └── 00000000000000000010.checkpoint.parquet (Log Compaction)      │
+│ ├── part-00001-c000.snappy.parquet                                     │
+│ └── part-00002-c000.snappy.parquet                                     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 트랜잭션 프로토콜과 Parquet 데이터 파일의 선은 불변 열 파일의 추가•제거 관리 관계, 커밋 로그 파일의 선은 버전별 변경과 원자 커밋 기록 관계, 체크포인트 파일의 선은 누적 로그를 집약한 스냅숏 복원 관계를 뜻한다.
+선의 의미: Parquet 실체 데이터 파일과 `_delta_log/` 트랜잭션 로그 파일이 결합하여 ACID 버전을 완성하는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Parquet 데이터 파일 | **Parquet 데이터 파일**이 테이블 행을 불변 열 파일로 저장 |
-| 커밋 로그 파일 | **커밋 로그 파일**이 버전별 Add•Remove•스키마 변경 기록 |
-| 체크포인트 파일 | **체크포인트 파일**이 누적 로그를 집약해 스냅숏 복원 범위 단축 |
-| 트랜잭션 프로토콜 | **트랜잭션 프로토콜**이 기준 버전과 작업 범위의 충돌 검사•원자 커밋 수행 |
+| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 튜닝 포인트 |
+|:---|:---|:---|
+| **`_delta_log/`** | **모든 CUD 변경 이력 JSON 커밋 로그 보존** | 10번째마다 Checkpoint Parquet 합성 |
+| **Parquet Files** | **실제 테이블 데이터가 열 지향 불변 압축 저장됨** | Snappy 압축 적용 |
+| **`OPTIMIZE` Engine**| **자자한 Small Files를 1GB 단위 큰 파일로 병합 (Bin-packing)**| 스캔 쿼리 속도 10배 가속 |
+| **`VACUUM` Engine** | **`_delta_log`에서 `RemoveFile` 처리된 쓰레기 Parquet 물리 파기**| Default 7일 이전 파일 삭제 |
 
 #### 한줄 요약
 
 - 데이터 파일과 변경 장부를 분리해 각 버전의 표를 재현한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Delta Lake Time Travel & MERGE INTO 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **기준 로그 버전 적재**: 트랜잭션 로그에서 현재 파일 집합과 스키마를 복원하는 단계이다.
-- **새 Parquet 파일 기록**: 기존 파일을 덮지 않고 변경 결과를 불변 객체로 저장하는 단계이다.
-- **읽기•쓰기 범위 충돌 검사**: 기준 버전 이후의 동시 변경과 작업 범위를 비교하는 단계이다.
-- **Add•Remove 로그 커밋**: 파일 추가•제거를 하나의 다음 로그 버전으로 원자 확정하는 단계이다.
+- **Time Travel Query**: `SELECT * FROM my_table VERSION AS OF 3` 또는 `TIMESTAMP AS OF '2026-08-01'` 형태로 과거 특정 버전 데이터를 0.1초 만에 렌더링.
 
 </details>
 
 ```text
-테이블 변경 요청
-       |
-       v
-1. 기준 로그 버전 적재
-       |
-       v
-2. 새 Parquet 파일 기록
-       |
-       v
-3. 읽기•쓰기 범위 충돌 검사
-       |
-       +-- 충돌 --> 최신 로그에서 재계산
-       |
-       +-- 없음 --> 4. Add•Remove 로그 커밋
-                              |
-                              v
-                         확정 스냅숏 공개
+[Client Query: VERSION AS OF 2] ──► [_delta_log/ 0000~0002.json 스캔]
+                                          │
+                                          ▼
+ [AddFile 로 남아있는 유효 Parquet 목록 추출] ──► [S3 해당 Parquet 만 읽어 즉시 리턴!]
 ```
 
 ### 동작 원리
 
-- **1. 기준 로그 버전 적재**: **기준 로그 버전 적재**는 현재 파일 집합과 스키마를 복원한다.
-- **2. 새 Parquet 파일 기록**: **새 Parquet 파일 기록**은 변경 결과를 불변 객체로 저장한다.
-- **3. 읽기•쓰기 범위 충돌 검사**: **읽기•쓰기 범위 충돌 검사**는 동시 변경과 작업 범위를 비교한다.
-- **4. Add•Remove 로그 커밋**: **Add•Remove 로그 커밋**은 파일 변경을 다음 단일 버전으로 확정한다.
+1. **Version Target**: 사용자가 버전 2 시점의 쿼리 요청.
+2. **Log Replay**: `_delta_log` 0~2번 JSON 파일을 순차 읽어 해당 시점의 `AddFile` 포인터 집합 계산.
+3. **Scan Execution**: 제거되지 않은 과거 Parquet 파일만 S3에서 읽어 반환 (**완벽한 Time Travel 구현**).
 
 #### 한줄 요약
 
 - 새 파일을 먼저 만들고 겹친 변경이 없을 때만 다음 장부 번호를 차지해 전체 변경을 공개한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Delta Lake vs Apache Iceberg vs Apache Hudi)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **일반 Parquet 파일 집합**: 별도 트랜잭션 로그 없이 디렉터리의 불변 열 파일 목록을 직접 분석하는 방식이다.
+- **Open Table Format 3대장**: Databricks의 Delta Lake, Netflix의 Apache Iceberg, Uber의 Apache Hudi.
 
 </details>
 
-| 테이블 저장 방식 | Delta Lake | 일반 Parquet 파일 집합 |
-|:---|:---|:---|
-| 적용 기준 | **Delta Lake**: 동시 변경•과거 조회가 필요한 테이블 | **일반 Parquet 파일 집합**: 변경 없는 단순 파일 분석 |
-| 핵심 특징 | 로그 버전•원자 커밋 | 디렉터리 파일 목록 |
-| 한계 | 로그•파일 정리•엔진 호환 관리 | 부분 결과•버전 복구를 직접 구현 |
+| 비교 항목 | Delta Lake (Databricks) | Apache Iceberg (Netflix) | Apache Hudi (Uber) |
+|:---|:---|:---|:---|
+| **개발 및 주도 체계**| **Databricks 중심 오픈소스** | **Apache 재단 (독립 생태계)** | **Apache 재단 (스트리밍 중심)**|
+| **메타데이터 구조** | **JSON Log + Parquet Checkpoint**| **AVRO Manifest List + Manifest File**| Timeline Log + Avro |
+| **Spark 통합성** | **극상 (Spark 엔진 최적화 1순위)**| 상 (모든 엔진 중립성) | 상 (스트리밍 CDC 최적화) |
+| **ACID 동시성 제어**| **Optimistic Concurrency (OCC)** | **Optimistic Concurrency (OCC)** | MVCC / Copy-on-Write |
 
 #### 한줄 요약
 
 - 일반 파일 묶음과 달리 몇 번째 장부인지가 현재 표와 과거 표를 결정한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Delta Lake 운영 최적화 지침)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **과거 파일**: 실행 중인 조회나 복구가 참조하는 파일을 보존 기한 전에 지우는 문제이다.
-- **병합(MERGE) 범위**: 원천과 대상의 키•파티션 조건으로 갱신할 파일을 좁힌 작업 범위이다.
-- **충돌 재시도**: 최신 로그 버전을 다시 읽고 작업을 재계산해 낙관적 커밋을 다시 수행하는 방식이다.
-- **파일 병합**: 작은 파일을 적정 크기의 불변 파일로 다시 작성해 열기•메타데이터 비용을 줄이는 처리이다.
-- **파일 정리(VACUUM) 보존 기간**: 어떤 활성 조회나 과거 버전도 참조하지 않는 파일만 지우도록 정한 최소 보존 시간이다.
+- **Z-Ordering**: 특정 컬럼(예: `user_id`, `date`) 공간 채움 곡선을 따라 데이터를 물리적으로 재배치하여 데이터 건너뛰기(Data Skipping) 극대화.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 위험 요소 / 문제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 병합 조건이 넓으면 파일 재작성량 급증 | 키•파티션 조건으로 **병합(MERGE) 범위** 축소 | 변경 대상의 파일 읽기•쓰기 감소 |
-| 같은 파일 범위를 갱신하면 커밋 충돌 반복 | 작업 범위 분리와 **충돌 재시도** 적용 | 낙관적 커밋 성공률 향상 |
-| 작은 파일 누적으로 파일 열기•로그 처리 비용 증가 | 배치 크기 조정과 **파일 병합** 적용 | 스캔의 파일•메타데이터 비용 감소 |
-| 파일 정리 기간이 긴 작업보다 짧으면 **과거 파일** 삭제 | 최대 작업 시간보다 긴 **파일 정리(VACUUM) 보존 기간** 설정 | 실행 중인 조회와 과거 버전 보호 |
+| Small File 누적으로 쿼리 속도 저하 | 스트리밍 삽입으로 Small File 무한 생성 | **`OPTIMIZE my_table ZORDER BY (col)` 실행** |
+| S3 용량 비용 폭탄 발생 | 삭제된 구버전 Parquet 파일 무한 누적 | **`VACUUM my_table RETAIN 168 HOURS` 주기적 실행**|
+| Concurrent Append 충돌 | 다중 노드가 동시에 동일 파티션 쓰기 | **Auto-retry 및 Partition Pruning 분리** |
+
+> 사례: **Databricks 플랫폼 상의 Spark & Delta Lake 기반 모던 데이터 레이크하우스 운용**
 
 #### 한줄 요약
 
@@ -179,14 +153,13 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Delta Lake 채택 기준**: 동시 변경과 버전 복원의 필요성을 판단하는 기준이다.
+- **Delta Lake 수립 기준(Delta Lake Standards)**: `_delta_log` 메타데이터, `OPTIMIZE Z-Order` 파일 병합, `VACUUM` 7일 보존 및 Spark 통합성에 의거한 체계.
 
 </details>
 
-- **Delta Lake 채택 기준**에 따라 동시 변경과 버전 복원이 필요하면 **트랜잭션 로그** 기반 **Delta Lake**를 채택한다.
+- **Delta Lake 수립 기준**에 따라 Databricks/Spark 기반 레이크하우스 구축 시 **Delta Lake & OPTIMIZE Z-Ordering** 필수 적용
 
 #### 한줄 요약
 
