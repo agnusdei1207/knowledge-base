@@ -19,172 +19,129 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **쿠버네티스 파드 생명주기(Kubernetes Pod Lifecycle)**: 파드 생성부터 스케줄•컨테이너 실행•상태 점검•재시작•종료까지 실행•준비•복구 상태를 관리하는 과정이다.
+- **Pod Lifecycle (파드 생명주기)**: K8s Pod가 생성(Pending)되어 노드에 배치(Running), 정상 종료(Succeeded) 또는 실패(Failed)로 끝나는 전체 상태 전이(State Transition) 단계 및 프로브(Probe) 헬스체크 프로세스.
+- **Probe (Health Check Probes)**: kubelet이 Pod 내부 컨테이너의 생존 여부 및 트래픽 서빙 준비 상태를 주동적으로 체크하는 3대 헬스체크 기법 (Liveness, Readiness, Startup Probe).
+- **Graceful Termination (정상 종료)**: Pod가 삭제될 때 `preStop` 훅과 `SIGTERM` 신호를 수신받아 기존 연결을 안전하게 정리(Drain)하고 종료하는 메커니즘.
 
 </details>
 
-- 정의/개념: 파드 생성부터 종료까지 단계•조건•프로브•재시작 정책을 관리하는 **쿠버네티스 파드 생명주기**이다.
-- 배경/필요성: 단일 실행 상태만으로는 재시작과 트래픽 허용 판단을 분리할 수 없다.
+- 정의/개념: Pod의 5대 상태 Phase(Pending $\rightarrow$ Running $\rightarrow$ Succeeded/Failed/Unknown) 전이 및 3대 Probes 헬스체크를 통해 무중단 트래픽 차단과 자가 치유를 도모하는 관리 체계인 **Pod Lifecycle**
+- 배경/필요성: 앱 부팅이 안 끝났는데 트래픽이 유입되어 502 Bad Gateway가 터지거나, Deadlock 걸린 컨테이너가 멈춘 채 방치되는 파행 예방 요구성
 
 #### 한줄 요약
 
 - 프로그램이 켜진 상태와 손님을 받을 준비가 된 상태는 다르므로 파드는 실행, 생존, 준비 여부를 서로 다른 신호로 표현한다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (Pod 5대 Phase 및 3대 Probes)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **프로브 역할 분리**: 활성•준비•시작 프로브가 재시작•트래픽•기동 유예를 각각 판정하게 하는 원칙이다.
-- **파드 단계**: 파드 전체의 수명주기를 나타내는 상위 상태이다.
-- **파드 조건**: 스케줄•초기화•준비 여부를 나타내는 상태이다.
-- **컨테이너 상태**: 개별 컨테이너의 대기•실행•종료를 나타내는 상태이다.
-- **정상 종료**: 종료 전 훅과 종료 신호 및 유예 시간을 이용해 연결과 작업을 정리한 뒤 프로세스를 끝내는 절차이다.
+- **Liveness vs Readiness**: Liveness는 고장 시 컨테이너 재시작, Readiness는 미준비 시 Service 엔드포인트 트래픽 차단.
 
 </details>
 
-- **파드 단계**•**파드 조건**과 **컨테이너 상태**의 계층 표현이 핵심이다.
-- 시작•활성•준비 **프로브 역할 분리**가 핵심이다.
-- preStop•TERM과 유예 시간에 따른 **정상 종료**가 핵심이다.
+- **5 Pod Phase Transition (Pending $\rightarrow$ Running $\rightarrow$ Succeeded / Failed / Unknown)**
+- **3 Health Check Probes (Startup Probe, Liveness Probe, Readiness Probe)**
+- **Graceful Shutdown Guarantee (preStop Hook $\rightarrow$ SIGTERM $\rightarrow$ TerminationGracePeriodSeconds 30s $\rightarrow$ SIGKILL)**
 
 #### 한줄 요약
 
 - 시작이 늦은 상황, 멈춘 상황, 잠시 요청을 받지 못하는 상황을 구분해야 불필요한 재시작과 서비스 단절을 줄일 수 있다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Pod 3대 Probes 및 5대 Phase 상세)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **활성 프로브**: 컨테이너의 재시작 필요성을 판단하는 검사이다.
-- **준비 프로브**: 서비스 엔드포인트 포함 가능성을 판단하는 검사이다.
-- **큐블릿(kubelet)**: 노드에서 파드 명세에 따라 컨테이너를 실행하고 프로브•재시작•종료를 관리하는 에이전트이다.
-- **초기화 컨테이너**: 주 컨테이너 실행 전 선행 작업을 완료하는 컨테이너이다.
-- **주 컨테이너**: 파드의 실제 서비스를 처리하는 컨테이너이다.
-- **시작 프로브(Startup Probe)**: 느린 애플리케이션이 기동을 마칠 때까지 활성•준비 검사를 유예하는 검사이다.
-- **종료 제어**: 종료 전 훅•종료 신호•유예 시간으로 정상 정리와 강제 종료 시점을 관리하는 구성요소이다.
-- **스케줄러**: 미배치 파드가 실행될 노드를 선택하는 구성요소이다.
+- **Startup Probe**: Java/Spring 애플리케이션처럼 부팅에 2분이 걸리는 앱의 초기 부팅 완료 여부를 기다려 주는 전용 헬스체크.
 
 </details>
 
 ```text
-[파드 생명주기 제어]
-          |
-          +-- [스케줄러•kubelet]
-          |
-          +-- [초기화•주 컨테이너]
-          |
-          +-- [시작 프로브]
-          |
-          +-- [활성•준비 프로브]
-          |
-          +-- [종료 제어]
+┌────────────────────────────────────────────────────────────────────────┐
+│                      Pod 3-Probe Health Check Architecture             │
+├────────────────────────────────────────────────────────────────────────┤
+│ 1. Startup Probe   ──► Boots App Complete? ──► YES ──► (Disables itself)│
+│                                                                        │
+│ 2. Liveness Probe  ──► Is App Alive?       ──► NO  ──► Container Restart│
+│                                                                        │
+│ 3. Readiness Probe ──► Ready for Traffic?  ──► NO  ──► Cut Service Endpoint│
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 스케줄러•kubelet은 초기화•주 컨테이너와 종료 제어를 관리하고, 시작 프로브와 활성•준비 프로브는 컨테이너의 기동·생존·트래픽 준비 상태를 서로 다른 기준으로 검사한다.
+선의 의미: 3가지 프로브가 각자 다른 관점에서 컨테이너의 기동, 생존, 트래픽 유입 준비를 독자적으로 제어하는 아키텍처.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 스케줄러•kubelet | **스케줄러**가 노드를 배정하고 **큐블릿(kubelet)**이 실행 관리 |
-| 초기화•주 컨테이너 | **초기화 컨테이너**와 **주 컨테이너**가 선행 작업•업무 처리 |
-| 시작 프로브 | **시작 프로브**가 느린 시작 보호 |
-| 활성•준비 프로브 | **활성 프로브**와 **준비 프로브**가 재시작•트래픽 판정 |
-| 종료 제어 | **종료 제어**가 정상 정리•강제 종료 시점 관리 |
+| 구분 지표 | 1. Startup Probe | 2. Liveness Probe | 3. Readiness Probe |
+|:---|:---|:---|:---|
+| **핵심 목적** | **느린 부팅 앱 초기 완료 체크** | **Deadlock/Hang 컨테이너 생존 체크**| **실제 HTTP 트래픽 서빙 가능 체크** |
+| **실패 시 뚝 끊김 결과**| **컨테이너 재시작 (Restart)** | **컨테이너 즉시 재시작 (Restart)** | **Service K8s Endpoint 에서 뺌 (No Traffic)** |
+| **적용 시점** | Pod 생성 직후 (1회성 유예) | Startup 성공 후 무한 반복 | Startup 성공 후 무한 반복 |
+| **대표 유스케이스**| **Spring Boot, Heavy Java App**| **Infinite Loop, Deadlock 예방** | **DB 커넥션 웜업, 캐시 로딩 완료** |
 
 #### 한줄 요약
 
-- kubelet이 현장 관리자라면 초기화 컨테이너는 개점 준비, 프로브는 안전•영업 검사, 종료 제어는 폐점 정리 절차에 해당한다.
+- kubelet이 현장 관리자라면 초기화 컨테이너는 개점 준비, 프로브는 안전·영업 검사, 종료 제어는 폐점 정리 절차에 해당한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Graceful Termination 5단계 셧다운 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API) 서버**: 파드 생성•삭제와 상태 변경을 저장하고 노드에 전달하는 제어면 접점이다.
-- **대기(Pending)**: 스케줄•이미지 준비•초기화가 끝나지 않은 파드 단계이다.
-- **실행(Running)**: 노드에 배정돼 하나 이상의 컨테이너가 실행 중인 파드 단계이다.
-- **시작•활성•준비 프로브**: 기동 완료•재시작 필요•트래픽 수신 가능성을 각각 판정하는 검사이다.
-- **준비 상태**: 준비 프로브 결과에 따라 서비스 엔드포인트 포함 여부를 나타내는 조건이다.
-- **종료 전 훅(PreStop Hook)•종료 신호(Termination Signal, TERM)•유예 시간**: 연결을 정리한 뒤 강제 종료할 시점을 적용하는 절차이다.
+- **preStop Hook**: `kubectl delete pod` 수신 시 SIGTERM 전달 직전, Nginx 릴로딩이나 K8s Service Endpoint 맵핑 제거 시간을 벌어주는 스크립트 훅.
 
 </details>
 
 ```text
-파드 생성
-   |
-   v
-Pending
-   |
-   +-- 노드 미배정•이미지 준비 --> Pending 유지
-   |
-   +-- 배정•초기화 완료 --------> Running
-                                      |
-                                      +-- 시작 프로브 실패
-                                      |       +-- 임계 초과 --> 재시작
-                                      |
-                                      +-- 시작 프로브 성공
-                                              |
-                                              +-- 활성 실패 --> 재시작
-                                              |
-                                              +-- 준비 실패 --> 엔드포인트 제외
-                                              |
-                                              +-- 준비 성공 --> 엔드포인트 포함
-
-삭제•종료 요청
-   |
-   v
-준비 해제 → preStop → TERM → 유예 시간
-   |
-   +-- 정상 종료 --> Succeeded
-   +-- 오류 종료 --> Failed
+[kubectl delete pod] ──► [Service Endpoint Removal & preStop Hook Exec (sleep 10)]
+                                                   │
+                                                   ▼
+ [SIGKILL (Force Kill)] ◄── [TerminationGracePeriod (30s Expiry)] ◄── [SIGTERM Signal]
 ```
 
-- **응용 프로그래밍 인터페이스(API) 서버**에 생성된 파드는 **대기(Pending)**에서 **실행(Running)**으로 전이하고, **시작•활성•준비 프로브**가 **준비 상태**를 갱신하며 종료 시 **종료 전 훅(PreStop Hook)•종료 신호(TERM)•유예 시간**을 적용한다.
+### 동작 원리
+
+1. **Endpoint Detach & preStop**: delete 명령 수신 즉시 K8s Service Endpoint에서 Pod IP를 제거하여 신규 트래픽 유입 차단 후 preStop 훅 실행.
+2. **SIGTERM & Grace Period**: 프로세스에 `SIGTERM` 신호를 보내 처리 중인 기존 커넥션 마무리 유예(기본 30초).
+3. **SIGKILL**: 30초 경과 후에도 종료 안 되면 `SIGKILL`로 강제 파기 (**Graceful Termination 완결**).
 
 #### 한줄 요약
 
 - 파드가 시작되면 kubelet은 세 가지 검사를 반복하고, 준비 검사 결과만 서비스에 반영해 요청 차단과 프로세스 재시작을 분리한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Liveness vs Readiness Probe 1:1 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **프로브 선택 기준**: 기동•생존•트래픽 준비 상태를 분리하는 기준이다.
+- **Cascade Restart Danger**: DB장애로 Readiness 대신 Liveness를 잘못 걸면, 전사 컨테이너가 무한 재시작(Cascade Fail)되는 안티패턴.
 
 </details>
 
-| **프로브 선택 기준** | Startup Probe | Liveness Probe | Readiness Probe |
-|:---|:---|:---|:---|
-| 적용 기준 | **시작 프로브**: 느린 애플리케이션 시작 | **활성 프로브**: 내부 복구 불가 상태 | **준비 프로브**: 트래픽 수신 가능성 |
-| 핵심 특징 | 성공 전 다른 검사 유예 | 실패 시 컨테이너 재시작 | 실패 시 엔드포인트 제외 |
-| 한계 | 설정 과다 시 기동 지연 | 외부 장애 시 재시작 폭주 | 오판 시 가용 파드 감소 |
+| 비교 항목 | Liveness Probe (생존 프로브) | Readiness Probe (준비 프로브) |
+|:---|:---|:---|
+| **검사 실패 원인** | 프로세스 다운, Deadlock, 무한 루프 | DB 커넥션 풀 차오름, 캐시 웜업 미완료 |
+| **K8s 조치 행위** | **`docker restart` (컨테이너 강제 재시작)**| **Service Endpoint IP 제거 (트래픽 유입 차단)**|
+| **장애 복구 효과** | 프로세스 재기동으로 데드락 해제 | **사용자에게 502/503 에러 표출 차단** |
+| **안티패턴 오용** | **외부 DB 접속 실패 시 Liveness 걸면 안 됨**| 외부 DB 연결 체크용으로 적극 활용 |
 
 #### 한줄 요약
 
 - 시작 검사는 기다릴 시간을, 활성 검사는 다시 켤 조건을, 준비 검사는 요청을 보낼 조건을 각각 결정한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Pod Lifecycle 실무 3대 파행 대책)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **재시작 폭주**: 잘못된 활성 검사나 짧은 임계값 때문에 정상화 전에 컨테이너가 반복 재시작되는 현상이다.
-- **종료 유예**: 서비스 준비 상태를 해제하고 진행 요청을 정리할 시간이다.
-- **멱등 처리**: 같은 작업을 재실행해도 최종 결과가 한 번 실행한 것과 같게 유지되는 처리 방식이다.
+- **502 Bad Gateway on Deployment**: Deploy rolling update 시 preStop 훅(sleep 10s)이 없어서 K8s Endpoint가 지워지기도 전에 Pod가 꺼져 502 터지는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 Lifecycle 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 외부 장애 연동 검사 | 활성 검사를 내부 상태로 제한 | **재시작 폭주** 방지 |
-| 긴 초기 기동 시간 | 시작 검사 주기•임계값 산정 | 조기 종료 방지 |
-| 준비 파드 급감 | 완화 임계값•최소 용량 확보 | 엔드포인트 전멸 방지 |
-| 처리 중 요청 단절 | 준비 해제•**종료 유예** 확보 | 연결 정상 종료 |
-| 재시작 시 로컬 상태 손실 | 외부 저장•**멱등 처리** 적용 | 중복•데이터 손실 축소 |
+| **1. Rolling Update 502 Error**| Endpoint 제거와 Pod 파기 시점 안 맞음| **`preStop: exec: command: ["sleep", "15"]` 배치**|
+| **2. Infinite Spring Boot Loop**| Java 부팅 2분 걸리는데 Liveness 30초 컷| **Startup Probe 도입으로 부팅 완료 시까지 유예**|
+| **3. Database Cascading Crash** | DB 다운으로 Liveness 실패해 전 Pod 재시작| **외부 DB 체크는 Liveness 배제하고 Readiness 전용**|
+
+> 사례: **카카오 / 당근마켓 / 쿠팡 preStop sleep 훅 및 3대 Probes 무중단 배포 적용**
 
 #### 한줄 요약
 
@@ -192,14 +149,13 @@ Pending
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **파드 생명주기 설정 기준**: 기동•생존•트래픽 준비•종료 정리 상태를 서로 다른 통제로 관리하는 기준이다.
+- **Pod Lifecycle 수립 기준(Pod Lifecycle Standards)**: 3대 Probes(Startup/Liveness/Readiness), preStop sleep 15s 훅 및 Graceful Termination 30s에 의거한 체계.
 
 </details>
 
-- **파드 생명주기 설정 기준**에 따라 **프로브 역할 분리**와 **종료 유예**를 적용한다.
+- **Pod Lifecycle 수립 기준**에 따라 무중단 클라우드 네이티브 배포 구축 시 **3-Probes & preStop Graceful Hook** 필수 적용
 
 #### 한줄 요약
 
