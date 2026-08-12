@@ -68,11 +68,11 @@ extra:
 </details>
 
 ```text
- [ Data & Control Path Optimization ]
-  ├─ Data Hazard : Pipeline Regs ─> [ Forwarding Unit ] ─> [ Bypass MUX ] ─> ALU
-  └─ Control Hazard: Branch Ins.  ─> [ Branch Predictor ] ─> [ Fetch Unit ]  ─> PC
-                                             │ (Mispredict)
-                                             └─> [ Recovery Logic ] ─> Flush & Restore
+[ 데이터 및 제어 경로 최적화 구조 ]
+ ├─ 데이터 해저드 : 파이프라인 레지스터 ──> [ 포워딩 제어기 ] ──> [ 우회 MUX ] ──> ALU
+ └─ 제어 해저드   : 조건 분기 명령어   ──> [ 분기 예측기 ]   ──> [ 인출 제어기 ] ──> PC
+                                                 │ (오예측)
+                                                 └─> [ 복구 로직 ] ──> 플러시 및 복원
 ```
 
 | 구성요소 | 역할 및 작동 원리 | 실무적 유용성 |
