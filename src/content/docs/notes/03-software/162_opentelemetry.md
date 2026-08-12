@@ -20,172 +20,131 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **오픈텔레메트리(OpenTelemetry)**: 관측 신호의 생성•문맥 전파•수집•전달을 특정 분석 제품에 종속되지 않게 표준화한 벤더 중립 프레임워크이다.
+- **OpenTelemetry (OTel / 오픈텔레메트리)**: CNCF의 2위 인기 오픈소스 프로젝트로, 이종의 관측성 툴(Datadog, New Relic, Jaeger, Prometheus)에 묶이지 않고 Metrics, Logs, Traces 텔레메트리 데이터를 표준화된 OTLP 프로토콜로 수집 전송하는 글로벌 표준 계측 프레임워크.
+- **OTLP (OpenTelemetry Protocol)**: gRPC / HTTP Protobuf 기반의 초경량 텔레메트리 전송 표준 프로토콜.
+- **OTel Collector**: Receiver(수집), Processor(가공/마스킹), Exporter(전송) 파이프라인으로 구성되어 이종의 APM 벤더(Datadog, Jaeger)로 텔레메트리를 다중 전송하는 프록시 서비스.
 
 </details>
 
-- 정의/개념: 관측 신호의 생성•전파•수집을 통일하는 **오픈텔레메트리(OpenTelemetry)**이다.
-- 배경/필요성: 특정 모니터링 벤더 종속성과 프로그래밍 언어별 상이한 계측 API로 인한 중복 구현 오버헤드가 발생한다.
+- 정의/개념: 특정 APM 상용 벤더(Datadog, Dynatrace) 종속성(Vendor Lock-in)을 0% 탈피하고, 벤더 중립적(Vendor-Neutral)인 OTLP 표준 프로토콜로 메트릭, 로그, 트레이스를 수집 및 전송하는 글로벌 텔레메트리 프레임워크인 **OpenTelemetry (OTel)**
+- 배경/필요성: APM 상용 툴을 교체할 때마다 소스코드 내 SDK를 전면 재작성해야 하는 파행 예방, 이중 모니터링 툴 사용 시 데이터 수집 파편화 차단 요구성
 
 #### 한줄 요약
 
 - 여러 언어가 서로 다른 상자에 담던 관측 데이터를 같은 규격으로 포장하면 분석 도구를 바꿔도 애플리케이션 계측을 다시 만들 필요가 줄어든다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (OpenTelemetry 3대 핵심 혜택)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 애플리케이션이 스팬•메트릭•로그를 생성하는 표준 규약이다.
-- **소프트웨어 개발 키트(Software Development Kit, SDK)**: 생성된 신호의 샘플링•집계•배치•전송을 구현하는 라이브러리이다.
-- **오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)**: 오픈텔레메트리 구성요소 사이에서 관측 신호를 교환하는 표준 전송 규약이다.
-- **문맥 전파**: 호출 경계를 넘어 추적 식별자와 속성을 전달하는 기능이다.
-- **공통 속성**: 서비스•환경•버전 등 신호를 같은 기준으로 분류하는 정보이다.
-- **Collector 파이프라인**: 관측 신호를 수신•처리•내보내기 순서로 가공하는 처리 경로이다.
+- **Vendor-Neutral Standard**: 애플리케이션에는 OTel SDK만 탑재하고, 백엔드 저장소(Jaeger $\rightarrow$ Datadog)를 바꿔도 코드 수정 0회 달성.
 
 </details>
 
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**•**소프트웨어 개발 키트(Software Development Kit, SDK)**•**오픈텔레메트리 프로토콜(OpenTelemetry Protocol, OTLP)** 기반 벤더 중립성이 핵심이다.
-- **문맥 전파**와 **공통 속성** 기반으로 신호를 연결한다.
-- **Collector 파이프라인** 기반으로 처리를 분리한다.
+- **Vendor Agnostic (단일 OTel SDK로 Datadog, Jaeger, Prometheus 백엔드 100% 지원)**
+- **Unified Telemetry API & SDK (Metrics, Logs, Traces 3대 기둥 통합 수집 표준)**
+- **Auto-Instrumentation (코드 수정 없이 Java Agent / Node.js 훅으로 자동 계측)**
 
 #### 한줄 요약
 
 - 애플리케이션은 표준 신호만 만들고 필터, 배치, 재시도, 다중 백엔드 전송은 컬렉터에 맡겨 업무 코드와 전송 정책을 분리한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (OTel 3대 계층 파이프라인 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **API 계측**: 코드에서 API를 호출해 스팬•메트릭•로그를 생성하는 방식이다.
-- **자동 계측**: 런타임에 계측 코드를 삽입해 신호를 생성하는 방식이다.
-- **SDK 처리기**: 생성된 신호를 샘플링•집계•배치하는 구성요소이다.
-- **문맥 전파기**: 호출 경계에 추적 문맥을 전달하는 구성요소이다.
-- **OTLP 전송기**: 표준 형식으로 신호를 Collector에 전송하는 구성요소이다.
-- **컬렉터(Collector)**: 관측 신호를 수신•필터•변환한 뒤 하나 이상의 백엔드로 내보내는 중계 구성요소이다.
-- **관측 백엔드**: 신호를 저장•조회하고 시각화•경보 기능을 제공하는 구성요소이다.
+- **OTel API vs SDK vs Collector**: API는 코드상 계측 인터페이스, SDK는 실제 수집 구현체, Collector는 중앙 수집/전송 엔진.
 
 </details>
 
 ```text
-[OpenTelemetry]
-       |
-       +-- [API•자동 계측]
-       |
-       +-- [SDK•문맥 전파기]
-       |
-       +-- [OTLP]
-       |
-       +-- [Collector]
-       |
-       +-- [관측 백엔드]
+┌────────────────────────────────────────────────────────────────────────┐
+│                   OpenTelemetry Standard Architecture                  │
+├────────────────────────────────────────────────────────────────────────┤
+│ [App (Java/Go/Node)] ──► OTel API & SDK (Auto-Instrumentation)        │
+│                               │ (OTLP Protocol over gRPC / HTTP)       │
+│                               ▼                                        │
+│ [OTel Collector Engine] ──► Receiver ──► Processor ──► Exporter        │
+│                                                          │             │
+│         ┌────────────────────────────────────────────────┤             │
+│         ▼                                                ▼             │
+│ [Jaeger / Tempo (Traces)]                       [Prometheus (Metrics)] │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: API•자동 계측과 SDK•문맥 전파기의 선은 스팬•메트릭•로그 생성 및 추적 연결 관계, SDK와 OTLP의 선은 처리된 신호의 표준 형식 변환 관계, OTLP와 Collector의 선은 표준 신호 전송 관계, Collector와 관측 백엔드의 선은 수신•가공된 신호의 저장•조회•시각화•경보 관계를 뜻한다.
+선의 의미: App 코드가 OTel SDK 및 OTLP 프로토콜로 OTel Collector에 전송 후 Receiver, Processor, Exporter를 타고 다중 백엔드로 분기 전송되는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| API•자동 계측 | **API 계측**과 **자동 계측**이 스팬•메트릭•로그를 생성 |
-| SDK•문맥 전파기 | **SDK 처리기**가 신호를 처리하고 **문맥 전파기**가 추적을 연결 |
-| OTLP | **OTLP 전송기**가 표준 형식 신호를 전송 |
-| Collector | **컬렉터(Collector)**가 신호를 수신•가공•다중 전송 |
-| 관측 백엔드 | **관측 백엔드**가 신호를 저장•조회하고 시각화•경보를 제공 |
+| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 적용 포인트 |
+|:---|:---|:---|
+| **OTel API** | **앱 코드상에서 Trace/Metric 수집을 위한 언어별 표준 규약**| `tracer.startSpan()` |
+| **OTel SDK** | **API 구체 구현체, 메모리 버퍼링 및 Batch Processor 처리** | `BatchSpanProcessor` |
+| **OTLP Protocol** | **Protobuf gRPC/HTTP 기반 초경량 텔레메트리 직렬화 전송** | `otlp/grpc:4317` 포트 |
+| **OTel Collector** | **중앙 수집 프록시 (Receiver $\rightarrow$ Processor $\rightarrow$ Exporter)**| PII 개인정보 마스킹 파이프라인 |
 
 #### 한줄 요약
 
 - 계측기가 화물을 만들고 SDK가 포장하면 OTLP라는 운송 규격으로 컬렉터 물류센터를 거쳐 분석 저장소에 도착한다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (OTel Collector 3단계 Pipeline 가공 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **관측 신호 생성•문맥 연결**: API와 자동 계측이 신호를 만들고 같은 요청으로 묶는 단계이다.
-- **SDK 샘플링•집계•배치**: 생성된 신호를 전송 정책에 맞게 처리하는 단계이다.
-- **OTLP 표준 전송**: 처리한 신호를 벤더 중립 형식으로 Collector에 보내는 단계이다.
-- **Collector 필터•변환•분기**: 신호를 정제해 하나 이상의 목적지로 나누는 단계이다.
-- **백엔드 저장•조회•경보**: 전달된 신호를 보존하고 분석 기능에 제공하는 단계이다.
+- **OTel Collector Pipeline**: Receiver(OTLP 수집) $\rightarrow$ Processor(PII 마스킹/메모리 제한) $\rightarrow$ Exporter(Jaeger/Datadog 전송).
 
 </details>
 
 ```text
-1. 관측 신호 생성•문맥 연결
-          |
-          v
-2. SDK 샘플링•집계•배치
-          |
-          v
-3. OTLP 표준 전송
-          |
-          v
-4. Collector 필터•변환•분기
-          |
-          +-- 메트릭 백엔드
-          +-- 로그 백엔드
-          +-- 추적 백엔드
-          |
-          v
-5. 백엔드 저장•조회•경보
+[App OTLP Output] ──► [Receiver: otlp] ──► [Processor: memory_limiter & attributes (PII Masking)]
+                                                                     │
+                                                                     ▼
+ [Datadog & Jaeger Systems] ◄── [Exporter: datadog & otlphttp] ──────┘
 ```
 
 ### 동작 원리
 
-- **1. 관측 신호 생성•문맥 연결**: **관측 신호 생성•문맥 연결**로 스팬•메트릭•로그를 생성하고 연결한다.
-- **2. SDK 샘플링•집계•배치**: **SDK 샘플링•집계•배치**로 전송 정책에 맞게 신호를 처리한다.
-- **3. OTLP 표준 전송**: **OTLP 표준 전송**으로 벤더 중립 형식의 신호를 전달한다.
-- **4. Collector 필터•변환•분기**: **Collector 필터•변환•분기**로 신호를 정제해 목적지별로 전달한다.
-- **5. 백엔드 저장•조회•경보**: **백엔드 저장•조회•경보**로 신호 보존과 분석을 제공한다.
+1. **Receiver**: `otlp` 리시버가 Port 4317로 gRPC 텔레메트리 데이터 수신.
+2. **Processor**: `memory_limiter`가 메모리 오버헤드를 막고, `attributes` 가 주민번호/카드번호 PII 정규식 마스킹.
+3. **Exporter**: 가공된 깔끔한 트레이스를 Jaeger와 Datadog 2곳으로 동시에 다중 전송 (**OTel Pipeline 완결**).
 
 #### 한줄 요약
 
-- 결제 서비스의 추적과 로그는 SDK에서 묶여 컬렉터로 가고 그곳에서 개인정보가 제거된 뒤 추적•로그 저장소에 각각 전달된다.
+- 결제 서비스의 추적과 로그는 SDK에서 묶여 컬렉터로 가고 그곳에서 개인정보가 제거된 뒤 추적·로그 저장소에 각각 전달된다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Agent Mode 대 Deployment Gateway Mode)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Collector 경유**: 필터, 재시도, 다중 목적지 전송을 애플리케이션 밖에서 통합 관리하는 방식이다.
-- **SDK 직접 전송(SDK Direct Export)**: 애플리케이션이 Collector 없이 백엔드로 신호를 보내는 방식이다.
+- **OTel Collector DaemonSet vs Deployment**: Node 마다 설치하는 Agent 방식과 중앙 전용 서버로 띄우는 Gateway 방식.
 
 </details>
 
-| 전송 방식 | **SDK 직접 전송(SDK Direct Export)** | **Collector 경유** |
+| 비교 항목 | OTel Collector Agent Mode (DaemonSet) | OTel Collector Gateway Mode (Deployment) |
 |:---|:---|:---|
-| 적용 기준 | 소규모•단일 백엔드 | 대규모•통합 처리 |
-| 핵심 특징 | 짧은 경로•단순 구성 | 필터•재시도•다중 전송 |
-| 한계 | 응용 부담•접속 정보 노출 | 중계 병목•운영 필요 |
+| **배치 위치** | **K8s 모든 Worker Node마다 1개씩 탑재** | **중앙 전용 K8s Pod 또는 EC2 배치** |
+| **핵심 목적** | **Node 내부 Pod 들의 트레이스를 초저지연 수집**| **전사 텔레메트리 중앙 집중 PII 마스킹 및 전송**|
+| **추천 구성** | **Agent (1차 수집) $\rightarrow$ Gateway (2차 마스킹/전송) 2단 혼용 아키텍처** |
 
 #### 한줄 요약
 
 - 단일 분석 도구의 작은 환경은 직접 전송이 단순하지만 여러 팀의 정책과 목적지를 통일하려면 컬렉터 경유가 변경 범위를 줄인다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (OpenTelemetry 3대 실무 지침)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **전송 장애**: 관측 신호가 Collector나 백엔드에 도달하지 못하는 문제이다.
-- **의미 규약**: 관측 속성의 명칭과 의미를 통일한 기준이다.
-- **공통 속성 사전**: 서비스•환경•버전 속성을 정리한 목록이다.
-- **허용 목록**: 전송할 관측 속성을 제한하는 통제이다.
-- **마스킹**: 민감한 속성값을 제거하거나 대체하는 통제이다.
-- **영속 큐**: 전송 실패 신호를 디스크에 보존하는 대기열이다.
-- **메모리 상한**: 신호 처리에 사용할 최대 메모리 양이다.
+- **Auto-Instrumentation Performance Impact**: Java Agent 등의 자동 계측 도구가 앱 부팅 시 CPU/Memory 사용량을 소폭 증가시키는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 3대 OpenTelemetry 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 서비스별 속성 불일치 | **의미 규약**•**공통 속성 사전** 적용 | 신호 검색•집계 일관성 |
-| 헤더•사용자 정보 노출 | Collector **허용 목록**•**마스킹** | 민감정보 외부 전송 차단 |
-| 과도한 추적•속성 | 샘플링•집계•속성 수 제한 | 저장•조회 비용 절감 |
-| 백엔드 **전송 장애** | 재시도•**영속 큐**•**메모리 상한** | 신호 유실•메모리 고갈 완화 |
-| 중앙 Collector 장애 | 수평 확장•부하 분산•자체 감시 | 전체 관측 공백 축소 |
+| **1. Agent CPU Overhead** | Java Auto-Instrumentation 과다 수집| **수집 범위를 HTTP/DB 쿼리로 한정 튜닝** |
+| **2. PII Leak in Traces** | HTTP Header의 Bearer Token이 Trace 유출 | **OTel Collector Processor에서 헤더 삭제**|
+| **3. OTel Collector OOM** | 트래픽 폭증 시 Collector 메모리 파산 | **`memory_limiter` 및 `batch` 프로세서 필수 설정**|
+
+> 사례: **토스 / 당근마켓 / 쿠팡 OpenTelemetry 표준 채택 및 Datadog/Jaeger 이중 전송 시스템**
 
 #### 한줄 요약
 
@@ -193,14 +152,13 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **신호량•보안 경계•목적지 수**: SDK 직접 전송과 Collector 경유 방식을 선택하는 판단 축이다.
+- **OpenTelemetry 수립 기준(OTel Standards)**: OTLP 표준 프로토콜, OTel Collector DaemonSet/Gateway, PII Processor 마스킹 및 Auto-Instrumentation에 의거한 체계.
 
 </details>
 
-- **신호량•보안 경계•목적지 수**로 직접•Collector 전송을 결정한다.
+- **OpenTelemetry 수립 기준**에 따라 전사 관측성 인프라 수립 시 **OpenTelemetry & OTLP & OTel Collector** 필수 적용
 
 #### 한줄 요약
 
