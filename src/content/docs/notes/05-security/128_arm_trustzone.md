@@ -23,14 +23,14 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SoC(System on Chip)**: 시스템 기능을 하나의 칩에 통합한 반도체이다.
-- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
-- **Arm TrustZone**: SoC 자원 접근을 보안•비보안 상태로 구분하는 격리 기술이다.
+- **SoC(System on Chip)**: 시스템 기능을 하나의 칩에 통합한 반도체를 의미함.
+- **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치 지칭.
+- **Arm TrustZone(Arm TrustZone)**: SoC 자원 접근을 보안•비보안 상태로 구분하는 격리 기술.
 
 </details>
 
-- 정의/개념: **SoC** 자원을 보안 상태별로 분리하는 **Arm TrustZone**이다.
-- 배경/필요성: 소프트웨어 권한 분리만으로는 커널 침해 시 비밀을 보호할 수 없다.
+- 정의/개념: **SoC** 자원을 보안 상태별로 분리하는 **Arm TrustZone** 적용.
+- 배경/필요성: 소프트웨어 권한 분리만으로는 커널 침해 시 비밀 보호 불가능에 따른 하드웨어 격리 필요성 증대.
 
 #### 한줄 요약
 
@@ -41,16 +41,16 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TCB(Trusted Computing Base)**: 보안을 위해 반드시 신뢰해야 하는 최소 구성요소 집합이다.
-- **TEE(Trusted Execution Environment)**: 신뢰 응용을 격리 실행하는 환경이다.
-- **REE(Rich Execution Environment)**: 범용 OS와 일반 응용이 실행되는 환경이다.
-- **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제이다.
+- **TCB(Trusted Computing Base)**: 보안을 위해 반드시 신뢰해야 하는 최소 구성요소 집합.
+- **TEE(Trusted Execution Environment)**: 신뢰 응용을 격리 실행하는 환경을 일컫음.
+- **REE(Rich Execution Environment)**: 범용 OS와 일반 응용이 실행되는 환경.
+- **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제 지칭.
 
 </details>
 
-- **CPU**•메모리•버스에 보안 속성을 전파한다.
-- **TEE**와 **REE**를 하드웨어 상태로 격리한다.
-- 제한 진입점과 최소 **TCB**로 경계를 통제한다.
+- **CPU**•메모리•버스에 보안 속성 전파.
+- **TEE**와 **REE**를 하드웨어 상태로 격리.
+- 제한 진입점과 최소 **TCB**로 경계 통제.
 
 #### 한줄 요약
 
@@ -61,9 +61,9 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **SMC(Secure Monitor Call)**: 보안 상태 전환을 요청하는 호출이다.
-- **TA(Trusted Application)**: TEE 내부에서 제한된 서비스를 수행하는 응용이다.
-- **DMA(Direct Memory Access)**: CPU 없이 주변장치가 메모리를 직접 읽고 쓰는 기능이다.
+- **SMC(Secure Monitor Call)**: 보안 상태 전환을 요청하는 호출에 해당함.
+- **TA(Trusted Application)**: TEE 내부에서 제한된 서비스를 수행하는 응용 프로그램.
+- **DMA(Direct Memory Access)**: CPU 없이 주변장치가 메모리를 직접 읽고 쓰는 기능.
 
 </details>
 
@@ -93,12 +93,12 @@ Arm TrustZone
 <details>
 <summary>핵심 용어</summary>
 
-- **TOCTOU(Time of Check to Time of Use)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점이다.
-- **실행 환경 호출 경계**: REE 요청을 TEE가 검증해 TA에 전달하는 경계이다.
-- **공유 주소•길이•권한 검증**: 공유 메모리의 범위와 접근 권한을 복사•재확인하는 단계이다.
-- **호출자 신원•TA 명령 검증**: 요청 주체와 허용된 보안 서비스 명령을 확인하는 단계이다.
-- **최소 보안 자원 요청 구성**: 필요한 키•암호•저장소 연산만 선택하는 단계이다.
-- **제한된 보안 연산 수행**: 비밀을 경계 밖으로 노출하지 않고 결과만 생성하는 단계이다.
+- **TOCTOU(Time of Check to Time of Use)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점.
+- **실행 환경 호출 경계(Execution Environment Call Boundary)**: REE 요청을 TEE가 검증해 TA에 전달하는 경계 지칭.
+- **공유 주소•길이•권한 검증(Shared Address, Length & Permission Verification)**: 공유 메모리의 범위와 접근 권한을 복사•재확인하는 절차.
+- **호출자 신원•TA 명령 검증(Caller Identity & TA Command Verification)**: 요청 주체와 허용된 보안 서비스 명령을 확인하는 과정.
+- **최소 보안 자원 요청 구성(Minimal Security Resource Request Configuration)**: 필요한 키•암호•저장소 연산만 선택하는 단계.
+- **제한된 보안 연산 수행(Restricted Security Operation Execution)**: 비밀을 경계 밖으로 노출하지 않고 결과만 생성하는 프로세스.
 
 </details>
 
@@ -121,10 +121,10 @@ REE•Normal World 반환
 
 ### 동작 원리
 
-- **1. 공유 주소•길이•권한 검증**: **공유 주소•길이•권한 검증**을 **실행 환경 호출 경계**에서 수행한다.
-- **2. 호출자 신원•TA 명령 검증**: **호출자 신원•TA 명령 검증**으로 제한된 서비스만 허용한다.
-- **3. 최소 보안 자원 요청 구성**: **최소 보안 자원 요청 구성**에서 허용된 키•암호•저장소 연산을 선택한다.
-- **4. 제한된 보안 연산 수행**: **제한된 보안 연산 수행**으로 비밀을 노출하지 않는 결과를 생성한다.
+- **1. 공유 주소•길이•권한 검증**: **공유 주소•길이•권한 검증**을 **실행 환경 호출 경계**에서 수행.
+- **2. 호출자 신원•TA 명령 검증**: **호출자 신원•TA 명령 검증**으로 제한된 서비스만 허용.
+- **3. 최소 보안 자원 요청 구성**: **최소 보안 자원 요청 구성**에서 허용된 키•암호•저장소 연산 선택.
+- **4. 제한된 보안 연산 수행**: **제한된 보안 연산 수행**으로 비밀을 노출하지 않는 결과 생성.
 
 #### 한줄 요약
 
@@ -135,8 +135,8 @@ REE•Normal World 반환
 <details>
 <summary>핵심 용어</summary>
 
-- **SAU(Security Attribution Unit)**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치이다.
-- **MCU(Microcontroller Unit)**: 처리기•메모리•입출력을 통합한 마이크로컨트롤러이다.
+- **SAU(Security Attribution Unit)**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치 지칭.
+- **MCU(Microcontroller Unit)**: 처리기•메모리•입출력을 통합한 마이크로컨트롤러를 의미함.
 
 </details>
 
@@ -146,7 +146,7 @@ REE•Normal World 반환
 | 핵심 특징 | Arm A-profile의 보안•일반 상태 | **SAU** 기반 보안 속성 | 가상화 자원별 격리 |
 | 한계 | SMC•공유 버퍼 오류 | 속성•주변장치 설정 누락 | 게스트 확산 |
 
-> 요약: 대상 처리기와 신뢰 서비스 범위에 맞춰 선택하는 것이 핵심이다.
+> 요약: 대상 처리기와 신뢰 서비스 범위에 맞춘 최적 격리 기술 선택.
 
 #### 한줄 요약
 
@@ -157,10 +157,10 @@ REE•Normal World 반환
 <details>
 <summary>핵심 용어</summary>
 
-- **API(Application Programming Interface)**: 응용이 기능을 호출하는 연결 규격이다.
-- **GlobalPlatform TEE API**: TA의 암호•저장•시간 기능을 정의한 규격이다.
-- **속성•시점 통제**: SAU 설정과 TOCTOU 방어를 함께 적용하는 통제이다.
-- **실행•메모리 경계**: TEE가 REE 입력을 재검증하고 DMA를 제한하는 경계이다.
+- **API(Application Programming Interface)**: 응용이 기능을 호출하는 연결 규격.
+- **GlobalPlatform TEE API(GlobalPlatform TEE API)**: TA의 암호•저장•시간 기능을 정의한 규격에 해당함.
+- **속성•시점 통제(Attribute & Timing Control)**: SAU 설정과 TOCTOU 방어를 함께 적용하는 통제 메커니즘.
+- **실행•메모리 경계(Execution & Memory Boundary)**: TEE가 REE 입력을 재검증하고 DMA를 제한하는 경계.
 
 </details>
 
@@ -179,11 +179,11 @@ REE•Normal World 반환
 <details>
 <summary>핵심 용어</summary>
 
-- **최소 격리**: 키•인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙이다.
+- **최소 격리(Minimal Isolation)**: 키•인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙.
 
 </details>
 
-- **최소 격리** 원칙으로 키•인증은 TEE에 두고 일반 기능은 REE에 배치한다.
+- **최소 격리** 원칙으로 키•인증은 TEE에 두고 일반 기능은 REE에 배치.
 
 #### 한줄 요약
 
