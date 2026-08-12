@@ -21,14 +21,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Kubernetes Architecture (쿠버네티스 아키텍처)**: 클러스터의 상태를 관리하고 스케줄링하는 마스터 제어면(Control Plane)과 실제 컨테이너 파드(Pod)를 띄워 가동하는 워커 노드(Worker Node)로 분리된 컨테이너 오케스트레이션 아키텍처.
-- **Control Plane (마스터/제어면)**: kube-apiserver, etcd, kube-scheduler, kube-controller-manager로 구성된 클러스터의 뇌(Brain) 역할을 담당하는 관리 서버.
-- **Worker Node (작업 노드)**: kubelet, kube-proxy, Container Runtime(containerd)으로 구성된 실제 수백 개의 컨테이너 워크로드가 실행되는 컴퓨팅 서버.
+- **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 실제 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 오케스트레이션 구조.
+- **제어면(Control Plane)**: API 서버, etcd, 스케줄러, 컨트롤러 관리자로 구성되어 클러스터 전체의 뇌 역할을 담당하는 관리 서버.
+- **작업 노드(Worker Node)**: kubelet, kube-proxy, 컨테이너 런타임(containerd)으로 구성되어 실제 파드(Pod)를 실행하는 컴퓨팅 서버.
 
 </details>
 
-- 정의/개념: 컨테이너화된 애플리케이션의 분산 배포, 수평 확장, 자가 치유(Self-healing), 롤링 업그레이드를 자동화하기 위해 Control Plane과 Worker Node로 물리적/논리적 역할을 분리한 아키텍처인 **Kubernetes Architecture**
-- 배경/필요성: 수백~수천 개의 Docker 컨테이너를 수동 배포/관리하는 한계 극복, 선언적 API(Declarative API) 기반 100% 자가 치유 오케스트레이션 요구성
+- 정의: 컨테이너화된 애플리케이션의 자동 배포, 확장, 자가 치유(Self-healing)를 위해 제어면과 작업 노드로 역할을 분리한 아키텍처.
+- 배경: 대규모 컨테이너의 수동 관리 한계 극복 및 선언적 API(Declarative API) 기반의 자동 오케스트레이션 요구.
 
 #### 한줄 요약
 
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- **Control Plane & Worker Node Separation (지능형 제어와 실제 워크로드 실행의 완전 분리)**
-- **Declarative State Management (YAML 명세서 기반 Desired State 선언 및 Reconciliation Loop)**
-- **Self-Healing & Auto-Recovery (Pod 다운 시 타 노드에 자동 재생성 및 롤링 배포)**
+- **제어면과 작업 노드 분리**: 지능형 제어와 실제 워크로드 실행의 물리적·논리적 분리.
+- **선언적 상태 관리**: YAML 명세서 기반 목표 상태 선언 및 조정 루프(Reconciliation Loop)의 상시 작동.
+- **자가 치유와 자동 복구**: 파드 장애 시 타 노드 자동 재생성 및 무중단 롤링 배포 수행.
 
 #### 한줄 요약
 
@@ -59,30 +59,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Kubernetes Cluster Architecture                      │
-├────────────────────────────────────────────────────────────────────────┤
-│ CONTROL PLANE (Master Node)                                            │
-│  [kube-apiserver] ──► [etcd DB]                                        │
-│  [kube-scheduler] ──► [kube-controller-manager]                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ WORKER NODE (Node 1, Node 2...)                                        │
-│  [kubelet] ──► [kube-proxy] ──► [Container Runtime (containerd)]       │
-│  └─► Pod 1 (App), Pod 2 (App)                                          │
-└────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────┬──────────────────────────────────────────┐
+│             제어면(Control Plane)      │           작업 노드(Worker Node)         │
+├────────────────────────────────────────┼──────────────────────────────────────────┤
+│ API 서버 ──► etcd DB                   │ kubelet ──► kube-proxy ──► 런타임        │
+│ 스케줄러 ──► 컨트롤러 관리자           │ └─► 파드(Pod)                            │
+└────────────────────────────────────────┴──────────────────────────────────────────┘
 ```
 
 선의 의미: Control Plane의 API 서버가 명령을 수신하여 etcd에 기재 후 Worker Node의 kubelet으로 하달되어 containerd가 Pod를 구동하는 구조.
 
-| 파트 영역 | 핵심 구성요소 | 역할 및 실무 기술 메커니즘 |
+| 파트 영역 | 핵심 구성요소 | 역할 및 메커니즘 |
 |:---|:---|:---|
-| **Control Plane**| **kube-apiserver** | **클러스터의 유일한 통신 게이트웨이 (REST API 받음)** |
-| **Control Plane**| **etcd** | **클러스터 전체 상태(Desired State) 저장 고가용성 DB**|
-| **Control Plane**| **kube-scheduler** | **Pod를 어느 Worker Node에 배치할지 최적 선택**|
-| **Control Plane**| **kube-controller-manager**| **Reconciliation Loop 작동 (Replica, Node 컨트롤러)**|
-| **Worker Node** | **kubelet** | **Node마다 설치된 에이전트, Pod 생성/상태 API 보고** |
-| **Worker Node** | **kube-proxy** | **Node의 네트워크 라우팅 및 iptables/IPVS 서비스 처리**|
-| **Worker Node** | **Container Runtime**| **실제 Pod 내부 컨테이너를 가동하는 runc / containerd**|
+| **제어면**| **API 서버** | 클러스터 통신 게이트웨이 (REST API) |
+| **제어면**| **etcd** | 클러스터 전체 상태 저장 고가용성 DB |
+| **제어면**| **스케줄러** | 파드 배치를 위한 최적 노드 선택 |
+| **제어면**| **컨트롤러 관리자** | 조정 루프(Reconciliation Loop) 작동 |
+| **작업 노드** | **kubelet** | 노드별 에이전트, 파드 생성/상태 보고 |
+| **작업 노드** | **kube-proxy** | 네트워크 라우팅 및 서비스 처리 |
+| **작업 노드** | **컨테이너 런타임**| 실제 파드 내 컨테이너 구동 (containerd) |
 
 #### 한줄 요약
 
@@ -105,9 +100,9 @@ extra:
 
 ### 동작 원리
 
-1. **API Receive & Etcd Write**: 유저가 YAML 제출 시 `kube-apiserver`가 검증 후 `etcd`에 `Pending` 상태 저장.
-2. **Scheduling**: `kube-scheduler`가 가장 여유로운 Node 2를 선택하여 `kube-apiserver`에 갱신.
-3. **Kubelet Execution**: Node 2의 `kubelet`이 이를 감지하여 `containerd` 런타임에 Pod 생성 명령 후 가동 (**K8s Architecture 완결**).
+1. **API 수신 및 etcd 저장**: 유저 YAML 제출 시 API 서버 검증 후 etcd에 상태 저장.
+2. **스케줄링**: 스케줄러가 여유 노드를 선택하여 API 서버 갱신.
+3. **kubelet 실행**: kubelet이 이를 감지하여 런타임에 파드 생성 명령 및 가동.
 
 #### 한줄 요약
 
@@ -121,12 +116,12 @@ extra:
 
 </details>
 
-| 비교 항목 | Production Kubernetes (etcd) | Lightweight K3s (SQLite/kine) |
+| 비교 항목 | 엔터프라이즈 쿠버네티스 | 경량 쿠버네티스 (K3s) |
 |:---|:---|:---|
-| **Control Plane DB**| **etcd (Raft 기반 분산 Key-Value DB)** | **SQLite / Embedded MySQL (kine 엔진)** |
-| **추천 배치 환경** | **대규모 엔터프라이즈, 금융 Cloud** | **Edge computing, IoT, 개발용 로컬** |
-| **최소 노드 구성** | 3대 이상 홀수 마스터 노드 (HA) | **단일 1대 노드로 통째 구동 가능** |
-| **메모리 오버헤드**| 수 GB 이상의 Heavy한 마스터 메모리 | **512MB 이하 초경량 오버헤드** |
+| **DB** | etcd (분산 Key-Value DB) | SQLite (kine 엔진) |
+| **배치 환경** | 대규모 엔터프라이즈/금융 클라우드 | 엣지 컴퓨팅, IoT, 로컬 개발 |
+| **최소 노드** | 홀수 마스터 노드 (HA 필수) | 단일 노드 |
+| **메모리 오버헤드**| 수 GB (Heavy) | 512MB 이하 (Light) |
 
 #### 한줄 요약
 
@@ -140,11 +135,11 @@ extra:
 
 </details>
 
-| 3대 K8s 참사 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 3대 K8s 난제 | 원인 | 실무 대책 |
 |:---|:---|:---|
-| **1. etcd Quorum Loss** | etcd 3대 중 2대 동시 다운으로 락 걸림| **etcd 3/5대 Multi-AZ 분산 및 주기적 Snapshot**|
-| **2. apiserver Bottleneck**| 수만 개 Pod 쿼리로 apiserver 다운 | **apiserver 수평 스케일아웃 및 캐싱 레이어 튜닝**|
-| **3. Kubelet Memory OOM** | Node 메모리가 꽉 차서 kubelet 먹통됨 | **kubelet 용으로 Memory 1GB 예약 (system-reserved)**|
+| **1. etcd 쿼럼 손실** | 노드 과반수 다운으로 락 발생 | etcd 분산 배치 및 주기적 백업 |
+| **2. API 서버 병목** | 과도한 파드 요청 | API 서버 스케일아웃 및 캐싱 튜닝 |
+| **3. kubelet 메모리 부족**| 노드 메모리 고갈 | kubelet 시스템 예약 메모리 확보 |
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 EKS / GKE 기반 대규모 마스터 노드 HA 멀티 클러스터 운용**
 
@@ -160,7 +155,7 @@ extra:
 
 </details>
 
-- **K8s Architecture 수립 기준**에 따라 전사 클러스터 구축 시 **Kubernetes Architecture & Managed K8s (EKS/GKE)** 필수 적용
+- **K8s 아키텍처 수립 기준**에 따라 전사 클러스터 구축 시 **Kubernetes 아키텍처 및 관리형 서비스(EKS/GKE)** 적용 필수.
 
 #### 한줄 요약
 
