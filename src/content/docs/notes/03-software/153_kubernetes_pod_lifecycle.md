@@ -21,14 +21,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Pod Lifecycle (파드 생명주기)**: K8s Pod가 생성(Pending)되어 노드에 배치(Running), 정상 종료(Succeeded) 또는 실패(Failed)로 끝나는 전체 상태 전이(State Transition) 단계 및 프로브(Probe) 헬스체크 프로세스.
-- **Probe (Health Check Probes)**: kubelet이 Pod 내부 컨테이너의 생존 여부 및 트래픽 서빙 준비 상태를 주동적으로 체크하는 3대 헬스체크 기법 (Liveness, Readiness, Startup Probe).
-- **Graceful Termination (정상 종료)**: Pod가 삭제될 때 `preStop` 훅과 `SIGTERM` 신호를 수신받아 기존 연결을 안전하게 정리(Drain)하고 종료하는 메커니즘.
+- **파드 생명주기(Pod Lifecycle)**: 파드의 생성(Pending)부터 실행(Running), 종료(Succeeded/Failed)까지의 상태 전이 단계와 상태 점검(Probe) 절차.
+- **프로브(Probe)**: kubelet이 파드 내 컨테이너의 생존 여부와 트래픽 서빙 준비 상태를 주기적으로 점검하는 3대 메커니즘(Liveness, Readiness, Startup).
+- **정상 종료(Graceful Termination)**: 파드 삭제 시 `preStop` 훅과 `SIGTERM` 신호를 통해 연결을 안전하게 정리(Drain) 후 종료하는 절차.
 
 </details>
 
-- 정의/개념: Pod의 5대 상태 Phase(Pending $\rightarrow$ Running $\rightarrow$ Succeeded/Failed/Unknown) 전이 및 3대 Probes 헬스체크를 통해 무중단 트래픽 차단과 자가 치유를 도모하는 관리 체계인 **Pod Lifecycle**
-- 배경/필요성: 앱 부팅이 안 끝났는데 트래픽이 유입되어 502 Bad Gateway가 터지거나, Deadlock 걸린 컨테이너가 멈춘 채 방치되는 파행 예방 요구성
+- 정의: 파드의 5대 상태 전이와 3대 프로브 점검을 통해 무중단 서비스와 자동 장애 복구를 수행하는 관리 체계.
+- 배경: 서비스 준비 전 트래픽 유입으로 인한 오류 발생이나 응답 불능 컨테이너 방치 등 파행 상황 예방 요구.
 
 #### 한줄 요약
 
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- **5 Pod Phase Transition (Pending $\rightarrow$ Running $\rightarrow$ Succeeded / Failed / Unknown)**
-- **3 Health Check Probes (Startup Probe, Liveness Probe, Readiness Probe)**
-- **Graceful Shutdown Guarantee (preStop Hook $\rightarrow$ SIGTERM $\rightarrow$ TerminationGracePeriodSeconds 30s $\rightarrow$ SIGKILL)**
+- **5대 상태 전이**: Pending → Running → Succeeded/Failed/Unknown.
+- **3대 상태 점검(Probes)**: Startup, Liveness, Readiness.
+- **정상 종료 보장**: preStop 훅 → SIGTERM → 종료 유예 기간 → SIGKILL 강제 종료.
 
 #### 한줄 요약
 
@@ -59,25 +59,23 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                      Pod 3-Probe Health Check Architecture             │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Startup Probe   ──► Boots App Complete? ──► YES ──► (Disables itself)│
-│                                                                        │
-│ 2. Liveness Probe  ──► Is App Alive?       ──► NO  ──► Container Restart│
-│                                                                        │
-│ 3. Readiness Probe ──► Ready for Traffic?  ──► NO  ──► Cut Service Endpoint│
-└────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────┬──────────────────────────────────────────┐
+│           3대 프로브 점검 기능          │             기능 및 결과                │
+├────────────────────────────────────────┼──────────────────────────────────────────┤
+│ 1. Startup Probe   ──► 부팅 완료 점검   │ 완료 시 다음 프로브 작동                 │
+│ 2. Liveness Probe  ──► 생존 점검        │ 실패 시 컨테이너 재시작                  │
+│ 3. Readiness Probe ──► 준비 점검        │ 실패 시 트래픽 유입 차단                 │
+└────────────────────────────────────────┴──────────────────────────────────────────┘
 ```
 
 선의 의미: 3가지 프로브가 각자 다른 관점에서 컨테이너의 기동, 생존, 트래픽 유입 준비를 독자적으로 제어하는 아키텍처.
 
-| 구분 지표 | 1. Startup Probe | 2. Liveness Probe | 3. Readiness Probe |
+| 구분 | Startup Probe | Liveness Probe | Readiness Probe |
 |:---|:---|:---|:---|
-| **핵심 목적** | **느린 부팅 앱 초기 완료 체크** | **Deadlock/Hang 컨테이너 생존 체크**| **실제 HTTP 트래픽 서빙 가능 체크** |
-| **실패 시 뚝 끊김 결과**| **컨테이너 재시작 (Restart)** | **컨테이너 즉시 재시작 (Restart)** | **Service K8s Endpoint 에서 뺌 (No Traffic)** |
-| **적용 시점** | Pod 생성 직후 (1회성 유예) | Startup 성공 후 무한 반복 | Startup 성공 후 무한 반복 |
-| **대표 유스케이스**| **Spring Boot, Heavy Java App**| **Infinite Loop, Deadlock 예방** | **DB 커넥션 웜업, 캐시 로딩 완료** |
+| **목적** | 초기 부팅 완료 체크 | 생존(Deadlock) 체크 | 트래픽 서빙 가능 체크 |
+| **실패 결과**| 컨테이너 재시작 | 컨테이너 재시작 | 엔드포인트에서 제외(트래픽 차단) |
+| **적용 시점** | 생성 직후 (유예) | 부팅 성공 후 | 부팅 성공 후 |
+| **사례** | Java/Spring 앱 | 무한 루프, 데드락 | DB 연결, 캐시 로딩 |
 
 #### 한줄 요약
 
@@ -135,11 +133,11 @@ extra:
 
 </details>
 
-| 3대 Lifecycle 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 3대 난제 | 원인 | 실무 대책 |
 |:---|:---|:---|
-| **1. Rolling Update 502 Error**| Endpoint 제거와 Pod 파기 시점 안 맞음| **`preStop: exec: command: ["sleep", "15"]` 배치**|
-| **2. Infinite Spring Boot Loop**| Java 부팅 2분 걸리는데 Liveness 30초 컷| **Startup Probe 도입으로 부팅 완료 시까지 유예**|
-| **3. Database Cascading Crash** | DB 다운으로 Liveness 실패해 전 Pod 재시작| **외부 DB 체크는 Liveness 배제하고 Readiness 전용**|
+| **1. Rolling Update 502**| 종료 전 트래픽 유입 | `preStop` sleep 훅 배치 |
+| **2. 부팅 타임아웃** | 느린 부팅 시 재시작 | Startup Probe 도입 |
+| **3. DB 연동 장애** | DB 다운 시 전체 재시작 | Liveness 배제 및 Readiness 사용 |
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 preStop sleep 훅 및 3대 Probes 무중단 배포 적용**
 
@@ -155,7 +153,7 @@ extra:
 
 </details>
 
-- **Pod Lifecycle 수립 기준**에 따라 무중단 클라우드 네이티브 배포 구축 시 **3-Probes & preStop Graceful Hook** 필수 적용
+- **파드 생명주기 수립 기준**에 따라 무중단 배포 구축 시 **3대 프로브 및 preStop 훅** 필수 적용.
 
 #### 한줄 요약
 
