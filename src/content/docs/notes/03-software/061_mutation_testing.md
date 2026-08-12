@@ -20,16 +20,16 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어 (Key Terminology)</summary>
 
-- **Mutation Testing (뮤테이션 테스트, 변이 테스트)**: 원본 소스코드에 인위적인 결함(Mutant, 변이체)을 주입한 뒤 기존 단위 테스트를 수행하여, 테스트가 해당 변이체를 탐지하여 살상(Kill)하는지 측정함으로써 테스트 케이스의 신뢰도와 결함 탐지력을 평가하는 고급 화이트박스 기법.
-- **Mutant (변이체)**: 원본 소스코드의 연산자나 조건문을 인위적으로 변형(e.g., `+` $\rightarrow$ `-`, `>` $\rightarrow$ `>=`)시켜 만든 결함 주입 프로그램 버전.
-- **Killed vs Survived Mutant**: 변이체 실행 시 테스트가 실패하여 결함을 찾아내면 '사멸(Killed)', 변이체임에도 불구하고 테스트가 `PASS`하면 결함 탐지에 실패한 '생존(Survived)' 상태.
+- **Mutation Testing (변이 테스트)**: 원본 코드에 의도적 오류(Mutant)를 주입하고 단위 테스트가 이를 탐지(Kill)하는지 검증하여 테스트 스위트의 결함 탐지력을 평가하는 화이트박스 기법.
+- **Mutant (변이체)**: 원본 소스코드의 연산자나 조건을 인위적으로 변경(e.g., `+` $\rightarrow$ `-`)하여 만든 결함 주입 프로그램 버전.
+- **Killed vs Survived Mutant**: 테스트 실패로 결함이 발견되면 '사멸(Killed)', 통과하면 '생존(Survived)'으로 판정하는 상태.
 
 </details>
 
-- 정의/개념: 원본 소스코드에 의도적인 변이체(Mutant)를 주입하여 기존 단위 테스트의 검증력 및 Assertion 유효성을 역으로 검증하는 고급 화이트박스 결함 주입 기법인 **Mutation Testing**
-- 배경/필요성: 코드 커버리지(Code Coverage) 100% 달성 시에도 Assertion(단언문) 누락으로 결함을 놓치는 커버리지의 함정(Coverage Fallacy) 극복 요구성
+- 정의: 원본 소스코드에 의도적인 변이체(Mutant)를 주입하여 테스트 케이스의 Assertion(단언문) 유효성 및 결함 탐지 능력을 역으로 검증하는 화이트박스 기법.
+- 배경: 높은 코드 커버리지(Code Coverage) 달성 시에도 Assertion 부재로 인해 발생하는 결함 탐지 실패(Coverage Fallacy) 극복 필요.
 
 #### 한줄 요약
 
@@ -37,16 +37,16 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어 (Key Terminology)</summary>
 
-- **Mutation Score (뮤테이션 점수)**: 전체 생성된 비등가 변이체(Mutants) 대비 테스트 스위트에 의해 사멸된 변이체의 백분율 비율로, 테스트 세트의 정합성을 나타내는 평가 지표.
-- **Equivalent Mutant (등가 변이체)**: 소스코드를 인위적으로 변경했으나 런타임 결과나 로직상 원본 프로그램과 완벽히 동일하여 어떤 테스트로도 사멸시킬 수 없는 불사 변이체.
+- **Mutation Score (MS)**: 전체 생성 변이체 중 테스트에 의해 사멸(Killed)된 비율로 테스트 정합성을 나타내는 평가 지표.
+- **Equivalent Mutant (등가 변이체)**: 로직상 원본과 결과가 동일하여 어떤 테스트로도 사멸시킬 수 없는 불사 변이체.
 
 </details>
 
-- 테스트 케이스 자체의 품질 및 **Fault Detection Capability (결함 탐지 능력)** 검증
-- **Killed Mutant / Survived Mutant / Equivalent Mutant** 3대 상태 분류
-- **Mutation Score (MS)** 정량 지표 제공 및 높은 연산 컴퓨팅 자원 오버헤드
+- 결함 탐지 능력(Fault Detection Capability) 검증을 통한 테스트 품질 향상.
+- Killed/Survived/Equivalent 3단계 변이 상태 분류 체계.
+- 정량 지표(MS) 제공 및 연산 자원 오버헤드 발생.
 
 #### 한줄 요약
 
@@ -54,27 +54,27 @@ extra:
 
 ## Ⅲ. 구조 및 연산자 (Mutation Operators)
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어 (Key Terminology)</summary>
 
-- **Mutation Operators (변이 연산자)**: 원본 코드에 결함을 주입하는 규칙으로 산술 연산자 교체(AOR), 관계 연산자 교체(ROR), 논리 연산자 교체(LOR) 등 포함.
+- **Mutation Operators (변이 연산자)**: 결함 주입 규칙으로 산술(AOR), 관계(ROR), 논리(LOR) 등 포함.
 
 </details>
 
 ```text
-[원본 코드: if (a > b) return a + b;]
-                   │
-                   ▼ (Mutation Operator 주입)
-┌────────────────────────────────────────────────────────┐
-│ Mutant 1: if (a >= b) return a + b;  (ROR 변이)        │
-│ Mutant 2: if (a > b)  return a - b;  (AOR 변이)        │
-│ Mutant 3: if (false)  return a + b;  (UOI 변이)        │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼
-            [기존 Unit Test Suite 실행]
-                           │
-       ┌───────────────────┴───────────────────┐
-       ▼                                       ▼
- [Test Fail: Mutant Killed (성공)]  [Test Pass: Mutant Survived (보강필요)]
+[원본: if (a > b) return a + b;]
+                │
+                ▼ (변이 연산자 주입)
+┌──────────────────────────────────────────────┐
+│ 변이체 1: if (a >= b) return a + b; (관계변이) │
+│ 변이체 2: if (a > b) return a - b;  (산술변이) │
+│ 변이체 3: if (거짓) return a + b;   (논리변이) │
+└───────────────────────┬──────────────────────┘
+                        ▼
+            [기존 단위 테스트 실행]
+                        │
+        ┌───────────────┴───────────────┐
+        ▼                               ▼
+ [테스트 실패: 사멸]              [테스트 통과: 생존]
 ```
 
 선의 의미: 원본 코드에 AOR/ROR 변이 연산자가 결함을 주입하여 Mutant를 생성하고, 기존 Unit Test가 이를 사멸(Killed)시키는지 검증하는 아키텍처.
@@ -169,14 +169,10 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어 (Key Terminology)</summary>
 
-- **뮤테이션 테스트 도입 기준(Mutation Testing Adoption Standards)**: 시스템 안전 등급, 도메인 중요도 및 CI/CD 컴퓨팅 리소스 쿼터에 의거한 체계.
+- **Mutation Testing Adoption Standards**: 도메인 중요도 및 자원 쿼터에 기반한 변이 시험 적용 표준.
 
 </details>
 
-- **뮤테이션 테스트 도입 기준**에 따라 미션 크리티컬 결제/보안 로직 구축 시 **PITest 기반 Mutation Score 80%+** 필수 인가
-
-#### 한줄 요약
-
-- 고위험 코드의 생존 변이를 우선 보강하는 변이 시험 적용 기준이 핵심이다.
+- 미션 크리티컬 로직 대상 변이 테스트 점수 80% 이상 확보 및 지속적 테스트 케이스 보강 체계 적용.
