@@ -20,175 +20,132 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **이스티오 서비스 메시(Istio Service Mesh)**: 서비스 간 통신의 보안•관찰•트래픽 제어를 애플리케이션 밖 데이터면 프록시와 제어면 정책으로 제공하는 인프라 계층이다.
+- **Service Mesh (서비스 메시)**: MSA(마이크로서비스) 환경에서 서비스 간 통신(East-West Traffic)을 가시화, mTLS 보안 암호화, 카나리(Canary) 라우팅 및 서킷 브레이커(Circuit Breaker)로 통합 제어하는 전용 인프라 레이어.
+- **Istio**: Envoy Sidecar 프록시를 각 Pod 옆에 투입하고, 중앙의 `istiod` 데몬이 정책 및 mTLS 인증서를 일괄 배포 관리하는 대표 오픈소스 서비스 메시 플랫폼.
+- **Sidecar Proxy Pattern (Envoy)**: 애플리케이션 코드를 전혀 수정하지 않고, Pod 내부 컨테이너 옆에 Envoy 프록시를 1:1 동반 배치(Sidecar)하여 모든 네트워크 트래픽을 가로채 제어하는 디자인 패턴.
 
 </details>
 
-- 정의/개념: 데이터면 프록시와 제어면으로 서비스 통신 정책을 애플리케이션 코드에서 분리하는 **이스티오 서비스 메시(Istio Service Mesh)**이다.
-- 배경/필요성: 서비스별 통신 코드로는 정책 일관성과 변경을 통제하기 어렵다.
+- 정의/개념: 마이크로서비스 간 통신 네트워크 레이어 상에 Envoy Sidecar 프록시를 주입하고, 중앙 Control Plane(istiod)을 통해 mTLS 보안, L7 트래픽 제어, Tracing을 투명하게 수용하는 분산 프레임워크인 **Service Mesh Istio**
+- 배경/필요성: 서비스 수가 수백 개로 증가 시 각 개발언어 라이브러리(Java, Go, Node)별로 재시도, 서킷 브레이커, TLS 암호화 코드를 중복 개발하는 비효율 혁신 요구성
 
 #### 한줄 요약
 
-- 각 서비스가 인증서와 재시도 코드를 따로 만들지 않고 통신 전담 프록시가 동일한 보안•경로 규칙을 적용하도록 책임을 옮긴다.
+- 각 서비스가 인증서와 재시도 코드를 따로 만들지 않고 통신 전담 프록시가 동일한 보안·경로 규칙을 적용하도록 책임을 옮긴다.
 
-## Ⅱ. 특징
+## Ⅱ. 특징 (Istio 3대 핵심 운용 기능)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **제어면**: 통신 정책과 구성을 데이터면에 배포하는 계층이다.
-- **데이터면**: 실제 요청 경로에서 정책을 집행하는 계층이다.
-- **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 통신 양쪽이 인증서를 제시해 서로의 신원을 확인하고 트래픽을 암호화하는 방식이다.
-- **워크로드 신원**: 서비스 메시가 각 실행 주체를 인증•인가하기 위해 부여하는 식별 정보이다.
-- **라우팅**: 요청의 대상과 경로를 선택하는 기능이다.
-- **복구**: 재시도•시간 제한•회로 차단으로 장애에 대응하는 기능이다.
-- **텔레메트리**: 통신 지표•로그•추적을 수집하는 기능이다.
+- **mTLS (Mutual TLS)**: 서비스 A와 서비스 B 간 통신 시 양단간 TLS 인증서를 서로 검증하여 100% 암호화 및 0-Trust 보안 구현.
 
 </details>
 
-- **제어면**과 **데이터면**의 분리 기반 정책 집행이 핵심이다.
-- **워크로드 신원**과 **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)** 기반 통신 보안이 핵심이다.
-- **라우팅**•**복구**•**텔레메트리** 기반 통신 운영이 핵심이다.
+- **Traffic Management (VirtualService, DestinationRule 기반 카나리 배포 & Traffic Splitting)**
+- **Zero-Trust Security (Automatic mTLS encryption & SPIFFE/SPIRE 기반 워크로드 신원 인증)**
+- **Observability (Kiali, Jaeger, Prometheus 연동으로 전사 서비스 맵 및 Distributed Tracing 시각화)**
 
 #### 한줄 요약
 
 - Istiod는 교통 규칙을 배포하고 데이터면 프록시는 각 통신 지점에서 신원 확인, 경로 선택, 기록 생성을 수행한다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Control Plane vs Data Plane 아키텍처)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Istiod**: 서비스 발견 정보, 인증서, 트래픽 정책을 프록시 데이터면에 배포하는 제어면 구성요소이다.
-- **사이드카(Sidecar) 데이터면**: 워크로드별 프록시에서 트래픽 정책을 집행하는 방식이다.
-- **앰비언트(Ambient) 데이터면**: 노드 공유 계층에서 트래픽 정책을 집행하는 방식이다.
-- **게이트웨이(Gateway)**: 메시 안팎으로 드나드는 경계 트래픽의 라우팅•보안 정책을 집행하는 구성요소이다.
-- **정책 리소스**: 서비스 통신의 라우팅•인증•인가 조건을 선언하는 구성요소이다.
-- **관측 연동**: 데이터면에서 생성한 지표•로그•분산 추적 정보를 관측 시스템에 전달하는 구성요소이다.
+- **istiod (Control Plane) & Envoy (Data Plane)**: istiod가 YAML 정책을 번역해 각 Envoy 프록시로 동적 전달(xDS API).
 
 </details>
 
 ```text
-[Istio 서비스 메시]
-       |
-       +-- [정책 리소스]
-       |
-       +-- [Istiod]
-       |
-       +-- [Sidecar•Ambient 데이터면]
-       |
-       +-- [Gateway]
-       |
-       +-- [관측 연동]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Istio Service Mesh Topology                     │
+├────────────────────────────────────────────────────────────────────────┤
+│ CONTROL PLANE: [istiod (Pilot + Citadel + Galley)]                     │
+│                     │ (xDS Config / mTLS Cert Push)                    │
+│                     ▼                                                  │
+│ DATA PLANE (Pod A)                       DATA PLANE (Pod B)            │
+│ ┌─────────────────────────────┐  mTLS    ┌───────────────────────────┐ │
+│ │ [App A] ◄─► [Envoy Proxy A] │ ───────► │ [Envoy Proxy B] ◄─►[App B]│ │
+│ └─────────────────────────────┘ Encrypted└───────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: 정책 리소스와 Istiod는 Sidecar•Ambient 데이터면의 제어 경계에 결합되고, 데이터면 아래에는 메시 경계를 담당하는 Gateway와 통신 정보를 전달하는 관측 연동이 놓이는 정적 서비스 메시 구조를 뜻한다.
+선의 의미: Control Plane(istiod)이 수많은 Data Plane(Envoy)으로 xDS 설정을 밀어주고, Envoy끼리 mTLS로 암호화 통신하는 구조.
 
-| 구성요소 | 책임 |
-| --- | --- |
-| Istiod | **Istiod**가 발견•정책•인증서를 배포 |
-| Sidecar•Ambient 데이터면 | **사이드카(Sidecar) 데이터면** 또는 **앰비언트(Ambient) 데이터면**이 트래픽 정책을 집행 |
-| Gateway | **게이트웨이(Gateway)**가 메시 경계 트래픽을 제어 |
-| 정책 리소스 | **정책 리소스**가 라우팅•인증•인가를 선언 |
-| 관측 연동 | **관측 연동**이 지표•로그•추적을 전달 |
+| 구성요소 레이어 | 핵심 컴포넌트 | 실무 역할 및 기술 메커니즘 |
+|:---|:---|:---|
+| **Control Plane**| **istiod** | **Pilot(라우팅), Citadel(mTLS인증서), Galley(설정검증) 통합**|
+| **Data Plane** | **Envoy Sidecar Proxy**| **Pod 옆에 배치되어 트래픽 가로채기, mTLS, 서킷브레이크** |
+| **Ingress/Egress**| **Istio Ingress Gateway**| **클러스터 외곽 경계 L7 진입 트래픽 제어** |
+| **Traffic Rules** | **VirtualService / DestinationRule**| **카나리 배포 90%:10% 트래픽 분할 및 Circuit Breaking**|
 
 #### 한줄 요약
 
 - Istiod가 관제실이라면 데이터면은 도로의 검문소, 게이트웨이는 도시 경계의 관문, 관측 연동은 전체 이동 기록을 모으는 장치다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Canary Deployment Traffic Splitting 흐름)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **송신 정책•인증서 배포**: Istiod가 호출 경로와 송신 워크로드 신원을 제공하는 단계이다.
-- **수신 정책•인증서 배포**: Istiod가 접근 권한과 수신 워크로드 신원을 제공하는 단계이다.
-- **mTLS 상호 인증•암호화**: 양쪽 데이터면이 인증서로 신원을 확인하고 요청을 보호하는 단계이다.
-- **수신 인가•업무 요청 중계**: 접근•경로 정책을 통과한 호출만 대상 서비스에 전달하는 단계이다.
+- **VirtualService & DestinationRule**: `weight: 90` (v1) 과 `weight: 10` (v2) 파라미터로 무중단 카나리 배포 트래픽을 제어하는 Istio CRD 객체.
 
 </details>
 
 ```text
-[제어면 구성 배포]
-Istiod
-   +-- 1. 송신 정책•인증서 배포
-   +-- 2. 수신 정책•인증서 배포
-
-[데이터면 요청 처리]
-업무 요청•추적 문맥
-        |
-        v
-송신 데이터면
-        |
-        v
-3. mTLS 상호 인증•암호화
-        |
-        v
-4. 수신 인가•업무 요청 중계
-        |
-        +-- 거부 --> 차단•텔레메트리 기록
-        +-- 허용 --> 대상 서비스 처리•암호화 응답
+[User Request] ──► [Istio Ingress Gateway] ──► [VirtualService (Weight Split)]
+                                                           │
+                                   ┌───────────────────────┴───────────────────────┐
+                                   ▼ (90%)                                         ▼ (10%)
+                     [DestinationRule v1 Pods]                       [DestinationRule v2 Pods]
 ```
 
 ### 동작 원리
 
-- **1. 송신 정책•인증서 배포**: **송신 정책•인증서 배포**로 호출 경로와 송신 신원을 제공한다.
-- **2. 수신 정책•인증서 배포**: **수신 정책•인증서 배포**로 접근 권한과 수신 신원을 제공한다.
-- **3. mTLS 상호 인증•암호화**: **mTLS 상호 인증•암호화**로 양쪽 워크로드 신원을 확인한다.
-- **4. 수신 인가•업무 요청 중계**: **수신 인가•업무 요청 중계**로 허용 호출만 대상에 전달한다.
+1. **Ingress Ingest**: 트래픽이 Istio Ingress Gateway로 인가 수신.
+2. **VirtualService Split**: VirtualService CRD가 트래픽의 90%를 v1으로, 10%를 v2 신규 서비스로 분기 결정.
+3. **Envoy Routing**: Envoy 프록시가 DestinationRule 가중치에 따라 백엔드 Pod로 무중단 라우팅 (**Istio Canary 완결**).
 
 #### 한줄 요약
 
 - 주문 서비스의 요청은 양쪽 프록시가 신원을 확인하고 허용 경로를 고른 뒤 결제 서비스로 전달되며 같은 지점에서 지연과 오류도 기록된다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (Sidecar Architecture 대 Ambient Mesh Architecture)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **응용 계층(Layer 7, L7)**: 요청 경로와 헤더를 해석하는 통신 계층이다.
-- **전송 계층(Layer 4, L4)**: 주소와 포트 기준으로 연결을 전달하는 통신 계층이다.
-- **제트터널(ztunnel)**: 앰비언트 모드에서 노드별 L4 통신을 처리하는 프록시이다.
-- **웨이포인트(Waypoint)**: 필요한 경로에 L7 정책을 적용하는 프록시이다.
+- **Istio Ambient Mesh (Sidecarless)**: Pod 마다 Envoy를 붙이던 Sidecar의 메모리 오버헤드를 줄이기 위해, Node 단위 짱짱한 ztunnel(L4)과 Waypoint(L7)로 프록시를 차출하는 차세대 무-사이드카 아키텍처.
 
 </details>
 
-| 데이터면 방식 | **사이드카(Sidecar) 데이터면** | **앰비언트(Ambient) 데이터면** |
-| --- | --- | --- |
-| 적용 기준 | 워크로드별 **응용 계층(Layer 7, L7)** 정책 | **전송 계층(Layer 4, L4)** 우선•선택적 L7 정책 |
-| 핵심 특징 | 파드별 Envoy | 노드별 **제트터널(ztunnel)**•**웨이포인트(Waypoint)** |
-| 한계 | 프록시 수•주입•사용량 증가 | L7에 Waypoint 필요 |
+| 비교 항목 | Traditional Sidecar Architecture | Modern Ambient Mesh (Sidecarless) |
+|:---|:---|:---|
+| **프록시 배치 방식** | **모든 Pod 1개당 Envoy 1개 주입 (1:1)** | **Node당 1개 ztunnel (L4) + 필요시 Waypoint (L7)** |
+| **메모리 오버헤드** | 높음 (Pod 1,000개 시 Envoy 1,000개 뜸) | **최저 (Pod 메모리 오버헤드 0MB)** |
+| **앱 Pod 재시작** | Envoy 주입/변경 시 Pod 재시작 필요 | **Pod 재시작 0% (Zero-Downtime 설치)** |
+| **적용 성숙도** | 엔터프라이즈 검증 완료 표준 | 최신 차세대 표준 전환 중 |
 
 #### 한줄 요약
 
 - Sidecar는 파드마다 Envoy를 두어 L7 기능을 바로 제공하고 Ambient는 노드 L4를 공유한 뒤 필요한 경로에만 웨이포인트를 추가한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Istio 실무 3대 파행 대책)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **재시도 폭주**: 여러 계층의 중첩 재시도가 장애 서비스에 요청을 증폭해 복구를 늦추는 문제이다.
-- **재시도 예산**: 전체 호출에서 허용할 재시도 비율이다.
-- **시간 제한**: 각 호출 시도가 사용할 수 있는 최대 시간이다.
-- **허용 모드**: 평문과 암호화 호출을 함께 허용하는 전환 상태이다.
-- **강제 적용**: 미대응 대상을 제거한 뒤 상호 인증을 의무화하는 단계이다.
-- **표본율**: 텔레메트리 전체 중 수집할 비율이다.
-- **보존 기간**: 관측 데이터를 저장할 시간이다.
-- **마스킹**: 텔레메트리의 민감정보를 가리는 통제이다.
+- **Envoy Sidecar Memory Bloat**: Pod 마다 Envoy가 50MB~100MB씩 차올라 전사 마이크로서비스 전체 메모리 사용량이 수십 GB 추가 폭증하는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-| --- | --- | --- |
-| 전면 도입 장애 확산 | 비핵심 서비스부터 단계 확대 | 변경 영향 범위 축소 |
-| mTLS 전환 중 단절 | **허용 모드** 관찰 후 **강제 적용** | 미대응 호출 사전 발견 |
-| 중첩 **재시도 폭주** | **재시도 예산**•**시간 제한** 연계 | 장애 증폭 억제 |
-| L7 경로•인가 충돌 | 정책 정적 검사•통합 시험 | 설정 충돌 조기 발견 |
-| 텔레메트리 비용 증가 | **표본율**•**보존 기간**•**마스킹** 설정 | 비용•정보 노출 통제 |
+| 3대 Istio 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+|:---|:---|:---|
+| **1. Envoy Memory Bloat** | 모든 서비스 설정이 전 Envoy에 덤프됨 | **`Sidecar` CRD로 필요한 타겟 서비스만 핑퐁 제한**|
+| **2. High Traffic Latency**| Envoy 2번 거치며 5ms 지연 추가 | **Ambient Mesh (ztunnel) 전환으로 L4 속도 확보** |
+| **3. Strict mTLS Crash** | mTLS 안 붙은 미적용 Pod와 통신 불통 | **`PERMISSIVE` 모드 경유 후 `STRICT` 모드 격상**|
+
+> 사례: **토스 / 당근마켓 / 쿠팡 Istio Service Mesh 및 Kiali / Jaeger 관제 운용**
 
 #### 한줄 요약
 
@@ -196,14 +153,13 @@ Istiod
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **서비스 메시 데이터면 선택 기준**: 워크로드별 프록시와 노드 공유 계층의 비교 축이다.
+- **Service Mesh 수립 기준(Service Mesh Standards)**: Istio VirtualService/DestinationRule, Automatic mTLS, Sidecar CRD optimization 및 Ambient Mesh 선제성에 의거한 체계.
 
 </details>
 
-- **서비스 메시 데이터면 선택 기준**에 따라 전면 L7은 **사이드카(Sidecar) 데이터면**, L4 중심은 **앰비언트(Ambient) 데이터면**, 선택 L7에는 **웨이포인트(Waypoint)**를 배치한다.
+- **Service Mesh 수립 기준**에 따라 차세대 대규모 MSA 구축 시 **Istio Service Mesh & Ambient Mesh** 필수 적용
 
 #### 한줄 요약
 
