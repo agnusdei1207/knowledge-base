@@ -20,136 +20,111 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Cassandra 와이드 컬럼 데이터베이스(Cassandra Wide-column Database)**: 파티션 키로 와이드 컬럼 행을 여러 피어 노드에 분산•복제해 확장성과 가용성을 제공하는 데이터베이스이다.
+- **Apache Cassandra**: Master 노드가 전혀 없는 완전한 피어-투-피어(Peer-to-Peer Ring) 아키텍처 기반의 대용량 분산 Wide-Column Store NoSQL 데이터베이스.
+- **Masterless P2P Architecture**: 마스터-슬레이브 구조의 단일 장애점(SPOF)을 제거하고, 클러스터 내 모든 노드가 동일한 권한으로 쿼리 분산과 데이터 저장을 분담하는 아키텍처.
+- **Tunable Consistency (조정 가능한 일관성)**: 쿼리 실행 시 일관성 레벨(Consistency Level: `ONE`, `QUORUM`, `ALL`)을 지정하여 CAP 정리상의 AP와 CP 성격을 가변 선택할 수 있는 파라미터.
 
 </details>
 
-- 정의/개념: **Cassandra 와이드 컬럼 데이터베이스**는 와이드 컬럼 행을 피어에 분산•복제한다.
-- 배경/필요성: 단일 주 노드 구조는 쓰기 집중•장애 전환 중 처리가 중단될 수 있다.
+- 정의/개념: 마스터 노드가 없는 P2P 해시 링 구조에서 Partition Key 기반으로 대용량 데이터를 수평 분산하고, 쓰기 성능을 극대화한 Wide-Column NoSQL인 **Apache Cassandra**
+- 배경/필요성: 단일 마스터 복제 구조의 쓰기 bottleneck 및 SPOF(단일 장애점) 차단, IoT 시계열 데이터 및 SNS 메시징의 초고속 덧붙이기(Append-Only) 수용 요구성
 
 #### 한줄 요약
+
 - 조회할 묶음을 정해 균등 분산하고 시간순으로 쌓는 저장소이다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **질의 중심 모델링**: 조회할 범위와 정렬 방식에 맞춰 파티션 키와 클러스터링 키를 먼저 정하는 설계 방식이다.
-- **무주 노드 구조(Peer-to-peer Architecture)**: 고정된 주 노드 없이 모든 피어 노드가 요청을 받아 조정자 역할을 수행하는 구조이다.
-- **조정 가능 일관성(Tunable Consistency)**: 연산마다 성공에 필요한 복제본 응답 수를 선택하는 일관성 방식이다.
+- **Query-Driven Modeling**: RDBMS의 정규화와 달리, 오직 애플리케이션의 쿼리 패밀리(Query Table) 패턴에 맞춰 테이블을 각각 비정규화(Denormalization) 설계.
+- **Append-Only Write Mechanics**: CommitLog + MemTable + SSTable 구조를 활용해 100% 순차 디스크 I/O(Sequential Write)로 쓰기 처리량 극대화.
 
 </details>
 
-- 모든 피어 노드가 요청을 조정하는 **무주 노드 구조**가 핵심이다.
-- 조회별 파티션•정렬 키를 먼저 정하는 **질의 중심 모델링**이 핵심이다.
-- 연산마다 복제본 응답 수를 고르는 **조정 가능 일관성**이 핵심이다.
+- **Masterless Ring Architecture (SPOF 0%, 무제한 Scale-Out)**
+- **Query-Driven Data Modeling (Partition Key + Clustering Key)**
+- **LSM-Tree 형태의 CommitLog + MemTable + SSTable 쓰기 파이프라인**
 
 #### 한줄 요약
+
 - 쓰기와 장애 내성은 높지만 파티션 키를 벗어난 조회에는 부적합하다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (Partition Key 대 Clustering Key & 쓰기 엔진)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **커밋 로그(Commit Log)**: 변경을 먼저 기록하는 내구 로그이다.
-- **메모리 테이블(Memory Table, Memtable)**: 최신 변경을 키순으로 누적하는 메모리 구조이다.
-- **조정자(Coordinator)**: 요청을 담당 복제본에 전달하고 일관성 수준에 필요한 응답 수를 집계하는 노드이다.
-- **정렬 문자열 테이블(Sorted String Table, SSTable)**: 키순으로 정렬된 불변 디스크 파일이다.
-- **컴팩션(Compaction)**: 여러 SSTable의 중복과 삭제 표식을 병합 정리하는 작업이다.
-- **수선(Repair)**: 복제본 사이의 누락•불일치 데이터를 비교해 다시 맞추는 활동이다.
+- **Partition Key**: 데이터를 어느 물리적 노드(Shard Ring)에 분산 저장할지 결정하는 해시 키.
+- **Clustering Key**: 동일 파티션 노드 내부에서 데이터를 물리적으로 정렬(ASC/DESC)해 두는 정렬 키.
 
 </details>
 
 ```text
-[조정자]
-    |
-    +-- [파티션•클러스터링 키]
-    |
-    +-- [커밋 로그•Memtable]
-    |
-    +-- [SSTable•컴팩션]
-    |
-    +-- [수선]
+┌────────────────────────────────────────────────────────────────────────┐
+│                    Cassandra Data Modeling & Architecture              │
+├────────────────────────────────────────────────────────────────────────┤
+│ Primary Key = (Partition Key, Clustering Key 1, Clustering Key 2)      │
+│  • Partition Key: 'user_id' ──► Hash Ring 상의 물리 노드 결정          │
+│  • Clustering Key: 'created_at' ──► 노드 디스크 내 시계열 자동 정렬     │
+├────────────────────────────────────────────────────────────────────────┤
+│ Client Write ──► [Coordinator Node] ──► Gossip Protocol ──► [Replica Nodes]│
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-선의 의미: Coordinator는 파티션•클러스터링 키로 담당 복제본을 정하고 Commit Log•Memtable에 연결되며, SSTable•Compaction은 메모리 변경의 디스크 구조이고 Repair는 복제본 데이터를 맞춘다.
+선의 의미: Partition Key로 물리 노드를 결정하고 Clustering Key로 노드 내 시계열을 정렬하며, Coordinator 노드가 Gossip 프로토콜로 레플리카에 전파하는 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 파티션•클러스터링 키 | 복제본 위치•파티션 내부 정렬 결정 |
-| 조정자 | **조정자**가 요청 전달•응답 수 집계 |
-| 커밋 로그•Memtable | **커밋 로그**•**메모리 테이블**에 쓰기 누적 |
-| SSTable•컴팩션 | **정렬 문자열 테이블** 저장과 **컴팩션** 수행 |
-| 수선 | **수선**으로 복제본 누락•불일치 복구 |
+| 구성요소 / 지표 | 역할 및 주요 메커니즘 | 실무 튜닝 지침 |
+|:---|:---|:---|
+| **Partition Key** | 해시 링 상에서 물리적 노드 위치 결정 | 데이터 편향(Data Skew) 없는 고선택성 필드 지정 |
+| **Clustering Key** | 파티션 내부 튜플 물리적 정렬 순서 결정 | 시계열(`created_at`) 배치로 범위 검색 극대화 |
+| **MemTable & SSTable**| 메모리 버퍼 및 디스크 불변 정렬 파일 | **LSM-Tree 기반 순차 쓰기(Sequential I/O)** |
+| **CommitLog** | 복구용 순차 쓰기 디스크 로그 파일 | MemTable 쓰기 전 선행 영속화 보장 |
 
 #### 한줄 요약
 
 - 배치 키, 접수자, 쓰기 기록, 정렬 파일, 사본 수선으로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Cassandra Tunable Consistency: $R + W > N$)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **쓰기 레코드 병렬 전파**: 토큰 범위의 담당 복제본에 변경을 보내는 단계이다.
-- **로컬 반영 확인 집계**: 커밋 로그와 Memtable 기록 응답을 모으는 단계이다.
-- **SSTable 저장**: Memtable 한도 도달 시 불변 파일로 기록하는 단계이다.
+- **Quorum Consistency Equation ($R + W > N$)**: 읽기 복제본 수($R$) + 쓰기 복제본 수($W$) > 총 복제 계수($N$) 조건을 충족하면 항상 가장 최신의 데이터를 읽을 수 있음을 보증하는 수식.
 
 </details>
 
 ```text
-파티션 키•일관성 수준
-          |
-          v
-1. 쓰기 레코드 병렬 전파
-          |
-          v
-2. 로컬 반영 확인 집계
-          |
-          +-- 요구 응답 수 충족 --> 쓰기 성공
-          |
-          +-- 응답 수 미달 ------> 쓰기 실패
-          |
-          +-- Memtable 한도 도달 --> 3. SSTable 저장
+[Replication Factor N = 3]
+  • Write Level  (W) = QUORUM (2개 노드 성공 응답)
+  • Read Level   (R) = QUORUM (2개 노드 데이터 비교)
+  ──► (R=2) + (W=2) = 4 > (N=3) ──► Strong Consistency (강한 일관성 달성!)
 ```
 
 ### 동작 원리
 
-- **1. 쓰기 레코드 병렬 전파**: **쓰기 레코드 병렬 전파**로 담당 복제본에 변경을 전달한다.
-- **2. 로컬 반영 확인 집계**: **로컬 반영 확인 집계**로 로그•Memtable 기록 응답을 모은다.
-- **3. SSTable 저장**: **SSTable 저장**으로 메모리 한도 도달 시 불변 파일을 생성한다.
+1. **Client Request**: Coordinator 노드가 쿼리 수신.
+2. **Quorum Write**: 3개 복제 노드 중 과반수인 2개 노드(W=2)에 쓰기 완료 시 성공 반환.
+3. **Quorum Read**: 2개 노드(R=2)에서 데이터를 읽어 겹치는 최신 타임스탬프 값을 렌더링 (**R+W>N 조건에 의해 100% 최신 데이터 보장**).
 
 #### 한줄 요약
 
 - 모든 담당 사본에 쓰기를 보내되 몇 곳의 확인을 기다릴지는 요청마다 정한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (RDBMS vs Cassandra 데이터 모델링)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **한 복제본(ONE)**: 복제본 하나의 응답만 요구해 지연과 가용성을 우선하는 일관성 수준이다.
-- **정족수(QUORUM)**: 과반 복제본의 응답을 요구해 최신성과 가용성을 절충하는 일관성 수준이다.
-- **전체 복제본(ALL)**: 모든 복제본의 응답을 요구해 확인 범위를 강화하지만 장애 허용을 낮추는 수준이다.
-- **읽기 응답 수(Read Responses, R)**: 읽기 성공에 필요한 복제본 응답 수이다.
-- **쓰기 응답 수(Write Responses, W)**: 쓰기 성공에 필요한 복제본 응답 수이다.
-- **복제 계수(Replication Factor, RF)**: 데이터의 전체 사본 수이다.
-- **Cassandra 일관성 수준 선택 기준**: 지연•가용성과 최신 확인 범위를 복제본 응답 수로 비교하는 기준이다.
+- **Denormalization in Cassandra**: Cassandra는 조인(`JOIN`)이 없으므로, 쿼리 화면 1개당 테이블 1개를 만들어 동일한 데이터를 중복 저장하는 비정규화가 표준 지침.
 
 </details>
 
-| Cassandra 일관성 수준 | 한 복제본(ONE) | 정족수(QUORUM) | 전체 복제본(ALL) |
-|:---|:---|:---|:---|
-| 적용 기준 | 낮은 지연•높은 가용성 우선 | 최신성•가용성 절충 | 모든 사본의 강한 확인 필요 |
-| 핵심 특징 | **한 복제본** | **정족수** | **전체 복제본** |
-| 한계 | 오래된 읽기 가능 | 지연 증가•장애 허용 감소 | 한 노드 장애에도 연산 실패 |
-
-> 요약: **Cassandra 일관성 수준 선택 기준**은 **읽기 응답 수** + **쓰기 응답 수** > **복제 계수** 조건을 함께 검증한다.
+| 비교 항목 | RDBMS (Relational Database) | Apache Cassandra (Wide-Column) |
+|:---|:---|:---|
+| 데이터 모델링 기준| **엔티티 관계 중심 정규화 (1NF, 2NF, 3NF)**| **화면 쿼리 중심 비정규화 (1 Table per Query)** |
+| `JOIN` 연산 지원 | **전면 지원 (Inner, Outer, Subquery)** | **절대 지원 불가 (`JOIN` 0회)** |
+| 수평 확장성 | 고비용 분산 아키텍처 (샤딩 필요) | **무제한 수평 Scale-Out (P2P Ring 노드 추가)** |
+| 쓰기 메커니즘 | In-Place Update (Random Write I/O) | **LSM-Tree Out-of-Place (Sequential I/O)** |
 
 #### 한줄 요약
 
@@ -157,29 +132,19 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **테이블 선설계(Query-first Table Design)**: 핵심 질의에 맞춰 테이블을 먼저 정하는 방식이다.
-- **키 선설계(Key-first Design)**: 파티션과 정렬 범위에 맞춰 키를 먼저 정하는 방식이다.
-- **시간 버킷(Time Bucket)**: 시계열 데이터를 기간별 파티션으로 나누는 단위이다.
-- **행 수 상한(Row-count Limit)**: 한 파티션의 최대 행 수이다.
-- **파티션 키 검증**: 실제 값 분포와 요청량으로 데이터•부하 편중 여부를 확인하는 활동이다.
-- **삭제 표식 보존(Tombstone Retention)**: 삭제 표식을 유지하는 기간이다.
-- **컴팩션 주기(Compaction Cycle)**: SSTable을 병합하는 시간 간격이다.
-- **수선 주기(Repair Cycle)**: 복제본 불일치를 복구하는 시간 간격이다.
-- **여유 공간(Free Space)**: 컴팩션 임시 파일에 사용할 디스크 공간이다.
-- **백로그 감시(Backlog Monitoring)**: 컴팩션 대기량을 관찰하는 통제이다.
+- **Tombstone Threshold Overwrite**: DELETE 연산 시 생성되는 묘비(Tombstone)가 파티션 내 수만 개 쌓이면 `SELECT` 스캔 시 읽기 타임아웃 장애가 발생하므로 주기적 Compaction 필수.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 파티션 키 없는 질의는 전체 노드 탐색 유발 | 질의별 **테이블 선설계**•**키 선설계** | 전체 노드 탐색 방지 |
-| 무한 시계열 파티션은 읽기•컴팩션 비용 증가 | **시간 버킷**•**행 수 상한** 적용 | 대형 파티션 방지 |
-| 낮은 분산도의 파티션 키는 특정 노드에 부하 집중 | 실제 분포로 **파티션 키 검증** | 핫 파티션 완화 |
-| 삭제 표식 누적은 읽기 때 검사할 파일•행 증가 | **삭제 표식 보존**•**컴팩션 주기**•**수선 주기** 조정 | 삭제 표식 읽기 지연 감소 |
-| 컴팩션 백로그는 임시 디스크 공간을 고갈시킬 위험 | **여유 공간**•**백로그 감시** | 디스크 고갈 방지 |
+| Partition Key 없이 `SELECT` 조회 시 전체 노드 Scan 폭사 | **모든 쿼리에 Partition Key 필수 포함 및 테이블 재설계**| 핫스팟/Scan 방지 |
+| 삭제 데이터가 디스크에 묘비(**Tombstone**)로 쌓여 읽기 타임아웃 | **`gc_grace_seconds` 튜닝 및 Size-Tiered Compaction 실행**| Tombstone 청소 |
+| 특정 Partition Key 용량 폭증 (Hot Partition) | **Partition Key에 날짜/시간 버킷(`user_id + YYYYMM`) 추가** | 균등 수평 분산 |
+
+> 사례: **넷플릭스 / 시스코 시계열 로그 및 유저 시청 이력 저장소로 Cassandra 운용**
 
 #### 한줄 요약
 
@@ -187,17 +152,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **파티션 키(Partition Key)**: 데이터가 저장될 파티션을 정하는 키이다.
-- **클러스터링 키(Clustering Key)**: 파티션 내부의 행 정렬 순서를 정하는 키이다.
-- **Cassandra 모델 적용 기준**: 조회 범위와 파티션 내부 정렬 및 장애 허용 응답 수를 함께 평가하는 기준이다.
+- **Cassandra 수립 기준(Cassandra Design Standards)**: Masterless P2P 노드 구성, Query-Driven Data Modeling 및 $R+W>N$ Tunable Consistency에 의거한 체계.
 
 </details>
 
-- **Cassandra 모델 적용 기준**에 따라 조회 범위로 **파티션 키**•**클러스터링 키**, 장애 허용치로 **조정 가능 일관성**을 결정한다.
+- **Cassandra 수립 기준**에 따라 대용량 시계열/메시징 DB 구축 시 **P2P Ring & Query-Driven Modeling** 필수 수용
 
 #### 한줄 요약
 
-- **Cassandra 모델 적용 기준**은 키 분배와 파일•사본 정리를 함께 다룬다.
+- Cassandra 모델 적용 기준은 키 분배와 파일•사본 정리를 함께 다룬다.
