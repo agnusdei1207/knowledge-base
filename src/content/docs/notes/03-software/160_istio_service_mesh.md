@@ -22,9 +22,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Service Mesh (서비스 메시)**: MSA(마이크로서비스) 환경에서 서비스 간 통신(East-West Traffic)을 가시화, mTLS 보안 암호화, 카나리(Canary) 라우팅 및 서킷 브레이커(Circuit Breaker)로 통합 제어하는 전용 인프라 레이어.
-- **Istio**: Envoy Sidecar 프록시를 각 Pod 옆에 투입하고, 중앙의 `istiod` 데몬이 정책 및 mTLS 인증서를 일괄 배포 관리하는 대표 오픈소스 서비스 메시 플랫폼.
-- **Sidecar Proxy Pattern (Envoy)**: 애플리케이션 코드를 전혀 수정하지 않고, Pod 내부 컨테이너 옆에 Envoy 프록시를 1:1 동반 배치(Sidecar)하여 모든 네트워크 트래픽을 가로채 제어하는 디자인 패턴.
+- **서비스 메시(Service Mesh)**: 마이크로서비스 간 통신을 가시화, 보안(mTLS), 트래픽 제어(Canary, 서킷 브레이커)로 통합 관리하는 인프라 레이어.
+- **이스티오(Istio)**: Envoy 사이드카 프록시를 각 Pod에 배치하고, 중앙 `istiod`가 정책과 인증서를 관리하는 서비스 메시 플랫폼.
+- **사이드카 프록시 패턴(Sidecar Proxy Pattern)**: 앱 코드 변경 없이 Pod 내부 컨테이너 옆에 Envoy 프록시를 배치해 모든 트래픽을 가로채 제어하는 방식.
 
 </details>
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **Traffic Management (VirtualService, DestinationRule 기반 카나리 배포 & Traffic Splitting)**
-- **Zero-Trust Security (Automatic mTLS encryption & SPIFFE/SPIRE 기반 워크로드 신원 인증)**
-- **Observability (Kiali, Jaeger, Prometheus 연동으로 전사 서비스 맵 및 Distributed Tracing 시각화)**
+- **트래픽 관리**: VirtualService 및 DestinationRule 기반 카나리 배포 및 트래픽 분할.
+- **제로 트러스트 보안**: 자동 mTLS 암호화 및 SPIFFE/SPIRE 기반 워크로드 신원 인증.
+- **관측성(Observability)**: Kiali, Jaeger, Prometheus 연동을 통한 전사 서비스 맵 및 분산 추적(Distributed Tracing) 시각화.
 
 #### 한줄 요약
 
@@ -75,12 +75,12 @@ extra:
 
 선의 의미: Control Plane(istiod)이 수많은 Data Plane(Envoy)으로 xDS 설정을 밀어주고, Envoy끼리 mTLS로 암호화 통신하는 구조.
 
-| 구성요소 레이어 | 핵심 컴포넌트 | 실무 역할 및 기술 메커니즘 |
+| 구성 요소 | 핵심 컴포넌트 | 실무 역할 |
 |:---|:---|:---|
-| **Control Plane**| **istiod** | **Pilot(라우팅), Citadel(mTLS인증서), Galley(설정검증) 통합**|
-| **Data Plane** | **Envoy Sidecar Proxy**| **Pod 옆에 배치되어 트래픽 가로채기, mTLS, 서킷브레이크** |
-| **Ingress/Egress**| **Istio Ingress Gateway**| **클러스터 외곽 경계 L7 진입 트래픽 제어** |
-| **Traffic Rules** | **VirtualService / DestinationRule**| **카나리 배포 90%:10% 트래픽 분할 및 Circuit Breaking**|
+| **Control Plane** | **istiod** | Pilot(라우팅), Citadel(인증), Galley(검증) 통합 |
+| **Data Plane** | **Envoy Proxy** | 트래픽 가로채기, mTLS, 서킷 브레이커 |
+| **Gateway** | **Istio Ingress Gateway** | 클러스터 경계 L7 진입 트래픽 제어 |
+| **Traffic Rules** | **VirtualService / DestinationRule**| 카나리 배포 트래픽 분할 및 서킷 브레이킹 |
 
 #### 한줄 요약
 
@@ -153,14 +153,4 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
-
-- **Service Mesh 수립 기준(Service Mesh Standards)**: Istio VirtualService/DestinationRule, Automatic mTLS, Sidecar CRD optimization 및 Ambient Mesh 선제성에 의거한 체계.
-
-</details>
-
-- **Service Mesh 수립 기준**에 따라 차세대 대규모 MSA 구축 시 **Istio Service Mesh & Ambient Mesh** 필수 적용
-
-#### 한줄 요약
-
-- 모든 워크로드에 L7 통제가 필요하면 Sidecar를, L4 암호화가 중심이면 Ambient를 기준으로 삼고 필요한 경로에만 웨이포인트를 배치해야 한다.
+- **서비스 메시 기반 MSA 트래픽 제어 및 보안 체계 고도화 구현**

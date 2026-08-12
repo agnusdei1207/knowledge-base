@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **병목(Bottleneck)**: 처리량 제한 및 응답 지연을 유발하는 시스템 내 제약 자원/구간.
-- **임계 경로(Critical Path)**: 최종 사용자 응답시간을 결정짓는 최장 실행 시간 경로.
+- **병목(Bottleneck)**: 시스템 처리량을 제한하고 응답 지연을 유발하는 제약 자원 및 구간.
+- **임계 경로(Critical Path)**: 최종 사용자 응답시간을 결정하는 최장 실행 시간 경로.
 - **병목 분석(Bottleneck Analysis)**: 자원 및 경로별 정량 측정 기반 성능 제약 원인 식별 프로세스.
 
 </details>
 
-- 정의: 처리량과 응답시간을 제약하는 근본 원인 자원 및 실행 경로를 추적하는 분석 프로세스.
-- 필요성: 단순 평균 모니터링의 한계를 넘어, 순간적 대기열 급증 및 임계 경로 내 정밀 병목 식별.
+- 정의: 처리량과 응답시간을 제약하는 근본 원인 자원 및 실행 경로를 추적하는 정량적 분석 프로세스.
+- 필요성: 단순 평균 모니터링 한계 극복, 순간적 대기열 급증 및 임계 경로 내 정밀 병목 식별.
 
 #### 한줄 요약
 
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- 상관 분석: 사용자 지연 발생 시점과 인프라 포화 시점의 시계열 연동을 통한 인과관계 규명.
+- 상관 분석: 사용자 지연 시점과 인프라 포화 시점의 시계열 연동을 통한 인과관계 규명.
 - 교차 진단: 자원 상태와 사용자 관점 서비스 품질의 양방향 진단을 통한 맹점 제거.
-- 반복 검증: 병목 이동 확인을 통한 시스템 개선 전후 부하 곡선 객관적 비교.
+- 반복 검증: 병목 이동 확인을 통한 시스템 개선 전후 부하 곡선의 객관적 비교.
 - 한줄 요약: 상관관계 기반의 다각적 성능 제약 식별 체계 구축.
 
 ## Ⅲ. 구조 및 구성요소
@@ -134,13 +134,22 @@ extra:
 
 </details>
 
-| 병목 분석 관점 | USE 방법론 (자원 중심) | RED 방법론 (서비스 중심) |
-|:---|:---|:---|
-| 주 적용 대상 | 서버 시스템 내부의 각종 **자원 병목** 및 포화 여부 진단 | MSA 간 API 호출 및 **DB** 쿼리 등 소프트웨어 **구간 병목** 진단 |
-| 핵심 특징 및 지표 | 하드웨어 인프라별 **USE** (이용률, 포화대기열, 에러) 측정 | 서비스 비즈니스 흐름별 **RED** (요청률, 실패율, 응답시간) 수집 |
-| 분석의 한계 | 트랜잭션이 거쳐간 소프트웨어 논리 경로와 비즈니스 원인 파악 누락 | 지연을 유발한 근원적인 하드웨어 자원 고갈 상태 및 결함 누락 |
+<details><summary>Key Terms</summary>
 
-> 요약: 성능 진단의 사각지대를 없애기 위해 USE와 RED를 융합하는 **자원•서비스 연계 분석** 수행 권장.
+- **Resource Bottleneck**: A state where hardware components like CPU, Memory, Disk, or Network reach limits, causing task queues and performance degradation.
+- **DB(Database)**: Backend storage where concurrency control, locks, and data integrity constraints often create bottlenecks.
+- **Segment Bottleneck**: App-layer latency caused by slow service calls, 3rd-party APIs, or long-running database queries.
+- **Resource-Service Co-analysis**: An advanced diagnostic approach integrating USE and RED frameworks to trace root causes holistically.
+
+</details>
+
+| 병목 분석 관점 | USE Method (Resource-centric) | RED Method (Service-centric) |
+|:---|:---|:---|
+| 주 적용 대상 | 인프라 컴포넌트의 **Resource Bottleneck** 및 포화도 진단 | MSA API/DB 호출 등 소프트웨어 **Segment Bottleneck** 진단 |
+| 핵심 특징 및 지표 | 하드웨어 인프라별 **USE** (Utilization, Saturation, Errors) 측정 | 서비스 비즈니스 흐름별 **RED** (Requests, Errors, Duration) 수집 |
+| 분석의 한계 | 트랜잭션의 소프트웨어 논리 경로 및 비즈니스 연관성 파악 미흡 | 지연을 유발한 근본적인 물리 자원 고갈 상태 식별 미흡 |
+
+> 요약: 성능 진단의 사각지대 해소를 위한 USE와 RED 기반의 **Resource-Service Co-analysis** 수행.
 
 #### 한줄 요약
 
