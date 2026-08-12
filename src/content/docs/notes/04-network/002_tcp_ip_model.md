@@ -23,37 +23,37 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **TCP(Transmission Control Protocol)**: 전송 순서 보장 및 재전송 제어를 통해 신뢰성 높은 스트림 전송을 제공하는 프로토콜.
-- **IP(Internet Protocol)**: 호스트 주소 지정을 기반으로 패킷의 라우팅과 전달을 담당하는 프로토콜.
-- **TCP/IP 모델(TCP/IP Model)**: 인터넷 통신 기능을 공통 IP 계층 중심의 4개 계층으로 구조화한 모래시계형 실무 프로토콜 아키텍처.
+- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 종단 간 세그먼트 순서 보장, 오류 제어 및 흐름/혼잡 제어를 제공하는 연결지향형 전송 계층 프로토콜.
+- **인터넷 프로토콜(Internet Protocol, IP)**: 논리적 IP 주소를 기반으로 이기종 네트워크 간 패킷 라우팅 및 Best-Effort 전달을 수행하는 비연결형 인터넷 계층 프로토콜.
+- **TCP/IP 4계층 모델(Transmission Control Protocol/Internet Protocol Model, TCP/IP Model)**: 인터넷 통신 기능을 공통 IP 계층 중심의 4개 실용 계층으로 구조화한 모래시계형 실무 프로토콜 아키텍처.
 
 </details>
 
-- 정의/개념: 인터넷 통신 기능을 공통 IP 중심의 네 계층으로 묶은 **TCP/IP 모델(TCP/IP Model)**.
-- 배경/필요성: 응용 및 통신 매체별 전용 규약 사용 시 이기종 네트워크 간 상호운용성 제약 발생.
+- 정의/개념: 실제 인터넷 환경에서 이기종 시스템 및 다양한 네트워크 매체 간의 대용량 데이터 통신을 위해 4개 계층으로 구조화된 **TCP/IP 4계층 모델(Transmission Control Protocol/Internet Protocol Model, TCP/IP Model)**.
+- 배경/필요성: 벤더별 독립 프로토콜의 복잡성을 제거하고 상위 응용과 하위 전송 매체를 독립시켜 표준화된 인터넷 상호연동 아키텍처 구축 필요.
 
 #### 한줄 요약
 
-- 이기종 네트워크 및 응용 간의 결합도 분리를 위해 IP 계층 중심의 모래시계(Thin-Waist) 아키텍처를 적용한다.
+- 이기종 네트워크 및 다양 응용 간 결합도 분리를 위한 IP 계층 중심의 모래시계(Thin-Waist) 아키텍처 구현.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **얇은 허리 구조(Thin-Waist Architecture)**: 다양한 상위 응용과 하위 전송 매체 사이에서 공통 IP 계층을 중추로 연결하는 유연한 설계 아키텍처.
-- **최선형 전달(Best-Effort Delivery)**: 수신 여부나 전송 순서를 보장하지 않고 최선의 경로로 패킷을 전송하는 비신뢰성 전달 방식.
-- **종단 간 원칙(End-to-End Principle)**: 네트워크 코어는 단순화하고 데이터 신뢰성 및 흐름 제어를 종단 호스트에서 처리하는 아키텍처 규범.
+- **얇은 허리 구조(Thin-Waist Architecture)**: 다양한 상위 응용과 하위 전송 매체 사이에서 단일 IP 프로토콜을 중추로 연결하는 유연한 개방형 아키텍처.
+- **최선형 전달(Best-Effort Delivery)**: 수신 여부나 전달 순서를 신뢰적으로 보장하지 않고 단순 라우팅만 수행하는 네트워크 계층 전송 방식.
+- **종단 간 원칙(End-to-End Principle)**: 네트워크 코어(라우터)는 라우팅 기능만 단순화하고 데이터 신뢰성 및 상태 제어는 종단 호스트(Host)에서 전담 처리하는 설계 철학.
 
 </details>
 
-- **얇은 허리 구조(Thin-Waist Architecture)**를 통한 응용과 통신 매체 간 의존성 완화.
-- **IP(Internet Protocol)**의 **최선형 전달(Best-Effort Delivery)** 특성 활용.
-- **종단 간 원칙(End-to-End Principle)** 기반 **TCP(Transmission Control Protocol)**의 신뢰성 확보 및 혼잡 제어 수행.
+- **얇은 허리 구조(Thin-Waist Architecture)**를 적용하여 상위 계층(HTTP, DNS)과 하위 전송 매체(Ethernet, Wi-Fi, 5G) 간 의존성 완전 제거.
+- **인터넷 프로토콜(Internet Protocol, IP)**의 **최선형 전달(Best-Effort Delivery)** 특성을 활용하여 중간 라우터의 단순화 및 라우팅 효율 극대화.
+- **종단 간 원칙(End-to-End Principle)**을 기반으로 **전송 제어 프로토콜(Transmission Control Protocol, TCP)**이 종단 시스템 간의 흐름/혼잡 제어 및 신뢰성을 전담 보장.
 
 #### 한줄 요약
 
-- 종단 간 원칙(End-to-End Principle)에 따라 중간 라우터는 최선형 패킷 전송만 수행하고 종단 호스트의 TCP가 신뢰성 및 혼잡 제어를 전담한다.
+- 종단 간 원칙 기반 네트워크 코어 단순화 및 호스트 중심 종단 신뢰성 제어 아키텍처 적용.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -61,132 +61,132 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **포트(Port)**: 단일 호스트 내부에서 작동하는 응용 프로세스를 식별하기 위한 논리적 채널 번호.
-- **IP 주소(IP Address)**: 패킷의 출발지와 목적지 호스트를 식별하여 상호 간 라우팅을 가능하게 하는 논리 주소.
-- **네트워크 접근 계층(Network Access Layer)**: 물리적 전송 매체 제어 및 인접 노드 간 프레임 전송을 담당하는 최하위 계층.
+- **포트(Port)**: 단일 호스트 내에서 실행 중인 다수의 응용 프로세스를 식별하기 위한 16비트 논리 채널 번호.
+- **IP 주소(IP Address)**: 패킷의 발신지와 목적지 호스트를 네트워크상에서 고유하게 식별하는 논리 주소.
+- **네트워크 접근 계층(Network Access Layer)**: 프레임화, MAC 주소 식별 및 물리 매체 전송을 담당하며 OSI 1~2계층을 통합 처리하는 하위 계층.
 
 </details>
 
 ```text
-응용 계층
-│
-전송 계층
-│
-인터넷 계층
-│
-네트워크 접근 계층
++-------------------------------------------------------------+
+|  4. 응용 계층 (Application Layer)      - HTTP, DNS, SSH     |
++-------------------------------------------------------------+
+|  3. 전송 계층 (Transport Layer)        - TCP, UDP (Port)    |
++-------------------------------------------------------------+
+|  2. 인터넷 계층 (Internet Layer)       - IP, ICMP, ARP(IP)  |
++-------------------------------------------------------------+
+|  1. 네트워크 접근 계층 (Network Access) - Ethernet, MAC     |
++-------------------------------------------------------------+
 ```
 
-선의 의미: 인접 계층 간 서비스 인터페이스로서 응용 메시지, 포트 기반 종단 전달, IP 기반 네트워크 전달, 링크 접근 책임을 상호 분리 및 결합하는 관계 표시.
+*인터넷 계층(IP)을 중심으로 상하위 계층 프로토콜이 독립적으로 결합하는 모래시계형 4계층 아키텍처.*
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 응용 계층 | 응용 간 메시지 및 동작 규격 정의 |
-| 전송 계층 | **포트(Port)** 기반 종단 간 신뢰성 전달 제어 |
-| 인터넷 계층 | **IP 주소(IP Address)** 기반 네트워크 간 라우팅 수행 |
-| **네트워크 접근 계층** | 링크 규칙 기반 인접 장치 간 프레임 전송 |
+| 계층 (Layer) | 역할 및 책임 | 주요 식별자/단위 | 대표 프로토콜 |
+|:---|:---|:---|:---|
+| 응용 계층 (L4) | 사용자 서비스 및 응용 프로세스 간 데이터 통신 규격 관리 | Data / Message | HTTP, HTTPS, DNS, SSH, FTP |
+| 전송 계층 (L3) | 프로세스 간 종단(End-to-End) 포트 식별 및 신뢰성/비신뢰성 데이터 전송 제어 | Segment (TCP) / Datagram (UDP) | **전송 제어 프로토콜(TCP)**, **UDP** |
+| 인터넷 계층 (L2) | 패킷 라우팅, 최적 경로 설정 및 홉간(Hop-by-Hop) 패킷 포워딩 | Packet | **인터넷 프로토콜(IP)**, ICMP, ARP |
+| 네트워크 접근 계층 (L1) | 물리적 매체 제어, MAC 주소 식별 및 인접 노드 간 프레임 전송 | Frame / Bit | Ethernet, Wi-Fi(802.11), PPP |
 
 #### 한줄 요약
 
-- Application Layer Message $\rightarrow$ Transport Layer Segment (Port No.) $\rightarrow$ Internet Layer Packet (IP Address) $\rightarrow$ Network Access Layer Frame (MAC Address) 수순으로 캡슐화된다.
+- Application Message -> Transport Segment(Port) -> Internet Packet(IP) -> Network Access Frame(MAC) 단계적 캡슐화 통신 체계 준수.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **캡슐화(Encapsulation)**: 상위 계층 데이터에 하위 계층 제어 헤더를 부착하여 전송 단위를 생성하는 프로세스.
-- **역캡슐화(Decapsulation)**: 수신 측에서 하위 계층 헤더를 순차적으로 제거하여 상위 응용 메시지를 추출하는 과정.
+- **캡슐화(Encapsulation)**: 상위 계층 데이터에 계층별 포트, IP, MAC 헤더를 순차적으로 추가하여 PDU를 생성하는 프로세스.
+- **역캡슐화(Decapsulation)**: 수신 호스트에서 프레임->패킷->세그먼트 순으로 헤더를 검증 및 탈거하여 원본 메시지를 추출하는 프로세스.
 
 </details>
 
 ```text
-송신 응용 메시지
-      |
-      v
-1. 캡슐화
-      |
-      +-- 응용 계층 -------- 메시지
-      +-- 전송 계층 -------- TCP 세그먼트•UDP 데이터그램
-      +-- 인터넷 계층 ------ IP 패킷
-      `-- 네트워크 접근 ---- 링크 프레임
-                                  |
-                                  v
-                              라우터 경로
-                                  |
-                                  +-- 링크별 프레임 교체
-                                  `-- 공통 IP 패킷 전달
-                                             |
-                                             v
-                                      2. 역캡슐화
-                                             |
-                                             `-- 수신 응용 메시지
+[ 송신 시스템 ]                                                  [ 수신 시스템 ]
++--------------+                                               +--------------+
+|   응용 계층   | -- [ Application Message ] -----------------> |   응용 계층   |
++--------------+                                               +--------------+
+       | 캡슐화                                                        ^ 역캡슐화
+       v                                                               |
++--------------+                                               +--------------+
+|   전송 계층   | -- [ Port Header | Data ] -------------------> |   전송 계층   |
++--------------+                                               +--------------+
+       |                                                               |
+       v                                                               |
++--------------+                                               +--------------+
+|  인터넷 계층  | -- [ IP Header | Port Header | Data ] --------> |  인터넷 계층  |
++--------------+                                               +--------------+
+       |                                                               |
+       v                                                               |
++--------------+                                               +--------------+
+|네트워크접근계층| -- [ MAC H | IP H | Port H | Data | FCS ] -----> |네트워크접근계층|
++--------------+                                               +--------------+
 ```
 
 ### 동작 원리
 
-1. **캡슐화(Encapsulation)**: 포트, IP, 링크 제어 정보의 계층별 결합 수행.
-2. **역캡슐화(Decapsulation)**: 계층 역순의 제어 정보 제거를 통한 메시지 복원.
+1. **송신측 캡슐화(Encapsulation)**: 응용 메시지에 포트(L4)->IP(L3)->MAC/FCS(L1/L2) 제어 정보를 순차 부착하여 물리 전송 매체로 송출.
+2. **수신측 역캡슐화(Decapsulation)**: 비트열 수신 후 CRC 검증을 거쳐 MAC->IP->Port 헤더를 차례로 검증·제거하여 애플리케이션에 순수 데이터 전달.
 
 #### 한줄 요약
 
-- Data Encapsulation(Header Tagging) 및 Decapsulation (Header Stripping) 대칭 처리를 집행한다.
+- 계층별 상호 독립적인 Header Tagging(캡슐화) 및 Header Stripping(역캡슐화) 대칭 프로세스 실행.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **개방형 시스템 간 상호접속 모델(Open Systems Interconnection Model, OSI Model)**: 국제표준화기구(ISO)에서 정의한 7계층 기준 통신 참조 아키텍처.
+- **개방형 시스템 간 상호접속 모델(Open Systems Interconnection Model, OSI 모델)**: ISO가 제정한 7계층 참조 아키텍처 모델.
 
 </details>
 
-| 계층 모델 | **TCP/IP 모델** | **개방형 시스템 간 상호접속 모델(Open Systems Interconnection Model, OSI 모델)** |
+| 비교 항목 | **TCP/IP 4계층 모델(TCP/IP Model)** | **OSI 7계층 모델(OSI Model)** |
 |:---|:---|:---|
-| 적용 기준 | 인터넷 통신 구현•분석 | 계층 책임•장애 분석 |
-| 핵심 특징 | 프로토콜을 4계층으로 통합 | 통신 책임을 7계층으로 세분 |
-| 한계 | 세부 계층 책임이 함께 묶임 | 프로토콜과 경계 불일치 |
+| 관점 및 성격 | 실무 구현 중심 (Implementation Standard) | 이론적 참조 모델 (Conceptual Framework) |
+| 계층 수 | 4개 계층 | 7개 계층 |
+| 표현/세션 처리 | 응용 계층(Application Layer)에 통합 처리 | 표현(L6), 세션(L5) 계층으로 명확히 독립 분리 |
+| 하위 계층 처리 | 네트워크 접근 계층(Network Access)으로 통합 | 데이터링크(L2), 물리(L1) 계층으로 명확히 구분 |
+| 아키텍처 특징 | IP 중심의 Thin-Waist 구조 (유연성 확보) | 엄격한 계층 경계 및 서비스 점 접근 (SAP) 중심 |
 
-> 요약: 실무 구현 측면의 TCP/IP 모델과 계층적 책임 분석 측면의 OSI 모델 간 역할 분담.
+> 요약: 실무 인터넷 통신의 표준 프로토콜 스택인 TCP/IP 4계층 모델과 시스템 진단 및 장비 표준화의 대범주 기준인 OSI 7계층 모델의 정합적 활용.
 
 #### 한줄 요약
 
-- TCP/IP 4-Layer는 Practical Internet Standard Protocol Suite, OSI 7-Layer는 Structural Reference & Diagnostic Model로 역할이 분이된다.
+- 실용적 구현 중심의 TCP/IP 4계층과 개념적 진단 중심의 OSI 7계층 간의 보완적 적용 체계 구축.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 핸드셰이크와 재전송 없이 최속 전송을 수행하여 실시간 통신에 적합한 비연결형 전송 프로토콜.
-- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 데이터 링크에서 단편화 없이 한번에 전송할 수 있는 패킷의 최대 크기 규격.
+- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 핸드셰이크와 오버헤드를 줄이고 빠른 속도로 패킷을 전송하는 비연결형 전송 프로토콜.
+- **최대 전송 단위(Maximum Transmission Unit, MTU)**: 단편화(Fragmentation) 없이 전달 가능한 단일 패킷의 최대 바이트 수.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| 여러 계층의 장애 증상이 혼재 | 링크•IP•포트•응용 순 계층 진단 | 원인 범위 축소 |
-| 손실•순서•지연 요구가 불명확 | **TCP(Transmission Control Protocol)**•**사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)** 선택 | 전송 동작과 요구 일치 |
-| 캡슐화 헤더로 MTU 초과 | **최대 전송 단위(Maximum Transmission Unit, MTU)**•헤더 크기 산정 | 단편화•전송 실패 예방 |
-| 중간망의 응용별 상태 의존 증가 | **종단 간 원칙**으로 중간망 기능 최소화 | 새 응용•매체의 추가 영향 감소 |
+| 장애/이슈 유형 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
+|:---|:---|:---|:---|
+| 전송 전송 지연 및 오버헤드 | 실시간 스트리밍에 TCP 사용 시 재전송 지연 발생 | 실시간 미디어 전송 시 **사용자 데이터그램 프로토콜(UDP)** 및 QUIC 프로토콜 선택 | 실시간 통신 지연시간 최소화 |
+| 터널링 시 패킷 재조합 병목 | VPN/IPsec 헤더 부착으로 인한 MTU 초과 단편화 | Path MTU Discovery (PMTUD) 및 TCP MSS Clamping 설정 | 단편화 예방 및 라우터 획기적 성능 개선 |
+| 복합적 통신 장애 발생 | L1 Physical Link부터 L4 Port 상태 상충 | Bottom-Up (Network Access -> Internet -> Transport -> Application) 트러블슈팅 정립 | 장애 원인 조기 규명 및 처리 속도 향상 |
 
 #### 한줄 요약
 
-- Network Access $\rightarrow$ Internet (IP) $\rightarrow$ Transport (Port) $\rightarrow$ Application 계층 순으로 Bottom-Up Troubleshooting을 수행한다.
+- 서비스 특성에 적합한 L4 전송 프로토콜(TCP/UDP) 선정 및 PMTUD 기반 MTU 최적화 체계 수립.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **모델 적용 기준(Model Application Criteria)**: 실무 구현 시 TCP/IP를, 정밀 진단 시 OSI 7계층 모델을 선택적으로 적용하는 분석 지침.
+- **모델 선택 및 적용 기준(Model Selection and Application Criteria)**: 프로토콜 개발 및 인터넷 통신 구축 시에는 TCP/IP를, 정밀 네트워크 트러블슈팅 시에는 OSI 7계층 모델을 매핑 적용하는 가이드라인.
 
 </details>
 
-- **모델 적용 기준(Model Application Criteria)**에 따라 인터넷 시스템 구현 시 TCP/IP를 적용하고, 세부 장애 발생 시 OSI 모델 기반 체계적 진단 수행.
+- 실제 인터넷 아키텍처 및 네트워크 서비스를 구현할 때 **TCP/IP 4계층 모델(TCP/IP Model)**을 기반으로 효율적인 인프라를 설계하고, 장애 시 OSI 7계층 모델과의 정합성을 기반으로 한 계층적 트러블슈팅 표준 절차 준수 필수.
 
 #### 한줄 요약
 
-- 인터넷 표준 시스템 구축 시 TCP/IP Protocol Stack 구현과 PMTU (Path MTU Discovery) 및 Layered Troubleshooting 절차를 정립한다.
-
-
+- TCP/IP 4계층 프로토콜 스택 준수 및 PMTUD/L4 튜닝을 통한 고가용성 인터넷 인프라 구축 체계 적용.

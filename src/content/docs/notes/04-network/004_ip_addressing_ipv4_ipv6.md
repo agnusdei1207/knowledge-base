@@ -23,166 +23,165 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 네트워크 및 노드 인터페이스를 식별하여 데이터 패킷의 송수신 위치를 지정하는 논리적 주소.
-- **IPv4(Internet Protocol version 4)**: 32비트 길이의 주소를 8비트씩 4개 옥텟으로 나누어 10진수로 표기하는 IP 규격.
-- **IPv6(Internet Protocol version 6)**: IPv4 주소 고갈을 해결하기 위해 128비트 주소를 16비트씩 8개 그룹으로 나누어 16진수로 표기하는 차세대 IP 규격.
+- **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**: 네트워크 계층에서 송수신 호스트 및 인터페이스를 고유하게 식별하여 패킷 라우팅을 가능하게 하는 논리적 주소.
+- **IPv4(Internet Protocol version 4)**: 32비트 주소 체계를 사용하며 8비트씩 4개 옥텟(Octet)으로 구분하여 10진수로 표기하는 4세대 인터넷 프로토콜.
+- **IPv6(Internet Protocol version 6)**: IPv4 주소 고갈 문제를 근본적으로 해결하기 위해 128비트 주소 체계를 채택하고 16비트씩 8개 그룹으로 구분하여 16진수로 표기하는 차세대 프로토콜.
 
 </details>
 
-- 정의/개념: 네트워크 및 노드 인터페이스를 식별하는 계층적 **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**.
-- 배경/필요성: 32비트 **IPv4(Internet Protocol version 4)** 주소 고갈 대응 및 주소 공간 확장을 위한 **IPv6(Internet Protocol version 6)** 전환 필요성 대두.
+- 정의/개념: 이기종 네트워크 간 데이터 패킷의 정확한 라우팅과 호스트 식별을 위해 제정된 계층적 논리 주소 체계인 **인터넷 프로토콜 주소(Internet Protocol Address, IP Address)**.
+- 배경/필요성: IoT, 모바일 장비 폭증으로 인한 32비트 **IPv4(Internet Protocol version 4)** 주소 고갈 한계 직면 및 주소 공간 확장, 보안(IPsec 내장), 주소 자동 설정을 제공하는 **IPv6(Internet Protocol version 6)**로의 전환 필요성 증대.
 
 #### 한줄 요약
 
-- 우편번호와 상세 주소처럼 앞부분은 네트워크를, 뒷부분은 그 안의 인터페이스를 가리킨다.
+- 계층적 IP 주소 체계 표준화 및 IPv4/IPv6 상호연동 기반 주소 확장성 확보 체계 구현.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **최장 프리픽스 일치(Longest Prefix Match, LPM)**: 라우팅 테이블 내 다수의 라우팅 경로 중 라우팅 대상 IP와 비트가 가장 길게 일치하는 경로를 선택하는 메커니즘.
-- **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**: 별도의 DHCP 서버 없이 라우터의 프리픽스 정보를 바탕으로 호스트가 주소를 자동 생성하는 기술.
+- **최장 프리픽스 일치(Longest Prefix Match, LPM)**: 라우터가 IP 패킷을 포워딩할 때 라우팅 테이블 entry 중 비트가 가장 길게 일치하는 경로를 최적 라우팅 경로로 선택하는 알고리즘.
+- **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**: 별도의 DHCP 서버 없이 라우터 광고(RA) 메시지의 서브넷 프리픽스와 자신의 EUI-64/랜덤 인터페이스 ID를 조합하여 IPv6 주소를 자동 생성하는 기법.
 
 </details>
 
-- 계층형 프리픽스 기반 라우팅 경로의 집약적 관리.
-- **최장 프리픽스 일치(Longest Prefix Match, LPM)** 규칙을 활용한 최적 경로 선택.
-- **IPv6(Internet Protocol version 6)** 및 **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)** 기반 호스트 주소의 효율적 관리.
+- 계층적 비트 구조를 활용하여 네트워크 프리픽스 단위 라우팅 테이블 요약(Route Aggregation) 지원.
+- 라우팅 포워딩 시 **최장 프리픽스 일치(Longest Prefix Match, LPM)** 메커니즘을 적용하여 가장 세부적인 라우팅 경로 선별.
+- **IPv6(Internet Protocol version 6)** 환경에서 **무상태 주소 자동 설정(Stateless Address Autoconfiguration, SLAAC)**을 통한 호스트 플러그 앤 플레이(Plug-and-Play) 주소 할당 지원.
 
 #### 한줄 요약
 
-- 목적지와 프리픽스가 가장 길게 일치하는 경로가 더 구체적인 서브넷을 가리킨다.
+- 최장 프리픽스 매칭(LPM) 라우팅 알고리즘 및 SLAAC 자동 주소 할당을 통한 효율적 관리 체계 구축.
+
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 프리픽스(Network Prefix)**: IP 주소의 상위 비트 영역으로, 해당 주소가 속한 전체 서브넷 및 네트워크 구역을 식별하는 파트.
-- **인터페이스 식별자(Interface Identifier)**: 네트워크 프리픽스 하위 영역으로, 서브넷 내부에서 단일 인터페이스를 유일하게 식별하는 파트.
+- **네트워크 프리픽스(Network Prefix)**: IP 주소의 상위 비트 영역으로, 서브넷 및 라우팅 구역 전체를 대표하는 계층적 네트워크 식별자.
+- **인터페이스 식별자(Interface Identifier)**: IP 주소의 하위 비트 영역으로, 지정된 서브넷 내부에서 단일 호스트/인터페이스를 유일하게 구분하는 식별자.
 
 </details>
 
 ```text
-IP 주소
-├── 네트워크 프리픽스
-└── 인터페이스 식별자
++---------------------------------------------------------------------------------+
+|                       IPv4 구조 (32-bit: Octet.Octet.Octet.Octet)               |
+|  [ Network Prefix (Subnet Mask) ] [ Host Identifier (Interface ID) ]           |
++---------------------------------------------------------------------------------+
+|                       IPv6 구조 (128-bit: XXXX:XXXX:XXXX:XXXX:...)             |
+|  [ Global Routing Prefix (48-bit) | Subnet ID (16-bit) ] [ Interface ID (64-bit) ]|
++---------------------------------------------------------------------------------+
 ```
 
-선의 의미: IP 주소 프리픽스(네트워크 영역)와 인터페이스 식별자(호스트 영역)의 계층적 구조를 통한 라우팅 효율성 확보 표시.
+*네트워크 프리픽스(라우팅 영역)와 인터페이스 식별자(호스트 영역)로 이분화된 계층형 주소 구조.*
 
-| 구성요소 | 책임 |
-|:---|:---|
-| **네트워크 프리픽스** | 계층형 주소 구조에서의 서브넷 및 네트워크 범위 식별 |
-| **인터페이스 식별자** | 특정 네트워크 내 단일 인터페이스의 논리적 식별 |
+| 구성 요약 | **IPv4(Internet Protocol version 4)** | **IPv6(Internet Protocol version 6)** |
+|:---|:---|:---|
+| 주소 길이 및 표기 | 32-bit (4 Bytes), 10진수 4옥텟 (예: 192.168.1.1) | 128-bit (16 Bytes), 16진수 8그룹 (예: 2001:db8::1) |
+| 주소 구분 방식 | 클래스(A~E) 및 CIDR (Classless Subnet Mask) | **네트워크 프리픽스** (64-bit) + **인터페이스 식별자** (64-bit) |
+| 주소 유형 분류 | Unicast, Broadcast, Multicast | Unicast, Multicast, Anycast (Broadcast 폐지) |
+| 헤더 구조 및 크기 | 20~60 Bytes 가변 헤더 (옵션 포함) | 40 Bytes 고정 헤더 + 확장 헤더(Extension Header) 체계 |
 
 #### 한줄 요약
 
-- 주소 앞부분으로 목적지 네트워크를 찾고 뒷부분으로 그 안의 인터페이스를 구분한다.
+- 네트워크 프리픽스 기반 라우팅 경로 집약 및 인터페이스 식별자 분리 아키텍처 적용.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: IPv4 환경에서 IP 주소를 인접 데이터링크 계층의 MAC 주소로 매핑하는 프로토콜.
-- **이웃 탐색 프로토콜(Neighbor Discovery Protocol, NDP)**: ICMPv6 기반으로 이웃 탐색, 라우터 발견, 주소 중복 검사(DAD) 등을 수행하는 IPv6 프로토콜.
-- **다음 홉(Next Hop)**: 목적지 패킷 전송 시 전달해야 하는 인접 라우터 또는 최종 목적지의 논리적 주소.
-- **경로 프리픽스 비교(Prefix Comparison)**: 목적지 IP와 라우팅 테이블 entry 비트 간 대조 과정.
-- **다음 홉 결정(Next-Hop Selection)**: 라우팅 테이블 검색 결과에 기초한 출구 인터페이스 및 인접 장치 지정 과정.
-- **링크 주소 해석(Link Address Resolution)**: ARP 또는 NDP를 통한 물리적 L2 MAC 주소 획득 처리.
+- **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: IPv4 주소를 기반으로 동일 L2 브로드캐스트 도메인 내 대상의 MAC 주소를 조회하는 프로토콜.
+- **이웃 탐색 프로토콜(Neighbor Discovery Protocol, NDP)**: ICMPv6 메시지를 활용하여 이웃 L2 MAC 주소 해석, 라우터 발견 및 주소 중복 검사(DAD)를 수행하는 IPv6 프로토콜.
+- **다음 홉(Next Hop)**: 목적지 IP로 패킷을 전송하기 위해 거쳐야 하는 인접 라우터의 IP 주소 또는 출구 인터페이스.
+- **경로 프리픽스 비교(Prefix Comparison)**: 목적지 IP 주소와 라우팅 테이블 내 서브넷 마스크 비트를 앤드(AND) 연산하여 일치 여부를 판단하는 프로세스.
+- **다음 홉 결정(Next-Hop Selection)**: LPM 규칙에 의해 최종 확정된 출구 라우팅 경로로 패킷 스위칭을 명령하는 단계.
+- **링크 주소 해석(Link Address Resolution)**: L3 주소를 물리적 이더넷 전송이 가능하도록 L2 MAC 주소로 변환하는 프로토콜 실행 단계.
 
 </details>
 
 ```text
-목적지 IP 주소
-      |
-      v
-1. 경로 프리픽스 비교
-      |
-      v
-2. 다음 홉 결정
-      |
-      +-- 같은 네트워크 ---- 목적지 IP
-      |
-      `-- 다른 네트워크 ---- 게이트웨이 IP
-                                  |
-                                  v
-                         3. 링크 주소 해석
-                                  |
-                                  +-- IPv4 ---- ARP
-                                  `-- IPv6 ---- NDP
-                                               |
-                                               `-- 링크 프레임 전송
+[ 목적지 IP 패킷 도달 ]
+          |
+          v
+[ 1. 경로 프리픽스 비교 ] ---> 라우팅 테이블 검색 (AND 연산)
+          |
+          v
+[ 2. 다음 홉 결정 ] ---------> LPM(Longest Prefix Match)에 의해 최적 Next-Hop 선별
+          |
+          v
+[ 3. 링크 주소 해석 ] -------> IPv4: ARP Request/Reply (Broadcast -> Unicast)
+          |                    IPv6: NDP Solicitation/Advertisement (Multicast)
+          v
+[ L2 Frame 전송 ] -----------> MAC Header 부착 후 물리 매체 전송
 ```
 
 ### 동작 원리
 
-1. **경로 프리픽스 비교(Prefix Comparison)**: 목적지 IP와 라우팅 비트 간 최장 일치 검증 수행.
-2. **다음 홉 결정(Next-Hop Selection)**: 최적 경로 선택을 통한 인접 **다음 홉(Next Hop)** 지정.
-3. **링크 주소 해석(Link Address Resolution)**: **주소 결정 프로토콜(Address Resolution Protocol, ARP)** 또는 **이웃 탐색 프로토콜(Neighbor Discovery Protocol, NDP)**을 활용한 L2 MAC 주소 획득.
+1. **경로 탐색 및 LPM 결정(Prefix Comparison & Next-Hop Selection)**: 라우터는 패킷의 목적지 IP를 라우팅 테이블의 서브넷과 비트 단위로 비교(**Prefix Comparison**)하여 **최장 프리픽스 일치(LPM)** 경로의 **다음 홉(Next Hop)** 확정.
+2. **L2 주소 해석 및 전송(Link Address Resolution)**: 대상 노드의 L2 MAC 주소를 획득하기 위해 IPv4는 **주소 결정 프로토콜(ARP)**, IPv6는 **이웃 탐색 프로토콜(NDP)**을 실행하여 프레임 전송.
 
 #### 한줄 요약
 
-- 목적지와 가장 길게 맞는 주소 앞부분을 선택한 뒤 바로 다음 장치의 링크 주소로 보낸다.
+- LPM 기반 다음 홉 선택 및 ARP/NDP 프로토콜을 통한 L2-L3 주소 바인딩 실행.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 IP 주소를 공인 IP 주소로 변환하여 주소 부족 문제를 완화하고 내부망 보안을 확보하는 기술.
+- **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 IP 주소 공간(RFC 1918)을 공인 IP 주소로 상호 변환하여 주소 부족 완화 및 내부망 보안을 확보하는 기술.
 
 </details>
 
-| IP 주소 체계 | **IPv4(Internet Protocol version 4)** | **IPv6(Internet Protocol version 6)** |
+| 비교 항목 | **IPv4 주소 체계** | **IPv6 주소 체계** |
 |:---|:---|:---|
-| 적용 기준 | IPv4 전용 기존망과 호환 | 주소 확장•자동 구성이 필요한 망 |
-| 핵심 특징 | 32비트•점 구분 10진수 | 128비트•콜론 구분 16진수 |
-| 한계 | 주소 고갈•**네트워크 주소 변환(Network Address Translation, NAT)** 의존 | 기존 IPv4 장비와 전환 복잡도 |
+| 주소 고갈 대책 | **네트워크 주소 변환(NAT)**, CIDR, VLSM 의존 | $2^{128}$개의 무제한 주소 공간으로 근본적 해결 |
+| IP 자동 할당 | DHCP 서버에만 의존하는 상태보존형(Stateful) | SLAAC (무상태) 및 DHCPv6 (상태보존형) 동시 지원 |
+| 보안 기능 (IPsec) | 선택적 (AH/ESP 옵션 적용 필요) | 기본 프로토콜 스택에 표준 내장 (Mandatory) |
+| 패킷 단편화 (Fragmentation) | 라우터 및 송신 호스트 모두에서 처리 | 송신 호스트(Host)에서만 처리 (Path MTU Discovery 필수) |
 
-> 요약: IPv4 주소 고갈 한계 극복을 위한 IPv6 구조 전환 및 이웃 탐색 메커니즘 변화.
+> 요약: 주소 고갈 완화책(NAT) 중심의 IPv4 체계에서 대용량 주소 공간 및 SLAAC/IPsec이 표준화된 IPv6 체계로의 발전.
 
 #### 한줄 요약
 
-- IPv4는 주소가 좁어 변환이 잦고 IPv6는 주소가 넓지만 운영 규칙을 함께 바꿔야 한다.
+- 32비트 IPv4 주소 고갈 한계 극복 및 128비트 IPv6 주소 체계로의 패러다임 전환 보완.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **듀얼 스택(Dual Stack)**: 단일 네트워크 장비 및 노드에서 IPv4와 IPv6 프로토콜 스택을 동시 지원하는 공존 및 전환 기술.
-- **라우터 광고(Router Advertisement, RA)**: 라우터가 주기적으로 네트워크 프리픽스 및 호스트 설정 정보를 멀티캐스트로 전송하는 ICMPv6 메시지.
-- **동적 호스트 구성 프로토콜 버전 6(Dynamic Host Configuration Protocol version 6, DHCPv6)**: IPv6 환경에서 상태보존형(Stateful) 방식으로 IP 및 추가 옵션을 자동 할당하는 프로토콜.
+- **듀얼 스택(Dual Stack)**: 동일 네트워크 장비 및 서버의 OS에 IPv4와 IPv6 프로토콜 스택을 동시에 활성화하여 병행 운용하는 기술.
+- **라우터 광고(Router Advertisement, RA)**: 라우터가 네트워크 호스트에게 프리픽스, MTU, Default Gateway 정보를 정기적으로 공지하는 ICMPv6 메시지.
+- **동적 호스트 구성 프로토콜 버전 6(Dynamic Host Configuration Protocol version 6, DHCPv6)**: IPv6 환경에서 호스트에게 DNS 서버 및 고정 IP 정보를 정밀하게 할당하는 통제 프로토콜.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| IPv4 주소 풀이 서비스 수요보다 작음 | 수요 산정 후 NAT•IPv6 단계 전환 | 공인 주소 부족 완화 |
-| IPv6 경로•필터 정책이 IPv4와 불일치 | **듀얼 스택(Dual Stack)** 경로•필터 검증 | 비인가 트래픽 허용 방지 |
-| 이름 해석이 IPv4 주소만 반환 | IPv4•IPv6 주소 응답과 응용 지원 시험 | 전환 호환성 확보 |
-| 비인가 장치가 자동 구성 정보를 배포 | **라우터 광고(Router Advertisement, RA)**•**DHCPv6** 신뢰 경계 설정 | 비인가 주소 설정 차단 |
+| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
+|:---|:---|:---|:---|
+| IPv4/IPv6 공존 시 보안 구멍 | IPv6 패킷에 대한 Firewall/ACL 정책 누락 | 네트워크 전 장비 대상 **듀얼 스택(Dual Stack)** 동시 보안 정책 수립 | IPv6 터널링 방화벽 우회 차단 |
+| Rogue RA 보안 위협 | 비인가 장비가 위조 **라우터 광고(RA)**를 유포 | L2 스위치에 RA Guard 기능 활성화 및 RA 검증 | 비인가 게이트웨이 유도 차단 |
+| IPv6 주소 관리 복잡성 | SLAAC에 의한 가변적 IP 생성으로 추적 난항 | Stateful **DHCPv6** 병행 도입 및 IPAM(IP Address Management) 연동 | 호스트 주소 이력 관리 투명성 확보 |
 
 #### 한줄 요약
 
-- 기존 IPv4 서비스를 유지하면서 IPv6 주소를 함께 제공해 두 주소 체계의 연결을 검증한다.
+- 듀얼 스택, RA Guard 및 DHCPv6 보안 정책 설정을 통한 안정적 IPv6 전환 체계 수립.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **IPv6 전환(IPv6 Transition)**: IPv4 기반 네트워크를 듀얼 스택, 터널링, 변환 메커니즘을 적용하여 IPv6 환경으로 이행하는 과정.
-- **전환 방식 결정(Transition Strategy Selection)**: 서비스 호환성과 주소 고갈 위기 수준을 종합 고려하여 최적의 전환 방안을 채택하는 판단.
+- **IPv6 전환(IPv6 Transition)**: IPv4 인프라를 IPv6로 이행하기 위한 듀얼 스택(Dual Stack), 터널링(6to4/GRE), 변환(NAT64/DNS64) 메커니즘 체계.
+- **전환 방식 결정(Transition Strategy Selection)**: 서비스 연동성, 인프라 노후도 및 보안 정책을 검토하여 시스템별 최적의 IPv6 전환 로드맵을 확정하는 절차.
 
 </details>
 
-- **전환 방식 결정(Transition Strategy Selection)**에 근거한 **듀얼 스택(Dual Stack)** 환경 검증 및 단계적 **IPv6 전환(IPv6 Transition)** 추진.
+- 차세대 네트워크 구축 시 **전환 방식 결정(Transition Strategy Selection)**을 바탕으로 안전한 **IPv6 전환(IPv6 Transition)** 및 듀얼 스택 기반의 주소 관리 최적화 구현 필수.
 
 #### 한줄 요약
 
-- 기존 장비가 남아 있으면 두 주소 체계를 함께 검증하며 단계적으로 전환해야 한다.
-
+- Dual Stack/Tunneling 기반 IPv6 단계적 전환 및 LPM 라우팅 최적화 구현 필수.

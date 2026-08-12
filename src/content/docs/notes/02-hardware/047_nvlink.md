@@ -179,4 +179,4 @@ extra:
 
 #### 한줄 요약
 
-- 소수 GPU는 엔비디아 NVLink로 직접 연결하고 다수 GPU의 전대역 연결에는 NVSwitch를 적용한다.
+- 소수 GPU는 엔비디아 NVLink로 직접 연결하고 다수 GPU의 전대역 연결에는 NVSwitch 적용 원칙 준수.
