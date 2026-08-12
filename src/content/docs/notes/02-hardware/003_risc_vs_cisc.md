@@ -23,187 +23,176 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 소프트웨어에 공개된 명령어•레지스터•주소 지정 규격.
-- **축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC)**: 단순하고 규칙적인 명령어 중심의 ISA 설계 방식.
-- **복합 명령어 집합 컴퓨터(Complex Instruction Set Computer, CISC)**: 복합 기능 명령어 중심의 ISA 설계 방식.
-- **설계 절충(Design Trade-off)**: 해독 비용•코드 밀도•호환성 사이의 균형을 정하는 판단.
-- **해독 처리량(Decode Throughput)**: 해독부가 한 클록 주기에 내부 연산으로 변환할 수 있는 명령어 수.
+- **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 프로세서가 실행 가능한 기계어 명령어, 레지스터 집합, 주소 지정 방식 및 데이터 타입을 정의한 하드웨어-소프트웨어 인터페이스 규격.
+- **축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC)**: 고정 길이의 단순한 기계어 명령어를 사용하여 명령어 해독 속도를 높이고 파이프라인 처리에 최적화한 프로세서 구조.
+- **복합 명령어 집합 컴퓨터(Complex Instruction Set Computer, CISC)**: 다양한 형태의 복합·가변 길이 명령어를 지원하여 단일 명령어로 복잡한 연산을 수행하고 코드 밀도를 높인 프로세서 구조.
+- **설계 절충(Design Trade-off)**: 해독 로직의 하드웨어 복잡도, 프로그램 코드 밀도, 파이프라인 병렬성 및 소프트웨어 호환성 간의 균형을 결정하는 공학적 최적화 판단.
+- **해독 처리량(Decode Throughput)**: 디코더 유닛이 단일 클록 주기에 처리하여 실행 백엔드로 전달할 수 있는 기계어 및 마이크로 연산의 수.
 
 </details>
 
-- 정의/개념: 명령어 복잡도, 길이 규칙, 메모리 접근 방식에 따라 축소형과 복합형으로 구분되는 **ISA** 설계 방식
-- 배경/필요성: 복합 가변 길이 명령어 체계에서는 해독 회로 복잡화로 파이프라인 고속화와 병렬 확장에 한계
+- 정의/개념: 명령어 길이의 규칙성, 오퍼코드 복잡도, 메모리 피연산자 접근 제약에 따라 고정 길이 축소형(RISC)과 가변 길이 복합형(CISC)으로 나뉘는 **명령어 집합 아키텍처(Instruction Set Architecture, ISA)** 설계 모델.
+- 배경/필요성: 초기 메모리 가격 급등으로 CISC 기반的高코드 밀도가 요구되었으나, 프로세서 클록 속도 증가에 따라 복잡한 가변 길이 해독 로직이 파이프라인 고속화 및 초병렬 처리(Superscalar)의 치명적 병목으로 부각되면서 하드웨어 해독이 단순한 RISC 아키텍처 필요성 대두.
 
 #### 한줄 요약
-
-- RISC는 고정 길이 명령어와 로드·스토어 구조로 파이프라인 지연을 최소화하고, CISC는 가변 길이 명령어와 다양한 메모리 연산으로 코드 밀도를 높인다.
+- RISC는 고정 길이 명령어 인코딩과 로드·스토어 구조로 해독 지연을 최소화하며, CISC는 가변 길이 복합 명령을 통해 높은 코드 밀도를 제공함.
 
 ## Ⅱ. 특징
 
 <details>
 <summary>핵심 용어</summary>
 
-- **로드·스토어 구조(Load/Store Architecture)**: 메모리 접근을 로드·스토어 명령으로 제한하고 나머지 연산은 레지스터 사이에서 수행하는 구조.
-- **코드 밀도(Code Density)**: 일정한 메모리 공간에 담을 수 있는 프로그램 명령의 양.
-- **마이크로아키텍처(Microarchitecture)**: ISA를 해독부·실행 유닛·캐시 등의 회로로 구현한 내부 구조.
+- **로드·스토어 구조(Load/Store Architecture)**: ALU 연산은 오직 범용 레지스터 사이에서만 수행하고, 메모리 접근은 명시적인 Load/Store 명령어만 허용하여 파이프라인을 단순화한 구조.
+- **코드 밀도(Code Density)**: 일정 바이트 크기의 메모리 공간에 수용 가능한 프로그램 기능 단위 및 기계어 명령어의 집약도.
+- **마이크로아키텍처(Microarchitecture)**: 동일한 ISA 제약을 만족시키는 프로세서 칩 내부의 디코더, 파이프라인, 캐시 및 실행 유닛의 구체적 물리 회로 구현 체계.
 
 </details>
 
-- **RISC**의 규칙적 명령 형식으로 경계 판정·해독 회로 단순화
-- **CISC**의 복합·가변 길이 명령으로 명령당 기능과 **코드 밀도** 증가
-- **RISC**는 **로드·스토어 구조**로 메모리 접근과 레지스터 연산 분리
-- 같은 ISA도 **마이크로아키텍처**에 따라 처리량·전력 특성 변화
+- **RISC**의 규칙적 고정 길이(32비트/16비트) 포맷을 통해 명령어 경계 판정 회로를 간소화하고 디코더 파이프라인 지연 최소화.
+- **CISC**의 가변 길이 및 복합 메모리 피연산자 연산을 통해 단일 기계어로 다중 작업 처리를 구현하여 **코드 밀도(Code Density)** 극대화.
+- **RISC**는 **로드·스토어 구조(Load/Store Architecture)**를 강제하여 메모리 접근 억세스 주기와 데이터 계산 주기를 완전 격리.
+- 현대 프로세서에서는 동일 **ISA**라 하더라도 내부 파이프라인 깊이, Out-of-Order 실행 등 **마이크로아키텍처(Microarchitecture)** 기법에 따라 IPC와 전력 효율이 결정됨.
 
 #### 한줄 요약
-
-- 동일한 ISA라도 파이프라인 깊이, 비순차 실행 엔진 등 마이크로아키텍처 구현 방식에 따라 명령당 주파수(CPI)와 전력 소비 특성이 달라진다.
-
+- RISC의 Load/Store 구조 기반 디코더 단순화 특성과 CISC의 High Code Density 특성을 비교하여 마이크로아키텍처 차원의 실행 효율성을 확보함.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details>
 <summary>핵심 용어</summary>
 
-- **명령어 인코딩(Instruction Encoding)**: 연산 종류와 피연산자를 명령 비트의 길이·필드 위치로 표현하는 규칙.
-- **마이크로연산(Micro-operation, μop)**: 복합 ISA 명령을 프로세서 내부에서 실행하도록 나눈 단순 연산 단위.
-- **피연산자 모델(Operand Model)**: 명령어가 사용할 수 있는 레지스터·메모리 값과 접근 방식을 정한 규칙.
-- **해독·변환부(Decode/Translation Unit)**: 명령 비트를 실행 가능한 제어 신호나 내부 연산으로 변환하는 회로.
-- **실행 유닛(Execution Unit)**: 해독된 연산을 수행하고 결과를 레지스터나 메모리에 기록하는 회로.
+- **명령어 인코딩(Instruction Encoding)**: 연산자(Op-code) 필드, 레지스터 번호, 즉치(Immediate) 값을 명령어 2진 비트 열에 배치하는 규격.
+- **마이크로연산(Micro-operation, $\mu\text{op}$)**: 복잡한 CISC 기계어 명령어를 프로세서 실행 유닛에서 직접 처리할 수 있도록 분해한 RISC 형태의 단순 내부 연산 단위.
+- **피연산자 모델(Operand Model)**: 명령어가 참조하는 오퍼랜드의 레지스터/메모리 할당 방식 및 메인 메모리 직접 연산 허용 여부.
+- **해독·변환부(Decode/Translation Unit)**: 기계어 비트열을 파싱하여 내부 데이터 경로를 구동하는 제어 신호 또는 $\mu\text{op}$ 스트림으로 전환하는 하드웨어 블록.
+- **실행 유닛(Execution Unit)**: 해독된 연산자 신호에 따라 산술, 논리, 주소 계산, 분기 판단 등을 병렬 처리하는 파이프라인 연산기.
 
 </details>
 
 ```text
-ISA 구현 구조
-├─ 명령 표현
-│  ├─ 명령어 인코딩
-│  └─ 피연산자 모델
-└─ 구현 회로
-   ├─ 해독·변환부
-   └─ 실행 유닛
+[ ISA 명령어 구조 체계 ]
+ ├─ 명령어 인코딩 (Instruction Encoding) ──> 고정 길이(RISC) vs 가변 길이(CISC)
+ └─ 피연산자 모델 (Operand Model)      ──> Load/Store(RISC) vs Register-Memory(CISC)
+
+[ 백엔드 마이크로아키텍처 회로 ]
+ ├─ 해독/변환부 (Decode & $\mu\text{op}$ Translation) ──> Direct Signal vs Microcode ROM
+ └─ 실행 유닛 (Execution Unit Pipeline)    ──> Superscalar Out-of-Order Execution
 ```
 
-가지의 의미: ISA 명령 표현과 구현 회로의 정적 책임 구분.
-
-| 구성요소 | 책임 |
-|:---|:---|
-| 명령어 인코딩 | 명령 길이와 필드 위치 정의 |
-| 피연산자 모델 | 허용 피연산자와 접근 방식 정의 |
-| 해독·변환부 | 명령 비트를 제어 신호나 **마이크로연산**으로 변환 |
-| 실행 유닛 | 해독된 연산 실행과 결과 기록 |
+| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
+|:---|:---|:---|
+| **명령어 인코딩** | Op-code 및 오퍼랜드 비트 파싱 규칙 제공 | RISC는 32비트 고정 위치 파싱, CISC는 가변 경계 해독 수행 |
+| **피연산자 모델** | 연산 피연산자의 메모리 및 레지스터 접근 범위 규정 | RISC는 레지스터 간 연산 제한, CISC는 메모리 직접 ALU 연산 지원 |
+| **해독·변환부** | 기계어 바이너리를 제어 신호 또는 $\mu\text{op}$으로 변환 | CISC는 Microcode ROM 기반 복합 변환, RISC는 하드와이어드 즉시 해독 |
+| **실행 유닛** | 파이프라인 백엔드에서 실 데이터 ALU 연산 실행 | RISC와 CISC 모듈 모두 최신 고성능 코어에서 RISC-like $\mu\text{op}$ 처리 |
 
 #### 한줄 요약
-- ISA가 명령 형식과 피연산자 접근을 정하고, 해독부와 실행 유닛이 이를 연산으로 구현한다.
+- RISC는 하드와이어드 디코더 중심의 직접 제어 방식을 사용하고, CISC는 Microcode ROM 및 $\mu\text{op}$ 변환기를 통한 디코딩 구조를 형성함.
 
 ## Ⅳ. 흐름도
 
 <details>
 <summary>핵심 용어</summary>
 
-- **명령어 경계 판정(Instruction Boundary Detection)**: 메모리의 명령 바이트에서 각 명령어의 시작 위치와 길이를 구분하는 처리.
-- **아키텍처 상태(Architectural State)**: ISA가 소프트웨어에 공개한 레지스터·메모리·상태값.
-- **명령어 인출(Instruction Fetch)**: 프로그램 카운터가 가리키는 주소에서 명령 바이트를 읽는 단계.
-- **경계 판정•해독(Boundary Detection & Decode)**: 명령어의 시작•길이•필드를 구분해 제어 신호나 내부 연산을 생성하는 단계.
-- **피연산자 읽기•연산 실행(Operand Read & Execute)**: 지정된 레지스터•메모리 값을 읽어 실행 유닛에서 연산하는 단계.
-- **아키텍처 상태 갱신(State Update)**: 연산 결과를 ISA가 공개한 레지스터•메모리•상태값에 반영하는 단계.
+- **명령어 경계 판정(Instruction Boundary Detection)**: 가변 길이 명령어가 연속 적재된 바이트 스트림에서 각 명령어의 시작 포인터와 끝 길이를 산출하는 전처리.
+- **아키텍처 상태(Architectural State)**: 레지스터, PC, 메모리 및 PSR 플래그 등 소프트웨어가 직접 관찰 가능한 프로세서의 논리적 상태.
+- **명령어 인출(Instruction Fetch, IF)**: PC 주소의 기계어 데이터를 I-Cache에서 인출하는 파이프라인 1단계.
+- **경계 판정•해독(Boundary Detection & Decode)**: 기계어 비트를 분석하여 하드웨어 제어 신호나 $\mu\text{op}$ 시퀀스를 생성하는 단계.
+- **피연산자 읽기•연산 실행(Operand Read & Execute)**: 레지스터 파일에서 값을 읽거나 주소를 계산하여 ALU에서 계산하는 단계.
+- **아키텍처 상태 갱신(State Update / Write-Back)**: 계산 결과를 지정된 범용 레지스터 또는 메인 메모리에 반영하는 최종 완결 단계.
 
 </details>
 
 ```text
-명령어 주소
-    │
-    ▼
-1. 명령어 인출
-    │
-    ▼
-2. 경계 판정·해독
-    ├─ RISC: 규칙적 명령을 제어 신호로 변환
-    └─ CISC: 가변 길이 명령을 내부 연산으로 분해
-    │
-    ▼
-3. 피연산자 읽기·연산 실행
-    │
-    ▼
-4. 아키텍처 상태 갱신
+[ PC 주소 인출 (Fetch) ]
+          │
+          ▼
+[ 경계 판정 및 해독 (Boundary Detect & Decode) ]
+  ├─ RISC: 고정 32bit 인코딩 ──> 하드와이어드 1-Cycle direct 해독
+  └─ CISC: 가변 Byte 파싱     ──> Microcode ROM ──> $\mu\text{op}$ 분해 변환
+          │
+          ▼
+[ 피연산자 읽기 및 ALU 연산 (Operand Fetch & Execute) ]
+          │
+          ▼
+[ 아키텍처 상태 갱신 (State Update / Write-Back) ]
 ```
 
 ### 동작 원리
 
-1. **명령어 인출**: 프로그램 카운터가 가리키는 명령 바이트 확보.
-2. **경계 판정•해독**: **명령어 경계 판정**으로 길이와 필드를 구분해 실행 동작 생성.
-3. **피연산자 읽기·연산 실행**: 지정된 레지스터·메모리 값을 연산에 사용.
-4. **아키텍처 상태 갱신**: 연산 결과를 ISA가 정의한 상태에 반영.
+1. **명령어 인출(IF)**: 프로그램 카운터가 지정하는 기계어 코드를 I-Cache 버스로 인출함.
+2. **경계 판정•해독(ID)**: RISC는 고정 32비트 단위로 경계 판정이 불필요하여 1주기 내 direct 하드와이어드 해독을 완결하는 반면, CISC는 **명령어 경계 판정** 이후 Microcode ROM을 통해 복수의 **마이크로연산($\mu\text{op}$)**으로 분해함.
+3. **피연산자 읽기•연산 실행(EX)**: 지정된 레지스터 혹은 로드된 메모리 피연산자를 통해 ALU 병렬 연산을 진행함.
+4. **아키텍처 상태 갱신(WB)**: 레지스터 및 상태 비트(PSR)에 연산 결과를 서명하여 **아키텍처 상태(Architectural State)**를 확정함.
 
 #### 한줄 요약
-
-- RISC는 Direct Hardware Control Signal Mapping, CISC는 Instruction Pre-decoding 및 $\mu \text{op}$ (Micro-op) Decomposition 후 Execution Unit으로 전달한다.
+- RISC는 Direct Hardware Decoding으로 처리 지연을 절감하며 CISC는 Pre-decoding 및 $\mu\text{op}$ Decomposition 구조를 취함.
 
 ## Ⅴ. 종류 및 비교
 
 <details>
 <summary>핵심 용어</summary>
 
-- **바이너리 호환성(Binary Compatibility)**: 기존 실행 파일을 재컴파일 없이 같은 ISA에서 실행할 수 있는 성질.
-- **해독부 면적(Decoder Area)**: 명령 해독 회로가 반도체 칩에서 차지하는 물리적 공간.
-- **명령 수(Instruction Count)**: 같은 작업을 수행하는 데 필요한 명령어 개수.
-- **전력(Power Consumption)**: 프로세서가 단위 시간에 소비하는 전기 에너지.
-- **x86 바이너리(x86 Binary)**: x86 ISA 명령으로 컴파일된 실행 파일.
-- **규칙적 형식(Fixed-Length Format)**: 명령 길이와 필드 위치가 일정해 경계를 쉽게 판정할 수 있는 인코딩 형식.
-- **가변 형식(Variable-Length Format)**: 명령마다 길이와 필드 구성이 달라 경계 판정이 필요한 인코딩 형식.
-- **프런트엔드 복잡도(Frontend Complexity)**: 명령어 인출•경계 판정•해독•변환 회로의 구조와 처리 부담.
-- **코드 크기(Code Size)**: 프로그램의 기계 명령이 메모리에서 차지하는 용량.
+- **바이너리 호환성(Binary Compatibility)**: 기존 작성된 수많은 기계어 실행 바이너리를 별도 재컴파일 없이 최신 CPU에서 구동 가능한 성질.
+- **해독부 면적(Decoder Area)**: 프로세서 다이(Die) 상에서 인코딩 디코더 및 Microcode ROM 회로가 차지하는 칩 면적 비율.
+- **명령 수(Instruction Count)**: 동일한 소프트웨어 알고리즘 수행 시 요구되는 총 실행 기계어 명령어의 수.
+- **전력(Power Consumption)**: 디코더 회로 작동 및 파이프라인 전환 시 발생하는 정적/동적 전력 소모량.
+- **x86 바이너리(x86 Binary)**: Intel/AMD CISC 아키텍처 전용으로 빌드된 기계어 바이너리 코드.
+- **규칙적 형식(Fixed-Length Format)**: 모든 명령어의 길이가 32비트 등으로 고정되어 파싱 오버헤드가 없는 포맷.
+- **가변 형식(Variable-Length Format)**: 명령어 길이가 1~15바이트 등으로 다양하여 하드웨어 파싱이 복잡한 포맷.
+- **프런트엔드 복잡도(Frontend Complexity)**: 명령어 인출, 경계 판정, $\mu\text{op}$ 캐싱 등을 담당하는 CPU 입구부의 회로 집적도.
+- **코드 크기(Code Size)**: 디스크 및 메모리에 적재되는 실행파일의 물리적 용량.
 
 </details>
 
-| ISA 설계 | RISC | CISC |
+| 비교 항목 | RISC (Reduced Instruction Set) | CISC (Complex Instruction Set) |
 |:---|:---|:---|
-| 적용 기준 | 재컴파일 가능하고 **해독부 면적** 제한 시 | **바이너리 호환성**과 기존 **x86 바이너리** 실행 필요 시 |
-| 핵심 특징 | **규칙적 형식**·로드·스토어 구조 | **가변 형식**·메모리 피연산자 허용 |
-| 한계 | 동일 작업의 **명령 수**•**코드 크기** 증가 가능 | 경계 판정•변환에 따른 **프런트엔드 복잡도** |
-
-> 요약: 규칙적 해독은 RISC, x86 호환은 CISC가 핵심이며 **전력**은 구현별로 측정.
+| **대표 ISA** | ARM, RISC-V, MIPS, POWER | x86, x86-64 (IA-32, AMD64) |
+| **명령어 형식** | **규칙적 형식(Fixed-Length)** (예: 32bit 고정) | **가변 형식(Variable-Length)** (1~15 Bytes) |
+| **메모리 접근** | **로드·스토어 구조(Load/Store)** 분리 | 메모리 직접 ALU 연산 허용 (Register-Memory) |
+| **디코더 특성** | 하드와이어드 디코더, 적은 **해독부 면적** | Microcode ROM, 대형 **프런트엔드 복잡도** |
+| **코드 밀도 & 명령수** | 낮은 **코드 밀도**, 동일 작업 시 많은 **명령 수** | 높은 코드 밀도, 작은 **코드 크기** 유지 |
+| **핵심 장점** | 고전력 효율, 파이프라인 고속화, 임베디드 적합 | 막대한 소프트웨어 생태계의 **바이너리 호환성** |
 
 #### 한줄 요약
-
-- RISC는 Simple Decoder Array 기반 파이프라인 최적화, CISC는 Complex Microcode ROM/Decoder 및 $\mu \text{op}$ Fusion으로 Instruction Stream을 구동한다.
+- RISC는 고정 길이 기반 파이프라인 전력 효율성을 극대화하고 CISC는 가변 길이 기반 코드 밀도 및 Legacy Binary Compatibility를 확보함.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
 <summary>핵심 용어</summary>
 
-- **압축 명령어(Compressed Instruction)**: 자주 사용하는 연산을 짧게 인코딩하여 코드 크기와 명령 캐시 사용량을 줄이는 명령어.
-- **에뮬레이션(Emulation)**: 다른 ISA의 동작을 소프트웨어로 모사하는 방식.
-- **호환 계층(Compatibility Layer)**: 기존 실행 환경의 요청을 새 플랫폼 규약으로 연결하는 계층.
-- **명령 정렬(Instruction Alignment)**: 가변 길이 명령의 시작 경계를 찾아 해독기에 맞춰 배치하는 처리.
-- **명령 캐시 미스(Instruction Cache Miss)**: 필요한 명령어를 캐시에서 찾지 못해 하위 메모리에서 가져오는 상황.
-- **마이크로아키텍처 벤치마크(Microarchitecture Benchmark)**: 구현에서 처리시간•전력•자원 사용량을 측정하는 시험.
-- **마이크로연산 캐시(Micro-op Cache)**: 해독한 내부 연산을 저장해 반복 실행 때 재해독을 줄이는 캐시.
+- **압축 명령어(Compressed Instruction)**: RISC 환경에서 자주 쓰는 32비트 명령을 16비트로 줄여 코드 밀도를 CISC 수준으로 끌어올리는 기술(예: ARM Thumb, RISC-V C-extension).
+- **에뮬레이션(Emulation)**: 다른 ISA 바이너리를 소프트웨어적 변환을 통해 실시간 해석 구동하는 기술.
+- **호환 계층(Compatibility Layer)**:異종 ISA 간 시스템 콜 및 바이너리를 변환 전달하는 번역 모듈(예: Apple Rosetta 2, Windows on ARM).
+- **명령 정렬(Instruction Alignment)**: 가변 길이 명령어가 메인 메모리 바이트 경계에 정렬되지 않을 때 하드웨어 인출 효율을 보정하는 기법.
+- **명령 캐시 미스(Instruction Cache Miss)**: 코드 크기 증가로 인해 I-Cache 내에 필요한 기계어가 없어 RAM 접근 지연이 발생하는 현상.
+- **마이크로아키텍처 벤치마크(Microarchitecture Benchmark)**: SPECint, SPECfp 등을 통해 실제 워크로드에서의 클록당 성능(IPC) 및 전력 대 성능비를 정밀 측정하는 평가.
+- **마이크로연산 캐시($\mu\text{op}$ Cache)**: CISC 디코더가 변환한 $\mu\text{op}$ 스트림을 저장해 두어 동일 루프 실행 시 디코딩 단계를 우회하는 고속 캐시.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| **가변 형식**의 경계 판정으로 해독부 포화 | **마이크로연산 캐시**•**명령 정렬** 최적화 | **해독 처리량** 증가 |
-| RISC의 명령 수 증가로 **명령 캐시 미스** 확대 | **압축 명령어**•코드 배치 최적화 | 코드 크기와 인출 미스 감소 |
-| ISA 전환으로 기존 바이너리 실행 불가 | 재컴파일 또는 **에뮬레이션**•**호환 계층** 제공 | **바이너리 호환성** 유지 |
-| ISA 이름만으로 성능•전력 오판 | **마이크로아키텍처 벤치마크** 수행 | 구현별 처리량•전력 비교 근거 확보 |
+| CISC의 가변 길이 경계 판정으로 인한 디코더 병목 및 프런트엔드 전력 소모 | 디코딩 결과를 저장하는 **$\mu\text{op}$ Cache** 및 **명령 정렬** 유닛 탑재 | 반복 루프 시 복잡한 디코딩 우회로 **해독 처리량** 획기적 증대 |
+| RISC의 고정 길이에 따른 **코드 크기** 증가 및 **명령 캐시 미스** 빈발 | 16비트 **압축 명령어(Compressed Instruction)** (ARM Thumb, RISC-V 'C') 적용 | 코드 밀도 향상 및 I-Cache Hit Rate 개선으로 메모리 트래픽 감소 |
+| 기존 CISC 레가시 애플리케이션의 RISC 칩 탑재 시 **바이너리 호환성** 부재 | JIT 기반 동적 바이너리 번역 **호환 계층(Rosetta 2 등)** 및 **에뮬레이션** 도입 | 기존 소프트웨어 재개발 없이 고효율 RISC 아키텍처로 신속 전환 |
+| 단순히 ISA 이름(RISC/CISC)만으로 칩 성능 및 전력 특성을 잘못 추정 | 실제 워크로드 대상 **마이크로아키텍처 벤치마크**를 통한 체계적 성능 검증 | 특정 파이프라인 백엔드 유닛에 최적화된 고성능 코어 선정 |
 
 #### 한줄 요약
-
-- 명령 인출•해독 처리량, 코드 밀도, 내부 연산 수와 실행 백엔드 사용률을 함께 측정해야 ISA 설계의 영향을 판단할 수 있다.
+- $\mu\text{op}$ Cache 탑재, Compressed Instruction 세트 적용, Dynamic Binary Translation 호환 계층 구성을 통해 프런트엔드 병목 및 바이너리 호환성 문제를 해결함.
 
 ## Ⅶ. 결론
 
 <details>
 <summary>핵심 용어</summary>
 
-- **벤치마크(Benchmark)**: 동일한 작업의 처리 시간•전력•자원 사용량을 측정하여 ISA와 마이크로아키텍처 조합을 비교하는 시험.
-- **ISA 선택 기준**: 해독 단순성•바이너리 호환성•실측 성능으로 ISA 설계를 평가하는 기준.
+- **벤치마크(Benchmark)**: SPEC, Geekbench 등 하드웨어 성능을 다각도로 객관 검증하는 표준 평가 프로그램 세트.
+- **ISA 선택 기준(ISA Selection Criteria)**: 시스템 개발 목적(모바일 저전력, 고성능 데이터센터, 레가시 호환 등)에 따라 적합한 명령어 아키텍처를 결정하는 평가 지표.
 
 </details>
 
-- **ISA 선택 기준**에 따라 단순 해독은 **RISC**, x86 호환은 **CISC** 우선하되 최종 선택은 **벤치마크**로 검증
+- **ISA 선택 기준(ISA Selection Criteria)**에 의거하여 모바일·클라우드·AI 가속 환경에는 하드웨어 전력 효율성과 파이프라인 확장성이 우수한 **RISC** (ARM, RISC-V) 아키텍처를 채택하고, 기존 데스크톱 및 고성능 legacy 인프라 분야에서는 소프트웨어 자산 보호를 위한 **CISC** (x86) 환경을 유지하되 실측 **벤치마크(Benchmark)** 기반 하이치 설계 최적화 체계 구축.
 
 #### 한줄 요약
-
-- Binary Compatibility, Code Density Requirement, Frontend Decode Power Consumption 및 Real-world Workload Benchmark(SPECint, SPECfp)를 다각적 평가한다.
+- Binary Compatibility, Code Density, Frontend Decode Power 및 실제 Target Workload Benchmark를 다각적으로 평가하는 ISA 최적화 체계 적용.
