@@ -20,180 +20,132 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **클라우드 데이터베이스(Cloud Database)**: 공급자가 배포•확장•패치•백업•장애 복구를 관리형 서비스로 제공하는 데이터베이스이다.
+- **Cloud Database (클라우드 데이터베이스)**: 퍼블릭 클라우드(AWS, GCP, Azure) 환경에서 인프라 프로비저닝, OS/DB 패치, 백업, Failover 고가용성을 완전 관리형(Fully-Managed PaaS/SaaS) 형태로 제공받는 데이터베이스 서비스.
+- **Amazon RDS (Relational Database Service)**: 전통적 RDBMS(MySQL, PostgreSQL, Oracle) 엔진 인스턴스를 EC2 기반의 완전 관리형으로 제공하는 1세대 클라우드 DB.
+- **Amazon Aurora**: 컴퓨팅 노드와 6방향(6-Way) 분산 스토리지 레이어를 물리적으로 분리하여, 기존 RDS 대비 5배 이상의 TPS 성능과 초고속 Failover를 달성한 Cloud-Native RDBMS.
+- **Amazon DynamoDB**: AWS의 서버리스(Serverless) Key-Value / Document NoSQL로, 밀리초 단위의 무제한 수평 확장(Scale-Out)과 Auto-Scaling을 지원하는 완전 관리형 DB.
 
 </details>
 
-- 정의/개념: 공급자가 운영을 대행하는 **클라우드 데이터베이스**이다.
-- 배경/필요성: 자체 운영은 패치•백업•장애 전환의 인력•복구 시간을 늘린다.
+- 정의/개념: AWS 등 클라우드 인프라 위에서 모니터링, 백업, 복제 및 장애전환(Failover) 관리를 자동화하여 수용하는 완전 관리형 DB 서비스 패러다임인 **Cloud Database**
+- 배경/필요성: 온프레미스 DB 구축 시의 하드웨어 리드타임 및 DBA 백업/패치 부담 절감, 트래픽 폭증 시 즉각적인 Auto-Scaling 대응 요구성
 
 #### 한줄 요약
+
 - 설치와 백업 및 장애 조치를 클라우드가 맡고 사용자는 용량을 선택한다.
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **공유 책임**: 운영 자동화와 별개로 데이터 설계•보안•복구•비용은 사용자가 책임지는 원칙이다.
-- **운영 자동화**: 공급자가 인스턴스 생성과 패치•백업•장애 전환을 대신 수행하는 특성이다.
-- **추상화 차이**: 서비스마다 사용자가 관리하는 단위가 인스턴스•클러스터•키 파티션으로 다른 특성이다.
+- **Decoupled Architecture (Aurora)**: Compute 노드와 Distributed Storage 레이어를 상호 독립 분리.
+- **Serverless & On-Demand (DynamoDB)**: 프로비저닝 없이 쿼리 횟수 및 디스크 사용량 단위 자동 과금.
 
 </details>
 
-- **운영 자동화**: 생성•패치•백업•전환을 제공한다.
-- **추상화 차이**: 인스턴스•클러스터•키 파티션이다.
-- **공유 책임**: 설계•보안•복구•비용은 사용자 책이다.
+- **AWS RDS**: 인스턴스 단위 기반, Multi-AZ 동기식 복제 Failover 지원
+- **AWS Aurora**: Compute/Storage 분리, 10GB~128TB 가변 자동 확장, 15개 Read Replica 수용
+- **AWS DynamoDB**: Serverless NoSQL, Partition Key 기반 무제한 Scale-Out
 
 #### 한줄 요약
+
 - 운영 작업은 줄지만 서비스별 확장 단위•비용•종속성이 다르다.
 
-## Ⅲ. 구조 및 구성요소
+## Ⅲ. 구조 및 구성요소 (AWS 3대 Cloud DB 아키텍처 비교)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **접속 엔드포인트**: 응용 요청을 현재 주 처리 대상으로 연결하는 네트워크 접점이다.
-- **관리 제어 계층**: 데이터베이스 배포와 패치•백업•장애 전환을 자동화하는 공급자 관리 계층이다.
-- **질의•키 처리 계층**: 구조화 질의 언어(Structured Query Language, SQL)나 파티션 키로 요청의 실행 위치를 결정하는 계층이다.
-- **컴퓨팅•파티션**: 관계형 질의나 키 기반 요청을 실제 처리하는 자원 단위이다.
-- **저장•복제 계층**: 데이터 내구성과 복제본 유지 및 시점 복구를 제공하는 계층이다.
+- **AWS Multi-AZ Deployment**: 2개 이상의 가용 영역(AZ)에 Primary DB와 Standby DB를 동기 복제(Synchronous Replication)하여 주 노드 다운 시 DNS 엔드포인트 자동 전환(Failover)을 보장하는 구조.
 
 </details>
 
 ```text
-[관리 제어 계층]
-    |
-    +-- [접속 엔드포인트]
-    |       |
-    |       +-- [질의•키 처리 계층]
-    |               |
-    |               +-- [컴퓨팅•파티션]
-    |
-    +-- [저장•복제 계층]
+┌────────────────────────────────────────────────────────────────────────┐
+│                        AWS 3대 Cloud DB 아키텍처                       │
+├───────────────────┬───────────────────┬────────────────────────────────┤
+│ 1. AWS RDS        │ 2. AWS Aurora     │ 3. AWS DynamoDB                │
+├───────────────────┼───────────────────┼────────────────────────────────┤
+│ • Primary DB (AZ1)│ • Compute Node    │ • Serverless Router            │
+│      │ (Multi-AZ) │      │ (Log-based)│ • Partition Key Hash Routing   │
+│      ▼            │      ▼            │ • 3-AZ Auto-Replicated         │
+│ • Standby DB (AZ2)│ • 6-Way Storage   │   Partitions (No Compute Node) │
+└───────────────────┴───────────────────┴────────────────────────────────┘
 ```
 
-선의 의미: 관리 제어 계층은 접속 엔드포인트와 저장•복제 계층을 관리하고, 접속 엔드포인트는 질의•키 처리 계층과 컴퓨팅•파티션을 연결하며, 컴퓨팅•파티션은 저장•복제 계층을 사용한다.
+선의 의미: 전통 인스턴스 복제(RDS), 분산 스토리지 레이어 분리(Aurora), 서버리스 분산 파티셔닝(DynamoDB)의 3대 아키텍처 구조.
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 관리 제어 계층 | **관리 제어 계층**이 배포•패치•백업•장애 전환 |
-| 접속 엔드포인트 | **접속 엔드포인트**가 현재 주 처리 대상으로 연결 |
-| 질의•키 처리 계층 | **질의•키 처리 계층**이 SQL•파티션 키로 위치 결정 |
-| 컴퓨팅•파티션 | **컴퓨팅•파티션**이 질의•키 요청 실행 |
-| 저장•복제 계층 | **저장•복제 계층**이 내구성•복제본•복구 제공 |
+| 구성 요소 / 서비스 | Amazon RDS | Amazon Aurora | Amazon DynamoDB |
+|:---|:---|:---|:---|
+| **DB 엔진 유형** | **전통 RDBMS (MySQL, Oracle 등)** | **Cloud-Native RDBMS (MySQL/PG 호환)**| **Key-Value / Document NoSQL** |
+| **스토리지 아키텍처** | 인스턴스 귀속 EBS Block Storage | **6-Way Shared Storage (3개 AZ 분산)**| **3-AZ 수평 분산 Partition** |
+| **확장 방식 (Scaling)**| Vertical Scale-Up (인스턴스 변경) | **Auto-Expanding Storage (128TB)** | **Serverless Auto-Scaling** |
+| **Failover 시간** | 보통 (1~2분 소요, DNS CNAME 변경) | **초고속 (10~30초 이내, Storage 유지)** | **0초 (Serverless 자동 처리)** |
 
 #### 한줄 요약
 
 - 운영 관리자, 접속 주소, 요청 안내자, 처리부, 사본 저장부로 구성된다.
 
-## Ⅳ. 흐름도
+## Ⅳ. 흐름도 (Aurora vs RDS Failover 메커니즘 차이)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **현재 처리 대상으로 라우팅**: 엔드포인트가 요청을 현재 쓰기 대상으로 보내는 단계이다.
-- **변경 레코드 복제**: 변경 내용과 순서를 다른 가용 영역에 전파하는 단계이다.
-- **복제 확인**: 설정한 내구성 범위의 변경 반영을 확인하는 단계이다.
-- **대기 노드 승격**: 관리 계층이 장애 판정 뒤 새 쓰기 대상을 정하는 단계이다.
-- **엔드포인트 대상 갱신**: 접속 주소를 새 쓰기 대상으로 전환하는 단계이다.
+- **Aurora 6-Way Storage Replication**: Aurora는 데이터를 6개 조각으로 쪼개어 3개 가용 영역(AZ)에 2개씩 복제 후 4/6 Write Quorum 수용.
 
 </details>
 
 ```text
-데이터베이스 요청
-        |
-        v
-1. 현재 처리 대상으로 라우팅
-        |
-        v
-2. 변경 레코드 복제
-        |
-        v
-3. 복제 확인
-        |
-        +-- 정상 --> 처리 결과 반환
-        |
-        +-- 장애 감지
-                |
-                v
-        4. 대기 노드 승격
-                |
-                v
-        5. 엔드포인트 대상 갱신
-                |
-                v
-              재연결
+[Aurora Primary Node Fail] ──► [Storage Layer 6-Way Data 100% Intact]
+                                          │
+                                          ▼
+ [Read Replica 중 1개를 10초 만에 Primary 로 승격] (스토리지 재복제 0초!)
 ```
 
 ### 동작 원리
 
-- **1. 현재 처리 대상으로 라우팅**: **현재 처리 대상으로 라우팅**해 쓰기 요청을 전달한다.
-- **2. 변경 레코드 복제**: **변경 레코드 복제**로 다른 가용 영역에 변경을 전파한다.
-- **3. 복제 확인**: **복제 확인**으로 설정된 내구성 범위를 검증한다.
-- **4. 대기 노드 승격**: **대기 노드 승격**으로 새 쓰기 대상을 결정한다.
-- **5. 엔드포인트 대상 갱신**: **엔드포인트 대상 갱신**으로 접속 주소를 전환한다.
+1. **Failure Event**: AZ1의 Aurora Primary Compute 노드 하드웨어 장애 발생.
+2. **Quorum Storage Safety**: 디스크 스토리지 레이어는 3개 AZ에 이미 6-Way로 복제 완료된 상태.
+3. **Instant Promotion**: 기존 Read Replica 중 하나를 10초 이내에 Primary Compute 노드로 즉시 승격 (**RTO 15초 달성**).
 
 #### 한줄 요약
 
 - 클라우드가 고장을 감지해 사본을 원본으로 바꾸고 같은 접속 주소를 새 원본에 연결한다.
 
-## Ⅴ. 종류 및 비교
+## Ⅴ. 종류 및 비교 (RDS vs Aurora vs DynamoDB 선택 매트릭스)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **Aurora**: 컴퓨팅과 분산 저장을 분리해 관계형 클러스터 확장을 제공하는 서비스이다.
-- **관계형 데이터베이스 서비스(Relational Database Service, RDS)**: 기존 관계형 엔진의 인스턴스 운영을 자동화하는 관리형 서비스이다.
-- **DynamoDB**: 키값•문서 접근과 자동 키 파티션 확장을 제공하는 관리형 비관계형 데이터베이스이다.
+- **Cloud DB Selection Matrix**: 레거시 이관은 RDS, 고성능 대용량 RDBMS는 Aurora, 초고속 수평 분산 NoSQL은 DynamoDB 선택.
 
 </details>
 
-| 클라우드 데이터베이스 서비스 | RDS | Aurora | DynamoDB |
+| 선택 기준 항목 | Amazon RDS | Amazon Aurora | Amazon DynamoDB |
 |:---|:---|:---|:---|
-| 적용 기준 | 기존 관계형 엔진 호환 | 관계형 클러스터 확장 | 키값•문서 접근 |
-| 핵심 특징 | **RDS** | **Aurora** | **DynamoDB** |
-| 한계 | 인스턴스 자원 병목 | 엔진 호환•I/O 비용 | 핫 파티션•스캔 비용 |
-
-> 요약: Aurora는 RDS 제품군이지만 저장 구조•확장 단위가 다르다.
+| **적합 워크로드** | 온프레미스 레거시 DB 이관 | **대규모 OLTP 웹 서비스 (고성능)** | **서버리스, 초고속 세션/카탈로그** |
+| **최대 TPS 성능** | 표준 수준 | **RDS 대비 3~5배 이상 성능 (IOPS)** | 무제한 수평 TPS 확장 가능 |
+| **비용 체계 (Cost)** | 인스턴스 사양 및 EBS 용량 고정 | 컴퓨팅 사양 + I/O 사용량 기반 | Read/Write Capacity Unit (RCU/WCU) |
+| **ACID 지원** | 100% 완전 지원 | **100% 완전 지원** | 단일 파티션 / Multi-Table ACID 지원 |
 
 #### 한줄 요약
 
 - 기존 관계형 엔진은 RDS, 분산 저장형 관계형은 Aurora, 키 중심 자동 분산은 DynamoDB를 검토한다.
 
-## Ⅵ. 실무 고려사항 및 대책
+## Ⅵ. 실무 고려사항 및 대책 (Cloud DB 비용 폭탄 및 Lock-in 예방)
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **접근 패턴**: 서비스 선택의 기준이 되는 주 조회와 갱신 방식이다.
-- **거래 경계**: 하나의 원자 연산으로 확정할 데이터 범위이다.
-- **다중 가용 영역(Multiple Availability Zones, Multi-AZ)**: 여러 가용 영역에 데이터베이스를 배치하는 구성이다.
-- **장애 주입**: 실제 영역 장애를 의도적으로 재현하는 시험이다.
-- **연결 재시도**: 장애 전환 뒤 새 주 노드로 다시 접속하는 동작이다.
-- **시점 복구(Point-in-Time Recovery, PITR)**: 지정한 시점의 데이터 상태로 복원하는 기능이다.
-- **교차 리전 복원**: 다른 지역에 백업을 복구하는 활동이다.
-- **입출력(Input/Output, I/O)**: 저장소에 데이터를 읽고 쓰는 연산이다.
-- **백업 비용**: 데이터 사본의 저장과 복원에 드는 비용이다.
-- **전송 비용**: 네트워크를 통한 데이터 이동에 드는 비용이다.
-- **신원 및 접근 관리(Identity and Access Management, IAM)**: 주체별 권한을 관리하는 접근 통제 체계이다.
-- **최소 권한**: 업무 수행에 필요한 권한만 부여하는 원칙이다.
-- **사설망**: 공개 인터넷에 노출되지 않는 데이터베이스 접속망이다.
-- **암호화**: 저장•전송 데이터를 키로 보호하는 통제이다.
-- **복구 시간 목표(Recovery Time Objective, RTO)**: 장애 뒤 서비스를 복구해야 하는 목표 시간이다.
+- **Vendor Lock-in**: DynamoDB 등 특정 클라우드 전용 API 사용 시 타 클라우드(GCP, Azure)나 온프레미스로 마이그레이션하기 극도로 어려워지는 현상.
 
 </details>
 
-| 문제 | 대책 | 효과 |
+| 위험 요소 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| 질의•거래•키 패턴과 다른 서비스는 재설계 비용 유발 | **접근 패턴**•**거래 경계** 비교 | 데이터 모델 오선택 방지 |
-| 다중 가용 영역 선언만으로 실제 전환 시간은 확인 불가 | **다중 가용 영역**•**장애 주입**•**연결 재시도** 시험 | 실제 **복구 시간 목표** 확인 |
-| 자동 백업도 복원하지 않으면 복구 목표 달성 미확인 | **시점 복구**•**교차 리전 복원** 검증 | 백업 복구 실효성 확인 |
-| 입출력•백업•전송량 누락은 예상 비용 초과 유발 | **입출력**•**백업 비용**•**전송 비용** 모델링 | 총비용 누락 방지 |
-| 과도한 접근 권한•공개 접속은 공유 책임 공백 유발 | **신원 및 접근 관리**•**최소 권한**•**사설망**•**암호화** | 접근 통제 공백 방지 |
+| Aurora 사용 시 I/O 비용 폭발 (**비용 폭탄**) | 빈번한 작은 쿼리 호출로 I/O 수천만 건 과금 | **Aurora Standard 대신 Aurora I/O-Optimized 요금제 변경** |
+| DynamoDB Scan 쿼리로 RCU 폭증 | Key 조건 없이 전체 테이블 Scan 쿼리 투척 | **Global Secondary Index (GSI) 생성 및 Query 사용** |
+| DynamoDB 전용 API 사용에 따른 **Vendor Lock-in** | AWS 독점 DynamoDB SDK 디펜던시 | **Spring Data DynamoDB / 래퍼 인터페이스 레이어 배치** |
+
+> 사례: **배달의민족 / 당근마켓 Aurora PostgreSQL & DynamoDB Polyglot 아키텍처**
 
 #### 한줄 요약
 
@@ -201,15 +153,14 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>핵심 용어</summary>
 
-- **서비스 선택 축**: 엔진 호환성•확장 단위•접근 패턴을 비교하는 기준이다.
+- **클라우드 DB 수립 기준(Cloud Database Standards)**: 엔진 호환성, RTO/RPO SLA, I/O 비용 분석 및 Serverless 요구성에 의거한 체계.
 
 </details>
 
-- **서비스 선택 축**에 따라 엔진 호환은 **RDS**, 분리형 확장은 **Aurora**, 키 접근은 **DynamoDB**를 선택한다.
+- **클라우드 DB 수립 기준**에 따라 대용량 OLTP 시스템 구축 시 **AWS Aurora PostgreSQL & Multi-AZ** 필수 수용
 
 #### 한줄 요약
 
-- **서비스 선택 축**은 운영 자동화와 사용자의 설계•복구 책임을 함께 비교한다.
+- 서비스 선택 축은 운영 자동화와 사용자의 설계•복구 책임을 함께 비교한다.
