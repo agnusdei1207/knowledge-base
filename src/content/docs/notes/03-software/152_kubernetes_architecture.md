@@ -21,9 +21,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 오케스트레이션(Orchestration) 구조.
-- **제어면(Control Plane)**: API 서버, etcd, 스케줄러(Scheduler), 컨트롤러 관리자(Controller Manager)로 구성된 클러스터 관리 핵심 서버.
-- **작업 노드(Worker Node)**: Kubelet, Kube-proxy, 컨테이너 런타임(Container Runtime)으로 구성되어 파드(Pod)를 실행하는 컴퓨팅 서버.
+- **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 컨테이너 오케스트레이션(Container Orchestration) 구조.
+- **제어면(Control Plane)**: API 서버(API Server), etcd(Distributed Key-Value Store), 스케줄러(Scheduler), 컨트롤러 관리자(Controller Manager)로 구성된 클러스터 관리 핵심 서버.
+- **작업 노드(Worker Node)**: 큐블릿(Kubelet), 큐브 프록시(Kube-proxy), 컨테이너 런타임(Container Runtime)으로 구성되어 파드(Pod)를 실행하는 컴퓨팅 서버.
 
 </details>
 
@@ -62,7 +62,7 @@ extra:
 ┌────────────────────────────────────────┬──────────────────────────────────────────┐
 │             제어면(Control Plane)      │           작업 노드(Worker Node)         │
 ├────────────────────────────────────────┼──────────────────────────────────────────┤
-│ API 서버 ──► etcd DB                   │ Kubelet ──► Kube-proxy ──► 런타임        │
+│ API 서버 ──► etcd 데이터베이스         │ 큐블릿 ──► 큐브 프록시 ──► 런타임        │
 │ 스케줄러 ──► 컨트롤러 관리자           │ └─► 파드(Pod)                            │
 └────────────────────────────────────────┴──────────────────────────────────────────┘
 ```
@@ -92,10 +92,10 @@ extra:
 </details>
 
 ```text
-[User: kubectl apply -f pod.yaml] ──► [kube-apiserver] ──► [etcd Store]
-                                             │
-                                             ▼
-[Pod Running Status Update] ◄── [kubelet & containerd] ◄── [kube-scheduler (Node Pick)]
+[사용자: kubectl apply -f 파드.yaml] ──► [API 서버] ──► [etcd 저장소]
+                                              │
+                                              ▼
+[파드 실행 상태 갱신] ◄── [큐블릿 & 컨테이너 런타임] ◄── [스케줄러 (노드 선택)]
 ```
 
 ### 동작 원리
@@ -149,4 +149,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **고가용성 제어면 구축 및 자동화 관리 체계 확립**
+- **고가용성 제어면 구축 및 자동화 관리 체계 확보**

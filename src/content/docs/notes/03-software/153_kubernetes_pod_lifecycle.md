@@ -21,9 +21,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **파드 생명주기(Pod Lifecycle)**: 파드의 생성부터 종료까지의 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
-- **프로브(Probe)**: Kubelet이 컨테이너의 생존 및 트래픽 서빙 준비 상태를 주기적으로 확인하는 메커니즘(Liveness, Readiness, Startup Probe).
-- **정상 종료(Graceful Termination)**: 파드 삭제 요청 시 `preStop` 훅과 `SIGTERM` 신호를 통해 기존 연결을 안전하게 정리(Drain)한 후 프로세스를 종료하는 절차.
+- **파드 생명주기(Pod Lifecycle)**: 파드(Pod)의 생성부터 종료까지 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
+- **프로브(Probe)**: 큐블릿(Kubelet)이 컨테이너의 생존(Liveness), 준비(Readiness), 기동(Startup) 상태를 주기적으로 확인하는 메커니즘.
+- **정상 종료(Graceful Termination)**: 파드 삭제 요청 시 `preStop` 훅(Hook)과 `SIGTERM` 신호를 통해 기존 연결을 안전하게 정리(Drain)한 후 프로세스를 종료하는 절차.
 
 </details>
 
@@ -62,9 +62,9 @@ extra:
 ┌────────────────────────────────────────┬──────────────────────────────────────────┐
 │           3대 프로브 점검 기능          │             기능 및 결과                │
 ├────────────────────────────────────────┼──────────────────────────────────────────┤
-│ 1. Startup Probe   ──► 부팅 완료 점검   │ 완료 시 다음 프로브 작동                 │
-│ 2. Liveness Probe  ──► 생존 점검        │ 실패 시 컨테이너 재시작                  │
-│ 3. Readiness Probe ──► 준비 점검        │ 실패 시 트래픽 유입 차단                 │
+│ 1. 기동 프로브 (Startup Probe) ──► 부팅 완료 점검 │ 완료 시 다음 프로브 작동                 │
+│ 2. 생존 프로브 (Liveness Probe)  ──► 생존 점검    │ 실패 시 컨테이너 재시작                  │
+│ 3. 준비 프로브 (Readiness Probe) ──► 준비 점검    │ 실패 시 트래픽 유입 차단                 │
 └────────────────────────────────────────┴──────────────────────────────────────────┘
 ```
 
@@ -85,15 +85,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **preStop Hook**: `kubectl delete pod` 수신 시 SIGTERM 전달 직전, Nginx 릴로딩이나 K8s Service Endpoint 맵핑 제거 시간을 벌어주는 스크립트 훅.
+- **preStop 훅(preStop Hook)**: `kubectl delete pod` 신호 수신 시 SIGTERM 전달 직전, 트래픽 차단 및 세션 정리를 위해 수행하는 스크립트 훅.
 
 </details>
 
 ```text
-[kubectl delete pod] ──► [Service Endpoint Removal & preStop Hook Exec (sleep 10)]
-                                                   │
-                                                   ▼
- [SIGKILL (Force Kill)] ◄── [TerminationGracePeriod (30s Expiry)] ◄── [SIGTERM Signal]
+[kubectl delete pod] ──► [서비스 엔드포인트 제거 & preStop 훅 실행 (대기)]
+                                                    │
+                                                    ▼
+  [SIGKILL (강제 종료)] ◄── [종료 유예 기간 (TerminationGracePeriod, 30초)] ◄── [SIGTERM 신호]
 ```
 
 ### 동작 원리
@@ -147,4 +147,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **파드 3대 프로브 최적화 및 무중단 정상 종료 체계 구현**
+- **파드 3대 프로브 최적화 및 무중단 정상 종료 체계 구현 완료**

@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쿠버네티스 파드 스케줄링(Kubernetes Pod Scheduling)**: `kube-scheduler`가 대기(Pending) 상태 파드를 리소스 여유, 테인트(Taints), 어피니티(Affinity) 규칙을 평가하여 적합한 노드에 배치(Binding)하는 프로세스.
-- **필터링 & 스코어링(Filtering & Scoring)**: 스케줄러 알고리즘으로, 1단계 필터링(부적합 노드 배제) 후 2단계 스코어링(최적 노드 선정)을 수행.
+- **쿠버네티스 파드 스케줄링(Kubernetes Pod Scheduling)**: 스케줄러(kube-scheduler)가 대기(Pending) 상태인 파드(Pod)를 리소스 여유, 테인트(Taint), 어피니티(Affinity) 규칙에 따라 적합한 노드에 배치(Binding)하는 프로세스.
+- **필터링 & 스코어링(Filtering & Scoring)**: 스케줄링 단계로, 1단계 필터링(부적합 노드 배제) 후 2단계 스코어링(최적 노드 선정)을 수행.
 - **노드 어피니티(Node Affinity/Anti-Affinity)**: 특정 파드를 특정 노드군에 배치하거나(Affinity), 중복 배치를 방지(Anti-Affinity)하는 선언적 배치 제약 조건.
 
 </details>
@@ -61,15 +61,15 @@ extra:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
-│                   kube-scheduler Scheduling Pipeline                   │
+│                   스케줄러 파이프라인 (kube-scheduler Pipeline)        │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [Pending Pod] ──► 1. FILTERING (Predicates) ──► 2. SCORING (Priorities)│
-│                     • NodeResourcesFit           • NodeResourcesBalanced│
-│                     • NodeName / NodeSelector    • ImageLocality        │
-│                     • Taints & Tolerations       • NodeAffinityScore    │
+│ [대기 파드] ──► 1. 필터링 (Filtering) ──► 2. 스코어링 (Scoring)        │
+│                   • 노드 자원 적합성 (ResourcesFit) • 노드 자원 균형     │
+│                   • 노드 선택 제약 (Selector)       • 이미지 지역성      │
+│                   • 테인트 및 톨러레이션            • 노드 선호도 점수   │
 │                                                          │             │
 │                                                          ▼             │
-│ [Pod Bound to Node 2] ◄── [NodeName Binding] ◄── [Pick Best Node 2]    │
+│ [노드 2 바인딩 완료] ◄── [노드 이름 바인딩] ◄── [최적 노드 2 선정]      │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -151,4 +151,4 @@ extra:
 
 ## Ⅶ. 결론
 
-- **필터링 및 스코어링 파이프라인 최적화 체계 확립**
+- **필터링 및 스코어링 파이프라인 최적화 체계 확립 완료**

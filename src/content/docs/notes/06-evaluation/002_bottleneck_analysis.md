@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어(Core Terms)</summary>
 
 - **병목(Bottleneck)**: 시스템 처리량을 제한하고 응답 지연을 유발하는 제약 자원 및 구간.
 - **임계 경로(Critical Path)**: 최종 사용자 응답시간을 결정하는 최장 실행 시간 경로.
@@ -37,11 +37,11 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어(Core Terms)</summary>
 
 - **포화(Saturation, 큐 대기열 적체)**: 서버가 유입되는 요청을 즉시 처리하지 못하고 한계에 부딪혀 대기열(Queue)에 작업이 누적되어 지연이 기하급수적으로 늘어나는 징후.
-- **상관 분석(Correlation Analysis)**: 어플리케이션 계층의 요청 지연 발생 시점과 인프라 계층의 자원 포화 시점을 동일한 시계열 그래프상에 겹쳐서 배치하여 인과 관계를 추론하는 분석 기법.
-- **병목 이동 검증(Bottleneck Shift Verification)**: 가장 시급한 병목 구간을 튜닝하거나 증설한 직후, 다시 부하 테스트를 수행하여 다음으로 한계에 도달하는 후순위 자원과 전체 시스템 처리량 개선 폭을 확인하는 반복 점검 과정.
+- **상관 분석(Correlation Analysis)**: 어플리케이션 계층의 요청 지연 발생 시점과 인프라 계층의 자원 포화 시점을 동일한 시계열 그래프상에 배치하여 인과 관계를 추론하는 분석 기법.
+- **병목 이동 검증(Bottleneck Shift Verification)**: 병목 구간 튜닝 직후 부하 테스트를 재수행하여, 다음으로 한계에 도달하는 후순위 자원과 전체 시스템 처리량 개선 폭을 확인하는 반복 점검 과정.
 
 </details>
 
@@ -52,10 +52,10 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>핵심 용어(Core Terms)</summary>
 
-- **USE(Utilization, Saturation, Errors / 자원 사용 진단)**: 시스템 내부의 물리적/논리적 자원을 대상으로 이용률(Utilization), 대기열 포화도(Saturation), 에러 발생(Errors)을 점검하여 인프라 병목을 진단하는 방법론.
-- **RED(Requests, Errors, Duration / 서비스 응답 진단)**: 마이크로서비스 및 API별로 초당 요청률(Requests), 실패율(Errors), 응답시간 지연(Duration)을 관측하여 소프트웨어 및 아키텍처 제약을 분석하는 방법론.
+- **USE(Utilization, Saturation, Errors)**: 시스템 내부 자원을 대상으로 이용률, 대기열 포화도, 에러 발생을 점검하여 인프라 병목을 진단하는 방법론.
+- **RED(Requests, Errors, Duration)**: 마이크로서비스 및 API별로 초당 요청률, 실패율, 응답시간 지연을 관측하여 소프트웨어 및 아키텍처 제약을 분석하는 방법론.
 
 </details>
 

@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 실제 데이터 행을 인덱스 순으로 디스크에 물리 정렬시키는 **Clustered Index** 와, 쿼리에 필요한 모든 컬럼을 인덱스 내에 포함시켜 테이블 재조회(Key Lookup)를 0으로 단축하는 **Covering Index**
-- 배경/필요성: 대용량 데이터 환경에서 범위 검색(Range Scan) 및 Random Disk I/O 병목 극복, Key Lookup 2차 디스크 탐색 비용 소멸을 통한 쿼리 응답시간 극대화 요구성
+- **정의**: 실제 데이터 행을 인덱스 순으로 디스크에 물리 정렬시키는 **클러스터드 인덱스(Clustered Index)** 와, 쿼리에 필요한 모든 컬럼을 인덱스 내에 포함시켜 테이블 재조회(`Key Lookup`)를 생략하는 **커버링 인덱스(Covering Index)** 기법.
+- **필요성**: 대용량 데이터 환경에서 범위 검색(Range Scan) 및 임의 디스크 I/O 병목 극복, `Key Lookup` 2차 디스크 탐색 비용 소멸을 통한 쿼리 응답시간 최적화.
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **Clustered Index**: 물리적 디스크 정렬 구조, 범위 쿼리(Range Query) 극대화, 테이블당 1개 (PK 기반)
-- **Covering Index**: **Zero Table Access / Zero Key Lookup**, 쿼리 실행 계획 상 **`Using index`** 렌더링
-- DML 수정 시 **Page Split (페이지 분할)** 및 인덱스 튜닝 Trade-off 존재
+- **클러스터드 인덱스(Clustered Index)**: 물리적 디스크 정렬 구조로 범위 쿼리(Range Query) 성능 극대화, 테이블당 1개(PK 기반).
+- **커버링 인덱스(Covering Index)**: 테이블 접근 없이 인덱스만으로 조회 완결(`Zero Key Lookup`), 실행 계획상 `Using index` 렌더링.
+- **운영 Trade-off**: DML 발생 시 페이지 분할(Page Split) 및 인덱스 유지 비용 발생.
 
 #### 한줄 요약
 
@@ -156,7 +156,7 @@ extra:
 
 </details>
 
-- **인덱스 물리 구조 수립 기준**에 따라 대용량 OLTP 데이터베이스 설계 시 **순차 Clustered PK & 초고속 쿼리 Covering Index** 필수 적용
+- **인덱스 물리 구조 수립 기준 적용** (대용량 OLTP 설계 시 순차 Clustered PK 및 초고속 쿼리 Covering Index 필수 수용)
 
 #### 한줄 요약
 
