@@ -22,17 +22,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior)과 증거 우도(Likelihood)를 결합하여 데이터 관측 후 사후 확률(Posterior)을 갱신하는 조건부 확률 정리.
-- **조건부 확률(Conditional Probability)**: 특정 사건 발생을 전제로 다른 사건이 발생할 확률.
-- **사전 확률(Prior Probability)**: 증거 관측 이전의 가설 확률.
-- **사후 확률(Posterior Probability)**: 증거 관측을 반영한 가설 확률.
-- **우도(Likelihood)**: 가설이 참일 때 증거 관측 가능성.
-- **기저율(Base Rate)**: 모집단에서 사건이 발생하는 기본 비율.
+- **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior Probability)과 증거 우도(Likelihood)를 결합하여 데이터 관측 후 사후 확률(Posterior Probability)을 갱신하는 조건부 확률 정리.
+- **조건부 확률(Conditional Probability)**: 특정 사건 A 발생을 전제로 사건 B가 발생할 확률.
+- **사전 확률(Prior Probability)**: 새로운 증거 관측 이전의 가설 H에 대한 확률.
+- **사후 확률(Posterior Probability)**: 증거 E 관측을 반영하여 갱신된 가설 H의 확률.
+- **우도(Likelihood)**: 주어진 가설 H가 참일 때 증거 E가 관측될 가능성($P(E|H)$).
+- **기저율(Base Rate)**: 전체 모집단에서 특정 사건이 발생하는 근본적인 비율.
 
 </details>
 
-- **정의**: 기저율(Prior)에 우도(Likelihood)를 결합하고 정규화하여 사후 확률(Posterior)을 갱신하는 확률적 추론 체계.
-- **배경**: 기저율을 간과한 관측은 기저율의 오류(Base Rate Fallacy)를 야기하며 사후 확률을 왜곡.
+- **정의**: 기저율(Prior)과 우도(Likelihood)를 결합하고 주변 확률(Marginal Probability)로 정규화하여 사후 확률(Posterior)을 갱신하는 베이지안 추론(Bayesian Inference) 체계.
+- **배경**: 기저율을 간과한 관측은 기저율의 오류(Base Rate Fallacy)를 야기하여 사후 확률 결과를 심각하게 왜곡.
 
 #### 한줄 요약
 
@@ -54,8 +54,8 @@ extra:
 
 > 민감도•특이도 90%라는 계산 조건이 같아도 기저율이 1%→50%로 높아지면 양성 사후확률은 8.33%→90%로 상승한다.
 
-- **역확률 추론(Inverse Probability Inference)**: 사전 확률과 우도의 곱을 정규화하여 원인 추론.
-- **기저율 오류 방지(Base Rate Fallacy Prevention)**: 민감도(Sensitivity)•특이도(Specificity) 외 Prior Rate를 반영한 PPV(Positive Predictive Value) 산출을 통해 확률 추론의 정확도 제고.
+- **역확률 추론(Inverse Probability Inference)**: 관측된 결과(증거)로부터 원인(가설)의 확률을 사후 갱신하는 통계적 추론 방법.
+- **기저율 오류 방지(Base Rate Fallacy Prevention)**: 민감도(Sensitivity) 및 특이도(Specificity) 외 기저율(Prior Rate)을 반영한 양성 예측도(PPV, Positive Predictive Value) 산출을 통한 확률 추론의 정확도 제고.
 
 #### 한줄 요약
 
@@ -101,24 +101,24 @@ extra:
 </details>
 
 ```text
-[가설과 관측 증거]
-        |
-        v
-1. 사전 확률 설정(Prior)
-        |
-        v
-2. 가설별 우도 계산(Likelihood)
-        |
-        v
-3. 사전 확률•우도 결합
-        |
-        v
-4. 주변 확률로 정규화(Normalization)
-        |
-        v
-[사후 확률(Posterior)]
-        |
-        `-- 다음 증거 관측 시 1의 사전 확률로
+    [가설 및 증거 관측]
+              |
+              v
+    1. 사전 확률 설정(Prior)
+              |
+              v
+    2. 가설별 우도 계산(Likelihood)
+              |
+              v
+    3. 사전 확률·우도 결합(Joint Prob.)
+              |
+              v
+    4. 주변 확률 정규화(Normalization)
+              |
+              v
+    [사후 확률 산출(Posterior)]
+              |
+              `-- 차기 증거 관측 시 사전 확률로 순환
 ```
 
 $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$

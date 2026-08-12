@@ -22,17 +22,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **확률 분포(Probability Distribution)**: 확률 변수의 특정 값이나 구간에 발생 가능성을 배정하는 확률 법칙.
-- **확률 변수(Random Variable)**: 무작위 시행의 결과를 수치로 대응시킨 변수.
-- **확률 질량 함수(Probability Mass Function, PMF)**: 이산 확률 변수의 값별 확률 부여 함수.
-- **확률 밀도 함수(Probability Density Function, PDF)**: 연속 구간의 확률 밀도 함수.
-- **기댓값(Expected Value)**: 분포의 중심 위치를 나타내는 모수.
-- **분산(Variance)**: 데이터가 평균으로부터 흩어진 정도.
-- **누적 분포 함수(Cumulative Distribution Function, CDF)**: 특정 값 이하가 나올 누적 확률을 나타내는 함수.
+- **확률 분포(Probability Distribution)**: 확률 변수(Random Variable)가 특정 값이나 구간에서 가질 수 있는 확률 밀도를 배정하는 수학적 법칙.
+- **확률 변수(Random Variable, RV)**: 무작위 시행(Random Experiment)의 결과를 수치로 대응시킨 변수.
+- **확률 질량 함수(Probability Mass Function, PMF)**: 이산 확률 변수(Discrete RV)의 각 값별 확률을 부여하는 함수.
+- **확률 밀도 함수(Probability Density Function, PDF)**: 연속 확률 변수(Continuous RV)의 구간 내 확률 밀도를 나타내는 함수.
+- **기댓값(Expected Value, E[X])**: 분포의 무게 중심 위치를 나타내는 확률적 모수.
+- **분산(Variance, Var(X))**: 데이터가 평균으로부터 흩어진 정도를 나타내는 모수.
+- **누적 분포 함수(Cumulative Distribution Function, CDF)**: 확률 변수가 특정 값 x 이하일 누적 확률을 나타내는 함수.
 
 </details>
 
-- **정의**: 확률 변수의 값이나 구간에 확률 밀도를 배정하여 불확실성을 정량화하는 수학적 체계.
+- **정의**: 확률 변수의 값이나 구간에 확률 밀도를 배정하여 불확실성을 정량화하는 수학적 추론 체계.
 - **배경**: 빈도 기반 표본 통계의 한계를 극복하고, 미관측 값의 발생 가능성 및 데이터 생성 메커니즘을 일반화.
 
 #### 한줄 요약
@@ -55,9 +55,9 @@ extra:
 
 > 지정 모수의 계산값에서 사건 2회의 확률은 이항분포($n=4,p=0.5$) 0.375, 포아송분포($\lambda=2$) 0.271로 중심 높이가 다르다.
 
-- 이산값은 **PMF(Probability Mass Function)**, 연속 구간은 **PDF(Probability Density Function)**로 표현.
-- 전체 합•적분이 1인 **정규화 조건(Normalization Condition)** 필수 준수.
-- **기댓값(Expected Value)**•**분산(Variance)**을 통한 중심•산포 정량화 핵심.
+- **이산/연속 확률 변수**: 셀 수 있는 값은 **확률 질량 함수(PMF)**, 연속 구간은 **확률 밀도 함수(PDF)**로 표현.
+- **정규화 조건(Normalization Condition)**: 전체 확률 합 또는 밀도 적분이 1이 되는 필수 조건 준수.
+- **중심 및 산포 지표**: **기댓값(Expected Value)** 및 **분산(Variance)**을 통한 중심 위치와 데이터 퍼짐 정도의 정량화.
 
 #### 한줄 요약
 - 주사위처럼 셀 수 있는 값은 확률을 더하고, 키처럼 연속인 값은 밀도 곡선 넓이로 확률을 구한다.
@@ -189,7 +189,7 @@ extra:
 
 </details>
 
-- **분포 선택 기준(Distribution Selection Criteria)** 기반의 적정 정규•이항•포아송 분포 모델링 체계 적용.
+- **분포 선택 기준(Distribution Selection Criteria)** 기반의 적정 정규·이항·포아송 분포 모델링 체계 적용.
 
 #### 한줄 요약
 - 값이 생긴 장면이 오차의 합인지, 고정 횟수의 성공인지, 고정 시간의 발생인지 먼저 확인한 뒤 정규•이항•포아송을 고른다.
