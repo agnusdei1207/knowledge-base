@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T17:01:00+09:00"
 tags:
   - "notes-software"
 weight: 68
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 구동 중인 실운영/Staging 환경의 웹 애플리케이션 외부 엔드포인트에 동적 모의 침투 공격을 수행하여 런타임 취약점 및 환경 설정 오류를 검증하는 **DAST (Dynamic Application Security Testing)**
-- 배경/필요성: SAST 정적 분석으로는 파악 불가능한 런타임 웹 서버 SSL 설정, 세션 타임아웃, 인가(Authorization) 누락 및 실제 공격 가능성 검증 요구성
+- 배경/필요성: 정적 분석만으로 **실행 설정•인가•공격 가능성** 확인 불가
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Black-box Testing (소스코드 지식 0% 외부 공격자 관점)**
+- **Black-box Testing (소스코드 비참조 외부 공격자 관점)**
 - **Language Agnostic (언어 독립적)** 및 낮은 오탐율(**Low False Positive**)
 - 소스코드 내 위치(라인 번호) 특정 불가 및 스캔 완료 시간 장기 소요
 
@@ -52,7 +52,7 @@ extra:
 
 - 실제 취약 반응 확인과 검사 누락의 한계를 함께 관리하는 것이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (DAST 4단계 메커니즘)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,29 +61,19 @@ extra:
 </details>
 
 ```text
-[DAST Scanner (OWASP ZAP)]
-       │
-       ▼ (1. Spider / Crawling)
-┌────────────────────────────────────────────────────────┐
-│ Attack Surface (URL, Parameter, Form, REST API) 도출   │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼ (2. Active Scanning & Injection)
-┌────────────────────────────────────────────────────────┐
-│ SQLi, XSS, CSRF, Auth-Bypass Payload 주입 공격 발사   │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼ (3. HTTP Response Analysis)
-[Target App (Staging)] ──► [HTTP Status Code & Body 분석] ──► [DAST Report 산출]
+ [크롤러] ─── [공격 페이로드]
+     │                 │
+ [인증 컨텍스트] ─ [취약점 보고서]
 ```
 
 선의 의미: DAST 스캐너가 웹 앱을 자동 크롤링하여 공격 표면을 도출하고 Active Scan 페이로드를 발사하여 HTTP 응답을 분석하는 구조.
 
-| 구성요소 (Components) | 핵심 역할 및 기능 | 주요 적용 내용 |
-|:---|:---|:---|
-| **Spider / Crawler** | 웹사이트 내부 전체 URL 링크 및 API 경로 자동 수집 | HTML/JS Parsing |
-| **Authentication Engine**| 로그인 폼, OAuth2, Session Cookie 유지 상태로 스캔 | Session / Token Manager |
-| **Attack Payload Generator**| SQLi, Cross-Site Scripting(XSS), CSRF 등 공격 페이로드 생성 | OWASP Top 10 Payloads |
-| **Active Scan Engine** | 생성된 공격 페이로드를 매개변수별로 실제 HTTP 전송 | Proxy Attack Runner |
-| **Response Analyzer** | HTTP 상태 코드, 에러 메시지, 응답 지연시간 분석 | Response Pattern Matcher |
+| 구성요소 | 책임 |
+|:---|:---|
+| 크롤러 | URL•폼•API의 공격 표면 탐색 |
+| 공격 페이로드 | 매개변수별 SQLi•XSS 등 시험 입력 생성 |
+| 인증 컨텍스트 | 역할별 세션•토큰을 유지해 권한 경로 탐색 |
+| 취약점 보고서 | 요청•응답과 재현 근거•위험도 기록 |
 
 #### 한줄 요약
 
@@ -103,10 +93,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Session Login 인증 수립   │
-│ 2. Spider 엔진으로 URL 수집  │
-│ 3. Active Scan 공격 주입     │
-│ 4. HTTP Response 오탐 판정   │
+│ 1. 검사 범위•권한 설정       │
+│ 2. 공격 표면 탐색            │
+│ 3. 공격 페이로드 주입        │
+│ 4. 취약 반응 증거 판정       │
+│ 5. 재현 보고서 생성          │
 └──────────────┬───────────────┘
                ▼
    [DAST 취약점 리포트 산출]
@@ -114,10 +105,11 @@ extra:
 
 ### 동작 원리
 
-1. **Authentication**: 로그인 아이디/비번을 세팅하여 Session Cookie 수립.
-2. **Spider Crawling**: 주입 대상 Form 파라미터 및 Rest API 엔드포인트 자동 도출.
-3. **Active Scanning**: `param1=' OR 1=1 --` 같은 공격 페이로드 송신.
-4. **Response Analysis**: HTTP 500 에러 메시지에 SQL 오류 문구 포함 시 취약점 확정 및 리포팅.
+1. **검사 범위•권한 설정**: 대상 URL과 역할별 계정•제외 경로 정의.
+2. **공격 표면 탐색**: 크롤러와 API 명세로 입력 지점 수집.
+3. **공격 페이로드 주입**: 격리 환경에 취약점별 요청 전송.
+4. **취약 반응 증거 판정**: 응답•상태 변화•지연을 오라클과 비교.
+5. **재현 보고서 생성**: 요청 식별자와 최소 재현 절차 기록.
 
 #### 한줄 요약
 
@@ -136,7 +128,7 @@ extra:
 | 테스트 관점 | 소스코드 내면 분석 | **외부 블랙박스 분석** | **내부 에이전트 + 외부 동적 분석** |
 | 코드 라인 식별| **정확히 라인 번호 지정** | 불가능 (URL만 도출) | **정확히 라인 번호 지정** |
 | 실행 환경 필요| 필요 없음 (비실행) | **필수 (Staging/Prod 필요)**| **필수 (에이전트 주입 필요)** |
-| 검사 속도 | 빠름 (수분) | **느림 (수시간~수일 소요)** | 중간 |
+| 검사 비용 | 코드 모델 분석 비용 | **공격 표면•역할별 반복 실행 비용** | 에이전트 계측과 실행 비용 |
 
 #### 한줄 요약
 
@@ -154,7 +146,7 @@ extra:
 |:---|:---|:---|
 | 실운영 DB 데이터 파괴 위험 (**Production Risk**) | **독립된 Staging / QA 환경에 더미 데이터로 스캔** | 운영 데이터 안전 보장 |
 | SPA (Single Page App, React) 자바스크립트 크롤링 실패 | **Headless Browser (Puppeteer/Playwright) 기반 크롤러 연동** | 렌더링 경로 탐색 완결 |
-| DAST 스캔 시간이 수시간 소요되어 CI 파이프라인 지연 | **CI 단계에서는 Baseline 스캔, 주말 야간 Full 스캔 분리** | 파이프라인 배포 보존 |
+| DAST 전체 검사로 CI 피드백 지연 | **CI 기준선 검사와 예약 전체 검사** 분리 | 검사 범위와 배포 속도 균형 |
 
 > 사례: **OWASP ZAP / Burp Suite Enterprise + Jenkins CD Pipeline** 연동 모의 침투 스캔
 
@@ -170,7 +162,7 @@ extra:
 
 </details>
 
-- **DAST 도입 수립 기준**에 따라 Web/API 보안 확보 시 **Staging 환경 내 OWASP ZAP DAST 스캔** 필수 수용
+- 외부 공격 가능성은 **DAST**, 코드 원인 추적은 **SAST•IAST** 선택
 
 #### 한줄 요약
 

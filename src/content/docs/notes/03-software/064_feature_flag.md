@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 플래그 (Feature Flag)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:37:00+09:00"
 tags:
   - "notes-software"
 weight: 64
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 애플리케이션의 재배포 없이 런타임 시점에 특정 기능의 온/오프(ON/OFF) 및 타깃 사용자군별(Cohort) 노출 여부를 동적으로 통제하는 **Feature Flag (Feature Toggle)**
-- 배경/필요성: 배포와 릴리스의 시점적 결합으로 인한 릴리스 지연 방지, 장애 발생 시 재배포 없이 즉각 긴급 차단(Kill Switch) 및 A/B 테스트 환경 구축 요구성
+- 배경/필요성: 배포와 노출의 결합은 **출시 지연•장애 복귀 지연** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 대상 규칙의 유연성과 만료 플래그 누적 방지의 절충이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (피처 플래그 4대 유형 및 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,24 +61,19 @@ extra:
 </details>
 
 ```text
-[개발자 / PM 콘솔] ──► [중앙 Flag 관리 플랫폼 (LaunchDarkly/Unleash)]
-                                    │
-                                    ▼ (WebSocket / Config Sync)
- [App Client Request] ──► [App Node (Flag SDK Evaluation)]
-                                    │
-                       ┌────────────┴────────────┐
-                       ▼ (Flag ON)               ▼ (Flag OFF)
-               [New Feature Path]        [Old / Default Path]
+ [설정 저장소] ─── [평가 모듈]
+       │                 │
+ [감사 기록] ───── [기능 경로]
 ```
 
 선의 의미: 중앙 Console에서 Flag 룰셋이 변경되면 App Node의 SDK가 동적으로 평가(Evaluate)하여 New Feature와 Default 코드 경로 중 하나를 인라인 렌더링하는 아키텍처.
 
-| 분류 (Category) | 피처 플래그 유형 | 유효 수명 (Lifetime) | 주요 용도 및 대표 적용 사례 |
-|:---|:---|:---|:---|
-| **Release Toggles** | 릴리스 플래그 | 단기 (수일 ~ 수주) | 미완성 기능의 메인 브랜치 안전 병합 및 점진적 릴리스 |
-| **Experiment Toggles**| 실험 플래그 | 단기 (수주 ~ 수개월)| **A/B 테스트 및 데이터 기반 유저 반응 실험** |
-| **Ops Toggles** | 운영 플래그 | 장기 (시스템 수명 내내)| **장애 시 기능 즉시 억제 (Kill Switch), 성능 튜닝** |
-| **Permission Toggles**| 권한 플래그 | 장기 (시스템 수명 내내)| **VIP 유저 / 유료 회원 전용 프리미엄 기능 제한 노출** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 설정 저장소 | 플래그 값•대상 규칙•만료일 보관 |
+| 평가 모듈 | 요청 문맥과 규칙으로 변형값 결정 |
+| 기능 경로 | 평가 결과에 따라 신규•기본 동작 실행 |
+| 감사 기록 | 설정 변경자•시점•노출 결과 추적 |
 
 #### 한줄 요약
 
@@ -98,9 +93,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. User Context 추출 (ID,Role)│
-│ 2. Flag SDK 런타임 Evaluation│
-│ 3. Target Rule 매칭 (95:5)   │
+│ 1. 요청 문맥 추출            │
+│ 2. 대상 규칙 평가            │
+│ 3. 안전 기본값 결정          │
+│ 4. 기능 경로 실행            │
+│ 5. 평가 결과 기록            │
 ├──────────────┬───────────────┤
 │ (Flag = True)│ (Flag = False)│
 │              ▼               ▼
@@ -110,10 +107,11 @@ extra:
 
 ### 동작 원리
 
-1. **Context Extraction**: 요청에서 `user_id`, `client_ip`, `membership_tier` 인출.
-2. **Flag SDK Evaluation**: 인메모리 피처 플래그 SDK가 규칙 룰셋 대조.
-3. **Branching Execution**: `Flag = True`일 시 신규 결제 UI 실행, `False`일 시 기존 결제 UI 파이프라인 집행.
-4. **Kill Switch 발동**: 신규 결제 UI 장애 발생 시, PM이 LaunchDarkly 콘솔에서 Flag `OFF`로 변경 1초 만에 기존 UI로 전원 원복.
+1. **요청 문맥 추출**: 사용자 ID•역할•지역 등 속성 수집.
+2. **대상 규칙 평가**: SDK가 플래그 규칙과 문맥 대조.
+3. **안전 기본값 결정**: 저장소 장애 시 캐시•기본값 적용.
+4. **기능 경로 실행**: 평가 변형값에 맞는 코드 경로 선택.
+5. **평가 결과 기록**: 플래그 버전과 노출 결과 감사 기록.
 
 #### 한줄 요약
 
@@ -130,9 +128,9 @@ extra:
 | 비교 항목 | Canary Deployment (인프라 레벨) | Feature Flag (소프트웨어 코드 레벨) |
 |:---|:---|:---|
 | 제어 계층 | L7 Ingress Router / Service Mesh 인프라 | **소프트웨어 애플리케이션 코드 (if-else)** |
-| 분기 조건 | 단순 IP/네트워크 가중치 비율 (90:10) | **유저 ID, 회원 등급, 국가, 유효 기간 등 세분화** |
+| 분기 조건 | 네트워크 가중치•요청 속성 | **사용자 ID•등급•지역•기간 등 세분화** |
 | 제어 주체 | DevOps 엔지니어 | **소프트웨어 개발자, 기획자(PM), 마케터** |
-| 인프라 의존성 | K8s, Istio 등 고도화 인프라 필요 | **인프라 무관 (코드 및 SDK 설치만으로 즉시 구동)**|
+| 인프라 의존성 | 라우터•서비스 메시 등 트래픽 제어 필요 | **애플리케이션 SDK와 설정 서비스 필요** |
 
 #### 한줄 요약
 
@@ -150,7 +148,7 @@ extra:
 |:---|:---|:---|
 | 수십 개의 플래그 조건문 방치로 인한 기술 부채 (**Flag Pollution**) | **Flag 만료일(TTL) 지정 및 JIRA 릴리스 완료 시 Cleanup 이슈 자동 생성** | 코드 깔끔성 보장 |
 | Flag SDK 평가 통신 장애로 애플리케이션 먹통 | **In-memory Local Caching & Fallback Default 값 설정** | 런타임 안정성 보장 |
-| 피처 플래그 조건문 중첩으로 인한 테스트 가짓수 폭증 | **1개 메서드 내 최대 1개 Flag만 사용 (Single Toggle Principle)** | 테스트 복잡도 통제 |
+| 피처 플래그 중첩으로 시험 조합 폭증 | **플래그 의존 관계 제한**과 쌍대 시험 | 시험 복잡도 통제 |
 
 > 사례: **LaunchDarkly / OpenFeature (CNCF 표준) + Spring Boot 3** 피처 플래그 통제 구축
 
@@ -166,7 +164,7 @@ extra:
 
 </details>
 
-- **피처 플래그 관리 기준**에 따라 배포-릴리스 분리 및 A/B 테스트 도입 시 **OpenFeature / LaunchDarkly + Flag Cleanup** 수용
+- 임시 릴리스 플래그는 **만료 후 제거**, 비상 플래그는 **지속 점검**
 
 #### 한줄 요약
 

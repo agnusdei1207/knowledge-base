@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "뮤테이션 테스트 (Mutation Testing)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-13T16:20:00+09:00"
 tags:
   - "notes-software"
 weight: 61
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 테스트 코드의 **단언문(Assertion)** 유효성과 결함 탐지 능력을 역으로 검증하는 **화이트박스(White-box) 테스트** 기법.
-- 배경: 높은 **코드 커버리지(Code Coverage)** 달성 시에도 단언문 부재로 인한 결함 탐지 실패(**Coverage Fallacy**) 극복 필요.
+- 배경/필요성: 높은 **코드 커버리지**만으로 단언문 탐지력 확인 불가
 
 #### 한줄 요약
 - 인위적 결함 주입 기반 테스트 결함 탐지력 검증.
@@ -44,7 +44,7 @@ extra:
 #### 한줄 요약
 - 결함 탐지 품질 중심의 테스트 정량 평가.
 
-## Ⅲ. 구조 및 연산자 (Mutation Operators)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어 (Key Terminology)</summary>
 
@@ -53,31 +53,22 @@ extra:
 </details>
 
 ```text
-[Original: if (a > b) return a + b;]
-                │
-                ▼ (Mutation Operator Injection)
-┌──────────────────────────────────────────────┐
-│ Mutant 1: if (a >= b) return a + b; (ROR)    │
-│ Mutant 2: if (a > b) return a - b;  (AOR)    │
-│ Mutant 3: if (False) return a + b;  (LOR)    │
-└───────────────────────┬──────────────────────┘
-                        ▼
-            [Unit Test Execution]
-                        │
-        ┌───────────────┴───────────────┐
-        ▼                               ▼
-  [Test Fail: Killed]            [Test Pass: Survived]
+ [원본 코드] ─── [변이 연산자]
+      │                │
+ [단위 시험 모음] ─ [변이체]
+      │                │
+      └──── [판정 결과]
 ```
 
 선의 의미: 원본 코드에 변이 연산자가 결함을 주입하여 변이체(Mutant)를 생성하고, 기존 단위 테스트가 이를 사멸(Killed)시키는지 검증하는 아키텍처.
 
-| 구분 변이 연산자 | 연산자 명칭 (Operator) | 결함 주입 코드 변환 예시 |
-|:---|:---|:---|
-| **AOR** | Arithmetic Operator Replacement | `+` $\rightarrow$ `-`, `*` $\rightarrow$ `/` (산술 연산자 변환) |
-| **ROR** | Relational Operator Replacement | `>` $\rightarrow$ `>=`, `==` $\rightarrow$ `!=` (관계 연산자 변환) |
-| **LOR** | Logical Operator Replacement | `&&` $\rightarrow$ `||`, `!` 제거 (논리 연산자 변환) |
-| **UOI** | Unary Operator Insertion | `x` $\rightarrow$ `-x`, `x++` $\rightarrow$ `x--` (단항 연산자 변환) |
-| **ABS** | Absolute Value Insertion | `x` $\rightarrow$ `Math.abs(x)` (절댓값 주입) |
+| 구성요소 | 책임 |
+|:---|:---|
+| 원본 코드 | 변이 주입 전 기준 동작 제공 |
+| 변이 연산자 | 산술•관계•논리 연산을 규칙에 따라 변경 |
+| 변이체 | 의도적 결함이 포함된 프로그램 버전 |
+| 단위 시험 모음 | 변이체별 기존 시험 실행 |
+| 판정 결과 | Killed•Survived•Equivalent 상태 기록 |
 
 #### 한줄 요약
 - 변이 연산자 기반 결함 주입 및 탐지력 검증.
@@ -96,11 +87,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Inject Mutation Operator  │
-│ 2. Generate N Mutants        │
-│ 3. Execute Unit Test Suite   │
-│ 4. Evaluate (Killed/Survived)│
-│ 5. Calculate MS              │
+│ 1. 변이 연산자 선택          │
+│ 2. 변이체 생성               │
+│ 3. 단위 시험 실행            │
+│ 4. 변이체 상태 판정          │
+│ 5. 변이 점수 산출            │
 └──────────────┬───────────────┘
                ▼
  [Analyze Survived & Reinforce Test]
@@ -108,10 +99,11 @@ extra:
 
 ### 동작 원리
 
-1. **Mutant Generation**: PIT 도구가 바이트코드를 조작하여 규칙에 따른 다수 변이체 생성.
-2. **Test Execution**: 생성된 변이체별 단위 테스트 자동 수행.
-3. **Killed / Survived 판정**: 테스트 실패 시 **Killed**, 통과 시 **Survived**.
-4. **Mutation Score 산출**: 정량적 결함 탐지 점수 산출 및 단언문 보강.
+1. **변이 연산자 선택**: 코드 특성에 맞는 결함 주입 규칙 선택.
+2. **변이체 생성**: PIT가 연산자별 프로그램 버전 생성.
+3. **단위 시험 실행**: 각 변이체에 기존 시험 모음 수행.
+4. **변이체 상태 판정**: 실패는 Killed, 통과는 Survived 분류.
+5. **변이 점수 산출**: 등가 변이체를 제외해 탐지력 계산.
 
 $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Mutants}} \times 100 (\%)$$
 
@@ -130,7 +122,7 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 |:---|:---|:---|
 | 측정 대상 | 코드 실행 여부 | 테스트 단언문(Assertion) 결함 탐지 품질 |
 | Assertion 검증 | 단언문 없어도 100% 가능 | 단언문 미흡 시 생존(Survived) 발생 |
-| 컴퓨팅 비용 | 매우 낮음 | 매우 높음 (변이체별 반복 실행) |
+| 컴퓨팅 비용 | 단일 시험 실행 중심 | 변이체별 반복 실행으로 비용 증가 |
 | 실무 유용성 | 기본적인 미실행 코드 조망 | 핵심 도메인 로직 테스트 검증 |
 
 #### 한줄 요약
@@ -148,7 +140,7 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 |:---|:---|:---|
 | 빌드 시간 지연 | PITest Incremental Analysis (델타 스캔) | 테스트 시간 단축 |
 | 등가 변이체(Equivalent) 점수 왜곡 | 서프레스 어노테이션 및 수동 제거 | 점수 정확도 확보 |
-| CI 파이프라인 과부하 | 핵심 도메인 핀포인트 적용 | 효율성 극대화 |
+| CI 파이프라인 과부하 | 핵심 도메인과 변경 범위에 선별 적용 | 계산 비용 대비 탐지 가치 향상 |
 
 > 사례: Java 오픈소스 및 금융권 핵심 파이낸스 엔진 대상 **PITest (PIT Mutation Testing)** 검증 정착
 
@@ -157,4 +149,8 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 
 ## Ⅶ. 결론
 
-- 미션 크리티컬 로직 대상 변이 점수 80% 이상 확보 및 지속적 테스트 케이스 보강 체계 적용.
+- 핵심 결정 로직은 **변이 테스트**, 일반 경로는 **코드 커버리지** 우선 적용
+
+#### 한줄 요약
+
+- 결함 위험과 실행 비용에 따라 변이 시험 범위를 정하는 것이 핵심이다.

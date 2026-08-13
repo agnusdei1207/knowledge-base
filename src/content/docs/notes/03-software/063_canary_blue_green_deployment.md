@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "카나리 배포•블루-그린 배포 (Canary Blue-Green Deployment)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:31:00+09:00"
 tags:
   - "notes-software"
 weight: 63
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 클라우드 컴퓨팅 및 컨테이너 오케스트레이션 환경에서 서비스를 중단하지 않고 신버전으로 유연하게 이행하기 위한 2대 대표 무장애 배포 전략인 **Canary & Blue-Green Deployment**
-- 배경/필요성: 단일 서버 일괄 덮어쓰기(Re-deploy)로 인한 서비스 장애 타격 방지, 배포 실패 시 1초 만에 구버전으로 스위칭 원복하는 고가용성 확보 요구성
+- 배경/필요성: 일괄 덮어쓰기는 **전체 장애•복귀 지연** 위험 유발
 
 #### 한줄 요약
 
@@ -45,14 +45,14 @@ extra:
 </details>
 
 - **Blast Radius (장애 타격 범위)** 극소화 및 가중치 트래픽 라우팅 (**Canary**)
-- 인프라 자원 2배 동시 점유 및 순간 100% 라우팅 스위칭 (**Blue-Green**)
-- 배포 실패 시 L4/L7 라우터 전환만으로 **1초 만에 Instant Rollback** 달성
+- 병렬 환경과 일괄 라우팅 전환(**Blue-Green**)
+- 배포 실패 시 L4/L7 라우터 기반 **즉시 복귀**
 
 #### 한줄 요약
 
 - 점진 노출과 즉시 전환의 위험 통제 방식 차이가 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (Blue-Green 대 Canary)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,23 +61,18 @@ extra:
 </details>
 
 ```text
-[Blue-Green 배포 구조]
-Load Balancer (Switch 100%)
-   ├──► Blue Environment (Old Version 1.0 - Active)
-   └──► Green Environment (New Version 2.0 - Idle ──► Active)
-
-[Canary 배포 구조]
-Ingress Router (Weight Split)
-   ├──► 95% Traffic ──► Stable Pods (v1.0)
-   └──►  5% Traffic ──► Canary Pods (v2.0 - Prometheus 감시중)
+ [배포 제어기] ─── [트래픽 라우터]
+        │                   │
+        └──── [관측 시스템]
 ```
 
 선의 의미: Blue-Green은 로드밸런서가 Blue/Green 전체를 100% 스위칭하고, Canary는 Ingress가 95:5 비율로 트래픽을 분사 노출시키는 구조.
 
-| 배포 아키텍처 | 핵심 구조 및 동작 원리 | 장점 및 한계점 |
-|:---|:---|:---|
-| **Blue-Green** | 구버전(Blue)과 신버전(Green) 인프라 1:1 구성 후 **Router 100% 스위칭** | **장점: 롤백 1초 완결, 배포 절차 단순 / 한계: 인프라 자원 비용 2배 소요** |
-| **Canary** | 전체 트래픽 중 소수(5%)만 신버전에 쏠리게 **Weight Routing** 후 점진 확장 | **장점: 장애 타격 범위(Blast Radius) 극소화 / 한계: 트래픽 제어 복잡도 증가** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 배포 제어기 | 신규 버전 배치와 승격•복귀 상태 관리 |
+| 트래픽 라우터 | 버전별 트래픽 비율 또는 대상 전환 |
+| 관측 시스템 | 버전별 오류율•지연시간과 가드레일 측정 |
 
 #### 한줄 요약
 
@@ -97,24 +92,29 @@ Ingress Router (Weight Split)
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ [Blue-Green] Green 100% 스위치│ [Canary] 5% 가중치 노출
-│ 1. 롤백 시 Blue 100% 원복    │ 1. ACA 지표 비교 (Kayenta)
-│ 2. 정상 시 Blue 환경 파기    │ 2. 이상 발생 시 5% 즉시 차단
-└──────────────┬───────────────┘ 3. 정상 시 10% $\rightarrow$ 100% 노출
+│ 1. 배포 전략 선택            │
+│ 2. 신규 버전 배치            │
+│ 3. 트래픽 노출•전환          │
+│ 4. 가드레일 지표 판정        │
+│ 5. 확대•확정 또는 복귀       │
+└──────────────┬───────────────┘
                ▼
      [무장애 릴리스 완결]
 ```
 
 ### 동작 원리
 
-1. **Canary 동작**: Canary Pod 1개 배치 후 Ingress Weight 5% 설정 $\rightarrow$ 10분간 에러율 관측 $\rightarrow$ 이상 없을 시 10%, 25%, 50%, 100% 점진 승격 $\rightarrow$ 기존 v1.0 Pod 삭제.
-2. **Blue-Green 동작**: Green 환경에 v2.0 미리 100% 프로비저닝 $\rightarrow$ 헬스체크 Pass 확인 $\rightarrow$ Load Balancer 타깃 그룹을 Blue에서 Green으로 100% 순간 스위칭 $\rightarrow$ 문제 시 Blue로 즉시 스위칭 원복.
+1. **배포 전략 선택**: 자원 여유•영향 범위•복귀 방식 평가.
+2. **신규 버전 배치**: 카나리 또는 Green 환경에 버전 배치.
+3. **트래픽 노출•전환**: 점진 비율 또는 대상 환경 전환.
+4. **가드레일 지표 판정**: 기준 버전과 오류율•지연 비교.
+5. **확대•확정 또는 복귀**: 정상은 승격, 이상은 구버전 복귀.
 
 #### 한줄 요약
 
 - 카나리 확대•복귀와 블루-그린 전환•복귀의 제어 흐름이 핵심이다.
 
-## Ⅴ. 종류 및 비교 (무장애 배포 3대 기법 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -125,9 +125,9 @@ Ingress Router (Weight Split)
 | 비교 항목 | Rolling Update (롤링 배포) | Blue-Green Deployment | Canary Deployment |
 |:---|:---|:---|:---|
 | 배포 방식 | 기존 Pod를 하나씩 인플레이스 순차 교체 | 1:1 별도 환경 생성 후 **100% 순간 스위칭**| **소수(5%) 트래픽 노출 후 단계적 확대** |
-| 자원 오버헤드 | 매우 낮음 (추가 자원 불필요) | **매우 높음 (동일 자원 2배 100% 필요)** | 소량 필요 (Canary Pod 분량만큼) |
-| 구/신버전 공존| 배포 진행 중 **구/신버전 트래픽 혼재** | **공존 없음 (순간 100% 스위칭)** | **배포 기간 동안 intentional 공존** |
-| 롤백 속도 | 느림 (역순으로 하나씩 되돌려야 함) | **매우 빠름 (1초 만에 Router 스위칭)** | **매우 빠름 (Canary 라우팅 0% 변경)** |
+| 자원 오버헤드 | 교체 여유분만 추가 필요 | **병렬 환경만큼 자원 증가** | 카나리 인스턴스만 추가 필요 |
+| 구/신버전 공존 | 배포 진행 중 **구•신버전 혼재** | **전환 전 병렬 환경 유지** | **관찰 기간에 의도적 공존** |
+| 롤백 방식 | 이전 버전으로 역순 교체 | **라우팅을 Blue로 재전환** | **카나리 노출을 차단** |
 
 #### 한줄 요약
 
@@ -144,7 +144,7 @@ Ingress Router (Weight Split)
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 무장애 배포 중 DB 스키마 변경 시 구버전 앱 붕괴 | **Expand-Contract Pattern (2단계 DB 스키마 변경)** | DB 트랜잭션 호환성 보장 |
-| Blue-Green 배포 시 인프라 비용 2배 폭증 | **Kubernetes 기반 HPA & 배포 완료 후 Blue 환경 파기** | 자원 비용 최적화 |
+| Blue-Green 병렬 환경으로 인프라 비용 증가 | **HPA와 전환 후 이전 환경 회수 정책** | 복귀 시간과 자원 비용 균형 |
 | Canary 배포 시 유저 세션 튕김 현상 | **Redis 세션 외부화 (Stateless Architecture)** | 유저 경험(UX) 보존 |
 
 > 사례: **Kubernetes + Argo Rollouts + Istio + Flagger (Automated Canary Analysis)** 조화 구축
@@ -161,7 +161,7 @@ Ingress Router (Weight Split)
 
 </details>
 
-- **무장애 배포 선택 기준**에 따라 인프라 예산 충분 시 **Blue-Green**, 트래픽 리스크 최소화 시 **Argo Rollouts Canary** 수용
+- 부분 노출 검증은 **Canary**, 일괄 전환•복귀는 **Blue-Green** 선택
 
 #### 한줄 요약
 

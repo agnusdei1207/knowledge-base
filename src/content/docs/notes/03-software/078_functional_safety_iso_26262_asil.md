@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T18:02:00+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 승용차 및 상용차 E/E 시스템의 고장으로 발생할 수 있는 사고 위험을 방지하고자 HARA를 통해 ASIL(A~D) 등급을 부여하고 개발 전 수명주기(Safety Lifecycle)를 통제하는 기능 안전 표준인 **ISO 26262**
-- 배경/필요성: 자율주행, ADAS, ECU 전장화 폭증에 따른 소프트웨어/하드웨어 결함 사고 위험 급증, 국제 차원의 기능 안전 법적 인증 준수 요구성
+- 배경/필요성: E/E 오동작은 **차량 통제 상실•인명 위해** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 세 위험 축에 따른 자동차 안전 무결성 수준과 검증 엄격도가 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (HARA & ASIL 매트릭스)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -86,7 +86,7 @@ extra:
 
 - 위험원 분석 및 위험 평가부터 차량•기능•기술•구현 요구로 이어지는 계층이 핵심이다.
 
-## Ⅳ. 흐름도 (ISO 26262 Part 6: SW 개발 V-Model)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -108,16 +108,16 @@ extra:
 
 ### 동작 원리
 
-1. **HARA & Safety Goals**: 차량 수준의 최고 안전 목표(Safety Goals) 확정.
-2. **Safety Req Breakdown**: Functional Safety Req(FSR) $\rightarrow$ Technical Safety Req(TSR) $\rightarrow$ SW Safety Req(SSR)로 쪼갬.
-3. **Coding Rule**: MISRA-C/C++ 가이드라인 준수하며 동적 메모리 할당(`malloc`) 금지.
-4. **Testing**: ASIL D의 경우 MC/DC(Modified Condition/Decision Coverage) 100% 달성 단위 테스트 및 고장 주입 테스트(Fault Injection Test) 수행.
+1. **HARA•안전 목표 도출**: 위험 상황과 ASIL 등급 결정.
+2. **안전 요구 분해**: 차량•기능•기술•SW 요구로 추적 연결.
+3. **아키텍처•구현**: 등급별 안전 기법과 코딩 지침 적용.
+4. **검증•확인**: 요구 기반 시험과 독립 검토 증거 확보.
 
 #### 한줄 요약
 
 - HARA부터 요구•구현•시험까지 안전 추적 흐름이 핵심이다.
 
-## Ⅴ. 종류 및 비교 (ASIL 등급별 소프트웨어 검증 의무 수준)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,9 +128,9 @@ extra:
 | 고려 항목 | QM (Quality Management) | ASIL A / B | ASIL C / D (최고 등급) |
 |:---|:---|:---|:---|
 | 위험 수준 | 인명 위험 없음 (에어컨, 오디오 등) | 중저 위험 (헤드라이트, 계기판) | **고위험 (브레이크, EPS 조향, 자율주행)** |
-| 안전 정적 분석 | 일반 코딩 스타일 적용 | MISRA-C 일부 권장 | **MISRA-C / CERT-C 100% 필수 강제** |
-| 단위 테스트 커버리지| 구문 커버리지 ($C_0$) 권장 | 분기 커버리지 ($C_1$) 권장 | **MC/DC Coverage 100% 필수 강제** |
-| 동적 메모리 할당 | 허용 | 부분 제한 | **`malloc / free` 동적 할당 완전 금지** |
+| 안전 정적 분석 | 조직 품질 규칙 적용 | 등급별 권고 기법 적용 | **높은 엄격도의 정적 분석•검토 적용** |
+| 단위 시험 커버리지 | 위험 기반 기준 적용 | 구문•분기 커버리지 강화 | **MC/DC 등 독립성 검증 기법 강화** |
+| 동적 자원 관리 | 일반 품질 통제 | 고장 영향에 따라 제한 | **결정성•고장 영향 근거로 엄격 통제** |
 
 #### 한줄 요약
 
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- **기능 안전 수립 기준**에 따라 전장/자율주행 SW 구축 시 **HARA 기반 ASIL D 정밀 검증 & MISRA-C** 필수 수용
+- HARA 결과가 QM이면 **품질관리**, ASIL이면 **등급별 안전 수명주기** 적용
 
 #### 한줄 요약
 

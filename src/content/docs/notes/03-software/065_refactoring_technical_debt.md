@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "소프트웨어 리팩터링•기술부채 (Refactoring Technical Debt)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:43:00+09:00"
 tags:
   - "notes-software"
 weight: 65
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 빠른 시장 출시(Time-to-Market)를 위해 누적된 **Technical Debt (기술 부채)**를 상환하기 위해, 애플리케이션의 외부적 동작 결과를 100% 보존하며 내부 코드를 개선하는 **Refactoring**
-- 배경/필요성: 스파게티 코드로 인한 신규 기능 개발 속도 마비(유지보수 생산성 저하) 방지, 시스템 변경 내구성 및 가독성 확보 요구성
+- 배경/필요성: 누적 코드 스멜은 **변경 비용•결함 위험** 증가 유발
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Behavior-Preserving Transformation (외부 행위 완전 보존)**
+- **Behavior-Preserving Transformation (외부 행위 보존)**
 - **Code Smell 제거** 및 가독성/응집도 극대화
 - 자동화된 **Regression Safety Net (단위 테스트 안전망)** 필수 상주
 
@@ -52,7 +52,7 @@ extra:
 
 - 작은 구조 변경과 회귀 테스트 안전망이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (Refactoring 2대 기법 & Code Smell)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,26 +61,19 @@ extra:
 </details>
 
 ```text
-[기술 부채 누적 (Code Smell 발생)]
-                 │
-                 ▼ (경고: Long Method, Duplicated Code)
-┌────────────────────────────────────────────────────────┐
-│ 1. Automated Unit Test 안전망 작동 확증                │
-│ 2. Small Steps 리팩터링 수행 (Extract Method / Rename) │
-│ 3. Unit Test 수시 PASS 확인 (Behavior Preserved)       │
-└──────────────────────────┬─────────────────────────────┘
-                           ▼
-          [Clean Code & 기술 부채 상환 완결]
+ [코드 스멜] ─── [부채 백로그]
+      │                 │
+ [회귀 테스트] ── [리팩터링]
 ```
 
 선의 의미: Code Smell을 발견하고 단위 테스트 안전망 아래에서 Extract Method 등 소규모 리팩터링을 수행하여 Clean Code로 승화시키는 프로세스 구조.
 
-| 구성요소 | 핵심 정의 및 대표 패턴 | 효과 및 목적 |
-|:---|:---|:---|
-| **Code Smell (징후)** | Duplicated Code, Long Method, Primitive Obsession, Feature Envy | 기술 부채의 존재를 암시하는 코드 이상 징후 발견 |
-| **Composing Methods** | **Extract Method, Inline Method, Replace Temp with Query** | 거대 메서드를 작고 명확한 단위로 분할 정제 |
-| **Moving Features** | **Move Method, Move Field, Extract Class** | 객체 간 책임을 알맞은 클래스로 옮겨 결합도 해제 |
-| **Simplifying Expressions**| **Decompose Conditional, Replace Conditional with Polymorphism**| 무거운 `if-else` 분기를 다형성(Polymorphism)으로 전환 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 코드 스멜 | 중복•긴 메서드•책임 편향 등 개선 신호 제공 |
+| 부채 백로그 | 원금•이자•상환 우선순위와 책임자 기록 |
+| 회귀 테스트 | 변경 전후 외부 행위 동일성 검증 |
+| 리팩터링 | 작은 변환으로 내부 구조와 책임 개선 |
 
 #### 한줄 요약
 
@@ -100,10 +93,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 단위 테스트 통과 상태 확인│
-│ 2. Small Steps 단위 리팩터링 │
-│ 3. 단위 테스트 PASS 재확인   │
-│ 4. Git Commit (Small Commit) │
+│ 1. 부채 항목•이자 등록       │
+│ 2. 회귀 기준선 확인          │
+│ 3. 작은 구조 변환            │
+│ 4. 외부 행위 재검증          │
+│ 5. 상환 상태 기록            │
 └──────────────┬───────────────┘
                ▼
  [기술 부채 원금/이자 상환 완료]
@@ -111,10 +105,11 @@ extra:
 
 ### 동작 원리
 
-1. **Safety Net Check**: 코드 수정 전, 기존 단윗 테스트 세트가 100% `PASS`함을 보장.
-2. **Small Steps**: 단 1개의 메서드만 추출(`Extract Method`)하거나 변수명 변경.
-3. **Test Re-run**: 수정한 즉시 단윗 테스트 재구동하여 외부 행위 파손 여부 `PASS` 인가.
-4. **Small Commit**: 테스트가 통과된 최적 상태에서 `git commit` 래칭 후 다음 Smell 정복.
+1. **부채 항목•이자 등록**: 변경 지연 비용과 영향 범위 기록.
+2. **회귀 기준선 확인**: 기존 시험과 공개 동작의 기준 확보.
+3. **작은 구조 변환**: 메서드 추출•이름 변경 등 단일 개선.
+4. **외부 행위 재검증**: 회귀 시험으로 결과•부수효과 비교.
+5. **상환 상태 기록**: 변경 근거와 잔여 부채를 백로그에 반영.
 
 #### 한줄 요약
 
@@ -131,7 +126,7 @@ extra:
 | 비교 항목 | Refactoring (리팩터링) | Performance Optimization (성능 최적화) |
 |:---|:---|:---|
 | 주 주요 목적 | **코드 가독성, 응집도 상승, 기술 부채 상환**| **실행 속도, CPU/메모리 연산 오버헤드 단축** |
-| 외부 행위 변경 | **절대 없음 (Behavior Preserved)** | **없음 (동일 결과 반환)** |
+| 외부 행위 변경 | **관찰 가능한 행위 보존** | **기능 결과를 유지하며 성능 특성 개선** |
 | 소스코드 형태 | 작고 명확하게 분할 (클래스/메서드 증가) | 때로는 가독성을 희생하여 튜닝 (알고리즘 튜닝) |
 | 실행 안전망 | **단위 테스트 필수** | **성능 벤치마크 테스트 (JMH) 필수** |
 
@@ -149,7 +144,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 테스트 안전망 없이 리팩터링 수행하다 결함 폭발 | **TDD 기반 단위 테스트 100% 구축 후 리팩터링 진입** | 시스템 파손 제어 |
+| 시험 안전망 없이 리팩터링하여 회귀 결함 발생 | 변경 경계 중심 **특성화 시험•회귀 시험** 확보 | 외부 행위 파손 조기 탐지 |
 | 별도 대규모 리팩터링 스프린트 일정을 잡기 어려움 | **Boy Scout Rule (일상 개발 시 소규모 릴레이 개선)** | 지속적 부채 상환 |
 | 일정을 앞당기기 위해 무분별한 의도적 기술 부채 발생 | **Technical Debt Backlog 작성 및 부채 이자 관리** | 명확한 기술부채 통제 |
 
@@ -167,7 +162,7 @@ extra:
 
 </details>
 
-- **기술 부채 관리 기준**에 따라 코드 유지보수성 확보 시 **Boy Scout Rule + Behavior-Preserving Refactoring** 필수 수용
+- 변경 빈도•이자가 큰 부채는 **점진 상환**, 종료 임박 코드는 **현 상태 유지**
 
 #### 한줄 요약
 
