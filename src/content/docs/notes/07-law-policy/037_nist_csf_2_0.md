@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T01:54:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **미국 국립표준기술연구소 사이버보안 프레임워크 2.0(National Institute of Standards and Technology Cybersecurity Framework 2.0, NIST CSF 2.0)**: 사이버보안 위험관리 결과를 기능•범주•하위범주로 표현해 경영 목표와 연결하는 성과 분류체계이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **구현 등급(English, English)**: 조직의 사이버보안 위험관리 관행이 임시적•부분적•반복 가능•적응적 수준 가운데 어디에 있는지를 나타내는 기준이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **구현 등급(Implementation Tier)**: 위험관리 관행의 부분적·반복 가능·적응적 수준.
 
 </details>
 
@@ -174,11 +174,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CSF 2.0 전사 정렬(English, English)**: Govern 기능을 추가해 경영 책임•공급망 위험을 보안 기능과 통합하는 적용 방식이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **CSF 2.0 전사 정렬**: Govern으로 경영·공급망 위험과 보안 기능 통합.
 
 </details>
 
 - 전사 위험 연계 시 **CSF 2.0 전사 정렬**을 적용하고 **목표 프로파일**로 투자를 확정한다.
 
 #### 한줄 요약
-- **위험 허용수준**에 맞는 목표 성과와 실행 격차 선정이 핵심 체계 적용 및 준수 적용.
+- **위험 허용수준·성과 격차** 기반 목표 프로파일 결정

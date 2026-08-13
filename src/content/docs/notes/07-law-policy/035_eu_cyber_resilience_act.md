@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "EU CRA 사이버 레질리언스 법 (EU Cyber Resilience Act)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:50:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 35
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **유럽연합 사이버 복원력법(European Union Cyber Resilience Act, EU CRA)**: 유럽연합(European Union, EU) 시장의 디지털 요소 제품에 설계부터 지원기간까지 보안•취약점 처리 의무를 부과하는 제품보안 규정이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **디지털 요소 제품(English, English)**: 소프트웨어 또는 원격 데이터 처리 기능을 포함하고 직간접적으로 기기나 네트워크에 연결되는 제품이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **디지털 요소 제품(Product with Digital Elements)**: SW 또는 원격 처리 기능을 포함한 연결 제품.
 
 </details>
 
@@ -184,11 +184,11 @@ CSIRT•시장감시기관•이용자
 <details>
 <summary>핵심 용어</summary>
 
-- **CRA 생애주기 의무(English, English)**: 출시 전 보안 적합성 입증과 출시 후 지원기간의 취약점 처리•사고 보고 의무를 연결한 운영 원칙이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **CRA 생애주기 의무(CRA Lifecycle Obligation)**: 출시 전 적합성과 출시 후 취약점 처리의 연결 원칙.
 
 </details>
 
 - **CRA 생애주기 의무**에 따라 출시 전 **적합성 평가**, **지원기간** 중 취약점 보고•업데이트를 적용한다.
 
 #### 한줄 요약
-- **CRA 생애주기 의무**는 출시 전 적합성과 출시 후 취약점 처리를 연결 체계 적용 및 준수 적용.
+- 제품 등급별 **적합성 경로·지원기간·취약점 처리** 결정

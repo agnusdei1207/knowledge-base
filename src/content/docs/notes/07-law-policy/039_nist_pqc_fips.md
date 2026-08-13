@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NIST PQC 표준화 — FIPS 203/204/205 (NIST PQC FIPS)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:58:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 39
@@ -24,7 +24,7 @@ extra:
 <summary>핵심 용어</summary>
 
 - **미국 국립표준기술연구소 양자내성암호(National Institute of Standards and Technology Post-Quantum Cryptography, NIST PQC)**: 양자컴퓨터 공격에도 안전한 공개키 암호 알고리즘을 선정•표준화하는 사업이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **연방정보처리표준(Federal Information Processing Standards, FIPS) 203•204•205(English)**: 양자 공격에 견디는 키 설정과 디지털 서명 알고리즘을 규정한 미국 연방 표준이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **연방정보처리표준(Federal Information Processing Standards, FIPS) 203•204•205**: 양자 공격에 견디는 키 설정과 디지털 서명 알고리즘을 규정한 미국 연방 표준이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 - **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 통신 당사자가 공유 비밀을 안전하게 설정하는 FIPS 203 양자내성 알고리즘이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
 - **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: FIPS 204로 표준화된 격자 기반 양자내성 서명 알고리즘이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
 - **무상태 해시 기반 디지털 서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**: FIPS 205로 표준화된 해시 기반 양자내성 서명 알고리즘이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
@@ -42,7 +42,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **암호 민첩성(English, English)**: 암호 민첩성은 프로토콜과 데이터 형식을 크게 바꾸지 않고 용도별 알고리즘•매개변수를 교체하는 능력이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **암호 민첩성(Crypto Agility)**: 프로토콜과 데이터 형식을 크게 바꾸지 않고 용도별 알고리즘•매개변수를 교체하는 능력이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 - **용도 분리성(English, English)**: ML-KEM은 공유 비밀 설정에, 대칭키는 실제 데이터 암호화에 사용하는 특성이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 - **서명 다변성(English, English)**: 모듈 격자 기반과 무상태 해시 기반의 서로 다른 보안 근거를 가진 양자내성 서명 알고리즘을 제공하는 특성이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 - **PQC(Post-Quantum Cryptography, PQC)**: 양자컴퓨터로도 현실적인 시간 안에 풀기 어렵도록 설계한 공개키 암호 기술이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
@@ -175,11 +175,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **PQC 전환 결정(English, English)**: 데이터 수명•시스템 의존성•시험 결과를 종합해 ML-KEM•ML-DSA•SLH-DSA 채택 여부를 정하는 판단이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **PQC 전환 결정(PQC Migration Decision)**: 데이터 수명•시스템 의존성•시험 결과를 종합해 ML-KEM•ML-DSA•SLH-DSA 채택 여부를 정하는 판단이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 
 </details>
 
 - **PQC 전환 결정**에서 공유 비밀은 **ML-KEM**, 서명은 보안 근거에 따라 **ML-DSA** 또는 **SLH-DSA**를 선택한다.
 
 #### 한줄 요약
-- **PQC 전환 결정**은 용도•데이터 수명•시험 결과를 함께 반영 체계 적용 및 준수 적용.
+- **용도•데이터 수명•시험 결과** 기반 PQC 전환 결정

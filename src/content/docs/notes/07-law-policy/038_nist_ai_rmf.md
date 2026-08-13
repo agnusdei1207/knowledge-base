@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:56:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -170,11 +170,11 @@ AI 시스템
 <details>
 <summary>핵심 용어</summary>
 
-- **사용사례별 적용(English, English)**: AI 사용 맥락과 영향을 Map에서 빠뜨리지 않고 Measure의 지표로 반영해 배포•중단 결정으로 연결하는 절차이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **사용사례별 적용(Use-case-specific Application)**: 맥락·영향을 측정 지표와 배포 결정에 연결하는 절차.
 
 </details>
 
 - **사용사례별 적용**으로 **AI RMF 1.0**을 구성하고 **잔여 위험**이 허용될 때만 배포한다.
 
 #### 한줄 요약
-- **사용사례별 적용**에서 **TEVV 결과**를 배포•완화•중단 결정으로 연결 체계 적용 및 준수 적용.
+- **TEVV 결과·잔여 위험**으로 배포·완화·중단 결정

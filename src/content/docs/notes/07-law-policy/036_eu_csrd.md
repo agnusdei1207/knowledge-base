@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "EU CSRD 지속가능성 공시 (EU CSRD)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:52:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 36
@@ -23,7 +23,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **이중 중대성(English, English)**: 기업이 사람•환경에 미치는 영향과 지속가능성 요인이 기업 재무에 주는 위험•기회를 함께 판정하는 원칙이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **이중 중대성(Double Materiality)**: 사람·환경 영향과 재무 위험·기회를 함께 판정하는 원칙.
 - **유럽연합 기업 지속가능성 보고 지침(European Union Corporate Sustainability Reporting Directive, EU CSRD)**: 적용 기업이 지속가능성 정보를 이중 중대성 관점에서 공시하도록 규율하는 유럽연합 지침이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
 - **유럽 지속가능성 보고 표준(European Sustainability Reporting Standards, ESRS)**: CSRD 대상 기업이 지속가능성 정책•행동•목표•지표를 일관된 형식으로 공시할 때 적용하는 표준이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
 
@@ -178,11 +178,11 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **CSRD 범위(English, English)**: 최신 직원•순매출 기준과 회원국 이행 상태를 확인해 판정하는 공시 적용 대상 경계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **CSRD 범위(CSRD Scope)**: 직원·순매출·회원국 이행 상태별 공시 대상 경계.
 
 </details>
 
 - 직원•순매출로 **CSRD 범위**를 판정하고 중요한 IRO만 **ESRS 공시**와 검증을 수행한다.
 
 #### 한줄 요약
-- **CSRD 범위**와 **ESRS 공시** 요구를 확인하고 중요한 IRO만 검증•공시 체계 적용 및 준수 적용.
+- **CSRD 범위** 판정 후 중요한 IRO만 검증·공시
