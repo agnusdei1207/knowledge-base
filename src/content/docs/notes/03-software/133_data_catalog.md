@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 카탈로그 (Data Catalog)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-14T00:09:00+09:00"
 tags:
   - "notes-software"
 weight: 133
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 이종 데이터 저장소(S3, DW, RDBMS)의 메타데이터를 자동 크롤링/색인하여, 구글 검색창처럼 데이터셋의 위치, 계보, PII 여부, 소유자를 즉시 탐색하게 해주는 시스템인 **Data Catalog**
-- 배경/필요성: 빅데이터 저장소 확장에 따른 "데이터 늪(Data Swamp)" 차단, 데이터 엔지니어에게 매번 쿼리를 물어보는 소통 병목 소멸 요구성
+- 정의/개념: 데이터 자산의 검색•책임•정책을 제공하는 **Data Catalog**
+- 배경/필요성: 저장소 확장은 **자산 위치•의미•신뢰도 탐색 비용** 증가
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 책 목록을 자동으로 모아도 제목·저자·대출 가능 여부가 틀리면 쓸 수 없어 담당자의 검토가 필요하다.
 
-## Ⅲ. 구조 및 구성요소 (Data Catalog 4대 메커니즘 및 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -77,18 +77,19 @@ extra:
 
 선의 의미: 이종의 타깃 소스로부터 메타데이터 크롤러가 수집한 정보를 검색엔진 및 Graph DB로 색인하여 UI 포털에 렌더링하는 아키텍처.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 대표 기술 스택 |
-|:---|:---|:---|
-| **Metadata Crawler** | **이종 DB의 스키마, 테이블, 파티션 정보 자동 추출** | **AWS Glue Crawler, OpenMetadata** |
-| **Lineage Extractor** | **Spark/SQL 쿼리 파싱하여 테이블 간 입출력 관계 추출**| **OpenLineage, Sqllineage** |
-| **Search Engine** | **테이블명, 컬럼명, 설명 텍스트 기반 초고속 검색** | **Elasticsearch, OpenSearch** |
-| **Business Glossary** | **'매출', '고객ID' 등 현업 전사 업무 단어 정의 매핑**| Data Governance Portal |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Metadata Crawler** | 스키마•테이블•파티션•통계 수집 |
+| **Lineage Extractor** | 작업•SQL의 입력•출력 관계 추출 |
+| **Search Index** | 이름•설명•태그•용어 기반 자산 검색 |
+| **Business Glossary** | 업무 용어와 기술 자산 의미 연결 |
+| **Ownership•Policy** | 소유자•품질•접근•PII 정책 관리 |
 
 #### 한줄 요약
 
 - 여러 데이터 저장소 자산의 위치·의미·책임자를 검색하는 메타데이터 색인이다.
 
-## Ⅳ. 흐름도 (Data Catalog 메타데이터 자동 추출 및 시각화 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,23 +98,37 @@ extra:
 </details>
 
 ```text
-[Source DB Schema Change] ──► [Crawler Auto Scanning] ──► [Metadata Graph Update]
-                                                                  │
-                                                                  ▼
- [Client Data Discovery UI] ◄── [Search Indexing] ◄── [PII Tagging & Glossary Mapping]
+[데이터 자산 변경]
+       │
+       ▼
+1. 기술 메타데이터 수집
+       │
+       ▼
+2. 리니지•프로파일 생성
+       │
+       ▼
+3. 용어•민감도 분류
+       │
+       ▼
+4. 소유자 검토•승인
+       │
+       ▼
+5. 검색 색인•공개
 ```
 
 ### 동작 원리
 
-1. **Auto Scanning**: 주기적 크롤러가 소스 DB를 스캔하여 신규 컬럼 `phone_number` 감지.
-2. **PII Tagging**: AI 태거가 `phone_number` 패턴을 분석하여 `PII_CONFIDENTIAL` 태그 자동 부착.
-3. **Discovery Render**: 유저가 검색창에 "전화번호" 입력 시 해당 테이블과 Lineage 그래프가 즉시 서빙 표출.
+1. **기술 메타데이터 수집**: 커넥터가 스키마•변경 정보 추출
+2. **리니지•프로파일 생성**: 입출력 관계와 품질 통계 계산
+3. **용어•민감도 분류**: 업무 의미•PII 후보 자동 태깅
+4. **소유자 검토•승인**: 책임자가 의미•정책•신뢰도 확인
+5. **검색 색인•공개**: 권한별 검색•계보•품질 정보 제공
 
 #### 한줄 요약
 
 - 데이터 저장소를 자동 크롤링하여 목록화하고, 소유권과 스키마 메타데이터를 정제하여 검색 서비스로 제공한다.
 
-## Ⅴ. 종류 및 비교 (Data Dictionary vs Business Glossary vs Data Catalog)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -124,7 +139,7 @@ extra:
 | 비교 항목 | Data Dictionary (데이터 사전) | Business Glossary (용어집) | Data Catalog (데이터 카탈로그) |
 |:---|:---|:---|:---|
 | **주요 대상** | 단일 DB 테크니컬 스키마 | 전사 비즈니스 용어 정의 | **전사 하이브리드 멀티 소스 통합** |
-| **자동화 수준** | 수동 입력 또는 DDL 추출 | 수동 문서 정리 중심 | **크롤러 기반 100% 자동 수집** |
+| **자동화 수준** | DDL 추출•수동 보완 | 업무 담당자 정의•승인 | **자동 수집과 소유자 검토 결합** |
 | **주요 핵심 기능**| 컬럼 타입, PK/FK 제약 조건 | 용어 정의, 단어 표준화 | **검색, Lineage, PII 태깅, SLA 관리** |
 | **대표 도메인** | DB Administrator 전용 | 현업 기획자 전용 | **Data Engineer, Scientist, C-Level** |
 
@@ -132,7 +147,7 @@ extra:
 
 - 사전은 책의 항목 설명, 용어집은 공통 단어 뜻, 카탈로그는 여러 책의 위치와 관계를 찾는 목록이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Data Catalog 구축 실무 3대 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -160,7 +175,7 @@ extra:
 
 </details>
 
-- **Data Catalog 수립 기준**에 따라 전사 데이터 거버넌스구축 시 **OpenMetadata 기반 데이터 카탈로그** 필수 적용
+- 기술 구조는 **사전**, 업무 의미는 Glossary, 통합 탐색은 Catalog 선택
 
 #### 한줄 요약
 

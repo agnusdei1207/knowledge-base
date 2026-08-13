@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 계약 (Data Contract)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T00:58:00+09:00"
 tags:
   - "notes-software"
 weight: 140
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터 생산자와 소비자가 데이터 스키마, 데이터 타입, SLA, 변경 예고 수칙을 명시적 계약서(YAML)로 체결하고 CI/CD 테스트로 자동 강제하는 협약 메커니즘인 **Data Contract**
-- 배경/필요성: 서비스 DB의 컬럼 수정이 하류 DW/BI 대시보드 연쇄 붕괴(Breaking Change)로 이어지는 문제 해결, Data Mesh의 Data-as-a-Product 핵심 구현 요구성
+- 정의/개념: 생산자•소비자의 데이터 납품 약속인 **Data Contract**
+- 배경/필요성: 예고 없는 스키마 변경은 **하류 파이프라인 연쇄 장애** 유발
 
 #### 한줄 요약
 
 - 자료의 모양·뜻·품질·변경 예고를 자동 검사할 수 있는 납품 약속이다.
 
-## Ⅱ. 특징 (Data Contract 3대 보장 축)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -52,7 +52,7 @@ extra:
 
 - 약속 문서만 두지 않고 설계 변경과 실제 납품 자료를 같은 규칙으로 검사해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Data Contract YAML Specification 명세 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -79,18 +79,19 @@ extra:
 
 선의 의미: 데이터 생산자가 작성한 Contract YAML 명세서에 따라 CI/CD 및 파이프라인에서 자동 검증을 렌더링하는 아키텍처.
 
-| Data Contract 영역 | 주요 기술 구성 요소 | 실무 구현 내용 |
-|:---|:---|:---|
-| **1. Metadata & Owner**| **데이터셋 명칭, 버전을 담당하는 소유자(Owner) 이메일 명시**| `owner: team-checkout` |
-| **2. Schema & Syntax** | **컬럼명, 데이터 타입, 널 허용 여부(Required), Primary Key**| `column: order_id, type: string` |
-| **3. Quality Rules** | **데이터 건수, 널 비율, 수치 범위 등 품질 가이드라인** | `max_null_percentage: 0.0` |
-| **4. SLA & Terms** | **데이터 신선도(Freshness), 보존 기한 및 PII 포함 여부** | `freshness: 1 hour` |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Metadata•Owner** | 데이터셋•버전•생산자•소비자 책임 명시 |
+| **Schema•Semantics** | 열•타입•키•업무 의미 정의 |
+| **Quality Rules** | 완전성•유효성•건수•분포 합격선 정의 |
+| **SLO•Terms** | 신선도•가용성•보존•지원 수준 정의 |
+| **Evolution Policy** | 호환성•예고 기간•버전 전환 규칙 정의 |
 
 #### 한줄 요약
 
 - 데이터의 모양·뜻·품질·변경 예고를 납품 약속으로 정한다.
 
-## Ⅳ. 흐름도 (Data Contract CI/CD 검증 및 파이프라인 적용 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -99,24 +100,37 @@ extra:
 </details>
 
 ```text
-[Dev DB Migration PR (Alter Table)] ──► [Contract CI/CD Checker]
-                                                  │
-                                 ┌────────────────┴────────────────┐
-                                 ▼ (No Breaking Change)            ▼ (Breaking Change Detected)
-                       [PR Merge Allowed]                [PR Blocked & Alert to Downstream]
+[스키마•파이프라인 변경]
+       │
+       ▼
+1. 계약 변경안 생성
+       │
+       ▼
+2. 호환성 검사
+       │
+       ▼
+3. 소비자 영향 확인
+       │
+       ▼
+4. 배포 Gate 판정
+       │
+       ▼
+5. 런타임 품질 감시
 ```
 
 ### 동작 원리
 
-1. **PR Created**: 체크아웃 팀이 DB `order_id` 컬럼을 삭제하는 PR 생성.
-2. **Contract Check**: CI/CD 체커가 Data Contract 명세를 대조하여 하류 DW가 파형됨을 감지.
-3. **Merge Block**: PR 자동 차단 및 하류 데이터팀에 파괴적 변경 협의 이메일 발송 (**Data Contract 완결**).
+1. **계약 변경안 생성**: 스키마•의미•SLO 수정 사항 버전화
+2. **호환성 검사**: 기존 계약 대비 파괴적 변경 판정
+3. **소비자 영향 확인**: 계보로 하류 사용처•전환 기간 확인
+4. **배포 Gate 판정**: 승인•버전 분리•차단 중 조치 결정
+5. **런타임 품질 감시**: 실제 데이터와 신선도가 계약 준수 확인
 
 #### 한줄 요약
 
 - 납품 규격을 바꾸기 전에 기존 사용처가 깨지는지 검사하고 실제 자료도 같은 규격으로 검사한다.
 
-## Ⅴ. 종류 및 비교 (API Contract 대 Data Contract)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -135,7 +149,7 @@ extra:
 
 - 데이터 계약은 납품 내용과 품질, API 계약은 주문하고 받는 통신 규칙에 더 가깝다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Data Contract 도입 실무 3대 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -163,7 +177,7 @@ extra:
 
 </details>
 
-- **Data Contract 수립 기준**에 따라 Data Mesh 및 모던 파이프라인 구축 시 **Data Contract & OpenDataContract Specification** 필수 적용
+- 통신 동작은 **API Contract**, 데이터 의미•품질은 Data Contract 적용
 
 #### 한줄 요약
 

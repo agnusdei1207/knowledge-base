@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "데이터 레이크 (Data Lake)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T23:13:00+09:00"
 tags:
   - "notes-software"
 weight: 125
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 정형/비정형 원천 데이터를 전처리(Transform) 없이 원형(Raw Data) 그대로 객체 스토리지에 무제한 적재하고, **Schema-on-Read** 방식으로 자유롭게 분석하는 빅데이터 저장소인 **Data Lake**
-- 배경/필요성: 기존 Data Warehouse의 비싼 저장 비용 및 엄격한 Schema-on-Write 한계 극복, 이미지/음성/로그 등 비정형 AI 머신러닝 데이터의 무제한 적재 요구성
+- 정의/개념: 다양한 원천을 객체 스토리지에 보존하는 **데이터 레이크**
+- 배경/필요성: 정형 스키마 선적용은 **비정형 수집•재처리 유연성** 제약
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Cloud Object Storage 기반 저비용 무제한 수평 확장성 (AWS S3, Azure ADLS)**
+- **객체 스토리지**: 컴퓨팅과 분리된 탄력적 원천 보관
 - **Schema-on-Read (읽기 시점 스키마 바인딩)** 및 다형성 데이터 수용
 - **Data Catalog & Data Governance 필수 수용 (Data Swamp 방지)**
 
@@ -52,7 +52,7 @@ extra:
 
 - 원천을 많이 모아도 위치·의미·품질·소유자를 찾을 카탈로그가 없으면 재사용할 수 없는 데이터 늪이 된다.
 
-## Ⅲ. 구조 및 구성요소 (Data Lake 3대 영역 Medallion Architecture)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -78,18 +78,18 @@ extra:
 
 선의 의미: 원천 데이터를 Bronze(Raw) 수집 후 Silver(정제) 및 Gold(분석마트) 3단계 영역으로 정제 관리하는 계층형 아키텍처.
 
-| 데이터 영역 (Zone) | 역할 및 데이터 형태 | 주요 사용자 및 적합 유스케이스 |
-|:---|:---|:---|
-| **Bronze Zone (Raw)** | **원천 시스템 형태 100% 동일 보존 (JSON, CSV, Log)** | Data Engineer, 데이터 복구 및 원 원천 재처리 |
-| **Silver Zone (Cleaned)** | **중복 제거, Null 처리, Parquet 컬럼 포맷 변환** | Data Scientist, AI/ML 모델링 데이터셋 |
-| **Gold Zone (Curated)** | **비즈니스 집계 완료, 스타 스키마 형태 마트** | BI Analyst, 경영진 대시보드 쿼리 |
-| **Data Catalog** | **S3 파일의 스키마, 파티션 메타데이터 자동 추출** | **AWS Glue Data Catalog, Apache Hive Metastore** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Bronze Zone** | 원천 형식과 수집 메타데이터 보존 |
+| **Silver Zone** | 중복•오류 정제와 표준 포맷 변환 |
+| **Gold Zone** | 검증된 업무 집계•분석 데이터 제공 |
+| **Data Catalog** | 스키마•위치•소유자•품질•리니지 관리 |
 
 #### 한줄 요약
 
 - 수집 에이전트, 객체 스토리지, 데이터 영역, 카탈로그, 처리 엔진으로 구성된다.
 
-## Ⅳ. 흐름도 (Schema-on-Write 대 Schema-on-Read 비교 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -99,24 +99,37 @@ extra:
 </details>
 
 ```text
-[1. Schema-on-Write (Data Warehouse)]
- Operational Data ──► [Transform (Heavy ETL)] ──► [Strict DB Table] ──► Query
-
-[2. Schema-on-Read (Data Lake)]
- Operational Data ──► [Dump Direct to S3] ──► [Schema-on-Read Query (Athena)] ──► Query
+[원천 데이터]
+      │
+      ▼
+1. 원본 객체 적재
+      │
+      ▼
+2. 카탈로그 등록
+      │
+      ▼
+3. 품질•스키마 검증
+      │
+      ▼
+4. 정제 영역 승격
+      │
+      ▼
+5. 조회 스키마 적용
 ```
 
 ### 동작 원리
 
-1. **Direct Ingestion**: 로우 파일(Raw JSON/CSV)을 변환 0회로 S3에 즉시 저장 (초고속 적재).
-2. **Catalog Crawling**: AWS Glue Crawler가 S3 버킷을 긁어 파일 내 스키마 메타데이터 추출.
-3. **Query Time Schema Binding**: Presto/Athena 쿼리 엔진이 실행 시점에 메타데이터를 입혀 SQL 조회 완결.
+1. **원본 객체 적재**: 소스•시간•버전 정보와 함께 보존
+2. **카탈로그 등록**: 위치•형식•소유자•분류 메타데이터 생성
+3. **품질•스키마 검증**: 계약•중복•누락•민감정보 검사
+4. **정제 영역 승격**: 검증 수준별 Silver•Gold 데이터 생성
+5. **조회 스키마 적용**: 목적별 스키마로 필요한 파티션 해석
 
 #### 한줄 요약
 
 - 원본을 그대로 보존하고 메타데이터·스키마·품질 검증 결과를 등록한 뒤 신뢰 수준별 데이터를 따로 공개한다.
 
-## Ⅴ. 종류 및 비교 (Data Warehouse 대 Data Lake)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,14 +141,14 @@ extra:
 |:---|:---|:---|
 | **수용 데이터 형태** | **정형 데이터 전용 (Structured SQL)** | **정형 + 반정형 + 비정형 (Images, Audio, Logs)** |
 | **스키마 바인딩 시점**| **Schema-on-Write (적재 시점)** | **Schema-on-Read (조회 시점)** |
-| **스토리지 가성비** | 비쌈 (고성능 블록 스토리지) | **매우 저렴 (클라우드 객체 스토리지 AWS S3)** |
+| **스토리지 특성** | 분석 엔진에 최적화된 관리 저장소 | **객체 스토리지 기반 컴퓨팅 분리** |
 | **주요 활용 목적** | BI 리포트, 고성능 경영 지표 분석 | **AI/ML 머신러닝 학습 데이터, 대용량 원시 보존** |
 
 #### 한줄 요약
 
 - 레이크는 원본 객체 스토리지, 웨어하우스는 정형 분석 저장소, 레이크하우스는 객체 스토리지 위에 ACID 테이블 메타데이터를 결합한 구조이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Data Swamp 차단 3대 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -163,7 +176,7 @@ extra:
 
 </details>
 
-- **Data Lake 수립 기준**에 따라 전사 AI/ML 및 비정형 빅데이터 분석 구축 시 **AWS S3 Data Lake & Medallion Architecture** 필수 적용
+- 원천 재사용은 **Data Lake**, 정형 지표 성능은 DW 선택
 
 #### 한줄 요약
 

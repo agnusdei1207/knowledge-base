@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "데이터 품질 관리: 완전성•정확성•일관성 (Data Quality Management)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T00:37:00+09:00"
 tags:
   - "notes-software"
 weight: 137
@@ -29,14 +29,14 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터의 6대 품질 진단 차원(완전성, 정확성, 일관성 등)에 의거하여 데이터 프로파일링, 규칙 검증, Quarantine 격리, 피드백 순환을 지속하는 관리 프레임워크인 **DQM (Data Quality Management)**
-- 배경/필요성: "Garbage In, Garbage Out (쓰레기 유입 시 쓰레기 출력)" 방지, 품질 검증 없는 파이프라인으로 인한 경영 지표 왜곡 및 AI 모델 학습 파행 방지 요구성
+- 정의/개념: 품질 차원을 측정•개선하는 **DQM(Data Quality Management)**
+- 배경/필요성: 검증 없는 데이터는 **지표 왜곡•오판•재작업** 유발
 
 #### 한줄 요약
 
 - 쓸 자료가 빠졌거나 틀렸거나 서로 모순되는지 검사하고 고친 뒤 같은 기준으로 다시 확인한다.
 
-## Ⅱ. 특징 (DQM 6대 품질 평가 차원)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -52,7 +52,7 @@ extra:
 
 - 참고 통계와 결제 금액은 같은 오류라도 피해가 달라 서로 다른 합격선을 써야 한다.
 
-## Ⅲ. 구조 및 구성요소 (DQM 6대 품질 진단 차원 상세)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -75,18 +75,20 @@ extra:
 
 선의 의미: 데이터의 유용성을 판가름하는 6가지 세부 데이터 품질 평가 지표 아키텍처.
 
-| 품질 진단 차원 | 핵심 검증 대상 및 의미 | 대표적 지표 및 측정 산식 |
-|:---|:---|:---|
-| **Completeness (완전성)**| **필수 입력 컬럼의 누락(Null) 발생 여부** | `(Non-Null Count / Total Count) * 100` |
-| **Accuracy (정확성)** | **실제 참값 또는 소스 원천 값과의 수치 일치성**| `(Matched Value / Total Count) * 100` |
-| **Consistency (일관성)** | **시스템 A와 시스템 B 간 동일 고객 주소 일치**| `(Consistent Row / Total Row) * 100` |
-| **Validity (유효성)** | **날짜 포맷(`YYYY-MM-DD`), 이메일 규격 준수** | `(Valid Pattern Count / Total) * 100` |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Completeness** | 필수 값의 누락 비율 측정 |
+| **Accuracy** | 참조값•현실값과의 일치 정도 측정 |
+| **Consistency** | 시스템•시점 간 의미•값 모순 측정 |
+| **Validity** | 형식•범위•도메인 규칙 준수 측정 |
+| **Uniqueness** | 업무 키의 의도치 않은 중복 측정 |
+| **Timeliness** | 요구 시점까지 데이터 반영 여부 측정 |
 
 #### 한줄 요약
 
 - 불합격 자료를 격리하고 원인을 고친 뒤 같은 시험을 다시 본다.
 
-## Ⅳ. 흐름도 (Data Quality Gate & Quarantine 자동 처리 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,24 +97,37 @@ extra:
 </details>
 
 ```text
-[Raw Ingestion Data] ──► [DQ Profiling (Great Expectations)] ──► [Quality Gate Check]
-                                                                          │
-                                           ┌──────────────────────────────┴──────────────────────────────┐
-                                           ▼ (Pass)                                                      ▼ (Fail)
-                                 [Target DW Storage]                                         [Quarantine Table & Alert]
+[수집 데이터]
+      │
+      ▼
+1. 품질 프로파일링
+      │
+      ▼
+2. 위험별 합격선 적용
+      │
+  ┌───┴────┐
+  │통과    │실패
+  ▼        ▼
+3. 하류 반영  4. 격리•알림
+      │        │
+      └───┬────┘
+          ▼
+5. 원인 개선•재검증
 ```
 
 ### 동작 원리
 
-1. **Profiling**: Great Expectations 엔진이 수집 데이터의 Null, Duplicate, Range 스캔.
-2. **Gate Checking**: 설정한 임계치(Null < 1%) 미달 여부 자동 판정.
-3. **Quarantine & Alert**: 합격 건은 DW에 저장, 불합격 건은 Quarantine 테이블 격리 후 Slack 알림 전송 (**DQM 완결**).
+1. **품질 프로파일링**: 누락•중복•범위•분포 통계 생성
+2. **위험별 합격선 적용**: 데이터 중요도별 규칙•임계치 판정
+3. **하류 반영**: 통과 데이터와 품질 증거를 함께 공개
+4. **격리•알림**: 실패 행•배치를 사유와 함께 분리
+5. **원인 개선•재검증**: 상류 수정 후 동일 규칙 재실행
 
 #### 한줄 요약
 
 - 현재 상태로 합격선을 정하고 불합격 자료는 따로 두며 원인을 고친 뒤 같은 시험을 다시 본다.
 
-## Ⅴ. 종류 및 비교 (수동 품질 점검 대 자동 DQM 플랫폼)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -131,7 +146,7 @@ extra:
 
 - 완전성은 빠짐, 정확성은 틀림, 일관성은 서로 다름을 다룬다.
 
-## Ⅵ. 실무 고려사항 및 대책 (DQM 실무 3대 파행 조치)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -159,7 +174,7 @@ extra:
 
 </details>
 
-- **DQM 수립 기준**에 따라 전사 데이터 파이프라인 구축 시 **DQM & Great Expectations & Quality Gate** 필수 적용
+- 고위험 데이터는 **차단 Gate**, 저위험은 경고•관찰로 운영
 
 #### 한줄 요약
 

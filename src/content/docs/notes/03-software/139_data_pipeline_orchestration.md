@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T00:51:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 분산 환경의 무수한 데이터 처리 작업(Task)들을 DAG(방향성 비순환 그래프) 코드로 엮어, 스케줄링, 의존성 제어, 백필(Backfill), 실패 복구를 자동 제어하는 체계인 **Data Pipeline Orchestration**
-- Background: 기존 단순 CronTab 스케줄러의 태스크 간 선후 의존성 제어 불가, 장애 발생 시 조건부 재시도 및 실패 알림 한계 극복 요구성
+- 정의/개념: 작업 의존성•실행 상태•복구를 제어하는 **오케스트레이션**
+- 배경/필요성: 시간 기반 Cron만으로는 **선후 조건•재시도•백필** 제어 불가
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 순서표가 있어도 작업을 한꺼번에 너무 많이 보내면 공용 창구가 막히므로 동시 실행 수를 제한해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Apache Airflow 4대 분산 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -76,18 +76,19 @@ extra:
 
 선의 의미: Scheduler가 DAG를 파싱해 Metadata DB 및 Executor를 거쳐 Worker 노드로 Task를 분산 할당하는 구조.
 
-| 핵심 구성요소 | 역할 및 기술 메커니즘 | 실무 튜닝 파라미터 |
-|:---|:---|:---|
-| **Airflow Scheduler** | **DAG 파일 주기적 파싱, 실행 준비된 Task 감지** | `min_file_process_interval` |
-| **Metadata DB** | **DAG Run, Task Instance 실행 상태 및 오프셋 보존** | **PostgreSQL / MySQL (SQLite 금지)** |
-| **Executor** | **Task를 실행할 노드(CeleryQueue, K8s Pod)로 스케줄**| **CeleryExecutor / KubernetesExecutor** |
-| **Worker Node** | **실제 Python 코딩 연산 또는 Bash 스크립트 실행 노드** | `worker_concurrency` 튜닝 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Scheduler** | DAG 해석과 실행 가능 Task 판정 |
+| **Metadata DB** | Run•Task 상태•재시도•이력 보관 |
+| **Executor** | Task를 실행 큐•Pod•프로세스에 전달 |
+| **Worker** | Operator 코드 실행과 상태 보고 |
+| **Webserver** | 실행 상태•로그•수동 조작 UI 제공 |
 
 #### 한줄 요약
 
 - 상태 장부를 보고 준비된 작업만 작업자에게 보낸다.
 
-## Ⅳ. 흐름도 (Airflow DAG Task 의존성 및 백필 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +97,37 @@ extra:
 </details>
 
 ```text
-[Task 1: S3 Ingest] ──► [Task 2: Spark Silver Processing]
-                                │ (Trigger Rule: all_success)
-                                ▼
-                       [Task 3: Snowflake Gold Mart] ──► [Task 4: Slack Alert]
+[DAG 실행 시각]
+      │
+      ▼
+1. DagRun 생성
+      │
+      ▼
+2. 의존성•Trigger 판정
+      │
+      ▼
+3. Task 큐잉
+      │
+      ▼
+4. Worker 실행•상태 기록
+      │
+      ▼
+5. 후속 Task•재시도 결정
 ```
 
 ### 동작 원리
 
-1. **Dependency Validation**: Task 1이 성공 완료되어야만 Scheduler가 Task 2의 상태를 `QUEUED`로 전환.
-2. **Execution & State Return**: Worker가 Task 2를 수행하고 성공 시 Metadata DB에 `SUCCESS` 업데이트.
-3. **Branching**: Task 2 결과에 따라 Task 3와 Task 4를 동시/조건부 가동 (**Airflow Orchestration 완결**).
+1. **DagRun 생성**: 스케줄•데이터 구간별 실행 인스턴스 등록
+2. **의존성•Trigger 판정**: 선행 상태•풀•동시성 검사
+3. **Task 큐잉**: Executor에 실행 대상과 우선순위 전달
+4. **Worker 실행•상태 기록**: 작업 수행 후 결과•로그 저장
+5. **후속 Task•재시도 결정**: 성공•실패 정책으로 다음 상태 전이
 
 #### 한줄 요약
 
 - 설계도와 상태 장부를 보고 준비된 작업만 보내고 결과가 적힐 때마다 다음 작업을 다시 고른다.
 
-## Ⅴ. 종류 및 비교 (Crontab vs Apache Airflow vs Prefect/Dagster)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,7 +137,7 @@ extra:
 
 | 비교 항목 | Linux Crontab | Apache Airflow | Prefect / Dagster (3세대) |
 |:---|:---|:---|:---|
-| **의존성 제어** | **불가능 (시간 차로 어림잡아 실행)**| **완벽 (DAG 기반 선후 관계 보장)** | **완벽 (Data-centric DAG 및 Dataflow)**|
+| **의존성 제어** | 쉘•외부 상태로 직접 구현 | **DAG 기반 Task 의존성** | Asset•Flow 기반 의존성 |
 | **모니터링 UI** | 없음 (로그 파일 파싱 필요) | **우수 (웹 UI에서 Task 상태 시각화)**| **최상 (모던 데이터 아키텍처 UI)** |
 | **과거 백필 (Backfill)**| 불가능 (수동 스크립트 개별 가동)| **CLI 한 줄로 파티션 백필 완전 자동화**| 완전 자동화 |
 | **설정 방식** | 텍스트 Cron 표현식 | **Python DAG 코드** | Python Code & Asset 중심 |
@@ -131,7 +146,7 @@ extra:
 
 - Airflow는 앞 작업의 결과를 보고 다음 일을 정하고 크론은 정해진 시각에 알람만 울린다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Airflow 운영 3대 장애 해결책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -159,7 +174,7 @@ extra:
 
 </details>
 
-- **Orchestration 수립 기준**에 따라 복잡한 파이프라인 관리 구축 시 **Apache Airflow & KubernetesPodOperator** 필수 수용
+- 단순 시간 실행은 **Cron**, 복합 의존•백필은 Airflow 선택
 
 #### 한줄 요약
 

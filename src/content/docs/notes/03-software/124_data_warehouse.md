@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "데이터 웨어하우스 (Data Warehouse)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T23:06:00+09:00"
 tags:
   - "notes-software"
 weight: 124
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 이종 산재된 운영계(OLTP) 데이터베이스로부터 데이터를 추출(ETL)하여, 4대 고유 특성(주제 지향, 통합, 시계열, 비휘발)을 기반으로 정제 및 축적하는 기업 통합 대용량 분석 DB인 **Data Warehouse**
-- 배경/필요성: OLTP 운영 DB에 집계 쿼리 실행 시 발생하는 시스템 락업 방지, 기업 전사 레벨의 단일 진실 고리(Single Source of Truth) 확보 요구성
+- 정의/개념: 통합 이력을 주제별 분석에 제공하는 **데이터 웨어하우스**
+- 배경/필요성: 운영 DB 직접 집계는 **업무 부하•지표 정의 불일치** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 데이터 웨어하우스는 여러 부서가 같은 지표 정의를 쓰게 하지만 원천 적재가 늦으면 보고서의 최신 시점도 늦어짐이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (데이터 웨어하우스 4대 핵심 구조 & 스타 스키마)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -80,18 +80,18 @@ extra:
 
 선의 의미: 중앙의 Fact Table(측정값)과 주변의 Dimension Table(분석 축)이 직접 1:N 연결되는 스타 스키마 아키텍처.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 튜닝 지침 |
-|:---|:---|:---|
-| **Fact Table (사실)** | **비즈니스 트랜잭션의 수치 측정값(Amount, Qty) 및 FK 저장** | Row Count 수억~수십억 건, 열 지향 압축 |
-| **Dimension Table (차원)**| **분석의 기준이 되는 텍스트 속성 및 카테고리 정보** | **SCD Type 2 (유효기간 `valid_from/to`) 적용** |
-| **ETL Pipeline** | **운영 DB에서 Extract, Transform, Load 연산 수행** | 야간 배치 스케줄러(Airflow) 연동 |
-| **Data Mart (DM)** | **전사 DW에서 특정 부서(마케팅, 재무) 전용으로 분출한 소형 DW** | 특정 도메인 맞춤 집계 테이블 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Fact Table** | 정해진 Grain의 측정값•차원 키 저장 |
+| **Dimension Table** | 분석 축의 설명 속성과 이력 관리 |
+| **ETL•ELT Pipeline** | 원천 추출•표준화•품질 검증•적재 |
+| **Data Mart** | 부서•주제별 분석 모델과 집계 제공 |
 
 #### 한줄 요약
 
 - 원천 보관함, 정제소, 측정 장부, 분류표, 공통 지표 화면으로 구성된다.
 
-## Ⅳ. 흐름도 (Kimball Bottom-Up vs Inmon Top-Down 아키텍처 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -100,23 +100,37 @@ extra:
 </details>
 
 ```text
-[1. Inmon Enterprise DW Architecture (Top-Down)]
- Operational DBs ──► ETL ──► [Enterprise DW (3NF)] ──► [Data Marts] ──► BI / Report
-
-[2. Kimball Dimensional Architecture (Bottom-Up)]
- Operational DBs ──► ETL ──► [Dimensional Data Marts (Star Schema)] ──► BI / Report
+[운영계 원천]
+      │
+      ▼
+1. 변경 데이터 추출
+      │
+      ▼
+2. 공통 코드•품질 정제
+      │
+      ▼
+3. Fact•Dimension 적재
+      │
+      ▼
+4. 주제 집계 생성
+      │
+      ▼
+5. 지표•리니지 제공
 ```
 
 ### 동작 원리
 
-1. **Inmon Model**: 정교한 3NF 정규화 기반 전사 DW 선 구축 후 Data Mart 분출 (구축 기간 길고 완벽한 일관성).
-2. **Kimball Model**: 스타 스키마 차원 모델링 기반 Data Mart를 먼저 구축 후 연결 통합 (초기 구축 빠르고 현업 반응 우수).
+1. **변경 데이터 추출**: 배치•CDC로 원천 이력 수집
+2. **공통 코드•품질 정제**: 명칭•단위•키•오류 표준화
+3. **Fact•Dimension 적재**: Grain과 SCD 정책에 따라 저장
+4. **주제 집계 생성**: 반복 질의를 위한 마트•요약 구성
+5. **지표•리니지 제공**: 정의•출처•기준 시점과 함께 서빙
 
 #### 한줄 요약
 
 - 서로 다른 이름표를 공통 분류표에 맞춘 뒤 거래 이력을 쌓아 같은 매출 지표를 제공한다.
 
-## Ⅴ. 종류 및 비교 (Star Schema vs Snowflake Schema)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,14 +142,14 @@ extra:
 |:---|:---|:---|
 | **차원 테이블 정규화**| **비정규화 (Denormalized, 단순 구조)** | **정규화 (Normalized 3NF, 복잡한 계층 구조)** |
 | **조인(`JOIN`) 복잡도** | **낮음 (Fact와 Dim 간 1단계 direct 조인)** | 높음 (Dim 간 다단계 조인 필요) |
-| **쿼리 처리 속도** | **초고속 (OLAP BI 쿼리에 최적화)** | 비교적 느림 (조인 오버헤드 증가) |
-| **스토리지 용량** | 비정규화로 약간의 데이터 중복 발생 | **중복 0% (디스크 저장 용량 최소화)** |
+| **쿼리 처리 특성** | 조인 단계가 적어 단순 | 차원 계층 조인 비용 증가 |
+| **스토리지 용량** | 차원 속성 중복 가능 | 정규화로 차원 중복 감소 |
 
 #### 한줄 요약
 
 - 온라인 트랜잭션 처리는 지금 거래를 처리하고 웨어하우스는 정리된 이력을 분석하며 레이크는 원본을 넓게 보관한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (DW 성능 최적화 3대 기법)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -163,7 +177,7 @@ extra:
 
 </details>
 
-- **DW 수립 기준**에 따라 전사 BI/분석 시스템 구축 시 **Snowflake / Redshift & Star Schema** 필수 적용
+- 조회 단순성은 **Star**, 차원 계층 재사용은 Snowflake 선택
 
 #### 한줄 요약
 

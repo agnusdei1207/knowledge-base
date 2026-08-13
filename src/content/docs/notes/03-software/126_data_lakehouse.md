@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "데이터 레이크하우스 (Data Lakehouse)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T23:20:00+09:00"
 tags:
   - "notes-software"
 weight: 126
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 가성비 높은 클라우드 객체 스토리지(S3) 위에 Delta Lake/Iceberg 등의 **Open Table Format** 메타데이터 레이어를 레이어링하여, ACID 트랜잭션과 고성능 BI SQL을 동시 렌더링하는 통합 아키텍처인 **Data Lakehouse**
-- 배경/필요성: DW와 Data Lake 간 데이터 이중 복제(Duplication) 비용 및 데이터 정합성 불일치 문제 해소, 단일 머신러닝/BI 통합 데이터 원천 구축 요구성
+- 정의/개념: 객체 스토리지와 관리형 테이블을 결합한 **레이크하우스**
+- 배경/필요성: Lake•DW 이중 적재는 **복제 비용•버전 불일치** 유발
 
 #### 한줄 요약
 
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **ACID Transactions on Object Storage**: S3 파일 저장소 위에서 동시 쓰기-읽기 충돌 0% 보장.
+- **ACID Transactions on Object Storage**: 스냅숏 메타데이터로 원자적 테이블 변경 제공.
 - **Decoupled Storage and Compute**: S3 스토리지 용량과 Spark/Presto 쿼리 엔진의 수평 분리.
 
 </details>
@@ -52,7 +52,7 @@ extra:
 
 - 파일은 불변으로 저장하되 스냅숏 메타데이터가 현재 버전을 결정하므로 읽기 도중 테이블이 불완전하게 변경되지 않는다.
 
-## Ⅲ. 구조 및 구성요소 (Data Lakehouse 메타데이터 레이어 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -77,18 +77,19 @@ extra:
 
 선의 의미: 다종의 쿼리 엔진이 Open Table Format 메타데이터 레이어를 경유하여 S3의 Parquet 파일에 ACID 및 고성능 SQL 연산을 수행하는 아키텍처.
 
-| 계층 (Layer) | 역할 및 구현 기술 | 주요 메커니즘 및 혜택 |
-|:---|:---|:---|
-| **Engines (엔진)** | **Spark, Presto, Trino, Python ML** | **동일한 데이터 원천을 단일 뷰로 동시 쿼리** |
-| **Open Table Format**| **Delta Lake, Apache Iceberg, Apache Hudi** | **ACID 트랜잭션, 타임 트래블, 스키마 강제** |
-| **Metadata File** | **JSON/AVRO 이력 로그 및 스냅샷 관리** | 쿼리 푸시다운(Pruning)으로 I/O 절감 |
-| **Object Storage** | **AWS S3, Parquet 열 지향 불변 파일** | 무제한 저비용 저장 공간 확충 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **연산 엔진** | 공통 테이블 메타데이터로 읽기•쓰기 수행 |
+| **Open Table Format** | 스냅숏•스키마•파티션•삭제 규칙 정의 |
+| **Metadata File** | 데이터 파일 목록과 버전 이력 보관 |
+| **Catalog** | 테이블 이름과 현재 메타데이터 위치 관리 |
+| **Object Storage** | 불변 데이터•메타데이터 파일 저장 |
 
 #### 한줄 요약
 
 - 객체 스토리지, 테이블 메타데이터, 메타데이터 포인터, 연산 엔진, 거버넌스•유지관리로 구성된다.
 
-## Ⅳ. 흐름도 (Optimistic Concurrency Control 낙관적 동시성 제어 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,27 +98,37 @@ extra:
 </details>
 
 ```text
-[Transaction A Write] ──► [S3 에 신규 Parquet 파일 업로드]
-                                     │
-                                     ▼
-       [Commit 시점: JSON Transaction Log 에 버전 커밋 시도 (Version 002)]
-                                     │
-       ┌─────────────────────────────┴─────────────────────────────┐
-       ▼ (충돌 없음)                                               ▼ (충돌 감지)
-[Version 002 Commit 성공 및 타임트래블 갱신]             [Transaction A 자동 Re-try 수행]
+[테이블 쓰기]
+      │
+      ▼
+1. 기준 스냅숏 조회
+      │
+      ▼
+2. 신규 데이터 파일 기록
+      │
+      ▼
+3. 충돌 범위 검증
+      │
+      ▼
+4. 새 메타데이터 생성
+      │
+      ▼
+5. 현재 포인터 전환
 ```
 
 ### 동작 원리
 
-1. **Write Phase**: 락 없이 S3에 새 Parquet 데이터 파일 작성.
-2. **Validate Phase**: Transaction Log를 체크하여 내가 읽기 시작한 시점 이후 타 트랜잭션 커밋 유무 검사.
-3. **Commit or Retry**: 충돌 없으면 Log 버전을 올려 커밋 승인, 충돌 시 신규 버전 기반 재시도 (**100% ACID 동시성 보장**).
+1. **기준 스냅숏 조회**: 현재 버전과 대상 파일 범위 확인
+2. **신규 데이터 파일 기록**: 변경 결과를 불변 파일로 생성
+3. **충돌 범위 검증**: 기준 이후 동시 커밋과 겹침 검사
+4. **새 메타데이터 생성**: 새 파일 목록•통계•스키마 기록
+5. **현재 포인터 전환**: 원자 커밋 후 새 스냅숏 공개
 
 #### 한줄 요약
 
 - 새 데이터 파일과 스냅숏 메타데이터를 먼저 생성하고 마지막에 메타데이터 포인터만 원자적으로 전환하여 확정된 새 버전을 공개한다.
 
-## Ⅴ. 종류 및 비교 (Data Lake vs Data Warehouse vs Data Lakehouse)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -127,8 +138,8 @@ extra:
 
 | 비교 항목 | Data Warehouse (DW) | Data Lake | Data Lakehouse |
 |:---|:---|:---|:---|
-| **데이터 형태** | **정형 데이터 위주** | **정형/반정형/비정형** | **정형/반정형/비정형 100% 지원** |
-| **ACID 트랜잭션** | **100% 완전 보장** | 미지원 (파일 단위 덮어쓰기) | **100% 완전 보장 (Open Table)** |
+| **데이터 형태** | **정형 분석 모델 중심** | **다양한 원천 파일** | 다양한 파일의 관리형 테이블 |
+| **트랜잭션** | 엔진 관리 테이블 ACID | 파일 API 수준 | **테이블 포맷별 ACID 제공** |
 | **스토리지/컴퓨팅** | 결합형 (고비용) | 완전 분리형 (가성비) | **완전 분리형 (가성비 + 고성능)** |
 | **대표 기술** | Snowflake, Redshift | AWS S3, Hadoop HDFS | **Databricks, Iceberg, Delta Lake** |
 
@@ -136,7 +147,7 @@ extra:
 
 - 레이크하우스는 객체 스토리지 위에 다중 엔진이 공유하는 ACID 테이블 메타데이터를 결합한 구조이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Lakehouse 3대 메타데이터 튜닝)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -164,7 +175,7 @@ extra:
 
 </details>
 
-- **Lakehouse 수립 기준**에 따라 모던 빅데이터 플랫폼 구축 시 **Databricks Delta Lake / Apache Iceberg 레이크하우스** 필수 수용
+- 다중 엔진 테이블 공유는 **Lakehouse**, 단순 원천 보관은 Lake 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈 테이블 포맷 비교 (Open Table Format)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T23:41:00+09:00"
 tags:
   - "notes-software"
 weight: 129
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 가성비 객체 스토리지(S3) 데이터 파일 위에 메타데이터 레이어를 추가하여, 100% ACID 트랜잭션과 스키마 진화 및 멀티 엔진 공유를 가능하게 하는 오픈 표준 기술인 **Open Table Format**
-- 배경/필요성: 기존 Hive 디렉터리 구조의 파일 탐색(ListBucket) 지연 극복, Delta Lake vs Apache Iceberg vs Apache Hudi 3대 포맷 간 기술 비교 및 최적 도입 요구성
+- 정의/개념: 객체 파일을 테이블로 관리하는 **Open Table Format**
+- 배경/필요성: 디렉터리 기반 파일 관리는 **동시 커밋•진화•탐색** 제약
 
 #### 한줄 요약
 
@@ -51,7 +51,7 @@ extra:
 
 - 세 포맷 모두 안전한 장부를 제공하지만 현재 파일과 바뀐 행을 찾고 정리하는 방법이 다르다.
 
-## Ⅲ. 구조 및 구성요소 (Open Table Format 3대장 핵심 메커니즘)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -76,18 +76,18 @@ extra:
 
 선의 의미: 이종의 처리 엔진들이 오픈 테이블 포맷 메타데이터를 거쳐 S3 파일에 저장/조회 연산을 수행하는 구조.
 
-| 구성요소 (Element) | 역할 및 주요 메커니즘 | 실무 적용 고려 요소 |
-|:---|:---|:---|
-| **Catalog** | **테이블 이름과 최신 메타데이터 주소 맵핑** | Glue Catalog, REST Catalog |
-| **Metadata File** | **스냅샷, 스키마, 파티션 명세, 통계 저장** | JSON / AVRO 메타 포맷 |
-| **Data File** | **실제 행(Row) 데이터 저장** | **Parquet, ORC 열 지향 압축 파일** |
-| **Delete File** | **행 삭제 정보를 별도 보존 (Position / Equality Delete)** | Mor (Merge-on-Read) 연산 지원 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Catalog** | 테이블명과 현재 메타데이터 위치 관리 |
+| **Metadata File** | 스냅숏•스키마•파티션•통계 보관 |
+| **Data File** | 실제 행 데이터를 열 지향 파일로 저장 |
+| **Delete File** | 위치•동등 조건 기반 행 삭제 정보 저장 |
 
 #### 한줄 요약
 
 - 엔진과 파일 사이의 공개 장부가 현재 테이블 상태를 정한다.
 
-## Ⅳ. 흐름도 (3대 오픈 테이블 포맷 기술 비교 맵핑)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -100,14 +100,14 @@ extra:
 | **최초 개발사** | **Databricks** | **Netflix** | **Uber** |
 | **주요 강점 도메인**| **Spark / Databricks 파이프라인**| **멀티 엔진(Trino/Snowflake) BI**| **초저지연 스트리밍 CDC UPSERT**|
 | **메타데이터 구조** | **JSON Commit Log (`_delta_log`)** | **3-Tier AVRO Metadata Tree** | Timeline Log + Key Index |
-| **파티셔닝** | Explicit Partitioning | **Hidden Partitioning (최우수)** | Explicit / Field Partitioning |
-| **쓰기 패턴 지원** | CoW, MoR | CoW, MoR | **CoW, MoR (UPSERT 인덱스 최강)**|
+| **파티셔닝** | 명시 파티션 중심 | **Hidden Partitioning** | 명시•필드 파티션 |
+| **쓰기 패턴 지원** | CoW•MoR | CoW•MoR | **CoW•MoR•레코드 인덱스** |
 
 #### 한줄 요약
 
 - 새 파일과 목록을 준비하고 현재 장부 위치를 한 번에 바꾼 뒤 독자는 확정된 파일만 읽는다.
 
-## Ⅴ. 종류 및 비교 (포맷 선택 결정 트리 흐름)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -126,7 +126,7 @@ extra:
 
 - 델타는 거래 로그, 아이스버그는 단계별 파일 목록, 후디는 작업 시간선과 레코드 위치표가 중심이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (오픈 테이블 포맷 도입 시 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -154,7 +154,7 @@ extra:
 
 </details>
 
-- **Open Table Format 수립 기준**에 따라 차세대 레이크하우스 구축 시 **Apache Iceberg 또는 Delta Lake** 표준 채택
+- Spark 중심은 **Delta**, 다중 엔진은 Iceberg, CDC 중심은 Hudi 선택
 
 #### 한줄 요약
 

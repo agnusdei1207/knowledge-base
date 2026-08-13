@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T23:48:00+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: 무질서한 데이터 레이크에 Bronze(Raw) $\rightarrow$ Silver(Cleaned) $\rightarrow$ Gold(Curated) 3단계 품질 정제 레이어를 적용하여 데이터 늪 화를 방지하고 데이터 무결성을 보장하는 아키텍처인 **Medallion Architecture**
-- 배경/필요성: Raw 원천 데이터에 직접 BI 집계 수행 시 발생하는 쿼리 병목 및 데이터 품질 파행 문제 해결, 계층별 데이터 품질 게이트 정립 요구성
+- 정의/개념: Bronze•Silver•Gold 품질 계층의 **메달리온 아키텍처**
+- 배경/필요성: 원천 직접 분석은 **품질 편차•재처리•지표 신뢰** 문제
 
 #### 한줄 요약
 
@@ -53,7 +53,7 @@ extra:
 
 - 색깔별 폴더가 아니라 각 단계의 입학 기준과 탈락 사유, 다시 시작할 원본이 있어야 한다.
 
-## Ⅲ. 구조 및 구성요소 (메달리온 3대 데이터 파이프라인 레이어)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -77,18 +77,18 @@ extra:
 
 선의 의미: 원 원천 데이터가 Bronze 계층에 덤프된 후 품질 검사를 거쳐 Silver 및 Gold로 단계별 원자 승격되는 아키텍처.
 
-| 계층 (Layer) | 역할 및 데이터 품질 기준 | 적합 유스케이스 및 사용자 |
-|:---|:---|:---|
-| **Bronze (Raw)** | **소스 시스템 형태 100% 보존 (JSON, CSV, Log, Parquet)** | Data Engineer, 데이터 복구 재처리 |
-| **Silver (Cleaned)** | **중복 제거, Null 필터링, 표준 스키마 및 공통 키 결합** | Data Scientist, ML Feature Engineering |
-| **Gold (Curated)** | **비즈니스 용도 집계, 스타 스키마 Mart 데이터 구성** | BI Analyst, C-Level 경영진 대시보드 |
-| **Quarantine** | **품질 게이트 검사 실패 원 원천 레코드 격리 보존** | Data Quality Manager, 오류 원인 분석 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Bronze** | 원천 값•수집 시각•출처를 재처리용 보존 |
+| **Silver** | 중복•오류 정제와 공통 스키마•키 적용 |
+| **Gold** | 용도별 지표•마트•특징 데이터 제공 |
+| **Quarantine** | 품질 실패 행과 규칙•사유 격리 |
 
 #### 한줄 요약
 
 - 원본 보관함부터 목적별 진열대까지 품질 단계를 나눈다.
 
-## Ⅳ. 흐름도 (메달리온 파이프라인 데이터 정제 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,27 +97,39 @@ extra:
 </details>
 
 ```text
-[Source JSON] ──► [Bronze Ingest (Append-only)] ──► [DLT Expectations Check]
-                                                            │
-                                  ┌─────────────────────────┴─────────────────────────┐
-                                  ▼ (Pass)                                            ▼ (Fail)
-                        [Silver Table (Upsert)]                             [Quarantine Table]
-                                  │
-                                  ▼
-                        [Gold Table (Aggregate)] ──► [PowerBI / Tableau]
+[원천 데이터]
+      │
+      ▼
+1. Bronze 적재
+      │
+      ▼
+2. 품질 규칙 검증
+      │
+  ┌───┴────┐
+  │통과    │실패
+  ▼        ▼
+3. Silver 정제  [Quarantine]
+      │
+      ▼
+4. Gold 집계
+      │
+      ▼
+5. 품질 증거 등록
 ```
 
 ### 동작 원리
 
-1. **Bronze Ingest**: 소스 Kafka/CDC 데이터를 Append-only로 Bronze Delta 테이블에 즉시 적재.
-2. **Quality Gate (Expectations)**: DLT 품질 규칙을 적용하여 정상 데이터는 Silver로 UPSERT, 오류 데이터는 Quarantine 격리.
-3. **Gold Aggregation**: Silver 테이블 기반으로 5분/일간 단위 집계 쿼리를 돌려 Gold 스타 스키마 업데이트.
+1. **Bronze 적재**: 원천 데이터와 수집 메타데이터 보존
+2. **품질 규칙 검증**: 스키마•누락•중복•유효 범위 검사
+3. **Silver 정제**: 통과 행을 표준화•결합•멱등 반영
+4. **Gold 집계**: 검증 상세로 업무 지표•마트 생성
+5. **품질 증거 등록**: 통과율•실패 사유•리니지 기록
 
 #### 한줄 요약
 
 - Bronze 적재, 검증, Silver 정제, Gold 집계를 거치며 품질 증거를 남긴다.
 
-## Ⅴ. 종류 및 비교 (메달리온 3대 계층 종합 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -127,7 +139,7 @@ extra:
 
 | 비교 항목 | Bronze Layer | Silver Layer | Gold Layer |
 |:---|:---|:---|:---|
-| **데이터 정제 수준** | **0% (Raw Original State)** | **80% (Cleaned & Standardized)** | **100% (Fully Aggregated)** |
+| **데이터 품질 상태** | 원천 보존 | 검증•표준화 상세 | 용도별 검증 집계 |
 | **스키마 형태** | 소스 원본 스키마 | 3NF 정규화 / 공통 스키마 | **Star Schema / Cube / Mart** |
 | **재처리 가능 여부** | **원천 스냅샷으로 상시 재처리 가능**| Bronze 기반 재생성 가능 | Silver 기반 재집계 가능 |
 | **저장 스토리지 포맷**| Delta / Parquet / JSON | **Delta Lake Parquet** | **Delta Lake Parquet** |
@@ -136,7 +148,7 @@ extra:
 
 - 브론즈는 원본, 실버는 검증된 공통 상세 데이터, 골드는 용도별 집계 지표이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (메달리온 구축 실무 3대 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -164,7 +176,7 @@ extra:
 
 </details>
 
-- **메달리온 수립 기준**에 따라 레이크하우스 품질 관리 체계 구축 시 **Medallion Architecture & Databricks DLT** 필수 적용
+- 재처리 원본은 **Bronze**, 공통 상세는 Silver, 지표는 Gold 제공
 
 #### 한줄 요약
 

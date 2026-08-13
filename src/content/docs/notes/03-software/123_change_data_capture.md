@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:59:00+09:00"
 tags:
   - "notes-software"
 weight: 123
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 소스 데이터베이스의 CUD 트랜잭션 변경 이벤트를 물리적 갱신 로그(Binlog/WAL) 분석을 통해 실시간 감지 및 스트리밍 전파하는 기술인 **CDC (Change Data Capture)**
-- 배경/필요성: 기존 SQL 폴링(Polling) 방식의 소스 DB CPU 부하 폭증 및 `DELETE` 이벤트 감지 불가 한계 극복, RDBMS-SearchEngine-Cache 간 실시간 동기화 요구성
+- 정의/개념: DB 변경 로그를 이벤트로 전파하는 **CDC(Change Data Capture)**
+- 배경/필요성: 주기 조회는 **삭제 누락•DB 부하•동기화 지연** 유발
 
 #### 한줄 요약
 
@@ -44,15 +44,15 @@ extra:
 
 </details>
 
-- **Zero Source-DB Overhead (Log-based Binlog / WAL 파싱)**
-- **Delete Event Tracking (`DELETE` 및 `TRUNCATE` 100% 캡처)**
+- **낮은 조회 부하**: 트랜잭션 로그 기반 변경 추출
+- **삭제 이벤트 추적**: 제품•설정이 제공하는 삭제 기록 캡처
 - **Schema History Tracking (테이블 DDL 변경 이력 실시간 추적)**
 
 #### 한줄 요약
 
 - CDC는 첫 전체 복사와 이후 로그 사이의 빈 구간을 없애고 마지막 확정 위치부터 안전하게 다시 읽어야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Log-based CDC 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -80,18 +80,19 @@ extra:
 
 선의 의미: 소스 DB의 Binlog를 Debezium 커넥터가 읽어 Kafka로 전파하고, ElasticSearch/Redis/DW 등 타깃 시스템으로 실시간 무부하 동기화하는 구조.
 
-| 구성요소 (Component) | 역할 및 기술 메커니즘 | 대표 기술 스택 |
-|:---|:---|:---|
-| **Transaction Log** | **소스 DB의 모든 CUD 커밋 이력이 이진 저장되는 로그** | **MySQL Binlog, PostgreSQL WAL** |
-| **CDC Connector** | **Binlog를 파싱하여 표준 JSON 이벤트 메시지로 변환** | **Debezium, Canal, AWS DMS** |
-| **Event Broker** | **CDC 이벤트를 순서대로 보존하고 병렬 전파 버퍼링**| **Apache Kafka, Apache Pulsar** |
-| **Sink Consumer** | **CDC 이벤트를 수신받아 타깃 DB에 UPSERT/DELETE**| **Elasticsearch Sink, Redis Sink** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Transaction Log** | 커밋 순서와 행 변경 내용 보관 |
+| **CDC Connector** | 로그 파싱•스키마 해석•이벤트 변환 |
+| **Offset Store** | 마지막 안전 처리 로그 위치 저장 |
+| **Event Broker** | 변경 이벤트 순서 보존•다중 전파 |
+| **Sink Consumer** | 키 기반 UPSERT•DELETE 멱등 반영 |
 
 #### 한줄 요약
 
 - 원본 장부, 일지 판독기, 책갈피, 전달 일지, 대상 반영기로 구성된다.
 
-## Ⅳ. 흐름도 (CDC 방식 3대 기술 비교)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -101,7 +102,7 @@ extra:
 
 | CDC 구현 방식 | 메커니즘 및 동작 원리 | 장점 및 단점 비교 |
 |:---|:---|:---|
-| **Log-based CDC** | **DB 이진 트랜잭션 로그(Binlog) 파싱** | **DB 부하 0%, DELETE 감지 100%**, DB 로그 권한 필요 |
+| **Log-based CDC** | **DB 이진 트랜잭션 로그 파싱** | 낮은 조회 부하•로그 권한 필요 |
 | **Trigger-based CDC** | **테이블마다 CUD DB Trigger 작성** | 모든 DB 적용 가능, **소스 DB 쓰기 Latency 증가** |
 | **Query-based CDC** | **`WHERE updated_at > ?` 쿼리 폴링** | 구현 단순함, **`DELETE` 감지 불가, DB CPU 병목** |
 
@@ -109,7 +110,7 @@ extra:
 
 - 변경 일지를 읽는 방식이 가장 자연스럽지만 권한이 없으면 표식이나 주기 조회를 사용한다.
 
-## Ⅴ. 종류 및 비교 (Debezium CDC Event Payload 구조)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -130,7 +131,7 @@ extra:
 
 - 첫 전체 복사의 끝과 변경 일지의 시작을 맞추고 마지막 발행 위치를 책갈피로 남긴다.
 
-## Ⅵ. 실무 고려사항 및 대책 (CDC 실무 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -158,7 +159,7 @@ extra:
 
 </details>
 
-- **CDC 아키텍처 수립 기준**에 따라 DB-검색엔진/캐시 간 무부하 동기화 구축 시 **Debezium Log-based CDC** 필수 수용
+- 로그 권한•삭제 추적이 가능하면 **Log-based**, 아니면 Trigger•Query 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:52:00+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 이종 시스템에서 연속적으로 유입되는 대규모 이벤트 스트림을 수집, 분산 버퍼링, 실시간 가공, 서빙 레이어 렌더링까지 초저지연(Sub-second)으로 통합 관리하는 빅데이터 아키텍처인 **Real-Time Streaming Platform**
-- 배경/필요성: 기존 일괄 배치(Batch)의 몇 시간 지연 극복, 실시간 이상 거래 탐지(FDS), 개인화 실시간 추천, 실시간 관제 모니터링 수용 요구성
+- 정의/개념: 이벤트 수집•보존•연산•서빙을 잇는 **스트리밍 플랫폼**
+- 배경/필요성: 주기 배치는 **즉시 탐지•연속 상태 갱신** 지연
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 브로커는 이벤트를 보존하고 처리기는 상태를 계산하므로 두 계층의 위치•상태•출력 복구 경계를 맞춰야 한다.
 
-## Ⅲ. 구조 및 구성요소 (실시간 스트리밍 파이프라인 4대 토폴로지)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -73,18 +73,19 @@ extra:
 
 선의 의미: 데이터 수집 커넥터부터 메시지 브로커, 스트림 연산 엔진, 최종 서비스 디스플레이 DB까지 일체형으로 연결되는 파이프라인.
 
-| 아키텍처 레이어 | 담당 주요 역할 | 대표 표준 기술 스택 |
-|:---|:---|:---|
-| **1. Ingestion Layer** | **앱 로그 및 DB 변경분(CDC) 실시간 추출 수집** | **Kafka Connect, Debezium CDC, Vector** |
-| **2. Message Broker Layer** | **이벤트 100% 보존, 버퍼링, Pub/Sub 분산 라우팅** | **Apache Kafka, Apache Pulsar, Redpanda** |
-| **3. Stream Processing** | **이벤트 시간 기반 Windowing, Stateful 연산** | **Apache Flink, Spark Structured Streaming**|
-| **4. Serving Store Layer** | **최종 가공된 실시간 통계/알림 1ms 서빙 렌더링**| **Redis, Cassandra, Apache Pinot, Druid** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **수집 계층** | 앱 이벤트•로그•CDC 변경분 추출 |
+| **이벤트 브로커** | 파티션 보존•버퍼링•다중 구독 제공 |
+| **스트림 처리기** | 이벤트 시간•윈도•키 상태 연산 |
+| **체크포인트 저장소** | 입력 위치와 처리 상태 복구점 보관 |
+| **서빙 저장소** | 가공 결과의 저지연 조회 제공 |
 
 #### 한줄 요약
 
 - 작성자, 사건 일지, 계산자, 복구 사진, 서비스 장부로 구성된다.
 
-## Ⅳ. 흐름도 (End-to-End 실시간 파이프라인 데이터 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -93,23 +94,40 @@ extra:
 </details>
 
 ```text
-[User Action Event] ──► [CDC / Kafka Ingest] ──► [Kafka Topic Partition]
-                                                        │
-                                                        ▼
-  [Client Real-Time Dashboard] ◄── [Redis Serving] ◄── [Flink Engine (State Window)]
+[원천 이벤트]
+      │
+      ▼
+1. 이벤트 수집
+      │
+      ▼
+2. 파티션 로그 보존
+      │
+      ▼
+3. 상태•윈도 연산
+      │
+      ▼
+4. 결과 멱등 반영
+      │
+      ▼
+5. 지연•복구 감시
+      │
+      ▼
+ [서비스 조회]
 ```
 
 ### 동작 원리
 
-1. **Ingest & Buffer**: 유저 모바일 앱 이벤트가 Debezium CDC를 거쳐 Kafka Topic에 1ms 만에 저장.
-2. **Stream Calculate**: Apache Flink가 Kafka Partition에서 메시지를 읽어 5분 Sliding Window 상태 연산.
-3. **Serving Render**: Flink 가공 결과가 Redis/Pinot 뷰어 DB에 인서트되어 유저 실시간 대시보드 표출.
+1. **이벤트 수집**: 커넥터가 원천 변경을 표준 이벤트로 변환
+2. **파티션 로그 보존**: 키 기준 순서 경계와 재생 위치 저장
+3. **상태•윈도 연산**: 이벤트 시간으로 키별 결과 계산
+4. **결과 멱등 반영**: 거래•멱등 키로 Sink 결과 갱신
+5. **지연•복구 감시**: Lag•Backpressure•체크포인트 추적
 
 #### 한줄 요약
 
 - 일지 위치와 계산 상태, 외부 장부 결과를 같은 경계로 맞춰 다시 시작해도 틀어지지 않게 한다.
 
-## Ⅴ. 종류 및 비교 (배치 파이프라인 대 실시간 스트리밍 파이프라인)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,7 +146,7 @@ extra:
 
 - Kafka는 사건을 남기고 Flink•Spark는 사건을 계산하며 Sink는 서비스할 결과를 보관한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (실시간 파이프라인 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -156,7 +174,7 @@ extra:
 
 </details>
 
-- **스트리밍 파이프라인 수립 기준**에 따라 차세대 실시간 시스템 구축 시 **Kafka + Flink + Redis 기반 통합 플랫폼** 필수 수용
+- 즉시 상태 갱신은 **스트리밍**, 지연 허용 대량 집계는 배치 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "데이터 계보 (Data Lineage)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T00:16:00+09:00"
 tags:
   - "notes-software"
 weight: 134
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터의 최초 발생 원천부터 최종 집계 보고서까지의 흐름, 변환(Transformation) 파이프라인 및 의존성을 시각적 방향성 그래프로 추적 관리하는 메커니즘인 **Data Lineage**
-- 배경/필요성: 소스 DB 컬럼 변경 시 연결된 100개 파이프라인 및 대시보드의 연쇄 장애 방지, 금융/의료 규제 준수(Compliance Audit) 수용 요구성
+- 정의/개념: 데이터 원천•변환•소비 의존성을 추적하는 **Data Lineage**
+- 배경/필요성: 의존 관계가 없으면 **변경 영향•오류 원인•감사 증거** 추적 불가
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 설계 계보는 예정 노선, 실행 계보는 실제 이동 기록이며 둘 다 빠진 길이 없는지 확인해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Data Lineage DAG 그래프 메커니즘)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -75,18 +75,19 @@ extra:
 
 선의 의미: 데이터가 소스부터 마트, 쿼리 엔진, 최종 BI 포털로 이어지는 유기적 상하류 흐름 그래프.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 핵심 이점 |
-|:---|:---|:---|
-| **Upstream Node** | **데이터가 유입되는 상류 원천 데이터셋 노드 (Input)** | 원천 장애 파악 |
-| **Downstream Node** | **데이터를 최종 소비하는 하류 대시보드/ML 노드 (Output)**| 파급 효과 영향도 분석 |
-| **Transformation Code**| **SQL `JOIN`, `GROUP BY` 구문 파싱하여 변환식 추적** | 컬럼 매핑 로직 시각화 |
-| **OpenLineage Standard**| **Spark, Airflow, Dbt 연동으로 계보 이벤트 자동 송신** | 100% 수동 작업 자동화 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Dataset Node** | 원천•중간•결과 데이터 자산 표현 |
+| **Job Node** | 변환 작업•실행•코드 버전 표현 |
+| **Lineage Edge** | 읽기•쓰기•열 변환 의존 관계 표현 |
+| **Lineage Emitter** | 실행 이벤트와 입력•출력 메타데이터 전송 |
+| **Graph Store** | 상하류 탐색과 영향•원인 질의 제공 |
 
 #### 한줄 요약
 
 - 보고서 숫자가 어떤 원료와 공정을 거쳤는지 보여 준다.
 
-## Ⅳ. 흐름도 (Column-Level Lineage 핀포인트 추적 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,22 +96,37 @@ extra:
 </details>
 
 ```text
-[Source: order_amount] ────┐
-                           ├──► [SQL AST Parser] ──► [Target: total_sales = sum(order_amount - discount)]
-[Source: discount] ────────┘
+[파이프라인 실행•코드]
+       │
+       ▼
+1. 입력•출력 자산 수집
+       │
+       ▼
+2. 변환식•열 매핑 추출
+       │
+       ▼
+3. 실행 계보와 병합
+       │
+       ▼
+4. 계보 그래프 저장
+       │
+       ▼
+5. 영향•원인 탐색
 ```
 
 ### 동작 원리
 
-1. **SQL Parsing**: `dbt` 또는 Spark SQL 구문을 AST Parser가 읽어 컬럼 단위 매핑 관계 추출.
-2. **Graph Storage**: Graph DB(Neo4j) 또는 OpenMetadata 카탈로그에 `order_amount -> total_sales` 엣지 기록.
-3. **Impact Render**: `order_amount` 컬럼 타입 변경 시 `total_sales`를 소비하는 모든 대시보드에 경고 전파 (**Column-Level Lineage 완결**).
+1. **입력•출력 자산 수집**: 실행 이벤트에서 데이터셋 식별
+2. **변환식•열 매핑 추출**: SQL AST•계획에서 관계 생성
+3. **실행 계보와 병합**: 설계 의존성과 실제 경로 대조
+4. **계보 그래프 저장**: 자산•작업•열 관계와 버전 기록
+5. **영향•원인 탐색**: 하류 영향과 상류 원인을 질의
 
 #### 한줄 요약
 
 - 작업이 실제로 읽고 쓴 자료와 열 계산식을 운행 기록처럼 모아 관계 지도에 합친다.
 
-## Ⅴ. 종류 및 비교 (Design-Time vs Runtime Lineage)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -121,7 +137,7 @@ extra:
 | 비교 항목 | Design-Time Lineage (설계 시점 계보) | Runtime Lineage (런타임 계보) |
 |:---|:---|:---|
 | **수집 원천** | **소스 코드, SQL 파일, DDL 명세서** | **Spark, Airflow 실제 실행 런타임 로그** |
-| **장점** | 배포 전 사전 영향도 파악 가능 | **실제 실행된 100% 실체 데이터 흐름 보장** |
+| **장점** | 배포 전 사전 영향도 파악 가능 | **실제 실행 경로와 버전 확인** |
 | **단점** | 동적 쿼리(`EXECUTE IMMEDIATE`) 미반영 위험 | 파이프라인이 실행되어야만 계보 생성 |
 | **적용 시점** | CI/CD 배포 파이프라인 검증 | 실시간 관제 및 장애 원인 추적 |
 
@@ -129,7 +145,7 @@ extra:
 
 - 공사 전 영향은 설계도, 사고 후 원인은 실제 운행 기록이 더 잘 보여 준다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Data Lineage 실무 3대 활용 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -157,7 +173,7 @@ extra:
 
 </details>
 
-- **Data Lineage 수립 기준**에 따라 전사 데이터 파이프라인 구축 시 **OpenLineage & Column-Level Data Lineage** 필수 수용
+- 배포 전 영향은 **설계 계보**, 장애 원인은 실행 계보로 추적
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T00:44:00+09:00"
 tags:
   - "notes-software"
 weight: 138
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터의 추출(Extract), 변환(Transform), 적재(Load) 연산의 시점과 컴퓨터 레이어 위치를 다르게 가져가는 데이터 엔지니어링 2대 파이프라인 패턴인 **ETL vs ELT**
-- 배경/필요성: 과거 비싼 DW 디스크 스토리지 환경(ETL)에서, 현대 클라우드 가성비 S3 객체 스토리지 및 Snowflake MPPE 엔진 출현(ELT)으로 패러다임 전환 요구성
+- 정의/개념: 변환과 적재 순서를 달리하는 **ETL•ELT**
+- 배경/필요성: 보안 선처리와 원본 재가공은 **변환 위치•시점** 요구 상충
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 어디까지 성공했는지 기억하고 같은 구간을 다시 넣어도 결과가 한 번만 남게 만든다.
 
-## Ⅲ. 구조 및 구성요소 (ETL 대 ELT 파이프라인 아키텍처 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,28 +60,19 @@ extra:
 
 </details>
 
-```text
-[1. ETL Pipeline Architecture]
- Source System ──► [Extract] ──► [Transform (Spark ETL Server)] ──► [Load] ──► Legacy DW
-
-[2. ELT Pipeline Architecture]
- Source System ──► [Extract] ──► [Load Raw Data (AWS S3)] ──► [Transform (dbt / Snowflake)] ──► Gold DW
-```
-
-선의 의미: 데이터 변환(Transform)이 적재(Load) 이전에 일어나느냐(ETL), 적재 이후 타깃 내부에서 일어나느냐(ELT)의 흐름 차이.
-
-| 비교 요소 | Traditional ETL Pipeline | Modern ELT Pipeline |
-|:---|:---|:---|
-| **변환 연산 위치** | **독립된 중간 변환 서버 (Spark, Talend)** | **타깃 클라우드 DW / Lake (Snowflake, BigQuery)** |
-| **적재 속도 (Load Time)**| 느림 (변환이 모두 끝나야 적재) | **초고속 (Raw Data를 S3에 즉시 덤프 적재)** |
-| **원본 보존성** | 없음 (변환된 최종 결과만 적재) | **100% 완벽 보존 (Bronze Zone Raw 데이터)** |
-| **핵심 변환 기술** | Python, Scala, Java, Spark | **SQL, dbt (data build tool)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Extractor** | 원천 변경•배치 데이터를 증분 추출 |
+| **Transformer** | 정제•표준화•마스킹•업무 규칙 적용 |
+| **Loader** | 스테이징•타깃에 멱등 적재 |
+| **Orchestrator** | 의존성•재시도•체크포인트 관리 |
+| **Quality•Lineage** | 계약 검사와 입력•출력 증거 기록 |
 
 #### 한줄 요약
 
 - 밖에서 정리해 넣거나 먼저 넣고 안에서 정리한다.
 
-## Ⅳ. 흐름도 (Modern ELT + dbt 변환 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -90,22 +81,37 @@ extra:
 </details>
 
 ```text
-[Source DB] ──► [Fivetran / Airbyte (Extract & Load)] ──► [Snowflake Bronze Raw Table]
-                                                                  │
-                                                                  ▼
- [Gold Analytics Mart] ◄── [dbt Compile & Test] ◄── [dbt SQL Model Transformation]
+[원천 변경]
+      │
+      ▼
+1. 증분 추출
+      │
+      ▼
+2. 체크포인트 기록
+      │
+      ▼
+3. 변환•적재 실행
+      │
+      ▼
+4. 품질•멱등 검증
+      │
+      ▼
+5. 결과 공개•위치 확정
 ```
 
 ### 동작 원리
 
-1. **Extract & Load**: Fivetran/Debezium 커넥터가 변환 0회로 소스 데이터를 Snowflake Bronze 영역에 덤프 적재.
-2. **dbt Transformation**: 데이터 엔지니어가 SQL 선언적 아티팩트(`dbt run`)를 돌려 Snowflake 인프라 파워로 Silver/Gold 변환 연산 수행 (**Modern ELT 완결**).
+1. **증분 추출**: 로그 위치•수정 시각으로 신규 범위 수집
+2. **체크포인트 기록**: 재시작 가능한 원천 위치 저장
+3. **변환•적재 실행**: ETL은 변환 선행, ELT는 적재 선행
+4. **품질•멱등 검증**: 계약•중복•행 수•합계 대조
+5. **결과 공개•위치 확정**: 성공 후 타깃과 체크포인트 전환
 
 #### 한줄 요약
 
 - 새 자료를 따로 보관하고 선택한 순서로 처리한 뒤 결과가 맞아야 완료 표시를 옮긴다.
 
-## Ⅴ. 종류 및 비교 (ETL 대 ELT 적합 도메인 선택 기준)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -117,14 +123,14 @@ extra:
 |:---|:---|:---|
 | **보안 및 규제 (PII)** | **적재 전 PII 암호화 필수 시 (ETL 우수)** | 타깃 저장소 보안 정책으로 커버 |
 | **데이터 스토리지 비용**| 온프레미스 디스크가 비싼 경우 | **클라우드 S3 스토리지 가격이 매우 저렴한 경우** |
-| **유연성 및 재가공** | 변환 로직 변경 시 소스부터 재수집 필요 | **Raw 보존으로 dbt SQL만 고쳐서 재가공** |
+| **유연성 및 재가공** | 중간 원본 보존 정책에 좌우 | **Raw 보존 시 타깃에서 재가공** |
 | **엔지니어링 기술** | Spark, Scala 전문 엔지니어 필요 | **SQL 숙련 데이터 분석가도 파이프라인 개발** |
 
 #### 한줄 요약
 
 - 밖에서 가려야 할 값은 먼저 처리하고 반복 분석할 원본은 안에 보관해 다시 가공할 수 있다.
 
-## Ⅵ. 실무 고려사항 및 대책 (ELT 도입 시 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -152,7 +158,7 @@ extra:
 
 </details>
 
-- **ELT 수립 기준**에 따라 차세대 모던 데이터 스택 구축 시 **Modern ELT (Airbyte + Snowflake + dbt)** 필수 수용
+- 적재 전 통제가 필수면 **ETL**, 원본 재가공이 중요하면 ELT 선택
 
 #### 한줄 요약
 
