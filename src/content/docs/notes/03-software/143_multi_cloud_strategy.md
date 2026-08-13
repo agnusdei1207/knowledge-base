@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "멀티 클라우드 전략 (Multi Cloud Strategy)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:19:00+09:00"
 tags:
   - "notes-software"
 weight: 143
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 단일 CSP 종속을 탈피하고 Best-of-Breed 서비스 채택 및 전역 DR 고가용성을 달성하기 위해 AWS, GCP, Azure 등 다중 퍼블릭 클라우드를 통합 운용하는 아키텍처 전략인 **Multi-Cloud Strategy**
-- 배경/필요성: 특정 CSP 대형 장애 시 서비스 멈춤 사고(Kakao 먹통 사태 등) 방지, 글로벌 규제(GDPR) 및 CSP 간 가격 협상력(Bargaining Power) 확보 요구성
+- 정의/개념: 복수 CSP의 역할을 조합하는 **Multi-Cloud Strategy**
+- 배경/필요성: 단일 CSP는 **서비스 종속•가격•규제•장애 범위** 집중
 
 #### 한줄 요약
 
 - 가게를 여러 곳 쓰는 것보다 무엇을 나누고 어떻게 바꿔 살지를 정하는 것이 핵심이다.
 
-## Ⅱ. 특징 (멀티 클라우드 3대 도입 목표)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -43,7 +43,7 @@ extra:
 
 </details>
 
-- **Mitigate Vendor Lock-in (단일 사업자 종속 위험 0% 차단)**
+- **Vendor Lock-in 완화**: 대체 경로•계약 협상력 확보
 - **Best-of-Breed Capabilities (AWS 인프라 + GCP BigQuery/AI 엔진 특화 조합)**
 - **High Availability & Disaster Recovery (CSP 간 100% 장애 우회 DR 구축)**
 
@@ -51,7 +51,7 @@ extra:
 
 - 예비 가게가 있어도 재고와 출입증을 맞추고 실제로 손님을 돌려보는 연습이 필요하다.
 
-## Ⅲ. 구조 및 구성요소 (Multi-Cloud 4대 추상화 레이어)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -74,18 +74,19 @@ extra:
 
 선의 의미: 하단의 AWS, GCP 이종 CSP 클라우드를 상단의 Terraform, Kubernetes 추상화 레이어로 묶어 제어하는 아키텍처.
 
-| 구성 요소 (Element) | 역할 및 구현 기술 | 실무 핵심 이점 |
-|:---|:---|:---|
-| **IaC (Code Infrastructure)**| **Terraform 코드로 AWS/GCP 자원 일괄 자동 프로비저닝** | 프로비저닝 표준화 |
-| **CaaS (Container Engine)** | **Kubernetes (EKS / GKE) 기반 앱 컨테이너 이식성 확보**| **Cloud 이관 비용 0원** |
-| **Unified Security (IAM)** | **HashiCorp Vault, Okta 기반 멀티 클라우드 통합 인증**| 보안 정책 통합 |
-| **Multi-Cloud Observability**| **Datadog, Dynatrace 기반 전사 통합 관제 체계 구축**| 단일 뷰 스택 감시 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Workload Placement** | CSP별 기능•지역•규제에 따라 역할 배치 |
+| **IaC•CaaS** | 공통 배포와 이식 가능한 실행 단위 제공 |
+| **Unified Identity** | 사용자•서비스 신뢰와 권한 정책 연계 |
+| **Network•GSLB** | CSP 간 연결•라우팅•장애전환 관리 |
+| **Observability•FinOps** | 상태•SLO•비용•Egress 통합 관측 |
 
 #### 한줄 요약
 
 - 여러 가게를 쓰되 역할과 전환 방법을 미리 정한다.
 
-## Ⅳ. 흐름도 (Multi-Cloud Traffic Routing & Failover 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,24 +95,37 @@ extra:
 </details>
 
 ```text
-[User Request] ──► [Global GSLB (Cloudflare / Route53)]
-                          │
-         ┌────────────────┴────────────────┐
-         ▼ (Primary 99%)                   ▼ (Standby / Health Check Fail)
-   [AWS EKS Cluster]                [GCP GKE Cluster (Automatic Failover)]
+[주 CSP 장애]
+      │
+      ▼
+1. 다중 신호 장애 판정
+      │
+      ▼
+2. 데이터 복구점 확인
+      │
+      ▼
+3. 보조 CSP 승격
+      │
+      ▼
+4. GSLB 트래픽 전환
+      │
+      ▼
+5. 정합성•성능 검증
 ```
 
 ### 동작 원리
 
-1. **Routing**: 평시 트래픽은 메인 인프라인 AWS EKS 클러스터로 100% 서빙.
-2. **Health Check Fail**: AWS 전역 리전 장애 발생 시 GSLB가 장애 감지.
-3. **Failover**: 트래픽을 즉시 100% 보조 인프라인 GCP GKE 클러스터로 우회 (**Multi-Cloud DR 완결**).
+1. **다중 신호 장애 판정**: 리전•앱•의존 서비스 실패 확인
+2. **데이터 복구점 확인**: 보조 환경의 RPO•복제 지연 판정
+3. **보조 CSP 승격**: 쓰기 권한과 의존 서비스를 활성화
+4. **GSLB 트래픽 전환**: 점진적으로 사용자 요청 우회
+5. **정합성•성능 검증**: 오류율•지연•중복 처리 확인
 
 #### 한줄 요약
 
 - 주 가게가 멈추면 복제된 마지막 재고를 확인한 예비 가게로 손님을 돌린다.
 
-## Ⅴ. 종류 및 비교 (Single Cloud vs Hybrid Cloud vs Multi-Cloud)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,7 +136,7 @@ extra:
 | 비교 항목 | Single Cloud (AWS 전용) | Hybrid Cloud | Multi-Cloud |
 |:---|:---|:---|:---|
 | **CSP 개수** | **단 1개 (AWS 100%)** | 1개 퍼블릭 + 온프레미스 IDC | **2개 이상 (AWS + GCP + Azure)** |
-| **Vendor Lock-in** | **최상 (AWS 기술 완전 종속)** | 중간 (온프레미스 연동) | **0% (완전 자율 이관 가능)** |
+| **사업자 종속** | 단일 CSP 기능에 집중 | CSP•온프레미스 결합 | 복수 CSP이나 공통 계층 종속 가능 |
 | **운영 및 관리 비용** | 최저 (단일 통합 포털) | 중간 | **높음 (다중 기술 스택 인력 필요)**|
 | **장애 복구력 (DR)** | 단일 CSP 리전 장애 시 위험 | IDC 복구 가능 | **CSP 수준의 전역 장애 우회** |
 
@@ -130,7 +144,7 @@ extra:
 
 - 분할은 일을 나눠 맡기고 중복은 같은 일을 대신할 준비를 한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Multi-Cloud 실무 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -158,7 +172,7 @@ extra:
 
 </details>
 
-- **Multi-Cloud 수립 기준**에 따라 전사 클라우드 거버넌스구축 시 **Multi-Cloud & Kubernetes & Terraform** 필수 적용
+- 독립 기능 조합•CSP DR 가치가 **운영•Egress 비용**보다 크면 채택
 
 #### 한줄 요약
 

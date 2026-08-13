@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "예약 인스턴스•스팟 인스턴스 (Reserved and Spot Instances)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:44:00+09:00"
 tags: ["notes-software"]
 weight: 148
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: 클라우드 인프라 구매 시 비용 절감을 위해 1~3년 장기 약정 할인(RI)과 2분 전 강제 회수 중단 위험을 감수한 초저가 할인(Spot)을 혼용 조합하는 비용 아키텍처인 **Reserved & Spot Instances**
-- 배경/필요성: 100% On-Demand 정가 지불로 인한 비용 낭비 방지, Batch 연산 및 K8s 워커 노드의 90% 인프라 단가 절감 요구성
+- 정의/개념: 약정•가용 용량으로 요율을 낮추는 **Reserved•Spot Instance**
+- 배경/필요성: 단일 구매 방식은 **수요 안정성•중단 허용도** 차이를 반영 불가
 
 #### 한줄 요약
 
 - 매일 타는 구간은 정기권을 사고 자리를 빼앗겨도 다음 차에서 이어 갈 일은 빈 좌석 표를 사듯, 수요 지속성과 중단 복구 가능성에 따라 구매 방식을 나눈다.
 
-## Ⅱ. 특징 (구매 옵션 3대 분류)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -42,15 +42,15 @@ extra:
 
 </details>
 
-- **On-Demand (무약정 0%, 중단 위험 0%, 정가 100% 지불)**
-- **Reserved Instance / Savings Plans (1/3년 약정, 중단 위험 0%, 40~72% 할인)**
-- **Spot Instance (약정 0%, 강제 회수 위험 100%, 80~90% 파격 할인)**
+- **On-Demand**는 약정 없이 변동 수요에 대응
+- **Reserved•Savings Plans**는 안정 수요를 약정해 할인
+- **Spot Instance**는 잉여 용량을 쓰며 회수 위험 수용
 
 #### 한줄 요약
 
 - 매일 필요한 좌석은 정기권, 중간에 내릴 수 있는 작업은 빈 좌석 표, 갑자기 생긴 이동은 일반 표를 사듯 수요 성격마다 가격과 위험이 달라진다.
 
-## Ⅲ. 구조 및 구성요소 (Spot Fleet & Mixed Instances Group)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,28 +59,23 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   AWS Mixed Instances Group Strategy                   │
-├────────────────────────────────────────────────────────────────────────┤
-│ Baseline Static Traffic  ──► [1. Reserved Instances (RI / SP)] (30%) │
-│ Dynamic Normal Traffic   ──► [2. On-Demand Instances]         (20%) │
-│ Batch / K8s Worker Nodes ──► [3. Spot Fleet Multi-AZ Pools]     (50%) │
-└────────────────────────────────────────────────────────────────────────┘
+[혼합 인스턴스 그룹]
+ ├── [Reserved•SP 기반 용량]
+ ├── [On-Demand 변동 용량]
+ └── [Spot 중단 가능 용량]
 ```
 
-선의 의미: 베이스라인은 RI 약정 할인, 변동분은 On-Demand, stateless 렌더링/K8s 노드는 Spot Fleet으로 기하급수적 절감을 렌더링하는 아키텍처.
-
-| 인스턴스 구매 옵션 | 할인율 | 중단 위험 (Interruption) | 최적 사용 도메인 유스케이스 |
-|:---|:---|:---|:---|
-| **On-Demand** | **0% (정가)** | **0% (절대 안 끊김)** | **신규 서비스 테스트, 예측 불가능 트래픽** |
-| **Reserved / SP** | **40% ~ 72%** | **0% (절대 안 끊김)** | **24시간 365일 가동되는 메인 Core DB/App** |
-| **Spot Instance** | **80% ~ 90%** | **100% (2분 전 강제 회수)** | **K8s Worker, Spark Batch, CI/CD Runner** |
+| 구성요소 | 책임 |
+|---|---|
+| Reserved•SP 기반 용량 | **안정 수요**의 약정 요율 적용 |
+| On-Demand 변동 용량 | 예측하기 어려운 **탄력 수요** 처리 |
+| Spot 중단 가능 용량 | **재시작 가능 작업**의 잉여 용량 활용 |
 
 #### 한줄 요약
 
 - 수요 분석표가 매일 필요한 좌석은 예약 장부로, 중단 가능한 작업은 스팟 풀과 진행표로, 갑작스러운 작업은 온디맨드 좌석으로 연결한다.
 
-## Ⅳ. 흐름도 (Spot Interruption Handler 2분 응급 대처 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -89,23 +84,40 @@ extra:
 </details>
 
 ```text
-[AWS Spot Reclaim Warning (2-Min Notice)] ──► [EventBridge / Spot Interruption Handler]
-                                                           │
-                                                           ▼
- [New Spot Node Provisioning] ◄── [K8s Node Cordon & Drain (Task Re-scheduling)]
+[회수 경고]
+    │
+    ▼
+1. 중단 이벤트 수신
+    │
+    ▼
+2. 신규 배치 차단
+    │
+    ▼
+3. 상태 체크포인트
+    │
+    ▼
+4. 작업 재배치
+    │
+    ▼
+5. 대체 용량 확보
+    │
+    ▼
+[처리 재개]
 ```
 
 ### 동작 원리
 
-1. **Reclaim Trigger**: AWS 데이터센터 자원 부족으로 2분 전 Spot Interruption 경보 발행.
-2. **Cordon & Drain**: K8s Spot Handler가 해당 노드에 신규 Pod 할당을 막고(Cordon), 기존 Pod를 타 노드로 이사시킴(Drain).
-3. **Graceful Re-node**: 2분 이내에 안가 배치 및 신규 Spot 노드 띄우기 완결 (**Spot 안정적 렌더링**).
+1. **중단 이벤트 수신**: 회수 대상과 종료 시점 식별
+2. **신규 배치 차단**: Cordon으로 새 작업 할당 방지
+3. **상태 체크포인트**: 재개 지점을 외부 저장소에 기록
+4. **작업 재배치**: Drain으로 실행 작업을 다른 노드로 이동
+5. **대체 용량 확보**: Spot Pool 또는 On-Demand 보충
 
 #### 한줄 요약
 
 - 빈 좌석에서 작업하다 자리를 돌려줘야 하면 바깥 장부에 적은 마지막 진행 지점부터 다른 좌석에서 이어 가고, 마감이 가까우면 일반 표로 바꾼다.
 
-## Ⅴ. 종류 및 비교 (RI Standard 대 RI Convertible 대 Savings Plans)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -123,7 +135,7 @@ extra:
 
 - 매일 쓰는 좌석은 예약이 싸고, 자리를 잃어도 이어 갈 일은 스팟이 싸며, 갑작스러운 이동은 비싸더라도 온디맨드가 바로 대응한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Spot Instance 3대 파행 요소 해복책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -151,7 +163,7 @@ extra:
 
 </details>
 
-- **Spot/RI 수립 기준**에 따라 비용 최적화 아키텍처 구축 시 **Compute Savings Plans + Spot Fleet Multi-AZ Group** 필수 적용
+- 안정 수요는 **Savings Plans**, 재시작 가능 작업은 Spot 적용
 
 #### 한줄 요약
 

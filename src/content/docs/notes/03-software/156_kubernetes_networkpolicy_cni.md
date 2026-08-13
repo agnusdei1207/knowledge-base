@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T02:16:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: CNI 드라이버(Cilium, Calico)가 Pod 간 IP 통신 오버레이 망을 구성하고, NetworkPolicy가 Zero-Trust 미세 격리(Micro-segmentation) 방화벽 룰을 집행하는 아키텍처 체계인 **NetworkPolicy & CNI**
-- 배경/필요성: 평면적(Flat) Pod 네트워크에서 특정 Web Pod가 해킹당했을 때, DB Pod 및 타 Namespace로 횡적 이동(Lateral Movement) 공격 파행을 차단하는 요구성
+- 정의/개념: Pod 연결과 통신 정책을 분리하는 **CNI•NetworkPolicy**
+- 배경/필요성: Flat Pod Network는 침해 후 **Lateral Movement** 허용
 
 #### 한줄 요약
 
 - CNI가 모든 파드 사이에 길을 놓은 뒤 네트워크 정책가 출발지와 도착지의 허용 목록을 적용해 필요한 통신만 남긴다.
 
-## Ⅱ. 특징 (CNI 대 NetworkPolicy 역할 분담)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 정책 객체만 작성하고 CNI가 그 기능을 집행하지 않으면 문서상의 출입 명단만 있고 실제 문에는 잠금장치가 없는 상태가 된다.
 
-## Ⅲ. 구조 및 구성요소 (CNI 드라이버 3대 주요 인프라 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,32 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   쿠버네티스 네트워크 및 보안 계층                     │
-├────────────────────────────────────────────────────────────────────────┤
-│ [파드 A (웹)] ──► [네트워크 정책: 인그레스 / 이그레스 허용 규칙]        │
-│                         │ (실리움 CNI eBPF 커널 필터링)                │
-│                         ▼                                              │
-│ [CNI 오버레이 네트워크: VXLAN / AWS 보조 IP 터널링]                     │
-│                         │                                              │
-│                         ▼                                              │
-│ [파드 B (데이터베이스)] ──► [허용 포트 5432 전용]                      │
-└────────────────────────────────────────────────────────────────────────┘
+[NetworkPolicy 객체] ─── [정책 제어기]
+                              │
+[CNI Runtime] ────────── [Data Plane]
+      │                       │
+   [Pod 주소]              [통신 집행]
 ```
 
-선의 의미: NetworkPolicy 명세서가 CNI(Cilium eBPF)를 통해 리눅스 커널 패킷 레벨에서 인가된 포트(5432)만 통과시키는 구조.
-
-| CNI 드라이버 | 네트워크 방식 | NetworkPolicy 지원 | 실무 특징 |
-|:---|:---|:---|:---|
-| **AWS VPC CNI** | AWS Native Secondary IP | 기본 미지원 | ENI 직결로 Latency 최적 |
-| **Calico CNI** | BGP, VXLAN | 지원 (iptables) | 온프레미스 대세 도구 |
-| **Cilium CNI** | eBPF (Kernel Bypass) | 최상 지원 (L3/L4/L7) | 차세대 초고속 CNI |
+| 구성요소 | 책임 |
+|---|---|
+| NetworkPolicy 객체 | Selector•Port 기반 **허용 의도** 선언 |
+| 정책 제어기 | 정책을 읽어 **집행 규칙**으로 변환 |
+| CNI Runtime | Pod의 **Network Namespace•주소** 구성 |
+| Data Plane | Packet 경로에서 **Ingress•Egress** 집행 |
 
 #### 한줄 요약
 
 - 런타임과 CNI가 파드에 주소와 경로를 만들면 정책 제어기가 선택자 규칙을 실제 패킷 검사 지점에 배포한다.
 
-## Ⅳ. 흐름도 (NetworkPolicy Default Deny & Allow Rule 적용 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,23 +87,40 @@ extra:
 </details>
 
 ```text
-[기본 거부 정책 적용] ──► 웹 파드 ──(포트 5432 차단)──► 데이터베이스 파드
-                                            │
-                                            ▼ (허용 YAML 적용: 웹앱 -> 데이터베이스앱:5432)
-[통신 허용 (웹에서 데이터베이스)] ──────┴──────────────────────────► 데이터베이스 파드 (성공)
+[Pod 통신 요청]
+      │
+      ▼
+1. Source•Destination 식별
+      │
+      ▼
+2. Pod•Namespace Selector 대조
+      │
+      ▼
+3. Ingress•Egress Rule 평가
+      │
+      ▼
+4. Protocol•Port 확인
+      │
+      ▼
+5. Packet 허용•차단
+      │
+      ▼
+[통신 결과 반환]
 ```
 
 ### 동작 원리
 
-1. **Default Deny**: Namespace 전체에 Default Deny All Ingress YAML 적용 시 모든 Pod 간 통신 정지.
-2. **Targeted Allow**: `podSelector: matchLabels: app: db` 및 `from: app: web`, `port: 5432` 핀포인트 허용 명세 추가.
-3. **eBPF Enforcement**: Cilium CNI가 커널 eBPF 테이블에 등록하여 Web $\rightarrow$ DB 5432 통신만 개방 (**NetworkPolicy 완결**).
+1. **Source•Destination 식별**: 양쪽 Pod와 Namespace 확인
+2. **Pod•Namespace Selector 대조**: 정책 적용 대상 판정
+3. **Ingress•Egress Rule 평가**: 송신•수신 허용 조건 결합
+4. **Protocol•Port 확인**: L4 범위 일치 여부 확인
+5. **Packet 허용•차단**: Data Plane에서 최종 집행
 
 #### 한줄 요약
 
 - API 파드에서 데이터베이스 파드로 가는 요청은 송신 측 출구 규칙과 수신 측 입구 규칙을 모두 통과해야 실제 업무 처리까지 도달한다.
 
-## Ⅴ. 종류 및 비교 (Flannel vs Calico vs Cilium 3대 CNI 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -121,15 +131,15 @@ extra:
 | 비교 항목 | Flannel CNI | Calico CNI | Cilium CNI (eBPF) |
 |:---|:---|:---|:---|
 | **네트워크 기술** | VXLAN / UDP Overlay | BGP / VXLAN | **eBPF (Kernel Layer)** |
-| **NetworkPolicy** | **미지원 (Security 0%)** | **지원 (L3/L4 iptables)** | **최상 지원 (L3/L4/L7 HTTP)** |
-| **패킷 처리 성능** | 보통 | 높음 | **최상 (iptables 오버헤드 0%)** |
-| **추천 배치 환경** | 테스트/로컬 K8s | 온프레미스 대규모 K8s | **클라우드 네이티브 엔터프라이즈**|
+| **NetworkPolicy** | 별도 정책 Engine 필요 | **L3/L4 정책** 지원 | 표준 정책과 확장 정책 지원 |
+| **Data Plane** | 단순 Overlay 중심 | iptables•eBPF 선택 가능 | **eBPF 중심** |
+| **선택 기준** | 단순 연결 요구 | Routing•정책 운용 | 관측•정책 확장 요구 |
 
 #### 한줄 요약
 
 - CNI 장애는 주소와 경로 자체를 끊고 네트워크 정책 오류는 길이 있는 상태에서 특정 통신만 허용하거나 차단한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (NetworkPolicy & CNI 3대 실무 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -140,7 +150,7 @@ extra:
 | 3대 CNI/보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
 | **1. AWS Subnet IP 고갈** | AWS VPC CNI가 ENI마다 Pod IP 대량 선점| **Custom Networking (Pod 전용 Secondary Subnet)**|
-| **2. iptables Bottleneck** | Pod 1만 개 시 iptables 룰 십만 개로 CPU 과부하| **iptables 버리고 eBPF Cilium CNI 전면 교체**|
+| **2. Rule 처리 병목** | Pod•정책 증가로 규칙 평가 비용 상승 | **규모 측정 후 eBPF Data Plane 검토**|
 | **3. Policy Misconfiguration**| NetworkPolicy 오기재로 전체 서비스 불통 | **Cilium Hubble UI로 패킷 Drop 실시간 시각화** |
 
 > 사례: **토스 / 당근마켓 / 카카오 Cilium eBPF CNI & NetworkPolicy 기반 미세 격리 보안 적용**
@@ -151,4 +161,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **Cilium eBPF 기반 제로 트러스트 네트워크 보안 체계 구축 완료**
+- 단순 연결은 CNI, **Default Deny•허용 목록**은 정책 Engine 적용
+
+#### 한줄 요약
+
+- 통신 경로를 만든 뒤 집행 가능한 CNI와 정책 조합으로 필요한 흐름만 명시적으로 연다.

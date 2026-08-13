@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T02:04:00+09:00"
 tags: ["notes-software"]
 weight: 153
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의: 파드의 5대 상태 전이와 3대 프로브 점검을 통해 무중단 서비스와 자동 장애 복구를 수행하는 관리 체계.
-- 배경: 서비스 준비 전 트래픽 유입으로 인한 오류 발생이나 응답 불능 컨테이너 방치 등 파행 상황 예방 요구.
+- 정의/개념: Pod 생성•실행•종료 상태와 Probe의 **Pod Lifecycle**
+- 배경/필요성: 실행 여부만으로는 **기동•생존•서비스 준비** 구분 불가
 
 #### 한줄 요약
 
 - 프로그램이 켜진 상태와 손님을 받을 준비가 된 상태는 다르므로 파드는 실행, 생존, 준비 여부를 서로 다른 신호로 표현한다.
 
-## Ⅱ. 특징 (Pod 5대 Phase 및 3대 Probes)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -50,7 +50,7 @@ extra:
 
 - 시작이 늦은 상황, 멈춘 상황, 잠시 요청을 받지 못하는 상황을 구분해야 불필요한 재시작과 서비스 단절을 줄일 수 있다.
 
-## Ⅲ. 구조 및 구성요소 (Pod 3대 Probes 및 5대 Phase 상세)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,29 +59,23 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────┬──────────────────────────────────────────┐
-│           3대 프로브 점검 기능          │             기능 및 결과                │
-├────────────────────────────────────────┼──────────────────────────────────────────┤
-│ 1. 기동 프로브 (Startup Probe) ──► 부팅 완료 점검 │ 완료 시 다음 프로브 작동                 │
-│ 2. 생존 프로브 (Liveness Probe)  ──► 생존 점검    │ 실패 시 컨테이너 재시작                  │
-│ 3. 준비 프로브 (Readiness Probe) ──► 준비 점검    │ 실패 시 트래픽 유입 차단                 │
-└────────────────────────────────────────┴──────────────────────────────────────────┘
+[Pod 상태 점검]
+ ├── [Startup Probe]
+ ├── [Liveness Probe]
+ └── [Readiness Probe]
 ```
 
-선의 의미: 3가지 프로브가 각자 다른 관점에서 컨테이너의 기동, 생존, 트래픽 유입 준비를 독자적으로 제어하는 아키텍처.
-
-| 구분 | Startup Probe | Liveness Probe | Readiness Probe |
-|:---|:---|:---|:---|
-| **목적** | 초기 부팅 완료 체크 | 생존(Deadlock) 체크 | 트래픽 서빙 가능 체크 |
-| **실패 결과**| 컨테이너 재시작 | 컨테이너 재시작 | 엔드포인트(Endpoint) 제외(차단) |
-| **적용 시점** | 생성 직후 | 부팅 성공 후 | 부팅 성공 후 |
-| **사례** | Java/Spring 앱 | Deadlock, 무한 루프 | DB 연결, 캐시 로딩 |
+| 구성요소 | 책임 |
+|---|---|
+| Startup Probe | 느린 기동 중 **조기 재시작** 방지 |
+| Liveness Probe | 복구 불가 내부 정지 시 **Container 재시작** |
+| Readiness Probe | 미준비 Pod를 **Service Endpoint**에서 제외 |
 
 #### 한줄 요약
 
 - kubelet이 현장 관리자라면 초기화 컨테이너는 개점 준비, 프로브는 안전·영업 검사, 종료 제어는 폐점 정리 절차에 해당한다.
 
-## Ⅳ. 흐름도 (Graceful Termination 5단계 셧다운 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -90,23 +84,40 @@ extra:
 </details>
 
 ```text
-[kubectl delete pod] ──► [서비스 엔드포인트 제거 & preStop 훅 실행 (대기)]
-                                                    │
-                                                    ▼
-  [SIGKILL (강제 종료)] ◄── [종료 유예 기간 (TerminationGracePeriod, 30초)] ◄── [SIGTERM 신호]
+[Pod 종료 요청]
+      │
+      ▼
+1. 종료 상태 전환
+      │
+      ▼
+2. Endpoint 제외
+      │
+      ▼
+3. preStop Hook 실행
+      │
+      ▼
+4. SIGTERM•유예
+      │
+      ▼
+5. 잔여 Process 종료
+      │
+      ▼
+[Pod 삭제 완료]
 ```
 
 ### 동작 원리
 
-1. **Endpoint Detach & preStop**: delete 명령 시 Service Endpoint에서 Pod IP를 제거하여 트래픽 차단 후 preStop 훅 실행.
-2. **SIGTERM & Grace Period**: 프로세스에 `SIGTERM` 신호를 보내 커넥션 마무리 유예(기본 30초).
-3. **SIGKILL**: 30초 경과 시 `SIGKILL`로 강제 파기(Graceful Termination 완결).
+1. **종료 상태 전환**: Kubelet이 Pod 종료 절차 인지
+2. **Endpoint 제외**: 신규 Traffic 전달 대상에서 제거
+3. **preStop Hook 실행**: Application별 사전 정리 수행
+4. **SIGTERM•유예**: 연결•작업 종료 시간을 제공
+5. **잔여 Process 종료**: 유예 후 남은 Process 강제 종료
 
 #### 한줄 요약
 
 - 파드가 시작되면 kubelet은 세 가지 검사를 반복하고, 준비 검사 결과만 서비스에 반영해 요청 차단과 프로세스 재시작을 분리한다.
 
-## Ⅴ. 종류 및 비교 (Liveness vs Readiness Probe 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -125,7 +136,7 @@ extra:
 
 - 시작 검사는 기다릴 시간을, 활성 검사는 다시 켤 조건을, 준비 검사는 요청을 보낼 조건을 각각 결정한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Pod Lifecycle 실무 3대 파행 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -147,4 +158,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **파드 3대 프로브 최적화 및 무중단 정상 종료 체계 구현 완료**
+- 내부 정지는 **Liveness**, 외부 의존 장애는 Readiness로 분리
+
+#### 한줄 요약
+
+- 다시 켜야 할 고장과 요청만 멈춰야 할 미준비 상태를 서로 다른 Probe로 처리한다.

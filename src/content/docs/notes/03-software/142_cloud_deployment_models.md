@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 배포 모델: 퍼블릭•프라이빗•하이브리드•멀티 (Cloud Deployment Models)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:12:00+09:00"
 tags:
   - "notes-software"
 weight: 142
@@ -29,14 +29,14 @@ extra:
 
 </details>
 
-- 정의/개념: 인프라 자원의 점유 독점성과 멀티 클라우드 결합 방식에 따라 퍼블릭, 프라이빗, 하이브리드, 멀티 클라우드로 구분하는 클라우드 배포 아키텍처 체계인 **Cloud Deployment Models**
-- 배경/필요성: 금융/공공 기관의 법적 규제 준수(Private)와 대용량 트래픽의 오토스케일링(Public) 요구를 동시에 만족시키는 최적 배포 지형 수립 필요성
+- 정의/개념: 위치•점유•사업자 조합의 **Cloud Deployment Models**
+- 배경/필요성: 워크로드마다 **규제•지연•탄력성•비용** 요구 상충
 
 #### 한줄 요약
 
 - 공용 건물·전용 건물 중 어디에 업무를 둘지, 여러 건물을 어떻게 연결할지 정한다.
 
-## Ⅱ. 특징 (4대 클라우드 배포 모델 체계)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -45,14 +45,14 @@ extra:
 </details>
 
 - **Public Cloud (Elastic Auto-scaling & CAPEX $\rightarrow$ OPEX 비용 전환)**
-- **Private Cloud (100% Data Sovereignty 데이터 주권 및 최고 등급 보안 통제)**
+- **Private Cloud**: 전용 자원•운영 통제와 자체 책임
 - **Hybrid / Multi-Cloud (Cloud Bursting, Vendor Lock-in 방지 및 DR 고가용성)**
 
 #### 한줄 요약
 
 - 장소를 늘리면 선택지는 많아지지만 출입증·도로·장부·요금도 함께 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (4대 클라우드 배포 모델 아키텍처 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,31 +60,18 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Cloud Deployment Models                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ [1. Public Cloud]       ──► AWS / Azure / GCP (Multi-Tenant, Elastic)  │
-│ [2. Private Cloud]      ──► On-Premise OpenStack / Outposts (Dedicated) │
-│ [3. Hybrid Cloud]       ──► Private IDC ◄── (DirectConnect) ──► AWS    │
-│ [4. Multi-Cloud]        ──► AWS (Core App) + GCP (AI/BigQuery Engine)   │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-선의 의미: 데이터의 성격과 보안 규제 레벨에 따라 4가지 형태로 인프라 환경을 배포하는 통합 아키텍처.
-
-| 배포 모델 | 주요 구성 및 위치 | 장점 (Pros) | 단점 (Cons) |
-|:---|:---|:---|:---|
-| **Public Cloud** | **CSP 하이퍼스케일 IDC 공유** | **초기 구축 비용 0원, 무제한 확장**| 데이터 주권/보안 규제 한계 |
-| **Private Cloud**| **자체 전용 IDC 또는 AWS Outposts**| **100% 자율 보안 통제 및 규제 준수**| 초기 CAPEX 설비 투자 비용 과다 |
-| **Hybrid Cloud** | **Private IDC + Public Cloud 결합**| **코어 DB는 Private, 웹/앱은 Public**| 전용회선 망 구성 복잡성 |
-| **Multi-Cloud**  | **AWS + GCP 등 2개 이상 CSP 병용**| **Vendor Lock-in 0%, 장애 파행 방지**| 관리 멀티포털 오버헤드 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Public Cloud** | 공유 CSP 자원의 탄력적 서비스 제공 |
+| **Private Cloud** | 단일 조직 전용 자원과 통제 제공 |
+| **Hybrid Cloud** | Private•Public 간 배치•연결•복구 조정 |
+| **Multi-Cloud** | 복수 CSP의 역할•정책•비용 통합 관리 |
 
 #### 한줄 요약
 
 - 공용·전용 건물에 업무를 배치하고 출입증과 연결 도로를 함께 관리한다.
 
-## Ⅳ. 흐름도 (Hybrid Cloud-Bursting 트래픽 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -93,23 +80,37 @@ extra:
 </details>
 
 ```text
-[Client Traffic Spike (10x)] ──► [On-Premise Private Cloud (Capacity 100% Full)]
-                                              │
-                                              ▼ (Auto Trigger)
-                           [Public Cloud (AWS EC2 Cloud Bursting)]
+[워크로드 요구]
+      │
+      ▼
+1. 데이터•규제 분류
+      │
+      ▼
+2. 지연•탄력성 평가
+      │
+      ▼
+3. 배치 모델 선택
+      │
+      ▼
+4. 연결•IAM•복구 설계
+      │
+      ▼
+5. 장애•비용 검증
 ```
 
 ### 동작 원리
 
-1. **Normal Flow**: 평시 트래픽은 보안성이 뛰어난 자체 Private IDC 내부 서버로 100% 수용.
-2. **Traffic Spike**: 블랙프라이데이 트래픽 폭주로 Private 자원이 100% 임계치 도달.
-3. **Burst Action**: DirectConnect 망을 타고 AWS Public Cloud EC2 인스턴스가 동적으로 수백 대 증설되어 트래픽 처리 (**Cloud Bursting 완결**).
+1. **데이터•규제 분류**: 주권•민감도•감사 의무 식별
+2. **지연•탄력성 평가**: 사용자 위치•부하 변동•용량 예측
+3. **배치 모델 선택**: Public•Private•Hybrid•Multi 결정
+4. **연결•IAM•복구 설계**: 경로•신뢰•상태 동기화 정의
+5. **장애•비용 검증**: 단절•Egress•복구 시나리오 시험
 
 #### 한줄 요약
 
 - 공용 접수창구가 전용 금고의 필요한 결과만 받아오고 양쪽 기록을 같은 거래 번호로 묶는다.
 
-## Ⅴ. 종류 및 비교 (4대 클라우드 배포 모델 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -121,14 +122,14 @@ extra:
 |:---|:---|:---|:---|:---|
 | **자원 점유 방식** | Multi-Tenant | **Single-Tenant (독점)** | 혼합형 | Multi-CSP |
 | **비용 모델** | OPEX (종량제) | **CAPEX (초기 투자)** | CAPEX + OPEX | OPEX |
-| **보안 및 규제** | CSP 표준 보안 | **최상 (데이터 외부 유출 0%)**| **상 (코어 데이터 보호)**| CSP 표준 보안 |
+| **보안 및 규제** | CSP 통제와 고객 설정 | 전용 통제와 자체 책임 | 경계 간 통제 필요 | CSP별 정책 통합 필요 |
 | **운영 복잡도** | **최저 (CSP가 전담)** | 높음 (자체 인력 필요) | **높음 (이종 망 관리)** | **최고 (멀티 솔루션)**|
 
 #### 한줄 요약
 
 - 하이브리드는 공용·전용 장소의 조합, 멀티 클라우드는 여러 임대업체를 쓰는 전략이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (배포 모델 선택 3대 실무 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -156,7 +157,7 @@ extra:
 
 </details>
 
-- **Deployment Model 수립 기준**에 따라 금융/엔터프라이즈 전환 구축 시 **Hybrid Cloud (Private DB + Public App)** 필수 적용
+- 탄력성은 **Public**, 전용 통제는 Private, 병행 요구는 Hybrid 선택
 
 #### 한줄 요약
 

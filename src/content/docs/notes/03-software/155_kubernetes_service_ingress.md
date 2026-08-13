@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T02:12:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 동적 Pod 집합에 단일 고정 VIP 및 L4 라우팅을 제공하는 **Service**와, 외부 트래픽을 도메인/URL 경로별로 L7 분기 전달하는 **Ingress**로 구성된 네트워크 서비스 노출 아키텍처
-- Background: Pod 재시작 시 매번 변경되는 가변 IP 문제 해결, 외부 L4 로드밸런서(ELB) 난립 비용 폭증 차단 및 단일 Ingress L7 분기 통합 요구성
+- 정의/개념: Pod 접점을 제공하는 **Service•Ingress** Network 객체
+- 배경/필요성: 가변 Pod IP 직접 호출은 **발견•외부 노출•경로 분기** 곤란
 
 #### 한줄 요약
 
 - 파드가 교체돼 주소가 바뀌어도 서비스라는 대표번호는 유지되고 Ingress는 외부 요청의 주소와 경로를 보고 대표번호를 선택한다.
 
-## Ⅱ. 특징 (Service 4대 분류 및 Ingress L7 기능)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 서비스는 준비된 파드 목록을 한 주소 뒤에 모으고 인그레스 컨트롤러는 선언된 웹 규칙을 실제 프록시 설정으로 바꾼다.
 
-## Ⅲ. 구조 및 구성요소 (Service vs Ingress 2대 계층 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,33 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   서비스 및 인그레스 네트워크 토폴로지                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ [외부 클라이언트 요청] ──► [인그레스 (L7 ALB / NGINX)]                │
-│                                 │ (호스트 / 경로 라우팅)               │
-│                                 ▼                                      │
-│                           [서비스 (L4 ClusterIP VIP)]                  │
-│                                 │ (큐브 프록시 / IPVS)                 │
-│                                 ▼                                      │
-│                     [파드 1 (10.244.1.5)]  [파드 2 (10.244.2.8)]       │
-└────────────────────────────────────────────────────────────────────────┘
+[외부 Client] ─── [Ingress•Controller]
+                         │
+                    [Service]
+                    ┌────┴────┐
+                  [Pod A]   [Pod B]
 ```
 
-선의 의미: 외부 트래픽이 Ingress (L7)를 거쳐 Service (L4) VIP로 들어가 백엔드 Pod IP로 도달하는 2단계 패킷 흐름.
-
-| 구분 요소 | Kubernetes Service (L4) | Kubernetes Ingress (L7) |
-|:---|:---|:---|
-| **OSI 계층** | Layer 4 (Transport) | Layer 7 (Application) |
-| **라우팅 방식**| 가상 IP(ClusterIP) 기반 로드밸런싱 | 도메인 호스트 및 URL 경로 분기 |
-| **비용 효율** | LoadBalancer 사용 시 개별 ELB 생성 | 단일 ALB로 다수 서비스 통합 |
-| **SSL/TLS** | 불가능 | SSL/TLS Termination 및 자동 연동 |
+| 구성요소 | 책임 |
+|---|---|
+| 외부 Client | **Host•Path 요청**과 TLS Session 생성 |
+| Ingress•Controller | Ingress 규칙을 **L7 Proxy 설정**으로 구현 |
+| Service | 안정된 **VIP•DNS**와 Endpoint 집합 제공 |
+| Pod | Readiness를 통과한 **Application Process** 실행 |
 
 #### 한줄 요약
 
 - DNS와 인증서가 건물 이름과 신분을 보장하면 인그레스가 안내하고 서비스가 준비된 파드 중 한 곳으로 연결한다.
 
-## Ⅳ. 흐름도 (External Ingress Routing 4단계 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,23 +87,40 @@ extra:
 </details>
 
 ```text
-[HTTP 요청: app.com/pay] ──► [AWS ALB 인그레스 컨트롤러]
-                                            │
-                                            ▼ (경로 /pay 매칭)
- [결제 파드 (10.244.x.x)] ◄── [큐브 프록시 IPVS] ◄── [결제 서비스 (ClusterIP)]
+[HTTPS 요청]
+     │
+     ▼
+1. TLS 종료•Host 확인
+     │
+     ▼
+2. Path Rule 대조
+     │
+     ▼
+3. Service 선택
+     │
+     ▼
+4. 준비 Endpoint 선택
+     │
+     ▼
+5. Pod로 전달
+     │
+     ▼
+[HTTP 응답]
 ```
 
 ### 동작 원리
 
-1. **Ingress Ingest**: Client가 `app.com/pay` 로 HTTPS 접속.
-2. **L7 Matching**: ALB Ingress Controller가 L7 URL 경로 대조 후 `Pay-Service` 지정.
-3. **L4 Forwarding**: `Pay-Service` 가 IPVS 룰을 통해 실시간 준비 완료된 Pay Pod로 패킷 전달 (**Service & Ingress 완결**).
+1. **TLS 종료•Host 확인**: 인증서와 요청 Domain 검증
+2. **Path Rule 대조**: Host•URL에 맞는 Ingress Rule 선택
+3. **Service 선택**: Rule이 가리키는 Backend Service 확인
+4. **준비 Endpoint 선택**: Readiness 통과 Pod 중 대상 결정
+5. **Pod로 전달**: 선택 Endpoint에 요청 전달
 
 #### 한줄 요약
 
 - 외부 요청은 인그레스에서 호스트와 경로로 서비스가 정해지고 그 서비스의 준비된 파드에만 전달된다.
 
-## Ⅴ. 종류 및 비교 (Service 4대 타입 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -121,7 +130,7 @@ extra:
 
 | Service 타입 | 네트워크 노출 범위 | 주요 용도 및 특징 |
 |:---|:---|:---|
-| **ClusterIP (기본값)** | **클러스터 내부 전용** | DB, Internal Pod 간 통신 (외부 접근 100% 불가) |
+| **ClusterIP (기본값)** | **클러스터 내부 접점** | 내부 Service Discovery와 통신 |
 | **NodePort** | **모든 Node의 동일 포트(30000~32767) 개방**| 온프레미스 노드 테스트, 간단한 외부 노출 |
 | **LoadBalancer** | **AWS/Azure Cloud 외부 ELB 자동 프로비저닝**| 대국민 운영 서비스 L4 노출 표준 |
 | **ExternalName** | **외부 DNS CNAME 맵핑 제공** | 외부 오라클 DB를 서비스 이름으로 내부 연동 |
@@ -130,7 +139,7 @@ extra:
 
 - 서비스는 파드 교체를 숨기는 내부 접점이고 Ingress는 여러 접점을 하나의 외부 주소와 인증서 뒤에 배치하는 규칙이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Service & Ingress 실무 3대 파행 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -152,4 +161,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **서비스 및 인그레스 기반 네트워크 통합 관리 체계 확보 완료**
+- 내부 L4 접점은 **Service**, 외부 HTTP 분기는 Ingress 선택
+
+#### 한줄 요약
+
+- 파드 집합의 안정된 내부 주소는 서비스로, 웹 경로와 인증서 통합은 Ingress로 제공한다.

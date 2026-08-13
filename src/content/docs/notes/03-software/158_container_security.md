@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T02:24:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -29,14 +29,14 @@ extra:
 
 </details>
 
-- 정의/개념: 이미지 취약점 스캔, Admission Webhook (OPA/Gatekeeper) 차단, 런타임 커널 시스템 콜 차단(Seccomp/AppArmor)으로 컨테이너 탈출 해킹을 미연에 방지하는 **Container Security Framework**
-- 배경/필요성: 컨테이너 해킹 시 호스트 OS 커널(Host Kernel) 탈출(Container Escape)을 통한 전사 클러스터 붕괴 사고 차단 필요성
+- 정의/개념: Image부터 Runtime까지 통제하는 **Container Security**
+- 배경/필요성: Host Kernel 공유로 침해 시 **Container Escape** 위험 확산
 
 #### 한줄 요약
 
 - 이미지 반입, 배포 승인, 실행 권한, 실행 중 행동을 서로 다른 지점에서 검사해야 하나의 통제가 뚫려도 다음 통제가 피해를 막는다.
 
-## Ⅱ. 특징 (컨테이너 4단계 다층 보안 레이어)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -53,7 +53,7 @@ extra:
 
 - 게이트키퍼가 특권 설정을 입구에서 거부하고 보안 컴퓨팅 모드와 앱아머가 승인된 컨테이너의 시스템 호출과 파일 접근을 실행 중에 제한한다.
 
-## Ⅲ. 구조 및 구성요소 (4대 런타임/배포 보안 툴 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -62,30 +62,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   컨테이너 심층 방어 보안 (Defense-in-Depth)           │
-├────────────────────────────────────────────────────────────────────────┤
-│ [1. 빌드: Trivy 취약점 스캔] ──► [2. 배포: OPA Gatekeeper 검증]       │
-│                                           │ (검증 통과)                │
-│                                           ▼                            │
-│ [3. 런타임: Seccomp / AppArmor 프로필] ──► [4. 이상 행위 감지: Falco eBPF] │
-└────────────────────────────────────────────────────────────────────────┘
+[Container Security]
+ ├── [Image Trust]
+ ├── [Admission Policy]
+ ├── [Kernel Restriction]
+ └── [Runtime Detection]
 ```
 
-선의 의미: 빌드 단계부터 런타임 감시까지 4단계로 철통 보안을 거치는 파이프라인.
-
-| 보안 레이어 | 담당 도구 | 주요 기술 메커니즘 |
-|:---|:---|:---|
-| **Build/Image** | Trivy, Cosign | 이미지 CVE 취약점 스캔 및 서명 검증 |
-| **Admission** | OPA Gatekeeper | 특권 Pod 및 루트 실행 차단 |
-| **Kernel** | Seccomp, AppArmor | 불필요 시스템 콜 및 파일 접근 제한 |
-| **Detection** | Falco (eBPF) | 해킹 및 쉘 접속 이상 행위 감지 |
+| 구성요소 | 책임 |
+|---|---|
+| Image Trust | **취약점•서명**과 공급망 출처 검증 |
+| Admission Policy | 위험한 **Pod 명세**의 저장•배포 거부 |
+| Kernel Restriction | **System Call•파일 접근** 최소 권한 강제 |
+| Runtime Detection | 실행 중 **이상 행위** 탐지•대응 |
 
 #### 한줄 요약
 
 - 서명된 이미지가 입장권이라면 Admission은 복장 검사, SecurityContext는 지급 권한, Linux 커널은 실제 행동을 막는 잠금장치다.
 
-## Ⅳ. 흐름도 (OPA Gatekeeper & Seccomp 런타임 검증 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,23 +89,40 @@ extra:
 </details>
 
 ```text
-[kubectl apply 파드.yaml] ──► [API 서버 Admission 웹훅]
-                                             │
-                                             ▼ (OPA 정책 검사)
- [파드 실행 (Seccomp 적용 노드)] ◄── [통과] ┴ ── [차단: 특권 루트 파드 거부]
+[Pod 배포 요청]
+      │
+      ▼
+1. Image 신뢰 검증
+      │
+      ▼
+2. Admission Policy 평가
+ ┌────┴────┐
+ │ 위반    │ 허용
+3. Policy 결과 처리
+  │ 거부       │ 허용
+[요청 거부]    ▼
+        4. Runtime Profile 적용
+               │
+               ▼
+        5. 실행•이상 행위 감시
+               │
+               ▼
+          [실행 상태 반환]
 ```
 
 ### 동작 원리
 
-1. **Admission Webhook**: 개발자가 `privileged: true` (Root 권한) Pod 배포 시도.
-2. **OPA Policy Check**: Gatekeeper가 Rego 정책 위반을 감지하여 API 서버에서 `Deny` 차단.
-3. **Seccomp Enforcement**: 정상 통과된 Pod만 Node 상에서 `Seccomp default profile` 적용 구동 (**Container Security 완결**).
+1. **Image 신뢰 검증**: Digest•서명•취약점 기준 확인
+2. **Admission Policy 평가**: 특권•Root•Host 접근 검사
+3. **Policy 결과 처리**: 위반 요청 거부 또는 실행 승인
+4. **Runtime Profile 적용**: Seccomp•MAC 통제 부착
+5. **실행•이상 행위 감시**: Kernel 강제와 Event 대응
 
 #### 한줄 요약
 
 - 배포 전에 특권과 이미지 출처를 검사하고 실행 시에는 런타임이 전달한 프로필을 커널이 매 호출과 접근마다 강제한다.
 
-## Ⅴ. 종류 및 비교 (SecurityContext 3대 핵심 옵션 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,7 +140,7 @@ extra:
 
 - OPA는 위험한 배포 명세를 막고 보안 컴퓨팅 모드는 호출 종류를, 앱아머와 보안 강화 리눅스는 파일·장치 접근 범위를 줄인다.
 
-## Ⅵ. 실무 고려사항 및 대책 (컨테이너 보안 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -138,7 +150,7 @@ extra:
 
 | 3대 컨테이너 보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Container Escape** | `privileged: true` 부여로 커널 탈취 | **OPA Gatekeeper로 Privileged Pod 생성 100% 금지**|
+| **1. Container Escape** | 과도한 특권과 Kernel 취약점 | **Admission 차단과 Runtime 최신화**|
 | **2. Vulnerable Base Image**| Ubuntu/Debian 베이스 이미지 CVE 속출 | **Chainguard / Distroless 최소 베이스 이미지 전환**|
 | **3. Secret File Leaks** | DB 비번을 이미지 내부나 환경변수로 박음 | **HashiCorp Vault / External Secrets Operator 연동** |
 
@@ -150,4 +162,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **다층 방어 보안 체계 구축 및 컨테이너 런타임 보안 강화 체계 확보 완료**
+- 배포 전 **Admission**, 실행 중 Seccomp•MAC•탐지 계층 적용
+
+#### 한줄 요약
+
+- 이미지 신뢰를 확인하고 위험 명세를 막은 뒤 Kernel 최소 권한과 실행 탐지를 겹친다.

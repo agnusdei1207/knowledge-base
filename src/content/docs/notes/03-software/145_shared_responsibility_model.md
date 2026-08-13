@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T01:31:00+09:00"
 tags: ["notes-software"]
 weight: 145
 extra:
@@ -26,14 +26,14 @@ extra:
 
 </details>
 
-- 정의/개념: 클라우드 생태계에서 물리 인프라 하드웨어의 보안(Security OF the Cloud)은 CSP가, 데이터 및 인프라 구성 설정 보안(Security IN the Cloud)은 고객이 책임지는 2대 분류 보안 프레임워크인 **Shared Responsibility Model**
-- 배경/필요성: 고객의 IAM 계정/S3 버킷 오픈 설정 오류로 인한 사고를 CSP 탓으로 넘기지 않도록 책임소재(RACI) 명확화 요구성
+- 정의/개념: CSP와 고객의 통제 경계를 정하는 **Shared Responsibility Model**
+- 배경/필요성: 서비스 추상화로 **보안 책임 주체** 오인과 통제 공백 발생
 
 #### 한줄 요약
 
 - 건물주가 건물 설비를 관리해도 입주자가 출입 권한과 내부 자료를 맡듯, 클라우드 서비스가 대신 관리하는 계층과 이용자에게 남은 통제를 구분한다.
 
-## Ⅱ. 특징 (CSP 대 고객 책임 2대 분할)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -42,15 +42,15 @@ extra:
 
 </details>
 
-- **CSP Responsibility (Security OF the Cloud: Data Center Physical & Hypervisor Security)**
-- **Customer Responsibility (Security IN the Cloud: Data, IAM, OS, Network Config)**
-- **Variability by Service Model (IaaS $\rightarrow$ PaaS $\rightarrow$ SaaS 이동에 따라 고객 책임 축소)**
+- CSP는 물리•가상화 계층의 **Cloud 자체 보안** 책임
+- 고객은 데이터•계정•설정의 **Cloud 내부 보안** 책임
+- IaaS•PaaS•SaaS별 **책임 경계** 이동
 
 #### 한줄 요약
 
 - 추상화 수준이 높은 서비스 모델일수록 인프라 통제 책임은 공급자에게 이전되지만, 접근 관리와 데이터 보호는 이용자에게 남으며 서비스 모델에 따라 책임 경계만 이동한다.
 
-## Ⅲ. 구조 및 구성요소 (공유 책임 모델 2대 물리 영역 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,57 +59,66 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│               Shared Responsibility Model Architecture                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ CUSTOMER RESPONSIBILITY (Security IN the Cloud)                        │
-│  • Customer Data / PII Encryption                                      │
-│  • IAM Access Management & Multi-Factor Authentication (MFA)           │
-│  • OS Patching / Network Firewall Rules / App Code                     │
-├────────────────────────────────────────────────────────────────────────┤
-│ CSP RESPONSIBILITY (Security OF the Cloud - AWS/GCP/Azure)             │
-│  • AWS Regions, Availability Zones, Edge Locations                     │
-│  • Computing, Storage, Database, Networking Physical Hardware          │
-│  • Virtualization Hypervisor Infrastructure                            │
-└────────────────────────────────────────────────────────────────────────┘
+┌──────────── 고객 책임 ────────────┐
+│ 데이터•계정•애플리케이션•구성     │
+├──────── 서비스별 이동 경계 ───────┤
+│ 물리 시설•하드웨어•가상화         │
+└──────────── CSP 책임 ─────────────┘
 ```
 
-선의 의미: 상단의 Customer 영역(데이터/계정/설정)과 하단의 CSP 영역(물리인프라/하드웨어)으로 선명하게 절반이 갈라지는 아키텍처.
-
-| 책임 구분 영역 | 주요 관리 항목 | 주요 장애/해킹 사고 발생 원인 |
-|:---|:---|:---|
-| **Customer (Security IN)**| **고객 데이터 암호화, IAM 계정 권한, S3 버킷 설정, OS 패치**| **Root 계정 AccessKey 유출, S3 Public 오픈** |
-| **CSP (Security OF)** | **데이터센터 물리 침입 방지, 서버 하드웨어 교체, 가상화 층**| 데이터센터 화재, 서버 물리 디스크 고장 |
+| 구성요소 | 책임 |
+|---|---|
+| 고객 책임 | **데이터•IAM**과 애플리케이션 설정 통제 |
+| 서비스별 이동 경계 | 모델별 **관리 계층**과 책임 주체 구분 |
+| CSP 책임 | **물리 시설•하드웨어**와 가상화 통제 |
 
 #### 한줄 요약
 
 - 건물주와 입주자가 공동 점검표에서 시설·출입·자료 항목의 담당자를 나누듯, 통제 카탈로그의 경계를 책임 매트릭스와 설정 검사로 이어 준다.
 
-## Ⅳ. 흐름도 (서비스 모델별 책임 경계 이동 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
-- **Responsibility Shift**: IaaS (고객 책임 70%), PaaS (고객 책임 40%), SaaS (고객 책임 10%: 데이터/계정만 남음).
+- **Responsibility Shift (책임 이동)**: 서비스 모델에 따라 공급자가 관리하는 계층이 달라지는 현상.
 
 </details>
 
 ```text
-[IaaS (EC2)]  ──► 고객이 OS, 패치, DB, 앱, 데이터 100% 관리 (고객 책임 최상)
-[PaaS (RDS)]  ──► CSP가 OS 및 DB 엔진 패치 전담, 고객은 DB 계정과 쿼리만 관리
-[SaaS (Slack)] ──► CSP가 앱 전체 전담, 고객은 유저 계정과 업로드 파일만 관리 (고객 책임 최하)
+[서비스 도입]
+      │
+      ▼
+1. 서비스 모델 식별
+      │
+      ▼
+2. 관리 계층 분해
+      │
+      ▼
+3. 책임 주체 배정
+      │
+      ▼
+4. 통제•증적 연결
+      │
+      ▼
+5. 책임 공백 점검
+      │
+      ▼
+ [책임표 확정]
 ```
 
 ### 동작 원리
 
-1. **IaaS**: OS 보안 패치를 고객이 안 해서 랜섬웨어가 걸리면 **100% 고객 책임**.
-2. **PaaS**: RDS DB의 OS 보안 패치는 AWS가 알아서 처리하되, DB 비밀번호를 `1234`로 설정해 뚫리면 **고객 책임**.
-3. **SaaS**: Slack 시스템 해킹은 Slack 책임, 직원 계정 MFA를 안 걸어서 유출되면 **고객 책임**.
+1. **서비스 모델 식별**: IaaS•PaaS•SaaS 유형 확인
+2. **관리 계층 분해**: 시설부터 데이터까지 통제 분리
+3. **책임 주체 배정**: CSP•고객•공동 책임 명시
+4. **통제•증적 연결**: 담당자와 검사 자료 지정
+5. **책임 공백 점검**: 미배정•중복 통제 보완
 
 #### 한줄 요약
 
 - 건물주 점검표에서 맡아 주는 항목을 지운 뒤 남은 출입·자료 항목에 담당자와 검사 기록을 붙이듯, 상속 통제와 잔여 통제를 나눠 책임 공백을 찾는다.
 
-## Ⅴ. 종류 및 비교 (공유 책임 모델 3대 오해 대속)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -127,7 +136,7 @@ extra:
 
 - 빈 건물인 서비스형 인프라에서 완성 사무실인 서비스형 소프트웨어로 갈수록 공급자가 맡는 계층은 늘지만, 이용자의 계정·데이터·설정 책임은 사라지지 않는다.
 
-## Ⅵ. 실무 고려사항 및 대책 (공유 책임 모델 실무 3대 보안 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -155,7 +164,7 @@ extra:
 
 </details>
 
-- **Shared Responsibility 수립 기준**에 따라 전사 클라우드 보안 구축 시 **Shared Responsibility Model & CSPM** 필수 적용
+- 모델별 경계를 기준으로 **잔여 통제** 담당자•증적 지정
 
 #### 한줄 요약
 

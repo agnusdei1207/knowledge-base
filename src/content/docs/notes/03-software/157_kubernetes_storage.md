@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T02:20:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -29,14 +29,14 @@ extra:
 
 </details>
 
-- 정의/개념: 가변적인 Pod와 하부 물리 스토리지(EBS, EFS, Ceph)를 분리하고 PVC, PV, StorageClass 객체를 통해 동적 프로비저닝(Dynamic Provisioning)을 제공하는 **Kubernetes Persistent Storage Architecture**
-- 배경/필요성: Pod 재시작 시 컨테이너 내부 데이터 소멸(Ephemeral Storage) 방지, RDBMS DB/StatefulSet 앱의 영속성 보장 요구성
+- 정의/개념: PVC•PV•StorageClass로 분리한 **Kubernetes Storage**
+- 배경/필요성: Container 쓰기층은 Pod 교체 시 **데이터 수명** 보장 불가
 
 #### 한줄 요약
 
 - 애플리케이션은 저장 제품을 직접 고르지 않고 PVC에 필요한 크기와 접근 방법만 적어 인프라 변경과 데이터 수명을 분리한다.
 
-## Ⅱ. 특징 (스토리지 추상화 3대 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -52,7 +52,7 @@ extra:
 
 - PVC는 창고 요청서, PV는 배정된 창고, 스토리지 클래스는 창고를 만드는 표준으로 보면 세 객체의 책임이 구분된다.
 
-## Ⅲ. 구조 및 구성요소 (Kubernetes Storage 3-Tier Layer 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,33 +61,23 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                  쿠버네티스 스토리지 3계층 아키텍처                    │
-├────────────────────────────────────────────────────────────────────────┤
-│ [상태 유지 파드] ──► [PVC 요청 (10GB RWO)]                            │
-│                         │                                              │
-│                         ▼                                              │
-│ [스토리지 클래스 (gp3)] ──► [CSI 컨트롤러 (AWS EBS 플러그인)]          │
-│                         │                                              │
-│                         ▼                                              │
-│ [PV (영속 볼륨)] ──► [실제 물리 스토리지 (AWS EBS 볼륨)]               │
-└────────────────────────────────────────────────────────────────────────┘
+[PVC] ───────── [PV]
+ │               │
+[StorageClass] ─ [CSI Driver]
 ```
 
-선의 의미: Pod가 PVC를 요청하면 StorageClass와 CSI가 실제 AWS EBS 디스크(PV)를 자동으로 뚫어 마운트하는 구조.
-
-| 객체/컴포넌트 | 관리 주체 | 핵심 역할 |
-|:---|:---|:---|
-| **PVC** | 개발자 | 스토리지 주문서 작성 |
-| **StorageClass**| 관리자 | 프로비저닝 규격 지정 |
-| **PV** | 시스템 | 실제 할당된 자원 실체 |
-| **CSI Driver** | 벤더 | 볼륨 마운트/연결 수행 |
+| 구성요소 | 책임 |
+|---|---|
+| PVC | 용량•Access Mode 등 **Storage 요구** 선언 |
+| PV | Claim과 결합되는 **영속 Volume 자원** 표현 |
+| StorageClass | Provisioner•Policy 등 **공급 규격** 정의 |
+| CSI Driver | 외부 Storage의 **생성•연결•Mount** 수행 |
 
 #### 한줄 요약
 
 - 제어기가 PVC에 맞는 PV를 탐색하고 없으면 스토리지 클래스와 CSI로 새 PV를 동적 프로비저닝한 뒤 바인딩한다.
 
-## Ⅳ. 흐름도 (Dynamic Provisioning & Volume Mount 4단계 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +86,40 @@ extra:
 </details>
 
 ```text
-[PVC 생성 (10GB gp3)] ──► [스토리지 클래스가 AWS CSI 드라이버 호출]
-                                            │
-                                            ▼
- [파드에 /data 마운트] ◄── [PV-PVC 바인딩 및 노드 연결] ◄── [AWS EBS 볼륨 생성]
+[PVC 제출]
+    │
+    ▼
+1. Claim 요구 검증
+    │
+    ▼
+2. StorageClass 선택
+    │
+    ▼
+3. Volume Provisioning
+    │
+    ▼
+4. PV•PVC Binding
+    │
+    ▼
+5. Node 연결•Mount
+    │
+    ▼
+[Pod Volume 제공]
 ```
 
 ### 동작 원리
 
-1. **PVC Request**: 개발자가 10GB `gp3` StorageClass 지정 PVC 적용.
-2. **CSI Provision**: StorageClass가 AWS EBS CSI 드라이버를 호출해 AWS 콘솔 상에 10GB EBS 디스크 자동 생성.
-3. **Bind & Mount**: 생성된 EBS 디스크가 PV 객체로 K8s에 등록되고 PVC와 1:1 Binding 된 후 Pod `/data` 디렉토리에 마운트 완결 (**Kubernetes Storage 완결**).
+1. **Claim 요구 검증**: 용량•Mode•Class 조건 확인
+2. **StorageClass 선택**: 명시값 또는 Default Class 결정
+3. **Volume Provisioning**: CSI가 요구에 맞는 Volume 생성
+4. **PV•PVC Binding**: Claim과 공급 자원을 결합
+5. **Node 연결•Mount**: Pod 실행 Node에 Volume 제공
 
 #### 한줄 요약
 
 - 첫 소비자 대기를 사용하면 파드가 놓일 영역을 먼저 정하고 같은 영역에 볼륨을 만들어 지역 불일치로 인한 배치 실패를 막는다.
 
-## Ⅴ. 종류 및 비교 (Access Modes 3대 접근 권한 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -130,7 +137,7 @@ extra:
 
 - PVC는 소비자의 요구, PV는 공급된 자원, 스토리지 클래스는 공급 방식을 나타내므로 저장 제품 변경을 파드 명세에서 숨길 수 있다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Kubernetes Storage 3대 장애 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -152,4 +159,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **영속 볼륨 기반 데이터 보존 체계 및 스토리지 동적 프로비저닝 최적화 구현 완료**
+- 단일 Node Block은 **RWO**, 다중 Node 공유는 RWX Storage 선택
+
+#### 한줄 요약
+
+- 접근 범위와 장애 영역에 맞는 StorageClass를 고르고 Retain•Backup 정책을 함께 둔다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "오토 스케일링 HPA•VPA (Auto Scaling HPA VPA)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:48:00+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 부하 급증 시 포드 개수를 늘리는 수평 스케일링(HPA)과 포드의 CPU/Memory 체급을 높이는 수직 스케일링(VPA)을 통해 서비스 가용성을 자동 지탱하는 **Kubernetes Auto Scaling (HPA & VPA)**
-- 배경/필요성: 수동 포드 개수 조절(Scale)의 트래픽 폭증 대응 불가, Pod 리소스 OOM(Out of Memory) Crash 방지 및 인프라 비용 효율화 요구성
+- 정의/개념: 지표에 따라 복제본•자원 요청을 조정하는 **HPA•VPA**
+- 배경/필요성: 수동 증설은 **부하 변동•자원 부족**에 적시 대응 곤란
 
 #### 한줄 요약
 
 - 주문이 몰리면 작업자 수를 늘리는 HPA와 작업자 한 명의 장비 크기를 바꾸는 VPA처럼, 병렬 처리량과 Pod당 자원 부족을 서로 다른 축으로 조정한다.
 
-## Ⅱ. 특징 (HPA 대 VPA 2대 스케일링 차원)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -43,15 +43,15 @@ extra:
 
 </details>
 
-- **HPA (Scale-out: Pod 개수 증설, Zero-Downtime, Web/API Stateless 앱 선호)**
-- **VPA (Scale-up: CPU/Mem 사양 증설, Pod 재시작 동반, DB Stateful 앱 선호)**
-- **Conflict Prevention (동일 CPU 지표에 대해 HPA와 VPA를 동시 적용 금지)**
+- **HPA**는 지표에 따라 Pod 복제본 수를 수평 조정
+- **VPA**는 관측 사용량에 따라 CPU•Memory 요청 조정
+- 동일 자원 지표를 함께 쓰면 **제어 충돌** 가능
 
 #### 한줄 요약
 
 - 주문량이 경계값을 오갈 때마다 작업자를 뽑고 내보내지 않도록 일정 시간 기다리듯, 안정화 구간과 증감 속도가 반복 확장·축소를 억제한다.
 
-## Ⅲ. 구조 및 구성요소 (HPA & VPA 오토스케일링 4대 핵심 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,34 +60,26 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Kubernetes Auto Scaling Architecture                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Metrics Server / Prometheus] ──► (Metrics Scraping 15s)               │
-│               │                                                        │
-│               ▼                                                        │
-│ ┌─────────────────────────────┐    ┌─────────────────────────────────┐ │
-│ │  HPA Controller (Scale-out) │    │   VPA Controller (Scale-up)     │ │
-│ │  • Increases Pod Replicas   │    │   • Adjusts CPU/Mem Request Limit │ │
-│ │  • 1 Pod ──► 5 Pods         │    │   • 1Core/2GB ──► 4Core/8GB        │ │
-│ └─────────────────────────────┘    └─────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────────┘
+[지표 공급자] ───── [HPA 제어기]
+      │                  │
+[VPA 제어기] ───── [워크로드 제어기]
+                         │
+                    [스케줄러•노드]
 ```
 
-선의 의미: Metrics Server가 수집한 지표에 따라 HPA는 포드 개수를(가로), VPA는 포드 체급 사양을(세로) 동적 확장하는 구조.
-
-| 구성 요소 (Component) | HPA (Horizontal Pod Autoscaler) | VPA (Vertical Pod Autoscaler) |
-|:---|:---|:---|
-| **스케일링 메커니즘** | **Pod 개수(Replicas) 수평 확장 (1 $\rightarrow$ 10)** | **Pod 당 CPU/Memory 수직 증설 (1G $\rightarrow$ 4G)** |
-| **다운타임 발생 여부**| **0% (무중단 롤링 확장)** | 발생 가능 (Pod 재생성 적용 시 순간 재시작) |
-| **추천 애플리케이션** | **Stateless Web, REST API, Microservices**| **Stateful RDBMS, Redis, Batch Job** |
-| **공동 사용 주의점** | **동일 지표(CPU)로 HPA와 VPA 동시 세팅 금지 (무한 루프 방지)**| HPA는 커스텀 지표, VPA는 CPU 지표로 분리 |
+| 구성요소 | 책임 |
+|---|---|
+| 지표 공급자 | **자원•사용자 지표** 수집•제공 |
+| HPA 제어기 | 목표 지표로 **복제본 수** 계산 |
+| VPA 제어기 | 사용량으로 **자원 요청값** 추천•적용 |
+| 워크로드 제어기 | 원하는 복제본과 Pod 템플릿 반영 |
+| 스케줄러•노드 | **Pod 배치**와 실행 용량 제공 |
 
 #### 한줄 요약
 
 - 같은 측정판을 본 HPA와 VPA가 각각 작업자 수와 장비 크기를 정하고, 워크로드 제어기와 스케줄러가 실제 작업자와 자리를 배치한다.
 
-## Ⅳ. 흐름도 (HPA Auto Scaling 계산 및 동작 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +88,40 @@ extra:
 </details>
 
 ```text
-[Metrics Server CPU 85% Scrape] ──► [HPA Algorithm Calculation]
-                                                  │
-                                                  ▼
-   [Kubernetes Cluster Autoscaler] ◄── [Deployment Replicas (3 ──► 6 Scale-out)]
+[부하 변화]
+    │
+    ▼
+1. 지표 수집
+    │
+    ▼
+2. 목표 대비 편차 계산
+    │
+    ▼
+3. 복제본•요청값 결정
+    │
+    ▼
+4. 워크로드 반영
+    │
+    ▼
+5. 배치•안정화 검증
+    │
+    ▼
+[확장 결과]
 ```
 
 ### 동작 원리
 
-1. **Metrics Scraping**: Metrics Server가 Pod 평균 CPU 사용률 85% 감지 (타깃 50%).
-2. **Calculation**: HPA 알고리즘에 의해 현재 3개 포드를 6개 포드로 스케일아웃 확정.
-3. **Cluster Autoscaler**: 포드를 배치할 노드 슬롯이 부족하면 Node Cluster Autoscaler가 AWS EC2 노드 자체를 스케일아웃 (**Auto Scaling 완결**).
+1. **지표 수집**: CPU•Memory•QPS 등 현재 부하 관측
+2. **목표 대비 편차 계산**: 현재값과 정책 목표 비교
+3. **복제본•요청값 결정**: HPA 또는 VPA 조정량 산출
+4. **워크로드 반영**: 제어기가 복제본•Pod 명세 갱신
+5. **배치•안정화 검증**: Pending•SLO와 진동 여부 확인
 
 #### 한줄 요약
 
 - 주문량이 늘면 HPA가 작업자 수를 바꾸고 한 작업자가 계속 힘들어하면 VPA가 장비 크기를 바꾸며, 실제로 자리가 없으면 포드가 대기 상태로 남는다.
 
-## Ⅴ. 종류 및 비교 (HPA vs VPA vs Cluster Autoscaler)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -130,7 +139,7 @@ extra:
 
 - 작업을 나눌 수 있으면 같은 장비의 작업자를 늘리고, 한 작업자에게 필요한 장비 크기가 틀렸으면 CPU·메모리 요청값을 바꾼다.
 
-## Ⅵ. 실무 고려사항 및 대책 (HPA/VPA 오토스케일링 3대 실무 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -158,7 +167,7 @@ extra:
 
 </details>
 
-- **Auto Scaling 수립 기준**에 따라 차세대 클라우드 네이티브 구축 시 **Kubernetes HPA & KEDA & Karpenter** 필수 적용
+- 병렬 부하는 **HPA**, Pod 자원 오차는 VPA로 조정
 
 #### 한줄 요약
 

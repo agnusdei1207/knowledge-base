@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T01:52:00+09:00"
 tags: ["notes-software"]
 weight: 150
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: 리눅스 커널의 cgroups와 Namespaces 격리 기술을 활용하여 애플리케이션 바이너리와 라이브러리를 단일 불변 이미지(Image)로 격리 실행하는 리눅스 프로세스 가상화 기술인 **Docker Container**
-- 배경/필요성: "내 컴에서는 잘 되는데 운영 서버에서는 안 된다"는 환경 불일치(Environment Matrix) 파행 해결, 가상머신(VM)의 Heavy한 OS 부팅 오버헤드 혁신 요구성
+- 정의/개념: Image를 커널 격리 프로세스로 실행하는 **Docker Container**
+- 배경/필요성: 호스트별 의존성 차이와 **Guest OS 중복**으로 배포 지연
 
 #### 한줄 요약
 
 - 도커파일로 정의한 애플리케이션과 의존성을 불변 이미지로 패키징하면 어떤 호스트에서든 동일한 실행 환경을 재현할 수 있다.
 
-## Ⅱ. 특징 (Docker Container 3대 핵심 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -42,15 +42,15 @@ extra:
 
 </details>
 
-- **Linux Kernel Sharing (Guest OS 부재로 인한 초고속 부팅 및 초경량 자원 점유)**
-- **Kernel-Level Isolation (Namespaces 가시성 격리 & cgroups 리소스 하한 제한)**
-- **Layered File System (OverlayFS 기반의 이미지 레이어 재사용 및 저장 공간 극대화)**
+- Host Kernel 공유로 **Guest OS 중복** 제거
+- **Namespaces•cgroups**로 가시 범위와 자원 사용 격리
+- **OverlayFS•CoW**로 Image Layer 재사용
 
 #### 한줄 요약
 
 - 같은 건물의 방들이 벽과 전기 차단기를 나눠 쓰듯, 네임스페이스가 보이는 자원을 가르고 제어 그룹이 각 컨테이너의 사용량을 제한한다.
 
-## Ⅲ. 구조 및 구성요소 (Docker Container 4대 코어 레이어 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,36 +59,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                     Docker Engine Architecture                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Docker Client (CLI)] ──► [Docker Daemon (dockerd)]                   │
-│                                 │                                      │
-│                                 ▼                                      │
-│                     [containerd (High-Level)]                          │
-│                                 │                                      │
-│                                 ▼                                      │
-│                     [runc (OCI Low-Level Runtime)]                     │
-│                                 │                                      │
-│                                 ▼                                      │
-│             [Linux Kernel: cgroups & Namespaces & OverlayFS]           │
-└────────────────────────────────────────────────────────────────────────┘
+[Docker Engine]
+ ├── [Docker Client•Daemon]
+ ├── [containerd•runc]
+ ├── [Image•OverlayFS]
+ └── [Kernel 격리 기능]
 ```
 
-선의 의미: CLI 명령어가 Docker Daemon 및 containerd, runc를 거쳐 리눅스 커널 수준의 프로세스로 렌더링되는 아키텍처.
-
-| 핵심 구성요소 | 역할 및 리눅스 커널 메커니즘 | 실무 적용 포인트 |
-|:---|:---|:---|
-| **cgroups (Control Groups)** | **컨테이너별 CPU, Memory, Disk I/O 자원 한계선 통제** | `docker run --memory="2g"` |
-| **Namespaces** | **PID, NET, MNT, IPC 등 프로세스 간 가시 범위 완벽 차단** | `PID 1` 개별 분리 |
-| **OverlayFS (CoW)** | **Copy-on-Write 방식으로 레이어 중복 저장 억제 및 파일 수정**| 이미지 빌드 속도 10배 향상 |
-| **runc & containerd** | **OCI 표준 명세에 따라 실제 컨테이너 프로세스를 실행** | K8s CRI 런타임 표준 |
+| 구성요소 | 책임 |
+|---|---|
+| Docker Client•Daemon | **명령 API**와 Image•Container 수명주기 관리 |
+| containerd•runc | OCI Bundle로 **Container Process** 생성 |
+| Image•OverlayFS | 읽기 전용 Layer와 **CoW 변경층** 제공 |
+| Kernel 격리 기능 | **Namespaces•cgroups**로 범위•자원 제한 |
 
 #### 한줄 요약
 
 - 빌더가 만든 봉인 상자를 레지스트리에 두면 런타임이 이를 받아 개인 방과 전기 한도를 붙이고, 버려지면 안 되는 자료는 외부 보관함에 연결한다.
 
-## Ⅳ. 흐름도 (Dockerfile Build to Container Running 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,23 +86,40 @@ extra:
 </details>
 
 ```text
-[Dockerfile] ──► [docker build] ──► [Docker Image (OverlayFS)] ──► [docker push] ──► [Registry]
-                                                                                          │
-                                                                                          ▼
- [Running Container Process] ◄── [runc (cgroups/NS)] ◄── [docker run / pull] ◄─────────────┘
+[배포 명세]
+    │
+    ▼
+1. Image Layer 빌드
+    │
+    ▼
+2. Image 서명•저장
+    │
+    ▼
+3. Image Pull•검증
+    │
+    ▼
+4. 격리 환경 생성
+    │
+    ▼
+5. Container Process 실행
+    │
+    ▼
+[서비스 제공]
 ```
 
 ### 동작 원리
 
-1. **Build**: Dockerfile 명세서로 `docker build` 실행하여 읽기 전용 불변 이미지 생성.
-2. **Registry**: Docker Hub / AWS ECR 레지스트리에 저장 전파.
-3. **Run**: 서버에서 `docker run` 실행 시 runc가 커널 cgroups/NS를 엮어 컨테이너 프로세스 가동 (**Docker Container 완결**).
+1. **Image Layer 빌드**: Dockerfile로 재사용 Layer 생성
+2. **Image 서명•저장**: Digest•서명을 Registry에 보관
+3. **Image Pull•검증**: 대상 Image 무결성과 출처 확인
+4. **격리 환경 생성**: Namespace•cgroup•Mount 구성
+5. **Container Process 실행**: runc가 지정 Process 시작
 
 #### 한줄 요약
 
 - 레지스트리에서 이미지의 다이제스트를 검증해 풀한 뒤 네임스페이스와 cgroup으로 격리하고, 컨테이너를 교체해도 유지할 데이터는 외부 볼륨에 마운트한다.
 
-## Ⅴ. 종류 및 비교 (VM vs Docker Container 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -124,15 +130,15 @@ extra:
 | 비교 항목 | Virtual Machine (가상머신) | Docker Container (컨테이너) |
 |:---|:---|:---|
 | **가상화 수준** | **하드웨어 가상화 (Guest OS 전체 탑재)** | **OS 커널 레벨 가상화 (Host OS 커널 공유)** |
-| **부팅 속도** | 느림 (분 단위 OS 부팅 필요) | **초고속 (밀리초 ~ 초 단위 즉시 가동)** |
-| **자원 용량 (Size)**| 크기 큼 (수 GB ~ 수십 GB) | **매우 가벼움 (수 MB ~ 수백 MB)** |
-| **격리 및 보안성** | **최상 (게스트 OS 수준의 완전 물리 격리)**| 보통 (동일 커널 공유로 인한 커널 공격 위험)|
+| **부팅 속도** | Guest OS 시작 필요 | **Process 중심 빠른 시작** |
+| **자원 용량 (Size)**| OS Image 포함 | **App•의존성 Layer 중심** |
+| **격리 및 보안성** | Guest Kernel 경계 | **Host Kernel 공유 경계** |
 
 #### 한줄 요약
 
 - 컨테이너는 같은 건물 안의 잠긴 방이라 빨리 만들 수 있고, 가상 머신은 기초 설비까지 나눈 별도 건물이라 무겁지만 커널 경계가 더 분명하다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Docker 컨테이너 3대 실무 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -160,7 +166,7 @@ extra:
 
 </details>
 
-- **Docker 수립 기준**에 따라 차세대 MSA 및 클라우드 배포 구축 시 **Docker Container & Multi-stage Build** 필수 적용
+- 빠른 교체는 **Container**, Kernel 경계가 필요하면 VM 선택
 
 #### 한줄 요약
 

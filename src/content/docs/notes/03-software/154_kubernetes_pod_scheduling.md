@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T02:08:00+09:00"
 tags:
   - "notes-software"
 weight: 154
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 미배치 Pod의 Resource Request, Node Selectors, Affinity, Taints 조건을 평가하여 Filtering(거르기) 및 Scoring(점수화)을 거쳐 optimal Node에 배정하는 스케줄링 프레임워크인 **Kubernetes Pod Scheduling**
-- 배경/필요성: 특정 Node 자원 쏠림 현상 예방, GPU 전용 노드 제한, HA를 위한 동일 노드 중복 배치 방지 요구성
+- 정의/개념: Pending Pod를 적합한 Node에 Binding하는 **Pod Scheduling**
+- 배경/필요성: 무조건 배치는 **자원 부족•격리•장애 영역** 제약 위반
 
 #### 한줄 요약
 
 - 좌석 배정처럼 필수 조건에 맞지 않는 노드를 먼저 제외한 뒤 남은 후보의 점수를 비교하면 대기 원인과 선택 이유가 분명해진다.
 
-## Ⅱ. 특징 (Pod 스케줄링 3대 핵심 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - GPU처럼 반드시 필요한 조건은 필터에 두고 같은 영역 선호처럼 선택 가능한 조건은 점수에 두어야 파드가 불필요하게 대기하지 않는다.
 
-## Ⅲ. 구조 및 구성요소 (스케줄링 2대 알고리즘 및 조건표)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,34 +59,18 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   스케줄러 파이프라인 (kube-scheduler Pipeline)        │
-├────────────────────────────────────────────────────────────────────────┤
-│ [대기 파드] ──► 1. 필터링 (Filtering) ──► 2. 스코어링 (Scoring)        │
-│                   • 노드 자원 적합성 (ResourcesFit) • 노드 자원 균형     │
-│                   • 노드 선택 제약 (Selector)       • 이미지 지역성      │
-│                   • 테인트 및 톨러레이션            • 노드 선호도 점수   │
-│                                                          │             │
-│                                                          ▼             │
-│ [노드 2 바인딩 완료] ◄── [노드 이름 바인딩] ◄── [최적 노드 2 선정]      │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-선의 의미: Pending Pod가 Filtering을 거쳐 부적합 노드를 지우고, Scoring에서 1등 노드를 선별하여 nodeName을 바인딩하는 구조.
-
-| 스케줄링 기법 (Technique) | 적용 주체 | 주요 역할 및 설정 명세 |
-|:---|:---|:---|
-| **NodeSelector / Affinity** | **Pod 측에 선언** | **"나는 `disk=ssd` 레이블을 가진 Node에만 들어갈래"** |
-| **Pod Anti-Affinity** | **Pod 측에 선언** | **"동일 서비스 Pod 2개가 같은 Node에 겹치지 마라"** |
-| **Taints & Tolerations** | **Node & Pod 양측**| **"이 Node는 `gpu=true` Toleration이 없는 Pod는 거부함"**|
-| **Priority & Preemption** | **Pod PriorityClass**| **비상시 중요 Pod 배치를 위해 일반 Pod를 강제 축출** |
+| 구성요소 | 책임 |
+|---|---|
+| NodeSelector•Affinity | Label 기반 **Node 필수•선호 조건** 선언 |
+| Pod Anti-Affinity | 같은 Pod 집합의 **장애 영역 분산** |
+| Taints•Tolerations | Node 거부 조건과 **Pod 허용 예외** 결합 |
+| Priority•Preemption | 중요 Pod를 위한 **우선순위•선점** 통제 |
 
 #### 한줄 요약
 
 - 대기열은 접수 창구, 필터는 입장 조건 검사, 점수는 좌석 선호 계산, 바인딩은 최종 좌석표 기록에 해당한다.
 
-## Ⅳ. 흐름도 (Node Filtering & Scoring 처리 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,23 +79,36 @@ extra:
 </details>
 
 ```text
-[All Nodes (100 Nodes)] ──► [Filtering: CPU/Memory Fit & Taints (10 Nodes Left)]
-                                                │
-                                                ▼
-  [Bind Node 2] ◄── [Pick Max Score Node 2] ◄── [Scoring: ImageLocality & Balance (Scores)]
+[Pending Pod]
+      │
+      ▼
+1. Scheduling Queue 인출
+      │
+      ▼
+2. 부적합 Node Filtering
+      │
+      ▼
+3. 후보 Node Scoring
+      │
+      ▼
+4. 최고 점수 Node Binding
+      │
+      ▼
+[Node 배치 결과]
 ```
 
 ### 동작 원리
 
-1. **Filtering**: 전체 100개 노드 중 CPU 부족 노드, Taint 차단 노드를 빼고 10개 생존.
-2. **Scoring**: 이미 도커 이미지를 다운로드받은 노드(ImageLocality)에 가산점을 주어 Node 2가 95점으로 1등.
-3. **Binding**: `spec.nodeName: node-02` 명시 완료 (**Pod Scheduling 완결**).
+1. **Scheduling Queue 인출**: 미배치 Pod를 우선순위로 선택
+2. **부적합 Node Filtering**: 자원•Taint•Affinity 위반 제외
+3. **후보 Node Scoring**: 균형•지역성•선호 기준 평가
+4. **최고 점수 Node Binding**: 선택 Node를 Pod에 연결
 
 #### 한줄 요약
 
 - 파드 하나를 대기열에서 꺼낸 뒤 실행 불가능한 노드를 버리고 남은 후보를 채점해 가장 높은 노드를 객체에 기록한다.
 
-## Ⅴ. 종류 및 비교 (Hard Affinity 대 Soft Affinity)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -129,7 +126,7 @@ extra:
 
 - 필터 조건을 지나치게 좁히면 후보 자체가 사라지고 점수 조건만 바꾸면 파드는 실행되면서 배치 위치만 달라진다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Pod 스케줄링 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -151,4 +148,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **필터링 및 스코어링 파이프라인 최적화 체계 확립 완료**
+- 실행 필수 조건은 **Filtering**, 배치 선호는 Scoring으로 분리
+
+#### 한줄 요약
+
+- 실행 불가능한 노드는 제외하고 가용 후보 안에서 분산과 비용 선호를 점수화한다.
