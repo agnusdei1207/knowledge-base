@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "W3C DID 표준 (W3C DID Standard)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T20:18:00+09:00"
 tags:
   - "notes-security"
 weight: 68
@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: **W3C DID 표준**은 중앙 인증기관 없이 **DID** 구문 규격(`did:method:id`), **DID 문서** 데이터 모델, 그리고 암호화 공개키와 **검증 관계**를 매핑해주는 글로벌 분산 식별자 표준 규격이다.
-- 배경/필요성: 파편화된 분산 식별 체계로 인한 이기종 블록체인/저장소 간 호환성 상실을 막고, 식별자 생성/해석/갱신/비활성화 CRUD 동작을 상호운용 가능하게 통일하기 위함이다.
+- 정의/개념: DID 구문•문서•해석을 정의한 **W3C DID 표준**
+- 배경/필요성: 방법별 구현은 **식별자 해석•키 검증 호환성** 저하
 
 #### 한줄 요약
 
@@ -96,7 +96,7 @@ extra:
 - **현재 DID 문서(Active DID Document)**: 해소 시점에 특정 DID 저장소에서 추출된 활성 상태의 최신 암호키 및 검증 관계 문서이다.
 - **키 용도 판정(Key Purpose Verification)**: 검증에 사용된 공개키가 DID 문서 내 명시된 목적(assertionMethod 등)과 정확히 일치하는지 심사하는 과정이다.
 - **DID URI•방법 구문 해석(DID URI & Method Syntax Resolution)**: 식별자 문자열에서 URI Prefix, Method 이름, 고유 ID 구문을 분리 파싱하는 단계이다.
-- **최선 DID 문서•상태 해석(Active DID Document & Status Resolution)**: 대상 저장소에서 최신 DID 문서 데이터 및 비활성화 여부를 수집하는 단계이다.
+- **최신 DID 문서•상태 해석(Active DID Document & Status Resolution)**: 대상 저장소에서 최신 DID 문서 데이터 및 비활성화 여부를 수집하는 단계이다.
 - **문서•해석 메타데이터 검증(Document & Resolution Metadata Verification)**: 반환된 문서의 JSON-LD 구문 정합성 및 에러 상태를 확인하는 단계이다.
 - **키 용도•제어 상태 판정(Key Purpose & Controller State Determination)**: 전자서명에 사용된 키가 올바른 검증 관계에 속해 있는지 및 제어권 만료 여부를 판정하는 단계이다.
 
@@ -143,10 +143,10 @@ extra:
 
 ### 동작 원리
 
-1. **DID URI•방법 구문 해석**: DID 해석기가 입력된 식별자에서 DID 방법명을 분리 파싱한다.
-2. **최신 DID 문서•상태 해석**: 분리된 DID 방법 드라이버를 통해 해당 분산 저장소에서 최신 DID 문서를 해소한다.
-3. **문서•해석 메타데이터 검증**: 데이터 모델 규격 정합성 및 Deactivated 비활성화 메타데이터 여부를 검증한다.
-4. **키 용도•제어 상태 판정**: 서명에 사용된 키 ID가 승인된 검증 관계 항목(예: assertionMethod)에 존재하는지 판정한다.
+1. **DID URI•방법 구문 해석**: 식별자•방법명 분리
+2. **최신 DID 문서•상태 해석**: 최신 문서•비활성 상태 조회
+3. **문서•해석 메타데이터 검증**: 모델 정합성•오류 상태 확인
+4. **키 용도•제어 상태 판정**: 검증 관계•제어권 평가
 
 #### 한줄 요약
 
@@ -205,5 +205,4 @@ extra:
 
 #### 한줄 요약
 
-- W3C DID Core 1.0 준수, Pairwise DID 적용, 키 회전/복구 매커니즘 수립 및 3대 DID 수용 조건 중심 분산 식별자 체계 구축 필수.
-
+- **방법 신뢰•문서 활성•키 용도** 확인 후 DID 수용
