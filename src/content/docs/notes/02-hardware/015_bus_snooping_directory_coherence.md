@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "버스 스누핑•디렉터리 기반 일관성 (Bus Snooping Directory Coherence)"
-date: "2026-08-08T13:22:00+09:00"
+date: "2026-08-13T11:37:12+09:00"
 tags:
   - "notes-hardware"
 weight: 15
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의/개념: 공유 버스 트래픽 브로드캐스트 감시 방식의 **버스 스누핑(Bus Snooping)**과 주소별 **공유자 추적(Sharer Tracking)**을 이용해 특정 노드에만 P2P 패킷을 전송하는 **디렉터리 기반 일관성(Directory-Based Coherence)** 아키텍처.
-- 배경/필요성: 코어 수가 8개 이상 확장되는 NUMA 서버 및 대규모 멀티코어 환경에서 공유 버스 기반의 스누핑 브로드캐스트는 버스 대역폭 포화(Bus Saturation)를 유발하므로, 확장성(Scalability) 확보를 위한 디렉터리 방식 전환 필수.
+- 배경/필요성: 코어 증가 시 전역 스누프 방송이 대역폭•전력을 소모하여 선택적 대상 추적 구조가 요구됨.
 
 #### 한줄 요약
 - 소규모 멀티코어용 Bus Snooping(전체 브로드캐스트 방식)과 대규모 스케일아웃용 Directory Coherence(공유자 비트맵 P2P 전달 방식)의 하드웨어 일관성 체계.
@@ -73,18 +73,18 @@ extra:
  ══════╧════════════════╧════════════════╧════ Shared Bus (Broadcast All)
 
 [ Directory-Based Coherence ]
- [Core 0 Node] ──(P2P NoC Mesh)──> [Home Directory Node (Sharer Bit Vector)]
-                                          │ (Targeted Invalidate P2P)
-                                          ▼
-                                   [Core 2 Node] (Selective Invalidation)
+ [P2P NoC Mesh]
+ ├─ [Core 0 Node]
+ ├─ [Home Directory Node | Sharer Bit Vector]
+ └─ [Core 2 Node]
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **공유 버스 & 버스 중재기** | 모든 트랜잭션을 일렬 직렬화하여 전 코어로 브로드캐스트 | 소규모(4~8코어)에서 별도 메모리 오버헤드 없이 직관적 구현 |
-| **스누프 제어기** | 버스 브로드캐스트 주소를 감시하여 자기 캐시 태그와 대조 | 무효화(Inval) 처리 및 더티 데이터 타 코어 직접 딜리버리 |
-| **홈 디렉터리** | 메모리 블록별 소유 코어 및 Sharer Vector 명단 총괄 관리 | 대규모 멀티코어/NUMA 환경에서 필요 코어로만 메시지 국한 |
-| **점대점 인터커넥트 (NoC)**| 메시 통신망을 통해 홈 디렉터리와 대상 코어 간 P2P 데이터 전송 | 전역 브로드캐스트 병목을 완전히 제거하여 확장성 대폭 확보 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 공유 버스•중재기 | 요청 **직렬화•전 코어 방송** |
+| 스누프 제어기 | 방송 주소 감시와 **상태 전이** 수행 |
+| 홈 디렉터리 | 주소별 **소유자•공유자 목록** 관리 |
+| 점대점 인터커넥트 | 홈•대상 노드 간 **일관성 메시지** 전달 |
 
 #### 한줄 요약
 - Bus Snooping은 Shared Bus & Snoop Controller 구성을 사용하고, Directory 방식은 Home Directory Node & NoC P2P 라우팅 구성을 취함.
@@ -95,7 +95,7 @@ extra:
 
 - **홈 노드(Home Node)**: 특정 캐시 라인의 주소 번지에 대응하는 디렉터리 메타데이터와 메모리를 직접 관장하는 노드.
 - **공유자 목록(Sharer List / Bit Vector)**: 64바이트 메모리 라인을 Shared 상태로 보유 중인 코어들의 N-bit 비트맵 표.
-- **완료 응답 수합(Acknowledgment Collection)**: 홈 디렉터리 또는 발신 코어가 대상 코어들로부터 이메일 형식의 Ack 패킷을 모두 받아 래칭하는 동기화 절차.
+- **완료 응답 수합(Acknowledgment Collection)**: 홈 디렉터리나 요청자가 대상 코어의 Ack 패킷을 모두 받는 동기화 절차.
 
 </details>
 
@@ -104,20 +104,20 @@ extra:
 Core 0 Write Request ──> Shared Bus 브로드캐스트 ──> All Cores Snoop & Invalidate ──> Ack ──> Core 0 Write
 
 [ Directory-Based Flow ]
-Core 0 Write Request ──> 1. Home Node Directory 조회 (Sharer Bit Vector 확인: Core 2, Core 3)
+Core 0 Write Request ──> Home Node Directory 조회 (Sharer: Core 2, Core 3)
                               │
                               ▼
-                         2. Targeted P2P Invalidation 메시지 전송 (Core 2, Core 3로만 전송)
+                         Targeted P2P Invalidation (Core 2, Core 3)
                               │
                               ▼
-                         3. Core 2, Core 3 Invalidate 완료 후 Ack 전송 ──> 4. Core 0 Write 완결
+                         Core 2, Core 3 Ack ──> Core 0 Write 완결
 ```
 
 ### 동작 원리
 
-1. **버스 스누핑 방식**: Core 0가 Write 요청을 공유 버스에 태우면, 버스에 매달린 모든 코어의 **스누프 제어기**가 이를 동시에 수신하여 자기 태그를 무효화하고 완결함.
-2. **디렉터리 방식**: Core 0가 **홈 노드(Home Node)**로 Write 소유권을 요청하면, 홈 노드는 **공유자 목록(Sharer List)**을 조회하여 사본을 쥔 Core 2, Core 3에게만 P2P Invalidate 패킷을 발송함.
-3. **Ack 수합 및 완결**: 사본 보유 코어들로부터 **완료 응답 수합(Ack)**을 수용하여 배타적 쓰기 권한(M 상태)을 부여받고 연산을 완료함.
+- **버스 스누핑**: Write 요청을 방송하고 모든 스누프가 태그를 검사함.
+- **디렉터리 조회**: 홈 노드가 **Sharer List**로 무효화 대상을 선택함.
+- **Ack 수합**: 대상 사본 무효화 Ack 후 배타적 쓰기 권한을 부여함.
 
 #### 한줄 요약
 - Snooping은 전 코어 Bus Broadcast로 무효화를 수행하고 Directory 방식은 Home Node 조회 후 지정 코어로만 P2P Invalidation을 수행함.
@@ -126,23 +126,23 @@ Core 0 Write Request ──> 1. Home Node Directory 조회 (Sharer Bit Vector �
 
 <details><summary>핵심 용어</summary>
 
-- **디렉터리 방식(Directory-Based)**: 메타데이터 오버헤드를 대가로 100개 이상의 노드까지 선형 스케일아웃 확장이 가능한 일관성 구조.
+- **디렉터리 방식(Directory-Based)**: 메타데이터를 대가로 무효화 대상을 선택해 방송 범위를 줄이는 일관성 구조.
 - **메타데이터(Metadata)**: 디렉터리 램 상에 저장되는 라인별 상태(State: Uncached, Shared, Modified) 및 Sharer 코어 비트맵 데이터.
 - **다중 소켓(Multi-Socket NUMA)**: 2개 이상의 독립 CPU 소켓이 고속 인터커넥트(QPI, UPI, Infinity Fabric)로 결합된 서버 플랫폼.
-- **조회 지연(Lookup Latency)**: 홈 디렉터리 노드에 접근하여 메타데이터 비트맵을 읽어오는 데 소요되는 3-hop 네트워크 딜레이.
+- **조회 지연(Lookup Latency)**: 홈 디렉터리에서 메타데이터를 읽고 대상 노드로 전달하는 네트워크 지연.
 
 </details>
 
 | 비교 항목 | 버스 스누핑 (Bus Snooping) | 디렉터리 방식 (Directory-Based) |
 |:---|:---|:---|
 | **통신 메커니즘** | **공유 버스** 기반 전체 브로드캐스트 (1:N) | **점대점 인터커넥트(NoC)** 기반 P2P 메시지 (1:1 / 1:M) |
-| **코어 확장성** | 저조함 (8~16 코어 이상 시 버스 대역폭 포화) | 압도적 (수백~수천 코어, **다중 소켓 NUMA** 확장 가능) |
+| **코어 확장성** | 코어 증가 시 방송 대역폭으로 제한 | **다중 소켓 NUMA**까지 계층적 확장 용이 |
 | **하드웨어 오버헤드**| 단순 (별도 디렉터리 메타데이터 메모리 불필요) | 메타데이터 저장을 위한 DRAM/SRAM **메타데이터** 공간 소모 |
-| **트랜잭션 지연** | 짧음 (버스를 통한 즉시 1-hop 브로드캐스트) | 상대적 길음 (요청->홈 디렉터리 **조회 지연**->P2P 3-hop) |
+| **트랜잭션 지연** | 공유 매체 중재와 방송 지연 | 홈 디렉터리 **조회•P2P 왕복** 지연 |
 | **주요 적용 위치** | 모바일 SoC, 코어 수가 적은 Desktop CPU | 클라우드 대형 서버 CPU, 멀티소켓 NUMA 데이터센터 |
 
 #### 한줄 요약
-- 버스 스누핑은 저지연 단순성에 강점을 가지나 코어 확장성이 제한되고, 디렉터리 방식은 메타데이터 및 3-hop 지연 대가로 무제한 스케일아웃 확정성을 제공함.
+- 버스 스누핑은 단순하지만 방송에 제한되고, 디렉터리는 메타데이터 대가로 대상 전송을 지원함.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -157,10 +157,10 @@ Core 0 Write Request ──> 1. Home Node Directory 조회 (Sharer Bit Vector �
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 노드 수 증설 시 디렉터리 **메타데이터** 메모리 소모량 파괴적 증가 | **희소 디렉터리(Sparse Directory)** 및 **제한 디렉터리** 구조 채택 | 메타데이터 DRAM 공간 점유율 80% 이상 절감 |
+| 노드 수 증설 시 디렉터리 **메타데이터** 용량 증가 | **희소 디렉터리(Sparse Directory)** 및 **제한 디렉터리** 구조 채택 | 추적 엔트리와 공유자 비트 저장량 절감 |
 | 특정 메모리 번지 집중 접근 시 특정 **홈 노드**로 핫스팟 라우팅 폭증 | **주소 해싱(Address Hashing)** 기반 홈 디렉터리 전 노드 분산 | 온칩 라우터 병목 해소 및 P2P 지연시간 균일화 |
 | 소유권 요청과 Inval Ack 패킷이 온칩 라우터 큐를 가득 채워 **프로토콜 교착(Deadlock)** | NoC 라우터 내 **가상 채널(Virtual Channel)** 분리 및 자원 순서화 | 일관성 메시지 대기 교착 완벽 차단 및 Liveness 보장 |
-| 스누핑 칩에서 코어 증설 시 **버스 포화(Bus Saturation)** 현상발생 | Crossbar / Mesh NoC 전환 및 **스누핑 계층화(Hierarchical Snooping)** 적용 | 로컬 클러스터 내부 스누핑과 외부 디렉터리 조합으로 대역폭 확보 |
+| 스누핑 칩에서 코어 증설 시 **버스 포화** 발생 | Crossbar•Mesh NoC 전환 및 **계층형 스누핑** 적용 | 로컬 방송 범위 축소와 외부 대역폭 확보 |
 
 #### 한줄 요약
 - Sparse/Limited Directory 메타데이터 절감, Address Hashing 전역 분산, Virtual Channel Deadlock 방지 및 Hierarchical Snooping을 적용함.
@@ -174,7 +174,7 @@ Core 0 Write Request ──> 1. Home Node Directory 조회 (Sharer Bit Vector �
 
 </details>
 
-- **구현 방식 선택 기준(Coherence Architecture Selection Criteria)**에 근거하여 단일 다이 8코어 이하의 스마트폰/노트북 SoC에는 저지연 **버스 스누핑(Bus Snooping)** 아키텍처를 적용하고, 수십~수천 코어 규격의 클라우드 데이터센터/멀티소켓 NUMA 서버 인프라에는 **희소 디렉터리 기반 일관성(Sparse Directory-Based)** 및 NoC 가상 채널 네트워크 구축 체계 적용 필수.
+- 방송 비용이 작으면 **Snooping**, 코어•소켓 확장 시 **Directory•NoC** 선택.
 
 #### 한줄 요약
-- 소규모 코어용 저지연 Bus Snooping 및 대규모 멀티소켓 NUMA 서버용 Sparse Directory Coherence/NoC P2P 구축 체계 적용.
+- 방송 대역폭과 메타데이터 비용을 비교하여 일관성 구조를 결정함.

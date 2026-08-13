@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
-date: "2026-08-08T13:28:00+09:00"
+date: "2026-08-13T11:39:57+09:00"
 tags:
   - "notes-hardware"
 weight: 18
@@ -79,12 +79,12 @@ extra:
 └───────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **상주 프레임 집합** | 물리 메모리에 할당된 페이지 및 상태(Dirty, Valid) 관리 | 현 시점 교체 가능한 Victim 대상 후보군 집합 형성 |
-| **참조 이력 매핑** | 페이지별 참조 시각(Timestamp), 횟수(Counter), Bit 기록 | LRU, LFU, Clock 알고리즘의 희생 판정 데이터 제공 |
-| **교체 선택기** | 정책 알고리즘에 의거하여 희생 프레임(Victim) 최종 결정 | Page Fault 발생 시 1개 물리 프레임을 비워내도록 지시 |
-| **저장소 I/O** | Dirty Page의 Swap-out 쓰기 및 New Page의 Swap-in 읽기 | 비동기 I/O 유닛을 구동하여 디스크 교체 트래픽 처리 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 상주 프레임 집합 | 페이지의 **Valid•Dirty 상태** 관리 |
+| 참조 이력 매핑 | **시각•횟수•참조 비트** 기록 |
+| 교체 선택기 | 정책에 따라 **희생 프레임** 결정 |
+| 저장소 I/O | Dirty 축출과 요청 페이지 **입출력** 수행 |
 
 #### 한줄 요약
 - Resident Frame Set, Reference History Tracker, Replacement Selector Engine 및 Storage I/O 유닛이 유기적으로 연동함.
@@ -102,32 +102,32 @@ extra:
 [ Non-Resident Page Fault Occurred ]
                  │
                  ▼
-[ 1. Free Physical Frame Exist Check ]
-  ├─ Free Frame Exist ──> [ 4. Direct Swap-In New Page ]
+[ Free Physical Frame Exist Check ]
+  ├─ Free Frame Exist ──> [ Direct Page-In New Page ]
   │
   └─ Free Frame None (RAM Full)
         │
         ▼
-   2. Replacement Selector 구동 (Reference History 기반 Victim Page 선정)
+   Replacement Selector 구동 (Reference History 기반 Victim 선정)
         │
         ▼
-   3. Victim Page Dirty Bit Check
+   Victim Page Dirty Bit Check
         ├─ Dirty Bit = 1 : Swap-Out (SSD 스왑 영역에 쓰기 I/O)
         └─ Dirty Bit = 0 : No Write (즉시 Frame 파기)
         │
         ▼
-   4. Request Page Swap-In to Free Frame
+   Request Page-In to Free Frame
         │
         ▼
-   5. PTE Atomic Update & Instruction Restart
+   PTE Atomic Update & Instruction Restart
 ```
 
 ### 동작 원리
 
-1. **프레임 점검**: **페이지 폴트 처리기**가 빈 물리 프레임 존재 여부를 먼저 확인하고, 없을 경우 교체 알고리즘 가동.
-2. **희생 페이지 선정**: **참조 이력**에 의거하여 가장 적합한 희생 페이지(Victim Page)를 선택함.
-3. **Dirty 처리 및 Swap-out**: 희생 페이지의 Dirty Bit=1 인 경우 **후면 저장소(SSD)**로 Swap-out 쓰기를 진행하고, 0이면 수습 파기함.
-4. **Swap-in 및 원자 갱신**: 신규 요청 페이지를 읽어 프레임에 로드하고 PTE를 **원자 갱신(Atomic Update)** 후 **명령 재시작(Instruction Restart)**을 구동함.
+- **프레임 점검**: 빈 프레임이 없으면 교체 선택기를 구동함.
+- **희생 페이지 선정**: **참조 이력**으로 축출할 프레임을 선택함.
+- **Dirty 처리**: Dirty이면 저장하고 Clean이면 즉시 재사용함.
+- **Page-In•갱신**: 요청 페이지 적재 후 PTE 갱신과 명령 재시작 수행
 
 #### 한줄 요약
 - 빈 프레임 확인 -> 희생 페이지 선택 -> Dirty 확인 후 Swap-out -> 신규 페이지 Swap-in 및 PTE 원자 갱신 순서로 실행됨.
@@ -150,7 +150,7 @@ extra:
 | **실현 가능성** | **불가능** (미래 참조열 사전 인지 불가) | 가능 (큐 구조 구현) | 가능 (스택/타임스탬프 하드웨어) | 가능 (참조 카운터 보관) |
 | **페이지 폴트율** | 최저 (이론적 하한선 제공) | 높음 | 낮음 (대중적 우수) | 보통 (초기 대량 참조 잔존 오류) |
 | **이상 현상** | 발생 안 함 | **벨라디의 이상(Bélády)** 발생 | 발생 안 함 (Inclusion Property) | 발생 안 함 |
-| **실무 채택** | 타 알고리즘의 성능 평가 상한선 | 거의 미사용 | 고성능 OS, 캐시 시스템의 표준 | 파일 시스템, 웹 캐시 버퍼 |
+| **실무 위치** | 교체 정책의 이론적 비교 기준 | 단순 정책의 교육•제한적 구현 | Clock 등 근사 정책의 기준 | 캐시별 빈도 기반 정책에 활용 |
 
 #### 한줄 요약
 - 이론상 최상인 OPT, 벨라디의 이상이 발생하는 FIFO, 시간 지역성 기반의 대중적 LRU, 참조 횟수 기반의 LFU로 구분됨.
@@ -160,7 +160,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Clock 알고리즘 (Second Chance Algorithm)**: LRU의 높은 카운터/타임스탬프 갱신 오버헤드를 줄이기 위해, 1비트 참조 비트(Reference Bit)와 원형 큐 포인터로 2차 기회를 부여하는 대표적 LRU 근사 하드웨어 알고리즘.
-- **백그라운드 기록(Background Writeback)**: 희생 페이지 선정 시 정지 지연을 줄이기 위해, Dirty Page를 미리 백그라운드 슬기 스레드로 SSD에 덮어써두는 기술.
+- **백그라운드 기록(Background Writeback)**: 교체 정지 지연을 줄이도록 Dirty Page를 백그라운드 커널 스레드가 미리 저장하는 기술.
 - **카운터 감쇠(Counter Decay)**: LFU 사용 시 과거 초기에 대량 참조된 페이지가 더 이상 쓰이지 않아도 메모리를 점유하는 문제를 막기 위해 주기적으로 카운터를 반감시키는 기법.
 
 </details>
@@ -183,7 +183,7 @@ extra:
 
 </details>
 
-- **페이지 교체 선택 기준(Page Replacement Selection Criteria)**에 의거하여 실제 운영체제 및 하드웨어 설계 시 순수 LRU의 갱신 오버헤드를 극복하는 **Clock 알고리즘(Second Chance)**을 표준 교체 엔진으로 도입하고, 비동기 **Background Writeback**과 카운터 감쇠 기법을 연동하여 페이지 폴트 지연시간을 극소화하는 메모리 교체 최적화 체계 적용 필수.
+- 갱신 비용이 크면 **Clock**, 빈도 편향이 크면 **감쇠 LFU** 선택.
 
 #### 한줄 요약
-- 순수 LRU 오버헤드를 보정하는 Clock 알고리즘 채택 및 비동기 Background Writeback을 통한 페이지 교체 최적화 체계 적용.
+- 참조 지역성과 Dirty I/O 지연을 기준으로 교체•Writeback 정책을 결정함.

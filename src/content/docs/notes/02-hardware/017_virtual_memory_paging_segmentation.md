@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리: 페이징•세그멘테이션 (Virtual Memory Paging Segmentation)"
-date: "2026-08-13T10:20:00+09:00"
+date: "2026-08-13T11:39:07+09:00"
 tags:
   - "notes-hardware"
 weight: 17
@@ -42,7 +42,7 @@ extra:
 - **가상 주소 공간(Virtual Address Space)**: 각 독립 프로세스가 타 프로세스와의 충돌 없이 독점 참조할 수 있는 0번지부터의 논리적 연속 주소 영역.
 - **요구 페이징(Demand Paging)**: 프로그램 실행에 필요한 페이지 데이터만 참조 시점(Page Fault 발생)에 보조기억장치에서 물리 RAM 프레임으로 인출 적재하는 기술.
 - **비상주 페이지(Non-Resident Page / Present=0)**: 가상 주소 공간상에는 할당되었으나 실제 물리 RAM에는 들어있지 않고 SSD 스왑 파티션에 위치한 상태.
-- **보조기억장치(Secondary Storage / Swap Area)**: RAM 공간 부족 시 비상주 페이지 데이터를 보관하는 고용량 SSD 또는 NVMe 파티션.
+- **보조기억장치(Secondary Storage / Swap Area)**: 비상주 익명 페이지나 파일 데이터를 보관하는 저장장치 영역.
 
 </details>
 
@@ -72,13 +72,13 @@ extra:
 | +------------------------------------------+ |
 | |  Paging (Fixed-size Page/Frame)           | |
 | |  +--------+    +-------------+           | |
-| |  | VPN    |--->| Page Table  |--> PPN     | |
+| |  | VPN    |    | Page Table  |    PPN     | |
 | |  +--------+    +-------------+           | |
 | +------------------------------------------+ |
 | +------------------------------------------+ |
 | |  Segmentation (Variable-size Segment)    | |
 | |  +----------+   +-----------+            | |
-| |  | Selector |--->| Descriptor|--> Base   | |
+| |  | Selector |   | Descriptor|    Base   | |
 | |  +----------+   +-----------+            | |
 | +------------------------------------------+ |
 +----------------------------------------------+
@@ -114,28 +114,28 @@ extra:
       |
       v
 +----------------------------------+
-| 1. TLB / Page Table Lookup       |
+| TLB / Page Table Lookup          |
 |    (VPN -> PPN 변환)              |
 +--------+--------+----------------+
   [Hit]  |        | [Miss: Present=0]
          v        v
   PA 반환     +----------------------------+
-              | 2. Page Fault Exception     |
+              | Page Fault Exception        |
               |    OS Swap-In 수행          |
               +-------------+--------------+
                             |
                             v
               +----------------------------+
-              | 3. 명령 재시작              |
+              | 명령 재시작                 |
               |    Instruction Restart     |
               +----------------------------+
 ```
 
 ### 동작 원리
 
-1. **TLB / Page Table Lookup**: **VPN**으로 TLB·페이지 테이블 탐색, Present=1이면 **PPN** 반환
-2. **Page Fault Exception**: Present=0이면 **Page Fault** 발생, OS가 스왑 영역에서 페이지 인출
-3. **명령 재시작**: 페이지 적재 완료 후 **Instruction Restart** 구동
+- **TLB•페이지 테이블 조회**: **VPN**으로 매핑과 접근 권한 검사
+- **Page Fault 예외**: 비상주면 파일•스왑에서 적재, 위반이면 오류 처리
+- **명령 재시작**: 복구 가능한 폴트 처리 후 **Instruction Restart** 수행
 
 #### 한줄 요약
 - VPN 변환 → Present 검사 → Hit 시 PA 반환, Miss 시 **Page Fault** 수습
@@ -166,7 +166,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **쓰레싱(Thrashing)**: 물리 RAM 부족으로 프로세스들의 Working Set을 수용하지 못해, CPU가 실제 연산보다 Page Fault 수습 및 SSD 스왑 입출력에 99% 이상 시간을 허비하는 마비 상태.
+- **쓰레싱(Thrashing)**: RAM이 작업 집합을 수용하지 못해 연산보다 Page Fault와 스왑 입출력이 반복되는 상태.
 - **주 페이지 폴트(Major Page Fault)**: SSD/HDD 등 디스크 I/O가 실제로 수반되어 시스템 지연을 유발하는 Page Fault.
 - **부 페이지 폴트(Minor Page Fault)**: 이미 다른 프로세스에 의해 RAM 프레임에 로드되어 있어 디스크 I/O 없이 페이지 테이블 매핑만 연결하는 Page Fault.
 - **읽기 전용 공유 프레임(Read-Only Shared Frame)**: `libc` 등 공통 공유 라이브러리 코드를 여러 프로세스가 단 1개의 물리 RAM 프레임에 읽기 전용으로 매핑하여 메모리를 절감하는 기법.
@@ -177,7 +177,7 @@ extra:
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
 | 메모리 부족 시 **주 페이지 폴트(Major Fault)** 급증 및 **쓰레싱(Thrashing)** 발생 | Working Set 기반 메모리 쿼터 설정 및 수평 팟(Pod) 오토스케일링 | 디스크 스왑 I/O 마비 및 서비스 멈춤 현상 원천 차단 |
-| 동일한 C 라이브러리가 각 프로세스 메모리에 중복 적재되어 RAM 낭비 | **읽기 전용 공유 프레임(Shared Frame)**으로 물리 메모리 상호 매핑 | 동일 라이브러리 코드 메모리 점유율 80% 이상 절감 |
+| 동일 라이브러리가 프로세스별로 중복 적재되어 RAM 낭비 | **읽기 전용 공유 프레임**으로 같은 물리 페이지 매핑 | 공유 코드의 중복 물리 프레임 제거 |
 | 순수 세그멘테이션 도입 시 **외부 단편화**로 인한 메모리 배치 불능 | 세그먼트 내부를 4KB 페이지로 분할하는 **Paged Segmentation** 채택 | 외부 단편화 방지 및 세그먼트 논리 보호 장점 동시 수용 |
 | 프로세스 생성/종료 시 가상 메모리 테이블 갱신 오버헤드 | CoW(Copy-on-Write) 기법 기반 `fork()` 프로세스 주소 공간 생성 | 메모리 복사 지연 은닉 및 프로세스 생성 속도 대폭 개선 |
 
@@ -192,7 +192,7 @@ extra:
 
 </details>
 
-- 범용 OS는 **페이징** 기본 채택, 논리 보호 요구 시 **Paged Segmentation** 및 **CoW** 결합
+- 범용 OS는 **페이징**, 논리 영역은 페이지 권한•매핑으로 보호
 
 #### 한줄 요약
-- **페이징** 기반 외부 단편화 차단 및 **CoW**·**Paged Segmentation** 연동
+- 고정 페이지 매핑을 기본으로 공유•복제 요구에는 **CoW** 적용

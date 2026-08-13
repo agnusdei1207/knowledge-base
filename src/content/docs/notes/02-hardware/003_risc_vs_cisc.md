@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 집합 구조: RISC vs CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-08-08T11:34:00+09:00"
+date: "2026-08-13T11:59:00+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -32,7 +32,7 @@ extra:
 </details>
 
 - 정의/개념: 명령어 길이의 규칙성, 오퍼코드 복잡도, 메모리 피연산자 접근 제약에 따라 고정 길이 축소형(RISC)과 가변 길이 복합형(CISC)으로 나뉘는 **명령어 집합 아키텍처(Instruction Set Architecture, ISA)** 설계 모델.
-- 배경/필요성: 초기 메모리 가격 급등으로 CISC 기반的高코드 밀도가 요구되었으나, 프로세서 클록 속도 증가에 따라 복잡한 가변 길이 해독 로직이 파이프라인 고속화 및 초병렬 처리(Superscalar)의 치명적 병목으로 부각되면서 하드웨어 해독이 단순한 RISC 아키텍처 필요성 대두.
+- 배경/필요성: 제한된 메모리에서는 높은 코드 밀도가 유리했지만 가변 길이 해독이 고속 파이프라인의 프런트엔드 병목으로 부각됨.
 
 #### 한줄 요약
 - RISC는 고정 길이 명령어 인코딩과 로드·스토어 구조로 해독 지연을 최소화하며, CISC는 가변 길이 복합 명령을 통해 높은 코드 밀도를 제공함.
@@ -79,12 +79,12 @@ extra:
  └─ 실행 유닛 (Execution Unit Pipeline)    ──> Superscalar Out-of-Order Execution
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **명령어 인코딩** | Op-code 및 오퍼랜드 비트 파싱 규칙 제공 | RISC는 32비트 고정 위치 파싱, CISC는 가변 경계 해독 수행 |
-| **피연산자 모델** | 연산 피연산자의 메모리 및 레지스터 접근 범위 규정 | RISC는 레지스터 간 연산 제한, CISC는 메모리 직접 ALU 연산 지원 |
-| **해독·변환부** | 기계어 바이너리를 제어 신호 또는 $\mu\text{op}$으로 변환 | CISC는 Microcode ROM 기반 복합 변환, RISC는 하드와이어드 즉시 해독 |
-| **실행 유닛** | 파이프라인 백엔드에서 실 데이터 ALU 연산 실행 | RISC와 CISC 모듈 모두 최신 고성능 코어에서 RISC-like $\mu\text{op}$ 처리 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 명령어 인코딩 | **오퍼코드•피연산자** 비트 배치 규정 |
+| 피연산자 모델 | **레지스터•메모리 접근** 범위 규정 |
+| 해독•변환부 | 기계어를 **제어 신호•마이크로연산**으로 변환 |
+| 실행 유닛 | 해독된 **산술•논리•주소 연산** 실행 |
 
 #### 한줄 요약
 - RISC는 하드와이어드 디코더 중심의 직접 제어 방식을 사용하고, CISC는 Microcode ROM 및 $\mu\text{op}$ 변환기를 통한 디코딩 구조를 형성함.
@@ -164,7 +164,7 @@ extra:
 
 - **압축 명령어(Compressed Instruction)**: RISC 환경에서 자주 쓰는 32비트 명령을 16비트로 줄여 코드 밀도를 CISC 수준으로 끌어올리는 기술(예: ARM Thumb, RISC-V C-extension).
 - **에뮬레이션(Emulation)**: 다른 ISA 바이너리를 소프트웨어적 변환을 통해 실시간 해석 구동하는 기술.
-- **호환 계층(Compatibility Layer)**:異종 ISA 간 시스템 콜 및 바이너리를 변환 전달하는 번역 모듈(예: Apple Rosetta 2, Windows on ARM).
+- **호환 계층(Compatibility Layer)**: 이종 ISA 간 시스템 콜과 바이너리를 변환하는 번역 모듈이다.
 - **명령 정렬(Instruction Alignment)**: 가변 길이 명령어가 메인 메모리 바이트 경계에 정렬되지 않을 때 하드웨어 인출 효율을 보정하는 기법.
 - **명령 캐시 미스(Instruction Cache Miss)**: 코드 크기 증가로 인해 I-Cache 내에 필요한 기계어가 없어 RAM 접근 지연이 발생하는 현상.
 - **마이크로아키텍처 벤치마크(Microarchitecture Benchmark)**: SPECint, SPECfp 등을 통해 실제 워크로드에서의 클록당 성능(IPC) 및 전력 대 성능비를 정밀 측정하는 평가.
@@ -192,7 +192,7 @@ extra:
 
 </details>
 
-- **ISA 선택 기준(ISA Selection Criteria)**에 의거하여 모바일·클라우드·AI 가속 환경에는 하드웨어 전력 효율성과 파이프라인 확장성이 우수한 **RISC** (ARM, RISC-V) 아키텍처를 채택하고, 기존 데스크톱 및 고성능 legacy 인프라 분야에서는 소프트웨어 자산 보호를 위한 **CISC** (x86) 환경을 유지하되 실측 **벤치마크(Benchmark)** 기반 하이치 설계 최적화 체계 구축.
+- 신규 설계는 **전력•해독 비용**, 기존 환경은 **바이너리 호환성**과 실측 벤치마크로 ISA 선택
 
 #### 한줄 요약
-- Binary Compatibility, Code Density, Frontend Decode Power 및 실제 Target Workload Benchmark를 다각적으로 평가하는 ISA 최적화 체계 적용.
+- 호환성•코드 밀도•해독 전력과 대상 워크로드 벤치마크를 함께 비교해 ISA를 선택한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "세그멘테이션 (Segmentation)"
-date: "2026-08-08T13:39:00+09:00"
+date: "2026-08-13T11:40:33+09:00"
 tags:
   - "notes-hardware"
 weight: 19
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 프로그램 주소 공간을 의미론적 가변 영역(Code, Data, Stack)으로 구분하고, 세그먼트별 **기준 주소(Base Address)** 및 **한계(Limit)** 서술자를 통해 주소 변환과 보호를 수행하는 **세그멘테이션(Segmentation)**.
-- 배경/필요성: 단일 **평면 주소 공간(Flat Address Space)** 환경에서는 코드 영역에 오버라이트 쓰기가 일어나거나 스택 오버플로가 코드 영역을 침범하는 보안/기능 문제가 발생하므로, 모듈별 독립 권한 격리 요구 증대.
+- 배경/필요성: 영역별 크기•권한 경계가 없으면 코드 쓰기와 스택 범위 침범을 주소 변환 단계에서 구분하기 어려움.
 
 #### 한줄 요약
 - 가상 메모리를 가변 크기의 논리 모듈 단위로 분할하여 개별 Base/Limit 서술자 기반의 주소 변환 및 영역 보호를 제공하는 기술.
@@ -64,25 +64,22 @@ extra:
 </details>
 
 ```text
-[ Virtual Address : Segment Selector | Offset ]
-                          │              │
-                          ▼              │
-   [ Segment Table (GDT / LDT) ]         │
-   └─ Fetch Descriptor : [Base | Limit | Privilege]
-                          │              │
-                          ▼              ▼
-           [ Protection Checker : Offset < Limit ? ]
-                          │ (Yes)
-                          ▼
-           [ Address Generator : Base + Offset ] ──> [ Physical Address (PA) ]
+[ Segmentation Address Translation ]
+├─ Virtual Address
+│  ├─ Segment Selector
+│  └─ Offset
+├─ Segment Table
+│  └─ Descriptor: Base | Limit | Privilege
+├─ Protection Checker
+└─ Address Generator
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **세그먼트 기술자 (Descriptor)**| Base 시작 주소, Limit 한계 크기, DPL(Privilege Level) 보관 | 8-Byte 서술자로 모듈 단위 보호 및 메모리 물리 위치 정의 |
-| **보호 검사기** | `Offset < Limit` 유효성 및 R/W/X 접근 권한 실시간 대조 | 영역 경계 초과 시 Segment Fault (General Protection Fault) 발생 |
-| **주소 생성기** | `Physical Address = Base + Offset` 산술 연산 수행 | 단순 가산기 덧셈으로 파이프라인 주소 변환 지연시간 극소화 |
-| **세그먼트 테이블** | GDT(Global Descriptor Table) 및 LDT(Local Descriptor Table) 관리 | 커널 및 개별 프로세스의 세그먼트 서술자 집합을 RAM에 유지 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 세그먼트 기술자 | **Base•Limit•DPL•권한** 보관 |
+| 보호 검사기 | **Limit•R/W/X•특권** 조건 검사 |
+| 주소 생성기 | 유효 요청의 **Base+Offset** 계산 |
+| 세그먼트 테이블 | 시스템•프로세스의 **기술자 집합** 보관 |
 
 #### 한줄 요약
 - Segment Descriptor, Protection Checker(Limit 대조) 및 Address Generator(Base+Offset 가산기)가 결합하여 구동함.
@@ -100,28 +97,28 @@ extra:
 [ Memory Access Request (Segment Selector + Offset) ]
                           │
                           ▼
-             [ 1. Segment Descriptor Fetch ]
+             [ 1. 기술자 인출 ]
                           │
                           ▼
-             [ 2. Present Bit & Privilege Check ]
+             [ 2. 권한•존재 검사 ]
              ├─ Invalid / Not Present ──> [ Segment Not Present Fault ]
              └─ Valid
                    │
                    ▼
-             [ 3. Limit Range Check (Offset < Limit) ]
+             [ 3. 한계 검사 ]
              ├─ Offset >= Limit ──> [ Protection Exception (GP Fault) ]
              └─ Offset < Limit
                    │
                    ▼
-             [ 4. Physical Address = Base + Offset ] ──> Physical RAM Access
+             [ 4. 물리 주소 생성 ] ──> Physical RAM Access
 ```
 
 ### 동작 원리
 
-1. **기술자 인출**: 프로세서가 **세그먼트 번호(Segment Selector)**를 통해 GDT/LDT 메인 메모리 상의 **세그먼트 기술자**를 인출함.
-2. **권한 및 존재 검사**: Present Bit=1 존재 여부 및 DPL 특권 레벨을 검사함.
-3. **한계 검사(Limit Check)**: **보호 검사기**가 `Offset < Limit` 조건을 비교하여 범위를 벗어날 경우 하드웨어 **보호 예외(Protection Exception)** 트랩을 발생함.
-4. **물리 주소 생성**: 모든 검사를 통과하면 **주소 생성기**가 `Base + Offset` 덧셈을 수행하여 물리 RAM에 접근함.
+1. **기술자 인출**: Selector로 GDT•LDT의 **세그먼트 기술자**를 선택함.
+2. **권한•존재 검사**: Present와 **DPL•접근 권한**을 검사함.
+3. **한계 검사**: Offset이 Limit을 넘으면 **보호 예외**를 발생함.
+4. **물리 주소 생성**: 유효하면 **Base+Offset**으로 선형 주소를 생성함.
 
 #### 한줄 요약
 - Descriptor Fetch -> Present/Privilege Check -> Limit Check(Offset < Limit) -> Base+Offset 덧셈으로 PA 생성을 완결함.
@@ -150,7 +147,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **가드 영역(Guard Page / Guard Region)**: 스택 세그먼트와 힙 세그먼트의 확장 한계 경계선 상에 접근 금지(No-Access) 유효 페이지를 배치하여 스택 오버플로 시 즉시 예외를 감지하도록 만드는 기법.
+- **가드 영역(Guard Page / Guard Region)**: 스택 등 확장 경계에 접근 금지 페이지를 배치하여 범위 초과를 예외로 감지하는 기법.
 - **TLB 지역성(TLB Locality)**: Segmented Paging 구조에서 세그먼트 테이블과 페이지 테이블의 다중 변환 지연을 차단하기 위해 TLB 룩업 캐시를 고도화하는 최적화.
 
 </details>
@@ -173,7 +170,7 @@ extra:
 
 </details>
 
-- **논리 보호 프레임워크(Logical Protection Framework)**에 근거하여 현대 x86-64 및 Armv9 컴퓨팅 설계 시 세그멘테이션 단독 적용에 따른 외부 단편화를 차단하기 위해 하드웨어 레이어에서는 4KB **페이징(Paging)** 및 TLB 구조를 채택하고, 컴파일러 및 OS 소프트웨어 레이어에서 논리 세그먼트 보호 및 **가드 영역(Guard Region)**을 통합 적용하는 하이브리드 가상 메모리 체계 적용 필수.
+- 현대 범용 OS는 **페이징**, 논리 경계 보호는 **페이지 권한•Guard Page** 적용.
 
 #### 한줄 요약
-- 페이징 기법을 기본 축으로 세그멘테이션의 논리 모듈 보호 및 Guard Region을 수용하는 하이브리드 가상 메모리 체계 적용.
+- 외부 단편화와 권한 요구를 기준으로 페이징과 논리 경계를 결합함.

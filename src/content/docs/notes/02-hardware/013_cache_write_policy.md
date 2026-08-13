@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "캐시 쓰기 정책: Write-Through vs Write-Back (Cache Write Policy)"
-date: "2026-08-08T13:04:00+09:00"
+date: "2026-08-13T11:35:24+09:00"
 tags:
   - "notes-hardware"
 weight: 13
@@ -68,18 +68,22 @@ extra:
 
 ```text
 [ Cache Write Policy Control Architecture ]
- ├─ Write-Through (WT) Path : Store -> Cache Update + Write Buffer Queue -> DRAM (Immediate)
- └─ Write-Back (WB) Path    : Store -> Cache Update (Dirty Bit=1) 
-                                         │ (Eviction Trigger)
-                                         └─> Write Buffer Queue -> DRAM (Deferred)
+ ├─ Write-Through Path
+ │  ├─ Cache Array
+ │  ├─ Write Buffer
+ │  └─ Lower Memory
+ └─ Write-Back Path
+    ├─ Cache Array
+    ├─ Dirty Bit
+    └─ Eviction Buffer
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **쓰기 정책 제어부** | WT/WB 정책 및 Write Allocate/No-Allocate 경로 스위칭 | 칩 설계 목적(L1 캐시 vs L3 캐시)에 적합한 쓰기 로직 구동 |
-| **더티 비트 (Dirty Bit)** | 캐시 라인 갱신 시 Bit=1 설정, 메모리 축출 반영 후 Bit=0 해제 | Write-Back 정책에서 불필요한 메인 메모리 덮어쓰기 차단 |
-| **쓰기 버퍼 (Write Buffer)** | Write-Through 방식에서 하위 메모리 쓰기 대기 지연을 우회 큐잉 | 프로세서 파이프라인이 메모리 쓰기 완료 전에 연속 연산 진행 가능 |
-| **하위 메모리 계층** | DRAM 메인 메모리 또는 하위 L2/L3 캐시 | WT의 즉시 전송 패킷 수신 및 WB의 축출 더티 라인 최종 보관 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 쓰기 정책 제어부 | **WT•WB•할당 정책** 경로 선택 |
+| 더티 비트 | WB 라인의 **하위 계층 미반영** 상태 표시 |
+| 쓰기 버퍼 | 하위 계층 쓰기 요청을 **비동기 큐잉** |
+| 하위 메모리 계층 | WT 요청•WB 축출 라인의 **최종 저장** |
 
 #### 한줄 요약
 - Write Policy Controller, Dirty Bit 추적기, FIFO Write Buffer를 구동하여 하위 메모리로의 전송 지연을 은닉함.
@@ -97,22 +101,21 @@ extra:
 [ CPU Store Instruction (Write Request) ]
                     │
                     ▼
-          [ 캐시 적중 (Cache Hit) 여부 ]
+             [ 설정된 쓰기 정책 ]
                     ├─ Write-Through (WT)
-                    │   1. 캐시 라인 데이터 즉시 갱신
-                    │   2. Write Buffer에 쓰기 요청 적재 ──> 3. DRAM 메모리 동기화
+                    │   캐시 라인 갱신
+                    │   Write Buffer 적재 ──> 하위 계층 전송
                     │
                     └─ Write-Back (WB)
-                        1. 캐시 라인 데이터 갱신 및 Dirty Bit = 1 설정
-                        2. CPU는 대기 없이 연속 연산 수행
-                        3. (추후 라인 교체 시) Dirty Bit=1 인 경우만 ──> DRAM에 Dirty Eviction
+                        캐시 라인 갱신 및 Dirty Bit = 1
+                        축출 시 Dirty Line ──> 하위 계층 전송
 ```
 
 ### 동작 원리
 
-1. **Write-Through 동작**: 캐시 라인을 갱신함과 동시에 **쓰기 버퍼(Write Buffer)**에 쓰기 요청을 적재하여 메인 메모리로 즉시 반영함.
-2. **Write-Back 동작**: 캐시 데이터만 수정하고 **Dirty Bit = 1**로 세팅한 후 CPU 연산을 즉시 진행함.
-3. **더티 축출(Dirty Eviction)**: 향후 캐시 미스로 인해 해당 라인이 교체 대상으로 결정되면, Dirty Bit=1 상태를 확인하여 하위 메모리로 **Write-Back**을 완결함.
+- **Write-Through 동작**: 캐시 갱신과 함께 **Write Buffer**로 요청을 전송함.
+- **Write-Back 동작**: 캐시만 수정하고 **Dirty Bit**를 설정함.
+- **더티 축출**: 교체할 Dirty Line을 하위 계층에 기록함.
 
 #### 한줄 요약
 - WT는 Write Buffer 기반 즉시 전송을 수행하고, WB는 Dirty Bit 갱신 후 라인 교체 시점에 선택적 Dirty Eviction을 수행함.
@@ -134,7 +137,7 @@ extra:
 | **하드웨어 구현** | 단순함 (Dirty Bit 불필요, **Write Buffer** 필요) | 복잡함 (**Dirty Bit** 제어 및 Eviction 로직 필요) |
 | **데이터 일관성** | **즉시 가시성** 확보 (메인 메모리가 항상 최신) | 캐시-메모리 불일치 발생 (**Dirty Data** 존재) |
 | **미스 정책 조합** | 주로 No-Write Allocate 방식과 결합 | 주로 Write Allocate 방식과 결합 |
-| **주요 적용 위치** | L1 명령/데이터 캐시, 저전력 마이크로컨트롤러 | 고성능 CPU L1/L2/L3 캐시, 그래픽 VRAM |
+| **주요 적용 위치** | 단순 MCU 캐시•일부 I/O 메모리 경로 | 범용 고성능 CPU의 데이터 캐시 계층 |
 
 #### 한줄 요약
 - Write-Through는 메모리 즉시 가시성과 구현 단순성에 강점을 가지며, Write-Back은 쓰기 대역폭 절감 및 성능 최적화에 강점을 가짐.
@@ -153,7 +156,7 @@ extra:
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
 | Write-Through 사용 시 연속 쓰기로 인한 **버퍼 포화(Buffer Saturation)** 및 CPU Stall | FIFO **쓰기 버퍼** 깊이 확장 및 Write-Back 정책으로 전환 | 쓰기 트래픽 병목 해소 및 CPU 대기 시간 방지 |
-| Write-Back 환경에서 전원 손실(Power Loss) 시 **더티 데이터** 유실 | **비휘발성 NVDIMM** 장착 및 전원 차단 감지 시 캐시 **Flush** | 전원 장애 시 데이터 유실 및 시스템 오염 방지 |
+| Write-Back 환경에서 전원 손실 시 **더티 데이터** 유실 | 플랫폼 지속성 도메인 보장 및 종료 전 캐시 **Flush** | 지속성 경계까지 완료된 쓰기 보존 |
 | **비일관성 DMA** 주변장치가 캐시의 최신 데이터를 읽지 못해 통신 오류 | DMA 전송 직전 **Cache Clean**, 수신 직후 **Cache Invalidate** 수행 | CPU-DMA 장치 간의 데이터 일관성 완벽 보장 |
 | 멀티코어 환경에서 쓰기 순서 교란으로 인한 메모리 레이스 조건 | **메모리 장벽(Memory Barrier - DMB/DSB)** 명령 명시적 사용 | 코어 간 쓰기 관측 순서 보장 및 메모리 펜스 유지 |
 
@@ -168,7 +171,7 @@ extra:
 
 </details>
 
-- **쓰기 정책 선택 기준(Write Policy Selection Criteria)**에 의거하여 고성능 연산이 요구되는 L1/L2/L3 캐시에는 대역폭 절감 효과가 압도적인 **Write-Back (Write Allocate)** 방식을 채택하고, 실시간 안전성 및 외부 DMA 통신이 빈번한 라인에는 **Write-Through** 방식 및 명시적 Cache Clean/Invalidate 유지보수 체계 적용 필수.
+- 쓰기 지역성이 높으면 **WB•Write Allocate**, 즉시 하위 반영이면 **WT** 선택.
 
 #### 한줄 요약
-- 고성능 컴퓨팅용 Write-Back(Write-Allocate) 및 시스템 일관성용 Write-Through의 이원화 채택과 DMA Cache Maintenance 통제 체계 적용.
+- 대역폭•가시성•DMA 일관성을 기준으로 쓰기와 할당 정책을 결정함.

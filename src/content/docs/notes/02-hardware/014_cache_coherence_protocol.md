@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "캐시 일관성 프로토콜: MESI•MOESI (Cache Coherence Protocol)"
-date: "2026-08-08T13:13:00+09:00"
+date: "2026-08-13T11:36:15+09:00"
 tags:
   - "notes-hardware"
 weight: 14
@@ -77,12 +77,12 @@ extra:
 └───────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **상태 비트 (State Bits)** | M, E, S, I (또는 O) 라인 권한 상태를 2~3bit 래칭 | 1클록 내 읽기/쓰기 가능 여부 판정 및 무효화 대상 식별 |
-| **일관성 제어기** | 로컬 요청(PrRd, PrWr) 및 원격 버스 요청(BusRd, BusInval) 처리 | FSM 유한 상태 머신으로 불변식을 깨뜨리지 않고 상태 전환 구동 |
-| **일관성 연결망** | Snoop 요청 브로드캐스트 및 캐시-캐시 직접 전송(C2C Transfer) | 메모리 접근 없이 코어 간 최신 데이터 고속 교환 |
-| **공유 메모리 계층** | L3 캐시 및 DRAM으로 더티 축출 라인 수용 | 축출되는 최신 갱신 데이터를 전역 메모리에 동기화 보존 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 상태 비트 | 라인의 **M•O•E•S•I 권한** 표시 |
+| 일관성 제어기 | 로컬•원격 요청에 따른 **FSM 전이** 수행 |
+| 일관성 연결망 | **Snoop•Directory•C2C** 메시지 전달 |
+| 공유 메모리 계층 | **더티 축출 라인** 수용•보존 |
 
 #### 한줄 요약
 - Cache Line State Bits, FSM 기반 Coherence Controller 및 Interconnect가 결합하여 코어 간 소유권 패킷을 중계함.
@@ -104,26 +104,26 @@ extra:
                     │
                     ▼
           [ Local Line State Check ]
-          ├─ Modified (M)  ──> 1. Local Write Complete (No Bus Request)
-          ├─ Exclusive (E) ──> 2. Transition to M State & Local Write
+          ├─ Modified (M)  ──> Local Write Complete
+          ├─ Exclusive (E) ──> Transition to M & Local Write
           └─ Shared (S) / Invalid (I)
                 │
                 ▼
-  3. Coherence Interconnect로 BusRdX / BusUpgr 전송
+      Coherence Interconnect로 BusRdX / BusUpgr 전송
                 │
                 ▼
-  4. Remote Cores의 Shared Copy -> Invalid (I) 파기
+       Remote Cores의 Shared Copy -> Invalid (I)
                 │
                 ▼
-  5. Local Line -> Modified (M) 상태 승격 후 Write 완결
+       Local Line -> Modified (M) 후 Write 완결
 ```
 
 ### 동작 원리
 
-1. **로컬 갱신 (M/E 상태)**: 이미 **Modified(M)** 상태이면 버스 패킷 없이 즉시 쓰기, **Exclusive(E)** 상태이면 독점권이 있으므로 버스 통신 없이 M 상태로 승격 후 갱신함.
-2. **소유권 획득 (S/I 상태)**: **Shared(S)** 또는 **Invalid(I)** 상태에서 쓰기 발생 시, 인터커넥트로 **BusRdX(Read with Intent to Modify)** 패킷을 전송함.
-3. **원격 사본 무효화(Invalidation)**: 원격 코어들이 지닌 동일 주소 사본을 모두 **Invalid(I)** 상태로 강제 변경함.
-4. **M 상태 승격**: 단일 쓰기 독점권을 획득한 후 M 상태로 변환하여 쓰기를 완결함.
+- **M•E 로컬 갱신**: M은 즉시 쓰고 E는 M으로 전이 후 쓰기함.
+- **소유권 획득**: S는 **BusUpgr**, I는 **BusRdX**를 전송함.
+- **원격 사본 무효화**: 동일 주소 사본을 **Invalid** 상태로 변경함.
+- **M 상태 승격**: 독점권 획득 후 M 상태에서 쓰기를 완결함.
 
 #### 한줄 요약
 - Local State 확인 후 S/I 상태일 때 BusRdX를 전파하여 원격 사본을 Invalidate 시키고 M 상태로 승격하여 쓰기를 완결함.
@@ -142,14 +142,14 @@ extra:
 | 비교 항목 | MESI 프로토콜 (4-State) | MOESI 프로토콜 (5-State) |
 |:---|:---|:---|
 | **상태 구성** | Modified, Exclusive, Shared, Invalid | Modified, **Owned**, Exclusive, Shared, Invalid |
-| **더티 공유** | 불가능 (M 상태 라인 공유 요청 시 메인 메모리 Flush 필수) | 가능 (**Owned** 상태를 통해 캐시 간 직접 데이터 전송) |
-| **메모리 트래픽** | 상대적으로 높음 (공유 전환 시 DRAM 메모리 쓰기 발생) | 매우 낮음 (**Dirty Sharing**으로 DRAM 쓰기 연기) |
-| **최신 데이터 제공자**| M 상태 캐시 (메인 메모리 동기화 후) 또는 DRAM | **Owned (O)** 상태 캐시가 직접 사본 전송 |
+| **더티 공유** | 별도 Owned 상태 없이 구현별 개입 처리 | **Owned** 상태로 더티 사본 공유 가능 |
+| **메모리 트래픽** | 더티 공유 때 쓰기 책임 이전 제약 | **Dirty Sharing**으로 Write-back 연기 |
+| **최신 데이터 제공자**| M 상태 캐시 또는 일관성 홈 노드 | **Owned** 상태 캐시가 사본 제공 |
 | **하드웨어 복잡도** | 비교적 단순함 | 5개 상태 전이 제어 로직 필요로 FSM 복잡 |
-| **대표 채택** | Intel x86 아키텍처 대부분 | AMD x86, Arm Cortex (ACE 인터페이스) |
+| **구현 특성** | 4상태 기반의 비교적 단순한 제어 | 5상태 기반의 더티 공유 최적화 |
 
 #### 한줄 요약
-- MESI는 4개 상태로 동작하며 공유 시 메모리 Flush가 필요하나, MOESI는 Owned(O) 상태를 통해 Dirty Sharing 캐시 간 직접 전송으로 DRAM 트래픽을 저감함.
+- MESI는 4상태 제어, MOESI는 Owned 기반 더티 공유로 Write-back을 연기함.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -157,7 +157,7 @@ extra:
 
 - **소유권 지역화(Ownership Localization)**: 특정 데이터 쓰기 작업을 가급적 동일 코어에 묶어서 할당(Core Affinity)하여, 코어 간 소유권 핑퐁(Ping-Ponging) 무효화 트래픽을 예방하는 기법.
 - **캐시 간 전달(Cache-to-Cache Transfer / Direct C2C)**: 메모리까지 가지 않고 온칩 라우터를 통해 M/O 상태 캐시에서 직접 요청 코어로 데이터를 쏘아주는 고속 전송.
-- **프로토콜 불변식(Protocol Invariant Testing)**: 비순차 수신이나 동시 버스 승격 시 SWI/MRI 규칙이 파괴되어 라이스 조건(Race Condition)이 생기지 않도록 정밀 검증하는 툴.
+- **프로토콜 불변식(Protocol Invariant Testing)**: 비순차 수신이나 동시 승격 시 SWI/MRI가 깨져 경쟁 조건이 생기지 않도록 검증하는 기법.
 
 </details>
 
@@ -166,7 +166,7 @@ extra:
 | 복수 코어가 동일 주소를 번갈아 Write 하여 소유권 Ping-Ponging 폭증 | **소유권 지역화(Ownership Localization)** 및 Thread-Core Affinity 설정 | Invalidation 트래픽 파괴적 절감 |
 | MESI에서 Modified 데이터 공유 요청 시 매번 DRAM 기록으로 지연 발생 | **MOESI** 프로토콜 채택 및 **캐시 간 직접 전달(Direct C2C)** 연동 | DRAM 쓰기 무효화 및 데이터 공유 접근 지연시간 극소화 |
 | 독립 변수가 64B 캐시 라인에 겹쳐 발생하는 **거짓 공유(False Sharing)** | 구조체 변수 간 64B **Cache Line Padding** 기법 연동 | 불필요한 라인 무효화 및 리필 수습 지연 예방 |
-| 동시 억세스 시 캐시 제어기 FSM 코너케이스 오류로 단일 작성자 깨짐 | **프로토콜 불변식(Protocol Invariant)** Formal Verification & Stress Test | 멀티코어 메모리 오염 및 메타스태빌리티 원천 차단 |
+| 동시 접근 시 FSM 코너케이스로 단일 작성자 불변식 위반 | **프로토콜 불변식** Formal Verification과 Stress Test | 멀티코어 메모리 상태 오염 차단 |
 
 #### 한줄 요약
 - Ownership Localization, MOESI Direct C2C Transfer, Cache Line Padding 및 Protocol Formal Verification을 적용함.
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- **프로토콜 선택 기준(Protocol Selection Criteria)**에 의거하여 멀티코어 칩 설계 시 공유 더티 데이터 전송이 빈번한 고성능 서버 아키텍처에는 **MOESI (Dirty Sharing)** 프로토콜 및 Direct C2C 라우터를 채택하고, False Sharing 방지를 위한 **Cache Line Padding** 및 FSM Formal Verification을 통해 시스템 일관성을 완벽히 보장하는 캐시 최적화 체계 적용 필수.
+- 더티 공유가 빈번하면 **MOESI**, 단순 제어가 우선이면 **MESI** 선택.
 
 #### 한줄 요약
-- SWI/MRI 불변식을 보장하는 MESI/MOESI 캐시 일관성 프로토콜 구축 및 Direct C2C 전송과 Cache Line Padding 기반 일관성 최적화 체계 적용.
+- 공유 패턴과 연결망 비용을 기준으로 상태 수와 C2C 지원을 결정함.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:32:02+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -73,7 +73,7 @@ extra:
 ```text
 [ ILP Superscalar Out-of-Order Pipeline Architecture ]
 ┌──────────────────────────────────────────────────────────────────┐
-│ Frontend : Branch Predictor ──> I-Cache ──> Multi-Decode        │
+│ Frontend : Branch Predictor | I-Cache | Multi-Decode            │
 ├──────────────────────────────────────────────────────────────────┤
 │ Rename & Dispatch : Register Renaming (Rename Table: WAR/WAW 제거)│
 ├──────────────────────────────────────────────────────────────────┤
@@ -81,17 +81,17 @@ extra:
 ├──────────────────────────────────────────────────────────────────┤
 │ Execution Units : ALU 0 | ALU 1 | FPU 0 | Load AGU | Store AGU   │
 ├──────────────────────────────────────────────────────────────────┤
-│ Commit & Retire : Reorder Buffer (ROB) ──> In-Order State Update │
+│ Commit & Retire : Reorder Buffer (ROB) | In-Order State Update  │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **프런트엔드** | 분기 예측 및 다중 기계어 인출/디코딩 수행 | 매 클록 N개(4~8개)의 명령어 후보를 파이프라인에 공급 |
-| **레지스터 리네이밍** | 아키텍처 레지스터를 물리 레지스터 파일(PRF)로 재매핑 | **WAR**, **WAW** 가짜 의존성을 완벽 제거하여 병렬성 확대 |
-| **명령어 윈도** | 피연산자 준비 완료(Ready) 비트 실시간 모니터링 | 준비된 독립 명령어를 프로그램 서순 무관하게 비순서 발행 |
-| **실행 유닛** | ALU, FPU, AGU 등 전용 파이프라인 연산기 동시 가동 | 동일 사이클 내 다수 병렬 연산 즉시 완결 |
-| **재정렬 버퍼 (ROB)** | 연산 결과 비순서 보관 및 Program Order 순차 커밋 | **정밀 복구(Precise Recovery)** 지원 및 정확한 아키텍처 상태 유지 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 프런트엔드 | **분기 예측•다중 인출•해독** 수행 |
+| 레지스터 리네이밍 | 물리 레지스터 매핑으로 **WAR•WAW** 제거 |
+| 명령어 윈도 | 준비 명령의 **Wakeup•Select** 수행 |
+| 실행 유닛 | ALU•FPU•AGU의 **병렬 연산** 수행 |
+| 재정렬 버퍼 | 결과의 **순차 커밋•정밀 복구** 보장 |
 
 #### 한줄 요약
 - Register Renaming으로 가짜 의존성을 제거하고 Instruction Window와 ROB를 통해 Out-of-Order Execution 및 In-Order Commit을 달성함.
@@ -124,10 +124,11 @@ extra:
 
 ### 동작 원리
 
-1. **인출 및 해독**: 프런트엔드가 슈퍼스칼라 발행 폭만큼 다중 명령어 스트림을 인출하여 디코딩함.
-2. **리네이밍**: **Register Renaming**을 적용하여 **WAR**, **WAW** 의존성을 제거하고 이슈 큐로 전송함.
-3. **비순서 발행**: 이슈 큐에서 **종속 명령 깨우기(Wakeup)**를 통해 피연산자가 확정된 명령어를 프로그램 순서와 무관하게 **비순서 발행(Out-of-Order Issue)**함.
-4. **실행 및 순차 커밋**: 병렬 실행 유닛에서 연산을 완료한 결과를 **재정렬 버퍼(ROB)**에 임시 적재한 후, 순차 포인터(Head Pointer)를 따라 원래 서순대로 최종 **In-order Commit**을 달성함.
+1. **Fetch & Decode**: 발행 폭만큼 명령어를 인출•해독함.
+2. **Register Renaming**: 물리 레지스터 매핑으로 **WAR•WAW**를 제거함.
+3. **Instruction Window**: 준비된 명령어를 깨우고 선택함.
+4. **Out-of-Order Execution**: 준비 순서대로 실행 유닛에 발행함.
+5. **Reorder Buffer Commit**: 완료 결과를 프로그램 순서로 반영함.
 
 #### 한줄 요약
 - Register Renaming -> Wakeup/Select Out-of-Order Issue -> Execution -> ROB In-Order Commit의 순환 흐름으로 가동함.
@@ -154,7 +155,7 @@ extra:
 | 스케줄링 방식 | 동적 ILP (Dynamic ILP) | 정적 ILP (Static ILP - VLIW) |
 |:---|:---|:---|
 | **주요 하드웨어** | Out-of-Order Exec Engine, Instruction Window | 컴파일러 종속적 단순 In-Order 다중 연산기 |
-| **바이너리 호환성** | **이진 호환성(Binary Compatibility)** 완벽 보장 | 칩 세대 변경 시 **이진 호환성** 파괴, 재컴파일 필수 |
+| **바이너리 호환성** | 같은 ISA에서 **이진 호환성** 유지 용이 | 발행 폭 변경 시 **재컴파일** 필요 가능 |
 | **하드웨어 복잡도** | 높은 다이 면적 및 탐색 동적 전력 소모 | 디코더 및 스케줄러 간소화로 하드웨어 전력 절감 |
 
 #### 한줄 요약
@@ -175,7 +176,7 @@ extra:
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 루프 연산 시 킨 **RAW 의존 사슬**로 인해 슈퍼스칼라 유닛 놀음 | **다중 누산기(Multiple Accumulators)** 및 Loop Unrolling 적용 | RAW 사슬 단축 및 **실행 유닛 활용률** 대폭 향상 |
+| 루프의 긴 **RAW 의존 사슬**로 실행 유닛이 유휴 상태 | **다중 누산기(Multiple Accumulators)** 및 Loop Unrolling 적용 | RAW 사슬 단축 및 **실행 유닛 활용률** 향상 |
 | WAR/WAW 의존성에 의한 명령어 윈도 기계어 발행 병목 | **물리 레지스터 리네이밍(PRF)** 개수 확장 및 RAT 정밀화 | 가짜 의존성 완전 제거로 비순서 발행 슬롯 대폭 확보 |
 | 8-way 이상 발행 폭 확장 시 이슈 큐 탐색 면적 및 동적 전력 폭증 | 이슈 큐 **클록 게이팅(Clock Gating)** 및 파이프라인 윈도 적정 크기 튜닝 | 전력 한도(TDP) 내 초고속 동작 주파수 보장 |
 | 분기 오예측 및 캐시 미스로 인한 **프런트엔드 병목** | Decoded $\mu\text{op}$ Cache 배치 및 TAGE 분기 예측기 정밀도 개선 | 파이프라인 입구 기계어 공급 중단 현상 원천 차단 |
@@ -193,7 +194,7 @@ extra:
 
 </details>
 
-- **병렬성 전환 기준(Parallelism Shift Criteria)**에 의거하여 단일 코어의 ILP 확장이 코드 내 **임계 경로(Critical Path)**와 탐색 전력 한계에 도달할 경우, 8-way 이상 무리한 ILP 확장 대신 멀티코어 **스레드 수준 병렬성(TLP)** 및 SIMD/Vector **데이터 수준 병렬성(DLP)**으로 아키텍처 구조 전환 체계 적용 필수.
+- 독립 명령이 충분하면 **ILP**, 의존•전력 한계에 닿으면 **TLP•DLP**로 전환.
 
 #### 한줄 요약
-- Superscalar OoO Engine 중심의 ILP 최적화 및 ILP 한계 도달 시 TLP/DLP 병렬성 구조로 전환하는 이원화 컴퓨팅 설계 체계 적용.
+- 임계 경로와 슬롯 활용률을 기준으로 ILP 확장 또는 TLP•DLP를 선택함.
