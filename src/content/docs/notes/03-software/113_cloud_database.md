@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "클라우드 데이터베이스 - RDS•Aurora•DynamoDB 비교"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:49:00+09:00"
 tags:
   - "notes-software"
 weight: 113
@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: AWS 등 클라우드 인프라 위에서 모니터링, 백업, 복제 및 장애전환(Failover) 관리를 자동화하여 수용하는 완전 관리형 DB 서비스 패러다임인 **Cloud Database**
-- 배경/필요성: 온프레미스 DB 구축 시의 하드웨어 리드타임 및 DBA 백업/패치 부담 절감, 트래픽 폭증 시 즉각적인 Auto-Scaling 대응 요구성
+- 정의/개념: 배포•백업•복제를 사업자가 관리하는 **클라우드 DB**
+- 배경/필요성: 자체 DB 운영은 **조달 지연•패치•장애 복구 부담** 증가
 
 #### 한줄 요약
 
@@ -47,13 +47,13 @@ extra:
 
 - **AWS RDS**: 인스턴스 단위 기반, Multi-AZ 동기식 복제 Failover 지원
 - **AWS Aurora**: Compute/Storage 분리, 10GB~128TB 가변 자동 확장, 15개 Read Replica 수용
-- **AWS DynamoDB**: Serverless NoSQL, Partition Key 기반 무제한 Scale-Out
+- **AWS DynamoDB**: 서버리스 NoSQL, 파티션 키 기반 자동 분산
 
 #### 한줄 요약
 
 - 운영 작업은 줄지만 서비스별 확장 단위•비용•종속성이 다르다.
 
-## Ⅲ. 구조 및 구성요소 (AWS 3대 Cloud DB 아키텍처 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,33 +61,19 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        AWS 3대 Cloud DB 아키텍처                       │
-├───────────────────┬───────────────────┬────────────────────────────────┤
-│ 1. AWS RDS        │ 2. AWS Aurora     │ 3. AWS DynamoDB                │
-├───────────────────┼───────────────────┼────────────────────────────────┤
-│ • Primary DB (AZ1)│ • Compute Node    │ • Serverless Router            │
-│      │ (Multi-AZ) │      │ (Log-based)│ • Partition Key Hash Routing   │
-│      ▼            │      ▼            │ • 3-AZ Auto-Replicated         │
-│ • Standby DB (AZ2)│ • 6-Way Storage   │   Partitions (No Compute Node) │
-└───────────────────┴───────────────────┴────────────────────────────────┘
-```
-
-선의 의미: 전통 인스턴스 복제(RDS), 분산 스토리지 레이어 분리(Aurora), 서버리스 분산 파티셔닝(DynamoDB)의 3대 아키텍처 구조.
-
-| 구성 요소 / 서비스 | Amazon RDS | Amazon Aurora | Amazon DynamoDB |
-|:---|:---|:---|:---|
-| **DB 엔진 유형** | **전통 RDBMS (MySQL, Oracle 등)** | **Cloud-Native RDBMS (MySQL/PG 호환)**| **Key-Value / Document NoSQL** |
-| **스토리지 아키텍처** | 인스턴스 귀속 EBS Block Storage | **6-Way Shared Storage (3개 AZ 분산)**| **3-AZ 수평 분산 Partition** |
-| **확장 방식 (Scaling)**| Vertical Scale-Up (인스턴스 변경) | **Auto-Expanding Storage (128TB)** | **Serverless Auto-Scaling** |
-| **Failover 시간** | 보통 (1~2분 소요, DNS CNAME 변경) | **초고속 (10~30초 이내, Storage 유지)** | **0초 (Serverless 자동 처리)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **관리 제어면** | 프로비저닝•패치•백업 정책 수행 |
+| **접속 엔드포인트** | 연결과 장애전환 대상을 추상화 |
+| **컴퓨팅 계층** | SQL•키 기반 요청 처리와 자원 확장 |
+| **스토리지 계층** | 데이터 복제•내구성•용량 관리 |
+| **관측 계층** | 지연•용량•오류•비용 지표 제공 |
 
 #### 한줄 요약
 
 - 운영 관리자, 접속 주소, 요청 안내자, 처리부, 사본 저장부로 구성된다.
 
-## Ⅳ. 흐름도 (Aurora vs RDS Failover 메커니즘 차이)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +82,37 @@ extra:
 </details>
 
 ```text
-[Aurora Primary Node Fail] ──► [Storage Layer 6-Way Data 100% Intact]
-                                          │
-                                          ▼
- [Read Replica 중 1개를 10초 만에 Primary 로 승격] (스토리지 재복제 0초!)
+[주 인스턴스 장애]
+       │
+       ▼
+1. 상태 검사 실패
+       │
+       ▼
+2. 장애전환 대상 선택
+       │
+       ▼
+3. 새 쓰기 역할 승격
+       │
+       ▼
+4. 엔드포인트 갱신
+       │
+       ▼
+5. 연결•재시도 복구
 ```
 
 ### 동작 원리
 
-1. **Failure Event**: AZ1의 Aurora Primary Compute 노드 하드웨어 장애 발생.
-2. **Quorum Storage Safety**: 디스크 스토리지 레이어는 3개 AZ에 이미 6-Way로 복제 완료된 상태.
-3. **Instant Promotion**: 기존 Read Replica 중 하나를 10초 이내에 Primary Compute 노드로 즉시 승격 (**RTO 15초 달성**).
+1. **상태 검사 실패**: 제어면이 주 인스턴스 비정상 판정
+2. **장애전환 대상 선택**: 복제 상태•우선순위로 후보 결정
+3. **새 쓰기 역할 승격**: 후보 인스턴스에 쓰기 권한 부여
+4. **엔드포인트 갱신**: 접속 주소를 새 쓰기 노드로 전환
+5. **연결•재시도 복구**: 실패 요청을 정책에 따라 재처리
 
 #### 한줄 요약
 
 - 클라우드가 고장을 감지해 사본을 원본으로 바꾸고 같은 접속 주소를 새 원본에 연결한다.
 
-## Ⅴ. 종류 및 비교 (RDS vs Aurora vs DynamoDB 선택 매트릭스)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -123,15 +123,15 @@ extra:
 | 선택 기준 항목 | Amazon RDS | Amazon Aurora | Amazon DynamoDB |
 |:---|:---|:---|:---|
 | **적합 워크로드** | 온프레미스 레거시 DB 이관 | **대규모 OLTP 웹 서비스 (고성능)** | **서버리스, 초고속 세션/카탈로그** |
-| **최대 TPS 성능** | 표준 수준 | **RDS 대비 3~5배 이상 성능 (IOPS)** | 무제한 수평 TPS 확장 가능 |
+| **성능 특성** | 인스턴스•EBS 구성에 좌우 | **분산 스토리지•읽기 복제본** | 파티션 키•용량 모드에 좌우 |
 | **비용 체계 (Cost)** | 인스턴스 사양 및 EBS 용량 고정 | 컴퓨팅 사양 + I/O 사용량 기반 | Read/Write Capacity Unit (RCU/WCU) |
-| **ACID 지원** | 100% 완전 지원 | **100% 완전 지원** | 단일 파티션 / Multi-Table ACID 지원 |
+| **트랜잭션** | 엔진별 관계형 트랜잭션 | **MySQL•PostgreSQL 호환 트랜잭션** | 제한 범위 내 트랜잭션 API |
 
 #### 한줄 요약
 
 - 기존 관계형 엔진은 RDS, 분산 저장형 관계형은 Aurora, 키 중심 자동 분산은 DynamoDB를 검토한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Cloud DB 비용 폭탄 및 Lock-in 예방)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- **클라우드 DB 수립 기준**에 따라 대용량 OLTP 시스템 구축 시 **AWS Aurora PostgreSQL & Multi-AZ** 필수 수용
+- 엔진 호환은 **RDS**, 분리형 관계 DB는 Aurora, 키 접근은 DynamoDB 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T20:30:00+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- **정의**: RDBMS의 엄격한 스키마, `JOIN` 오버헤드, 수평 확장(Scale-Out)의 한계를 극복하기 위해 데이터 모델과 접근 패턴에 맞춰 고안된 비관계형 데이터베이스 분류 체계인 **NoSQL(Not Only SQL)**.
-- **필요성**: 빅데이터 및 비정형 데이터(JSON, 그래프, 시계열) 폭증에 대응하는 유연한 데이터 모델과 수평 분산 확장성 확보.
+- 정의/개념: 관계 모델 외 데이터 모델을 제공하는 **NoSQL(Not Only SQL)**
+- 배경/필요성: 단일 관계 모델로는 **비정형•관계 순회•분산 확장** 제약
 
 #### 한줄 요약
 
@@ -46,13 +46,13 @@ extra:
 
 - **수평 확장(Horizontal Scale-Out)**: 분산 노드 증설을 통한 저장 용량 및 처리량 확장.
 - **가변 스키마(Dynamic Schema)**: 사전 정의 없이 자유로운 데이터 삽입 및 필드 확장 지원.
-- **운영 Trade-off**: 조회 패턴 중심 데이터 설계(`Query-Driven Modeling`) 및 `BASE` 일관성 모델 채택.
+- **운영 Trade-off**: 제품별 트랜잭션•일관성•질의 기능 확인 필요
 
 #### 한줄 요약
 
 - 자주 묻는 질문에는 빠르게 답하지만 다른 형태의 질문은 어렵기 때문에 조회 방식부터 정하고 모델을 선택해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (NoSQL 4대 핵심 데이터 모델 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -63,32 +63,18 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        NoSQL 4대 대표 데이터 모델                      │
-├───────────────────┬───────────────────┬────────────────────────────────┤
-│ 1. Key-Value      │ 2. Document       │ 3. Wide-Column                 │
-│   Key ──► Value   │   JSON Document   │   RowKey ──► Column Family     │
-│   (Redis)         │   (MongoDB)       │   (Cassandra)                  │
-├───────────────────┴───────────────────┴────────────────────────────────┤
-│ 4. Graph Store (Node ──[Edge]──► Node) (Neo4j)                        │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-선의 의미: 데이터의 복잡도와 조인/관계 표현성에 따라 Key-Value, Document, Wide-Column, Graph 4개 축으로 분류되는 아키텍처.
-
-| NoSQL 유형 (Type) | 대표 데이터베이스 | 데이터 저장 모델 구조 | 주요 사용 적합 도메인 |
-|:---|:---|:---|:---|
-| **Key-Value Store** | **Redis, Memcached, DynamoDB** | **`Key -> Value` 단순 1:1 구조** | **세션 저장소, 랭킹 리더보드, 인메모리 캐시** |
-| **Document Store** | **MongoDB, Couchbase** | **JSON / BSON 복합 중첩 문서 구조** | **E-Commerce 상품 카탈로그, CMS 콘텐츠** |
-| **Wide-Column Store**| **Apache Cassandra, HBase** | **`RowKey -> ColumnFamily -> Column`** | **IoT 센서 시계열, 대규모 분산 타임라인** |
-| **Graph Store** | **Neo4j, Amazon Neptune** | **`Node(정점) - Edge(간선) - Property`**| **소셜 네트워크(SNS 친구), 추천 엔진, 챗봇** |
+| 유형 | 데이터 모델•적합 접근 패턴 |
+|:---|:---|
+| **Key-Value Store** | 키 기반 단건 조회•세션•캐시 |
+| **Document Store** | 중첩 문서 단위 조회•상품 카탈로그 |
+| **Wide-Column Store** | 파티션 키 기반 대규모 쓰기•시계열 |
+| **Graph Store** | 정점•간선 기반 다단계 관계 순회 |
 
 #### 한줄 요약
 
 - 질문 형태에 맞는 보관함과 조회 방법, 사본 규칙을 묶는다.
 
-## Ⅳ. 흐름도 (Polyglot Persistence 다중 NoSQL 적재 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,26 +83,40 @@ extra:
 </details>
 
 ```text
-                               [Web Application Service]
-                                           │
-         ┌───────────────────┬─────────────┼─────────────┬───────────────────┐
-         ▼                   ▼             ▼             ▼                   ▼
-  [Key-Value: Redis] [Document: MongoDB] [RDBMS: MySQL] [Column: Cassandra] [Graph: Neo4j]
-  (Session / Cache)  (Product Catalog)   (Payment/ACID) (IoT Time-Series)   (Recommendation)
+[데이터•질의 요구]
+        │
+        ▼
+1. 접근 패턴 식별
+        │
+        ▼
+2. 데이터 관계 분석
+        │
+        ▼
+3. 일관성 요구 판정
+        │
+        ▼
+4. 데이터 모델 선택
+        │
+        ▼
+5. 부하•복구 검증
+        │
+        ▼
+   [저장소 확정]
 ```
 
 ### 동작 원리
 
-1. **Session & Caching**: 초고속 1ms 응답이 필요한 세션 및 랭킹 데이터는 **Redis (Key-Value)** 로 처리.
-2. **Product Catalog**: 구조가 자주 바뀌는 상품 정보 및 상품 옵션은 **MongoDB (Document)** 로 저장.
-3. **Payment Transaction**: 100% Strict ACID 결제 데이터는 **MySQL (RDBMS)** 에 저장.
-4. **Recommendation**: "친구의 친구가 좋아하는 상품" 추천 알고리즘은 **Neo4j (Graph)** 로 순회.
+1. **접근 패턴 식별**: 단건•범위•집계•관계 순회 구분
+2. **데이터 관계 분석**: 중첩•희소 열•연결 구조 판정
+3. **일관성 요구 판정**: 원자성•최신성•가용성 수준 결정
+4. **데이터 모델 선택**: 요구에 맞는 NoSQL•RDBMS 조합
+5. **부하•복구 검증**: 분산 성능과 장애 복구 시험
 
 #### 한줄 요약
 
 - 자료 형태에 맞는 보관함과 지점을 찾아 저장하고 필요한 수의 사본을 확인한다.
 
-## Ⅴ. 종류 및 비교 (RDBMS 대 NoSQL 4대 유형 종합 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -127,9 +127,9 @@ extra:
 | 비교 항목 | Key-Value | Document | Wide-Column | Graph Store |
 |:---|:---|:---|:---|:---|
 | 데이터 구조 | **단순 `Key-Value`** | **`JSON / BSON`** | **`Row - Column Family`**| **`Node - Edge`** |
-| `JOIN` 수용성 | 없음 | 서브 문서로 자체 내포 | 없음 | **자체 간선(Edge) 조인 최적화** |
-| 스키마 가변성 | 100% Schema-Less | Schema-Less | Schema-Less | Schema-Less |
-| 수평 확장성 | **극대화 (Scale-Out)** | 우수 | **극대화 (Scale-Out)** | 보통 (노드 간 분산 순회 한계) |
+| 관계 처리 | 앱에서 키 조합 | 문서 내포•참조 | 앱에서 파티션 조합 | **간선 기반 관계 순회** |
+| 스키마 특성 | 값 구조를 앱이 관리 | 문서 검증 규칙 선택 | 열 구조의 유연성 | 속성 모델을 제품별 관리 |
+| 분산 특성 | 키 분할에 유리 | 샤드 키에 좌우 | 파티션 확장에 유리 | 분산 순회 비용 고려 |
 
 #### 한줄 요약
 
@@ -145,9 +145,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| NoSQL에 정규화를 무리하게 적용하여 앱 단 N+1 쿼리 폭증 | **쿼리 패턴에 맞춰 중복 저장을 허용하는 데이터 내포(Embedding)**| N+1 쿼리 소멸 |
-| RDBMS의 ACID 트랜잭션 부재로 인한 정합성 문제 | **Saga Pattern / 2PC 적용 또는 정합성 핵심 부문은 RDBMS 혼용**| 정합성 보존 |
-| Cassandra 등 Wide-Column 키 설정 오기로 핫 파티션 발생 | **Partition Key에 High-cardinality 변수(UUID, TIMESTAMP) 조합** | 수평 분산 보장 |
+| 과도한 분리로 다중 조회 증가 | **접근 패턴별 내포•중복 설계** | 왕복 비용 감소 |
+| 제품 기능과 일관성 요구 불일치 | **트랜잭션 범위 검증•RDBMS 혼용** | 정합성 위험 통제 |
+| 부적절한 파티션 키로 핫스팟 | **카디널리티•시간 분포 부하 시험** | 부하 편향 완화 |
 
 > 사례: **배달의민족 / 쿠팡의 Polyglot Persistence (Redis + MongoDB + MySQL) 운용**
 
@@ -163,7 +163,7 @@ extra:
 
 </details>
 
-- **NoSQL 수립 기준 적용** (대용량 서비스 구축 시 `Polyglot Persistence` (Key-Value + Document + RDBMS) 아키텍처 필수 수용)
+- 단건은 **Key-Value**, 문서는 Document, 관계 순회는 Graph 선택
 
 #### 한줄 요약
 

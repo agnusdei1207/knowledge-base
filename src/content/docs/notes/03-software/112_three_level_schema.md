@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3단계 스키마 - 외부•개념•내부 (Three-Level Schema)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:42:00+09:00"
 tags:
   - "notes-software"
 weight: 112
@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의/개념: 사용자 관점(외부), 조직 전체 관점(개념), 물리 디스크 관점(내부) 3개 계층으로 스키마를 분리하여 데이터 독립성을 극대화하는 표준 구조인 **Three-Level Schema Architecture**
-- 배경/필요성: 물리적 저장 장치 레아아웃 변경이나 테이블 스키마 변경 시 응용 프로그램 재개발 방지, 사용자별 맞춤 뷰 및 접근 보안 통제 체계 요구성
+- 정의/개념: 외부•개념•내부로 DB 표현을 나눈 **3단계 스키마**
+- 배경/필요성: 사용자 뷰와 저장 배치 결합은 **변경 전파•권한 노출** 유발
 
 #### 한줄 요약
 
@@ -53,7 +53,7 @@ extra:
 
 - 각 층이 관심사를 분리해 변경이 다른 층으로 바로 번지는 것을 줄인다.
 
-## Ⅲ. 구조 및 구성요소 (3단계 스키마 계층 및 2대 맵핑)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -80,17 +80,19 @@ extra:
 
 선의 의미: 3개 스키마 계층을 2개 변환 매핑(Mapping)이 중계하여 계층 간 독립성과 투명성을 제공하는 아키텍처.
 
-| 스키마 계층 (Layer) | 관점 및 주요 대상 | 주요 구성 항목 |
-|:---|:---|:---|
-| **External Schema (외부)** | **개별 사용자 / 서비스 응용 프로그램 관점** | **DB View, User-specific Subschema, SQL 쿼리** |
-| **Conceptual Schema (개념)**| **조직 전체 통합 관점 (데이터 모델러 관점)** | **Entity, Attribute, Relationship, Constraints** |
-| **Internal Schema (내부)** | **DBA / 스토리지 엔진 물리 저장 관점** | **B+Tree Index, File Pages, Block Allocation** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **외부 스키마** | 사용자별 뷰•접근 범위 표현 |
+| **외부-개념 매핑** | 외부 뷰를 통합 논리 구조로 변환 |
+| **개념 스키마** | 엔티티•관계•제약조건 통합 정의 |
+| **개념-내부 매핑** | 논리 연산을 물리 접근으로 변환 |
+| **내부 스키마** | 파일•페이지•인덱스 저장 방식 표현 |
 
 #### 한줄 요약
 
 - 외부 스키마, 개념 스키마, 내부 스키마를 두 단계의 매핑으로 연결한다.
 
-## Ⅳ. 흐름도 (3단계 스키마 변환 및 쿼리 처리 절차)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -99,26 +101,37 @@ extra:
 </details>
 
 ```text
-[1. User Query: SELECT user_name FROM UserView] (External Layer)
-                       │
-                       ▼ (External-Conceptual Mapping)
-[2. Logical Operation: SELECT name FROM Users WHERE status='ACTIVE'] (Conceptual Layer)
-                       │
-                       ▼ (Conceptual-Internal Mapping)
-[3. Physical Read: B+Tree Index Scan on idx_user_status (Disk Block #104)] (Internal Layer)
+[외부 스키마 질의]
+       │
+       ▼
+1. 외부 뷰 해석
+       │
+       ▼
+2. 개념 연산 변환
+       │
+       ▼
+3. 물리 접근 변환
+       │
+       ▼
+4. 저장 데이터 접근
+       │
+       ▼
+5. 외부 형식 반환
 ```
 
 ### 동작 원리
 
-1. **External Query Input**: 사용자가 `UserView` 외부 스키마를 대상으로 쿼리 투척.
-2. **External-Conceptual Translation**: DBMS가 맵핑 정보를 참조하여 `Users` 개념 테이블 연산으로 변환.
-3. **Conceptual-Internal Translation**: DBMS 스토리지 엔진이 디스크 물리 파일 `Block #104` 스캔 후 결과를 역순 렌더링.
+1. **외부 뷰 해석**: 사용자 열•행 범위와 권한 확인
+2. **개념 연산 변환**: 외부-개념 매핑으로 논리 연산 생성
+3. **물리 접근 변환**: 개념-내부 매핑으로 접근 경로 생성
+4. **저장 데이터 접근**: 파일•페이지•인덱스에서 레코드 조회
+5. **외부 형식 반환**: 결과를 사용자 뷰 구조로 투영
 
 #### 한줄 요약
 
 - 외부 스키마의 열을 개념 스키마 개체와 내부 스키마 저장 위치로 매핑하여 조회한 뒤 다시 외부 스키마 형식으로 반환한다.
 
-## Ⅴ. 종류 및 비교 (3개 계층 스키마 종합 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -137,7 +150,7 @@ extra:
 
 - 외부는 사용자별 뷰, 개념은 공통 업무 논리 구조, 내부는 물리 저장 배치이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (스키마 구조 유지 3대 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -165,7 +178,7 @@ extra:
 
 </details>
 
-- **3단계 스키마 수립 기준**에 따라 대형 DBMS 아키텍처 설계 시 **3단계 스키마 계층 및 DB View 맵핑** 필수 적용
+- 사용자별 표현은 **외부**, 공통 논리는 개념, 저장 배치는 내부로 분리
 
 #### 한줄 요약
 

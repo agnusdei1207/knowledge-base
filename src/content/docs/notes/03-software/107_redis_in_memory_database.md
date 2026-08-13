@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Redis 인메모리 데이터베이스 (Redis In-Memory Database)"
-date: "2026-08-13T10:18:00+09:00"
+date: "2026-08-13T21:07:00+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -53,7 +53,7 @@ extra:
 
 - 빠르지만 메모리 한도와 재시작 복구 및 주 노드 장애를 함께 설계해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Redis 5대 자료구조 & 영속성 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -63,28 +63,28 @@ extra:
 </details>
 
 ```text
-                   [Redis 메모리 저장소]
-                 /          |           \
-        [자료구조]     [단일 스레드]     [디스크 백업]
-       /    |    \          |           /          \
-[String] [Hash] [ZSet] [이벤트 루프] [RDB 스냅샷] [AOF 로그]
+              [이벤트 루프]
+               /       \
+      [메모리 저장소]  [만료 관리자]
+          /     \
+ [RDB 스냅샷]  [AOF 로그]
 ```
 
-선의 의미: 인메모리 상의 자료구조를 단일 스레드로 연산하고 RDB와 AOF를 통해 디스크에 영속화하는 정적 관계.
+선의 의미: 명령 처리•메모리 상태•만료•복구 기록의 정적 관계.
 
-| 자료구조 (Data Structure) | 주요 내부 구조 및 특징 | 실무 활용 도메인 및 유스케이스 |
-|:---|:---|:---|
-| **String** | 가장 기본 키-값 형태, 최대 512MB | **HTML 캐싱, 세션 저장소, 앰플리튜드 카운터** |
-| **Hash** | Field-Value 쌍을 지닌 객체 구조 | **유저 프로필, 객체 데이터 구조 표현** |
-| **List** | Linked List 구조, 좌/우 푸시 팝 | **최근 메시지 큐, 타임라인 피드** |
-| **Set** | 중복 없는 무순서 집합 | **유저 방문자 수(UV), 교집합/합집합 연산** |
-| **Sorted Set (ZSet)** | **Score 기반 자동 정렬 (SkipList)** | **실시간 실시간 검색어, 게임 리더보드 랭킹** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **이벤트 루프** | 명령 수신•실행•응답 순서 관리 |
+| **메모리 저장소** | 키와 String•Hash•ZSet 등 값 보관 |
+| **만료 관리자** | TTL 검사와 만료 키 회수 |
+| **RDB 스냅샷** | 특정 시점 메모리 상태 저장 |
+| **AOF 로그** | 쓰기 명령 기록과 재시작 복구 |
 
 #### 한줄 요약
 
 - 메모리 서랍과 만료표, 복구 기록, 사본, 슬롯 안내자로 구성된다.
 
-## Ⅳ. 흐름도 (Redis Eviction Policy & Cache Expiration)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -116,7 +116,7 @@ extra:
 
 - 키 담당 노드가 메모리 값을 바로 고치고 복구 로그와 사본에 변경을 남긴다.
 
-## Ⅴ. 종류 및 비교 (Redis 대 Memcached)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,14 +128,14 @@ extra:
 |:---|:---|:---|
 | 데이터 구조 | **Strings, Hashes, Lists, Sets, ZSets 등 다채로움**| **단순 String (Key-Value) 전용** |
 | 아키텍처 스레드 | **단일 스레드 (Single-Threaded Event Loop)**| **멀티 스레드 (Multi-Threaded)** |
-| 영속성 (Persistence)| **지원 (RDB 스냅샷 & AOF 로그)** | **미지원 (메모리 휘발성 100%)** |
+| 영속성 (Persistence)| **지원 (RDB 스냅샷 & AOF 로그)** | 자체 영속성 미지원 |
 | 고가용성 (HA) | **Sentinel (자동 승격) & Redis Cluster** | 독립 노드 운영 (외부 라우팅 필요) |
 
 #### 한줄 요약
 
 - 복구와 계산이 필요하면 Redis, 다시 만들 수 있는 단순 임시 값이면 Memcached를 검토한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Redis 3대 안티패턴 및 튜닝)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 

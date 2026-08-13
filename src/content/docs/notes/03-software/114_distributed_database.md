@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "분산 데이터베이스 (Distributed Database)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:56:00+09:00"
 tags:
   - "notes-software"
 weight: 114
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 물리적으로 분산된 다수의 독립 DB 노드에 데이터를 수평 분할 및 복제 저장하되, 분산 투명성(Transparencies)을 보장하여 단일 통합 데이터베이스로 수용하는 아키텍처인 **Distributed Database**
-- 배경/필요성: 단일 서버의 CPU/Memory/Disk 수직 확장 한계(Scale-Up Limit) 극복, 글로벌 다지역(Multi-Region) 서비스의 초저지연 및 고가용성(HA) 수용 요구성
+- 정의/개념: 분할•복제 데이터를 하나처럼 제공하는 **분산 데이터베이스**
+- 배경/필요성: 단일 노드는 **용량•처리량•장애 영향•지역 지연** 한계
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Shared-Nothing Scale-Out Architecture**
+- **Shared-Nothing**: 독립 자원을 가진 노드의 수평 확장
 - **6대 분산 투명성 (Location, Partition, Replication, Concurrency, Failure, Resource)**
 - **Two-Phase Commit (2PC) / Consensus (Raft/Paxos)** 기반 분산 일관성 보장
 
@@ -52,7 +52,7 @@ extra:
 
 - 수평 확장과 장애 대응은 좋아지지만 네트워크와 사본 비용이 추가된다.
 
-## Ⅲ. 구조 및 구성요소 (분산 DB 6대 투명성 & 핵심 레이어)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,33 +61,28 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Distributed Database 4대 코어 레이어                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Client / Application Query]                                           │
-│       │ (Location / Partition Transparency Layer)                      │
-│       ▼                                                                │
-│ [Global Data Dictionary (GDD) / Distributed Query Optimizer]           │
-│       │ (2PC Transaction / Raft Consensus)                             │
-│       ▼                                                                │
-│ [Node 1 (Local DB)]      [Node 2 (Local DB)]      [Node 3 (Local DB)]  │
-└────────────────────────────────────────────────────────────────────────┘
+[전역 카탈로그] ─── [분산 질의 조정자]
+        │                    │
+[트랜잭션 조정자] ── [복제•합의 계층]
+        │                    │
+        └──── [로컬 DB 노드] ┘
 ```
 
-선의 의미: GDD(Global Data Dictionary) 및 분산 옵티마이저가 쿼리를 해석하여 분산 투명성을 보장하고 각 노드에 쿼리를 렌더링하는 아키텍처.
+선의 의미: 위치 정보•질의•트랜잭션•복제•저장의 정적 협력 관계.
 
-| 분산 투명성 요소 | 역할 및 메커니즘 | 실무 적용 효과 |
-|:---|:---|:---|
-| **Location Transparency (위치)** | **데이터의 물리적 저장 위치(IP/Node) 몰라도 접근 가능** | DB 노드 마이그레이션 자유도 |
-| **Partition Transparency (분할)** | **데이터가 여러 노드로 샤딩(Sharding)되어 있음을 숨김** | 쿼리 작성 시 단순 뷰 제공 |
-| **Replication Transparency (복제)**| **데이터 사본이 3개 AZ에 복제되어 존재함을 숨김** | 데이터 정합성 관리 자동화 |
-| **Failure Transparency (장애)** | **특정 노드 다운 시에도 에러 없이 타 노드로 자동 우회** | 서비스 연속성 및 HA 보장 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **전역 카탈로그** | 분할•복제•위치 메타데이터 관리 |
+| **분산 질의 조정자** | 하위 질의 분배와 결과 취합 |
+| **트랜잭션 조정자** | 참여 노드의 커밋•중단 결정 |
+| **복제•합의 계층** | 사본 순서•정족수•장애전환 관리 |
+| **로컬 DB 노드** | 담당 파티션 저장과 로컬 연산 수행 |
 
 #### 한줄 요약
 
 - 위치표, 안내자, 사본 규칙, 거래 조정자, 이동 담당자로 구성된다.
 
-## Ⅳ. 흐름도 (Two-Phase Commit: 2PC 분산 트랜잭션 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +91,40 @@ extra:
 </details>
 
 ```text
-[Phase 1: Prepare Phase]
- Coordinator ──► Cohort 1 & 2 에 "Prepare to Commit?" 요청 ──► Cohort 모두 "VOTE_COMMIT" 응답
-
-[Phase 2: Commit Phase]
- Coordinator ──► Cohort 1 & 2 에 "GLOBAL_COMMIT" 전파 ──► 모든 노드 커밋 완료 후 ACK 반환!
+[분산 트랜잭션]
+       │
+       ▼
+1. 참여 노드 식별
+       │
+       ▼
+2. Prepare 요청
+       │
+       ▼
+3. 투표 결과 수집
+       │
+       ▼
+4. 전역 결정 기록
+       │
+       ▼
+5. 결정 전파
+       │
+       ▼
+  [결과 반환]
 ```
 
 ### 동작 원리
 
-1. **Prepare Phase**: Coordinator가 모든 참여 노드에 쓰기 준비 상태 확인 (락 선점).
-2. **Commit Phase**: 100% OK 응답 시 `GLOBAL_COMMIT` 명령 전파 $\rightarrow$ 단 1개라도 실패 시 `GLOBAL_ABORT` 전파하여 완전원자 원복 보장.
+1. **참여 노드 식별**: 변경 대상 파티션과 담당 노드 결정
+2. **Prepare 요청**: 각 노드가 변경 준비와 로그 기록 수행
+3. **투표 결과 수집**: 모든 준비 성공 여부 확인
+4. **전역 결정 기록**: 조건에 따라 Commit•Abort 확정
+5. **결정 전파**: 참여 노드가 결정 적용 후 잠금 해제
 
 #### 한줄 요약
 
 - 안내소가 담당 지점을 찾고 사본 확인까지 마친 결과를 하나의 장부처럼 돌려준다.
 
-## Ⅴ. 종류 및 비교 (동종 분산 DB 대 이종 분산 DB)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -130,7 +142,7 @@ extra:
 
 - 데이터베이스 배치 선택 기준에서 한 지점은 단순하고 여러 지점은 넓게 확장되지만 연락과 합의가 필요하다.
 
-## Ⅵ. 실무 고려사항 및 대책 (분산 DB 3대 장애 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -158,7 +170,7 @@ extra:
 
 </details>
 
-- **분산 DB 수립 기준**에 따라 글로벌 대규모 트래픽 DB 설계 시 **6대 분산 투명성 & Raft Consensus 기반 분산 DB** 필수 적용
+- 지역 지연•확장이 이득이고 조정 비용을 감당하면 **분산 DB** 선택
 
 #### 한줄 요약
 

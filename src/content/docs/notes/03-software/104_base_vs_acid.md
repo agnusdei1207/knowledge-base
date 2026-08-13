@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "BASE vs ACID (BASE vs ACID)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T20:45:00+09:00"
 tags:
   - "notes-software"
 weight: 104
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- **정의**: 데이터 무결성과 즉각적인 강한 일관성(`Strict Immediate Consistency`)을 최우선 보장하는 **ACID** 와, 가용성(`High Availability`)과 수평 확장성을 위해 최종 일관성(`Eventual Consistency`)을 수용하는 **BASE** 모델.
-- **필요성**: 분산 시스템 확장에 따른 CAP 트레이드오프 수용 및 ACID 강제 시 발생하는 분산 트랜잭션 성능 병목 극복.
+- 정의/개념: 트랜잭션 보장 **ACID**와 분산 상태 모델 BASE의 비교
+- 배경/필요성: 단일 원자 경계를 서비스 전체로 확장하면 **결합•지연** 증가
 
 #### 한줄 요약
 
@@ -45,14 +45,14 @@ extra:
 </details>
 
 - **ACID**: 즉시 일관성(`Strict Consistency`), 2PL/WAL 중심, RDBMS 기반 원자성 보장.
-- **BASE**: 최종 일관성(`Eventual Consistency`), 이벤트 기반(`Saga Pattern`) 비동기 수렴, NoSQL/MSA 기반 가용성 중시.
+- **BASE**: 가용 상태•Soft State•최종 일관성을 설명하는 분산 모델
 - **운영 Trade-off**: 비관적 락(`Pessimistic Locking`) 대 낙관적/비동기 수렴(`Optimistic/Asynchronous Convergence`).
 
 #### 한줄 요약
 
 - 아직 끝나지 않은 거래는 되돌리고 이미 끝난 분산 업무는 반대 작업으로 보정한다.
 
-## Ⅲ. 구조 및 구성요소 (ACID 대 BASE 아키텍처 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,36 +60,18 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        ACID vs BASE 아키텍처                           │
-├───────────────────────────────────┬────────────────────────────────────┤
-│ 1. ACID Model (RDBMS)             │ 2. BASE Model (MSA / NoSQL)        │
-├───────────────────────────────────┼────────────────────────────────────┤
-│   [Client]                        │   [Client]                         │
-│      │                            │      │                             │
-│   [Database (Strict Transaction)] │   [Service A] ──► [Event Bus]      │
-│   • Commit 즉시 모든 쿼리 일관성   │      │ (Commit)       │ (Async)    │
-│   • Read/Write Blocking 가능      │   [DB A]           ▼           │
-│                                   │             [Service B] ──► [DB B] │
-│                                   │             (Eventual Consistency) │
-└───────────────────────────────────┴────────────────────────────────────┘
-```
-
-선의 의미: ACID는 단일 DB 안에서 즉시 강한 일관성을 렌더링하고, BASE는 이벤트 버스를 통해 서비스 간 비동기 분산 수렴을 이루는 아키텍처.
-
-| 구분 (Category) | ACID Model (관계형 DB) | BASE Model (분산 NoSQL / MSA) |
-|:---|:---|:---|
-| **일관성 보장 시점**| **Immediate Consistency (즉시 일관성)** | **Eventual Consistency (최종 일관성)** |
-| **핵심 구성요소** | **Undo/Redo Log, 2PL Lock, WAL** | **Event Bus, Saga Pattern, Outbox, CDC** |
-| **시스템 가용성** | 노드 장애 시 락 대기 및 서비스 지연 가능 | **Basically Available (일부 장애에도 100% 응답)**|
-| **복구 메커니즘** | **DBMS `ROLLBACK` (자동 원복)** | **Compensating Transaction (보상 트랜잭션)** |
+| 모델 요소 | 의미 |
+|:---|:---|
+| **ACID** | 원자성•일관성•격리성•지속성 보장 |
+| **Basically Available** | 일부 기능 저하 중에도 가용 응답 유지 |
+| **Soft State** | 비동기 전파 중 복제 상태가 시간에 따라 변화 |
+| **Eventual Consistency** | 추가 변경이 없으면 복제본이 최종 수렴 |
 
 #### 한줄 요약
 
 - 원장을 먼저 확정하고 검색•알림 사본은 이벤트로 뒤따라 맞춘다.
 
-## Ⅳ. 흐름도 (BASE 모델의 Eventual Consistency 달성 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -98,27 +80,40 @@ extra:
 </details>
 
 ```text
-[1. Local Transaction Commit]
- Service A ──► [Local DB (Business Data + Outbox Event)] (ACID Commit)
-                      │
-                      ▼ (2. CDC / Message Broker)
-                [Kafka / RabbitMQ Event Bus]
-                      │
-                      ▼ (3. Async Replay)
- Service B ──► [Local DB B Update] (Eventual Consistency 완결!)
+[업무 변경 요청]
+       │
+       ▼
+1. 로컬 원자 커밋
+       │
+       ▼
+2. 아웃박스 이벤트 발행
+       │
+       ▼
+3. 멱등 이벤트 처리
+       │
+       ▼
+4. 파생 상태 갱신
+       │
+       ▼
+5. 수렴 상태 확인
+       │
+       ▼
+   [처리 완료]
 ```
 
 ### 동작 원리
 
-1. **Local Transaction**: Service A는 본인 DB에 결제 승인 기록과 Outbox 이벤트를 한 트랜잭션으로 **ACID 커밋**.
-2. **Message Broker**: Kafka/Debezium이 Outbox 이벤트를 감지해 Message Broker로 비동기 전파.
-3. **Eventual Convergence**: Service B(포인트 적립)가 이벤트를 멱등 수신하여 DB B 갱신 완료 (**최종 일관성 달성**).
+1. **로컬 원자 커밋**: 업무 데이터와 이벤트를 함께 확정
+2. **아웃박스 이벤트 발행**: CDC•폴러가 브로커로 전달
+3. **멱등 이벤트 처리**: 중복 키 검사 후 한 번만 반영
+4. **파생 상태 갱신**: 각 서비스의 로컬 상태 변경
+5. **수렴 상태 확인**: 지연•실패•재처리 결과 감시
 
 #### 한줄 요약
 
 - 원장은 먼저 정확히 확정하고 검색•알림 같은 사본은 확인 가능한 이벤트로 뒤따라 맞춘다.
 
-## Ⅴ. 종류 및 비교 (ACID 대 BASE 선택 매트릭스)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -128,7 +123,7 @@ extra:
 
 | 비교 항목 | ACID (전통적 모델) | BASE (현대적 분산 모델) |
 |:---|:---|:---|
-| 시스템 우선순위 | **데이터 무결성 및 정확성 (Consistency)** | **시스템 고가용성 및 확장성 (Availability)** |
+| 시스템 우선순위 | **트랜잭션 불변식 보장** | **분산 가용 상태•최종 수렴** |
 | 트랜잭션 경계 | 단일 DB 스키마 단위 | **다중 마이크로서비스 (MSA) 도메인 단위** |
 | 쿼리 일관성 수준 | Strict Read (항상 최신값 조회) | Stale Read 허용 (시간차 최신값 반영) |
 | 대표적 도메인 | **금융 뱅킹, 계좌 이체, 주식 결제, 수량 관리**| **SNS 피드, 스트리밍, 장바구니, 로그 수집** |
@@ -137,7 +132,7 @@ extra:
 
 - 결제 원장은 즉시 맞추고 알림•검색 사본은 재시도하며 뒤따라 맞춘다.
 
-## Ⅵ. 실무 고려사항 및 대책 (BASE 모델의 2대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -165,7 +160,7 @@ extra:
 
 </details>
 
-- **트랜잭션 수립 기준 적용** (결제/재고 등 핵심 도메인은 `ACID`(RDBMS), 파생 서비스는 `BASE`(Outbox/Kafka) 필수 분리 수용)
+- 즉시 불변식은 **ACID**, 지연 허용 파생 상태는 BASE 적용
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NewSQL: CockroachDB•Spanner (NewSQL)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:03:00+09:00"
 tags:
   - "notes-software"
 weight: 115
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: RDBMS의 100% Strict ACID 트랜잭션 무결성과 NoSQL의 수평 확장성(Scale-Out)을 동시 만족시키는 현대 분산 SQL 데이터베이스 기술인 **NewSQL**
-- 배경/필요성: 기존 RDBMS의 단일 노드 스케일링 한계와 NoSQL의 ACID/SQL 미지원(BASE 모델의 데이터 정합성 파괴) 문제를 동시에 극복하려는 요구성
+- 정의/개념: SQL•ACID와 수평 분산을 결합한 **NewSQL**
+- 배경/필요성: 단일 관계 DB는 확장 한계, 앱 샤딩은 **거래 조정 부담** 증가
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Standard SQL Support & 100% Strict ACID Guarantees**
+- **SQL•ACID**: 관계 모델과 분산 트랜잭션 제공
 - **Distributed Shared-Nothing Scale-Out Architecture**
 - **Consensus Protocol (Raft / Paxos)** 및 **Distributed Time Sync (TrueTime / HLC)**
 
@@ -52,7 +52,7 @@ extra:
 
 - 확장과 ACID를 함께 제공하지만 합의 왕복과 재시도 비용이 생긴다.
 
-## Ⅲ. 구조 및 구성요소 (CockroachDB vs Google Spanner 기술 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,31 +61,28 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   NewSQL 2대 대표 제품 아키텍처                        │
-├───────────────────────────────────┬────────────────────────────────────┤
-│ 1. Google Spanner                 │ 2. CockroachDB                     │
-├───────────────────────────────────┼────────────────────────────────────┤
-│ • TrueTime API (GPS + Atomic Clock)│ • Hybrid Logical Clock (HLC)       │
-│ • Paxos Consensus Engine          │ • Raft Consensus Engine            │
-│ • Multi-Region Distributed ACID   │ • PostgreSQL Wire-Protocol 호환    │
-└───────────────────────────────────┴────────────────────────────────────┘
+[SQL 게이트웨이] ─── [범위 메타데이터]
+        │                    │
+[트랜잭션 조정자] ── [합의 복제 그룹]
+        │                    │
+        └──── [논리 시계] ───┘
 ```
 
-선의 의미: 시계열 동기화(TrueTime/HLC) 및 합의 알고리즘(Paxos/Raft)을 기반으로 분산 ACID를 수용하는 NewSQL 구조.
+선의 의미: SQL 처리•범위 배치•거래•합의•순서 관리의 정적 관계.
 
-| 구성 요소 / 기술 | Google Spanner | CockroachDB |
-|:---|:---|:---|
-| **시간 동기화 방식** | **TrueTime API (GPS hardware + Atomic Clock)** | **Hybrid Logical Clock (HLC - Software)** |
-| **분산 합의 알고리즘**| **Paxos Protocol** | **Raft Protocol** |
-| **SQL 인터페이스 호환**| Google Standard SQL / PostgreSQL dialect | **PostgreSQL Wire-Protocol 100% 호환** |
-| **운영 인프라 형태** | **Google Cloud Platform (GCP) 전용 PaaS** | **On-Premise / Multi-Cloud 자율 배포 가능** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **SQL 게이트웨이** | SQL 분석•계획과 결과 조합 |
+| **범위 메타데이터** | 키 범위의 복제 그룹 위치 관리 |
+| **트랜잭션 조정자** | 교차 범위 원자 커밋 조정 |
+| **합의 복제 그룹** | 범위별 로그 순서와 정족수 커밋 |
+| **논리 시계** | 분산 트랜잭션의 시간 순서 부여 |
 
 #### 한줄 요약
 
 - SQL 접수자, 위치표, 거래 조정자, 합의 사본, 순서 시계로 구성된다.
 
-## Ⅳ. 흐름도 (NewSQL 분산 ACID 트랜잭션 렌더링)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,25 +91,37 @@ extra:
 </details>
 
 ```text
-[Client SQL Transaction] ──► [SQL Gateway Node]
-                                    │
-                                    ▼ (Range Location Lookup)
-[Range 1 (Raft Leader Node A)] ◄─── 2PC ───► [Range 2 (Raft Leader Node B)]
-  • Raft Log Replication                     • Raft Log Replication
-  • Quorum Commit                            • Quorum Commit
+[SQL 트랜잭션]
+      │
+      ▼
+1. SQL 계획 생성
+      │
+      ▼
+2. 대상 범위 조회
+      │
+      ▼
+3. 범위별 합의 수행
+      │
+      ▼
+4. 전역 커밋 결정
+      │
+      ▼
+5. 결과 반환•재시도
 ```
 
 ### 동작 원리
 
-1. **SQL Routing**: SQL 게이트웨이 노드가 쿼리를 받아 데이터 Range 위치 추적.
-2. **Distributed 2PC**: 2개 이상의 Range 노드에 걸친 분산 2PC(Two-Phase Commit) 개시.
-3. **Raft Consensus**: 각 Range 내부의 Raft 복제본 과반수 승인을 거쳐 **글로벌 원자 커밋 완결**.
+1. **SQL 계획 생성**: 관계 연산과 트랜잭션 범위 분석
+2. **대상 범위 조회**: 키 범위의 리더•복제 위치 확인
+3. **범위별 합의 수행**: 각 복제 그룹에서 로그 정족수 확보
+4. **전역 커밋 결정**: 참여 범위 준비 결과로 Commit•Abort
+5. **결과 반환•재시도**: 충돌•리더 변경 시 안전하게 재실행
 
 #### 한줄 요약
 
 - SQL을 담당 구간에 나누어 보내고 모든 구간의 사본 확인 뒤 하나의 거래로 확정한다.
 
-## Ⅴ. 종류 및 비교 (RDBMS vs NoSQL vs NewSQL 3대 축 종합 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,16 +131,16 @@ extra:
 
 | 비교 항목 | Traditional RDBMS (MySQL) | NoSQL (Cassandra, MongoDB) | NewSQL (CockroachDB, Spanner) |
 |:---|:---|:---|:---|
-| **트랜잭션 모델** | **Strict ACID** | **BASE (Eventual Consistency)**| **Strict ACID** |
-| **수평 확장성** | 매우 낮음 (Scale-Up 위주) | **극대화 (Scale-Out)** | **극대화 (Scale-Out)** |
-| **SQL 인터페이스**| **표준 SQL 지원** | NoSQL / Proprietary API | **표준 SQL 100% 지원** |
+| **트랜잭션 모델** | 엔진별 ACID | 제품별 보장 수준 | **분산 ACID** |
+| **수평 확장성** | 구성별 복제•샤딩 | 키•문서 기반 분산 | **키 범위 자동 분산** |
+| **SQL 인터페이스**| **SQL 지원** | 제품별 질의 API | SQL 호환 범위 제품별 상이 |
 | **합의 알고리즘** | 단일 Master 복제 | Gossip Protocol | **Raft / Paxos Consensus** |
 
 #### 한줄 요약
 
 - 둘 다 분산 SQL 거래를 제공하지만 배포 방식과 범위 배치•시간 순서 구현이 다르다.
 
-## Ⅵ. 실무 고려사항 및 대책 (NewSQL 실무 도입 시 유의사항)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -159,7 +168,7 @@ extra:
 
 </details>
 
-- **NewSQL 수립 기준**에 따라 글로벌 대규모 트래픽 뱅킹/결제 시스템 구축 시 **CockroachDB / Spanner** 필수 수용
+- 분산 ACID 가치가 **합의 지연•비용**보다 크면 NewSQL 선택
 
 #### 한줄 요약
 

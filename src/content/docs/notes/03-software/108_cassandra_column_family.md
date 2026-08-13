@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:14:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 마스터 노드가 없는 P2P 해시 링 구조에서 Partition Key 기반으로 대용량 데이터를 수평 분산하고, 쓰기 성능을 극대화한 Wide-Column NoSQL인 **Apache Cassandra**
-- 배경/필요성: 단일 마스터 복제 구조의 쓰기 bottleneck 및 SPOF(단일 장애점) 차단, IoT 시계열 데이터 및 SNS 메시징의 초고속 덧붙이기(Append-Only) 수용 요구성
+- 배경/필요성: 단일 주 노드 구조는 **쓰기 병목•장애 집중** 유발
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Masterless Ring Architecture (SPOF 0%, 무제한 Scale-Out)**
+- **Masterless Ring Architecture**: 대등 노드 기반 분산•확장
 - **Query-Driven Data Modeling (Partition Key + Clustering Key)**
 - **LSM-Tree 형태의 CommitLog + MemTable + SSTable 쓰기 파이프라인**
 
@@ -52,7 +52,7 @@ extra:
 
 - 쓰기와 장애 내성은 높지만 파티션 키를 벗어난 조회에는 부적합하다.
 
-## Ⅲ. 구조 및 구성요소 (Partition Key 대 Clustering Key & 쓰기 엔진)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -62,31 +62,29 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                    Cassandra Data Modeling & Architecture              │
-├────────────────────────────────────────────────────────────────────────┤
-│ Primary Key = (Partition Key, Clustering Key 1, Clustering Key 2)      │
-│  • Partition Key: 'user_id' ──► Hash Ring 상의 물리 노드 결정          │
-│  • Clustering Key: 'created_at' ──► 노드 디스크 내 시계열 자동 정렬     │
-├────────────────────────────────────────────────────────────────────────┤
-│ Client Write ──► [Coordinator Node] ──► Gossip Protocol ──► [Replica Nodes]│
-└────────────────────────────────────────────────────────────────────────┘
+[파티션 키] ───── [토큰 링]
+     │                │
+[코디네이터] ─── [복제 노드]
+     │                │
+[CommitLog] ──── [MemTable•SSTable]
 ```
 
-선의 의미: Partition Key로 물리 노드를 결정하고 Clustering Key로 노드 내 시계열을 정렬하며, Coordinator 노드가 Gossip 프로토콜로 레플리카에 전파하는 구조.
+선의 의미: 키 배치•요청 조정•복제•LSM 저장 책임의 정적 관계.
 
-| 구성요소 / 지표 | 역할 및 주요 메커니즘 | 실무 튜닝 지침 |
-|:---|:---|:---|
-| **Partition Key** | 해시 링 상에서 물리적 노드 위치 결정 | 데이터 편향(Data Skew) 없는 고선택성 필드 지정 |
-| **Clustering Key** | 파티션 내부 튜플 물리적 정렬 순서 결정 | 시계열(`created_at`) 배치로 범위 검색 극대화 |
-| **MemTable & SSTable**| 메모리 버퍼 및 디스크 불변 정렬 파일 | **LSM-Tree 기반 순차 쓰기(Sequential I/O)** |
-| **CommitLog** | 복구용 순차 쓰기 디스크 로그 파일 | MemTable 쓰기 전 선행 영속화 보장 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **파티션 키** | 토큰으로 데이터 배치 노드 결정 |
+| **토큰 링** | 노드별 토큰 범위와 복제 위치 관리 |
+| **코디네이터** | 요청을 복제 노드에 전달하고 응답 취합 |
+| **복제 노드** | 복제 계수에 따라 파티션 사본 보관 |
+| **CommitLog** | 쓰기 복구를 위한 변경 기록 |
+| **MemTable•SSTable** | 메모리 적재 후 불변 파일로 플러시 |
 
 #### 한줄 요약
 
 - 배치 키, 접수자, 쓰기 기록, 정렬 파일, 사본 수선으로 구성된다.
 
-## Ⅳ. 흐름도 (Cassandra Tunable Consistency: $R + W > N$)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,23 +93,40 @@ extra:
 </details>
 
 ```text
-[Replication Factor N = 3]
-  • Write Level  (W) = QUORUM (2개 노드 성공 응답)
-  • Read Level   (R) = QUORUM (2개 노드 데이터 비교)
-  ──► (R=2) + (W=2) = 4 > (N=3) ──► Strong Consistency (강한 일관성 달성!)
+[클라이언트 요청]
+       │
+       ▼
+1. 코디네이터 선택
+       │
+       ▼
+2. 파티션 토큰 계산
+       │
+       ▼
+3. 복제 노드 요청
+       │
+       ▼
+4. 일관성 수준 판정
+       │
+       ▼
+5. 응답 취합
+       │
+       ▼
+  [결과 반환]
 ```
 
 ### 동작 원리
 
-1. **Client Request**: Coordinator 노드가 쿼리 수신.
-2. **Quorum Write**: 3개 복제 노드 중 과반수인 2개 노드(W=2)에 쓰기 완료 시 성공 반환.
-3. **Quorum Read**: 2개 노드(R=2)에서 데이터를 읽어 겹치는 최신 타임스탬프 값을 렌더링 (**R+W>N 조건에 의해 100% 최신 데이터 보장**).
+1. **코디네이터 선택**: 접속 노드가 요청 조정 역할 수행
+2. **파티션 토큰 계산**: 키 해시로 담당 범위 식별
+3. **복제 노드 요청**: 복제 계수에 따른 노드로 전달
+4. **일관성 수준 판정**: ONE•QUORUM•ALL 충족 확인
+5. **응답 취합**: 최신 타임스탬프 비교와 복구 수행
 
 #### 한줄 요약
 
 - 모든 담당 사본에 쓰기를 보내되 몇 곳의 확인을 기다릴지는 요청마다 정한다.
 
-## Ⅴ. 종류 및 비교 (RDBMS vs Cassandra 데이터 모델링)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,8 +137,8 @@ extra:
 | 비교 항목 | RDBMS (Relational Database) | Apache Cassandra (Wide-Column) |
 |:---|:---|:---|
 | 데이터 모델링 기준| **엔티티 관계 중심 정규화 (1NF, 2NF, 3NF)**| **화면 쿼리 중심 비정규화 (1 Table per Query)** |
-| `JOIN` 연산 지원 | **전면 지원 (Inner, Outer, Subquery)** | **절대 지원 불가 (`JOIN` 0회)** |
-| 수평 확장성 | 고비용 분산 아키텍처 (샤딩 필요) | **무제한 수평 Scale-Out (P2P Ring 노드 추가)** |
+| 관계 결합 | **DBMS 조인•서브쿼리 지원** | 쿼리별 비정규화 테이블 설계 |
+| 수평 확장성 | 제품•구성별 분산 방식 적용 | **P2P 링 노드 추가와 재분배** |
 | 쓰기 메커니즘 | In-Place Update (Random Write I/O) | **LSM-Tree Out-of-Place (Sequential I/O)** |
 
 #### 한줄 요약
@@ -158,7 +173,7 @@ extra:
 
 </details>
 
-- **Cassandra 수립 기준**에 따라 대용량 시계열/메시징 DB 구축 시 **P2P Ring & Query-Driven Modeling** 필수 수용
+- 파티션 키로 닫히는 대규모 쓰기는 **Cassandra**, 임의 조인은 RDBMS 선택
 
 #### 한줄 요약
 

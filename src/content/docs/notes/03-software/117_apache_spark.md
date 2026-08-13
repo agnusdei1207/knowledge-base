@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:17:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 인메모리 RDD 및 DAG 연산 그래프 최적화를 통해 기존 MapReduce 대비 100배 빠른 초고속 분산 처리를 수행하는 2세대 빅데이터 컴퓨팅 엔진인 **Apache Spark**
-- 배경/필요성: 1세대 MapReduce의 단계별 디스크 Spill 및 네트워크 Shuffle I/O 병목 극복, 머신러닝 Iterative(반복) 연산 및 실시간 Stream 데이터 통합 연산 요구성
+- 정의/개념: DAG 실행과 중간 결과 재사용을 제공하는 **Apache Spark**
+- 배경/필요성: 단계별 디스크 물질화는 **반복 연산•대화형 분석 지연** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 반복 분석은 빠르지만 파티션 쏠림과 메모리 상태 등을 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Spark 4대 핵심 컴포넌트 & 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -77,18 +77,19 @@ extra:
 
 선의 의미: Driver가 Catalyst 및 DAG 스케줄러를 통해 연산을 최적화하고, Cluster Manager를 거쳐 각 Executor 노드의 RAM 파티션으로 Task를 분산 전파하는 아키텍처.
 
-| 구성요소 (Component) | 역할 및 주요 메커니즘 | 실무 튜닝 포인트 |
-|:---|:---|:---|
-| **Driver Program** | **main() 실행, SparkSession 생성, DAG 그래프 최적화** | Driver Memory 부족 시 OOM 장애 발생 |
-| **Executor** | **분산 노드 RAM 상에서 Task 실행 및 RDD 블록 저장** | Executor Cores & Memory 사양 배정 |
-| **RDD / DataFrame** | **불변 분산 데이터 구조 (Lineage 계보 정보 보존)** | `.cache()` / `.persist()` 인메모리 튜닝 |
-| **AQE Engine** | **실행 중 동적으로 Join 방식(Broadcast) 변경 및 파티션 병합** | `spark.sql.adaptive.enabled=true` |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Driver** | 앱 제어•DAG 생성•태스크 결과 관리 |
+| **Catalyst•AQE** | 논리•물리 계획과 실행 중 재최적화 |
+| **DAG Scheduler** | 셔플 경계로 Stage•Task 분할 |
+| **Cluster Manager** | Executor 자원 요청•할당 |
+| **Executor** | 파티션 연산•캐시•셔플 데이터 처리 |
 
 #### 한줄 요약
 
 - 계획자, 최적화 담당자, 작업 배정자, 실행자, 복구 저장소로 구성된다.
 
-## Ⅳ. 흐름도 (Catalyst Optimizer 4단계 연산 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,23 +98,37 @@ extra:
 </details>
 
 ```text
-[Unresolved Logical Plan] ──► [Analysis (Catalog)] ──► [Logical Optimization (Rule-based)]
-                                                                │
-                                                                ▼
-[Physical Plan (Cost-based)] ◄── [Code Generation] ◄── [Physical Planning]
+[DataFrame•SQL]
+      │
+      ▼
+1. 논리 계획 분석
+      │
+      ▼
+2. 논리 계획 최적화
+      │
+      ▼
+3. 물리 계획 선택
+      │
+      ▼
+4. Stage•Task 실행
+      │
+      ▼
+5. 실행 계획 보정
 ```
 
 ### 동작 원리
 
-1. **Analysis**: SQL/DataFrame 구문을 내장 카탈로그와 대조하여 컬럼 및 타입 검증.
-2. **Logical Optimization**: 조건절 푸시다운(Filter Pushdown), 불필요 컬럼 제거(Pruning) 수행.
-3. **Physical Planning**: CBO 기반으로 Broadcast Hash Join 대 Sort Merge Join 등 최적 물리 연산 선택 후 코드로 컴파일 실행.
+1. **논리 계획 분석**: 카탈로그로 열•타입•함수 해석
+2. **논리 계획 최적화**: 필터 푸시다운•열 가지치기 적용
+3. **물리 계획 선택**: 비용으로 조인•셔플 전략 결정
+4. **Stage•Task 실행**: 셔플 경계별 파티션 작업 수행
+5. **실행 계획 보정**: 실제 통계로 파티션•조인 방식 조정
 
 #### 한줄 요약
 
 - 계산표를 먼저 최적화하고 셔플 경계로 나눠 여러 실행자에게 맡긴 뒤 실제 크기로 계획을 보정한다.
 
-## Ⅴ. 종류 및 비교 (Transformation 대 Action)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -131,7 +146,7 @@ extra:
 
 - Spark는 계산 그래프를 이어 실행하고 필요한 중간 자료만 캐시해 반복 작업을 줄인다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Spark OOM & Shuffle 병목 해결)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -159,7 +174,7 @@ extra:
 
 </details>
 
-- **Spark 아키텍처 수립 기준**에 따라 빅데이터 2세대 분석/ML 시스템 구축 시 **Apache Spark & AQE & Delta Lake** 필수 수용
+- 반복•복합 분석은 **Spark**, 단순 대형 배치는 MapReduce 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:38:00+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 무한 스트림 데이터를 이벤트 시간(Event Time)과 상태 보존(Stateful) 기반으로 서브밀리초 초저지연으로 연산하는 진정한 의미의 Real-Time Stream Engine인 **Apache Flink**
-- 배경/필요성: Micro-batch(Spark Streaming) 방식의 지연 한계(수초 ms) 극복, 실시간 이상 거래 탐지(FDS) 및 실시간 정산에서의 Exactly-Once 일관성 수용 요구성
+- 정의/개념: 이벤트 시간•상태 기반 연속 처리를 제공하는 **Apache Flink**
+- 배경/필요성: 처리 시간 기준 배치는 **지연 이벤트•연속 상태 계산** 제약
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 낮은 지연을 제공하지만 워터마크와 상태 및 체크포인트 비용을 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Flink 3대 코어 엔진 & 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -75,18 +75,19 @@ extra:
 
 선의 의미: JobManager가 Checkpoint Barrier를 주입하여 TaskManager 내의 RocksDB State를 비동기 스냅샷으로 HDFS/S3에 영속화하는 아키텍처.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 튜닝 지침 |
-|:---|:---|:---|
-| **JobManager** | **전체 스트림 데이터플로 관리, 체크포인트 주도** | Master Node HA 구성 (ZooKeeper/KRaft) |
-| **TaskManager** | **Task Slot 단위 스레드 실행, RocksDB 상태 관리** | Task Slot 개수 = CPU Core 수 동율 배치 |
-| **Watermark** | **시간 기반 윈도 연산 완료 시점 판정용 오프셋** | Allowed Lateness 설정으로 늦은 이벤트 수용 |
-| **RocksDB State Backend**| **로컬 디스크 기반 대용량 상태(State) 저장소** | Out-of-Core 상태 저장 시 메모리 관리 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **JobManager** | JobGraph•스케줄링•체크포인트 조정 |
+| **TaskManager** | 슬롯별 연산자 태스크 실행 |
+| **Watermark** | 이벤트 시간 진행과 윈도 종료 판정 |
+| **State Backend** | 키별 상태 저장•스냅샷 생성 |
+| **Checkpoint Storage** | 복구용 상태와 소스 위치 보관 |
 
 #### 한줄 요약
 
 - 작업 관리자, 실행자, 시간표, 상태 계산자, 복구•출력 저장소로 구성된다.
 
-## Ⅳ. 흐름도 (Chandy-Lamport 알고리즘 기반 Checkpoint 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,23 +96,37 @@ extra:
 </details>
 
 ```text
-[Stream Source] ──► [Barrier 1 주입] ──► [Operator 1: State Snapshot (RAM/RocksDB)]
-                                                     │
-                                                     ▼ (Barrier 전파)
-[External S3 / HDFS] ◄── (Async Upload) ─── [Operator 2: State Snapshot]
+[체크포인트 시작]
+       │
+       ▼
+1. Barrier 주입
+       │
+       ▼
+2. 입력 정렬•기록
+       │
+       ▼
+3. 연산자 상태 스냅샷
+       │
+       ▼
+4. Barrier 하류 전파
+       │
+       ▼
+5. 완료 메타데이터 확정
 ```
 
 ### 동작 원리
 
-1. **Barrier Injection**: JobManager가 Source에 Checkpoint Barrier 주입.
-2. **State Alignment**: 연산자가 Barrier 수신 시 이전까지의 데이터 State를 RocksDB에 비동기 저장.
-3. **Completion**: 모든 연산자가 Barrier 처리를 마치면 JobManager에 완료 신호 송신 (**Exactly-Once 달성**).
+1. **Barrier 주입**: Source가 현재 위치와 제어 표식 방출
+2. **입력 정렬•기록**: 다중 입력의 체크포인트 경계 맞춤
+3. **연산자 상태 스냅샷**: 키 상태를 비동기 영속화
+4. **Barrier 하류 전파**: 상태 저장 후 다음 연산자로 전달
+5. **완료 메타데이터 확정**: 모든 연산자 ACK 후 복구점 등록
 
 #### 한줄 요약
 
 - 흐름에 사진 촬영선을 흘려 보내 입력 위치•계산 상태•출력 경계를 같은 시점으로 맞춘다.
 
-## Ⅴ. 종류 및 비교 (Apache Flink 대 Spark Streaming)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,15 +137,15 @@ extra:
 | 비교 항목 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
 |:---|:---|:---|
 | **처리 방식** | **Event-by-Event (레코드 1건 단위 즉시 처리)** | **Micro-Batch (N초 단위로 묶어서 처리)** |
-| **지연 시간 (Latency)**| **서브밀리초 (Sub-millisecond: 1~10ms)** | 초 단위 (Sub-second: 100ms ~ 수 초) |
+| **지연 특성** | 레코드 단위 파이프라인 지연 | 트리거•배치 주기에 따른 지연 |
 | **상태 관리 (State)** | **RocksDB 기반 대용량 State 내장 지원** | Memory / Checkpoint RDD 중심 |
-| **시간 기준 (Time)** | **Event Time, Watermark 완벽 지원** | Processing Time 위주 (Event Time 추후 지원) |
+| **시간 기준** | **Event Time•Watermark 중심** | Event Time•Watermark도 지원 |
 
 #### 한줄 요약
 
 - Flink는 흐르는 사건을 계속 처리하고 Spark는 기본적으로 작은 묶음의 연속으로 처리한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Flink Backpressure 및 RocksDB 병목)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -158,7 +173,7 @@ extra:
 
 </details>
 
-- **Flink 아키텍처 수립 기준**에 따라 초저지연 실시간 FDS/스트리밍 파이프라인 구축 시 **Apache Flink & RocksDB** 필수 수용
+- 복잡한 이벤트 시간•상태 처리는 **Flink**, 통합 분석은 Spark 검토
 
 #### 한줄 요약
 

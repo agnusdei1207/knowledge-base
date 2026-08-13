@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "시계열 데이터베이스 (Time Series Database)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:28:00+09:00"
 tags:
   - "notes-software"
 weight: 110
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 시간의 경과에 따른 연속적 메트릭/로그 데이터를 고속 적재하고, 시간 윈도 범위 조회 및 데이터 자동 다운샘플링/보존(Retention) 정책을 전담하는 특화 DB인 **TSDB (Time Series Database)**
-- 배경/필요성: IoT 센서, 서버 모니터링(Prometheus), 주식 차트 등 초당 수십만 건의 시계열 적재 시 일반 RDBMS/NoSQL의 디스크 용량 폭증 및 범위 조회 지연 극복 요구성
+- 정의/개념: 시간순 측정값의 적재•집계•보존에 특화된 **TSDB**
+- 배경/필요성: 고빈도 측정값 누적으로 **저장량•시간 범위 집계 비용** 증가
 
 #### 한줄 요약
 
@@ -44,15 +44,15 @@ extra:
 
 </details>
 
-- **Append-Only Write (100% 순차 쓰기 I/O 최적화)**
-- **High Data Compression Ratio (Gorilla 압축 알고리즘 기반 90%+ 디스크 절감)**
+- **Append-Only Write**: 시간순 덧붙이기 중심 쓰기 경로
+- **Delta Compression**: 값•시간 차이를 활용한 압축
 - **Continuous Downsampling & Retention Policy (수명주기 자동화)**
 
 #### 한줄 요약
 
 - 연속 쓰기에 강하지만 태그가 폭증하면 색인과 메모리 비용이 커진다.
 
-## Ⅲ. 구조 및 구성요소 (TSDB 데이터 모델 및 압축 파이프라인)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,31 +61,29 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        TSDB Arch & Downsampling Pipeline               │
-├────────────────────────────────────────────────────────────────────────┤
-│ Write ──► [WAL Log] ──► [In-Memory Buffer] ──► [TSM Block File (Disk)] │
-│                                                      │                 │
-│ Raw Data (1s resolution, 7 Days) ────────────────────┤                 │
-│    │ (Downsampling Rule)                             ▼                 │
-│    └──────────────────────────► Aggregated Data (1h resolution, 1 Year)│
-└────────────────────────────────────────────────────────────────────────┘
+[시계열 표본] ───── [태그 인덱스]
+      │                   │
+[시간 파티션] ───── [압축 블록]
+      │                   │
+[집계 규칙] ─────── [보존 정책]
 ```
 
-선의 의미: 초 단위 원본 데이터를 고속 적재한 후 다운샘플링 룰을 통해 장기 보관용 1시간 단위 통계 데이터로 축약 및 원본 파기하는 구조.
+선의 의미: 표본 식별•시간 배치•압축•집계•보존의 정적 관계.
 
-| 구성요소 (Component) | 역할 및 기술 메커니즘 | 대표적 실무 제품 예시 |
-|:---|:---|:---|
-| **Data Model** | **`Timestamp + Metric Name + Tag-Set + Float Value`** | **Prometheus, InfluxDB, TimescaleDB** |
-| **Storage Engine** | **TSM (Time Structured Merge-tree)** | InfluxDB의 시계열 전용 엔진 |
-| **Compression** | **Gorilla XOR Delta-of-Delta Compression** | 타임스탬프 및 수치 비트 압축 |
-| **Downsampling Engine**| **CQ (Continuous Query) / Retention Policy** | 시간 경과 데이터 자동 요약/삭제 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **시계열 표본** | 시간•메트릭•태그•필드 값 저장 |
+| **태그 인덱스** | 시계열 식별과 필터 후보 탐색 |
+| **시간 파티션** | 시간 범위별 데이터 배치•제거 |
+| **압축 블록** | 시간•값 차이를 묶어 저장량 절감 |
+| **집계 규칙** | 구간별 평균•최댓값 등 생성 |
+| **보존 정책** | 해상도별 보관 기간과 삭제 관리 |
 
 #### 한줄 요약
 
 - 측정 이름표, 색인, 시간 상자, 압축 묶음, 보존 담당자로 구성된다.
 
-## Ⅳ. 흐름도 (High Cardinality 문제 및 Downsampling 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,26 +92,40 @@ extra:
 </details>
 
 ```text
-[High-Frequency Sensor Data (100k/s Input)]
-                    │
-                    ▼
-       [Gorilla Compression & TSM Block Ingestion]
-                    │
-                    ▼ (1주일 경과 시)
- [Retention Engine: 1초 원본 DROP, 1시간 AVG/MAX/MIN 축약본 유지]
+[측정값 수신]
+      │
+      ▼
+1. 시계열 식별
+      │
+      ▼
+2. 시간 파티션 배치
+      │
+      ▼
+3. 압축 블록 기록
+      │
+      ▼
+4. 구간 집계 생성
+      │
+      ▼
+5. 보존 만료 처리
+      │
+      ▼
+[조회용 데이터]
 ```
 
 ### 동작 원리
 
-1. **Ingestion**: 초당 수십만 건의 메트릭 데이터를 Gorilla Delta-of-Delta 압축 후 TSM 블록에 순차 저장.
-2. **Downsampling Trigger**: 7일이 지난 데이터에 대해 1시간 단위 `AVG, MAX, MIN, SUM` 요약 데이터로 축약 생성.
-3. **Retention Purge**: 7일 넘은 1초 해상도 원본 디스크 블록을 `DROP`하여 저장 공간 90% 회수.
+1. **시계열 식별**: 메트릭과 태그 집합으로 계열 결정
+2. **시간 파티션 배치**: 타임스탬프로 저장 구간 선택
+3. **압축 블록 기록**: 시간•값 차이를 압축해 저장
+4. **구간 집계 생성**: 정책별 해상도의 요약값 계산
+5. **보존 만료 처리**: 만료 원본•집계 파티션 제거
 
 #### 한줄 요약
 
 - 측정값을 시간 상자에 모아 압축하고 오래된 구간은 요약값만 남긴다.
 
-## Ⅴ. 종류 및 비교 (RDBMS vs TSDB)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -123,9 +135,9 @@ extra:
 
 | 비교 항목 | RDBMS (PostgreSQL, MySQL) | TSDB (Prometheus, InfluxDB, TimescaleDB) |
 |:---|:---|:---|
-| 데이터 갱신/삭제 | **자주 발생 (In-Place Update)** | **발생 안 함 (Append-Only Write)** |
-| 압축률 및 용량 | 보통 (기본 16KB 페이지 구조) | **극대화 (Gorilla 압축 알고리즘 90%+)** |
-| 시간 범위 집계속도 | 느림 (`GROUP BY date_trunc` 인덱스 한계) | **초고속 (시간 윈도 파티션 및 미리 렌더링)**|
+| 데이터 갱신/삭제 | 업무 행 갱신•삭제 지원 | **덧붙이기 중심•지연 표본 처리** |
+| 압축률 및 용량 | 범용 행•열 압축 적용 | **시간•값 상관성을 활용한 압축** |
+| 시간 범위 집계 | 인덱스•파티션 설계에 좌우 | **시간 파티션•연속 집계 활용** |
 | 데이터 수명주기 | 수동 `DELETE FROM` (디스크 파편화) | **자동 Retention Policy & Downsampling** |
 
 #### 한줄 요약
@@ -160,7 +172,7 @@ extra:
 
 </details>
 
-- **TSDB 수립 기준**에 따라 IT 인프라 모니터링/IoT 시스템 구축 시 **Prometheus / TimescaleDB & Downsampling** 필수 수용
+- 시간 범위 집계•보존 자동화가 핵심이면 **TSDB** 선택
 
 #### 한줄 요약
 

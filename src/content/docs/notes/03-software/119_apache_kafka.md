@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T22:31:00+09:00"
 tags:
   - "notes-software"
 weight: 119
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 대규모 실시간 스트림 데이터를 순차 Commit Log 파티션에 Append-Only 디스크 전송하여, 생산자(Producer)와 소비자(Consumer) 간 결합도를 완벽히 분리하는 분산 이벤트 스트리밍인 **Apache Kafka**
-- 배경/필요성: 기존 Message Queue(RabbitMQ)의 디스크 렌더링 한계 및 1:1 소모성 메시징 한계 극복, 1:N 이종 시스템으로의 대용량 실시간 이벤트 데이터 Pub/Sub 수용 요구성
+- 정의/개념: 파티션 로그에 이벤트를 보존•재생하는 **Apache Kafka**
+- 배경/필요성: 소모성 큐만으로는 **다중 구독•과거 재처리** 제약
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 병렬성과 재처리는 좋으나 순서 보장과 편중 및 재배정을 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Kafka 4대 아키텍처 및 ISR 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -76,18 +76,19 @@ extra:
 
 선의 의미: Producer가 메시지를 아키텍처 파티션 리더 노드에 보내고, ISR 팔로워 노드가 이를 복제하며, 컨슈머 그룹이 오프셋을 읽어 처리하는 구조.
 
-| 구성요소 (Element) | 역할 및 기술 메커니즘 | 실무 튜닝 파라미터 |
-|:---|:---|:---|
-| **Topic & Partition** | 메시지가 분류 저장되는 단위 및 수평 병렬 처리 축 | 파티션 수 = 최대 컨슈머 개수 |
-| **Offset** | 파티션 내 메시지 순서 번호 (0, 1, 2, 3...) | **`__consumer_offsets` 자동 커밋** |
-| **ISR (In-Sync Replicas)**| Leader의 최신 오프셋을 바짝 추적하는 Follower 집합| `min.insync.replicas=2` |
-| **KRaft (Kafka Raft)** | ZooKeeper를 대체하는 카프카 전용 내장 합의 엔진 | Controller 노드 메타데이터 튜닝 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Producer** | 키로 파티션을 선택해 이벤트 발행 |
+| **Topic•Partition** | 이벤트 순서•병렬성•보존 경계 제공 |
+| **Broker•ISR** | 파티션 리더 저장과 팔로워 복제 |
+| **KRaft Controller** | 클러스터 메타데이터와 리더 선출 관리 |
+| **Consumer Group** | 파티션 분담과 처리 오프셋 관리 |
 
 #### 한줄 요약
 
 - 작성자, 번호 일지, 사본 서버, 관리자, 독자 모임으로 구성된다.
 
-## Ⅳ. 흐름도 (Kafka acks 옵션에 따른 내구성/성능 트레이드오프)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +97,37 @@ extra:
 </details>
 
 ```text
-[Producer Write (acks=all)] ──► [Partition Leader Node]
-                                       │
-                                       ▼ (ISR Replication)
-                                [ISR Follower Nodes] ──► [ACK Sent] ──► [Producer OK]
+[이벤트 발행]
+      │
+      ▼
+1. 파티션 선택
+      │
+      ▼
+2. 리더 로그 기록
+      │
+      ▼
+3. ISR 복제
+      │
+      ▼
+4. ACK 조건 판정
+      │
+      ▼
+5. 발행 결과 반환
 ```
 
 ### 동작 원리
 
-1. **`acks=0`**: Leader에 쓰여졌는지 확인하지 않고 무조건 다음 메시지 송신 (속도 극대화, 유실 위험).
-2. **`acks=1`**: Leader 노드 디스크 PageCache 기록만 확인 후 ACK 수신 (기본값).
-3. **`acks=all`**: Leader 및 ISR 지정 노드가 모두 기록 완료할 때까지 대기 (**유실 0% 완벽 보장**).
+1. **파티션 선택**: 키•파티셔너로 순서 경계 결정
+2. **리더 로그 기록**: 담당 Broker가 로그 끝에 이벤트 추가
+3. **ISR 복제**: 팔로워가 리더 오프셋을 추종
+4. **ACK 조건 판정**: acks•min ISR 조건 충족 확인
+5. **발행 결과 반환**: 성공 오프셋 또는 재시도 오류 응답
 
 #### 한줄 요약
 
 - 작성자는 번호 붙은 일지에 기록하고 독자는 마지막으로 처리한 번호를 책갈피로 저장한다.
 
-## Ⅴ. 종류 및 비교 (Message Queue 대 Event Streaming Platform)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -123,15 +138,15 @@ extra:
 | 비교 항목 | Traditional Message Queue (RabbitMQ) | Event Streaming Platform (Kafka) |
 |:---|:---|:---|
 | **메시지 보존 방식** | **소비자(Consumer) 수신 즉시 Queue에서 삭제** | **디스크 영속성 보존 (일수/용량 단위 retention)** |
-| **메시지 재처리** | 삭제되므로 과거 메시지 재처리 불가능 | **Offset 수동 조작으로 과거 이벤트 N번 재처리** |
-| **처리 성능 (TPS)** | 보통 (초당 수만 건 내외) | **초고속 (Zero-Copy 기반 초당 수백만 건)** |
+| **메시지 재처리** | 큐 정책•DLQ 범위에서 재처리 | **Offset 이동으로 보존 이벤트 재생** |
+| **처리 성능** | 라우팅•확인 정책에 좌우 | 파티션•배치•복제 정책에 좌우 |
 | **라우팅 기능** | 복잡한 Exchange / Binding 라우팅 우수 | Simple Topic/Partition 라우팅 중심 |
 
 #### 한줄 요약
 
 - 작업 큐는 일을 나눠 끝내는 데, Kafka는 사건을 남겨 여러 독자가 다시 읽는 데 초점을 둔다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Kafka Rebalance 병목 & Consumer Lag)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -160,7 +175,7 @@ extra:
 
 </details>
 
-- **Kafka 수립 기준**에 따라 대용량 실시간 이벤트 아키텍처 구축 시 **Kafka Cluster & `acks=all` & KRaft** 필수 적용
+- 사건 보존•다중 재생은 **Kafka**, 복잡한 작업 라우팅은 메시지 큐 선택
 
 #### 한줄 요약
 

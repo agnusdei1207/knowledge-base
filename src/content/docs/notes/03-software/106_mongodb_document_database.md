@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "MongoDB 문서 데이터베이스 (MongoDB Document Database)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:00:00+09:00"
 tags:
   - "notes-software"
 weight: 106
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- **정의**: JSON/BSON(`Binary JSON`) 형태의 가변 데이터 모델을 사용하여 데이터를 단일 문서(`Single Document`) 단위로 적재하고 조인 없는 쿼리를 지원하는 Document NoSQL인 **MongoDB**.
-- **필요성**: RDBMS의 복잡한 정규화 및 `JOIN` 병목 극복, 구조가 잦게 변하는 데이터(상품 카탈로그, CMS)의 유연한 적재 및 수평 분산 요구성.
+- 정의/개념: BSON 문서 모델을 사용하는 **MongoDB 문서 데이터베이스**
+- 배경/필요성: 관계형 분해는 함께 조회하는 가변 객체에 **조인•변경 비용** 유발
 
 #### 한줄 요약
 
@@ -45,14 +45,14 @@ extra:
 </details>
 
 - **BSON 기반 모델링**: 데이터 내포(`Embedding`) 지원으로 데이터 접근성 최적화.
-- **원자성 보장**: 단일 문서(`Single Document`) 수준에서 100% 원자성(Atomicity) 제공.
+- **원자성 보장**: 단일 문서 갱신을 원자적으로 처리
 - **운영 엔진**: `WiredTiger` 엔진(B+Tree 기반, 행 레벨 락, 데이터 압축) 및 `Replica Set`/`Sharding` 지원.
 
 #### 한줄 요약
 
 - 함께 쓰는 정보는 묶되 끝없이 커지거나 자주 중복되는 정보는 분리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (MongoDB 아키텍처 및 3대 데이터 모델링)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,33 +61,29 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        MongoDB Document Modeling                       │
-├───────────────────────────────────┬────────────────────────────────────┤
-│ 1. Embedded Document Pattern      │ 2. Referenced Document Pattern     │
-├───────────────────────────────────┼────────────────────────────────────┤
-│ {                                 │ {                                  │
-│   _id: 101,                       │   _id: 101,                        │
-│   name: "홍길동",                 │   name: "홍길동",                  │
-│   address: { city: "SEOUL" }      │   address_id: 901  (Reference FK)  │
-│ } (1번의 I/O로 조인 없이 인출)    │ } (독립적 수명주기, JOIN 필요)     │
-└───────────────────────────────────┴────────────────────────────────────┘
+[BSON 문서] ───── [컬렉션]
+     │                 │
+[인덱스] ─────── [WiredTiger]
+     │                 │
+[복제 세트] ───── [샤드 클러스터]
 ```
 
-선의 의미: 데이터의 수명주기 및 접근 패턴에 따라 Embedded(내포) 패턴 또는 Referenced(참조) 패턴을 선택하는 MongoDB 아키텍처.
+선의 의미: 문서 저장•색인•복제•분산 배치 책임 간 정적 관계.
 
-| 구조 요소 | 역할 및 핵심 기능 | 실무 적용 고려사항 |
-|:---|:---|:---|
-| **BSON Document** | 개별 데이터 저장 단위 (최대 16MB 용량 한계) | 16MB 초과 시 GridFS 사용 필요 |
-| **Collection** | RDBMS의 Table에 대응되는 문서들의 집합체 | 가변 스키마 문서 수용 공간 |
-| **WiredTiger Engine** | B+Tree 기반 스토리지 엔진 (메모리 60% 캐싱) | Document Level Concurrency 제어 |
-| **Replica Set** | Primary 1개 + Secondary n개 + Oplog 동기화 | **Poin-In-Time Failover & High Availability** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **BSON 문서** | 필드•배열•중첩 객체를 저장하는 원자 단위 |
+| **컬렉션** | 관련 문서 집합과 검증 규칙 관리 |
+| **인덱스** | 필드 기반 검색•정렬 경로 제공 |
+| **WiredTiger** | 페이지•캐시•동시성•저널 관리 |
+| **복제 세트** | Oplog 기반 복제와 주 노드 선출 |
+| **샤드 클러스터** | 샤드 키 기반 문서 분산과 라우팅 |
 
 #### 한줄 요약
 
 - 문서 보관함과 색인, 사본 묶음, 안내자, 위치표로 구성된다.
 
-## Ⅳ. 흐름도 (MongoDB Replica Set Failover 메커니즘)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,26 +92,40 @@ extra:
 </details>
 
 ```text
-[Primary Node Down!] ──► [Secondary Nodes Heartbeat Timeout]
-                                    │
-                                    ▼
-       [Raft/Paxos 기반 Leader Election (투표 1초 만에 완료)]
-                                    │
-                                    ▼
-       [가장 최신 Oplog 보유 Secondary 가 신규 Primary 로 승격 완료!]
+[주 노드 장애]
+      │
+      ▼
+1. 하트비트 실패 감지
+      │
+      ▼
+2. 선거 임기 시작
+      │
+      ▼
+3. 과반수 투표 수행
+      │
+      ▼
+4. 새 주 노드 선출
+      │
+      ▼
+5. 쓰기 라우팅 갱신
+      │
+      ▼
+[서비스 재개]
 ```
 
 ### 동작 원리
 
-1. **Heartbeat Audit**: 2초 주기로 노드 간 핑(Ping) 체크.
-2. **Election Trigger**: Primary가 10초간 응답 없을 경우 Secondary 노드들이 투표(Election) 개시.
-3. **Failover Execution**: 가장 최신 Oplog 포인터를 가진 Secondary가 과반수 표를 얻어 신규 Primary로 즉시 승격.
+1. **하트비트 실패 감지**: 복제 세트가 주 노드 응답 상실 판정
+2. **선거 임기 시작**: 후보가 임기 증가 후 투표 요청
+3. **과반수 투표 수행**: 투표권 노드가 후보 적합성 판정
+4. **새 주 노드 선출**: 과반수를 얻은 후보가 주 역할 획득
+5. **쓰기 라우팅 갱신**: 드라이버가 토폴로지 변경 반영
 
 #### 한줄 요약
 
 - 안내자가 문서의 담당 샤드와 원본을 찾아 저장하고 요구한 사본 확인 뒤 응답한다.
 
-## Ⅴ. 종류 및 비교 (Embedded Pattern vs Referenced Pattern)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -126,7 +136,7 @@ extra:
 | 비교 항목 | Embedded Document Pattern (내포) | Referenced Document Pattern (참조) |
 |:---|:---|:---|
 | 데이터 결합 방식 | **단일 BSON 문서 내 서브 문서/배열 내포** | **`$lookup` 또는 앱 단 식별자 참조 결합** |
-| `JOIN` 발생 횟수 | **0회 (단일 디스크 I/O 완결)** | 1회 이상 (RDBMS 조인과 유사) |
+| 조회 결합 | **단일 문서 조회로 함께 반환** | `$lookup`•앱 추가 조회 필요 |
 | 데이터 갱신 오버헤드| 데이터 중복 시 연쇄 수정 필요 | 단일 위치 갱신으로 무결성 우수 |
 | 적합 데이터 유형 | **1:1 또는 1:N 유한한 서브 데이터 (주소 등)**| **1:N 무한 성과, N:M 복잡 다대다 데이터** |
 
@@ -162,7 +172,7 @@ extra:
 
 </details>
 
-- **MongoDB 모델 수립 기준 적용** (가변 스키마 카탈로그/CMS 구축 시 `BSON Embedded Model` 및 `WiredTiger Engine` 필수 수용)
+- 함께 읽고 갱신하면 **Embedded**, 독립 성장•공유하면 Reference 선택
 
 #### 한줄 요약
 
