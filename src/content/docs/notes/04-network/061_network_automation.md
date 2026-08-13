@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "네트워크 자동화 - Ansible•RESTCONF•NETCONF (Network Automation)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T16:14:00+09:00"
 tags:
   - "notes-network"
 weight: 61
@@ -55,7 +55,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NETCONF(Network Configuration Protocol)**: YANG 기반 데이터를 SSH의 XML-RPC 통신으로 조회/수정하며 커밋/롤백 트랜잭션을 지원하는 IETF 표준.
+- **NETCONF(Network Configuration Protocol)**: YANG 기반 데이터를 SSH 상의 XML 인코딩 RPC로 조회·수정하는 IETF 표준.
 - **RPC(Remote Procedure Call)**: 클라이언트가 원격 제어 기능을 로컬 함수처럼 호출하는 통신 메커니즘.
 - **RESTCONF(REST Configuration Protocol)**: HTTP/1.1~2 기반 JSON/XML 활용 YANG 자원 조작 경량 RESTful API.
 - **HTTP(Hypertext Transfer Protocol)**: GET/POST/PUT/DELETE 메서드로 네트워크 관리 자원을 조작하는 웹 표준.
@@ -65,16 +65,16 @@ extra:
 
 </details>
 
-- **NETCONF**는 **XML-RPC** 및 **YANG**으로 트랜잭션(Edit-config, Commit)을 보장, **RESTCONF**는 **HTTP**와 **JSON**으로 웹 연동성 제공.
+- **NETCONF**는 XML 인코딩 **RPC**와 **YANG**을 사용하고, **RESTCONF**는 HTTP와 JSON/XML로 웹 연동성 제공.
 - **Ansible**은 에이전트 없이 **SoT** 변수를 바인딩하여 이종 장비 설정을 자동 동기화.
 
 ```text
 네트워크 자동화 아키텍처
-├─ 단일 진실 원천(SoT)
-├─ 깃(Git) 기반 지속적 통합/배포 파이프라인
-├─ 자동화 조율 엔진(Ansible/NSO)
-├─ 통신 프로토콜 및 모델(NETCONF/RESTCONF/YANG)
-└─ 다중 벤더 네트워크 장비
+├─ 진실의 원천(SoT)
+├─ Git 및 CI/CD
+├─ Ansible
+├─ YANG 및 API
+└─ Network Devices
 ```
 
 | 구성요소 | 역할 및 핵심 기능 |
@@ -132,7 +132,7 @@ extra:
 1. **사전 검증**: 코드 제출 시 **기능 광고(Capability Advertisement)** 기반 YANG 스키마 유효성 및 정책 선제 검사.
 2. **승인 변경 전달**: **Git** PR 승인 코드만 Ansible로 전달.
 3. **설정 차이 배포**: **NETCONF** Edit-config로 **후보 설정(Candidate Config)**에 델타 적용.
-4. **실체 상태 보고**: Commit 직후 **텔레메트리(Telemetry)** 지표로 수렴 여부 관측.
+4. **실제 상태 검증**: Commit 직후 **텔레메트리(Telemetry)** 지표로 수렴 여부 관측.
 5. **실패 시 복구**: Confirmed Commit 타임아웃으로 자동 **롤백(Rollback)** 수행.
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ extra:
 | 판단 기준 | NETCONF | RESTCONF | CLI 자동화 (Paramiko/Netmiko) |
 |:---|:---|:---|:---|
 | **적용 기준** | 트랜잭션, 원자성(Atomicity), 커밋/롤백 보장이 최우선일 때 | 웹 대시보드 연동, 경량 REST API 활용이 최우선일 때 | 오픈 API 미지원 레거시 장비 관리가 불가피할 때 |
-| **핵심 프로토콜** | SSH 기반 **XML-RPC** | HTTP/HTTPS 기반 **JSON/XML** | SSH 기반 비구조화 문자열 스트림 파싱 |
+| **핵심 프로토콜** | SSH 기반 XML 인코딩 **RPC** | HTTP/HTTPS 기반 **JSON/XML** | SSH 기반 비구조화 문자열 스트림 파싱 |
 | **데이터 모델** | **YANG 모델** 지원 | **YANG 모델** 지원 | 미지원 (정규표현식 파싱 필요) |
 | **트랜잭션 관리** | Candidate 저장소, Commit/Rollback, Lock 지원 | 부분 지원 (HTTP PUT/PATCH) | 미지원 (오류 발생 시 부분 적용 위험) |
 | **주요 한계** | 장비별 **기능 광고** 차이, 높은 학습 곡선 | 트랜잭션 원자성 기능 일부 제약 | 장비 OS 업데이트 시 파싱 스크립트 오작동 위험 |
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **자동화 배포 범위** 설정 시 SoT 데이터베이스 및 YANG 모델 선행 정립, Confirmed Commit 기반 롤백 통합 구축 지능형 자동화 체계 적용.
+- 트랜잭션 변경은 **NETCONF**, 웹 연동은 **RESTCONF** 선택.
 
 #### 한줄 요약
 - 선언형 IaC 및 YANG 기반 자동화 파이프라인 활용 자율 운용 네트워크 구축 체계 적용.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "PDH•SDH•SONET 디지털 계위 (PDH SDH SONET)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T17:10:00+09:00"
 tags:
   - "notes-network"
 weight: 69
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**: 독립적인 국부 클럭(Local Clock)을 사용하여 신호 전송 속도 편차를 비트 채움(Bit Stuffing) 방식으로 흡수 및 단계별 다단 다중화하는 1세대 디지털 전송 계위이다.
-- **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 망 전체에 단일 절대 세슘 마스터 클럭(Network Synchronization)을 공급하여, 포인터(Pointer)와 STM 프레임 기반으로 하위 신호를 직접 분기·결합(Add-Drop)하는 ITU-T 국제 표준 광전송 계위이다.
+- **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 계층적 망 동기와 포인터, STM 프레임으로 하위 신호를 직접 분기·결합하는 ITU-T 광전송 계위이다.
 - **동기식 광 네트워크(Synchronous Optical Network, SONET)**: ANSI 북미 전송 표준으로, 51.84Mbps의 기본 STS-1/OC-1 속도를 기준으로 동기 페이로드 봉투(SPE) 구조를 적용하여 다중화하는 광 네트워크 규격이다.
 
 </details>
@@ -47,7 +47,7 @@ extra:
 
 - **PDH**는 클럭 편차를 **비트 채움**으로 수용하여 중간 회선 인출 시 복잡한 다단 역다중화(Demux Chain)가 필요하다.
 - **SDH/SONET**은 절대 망 동기 상태에서 **포인터**(Pointer) 기법을 사용하여, 다중화 프레임을 해체하지 않고도 특정 하위 채널(E1/DS3 등)을 1-Step으로 직접 **분기결합**(Add-Drop)한다.
-- 프레임 헤더 전면에 충분한 **OAM** 전용 바이트(SOH/POH)를 할당하여 50ms 이내의 자동 보호 절체(APS) 및 종단 간 원격 모니터링 체계를 보장한다.
+- **OAM** 전용 바이트(SOH/POH)로 오류 감시와 보호 절체, 종단 간 경로 관리를 지원한다.
 
 #### 한줄 요약
 
@@ -71,9 +71,12 @@ extra:
 - 광 전송 링 노드에 **ADM** 및 **DXC** 장비를 배치하여 고속 트래픽의 유연한 회선 스위칭과 망 장애 수복을 제어한다.
 
 ```text
-[하위 T1/E1 신호] ──► [Container (C-12/C-4)] ──► [VC / SPE 매핑 + POH]
-                                                         │
-[STM-N / OC-N 광신호] ◄── [ADM / DXC 분기] ◄── [STM-1 / STS-1 프레임 + SOH + Pointer] ◄┘
+SDH·SONET 구성요소
+├─ 가상 컨테이너(VC / SPE)
+├─ 포인터(Pointer)
+├─ 구간 오버헤드(Section/Line Overhead, SOH)
+├─ 분기결합 다중화기(ADM)
+└─ 디지털 교차연결기(DXC)
 ```
 
 | 구성요소 | 역할 및 핵심 기능 |
@@ -107,18 +110,21 @@ extra:
 하위 PDH / Ethernet 데이터 주입 (PDH/Ethernet Ingress)
       │
       ▼
-1. 가상 컨테이너 VC/SPE 캡슐화 & POH 결합 (VC/SPE Mapping & POH Insertion)
+1. VC·SPE 매핑
       │
       ▼
-2. 절대 망동기 기준 포인터(Pointer) 주소 설정 (Pointer Address Assignment)
+2. 포인터 위치 조정
       │
       ▼
-3. SOH 오버헤드 결합 및 STM-N / OC-N 광송출 (SOH Insertion & Optical Tx)
+3. 동기 프레임 전송
       │
       ▼
-4. ADM 노드 상에서 SOH/POH 기반 BIP-8 오류 감시 (OAM & Quality Monitoring)
-      ├─ [정상] 5. ADM Direct Add-Drop 분기결합 수행
-      └─ [선로 절단 장애] 5. 50ms 이내 MS-SPRING / UPSR 자동 보호 절체 (APS Switching)
+4. 오류·품질 감시
+      │
+      ▼
+5. 경로 처리 지시
+      ├─ [정상] Add-Drop 분기결합
+      └─ [장애] APS 보호 절체
 ```
 
 ### 동작 원리
@@ -146,11 +152,11 @@ extra:
 
 | 비교 항목 | PDH (Plesiochronous) | SDH (Synchronous - ITU-T) | SONET (Synchronous - ANSI) |
 |:---|:---|:---|:---|
-| **동기 방식** | 개별 국부 클럭 (비트 채움 기술) | 망 전체 절대 세슘 마스터 클럭 동기 | 망 전체 절대 세슘 마스터 클럭 동기 |
+| **동기 방식** | 개별 국부 클럭과 비트 채움 | 계층적 기준 클럭 동기 | 계층적 기준 클럭 동기 |
 | **기본 프레임 속도** | 이원화 (북미 DS1: 1.544M / 유럽 E1: 2.048M) | **STM-1** (155.52 Mbps) 기본 | **STS-1 / OC-1** (51.84 Mbps) 기본 |
 | **하위 신호 추출** | 다단 역다중화 (Demux Chain) 필수 | **포인터** 기법 기반 Direct Add-Drop | **포인터** 기법 기반 Direct Add-Drop |
-| **OAM & 절체 성능** | 미흡 (오버헤드 최소화 구조) | **강력** (SOH/POH 지원, 50ms APS 절체) | **강력** (SOH/POH 지원, 50ms APS 절체) |
-| **벤더/지역 호환성** | 벤더 및 지역 간 호환 불능 | 국제 표준 준수로 완전 호환 | 북미 표준 준수로 완전 호환 |
+| **OAM & 절체 성능** | 관리 오버헤드 제한 | SOH/POH와 APS 지원 | Section/Line/Path OAM과 APS 지원 |
+| **벤더/지역 호환성** | 지역별 계위 차이 큼 | ITU-T 국제 계위 | ANSI 북미 계위 |
 
 > 요약: 레거시 개별 회선에는 **PDH**, 글로벌 광 전송 백본 망 구축에는 **SDH**, 북미 계위 백본 및 국사 연동에는 **SONET** 표준을 채택한다.
 
@@ -186,7 +192,7 @@ extra:
 
 </details>
 
-- 유선 전송 망 수립 시 **전송 계위 선택** 기준을 체계화하여, 기존 회선 수용에는 **PDH**, 글로벌 대용량 동기 백본에는 **SDH/SONET**, 향후 초고속 백본에는 DWDM 연동 OTN(Optical Transport Network) 기술을 유연하게 수용하는 차세대 광전송 인프라 구축 체계 적용.
+- 기존 TDM은 **PDH**, 동기 광링은 **SDH·SONET**, 신규 광망은 **OTN** 선택.
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T16:20:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -28,7 +28,7 @@ extra:
 - **파드(Pod)**: 하나 이상의 컨테이너가 리눅스 네트워크 네임스페이스와 IP를 공유하는 최소 배포 단위.
 - **CNI(Container Network Interface)**: 파드 생성 시 인터페이스 생성, IP 할당, 라우팅 테이블 구성을 담당하는 플러그인 표준.
 - **서비스(Service)**: 동적 파드 집합 전면에 고정 가상 IP(ClusterIP) 및 DNS를 제공하는 L4 로드밸런싱 객체.
-- **인그레스(Ingress)**: 클러스터 외부 HTTP/HTTPS 트래픽을 L7 라우팅 규칙에 따라 내부 서비스로 전달하는 프록시 객체.
+- **인그레스(Ingress)**: 외부 HTTP/HTTPS 트래픽의 서비스 라우팅 규칙을 선언하는 API 객체.
 
 </details>
 
@@ -65,20 +65,18 @@ extra:
 
 </details>
 
-</details>
-
 - **EndpointSlice**는 파드 Scale-Out 시 API 서버와 프록시 간 데이터를 최적화하고, **NetworkPolicy**는 L3/L4 격리 정책을 선언.
 - 고성능 CNI는 **eBPF** 엔진으로 iptables 병목 없이 바이패스 포워딩을 수행하며, 인그레스는 **TLS** 암호화를 지원.
 
 ```text
 쿠버네티스 네트워킹 아키텍처
-├─ 외부 L7 진입: 인그레스 컨트롤러 (Nginx / Envoy / Gateway API)
+├─ 인그레스 컨트롤러
 ├─ 서비스 탐색 계층
-│  ├─ 서비스 객체 (ClusterIP / NodePort / LB)
-│  └─ 엔드포인트 분할 객체 (EndpointSlice)
+│  ├─ 서비스(Service)
+│  └─ EndpointSlice
 └─ 파드 데이터 경로 및 보안
-   ├─ 네트워크 보안 정책 (NetworkPolicy)
-   └─ CNI 데이터 경로 (eBPF / iptables / VXLAN)
+   ├─ NetworkPolicy
+   └─ CNI Data Path
 ```
 
 | 구성요소 | 역할 및 핵심 기능 |
@@ -107,19 +105,17 @@ extra:
 
 </details>
 
-</details>
-
 ```text
-1. Ingress 규칙 변경 알림 (API 서버)
+1. Ingress 통지
         │
         ▼
-2. 경로/보안 설정 반영 (Ingress 컨트롤러)
+2. 외부 경로 설치
         │
         ▼
-3. 파드/정책 변경 알림 (API 서버)
+3. EndpointSlice/정책 통지
         │
         ▼
-4. 포워딩 규칙 설치 (eBPF / iptables)
+4. 종단/정책 규칙 설치
         │
         ▼
 외부 웹 트래픽 요청 진입
@@ -173,7 +169,7 @@ extra:
 | **보안 정책 미작동** | NetworkPolicy 적용 시 미지원 CNI(Flannel 등) 사용 | Calico, Cilium 등 **NetworkPolicy** 지원 **CNI** 선택 및 eBPF 검증 | 파드 간 무단 통신 차단 및 Zero-Trust 보안 격리 달성 |
 | **503 에러 발생** | 파드 생성 직후 Readiness Probe 설정 누락으로 미준비 파드에 요청 전송 | 적절한 **Readiness Probe** 딜레이 설정 및 **EndpointSlice** 동기화 | 트래픽 핑퐁 및 서비스 503 오류 발생 방지 |
 | **Ingress 설정 혼선** | 단일 Ingress 파일에 개발팀과 인프라팀 설정이 뒤섞여 충돌 발생 | **Gateway API** 도입을 통한 역할별(Gateway/HTTPRoute) 권한 분리 | 운영 조직 간 변경 간섭 제거 및 유연한 라우팅 제어 |
-| **대규모 커널 병목** | 수만 개 파드 환경에서 iptables 룰 폭증으로 인한 성능 저하 | iptables를 대체하는 **eBPF** 기반 CNI(Cilium) 전면 도입 | 커널 패킷 처리 지연 최소화 및 10배 이상 처리량 향상 |
+| **대규모 커널 병목** | 파드 증가에 따른 iptables 규칙 탐색 부하 | **eBPF** 기반 CNI 적용 가능성 검증 | 커널 패킷 처리 지연 완화 |
 
 #### 한줄 요약
 - eBPF 기반 보안 검증과 Readiness Probe 최적화, Gateway API 도입을 통한 실무 운영성 확보 체계 구축.

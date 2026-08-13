@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "MIMO•대규모 MIMO (MIMO Massive MIMO)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:56:00+09:00"
 tags:
   - "notes-network"
 weight: 67
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **다중입출력(Multiple-Input Multiple-Output, MIMO)**: 송신 측과 수신 측에 복수의 안테나 배열을 배치하여 공간 다중화(Spatial Multiplexing), 빔포밍, 공간 다이버시티 이득을 동시에 획득하는 무선 전송 기술이다.
+- **다중입출력(Multiple-Input Multiple-Output, MIMO)**: 복수 안테나를 이용해 채널 조건에 따라 공간 다중화, 빔포밍 또는 다이버시티 이득을 얻는 무선 전송 기술이다.
 - **대규모 MIMO(Massive MIMO)**: 기지국에 수십~수백 개(64T64R, 128T128R 등)의 고밀도 안테나 배열을 장착하여 3차원 공간 빔포밍(3D-Beamforming) 및 다중 사용자 공간 다중화(MU-MIMO)를 실현하는 5G/6G 핵심 기술이다.
 - **단일입출력(Single-Input Single-Output, SISO)**: 송신기와 수신기가 단 1개의 안테나만을 사용하여 공간 이득 없이 단일 채널로 패킷을 주고받는 정적 무선 통신 구조이다.
 
@@ -46,7 +46,7 @@ extra:
 
 </details>
 
-- **공간 스트림** 수에 비례하여 물리 전송 속도가 선형 증가하는 공간 다중화(SU/MU-MIMO) 이득을 구현한다.
+- 채널 순위와 SNR이 허용하는 **공간 스트림**을 병렬 전송하여 처리량을 높인다.
 - 3D 빔포밍 기술을 통해 전력 에너지를 목적 단말로만 집중시켜 주변 타 단말로의 **간섭**(Interference)을 억제하고 수신 **SNR**을 증대시킨다.
 - 동일 데이터를 복수 안테나로 다중 송신하는 공간 **다이버시티**(Diversity) 모드를 활성화하여 무선 수신 신뢰성(Reliability)을 최우선 보장한다.
 
@@ -67,9 +67,12 @@ extra:
 - **채널 행렬** $H$의 특성값 분해(SVD)를 통해 **채널 순위**(Rank)를 도출하고, 수신 단말이 피드백한 **CSI** 지표를 기반으로 최적의 프리코딩 가중치 행렬을 동적 산출한다.
 
 ```text
-[입력 데이터] ──► [스케줄러 & Rank 결정] ──► [프리코더 (Complex Weight)] ──► [안테나 배열 (Array Antennas)]
-                                                                                  │
-[복원 비트] ◄── [MIMO 검출기 (MMSE/SIC)] ◄── [채널 추정기 (CSI Matrix H)] ◄───────┘
+MIMO 구성요소
+├─ 채널 추정기(Channel Estimator)
+├─ 스케줄러 & Rank 선택기(Scheduler & Rank)
+├─ 프리코더(Precoder)
+├─ 송수신 안테나 배열(Antenna Array)
+└─ MIMO 검출기(MIMO Detector)
 ```
 
 | 구성요소 | 역할 및 핵심 기능 |
@@ -100,22 +103,19 @@ extra:
 </details>
 
 ```text
-CSI-RS / SRS 파일럿 신호 송수신 (Pilot Transmit & Channel Sensing)
+1. 파일럿 전송
       │
       ▼
-1. CSI 채널 행렬 H 및 Rank/PMI 피드백 (CSI & Rank Feedback)
+2. CSI·채널 순위 보고
       │
       ▼
-2. MU-MIMO 공간 사용자 및 스트림 수 스케줄링 (User & Stream Scheduling)
+3. 사용자·스트림 배정
       │
       ▼
-3. 안테나 소자별 복소 가중치 프리코딩 (Complex Weight Precoding)
+4. 가중 신호 전달
       │
       ▼
-4. 3D 빔포밍 & 공간 다중화 패킷 송출 (Beamforming & Spatial Stream Tx)
-      │
-      ▼
-5. 수신측 공간 신호 분리 및 MMSE-SIC 복호 (Spatial Signal Detection)
+5. 빔·공간 스트림 전송
 ```
 
 ### 동작 원리
@@ -136,7 +136,7 @@ CSI-RS / SRS 파일럿 신호 송수신 (Pilot Transmit & Channel Sensing)
 |:---|:---|:---|:---|
 | **안테나 수 (Tx × Rx)** | $1 \times 1$ | $2 \times 2, 4 \times 4, 8 \times 8$ | $32 \times 32, 64 \times 64, 128 \times 128$ 이상 |
 | **공간 처리 기술** | 없음 (단일 물리 링크) | 2D 빔포밍, 공간 다중화(SU/MU) | 3D 빔포밍, 대규모 MU-MIMO, 공간 분할 |
-| **대역폭 효율성 (bps/Hz)** | 기준점 ($1\times$) | 중간 증가 ($2 \sim 4\times$) | 비약적 극대화 ($8 \sim 20\times$ 이상) |
+| **대역폭 효율성** | 단일 공간 스트림 | 채널 Rank 범위에서 스트림 증가 | 다중 사용자 공간 재사용 확대 |
 | **주요 연산 한계** | 없음 (단순 복조) | CSI 피드백 양 증가, 복잡도 중간 | **파일럿 오염**, RF 체인 전력, 3D 가중치 연산 과다 |
 | **주요 활용 분야** | Legacy Wi-Fi, 초경량 IoT 센서 | LTE-A, Wi-Fi 5/6 기본 채널 | 5G NR (Sub-6GHz/mmWave), 6G 통신망 |
 
@@ -176,7 +176,7 @@ CSI-RS / SRS 파일럿 신호 송수신 (Pilot Transmit & Channel Sensing)
 
 </details>
 
-- 무선 시스템 설계 시 채널의 산사파 환경과 **공간 이득의 조건**을 다각도로 평가하여, **복소 가중치** 기반 3D 빔포밍과 다중 사용자 공간 다중화(MU-MIMO)를 지원하는 차세대 대규모 MIMO 구축 체계 적용.
+- 단순 저전력은 **SISO**, 다중 스트림은 **MIMO**, 셀 용량은 **Massive MIMO** 선택.
 
 #### 한줄 요약
 
