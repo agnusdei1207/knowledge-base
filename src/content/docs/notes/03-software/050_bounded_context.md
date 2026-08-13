@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "바운디드 컨텍스트 (Bounded Context)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:24:00+09:00"
 tags:
   - "notes-software"
 weight: 50
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Bounded Context (바운디드 컨텍스트)**: DDD(도메인 주도 설계)에서 특정한 도메인 모델과 보편적 언어(Ubiquitous Language)가 일관되게 적용되는 명시적 경계(Boundary)로, 마이크로서비스(MSA) 서비스 분할의 1:1 직결 기준.
+- **Bounded Context (바운디드 컨텍스트)**: 특정 도메인 모델과 보편적 언어가 일관된 의미를 갖는 명시적 경계.
 - **Context Map (컨텍스트 맵)**: 프로젝트 내에 존재하는 여러 Bounded Context 간의 상호 의존성, 통합 관계 및 데이터 흐름 방식을 시각화한 조감도.
 - **Ubiquitous Language Scope**: 동일한 단어(e.g., 'Account')가 회계 컨텍스트에서는 '계좌', 마케팅 컨텍스트에서는 '사용자 계정'으로 다르게 의미 정의되는 경계 한계선.
 
 </details>
 
 - 정의/개념: 동일한 도메인 모델과 보편적 언어(Ubiquitous Language)의 무결성이 오롯이 유지되는 명시적 경계 영역인 **Bounded Context**
-- 배경/필요성: 전사 단일 모델 구축 시 발생하는 도메인 용어의 의미 충돌 해결, MSA 아키텍처 상의 서브모듈 독립성 및 배포 경계 확보 요구성
+- 배경/필요성: 전사 단일 모델은 같은 용어의 **업무별 의미 충돌•변경 책임 혼선** 유발
 
 #### 한줄 요약
 
@@ -44,8 +44,8 @@ extra:
 
 </details>
 
-- 경계 내부 단일 보편적 언어(**Ubiquitous Language**) 100% 일관성 보장
-- Bounded Context 1개당 1개 팀(Team) 전담 할당 (Conway's Law 준수)
+- 경계 내부에서 **Ubiquitous Language**의 모델 의미 일관성 유지
+- 팀 소유권과 Bounded Context 경계를 가급적 정렬
 - Context 간 관계 패턴 (**Shared Kernel, Customer-Supplier, Conformist, ACL**)
 
 #### 한줄 요약
@@ -73,14 +73,12 @@ extra:
 
 선의 의미: Upstream(U)의 데이터가 Published Language 및 ACL(Anti-Corruption Layer)을 경유하여 Downstream(D)의 pure 도메인 모델로 인입되는 매핑 구조.
 
-| Context 관계 패턴 | 상호작용 방식 및 특징 |
+| 구성요소 | 책임 |
 |:---|:---|
-| **Shared Kernel** | 두 Context가 도메인 모델 일부를 공동 소유하고 함께 변경 관리 |
-| **Customer-Supplier** | Upstream(Supplier)이 Downstream(Customer)의 요구사항을 반영하여 개발 |
-| **Conformist (준수자)** | Downstream이 Upstream의 도메인 모델을 변환 없이 그대로 받아들임 |
-| **Anti-Corruption Layer (ACL)**| Downstream이 자신만의 모델을 보호하기 위해 중간에 **Translation Layer** 구축 |
-| **Open Host Service (OHS)** | Upstream이 다수 소비자를 위해 표준화된 **API 서브시스템**을 제공 |
-| **Separate Ways (각자의 길)**| 통합 비용이 너무 커서 상호 관계를 완전히 끊고 독립적으로 개발 |
+| 업스트림 컨텍스트 (Upstream) | 데이터•이벤트•계약 제공 |
+| 컨텍스트 맵 (Context Map) | 경계 간 의존 방향과 통합 관계 표현 |
+| 오염 방지 계층 (ACL) | 외부 모델을 내부 보편적 언어로 번역 |
+| 다운스트림 컨텍스트 (Downstream) | 번역된 계약으로 자체 모델•상태 유지 |
 
 #### 한줄 요약
 
@@ -99,22 +97,22 @@ extra:
           │
           ▼
 ┌──────────────────────────────┐
-│ 1. Domain Event 발행         │
-│ 2. Kafka Message Broker 전달 │
-│ 3. ACL (Anti-Corruption) 수신│
-│ 4. 내부 언어 번역 (Mapping)  │
+│ 1. 도메인 이벤트 발행       │
+│ 2. 메시지 브로커 전달       │
+│ 3. ACL 수신                 │
+│ 4. 내부 언어 번역           │
 │ 5. 다운스트림 상태 반영      │
 └──────────────┬───────────────┘
                ▼
-   [독립적 데이터 일관성 완결]
+       [반영 결과 기록]
 ```
 
 ### 동작 원리
 
-1. **Domain Event 발행**: Upstream Bounded Context(주문)에서 `OrderPlaced` 이벤트 인가.
-2. **Message Broker 전달**: Event Store 및 Kafka Topic에 불변 객체 기재.
-3. **ACL (Anti-Corruption Layer) 수신**: Downstream Bounded Context(배송)의 ACL이 이벤트 트랩.
-4. **내부 언어 번역**: Upstream의 용어 `Order`를 Downstream 내부 용어 `DeliveryPackage`로 Translate.
+1. **도메인 이벤트 발행**: Upstream이 공개 계약 형태의 사건 발행
+2. **메시지 브로커 전달**: 사건을 내구성 있게 보관•전달
+3. **ACL 수신**: Downstream의 ACL이 사건을 멱등 수신
+4. **내부 언어 번역**: 외부 모델을 내부 모델과 명령으로 변환
 5. **다운스트림 상태 반영**: 배포 전용 DB에 보편적 언어 무결성을 유지하며 멱등(Idempotent) 커밋.
 
 #### 한줄 요약
@@ -132,9 +130,9 @@ extra:
 | 비교 항목 | Enterprise Shared Model (전체 공유) | Bounded Context (분리) |
 |:---|:---|:---|
 | 용어 정의 | 전사 단일 용어 집합 사용 (의미 오염발생) | **Context 경계 내에서만 독자적 의미 성립** |
-| DB 스키마 | 대형 단일 RDBMS 공유 | **Context별 독립 DB (Database-per-service)** |
+| 데이터 소유 | 전사 모델과 스키마 공동 변경 | Context별 모델•데이터 소유권 분리 가능 |
 | 팀 간 의존성 | 커밋 시 전체 팀 간 충돌 발생 | **인터페이스(ACL/OHS)만 유지하면 독립 변경** |
-| MSA 직결성 | 적용 불가 (Monolithic에 적합) | **마이크로서비스(MSA) 경계 1:1 매핑** |
+| 배포 경계 | 단일 배포체에서도 사용 가능 | 필요하면 하나 이상의 서비스 경계로 구현 |
 
 #### 한줄 요약
 
@@ -152,7 +150,7 @@ extra:
 |:---|:---|:---|
 | 경계 구분을 비즈니스가 아닌 기술/DB 테이블 위주로 나눔 | **Event Storming**을 거쳐 보편적 언어 경계로 재정립 | 도메인 독립성 확보 |
 | Upstream의 거친 변화가 Downstream 코드를 붕괴시킴 | **Anti-Corruption Layer (ACL)** 변환기 인가 | 도메인 모델 오염 차단 |
-| 1개 Bounded Context를 여러 개발팀이 공유 | **Conway's Law**에 의거 1개 팀당 1개 Context 매핑 | 소통 오버헤드 소멸 |
+| 한 경계의 변경 책임이 여러 팀에 분산 | **팀 소유권**과 Context 책임을 명시 | 의사결정•조정 경로 단순화 |
 
 > 사례: 배달 애플리케이션 내 **주문 Context**, **결제 Context**, **라이더배차 Context** 분리 및 Context Map 수립
 
@@ -168,7 +166,7 @@ extra:
 
 </details>
 
-- **컨텍스트 경계 설정 기준**에 따라 MSA 아키텍처 수립 시 **Event Storming 기반 Bounded Context + ACL** 도출 인가
+- 모델 의미가 다르면 **Bounded Context**, 외부 모델 의존은 **ACL** 적용
 
 #### 한줄 요약
 

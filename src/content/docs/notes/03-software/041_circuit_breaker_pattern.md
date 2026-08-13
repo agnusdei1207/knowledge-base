@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "서킷 브레이커 패턴 (Circuit Breaker Pattern)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:50:00+09:00"
 tags:
   - "notes-software"
 weight: 41
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 원격 호출의 연쇄 장애(Cascading Failure)를 차단하기 위해 타깃 서비스의 에러 비율/지연율을 모니터링하여 차단기(Open/Closed/Half-Open)를 자동 제어하는 **Circuit Breaker Pattern**
-- 배경/필요성: 분산 MSA 환경에서 단일 서비스 지연으로 인한 스레드 고갈(Thread Exhaustion) 및 전체 시스템 다운 차단 요구성
+- 배경/필요성: 느린 원격 호출의 누적은 **스레드•연결 풀 고갈**과 연쇄 장애 유발
 
 #### 한줄 요약
 
@@ -70,13 +70,13 @@ extra:
 
 선의 의미: 원격 호출 인터셉터가 Sliding Window에 런타임 수치를 수집하고, State Machine이 조건 충족 시 Open/Closed 상태를 전이하며 Fallback을 인가하는 구조.
 
-| 구성요소 | 핵심 역할 및 주요 파라미터 |
+| 구성요소 | 책임 |
 |:---|:---|
-| **Closed State** | 모든 호출 수용, `failureRateThreshold` (e.g. 50%) 초과 시 Open 전이 |
-| **Open State** | 호출 즉시 차단(Fallback 실행), `waitDurationInOpenState` (e.g. 10s) 쿨다운 대기 |
-| **Half-Open State**| `permittedNumberOfCallsInHalfOpenState` (e.g. 3회) 시험 호출 전송 복구 검증 |
-| **Sliding Window** | `slidingWindowSize` (e.g. 100회/10초) 설정으로 민감도(Sensitivity) 조율 |
-| **Fallback Handler**| Open 또는 Exception 발생 시 대체 캐시/디폴트 데이터 반환 로직 |
+| 호출 인터셉터 | 원격 호출 허용•차단과 결과 수집 |
+| 실패 측정 창 | 최근 실패율•지연율과 최소 표본 집계 |
+| 상태 기계 | Closed•Open•Half-Open 전이 관리 |
+| 복구 제어기 | 쿨다운 후 제한된 시험 호출 허용 |
+| 대체 응답 처리기 | 차단 시 캐시•축약•명시 오류 반환 |
 
 #### 한줄 요약
 
@@ -92,27 +92,32 @@ extra:
 
 ```text
 ┌──────────────────────────────┐
-│ Closed (정상 통신)           │◀────────────────┐
+│ Closed                       │◀────────────────┐
 └──────────────┬───────────────┘                 │
-               ▼ (실패율 임계치 초과)            │ (시험 호출 성공)
+               ▼ 1. 결과 집계                    │
+       [2. 임계치 판정]                           │
+               │ 초과                            │
+               ▼                                 │
 ┌──────────────────────────────┐                 │
-│ Open (호출 즉시 차단/Fallback)│                 │
+│ Open                         │                 │
 └──────────────┬───────────────┘                 │
-               ▼ (Cool-down 타임아웃)            │
+               ▼ 3. 쿨다운 대기                  │
 ┌──────────────────────────────┐                 │
-│ Half-Open (시험 호출 전송)   ├─────────────────┘
+│ Half-Open                    │                 │
 └──────────────┬───────────────┘
-               ▼ (시험 호출 실패)
-         [Open 재전이]
+               ▼ 4. 시험 호출
+       [5. 복구 여부 판정]
+          ├─ 성공 ───────────────────────────────┘
+          └─ 실패 ─▶ [Open]
 ```
 
 ### 동작 원리
 
-1. **Closed**: 정상 상태로 모든 원격 호출 수행하며 Sliding Window 내 에러율 모니터링.
-2. **Open 전이**: 실패율/지연율 임계치(e.g., 50% 이상) 초과 시 **Open State**로 트립(Trip) 되어 원격 호출 거부 및 **Fallback** 실행.
-3. **Cool-down 대기**: 지정된 대기 시간(e.g., 10초) 동안 차단 상태 유지 및 타깃 서비스 복구 여유 부여.
-4. **Half-Open 전이**: 대기 완료 후 **Half-Open State**로 전이하여 3~5회의 제한된 **Probe Request** 인가.
-5. **Closed 복귀 / Open 유지**: 시험 호출 100% 성공 시 **Closed** 복귀, 1건이라도 실패 시 다시 **Open**으로 재트립.
+1. **결과 집계**: Closed 상태에서 실패율•지연율과 표본 수 갱신
+2. **임계치 판정**: 조건 초과 시 Open으로 전이하고 호출 차단
+3. **쿨다운 대기**: 설정 시간 동안 호출을 빠르게 실패 처리
+4. **시험 호출**: Half-Open에서 제한된 호출로 복구 상태 확인
+5. **복구 여부 판정**: 시험 결과에 따라 Closed 또는 Open 전이
 
 #### 한줄 요약
 
@@ -130,8 +135,8 @@ extra:
 |:---|:---|:---|
 | 구현 방식 | Java 8+ Functional / Lambda / AOP 위주 | Thread Pool 및 Semaphore 격리 중심 |
 | 타 모듈 결합 | RateLimiter, Bulkhead, Retry 등 유연한 조합 | 모놀리식 라이브러리 덩어리 |
-| 유지보수 상태 | **현재 커뮤니티 활발 유지보수중** | **Deprecated (개발 중단)** |
-| 런타임 오버헤드 | 메모리 foot-print 수 KB (매우 경량) | 쓰레드 생성 오버헤드 큼 |
+| 생태계 위치 | 모듈 조합 중심의 후속 선택지 | 유지보수 모드의 기존 라이브러리 |
+| 런타임 비용 | 호출 장식자와 측정 창 비용 | 선택한 스레드 격리 비용 가능 |
 
 #### 한줄 요약
 
@@ -165,7 +170,7 @@ extra:
 
 </details>
 
-- **서킷 브레이커 설계 기준**에 따라 MSA 시스템 구축 시 **Resilience4j CircuitBreaker + Fallback + Bulkhead** 필수 세팅
+- 지속 장애는 **Circuit Breaker**, 자원 고갈 경계는 **Bulkhead** 결합
 
 #### 한줄 요약
 

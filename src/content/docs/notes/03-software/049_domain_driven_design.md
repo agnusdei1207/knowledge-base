@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "DDD 도메인 주도 설계 (Domain-Driven Design)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:21:00+09:00"
 tags:
   - "notes-software"
 weight: 49
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 기술 중심이 아닌 비즈니스 도메인 지식에 집중하여 현업과 개발팀이 동일한 보편적 언어(Ubiquitous Language) 기반으로 도메인 모델을 코드로 구체화하는 **DDD (Domain-Driven Design)**
-- 배경/필요성: 현업 기획과 개발 코드 간의 용어/개념 격차(Impedance Mismatch) 소멸, 대규모 엔터프라이즈의 복잡한 비즈니스 로직 통제 요구성
+- 배경/필요성: 업무 용어와 코드 모델 불일치는 **규칙 누락•해석 충돌** 유발
 
 #### 한줄 요약
 
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Bounded Context**: 동일한 보편적 언어(Ubiquitous Language)가 적용되는 명확한 비즈니스 경계(Boundary)로, MSA 서비스 분할의 1:1 직결 기준.
+- **Bounded Context**: 특정 모델과 보편적 언어가 일관된 의미를 갖는 명시적 경계.
 - **Context Map**: 여러 Bounded Context 간의 관계(Upstream/Downstream, Shared Kernel, ACL)와 데이터 연동 방식을 시각화한 지도.
 
 </details>
@@ -73,16 +73,13 @@ extra:
 
 선의 의미: 전략적 설계(Subdomain/Bounded Context/Context Map)가 수립된 후, 그 내부가 전술적 설계(Ubiquitous Language/Domain Model - Entity, VO, Aggregate)로 구현되는 체계.
 
-| 구분 레벨 | 구성요소 (Building Blocks) | 핵심 역할 및 개념 |
-|:---|:---|:---|
-| **Strategic Design (전략적 설계)** | **Subdomain** | 비즈니스 문제를 Core, Supporting, Generic 하위 도메인으로 분할 |
-| | **Bounded Context** | 단일 보편적 언어가 통용되는 명확한 아키텍처 모델 경계 |
-| | **Context Map** | Context 간 업스트림/다운스트림 관계 및 ACL 번역 레이어 정의 |
-| **Tactical Design (전술적 설계)** | **Entity** | 고유 식별자(ID)를 가지며 시간에 따라 상태가 변하는 비즈니스 객체 |
-| | **Value Object (VO)** | 식별자 없이 속성 값 자체로 동일성을 판정하는 **불변(Immutable)** 객체 |
-| | **Aggregate / Root** | 트랜잭션 원자성 일관성을 유지하는 객체 그룹 및 대표 관문 객체 |
-| | **Domain Service** | 특정 Entity/VO에 속하기 애매한 도메인 행위(Operation) 캡슐화 |
-| | **Repository** | Aggregate의 저장 및 영속화 억세스를 추상화하는 인터페이스 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 하위 도메인 | 핵심•지원•일반 업무 문제 영역 분류 |
+| 바운디드 컨텍스트 | 모델과 언어의 의미 경계 설정 |
+| 컨텍스트 맵 | 경계 간 관계•번역•의존 방향 표현 |
+| 공통 언어 | 현업과 개발의 모델 용어를 코드까지 일치 |
+| 도메인 모델 | Entity•VO•Aggregate로 규칙과 불변 조건 구현 |
 
 #### 한줄 요약
 
@@ -114,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **Event Storming**: 벽면에 비즈니스 **Domain Event**를 시간 순서대로 나열.
-2. **Command & Actor 결합**: 이벤트를 유발하는 **Command** 및 주체 **Actor** 정의.
-3. **Ubiquitous Language 수립**: 현업-개발팀 용어 충돌 정제 및 보편적 언어 집합 수립.
-4. **Bounded Context 그룹핑**: 응집도 높은 이벤트 그룹을 묶어 **Bounded Context** 경계 설정.
-5. **Tactical Design**: Context 내부 **Aggregate, Entity, VO, Repository** 코딩 체계 구체화.
+1. **Domain Event / Command 도출**: 업무 사건과 이를 유발한 명령•행위자 탐색
+2. **Ubiquitous Language 정의**: 용어 충돌을 정제해 공통 모델 언어 수립
+3. **Bounded Context 경계 설정**: 모델 의미와 변경 책임이 응집된 경계 도출
+4. **Aggregate & Root 모델링**: 트랜잭션 불변 조건과 외부 접근 관문 설계
+5. **Tactical Design 코드 구현**: Entity•VO•Repository로 모델 구체화
 
 #### 한줄 요약
 
@@ -136,7 +133,7 @@ extra:
 |:---|:---|:---|
 | 객체 상태/행위 | 상태(Data)와 행위(Logic)가 완전 분리 | **상태와 행위가 Entity 내부로 결합 캡슐화** |
 | 비즈니스 유효성 | Service 계층에서 `if-else` 검증 | **Entity / VO 스스로 불변성(Invariant) 검증** |
-| 객체지향성 | 절차지향적 코딩 형태 | **완벽한 객체지향적 (Encapsulation) 코드** |
+| 객체지향성 | 데이터와 절차가 분리되기 쉬움 | 행위와 불변 조건의 **캡슐화** 강조 |
 | 객체 변경 안전성 | 외부에서 setter로 무단 변경 가능 | **setter 배제 및 도메인 메서드로만 상태 변경** |
 
 #### 한줄 요약
@@ -171,7 +168,7 @@ extra:
 
 </details>
 
-- **DDD 도입 판정 기준**에 따라 대규모 복잡 도메인 및 MSA 분할 시 **Event Storming + Bounded Context** 필수 수용
+- 복잡한 핵심 업무는 **DDD**, 단순 CRUD는 **Transaction Script** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "형상 관리: Git•브랜치 전략 (Configuration Management Git)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:32:00+09:00"
 tags:
   - "notes-software"
 weight: 52
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 소프트웨어 개발 과정의 모든 산출물(코드, 문서, 설정)에 대한 버전 식별, 통제 및 추적성을 분산 저장소(Git)와 전략적 워크플로우를 통해 체계화하는 **Configuration Management & Git Branch Strategy**
-- 배경/필요성: 병렬 개발 시 소스코드 무단 덮어쓰기 파행 차단, 릴리스 버전의 정확한 재현성(Reproducibility) 확보 및 CI/CD 자동화 연동 요구성
+- 배경/필요성: 병렬 변경의 기준선 부재는 **덮어쓰기•릴리스 재현 실패** 유발
 
 #### 한줄 요약
 
@@ -75,15 +75,12 @@ extra:
 
 선의 의미: 파일 변경이 `git add`로 Staging Area에 등록되고, `git commit`으로 Local Repository에 래칭된 후 `git push`로 Remote에 동기화되는 아키텍처.
 
-| 구분 항목 | 주요 핵심 개념 | 내용 및 특징 |
-|:---|:---|:---|
-| **Git 3대 영역** | **Working Directory** | 개발자가 실제 코드 파일을 수정 작업하는 유저 작업 공간 |
-| | **Staging Area (Index)** | 커밋 대상 파일들만 선택적으로 올려놓는(git add) 중간 대기 장소 |
-| | **Local Repository** | `git commit`을 통해 영구적인 스냅샷 커밋 객체가 저장되는 공간 |
-| **SCM 4대 활동** | **형상 식별 (Identification)**| 관리 대상(CI: Configuration Item) 지정 및 ID/버전 체계 정립 |
-| | **형상 통제 (Control)** | 변경 요청서(CR) 및 CCB 심의를 통한 무단 변경 통제 |
-| | **형상 감사 (Audit)** | Baseline 대비 형상 항목의 정합성 및 절차 준수 여부 검증 |
-| | **형상 기록 (Status Accounting)**| 변경 이력, 커밋 로그, 처리 현황을 지속 기록 관리 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 작업 공간 (Working Directory) | 실제 파일 수정 상태 보관 |
+| Staging Area (Index) | 다음 커밋에 포함할 파일 스냅샷 선택 |
+| 로컬 저장소 (Local Repository) | 커밋 객체•트리•참조와 계보 보관 |
+| 원격 저장소 (Remote Repository) | 팀 간 참조 공유와 통합 기준선 제공 |
 
 #### 한줄 요약
 
@@ -103,11 +100,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. git add (Staging 이송)    │
-│ 2. git commit (로컬 래칭)    │
-│ 3. Push & PR (Pull Request)  │
-│ 4. CI 검증 & Code Review     │
-│ 5. Merge (Mainline 통합)     │
+│ 1. Staging 이송             │
+│ 2. 로컬 커밋                │
+│ 3. Push•PR                  │
+│ 4. CI 검증•Code Review      │
+│ 5. Mainline 병합            │
 └──────────────┬───────────────┘
                ▼
    [신규 Baseline 형성 완료]
@@ -115,17 +112,17 @@ extra:
 
 ### 동작 원리
 
-1. **Staging 이송**: `git add`를 통해 수정된 파일들을 Index(Staging Area)에 래칭.
-2. **로컬 래칭**: `git commit`으로 작성자, 타임스탬프, 메시지, 트리 SHA 포함 불변 커밋 객체 생성.
-3. **Push & PR**: Remote Repository로 브랜치 `push` 후 **PR (Pull Request / Merge Request)** 생성.
-4. **CI 검증 & Code Review**: CI 파이프라인(Jenkins/GitHub Actions) 자동 빌드/테스트 및 동료 리뷰.
-5. **Merge**: 통과 시 **Protected Main Branch**에 통합되어 신규 형상 기준선(Baseline) 형성.
+1. **Staging 이송**: `git add`로 선택 파일의 Index 스냅샷 갱신
+2. **로컬 커밋**: 트리와 부모 참조를 가진 커밋 객체 생성
+3. **Push·PR**: 원격 브랜치를 공유하고 변경 검토 요청 생성
+4. **CI 검증·Code Review**: 자동 검사와 동료 검토로 병합 조건 판정
+5. **Mainline 병합**: 보호된 기준 브랜치에 승인 변경 통합
 
 #### 한줄 요약
 
 - 선택 변경 스냅샷부터 기준선 병합까지의 검증 흐름이 핵심이다.
 
-## Ⅴ. 대표적 브랜치 전략 (GitFlow vs Trunk-based)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -136,10 +133,10 @@ extra:
 
 | 비교 항목 | GitFlow (전통적 확장형) | Trunk-based Development (현대 애자일형) |
 |:---|:---|:---|
-| 브랜치 수 | 5개 (`master, develop, feature, release, hotfix`) | 1~2개 (`main` 중심 + short-lived feature) |
-| 브랜치 수명 | 수주~수개월간 유지되는 장기 브랜치 존재 | **수시간~수일 내 즉시 삭제되는 초단기 브랜치** |
+| 브랜치 구조 | develop•feature•release•hotfix 역할 분리 | main 중심의 짧은 feature 브랜치 |
+| 브랜치 수명 | 릴리스 병행을 위한 장기 브랜치 가능 | 통합 지연을 줄이는 짧은 브랜치 |
 | 통합/배포 주기 | 정기적 릴리스 주기 (배치 통합) | **지속적 통합 및 배포 (CI/CD 상시 지속 배포)** |
-| 충돌 리스크 | 병합 시 대규모 Merge Conflict 발생 위험 | **작은 단위 자주 병합으로 충돌 거의 없음** |
+| 충돌 위험 | 장기 분기 시 병합 충돌 증가 | 작은 단위의 잦은 병합으로 충돌 범위 축소 |
 | 필수 전제조건 | 정적 배포 절차, 수동 테스트 환경 | **고도로 자동화된 CI/CD 및 자동 테스트 파이프라인** |
 
 #### 한줄 요약

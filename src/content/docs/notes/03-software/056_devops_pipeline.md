@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-10T23:45:00+09:00"
+date: "2026-08-13T15:51:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 소프트웨어 계획(Plan)부터 코딩, 빌드, 테스트, 출시, 배포, 운영 및 모니터링 무한 루프를 자동화된 도구 체인(Toolchain)으로 연결한 **DevOps Pipeline**
-- 배경/필요성: 개발(변경 요구)과 운영(안정성 요구) 간의 이념적 대립(Wall of Confusion) 해소, 출시 리드 타임(Lead Time) 단축 및 고품질 시스템 구현 요구성
+- 배경/필요성: 개발•운영 분업은 **인계 지연•책임 단절** 유발
 
 #### 한줄 요약
 
@@ -61,28 +61,29 @@ extra:
 </details>
 
 ```text
-       [Plan / Issue (Jira)] ──► [Code / Version (Git)]
-                ▲                         │
-                │                         ▼
-     [Monitor (Prometheus)] ◄── [Build & Test (Jenkins)]
-                ▲                         │
-                │                         ▼
-     [Operate (Kubernetes)] ◄── [Deploy (ArgoCD)]
+       [Plan / Issue (Jira)] ─── [Code / Version (Git)]
+                │                         │
+                │                         │
+     [Monitor (Prometheus)] ─── [Build & Test (Jenkins)]
+                │                         │
+                │                         │
+     [Operate (Kubernetes)] ─── [Deploy (ArgoCD)]
 ```
 
 선의 의미: Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 과정이 끊임없이 순환 환류(Infinity Loop)되는 DevOps 파이프라인 도구 체인 구조.
 
-| 파이프라인 단계 | 주요 역할 및 활동 내용 | 대표적 DevOps Toolchain |
-|:---|:---|:---|
-| **1. Plan (계획)** | 요구사항 관리, 백로그 정의, 작업 스케줄링 | Jira, Confluence, Trello |
-| **2. Code (개발)** | 소스코드 작성, 분산 형상 관리, 코드 리뷰 | Git, GitHub, GitLab |
-| **3. Build & Test** | 자동 컴파일, 단윗/통합 테스트, 정적 코드 분석 | Gradle, Jenkins, SonarQube |
-| **4. Release & Deploy** | **불변 바이너리 패키징, IaC 기반 인프라 자동 프로비저닝** | Docker, Terraform, ArgoCD |
-| **5. Operate & Monitor**| **컨테이너 오케스트레이션, 메트릭/로그 모니터링** | Kubernetes, Prometheus, Grafana |
+| 구성요소 | 책임 |
+|:---|:---|
+| 계획 플랫폼 (Jira) | 요구사항•백로그와 작업 우선순위 관리 |
+| 변경 저장소 (Git) | 소스 변경과 검토 이력 보관 |
+| 통합 실행기 (Jenkins) | 빌드•시험•정적 분석 자동 실행 |
+| 배포 제어기 (ArgoCD) | 승인 산출물을 대상 환경에 전달 |
+| 운영 플랫폼 (Kubernetes) | 서비스 실행과 자원 상태 관리 |
+| 관측 플랫폼 (Prometheus) | 운영 지표 수집과 피드백 제공 |
 
 #### 한줄 요약
 
-- 변경 저장소, 통합 실행기, 아티팩트 저장소, 전달 제어기, 관측 플랫폼의 연결 구조가 핵심이다.
+- 계획•변경•통합•배포•운영•관측 연결이 핵심이다.
 
 ## Ⅳ. 흐름도
 
@@ -98,11 +99,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. CI (Jenkins 빌드&테스트)  │
-│ 2. SAST 정적 보안 검증       │
-│ 3. CD (ArgoCD 자동 배포)     │
-│ 4. Prometheus 관측 & 메트릭  │
-│ 5. DORA Metrics 피드백 측정  │
+│ 1. 변경 통합•시험            │
+│ 2. 정적 보안 검증            │
+│ 3. 승인 버전 배포            │
+│ 4. 운영 지표 관측            │
+│ 5. DORA 지표 환류            │
 └──────────────┬───────────────┘
                ▼
  [다음 스프린트 피드백 환류 완료]
@@ -110,10 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **Plan & Code**: Jira 이슈 기반 Git Feature 브랜치 생성 및 소스 작성.
-2. **CI & QA**: PR 생성 시 Jenkins/GitHub Actions가 빌드, 테스트 및 SonarQube 정적 분석 자동 검증.
-3. **Deploy & IaC**: Terraform으로 서버 자원 획득 후 ArgoCD가 Kubernetes에 무장애 배포.
-4. **Monitor & Feedback**: Prometheus/Grafana 지표 수거 후 장애 시 **MTTR (Mean Time to Recovery)** 단축 및 개발팀 환류.
+1. **변경 통합•시험**: 실행기가 빌드와 단위•통합 시험 수행.
+2. **정적 보안 검증**: SAST 결과로 품질 게이트 판정.
+3. **승인 버전 배포**: 배포 제어기가 운영 플랫폼에 전달.
+4. **운영 지표 관측**: 오류율•지연시간•복구 상태 수집.
+5. **DORA 지표 환류**: 성과 지표를 다음 개선 계획에 반영.
 
 #### 한줄 요약
 
@@ -129,7 +131,7 @@ extra:
 
 | 비교 항목 | Traditional Silo Structure | DevOps Cross-Functional Structure |
 |:---|:---|:---|
-| 조직 형태 | 개발팀, QA팀, 운영팀 완격 분리 (Silo) | **개발+운영 융합 전담 팀 (Cross-Functional)** |
+| 조직 형태 | 개발팀, QA팀, 운영팀 완전 분리 (Silo) | **개발+운영 융합 전담 팀 (Cross-Functional)** |
 | 릴리스 주기 | 수개월 단위의 대규모 릴리스 | **매일/수시 소규모 연속 릴리스 (Continuous)** |
 | 책임 소재 | "배포 후엔 운영팀 책임" 책임 전가 | **"You Build It, You Run It" 공동 책임** |
 | 인프라 관리 | 서버 관리자에 의한 수동 작업 | **Infrastructure as Code (IaC) 자동화** |
@@ -149,14 +151,14 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 문화적 변화 없이 도구(Jenkins/K8s)만 도입하여 실패 | **CALMS 프레임워크 기반 멘탈리티 혁신 & C-Level 지원** | DevOps 조직 문화 정착 |
-| 자동화 테스트 부족으로 배포 장애 수시 발생 | **Test Automation (단위/통합 커버리지 80% 이상)** | 배포 변경 실패율 급감 |
-| 운영 지표 가시성 부재 | **Prometheus + Grafana + OpenTelemetry 통합 구축** | MTTR 시간 극대화 단축 |
+| 자동화 시험 부족으로 배포 결함 유입 | 위험 기반 **Test Automation** 강화 | 배포 변경 실패율 감소 |
+| 운영 지표 가시성 부재 | **Prometheus + Grafana + OpenTelemetry** 연계 | 평균 복구 시간 단축 |
 
 > 사례: **Atlassian Jira + Git + Jenkins + SonarQube + K8s + Grafana** 기반 DevOps 파이프라인 구축
 
 #### 한줄 요약
 
-- 개발•운영 연구 및 평가, 인프라 코드화, 관측 가능성에 기반한 개선이 핵심이다.
+- 개발•운영 공동 평가, 인프라 코드화, 관측성이 핵심이다.
 
 ## Ⅶ. 결론
 
@@ -166,7 +168,7 @@ extra:
 
 </details>
 
-- **DevOps 파이프라인 구축 기준**에 따라 애자일 및 Cloud-Native 조직으로 진화 시 **DevOps Toolchain & DORA Metrics** 수용
+- 빈번한 변경은 **DevOps 공동 운영**, 엄격한 인수는 **단계별 승인** 선택
 
 #### 한줄 요약
 

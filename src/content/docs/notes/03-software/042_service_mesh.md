@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "서비스 메시: Istio•Envoy (Service Mesh)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:54:00+09:00"
 tags:
   - "notes-software"
 weight: 42
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 마이크로서비스 애플리케이션 코드의 외부 변경 없이, Sidecar Proxy 레이어를 통해 서비스 간(East-West) 트래픽 통제, mTLS 보안 및 분산 관측성을 일관 집행하는 인프라 아키텍처인 **Service Mesh (Istio / Envoy)**
-- 배경/필요성: 각 서비스 소스코드 내 통신 라이브러리(Circuit Breaker, Retry, Tracing) 중복 작성 부담 소멸, 언어 독립적(Polyglot) 네트워크 거버넌스 단일화 요구성
+- 배경/필요성: 서비스별 통신 라이브러리는 **정책 편차•업그레이드 중복** 유발
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - **Control Plane (Istiod)** 대 **Data Plane (Envoy Sidecar)** 2대 레이어 분리
-- 애플리케이션 소스코드 침범 0% (**Zero-code modification**)
+- 애플리케이션 코드 밖의 프록시 계층에서 통신 정책 집행
 - **mTLS** 기반 자동 암호화 보안 및 **East-West Traffic** 정밀 제어 (Canary, Blue-Green)
 
 #### 한줄 요약
@@ -73,12 +73,13 @@ extra:
 
 선의 의미: Istiod 컨트롤 플레인이 xDS API로 Envoy 데이터 플레인에 정책을 하달하고, Sidecar Envoy 프록시 간 mTLS 트래픽 통제 및 텔레메트리 모니터링이 집행되는 구조.
 
-| 구성요소 | 핵심 역할 및 기능 | 주요 기술 사양 |
-|:---|:---|:---|
-| **Istiod (Control Plane)** | xDS API 기반 Envoy 프록시 동적 설정 배포, Citadel 인증서 발급(CA) | Pilot, Citadel, Galley 통합체 |
-| **Envoy (Data Plane)** | **iptables** 트래픽 가로채기, L7 라우팅, **mTLS 암호화**, Circuit Breaker | C++ 기반 고성능 Sidecar Proxy |
-| **VirtualService (CRD)** | 서비스 진입 트래픽 라우팅 규칙 및 가중치(Canary 90:10) 설정 | Kubernetes Custom Resource |
-| **DestinationRule (CRD)**| 라우팅 후 마운트될 서비스 서브셋(v1/v2), Load Balancing, **mTLS** 정책 | Kubernetes Custom Resource |
+| 구성요소 | 책임 |
+|:---|:---|
+| Istio 제어 플레인 | 정책•인증서•서비스 구성을 **xDS**로 배포 |
+| 호출 워크로드 | 대상 서비스 호출 생성 |
+| Envoy 데이터 플레인 | 라우팅•mTLS•복원력 정책 집행 |
+| 대상 워크로드 | 프록시가 검증한 업무 요청 처리 |
+| 텔레메트리 백엔드 | 메트릭•로그•분산 추적 수집 |
 
 #### 한줄 요약
 
@@ -96,23 +97,22 @@ extra:
 ┌──────────────────────────────┐
 │ Istiod Control Plane         │
 └──────────────┬───────────────┘
-               ▼ (xDS API 동기화)
+               ▼ 1. xDS 구성 동기화
 ┌──────────────────────────────┐
-│ 1. iptables 트래픽 가로채기  │
-│ 2. Sidecar Envoy (Outbound)  │
-│ 3. mTLS 암호화 터널링 통신   │
-│ 4. Sidecar Envoy (Inbound)   │
-│ 5. Target Pod 서비스 전달    │
+│ 2. 아웃바운드 트래픽 포착   │
+│ 3. mTLS 보호 통신           │
+│ 4. 인바운드 인가 검증       │
+│ 5. 대상 워크로드 전달       │
 └──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. **xDS 동기화**: Istiod가 VirtualService/DestinationRule 설정을 **xDS API**로 Envoy 프록시들에 실시간 전파.
-2. **iptables 가로채기**: App Pod의 Outbound HTTP 요청 발생 시 **iptables** 룰에 의해 Sidecar Envoy로 즉시 굴절.
-3. **mTLS 암호화 터널링**: Envoy 간 상호 **mTLS 인증서** 검증 및 TLS 암호화 데이터 송신.
-4. **Inbound 수신 & Decrypt**: 타깃 Pod의 Inbound Envoy가 수신하여 mTLS 복호화 및 인가(AuthorizationPolicy) 검증.
-5. **Target Pod 전달**: 검증 완결 후 `localhost` 포트를 경유하여 실제 App Container로 클린 요청 하달.
+1. **xDS 구성 동기화**: 제어 플레인이 프록시에 정책•엔드포인트 배포
+2. **아웃바운드 트래픽 포착**: 호출을 데이터 플레인 프록시로 전달
+3. **mTLS 보호 통신**: 워크로드 신원을 검증하고 트래픽 암호화
+4. **인바운드 인가 검증**: 대상 프록시가 정책에 따라 호출 허용 판정
+5. **대상 워크로드 전달**: 허용 요청을 애플리케이션 포트로 전달
 
 #### 한줄 요약
 
@@ -129,8 +129,8 @@ extra:
 | 비교 항목 | Sidecar Mode (전통적 Istio) | Ambient Mode (최신 Sidecarless) |
 |:---|:---|:---|
 | 프록시 주입 위치 | 각 Pod 내 **Sidecar Container** 배치 | **노드당 1개 ztunnel (L4)** + **Waypoint Proxy (L7)** |
-| 애플리케이션 재부팅 | Sidecar 주입 시 Pod 재시작 필요 | **Pod 재시작 0% (Zero Restart)** |
-| 메모리/CPU 리소스 오버헤드| 수백 개 Pod 확장 시 프록시 리소스 오버헤드 중복 폭증 | **노드 단위 공유로 자원 소모 60~80% 대폭 절감** |
+| 적용 단위 | 워크로드별 프록시 주입•업데이트 | 노드 L4와 선택적 L7 프록시 적용 |
+| 자원 비용 | 워크로드 수에 따라 프록시 비용 증가 | 노드 공유로 중복 프록시 비용 감소 가능 |
 | 통신 보안 수준 | L4 ~ L7 풀 스택 Sidecar 처리 | L4(ztunnel mTLS) + 선택적 L7(Waypoint) |
 
 #### 한줄 요약
@@ -141,15 +141,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Sidecar Footprint**: 수백~수천 개의 Pod가 배포된 K8s 클러스터에서 각 Pod마다 주입된 Envoy Sidecar가 점유하는 메모리(약 50MB/Pod) 및 CPU 리소스 합산 비용.
+- **Sidecar Footprint**: 워크로드별 프록시가 사용하는 메모리•CPU와 추가 네트워크 처리 비용.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | Sidecar 프록시 대량 주입으로 인한 클러스터 메모리 고갈 (**Sidecar Footprint**) | **Istio Ambient Mode** 전환 또는 `Sidecar` CRD로 이웃 억세스 스코프 제한 | 자원 낭비 최소화 |
-| 프록시 홉(Hop) 추가에 따른 통신 지연(Latency) 증가 | Envoy C++ 라우팅 최적화 및 불필요한 L7 텔레메트리 필터 오프 | latency 1~2ms 수준 유지 |
-| Istio 버전 업그레이드 시 서비스 중단 위험 | **Revision 기반 인플레이스 카나리아 업그레이드 (Istio Canary Upgrade)** | 무장애 모듈 업그레이드 |
+| 프록시 홉 추가에 따른 통신 지연 | 불필요한 L7 필터 제거와 지연 예산 측정 | 프록시 처리 비용 제한 |
+| 제어•데이터 플레인 업그레이드 위험 | **Revision 기반 Canary Upgrade** 적용 | 점진적 버전 전환과 롤백 |
 
 > 사례: Kubernetes 클러스터 상의 **Istio 1.20+ Ambient Mesh** 구축 및 Kiali / Jaeger 관측성 연동
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **서비스 메시 도입 기준**에 따라 마이크로서비스 50개 이상 및 Zero-Trust 보안 인프라 구축 시 **Istio Service Mesh** 인가
+- 다언어 공통 통신 정책은 **Service Mesh**, 단순 환경은 **라이브러리** 선택
 
 #### 한줄 요약
 

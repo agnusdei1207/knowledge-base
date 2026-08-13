@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:57:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: DevOps 파이프라인 전반에 보안(Security)을 문화이자 자동화된 코드 검증 단계로 내재화(Shift-Left)하는 아키텍처 방법론인 **DevSecOps**
-- 배경/필요성: 릴리스 직전 사후 보안 검사로 인한 배포 지연 및 Open Source 오픈소스 라이선스/취약점(Log4j 등) 폭증에 따른 대처 요구성
+- 배경/필요성: 릴리스 직전 보안 검사는 **수정 비용•배포 지연** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 시프트 레프트, 정책 코드화, 공동 책임이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (Shift-Left 4대 보안 검사)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -64,21 +64,19 @@ extra:
 </details>
 
 ```text
-[코드 작성 (IDE)] ──► [CI Build (SAST/SCA)] ──► [Container Reg (Image Scan)] ──► [Deploy (DAST/PaC)]
-        │                         │                           │                       │
- [Secret Scanning]       [SonarQube/Snyk]            [Trivy/Clair]           [OWASP ZAP/OPA]
+ [위협 모델링] ─── [보안 파이프라인]
+       │                  │
+ [보안 관측] ───── [보안 게이트]
 ```
 
 선의 의미: 개발자의 IDE 코드 작성 단계부터 CI 빌드, 이미지 저장, 배포 및 운영에 이르기까지 연속적인 보안 검사 도구가 자동 배치된 구조.
 
-| DevSecOps 4대 기술 | 대상 및 시점 | 주요 역할 및 대표 도구 |
-|:---|:---|:---|
-| **SAST (정적 분석)** | 소스코드 (Coding/Build 단계)| 소스코드 내 취약 패턴(SQLi, XSS) 정적 분석 (SonarQube, Fortify) |
-| **SCA (구성요소 분석)** | 오픈소스 라이브러리 (Dependencies)| 오픈소스 CVE 취약점 및 라이선스 위반 검사 (Snyk, BlackDuck) |
-| **Secret Scanning** | Git Repository (Commit 시점)| 코드 내 하드코딩된 API Key/비밀키 실수 탐지 (Gitleaks, TruffleHog) |
-| **Container Scan** | Docker/OCI Container Image | 컨테이너 OS 패키지 취약점 및 Root 실행 방지 (Trivy, Clair) |
-| **DAST (동적 분석)** | 구동 중인 App (Staging 단계) | 모의 침투(Pentest) 기반 런타임 취약점 점검 (OWASP ZAP) |
-| **IaC & PaC Scan** | Terraform / K8s Manifest | 인프라 코드의 보안 취약 설정 정적 검증 (Checkov, OPA/Kyverno) |
+| 구성요소 | 책임 |
+|:---|:---|
+| 위협 모델링 | 자산•공격면•보안 요구 식별 |
+| 보안 파이프라인 | SAST•SCA•DAST•이미지 검사 자동 실행 |
+| 보안 게이트 | 위험도와 정책에 따라 승격 허용 판정 |
+| 보안 관측 | 운영 위협 탐지와 규칙 개선 피드백 |
 
 #### 한줄 요약
 
@@ -98,11 +96,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Secret Scanning (Gitleaks)│
-│ 2. SAST (SonarQube)          │
-│ 3. SCA 오픈소스 (Snyk)       │
-│ 4. Image Scanning (Trivy)    │
-│ 5. Security Gate (Pass/Fail) │
+│ 1. 비밀정보 검사             │
+│ 2. 정적•구성요소 분석        │
+│ 3. 컨테이너 이미지 검사      │
+│ 4. 보안 게이트 판정          │
+│ 5. 정책 검증•배포            │
 └──────────────┬───────────────┘
                ▼
    [안전한 K8s 배포 완결]
@@ -110,11 +108,11 @@ extra:
 
 ### 동작 원리
 
-1. **Pre-commit**: 개발자 local 커밋 시 Gitleaks가 API Key 포함 여부 사전 차단.
-2. **SAST & SCA**: PR 생성 시 SonarQube가 OWASP Top 10 취약점 스캔 및 Snyk이 CVE 오픈소스 패키지 검사.
-3. **Image Scan**: 빌드된 Docker 이미지에 대해 Trivy가 OS level 취약점 스캔.
-4. **Security Gate**: Critical/High 등급 취약점 감지 시 파이프라인 즉시 파기 및 개발자에 피드백.
-5. **Prod Deploy**: 검증을 완결한 불변 이미지 및 OPA 정책 검증 후 K8s 배포.
+1. **비밀정보 검사**: 커밋 전 API 키•토큰 포함 여부 검사.
+2. **정적•구성요소 분석**: 코드 취약점과 CVE•라이선스 검사.
+3. **컨테이너 이미지 검사**: OS 패키지와 설정 취약점 분석.
+4. **보안 게이트 판정**: 위험도•예외 정책으로 승격 여부 결정.
+5. **정책 검증•배포**: IaC 정책을 확인하고 검증 산출물 배포.
 
 #### 한줄 요약
 
@@ -131,7 +129,7 @@ extra:
 | 비교 항목 | Traditional Security (사후 점검) | DevSecOps (지속적 내재화) |
 |:---|:---|:---|
 | 검사 시점 | 배포 직전 수동 침투 테스트 (Right Stage) | **개발 초기 커밋부터 상시 자동 분석 (Shift-Left)** |
-| 검사 속도 | 수일~수주일 소요 (배포 병목) | **수분 이내 자동 검사 (Pipeline 내 완결)** |
+| 검사 속도 | 수동 일정과 분석 범위에 따라 지연 | **변경 범위 자동 검사로 조기 피드백** |
 | 담당 주체 | 전담 보안팀 독립 수행 | **개발자 + 보안팀 + 운영팀 보안 공동 책임** |
 | 피드백 반영 | 배포 거부 후 대규모 소스 재작성 | **커밋 단위 즉시 수정을 통한 최소 비용 해결** |
 
@@ -149,8 +147,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 지나친 오탐(**False Positive**)으로 파이프라인이 계속 무단 차단됨 | 보안 도구의 룰셋 튜닝 및 프로젝트 특화 바인딩 | 개발 생산성 보존 |
-| 보안 도구 도입으로 파이프라인 빌드 시간이 1시간으로 연장 | **SAST 델타(증분) 스캔 & 스케줄링 야간 풀스캔 분리** | 파이프라인 속도 유지 |
+| 오탐(**False Positive**)으로 정상 변경 승격 차단 | 룰셋 튜닝과 근거•만료일 있는 예외 관리 | 개발 생산성과 통제력 균형 |
+| 보안 검사 확대로 파이프라인 피드백 지연 | **SAST 증분 검사**와 예약 전체 검사 분리 | 검사 범위와 피드백 속도 균형 |
 | 개발자들의 보안 지식 부족으로 인한 저항 | **Security Champion** 제도 운용 및 개발자 IDE 자동 교정 플러그인 제공 | 문화적 충격 완화 |
 
 > 사례: **GitHub Enterprise + SonarQube + Snyk + Trivy + OPA** 기반 DevSecOps 표준 파이프라인
@@ -167,7 +165,7 @@ extra:
 
 </details>
 
-- **DevSecOps 구축 기준**에 따라 Cloud-Native 엔터프라이즈 시스템 구축 시 **Shift-Left DevSecOps 파이프라인** 필수 인가
+- 코드 결함은 **Shift-Left**, 운영 공격은 **런타임 보안 관측**으로 통제
 
 #### 한줄 요약
 

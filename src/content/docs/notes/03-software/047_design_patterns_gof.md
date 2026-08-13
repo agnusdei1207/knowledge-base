@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "디자인 패턴: GoF 23종 (Design Patterns GoF)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:13:00+09:00"
 tags:
   - "notes-software"
 weight: 47
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **GoF Design Patterns (GoF 23가지 디자인 패턴)**: Erich Gamma 등 4명의 저자(Gang of Four)가 객체지향 소프트웨어 설계 시 자주 발생하는 23가지 문제 상황과 이에 대한 재사용 가능한 최적의 모범 구조 솔루션 모음집.
+- **GoF Design Patterns (GoF 23가지 디자인 패턴)**: 반복되는 객체지향 설계 문제의 의도•구조•결과를 정리한 23개 패턴 모음.
 - **Creational / Structural / Behavioral Patterns**: GoF 23종 패턴을 목적에 따라 객체 생성을 다루는 생성 패턴(5종), 클래스/객체 합성을 다루는 구조 패턴(7종), 객체 간 상호작용/알고리즘을 다루는 행위 패턴(11종)으로 3대 분류한 체계.
 
 </details>
 
 - 정의/개념: 객체지향 소프트웨어 설계에서 반복적으로 나타나는 구조적 문제들을 체계적으로 분류하고 재사용 가능한 클래스/객체 설계 구조로 정리한 23가지 정본 모음집인 **GoF Design Patterns**
-- 배경/필요성: 동일 설계 문제에 대한 주구장창 재발명(Reinventing the wheel) 방지, 개발자 간 커뮤니케이션 어휘(Vocabulary) 통일 및 재사용성 향상 요구성
+- 배경/필요성: 반복 설계를 매번 새로 풀면 **해결 품질 편차•의사소통 비용** 증가
 
 #### 한줄 요약
 
@@ -69,11 +69,11 @@ extra:
 
 선의 의미: 23가지 GoF 패턴이 목적에 따라 생성 5종, 구조 7종, 행위 11종으로 분화되는 전체 매트릭스 아키텍처.
 
-| 분류 (Type) | 분류 정의 | 패턴 종류 (GoF 23종) |
-|:---|:---|:---|
-| **Creational (생성 5종)** | 객체 생성 프로세스 추상화, 생성과 상용의 격리 | **Abstract Factory, Builder, Factory Method, Prototype, Singleton** |
-| **Structural (구조 7종)**| 더 큰 구조를 얻기 위해 클래스/객체 합성 | **Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy** |
-| **Behavioral (행위 11종)**| 객체 간 알고리즘과 책임 분배 및 비동기 협력 | **Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, Visitor** |
+| 구성요소 | 책임 |
+|:---|:---|
+| Creational | 객체 생성과 사용의 결합 완화 |
+| Structural | 클래스•객체의 합성 구조 제공 |
+| Behavioral | 객체 간 책임•알고리즘•통신 분배 |
 
 #### 한줄 요약
 
@@ -96,7 +96,7 @@ extra:
 │ 1. 문제 맥락 분석 (Context)  │
 │ 2. 3대 분류 결정 (생성/구조/행위)│
 │ 3. 최적 GoF 패턴 매핑        │
-│ 4. Trade-off 평가           │
+│ 4. 상충 관계 평가           │
 └──────────────┬───────────────┘
                ▼
        [클린 모듈 구현]
@@ -107,13 +107,13 @@ extra:
 1. **문제 맥락 분석**: 해결하고자 하는 문제가 객체 생성 방식인가, 구조적 합성인가, 동작/알고리즘 분리인가 분석.
 2. **3대 분류 결정**: 생성(Creational), 구조(Structural), 행위(Behavioral) 3대 범주 중 1개 선택.
 3. **최적 GoF 패턴 매핑**: 23종 중 의도(Intent)에 부합하는 패턴(e.g., 알고리즘 교체 $\rightarrow$ Strategy Pattern) 인가.
-4. **Trade-off 평가**: 인프라 복잡도와 클래스 개수 증가 대 가독성/유지보수성 유용성 판단.
+4. **상충 관계 평가**: 클래스•간접 계층 비용과 변경 이익 비교
 
 #### 한줄 요약
 
 - 변동 지점 판정, 패턴 범주 선택, 적용 조건 검증, 상충 관계 검증이 핵심이다.
 
-## Ⅴ. 종류 및 상세 기재 (핵심 9선)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -124,7 +124,7 @@ extra:
 | 핵심 패턴 명칭 | 분류 | 패턴 핵심 의도 및 적용 사례 |
 |:---|:---|:---|
 | **Singleton** | 생성 | 단 1개의 인스턴스만 보장 및 전역 억세스 제공 (Spring Bean 기본 scope) |
-| **Factory Method** | 생성 | 객체 생성 인스턴스화 로직을 서브클래스로 위임하여 결합도 소멸 |
+| **Factory Method** | 생성 | 객체 생성 책임을 확장 가능한 메서드로 위임 |
 | **Builder** | 생성 | 복잡한 객체의 생성 과정과 표현 과정을 분리하여 가독성 있는 체이닝 생성 |
 | **Adapter** | 구조 | 호환되지 않는 인터페이스를 변환하여 함께 동작할 수 있도록 래핑 |
 | **Decorator** | 구조 | 기존 객체를 수정하지 않고 동적으로 새로운 기능/책임을 덧붙임 (Java I/O Stream) |

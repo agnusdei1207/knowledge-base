@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "12 팩터 앱 (12 Factor App)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:06:00+09:00"
 tags:
   - "notes-software"
 weight: 45
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 클라우드 컨테이너 환경에서 이식성(Portability), 수평적 확장성(Scale-out) 및 자동화 배포를 극대화하기 위한 12가지 모던 소프트웨어 개발 원칙인 **12-Factor App**
-- 배경/필요성: 서버 의존적 설정, 로컬 파일/세션 저장으로 인한 컨테이너 확장(Scale-out) 불능 및 환경(Dev/Staging/Prod) 불일치 장애 극복 요구성
+- 배경/필요성: 서버별 설정•로컬 상태는 **환경 재현과 수평 확장 방해**
 
 #### 한줄 요약
 
@@ -72,20 +72,13 @@ extra:
 
 선의 의미: Codebase가 Build-Release-Run 단계를 거쳐 Stateless Process로 구동되고, Config 및 Backing Services가 외부 연결 결합되는 12가지 요소 구조.
 
-| 번호 | 12-Factor 원칙 (Factors) | 핵심 정의 및 내용 |
-|:---|:---|:---|
-| **Ⅰ. Codebase** | 단일 코드베이스 (One Codebase) | 하나의 코드베이스가 버전에 따라 추적되고 여러 환경에 배포 |
-| **Ⅱ. Dependencies** | 의존성 명시 (Explicit Dependencies)| Maven/npm/pip 등을 통해 외부 라이브러리 명시적 격리 선언 |
-| **Ⅲ. Config** | 리포지토리 설정 분리 (In Environment)| 환경 변수(ENV)를 통해 코드와 설정을 엄격히 분리 관리 |
-| **Ⅳ. Backing Services**| 보조 서비스 (Backing Services) | DB, 메시지 큐 등 외부 서비스를 바인딩된 원격 자원으로 취급 |
-| **Ⅴ. Build, Release, Run**| 빌드, 릴리스, 실행 분리 | **Build(바이너리 생성) $\rightarrow$ Release(설합) $\rightarrow$ Run(실행)** 엄격 분리 |
-| **Ⅵ. Processes** | 무상태 프로세스 (Stateless) | **프로세스는 무상태(Stateless)로 구동, 세션은 Redis로 외부화** |
-| **Ⅶ. Port Binding** | 포트 바인딩 (Port Binding) | 웹 앱이 자체 포트(e.g., 8080)를 독립 바인딩하여 직접 서비스 |
-| **Ⅷ. Concurrency** | 동시성 수평 확장 (Scale-out) | 프로세스 모델을 통해 수평적으로 인스턴스(Scale-out) 확장 |
-| **Ⅸ. Disposability** | 빠른 시작과 안전한 종료 | 빠른 스타트업 및 **Graceful Shutdown (SIGTERM 처리)** |
-| **Ⅹ. Dev/Prod Parity**| 환경 동등성 유지 | 개발, 검증, 운영 환경을 최대한 유사하게 유지 |
-| **Ⅺ. Logs** | 로그 이벤트 스트림 처리 | 로그를 파일 저장이 아닌 **stdout(표준 출력) 스트림**으로 분사 |
-| **Ⅻ. Admin Processes** | 일회성 관리 프로세스 분리 | DB 마이그레이션 등 일회성 관리 작업을 동등 환경에서 실행 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 코드베이스•의존성 | 버전 원본과 모든 런타임 의존성 명시 |
+| 빌드•릴리스•실행 | 불변 빌드와 환경 설정 결합•실행 분리 |
+| 설정•지원 서비스 | 설정 외부화와 DB•Broker 자원 바인딩 |
+| 프로세스•동시성 | 무상태 프로세스를 단위로 수평 확장 |
+| 폐기•로그•관리 작업 | 안전 종료•스트림 로그•일회성 작업 분리 |
 
 #### 한줄 요약
 
@@ -105,21 +98,21 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Build (바이너리/이미지)  │
-│ 2. Release (Config ENV 결합) │
-│ 3. Run (Stateless Process)   │
-│ 4. Log Stream (stdout 분사)  │
+│ 1. 빌드                     │
+│ 2. 릴리스                   │
+│ 3. 실행                     │
+│ 4. 로그 스트리밍            │
 └──────────────┬───────────────┘
                ▼
-   [Scale-out 수평 확장 완료]
+        [런타임 운영]
 ```
 
 ### 동작 원리
 
-1. **Build Phase**: 소스코드 + 의존성(Dependencies)을 묶어 실행 바이너리(Docker Image) 획득.
-2. **Release Phase**: 생성된 불변 Build 이미지에 특정 환경(Dev/Prod)의 **Config (ENV)** 값 주입 결합.
-3. **Run Phase**: K8s 노드 상에서 **Stateless Process** 인스턴스로 즉시 디스패치 구동.
-4. **Log Streaming**: 모든 런타임 로그를 로컬 파일이 아닌 `stdout` 이벤트 스트림으로 분사하여 Fluentd가 수거.
+1. **빌드**: 코드와 명시된 의존성으로 불변 실행물 생성
+2. **릴리스**: 빌드에 환경별 **Config**를 결합해 버전 부여
+3. **실행**: 릴리스를 무상태 프로세스로 구동
+4. **로그 스트리밍**: 표준 출력 이벤트를 외부 수집기로 전달
 
 #### 한줄 요약
 
@@ -154,9 +147,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Git 리포지토리 내 DB 비밀번호 포함 (Config 위반) | **AWS Secrets Manager / Vault / ENV 주입** | 보안 유출 파괴 차단 |
-| Pod 배포 재시작 시 진행 중인 유저 요청 강제 유실 | **Graceful Shutdown (SIGTERM 핸들링)** 구현 | 유저 트랜잭션 안전 보장 |
-| 디스크 용량 초과로 인한 서버 다운 | 로컬 파일 기록 금지 및 **stdout 스트림 $\rightarrow$ EFK Stack** 수거 | 무제한 인프라 관측성 확보 |
+| 코드 저장소에 비밀정보 포함 | **Secrets Manager•Vault**로 설정 주입 | 코드와 비밀정보 수명주기 분리 |
+| 재시작 중 진행 요청 유실 | **Graceful Shutdown**과 준비 상태 제거 | 신규 유입 차단 후 처리 종료 |
+| 로컬 로그 증가로 디스크 고갈 | **stdout 스트림**과 외부 보존 정책 적용 | 실행 노드와 로그 수명 분리 |
 
 > 사례: **Kubernetes + Docker + Spring Boot 3** 기반 12-Factor App 전면 수용
 
@@ -172,7 +165,7 @@ extra:
 
 </details>
 
-- **Cloud-Native 설계 기준**에 따라 현대 MSA 및 Kubernetes 파이프라인 구축 시 **12-Factor App 원칙** 필수 집행
+- 반복 배포•수평 확장이 필요하면 **12-Factor**, 고정 장비 앱은 선별 적용
 
 #### 한줄 요약
 

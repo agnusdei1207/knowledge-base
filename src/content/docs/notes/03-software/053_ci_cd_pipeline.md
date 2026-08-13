@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-10T23:45:00+09:00"
+date: "2026-08-13T15:36:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Continuous Integration (CI, 지속적 통합)**: 개발자들이 수시로 소스코드를 중앙 저장소에 통합하고, 자동화된 빌드 및 정적 분석, 단윗 테스트를 실행하여 결함을 조기에 발견하는 과정.
+- **Continuous Integration (CI, 지속적 통합)**: 개발자들이 수시로 소스코드를 중앙 저장소에 통합하고, 자동화된 빌드 및 정적 분석, 단위 테스트를 실행하여 결함을 조기에 발견하는 과정.
 - **Continuous Delivery (CD, 지속적 전달)**: CI 과정을 통과한 소프트웨어를 언제든지 검증/운영 환경으로 프로덕션 릴리스할 수 있도록 준비(Staging 준비 완료)해 두는 수동 승인형 자동화 단계.
 - **Continuous Deployment (CD, 지속적 배포)**: 모든 품질 게이트(Quality Gate) 테스트를 통과한 소스코드가 사람의 개입 없이(No Human Touch) 실운영(Prod) 환경으로 자동 배포 완료되는 완결형 단계.
 
 </details>
 
 - 정의/개념: 개발자의 소스코드 커밋부터 컴파일, 테스트, 정적 분석, 컨테이너 빌드 및 실운영 환경 배포까지 전 과정을 자동화 파이프라인으로 연결한 **CI/CD Pipeline**
-- 배경/필요성: 수동 빌드/배포로 인한 "내 컴퓨터에선 되는데요" 환경 격차 소멸, 배포 리드 타임(Lead Time) 단축 및 상시 배포 가능 상태(Release Ready) 확보 요구성
+- 배경/필요성: 수동 빌드•배포는 **환경 편차•누락•복구 지연** 유발
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Fail-Fast** 원칙 기반 자동 단윗/통합 테스트 및 정적 분석 인가
+- **Fail-Fast** 원칙 기반 자동 단위•통합 테스트 및 정적 분석
 - **Pipeline as Code (PaC)** 선언식 파이프라인을 통한 버전 통제
 - **Quality Gate** 통과 및 불변 산출물(**Immutable Artifact**) 생성/저장
 
@@ -74,17 +74,19 @@ extra:
 
 선의 의미: Git 코드 커밋 시 Webhook이 Runner를 구동하여 빌드/테스트 후 Quality Gate 검증을 거쳐 Artifact 저장소 기재 및 K8s로 최종 배포되는 파이프라인 구조.
 
-| 파이프라인 단계 | 실행 작업 내용 | 대표적 도구 및 기술 |
-|:---|:---|:---|
-| **1. Trigger & Checkout** | Git Push/PR 이벤트 감지 및 소스코드 로컬 릴리스 | GitHub Webhook, GitLab Runner |
-| **2. Build & Compile** | 소스코드 컴파일 및 외부 의존성(Dependencies) 다운로드 | Maven, Gradle, npm |
-| **3. Test & Analysis** | 단위 테스트, 코드 커버리지, SAST 정적 보안 분석 | JUnit, SonarQube, Trivy |
-| **4. Package & Publish** | **Immutable Docker Image** 생성 및 이미지 저장소 `push` | Docker, Harbor, Nexus |
-| **5. Deploy (Delivery/Deployment)**| K8s Cluster 대상 **GitOps / Canary / Blue-Green** 배포 | **ArgoCD, Spinnaker, Helm** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 소스 저장소 (Git) | 변경 원본과 파이프라인 정의 보관 |
+| 파이프라인 실행기 (Runner) | 격리 작업 공간에서 단계 실행 |
+| 빌드•테스트•정적분석 | 실행물 생성과 기능•보안 검증 |
+| 품질 게이트 (Quality Gate) | 정책 기준에 따라 승격 허용 판정 |
+| 아티팩트 저장소 (Harbor/Nexus) | 불변 실행물과 출처•버전 보관 |
+| 배포 제어기 (ArgoCD/K8s) | 승인 버전을 대상 환경에 승격 |
+| 운영 환경 (Prod) | 배포 버전 실행과 상태•SLO 관측 |
 
 #### 한줄 요약
 
-- 소스 저장소, 파이프라인 실행기, 품질 게이트, 아티팩트 저장소, 배포 제어기의 연결 구조가 핵심이다.
+- 저장소•실행기•게이트•배포 제어기의 연결이 핵심이다.
 
 ## Ⅳ. 흐름도
 
@@ -100,23 +102,23 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. CI Runner 컴파일 & 테스트 │
-│ 2. SonarQube Quality Gate    │
-│ 3. Docker Image 빌드 & Tagging│
-│ 4. Harbor Registry Push      │
-│ 5. ArgoCD K8s Sync (GitOps)  │
+│ 1. 빌드•테스트 실행          │
+│ 2. 품질 게이트 판정          │
+│ 3. 불변 아티팩트 생성        │
+│ 4. 아티팩트 저장소 게시      │
+│ 5. 승인 버전 배포            │
 └──────────────┬───────────────┘
                ▼
-   [Zero-Downtime 배포 완결]
+       [배포 결과•상태 관측]
 ```
 
 ### 동작 원리
 
-1. **Trigger**: 개발자가 Feature 브랜치 작업 후 Main 브랜치로 PR 생성.
-2. **CI Execute**: GitHub Actions Runner가 컴파일, `JUnit` 테스트 및 `SonarQube` 정적 분석 병렬 수행.
-3. **Quality Gate 검증**: 커버리지 80% 미달 시 파이프라인 즉시 `Fail` 및 PR 병합 차단.
-4. **Publish**: 통과 시 SHA 기반 불변 태그를 부여하여 **Harbor Docker Registry**에 Push.
-5. **GitOps Deploy**: Manifest Git Repo가 업데이트되면 **ArgoCD**가 감지하여 K8s Pod로 롤링 배포.
+1. **빌드•테스트 실행**: Runner가 컴파일•시험•정적 분석 수행.
+2. **품질 게이트 판정**: 정책 기준 미달 변경의 승격 차단.
+3. **불변 아티팩트 생성**: 커밋 식별자를 포함한 실행물 생성.
+4. **아티팩트 저장소 게시**: 검증된 실행물과 메타데이터 보관.
+5. **승인 버전 배포**: 승인 정책에 따라 대상 환경으로 승격.
 
 #### 한줄 요약
 
@@ -132,8 +134,8 @@ extra:
 
 | 비교 항목 | Continuous Integration (CI) | Continuous Delivery (CD-Delivery) | Continuous Deployment (CD-Deployment) |
 |:---|:---|:---|:---|
-| 자동화 범위 | 소스 빌드 ~ 테스트 완결 | **Prod 배포 직전 Staging까지 완결** | **실운영(Prod) 배포까지 100% 완결** |
-| 수동 승인 여부 | 없음 | **수동 승인 (Manual Approval 필요)**| **수동 승인 0% (No Human Touch)** |
+| 자동화 범위 | 소스 빌드 ~ 테스트 완결 | **운영 배포 가능 상태까지 자동 준비** | **품질 게이트 통과 변경을 운영까지 자동 반영** |
+| 수동 승인 여부 | 없음 | **운영 승격 전 수동•정책 승인 가능** | **정책에 따라 자동 운영 승격** |
 | 적합한 환경 | 모든 소프트웨어 프로젝트 | 엔터프라이즈, 금융/의료 시스템 | SaaS 서비스, 모바일/웹 서비스 |
 
 #### 한줄 요약
@@ -150,9 +152,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 파이프라인 빌드/테스트 시간이 30분 이상 소요 | **Docker Layer Caching & 파이프라인 스테이지 병렬화** | 피드백 속도 5분 이내 단축 |
+| 파이프라인 피드백 지연 | **캐시•병렬화**와 변경 범위 기반 시험 | 검증 신뢰도를 유지하며 리드타임 단축 |
 | **Flaky Test**로 인한 CI 빌드 무조건 실패 방치 | Flaky 테스트 격리(Quarantine) 및 격리 트래킹 리팩토링 | CI 빌드 신뢰도 회복 |
-| CI 파이프라인 스크립트에 AWS Secret Key 노출 | **HashiCorp Vault / OIDC (OpenID Connect)** 연동 | 비밀키 유출 근본 차단 |
+| CI 파이프라인 스크립트에 AWS Secret Key 노출 | **HashiCorp Vault / OIDC (OpenID Connect)** 연동 | 장기 비밀키 저장 제거 |
 
 > 사례: **GitHub Actions + SonarQube + Harbor + ArgoCD GitOps** 표준 파이프라인 체계 구축
 
@@ -168,7 +170,7 @@ extra:
 
 </details>
 
-- **CI/CD 파이프라인 구축 기준**에 따라 모던 Cloud-Native 시스템 구현 시 **PaC + GitOps (ArgoCD)** 파이프라인 필수 인가
+- 규제 승인 환경은 **Continuous Delivery**, 자동 승격 환경은 **Deployment** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T15:47:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: Git 저장소를 유일한 진실의 원천(Single Source of Truth)으로 선언하고, K8s 클러스터 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**
-- 배경/필요성: CI/CD 푸시(Push) 파이프라인의 K8s 클러스터 접근 권한(Kubeconfig Secret) 유출 위험 차단, 수동 조작으로 인한 Cluster Drift 발생 문제 소멸 요구성
+- 배경/필요성: 외부 배포 권한과 수동 변경은 **키 유출•드리프트** 유발
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - 4대 핵심 원칙 (**Declarative, Versioned/Immutable, Pulled Automatically, Continuously Reconciled**)
-- Push 기반 대 **Pull 기반 배포 아키텍처**로 보안성 극대화
+- Push 기반과 대비되는 **Pull 기반 배포 아키텍처**
 - 자동 **Drift Detection & Self-healing (자동 복구)** 제공
 
 #### 한줄 요약
@@ -69,17 +69,16 @@ extra:
 
 선의 의미: Git 저장소가 SSOT 역할을 수행하고, K8s 내부에 상주하는 ArgoCD Engine이 Git의 Desired State를 주기적 Watch/Pull 하여 Target Cluster에 Apply 하는 구조.
 
-| 구성요소 | 핵심 역할 및 기능 | 주요 적용 기술 |
-|:---|:---|:---|
-| **Git Repository (SSOT)**| 인프라 및 앱의 원하는 상태(Desired State) 선언 보관 | GitHub, GitLab |
-| **GitOps Controller** | Git과 K8s 상태 비교, **Drift 감지 및 Reconciliation** | **ArgoCD, FluxCD** |
-| **K8s Custom Resource** | ArgoCD용 Application/AppSet 등 배포 단위 CRD 선언 | `Application.yaml` |
-| **Sealed Secrets / Vault**| Git에 비밀키를 암호화하여 저장(GitOps-friendly)하는 도구 | Bitnami Sealed Secrets, Vault |
-| **Notification Engine** | 동기화 성공/실패, OutOfSync(Drift) 상태 알림 수송 | Slack, ArgoCD Notifications |
+| 구성요소 | 책임 |
+|:---|:---|
+| 개발자 | 선언 상태 변경과 PR 검토 수행 |
+| Git 매니페스트 저장소 | 원하는 상태와 변경 이력 보관 |
+| GitOps 제어기 | 선언•실제 상태 비교와 조정 수행 |
+| K8s 대상 클러스터 | 실제 워크로드 상태 실행•보고 |
 
 #### 한줄 요약
 
-- 상태 저장소, 깃옵스 제어기, 보고 채널의 선언 적용과 상태 보고 구조가 핵심이다.
+- 변경 주체•상태 저장소•제어기•클러스터가 핵심이다.
 
 ## Ⅳ. 흐름도
 
@@ -95,11 +94,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Git Push (Desired State)  │
-│ 2. ArgoCD Watch (3분 주기)   │
-│ 3. State Compare (OutOfSync) │
-│ 4. Auto Sync (k8s apply)     │
-│ 5. Self-Healing (Drift 원복) │
+│ 1. 선언 상태 기록            │
+│ 2. 저장소 변경 관찰          │
+│ 3. 상태 차이 판정            │
+│ 4. 목표 상태 적용            │
+│ 5. 드리프트 복구             │
 └──────────────┬───────────────┘
                ▼
   [Synced & Healthy 상태 유지]
@@ -107,11 +106,11 @@ extra:
 
 ### 동작 원리
 
-1. **Git Commit**: K8s YAML 파일(Pod 개수 3 $\rightarrow$ 5 변경)을 Git 매니페스트 저장소에 `push`.
-2. **ArgoCD Watch**: K8s 내부 ArgoCD가 Git의 커밋 변경을 3분 주기 렌더링으로 감지.
-3. **OutOfSync 감지**: Git의 Desired State (Pod 5개)와 K8s Actual State (Pod 3개) 차이 확인 후 `OutOfSync` 상태 표시.
-4. **Auto-Sync Execution**: ArgoCD가 K8s API를 호출하여 `kubectl apply` 자동으로 수행.
-5. **Self-Healing**: 누군가 수동으로 `kubectl delete` 시, ArgoCD가 드리프트를 감지하여 1초 만에 Git 상태로 자동 복원.
+1. **선언 상태 기록**: 승인된 매니페스트 변경을 Git에 기록.
+2. **저장소 변경 관찰**: 제어기가 새 커밋과 선언 상태 감지.
+3. **상태 차이 판정**: 원하는 상태와 실제 상태의 차이 식별.
+4. **목표 상태 적용**: 제어기가 K8s API로 변경 사항 반영.
+5. **드리프트 복구**: 수동 변경을 감지해 선언 상태로 조정.
 
 #### 한줄 요약
 
@@ -128,9 +127,9 @@ extra:
 | 비교 항목 | Traditional Push-based CI/CD (Jenkins, Actions) | GitOps Pull-based Pattern (ArgoCD, Flux) |
 |:---|:---|:---|
 | 배포 주체 | 외부 CI/CD 서버 | **K8s 클러스터 내부 에이전트** |
-| 방화벽 / 보안 | 외부에서 K8s API 서버(6443) 권한 주입 필요 | **내부에서 Outbound Git 통신만 수행 (보안 극대화)** |
-| 수동 변경 대응 | 수동 변경(kubectl) 시 Git과 꼬이고 복구 불가 | **Self-healing 기능으로 수동 오작동 즉시 복원** |
-| 롤백 (Rollback) | CI 파이프라인 재구동 | **`git revert` 커밋 하나로 1초 만에 롤백** |
+| 방화벽 / 보안 | 외부 실행기에 K8s API 권한 부여 | **내부 제어기가 저장소를 조회해 권한 경계 축소** |
+| 수동 변경 대응 | 별도 드리프트 탐지•복구 절차 필요 | **Self-healing으로 선언 상태 재조정** |
+| 롤백 (Rollback) | CI 파이프라인 재구동 | **`git revert` 후 제어기의 상태 재조정** |
 
 #### 한줄 요약
 
@@ -146,7 +145,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Git 저장소에 K8s Secret 비밀키 평문 저장 위험 | **Sealed Secrets / External Secrets Operator + Vault** | 보안 유출 파괴 차단 |
+| Git 저장소에 K8s Secret 비밀키 평문 저장 위험 | **Sealed Secrets / External Secrets Operator + Vault** | 평문 비밀정보 노출 위험 축소 |
 | 수십~수백 개 앱 매니페스트 관리 복잡도 | **ArgoCD ApplicationSet + Helm / Kustomize** | 매니페스트 중복 제거 |
 | CI 파이프라인과 CD 파이프라인의 저장소 엉킴 | **App Source Repo 대 Deployment Manifest Repo 분리** | 권한 및 보안 격리 |
 
@@ -164,7 +163,7 @@ extra:
 
 </details>
 
-- **GitOps 채택 기준**에 따라 Cloud-Native K8s 인프라 구축 시 **ArgoCD 기반 Pull-based GitOps** 필수 채택
+- 선언 상태 조정이 필요한 K8s는 **GitOps**, 명령형 작업은 **Push 파이프라인** 선택
 
 #### 한줄 요약
 

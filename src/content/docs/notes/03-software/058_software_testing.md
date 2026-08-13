@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 테스트: 단위•통합•시스템•인수 (Software Testing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:03:00+09:00"
 tags:
   - "notes-software"
 weight: 58
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 소프트웨어 수명주기 전반에 걸쳐 요구사항 명세 적합성(Verification) 및 사용자 수용 목적(Validation)을 동적으로 실행 및 판정하는 **Software Testing 4대 단계**
-- 배경/필요성: 릴리스 후 운영 단계에서 결함 발견 시 조치 비용(Cost of Quality)이 개발 초기에 비해 수십 배 폭증하는 현상 차단 요구성
+- 배경/필요성: 결함을 늦게 발견하면 **수정 범위•회귀 비용** 증가
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 기대 결과에 따른 판정과 회귀 테스트가 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (소프트웨어 테스트 4단계 레벨)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -64,26 +64,23 @@ extra:
 </details>
 
 ```text
-[요구사항 분석] ───────────────────────────────► [인수 테스트 (Acceptance)]
-       │                                                 ▲
-       ▼                                                 │
-[시스템 설계] ─────────────────────────► [시스템 테스트 (System)]
-       │                                         ▲
-       ▼                                         │
-[아키텍처/상세설계] ─────────────► [통합 테스트 (Integration)]
-       │                                 ▲
-       ▼                                 │
-[코 딩 (Coding)] ────────► [단위 테스트 (Unit)]
+ [테스트 근거] ─── [테스트 케이스]
+       │                    │
+ [결함 저장소] ─── [테스트 실행기]
+       │                    │
+ [결과 저장소] ─── [테스트 픽스처]
 ```
 
 선의 의미: 소프트웨어 개발 단계(V-Model의 왼쪽 Downstream)와 테스트 검증 레벨(V-Model의 오른쪽 Upstream)이 1:1 대칭 매핑되는 아키텍처 구조.
 
-| 테스트 단계 레벨 | 주 목적 및 테스트 대상 | 검증 기법 및 도구 예시 |
-|:---|:---|:---|
-| **1. Unit Test (단위)** | 모듈/클래스 내부 로직 및 경계값 검증 | 화이트박스 테스트, JUnit, Mockito |
-| **2. Integration Test (통합)**| 모듈 간 인터페이스 및 데이터 연동 검증 | 빅뱅, 탑다운, 바텀업, Stubs/Drivers |
-| **3. System Test (시스템)**| 전체 시스템 기능 및 비기능(성능/보안) 검증 | 블랙박스, LoadRunner, JMeter |
-| **4. Acceptance Test (인수)**| 사용자 수용 및 계약 조건 만족 판정 | Alpha Test, Beta Test, Cucumber |
+| 구성요소 | 책임 |
+|:---|:---|
+| 테스트 근거 | 요구사항•설계•위험 등 판정 기준 제공 |
+| 테스트 케이스 | 입력•사전 조건•기대 결과 정의 |
+| 테스트 픽스처 | 반복 가능한 실행 환경과 상태 구성 |
+| 테스트 실행기 | 대상 실행과 실제 결과 수집 |
+| 결과 저장소 | 통과•실패와 실행 증거 보관 |
+| 결함 저장소 | 실패 원인•수정•재시험 상태 추적 |
 
 #### 한줄 요약
 
@@ -103,11 +100,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Test Case 설계 (입력/기대) │
-│ 2. Test Fixture & Mocking    │
-│ 3. Test Runner 실행          │
-│ 4. Oracle Pass / Fail 판정   │
-│ 5. Defect Logging & Re-test  │
+│ 1. 테스트 케이스 설계        │
+│ 2. 픽스처•대역 구성          │
+│ 3. 테스트 대상 실행          │
+│ 4. 오라클 결과 판정          │
+│ 5. 결함 기록•재시험          │
 └──────────────┬───────────────┘
                ▼
    [테스트 리포트 산출 완결]
@@ -115,17 +112,17 @@ extra:
 
 ### 동작 원리
 
-1. **Test Design**: 요구사항 명세서(Test Basis) 분석 후 입력값과 기대값(Expected Result)을 담은 **Test Case** 작성.
-2. **Fixture & Mocking**: 테스트 환경 상태(Fixture) 세팅 및 외부 연동 의존성에 **Mock/Stub** 주입.
-3. **Execution**: **Test Runner**를 통해 테스트 대상(SUT: System Under Test) 실행 및 결과 수집.
-4. **Oracle Decision**: **Test Oracle**을 통해 Actual Result와 Expected Result 간 일치 여부 비교.
-5. **Defect Tracking**: 실패 시 Defect 보고서 등록 후 개발팀 수정 $\rightarrow$ Re-test 및 **Regression Test** 재실행.
+1. **테스트 케이스 설계**: 근거에서 입력•기대 결과 도출.
+2. **픽스처•대역 구성**: 반복 환경과 Mock•Stub 의존성 준비.
+3. **테스트 대상 실행**: 실행기로 SUT 결과와 증거 수집.
+4. **오라클 결과 판정**: 실제 결과와 기대 결과 비교.
+5. **결함 기록•재시험**: 결함 수정 후 회귀 시험 수행.
 
 #### 한줄 요약
 
 - 오라클 판정에 따른 통과 증거 기록과 결함 증거 기록이 핵심이다.
 
-## Ⅴ. 종류 및 비교 (테스트 대역 5종: Test Double)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -155,8 +152,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 상단 E2E/시스템 테스트에만 의존하여 빌드가 1시간 이상 소요됨 | **Test Pyramid 원칙 (Unit Test 70%, Integration 20%, E2E 10%)** 적용 | 피드백 속도 대폭 향상 |
-| DB 및 외부 API 의존성 때문에 단윗 테스트 실행 불가 | **Mockito / WireMock 등 Test Double** 객체 적극 주입 | 완전한 테스트 격리 달성 |
+| 상단 E2E•시스템 시험 편중으로 피드백 지연 | 위험 기반 **Test Pyramid** 구성 | 빠른 시험과 현실적 검증 균형 |
+| DB•외부 API 의존성 때문에 단위 시험 격리 곤란 | **Mockito / WireMock 등 Test Double** 주입 | 반복 가능한 독립 시험 확보 |
 | 코드 수정 후 무관한 모듈에서 연쇄 장애 발생 | **CI 파이프라인 상의 Automated Regression Test** 인가 | 부작용(Side Effect) 차단 |
 
 > 사례: **JUnit 5 + Mockito + SpringBootTest + Jacoco (Coverage Check)** 연동 체계 구축
@@ -173,7 +170,7 @@ extra:
 
 </details>
 
-- **소프트웨어 테스트 수립 기준**에 따라 고품질 SW 개발 시 **Test Pyramid 지침 & V-Model 4단계 테스트 레벨** 수용
+- 내부 로직은 **단위**, 경계는 **통합**, 요구 수용은 **시스템•인수 시험** 선택
 
 #### 한줄 요약
 

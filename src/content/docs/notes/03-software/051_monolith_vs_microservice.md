@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "모놀리식 vs 마이크로서비스 비교 (Monolith vs Microservice)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:28:00+09:00"
 tags:
   - "notes-software"
 weight: 51
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Coupling & Cohesion**: Monolithic은 인메모리 함수 호출의 강한 결합(High Coupling)과 트랜잭션 수월성이 특징인 반면, MSA는 느슨한 결합(Loose Coupling)과 독립적 확장성 강조.
+- **Coupling & Cohesion**: 배포 형태와 무관하게 모듈 경계의 결합도와 내부 응집도를 평가하는 설계 속성.
 - **Distributed Overhead**: MSA 전환 시 발생하는 네트워크 latency, 데이터 최종 일관성(Eventual Consistency) 관리, 분산 Tracing 등 분산 시스템 고유의 복잡도 및 비용.
 
 </details>
@@ -78,14 +78,13 @@ extra:
 
 선의 의미: Monolithic은 단일 App이 중앙 DB를 바라보지만, MSA는 API Gateway가 전용 DB를 보유한 개별 독립 서비스로 라우팅하는 아키텍처 비교.
 
-| 아키텍처 비교 항목 | Monolithic Architecture | Microservice Architecture (MSA) |
-|:---|:---|:---|
-| 배포 단위 (Deployment) | **단일 묶음 실행 파일 (JAR/WAR)** | **수십 개 개별 컨테이너 (Docker Pod)** |
-| 데이터베이스 | 단일 중앙 RDBMS 공유 | **Database-per-Service (독립 DB)** |
-| 통신 메커니즘 | **In-memory Direct Function Call** | **Network IPC (REST, gRPC, Kafka)** |
-| 트랜잭션 특성 | **ACID (Atomicity, Consistency)** | **Eventual Consistency (Saga Pattern)** |
-| 스케일링 (Scale) | 애플리케이션 전체 Scale-up/out | **특정 병목 서비스만 선택적 Scale-out** |
-| 조직 구조 | 기능별 조직 (DBA, Backend, QA) | **Cross-Functional Team (1팀 1서비스)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 단일 애플리케이션 | 모놀리식 기능을 한 배포 단위로 실행 |
+| 공용 데이터 저장소 | 단일 배포체의 트랜잭션 데이터 공유 |
+| 요청 라우터 (API Gateway) | 외부 요청을 독립 서비스에 전달 |
+| 독립 서비스군 | 업무 경계별 배포•확장•장애 책임 소유 |
+| 전용 데이터 저장소군 | 서비스별 데이터 소유권과 계약 유지 |
 
 #### 한줄 요약
 
@@ -105,23 +104,23 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 도메인 복잡도 & 팀 규모   │
+│ 1. 변경•배포 독립성 평가     │
 ├──────────────┬───────────────┤
 │ (단순/소규모)│ (복잡/대규모) │
 │              ▼               ▼
-│  [Monolithic 선택]     [MSA 선택]
+│  [2. Modulith 선택]     [3. MSA 선택]
 │        │                     │
 │        ▼                     ▼
-│  (Modulith 정립)   (Strangler Fig 이행)
+│  (경계 정립)       [4. Strangler Fig 이행]
 └──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. **초기 사업 단계**: 빠른 검증과 적은 인력을 위해 **Monolithic (또는 Modulith)** 으로 속도감 있게 개발.
-2. **복잡도 증가**: 사용자와 기능이 폭증하며 빌드/배포 병목 및 DB Lock 경합 발생.
-3. **아키텍처 전환 판정**: **DDD Bounded Context** 도출 및 **Strangler Fig Pattern** 도입.
-4. **점진적 MSA 분구**: 레거시 Monolith에서 주요 서비스를 하나씩 떼어내어 **Database-per-service** 구축 및 완결.
+1. **변경·배포 독립성 평가**: 도메인별 변경 주기와 확장•장애 경계 측정
+2. **Modulith 선택**: 경계가 미성숙하거나 단일 배포 이익이 크면 모듈화
+3. **MSA 선택**: 독립 배포 이익이 분산 운영 비용보다 크면 서비스 분리
+4. **Strangler Fig 이행**: 검증한 경계를 점진 전환하고 트래픽 이동
 
 #### 한줄 요약
 
@@ -137,9 +136,9 @@ extra:
 
 | 아키텍처 형태 | 구현 난이도 | 운영 오버헤드 | 적합한 스타트업/기업 환경 |
 |:---|:---|:---|:---|
-| **Monolithic** | 낮음 | 매우 낮음 | **초기 창업 팀, 비즈니스 모델 검증 단계 (MVP)** |
-| **Modulith** | 중간 | 낮음 | **성장기 스타트업, 코드 정리가 필요한 중형 시스템** |
-| **Microservice** | 매우 높음 | 매우 높음 (K8s, CI/CD 필수)| **대규모 엔터프라이즈, 수백 명의 개발 조직** |
+| **Monolithic** | 상대적으로 낮음 | 단일 배포•관측 | 작은 팀과 초기 제품 검증 |
+| **Modulith** | 모듈 경계 설계 필요 | 단일 런타임 운영 | 독립 코드 경계와 단순 운영 동시 요구 |
+| **Microservice** | 분산 계약•데이터 설계 필요 | 서비스별 배포•관측 | 독립 배포•확장 경계가 성숙한 조직 |
 
 #### 한줄 요약
 
@@ -155,9 +154,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 기술 역량이 부족한 팀이 조기 MSA 도입으로 시스템 붕괴 | **Modulith (Modular Monolith)** 아키텍처 선적용 | 코드 모듈성 확보 및 분산 비용 0% |
+| 경계가 불명확한 조기 MSA 도입 | **Modulith**로 모듈 경계 먼저 검증 | 분산 전 경계와 의존성 확인 |
 | Monolithic에서 한번에 전체를 MSA로 재구축(Re-platforming) 실패 | **Strangler Fig Pattern** 기반 점진적 이행 | 이행 리스크 최소화 |
-| MSA 서비스 간 동기 호출 폭증으로 지연시간 증가 | **Event-Driven Architecture (Kafka)** 비동기 전환 | 통신 결합도 소멸 |
+| 서비스 간 동기 호출 연쇄로 지연 증가 | 필요한 협업을 **비동기 이벤트**로 전환 | 시간 결합과 호출 경로 길이 완화 |
 
 > 사례: 쿠팡 / 우아한형제들(배달의민족)의 **Monolith $\rightarrow$ Modulith $\rightarrow$ MSA** 단계적 성장 진화 모델
 

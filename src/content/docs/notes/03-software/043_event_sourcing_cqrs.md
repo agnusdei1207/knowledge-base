@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "이벤트 소싱•CQRS (Event Sourcing CQRS)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:58:00+09:00"
 tags:
   - "notes-software"
 weight: 43
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 상태 변경 이벤트 자체를 불변(Immutable) 원본 데이터로 축적(Event Sourcing)하고, 쓰기 전용 Command 모델과 읽기 전용 Query 모델을 분리(CQRS)하는 결합 패턴인 **Event Sourcing & CQRS**
-- 배경/필요성: traditional CRUD 기반의 덮어쓰기로 인한 과거 이력 및 감사 데이터 유실 방지, 읽기(Query)와 쓰기(Command) 트래픽의 스케일링 불균형 극복 요구성
+- 배경/필요성: 현재 상태 덮어쓰기는 **변경 원인•과거 상태 복원 정보 부재**
 
 #### 한줄 요약
 
@@ -39,12 +39,12 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Append-Only Immutable Event**: 한번 발생하여 저장소에 기재된 이벤트는 절대 수정(UPDATE)되거나 삭제(DELETE)되지 않고, 변경이 필요한 경우 보상 이벤트(Compensating Event)를 추가 기재하는 특성.
+- **Append-Only Immutable Event**: 저장된 사건을 바꾸지 않고 정정•보상 사건을 추가하는 이벤트 기록 원칙.
 - **Eventual Consistency (최종 일관성)**: 쓰기(Command) 저장소에 반영된 이벤트가 메시지 브로커를 거쳐 읽기(Query) 전용 DB로 동기화될 때까지 약간의 시간 지연(Lag)이 존재하나, 최종적으로는 데이터 정합성이 수렴하는 속성.
 
 </details>
 
-- **Append-Only** 방식의 완전한 감사 트레일(Audit Trail) 및 타임 트래블(Time Travel) 상태 복원
+- **Append-Only** 사건으로 감사 추적과 과거 상태 재구성 지원
 - 쓰기(Command) DB 대 읽기(Query) DB의 수평적 독립 확장성(Scale-out)
 - **Eventual Consistency (최종 일관성)** 수용 및 **Snapshotting**을 통한 이력 재생 성능 최적화
 
@@ -73,13 +73,12 @@ extra:
 
 선의 의미: Command 모델이 Event Store에 Append-Only로 이벤트를 발생시키면, Projection엔진이 비동기로 이벤트를 읽어 Read DB(Query 모델)로 동기화 반영하는 아키텍처.
 
-| 구분 레이어 | 핵심 역할 및 기능 | 주요 사용 기술 / DB |
-|:---|:---|:---|
-| **Command Model (Write)** | 비즈니스 유효성 검증, C/U/D 연산 처리, 신규 도메인 이벤트 생성 | RDBMS, EventStoreDB, Axon |
-| **Event Store (Storage)** | 발생된 이벤트를 **Append-Only** 불변 상태로 시퀀셜 저장 | EventStoreDB, Apache Kafka |
-| **Projection (Sync Engine)** | 이벤트를 구독하여 Read Model 형태에 맞게 데이터 변환 및 동기화 | Event Handler, Kafka Connect |
-| **Query Model (Read)** | 클라이언트의 complex 조회를 초고속 수행하는 전용 Read-only View | Elasticsearch, Redis, RDBMS |
-| **Snapshot Manager** | 주기적 **Snapshot** 저장을 통해 Event Replay 성능 시간복잡도 $O(N) \rightarrow O(1)$ 단축 | S3, Redis Snapshot |
+| 구성요소 | 책임 |
+|:---|:---|
+| 명령 모델 | 비즈니스 규칙 검증과 새 도메인 사건 생성 |
+| 이벤트 스토어 | 사건을 순서•버전과 함께 **Append-Only** 저장 |
+| 프로젝션 | 사건을 멱등 처리해 조회용 뷰 생성 |
+| 조회 모델 | 읽기 요구에 맞춘 비정규화 뷰 제공 |
 
 #### 한줄 요약
 
@@ -99,11 +98,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 유효성 검증 & 이벤트 생성 │
-│ 2. Event Store Append 기재   │
-│ 3. Event Broker 비동기 전파 │
-│ 4. Projection 뷰 변환        │
-│ 5. Read DB 반영 (Eventual)   │
+│ 1. 유효성 검증•이벤트 생성  │
+│ 2. 이벤트 스토어 추가       │
+│ 3. 이벤트 비동기 전파       │
+│ 4. 프로젝션 뷰 변환         │
+│ 5. 조회 DB 반영             │
 └──────────────┬───────────────┘
                ▼
    [Query 단순 초고속 조회]
@@ -111,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Command 수신**: 클라이언트로부터 주문(CreateOrder) Command 전달.
-2. **유효성 검증 & 이벤트 생성**: 도메인 로직 검증 후 `OrderCreatedEvent` 불변 객체 생성.
-3. **Event Store Append**: Event Store에 원자적으로 Append-Only 저장.
-4. **Projection 뷰 변환**: Kafka/Event Handler가 이벤트를 수신하여 Read 전용 Elasticsearch/RDBMS 뷰로 변환.
-5. **Read DB 반영**: Query 모델 DB에 즉시 반영 및 클라이언트는 읽기 전용 API를 통해 **Eventual Consistency** 상태로 초고속 조회.
+1. **유효성 검증·이벤트 생성**: 도메인 규칙을 검사해 불변 사건 생성
+2. **이벤트 스토어 추가**: 예상 버전을 검사하고 사건을 원자적 추가
+3. **이벤트 비동기 전파**: 저장된 사건을 구독 프로젝션에 전달
+4. **프로젝션 뷰 변환**: 사건을 읽기 모델 형식으로 멱등 변환
+5. **조회 DB 반영**: 뷰와 반영 버전을 함께 갱신
 
 #### 한줄 요약
 
@@ -132,8 +131,8 @@ extra:
 | 비교 항목 | Traditional CRUD Architecture | Event Sourcing + CQRS Architecture |
 |:---|:---|:---|
 | 데이터 저장 상태 | 현재 최종 데이터 상태만 UPDATE 덮어쓰기 | **모든 상태 변경 이벤트를 Append-Only 원본 저장** |
-| 감사 및 이력 추적 | 별도 Audit 테이블 작성 필요 (누락 위험) | **완벽한 Audit Trail 및 과거 시점 복원(Time Travel)** |
-| 읽기/쓰기 확장성 | 락(Lock) 경합으로 읽기/쓰기 상호 병목 유발 | **Read DB와 Write DB의 독립적 극대화 Scale-out** |
+| 감사 및 이력 추적 | 별도 감사 기록 설계 필요 | 사건 보존 범위에서 감사•과거 상태 재구성 |
+| 읽기•쓰기 확장 | 같은 모델의 자원 경합 가능 | 읽기•쓰기 모델 독립 확장 가능 |
 | 시스템 복잡도 | 낮음 (직관적 개발) | **높음 (이벤트 버전 관리, Eventual Consistency)** |
 
 #### 한줄 요약
@@ -152,7 +151,7 @@ extra:
 |:---|:---|:---|
 | 오랜 기간 축적된 이벤트로 인한 Replay 속도 저하 | **Snapshotting (주기적 상태 덤프 저장)** 인가 | 복원 시간 단축 |
 | 시간 경과에 따른 이벤트 클래스 스키마 변형 | **Upcaster (이벤트 버저닝 변환기)** 구현 | 하향 호환성 보장 |
-| Read DB 동기화 지연으로 인한 화면 갱신 시차 | 클라이언트 UI 차원의 **Optimistic UI Update** 또는 렌더링 지연 처리 | UX 불쾌감 소멸 |
+| 조회 모델 지연으로 인한 화면 갱신 시차 | 반영 버전 확인과 **Read-your-writes** 전략 | 오래된 뷰 오인 방지 |
 
 > 사례: 금융/증권 거래소 타임 트래블 이력 시스템, **Axon Framework + EventStoreDB + Elasticsearch** 구축
 
