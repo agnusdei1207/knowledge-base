@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T19:54:00+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 자원 소유자의 자격증명을 직접 공유하지 않고 **OAuth 2.0**을 통한 자원 접근 권한 위임(Authorization)과 **OIDC** 기반 신원 인증(Authentication)을 통합 처리하는 현대적 접근 통제 체계.
-- 배경/필요성: 서드파티 앱에 대한 패스워드 직접 노출 차단, 과다 권한 분배 방지 및 모바일/웹 SSO 통합 지원.
+- 정의/개념: 권한 위임 **OAuth 2.0**과 신원 인증 **OIDC**
+- 배경/필요성: 자격증명 공유는 **비밀번호 노출•과다 권한** 유발
 
 #### 한줄 요약
 
@@ -188,5 +188,4 @@ API 자원 요청
 
 #### 한줄 요약
 
-- OAuth 2.0 권한 위임 및 OIDC 신원 인증 체계 수립과 PKCE•Token 검증 강화 필수.
-
+- API 권한은 **OAuth 2.0**, SSO 신원은 **OIDC** 적용

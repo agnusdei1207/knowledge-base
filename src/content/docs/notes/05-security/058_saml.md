@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "SAML 2.0 (SAML 2.0)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T19:56:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -28,12 +28,12 @@ extra:
 
 </details>
 
-- 정의/개념: 기업 및 이종 조직 간 신원 연합(Identity Federation)을 위해 IdP와 SP 간 전자서명된 **XML** 주장(Assertion) 문서를 교환하여 웹 **SSO(Single Sign-On)**를 연동하는 OASIS 국제 표준 규격.
-- 배경/필요성: 조직 간 개별 비밀번호 전송 방식의 보안 취약성 극복 및 B2B 사내/외 시스템 통합 SSO 자격증명 관리 수립.
+- 정의/개념: XML 주장으로 신원을 연합하는 **SAML 2.0**
+- 배경/필요성: 개별 비밀번호 공유는 **조직 간 자격증명 노출** 유발
 
 #### 한줄 요약
 
-- XML 전자서명 기반 Assertion 교환을 통해 이종 도메인 간 피싱 저항성 연합 SSO를 연동함.
+- **XML 서명 Assertion**으로 이종 도메인 SSO 연계
 
 ## Ⅱ. 특징
 
@@ -186,5 +186,4 @@ SAML 연합 인증 구조
 
 #### 한줄 요약
 
-- SAML 2.0 연합 인증 구현 및 XML 서명 무결성•재전송 차단 체계 구축 필수.
-
+- **SP 시작 SSO**를 우선하고 서명•요청 결속 검증

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "ABAC 속성 기반 접근 제어 (Attribute-Based Access Control)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T20:00:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 접근 요청 시점의 주체, 객체, 행위 및 실시간 컨텍스트 환경(시간, IP, 기기 상태 등) 속성값들을 XACML 등 정책 규격에 기각/허용 조건으로 매칭 평가하는 동적 접근 통제 체계.
-- 배경/필요성: 정적 **RBAC** 모델의 역할 폭발(Role Explosion) 극복 및 제로 트러스트(Zero Trust) 세밀한(Fine-Grained) 동적 인가 집행.
+- 정의/개념: 요청 속성 조합을 평가하는 **ABAC**
+- 배경/필요성: 정적 역할만으로는 **역할 폭발•실시간 맥락** 통제 불가
 
 #### 한줄 요약
 
@@ -186,5 +186,4 @@ ABAC 정책 구조
 
 #### 한줄 요약
 
-- ABAC 속성 기반 동적 접근 제어 체계 구축 및 XACML 표준화•신뢰 속성(TTL) 관리 필수.
-
+- 직무는 **RBAC**, 실시간 세부 조건은 **ABAC** 적용

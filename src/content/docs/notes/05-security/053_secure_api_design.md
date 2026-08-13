@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "보안 응용 프로그래밍 인터페이스 설계 (Secure API Design)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T19:44:00+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 분산 마이크로서비스 및 외부 연동 환경에서 요청 단위별 토큰 서명 검증, **객체 인가(Object-Level Authorization)** 및 자원 소비 제한을 독립 집행하는 종합 응용 보안 아키텍처.
-- 배경/필요성: API 공개에 따른 모바일/클라우드 자격증명 무단 노출 방지 및 BOLA(Broken Object Level Authorization) 취약점 기반 데이터 대량 유출 차단.
+- 정의/개념: 요청별 인증•인가•자원 제한의 **보안 API 설계**
+- 배경/필요성: 토큰 검증만으로는 **BOLA•자원 고갈** 차단 불가
 
 #### 한줄 요약
 
@@ -187,5 +187,4 @@ JWT 접근 토큰•API 요청
 
 #### 한줄 요약
 
-- Secure API 구축을 위한 OAuth 2.0/mTLS 인증 및 BOLA 방지•Rate Limiting 통제 체계 수립 필수.
-
+- 위임은 **OAuth/PKCE**, 통신은 **mTLS**, 객체는 BOLA 검증
