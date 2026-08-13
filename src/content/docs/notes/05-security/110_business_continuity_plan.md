@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:42:00+09:00"
 tags:
   - "notes-security"
 weight: 110
@@ -126,11 +126,11 @@ BIA · 복구 목표
 
 ### 동작 원리
 
-1. **BIA 범위•업무 우선순위 확정**: 분석 대상•영향 기준•책임자 지정.
-2. **MTPD•RTO•RPO 설정**: **BIA 기반 복구 목표** 확정.
-3. **연속성 전략•계획 수립**: 대체 자원•발동 기준 설계.
-4. **발동•전환•복귀 훈련**: **발동•전환•복귀 훈련**으로 업무•IT•소통 절차 실행.
-5. **자원•계획 개선 결정**: 목표 미달 원인과 환경 변경사항 반영.
+1. **BIA 범위·업무 우선순위 확정**: 대상·영향 기준 지정
+2. **MTPD·RTO·RPO 설정**: 업무별 복구 목표 확정
+3. **연속성 전략·계획 수립**: 대체 자원·발동 기준 설계
+4. **발동·전환·복귀 훈련**: 업무·IT·소통 절차 실행
+5. **자원·계획 개선 결정**: 목표 미달·환경 변화 반영
 
 #### 한줄 요약
 
@@ -161,7 +161,7 @@ BIA · 복구 목표
 - **ISO(International Organization for Standardization)**: 국제 표준을 개발•발행하는 국제 기구.
 - **기술시방서(Technical Specification, TS)**: 표준 제정에 앞서 기술 표준화 지침을 제공하는 문서 규격.
 - **ISO 22301:2019(BCMS Requirements, ISO 22301:2019)**: 업무 연속성 관리체계 수립 및 인증 기준을 제시하는 국제 표준.
-- **ISO/TS 22317:2021(Guidance for BIA, ISO/TS 22317:22317)**: BIA 수행을 위한 가이드라인 및 프로세스를 규정한 국제 표준.
+- **ISO/TS 22317:2021(Guidance for BIA, ISO/TS 22317:2021)**: BIA 수행을 위한 가이드라인 및 프로세스를 규정한 국제 표준.
 - **IT 서비스 연속성 관리(IT Service Continuity Management, ITSCM)**: IT 서비스의 중단 위험을 관리하고 BCP와 연계하여 복구력을 확보하는 체계.
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 기술 및 보안 가이드를 발행하는 미국 정부 기관.
 - **특별 간행물(Special Publication, SP)**: NIST에서 제작하여 발행하는 공식 기술 보고서 문서.

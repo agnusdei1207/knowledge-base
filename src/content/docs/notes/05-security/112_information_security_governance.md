@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보보호 거버넌스 (Information Security Governance)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T21:46:00+09:00"
 tags:
   - "notes-security"
 weight: 112
@@ -100,7 +100,7 @@ extra:
 - **사업•보안 위험 평가(Business and Security Risk Evaluation)**: 사업 목표와 법적 규제를 분석하여 경영진 심의 대상 위험을 정의하는 단계.
 - **방향•위험 허용 수준 승인(Governance Direction and Tolerance Approval)**: 정보보호 목표, 예산 및 위험 허용 한도를 경영진이 의결하는 단계.
 - **처리•예산•책임 배정(Treatment, Budget and Responsibility Assignment)**: 위험 소유자 및 CISO에게 통제 이행 자원과 책임을 배정하는 단계.
-- **성과•준수 증적 생성(Performance and Compliance Evidence Generation)**: 보안 통제 이행 내역 및 준실태 증적을 생성하는 단계.
+- **성과•준수 증적 생성(Performance and Compliance Evidence Generation)**: 보안 통제 이행 내역 및 준수 상태 증적을 생성하는 단계.
 - **개선 방향•우선순위 결정(Improvement Direction and Priority Setting)**: 감사 및 성과 측정 결과를 바탕으로 전략과 투자를 재조정하는 단계.
 
 </details>
@@ -127,11 +127,11 @@ extra:
 
 ### 동작 원리
 
-1. **사업•보안 위험 평가**: 사업 영향•법적 요구 평가.
-2. **방향•위험 허용 수준 승인**: 목표•수용 한계•우선순위 승인.
-3. **처리•예산•책임 배정**: **위험 소유자**와 **CISO**에게 통제•자원•책임 배정.
-4. **성과•준수 증적 생성**: 지표•통제 효과•준수 근거 기록.
-5. **개선 방향•우선순위 결정**: 감사 결과 기반 전략•투자 조정.
+1. **사업·보안 위험 평가**: 사업 영향·법적 요구 평가
+2. **방향·위험 허용 수준 승인**: 목표·수용 한계 승인
+3. **처리·예산·책임 배정**: 통제·자원·담당 배정
+4. **성과·준수 증적 생성**: 효과·준수 근거 기록
+5. **개선 방향·우선순위 결정**: 전략·투자 조정
 
 #### 한줄 요약
 
