@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소프트웨어 기술성 평가 (SW Technology Evaluation)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T01:18:00+09:00"
 tags:
   - "notes-law_policy"
 weight: 19
@@ -23,8 +23,8 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **공공 소프트웨어사업(English, English)**: 국가기관등이 SW 구축•운영을 발주하는 사업이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **기술성 평가(English, English)**: 기술•조직•품질•관리 역량을 확인하는 사업자 심사이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **공공 소프트웨어사업(Public SW Project)**: 국가기관등의 SW 구축·운영 발주 사업.
+- **기술성 평가(Technical Evaluation)**: 기술·조직·품질·관리 역량 심사.
 - **법적 근거(English, English)**: SW진흥법 제49조제2항과 기술성 평가기준 지침의 적용 근거이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
 
 </details>
@@ -42,10 +42,10 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **차등점수제(English, English)**: 기술평가 순위별 점수 차이로 변별력을 강화하는 방식이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **RFP 평가기준(English, English)**: 평가항목•배점•증빙•적격 기준을 사전에 공개한 기준이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **차등점수제(Differential Scoring)**: 기술평가 순위별 점수 차이를 두는 방식.
+- **RFP 평가기준(RFP Evaluation Criteria)**: 항목·배점·증빙·적격 기준.
 - **벤치마크 테스트(Benchmark Test, BMT)**: 동일 조건에서 기능•성능을 비교하는 시험이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **개념검증(English, PoC)**: 핵심 요구•환경의 제한 범위 구현을 검증하는 시험이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **개념검증(Proof of Concept, PoC)**: 핵심 요구의 제한 범위 구현 검증.
 
 </details>
 
@@ -142,7 +142,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **최저가 선정(English, English)**: 표준 규격을 충족한 제안자 중 최저 가격 제안자를 고르는 방식이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **최저가 선정(Lowest-price Selection)**: 규격 충족자 중 최저가 제안자 선정.
 
 </details>
 
@@ -189,4 +189,4 @@ extra:
 
 #### 한줄 요약
 
-- **사업 위험**이 크면 **실증 근거**로 우선협상대상을 결정 체계 적용 및 준수 적용.
+- 고위험 사업은 **BMT·PoC 실증 근거**로 협상 대상 결정
