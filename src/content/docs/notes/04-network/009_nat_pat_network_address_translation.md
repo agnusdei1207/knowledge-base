@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "네트워크•포트 주소 변환 (NAT•PAT)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:19:00+09:00"
 tags:
   - "notes-network"
 weight: 9
@@ -30,12 +30,12 @@ extra:
 
 </details>
 
-- 정의/개념: 외부 라우팅이 불가능한 사설 IP 대역을 공인 IP 주소 및 포트 번호와 매핑하여 이기종 주소 영역 간 데이터 송수신을 중계하는 **네트워크/포트 주소 변환(NAT/PAT, Network/Port Address Translation)**.
-- 배경/필요성: 32비트 **IPv4(Internet Protocol version 4)** 공인 주소 고갈 한계 극복, 내부 사설망 호스트의 직접 노출 차단을 통한 네트워크 보안 강화 필요.
+- 정의/개념: 사설 주소를 공인 주소•포트로 바꾸는 **NAT•PAT**
+- 배경/필요성: 32비트 IPv4로는 증가하는 **공인 주소 수용 불가**
 
 #### 한줄 요약
 
-- 사설/공인 IP 주소 매핑 및 Port 기반 다대일(N:1) 트래픽 중계 체계 구현.
+- 사설•공인 주소와 포트의 다대일 변환
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- Stateful Translation Table 기반 5-Tuple 바인딩 및 IP/Port 바운드 제어 체계 구축.
+- 상태 기반 변환표의 5-튜플 바인딩
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -94,7 +94,7 @@ extra:
 
 #### 한줄 요약
 
-- 경계 라우터/방화벽 중심 사설 IP 영역과 공인 IP 주소 풀 간 튜플 변환 체계 준수.
+- 경계 장비에서 사설•공인 5-튜플 변환
 
 ## Ⅳ. 흐름도
 
@@ -129,12 +129,13 @@ extra:
 
 ### 동작 원리
 
-1. **아웃바운드 변환 (Outbound Translation)**: 사설 노드 패킷 유입 시 NAT Table을 검색하여 미등록 세션인 경우 새 공인 Port를 바인딩하고 헤더 조작 및 **체크섬 갱신** 후 송출.
-2. **인바운드 역변환 (Inbound Restoration)**: 외부 응답 패킷 수신 시 공인 5-Tuple 주소를 세션 테이블에서 검색하여 본래 사설 IP/Port로 **수신 튜플 복원** 후 내부 전달.
+1. **NAT Table Lookup & PAT Assignment**: 공인 주소•포트 할당
+2. **송신 튜플 변환 & Checksum 갱신**: 헤더 변환 후 송출
+3. **수신 튜플 복원**: 변환표 역조회 후 내부 주소 복원
 
 #### 한줄 요약
 
-- Outbound 송신 튜플 변환, L3/L4 Checksum 재계산 및 Inbound 역변환 프로세스 구동.
+- 송신 튜플 변환과 수신 튜플 역복원
 
 ## Ⅴ. 종류 및 비교
 
@@ -157,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- Static NAT(1:1), Dynamic NAT(N:M), PAT(N:1)의 서비스 특성별 차등 적용 체계 수립.
+- 서버는 정적 NAT, 다수 단말은 PAT 적용
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -179,7 +180,7 @@ extra:
 
 #### 한줄 요약
 
-- Port Forwarding 설정, ALG 제어 및 NAT Session Mapping Log 기록을 통한 보안 체계 수립.
+- 포트 포워딩•ALG•변환 로그로 운영 위험 통제
 
 ## Ⅶ. 결론
 
@@ -190,8 +191,8 @@ extra:
 
 </details>
 
-- IPv4 자원 효율화와 인프라 보안 강화를 위해 **NAT 방식 선택(NAT Strategy Selection)**에 기반한 PAT 포트 세션 관리, ALG 호환성 검증 및 NAT Log 추적성 체계 구축 필수.
+- 외부 공개 서버는 **정적 NAT**, 내부 단말은 **PAT** 선택
 
 #### 한줄 요약
 
-- 서비스 목적별 NAT/PAT 방식 선정 및 NAT Session Log 기반 추적성 확보 체계 적용.
+- 외부 도달성과 단말 수에 따라 NAT 방식 결정

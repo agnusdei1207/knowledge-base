@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:33:00+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 하나의 물리적 L2 스위치 인프라를 다수의 논리적 **브로드캐스트 영역(Broadcast Domain)**으로 분할하여 트래픽 격리 및 보안성을 높이는 **가상 근거리 통신망(Virtual Local Area Network, VLAN)** 기술.
-- 배경/필요성: 단일 물리망 사용 시 발생하는 무분별한 브로드캐스트 폭풍(Storm), 부서 간 무단 데이터 접근 및 보안 위협을 논리적 레벨에서 차단할 수 있는 네트워크 통제 체계 필요.
+- 정의/개념: L2 브로드캐스트 영역을 논리 분할하는 **VLAN**
+- 배경/필요성: 단일 물리망은 **브로드캐스트•부서 트래픽 격리 불가**
 
 #### 한줄 요약
 
@@ -85,7 +85,7 @@ extra:
 | **Access Port & PVID** | 일반 호스트 접속용 포트, 유입 프레임에 **PVID** 바인딩 (수신/송신 시 Untagged) | 1개 VLAN 수용 |
 | **Trunk Port** | 스위치 간 멀티 VLAN 연동, 프레임 헤더에 4B **IEEE 802.1Q Tag** 부착 후 전송 | 다수 VLAN 수용 |
 | **Native VLAN** | Trunk Port에서 802.1Q Tag 없이 전송되는 예외적인 기본 VLAN (양 스위치 일치 필수) | 기본 VLAN 1 |
-| **Allowed VLAN List** | Trunk 링 상에서 실제 전송을 승인할 VLAN ID 리스트 명시 (보안 통제) | 보안 관원 기능 |
+| **Allowed VLAN List** | Trunk에서 승인할 VLAN ID 목록 명시 | 보안 강화 기능 |
 | **SVI (L3 Interface)** | VLAN 간 통신(Inter-VLAN Routing)을 위해 L3 스위치에 부여하는 3계층 IP 게이트웨이 | L3 스위칭 중계 |
 
 #### 한줄 요약
@@ -122,8 +122,10 @@ extra:
 
 ### 동작 원리
 
-1. **태깅 및 스위칭 (Ingress & Tagging)**: 단말 트래픽 유입 시 **PVID 귀속**을 거쳐 **VLAN 태그 부착(802.1Q)** 후 Trunk Port로 송출.
-2. **검증 및 탈거 (Trunk Forwarding & Egress)**: Trunk 라인 전송 시 **허용 VLAN 전달** 명세를 검증하고, 최종 목적지 Access Port에서 **VLAN 태그 제거** 후 단말에 전달.
+1. **Ingress Access Port (PVID 귀속)**: 포트 VLAN으로 분류
+2. **Trunk Port 송출 (VLAN 태그 부착)**: 802.1Q 태그 삽입
+3. **Trunk 통과 (허용 VLAN 전달 검증)**: 허용 목록 대조
+4. **Egress Access Port (VLAN 태그 제거)**: 태그 제거 후 전달
 
 #### 한줄 요약
 
@@ -183,7 +185,7 @@ extra:
 
 </details>
 
-- 효율적인 enterprise 네트워크 가상화와 논리적 트래픽 격리를 위해 **최소 VLAN 허용 원칙(Least VLAN Allowance Principle)**에 입각한 802.1Q Trunking 및 SVI ACL 기반 보안 통제 구현 필수.
+- 트렁크는 **최소 VLAN만 허용**, VLAN 간 통신은 **SVI ACL** 적용
 
 #### 한줄 요약
 

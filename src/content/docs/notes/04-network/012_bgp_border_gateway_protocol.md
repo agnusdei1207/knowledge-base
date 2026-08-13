@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "경계 게이트웨이 프로토콜 (Border Gateway Protocol, BGP)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:25:00+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -30,12 +30,12 @@ extra:
 
 </details>
 
-- 정의/개념: 이기종 **자율 시스템(Autonomous System, AS)** 경계에서 **네트워크 계층 도달 가능성 정보(Network Layer Reachability Information, NLRI)** 및 다양한 경로 속성(Path Attributes)을 기반으로 라우팅 정책을 수행하는 **경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP)**.
-- 배경/필요성: 단순 최단 거리(Metric) 중심의 **IGP(Interior Gateway Protocol)**만으로는 글로벌 인터넷 엑세스 ISP 간 상업적 계약 관계, 피어링(Peering) 정책, 트래픽 유입 통제를 구현할 수 없음.
+- 정의/개념: AS 간 도달성과 정책 경로를 교환하는 **BGP**
+- 배경/필요성: IGP 최단 경로만으로는 **AS 간 정책 통제 불가**
 
 #### 한줄 요약
 
-- 자율 시스템(AS) 간 NLRI 및 Path Attribute 기반 패스 벡터(Path-Vector) 라우팅 체계 구현.
+- AS 간 NLRI와 경로 속성 기반 정책 라우팅
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- AS_PATH 기반 루프 방지, 증분 갱신 및 Inbound/Outbound 경로 정책 제어 체계 구축.
+- AS_PATH 루프 방지와 증분 경로 정책 갱신
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -94,7 +94,7 @@ extra:
 
 #### 한줄 요약
 
-- TCP(179번 포트) 세션 기반 BGP Peer 형성, UPDATE 메시지 교환 및 Best Path 결정 체계 준수.
+- TCP 179 피어와 UPDATE 기반 최선 경로 결정
 
 ## Ⅳ. 흐름도
 
@@ -132,12 +132,14 @@ extra:
 
 ### 동작 원리
 
-1. **인바운드 검증 및 라우팅 결정**: 상대 Peer가 발송한 UPDATE 패킷을 **수신 정책 검증**을 통해 선별하고, BGP Table 등록 후 **최선 경로 선택** 알고리즘 연산을 통해 FIB 포워딩에 렌더링.
-2. **아웃바운드 통제 및 전파**: 확정된 최적 경로를 이웃 AS에게 전파하기 위해 **광고 정책 검증**을 집행한 후 상대방에게 **UPDATE 패킷** 전송.
+1. **수신 정책 검증**: 프리픽스•RPKI 적합성 검사
+2. **후보 경로 등록**: 허용 경로와 속성을 BGP 표에 저장
+3. **최선 경로 선택**: 정책 속성 순서로 경로 판정
+4. **광고 정책 검증**: 허용 경로만 이웃에 전파
 
 #### 한줄 요약
 
-- Inbound 필터링, BGP Table 등록, Best Path 알고리즘 연산 및 Outbound 전파 프로세스 구동.
+- 수신 필터•최선 경로 선택•광고 정책 적용
 
 ## Ⅴ. 종류 및 비교
 
@@ -161,7 +163,7 @@ extra:
 
 #### 한줄 요약
 
-- AS 간 통신용 eBGP와 AS 내부 배포용 iBGP/Route Reflector 아키텍처 수립.
+- AS 간 eBGP와 AS 내부 iBGP•경로 반사기
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -182,7 +184,7 @@ extra:
 
 #### 한줄 요약
 
-- RPKI 기원 검증, Prefix Filter, LOCAL_PREF 및 MED 튜닝을 통한 BGP 보안 제어 체계 수립.
+- RPKI•프리픽스 필터•경로 속성으로 정책 통제
 
 ## Ⅶ. 결론
 
@@ -194,8 +196,8 @@ extra:
 
 </details>
 
-- 인터넷 백본 및 Multi-Cloud 하이브리드 네트워크 연동 시 **경로 유출 방지(Route Leak Prevention)**와 **경로 정책 결정(Routing Policy Selection)**에 입각한 RPKI 보안 인증 및 BGP Path Attribute 제어 구율 준수 필수.
+- 수신은 **RPKI**, 송신은 **프리픽스 필터**로 유출 차단
 
 #### 한줄 요약
 
-- RPKI/ROA 경로 기원 검증 체계 도입 및 Policy-based Path Vector 라우팅 최적화 구현 필수.
+- 트래픽 방향에 따라 LOCAL_PREF•AS_PATH 정책 결정

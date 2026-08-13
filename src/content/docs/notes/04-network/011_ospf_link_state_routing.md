@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "링크 상태 라우팅: OSPF•OSPFv3 (OSPF Link State Routing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:23:00+09:00"
 tags:
   - "notes-network"
 weight: 11
@@ -31,12 +31,12 @@ extra:
 
 </details>
 
-- 정의/개념: 자율 시스템(AS) 내 라우터 간에 **링크 상태 광고(Link-State Advertisement, LSA)**를 교환하여 동일한 **링크 상태 데이터베이스(Link-State Database, LSDB)**를 동기화하고, 다익스트라 **최단 경로 우선 알고리즘(Shortest Path First Algorithm, SPF)**으로 최단 경로를 산출하는 **개방형 최단 경로 우선 프로토콜(OSPF, Open Shortest Path First)**.
-- 배경/필요성: 기존 거리 벡터(Distance Vector) 프로토콜(RIP)의 Slow Convergence, 무한 루프(Routing Loop) 한계 및 15 홉 수 제한을 극복하고 대규모 엔터프라이즈 네트워크의 고속 라우팅 수렴 달성.
+- 정의/개념: LSA와 SPF로 최단 경로를 계산하는 **OSPF**
+- 배경/필요성: RIP의 15홉 제한과 느린 수렴으로 **대규모망 대응 불가**
 
 #### 한줄 요약
 
-- 링크 상태 알고리즘(Dijkstra) 기반 LSDB 동기화 및 최단 경로(SPF) 계산 체계 구현.
+- LSDB 동기화와 다익스트라 SPF 경로 계산
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,7 @@ extra:
 
 #### 한줄 요약
 
-- Multi-Area 영역 분할 및 LSA Flooding 제어를 통한 고속 수렴 체계 구축.
+- 다중 영역과 LSA 플러딩으로 고속 수렴
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -94,7 +94,7 @@ extra:
 
 #### 한줄 요약
 
-- Hello Packet 기반 Adjacency 형성과 ABR 중심 경로 요약 통제 체계 준수.
+- Hello 인접 형성과 ABR 경로 요약
 
 ## Ⅳ. 흐름도
 
@@ -130,12 +130,15 @@ extra:
 
 ### 동작 원리
 
-1. **LSDB 동기화 단계**: Hello Neighbor 형성 후 **DBD 교환**, **LSR 전송**, **LSU 수신** 과정을 거쳐 **데이터베이스 동기화** 완료.
-2. **SPF 경로 포워딩 단계**: 완성된 LSDB 기반으로 다익스트라 **SPF 알고리즘**을 수행하여 **최선 경로**를 도출하고 RIB/FIB에 정식 인스톨.
+1. **DBD 교환**: 보유 LSA의 헤더 목록 교환
+2. **LSR 전송**: 누락•구버전 LSA 요청
+3. **LSU 수신**: 상세 LSA로 LSDB 갱신
+4. **SPF 연산**: 동기화된 LSDB의 최단 경로 계산
+5. **최선 경로 설치**: 선택 경로를 RIB•FIB에 등록
 
 #### 한줄 요약
 
-- DBD 교환, LSR/LSU 플러딩, LSDB 동기화 및 Dijkstra SPF 알고리즘 구동.
+- DBD•LSR•LSU 동기화 후 SPF 경로 계산
 
 ## Ⅴ. 종류 및 비교
 
@@ -158,7 +161,7 @@ extra:
 
 #### 한줄 요약
 
-- IPv4 전용 OSPFv2와 주소 연동을 분리한 IPv6/Multi-AF 지원 OSPFv3 체계 수립.
+- IPv4는 OSPFv2, IPv6•Multi-AF는 OSPFv3
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -180,7 +183,7 @@ extra:
 
 #### 한줄 요약
 
-- Area 0 백본 구성, DR/BDR 선출 및 MTU mismatch 교정에 따른 LSA 안정성 확보 체계 수립.
+- Area 0•DR/BDR•MTU 정합성으로 LSA 안정화
 
 ## Ⅶ. 결론
 
@@ -192,8 +195,8 @@ extra:
 
 </details>
 
-- 대규모 차세대 데이터센터 및 엔터프라이즈 인프라 구축 시 **영역 설계(Area Design)**와 **영역 결정(Area Boundary Selection)**을 바탕으로 OSPFv3 및 계층형 Multi-Area 라우팅 통제 체계 구축 필수.
+- 변경이 잦은 대규모망은 **다중 영역 OSPF** 적용
 
 #### 한줄 요약
 
-- Hierarchical Multi-Area 아키텍처 수립 및 OSPFv3 기반 차세대 라우팅 구현 필수.
+- 규모와 변경 빈도에 따라 영역 경계•요약 지점 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "도메인 이름 시스템 (Domain Name System, DNS)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:17:00+09:00"
 tags:
   - "notes-network"
 weight: 8
@@ -24,16 +24,16 @@ extra:
 <summary>핵심 용어</summary>
 
 - **도메인 이름 시스템(Domain Name System, DNS)**: 사람이 읽기 쉬운 문자열 도메인 주소(예: www.example.com)를 컴퓨터가 상호 통신할 수 있는 IP 주소로 상호 변환해주는 전 세계 분산 계층형 데이터베이스 시스템.
-- **자원 레코드(Resource Record, RR)**: 도메인 이름, 레코드 타입(A, AAAA, CNAME, MX 등), 값 및 TTL 정보로構成된 DNS 기본 정보 등록 단위.
+- **자원 레코드(Resource Record, RR)**: 이름•유형•값•TTL로 구성된 DNS 정보 단위.
 
 </details>
 
-- 정의/개념: 인터넷 인프라의 핵심 분산 데이터베이스로서 문자열 도메인을 IP 주소 및 매핑 레코드로 변환 해석하는 **도메인 이름 시스템(Domain Name System, DNS)**.
-- 배경/필요성: 단일 파일(`hosts.txt`) 및 중앙 집중형 서버 관리 방식의 데이터 폭증에 따른 한계를 극복하고, 단일 장애점(SPOF) 차단과 분산 위임 관리를 통한 가용성 확보 필요.
+- 정의/개념: 도메인과 자원 레코드를 해석하는 분산 **DNS**
+- 배경/필요성: 단일 `hosts.txt`로는 인터넷 규모의 **이름 관리 불가**
 
 #### 한줄 요약
 
-- 분산 계층형 도메인 네임스페이스 및 IP 매핑 자원 레코드 관리 체계 구현.
+- 계층형 위임으로 도메인과 자원 레코드 분산 관리
 
 ## Ⅱ. 특징
 
@@ -53,7 +53,7 @@ extra:
 
 #### 한줄 요약
 
-- 계층적 위임(Delegation), TTL 캐싱 제어 및 DNSSEC 전자서명 무결성 검증 체계 구축.
+- 위임•TTL 캐시•DNSSEC 기반 분산 해석
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -91,7 +91,7 @@ extra:
 
 #### 한줄 요약
 
-- Stub-Recursive-Authoritative 3단계 분산 질의 및 Resource Record 관리 체계 준수.
+- 스텁•재귀•권한 서버의 분산 질의 구조
 
 ## Ⅳ. 흐름도
 
@@ -106,23 +106,33 @@ extra:
 </details>
 
 ```text
-                                   [ TLD Server ]  <--- (4) Iterative Query (www.example.com?)
-                                   [ TLD Server ]  ---> (5) Auth Server IP Referral (example.com)
-                                                               |
-                                   [ Auth Server ] <--- (6) Iterative Query (www.example.com?)
-                                   [ Auth Server ] ---> (7) Authoritative Answer (A Record IP)
-                                                               |
-[ Client ] <--- (8) Final Answer (TTL Caching) <----------------+
+[클라이언트] ── 질의 ──> [재귀 리졸버]
+                              |
+                    1. 캐시 확인
+                              |
+                    +-- 적중 ──────────+
+                    |                  |
+                    `-- 미적중         |
+                         |             |
+                 2. 위임 경로 질의     |
+                 [루트]-[TLD]-[권한]   |
+                         |             |
+                 3. 권한 응답 캐싱     |
+                         |             |
+                         +-------------+
+                              |
+[클라이언트] <── 최종 응답 ── [재귀 리졸버]
 ```
 
 ### 동작 원리
 
-1. **재귀 질의 및 캐시 점검 (Recursive Query & Cache Check)**: 클라이언트 스텁 리졸버는 재귀 리졸버에 **재귀 질의** 전송, 캐시 적중(Cache Hit) 시 즉시 응답.
-2. **반복 질의 및 위임 추적 (Iterative Traversal)**: **캐시 미스(Cache Miss)** 발생 시 **루트 서버**부터 **TLD 서버**, **권한 있는 네임서버** 순으로 **위임 경로 질의(Iterative)**를 수행하여 최종 A/AAAA 레코드를 획득하고 TTL 동안 Caching.
+1. **캐시 확인**: 유효한 자원 레코드 존재 여부 판단
+2. **위임 경로 질의**: 루트•TLD•권한 서버 순회
+3. **권한 응답 캐싱**: 최종 레코드를 TTL 동안 저장
 
 #### 한줄 요약
 
-- Root-TLD-Authoritative 계층 질의 및 TTL 기반 캐시 룩업 프로세스 구동.
+- 루트•TLD•권한 서버 질의와 TTL 캐싱
 
 ## Ⅴ. 종류 및 비교
 
@@ -144,7 +154,7 @@ extra:
 
 #### 한줄 요약
 
-- 클라이언트 재귀 질의(Recursive)와 리졸버 반복 질의(Iterative)의 역할 분리 체계 수립.
+- 클라이언트 재귀 질의와 리졸버 반복 질의 분리
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -165,7 +175,7 @@ extra:
 
 #### 한줄 요약
 
-- DNSSEC 서명 검증, TSIG Zone Transfer 통제 및 RRL(Response Rate Limiting) 방어 체계 수립.
+- DNSSEC•TSIG•RRL로 위조와 증폭 공격 통제
 
 ## Ⅶ. 결론
 
@@ -177,8 +187,8 @@ extra:
 
 </details>
 
-- 인터넷 서비스의 중단 없는 접속성 확보와 고가용성 제공을 위해 **TTL 전환 계획(TTL Transition Planning)** 수립 및 **운영 정책 결정(Operation Policy Selection)**에 기반한 DNSSEC 및 이중화 체계 구축 필수.
+- 변경 전 **TTL 축소**, 운영 응답은 **DNSSEC** 검증 적용
 
 #### 한줄 요약
 
-- DNSSEC 무결성 검증 체계 수립 및 TTL 사전 축소를 통한 DNS 변경 관리 구현 필수.
+- 변경 시 TTL을 줄이고 상시 DNSSEC 무결성 검증

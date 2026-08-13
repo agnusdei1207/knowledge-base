@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "인터넷 제어•그룹 관리 프로토콜 (ICMP•IGMP)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:29:00+09:00"
 tags:
   - "notes-network"
 weight: 14
@@ -120,20 +120,20 @@ extra:
   Host -> [ IGMP Report (Join 239.10.10.1) ] 브로드캐스트
                      |
                      v
-  [ 1. IGMP Snooping Switch ] ---> 패킷 엿듣기 후 해당 포트를 239.10.10.1 테이블에 추가 (가입 포트 갱신)
+[ IGMP Snooping Switch ] ------> 가입 포트를 멀티캐스트 테이블에 추가
                      |
                      v
-  [ 2. IGMP Querier Router ] ----> 멀티캐스트 라우팅 테이블(PIM) 갱신 및 스트림 유입 허용
+[ IGMP Querier Router ] -------> PIM 상태 갱신 및 스트림 유입 허용
 ```
 
 ### 동작 원리
 
-1. **ICMP 피드백 메커니즘**: 전송 실패 시 해당 라우터에서 **ICMP Type/Code**와 원본 패킷 64비트를 실어 송신 호스트에 복귀 통보하여 **PMTUD** 및 Traceroute 지원.
-2. **IGMP 동적 포워딩 메커니즘**: 호스트가 IGMP Report를 발송하면 L2 스위치가 **가입 포트 갱신(IGMP Snooping)**을 집행하여 가입 포트에만 **멀티캐스트** 스트림 전송.
+- **ICMP 피드백**: Type•Code로 전송 실패 원인 통보
+- **IGMP 동적 포워딩**: 가입 포트에만 멀티캐스트 전달
 
 #### 한줄 요약
 
-- ICMP 에러 리포팅 및 IGMP Snooping 기반 L2/L3 멀티캐스트 트래픽 포워딩 프로세스 구동.
+- ICMP 오류 통보와 IGMP 가입 포트 전달
 
 ## Ⅴ. 종류 및 비교
 

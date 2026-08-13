@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "다중 프로토콜 레이블 스위칭 (Multiprotocol Label Switching, MPLS)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:27:00+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -30,12 +30,12 @@ extra:
 
 </details>
 
-- 정의/개념: 입구 네트워크 장비에서 패킷을 **전달 등가 클래스(Forwarding Equivalence Class, FEC)**로 분류하고 고정 길이 헤더를 부착하여 **레이블 스위치 경로(Label Switched Path, LSP)**를 따라 고속 패킷 스위칭을 집행하는 **다중 프로토콜 레이블 스위칭(Multiprotocol Label Switching, MPLS)**.
-- 배경/필요성: 기존 복잡한 L3 **인터넷 프로토콜(Internet Protocol, IP)** 헤더 길게 찾기(LPM) 방식의 라우팅 병목을 해소하고, IP망 상에서 엔터프라이즈 VPN 격리, Traffic Engineering(TE), QoS 보장형 프리미엄 서비스 제공 필요성 대두.
+- 정의/개념: FEC별 레이블 경로로 전달하는 **MPLS**
+- 배경/필요성: IP 최단 경로만으로는 **명시 경로•VPN 격리 불가**
 
 #### 한줄 요약
 
-- L2.5 shim 헤더 기반 FEC 패킷 분류 및 MPLS LSP 고속 스위칭 체계 구현.
+- FEC 분류와 LSP 레이블 스위칭
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,7 @@ extra:
 
 #### 한줄 요약
 
-- LER(Edge)의 Push/Pop 및 LSR(Core)의 Swap, Label Stacking 제어 체계 구축.
+- LER Push•Pop과 LSR Swap•레이블 스택
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -84,7 +84,7 @@ extra:
 
 #### 한줄 요약
 
-- LDP/RSVP-TE 프로토콜 및 LFIB 하드웨어 포워딩 테이블 기반 스위칭 구조 준수.
+- LDP•RSVP-TE와 LFIB 기반 레이블 전달
 
 ## Ⅳ. 흐름도
 
@@ -115,12 +115,14 @@ extra:
 
 ### 동작 원리
 
-1. **Ingress 분류 및 푸시(Label Push)**: LER에서 IP 패킷을 수신하여 해당 FEC에 매핑되는 MPLS Header를 **레이블 푸시(Label Push)**.
-2. **Core 스왑 및 팝(Label Swap & Pop)**: LSR 구간에서는 **레이블 스왑(Label Swap)**을 거치며 고속 전송되고, 최종 목적지 도착 전/후로 **레이블 팝(Label Pop)**을 실행하여 IP 패킷 복원.
+1. **Ingress LER (Label Push)**: FEC별 레이블 부착
+2. **Transit LSR (Label Swap)**: LFIB의 출력 레이블로 교환
+3. **Penultimate LSR (PHP Pop)**: 마지막 전 홉에서 레이블 제거
+4. **Egress LER (IP Forwarding)**: 원본 IP 패킷 전달
 
 #### 한줄 요약
 
-- Ingress LER Push, Intermediate LSR Swap, Egress LER Pop (Penultimate Hop Popping, PHP) 프로세스 구동.
+- LER Push•LSR Swap•PHP Pop으로 LSP 전달
 
 ## Ⅴ. 종류 및 비교
 
@@ -142,7 +144,7 @@ extra:
 
 #### 한줄 요약
 
-- Hop-by-Hop L3 IP 라우팅 대비 MPLS 고속 Shim Header 스위칭 및 L3VPN/L2VPN 서비스 구현.
+- IP LPM과 달리 레이블로 VPN•명시 경로 전달
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -165,7 +167,7 @@ extra:
 
 #### 한줄 요약
 
-- BFD/FRR 50ms 미만 고속 장애 복구, LDP/RSVP-TE 연동 및 PMTU 오버헤드 통제 체계 수립.
+- BFD•FRR•PMTU로 복구 시간과 오버헤드 통제
 
 ## Ⅶ. 결론
 
@@ -176,8 +178,8 @@ extra:
 
 </details>
 
-- 광대역 통신사 백본 및 클라우드 데이터센터 인프라 구현 시 **서비스 격리(Service Isolation)** 확보를 위해 MPLS Label Stacking, RSVP-TE FRR 및 PMTU 최적화 체계 구축 필수.
+- VPN 격리는 **레이블 스택**, 고속 복구는 **FRR** 적용
 
 #### 한줄 요약
 
-- MPLS Label Stacking 및 BFD/FRR 연동을 통한 고가용성 IP/MPLS 백본망 구축 체계 적용.
+- 격리•복구 요구에 따라 레이블 스택과 FRR 선택
