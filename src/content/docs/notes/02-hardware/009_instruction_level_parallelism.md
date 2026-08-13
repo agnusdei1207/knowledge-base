@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
-date: "2026-08-13T11:32:02+09:00"
+date: "2026-08-13T17:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 9
@@ -42,7 +42,7 @@ extra:
 
 - **슈퍼스칼라(Superscalar)**: 단일 클록 주기에 복수의 기계어 명령어를 동시 인출, 해독, 발행할 수 있도록 다중 데이터 경로를 파라메트릭 구축한 하드웨어 아키텍처.
 - **비순서 실행(Out-of-Order Execution, OoO)**: 피연산자 연산 준비가 끝난 독립 명령어부터 원래 프로그램 서순과 다르게 먼저 계산(OoO)하되, 결과는 서순대로 저장(In-order Commit)하는 기술.
-- **발행 폭(Issue Width)**: 프로세서가 1클록 주기에 디코더에서 파이프라인 연산기로 동시 전송할 수 있는 최대 명령어 수(예: 4-way, 8-way).
+- **발행 폭(Issue Width)**: 프로세서가 1클록 주기에 실행 유닛으로 보낼 수 있는 최대 명령어 수.
 - **발행 슬롯 활용률(Issue Slot Utilization)**: 하드웨어가 제공하는 파이프라인 발행 슬롯 대비 실제 유효 기계어가 할당되어 연산에 투입된 비율.
 - **순차 커밋(In-Order Commit)**: 비순서(Out-of-Order)로 완료된 연산 결과들을 Reorder Buffer(ROB)를 통해 원래 프로그램 순서(Program Order)대로 레지스터 및 메모리에 반영하는 기법.
 
@@ -50,7 +50,7 @@ extra:
 
 - 의존 사슬(Dependency Chain), 조건 분기 미스, 캐시 미스로 인한 메모리 지연이 **발행 슬롯 활용률(Issue Slot Utilization)**을 떨어뜨리는 지배적 요인.
 - 다중 인출 디코더와 연산기를 탑재한 **슈퍼스칼라(Superscalar)** 기법을 통해 **발행 폭(Issue Width)** 확장.
-- **비순서 실행(Out-of-Order Execution)**과 **순차 커밋(In-Order Commit)** 구조를 결합하여 사이드이펙트 없는 정밀 예외(Precise Exception) 처리와 동시 병렬성 확장을 보장.
+- **비순서 실행**과 **순차 커밋**을 결합하여 정밀 예외와 프로그램 순서 상태를 유지.
 
 #### 한줄 요약
 - Superscalar 4/8-way Issue 구조와 Out-of-Order Engine을 활용하여 의존성 없는 독립 명령어를 동시 병렬 처리함.
@@ -71,18 +71,12 @@ extra:
 </details>
 
 ```text
-[ ILP Superscalar Out-of-Order Pipeline Architecture ]
-┌──────────────────────────────────────────────────────────────────┐
-│ Frontend : Branch Predictor | I-Cache | Multi-Decode            │
-├──────────────────────────────────────────────────────────────────┤
-│ Rename & Dispatch : Register Renaming (Rename Table: WAR/WAW 제거)│
-├──────────────────────────────────────────────────────────────────┤
-│ Execution Scheduler : Instruction Window / Issue Queue (OoO Issue)│
-├──────────────────────────────────────────────────────────────────┤
-│ Execution Units : ALU 0 | ALU 1 | FPU 0 | Load AGU | Store AGU   │
-├──────────────────────────────────────────────────────────────────┤
-│ Commit & Retire : Reorder Buffer (ROB) | In-Order State Update  │
-└──────────────────────────────────────────────────────────────────┘
+ILP 비순서 실행 구성요소
+├─ 프런트엔드
+├─ 레지스터 리네이밍
+├─ 명령어 윈도
+├─ 실행 유닛
+└─ 재정렬 버퍼
 ```
 
 | 구성요소 | 책임 |
@@ -142,7 +136,7 @@ extra:
 - **데이터 수준 병렬성(Data-Level Parallelism, DLP)**: SIMD 및 Vector 연산기에서 단일 명령어로 대량의 데이터 배열 항목을 병렬 연산하는 기법.
 - **동적 ILP(Dynamic ILP)**: 실행 중 하드웨어(OoO Engine, ROB)가 직접 명령어 간 병렬성을 추출하는 방식(x86, ARM Cortex-A).
 - **정적 ILP(Static ILP)**: 컴파일러가 빌드 시점에 명령어 순서를 재배치하고 긴 묶음 기계어로 만드는 방식(VLIW).
-- **매우 긴 명령어(Very Long Instruction Word, VLIW)**: 컴파일러가 여러 연산을 하나의 128/256비트 대형 명령어 묶음으로 엮어 발행하는 정적 ILP 구조.
+- **매우 긴 명령어(Very Long Instruction Word, VLIW)**: 컴파일러가 독립 연산을 하나의 명령어 묶음으로 편성하는 정적 ILP 구조.
 
 </details>
 
@@ -177,9 +171,9 @@ extra:
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
 | 루프의 긴 **RAW 의존 사슬**로 실행 유닛이 유휴 상태 | **다중 누산기(Multiple Accumulators)** 및 Loop Unrolling 적용 | RAW 사슬 단축 및 **실행 유닛 활용률** 향상 |
-| WAR/WAW 의존성에 의한 명령어 윈도 기계어 발행 병목 | **물리 레지스터 리네이밍(PRF)** 개수 확장 및 RAT 정밀화 | 가짜 의존성 완전 제거로 비순서 발행 슬롯 대폭 확보 |
+| 물리 레지스터 부족으로 리네이밍 정체 | **PRF** 용량과 RAT 체크포인트 조정 | 가짜 의존과 디스패치 정체 완화 |
 | 8-way 이상 발행 폭 확장 시 이슈 큐 탐색 면적 및 동적 전력 폭증 | 이슈 큐 **클록 게이팅(Clock Gating)** 및 파이프라인 윈도 적정 크기 튜닝 | 전력 한도(TDP) 내 초고속 동작 주파수 보장 |
-| 분기 오예측 및 캐시 미스로 인한 **프런트엔드 병목** | Decoded $\mu\text{op}$ Cache 배치 및 TAGE 분기 예측기 정밀도 개선 | 파이프라인 입구 기계어 공급 중단 현상 원천 차단 |
+| 분기 오예측 및 캐시 미스의 **프런트엔드 병목** | $\mu\text{op}$ Cache와 분기 예측기 개선 | 명령어 공급 중단 빈도 감소 |
 
 #### 한줄 요약
 - Multiple Accumulators loop unrolling, PRF Expansion, Clock Gating 및 $\mu\text{op}$ Cache를 통해 ILP 추출의 한계 및 전력 오버헤드를 제어함.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "멀티코어 프로세서 (Multicore Processor)"
-date: "2026-08-13T11:32:49+09:00"
+date: "2026-08-13T18:02:00+09:00"
 tags:
   - "notes-hardware"
 weight: 10
@@ -30,8 +30,8 @@ extra:
 
 </details>
 
-- 정의/개념: 단일 반도체 칩 상에 2개 이상의 연산 코어와 공유 캐시 계층을 집적하여 **스레드 수준 병렬성(Thread-Level Parallelism, TLP)**을 실현하는 고성능 **멀티코어 프로세서(Multicore Processor)**.
-- 배경/필요성: 단일 코어의 동작 주파수(GHz)를 무리하게 끌어올릴 경우 **전력 한계(Power Wall)** 및 **발열 한계(Thermal Wall)**에 부딪혀 클록 고속화를 통한 성능 향상이 불가능해짐에 따라, 저전력 멀티코어 병렬 실행을 통한 전력 대 성능비(Perf/Watt) 극대화 요구 대두.
+- 정의/개념: 단일 반도체 칩에 복수 연산 코어를 집적하여 **스레드 수준 병렬성(TLP)**을 실현하는 **멀티코어 프로세서**.
+- 배경/필요성: 주파수 상승의 **전력•발열 한계**로 단일 코어 성능 확장이 제약되어 병렬 코어 기반 처리량 향상 요구 대두.
 
 #### 한줄 요약
 - 단일 코어의 전력/발열 장벽을 극복하기 위해 다중 물리 코어를 단일 칩에 집적하여 스레드 수준 병렬성(TLP)과 처리량을 극대화함.
@@ -69,20 +69,12 @@ extra:
 </details>
 
 ```text
-[ Multicore Processor On-Chip Architecture ]
-┌───────────────────────────────────────────────────────────┐
-│ Core Cluster 0                 Core Cluster 1             │
-│ ┌──────────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐│
-│ │ Core 0       │ │ Core 1    │ │ Core 2    │ │ Core 3    ││
-│ │ Private L1/L2│ │Priv L1/L2 │ │Priv L1/L2 │ │Priv L1/L2 ││
-│ └──────────────┘ └───────────┘ └───────────┘ └───────────┘│
-├───────────────────────────────────────────────────────────┤
-│ Coherence Interconnect (NoC / Mesh / Crossbar Router)     │
-├───────────────────────────────────────────────────────────┤
-│ Shared Last-Level Cache (Shared L3 LLC Bank 0 ~ N)        │
-├───────────────────────────────────────────────────────────┤
-│ Integrated Multi-Channel Memory Controller (DRAM Interf.) │
-└───────────────────────────────────────────────────────────┘
+멀티코어 프로세서 구성요소
+├─ 코어 클러스터
+├─ 사설 캐시
+├─ 일관성 인터커넥트
+├─ 공유 LLC
+└─ 메모리 제어기
 ```
 
 | 구성요소 | 책임 |
@@ -110,27 +102,24 @@ extra:
 </details>
 
 ```text
-[ OS Thread Scheduler ] ──> Thread A (Core 0 할당), Thread B (Core 1 할당)
-                                  │
-                                  ▼
-[ Core 0 (Thread A) : Address X에 Write 연산 수행 ]
-                                  │
-                                  ▼
-[ Coherence Interconnect ] ──> Write Ownership 요청 패킷 전송
-                                  │
-                                  ▼
-[ Core 1 Private Cache ] ──> Address X Cache Line 즉각 Invalidation (무효화)
-                                  │
-                                  ▼
-[ Core 0 Private Cache ] ──> Modified 상태로 데이터 쓰기 완결 및 최신 유지
+1. 스레드 할당
+      │
+      ▼
+2. 쓰기 소유권 요청
+      │
+      ▼
+3. 사본 무효화
+      │
+      ▼
+4. 수정 상태 유지
 ```
 
 ### 동작 원리
 
-- **스레드 할당**: OS **스케줄러**가 실행 스레드를 유휴 코어에 배정함.
-- **쓰기 소유권 요청**: 쓰기 전 인터커넥트로 **Write Ownership**을 요청함.
-- **사본 무효화**: 타 사설 캐시의 사본을 **Invalidation**하여 구버전 읽기를 차단함.
-- **수정 상태 유지**: 소유 코어가 최신 라인을 Modified 상태로 유지함.
+1. **스레드 할당**
+2. **쓰기 소유권 요청**
+3. **사본 무효화**
+4. **수정 상태 유지**
 
 #### 한줄 요약
 - OS Scheduler 스레드 분산 배정 및 Interconnect 기반 Write Ownership Invalidation 통신으로 캐시 일관성을 유지함.
@@ -141,10 +130,10 @@ extra:
 <summary>핵심 용어</summary>
 
 - **동시 멀티스레딩(Simultaneous Multithreading, SMT)**: 단일 물리 코어 내부에서 디코더와 연산 자원을 공유하며 2개 이상의 논리 스레드(Logical Thread)를 동시 발행하는 기법 (예: Intel Hyper-Threading).
-- **동종 멀티코어(Homogeneous Multicore)**: 동일한 마이크로아키텍처 스펙의 코어들을 동일한 클록 주파수로 배치한 구조.
+- **동종 멀티코어(Homogeneous Multicore)**: 동일한 명령 처리 특성을 가진 코어들로 구성한 구조.
 - **이종 멀티코어(Heterogeneous Multicore)**: 고성능 Big 코어(P-core)와 고효율 Little 코어(E-core)를 복합 탑재한 빅리틀/Arm DynamIQ 아키텍처.
 - **유휴 누설전력(Idle Leakage Power)**: 연산 작업이 없이 대기 중인 코어에서도 미세 트랜지스터를 통해 계속 소비되는 정적 전력.
-- **코어 이동 비용(Core Migration Overhead)**: 스레드가 P-core와 E-core 사이를 주파수 및 부하에 따라 이동할 때 발생하는 캐시 라인 Flush 및 상태 복원 지연.
+- **코어 이동 비용(Core Migration Overhead)**: 스레드 이동 뒤 캐시 지역성 저하와 스케줄링으로 발생하는 추가 비용.
 
 </details>
 
@@ -170,7 +159,7 @@ extra:
 
 - **거짓 공유(False Sharing)**: 서로 다른 스레드가 이용하는 독립 변수들이 동일한 64바이트 캐시 라인 내에 우연히 배치되어, 한 코어의 쓰기가 타 코어 사설 캐시를 끊임없이 Invalidation 시키는 병목 현상.
 - **패딩(Cache Line Padding)**: 거짓 공유 방지를 위해 구조체 내의 변수 사이에 불필요한 공백 바이트(Align 64)를 강제로 삽입하여 별도 캐시 라인으로 격리하는 기법.
-- **작업 훔치기(Work Stealing)**: 유휴 상태에 도달한 특정 코어가 부하가 집중된 타 코어의 로컬 큐에서 처리 대기 중인 스레드를 가져와 병렬 렌더링하는 동적 부하분산 기술.
+- **작업 훔치기(Work Stealing)**: 유휴 작업자가 다른 작업 큐에서 대기 태스크를 가져오는 동적 부하분산 기술.
 - **NUMA 인지 배치(NUMA-Aware Placement)**: 멀티소켓/멀티코어 환경에서 스레드가 사용할 메모리를 해당 코어에 물리적으로 연결된 로컬 메모리에 직접 할당하는 기법.
 
 </details>
@@ -179,8 +168,8 @@ extra:
 |:---|:---|:---|
 | 독립 변수 갱신 때 무효화가 반복되는 **거짓 공유(False Sharing)** | 변수 선언 시 64-Byte **패딩(Cache Line Padding)** 명시적 적용 | 캐시 라인 격리로 일관성 트래픽 절감 |
 | 특정 코어에 부하가 집중되고 다른 코어는 유휴 상태 | Fork-Join 프레임워크의 **작업 훔치기(Work Stealing)** 스케줄러 도입 | 물리 코어 부하 평형 및 병렬 지연 단축 |
-| 코어 증가에 따른 메인 메모리 대역폭 포화 및 엑세스 지연 | **NUMA 인지 배치** 및 데이터 **메모리 지역성(Locality)** 극대화 | 원격 메모리 억세스 트래픽 차단 및 메모리 대역폭 한계 극복 |
-| 이종 코어 환경에서 고부하 작업이 E-core에 할당되어 처리 속도 둔화 | OS 커널 인텔리전트 **이종 코어 스케줄링(ITD 등)** 연동 | 앱 요구 특성에 부합하는 P/E 코어 적재적소 즉시 배치 |
+| 코어 증가에 따른 메모리 대역폭 포화 | **NUMA 인지 배치**와 **메모리 지역성** 개선 | 원격 접근과 대역폭 경합 완화 |
+| 이종 코어의 작업 특성 오배정 | 부하 힌트 기반 **이종 코어 스케줄링** | 지연 작업과 효율 작업의 배치 개선 |
 
 #### 한줄 요약
 - Cache Line Padding(False Sharing 방지), Work Stealing(부하 평형), NUMA-Aware Placement 및 Heterogeneous Scheduling을 적용함.
