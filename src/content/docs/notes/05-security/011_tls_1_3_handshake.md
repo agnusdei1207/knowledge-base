@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 70%"
     variant: note
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T18:48:54+09:00"
 tags:
   - "notes-security"
 weight: 11
@@ -28,12 +28,12 @@ extra:
 
 </details>
 
-- 정의/개념: ClientHello/ServerHello 1-RTT 지연으로 서버 신원 검증 및 ECDHE 임시 키 합의를 수행하고 **AEAD** 트래픽 키를 설정하는 전송 보안 표준
-- 배경/필요성: 구형 TLS 1.2 이하의 다중 왕복(2-RTT) 지연과 취약 암호스위트 사용에 따른 보안 공격면 증가 문제 극복
+- 정의/개념: 서버 인증과 임시 키 합의를 결합한 **TLS 1.3 핸드셰이크**
+- 배경/필요성: 구형 TLS에는 **다중 왕복•취약 암호스위트** 부담이 있다.
 
 #### 한줄 요약
 
-- 단일 왕복(1-RTT) 기반의 ECDHE 키 교환과 인증서 서명 검증을 결합하여 지연 최소화 및 순방향 비밀성(PFS) 확보
+- **1-RTT•ECDHE•인증서 검증**으로 지연과 순방향 비밀성 확보
 
 ## Ⅱ. 특징
 
@@ -80,16 +80,16 @@ TLS 1.3 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 협상 메시지 | 버전, 암호스위트, 키 공유(Key Share) 파라미터 교환 |
-| 대화 기록 해시 | 대화 기록 해시 기반 협상 순서 및 메시지 전체 무결성 축적 |
-| 인증서 검증기 | CertificateVerify 서명 및 Finished MAC 검증 |
-| HKDF 키 스케줄 | HKDF 연산 기반 단계별(Handshake/Application) 및 방향별 트래픽 키 도출 |
-| AEAD 레코드 계층 | AEAD 연산 기반 실트래픽 기밀성 암호화 및 태그 무결성 검증 |
+| 협상 메시지 | **버전•암호스위트•키 공유** 교환 |
+| 대화 기록 해시 | **협상 순서•메시지 무결성** 축적 |
+| 인증서 검증기 | **CertificateVerify•Finished** 검증 |
+| HKDF 키 스케줄 | **단계•방향별 트래픽 키** 도출 |
+| AEAD 레코드 계층 | **기밀성•인증 태그** 검증 |
 
 
 #### 한줄 요약
 
-- 대화 기록 해시(Transcript Hash) 기반 HKDF 키 스케줄링, CertificateVerify 서명 및 Finished 검증 구조
+- **대화 기록 해시•HKDF•CertificateVerify•Finished** 검증 구조
 
 ## Ⅳ. 흐름도
 
@@ -133,16 +133,16 @@ TLS 1.3 구조
 
 ### 동작 원리
 
-1. **ClientHello 전송**: 클라이언트 키 공유 파라미터 및 지원 스위트 제안
-2. **ServerHello 반환**: 서버 키 공유 파라미터 선택 및 반환
-3. **핸드셰이크 키 도출**: ECDHE 공유 비밀과 대화 기록 해시 기반 HKDF 핸드셰이크 키 도출
-4. **인증서•Finished 검증**: CertificateVerify 서명 및 Finished MAC 수학적 검증
-5. **Finished•응용 트래픽 키 전환**: 최종 응용 트래픽 키 활성화 및 데이터 암호 송수신 진입
+1. **ClientHello 전송**: 키 공유 파라미터와 지원 암호스위트 제안
+2. **ServerHello 반환**: 서버 키 공유와 선택 암호스위트 반환
+3. **핸드셰이크 키 도출**: ECDHE 비밀•기록 해시로 **HKDF 키** 도출
+4. **인증서•Finished 검증**: 인증서 서명과 Finished MAC 검증
+5. **Finished•응용 트래픽 키 전환**: 검증 뒤 양방향 응용 키 활성화
 
 
 #### 한줄 요약
 
-- ClientHello/ServerHello 교환, ECDHE 기반 핸드셰이크 키 도출, 인증서 경로·서명 검증 및 응용 트래픽 키 전환
+- **Hello 교환•ECDHE•인증서 검증•응용 키 전환** 수행
 
 ## Ⅴ. 종류 및 비교
 
@@ -165,7 +165,7 @@ TLS 1.3 구조
 
 #### 한줄 요약
 
-- 최초 접속(전체 1-RTT), 재연결(PSK 1-RTT), 조기 데이터(0-RTT)의 순방향 비밀성(PFS) 및 재전송 리스크 비교 채택
+- 최초 접속은 **전체 1-RTT**, 재개는 **PSK 1-RTT**, 멱등 조회만 0-RTT
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -186,7 +186,7 @@ TLS 1.3 구조
 
 #### 한줄 요약
 
-- RFC 8446 준수, 0-RTT 재전송 방지 정책(Anti-Replay) 및 KeyUpdate를 통한 암호키 수명주기 통제
+- **RFC 8446•재전송 방지•KeyUpdate**로 키 수명 통제
 
 ## Ⅶ. 결론
 
@@ -201,4 +201,4 @@ TLS 1.3 구조
 
 #### 한줄 요약
 
-- 1-RTT 기반 ECDHE 키 교환, HKDF 키 파생, AEAD 암호화 및 0-RTT 재전송 방지 통제를 결합한 TLS 1.3 보안 체계 구축 필수
+- **ECDHE•HKDF•AEAD•0-RTT 재전송 방지**를 결합
