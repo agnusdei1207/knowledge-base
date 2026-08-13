@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:44:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: HTTP의 단방향/비지속성 한계를 극복하고 실시간 양방향 통신을 구현하는 **WebSocket**과, 서버의 단방향 데이터 푸시에 최적화된 **SSE** 통신 아키텍처
-- 배경/필요성: 주식 호가, 채팅, 실시간 알림 등 즉각적인 상태 갱신이 필요한 서비스에서 전통적인 폴링(Polling) 방식의 오버헤드와 지연 시간 한계성 극복
+- 정의/개념: 양방향 **WebSocket**과 Server 단방향 **SSE** 실시간 통신
+- 배경/필요성: 반복 Polling은 **빈 요청 Traffic•갱신 지연** 발생
 
 #### 한줄 요약
 
 - 웹소켓은 서로 말하는 전화이고 SSE는 서버가 번호를 붙여 계속 보내는 방송이라 통신 방향부터 다르다.
 
-## Ⅱ. 특징 (실시간 통신 방식별 핵심 차별성)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 연결을 오래 유지하면 새 요청을 반복하지 않아도 되지만 끊긴 위치와 느린 수신자의 버퍼를 별도로 관리해야 한다.
 
-## Ⅲ. 구조 및 구성요소 (WebSocket vs SSE 아키텍처 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,33 +60,25 @@ extra:
 </details>
 
 ```text
-┌─────────────────────────┐       ┌─────────────────────────┐
-│  WebSocket Architecture │  VS   │     SSE Architecture    │
-├─────────────────────────┤       ├─────────────────────────┤
-│ [Client]      [Server]  │       │ [Client]      [Server]  │
-│    │             │      │       │    │             │      │
-│    ├─(Handshake)►│      │       │    ├─(HTTP GET)─►│      │
-│    │◄─(Upgrade)──┤      │       │    │             │      │
-│    │◄──(Msg 1)───┤      │       │    │◄─(Event 1)──┤      │
-│    ├───(Msg 2)──►│      │       │    │             │      │
-│    │◄──(Msg 3)───┤      │       │    │◄─(Event 2)──┤      │
-└─────────────────────────┘       └─────────────────────────┘
+[Real-time Delivery]
+ ├── [Connection Gateway]
+ ├── [Protocol Handler]
+ ├── [Message Broker]
+ └── [Replay Store]
 ```
 
-선의 의미: WebSocket은 업그레이드 후 양방향(화살표 교차)으로 메시지를 자유롭게 교환하며, SSE는 일반 HTTP GET 요청 후 서버가 일방적으로(화살표 단방향) 데이터를 쏟아내는 구조적 차이.
-
-| 구성요소 | WebSocket 메커니즘 | SSE 메커니즘 |
-|:---|:---|:---|
-| **통신 방향** | **양방향 통신 (클라이언트 ↔ 서버)**| **단방향 통신 (서버 $\rightarrow$ 클라이언트)**|
-| **전송 포맷** | **텍스트 및 바이너리(Blob, ArrayBuffer)** | **순수 텍스트(JSON) 전용** |
-| **재접속(Reconnect)** | 직접 구현 필요 (라이브러리 의존) | **브라우저 차원의 자동 재접속 내장** |
-| **인프라 제약** | 프록시/L7 로드밸런서 설정 복잡 (`Upgrade` 지원 필요) | 일반 HTTP 프록시 및 L7 호환성 우수 |
+| 구성요소 | 책임 |
+|---|---|
+| Connection Gateway | Handshake•인증과 **장기 연결 수명주기** 관리 |
+| Protocol Handler | WebSocket Frame 또는 **SSE Event** 처리 |
+| Message Broker | Server 간 **실시간 Event Fan-out** 제공 |
+| Replay Store | Event ID별 **누락 Message 재생** 지원 |
 
 #### 한줄 요약
 
 - 실시간 게이트웨이가 연결을 받고 핸들러가 통신 방식을 처리하며 브로커는 다른 서버의 사건을 전달하고 재생 저장소는 끊긴 동안의 방송을 보관한다.
 
-## Ⅳ. 흐름도 (SSE 자동 복구 및 WebSocket 메시지 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,35 +87,42 @@ extra:
 </details>
 
 ```text
-[SSE 흐름 (단방향 푸시 & 자동 복구)]
-[Client]                                [Server (SSE Handler)]
-   ├─ 1. HTTP GET /stream ──────────────►│
-   │◄─ 2. 응답 (text/event-stream) ─────┤
-   │◄─ 3. data: {"msg":"A"} id: 1 ──────┤
-   │  (네트워크 단절)
-   │
-   ├─ 4. HTTP GET (Last-Event-ID: 1) ───►│
-   │◄─ 5. data: {"msg":"B"} id: 2 ──────┤ (2번부터 재전송)
-
-[WebSocket 흐름 (양방향 상태 동기화)]
-[Client]                                [Server (WS Handler)]
-   ├─ 1. HTTP GET (Upgrade: websocket) ─►│
-   │◄─ 2. HTTP 101 Switching Protocols ─┤
-   ├─ 3. [Frame] 텍스트 입력 "Hello" ───►│ (수신 및 가공)
-   │◄─ 4. [Frame] 텍스트 수신 "Hello!" ─┤
+[SSE 연결 요청]
+      │
+      ▼
+1. Event Stream 설정
+      │
+      ▼
+2. ID 포함 Event 전송
+      │
+   [연결 단절]
+      │
+      ▼
+3. Last-Event-ID로 재접속
+      │
+      ▼
+4. 누락 Event 재생
+      │
+      ▼
+5. Live Stream 전환
+      │
+      ▼
+[SSE 전달 지속]
 ```
 
 ### 동작 원리
 
-1. **WebSocket**: 연결(101 Upgrade)이 수립되면 양측은 커넥션이 유지되는 한 상대방에게 언제든 프레임(Frame) 단위로 데이터를 푸시.
-2. **SSE**: 클라이언트가 스트림을 열면 서버가 데이터를 계속 밀어내며, 연결이 끊기면 클라이언트는 브라우저 내부 동작으로 `Last-Event-ID`를 들고 재접속 시도.
-3. **Recovery**: SSE 서버는 `Last-Event-ID` 이후의 이벤트를 큐에서 꺼내어 내려줌 (**재접속 상태 복구 완결**).
+1. **Event Stream 설정**: HTTP 응답을 지속 Stream으로 유지
+2. **ID 포함 Event 전송**: 재생 가능한 단조 Event ID 부여
+3. **Last-Event-ID로 재접속**: 마지막 수신 위치 전달
+4. **누락 Event 재생**: 저장된 다음 ID부터 순서대로 전송
+5. **Live Stream 전환**: Backlog 소진 후 신규 Event 전달
 
 #### 한줄 요약
 
 - 클라이언트가 마지막 방송 번호를 보내면 서버는 누락분을 먼저 재생하고 이후 새 사건을 같은 연결로 이어 보낸다.
 
-## Ⅴ. 종류 및 비교 (도입 시나리오별 기술 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -142,7 +141,7 @@ extra:
 
 - 공동 편집처럼 양쪽이 자주 보내면 웹소켓을, 진행률 알림처럼 서버가 보내기만 하면 SSE를 우선 선택한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (실시간 통신 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -170,7 +169,7 @@ extra:
 
 </details>
 
-- **실시간 통신 기준**에 따라 **메시지 흐름 방향(양/단방향)** 및 **바이너리 취급 여부**를 기준으로 WebSocket과 SSE를 전략적으로 분리 도입 필수
+- 양방향•Binary는 **WebSocket**, Server Text Push는 SSE 선택
 
 #### 한줄 요약
 

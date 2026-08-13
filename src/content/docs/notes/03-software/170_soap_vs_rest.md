@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T03:12:00+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 이기종 시스템 간 통신을 위해 보안과 트랜잭션 등 엄격한 규격을 강조하는 프로토콜인 **SOAP**과 자원(Resource) 식별 및 웹 고유의 단순함을 지향하는 아키텍처 스타일인 **REST**의 비교 및 선택 기준
-- 배경/필요성: B2B 금융 연계처럼 무결성(ACID)과 보안이 최우선인 환경과, B2C 모바일 앱처럼 속도와 캐싱 확장성이 중요한 환경이 달라 단일 방식으로 모든 API 연계 요구사항을 충족하기 어려운 한계성 극복
+- 정의/개념: XML Message Protocol **SOAP**과 Resource Style **REST** 비교
+- 배경/필요성: 계약•WS-* 요구와 **HTTP 단순성•Cache** 요구를 단일 방식으로 충족 곤란
 
 #### 한줄 요약
 
 - SOAP은 정해진 봉투와 계약으로 업무 연산을 호출하고 REST는 주소와 HTTP 의미로 자원 상태를 조회·변경한다.
 
-## Ⅱ. 특징 (설계 철학 대조)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -43,15 +43,15 @@ extra:
 
 </details>
 
-- **SOAP**: Protocol (규약), XML Only, Action-Centric (행위 중심), WS-Security 탑재
-- **REST**: Architectural Style (스타일), JSON/XML/Text 자유도, Resource-Centric (자원 중심), HTTPS에 의존
-- **Statelessness (무상태성)**: SOAP과 REST 모두 기본적으로 서버가 클라이언트의 상태를 저장하지 않는 무상태성 원칙 준수
+- **SOAP**은 XML Envelope와 WSDL•WS-* 확장 규격 중심
+- **REST**는 Resource•Representation과 HTTP 의미 활용
+- REST의 **Stateless 제약**은 요청별 처리 문맥 완결 요구
 
 #### 한줄 요약
 
 - SOAP은 기관 간 문서처럼 형식과 서명을 엄격히 맞추고 REST는 웹의 주소·메서드·캐시 규칙을 재사용해 인터페이스를 단순화한다.
 
-## Ⅲ. 구조 및 구성요소 (아키텍처 및 페이로드 비교)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,39 +59,19 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────┐         ┌────────────────────────┐
-│   SOAP Architecture    │   VS    │   REST Architecture    │
-├────────────────────────┤         ├────────────────────────┤
-│ [HTTP / SMTP / MQ]     │         │ [HTTP / HTTPS Only]    │
-│   │                    │         │   │                    │
-│   ▼                    │         │   ▼                    │
-│ <Envelope>             │         │ GET /users/123 HTTP/1.1│
-│  <Header>보안</Header> │         │ Accept: application/json│
-│  <Body>                │         │                        │
-│   <GetBalance>         │         │ {                      │
-│     <Id>123</Id>       │         │   "id": 123,           │
-│   </GetBalance>        │         │   "balance": 5000      │
-│  </Body>               │         │ }                      │
-│ </Envelope>            │         │                        │
-└────────────────────────┘         └────────────────────────┘
-```
-
-선의 의미: SOAP은 어떤 전송 계층을 쓰든 거대한 XML 봉투 안에 행위와 데이터를 캡슐화하고, REST는 HTTP 자체의 주소(URI)와 메서드(Method)를 직접 활용하여 경량 페이로드를 전달하는 구조적 차이.
-
 | 구성요소 | SOAP 역할 | REST 역할 |
 |:---|:---|:---|
 | **설계 중심** | **Function / Action (행위 위주)** | **Resource / Entity (자원 위주)** |
-| **명세(Contract)** | **WSDL (의무적이고 엄격한 XML 계약)**| **OpenAPI / Swagger (자율적 명세)** |
-| **전송 프로토콜**| **HTTP, SMTP, TCP, UDP 등 독립적** | **HTTP 프로토콜에 전적으로 종속됨**|
-| **오류 처리** | **SOAP Fault 태그 내 상세 코드 반환**| **HTTP Status Code (404, 500) 사용**|
-| **보안 체계** | **WS-Security (엔터프라이즈급 내장)**| **HTTPS / TLS + OAuth2 / JWT 위임** |
+| **명세(Contract)** | **WSDL 기반 XML 계약**| OpenAPI 등 별도 명세 선택 |
+| **전송 프로토콜**| HTTP 등 Transport와 Message 규격 분리 | **HTTP 의미 체계** 활용 |
+| **오류 처리** | **SOAP Fault** 구조 | HTTP Status와 Problem Detail 등 |
+| **보안 체계** | **WS-Security** 확장 가능 | TLS•OAuth 등 Web 보안 조합 |
 
 #### 한줄 요약
 
 - 클라이언트가 SOAP 문서 창구나 REST 자원 창구를 선택해도 계약·보안 검사를 거쳐 같은 업무 서비스에 도달한다.
 
-## Ⅳ. 흐름도 (상태 조작 대 행위 호출 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -100,26 +80,40 @@ extra:
 </details>
 
 ```text
-[클라이언트 앱]
-       │
-       ├─ (REST) ──► POST /payments (결제 자원 생성) ──► HTTP 201 Created
-       │
-       └─ (SOAP) ──► POST /PaymentService (SOAP Action: ExecutePayment)
-                       <Envelope><Body><ExecutePayment>...</ExecutePayment></Body></Envelope>
-                       ──► HTTP 200 OK (비즈니스 에러 시에도 200 OK 내부에 Fault 전송 가능)
+[API 요청]
+    │
+    ▼
+1. Interface 유형 식별
+    │
+    ▼
+2. 계약•Message 검증
+    │
+    ▼
+3. Action•Resource 처리
+    │
+    ▼
+4. 오류•표현 Mapping
+    │
+    ▼
+5. Protocol 응답 생성
+    │
+    ▼
+[API 응답]
 ```
 
 ### 동작 원리
 
-1. **REST 흐름**: 클라이언트가 `POST /payments` 로 자원 생성을 요청하면, 웹 서버가 HTTP 201 상태 코드와 생성된 자원의 URI를 응답.
-2. **SOAP 흐름**: 클라이언트가 단일 EndPoint `/PaymentService` 에 XML 봉투를 전송하면, 파싱 엔진이 봉투를 뜯어 내부 `ExecutePayment` 메서드를 실행.
-3. **에러 반환**: REST는 HTTP 프로토콜 규약(400, 500)을 그대로 따르나, SOAP은 종종 HTTP 200을 던진 후 XML Body 안에 `<Fault>` 코드를 내려주는 차이 발생 (**API 처리 완결**).
+1. **Interface 유형 식별**: SOAP Action 또는 REST Method 확인
+2. **계약•Message 검증**: WSDL Schema 또는 API 계약 검사
+3. **Action•Resource 처리**: 연산 호출 또는 자원 상태 조작
+4. **오류•표현 Mapping**: Fault 또는 HTTP 표현으로 변환
+5. **Protocol 응답 생성**: Envelope 또는 Representation 반환
 
 #### 한줄 요약
 
 - SOAP 요청은 봉투와 연산 계약을 먼저 검사하고 REST 요청은 주소·메서드·표현을 해석한 뒤 각 방식의 표준 오류 형태로 결과를 돌려준다.
 
-## Ⅴ. 종류 및 비교 (도입 시나리오 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -131,14 +125,14 @@ extra:
 |:---|:---|:---|
 | **적합한 비즈니스**| **은행 송금, 결제 게이트웨이, B2B 통합** | **모바일 앱 API, SPA 웹 프론트엔드 연동**|
 | **트랜잭션/상태**| **WS-AtomicTransaction 지원 (복잡한 분산 제어)**| 직접 지원 안 함 (분산 트랜잭션 Saga 패턴 구현 필요)|
-| **네트워크 대역폭**| **XML 헤더와 태그로 인해 페이로드가 매우 큼**| **JSON 사용으로 가볍고 파싱 속도 빠름** |
-| **캐싱 (Caching)** | GET이 아닌 POST로 봉투를 보내므로 캐싱 불가 | **HTTP 표준 GET을 활용하여 완벽한 분산 캐싱 지원**|
+| **Payload 특성**| XML Envelope 부가 정보 | 표현 형식 선택 가능 |
+| **Caching** | Transport•Gateway별 별도 설계 | **HTTP Cache 의미** 활용 가능 |
 
 #### 한줄 요약
 
 - 메시지 서명과 신뢰성 명세가 중요한 기관 연계는 SOAP을, 공개 자원을 웹 방식으로 조회하는 인터페이스는 REST를 우선 검토한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (API 연계 3대 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -166,7 +160,7 @@ extra:
 
 </details>
 
-- **API 선택 기준**에 따라 레거시 B2B 트랜잭션 망은 **SOAP**을, 클라우드 네이티브 MSA 및 모바일 연동 망은 **REST** 기반 아키텍처 필수 채택
+- WS-* 계약 연계는 **SOAP**, Web Resource API는 REST 우선 선택
 
 #### 한줄 요약
 

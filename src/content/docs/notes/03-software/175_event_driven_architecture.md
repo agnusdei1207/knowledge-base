@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "이벤트 기반 아키텍처 (Event-Driven Architecture)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:32:00+09:00"
 tags:
   - "notes-software"
 weight: 175
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 분산 시스템에서 동기적(API) 강결합으로 인한 연쇄 장애를 차단하기 위해, 비동기 이벤트 스트림을 중심으로 상태 변화를 전파하는 마이크로서비스 아키텍처 패턴인 **EDA**
-- 배경/필요성: 주문 서비스가 결제, 재고, 배송 API를 순차적으로 호출할 경우, 배송 서버 하나만 죽어도 전체 주문이 롤백되는 단일 장애점(SPOF) 및 응답 지연 한계성 극복
+- 정의/개념: 상태 변화 Event를 발행•구독하는 **EDA**
+- 배경/필요성: 동기 연쇄 호출은 **시간 결합•장애 전파•지연 누적** 발생
 
 #### 한줄 요약
 
 - 주문 서비스가 수신자 주소를 모르고 주문 생성 사건을 게시하면 결제·재고·알림 서비스가 각자 속도로 읽어 처리한다.
 
-## Ⅱ. 특징 (EDA 3대 핵심 철학)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 생산자와 소비자가 동시에 켜져 있지 않아도 브로커가 사건을 보관하지만 지연·중복·순서를 각 소비자가 명시적으로 다뤄야 한다.
 
-## Ⅲ. 구조 및 구성요소 (Kafka 기반 메시징 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,34 +60,24 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Event-Driven Architecture (EDA) Topology             │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Producer(생산자) : [주문 MSA] ──► (발행: OrderCreated)              │
-│                           │                                            │
-│                           ▼                                            │
-│ 2. Broker(브로커)   : [Event Channel / Kafka Topic (저장 및 라우팅)]   │
-│                           │                  │                  │      │
-│                           ▼                  ▼                  ▼      │
-│ 3. Consumer(소비자) : [결제 MSA]         [재고 MSA]         [알림 MSA] │
-│                    (결제 프로세스)   (재고 차감 프로세스) (카톡 발송)  │
-└────────────────────────────────────────────────────────────────────────┘
+[Event Channel]
+ ├── [Event Producer]
+ ├── [Event Consumer]
+ └── [Schema Registry]
 ```
 
-선의 의미: 주문 MSA가 결제/재고 서버의 주소(IP)를 모른 채로 Kafka에 이벤트를 던지면, 각 관심 있는 MSA가 비동기적으로 이벤트를 가져가 처리하는(Pull/Push) 디커플링 구조.
-
-| 구성요소 | 기능 및 책임 | 실무 기술 요소 |
-|:---|:---|:---|
-| **Event Producer** | **비즈니스 상태 변화 감지 및 이벤트 발행** | Spring Boot, Node.js |
-| **Event Channel** | **이벤트를 유실 없이 저장하고 소비자에게 전달**| Apache Kafka, RabbitMQ |
-| **Event Consumer** | **관심 있는 이벤트를 구독하여 자기 비즈니스 로직 수행**| AWS Lambda, K8s Pod |
-| **Schema Registry**| **생산자/소비자 간 이벤트 JSON 포맷(계약) 일관성 검증**| Confluent Schema Registry |
+| 구성요소 | 책임 |
+|---|---|
+| Event Producer | 상태 변화를 **불변 Event**로 발행 |
+| Event Channel | Event **저장•순서•전달•재생** 제공 |
+| Event Consumer | 구독 Event를 **멱등 처리**하고 결과 저장 |
+| Schema Registry | 생산자•소비자 간 **계약 호환성** 검증 |
 
 #### 한줄 요약
 
 - 아웃박스가 발송 대장을 업무와 함께 적고 브로커가 배달하며 소비자는 수령 번호를 저장해 같은 소포가 다시 와도 한 번만 반영한다.
 
-## Ⅳ. 흐름도 (Transactional Outbox 패턴 적용 이벤트 발행 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,30 +86,40 @@ extra:
 </details>
 
 ```text
-[Order Service (Producer)]
-           │
-           ▼ (Begin Transaction)
-   1. [Order DB (주문 정보 INSERT)] ──┐
-   2. [Outbox DB (이벤트 정보 INSERT)]─┴─► (Commit Transaction)
-           │
-           ▼ (CDC: Change Data Capture)
-   3. [Message Relay (Debezium/Kafka Connect)] ──► [Kafka Topic]
-                                                         │
-                                                         ▼
-   4. [Payment Service (Consumer)] ◄──(Subscribe)────────┘
+[업무 변경 요청]
+      │
+      ▼
+1. 업무•Outbox 원자 저장
+      │
+      ▼
+2. CDC로 Outbox 변경 감지
+      │
+      ▼
+3. Event Channel 발행
+      │
+      ▼
+4. Consumer 멱등 처리
+      │
+      ▼
+5. 처리 결과•Offset 저장
+      │
+      ▼
+[비동기 상태 반영]
 ```
 
 ### 동작 원리
 
-1. **Local Transaction**: 주문 로직 수행 후, 로컬 DB의 `Order` 테이블과 `Outbox` 테이블에 동시에 데이터를 커밋.
-2. **Event Polling (CDC)**: 백그라운드의 메시지 릴레이(Debezium)가 `Outbox` 테이블의 삽입(Insert) 로그를 낚아채어 Kafka로 발행(At-Least-Once 보장).
-3. **Event Consumption**: 결제 서비스가 Kafka에서 이벤트를 꺼내어 결제 처리 후, 본인 DB에 저장 시 중복 여부(Idempotent)를 체크하여 반영 (**EDA 상태 동기화 완결**).
+1. **업무•Outbox 원자 저장**: Domain 변경과 발행 기록 Commit
+2. **CDC로 Outbox 변경 감지**: Transaction Log에서 Event 추출
+3. **Event Channel 발행**: Key•Schema•Header와 함께 전달
+4. **Consumer 멱등 처리**: Event ID로 중복 Side Effect 차단
+5. **처리 결과•Offset 저장**: 결과와 소비 위치를 일관되게 기록
 
 #### 한줄 요약
 
 - 주문과 발행 기록을 함께 저장하고 소비자가 처리 번호와 결과를 함께 커밋하면 전송이 반복돼도 결제는 한 번만 남는다.
 
-## Ⅴ. 종류 및 비교 (이벤트 페이로드 설계 방식 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -132,13 +132,13 @@ extra:
 | **페이로드 크기** | 매우 작음 (식별자 ID만 포함) | **상대적으로 큼 (관련 데이터 모두 포함)**|
 | **이벤트 예시** | `{"order_id": 123, "status": "created"}` | **`{"order_id": 123, "amount": 5000, "user": "A"}`** |
 | **추가 API 호출** | **소비자가 생산자 API를 다시 호출하여 상세 조회**| **이벤트만으로 로직 수행 가능 (독립적)** |
-| **결합도** | 약한 런타임 결합 (API 장애 시 소비자도 지연됨)| **완벽한 분리 (생산자 서버 다운되어도 정상 동작)**|
+| **결합도** | 상세 조회 시 Runtime 결합 잔존 | **Schema•Data 결합** 증가 |
 
 #### 한줄 요약
 
 - 알림은 사건만 알려 주고 상태 전송은 처리할 값까지 담으며 이벤트 소싱은 처음부터 모든 변경을 다시 재생할 수 있게 남긴다.
 
-## Ⅵ. 실무 고려사항 및 대책 (EDA 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- **EDA 수립 기준**에 따라 대규모 Cloud-Native MSA 연동 시 **Event-Carried State Transfer 및 Kafka** 필수 적용
+- 즉시 일관성은 **동기 호출**, 지연 허용 흐름은 Outbox 기반 EDA
 
 #### 한줄 요약
 

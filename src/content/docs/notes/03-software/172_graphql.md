@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:20:00+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 클라이언트 주도형 데이터 질의 언어(Query Language)이자, 단일 엔드포인트에서 타입 스키마(Type Schema)를 통해 선언적 데이터 패칭(Fetching)을 수행하는 런타임 환경인 **GraphQL**
-- 배경/필요성: REST API의 고정 응답(Fixed-Response) 방식으로 인해 모바일, 웹, 스마트워치 등 다양한 클라이언트의 개별적 데이터 요구량을 충족시키기 어렵고 N+1 네트워크 호출 낭비가 심해지는 한계성 극복
+- 정의/개념: Type Schema 기반 API Query 언어•Runtime인 **GraphQL**
+- 배경/필요성: Client별 응답 모양 차이로 **Over•Under-fetching** 발생
 
 #### 한줄 요약
 
 - 정해진 메뉴에서 화면에 필요한 항목과 하위 항목만 골라 한 요청으로 받되 서버는 주문 가능한 깊이와 양을 제한한다.
 
-## Ⅱ. 특징 (GraphQL 3대 핵심 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 스키마가 주문 가능한 필드와 타입을 정하고 클라이언트가 응답 모양을 고르면 리졸버가 여러 데이터 원천의 결과를 조립한다.
 
-## Ⅲ. 구조 및 구성요소 (GraphQL 쿼리 및 스키마 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,37 +60,24 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   GraphQL Client-Server Interaction                    │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Client Query]                     [Server Response]                   │
-│ query {                            {                                   │
-│   user(id: "123") {                  "data": {                         │
-│     name                               "user": {                       │
-│     email                                "name": "Kim",                │
-│     posts {                              "email": "kim@a.com",         │
-│       title                              "posts": [                    │
-│     }                                      { "title": "Hello GraphQL" }│
-│   }                                      ]                             │
-│ }                                      }                               │
-│                                      }                                 │
-└────────────────────────────────────────────────────────────────────────┘
+[GraphQL Schema]
+ ├── [Query]
+ ├── [Mutation]
+ └── [Resolver]
 ```
 
-선의 의미: 클라이언트가 원하는 데이터의 트리 모양(Query)을 정의하여 요청하면, 서버가 정확히 그 형태와 일치하는 JSON(Response)을 반환하는 구조.
-
-| 구성요소 | 역할 및 정의 | 구현 예시 |
-|:---|:---|:---|
-| **Query** | **REST의 GET 역할로 데이터 조회를 요청하는 구문**| `query { user { name } }` |
-| **Mutation** | **REST의 POST/PUT/DELETE 역할로 데이터 변경 요청**| `mutation { addUser(name: "A") }` |
-| **Schema** | **API가 제공하는 데이터의 타입 구조 명세서** | `type User { id: ID! name: String }`|
-| **Resolver** | **스키마의 각 필드 데이터를 실제로 가져오는 함수**| `User.name: (parent) => DB.getName()` |
+| 구성요소 | 책임 |
+|---|---|
+| Query | 읽을 Field와 **응답 Selection Set** 선언 |
+| Mutation | 상태 변경 Operation과 **입력값** 선언 |
+| Schema | Type•Field•Argument의 **API 계약** 정의 |
+| Resolver | Field를 **Data Source•업무 Logic**에 연결 |
 
 #### 한줄 요약
 
 - 스키마가 메뉴, 검증기가 주문 제한, 실행 엔진이 조리 순서, 리졸버가 각 주방의 결과를 가져오는 담당자 역할을 한다.
 
-## Ⅳ. 흐름도 (GraphQL 요청 파싱 및 리졸빙 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -99,31 +86,40 @@ extra:
 </details>
 
 ```text
-[Client] ──(Query Request)──► [GraphQL Server Endpoint (/graphql)]
-                                       │
-                                       ▼
-1. [Parsing & Validation] ◄──(Compare)── [Type Schema] (문법 및 타입 유효성 검증)
-                                       │
-                                       ▼
-2. [Execution (Resolving)] ──► [Resolver 1 (User 조회)] ──► DB 1
-                               │
-                               └─► [Resolver 2 (Post 조회)] ──► API 2
-                                       │
-                                       ▼
-3. [Format & Response] ◄──(Merge Results into JSON)── [Client]
+[GraphQL 요청]
+      │
+      ▼
+1. Query Parsing
+      │
+      ▼
+2. Schema•권한•비용 검증
+      │
+      ▼
+3. Execution Plan 생성
+      │
+      ▼
+4. Resolver 실행•Batch
+      │
+      ▼
+5. Data•Error 응답 조립
+      │
+      ▼
+[GraphQL 응답]
 ```
 
 ### 동작 원리
 
-1. **Validation**: 서버가 요청 쿼리를 AST로 파싱하고 사전에 정의된 Schema와 대조하여 유효성(타입 일치 여부) 검증.
-2. **Execution**: 각 필드에 매핑된 Resolver 함수들을 재귀적으로 호출하여 실제 데이터를 Fetching (이때 병렬 또는 직렬로 다양한 Data Source에 접근).
-3. **Response**: 수집된 데이터를 클라이언트가 요청한 트리 구조와 동일한 형태의 JSON으로 조립하여 HTTP 200 응답 반환 (**GraphQL 파이프라인 완결**).
+1. **Query Parsing**: Document를 AST로 변환
+2. **Schema•권한•비용 검증**: Type•Field•Depth 제한 검사
+3. **Execution Plan 생성**: Field 의존성과 병렬 구간 결정
+4. **Resolver 실행•Batch**: DataLoader로 반복 조회 통합
+5. **Data•Error 응답 조립**: Selection Set 형태로 결과 반환
 
 #### 한줄 요약
 
 - 상품 목록과 각 판매자를 요청하면 데이터 로더가 판매자 키를 한 번에 모아 조회해 상품 수만큼 같은 저장소를 호출하는 문제를 줄인다.
 
-## Ⅴ. 종류 및 비교 (REST API 대 GraphQL 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -135,14 +131,14 @@ extra:
 |:---|:---|:---|
 | **엔드포인트** | **URI 자원별 다수 생성 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
 | **데이터 페칭**| 서버가 정해둔 고정된 구조로 응답받음 (Over/Under-fetching) | **클라이언트가 필요한 필드만 유연하게 선택**|
-| **HTTP 메서드**| 리소스 조작을 위해 GET/POST/PUT/DELETE 활용 | **모든 요청(조회, 변경)을 POST로 전송**|
+| **HTTP 메서드**| Resource별 Method 의미 활용 | Query는 GET•POST, Mutation은 POST 중심 |
 | **버저닝(Versioning)**| `/v1/users`, `/v2/users` 처럼 API 버전 분리 관리| **Deprecated 어노테이션으로 스키마 단일 진화 유지**|
 
 #### 한줄 요약
 
 - 화면마다 연관 데이터 모양이 크게 다르면 GraphQL이 호출을 줄이고 자원 단위 캐시와 단순 공개 연계가 중요하면 REST가 운영하기 쉽다.
 
-## Ⅵ. 실무 고려사항 및 대책 (GraphQL 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -170,7 +166,7 @@ extra:
 
 </details>
 
-- **GraphQL 수립 기준**에 따라 프론트엔드 다변화 및 MSA 데이터 애그리게이션 시 **단일 스키마 기반 필드 선택적 페칭** 필수 적용
+- 응답 조합 이점이 크고 **Schema•Query 비용•Field 권한** 운영 시 적용
 
 #### 한줄 요약
 

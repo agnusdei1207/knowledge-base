@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:40:00+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 분산 클러스터 환경에서 일부 노드의 장애(Crash-fail)를 허용하면서도, 전체 시스템이 동일한 상태(State Machine)를 유지하도록 단일 제어권을 결정하는 **분산 합의** 알고리즘(Raft, Paxos)
-- 배경/필요성: 분산 DB(Cassandra)나 코디네이터(ZooKeeper, etcd)에서 누가 리더(Master)인지, 데이터의 최신 버전이 무엇인지 결정하지 못하면 스플릿 브레인(Split-Brain)으로 인한 데이터 파괴가 발생하므로 이를 방지할 절대적 통제 기법 요구성
+- 정의/개념: 장애 중 단일 값•순서에 동의하는 **분산 합의**
+- 배경/필요성: 독립 Node 결정은 Partition에서 **Split-Brain•Log 분기** 유발
 
 #### 한줄 요약
 
 - 서버 일부가 끊겨도 과반 장부가 겹치는 성질을 이용해 같은 순서 위치에 두 개의 다른 명령이 확정되지 않게 한다.
 
-## Ⅱ. 특징 (Raft 알고리즘의 핵심 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 새 대표는 과반에 남은 이전 기록을 이어받고 과반과 통신하지 못하는 대표는 새 결정을 확정하지 못한다.
 
-## Ⅲ. 구조 및 구성요소 (Raft 노드 상태 및 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,33 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Raft Node State Transition Diagram                   │
-├────────────────────────────────────────────────────────────────────────┤
-│                            [ Candidate (후보) ]                        │
-│                             ▲               │                          │
-│        (Timeout 발생 시)    │               │ (과반수 투표 획득 시)    │
-│                             │               ▼                          │
-│ [ Follower (팔로워) ] ──────┘          [ Leader (리더) ]               │
-│         ▲                                   │                          │
-│         └────────(새로운 리더 발견 시)──────┘                          │
-└────────────────────────────────────────────────────────────────────────┘
+[Raft Cluster]
+ ├── [Leader]
+ ├── [Candidate]
+ ├── [Follower]
+ └── [Replicated Log]
 ```
 
-선의 의미: 모든 노드는 팔로워로 시작하며, 타임아웃 발생 시 후보자로 변해 투표를 요청하고, 과반수를 얻으면 리더가 되어 다른 팔로워들에게 명령(로그)을 복제하는 유기적 상태 전이 구조.
-
-| 노드 상태 (Role) | 핵심 역할 및 행동 규칙 |
-|:---|:---|
-| **Leader (리더)**| **모든 클라이언트 요청 수신, 로그 복제(AppendEntries), Heartbeat 발송** |
-| **Candidate (후보)**| **리더 부재 시 임기(Term)를 올리고 자신에게 투표 후 다른 노드에 투표 요청**|
-| **Follower (팔로워)**| **리더의 복제 요청과 후보의 투표 요청에만 수동적으로 응답 (RPC 수신 대기)**|
-| **Log (로그)** | **리더가 내린 명령이 순서대로 기록된 장부 (과반수 저장 시 Commit)** |
+| 구성요소 | 책임 |
+|---|---|
+| Leader | Client Write 수신과 **Log 복제•Commit** 조정 |
+| Candidate | Term 증가와 **과반 Vote** 요청 |
+| Follower | AppendEntries•Vote 요청을 **Term•Log**로 검증 |
+| Replicated Log | 합의된 **Command 순서**와 Commit Index 보존 |
 
 #### 한줄 요약
 
 - 리더가 안건을 내면 팔로워가 장부에 기록하고 과반 승인 뒤 상태 머신이 같은 순서로 실행하며 스냅샷이 오래된 장부를 압축한다.
 
-## Ⅳ. 흐름도 (Raft 로그 복제 및 커밋 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,31 +87,40 @@ extra:
 </details>
 
 ```text
-[Client]                                  [Raft Cluster (N=3)]
-   │                            (Leader)           (Follower A)       (Follower B)
-   ├─ 1. Write Request (X=5) ────►│                     │                  │
-   │                              ├─ 2. AppendEntries ─►│                  │
-   │                              ├─ 2. AppendEntries ────────────────────►│
-   │                              │                     │                  │
-   │                              │◄── 3. Ack ──────────┤                  │
-   │ (리더 본인 포함 2표 획득)    │                     │                  │
-   │                              ├─ 4. Commit (X=5)    │                  │
-   │◄── 5. Response (성공) ───────┤                     │                  │
-   │                              ├─ 6. Heartbeat(Commit 알림) ───────────►│
+[Write 요청]
+     │
+     ▼
+1. Leader Log Append
+     │
+     ▼
+2. Follower AppendEntries
+     │
+     ▼
+3. Quorum Ack 확인
+     │
+     ▼
+4. Commit•State Machine 적용
+     │
+     ▼
+5. Commit Index 전파
+     │
+     ▼
+[Write 성공 반환]
 ```
 
 ### 동작 원리
 
-1. **Log Append**: 클라이언트가 리더에게 `X=5` 쓰기 요청. 리더는 자신의 로컬 로그에 추가.
-2. **Replication**: 리더가 병렬로 팔로워 A, B에게 `AppendEntries` (복제 지시) RPC 전송.
-3. **Quorum Ack**: 팔로워 A가 자신의 디스크에 로그를 안전하게 쓰고(Ack) 리더에게 회신. 리더는 본인 포함 과반수(2/3) 동의를 확인.
-4. **Commit & Execute**: 리더가 해당 로그를 커밋 처리하고 상태 머신(State Machine)에 적용하여 `X=5` 확정 후 클라이언트 응답 (**합의 상태 완결**).
+1. **Leader Log Append**: Current Term의 Command 기록
+2. **Follower AppendEntries**: 이전 Index•Term 확인 후 복제
+3. **Quorum Ack 확인**: 과반 Replica의 저장 승인 집계
+4. **Commit•State Machine 적용**: Commit Index 이동과 실행
+5. **Commit Index 전파**: 후속 Heartbeat로 Follower 적용 통지
 
 #### 한줄 요약
 
 - 세 노드 중 두 노드가 같은 명령을 기록해야 확정하므로 한 노드가 끊겨도 두 개의 서로 다른 과반 결정은 생기지 않는다.
 
-## Ⅴ. 종류 및 비교 (Raft 대 Paxos 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -138,7 +139,7 @@ extra:
 
 - 래프트는 리더 선출과 로그 복제 절차를 분리해 설명하고 팩소스는 번호가 더 큰 제안이 과거 승인값을 이어받는 원리를 중심으로 한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (분산 합의 3대 장애 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -166,7 +167,7 @@ extra:
 
 </details>
 
-- **합의 클러스터 설계 기준**에 따라 메타데이터 저장소 및 리더 선출기(etcd, ZooKeeper) 구축 시 **Raft 기반 홀수 쿼럼 배포** 필수 적용
+- 단일 제어 상태는 **합의**, Quorum 상실 시 Write 거부 선택
 
 #### 한줄 요약
 

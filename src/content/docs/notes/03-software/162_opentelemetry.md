@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T02:40:00+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 특정 APM 상용 벤더(Datadog, Dynatrace) 종속성(Vendor Lock-in)을 0% 탈피하고, 벤더 중립적(Vendor-Neutral)인 OTLP 표준 프로토콜로 메트릭, 로그, 트레이스를 수집 및 전송하는 글로벌 텔레메트리 프레임워크인 **OpenTelemetry (OTel)**
-- 배경/필요성: APM 상용 툴을 교체할 때마다 소스코드 내 SDK를 전면 재작성해야 하는 파행 예방, 이중 모니터링 툴 사용 시 데이터 수집 파편화 차단 요구성
+- 정의/개념: Telemetry 생성•수집•전송 표준인 **OpenTelemetry**
+- 배경/필요성: 공급자별 SDK는 Backend 변경 때 **계측 재작성•Signal 분절** 유발
 
 #### 한줄 요약
 
 - 여러 언어가 서로 다른 상자에 담던 관측 데이터를 같은 규격으로 포장하면 분석 도구를 바꿔도 애플리케이션 계측을 다시 만들 필요가 줄어든다.
 
-## Ⅱ. 특징 (OpenTelemetry 3대 핵심 혜택)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 애플리케이션은 표준 신호만 만들고 필터, 배치, 재시도, 다중 백엔드 전송은 컬렉터에 맡겨 업무 코드와 전송 정책을 분리한다.
 
-## Ⅲ. 구조 및 구성요소 (OTel 3대 계층 파이프라인 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,34 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   OpenTelemetry Standard Architecture                  │
-├────────────────────────────────────────────────────────────────────────┤
-│ [App (Java/Go/Node)] ──► OTel API & SDK (Auto-Instrumentation)        │
-│                               │ (OTLP Protocol over gRPC / HTTP)       │
-│                               ▼                                        │
-│ [OTel Collector Engine] ──► Receiver ──► Processor ──► Exporter        │
-│                                                          │             │
-│         ┌────────────────────────────────────────────────┤             │
-│         ▼                                                ▼             │
-│ [Jaeger / Tempo (Traces)]                       [Prometheus (Metrics)] │
-└────────────────────────────────────────────────────────────────────────┘
+[OpenTelemetry]
+ ├── [API]
+ ├── [SDK]
+ ├── [OTLP]
+ └── [Collector]
 ```
 
-선의 의미: App 코드가 OTel SDK 및 OTLP 프로토콜로 OTel Collector에 전송 후 Receiver, Processor, Exporter를 타고 다중 백엔드로 분기 전송되는 구조.
-
-| 구성 요소 | 역할 및 메커니즘 | 실무 예시 |
-|:---|:---|:---|
-| **OTel API** | 앱 코드 내 수집 표준 규약 | `tracer.startSpan()` |
-| **OTel SDK** | API 구현체, 메모리 버퍼링 및 배치 처리 | `BatchSpanProcessor` |
-| **OTLP 프로토콜**| Protobuf 기반 직렬화 전송 표준 | `otlp/grpc:4317` |
-| **OTel 컬렉터** | 수집-가공-전송 중계 프록시 엔진 | PII 마스킹 파이프라인 |
+| 구성요소 | 책임 |
+|---|---|
+| API | Application 계측의 **언어별 Interface** 제공 |
+| SDK | Signal 생성•Sampling•Batch와 **Context 전파** 구현 |
+| OTLP | Telemetry의 **직렬화•전송 규격** 제공 |
+| Collector | **Receiver•Processor•Exporter** Pipeline 실행 |
 
 #### 한줄 요약
 
 - 계측기가 화물을 만들고 SDK가 포장하면 OTLP라는 운송 규격으로 컬렉터 물류센터를 거쳐 분석 저장소에 도착한다.
 
-## Ⅳ. 흐름도 (OTel Collector 3단계 Pipeline 가공 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,23 +87,40 @@ extra:
 </details>
 
 ```text
-[App OTLP Output] ──► [Receiver: otlp] ──► [Processor: memory_limiter & attributes (PII Masking)]
-                                                                     │
-                                                                     ▼
- [Datadog & Jaeger Systems] ◄── [Exporter: datadog & otlphttp] ──────┘
+[Telemetry 입력]
+      │
+      ▼
+1. Receiver 수신
+      │
+      ▼
+2. Resource•Context 보강
+      │
+      ▼
+3. Filter•Masking•Sampling
+      │
+      ▼
+4. Batch•Memory 제한
+      │
+      ▼
+5. Exporter 전송
+      │
+      ▼
+[Backend 저장]
 ```
 
 ### 동작 원리
 
-1. **Receiver**: `otlp` 리시버가 Port 4317로 gRPC 텔레메트리 데이터 수신.
-2. **Processor**: `memory_limiter`가 메모리 오버헤드를 막고, `attributes` 가 주민번호/카드번호 PII 정규식 마스킹.
-3. **Exporter**: 가공된 깔끔한 트레이스를 Jaeger와 Datadog 2곳으로 동시에 다중 전송 (**OTel Pipeline 완결**).
+1. **Receiver 수신**: OTLP 등 입력 Protocol 처리
+2. **Resource•Context 보강**: Service•환경 Attribute 부착
+3. **Filter•Masking•Sampling**: 민감 정보와 수집량 통제
+4. **Batch•Memory 제한**: 전송 효율과 Buffer 상한 관리
+5. **Exporter 전송**: Signal별 Backend로 전달
 
 #### 한줄 요약
 
 - 결제 서비스의 추적과 로그는 SDK에서 묶여 컬렉터로 가고 그곳에서 개인정보가 제거된 뒤 추적·로그 저장소에 각각 전달된다.
 
-## Ⅴ. 종류 및 비교 (Agent Mode 대 Deployment Gateway Mode)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -130,7 +138,7 @@ extra:
 
 - 단일 분석 도구의 작은 환경은 직접 전송이 단순하지만 여러 팀의 정책과 목적지를 통일하려면 컬렉터 경유가 변경 범위를 줄인다.
 
-## Ⅵ. 실무 고려사항 및 대책 (OpenTelemetry 3대 실무 지침)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -152,4 +160,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **표준 기반 오픈텔레메트리 관측성 수집 파이프라인 체계 확립**
+- Node 수집은 **Agent**, 중앙 정책•다중 전송은 Gateway 배치
+
+#### 한줄 요약
+
+- 애플리케이션에는 표준 계측만 두고 수집량•민감 정보•목적지 정책은 Collector에서 관리한다.

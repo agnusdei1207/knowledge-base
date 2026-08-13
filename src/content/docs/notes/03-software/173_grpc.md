@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:24:00+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: HTTP/2의 멀티플렉싱(Multiplexing) 성능과 Protobuf의 직렬화 효율을 결합하여 이기종 언어로 작성된 마이크로서비스(MSA) 간의 함수를 로컬 함수처럼 직접 호출하는 원격 프로시저 호출 프레임워크인 **gRPC**
-- 배경/필요성: REST API(HTTP/1.1 + JSON) 체계에서 발생하는 무거운 페이로드(Payload) 크기, 텍스트 파싱 지연, 단방향 통신의 한계를 극복하고 내부 네트워크 연계 성능을 극대화하기 위한 요구성
+- 정의/개념: HTTP/2•Protobuf 기반 **gRPC** RPC Framework
+- 배경/필요성: 내부 Service의 **Type 계약•Streaming•다중화** 요구 증가
 
 #### 한줄 요약
 
 - 공통 `.proto` 설계도에서 각 언어의 송신·수신 코드를 만들어 다른 서버의 함수를 타입이 정해진 로컬 함수처럼 호출한다.
 
-## Ⅱ. 특징 (gRPC 3대 핵심 기술 요소)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 한 연결에서 여러 통화를 동시에 처리하되 호출자가 기다릴 시간을 넘기면 하위 서비스까지 취소를 전달해 불필요한 작업을 멈춘다.
 
-## Ⅲ. 구조 및 구성요소 (gRPC 클라이언트-서버 통신 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,34 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        gRPC Client-Server Architecture                 │
-├────────────────────────────────────────────────────────────────────────┤
-│                      [ .proto (IDL Contract) ]                         │
-│                                  │ (Code Generation)                   │
-│                                  ▼                                     │
-│ [Client App (Go)]                                [Server App (Java)]   │
-│   │                                                ▲                   │
-│   ▼                                                │                   │
-│ [gRPC Client Stub] ──(HTTP/2 + Protobuf)──► [gRPC Server Skeleton]     │
-│ (직렬화, 압축, 라우팅)                       (역직렬화, 비즈니스 매핑) │
-└────────────────────────────────────────────────────────────────────────┘
+[gRPC]
+ ├── [Protobuf IDL]
+ ├── [protoc]
+ ├── [Channel•Stub]
+ └── [Server Runtime]
 ```
 
-선의 의미: 언어 독립적인 `.proto` 명세로부터 생성된 클라이언트 스텁과 서버 스켈레톤(Skeleton) 사이를 HTTP/2 기반의 Protobuf 바이너리 메시지가 오가며 고속으로 데이터를 교환하는 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 실무 적용 |
-|:---|:---|:---|
-| **Protobuf IDL** | **서비스(RPC)와 메시지(Message) 구조를 정의한 계약서**| `user.proto` 파일 작성 |
-| **protoc (컴파일러)**| **IDL을 읽어 특정 언어용 스텁/스켈레톤 코드 자동 생성**| Go, Java용 소스코드 생성 |
-| **gRPC Channel** | **클라이언트와 서버 간의 HTTP/2 기반 장기 지속 연결** | 다중 요청을 1개 채널로 전송 |
-| **Server Runtime** | **바이너리 요청 수신 $\rightarrow$ 역직렬화 $\rightarrow$ 비즈니스 로직(Handler) 연결** | gRPC 프레임워크 내장 처리 |
+| 구성요소 | 책임 |
+|---|---|
+| Protobuf IDL | Service•Method•Message의 **Type 계약** 정의 |
+| protoc | 언어별 **Stub•Message Code** 생성 |
+| Channel•Stub | **HTTP/2 연결•직렬화•호출 추상화** 제공 |
+| Server Runtime | 요청 역직렬화와 **Handler Dispatch** 수행 |
 
 #### 한줄 요약
 
 - IDL이 통화 규격, 스텁이 송수화기, 채널이 회선, Runtime이 교환기, Handler가 실제 업무 담당자 역할을 한다.
 
-## Ⅳ. 흐름도 (gRPC 양방향 스트리밍 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -96,34 +87,39 @@ extra:
 </details>
 
 ```text
-[Client]                                         [Server]
-   │                                                │
-   ├─ 1. HTTP/2 Connection Establishment (TLS) ────►│
-   │                                                │
-   ├─ 2. Send Stream Request (Stream A: Msg 1) ────►│ (Process Msg 1)
-   │                                                │
-   ├─ 3. Send Stream Request (Stream A: Msg 2) ────►│ (Process Msg 2)
-   │                                                │
-   │◄── 4. Send Stream Response (Stream B: Res 1) ──┤ (Reply for Msg 1)
-   │                                                │
-   ├─ 5. Client Close Stream ──────────────────────►│
-   │                                                │
-   │◄── 6. Send Stream Response (Stream B: Res 2) ──┤ (Reply for Msg 2)
-   │◄── 7. Server Close Stream (Trailers) ──────────┤
+[RPC 요청]
+    │
+    ▼
+1. Channel•TLS 설정
+    │
+    ▼
+2. Metadata•Deadline 전파
+    │
+    ▼
+3. Protobuf Message 송수신
+    │       ↕ 양방향 Stream
+4. Handler 처리•응답 전송
+    │
+    ▼
+5. Status•Trailer로 종료
+    │
+    ▼
+[RPC 결과 반환]
 ```
 
 ### 동작 원리
 
-1. **Connection**: 클라이언트가 서버와 TLS 기반 HTTP/2 롱 커넥션 채널(Channel) 오픈.
-2. **Stream Initiate**: 클라이언트가 데이터를 스트리밍으로 전송 시작 (요청-1, 요청-2).
-3. **Concurrent Reply**: 서버도 요청이 모두 끝나길 기다리지 않고, 처리되는 대로 즉각 스트리밍 응답 전송(응답-1 반환).
-4. **Graceful Close**: 양측이 더 이상 보낼 데이터가 없음을 알리고(`Close`) 스트림을 안전하게 닫음 (**스트리밍 통신 완결**).
+1. **Channel•TLS 설정**: HTTP/2 연결과 상대 신원 확인
+2. **Metadata•Deadline 전파**: 인증•기한•취소 Context 전달
+3. **Protobuf Message 송수신**: 독립 Stream에서 Message 교환
+4. **Handler 처리•응답 전송**: Server Logic과 Backpressure 적용
+5. **Status•Trailer로 종료**: 성공•오류 상태와 상세정보 반환
 
 #### 한줄 요약
 
 - 호출 객체는 스텁에서 이진 메시지가 되고 서버 Handler의 결과는 다시 객체로 복원되며 기한이 지나면 같은 취소 문맥이 전체 경로에 전달된다.
 
-## Ⅴ. 종류 및 비교 (REST API 대 gRPC 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -133,16 +129,16 @@ extra:
 
 | 비교 항목 | REST API (JSON) | gRPC (Protobuf) |
 |:---|:---|:---|
-| **통신 프로토콜** | **HTTP/1.1 (기본)** | **HTTP/2 (필수 강제, 멀티플렉싱)** |
-| **페이로드(Payload)**| **JSON (텍스트 기반, 파싱 속도 느림, 용량 큼)**| **Protobuf (바이너리, 파싱 초고속, 용량 50% 축소)**|
+| **통신 프로토콜** | HTTP 의미와 자원 API | **HTTP/2 기반 RPC•다중화** |
+| **Payload**| JSON 등 Representation 선택 | **Protobuf Binary Message**|
 | **계약(Contract)** | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
-| **브라우저 지원** | 네이티브 지원 (Chrome 등 직접 호출 가능) | **브라우저 직접 호출 불가 (gRPC-Web 프록시 필요)**|
+| **브라우저 지원** | Web API로 직접 사용 용이 | **gRPC-Web•Connect 등 Adapter** 고려 |
 
 #### 한줄 요약
 
 - 내부 서비스의 타입 계약과 연속 메시지가 중요하면 gRPC를, 브라우저와 외부 소비자의 접근성과 웹 캐시가 중요하면 REST를 선택한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (gRPC 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -170,7 +166,7 @@ extra:
 
 </details>
 
-- **gRPC 수립 기준**에 따라 Cloud-Native MSA 백엔드 내부 망 설계 시 **Protobuf 직렬화 및 HTTP/2 스트리밍** 필수 적용
+- 내부 Type 계약•Streaming은 **gRPC**, 공개 Web API는 REST 우선
 
 #### 한줄 요약
 

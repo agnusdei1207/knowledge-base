@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T02:44:00+09:00"
 tags:
   - "notes-software"
 weight: 163
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: MSA 분산 환경에서 단일 유저 요청(Trace)이 여러 서비스 구간(Span)을 이동하는 경로와 소요 시간을 시각화하고 병목 구간을 핀포인트 추론하는 **Distributed Tracing**
-- 배경/필요성: 모놀리식(Monolithic) 시스템과 달리, MSA 환경에서는 "결제가 5초 지연됨"이라는 현상만으로 10개 중 어떤 서비스(DB, API, Auth)가 병목인지 파악이 불가능한 한계성 극복
+- 정의/개념: 요청의 Service별 Span을 연결하는 **Distributed Tracing**
+- 배경/필요성: 분산 호출은 단일 Log만으로 **호출 경로•지연 구간** 식별 불가
 
 #### 한줄 요약
 
 - 주문 하나에 같은 추적 번호를 붙이면 결제와 재고 서비스에 흩어진 처리 기록을 한 이동 경로로 이어 가장 오래 멈춘 구간을 찾을 수 있다.
 
-## Ⅱ. 특징 (분산 추적 3대 렌더링 메커니즘)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 같은 추적 번호만으로는 순서를 알 수 없으므로 각 스팬의 부모 정보를 함께 기록하고 비동기 작업은 스팬 링크로 인과관계를 남긴다.
 
-## Ⅲ. 구조 및 구성요소 (W3C Trace Context 데이터 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,31 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Distributed Tracing Tree Structure                   │
-├────────────────────────────────────────────────────────────────────────┤
-│ Trace ID: 9f8a... (Total: 1.5s)                                        │
-│  ├── [Span A] Frontend API (Parent) ....................... 1.5s       │
-│  │    ├── [Span B] Auth Service (Child) ........ 0.3s                  │
-│  │    └── [Span C] Order Service (Child) ................. 1.1s (병목) │
-│  │         └── [Span D] DB Query (Grandchild) ..... 0.8s               │
-└────────────────────────────────────────────────────────────────────────┘
+[Trace]
+ ├── [Trace ID]
+ └── [Span]
+      ├── [Span ID•Parent Span ID]
+      └── [Span Attributes]
 ```
 
-선의 의미: 1개의 Trace가 최상위 Span A에서 시작하여 B, C를 거치고, 최종 DB Span D에서 소요된 트리 형태의 지연 폭포수 구조.
-
-| 핵심 요소 | 역할 및 데이터 스키마 | 기술 속성 |
-|:---|:---|:---|
-| **Trace ID** | 전체 요청 흐름을 묶는 최상위 글로벌 Key | `trace_id: 128-bit` |
-| **Span ID** | 서비스 내 단위 작업 구간 식별자 | `span_id: 64-bit` |
-| **Parent Span ID**| 이전 호출 서비스의 Span ID(트리 구조 연결) | `parent_id` 맵핑 |
-| **Span Attributes**| 상세 문맥(HTTP Method, 쿼리 등) | Key-Value Tag |
+| 구성요소 | 책임 |
+|---|---|
+| Trace ID | 전체 요청의 **공통 상관 Key** 제공 |
+| Span ID | Service 내 **작업 구간** 식별 |
+| Parent Span ID | 동기 호출의 **부모•자식 관계** 연결 |
+| Span Attributes | Protocol•상태•지연 등 **진단 문맥** 기록 |
 
 #### 한줄 요약
 
 - 트레이서가 구간 영수증을 만들고 문맥 전파기가 같은 주문 번호와 이전 구간 번호를 넘기면 백엔드가 영수증을 전체 동선으로 조립한다.
 
-## Ⅳ. 흐름도 (HTTP 헤더 기반 Context Propagation 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -93,26 +87,40 @@ extra:
 </details>
 
 ```text
-[User Request] ──► [Frontend App] (생성: Trace ID=1, Span ID=A)
-                           │
-                           ▼ (HTTP Header 전파: trace_id=1, parent_id=A)
-                   [Backend API] (생성: Trace ID=1, Span ID=B)
-                           │
-                           ▼ (HTTP Header 전파: trace_id=1, parent_id=B)
-                   [Database Query] (생성: Trace ID=1, Span ID=C)
+[분산 요청]
+    │
+    ▼
+1. Trace•Root Span 생성
+    │
+    ▼
+2. Context Header 주입
+    │
+    ▼
+3. 다음 Service에서 추출
+    │
+    ▼
+4. Child Span 생성•전파
+    │
+    ▼
+5. Span 종료•전송
+    │
+    ▼
+[Trace 조립 결과]
 ```
 
 ### 동작 원리
 
-1. **Initial Inject**: Frontend 앱에서 Trace ID `1`과 자기 Span ID `A` 신규 생성.
-2. **Header Propagation**: Backend API 호출 시 HTTP Request Header에 해당 ID를 싣어 `Context Propagation` 수행.
-3. **Child Span Extract**: Backend가 헤더를 Extract하여 부모를 `A`로 둔 Span `B`를 생성하고 최종 백엔드(Jaeger)로 전송 (**Distributed Tracing 완결**).
+1. **Trace•Root Span 생성**: 최초 요청의 Trace Context 시작
+2. **Context Header 주입**: W3C Trace Context를 호출에 포함
+3. **다음 Service에서 추출**: 전달된 Trace•Parent 정보 복원
+4. **Child Span 생성•전파**: 현재 작업 기록과 하위 호출 연결
+5. **Span 종료•전송**: 상태•지연을 기록해 Backend 전달
 
 #### 한줄 요약
 
 - 서비스 A가 자신의 스팬 번호를 부모로 넣어 B를 호출하면 두 서비스가 따로 보낸 기록도 백엔드에서 A 다음 B 순서로 연결된다.
 
-## Ⅴ. 종류 및 비교 (Head Sampling 대 Tail Sampling 샘플링 전략 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -131,7 +139,7 @@ extra:
 
 - 헤드 샘플링은 입장할 때 임의 관객을 고르고 테일 샘플링은 공연이 끝난 뒤 사고나 지연이 있던 관객 기록을 남기는 차이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (분산 추적 3대 장애 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -153,4 +161,8 @@ extra:
 
 ## Ⅶ. 결론
 
-- **표준 기반 분산 추적 수집 및 관측성 병목 구간 분석 체계 확립**
+- 저비용 예측 Sampling은 **Head**, 오류 보존은 Tail 선택
+
+#### 한줄 요약
+
+- 모든 동기•비동기 경계에서 문맥을 전파하고 오류•지연 Trace가 남도록 Sampling한다.

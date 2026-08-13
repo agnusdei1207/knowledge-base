@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:28:00+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 타사 서비스 자원에 대한 권한 위임 체계인 **OAuth 2.0**과, 이를 기반으로 사용자 신원 확인 계층을 추가한 확장 인증 프로토콜인 **OIDC**의 결합 아키텍처
-- 배경/필요성: 사용자가 새로운 서비스에 가입할 때마다 구글/네이버 비밀번호를 직접 입력해야 했던 과거 방식의 보안 취약성(자격 증명 유출 위험)을 원천 차단하기 위한 통제 기법 요구성
+- 정의/개념: 권한 위임 **OAuth 2.0**과 신원 계층 **OIDC**
+- 배경/필요성: 제3자 Client의 사용자 비밀번호 보관은 **자격 증명 노출** 위험
 
 #### 한줄 요약
 
 - OAuth는 API 문을 열 수 있는 출입증을 주고 OIDC는 누가 로그인했는지 확인하는 신분 확인서를 별도로 제공한다.
 
-## Ⅱ. 특징 (OAuth 2.0 및 OIDC 핵심 차별화 요소)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -53,7 +53,7 @@ extra:
 
 - 브라우저를 지나는 일회용 인가 코드는 PKCE로 묶고 실제 API 출입증은 서버 간 채널에서 교환해 코드 탈취와 비밀번호 노출을 줄인다.
 
-## Ⅲ. 구조 및 구성요소 (OAuth 2.0 / OIDC 4대 참여자)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -62,31 +62,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   OAuth 2.0 / OIDC Actor Relationships                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Resource Owner : [사용자 (당신)] ──(동의)──► [Authorization Server] │
-│ 2. Client         : [제3자 앱 (당근마켓)] ◄──(토큰 발급)──┘            │
-│                       │                                                │
-│                       ▼ (Access Token 제시)                            │
-│ 3. Resource Server: [구글 캘린더 API (당신의 캘린더 보유)]             │
-└────────────────────────────────────────────────────────────────────────┘
+[OAuth•OIDC Trust Boundary]
+ ├── [Resource Owner]
+ ├── [Client]
+ ├── [Authorization Server]
+ └── [Resource Server]
 ```
 
-선의 의미: 사용자가 인가 서버에 로그인하고 동의하면, 인가 서버가 제3자 앱(Client)에게 토큰을 쥐여주고, 제3자 앱은 그 토큰을 Resource Server에 제시하여 데이터를 읽어가는 위임 구조.
-
-| 핵심 구성요소 | 개념적 역할 | 실무 예시 |
-|:---|:---|:---|
-| **Resource Owner** | **보호된 자원의 소유권을 가진 실제 사용자** | **스마트폰 앞의 사용자** |
-| **Client** | **사용자를 대신하여 자원에 접근하려는 제3자 애플리케이션** | **배달의민족, 쏘카 앱** |
-| **Authorization Server** | **사용자 인증, 동의 처리 후 토큰을 발급하는 서버** | **카카오/구글 로그인 서버**|
-| **Resource Server**| **Access Token을 검증하고 실제 데이터를 내어주는 API 서버**| **구글 캘린더, 카카오페이**|
+| 구성요소 | 책임 |
+|---|---|
+| Resource Owner | 보호 Resource의 **권한 위임 동의** 제공 |
+| Client | 사용자를 대신해 **인가 요청•Token 사용** |
+| Authorization Server | 인증•동의 후 **Code•Token 발급** |
+| Resource Server | Access Token 검증과 **보호 API** 제공 |
 
 #### 한줄 요약
 
 - 사용자는 인가 서버에서만 비밀번호를 입력하고 클라이언트는 일회용 교환표로 신분 확인서와 API 출입증을 따로 받는다.
 
-## Ⅳ. 흐름도 (Authorization Code Grant 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,33 +89,40 @@ extra:
 </details>
 
 ```text
-[Client]                                  [Authorization Server]
-   │                                               │
-   ├─ 1. Login Request (client_id, redirect_uri) ─►│
-   │                                               │
-   │◄─ 2. Auth & Consent (로그인 및 권한 동의) ───┤ (Resource Owner 개입)
-   │                                               │
-   │◄─ 3. Return Authorization Code (인가 코드) ───┤ (Redirect URI로 전달)
-   │                                               │
-   ├─ 4. Exchange Code for Tokens ────────────────►│ (서버 대 서버 통신)
-   │     (Code + Client Secret)                    │
-   │                                               │
-   │◄─ 5. Return Access Token & ID Token ──────────┤
-   │                                               │
-[Client (Token 보유)] ──(Access Token)──► [Resource Server]
+[로그인•인가 요청]
+      │
+      ▼
+1. State•Nonce•PKCE 생성
+      │
+      ▼
+2. 사용자 인증•동의
+      │
+      ▼
+3. Authorization Code 반환
+      │
+      ▼
+4. Code•Verifier로 Token 교환
+      │
+      ▼
+5. ID Token 검증•Access Token 사용
+      │
+      ▼
+[로그인•API 결과]
 ```
 
 ### 동작 원리
 
-1. **Auth Request**: 클라이언트가 유저를 인가 서버의 로그인 창으로 Redirect (파라미터: `response_type=code`).
-2. **Consent & Code**: 유저가 로그인/동의 완료 시, 인가 서버가 `Redirect URI`로 1회용 `Authorization Code`를 실어 브라우저로 반환.
-3. **Token Exchange**: 클라이언트 백엔드 서버가 방금 받은 Code와 자신의 암호(Client Secret)를 인가 서버로 직접 보내어, Access Token과 ID Token을 발급받음 (**OIDC 인증 완결**).
+1. **State•Nonce•PKCE 생성**: CSRF•Replay•Code 탈취 방어값 준비
+2. **사용자 인증•동의**: 인가 Server에서 신원•Scope 승인
+3. **Authorization Code 반환**: 등록된 Redirect URI로 일회 Code 전달
+4. **Code•Verifier로 Token 교환**: Token Endpoint에서 PKCE 검증
+5. **ID Token 검증•Access Token 사용**: 로그인과 API 권한 분리
 
 #### 한줄 요약
 
 - 클라이언트는 상태값와 PKCE를 확인한 뒤 ID 토큰으로 로그인만 만들고 별도 접근 토큰으로 API를 호출한다.
 
-## Ⅴ. 종류 및 비교 (OAuth 2.0 대 OIDC 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -140,7 +141,7 @@ extra:
 
 - OAuth는 사용자가 무엇을 허용했는지를 자원 서버에 전달하고 OIDC는 누가 인증됐는지를 클라이언트에 전달한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (OAuth/OIDC 3대 실무 보안 파행)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -168,7 +169,7 @@ extra:
 
 </details>
 
-- **OAuth/OIDC 보안 기준**에 따라 B2C 인증 및 인가 구현 시 **Authorization Code Grant Flow 및 PKCE 적용** 필수
+- 로그인은 **ID Token**, API 권한은 Access Token으로 분리 검증
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-14T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 167
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 머신러닝 알고리즘을 활용하여 쏟아지는 IT 운영 신호(Telemetry)의 노이즈를 제거하고, 이상 탐지(Anomaly Detection)와 이벤트 상관관계(Correlation)를 분석해 장애의 근본 원인을 자동 식별하는 지능형 IT 운영 체계인 **AIOps**
-- 배경/필요성: 마이크로서비스(MSA)와 멀티 클라우드의 도입으로 폭발적으로 증가한 운영 데이터를 인간의 수동 임계치(Threshold) 설정만으로는 통제할 수 없는 한계성 극복
+- 정의/개념: AI로 운영 Signal을 분석•조치하는 **AIOps**
+- 배경/필요성: 대규모 Telemetry는 수동 임계치만으로 **경보 상관•우선순위** 판정 곤란
 
 #### 한줄 요약
 
 - 배포 직후 여러 파드에서 경보가 쏟아지면 공통 변경과 의존 관계를 보고 하나의 장애 사건으로 묶어 먼저 확인할 원인과 조치를 제시한다.
 
-## Ⅱ. 특징 (AIOps 3대 핵심 분석 기능)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - AI가 확정 원인을 선언하는 것이 아니라 시간, 대상, 변경 관계가 맞는 증거를 모아 운영자가 볼 후보 수를 줄이는 방식이다.
 
-## Ⅲ. 구조 및 구성요소 (AIOps 참조 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,33 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        AIOps Platform Architecture                     │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Data Ingestion : [Metrics(모니터링)] [Logs(ELK)] [Topology(CMDB)]   │
-│         │                                                              │
-│         ▼                                                              │
-│ 2. ML Engine      : [Anomaly Detection] ──► [Event Correlation (노이즈 감소)]│
-│         │                                                              │
-│         ▼                                                              │
-│ 3. Action         : [Root Cause Analysis] ──► [Auto-Remediation (자동 복구)]│
-└────────────────────────────────────────────────────────────────────────┘
+[AIOps Platform]
+ ├── [Data Ingestion]
+ ├── [Data Processing]
+ ├── [ML Engine]
+ └── [Action Automation]
 ```
 
-선의 의미: 이종의 인프라 데이터가 수집되면 ML 엔진이 이상 징후를 탐지하고 노이즈를 필터링한 후, 근본 원인을 도출하여 자동화된 런북(Runbook)을 트리거하는 구조.
-
-| AIOps 레이어 | 핵심 기능 및 역할 | 실무 적용 알고리즘 |
-|:---|:---|:---|
-| **Data Ingestion** | **모든 사일로화된 IT 데이터(로그, 메트릭, 트레이스, 티켓) 중앙 통합** | Kafka, ELK Stack |
-| **Data Processing**| **데이터 정규화 및 실시간 스트리밍 처리** | Apache Flink, Spark |
-| **Machine Learning**| **시계열 이상 탐지 및 이벤트 클러스터링(노이즈 감소)** | LSTM, Random Forest |
-| **Action & Automation**| **근본 원인 식별 후 ITSM 티켓 자동 생성 및 Ansible 복구 스크립트 실행** | Root Cause Graph, Ansible |
+| 구성요소 | 책임 |
+|---|---|
+| Data Ingestion | **Metrics•Logs•Traces•Topology** 수집 |
+| Data Processing | Signal **정규화•품질•시간 정렬** 수행 |
+| ML Engine | **이상 탐지•Event 상관•원인 후보** 산출 |
+| Action Automation | 승인 정책에 따라 **Ticket•Runbook** 실행 |
 
 #### 한줄 요약
 
 - 수집 계층이 서로 다른 경보의 주소를 맞추고 분석 엔진이 관계를 묶으면 사건 관리가 사용자 영향에 따라 순서를 정하고 런북이 제한된 조치를 실행한다.
 
-## Ⅳ. 흐름도 (AIOps 기반 장애 조치 파이프라인 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,29 +87,40 @@ extra:
 </details>
 
 ```text
-[Multiple IT Tools (Datadog, Splunk, AWS)] ──► (수만 건의 Raw Alert 쏟아짐)
-                                                    │
-                                                    ▼
-                 [AIOps Machine Learning Engine (Event Correlation)]
-                                                    │
-                                                    ▼
-      [1개의 "DB Connection Pool Full" 인시던트로 압축 (RCA 도출)]
-                                                    │
-                                                    ▼
-[Auto-Remediation] ──► [Ansible: DB Connection Pool 증설 스크립트 자동 실행]
+[운영 Signal]
+     │
+     ▼
+1. Signal 정규화
+     │
+     ▼
+2. 이상 Event 탐지
+     │
+     ▼
+3. 시간•Topology 상관 분석
+     │
+     ▼
+4. 원인 후보•신뢰도 산출
+     │
+     ▼
+5. 승인•자동 Runbook 실행
+     │
+     ▼
+[복구 결과 반환]
 ```
 
 ### 동작 원리
 
-1. **Alert Storm**: 서버, 네트워크, APM에서 수만 개의 에러 알람이 동시다발적으로 유입.
-2. **Correlation & RCA**: AIOps ML 엔진이 시간적/공간적 토폴로지를 분석해 99% 노이즈를 제거하고 'DB 병목'이라는 1개의 근본 원인(RCA)으로 압축.
-3. **Automated Action**: 연동된 Ansible 자동화 툴이 DB 커넥션 풀을 증설하여 즉각 장애를 해소 (**AIOps 운영 완결**).
+1. **Signal 정규화**: Source별 시간•대상•심각도 형식 통일
+2. **이상 Event 탐지**: Baseline 대비 비정상 패턴 식별
+3. **시간•Topology 상관 분석**: 중복 경보를 Incident로 군집화
+4. **원인 후보•신뢰도 산출**: 변경•의존 관계로 후보 순위화
+5. **승인•자동 Runbook 실행**: 위험도에 맞춰 추천 또는 조치
 
 #### 한줄 요약
 
 - 새 버전 배포 뒤 오류와 지연이 함께 늘면 하나의 사건으로 묶고 신뢰도가 높을 때만 승인된 롤백 런북을 실행한 뒤 회복 여부를 다시 측정한다.
 
-## Ⅴ. 종류 및 비교 (전통적 모니터링 대 AIOps 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -129,14 +132,14 @@ extra:
 |:---|:---|:---|
 | **임계치 설정 방식**| **운영자가 수동으로 고정 임계치(Static Rule) 설정**| **ML이 동적 베이스라인(Dynamic Baseline) 자동 학습**|
 | **장애 대응 시점** | 장애 발생 이후에 알람 수신 (사후 대응) | **징후를 사전 감지하여 장애 전 알람 (사전 예측)** |
-| **알람 처리 (노이즈)**| 수백 개 알람 폭탄으로 경고 피로(Fatigue) 발생 | **상관 분석으로 알람 건수를 99% 압축 (RCA 제시)** |
-| **문제 해결 주체** | 엔지니어가 대시보드를 보며 수동 해결 | **AI가 조치 스크립트 자동 트리거 (Auto-Remediation)** |
+| **알람 처리 (노이즈)**| Event별 개별 처리 | **상관 분석으로 Incident 군집화** |
+| **문제 해결 주체** | 엔지니어가 규칙과 화면으로 판단 | **AI 추천과 정책 기반 자동 조치** |
 
 #### 한줄 요약
 
 - 규칙은 이미 아는 온도선을 넘었는지 찾고 AI는 여러 신호가 함께 변한 패턴과 최근 변경을 조합해 낯선 사건을 찾는다.
 
-## Ⅵ. 실무 고려사항 및 대책 (AIOps 실무 3대 파행 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -164,7 +167,7 @@ extra:
 
 </details>
 
-- **AIOps 수립 기준**에 따라 대규모 하이브리드 인프라 관제 시 **AIOps Event Correlation & ML Engine** 필수 적용
+- 저신뢰•고위험은 **Human 승인**, 고신뢰•가역 조치만 자동화
 
 #### 한줄 요약
 

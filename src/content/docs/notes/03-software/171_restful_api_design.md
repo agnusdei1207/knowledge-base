@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T03:16:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: HTTP 프로토콜의 인프라(URI, Method, Header, Status Code)를 그대로 재사용하여 자원(Resource)의 상태(State)를 주고받는(Transfer) 자원 지향형 통신 아키텍처 규칙인 **RESTful API**
-- 배경/필요성: 특정 프로토콜(SOAP)이나 클라이언트(웹, 모바일)에 종속되지 않고, 독립적이고 유연하게 확장 가능한 범용 인터페이스 설계의 요구성
+- 정의/개념: Resource와 HTTP 의미를 결합한 **RESTful API**
+- 배경/필요성: 동작별 임의 Endpoint는 **발견•Cache•Client 호환성** 저하
 
 #### 한줄 요약
 
 - 주문이라는 대상에 주소를 붙이고 조회·생성·변경·삭제를 공통 HTTP 의미로 표현하면 새 클라이언트도 같은 규칙으로 결과를 예측할 수 있다.
 
-## Ⅱ. 특징 (REST 아키텍처 4대 제약 조건)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -53,7 +53,7 @@ extra:
 
 - `/createOrder`처럼 동작마다 새 규칙을 만들지 않고 `/orders` 자원과 POST를 조합해 주소와 행위의 뜻을 API 전체에서 유지한다.
 
-## Ⅲ. 구조 및 구성요소 (RESTful 리소스 모델링 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,32 +61,18 @@ extra:
 
 </details>
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   RESTful API Resource & Method Matrix                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Resource (URI)      | 2. GET (조회) | 3. POST (생성) | 4. DELETE (삭제) │
-│ ───────────────────────┼───────────────┼────────────────┼────────────────│
-│ /customers             | 고객 목록 조회| 새 고객 생성   | 전체 고객 삭제 │
-│ /customers/12          | 12번 고객 조회| (오류: 405)    | 12번 고객 삭제 │
-│ /customers/12/orders   | 12번 주문 목록| 12번 새 주문   | 12번 주문 삭제 │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-선의 의미: 컬렉션(`/customers`)과 도큐먼트(`/customers/12`)로 계층화된 명사형 자원에 HTTP 표준 메서드가 교차 적용되어 시스템의 CRUD 연산을 완벽하게 맵핑하는 행렬 구조.
-
-| 구성요소 | 역할 및 설계 원칙 | 실무 적용 예시 |
-|:---|:---|:---|
-| **URI (자원 식별자)** | **동사(Action)를 배제하고 명사(Noun) 사용 (복수형 권장)** | `/getUsers` (X) $\rightarrow$ `/users` (O) |
-| **HTTP Method (행위)** | **CRUD 비즈니스 로직을 HTTP 메서드에 위임** | GET(조회), POST(생성), PUT(수정) |
-| **HTTP Status Code** | **결과의 성공/실패 여부를 표준 코드로 명시** | 200(OK), 201(생성), 404(없음) |
-| **HTTP Header** | **인증 토큰, 캐시 제어, 페이로드 타입(MIME) 지정**| `Content-Type: application/json` |
+| 구성요소 | 책임 |
+|---|---|
+| URI | 명사형 계층으로 **Resource 식별** |
+| HTTP Method | 조회•생성•교체•삭제의 **표준 의미** 표현 |
+| HTTP Status | 처리 결과와 **오류 Class** 전달 |
+| HTTP Header | 표현•인증•Cache•조건부 요청 **Metadata** 제공 |
 
 #### 한줄 요약
 
 - 자원 모델이 상품 목록을 정하고 HTTP 인터페이스가 공통 조작법을 제공하며 조건부 요청은 같은 상품을 동시에 고칠 때 덮어쓰기를 막는다.
 
-## Ⅳ. 흐름도 (HATEOAS 기반 REST 상태 전이 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -95,34 +81,40 @@ extra:
 </details>
 
 ```text
-[Client] ──► (GET /accounts/1234) ──► [REST API Server]
-                                             │
-                                             ▼
-                                      (Fetch Account & Links)
-                                             │
-         ◄── (HTTP 200 OK + JSON Response) ──┘
-{
-  "account_id": "1234",
-  "balance": 5000,
-  "_links": {
-    "self":     { "href": "/accounts/1234" },
-    "deposit":  { "href": "/accounts/1234/deposit" },
-    "withdraw": { "href": "/accounts/1234/withdraw" }
-  }
-}
+[HTTP 요청]
+    │
+    ▼
+1. URI로 Resource 식별
+    │
+    ▼
+2. Method 의미•권한 검증
+    │
+    ▼
+3. 조건부 요청•상태 처리
+    │
+    ▼
+4. Representation 생성
+    │
+    ▼
+5. Status•Header•Link 구성
+    │
+    ▼
+[HTTP 응답]
 ```
 
 ### 동작 원리
 
-1. **Request**: 클라이언트가 1234번 계좌의 조회를 요청 (상태 부재, Token 포함).
-2. **Process**: 서버가 계좌 상태(5000원)와 현재 상태에서 가능한 행위(입금, 출금 링크)를 조합(HATEOAS).
-3. **Transition**: 클라이언트는 하드코딩된 API 주소 대신, 서버가 준 `withdraw` 링크를 동적으로 클릭(POST)하여 다음 상태로 전이 (**REST 아키텍처 완결**).
+1. **URI로 Resource 식별**: Collection•Document 대상 해석
+2. **Method 의미•권한 검증**: 허용 Operation과 주체 확인
+3. **조건부 요청•상태 처리**: ETag•멱등 Key와 업무 규칙 적용
+4. **Representation 생성**: Accept에 맞는 Resource 표현 구성
+5. **Status•Header•Link 구성**: 결과•Cache•다음 전이 제공
 
 #### 한줄 요약
 
 - 클라이언트가 알고 있던 엔터티 태그를 함께 보내면 서버는 현재 버전과 같을 때만 수정해 다른 사용자의 최신 변경을 덮지 않는다.
 
-## Ⅴ. 종류 및 비교 (Richardson의 REST 성숙도 모델 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -141,7 +133,7 @@ extra:
 
 - RPC는 `approveOrder` 같은 업무 명령을 직접 부르고 REST는 주문 자원의 상태 표현을 공통 HTTP 규칙으로 바꾼다.
 
-## Ⅵ. 실무 고려사항 및 대책 (REST API 실무 3대 파행 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -169,7 +161,7 @@ extra:
 
 </details>
 
-- **RESTful 수립 기준**에 따라 MSA 및 프론트엔드 연동 설계 시 **자원 식별 URI & 무상태 제약(Stateless)** 필수 적용
+- Resource 중심 Web API는 **URI•Method•Status•Stateless** 일관 적용
 
 #### 한줄 요약
 
