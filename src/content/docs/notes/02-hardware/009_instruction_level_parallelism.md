@@ -70,15 +70,6 @@ extra:
 
 </details>
 
-```text
-ILP 비순서 실행 구성요소
-├─ 프런트엔드
-├─ 레지스터 리네이밍
-├─ 명령어 윈도
-├─ 실행 유닛
-└─ 재정렬 버퍼
-```
-
 | 구성요소 | 책임 |
 |:---|:---|
 | 프런트엔드 | **분기 예측•다중 인출•해독** 수행 |
@@ -100,32 +91,16 @@ ILP 비순서 실행 구성요소
 
 </details>
 
-```text
-[ 1. Fetch & Decode ] ──> 4-way / 8-way 다중 기계어 공급
-           │
-           ▼
-[ 2. Register Renaming ] ──> RAT(Register Alias Table)로 WAR/WAW 제거
-           │
-           ▼
-[ 3. Instruction Window (Issue Queue) ]
-           │  (Wakeup & Select : 피연산자 Ready 비트 감지)
-           ▼
-[ 4. Out-of-Order Execution ] ──> ALU0, ALU1, AGU 병렬 실행
-           │
-           ▼
-[ 5. Reorder Buffer (ROB) Commit ] ──> Program Order대로 In-order Retire
-```
-
 ### 동작 원리
 
-1. **Fetch & Decode**: 발행 폭만큼 명령어를 인출•해독함.
-2. **Register Renaming**: 물리 레지스터 매핑으로 **WAR•WAW**를 제거함.
-3. **Instruction Window**: 준비된 명령어를 깨우고 선택함.
-4. **Out-of-Order Execution**: 준비 순서대로 실행 유닛에 발행함.
-5. **Reorder Buffer Commit**: 완료 결과를 프로그램 순서로 반영함.
+1. **인출•해독**: 발행 폭만큼 명령어 후보를 연속 공급
+2. **레지스터 리네이밍**: 물리 레지스터로 WAR•WAW 제거
+3. **깨우기•선택**: 피연산자가 준비된 명령어를 우선 선택
+4. **비순서 실행**: 준비 순서에 따라 ALU•FPU•AGU에 발행
+5. **순차 커밋**: ROB 선두부터 결과와 예외 상태를 반영
 
 #### 한줄 요약
-- Register Renaming -> Wakeup/Select Out-of-Order Issue -> Execution -> ROB In-Order Commit의 순환 흐름으로 가동함.
+- 리네이밍 후 준비 명령을 먼저 실행하고 ROB에서 순차 확정.
 
 ## Ⅴ. 종류 및 비교
 
