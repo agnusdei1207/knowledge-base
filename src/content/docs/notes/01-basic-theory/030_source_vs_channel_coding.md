@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-08-08T06:07:00+09:00"
+date: "2026-08-13T11:23:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -202,4 +202,4 @@ extra:
 
 #### 한줄 요약
 
-- 큰 블록을 오래 처리할 수 있으면 압축과 오류 보호를 따로 최적화하고, 짧은 지연 안에 보내야 하면 두 코딩을 함께 설계 체계 적용
+- 큰 블록과 긴 지연을 허용하면 분리 코딩, 짧은 지연이면 결합 코딩을 선택한다.

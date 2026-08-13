@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-13T11:12:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -136,7 +136,7 @@ extra:
 
 #### 한줄 요약
 
-- Top-down / Bottom-up Parsing 방식으로 생성 규칙을 적용하여 유도 Sequence를 도출하고 구문 트리를 구축한다.
+- 하향식 또는 상향식으로 생성 규칙을 적용해 입력 토큰의 유도와 구문 트리를 구성한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -158,7 +158,7 @@ extra:
 
 #### 한줄 요약
 
-- 정규 문법(Finite Automata), CFG(Pushdown Automata), CSG(Linear Bounded Automata)로 Chomsky Hierarchy의 표현력과 계산 복잡도를 차등 적용한다.
+- 유한 상태 패턴은 정규 문법, 중첩 구문은 CFG, 주변 문맥 제약은 문맥 의존 문법을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -188,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- 좌재귀 제거, 좌인수분해, FIRST/FOLLOW 집합 기반의 파싱표 구축으로 LL/LR 파싱 충돌을 해소한다.
+- 좌재귀 제거와 좌인수분해 후 FIRST•FOLLOW 기반 LL 파싱표의 충돌을 검증한다.
 
 ## Ⅶ. 결론
 
@@ -203,5 +203,4 @@ extra:
 
 #### 한줄 요약
 
-- Recursive Descent 파서 구축 시 Left-recursion 억제 및 모호성 제거를 위한 Grammar Refactoring을 필수 집행 체계 적용
-
+- 재귀 하강 파서는 좌재귀와 모호성을 제거하고, 중첩 구문은 CFG로 표현한다.

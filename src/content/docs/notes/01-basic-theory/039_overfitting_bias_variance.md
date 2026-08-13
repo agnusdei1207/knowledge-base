@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:32:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
@@ -200,4 +200,4 @@ extra:
 
 #### 한줄 요약
 
-- 편향-분산 트레이드오프 곡선의 최소 일반화 오차(Minimum Generalization Error) 지점을 최적 모델 매개변수로 확정하는 모델 최적화 및 규제 체계의 완성.
+- 일반화 격차가 크면 규제를 강화하고, 두 오차가 모두 높으면 용량을 늘려 검증 오차 최소점을 선택한다.

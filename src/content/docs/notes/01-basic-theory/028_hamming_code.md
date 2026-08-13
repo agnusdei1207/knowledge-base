@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-13T11:21:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -59,7 +59,7 @@ extra:
 
 #### 한줄 요약
 
-- 신드롬 Vector가 Error Location Index를 직접 지시하며, Overall 패리티 비트를 추가한 SECDED(Single Error Correction Double Error Detection) 구조로 최소 해밍 거리 $d_{min}=4$를 확보한다.
+- 신드롬은 오류 위치를 지시하며, 전체 패리티를 추가한 SECDED는 최소 해밍 거리 4를 확보한다.
 
 
 ## Ⅲ. 구조 및 구성요소
@@ -166,7 +166,7 @@ extra:
 
 #### 한줄 요약
 
-- SEC(Single Error Correction), SECDED(ECC Memory), CRC(Cyclic Redundancy Check - Polynomial Division based Detection)로 가용성 및 신뢰성 환경에 맞춤 채택한다.
+- 단일 오류 정정은 SEC, 이중 오류 검출은 SECDED, 재전송 구간은 CRC를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -188,7 +188,7 @@ extra:
 
 #### 한줄 요약
 
-- DRAM Controller의 Memory Scrubbing 및 Data 인터리빙을 결합하여 잠복 오류 Accumulation 및 버스트 오류를 방지한다.
+- 메모리 스크러빙으로 잠복 오류를 고치고, 인터리빙으로 버스트 오류를 여러 코드워드에 분산한다.
 
 ## Ⅶ. 결론
 
@@ -203,5 +203,4 @@ extra:
 
 #### 한줄 요약
 
-- In-place Single Bit Correction은 SEC/SECDED, ARQ 기반 Network Retransmission 구간은 CRC Error Detection을 적용 체계 적용
-
+- 즉시 단일 비트 정정은 SEC•SECDED, 재전송 가능한 통신 구간은 CRC를 선택한다.

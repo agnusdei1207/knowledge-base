@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:18:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
@@ -130,7 +130,7 @@ extra:
 
 #### 한줄 요약
 
-- 입력 인버터 $\rightarrow$ AND Plane (Minterm Generation) $\rightarrow$ OR Plane (Function Aggregation)의 2단 논리 Network로 구현한다.
+- 입력 인버터로 리터럴을 만들고 AND 평면의 곱항을 OR 평면에서 결합한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -155,7 +155,7 @@ extra:
 
 #### 한줄 요약
 
-- Basic Gates(AND/OR/NOT), Exclusive Gates(XOR/XNOR), Universal Gates(NAND/NOR - Functional Completeness)로 설계 목적에 맞게 소자를 선택한다.
+- 조건 논리는 기본 게이트, 패리티는 배타 게이트, 단일 소자 합성은 범용 게이트를 선택한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -182,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- 형식 등가성 Checking을 통해 논리적 등가성을 검증하고, Hazard/글리치 방지를 위한 합의항 추가 및 임계 경로 Timing Constraint를 만족시킨다.
+- 형식 등가성을 검증하고 글리치는 합의항•레지스터로 억제하며 임계 경로를 확인한다.
 
 
 ## Ⅶ. 결론
@@ -197,5 +197,4 @@ extra:
 
 #### 한줄 요약
 
-- Logical Synthesis $\rightarrow$ Static Timing Analysis(STA) $\rightarrow$ Formal Verification 단계를 거쳐 최종 Gate-level Netlist를 확정 체계 적용
-
+- 논리 합성 뒤 정적 타이밍과 형식 등가성을 모두 검증한 게이트망만 확정한다.

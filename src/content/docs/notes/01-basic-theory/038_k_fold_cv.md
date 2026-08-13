@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-08T07:21:00+09:00"
+date: "2026-08-13T11:31:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38
@@ -196,7 +196,7 @@ extra:
 
 </details>
 
-- **표본 의존성(Sample Dependency)**, 데이터 불균형 및 시간적 순서를 고려한 최적 **분할 방식(Split Strategy)** 선정 및 데이터 누수(Data Leakage) 방지 체계 적용.
+- 불균형은 **층화**, 반복 개체는 그룹, 미래 예측은 **시계열 분할** 선택
 
 #### 한줄 요약
 - 같은 사람 기록이 섞이는지, 소수 클래스가 사라지는지, 미래가 과거 학습에 들어가는지를 먼저 막고 교차 검증 방식을 고른다.

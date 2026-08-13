@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-08-08T06:35:00+09:00"
+date: "2026-08-13T11:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -195,11 +195,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **업무 효과선**: 통계적으로 유의한 차이가 적용 가치도 갖기 위해 넘어야 하는 최소 효과 크기이다.
 - **업무 효과선(Practical Threshold)**: 통계적 유의성이 실무 가치를 갖기 위한 최소 임계값.
 - **신뢰구간 하한(Lower Bound)**: 참효과가 가질 수 있는 최소 경계값.
 - **귀무가설 기각(Reject $H_0$)**: 데이터가 귀무가설과 양립하기 어렵다는 판단.
 
 </details>
 
-- **귀무가설 기각(Reject $H_0$)** 후 **신뢰구간 하한(Lower Bound of CI)**이 **업무 효과선(Practical Threshold)**을 상회하는 경우에 한정한 실무 적용 체계.
+- **귀무가설 기각** 후 신뢰구간 하한이 **업무 효과선**을 넘을 때만 적용
+
+#### 한줄 요약
+
+- 유의확률만 보지 않고 효과 크기와 신뢰구간이 업무 임계값을 넘는지 확인한다.

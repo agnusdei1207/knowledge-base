@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "튜링 머신 (Turing Machine)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-13T11:15:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 22
@@ -156,7 +156,7 @@ extra:
 
 #### 한줄 요약
 
-- FA(No Auxiliary Memory), PDA(LIFO Stack), TM(Unbounded Read/Write Tape)으로 Chomsky Hierarchy 4단계 레벨의 메모리 및 언어 인지 구조를 규정한다.
+- 정규 언어는 유한 상태, 중첩 구문은 스택, 범용 계산은 읽기•쓰기 테이프를 사용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -182,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- 정지 문제의 비판정성(Undecidability)에 대응하여 Execution Timeout, Memory Limit, 샌드박스 Environment 등 런타임 제약(Resource Bound)을 집행한다.
+- 정지 여부를 일반적으로 판정할 수 없으므로 실행 시간•메모리•권한 한도를 강제한다.
 
 ## Ⅶ. 결론
 
@@ -198,5 +198,4 @@ extra:
 
 #### 한줄 요약
 
-- Universal 튜링 머신(UTM) 기반의 추상 모델을 구체 시스템에 구현할 때 샌드박스 Isolation 및 Resource Limit Bounding을 물리적으로 적용 체계 적용
-
+- 범용 계산은 샌드박스에서 실행하고 시간•메모리•입출력 권한 한도를 강제한다.

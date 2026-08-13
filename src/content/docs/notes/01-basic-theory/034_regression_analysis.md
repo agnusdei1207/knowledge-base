@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-08-08T06:44:00+09:00"
+date: "2026-08-13T11:27:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 34
@@ -196,4 +196,8 @@ extra:
 
 </details>
 
-- **잔차 가정(Residual Assumptions)** 및 **검증 오차(Validation Error)** 분석을 통해 타당성이 입증된 입력 범위(Input Range) 내에서의 예측값 산출 및 모델 운영 적용 체계 적용.
+- **잔차 가정•검증 오차**를 통과한 **입력 범위** 안에서만 예측
+
+#### 한줄 요약
+
+- 잔차와 검증 오차가 허용 범위일 때만 보간하고, 학습 범위 밖 입력은 예측을 거부한다.

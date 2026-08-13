@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "순차 논리 회로: 플립플롭•레지스터 (Sequential Logic)"
-date: "2026-08-08T05:40:00+09:00"
+date: "2026-08-13T11:20:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 27
@@ -187,7 +187,7 @@ extra:
 
 </details>
 
-- **단일 비트 CDC**에는 동기화기, 같은 도메인의 경로에는 **STA**를 적용 체계 적용
+- 이력 의존은 **순차 논리**, 동일 도메인은 STA, 단일 비트 CDC는 **동기화기** 적용
 
 #### 한줄 요약
 

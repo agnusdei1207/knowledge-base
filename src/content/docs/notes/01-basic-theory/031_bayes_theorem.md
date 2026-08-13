@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:24:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 31
@@ -132,7 +132,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Prior $P(H)$ $\times$ 우도 $P(E \mid H)$의 곱을 Total Probability Theorem 기반 Marginal 우도 $P(E) = \sum P(E \mid H_i)P(H_i)$로 정규화하여 Posterior를 획정한다.
+- 사전 확률과 우도의 곱을 전체 증거 확률로 정규화해 사후 확률을 구한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -180,7 +180,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 #### 한줄 요약
 
-- Naive Bayes의 Conditional Independence 가정이 깨질 경우 Joint 우도 모형화 및 Calibration / 재학습으로 Overshooting을 방지한다.
+- 조건부 독립이 깨지면 결합 우도를 모형화하고 확률 보정•재학습으로 과대 추정을 줄인다.
 
 ## Ⅶ. 결론
 
@@ -191,5 +191,8 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 </details>
 
-- **희귀 사건** 기저율 반영 및 **독립적 추가 증거(Independent Evidence)** 기반 순차적 사후 확률 갱신 체계 적용.
+- **희귀 사건**은 기저율을 반영하고, 조건부 의존 증거는 **결합 우도**로 갱신
 
+#### 한줄 요약
+
+- 기저율과 우도를 함께 반영하고, 상관된 증거를 독립으로 중복 계산하지 않는다.

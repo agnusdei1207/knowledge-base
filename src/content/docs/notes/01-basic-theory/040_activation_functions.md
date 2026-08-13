@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:33:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 40
@@ -162,7 +162,7 @@ extra:
 
 #### 한줄 요약
 
-- 확률 출력은 Sigmoid, 영중심 상태는 Tanh, 깊은 은닉층은 정류 선형 유닛를 우선 검토한다.
+- 확률 출력은 Sigmoid, 영중심 상태는 Tanh, 깊은 은닉층은 정류 선형 유닛을 우선 검토한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -198,4 +198,8 @@ extra:
 
 </details>
 
-- **선택 기준(Selection Criteria)** 기반의 출력층 의미 및 도함수 특성을 고려한 **Sigmoid·Tanh·ReLU** 최적 모델링 체계 적용.
+- 이진 출력은 **Sigmoid**, 순환 상태는 Tanh, 심층 은닉층은 **ReLU** 선택
+
+#### 한줄 요약
+
+- 출력 의미와 도함수를 기준으로 고르고, 포화나 죽은 ReLU가 보이면 정규화•변형 함수를 적용한다.

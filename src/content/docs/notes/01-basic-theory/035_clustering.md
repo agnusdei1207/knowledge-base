@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "클러스터링: K-Means•DBSCAN (Clustering)"
-date: "2026-08-08T06:53:00+09:00"
+date: "2026-08-13T11:28:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 35
@@ -189,7 +189,7 @@ extra:
 
 </details>
 
-- **선택 기준(Selection Criteria)**에 근거한 정형·비정형 군집 구조 적합형 K-Means 및 DBSCAN의 최적 알고리즘 선택 체계 적용.
+- 군집 수가 알려진 구형은 **K-Means**, 임의 형상•잡음은 **DBSCAN** 선택
 
 #### 한줄 요약
-- 데이터의 특성과 비즈니스 목적을 고려한 알고리즘 선택 체계 및 최적화 전략.
+- 구형 군집은 K-Means, 임의 형상과 잡음 분리는 DBSCAN을 선택하고 업무 해석을 검증한다.

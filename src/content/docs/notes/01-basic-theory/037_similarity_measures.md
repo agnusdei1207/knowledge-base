@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "유사도 측정: 코사인•자카드•유클리드 (Similarity Measures)"
-date: "2026-08-08T07:12:00+09:00"
+date: "2026-08-13T11:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 37
@@ -190,4 +190,8 @@ extra:
 
 </details>
 
-- **유사도 선택 기준(Similarity Selection Criteria)**에 따른 벡터 방향 기반 코사인 유사도(Cosine Similarity), 집합 기반 자카드 유사도(Jaccard Similarity), 연속 좌표 기반 유클리드 거리(Euclidean Distance) 선택 및 비교 분석 체계 적용.
+- 벡터 방향은 **코사인**, 집합 중첩은 자카드, 연속 좌표는 **유클리드** 선택
+
+#### 한줄 요약
+
+- 표현 의미에 맞는 척도를 고르고 정답 쌍과 온라인 지표로 임계값과 상위 후보 수를 검증한다.
