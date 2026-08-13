@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 전가상화•반가상화•컨테이너 비교 (Full•Para•Container Virtualization)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:37:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 자원 추상화 계층 및 게스트 OS 커널 수정/상주 여부에 따른 3대 격리 아키텍처 비교인 **전가상화 vs 반가상화 vs 컨테이너 가상화**
-- 배경/필요성: 워크로드 특성(OS 이종성, 성능, 밀도, 보안 격리성)에 적합한 최적 격리 인프라 선택 요구성
+- 배경/필요성: 단일 격리 방식은 OS 호환성과 **배치 밀도**를 함께 충족 곤란
 
 #### 한줄 요약
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- 게스트 OS 바이너리 수정 없이 100% 호환성 보장 (**Full Virtualization**)
+- 지원 아키텍처의 미수정 게스트를 실행하는 **Full Virtualization**
 - **Hypercall** 기반 커널 튜닝을 통한 가상화 트랩 오버헤드 억제 (**Paravirtualization**)
-- Host Kernel 공유 기반 밀리초($ms$) 단위 초고속 구동 및 고밀도 집적 (**Container**)
+- Host Kernel 공유로 시작 비용과 메모리를 줄이는 **Container**
 
 #### 한줄 요약
 
@@ -60,25 +60,23 @@ extra:
 </details>
 
 ```text
-전가상화
-[워크로드] -- [미수정 게스트] -- [자원 중재 경계: 하이퍼바이저]
-
-반가상화
-[워크로드] -- [수정 게스트] -- [자원 중재 경계: 하이퍼바이저]
-
-컨테이너
-[워크로드] -- [컨테이너 프로세스] -- [자원 중재 경계: 호스트 커널]
+[격리 실행 구조]
+ ├─ 워크로드
+ ├─ 게스트 OS
+ │   └─ 하이퍼바이저
+ └─ 컨테이너 프로세스
+     └─ 호스트 커널
 ```
 
 선의 의미: 전가상화/반가상화는 하이퍼바이저 및 게스트 OS 상주 레이어를 갖추는 반면, 컨테이너는 Host Kernel 직결 프로세스 격리 구조를 형성함을 의미.
 
-| 구분 항목 | 전가상화 (Full Virt) | 반가상화 (Para Virt) | 컨테이너 (Container) |
-|:---|:---|:---|:---|
-| 게스트 OS 수정 | **수정 필요 없음 (Unmodified OS)** | **수정 필요 (Hypercall 코드 이식)** | **게스트 OS 없음 (Host Kernel 공유)** |
-| 핵심 기술 | Binary Translation / VT-x | **Hypercall API (virtio)** | **Namespaces & Cgroups** |
-| 실행 성능 | 상대적 저하 (Trap/Emulation) | 우수함 (Hypercall 직접 통신) | **최고 (베어메탈 수준 고성능)** |
-| 부팅 / 배포 | 수십 초 ~ 수 분 | 수십 초 ~ 수 분 | **밀리초 (ms) ~ 수 초** |
-| 보안 격리성 | 매우 높음 (하드웨어/커널 격리) | 높음 (독립 게스트 커널) | 상대적 낮음 (Host Kernel 공유 취약점) |
+| 구성요소 | 책임 |
+|:---|:---|
+| 워크로드 | 격리 환경에서 애플리케이션 실행 |
+| 게스트 OS | 전가상화•반가상화의 독립 커널 제공 |
+| 하이퍼바이저 | 게스트의 CPU•메모리•I/O 자원 중재 |
+| 컨테이너 프로세스 | 호스트 커널을 공유하며 격리된 실행 뷰 사용 |
+| 호스트 커널 | **Namespaces•Cgroups**로 격리와 자원 제어 |
 
 #### 한줄 요약
 
@@ -100,23 +98,23 @@ extra:
 ┌──────────────────────────────┐
 │ 1. 커널 공유 허용 판정      │
 └───────┬──────────────────────┘
-        ├─ 허용 ────────────────▶ [컨테이너]
+        ├─ 허용 ────────────────▶ [2. 컨테이너 선택]
         │ 불가
         ▼
 ┌──────────────────────────────┐
 │ 2. 게스트 수정 가능성 판정  │
 └───────┬──────────────────────┘
-        ├─ 수정 가능 ───────────▶ [반가상화]
-        └─ 수정 불가 ───────────▶ [전가상화]
+        ├─ 수정 가능 ───────────▶ [4. 반가상화 선택]
+        └─ 수정 불가 ───────────▶ [5. 전가상화 선택]
 ```
 
 ### 동작 원리
 
 1. **커널 공유 허용 판정**: 보안/OS 이종성 요구에 따라 Host Kernel 공유 가능 여부 체크.
-2. **Container 분기**: Kernel 공유 가능 시 **Namespaces/Cgroups** 기반 초경량 컨테이너 구동.
+2. **컨테이너 선택**: 커널 공유 가능 시 Namespaces•Cgroups 적용
 3. **게스트 수정 가능성 판정**: 가상머신 전환 시 게스트 커널의 Hypercall 코드 이식 가능 여부 검증.
-4. **Paravirtualization 분기**: 게스트 수정 가능 시 **virtio / Hypercall** 고속 인터페이스 할당.
-5. **Full Virtualization 분기**: 수정 불가 시 하드웨어 지원(**Intel VT-x**) 전가상화 매핑.
+4. **반가상화 선택**: 게스트 수정 가능 시 하이퍼콜 인터페이스 적용
+5. **전가상화 선택**: 게스트 수정 불가 시 하드웨어 지원 가상화 적용
 
 #### 한줄 요약
 
@@ -133,8 +131,8 @@ extra:
 | 비교 항목 | 전통적 VM (Full/Para) | Container (Docker/Podman) | MicroVM (Kata Containers / Firecracker) |
 |:---|:---|:---|:---|
 | 격리 메커니즘 | 하이퍼바이저 + 독립 커널 | Host Kernel Cgroups/Namespaces | 초경량 하이퍼바이저 + 전용 린 커널 |
-| 메모리 점유율 | 수 GB (게스트 OS 상주) | 수 MB ~ 수백 MB | 수십 MB |
-| 시작 시간 | 수분 | 수밀리초 | 수십 밀리초 |
+| 메모리 점유 | 게스트 OS 메모리 포함 | 애플리케이션•런타임 중심 | 경량 게스트 커널 메모리 포함 |
+| 시작 시간 | 게스트 OS 부팅 필요 | 프로세스 생성 중심 | 경량 VM 부팅 필요 |
 | 주요 용도 | legacy OS, 타 OS 호환, IaaS | Cloud Native, Microservices, PaaS | Serverless FaaS, Multi-tenant K8s |
 
 #### 한줄 요약
@@ -153,7 +151,7 @@ extra:
 |:---|:---|:---|
 | Container의 Host Kernel 공유에 따른 보안 취약점 파급 | **seccomp, AppArmor, Rootless Container** 설정 | 커널 공격면 최소화 |
 | Paravirtualization 적용 시 Windows 등 미지원 OS 구동 불가 | **virtio Guest Driver** 설치 패키지 인가 | 반가상화 드라이버 확장 |
-| Full Virtualization 적용 시 I/O 병목에 따른 DB 성능 저하 | **SR-IOV** 및 NVMe Direct Pass-Through 인가 | 베어메탈 급 I/O 확보 |
+| 전가상화 I/O 중재에 따른 지연 | **SR-IOV**와 NVMe 직접 할당 검토 | 가상 I/O 경로 단축 |
 
 > 사례: Kubernetes 환경 상에서 **Docker/Containerd** 기본 구동 및 멀티테넌트 서버리스 환경 내 **Kata Containers / Firecracker** 구축
 

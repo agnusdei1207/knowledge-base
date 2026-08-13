@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 프로세스 생성•종료•상태 전이 (Process Lifecycle)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:46:00+09:00"
 tags: [notes-software]
 weight: 3
 extra:
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의: 프로세스 생성, 자원 할당, CPU 선점, I/O 대기 및 자원 수거까지의 5대 핵심 상태 순환 제어 메커니즘
-- 배경: 제한된 하드웨어 자원을 다수의 실행 주체가 시분할 공유하기 위한 커널 큐(Queue) 기반 상태 관리 필수
+- 정의: 생성부터 준비•실행•대기•종료까지의 **상태 전이** 관리
+- 배경: 상태 구분 없이는 CPU 대기와 이벤트 대기의 **선택 기준 부재**
 
 #### 한줄 요약
 - CPU 할당과 이벤트 대기에 기반한 프로세스 상태 전이 메커니즘.
@@ -45,7 +45,7 @@ extra:
 
 - CPU를 점유하여 실제 명령어를 연산하는 오직 단 하나의 **Running State** (단일 코어 기준)
 - CPU 디스패치를 대기하는 **Ready State** vs I/O 완료 이벤트를 대기하는 **Blocked State**의 명확한 큐 이원화
-- 자식 프로세스 종료 상태 수거를 보장하기 위한 **wait()** 기반 **Zombie/Orphan Process** 디펜스
+- 부모의 **wait()** 호출로 자식 종료 상태와 **좀비** 항목 회수
 
 #### 한줄 요약
 
@@ -118,11 +118,11 @@ extra:
 
 ### 동작 원리
 
-1. **Admit & Dispatch**: 프로세스 fork/exec 생성 후 Ready 상태 진입 및 **Dispatch**로 Running 전환.
-2. **Preempt**: Time Slice 만료 시 타이머 인터럽트로 CPU 회수 및 Ready 상태로 **Timeout** 회귀.
-3. **I/O Sleep**: System Call 기반 I/O 인가 시 CPU 반납 및 Blocked(Waiting) 상태로 **I/O 대기 전환**.
-4. **I/O Wakeup**: 하드웨어 I/O 완료 인터럽트 수신 시 **Wakeup**되어 Ready Queue로 재배치.
-5. **Exit & Terminated**: exit() 호출 및 자원 해제 후 **Zombie State**를 거쳐 부모 `wait()`에 의한 최종 소멸 완결.
+1. **디스패치**: 준비 큐에서 선택해 실행 상태로 전환
+2. **선점**: 시간 할당량 만료 시 준비 상태로 복귀
+3. **I/O 대기 전환**: I/O 요청 후 CPU를 반납하고 대기
+4. **완료 이벤트**: 완료 인터럽트로 준비 큐에 재배치
+5. **프로세스 종료**: 실행 자원을 해제하고 종료 상태 기록
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 자식 프로세스 exit() 후 부모 미수거로 인한 **Zombie Process** 누적 | 부모 프로세스 상에 **SIGCHLD** 시그널 핸들러 및 **waitpid()** 명시 | PID 및 PCB 커널 메타 leak 방지 |
-| I/O 디바이스 무한 대기로 인한 프로세스 **Blocked State** 고착 | Socket/File I/O **Timeout** 세팅 및 Non-blocking I/O 인가 | 런타임 데드락 방지 |
-| 프로세스 수 폭증으로 인한 커널 **PID Max** 고갈 | **sysctl (kernel.pid_max)** 확장 및 프로세스 생성 한도 수용 | OS 자원 고갈 차단 |
+| 부모 미수거로 인한 **좀비 프로세스** 누적 | SIGCHLD 처리와 **waitpid()** 호출 | PID와 종료 상태 항목 회수 |
+| I/O 무한 대기로 인한 대기 상태 고착 | I/O **타임아웃**과 취소 경로 설계 | 무기한 대기 방지 |
+| 프로세스 폭증으로 인한 PID•메모리 고갈 | 사용자별 **생성 한도**와 감시 적용 | 운영체제 자원 고갈 억제 |
 
 > 사례: Linux **systemd(PID 1)** 기반 Orphan Process 자식 자동 수거 및 **waitpid** 시그널 핸들링 인프라 구축
 
@@ -174,7 +174,7 @@ extra:
 
 </details>
 
-- **프로세스 수명주기 관리 기준**에 따라 안정적 서버 운영을 위한 부모 프로세스 **wait()** 수거 체계 및 **PID leak** 방지 시스템 구축
+- 자식 종료는 **waitpid()**로 회수하고 장기 대기는 **타임아웃** 적용
 
 #### 한줄 요약
 - 자원 해제 무결성 보장 및 좀비 프로세스 방지를 위한 상태 관리 체계 적용.

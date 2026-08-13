@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 은행원 알고리즘 (Banker's Algorithm)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:08:00+09:00"
 tags: [notes-software]
 weight: 10
 extra:
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 프로세스 자원 추가 요청 시, 임시 가상 할당을 인가한 후 안전 순서(Safe Sequence)가 유지될 때만 최종 자원 억세스를 승인하는 **은행원 알고리즘(Banker's Algorithm)**
-- 배경/필요성: 단순 현재 가용 자원만으로 즉시 할당 시 향후 자원 락(Lock) 고갈 및 교착상태(Deadlock) Unsafe State로 진입하는 치명적 오류 차단 요구성
+- 배경/필요성: 현재 가용량만 본 할당은 이후 **안전 순서 소멸** 가능
 
 #### 한줄 요약
 
@@ -62,9 +62,13 @@ extra:
 </details>
 
 ```text
-[요청 프로세스] -- [요청 제어기] -- [자원 상태]
-                                         |
-                                  [안전성 검사기]
+[자원 상태]
+ ├─ Available Vector
+ ├─ Max Matrix
+ ├─ Allocation Matrix
+ └─ Need Matrix
+          |
+ [Safety Algorithm]
 ```
 
 선의 의미: 요청 프로세스가 추가 자원을 요청하면 요청 제어기가 한도 및 가상 할당을 통제하고, 안전성 검사기가 자원 상태의 Safe Sequence를 검증하는 구조.
@@ -151,8 +155,8 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 | 비교 항목 | Safe State (안전 상태) | Unsafe State (불안전 상태) | Deadlock (교착상태) |
 |:---|:---|:---|:---|
 | 정의 | 모든 프로세스 완결 가능한 **Safe Sequence** 존재 | 안전 순서(Safe Sequence) 수립 불가 | 프로세스가 영구 블록되어 정지된 최악 상태 |
-| 자원 승인 여부 | 신규 자원 요청 즉시 물리 할당 승인 | 신규 요청 거부 (요청 프로세스 블록) | 사후 탐지 엔진에 의해 희생자(Victim) Kill |
-| 시스템 진행성 | 100% 정상 프로세스 완료 보장 | 교착상태 진입 위험성 내재 | 시스템 전면 정지 |
+| 자원 승인 여부 | 안전성을 유지하는 요청 승인 | 해당 가상 할당을 거부•대기 | 탐지 후 종료•롤백 등 복구 필요 |
+| 시스템 진행성 | 선언된 최대량 가정에서 완료 순서 존재 | 향후 교착 가능성 존재 | 관련 실행 주체의 진행 정지 |
 
 #### 한줄 요약
 
@@ -162,14 +166,14 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 <details><summary>핵심 용어</summary>
 
-- **Max Claim Pre-declaration**: 은행원 알고리즘의 최대 단점으로, 실제 시스템 런타임에서 각 프로세스가 사용할 최대 자원량을 사전에 100% 명확히 선언하기 어렵다는 한계.
+- **Max Claim Pre-declaration**: 각 프로세스의 최대 자원 요구량을 사전에 선언해야 하는 제약.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 프로세스의 최대 자원 요구량(**Max Claim**) 사전 예측 불가능 | 동적 리소스 프로파일링 및 Max 수치 상한 튜닝 | 은행원 알고리즘 실무 적용성 확보 |
-| 매 요청 시 $O(m \times n^2)$ **Safety Algorithm** 연산 지연 | 백그라운드 비동기 회피 계산 및 락 분할(Lock Striping) | 시스템 오버헤드 억제 |
+| 최대 자원 요구량(**Max Claim**) 예측 오차 | 계약 기반 상한과 요청 검증 적용 | 잘못된 최대량 선언 차단 |
+| 매 요청의 **Safety Algorithm** 계산 비용 | 자원군 분리와 검사 범위 축소 | 승인 지연 감소 |
 | 프로세스 수가 가변적으로 변동하는 대규모 동적 시스템 환경 | 프로세스 인입/퇴출 시 Matrix 동적 재할당 | 런타임 알고리즘 정합성 보장 |
 
 > 사례: OS 커널 메인프레임 및 결정론적 하드 실시간 시스템 상의 **Banker's Avoidance** 모듈 적용

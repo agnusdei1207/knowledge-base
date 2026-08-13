@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: PCB•컨텍스트 스위칭 (PCB Context Switching)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:43:00+09:00"
 tags: [notes-software]
 weight: 2
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 멀티태스킹 환경에서 CPU 하드웨어 자원을 선점 공유하기 위해 실행 주체의 상태(레지스터, 가상 메모리 등)를 PCB/TCB에 보존/복원하는 기법
-- 배경: 타임 셰어링(Time-sharing) 환경에서 여러 실행 주체의 중단 시점 상태를 유지 및 복원하여 연속성 보장
+- 배경: 실행 상태 보존 없이는 선점 후 **중단 지점 복귀 불가**
 
 #### 한줄 요약
 - 실행 상태 보존 및 복원을 통한 멀티태스킹 구현.
@@ -37,15 +37,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CR3 Register**: x86 아키텍처 상에서 현재 프로세스의 최상위 페이지 테이블(PGD) 가상 주소를 가리키는 레지스터로, 프로세스 간 문맥 전환 시 교체 인가.
+- **CR3 Register**: x86에서 최상위 페이지 테이블의 물리 주소와 제어 정보를 보관하는 레지스터.
 - **TLB Miss/Invalidation**: 프로세스 문맥 전환 시 MMU CR3 변경으로 기존 TLB 캐시가 무효화되어 발생되는 메모리 주소 번역 지연 현상.
 - **Cache Locality Loss**: 문맥 전환으로 인해 CPU L1/L2/L3 캐시 상의 기존 데이터가 쫓겨나고 신규 프로세스 데이터로 교체(Cache Pollution)되어 성능이 저하되는 현상.
 
 </details>
 
 - CPU 레지스터, PC, SP 및 MMU 레지스터(**CR3**)를 커널 메모리(**PCB/TCB**)에 보존
-- 프로세스 간 전환 시 **TLB Flush** 및 **Cache Locality Loss** 발생으로 인한 물리적 성능 오버헤드
-- 스레드 간 전환 시 주소 공간 공유로 인해 TLB 무효화 없이 초고속 레지스터 덤프/복원만 수행
+- 프로세스 전환은 주소 공간 변경으로 **TLB**와 캐시에 영향 가능
+- 동일 주소 공간의 스레드 전환은 **주소 변환 비용** 감소
 
 #### 한줄 요약
 
@@ -70,6 +70,8 @@ extra:
 |                         /        \                            |
 |                        /          \                           |
 |                 [PCB 저장부]   [TCB 저장부]                  |
+|                                      |                       |
+|                                [커널 스택]                   |
 +---------------------------------------------------------------+
 ```
 
@@ -141,9 +143,9 @@ extra:
 
 | 비교 항목 | Process Context Switch | Thread Context Switch |
 |:---|:---|:---|
-| MMU 주소 공간 | 주소 공간 교체 필수 (**CR3 레지스터 갱신**) | 주소 공간 완전 공유 (**CR3 교체 없음**) |
-| TLB 영향 | **TLB Flush** 발생 (메모리 억세스 지연 증가) | **TLB Flush** 미발생 (TLB 캐시 유연 유지) |
-| 오버헤드 크기 | 큼 (~수 μs 수치, Cache Pollution 유발) | 작음 (~수백 ns 수치, 레지스터 복원만 수행) |
+| MMU 주소 공간 | 다른 주소 공간이면 **CR3** 등 갱신 | 같은 프로세스면 주소 공간 유지 |
+| TLB 영향 | PCID 지원과 전환 방식에 따라 무효화 | 같은 주소 공간의 변환 항목 재사용 가능 |
+| 오버헤드 크기 | 주소 변환과 캐시 지역성 비용 증가 | 상대적으로 적은 상태 전환 |
 | 보존 대상 | **PCB** (Process State, MMU Table, File Descriptors) | **TCB** (Stack Pointer, Program Counter, Registers) |
 
 #### 한줄 요약
@@ -158,11 +160,11 @@ extra:
 
 </details>
 
-| 문제 | 대책 | 과실 효과 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 과도한 타임 슬라이스 세분화로 인한 **Context Switch** 오버헤드 폭증 | Time Quantum 최적화 (sysctl **sched_min_granularity_ns**) | CPU 가용률 및 스루풋 확보 |
 | 코어 간 스레드 핑퐁 이동에 따른 **Cache Locality Loss** | **CPU Affinity (sched_setaffinity)** 설정 | L1/L2 캐시 히트율 상향 |
-| 프로세스 수 폭증으로 인한 **TLB Flush** 대기 지연 | 스레드 기반 아키텍처 또는 **Async I/O (epoll/io_uring)** 전환 | 가상 메모리 변환 오버헤드 소멸 |
+| 프로세스 증가에 따른 주소 변환 비용 | 스레드 또는 **비동기 I/O** 적용 검토 | 전환 빈도와 변환 비용 감소 |
 
 > 사례: Linux 커널 **CFS(Completely Fair Scheduler)** 튜닝 및 **taskset** 기반 CPU Pinning 최적화
 
@@ -178,7 +180,7 @@ extra:
 
 </details>
 
-- **컨텍스트 스위칭 선택 기준**에 따라 초고성능 트랜잭션 시스템은 **Thread Context Switch** 및 **Async Non-blocking I/O** 기반 구조 채택
+- 격리가 필요하면 프로세스, 전환 비용이 우선이면 **스레드•비동기 I/O** 선택
 
 #### 한줄 요약
 - 응답 목표와 전환 오버헤드를 고려한 시간 할당 및 실행 단위 최적화 체계 적용.

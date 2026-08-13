@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "실시간 스케줄링: Rate Monotonic•EDF (Real-Time Scheduling)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:58:00+09:00"
 tags: [notes-software]
 weight: 7
 extra:
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 태스크의 시간 제약 조건(Period, Execution Time, Deadline)을 분석하여 하드/소프트 실시간 데드라인을 100% 충족시키는 스케줄링 기법인 **Rate Monotonic(RM) & EDF**
-- 배경/필요성: 항공, 자동차(ECU), 로봇, 의료기기 등 마감시간 미스(Deadline Miss)가 치명적 시스템 재앙으로 직결되는 시스템 내결함성 보장 요구성
+- 정의/개념: 주기•실행시간•마감시간으로 작업 우선순위를 정하는 **RM•EDF**
+- 배경/필요성: 일반 처리량 중심 정책은 **마감시간 준수 여부 산정 불가**
 
 #### 한줄 요약
 
@@ -39,11 +39,11 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **WCET(Worst-Case Execution Time)**: 태스크가 최악의 파이프라인/메모리 대기 상황에서 소비 가능한 최대 물리 실행 시간.
-- **Schedulability Test (스케줄 가능성 검증)**: 주어진 태스크 집합이 마감시간 미스 없이 100% 수용 가능한지 수학적으로 사전 검증하는 분석.
+- **Schedulability Test (스케줄 가능성 검증)**: 태스크 집합이 주어진 가정에서 마감을 지킬 수 있는지 사전 검증하는 분석.
 
 </details>
 
-- **WCET(Worst-Case Execution Time)** 및 주기 기반의 결정론적(Deterministic) 시간 보장
+- **WCET**와 주기•마감시간을 이용한 시간 제약 분석
 - 정적 주기 기반 우선순위 산정(**RM**) vs 동적 임박 마감시간 우선 산정(**EDF**)
 - **Schedulability Test** 및 Utilization 한계 기반의 **Admission Control(수용 제어)**
 
@@ -74,7 +74,7 @@ extra:
 | 구성요소 | 책임 |
 |:---|:---|
 | 실시간 태스크 모수 | $C_i$ (WCET), $T_i$ (주기 Period), $D_i$ (상대 마감시간) 파라미터 정의 |
-| 스케줄 가능성 분석기 | **RM 이용률 상한선($U \le 69\%$)** 및 **EDF 상한선($U \le 100\%$)** 수용성 검증 |
+| 스케줄 가능성 분석기 | 태스크 가정에 맞는 **이용률•응답시간 분석** 수행 |
 | 우선순위 준비 큐 | RM(주기 $T_i$ 역비례 정적 정렬) 및 EDF(절대 마감시간 동적 정렬) 큐 운영 |
 | 선점 스케줄러 | 우선순위 역전 방지(PIP/PCP) 및 하드웨어 타이머 기반 선점 디스패치 |
 
@@ -141,9 +141,9 @@ $$U=\sum_{i=1}^{n}\frac{C_i}{T_i} \le \text{Bound}$$
 | 비교 항목 | Rate Monotonic (RM) | Earliest Deadline First (EDF) |
 |:---|:---|:---|
 | 우선순위 할당 방식 | **정적(Static)** (주기 $T_i$에 역비례하여 사전 할당) | **동적(Dynamic)** (남은 절대 마감시간에 의존) |
-| 이론적 CPU 이용률 한계 | $U = n(2^{1/n}-1) \approx 69\%$ ($n \to \infty$) | **$U = 100\%$ (최대 이론적 효율 달성)** |
+| 단일 CPU 충분 조건 | 조화되지 않은 암시적 마감 작업에 이용률 경계 | 선점•독립•암시적 마감 가정에서 $U \le 1$ |
 | 런타임 오버헤드 | 낮음 (정적 선점 큐 구조) | 높음 (매 태스크 릴리스마다 마감 재계산) |
-| 과부하(Overload) 시 동작 | 주기가 긴 하위 우선순위 태스크만 마감 미스 | **Domino Effect** (전체 태스크 연속 마감 미스) |
+| 과부하 시 동작 | 낮은 고정 우선순위부터 미스 가능 | 마감 임박 작업 간 연쇄 미스 가능 |
 
 #### 한줄 요약
 
@@ -160,7 +160,7 @@ $$U=\sum_{i=1}^{n}\frac{C_i}{T_i} \le \text{Bound}$$
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 공유 자원 경쟁에 따른 **Priority Inversion** 발생 | **PIP (Priority Inheritance)** 및 **PCP (Priority Ceiling)** | 고우선순위 대기 시간 제한 |
-| EDF 과부하 시 마감 미스 연쇄 파급 (**Domino Effect**) | **Admission Control** 및 중요도(Criticality) 기반 태스크 Drop | 필수 하드 타깃 마감 보장 |
+| EDF 과부하 시 마감 미스 연쇄 파급 | **수용 제어**와 중요도 기반 작업 제거 | 필수 작업의 자원 우선 확보 |
 | 자원 억세스 및 인터럽트 오버헤드로 인한 WCET 오차 | 하드웨어 틱 오버헤드를 $C_i$ 보정치에 반영 | 스케줄 가능성 분석 정합성 확보 |
 
 > 사례: 자동차 ECU 표준 **AUTOSAR OS** 및 RT-Linux(PREEMPT_RT) 상의 **RM/EDF 스케줄러** 구현
@@ -177,7 +177,7 @@ $$U=\sum_{i=1}^{n}\frac{C_i}{T_i} \le \text{Bound}$$
 
 </details>
 
-- **실시간 스케줄링 선택 기준**에 따라 예측 가능 정적 제어는 **RM**, 100% 고효율 동적 제어는 **EDF** 채택
+- 고정 주기•정적 검증은 **RM**, 동적 절대 마감 우선은 **EDF** 선택
 
 #### 한줄 요약
 

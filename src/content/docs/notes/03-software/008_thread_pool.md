@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: 스레드 스케줄링•스레드 풀 (Thread Scheduling•Thread Pool)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:02:00+09:00"
 tags: [notes-software]
 weight: 8
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 무분별한 스레드 생성/소멸 오버헤드를 막고 유한 자원 범위 내에서 작업을 병렬 스케줄링 재사용하는 **스레드 풀(Thread Pool)**
-- 배경/필요성: 요청(Request)당 1개 스레드를 비동기 생성 시 발생하는 스택 메모리(Default 1MB) 고갈(OOM) 및 컨텍스트 스위칭 과부하 극복 요구성
+- 배경/필요성: 요청별 스레드 생성은 부하 급증 시 **메모리•전환 비용** 증가
 
 #### 한줄 요약
 
@@ -43,7 +43,7 @@ extra:
 
 </details>
 
-- 스레드 갱신 생성 및 소멸 파이프라인 수반 오버헤드 소멸
+- 워커 재사용으로 스레드 생성•소멸 비용 감소
 - **Core/Max Pool Size** 및 **Task Queue** 용량 기반 자원 캡슐화
 - 과부하 시 **RejectedExecutionHandler**를 통한 상위 시스템 **Backpressure(역압력)** 전파
 
@@ -61,13 +61,9 @@ extra:
 </details>
 
 ```text
-                [작업 제출자]
-                      |
               [스레드 풀 실행기]
                  /           \
         [유한 작업 큐]   [워커 스레드]
-                              |
-                    [운영체제 스케줄러]
 ```
 
 선의 의미: 작업 제출자가 스레드 풀 실행기로 Task를 제출하면, 유한 작업 큐 래칭 및 유휴 워커 스레드로 할당되어 OS 커널 스케줄러에 의해 CPU로 인가되는 아키텍처.
@@ -150,9 +146,9 @@ extra:
 | 스레드 풀 유형 | 특징 및 매커니즘 | 주요 용도 | 장단점 |
 |:---|:---|:---|:---|
 | **Fixed Thread Pool** | 고정된 스레드 수 유지, 무한/유한 Linked Queue | 일반적인 WAS, 백엔드 서버 | 메모리 한계 내 안정적 / 대기 지연 |
-| **Cached Thread Pool** | 필요 시 스레드 무제한 확장 (60초 유휴 시 해제) | 단발성 초저지연 비동기 처리 | 고속 응답 / 과부하 시 OOM 위험 |
+| **Cached Thread Pool** | 필요 시 워커 확장과 유휴 워커 회수 | 짧은 비동기 작업 | 낮은 대기 / 무제한 확장 위험 |
 | **Scheduled Thread Pool** | 주기적 작업 실행 (Delay/Rate 스케줄링) | 주기적 배치, 헬스체크 | 시간 스케줄링 최적화 |
-| **ForkJoinPool** | **Work-Stealing** (놀고 있는 워커가 타 큐 작업 훔침) | CPU-bound 병렬 딥러닝/알고리즘 | 최상급 CPU 가용률 / 순서 미보장 |
+| **ForkJoinPool** | 워커별 덱 기반 **Work-Stealing** | 분할 가능한 CPU 병렬 작업 | 부하 균형 / 블로킹 작업 주의 |
 
 #### 한줄 요약
 
@@ -168,7 +164,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 무한 Queue(Unbounded Queue) 적용으로 OOM 발생 | **ArrayBlockingQueue(유한 큐)** 한계 설정 | 메모리 고갈 원천 차단 |
+| 무한 큐 증가로 메모리 고갈 | **유한 작업 큐**와 제출 타임아웃 설정 | 메모리 사용량 상한 확보 |
 | 풀 포화 시 유입 요청이 무시되어 트랜잭션 유실 | **CallerRunsPolicy** 포화 정책 적용 | 자연스러운 **Backpressure** 전파 |
 | I/O 블로킹 작업과 CPU 계산 작업의 동시 믹싱 | CPU-bound 풀(Core 수 비례)과 I/O-bound 풀 분리 | CPU 바운드 스레드 유휴 예방 |
 
@@ -186,7 +182,7 @@ extra:
 
 </details>
 
-- **스레드 풀 용량 산정 공식**에 따라 워크로드 속성(CPU vs I/O bound) 및 타깃 TPS를 분석하여 **Thread Pool** 용량 튜닝 적용
+- CPU 작업은 코어 기준 풀, I/O 작업은 **별도 유한 풀•큐** 선택
 
 #### 한줄 요약
 

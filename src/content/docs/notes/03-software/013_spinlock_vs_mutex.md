@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 스핀락 vs 뮤텍스 (Spinlock vs Mutex)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:17:00+09:00"
 tags: [notes-software]
 weight: 13
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 임계 구역(Critical Section) 점유 실패 시 대기 스레드의 CPU 처리 매커니즘(Busy Waiting vs Sleep/Block)에 따른 대표적 동기화 2대 분류인 **스핀락 vs 뮤텍스**
-- 배경/필요성: 짧은 임계 구역의 문맥 전환(Context Switch) 오버헤드 억제(Spinlock) 및 긴 임계 구역의 CPU 자원 낭비 방지(Mutex) 요구성
+- 배경/필요성: 단일 대기 방식은 짧은 잠금의 **전환 비용**과 긴 스핀 낭비 유발
 
 #### 한줄 요약
 
@@ -38,13 +38,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Busy Waiting (바쁜 대기)**: CPU 코어가 100% 점유율을 소모하며 락 상태 변수를 지속 루프 검사하는 동작.
+- **Busy Waiting (바쁜 대기)**: 실행 상태를 유지하며 락 상태를 반복 검사하는 동작.
 - **Context Switch Threshold**: 문맥 전환에 소모되는 대략적인 시간 비용(약 수 μs 수치)으로, 임계 구역 실행시간과의 비교 기준점.
 
 </details>
 
-- 문맥 전환(Context Switch) 오버헤드 0% 및 초저지연 락 획득 (**Spinlock**)
-- 락 획득 실패 시 CPU를 회수하여 시스템 전체 자원 가용성(Utilization) 보장 (**Mutex**)
+- 수면 전환 없이 락을 반복 검사하는 **Spinlock**
+- 획득 실패 시 대기 큐에서 수면하는 **Mutex**
 - **Critical Section** 점유 시간 크기 대 **Context Switch Threshold** 지연의 트레이드오프
 
 #### 한줄 요약
@@ -98,22 +98,22 @@ extra:
 ┌──────────────────────────────┐
 │ 1. 수면 가능성 판정         │
 └───────┬──────────────────────┘
-        ├─ 수면 불가 ───────────▶ [스핀락]
+        ├─ 수면 불가 ───────────▶ [3. 스핀락 선택]
         │ 수면 가능
         ▼
 ┌──────────────────────────────┐
 │ 2. 보유시간•전환비용 비교   │
 └───────┬──────────────────────┘
-        ├─ 보유시간 < 전환비용 ─▶ [스핀락]
-        └─ 보유시간 ≥ 전환비용 ─▶ [뮤텍스]
+        ├─ 보유시간 < 전환비용 ─▶ [3. 스핀락 선택]
+        └─ 보유시간 ≥ 전환비용 ─▶ [4. 뮤텍스 선택]
 ```
 
 ### 동작 원리
 
 1. **수면 가능성 판정**: 현재 런타임 문맥이 **Sleep-capable Context**(스레드)인지 수면 불가(인터럽트 ISR)인지 검증.
 2. **보유시간·전환비용 비교**: 임계 구역 점유 시간 $T_{\text{hold}}$ 과 문맥 전환 비용 $T_{\text{ctx}}$ 비교.
-3. **Spinlock 선택**: $T_{\text{hold}} < T_{\text{ctx}}$ 이거나 ISR 환경 시 **Busy Waiting Spinlock** 할당.
-4. **Mutex 선택**: $T_{\text{hold}} \ge T_{\text{ctx}}$ 이고 스레드 환경 시 **Sleep/Block Mutex** 할당.
+3. **스핀락 선택**: 수면 불가 또는 짧은 보유 구간에 적용
+4. **뮤텍스 선택**: 수면 가능하고 긴 보유 구간에 적용
 
 #### 한줄 요약
 
@@ -123,16 +123,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Interrupt Service Routine (ISR)**: 하드웨어 인터럽트 수용 코드로, 커널 수면(Sleep)이 절대 불가하여 반드시 Spinlock을 사용해야 하는 영역.
+- **Interrupt Service Routine (ISR)**: 하드웨어 인터럽트를 처리하며 일반적인 수면 락을 사용할 수 없는 실행 문맥.
 
 </details>
 
 | 비교 항목 | Spinlock (스핀락) | Mutex (뮤텍스) |
 |:---|:---|:---|
-| 대기 매커니즘 | **Busy Waiting** (`while` 루프 CPU 100% 상주) | **Sleep / Block** (커널 대기 큐 이송) |
-| 문맥 전환 오버헤드 | **0%** (문맥 전환 미발생) | 발생 (Context Switch 지연 수반) |
+| 대기 메커니즘 | 실행 상태의 **Busy Waiting** | 대기 큐에서 **Sleep / Block** |
+| 전환 비용 | 락 대기 자체는 수면 전환 없음 | 수면•깨움 전환 비용 발생 |
 | 적합한 임계 구역 | 극도로 짧은 연산 구역 ($T_{\text{hold}} < T_{\text{ctx}}$) | 긴 연산, I/O 작업 포함 구역 ($T_{\text{hold}} \ge T_{\text{ctx}}$) |
-| ISR 수용 여부 | **인터럽트 핸들러(ISR) 사용 가능** | **인터럽트 핸들러(ISR) 사용 불가 (Panic)** |
+| ISR 수용 여부 | 커널 규칙에 맞는 **IRQ-safe 스핀락** 사용 | 수면 불가 문맥에서는 사용 불가 |
 
 #### 한줄 요약
 

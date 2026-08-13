@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: 교착상태 조건•예방•회피•탐지•복구 (Deadlock)
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T13:05:00+09:00"
 tags: [notes-software]
 weight: 9
 extra:
@@ -26,8 +26,8 @@ extra:
 
 </details>
 
-- 정의/개념: 자원 경쟁 환경에서 2개 이상의 스레드가 환형 의존성(Circular Dependency)을 형성하여 시스템 전체가 영구 정지되는 **교착상태 (Deadlock)**
-- 배경/필요성: 멀티스레드 및 분산 시스템 상에서 상호 배제 락 점유 시 발생하는 무한 블로킹 차단 및 시스템 가용성(Availability) 보장 요구성
+- 정의/개념: 실행 주체들이 서로의 자원을 기다려 진행하지 못하는 **교착상태**
+- 배경/필요성: 독립적인 락 획득 순서는 **순환 대기**를 형성할 수 있음
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - **Coffman 4대 필요조건** 동시 성립 시 교착상태 발동
-- **자원 할당 그래프(Resource Allocation Graph)** 상의 방향성 순환 사이클(Directed Cycle) 형성
+- 단일 인스턴스 자원은 **자원 할당 그래프** 순환으로 판정
 - 예방(Prevention), 회피(Avoidance), 탐지(Detection), 복구(Recovery) 4단계 방어 전략
 
 #### 한줄 요약
@@ -76,7 +76,7 @@ extra:
 | 자원 관리자 (Resource Manager) | 프로세스별 자원 요청/할당/반납 래칭 및 락 관리 |
 | 예방 규칙 (Prevention Rules) | Coffman 4대 조건 중 최소 1개 이상을 시스템 설계 단계에서 무력화 |
 | 안전성 검사 (Banker's Algorithm) | 동적 할당 시 **Safe State(안전 상태)** 유지 여부를 미리 계산하여 승인 |
-| 대기 그래프 (Wait-for Graph) | 런타임 시 $O(V^2)$ 사이클 탐지 알고리즘(Tarjan/DFS)으로 교착 포획 |
+| 대기 그래프 (Wait-for Graph) | DFS•강연결요소 분석으로 **대기 순환** 탐지 |
 | 복구 관리자 (Recovery Manager) | 교착 포획 시 희생자(Victim) 프로세스 강제 종료 또는 Checkpoint Rollback |
 
 #### 한줄 요약
@@ -139,8 +139,8 @@ extra:
 |:---|:---|:---|:---|
 | 접근 방식 | 4대 조건 중 1개 사전 제어 | 동적 자원 요청 시 **Safe State** 계산 | 런타임 교착 포획 후 사후 해제 |
 | 구현 기법 | **Lock Ordering** (환형 대기 제거) | **Banker's Algorithm** (은행가) | **Wait-for Graph** / Process Kill |
-| 자원 활용률 | 매우 낮음 (자원 낭비 심함) | 양호함 (동적 제어) | 최고 (평시 제약 없음) |
-| 오버헤드 | 제로 (설계 단 결정) | 높음 (매 요청 시 Max Claim 계산) | 중/상 (사후 롤백/종료 비용 발생) |
+| 자원 활용률 | 사전 제약으로 낮아질 수 있음 | 안전 상태 범위 내 할당 | 평시 제약이 적음 |
+| 오버헤드 | 규칙 준수와 동시성 제약 | 요청별 안전성 계산 | 탐지 주기와 복구 비용 |
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: 세마포어•뮤텍스•모니터 (Semaphore Mutex Monitor)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:14:00+09:00"
 tags: [notes-software]
 weight: 12
 extra:
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 공유 자원 경쟁 조건(Race Condition)을 차단하기 위해 임계 구역(Critical Section) 진입/해제 메커니즘을 제공하는 대표적 동기화 프리미티브 3종인 **세마포어·뮤텍스·모니터**
-- Background/필요성: 멀티스레드 환경의 비동기 동시 쓰기(Concurrent Write) 시 유발되는 데이터 오염 차단 및 락 획득/반납 제어 요구성
+- 배경/필요성: 동시 읽기•수정은 갱신 유실 등 **경쟁 조건** 발생
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - 카운팅 정수 기반 $N$개 동시 억세스 허용(**Counting Semaphore**) 및 소유권 부재
-- **Ownership**을 보유하여 락 획득 주체만이 解除 유효한 단일 상호 배제(**Mutex**)
+- **Ownership**을 보유해 획득한 주체만 해제하는 **Mutex**
 - 언어 차원의 객체 지향 캡슐화 및 **Condition Variable (wait/signal)** 자동 연동(**Monitor**)
 
 #### 한줄 요약
@@ -56,18 +56,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Spinlock vs Mutex**: 락 획득 시까지 CPU를 100% 사용하며 계속 무한 대기(Spinlock)할지, 락 획득 실패 시 커널 Wait Queue로 Block(Mutex)될지의 차이.
+- **Spinlock vs Mutex**: 락 대기 중 반복 검사할지, 실행을 중단하고 대기 큐에서 잠들지의 차이.
 
 </details>
 
 ```text
-            [실행 스레드]
-                   |
-        [동기화 프리미티브] -- [대기 큐]
-                   |
-              [임계 구역]
-                   |
-              [공유 자원]
+[동기화 프리미티브]
+ ├─ Semaphore
+ ├─ Mutex Lock
+ └─ Monitor
+     ├─ Entry Queue
+     └─ Condition Variable
 ```
 
 선의 의미: 실행 스레드가 동기화 프리미티브(Semaphore/Mutex/Monitor)를 거쳐 락을 획득 시 임계 구역 진입, 실패 시 대기 큐로 블록 차단되는 아키텍처.
@@ -166,7 +165,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 세마포어 $P()$/$V()$ 순서 오적용에 따른 **Deadlock** | 언어 고수준 **Monitor / synchronized** 적용 | 실수에 의한 데드락 사전 예방 |
+| 세마포어 연산 순서 오류에 따른 **Deadlock** | 구조화된 잠금과 **Monitor** 적용 | 잠금 누락과 순서 오류 감소 |
 | Condition Variable **Spurious Wakeup** 현상 발생 | `while(!condition) { wait(); }` 조건 재검사 구문 적용 | 오작동 깨움 방지 |
 | 스레드 예외(Exception) 발생 시 Mutex 락 미반납 | **try - finally { unlock(); }** / RAII 패턴 적용 | 락 고갈 예방 |
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: 다중프로그래밍•다중처리 (Multiprogramming•Multiprocessing)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:29:00+09:00"
 tags: [notes-software]
 weight: 17
 extra:
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 단일 코어의 시분할 Interleaving 교대 연산 기법인 **Multiprogramming** 및 다중 코어의 물리적 동시 병렬 연산 기법인 **Multiprocessing**
-- 배경/필요성: CPU 장치의 I/O 대기시간 낭비 소멸 및 현대 멀티코어(Symmetric Multiprocessing, SMP) 하드웨어의 수평적 스케일아웃 성능 극대화 요구성
+- 배경/필요성: 단일 작업 실행은 I/O 대기와 유휴 코어의 **연산 자원 낭비**
 
 #### 한줄 요약
 
@@ -73,12 +73,13 @@ extra:
 
 선의 의미: 작업 집합이 준비 큐를 거쳐 커널 스케줄러에 의해 단일/다중 CPU 코어로 배정 인가되고 공유 메모리를 공유하는 아키텍처.
 
-| 비교 항목 | Multiprogramming (다중프로그래밍) | Multiprocessing (다중처리) |
-|:---|:---|:---|
-| 필요 하드웨어 | 단일 CPU 코어 (Single CPU Core) | 2개 이상의 멀티 CPU 코어 (Multi Core / SMP / NUMA) |
-| 동시성 매커니즘 | **Interleaving** (시분할 교대 실행, Context Switch) | **Parallel Processing** (물리적 진정한 동시 실행) |
-| 목적 | CPU 유휴 시간(Idle Time) 소멸 및 가용률 극대화 | 처리 능력(Throughput) 및 연산 속도 수평적 극대화 |
-| 핵심 이슈 | Context Switching 오버헤드, I/O Wait 관리 | **Cache Coherence (MESI)**, Lock Contention, **Amdahl's Law** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 작업 집합 | 실행 가능한 프로세스•스레드 보관 |
+| 준비 큐 | CPU 할당 대기 작업을 정책 순서로 정렬 |
+| 스케줄러 | 작업을 단일 또는 복수 **코어**에 배정 |
+| 코어 1•2 | 교대 실행 또는 물리적 **병렬 실행** 수행 |
+| 공유 메모리 | 병렬 작업의 데이터 공유와 일관성 제공 |
 
 #### 한줄 요약
 
@@ -98,7 +99,7 @@ extra:
 [작업 A 실행]
        │
        ▼
-[I/O 대기 전환]
+[1. I/O 대기•교대 실행]
        │
        ▼
 [작업 B 교대 실행]
@@ -111,7 +112,7 @@ extra:
 [병렬 작업 집합]
        │
        ▼
-[코어별 디스패치]
+[2. 코어별 병렬 디스패치]
        │
        ▼
 [여러 코어 동시 실행]
@@ -122,8 +123,8 @@ extra:
 
 ### 동작 원리
 
-1. **Multiprogramming 파이프라인**: 작업 A가 I/O System Call 인가 시 **Blocked State** 전환 $\to$ OS 스케줄러가 **Context Switch** 인가 $\to$ 작업 B로 교대 디스패치 연산 (CPU Idle 차단).
-2. **Multiprocessing 파이프라인**: 작업을 코어별(Core 1, Core 2)로 할당 $\to$ 물리적 동시 병렬 명령 연산 수행 $\to$ **Cache Coherence Protocol (MESI)** 갱신 및 결과 결합.
+1. **I/O 대기·교대 실행**: 작업 A 대기 중 작업 B로 문맥 전환
+2. **코어별 병렬 디스패치**: 분할 작업을 복수 코어에 동시 배정
 
 #### 한줄 요약
 
@@ -176,7 +177,7 @@ extra:
 
 </details>
 
-- **실행 아키텍처 선택 기준**에 따라 범용 OS는 **Multiprogramming + Multiprocessing** 융합 아키텍처 채택
+- I/O 대기는 **다중프로그래밍**, 병렬 가능 작업은 **다중처리** 적용
 
 #### 한줄 요약
 

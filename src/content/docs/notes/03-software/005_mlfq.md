@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: 멀티레벨 피드백 큐 MLFQ (Multilevel Feedback Queue)
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:52:00+09:00"
 tags: [notes-software]
 weight: 5
 extra:
@@ -23,12 +23,12 @@ extra:
 
 - **MLFQ(Multilevel Feedback Queue)**: 사전에 작업 실행시간(CPU Burst)을 알 수 없는 환경에서, CPU 할당량 소진 이력을 바탕으로 프로세스의 큐(Queue) 우선순위를 강등/승격 제어하는 선점 스케줄링.
 - **Priority Boost**: 하위 큐에 잔류하여 기아(Starvation) 상태에 빠진 프로세스들을 일정 주기($S$)마다 최상위 큐로 일괄 승격시키는 보정 메커니즘.
-- **Gaming Defense**: I/O 연산을 고의적으로 99% 시점에 인가하여 상위 큐를 무한 독점하려는 꼼수를 막기 위해, 누적 CPU 사용시간(CPU Accounting)을 차감 기록하는 방어 정책.
+- **Gaming Defense**: 할당량 소진 직전 CPU를 반납해 강등을 피하는 행위를 누적 사용시간으로 방지하는 정책.
 
 </details>
 
 - 정의/개념: 프로세스의 실행 동작 이력(I/O-bound vs CPU-bound)에 따라 우선순위 레벨을 자율 피드백 조율하는 대표적 실무 스케줄링 정책인 **MLFQ(Multilevel Feedback Queue)**
-- 배경/필요성: SJF의 최소 평균 대기시간 장점과 RR의 초저지연 대화형(Interactive) 응답성 장점을 결합하고, 정보(CPU Burst) 사전 부재 문제 해결 요구성
+- 배경/필요성: CPU 버스트를 모르면 **SJF 우선순위 사전 결정 불가**
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 
 - 복수의 차등 타임 슬라이스 큐 계층(Q0 > Q1 > Q2) 형성
 - 신규 프로세스의 최상위 큐(Q0) 인가 및 타임 슬라이스 소진 시 하위 큐로의 **Demotion(강등)**
-- 주기적 **Priority Boost**를 통한 기아(**Starvation**) 완전 방지 및 누적 accounting 기반 **Gaming Defense**
+- 주기적 **Priority Boost**로 기아 완화와 누적 사용량 기반 방어
 
 #### 한줄 요약
 
@@ -119,11 +119,11 @@ extra:
 
 ### 동작 원리
 
-1. **신규 등록**: 생성된 프로세스를 최상위 큐(Q0)에 신규 배치.
-2. **최상위 비어 있지 않은 큐 선택**: Q0 -> Q1 -> Q2 순으로 비어있지 않은 최상위 큐 선택 디스패치.
-3. **CPU 사용 이력 판정**: 주어진 타임 슬라이스 내 I/O 반납(대화형) vs 100% 소진(CPU-bound) 검증.
+1. **최상위 비어 있지 않은 큐 선택**: 우선순위가 가장 높은 큐에서 작업 선택
+2. **큐별 시간 할당량 실행**: 선택한 작업에 해당 큐의 할당량 부여
+3. **CPU 사용 이력 판정**: 조기 반납과 할당량 소진 여부 판정
 4. **하위 큐 강등**: 타임 슬라이스를 소진한 CPU-bound 프로세스를 하위 큐(Q1/Q2)로 **Demotion**.
-5. **우선순위 상향**: **Priority Boost** 타이머 만료 시 하위 큐의 모든 프로세스를 Q0로 일괄 승격하여 **Starvation** 차단.
+5. **우선순위 상향**: 상향 주기 도달 시 작업을 상위 큐로 승격
 
 #### 한줄 요약
 
@@ -141,7 +141,7 @@ extra:
 |:---|:---|:---|
 | 큐 간 이동 유무 | 동적 이동 가능 (**Demotion & Priority Boost**) | 이동 불가 (정적 고정 큐 배치) |
 | 프로세스 정보 요구 | 필요 없음 (실행 이력 기반 동적 학습) | 생성 시점에 프로세스 타입(System/Interactive/Batch) 지정 필수 |
-| 유연성/기아 예방 | 매우 뛰어남 (**Priority Boost**로 기아 차단) | 낮음 (하위 Batch 큐의 기아 지속 위험 상존) |
+| 유연성•기아 대응 | **Priority Boost**로 장기 대기 완화 | 하위 큐의 기아 위험 |
 
 #### 한줄 요약
 
@@ -157,9 +157,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 하위 큐에 위치한 CPU-bound 프로세스의 **Starvation** | 일정 주기($S$)마다 **Priority Boost** 적용 | 기아 현상 완전 예방 |
+| 하위 큐 CPU 집중 작업의 **Starvation** | 일정 주기마다 **Priority Boost** 적용 | 최대 대기시간 제한 |
 | 고의적 I/O 연산 인가에 의한 **Gaming the Scheduler** | 큐 진입 시 타임 슬라이스 리셋 금지 및 누적 CPU accounting 적용 | 스케줄러 꼼수 방지 |
-| 하위 큐로 내려갈 때의 잦은 **Context Switch** 오버헤드 | 하위 큐로 갈수록 Time Slice 길이를 2배로 확장 (**Time Slice Scaling**) | 유효 계산 스루풋 확보 |
+| 짧은 할당량으로 잦은 **문맥 전환** | 하위 큐의 시간 할당량을 점진적으로 확대 | 계산 처리량 확보 |
 
 > 사례: BSD 및 전통적 UNIX OS 커널 상의 **MLFQ 스케줄러** 튜닝 및 Priority Boost 파라미터 적용
 
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- **MLFQ 파라미터 튜닝 기준**에 따라 대화형 작업과 계산 작업을 자동 분류하고 초저지연 응답을 위해 **MLFQ** 도입
+- 버스트를 모르는 혼합 작업은 **MLFQ**, 고정 작업군은 **MLQ** 선택
 
 #### 한줄 요약
 

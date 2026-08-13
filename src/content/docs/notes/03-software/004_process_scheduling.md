@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "프로세스 스케줄링 알고리즘: FCFS•SJF•RR•MLFQ•CFS (Process Scheduling)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:49:00+09:00"
 tags: [notes-software]
 weight: 4
 extra:
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 시스템 응답시간, 처리량(Throughput), CPU 이용률 및 공정성을 극대화하기 위해 Ready Queue 프로세스를 선점/비선점 디스패치하는 **프로세스 스케줄링 알고리즘**
-- 배경/필요성: I/O-bound 프로세스의 응답시간 보장 및 CPU-bound 프로세스의 고스루풋 연산 요구를 균형 있게 충족시키기 위한 커널 메커니즘
+- 배경/필요성: 단일 대기열 정책은 짧은 작업의 **응답 지연**과 기아 유발
 
 #### 한줄 요약
 
@@ -57,7 +57,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **vruntime(Virtual Runtime)**: CFS 스케줄러에서 프로세스의 실제 실행 시간을 우선순위 가중치(Nice value)로 보정한 가상 실행 시간.
-- **Red-Black Tree**: CFS 스케줄러에서 가장 작은 vruntime을 갖는 노드를 $O(\log N)$ 최저 시간 복잡도로 빠르게 탐색하기 위해 사용하는 자가 균형 이진 탐색 트리.
+- **Red-Black Tree**: CFS에서 실행 주체를 vruntime 순으로 관리하던 자가 균형 이진 탐색 트리.
 
 </details>
 
@@ -138,10 +138,10 @@ extra:
 | 스케줄링 알고리즘 | 선점 유무 | 핵심 매커니즘 | 주요 장단점 |
 |:---|:---|:---|:---|
 | **FCFS** | 비선점 | FIFO 큐 기반 도착 순서대로 점유 | 구현 단순 / **Convoy Effect** 발생 |
-| **SJF** | 비선점/선점 | 예상 CPU Burst Time이 가장 짧은 프로세스선택 | 평균 대기시간 최적 / **Starvation** 발생 |
+| **SJF/SRTF** | 비선점/선점 | 예상 CPU 버스트가 가장 짧은 작업 선택 | 추정이 정확하면 평균 대기시간 최소 / 기아 위험 |
 | **RR** | 선점형 | **Time Quantum** 기반 순환 선점 점유 | 대화형 응답성 우수 / Time Slice 튜닝 필수 |
 | **MLFQ** | 선점형 | 큐별 슬라이스 차등화 및 피드백 강등/승격 | CPU/IO Bound 적응형 / 큐 튜닝 복잡성 |
-| **CFS** | 선점형 | **vruntime** 최소 노드를 Red-Black Tree에서 래칭 | 완전한 공정성 / 복잡한 가중치 계산 |
+| **CFS** | 선점형 | 가중 **vruntime**으로 CPU 몫 조정 | 비례적 공정성 / 가중치 계산 필요 |
 
 #### 한줄 요약
 
@@ -158,8 +158,8 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | SJF/MLFQ 환경에서 CPU-bound 프로세스의 **Starvation** | **Aging** 기법 및 periodic queue priority boost 적용 | 기아 현상 예방 |
-| RR 스케줄링 시 너무 짧은 Time Quantum으로 인한 성능 저하 | Time Quantum을 Context Switch 오버헤드의 100배 이상으로 튜닝 | CPU 유효 가용률 극대화 |
-| 특정 프로세스의 독점에 따른 타 프로세스 응답성 저하 | **CFS (Nice Value)** 가중치 적용 및 vruntime 공정 스케줄링 | 시스템 공정성 보장 |
+| RR의 짧은 시간 할당량으로 전환 비용 증가 | 응답 목표와 측정값으로 **시간 할당량** 조정 | 응답성과 처리량 균형 |
+| 특정 프로세스 독점으로 응답성 저하 | **Nice 값**과 CPU 할당량 제한 적용 | CPU 몫 편중 완화 |
 
 > 사례: Linux 커널 **CFS** 기반 `nice -n -10` 우선순위 제어 및 **sysctl sched_latency_ns** 튜닝
 

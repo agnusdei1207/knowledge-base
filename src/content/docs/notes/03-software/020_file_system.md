@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:40:00+09:00"
 tags: [notes-software]
 weight: 20
 extra:
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 저장 매체 블록에 파일 이름, 디렉터리, 메타데이터(Metadata) 및 블록 포인터를 구조화 매핑하여 데이터 관리 및 장애 일관성을 보장하는 **파일 시스템(File System)**
-- 배경/필요성: raw 디스크 섹터 단위의 무작위 억세스 난해성 극복, OS별 파일 권한(ACL) 및 갑작스러운 전원 차단 시 파일 오염 복구(Journaling/COW) 요구성
+- 배경/필요성: 원시 블록 장치는 파일 이름•권한•**장애 복구 정보 부재**
 
 #### 한줄 요약
 
@@ -73,13 +73,13 @@ extra:
 
 선의 의미: VFS 레이어 아래로 각 OS 전용 파일 시스템 메타데이터 및 블록 할당자와 Journaling/COW 일관성 관리자가 파이프라인 형성 아키텍처.
 
-| 구분 항목 | FAT32 / exFAT | NTFS | ext4 | APFS |
-|:---|:---|:---|:---|:---|
-| 운영체제 | 범용 임베디드, 이동식 | Windows | Linux | macOS, iOS |
-| 메타데이터 | **FAT (Linked List)** | **MFT (Master File Table)** | **Inode (Extent Tree)** | **B-Tree (COW)** |
-| 장애 복구 | 미지원 (chkdsk 필요) | **Journaling** (USN Journal) | **Journaling** (JBD2) | **Redirect-on-Write (COW)** |
-| 단일 파일 제한 | FAT32: 4GB (exFAT: 16EB) | 16TB | 16TB | 8EB |
-| 주요 기능 | 단순성, 임베디드 호환성 | ACL, EFS 암호화, VSS | Extent 할당, Fast fsck | Atomic Save, Space Sharing, Snapshot |
+| 구성요소 | 책임 |
+|:---|:---|
+| 애플리케이션 | 파일 경로와 읽기•쓰기 요청 제출 |
+| 가상 파일 시스템 | 파일 시스템별 연산을 공통 **VFS**로 추상화 |
+| 디렉터리•메타데이터 | 이름•권한•크기와 블록 위치 관리 |
+| 블록 할당 관리자 | 유휴 블록•**Extent** 할당과 회수 |
+| 일관성 관리자 | 저널링•COW로 장애 후 복구 상태 제공 |
 
 #### 한줄 요약
 
@@ -137,9 +137,9 @@ extra:
 | 기능 비교 | Journaling File System (ext4/NTFS) | COW File System (APFS/ZFS/Btrfs) |
 |:---|:---|:---|
 | 데이터 덮어쓰기 | 기존 블록 위치에 직접 In-Place Overwrite | 신규 유휴 블록에 Write 후 포획 스위치 (**Out-of-Place**) |
-| 스냅샷 성능 | Copy-on-Write 흉내로 느림 / 오버헤드 큼 | **즉각적 (Zero-Copy Instant Snapshot)** 생성 |
-| 디스크 단편화 | 관리 우수 (Extent 연속 할당 유지) | COW 특성 상 조각화(Fragmentation) 증대 가능 |
-| 무결성 검증 | 메타데이터만 체크섬 검증 | **데이터 + 메타데이터 전체 Checksum** 검증 (Self-Healing) |
+| 스냅샷 특성 | 별도 계층•볼륨 기능 필요 | 블록 공유 기반 **스냅샷** 구현 용이 |
+| 단편화 특성 | Extent와 재할당 정책에 좌우 | 갱신 블록 분산 가능 |
+| 무결성 검증 | 구현별 저널•체크섬 범위 상이 | 구현별 데이터•메타데이터 체크섬 범위 상이 |
 
 #### 한줄 요약
 
@@ -155,9 +155,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 전원 누출 시 파일 메타데이터 붕괴 | **Journaling (data=ordered 또는 journal)** 모드 적용 | 시스템 무결성 보장 |
-| SSD 매체에서 잦은 덮어쓰기로 인한 수명 단축 | **COW 기반 APFS/Btrfs** 및 **TRIM** 명령어 인가 | SSD 낸드 래치 수명 연장 |
-| DB 엔진 구동 시 OS Page Cache 이중 버퍼링 | **O_DIRECT** 플래그 오픈 및 파일 시스템 버퍼링 바이패스 | DB 억세스 속도 극대화 |
+| 전원 차단 시 메타데이터 불일치 | 워크로드에 맞는 **저널링•fsync** 적용 | 복구 가능 시점 명확화 |
+| SSD의 쓰기 증폭과 공간 회수 지연 | **TRIM**과 COW 공간 회수 정책 조정 | 여유 블록 확보와 쓰기 증폭 완화 |
+| DB와 페이지 캐시의 이중 버퍼링 | 검증 후 **O_DIRECT** 또는 캐시 사용 선택 | 메모리 중복과 지연 변동 조절 |
 
 > 사례: Linux **ext4 / XFS** 서버 튜닝 및 macOS **APFS Container** 동적 파티셔닝
 

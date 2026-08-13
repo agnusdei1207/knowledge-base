@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "가상화: Type 1•Type 2 하이퍼바이저 (Virtualization•Hypervisor)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:33:00+09:00"
 tags: [notes-software]
 weight: 18
 extra:
@@ -22,13 +22,13 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Hypervisor (VMM, Virtual Machine Monitor)**: 물리 하드웨어 자원 위에 위치하여 하드웨어를 추상화하고 여러 개의 게스트 OS(VM)가 개별 독립 자원으로 구동될 수 있도록 동적 자원 배분 및 스케줄링을 중재하는 소프트웨어 레이어.
-- **Type 1 (Bare-Metal) Hypervisor**: 물리 하드웨어(Bare-Metal) 바로 위에 직접 설치되어 중간 Host OS 없이 최고 수준의 성능과 격리성을 제공하는 하이퍼바이저.
+- **Type 1 (Bare-Metal) Hypervisor**: 물리 하드웨어 제어 계층에서 직접 가상머신을 관리하는 하이퍼바이저.
 - **Type 2 (Hosted) Hypervisor**: 기존 Host OS(Windows, Linux 등) 위에서 응용 프로그램 형태로 구동되는 하이퍼바이저.
 
 </details>
 
 - 정의/개념: 단일 물리 하드웨어 자원을 추상화(Abstraction)하여 복수의 격리된 가상머신(Virtual Machine) 환경을 제공하는 커널 엔진인 **Hypervisor(VMM) 및 Type 1/Type 2 구분 구조**
-- 배경/필요성: 베어메탈 서버의 자원 유휴 소멸, 멀티테넌시(Multi-tenancy) 클라우드 인프라 구축 및 보안 격리성 보장 요구성
+- 배경/필요성: 서버별 운영체제 전용 배치는 **자원 유휴와 운영 단편화** 유발
 
 #### 한줄 요약
 
@@ -43,7 +43,7 @@ extra:
 
 </details>
 
-- 게스트 OS 간 완벽한 자원 격리(Fault & Security Isolation)
+- 게스트 OS별 자원•장애 **격리 경계** 제공
 - **Intel VT-x / AMD-V** 하드웨어 가상화 지원 및 **EPT(Extended Page Table)** 주소 변환
 - **Type 1 (고성능/고격리)** vs **Type 2 (개발/편의성)** 간 실행 레이어 및 문맥 전환 오버헤드 차이
 
@@ -74,12 +74,13 @@ extra:
 
 선의 의미: Type 1은 Bare-metal 하드웨어 직결 레이어인 반면, Type 2는 Host OS 인터페이스를 거쳐 드라이버 I/O 및 시스템 콜을 우회 중재하는 아키텍처.
 
-| 구분 항목 | Type 1 (Bare-Metal / Native) | Type 2 (Hosted) |
-|:---|:---|:---|
-| 구동 레이어 | **물리 하드웨어 위 직접 구동** (No Host OS) | **Host OS 위 응용 프로그램으로 구동** |
-| 대표 솔루션 | **VMware ESXi, Xen, KVM, Microsoft Hyper-V** | **VMware Workstation, VirtualBox** |
-| 오버헤드 / 성능 | 오버헤드 매우 낮음, 베어메탈 급 고성능 | Host OS 우회로 인한 오버헤드 큼 |
-| 보안 / 안정성 | 매우 높음 (Host OS 취약점 영향 없음) | 상대적으로 낮음 (Host OS 패치/장애 파급) |
+| 구성요소 | 책임 |
+|:---|:---|
+| 가상머신 집합 | 독립 게스트 OS와 가상 하드웨어 실행 |
+| Type 1 하이퍼바이저 | 하드웨어 위에서 **VM 자원** 직접 중재 |
+| Type 2 하이퍼바이저 | 호스트 OS 서비스로 **VM 실행** 중재 |
+| 호스트 OS | Type 2의 장치 드라이버와 시스템 콜 제공 |
+| 물리 하드웨어 | CPU•메모리•I/O 자원 제공 |
 
 #### 한줄 요약
 
@@ -94,21 +95,27 @@ extra:
 </details>
 
 ```text
-Type 1 제어 경로
-
-[게스트 직접 실행] ──► [민감 명령 발생] ──► [VM Exit] ──► [Type 1 직접 중재] ──► [VM Entry] ──► [게스트 복귀]
-
-Type 2 제어 경로
-
-[게스트 직접 실행] ──► [민감 명령 발생] ──► [VM Exit] ──► [Type 2 호스트 경유] ──► [Host OS System Call] ──► [VM Entry]
+[게스트 요청]
+      │
+      ▼ 1. 게스트 명령 실행
+[민감 사건 발생]
+      │
+      ▼ 2. VM Exit
+[하이퍼바이저]
+      │
+      ▼ 3. 자원 중재•에뮬레이션
+[게스트 상태]
+      │
+      ▼ 4. VM Entry
+[게스트 복귀]
 ```
 
 ### 동작 원리
 
-1. **Guest Execution**: 일반 비민감 명령어는 물리 CPU 상에서 하드웨어 지원(**Intel VT-x**)으로 게스트가 직결 수행.
+1. **게스트 명령 실행**: 비민감 명령은 게스트 문맥에서 직접 실행
 2. **VM Exit**: 특권 명령어(I/O, CR3 페이지 매핑 변경 등) 시 하드웨어 트랩발동 및 **VM Exit** 전환.
-3. **Hypervisor Emulation**: Type 1은 하이퍼바이저가 물리 자원 직접 조율, Type 2는 **Host OS System Call** 호출 우회.
-4. **VM Entry**: 상태 복원 후 **VM Entry**를 통해 게스트 OS로 제어권 넘김 재개.
+3. **자원 중재·에뮬레이션**: Type 1은 직접, Type 2는 호스트 서비스 경유
+4. **VM Entry**: 게스트 상태를 복원하고 실행 재개
 
 #### 한줄 요약
 
@@ -126,8 +133,8 @@ Type 2 제어 경로
 |:---|:---|:---|:---|
 | 가상화 대상 | 전체 하드웨어 (Full Hardware) | 전체 하드웨어 (Full Hardware) | **OS 커널 공유 (Process Isolation)** |
 | 게스트 OS 필수 | **독립 게스트 OS 탑재 필수** | **독립 게스트 OS 탑재 필수** | 게스트 OS 없음 (Host Kernel 수용) |
-| 부팅 속도 | 수십 초 ~ 수 분 | 수십 초 ~ 수 분 | **수초 이내 (밀리초 단위)** |
-| 오버헤드 크기 | 소형 (~수 %) | 중형/대형 (~수십 %) | **극소 (하드웨어 오버헤드 제로)** |
+| 부팅 특성 | 게스트 OS 부팅 필요 | 게스트와 호스트 계층 부팅 | 프로세스 중심으로 상대적으로 빠름 |
+| 오버헤드 원천 | VM Exit•장치 가상화 | 호스트 OS 경유 추가 | 커널 공유와 격리 계층 |
 
 #### 한줄 요약
 
@@ -143,8 +150,8 @@ Type 2 제어 경로
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 가상화 I/O 스택 거침에 따른 네트워크/디스크 패킷 지연 | **SR-IOV** 및 **Device Pass-Through** 적용 | 하드웨어 바운더리 레벨 초저지연 I/O 보장 |
-| 가상 메모리 변환 오버헤드로 인한 성능 저하 | **EPT (Extended Page Tables)** 하드웨어 주소 변환 적용 | MMU 가상화 지연 소멸 |
+| 가상화 I/O 경로에 따른 지연 | **SR-IOV**와 장치 직접 할당 검토 | 중재 경로와 CPU 비용 감소 |
+| 중첩 주소 변환에 따른 성능 저하 | **EPT/NPT**와 대형 페이지 적용 | 페이지 워크 비용 감소 |
 | 게스트 OS 간 무분별한 CPU/Memory 과도 할당 | **Oversubscription** 관리 및 cgroups/vCPU 쿼터 제한 | 물리 자원 낭비 및 스레싱 방지 |
 
 > 사례: AWS EC2 **Nitro System (Type 1 전용 카드)** 및 KVM/OpenStack 대규모 엔터프라이즈 구동
