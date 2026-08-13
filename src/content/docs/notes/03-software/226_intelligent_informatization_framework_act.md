@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "지능정보화 기본법 (Framework Act on Intelligent Informatization)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T07:05:00+09:00"
 tags: ["notes-software"]
 weight: 226
 extra:
@@ -194,4 +194,4 @@ extra:
 
 #### 한줄 요약
 
-- 기본법 정책 방향과 특별법(Special Act) 세부 의무를 연계하는 적용 법률 선택 기준 할용 체계 준수.
+- 기본법 정책 방향과 특별법 세부 의무를 연계하는 **법률 선택 기준** 활용
