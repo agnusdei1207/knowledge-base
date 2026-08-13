@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "가상 메모리: 페이징•세그멘테이션 (Virtual Memory Paging Segmentation)"
-date: "2026-08-08T13:15:00+09:00"
+date: "2026-08-13T10:20:00+09:00"
 tags:
   - "notes-hardware"
 weight: 17
@@ -29,11 +29,11 @@ extra:
 
 </details>
 
-- 정의/개념: 가상 주소 공간을 물리 주소 공간으로 매핑하는 기법으로, 고정 크기 블록 기반 **페이징(Paging)**과 가변 논리 영역 기반 **세그멘테이션(Segmentation)**으로 구별되는 **가상 메모리(Virtual Memory)** 아키텍처.
-- 배경/필요성: 물리 메모리의 크기적 한계와 멀티태스킹 환경에서 프로세스 간 주소 침범 및 침해를 방지하고, RAM보다 큰 프로그램을 요구 적재(Demand Load) 구동하기 위해 필수 도입.
+- 정의: **페이징**과 **세그멘테이션**으로 구별되는 **가상 메모리** 아키텍처
+- 배경: 물리 메모리 한계로 다중 프로세스 **동시 적재 불가** 및 주소 침범 위험
 
 #### 한줄 요약
-- 가상 주소와 물리 주소를 분리하여 프로세스 간 메모리 격리 및 효율적 요구 적재(Demand Paging)를 보장하는 아키텍처 기술.
+- 가상·물리 주소 분리로 프로세스 격리 및 **요구 페이징** 보장
 
 ## Ⅱ. 특징
 
@@ -46,12 +46,12 @@ extra:
 
 </details>
 
-- 프로세스별 독립적인 **가상 주소 공간(Virtual Address Space)**을 보장하여 프로세스 간 물리 메모리 무단 억세스 원천 차단.
-- 물리 RAM보다 큰 주소를 매핑하여 **비상주 페이지(Non-Resident Page)**를 SSD 스왑 영역으로 오프로드.
-- 참조 시점에만 실제 물리 프레임을 할당하는 **요구 페이징(Demand Paging)** 기법으로 물리 메모리 이용 효율성 극대화.
+- 프로세스별 독립 **가상 주소 공간** 보장, 무단 접근 차단
+- 물리 RAM 초과 주소를 **비상주 페이지**로 스왑 영역 오프로드
+- **요구 페이징**으로 참조 시점에만 프레임 할당
 
 #### 한줄 요약
-- 가상-물리 주소 분리를 통한 프로세스 메모리 접근 보호 및 요구 페이징 기반 물리 메모리 낭비 차단.
+- 가상·물리 분리로 접근 보호 및 **요구 페이징** 기반 효율화
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -67,27 +67,36 @@ extra:
 </details>
 
 ```text
-[ Virtual Memory Address Translation Architectures ]
-
-1. Paging Architecture (Fixed Size)
- [ Virtual Address : VPN + Offset ] ──> [ Page Table (VPN -> PPN) ] ──> [ Physical Address : PPN + Offset ]
-
-2. Segmentation Architecture (Variable Size)
- [ Virtual Address : Segment Selector + Offset ] ──> Check (Offset < Limit)
-                                                           │ (Yes)
-                                                           ▼
-                                                     [ Base Address + Offset ] ──> [ Physical Address ]
++----------------------------------------------+
+|           Virtual Memory Architecture        |
+| +------------------------------------------+ |
+| |  Paging (Fixed-size Page/Frame)           | |
+| |  +--------+    +-------------+           | |
+| |  | VPN    |--->| Page Table  |--> PPN     | |
+| |  +--------+    +-------------+           | |
+| +------------------------------------------+ |
+| +------------------------------------------+ |
+| |  Segmentation (Variable-size Segment)    | |
+| |  +----------+   +-----------+            | |
+| |  | Selector |--->| Descriptor|--> Base   | |
+| |  +----------+   +-----------+            | |
+| +------------------------------------------+ |
++----------------------------------------------+
+        |               |
+   +----+----+     +----+----+
+   | MMU     |     | TLB     |
+   +---------+     +---------+
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **MMU & TLB** | 주소 변환 가속 및 접근 보호 권한(R/W/X) 검사 | 1클록 변환 지원 및 메모리 침범 오버플로 하드웨어 트랩 발동 |
-| **페이지 테이블 (Page Table)** | 고정 4KB 가상 페이지(VPN)를 물리 프레임(PPN)으로 매핑 | 비연속 물리 메모리 배치가 가능하여 외부 단편화 원천 제거 |
-| **세그먼트 기술자 (Descriptor)**| 세그먼트 Base 주소, Limit 크기, 권한 정보 저장 | 논리 단위(코드/스택)별 크기 관리 및 세그멘테이션 fault 검사 |
-| **물리 메모리 (DRAM Frame)** | 실제 데이터가 저장되는 고정 크기 물리 저장소 | 페이지/세그먼트 변환 결과를 받아 연산 데이터 딜리버리 |
+| 구성요소 | 책임 |
+|:---|:---|
+| MMU·TLB | 주소 변환 가속 및 접근 권한 검사 |
+| 페이지 테이블 | **VPN**을 **PPN**으로 고정 크기 매핑 |
+| 세그먼트 기술자 | Base·Limit·권한 기반 가변 크기 매핑 |
+| 물리 메모리 | 변환 결과를 받아 데이터 적재·반환 |
 
 #### 한줄 요약
-- MMU/TLB 하드웨어 유닛과 Page Table(페이징) 또는 Segment Descriptor(세그멘테이션) 메타데이터가 결합하여 작동함.
+- **MMU/TLB**와 Page Table 또는 Segment Descriptor 결합 구조
 
 ## Ⅳ. 흐름도
 
@@ -101,26 +110,35 @@ extra:
 </details>
 
 ```text
-[ CPU Virtual Address Memory Access ]
-                │
-                ▼
-      [ 주소 변환 방식 판별 ]
-        ├─ 1. Paging : TLB / Page Table Lookup (VPN -> PPN)
-        │       ├─ Present Bit = 1 : PPN + Offset ──> Physical Memory Access
-        │       └─ Present Bit = 0 : [ Page Fault Exception ] ──> OS Swap In & Instruction Restart
-        │
-        └─ 2. Segmentation : Segment Selector Lookup (Base, Limit)
-                ├─ Offset < Limit : Base + Offset ──> Physical Memory Access
-                └─ Offset >= Limit : [ Access Exception / Protection Fault Trap ]
+ CPU VA Request
+      |
+      v
++----------------------------------+
+| 1. TLB / Page Table Lookup       |
+|    (VPN -> PPN 변환)              |
++--------+--------+----------------+
+  [Hit]  |        | [Miss: Present=0]
+         v        v
+  PA 반환     +----------------------------+
+              | 2. Page Fault Exception     |
+              |    OS Swap-In 수행          |
+              +-------------+--------------+
+                            |
+                            v
+              +----------------------------+
+              | 3. 명령 재시작              |
+              |    Instruction Restart     |
+              +----------------------------+
 ```
 
 ### 동작 원리
 
-1. **페이징 매핑 흐름**: 가상 주소의 **VPN**으로 TLB/페이지 테이블을 탐색함. Present Bit=1 이면 **PPN**과 오프셋을 결합해 물리 RAM에 접근하고, Present Bit=0 이면 **Page Fault** 트랩이 발생하여 SSD에서 페이지를 인출해 온 뒤 **명령 재시작(Instruction Restart)**을 구동함.
-2. **세그멘테이션 매핑 흐름**: 세그먼트 선택자로 **세그먼트 기술자**를 조회하여 Offset < Limit 조건 및 권한을 검사함. 통과 시 **Base 주소 + Offset**으로 물리 주소를 생성하고, 범위를 벗어나면 **접근 예외(Access Exception)** 트랩을 발동함.
+1. **TLB / Page Table Lookup**: **VPN**으로 TLB·페이지 테이블 탐색, Present=1이면 **PPN** 반환
+2. **Page Fault Exception**: Present=0이면 **Page Fault** 발생, OS가 스왑 영역에서 페이지 인출
+3. **명령 재시작**: 페이지 적재 완료 후 **Instruction Restart** 구동
 
 #### 한줄 요약
-- Paging은 Present Bit 확인 후 PA 반환 또는 Page Fault 수습을 구동하고, Segmentation은 Limit 유효성 검사 후 Base+Offset PA를 반환함.
+- VPN 변환 → Present 검사 → Hit 시 PA 반환, Miss 시 **Page Fault** 수습
 
 ## Ⅴ. 종류 및 비교
 
@@ -142,7 +160,7 @@ extra:
 | **현대 칩 채택** | 범용 OS 및 64-bit CPU 표준 매핑 방식 | x86-64 등 최신 아키텍처에서는 페이징 기반 통합/축소됨 |
 
 #### 한줄 요약
-- 페이징(고정 크기, 비연속 배치, 내부 단편화)과 세그멘테이션(가변 크기, 연속 배치, 외부 단편화)으로 나뉘며 현대 OS는 페이징 구조를 주로 채택함.
+- **페이징**(고정 크기·내부 단편화)과 **세그멘테이션**(가변 크기·외부 단편화), 현대 OS는 페이징 주력
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -164,7 +182,7 @@ extra:
 | 프로세스 생성/종료 시 가상 메모리 테이블 갱신 오버헤드 | CoW(Copy-on-Write) 기법 기반 `fork()` 프로세스 주소 공간 생성 | 메모리 복사 지연 은닉 및 프로세스 생성 속도 대폭 개선 |
 
 #### 한줄 요약
-- Working Set 모니터링(Thrashing 방지), Shared Frame 사용(RAM 중복 배제), Paged Segmentation 적용 및 Copy-on-Write 최적화를 구동함.
+- **Working Set** 모니터링, **Shared Frame**, **Paged Segmentation**, **CoW** 적용
 
 ## Ⅶ. 결론
 
@@ -174,7 +192,7 @@ extra:
 
 </details>
 
-- **메모리 가상화 선택 기준(Memory Virtualization Selection Criteria)**에 의거하여 최신 64비트 서버 운영체제 구현 시 고정 크기 비연속 배치를 통해 외부 단편화를 없애는 **페이징(Paging)** 아키텍처를 기본 구조로 채택하고, 세그멘테이션의 논리 보호 이점을 수용하는 **Paged Segmentation** 및 Copy-on-Write 체계 적용 필수.
+- 범용 OS는 **페이징** 기본 채택, 논리 보호 요구 시 **Paged Segmentation** 및 **CoW** 결합
 
 #### 한줄 요약
-- 외부 단편화 차단과 요구 페이징 지원을 위한 Paging 아키텍처 채택 및 Copy-on-Write와 Paged Segmentation을 연동한 메모리 가상화 체계 적용.
+- **페이징** 기반 외부 단편화 차단 및 **CoW**·**Paged Segmentation** 연동

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "Redis 인메모리 데이터베이스 (Redis In-Memory Database)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T10:18:00+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- **정의**: 모든 데이터를 메인 메모리(`RAM`)에 상주시켜 서브밀리초(`Sub-millisecond`) 단위의 초고속 응답을 제공하는 인메모리 키-값(`In-Memory Key-Value`) 저장소인 **Redis(Remote Dictionary Server)**.
-- **필요성**: RDBMS 디스크 I/O 병목 극복, 랭킹 시스템, 세션 관리, Pub/Sub 및 분산 락(`Redlock`) 처리 등 초고속 QPS 대응 요구성.
+- **정의**: 모든 데이터를 메인 메모리에 상주시켜 초고속 응답을 제공하는 **인메모리 키-값 저장소**
+- **배경/필요성**: 기존 디스크 I/O 병목으로 초고속 QPS 대응 및 **실시간 순위 처리 제한**
 
 #### 한줄 요약
 
@@ -63,18 +63,14 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Redis Architecture & Persistence                │
-├───────────────────┬───────────────────┬────────────────────────────────┤
-│ Data Structures   │ In-Memory RAM     │ Disk Persistence               │
-├───────────────────┼───────────────────┼────────────────────────────────┤
-│ • Strings, Hashes │ • Memory Cache    │ • RDB (Point-in-Time Snapshot) │
-│ • Lists, Sets     │ • Single-Thread   │ • AOF (Append Only Log File)   │
-│ • Sorted Sets     │   Event Loop      │ (Replication / Cluster HA)     │
-└───────────────────┴───────────────────┴────────────────────────────────┘
+                   [Redis 메모리 저장소]
+                 /          |           \
+        [자료구조]     [단일 스레드]     [디스크 백업]
+       /    |    \          |           /          \
+[String] [Hash] [ZSet] [이벤트 루프] [RDB 스냅샷] [AOF 로그]
 ```
 
-선의 의미: 인메모리 RAM 상의 5대 자료구조를 단일 스레드로 연산하고, RDB/AOF 디스크 백업 및 Cluster 라우팅으로 영속성을 수용하는 구조.
+선의 의미: 인메모리 상의 자료구조를 단일 스레드로 연산하고 RDB와 AOF를 통해 디스크에 영속화하는 정적 관계.
 
 | 자료구조 (Data Structure) | 주요 내부 구조 및 특징 | 실무 활용 도메인 및 유스케이스 |
 |:---|:---|:---|
@@ -98,17 +94,23 @@ extra:
 </details>
 
 ```text
-[Client Write Request] ──► [Memory Usage Check vs maxmemory]
-                                     │
-       ┌─────────────────────────────┴─────────────────────────────┐
-       ▼ (Under Limit)                                             ▼ (Over Limit)
-[Normal RAM Memory Allocation]             [Eviction Policy (LRU / LFU) 튜플 삭제]
+[클라이언트 요청]
+       │
+       ▼
+[1. 메모리 한도 검사] ──(한도 초과)──► [2. 키 제거 정책 실행]
+       │                                      │
+  (한도 이내)                                 ▼
+       └─────────────(메모리 확보)────────────┘
+       │
+       ▼
+[3. 데이터 메모리 할당]
 ```
 
 ### 동작 원리
 
-1. **Memory Allocation**: 데이터 삽입 시 `maxmemory` 설정값 체크.
-2. **Eviction Execution**: 메모리가 부족할 경우 설정된 정책(`allkeys-lru`: 가장 오래 사용되지 않은 키 삭제)에 따라 데이터를 쫓아내고(Evict) 메모리 확보 후 쓰기 완료.
+1. **메모리 한도 검사**: 삽입 시 **최대 메모리** 설정값 초과 여부 확인
+2. **키 제거 정책 실행**: **LRU•LFU 정책** 기반 오래된 키 삭제
+3. **데이터 메모리 할당**: 확보된 공간에 **인메모리 데이터** 쓰기 완료
 
 #### 한줄 요약
 
@@ -144,9 +146,9 @@ extra:
 
 | 3대 안티패턴 | 발생 원인 및 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. `KEYS *` 명령 실행** | 단일 스레드 블로킹으로 전사 서비스 중단 | **`KEYS` 사용 절대 금지, `SCAN` 명령으로 대체** |
-| **2. Cache Stampede** | 핫키 TTL 동시 만료로 DB 폭사 | **TTL에 Random Jitter(가변 오차) 추가 및 Probabilistic Early Expiration** |
-| **3. Big Key (거대 키)** | Hash/ZSet 내 10만 개 이상 튜플 축적 | **키 분할 (Key Sharding) 및 주기적 분선** |
+| **O(N) Command Threat** | 단일 스레드 블로킹으로 전사 서비스 중단 현상 | **`KEYS` 사용 금지**, **`SCAN` 명령** 대체 적용 |
+| **Cache Stampede** | 핫키 TTL 동시 만료로 인한 백엔드 DB 과부하 | **TTL 가변 오차** 추가 및 확률적 조기 만료 적용 |
+| **Big Key (거대 키)** | Hash•ZSet 내 대량 튜플 축적으로 성능 저하 | 해시 태그 기반 **키 분할** 및 주기적 모니터링 |
 
 > 사례: **카카오 / 쿠팡 Redis Cluster (16384 Hash Slot) 기반 분산 인메모리 캐시 운용**
 
@@ -162,7 +164,7 @@ extra:
 
 </details>
 
-- **Redis 수립 기준 적용** (초고속 세션/캐시/랭킹 시스템 구축 시 `Redis Cluster` 및 `Sentinel HA` 필수 수용)
+- 시스템 확장성과 가용성 요구사항은 **Redis Cluster**, 단순 고가용성은 **Sentinel** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "메모리 계층 구조 (Memory Hierarchy)"
-date: "2026-08-08T14:22:00+09:00"
+date: "2026-08-13T10:12:00+09:00"
 tags:
   - "notes-hardware"
 weight: 22
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터 참조의 **지역성(Locality of Reference)** 원리를 활용하여 접근 속도, 용량, 비트당 비용이 다른 저장장치를 피라미드 단계별로 구성하는 **메모리 계층 구조(Memory Hierarchy)**.
-- 배경/필요성: 초고속 SRAM 기술만으로 대용량 테라바이트 메인 메모리를 구현하는 것은 비용 및 반도체 다이 면적상 불가능하므로, 적은 비용으로 대용량 무지연 메모리 시스템 효과를 달성하기 위해 계층화 설계 필수.
+- 정의/개념: 데이터 참조 **지역성** 기반 접근 속도•용량•비용별 **피라미드 단계화** 구조
+- 배경/필요성: **SRAM** 단독 구성 시 면적•비용 증가로 대용량 **무지연 메모리 구현 제약**
 
 #### 한줄 요약
 - 참조 지역성을 기반으로 고속/소용량 상위 계층과 저속/대용량 하위 계층을 피라미드로 구성하여 AMAT를 최소화하는 아키텍처 기술.
@@ -47,9 +47,9 @@ extra:
 
 </details>
 
-- 상위 계층(Register, L1/L2/L3)으로 갈수록 접근 속도가 극도로 빠르지만 용량이 작고 **비트당 비용(Cost Per Bit)**이 비쌈.
-- **시간 지역성(Temporal Locality)**과 **공간 지역성(Spatial Locality)**을 극대화하여 최상위 계층의 **적중률(Hit Rate)**을 95% 이상으로 유지.
-- 상위 계층 적중 시간($T_{hit}$)과 하위 계층 **미스 페널티(Miss Penalty)**의 조합으로 시스템 **AMAT(Average Memory Access Time)** 성능 결정.
+- 상위 계층일수록 접근 속도는 빠르나 용량이 작고 **비트당 비용** 고가
+- **시간•공간 지역성** 극대화로 최상위 계층 **적중률** 95% 이상 유지
+- 상위 계층 적중 시간과 하위 계층 **미스 페널티**로 시스템 **AMAT** 성능 결정
 
 $$
 AMAT = Hit\ Time + (Miss\ Rate \times Miss\ Penalty)
@@ -70,18 +70,16 @@ $$
 </details>
 
 ```text
-[ Memory Hierarchy Pyramid & Access Latency ]
- ┌──────────────────────────────────────────────┐
- │  Registers        : < 1 ns  (Few Bytes)      │  ▲ High Speed / High Cost
- ├──────────────────────────────────────────────┤  │ Low Capacity
- │  L1 / L2 Cache    : 1 ~ 4 ns (KB ~ MB SRAM)  │  │
- ├──────────────────────────────────────────────┤  │
- │  L3 Shared Cache  : 10~20 ns (Tens of MB)    │  │
- ├──────────────────────────────────────────────┤  │
- │  Main Memory DRAM : 60~100 ns (GBs DRAM)     │  │
- ├──────────────────────────────────────────────┤  ▼ Low Speed / Low Cost
- │  NVMe SSD / Disk  : 10~100 us (TBs Flash)    │    High Capacity
- └──────────────────────────────────────────────┘
+[ Memory Hierarchy Structure ]
+ ┌─────────────────────────────────────────┐
+ │ 레지스터 (Registers)                    │ High Speed / High Cost
+ ├─────────────────────────────────────────┤ Low Capacity
+ │ L1/L2/L3 캐시 (Cache)                   │
+ ├─────────────────────────────────────────┤
+ │ 주기억장치 (Main Memory)                │
+ ├─────────────────────────────────────────┤ Low Speed / Low Cost
+ │ 보조기억장치 (Storage)                  │ High Capacity
+ └─────────────────────────────────────────┘
 ```
 
 | 계층 구분 | 대표 기술 소자 | 접근 지연 (Latency) | 저장 용량 및 제어 주체 |
@@ -121,9 +119,10 @@ $$
 
 ### 동작 원리
 
-1. **상위 계층 조회**: CPU가 memory read 발신 시 가장 빠른 L1 캐시부터 탐색하여 적중(Hit) 시 즉시 ALU로 딜리버리함.
-2. **하위 계층 전파**: L1/L2 미스 시 L3 캐시 및 DRAM 메인 메모리로 억세스 요청이 하향 전파되며, 미스 발생 시 **캐시 블록(Cache Line)** 단위로 상위 캐시에 **Refill** 조치함.
-3. **Storage I/O 수습**: 메인 메모리에도 없는 **비상주 페이지** 접근 시 Page Fault가 발동되어 SSD 보조기억장치에서 DRAM으로 스왑 인(Swap-In) 후 전 계층을 갱신함.
+1. **Level 1 Cache (L1) Lookup**: CPU 메모리 읽기 시 **최상위 L1 캐시** 탐색 및 적중 시 반환
+2. **Level 2 / Level 3 Cache Lookup**: L1 미스 시 하위 억세스 전파 및 **캐시 블록** 단위 갱신
+3. **Main Memory (DRAM) Lookup**: 캐시 전면 미스 시 DRAM 억세스 및 **상위 계층** 데이터 보충
+4. **Secondary Storage (SSD) Swap-In**: **비상주 페이지** 접근 시 Page Fault 발동 및 스왑 인
 
 #### 한줄 요약
 - L1->L2->L3->DRAM->SSD 순으로 상위 계층 미스 시 하위 계층으로 억세스가 전파되며 블록 단위로 상위 계층에 Refill됨.
@@ -176,7 +175,7 @@ $$
 
 </details>
 
-- **메모리 계층 설계 기준(Memory Hierarchy Selection Criteria)**에 의거하여 컴퓨터 및 가속기 시스템 설계 시 Register->L1/L2/L3 SRAM->DRAM->Flash SSD 메모리 피라미드 구조를 기본 채택하고, 애플리케이션 레벨의 **캐시 블로킹(Cache Blocking)** 및 하드웨어 **선인출(Prefetching)** 최적화를 연동하여 시스템 AMAT를 최소화하는 메모리 통합 최적화 체계 적용 필수.
+- **워크로드 특성** 기반 계층별 용량 배분 및 **캐시 블로킹**으로 AMAT 최소화 적용
 
 #### 한줄 요약
 - 참조 지역성 기반의 AMAT 최소화를 위한 피라미드 메모리 계층 구조 채택 및 Cache Blocking/Prefetching을 결합한 최적화 체계 적용.

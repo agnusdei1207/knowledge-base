@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "캐시 메모리 구조: 직접•연관•집합 연관 매핑 (Cache Memory Mapping)"
-date: "2026-08-08T12:55:00+09:00"
+date: "2026-08-13T10:20:00+09:00"
 tags:
   - "notes-hardware"
 weight: 12
@@ -28,11 +28,11 @@ extra:
 
 </details>
 
-- 정의/개념: 메인 메모리의 주소 공간을 고속 캐시 라인 위치로 매핑하고 **태그 비교(Tag Comparison)**를 수행하는 3대 배치 규격(Direct, Fully Associative, Set-Associative) 체계인 **캐시 매핑(Cache Mapping)**.
-- 배경/필요성: CPU 연산 속도와 메인 메모리 접근 속도 간의 대극 격차(Memory Wall)를 극복하기 위해, 제한된 SRAM 캐시 용량 내에 최적의 위치 매핑 규칙을 적용하여 캐시 충돌 미스(Conflict Miss)를 최소화할 필요성 대두.
+- 정의: **태그 비교** 기반 3대 배치 규격 **캐시 매핑** 체계
+- 배경: DRAM 접근 지연으로 **Memory Wall** 발생, 제한된 SRAM 내 **충돌 미스** 억제 불가
 
 #### 한줄 요약
-- 메모리 주소의 Index 필드로 캐시 집합을 고르고 Tag 필드 비교를 통해 Hit/Miss를 판정하는 주소 매핑 및 데이터 배치 구조.
+- Index로 캐시 집합 선택, Tag 비교로 **Hit/Miss** 판정하는 주소 매핑 구조
 
 ## Ⅱ. 특징
 
@@ -48,16 +48,16 @@ extra:
 
 </details>
 
-- **연관도(Associativity)**가 높을수록 동일 집합으로 주소가 몰릴 때 발생하는 **충돌 미스(Conflict Miss)**가 획기적으로 저감됨.
-- **적중 시간($T_{hit}$)**, **미스율(Miss Rate)** 및 **미스 페널티(Miss Penalty)**의 관계에 의해 전체 **AMAT(Average Memory Access Time)** 성능이 산출됨.
-- 연관도가 증가할수록 태그 비교기 하드웨어 회로 증가로 인하여 적중 시간이 다소 늘어날 수 있는 무역적 성질(Trade-off) 보유.
+- **연관도** 증가 시 **충돌 미스** 획기적 저감
+- **$T_{hit}$**·**미스율**·**미스 페널티**로 **AMAT** 성능 산출
+- 연관도 상향 시 태그 비교기 회로 증가로 적중 시간 Trade-off 발생
 
 $$
 AMAT = T_{hit} + (Miss\ Rate \times Miss\ Penalty)
 $$
 
 #### 한줄 요약
-- 연관도(Associativity)를 상향하여 충돌 미스를 억제하되, AMAT 공식을 기반으로 적중 시간과 태그 비교 회로 오버헤드를 최적 절충함.
+- **연관도** 상향으로 충돌 미스 억제, **AMAT** 기반 적중 시간 절충
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -74,30 +74,39 @@ $$
 </details>
 
 ```text
-[ Physical Memory Address Bit Breakdown ]
-+----------------------------+-----------------------+---------------------+
-|      Tag Bits (20-bit)     |   Index Bits (6-bit)  | Offset Bits (6-bit) |
-+----------------------------+-----------------------+---------------------+
-                                         │
-                                         ▼
-                            [ Set Decoder (Select Set) ]
-                                         │
-                                         ▼
-                      [ N-Way Tag Comparators (Parallel) ]
-                                         │ Hit / Miss ?
-                                         ▼
-                             [ Data Array MUX Output ]
++--------------------------------------------------------------+
+|              Physical Memory Address                         |
+| +------------------+----------------+------------------+     |
+| |  Tag (20-bit)    | Index (6-bit)  |  Offset (6-bit)  |     |
+| +------------------+----------------+------------------+     |
++--------------------------------------------------------------+
+          │                  │                  │
+          │     +------------+------------+     │
+          │     | Set Decoder              |     │
+          │     +---+----+----+----+------+     │
+          │         │    │    │    │             │
+          │     +---+----+----+----+------+     │
+          │     | N-Way Tag Comparators   |     │
+          │     +------------------------+     │
+          │                                    │
+          │     +------------------------+     │
+          │     | Data Array MUX         |-----+
+          │     +------------------------+
+          │
++-------------------+
+| Valid Bit Storage |
++-------------------+
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **주소 분해기** | CPU 발신 주소를 Tag, Index, Offset 비트로 3등분 파싱 | 라인 크기 64B=6비트 Offset, Set 개수=Index 비트 할당 |
-| **태그 탐색부** | Valid Bit=1 이면서 요청 Tag와 저장 Tag가 일치하는 Way 판정 | N-way 병렬 태그 비교기를 가동하여 Cache Hit 여부 즉시 판단 |
-| **데이터 배열** | Hit로 판정된 Way의 Data Block 중 Offset 위치 데이터 딜리버리 | CPU 파이프라인으로 연산 피연산자 무지연 즉시 전송 |
-| **교체 제어부** | Set 가득 참 발생 시 **LRU(Least Recently Used)** 등으로 축출 결정 | 캐시 적중률 유지 및 공간 오염(Cache Pollution) 최소화 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 주소 분해기 | CPU 주소를 Tag·Index·Offset 비트로 파싱 |
+| 태그 탐색부 | N-way 병렬 비교기로 **Cache Hit** 판정 |
+| 데이터 배열 | Hit Way의 Offset 위치 데이터 반환 |
+| 교체 제어부 | Set 포화 시 **LRU** 기반 축출 결정 |
 
 #### 한줄 요약
-- 주소를 Tag/Index/Offset으로 분해하고 태그 탐색부, 데이터 배열, LRU 교체 제어부를 구동하여 캐시 적중/축출을 제어함.
+- Tag·Index·Offset 분해 후 태그 탐색·데이터 반환·**LRU** 축출 제어
 
 ## Ⅳ. 흐름도
 
@@ -111,33 +120,34 @@ $$
 </details>
 
 ```text
-[ CPU Memory Address Access Request ]
-                 │
-                 ▼
-[ 1. Index 비트로 해당 Set 인덱싱 ]
-                 │
-                 ▼
-[ 2. N-Way 병렬 태그 비교 (Valid Bit & Tag Match) ]
-                 ├─ [ Cache Hit ] ──> 3. Offset 기반 Data 반환 (Hit Complete)
-                 │
-                 └─ [ Cache Miss ] ──> 4. LRU 교체 정책으로 Victim Way 선택
-                                               │
-                                               ▼
-                                       5. 하위 메모리에서 64B Refill
-                                               │
-                                               ▼
-                                       6. Tag & Valid Bit 갱신 후 Data 반환
+ CPU Request
+      │
+      ▼
+┌──────────────────────────────────┐
+│ 1. Index 비트로 Set 인덱싱       │
+└──────────────┬───────────────────┘
+               ▼
+┌──────────────────────────────────┐
+│ 2. N-Way 병렬 태그 비교          │
+└──────┬───────────────┬──────────┘
+  [Hit]│               │[Miss]
+       ▼               ▼
+┌────────────┐ ┌──────────────────┐
+│ 3. Offset  │ │ 3. LRU Victim    │
+│ Data 반환  │ │ 선택 및 Refill   │
+└────────────┘ └──────────────────┘
+                       │
+                  Data 반환
 ```
 
 ### 동작 원리
 
-1. **인덱싱 및 태그 비교**: 메모리 주소의 **Index** 비트로 캐시 집합(Set)을 지시하고, 집합 내 N개 Way의 **Valid Bit** 및 **Tag** 비트를 병렬 회로로 대조함.
-2. **Hit 연산**: 일치하는 Way 발견 시 **Cache Hit**로 판정하여 **Offset** 비트 포인터가 지시하는 데이터 바이트를 파이프라인으로 즉시 반환함.
-3. **Miss 수습 및 Eviction**: 미스 발생 시 **LRU 교체 정책**으로 축출할 Victim 라인을 정하고, 필요시 Dirty Line을 메모리로 Write-back(Eviction) 함.
-4. **Refill 및 갱신**: DRAM 메인 메모리로부터 64바이트 라인을 가져와 **Refill**하고 Tag 및 Valid Bit를 갱신 완료함.
+1. **Index 비트로 Set 인덱싱**: **Index** 비트로 캐시 집합 선택
+2. **N-Way 병렬 태그 비교**: N개 Way의 **Valid Bit**·**Tag** 동시 대조
+3. **Hit 시 Data 반환 / Miss 시 LRU Refill**: Hit면 **Offset** 기반 즉시 반환, Miss면 **LRU** 축출 후 **Refill**·Tag 갱신
 
 #### 한줄 요약
-- Index 선택 -> N-Way Parallel Tag Check -> Hit 시 Data 반환, Miss 시 LRU Eviction 및 Refill 순서로 완결함.
+- Index로 Set 선택 → Tag 병렬 비교 → Hit/Miss 분기 처리
 
 ## Ⅴ. 종류 및 비교
 
@@ -158,7 +168,7 @@ $$
 | **실무 채택** | L1 명령 캐시 일부, 저가 MCU | TLB(Translation Lookaside Buffer) | 현대 프로세서 L1/L2/L3 캐시 표준 규격 |
 
 #### 한줄 요약
-- 직접 매핑(Hit 속도 최상, 충돌 심함), 완전 연관(충돌 없음, 태그 비용 극대), 집합 연관(적중률과 태그 비교 오버헤드의 범용 절충)으로 진화함.
+- **직접**(속도 최상·충돌 심함), **완전 연관**(충돌 無·비용 극대), **집합 연관**(범용 절충) 진화
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -178,7 +188,7 @@ $$
 | 캐시 미스 발생 시 CPU 파이프라인 전면 Stall 현상 | **비차단 캐시(Non-Blocking Cache - MSHR)** 및 하드웨어 **프리페치** 적용 | 메모리 억세스 지연시간 파이프라인 우회 은닉 |
 
 #### 한줄 요약
-- N-Way Set-Associative, Cache Alignment, Pseudo-LRU 및 Non-Blocking MSHR 프리페치를 적용함.
+- **N-Way**·**Cache Alignment**·**PLRU**·**Non-Blocking MSHR** 통합 적용
 
 ## Ⅶ. 결론
 
@@ -189,7 +199,7 @@ $$
 
 </details>
 
-- **매핑 선택 기준(Cache Mapping Selection Criteria)**에 근거하여 빠른 접근 속도가 필수적인 L1 캐시에는 4/8-Way 집합 연관 매핑 및 PLRU 정책을 적용하고, 대용량 L3 캐시에는 16-Way 이상의 고연관도 매핑 및 비차단 MSHR 프리페치를 결합하여 AMAT를 극소화하는 캐시 하드웨어 최적화 체계 적용 필수.
+- L1은 4/8-Way **PLRU**, L3은 16-Way **MSHR 프리페치** 결합하여 **AMAT** 극소화
 
 #### 한줄 요약
-- N-Way Set-Associative 구조를 기반으로 AMAT 최적화를 실현하고 PLRU 및 Non-Blocking Cache를 통합 적용하는 캐시 매핑 체계 적용.
+- 캐시 계층별 연관도·교체 정책 차별 적용으로 **AMAT** 최적화
