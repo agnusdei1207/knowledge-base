@@ -4,7 +4,7 @@ sidebar:
   label: "038. 5G 코어 SBA"
   badge: { text: "기출 • 70%", variant: note }
 title: "5G 코어 SBA"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:52:00+09:00"
 tags: ["notes-network"]
 weight: 38
 extra:
@@ -101,31 +101,30 @@ extra:
 </details>
 
 ```text
-1. AMF: 가입자 접속 및 세션 발생 (Access Request)
+AMF: 가입자 접속 및 세션 발생
       │
       v
-2. AMF -> NRF: 가용 SMF 검색 및 서비스 발견 (NF Discovery Request)
+1. AMF -> NRF: 가용 SMF 검색 및 서비스 발견
       │
       v
-3. NRF -> AMF: 가용 SMF 엔드포인트 및 상태 반환 (NF Discovery Response)
+2. NRF -> AMF: 가용 SMF 엔드포인트 및 상태 반환
       │
       v
-4. AMF -> SMF: 세션 생성 요청 (Nsmf_PDUSession_CreateSMContext)
+3. AMF -> SMF: 세션 생성 요청
       │
       v
-5. SMF -> UPF: N4 인터페이스 PFCP 패킷 전달 규칙 설치 (Session Establishment)
+4. SMF -> UPF: PFCP 패킷 전달 규칙 설치
       │
       v
-6. 수신 UPF 데이터 라우팅 준비 및 PDU 세션 확립 완료
+PDU 세션 확립 완료
 ```
 
 ### 동작 원리
 
-1. **가입자 접속 및 세션 이벤트 발생**: 단말 접속에 따라 AMF가 가입자 인증을 완료하고 PDU 세션 생성 요청을 수신한다.
-2. **NRF 서비스 발견(Discovery)**: AMF가 NRF로 대상 지역, 슬라이스(S-NSSAI)를 지원하는 가용 SMF 인스턴스 조회를 요청한다.
-3. **SMF 엔드포인트 반환**: NRF가 상태 및 서비스 용량을 검증한 후 최적의 SMF URI 엔드포인트를 AMF에 응답한다.
-4. **REST API 세션 생성 호출**: AMF가 지정된 SMF의 RESTful HTTP/2 API를 직접 호출하여 PDU 세션 컨텍스트 생성을 요청한다.
-5. **UPF 패킷 전달 규칙 설치**: SMF가 PCF의 QoS 정책에 맞춰 UPF로 PFCP 세션 생성 및 패킷 전달 규칙(PDR/FAR)을 하향 설치하여 데이터 통로를 확립한다.
+1. **AMF -> NRF: 가용 SMF 검색 및 서비스 발견**: 조건 전달
+2. **NRF -> AMF: 가용 SMF 엔드포인트 및 상태 반환**: 대상 선택
+3. **AMF -> SMF: 세션 생성 요청**: PDU 컨텍스트 생성
+4. **SMF -> UPF: PFCP 패킷 전달 규칙 설치**: 데이터 경로 확립
 
 #### 한줄 요약
 
@@ -185,7 +184,7 @@ extra:
 
 </details>
 
-- 5G 코어 구축 시 **클라우드 네이티브 SBA 아키텍처 도입**, **OAuth2/mTLS 기반 SBI 보안 강화**, **Service Mesh 기반 트래픽 제어 체계** 구현 필수.
+- NF 호출은 **mTLS•OAuth2**, 장애 확산은 **회로 차단기** 적용
 
 #### 한줄 요약
 

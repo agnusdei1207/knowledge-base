@@ -4,7 +4,7 @@ sidebar:
   label: "040. NSSAI•NSI•NSSI"
   badge: { text: "기출 • 50%", variant: note }
 title: "네트워크 슬라이스 식별 체계"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:56:00+09:00"
 tags: ["notes-network"]
 weight: 40
 extra:
@@ -122,11 +122,11 @@ extra:
 
 ### 동작 원리
 
-1. **Requested NSSAI 요청**: 단말이 등록 절차(Registration) 시 접속하고자 하는 S-NSSAI 목록을 무선 메시지(RRC/NAS)로 전달한다.
-2. **NSSF 슬라이스 선택 요청**: AMF가 단말의 위치 정보와 가입자 프로필을 부가하여 NSSF로 적합 슬라이스 선정을 요청한다.
-3. **NSI 매핑 조회**: NSSF가 S-NSSAI와 대조하여 가용한 NSI 및 인가 정책을 검색하고 매핑 성공 여부를 확인한다.
-4. **NSSI 서브넷 바인딩 검증**: 해당 NSI를 구성하는 무선, 전송, 코어 NSSI 인스턴스들의 정상 작동 및 SLA 준수 상태를 확인한다.
-5. **Allowed NSSAI 반환 및 세션 개통**: NSSF가 최종 수용 가능한 Allowed NSSAI를 단말에 회신하고 지정된 NSI를 통해 세션을 확립한다.
+1. **단말(UE)의 Requested NSSAI 요청 전송**: S-NSSAI 전달
+2. **AMF -> NSSF: 가입자 프로필 및 위치 정보 전달**: 선택 요청
+3. **NSSF: S-NSSAI 대비 가용 NSI 매핑 조회**: 정책 대조
+4. **무선/전송/코어 NSSI 하위 자원 결합 상태 확인**: 상태 검증
+5. **Allowed NSSAI 및 전용 NSI 바인딩 정보 반환**: 세션 확립
 
 #### 한줄 요약
 
@@ -145,7 +145,7 @@ extra:
 |:---|:---|:---|:---|
 | 핵심 개념 | 5G 슬라이스를 식별하는 32bit 제어 파라미터 | 엔드투엔드(E2E) 가상 네트워크 운용 객체 | 무선/전송/코어 각 영역별 가상 자원 객체 |
 | 구성 형태 | SST (8bit) + SD (24bit) 결합 코드 | 1개 이상의 RAN, TN, Core NSSI 통합체 | NFV VNF/CNF, PRB, FlexE 채널 자원 묶음 |
-| 주요 역할 | 단말 접속 요청 식별 및 코어 NSSF 매핑 | 서비스 SLA 100% 보장 및 E2E 트래픽 수용 | 도메인별 자원 제어 및 독립/공유 할당 |
+| 주요 역할 | 단말 접속 요청 식별 및 NSSF 매핑 | 서비스 SLA 목표와 E2E 트래픽 수용 | 도메인별 자원 제어 및 독립•공유 할당 |
 | 관리 주체 | 단말(UE), AMF, NSSF (제어 평면) | NSMF (Network Slice Management Func.) | NSSMF (Slice Subnet Management Func.) |
 
 > 요약: NSSAI는 식별 코드, NSI는 E2E 가상망 실체, NSSI는 도메인별 자원 조립 단위.
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- 5G 슬라이싱 시스템 구축 시 **표준 S-NSSAI 식별 체계 정립**, **NSI/NSSI 동적 오케스트레이션 자동화**, **NSSF 기반 슬라이스 세션 인가 체계 구축 필수**.
+- 접속 선택은 **NSSAI**, E2E 운용은 **NSI•NSSI**로 관리
 
 #### 한줄 요약
 
