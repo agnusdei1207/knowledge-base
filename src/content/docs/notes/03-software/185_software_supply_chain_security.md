@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "소프트웨어 공급망 보안"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T04:12:00+09:00"
 tags:
   - "notes-software"
 weight: 185
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 외부 의존성(오픈소스)의 무결성 확보부터 자체 빌드 파이프라인의 변조 방지까지 소프트웨어 유통의 전 과정에서 신뢰성을 보장하는 **소프트웨어 공급망 보안** 아키텍처
-- 배경/필요성: 단일 기업의 보안 경계를 넘어, 소프트웨어를 구성하는 오픈소스 부품과 빌드 인프라 자체가 해커의 먹잇감이 되면서(예: Log4j, SolarWinds), 이를 원천 방어할 제로 트러스트(Zero Trust) 기반의 유통망 검증 요구성
+- 정의/개념: Source부터 배포 Artifact까지 보호하는 **공급망 보안**
+- 배경/필요성: 외부 의존성•Build System 침해는 **신뢰 Update 경로**로 확산
 
 #### 한줄 요약
 
 - 소스 코드·빌드 주체·패키징 출처가 모두 검증된 산출물만 배포 환경에 적용하도록 개발부터 배포까지 증적이 연속되어야 한다.
 
-## Ⅱ. 특징 (공급망 보안 강화를 위한 3대 원칙)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 승인된 의존성으로 격리 빌드하고 산출물 다이제스트에 SBOM과 빌드 증적을 결합해야 변조를 탐지할 수 있다.
 
-## Ⅲ. 구조 및 구성요소 (소프트웨어 공급망 보안 참조 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,35 +60,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Secure Software Supply Chain Architecture            │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. [Source Code] ──(PR/Review & Git Commit Sign)──► [Source Repo]      │
-│                                                           │            │
-│ 2. [Dependencies] ──(SCA 스캔 & 해시 검증)───────────────►│            │
-│                                                           ▼            │
-│ 3. [Trusted Builder (CI/CD)] ◄──(격리 및 재현 빌드)── [Build System]   │
-│                                                           │            │
-│ 4. [Attestation] ──(SBOM 추출 + Provenance 전자서명)─────►│            │
-│                                                           ▼            │
-│ 5. [Artifact Store] (서명된 Image & Metadata) ──► [Policy Gate] ──► Ops│
-└────────────────────────────────────────────────────────────────────────┘
+[Secure Supply Chain]
+ ├── [Source Control]
+ ├── [Trusted Builder]
+ ├── [Attestation Store]
+ └── [Policy Gate]
 ```
 
-선의 의미: 소스 통제(1,2)에서 불변의 재료를 모으고, 신뢰 빌더(3)가 격리된 상태에서 결과물을 찍어내면, 증적 체계(4)가 서명표를 붙여 저장(5)하고 배포 시점에 검증하는 단계적 사슬 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 실무 도구 |
-|:---|:---|:---|
-| **Source Control** | **2인 이상(Two-Person) 리뷰 승인 및 GPG 서명된 코드만 병합**| GitHub, GitLab |
-| **Trusted Builder**| **임시 컨테이너(Ephemeral)에서 인터넷을 끊고 격리 빌드 수행**| GitHub Actions, Tekton |
-| **Attestation** | **빌드 과정 전체에 대한 증거(Provenance)를 만들고 전자 서명**| Cosign, In-toto |
-| **Policy Gate** | **서명이 깨지거나 취약한 이미지가 K8s에 올라가는 것을 차단**| Kyverno, OPA Gatekeeper |
+| 구성요소 | 책임 |
+|---|---|
+| Source Control | **Review•서명•Branch 보호**와 입력 이력 관리 |
+| Trusted Builder | 격리•일회 환경에서 **승인 입력만 Build** |
+| Attestation Store | SBOM•Provenance•서명을 **Digest에 결속** |
+| Policy Gate | 소비 지점에서 **Identity•Signature•Policy** 검증 |
 
 #### 한줄 요약
 
 - 소스 통제가 의존성을 승인하고 빌더가 산출물을 생성하면 증적 체계와 저장소가 이력을 불변 보존하고 정책 게이트가 배포를 결정한다.
 
-## Ⅳ. 흐름도 (공급망 공격 방어 및 배포 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -98,31 +88,30 @@ extra:
 
 ```text
 [공급망 보안 파이프라인 (SLSA 기반)]
- 1. [불변 입력 확정] : package-lock.json으로 버전 고정 및 다운로드 해시 검증
+ 1. [불변 입력 확정] : Version•Digest•Source 고정
           │
- 2. [격리 빌드 수행] : 외부망이 차단된 일회성(Ephemeral) CI 러너에서 빌드
+ 2. [격리 빌드 수행] : Ephemeral Builder에서 Build
           │
- 3. [증적 결속(Sign)] : 빌드된 이미지 해시 + SBOM + Provenance 통합 전자 서명
+ 3. [증적 생성•결속] : Artifact+SBOM+Provenance 서명
           │
- 4. [저장소 보관]    : 변조 불가능한(Immutable) Artifact Registry에 푸시
+ 4. [불변 저장•배포 요청] : Registry에 Artifact•증적 보관
           │
- 5. [정책 게이트 검증]: 쿠버네티스 Admission Controller가 서명의 유효성 검사
-          │
- 6. [운영 배포]      : (검증 통과 시) 무결성이 입증된 바이너리만 실행 허가
+ 5. [정책 검증•운영 배포] : 승인 Artifact만 실행
 ```
 
 ### 동작 원리
 
-1. **소스 무결성**: 개발자의 코드는 다중 리뷰와 `GPG 서명`으로 신원이 입증됨.
-2. **빌드 무결성**: 코드를 가져간 빌드 서버는 조작될 수 없도록 1회용 환경에서 `격리 빌드` 됨.
-3. **산출물 무결성**: 완성된 바이너리와 빌드 증적(Provenance)은 Sigstore 등을 통해 `전자 서명` 됨.
-4. **배포 무결성**: 운영계 클러스터는 서명을 검증하여, 해커가 중간에 끼워 넣은 악성 이미지를 차단 (**공급망 신뢰사슬 완결**).
+1. **불변 입력 확정**: Source•Dependency Version•Digest 고정
+2. **격리 빌드 수행**: 승인 Builder와 최소 권한 자격 증명 사용
+3. **증적 생성•결속**: Artifact Digest에 SBOM•Provenance 서명
+4. **불변 저장•배포 요청**: Registry에 Artifact와 증적 보관
+5. **정책 검증•운영 배포**: 소비 지점에서 신뢰 Policy 강제
 
 #### 한줄 요약
 
 - 정책 게이트는 제품 이름이 아니라 지문을 기준으로 부품표와 제조 서명을 대조한 뒤 같은 지문만 운영에 보낸다.
 
-## Ⅴ. 종류 및 비교 (공급망 통제 전략 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -141,7 +130,7 @@ extra:
 
 - 예방은 비승인 의존성의 유입을 차단하고 탐지는 산출물의 서명·증적을 검증하며 대응은 동일 다이제스트의 산출물을 추적해 철회한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (공급망 해킹 기법과 3대 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -170,7 +159,7 @@ extra:
 
 </details>
 
-- **공급망 보안 수립 기준**에 따라 **SLSA Level 3 이상을 목표**로 한 **격리 빌드 및 서명 기반의 Policy Gate 구축** 필수 적용
+- 중요 Artifact는 **격리 Build•Provenance•서명 Policy Gate** 적용
 
 #### 한줄 요약
 

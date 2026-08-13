@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "자동 페일오버 (Auto Failover)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T05:25:00+09:00"
 tags:
   - "notes-software"
 weight: 200
@@ -28,14 +28,14 @@ extra:
 
 </details>
 
-- 정의/개념: 사람의 개입 없이 장애 감지(Heartbeat·Quorum)→이전 노드 격리(Fencing)→대체 노드 단일 승격→요청 경로 전환의 전 과정을 자동으로 수행하는 **고가용성 자동 장애 전환 체계**
-- 배경/필요성: 새벽 3시 장애 시 운영자가 연락받고 로그인하여 수동으로 전환하는 동안 수분~수십 분 중단이 발생하고, 권한 차단 절차를 빠뜨리면 이중 쓰기로 데이터가 복구 불가능하게 손상되는 위험 방지 요구성
+- 정의/개념: 감지•Fencing•승격•Routing을 자동 수행하는 **Failover**
+- 배경/필요성: 수동 전환의 **RTO 초과•이중 쓰기•절차 누락** 위험 발생
 
 #### 한줄 요약
 
 - 사람이 개입하지 않고 안전하게 예비 자원으로 전환하는 것이 핵심이다.
 
-## Ⅱ. 특징 (Auto Failover의 4대 핵심 설계 원칙)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -52,7 +52,7 @@ extra:
 
 - 고장 노드 권한을 차단하고 복구 전환하는 것이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (Auto Failover 파이프라인 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,42 +61,27 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                    Auto Failover Pipeline Architecture                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ [감지기 (Detector)]                                                    │
-│   - Heartbeat 모니터, Deep Health Check, 복제 지연 모니터              │
-│              │                                                         │
-│              ▼ (다중 신호 수집)                                        │
-│ [결정기 (Decision Engine)]                                             │
-│   - Quorum 확인, 히스테리시스 적용, 장애 확정                          │
-│              │                                                         │
-│              ▼ (장애 확정)                                             │
-│ [펜싱기 (Fencing Agent)] ───► 구 Primary 전원·스토리지·쓰기 차단       │
-│              │                                                         │
-│              ▼ (Fencing 완료 확인 후)                                  │
-│ [전환기 (Failover Controller)] ───► Standby 단일 승격 + 라우팅 갱신    │
-│              │                                                         │
-│              ▼ (서비스 정상화 후)                                       │
-│ [복귀기 (Failback Controller)] ───► 구 Primary 복구 후 안전 복귀       │
-└────────────────────────────────────────────────────────────────────────┘
+[Auto Failover]
+ ├── [Detector | Heartbeat•Health•Lag]
+ ├── [Decision Engine | Quorum•Hysteresis]
+ ├── [Fencing Agent | 구 Primary 격리]
+ ├── [Failover Controller | 승격•Routing]
+ └── [Failback Controller | 재동기화•복귀]
 ```
 
-선의 의미: 감지→판정→펜싱→승격→복귀 순으로 파이프라인이 진행되며, 펜싱 실패 시 자동 승격을 중단하고 수동 개입을 요구하는 안전 장치가 내장된 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 대표 도구 |
-|:---|:---|:---|
-| **감지기 (Detector)** | **Heartbeat·Deep Health Check·복제 지연을 다중 수집** | Prometheus, Keepalived |
-| **결정기 (Decision Engine)** | **Quorum+히스테리시스로 오탐 없이 장애 확정** | Pacemaker, etcd |
-| **펜싱기 (Fencing Agent)** | **구 Primary 전원·스토리지 강제 차단 (STONITH)** | IPMI, AWS EC2 Stop |
-| **전환기 (Failover Ctrl)** | **단일 Standby 승격 + DNS·LB 라우팅 갱신** | AWS RDS Auto Failover, Patroni |
-| **복귀기 (Failback Ctrl)** | **원 노드 복구 및 상태 재동기화 후 안전 복귀** | Patroni Switchover |
+| 구성요소 | 책임 |
+|---|---|
+| Detector | Heartbeat•Health•**복제 지연** 수집 |
+| Decision Engine | Quorum•Hysteresis로 **장애 확정** |
+| Fencing Agent | 구 Primary의 **쓰기 권한** 차단 |
+| Failover Controller | Standby 승격과 **Routing 갱신** |
+| Failback Controller | 상태 재동기화 후 **안전 복귀** |
 
 #### 한줄 요약
 
 - 감지 결과를 합의한 뒤 이전 쓰기를 끊고 예비 자원과 요청 경로를 바꿈이 핵심이다.
 
-## Ⅳ. 흐름도 (Auto Failover 자동 전환 절차)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -130,15 +115,17 @@ extra:
 
 ### 동작 원리
 
-1. **다중 신호 수집**: Heartbeat 단절만으로 장애를 확정하지 않고, Deep Health Check 실패와 복제 지연을 함께 확인하여 오탐 최소화.
-2. **Fencing 선행**: 승격 명령보다 Fencing을 먼저 완료하여 Split Brain 완전 차단.
-3. **검증 후 전환**: RPO·N-1 용량 충족을 확인한 후에만 라우팅을 전환하여 전환 후 품질 보장 (**Auto Failover 완결**).
+1. **지속적 상태 감시**: Heartbeat•Health•Lag 다중 수집
+2. **장애 판정**: Quorum•Hysteresis로 지속 장애 확정
+3. **Fencing 실행**: 구 Primary 전원•Storage•쓰기 차단
+4. **Standby 상태•용량 검증**: RPO와 N-1 용량 확인
+5. **트래픽 전환**: DNS•LB•Service Discovery 갱신
 
 #### 한줄 요약
 
 - 여러 신호로 장애를 확정하고 이전 쓰기를 끊은 뒤 예비 자원으로 전환하는 것이 핵심이다.
 
-## Ⅴ. 종류 및 비교 (장애 전환 계층별 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -156,7 +143,7 @@ extra:
 
 - 호출 주소, 서비스 인스턴스, 데이터 쓰기 주체를 각각 다른 계층에서 바꿈이 핵심이다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Auto Failover 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 

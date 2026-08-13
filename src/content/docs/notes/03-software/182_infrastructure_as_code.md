@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-14T04:00:00+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -28,10 +28,14 @@ extra:
 
 </details>
 
-- 정의: 인프라 구성 요소를 코드로 정의하여 버전 관리(Git), 테스트, CI/CD 등 엔지니어링 생태계를 인프라로 확장한 자동화 기술.
-- 배경: 수동 관리(Click-Ops)의 휴먼 에러, 환경 불일치, 복제 불가능성 한계 극복.
+- 정의/개념: Infrastructure를 실행 가능한 Code로 관리하는 **IaC**
+- 배경/필요성: Click-Ops는 **변경 이력•재현성•환경 일치** 보장 곤란
 
-## Ⅱ. 핵심 성질
+#### 한줄 요약
+
+- 인프라 목표 상태를 코드와 변경 이력으로 남겨 같은 환경을 반복 생성한다.
+
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -41,9 +45,15 @@ extra:
 
 </details>
 
-- 코드 기반 상태 장부 관리 및 실 자원 연동 변경 통제.
+- **Declarative Config**로 목표 상태 정의
+- **State•Plan**으로 실제 자원과 변경 범위 비교
+- **Version Control•Review**로 인프라 변경 추적
 
-## Ⅲ. 아키텍처 및 구성요소
+#### 한줄 요약
+
+- 코드와 실제 상태의 차이를 계획으로 검토한 뒤 승인된 변경만 적용한다.
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -52,23 +62,25 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────┐
-│                  테라폼 기반 IaC 실행 구조                 │
-├────────────────────────────────────────────────────────────┤
-│ 1. [코드(HCL)] ──► 2. [테라폼 엔진] ◄──(비교)── 3. [상태]   │
-│                      │                             │       │
-│ 5. [인프라 자원] ◄───(API 호출)── 4. [프로바이더] ◄───────┘
-└────────────────────────────────────────────────────────────┘
+[IaC Engine]
+ ├── [Config]
+ ├── [Core]
+ ├── [Backend]
+ └── [Provider]
 ```
 
-| 구성요소 | 기능 및 책임 | 실무 적용 |
-|:---|:---|:---|
-| **Config** | 인프라 최종 형상 정의 소스코드 | `.tf` (VPC 선언) |
-| **Core** | 코드 파싱 및 상태 비교 엔진 | `plan/apply` |
-| **Backend** | 팀 협업 시 상태 파일 원격 저장 | S3 + DynamoDB(Lock) |
-| **Provider** | 클라우드 API 통신 어댑터 | AWS/K8s Provider |
+| 구성요소 | 책임 |
+|---|---|
+| Config | Resource의 **목표 상태•의존성** 선언 |
+| Core | Config•State•실제 자원의 **차이 계산** |
+| Backend | State의 **원격 저장•Lock•Version** 관리 |
+| Provider | 공급자 API와 Resource **CRUD Adapter** 제공 |
 
-## Ⅳ. 콘텐츠 요청 파이프라인
+#### 한줄 요약
+
+- 구성은 목표, 상태는 관리 장부, Provider는 실제 자원 API 경계를 맡는다.
+
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -77,19 +89,40 @@ extra:
 </details>
 
 ```text
-[Dev]               [Terraform]                [Cloud]
-  │                      │                        │
-  ├─ 1. Write Code ─────►│                        │
-  ├─ 2. Plan (시뮬) ───►│◄──(Read State & Info)───┤
-  │                      │                        │
-  │◄─ 3. Print Plan ─────┤                        │
-  │                      │                        │
-  ├─ 4. Apply (적용) ───►│ (API 호출) ───────────►│
+[IaC 변경 요청]
+      │
+      ▼
+1. Config 검증
+      │
+      ▼
+2. State•실제 자원 Refresh
+      │
+      ▼
+3. 변경 Plan 생성
+      │
+      ▼
+4. Review•Policy 승인
+      │
+      ▼
+5. Apply•State 갱신
+      │
+      ▼
+[인프라 결과 반환]
 ```
 
-- 흐름: 코드/상태 대조 → 시뮬레이션(Plan) → API 호출 및 상태 갱신.
+### 동작 원리
 
-## Ⅴ. IaC 도구 패러다임 비교
+1. **Config 검증**: Syntax•Type•Module 입력 확인
+2. **State•실제 자원 Refresh**: 관리 객체와 현재 속성 대조
+3. **변경 Plan 생성**: 생성•변경•교체•삭제 범위 산출
+4. **Review•Policy 승인**: 파괴 변경•비용•보안 기준 검사
+5. **Apply•State 갱신**: Provider 호출과 결과 장부 기록
+
+#### 한줄 요약
+
+- 파괴 변경과 편차를 Plan에서 확인하고 승인 후 실제 자원과 State를 함께 갱신한다.
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -103,7 +136,11 @@ extra:
 | **접근 방식** | 선언형(상태 파일 관리) | 절차형(순차 스크립트) |
 | **운영 철학** | 불변 인프라(대체) | 가변 인프라(덮어쓰기) |
 
-## Ⅵ. 실무 난제 및 대책
+#### 한줄 요약
+
+- 자원 수명주기는 Provisioning, OS 내부 상태는 구성 관리가 주로 담당한다.
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -117,6 +154,10 @@ extra:
 | **동시 수정** | 중복 Apply 실행 | S3+DynamoDB 기반 State Lock |
 | **민감 정보** | 코드 내 패스워드 포함 | Secret Manager 연동 및 파일 암호화 |
 
+#### 한줄 요약
+
+- 원격 State를 잠그고 민감값을 분리하며 Console 변경은 Drift로 탐지한다.
+
 ## Ⅶ. 결론
 
 <details><summary>핵심 용어</summary>
@@ -125,4 +166,8 @@ extra:
 
 </details>
 
-- IaC 기반 불변 인프라 및 변경 통제 체계 적용.
+- 공유 자원은 **원격 State•Lock•Plan Review**, 임시 자원은 불변 교체
+
+#### 한줄 요약
+
+- 선언 코드와 실제 자원을 계속 대조하고 승인된 Plan만 적용해 재현성과 통제를 확보한다.
