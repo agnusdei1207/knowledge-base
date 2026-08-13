@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "메모리 계층 구조 (Memory Hierarchy)"
-date: "2026-08-13T10:12:00+09:00"
+date: "2026-08-13T11:44:27+09:00"
 tags:
   - "notes-hardware"
 weight: 22
@@ -62,7 +62,7 @@ $$
 
 <details><summary>핵심 용어</summary>
 
-- **레지스터(Register)**: CPU 코어 내부에 위치하여 0-Cycle 연산 피연산자를 보관하는 최상위 저장 소자.
+- **레지스터(Register)**: CPU 코어 내부에서 명령어 피연산자와 상태를 보관하는 최상위 저장 소자.
 - **SRAM (Static RAM)**: 캐시 메모리(L1/L2/L3)로 사용되며 전원 공급 중 복사나 리프레시 없이 1~10ns 저지연을 제공하는 고속 반도체.
 - **DRAM (Dynamic RAM)**: 주기억장치(Main Memory)로 사용되며 1트랜지스터 1커패시터 구조로 주기적 Refresh가 필요하나 고밀도 용량을 제공하는 반도체.
 - **SSD / Flash Memory**: 비휘발성 보조기억장치로 가상 메모리 스왑 영역 및 영구 데이터 파일 시스템을 보관하는 하위 계층.
@@ -82,12 +82,12 @@ $$
  └─────────────────────────────────────────┘
 ```
 
-| 계층 구분 | 대표 기술 소자 | 접근 지연 (Latency) | 저장 용량 및 제어 주체 |
-|:---|:---|:---|:---|
-| **레지스터 (Registers)** | Flip-Flop / Latch | **< 1 ns** (0 ~ 1 Cycle) | 수십~수백 Bytes (컴파일러 / CPU 회로 제어) |
-| **L1/L2/L3 캐시 (Cache)**| On-Chip **SRAM** | **1 ~ 15 ns** (4 ~ 40 Cycles) | 수 KB ~ 수십 MB (하드웨어 MMU / Cache Controller) |
-| **주기억장치 (Main Memory)**| DDR4 / DDR5 / HBM **DRAM**| **60 ~ 100 ns** (200+ Cycles) | 수 GB ~ 수 TB (운영체제 / MMU Paging) |
-| **보조기억장치 (Storage)** | NVMe **SSD** / NAND Flash | **10 ~ 100 us** (100,000+ Cycles)| 수 TB ~ 수 PB (운영체제 파일 시스템 / I/O) |
+| 구성요소 | 책임 |
+|:---|:---|
+| 레지스터 | 현재 명령의 **피연산자•상태** 보관 |
+| L1•L2•L3 캐시 | 최근 블록의 **저지연 재사용** 제공 |
+| 주기억장치 | 실행 중 페이지의 **대용량 저장** 제공 |
+| 보조기억장치 | 파일•비상주 데이터의 **비휘발 보관** |
 
 #### 한줄 요약
 - Register(CPU), L1/L2/L3 Cache(SRAM), Main Memory(DRAM), Storage(Flash SSD)의 4단계 계층으로 구성됨.
@@ -105,24 +105,24 @@ $$
 [ CPU Memory Access Instruction ]
                  │
                  ▼
-[ 1. Level 1 Cache (L1) Lookup ] ──(Hit)──> Data Return to ALU (< 1ns)
+[ 1. L1 조회 ] ──(Hit)──> Data Return
                  │ (Miss)
                  ▼
-[ 2. Level 2 / Level 3 Cache Lookup ] ──(Hit)──> Refill L1 & Data Return (5~15ns)
+[ 2. L2•L3 조회 ] ──(Hit)──> Refill L1 & Data Return
                  │ (Miss)
                  ▼
-[ 3. Main Memory (DRAM) Lookup ] ──(Hit)──> Refill L3/L2/L1 & Data Return (60~100ns)
+[ 3. DRAM 조회 ] ──(상주)──> Refill Caches & Data Return
                  │ (Miss - Page Fault)
                  ▼
-[ 4. Secondary Storage (SSD) Swap-In ] ──> Refill DRAM & Caches (10~100us)
+[ 4. 저장장치 Page-In ] ──> Refill DRAM & Caches
 ```
 
 ### 동작 원리
 
-1. **Level 1 Cache (L1) Lookup**: CPU 메모리 읽기 시 **최상위 L1 캐시** 탐색 및 적중 시 반환
-2. **Level 2 / Level 3 Cache Lookup**: L1 미스 시 하위 억세스 전파 및 **캐시 블록** 단위 갱신
-3. **Main Memory (DRAM) Lookup**: 캐시 전면 미스 시 DRAM 억세스 및 **상위 계층** 데이터 보충
-4. **Secondary Storage (SSD) Swap-In**: **비상주 페이지** 접근 시 Page Fault 발동 및 스왑 인
+1. **L1 조회**: 최상위 캐시 적중 시 요청 데이터를 반환함.
+2. **L2•L3 조회**: L1 미스 시 하위 캐시를 탐색하고 블록을 보충함.
+3. **DRAM 조회**: 캐시 미스 시 DRAM에서 캐시 라인을 인출함.
+4. **저장장치 Page-In**: **비상주 페이지**이면 Page Fault 후 적재함.
 
 #### 한줄 요약
 - L1->L2->L3->DRAM->SSD 순으로 상위 계층 미스 시 하위 계층으로 억세스가 전파되며 블록 단위로 상위 계층에 Refill됨.
@@ -175,7 +175,7 @@ $$
 
 </details>
 
-- **워크로드 특성** 기반 계층별 용량 배분 및 **캐시 블로킹**으로 AMAT 최소화 적용
+- 재사용률이 높으면 **캐시 용량•Blocking**, 대역폭 병목이면 **Prefetch•HBM** 확대
 
 #### 한줄 요약
-- 참조 지역성 기반의 AMAT 최소화를 위한 피라미드 메모리 계층 구조 채택 및 Cache Blocking/Prefetching을 결합한 최적화 체계 적용.
+- AMAT 구성 요인을 측정하여 계층 용량과 데이터 이동 정책을 결정함.

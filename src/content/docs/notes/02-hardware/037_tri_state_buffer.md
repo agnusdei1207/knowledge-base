@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3-상태 버퍼•트라이스테이트 (Tri-State Buffer)"
-date: "2026-08-08T17:55:00+09:00"
+date: "2026-08-13T11:55:49+09:00"
 tags:
   - "notes-hardware"
 weight: 37
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **3-상태 버퍼 (Tri-State Buffer / Three-State Buffer)**: 출력을 일반적인 2진 논리 상태인 '0'(Low) 및 '1'(High) 이외에, 전기적으로 신호선과의 연결을 완전히 절연시키는 고임피던스(High-Impedance, High-Z) 상태를 포함하여 3가지 상태로 출력할 수 있는 디지털 논리 게이트 회로.
-- **고임피던스 (High-Impedance, High-Z)**: 출력 스위치(PMOS/NMOS)가 모두 켜지지 않아(Turn-Off) 출력이 오픈 회로(Open-Circuit)처럼 수 메가옴 이상의 무한대 저항을 가져, 공유 버스 선에 어떠한 전류/전압 영향도 주지 않는 전기적 절연 상태.
+- **고임피던스(High-Impedance, High-Z)**: 출력단이 비활성화되어 공유선에 능동적인 0•1 전압을 구동하지 않는 상태.
 - **버스 경합 (Bus Contention)**: 2개 이상의 출력 드라이버가 동일한 신호선에 '0'과 '1'을 동시에 출력하여 단락 전류(Short-Circuit Current)가 흐르고 기계적 IC 파손이 일어나는 현상.
 
 </details>
@@ -79,12 +79,12 @@ extra:
                                                           VCC (Prevents Floating)
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **OE (Output Enable) 핀**| 드라이버 활성화 및 High-Z 절연 모드 선택 | 디코더 신호를 받아 1클록 이내로 버스 연결/해제 수행 |
-| **CMOS Push-Pull 출력단**| OE=1 시 Input Data를 0/1로 강하게 구동 (Drive) | 수십 mA의 높은 가동 전류(Drive Strength) 전송 지원 |
-| **Pull-Up / Down Resistor**| 버스 High-Z 시 전압을 VCC/GND로 유전 | 무구동 부동(Floating) 상태의 노이즈 입력 차단 |
-| **Bus Hold Cell** | 래치 특성을 활용해 직전 논리 전압 보존 | 풀업 저항 대비 정적 누설 전력(Static Power) 소모 소거 |
+| 구성요소 | 책임 |
+|:---|:---|
+| OE 핀 | **Drive•High-Z 상태** 선택 |
+| CMOS 출력단 | 활성 시 **논리 0•1 전압** 구동 |
+| Pull-Up•Down 저항 | 무구동 버스의 **기본 논리 상태** 설정 |
+| Bus Hold Cell | 약한 피드백으로 **직전 버스 상태** 유지 |
 
 #### 한줄 요약
 - OE Control Pin, CMOS Push-Pull Output Stage, Pull-Up/Down Bias Resistor 및 Bus Hold Cell로 구동됨.
@@ -141,7 +141,7 @@ extra:
 | **출력 상태** | **0, 1, High-Z (3가지)** | 0, 1 (2가지) | **0, High-Z (Wired-AND)** |
 | **적용 영역** | **칩 외부 양방향 공유 버스** | **칩 내부(SoC) 신호 선택** | **공유 제어선 (I2C, IRQ Line)** |
 | **하드웨어 구현** | 핀 수 절감 (양방향 핀 공유) | MUX 게이트 면적 증가 | 외부 풀업 저항 필수 수반 |
-| **버기/충돌 위험**| **있음** (OE 겹침 시 단락 발생) | **없음** (조합 논리 안전 보장) | 없음 (Wired-AND 작동) |
+| **충돌 위험**| OE 겹침 시 구동 충돌 | 선택 신호 오류 시 논리 오동작 | Low 동시 구동은 전기적으로 허용 |
 | **억세스 속도** | 초고속 (양방향 직접 구동) | 매우 빠름 | 상대적 느림 (풀업 저항 R-C 지연) |
 
 #### 한줄 요약
@@ -157,7 +157,7 @@ extra:
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| OE 신호 스큐로 2개 드라이버가 동시 켜져 **순간 단락** 발생 | 디코더 **OE 상호 배타** 락 및 **비중첩 턴어라운드** 지연 삽입 | 칩 과도 대전류 단락 파손 완벽 방지 |
+| OE 신호 스큐로 두 드라이버가 동시에 켜지는 **순간 단락** | 디코더 **OE 상호 배타** 및 **비중첩 Turnaround** 삽입 | 과도 전류와 출력 충돌 방지 |
 | 버스 상의 모든 출력이 High-Z로 빠질 때 노이즈 유입 (**부동 현상**) | 버스 핀에 **Pull-Up 저항** 또는 **Bus Hold Cell** 탑재 | 부동 상태 노이즈 차단 및 스위칭 전력 소모 절감 |
 | ASIC / FPGA 칩 내부에서 3-상태 버퍼 선언 시 합성 오류 발생 | **논리 합성(Synthesis)** 시 칩 내부는 **MUX**로 전환, 칩 외부 핀에만 적용 | ASIC DFT 테스트 검증성 및 내부 신호 안전성 확보 |
 | 양방향 버스 고속 구동 시 신호 반사파(Reflection)로 인한 데이터 왜곡 | **On-Die Termination (ODT)** 임피던스 매칭 적용 | 고주파 핀 신호 무결성(Signal Integrity) 보장 |
@@ -173,7 +173,7 @@ extra:
 
 </details>
 
-- **공유 버스 회로 선택 기준 (Shared Bus Circuit Decision Criteria)**에 의거하여 컴퓨터 시스템의 외부 DRAM/PCIe 양방향 데이터 버스 핀 인터페이스에는 **3-상태 버퍼(Tri-State Buffer)**와 ODT 매칭을 채택하고, SoC 칩 내부 블록 간 인터커넥트에는 3-상태 대신 **MUX 선택기**를 적용하는 이원화 회로 체계 적용 필수.
+- 외부 병렬 양방향 버스는 **Tri-State**, 칩 내부 선택 경로는 **MUX** 적용.
 
 #### 한줄 요약
-- 외부 양방향 공유 버스 핀 절감을 위한 3-상태 버퍼 채택 및 OE 상호 배타/ODT 기반 신호 보호 체계 적용.
+- 물리 공유선과 합성 가능성을 기준으로 Tri-State•MUX•Open-Drain을 선택함.

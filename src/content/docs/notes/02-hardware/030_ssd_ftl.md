@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "SSD FTL 플래시 변환 계층 (Flash Translation Layer)"
-date: "2026-08-08T16:14:00+09:00"
+date: "2026-08-13T11:51:11+09:00"
 tags:
   - "notes-hardware"
 weight: 30
@@ -82,12 +82,12 @@ $$
 └───────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **LPN-PPA 매핑 엔진** | LPN 주소를 신규 물리 PPA로 변환 및 테이블 업데이트 | Page-level 매핑을 통해 임의 쓰기(Random Write) 지연시간 극소화 |
-| **가비지 컬렉터 (GC)** | Victim Block 선택, 유효 페이지 이주 및 Erase 집행 | 빈 물리 블록(Free Block) 공급을 지속 유지하여 쓰기 마비 차단 |
-| **Wear Leveler** | P/E Cycle 카운터를 대조하여 Hot/Cold 데이터 위치 교체| 특정 낸드 블록 조기 파괴 방지 및 SSD 전체 수명 최대화 |
-| **Power-Loss Protection**| 불시 정전 시 대용량 커패시터 전력으로 Journal 로그 보존 | 정전 직후 부팅 시 LPN-PPA 매핑 테이블 100% 무결 복구 |
+| 구성요소 | 책임 |
+|:---|:---|
+| LPN-PPA 매핑 엔진 | **논리•물리 페이지 매핑** 관리 |
+| 가비지 컬렉터 | **Victim 선택•유효 페이지 이주•Erase** 수행 |
+| Wear Leveler | 블록별 **P/E Cycle 분산** 관리 |
+| Power-Loss Protection | 정전 시 **데이터•매핑 메타데이터** 보존 |
 
 #### 한줄 요약
 - LPN-PPA Mapping Engine, Garbage Collector, Wear Leveler 및 Power-Loss Protection(PLP) 복구 유닛으로 통합 구동됨.
@@ -105,23 +105,20 @@ $$
 [ Host OS Logical Page Write Request (LPN) ]
                      │
                      ▼
-      [ 1. Allocate New Clean Physical Page (PPA) ]
+      [ 1. 신규 페이지 기록 ]
                      │
                      ▼
-      [ 2. Flash Page Program (Write Data to New PPA) ]
+      [ 2. 매핑•저널 갱신 ]
                      │
                      ▼
-      [ 3. Update LPN-PPA Mapping Table & Write Mapping Journal ]
-                     │
-                     ▼
-      [ 4. Mark Old PPA as INVALID ] ──> Host Write Completed
+      [ 3. 기존 페이지 무효화 ] ──> Host Write Completed
                      │
          [ Free Block Count < Threshold Check ]
                      ├─ False : Normal Operation Complete
                      └─ True (여유 블록 부족)
                          │
                          ▼
-        [ 5. Background Garbage Collection (GC) Execution ]
+        [ 4. 가비지 컬렉션 ]
           - Select Victim Block (Highest Invalid Ratio)
           - Copy Valid Pages from Victim Block to New Clean Block
           - Execute Physical ERASE on Victim Block ──> Recycled Free Block
@@ -129,9 +126,10 @@ $$
 
 ### 동작 원리
 
-1. **신규 갱신 및 프로그래밍**: 호스트 LPN 쓰기 요청 수신 시 빈 **PPA**를 할당받아 낸드에 데이터를 **Page Program**함.
-2. **매핑 테이블 및 저널 업데이트**: **LPN-PPA 매핑 테이블**을 신규 PPA로 활성화하고 이전 PPA를 무효화(Invalid) 처리하며, **매핑 저널**을 보존함.
-3. **여유 블록 점검 및 GC**: 여유 블록 수치가 임계치 이하로 떨어지면 **희생 블록(Victim Block)**을 선택하여 유효 페이지를 옮기고 해당 블록을 **Physical Erase**하여 빈 블록을 회수함.
+1. **신규 페이지 기록**: 빈 **PPA**를 할당하고 데이터를 Program함.
+2. **매핑•저널 갱신**: 신규 PPA 매핑과 복구 로그를 저장함.
+3. **기존 페이지 무효화**: 이전 PPA를 Invalid로 표시함.
+4. **가비지 컬렉션**: 임계치 아래면 유효 페이지 이주 후 Victim을 Erase함.
 
 #### 한줄 요약
 - New Page Write -> LPN-PPA Table/Journal Update -> Old Page Invalidate -> (Free Block 부족 시) GC Valid Copy & Block Erase 순으로 실행됨.
@@ -149,9 +147,9 @@ $$
 | 매핑 FTL 방식 | 페이지 매핑 (Page-Level) | 블록 매핑 (Block-Level) | 하이브리드 매핑 (Hybrid) |
 |:---|:---|:---|:---|
 | **매핑 굵기 단위** | 4KB Page 단위 세밀 매핑 | 2MB~8MB Block 단위 굵은 매핑 | Block 단위 + Log Block Page 매핑 |
-| **DRAM 메모리 사용**| **매우 큼** (1TB SSD 당 1GB DRAM) | **매우 작음** (수 MB 이하) | 중간 수준 |
+| **매핑 메모리 사용**| 페이지 수에 비례해 큼 | 블록 수에 비례해 작음 | 중간 수준 |
 | **임의 쓰기 성능** | **최고 성능** (WAF 극소화) | 최악 성능 (잦은 Block Merge) | 보통 수준 (Log Block 포화 시 병목) |
-| **쓰기 증폭 (WAF)** | 낮음 ($WAF \approx 1.0 ~ 1.5$) | 매우 높음 ($WAF > 5.0$) | 보통 수준 ($WAF \approx 2.0$) |
+| **쓰기 증폭 경향** | 임의 쓰기에서 비교적 낮음 | 병합 때 높아질 수 있음 | 로그 병합 정책에 따라 중간 |
 | **대표 채택 솔루션**| **엔터프라이즈/소비자용 고성능 SSD 표준** | 과거 구형 SD카드, 저가형 플래시 | 초기 2.5인치 SSD |
 
 #### 한줄 요약
@@ -169,7 +167,7 @@ $$
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 호스트 쓰기 지속 시 전경 GC(Foreground GC) 발동으로 **p99 지연** 폭증 | **Over-Provisioning(OP)** 공간 20% 이상 확충 및 **TRIM** 연동 | 전경 GC 발생 90% 차단 및 p99 쓰기 지연시간 평탄화 |
+| 호스트 쓰기 지속 시 전경 GC로 **p99 지연** 상승 | 워크로드에 맞는 **Over-Provisioning•TRIM** 연동 | Free Block 여유 확보와 전경 GC 감소 |
 | 소규모 무작위 쓰기(Random Write) 지속 시 **쓰기 증폭(WAF)** 지표 폭증 | FTL 내 **Write Buffer Aggregation** 및 Page-level 매핑 구동 | WAF 1.2 이하 안정화 및 SSD 낸드 물리 수명 연장 |
 | 특정 Read Only 데이터가 적재된 블록의 마모율 불균형으로 조기 불량 | **Static Wear Leveling** 가동으로 Cold Data 블록 정기 이주 | 전체 낸드 블록의 P/E Count 수명 균등화 |
 | 불시 정전(SPO) 시 DRAM 상의 LPN-PPA 매핑 테이블 유실 및 데이터 파손 | 칩 전용 **탄탈륨 커패시터(PLP)** 탑재 및 **매핑 저널** 회복 | 정전 후 부팅 시 LPN-PPA 매핑 100% 무결 복구 |
@@ -185,7 +183,7 @@ $$
 
 </details>
 
-- **FTL 최적화 기준 (FTL Optimization Criteria)**에 의거하여 데이터센터 및 하이엔드 엔터프라이즈 SSD 구축 시, 임의 쓰기 저지연 및 WAF 절감을 달성하기 위해 **Page-Level Mapping FTL**과 1GB DRAM 매핑 공간을 기본 탑재하고, 20% 이상의 **Over-Provisioning(OP)** 공간 확충, OS **TRIM 연동** 및 **PLP 정전 보호** 제어 체계 적용 필수.
+- 임의 쓰기가 많으면 **Page Mapping•OP**, 전력 위험이 크면 **PLP•Journal** 강화.
 
 #### 한줄 요약
-- NAND Flash 하드웨어 제약 극복을 위한 Page-level FTL 아키텍처 채택 및 Over-Provisioning 확충과 TRIM 연동을 결합한 SSD 제어 체계 적용.
+- WAF•p99•수명•정전 위험을 기준으로 매핑과 GC 정책을 결정함.

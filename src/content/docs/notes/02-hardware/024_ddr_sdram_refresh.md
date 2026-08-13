@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DDR SDRAM과 리프레시 방식 (DDR SDRAM Refresh)"
-date: "2026-08-08T14:48:00+09:00"
+date: "2026-08-13T11:46:28+09:00"
 tags:
   - "notes-hardware"
 weight: 24
@@ -46,7 +46,7 @@ extra:
 </details>
 
 - 클록의 **양 엣지 전송(Double-Edge Transfer)** 기술을 적용하여 SDR 대비 동일 버스 클록 주파수에서 2배의 전송 속도(MT/s) 달성.
-- 다중 뱅크 구성을 통한 **뱅크 병렬성(Bank-Level Parallelism)** 및 **버스트 전송(Burst Length)**을 연동하여 행 변경 지연(Row Miss) 오버헤드를 완벽히 은닉.
+- 다중 뱅크의 **뱅크 병렬성**과 **버스트 전송**으로 행•열 명령 지연을 일부 중첩.
 - 매 64ms 시간 이내에 모든 행을 재충전해야 하는 **tREFI(Refresh Interval)** 및 **tRFC(Refresh Cycle Time)** 대기 시간 수반.
 
 #### 한줄 요약
@@ -78,12 +78,12 @@ extra:
 └───────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **메모리 컨트롤러** | 주소 비트 매핑, Command Scheduling 및 tREFI 리프레시 큐 타이밍 관리 | 행 적중(Row Hit) 스케줄링 및 리프레시 대기 지연 최소화 통제 |
-| **DDR PHY 인터페이스**| DQ(Data) 및 DQS(Strobe) 신호의 셋업/홀드 타임 정밀 트레이닝 | Gbit/s 초고속 전송 시 비트 반전 및 타이밍 스큐(Skew) 방지 |
-| **행 버퍼 (Row Buffer)**| ACT 명령 수신 시 1개 행 전체를 래칭 보관 | 연속 Column Read 시 Precharge 없이 15ns 초고속 Read 구동 |
-| **리프레시 카운터** | 칩 내부에 탑재되어 다음 번 리프레시 대상 Row 주소 자동 가산 | 외부 주소 버스 점유 없이 REF 명령 단독으로 전하 재충전 실행 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 메모리 컨트롤러 | **주소 매핑•명령•Refresh** 스케줄링 |
+| DDR PHY | **DQ•DQS 타이밍•신호 무결성** 제어 |
+| 행 버퍼 | 활성 행의 **감지•복원•열 접근** 제공 |
+| 리프레시 카운터 | 다음 **Refresh 대상 행** 선택 |
 
 #### 한줄 요약
 - Memory Controller, DDR PHY(DQ/DQS Training), Row Buffer 및 Internal Refresh Counter가 연동 구동됨.
@@ -103,23 +103,23 @@ extra:
 [ Memory Controller Command Execution Loop ]
                     │
                     ▼
-          [ tREFI Timer Expired Check ? ]
+          [ tREFI 기한 도래 여부 ]
           ├─ Timer Expired (기한 도래)
-          │   1. AUTO REFRESH (REF) Command 발송
-          │   2. DRAM 칩 내부 tRFC 동안 전면 대기 (110~350ns Stall)
-          │   3. Internal Refresh Counter 주소 Row 충전 완결
+          │   REF 명령 발송
+          │   tRFC 동안 대상 범위 접근 제한
+          │   Refresh Counter 대상 행 충전
           │
           └─ Normal Operation (일반 접근)
-              1. ACT (Row Activation) ──> Row Buffer 로드
-              2. CAS Read/Write ──> DQ/DQS Double-Edge Data Burst Transfer
-              3. PRE (Precharge) ──> Bitline VCC/2 Equalize
+              ACT ──> Row Buffer 로드
+              CAS ──> DQ/DQS Burst Transfer
+              PRE ──> Bitline Equalize
 ```
 
 ### 동작 원리
 
-1. **타이머 체크**: 컨트롤러는 **tREFI(7.8us)** 타이머를 모니터링하여 기한 도래 시 리프레시 명령(REF)을 우선 구동함.
-2. **리프레시 락업**: REF 명령 수신 시 DRAM 칩은 **내장 카운터** 주소의 Row를 충전하며, **tRFC** 시간 동안 버스 명령 수신을 락업함.
-3. **일반 억세스 구동**: 리프레시가 없을 경우 **ACT** 명령으로 행 버퍼를 켜고, **CAS** 명령으로 DQ/DQS 핀을 통해 양 엣지 버스트 전송을 완결한 뒤 **PRE**로 행을 닫음.
+- **기한 확인**: **tREFI** 범위 안에서 REF 명령을 스케줄링함.
+- **Refresh 수행**: 대상 행을 복원하고 **tRFC** 동안 관련 접근을 제한함.
+- **일반 접근**: **ACT•CAS•PRE**로 행 활성, 열 전송, 비트라인 초기화 수행
 
 #### 한줄 요약
 - tREFI 기한 감시 후 REF 명령으로 tRFC 락업 전하 충전을 가동하며 일반 접근 시 ACT->CAS 버스트 전송->PRE를 수행함.
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- **DDR/Refresh 최적화 기준(DDR Refresh Optimization Criteria)**에 의거하여 초고속 데이터센터 및 모바일 AP 메모리 아키텍처 설계 시, Double-Edge 고대역폭을 지원하는 DDR5/LPDDR5 규격을 채택하고 **Per-Bank Refresh (REFpb)** 스케줄링, **TRR 로해머 방어 회로** 및 온도 가변 리프레시 제어 체계 적용 필수.
+- p99가 중요하면 **Per-Bank Refresh**, 고온•Rowhammer에는 **가변 Refresh•TRR** 적용.
 
 #### 한줄 요약
-- Double-Edge 전송 및 Bank-Level Parallelism 기반 대역폭 확보와 Per-Bank Refresh 및 TRR Rowhammer 방어를 결합한 메인 메모리 구축 체계 적용.
+- 대역폭•Refresh 정지•보안 요구로 DDR 세대와 Refresh 방식을 결정함.

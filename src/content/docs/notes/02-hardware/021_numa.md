@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "NUMA 비균등 메모리 접근 (Non-Uniform Memory Access)"
-date: "2026-08-08T14:08:00+09:00"
+date: "2026-08-13T11:42:55+09:00"
 tags:
   - "notes-hardware"
 weight: 21
@@ -46,7 +46,7 @@ extra:
 </details>
 
 - 소켓별로 **로컬 메모리(Local Memory)** 채널을 독점 배치하여 프로세서 확장 시 메모리 접근 총 대역폭이 비례하여 확장.
-- 타 노드의 **원격 메모리(Remote Memory)**에 접근 시 **노드 간 인터커넥트(Inter-Node Interconnect)** 홉(Hop)을 경유하므로 로컬 접근 대비 2~3배의 접근 지연시간 수반.
+- 타 노드의 **원격 메모리**는 인터커넥트 홉을 경유하여 로컬보다 긴 접근 지연 수반.
 - 하드웨어 레벨의 **ccNUMA (Cache-Coherent NUMA)** 기술을 탑재하여 분산 메모리 환경에서도 단일 64-bit 가상 주소 공간 평면 유지.
 
 #### 한줄 요약
@@ -74,15 +74,15 @@ extra:
 └──────────────────┬───────────────────┘     └──────────────────┬───────────────────┘
                    │                                            │
                    └─── High-Speed Interconnect Link (UPI / IF) ┘
-                        (Remote Access : 2x ~ 3x Latency)
+                        (Remote Access : Additional Hop Latency)
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **NUMA 노드** | 코어 클러스터, L3 캐시, 메모리 제어기, DRAM의 독립적 도메인 | 노드 내부 자원 간 무지연 로컬 억세스 패스 형성 |
-| **통합 메모리 제어기**| 소켓 내부에 4~8 채널 DRAM 슬롯을 결합하여 고속 억세스 제어 | 독립 채널 가동으로 소켓 추가 시 전역 메모리 대역폭 동시 확장 |
-| **Interconnect Link** | Intel UPI, AMD Infinity Fabric을 통해 소켓 간 P2P 링크 구성 | 원격 노드 메모리 읽기/쓰기 및 캐시 일관성 Snooping 패킷 중계 |
-| **NUMA-Aware OS** | Linux `numactl`, AutoNUMA를 통해 프로세스-노드 바인딩 구동 | 원격 억세스 트래픽을 차단하고 로컬 메모리 할당률 95% 이상 유지 |
+| 구성요소 | 책임 |
+|:---|:---|
+| NUMA 노드 | **코어•캐시•메모리 제어기•DRAM** 묶음 |
+| 통합 메모리 제어기 | 노드의 **로컬 DRAM 채널** 제어 |
+| 노드 간 인터커넥트 | **원격 접근•일관성 패킷** 전달 |
+| NUMA 인지 OS | **스레드•페이지 배치•이동** 관리 |
 
 #### 한줄 요약
 - NUMA Node(Local DRAM), Inter-Node Interconnect(UPI/IF) 및 NUMA-Aware OS 커널 바인딩이 유기적 계층 구조를 이룸.
@@ -101,17 +101,17 @@ extra:
 [ Memory Access Request (CPU Core on Node 0) ]
                       │
                       ▼
-          [ 1. Physical Address Home Node 판별 ]
+          [ 1. 홈 노드 판별 ]
                       │
         ┌─────────────┴─────────────┐
         ▼                           ▼
-[ 2. Local Node 0 DRAM ]    [ 3. Remote Node 1 DRAM ]
+[ 2. 로컬 접근 ]            [ 3. 원격 접근 ]
   ├─ Direct MC Bus Access     ├─ Inter-Node Link (UPI) 패킷 발송
   └─ Low Latency (예: 60ns)   └─ High Latency (예: 140ns)
         │                           │
         └─────────────┬─────────────┘
                       ▼
-           [ 4. Data Delivery to Core 0 ]
+           [ 4. 데이터 반환 ]
                       │
            [ 원격 접근 비율 지속 감시 ]
                       ├─ 원격 비율 경미 : 현 상태 유지
@@ -120,10 +120,10 @@ extra:
 
 ### 동작 원리
 
-1. **노드 판별**: 코어가 가상 주소를 물리 주소로 변환한 후, 해당 주소가 속한 **홈 노드(Home Node)**를 판별함.
-2. **로컬 접근**: 홈 노드가 자신의 **NUMA 노드(Node 0)**인 경우, 로컬 메모리 제어기를 구동하여 60ns 저지연 억세스 수행.
-3. **원격 접근**: 홈 노드가 타 소켓(Node 1)인 경우, **인터커넥트(UPI/IF)**를 통해 **원격 메모리 요청(Remote Request)**을 패킷 전송하여 140ns 지연 접근 수행.
-4. **AutoNUMA 마이그레이션**: 커널이 **AutoNUMA**를 통해 원격 트래픽 과다를 감지하면 해당 페이지를 로컬 노드로 **페이지 마이그레이션(Page Migration)**함.
+1. **홈 노드 판별**: 물리 주소가 속한 **Home Node**를 판별함.
+2. **로컬 접근**: 같은 노드이면 로컬 메모리 제어기로 접근함.
+3. **원격 접근**: 다른 노드이면 **Interconnect**로 요청을 전달함.
+4. **데이터 반환**: 원격 비율이 높으면 **페이지 마이그레이션**을 검토함.
 
 #### 한줄 요약
 - Address Home Node 판별 -> 로컬 억세스(저지연) / 원격 억세스(인터커넥트 홉) -> AutoNUMA Page Migration 순서로 동작함.
@@ -140,9 +140,9 @@ extra:
 
 | 비교 항목 | NUMA (Non-Uniform Memory Access) | UMA (Uniform Memory Access) |
 |:---|:---|:---|
-| **메모리 접근 지연** | **비균등** (로컬 60ns vs 원격 140ns) | **균등** (모든 코어에서 메모리 억세스 지연 동일) |
+| **메모리 접근 지연** | 위치에 따른 **로컬•원격 지연 차이** | 모든 코어가 유사한 메모리 지연 공유 |
 | **메모리 대역폭** | **매우 높음** (소켓별 독점 DRAM 채널 분산 제공) | 제한적 (단일 전역 버스에 억세스가 쏠려 포화) |
-| **시스템 확장성** | **우수함** (2, 4, 8 소켓 및 수백 코어 스케일아웃) | 저조함 (8 코어 이상 확장 시 메모리 경합 심화) |
+| **시스템 확장성** | 소켓별 채널로 **용량•대역폭 확장** | 공유 메모리 경로의 경합으로 제한 |
 | **소프트웨어 민감도**| **배치 민감도** 매우 큼 (NUMA 튜닝 필수) | 민감도 없음 (OS 스케줄러가 임의 조율 가능) |
 | **대표 채택 환경** | 최신 2-Socket/4-Socket 엔터프라이즈 서버 | 단일 소켓 PC, 모바일 AP, 소형 임베디드 |
 
@@ -153,7 +153,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **최초 접근 정책(First-Touch Policy)**: Linux 기본 메모리 정책으로, 가상 메모리 페이지를 실제 최초로 억세스(Touch)한 코어가 속한 NUMA 노드에 물리 DRAM을 100% 할당하는 원칙.
+- **최초 접근 정책(First-Touch Policy)**: 페이지를 최초 접근한 스레드의 NUMA 노드에 물리 페이지를 배치하는 정책.
 - **자동 NUMA 균형(Automatic NUMA Balancing)**: Linux 커널이 런타임 페이지 폴트 통계를 분석해 스레드와 페이지를 동일 노드로 끌어당기는 자율 동기화 기능.
 - **재배치 진동(Placement Oscillation / Ping-Ponging)**: 멀티스레드가 공유 데이터를 동시 억세스할 때 AutoNUMA가 페이지를 노드 0과 노드 1 사이에서 무한히 오가며 칩 오버헤드를 일으키는 부작용.
 - **`numactl`**: Linux CLI 도구로, 특정 프로세스를 특정 NUMA 노드의 코어 및 로컬 메모리에 명시적으로 바인딩 구동하는 튜닝 툴 (`numactl --cpunodebind=0 --membind=0`).
@@ -163,7 +163,7 @@ extra:
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
 | 단일 메인 스레드가 데이터 초기화 시 **First-Touch Policy**로 특정 노드 메모리만 포화 | 스레드 생성 후 **병렬 초기화(Parallel Init)** 및 `numactl --interleave` 적용 | 모든 NUMA 노드 메모리 채널로 분산 균등 할당 |
-| DB / Redis 구동 시 원격 억세스 증가로 Transaction 지연 급증 | `numactl` 도구로 **CPU Affinity** 및 **로컬 메모리 바인딩** 고정 | 원격 메모리 억세스 90% 차단 및 쿼리 지연시간 반감 |
+| DB•Redis에서 원격 접근 증가로 트랜잭션 지연 상승 | `numactl`로 **CPU Affinity•로컬 메모리 바인딩** 고정 | 원격 접근 감소와 쿼리 지연 안정화 |
 | AutoNUMA 활성화 시 노드 간 페이지 무한 이동 **재배치 진동(Oscillation)** 발생 | AutoNUMA **마이그레이션 임계치** 조율 및 대형 DB에선 AutoNUMA 비활성화 | 불필요한 노드 간 메모리 이사 트래픽 차단 |
 | Oracle / Postgre DB의 버퍼 풀이 원격 노드에 배치되어 TPS 하락 | **버퍼 풀 지역화(Buffer Pool Localization)** 및 소켓 단위 파티셔닝 | DB 노드 내 전용 버퍼 히트율 상향으로 처리량 극대화 |
 
@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- **NUMA 튜닝 프레임워크(NUMA Optimization Framework)**에 입각하여 2-Socket 이상의 엔터프라이즈 서버 및 DBMS 인프라 설계 시, 단일 전역 메모리 사용을 지양하고 **`numactl`** 기반의 코어-메모리 Local Binding, **First-Touch 병렬 초기화** 및 소켓 단위 애플리케이션 파티셔닝 체계 적용 필수.
+- 공유 데이터가 적으면 **Local Binding**, 노드 간 공유가 크면 **Interleave•분할** 선택.
 
 #### 한줄 요약
-- 멀티소켓 서버 대역폭 확장을 위한 NUMA 구조 채택 및 `numactl` Local Binding 기반 로컬 메모리 지역성 극대화 체계 적용.
+- 원격 접근률과 대역폭 균형을 기준으로 스레드•페이지 배치를 결정함.

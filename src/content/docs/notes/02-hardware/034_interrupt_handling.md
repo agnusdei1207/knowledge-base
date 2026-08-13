@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "인터럽트 처리 방식: 벡터•데이지체인 (Interrupt Handling)"
-date: "2026-08-08T17:12:00+09:00"
+date: "2026-08-13T11:53:34+09:00"
 tags:
   - "notes-hardware"
 weight: 34
@@ -44,12 +44,12 @@ extra:
 
 </details>
 
-- CPU 명령어 실행 경계(Instruction Boundary) 완결 직후 IRQ 핀을 샘플링하여 1주기 이내로 **실행 흐름 전환(Execution Flow Transfer)** 발동.
+- 허용된 경계에서 IRQ를 수락하고 우선순위•마스크 검사 후 **실행 흐름 전환** 발동.
 - 하드웨어 인터럽트 제어기(APIC / NVIC)를 탑재하여 다중 IRQ 간의 **마스킹(Masking)** 및 **우선순위 중재(Arbitration)** 통제.
 - 긴급도가 높은 IRQ 수용을 위해 **중첩 인터럽트(Nested Interrupt)**를 허용하되, 이로 인한 **인터럽트 지연(Interrupt Latency)** 및 스택 오버플로 위험 수반.
 
 #### 한줄 요약
-- APIC/NVIC 제어기를 통한 우선순위 중재, 1클록 내 문맥 저장/복원 및 중첩 인터럽트 제어를 통한 저지연 수습을 특성으로 가짐.
+- APIC•NVIC 우선순위 중재와 문맥 저장•복원, 중첩 제어로 IRQ를 수습함.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -77,12 +77,12 @@ extra:
 └───────────────────────────────────────────────────────────┘
 ```
 
-| 구성요소 | 역할 및 작동 원리 | 차별점 및 실무 유용성 |
-|:---|:---|:---|
-| **인터럽트 제어기 (APIC/NVIC)**| IRQ 신호 수신, 마스킹 비트 대조 및 우선순위 중재 | 멀티코어 환경에서 특정 CPU 코어로 인터럽트 분산 로드 밸런싱 |
-| **인터럽트 벡터 (Vector)** | IRQ 장치가 CPU로 발송하는 1-Byte 식별 번호 | 소프트웨어가 빠르게 해당 장치의 원인을 식별하는 색인값 제공 |
-| **인터럽트 벡터 테이블 (IVT/IDT)**| 메모리 상에 1:1 ISR 함수 시작 주소를 보관 | 1클록 테이블 룩업만으로 목표 ISR 주소로 직통 JUMP 수행 |
-| **EOI (End of Interrupt)**| ISR 완결 시 CPU가 제어기로 발송하는 완료 신호 | 제어기 내 차단 중이던 동일/하위 우선순위 IRQ 락업 해제 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 인터럽트 제어기 | **IRQ 마스크•우선순위•코어 라우팅** 제어 |
+| 인터럽트 벡터 | 처리 원인의 **ISR 색인 번호** 제공 |
+| IVT•IDT | 벡터별 **처리기 주소•권한 정보** 보관 |
+| EOI 신호 | 제어기에 **처리 완료•다음 IRQ 허용** 통지 |
 
 #### 한줄 요약
 - Interrupt Controller(APIC/NVIC), Interrupt Vector, IVT/IDT 메모리 테이블 및 EOI 완료 통지 제어로 작동함.
@@ -100,31 +100,28 @@ extra:
 [ Hardware IRQ Signal Asserted by Device ]
                    │
                    ▼
-  [ 1. Interrupt Controller Priority Arbitration & Masking Check ]
+  [ 1. 중재•식별 ]
                    │
                    ▼
-  [ 2. CPU Finishes Current Instruction & Reads Interrupt Vector ]
+  [ 2. 문맥 저장 ]
                    │
                    ▼
-  [ 3. Context Save : Push PC, Flags, GPRs to Kernel Stack ]
-                   │
-                   ▼
-  [ 4. Jump to ISR (Top-Half) : Source Clear & EOI Signal Assert ]
+  [ 3. ISR 실행 ]
                    │
   [ Deferred Processing Exist? ]
         ├─ Yes ──> Queue to SoftIRQ / Tasklet (Bottom-Half)
         └─ No
                    │
                    ▼
-  [ 5. Context Restore : Pop Registers & Return to Original Program ]
+  [ 4. 지연 처리•문맥 복원 ]
 ```
 
 ### 동작 원리
 
-1. **중재 및 식별**: 제어기가 마스킹 및 우선순위를 중재하고, CPU가 **인터럽트 벡터**를 수신하여 IVT 테이블을 룩업함.
-2. **문맥 저장(Context Save)**: 현재 명령을 완료한 CPU가 PC, Flags, 레지스터 상태를 커널 스택에 **문맥 저장**함.
-3. **ISR(Top-Half) 실행**: ISR로 점프하여 **원인 해제(Source Clear)**를 수행하고 제어기로 **EOI(End of Interrupt)**를 전달함.
-4. **지연 처리 및 문맥 복원**: 시간 소요 작업은 **Bottom-Half(SoftIRQ)**로 오프로드하고, 스택에서 문맥을 복원하여 원래 프로그램을 재개함.
+1. **중재•식별**: 마스크•우선순위 검사 후 벡터로 처리기를 선택함.
+2. **문맥 저장**: PC•상태와 필요한 레지스터를 스택에 보존함.
+3. **ISR 실행**: **Source Clear•EOI** 후 지연 작업을 큐에 등록함.
+4. **지연 처리•문맥 복원**: Bottom-Half 실행을 예약하고 원래 흐름으로 복귀함.
 
 #### 한줄 요약
 - Priority Arbitration -> Context Save -> ISR Jump -> Source Clear & EOI -> Bottom-Half Offload -> Context Restore 순으로 수습됨.
@@ -144,7 +141,7 @@ extra:
 | **우선순위 결정** | **하드웨어 제어기(APIC)** 프로그래밍 레지스터 | **물리적 연결 순서** (CPU에 가까운 장치 선점) |
 | **식별 지연시간** | **극도로 짧음** (IVT 직접 룩업 Jump) | 긴 편임 (체인을 따라 신호 전파 지연 발생) |
 | **하드웨어 복잡도**| 비쌈 (APIC 제어기 및 8-bit 데이터 버스 필요) | 매우 단순함 (단 1개의 IRQ/INTA 핀 라인으로 가능) |
-| **장치 기아 현상** | **없음** (우선순위 노화/APIC 스케줄링 적용) | 발생 가능 (상위 장치가 신호를 독점 시 기아) |
+| **장치 기아 현상** | 고정 우선순위 설정이면 발생 가능 | 상위 연결 장치 독점 시 발생 가능 |
 | **주요 적용 시스템**| PC, 서버, x86, ARM Cortex-A/R (APIC/GIC) | 소형 임베디드, MCU, 8-bit/16-bit 컨트롤러 |
 
 #### 한줄 요약
@@ -178,7 +175,7 @@ extra:
 
 </details>
 
-- **인터럽트 설계 판단 기준 (Interrupt Architecture Decision Criteria)**에 의거하여 고성능 엔터프라이즈 및 멀티코어 시스템을 구축할 시, 하드웨어 레벨에서는 저지연 direct JUMP를 제공하는 **APIC/GIC 기반 벡터 방식(Vectored Interrupt)**과 **MSI-X**를 채택하고, OS 커널 레벨에서는 **Top-Half/Bottom-Half 지연 처리** 및 코어 Affinity 바인딩 체계 적용 필수.
+- 다중 장치•코어는 **Vectored•MSI-X**, 단순 핀 제약은 **Daisy Chain** 선택.
 
 #### 한줄 요약
-- 초고속 비동기 수습을 위한 하드웨어 벡터 방식 인터럽트 채택 및 커널 Top-Half/Bottom-Half 지연 처리 결합 체계 적용.
+- 빈도•지연•핀•코어 수로 식별 방식과 지연 처리 구조를 결정함.

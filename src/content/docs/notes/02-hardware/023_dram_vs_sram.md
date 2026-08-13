@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DRAM과 SRAM 비교 (DRAM vs SRAM)"
-date: "2026-08-08T14:34:00+09:00"
+date: "2026-08-13T11:45:44+09:00"
 tags:
   - "notes-hardware"
 weight: 23
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: 1개의 트랜지스터와 1개의 커패시터(1T1C) 셀 구조를 기반으로 높은 집적도와 경제적 용량을 제공하지만, 전하 방전 방지를 위해 주기적 리프레시(Refresh)가 필수적인 휘발성 반도체.
-- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 6개의 트랜지스터(6T) 래치 회로 셀 구조를 기반으로 리프레시 동작 없이 1~5ns 초고속 접근 속도를 제공하는 휘발성 반도체.
+- **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 6T 래치 셀을 기반으로 리프레시 없이 낮은 접근 지연을 제공하는 휘발성 반도체.
 - **휘발성(Volatility)**: 전원 공급(VCC)이 중단되면 저장되어 있던 2진 논리 데이터(0/1)가 즉각 소멸되는 반도체 전하 성질.
 
 </details>
@@ -46,7 +46,7 @@ extra:
 </details>
 
 - **1T1C 셀(1T1C Cell)** 구조를 갖는 **DRAM**은 집적도가 월등히 높아 작은 다이 면적에 기가바이트(GB) 단위 대용량 메인 메모리 구현 가능.
-- **6T 래치(6T Latch)** 구조의 **SRAM**은 **비파괴 판독(Non-Destructive Read)** 및 래치 상태 유지 특성을 통해 나노초 미만의 고속 억세스 지원.
+- **6T 래치** 구조의 **SRAM**은 비파괴 판독과 래치 상태 유지로 낮은 접근 지연 지원.
 - DRAM은 시간 경과에 따른 커패시터 전하 누설(Leakage)을 보충하기 위한 주기적 **리프레시(Refresh)** 동작 필수.
 
 #### 한줄 요약
@@ -78,9 +78,9 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 |:---|:---|:---|
 | **셀 구동 회로** | **1T1C** (1 Transistor + 1 Capacitor) | **6T** (6 Transistors Cross-Coupled Latch) |
 | **판독 메커니즘** | **파괴적 판독** (Sense Amp **복원** 필수) | **비파괴 판독** (래치 전압 상태 직접 유지) |
-| **리프레시 동작** | **필요함** (64ms 마다 Periodic Refresh) | **불필요함** (VCC 전원 공급되는 한 상태 보존) |
-| **비트당 면적/단가**| 매우 작고 저렴함 (고밀도 GB 구현) | 크고 비쌈 (DRAM 대비 약 100배 고가) |
-| **억세스 지연** | **60 ~ 100 ns** (Row Act + Precharge 수반) | **1 ~ 5 ns** (SRAM Array Direct Decode) |
+| **리프레시 동작** | **주기적 Refresh** 필요 | 전원 공급 중 **Refresh 불필요** |
+| **비트당 면적•단가**| 1T1C 기반 고밀도•저비용 | 6T 기반 저밀도•고비용 |
+| **접근 지연** | Row Act•Precharge로 상대적 고지연 | 래치 직접 판독으로 상대적 저지연 |
 
 #### 한줄 요약
 - DRAM은 1T1C+Sense Amp 복원 회로 기반으로 동작하고 SRAM은 6T 래치 인버터 결합 회로 기반으로 동작함.
@@ -97,17 +97,16 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ```text
 [ DRAM Read Operation Flow ]
- 1. Row Activation (RAS) ──> 2. Cell Charge Discharge to Bitline ──> 3. Sense Amp Boost & Restore
-                          ──> 4. Column Selection (CAS) & Data Output ──> 5. Precharge (PR)
+ 1. 행 활성 ──> 2. 전하 감지•복원 ──> 3. 열 선택 ──> 4. 프리차지
 
 [ SRAM Read Operation Flow ]
- 1. Wordline Assert      ──> 2. Bitline Differential Voltage Sense  ──> 3. Direct Data Out
+ 1. 워드라인 활성 ──> 2. 차동 비트라인 감지 ──> 3. 데이터 출력
 ```
 
 ### 동작 원리
 
-1. **DRAM 억세스 순서**: **행 활성(Row Activation)**으로 셀 전하를 방출하고, **감지 증폭기**로 전압을 증폭하며, 셀 전하를 **복원(Restore)**한 뒤, **열 선택(CAS)**으로 데이터를 출동시키고, 다음 작업을 위해 **프리차지(Precharge)**를 완결함.
-2. **SRAM 억세스 순서**: 워드라인(Wordline)이 켜지면 6T 래치의 차동 비트라인 전압을 1클록 내에 정적으로 직접 판독하여 대기 시간 없이 데이터를 출력함.
+1. **DRAM 접근**: 행 활성 후 **감지•복원**, 열 선택, 프리차지를 수행함.
+2. **SRAM 접근**: 워드라인 활성 후 래치의 차동 비트라인을 판독함.
 
 #### 한줄 요약
 - DRAM은 Row Act -> Sense/Restore -> CAS -> Precharge의 복잡한 커패시터 동적 절차를 거치며, SRAM은 Wordline 래치 직통 독출로 완료함.
@@ -123,9 +122,9 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 | 성능 지표 | DRAM (Dynamic RAM) | SRAM (Static RAM) |
 |:---|:---|:---|
-| **핵심 용도** | 시스템 메인 메모리, GPU VRAM, HBM | CPU L1/L2/L3 캐시, 레지스터, Register File |
+| **핵심 용도** | 시스템 메인 메모리•GPU VRAM•HBM | CPU 캐시•온칩 버퍼•레지스터 파일 |
 | **집적 밀도** | 초고밀도 (동일 다이 면적당 SRAM의 약 6~10배) | 저밀도 (트랜지스터 6개로 칩 다이 면적 과다) |
-| **동적/정적 전력** | 동적 전력 높음 (Precharge/Refresh 수반) | 정적 누설 전력(Leakage Power) 존재, 동적 전력 저조 |
+| **전력 요인** | Activate•Precharge•Refresh 동적 전력 | 다수 트랜지스터의 누설•접근 동적 전력 |
 | **제조 공정** | 커패시터 형성용 특수 3D DRAM 공정 수반 | 표준 논리 트랜지스터(CMOS) 공정과 100% 호환 |
 
 #### 한줄 요약
@@ -159,7 +158,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 </details>
 
-- **메모리 소자 선택 기준(Memory Device Selection Criteria)**에 근거하여 CPU 내장 L1/L2/L3 캐시 유닛에는 6T 래치 기반의 초고속 **SRAM** 소자를 채택하고, 시스템 대용량 주기억장치 및 AI 가속기 패키징 메모리에는 1T1C 고밀도 **DRAM(DDR5/HBM3e)** 소자 및 On-die ECC 체계 적용 필수.
+- 저지연 온칩 저장은 **SRAM**, 대용량 주기억은 **DRAM** 선택.
 
 #### 한줄 요약
-- 1~5ns 초고속 온칩 캐시용 6T SRAM 및 고밀도 메인 메모리/HBM용 1T1C DRAM 소자의 계층적 이원화 채택 체계 적용.
+- 지연•밀도•비용을 기준으로 SRAM과 DRAM을 계층 배치함.
