@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "몬테카를로 방법 (Monte Carlo Method)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:07:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 17
@@ -140,7 +140,7 @@ $$
 
 #### 한줄 요약
 
-- 독립 난수 스트림(IID Random Stream) 기반으로 표본 생성 및 모델 평가를 분산 실행하여 신뢰구간(Confidence Interval) 수렴 시까지 집계한다.
+- 독립 난수 스트림으로 표본 생성과 모델 평가를 병렬 실행하고, 신뢰구간이 허용 폭에 들 때까지 집계한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -164,7 +164,7 @@ $$
 
 #### 한줄 요약
 
-- 저차원의 매끄러운 함수에는 결정론적 구적법(Deterministic Quadrature), 차원의 커스(Curse of Dimensionality)가 발생하는 고차원에는 몬테카를로 기법을 적용한다.
+- 저차원의 매끄러운 함수에는 구적법, 격자가 폭증하는 고차원에는 몬테카를로법을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -189,7 +189,7 @@ $$
 
 #### 한줄 요약
 
-- Pseudo-random Number Generator(PRNG)의 시드 분리로 독립 난수 스트림을 확보하고 분산 Reduction 기법(Importance Sampling 등)을 적용한다.
+- 난수 스트림을 분리해 표본 독립성을 확보하고 중요도 표본추출 등으로 분산을 줄인다.
 
 ## Ⅶ. 결론
 
@@ -206,5 +206,4 @@ $$
 
 #### 한줄 요약
 
-- 목표 정밀도($\operatorname{SE} = \sigma / \sqrt{N}$)와 가용 연산 자원(Computational Budget)을 교차 검증하여 표본 크기 $N$을 책정 체계 적용
-
+- 목표 표준오차와 계산 예산으로 표본 수를 정하고, 고차원은 몬테카를로법을 선택한다.

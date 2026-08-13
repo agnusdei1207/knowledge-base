@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-08T02:57:00+09:00"
+date: "2026-08-13T10:58:58+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -137,7 +137,7 @@ extra:
 
 #### 한줄 요약
 
-- 키 비교를 통해 리프 노드까지 강하(Traverse)한 후, 트리 균형 조건 위반 시 회전/색상갱신/분할-병합을 수행하여 탐색 깊이를 바운딩한다.
+- 키 비교로 목표 경로를 찾고, 규칙 위반 시 회전·색상 변경·분할로 높이를 제한한다.
 
 
 
@@ -211,5 +211,4 @@ extra:
 
 #### 한줄 요약
 
-- 저장 매체(Disck/NVMe vs RAM)와 워크로드 패턴(Read-Heavy vs Write-Heavy)에 맞춰 B-Tree, AVL, Red-Black 트리를 최적 선택 체계 적용
-
+- 외부 저장소는 B-Tree, 메모리 조회 중심은 AVL, 갱신 중심은 레드블랙을 선택한다.

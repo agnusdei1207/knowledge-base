@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 30%"
     variant: note
 title: "오토마타 이론: DFA•NFA (Automata Theory)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:10:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -98,7 +98,7 @@ extra:
 
 #### 한줄 요약
 
-- $M = (Q, \Sigma, \delta, q_0, F)$의 5-tuple로 유망/비유망 상태 공간 및 델타 전이 도메인을 수학적으로 정의한다.
+- $M=(Q,\Sigma,\delta,q_0,F)$로 상태•입력•전이•시작•수용 조건을 정의한다.
 
 ## Ⅳ. 흐름도
 
@@ -136,14 +136,14 @@ extra:
 
 **동작 원리**
 
-- **1. 초기 상태 구성**: DFA는 q0, NFA는 엡실론 폐쇄 설정한다.
+- **1. 초기 상태 구성**: DFA는 q₀, NFA는 {q₀}의 엡실론 폐쇄를 설정한다.
 - **2. 입력 기호 소비**: 입력 스트림에서 기호 하나를 선택한다.
 - **3. 다음 상태 갱신**: DFA 상태 또는 NFA 상태 집합을 갱신한다.
 - **4. 수용 상태 판정**: 현재 상태와 수용 상태 집합을 비교한다.
 
 #### 한줄 요약
 
-- State Memory 디코딩 및 Symbol-by-symbol Transition을 집계하여 최종 소진 시점의 $q \in F$ 여부로 Accept/Reject를 반환한다.
+- 입력 기호마다 상태를 갱신하고, 입력 소진 뒤 현재 상태와 수용 상태의 교집합으로 수용 여부를 판정한다.
 
 
 ## Ⅴ. 종류 및 비교
@@ -166,7 +166,7 @@ extra:
 
 #### 한줄 요약
 
-- DFA는 $O(1)$ Time per Symbol의 deterministic 1-state transition을 보장하고, NFA는 Multi-state tracking/Epsilon closure 연산을 동반한다.
+- DFA는 기호마다 단일 상태를 갱신하고, NFA는 상태 집합과 엡실론 폐쇄를 추적한다.
 
 
 ## Ⅵ. 실무 고려사항 및 대책
@@ -192,7 +192,7 @@ extra:
 
 #### 한줄 요약
 
-- Lazy 결정화 / On-the-fly Subset Construction 기법을 적용하여 DFA 상태 폭증 및 정규식 서비스 거부 취약점을 방지한다.
+- 도달 상태만 지연 결정화하고 패턴•시간 한도를 적용해 상태 폭증과 ReDoS를 억제한다.
 
 
 ## Ⅶ. 결론
@@ -204,9 +204,8 @@ extra:
 
 </details>
 
-- **상태 수 자원 한도** 이내면 DFA, 초과하면 **NFA**를 실행한다.
+- 고정 패턴과 상태 예산 이내면 **DFA**, 상태 폭증 우려 시 시간 한도를 둔 지연 결정화를 적용한다.
 
 #### 한줄 요약
 
-- 메모리 Footprint 및 Lookup Latency 허용치에 맞춰 DFA(Table Lookup) 또는 NFA(State Set Tracking) 엔진을 선택 체계 적용
-
+- 고정 패턴의 고속 처리는 DFA, 상태 폭증 우려는 시간 한도를 둔 지연 결정화를 선택한다.

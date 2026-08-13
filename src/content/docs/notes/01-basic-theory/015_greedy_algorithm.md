@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "탐욕 알고리즘 (Greedy Algorithm)"
-date: "2026-08-10T23:40:00+09:00"
+date: "2026-08-13T11:05:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 15
@@ -131,7 +131,7 @@ extra:
 
 #### 한줄 요약
 
-- Local Optimum 선택 $\rightarrow$ Feasibility Check $\rightarrow$ Permanent Assignment 순서의 결정적 흐름을 반복한다.
+- 국소 최선 선택, 타당성 판정, 되돌림 없는 확정을 해가 완성될 때까지 반복한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -183,7 +183,7 @@ extra:
 
 #### 한줄 요약
 
-- 교환 논증 기반 최적성 증명 및 엣지 케이스(Edge Case) 반례 검증으로 알고리즘 타당성을 학술적으로 입증한다.
+- 교환 논증으로 최적성을 증명하고 경계값과 최소 반례로 적용 범위를 검증한다.
 
 ## Ⅶ. 결론
 
@@ -198,5 +198,4 @@ extra:
 
 #### 한줄 요약
 
-- 수학적/논리적 최적성 증명(Exchange Argument/Induction)을 완료한 경우 탐욕 알고리즘을, 최적성 훼손 반례 발견 시 탐색 기반 기법으로 이행 체계 적용
-
+- 교환 논증으로 최적성을 증명하면 탐욕 기법을 적용하고, 반례가 있으면 DP나 완전 탐색으로 전환한다.
