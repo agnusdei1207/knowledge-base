@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CUDA 병렬 컴퓨팅 (CUDA Parallel Computing)"
-date: "2026-08-08T19:10:00+09:00"
+date: "2026-08-13T11:58:26+09:00"
 tags:
   - "notes-hardware"
 weight: 42
@@ -63,7 +63,7 @@ extra:
 
 - **호스트 런타임(Host Runtime)**: 메모리 할당, 데이터 전송, 커널 런칭을 관장하는 C/C++ API 계층.
 - **커널 실행 계층(Kernel Execution Hierarchy)**: 그리드를 블록 단위로 SM에 매핑하고 하위 스레드를 디스패치하는 구조.
-- **장치 메모리 계층(Device Memory Hierarchy)**: 레지스터, 공유 메모리, 전역 메모리로 분구되는 GPU 저장 체계.
+- **장치 메모리 계층(Device Memory Hierarchy)**: 레지스터, 공유 메모리, 캐시, 전역 메모리로 구분되는 GPU 저장 체계.
 - **SM(Streaming Multiprocessor)**: CUDA 스레드 블록을 수용하여 실제 SIMT 연산을 처리하는 GPU 가속 코어 집합.
 
 </details>
@@ -76,7 +76,7 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 호스트 런타임 | 장치 메모리 메모리 할당 및 커널 런칭 관리 |
+| 호스트 런타임 | 장치 **메모리 할당•전송•커널 실행** 관리 |
 | CUDA 스트림 | 명령어 비동기 큐잉 및 연산 순서/의존성 제어 |
 | 커널 실행 계층 | **SM** 상에 그리드 및 블록 스레드 병렬배치 |
 | 장치 메모리 계층 | 레지스터, 공유 메모리, 전역 메모리 간 텐서 공급 |

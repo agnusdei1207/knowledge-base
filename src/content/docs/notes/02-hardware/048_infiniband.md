@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "InfiniBand (InfiniBand)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T12:00:06+09:00"
 tags:
   - "notes-hardware"
 weight: 48
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **인피니밴드(InfiniBand)**: 초고속·저지연 Switched Fabric 기반 고성능 컴퓨팅(HPC) 및 AI 클러스터용 상호연결망 기술.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: OS 커널 개입 및 CPU 개입 없이 노드 간 전용 억세스로 원격 메모리에 읽기/쓰기를 수행하는 기술.
+- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: OS 커널 및 CPU 개입 없이 원격 메모리에 직접 읽기·쓰기를 수행하는 기술.
 - **커널 우회(Kernel Bypass)**: 네트워크 I/O 시 OS 프로토콜 스택 처리 및 잦은 Context Switch를 방지하는 제어 구조.
 - **중앙 처리 장치(Central Processing Unit, CPU)**: 일반 네트워크 프로토콜 스택(TCP/IP) 처리 및 패킷 소켓 버퍼 복사를 총괄하는 중앙 연산 장치.
 
@@ -89,14 +89,14 @@ extra:
 
 - **작업 요청(Work Request, WR)**: 애플리케이션이 QP의 SQ/RQ에 제출하는 RDMA Read/Write 명령 객체.
 - **등록 키(Registration Key, rkey/lkey)**: HCA가 원격/로컬 메모리 영역의 접근 권한 및 물리 주소를 검증하는 인증 키.
-- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 조율 없이 HCA 하드웨어가 호스트 메모리와 이더넷/패브릭선 간 데이터를 직접 이동시키는 기술.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 조율 없이 HCA가 호스트 메모리와 패브릭 간 데이터를 직접 이동시키는 기술.
 
 </details>
 
 ```text
                 [등록 메모리 RDMA 쓰기 게시]
                                |
-                   1. 송신 HCA 버퍼 DMA 읽기
+                   1. 송신 버퍼 DMA 읽기
                                |
               +----------------------------------+
               | 반복: 링크 전송 패킷            |
@@ -115,7 +115,7 @@ extra:
 1. **송신 버퍼 DMA 읽기**: 애플리케이션의 RDMA Write **작업 요청** 인가 시, 송신 HCA가 **DMA**로 로컬 등록 메모리 데이터 인출.
 2. **QP 패킷·패브릭 전달**: **QP** 및 하드웨어 흐름 제어 조건 검증 후 InfiniBand 패브릭으로 패킷 분할 송출.
 3. **수신 등록 키·권한 검증**: 수신 노드 HCA가 패킷 내 포함된 원격 **등록 키** 및 가상 주소 접근 권한 검증.
-4. **원격 등록 메모리 DMA 쓰기**: 수신 HCA가 원격 등록 메모리에 **DMA** 쓰기 직결 수행 및 ACK 응답 송신 후 **CQ** 이벤트 기록.
+4. **원격 등록 메모리 DMA 쓰기**: 수신 HCA가 등록 메모리에 **DMA** 쓰기를 수행하고 **CQ** 이벤트 기록.
 
 #### 한줄 요약
 
@@ -126,7 +126,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **RoCE(RDMA over Converged Ethernet)**: 표준 이더넷 망 상에서 UDP/IP 캡슐화를 통해 RDMA Verbs를 구동하는 통신 기술.
-- **RDMA 버브(RDMA Verbs)**: 원격 메모리 억세스를 위해 애플리케이션에 제공되는 표준 API 인터페이스.
+- **RDMA 버브(RDMA Verbs)**: 원격 메모리 접근을 위해 애플리케이션에 제공되는 표준 API 인터페이스.
 - **TCP/IP(Transmission Control Protocol/Internet Protocol)**: OS 커널 스택을 경유하여 계층적 데이터 전송을 수행하는 범용 인터넷 프로토콜.
 
 </details>
@@ -147,9 +147,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **키 폐기(Key Revocation)**: RDMA 전송 완료 후 기할당된 rkey/lkey를 즉시 무효화하여 무단 메로리 접근을 차단하는 보안 절차.
+- **키 폐기(Key Revocation)**: RDMA 전송 완료 후 할당된 rkey/lkey를 무효화하여 무단 메모리 접근을 차단하는 보안 절차.
 - **QP 오류 상태(QP Error State)**: 전송 타임아웃 또는 미인가 접근 발생 시 해당 QP가 잠김 처리되는 예외 상태.
-- **GPUDirect RDMA(GPU Direct Remote Direct Memory Access)**: CPU 메인 메모리 간복사를 완전히 제거하고 GPU VRAM과 HCA 간에 PCIe 버스로 직접 RDMA 전송하는 기술.
+- **GPUDirect RDMA(GPU Direct Remote Direct Memory Access)**: CPU 메인 메모리 복사를 제거하고 GPU VRAM과 HCA를 직접 연결하는 RDMA 기술.
 
 </details>
 
@@ -164,7 +164,7 @@ extra:
 
 #### 한줄 요약
 
-- 그래픽 처리 장치 직접 원격 메모리 접근는 GPU 메모리와 원격 HCA를 직접 연결해 CPU 복사와 집단 통신 대기를 줄인다.
+- GPUDirect RDMA는 GPU 메모리와 HCA를 직접 연결해 CPU 복사와 집단 통신 대기를 줄인다.
 
 ## Ⅶ. 결론
 
@@ -178,4 +178,4 @@ extra:
 
 #### 한줄 요약
 
-- 노드 간 통신 지연시간 극복 및 AI/HPC 대규모 집단 통신 가속 향상을 위한 초고속 InfiniBand 패브릭 최적 구축 및 운영 체계 적용.
+- 초저지연 전용망은 InfiniBand, 기존 이더넷 재활용은 RoCE를 선택한다.

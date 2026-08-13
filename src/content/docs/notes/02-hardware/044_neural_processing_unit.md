@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "NPU 신경망 처리 장치 (Neural Processing Unit)"
-date: "2026-08-08T19:40:00+09:00"
+date: "2026-08-13T11:59:05+09:00"
 tags:
   - "notes-hardware"
 weight: 44
@@ -25,7 +25,7 @@ extra:
 - **NPU(Neural Processing Unit)**: 딥러닝 인공신경망 추론을 저전력·고효율로 전용 가속 처리하도록 설계된 하드웨어 프로세서.
 - **전용 연산 배열(Dedicated Compute Array)**: 신경망의 곱셈·누산(MAC) 연산을 2D 공간 구조 상에서 고속 병렬 처리하는 회로.
 - **근접 메모리(Near-Compute Memory)**: 연산기 근처에 정적 임의 접근 메모리(SRAM)를 구획하여 메모리 이송 소모 전력을 최소화하는 구조.
-- **AI(Artificial Intelligence)**: 학습된 신경망 모델 기반 가시/음성/텍스트 등을 추론하고 인식하는 지능형 기술.
+- **AI(Artificial Intelligence)**: 학습된 신경망 모델로 영상•음성•텍스트 등을 추론하고 인식하는 기술.
 - **CPU(Central Processing Unit)**: 제어 로직과 범용 명령 처리에 최적화된 프로세서.
 - **GPU(Graphics Processing Unit)**: 수많은 코어 기반 스레드 병렬 처리를 통해 대용량 수치 계산을 가속하는 프로세서.
 

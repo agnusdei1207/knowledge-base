@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "GPU 아키텍처•SIMT 모델 (GPU SIMT)"
-date: "2026-08-08T18:55:00+09:00"
+date: "2026-08-13T11:57:56+09:00"
 tags:
   - "notes-hardware"
 weight: 41
@@ -22,7 +22,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **GPU(Graphics Processing Unit)**: 수천 개의 코어로 대규모 데이터 병렬 처리를 고통과량으로 수행하는 프로세서.
+- **GPU(Graphics Processing Unit)**: 다수 연산 유닛으로 대규모 데이터 병렬 처리를 높은 처리량으로 수행하는 프로세서.
 - **SIMT(Single Instruction, Multiple Threads)**: 단일 명령어를 워프 단위의 다수 스레드에 공통으로 발행하여 독립 처리하는 execution 모델.
 - **SM(Streaming Multiprocessor)**: 워프 스케줄링, 레지스터 할당, ALU 연산 및 온칩 메모리를 관리하는 GPU 핵심 연산 단위.
 - **CPU(Central Processing Unit)**: 복잡한 제어 흐름과 직렬 스레드 처리에 최적화된 범용 프로세서.
