@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T05:40:00+09:00"
 tags: ["notes-software"]
 weight: 203
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: LLM의 비결정적 응답 특성과 환각 위험을 고려하여, 모델·프롬프트·검색(RAG) 설정을 하나의 버전 단위로 관리하고 반복 평가·안전 검증·비용 통제를 통해 승인된 구성만 배포하는 **LLM 운영 자동화 체계**
-- 배경/필요성: LLM은 같은 입력에도 응답이 달라지고, 프롬프트 한 줄 변경이 전혀 다른 품질을 유발하며, API 호출 비용이 요청마다 발생하므로 기존 MLOps 방식으로는 품질·안전·비용을 동시에 통제할 수 없는 문제 방지 요구성
+- 정의/개념: Model•Prompt•RAG를 평가•배포•관측하는 **LLMOps**
+- 배경/필요성: 비결정 응답•환각•Prompt 회귀로 **품질•안전 통제** 곤란
 
 #### 한줄 요약
 
 - 요리법·재료·안전 검사를 한 묶음으로 기록해 검증된 조합만 손님에게 제공한다.
 
-## Ⅱ. 특징 (LLMOps의 4대 핵심 특성)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 같은 질문을 여러 번 시험해 정확성·근거·안전·비용이 합격선 안인 구성을 선택한다.
 
-## Ⅲ. 구조 및 구성요소 (LLMOps 5-Component 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,40 +60,27 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        LLMOps Architecture                             │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. [Configuration Catalog]                                             │
-│    - 모델 + 프롬프트 + RAG 설정 = 구성 버전 (예: v1.2.3)              │
-│              │                                                         │
-│              ▼ (평가 요청)                                             │
-│ 2. [Evaluator] ── 반복 평가 세트 실행 → 품질·근거성·안전·비용 판정     │
-│              │                                                         │
-│              ▼ (승인 구성만 통과)                                       │
-│ 3. [LLM Gateway] ── Guardrail 입력 검사 → LLM API 호출 → 출력 검사    │
-│              │                                                         │
-│              ▼                                                         │
-│ 4. [Observer] ── 응답·지연·토큰·비용·안전 판정 수집                    │
-│              │                                                         │
-│              └─(개선 조건 감지)──► Configuration 수정 → 1단계 반복     │
-└────────────────────────────────────────────────────────────────────────┘
+[LLMOps]
+ ├── [Configuration Catalog | Model•Prompt•RAG]
+ ├── [Evaluator | 품질•근거•안전•비용]
+ ├── [LLM Gateway | 인증•Routing•Rate Limit]
+ ├── [Guardrail | 입출력 안전 통제]
+ └── [Observer | 지연•Token•비용•판정]
 ```
 
-선의 의미: 구성 카탈로그(1)→평가(2)→게이트웨이·가드레일(3)→관측(4)의 단방향 흐름과, 품질 저하 감지 시 1단계로 피드백되는 순환 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 대표 도구 |
-|:---|:---|:---|
-| **Configuration Catalog** | **모델·프롬프트·RAG 조합을 단일 버전으로 고정·관리** | MLflow, LangSmith |
-| **Evaluator** | **반복 평가 세트로 품질·근거성·안전·비용 합격 판정** | RAGAS, DeepEval |
-| **LLM Gateway** | **인증·라우팅·Rate Limit·캐싱·관측 로깅 중앙 처리** | LiteLLM, Kong AI Gateway |
-| **Guardrail** | **입출력 단계의 프롬프트 인젝션·유해 내용·환각 차단** | NeMo Guardrails, Llama Guard |
-| **Observer** | **응답·지연·토큰·비용·안전 판정을 구성 버전과 연결** | Langfuse, Arize Phoenix |
+| 구성요소 | 책임 |
+|---|---|
+| Configuration Catalog | Model•Prompt•RAG **구성 Version** 관리 |
+| Evaluator | 반복 평가로 품질•근거•안전•비용 판정 |
+| LLM Gateway | 인증•Routing•Rate Limit•**Cache** 통제 |
+| Guardrail | Prompt Injection•PII•유해 출력 차단 |
+| Observer | 응답•지연•Token•비용을 **구성 Version**에 연결 |
 
 #### 한줄 요약
 
 - 카탈로그의 한 구성 묶음을 시험한 뒤 게이트웨이가 안전 검사를 거쳐 모델을 호출하고 결과를 기록한다.
 
-## Ⅳ. 흐름도 (LLMOps 구성 승격 및 운영 모니터링 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -124,15 +111,16 @@ extra:
 
 ### 동작 원리
 
-1. **구성 버전 고정**: 모델·프롬프트·RAG를 하나의 버전으로 묶어 재현성 확보.
-2. **확률적 평가**: 비결정 응답을 N회 반복 평가하여 분포 기반 합격 여부 판정.
-3. **Guardrail 상시 운영**: 배포 후 모든 요청·응답에 실시간 안전 검사 적용 (**LLMOps 사이클 완결**).
+1. **평가 구성 제출**: Model•Prompt•RAG를 단일 Version 고정
+2. **품질•안전•비용 검증**: 반복 실행의 분포로 Gate 판정
+3. **승인 구성 Production 배포**: Gateway Routing 갱신
+4. **운영 관측**: 응답•지연•Token•비용•안전 판정 수집
 
 #### 한줄 요약
 
 - 시험 질문으로 합격한 조합만 배포하고 실제 대화의 품질·비용 문제를 다음 시험에 넣는다.
 
-## Ⅴ. 종류 및 비교 (LLM 성능 개선 방식 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -151,7 +139,7 @@ extra:
 
 - 답변 형식은 지시문을 바꾸고 반복 행동은 학습하며 최신 문서 지식은 검색해 넣는다.
 
-## Ⅵ. 실무 고려사항 및 대책 (LLMOps 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -179,7 +167,7 @@ extra:
 
 </details>
 
-- **LLMOps 품질·안전·비용 승격 기준**에 따라 반복 평가로 모든 게이트를 통과한 구성에 한해 **구성 승격 및 Guardrail 상시 운영** 원칙 적용
+- 모든 Gate를 통과한 **Model•Prompt•RAG 구성**만 승격•상시 감시
 
 #### 한줄 요약
 

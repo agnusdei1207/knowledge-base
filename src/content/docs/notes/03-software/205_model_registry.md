@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모델 레지스트리 (Model Registry)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T05:50:00+09:00"
 tags: ["notes-software"]
 weight: 205
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: ML 모델의 불변 버전·계보·평가 증적·승인 상태를 연결하여 "어떤 버전이 언제 누구에 의해 승인되어 운영에 배포되었는가"를 추적하고 롤백까지 통제하는 **Model Registry 중앙 거버넌스 체계**
-- 배경/필요성: 파일 시스템에 모델 파일만 저장하면 어떤 데이터로 학습했는지·누가 운영 승인했는지·현재 운영 중인 정확한 버전이 무엇인지 추적 불가하고, 장애 시 신속한 롤백을 위한 검증 버전 관리 체계 요구성
+- 정의/개념: Model Version•Lineage•증적•승인을 통제하는 **Registry**
+- 배경/필요성: Model 파일만 보관하면 **학습 출처•승인•운영 Version** 추적 불가
 
 #### 한줄 요약
 
 - 모델마다 출생 기록과 시험 성적표를 붙이고 승인된 번호만 운영 이름표가 가리키게 한다.
 
-## Ⅱ. 특징 (Model Registry의 4대 핵심 특성)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -50,7 +50,7 @@ extra:
 
 - 모델 파일을 고치지 않고 새 번호로 쌓아 두면 운영 이름표만 이전 번호로 돌려 같은 모델을 다시 배포할 수 있다.
 
-## Ⅲ. 구조 및 구성요소 (Model Registry 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,42 +59,27 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                      Model Registry Architecture                       │
-├────────────────────────────────────────────────────────────────────────┤
-│ [학습 파이프라인] ─────► [후보 버전 등록]                               │
-│   - 모델 산출물(Artifact Hash)                                         │
-│   - 계보(코드·데이터·피처 버전)                                         │
-│   - 모델 서명(입출력 스키마)                                            │
-│              │                                                         │
-│              ▼                                                         │
-│ [평가·계보 검증] ── 성능·무결성·출처 합격 여부 판정                     │
-│              │                                                         │
-│              ▼ (승인 게이트 통과)                                       │
-│ [승인 상태 전환] ── Staging → Production 상태 변경 + Audit Log 기록     │
-│              │                                                         │
-│              ▼                                                         │
-│ [Production Alias 갱신] ── `champion` → v23 (다운타임 없는 전환)        │
-│              │                                                         │
-│ [감사 로그] ── 모든 행위 불변 이력 저장                                 │
-└────────────────────────────────────────────────────────────────────────┘
+[Model Registry]
+ ├── [Artifact | Model•Hash•Signature]
+ ├── [Lineage | Code•Data•Feature•환경]
+ ├── [Validation Evidence | 성능•무결성•규제]
+ ├── [Approval Policy | 상태•Alias•권한]
+ └── [Audit Log | 등록•승인•배포•Rollback]
 ```
 
-선의 의미: 학습 파이프라인이 후보 버전을 등록(하)→평가 검증(중)→승인 상태 전환(상)→Production Alias 갱신(최상)의 단방향 승격 흐름과, 장애 시 이전 별칭으로 즉시 롤백 가능한 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 대표 도구 |
-|:---|:---|:---|
-| **Model Artifact** | **불변 모델 파일·해시·모델 서명 안전 보관** | MLflow, S3 |
-| **Model Lineage** | **코드·데이터·피처·학습 실행 관계 DAG 추적** | MLflow, Neptune.ai |
-| **Validation Evidence** | **성능·무결성·출처 합격 근거 기록** | 평가 보고서, 테스트 결과 |
-| **Approval Policy** | **단계 상태와 Production Alias 전환 권한 통제** | RBAC 정책, 4-Eyes Rule |
-| **Audit Log** | **등록·승인·배포·롤백 행위 불변 이력** | Immutable Storage |
+| 구성요소 | 책임 |
+|---|---|
+| Artifact | 불변 Model•Hash•**Signature** 보관 |
+| Lineage | Code•Data•Feature•학습 환경 **계보** 추적 |
+| Validation Evidence | 성능•무결성•규제 **합격 근거** 기록 |
+| Approval Policy | 상태와 Production Alias **전환 권한** 통제 |
+| Audit Log | 등록•승인•배포•Rollback **불변 이력** 저장 |
 
 #### 한줄 요약
 
 - 모델 파일과 학습 출처·시험 결과를 묶고 승인 정책이 운영 이름표를 바꾼 기록까지 남긴다.
 
-## Ⅳ. 흐름도 (Model Registry 승격·배포·롤백 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -126,15 +111,17 @@ extra:
 
 ### 동작 원리
 
-1. **불변 버전 등록**: Artifact Hash로 모델 파일 무결성을 보증하고 재현 가능성 확보.
-2. **승인 게이트**: 4-Eyes Approval로 단독 오배포를 차단하고 Audit Log에 근거 기록.
-3. **Production Alias 롤백**: 별칭이 가리키는 버전 번호만 변경하면 즉각 이전 모델 복귀 (**Model Registry 사이클 완결**).
+1. **후보 버전 등록**: Artifact•Lineage•Signature 불변 저장
+2. **평가•계보 검증**: 성능•출처•규제 요건 판정
+3. **Production 승인 전환**: 2인 승인과 이유 기록
+4. **Production Alias 갱신**: Alias를 승인 Version으로 전환
+5. **운영 모니터링 연계**: 품질 저하 시 이전 Version 복귀
 
 #### 한줄 요약
 
 - 후보 모델의 파일·출처·성적을 확인해 승인하고 운영 이름표를 해당 번호로 바꾼다.
 
-## Ⅴ. 종류 및 비교 (MLOps 저장소 역할 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -152,7 +139,7 @@ extra:
 
 - 파일 창고와 실험 기록은 재료를 보관하고 레지스트리는 그 증거로 운영할 모델 번호를 승인한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Model Registry 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -180,7 +167,7 @@ extra:
 
 </details>
 
-- **모델 승격·복귀 기준**에 따라 RBAC·4-Eyes Approval·Audit Log 기반 **Production Alias 통제 및 장애 시 즉각 롤백 체계** 필수 적용
+- 고위험 Model은 **2인 승인**, 품질 저하는 검증된 Alias로 Rollback
 
 #### 한줄 요약
 

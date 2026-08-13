@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
-date: "2026-08-13T10:20:00+09:00"
+date: "2026-08-14T06:20:00+09:00"
 tags: ["notes-software"]
 weight: 211
 extra:
@@ -70,23 +70,19 @@ extra:
 </details>
 
 ```text
-          [메모리 계측기]
-                 |
-       [덤프•프로필 수집기]
-                 |
-        [참조•점유 분석기]
-                 |
-           [운영 제어기]
+[Memory 진단 체계]
+ ├── [Memory 계측기]
+ ├── [Dump•Profile 수집기]
+ ├── [참조•점유 분석기]
+ └── [운영 제어기]
 ```
-
-선의 의미: 실시간 메모리 계측 데이터와 장애 시점의 정적 덤프 파일이 참조•점유 분석기의 심층 연산 기반 데이터를 제공하고, 분석 결과가 운영 제어 기준을 튜닝하는 사이클 구조이다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **메모리 계측기(Memory Instrumentation)** | 힙, 네이티브, GC 지연 시간, 초당 할당률(Allocation Rate) 등의 실시간 추이 관측 지표 수집 |
-| **덤프•프로필 수집기(Dump and Profile Collector)** | 장애 시점 또는 특정 시점의 힙 스냅샷(객체, 참조 관계 트리, 메모리 할당 이력)의 무결성 기록 및 보존 |
-| **참조•점유 분석기(Reference and Retention Analyzer)** | 덤프 분석을 통해 객체별 **보유 크기(Retained Size)** 연산 및 메모리를 장악한 **도미네이터(Dominator)** 노드 색출 |
-| **운영 제어기(Operational Controller)** | 분석 보고서를 토대로 정적 변수 생명주기 관리, 캐시 축출 룰, 비동기 큐 상한 등 애플리케이션 운영 설정 튜닝 |
+| Memory 계측기 | Heap•Native•GC•**Allocation Rate** 수집 |
+| Dump•Profile 수집기 | 객체•참조•할당 이력 **Snapshot** 보존 |
+| 참조•점유 분석기 | Retained Size•**Dominator** 경로 분석 |
+| 운영 제어기 | Cache•Pool•Queue•**Heap 설정** 조정 |
 
 #### 한줄 요약
 - 단순한 시계열 사용량 그래프와 정적인 거미줄 모양의 힙 참조 트리를 크로스 체크하여, 공간 부족이 인프라 할당량 탓인지 애플리케이션 버그 탓인지 명확히 가려내는 진단 아키텍처
@@ -128,11 +124,11 @@ extra:
 
 ### 동작 원리
 
-1. **반복 부하•GC 후 덤프(Repeated Load•Dump after GC)**: 부하 인가 전후로 강제 GC를 유발하여 바닥선(Baseline) 점유량 스냅샷을 캡처한다.
-2. **객체•참조 차이 전달(Object•Reference Difference Delivery)**: 분석 툴을 통해 시점 A와 시점 B 사이의 생성 객체 수와 메모리 점유 증가분을 도출한다.
-3. **증가 객체•보유 경로 판정(Increased Object•Retention Path Assessment)**: 증가 객체를 살려두고 있는 도미네이터 Root의 참조 트리 사슬을 역추적해 끊어야 할 코드를 식별한다.
-4. **누수•정상 고점유•고갈 분류(Leak•Healthy High Utilization•Exhaustion Classification)**: 현상이 애플리케이션 로직 버그인지, 단순 트래픽 오버플로우인지 상태를 명확히 갈라친다.
-5. **검증 부하 계측(Verification Load Instrumentation)**: 코드 픽스(Fix) 또는 튜닝 후 동일 조건에서 베이스라인 안정화 여부를 재확인하여 클로징(Closing)한다.
+1. **반복 부하•GC 후 덤프**: 시점별 Heap 기준선 Snapshot 확보
+2. **객체•참조 차이 전달**: 객체 수•Retained Size 증가분 비교
+3. **증가 객체•보유 경로 판정**: GC Root•Dominator 역추적
+4. **누수•정상 고점유•고갈 분류**: 기준선 회복•할당 실패 구분
+5. **검증 부하 계측**: 수정 후 동일 부하에서 기준선 안정 확인
 
 #### 한줄 요약
 - 펌프질로 부하를 주고 대청소(GC)를 한 뒤에도 바닥에 찌꺼기가 계속 쌓인다면 덤프를 떠서, 수만 개의 실처럼 얽힌 객체 참조 지도를 역추적해 숨은 범인 변수를 찾아내는 과학수사 기법

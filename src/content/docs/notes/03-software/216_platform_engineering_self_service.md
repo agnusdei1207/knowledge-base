@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "플랫폼 엔지니어링 셀프서비스 (Platform Engineering Self-Service)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T06:45:00+09:00"
 tags: ["notes-software"]
 weight: 216
 extra:
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: **플랫폼 엔지니어링(Platform Engineering)** 기법으로 구축된 **내부 개발자 플랫폼(Internal Developer Platform, IDP)** 상에서, 권장 표준 기능을 **셀프서비스(Self-Service)** 형태로 제공하여 소프트웨어 딜리버리 속도를 높이는 현대적 운영 패러다임.
-- 배경/필요성: 기존 IT 인프라/운영팀 중심의 수동 자원 할당 방식은 잦은 티켓 대기와 병목을 유발하므로, 개발자의 생산성과 자율성을 극대화하기 위한 추상화된 플랫폼 환경이 필수적으로 대두됨.
+- 정의/개념: IDP에서 검증된 경로를 Self-Service로 제공하는 **운영 방식**
+- 배경/필요성: 수동 자원 할당의 **Ticket 대기•운영 병목•인지 부하** 발생
 
 #### 한줄 요약
 
@@ -67,20 +67,21 @@ extra:
 </details>
 
 ```text
-[개발자 포털•카탈로그] ----- [골든 패스] ----- [제어 평면]
-                                                    /      \
-                                         [정책 가드레일] [제품 피드백]
+[Internal Developer Platform]
+ ├── [개발자 Portal•Catalog]
+ ├── [Golden Path]
+ ├── [Control Plane]
+ ├── [Policy Guardrail]
+ └── [Product Feedback]
 ```
-
-선의 의미: 개발자 포털과 카탈로그는 개발자가 골든 패스를 선택하는 인터페이스로서 제어 평면과 결합되며, 제어 평면 하단에는 프로비저닝 자동 허용 범위를 결정하는 정책 가드레일과 플랫폼 지속 개선의 근거가 되는 제품 피드백이 유기적으로 연계된 정적 아키텍처를 뜻함.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **개발자 포털·카탈로그(Developer Portal and Catalog)** | 서비스 템플릿 검색·요청, 마이크로서비스 소유권 및 생명주기 가시성 제공 |
-| **골든 패스(Golden Path)** | 사내 표준 아키텍처 및 보안 요건이 내재화된 검증된 개발·배포 템플릿 제공 |
-| **제어 평면(Control Plane)** | 인프라 애즈 코드(IaC) 및 자동화 도구를 통한 실제 자원 프로비저닝과 상태 동기화 |
-| **정책 가드레일(Policy Guardrail)** | Policy-as-Code를 통한 권한·보안·비용 한도의 실시간 검증 및 위반 시 차단 |
-| **제품 피드백(Product Feedback)** | 사용자 이용 지표 및 불편 사항을 수집하여 플랫폼 기능 및 골든 패스 지속 개선 |
+| 개발자 Portal•Catalog | Template 검색•요청•Owner•**상태 가시성** 제공 |
+| Golden Path | Architecture•보안이 내장된 **표준 Template** 제공 |
+| Control Plane | IaC 기반 자원 생성과 **상태 동기화** 수행 |
+| Policy Guardrail | 권한•보안•비용 **Policy-as-Code** 검증 |
+| Product Feedback | 사용•마찰 지표로 **Platform Roadmap** 개선 |
 
 #### 한줄 요약
 
@@ -189,7 +190,7 @@ extra:
 
 </details>
 
-- **플랫폼 제공 경로 선택 기준(Platform Provisioning Strategy)**에 입각하여 조직 내 80%의 반복 수요는 셀프서비스 플랫폼으로 흡수하고, 나머지 고위험·고복잡 20% 요청에 한해 유연한 **예외 경로(Exception Path)** 적용 필수.
+- 반복•저위험 요청은 **Guardrail Self-Service**, 고위험 예외는 Ticket 심사
 
 #### 한줄 요약
 

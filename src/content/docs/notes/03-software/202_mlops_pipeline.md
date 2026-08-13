@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T05:35:00+09:00"
 tags: ["notes-software"]
 weight: 202
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: 데이터·코드·환경의 버전을 고정하고, 학습·검증·배포·감시의 각 단계를 자동화된 파이프라인으로 연결하여 재현 가능한 모델 품질을 지속 보장하는 **MLOps 자동화 파이프라인 체계**
-- 배경/필요성: 데이터 사이언티스트가 노트북에서 만든 실험 모델을 엔지니어가 수동으로 배포하는 과정에서 데이터·코드 버전이 달라져 성능 재현이 불가하고, 드리프트 감지와 재학습 주기가 늦어지는 문제 방지 요구성
+- 정의/개념: Data•학습•검증•배포•관측을 자동화하는 **MLOps 체계**
+- 배경/필요성: 수동 학습•배포로 **재현 불가•Drift 방치•품질 저하** 발생
 
 #### 한줄 요약
 
 - 학습 재료·방법·결과를 함께 기록해 같은 모델을 다시 만들고 운영 변화를 감시한다.
 
-## Ⅱ. 특징 (MLOps의 4대 핵심 속성)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -51,7 +51,7 @@ extra:
 
 - 학습 조건과 결과를 기록하고 운영 품질이 떨어질 때 검증된 재학습을 시작한다.
 
-## Ⅲ. 구조 및 구성요소 (MLOps 5-Component 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -60,37 +60,27 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                     MLOps Pipeline Architecture                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Data & Feature]        [Training Pipeline]       [Model Registry]     │
-│  Feature Store    ───►  데이터 전처리              후보 모델 버전       │
-│  Data Versioning        모델 학습·평가    ───────► 지표·계보·승인 상태  │
-│                         품질 게이트 통과                │              │
-│                                                         ▼              │
-│ [Quality Monitoring] ◄── [Model Serving]  ◄── 승인 모델 배포           │
-│  드리프트 탐지           온라인 추론               A/B·Canary           │
-│  업무 KPI 저하           트래픽 처리               배포 전략            │
-│        │                                                               │
-│        └─(CT 트리거)──────────────────────────────────► 재학습 시작     │
-└────────────────────────────────────────────────────────────────────────┘
+[MLOps Pipeline]
+ ├── [Feature Store | Offline•Online Feature]
+ ├── [Training Pipeline | 전처리•학습•평가]
+ ├── [Model Registry | Version•Lineage•승인]
+ ├── [Model Serving | 추론•Canary•Rollback]
+ └── [Quality Monitoring | Drift•KPI•CT]
 ```
 
-선의 의미: 데이터·피처(좌)→학습 파이프라인(중)→모델 레지스트리(중우)→서빙(우)→모니터링(하)→CT 재학습(순환)으로 연결된 자동화 사이클 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 대표 도구 |
-|:---|:---|:---|
-| **Feature Store** | **훈련-서빙 피처 일관성 보장 및 피처 버전 관리** | Feast, Tecton |
-| **Training Pipeline** | **데이터 전처리·학습·평가·등록의 자동화 워크플로** | Kubeflow, MLflow |
-| **Model Registry** | **후보 모델의 지표·계보·승인 상태 관리** | MLflow Model Registry |
-| **Model Serving** | **승인 모델의 온라인 추론 엔드포인트 배포** | BentoML, Seldon, SageMaker |
-| **Quality Monitoring** | **드리프트·업무 KPI 감시 및 CT 자동 트리거** | Evidently, Arize |
+| 구성요소 | 책임 |
+|---|---|
+| Feature Store | 학습•추론의 **Feature 일관성** 보장 |
+| Training Pipeline | 전처리•학습•평가•등록 **자동화** |
+| Model Registry | 지표•Lineage•Version•**승인 상태** 관리 |
+| Model Serving | 승인 Model의 추론•Canary•**Rollback** 수행 |
+| Quality Monitoring | Drift•KPI 감시와 **CT Trigger** 수행 |
 
 #### 한줄 요약
 
 - 학습 재료와 결과를 등록한 뒤 승인 모델만 배포하고 품질 저하 시 다시 학습한다.
 
-## Ⅳ. 흐름도 (MLOps 파이프라인 자동화 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -124,15 +114,16 @@ extra:
 
 ### 동작 원리
 
-1. **품질 게이트 통과**: 데이터·모델·배포의 각 단계마다 합격 기준을 충족한 산출물만 다음 단계로 진행.
-2. **Lineage 기록**: 어떤 데이터·코드·환경에서 학습했는지 자동 추적하여 재현성 보장.
-3. **드리프트 감지→CT 트리거**: 운영 품질 저하를 감지하면 자동으로 재학습 파이프라인 실행 (**MLOps 사이클 완결**).
+1. **데이터•피처 품질 검증**: 결측•이상•분포 Gate 판정
+2. **학습•평가•레지스트리 등록**: 지표•Lineage•환경 기록
+3. **배포**: A/B•Canary로 후보 Model 점진 노출
+4. **운영 모니터링**: Drift•예측 품질•업무 KPI 감시
 
 #### 한줄 요약
 
 - 운영 입력과 예측 품질이 달라지면 새 후보를 학습해 승인 모델과 다시 비교한다.
 
-## Ⅴ. 종류 및 비교 (MLOps 자동화 성숙도 수준 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -151,7 +142,7 @@ extra:
 
 - 실험이 적으면 사람이 실행하고 반복 배포가 늘수록 검증·배포·재학습을 차례로 연결한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (MLOps 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 

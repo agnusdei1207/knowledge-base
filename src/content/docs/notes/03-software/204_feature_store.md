@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T05:45:00+09:00"
 tags: ["notes-software"]
 weight: 204
 extra:
@@ -27,14 +27,14 @@ extra:
 
 </details>
 
-- 정의/개념: 피처의 정의·계산 로직·시점별 이력·실시간 최신값을 일원화하여, 학습과 온라인 추론에서 동일한 피처 기반을 보장하고 팀 간 재사용을 지원하는 **Feature Store 중앙화 플랫폼**
-- 배경/필요성: 각 팀이 독자적인 피처 파이프라인을 만들면 코드 중복·계산 불일치·학습-서빙 편향이 발생하고, 어떤 모델이 어떤 피처를 쓰는지 추적이 불가능해지는 거버넌스 공백 방지 요구성
+- 정의/개념: Feature 정의•이력•최신값을 일원화하는 **Feature Store**
+- 배경/필요성: 팀별 계산 Pipeline으로 **중복•Skew•Lineage 단절** 발생
 
 #### 한줄 요약
 
 - 같은 재료 가공법을 등록해 과거 훈련 값과 지금 예측 값을 한곳에서 일관되게 제공한다.
 
-## Ⅱ. 특징 (Feature Store의 3대 핵심 특성)
+## Ⅱ. 특징
 
 <details><summary>핵심 용어</summary>
 
@@ -50,7 +50,7 @@ extra:
 
 - 학습 때 쓴 가공법과 운영 때 쓴 가공법이 같아야 모델이 예상한 입력을 받는다.
 
-## Ⅲ. 구조 및 구성요소 (Feature Store 4-Component 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -59,40 +59,27 @@ extra:
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                      Feature Store Architecture                        │
-├────────────────────────────────────────────────────────────────────────┤
-│ [원천 데이터] ─(정의된 계산 로직)──► [Feature Transformer]             │
-│                                            │              │            │
-│                                    (배치 이력)      (실시간 최신값)     │
-│                                            ▼              ▼            │
-│                               [Offline Store]    [Online Store]        │
-│                               (Parquet/Iceberg)   (Redis/DynamoDB)     │
-│                                            │              │            │
-│                             (PIT Join 학습 데이터)  (추론 입력 저지연) │
-│                                            ▼              ▼            │
-│                               [ML 학습 파이프라인]  [온라인 추론 API]  │
-│                                                                        │
-│ [Feature Registry] ── 피처 정의·버전·소유자·계보·SLA 중앙 관리         │
-│ [Feature Monitor] ─── 품질·분포·신선도·학습-서빙 스큐 실시간 감시      │
-└────────────────────────────────────────────────────────────────────────┘
+[Feature Store]
+ ├── [Registry | 정의•Version•Owner•Lineage]
+ ├── [Transformer | 단일 계산 Logic]
+ ├── [Offline Store | 시점별 이력•PIT Join]
+ ├── [Online Store | 최신값•저지연 조회]
+ └── [Monitor | 품질•Freshness•Skew]
 ```
 
-선의 의미: Feature Registry에 등록된 단일 계산 로직을 기반으로, Feature Transformer가 배치(Offline)와 실시간(Online) 두 경로에 동시 공급하여 학습-서빙 편향을 원천 차단하는 구조.
-
-| 구성요소 | 핵심 역할 및 기능 | 대표 도구 |
-|:---|:---|:---|
-| **Feature Registry** | **피처 정의·스키마·버전·소유자·계보 중앙 카탈로그** | Feast, Tecton |
-| **Feature Transformer** | **단일 계산 로직으로 Offline/Online 양쪽 동시 생성** | Apache Spark, Flink |
-| **Offline Store** | **PIT Join 지원 대용량 시점별 피처 이력 저장** | S3+Parquet, Delta Lake |
-| **Online Store** | **추론용 최신 피처 저지연(ms 단위) 조회** | Redis, DynamoDB |
-| **Feature Monitor** | **품질·신선도·학습-서빙 스큐 이상 탐지** | Evidently, Great Expectations |
+| 구성요소 | 책임 |
+|---|---|
+| Registry | 정의•Schema•Version•Owner•**Lineage** 관리 |
+| Transformer | Offline•Online에 **동일 계산 Logic** 적용 |
+| Offline Store | 시점별 이력과 **PIT Join** 지원 |
+| Online Store | 추론용 최신 Feature **저지연 조회** 제공 |
+| Monitor | 품질•Freshness•**Training-Serving Skew** 탐지 |
 
 #### 한줄 요약
 
 - 한 가공기가 과거용 창고와 실시간용 선반에 값을 나눠 넣고 감시기가 둘의 상태를 확인한다.
 
-## Ⅳ. 흐름도 (Feature Store를 통한 학습·추론 피처 공급 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -122,15 +109,17 @@ extra:
 
 ### 동작 원리
 
-1. **단일 정의 기반 변환**: 하나의 계산 로직이 학습 이력(Offline)과 추론 최신값(Online)을 동시 생성하여 스큐 방지.
-2. **PIT Join**: 예측 시점 이전 데이터만 학습에 투입하여 데이터 누수 차단.
-3. **스큐 감시**: 학습 때 사용된 피처 분포와 운영 추론 입력 분포를 비교하여 이상 조기 탐지 (**Feature Store 사이클 완결**).
+1. **Feature 정의 등록**: 계산식•Schema•Owner•Version 고정
+2. **단일 정의 기반 변환 실행**: 동일 Logic으로 Feature 생성
+3. **PIT Join 기반 Offline 이력 생성**: 미래 Data 누수 차단
+4. **Online Store 최신값 동기화**: 추론 입력 저지연 제공
+5. **품질•신선도•스큐 감시**: Offline•Online 불일치 탐지
 
 #### 한줄 요약
 
 - 과거 학습에는 그 시점까지 알 수 있던 값만 넣고 같은 계산 결과를 운영 저장소에도 보낸다.
 
-## Ⅴ. 종류 및 비교 (Feature Store 저장소 역할 1:1 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -148,7 +137,7 @@ extra:
 
 - 과거 값은 큰 창고에서 학습에 쓰고 최신값은 빠른 선반에서 예측에 쓰며 이름표는 레지스트리가 관리한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (Feature Store 3대 실무 난제 대책)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -176,7 +165,7 @@ extra:
 
 </details>
 
-- **피처 스토어 운영 기준**에 따라 모든 피처를 Feature Registry에 등록하고 **단일 계산 로직 공유 및 PIT Join 기반 훈련 데이터 생성** 원칙 준수
+- 재사용 Feature는 **Registry 단일 정의**, 학습 이력은 PIT Join 적용
 
 #### 한줄 요약
 

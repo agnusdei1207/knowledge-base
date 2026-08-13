@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "스트랭글러 패턴 (Strangler Fig Pattern)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T07:00:00+09:00"
 tags: ["notes-software"]
 weight: 219
 extra:
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: API 게이트웨이(Facade)를 통해 트래픽 경로를 비즈니스 도메인별 신규 서비스로 점진 분기(Routing)하고, 해당 레거시 기능을 단계적으로 비활성화 및 폐기하는 안전한 마이크로서비스 전환 패턴.
-- 배경/필요성: 수년간 누적된 거대 레거시 시스템을 한 번에 재작성(Big-Bang)하는 방식은 비즈니스 로직 유실, 대규모 장애 리스크, 장기간의 기능 동결을 초래하므로, 무중단으로 점진적인 리팩토링과 이관이 요구됨.
+- 정의/개념: Domain별 Traffic•소유권을 점진 이전하는 **Strangler Pattern**
+- 배경/필요성: Big-Bang 재작성은 **Logic 유실•장애 집중•기능 동결** 유발
 
 #### 한줄 요약
 
@@ -67,26 +67,19 @@ extra:
 </details>
 
 ```text
-[클라이언트 / 사용자]
-       |
-  파사드(Facade) / 라우터 (API Gateway)
-       ├── (미전환 트래픽) ────> [레거시 시스템 (미전환 업무 & SoR)]
-       |
-       └── (전환 트래픽) ──────> [신규 서비스 (MSA)]
-                                  |
-                           [부패 방지 계층(ACL)]
-                                  |
-                           [레거시 데이터베이스 연동]
+[Strangler Architecture]
+ ├── [Facade]
+ ├── [Legacy System]
+ ├── [New Service]
+ └── [Anti-Corruption Layer]
 ```
-
-선의 의미: 최상단의 파사드가 진입 트래픽을 분기하며, 아직 독립 DB를 갖추지 못한 과도기적 단계에서 신규 서비스는 부패 방지 계층(ACL)을 통해 레거시 데이터와 안전하게 상호작용하는 점진적 현대화 과도기 아키텍처를 의미함.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **파사드(Facade)** | 외부 요청의 단일 진입점 제공, 라우팅 규칙(URL, Header 등)에 기반한 신·구 시스템 트래픽 분기 및 API 조합 |
-| **레거시 시스템(Legacy System)** | 아직 전환되지 않은 비즈니스 로직 유지, 잔여 도메인의 **데이터 정본(System of Record)** 소유 |
-| **신규 서비스(New Service)** | 전환이 완료된 특정 마이크로서비스 로직 실행, 독립된 데이터베이스 소유권 점진적 확보 |
-| **부패 방지 계층(Anti-Corruption Layer, ACL)** | 신·구 시스템 통신 시 데이터 포맷(XML ↔ JSON 등) 및 도메인 모델 변환, 레거시 종속성 격리 |
+| Facade | URL•Header•Weight로 **신•구 Routing** 수행 |
+| Legacy System | 미전환 업무와 잔여 Domain **SoR** 소유 |
+| New Service | 전환 Domain Logic•Data **소유권** 확보 |
+| Anti-Corruption Layer | Model•Format 변환과 **Legacy 격리** 수행 |
 
 #### 한줄 요약
 
@@ -201,7 +194,7 @@ extra:
 
 </details>
 
-- **소유권 이관 기준(Ownership Transition Criteria)**에 따라 의존성이 낮은 독립 업무부터 **병행 검증(Parallel Validation)**을 수행하여 통신 및 데이터 주도권을 확보하고, **완료 기준(Exit Criteria)** 도달 시 지체 없는 레거시 폐기 필수.
+- 독립 Domain은 **Shadow 검증•Canary Cutover**, Exit 충족 후 Legacy 폐기
 
 #### 한줄 요약
 

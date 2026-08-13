@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로프론트엔드 아키텍처 (Micro Frontend)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-14T06:50:00+09:00"
 tags: ["notes-software"]
 weight: 217
 extra:
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 사용자 화면을 비즈니스 업무 경계 단위의 작은 프론트엔드 애플리케이션으로 분할하고 독립 배포한 뒤 결합하는 **마이크로프론트엔드(Micro Frontend)** 아키텍처.
-- 배경/필요성: 기존 단일 빌드(Monolithic) 프론트엔드 구조에서는 코드베이스가 커짐에 따라 팀 간 배포 의존성이 높아지고 잦은 병합 충돌(Merge Conflict)과 빌드 지연이 발생하므로, 백엔드의 마이크로서비스(MSA)처럼 프론트엔드에도 확장성과 민첩성을 부여하기 위해 등장함.
+- 정의/개념: 화면을 업무 경계별 App으로 분리•조합하는 **Micro Frontend**
+- 배경/필요성: Monolithic UI의 **배포 의존•Merge 충돌•Build 지연** 증가
 
 #### 한줄 요약
 
@@ -67,20 +67,21 @@ extra:
 </details>
 
 ```text
-[애플리케이션 셸] ----- [통합 계약] ----- [업무별 마이크로 앱]
-                                               /       \
-                                      [디자인 시스템] [오류 경계]
+[Micro Frontend]
+ ├── [Application Shell]
+ ├── [Integration Contract]
+ ├── [Business Micro App]
+ ├── [Design System]
+ └── [Error Boundary]
 ```
-
-선의 의미: 애플리케이션 셸과 통합 계약은 업무별 마이크로 앱이 런타임에 결합되는 논리적 조합 경계를 형성하며, 각 마이크로 앱 하단에는 사용자 경험의 시각적 일관성을 보장하는 디자인 시스템과 부분 실패의 전파를 막는 오류 경계가 지원 요소로 결합된 프론트엔드 아키텍처 구조를 뜻함.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **애플리케이션 셸(Application Shell)** | 전역 라우팅 관리, 레이아웃 골격 제공, 마이크로 앱의 생명주기(Mount/Unmount) 오케스트레이션 |
-| **통합 계약(Integration Contract)** | 마이크로 앱 간의 커스텀 이벤트 기반 통신 및 인증 토큰 등 글로벌 상태 공유 규칙 정의 |
-| **업무별 마이크로 앱(Business Micro App)** | 특정 도메인의 비즈니스 로직 및 UI 컴포넌트 렌더링, 독립적 CI/CD 파이프라인 소유 |
-| **디자인 시스템(Design System)** | CSS/스타일 충돌 방지, 일관된 사용자 경험(UX)을 위한 표준화된 UI 라이브러리 제공 |
-| **오류 경계(Error Boundary)** | 특정 앱의 크래시를 감지하고 해당 DOM 영역을 격리하여 전체 SPA 애플리케이션 다운 방지 |
+| Application Shell | 전역 Routing•Layout•**App Lifecycle** 관리 |
+| Integration Contract | Event•인증•공유 상태의 **통신 규약** 정의 |
+| Business Micro App | Domain UI•Logic과 **독립 CI/CD** 소유 |
+| Design System | Component•Token으로 **UX 일관성** 제공 |
+| Error Boundary | App Crash를 DOM 영역에 **격리** |
 
 
 #### 한줄 요약
@@ -183,7 +184,7 @@ extra:
 
 </details>
 
-- **조합 방식 선택 기준(Composition Strategy Selection)**에 따라 조직의 민첩한 독립 배포가 최우선일 경우 런타임 조합(Module Federation 등) 도입, 단순한 버전 통제가 목적일 경우 빌드 시 조합 아키텍처 적용 권장.
+- 독립 배포는 **Runtime 조합**, 단순 Version 통제는 Build-Time 조합
 
 #### 한줄 요약
 
