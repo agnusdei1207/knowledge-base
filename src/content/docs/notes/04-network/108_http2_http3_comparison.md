@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T16:51:54+09:00"
 tags: ["notes-network"]
 weight: 108
 extra:
@@ -32,7 +32,7 @@ extra:
 </details>
 
 - 정의/개념: **HTTP/2•HTTP/3** — 같은 HTTP 의미를 각각 TCP와 QUIC의 다중 스트림으로 전달하는 **웹 전송 표준**이다.
-- 배경/필요성: TCP 손실의 **스트림 간 선두 차단** 완화가 필요하다.
+- 배경/필요성: TCP 손실 복구가 다른 스트림까지 막는 **스트림 간 선두 차단**이 발생한다.
 
 #### 한줄 요약
 
@@ -128,7 +128,7 @@ Alt-Svc•지원 버전 확인
 1. **QUIC•TLS 협상**: UDP 연결•암호•연결 ID의 **QUIC•TLS 협상**을 수행한다.
 2. **독립 스트림 전송**: 요청별 QUIC 스트림에서 **독립 스트림 전송**을 수행한다.
 3. **HTTP/2 대체**: QUIC 실패 시 **HTTP/2 대체**로 TCP 연결에 전환한다.
-> 요약: HTTP/3 우선 협상 후 실패 시 HTTP/2을 전환한다.
+> 요약: HTTP/3 우선 협상 후 실패 시 HTTP/2로 전환한다.
 
 #### 한줄 요약
 
@@ -160,7 +160,7 @@ Alt-Svc•지원 버전 확인
 <details>
 <summary>핵심 용어</summary>
 
-- **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게할 수 있는 위험이다.
+- **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
 
 </details>
 
