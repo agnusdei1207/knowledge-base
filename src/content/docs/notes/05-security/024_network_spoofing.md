@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "네트워크 스푸핑 - ARP•IP•DNS (Network Spoofing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T18:48:54+09:00"
 tags:
   - "notes-security"
 weight: 24
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: OSI 7계층 중 Data-Link, Network, Application 각 계층의 주소 정보(MAC, IP, Domain)를 위변조하여 정상 통신 주체로 가장하는 **네트워크 스푸핑(Spoofing)** 공격
-- 배경/필요성: 초기 네트워크 프로토콜(ARP, IPv4, DNS)의 기본 신원 검증 결여로 인한 패킷 도청, 세션 하이재킹 및 반사 DDoS 위협 증대
+- 정의/개념: MAC•IP•DNS 정보를 위조해 정상 주체로 가장하는 **스푸핑**
+- 배경/필요성: ARP•IP•DNS에는 **기본 신원 검증 결여**가 있다.
 
 #### 한줄 요약
 
@@ -42,9 +42,9 @@ extra:
 
 - **ARP(Address Resolution Protocol)**: L2 인접 네트워크에서 IP 주소를 해당하는 물리적 MAC 주소로 매핑 도출하는 프로토콜.
 - **IP(Internet Protocol)**: L3 패킷에 출발지/목적지 논리 IP 주소를 부여하여 엔드-투-엔드 라우팅을 지원하는 프로토콜.
-- **MAC(Media Access Control) 주소**: L2 데이터링크 계층 통신을 위해 렌카드(NIC)에 고유 부여된 48비트 물리적 주소.
+- **MAC(Media Access Control) 주소**: L2 통신을 위해 네트워크 인터페이스 카드에 부여된 48비트 주소.
 - **DNS(Domain Name System)**: 사람이 읽을 수 있는 도메인 이름을 L3 IP 주소로 상호 해석 변환하는 분산 네임 시스템.
-- **반사 공격(Reflective Attack)**: 출발지 IP를 피해자 IP로 위조하여 대용량 응답 서버(DNS, NTP 등)로 요청을 보내 피해자에게 응답 폭탄을 집사시키는 공격.
+- **반사 공격(Reflective Attack)**: 출발지 IP를 피해자로 위조해 대용량 응답을 피해자에게 집중시키는 공격.
 - **ARP 스푸핑(ARP Spoofing)**: 거짓 ARP Reply 패킷을 주기적으로 브로드캐스트/유니캐스트하여 게이트웨이 및 호스트의 ARP 테이블을 오염시키는 L2 공격.
 - **IP 스푸핑(IP Spoofing)**: IP 헤더의 출발지 IP 주소를 타깃 주소로 변조하여 신분을 숨기거나 반사 공격 및 IP 기반 필터링을 회피하는 L3 공격.
 - **DNS 스푸핑(DNS Spoofing)**: DNS 쿼리에 대해 정당한 네임서버보다 먼저 위변조된 IP 주소의 DNS Reply 패킷을 주입하여 파밍(Phishing) 사이트로 우회시키는 L7 공격.
@@ -71,14 +71,14 @@ extra:
 
 </details>
 
-`	ext
+```text
 스푸핑 방어 구조
 ├─ 신뢰 정보
 ├─ 검증 통제
 ├─ 위조 주입점
 ├─ 주소 캐시•필터
 └─ 공격 감시•종단 인증
-`
+```
 
 가지의 의미: 계층별 주소 테이블 관리, 스위치/라우터/DNS 차원 패킷 검증 및 TLS 종단 상호 인증 책임을 분리한 구조
 
@@ -100,7 +100,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **캐시 오염(Cache Poisoning)**: 정증되지 않은 위변조 주소 매핑 패킷을 주기적으로 전달하여 피해 호스트/네임서버의 RAM 캐시 항목을 부정 갱신하는 공격.
+- **캐시 오염(Cache Poisoning)**: 검증되지 않은 위조 주소 매핑으로 피해 호스트의 캐시를 부정 갱신하는 공격.
 - **출발지 위조(Source IP Spoofing)**: IP 헤더의 Source Address 필드를 임의의 타깃 주소로 위조하여 트래픽을 가공 전송하는 단계.
 - **위조 주소•응답 주입**: 거짓 ARP/DNS 응답 패킷을 정상 응답보다 빠른 타이밍에 피해자에게 전달하는 단계.
 - **위조 대응 캐시 저장**: 오염된 ARP/DNS 매핑 결과가 피해자 시스템 캐시에 저장되는 단계.
@@ -109,7 +109,7 @@ extra:
 
 </details>
 
-`	ext
+```text
 스푸핑 공격 경로
 ├─ ARP•DNS 응답 위조
 │      │
@@ -128,7 +128,7 @@ extra:
    4. 위조 출발지 패킷 전송
        │
        └── 피해자에게 반사 응답
-`
+```
 
 ### 동작 원리
 
@@ -191,4 +191,4 @@ extra:
 
 #### 한줄 요약
 
-- IETF BCP 84/RFC 4033 준수, 계층별 검증(DAI, uRPF, DNSSEC) 및 TLS 종단 상호 인증 기반 스푸핑 방어 체계 구축 필수
+- L2는 **DAI**, L3는 **uRPF**, L7은 **DNSSEC•mTLS** 적용

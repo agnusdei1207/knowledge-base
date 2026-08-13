@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "STIX•TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T18:56:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 위협 데이터의 구조화된 표현 표준인 **STIX(Structured Threat Information eXpression)**와 안전한 자동 교환 규약인 **TAXII(Trusted Automated eXchange of Intelligence Information)**의 상호 연계 체계.
-- 배경/필요성: 비정형 데이터 기반 문서 수동 교환의 한계 극복 및 장비 간 자동화된 위협 연동 구현.
+- 정의/개념: 위협 표현 **STIX**와 자동 교환 **TAXII** 연계
+- 배경/필요성: 비정형 문서 교환으로는 **장비 간 자동 연동** 불가
 
 #### 한줄 요약
 
@@ -144,7 +144,7 @@ TAXII 변경분 조회
 
 #### 한줄 요약
 
-- 문법 일치 및 권한 적절성 확보 필요가 핵심이다.
+- **STIX 문법•TAXII 권한**의 상호운용성 확보
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -183,4 +183,4 @@ TAXII 변경분 조회
 
 #### 한줄 요약
 
-- 표준 형식으로 교환했다는 사실만 신뢰하지 말고 출처•접근 권한•유효기간•활용 기준을 함께 통제해야 한다.
+- **출처•권한•유효기간** 검증 후 수신 객체 적용

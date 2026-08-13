@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "CTEM (Continuous Threat Exposure Management)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T19:12:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 자산의 취약점, 잘못된 설정, 과도한 권한 등 실제 공격 가능한 노출을 지속적으로 발견, 검증, 조치, 재검증하는 **폐루프(Closed-loop Mitigation)** 관리 체계.
-- 배경/필요성: 단순 CVSS 기반 취약점 관리의 실제 악용 가능 경로 미반영 한계 극복 및 공격 표면의 일관된 지속 관찰 구현.
+- 정의/개념: 공격 노출을 검증•감축하는 **CTEM 폐루프**
+- 배경/필요성: CVSS만으로는 **실제 악용 경로•업무 영향** 판단 불가
 
 #### 한줄 요약
 
@@ -156,8 +156,8 @@ extra:
 
 - **공통 취약점 점수 시스템(Common Vulnerability Scoring System, CVSS v4.0)**: 기술적 심각도 외에 위협 지표와 적용 환경 맥락을 세밀히 반영하도록 정제된 최신 표준 스펙.
 - **미국 사이버보안•인프라 보안국(Cybersecurity and Infrastructure Security Agency, CISA)**: 미국의 사이버 보안 전담 기구로 KEV Catalog를 제정 관리함.
-- **사고 대응•보안 팀 포럼(Forum of Incident Response and Security Teams, FIRST)**: CVSS, EPSS 표준 모델의 개산 및 관리를 주도하는 글로벌 전문가 협의체.
-- **소유자 지정(Owner Assignment)**: 발견된 위협 노출에 대한 조치 이행 책임자와 완료 타임라인, 재검증 기준을 정률 명시하는 프로세스.
+- **사고 대응•보안 팀 포럼(Forum of Incident Response and Security Teams, FIRST)**: CVSS, EPSS 표준 모델의 개선 및 관리를 주도하는 글로벌 전문가 협의체.
+- **소유자 지정(Owner Assignment)**: 발견된 위협 노출에 대한 조치 이행 책임자와 완료 타임라인, 재검증 기준을 정형 명시하는 프로세스.
 
 </details>
 
@@ -169,7 +169,7 @@ extra:
 
 #### 한줄 요약
 
-- KEV 등록 취약점이 존재하는 서버에서 내부 데이터베이스까지 도달하는 실제 공격 체인을 실증하고 해당 통로를 집선 차단함.
+- KEV 취약점에서 내부 DB까지의 **공격 경로**를 검증•차단
 
 ## Ⅶ. 결론
 
@@ -184,5 +184,4 @@ extra:
 
 #### 한줄 요약
 
-- CTEM 5단계 프레임워크 기반 지속적 위협 노출 검증 및 노출 감축 폐루프 체계 수립 필수.
-
+- **검증 경로 차단율•재검증 성공률**로 노출 감축 판단
