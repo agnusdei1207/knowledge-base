@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "손실 함수: Cross-Entropy•MSE (Loss Functions)"
-date: "2026-08-08T07:57:00+09:00"
+date: "2026-08-13T11:35:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 42
@@ -188,11 +188,11 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **출력 과업(Output Task) 및 이상치(Outlier) 민감도** 기반 확률 분류의 교차 엔트로피(Cross-Entropy) 및 이상치 회귀(Outlier Regression)의 허버 손실(Huber Loss) 적용 체계.
+- **선택 기준**: 출력 과업과 이상치 민감도로 학습 손실을 고르는 기준이다.
 
 </details>
 
-- **선택 기준**에 따른 확률 분류 및 이상치 회귀 손실 적용 최적화 체계.
+- 확률 분류는 **교차 엔트로피**, 일반 회귀는 MSE, 이상치 회귀는 **허버 손실** 선택
 
 #### 한줄 요약
-- 갈림길에서 확률 분류 표지판은 교차 엔트로피로, 이상치가 섞인 회귀 표지판은 허버 손실로 향 체계 적용
+- 확률 분류는 교차 엔트로피, 회귀는 이상치 영향에 따라 MSE와 허버 손실을 선택한다.

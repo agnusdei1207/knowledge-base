@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:49:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 56
@@ -205,4 +205,4 @@ extra:
 
 #### 한줄 요약
 
-- 심층 안정성이 우선이면 잔차 신경망의 잔차 연결, 제한된 장치이면 EfficientNet의 경량 백본을 선택하는 과정 원칙 준수
+- 심층 학습 안정성은 ResNet, 제한된 연산량에서 정확도 효율은 EfficientNet을 선택한다.

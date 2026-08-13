@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "재귀 알고리즘•마스터 정리 (Recursive Algorithm Master Theorem)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T11:51:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 58
@@ -162,7 +162,7 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 > 요약: **다항식 차이**•**정규성 조건**으로 Case를 판정한다.
 
 #### 한줄 요약
-- Case 1 ( P0 ), Case 2 ( P1 ), Case 3 ( P2 )으로 판정한다.
+- 부분 문제 비용이 크면 Case 1, 같은 차수면 Case 2, 결합 비용이 크면 Case 3으로 판정한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -199,5 +199,4 @@ $$T(n)=aT(n/b)+f(n),\quad p=\log_b a,\quad a\ge1,\ b>1$$
 - **재귀 분석 선택 기준**에 따라 **깊은 호출**은 **명시적 스택**으로 바꾸고, **불균등 분할**은 **대입법**으로 분석한다.
 
 #### 한줄 요약
-- Balanced Recurrence에는 마스터 정리, Non-uniform Recurrence에는 Recursion Tree / Substitution Method, Deep Recursion에는 Iteration / Tail Call Elimination을 채택 체계 적용
-
+- 균등 분할은 마스터 정리, 불균등 분할은 재귀 트리•대입법, 깊은 호출은 반복 구조를 적용한다.
