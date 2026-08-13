@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "칸반 (Kanban)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:31:00+09:00"
 tags:
   - "notes-software"
 weight: 35
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 작업을 시각화하고 각 공정 단계별 **WIP Limit**를 부여하여 작업 정체를 차단하고 연속적 가치 흐름(Flow)을 최적화하는 **칸반(Kanban)**
-- 배경/필요성: 무제한 작업 착수로 인한 멀티태스킹 오버헤드 소멸, 리드타임(Lead Time) 예측 가능성 확보 및 지속적 프로세스 개선 요구성
+- 배경/필요성: 무제한 착수는 **대기열•멀티태스킹•리드타임 변동** 증가
 
 #### 한줄 요약
 
@@ -72,14 +72,12 @@ extra:
 
 선의 의미: Kanban Board 상의 각 상태 컬럼에 WIP Limit 정책이 설정되고, 작업 카드가 Left-to-Right로 이동하며 흐름 지표가 측정되는 아키텍처.
 
-| 6대 핵심 실천법 (Core Practices) | 주요 정의 및 실행 내용 |
+| 구성요소 | 책임 |
 |:---|:---|
-| **1. Visualize Workflow** | 작업의 전체 생명주기 절차를 Kanban Board에 직관적으로 시각화 |
-| **2. Limit WIP** | 각 공정 컬럼 상단에 최대 수용 가능 카드 수(WIP Limit) 강제 인가 |
-| **3. Manage Flow** | 공정 간 작업 정체 및 병목(Bottleneck) 모니터링 및 흐름 개선 |
-| **4. Make Process Policies Explicit** | 각 컬럼 간 이동 조건(Done Criteria)을 명시적 규칙으로 공개 |
-| **5. Implement Feedback Loops** | 일일 칸반(Daily Standup), 서비스 딜리버리 리뷰 등 피드백 구성 |
-| **6. Improve Collaboratively** | 데이터를 기반으로 프로세스를 실험적이고 지속적으로 개선 (Kaizen) |
+| 작업 카드 | 가치 항목과 상태•노화시간 표현 |
+| 워크플로 열 | 작업 단계와 진입•완료 조건 시각화 |
+| 흐름 정책 | **WIP Limit•Pull**과 서비스 클래스 정의 |
+| 흐름 지표 | Lead Time•Cycle Time•Throughput 측정 |
 
 #### 한줄 요약
 
@@ -129,10 +127,10 @@ extra:
 
 | 비교 항목 | Kanban (칸반) | Scrum (스크럼) |
 |:---|:---|:---|
-| 기본 단위 | **지속적 흐름 (Continuous Flow)** | 고정 타임박스 (1~4주 Sprint) |
-| 요구사항 변경 | **언제나 반영 가능 (WIP Limit 범위 내)** | 스프린트 도중 변경 원칙적 불가 |
+| 기본 단위 | **지속적 흐름 (Continuous Flow)** | 한 달 이하 고정 스프린트 |
+| 요구사항 변경 | 용량이 생길 때 우선순위대로 당김 | 스프린트 목표를 지키며 범위 협상 |
 | 핵심 제어 장치 | **WIP Limit (작업 수 제한)** | Timeboxing (시간 제한) |
-| 팀 역학 | 기존 조직 구조/역할 변경 없이 즉시 적용 가능 | 3대 전용 역할(PO, SM, Dev) 필수 할당 |
+| 팀 구조 | 현재 역할에서 시작해 점진 개선 가능 | PO•SM•Developers 책무 정의 |
 | 핵심 성과 지표 | **Lead Time, Cycle Time, Throughput, CFD** | Velocity (Story Point) |
 
 #### 한줄 요약

@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "UML 다이어그램 유형 (UML Diagrams)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:37:00+09:00"
 tags:
   - "notes-software"
 weight: 37
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 시스템의 정적 아키텍처 및 동적 실행 행위를 OMG 표준 시각 표기법(Graphical Notation)으로 추상화 표현하는 객체지향 설계 언어인 **UML (Unified Modeling Language)**
-- Background: 개발자-아키텍트-고객 간 시스템 청사진(Blueprint) 커뮤니케이션 오해 차단 및 아키텍처 가시성 확보 요구성
+- 배경: 관점과 표기 규칙이 다르면 이해관계자 간 **설계 해석 불일치** 발생
 
 #### 한줄 요약
 
@@ -70,17 +70,12 @@ extra:
 
 선의 의미: UML 2.0 기준 14가지 다이어그램이 크게 정적 Structure와 동적 Behavior 분류로 나뉘며, Interaction Diagram은 Behavior 하위에 속함.
 
-| 분류 (Classification) | 주요 UML 다이어그램 | 핵심 표현 내용 및 활용 |
-|:---|:---|:---|
-| **구조 다이어그램 (Structural)** | **Class Diagram** | 클래스 간 정적 연관 관계, 상속(Generalization), 의존성 명세 |
-| | **Component Diagram** | 모듈 간 컴포넌트 결합 구조 및 인터페이스 제공 명세 |
-| | **Deployment Diagram** | HW 서버, OS, VM 노드 상의 SW 물리적 배치(Node) 명세 |
-| | **Composite Structure** | 클래스/컴포넌트 내부 런타임 수용 구조 명세 |
-| **행위 다이어그램 (Behavioral)** | **Use Case Diagram** | 시스템 경계 및 사용자(Actor)와의 유스케이스 상호작용 명세 |
-| | **Activity Diagram** | 시스템 내부의 로직/알고리즘 및 비즈니스 프로세스 흐름 |
-| | **State Machine Diagram**| 객체의 시간에 따른 상태 변화(State Transition) 및 이벤트 |
-| **상호작용 (Interaction)** | **Sequence Diagram** | **객체 간 시간 순서(Lifeline) 메시지 호출 흐름** |
-| | **Communication Diagram**| 객체 간 연관 관계 중심의 메시지 핑퐁 구조 |
+| 구성요소 | 책임 |
+|:---|:---|
+| UML 다이어그램 | 표준 모델 요소와 관계의 전체 집합 제공 |
+| 구조 다이어그램 | 클래스•컴포넌트•배치 등 **정적 구조** 표현 |
+| 행위 다이어그램 | 상태•활동•유스케이스 등 동적 행위 표현 |
+| 상호작용 다이어그램 | 행위 하위에서 **메시지 교환**과 순서 표현 |
 
 #### 한줄 요약
 
@@ -101,8 +96,8 @@ extra:
                ▼
 ┌──────────────────────────────┐
 │ 1. 정적•동적 관점 판정     │
-│ 2. 정적: Class/Deployment    │
-│ 3. 동적: Sequence/Activity   │
+│ 2. 구조 다이어그램 작성     │
+│ 3. 행위 다이어그램 작성     │
 │ 4. 관계 표기법 정립        │
 └──────────────┬───────────────┘
                ▼

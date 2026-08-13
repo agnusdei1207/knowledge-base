@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:12:00+09:00"
 tags:
   - "notes-software"
 weight: 29
@@ -24,12 +24,12 @@ extra:
 
 - **NUMA (Non-Uniform Memory Access)**: 멀티소켓 CPU 아키텍처에서 물리적 거리 및 버스(Interconnect, QPI/UPI)에 따라 특정 CPU가 특정 메모리에 접근하는 속도(Latency)가 불균일한 메모리 구조.
 - **NUMA-aware Scheduling**: OS 커널 스케줄러 및 메모리 관리자가 프로세스/스레드의 구동 CPU 노드와 물리 메모리(DRAM) 할당 위치를 동일한 NUMA Node로 상호 결합(Locality)하여 원격 접근 지연을 줄이는 기술.
-- **Remote Memory Access**: CPU가 타 CPU 소켓에 직결된 메모리에 억세스하기 위해 Interconnect 버스를 경유하는 통신으로, Local Memory 대비 2~3배 이상의 지연시간 수반.
+- **Remote Memory Access**: CPU가 다른 NUMA 노드의 메모리에 인터커넥트를 거쳐 접근하는 통신.
 
 </details>
 
 - 정의/개념: 멀티소켓 NUMA 시스템 상에서 프로세스 스레드와 물리 페이지 할당 위치를 동일한 노드로 바인딩하여 원격 메모리 지연을 극복하는 **NUMA-aware Scheduling**
-- 배경/필요성: 대규모 데이터베이스(DB) 및 대용량 인메모리 서버 구동 시 원격 메모리 억세스(Remote Memory Access)로 인한 시스템 지연 및 버스 병목 소멸 요구성
+- 배경/필요성: 스레드•페이지의 노드 불일치는 **원격 접근 지연**과 링크 부하 유발
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Local Memory Access** 비율 극대화 (원격 메모리 억세스 지연 약 수십 $ns$ 절감)
+- **Local Memory Access** 비율을 높여 원격 경로 사용 감소
 - 초기 할당 정책 (**First-Touch Policy**) 및 런타임 페이지 이주 (**AutoNUMA Page Migration**)
 - CPU Affinity 바인딩 과도 적용 시 노드 간 메모리 불균형(Memory Pressure) 트레이드오프
 
@@ -61,11 +61,11 @@ extra:
 </details>
 
 ```text
-                     [토폴로지 관리자]
-                      /              \
-             [배치 정책]          [재배치 제어기]
-                      \              /
-                     [NUMA 노드 집합]
+                    [NUMA Node]
+                         |
+             [Interconnect (UPI/QPI)]
+                    /            \
+     [AutoNUMA Balancing]      [numactl]
 ```
 
 선의 의미: 토폴로지 관리자(numactl/lscpu)가 CPU 코어-메모리 매핑을 파악하여 배치 정책(First-touch) 및 재배치 제어기(AutoNUMA)로 노드 자원을 할당하는 아키텍처.
@@ -121,7 +121,7 @@ extra:
 
 | 메모리 할당 정책 | 동작 매커니즘 | 주요 용도 및 특성 |
 |:---|:---|:---|
-| **Local Node (First-Touch)** | 메모리를 요청한 현재 CPU 노드에 100% 우선 할당 | 기본 정책, **Locality 최상**, 노드 메모리 편중 가능성 |
+| **Local Node (First-Touch)** | 최초 접근 CPU의 로컬 노드에 우선 할당 | 높은 지역성 / 노드 메모리 편중 가능 |
 | **Node Bind** | 지정된 특정 NUMA 노드(e.g., Node 0)에만 강제 할당 | 프로세스 격리, DB 전용 파티셔닝 |
 | **Interleave** | 모든 NUMA 노드에 페이지를 순차 분산 할당 | **대용량 대역폭(Bandwidth) 요구 작업** |
 | **Preferred Node** | 지정 노드 우선 할당하되 용량 부족 시 타 노드 우회 | 유연한 리소스 수용성 확보 |
@@ -134,15 +134,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NUMA Node Memory Exhaustion**: 특정 노드 메모리가 100% 가득 차서, 가용 메모리가 충분함에도 해당 노드의 프로세스에서 OOM Killer가 발동하는 장애.
+- **NUMA Node Memory Exhaustion**: 특정 노드의 가용 메모리가 고갈되어 할당 실패나 원격 할당이 발생하는 상태.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 특정 NUMA 노드 메모리 고갈로 인한 **Node OOM Killer** 발동 | `sysctl vm.zone_reclaim_mode=0` 세팅 및 타 노드 우회 허용 | OOM 장애 예방 |
-| AutoNUMA 백그라운드 스캔으로 인한 CPU 사용율 폭증 | `sysctl kernel.numa_balancing=0` 끄기 및 `numactl` 정적 바인딩 | CPU 스캔 오버헤드 소멸 |
-| VM 내 가상 CPU/Memory와 물리 NUMA 노드 불일치 | **vNUMA** 활성화 및 KVM CPU Pinning 적용 | 가상화 대용량 DB 속도 향상 |
+| 특정 노드의 메모리 압력 증가 | 바인딩 완화 또는 **Interleave** 정책 검토 | 노드 간 용량 편차 완화 |
+| AutoNUMA 스캔•이주 비용 증가 | 측정 후 정적 바인딩과 자동 균형 선택 | 스캔과 원격 접근 비용 절충 |
+| vCPU•메모리와 물리 노드 불일치 | **vNUMA** 노출과 CPU•메모리 공동 배치 | 원격 접근 빈도 감소 |
 
 > 사례: PostgreSQL / Oracle DB 구동 시 `numactl --interleave=all` 또는 `numactl --cpunodebind=0 --membind=0` 적용
 
@@ -158,7 +158,7 @@ extra:
 
 </details>
 
-- **NUMA 최적화 기준**에 따라 대용량 멀티소켓 RDBMS 및 SAP HANA 인프라 구축 시 **NUMA-aware / numactl** 필수 바인딩
+- 지연 민감 작업은 **Node Bind**, 대역폭•용량 분산은 **Interleave** 선택
 
 #### 한줄 요약
 

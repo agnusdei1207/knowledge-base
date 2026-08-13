@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "비동기 I/O•이벤트 루프 (Async I/O Event Loop)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:02:00+09:00"
 tags:
   - "notes-software"
 weight: 26
@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의/개념: 단일 스레드 기반 무한 루프를 돌며 수만 개의 동시 접속 소켓 이벤트를 Non-blocking으로 수용 디스패치하는 **Async I/O & Event Loop Architecture**
-- 배경/필요성: C10K Problem (1만 개 동시 연결 시 Thread-per-request 스레드 생성 비용/메모리 고갈 및 Context Switch 폭증) 해결 요구성
+- 정의/개념: 준비•완료 이벤트를 소수 스레드가 처리하는 **Async I/O•Event Loop**
+- 배경/필요성: 연결별 OS 스레드는 대기 연결 증가 시 **메모리•전환 비용** 증가
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **C10K / C1000K Problem** 완벽 극복 및 수만~수십만 동시 소켓 세션 유지
+- 대기 연결 수와 OS 스레드 수의 직접 비례 완화
 - **Non-blocking I/O + I/O Multiplexing (epoll/kqueue/io_uring)** 연동
 - **Reactor Pattern** 기반 Single Thread Event Loop 처리 및 CPU-bound 작업 분리 (Worker Pool)
 
@@ -56,7 +56,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **epoll / kqueue / io_uring**: Linux(epoll/io_uring) 및 FreeBSD/macOS(kqueue) 커널 상에서 수만 개의 소켓 이벤트를 $O(1)$ 복잡도로 감지/처리를 수용하는 비동기 I/O 엔진.
+- **epoll / kqueue / io_uring**: Linux와 BSD 계열에서 준비 또는 완료 이벤트를 전달하는 I/O 인터페이스.
 - **Worker Thread Pool**: Event Loop 내에서 CPU 연산이 오래 걸리는 작업(암호화, 대용량 계산)이 수행되어 Event Loop가 Block되는 사태를 막기 위해 위임하는 백그라운드 스레드 풀.
 
 </details>
@@ -73,6 +73,8 @@ extra:
 |          [이벤트 루프]          |
 |                |                |
 |          [완료 처리기]          |
+|                |                |
+|          [워커 스레드 풀]       |
 |                                 |
 +---------------------------------+
 ```
@@ -81,11 +83,12 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Event Demultiplexer | **epoll_wait() / kqueue** 기반 I/O 준비 완료 소켓 이벤트를 $O(1)$ 감지 |
-| Event Queue | 유입된 읽기/쓰기/접속 이벤트를 FIFO 순서로 래칭 보관하는 대기열 |
-| Single Event Loop | 무한 루프 구동 (`while(true)`), Queue 내 이벤트 인출 및 Callback 실행 |
-| Callback Handler | 비동기 작업 결과 수신 및 후속 비동기 연산(Next Event) 체이닝 인가 |
-| Worker Thread Pool | Heavy CPU 연산 및 Blocking Disk I/O를 위임받아 실행하는 스레드 세트 |
+| I/O 등록 인터페이스 | 파일 기술자와 관심 이벤트 등록 |
+| 이벤트 감시기 | **epoll_wait•kqueue**로 준비 이벤트 수집 |
+| 이벤트 큐 | 읽기•쓰기•접속 이벤트 임시 보관 |
+| 이벤트 루프 | 이벤트 인출과 완료 처리기 디스패치 |
+| 완료 처리기 | 결과 반영과 후속 비동기 작업 등록 |
+| 워커 스레드 풀 | 긴 계산•블로킹 작업 분리 실행 |
 
 #### 한줄 요약
 
@@ -95,7 +98,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Event Loop Blocking**: 단일 스레드로 구동되는 Event Loop 내부에서 `Thread.sleep()`이나 대용량 연산 구동 시, 전체 서비스 소켓 수신이 전면 마비되는 치명적 부작용.
+- **Event Loop Blocking**: 이벤트 루프에서 긴 블로킹•계산 작업을 실행해 다른 이벤트 처리가 지연되는 현상.
 
 </details>
 
@@ -131,14 +134,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **io_uring**: Linux 5.1 커널부터 도입된 최신 링 버퍼 기반 아키텍처로, System Call 유발 오버헤드 0%(Zero-syscall)까지 지원하는 혁신적 Async I/O 인터페이스.
+- **io_uring**: 제출 큐와 완료 큐 링으로 비동기 I/O 요청과 결과 전달을 묶는 Linux 인터페이스.
 
 </details>
 
 | 비교 항목 | Thread-per-request (동기 블로킹) | Async I/O Event Loop (비동기) |
 |:---|:---|:---|
 | 스레드 모델 | 요청당 1개 OS 스레드 생성/할당 (1:1) | 단일 또는 극소수 Event Loop 스레드 |
-| C10K 동시성 | 제한됨 (스레드 생성 메모리/Context Switch 붕괴) | **완벽 지원 (수십만 소켓 세션 유지 가능)** |
+| 대기 연결 확장 | 연결 증가에 따라 스레드 자원 증가 | 소수 루프가 다수 연결 감시 가능 |
 | 개발 복잡도 | 낮음 (순차적 코드 작성 용이) | 상대적으로 높음 (Callback, Promise, Async/Await) |
 | 대표적 프레임워크 | Tomcat, Traditional Spring MVC | **Node.js, Netty, Nginx, Redis, Vert.x** |
 
@@ -156,8 +159,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Event Loop 내부에서 CPU 연산/대기 구동으로 전체 마비 (**Event Loop Blocking**) | CPU-bound 연산은 **Worker Thread Pool (Worker Pool)** 이송 | 이벤트 루프 초저지연 유지 |
-| 대량 소켓 유입에 따른 Event Queue OOM 메모리 폭발 | **Backpressure (Active Reactive Streams / Pause Read)** 인가 | 런타임 버퍼 고갈 예방 |
+| 이벤트 루프의 긴 연산•대기 | CPU 작업을 **Worker Thread Pool**로 이송 | 루프 처리 지연 제한 |
+| 이벤트 유입 증가에 따른 큐 메모리 고갈 | **Backpressure**와 유한 버퍼 적용 | 버퍼 상한과 유입 속도 통제 |
 | 복잡한 콜백 함수 체이닝으로 인한 **Callback Hell** | **Async / Await, Promise, RxJava/Project Reactor** 적용 | 코드 가독성 및 유지보수성 확보 |
 
 > 사례: **Node.js libuv** 런타임, **Netty EventLoopGroup**, **Nginx Master/Worker Process** 실무 아키텍처

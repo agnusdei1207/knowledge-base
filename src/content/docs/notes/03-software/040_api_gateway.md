@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "API 게이트웨이 (API Gateway)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:46:00+09:00"
 tags:
   - "notes-software"
 weight: 40
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 마이크로서비스 내부 복잡도를 은닉하고 외부 요청의 단일 관문으로서 라우팅, 보안, 트래픽 차단 및 프로토콜 변환을 일괄 수행하는 중앙 서버인 **API Gateway**
-- 배경/필요성: 클라이언트가 수십 개의 마이크로서비스 주소를 개별 관리하는 비효율성 차단, 공통 라우팅/인증 로직의 중복 구현 소멸 및 보안 인프라 일체화 요구성
+- 배경/필요성: 서비스별 외부 노출은 **주소•인증•호출량 정책 중복** 유발
 
 #### 한줄 요약
 
@@ -74,13 +74,13 @@ extra:
 
 선의 의미: 외부 클라이언트의 API 호출이 Gateway 경로 라우터 및 Filter Chain(인증/Rate Limit)을 통과하여 내부 서비스로 전달되고 응답이 재가공되어 반환되는 구조.
 
-| 구성요소 | 핵심 역할 및 기능 | 주요 구현체 및 기술 |
-|:---|:---|:---|
-| **L7 Router** | URL Path, Header, HTTP Method 기반 백엔드 서비스 동기 매핑 라우팅 | Path Matching, Host Routing |
-| **Authentication Filter** | JWT 토큰 검증, OAuth2 인증 인가 검사, **SSL Termination** | Spring Security, Keycloak 연동 |
-| **Rate Limiter Filter** | Redis 기반 **Token Bucket / Leaky Bucket** 알고리즘 적용 트래픽 억제 | Redis Rate Limiter |
-| **Protocol Translator** | External REST/JSON $\leftrightarrow$ Internal gRPC/Protobuf 간 통신 규약 상호 변환 | gRPC Web, GraphQL Gateway |
-| **Circuit Breaker Filter** | 백엔드 장애 수반 시 타임아웃 래칭 및 Fallback 응답 즉시 인가 | Resilience4j |
+| 구성요소 | 책임 |
+|:---|:---|
+| 경로 라우터 | 경로•호스트•메서드로 목적 서비스 선택 |
+| 진입 정책 엔진 | 인증•인가•**Rate Limiting** 공통 적용 |
+| 요청 변환기 | 외부 계약을 내부 프로토콜•헤더로 변환 |
+| 응답 변환•조합기 | 다수 응답 조합과 클라이언트 형식 변환 |
+| 관측 처리기 | 상관 식별자와 로그•메트릭•추적 전파 |
 
 #### 한줄 요약
 
@@ -100,11 +100,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. SSL Termination           │
-│ 2. Pre-Filter (JWT/RateLimit)│
-│ 3. L7 Routing & Service Find │
-│ 4. 백엔드 서비스 처리        │
-│ 5. Post-Filter (Response Agg)│
+│ 1. TLS 종료                 │
+│ 2. 진입 정책 검증           │
+│ 3. L7 라우팅                │
+│ 4. 백엔드 서비스 처리       │
+│ 5. 응답 변환•조합           │
 └──────────────┬───────────────┘
                ▼
         [클라이언트 응답]
@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **SSL Termination**: 게이트웨이 전단에서 클라이언트 HTTPS SSL 복호화 수행.
-2. **Pre-Filter 검증**: JWT 토큰 유효성 검사 및 Redis 기반 **Token Bucket Rate Limiting** 집행 (실패 시 401/429 반환).
-3. **L7 Routing**: **Service Discovery (Eureka/K8s)** 참조하여 목적지 Microservice Pod IP 인출.
+1. **TLS 종료**: 외부 HTTPS 연결을 종료하고 인증서 정책 적용
+2. **진입 정책 검증**: 토큰과 **Token Bucket** 기반 호출량 검사
+3. **L7 라우팅**: Registry•DNS를 참조해 목적 서비스 선택
 4. **백엔드 서비스 처리**: 내부 비동기 HTTP / gRPC 라우팅 호출 및 런타임 연산 수행.
-5. **Post-Filter & Aggregation**: 서비스 응답 데이터 필터링, CORS 헤더 추가 및 클라이언트 전달.
+5. **응답 변환·조합**: 응답을 조합•변환하고 공통 헤더 적용
 
 #### 한줄 요약
 
@@ -132,9 +132,9 @@ extra:
 
 | 구현체 및 솔루션 | 기술 기반 | 주요 특징 및 장단점 |
 |:---|:---|:---|
-| **Kong Gateway** | Nginx / OpenResty (Lua) | 초고속 성능, 풍부한 플러그인 생태계, C/Lua 오버헤드 최저 |
-| **Spring Cloud Gateway** | Java / Netty (Spring WebFlux) | **Spring 생태계와 완벽 결합, Non-blocking Async I/O 지원** |
-| **AWS API Gateway** | Managed Cloud Service | 완벽한 서버리스(Serverless) 연동, 트래픽 비례 비용 과금 |
+| **Kong Gateway** | Nginx / OpenResty (Lua) | 플러그인 기반 정책과 독립 게이트웨이 운영 |
+| **Spring Cloud Gateway** | Java / Netty (Spring WebFlux) | Spring 생태계 통합과 비차단 I/O |
+| **AWS API Gateway** | Managed Cloud Service | 관리형 API와 서버리스 서비스 연동 |
 | **Envoy Proxy** | C++ | Service Mesh 및 Gateway 겸용 가능, 고성능 L7 라우팅 |
 
 #### 한줄 요약
@@ -153,7 +153,7 @@ extra:
 |:---|:---|:---|
 | API Gateway 장애 발생 시 전면 서비스 마비 (**SPOF**) | 게이트웨이 수평 이중화(Scale-out) 및 L4 Load Balancer 무장애 라우팅 | 고가용성(HA) 확보 |
 | 게이트웨이에 비즈니스 로직(Business Logic) 오염 | 공통 횡단 로직(인증, 라우팅)만 게이트웨이에 두고 비즈니스 로직 철저히 배제 | 게이트웨이 병목 예방 |
-| 대용량 트래픽 블로킹 발생 | **Non-blocking Reactive I/O (Spring Cloud Gateway / Envoy)** 선택 | C10K 동시성 무제한 수용 |
+| 긴 처리기로 게이트웨이 이벤트 루프 지연 | **비차단 I/O**와 업무 로직 분리 | 진입 경로 처리시간 제한 |
 
 > 사례: **Spring Cloud Gateway + Redis Rate Limiter + Keycloak JWT** 엣지 인프라 정착
 
@@ -169,7 +169,7 @@ extra:
 
 </details>
 
-- **API 게이트웨이 선택 기준**에 따라 MSA 시스템 구축 시 **Spring Cloud Gateway 또는 Kong** 기반 중앙 엣지 구축 인가
+- 반복 횡단 정책은 **API Gateway**, 내부 단순 호출은 **직접 경로** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "마이크로서비스 아키텍처 MSA (Microservice Architecture)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:43:00+09:00"
 tags:
   - "notes-software"
 weight: 39
@@ -23,13 +23,13 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **MSA (Microservice Architecture)**: 대규모 애플리케이션을 비즈니스 도메인 단위로 분할하여, 독립적으로 배포/확장 가능한 소규모 서비스 집합으로 구성하는 소프트웨어 아키텍처 스타일.
-- **Database-per-Service**: 각 마이크로서비스가 전용 독자 데이터베이스를 독립 소유하여, 타 서비스와의 DB 수준 직결 억세스를 완벽 차단하는 핵심 원칙.
+- **Database-per-Service**: 서비스가 자신의 데이터 저장소 스키마와 접근 계약을 소유하는 원칙.
 - **Decomposition**: Monolithic 시스템을 DDD(Domain-Driven Design) Bounded Context 기법을 적용하여 독립적 마이크로서비스로 분할 도출하는 설계 기법.
 
 </details>
 
 - 정의/개념: 단일 애플리케이션을 도메인 단위의 독립적 소형 서비스로 분할하여, 독자적 DB(Database-per-service)와 독립적 CI/CD 배포 파이프라인을 운영하는 **MSA (Microservice Architecture)**
-- 배경/필요성: 거대한 Monolithic 시스템의 변경 파급 효과, 배포 병목, 단일 결함 시 전체 붕괴(SPOF) 및 특정 기능별 수평 확장(Scale-out) 한계 극복 요구성
+- 배경/필요성: 단일 배포체의 강한 결합은 **변경•배포•확장 단위 분리 곤란**
 
 #### 한줄 요약
 
@@ -73,14 +73,13 @@ extra:
 
 선의 의미: API Gateway가 외부 요청을 인가받아 Service Discovery 검색 후 마이크로서비스로 라우팅하고, Event Broker 기반 비동기 통신 및 Distributed Tracing 관측이 연동되는 아키텍처.
 
-| 구분 분류 | 핵심 구성요소 (Components) | 주요 역할 및 기술 스택 |
-|:---|:---|:---|
-| **Outer Architecture (기반 인프라)** | **API Gateway** | 클라이언트 단일 진입점, 라우팅, 인증 (Spring Cloud Gateway, Kong) |
-| | **Service Discovery** | 동적 서비스 인스턴스 위치 등록 및 탐색 (Eureka, Consul, K8s Service) |
-| | **Config Server** | 각 서비스별 환경 설정 파일 중앙 집중 관리 (Spring Cloud Config) |
-| | **Distributed Tracing** | 마이크로서비스 간 비동기 분산 트레이스 모니터링 (Zipkin, Jaeger, OpenTelemetry)|
-| **Inner Architecture (서비스 내부)** | **Domain Service** | Bounded Context 기반 독립 비즈니스 로직 및 전용 DB 소유 |
-| | **Resilience / Circuit Breaker**| 타 서비스 호출 실패 시 차단 및 Fallback 수행 (Resilience4j) |
+| 구성요소 | 책임 |
+|:---|:---|
+| API 게이트웨이 | 외부 인증•라우팅•호출량 제한 적용 |
+| 주문 서비스•소유 데이터 | 주문 업무와 데이터 변경 책임 소유 |
+| 결제 서비스•소유 데이터 | 결제 업무와 데이터 변경 책임 소유 |
+| 이벤트 브로커 | 서비스 간 비동기 상태 변화 전달 |
+| 관측 플랫폼 | 로그•메트릭•**분산 추적** 상관관계 제공 |
 
 #### 한줄 요약
 
@@ -100,21 +99,20 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. API Gateway 진입         │
-│ 2. Service Discovery 탐색   │
-│ 3. 마이크로서비스 동기 호출  │
-│ 4. Event Broker 비동기 전파 │
-│ 5. Saga 기반 최종 일관성    │
+│ 게이트웨이 진입             │
+│ 1. 서비스 위치 탐색         │
+│ 2. 마이크로서비스 동기 호출 │
+│ 3. 이벤트 브로커 비동기 전파│
+│ 4. Saga 기반 최종 일관성    │
 └──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. **API Gateway 진입**: 외부 HTTP 요청 진입 시 OAuth2/JWT 인증 및 Rate Limit 검증.
-2. **Service Discovery 탐색**: **Eureka / K8s DNS** 로부터 목적지 서비스의 동적 Pod IP/Port 인출.
-3. **마이크로서비스 동기 호출**: REST / gRPC 기반 서킷 브레이커 wrapping 타깃 서비스 호출.
-4. **Event Broker 비동기 전파**: 상태 변화(e.g., 주문완료) 발생 시 Kafka로 이벤트 발행.
-5. **Saga 기반 최종 일관성**: 이벤트를 수신한 타 서비스들이 로컬 트랜잭션을 각각 수행하여 최종 정합성 완결.
+1. **서비스 위치 탐색**: Registry•DNS에서 목적 서비스 인스턴스 조회
+2. **마이크로서비스 동기 호출**: 타임아웃•회로 차단을 적용해 API 호출
+3. **이벤트 브로커 비동기 전파**: 로컬 변경 후 상태 이벤트 발행
+4. **Saga 기반 최종 일관성**: 로컬 트랜잭션과 보상 동작으로 수렴
 
 #### 한줄 요약
 
@@ -124,13 +122,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Distributed Monolith (분산 모놀리스)**: MSA로 서비스는 쪼개놓았으나, 통신이 강하게 결합되고 하나를 배포하려면 전체를 동시 배포해야 하는 최악의 헛깨비 아키텍처.
+- **Distributed Monolith (분산 모놀리스)**: 서비스가 분리됐지만 동기 의존과 공동 배포로 독립성이 없는 분산 구조.
 
 </details>
 
 | 비교 항목 | Monolithic Architecture | Microservice Architecture (MSA) |
 |:---|:---|:---|
-| 시스템 형태 | 단일 거대 실행 파일 (WAR/JAR) | **독립된 수십 개의 소형 서비스 배포체** |
+| 시스템 형태 | 단일 배포 단위 | 업무 경계별 독립 서비스 배포체 |
 | 데이터베이스 | 단일 중앙 DB 공유 | **Database-per-Service (개별 독립 DB)** |
 | 배포 영향도 | 작은 수정 시에도 전체 재배포 필요 | **해당 서비스만 독립적 즉시 배포 가능** |
 | 트랜잭션 | ACID 단일 DB 트랜잭션 | **Saga Pattern 기반 최종 일관성 (Eventual)** |
@@ -168,7 +166,7 @@ extra:
 
 </details>
 
-- **MSA 도입 판정 기준**에 따라 무조건적인 분할을 지양하고, **DDD Bounded Context** 검증 후 **Database-per-service** 아키텍처 인가
+- 독립 배포 이익이 크면 **MSA**, 경계 불확실•운영 역량 부족이면 **Modulith** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "다중 프로세서 스케줄링: SQMS•MQMS (Multiprocessor Scheduling SQMS MQMS)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:09:00+09:00"
 tags:
   - "notes-software"
 weight: 28
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 멀티코어 환경에서 락 경합(Lock Contention) 및 캐시 친화도(Cache Affinity)를 조율하기 위한 스케줄링 아키텍처 2대 분류인 **SQMS vs MQMS**
-- 배경/필요성: 단일 큐(SQMS)의 락 억세스 병목 및 Cache Bouncing 문제 해결, 다중 큐(MQMS)의 코어 간 부하 불균형(Work Load Imbalance) 극복 요구성
+- 배경/필요성: 코어 증가 시 전역 큐 **락 경합** 또는 로컬 큐 편차 발생
 
 #### 한줄 요약
 
@@ -44,8 +44,8 @@ extra:
 
 </details>
 
-- 단일 중앙 큐 관리로 부하 평형(Load Balance) 자동 보장 (**SQMS**)
-- 코어별 독립 큐 분리로 락 경합 0% 및 **Cache Affinity** 극대화 (**MQMS**)
+- 단일 중앙 큐를 공유해 작업 선택 범위를 통합하는 **SQMS**
+- 코어별 큐로 경합을 줄이고 **Cache Affinity**를 높이는 MQMS
 - MQMS 부하 편차 극복을 위한 **Work Stealing / Push-Pull Migration** 인가
 
 #### 한줄 요약
@@ -70,13 +70,13 @@ extra:
 
 선의 의미: SQMS는 단일 전역 실행 큐가 모든 코어에 바인딩되고, MQMS는 각 코어가 로컬 큐에 직결되어 부하 분산기가 이동 제어하는 아키텍처.
 
-| 구분 항목 | SQMS (Single Queue) | MQMS (Multi-Queue) |
-|:---|:---|:---|
-| 큐 구성 | **단일 전역 큐 (Global Run-Queue)** | **코어별 독립 로컬 큐 (Per-CPU Local Queue)** |
-| 락 경합 (Lock Contention) | 매우 심함 (코어 수 비례 락 병목 폭증) | **없음 (코어 간 락 공유 없음)** |
-| 캐시 친화도 (Cache Affinity) | 낮음 (프로세스가 코어를 무작위 이동) | **매우 높음 (동일 코어 지속 할당)** |
-| 부하 균형 (Load Balance) | 완벽함 (자연스러운 큐 공유) | 불균형 가능성 존재 (**Work Stealing 필수**) |
-| 현대 OS 채택 | 초기 OS 및 소형 시스템 | **현대 범용 OS (Linux CFS, Windows, FreeBSD)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 작업 배치기 | 신규 작업의 전역•로컬 큐 위치 결정 |
+| 전역 실행 큐 | 모든 코어가 공유하는 **SQMS** 준비 작업 보관 |
+| 코어별 로컬 실행 큐 | 코어별 **MQMS** 작업과 캐시 지역성 유지 |
+| CPU 코어 집합 | 큐에서 선택한 작업 실행 |
+| 부하 분산기 | 로컬 큐 편차를 감지해 작업 이동 |
 
 #### 한줄 요약
 
@@ -93,18 +93,18 @@ extra:
 ```text
 SQMS 실행 경로
 
-[준비 작업] ──► [전역 실행 큐 (Global Lock)] ──► [SQMS 전역 디스패치] ──► [전역 큐 락 경합]
+[준비 작업] ──► [전역 실행 큐] ──► [1. SQMS 전역 디스패치] ──► [작업 실행]
 
 MQMS 실행 경로
 
-[준비 작업] ──► [로컬 큐 (Per-CPU Lock)] ──► [MQMS 로컬 디스패치] ──► [부하 불균형 탐지] ──► [Work Stealing]
+[준비 작업] ──► [로컬 실행 큐] ──► [2. MQMS 로컬 디스패치] ──► [편차 탐지] ──► [3. 작업 훔치기]
 ```
 
 ### 동작 원리
 
-1. **SQMS 경로**: 프로세스가 Global Run-Queue에 진입 시 락 획득 $\to$ 코어 1~N 이 락 경쟁을 거쳐 디스패치 (코어 확장에 따른 락 병목).
-2. **MQMS 경로**: 프로세스가 특정 CPU의 Local Queue로 인입 $\to$ 해당 코어가 락 경합 없이 $O(1)$ 초고속 디스패치 연산.
-3. **Work Stealing**: Local Queue가 비어있는 유휴 코어 발생 시 **Work Stealing** 알고리즘 발동 $\to$ 타 큐의 작업을 훔쳐와 균형(Rebalance) 수습.
+1. **SQMS 전역 디스패치**: 공유 큐에서 작업을 선택해 유휴 코어에 배정
+2. **MQMS 로컬 디스패치**: 각 코어가 자신의 로컬 큐에서 작업 선택
+3. **작업 훔치기**: 유휴 코어가 다른 로컬 큐의 작업을 이동
 
 #### 한줄 요약
 
@@ -120,8 +120,8 @@ MQMS 실행 경로
 
 | 기능 비교 | SQMS 구조 | MQMS 구조 |
 |:---|:---|:---|
-| 확장성 (Scalability) | 코어 수 8개 이상 확장 시 성능 급락 | **수천 코어 이상 수평적 확장 가능** |
-| 런타임 오버헤드 | 매 디스패치마다 전역 락 획득 오버헤드 | 평시 0%, **Work Stealing 발생 시에만 오버헤드** |
+| 확장성 | 코어 증가 시 공유 큐 경합 가능 | 로컬 큐로 경합 분산 가능 |
+| 런타임 비용 | 전역 큐 동기화 비용 | 부하 측정과 **작업 이동** 비용 |
 | 구현 복잡도 | 비교적 단순함 | 복잡함 (Work Stealing, Migration 튜닝 필요) |
 
 #### 한줄 요약
@@ -140,7 +140,7 @@ MQMS 실행 경로
 |:---|:---|:---|
 | MQMS 환경에서 특정 코어에만 작업이 몰려 **Load Imbalance** 유발 | **Work Stealing** 및 주기적 **`sched_balance_domains`** 인가 | 전체 코어 가용률 평형화 |
 | 코어 간 무분별한 Thread Migration으로 인한 **Cache Affinity** 파괴 | **`sched_setaffinity` (taskset)** 기반 CPU Pinning 적용 | L1/L2 캐시 히트율 극대화 |
-| NUMA 노드 경계를 넘어서는 작업 이동 시 메모리 억세스 지연 | **NUMA-aware MQMS (sched_domain)** 계층화 적용 | 원격 메모리 억세스 병목 소멸 |
+| NUMA 경계를 넘는 작업 이동의 원격 접근 | **NUMA-aware sched_domain** 계층 적용 | 원격 메모리 접근 빈도 감소 |
 
 > 사례: Linux 커널 **CFS `cfs_rq`** 기반 코어별 MQMS 스케줄링 및 **NUMA Domain** 밸런싱
 
@@ -156,7 +156,7 @@ MQMS 실행 경로
 
 </details>
 
-- **멀티프로세서 스케줄링 선택 기준**에 따라 현대 대규모 멀티코어 서버 OS 인프라에는 **MQMS + Work Stealing** 구조 전면 채택
+- 소수 코어•단순성은 **SQMS**, 확장성•지역성은 **MQMS** 선택
 
 #### 한줄 요약
 

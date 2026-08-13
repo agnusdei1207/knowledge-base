@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:05:00+09:00"
 tags:
   - "notes-software"
 weight: 27
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 데이터의 변화를 이벤트 스트림으로 래핑하고, Subscriber가 처리 가능한 수량만큼 역압(Backpressure)을 조정하며 비동기 처리하는 **리액티브 프로그래밍(Reactive Programming)**
-- 배경/필요성: 빠른 데이터 생성자(Publisher)와 느린 데이터 소비자(Subscriber) 간의 유입 불균형(OOM 위험) 극복 및 시스템 복원력(Resilient) 확보 요구성
+- 배경/필요성: 생산 속도가 소비 속도를 넘으면 **버퍼 고갈•지연 누적** 발생
 
 #### 한줄 요약
 
@@ -64,9 +64,9 @@ extra:
 ```text
 +--------- 리액티브 스트림 ---------+
 |                                   |
-| [발행자] -------- [연산자 체인]   |
+| [Publisher] ------ [Processor]    |
 |     |                    |         |
-|   [구독] ------------ [구독자]    |
+| [Subscription] ---- [Subscriber]   |
 |                                   |
 +-----------------------------------+
 ```
@@ -98,21 +98,21 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 구독 설정 (onSubscribe)  │
-│ 2. 수요량 요청 (request(n)) │
-│ 3. 데이터 발행 (onNext)     │
-│ 4. 변환•소비 (Operator)     │
-│ 5. 완료/에러 (onComplete)    │
+│ 1. 구독 설정                │
+│ 2. 수요량 요청              │
+│ 3. 데이터 발행              │
+│ 4. 변환•소비                │
+│ 5. 완료•에러                │
 └──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. **구독 요청 (subscribe)**: Subscriber가 Publisher에게 `subscribe(subscriber)` 호출.
-2. **구독 설정 (onSubscribe)**: Publisher가 Subscription 객체를 생성하여 Subscriber의 `onSubscribe(subscription)` 전달.
-3. **수요량 요청 (request(n))**: Subscriber가 자신의 버퍼 한도 내에서 `subscription.request(n)` 역압 요청.
-4. **데이터 발행 (onNext)**: Publisher가 $n$개 이하의 데이터를 `onNext(data)` 신호로 전송.
-5. **완료/에러 (onComplete / onError)**: 데이터 발행 완료 시 `onComplete()`, 예외 발생 시 `onError()` 종단 시그널 인가.
+1. **구독 설정**: Publisher가 Subscription을 Subscriber에 전달
+2. **수요량 요청**: Subscriber가 `request(n)`으로 허용 수량 지정
+3. **데이터 발행**: Publisher가 수요 범위에서 `onNext` 전달
+4. **변환·소비**: Processor가 데이터를 변환하고 하류로 전파
+5. **완료·에러**: `onComplete` 또는 `onError` 종단 신호 전달
 
 #### 한줄 요약
 
@@ -129,8 +129,8 @@ extra:
 | 비교 항목 | Reactive Programming (리액티브) | Traditional Imperative (명령형) |
 |:---|:---|:---|
 | 데이터 전달 방식 | **Push Model** (발행자가 데이터 전파) + 역압 | **Pull Model** (소비자가 데이터를 직접 요청) |
-| 락/스레드 블로킹 | **Non-blocking** (스레드 유휴 상태 없음) | **Blocking** (데이터 올 때까지 스레드 대기) |
-| 흐름 제어 | **Backpressure (`request(n)`)** 제어 | 메모리 버퍼 조절 또는 OOM 발생 |
+| 대기 모델 | 비차단 파이프라인 구성 가능 | 호출 흐름에서 대기 가능 |
+| 흐름 제어 | **Backpressure (`request(n)`)** 표준화 | 큐•세마포어 등 별도 제어 |
 | 대표 라이브러리 | **RxJava, Project Reactor (Spring WebFlux)** | Java Collections, Stream API |
 
 #### 한줄 요약
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **리액티브 도입 선택 기준**에 따라 초고밀도 비동기 게이트웨이/스트리밍 인프라는 **Spring WebFlux / Project Reactor** 채택
+- 연속 비동기 스트림은 **Reactor**, 단순 순차 업무는 **명령형** 선택
 
 #### 한줄 요약
 

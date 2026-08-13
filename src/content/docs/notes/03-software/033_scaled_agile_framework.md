@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "SAFe 대규모 애자일 프레임워크 (Scaled Agile Framework)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T14:25:00+09:00"
 tags:
   - "notes-software"
 weight: 33
@@ -23,13 +23,13 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **SAFe (Scaled Agile Framework)**: 단일 팀 단위의 애자일(Scrum/Kanban)을 수십~수천 명 규모의 전사적(Enterprise) 대규모 개발 조직으로 확장하여 린-애자일(Lean-Agile) 문화와 비즈니스 민첩성(Business Agility)을 정착시키는 프레임워크.
-- **ART (Agile Release Train)**: 50~125명 규모의 다수 교차기능 애자일 팀들이 동일한 공통 비전, 개발 주기에 맞춰 가치 스트림(Value Stream)을 지속 배포하는 대규모 조직 실행 단위.
-- **PI (Planning Interval)**: ART가 비즈니스 가치를 계획하고 개발/검증하는 8~12주 단위의 대규모 고정 타임박스 (보통 5개의 2주 스프린트로 구성).
+- **ART (Agile Release Train)**: 다수 교차기능 팀이 공통 비전과 계획 주기로 가치 흐름을 실행하는 장기 조직 단위.
+- **PI (Planning Interval)**: ART가 목표•의존성을 정렬하고 가치를 개발•검증하는 다중 반복 계획 구간.
 
 </details>
 
 - 정의/개념: 단일 애자일 팀의 한계를 극복하고 전사적 경영 전략(Portfolio)부터 시스템 구현(Team)까지 린-애자일 가치를 동기화하는 확장 프레임워크인 **SAFe(Scaled Agile Framework)**
-- 배경/필요성: 대규모 엔터프라이즈 환경에서 팀 간 의존성(Dependency) 복잡도 폭증, 전사적 전략-실행 정렬 불일치 및 가치 전달 지연(Time-to-Market) 극복 요구성
+- 배경/필요성: 독립 팀 최적화만으로는 **전략•투자•의존성 정렬 곤란**
 
 #### 한줄 요약
 
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- 4대 레벨 구성 (**Essential, Large Solution, Portfolio, Full SAFe**)
-- **ART (Agile Release Train)** 기반 50~125명 단위 교차기능 릴리스 파이프라인 구축
-- **PI Planning (2일간 전사 수평적/수직적 정렬)** 및 **Inspect & Adapt (I&A 회고)**
+- 구성 선택에 따른 **Essential•Large Solution•Portfolio** 적용
+- **ART** 기반 교차기능 팀의 가치 흐름 실행
+- **PI Planning**과 **Inspect & Adapt**로 목표•의존성 조정
 
 #### 한줄 요약
 
@@ -73,12 +73,12 @@ extra:
 
 선의 의미: Portfolio 전략이 Value Stream을 거쳐 ART(Agile Release Train) 단위로 할당되고, 개별 Agile Team의 스프린트 개발로 구체화되는 아키텍처.
 
-| 구조 레벨 | 주요 역할 및 핵심 활동 | 주요 아티팩트/이벤트 |
-|:---|:---|:---|
-| **Portfolio Level** | **LPM (Lean Portfolio Management)**, 전사 전략 자금 배분 및 가치 스트림(Value Stream) 관리 | Epics, Lean Budget, Portfolio Canvas |
-| **Large Solution Level** | 수백 명 이상 대규모 솔루션 관리, Solution Architect/Engineer | Solution Train, Solution Intent |
-| **Program Level (ART)** | **ART 오케스트레이션**, **RTE (Release Train Engineer)**, **PI Planning** | Features, PI Objectives, Program Board |
-| **Team Level** | 단일 팀 단위의 기존 **Scrum / Kanban** 구동, PO, SM, Devs | Stories, Sprint Backlog, Team PI Objectives |
+| 구성요소 | 책임 |
+|:---|:---|
+| 린 포트폴리오 관리 | 전략•투자와 가치 흐름 우선순위 정렬 |
+| 개발 가치 흐름 | 아이디어부터 고객 가치까지 흐름 관리 |
+| 애자일 릴리스 트레인 | **PI 목표•의존성**과 시스템 통합 조정 |
+| 애자일 팀 | Scrum•Kanban으로 기능 증분 구현 |
 
 #### 한줄 요약
 
@@ -98,13 +98,12 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 2. PI 목표•의존성 정렬       │
-│    (PI Planning - 2일간)    │
+│ 2. PI 목표•의존성 정렬      │
 └──────────────┬───────────────┘
                ▼
 ╔══════════════════════════════╗
 ║ 3. 팀 증분•시스템 통합      ║
-║    (5개 Sprint 실행)        ║
+║    (반복 개발•검증)         ║
 ╚══════════════╤═══════════════╝
                ▼
 ┌──────────────────────────────┐
@@ -116,10 +115,10 @@ extra:
 ### 동작 원리
 
 1. **전략·투자 우선순위 (LPM)**: Portfolio 계층에서 전사 Epic 정렬 및 Lean Budget 승인.
-2. **PI 목표·의존성 정렬 (PI Planning)**: ART 전체 구성원이 모여 2일간 팀별 PI Objectives 및 **Program Board 의존성** 정렬.
-3. **팀 증분·시스템 통합**: 5개 Sprint (4개 개발 + 1개 IP Sprint)를 구동하며 2주마다 **System Demo** 통합.
-4. **시스템 데모 (System Demo)**: 매 2주마다 ART 전체 통합 시스템 기능 시연 및 피드백.
-5. **검사·적응 (I&A)**: 10주 PI 종료 시점에 ART 전체 피드백, 정량 지표 평가 및 대규모 회고 완결.
+2. **PI 목표·의존성 정렬**: 팀별 목표와 Program Board 의존성 합의
+3. **팀 증분·시스템 통합**: 반복마다 기능을 구현하고 시스템 수준 통합
+4. **시스템 데모**: 통합 결과를 시연하고 이해관계자 피드백 수집
+5. **검사·적응**: 흐름 지표와 문제 해결 결과로 다음 구간 개선
 
 #### 한줄 요약
 
@@ -129,7 +128,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **IP Sprint (Innovation and Planning)**: PI의 마지막 5번째 스프린트로, 혁신 실험(Hackathon), 기술 채무 해소, PI Planning 준비 및 교육에만 전념하는 특수 타임박스.
+- **IP Iteration (Innovation and Planning)**: 혁신•학습•계획과 다음 PI 준비를 지원하는 반복 구간.
 
 </details>
 
@@ -154,7 +153,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 전사적 대규모 PI Planning 시 팀 간 의존성 복잡성 폭증 | **Program Board** 시각화 및 RTE 주도 의존성 재정렬 | 팀 간 가로막힘(Block) 해소 |
-| 잦은 스프린트 개발로 인한 기술 채무 및 아키텍처 붕괴 | **IP Sprint (5번째 스프린트)** 보장 및 System Architect 주도 | 아키텍처 런웨이(Architectural Runway) 확보 |
+| 단기 기능 중심으로 기술 부채 누적 | **IP Iteration**과 아키텍처 런웨이 투자 | 학습•기술 기반 작업의 용량 확보 |
 | 명목만 SAFe 도입하고 기존 하향식 통제 지속 (**SINO**) | SPC (SAFe Program Consultant)의 리더십 린-애자일 변혁 코칭 | 진정한 비즈니스 민첩성 획득 |
 
 > 사례: 대형 자동차(ECU/AUTOSAR) 및 금융 차세대 엔터프라이즈 내 **SAFe 6.0** 도입 사례
@@ -171,7 +170,7 @@ extra:
 
 </details>
 
-- **전사 애자일 확장 기준**에 따라 100명 이상의 대규모 엔터프라이즈 환경 구축 시 **SAFe 6.0 (ART + PI Planning)** 채택
+- 다수 팀의 강한 의존성•포트폴리오 정렬은 **SAFe**, 단순 확장은 **LeSS** 검토
 
 #### 한줄 요약
 

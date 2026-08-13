@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "가상 스레드: Java Project Loom (Virtual Thread)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:58:00+09:00"
 tags: [notes-software]
 weight: 25
 extra:
@@ -21,14 +21,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Virtual Thread (가상 스레드)**: Java 21 (Project Loom)에 공식 도입된 경량 사용자 공간 스레드(User-mode Thread)로, OS Kernel Thread(1:1 매핑)가 아닌 JVM 내부에서 수백만 개를 $M:N$ 매핑 및 스케줄링 관리하는 기법.
+- **Virtual Thread (가상 스레드)**: Java 21에서 정식화된 JVM 관리 경량 스레드로, 소수 캐리어 스레드에 다중화되는 실행 단위.
 - **Carrier Thread**: Virtual Thread를 실제로 할당받아 CPU 코어 상에서 실행하는 하부의 OS Platform Thread (ForkJoinPool 잇스턴스).
 - **Continuation**: Virtual Thread의 런타임 스택 및 실행 재개 지점을 JVM 힙(Heap) 공간에 바인딩 보존/복원하는 핵심 메커니즘.
 
 </details>
 
-- 정의/개념: OS 커널 스레드 1:1 매핑 한계를 극복하고 JVM 차원에서 수십만 개의 런타임 동시 실행을 지원하는 차세대 경량 동시성 모델인 **Virtual Thread (Java Project Loom)**
-- 배경/필요성: 기존 Platform Thread의 높은 메모리(Default 1MB) 및 Context Switch 오버헤드, Reactive/Async 프로그래밍의 복잡한 코드 콜백 헬(Callback Hell) 극복 요구성
+- 정의/개념: 대기 작업을 캐리어 스레드에 다중화하는 **Virtual Thread**
+- 배경/필요성: 요청별 플랫폼 스레드는 대기 증가 시 **스레드 자원 상한** 도달
 
 #### 한줄 요약
 
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- 메모리 Footprint 수 KB 수준(Platform Thread 대비 $\frac{1}{1000}$ 수준)
-- I/O Blocking 발생 시 커널 스레드가 블록되지 않고 즉시 **Unmount / Mount** 전환
-- 기존 **Thread-per-request** 명령 및 동기식(Synchronous) 코드 호환성 100% 보존
+- 필요에 따라 확장되는 스택으로 플랫폼 스레드보다 낮은 초기 비용
+- 지원되는 블로킹 연산에서 **Unmount / Mount**로 캐리어 재사용
+- 기존 **Thread-per-request** 스타일의 순차 코드 활용 가능
 
 #### 한줄 요약
 
@@ -70,10 +70,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Virtual Thread | **Continuation** 기반 힙(Heap) 상주 스택 관리, 사용자 로직 수행 |
-| Carrier Thread | **ForkJoinPool** 인스턴스로 구동되며 Virtual Thread를 실제 CPU 코어에 마운트 디스패치 |
-| Scheduler | JVM 차원의 $M:N$ 스케줄러로 준비된 Virtual Thread를 Carrier에 할당 |
-| I/O Unmount Engine | Socket/File Blocking 인가 시 **Continuation.yield()** 호출 및 Carrier 분리 |
+| 가상 스레드 집합 | 사용자 로직과 동적 스택 상태 보유 |
+| JVM 스케줄러 | 실행 가능한 가상 스레드를 캐리어에 할당 |
+| 캐리어 스레드 집합 | 가상 스레드를 실제 CPU에서 실행 |
+| 입출력 하위 시스템 | 지원 블로킹 I/O의 **Unmount•Mount** 연계 |
 
 #### 한줄 요약
 
@@ -83,7 +83,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Thread Pinning**: `synchronized` 블록이나 Native Method(JNI) 구동 중 I/O 인가 시, Virtual Thread가 Carrier Thread에서 Unmount되지 못하고 강제 고착되는 현상.
+- **Thread Pinning**: 특정 네이티브•외부 함수 실행 중 가상 스레드가 캐리어에서 분리되지 못하는 현상.
 
 </details>
 
@@ -110,9 +110,9 @@ extra:
 
 1. **캐리어 탑재**: Virtual Thread가 JVM 스케줄러에 의해 유휴 **Carrier Thread**에 Mount.
 2. **가상 스레드 실행**: Java 코드 실행 및 연산 수행.
-3. **캐리어 분리 가능성 판정**: Blocking I/O 발생 시 **Thread Pinning** (synchronized 사용 여부) 검증.
+3. **캐리어 분리 가능성 판정**: 블로킹 시 네이티브 호출 등 **Pinning** 조건 확인
 4. **분리·실행 가능 전환**: Pinning 미발생 시 Continuation 스택 힙 덤프 후 **Unmount** (Carrier Thread 유휴 전환).
-5. **고정 대기 (Pinning)**: Pinning 발생 시 Carrier Thread가 고착 대기하여 성능 저하 유발.
+5. **고정 대기 (Thread Pinning)**: 분리 불가 시 캐리어 점유 상태로 대기
 
 #### 한줄 요약
 
@@ -130,8 +130,8 @@ extra:
 |:---|:---|:---|
 | 스케줄링 주체 | OS Kernel Scheduler | **JVM Scheduler (ForkJoinPool)** |
 | 매핑 관계 | OS Kernel Thread와 **1:1** 매핑 | OS Carrier Thread와 **M:N** 매핑 |
-| 메모리 크기 | default 1MB (Fixed Stack) | **수 KB (Dynamic Heap Stack)** |
-| 생성 가능 수량 | 수천 개 제한 (OOM 위험) | **수백만 개 동시 생성 가능** |
+| 메모리 특성 | 네이티브 스택 등 플랫폼 자원 사용 | 필요에 따라 확장되는 동적 스택 |
+| 동시성 상한 | OS 스레드 자원에 직접 영향 | 메모리와 하위 자원에 의해 제한 |
 | 적합한 워크로드 | CPU-bound 연산 | **I/O-bound (HTTP/DB) 웹 서버 연산** |
 
 #### 한줄 요약
@@ -148,8 +148,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| `synchronized` 구문 사용 시 **Thread Pinning** 유발 | **ReentrantLock**으로 락 모듈 전면 교체 | Pinning 고착 차단 및 Unmount 정상화 |
-| Virtual Thread를 기존 Thread Pool 방식으로 래핑 재사용 | Thread Pool 금지 및 필요 시마다 `Thread.ofVirtual().start()` 신규 생성 | 생성 비용 0% 장점 활용 |
+| 네이티브 호출의 장기 **Thread Pinning** | JFR 고정 이벤트로 원인 구간 측정•축소 | 캐리어 점유시간 감소 |
+| 가상 스레드를 풀로 제한해 동시성 축소 | 작업별 가상 스레드 생성과 자원별 제한 분리 | 스레드 대기열 중복 방지 |
 | 무한 생성으로 인한 하부 DB 커넥션 풀(HikariCP) 고갈 | **Semaphore** 기반 자원 억세스 수량 제한 | 하부 인프라 고갈 예방 |
 
 > 사례: Spring Boot 3.2+ 내 `spring.threads.virtual.enabled=true` 옵션을 통한 Virtual Thread 전면 인가
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- **Virtual Thread 적용 기준**에 따라 High-concurrency I/O 웹 서버 구축 시 **Virtual Thread + ReentrantLock** 구조 적극 적용
+- 대기 중심 요청은 **Virtual Thread**, CPU 병렬도는 **코어 한도**로 제한
 
 #### 한줄 요약
 

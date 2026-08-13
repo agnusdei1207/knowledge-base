@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:47:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -23,12 +23,12 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Disk Scheduling (디스크 스케줄링)**: OS 커널 및 I/O subsystem이 디스크 I/O 요청 큐(Request Queue) 상의 억세스 요청 순서를 정렬/조율하여, HDD 헤더의 탐색 시간(Seek Time) 및 SSD의 I/O 지연시간을 최적화하는 스케줄링.
-- **Seek Time (탐색 시간)**: 회전식 HDD 디스크 상에서 헤드(Head)가 지정된 데이터 트랙/실린더 위치까지 물리적으로 이동하는 데 소요되는 시간으로, 디스크 지연의 60% 이상을 차지하는 주원인.
+- **Seek Time (탐색 시간)**: HDD 헤드가 목표 트랙까지 이동하는 데 걸리는 기계적 지연시간.
 
 </details>
 
 - 정의/개념: 저장 매체(HDD/SSD/NVMe) 물리 특성에 따라 I/O Request 큐의 정렬 및 병합(Merging) 제어를 통해 탐색 지연 최소화 및 I/O 스루풋을 극대화하는 **I/O 관리 & 디스크 스케줄링**
-- 배경/필요성: 헤드 물리 이동 오버헤드 억제(HDD) 및 초고속 다중 큐(Multi-Queue) 병렬 가용성 확보(NVMe/SSD) 요구성
+- 배경/필요성: 도착 순서 처리는 HDD 탐색 증가와 **다중 큐 병렬성 저하** 가능
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - 헤드 탐색 시간(**Seek Time**) 및 회전 지연(**Rotational Latency**) 최소화 (HDD)
-- 큐 병합(Merging) 및 정렬(Sorting)을 통한 디스크 아암(Arm) 핑퐁 현원천 차단
+- 큐 병합•정렬로 HDD 헤드의 불필요한 왕복 이동 완화
 - 현대 NVMe/SSD 장치 전용 초고속 병렬 서브시스템 적용 (**blk-mq**)
 
 #### 한줄 요약
@@ -75,7 +75,7 @@ extra:
 |:---|:---|
 | Request Queue | VFS 서브시스템으로부터 하달된 읽기/쓰기 BIO 구조체 보관 |
 | I/O Scheduler | **Seek Time** 최소화 정렬(SSTF/SCAN) 및 **Fairness/Latency** 보장 (BFQ/Kyber) |
-| Device Driver | 논리 블록 주소(LBA)를 물리 섹터 주소로 변환하여 저장 매체 제어기 전달 |
+| Device Driver | 블록 요청을 장치 명령으로 변환해 저장장치에 제출 |
 | Completion Handler | I/O 연산 완료 인터럽트 수신 시 대기 프로세스를 **Ready State**로 Wakeup |
 
 #### 한줄 요약
@@ -128,11 +128,11 @@ extra:
 
 | 스케줄링 알고리즘 | 동작 방식 | 주요 특징 및 평가 |
 |:---|:---|:---|
-| **FCFS** | 도착 순서대로 무조건 처리 | 단순함 / **Seek Time** 대폭 증가 및 최악 성능 |
+| **FCFS** | 도착 순서대로 처리 | 단순함 / 요청 분포에 따라 탐색 증가 |
 | **SSTF** | 현재 헤드 최단 거리 우선 처리 | 탐색 시간 감소 / 외곽 실린더 요청의 **Starvation** 유발 |
 | **SCAN / C-SCAN** | 끝에서 끝으로 **Elevator Sweep** 이동 | 기아 예방 및 응답시간 균일화 / 양끝 편향 |
-| **LOOK / C-LOOK** | 요청이 존재하는 마지막 트랙까지만 이동 후 반전 | SCAN의 불필요한 양끝 이동 오버헤드 소멸 |
-| **Kyber / BFQ (NVMe)** | 다중 큐(**blk-mq**) 기반 Latency Target 조율 | SSD/NVMe 전용 초고속 병렬 처리 스케줄러 |
+| **LOOK / C-LOOK** | 마지막 요청 위치에서 이동 방향 전환 | 디스크 끝까지의 불필요한 이동 감소 |
+| **Kyber / BFQ** | 다중 큐 기반 지연 또는 공정성 조율 | 장치•워크로드별 정책 차이 |
 
 #### 한줄 요약
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- **디스크 스케줄러 선택 기준**에 따라 HDD 매체는 **C-LOOK / BFQ**, 고성능 NVMe SSD 매체는 **none / Kyber** 채택
+- HDD 탐색•공정성은 **C-LOOK/BFQ**, NVMe는 **none/mq-deadline** 검증
 
 #### 한줄 요약
 

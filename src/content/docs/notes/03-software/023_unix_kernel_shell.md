@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "UNIX 커널•쉘•파일시스템 3요소 (UNIX Kernel Shell)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T13:50:00+09:00"
 tags:
   - "notes-software"
 weight: 23
@@ -24,7 +24,7 @@ extra:
 
 - **UNIX Architecture (UNIX 3대 구성요소)**: 사용자-하드웨어 간의 인터페이스 역할을 수행하는 Shell(명령어 해석기), OS의 핵심 제어를 담당하는 Kernel, 데이터를 영구 관리하는 File System으로 분할된 3대 아키텍처 구조.
 - **Kernel (커널)**: 하드웨어 직접 제어, 메모리/프로세스 스케줄링, I/O 관리 및 보안 특권 모드(Kernel Mode)를 담당하는 UNIX 핵심 서비스엔진.
-- **Shell (쉘)**: 사용자 입력 명령어(Command)를 받아 해석한 후 커널이 수행할 수 있는 System Call 형태로 변환 전달하는 CLI/GUI 명령어 해석기.
+- **Shell (쉘)**: 명령을 해석하고 프로그램 실행•파이프•리다이렉션을 구성하는 사용자 공간 명령 해석기.
 
 </details>
 
@@ -40,7 +40,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **System Call (시스템 콜)**: 사용자 공간(User Space)에서 커널 공간(Kernel Space)의 자원에 접근하기 위해 커널 인터페이스를 호출하는 소프트웨어 트랩 메커니즘.
-- **Everything is a File**: UNIX 철학 중 하나로, 일반 파일, 디렉터리, 키보드/모니터, 하드디스크, 네트워크 소켓 등 모든 하드웨어 장치를 단일 파일 인터페이스(`/dev`)로 다루는 특성.
+- **Everything is a File**: 일반 파일과 장치 등 여러 자원을 파일 기술자와 공통 I/O 인터페이스로 다루는 UNIX 관점.
 
 </details>
 
@@ -56,31 +56,24 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **POSIX Standard**: UNIX 계열 운영체제 간 소프트웨어 호환성을 보장하기 위해 IEEE가 정립한 가식 인터페이스 규격 표준.
+- **POSIX Standard**: UNIX 계열 운영체제의 소스 호환성을 위한 IEEE 운영체제 인터페이스 표준.
 
 </details>
 
 ```text
-[사용자 응용프로그램 / CLI]
-            |
-         [Shell] (bash, zsh)
-            |
-    [System Call Interface]
-            |
-   [Kernel System] (CPU/Memory/IPC)
-            |
-      [File System] (ext4/VFS)
-            |
-      [Hardware Device]
+[UNIX 구성]
+ ├─ Shell
+ ├─ Kernel
+ └─ File System
 ```
 
 선의 의미: 사용자 입력이 Shell을 거쳐 System Call Interface를 통해 Kernel 특권 구역으로 전달되어 File System 및 하드웨어를 구동하는 상하 계층 아키텍처.
 
-| 3대 구성요소 | 역할 및 핵심 기능 | 주요 구현체 및 예시 |
-|:---|:---|:---|
-| **Shell (쉘)** | 사용자 명령어 해석, 스크립팅, 환경변수 제어, **Pipe/Redirection** | bash, zsh, sh, ksh, csh |
-| **Kernel (커널)** | 프로세스/메모리/I/O 스케줄링, **System Call**, 보안 특권 제어 | Linux Kernel, BSD Kernel, System V |
-| **File System** | 계층적 디렉터리 구조(`/`), Inode 메타데이터, 파일 저장 및 **VFS** | ext4, XFS, UFS, ZFS |
+| 구성요소 | 책임 |
+|:---|:---|
+| Shell | 명령 해석과 **Pipe•Redirection** 구성 |
+| Kernel | 프로세스•메모리•I/O와 **System Call** 처리 |
+| File System | 디렉터리•메타데이터•영속 블록 관리 |
 
 #### 한줄 요약
 
@@ -148,8 +141,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Shell 스크립트 실행 시 **Shell Injection** 공격 위험 | 파라미터 샌니타이징 및 **eval** 구문 사용 절대 금지 | 무단 명령 임의 실행 예방 |
-| User 프로세스의 오류로 인한 Kernel Crash 파급 | **User Mode(Ring 3) / Kernel Mode(Ring 0)** 완전 분리 | 시스템 전체 정지 차단 |
+| Shell 실행 시 **Shell Injection** 위험 | 셸 미경유 인자 배열과 허용 목록 적용 | 의도하지 않은 명령 해석 차단 |
+| 사용자 프로세스 오류의 특권 자원 접근 | **User Mode / Kernel Mode** 권한 분리 | 오류 영향과 권한 범위 제한 |
 | 수많은 파이프(`|`) 연결 시 자식 프로세스 생성 폭증 | 파이프라인 프로세스 수 제어 및 **Limit (ulimit)** 인가 | OS PID/Process 고갈 차단 |
 
 > 사례: Linux **Bash Shell Vulnerability (Shellshock)** 패치 및 POSIX 준수 인프라 구축
