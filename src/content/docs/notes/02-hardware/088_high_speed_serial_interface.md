@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **USB-C(Type-C)**: 24-Pin 가반형 상하 대칭 구조를 가지며, USB 3.2/4, Thunderbolt, DisplayPort Alt-Mode 및 USB PD 전력 수용을 표준화한 범용 인터페이스 폼팩터.
-- **Thunderbolt 4/5**: Intel과 Apple이 협력 수립한 고속 시리얼 인터커넥트 규격으로, PCIe, DisplayPort 및 USB4 패킷을 멀티플렉싱(40Gbps~120Gbps) 전송하는 프로토콜.
-- **USB PD(Power Delivery)**: USB-C 케이블을 통하여 단말 간 양방향 최대 240W(48V/5A, EPR 규격) 전력 전송을 제어하는 규격.
+- **USB-C(Type-C)**: 상하 대칭 커넥터 폼팩터로 데이터·영상·전력 기능은 제품별 구현에 따라 달라지는 규격.
+- **Thunderbolt 4/5**: USB-C에서 PCIe·DisplayPort·USB 패킷을 함께 전달하는 인증형 고속 인터커넥트.
+- **USB PD(Power Delivery)**: USB-C 연결에서 전압·전류와 전력 역할을 협상하며 최대 240W 등급을 지원하는 규격.
 
 </details>
 
 - 정의/개념: 차동 시리얼 레인 매핑 및 전력/영상/PCIe 터널링 멀티플렉싱을 단일 Type-C 커넥터 폼팩터 상에 통합 제공하는 **USB & Thunderbolt 고속 직렬 인터페이스**
-- 배경/필요성: 영상(DisplayPort), 대용량 데이터(PCIe), 고전력(USB PD) 단자의 파편화 해소 및 통합 범용 억세스 요구성
+- 배경/필요성: 같은 USB-C 외형만으로는 **데이터·영상·충전 기능 판별 불가**
 
 #### 한줄 요약
 
@@ -40,14 +40,14 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Alt Mode(Alternate Mode)**: USB-C 물리 레인을 DisplayPort, HDMI 등 타 고속 직렬 프로토콜 신호 전송선으로 재할당하는 동작 모드.
-- **PCIe Tunneling**: 외장 GPU, NVMe 등 PCIe 트랜잭션 TLP 패킷을 USB4/Thunderbolt 프레임 내에 캡슐화하여 40Gbps 이상 전송하는 패브릭 기술.
-- **e-Marker(Electronic Marker)**: USB-C 케이블 커넥터 내부에 내장되어 허용 전류(3A/5A), 전송 대역폭(20Gbps/40Gbps) 정보를 전달하는 식별 칩셋.
+- **PCIe Tunneling**: PCIe 트랜잭션을 USB4·Thunderbolt 패브릭으로 전달하는 터널링 기술.
+- **e-Marker(Electronic Marker)**: USB-C 케이블의 전력·데이터 능력 정보를 제공하는 식별 칩.
 
 </details>
 
 - DisplayPort 영상 신호를 전송선에 맵핑하는 **Alt Mode(Alternate Mode)** 지원
 - 외장 그래픽 카드(eGPU) 및 초고속 스토리지를 연동하는 **PCIe Tunneling** 수용
-- **e-Marker** IC 기반 케이블 스펙 자동 판독 및 **USB PD** 기반 최대 240W 스마트 전력 가변 제어
+- **e-Marker** 기반 케이블 능력 확인과 **USB PD** 전력 계약
 
 #### 한줄 요약
 
@@ -75,8 +75,8 @@ extra:
 |:---|:---|
 | 호스트 컨트롤러 | USB4/Thunderbolt 패킷 라우팅 및 **PCIe Tunneling** 멀티플렉싱 |
 | CC Pin(Config Channel) | 케이블 방향성, **USB PD** 전력 협상 및 **Alt-Mode** 핸드셰이크 |
-| 케이블•e-Marker | 허용 대역폭(40Gbps) 및 최고 전축 전류(5A) 메타데이터 전달 |
-| IOMMU | Thunderbolt PCIe 직결 시 외부 디바이스 **DMA 덤프 공격** 방어 차단 |
+| 케이블•e-Marker | 케이블의 데이터 속도와 전력 등급 메타데이터 전달 |
+| IOMMU | PCIe 터널링 장치의 DMA 주소·권한을 최소 범위로 제한 |
 
 #### 한줄 요약
 
@@ -116,8 +116,8 @@ extra:
 
 1. **케이블 능력 확인**: **CC Pin**을 통한 연결 감지 및 **e-Marker** 통신으로 허용 전류/대역폭 체크.
 2. **전력·기능 협상**: **USB PD** 계약 체결(VBUS 전압 결정) 및 **Alt-Mode / Tunneling** 기능 협상.
-3. **공통 기능 확정**: 호스트/디바이스/케이블이 매칭되는 최고 프로토콜(Thunderbolt 4 등) 래칭.
-4. **외부 DMA 경계 설정**: **PCIe Tunneling** 구동 시 **IOMMU(VT-d)** 활성화로 호스트 메모리 접근 권한 제한.
+3. **공통 기능 확정**: 호스트·장치·케이블이 모두 지원하는 데이터·영상·전력 모드 확정.
+4. **외부 DMA 경계 설정**: **PCIe Tunneling** 사용 시 **IOMMU**로 장치 메모리 접근 범위 제한.
 5. **데이터·영상 링크 활성화**: 데이터, DisplayPort, PCIe 패킷 멀티플렉싱 전송 수행.
 
 #### 한줄 요약
@@ -128,17 +128,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **USB 3.2 Gen 2x2**: 2개 차동 레인을 사용하여 최대 20Gbps를 보장하는 USB 데이터 인터페이스.
-- **Thunderbolt 4**: 40Gbps 전송, 듀얼 4K 디스플레이, PCIe 32Gbps 실효 대역폭 및 DMA 보안(IOMMU)을 의무화한 규격.
+- **USB 3.2 Gen 2x2**: 2개 레인으로 최대 20Gbps 신호 속도를 제공하는 USB 데이터 인터페이스.
+- **Thunderbolt 4**: 40Gbps 링크와 PCIe·DisplayPort 터널링 및 DMA 보호 요구를 규정한 인증 규격.
 
 </details>
 
-| 비교 항목 | USB 3.2 Gen 2x2 | USB4 Gen 3x2 | Thunderbolt 4 |
+| 비교 항목 | USB 3.2 Gen 2x2 | USB4 | Thunderbolt 4·5 |
 |:---|:---|:---|:---|
-| 최고 대역폭 | 20 Gbps | 40 Gbps | 40 Gbps (동일 대역폭) |
-| PCIe 터널링 | 미지원 | 옵션 지원 (Optional) | **필수 지원** (PCIe 32Gbps 최저 인가) |
-| 외부 디스플레이 | Alt-Mode 한정 | DisplayPort 터널링 | **Dual 4K / Single 8K** 필수 지원 |
-| DMA 보안 (IOMMU) | 해당 없음 | 옵션 사양 | **IOMMU(VT-d) 필수 요구** (Security Level) |
+| 링크 속도 | 최대 20Gbps | 제품별 20·40·80Gbps | TB4 40Gbps, TB5 80·120Gbps 모드 |
+| PCIe 터널링 | 미지원 | 제품 기능에 따라 지원 | **필수 지원**과 세대별 최소 성능 규정 |
+| 외부 디스플레이 | Alt Mode 구현에 따라 지원 | DisplayPort 터널링 기능에 따라 지원 | 인증 세대별 최소 화면 기능 규정 |
+| DMA 보호 | PCIe 터널링 없음 | 터널링 구현 시 플랫폼 보호 필요 | 인증 플랫폼의 **DMA 보호** 요구 |
 
 #### 한줄 요약
 
@@ -154,8 +154,8 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Thunderbolt 포트를 통한 **DMA Attack (Thunderspy)** 위협 | **IOMMU (VT-d)** 활성화 및 SL5(Secure DMA) 설정 | 메모리 직접 덤프 원천 차단 |
-| 저품질 비인증 케이블 사용 시 **Downtraining** 및 발열 | **e-Marker** 검증 및 USB-IF 공식 인증 케이블 사용 | 40Gbps / 240W 안정 전송 |
+| Thunderbolt 포트를 통한 **DMA Attack** 위협 | **IOMMU**와 OS 커널 DMA 보호 활성화 | 외부 장치에 노출되는 메모리 범위 제한 |
+| 능력 미달 케이블 사용 시 **Downtraining** 및 발열 | **e-Marker** 확인과 인증 케이블 사용 | 협상 속도·전력 등급 불일치 방지 |
 | USB-C 동시 충전/디스플레이 출력 시 과열 | **USB PD** 온도 센서 텔레메트리 연동 | VBUS 전류 제어로 포트 용융 방지 |
 
 > 사례: **Thunderbolt 4** 독(Dock) 연동 시 **IOMMU** 기반 DMA 덤프 방어 및 듀얼 4K 디스플레이 구축
@@ -172,8 +172,8 @@ extra:
 
 </details>
 
-- **직렬 인터페이스 선택 기준**에 따라 대용량 eGPU/외장 NVMe 및 듀얼 4K 출력 시 **Thunderbolt 4/5**, 단순 데이터/충전 시 **USB 3.2/USB4** 채택
+- PCIe·고해상도 도크는 **Thunderbolt**, 범용 데이터·충전은 **USB** 선택
 
 #### 한줄 요약
 
-- Type-C 폼팩터 상의 전력/영상/PCIe 터널링 멀티플렉싱 및 IOMMU 기반 DMA 보호 통합 고속 직렬 인터페이스 구축 체계 적용.
+- USB-C 외형이 아니라 공통 데이터·영상·전력 기능과 DMA 보호로 규격을 선택한다.

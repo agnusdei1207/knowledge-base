@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "퍼시스턴트 메모리 (Persistent Memory)"
-date: "2026-08-13T10:12:00+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 82
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **PMEM(Persistent Memory/PMEM)**: DRAM의 빠른 속도 및 바이트 주소 접근성(Byte Addressability)과 Flash의 비휘발성(Non-Volatilization)을 결합한 차세대 영속 차세대 메모리 칩셋.
-- **바이트 주소 지정(Byte-Addressability)**: 블록 단위(4KB) I/O 억세스가 아닌 DRAM처럼 8비트/64비트 단 단위로 CPU가 직접 억세스 가능한 성질.
+- **PMEM(Persistent Memory)**: 바이트 주소 지정과 전원 차단 후 데이터 유지 특성을 결합한 영속 메모리.
+- **바이트 주소 지정(Byte-Addressability)**: 블록 I/O 대신 CPU가 로드·스토어 명령으로 주소에 접근하는 성질.
 - **재시작 지연(Restart Latency)**: 장애 발생 후 메모리 상태 및 DB 포인터 레코드를 비휘발 영역에서 즉시 로딩하여 서비스 재개에 걸리는 복구 시간.
 
 </details>
 
-- 정의/개념: 바이트 주소 **직접 억세스**와 전원 차단 시 **비휘발성**을 결합한 메모리
+- 정의/개념: 바이트 주소 **직접 접근**과 전원 차단 시 **비휘발성**을 결합한 메모리
 - 배경/필요성: **블록 I/O** 병목과 메모리 휘발성으로 시스템 **재시작 지연** 단축 불가
 
 #### 한줄 요약
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **DAX(Direct Access)**: 커널 OS 파일 시스템의 페이지 캐시(Page Cache) 및 블록 I/O 층을 완전 우회하여 User-space에서 PMEM 메모리를 직접 억세스하는 기술.
+- **DAX(Direct Access)**: 파일 매핑 후 페이지 캐시와 전통적 블록 I/O 경로 없이 영속 메모리에 접근하는 방식.
 - **캐시 라인 플러시(clflush/clwb)**: CPU 캐시 메모리 상의 갱신 데이터를 차세대 비휘발 PMEM 영역으로 강제 덤프 유도하는 CPU 명령어.
 - **sfence(Store Fence)**: 메모리 쓰기(Write) 명령 간의 순서를 보장하여 영속성 파이프라인의 순서 정합성을 보증하는 바리어 명령어.
 - **장애 정합성(Crash Consistency)**: 전원 불시 차단(Power Outage) 시에도 영속 자료구조 및 DB 상태가 무결하게 복구되는 안전 속성.
@@ -47,8 +47,8 @@ extra:
 </details>
 
 - OS 페이지 캐시를 우회하는 초저지연 **DAX** 구동
-- **clwb** 및 **sfence** 명령어로 쓰기 순서와 영속성 보장
-- 시스템 다운 시 즉각 복구로 **재시작 지연** 최소화 및 **장애 정합성** 보장
+- **clwb** 및 **sfence** 명령으로 영속 쓰기 순서 통제
+- 영속 상태 재사용으로 **재시작 지연**을 줄이고 **장애 정합성** 설계
 
 #### 한줄 요약
 
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 영속 자료구조 | PMDK 기반 B-Tree, WAL(Write-Ahead Logging) 영속 구조체 유동 |
+| 영속 자료구조 | PMDK 기반 B-Tree, WAL 영속 자료구조 구성 |
 | DAX 매핑 | 커널 파일시스템 I/O 우회 및 사용자 주소 공간 물리 1:1 직결 |
 | 캐시•영속 제어 | **clwb**, **sfence** 명령어를 통한 캐시 덤프 및 영속 순서 강제 |
-| 영속성 영역 | **PMEM** 칩셋 및 전원 셧다운 디펜스 **ADR** 회로 레이어 |
+| 영속성 영역 | **PMEM** 매체와 전원 장애 시 쓰기 보호용 **ADR** 영역 |
 
 #### 한줄 요약
 
@@ -116,7 +116,7 @@ extra:
 ### 동작 원리
 
 1. **복구 로그 기록**: WAL(Write-Ahead Log) 메타데이터 비휘발 작성.
-2. **로그 플러시·펜스**: **clwb** 및 **sfence** 인가를 통한 로그 영속화 보장.
+2. **로그 플러시·펜스**: 플랫폼 영속성 영역에 맞춰 **clwb**와 **sfence**로 로그 영속화.
 3. **본 데이터 기록·플러시**: 실제 데이터 갱신 및 **clwb** 인가.
 4. **커밋 표식 영속**: Commit Flag 작성 후 **sfence**로 완료 확정하는 **순서 보존 쓰기**
 5. **복구 상태 판정**: 부팅 시 Commit Flag 유무 판단으로 상태 로딩
@@ -135,9 +135,9 @@ extra:
 
 | 비교 항목 | PMEM (Persistent Memory) | DRAM | NVMe SSD |
 |:---|:---|:---|:---|
-| 억세스 단위 | Byte-Level (**DAX**) | Byte-Level | Block-Level (4KB) |
+| 접근 단위 | Byte-Level (**DAX**) | Byte-Level | Block-Level |
 | 비휘발성 유무 | 비휘발성 (Non-Volatile) | 휘발성 (Volatile) | 비휘발성 (Non-Volatile) |
-| 억세스 지연시간 | 초저지연 (~100 ns) | 극초저지연 (~10 - 20 ns) | 저지연 (~10 - 100 μs) |
+| 접근 지연시간 | DRAM보다 길고 SSD보다 짧은 계층 | 가장 짧은 휘발 메모리 계층 | 블록 프로토콜과 매체 지연 포함 |
 | 전송 메카니즘 | 시스템 버스 (DDR/CXL) | 시스템 버스 (DDR) | PCIe 레인 (NVMe Protocol) |
 
 #### 한줄 요약
@@ -154,7 +154,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| CPU 캐시 상의 데이터가 PMEM으로 미처 덤프되지 못하고 정전 | **clwb** / **sfence** 엄격화 및 **ADR** 전원 보호 회로 수용 | 정전 시 데이터 유실 차단 |
+| CPU 캐시 데이터가 영속성 영역에 도달하기 전 정전 | **clwb·sfence** 순서와 **ADR/eADR** 범위 확인 | 영속 완료로 오인하는 쓰기 방지 |
 | absolute 포인터 주소 기록 시 주소 공간 재배치(ASLR) 오류 | **상대 포인터(Relative Pointer)** 및 offset 기반 매핑 | 시스템 재부팅 후 주소 포인터 복구 성공 |
 | 비휘발 갱신 순서 교란에 따른 DB 정합성 와해 | **PMDK** 라이브러리 적용 및 **Power-Failure Injection** | **장애 정합성** 확보 |
 
@@ -172,8 +172,8 @@ extra:
 
 </details>
 
-- 초고속 복구 요구 시 **PMEM 선택 기준** 기반 **PMEM/CXL** 적용
+- 바이트 주소 영속 상태는 **PMEM**, 휘발 작업은 **DRAM**, 대용량 보관은 **NVMe SSD** 선택
 
 #### 한줄 요약
 
-- 바이트 주소 접근성 및 비휘발성 결합, DAX 및 clwb/sfence 기반 장애 정합성 확보를 위한 퍼시스턴트 메모리 구축 체계 적용.
+- 바이트 영속 상태는 PMEM, 휘발 작업은 DRAM, 대용량 보관은 SSD를 선택한다.

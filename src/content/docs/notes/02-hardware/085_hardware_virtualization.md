@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 85
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: CPU의 가상화 명령어(VT-x/AMD-V) 및 하드웨어 매핑 구조(VMCS/VMCB, EPT/NPT)를 통해 게스트 OS 명령을 전용 실행시키는 **하드웨어 가상화**
-- 배경/필요성: 순수 소프트웨어 에뮬레이션 및 바이너리 패칭(Binary Translation)의 극심한 성능 오버헤드 해소 및 하드웨어 차원의 완전 격리 보장
+- 배경/필요성: 소프트웨어 명령 변환은 **특권 명령·페이지 변환 오버헤드 증가**
 
 #### 한줄 요약
 
@@ -41,13 +41,13 @@ extra:
 
 - **VT-x / AMD-V**: Intel(VT-x) 및 AMD(AMD-V) x86 CPU 하드웨어 가상화 전용 명령어 집합.
 - **VMCS/VMCB(Virtual Machine Control Structure/Block)**: VMM 상태, 게스트 섀도 레지스터 상태 및 VM Exit 조건 메타데이터를 저장하는 하드웨어 메모리 데이터 구조.
-- **EPT/NPT(Extended/Nested Page Tables)**: 2단계 주소 변환(GVA -> GPA -> HPA)을 하드웨어 MMU가 자동 수행하여 페이지 테이블 가상화 지연을 없애는 기술.
+- **EPT/NPT(Extended/Nested Page Tables)**: GVA에서 GPA를 거쳐 HPA로 변환하는 2단계 주소 변환을 하드웨어가 지원하는 기술.
 
 </details>
 
 - 하이퍼바이저(VMX Root Operation)와 게스트(VMX Non-Root Operation)의 물리 실행 모드 수평 분리
-- **VMCS/VMCB** 제어 구조를 통한 하드웨어 컨텍스트 스위칭 고속화
-- **EPT/NPT** 기반 하드웨어 2단계 MMU 주소 변환을 통한 메모리 가상화 성능 극대화
+- **VMCS/VMCB** 제어 구조를 통한 VM 진입·이탈 상태 관리
+- **EPT/NPT** 기반 2단계 주소 변환으로 섀도 페이지 테이블 부담 감소
 
 #### 한줄 요약
 
@@ -76,7 +76,7 @@ extra:
 | 게스트 VM | 미수정(Unmodified) OS 구동 및 하드웨어 직접 비특권 명령어 수행 |
 | CPU 가상화 확장 | **VMX Root/Non-Root** 모드 제어 및 **VMCS/VMCB** 구조체 오프로드 |
 | 하이퍼바이저 제어부 | **vCPU** 스케줄링, 물리 자원 분배 및 민감 명령 에러 핸들링 |
-| EPT•NPT | 하드웨어 기반 GVA -> GPA -> HPA 2단계 페이지 번역 관장 |
+| EPT•NPT | 하드웨어 기반 GVA·GPA·HPA 2단계 페이지 변환 관장 |
 | 가상 I/O•IOMMU | **VT-d/AMD-Vi** 기반 PCI 장치 직결(Passthrough) 및 DMA 격리 |
 
 #### 한줄 요약
@@ -120,8 +120,8 @@ extra:
 
 1. **VM 제어 상태 적재**: 하이퍼바이저가 **VMCS/VMCB** 상에 게스트 레지스터 및 인터럽트 트랩 조건을 세팅.
 2. **VM Entry·게스트 직접 실행**: **VM Entry**를 수행하여 VMX Non-Root 모드로 전환 후 일반 명령을 물리 CPU에서 직접(Direct Execution) 구동.
-3. **EPT·NPT 주소 변환**: 메모리 억세스 시 하드웨어 **EPT/NPT**가 GVA -> GPA -> HPA 주소 산출.
-4. **VM Exit·상태 저장**: 민감 명령(INVD, MOV CR3 등) 또는 I/O 발생 시 **VM Exit** 발동 및 VMCS 레지스터 자동 덤프.
+3. **EPT·NPT 주소 변환**: 메모리 접근 시 하드웨어 **EPT/NPT**가 GVA·GPA·HPA 주소 변환 수행.
+4. **VM Exit·상태 저장**: 설정된 민감 사건 발생 시 **VM Exit**하고 제어 상태를 VMCS/VMCB에 기록.
 5. **하이퍼바이저 중재**: 하이퍼바이저가 특권 트랩 에뮬레이션 완결 후 다시 **VM Entry**를 인가하여 게스트 재개.
 
 #### 한줄 요약
@@ -157,9 +157,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 빈번한 I/O 트랩 발생에 따른 **VM Exit** 지연 오버헤드 | **Virtio** 준가상화 드라이버 및 **SR-IOV** 직결 | I/O 스루풋 극대화 |
-| 2단계 주소 변환(EPT)으로 인한 TLB Miss 및 오버헤드 | **Huge Pages (2MB/1GB)** 적용 및 VPID(TLB Tagging) 활성화 | 메모리 주소 번역 지연 소멸 |
-| vCPU 및 메모리 배치 불일치로 인한 NUMA 로드 문제 | vCPU - NUMA Node 1:1 Pinning 바인딩 | 로컬 메모리 억세스 최적화 |
+| 빈번한 I/O 트랩에 따른 **VM Exit** 오버헤드 | **Virtio** 준가상 드라이버 및 **SR-IOV** 직결 | I/O 트랩 감소와 처리량 향상 |
+| 2단계 주소 변환으로 인한 TLB Miss 증가 | **Huge Pages**와 VPID TLB 태깅 활성화 | 주소 변환과 TLB 무효화 부담 감소 |
+| vCPU와 메모리 배치 불일치로 인한 NUMA 지연 | vCPU·메모리·장치의 NUMA 친화도 정렬 | 원격 메모리 접근 감소 |
 
 > 사례: KVM/QEMU 하이퍼바이저 기반 **VT-x/EPT** 및 **SR-IOV** 수용 고성능 클라우드 VM 인프라 구축
 
@@ -175,8 +175,8 @@ extra:
 
 </details>
 
-- **가상화 선택 기준**에 따라 x86 범용 가상화 인프라는 **VT-x/AMD-V 하드웨어 가상화** 기반 KVM/ESXi 채택
+- 동일 ISA 게스트는 **하드웨어 가상화**, I/O 협력은 **준가상화**, 다른 ISA는 **에뮬레이션** 선택
 
 #### 한줄 요약
 
-- CPU 전용 명령어(VT-x/AMD-V) 및 EPT/NPT 2단계 주소 변환 기반 하드웨어 가상화 구축 체계 적용.
+- 동일 ISA 게스트는 하드웨어 가상화, 다른 ISA는 에뮬레이션을 선택한다.

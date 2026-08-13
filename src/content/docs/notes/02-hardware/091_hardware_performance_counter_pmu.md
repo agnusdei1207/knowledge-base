@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "하드웨어 성능 카운터•PMU (Hardware Performance Counter and PMU)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 91
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **PMU(Performance Monitoring Unit)**: CPU 칩 내부에 물리 설계되어 파이프라인 상의 미스, 사이클, 분기 예측 실패 등 마이크로아키텍처 이벤트를 0% 오버헤드로 계측하는 전용 하드웨어 블록.
+- **PMU(Performance Monitoring Unit)**: CPU 내부의 사이클, 캐시 미스, 분기 실패 등 마이크로아키텍처 사건을 계수하는 하드웨어 블록.
 - **HPC(Hardware Performance Counter)**: PMU 내부에 배치되어 특정 성능 이벤트 발생 횟수를 카운팅하고 기록하는 특수한 MSR(Model Specific Register) 카운터 레지스터.
 - **IPC(Instructions Per Cycle)**: 1 CPU 사이클당 수행 완료(Retired)된 명령어 수로, 마이크로아키텍처 병목 유무를 판단하는 핵심 메트릭 지표.
 
 </details>
 
 - 정의/개념: CPU 파이프라인의 명령 은퇴, 캐시 미스, 분기 예측 실패 등 microarchitectural 이벤트를 소프트웨어 개입 없이 하드웨어 모듈이 측정 분석하는 **PMU & 하드웨어 성능 카운터**
-- 배경/필요성: 총 구동 시간(Wall-clock Time) 수치만으로 식별 불가능한 L1/L2/L3 캐시 병목, TLB 미스, Pipeline Stall 원인 파악 및 프로파일링 오버헤드 소멸 요구성
+- 배경/필요성: 벽시계 시간만으로는 **캐시·분기·파이프라인 정체 원인 식별 불가**
 
 #### 한줄 요약
 
@@ -39,16 +39,16 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **PEBS/SPE(Precise Event-Based Sampling)**: 인텔(PEBS) 및 ARM(SPE) CPU에서 이벤트 오버플로우 발생 시점의 정확한 IP(Instruction Pointer) 메모리 주소를 레지스터 덤프 형태로 채록하는 기술.
-- **Multiplexing**: 물리 성능 카운터 개수(보통 코어당 4~8개)보다 많은 이벤트를 측정하기 위해 시분할(Time-slicing) 방식으로 이벤트를 번갈아 래칭하는 분석 기법.
+- **PEBS/SPE(Precise Event-Based Sampling)**: 이벤트 발생 위치와 실행 정보를 낮은 스키드로 샘플링하는 정밀 계측 기능.
+- **Multiplexing**: 물리 카운터보다 많은 이벤트를 시간 분할해 번갈아 측정하는 기법.
 
 </details>
 
 ![PMU 다중화 실행 비율에 따른 보정 배율 차트](/study/diagrams/pmu-multiplex-scale.svg)
 
-- 애플리케이션 및 OS 성능에 영향 주지 않는 ~0% 지연의 **하드웨어 수집**
+- 소프트웨어 계측보다 낮은 간섭의 **하드웨어 수집**
 - **IPC(Instructions Per Cycle)**, 캐시 미스율, 분기 예측 실패율 기반 정밀 병목 진단
-- **PEBS/SPE** 기능 연동을 통한 사건 발생 코드 라인 100% 추적 및 **Multiplexing** 스케일링
+- **PEBS/SPE** 기반 사건 위치 표본화와 **Multiplexing** 시간 보정
 
 $$
 \mathrm{IPC}=\frac{N_{\mathrm{retired}}}{N_{\mathrm{cycles}}},\qquad
@@ -83,7 +83,7 @@ PMU 계측 구조
 |:---|:---|
 | 이벤트 원천 | ALU, Cache, Branch Unit 등 CPU 내부 뼈대 장치에서 발생한 Event 인가 |
 | Event Selector (MSR) | 측정 타깃 이벤트 코드 번호 인코딩 및 CPL(Privilege Level) 필터링 설정 |
-| Performance Counter (PMC) | 타깃 이벤트 카운팅 수치 보관 및 Threshold 도달 시 PMI 인터럽트 발상 |
+| Performance Counter (PMC) | 이벤트 계수 보관 및 임계값 도달 시 PMI 인터럽트 발생 |
 | 수집•분석 도구 | Linux **perf**, Intel **VTune**, Linux eBPF 등 MSR 수치 파싱 및 GUI 프로파일링 |
 
 #### 한줄 요약
@@ -136,16 +136,16 @@ PMU 계측 구조
 
 <details><summary>핵심 용어</summary>
 
-- **Software Profiling**: gprof, valgrind 등 코드 내 타이머 신호/인스트루멘테이션을 삽입하여 함수 호출 시간을 구하는 SW 방식.
+- **Software Profiling**: 샘플링·계측 코드를 이용해 함수 시간, 호출 관계와 할당 등을 분석하는 방식.
 
 </details>
 
 | 비교 항목 | PMU 하드웨어 계측 | Software Profiling |
 |:---|:---|:---|
 | 수집 방식 | CPU 내장 전용 레지스터(**PMC MSR**) 계측 | 소프트웨어 코드 삽입(Instrumentation) 및 타임 래칭 |
-| 측정 오버헤드 | ~0% (하드웨어 오프로드 계측) | 10% ~ 1000% (소프트웨어 가공 지연) |
+| 측정 오버헤드 | 카운팅은 낮고 샘플링 빈도에 따라 증가 | 샘플링·계측 방식에 따라 변동 |
 | 세부 분석 영역 | L1/L2/L3 캐시 미스, TLB, Branch Prediction | 함수 호출 횟수, 벽시계 시간(Wall-clock Time) |
-| 정확성 | **PEBS/SPE** 통한 100% 정밀 코드 라인 매핑 | 코드 삽입에 따른 실행 순서 파손 위험 |
+| 정확성 | **PEBS/SPE**로 사건 위치의 스키드 감소 | 계측 삽입 시 실행 시간 교란 가능 |
 
 #### 한줄 요약
 
@@ -161,11 +161,11 @@ PMU 계측 구조
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 물리 카운터 제한으로 이벤트 병렬 수집 미흡 | **Multiplexing** 수용 및 보정식 적용 | 복수 이벤트 동시 프로파일링 |
-| 컨텍스트 스위칭 및 코어 이동에 따른 MSR 오염 | **CPU Pinning (taskset)** 지정 | 수집 정합성 보장 |
-| 과도한 샘플링 율 설정으로 인한 PMI 인터럽트 폭증 | **PEBS Buffer** 적용 및 샘플링 래칭 주기 조정 | 시스템 다운 차단 |
+| 물리 카운터 제한으로 이벤트 동시 수집 부족 | **Multiplexing**과 활성 시간 보정 적용 | 더 많은 이벤트의 추정 계수 확보 |
+| 코어 이동과 부하 변동으로 반복 측정 분산 증가 | **CPU Pinning**과 동일 부하 반복 측정 | 비교 실험의 변동성 감소 |
+| 과도한 샘플링률로 PMI 인터럽트 증가 | **PEBS Buffer**와 샘플링 주기 조정 | 프로파일러 자체 간섭 감소 |
 
-> 사례: Linux **perf** 및 Intel **VTune** 분석을 통한 C++ DB 엔진 **IPC** 0.4 -> 1.8 성능 개선
+> 사례: perf로 캐시 미스 가설을 세우고 반복 실험으로 IPC 변화를 검증
 
 #### 한줄 요약
 
@@ -179,8 +179,8 @@ PMU 계측 구조
 
 </details>
 
-- **PMU 분석 선택 기준**에 따라 마이크로아키텍처 튜닝 및 초저지연 시스템 구축 시 **PMU & 하드웨어 성능 카운터** 기반 분석 필수 활용
+- 캐시·분기 원인은 **PMU**, 함수 시간·호출 관계는 **Software Profiling** 선택
 
 #### 한줄 요약
 
-- CPU 마이크로아키텍처 이벤트 계측 및 MSR 카운터/PEBS 기반 성능 병목 프로파일링 및 최적화 체계 적용.
+- 캐시·분기 원인은 PMU, 함수 시간과 호출 관계는 소프트웨어 프로파일링을 선택한다.

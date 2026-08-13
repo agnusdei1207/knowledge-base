@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "멀티소켓 서버•SMP (Multi-Socket Server•SMP)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 93
@@ -24,7 +24,7 @@ extra:
 
 - **Multi-Socket Server**: 단일 파워 메인보드 상에 2개 이상의 독립 물리 CPU 소켓(2P, 4P, 8P)을 장착하여 고성능 연산 및 메모리 대역폭을 확장하는 서버 시스템.
 - **SMP(Symmetric Multiprocessing)**: 여러 개의 CPU 소켓 코어들이 하나의 대칭적 메모리 공간과 OS 커널을 대등하게 공유하여 명령을 병렬 수행하는 아키텍처.
-- **ccNUMA(Cache-Coherent Non-Uniform Memory Access)**: 각 CPU 소켓이 로컬 DRAM 메인보드 선로를 보유하되, 칩 간 고속 전용 인터커넥트(UPI/Infinity Fabric)를 통해 타 소켓 메모리를 일관성(Coherency) 있게 억세스하는 기술.
+- **ccNUMA(Cache-Coherent Non-Uniform Memory Access)**: 소켓별 로컬·원격 메모리 지연이 다르지만 캐시 일관성을 유지하는 구조.
 
 </details>
 
@@ -40,11 +40,11 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **Interconnect Fabric(UPI/Infinity Fabric)**: 소켓 간 캐시 일관성 패킷, 원격 메모리 억세스 및 I/O 억세스를 초저지연 시리얼 전송하는 소켓 인터페이스 (Intel UPI, AMD Infinity Fabric).
-- **Local vs Remote Access**: CPU가 본인 소켓 전용 DRAM 억세스(Local, ~80ns) 시와 타 소켓 패브릭을 경유한 DRAM 억세스(Remote, ~140ns) 시 발생하는 지연시간 및 대역폭의 불균형 속성.
+- **Local vs Remote Access**: 같은 소켓 메모리와 인터커넥트를 거친 원격 메모리의 지연·대역폭 차이.
 
 </details>
 
-- 소켓 당 독립 8채널 LPDDR/DDR5 메모리 통로를 통합 제공하는 **SMP** 확장성
+- 소켓별 코어·메모리 채널을 통합해 주소 공간을 확장하는 **SMP**
 - **ccNUMA** 아키텍처 수용을 통한 소켓 간 주소 공간 통합 및 캐시 일관성 유지
 - 소켓 간 **Interconnect Fabric(UPI)** 레이어 병목으로 인한 **Local vs Remote Access** 레이턴시 편차 극복 과제
 
@@ -65,6 +65,7 @@ extra:
 운영체제 NUMA 정책
 └─ NUMA 노드 집합
    ├─ 소켓•캐시•로컬 메모리 × N
+   │  └─ I/O 서브시스템
    └─ 일관성 인터커넥트
 ```
 
@@ -117,7 +118,7 @@ extra:
 2. **최초 접근 페이지 배치**: **First-Touch Allocation** 구동으로 스레드가 실행되는 로컬 DRAM 상에 물리 페이지 작성.
 3. **원격 접근률 측정**: **Interconnect Fabric** 레이어 상의 원격 억세스(Remote Access) 트래픽 감시.
 4. **스레드·페이지 공동 배치**: 원격 트래픽 비중 우세 시 스레드 및 메모리를 1개 노드로 재배치(Auto-NUMA Balancing).
-5. **이동 후 재측정**: 로컬 억세스 비율(>90%) 확보 및 레이턴시 보정 확인.
+5. **이동 후 재측정**: 로컬 접근률과 인터커넥트 트래픽 및 종단 지연을 다시 측정.
 
 #### 한줄 요약
 
@@ -127,15 +128,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **UMA(Uniform Memory Access)**: 모든 CPU 코어가 단일 버스를 통해 모든 메모리에 동일한 지연시간으로 억세스하는 단일 소켓 아키텍처.
+- **UMA(Uniform Memory Access)**: 모든 CPU가 메모리에 거의 동일한 지연 특성으로 접근하는 구조.
 
 </details>
 
 | 비교 항목 | 멀티소켓 ccNUMA 서버 | 단일 소켓 UMA 서버 |
 |:---|:---|:---|
-| 확장성 | 극대화된 코어 수 및 대용량 메모리(수 TB) 인가 | 소켓 제한으로 인한 코어 수 및 메모리 용량 한계 |
-| 메모리 억세스 지연 | **Local vs Remote Access** 레이턴시 분손 발생 (~80ns vs ~140ns) | 모든 코어가 동일 전송 레이턴시 유지 (**UMA**) |
-| 인터커넥트 병목 | 소켓 간 **UPI/Infinity Fabric** 패브릭 트래픽 병목 가능 | 내부 시스템 버스 전송으로 인터커넥트 병목 전무 |
+| 확장성 | 소켓 추가로 코어·메모리 용량과 채널 확장 | 단일 소켓의 코어·메모리 채널 범위로 제한 |
+| 메모리 접근 지연 | **Local vs Remote Access** 지연·대역폭 차이 | 토폴로지 내 상대적으로 균일한 접근 특성 |
+| 인터커넥트 병목 | 소켓 간 **일관성 인터커넥트** 병목 가능 | 소켓 간 일관성 트래픽은 없으나 내부 병목 가능 |
 | TCO 및 시스템 단가 | 고비용 메인보드, 복잡한 전력/방열 및 고가 시스템 | 저비용 단일 메인보드, 간편한 서버 구축 |
 
 #### 한줄 요약
@@ -146,15 +147,15 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **False Sharing**: 서로 다른 CPU 소켓의 코어들이 동시 접근하는 데이터가 1개 64-Byte 캐시 라인 내에 겹쳐 소켓 간 Snoop 트래픽을 유발하는 캐시 무효화 문제.
+- **False Sharing**: 독립 데이터가 같은 캐시 라인을 공유해 불필요한 일관성 무효화를 유발하는 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 소켓 간 원격 메모리 억세스 빈발로 성능 저하 | **Numactl --physcpubind --membind** 적용 | 로컬 메모리 억세스 전환 |
-| 복수 소켓 코어 간 **False Sharing** 발생으로 캐시 무효화 | **64-Byte Cache Line Padding (alignas)** 구조체 적용 | 소켓 간 캐시 트래픽 소멸 |
-| VM 가상머신 자원이 소켓 0, 소켓 1에 분산 배치 | Hypervisor **vCPU - NUMA Node Pinning** 수용 | 가상화 레이턴시 최적화 |
+| 소켓 간 원격 메모리 접근 빈발로 성능 저하 | **Numactl** 선호도와 메모리 바인딩 적용 | 로컬 메모리 접근 비율 향상 |
+| 복수 소켓 코어 간 **False Sharing** 발생 | 캐시 라인에 맞춘 패딩과 데이터 분리 | 불필요한 일관성 트래픽 감소 |
+| VM 자원이 여러 NUMA 노드에 분산 배치 | 하이퍼바이저 **vCPU·메모리 NUMA Pinning** | 원격 메모리 접근과 지연 감소 |
 
 > 사례: 4-Socket **ccNUMA** 서버 상의 In-Memory DB (SAP HANA / Oracle) NUMA 튜닝 실증
 
@@ -170,8 +171,8 @@ extra:
 
 </details>
 
-- **멀티소켓 확장 기준**에 따라 대용량 인메모리 DB 및 초대형 가상화 노드는 **멀티소켓 ccNUMA 서버**, 웹/애플리케이션 노드는 **단일 소켓 서버** 채택
+- 단일 소켓에 자원이 들면 **단일 소켓**, 초과하고 지역성 통제가 가능하면 **멀티소켓** 선택
 
 #### 한줄 요약
 
-- ccNUMA 메인보드 아키텍처 기반 소켓 간 UPI 인터커넥트 및 NUMA 노드 바인딩 최적화 멀티소켓 서버 구축 체계 적용.
+- 단일 소켓 용량을 넘고 NUMA 지역성을 통제할 수 있을 때 멀티소켓을 선택한다.

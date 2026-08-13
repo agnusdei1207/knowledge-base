@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 83
@@ -23,12 +23,12 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **MCU(Microcontroller Unit)**: CPU 코어, ROM/Flash, RAM 및 I/O 주변장치(ADC, Timer, UART 등)를 단일 실리콘 칩에 집적(One-chip)한 저전력 제어용 반도체.
-- **MPU(Microprocessor Unit)**: 외부 DRAM 및 스토리지 패브릭 억세스를 기본 전제로 하는 범용 고성능 연산 중심 반도체.
+- **MPU(Microprocessor Unit)**: 외부 메모리와 주변장치를 확장해 범용 OS와 고성능 응용을 처리하는 프로세서.
 
 </details>
 
 - 정의/개념: 하드웨어 온칩(On-chip) 통합도, MMU/OS 요구사항 및 실시간(Real-Time) 제어 목적에 따른 대표적 반도체 2대 분류인 **MCU vs MPU**
-- 배경/필요성: 단일 칩 임베디드 소형화 제어 요구(MCU)와 고성능 멀티태스킹 OS(Linux/Windows) 구동 요구(MPU)에 따른 아키텍처 이원화
+- 배경/필요성: MCU 자원은 범용 OS에 부족하고 MPU 지터·전력은 단순 제어에 부담
 
 #### 한줄 요약
 
@@ -39,7 +39,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **온칩(On-Chip)**: CPU, 메모리, 주변장치가 단일 반도체 실리콘 다이 내부에 물리적으로 통합된 형태.
-- **MMU(Memory Management Unit)**: 가상 메모리(Virtual Memory) 주소 변환 및 가상 공간 프로세스 메모리 보호를 수행하는 하드웨어 (MPU 필수 탑재).
+- **MMU(Memory Management Unit)**: 가상 주소 변환과 프로세스별 메모리 보호를 수행하는 하드웨어.
 - **RTOS(Real-Time Operating System)**: 결정적(Deterministic) 마감시간(Deadline) 제어를 전용 수행하는 경량 실시간 커널 (MCU 주요 구동).
 
 </details>
@@ -67,7 +67,7 @@ MCU 구조: [MCU 제어부] -- [MCU 온칩 자원]
 MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 ```
 
-선의 의미: MCU는 내부 온칩 통합 제어망을 구축하고, MPU는 고속 억세스 버스를 통해 외부 메모리/주변장치를 연동하는 구조.
+선의 의미: MCU는 온칩 제어 자원을 통합하고, MPU는 고속 버스로 외부 메모리·주변장치를 확장하는 구조.
 
 | 구성요소 | 책임 |
 |:---|:---|
@@ -115,8 +115,8 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 1. **하드 실시간 요구 판정**: 시스템 제어 주기의 **하드 실시간 요구** 및 마감시간 지연 한계성 평가.
 2. **OS·응용 복잡도 판정**: 가상 메모리(**MMU**), GUI/Linux 운영체제 및 대용량 멀티태스킹 필요성 파악.
-3. **메모리·I/O·전력 검증**: 온칩 메모리 범위 충족 시 **MCU**, 대용량 오프칩 필요 시 **MPU**선정.
-4. **시간·장애 경계 검증**: 복합 요구 시 MCU+MPU 이원화 노드 맵핑 및 최종 선택 확정.
+3. **메모리·I/O·전력 검증**: 온칩 자원으로 충족하면 **MCU**, 대용량 외부 메모리가 필요하면 **MPU** 선정.
+4. **시간·장애 경계 검증**: 복합 요구는 MCU와 MPU의 역할·장애 경계를 분리해 구성 확정.
 
 #### 한줄 요약
 
@@ -126,15 +126,15 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 <details><summary>핵심 용어</summary>
 
-- **WCET(Worst-Case Execution Time)**: 연산 수행 시 유발 가능한 최악 반응 지연시간 수치.
+- **WCET(Worst-Case Execution Time)**: 태스크 자체 연산이 완료되는 최악 실행시간 상한.
 
 </details>
 
 | 비교 항목 | 마이크로컨트롤러 (MCU) | 마이크로프로세서 (MPU) |
 |:---|:---|:---|
-| 시스템 통합도 | **온칩(On-chip)** (CPU + RAM + ROM + I/O 일체) | Off-chip (CPU 위주, 외부 DRAM/Flash 필수) |
-| MMU 탑재 여부 | 미탑재 (가상 메모리 미지원, MPU 전용) | 탑재 (**MMU** 필수, 가상 메모리 및 OS 지원) |
-| 전력 소비 및 비용 | 초저전력 (mW~μW 단위), 저비용 칩셋 | 고전력 (W 단위), 메인보드 설계 복잡 및 고비용 |
+| 시스템 통합도 | **온칩** 메모리·I/O 통합 중심 | 외부 메모리·고속 I/O 확장 중심 |
+| 주소 관리 | 제한된 주소 공간과 정적 메모리 중심 | **MMU** 기반 가상 메모리 지원이 일반적 |
+| 전력 소비 및 비용 | 상대적으로 낮은 전력과 보드 복잡도 | 상대적으로 높은 전력과 보드 복잡도 |
 | 주요 운용 환경 | **RTOS**, Bare-Metal (하드 실시간 제어) | Linux, Android, Windows (범용 OS) |
 | 대표적 칩셋 | ARM Cortex-M0/M3/M4, AVR, STM32 | ARM Cortex-A72/A78, Intel Core, AMD |
 
@@ -152,7 +152,7 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| MPU 기반 OS 런타임의 비결정적 **지터(Jitter)** 발생 | MCU 코어 연동(Heterogeneous Multicore) 분담 | 하드 실시간성 보장 |
+| MPU 기반 OS 런타임의 비결정적 **지터** 발생 | MCU와 MPU의 제어·응용 역할 분담 | 실시간 제어 경로의 지터 격리 |
 | MPU 오프칩 고속 메모리 라인 상의 **신호 무결성** 손상 | PCB 임피던스 매칭 및 고속 버스 차폐 | 노이즈 및 버스 에러 차단 |
 | MCU 내부 RAM 풋프린트 부족 및 오버플로우 | 정적 메모리 할당 및 스택 튜닝 | 메모리 파손 방지 |
 
@@ -174,4 +174,4 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 #### 한줄 요약
 
-- 온칩 통합도, MMU/OS 요구사항 및 실시간 제어 반응성에 따른 MCU/MPU 차등 채택 및 최적 프로세서 아키텍처 구축 체계 적용.
+- 실시간 저전력 제어는 MCU, 범용 OS·대용량 응용은 MPU를 선택한다.

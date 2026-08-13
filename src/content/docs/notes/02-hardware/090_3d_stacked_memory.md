@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "3D 적층 메모리 (3D Stacked Memory)"
-date: "2026-08-13T10:12:00+09:00"
+date: "2026-08-13T12:21:04+09:00"
 tags:
   - "notes-hardware"
 weight: 90
@@ -22,8 +22,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **3D 적층 메모리(3D Stacked Memory)**: 여러 층의 DRAM 다이(Die)를 수직으로 수평 적층하고 TSV(Through-Silicon Via) 전극으로 관통 연결하여 메모리 대역폭과 밀도를 극대화하는 반도체 기술.
-- **TSV(Through-Silicon Via)**: 실리콘 다이 수직 몸체를 마이크로미터 단위 핀홀 관통 형성하여 전원 및 광폭 1024-bit 전송 버스를 구축하는 기술.
+- **3D 적층 메모리(3D Stacked Memory)**: 여러 DRAM 다이를 수직 적층하고 TSV로 연결해 대역폭과 밀도를 높이는 기술.
+- **TSV(Through-Silicon Via)**: 실리콘 다이를 수직 관통해 적층 다이 사이의 전원·신호 경로를 형성하는 기술.
 - **Base Die(Logic Die)**: 적층 DRAM 맨 하단에 위치하여 PHY 인터페이스, 테스트 래치, 자가 수리(Self-Repair) 및 메모리 컨트롤러 연동을 총괄하는 로직 다이.
 
 </details>
@@ -39,13 +39,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Wide I/O**: 기존 DRAM의 32-bit/64-bit I/O 선로 폭을 1024-bit 이상으로 확장하여 초고속 대역폭을 얻는 비트 폭 기술.
+- **Wide I/O**: 많은 저속 신호선을 병렬로 사용해 전체 메모리 대역폭을 높이는 인터페이스 방식.
 - **Microbump**: Base Die와 적층 DRAM 다이 간의 접합 패드를 잇는 수십 μm 크기의 극소 볼 핀.
-- **KGD(Known Good Die)**: 적층 적재 전 수율 하락을 방지하기 위해 100% 정상 작동이 검증된 단품 다이 선별 체계.
+- **KGD(Known Good Die)**: 적층 전에 웨이퍼·다이 시험을 통과한 개별 다이.
 
 </details>
 
-- **TSV** 전극 기반 1024-bit 초광폭 **Wide I/O** 버스 구축
+- **TSV** 기반 다채널 **Wide I/O** 버스 구축
 - 배선 길이 단축으로 전력 소비를 줄이고 **KGD** 수율 확보 요구
 - 물리 칩셋 수직 적층으로 **열 밀도** 증가 및 방열 제어 필수
 
@@ -74,10 +74,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 메모리 제어기 | GPU/SoC 내 1024-bit 광폭 채널 명령어 및 주소 스케줄링 |
-| Silicon Interposer | 물리 패키지 상에서 수천 개의 초미세 배선을 매개하여 1024-bit 전송 인가 |
-| Base Die (Logic Die) | TSV 물리 신호 리타이밍, **KGD** 수리(BIST) 및 물리 인터페이스 관리 |
-| TSV • Microbump | 수직 3D 다이 간 전기 전원 공급 및 1024-bit 데이터 버스 통로 역할 |
+| 메모리 제어기 | GPU·SoC의 광폭 채널 명령과 주소 스케줄링 |
+| Silicon Interposer | 프로세서와 HBM 사이의 고밀도 평면 배선 제공 |
+| Base Die (Logic Die) | TSV 신호, 테스트·수리와 물리 인터페이스 관리 |
+| TSV • Microbump | 적층 다이 간 전원과 다채널 데이터 경로 제공 |
 | DRAM Core Stack | HBM/3D-RAM 셀 어레이 상주 및 뱅크(Bank) 병렬 연산 처리 |
 
 #### 한줄 요약
@@ -126,17 +126,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **HBM(High Bandwidth Memory)**: 3D 적층 메모리의 대표적 상용화 규격으로, HBM3e/HBM4 기준 1.2TB/s~2TB/s 초고대역폭 제공.
-- **3D V-NAND**: DRAM이 아닌 NAND 플래시 메모리 셀을 수직 100층 이상 쌓아올려 고용량을 달성하는 저장 매체.
+- **HBM(High Bandwidth Memory)**: 적층 DRAM과 광폭 인터페이스를 사용하는 고대역폭 메모리 규격.
+- **3D V-NAND**: NAND 플래시 셀 구조를 수직으로 적층해 저장 밀도를 높인 비휘발 매체.
 
 </details>
 
 | 비교 항목 | HBM (3D Stacked DRAM) | 3D V-NAND Flash | 2D DDR5 DIMM |
 |:---|:---|:---|:---|
-| 적층 대상 | DRAM 칩셋 수직 적층 (4~16층) | Flash Memory 셀 어레이 수직 적층 | 평면 PCB 상에 칩 수평 배치 |
-| 신호 연결 | **TSV** 및 **Microbump** (Wide I/O) | 수직 Charge Trap Flash 셀 직결 | PCB 구리 버스선 (64-bit) |
-| 주요 강점 | 초고대역폭 (1TB/s 이상), 최저 면적 | 초고용량 (TB 단위 저장), 저비용 | 용량 증설 용이, 모듈 교체성 |
-| 주요 한계 | 고비용, 패키징 난도 및 열 발열 | 접근 속도 지연 (~μs 수치) | 대역폭 및 핀 수 물리 한계 |
+| 적층 대상 | DRAM 다이 수직 적층 | Flash 셀 어레이 수직 적층 | 평면 PCB에 DRAM 칩 배치 |
+| 신호 연결 | **TSV**와 Microbump 기반 Wide I/O | 수직 NAND 셀 스트링 | PCB 메모리 채널 배선 |
+| 주요 강점 | 높은 대역폭과 패키지 면적 효율 | 높은 비휘발 저장 밀도 | 용량 증설과 모듈 교체 용이 |
+| 주요 한계 | 높은 패키징 비용과 열·수율 부담 | 블록 접근과 쓰기 내구성 제약 | 채널당 대역폭과 핀 수 제약 |
 
 #### 한줄 요약
 
@@ -154,9 +154,9 @@ extra:
 |:---|:---|:---|
 | 다이 적층 수 증가 시 내부 열 집적에 따른 **Thermal Throttling** | 액체 냉각(Liquid Cooling) 및 방열 TSV/TIM 소재 채택 | 온열 경감 및 성능 유지 |
 | 1개 층만 불량 발생해도 전체 스택이 폐기되는 수율 위험 | **KGD(Known Good Die)** 사전 선별 및 수리 비트 맵핑 | 적층 수율 확보 |
-| 초미세 1024-bit 전송선 동시 변환 시 전원 노이즈 발생 | 디커플링 콘덴서 및 **PDN(Power Delivery Network)** 튜닝 | 신호 무결성(SI/PI) 보장 |
+| 다수 I/O 동시 전환 시 전원 노이즈 발생 | 디커플링 커패시터와 **PDN** 튜닝 | 전원·신호 무결성 여유 확보 |
 
-> 사례: **HBM3e (24GB/36GB 12-High)** 3D 적층 메모리 기반 AI 수퍼컴퓨터 가속기 인프라 구축
+> 사례: HBM 적층 높이별 대역폭·온도·수율·패키지 비용 비교
 
 #### 한줄 요약
 
@@ -170,8 +170,8 @@ extra:
 
 </details>
 
-- 초고성능 AI 가속 요구 시 **소요 대역폭•수율** 기준 **HBM3e/4** 채택
+- 대역폭·면적 이득이 열·수율·비용을 상회하면 **HBM**, 증설성은 **DIMM** 선택
 
 #### 한줄 요약
 
-- TSV 실콘 관통 전극 및 베이스 다이 결합 기반 초고대역폭 HBM 3D 적층 메모리 아키텍처 구축 체계 적용.
+- 대역폭·면적 이득이 열·수율 비용보다 크면 HBM, 증설성은 DIMM을 선택한다.
