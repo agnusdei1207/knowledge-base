@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "NB-IoT와 LTE-M (NB-IoT LTE-M)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T15:38:00+09:00"
 tags:
   - "notes-network"
 weight: 55
@@ -25,7 +25,7 @@ extra:
 
 - **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**: 180kHz 협대역 주파수와 깊은 실내 커버리지 향상(CE) 기술을 기반으로 고정형 소량 센서를 연결하는 3GPP 표준 LPWAN 기술이다.
 - **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M / Cat-M1)**: 1.4MHz 대역폭을 사용하여 최대 1Mbps 전송 속도, 이동성 핸드오버 및 VoLTE 음성 통화를 지원하는 3GPP 표준 LPWAN 기술이다.
-- **저전력 광역망(Low-Power Wide-Area Network, LPWAN)**: 수십 km 광역 커버리지 영역에서 저비용·저전력 IoT 단말의 소용량 데이터를 10년 이상 전송하는 무선 네트워크 계열이다.
+- **저전력 광역망(Low-Power Wide-Area Network, LPWAN)**: 광역에서 저비용·저전력 IoT 단말의 소용량 데이터를 전송하는 무선 네트워크 계열이다.
 
 </details>
 
@@ -34,7 +34,7 @@ extra:
 
 #### 한줄 요약
 
-- 면허 대역 주파수에서 10년 이상의 배터리 수명과 향상된 음영 커버리지(MCL)를 제공하는 3GPP 표준 셀룰러 LPWAN 통신 기술.
+- 면허 대역에서 절전 기능과 음영 커버리지를 제공하는 3GPP 셀룰러 LPWAN.
 
 ## Ⅱ. 특징
 
@@ -42,14 +42,14 @@ extra:
 <summary>핵심 용어</summary>
 
 - **킬로헤르츠(Kilohertz, kHz)**: 주파수의 단위로, NB-IoT는 LTE 자원 블록(PRB) 1개 크기인 180kHz 극협대역을 사용하여 주파수 효율성을 극대화한다.
-- **절전 모드(Power Saving Mode, PSM)**: 망 접속 및 IP 등록 상태를 유지한 채 무선 회로 모듈을 차단하여 1uA 이하의 극소 전력만 소비하는 절전 기술이다.
+- **절전 모드(Power Saving Mode, PSM)**: 망 등록 상태를 유지한 채 무선 송수신을 중단하여 단말 소비 전력을 줄이는 절전 기술이다.
 - **확장 불연속 수신(extended Discontinuous Reception, eDRX)**: 하향 호출(Paging)을 확인하기 위한 수신 대기 주기를 수십 초에서 수 시간까지 연장하여 전력을 절감하는 기술이다.
 
 </details>
 
 - **NB-IoT (180kHz 초협대역 고정형)**: 180kHz 단일 자원 블록(PRB)을 사용하고, 반복 전송(Repetition)을 통한 커버리지 확장(CE Level)으로 지하 맨홀 등 최대 164dB MCL 링크 예산을 확보한다.
-- **LTE-M (1.4MHz 중속 이동형)**: 1.4MHz 대역폭과 최대 1Mbps 속도를 제공하며, 기지국 간 Seamless 핸드오버 및 VoLTE 음성 통화를 완벽히 수용한다.
-- **PSM 및 eDRX 절전 기법**: 통신 모듈을 수면 상태로 전환하는 PSM과 Paging 관측 주기를 길게 조정하는 eDRX를 적용하여 10년 이상의 AA 배터리 1개 운용 수명을 제공한다.
+- **LTE-M (1.4MHz 중속 이동형)**: 1.4MHz 대역폭과 이동성, VoLTE 지원으로 추적·음성 서비스에 적합하다.
+- **PSM 및 eDRX 절전 기법**: PSM과 긴 Paging 주기의 eDRX를 적용하여 단말 수신 대기 전력을 절감한다.
 
 #### 한줄 요약
 
@@ -97,29 +97,31 @@ extra:
 </details>
 
 ```text
-1. 서비스 이동성 및 전송속도 분석 (NB-IoT vs LTE-M Selection)
+1. 서비스 이동성 및 전송속도 분석
       │
-      ├─ 고정형·소량데이터·지하음영 ── 2a. NB-IoT 180kHz 할당 (In-band / Standalone)
-      │
-      └─ 이동형·중속데이터·VoNR 음성 ── 2b. LTE-M 1.4MHz 할당 (Handover Enabled)
+      ├─ 고정형·소량·음영 ── NB-IoT 선택
+      └─ 이동형·중속·음성 ── LTE-M 선택
             │
             v
-      3. USIM 식별자 기반 망 등록 및 PSM/eDRX 타이머 협상 (Attach & Timer Setup)
+      2. 무선 채널 배치
             │
             v
-      4. 센서 데이터 업링크 전송 (Data Uplink & Repetition)
+      3. 망 등록 및 PSM/eDRX 타이머 협상
             │
             v
-      5. Active Window 하향 수신 관측 후 PSM 초저전력 슬립 진입
+      4. 센서 데이터 업링크 전송
+            │
+            v
+      5. Paging 수신 후 PSM 진입
 ```
 
 ### 동작 원리
 
-1. **기술 규격 분석 및 선정**: 서비스의 이동성 필요 여부 및 커버리지 음영 수준을 고려해 NB-IoT 또는 LTE-M 규격을 결정한다.
-2. **무선 채널 배치**: NB-IoT는 180kHz 전용 자원 블록을, LTE-M은 1.4MHz 전용 대역을 기지국에 할당한다.
-3. **망 등록 및 타이머 협상**: 단말이 망 부착(Attach) 시 T3412(PSM 주기)와 T3324(Active 시간) 파라미터를 코어망 MME와 협상한다.
-4. **데이터 업링크 전송**: 센서 데이터를 캡슐화하여 업링크로 전송하며, 음영 구역 시 CE Level 반복 전송(Repetition)을 시행한다.
-5. **Paging 수신 및 Deep Sleep 진입**: 지정된 Active Time 동안 하향 Paging을 관측한 후, 즉시 1uA 수준의 PSM Deep Sleep 상태로 들어가 배터리를 절약한다.
+1. **서비스 이동성 및 전송속도 분석**
+2. **무선 채널 배치**
+3. **망 등록 및 PSM/eDRX 타이머 협상**
+4. **센서 데이터 업링크 전송**
+5. **Paging 수신 후 PSM 진입**
 
 #### 한줄 요약
 
@@ -140,7 +142,7 @@ extra:
 | 주파수 대역폭 | 180 kHz (단일 PRB) | 1.4 MHz (6개 PRB) |
 | 최대 전송 속도 | 약 26 kbps ~ 125 kbps (DL/UL 소량) | 약 375 kbps ~ 1 Mbps (중속 전송) |
 | 기지국 핸드오버 | 미지원 (셀 이동 시 끊김 후 재접속) | 지원 (무손실 Seamless 핸드오버 지원) |
-| 음성 통화 (VoLTE) | 미지원 | 지원 (VoLTE / VoNR 음성 전송 가능) |
+| 음성 통화 (VoLTE) | 미지원 | VoLTE 지원 가능 |
 | 커버리지 이득 (MCL) | 164 dB (매우 깊은 지하/수도검침 수용) | 155.7 dB (지상 및 건물 내부 수용) |
 | 구축 배치 옵션 | In-band, Guard-band, Standalone 지원 | In-band (기존 LTE 대역 내 전용 배치) |
 
@@ -179,7 +181,7 @@ extra:
 
 </details>
 
-- 저전력 광역 IoT망 구축 시 **요구 이동성 및 음영 특성 평가**, **고정형 NB-IoT vs 이동형 LTE-M 적정 선정**, **PSM/eDRX 기반 배터리 10년 수명 확보 필수**.
+- 고정·음영 센서는 **NB-IoT**, 이동·음성 단말은 **LTE-M** 선택.
 
 #### 한줄 요약
 

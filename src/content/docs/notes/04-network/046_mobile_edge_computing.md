@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T17:10:00+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -40,7 +40,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **다중접속 에지 컴퓨팅 오케스트레이터(MEC Orchestrator, MEAO/MEO)**: 에지 컴퓨팅 응용 프로그램의 인스턴스화, 배점 및 수명주기를 총괄 관리하는 중앙 컨트롤러이다.
+- **다중접속 에지 컴퓨팅 오케스트레이터(MEC Orchestrator, MEO)**: 에지 응용의 배치와 수명주기를 관리하는 제어기이다.
 - **사용자면 기능(User Plane Function, UPF)**: 5G 코어 아키텍처에서 사용자 패킷을 오프로딩하여 에지 데이터망으로 라우팅하는 핵심 NF이다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 에지 앱이 기지국의 무선 신호 품질(RNIS), 위치 정보(Location) 및 트래픽 정책에 접근하게 해주는 기술 규격이다.
 
@@ -79,7 +79,7 @@ ETSI MEC 시스템 아키텍처
 |:---|:---|
 | MEC 시스템 오케스트레이터 (MEO) | 글로벌 자원 상태 및 SLA를 기반으로 에지 응용의 생성, 배치 위치 결정 및 수명주기 관리 |
 | 로컬 UPF (Local UPF) | N4 규격(PFCP)에 따라 5G 무선 패킷을 중앙 코어망 대신 구내 MEC 호스트로 즉시 분기 처리 |
-| MEC 플랫폼 (MEP) | 무선망 정보 서비스(RNIS), 위치 서비스(Location API) 제공 및 에지 응용 간 패킷 루팅 |
+| MEC 플랫폼 (MEP) | RNIS•위치 API 제공 및 에지 응용 간 패킷 라우팅 |
 | MEC 호스트 (MEC Host) | 에지 서버 상에서 K8s/Docker 가상화 자원을 제공하고 에지 응용(App Container)을 직접 구동 |
 | 에지 응용 (MEC Apps) | 초저지연 자율주행 알고리즘, AR/VR 렌더링, 공장 불량 AI 검사 등 실시간 서비스 구동 |
 
@@ -162,7 +162,7 @@ ETSI MEC 시스템 아키텍처
 |:---|:---|:---|:---|
 | 이동 시 에지 세션 단절 | 단말이 기지국을 넘어가며 인근 MEC 호스트와 세션 이탈 | Stateful User Context Relocation 및 I-UPF 핸드오버 | 이동 중에도 끊김 없는 MEC 서비스 연속성 유지 |
 | 물리적 에지 노드 보안 취약 | 물리적 기지국 국사에 배치되어 원격 해킹 위험 | TPM 기반 Remote Attestation 및 자원 격리 보안 | 미승인 이미지 구동 차단 및 호스트 무결성 확보 |
-| 오프셋 지정 라우팅 실패 | SMF와 MEP 간 트래픽 조향 인터페이스 오류 | DNAI(Data Network Access Identifier) 규격 자동 교동 | 오프셋 라우팅 오차 방지 및 패킷 유실 차단 |
+| 오프로딩 경로 지정 실패 | SMF•MEP 간 트래픽 조향 오류 | **DNAI** 매핑 자동 검증 | 경로 오차•패킷 유실 방지 |
 | 에지 컴퓨팅 자원 부족 | 한정된 소형 에지 서버 자원에 트래픽 폭주 | 중앙 클라우드로의 Dynamic Offloading 및 자원 확장 | 에지 자원 고갈 예방 및 시스템 서비스 가용성 확보 |
 
 #### 한줄 요약
@@ -178,7 +178,7 @@ ETSI MEC 시스템 아키텍처
 
 </details>
 
-- 5G/6G 차세대 네트워크 구축 시 **MEC 전진 배치 설계**, **ETSI 표준 MEP/MEO 구축**, **Local UPF 연동 LBO 오프로딩 체계 구현 필수**.
+- 실시간•현장 데이터는 **MEC**, 집약 연산은 **중앙 클라우드** 선택
 
 #### 한줄 요약
 

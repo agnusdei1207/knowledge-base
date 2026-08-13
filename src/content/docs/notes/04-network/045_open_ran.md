@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "오픈랜 (O-RAN, Open Radio Access Network)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T17:08:00+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -144,8 +144,8 @@ extra:
 
 | 비교 항목 | **오픈랜 (O-RAN / Open RAN)** | **전통적 폐쇄형 기지국 (Closed RAN)** |
 |:---|:---|:---|
-| 인터페이스 개방성 | O-RU, O-DU, O-CU 간 100% 개방형 표준 규격 | 제조사 독점 사가(Proprietary) 비공개 인터페이스 |
-| 벤더 구성 모델 | 멀티 벤더(Multi-Vendor) 장비 조합 유연 구축 | 단일 벤더(Single Vendor) 솔루션 100% 종속 수용 |
+| 인터페이스 개방성 | O-RU•O-DU•O-CU 표준 인터페이스 | 제조사 전용 비공개 인터페이스 |
+| 벤더 구성 모델 | 멀티 벤더 장비 조합 가능 | 단일 벤더 통합 의존 |
 | 자원 제어 방식 | AI/ML 기반 RIC (xApp / rApp) 지능형 자율 제어 | 기지국 내부 고정 알고리즘에 따른 벤더 전용 제어 |
 | 구축/운용 비용 | COTS 범용 서버 활용으로 CAPEX/OPEX 장기 절감 | 전용 하드웨어 비용 및 벤더 종속(Lock-in) 비용 높음 |
 | 통합 및 유지보수 | 멀티 벤더 상호 운용성 검증(IOT) 및 책임 조정 복잡 | 단일 벤더 일괄 통합 수용으로 유지보수 및 장애 처리 용이 |
@@ -161,7 +161,7 @@ extra:
 <details>
 <summary>핵심 용어</summary>
 
-- **회귀 시험(Interoperability Testing, IOT)**: 서로 다른 벤더의 O-RU, O-DU, O-CU 간 개방형 규격 호환성과 기능 동작을 다각도로 정밀 검증하는 테스트이다.
+- **상호운용성 시험(Interoperability Testing, IOT)**: 이종 O-RU•O-DU•O-CU의 규격 호환성을 검증하는 시험이다.
 - **동기 예산(Synchronization Budget)**: O-DU와 O-RU 간 Open Fronthaul 전송 시 허용되는 최대 시간 오차(Time Error, ns 단위) 한도 수치이다.
 
 </details>
@@ -186,7 +186,7 @@ extra:
 
 </details>
 
-- 차세대 5G/6G 기지국 구축 시 **O-RAN 표준 아키텍처 도입**, **멀티 벤더 IOT 통합 검증 체계 마련**, **RIC 기반 AI 무선 자원 최적화 구축 필수**.
+- 벤더 유연성이 우선이면 **O-RAN**, 단일 책임은 **폐쇄형 RAN** 선택
 
 #### 한줄 요약
 
