@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
-date: "2026-08-08T20:11:00+09:00"
+date: "2026-08-13T12:00:06+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 서버 입출력 데이터 형태(Block vs File) 및 전송 패브릭 매체에 따른 대표적 3대 혜택 저장 연결 아키텍처인 **DAS·NAS·SAN**
+- 정의/개념: I/O 단위와 공유 범위 및 전송 경로로 구분하는 **DAS·NAS·SAN** 저장 연결 구조
 - 배경/필요성: 단일 호스트 기반 저장 용량 확장 한계 해소 및 기업 데이터 공유, 중앙 집중 관리, 고가용성 고속 데이터 트랜잭션 요구성
 
 #### 한줄 요약
@@ -39,8 +39,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **블록 레벨 I/O(Block-Level I/O)**: 논리 블록 주소(LBA) 기반으로 호스트 파일시스템이 직접 블록을 억세스하는 방식 (DAS, SAN).
-- **파일 레벨 I/O(File-Level I/O)**: 파일 경로 및 오프셋 기반으로 스토리지 내 캡슐화된 파일시스템을 억세스하는 방식 (NAS).
+- **블록 레벨 I/O(Block-Level I/O)**: 논리 블록 주소 기반으로 호스트 파일시스템이 블록 장치에 접근하는 방식.
+- **파일 레벨 I/O(File-Level I/O)**: 파일 경로와 오프셋으로 원격 파일시스템에 접근하는 방식.
 - **NFS/SMB**: NAS 환경에서 UNIX/Linux(NFS) 및 Windows(SMB/CIFS) 시스템이 네트워크 상에서 파일 공유를 수행하는 파일 전송 프로토콜.
 - **FC/iSCSI**: SAN 환경에서 광케이블 패브릭(FC) 또는 Ethernet TCP/IP(iSCSI) 상에 SCSI 명령어를 인코딩하여 전송하는 블록 프로토콜.
 
@@ -48,7 +48,7 @@ extra:
 
 - 서버 호스트가 직접 파일시스템을 제어하는 **블록 레벨 I/O** (DAS, SAN) 및 **LBA** 접근
 - 스토리지 장비가 자체 파일시스템(NFS/SMB)을 보유 관리하는 **파일 레벨 I/O** (NAS)
-- FC Switched Fabric 패브릭망을 통한 고가용성 및 무중단 **Multipathing** (SAN)
+- FC·iSCSI 패브릭의 경로 장애에 대비하는 **Multipathing** 구성
 
 #### 한줄 요약
 
@@ -80,7 +80,7 @@ extra:
 |:---|:---|
 | 호스트•클라이언트 | 파일 오프셋 및 **LBA** 블록 요청 트랜잭션 능동 발행 |
 | 파일•블록 접근 계층 | **NFS/SMB** 파일 서비스 해독 및 **SCSI/NVMe** 블록 커맨드 인코딩 |
-| 직결•네트워크 경로 | SAS 케이블(DAS), IP Ethernet(NAS), **FC/iSCSI** 전용 패브릭(SAN) 전송 |
+| 직결•네트워크 경로 | **HBA** 직결, IP Ethernet, **FC Switch·iSCSI** 패브릭 전송 |
 | 저장장치•배열 | RAID 어레이, **LUN** 볼륨 생성 및 물리 드라이브 암호화/저장 |
 
 #### 한줄 요약
@@ -91,8 +91,8 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **LUN Masking**: 특정 서버 호스트(HBA WWN 수치)에게만 허용된 **LUN** 볼륨을 억세스하게 제한하는 보안 설정.
-- **Zoning**: FC 스위치 상에서 물리/논리적으로 포트 그룹을 분리하여 무단 억세스를 차단하는 SAN 네트워크 보안.
+- **LUN Masking**: 지정된 호스트 식별자에만 특정 **LUN** 접근을 허용하는 스토리지 설정.
+- **Zoning**: FC 패브릭에서 통신 가능한 포트·WWN 집합을 제한하는 접근 통제.
 
 </details>
 
@@ -131,7 +131,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Multipathing**: 서버와 SAN 스토리지 간 다중 경로(Dual HBA, Dual FC Switch)를 구성하여 포트 장애 시 무중단 페일오버를 달성하는 기법.
+- **Multipathing**: 서버와 SAN 사이에 복수 I/O 경로를 구성하고 장애 경로에서 대체 경로로 전환하는 기법.
 
 </details>
 
@@ -151,17 +151,17 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **NVMe-oF(NVMe over Fabrics)**: 기존 FC/iSCSI SAN의 한계를 극복하고 RDMA(RoCEv2) 망 상에서 NVMe 블록 전송을 지연 없이 서빙하는 초고속 SAN 기술.
+- **NVMe-oF(NVMe over Fabrics)**: Ethernet·FC 등 패브릭을 통해 원격 NVMe 블록 접근을 제공하는 프로토콜.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| NAS IP 공유망 트래픽 폭증으로 인한 네트워크 병목 | 10GbE/40GbE 전용 LACP 트렁킹 및 10GbE NAS 적용 | 파일 전송 대역폭 확충 |
-| SAN 단일 광선로 물리 절단 시 서비스 중단 위험 | MPIO(**Multipathing**) 이중화 광 패브릭망 구축 | 무중단 스토리징 보장 |
+| NAS 공유망 트래픽 증가로 인한 네트워크 병목 | 전용 VLAN·링크 집성 및 NIC 대역폭 확장 | 파일 전송 대역폭 확충 |
+| SAN 단일 경로 단절 시 서비스 중단 위험 | MPIO(**Multipathing**)와 이중 패브릭 구성 | 단일 경로 장애 시 대체 경로 제공 |
 | SAN 패브릭 상의 미인가 호스트 타 타깃 볼륨 침범 | **Zoning** 및 **LUN Masking** 적용 | 보안 볼륨 데이터 격리 |
 
-> 사례: **SAN** 전용 FC 스위치 및 **NVMe-oF** 패브릭 구축을 통한 실시간 초고속 DB 인프라 완성
+> 사례: SAN 경로 장애 주입으로 MPIO 전환과 응용 I/O 영향을 검증
 
 #### 한줄 요약
 
@@ -179,4 +179,4 @@ extra:
 
 #### 한줄 요약
 
-- I/O 액세스 단위(Block vs File) 및 서버 공유 범위에 맞춘 DAS/NAS/SAN 차등 채택 및 최적 스토리지 인프라 구축 체계 적용.
+- 단일 블록은 DAS, 공유 파일은 NAS, 중앙 원격 블록은 SAN을 선택한다.

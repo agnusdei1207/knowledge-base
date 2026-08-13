@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
-date: "2026-08-08T18:05:00+09:00"
+date: "2026-08-13T12:00:06+09:00"
 tags:
   - "notes-hardware"
 weight: 66
@@ -23,7 +23,7 @@ extra:
 <details><summary>핵심 용어</summary>
 
 - **CAN(Controller Area Network)**: 차량 및 산업용 분산 제어 환경에서 중앙 호스트 없이 복수의 ECU가 2선 꼬임선(CAN-H, CAN-L) 버스 상에서 통신하는 표준 네트워크 프로토콜.
-- **다중 마스터(Multi-Master)**: 버스 상의 모든 노드(ECU)가 주도권을 가지고 임의의 시점에 메세지 전송을 시도할 수 있는 자율 구조.
+- **다중 마스터(Multi-Master)**: 버스의 모든 노드가 유휴 상태에서 메시지 전송을 시도할 수 있는 자율 구조.
 - **비파괴 중재(Non-Destructive Arbitration)**: 복수 노드가 동시 송신 시, 메시지 ID의 bit-wise 논리 비교를 통해 높은 우선순위 메시지의 훼손 없이 버스 주도권을 할당하는 메커니즘.
 
 </details>
@@ -87,7 +87,7 @@ extra:
 
 - **경쟁 ID 비트열(Contending ID Bits)**: 버스 유휴 시 동시 송신을 시도하는 ECU들이 보낸 메시지 ID 비트 파형.
 - **CRC(Cyclic Redundancy Check)**: 프레임 전송 무결성 검증을 위한 15비트 순환 중복 검사 필드.
-- **ACK(Acknowledgement)**: 메시지를 수신한 모든 노드가 정상 수신을 알리기 위해 ACK 슬롯에 우성(0) 비트를 인가하는 확인 응답.
+- **ACK(Acknowledgement)**: 프레임을 정상 수신한 노드가 ACK 슬롯에 우성 비트를 인가하는 확인 신호.
 
 </details>
 
@@ -125,7 +125,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **CAN FD(CAN Flexible Data-Rate)**: 데이터 제어 구간의 전송 속도를 5~8Mbps로 가속하고, 페이로드를 최대 64바이트로 확장한 발전형 규격.
+- **CAN FD(CAN Flexible Data-Rate)**: 데이터 구간의 비트율을 높이고 페이로드를 최대 64바이트로 확장한 CAN 규격.
 - **Automotive Ethernet**: 100BASE-T1/1000BASE-T1 스위치 기반 고속(100Mbps~10Gbps) 차량용 백본 인프라.
 
 </details>
@@ -133,7 +133,7 @@ extra:
 | 차량 통신 방식 | Classical CAN | CAN FD | Automotive Ethernet |
 |:---|:---|:---|:---|
 | 적용 기준 | 섀시, 바디, 센서 등의 소형 제어 메시지 전송 시 | Powertrain, ADAS 센서 등 대용량 제어 및 펌웨어 갱신 시 | 카메라, LiDAR, 중앙 Compute 백본 등 대용량 텐서 전송 시 |
-| 핵심 특징 | **CAN** 1Mbps, 8Byte 페이로드 | **CAN FD** 가변 속도(5Mbps), 64Byte 확장 | **Automotive Ethernet** 스위칭 기반 100M~10G 고속 통신 |
+| 핵심 특징 | **CAN** 고정 비트율, 8바이트 페이로드 | **CAN FD** 가변 데이터 비트율, 64바이트 확장 | **Automotive Ethernet** 스위칭 기반 고속 통신 |
 | 한계 | 저속 대역폭 및 대용량 데이터 전송 한계 | 기존 Classical CAN 노드와의 물리 혼용 제약 | 시스템 구성 비용 상승 및 보안 위협 방어 필요 |
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **버스 부하(Bus Load)**: 전체 단위 시간 당 CAN 버스가 프레임 전송에 점유되는 실효 비율 (권장 30~50% 미만).
+- **버스 부하(Bus Load)**: 단위 시간 중 CAN 버스가 프레임 전송에 점유되는 실효 비율.
 - **버스 오프(Bus-Off)**: 송신 에러 카운터(TEC)가 255를 초과한 노드가 다른 노드의 통신을 보호하기 위해 물리 버스에서 자동 이탈하는 상태.
 - **SecOC(Secure Onboard Communication)**: CAN 메시지에 신선도 값(Freshness Value)과 MAC(Message Authentication Code)을 부가하는 AUTOSAR 보안 규격.
 
@@ -152,7 +152,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **버스 부하** 과중으로 인한 낮은 우선순위 ID 지연시간 극증 | RMA 기반 메시지 ID 재배정 및 버스 부하 40% 제한 | 고우선순위 메시지 **WCRT** 마감시간 준수 |
+| 높은 **버스 부하**로 낮은 우선순위 ID 지연 증가 | 응답시간 분석 기반 ID 재배정과 부하 상한 설정 | 메시지 **WCRT**의 마감시간 충족 검증 |
 | 물리 노이즈 지속 발생으로 인한 노드 **버스 오프** 사태 | 트랜시버 차동 라인 필터링 및 120Ω 종단 임피던스 교정 | 하드웨어 전송 노이즈 및 버스 튕김 차단 |
 | CAN 버스 위조/스푸핑 및 재전송(Replay) 보안 공격 | AUTOSAR **SecOC** 규격 적용 및 MAC/Freshness 검증 | 메시지 위변조 및 스푸핑 차단 |
 
@@ -174,4 +174,4 @@ extra:
 
 #### 한줄 요약
 
-- 차동 신호 기반 비파괴 중재 및 오류 격리 메커니즘을 통합한 차량/산업용 CAN 통신 인프라 구축 체계 적용.
+- 소형 제어는 CAN, 확장 프레임은 CAN FD, 고대역폭 백본은 자동차 이더넷을 선택한다.

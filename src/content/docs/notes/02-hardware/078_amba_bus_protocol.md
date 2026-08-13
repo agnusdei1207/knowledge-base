@@ -6,7 +6,7 @@ sidebar:
     text: "미출 • 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-08T19:53:00+09:00"
+date: "2026-08-13T12:00:06+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **AMBA(Advanced Microcontroller Bus Architecture)**: Arm 사가 제정한 System-on-Chip(SoC) 내 CPU 코어, 메모리 컨트롤러, 온칩 주변장치 간의 표준 개방형 버스 규격.
+- **AMBA(Advanced Microcontroller Bus Architecture)**: Arm이 제정한 SoC 내부 CPU, 메모리와 주변장치 간 표준 인터페이스 규격.
 - **SoC(System on Chip)**: CPU, GPU, NPU, 메모리 인터페이스, 입출력 레지스터가 단일 실리콘 다이에 통합된 시스템 칩.
 - **거래(Transaction)**: 버스 상에서 주소(Address), 제어(Control), 데이터(Data) 패킷이 인가되어 처리 완결되는 단일 버스 동작 단위.
 
 </details>
 
-- 정의/개념: SoC 내부 서브시스템 기능 블록 간의 연동 신호 규격 및 **거래** 프로토콜을 계층별로 구율한 표준 규격인 **AMBA**
+- 정의/개념: SoC 기능 블록 간 신호와 **거래** 프로토콜을 계층별로 규정한 **AMBA**
 - 배경/필요성: IP(Intellectual Property) 부품 간 독자 인터페이스 사용 시 발생하는 재설계 오버헤드 해소 및 SoC 온칩 통합 효율성 극대화
 
 #### 한줄 요약
@@ -46,9 +46,9 @@ extra:
 
 </details>
 
-- 고성능 대용량 데이터 전송을 위한 **AXI**의 5개 독립 채널 및 **미완료 거래** 보장
-- 파이프라인 버스트 전송을 보장하는 **AHB** 시스템 온칩 인터커넥트
-- 저전력/저속 제어 레지스터 연결을 보장하는 **APB** 미들웨어 계층 구조
+- 고성능 데이터 전송을 위한 **AXI**의 5개 독립 채널과 **미완료 거래** 지원
+- 파이프라인 버스트 전송을 지원하는 **AHB** 시스템 버스
+- 저전력·저속 제어 레지스터용 **APB** 단순 인터페이스
 
 #### 한줄 요약
 
@@ -58,9 +58,9 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Manager Block**: 읽기/쓰기 트랜잭션을 능동 발상(Master)시키는 CPU, DMA 등의 주 장치.
-- **Subordinate/Target Block**: 주 장치 요청을 전달받아 메모리/레지스터 억세스를 수행(Slave)하는 종속 장치.
-- **프로토콜 브리지(Protocol Bridge)**: AXI<->AHB, AHB<->APB 간 신호 패킷 변환 및 속도차 버퍼링을 담당하는 버스 브리지 칩셋.
+- **Manager Block**: 읽기·쓰기 트랜잭션을 능동 발행하는 CPU, DMA 등의 요청 장치.
+- **Subordinate/Target Block**: 요청을 받아 메모리·레지스터 접근을 수행하는 대상 장치.
+- **프로토콜 브리지(Protocol Bridge)**: AXI·AHB·APB 간 신호 변환과 속도 차 버퍼링을 담당하는 브리지.
 
 </details>
 
@@ -78,7 +78,7 @@ extra:
 |:---|:---|
 | 관리자(Manager/Master) | 주소, 제어 및 읽기/쓰기 **거래** 트랜잭션 능동 발행 |
 | 고속 상호 연결망 | AXI 5-Channel(AR, R, AW, W, B) 라우팅, 중재 및 디코딩 |
-| 프로토콜 브리지 | 고속 AXI/AHB 요청을 저속 **APB** 2-Phase 파이프라인으로 패킷 변환 |
+| 프로토콜 브리지 | 고속 AXI·AHB 요청을 저속 **APB** 2단계 전송으로 변환 |
 | 저속 주변장치 | UART, Timer, GPIO 등 저속 제어 레지스터 **APB** 응답 처리 |
 
 #### 한줄 요약
@@ -101,17 +101,15 @@ extra:
 1. 주소 디코딩•중재
            │
            ▼
-2. 대상 프로토콜 실행
-     ┌─────┴────────────┐
-     │ 고대역 대상      │ 저속 주변장치
-     ▼                  ▼
-[AXI 독립 채널]   [AXI•APB 브리지]
- 또는 [AHB]             │
-                        ├─ APB 설정: PSEL
-                        └─ APB 접근: PENABLE•PREADY
+      ┌─────┴────────────┐
+      │ 고대역 대상      │ 저속 주변장치
+      ▼                  ▼
+2. AXI 독립 채널    3. APB 브리지 변환
+   핸드셰이크           ├─ APB 설정: PSEL
+   또는 [AHB]           └─ APB 접근: PENABLE•PREADY
      └──────────┬───────┘
                 ▼
-3. 응답 변환•순서 정합
+4. 응답 변환•순서 정합
                 │
                 ▼
        [관리자 응답 반환]
@@ -158,8 +156,8 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | AXI Out-of-Order ID 혼선 시 데드락 발생 | **Protocol Checker** 및 Transaction Tracker 배치 | 핸드셰이크 에러 탐지 |
-| 서브시스템 간 클록 속도 차이에 의한 **Metastability** | **CDC** Async FIFO 및 2-FF Synchronizer 구축 | 클록 도메인 도서 신호 안정화 |
-| APB 억세스 병목으로 인한 AXI 버퍼 팽창 | 브리지 버퍼 튜닝 및 PREADY 타임아웃 예외 처리 | 고속 버스 지연 방지 |
+| 서브시스템 간 클록 속도 차이에 의한 **Metastability** | **CDC** Async FIFO 및 2-FF Synchronizer 구축 | 클록 도메인 사이 신호 안정화 |
+| APB 접근 병목으로 인한 AXI 버퍼 팽창 | 브리지 버퍼 튜닝 및 PREADY 타임아웃 처리 | 고속 버스 지연 완화 |
 
 > 사례: **AXI4** 고속 백본 및 **APB** 주변장치 브리지 융합 SoC 아키텍처 구축
 
@@ -179,4 +177,4 @@ extra:
 
 #### 한줄 요약
 
-- SoC 서브시스템 대역폭 및 거래 특성에 맞춘 AXI/AHB/APB 계층화 및 표준 AMBA 버스 구축 체계 적용.
+- 고대역 다중 거래는 AXI, 중간 경로는 AHB, 단순 제어는 APB를 선택한다.

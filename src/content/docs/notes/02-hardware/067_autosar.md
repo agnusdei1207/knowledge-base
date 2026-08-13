@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "AUTOSAR 소프트웨어 플랫폼"
-date: "2026-08-08T18:14:00+09:00"
+date: "2026-08-13T12:00:06+09:00"
 tags:
   - "notes-hardware"
 weight: 67
@@ -48,7 +48,7 @@ extra:
 
 - 응용 SW와 하드웨어를 분리(Decoupling)하는 **표준 인터페이스** 도입
 - 툴 체인 간 아키텍처 메타데이터를 상호 교환하는 표준 **ARXML** 지원
-- 정적 제어 중심의 **Classic Platform**과 고성능 서비스 지향의 **Adaptive Platform** 이원화 구율
+- 정적 제어 중심의 **Classic Platform**과 서비스 지향의 **Adaptive Platform** 구분
 
 #### 한줄 요약
 
@@ -62,7 +62,7 @@ extra:
 - **RTE(Runtime Environment)**: SWC 간 또는 SWC와 BSW 간의 포트 통신 및 함수 호출을 중개하는 추상화 미들웨어 계층.
 - **BSW(Basic Software)**: OS, 메모리, 진단(DoIP/UDS), 통신(CAN/Eth) 및 칩셋 추상화(**MCAL**) 서비스를 제공하는 하단 인프라 SW.
 - **MCAL(Microcontroller Abstraction Layer)**: 하드웨어 MCU 핀 및 온칩 주변장치를 표준 API로 추상화하는 BSW 최하위 레이어.
-- **ARA(AUTOSAR Runtime for Adaptive Applications)**: Adaptive 환경에서 C++14 기반 서비스 인터페이스, 옥타브 통신 및 보안을 제공하는 미들웨어.
+- **ARA(AUTOSAR Runtime for Adaptive Applications)**: Adaptive 응용에 서비스 인터페이스와 플랫폼 기능을 제공하는 API 집합.
 
 </details>
 
@@ -77,10 +77,10 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 | 구성요소 | 책임 |
 |:---|:---|
 | 응용 SWC | 포트(Port) 기반 차량 로직 수행 및 하드웨어 독립성 보유 |
-| RTE | SWC 간 통신 및 BSW 서비스 호출에 대한 **RTE** 가상 버스 맵핑 |
+| RTE | SWC 간 통신 및 BSW 서비스 호출에 대한 **RTE** 가상 버스 매핑 |
 | BSW•MCAL | OS 타이머, CAN/LIN 통신, UDS 진단 및 **MCAL** 하드웨어 제어 |
-| Adaptive 응용 | POSIX 기반 C++14 ADAS/자율주행 서비스 로직 실행 |
-| ARA•기능 클러스터 | **ARA** 서비스 탐색(SOME/IP), 보안(SecOC) 및 OTA 갱신 관리 |
+| Adaptive 응용 | POSIX 기반 ADAS·자율주행 서비스 로직 실행 |
+| ARA•기능 클러스터 | **ARA** 서비스 탐색, 실행 관리 및 갱신 기능 제공 |
 
 #### 한줄 요약
 
@@ -128,11 +128,11 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ### 동작 원리
 
-1. **기능·인터페이스 구성**: **ARXML** 기반 시스템 묘사를 통해 SWC 포트, 데이터 인터페이스 및 맵핑 정의.
+1. **기능·인터페이스 구성**: **ARXML** 기반 시스템 명세로 SWC 포트, 데이터 인터페이스와 매핑 정의.
 2. **플랫폼 할당**: 제어 실시간성 여부에 따라 **Classic Platform** 또는 **Adaptive Platform**으로 노드 할당.
 3. **플랫폼 응용 실행**: Classic의 **RTE 러너블** 스케줄링 또는 Adaptive의 SOME/IP **서비스 탐색** 기반 호출 전개.
 4. **플랫폼 인프라 처리**: BSW/MCAL을 통한 MCU 제어 또는 ARA 기능 클러스터를 통한 서비스 갱신 관리.
-5. **종단 계약 검증**: E2E(End-to-End) 데이터 무결성 및 시스템 마감시간 보장 검증.
+5. **종단 계약 검증**: E2E 데이터 무결성과 시스템 마감시간 충족 여부 검증.
 
 #### 한줄 요약
 
@@ -142,7 +142,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 <details><summary>핵심 용어</summary>
 
-- **정적 구성(Static Configuration)**: 빌드 타임에 전역 태스크, RTE 맵핑 및 BSW 메모리 배치가 완전 결정되는 아키텍처.
+- **정적 구성(Static Configuration)**: 빌드 시점에 태스크, RTE 매핑과 BSW 메모리 배치를 결정하는 아키텍처.
 - **SOA(Service-Oriented Architecture)**: 서비스 바인딩 및 발견을 런타임에 동적으로 매핑하는 서비스 지향 아키텍처.
 
 </details>
@@ -150,7 +150,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 | AUTOSAR 플랫폼 | Classic Platform | Adaptive Platform |
 |:---|:---|:---|
 | 적용 기준 | MCU 기반 하드 실시간 섀시, 파워트레인 제어 시 | MPU 기반 ADAS, 인포테인먼트, 자율주행 서버 구축 시 |
-| 핵심 특징 | **정적 구성**, C 언어 기반, OSEK/VDX OS, **BSW/MCAL** 스택 | **SOA** 서비스 바인딩, C++14, POSIX OS, **ARA** 스택 |
+| 핵심 특징 | **정적 구성**, C 기반, OSEK 계열 OS, **BSW/MCAL** 스택 | **SOA** 서비스 바인딩, POSIX OS, **ARA** API |
 | 한계 | 동적 SW 업데이트 한계 및 고성능 컴퓨팅 수용 불가 | 결정적 하드 실시간 보장 복잡성 및 풋프린트 오버헤드 |
 
 #### 한줄 요약
@@ -162,15 +162,15 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 <details><summary>핵심 용어</summary>
 
 - **ARXML 스키마**: 툴 벤더 간 맵핑 불일치를 차단하기 위해 엄격히 동기화하는 메타모델 규격.
-- **원자적 갱신(Atomic Update)**: Adaptive 펌웨어 OTA 적용 시 서비스 모듈을 무중단 롤백 가능하게 업데이트하는 기법.
+- **원자적 갱신(Atomic Update)**: 갱신 단위를 완전 적용하거나 이전 상태로 롤백하는 업데이트 기법.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 툴 벤더 간 **ARXML** 메타모델 스키마 버전 불일치 | 시스템 전반의 **ARXML 스키마** 버전에 대한 통일 및 검증 | 툴 체인 간 호환성 에러 차단 |
-| RTE 래퍼 및 **BSW** 레이어 적용으로 인한 메모리 overhead | MCAL/BSW 유닛 미사용 모듈 가지치기(Pruning) | 오버헤드 단축 및 스택 경량화 |
-| Adaptive 모듈 갱신 중 시스템 장애 위험 | **원자적 갱신 및 롤백** 기반 무중단 OTA 구현 | 소프트웨어 업데이트 가용성 확보 |
+| RTE 래퍼 및 **BSW** 계층 적용으로 인한 메모리 오버헤드 | MCAL/BSW 미사용 모듈 가지치기 | 오버헤드 감소 및 스택 경량화 |
+| Adaptive 모듈 갱신 중 시스템 장애 위험 | **원자적 갱신 및 롤백** 기반 OTA 적용 | 실패한 소프트웨어 갱신에서 복구 |
 
 > 사례: **Classic** 기반 BSW 튜닝 및 **Adaptive** SOME/IP 연동 통합 플랫폼 구축
 
@@ -186,8 +186,8 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 </details>
 
-- **플랫폼 선택 기준**에 따라 하드 실시간 제어는 **Classic Platform**, 고성능 데이터 가속은 **Adaptive Platform** 적용
+- 정적 실시간 제어는 **Classic Platform**, 동적 고성능 서비스는 **Adaptive Platform** 선택
 
 #### 한줄 요약
 
-- 차량 전장 소프트웨어 추상화 및 재사용성 극대화를 위한 Classic/Adaptive AUTOSAR 플랫폼 구축 체계 적용.
+- 정적 실시간 제어는 Classic, 동적 고성능 서비스는 Adaptive를 선택한다.
