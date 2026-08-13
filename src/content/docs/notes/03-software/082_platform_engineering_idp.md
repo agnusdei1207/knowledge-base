@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "플랫폼 엔지니어링 IDP (Platform Engineering IDP)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T18:26:00+09:00"
 tags:
   - "notes-software"
 weight: 82
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: DevOps의 "You Build It, You Run It" 과도한 인지 부하를 해소하고, 개발자 셀프서비스 기반의 표준 인프라 가드레일을 제공하는 플랫폼 구축 패러다임인 **Platform Engineering & IDP**
-- 배경/필요성: K8s/클라우드 복잡도 증가로 인한 개발자의 Cognitive Load(인지 부하) 극복, 인프라 티켓 신청 대기시간(Lead Time) 제거 및 전사 표준 안전망(Guardrail) 구축 요구성
+- 배경/필요성: 팀별 인프라 직접 운영은 **인지 부하•대기•구성 편차** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 포털 추상화, 정책 코드 가드레일, 플랫폼 제품 운영이 핵심이다.
 
-## Ⅲ. 구조 및 구성요소 (IDP 5대 레이어 아키텍처)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -76,19 +76,18 @@ extra:
 
 선의 의미: 개발자가 최상단 Control Plane(Backstage)에서 셀프서비스를 요청하면, 하부 Orchestration 및 Resource Plane이 OPA 보안 검증 후 K8s/AWS 자원을 자동 프로비저닝하는 5대 레이어 구조.
 
-| IDP 5대 레이어 | 대표 기술 및 핵심 역할 | 주요 적용 내용 |
-|:---|:---|:---|
-| **1. Control Plane** | **Backstage (CNCF)**, Port, Cortex | 개발자가 접하는 단일 웹 UI 포털 및 서비스 카탈로그 |
-| **2. Orchestration Plane**| **Humanitec**, Score Spec | 개발자 템플릿과 실제 하부 인프라 간 동적 바인딩 조율 |
-| **3. Policy Plane** | **OPA (Open Policy Agent), Kyverno** | 보안, 비용 규정을 자동 검증하는 Policy-as-Code 샌드박스 |
-| **4. Resource Plane** | **Terraform, Crossplane, ArgoCD, Helm** | K8s Pod, Database, S3 Bucket 실제 자동 생성 엔진 |
-| **5. Infrastructure Plane**| AWS, GCP, Kubernetes, Redis, Postgre | 물리가동 인프라 및 클라우드 서비스 레이어 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 개발자 포털 | 템플릿•문서•서비스 상태의 단일 진입점 제공 |
+| 서비스 카탈로그 | 소유자•의존성•운영 메타데이터 관리 |
+| 자동화 워크플로 | 표준 환경 생성•배포•운영 절차 실행 |
+| 정책 가드레일 | 보안•비용•신뢰성 정책을 코드로 검증 |
 
 #### 한줄 요약
 
 - 개발자 포털, 서비스 카탈로그, 자동화 워크플로, 정책 가드레일의 연결 구조가 핵심이다.
 
-## Ⅳ. 흐름도 (IDP 셀프서비스 워크플로)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -102,10 +101,11 @@ extra:
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Golden Path 템플릿 선택   │
-│ 2. score.yaml 자원 스펙 선언 │
-│ 3. OPA 정책 가드레일 자동 검사│
-│ 4. ArgoCD/Terraform 자동 배포│
+│ 1. 검증된 경로 선택          │
+│ 2. 요청값•소유자 입력        │
+│ 3. 정책 가드레일 판정        │
+│ 4. 자원•파이프라인 생성      │
+│ 5. 사용 성과•피드백 수집     │
 └──────────────┬───────────────┘
                ▼
  [Dev DB/App 1분 만에 생성 완결]
@@ -113,16 +113,17 @@ extra:
 
 ### 동작 원리
 
-1. **Template Selection**: Backstage 포털 접속 후 `Spring Boot + PostgreSQL Template` 템플릿 클릭.
-2. **Declaration**: 개발자가 간단한 앱 이름 및 DB 파라미터만 인풋 (`score.yaml`).
-3. **Guardrail Audit**: OPA(Open Policy Agent)가 보안 가이드라인(퍼블릭 S3 금지, CPU limit 설정) 자동 패스 확인.
-4. **Provisioning**: Crossplane/ArgoCD가 1분 만에 K8s Namespace와 RDS DB 동적 생성 및 엔드포인트 반환.
+1. **검증된 경로 선택**: 서비스 유형에 맞는 템플릿 선택.
+2. **요청값•소유자 입력**: 환경•자원•책임팀 정보 구체화.
+3. **정책 가드레일 판정**: 보안•비용•신뢰성 정책 검증.
+4. **자원•파이프라인 생성**: 자동화 엔진이 환경과 전달 경로 구성.
+5. **사용 성과•피드백 수집**: 처리 시간•실패율•우회율 측정.
 
 #### 한줄 요약
 
 - 템플릿•요청값 구체화부터 사용 성과•개선 피드백까지의 제품 개선 흐름이 핵심이다.
 
-## Ⅴ. 종류 및 비교 (DevOps vs SRE vs Platform Engineering)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -169,7 +170,7 @@ extra:
 
 </details>
 
-- **플랫폼 엔지니어링 수립 기준**에 따라 대규모 클라우드 네이티브 조직 구축 시 **Backstage 기반 IDP & Golden Path** 수용
+- 반복 수요는 **IDP 검증 경로**, 비정형 예외는 **Escape Hatch** 적용
 
 #### 한줄 요약
 

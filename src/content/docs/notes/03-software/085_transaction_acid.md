@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T18:44:00+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -29,11 +29,11 @@ extra:
 </details>
 
 - 정의/개념: 데이터베이스 관리 시스템(DBMS)이 복수의 데이터 연산 집합을 하나의 논리적 단위로 처리하며 무결성을 보장하기 위해 준수해야 하는 4대 근본 속성인 **ACID (Atomicity, Consistency, Isolation, Durability)**
-- 배경/필요성: 동시성(Concurrency) 제어 미비로 인한 데이터 붕괴 방지, 런타임 시스템 다운 시 데이터 유실 소실을 복구(Recovery)하기 위한 트랜잭션 안전망 제공 요구성
+- 배경/필요성: 부분 실패•동시 변경•장애는 **불변식 훼손•결과 유실** 유발
 
 #### 한줄 요약
 
-- 트랜잭션의 Complete Execution / All-or-Nothing(Atomicity), 일관성 Preserving, Concurrency Control(Isolation), State Persistence(Durability)를 정립한다.
+- 원자성•일관성•격리성•지속성으로 트랜잭션 신뢰성을 보장한다.
 
 ## Ⅱ. 특징
 
@@ -54,7 +54,7 @@ extra:
 
 - 원자성(Undo Log/Rollback), 일관성(DB Constraints), 격리성(2PL/MVCC), 지속성(WAL/Redo Log)의 상호 결합 메커니즘을 정의한다.
 
-## Ⅲ. 구조 및 구성요소 (ACID 4대 속성의 구현 메커니즘 맵핑)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -79,7 +79,7 @@ extra:
 
 | ACID 4대 속성 | 핵심 개념 및 보장 내용 | DBMS 내부 구현 메커니즘 |
 |:---|:---|:---|
-| **Atomicity (원자성)** | 중간 단계 실패 시 이전으로 100% 원복 (**All or Nothing**) | **Undo Log**를 통한 `ROLLBACK` 연산 처리 |
+| **Atomicity (원자성)** | 중간 단계 실패 시 전체 변경 원복(**All or Nothing**) | **Undo Log**를 통한 `ROLLBACK` 처리 |
 | **Consistency (일관성)**| 송금 전후 통장 잔액 합계 등 비즈니스 불변식(Invariant) 유효 | **Primary Key, Foreign Key, Check 제약조건** 강제 |
 | **Isolation (격리성)** | 동시 실행 중인 타 트랜잭션의 중간 미확정 연산 관찰 불가 | **2PL (Two-Phase Locking), MVCC (Multi-Version)** |
 | **Durability (지속성)**| Commit 완료 후 디스크에 불변 보존 (장애 시 복구 가능) | **WAL (Write-Ahead Logging), Redo Log** 기록 |
@@ -88,7 +88,7 @@ extra:
 
 - 트랜잭션 관리자와 로그•복구 장치의 제어 구조가 핵심이다.
 
-## Ⅳ. 흐름도 (트랜잭션 상태 전이: State Transition Diagram)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -115,16 +115,16 @@ extra:
 
 ### 동작 원리
 
-1. **Active**: 트랜잭션이 구동되어 SQL DML 문장이 실행되는 상태.
-2. **Partially Committed**: 마지막 SQL 명령이 끝났으나, Redo Log가 디스크 WAL에 완전 플러시(Flush)되지 않은 순간.
-3. **Committed**: WAL 플러시 완결 후 데이터베이스에 영구적 반영이 완결된 최종 성공 상태.
-4. **Failed / Aborted**: 도중 에러 발생 시 `Failed` 전환 후 Undo Log 스캔을 통해 `Aborted` 원복 상태 수용.
+1. **Active**: 트랜잭션 경계 안에서 읽기•변경 수행.
+2. **Partially Committed**: 마지막 연산 후 확정 조건 검증.
+3. **Committed**: 선행 로그와 커밋 기록으로 결과 지속성 확보.
+4. **Failed / Aborted**: 실패 변경을 Undo해 이전 일관 상태 복구.
 
 #### 한줄 요약
 
-- Concurrency Control Phase $\rightarrow$ Invariant Validation Phase $\rightarrow$ 선행 기록 로그(WAL) Phase $\rightarrow$ Commit/롤백 Execution 흐름으로 진행된다.
+- 동시성 제어•불변식 검증•WAL 기록 후 커밋 또는 롤백한다.
 
-## Ⅴ. 종류 및 비교 (ACID vs BASE)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -134,7 +134,7 @@ extra:
 
 | 비교 항목 | ACID (관계형 DBMS) | BASE (분산 NoSQL DBMS) |
 |:---|:---|:---|
-| 일관성 모델 | **Strict Consistency (즉시 강한 일관성)** | **Eventual Consistency (최종 일관성)** |
+| 일관성 모델 | **트랜잭션 경계 내 불변식과 격리 수준 보장** | **가용성 중심의 최종 일관성 모델** |
 | 동시성 및 가용성 | 격리성(Isolation) 보장으로 동시 처리량 제한 | **High Availability (고가용성) 및 분산 확장성** |
 | 응용 도메인 | **금융 뱅킹, 결제, 계좌 이체, 주식 거래** | **SNS 피드, 스트리밍, 로그 수집, 장바구니** |
 | 복구 메커니즘 | **WAL, Undo Log, Redo Log** | **CRDT, Read Repair, Hinted Handoff** |
@@ -171,7 +171,7 @@ extra:
 
 </details>
 
-- **ACID 수립 기준**에 따라 금융/이체 등 무결성 최우선 서비스 구축 시 **RDBMS ACID 트랜잭션** 필수 인가
+- 단일 불변식은 **ACID 경계**, 분산 장기 흐름은 **Saga•보상** 적용
 
 #### 한줄 요약
 

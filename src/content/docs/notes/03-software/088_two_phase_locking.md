@@ -6,7 +6,7 @@ sidebar:
     text: "미출제 • 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T19:02:00+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 트랜잭션의 락 획득 시점(Growing Phase)과 락 해제 시점(Shrinking Phase)을 2단계로 명확히 교차 차단하여 트랜잭션의 직렬 가능성(Serializability)을 보장하는 규약인 **2PL Protocol**
-- 배경/필요성: 동시 트랜잭션 수행 시 무질서한 Lock 획득/해제로 인한 직렬성 파손(Cascading Abort 및 Data Inconsistency) 차단 요구성
+- 배경/필요성: 임의 잠금 획득•해제는 **비직렬 실행•연쇄 취소** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 실행 결과의 순서는 맞추지만 서로 자물쇠를 쥔 채 기다리는 교착이 생길 수 있다.
 
-## Ⅲ. 구조 및 구성요소 (2PL 메커니즘 & Lock Point)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -61,30 +61,25 @@ extra:
 </details>
 
 ```text
-[Lock 개수]
-    ▲
-    │         /───────\  (Lock Point: 모든 락 획득 완료)
-    │        /         \
-    │       /           \
-    │      / (Growing)   \ (Shrinking)
-    │     /  (락 획득만)  \ (락 해제만)
-    └────┴─────────────────┴─────────────► [Time]
-        [Transaction Begin]  [Commit/Rollback]
+ [트랜잭션 관리자] ─── [잠금 관리자]
+         │                    │
+ [교착 탐지기] ─────── [잠금 테이블]
 ```
 
 선의 의미: Growing Phase 동안 락을 누적 획득하여 Lock Point를 찍은 뒤, Shrinking Phase를 통해 락을 해제하는 2단계 타이밍 차트 아키텍처.
 
-| 구분 (Phase) | 허용 동작 | 금지 동작 | 비고 |
-|:---|:---|:---|:---|
-| **Growing Phase (성장 단계)** | `Lock-S()`, `Lock-X()` 획득 | `Unlock()` 해제 **(절대 금지)** | 필요한 모든 락 수집 |
-| **Lock Point (락 포인트)** | **최종 락 획득 완료 지점** | - | 직렬화 순서 결정 지점 |
-| **Shrinking Phase (축소 단계)**| `Unlock()` 해제 | `Lock-S()`, `Lock-X()` 획득 **(절대 금지)**| 사용 완료 락 반납 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 트랜잭션 관리자 | 트랜잭션 상태와 커밋•취소 제어 |
+| 잠금 관리자 | S/X 잠금의 호환성•대기•해제 관리 |
+| 잠금 테이블 | 자원별 보유자와 대기 큐 기록 |
+| 교착 탐지기 | 대기 순환을 찾아 취소 대상 선정 |
 
 #### 한줄 요약
 
 - 잠금 요청과 대기 관계를 관리하고 교착 시 취소 대상을 고른다.
 
-## Ⅳ. 흐름도 (2PL 변형: Strict 2PL 대 Rigorous 2PL)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -109,7 +104,7 @@ extra:
 
 - 물건을 담는 동안에는 빼지 않고 하나를 빼기 시작하면 새 물건을 담지 않는다.
 
-## Ⅴ. 종류 및 비교 (Basic 2PL vs Strict 2PL vs Rigorous 2PL)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,14 +117,14 @@ extra:
 | X-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** | **트랜잭션 Commit / Rollback 시점** |
 | S-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** |
 | 직렬 가능성 (Serial) | **보장** | **보장** | **보장** |
-| 연쇄 롤백 방지 | **불가 (Cascading Rollback 상존)** | **완전 방지 (Strict)** | **완전 방지 (Rigorous)** |
+| 연쇄 롤백 방지 | 미커밋 값 노출 시 발생 가능 | **쓰기 잠금 유지로 방지** | **모든 잠금 유지로 방지** |
 | 실무 상용 DBMS 채택| 채택 안 함 | **대다수 상용 RDBMS 채택** | 일부 RDBMS 옵션 채택 |
 
 #### 한줄 요약
 
 - 기본 방식은 축소 단계에서 잠금을 풀고 엄격한 방식은 쓰기 잠금을 종료까지 유지한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (2PL의 한계: Deadlock)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -157,7 +152,7 @@ extra:
 
 </details>
 
-- **2PL 수립 기준**에 따라 RDBMS 락 매니저 설계 시 **Strict 2PL & Deadlock Detection** 필수 수용
+- 연쇄 취소 방지는 **Strict 2PL**, 높은 읽기 동시성은 **MVCC** 병행
 
 #### 한줄 요약
 

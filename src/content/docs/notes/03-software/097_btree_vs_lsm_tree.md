@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-10T10:00:00+09:00"
+date: "2026-08-13T19:56:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - **정의**: 데이터를 디스크 페이지에 제자리 수정(`In-Place Update`) 방식으로 저장하여 읽기 성능을 최적화한 **B-Tree** 엔진과, 인메모리 기록 후 순차 덧붙이기(`Out-of-Place Append-Only`) 및 병합(`Compaction`)으로 쓰기 속도를 극대화한 **LSM-Tree** 엔진.
-- **필요성**: 대규모 로깅 및 IoT 시계열 데이터 적재 시 디스크 무작위 쓰기(Random Write) 병목 극복, 쓰기 처리량과 읽기 응답속도 간의 아키텍처 적합성 선택.
+- 배경/필요성: 저장 구조 불일치는 **읽기 증폭•쓰기 증폭•정리 지연** 유발
 
 #### 한줄 요약
 
@@ -39,7 +39,7 @@ extra:
 
 <details><summary>핵심 용어</summary>
 
-- **Random Write vs Sequential Write**: B-Tree는 디스크 블록 파편화에 따른 무작위 I/O 발생, LSM-Tree는 100% 순차 디스크 I/O 처리.
+- **Random Write vs Sequential Write**: B-Tree는 페이지 갱신•분할, LSM-Tree는 순차 파일 생성과 컴팩션을 중심으로 처리.
 - **Write Amplification vs Read Amplification**: B-Tree는 랜덤 쓰기로 인한 쓰기 증폭 발생, LSM-Tree는 여러 계층의 SSTable 스캔으로 인한 읽기 증폭 발생.
 
 </details>
@@ -52,7 +52,7 @@ extra:
 
 - 즉시 정리하면 읽기 경로가 짧고 몰아서 정리하면 쓰기가 효율적이지만 나중에 찾고 합치는 비용이 생긴다.
 
-## Ⅲ. 구조 및 구성요소 (B-Tree 대 LSM-Tree 아키텍처 수용 구조)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -80,15 +80,15 @@ extra:
 |:---|:---|:---|
 | **데이터 수정 방식** | **In-Place Update (지정 블록 덮어쓰기)** | **Out-of-Place Append-Only (순차 덧붙이기)** |
 | **핵심 구성 아키텍처**| **Root - Branch - Leaf Pages, WAL** | **WAL, MemTable, SSTable, Bloom Filter** |
-| **쓰기(Write) 성능** | 낮음 (디스크 Random Write & Page Split) | **매우 높음 (100% Sequential Write)** |
-| **읽기(Read) 성능** | **매우 높음 (단일 B+Tree $O(\log N)$ 탐색)** | 낮음 (여러 SSTable 레벨 스캔 필요) |
-| **쓰기 증폭 (WAF)** | 높음 (작은 수정에도 16KB 페이지 전체 기록) | 낮음~중간 (Compaction 시점에만 증폭 발생) |
+| **쓰기 특성** | 페이지 갱신•분할과 WAL 비용 | **순차 Flush 후 Compaction 비용** |
+| **읽기 특성** | **짧은 트리 경로와 페이지 캐시 활용** | 여러 SSTable 확인을 필터•캐시로 보완 |
+| **쓰기 증폭** | 페이지•WAL 갱신으로 발생 | **반복 Compaction으로 발생 가능** |
 
 #### 한줄 요약
 
 - 즉시 고치는 페이지와 모아 병합하는 파일 구조의 구성 차이다.
 
-## Ⅳ. 흐름도 (LSM-Tree 쓰기/읽기 및 Compaction 흐름)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -97,22 +97,34 @@ extra:
 </details>
 
 ```text
-[Write Flow]  : Client ──► WAL (Disk) + MemTable (RAM) ──► (Flush) ──► SSTable L0
-[Read Flow]   : Client ──► MemTable ──► Bloom Filter ──► SSTable L0..LN ──► Merge Result
-[Compaction]  : Background Thread ──► Merge SSTable L0 & L1 ──► Purge Dead Keys
+┌──────────────────────────────┐
+│ 쓰기 요청                    │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 1. WAL 기록                 │
+│ 2. MemTable 반영            │
+│ 3. SSTable Flush            │
+│ 4. Compaction 병합          │
+│ 5. 구버전•삭제 표식 정리     │
+└──────────────┬───────────────┘
+               ▼
+         [쓰기 확정]
 ```
 
 ### 동작 원리
 
-1. **Write Phase**: WAL 로그 기록 후 MemTable 메모리에 튜플 저장 $\rightarrow$ 사용자에게 즉시 쓰기 OK 응답 (**초고속 쓰기**).
-2. **Flush Phase**: MemTable이 가득 차면 불변(Immutable) 상태로 전환 후 디스크 SSTable Level 0 파일로 순차 내려씀.
-3. **Compaction Phase**: 백그라운드 스레드가 L0~L1 SSTable들을 합병 정렬(Merge Sort)하여 중복 키를 지우고 공간 회수.
+1. **WAL 기록**: 장애 복구를 위한 변경 로그 선행 기록.
+2. **MemTable 반영**: 메모리 정렬 구조에 최신 값 저장.
+3. **SSTable Flush**: 불변 MemTable을 정렬 파일로 기록.
+4. **Compaction 병합**: 계층 파일을 병합해 읽기 경로 정리.
+5. **구버전•삭제 표식 정리**: 안전한 범위의 공간 회수.
 
 #### 한줄 요약
 
 - 로그 구조 병합 트리는 변경을 복구 장부와 메모리에 먼저 적고, 모이면 정렬 파일로 내려 쓴다.
 
-## Ⅴ. 종류 및 비교 (상용 DB 엔진 적용 비교)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -122,7 +134,7 @@ extra:
 
 | 비교 항목 | B-Tree 기반 데이터베이스 | LSM-Tree 기반 데이터베이스 |
 |:---|:---|:---|
-| 대표 DB 제품 | **MySQL (InnoDB), Oracle, PostgreSQL** | **RocksDB, Apache Cassandra, RocksDB, LevelDB** |
+| 대표 DB 제품 | **MySQL InnoDB, Oracle, PostgreSQL** | **RocksDB, Apache Cassandra, LevelDB** |
 | 주 타깃 워크로드 | **OLTP (결제, 계좌, 회원 정보 등)** | **시계열, IoT 센서 로그, 대규모 쓰기 부하** |
 | 디스크 메커니즘 | **Page-based Random I/O** | **File Segment-based Sequential I/O** |
 | 읽기 가속 수단 | B+Tree Leaf Node Pointer | **Bloom Filter (블룸 필터)** |
@@ -143,7 +155,7 @@ extra:
 |:---|:---|:---|
 | LSM-Tree 사용 시 쓰기 폭증으로 인한 **Compaction Stall** 발생 | **Compaction 백그라운드 스레드 수 증가 및 SSD I/O 쿼터 확장**| 쓰기 멈춤 현상 해소 |
 | LSM-Tree에서 읽기 속도가 저하되는 현상 | **Bloom Filter 바이트 수 확장 및 MemTable 크기 튜닝** | 읽기 성능 회복 |
-| B-Tree 사용 시 무작위 PK로 인한 디스크 파편화 | **B-Tree PK는 반드시 Auto-Increment / TSID 등 순차 키 지정** | Random Write 최소화 |
+| B-Tree 무작위 키로 페이지 분할•캐시 지역성 저하 | 노출•분산 요구와 함께 **순차성 키** 검토 | 페이지 갱신 비용 완화 |
 
 > 사례: **카카오 / 네이버 시계열 로그 DB로 RocksDB/Cassandra (LSM-Tree) 채택**
 
@@ -159,7 +171,7 @@ extra:
 
 </details>
 
-- **스토리지 엔진 선택 기준 적용** (OLTP 읽기 중심은 `B-Tree` (InnoDB), 대용량 쓰기 중심은 `LSM-Tree` (RocksDB) 필수 수용)
+- 낮은 읽기 지연은 **B-Tree**, 높은 순차 쓰기는 **LSM-Tree** 우선 검토
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
-date: "2026-08-06T23:27:50+09:00"
+date: "2026-08-13T19:44:00+09:00"
 tags:
   - "notes-software"
 weight: 95
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - **정의**: SQL 질의 처리 시 옵티마이저가 인덱스 스캔, 조인 알고리즘, 연산 순서를 조합하여 결정한 물리적 연산 실행 트리인 **쿼리 실행 계획(Query Execution Plan)**.
-- **필요성**: 비효율적 실행 계획(전체 스캔, 카테시안 조인)으로 인한 리소스 낭비 방지 및 비용 기반 옵티마이저(CBO)의 경로 예측 오류 교정을 통한 성능 극대화.
+- 배경/필요성: 잘못된 행 수 추정은 **비효율 접근•조인 순서** 유발
 
 #### 한줄 요약
 
@@ -52,7 +52,7 @@ extra:
 
 - 데이터 분포 예상이 틀리면 나쁜 경로를 고르므로 계획의 예상값과 실제 처리량을 함께 봐야 한다.
 
-## Ⅲ. 구조 및 구성요소 (실행 계획 4대 핵심 가독 포인트)
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>핵심 용어</summary>
 
@@ -78,14 +78,14 @@ extra:
 |:---|:---|:---|
 | **type (접근 방식)** | **`system > const > eq_ref > ref > range > index > ALL`** | `ALL` (Full Table Scan) 발생 여부 파악 |
 | **rows (예상 행 수)**| 옵티마이저가 예측한 스캔 대상 튜플 수 (**Cardinality**) | 실제 반환 튜플 수와의 오차율 계산 |
-| **Extra (부가 정보)** | **`Using index (커버링), Using temporary, Using filesort`**| `Using filesort/temporary` 발견 시 지우기 |
+| **Extra (부가 정보)** | **`Using index, Using temporary, Using filesort`** | 임시•정렬 비용과 대체 경로 검토 |
 | **Join Algorithm** | **Nested Loop Join, Hash Join, Sort Merge Join** | 데이터 스케일에 맞는 조인 방식 배치 |
 
 #### 한줄 요약
 
 - 통계로 실행 경로를 고르고 실제 처리량과 예상값을 비교한다.
 
-## Ⅳ. 흐름도 (SQL 최적화 4단계 프로세스)
+## Ⅳ. 흐름도
 
 <details><summary>핵심 용어</summary>
 
@@ -94,24 +94,24 @@ extra:
 </details>
 
 ```text
-[SQL 구문 입력] ──► [1. Parser (구문/의미 분석)] ──► [2. Query Rewrite (동등 쿼리 재작성)]
+[SQL 구문 입력] ──► [1. 구문•의미 분석] ──► [2. 동등 질의 재작성]
                                                                 │
                                                                 ▼
- [Execution Execution] ◄── [4. Code Generator (실행계획 생성)] ◄── [3. CBO Estimator (비용 계산)]
+ [질의 실행] ◄── [4. 실행 계획 생성] ◄── [3. 후보 경로 비용 계산]
 ```
 
 ### 동작 원리
 
-1. **Parsing**: SQL 문법 검사 및 릴레이션/컬럼 존재 유무 체크.
-2. **Query Rewriting**: `WHERE 1=1` 등 불필요 조건 제거 및 서브쿼리를 조인 형태로 변환 (`Unnesting`).
-3. **CBO Estimation**: 인덱스 스캔 비용과 Full Scan 비용을 DB 통계 메트릭 기반으로 정량 계산.
-4. **Plan Generation**: 최적의 물리적 연산 트리(Plan Tree)를 확정하여 실행 엔진으로 이전.
+1. **구문•의미 분석**: SQL 문법•객체•권한 확인.
+2. **동등 질의 재작성**: 결과가 같은 관계식으로 변환.
+3. **후보 경로 비용 계산**: 통계로 접근•조인 비용 추정.
+4. **실행 계획 생성**: 선택한 물리 연산 트리를 엔진에 전달.
 
 #### 한줄 요약
 
 - 지도 통계로 경로를 고르고 실제 운행 기록이 예상과 다르면 통계와 경로를 다시 점검한다.
 
-## Ⅴ. 종류 및 비교 (RBO 대 CBO)
+## Ⅴ. 종류 및 비교
 
 <details><summary>핵심 용어</summary>
 
@@ -125,13 +125,13 @@ extra:
 | 최적화 기준 | 정해진 15가지 우선순위 규칙 (Rule) | **통계 기반 CPU / Disk I/O 정량 비용 (Cost)** |
 | 통계 정보 필요성| 전혀 필요 없음 | **주기적인 `ANALYZE` 통계 수집 필수** |
 | 데이터 변화 대응| 데이터 양이 커져도 실행 계획 고정 | **데이터 크기 및 분포 변화에 맞춰 동적 변환** |
-| 상용 DBMS 채택| 과거 레거시 DB 용 | **현대 모든 RDBMS 표준 채택 (Oracle, MySQL 등)**|
+| 상용 DBMS 채택 | 과거 레거시 제품 중심 | **현대 주요 RDBMS의 기본 최적화 방식** |
 
 #### 한줄 요약
 
 - 어떤 길이 항상 빠른 것이 아니라 데이터 양과 분포에 맞는 길을 선택해야 한다.
 
-## Ⅵ. 실무 고려사항 및 대책 (실행 계획 튜닝 3대 기법)
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>핵심 용어</summary>
 
@@ -142,8 +142,8 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | DB 통계 노후화로 잘못된 Full Table Scan 선택 | **`ANALYZE TABLE` 실행으로 DB 통계 정보 최신화** | 정밀한 CBO 비용 산출 |
-| `Using filesort / Using temporary` 발생으로 메모리 폭증 | **Composite Index에 `ORDER BY/GROUP BY` 컬럼 포함 배치** | Sort Avoidance (정렬 소멸) |
-| CBO가 인덱스를 외면하고 잘못된 조인 선택 | **Optimizer Hint (`/*+ INDEX(...) */`) 조치 및 SQL 튜닝** | 의도한 실행 경로 강제 |
+| 임시•정렬 연산으로 메모리•디스크 비용 증가 | **복합 인덱스•질의 재작성**의 비용 실측 | 불필요 정렬•임시 결과 축소 |
+| 통계 보정 후에도 부적합 조인 경로 선택 | 원인 기록 후 **Optimizer Hint**를 제한 적용 | 계획 안정성과 유지보수성 균형 |
 
 > 사례: **PostgreSQL / MySQL `EXPLAIN ANALYZE` 쿼리 실측 분석 및 B-Tree 인덱스 힌트 조치**
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- **실행 계획 튜닝 수립 기준 적용** (Slow Query 개선 시 `EXPLAIN ANALYZE` 기반 병목 도출 및 인덱스/쿼리 재작성 필수 수용)
+- 추정 오류는 **통계 보정**, 구조 병목은 **인덱스•질의 재작성** 적용
 
 #### 한줄 요약
 
