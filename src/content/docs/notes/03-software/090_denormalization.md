@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Denormalization (반정규화 / 역정규화)**: 정규화된 데이터베이스 스키마에서 시스템의 읽기 성능(Read Throughput/Latency)을 향상시키기 위해, 의도적으로 데이터 중복을 허용하거나 테이블을 통합/분할/요약하는 데이터베이스 물리 아키텍처 최적화 기법.
 - **Read-Heavy Workload**: 데이터의 CUD(Create/Update/Delete) 수정 빈도 대비 조회(Read) 쿼리 발생 비율이 8:2 이상으로 압도적으로 높은 시스템 부하 환경.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Controlled Redundancy (통제된 중복)**: 무질서한 중복이 아니라, 애플리케이션 트랜잭션 및 트리거/동기화 배치를 통해 무결성을 통제하며 관리하는 전략적 중복.
 - **Single Source of Truth (SSOT)**: 반정규화 컬럼이 존재하더라도 비즈니스 정답 데이터의 원천이 어디인가를 명확히 지정해 놓는 원칙.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Duplicated Column**: 잦은 조인 대상 속성(예: 주문 테이블에 고객명 중복 저장)을 튜플 내에 직접 포함.
 - **Summary Table**: 월별/일별 매출 집계 등 대용량 집계 결과를 사전에 계산해 저장하는 요약 테이블.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Denormalization Decision Flow**: 1. 정규화 완비 $\rightarrow$ 2. 성능 측정 및 병목 확인 $\rightarrow$ 3. 대체 수단(인덱스, 캐시) 검토 $\rightarrow$ 4. 반정규화 적용 $\rightarrow$ 5. 정합성 검증.
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Normalization vs Denormalization**: 정규화는 데이터 중복 최소화 및 무결성(Write) 중심, 반정규화는 조인 최소화 및 응답 속도(Read) 중심.
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consistency Maintenance (정합성 유지 대책)**: 중복 컬럼의 데이터가 원본과 달라지지 않도록 DB Trigger, Batch Reconciliation, 또는 Spring Event 기반의 동기화 연동 체계.
 
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **반정규화 수립 기준(Denormalization Standards)**: Read/Write 트래픽 비율, p95 쿼리 지연 시간 및 데이터 정합성 유지 비용에 의거한 체계.
 

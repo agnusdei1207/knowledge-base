@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAN(Controller Area Network)**: 차량 및 산업용 분산 제어 환경에서 중앙 호스트 없이 복수의 ECU가 2선 꼬임선(CAN-H, CAN-L) 버스 상에서 통신하는 표준 네트워크 프로토콜.
 - **다중 마스터(Multi-Master)**: 버스의 모든 노드가 유휴 상태에서 메시지 전송을 시도할 수 있는 자율 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메시지 ID(Message Identifier)**: 프레임의 우선순위를 결정함과 동시에 수신 노드에서 필요 여부를 필터링하는 11비트(표준)/29비트(확장) 식별자.
 - **발행·구독(Publish-Subscribe)**: 송신 노드가 특정 노드 주소를 지정하지 않고 브로드캐스트하면, 필요한 노드들이 메시지 ID를 수신 필터링하는 방식.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAN 컨트롤러(CAN Controller)**: 프레임 패킹, 비트 스터핑, CRC 계산, 중재 및 오류 처리를 관장하는 논리 레이어 칩셋.
 - **CAN 트랜시버(CAN Transceiver)**: 컨트롤러의 TTL/CMOS 논리 신호를 버스 차동 전압(CAN-H, CAN-L) 물리 신호로 상호 변환하는 드라이버.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **경쟁 ID 비트열(Contending ID Bits)**: 버스 유휴 시 동시 송신을 시도하는 ECU들이 보낸 메시지 ID 비트 파형.
 - **CRC(Cyclic Redundancy Check)**: 프레임 전송 무결성 검증을 위한 15비트 순환 중복 검사 필드.
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAN FD(CAN Flexible Data-Rate)**: 데이터 구간의 비트율을 높이고 페이로드를 최대 64바이트로 확장한 CAN 규격.
 - **Automotive Ethernet**: 100BASE-T1/1000BASE-T1 스위치 기반 고속(100Mbps~10Gbps) 차량용 백본 인프라.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **버스 부하(Bus Load)**: 단위 시간 중 CAN 버스가 프레임 전송에 점유되는 실효 비율.
 - **버스 오프(Bus-Off)**: 송신 에러 카운터(TEC)가 255를 초과한 노드가 다른 노드의 통신을 보호하기 위해 물리 버스에서 자동 이탈하는 상태.
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **차량 통신 선택 기준(Automotive Network Selection Criteria)**: 메시지 실시간성, 대역폭 요구량, 데이터 페이로드 크기 및 TCO에 기반한 네트워크 통제 체계.
 

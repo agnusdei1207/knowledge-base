@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **컴퓨팅 연속체(Computing Continuum / Cloud-Edge-IoT Continuum)**: IoT 단말, 최말단 에지(Far Edge), 근접 에지(Near Edge) 및 중앙 클라우드의 파편화된 자원을 단일 가상화 환경으로 통합하여 워크로드를 동적 배치하는 분산 패러다임이다.
 - **서비스 수준 목표(Service Level Objective, SLO)**: 시스템이 준수해야 할 전송 지연시간, 처리량, 자원 비용 및 가용성에 관한 정량적 성과 목표이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **워크로드 이식성(Workload Portability)**: 애플리케이션 컨테이너 및 상태 데이터가 물리적 노드 위치나 이종 인프라 하드웨어 환경에 영향받지 않고 자유롭게 마이그레이션되는 성질이다.
 - **데이터 중력(Data Gravity)**: 데이터의 규모와 입출력 의존성이 커짐에 따라 연산 애플리케이션이 데이터가 위치한 물리적 장소 인근으로 이끌려 배치되는 현상이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 제어면(Unified Control Plane)**: 전체 계층 노드의 연산 가용량, 네트워크 지연 및 에너지 상태(Telemetry)를 수집하여 워크로드 배치를 결정하는 오케스트레이터이다.
 - **최말단·근접 에지(Far-Edge & Near-Edge)**: 산업 현장 직결 제어를 수행하는 최말단(Far-Edge) 노드와 국사 및 지역 서버 단위에서 집계를 담당하는 근접(Near-Edge) 노드의 구성이다.
@@ -90,7 +90,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **워크로드 배치 명세(Workload Placement Spec / Manifest)**: 애플리케이션에 필요한 CPU/GPU 자원, 허용 Latency 및 데이터 위치 요구사항을 작성한 매니페스트 파일이다.
 - **자원 상태(Resource Telemetry & Capacity)**: 전 영역 노드들의 현재 자원 사용률, 무선 신호 세기, 전력량 및 유선 백홀 지연시간 정보이다.
@@ -128,7 +128,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위치별 고립 운영(Siloed Island Operation)**: 클라우드와 에지 자원이 단일 관제망으로 결합되지 않고 각각 독립적인 K8s 클러스터로 고정 운영되는 이전 방식이다.
 
@@ -150,7 +150,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **워크로드 신원(Workload Identity / SPIFFE)**: 워크로드가 타 노드로 이관되더라도 동일한 인가 앱임을 암호화 서명으로 증명하는 식별자 체계이다.
 - **인스턴스 중복 실행(Dual Active Instance Conflict)**: 마이그레이션 도중 이전 노드와 신규 노드에서 동일 컨테이너가 동시에 활성화되어 데이터 일관성이 파괴되는 오류 현상이다.
@@ -171,7 +171,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **재배치 이득(Relocation Net Gain)**: 워크로드 이동으로 얻는 SLO 성능 향상값에서 데이터 수송 및 마이그레이션 오버헤드 비용을 차감한 실제 효과 수치이다.
 

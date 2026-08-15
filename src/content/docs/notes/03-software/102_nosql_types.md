@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NoSQL (Not Only SQL)**: 관계형 데이터베이스(RDBMS)의 엄격한 테이블 스키마, `JOIN` 오버헤드, 수평 확장(Scale-Out)의 한계를 극복하기 위해, 데이터 모델과 접근 패턴에 맞춰 고안된 4대 비관계형 데이터베이스 분류 체계 (Document, Key-Value, Wide-Column, Graph).
 - **Schema-Flexibility (가변 스키마)**: 튜플(행)마다 저장되는 속성(컬럼)이 달라지더라도 사전 DDL 정의 없이 자유롭게 데이터를 인서트 및 확장할 수 있는 속성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Query-Driven Data Modeling (쿼리 중심 데이터 모델링)**: RDBMS처럼 정규화(Normalization)를 먼저 하지 않고, 애플리케이션의 화면 조회 쿼리(Query Pattern)에 맞춰 중복을 허용(Denormalization)하여 테이블을 설계하는 특성.
 - **BASE Consistency Model**: Strictly ACID 대신 Basically Available, Soft-state, Eventual Consistency(최종 일관성) 모델 채택.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Key-Value Store**: Unique Key 1개에 BSON/String/Binary Value를 1:1 매핑하는 극단적 단순 구조 (Redis, DynamoDB).
 - **Document Store**: JSON/BSON 형태의 중첩된 서브 문서(Sub-document) 및 배열 구조를 인덱싱하여 다루는 모델 (MongoDB, Couchbase).
@@ -76,7 +76,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Polyglot Architecture**: 단일 서비스 시스템 내에서 세션은 Redis, 카탈로그는 MongoDB, 결제는 RDBMS, 친구추천은 Neo4j에 분산 적재하는 아키텍처.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Structure Tradeoff**: 단순한 Key-Value일수록 수평 분산과 속도가 극대화되고, 복잡한 Graph일수록 관계 표현력은 높으나 분산 조회가 고비용화.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NoSQL Anti-Pattern**: RDBMS처럼 NoSQL에 정규화를 적용하여 여러 컬럼/테이블로 쪼개 놓아, 데이터 조회 시 애플리케이션 단에서 수십 번의 N+1 조인 쿼리를 발생시키는 현상.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NoSQL 수립 기준(NoSQL Selection Standards)**: 데이터 구조 복잡성, 쿼리 도메인 패턴, Scale-Out 가용성 및 Polyglot Persistence 조화성에 의거한 체계.
 

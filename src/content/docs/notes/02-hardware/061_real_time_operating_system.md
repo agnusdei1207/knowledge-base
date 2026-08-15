@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RTOS(Real-Time Operating System)**: 태스크 응답시간을 예측하고 마감시간 준수를 분석할 수 있게 하는 실시간 커널
 - **태스크(Task)**: 커널 스케줄러에 의해 우선순위 및 상태가 관리되는 독립 실행 단위
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **결정성(Determinism)**: 최악 응답 지연의 상한을 예측할 수 있는 특성
 - **WCET(Worst-Case Execution Time)**: 태스크 순수 연산의 최대 이론적 실행 시간
@@ -63,7 +63,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISR(Interrupt Service Routine)**: 외부 하드웨어 인터럽트 수용 시 최우선 실행되는 커널 이벤트 루틴.
 - **TCB(Task Control Block)**: 태스크 식별자, 우선순위, 스택 포인터, 레지스터 맥락(Context) 정보를 격리 저장하는 자료구조.
@@ -91,7 +91,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **준비 상태(Ready State)**: 실행 준비가 완결되어 스케줄러의 코어 할당을 대기 중인 상태.
 - **문맥 전환(Context Switch)**: 현 태스크 레지스터를 TCB에 저장하고 새 태스크 TCB 레지스터를 레지스터로 복원하는 커널 전환 작업.
@@ -132,7 +132,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bare Metal**: OS 없이 Infinite Loop(Super-loop) 상에서 하드웨어 인터럽트로 전 처리하는 구조.
 - **GPOS(General-Purpose OS)**: Linux/Windows 등 평균 처리량 및 공정한 스케줄링을 최우선하는 범용 OS.
@@ -151,7 +151,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **우선순위 역전(Priority Inversion)**: 높은 우선순위 태스크가 낮은 태스크의 뮤텍스 점유로 인해 대기하는 동안 중간 우선순위 태스크가 먼저 실행되는 현상.
 - **우선순위 상속(Priority Inheritance)**: 뮤텍스를 보유한 낮은 우선순위 태스크의 우선순위를 대기 중인 높은 태스크 레벨로 일시 상향하는 대책.
@@ -173,7 +173,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스케줄 가능성(Schedulability)**: 모든 태스크의 WCRT가 데드라인 이하임을 증명하는 성질
 - **OS 선정(OS Selection)**: 마감시간 임계성 및 풋프린트 기반 OS 선정 체계

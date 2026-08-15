@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Migration 6R Framework**: AWS가 정립한 기업 레거시 시스템의 클라우드 이관 및 현대화 6대 전략 (Rehost, Replatform, Refactor/Re-architect, Repurchase, Retain, Retire).
 - **Rehost (Lift-and-Shift)**: 기존 레거시 앱과 OS를 코드 변경 0% 상태로 클라우드 가상머신(EC2)으로 그대로 뜬 떠옮기는 전략.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Repurchase, Retain, Retire**: SW 완제품(SaaS) 교체(Repurchase), 당장 이관 없이 레거시 보존(Retain), 무의미 시스템 파기(Retire).
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Migration Wave**: 의존성이 얽힌 시스템들을 그룹핑(Wave 1, Wave 2)하여 순차적으로 마이그레이션을 가동하는 스케줄링 기법.
 
@@ -75,7 +75,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Migration Assessment Tree**: 시스템 가치, 기술 노후도, 데이터 주권을 측정하여 6R 중 최적 경로로 분류하는 의사결정 로직.
 
@@ -105,7 +105,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Modernization Level**: Rehost (0% 현대화) $\rightarrow$ Replatform (30% 현대화) $\rightarrow$ Refactor (100% Cloud-Native 현대화).
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cutover Strategy (전환 전략)**: 레거시에서 클라우드로 최종 스위칭 시 빅뱅(Big Bang) 전환과 단계적(Phased Rollout) 전환 선택.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **6R Framework 수립 기준(6R Migration Standards)**: Business Value, Effort, Rehost/Replatform/Refactor 분류 및 Wave 스케줄링에 의거한 체계.
 

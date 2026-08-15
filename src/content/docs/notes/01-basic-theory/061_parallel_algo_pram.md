@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **병렬 임의 접근 기계(Parallel Random Access Machine, PRAM)**: 동기 프로세서들이 하나의 공유 메모리를 사용한다고 가정하는 병렬 알고리즘 분석 모델이다.
 - **알고리즘 병렬성**: 하드웨어 세부와 분리해 동시에 수행할 수 있는 작업의 정도이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **총 연산량 $W$**: 모든 프로세서가 수행하는 연산 수의 합이다.
 - **스팬 $S$**: 병렬화할 수 없는 최장 의존 경로의 길이다.
@@ -60,7 +60,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동기 클록**: 모든 프로세서의 단계 시작과 종료 시점을 맞추는 기준이다.
 - **공유 메모리**: 프로세서들이 공용 데이터와 부분 결과를 읽고 쓰는 저장 공간이다.
@@ -91,7 +91,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동시 쓰기 충돌**: 둘 이상의 프로세서가 같은 메모리 주소에 같은 단계에서 값을 쓰려는 상황이다.
 - **직렬화**: 충돌하는 병렬 작업을 한 번에 하나씩 처리하도록 순서를 강제하는 동작이다.
@@ -137,7 +137,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **배타 읽기 배타 쓰기(Exclusive Read Exclusive Write, EREW)**: 읽기와 쓰기를 모두 배타로 제한하는 모델이다.
 - **동시 읽기 배타 쓰기(Concurrent Read Exclusive Write, CREW)**: 동시 읽기만 허용하는 모델이다.
@@ -163,7 +163,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **리덕션 트리(Reduction Tree)**: 부분 결과를 트리 구조로 병합하는 방식이다.
 - **로컬 집계(Local Aggregation)**: 각 프로세서가 부분 결과를 먼저 요약하는 방식이다.
@@ -187,7 +187,7 @@ $$T_p \ge \max(W/p,\ S),\quad \text{효율}=\frac{T_1}{p\,T_p}$$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 경합**: 여러 프로세서가 같은 메모리 자원에 접근해 대기 시간이 늘어나는 현상이다.
 - **분할 재설계**: 의존 경로를 줄이도록 작업 단위를 다시 구성하는 작업이다.

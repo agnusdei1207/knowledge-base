@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 성숙도**: 보안 관행이 반복•측정•개선되는 조직 역량의 정도이다.
 - **현재•목표 역량 평가**: 실행 증거로 현재 수준을 확인하고 업무 위험과 의무에 맞는 목표 수준을 정하는 평가 체계이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **역량 수준**: 보안 목적을 달성하는 조직의 능력 단계이다.
 - **성숙도 수준**: 보안 관행이 제도화된 정도를 나타내는 단계이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현재•목표 프로파일**: 증거로 확인한 현재 역량 상태와 업무 위험•의무에 맞춰 정한 목표 상태이다.
 - **격차•의존성 로드맵**: 현재와 목표의 차이를 위험•선후관계에 따라 배열하고 책임자와 일정을 지정한 개선 계획이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **증거 기반 평가**: 인터뷰뿐 아니라 실행 기록•성과 표본으로 관행의 반복 수행 여부를 확인하는 방식이다.
 - **잔여위험 재평가**: 개선 조치를 수행한 뒤에도 남은 위험과 목표 수준의 적정성을 다시 판단하는 활동이다.
@@ -140,7 +140,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
 - **소프트웨어 보증 성숙도 모델(Software Assurance Maturity Model, SAMM)**: 소프트웨어 보증 역량 평가 모델이다.
@@ -170,7 +170,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
 - **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험관리 결과 체계이다.
@@ -192,7 +192,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 기반 로드맵**: 낮은 점수 전체가 아니라 업무 위험과 의존성이 큰 역량 격차부터 개선하는 계획이다.
 - **모델 선택**: 소프트웨어 보증은 OWASP SAMM, 전사 IT•OT 역량은 DOE C2M2처럼 평가 범위와 목적에 맞는 성숙도 모델을 적용하는 결정이다.

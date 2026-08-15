@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI(Artificial Intelligence) 공급망(AI Supply Chain)**: 데이터 수집, 모델 학습, 라이브러리 파싱, 파이프라인 빌드 및 클라우드 배포까지 연결되는 인공지능 자산의 전 과정 생태계이다.
 - **AI 공급망 보안(AI Supply Chain Security)**: 데이터, 모델 아티팩트, 코드, 의존성 라이브러리의 출처(Provenance)와 무결성(Integrity)을 검증하고 계보를 추적하여 위협을 방지하는 보안 체계이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI-BOM(Artificial Intelligence Bill of Materials)**: 모델 구조, 가중치 해시, 학습 데이터셋 출처, 프레임워크 버전, 부모 모델 계보를 총망라한 AI 전용 부품 명세서이다.
 - **계보(Lineage / Data & Model Lineage)**: 데이터셋 수집부터 전처리, 하이퍼파라미터, 파인튜닝, 최종 배포 서비스까지 자산 간 상호 연결 관계를 기록한 이력이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **격리 반입소(Isolated Staging Area)**: 외부 허브(Hugging Face 등)에서 다운로드한 AI 자산을 운영망 반입 전 격리 검사하는 스테이징 영역이다.
 - **출처 검증기(Provenance Verifier)**: 제공자 신원, 비대칭키 서명, 데이터셋 라이선스, 해시 무결성을 종합 검증하는 엔진이다.
@@ -94,7 +94,7 @@ AI 공급망 보안 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 직렬화 안전 파싱(Model Serialization Safe Parsing)**: 코드 실행이 불가능한 파싱 포맷을 적용하여 모델 복원 단계의 익스플로잇을 통제하는 기법이다.
 - **영향 추적(Impact Lineage Tracking)**: 특정 데이터셋 또는 기초 모델 이상 감지 시 해당 자산을 참조하는 전체 하위 서비스 라인을 파악하는 기법이다.
@@ -147,7 +147,7 @@ AI 공급망 보안 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터셋(Dataset)**: AI 학습 및 평가에 입력되는 데이터 집합으로 라벨 무결성, 출처, 개인정보 포함 여부 통제가 핵심인 자산이다.
 - **모델 아티팩트(Model Artifact)**: 신경망 가중치, 구조 메타데이터, 하이퍼파라미터 등으로 구성되며 직렬화 보안 및 백도어 차단이 핵심인 자산이다.
@@ -167,7 +167,7 @@ AI 공급망 보안 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소로 컴퓨팅 체계의 보안 기준을 제정한다.
 - **NIST SP 800-218A(NIST Special Publication 800-218A SSDF AI Supplement)**: 안전한 소프트웨어 개발 프레임워크(SSDF)의 AI 모델 개발 연계 부속서이다.
@@ -190,7 +190,7 @@ AI 공급망 보안 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 자산 승격 조건(AI Asset Promotion Criteria)**: 출처 무결성, 서명 유효성, 안전 파싱 및 백도어 행동 평가를 모두 만족한 자산만 내부 저장소로 이동 허용하는 보안 정책이다.
 

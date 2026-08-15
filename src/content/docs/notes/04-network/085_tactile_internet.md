@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **촉각 인터넷(Tactile Internet)**: 사람의 조작과 원격 장치의 힘•촉감 반응을 짧고 예측 가능한 지연으로 왕복 전달하는 폐루프 통신 체계이다.
 
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **왕복 지연•지터(Round-Trip Delay/Jitter)**: 왕복 지연은 명령과 반응이 오가는 시간이고 지터는 패킷마다 도착 시간이 달라지는 정도이다.
 - **로컬 안전 제어(Local Safety Control)**: 통신이 끊기거나 지연 한계를 넘을 때 원격 장치가 자체 한계•정지 규칙을 실행하는 기능이다.
@@ -53,7 +53,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **햅틱 조작기(Haptic Controller)**: 사용자의 위치•힘 명령을 감지하고 원격 장치의 촉각 반응을 재현하는 장치이다.
 - **엣지 제어기(Edge Controller)**: 사용자와 원격 장치 가까이에서 지연 예측•보간•상태 동기화를 수행하는 장치이다.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **표본화(Sampling)**: 연속적인 위치•힘 신호를 일정 주기의 디지털 값으로 변환하는 처리이다.
 - **촉각 상태 피드백(Haptic State Feedback)**: 원격 장치의 실행 결과와 접촉 힘을 사용자 조작기로 되돌려 주는 정보이다.
@@ -132,7 +132,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원격•엣지•로컬 제어(Remote/Edge/Local Control)**: 사람이 직접 명령하거나 엣지가 예측을 보완하거나 현장 장치가 자체 판단하는 제어 위치 분류이다.
 - **폐루프 제어(Closed-Loop Control)**: 명령 실행 결과를 다시 입력으로 받아 다음 명령을 계속 보정하는 제어 방식이다.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **적응형 보간(Adaptive Interpolation)**: 지연•손실 상태에 따라 늦거나 빠진 표본의 추정 방법과 계수를 바꾸는 처리이다.
 - **안전 자세(Safe Pose)**: 통신•제어 실패 시 물리 피해를 줄이도록 미리 정한 로봇 위치와 상태이다.
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제어 안정성(Control Stability)**: 지연•손실•통신 단절이 있어도 제어 출력이 발산하거나 진동하지 않고 안전 범위를 유지하는 성질이다.
 

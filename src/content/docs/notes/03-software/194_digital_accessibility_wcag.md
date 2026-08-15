@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Digital Accessibility (디지털 접근성)**: 장애 유무, 연령, 사용 기기의 종류에 관계없이 모든 사람이 웹 사이트, 모바일 앱, 소프트웨어의 정보와 기능에 동등하게 접근하고 이용할 수 있도록 보장하는 품질 속성.
 - **WCAG (Web Content Accessibility Guidelines, 웹 콘텐츠 접근성 지침)**: W3C(월드와이드웹 컨소시엄)의 WAI(웹 접근성 이니셔티브)가 제정한 국제 표준으로, 웹 콘텐츠 및 인터페이스가 장애인에게 접근 가능하도록 준수해야 하는 성공 기준(Success Criteria)의 집합.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **POUR 원칙**: WCAG의 4가지 핵심 원칙인 인식 가능(Perceivable), 운용 가능(Operable), 이해 가능(Understandable), 견고(Robust)의 영문 앞 글자를 딴 약어. 모든 성공 기준(Success Criteria)은 이 4개 원칙 중 하나에 속함.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Accessibility Tree (접근성 트리)**: 웹 브라우저가 HTML 마크업을 파싱하여 각 UI 요소의 이름(Name), 역할(Role), 값(Value), 상태(State)를 구조화한 논리 트리. 스크린 리더는 이 트리를 기반으로 화면 내용을 음성으로 읽어줌.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Alternative Text (대체 텍스트)**: 이미지가 로드되지 않거나 스크린 리더 사용자가 이미지를 볼 수 없을 때, 이미지의 내용과 목적을 텍스트로 대체 제공하는 것. 단순 파일명이나 '이미지'라고 쓰면 무의미한 대체 텍스트임.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Success Criteria (성공 기준)**: WCAG에서 각 원칙을 구체적으로 테스트할 수 있도록 정의한 개별 요건들. 예: "1.1.1 비텍스트 콘텐츠: 모든 비텍스트 콘텐츠에 대체 텍스트를 제공해야 한다." (Level A)
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Contrast Ratio (명도 대비율)**: WCAG의 텍스트 가독성 기준. 일반 텍스트는 최소 4.5:1 (Level AA), 큰 텍스트(18pt 이상)는 3:1. 대비율이 낮으면 저시력자나 햇빛이 강한 환경에서 텍스트를 읽을 수 없음.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **웹 접근성 품질인증 마크**: 행정안전부가 공공기관 및 민간 웹사이트에 대해 WCAG 기반의 국내 표준(KWCAG)을 검토하여 접근성 품질이 인증됨을 나타내는 마크. 공공기관은 법적으로 취득 의무.
 

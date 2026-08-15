@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5세대 이동통신(Fifth-Generation Mobile Communication, 5G)**: 초고속, 초저지연, 대규모 연결성을 지원하는 차세대 이동통신 기술 표준이다.
 - **5G 특화망(Private 5G / Local 5G)**: 스마트 공장, 항만, 병원 등 한정된 구역 내에서 기업이 전용 주파수를 받아 직접 구축·운용하는 비공중망(NPN)이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무선 접속망(Radio Access Network, RAN)**: 단말과 5G 코어망 사이의 무선 신호 송수신을 담당하는 전용 기지국(gNB) 인프라 체계이다.
 - **서비스 품질(Quality of Service, QoS)**: 단말 및 앱 특성에 맞춰 무선 자원(5QI) 및 전송 폭을 차등 보장하는 네트워크 제어 파라미터이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5세대 코어(5G Core, 5GC)**: 가입자 인증(AMF/UDM), 세션 관리(SMF) 및 슬라이싱 정책을 관리하는 특화망 전용 콤팩트 코어 시스템이다.
 - **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: 구내 현장에 전진 배치되어 사용자 패킷을 사내 네트워크로 즉시 분기하는 사용자 평면 NF이다.
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프로토콜 데이터 단위 세션(Protocol Data Unit Session, PDU Session)**: 단말과 특화망 내부 데이터망(DN) 간 패킷을 주고받기 위해 형성되는 논리적 세션 연결이다.
 - **가입자 인증 요청(Subscriber Authentication Request)**: USIM의 식별 정보를 바탕으로 구내 5GC UDM에서 접근 권한을 확인하는 절차이다.
@@ -135,7 +135,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **독립형 비공중망(Standalone Non-Public Network, SNPN)**: 공중망 연동 없이 전용 5GC와 전용 기지국을 100% 구내에 독립 구축하여 운용하는 특화망이다.
 - **공중망 통합 비공중망(Public Network Integrated Non-Public Network, PNI-NPN)**: 기지국만 구내에 두고 코어망 및 가입자 관리는 통신사 공중망을 공유·위탁하는 특화망이다.
@@ -158,7 +158,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무선 음영(Radio Shadow Area)**: 공장 내 금속 구조물, 고중량 설비에 전파가 반사·차단되어 전파 세기가 수신 한계 이하로 떨어지는 현상이다.
 - **경로 정책(Traffic Steering Policy)**: 특정 단말의 트래픽을 예외 없이 Local UPF로 분기하도록 규정하는 세션 라우팅 지침이다.
@@ -179,7 +179,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 주권(Data Sovereignty)**: 데이터의 생성, 저장, 처리 및 이동 경로를 조직이 타인의 개입 없이 완전 통제할 수 있는 권리이다.
 

@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **독립 배포·화면 조합(Independent Deployment & UI Composition)**: 업무 도메인별 웹 앱을 각 목적 조직(팀)이 독립적으로 배포하고, 런타임에 애플리케이션 셸(Shell)을 통해 하나의 단일 화면(SPA)처럼 매끄럽게 조합하는 아키텍처 원칙.
 - **마이크로프론트엔드(Micro Frontend, MFE)**: 모놀리식으로 구성되던 사용자 화면(Frontend)을 비즈니스 업무 경계(Domain)별로 분할하여, 서로 다른 팀이 독립적으로 개발·배포·운영할 수 있도록 분리한 뒤 최종적으로 하나의 화면으로 통합하는 아키텍처 패턴.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기술 자율성·공통 계약(Technical Autonomy & Common Contract)**: 각 마이크로 앱 팀이 리액트(React), 뷰(Vue) 등 구현 기술을 자율적으로 선택할 수 있는 권한과 함께, 셸(Shell)과의 라우팅·이벤트 통신·공유 상태 규약(Contract)은 엄격히 준수해야 한다는 양립 원칙.
 - **업무 경계(Business Boundary)**: 함께 변경되는 화면, 비즈니스 로직, 규칙을 하나의 크로스펑셔널(Cross-functional) 팀이 엔드투엔드로 소유하도록 나누는 DDD(Domain-Driven Design) 기반의 기능 범위.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **애플리케이션 셸(Application Shell)**: 글로벌 내비게이션(GNB), 라우팅 체계 등 공통 화면의 뼈대를 제공하고, URL 경로(Route)에 맞는 도메인별 마이크로 앱을 동적으로 로드하여 화면을 조합하는 부트스트랩 컨테이너.
 - **통합 계약(Integration Contract)**: 셸과 마이크로 앱, 혹은 마이크로 앱 간의 느슨한 결합을 유지하기 위한 라우팅 규칙, 커스텀 이벤트(Custom Events), 글로벌 공유 상태(Auth 등)의 통신 인터페이스 규약.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **1. 업무 앱 적재(Micro App Loading)**: 사용자의 라우팅 변경(URL 이동) 감지 시, 웹팩 모듈 페더레이션(Webpack Module Federation) 등을 통해 원격 서버에서 필요한 자바스크립트 번들을 비동기로 가져오는(Fetch) 단계.
 - **2. 통합 계약 연결(Contract Integration)**: 로드된 앱이 셸의 DOM 트리에 마운트(Mount)되며, 글로벌 스토어 구독 및 셸과의 브라우저 커스텀 이벤트(Custom Event) 리스너를 설정하는 단계.
@@ -132,7 +132,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **빌드 시 조합(Build-Time Composition)**: NPM 패키지 형태로 각 마이크로 앱을 셸에 의존성으로 추가하여, 최종적으로 하나의 빌드 산출물로 결합해 배포하는 가장 단순한 조합 방식.
 - **런타임 조합(Runtime Composition)**: 셸 실행 중(클라이언트 사이드)에 iframe, Web Components, 또는 Webpack Module Federation 등을 활용해 업무별 앱을 브라우저에서 동적으로 결합하는 진정한 의미의 독립 배포 방식.
@@ -155,7 +155,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경험 불일치(UX Inconsistency)**: 서로 다른 팀이 별도 기술이나 CSS 프레임워크를 사용함으로써 폰트, 버튼 크기, 애니메이션 등 사용자 인터페이스(UI)의 시각적·동작적 일관성이 깨지는 현상.
 - **사용자 인터페이스(User Interface, UI)**: 사용자가 서비스 기능을 인지하고 물리적·논리적으로 상호작용(조작)하는 모든 시각적 화면 접점.
@@ -178,7 +178,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조합 방식 선택 기준(Composition Strategy Selection)**: 조직의 구조, 독립 배포의 필요성, 초기 렌더링 성능(SEO), 그리고 운영 인프라의 복잡도를 종합적으로 트레이드오프(Trade-off) 분석하여 빌드 타임, 런타임, 또는 서버 사이드 조합 방식을 결정하는 아키텍처 판단 기준.
 

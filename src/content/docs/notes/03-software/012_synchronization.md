@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Process Synchronization (동기화)**: 동시 구동되는 프로세스/스레드들이 공유 자원(Shared Memory/Variable)에 접근할 때 데이터 일관성(Consistency)을 유지하도록 순서와 상호 배제를 제어하는 기술.
 - **Semaphore (세마포어)**: 정수 카운터 변수($S$)를 이용하여 $P$(Wait/sem_wait) 및 $V$(Signal/sem_post) 원자적 함수로 접근 가능한 N개 자원 수량을 제어하는 동기화 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Critical Section (임계 구역)**: 둘 이상의 스레드가 동시에 공유 데이터에 접근하면 안 되는 비공유 독점 코드 실행 구역.
 - **Condition Variable (조건 변수)**: 모니터 내부에서 특정 조건이 충족될 때까지 스레드를 블록 대기(`wait()`)시키거나 깨우는(`signal()/broadcast()`) 시그널링 객체.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spinlock vs Mutex**: 락 대기 중 반복 검사할지, 실행을 중단하고 대기 큐에서 잠들지의 차이.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spurious Wakeup**: Condition Variable wait() 대기 중 시그널 수신 없이도 스레드가 조기 깨어나는 현상으로, `while(!condition) wait()` 루프 보호 필수.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Binary Semaphore**: 카운터가 0과 1만 갖는 세마포어로, 소유권이 없다는 점을 제외하면 Mutex와 유사.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Reentrant Lock**: 동일 스레드가 이미 획득한 뮤텍스 락을 재귀적으로 중복 획득할 때 데드락 없이 승인해 주는 재진입 가능 락.
 
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동기화 프리미티브 선택 기준(Synchronization Selection Criteria)**: 자원 수량, 소유권 존재성, 언어 지원 및 모듈 복잡도에 따른 수립 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 메시(Service Mesh)**: 마이크로서비스 간 통신을 가시화, 보안(mTLS), 트래픽 제어(Canary, 서킷 브레이커)로 통합 관리하는 인프라 레이어.
 - **이스티오(Istio)**: Envoy 사이드카 프록시를 각 파드(Pod)에 배치하고, 중앙 `istiod`가 정책과 인증서를 관리하는 서비스 메시 플랫폼.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **mTLS (Mutual TLS)**: 서비스 A와 서비스 B 간 통신 시 양단간 TLS 인증서를 서로 검증하여 100% 암호화 및 0-Trust 보안 구현.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **istiod (Control Plane) & Envoy (Data Plane)**: istiod가 YAML 정책을 번역해 각 Envoy 프록시로 동적 전달(xDS API).
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VirtualService & DestinationRule**: `weight: 90` (v1) 과 `weight: 10` (v2) 파라미터로 무중단 카나리 배포 트래픽을 제어하는 Istio CRD 객체.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Istio Ambient Mesh (Sidecarless)**: Pod 마다 Envoy를 붙이던 Sidecar의 메모리 오버헤드를 줄이기 위해, Node 단위 짱짱한 ztunnel(L4)과 Waypoint(L7)로 프록시를 차출하는 차세대 무-사이드카 아키텍처.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Envoy Sidecar Memory Bloat**: Pod 마다 Envoy가 50MB~100MB씩 차올라 전사 마이크로서비스 전체 메모리 사용량이 수십 GB 추가 폭증하는 현상.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3D 수직 낸드(3D V-NAND/Vertical NAND)**: 평면 미세화 한계 극복을 위해 전하 트랩 셀(CTF)을 수직 적층(Vertical Stacking)하여 집적도를 3차원으로 확장한 낸드 플래시.
 - **2D 평면 낸드(2D Planar NAND)**: 실리콘 기판상 X-Y 평면 방향으로 선폭을 미세 축소(Scaling Down)하여 셀을 배치하던 기존 2차원 낸드 플래시.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전하 트랩 플래시(CTF, Charge Trap Flash)**: 부유 게이트(FG) 대신 부도체 질화막(SiN)에 전자를 저장하여 누설 전류와 셀 간 간섭을 낮춘 셀 구조.
 - **수직 층수(Vertical Layer Count)**: 3D 낸드 Z축 방향으로 적층된 게이트 및 워드라인 레이어 총수.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수직 채널 스트링(Vertical Channel String)**: 적층된 셀을 수직 관통하여 전류를 연결하는 기둥 구조.
 - **워드라인 적층(Wordline Gate Stack)**: 각 층의 셀 제어를 위해 금속(텅스텐)을 층층이 쌓은 구조.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISPP(Incremental Step Pulse Programming)**: 프로그래밍 시 전압 맥박을 단계별 상승시켜 임계 전압을 정밀 제어하는 방식.
 - **다중 스택(Multi-Stack/Double Stacking)**: 식각 깊이 한계 극복을 위해 100단 스택을 상하로 붙여 200단 이상을 구현하는 결합 공정.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TLC(Triple-Level Cell)**: 셀당 3비트(8개 전압 상태) 저장.
 - **QLC(Quad-Level Cell)**: 셀당 4비트(16개 전압 상태) 저장으로 용량 극대화, 수명(P/E Cycle)은 상대적으로 단축.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RBER(Raw Bit Error Rate)**: ECC 정정 전 초기 물리 비트 에러율.
 - **읽기 재시도(Read Retry)**: 전하 유실에 따른 판독 전압 산포 변동 시, 오프셋 변경으로 정답을 탐색하는 FTL 기술.
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **낸드 구조 선택 기준(NAND Architecture Criteria)**: 용량•수율•RBER•P/E 수명 요구를 함께 비교하여 적층 수와 셀 비트 수를 결정하는 기준.
 

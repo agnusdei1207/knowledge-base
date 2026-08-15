@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Flag (피처 플래그, Feature Toggle)**: 소스코드의 변경이나 재배포(Re-deployment) 없이, 런타임 조건문(if-else) 또는 원격 중앙 통제판(Console)을 통해 특정 기능의 활성화/비활성화(ON/OFF)를 즉각 전환하는 소프트웨어 기법.
 - **Decoupling Deployment from Release**: 소스코드를 실운영 환경에 기술적으로 배치하는 '배포(Deployment)'와, 해당 기능을 최종 사용자에게 노출시키는 '릴리스(Release)' 활동을 시점상 완전 분리하는 아키텍처 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Targeting & Segmentation**: 사용자 ID, IP, 지역, 유료 등급 등의 속성에 따라 피처 플래그를 특정 타깃 사용자군(Cohort)에게만 핀포인트로 선별 노출시키는 기법.
 - **Trunk-Based Development Enabler**: 미완성된 기능의 코드를 메인(main) 브랜치에 미리 가려놓고(Flag OFF) 지속적으로 통합(CI)할 수 있게 해주는 핵심 토대.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LaunchDarkly / Unleash**: 전사 피처 플래그를 중앙 관리하고 타깃팅 룰셋(Ruleset)을 각 애플리케이션 SDK로 실시간(WebSocket) 분사하는 대표적 SaaS/오픈소스 플래그 플랫폼.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Flag Evaluation**: 요청을 보낸 사용자의 컨텍스트(Context: user_id, location, plan)를 기반으로 피처 플래그 SDK가 Boolean(true/false) 또는 String(Variant)으로 런타임 평가하는 연산.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Canary Deployment vs Feature Flag**: Canary는 L7 Ingress/Service Mesh 수준에서 인프라 네트워크 트래픽 비율을 나누는 반면, Feature Flag는 소스코드 내부 if-else 문 단위로 유저 속성(Targeting) 기반 렌더링.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Debt & Flag Pollution**: 릴리스가 끝난 수십 개의 피처 플래그 조건문을 소스코드에서 삭제하지 않고 방치하여 코드 읽기 가독성을 훼손하고 테스트 수명복잡도를 높이는 기술 부채.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **피처 플래그 관리 기준(Feature Flag Management Standards)**: 플래그 수명주기(TTL), 클린업 절차 및 CNCF OpenFeature 표준 수용성에 의거한 체계.
 

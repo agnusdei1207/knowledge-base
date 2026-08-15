@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 식별자(Decentralized Identifier, DID)**: 중앙 등록기관에 종속되지 않고 식별 주체가 검증 수단과 수명주기를 제어하는 URI 형태의 식별자을 말한다.
 - **통합 자원 식별자(Uniform Resource Identifier, URI)**: 인터넷 자원을 고유하게 식별하는 표준 문자열 형식로 정의된다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **탈중앙 제어**: 중앙 등록기관 대신 식별 주체가 키와 갱신 권한을 통해 식별자의 상태를 통제하는 방식을 의미한다.
 
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 식별자 문서(DID Document)**: 분산 식별자를 해석하여 얻는 검증 방법•서비스 엔드포인트•제어 관계 정보이다.
 - **DID 주체**: DID가 식별하는 사람•조직•장치•데이터 대상이다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 식별자 해석**: 분산 식별자 메서드 규칙에 따라 식별자의 현재 문서와 상태를 조회하는 과정을 말한다.
 
@@ -123,7 +123,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검증 가능 자격증명(Verifiable Credential, VC)**: 발급자가 자격 주장에 암호학적 증명을 결합한 디지털 자격증명을 말한다.
 
@@ -143,7 +143,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 회전**: 기존 검증키의 노출 위험을 줄이기 위해 분산 식별자 문서의 키를 새 키로 안전하게 교체하는 절차이다.
 
@@ -163,7 +163,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **계층 분리**: 주체 식별•키 해석과 자격 주장의 발급•검증을 별도로 관리하는 원칙로 정의된다.
 

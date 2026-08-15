@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Indicative FP / Estimated FP (간이 기능점수 산정법)**: 프로젝트 기획/발주 초기 단계에서 DET/RET/FTR 복잡도를 일일이 조사하지 않고, 5가지 기능 유형별 평균 가중치(Average Weight)를 적용하여 신속하게 예산을 추정하는 기법.
 - **Detailed FP (정통 기능점수 산정법)**: 상세 설계서나 완성된 시스템을 대상으로 모든 기능의 DET(필드 수), RET(레코드 수), FTR(참조 파일 수)을 직접 계수하여 복잡도 매트릭스 가중치를 정밀 적용하는 산정 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Average Weight (평균 가중치)**: 간이법에서 사용하는 평균값 (e.g., ILF=7.5, EIF=5.4, EI=4.0, EO=5.2, EQ=3.9).
 - **Phased FP Estimation**: 사업 기획/발주 시점에는 간이법으로 예산 산정 $\rightarrow$ 사업 수행 상세 설계 시점에는 정통법으로 정밀 정산하는 2단계 산정 체계.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Complexity Matrix (복잡도 매트릭스)**: 정통법에서 DET와 RET/FTR의 개수에 따라 [단순(Low), 보통(Average), 복잡(High)] 3단계 등급을 판정하는 매트릭스 표.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IFPUG 평균 가중치 표 (KOSA 기준)**: ILF = 7.5, EIF = 5.4, EI = 4.0, EO = 5.2, EQ = 3.9.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Detailed Complexity Matrix**: DET 1~19개(Low), 20~50개(Average), 51개 이상(High) 등으로 쪼개어 가중치를 부여하는 정통법의 세부 매트릭스.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Precision Trap**: 초기에 명세서도 없으면서 억지로 DET/RET를 예측하여 정통법을 적용했다가 사업비 분쟁을 유발하는 안티패턴.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FP 산정 기법 수립 기준(FP Method Selection Standards)**: IT 사업 수명주기 단계, 설계 산출물 성숙도 및 공공 사업비 정산 규칙에 의거한 체계.
 

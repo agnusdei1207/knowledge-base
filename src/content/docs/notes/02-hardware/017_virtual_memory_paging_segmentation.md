@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 메모리(Virtual Memory)**: 프로세스에 실제 물리적 DRAM 용량과 무관한 커다란 연속 추상화 주소 공간을 제공하고, 물리 메모리와 보조기억장치를 연동하여 주소 격리 및 요구 적재(Demand Paging)를 지원하는 관리 체계.
 - **물리 프레임(Physical Frame / Page Frame)**: 물리 메모리(DRAM)를 페이지 크기(예: 4KB)와 동일한 고정 크기 블록으로 분할하여 데이터를 배치하는 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 주소 공간(Virtual Address Space)**: 각 독립 프로세스가 타 프로세스와의 충돌 없이 독점 참조할 수 있는 0번지부터의 논리적 연속 주소 영역.
 - **요구 페이징(Demand Paging)**: 프로그램 실행에 필요한 페이지 데이터만 참조 시점(Page Fault 발생)에 보조기억장치에서 물리 RAM 프레임으로 인출 적재하는 기술.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 관리 장치(Memory Management Unit, MMU)**: 가상 주소(VA)를 받아 페이징/세그멘테이션 메타데이터를 참조하여 물리 주소(PA)로 하드웨어 실시간 변환하는 블록.
 - **변환 색인 버퍼(Translation Lookaside Buffer, TLB)**: 최근 주소 변환(VPN->PPN) 결과를 캐싱하여 MMU 변환을 1주기 이내로 가속하는 전용 룩업 캐시.
@@ -100,7 +100,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이지 폴트(Page Fault)**: 참조하려는 가상 페이지가 RAM에 상주하지 않아(Present=0) OS가 SSD 스왑 영역에서 해당 페이지를 메모리로 읽어오는 트랩 예외.
 - **명령 재시작(Instruction Restart)**: Page Fault 수습 완료 후, 중단되었던 기계어 레벨 메모리 접근 명령을 처음부터 다시 가동하는 CPU 회로 기능.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **내부 단편화(Internal Fragmentation)**: 고정 4KB 페이지 할당 시 프로그램 마지막 데이터가 1KB만 사용하여 남아버리는 3KB의 낭비 공간.
 - **외부 단편화(External Fragmentation)**: 가변 세그먼트의 반복 할당/해제로 메모리 사이에 총 여유 공간은 충분하나 연속된 구역이 없어 세그먼트를 적재하지 못하는 현상.
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쓰레싱(Thrashing)**: RAM이 작업 집합을 수용하지 못해 연산보다 Page Fault와 스왑 입출력이 반복되는 상태.
 - **주 페이지 폴트(Major Page Fault)**: SSD/HDD 등 디스크 I/O가 실제로 수반되어 시스템 지연을 유발하는 Page Fault.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 가상화 선택 기준(Memory Virtualization Selection Criteria)**: 대상 시스템의 물리 RAM 용량, 프로세스 간 코드 공유 요구, 외부 단편화 리스크를 평가하여 페이징 및 세그멘테이션 혼용 구조를 선택하는 결정 프레임워크.
 

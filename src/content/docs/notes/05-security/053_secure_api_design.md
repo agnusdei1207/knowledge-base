@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 다른 소프트웨어 애플리케이션 서비스 간 데이터를 주고받기 위한 접점 프로토콜 규격.
 - **보안 API 설계(Secure API Design)**: API 서비스 전 구간에 걸쳐 채널 암호화, 호출자 인증, 토큰 기반 인가, BOLA 방지 및 무제한 호출 차단 통제를 설계 구현하는 기법.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **접근 토큰(Access Token)**: OAuth 2.0 규격에서 클라이언트가 자원 서버의 특정 리소스에 접근할 수 있음을 증명하는 서명된 토큰(JWT).
 - **범위(Scope)**: 접근 토큰에 부여된 세부 접근 권한(read, write 등)의 허용 명세.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API 게이트웨이(API Gateway)**: 외부 요청을 단일 접점에서 맞아 인증, 토큰 검증, 라우팅, Rate Limiting 및 WAF 보안을 일관 집행하는 차단막.
 - **인증•권한 서버(Authorization Server)**: OAuth 2.0/OIDC 규격에 맞춰 클라이언트 신원을 검증하고 접근 토큰을 발급하는 인프라.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자바스크립트 객체 표기법(JavaScript Object Notation, JSON)**: API 파라미터 교환 시 사용되는 표준 데이터 포맷.
 - **JSON 웹 토큰(JSON Web Token, JWT)**: Header, Payload, Signature로 구성된 무상태(Stateless) 자격증명 토큰.
@@ -137,7 +137,7 @@ JWT 접근 토큰•API 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 권한 위임 2.0(OAuth 2.0)**: 토큰 기반으로 자원 접근 권한을 위임하는 오픈 표준 프레임워크.
 - **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)**: 모바일/SPA 클라이언트의 인가 코드 탈취를 막는 OAuth 2.0 확장 규격.
@@ -157,7 +157,7 @@ JWT 접근 토큰•API 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IETF RFC 9700**: OAuth 2.0 보안 구현 지침 및 위협 대응 모범 사례(Best Practices) 인터넷 표준.
 - **OWASP API Top 10:2023**: API 고유의 10대 보안 위협(BOLA, BFLA, Unrestricted Resource Consumption 등) 분류.
@@ -177,7 +177,7 @@ JWT 접근 토큰•API 요청
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API 통제 선택 기준(API Control Selection Criteria)**: 권한 위임은 OAuth 2.0/PKCE, 통신 신원은 mTLS, 데이터 접근은 객체 인가 및 Rate Limiting을 결합하는 보안 가이드.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임베딩(Embedding)**: 입력 의미•특징을 연속 벡터로 표현하는 기술이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인코더 학습 목표**: 벡터에 보존할 의미•특징을 정하는 기준이다.
 - **풀링•고정 차원화**: 가변 입력을 하나의 고정 길이 벡터로 결합한다.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인코더(Encoder)**: 입력을 문맥이 반영된 연속 표현으로 변환하는 모델이다.
 - **풀링(Pooling)**: 여러 표현을 하나의 고정 길이 벡터로 결합하는 처리이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동일 규격 유사도 비교**: 모델•차원•정규화가 같은 벡터만 비교한다.
 
@@ -126,7 +126,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **희소 표현(Sparse Representation)**: 어휘 출현을 고차원 희소 벡터로 표현한다.
 - **정적 임베딩(Static Embedding)**: 단어마다 하나의 고정 밀집 벡터를 부여한다.
@@ -147,7 +147,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상위 k개 재현율(Recall at k, Recall@k)**: 관련 정답이 상위 k개에 포함된 비율이다.
 - **정규화 할인 누적 이득(nDCG)**: 관련성과 검색 순위를 함께 반영한 품질 지표이다.
@@ -167,7 +167,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **표현 품질**: 실제 질의에서 의미 구분과 검색 순위 보존을 평가하는 기준이다.
 

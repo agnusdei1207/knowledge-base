@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 이종 로그를 정규화•상관분석해 근거가 있는 보안 경보를 생성하는 플랫폼이다.
 - **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation, and Response, SOAR)**: 경보를 보강하고 승인•조치•원복 절차를 플레이북으로 실행하는 플랫폼이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상관분석**: 시간•사용자•자산•주소가 연결된 여러 이벤트를 하나의 공격 흐름으로 묶는 분석이다.
 - **플레이북**: 사건 조건, 정보 조회, 승인, 조치와 결과 검증을 실행 가능한 순서로 정의한 절차이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **경보 계약**: SIEM이 SOAR에 전달할 사건 ID•신뢰도•근거•자산을 정한 자료 규격이다.
 - **탐지 규칙**: 공격 조건과 임계값을 논리로 표현한 경보 생성 기준이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조치 증거**: SOAR가 실행한 권한•조치와 실제 상태 변화를 남긴 기록이다.
 - **대상 상태 재조회**: 조치 뒤 실제 자원 상태를 다시 확인하는 검증이다.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰도**: 경보가 실제 공격일 가능성을 나타내는 판단 값이다.
 - **권한 집중**: 대응 플랫폼에 여러 통제 도구의 강한 권한이 모이는 위험이다.
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SIEM•SOAR 결합 기준**: 공격 근거 생성은 SIEM, 반복 조치 실행은 SOAR, 개선은 결과 환류에 배정하는 역할 판단이다.
 

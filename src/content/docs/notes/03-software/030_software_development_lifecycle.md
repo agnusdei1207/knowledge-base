@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SDLC (Software Development Lifecycle)**: 소프트웨어의 요구사항 정의부터 설계, 구현, 테스트, 배포, 유지보수 및 폐기(Deprecation)까지의 전 과정을 체계화한 품질 통제 개발 수명주기 프레임워크.
 - **Traceability (추적성)**: 요구사항 명세서(SRS)부터 설계(Architecture), 소스코드, 테스트 케이스(Test Matrix)까지 양방향(Bidirectional)으로 매핑하여 요구 충족을 입증하는 연결성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Artifact (산출물)**: 요구사항 정의서, 유스케이스 명세서, ERD, 아키텍처 정의서, 테스트 결과서 등 각 단계별로 산출되는 공식 문서/코드 결과물.
 - **Feedback Loop**: 이전 단계의 오류나 신규 요구사항 변경을 상위 단계로 되돌려 반영(Iteration)하는 피드백 순환 구조.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SDLC Models**: Waterfall(폭포수), Prototyping(시작품), Spiral(나선형), Agile(애자일), DevOps 등 사업 성격에 따라 선택하는 생명주기 방법론 모형.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **V-Model**: 요구사항-수용테스트, 구조설계-시스템테스트, 상세설계-통합테스트, 코딩-단위테스트를 1:1 대칭 매핑하여 검증을 강조하는 V자형 SDLC 모형.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Waterfall Model**: 각 단계를 순차적으로 명확히 완결짓고 넘어가며, 변동이 적은 명확한 사업에 적합한 모델.
 - **Agile / DevOps**: 짧은 이터레이션(Sprint) 단위로 빠르게 배포하고 연속 피드백(CI/CD)을 반영하는 가변형 SDLC 모델.
@@ -136,7 +136,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shift-Left Testing**: 보안 및 품질 검증(SAST, Unit Test)을 SDLC 후반부에서 구현/설계 극초반부(Left)로 전진 배치하여 결함 수정 비용을 획기적으로 낮추는 전원배치 전략.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SDLC 프레임워크 수립 기준(SDLC Framework Adoption Criteria)**: 규제 준성(Compliance), 프로젝트 위험도, 요구사항 변동성과 배포 주기에 기반한 선정 체계.
 

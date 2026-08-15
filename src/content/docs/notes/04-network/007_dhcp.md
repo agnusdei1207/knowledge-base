@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **DHCP 서버(DHCP Server)**: IP 주소 자원 풀을 관리하며 클라이언트 요청 시 네트워크 정보를 임대 및 갱신(Renewal)해주는 서버 (UDP 67 포트).
 - **DHCP 클라이언트(DHCP Client)**: 부팅 시 DHCP 메시지를 브로드캐스트하여 IP 주소를 임대받는 단말 장치 (UDP 68 포트).
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **DHCP 탐색(DHCP Discover)**: 클라이언트가 네트워크상의 DHCP 서버를 찾기 위해 발송하는 브로드캐스트 메시지.
 - **DHCP 제안(DHCP Offer)**: 서버가 클라이언트에게 임대 가능한 IP 주소 및 옵션 정보를 제안하는 메시지.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자동 할당(Automatic Allocation)**: DHCP가 클라이언트에게 한번 IP를 임대하면 영구적으로 고정 할당하는 방식.
 - **동적 할당(Dynamic Allocation)**: 일정 임대 기간(Lease Time) 동안만 IP를 대여하고 미사용 시 회수하는 표준 할당 방식.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **DHCP 스푸핑(DHCP Spoofing)**: 비인가 Rogue DHCP 서버를 네트워크에 설치하여 클라이언트에게 위조된 Gateway/DNS를 제공함으로써 트래픽을 도청(MITM)하는 공격.
 - **DHCP 고갈 공격(DHCP Starvation Attack)**: 위조된 MAC 주소로 대량의 Discover 패킷을 발송하여 DHCP 서버의 IP 주소 풀을 완전히 고갈시키는 공격.
@@ -175,7 +175,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임대 기간 최적화(Lease Time Optimization)**: 네트워크 환경(예: Wi-Fi 존: 2시간, 사내 LAN: 8일)에 맞게 임대 기간을 세밀히 조정하는 정책.
 - **보안 통제 적용(Security Control Application)**: DHCP Snooping, Port Security, IP Source Guard(IPSG)를 연동하여 L2 보안성을 극대화하는 기법.

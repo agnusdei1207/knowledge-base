@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **토큰당 출력 지연(Time per Output Token, TPOT)**: 첫 토큰 이후 출력 토큰 하나를 생성하는 평균 시간으로 정의된다.
 - **디코드 지속 속도(Decode Sustained Speed)**: 첫 응답 이후 토큰이 연속해서 생성•전송되는 속도를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키-값 캐시(Key-Value Cache, KV Cache)**: 이전 토큰의 키(Key, K)•밸류(Value, V)를 저장하여 다음 토큰 생성에 재사용하는 메모리를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **동적 배치(Dynamic Batching)**: 실행 중인 요청을 도착 시점과 상태에 따라 배치에 추가•제거하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디코드 스케줄러(Decode Scheduler)**: 활성 요청을 동적 배치로 편성하여 다음 토큰의 실행 순서를 결정한다.
 - **키-값 캐시 관리자(Key-Value Cache Manager, KV Cache Manager)**: 활성 요청의 과거 키•값 상태를 할당•조회•회수하여 디코드 반복 계산을 줄이는 모듈로 정의된다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **토큰 간 지연(Inter-token Latency)**: 연속한 두 출력 토큰의 수신 시각 차이로 측정한 생성 간격을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **신규 키-값 추가(New Key-Value Addition, New KV Addition)**: 선택한 토큰의 K•V를 캐시에 덧붙여 다음 디코드 단계에서 재사용하는 과정을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -129,7 +129,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **처리량(Throughput)**: 단위 시간에 서버가 처리하는 전체 요청이나 토큰의 총량을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 
@@ -147,7 +147,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대역폭 병목(Bandwidth Bottleneck)**: KV 캐시를 읽는 속도가 연산 속도를 따라가지 못해 디코드가 지연되는 상태를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **배치 상한(Batch Limit)**: 서버 효율을 높이면서 개별 요청의 꼬리 지연을 제한하도록 동시에 처리할 요청 수를 제한한 값으로 정의된다.
@@ -167,7 +167,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키-값 공유(Key-Value Sharing, KV Sharing)**: K•V 헤드 중복을 줄여 캐시 대역폭을 절감하는 기법을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **캐시 양자화(Cache Quantization)**: K•V 정밀도를 낮춰 전송 데이터량을 줄이는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

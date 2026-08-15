@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이진 탐색(Binary Search)**: 정렬된 배열에서 중앙 키와 비교하여 후보 탐색 공간을 절반씩 분할 축소함.
 - **선형 탐색(Linear Search)**: 순차적 비교를 통해 목표 데이터를 검색함.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정렬 불변식(Sorted Invariant)**: 탐색 과정 전체에서 배열의 정렬 상태가 항상 유지되는 전제 조건.
 - **로그 시간(Logarithmic Time, $O(\log n)$)**: 입력이 배로 늘어도 연산 단계가 일정량만 증가하는 시간 차수.
@@ -63,7 +63,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임의 접근(Random Access)**: 인덱스를 활용해 배열의 임의 요소에 $O(1)$ 상수 시간에 즉시 접근하는 특성.
 - **후보 구간(Candidate Range)**: 목표 키가 존재할 수 있는 유효 인덱스 범위.
@@ -84,7 +84,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중앙 인덱스(Mid Index)**: 현재 탐색 후보 구간의 중심 위치.
 - **정수 오버플로(Integer Overflow)**: $low+high$ 합산 시 자료형 최대 범위를 초과하는 현상.
@@ -127,7 +127,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **해시 조회(Hash Lookup)**: 해시 함수를 통해 키를 주소로 직접 변환하여 $O(1)$ 시간에 탐색함.
 - **해시 충돌(Hash Collision)**: 서로 다른 키가 동일한 해시 버킷 주소로 매핑되는 현상.
@@ -151,7 +151,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **반열린 구간(Half-Open Interval, $[low, high)$)**: 시작 인덱스는 포함하고 종료 인덱스는 미포함하는 인덱스 설계.
 - **비교 함수(Comparator)**: 대소 및 순서를 판단하는 단일화된 연산 체계.
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조회 패턴(Lookup Pattern)**: 단일 키 점조회와 연속 범위 조회 등 서비스 응용의 탐색 요구 형태.
 

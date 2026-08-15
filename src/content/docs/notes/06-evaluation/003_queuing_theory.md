@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **M/M/1(Single Server Queue)**: 완전 무작위인 포아송 패턴으로 유입되는 트래픽을 단 하나의 서버 자원이 지수 분포 형태의 처리시간으로 감당하는 가장 기초적인 큐잉 모형.
 - **M/M/c(Multi-Server Queue)**: 유입된 무작위 트래픽을 로드밸런싱 환경과 같이 동일한 성능을 띠는 $c$개의 복수 병렬 서버 풀이 분산 처리하는 고가용 대기행렬 모형.

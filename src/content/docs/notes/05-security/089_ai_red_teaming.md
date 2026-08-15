@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI(Artificial Intelligence) 레드팀(AI Red Teaming)**: 적대적(Adversarial) 공격자의 시각에서 AI 시스템(LLM, RAG, 에이전트)의 프롬프트 인젝션, 탈옥, PII 유출, 백도어, 비인가 시스템 조작 취약점을 전 능동적으로 탐색 및 재현 평가하는 모의침투 방어 방법론이다.
 - **위협 모델링(Threat Modeling)**: AI 시스템의 보호 자산(모델 가중치, DB), 공격면(Prompt, RAG, API), 공격자 역량을 구조적으로 도면화하는 사전 분석 활동이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **샌드박스(Sandbox / Isolated Environment)**: 레드팀 공격 수행 시 실제 운용 데이터 파손이나 Prod 환경 영향을 차단하기 위해 격리시킨 검증용 가상 테스트 환경이다.
 - **중단 조건(Abort Criteria / Circuit Breaker)**: 테스트 진행 중 인프라 다운, 인접 시스템 파손, 과도한 API 과금 발생 시 레드팀 활동을 즉각 강제 중단하는 통제 규칙이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 하네스(Test Harness / Automation Harness)**: PyRIT, Garak 등 자동화 적대적 텍스트 생성 툴과 프롬프트 패저(Fuzzer)를 묶어 실시간 반응을 테스트하는 엔진이다.
 - **시나리오 저장소(Scenario Repository / Attack Pattern Store)**: DAN 페르소나, GCG 적대적 토큰, 간접 인젝션 모음 등 최신 레드팀 공격 패턴을 버전 관리하는 DB이다.
@@ -90,7 +90,7 @@ AI 레드팀 체계
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잔여 위험 평가(Residual Risk Assessment)**: 가드레일 및 방어 통제를 수립한 이후에도 남아있는 우회 공격 성공률(ASR)을 측정 평가하는 단계이다.
 - **변형 회귀(Mutation & Bypass Regression Testing)**: 기존 취약점에 방어 룰을 적용했을 때, 공격자가 룰을 우회하도록 변형한 시나리오까지 차단하는지 재시험하는 단계이다.
@@ -138,7 +138,7 @@ AI 레드팀 체계
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **레드팀 평가(Adversarial Red Team Evaluation)**: 공격자 관점에서 지능형 적대적 프롬프트를 창의적으로 조합하여 미지의 바이패스 취약점을 탐색하는 기법이다.
 - **벤치마크 평가(Benchmark Evaluation)**: MMLU, GSM8K 등 정형화된 데이터셋으로 모델의 지식 및 안전 정확도를 기계적으로 비교 측정하는 평가이다.
@@ -159,7 +159,7 @@ AI 레드팀 체계
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **AI 600-1 (NIST Generative AI Profile, AI 600-1)**: 생성형 AI 시스템에 대한 적대적 레드팀 평가 지침을 수록한 NIST 지침이다.
 - **RMF(Risk Management Framework)**: 표준 위험 관리 프레임워크이다.
@@ -180,7 +180,7 @@ AI 레드팀 체계
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **레드팀 배포 근거(Red Teaming Deployment Sign-off Criteria)**: 레드팀 모의 침투를 통해 고위험 경로가 완화되었고 변형 회귀 시험까지 100% 차단됨을 입증하는 정량적 배포 승인 지침이다.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Deployment Models (클라우드 배포 모델)**: 클라우드 인프라의 물리적/논리적 위치, 점유 독점성, 연결 형태에 따라 분류하는 4대 배포 환경 (Public, Private, Hybrid, Multi-Cloud).
 - **Public Cloud**: CSP(AWS, Azure, GCP)가 멀티테넌시(Multi-Tenancy) 형태로 일반 대중에게 인프라 자원을 빌려주는 공개형 클라우드.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Tenancy vs Single-Tenancy**: 퍼블릭은 자원을 다수가 분할 점유(Multi), 프라이빗은 단일 기업이 물리적/논리적 100% 독점(Single).
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AWS DirectConnect / VPN**: On-Premise Private IDC와 AWS Public Cloud 간의 전용회선(DirectConnect)을 뚫어 이종 환경을 안전하게 연결.
 
@@ -73,7 +73,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Bursting**: 평시에는 온프레미스 Private Cloud만 쓰다가, 이벤트 시 트래픽이 평시의 10배로 폭증하면 퍼블릭 클라우드(Public)로 자동으로 넘어가 스케일아웃(Burst)하는 기법.
 
@@ -112,7 +112,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deployment Model Selection**: 데이터 보안 규제성, 트래픽 변동성, 비용 예격성 3가지 축으로 배포 모델 최종 판정.
 
@@ -131,33 +131,35 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **Egress Cost Danger**: Hybrid/Multi-Cloud 아키텍처 구축 시 CSP 간 데이터 아웃바운드 전송료(Egress Fee) 폭탄 발생 지점.
+- **데이터 아웃바운드 비용(Egress Fee Risk)**: 하이브리드 및 멀티 클라우드 환경에서 클라우드 서비스 제공자(CSP) 간 또는 온프레미스로의 대용량 데이터 전송 시 발생하는 네트워크 전송 비용 위험.
+- **통합 계정 관리(Federated IAM)**: 서로 다른 클라우드 환경의 접근 제어 정책과 사용자 인증을 단일 창구로 일원화하는 체계.
+- **클라우드 버스팅(Cloud Bursting)**: 프라이빗 클라우드 용량 초과 시 퍼블릭 클라우드 자원을 동적으로 확장 활용하는 기법.
 
 </details>
 
-| 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **1. Cloud Egress Fee 폭탄**| Multi-Cloud 간 대용량 데이터 잦은 이동 | **CSP 간 데이터 이동 억제 및 DirectConnect 활용**|
-| **2. Multi-Cloud IAM 파행** | AWS IAM과 Azure AD 보안 정책 불일치 | **HashiCorp Vault / Okta 기반 통합 IAM 구축** |
-| **3. Private Capacity Limit** | Private Cloud 자원 고갈 시 다운 | **K8s 기반 Hybrid Cloud Bursting 자동화** |
+| 이종 클라우드 간 데이터 이동에 따른 전송 비용 급증 | 데이터 상주 영역 최적화 및 전용선(Direct Connect) 구축 | **네트워크 전송 비용 절감** |
+| 클라우드별 인증 체계 상이로 인한 보안 관리 복잡성 | HashiCorp Vault 및 OIDC 기반 통합 IAM 구축 | **중앙 집중형 접근 제어** |
+| 프라이빗 클라우드 자원 고갈 시 서비스 지연 | Kubernetes 기반 **클라우드 버스팅** 연계 구성 | **유연한 처리 용량 확보** |
 
-> 사례: **카카오뱅크 / KB국민은행 금융 하이브리드 클라우드 아키텍처 구축**
+> 요약: 규제 데이터와 대외 서비스를 분리하고 전용선과 통합 IAM으로 비용과 보안 위험을 통제.
 
 #### 한줄 요약
 
-- 개인정보 금고를 안에 두더라도 바깥 서비스와 잇는 길의 장애와 출입 기록까지 점검해야 한다.
+- 데이터 전송 비용과 보안 정책을 표준화하여 하이브리드·멀티 클라우드 운영 안정성을 확보한다.
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **Deployment Model 수립 기준(Deployment Standards)**: 보안 규제성, 트래픽 유연성, Egress Fee 및 Cloud Bursting 설계에 의거한 체계.
+- **배포 모델 수립 기준(Deployment Model Standards)**: 보안 규제성, 트래픽 유연성, 전송 비용 및 확장성을 종합 고려하여 최적 클라우드 배포 모델을 선정하는 기준.
 
 </details>
 
-- 탄력성은 **Public**, 전용 통제는 Private, 병행 요구는 Hybrid 선택
+- 탄력성은 **퍼블릭**, 전용 통제는 **프라이빗**, 병행 요구는 **하이브리드** 선택
 
 #### 한줄 요약
 

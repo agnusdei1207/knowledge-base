@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EA (Enterprise Architecture, 전사적 아키텍처)**: 조직의 비즈니스 목표와 이를 지원하는 IT 인프라(업무, 데이터, 애플리케이션, 기술)의 구조를 일정한 원칙과 표준에 따라 체계화한 전사적 마스터플랜 및 거버넌스 체계.
 - **ITA (Information Technology Architecture)**: EA와 혼용되어 쓰이며, 공공부문에서는 '정보 기술 아키텍처'라는 이름으로 전자정부법에 의해 모든 공공기관의 도입 및 유지가 의무화된 제도.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Reference Model (참조 모형)**: EA를 구축할 때 처음부터 바닥부터 그리지 않도록, 정부(범정부 EA)나 산업계가 미리 만들어둔 '표준 템플릿(업무, 데이터, 서비스, 기술 등)'.
 
@@ -50,7 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EAMS (Enterprise Architecture Management System)**: 현행 및 목표 아키텍처 산출물, IT 자산 정보, 표준 지침 등을 DB화하여 시각적으로 보여주고 관리하는 EA 저장소 및 관리 시스템.
 
@@ -77,7 +77,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TOGAF (The Open Group Architecture Framework)**: 전 세계적으로 가장 널리 쓰이는 오픈 그룹의 EA 프레임워크 표준으로, 아키텍처 개발 방법론인 ADM(Architecture Development Method)을 핵심으로 제공.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zachman Framework (자크만 프레임워크)**: EA의 시초가 된 프레임워크로, 무엇을(What), 어떻게(How), 어디서(Where) 등 6하 원칙(행)과 설계자, 개발자 등 6가지 시각(열)을 교차하여 36개 셀로 아키텍처를 분류한 논리적 매트릭스.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Board (아키텍처 위원회)**: 신규 IT 사업을 발주하거나 시스템을 설계할 때, 해당 설계가 EA 원칙과 표준(TA 카탈로그 등)을 준수했는지 심사(Review)하고 승인 또는 예외를 처리하는 최고 의사결정 기구.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EA 거버넌스 (EA Governance)**: 만들어진 EA가 종이 쪼가리가 되지 않고 살아 숨 쉬도록, 아키텍처 위원회를 통한 프로젝트 심사, 표준 관리, 예외 통제를 강제하는 통치 체계.
 

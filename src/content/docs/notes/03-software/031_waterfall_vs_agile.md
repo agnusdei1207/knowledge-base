@@ -119,7 +119,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개발 방법론 선택 기준(Methodology Selection Criteria)**: 요구 불확실성, 발주자 참여도, 품질 규제 및 Time-to-Market 속도에 기반한 수립 체계.
 

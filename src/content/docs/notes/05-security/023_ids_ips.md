@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **침입 탐지 시스템(Intrusion Detection System, IDS)**: 네트워크 복제 트래픽을 수집·분석하여 악성 침입 징후를 모니터링 및 경보(Alert)하는 사후 보안 시스템.
 - **침입 방지 시스템(Intrusion Prevention System, IPS)**: 실제 트래픽 경로(Inline) 상에 직접 배치되어 악성 패킷 및 세션을 실시간으로 차단(Drop/Reset)하는 능동형 보안 시스템.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인라인(Inline)**: 장비가 스위치/라우터 간 실제 통신 선로 상에 직렬 배치되어 트래픽을 즉시 통과/차단 조치하는 연결 포맷.
 - **테스트 액세스 포인트(Test Access Point, TAP)**: 물리 광/UTP 회선에서 신호 손실 없이 트래픽 사본을 추출하는 하드웨어 장치.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정규화(Normalization)**: 공격자가 IDS/IPS 탐지를 회피(Evasion Attack)하기 위해 가공한 오버랩 IP 단편화(Fragment), URL 인코딩 트래픽을 재조합 및 원본 표준 포맷으로 변환하는 처리.
 
@@ -92,7 +92,7 @@ IDS•IPS 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험도 기반 대응(Risk-based Response)**: 탐지된 공격 패턴의 심각도(Critical/High/Medium) 및 신뢰도에 따른 차등적 차단/경보 조치 정책.
 - **정규화 특징 추출**: 단편화 및 인코딩 패킷을 재조합하여 탐지 엔진 투입용 특징 벡터를 만드는 단계.
@@ -131,7 +131,7 @@ IDS•IPS 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **오탐(False Positive)**: 정상적인 업무 트래픽을 공격 트래픽으로 잘못 판단하여 경보/차단하는 오류 (서비스 가용성 피해 발생).
 - **미탐(False Negative)**: 실제 악의적 공격 패킷을 탐지하지 못하고 정상으로 오판하여 통과시키는 오류 (보안 기밀성/무결성 침해 발생).
@@ -154,7 +154,7 @@ IDS•IPS 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **NIST SP 800-94(NIST SP 800-94 Standard)**: 침입 탐지 및 방지 시스템(IDPS)의 기술 선정, 구성 및 관리 지침서.
 - **단계적 차단 전환(Phased Inline Deployment)**: 신규 시그니처 룰을 먼저 IDS 모니터링 모드에서 검증(오탐 분석)한 후 고신뢰 룰만 IPS 차단 모드로 자동 시프트하는 모범적 적용 절차.
@@ -175,7 +175,7 @@ IDS•IPS 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차단 권한 관리(Inline Authority Control)**: 시그니처 검증 신뢰도, 오탐 미치는 영향 및 바이패스 회선이 확보된 경우에만 제한적으로 인라인 차단을 승인하는 가용성 정책.
 

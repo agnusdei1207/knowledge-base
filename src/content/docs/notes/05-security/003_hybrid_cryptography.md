@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이브리드 암호(Hybrid Cryptography)**: 비대칭키 암호로 임시 세션키를 안전하게 교환하고 대칭키 암호로 대용량 본문을 고속 연산하는 암호 체계.
 - **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 공개키를 사용하여 임시 세션키를 암호화(캡슐화) 및 송수신하는 방식.
@@ -42,7 +42,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **세션키(Session Key)**: 특정 통신 세션 동안에만 본문 암호화에 일회성으로 사용하는 대칭 암호키.
 - **키 유도 함수(Key Derivation Function, KDF)**: 하나의 공유 비밀로부터 송수신 방향 및 용도에 적합한 다수의 독립 대칭키를 파생시키는 함수.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 스케줄(Key Schedule)**: 공유 비밀에서 파생된 키들을 통신 단계별, 용도별로 순차적 갱신 및 관리하는 절차.
 - **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)**: 암호문 기밀성과 부가 인증 데이터의 무결성을 동시에 보장하는 대칭 암호 방식.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **협상 기록 인증(Transcript Authentication)**: 암호 세션 시작 시 교환한 알고리즘 파라미터를 전자서명에 포함시켜 조작을 검증하는 인증.
 - **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: 세션마다 임시 타원곡선 키를 생성하여 순방향 비밀성(PFS)을 제공하는 합의 방식.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 유출되더라도 과거 세션의 세션키와 암호문이 유출되지 않는 암호학적 특성.
 - **RSA 키 전송(RSA Key Transport)**: 수신자의 RSA 공개키로 세션키를 암호화하여 직접 전달하는 역사가 오랜 방식.
@@ -163,7 +163,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다운그레이드 공격(Downgrade Attack)**: 중간자가 암호 협상 과정을 조작하여 취약한 예전 암호 방식으로 강제 전환시키는 공격.
 - **영역 분리(Domain Separation)**: 동일 공유 비밀에서 파생된 키들이 용도별, 방향별로 혼용되지 않도록 컨텍스트를 분리하는 규칙.
@@ -187,7 +187,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이브리드 키 설정 선택(Hybrid Key Establishment Selection)**: 순방향 비밀성과 양자 내성 전환 시점을 종합 판단하여 알고리즘을 결정하는 기법.
 

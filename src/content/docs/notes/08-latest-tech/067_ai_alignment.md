@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인공지능 정렬(Artificial Intelligence Alignment, AI Alignment)**: 모델의 목표와 행동을 인간 의도•가치•정책에 맞추는 과정을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **목표 불일치(Goal Misalignment)**: 모델이 최적화한 대리 목표가 인간이 실제로 원한 결과와 달라지는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명세 정합(Specification Alignment)**: 정책에 적은 목표•금지•우선순위가 실제 인간 의도를 정확히 나타내는 정도를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **정렬 학습(Alignment Training)**: 선호•원칙•안전 신호를 이용해 모델의 응답과 행동 성향을 조정하는 방법으로 정의된다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정책 명세(Policy Specification)**: 허용 행동•금지 조건•우선순위와 책임 경계를 정의하는 단계를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **정렬 학습(Alignment Training)**: 지시•선호•비판•안전 데이터를 이용해 모델 행동을 정책 명세와 인간 의도에 맞추는 학습 과정을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -90,7 +90,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **유용성•정직성•무해성(Helpful, Honest, Harmless, HHH)**: 유용•정직•무해를 함께 보는 정렬 평가축으로 정의된다.
 - **적대적 평가(Red Teaming)**: 안전 정책을 회피하려는 입력으로 모델의 안전 실패를 탐색하는 평가 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -126,7 +126,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **목표 명세 정렬(Goal Specification Alignment)**: 정책 목적과 금지•우선순위를 정확하게 정의하는 단계를 나타낸다.
 - **학습된 정책 정렬(Learned Policy Alignment)**: 선호•원칙 신호로 모델의 행동 성향을 학습시키는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -146,7 +146,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대리 지표 최적화(Proxy Gaming)**: 평가 점수는 높지만 인간 의도와 다른 방식으로 목표를 달성하는 문제를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **과잉 거절(Over-refusal)**: 안전 기준이 지나치게 강해 정상적이고 무해한 요청까지 거부하는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -165,7 +165,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정렬 학습 적용 범위(Scope of Alignment Training)**: 모델의 목표와 응답 성향이 인간 의도에 맞도록 조정하는 범위를 나타낸다.
 - **런타임 가드레일 적용 범위(Scope of Runtime Guardrails)**: 정렬 학습이 놓친 위험 행동이 실제 권한 실행으로 이어지지 않게 통제하는 역할을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.

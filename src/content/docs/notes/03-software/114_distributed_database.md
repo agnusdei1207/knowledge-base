@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Database (분산 데이터베이스)**: 물리적으로 서로 떨어진 다수의 데이터베이스 노드(Physical Node)에 데이터를 분할(Sharding) 및 복제(Replication) 저장하되, 애플리케이션에는 네트워크 투명성(Transparencies)을 통해 단일 DB처럼 보여주는 데이터 시스템.
 - **Distributed Transparencies (분산 투명성 6대 요소)**: 위치, 분할, 복제, 병행, 장애, 자원 투명성을 통해 사용자가 물리적 노드 위치나 샤딩 여부를 알 필요 없이 단일 DB로 인식하게 해주는 특성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **High Availability & Fault Tolerance**: 1개 노드 다운 시에도 타 노드로 서비스 자동 연속.
 - **Scalability (Horizontal Scale-Out)**: 노드 추가를 통해 디스크 용량 및 TPS 무제한 증설.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Location & Replication Transparency**: 데이터가 어느 물리 노드에 있는지, 몇 개의 복제본이 존재하는지 사용자가 알 필요 없이 단순 SQL로 접근 가능함.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Two-Phase Commit (2PC)**: 분산 DB 트랜잭션 시 Coordinator가 Prepare Phase와 Commit Phase 2단계를 통해 참여 노드(Cohort) 전체의 동시 커밋을 완전 원자 보장하는 프로토콜.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Homogeneous vs Heterogeneous**: 동종 분산 DB는 동일한 DBMS 엔진(예: MySQL-MySQL)으로 구성, 이종 분산 DB는 서로 다른 DBMS(Oracle-MySQL)를 GDD로 묶은 구조.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Split-Brain Problem**: 네트워크 단절 시 분산 노드가 둘로 쪼개져 서로 자신이 Master라고 주장하며 데이터 오염을 발생시키는 사태 (Quorum 과반수 투표로 해결).
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 DB 수립 기준(Distributed Database Standards)**: 6대 분산 투명성, Quorum Raft 합의 알고리즘 및 Multi-Region Scale-Out에 의거한 체계.
 

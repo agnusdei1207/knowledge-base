@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컴파일러**: 소스 프로그램의 의미를 보존하며 목적 코드로 변환하는 번역기이다.
 - **목적 코드**: 프로세서가 실행하거나 링커가 결합할 수 있도록 만든 기계 명령 코드이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전단부(Front End)**: 소스 언어를 분석해 중간 표현을 만드는 부분이다.
 - **후단부(Back End)**: 중간 표현을 타깃 기계 코드로 변환하는 부분이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심볼 테이블**: 식별자의 타입•범위•주소 정보를 저장하는 표이다.
 - **최적화기**: 실행 의미를 유지하며 IR의 연산 수나 자원 사용을 줄이는 모듈이다.
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **토큰**: 어휘 분석기가 소스 문자에서 구분해 내는 최소 어휘 단위이다.
 - **추상 구문 트리(Abstract Syntax Tree, AST)**: 프로그램의 연산과 문장 구조를 나타내는 트리이다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터프리터**: 소스를 구문 단위로 읽고 즉시 해석해 실행하는 방식이다.
 - **적시 컴파일러(Just-In-Time Compiler, JIT Compiler)**: 실행 중 자주 쓰는 코드를 기계어로 번역하는 방식이다.
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오컴파일**: 컴파일은 성공했지만 번역 오류로 원래 프로그램과 다른 결과가 나오는 문제이다.
 - **동기화 토큰**: 구문 오류 뒤 파서가 분석을 다시 시작하는 기준 구분자이다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **배포 판정 기준**: 번역 전후 의미 동등성과 타깃별 코드 생성 정확성을 확인하는 기준이다.
 

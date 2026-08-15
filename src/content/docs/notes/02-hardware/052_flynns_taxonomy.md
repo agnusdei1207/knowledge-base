@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플린 분류(Flynn's Taxonomy)**: 컴퓨터 아키텍처를 독립적인 인스트럭션 스트림과 데이터 스트림의 수량(단일/다중)에 따라 4가지로 분류한 체계.
 - **명령 스트림(Instruction Stream)**: 제어 유닛(Control Unit)에 의해 읽혀 수행되는 인스트럭션 실행의 직렬/병렬 시퀀스.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **독립 명령 스트림(Independent Instruction Stream)**: 개별 제어 유닛이 독자적으로 분기하고 실행하는 명령 시퀀스.
 - **독립 데이터 스트림(Independent Data Stream)**: 병렬 ALU 레인으로 동시에 독립 공급되는 피연산 텐서/벡터 배열.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2×2 분류 행렬(2×2 Classification Matrix)**: Instruction Stream(S/M)과 Data Stream(S/M)의 조합으로 교차 매핑하는 분류 매트릭스.
 - **코어/칩/노드(Core/Chip/Node)**: 플린 분류를 적용하는 시스템 분석 계층의 단위 레벨.
@@ -75,7 +75,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스트림 계수(Stream Counting)**: 타깃 아키텍처 내부의 제어 흐름과 데이터 레인 수를 정확히 계측하는 작업.
 - **분류 일관성(Classification Consistency)**: 동일 분석 경계 레이어를 유지함으로써 유형 평가 오해를 방지하는 원칙.
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SISD(Single Instruction, Single Data)**: 단일 명령어로 단일 데이터를 순차 연산 처리하는 클래식 구조(예: 파이프라인 스칼라 CPU).
 - **SIMD(Single Instruction, Multiple Data)**: 하나의 명령어로 다수의 데이터 레인을 동시 병렬 처리하는 구조(예: AVX-512, 2D 텐서 연산기).
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SIMT(Single Instruction, Multiple Threads)**: GPU에서 다수 스레드에 공통 명령을 내리되 스레드별 활성화 마스크와 레지스터를 분리 구동하는 실행 모델.
 - **혼합 병렬성(Hybrid Parallelism)**: 단일 시스템 내에서 SIMD(벡터/GPU 코어)와 MIMD(멀티코어/분산 노드)가 복합 계층으로 공존하는 구조.
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플린 유형 판정 기준(Flynn's Classification Criteria)**: 시스템 분석 레이어, 독립 명령 제어 유닛 수 및 데이터 파이프라인 수에 근거한 분류 평가 지표.
 

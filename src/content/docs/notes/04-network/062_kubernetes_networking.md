@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스 네트워킹(Kubernetes Networking)**: 파드(Pod) 간 직접 통신, 서비스 발견, 인그레스 노출, 보안 정책을 제공하는 가상 네트워크 모델.
 - **쿠버네티스(Kubernetes, K8s)**: 컨테이너 자동 배포, 스케일링, 복구를 관리하는 오픈소스 오케스트레이션 플랫폼.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 IP(Virtual IP, VIP)**: 프록시(kube-proxy/eBPF)가 제어하며 파드 종단으로 분산되는 고정 대표 IP.
 - **준비 상태(Readiness Probe)**: 파드 내부 통신 가능 여부를 진단하여 서비스 로드밸런싱 엔드포인트 등록을 결정하는 지표.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **엔드포인트슬라이스(EndpointSlice)**: 파드의 IP•포트•준비 상태 정보를 단위별 분할 관리하여 대규모 클러스터 성능을 향상하는 개체.
 - **네트워크 정책(NetworkPolicy)**: 파드 라벨(Label) 기반 Ingress/Egress 트래픽을 허용/차단하여 Zero-Trust를 구현하는 보안 객체.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 경로(Data Path)**: 패킷이 파드 간/외부 통신 시 eBPF/iptables를 거치는 경로.
 - **kube-proxy**: 서비스 VIP 요청을 탐지하여 파드로 라우팅 규칙을 갱신하는 데몬.
@@ -138,7 +138,7 @@ extra:
 - Control Plane 관측 기반 프록시 및 eBPF 맵 동적 업데이트 프로세스 준수.
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **게이트웨이 응용 프로그래밍 인터페이스(Gateway Application Programming Interface, Gateway API)**: 역할(Role-oriented) 기반 구조로 L4/L7 라우팅을 유연하게 선언하는 차세대 K8s 네트워크 표준 API.
 
@@ -158,7 +158,7 @@ extra:
 - 단순 인그레스와 역할 기반 L4~L7 확장성을 제공하는 Gateway API 비교 모델 수용.
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 불가(Service Unavailable, HTTP 503)**: 백엔드 파드가 준비 상태를 달성하지 못했거나 Endpoint가 비어있을 때 프록시가 클라이언트에 반환하는 에러 응답 코드.
 
@@ -175,7 +175,7 @@ extra:
 - eBPF 기반 보안 검증과 Readiness Probe 최적화, Gateway API 도입을 통한 실무 운영성 확보 체계 구축.
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **외부 경로 선택(External Routing Model Selection)**: 조직의 가용 역량과 라우팅 복잡도에 따라 Ingress 또는 Gateway API 모델을 체계적으로 결정하는 설계 원칙.
 

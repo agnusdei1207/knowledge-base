@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Lake (데이터 레이크)**: 정형(Structured), 반정형(Semi-Structured), 비정형(Unstructured) 등 다양한 소스의 날것 그대로의 데이터(Raw Data)를 변환 없이 가성비 높은 클라우드 객체 스토리지(S3, GCS)에 대용량 수용하는 빅데이터 집적소.
 - **Schema-on-Read**: 데이터 적재(Write) 시점에 스키마를 정의하지 않고 그대로 덤프 저장한 후, 쿼리 조회(Read) 시점에 쿼리 엔진이 분석 목적에 맞춰 읽기 스키마를 해석 및 정의하는 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Schema-on-Read (읽기 시점 스키마 정립)**: 수집 적재 병목 0%, 자유로운 분석 확장성.
 - **Multi-Format Ingestion**: CSV, JSON, Parquet, Image, Video, Audio 등 모든 형태 수용.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Medallion Architecture (Bronze/Silver/Gold Zone)**: 데이터 레이크의 무분별 데이터 늪 화를 막기 위해 Raw(Bronze) $\rightarrow$ Cleaned(Silver) $\rightarrow$ Curated Business(Gold) 3단계 영역으로 데이터 정제 품질을 계층 분리한 아키텍처.
 
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Schema-on-Write (DW)**: 데이터를 적재하기 직전에 고정 테이블 스키마에 맞춰 변환하는 방식 (DW).
 - **Schema-on-Read (Data Lake)**: 데이터 적재는 파일 그대로 하고, 쿼리 엔진(Athena) 실행 시점에 스키마를 입히는 방식.
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DW vs Data Lake**: DW는 고가의 정형 SQL 전용 스토리지, Data Lake는 저가의 가성비 무제한 정형/비정형 스토리지.
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Small File Problem in Lake**: S3 내부에 수KB 크기의 자잘한 파일이 수백만 개 쌓여 쿼리 탐색 시 목록 조회(ListBucket) 병목으로 속도가 폭락하는 안티패턴.
 
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Lake 수립 기준(Data Lake Architecture Standards)**: S3 객체 스토리지, Medallion 3대 Zone 분리, Data Catalog 구축 및 Parquet/Athena 연동성에 의거한 체계.
 

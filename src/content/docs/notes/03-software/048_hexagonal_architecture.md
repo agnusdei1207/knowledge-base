@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hexagonal Architecture (포트와 어댑터 아키텍처)**: 애플리케이션 핵심을 포트 계약과 어댑터로 외부 기술에서 분리하는 아키텍처.
 - **Port (포트)**: 애플리케이션 코어와 외부 세계를 연결하는 기술 독립적인 인터페이스 계약 (Primary/Inbound Port, Secondary/Outbound Port).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Inbound vs Outbound Port**: Inbound Port는 외부에서 도메인을 호출하는 유스케이스(Use Case) 창구, Outbound Port는 도메인이 외부 자원(DB, API)을 호출할 때 사용하는 인터페이스.
 - **Dependency Inversion**: 외부에 존재하는 어댑터가 내부의 포트(인터페이스)를 구체화(Implement)하도록 하여 의존성 방향을 항상 내부(Core Domain)로만 향하게 만드는 원칙.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Domain Core (도메인 코어)**: 프레임워크나 외부 기술 의존성(Annotation, Library)이 0%인 순수한 엔티티(Entity) 및 비즈니스 유스케이스(Use Case) 로직의 집합.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Domain Model Mapping**: 외부 DTO(REST Request/JPA Entity) 데이터를 순수 Domain Entity 객체로 어댑터 상에서 매핑 변환하는 과정.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Clean Architecture vs Hexagonal Architecture**: Clean Architecture(Robert C. Martin)는 동심원 계층(Entities, Use Cases, Controllers, Presenters)으로 고도화한 형태이며, Hexagonal은 Port/Adapter 2원화 중심의 동일한 관점 표현.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Boilerplate Code**: Port, Adapter, DTO-Domain간 Mapper 클래스가 대량으로 늘어나 초기 클래스 개수가 폭증하는 현상.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **헥사고날 아키텍처 채택 기준(Hexagonal Architecture Selection Criteria)**: 도메인 로직 복잡성, 외부 기술 교체 가능성 및 테스트 자동화 목표에 의거한 체계.
 

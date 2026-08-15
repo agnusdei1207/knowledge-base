@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **과적합(Overfitting)**: 학습 데이터에 지나치게 적합되어 잡음(Noise)까지 학습함으로써 일반화 성능이 저하된 상태이다.
 - **과소적합(Underfitting)**: 모델 복잡도가 낮아 데이터의 내재된 구조(Pattern)조차 학습하지 못해 예측력이 떨어지는 상태이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **편향(Bias)**: 모델의 예측 평균값이 실제 정답(Ground Truth)에서 벗어난 정도이다.
 - **분산(Variance)**: 학습 표본(Dataset)의 변화에 따라 모델의 예측치가 흔들리는 정도이다.
@@ -67,7 +67,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 용량(Model Capacity)**: 모델이 표현할 수 있는 함수 복잡도의 범위이다.
 - **규제(Regularization)**: 가중치 크기나 학습 시간을 제한하여 모델의 과도한 복잡도를 억제하는 기법이다.
@@ -98,7 +98,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **적합 상태(Fitting Status)**: 훈련•검증 오차의 상대적 크기에 따라 과소적합•적정 적합•과적합으로 구분한 학습 상태이다.
 - **복잡도 조정값(Complexity Parameter)**: 모델 용량•규제 강도•학습 시간을 바꾸기 위해 전달하는 설정값이다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오차 신호(Error Signal)**: 훈련•검증 오차의 크기와 간격으로 모델의 적합 상태를 구분하는 판단 기준이다.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교차검증(Cross-Validation)**: 데이터를 여러 분할(Fold)로 나눠 학습•검증을 반복하고 성능을 평균하는 평가법이다.
 - **L2 규제(L2 Regularization)**: 큰 가중치의 제곱합에 벌점을 부과하여 모델 복잡도를 줄이는 기법이다.
@@ -189,7 +189,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **규제 강화(Regularization Strengthening)**: 과적합 모델의 자유도를 줄여 예측 분산과 일반화 격차를 낮추는 조정이다.
 - **용량 확대(Capacity Expansion)**: 과소적합 모델이 더 복잡한 핵심 패턴을 표현하도록 모델의 능력을 늘리는 조정이다.

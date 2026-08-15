@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최단 경로(Shortest Path)**: 두 정점 사이에서 간선 가중치 합이 가장 작은 경로이다.
 - **가중치(Weight)**: 간선에 부여한 거리•비용•지연 값이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최적 부분 구조(Optimal Substructure)**: 전체 최단 경로를 부분 최단 경로로 구성할 수 있는 성질이다.
 - **완화(Relaxation)**: 새 경로가 더 짧으면 거리값을 갱신해 최소 비용 후보를 개선하는 연산이다.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가중 그래프(Weighted Graph)**: 각 간선에 비용을 부여해 경로의 총비용을 계산하는 그래프이다.
 - **거리값(Distance Value)**: 현재까지 알려진 출발점과 정점 사이의 최소 비용 후보이다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문제 범위**: 단일 출발점 또는 모든 정점 쌍으로 나눈 계산 대상이다.
 - **음수 사이클**: 반복할수록 경로 비용이 계속 감소하는 순환이다.
@@ -123,7 +123,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단일 출발점 최단 경로(Single-Source Shortest Path, SSSP)**: 하나의 출발점에서 모든 정점까지 최단 거리를 구하는 문제이다.
 - **모든 쌍 최단 경로(All-Pairs Shortest Path, APSP)**: 모든 정점 쌍 사이의 최단 거리를 구하는 문제이다.
@@ -152,7 +152,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **희소 그래프(Sparse Graph)**: 가능한 정점 쌍에 비해 간선 수가 적은 그래프이다.
 - **무한대 표식(Infinity Sentinel)**: 아직 도달 경로가 없는 거리값을 유한한 비용과 구분하는 특수값이다.
@@ -177,7 +177,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선택 기준**: 가중치 부호와 단일 출발점•모든 정점 쌍의 계산 범위이다.
 

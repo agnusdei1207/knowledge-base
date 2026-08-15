@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multiprocessor Scheduling**: 멀티코어/다중 CPU 환경에서 여러 개의 CPU 코어들에게 작업(Process/Thread)을 효율적으로 배분하고, 캐시 친화도(Cache Affinity) 및 부하 불균형(Load Imbalance)을 제어하는 스케줄링.
 - **SQMS (Single Queue Multiprocessor Scheduling)**: 하나의 중앙 전역 실행 큐(Global Run-Queue)를 두고 모든 CPU 코어가 이 큐에서 작업을 꺼내어 디스패치하는 스케줄링 방식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Affinity (캐시 친화도)**: 특정 프로세스를 이전에 실행되었던 동일 CPU 코어에 계속 할당함으로써 L1/L2 캐시 적중률(Cache Hit)을 극대화하는 성질.
 - **Work Stealing (작업 훔치기)**: MQMS 환경에서 특정 유휴 코어가 자신의 로컬 큐가 빌 경우, 분주한 타 코어의 로컬 큐 꼬리(Tail)에서 작업을 훔쳐와 부하를 분산하는 기법.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lock Contention**: SQMS 환경에서 수십~수백 개의 CPU 코어가 단일 Global Run-Queue의 락을 획득하기 위해 동시에 경합할 때 유발되는 대규모 성능 병목.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Push/Pull Migration**: 주기적으로 과부하 코어가 타 코어로 작업을 밀어내거나(Push), 유휴 코어가 타 큐의 작업을 당겨오는(Pull) 부하 재조정 메커니즘.
 
@@ -112,7 +112,7 @@ MQMS 실행 경로
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Linux CFS Multi-Queue**: Linux 커널의 Completely Fair Scheduler가 코어별 `cfs_rq` 로컬 큐를 운영하고 `load_balance()` 함수로 주기적 Work Stealing을 수행하는 방식.
 
@@ -130,7 +130,7 @@ MQMS 실행 경로
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Affinity Mask (taskset)**: 특정 프로세스를 지정된 CPU 코어 집합에 강제 고정하여 타 코어로의 Migration을 금지시키는 커널 설정.
 
@@ -150,7 +150,7 @@ MQMS 실행 경로
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티프로세서 스케줄링 선택 기준(Multiprocessor Scheduling Criteria)**: 물리 코어 개수, 캐시 적중률 요구 및 NUMA 토폴로지에 기반한 선택 체계.
 

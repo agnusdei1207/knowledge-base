@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PIPA(Personal Information Protection Act)**: 개인정보 처리와 정보주체 권리를 규율하는 개인정보 보호법이다.
 - **2023년 개인정보 보호법 개정**: 권리•국외이전•책임•제재 체계를 개편하고 조항별로 시행한 법률 개정이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전송요구권**: 법정 정보를 본인이나 적격 수신자에게 보내도록 요구하는 권리이다.
 - **자동화 결정 권리**: 완전 자동화된 결정에 거부•설명•인적 검토를 요구하는 권리이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CPO(Chief Privacy Officer)**: 개인정보 정책•통제•권리 대응•사고 관리를 총괄하는 책임자이다.
 - **책임성**: 개인정보 통제를 수행하고 그 결과를 증적으로 입증하는 원칙이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조문 매핑**: 제품 기능마다 적용되는 법률 조항을 연결하는 활동이다.
 - **시행일 매핑**: 법률 조항이 실제 효력을 갖는 날짜를 기능과 연결하는 활동이다.
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개정 전 규율**: 채널별 특례와 제한된 정보주체 권리를 적용한 체계이다.
 - **개정 후 규율**: 규율 일원화•권리 확대•조항별 시행을 적용한 체계이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보호법 제35조의2**: 개인정보 전송요구권을 규정한 조항이다.
 - **보호법 제37조의2**: 자동화된 결정의 거부•설명•검토 요구 권리를 규정한 조항이다.
@@ -181,7 +181,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **현행 규정 기반 구현(Current Regulation-Based Implementation)**: 공포 연도가 아니라 현재 시행 중인 법·시행령·분야 고시를 기준으로 전송·설명·검토·국외이전 기능을 운영하는 원칙이다.
 

@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **삽입기(Embedder / Watermark Inserter)**: 품질 트레이드오프 범위 내에서 생성 모델의 잠재 공간(Latent Space)이나 출력 데이터에 비밀키 기반 신호를 투입하는 모듈이다.
 - **검출기(Detector / Extractor)**: 유통된 콘텐츠를 입력받아 워터마크 신호의 존재 확률 및 검출 점수(z-score)를 산출하는 모듈이다.
@@ -95,7 +95,7 @@ AI 워터마킹 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검출 임계값(Detection Threshold)**: 신호 추출 점수가 특정 값을 초과할 때 워터마크 존재로 판정하는 오탐률(FPR) 기반 결정 기준이다.
 - **교차 검증(Cross Validation)**: 추출된 워터마크 데이터와 서명된 매니페스트(C2PA Manifest) 데이터를 대조하여 진위 여부를 다중 확인하는 절차이다.
@@ -145,7 +145,7 @@ AI 워터마킹 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가시 워터마크(Visible Watermark)**: 콘텐츠 표면에 눈으로 식별 가능하도록 배치하는 반투명 로고 또는 워터마크이다.
 - **비가시 워터마크(Invisible Watermark)**: 사람의 시각/청각으로는 인지할 수 없도록 데이터 내부 깊이 채널이나 주파수 영역에 은닉하는 신호이다.
@@ -165,7 +165,7 @@ AI 워터마킹 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소로 기술 표준 및 보안 가이드라인을 제정하는 기관이다.
 - **AI 100-4(NIST AI 100-4 Technical Report)**: AI 생성 콘텐츠의 워터마킹, 출처 추적, 딥페이크 탐지 기술의 가이드라인 문서이다.
@@ -187,7 +187,7 @@ AI 워터마킹 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상호보완 출처 증거(Complementary Provenance Evidence)**: 가시 표식, 비가시 워터마크, PKI 서명 이력을 다중 결합하여 개별 기술의 한계를 극복하는 신뢰 검증 방식이다.
 

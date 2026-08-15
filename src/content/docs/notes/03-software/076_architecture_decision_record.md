@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ADR (Architecture Decision Record, 아키텍처 결정 기록)**: 소프트웨어 아키텍처의 중요한 의사결정(Decision) 내용, 당시의 비즈니스/기술적 맥락(Context), 검토된 대안(Alternatives) 및 결정에 따른 이점과 결과(Consequences)를 마크다운 형태의 짧은 텍스트 문서로 깃(Git) 소스코드와 함께 버전 관리하는 기록 체계.
 - **Architectural Decision Log (ADL)**: 프로젝트 내에서 작성된 개별 ADR 문서들의 집합체 및 변경 관리 이력 모음.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Immutable Log (불변적 변경 기록)**: 한 번 승인된 ADR은 수정하여 덮어쓰지 않고, 새로운 결정 시 신규 ADR을 발행하여 기존 ADR을 'Superseded(대체됨)' 상태로 연결 상태 업데이트.
 - **Co-located with Source Code**: 별도 Wiki나 Confluence가 아닌 Git 소스코드 레포지토리 내(`doc/adr/`)에 Markdown 형태로 직접 저장되어 PR(Pull Request) 리뷰 대상으로 동시 관리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **5대 핵심 필드**: Title(제목 및 번호), Status(상태: Proposed, Accepted, Deprecated, Superseded), Context(맥락), Decision(결정), Consequences(결과 및 이점/비용).
 
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ADR Lifecycle**: Proposed(제안) $\rightarrow$ Accepted(승인) $\rightarrow$ [환경 변화 시] $\rightarrow$ Superseded(신규 ADR에 의해 대체됨) 또는 Deprecated(폐기).
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ADR vs Wiki/Confluence**: Wiki는 시간이 흐르면 최신화가 안 되어 실제 소스코드와 이격(Drift)이 나는 반면, ADR은 Git 코드와 한 브랜치에서 같이 관리되므로 100% 동기화 보장.
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **adr-tools**: CLI 환경에서 `adr new "Select Postgres for Primary DB"` 형태로 ADR 문서를 자동 생성하고 Superseded 링크를 자동 맺어주는 오픈소스 도구.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ADR 수립 기준(ADR Adoption Standards)**: 아키텍처 영향도, Git 파이프라인 연동성 및 `adr-tools` 활용 체계에 의거한 체계.
 

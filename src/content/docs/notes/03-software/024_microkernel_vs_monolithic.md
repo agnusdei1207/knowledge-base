@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Monolithic Kernel (모놀리식 커널)**: OS의 주요 기능(프로세스, 메모리, 파일 시스템, 네트워크, 디바이스 드라이버)을 단일 대형 커널 주소 공간(Ring 0)에 통째로 묶어 고속 구동시키는 커널 구조.
 - **Microkernel (마이크로커널)**: 커널 공간(Ring 0)에는 최소한의 핵심 기능(IPC, 메모리 관리, 기본 스케줄링)만 남기고, 파일 시스템, 디바이스 드라이버 등은 유저 공간(Ring 3 User Server)으로 분리 격리시킨 커널 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IPC Overhead**: 마이크로커널 환경에서 유저 서버 간 통신 시 커널을 경유하는 문맥 전환(Context Switch)이 빈번히 발생하여 발생하는 처리 지연.
 - **Fault Isolation**: 드라이버나 파일 시스템 모듈이 유저 공간 서버 프로세스로 구동되어 해당 모듈이 붕괴되어도 OS 커널이 마비되지 않고 개별 재부팅(Restart) 가능한 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **User-Space Server**: 마이크로커널 구조에서 파일 시스템(VFS), 네트워크 스택, 디바이스 드라이버가 유저 모드 프로세스 형태(Server)로 독립 구동되는 모듈.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Context Switch Penalty**: 마이크로커널에서 I/O 연산 처리 시 `User App -> Microkernel -> User Server -> Microkernel -> User App` 4단계 전환 지연 파급.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **seL4**: 특정 구성과 가정에서 구현의 정형 명세 준수를 기계 검증한 마이크로커널.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zero-Copy IPC**: 마이크로커널의 잦은 IPC 오버헤드를 막기 위해, 커널과 유저 서버 간 메모리 버퍼를 공유(Shared Memory)하여 복사 횟수를 0으로 줄이는 기술.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **커널 아키텍처 선택 기준(Kernel Architecture Selection Criteria)**: 시스템 성능 타깃, 하드 실시간 제약, 무결성/보안성 수치에 기반한 설계 체계.
 

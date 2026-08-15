@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **유사도 측정(Similarity Measure)**: 거리, 방향, 집합 중첩 등 데이터 속성에 최적화된 기준으로 두 대상의 근접도를 정량화하는 척도.
 - **특징 벡터(Feature Vector)**: 비교 대상의 속성 값을 동일한 순서의 숫자 좌표로 나열한 데이터 형식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정규화**: 벡터 길이나 변수 범위를 맞춰 크기 차이가 근접도 순위를 지배하지 않게 하는 처리이다.
 - **이웃 순위**: 선택한 척도 점수에 따라 질의와 가까운 후보를 나열한 순서이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표현 변환기**: 원시 속성을 같은 순서의 벡터나 원소 집합으로 바꾸는 구성요소이다.
 - **척도 함수**: 두 표현의 거리•각도•교집합 비율을 계산하는 함수이다.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **질의(Query)**: 검색 시스템에서 다른 후보와 비교하는 기준 입력이다.
 - **비교 표현**: 질의와 후보를 동일한 벡터나 집합 형식으로 맞춘 데이터이다.
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코사인 유사도**: 벡터 크기를 제거하고 두 방향의 일치도를 내적으로 재는 척도이다.
 - **자카드 유사도**: 합집합 중 교집합이 차지하는 비율로 두 집합의 겹침을 재는 척도이다.
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표준화(Standardization)**: 변수별 단위를 맞추는 처리이다.
 - **가중 거리(Weighted Distance)**: 중요도에 따라 좌표 차이에 가중치를 적용하는 거리이다.
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **유사도 선택 기준**: 비교 표현이 벡터 방향•집합•연속 좌표 중 어느 구조인지 구분하는 기준이다.
 

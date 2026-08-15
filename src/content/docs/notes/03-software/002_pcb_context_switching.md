@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CR3 Register**: x86에서 최상위 페이지 테이블의 물리 주소와 제어 정보를 보관하는 레지스터.
 - **TLB Miss/Invalidation**: 프로세스 문맥 전환 시 MMU CR3 변경으로 기존 TLB 캐시가 무효화되어 발생되는 메모리 주소 번역 지연 현상.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PCB 구조체**: PID, Process State, Program Counter, CPU Registers, Memory Limits, Open File Descriptors, I/O Status.
 - **Kernel Stack**: 프로세스/스레드가 커널 모드로 진입 시 레지스터 상태 및 문맥을 덤프 보관하는 커널 공간 내의 전용 스택 영역.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Timer Interrupt**: APIC/PIT 하드웨어에 의해 일정 주기(예: 1ms)마다 발생하여 커널 스케줄러를 호출하는 하드웨어 타이머 신호.
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Process Context Switch vs Thread Context Switch**: MMU 주소 공간(CR3) 교체 및 TLB Flush 수반 유무에 따른 오버헤드 차이.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CPU Pinning (Affinity)**: 프로세스/스레드를 특정 CPU 코어에 고정하여 컨텍스트 스위칭 시 캐시 적중률(Cache Locality)을 보장하는 기법.
 
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컨텍스트 스위칭 선택 기준(Context Switching Optimization Criteria)**: 타임 슬라이스 주기, 스레드 멀티태스킹 비율 및 TLB 오버헤드 제어에 기초한 시스템 수립 체계.
 

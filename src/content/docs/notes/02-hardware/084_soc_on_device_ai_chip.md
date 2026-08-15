@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **온디바이스 AI(On-Device AI)**: 스마트폰·차량·IoT 단말의 로컬 자원에서 AI 추론을 수행하는 기술.
 - **NPU(Neural Processing Unit)**: 딥러닝 텐서 행렬 곱셈/누적(MAC) 연산을 초고속, 저전력으로 하드웨어 가속하는 전용 온칩 IP 코어.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TOPS(Tera Operations Per Second)**: 초당 조 단위 연산 수를 나타내며 정밀도·연산 정의를 함께 봐야 하는 지표.
 - **DVFS(Dynamic Voltage Frequency Scaling)**: 칩 발열량과 런타임 텐서 부하량에 따라 모듈의 공급 전압 및 주파수를 동적 제어하는 전력 절감 기술.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Systolic Array**: 데이터가 MAC 셀 배열을 규칙적으로 이동하며 재사용되는 NPU 연산 구조.
 - **공유 온칩 버퍼(SRAM/SRAM Buffer)**: 외부 LPDDR DRAM 접근 시 소모되는 전력을 막기 위해 딥러닝 가중치/활성화 값을 칩 내부 상주시키는 콤팩트 SRAM.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화(Quantization)**: 부동소수점 값을 저정밀 정수로 변환해 모델 크기와 연산 비용을 줄이는 기법.
 - **그래프 융합(Graph Fusion)**: Conv + Bias + ReLU와 같은 연속적 레이어를 1개 융합 연산자로 합쳐 메모리 전송을 절감하는 컴파일 기법.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud AI**: 데이터센터 가속기와 확장 자원을 이용해 원격에서 AI 모델을 추론하는 방식.
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fallback**: NPU 컴파일러가 새로 추가된 미지원 커스텀 레이어 수용 시 CPU/GPU 코어로 처리를 이관하는 예외 처리.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **On-Device AI 선택 기준(On-Device AI Selection Criteria)**: 텐서 연산 지원성, NPU TOPS/Watt 효율, 메모리 대역폭 및 TDP 범위에 기반한 아키텍처 수립 체계.
 

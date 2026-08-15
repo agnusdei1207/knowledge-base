@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DDR SDRAM (Double Data Rate Synchronous DRAM)**: 시스템 버스 클록의 상승 엣지(Rising Edge)와 하강 엣지(Falling Edge) 모두에서 데이터를 전송(Double Data Rate)하여 단일 엣지 대비 데이터 전송율을 2배 높인 동기식 DRAM 규격.
 - **DRAM (Dynamic Random-Access Memory)**: 1T1C 커패시터 전하 저장 방식을 사용하여 시간이 지남에 따라 전하 방전이 일어나므로 주기적인 리프레시(Refresh) 연산이 강제되는 메모리.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양 엣지 전송(Double-Edge Transfer)**: 1개 클록 주파수 주기 내에서 0->1 상승 엣지와 1->0 하강 엣지 2번 모두에 데이터를 싣는 버스 동기화 기술.
 - **뱅크 병렬성(Bank-Level Parallelism, BLP)**: 단일 칩 내부를 8개~32개의 독립적인 뱅크(Bank) 구조로 파티셔닝하여 뱅크 0의 Precharge 중 뱅크 1의 Read/Write를 동시 가동하는 아키텍처.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 컨트롤러(Memory Controller)**: CPU 소켓 내에 배치되어 주소를 Channel, Rank, Bank, Row, Column 비트로 파싱하고 ACT, PRE, REF 명령 타이밍을 스케줄링하는 유닛.
 - **DDR PHY(DDR Physical Layer)**: 컨트롤러 명령 신호를 수십 GHz 고주파 미세 아날로그 전기 신호로 구동 정밀 변환하는 물리 계층 IC 블록.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **행 활성(Activate, ACT)**: 해당 Bank의 특정 Row를 열어 행 버퍼로 로드시키는 명령.
 - **프리차지(Precharge, PRE)**: 오픈된 Row를 닫고 비트라인을 VCC/2 수준으로 초기화하는 명령.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 뱅크 리프레시(All-Bank Refresh / REFab)**: 단일 REF 명령으로 랭크 내의 모든 뱅크를 일제히 락업시키고 리프레시를 수행하는 방식.
 - **뱅크별 리프레시(Per-Bank Refresh / REFpb)**: 특정 1개 뱅크만 락업하여 리프레시하고, 타 뱅크는 정상적인 Read/Write 연산을 병렬 허용하는 LPDDR/DDR5 방식.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **꼬리 지연(Tail Latency / p99 Latency)**: 실시간 트랜잭션 요청이 하필 tRFC 리프레시 락업 주기와 겹쳐 응답 지연이 급증하는 99번째 백분위수 지연 현상.
 - **로해머 (Rowhammer Attack)**: 특정 DRAM 행(Row)을 짧은 시간 내 수백만 번 집중 억세스(ACT/PRE)하여 인접 행 셀 커패시터 전하를 누설 강제 유출시켜 비트를 반전시키는 보안 공격.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DDR/Refresh 최적화 기준(DDR Refresh Optimization Criteria)**: 대상 시스템의 리얼타임 응답 목표(p99 Latency), 동작 온도 범위, 보안 위협(Rowhammer)을 평가하여 REFpb 및 TRR 타이밍 파라미터를 확정하는 프레임워크.
 

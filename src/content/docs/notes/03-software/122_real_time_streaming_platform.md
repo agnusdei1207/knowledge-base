@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Real-Time Streaming Platform (실시간 스트리밍 플랫폼)**: 발생 즉시 흘러나오는 연속적인 비동기 이벤트(Events/Logs/Metrics)를 소스로부터 수집(Ingestion), 분산 버퍼링(Messaging Broker), 실시간 연산(Stream Processing), 서빙 저장소(Serving DB)까지 서브밀리초~초 단위 지연으로 통합 처리하는 엔드투엔드 파이프라인 아키텍처.
 - **Data Pipeline Decoupling**: 수집(Kafka)과 연산(Flink/Spark)과 저장(Cassandra/Redis)의 물리적 레이어를 완벽히 분리하여 노드 장애 전파를 차단하는 아키텍처 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Low Latency & High Throughput**: 수십만 QPS 이벤트를 수ms 이내 초저지연 처리.
 - **Stateful Processing & End-to-End EOS**: 파이프라인 전체에 걸쳐 단 1번 처리(Exactly-Once) 보장.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ingestion, Message Broker, Stream Engine, Serving Store**: 실시간 스트리밍 플랫폼을 지탱하는 4대 레이어.
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Stream-Table Duality (KTable)**: 이벤트 스트림(Stream)은 변화의 기록이고, 테이블(Table)은 특정 시점의 현재 상태라는 스트림-테이블 이중성 이론.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Batch vs Real-Time**: 배치는 T+1일 일괄 처리, 실시간 스트리밍은 발생 1초 이내 즉각 연산 및 알림.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Spikes (트래픽 폭증)**: 이벤트 폭증 시 브로커 파티션 및 스트림 연산자 튜닝으로 역압력(Backpressure) 방지.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스트리밍 파이프라인 수립 기준(Streaming Architecture Standards)**: Ingestion QPS, Kafka-Flink-Redis 3대 통합성, EOS 및 Watermark 설계에 의거한 체계.
 

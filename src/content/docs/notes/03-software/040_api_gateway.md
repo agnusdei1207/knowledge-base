@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API Gateway**: 클라이언트와 백엔드 마이크로서비스들 사이에 위치하는 단일 진입점(Single Entry Point) 프록시 서버로, 라우팅, 인증/인가, Rate Limiting, SSL Termination, 응답 변환 등의 공통 정책을 일괄 처리하는 중앙 엣지 서비스.
 - **Reverse Proxy**: 외부 클라이언트의 요청을 받아 내부의 여러 백엔드 서버로 요청을 분산 라우팅하고 내부 네트워크 구조를 은닉하는 프록시 서버 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rate Limiting (트래픽 제어)**: 특정 클라이언트(IP/API Key)의 디도스(DDoS) 공격 및 과도한 요청 폭주를 막기 위해 시간당/초당 최대 요청 건수(TPS)를 제한하는 억제 메커니즘.
 - **SSL Termination**: 게이트웨이 전단에서 외부 HTTPS 통신 암호화를 해제(SSL 복호화)하여 내부 서비스 간 통신 오버헤드를 줄이는 라우팅 처리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Filter Chain (필터 체인)**: 게이트웨이 내부에 요청(Pre-Filter), 라우팅(Route-Filter), 응답(Post-Filter) 단계별로 커스텀 정책(인증, 헤더 조작, 캐싱)을 순차 적용하는 파이프라인.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Token Bucket Algorithm**: 정해진 주기로 버킷에 토큰을 생성하고, 요청 수용 시 토큰을 소비하여 트래픽 제한(Rate Limiting)을 정밀 구현하는 대표적 알고리즘.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kong vs Spring Cloud Gateway**: Kong은 Nginx/Lua 기반의 초고속 API 게이트웨이, Spring Cloud Gateway는 Java/Netty 기반의 Reactive 웹플럭스 지원 게이트웨이.
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Single Point of Failure (SPOF)**: API 게이트웨이 단일 인스턴스가 다운되면 전체 마이크로서비스 접근이 전면 차단되는 치명적 위험.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API 게이트웨이 선택 기준(API Gateway Selection Criteria)**: 트래픽 규모(TPS), 프레임워크 생태계, 확장성 및 BFF 필요성에 기반한 체계.
 

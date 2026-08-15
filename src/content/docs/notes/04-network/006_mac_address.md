@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조직 고유 식별자(Organizationally Unique Identifier, OUI)**: IEEE가 제조회사(NIC 메이커)에 할당하는 MAC 주소 상위 24비트(3옥텟) 제조사 고유 코드.
 - **인터페이스 식별자(Interface Identifier / Serial Number)**: NIC 제조사가 각 개별 제품 카드에 중복 없이 부여하는 하위 24비트(3옥텟) 시리얼 일련번호.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **포워딩 테이블(Forwarding Table / CAM Table)**: L2 스위치가 스위치 포트 번호와 해당 포트에 연결된 장비의 MAC 주소를 매핑하여 보관하는 고속 메모리 테이블.
 - **플러딩(Flooding)**: 수신 프레임의 목적지 MAC 주소가 CAM 테이블에 없을 때, 수신 포트를 제외한 동일 VLAN 내 전 포트로 패킷을 복사 전송하는 동작.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전역 관리 MAC(Universally Administered Address, UAA)**: NIC 제조 시 하드웨어 롬(ROM)에 물리적으로 각인(Burned-In)되어 전 세계 고유성을 보장받는 주소.
 - **로컬 관리 MAC(Locally Administered Address, LAA)**: 가상화 Hypervisor(ESXi, KVM)나 네트워크 관리자가 임의로 소프트웨어 변경하여 사용하는 주소.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MAC 스푸핑(MAC Spoofing)**: 송신 프레임의 출발지 MAC 주소를 인가된 타깃 장비의 MAC 주소로 변조하여 스위치 CAM 테이블을 교란하고 트래픽을 도청하는 위협.
 - **IEEE 802.1X(Institute of Electrical and Electronics Engineers 802.1X)**: L2 포트 단에서 EAPOL 프로토콜을 통해 사용자/장비의 인증을 수행하는 포트 기반 접근 통제 규격.
@@ -178,7 +178,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **포트 보안(Port Security)**: 스위치 포트에 연결 가능한 MAC 주소를 정적으로 바인딩하거나 개수를 제한하여 L2 침입을 방어하는 보안 기술.
 - **통제 선택(Security Control Selection)**: 위변조가 용이한 MAC 주소의 한계를 인지하고 802.1X, DAI, Port Security를 다층으로 결합하는 보안 전략.

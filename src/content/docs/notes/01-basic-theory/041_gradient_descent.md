@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **경사하강법(Gradient Descent)**: 손실 함수(Loss Function)의 기울기(Gradient) 반대 방향으로 파라미터를 반복 이동하여 손실을 최소화하는 최적화 기법.
 - **비볼록 손실(Non-convex Loss)**: 지역 최솟값(Local Minima)과 안장점(Saddle Point)을 포함하여 전역 최적해(Global Optimum)를 찾기 어려운 손실 지형.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기울기 $\nabla L$**: 손실이 가장 빠르게 증가하는 방향과 크기를 모은 편미분 벡터이다.
 - **학습률 $\eta$**: 기울기를 반영할 비율로 한 번의 파라미터 이동 폭을 정하는 값이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순전파(Forward Propagation)**: 예측과 손실을 입력에서 출력 방향으로 계산하는 과정이다.
 - **역전파(Backpropagation)**: 파라미터별 손실 기울기를 출력에서 입력 방향으로 계산하는 과정이다.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파라미터 $\theta$**: 학습이 조정하는 모델의 가중치와 편향이다.
 - **누적 제곱 기울기**: 좌표별 과거 기울기 제곱을 더해 적응적 보폭을 정하는 상태이다.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률적 경사하강법(Stochastic Gradient Descent, SGD)**: 무작위 미니배치의 기울기로 파라미터를 직접 갱신하는 방법이다.
 - **적응적 기울기(Adaptive Gradient, AdaGrad)**: 누적 제곱 기울기로 자주 갱신된 파라미터의 보폭을 줄이는 방법이다.
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기울기 클리핑**: 기울기 노름이 임계값을 넘으면 크기를 제한해 과도한 갱신을 막는 기법이다.
 - **학습률 스케줄**: 학습 진행도나 손실 정체에 따라 학습률을 바꾸는 정책이다.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최적화기 선택 및 운영 체계(Optimizer Selection & Operation Framework)**: 상태 메모리, 데이터 희소성, 초기 수렴성 등의 선택 기준을 통합한 경사하강법 운영 전략.
 

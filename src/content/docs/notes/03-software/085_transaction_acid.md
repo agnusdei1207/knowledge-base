@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transaction (트랜잭션)**: 데이터베이스의 상태를 변화시키는 논리적 작업 단위(Logical Unit of Work, LUW).
 - **ACID Property (ACID 특성)**: 트랜잭션의 정합성과 무결성을 완벽히 보장하기 위한 4가지 대원칙 (Atomicity, Consistency, Isolation, Durability).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Atomicity (원자성)**: 트랜잭션 내 연산들이 모두 수행(All)되거나 전혀 수행되지 않음(Nothing)을 보장하는 특성.
 - **Consistency (일관성)**: 트랜잭션 수행 전과 수행 후 데이터베이스가 무결성 제약조건(Integrity Constraint)을 완벽히 준수하는 상태.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Undo Log & Redo Log**: Undo Log는 트랜잭션 실패 시 이전 상태로 되돌리는(Rollback) 원자성 메커니즘, Redo Log는 시스템 다운 시 Commit된 데이터를 재현 복구하는 지속성 메커니즘.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Commit vs Abort**: Commit은 트랜잭션 연산의 성공적 완료 및 영구 저장, Abort는 트랜잭션 중단 및 Undo Log를 이용한 초기 상태 복원.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BASE (Basically Available, Soft-state, Eventual Consistency)**: 분산 가용성을 최우선하여 강한 격리를 포기하고, 시간이 지나면 결국 일관성(Eventual Consistency)에 도달하는 NoSQL 대전제.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Long-Running Transaction**: 트랜잭션 범위가 지나치게 길어 Lock을 오랫동안 점유하여 전체 데이터베이스 TPS를 추락시키는 안티패턴.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID 수립 기준(ACID Transaction Standards)**: 데이터 일관성 등급, RPO/RTO 복구 목표 및 마이크로서비스 분산 트랜잭션 요구에 의거한 체계.
 

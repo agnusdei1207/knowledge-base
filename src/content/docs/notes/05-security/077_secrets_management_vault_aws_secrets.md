@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비밀 관리(Secrets Management)**: 데이터베이스 비밀번호, API 키, SSH 키, TLS 증명서 등 자격 증명의 라이프사이클(저장, 발급, 회전, 폐기, 감사)을 암호화 중앙 통제하는 보안 체계이다.
 - **애플리케이션 프로그래밍 인터페이스(Application Programming Interface, API)**: 비밀 관리 시스템이 워크로드 및 제3자 솔루션과 자격 증명을 보안적으로 교환하는 통신 인터페이스이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **워크로드 신원(Workload Identity)**: K8s Service Account, AWS IAM Role, OIDC 토큰 기반으로 애플리케이션 및 마이크로서비스의 고유한 신원을 식별하는 기술이다.
 - **부트스트랩(Bootstrap)**: 신규 워크로드가 최초 기동 시 최초 인증용 신원 토큰(Vault AppRole 등)을 안전하게 수령받아 초기화하는 보안 절차이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 엔진(Policy Engine)**: 비밀 요청 주체의 IAM/AppRole 신원과 요청 자원 경로를 대조해 접근 허용 여부를 결정하는 중앙 통제 모듈이다.
 - **비밀 엔진(Secrets Engine)**: RDBMS, K8s, AWS, PKI 등 개별 백엔드 시스템과 연동해 정적/동적 자격 증명을 실시간 생성 및 변환하는 모듈이다.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단기 리스 자격(Short-lived Leased Credentials)**: 제한된 TTL과 Lease ID가 부여되어 지정된 시간까지만 동작하는 임시 자격 증명이다.
 - **긴급 폐기(Emergency Revocation)**: 비밀 유출 정황 탐지 시 Lease ID에 연결된 모든 동적 계정을 대상 DB/클라우드에서 즉각 지워버리는 강제 회수 단계이다.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고정 비밀(Static Secrets)**: 소스코드나 환경 변수(ENV)에 평문 또는 미회전 상태로 보관되는 전통적 비밀이다.
 - **중앙 정적 비밀(Centralized Static Secrets)**: 중앙 보안 금고에 보관하되 유효기간이 길고 정기 회전에 의존하는 관리 방식이다.
@@ -189,7 +189,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-57**: 암호 키 및 자격 증명의 생성, 암호화, 저장, 회전, 폐기에 관한 키 관리 수명주기 국제 지침이다.
 - **봉인 키(Unseal Key / Master Key)**: Vault 금고가 재부팅될 때 암호화된 마스터 키를 복원하기 위한 Shamir's Secret Sharing 기반의 분할 키 조각이다.
@@ -209,7 +209,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 범위 자격(Least-scope Credentials)**: 필요한 최소한의 데이터 및 테이블만 접근 가능하도록 제한된 권한 객체이다.
 - **최소 수명 자격(Least-time Credentials)**: 임무 수행 직후 소멸하도록 최단 시간 TTL이 부여된 일회성 자격 상태이다.

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용해 두 종단이 키 후보를 만들고 오류율로 안전한 키 생성 여부를 판정하는 기술이다.
 - **BB84**: Bennett와 Brassard가 1984년에 제안해 이름에 두 성의 첫 글자와 연도를 썼으며, 두 기저로 양자 비트를 보내 일치한 측정만 키 후보로 쓰는 규약이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 비트 오류율(Quantum Bit Error Rate, QBER)**: 선별한 양자 비트 중 송수신 결과가 다른 비율로서 잡음•도청 가능성의 판단 지표이다.
 - **기저(Basis)**: 양자 상태를 준비하거나 측정할 때 선택하며 송수신이 같아야 결과를 키 후보로 쓰는 기준이다.
@@ -62,7 +62,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 송신기**: 임의 비트•기저로 양자 상태를 만드는 장치이다.
 - **양자 채널**: 광자의 양자 상태를 송신기에서 수신기로 전달하는 경로이다.
@@ -97,7 +97,7 @@ QKD 이중 채널 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중간자 공격(Man-in-the-Middle Attack)**: 공격자가 두 통신자 사이에서 각각 상대인 것처럼 가장해 메시지를 엿보거나 바꾸는 공격이다.
 - **양자 상태 전송**: 송신기가 임의 비트와 기저로 준비한 양자 상태를 수신기에 보내는 단계이다.
@@ -142,7 +142,7 @@ QKD 이중 채널 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 중계 노드(Trusted Relay Node)**: 장거리 양자 키 분배 구간을 이어 주며 중간에서 키를 복원하므로 운영자를 신뢰해야 하는 장비이다.
 - **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터 공격에도 안전할 것으로 평가된 수학 문제를 이용하는 소프트웨어 암호이다.
@@ -162,7 +162,7 @@ QKD 이중 채널 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **키 생성률**: QBER을 반영해 단위 시간에 공급할 수 있는 안전한 키의 양이다.
 - **키 수명 관리**: 키의 생성•사용•교체•폐기 시점을 통제하는 절차이다.
@@ -183,7 +183,7 @@ QKD 이중 채널 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 위협 대응 선택**: 전용 광 인프라•키 생성률•범용망 호환성에 따라 QKD와 PQC를 배정하는 판단이다.
 

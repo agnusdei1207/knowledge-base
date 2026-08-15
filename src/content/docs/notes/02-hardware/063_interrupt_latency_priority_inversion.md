@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IRQ(Interrupt Request)**: 외부 장치가 프로세서에 비동기적 처리를 요청하는 신호
 - **ISR(Interrupt Service Routine)**: IRQ 발생 시 커널이 최우선 구동하는 지연 최소화 루틴
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 마스킹(Interrupt Masking)**: 임계 구역 진입 시 CPU의 IRQ 수용을 비활성화하는 구간
 - **중순위 선점(Medium-Priority Preemption)**: 잠금을 보유한 저순위 태스크가 무관한 중순위 태스크에 의해 선점되어 고순위 태스크의 대기 시간이 증가하는 현상
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 컨트롤러(Interrupt Controller/NVIC)**: 하드웨어 IRQ 핀 신호를 수집하여 우선순위를 마스킹/판정 후 CPU 코어로 전달하는 하드웨어.
 - **예외 진입(Exception Entry)**: 코어가 현재 실행 상태 레지스터를 Stack에 Push하고 IVT 주소로 점프하는 하드웨어 래칭.
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 벡터(Interrupt Vector)**: 각 IRQ 번호별 ISR 시작 주소가 저장된 메모리 포인터 테이블.
 - **우선순위 상속(Priority Inheritance)**: 락을 쥔 낮은 태스크의 우선순위를 대기 중인 높은 태스크의 레벨로 일시 상향하여 중순위 선점을 차단하는 기법.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WCRT(Worst-Case Response Time)**: 이벤트 발생 시점부터 시스템 전체 처리가 완결될 때까지의 총 시간.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deferred Processing**: ISR 내부에서는 최소 신호만 수용하고 본 연산 처리는 일반 태스크로 지연 전송하는 기술.
 - **IRQ 기아(IRQ Starvation)**: 높은 우선순위 IRQ의 연속 발생으로 낮은 IRQ가 서비싱되지 못하는 현상.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지연 완화(Latency Mitigation)**: HW 반응 지연 및 SW 자원 차단 지연을 개별 측정하여 수립하는 실시간 대책 체계
 

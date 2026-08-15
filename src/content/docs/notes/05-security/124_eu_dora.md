@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **EU(European Union)**: 유럽연합이다.
 - **ICT(Information and Communication Technology)**: 정보통신기술이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ICT 위험**: 기술 장애•오류•공격이 금융 서비스에 손실을 일으킬 가능성이다.
 - **중대 ICT 사고**: 서비스•고객•거래에 중대한 영향을 주어 보고해야 하는 정보통신기술 사고이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TLPT(Threat-Led Penetration Testing)**: 실제 위협정보와 전술로 중요 기능을 검증하는 시험이다.
 - **ICT 위험관리**: 기술 자산과 의존성을 보호•탐지•대응•복구하는 활동이다.
@@ -90,7 +90,7 @@ DORA 운영 복원력 체계
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **집중 위험**: 다수 금융기관의 소수 공급자 의존으로 단일 장애가 확산할 위험이다.
 - **ICT•TLPT 판단**: ICT 의존성과 TLPT 결과를 감독 증거로 연결하는 기준이다.
@@ -139,7 +139,7 @@ DORA 운영 복원력 체계
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **금융기관 의무**: ICT 위험•사고•시험•제3자 관리를 직접 수행하는 의무이다.
 - **공급자 감독**: 계약 통제와 CTPP 직접 감독을 결합한 관리 방식이다.
@@ -161,7 +161,7 @@ DORA 운영 복원력 체계
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Regulation (EU) 2022/2554**: 2025년 1월 17일부터 적용되는 DORA의 정식 법령이다.
 - **주관 감독자**: CTPP의 위험 평가•검사•권고 이행을 총괄하는 감독기관이다.
@@ -182,7 +182,7 @@ DORA 운영 복원력 체계
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **운영 복원력**: 내부 시스템과 외부 공급자의 장애 중에도 중요 금융 서비스를 지속•복구하는 능력이다.
 

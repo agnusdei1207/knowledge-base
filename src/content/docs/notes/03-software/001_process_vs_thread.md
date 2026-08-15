@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주소 공간(Virtual Address Space)**: 프로세스마다 독립 할당되어 다른 프로세스가 함부로 접근하지 못하도록 보장된 가상 메모리 영역.
 - **격리 범위(Isolation Boundary)**: 특정 프로세스의 메모리 훼손이나 비정상 종료가 타 프로세스에 영향을 주지 않는 보호 경계.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PCB(Process Control Block)**: 프로세스 ID, 상태, 가상 주소 매핑(MMU PGD), 개방 파일 목록 및 TCB 리스트를 보유하는 커널 구조체.
 - **TCB(Thread Control Block)**: 스레드 ID, 스레드 상태, PC(Program Counter), SP(Stack Pointer) 및 레지스터 세트를 보관하는 스레드 제어 구조체.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보호 구간(Critical Section)**: 스레드가 공유 메모리에 접근하여 갱신할 때 데이터 상호 배제(Mutex)가 보장되어야 하는 코드 영역.
 - **직렬화(Serialization)**: IPC 전송 시 가상 주소 공간 내의 구조체/객체를 연속된 바이트 스트림(Byte Stream)으로 변환하는 동작.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Context Switch Overhead**: CPU 레지스터 덤프 및 MMU 페이지 테이블(CR3) 갱신, TLB 무효화 시 소모되는 시스템 오버헤드.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thread Pool**: 스레드 생성/소멸 오버헤드를 막기 위해 미리 스레드 큐를 생성하여 재사용하는 자원 관리 기법.
 

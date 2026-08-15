@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프라이버시 보존 AI(Privacy-Preserving AI)**: 학습•추론 중 개인정보 노출을 줄이는 기술군이다.
 - **위협 모델(Threat Model)**: 공격자 능력•관측값•보호 자산의 가정이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **노출 경계(Exposure Boundary)**: 원본•업데이트•출력을 볼 수 있는 주체 범위이다.
 - **다층 방어(Defense in Depth)**: 데이터 비이동•노이즈•암호를 결합한다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 경계(Trust Boundary)**: 데이터•키•중간값•결과를 취급할 주체 범위이다.
 - **보호 계층(Protection Layer)**: 노이즈•암호로 관측 범위를 제한한다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공격 표면(Attack Surface)**: 학습•집계•추론에서 개인정보가 노출되는 접점이다.
 - **잔여 노출(Residual Exposure)**: 보호 후에도 공격자가 얻을 수 있는 정보 범위이다.
@@ -122,7 +122,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **연합학습(Federated Learning)**: 원본을 이동하지 않고 로컬 업데이트를 집계한다.
 - **차등 프라이버시(Differential Privacy)**: 개인 포함 여부의 결과 영향을 예산으로 제한한다.
@@ -143,7 +143,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **업데이트 역추론(Update Inversion)**: 변화량에서 원본 특성을 복원하는 공격이다.
 - **프라이버시 예산 소진**: 반복 질의•학습으로 누적 노출 한도를 소진한 문제이다.
@@ -163,7 +163,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보호 예산(Privacy Budget)**: 허용 정보 노출과 보호 기법 사용량의 한도이다.
 - **기술 조합(Technique Composition)**: 위협•효용에 맞춘 분산•노이즈•암호 배치이다.

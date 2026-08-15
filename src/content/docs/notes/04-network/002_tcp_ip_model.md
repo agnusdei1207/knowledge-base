@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **포트(Port)**: 단일 호스트 내에서 실행 중인 다수의 응용 프로세스를 식별하기 위한 16비트 논리 채널 번호.
 - **IP 주소(Internet Protocol Address, IP Address)**: 패킷의 발신지와 목적지 호스트를 네트워크상에서 고유하게 식별하는 논리 주소.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **캡슐화(Encapsulation)**: 상위 계층 데이터에 계층별 포트, IP, MAC 헤더를 순차적으로 추가하여 PDU를 생성하는 프로세스.
 - **역캡슐화(Decapsulation)**: 수신 호스트에서 프레임->패킷->세그먼트 순으로 헤더를 검증 및 탈거하여 원본 메시지를 추출하는 프로세스.
@@ -136,7 +136,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개방형 시스템 간 상호접속 모델(Open Systems Interconnection Model, OSI 모델)**: ISO가 제정한 7계층 참조 아키텍처 모델.
 
@@ -159,7 +159,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 핸드셰이크와 오버헤드를 줄이고 빠른 속도로 패킷을 전송하는 비연결형 전송 프로토콜.
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 단편화(Fragmentation) 없이 전달 가능한 단일 패킷의 최대 바이트 수.
@@ -179,7 +179,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 선택 및 적용 기준(Model Selection and Application Criteria)**: 프로토콜 개발 및 인터넷 통신 구축 시에는 TCP/IP를, 정밀 네트워크 트러블슈팅 시에는 OSI 7계층 모델을 매핑 적용하는 가이드라인.
 

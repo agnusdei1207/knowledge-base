@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Table Partitioning (테이블 파티셔닝)**: 대용량 테이블을 파티션 키(Partition Key) 기준에 따라 물리적으로 여러 개의 작고 관리하기 쉬운 개별 파티션 파일로 분할하여 관리하되, 애플리케이션에는 단일 테이블로 보여주는 물리적 데이터베이스 설계 기법.
 - **Partition Pruning (파티션 프루닝)**: 쿼리의 `WHERE` 절에 사용된 파티션 키 조건을 분석하여, 조건에 해당하지 않는 무관한 파티션 파일 읽기를 디스크 I/O 레벨에서 완전히 제외시키는 옵티마이저 최적화 기술.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Partition Pruning (파티션 프루닝)**: 필요한 특정 파티션 영역만 선택적 탐색.
 - **Easy Data Lifecycle Management (수명주기 관리)**: `TRUNCATE / DROP PARTITION` 구문으로 수천만 건 데이터 1초 만에 일괄 삭제.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Range Partitioning (범위)**: 일자/날짜/연도 등 연속된 범위 기준으로 파티션 분할.
 - **Hash Partitioning (해시)**: 파티션 키에 해시 함수를 적용하여 데이터를 각 파티션에 균등하게 수평 분산.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pruning Execution**: SQL `WHERE` 조건절의 파티션 키 조건을 옵티마이저가 해석하여 조건에 안 맞는 파티션을 물리적 스캔 대상에서 아예 삭제하는 처리 과정.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Local Prefixed Index (로컬 인덱스)**: 파티션별로 독립적인 B+Tree 인덱스를 각각 생성하는 방식 (파티션 관리가 매우 용이).
 - **Global Index (글로벌 인덱스)**: 파티션 구분 없이 전체 테이블 통합 B+Tree 인덱스를 생성하는 방식 (파티션 Drop 시 인덱스 파행).
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Skew (데이터 편향 현상)**: Hash Partitioning 키 선정이 잘못되었거나 Range 키에 특정 날짜(이벤트 날짜) 트래픽이 몰려 특정 파티션 파일만 거대해지는 현상.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파티셔닝 수립 기준(Partitioning Design Standards)**: 테이블 데이터 건수(1천만 건 이상), 파티션 키 Pruning 효율성 및 Local Index 정책에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 역전 공격(Model Inversion Attack)**: 학습된 머신러닝/딥러닝 모델의 출력 확률 벡터(Confidence Score)나 임베딩을 거꾸로 역추적하여, 학습에 사용된 개인의 안면 이미지, 유전자, 의료 기록 등 민감한 원본 데이터를 재구성 복원하는 프라이버시 침해 공격이다.
 - **학습 정보 노출(Training Data Exposure)**: AI 모델이 학습 데이터셋에 포함된 특정 개인의 고유 특징을 과도하게 기억(Memorization)함에 따라 유출되는 프라이버시 침해 현상이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰도(Confidence Score / Probability Vector)**: 모델이 예측 분류 결과에 부과한 클래스별 0~1 사이의 정밀 확률값이다.
 - **기울기(Gradient / Loss Gradient)**: 화이트박스 환경에서 입력 변화에 대한 손실 함수의 변화율로 역전 최적화의 핵심 나침반 역할을 한다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복원 최적화기(Reconstruction Optimizer)**: 경사상승법(Gradient Ascent) 또는 GAN(Generative Adversarial Network)을 활용해 모델의 득점을 최대화하는 방향으로 입력 픽셀/데이터를 반복 업데이트하는 엔진이다.
 - **프라이버시 평가(Privacy Evaluation / Leakage Assessment)**: 복원된 이미지가 실제 특정 개인의 원본 데이터와 얼마나 유사한지 SSIM, PSNR, 안면 인식 정합률로 정량 측정하는 체계이다.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **반복 최적화(Iterative Optimization)**: 무작위 초기 노이즈 이미지에 모델의 신뢰도 피드백을 적용해 대상 클래스의 특징을 수천 회 갱신하는 과정이다.
 - **유사성(Similarity Metric)**: 복원된 이미지와 실제 학습 대상 개인 원본 간의 구조적 유사도(SSIM) 수치이다.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **회원 추론(Membership Inference Attack, MIA)**: 특정 데이터 샘플이 모델의 학습 데이터셋에 포함되었는지 여부(In or Out)만 판정하는 공격이다.
 - **모델 추출(Model Extraction Attack)**: 대량의 입력-출력 쌍을 수집해 대상 AI 모델의 가중치 및 판단 경계를 복제(Stolen Model)하는 공격이다.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: AI 프라이버시 및 보안 가이드라인 표준화 기관이다.
 - **AI 100-2e2025 (NIST AI 100-2e2025 Privacy in AI)**: AI 모델의 프라이버시 침해 위험(역전, 회원추론) 및 차분 프라이버시 방안을 제시하는 NIST 지침이다.
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프라이버시-유용성 균형(Privacy-Utility Tradeoff)**: DP 노이즈 주입 시 모델 추론 정확도(Utility) 하락과 프라이버시 보호(Privacy) 간의 최적 임계점 설정이다.
 

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Store (피처 스토어)**: ML 모델에 필요한 피처(Feature)의 정의·계산 로직·과거 이력값·실시간 최신값을 단일 플랫폼에서 관리하고 제공하여, 여러 팀과 모델이 동일한 피처를 일관성 있게 재사용할 수 있게 하는 MLOps 핵심 인프라.
 - **Feature (피처)**: 원천 데이터(로그, DB 레코드 등)를 ML 모델이 학습·추론에 사용할 수 있는 수치·범주형 값으로 선택하거나 변환한 개별 특성. 예: 고객의 지난 30일 평균 구매금액.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PIT Join (Point-In-Time Correct Join, 시점 일치 조인)**: 훈련 데이터를 생성할 때, 각 학습 예제의 예측 시점(Event Timestamp) 이전에 관측 가능했던 피처값만 결합하여, 미래 데이터가 학습에 섞이는 '데이터 누수(Data Leakage)'를 방지하는 조인 방식.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Transformer (피처 변환기)**: 원천 데이터(Kafka 이벤트·DB·배치 파일)를 Feature Registry에 등록된 계산 로직에 따라 가공하여 Offline Store의 이력과 Online Store의 최신값 양쪽에 동시 저장하는 변환 엔진.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Leakage (데이터 누수)**: ML 모델 학습 시, 예측 시점 이후에 알게 된 정보(미래 데이터)가 학습 데이터에 포함되어 오프라인 성능이 실제보다 과대 평가되는 현상. PIT Join으로 방지.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Freshness (피처 신선도)**: 온라인 추론 시 제공되는 피처값이 얼마나 최신 데이터를 반영하는지를 나타내는 지표. 예: "지난 1시간 이내 갱신 보장". 신선도가 낮으면 오래된 정보로 잘못된 예측 위험.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature SLA (피처 서비스 수준 협약)**: 피처 제공 시 보장되는 신선도(Freshness)·가용성·응답 시간에 대한 공식 합의. 모델 성능과 직결되므로, 피처 소유 팀과 사용 팀 간에 명시적으로 체결 필요.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Reusability (피처 재사용성)**: Feature Registry에 등록된 피처를 여러 모델 팀이 중복 개발 없이 검색·적용하는 것으로, Feature Store 도입의 핵심 경제적 가치.
 

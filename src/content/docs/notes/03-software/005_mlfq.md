@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MLFQ(Multilevel Feedback Queue)**: 사전에 작업 실행시간(CPU Burst)을 알 수 없는 환경에서, CPU 할당량 소진 이력을 바탕으로 프로세스의 큐(Queue) 우선순위를 강등/승격 제어하는 선점 스케줄링.
 - **Priority Boost**: 하위 큐에 잔류하여 기아(Starvation) 상태에 빠진 프로세스들을 일정 주기($S$)마다 최상위 큐로 일괄 승격시키는 보정 메커니즘.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Demotion (강등)**: 지정된 Time Quantum을 100% 모두 소진한 프로세스를 1단계 하위 큐로 떨어뜨리는 동작.
 - **Interactive Job Prioritization**: CPU를 잠시 사용하고 바로 I/O 대기로 빠지는 응답형 프로세스를 상위 큐에 상주시키는 속성.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Time Slice Scaling**: 상위 큐(Q0: 10ms)에서 하위 큐(Q1: 20ms, Q2: 40ms)로 내려갈수록 타임 슬라이스 크기를 2배씩 늘려 문맥 전환 오버헤드를 억제하는 기술.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rules of MLFQ**: 
   1. Priority(A) > Priority(B) 이면 A 실행. 
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MLQ(Multilevel Queue)**: 프로세스를 성격에 따라 개별 큐에 정적 고정(No Movement)하여 큐 간 이동이 불가능한 방식.
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Gaming the Scheduler**: 프로세스가 큐 강등을 피하기 위해 타임 슬라이스 종료 직전 고의로 무의미한 I/O를 발생시켜 상위 큐에 잔류하는 취약점 공격.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MLFQ 파라미터 튜닝 기준(MLFQ Tuning Criteria)**: 큐 개수, 큐별 타임 슬라이스 크기, Priority Boost 주기($S$)에 근거한 설계 체계.
 

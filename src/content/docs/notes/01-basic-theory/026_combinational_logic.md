@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조합 논리 회로(Combinational Logic)**: 기억 소자 없이 현재 입력 조합만으로 출력을 정하는 무상태 회로이다.
 - **피드백 경로**: 회로 출력을 다시 입력으로 되돌려 이전 상태가 다음 출력에 영향을 주게 하는 연결이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **진리표(Truth Table)**: 모든 입력 조합과 출력값의 대응을 나열한 표이다.
 - **부울식 최소화**: 같은 진리표를 유지하면서 논리항과 게이트 수를 줄이는 변환이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디코더(Decoder)**: 입력 코드에 대응하는 출력선 하나를 활성화하는 회로이다.
 - **멀티플렉서(Multiplexer)**: 선택 신호에 따라 여러 입력 중 하나를 출력하는 회로이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전파 지연(Propagation Delay)**: 입력 변화가 게이트 경로를 지나 출력에 반영될 때까지의 시간이다.
 - **출력 안정화**: 모든 경로의 신호 전파가 끝나 출력이 요구 논리값으로 확정된 상태이다.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **팬인(Fan-in)**: 한 논리 게이트가 직접 받아들이는 입력 신호의 수이다.
 - **글리치(Glitch)**: 경로 지연 차이로 순간 발생하는 잘못된 출력이다.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **선견 자리올림(Carry Lookahead)**: 자리올림을 병렬 계산해 지연을 줄이는 가산 구조이다.
 - **선택 자리올림(Carry Select)**: 두 결과를 미리 계산해 지연을 줄이는 가산 구조이다.
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가산**: 두 피연산자와 자리올림을 더하는 논리 기능이다.
 - **경로 선택**: 여러 입력 중 하나를 출력으로 연결하는 논리 기능이다.

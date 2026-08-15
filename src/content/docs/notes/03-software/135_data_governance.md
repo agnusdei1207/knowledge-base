@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Governance (데이터 거버넌스)**: 기업 전사의 데이터 자산에 대한 원칙(Principles), 정책(Policies), 프레임워크(Framework), 조직 체계(RACI)를 수립하여 데이터의 가치, 품질, 보안, 법적 준수성(Compliance)을 통제 및 보장하는 최고 경영 수준의 데이터 관리 체계.
 - **Data Steward (데이터 스튜어드)**: 현업/IT 조직에서 전사 데이터의 의미 정의, 표준 단어 관리, 품질 이슈 및 보안 준수를 보살피고 모니터링하는 전문 데이터 담당자.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Standardization & Compliance**: 단어/용어/코드 전사 표준화 및 보안 법적 준수성 100% 보장.
 - **Continuous Quality Control**: 품질 게이트(Quality Gate) 및 정합성 검증의 주기적 자동화.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Owner vs Data Steward**: Data Owner는 비즈니스 측면 데이터 승인 및 최종 책임자, Data Steward는 데이터 품질 모니터링 및 실무 조치 담당자.
 
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Profiling**: 데이터베이스 내부 데이터를 다차원으로 스캔하여 컬럼별 포맷 이탈, 널 비율, 이상치를 자동 진단하는 측정 기법.
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Federated Computational Governance**: Data Mesh 아키텍처에서 사용하는 거버넌스 모델로, 전사 보안 규칙만 중앙 연합회가 정하고 세부 구현은 도메인이 수행.
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Paper Governance Danger**: 거버넌스 규칙을 두꺼운 문서 규정집으로만 작성해 두고, 아무런 시스템 자동 통제가 없어 실무에서 무시되는 파행 안티패턴.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Governance 수립 기준(Data Governance Standards)**: RACI 프레임워크, Data Steward, Policy-as-Code 및 OpenMetadata 통합성에 의거한 체계.
 

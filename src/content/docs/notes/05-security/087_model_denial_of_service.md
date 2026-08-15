@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DoS(Denial of Service)**: 시스템 자원을 고갈시켜 인가된 사용자의 정상적인 서비스 이용을 방해하는 거부 공격이다.
 - **모델 DoS(Model Denial of Service / Model DoS)**: 비대칭적 고비용 추론 요청, 100k 이상의 초장문 프롬프트, 무한 도구 호출(Tool Loop)을 의도적으로 유발하여 LLM의 연산 자원, 메모리, 클라우드 API 예산을 고갈시키는 보안 공격 기법이다.
@@ -42,7 +42,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컨텍스트 비용(Context Window Cost / Token Cost)**: 입력/출력 토큰 길이가 길어짐에 따라 트랜스포머 아키텍처의 self-attention 연산량($O(N^2)$)과 KV 캐시 메모리가 폭발적으로 늘어나는 비용 특성이다.
 - **도구 순환(Infinite Tool Loop / Recursive Tool Execution)**: AI 에이전트가 완결 조건을 찾지 못해 외부 API, DB 검색, 코드 실행을 무한히 재귀 호출하여 외부 시스템 자원까지 마비시키는 현상이다.
@@ -61,7 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비용 추정(Cost Estimation / Token Pre-computation)**: 프롬프트 수신 즉시 입력 토큰 수, 예상 출력 길이, Tool 호출 가능성을 정밀 계산하여 자원 하중을 사전 추정하는 모듈이다.
 - **입장 제어(Admission Control)**: 사전 추정된 자원 하중이 현재 GPU 용량이나 사용자의 잔여 예산을 초과 시 추론 집행을 즉시 거부하거나 큐에 수용하는 통제 관문이다.
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가중 쿼터(Weighted Quotas / Token-bucket Rate Limiter)**: 요청 단순 건수(RPS)가 아니라 입력/출력 토큰 수와 사용된 모델 체급(7B vs 70B)을 종합 계산하여 쿼터를 차감하는 방식이다.
 - **축소 응답(Degraded Response / Graceful Degradation)**: 자원 고갈 및 과부하 시 시스템 전체 다운 대신 하위 체급 모델(예: GPT-4o $\rightarrow$ GPT-4o-mini)로 자동 스위칭해 서비스를 계속 제공하는 품질 완화 기법이다.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대량 호출형(Volumetric Request Flood)**: 전통적 DoS처럼 미세 프롬프트 API 호출을 무차별 봇넷으로 수만 건 쏘아 입구를 마비시키는 공격이다.
 - **고비용 문맥형(Heavy Context Window Exploitation)**: 적은 단 한 번의 호출에 극대의 토큰(Context)을 채워 넣어서 GPU Self-attention 연산량을 붕괴시키는 공격이다.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: 글로벌 애플리케이션 보안 가이드라인 연구 기관이다.
 - **LLM10:2025 (OWASP Top 10 for LLM Applications 2025 - LLM10 Model Denial of Service)**: OWASP 2025 위험 10위에 지정된 모델 DoS 방어 규격이다.
@@ -190,7 +190,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비용 기반 가용성 통제(Cost-aware Availability Governance)**: 단순 RPS 건수가 아닌 런타임 토큰 수, GPU 연산 시간, 외부 API 과금액을 실시간 측정 종합하여 서비스 가용성을 사수하는 원칙이다.
 

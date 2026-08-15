@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스푸핑**: 통신 상대가 신뢰하는 이름•주소•식별자를 위조해 패킷 경로나 신원 판단을 속이는 공격이다.
 - **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: IP 주소를 링크 계층 주소로 해석하는 프로토콜이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **계층 검증(Layer-Specific Validation)**: ARP 바인딩•IP 역경로•DNS 서명처럼 계층별 신뢰 기준을 대조하는 방식이다.
 - **캐시 오염**: 위조 주소 정보를 임시 저장소에 넣어 이후 요청도 잘못된 대상으로 보내는 상태이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 정보원**: 주소 바인딩•경로•전자서명처럼 수신 식별자의 진위를 판정할 기준을 제공하는 원천이다.
 - **종단 인증**: 인증서로 네트워크 주소가 가리키는 실제 통신 상대의 신원을 다시 확인하는 절차이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위조 출처 차단**: 신뢰 기준과 일치하지 않는 패킷을 폐기하고 발생 포트•주소를 격리하는 대응이다.
 - **오염 상태 복구**: 위조 정보가 남은 캐시와 이미 형성된 악성 세션을 제거하는 처리이다.
@@ -135,7 +135,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: 같은 링크에서 인터페이스를 식별하는 주소이다.
 - **중간자•반사 공격**: 통신 사이에 개입하는 중간자 공격과 위조 피해자 주소로 서버 응답을 집중시키는 반사 공격이다.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동적 ARP 검사(Dynamic ARP Inspection, DAI)**: DHCP 바인딩을 기준으로 ARP 메시지를 검사하는 기능이다.
 - **유니캐스트 역경로 전달(Unicast Reverse Path Forwarding, uRPF)**: 출발지 역경로와 수신 위치를 대조하는 기능이다.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스푸핑 계층별 대응**: 위조된 주소•경로•이름 계층에 맞는 신뢰 기준 검사와 오염 상태 복구를 조합하는 방식이다.
 

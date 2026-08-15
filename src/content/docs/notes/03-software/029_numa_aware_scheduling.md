@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA (Non-Uniform Memory Access)**: 멀티소켓 CPU 아키텍처에서 물리적 거리 및 버스(Interconnect, QPI/UPI)에 따라 특정 CPU가 특정 메모리에 접근하는 속도(Latency)가 불균일한 메모리 구조.
 - **NUMA-aware Scheduling**: OS 커널 스케줄러 및 메모리 관리자가 프로세스/스레드의 구동 CPU 노드와 물리 메모리(DRAM) 할당 위치를 동일한 NUMA Node로 상호 결합(Locality)하여 원격 접근 지연을 줄이는 기술.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **First-Touch Policy**: 메모리 페이지 최초 할당 시 해당 페이지를 실제로 가장 먼저 읽거나 쓴 CPU 코어의 로컬 NUMA 노드 메모리에 물리 공간을 배정하는 기법.
 - **AutoNUMA (NUMA Balancing)**: Linux 커널이 백그라운드에서 스레드의 주기적 억세스 패턴을 모니터링하여, 멀리 떨어진 타 노드의 메모리 페이지를 해당 스레드가 속한 로컬 노드로 자동 이주(Page Migration)시키는 기능.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **vNUMA (Virtual NUMA)**: 하이퍼바이저가 게스트 VM에게 물리 하드웨어의 NUMA 토폴로지 정보를 그대로 노출하여, 게스트 OS 내부에서도 NUMA-aware 스케줄링이 작동되게 하는 기술.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA Hint Fault**: Linux AutoNUMA 엔진이 페이지 프로텍션을 변경(PROT_NONE)하여 해당 페이지 억세스 시 하드웨어 트랩을 발동, 스레드와 페이지의 노드 불일치를 감지하는 기술.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interleave Policy**: 메모리 페이지를 모든 NUMA 노드에 균등하게 순환 분산(Round-Robin) 배치하여 메모리 대역폭을 극대화하는 정책.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA Node Memory Exhaustion**: 특정 노드의 가용 메모리가 고갈되어 할당 실패나 원격 할당이 발생하는 상태.
 
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA 최적화 기준(NUMA Optimization Criteria)**: 메모리 대역폭 위주(Interleave) vs 단일 억세스 지연 위주(Locality/Bind) 요구에 따른 수립 체계.
 

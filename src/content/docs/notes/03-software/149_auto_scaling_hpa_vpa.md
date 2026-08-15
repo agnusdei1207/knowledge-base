@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto Scaling (오토 스케일링)**: 애플리케이션의 실시간 CPU/메모리/트래픽 부하 지표 변화에 응답하여 컴퓨팅 자원(Node/Pod)의 개수나 스펙을 동적으로 자동 확장(Scale-out) 및 축소(Scale-in)하는 메커니즘.
 - **HPA (Horizontal Pod Autoscaler)**: CPU 사용률이나 QPS 요청량 증가 시, 동일 컨테이너 포드(Pod)의 개수(Replicas)를 수평으로 개수 증설하는 쿠버네티스 컨트롤러 (Scale-out).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Horizontal vs Vertical**: HPA는 Pod 개수 N개 증설 (Scale-out / Stateless 앱 적합), VPA는 Pod 사양 체급 증설 (Scale-up / Stateful DB 적합).
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Metrics Server & Custom Metrics**: Prometheus 및 Metrics Server가 15초 주기로 Pod CPU/RAM/QPS 지표를 수집해 HPA/VPA 컨트롤러로 릴레이.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **HPA Target Replica Algorithm**: `DesiredReplicas = ceil[ CurrentReplicas * ( CurrentMetricValue / TargetMetricValue ) ]` 수치로 수평 복제본 계산.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cluster Autoscaler (CA / Karpenter)**: Pod 레벨 확장(HPA)을 넘어서, Node 자체(AWS EC2)의 갯수를 수평 증설해 주는 인프라 레이어 오토스케일러.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **KEDA (Kubernetes Event-driven Autoscaling)**: CPU/Memory 외에 Kafka Topic Lag, RabbitMQ 큐 쌓인 개수, AWS SQS 메시지 수 기반으로 포드를 미리 오토스케일링해 주는 오픈소스 프레임워크.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto Scaling 수립 기준(Auto Scaling Standards)**: HPA(Stateless), VPA(Stateful), KEDA Event-driven, Karpenter Node Autoscaler 연동성에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GitOps**: Weaveworks에서 제안한 Cloud-Native 인프라 및 애플리케이션 배포 운용 패러다임으로, Git 리포지토리를 시스템 상태의 '유일한 진실의 원천(Single Source of Truth)'으로 삼고 Pull 기반의 에이전트가 이를 클러스터에 자동 동기화(Reconciliation)하는 방식.
 - **Single Source of Truth (SSOT)**: 모든 인프라(IaC) 및 애플리케이션 K8s 매니페스트 설정의 불변 원본을 오직 Git 저장소 단 한 곳으로 통합 정의하는 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Reconciliation Loop (조정 루프)**: GitOps 컨트롤러가 Git 저장소의 Desired State와 K8s 클러스터의 Actual State 간의 차이(Drift)를 주기적으로(e.g., 3분) 비교하고 자동 수정 동기화하는 무한 루프.
 - **Pull-based Deployment**: K8s 내부의 GitOps 에이전트(ArgoCD)가 외부 Git 저장소에서 상태를 끌어와(Pull) 배포함으로써, 클러스터 외부로의 6443/TCP 포트 오픈 및 보안 키 유출을 차단하는 기술.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ArgoCD / FluxCD**: CNCF 아키텍처 상의 표준 GitOps 툴로, Kubernetes Custom Resource Definition(CRD)을 기반으로 Git의 YAML 파일과 K8s 상태를 실시간 동기화.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OutOfSync & Synced**: ArgoCD 상에서 Git의 선언 상태와 K8s 실물 상태가 다를 때 `OutOfSync`, 완벽히 일치할 때 `Synced`로 표시되는 상태 구분.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Push-based CI/CD vs Pull-based GitOps**: Push 기반(Jenkins, GitHub Actions)은 CI 서버가 K8s 6443 포트에 직접 접속하여 명령 전송, Pull 기반(ArgoCD)은 K8s 내부 에이전트가 Git을 끌어당겨 내부 적용.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sealed Secrets**: Git-first 사상을 유지하기 위해 DB 암호나 토큰을 비대칭키로 암호화하여 Git에 안전하게 commit 한 후, K8s 내부 컨트롤러만 복호화하게 만드는 기법.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GitOps 채택 기준(GitOps Adoption Criteria)**: K8s 오케스트레이션 사용 유무, Zero-Trust 보안 수준 및 CI/CD 자동화 성숙도에 따른 체계.
 

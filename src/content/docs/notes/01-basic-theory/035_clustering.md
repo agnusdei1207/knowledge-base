@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클러스터링(Clustering)**: 정답 레이블(Label) 없이 데이터 간의 유사성(거리, 밀도, 연결성)을 기반으로 유사한 표본을 그룹화하는 비지도 학습(Unsupervised Learning) 기법.
 - **레이블(Label)**: 지도 학습(Supervised Learning)에서 데이터에 부여된 정답.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **밀도 연결성**: 핵심점의 이웃 사슬로 표본들이 같은 고밀도 영역에 이어지는 관계이다.
 - **거리 척도(Distance Metric)**: 표본 사이의 차이를 재는 규칙이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **군집 모델(Clustering Model)**: 거리나 밀도 기준으로 레이블 없는 표본을 군집에 배정하는 모델이다.
 - **군집 평가기**: 군집의 분리도와 업무 해석 가능성을 검증하는 구성요소이다.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **특징 공간**: 데이터의 각 특징을 좌표축으로 표현해 거리나 밀도를 재는 공간이다.
 - **최근접 중심 할당**: 표본을 가장 가까운 K-Means 중심의 군집에 배정하는 처리이다.
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비볼록 군집**: 군집 내부의 두 점을 잇는 선분 일부가 군집 밖을 지나는 형태이다.
 - **핵심점(Core Point)**: 충분한 이웃으로 군집을 확장하는 표본이다.
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표준화**: 특징별 평균을 빼고 표준편차로 나눠 단위 차이의 거리 영향을 줄이는 변환이다.
 - **K-Means++**: 서로 먼 점을 초기 중심으로 뽑을 가능성을 높이는 초기화이다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 기준(Selection Criteria)**: 군집 수의 사전 지식과 군집 형상•밀도•잡음 요구를 함께 보는 기준.
 

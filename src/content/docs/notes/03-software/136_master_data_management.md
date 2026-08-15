@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MDM (Master Data Management / 마스터 데이터 관리)**: 기업 전사의 파편화된 핵심 비즈니스 개체(고객, 상품, 계좌, 공급업체) 데이터를 단일한 표준 기준정보(Golden Record / Single Version of Truth)로 매칭, 통합, 정제하여 전 시스템에 동기화 전파하는 프로세스 및 플랫폼.
 - **Golden Record (골든 레코드)**: 이종 DB의 동일 인물/상품 중 가장 최신의 높은 신뢰성을 지닌 속성값만을 병합 추출하여 완성한 전사 최고 품질 단일 레코드.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Matching & Merging (매칭 및 병합)**: 핑거프린트/유사도 알고리즘으로 중복 레코드 파악 후 병합.
 - **Cross-Referencing (교차 참조 맵핑)**: MDM의 Master ID와 각 원천 DB의 Local ID 간의 n:1 매핑 관리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consolidation vs Transactional Architecture**: Consolidation은 수집/분석용 단방향 모음, Transactional은 중앙 MDM에서 CUD를 직접 수행하는 양방향 권위형 구조.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blocking Key (차단 키)**: 수백만 건 레코드 전체를 N*N으로 무차별 비교하지 않고, `BirthDate_ZipCode` 형태로 차단 키를 묶어 매칭 비교군을 1/1,000 수준으로 축소하는 성능 최적화 기법.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deterministic vs Probabilistic**: Deterministic은 주민번호/사업자번호 100% 일치 시 병합, Probabilistic은 이름+생년월일+주소 유사도 점수(85점 이상)로 병합.
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Un-Merge Mechanism (병합 분리)**: 확률 매칭 오류로 타인이 동일인으로 오병합(Over-Merge)되었을 때, 이를 원복하여 2개 레코드로 즉시 분리하는 트랜잭션 롤백 기능.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MDM 수립 기준(MDM Architecture Standards)**: Coexistence Style, Probabilistic Matching, Blocking Key, Survivorship Rule 및 Un-Merge 기능성에 의거한 체계.
 

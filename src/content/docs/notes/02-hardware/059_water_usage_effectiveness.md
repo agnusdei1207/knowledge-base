@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WUE(Water Usage Effectiveness)**: 데이터센터에서 냉각 및 운영을 위해 소비된 총 수자원(물) 사용량을 IT 장비 전력량으로 나눈 수자원 효율화 평가 지표.
 - **현장 물 사용량($V_W$)**: 쿨링타워 증발, 가습, 세척 등에 소비된 데이터센터 총 수자원 소비 부피(Liter 또는 $m^3$).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **L/kWh(Liter per Kilowatt-Hour)**: IT 전력 1kWh 소모 당 사용된 수자원의 리터(L) 수치 단위.
 - **증발 냉각(Evaporative Cooling)**: 물의 증발 잠열을 활용하여 차가운 공기를 생성하는 기화 냉각 방식.
@@ -59,7 +59,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **물 사용 계량(Water-Use Metering)**: 상수도, 지하수, 재생수(Reclaimed Water) 인입 유량계 미터링.
 - **환경 정보(Environmental Info)**: 지역 수자원 스트레스 지수(WRI Water Stress Index), 외기 습도 텔레메트리.
@@ -88,7 +88,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **계량 범위(Metering Scope)**: 건물 인입부터 보충수, 블로다운(Blowdown) 수량까지의 유량 계측 경계.
 - **가뭄/수자원 위기(Drought/Water Stress)**: 특정 계절 또는 지역적 수자원 수급 가용성 악화 조건.
@@ -124,7 +124,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUE(Power Usage Effectiveness)**: 총 전력 사용량 기반의 전기 에너지 효율 지표.
 - **CUE(Carbon Usage Effectiveness)**: 탄소 배출량($CO_2$) 기반의 기후 변화 효율 지표.
@@ -144,7 +144,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **물 수지(Water Balance)**: 데이터센터 인입 용수, 증발량, 배수량(Blowdown), 비산 손실을 합산하여 유실을 추적하는 수치.
 - **재생수(Reclaimed Water/Graywater)**: 하수 처리수 및 재활용수를 쿨링 보충수로 재사용하는 친환경 용수.
@@ -166,7 +166,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **건식 냉각(Dry Cooling)**: 물 증발 없이 대기 팬만을 활용하는 무수(Zero Water) 냉각 방식.
 - **냉각 수원 선택 기준(Cooling Source Selection Criteria)**: PUE 목표, WUE 한도, 지역 수자원 상태에 따른 쿨링 모드 결정 체계.

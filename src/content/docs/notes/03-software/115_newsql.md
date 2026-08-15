@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NewSQL**: RDBMS의 전통적 100% ACID 트랜잭션과 표준 SQL 인터페이스를 그대로 유지하면서, NoSQL이 가진 무한한 수평 확장성(Scale-Out)과 고가용성을 결합한 차세대 분산 관계형 데이터베이스 분류.
 - **Google Spanner**: 원자 시계(Atomic Clock)와 GPS 기반의 TrueTime API를 활용하여 글로벌 마티노드 간 전역 직렬성(External Consistency / Serializability)을 100% 달성한 글로벌 NewSQL 표준 DB.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed ACID & 2PC**: 다중 분산 노드에 걸쳐 100% ACID 트랜잭션 보장.
 - **Raft / Paxos Consensus**: 복제 노드 간 데이터 일관성을 위해 Raft/Paxos 합의 알고리즘 수용.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TrueTime API vs HLC**: Spanner는 GPS+원자시계 하드웨어로 시간 오차 $\epsilon$를 $O(1\text{ms})$로 제어, CockroachDB는 소프트웨어적 HLC(Hybrid Logical Clock)로 시계열 순서 관리.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Lock-Free Read (TrueTime Read)**: TrueTime / HLC 기반 타임스탬프를 통해 읽기 연산 시 락(Lock)을 전혀 걸지 않고 과거 특정 시점의 Snapshot Read를 즉시 수행하는 기술.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NewSQL Position**: RDBMS의 ACID/SQL과 NoSQL의 Scale-Out 장점만을 완전 결합.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Region Network Latency**: 여러 리전에 분산 노드가 흩어져 있을 경우 Raft/Paxos 합의 네트워크 왕복(RTT)으로 인해 쓰기 Latency가 수십 ms로 증가하는 현상.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NewSQL 수립 기준(NewSQL Architecture Standards)**: 100% Distributed ACID, Raft/Paxos 합의, HLC/TrueTime 시계열 및 Multi-Cloud 수용성에 의거한 체계.
 

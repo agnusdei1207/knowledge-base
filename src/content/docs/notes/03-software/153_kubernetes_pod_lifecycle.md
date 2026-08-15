@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파드 생명주기(Pod Lifecycle)**: 파드(Pod)의 생성부터 종료까지 상태 전이 단계 및 상태 점검(Probe)을 관리하는 절차.
 - **프로브(Probe)**: 큐블릿(Kubelet)이 컨테이너의 생존(Liveness), 준비(Readiness), 기동(Startup) 상태를 주기적으로 확인하는 메커니즘.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **생존 vs 준비 프로브(Liveness vs Readiness Probe)**: Liveness Probe는 고장 시 컨테이너를 재시작하여 정상 상태 회복, Readiness Probe는 미준비 상태 시 서비스 엔드포인트에서 제외하여 트래픽 유입 차단.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Startup Probe**: Java/Spring 애플리케이션처럼 부팅에 2분이 걸리는 앱의 초기 부팅 완료 여부를 기다려 주는 전용 헬스체크.
 
@@ -77,7 +77,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **preStop 훅(preStop Hook)**: `kubectl delete pod` 신호 수신 시 SIGTERM 전달 직전, 트래픽 차단 및 세션 정리를 위해 수행하는 스크립트 훅.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cascade Restart Danger**: DB장애로 Readiness 대신 Liveness를 잘못 걸면, 전사 컨테이너가 무한 재시작(Cascade Fail)되는 안티패턴.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **502 Bad Gateway on Deployment**: Deploy rolling update 시 preStop 훅(sleep 10s)이 없어서 K8s Endpoint가 지워지기도 전에 Pod가 꺼져 502 터지는 현상.
 

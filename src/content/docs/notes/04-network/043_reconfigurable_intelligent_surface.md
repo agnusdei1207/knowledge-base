@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **재구성 지능형 표면(Reconfigurable Intelligent Surface, RIS)**: 메타물질(Metamaterial) 기반 단위 셀 소자의 반사 계수를 조절하여 입사하는 전파의 반사 위상과 빔 방향을 실시간 재구성하는 무선 표면 기술이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **연쇄 채널(Cascaded Channel)**: 기지국과 RIS 간 무선 채널(BS-RIS)과 RIS와 단말 간 무선 채널(RIS-UE)이 곱해진 결합 전파 검증 경로이다.
 - **빔 이탈(Beam Misalignment)**: 단말의 이동이나 채널 추정 지연으로 인해 RIS 반사 빔의 위상 집속 위치와 실제 단말의 위치가 어긋나 수신 전력이 급감하는 현상이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단위 셀(Unit Cell Element)**: 독립적인 위상 Shift 및 진폭 응답을 제공하는 메타물질 기반의 최소 수동 반사 소자 단위이다.
 - **반사 계수(Reflection Coefficient)**: 입사 전파 신호 대비 반사 신호의 진폭 변쇄비 및 위상 변화량을 결정하는 복소수 변수이다.
@@ -85,7 +85,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **채널 추정(Channel Estimation)**: 기지국이 보낸 파일럿(Pilot) 신호를 기반으로 BS-RIS 및 RIS-UE 간 연쇄 채널 행렬을 추정하는 알고리즘이다.
 - **위상 결합(Phase Coherent Combining)**: 여러 단위 셀에서 반사된 전파들의 위상이 단말 위치에서 정확히 동상(In-phase)으로 중첩되도록 각 소자의 반사 위상을 보정하는 기법이다.
@@ -126,7 +126,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중계기(Repeater / AF Relay)**: 약해진 무선 신호를 수신하여 능동 RF 전력 증폭기를 거쳐 재송신하는 전통적 커버리지 확장 장비이다.
 - **무선주파수 회로 계통(Radio Frequency Chain, RF Chain)**: 주파수 변환기, 혼합기, 저잡음 증폭기(LNA) 및 전력 증폭기(PA)로 구성된 능동 회로 계통이다.
@@ -150,7 +150,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신호 대 잡음비(Signal-to-Noise Ratio, SNR)**: 수신 단말에 도달하는 유효 신호 전력 대 잡음 전력의 비로, 수신 품질의 척도이다.
 - **위상 양자화(Phase Quantization Error)**: RIS 소자가 연속적인 위상을 표현하지 못하고 1bit(0,180도) 또는 2bit(0,90,180,270도) 등 이산적 양자화값을 지원함에 따른 반사 빔 성능 손실이다.
@@ -171,7 +171,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **입사 전력(Incident Power)**: 기지국으로부터 RIS 물리 표면에 도착하는 단위 면적당 전파 에너지 전력값이다.
 

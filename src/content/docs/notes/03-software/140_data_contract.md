@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Contract (데이터 계약)**: 데이터 생산자(Producer)와 데이터 소비자(Consumer) 간에 주고받을 데이터의 스키마 구조, 데이터 타입, 의미(Semantics), SLA, 품질 지표(Expectations) 및 파괴적 변경(Breaking Change) 예고 수칙을 명시적으로 서명 체결하는 시스템 간 구두/코드 약정서.
 - **Breaking Change (파괴적 변경)**: 생산자가 컬럼 삭제나 타겟 타입 변경(`String -> Int`)을 예고 없이 감행하여 하류 파이프라인(Snowflake, Dashboard)을 전면 붕괴시키는 현상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Syntax & Semantic Guarantee**: 데이터 포맷 규격(Syntax) 및 업무 의미(Semantic)를 100% 보장.
 - **SLA & Quality Bound**: 데이터 유입 지연 시간(SLA) 및 널 비율(Quality)을 명시적 수치화.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Contract Spec (OpenDataContract Standard)**: `schema`, `quality`, `terms`, `servicelevel` 4대 파트로 작성되는 YAML 기반 규약서.
 
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Contract CI/CD Gate**: DB 마이그레이션(PR) 시 Data Contract 명세와 비교하여 파괴적 변경 발생 시 PR Merge를 자동 차단하는 게이트.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API vs Data Contract**: API Contract(OpenAPI/Swagger)는 서비스 통신용 인터페이스 계약, Data Contract는 파이프라인 수집/품질/SLA 데이터용 계약.
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Producer Resistance (생산자 저항)**: 데이터 계약 작성이 백엔드 개발자에게 추가 부담으로 작용하여 거부하는 현상.
 
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Contract 수립 기준(Data Contract Standards)**: OpenDataContract YAML 표준, CI/CD Gate, Data Mesh 통합 및 dbt/Great Expectations 연동성에 의거한 체계.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **몬테카를로 트리탐색(Monte Carlo Tree Search, MCTS)**: 모의 보상 통계로 유망한 분기를 찾는다.
 - **분기 폭(Branching Factor)**: 한 상태에서 선택 가능한 자식 행동 수이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **트리 상한 신뢰도(Upper Confidence Bounds applied to Trees, UCT)**: 평균 가치와 탐험 보너스로 자식을 선택한다.
 - **역전파(Backpropagation)**: 롤아웃 보상을 선택 경로의 통계에 누적한다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **노드 통계(Node Statistics)**: 방문 횟수와 누적•평균 보상 정보이다.
 - **탐색 트리(Search Tree)**: 상태•행동 분기를 노드•간선으로 저장한다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선택(Selection)**: UCT로 루트부터 확장 노드까지 경로를 고른다.
 - **확장(Expansion)**: 미탐색 행동을 새 자식 노드로 추가한다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미니맥스(Minimax)**: 상대의 최선 대응을 가정해 트리 값을 역산한다.
 - **신경망 유도 MCTS(Neural-guided MCTS)**: 정책망•가치망으로 트리 탐색을 안내한다.
@@ -156,7 +156,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **롤아웃 편향(Rollout Bias)**: 모의 정책으로 가치 추정이 치우치는 문제이다.
 - **탐험 상수(Exploration Constant)**: UCT 탐험 보너스 크기를 조절한다.
@@ -177,7 +177,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **롤아웃 신뢰도(Rollout Reliability)**: 모의 정책의 상대 가치 추정 일관성이다.
 - **행동 선택 안정성(Action Stability)**: 예산•무작위성 변화에도 선택 행동이 유지되는 정도이다.

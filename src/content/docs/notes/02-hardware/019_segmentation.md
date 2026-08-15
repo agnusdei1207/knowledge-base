@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **세그멘테이션(Segmentation)**: 프로그램의 가상 주소 공간을 의미론적 모듈(코드, 데이터, 스택, 힙 등) 단위인 가변 크기의 논리적 영역(Segment)으로 나누어 독립된 보호 및 주소 변환을 수행하는 메모리 관리 기법.
 - **논리 권한 경계(Logical Permission Boundary)**: 코드 세그먼트(Read/Execute), 데이터 세그먼트(Read/Write), 스택 세그먼트(Read/Write/Grow) 등 영역별로 특화된 메인 메모리 보호 및 상호 접근 제어 한계선.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2차원 주소(Two-Dimensional Address Space)**: 프로세스가 주소를 지정할 때 `[Segment Selector : Offset]` 구조의 2개 파라미터 조합으로 참조하는 주소 지정 방식.
 - **기준 주소(Base Address)**: 해당 세그먼트가 시작되는 실제 물리 DRAM의 바이트 시작 주소.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **세그먼트 기술자(Segment Descriptor)**: 8바이트 구성의 하드웨어 태그로, Base 주소(32/64-bit), Limit 크기(20-bit), Present Bit, Privilege Level(DPL), Protection Bit(R/W/X) 정보를 저장하는 엔트리.
 - **보호 검사기(Protection Checker)**: 입력된 Offset이 기술자의 Limit 크기를 초과하거나 R/W/X 권한을 위반했는지를 하드웨어 파이프라인에서 실시간 대조 검사하는 로직.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **세그먼트 번호(Segment Selector)**: CS, DS, SS 등 레지스터에 탑재되어 세그먼트 테이블 인덱스 번호를 선택하는 16비트 주소 필드.
 - **보호 예외(Protection Exception / Segment Fault)**: Offset >= Limit 이거나 읽기 전용 코드 세그먼트에 쓰기를 시도할 때 하드웨어 MMU가 발생하는 예외 트랩.
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **외부 단편화(External Fragmentation)**: 가변 크기의 세그먼트들이 할당/해제되는 과정에서 메모리 사이에 자투리 유휴 공간이 흩어져, 총 여유 메모리는 충분하나 연속된 구역이 부족하여 새 세그먼트를 적재하지 못하는 심각한 현상.
 - **세그먼트-페이징(Segmented Paging / Paged Segmentation)**: 세그멘테이션으로 논리적 모듈 구분 및 권한 보호를 적용하고, 각 세그먼트 내부를 다시 고정 크기 4KB 페이지로 분할하여 페이징 비연속 배치를 실행하는 결합 구조.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가드 영역(Guard Page / Guard Region)**: 스택 등 확장 경계에 접근 금지 페이지를 배치하여 범위 초과를 예외로 감지하는 기법.
 - **TLB 지역성(TLB Locality)**: Segmented Paging 구조에서 세그먼트 테이블과 페이지 테이블의 다중 변환 지연을 차단하기 위해 TLB 룩업 캐시를 고도화하는 최적화.
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 보호 프레임워크(Logical Protection Framework)**: 64비트 아키텍처에서 페이징 기반 하드웨어를 주축으로 활용하면서, 소프트웨어적 세그멘테이션 논리 권한 제어를 결합하는 가상 메모리 설계 기준.
 

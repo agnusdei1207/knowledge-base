@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인공지능 보안 위험관리(Artificial Intelligence Security Risk Management, AI Security RMF)**: 데이터 수집, 모델 학습, 배포, 추론, 에이전트 도구 연동 전 수명주기에서 발생하는 보안 위험을 체계적으로 식별, 평가, 통제하는 거버넌스 프레임워크이다.
 - **모델 고유 위협(Model-specific Threat)**: 데이터 오염(Poisoning), 모델 역공학(Model Inversion), 프롬프트 인젝션, 환각(Hallucination) 오용 등 기존 애플리케이션 보안으로는 차단 불가능한 AI 고유 취약성이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 계보(Data Lineage)**: 학습 데이터의 수집 출처, 정제 과정, 라벨링 변경 이력을 추적하여 데이터 오염을 방지하는 무결성 관리 기술이다.
 - **모델 가중치(Model Weights)**: AI 모델의 지적재산권(IP) 핵심으로, 파라미터 유출 및 비인가 추출 공격(Model Extraction)의 핵심 보호 대상이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 공급망(Data Supply Chain)**: 데이터 수집, 크롤링, 라벨링, 전처리를 포함하는 데이터 유입 파이프라인 영역이다.
 - **모델 공급망(Model Supply Chain)**: 오픈소스 파운데이션 모델 수용, 파인튜닝, 가중치 저장소(HuggingFace 등) 검증 영역이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **접근 제어 목록 기반 검색(Access Control List-based Retrieval, ACL-based Retrieval)**: RAG 벡터 검색 시 요청 사용자의 접근 권한(ACL)이 인가된 문서 조각만 벡터 스페이스에서 추출하는 통제이다.
 - **승인 범위 도구 호출(Policy-bounded Tool Execution)**: AI 에이전트의 외부 액션이 사용자의 사전 인가 정책 범위를 이탈하지 못하도록 런타임에 2차 검증하는 단계이다.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 오염(Data Poisoning)**: 학습 데이터셋에 편향되거나 오염된 샘플을 주입하여 모델 추론 정확도를 떨어뜨리거나 백도어를 심는 공격이다.
 - **백도어(Backdoor Attack)**: 특정 핑거프린트/트리거(Trigger) 입력이 들어올 때만 공격자가 지정한 악성 동작을 수행하도록 가중치를 조작하는 공격이다.
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: AI 보안 및 표준 규격을 제정하는 글로벌 표준화 기관이다.
 - **위험관리 프레임워크(Risk Management Framework, RMF)**: 위험을 식별, 평가, 대응, 모니터링하는 표준 위험 관리 프레임워크이다.
@@ -194,7 +194,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 신뢰 경계 유지(AI Trust Boundary Maintenance)**: 데이터 수집부터 LLM 추론 및 에이전트 실행까지 전체 영역에서 데이터 출처와 권한 한계를 지속 유지하는 상태이다.
 - **배포•실행 차단 기준(Deployment & Execution Gate Criteria)**: 검증되지 않은 모델 배포를 막고, 위험 도구 호출 시 승인을 강제하는 보안 관문 지침이다.

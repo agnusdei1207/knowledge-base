@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GraphQL**: 페이스북이 개발한 쿼리 언어로, 클라이언트가 서버에 존재하는 데이터의 형태(Schema)를 바탕으로 정확히 자신이 필요한 필드만 선별하여 단일 엔드포인트(`/graphql`)로 요청하고 응답받는 API 기술.
 - **Over-fetching & Under-fetching**: REST API의 고정된 응답 구조 때문에 클라이언트가 불필요한 필드까지 통째로 받거나(Over), 한 번에 다 받지 못해 여러 번 API를 호출해야 하는(Under) 현상. GraphQL은 이를 완벽히 해결함.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Declarative Data Fetching (선언적 데이터 패칭)**: 클라이언트가 "어떻게(How)" 가져올지가 아니라, "무엇(What)"이 필요한지만 JSON과 유사한 형태의 쿼리로 선언하면 서버가 알아서 조합해 주는 방식.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Resolver (리졸버)**: 클라이언트가 요청한 쿼리의 각 필드(Field)가 실제로 DB나 백엔드 서비스의 어디에서 데이터를 가져와야 하는지 매핑해 주는 핵심 실행 함수.
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AST (Abstract Syntax Tree, 추상 구문 트리)**: 서버가 클라이언트의 문자열 쿼리를 수신한 후, 구문 분석(Parsing)을 통해 내부적으로 이해하고 실행할 수 있도록 변환한 트리 형태의 데이터 구조.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API Gateway vs GraphQL Federation**: 다수의 마이크로서비스를 묶을 때, REST는 API Gateway가 라우팅만 하지만, GraphQL은 Apollo Federation을 통해 여러 서브그래프(Sub-graph)를 1개의 슈퍼그래프(Super-graph)로 결합하여 클라이언트에게 제공.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **N+1 Problem**: 리졸버가 부모 데이터 1건을 조회한 후, 자식 데이터 N건을 가져오기 위해 쿼리를 N번 더 날리게 되어 데이터베이스 성능이 붕괴되는 GraphQL의 대표적 난제.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GraphQL 수립 기준**: 스키마(Schema) 타입 선언, 선언적 데이터 페칭 설계, N+1 쿼리 최적화(DataLoader) 및 쿼리 복잡도 통제에 의거한 체계.
 

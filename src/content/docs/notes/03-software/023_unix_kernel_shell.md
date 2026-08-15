@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UNIX Architecture (UNIX 3대 구성요소)**: 사용자-하드웨어 간의 인터페이스 역할을 수행하는 Shell(명령어 해석기), OS의 핵심 제어를 담당하는 Kernel, 데이터를 영구 관리하는 File System으로 분할된 3대 아키텍처 구조.
 - **Kernel (커널)**: 하드웨어 직접 제어, 메모리/프로세스 스케줄링, I/O 관리 및 보안 특권 모드(Kernel Mode)를 담당하는 UNIX 핵심 서비스엔진.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **System Call (시스템 콜)**: 사용자 공간(User Space)에서 커널 공간(Kernel Space)의 자원에 접근하기 위해 커널 인터페이스를 호출하는 소프트웨어 트랩 메커니즘.
 - **Everything is a File**: 일반 파일과 장치 등 여러 자원을 파일 기술자와 공통 I/O 인터페이스로 다루는 UNIX 관점.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **POSIX Standard**: UNIX 계열 운영체제의 소스 호환성을 위한 IEEE 운영체제 인터페이스 표준.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **fork() / exec()**: Shell에서 신규 명령어를 구동할 때, 자식 프로세스를 복제 생성(`fork`) 후 신규 실행 파일 바이너리를 Overwrite(`exec`)하여 디스패치하는 과정.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Monolithic Kernel vs Microkernel**: monolithic은 모든 OS 서비스(FS, Net, Driver)가 단일 커널 공간에 포함된 반면, microkernel은 최소 기능만 커널에 두고 나머지는 유저 서비스로 분리.
 
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shell Injection**: 신뢰할 수 없는 사용자 입력값을 Shell 스크립트 실행 명령 파라미터로 그대로 결합 시 의도치 않은 하위 악성 세미콜론(`;`) 명령어가 동시 실행되는 취약점.
 
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UNIX 아키텍처 설계 기준(UNIX Architecture Standards)**: 모듈화, 책임 분리(Separation of Concerns), POSIX 표준 준수 및 보안 격리에 의거한 설계 체계.
 

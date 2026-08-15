@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Mesh (데이터 메시)**: 자막 데그하니(Zhamak Dehghani)가 제안한 탈중앙화(Decentralized) 도메인 중심 빅데이터 조직 패러다임으로, 데이터 소유권을 현업 도메인 팀(Domain-driven)에 부여하고 데이터를 하나의 독립된 제품(Data-as-a-Product)으로 분산 서비스하는 아키텍처.
 - **Domain-Oriented Ownership (도메인 중심 데이터 소유권)**: 중앙 데이터팀의 수집/정제 병목을 제거하고, 현업 도메인(주문, 결제, 회원) 팀이 직접 데이터 생성 및 품질을 소유하고 관리하는 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Self-Serve Data Infrastructure Platform**: 각 도메인 팀이 복잡한 인프라 튜닝 없이 클릭 몇 번으로 인프라(S3, Spark, Catalog)를 즉시 자급자족 프로비저닝할 수 있게 만드는 셀프서비스 플랫폼.
 - **Federated Computational Governance**: 전사 표준 데이터 규칙, 보안, PII 암호화는 중앙 연합회가 코드(Policy-as-Code)로 자동 강제 및 모니터링.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Product Quantum**: 독립된 데이터 제품 단위로 데이터 파이프라인, 메타데이터, 보안 정책, 코드 및 서빙 API가 일체형 패키징된 구조.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Contract (데이터 계약)**: Data Product 생산자와 소비자 간에 주고받는 데이터의 형태, 타입, SLA, 변경 파기 조건을 정식 규약으로 체결하는 계약서.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Centralized Bottleneck vs Decentralized Domain**: 중앙 Data Lake는 과부하 병목 지점이 발생하는 반면, Data Mesh는 도메인 팀 분산 처리로 스케일아웃.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Silo Danger (데이터 파편화 위험)**: 연합 거버넌스 통제 없이 도메인 팀 자율권만 주면 각 도메인이 자신만의 데이터 섬(Silo)으로 고립되는 안티패턴.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Mesh 수립 기준(Data Mesh Architecture Standards)**: Domain Ownership, Data-as-a-Product, Data Contract, Self-Serve Platform 및 Federated Governance에 의거한 체계.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **합성 데이터(Synthetic Data)**: 실제 관측 대신 생성 모델•규칙•시뮬레이터로 만든 학습•평가 데이터를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **합성 표본 보강(Synthetic Sample Augmentation)**: 실제로 수집하기 어렵거나 위험한 조건의 표본을 생성하여 데이터 범위를 넓히는 활용 방식을 나타낸다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조건 제어 생성(Conditional Controllable Generation)**: 클래스•환경•금지 속성을 명시하여 필요한 분포의 표본을 만드는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **자동 라벨(Auto-labeling)**: 생성 조건이나 시뮬레이터 상태에서 표본 정답을 함께 산출하는 기능을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생성 요구(Generation Requirements)**: 목표 분포•클래스•희귀 조건•금지 속성을 정의한 명세 사항을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **출처 기록(Provenance Tracking)**: 생성 모델•버전•시드•조건•라벨을 각 합성 표본과 연결한 이력으로 정의된다.
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분포 이격(Distribution Drift)**: 합성 표본의 통계적 특성이 실제 운영 데이터와 달라지는 정도를 가리킨다.
 - **채택 기준(Inclusion Criteria)**: 형식•사실•분포•과업 성능 검사를 통과한 표본만 학습에 포함하는 규칙을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -120,7 +120,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **합성 데이터 역할(Role of Synthetic Data)**: 모델•규칙•시뮬레이터로 새로운 표본을 생성하여 데이터 부족을 해소하는 역할을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **실제 원천 데이터(Real World Source Data)**: 현실에서 관측•기록하여 분포와 평가의 기준을 제공하는 데이터 자산을 나타낸다.
@@ -140,7 +140,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생성기 편향(Generator Bias)**: 생성 모델의 누락과 편향이 합성 표본 분포에 반복되는 문제를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **모델 자가포식 장애(Model Autophagy Disorder, MAD)**: 합성 데이터만 반복 학습하여 다양성과 현실성이 줄어드는 현상으로 정의된다.
@@ -159,7 +159,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현실성 기준(Realism Criteria)**: 실제 기준셋 대비 분포와 과업 성능을 측정하여 합성 표본의 사용 여부를 판정하는 지표를 나타낸다.
 - **다양성 보존(Diversity Preservation)**: 실제 데이터를 계속 혼합하고 합성 비율을 제한하여 반복 생성의 붕괴를 막는 대책을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.

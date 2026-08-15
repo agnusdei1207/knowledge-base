@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **AI 영향평가(AI Impact Assessment)**: AI의 권리•안전•기회 영향과 잔여 영향을 평가한다.
 - **잔여 영향(Residual Impact)**: 예방•탐지•구제 후에도 남은 부정적 영향이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이해관계자(Stakeholder)**: AI로 이익•피해를 받는 개인•집단이다.
 - **가역성(Reversibility)**: 피해를 원상 회복하거나 보상할 수 있는 정도이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **평가 경계(Assessment Boundary)**: 시스템 목적•환경•결정•대상 집단 범위이다.
 - **피해 시나리오(Harm Scenario)**: 데이터•판정•사용이 피해로 이어지는 경로이다.
@@ -83,7 +83,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영향 수준(Impact Level)**: 가능성•심각도•가역성을 결합한 우선순위이다.
 - **재평가 조건(Reassessment Trigger)**: 시스템•데이터•환경 변경 시 재평가 기준이다.
@@ -121,7 +121,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개인정보 영향평가(Privacy Impact Assessment)**: 개인정보 처리 위험을 사전 분석•완화한다.
 - **시스템 위험평가(System Risk Assessment)**: 위협•취약점•업무 영향의 통제를 정한다.
@@ -142,7 +142,7 @@ AI 영향평가는 권리•안전•기회 영향을, 개인정보 영향평가
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **간접 영향자 누락**: 직접 사용자 외의 영향자를 제외한 문제이다.
 - **집단 피해 은폐**: 평균 성능으로 집단별 피해가 가려진 문제이다.
@@ -162,7 +162,7 @@ AI 영향평가는 권리•안전•기회 영향을, 개인정보 영향평가
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **출시 조건(Release Condition)**: 잔여 영향•통제 효과에 따른 배포 제한이다.
 - **중지 조건(Stop Condition)**: 피해가 허용 수준을 넘을 때의 사용 중지 기준이다.

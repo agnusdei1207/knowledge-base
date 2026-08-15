@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DR (Disaster Recovery, 재해 복구)**: 지진, 화재, 사이버 공격 등 예상치 못한 재해로 인해 주 시스템이 완전 불능 상태가 되었을 때, 사전에 구축된 대체 환경에서 서비스를 복원하는 업무 연속성(BCP) 전략.
 - **RTO (Recovery Time Objective, 복구 시간 목표)**: "장애 발생 후 최대 몇 시간/분 이내에 서비스가 복구되어야 하는가?"를 정량화한 목표. RTO가 짧을수록 비싼 예비 환경 필요.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BIA (Business Impact Analysis, 업무 영향 분석)**: 각 업무가 X시간 동안 중단되었을 때 발생하는 재무적 손실, 법적 제재, 고객 이탈 등의 피해 규모를 정량화하여, RTO/RPO와 복구 투자 우선순위를 결정하는 핵심 분석.
 
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Recovery Tier (복구 등급)**: RTO/RPO와 업무 중요도에 따라 시스템을 그룹화한 등급. Tier 1은 미션 크리티컬(RTO 분 단위), Tier 3은 비핵심(RTO 일 단위). 각 Tier별로 다른 DR 방식(Active-Active, Warm Standby, Backup) 적용.
 
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대사 검증 (Reconciliation)**: 재해 발생 후 DR 사이트로 전환하고 나서, 주 사이트와 DR 사이트의 데이터가 정합성(Consistency)을 유지하고 있는지 금액·건수 등을 비교하여 확인하는 작업. 특히 금융권에서 필수.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Active-Active (액티브-액티브)**: 2개 이상의 데이터센터가 평상시에도 동시에 트래픽을 처리하여, 한 곳이 재해를 당해도 나머지가 즉시 100% 부하를 흡수하는 최고 수준의 DR 방식.
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **N-1 Load Test (N-1 부하 시험)**: 전체 노드(서버) N개 중 1개가 장애 난 상태(N-1)에서 나머지 노드들이 피크(최대) 트래픽을 소화할 수 있는지 사전에 검증하는 용량 테스트. DR 전환 후 용량 부족 방지.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DR 방식 선택 기준**: 업무의 BIA 피해 규모(RTO/RPO 요구치)와 예산 한도를 교차 분석하여 Active-Active, Warm Standby, Backup Restore 중 최적 방식을 선택하는 경영적 의사결정 기준.
 

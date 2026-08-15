@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Database Normalization (데이터베이스 정규화)**: 릴레이션 간의 바람직하지 않은 데이터 중복(Redundancy)과 갱신 이상(Anomaly)을 제거하기 위해, 함수적 종속성(FD)을 기반으로 스키마를 단계별(1NF~BCNF/5NF)로 무손실 분해(Lossless Decomposition)하는 논리적 설계 기법.
 - **Data Anomaly (데이터 이상 현상)**: 테이블 정규화 미비로 인해 데이터 CUD 연산 시 발생하는 3대 현상 (삽입 이상, 수정 이상, 삭제 이상).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lossless Join Decomposition (무손실 조인 분해)**: 분해된 릴레이션들을 다시 자연 조인(Natural Join)했을 때, 원래의 릴레이션과 정확히 일치하며 유령 튜플(Spurious Tuple)이 생성되지 않는 성질.
 - **Dependency Preservation (종속성 보존)**: 릴레이션 분해 후에도 원본 릴레이션의 모든 함수적 종속성(FD)이 분해된 릴레이션들 상에서 그대로 검증 및 유지되는 성질.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Insertion Anomaly (삽입 이상)**: 데이터를 삽입할 때 불필요한 원치 않는 정보까지 억지로 함께 입력해야 하거나, 필수 키 값이 없어 입력을 못 하는 현상.
 - **Update Anomaly (수정 이상)**: 중복 데이터 중 일부 튜플만 수정하여 데이터 불일치(Inconsistency)가 발생하는 현상.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Determinant Key Rule**: BCNF에서는 "모든 결정자는 후보키여야 한다"는 강력한 규칙 적용.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3NF vs BCNF**: 3NF 합성은 종속성 보존을 목표로 하며, BCNF 분해는 일부 종속성을 개별 릴레이션에서 검사하지 못할 수 있음.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Over-Normalization (과도한 정규화)**: BCNF/4NF/5NF 등 지나친 정규화로 테이블 수가 급증하여 `JOIN` 연산 오버헤드로 인한 성능 추락 현상 (반정규화 필요성 대두).
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정규화 수립 기준(Database Normalization Standards)**: 데이터 무결성 요건, 함수적 종속성(FD) 및 OLTP 3NF 표준성에 의거한 체계.
 

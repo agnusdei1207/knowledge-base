@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Three-Level Schema Architecture (ANSI/SPARC 3단계 스키마 구조)**: 데이터베이스 시스템의 복잡성을 숨기고 데이터 독립성을 보장하기 위해, 데이터베이스를 외부 스키마(External), 개념 스키마(Conceptual), 내부 스키마(Internal) 3개 계층으로 구분하여 정의한 표준 아키텍처.
 - **External Schema (외부 스키마 / 서브키마)**: 개별 사용자나 응용 프로그램의 관점에서 본 데이터베이스의 논리적 뷰(View) 및 접근 범위 정의.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-External to Single-Conceptual**: 하나의 개념 스키마 위에 다수의 외부 스키마(View)가 존재할 수 있는 N:1 계층적 관계.
 - **2-Level Mappings**: 계층 간 사상(External-Conceptual, Conceptual-Internal Mapping)을 통해 상하위 변경 영향 상쇄.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **External-Conceptual Mapping**: 외부 스키마 뷰 쿼리를 개념 스키마 테이블 연산으로 변환하여 논리적 독립성을 보장하는 사상.
 - **Conceptual-Internal Mapping**: 개념 스키마 테이블 연산을 내부 스키마 디스크 블록/인덱스 연산으로 변환하여 물리적 독립성을 보장하는 사상.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Query Translation Process**: 외부 스키마 쿼리가 DBMS를 통해 개념 연산 및 내부 디스크 읽기로 2단계 사상되어 결과를 재조합하는 과정.
 
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Logical vs Physical Abstraction**: 외부-개념 간 추상화 대 개념-내부 간 추상화의 성격 차이.
 
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Schema Governance (스키마 거버넌스)**: 개념 스키마 무분별 수정을 통제하고, 변경 발생 시 외부 뷰 매핑을 동기화하는 DB 관리 프로세스.
 
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3단계 스키마 수립 기준(Three-Level Schema Standards)**: ANSI/SPARC 계층화, 외부 뷰 보안성, 2단계 맵핑 및 데이터 독립성 보장성에 의거한 체계.
 

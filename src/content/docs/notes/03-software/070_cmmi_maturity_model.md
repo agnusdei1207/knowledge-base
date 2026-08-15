@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CMMI (Capability Maturity Model Integration)**: 카네기 멜론 대학 소프트웨어 공학 연구소(SEI / CMMI Institute)가 정립한 프레임워크로, 조직의 소프트웨어 개발 및 서비스 프로세스 성숙도(Maturity)를 1~5단계 등급으로 평가하고 지속적 프로세스 개선(Process Improvement)을 가이드하는 모델.
 - **Maturity Level vs Capability Level**: 성숙도 단계(Maturity Level)는 조직 전체의 단계적 표현(Staged Representation, 1~5단계), 역량 단계(Capability Level)는 특정 프로세스 영역별 연속적 표현(Continuous Representation, 0~3단계).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CMMI Appraisal Method (CMMI 평가 방법)**: 실천 구현 증거와 성과를 평가해 역량•성숙도 수준과 개선 격차를 판정하는 공식 평가 방법.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **5대 성숙도 단계**: Level 1 (Initial - 혼돈), Level 2 (Managed - 프로젝트 단위 관리), Level 3 (Defined - 조직 차원 표준화), Level 4 (Quantitatively Managed - 정량 통계적 관리), Level 5 (Optimizing - 지속적 혁신).
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Process Assets Library (PAL)**: CMMI Level 3 이상 조직이 전사 차원에서 축적 및 공유하는 조직 표준 프로세스, 가이드라인, 매뉴얼 및 산출물 템플릿 저장소.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Staged vs Continuous Representation**: Staged(단계적)는 조직 전체의 1~5단계 성숙도 등급 표시, Continuous(연속적)는 특정 PA(프로세스 영역)별로 0~3단계 능력을 세밀히 평가.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Paperwork Overkill**: CMMI 등급 획득에만 치중하여 실제 개발 현장과 맞지 않는 형식적 문서 및 서류만 과도하게 양산하는 안티패턴.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CMMI 평가 수립 기준(CMMI Appraisal Standards)**: 수주 입찰 요건, 전사 프로세스 표준화 수준 및 Agile/DevOps 통합성에 의거한 체계.
 

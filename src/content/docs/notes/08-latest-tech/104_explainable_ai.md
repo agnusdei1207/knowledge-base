@@ -20,11 +20,10 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **설명 가능한 인공지능(Explainable Artificial Intelligence, XAI)**: AI 판단 근거를 이해•검증 가능한 형태로 제공한다.
-- **판단 근거(Rationale)**: 출력에 영향을 준 특징•규칙•사례•내부 관계이다.
+- **설명 가능한 인공지능(Explainable Artificial Intelligence, XAI)**: 블랙박스 AI 모델의 복잡한 예측 및 의사결정 이유를 인간이 이해하고 신뢰할 수 있는 형태로 해석·제공하는 기술.
+- **판단 근거(Rationale)**: 특정 출력 결과에 결정적인 영향을 부여한 입력 특성(Feature), 결정 규칙, 가중치 기여도 등의 해석 정보.
 
 </details>
 
@@ -36,12 +35,11 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **사후 설명(Post-hoc Explanation)**: 학습 완료 모델의 판단 근거를 추정한다.
-- **충실도(Fidelity)**: 설명이 원모델 판단을 반영하는 정도이다.
-- **안정성(Stability)**: 유사 입력에서 설명이 과도하게 변하지 않는 성질이다.
+- **사후 설명(Post-hoc Explanation)**: 학습이 완료된 임의의 복잡한 블랙박스 모델 외부에 별도의 해석 알고리즘을 적용하여 근거를 추정하는 기법.
+- **충실도(Fidelity)**: 도출된 설명 모델이 원본 블랙박스 모델의 실제 예측 논리를 얼마나 왜곡 없이 정확하게 반영하는지를 나타내는 척도.
+- **안정성(Stability)**: 유사한 입력 데이터에 대해 설명 결과가 불필요하게 급변하지 않고 일관성을 유지하는 성질.
 
 </details>
 
@@ -54,12 +52,11 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **설명 범위(Explanation Scope)**: 개별 출력 또는 전체 모델 중 설명 대상이다.
-- **설명 산출물(Explanation Artifact)**: 사용자 목적에 맞춘 규칙•기여도•사례이다.
-- **품질 평가(Quality Evaluation)**: 충실도•안정성•이해도와 한계를 판정한다.
+- **설명 범위(Explanation Scope)**: 단일 인스턴스 예측에 대한 국소적 설명(Local)과 모델 전체 동작 논리에 대한 전역적 설명(Global).
+- **설명 산출물(Explanation Artifact)**: 특성 중요도(Feature Importance), 부분 의존도 플롯(PDP), 결정 트리, 반사실적 설명(Counterfactuals).
+- **품질 평가(Quality Evaluation)**: 설명의 충실도, 안정성, 계산 복잡도, 사용자 이해도를 종합 검증하는 평가 체계.
 
 </details>
 
@@ -82,11 +79,11 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **설명 사용자(Explanation User)**: 검토•운영•이의제기에 설명을 쓰는 이해관계자이다.
-- **기여도(Attribution)**: 입력 특징이 예측에 미친 영향의 방향•크기이다.
+- **설명 대상 식별(Target Identification)**: 해석할 AI 모델과 특정 예측 샘플 및 설명 요구사항을 정의하는 단계.
+- **설명 기법 적용(XAI Method Application)**: SHAP, LIME, Grad-CAM 등의 대리 모델(Surrogate) 또는 기여도 분석을 수행하는 단계.
+- **설명 산출 및 해석(Generation & Interpretation)**: 산출된 특성 기여도와 히트맵을 시각화하고 최종 사용자에게 설명 근거를 전달하는 단계.
 
 </details>
 
@@ -113,11 +110,10 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **국소 설명(Local Explanation)**: 특정 입력의 개별 예측 근거를 설명한다.
-- **전역 설명(Global Explanation)**: 모델 전체의 평균 동작•규칙을 설명한다.
+- **국소 설명(Local Explanation)**: 특정 고객 대출 거절 이유 등 개별 예측 인스턴스의 판단 근거를 설명하는 방식(LIME, SHAP).
+- **전역 설명(Global Explanation)**: 모델 전체가 학습한 전반적인 특성 간 관계와 의사결정 경계를 거시적으로 설명하는 방식(Global Surrogate, PDP).
 
 </details>
 
@@ -132,11 +128,11 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **충실도 불일치(Fidelity Mismatch)**: 설명이 원모델 판단을 반영하지 못한 문제이다.
-- **설명 불안정(Explanation Instability)**: 작은 입력 변화에 근거가 크게 달라지는 문제이다.
+- **충실도 불일치(Fidelity Mismatch)**: 사후 설명 대리 모델의 단순화로 인한 원본 모델과의 해석 왜곡 위험을 줄이기 위해 적정 근사 반경 설정.
+- **설명 변조 공격(Adversarial Explanation Attack)**: 적대적 섭동을 통해 예측값은 유지하면서 설명 결과만 조작하는 공격에 대비한 설명 안정성 검증.
+- **해석 적합성(Cognitive Usability)**: 개발자용 세부 가중치와 일반 사용자용 직관적 이유를 분리하여 사용자 눈높이에 맞는 설명 제공.
 
 </details>
 
@@ -150,11 +146,9 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **이의제기 설명(Appeal Explanation)**: 개인의 특정 판단을 재심하기 위한 국소 근거이다.
-- **모델 감시 설명(Model-monitoring Explanation)**: 편향•동작 변화를 추적하는 전역 근거이다.
+- **신뢰성과 투명성 기반의 책임 있는 인공지능(Responsible AI Trust & Transparency)**: 정확도와 설명 가능성 간의 균형을 최적화하여 고위험 AI 도메인(의료, 금융, 사법)에서 투명성과 사회적 수용성을 확보하는 핵심 기술.
 
 </details>
 

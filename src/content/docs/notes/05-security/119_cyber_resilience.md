@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버 회복탄력성**: 역경•공격•침해를 예상하고 견디며 복구하고 적응하는 시스템 능력이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전한 저하**: 비필수 기능을 줄이면서 핵심 기능을 허용 수준으로 유지하는 방식이다.
 - **폭발 반경**: 한 번의 침해•실패가 영향을 미치는 시스템•업무 범위이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **복구 시간 목표(Recovery Time Objective, RTO)**: 업무를 복구해야 하는 목표 시간이다.
 - **복구 시점 목표(Recovery Point Objective, RPO)**: 허용 가능한 데이터 손실의 기준 시점이다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생명주기 회복탄력성**: 설계•구축•운영•사고•복구•개선 전 과정에 회복 능력을 반영하는 접근이다.
 - **필수 임무•의존성 정의**: 공격 중 유지할 기능•자원•허용 수준을 식별하는 단계이다.
@@ -137,7 +137,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버보안**: 침해의 예방•탐지•대응을 통해 발생 가능성과 직접 피해를 낮추는 활동이다.
 
@@ -156,7 +156,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
 - **특별 간행물(Special Publication, SP)**: NIST가 발행하는 전문 지침 문서이다.
@@ -183,7 +183,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임무 지속 입증**: 공격 중 유지할 기능과 복구할 기능을 시험•지표로 검증하는 활동이다.
 

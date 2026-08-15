@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CNI(Container Network Interface)**: 파드(Pod) 간 IP 할당 및 네트워크(VXLAN 등) 통신을 가능하게 하는 네트워크 드라이버 표준 인터페이스(Calico, Cilium, AWS VPC CNI).
 - **네트워크 정책(NetworkPolicy)**: 파드 간 통신을 L3/L4 계층에서 IP 및 포트(Port) 단위로 차단하거나 허용하는 미세 격리(Micro-segmentation) 객체.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **eBPF (Extended Berkeley Packet Filter)**: Linux 커널 레벨에서 iptables 오버헤드 없이 초고속 패킷 필터링 및 NetworkPolicy 방화벽을 처리하는 Cilium CNI 핵심 기술.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cilium (eBPF CNI)**: iptables 대신 리눅스 커널 eBPF 바이패스로 초고속 성능 및 L7 (HTTP/gRPC) 방화벽까지 지원하는 대표 CNI.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Default Deny All Ingress**: Namespace 내부의 모든 Pod 유입 트래픽을 일단 100% 차단하는 보안 첫걸음 YAML 패턴.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Flannel CNI**: 초창기 극도로 단순한 Overlay CNI로 NetworkPolicy 보안 기능을 전혀 지원하지 않는 단점 보유.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AWS VPC CNI IP Exhaustion**: AWS VPC CNI 사용 시 EC2 노드당 Pod IP가 서브넷 CIDR에서 대량 고갈되는 현상.
 

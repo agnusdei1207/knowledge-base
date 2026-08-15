@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이지 교체(Page Replacement)**: 요구 페이징(Demand Paging) 기법에서 물리 메모리(DRAM Frame)가 가득 차 새로운 페이지를 적재할 공간이 없을 때, 물리 메모리 상의 기존 페이지 중 희생 페이지(Victim Page)를 선택하여 축출하는 알고리즘.
 - **희생 페이지(Victim Page)**: 새로 요청된 페이지를 적재할 물리 프레임 공간을 확보하기 위해 축출 대상으로 선택되는 페이지.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **참조 지역성(Reference Locality)**: 최근 참조된 페이지가 가까운 미래에 다시 참조되는 시간 지역성(Temporal Locality)과, 근접 주소가 참조되는 공간 지역성(Spatial Locality).
 - **참조 이력(Reference History)**: 캐시/페이지 관리자가 희생 페이지를 결정하기 위해 보관하는 가상 페이지 접근 시각, 횟수, 적재 순서, 참조 비트(Reference Bit) 데이터.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상주 프레임 집합(Resident Frame Set)**: 현재 물리 RAM의 페이지 프레임에 적재되어 유효하게 구동 중인 가상 페이지들의 목록.
 - **교체 선택기(Replacement Selector)**: 메모리 포화 시 등록된 페이지 교체 알고리즘에 따라 희생 페이지의 PPN을 지시하는 OS 커널 모듈.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이지 폴트 처리기(Page Fault Handler)**: 비상주 페이지 접근 예외 수신 시 물리 프레임 확보 및 페이지 교체 프로세스를 총괄하는 커널 루틴.
 - **원자 갱신(Atomic Update)**: 희생 페이지 축출 및 신규 페이지 적재 완료 시까지 중간 불일치 상태가 타 스레드에 노출되지 않도록 PTE를 원자적으로 수정하는 연산.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최적 교체(Optimal, OPT / MIN)**: 미래에 가장 오랫동안 사용되지 않을 페이지를 쫓아내는 이론상 최상의 알고리즘 (미래 예지 필요로 실현 불가능).
 - **선입선출(First-In First-Out, FIFO)**: 메모리에 가장 먼저 적재된 페이지를 순서대로 축출하는 단순 알고리즘.
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Clock 알고리즘 (Second Chance Algorithm)**: LRU의 높은 카운터/타임스탬프 갱신 오버헤드를 줄이기 위해, 1비트 참조 비트(Reference Bit)와 원형 큐 포인터로 2차 기회를 부여하는 대표적 LRU 근사 하드웨어 알고리즘.
 - **백그라운드 기록(Background Writeback)**: 교체 정지 지연을 줄이도록 Dirty Page를 백그라운드 커널 스레드가 미리 저장하는 기술.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이지 교체 선택 기준(Page Replacement Selection Criteria)**: 대상 워크로드의 참조 지역성, 하드웨어 갱신 비용, 벨라디 이상 차단 여부 및 동기 I/O 지연을 평가하여 최적의 교체 엔진을 선정하는 지표.
 

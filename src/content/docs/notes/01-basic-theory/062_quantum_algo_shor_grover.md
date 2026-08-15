@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 알고리즘(Quantum Algorithm)**: 중첩•간섭•측정을 이용해 문제의 답을 구하며 쇼어와 그로버 알고리즘을 포함하는 계산 방식이다.
 - **중첩(Superposition)**: 여러 양자 상태를 동시에 표현하는 성질이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률 진폭**: 측정 확률을 결정하는 복소수 계수이다.
 - **위상**: 양자 상태 사이의 간섭 방향을 정하는 각도이다.
@@ -66,7 +66,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **큐비트 레지스터**: 0과 1의 중첩 상태를 보관하는 양자 정보 단위의 집합이다.
 - **양자 푸리에 변환(Quantum Fourier Transform, QFT)**: 주기 정보를 주파수 성분으로 변환하는 양자 연산이다.
@@ -102,7 +102,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **함수 적용 상태**: 문제 함수가 주기 정보나 정답 여부를 상태의 위상에 부호화한 결과이다.
 - **정답 신뢰도**: 반복 측정과 검증 결과가 정답임을 뒷받침하는 확률 수준이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **회로 깊이**: 서로 동시에 실행할 수 없는 양자 게이트 단계의 수이다.
 - **모듈러 지수 회로**: 쇼어 알고리즘의 모듈러 거듭제곱을 양자 게이트로 구현한 회로이다.
@@ -190,7 +190,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 큐비트**: 오류 정정으로 안정화한 양자 계산 단위이다.
 - **오류 완화**: 완전한 오류 정정 없이 반복 측정과 잡음 추정으로 결과 편향을 줄이는 기법이다.
@@ -213,7 +213,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **리베스트-샤미르-애들먼(Rivest-Shamir-Adleman, RSA)**: 소인수분해 난제 기반 공개키 암호이다.
 - **디피-헬먼(Diffie-Hellman, DH)**: 이산 로그 난제 기반 키 교환 방식이다.

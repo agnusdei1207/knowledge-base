@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **USB-C(Type-C)**: 상하 대칭 커넥터 폼팩터로 데이터·영상·전력 기능은 제품별 구현에 따라 달라지는 규격.
 - **Thunderbolt 4/5**: USB-C에서 PCIe·DisplayPort·USB 패킷을 함께 전달하는 인증형 고속 인터커넥트.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Alt Mode(Alternate Mode)**: USB-C 물리 레인을 DisplayPort, HDMI 등 타 고속 직렬 프로토콜 신호 전송선으로 재할당하는 동작 모드.
 - **PCIe Tunneling**: PCIe 트랜잭션을 USB4·Thunderbolt 패브릭으로 전달하는 터널링 기술.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Host Controller**: xHCI(USB) 및 Thunderbolt/USB4 매핑 터널링 라우터 패브릭 칩셋.
 - **CC Pin(Configuration Channel)**: USB-C 포트 단자의 삽입 방향, 역할(Host/Device), 전력 계측(USB PD) 및 Alt-Mode 진입을 협상하는 제어 핀.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **USB4 / TB4 Protocol Handshake**: CC 핀 전압 래칭 후 호스트와 디바이스 간 터널링 모드(DisplayPort / PCIe / USB3)를 자동 선택 체결하는 과정.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **USB 3.2 Gen 2x2**: 2개 레인으로 최대 20Gbps 신호 속도를 제공하는 USB 데이터 인터페이스.
 - **Thunderbolt 4**: 40Gbps 링크와 PCIe·DisplayPort 터널링 및 DMA 보호 요구를 규정한 인증 규격.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DMA Attack (Thunderspy)**: 외부 Thunderbolt PCIe 레인을 통해 호스트 메모리를 무단 덤프/위변조하는 하드웨어 보안 위협.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직렬 인터페이스 선택 기준(High-Speed Serial Selection Criteria)**: 요구 대역폭, PCIe 터널링 필요성, 전력 용량 및 IOMMU 보안에 근거한 규격 선정 체계.
 

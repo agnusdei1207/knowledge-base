@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Refactoring (소프트웨어 리팩터링)**: 마틴 파울러(Martin Fowler)가 정의한 기법으로, 소프트웨어의 외부적 행위(External Behavior)는 전혀 변경하지 않고 내부 구조(Internal Structure)를 개선하여 가독성과 유지보수성을 극대화하는 코드 정제 활동.
 - **Technical Debt (기술 부채)**: 워드 커닝햄(Ward Cunningham)이 금융 부채 개념에 비유한 용어로, 당장의 빠른 배포를 위해 임시방편(Quick & Dirty)으로 작성된 코드가 향후 지연 이자(Interest) 형태로 개발 생산성을 기하급수적으로 저하시키는 비용 한계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Behavior-Preserving Transformation**: 리팩터링 전후에 동일한 입력값에 대해 항상 동일한 출력값과Side-effect를 보장하는 행위 보존 변환 속성.
 - **Regression Safety Net**: 단위 테스트(Unit Test Suite)를 안전망으로 구축하여, 리팩터링 과정에서 기존 기능이 붕괴(Regression)되는 것을 자동 감지하는 구조.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Extract Method / Rename Method**: 긴 메서드에서 일관된 단위 로직을 떼어내어 독립 메서드로 추출하거나, 의도가 명확하도록 이름을 재정의하는 대표적 리팩터링 패턴.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Debt Quadrant (기술 부채 4분면)**: 마틴 파울러가 기술 부채의 원인을 4가지(Deliberate/Inadvertent $\times$ Reckless/Prudent)로 분류한 프레임워크.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Refactoring vs Performance Optimization**: Refactoring은 가독성과 유지보수성(Clean Code) 개선 목적, Performance Optimization은 실행 속도 및 자원 효율성(Efficiency) 개선 목적.
 
@@ -136,7 +136,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Boy Scout Rule (보이스카우트 원칙)**: "캠핑장을 떠날 때는 처음 왔을 때보다 더 깨끗하게 치워라"라는 구호로, 코드를 수정할 때마다 주변 작은 스멜을 조금씩 정돈하는 문화적 원칙.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기술 부채 관리 기준(Technical Debt Management Standards)**: 코드 복잡도(Cyclomatic), SonarQube 부채 지수 및 단위 테스트 커버리지에 의거한 체계.
 

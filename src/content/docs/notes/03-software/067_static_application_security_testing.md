@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAST (Static Application Security Testing, 정적 보안 분석)**: 애플리케이션을 실행하지 않고 소스코드, 바이트코드 또는 컴파일 바이너리의 추상 구문 트리(AST)와 데이터 흐름을 정적으로 스캔하여 보안 취약점을 탐지하는 화이트박스 보안 테스트 기법.
 - **Taint Analysis (오염 분석)**: 신뢰할 수 없는 외부 사용자 입력값(Source)이 산출물 내부의 보안 민감 연산 함수(Sink)에 도달하기까지, 적절한 검증/정화(Sanitizer)를 거쳤는지 데이터 흐름 경로(Data Flow Path)를 추적하는 정적 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Positive vs False Negative**: False Positive(오탐)는 안전한 코드를 취약점으로 오판하는 현상, False Negative(미탐)는 실제 존재하는 취약점을 놓치고 지나치는 현상.
 - **Rule Set (규칙 집합)**: SAST 분석 엔진이 소스코드에서 취약 패턴을 스캔할 때 사용하는 KISA SW 보안약점 가이드 및 OWASP 기반의 룰셋 정의.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AST (Abstract Syntax Tree)**: 파서(Parser)가 소스코드의 문법 구조를 트리 형태의 객체 구조체로 추상화 변환한 데이터 표현식.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **KISA 47개 SW 보안약점**: 한국인터넷진흥원에서 정한 소프트웨어 개발 보안 가이드(입력데이터 검증 및 표현, 보안기능, 시간 및 상태 등 7대 분야 47개 항목).
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAST vs DAST**: SAST는 소스코드 내부를 들여다보는 화이트박스 정적 분석, DAST는 런타임 웹 애플리케이션에 공격을 가하는 블랙박스 동적 분석.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Alert Fatigue (경고 피로)**: SAST 도구가 쏟아내는 수백 개의 오탐(False Positive) 경고에 지쳐 개발자가 보안 경고를 아예 무시해 버리는 안티패턴.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAST 도입 수립 기준(SAST Adoption Standards)**: KISA 47대 보안약점 준수율, CI/CD 연동성 및 False Positive 튜닝 역량에 의거한 체계.
 

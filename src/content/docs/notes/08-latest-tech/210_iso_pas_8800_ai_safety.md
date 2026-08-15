@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISO/PAS 8800**: 도로 차량 AI의 출력 부족과 체계적 오류가 만드는 안전 위험을 수명주기 전반에서 관리하는 공개 사양을 의미한다.
 - **국제표준화기구(International Organization for Standardization, ISO)**: 국제 표준을 개발•발행하는 비정부 기구을 의미한다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인공지능 부족성(Artificial Intelligence Insufficiency, AI Insufficiency)**: 인공지능 요소가 안전 요구에 필요한 성능을 특정 입력이나 운행 조건에서 제공하지 못하는 상태이다.
 - **검증 및 확인(Verification and Validation, V&V)**: 요구 충족과 의도한 용도•환경의 적합성을 시험 증거로 확인하는 활동을 의미한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 보증 논증**: 안전하다는 주장과 이를 뒷받침하는 논거•근거•증거를 추적 가능하게 연결한 논리로 정의된다.
 - **AI 시스템 정의•맥락**: 인공지능 기능•경계•운행 조건•이해관계자와 안전 관련 사용 맥락을 명확히 한 기준선로 정의된다.
@@ -98,7 +98,7 @@ AI 안전 요구와 V&V 증거를 안전 보증 논증에 연결한다.
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 케이스**: 안전 주장•논거•근거를 구조화해 허용 가능한 위험 수준을 설명하는 보증 문서이다.
 
@@ -135,7 +135,7 @@ AI 안전 요구와 V&V 증거를 안전 보증 논증에 연결한다.
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **의도된 기능의 안전성(Safety of the Intended Functionality, SOTIF)**: 시스템 고장이 없어도 의도한 기능의 성능 한계로 발생하는 위험을 다루는 자동차 안전 표준을 말한다.
 
@@ -156,7 +156,7 @@ ISO/PAS 8800은 AI 수명주기 안전 증거를 다룬다.
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대체 대응(Fallback)**: AI 성능 부족이나 운행 조건 이탈 시 대체 기능 또는 안전 상태로 전환하는 대응이다.
 
@@ -175,7 +175,7 @@ ISO/PAS 8800은 AI 수명주기 안전 증거를 다룬다.
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 증거 연속성**: 데이터•모델 변경 뒤에도 안전 주장과 V&V 근거가 이어지는 성질이다.
 

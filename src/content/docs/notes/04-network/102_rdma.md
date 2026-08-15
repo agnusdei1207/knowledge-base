@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 두 호스트의 등록 메모리를 직접 연결하는 전송 기술이다.
 - **RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)**: RDMA 전송과 메모리 접근을 처리하는 장치이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단방향 동작**: 원격 응용의 수신 호출 없이 RNIC가 등록 메모리를 직접 읽거나 쓰는 방식이다.
 - **제로 카피(Zero Copy)**: 중간 버퍼 복사를 없애는 전송 방식이다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보호•등록 메모리**: RNIC 접근 버퍼의 권한•주소•키•수명을 정의한 메모리이다.
 - **큐 페어(Queue Pair, QP)**: 송신•수신 작업 요청을 RNIC에 게시하는 큐 쌍이다.
@@ -96,7 +96,7 @@ RDMA 전송 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **직접 메모리 배치**: RNIC가 주소•길이•접근 키를 검증해 등록된 원격 버퍼에 기록하는 처리이다.
 - **보호 도메인(Protection Domain, PD)**: 메모리와 큐 자원의 권한 경계를 묶는 RDMA 자원이다.
@@ -139,7 +139,7 @@ RDMA 전송 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TCP**: 범용 커널 소켓에서 신뢰성 있는 바이트 흐름을 제공하는 전송 제어 프로토콜(Transmission Control Protocol)이다.
 - **공유 메모리**: 같은 호스트의 여러 처리기가 하나의 메모리 영역을 함께 사용하는 통신 방식이다.
@@ -159,7 +159,7 @@ RDMA 전송 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **버퍼 재사용**: 완료 전 RNIC가 처리 중인 메모리를 응용이 덮어쓰는 문제이다.
 - **원격 키**: 원격 메모리 접근 범위를 제한하는 보호 정보이다.
@@ -182,7 +182,7 @@ RDMA 전송 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 전달 방식 선택**: 호스트 경계•성능 요구•메모리 수명 통제 역량에 따라 RDMA•TCP•공유 메모리를 결정하는 판단이다.
 

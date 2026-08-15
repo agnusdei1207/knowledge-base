@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **패스키(Passkey)**: FIDO2/WebAuthn 표준 기반으로 사용자 비밀번호를 대체하며, 종단간 암호화(E2EE)를 통해 클라우드 계정 간 안전하게 동기화되는 디지털 자격증명.
 - **웹 인증(Web Authentication, WebAuthn)**: 브라우저와 RP 서버 간 패스키 등록 및 공개키 서명 인증을 처리하는 W3C 웹 API 규격.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 당사자 식별자(Relying Party ID, RP ID)**: 패스키를 특정 웹 서비스 도메인에 고정 바인딩하는 식별값.
 - **사용자 검증(User Verification, UV)**: 인증기 자체 생체인식 센서 또는 PIN 입력을 통해 실제 소유자가 본인임을 검증하는 절차.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증자(Authenticator)**: 플랫폼 OS 보안 가상화 영역(Secure Enclave/TPM)에 개인키를 안전하게 생성 및 보관하는 컴포넌트.
 - **개인 식별 번호(Personal Identification Number, PIN)**: 생체 인식 실패 또는 비지원 기기에서 로컬 개인키 서명을 승인하기 위해 입력하는 비밀 키.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **도전값•RP ID 생성**: RP 서버가 일회성 Challenge 난수 및 RP ID 조건 전달 단계.
 - **원본•RP ID 검증**: 브라우저 파서가 접속 도메인과 RP ID의 동일성을 대조하는 단계.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **휴대형 보안키(Hardware Security Key)**: USB/NFC 형태의 물리적 YubiKey 보안키.
 - **패스키 보관 방식 선택 기준(Passkey Storage Selection Criteria)**: 편의성과 복구 위주는 동기화 패스키, 높은 보안 하드닝은 기기 결합 패스키/보안키를 적용하는 가이드라인.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C WebAuthn Level 2**: 패스키 등록 및 검증을 지원하는 웹 인증 레벨 표준.
 - **NIST SP 800-63B-4**: 디지털 자격증명 관리 및 패스워드리스 적용 표준 가이드.
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전환 완성 조건(Passkey Migration Completion)**: 비밀번호 입력을 전면 제거하는 동시에, 패스키 등록/복구 경로에 본인확인을 동등 보증 수준으로 적용하는 기준.
 

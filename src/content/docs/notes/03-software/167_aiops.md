@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AIOps (Artificial Intelligence for IT Operations)**: 방대한 IT 운영 데이터(로그, 지표, 트레이스)에 머신러닝과 AI를 결합하여 장애를 예측하고 근본 원인을 추론하며 복구를 자동화하는 차세대 IT 운영 플랫폼.
 - **Alert Fatigue (경고 피로)**: 전통적 임계치(Threshold) 모니터링에서 연관된 수백 개의 알람이 폭주하여, 관제 인력이 진짜 장애 원인을 찾지 못하고 무시하게 되는 부작용.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Anomaly Detection (이상 탐지)**: "CPU 80% 초과" 같은 고정 룰이 아니라, 과거 3개월 치의 주기적 학습 데이터를 바탕으로 "이 시간에는 평소 20%여야 하는데 지금 60%이므로 비정상"이라고 판단하는 딥러닝 기법.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Machine Learning Engine**: 수집된 텔레메트리 데이터를 군집화(Clustering), 분류(Classification), 시계열 예측(Time-Series Forecasting)하는 AIOps의 두뇌.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto-Remediation (자동 복구)**: AIOps가 원인을 식별한 후, 사전에 정의된 런북(Runbook/Ansible)을 통해 사람의 개입 없이 서비스를 재시작하거나 디스크를 비우는 자율 조치.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rule-Based vs ML-Based**: 사람이 직접 IF-THEN(CPU 90% 이상 시 알람)을 세팅하는 룰 기반과, 기계가 패턴을 스스로 학습하는 ML 기반의 차이.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Garbage In, Garbage Out (GIGO)**: 수집되는 로그나 CMDB 토폴로지 데이터의 품질이 낮으면 AI 모델이 쓰레기 알람만 내뱉는 현상.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AIOps 수립 기준(AIOps Standards)**: Machine Learning Anomaly Detection, Event Correlation, RCA 도출 및 Auto-Remediation 연계에 의거한 체계.
 

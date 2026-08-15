@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컴퓨터•사람 구별 완전 자동화 공개 튜링 테스트(Completely Automated Public Turing test to tell Computers and Humans Apart, CAPTCHA)**: 사람 사용자와 자동화 스크립트(Bot)를 역 튜링 테스트 방식으로 구별하는 보조 접근 통제 기술이다.
 - **reCAPTCHA**: 구글이 제공하는 대표적 봇 탐지 서비스로 텍스트/이미지 문제 풀이(v2) 및 무마찰 위험 점수 평가(v3) 알고리즘을 결합한 솔루션이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 토큰(Verification Token)**: CAPTCHA 서버가 챌린지 성공 시 발급하는 단기 일회용 증표로, 애플리케이션 백엔드 검증에 활용된다.
 - **목적 결속(Purpose Binding)**: 발급된 검증 토큰을 특정 세션 및 원래 요청된 API 동작에만 1:1로 결합하여 타 요청 재사용을 막는 원칙이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 엔진(Risk Engine)**: IP 평판, 브라우저 핑거프린트, 마우스 이동 궤적, 요청 주기를 실시간 분석하여 자동화 위험 점수(0.0~1.0)를 산출하는 분석 모듈이다.
 - **도전 문제(Challenge Issue)**: 고위험 판단 시 사용자에게 제시하는 이미지 분류, 퍼즐 맞추기, 오디오 인터랙션 등의 과제이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **적응형 통제(Adaptive Control)**: 산출된 위험 점수에 따라 무마찰 통과, CAPTCHA 챌린지 부여, MFA 요구, IP 즉시 차단을 동적으로 변경하는 기법이다.
 - **재전송 검증(Replay Verification / Anti-replay Check)**: 한번 검증에 사용된 토큰의 재사용 시도(Replay Attack)를 백엔드에서 원천 차단하는 검증 절차이다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **문제형 CAPTCHA(Challenge-based CAPTCHA)**: 이미지/텍스트/오디오 등 사용자에게 직접적 문제 풀이를 요구하는 방식(reCAPTCHA v2 등)이다.
 - **점수형 CAPTCHA(Score-based CAPTCHA / reCAPTCHA v3)**: 사용자 개입 없이 백그라운드 행위 분석만으로 0.0~1.0 사이의 점수만 반환하는 무마찰 방식이다.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP OAT-009 (CAPTCHA Bypass)**: CAPTCHA 우회, 자동화 풀이 툴, OCR/AI 솔버, 사람 매크로 대행을 통한 봇 방어 통제 무력화 위협 유형이다.
 - **W3C WCAG 2.2 (Web Content Accessibility Guidelines 2.2)**: 시각/청각 장애인이 CAPTCHA 챌린지에 막히지 않도록 대체 수단을 요구하는 웹 접근성 지침이다.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 경제성 저하(Attacker Economic Cost Inflation)**: CAPTCHA를 단독 보안 수단이 아닌 봇 공격자의 리소스, 컴퓨팅, 시도 비용을 늘려 공격을 포기하게 만드는 방어 목표이다.
 

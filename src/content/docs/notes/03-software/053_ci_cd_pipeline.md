@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Continuous Integration (CI, 지속적 통합)**: 개발자들이 수시로 소스코드를 중앙 저장소에 통합하고, 자동화된 빌드 및 정적 분석, 단위 테스트를 실행하여 결함을 조기에 발견하는 과정.
 - **Continuous Delivery (CD, 지속적 전달)**: CI 과정을 통과한 소프트웨어를 언제든지 검증/운영 환경으로 프로덕션 릴리스할 수 있도록 준비(Staging 준비 완료)해 두는 수동 승인형 자동화 단계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pipeline as Code (PaC)**: 파이프라인 빌드/배포 절차를 GUI 클릭이 아닌, `Jenkinsfile` 또는 `.github/workflows/ci.yml` 형태의 코드 형태로 선언하여 Git 버전 관리하는 방식.
 - **Quality Gate**: SonarQube 정적 코드 분석 점수, 코드 커버리지(e.g., Min 80%), 보안 취약점 패스 여부를 검증하여 통과 못 하면 파이프라인을 즉시 중단(Fail-Fast)시키는 차단벽.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Artifact Repository (산출물 저장소)**: CI 과정에서 빌드 완료된 최종 실행 바이너리(Jar, War) 및 컨테이너 이미지(Docker Image)를 버저닝하여 보관하는 전용 저장소 (e.g. Nexus, JFrog, Harbor).
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GitOps (ArgoCD)**: Git 리포지토리를 시스템 상태의 유일한 진실의 원천(Single Source of Truth)으로 삼아, K8s 매니페스트 변경 시 ArgoCD가 클러스터 상태를 자동 동기화하는 배포 패러다임.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Continuous Delivery vs Continuous Deployment**: Delivery는 Staging 통과 후 Production 배포 전 "사람의 수동 승인(Manual Gate)" 단계 존재, Deployment는 수동 개입 없이 자동 Prod 배포.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Flaky Test**: 코드 결함이 없음에도 네트워크 지연이나 멀티스레드 race condition으로 성공과 실패를 무작위 반복하는 불안정 테스트 (파이프라인 신뢰성 파손 요소).
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CI/CD 파이프라인 구축 기준(CI/CD Pipeline Build Standards)**: 테스트 자동화율, 배포 위험도 및 PaC(Pipeline as Code) 도입에 의거한 체계.
 

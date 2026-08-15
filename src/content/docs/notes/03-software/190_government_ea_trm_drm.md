@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Government EA Reference Model (범정부 전사 아키텍처 참조모형)**: 수많은 국가/공공기관이 각자 다른 용어와 구조로 시스템을 구축하는 것을 막기 위해, 범정부 차원에서 업무, 데이터, 서비스, 기술, 성과를 표준화된 분류 체계(Taxonomy)로 통일한 템플릿 세트.
 - **Interoperability (상호운용성)**: 국세청 시스템과 행정안전부 시스템이 막힘없이 데이터를 주고받을 수 있도록, 기술 표준(TRM)과 데이터 표준(DRM)을 일치시켜 호환성을 보장하는 성질.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BRM (Business Reference Model, 업무 참조모형)**: 범정부의 모든 행정 업무를 부처와 상관없이 기능(정책, 지원, 평가 등) 중심으로 분류하여, 어떤 부처가 어떤 일을 하는지 매핑하는 기준.
 - **SRM (Service Reference Model, 서비스 참조모형)**: 민원 발급, 결제, 보안 등 업무를 지원하는 IT '서비스 컴포넌트'들을 기능별로 분류하여, 재사용 및 공동 활용(예: 통합 로그인)을 유도하는 기준.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EAMS (Enterprise Architecture Management System)**: 각 기관이 자사의 아키텍처 정보를 범정부 참조모형(BRM, TRM, DRM 등) 분류 코드에 매핑하여 등록하는 중앙 집중식 아키텍처 관리 시스템(범정부 GEAP).
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사전 협의 제도**: 공공기관이 새로운 정보화 사업을 발주(RFP 공고)하기 전, 해당 사업이 범정부 EA 참조모형(TRM, DRM 등)을 준수했는지, 다른 기관의 시스템과 중복되지 않는지 정보화 전담 기관(NIA 등)에 심사를 받는 법적 통제 절차.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Profile (기술 프로파일)**: TRM이 "네트워크 계층에는 이런 기술들이 있다"는 분류라면, 기술 프로파일은 그중에서 "우리 기관은 IPv6와 TLS 1.3을 표준으로 쓴다"라고 콕 집어 확정한 구체적 기술 규격서.
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mapping (매핑)**: 기관 자체적으로 부르는 용어(예: '고객 관리')를 범정부 공통 분류 코드(예: BRM 코드 1-05-02 '민원인 관리')에 연결하여 번역하는 작업으로, 매핑이 잘못되면 EA 분석 전체가 실패함.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GEAP (범정부 전사아키텍처 포털)**: 모든 공공기관이 자사의 EA 산출물을 BRM/TRM/DRM 등의 분류표에 맞추어 등록하고, 타 기관의 시스템을 검색(공동 활용)할 수 있게 만든 중앙 정부 차원의 통합 시스템.
 

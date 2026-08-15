@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TTA 소프트웨어 시험인증**: 한국정보통신기술협회(TTA)가 소프트웨어의 품질, 기능, 성능 등을 제3자 입장에서 객관적으로 시험하고, 일정 기준을 통과하면 그 품질을 보증하는 국가 공인 시험 절차.
 - **GS(Good Software) 인증**: ISO/IEC 25023 등 국제 표준에 기반하여 소프트웨어의 기능성, 신뢰성, 효율성, 사용성 등을 평가한 후, 우수한 제품에 부여하는 국가 품질 인증 마크.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Third-Party Testing (제3자 독립 시험)**: 소프트웨어를 개발한 당사자(제1자)나 구매하려는 고객(제2자)이 아닌, 이해관계가 없는 중립적이고 전문적인 독립 기관이 시험을 수행하여 결과의 신뢰성을 담보하는 원칙.
 
@@ -50,7 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Plan & Test Case (시험 계획 및 케이스)**: 무엇을(범위), 어떻게(환경/도구), 어느 수준까지(통과 기준) 시험할 것인지 합의한 계획서와, 이를 실행하기 위한 구체적인 입력값과 기대 결과(Expected Result)의 명세서.
 
@@ -77,7 +77,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Defect Tracking & Retest (결함 추적 및 재시험)**: 첫 시험에서 통과 기준에 미달(결함 발생)할 경우, 공급자에게 디버깅 기간을 부여한 후, 결함이 수정된 버전으로 처음부터(또는 영향 범위 내에서) 다시 시험을 수행하는 단계.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Certification (인증)**: GS(Good Software) 인증처럼, 제품이 국가나 국제 규격이 정한 기준치 이상을 달성했음을 공식 마크와 함께 널리 보증(Guaranty)하는 제도. BMT와 달리 등수(Rank)를 매기지 않고 패스 여부만 판단.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Measurement Uncertainty (측정 불확도)**: 네트워크 지연이나 장비 컨디션 등 통제할 수 없는 미세한 환경 변수로 인해 반복 측정 시 발생하는 오차 범위를 수치화(예: $100 TPS \pm 2\%$)하여 평가의 신뢰도를 입증하는 기법.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quality Testing Criteria (품질 시험 선택 기준)**: 발주자가 솔루션의 도입 목적에 따라 성능 증명이 필요한지, 규격 충족이 필요한지, 타사와의 경쟁 입찰이 필요한지를 판가름하여 적절한 TTA 시험 유형을 선택하는 기준.
 

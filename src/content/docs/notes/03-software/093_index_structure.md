@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Database Index (데이터베이스 인덱스)**: 테이블 검색 속도(Read Latency)를 향상시키기 위해 특정 컬럼의 키-포인터 쌍을 정렬된 별도 자료구조로 생성하여, Full Table Scan 대신 $\mathcal{O}(\log N)$ 또는 $\mathcal{O}(1)$ 탐색을 가능케 하는 검색 전용 보조 자료구조.
 - **Selectivity (선택도)**: 전체 행(Tuple) 수 중 해당 컬럼 조건으로 필터링되는 튜플의 비율 ($\text{Selectivity} = \text{Unique Values} / \text{Total Rows}$). 선택도가 높을수록(1에 가까울수록/변별력이 클수록) 인덱스 효율 극대화.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **B+Tree Index**: 모든 리프 노드(Leaf Node)가 순차 연결(Doubly Linked List)되어 있어 범위 검색(Range Scan) 및 등가 검색(Equal Scan)에 모두 탁월한 상용 RDBMS 표준 인덱스.
 - **Hash Index**: Key 값의 해시 함수 결과(Bucket Address)를 통해 동등 비교(`=`)를 $O(1)$ 속도로 찾지만, 범위원(Range) 및 정렬(`ORDER BY`) 탐색이 절대 불가능한 구조.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Root Node $\rightarrow$ Branch Node $\rightarrow$ Leaf Node**: B+Tree의 3단계 노드 레이어로, 오직 Leaf Node에만 실제 데이터 포인터(ROWID)와 순차 리스트가 존재.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Leading Column Principle**: 복합 인덱스 생성 시, `WHERE` 절에서 동등 비교(`=`)로 자주 쓰이고 선택도(Selectivity)가 가장 높은 컬럼을 제일 앞에(Leading) 배치해야 인덱스 스캔 가능.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Clustered Index (클러스터형)**: PK 기반으로 실제 데이터 행 자체가 인덱스 키 순서대로 디스크에 물리 정렬된 구조 (테이블당 1개).
 - **Non-Clustered Index (보조/비클러스터형)**: 실제 데이터는 무순서로 두고, 키와 데이터 포인터(PK/ROWID)만 정렬 보존한 보조 인덱스 (테이블당 여러 개).
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Index Suppression (인덱스 변형 파괴)**: `WHERE SUBSTR(name, 1, 3) = 'KIM'` 과 같이 컬럼을 좌변 가공하면 인덱스를 타지 못하고 Full Table Scan으로 떨어지는 현상.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인덱스 수립 기준(Database Indexing Standards)**: 컬럼 선택도(Selectivity), 쿼리 패턴, B+Tree 아키텍처 및 DML 쓰기 오버헤드 한계성에 의거한 체계.
 

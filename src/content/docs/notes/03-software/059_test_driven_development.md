@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test-Driven Development (TDD, 테스트 주도 개발)**: 켄트 백(Kent Beck)이 정립한 익스트림 프로그래밍(XP)의 실천법으로, 실제 코드를 작성하기 전에 실패하는 단윗 테스트(Red)를 먼저 작성하고, 이를 통과하는 최소한의 코드(Green)를 작성한 뒤, 리팩터링(Refactor)을 반복하는 소프트웨어 개발 기법.
 - **Red-Green-Refactor Cycle**: TDD의 3단계 핵심 마이크로 피드백 루프 (Red: 실패하는 테스트 작성 $\rightarrow$ Green: 최소한의 코드로 통과 $\rightarrow$ Refactor: 중복 제거 및 가독성 개선).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Minimal Code (최소 구현)**: Red 테스트를 통과시키기 위한 가장 작고 단순한 하드코딩 수준의 코드만 빠르게 작성하는 원칙.
 - **Clean Code That Works**: 론 제프리스(Ron Jeffries)가 말한 TDD의 목표로, "작동하는 깔끔한 코드"를 얻기 위해 설계 품질과 동작 정합성을 동시에 달성하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FIRST Principle**: TDD 단위 테스트 작성을 위한 5가지 대원칙 (Fast: 빠름, Independent: 독립적, Repeatable: 반복 가능, Self-Validating: 자가 검증, Timely: 적시성).
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Baby Steps**: TDD에서 한 번에 거대한 기능을 테스트하려 하지 않고, 가장 작은 단위의 요구사항 포스트잇(Test List)을 쪼개어 단계별로 정복하는 개발 방식.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test-First (TDD) vs Test-Last**: Test-First는 개발 전 테스트 코드가 설계를 주도하며 결합도를 낮추는 반면, Test-Last는 개발 완료 후 테스트를 끼워 맞춰 테스트 작성이 귀찮아지고 누락 폭증.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TDD Bottleneck**: 초기 TDD 도입 시 개발 속도가 1.5~2배 지연되는 현상이나, 중장기적으로 디버깅 시간 단축으로 전체 생산성 역전.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TDD 도입 수립 기준(TDD Adoption Standards)**: 시스템 도메인 복잡도, 유지보수 수명 및 팀 단위 테스트 자동화 숙련도에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오픈텔레메트리(OpenTelemetry, OTel)**: 메트릭, 로그, 트레이스를 표준화된 OTLP 프로토콜로 수집·전송하는 벤더 중립적 계측 프레임워크.
 - **OTLP (OpenTelemetry Protocol)**: gRPC 및 HTTP Protobuf 기반의 텔레메트리 데이터 전송 표준 프로토콜.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vendor-Neutral Standard**: 애플리케이션에는 OTel SDK만 탑재하고, 백엔드 저장소(Jaeger $\rightarrow$ Datadog)를 바꿔도 코드 수정 0회 달성.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OTel API vs SDK vs Collector**: API는 코드상 계측 인터페이스, SDK는 실제 수집 구현체, Collector는 중앙 수집/전송 엔진.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OTel Collector Pipeline**: Receiver(OTLP 수집) $\rightarrow$ Processor(PII 마스킹/메모리 제한) $\rightarrow$ Exporter(Jaeger/Datadog 전송).
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OTel Collector DaemonSet vs Deployment**: Node 마다 설치하는 Agent 방식과 중앙 전용 서버로 띄우는 Gateway 방식.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto-Instrumentation Performance Impact**: Java Agent 등의 자동 계측 도구가 앱 부팅 시 CPU/Memory 사용량을 소폭 증가시키는 현상.
 

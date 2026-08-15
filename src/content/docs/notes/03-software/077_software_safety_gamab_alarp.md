@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GAMAB (Globalement Au Moins Aussi Bon)**: 불어 구문으로 "전체적으로 적어도 기존보다 같거나 우수해야 함"을 뜻하며, 신규 소프트웨어/시스템의 리스크 수준이 기존 운영 중인 벤치마크 시스템의 리스크 수준보다 더 높아서는 안 된다는 안전 원칙.
 - **ALARP (As Low As Reasonably Practicable)**: "합리적으로 실행 가능한 한 낮추어야 함"이라는 원칙으로, 리스크 경감 비용(Cost)과 그에 따른 안전 이득(Benefit)이 상식적으로 불균형을 이루지 않는 한 리스크를 지속적으로 낮춰야 하는 위험 통제 영역 개념.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Comparative Safety (GAMAB의 비교 안전성)**: 새로운 시스템의 전체 위험 수치가 기존 레퍼런스 시스템보다 악화되지 않음을 입증.
 - **Cost-Benefit Balance (ALARP의 비용-효익 균형)**: 위험 제거에 소요되는 인프라 비용이 감소하는 사고 위험 이익보다 현저히 과도하지(Gross Disproportion) 않은 지점까지 저감.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ALARP 3대 영역**: 1. Intolerable/Unacceptable Region (불허용 영역), 2. ALARP Region (합리적 저감 영역: 비용 대 효과 분석 필요), 3. Broadly Acceptable Region (광범위 허용 영역: 별도 대책 불필요).
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Gross Disproportion Test**: ALARP 구역에서 리스크 저감 조치를 멈추기 위해, "위험 제거에 들어가는 비용이 얻어지는 안전 효과보다 10배 이상 비현실적으로 크다"는 것을 객관적으로 입증하는 시험.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MEM (Minimum Endogenous Mortality)**: 인간의 자연적 최소 사망률(연간 약 $10^{-4}$)을 기준으로 시스템으로 인한 추가 사망 위험을 $10^{-5}$ 이하로 통제하려는 독일의 대표적 안전 원칙.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Safety Case (안전 보증 사례)**: GSN(Goal Structuring Notation) 등의 기법을 사용하여, 시스템이 필요한 수준의 안전성을 확보했음을 시각적 논리로 입증하는 정형화된 보고서.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **안전 통제 수립 기준(Software Safety Standards)**: 기능 안전 등급(SIL/ASIL), 안전 원칙(GAMAB/ALARP) 및 ISA 독립 검증 체계에 의거한 체계.
 

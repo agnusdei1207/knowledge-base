@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thrashing (스레싱)**: 프로세스 수행에 필요한 최소한의 페이지 프레임(Page Frame)을 확보하지 못해, 실제 유용한 연산 시간보다 페이지 교체(Page Fault / Swap I/O)에 대부분의 시간이 소모되는 가상 메모리 붕괴 현상.
 - **Working Set (워킹 셋)**: 프로세스가 특정 윈도우 시간($\Delta$) 동안 빈번하게 참조하는 페이지들의 집합.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Degree of Multiprogramming (DOM)**: 주기억장치 상에 동시에 상주하여 실행 대기 중인 프로세스의 개수.
 - **Page Fault Frequency (PFF)**: 상한값(Upper Bound)과 하한값(Lower Bound)을 설정하여 프로세스에 할당되는 프레임 수량을 동적으로 제어하는 스레싱 방지 알고리즘.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Working Set Window ($\Delta$)**: 프로세스의 과거 페이지 참조 이력을 추적하여 워킹 셋을 계산하는 기준 시간 범위.
 - **Resident Set**: 프로세스에 실제로 물리 메모리(DRAM) 상에 할당되어 존재하는 페이지들의 집합.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thrashing Cascade Loop**: DOM 증가 $\to$ 프로세스 당 Frame 부족 $\to$ Page Fault 폭증 $\to$ Disk I/O 병목 $\to$ CPU Idle 발생 $\to$ OS가 DOM 추가 증대 오판 $\to$ Thrashing 악순환.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Demand Paging**: 필요한 시점에만 페이지를 물리 메모리로 로딩하는 기본 가상 메모리 기법.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cgroups Memory Limit**: Linux cgroups를 통해 특정 프로세스/컨테이너 그룹의 상주 메모리 및 Swap 사용량을 물리 제약하는 설정.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스레싱 방지 관리 기준(Thrashing Prevention Criteria)**: PFF 한계치 설정, DOM 조정 및 cgroups 용량 제한에 근거한 수립 체계.
 

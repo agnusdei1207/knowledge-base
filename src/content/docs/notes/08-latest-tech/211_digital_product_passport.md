@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 제품 여권(DPP, Digital Product Passport)**: 고유 식별자(UID)를 매개로 원재료·제조·사용·수리·재활용 등 전 생애주기 정보를 통합 관리하고 추적성을 확보하여 순환경제를 실현하는 관리 체계.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 상호운용(Distributed Interoperability)**: 다양한 주체의 시스템 정보를 표준 모델 및 API로 연계하여 교환을 보장하는 구조.
 - **응용 프로그래밍 인터페이스(API, Application Programming Interface)**: 시스템 간 데이터·기능 호출의 상호운용성을 규정하는 표준 접점.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고유 식별자(UID, Unique Identifier)**: 물리 제품과 디지털 생애주기 데이터를 결합하는 참조 키.
 - **데이터 운반체(Data Carrier)**: QR, NFC 등을 통해 실물 제품과 여권 정보를 연결하는 물리 매체.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검증 가능한 이력(Verifiable History)**: 발행 주체, 시점, 무결성을 확인할 수 있도록 연결한 생애주기 기록.
 
@@ -129,7 +129,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 인증서(Digital Certificate)**: 특정 시점의 속성을 증명하는 문서로, 전 생애주기를 기록하는 DPP와 대상 및 범위가 상이함.
 
@@ -150,7 +150,7 @@ QR Code는 제품 식별 정보와 데이터 위치를 전달하는 매체이다
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **역할 기반 접근(RBAC)**: 이용자별 공개 정보와 제한 정보를 구분하는 데이터 통제 개념.
 
@@ -169,7 +169,7 @@ QR Code는 제품 식별 정보와 데이터 위치를 전달하는 매체이다
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **순환경제(Circular Economy)**: 자원을 재사용·수리·재활용하여 폐기 및 투입을 최소화하는 경제 구조.
 

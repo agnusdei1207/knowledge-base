@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **웹 실시간 통신(Web Real-Time Communication, WebRTC)**: 브라우저가 플러그인 없이 실시간 음성•영상•자료를 암호화해 직접 또는 중계 경로로 교환하는 통신 기술이다.
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 내부 주소를 외부 통신 주소로 변환하는 기능이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상호 연결 설정(Interactive Connectivity Establishment, ICE)**: 후보 쌍의 연결성을 검사해 경로를 선택하는 절차이다.
 - **NAT 세션 탐색 유틸리티(Session Traversal Utilities for NAT, STUN)**: NAT 밖에서 보이는 공인 주소를 확인하는 프로토콜이다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단말 A**: SDP 제안과 미디어 송신을 수행하는 종단이다.
 - **시그널링 서버**: SDP와 ICE 후보를 상대 단말에 전달하는 서버이다.
@@ -102,7 +102,7 @@ WebRTC 통신 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ICE 경로 검사•선택**: 호스트•공인•중계 후보 쌍을 검사해 최적 경로를 선택하는 절차이다.
 - **SDP 제안 등록**: 발신 단말의 코덱•전송 방향 조건을 시그널링 서버에 등록하는 단계이다.
@@ -151,7 +151,7 @@ WebRTC 통신 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선택 전달 장치(Selective Forwarding Unit, SFU)**: 미디어를 합성하지 않고 수신자별로 선택 전달하는 서버이다.
 - **개인 간 통신(Peer-to-Peer, P2P)**: 중앙 미디어 서버 없이 참가자끼리 스트림을 교환하는 방식이다.
@@ -174,7 +174,7 @@ WebRTC 통신 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜이다.
 - **직접 UDP 차단**: 방화벽이나 NAT 정책이 단말 간 미디어 경로를 막는 문제이다.
@@ -196,7 +196,7 @@ WebRTC 통신 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **WebRTC 다자 구조 선택**: 참여자 수•단말 대역폭•미디어 합성 필요성에 따라 P2P•SFU•MCU를 결정하는 판단이다.
 

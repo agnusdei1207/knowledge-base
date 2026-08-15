@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인터넷 제어 메시지 프로토콜(Internet Control Message Protocol, ICMP)**: 네트워크 계층(L3)에서 IP 패킷 전달 도중 발생하는 에러 통보, 상태 피드백 및 도달성 진단(Ping, Traceroute)을 수행하는 보조 프로토콜 (IP 프로토콜 번호 1).
 - **인터넷 그룹 관리 프로토콜(Internet Group Management Protocol, IGMP)**: IPv4 네트워크 환경에서 호스트 단말과 라우터 간에 멀티캐스트 그룹 가입(Join), 유지, 탈퇴(Leave) 정보를 교환하는 그룹 제어 프로토콜 (IP 프로토콜 번호 2).
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ICMP 유형(ICMP Type)**: ICMP 메시지의 대분류 목적(예: 0=Echo Reply, 3=Destination Unreachable, 8=Echo Request, 11=Time Exceeded)을 나타내는 8비트 필드.
 - **ICMP 코드(ICMP Code)**: 동일한 ICMP Type 내부에서 세부 에러 원인(예: Type 3 Code 4 = Fragmentation Needed)을 소분류 나타내는 8비트 필드.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **IGMP 스누핑(IGMP Snooping)**: L2 스위치가 포트 간 지나가는 IGMP Report/Leave 패킷을 유심히 엿듣고(Snooping), 멀티캐스트 그룹을 원하는 포트로만 1:1 선별 포워딩해주는 L2 조율 기능.
 - **IGMP 질의자(IGMP Querier)**: 서브넷 라우터 중 대표로 선출되어 주기적으로 IGMP Membership Query를 발송하는 최저 IP 주소 라우터.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **멀티캐스트(Multicast)**: 특정 멀티캐스트 주소(224.0.0.0/4)에 가입한 다수의 정당한 수신자들에게만 단일 전송하여 대역폭 효율을 극대화하는 방식.
 - **가입 포트 갱신(Group Join Port Update)**: IGMP Snooping 스위치가 호스트의 IGMP Report를 감지하여 해당 포트를 멀티캐스트 수신 테이블에 등록하는 절차.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 최대 전송 단위 탐색(Path Maximum Transmission Unit Discovery, PMTUD)**: 송신 호스트가 DF(Don't Fragment) 비트를 1로 설정하여 패킷을 보낸 후, 중간 라우터의 ICMP Type 3 Code 4 피드백을 통해 단편화 없는 최적 MTU를 자동으로 찾아내는 기술.
 
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ICMP 전송률 제한(ICMP Rate Limiting)**: 대량의 ICMP 패킷으로 인한 라우터 CPU 고갈 및 DDoS 반사 공격을 방지하기 위해 라우터의 초당 ICMP 응답 건수를 억제하는 기능.
 - **알 수 없는 멀티캐스트 플러딩(Unknown Multicast Flooding)**: L2 스위치에 IGMP Snooping이 설정되지 않아 수신자 목록에 없는 멀티캐스트 패킷을 VLAN 내 전체 포트로 브로드캐스트하여 스톰을 일으키는 현상.
@@ -180,7 +180,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ICMP 선별 허용(Selective ICMP Filtering)**: 보안 강화를 위해 일반 Ping(Echo)은 방화벽에서 제어하되, PMTUD 및 MTU 조율용 ICMP 제어 파라미터는 허용하는 보안 정책.
 - **IGMP 가입 범위 제한(IGMP Membership Scope Limitation)**: IGMP Snooping 및 PIM-SM/SSM 라우팅을 통해 실제 가입 포트 및 허용 대역에만 멀티캐스트 스트림을 한정 전송하는 수립 정책.

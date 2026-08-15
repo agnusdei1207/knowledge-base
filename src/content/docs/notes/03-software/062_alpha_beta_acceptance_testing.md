@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Acceptance Testing (인수 테스트)**: 개발이 완료된 소프트웨어가 발주자/사용자의 요구사항(SRS) 및 사업 계약 기준을 최종 충족하는지 검증하고 시스템 인수 여부를 판정하는 최상위 테스트 단계.
 - **Alpha Testing (알파 테스트)**: 릴리스 전 개발 조직 내부 통제 환경(Lab)에서 개발자와 내부 사용자가 상주하며 진행하는 첫 번째 수용 검증.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Controlled vs Uncontrolled Environment**: 알파 테스트는 개발자의 개입이 가능한 통제된 개발사 내부 환경, 베타 테스트는 외부 사용자의 실제 장치/네트워크 통제 불가능한 오픈 환경.
 - **UAT (User Acceptance Testing)**: 발주사 현업 담당자들이 수용 기준(Acceptance Criteria) 시나리오에 의거하여 시스템을 직접 테스트하는 유저 인수 테스트.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Acceptance Criteria (수용 기준)**: 프로젝트 계약서나 User Story에 정의된 완료 정의(Definition of Done)의 정량적 평가 판정 기준.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Operational Acceptance Testing (OAT)**: 기능 수용(UAT) 외에 백업/복구, 보안, 재해복구(DR), 성능 등 운영팀 관점의 시스템 유지보수 가능성을 검증하는 운영 인수 테스트.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Contractual vs Regulatory Acceptance**: 계약서 명세를 검증하는 계약 인수(Contractual) 대 정부 보안/법률 규제 준수 여부를 검증하는 규정 인수(Regulatory).
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Beta Fatigue**: 베타 테스터들이 불성실하게 피드백을 내거나 유휴 상태로 방치되는 현상으로, 적절한 리워드 및 피드백 수집 텔레메트리 자동화 필수.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인수 검증 수립 기준(Acceptance Testing Standards)**: 시스템 도메인 특성(B2C vs B2B), 계약 조건 및 릴리스 타깃에 의거한 체계.
 

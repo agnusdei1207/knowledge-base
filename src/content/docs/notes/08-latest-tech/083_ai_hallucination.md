@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인공지능 환각(Artificial Intelligence Hallucination, AI 환각)**: 사실이나 근거와 불일치한 내용을 생성하는 현상이다.
 
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사실성(Factuality)**: 출력 주장이 검증 가능한 사실과 일치하는 정도이다.
 - **충실성(Faithfulness)**: 출력 주장이 제공 문맥으로 뒷받침되는 정도이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원자 주장(Atomic Claim)**: 독립적으로 참•거짓을 검증할 수 있는 단일 사실이다.
 - **주장 분해기(Claim Decomposer)**: 생성 답변을 원자 주장으로 나눈다.
@@ -84,7 +84,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생성 조건(Generation Condition)**: 입력•문맥•모델•프롬프트•응답의 기록이다.
 - **주장 지지 여부(Claim Support)**: 사실과 문맥이 주장을 뒷받침하는지의 판정이다.
@@ -120,7 +120,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사실성 오류(Factuality Error)**: 출력 주장이 외부 사실과 충돌한 오류이다.
 - **충실성 오류(Faithfulness Error)**: 출력 주장이 제공 문맥의 지지를 받지 못한 오류이다.
@@ -140,7 +140,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색 문서를 생성 답변의 근거로 제공한다.
 - **출처 장식형 답변(Citation Decoration)**: 인용이 실제 주장을 지지하지 않는 답변이다.
@@ -159,7 +159,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **출력 통제 수준(Output-control Level)**: 위험에 따른 수정•인간 검토•거절 단계이다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **마르코프 결정과정(Markov Decision Process, MDP)**: 상태•행동•전이확률•보상으로 순차 결정을 표현한다.
 - **순차 의사결정(Sequential Decision Making)**: 행동이 미래 상태와 누적 보상에 영향을 주는 문제이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **마르코프 성질(Markov Property)**: 현재 상태만으로 다음 상태 분포가 결정되는 성질이다.
 - **전이확률(Transition Probability)**: 특정 상태 $s$에서 행동 $a$를 취했을 때 다음 상태 $s'$로 이동할 확률 분포 $P(s'|s,a)$
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태(State)**: 의사결정에 필요한 환경 정보를 압축한 표현이다.
 - **행동 집합(Action Set)**: 각 상태에서 선택 가능한 행동 모음이다.
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 전이(State Transition)**: 전이확률에 따른 상태 변화 과정이다.
 - **할인 가치(Discounted Value)**: 미래 보상을 현재 시점으로 환산한 값이다.
@@ -118,7 +118,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다중 선택 밴딧(Multi-armed Bandit)**: 상태 전이 없이 행동 보상을 학습한다.
 - **부분 관측 MDP(Partially Observable MDP, POMDP)**: 관측값으로 숨은 상태를 추정한다.
@@ -138,7 +138,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **마르코프성 부족(Lack of Markov Property)**: 현재 상태의 전이•보상 정보가 불충분한 문제이다.
 - **목표 불일치(Goal Misalignment)**: 보상 함수와 장기 성과가 다른 문제이다.
@@ -158,7 +158,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관측 가능성(Observability)**: 의사결정용 환경 정보를 파악할 수 있는 정도이다.
 - **상태 표현(State Representation)**: 전이 예측에 필요한 정보 구조이다.

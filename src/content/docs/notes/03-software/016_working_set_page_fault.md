@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Working Set**: 프로세스가 특정 윈도우 시간($\Delta$) 동안 참조한 페이지들의 집합으로, 프로그램 국부성(Locality)에 기반하여 동적으로 변동하는 최적 상주 메모리(Resident Set) 요구량.
 - **Page Fault**: 주소 변환 중 페이지 부재나 권한 위반을 발견해 발생하는 동기 예외.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Working Set Window ($\Delta$)**: 프로세스의 과거 페이지 참조 이력을 추적하여 Working Set을 산출하는 시간/참조 건수 기준 윈도우.
 - **Locality of Reference (참조 국부성)**: 시간적(Temporal) 및 공간적(Spatial)으로 프로그램이 특정 메모리 구역을 집중 참조하는 성질.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Upper / Lower Bound (PFF 상하한선)**: 페이지 폴트 빈도가 상한을 넘으면 증설하고 하한보다 낮으면 회수하는 기준.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Page Fault Frequency**: 관찰 구간의 페이지 폴트 발생 횟수 또는 비율.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Working Set Algorithm vs PFF Algorithm**: Working Set은 주기적 $\Delta$ 윈도우 계산(상시 오버헤드)인 반면, PFF는 Page Fault 발생 시에만 간격을 검사(낮은 평시 오버헤드)하는 차이점.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LRU-K**: 최근 $K$번째 참조된 시점을 기준으로 가장 오래된 페이지를 교체하여 Working Set을 정밀 보정하는 알고리즘.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동적 프레임 할당 기준(Dynamic Frame Allocation Criteria)**: 워킹 셋 윈도우 크기, Page Fault 발생 간격 및 시스템 메모리 압박 지수에 의거한 튜닝 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **근사 알고리즘**: 다항 시간에 실행되며 최적해 대비 해의 품질 한계를 보장하는 알고리즘이다.
 - **NP-난해 문제**: 모든 NP 문제 이상의 계산 난도를 가져 대규모 최적해 탐색이 어려운 문제이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 가능 해**: 원래 문제의 모든 제약 조건을 만족하는 후보 해이다.
 - **근사비 $\rho$**: 최악의 근사해와 최적해 사이의 품질 비율이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **목적 함수(Objective Function)**: 최소화•최대화할 값을 정의하는 함수이다.
 - **제약 조건(Constraint)**: 허용되는 해의 범위를 정의하는 조건이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **알고리즘 근사값(Algorithm Value, $\mathrm{ALG}$)**: 근사 알고리즘이 산출한 목적 함수 값이다.
 - **최적값(Optimal Value, $\mathrm{OPT}$)**: 같은 입력에서 가능한 가장 좋은 목적 함수 값이다.
@@ -145,7 +145,7 @@ $$\text{최소화}: \mathrm{ALG}/\mathrm{OPT}\le\rho,\quad \text{최대화}: \ma
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정확 알고리즘**: 가능한 해를 충분히 탐색해 최적해를 보장하는 방법이다.
 - **휴리스틱**: 경험 규칙으로 빠르게 해를 찾지만 일반적인 최악 품질 경계는 보장하지 않는 방법이다.
@@ -169,7 +169,7 @@ $$\text{최소화}: \mathrm{ALG}/\mathrm{OPT}\le\rho,\quad \text{최대화}: \ma
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복구 절차**: 제약을 위반한 후보를 수정해 실행 가능한 해로 만드는 처리이다.
 - **하한 강화**: 최적값의 추정 하한을 높여 근사해 품질 평가를 더 정확하게 만드는 작업이다.
@@ -190,7 +190,7 @@ $$\text{최소화}: \mathrm{ALG}/\mathrm{OPT}\le\rho,\quad \text{최대화}: \ma
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 허용선**: 서비스에서 받아들일 수 있는 해 품질 손실의 최대 기준이다.
 - **해법 전환**: 입력 규모와 품질 요구에 따라 근사 방식에서 정확 방식으로 바꾸는 결정이다.

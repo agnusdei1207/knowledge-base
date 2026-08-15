@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **맨체스터 인코딩(Manchester Encoding)**: 모든 이진 비트 구간의 정확한 중앙(50% 시점)에서 전압 전이를 발생시켜 데이터 비트 값과 동기화 클럭 신호를 동시에 표현하는 자가 동기화(Self-Clocking) 회선 부호화(Line Coding) 기법이다.
 - **비복귀 영점(Non-Return-to-Zero, NRZ)**: 비트 전송 구간 동안 신호 전압 레벨이 0V로 돌아오지 않고 전압 높낮이 자체로 0과 1을 표시하는 회선 부호 방식으로, 동일 비트가 연쇄 출력될 때 신호 전이가 발생하지 않는다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위상 고정 루프(Phase-Locked Loop, PLL)**: 수신된 신호의 주기적인 비트 중앙 전압 전이 시점에 수신 장치의 내부 발진기 위상 및 주파수를 정밀 동기화시키는 회로 모듈이다.
 - **직류 성분(Direct Current Component, DC Component)**: 신호 파형의 평균 전압값(0Hz)으로, 변압기 결합 및 AC 코일 구동 시 직류 바이어스에 의한 신호 왜곡(DC Drift)을 유발하는 성분이다.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **천이 검출기(Transition Detector)**: 수신 물리 신호 파형에서 상승 에지(Rising Edge)와 하강 에지(Falling Edge)의 시점 및 방향성을 추출하는 아날로그/디지털 감지 센서 회로이다.
 - **지터(Jitter)**: 동기 클럭 시점이 신호 전송 경로의 잡음과 분산 현상으로 인해 이상적인 시간 축 위치에서 미세하게 위상이 오가는 타이밍 왜곡 현상이다.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클럭 복구(Clock Recovery)**: 데이터 신호 파형에 내재된 주기적 전이 시점으로부터 수신 시스템의 동기 클럭을 별도 타이밍 라인 없이 재생하는 기술이다.
 - **데이터 복호(Data Decoding)**: 클럭 복구 윈도우 시점에서 비트 중앙 전이의 방향(상승 edge: 1, 하강 edge: 0 등)을 해석하여 원본 비트를 되돌리는 프로세스이다.
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **차분 맨체스터(Differential Manchester Encoding)**: 비트 중앙의 전이는 클럭 동기용으로만 고정 사용하고, 데이터 0과 1의 구분은 비트 시작 경계 시점(Bit Boundary)의 전압 전이 유무로 판단하는 부호화 기법이다.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **감쇠(Attenuation)**: 전송 거리가 늘어남에 따라 유선 케이블의 저항 성분으로 인해 전압 전이 폭(Vpp)이 무뎌지는 현상이다.
 - **극성 반전(Polarity Reversal)**: 유선 꼬임선(UTP)의 RX+/RX- 배선이 반대로 설치되어 양/음 전압이 뒤바뀌어 데이터가 반전 복호되는 오류 현상이다.
@@ -176,7 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동기화·대역폭 절충(Synchronization-Bandwidth Trade-off)**: 비트 중앙 전이로 100% 자가 동기를 얻는 대신 필요 대역폭이 2배로 늘어나는 회선 부호화 물리 특성 관계이다.
 

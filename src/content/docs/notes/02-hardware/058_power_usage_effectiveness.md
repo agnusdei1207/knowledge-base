@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUE(Power Usage Effectiveness)**: 데이터센터 총 사용 전력량을 순수 IT 장비 전력량으로 나눈 전력 사용 효율화 표준 지표.
 - **전체 시설 에너지(Total Facility Energy)**: 데이터센터 건물 인입선부터 IT 장비, 냉각, 조명, 변전 손실 전 전력을 합산한 총 에너지.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **무차원 비율(Dimensionless Ratio)**: 분자(kW)와 분모(kW)가 동일 단위로 나누어져 단위가 상쇄되는 비율 지표.
 - **비IT 시설 에너지(Non-IT Facility Energy)**: CRAC/Chiller 냉각, UPS/변압기 열 손실 및 조명 전력.
@@ -60,7 +60,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 에너지 계량(Total Facility Metering)**: 변전소 메인 입전 전력계(Utility Switchboard) 상의 전체 전력 측정.
 - **IT 에너지 계량(IT Equipment Metering)**: UPS 출력단 또는 PDU 소켓 레벨의 순수 서버 전력 측정.
@@ -90,7 +90,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **계량 자료(Metering Data)**: 15분 또는 1시간 단위로 시계열 수집되는 센서 전력량 수치.
 - **결측 검증(Missing-Data Validation)**: 미터기 통신 에러 및 누락 데이터 보정 검증.
@@ -127,7 +127,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WUE(Water Usage Effectiveness)**: 데이터센터 수자원 효율성 평가 지표 (물 소비량 / IT 전력량).
 - **CUE(Carbon Usage Effectiveness)**: 데이터센터 온실가스 배출 효율성 지표 ($CO_2$ 배출량 / IT 전력량).
@@ -147,7 +147,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **계량점 이력(Meter-Point History)**: 미터기 교체 및 계량 경계 변경 이력 관리.
 - **IT 부하율(IT Load Factor)**: IT 장비 가동률 스케일링 지표.
@@ -169,7 +169,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUE 개선 원칙(PUE Optimization Principles)**: 냉각 손실 및 변전 손실 최소화를 통해 PUE를 1.0에 근접시키는 친환경 인프라 운용 원칙.
 

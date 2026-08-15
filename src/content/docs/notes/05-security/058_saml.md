@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 주장 마크업 언어(Security Assertion Markup Language, SAML) 2.0**: 이종 도메인 간 사용자 인증(Authentication) 및 인가(Authorization) 데이터를 XML 기반 보안 주장(Assertion)으로 교환하는 연합 인증 표준.
 - **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 서명 및 암호화 구조체를 표현하기 위해 SAML 데이터 교환 시 사용되는 마크업 포맷.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Assertion**: 사용자 식별자(NameID), 인증 방법(AuthnStatement), 속성(AttributeStatement) 및 유효조건(Conditions)이 담긴 서명 문서.
 - **Metadata**: IdP와 SP 간 사전 교환하여 신뢰관계를 형성하는 공개키 인증서, Entity ID 및 수신 엔드포인트 URL 정보 파일.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **로컬 세션(Local Session)**: SP가 IdP의 SAML Assertion 검증을 수락한 후 자체 쿠키/세션을 발급하는 단계.
 
@@ -88,7 +88,7 @@ SAML 연합 인증 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증 요청(Authentication Request, AuthnRequest)**: SP가 IdP로 사용자 인증을 위탁하기 위해 발송하는 SAML 요청 문서.
 - **응답 ID(Response ID)**: Replay 공격을 막기 위해 SP가 수신 테이블에 등록 체크하는 고유 난수 값.
@@ -137,7 +137,7 @@ SAML 연합 인증 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SP 시작(SP-Initiated SSO)**: 사용자가 SP 웹사이트 접속 시 SSO 절차가 시작되어 SP가 AuthnRequest를 먼저 발행하는 표준적인 흐름.
 - **IdP 시작(IdP-Initiated SSO)**: 사용자가 중앙 IdP 포털에서 애플리케이션 아이콘을 클릭하여 AuthnRequest 없이 IdP가 곧바로 SAML Response를 SP에 전송하는 흐름.
@@ -156,7 +156,7 @@ SAML 연합 인증 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OASIS SAML 2.0 Core**: SAML 2.0 스펙의 세부 텍스트, 프로토콜 및 구문 규칙을 명시한 국제 표준.
 - **XML 서명 래핑 공격(XML Signature Wrapping Attack, XSW)**: XML 구조 상에 무효한 위조 노드를 주입하여 서명 검증 엔진과 비즈니스 파싱 엔진 간의 불일치를 악용하는 연합 인증 공격.
@@ -176,7 +176,7 @@ SAML 연합 인증 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **요청 결속(Request-Response Binding Verification)**: InResponseTo, Recipient, NotOnOrAfter 파라미터를 1:1로 결합 대조하여 위조된 응답 주입을 방지하는 검증 지침.
 

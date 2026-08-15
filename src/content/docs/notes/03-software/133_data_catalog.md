@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Catalog (데이터 카탈로그)**: 전사 데이터 자산의 위치, 스키마, 소유자, 데이터 계보(Lineage), 품질 지표, 접근 권한 등의 메타데이터를 수집 및 색인(Indexing)하여, 데이터 탐색(Discoverability) 및 거버넌스를 지원하는 중앙 검색 시스템.
 - **Data Discoverability (데이터 탐색 용이성)**: 데이터 소비자가 원하는 데이터셋의 위치와 형태를 1초 만에 검색어로 찾아내 활용할 수 있는 상태.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Automated Metadata Harvesting**: DB, S3, Spark 작업으로부터 스키마 및 Lineage를 에이전트가 자동 수집.
 - **Business Glossary & PII Tagging**: 개인정보(PII) 컬럼 자동 태깅 및 비즈니스 용어집(Glossary) 매핑.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Metadata Crawler & Profiler**: 데이터베이스 및 S3를 지속 수집하여 컬럼별 Null 비율, Distinct Count 등의 프로파일링 통계 자동 추출 엔진.
 
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lineage Visualization**: Raw Data $\rightarrow$ Silver $\rightarrow$ Gold $\rightarrow$ Dashboard까지 데이터가 변환되는 이중화 과정을 그래프 노드로 시각화.
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Comparison of Metadata Tools**: 단순 DB 컬럼 명세서(Dictionary), 현업 단어집(Glossary), 360도 검색/계보/보안 통합 플랫폼(Catalog).
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Metadata Stored Stale Danger**: 크롤링 주기가 너무 길 경우 실제 소스 DB의 삭제된 테이블을 카탈로그가 여전히 안내하는 갱신 지연 현상.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Catalog 수립 기준(Data Catalog Standards)**: OpenMetadata 오픈소스, Lineage 자동 추출, PII 태깅 및 Elasticsearch 검색 가속성에 의거한 체계.
 

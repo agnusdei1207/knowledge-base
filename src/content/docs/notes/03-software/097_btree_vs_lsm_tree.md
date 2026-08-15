@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **B-Tree (Balance Tree)**: 데이터 페이지를 디스크상의 지정된 위치에 제자리 수정(In-Place Update) 방식으로 저장하여, 읽기(Read) 성능을 최적화한 전통적 RDBMS(MySQL InnoDB, PostgreSQL) 스토리지 엔진 구조.
 - **LSM-Tree (Log-Structured Merge-Tree)**: 데이터를 인메모리(MemTable)에 먼저 기록한 후 디스크에 순차적 Append-Only(Out-of-Place Update)로 덤프(SSTable)하고, 지속적 병합(Compaction)을 거쳐 쓰기(Write) 속도를 극대화한 NoSQL(RocksDB, Cassandra) 스토리지 엔진 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Random Write vs Sequential Write**: B-Tree는 페이지 갱신•분할, LSM-Tree는 순차 파일 생성과 컴팩션을 중심으로 처리.
 - **Write Amplification vs Read Amplification**: B-Tree는 랜덤 쓰기로 인한 쓰기 증폭 발생, LSM-Tree는 여러 계층의 SSTable 스캔으로 인한 읽기 증폭 발생.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MemTable & SSTable (Sorted String Table)**: LSM-Tree의 메모리 정렬 버퍼(MemTable)와 디스크 불변 정렬 파일(SSTable).
 - **Bloom Filter**: LSM-Tree 읽기 시 특정 키(Key)가 SSTable 파일에 존재하는지 안 하는지를 확률적으로 빠르게 판별해 무의미한 디스크 I/O를 막아주는 필터.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compaction**: LSM-Tree 디스크 상의 여러 계층(Level 0, Level 1...)에 파편화된 SSTable 파일들을 배경(Background)에서 정렬하여 하나로 합치고, 오래된 삭제/수정 데드 레코드를 청소하는 주 정리 작업.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RocksDB / LevelDB**: Facebook 및 Google이 오픈소스로 공개한 대표적 LSM-Tree 스토리지 엔진.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compaction Stall (컴팩션 정체)**: LSM-Tree 쓰기 트래픽이 너무 폭증하여 백그라운드 Compaction 속도가 따라가지 못해 DB가 잠시 쓰기 연산을 멈춰 세우는 병목 현상.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스토리지 엔진 선택 기준(Storage Engine Selection Standards)**: Read/Write 워크로드 비율, Latency p99 및 WAF/Compaction 오버헤드에 의거한 체계.
 

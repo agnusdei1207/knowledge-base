@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SIMD(Single Instruction, Multiple Data)**: 하나의 디코딩 인스트럭션을 인가하여 여러 병렬 연산 레인의 데이터를 동시에 가속하는 처리 방식.
 - **MIMD(Multiple Instruction, Multiple Data)**: 다수의 독립된 제어 유닛이 각자 독자적인 명령어를 디코딩하여 서로 다른 데이터를 비동기 실행하는 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 명령(Common Instruction)**: 단일 제어 장치가 브로드캐스팅하여 복수의 데이터 레인에 일괄 인가하는 인스트럭션.
 - **독립 명령 흐름(Independent Instruction Flow)**: 코어별로 제어 유닛, PC(Program Counter)를 분리 보유하여 독립 구동하는 실행 파이프라인.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 큐(Work Queue)**: MIMD 스케줄러가 코어들에 비동기 할당하기 위해 독립 작업 패킷을 대기시키는 큐.
 - **MIMD 스케줄러(MIMD Scheduler)**: 작업 큐의 업무를 유휴 코어로 비동기 배분하는 스케줄링 모듈.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 기술자(Work Descriptor)**: MIMD 스케줄러에 등록되는 함수 포인터, 입력 파라미터 및 범위 정보 객체.
 - **벡터 연산(Vector Operation)**: SIMD 레인 상에서 배열 및 텐서 데이터를 일괄 처리하는 연산.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조밀 텐서(Dense Tensor)**: 메모리 연속성이 높고 동일 연산 반복성이 강한 데이터 표현.
 - **비정형 분기(Irregular Branch)**: 데이터 조건에 따라 제어 흐름이 불규칙하게 튀어 SIMD 효율을 떨어뜨리는 분기.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분기 발산(Branch Divergence)**: SIMD 레인 간 조건 분기가 갈라져 일부 레인이 마스킹(Inactivate)되는 병목 현상.
 - **활성 마스크(Active Mask)**: 조건 분기 시 참/거짓 레인을 구분하여 실행을 통제하는 비트 마스크.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **병렬 실행 구조 선택 기준(Parallel Architecture Selection Criteria)**: 연산 알고리즘의 데이터 동질성, 제어 흐름 분기율 및 시스템 스케일링에 근거한 결정 기준.
 

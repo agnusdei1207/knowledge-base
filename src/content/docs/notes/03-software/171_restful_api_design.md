@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **REST (Representational State Transfer)**: 로이 필딩(Roy Fielding)이 창안한 웹(Web)의 장점을 최대한 활용할 수 있는 네트워크 아키텍처 스타일로, 자원 중심의 URI와 HTTP 표준 메서드를 결합한 통신 구조.
 - **RESTful API**: REST의 기본 원칙 6가지(Uniform Interface, Stateless, Cacheable, Client-Server, Layered System, Code on Demand)를 엄격히 준수하여 설계된 시스템 간 API 연계 규격.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Uniform Interface (균일한 인터페이스)**: 클라이언트 플랫폼(Android, iOS, Web)과 무관하게, URI로 지정한 리소스에 대해 동일한 표준 조작 방식(GET, POST, PUT, DELETE)을 보장하는 특성.
 - **Stateless (무상태성)**: 서버가 클라이언트의 이전 상태(세션)를 기억하지 않고, 각 요청은 독립적으로 완전한 문맥(Token 등)을 포함해야 하는 서버 확장성 보장 특성.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Representation (표현)**: 자원의 실제 데이터 포맷. 동일한 자원(`/users/1`)이라도 클라이언트의 요청(Accept Header)에 따라 JSON, XML, HTML 등 다양한 형태(표현)로 응답할 수 있는 유연성.
 
@@ -74,7 +74,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **HATEOAS (Hypermedia As The Engine Of Application State)**: 서버가 응답 데이터뿐만 아니라, "다음에 클라이언트가 수행할 수 있는 관련 API 링크(Hyperlink)"들을 함께 반환하는 REST의 최종 성숙도(Level 3) 단계.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Richardson Maturity Model (리처드슨 성숙도 모델)**: API가 진정한 RESTful에 얼마나 가까운지 평가하는 4단계 척도로, 실무에서는 통상 Level 2를 RESTful로 인정하는 기준.
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Over-fetching & Under-fetching**: REST의 고정된 응답 구조 탓에 클라이언트가 불필요한 데이터를 너무 많이 받거나(Over), 한 번에 못 받아 API를 여러 번 쪼개서 호출(Under)해야 하는 고질적 성능 저하 요인.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RESTful 수립 기준**: 리처드슨 Level 2 이상(명사형 URI, HTTP 메서드/상태코드), Stateless 기반 토큰 인증 및 Pagination에 의거한 체계.
 

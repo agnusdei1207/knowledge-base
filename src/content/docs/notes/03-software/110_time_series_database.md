@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TSDB (Time Series Database / 시계열 데이터베이스)**: 시간의 흐름(Timestamp)에 따라 발생하는 연속적인 수치 측정 데이터(Metrics, Log, Event, Financial Tick)를 고속 적재하고, 압축 및 다운샘플링(Downsampling) 처리에 특화된 전용 데이터베이스.
 - **Timestamp Indexing**: 타임스탬프를 1차 클러스터링 인덱스 키로 지정하여 시간 범위 검색(`WHERE time >= now() - 1h`)을 $O(1)$ 수준으로 가속화하는 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **High-Rate Append-Only Write**: 갱신(Update) 및 삭제(Delete)가 거의 발생하지 않고, 무조건 시간 순서대로 덧붙이는 쓰기 전용 특성.
 - **Gorilla Compression Algorithm**: 페이스북이 개발한 시계열 압축 알고리즘으로, 타임스탬프와 수치 float 값의 XOR 차이값만 저장해 90% 이상 디스크 압축률 달성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Metric & Tags (Labels)**: `cpu_usage{host="server01", region="us-east"}`와 같이 메트릭 이름과 메타데이터 태그(Tag Set)의 조합 구조.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **High Cardinality**: 태그(Tag) 값의 조합 수가 무한히 많아져(예: `user_id`를 태그로 삽입), TSDB 인덱스 메모리가 수십 GB 이상 폭증하여 DB가 다운되는 안티패턴.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TimescaleDB vs InfluxDB**: TimescaleDB는 PostgreSQL 기반의 확장 TSDB(SQL 통용), InfluxDB는 전용 NoSQL 엔진.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cardinality Control**: 태그 키-값으로 유일한 값(UUID, User ID, IP 등)을 절대 넣지 않고, 카테고리성 범주값만 사용하는 규칙.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TSDB 수립 기준(TSDB Architecture Standards)**: Ingestion QPS, High Cardinality 제어, Gorilla 압축 및 Retention Downsampling 정책에 의거한 체계.
 

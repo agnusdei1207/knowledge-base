@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **유한 오토마타(Finite Automaton)**: 유한한 상태와 전이 함수로 입력 문자열의 수용 여부를 판정하는 계산 모델이다.
 - **결정적 유한 오토마타(Deterministic Finite Automaton, DFA)**: 각 입력에서 다음 상태가 하나로 정해지는 유한 오토마타이다.
@@ -42,7 +42,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정규 언어(Regular Language)**: 유한 오토마타가 인식할 수 있는 문자열의 집합이다.
 - **순차 처리**: 입력 기호를 앞에서부터 하나씩 소비하며 현재 상태를 갱신하는 방식이다.
@@ -67,7 +67,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **오토마타 5튜플 $(Q,\Sigma,\delta,q_0,F)$**: 상태 집합•입력 알파벳•전이 함수•시작 상태•수용 상태 집합으로 구성한 형식 구조이다.
 - **입력 스트림(Input Stream)**: 문자열의 기호를 오토마타 실행기에 순서대로 제공하는 입력 경계이다.
@@ -103,7 +103,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현재 상태**: 지금까지 소비한 입력 이력을 유한하게 표현하는 오토마타의 기억 단위이다.
 - **입력 소진**: 문자열의 모든 기호를 전이 함수에 전달해 더 처리할 기호가 없는 상태이다.
@@ -149,7 +149,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엡실론 전이($\varepsilon$-transition)**: 입력 기호를 소비하지 않고 NFA의 상태를 바꾸는 전이다.
 - **상태 폭증(State Explosion)**: NFA 상태 조합이 DFA의 개별 상태가 되어 결정화 후 상태 수가 지수적으로 늘어나는 현상이다.
@@ -172,7 +172,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **결정화(Determinization)**: NFA의 가능한 상태 집합을 하나의 DFA 상태로 대응시키는 변환이다.
 - **정규식 서비스 거부(Regular Expression Denial of Service, ReDoS)**: 비효율적인 정규식과 악성 입력으로 자원을 고갈시키는 공격이다.
@@ -198,7 +198,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 수 자원 한도**: 결정화한 DFA 상태와 전이표를 메모리에 유지할 수 있는 최대 규모이다.
 

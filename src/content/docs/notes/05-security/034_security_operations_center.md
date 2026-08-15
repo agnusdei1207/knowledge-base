@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 운영 센터(Security Operations Center, SOC)**: 인력, 프로세스, 보안 기술을 통합하여 조직의 보안 이벤트를 24x365 상시 관제•분석•대응하는 전담 조직.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 이종 보안 로그를 통합 수집하여 정규화 및 상관 관계 분석으로 경보를 생성하는 중앙 플랫폼.
 - **보안 오케스트레이션•자동화•대응(Security Orchestration, Automation and Response, SOAR)**: 다양한 보안 도구를 연계하여 자동화 플레이북 기반 조사를 수행하는 플랫폼.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체, TTP, IoC 지표 등 탐지 및 대응의 정밀도를 높이는 외부 위협 정보.
 - **탐지 공학(Detection Engineering)**: 탐지 규칙 개발, 모의 검증, 데이터 로그 수집 파이프라인 관리를 통해 탐지 미탐 공백을 지속 축소하는 활동.
@@ -91,7 +91,7 @@ SOC 운영 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 범위(Scope of Service)**: SOC가 보호할 자산 범위, 탐지 영역, 대응 SLA 수준을 규정한 서비스 계약 및 정의서.
 - **실행•책임•협의•통보(Responsible, Accountable, Consulted, Informed, RACI)**: 업무 주체별 역할과 권한을 4가지 범주로 명확히 나눈 책임 할당 매트릭스.
@@ -142,7 +142,7 @@ SOC 운영 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **내부 SOC(In-house SOC)**: 조직 내부 인력과 자산으로 전담 운영하여 높은 자산 이해도와 조치 권한을 보유하는 소유 모델.
 - **공동 SOC(Co-managed SOC)**: 내부 조직이 핵심 거버넌스와 조치를 담당하고 외부 전문업체가 1차 관제 및 분석을 협력하는 혼합 모델.
@@ -165,7 +165,7 @@ SOC 운영 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 보안 기준 및 운영 지침을 제정하는 정부 기관.
 - **특별 간행물(Special Publication, SP 800-61 Rev. 3)**: 탐지, 격리, 제거, 복구 절차를 사이버 위험 관리와 연계하는 사고 대응 가이드라인.
@@ -186,7 +186,7 @@ SOC 운영 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SOC 성과(SOC Performance Metrics)**: 단순히 처리한 경보 건수가 아닌 Mean Time to Detect(MTTD), Mean Time to Respond(MTTR) 등의 대응 적시성과 지체 예방률을 종합 평가하는 지표.
 

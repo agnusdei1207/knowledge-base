@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **속성 기반 접근 제어(Attribute-Based Access Control, ABAC)**: 주체(Subject), 객체(Resource/Object), 행위(Action), 환경(Environment)의 속성(Attribute) 조합 조건문을 Boolean 정책(Policy)으로 평가하여 동적 인가 여부를 판정하는 메커니즘.
 - **역할 기반 접근 제어(Role-Based Access Control, RBAC)**: 직무(Role) 단위로 정적 권한을 맵핑하는 3계층 접근 제어 모델.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주체 속성(Subject Attributes)**: 요청자의 신원 ID, 직급, 부서, 보안 승인 등급.
 - **객체 속성(Object Attributes)**: 대상 데이터의 비밀 등급(Sensitive/Public), 소유자, 문서 유형.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **속성 권위자(Attribute Authority)**: HR DB, 기기 관리(MDM) 등 신뢰할 수 있는 속성을 원천 생성 및 관리하는 주체.
 - **정책 저장소(Policy Store)**: XACML 기반 허용/거부 규칙 및 정책 결합 알고리즘(Deny-Overrides 등)을 보관하는 DB.
@@ -89,7 +89,7 @@ ABAC 정책 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **생존 시간(Time to Live, TTL)**: PIP가 캐싱하여 참조하는 속성 데이터의 최대 무결성 보장 유효 기한.
 - **기본 거부(Default Deny)**: 명시적 Permit 정책 조건에 부합하지 않거나 평가 오류 발생 시 접근을 무조건 차단하는 기본 준칙.
@@ -138,7 +138,7 @@ ABAC 정책 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **혼합 모델(Hybrid RBAC-ABAC / RABAC)**: RBAC 역할을 1차 필터링 프레임으로 사용하고, 2차 세부 조건(시간, 기기, 위치)을 ABAC 속성으로 검증하는 하이브리드 인가 기법.
 
@@ -156,7 +156,7 @@ ABAC 정책 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-162**: NIST의 ABAC 가이드라인 문서로 아키텍처 설계, 속성 관리 및 정책 평가 수명주기 명시.
 - **OASIS XACML 3.0 Errata 01**: eXtensible Access Control Markup Language로 ABAC의 표준 정책 표현 및 프로토콜 규격.
@@ -175,7 +175,7 @@ ABAC 정책 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 속성(Trusted Attributes)**: cryptographic signature 및 OAuth DPoP 등으로 출처 무결성이 증명된 속성.
 - **설명 가능성(Explainability)**: 인가 승인/거부 판단 시 어떤 정책 규칙과 속성값이 적용되었는지 역추적하는 성질.

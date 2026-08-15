@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시큐어 코딩(Secure Coding)**: 소프트웨어 개발 생명주기(SDLC)의 구현 단계에서 잠재적인 보안 취약점(입력 검증, 권한 관리, 암호화, 예외 처리 등) 발생을 사전에 예방하는 보안 개발 표준 및 검증 체계.
 
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 모델(Threat Model)**: 보호 자산, 신뢰 경계, 위협 요소 및 공격 경로를 식별하여 보안 요구사항을 수립하는 설계 분석 기법.
 - **안전 기본값(Secure Defaults)**: 명시적 설정이 없더라도 최소 권한 및 차단 상태가 적용되도록 제공되는 안전한 프레임워크 기본값.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시큐어 코딩 통제 구조(Secure Coding Control Framework)**: 가이드 수립, 시큐어 코딩 구현, 코드 리뷰, SAST/DAST 스캔 및 배포 게이트를 통일한 생명주기 관리 체계.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 리뷰(Code Review)**: SAST 도구가 적발하기 어려운 비즈니스 로직 결함, 권한 우회 및 보안 API 적절성을 동료 개발자가 정독 검증하는 절차.
 - **안전 응용 프로그래밍 인터페이스(Secure API)**: SQLi, XSS 방어가 내재화된 표준 입력검증/쿼리파라미터화 제공 라이브러리.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시큐어 코딩 통제 선택 기준(Secure Coding Control Selection Criteria)**: 로직 검증은 피어 리뷰, 패턴 탐지는 SAST/DAST, 공통 보안 기능은 표준 프레임워크에 분담 적용하는 지침.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SSDF 1.1(NIST Secure Software Development Framework 1.1)**: 안전한 소프트웨어 개발 관행(PO, PS, PW, RV)을 정의한 미국 표준 가이드.
 - **ISO/IEC 27034-1**: 애플리케이션 보안 통제 및 규격(ONF/ANF)을 정의한 국제 표준.
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시큐어 코딩 운영 기준(Secure Coding Operational Baseline)**: 개발자의 안전 코드 구현, 피어 코드 리뷰, SAST/DAST 게이트 및 예외 시한 관리를 결합한 운용 지침.
 

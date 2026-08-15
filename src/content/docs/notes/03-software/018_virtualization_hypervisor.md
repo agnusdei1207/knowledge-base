@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hypervisor (VMM, Virtual Machine Monitor)**: 물리 하드웨어 자원 위에 위치하여 하드웨어를 추상화하고 여러 개의 게스트 OS(VM)가 개별 독립 자원으로 구동될 수 있도록 동적 자원 배분 및 스케줄링을 중재하는 소프트웨어 레이어.
 - **Type 1 (Bare-Metal) Hypervisor**: 물리 하드웨어 제어 계층에서 직접 가상머신을 관리하는 하이퍼바이저.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VM Exit / VM Entry**: 게스트 OS의 특권 명령어(Privileged Instruction) 실행 시 하드웨어에 의해 하이퍼바이저 트랩이 발동되어 하이퍼바이저로 전환(VM Exit)되거나 다시 게스트로 복귀(VM Entry)하는 동작.
 - **Hardware-Assisted Virtualization**: Intel VT-x 및 AMD-V 기술을 적용하여 특권 명령어 가상화 트랩 및 주소 변환(EPT/NPT)을 하드웨어 레벨에서 직접 고속 지원하는 기술.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **vCPU (Virtual CPU)**: 게스트 OS에게 할당된 논리적 CPU 코어로, 하이퍼바이저의 스케줄러에 의해 물리 CPU pCPU에 매핑 디스패치되는 단위.
 - **EPT/NPT (Extended Page Tables / Nested Page Tables)**: 하드웨어가 2단계 주소 변환 (Guest Virtual $\to$ Guest Physical $\to$ Host Physical)을 직접 지원하여 MMU 가상화 오버헤드를 억제하는 기술.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Trap-and-Emulate**: 게스트 OS가 비특권 모드에서 Ring 0 특권 명령어를 실행할 때 하드웨어 예외를 유발(Trap)시켜 하이퍼바이저가 이를 가상화 모사(Emulate)해 주는 기본 동작.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **KVM (Kernel-based Virtual Machine)**: Linux 커널을 Type 1 하이퍼바이저 모듈로 직접 변환시키는 커널 기반 가상화 기술.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SR-IOV (Single Root I/O Virtualization)**: 물리 NIC 장치를 논리 가상 기능(VF)으로 분할하여 VM이 하이퍼바이저 패킷 중재 없이 직접 I/O 바이패스(Pass-Through)하게 하는 기술.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상화 알고리즘 선택 기준(Virtualization Selection Criteria)**: 워크로드 I/O 지연 민감도, 밀도, 격리 수준 및 운영 관리에 기반한 수립 체계.
 

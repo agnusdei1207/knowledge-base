@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스 아키텍처(Kubernetes Architecture)**: 클러스터 상태를 관리하는 제어면(Control Plane)과 워크로드를 가동하는 작업 노드(Worker Node)로 분리된 컨테이너 오케스트레이션(Container Orchestration) 구조.
 - **제어면(Control Plane)**: API 서버(API Server), etcd(Distributed Key-Value Store), 스케줄러(Scheduler), 컨트롤러 관리자(Controller Manager)로 구성된 클러스터 관리 핵심 서버.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조정 루프(Reconciliation Loop)**: 클러스터의 '목표 상태(Desired State)'와 '현재 상태(Current State)'를 지속적으로 비교하고 격차를 해소하여 클러스터 상태를 동기화하는 자가 치유(Self-healing) 메커니즘.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **kube-apiserver & etcd**: kube-apiserver는 클러스터의 유일한 REST API 입구, etcd는 클러스터의 모든 상태값을 보존하는 분산 Key-Value DB.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pod Provisioning Flow**: `kubectl apply` YAML 전달 $\rightarrow$ apiserver validation $\rightarrow$ etcd write $\rightarrow$ scheduler node selection $\rightarrow$ kubelet pod run.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **etcd Raft Consensus**: etcd는 분산 합의 알고리즘(Raft)을 사용하여 3대 이상 홀수(3, 5, 7)로 구성해야 쿼럼(Quorum) 유지 가능.
 
@@ -144,23 +144,25 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **etcd Quorum Failure**: etcd 노드 3대 중 2대가 동시 다운되면 쿼럼(과반수)이 깨져 클러스터 전체가 읽기 전용 락에 걸리는 참사.
+- **etcd 쿼럼 손실(etcd Quorum Loss)**: etcd 클러스터의 과반수 노드가 이탈하여 분산 합의가 불가능해지고 클러스터 상태 쓰기가 중단되는 장애 현상.
+- **API 서버 병목(API Server Bottleneck)**: 대규모 파드 증설 및 컨트롤러 폴링 요청 폭증으로 API 서버의 응답 지연이 발생하는 현상.
+- **시스템 자원 고갈(System OOM)**: 워크로드 파드가 노드 메모리를 과점유하여 kubelet 및 핵심 데몬이 강제 종료되는 장애.
 
 </details>
 
-| 3대 K8s 난제 | 원인 | 실무 대책 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **1. etcd 쿼럼 손실** | 노드 과반수 다운으로 락 발생 | etcd 분산 배치 및 주기적 백업 |
-| **2. API 서버 병목** | 과도한 파드 요청 | API 서버 스케일아웃 및 캐싱 튜닝 |
-| **3. kubelet 메모리 부족**| 노드 메모리 고갈 | kubelet 시스템 예약 메모리 확보 |
+| etcd 과반수 장애로 인한 상태 쓰기 불능 | etcd 홀수(3/5) 노드 분산 배치 및 정기 스냅샷 백업 | **클러스터 상태 지속성 보장** |
+| 과도한 파드 생성 요청 시 API 서버 병목 | API 서버 수평 확장 및 etcd 캐시 튜닝 | **제어면 처리량 향상** |
+| 파드 메모리 과다 점유로 kubelet 정지 | 노드별 시스템/kubelet 예약 메모리(Reserved) 설정 | **노드 안정성 확보** |
 
-> 사례: **카카오 / 당근마켓 / 쿠팡 EKS / GKE 기반 대규모 마스터 노드 HA 멀티 클러스터 운용**
+> 요약: etcd 쿼럼 보장과 제어면 스케일아웃 및 노드 자원 격리로 대규모 클러스터 안정성 확보.
 
 #### 한줄 요약
 
-- 제어면만 이중화해도 요청량이 틀리거나 배치 제약이 충돌하면 파드가 멈추므로 상태 저장, 권한, 용량, 배치 조건을 함께 점검해야 한다.
+- 상태 저장소의 쿼럼 유지와 제어면·노드 자원 격리로 대규모 클러스터 가용성을 사수한다.
 
 ## Ⅶ. 결론
 

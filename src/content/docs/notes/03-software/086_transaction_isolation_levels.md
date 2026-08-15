@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transaction Isolation Level (트랜잭션 격리 수준)**: ANSI/ISO SQL 표준에서 정립한 4단계 수준(Read Uncommitted, Read Committed, Repeatable Read, Serializable)으로, 다중 트랜잭션이 동시 실행될 때 데이터 고립성(Isolation)과 동시성(Concurrency) 간의 트레이드오프를 통제하는 동시성 제어 단계.
 - **Read Phenomenon / Anomalies (읽기 이상 현상)**: 동시 트랜잭션 수행 시 격리 수준이 낮음으로 인해 발생하는 3대 현상 (Dirty Read, Non-Repeatable Read, Phantom Read).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **4-Level Isolation Hierarchy**: Read Uncommitted (Level 0) $\rightarrow$ Read Committed (Level 1) $\rightarrow$ Repeatable Read (Level 2) $\rightarrow$ Serializable (Level 3).
 - **MVCC & Lock-based Mechanism**: RDBMS 엔진(MySQL InnoDB, Oracle, PostgreSQL)마다 S-Lock/X-Lock 락 기반 방식 또는 MVCC(Undo Log 스냅샷) 방식을 혼용하여 구현.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dirty Read**: 커밋되지 않은 타 트랜잭션의 변경 데이터를 읽는 현상.
 - **Non-Repeatable Read**: 한 트랜잭션 내에서 동일한 쿼리를 두 번 실행할 때 중간에 타 트랜잭션이 `UPDATE`하여 읽기 결과 값이 달라지는 현상.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Read View (스냅샷 가시성)**: Repeatable Read 등급에서 트랜잭션이 시작된 TRX ID 시점의 Undo Log 버전을 고정하여, 타 트랜잭션이 아무리 수정해도 동일 결과 보장.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Locking vs MVCC**: Locking은 읽기에도 S-Lock을 걸어 쓰기(X-Lock)와 상호 블로킹(Blocking) 발생, MVCC는 읽기 작업이 락을 걸지 않고 Undo Log 버전을 읽어 "Readers never block Writers" 구현.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Write Skew (쓰기 왜곡)**: Repeatable Read 수준에서 두 트랜잭션이 서로 다른 행을 각각 개별 조건 검사 후 수정할 때, 개별조건은 통과했으나 전체 비즈니스 불변식이 파괴되는 현상 (Serializable 필요).
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **격리 수준 수립 기준(Isolation Level Standards)**: 서비스 TPS 요구량, 읽기 이상 허용성 및 Optimistic vs Pessimistic Lock 선택성에 의거한 체계.
 

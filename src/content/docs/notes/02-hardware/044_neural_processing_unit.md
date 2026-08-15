@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NPU(Neural Processing Unit)**: 딥러닝 인공신경망 추론을 저전력·고효율로 전용 가속 처리하도록 설계된 하드웨어 프로세서.
 - **전용 연산 배열(Dedicated Compute Array)**: 신경망의 곱셈·누산(MAC) 연산을 2D 공간 구조 상에서 고속 병렬 처리하는 회로.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MAC 배열(Multiply-Accumulate Array)**: 다수의 저정밀(INT8/INT4) 곱셈과 누산 연산기를 2D 그리드로 배치한 하드웨어 로직.
 - **온칩 SRAM(On-Chip SRAM)**: 가중치 및 피연산자 타일을 칩 내부에서 재사용하도록 지원하는 고속 메모리.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 컴파일러(Model Compiler)**: 신경망 그래프 분석, 양자화, 하드웨어 연산자 매핑 및 코드 생성을 전담하는 소프트웨어 도구.
 - **NPU 런타임(NPU Runtime)**: 컴파일된 그래프 텐서 작업을 하드웨어에 디스패치하고 메모리를 관리하는 실행 라이브러리.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서브그래프 분할(Subgraph Partitioning)**: 전체 딥러닝 연산 그래프를 NPU 가속 영역과 CPU/GPU 폴백 영역으로 분류하는 절차.
 - **DMA(Direct Memory Access)**: 텐서 타일을 외부 DRAM에서 NPU 온칩 SRAM으로 고속 이송하는 제어기.
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **온디바이스 추론(On-Device Inference)**: 네트워크 연결 없이 모바일, 가전, 자동차 단말 내부에서 직접 AI 모델을 구동하는 처리 방식.
 - **SIMT(Single Instruction, Multiple Threads)**: GPU에서 사용하는 스레드 병렬 실행 모델.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화(Quantization)**: FP32 수치 표현을 INT8/INT4 등으로 변환하여 연산량 및 데이터 크기를 감소시키는 변환 기법.
 - **보정(Calibration)**: Representative Dataset을 활용하여 양자화 시의 스케일 팩터를 산출하는 최적화 단계.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지원률(Support Coverage)**: Target 신경망 모델 전체 연산 중 NPU에서 하드웨어로 직접 구동 가능한 비율.
 - **추론 장치 선택 기준(Inference Hardware Selection Criteria)**: 전력 한도, 실시간 지연시간 목표 및 모델 연산자 지원률에 기반한 하드웨어 결정 체계.

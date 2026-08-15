@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2의 보수(Two's Complement)**: 음수 $-x$를 고정 $n$비트에서 $2^n-x$에 해당하는 비트 패턴으로 나타내는 부호 표현 방식이다.
 - **가산기(Adder)**: 두 이진 입력과 캐리를 더해 합과 다음 캐리를 출력하는 회로이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **0 표현 유일성**: 0을 나타내는 비트 패턴이 하나뿐인 성질이다.
 - **비대칭 범위**: $n$비트 표현 범위가 $-2^{n-1}$부터 $2^{n-1}-1$까지인 성질이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비트 폭(Bit Width)**: 정수의 표현 범위와 모듈러 기준을 고정하는 비트 수이다.
 - **보수기(Complementer)**: 뺄 수의 비트를 반전하고 1을 더해 덧셈 역원으로 바꾸는 회로이다.
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모듈러 덧셈**: 결과를 $2^n$으로 나눈 나머지인 $n$비트 값만 유지하는 덧셈이다.
 - **자리 가중치**: 각 비트 위치가 값에 기여하는 크기이며 2의 보수에서는 최상위 비트만 음의 가중치를 가진다.
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **1의 보수(One's Complement)**: 양수 비트를 모두 반전해 음수를 나타내는 방식이다.
 - **부호-크기(Sign-Magnitude)**: 최상위 비트와 나머지 절댓값을 분리하는 방식이다.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **범위 검사**: 형식 축소나 절댓값 연산 전에 결과가 대상 비트 폭에 들어오는지 확인하는 절차이다.
 - **직렬화(Serialization)**: 정수를 저장•전송 가능한 연속 바이트 형식으로 바꾸는 과정이다.
@@ -190,7 +190,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가감산 통합**: 뺄 수를 2의 보수로 바꿔 덧셈 회로 하나로 덧셈과 뺄셈을 처리하는 방식이다.
 - **폭 변환**: 정수의 비트 수를 늘리거나 줄이며 값과 범위를 조정하는 작업이다.

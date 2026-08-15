@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **UEFI(Unified Extensible Firmware Interface)**: 부팅 서비스와 보안 변수를 관리하는 펌웨어 인터페이스 지칭.
 - **Secure Boot(Secure Boot)**: UEFI의 키•허용 목록•폐기 목록으로 승인된 코드만 실행하는 기술에 해당함.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **PK(Platform Key)**: 플랫폼 정책의 소유권을 설정하는 키를 일컫음.
 - **KEK(Key Exchange Key)**: 허용•폐기 데이터베이스의 갱신 권한을 통제하는 키를 의미함.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 사슬(Chain of Trust)**: 첫 신뢰 키에서 시작해 다음 부팅 구성요소를 연속 검증하는 구조를 뜻함.
 - **UEFI 이미지 검증기(UEFI Image Verifier)**: 부트 이미지의 서명 체인과 허용•폐기 정책을 확인하는 판정 메커니즘.
@@ -91,7 +91,7 @@ Secure Boot 신뢰 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TPM(Trusted Platform Module)**: 암호 키와 플랫폼의 부팅 측정값을 보호하는 모듈을 의미함.
 - **PK•KEK•db•dbx 정책 설정(PK/KEK/db/dbx Policy Configuration)**: 소유권•갱신•허용•폐기 정책을 구성하는 단계 지칭.
@@ -141,7 +141,7 @@ Secure Boot 신뢰 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Secure Boot 역할(Role of Secure Boot)**: 미승인 부트 이미지의 실행을 차단하는 기능.
 - **OS(Operating System)**: 하드웨어 자원과 응용 실행을 관리하는 운영체제 지칭.
@@ -165,7 +165,7 @@ Secure Boot 신뢰 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **UEFI Specification 2.11(UEFI Specification 2.11)**: Secure Boot•드라이버 서명•키 교환 규격 지정.
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소 지칭.
@@ -189,7 +189,7 @@ Secure Boot 신뢰 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **허용•폐기 동시 판정(Simultaneous Verification of Allow and Revocation)**: 서명이 허용 목록에 있고 폐기 목록에는 없어야 실행하는 원칙을 의미함.
 

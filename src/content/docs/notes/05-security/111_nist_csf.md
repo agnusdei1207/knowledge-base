@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 기술 표준 및 사이버보안 가이드를 발행하는 미국 정부 기관.
 - **사이버보안 프레임워크(Cybersecurity Framework, CSF)**: 사이버보안 위험 관리 전략과 성과를 공통 표준 언어로 체계화한 프레임워크.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **결과 중심(Outcome-based Approach)**: 통제 및 기술 방식보다 조직이 최종 도출해야 하는 보안 결과에 집중하는 방식.
 - **조직 프로파일(Organizational Profile)**: 조직의 사업 목표와 위험 수용도를 반영하여 현재 및 목표 성과를 정의한 문서.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **CSF 핵심부(CSF Core)**: 거버넌스, 식별, 보호, 탐지, 대응, 복구의 6대 핵심 기능과 세부 카테고리로 구성된 체계.
 
@@ -96,7 +96,7 @@ CSF 핵심부
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현재•목표 프로파일(Current and Target Profile)**: 현재의 보안 성과 수준과 향후 달성하고자 하는 목표 성과 수준을 대조하는 도구.
 - **조직 상황•위험 허용 설정(Context and Risk Tolerance Setup)**: 조직 비즈니스 목적과 위험 허용 수준을 설정하는 단계.
@@ -141,7 +141,7 @@ CSF 핵심부
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Core 역할(Core Role)**: 공통된 사이버보안 기능과 목표 결과를 범주별로 분류하는 역할.
 - **Profile 역할(Profile Role)**: 조직 고유의 현재 보안 상태와 목표 수준 간의 격차를 시각화하는 역할.
@@ -162,7 +162,7 @@ CSF 핵심부
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버보안 백서(Cybersecurity White Paper, CSWP)**: NIST가 사이버보안 기술 주제를 상술하여 발간하는 공식 보고서 문서.
 - **특별 간행물(Special Publication, SP)**: NIST가 가이드라인 및 모범 사례를 제시하는 표준 지침서.
@@ -185,7 +185,7 @@ CSF 핵심부
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공통 결과 기준(Common Outcome Baseline)**: 경영진과 실무진이 균일한 언어로 사이버 위험과 성과 목표를 소통하는 기준.
 

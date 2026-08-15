@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **에이전트 보안(Agent Security)**: 단순 대화형 LLM 챗봇을 넘어, 자율적으로 계획(Planning)하고 외부 도구(API, DB, OS Command)를 실행하는 AI 자율 에이전트의 권한 과다(Excessive Agency), 비인가 시스템 조작, 과금 폭주를 방어하는 보안 통제 아키텍처이다.
 - **AI(Artificial Intelligence)**: 트랜스포머 알고리즘을 바탕으로 추론, 툴 호출, 자율 에이전트 과업을 수행하는 지능형 시스템이다.
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 매개(Complete Mediation)**: 에이전트의 모든 도구 호출(Tool Call) 요청을 게이트웨이(PEP)가 100% 바이패스 없이 인터셉트하여 인가 여부를 2차 검증하는 보안 원칙이다.
 - **최소 권한(Least Privilege)**: 에이전트에 과업 수행에 필요로 하는 최적의 API 기능 및 최소 읽기/쓰기 스코프만을 부여하는 인가 원칙이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 - **도구 등록부(Tool Registry / Schema Store)**: 에이전트가 호출할 수 있는 검증된 외부 API 함수, 파라미터 스키마, 위험 등급(High/Low Risk)을 등록 관리하는 레포지토리이다.
 - **PEP(Policy Enforcement Point)**: LLM이 도출한 Tool Call 요청이 사용자의 IAM 최소 권한 범위 및 파라미터 유효성 기준에 적합한지 런타임 심사하는 통제 관문이다.
 - **감사 계층(Audit Trail / Traceability Layer)**: 에이전트의 프롬프트 수신부터 툴 실행, 반환 결과, 상태 변경 이력을 비가역 감사 로그로 기록 관리하는 계층이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **거래 결속(Transaction Binding)**: 사용자가 최초 요청 및 승인한 파라미터(이체 수신자, 금액, 삭제 대상 등)를 세션에 결속하여 에이전트가 다른 인자로 조작하지 못하게 동결하는 기술이다.
 - **단계 중단(Step-wise Interruption / Execution Halt)**: 연쇄 툴 실행 도중 특정 단계에서 에러나 이상 행동 감지 시 다음 단계 집행을 즉각 정지시키는 관문이다.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **도구형 에이전트(Tool-augmented Autonomous Agent)**: 외부 API, DB, Shell 스크립트 실행 권한을 가진 자율 실행 AI 애플리케이션이다.
 - **챗봇(Conversational Chatbot)**: 텍스트 및 대화 응답만을 도출하며 외부 시스템 상태 변경 권한이 없는 텍스트 생성 전용 모델이다.
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: 글로벌 인터넷 애플리케이션 보안 표준화 기구이다.
 - **LLM(Large Language Model)**: 대규모 언어 모델이다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가역성 기반 승인(Reversibility-based Authorization Criteria)**: 툴 실행의 가역성(원복 가능 여부) 및 위험도에 따라 자동 승인과 인간 승인을 차등 적용하는 보안 가버넌스 원칙이다.
 

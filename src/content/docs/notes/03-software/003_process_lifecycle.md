@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ready State**: CPU 스케줄러의 선택(Dispatch)을 받아 즉시 런타임 구동 가능한 상태로 Ready Queue 상에 상주.
 - **Running State**: CPU 제어권을 최종 점유하여 명령어를 인스턴스화하고 연산을 수행 중인 상태.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ready Queue**: CPU 디스패치 대기 중인 PCB 포인터들이 정렬 연결된 커널 파이프라인 큐.
 - **Wait/Device Queue**: 특정 디바이스 I/O(SATA, NIC 등) 또는 시그널 완결을 대기하는 PCB 포인터 큐.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dispatch**: Ready Queue 내의 최상위 프로세스에게 CPU 제어권을 위임하여 Running 상태로 전환하는 스케줄러 동작.
 - **Timeout/Preempt**: 타임 슬라이스 만료 시 CPU 제어권을 회수하여 Running에서 Ready 상태로 강제 복귀시키는 동작.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Orphan Process**: 부모 프로세스가 자식보다 먼저 종료되어 init/systemd(PID 1) 프로세스가 부모로 재지정된 상태.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **waitpid()**: 부모 프로세스가 자식 PID의 종료 상태를 넌블로킹(WNOHANG) 또는 블로킹 방식으로 수거하여 좀비를 예방하는 함수.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로세스 수명주기 관리 기준(Process Lifecycle Management Criteria)**: 자원 해제 무결성, 좀비 방지, I/O 타임아웃 세팅에 따른 관리 체계.
 

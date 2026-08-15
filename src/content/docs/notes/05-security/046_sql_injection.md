@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조화 질의 언어(Structured Query Language, SQL) 인젝션**: 클라이언트의 조작된 비신뢰 입력값이 백엔드 DB의 SQL 쿼리 구문 해석기로 인입되어 쿼리 구조와 의미를 무단 변조하는 주입 공격.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **준비된 질의(PreparedStatement)**: DB 엔진에서 SQL 쿼리 구조를 미리 컴파일하여 고정하고 입력값을 매개변수 파라미터로 처리하는 기술.
 - **값 바인딩(Parameter Binding)**: 사용자 입력값을 명령어가 아닌 pure 데이터값으로만 매핑 처리하는 기법.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 권한 DB 계정(Least Privilege DB Account)**: 애플리케이션이 사용할 DB 계정의 테이블 조회/수정 권한 및 시스템 저장프로시저 접근 권한을 최적 최소화한 계정.
 - **데이터베이스(Database, DB)**: 백엔드 데이터 저장소로 쿼리 결과를 실행 및 반환하는 주체.
@@ -90,7 +90,7 @@ SQL 실행 경계
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조•값 분리(Structure & Data Separation)**: SQL 쿼리의 컴파일된 구조체와 사용자 입력을 별도 바이트 채널로 전송하는 안전 원칙.
 - **준비된 SQL 구조 생성(Query Pre-compilation)**: DB에서 SQL 문법 구조를 사전 컴파일하는 단계.
@@ -138,7 +138,7 @@ SQL 실행 경계
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인밴드(In-band / Classic SQLi)**: 애플리케이션의 일반적인 HTTP 응답 채널을 통해 추출된 데이터나 오류를 직접 수신하는 공격.
 - **블라인드(Blind SQLi)**: HTTP 응답 메시지에 데이터가 직접 출력되지 않으나, True/False 반응이나 시간 지연을 이용해 데이터를 복원하는 공격.
@@ -159,7 +159,7 @@ SQL 실행 경계
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MITRE CWE-89**: SQL 명령에 사용되는 특별 요소의 부적절한 무력화(SQL Injection) 취약점 명세.
 - **OWASP ASVS 5.0.0**: 쿼리 인젝션 및 매개변수 검증 요구사항을 규정한 최신 표준 명세서.
@@ -179,7 +179,7 @@ SQL 실행 경계
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SQL 인젝션 통제 선택 기준**: 사용자 값 입력에는 PreparedStatement, 동적 인자에는 Allowlist, DB 시스템 계정에는 최소 권한을 다각 적용하는 방어 원칙.
 

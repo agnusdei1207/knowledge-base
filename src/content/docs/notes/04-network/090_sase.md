@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 액세스 서비스 에지(Secure Access Service Edge, SASE)**: SD-WAN 연결과 SSE 보안을 PoP에서 통합 제공하는 구조이다.
 - **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)**: 응용•회선 품질에 따라 광역 경로를 선택하는 기술이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 정책**: 신원•단말•응용 맥락을 바탕으로 경로 선택과 접근•자료 보안을 함께 결정하는 규칙이다.
 
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 클라우드 사용과 자료 보안을 통제하는 기능이다.
 - **보안 웹 게이트웨이(Secure Web Gateway, SWG)**: 웹 요청과 콘텐츠를 검사하는 보안 기능이다.
@@ -90,7 +90,7 @@ SASE
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **품질 기반 PoP 선택**: 지연•손실•용량으로 사용자 트래픽을 처리할 거점을 선택하는 과정이다.
 - **세션 위험 재평가**: 접속 중 행위와 맥락 변화를 반영해 기존 허용 수준을 다시 판단하는 절차이다.
@@ -143,7 +143,7 @@ SASE
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **본사 중심 보안**: 지사•원격 트래픽을 보안 검사를 위해 본사 데이터센터까지 우회시키는 구조이다.
 - **광역망(Wide Area Network, WAN)**: 넓은 지역의 지점과 데이터센터를 연결하는 네트워크이다.
@@ -165,7 +165,7 @@ SASE
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자동 경로 전환**: 현재 PoP 장애나 품질 저하를 감지해 다른 거점으로 접속 경로를 바꾸는 기능이다.
 - **응용 단위 권한**: 내부 네트워크 전체가 아니라 검증된 사용자에게 허용한 개별 응용만 연결하는 권한이다.
@@ -185,7 +185,7 @@ SASE
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전환 범위**: WAN 연결•보안을 SASE로 바꿀지 SSE만 도입할지 정하는 범위이다.
 

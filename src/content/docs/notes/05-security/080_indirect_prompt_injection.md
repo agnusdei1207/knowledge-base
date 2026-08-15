@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **간접 프롬프트 인젝션(Indirect Prompt Injection)**: 사용자가 아닌 외부 웹사이트, 이메일, PDF 문서, RAG 지식베이스에 미리 은닉된 악성 프롬프트 텍스트가 LLM 수용 시 자동 해석되어 비인가 악성 동작을 유도하는 공격 기법이다.
 - **인공지능(Artificial Intelligence, AI)**: 추론, 이미지 인식, 자연어 처리를 수행하는 지능형 컴퓨터 알고리즘이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검색 증강 생성 유입(Retrieval-Augmented Generation Ingress, RAG Ingress)**: 외부 벡터 DB에서 검색된 조각 문서 텍스트에 포함된 인젝션 구문이 LLM 프롬프트에 주입되는 유입 경로이다.
 - **다중모달 유입(Multimodal Ingress)**: 텍스트뿐만 아니라 OCR 이미지, 오디오 스테가노그래피 내에 악성 프롬프트를 은닉하여 멀티모달 LLM으로 유입시키는 경로이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **접근 제어 목록(Access Control List, ACL)**: RAG 파이프라인에서 원천 문서의 보안 등급과 접근 권한을 텍스트 조각(Chunk) 단위로 결속 추적하는 보안 정책이다.
 - **출처 보존(Provenance Preservation)**: 수집된 외부 데이터의 수집URL, 생성자, 변경 이력을 텍스트 메타데이터로 원본 보존하는 관리 기술이다.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **거래 결속(Transaction Binding)**: 사용자가 최초 요청한 파라미터(이메일 수신자, 이체 금액 등)를 세션에 고정하여 간접 인젝션에 의한 파라미터 조작을 방지하는 기술이다.
 - **사용자 승인(User Approval / Human-in-the-Loop)**: 이메일 전송, 데이터 삭제, 이체 등 외부 상태 변경(State Change)을 야기하는 Tool Call에 대해 사용자 팝업 승인을 구하는 방식이다.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 인젝션(Direct Prompt Injection)**: 사용자가 프롬프트 입력창을 통해 지침 무효화 명령을 직접 주입하는 공격이다.
 - **읽기 전용 에이전트(Read-only Agent)**: 외부 시스템의 데이터 조회만 수행하며 상태 변경 권한이 없는 에이전트이다.
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: 글로벌 인터넷 소프트웨어 보안 가이드라인 표준화 기구이다.
 - **LLM01:2025**: OWASP LLM 1위 위험 항목인 프롬프트 인젝션 내 간접 인젝션 방어 규격이다.
@@ -193,7 +193,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **권한 전이 차단(Privilege Escalation & Transfer Containment)**: 외부 비신뢰 데이터가 LLM을 거치더라도 사용자의 인가 권한을 넘어서는 비인가 실행 권한으로 승격 전이되지 않도록 방화벽을 치는 원칙이다.
 

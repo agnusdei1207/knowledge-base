@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GoF Design Patterns (GoF 23가지 디자인 패턴)**: 반복되는 객체지향 설계 문제의 의도•구조•결과를 정리한 23개 패턴 모음.
 - **Creational / Structural / Behavioral Patterns**: GoF 23종 패턴을 목적에 따라 객체 생성을 다루는 생성 패턴(5종), 클래스/객체 합성을 다루는 구조 패턴(7종), 객체 간 상호작용/알고리즘을 다루는 행위 패턴(11종)으로 3대 분류한 체계.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Patternitis (패턴 중독)**: 단순하고 직관적인 코드로 충분한 상황임에도 디자인 패턴의 기교를 무리하게 대입하여 오히려 구조를 복잡하게 만드는 오남용 상태.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3대 패턴 분류**: 생성(Creational - 객체 생성을 유연하게), 구조(Structural - 클래스/객체를 크게 합성), 행위(Behavioral - 객체 간 책임을 유연하게 분배).
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pattern Selection Flow**: 문제 맥락(Context) 분석 $\rightarrow$ 3대 분류(Creational/Structural/Behavioral) 결정 $\rightarrow$ 23종 패턴 중 최적 솔루션 선택.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Strategy vs Template Method**: Strategy는 위임(Composition)을 통해 알고리즘 전체를 런타임에 교체하고, Template Method는 상속(Inheritance)을 통해 알고리즘의 특정 서브 단계만 오버라이딩.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **YAGNI (You Aren't Gonna Need It)**: 실제로 당장 필요하지 않은 유연성이나 과도한 디자인 패턴을 사전에 구현하지 말라는 극단적 절제 원칙.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GoF 패턴 채택 기준(GoF Pattern Adoption Criteria)**: 확장 요구 빈도, 도메인 아키텍처 및 YAGNI 원칙에 따른 선택 체계.
 

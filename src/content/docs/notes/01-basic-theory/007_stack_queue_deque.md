@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스택(Stack)**: 한쪽 끝에서 후입선출로 처리하는 선형 자료구조이다.
 - **큐(Queue)**: 후단 삽입과 전단 삭제로 선입선출하는 선형 자료구조이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **후입선출(Last-In First-Out, LIFO)**: 마지막에 삽입한 원소를 가장 먼저 제거하는 처리 규칙이다.
 - **선입선출(First-In First-Out, FIFO)**: 가장 먼저 삽입한 원소를 가장 먼저 제거하는 처리 규칙이다.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **연산 인터페이스(Operation Interface)**: 내부 저장 방식을 숨기고 허용된 삽입•삭제 연산만 제공하는 접점이다.
 - **상단**: 스택에서 삽입•삭제가 일어나는 끝점이다.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경계 상태**: 현재 원소 수와 용량으로 판단한 공백•포화 여부이다.
 - **끝점 위치 갱신**: 삽입•삭제 뒤 상단•전단•후단 인덱스나 참조를 변경하는 작업이다.
@@ -133,7 +133,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선두 차단(Head-of-Line Blocking)**: 큐의 첫 작업이 지연되어 뒤의 처리 가능한 작업까지 대기하는 현상이다.
 - **스택 오버플로(Stack Overflow)**: 호출이나 원소가 허용 깊이를 넘어 스택 저장 공간이 소진된 상태이다.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원형 큐(Circular Queue)**: 배열 끝과 시작을 이어 비운 슬롯을 재사용하는 큐이다.
 - **원자적 인덱스 갱신(Atomic Index Update)**: 동시 실행 중에도 끝점 인덱스 변경이 나뉘지 않은 한 연산처럼 완료되는 방식이다.
@@ -181,7 +181,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선택 기준**: 업무가 요구하는 제거 순서와 허용 끝점에 따라 자료구조를 고르는 판단 기준이다.
 

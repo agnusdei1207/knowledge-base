@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Debt Quadrant (기술 부채 4분면)**: 마틴 파울러(Martin Fowler)가 주창한 프레임워크로, 시스템 내 기술 부채의 발생 원인을 의도성(Deliberate vs Inadvertent)과 무모함/신중함(Reckless vs Prudent) 2개 축으로 분할 분류한 4분면 평가 매트릭스.
 - **Deliberate vs Inadvertent**: 부채 발생 시점에 위험을 사전에 알고 의도적으로 지었는지(Deliberate), 아니면 실력이 부족하거나 미처 깨닫지 못하고 나중에 알았는지(Inadvertent)의 분류 축.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Prudent & Deliberate Debt (신중하고 의도적인 부채)**: "지금 배포하고, 그에 따른 부채 상환 비용을 감수하겠다"처럼 사업적 이익(Time-to-Market)과 상환 계획을 명확히 세우고 전략적으로 지은 부채.
 - **Reckless & Inadvertent Debt (무모하고 비의도적인 부채)**: "디자인 패턴이 뭔가요?"처럼 객체지향/아키텍처 지식 부족 및 정적 검증 미비로 인해 무지하게 쌓인 가장 위험한 악성 부채.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Prudent & Inadvertent Debt (신중하고 비의도적인 부채)**: "구현을 완료하고 나서야 비로소 최선의 설계가 무엇이었는지 깨달았다"처럼 개발 경험을 통한 배움(Learning)에서 발생한 부채.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Debt Triage**: 발생한 기술 부채를 4분면에 대조하여 즉시 상환할 것인지, 교육을 할 것인지, 차단할 것인지 분류하는 삼분법적 의사결정 프로세스.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Strategic Debt vs Dirty Code**: Prudent-Deliberate는 비즈니스 경쟁력을 위해 잠시 빌린 '전략적 부채', Reckless-Inadvertent는 단순 실력 부족으로 오염된 '쓰레기 코드(Dirty Code)'.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interest Rate of Tech Debt**: 기술 부채가 방치되었을 때 매 개발마다 신규 기능 개발을 지연시키는 시간적 지연 이자율.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기술 부채 4분면 활용 기준(Technical Debt Quadrant Standards)**: 부채의 발생 원인성, 이자 위험도 및 상환 가능 여부에 의거한 체계.
 

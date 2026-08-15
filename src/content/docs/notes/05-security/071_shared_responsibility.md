@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공유 책임 모델(Cloud Shared Responsibility Model)**: 클라우드 서비스 제공자(CSP)와 클라우드 이용 고객(Customer) 간에 물리적 인프라, 하이퍼바이저, OS, 데이터, 계정 통제 책임의 분담 한계를 명확히 구분한 보안 원칙이다.
 - **책임 공백(Responsibility Void / Accountability Gap)**: CSP와 고객 어느 쪽도 해당 통제의 수행•관리•증명 책임을 지정하지 않아 보안 사고 위험에 노출되는 통제 누락 상태이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 소유권(Control Ownership)**: 특정 보안 통제 항목에 대해 요구사항 이행, 설정 유지, 검증 책임을 갖는 주체(CSP vs Customer)를 명확히 정의하는 권한 개념이다.
 - **운영 증적(Operational Audit Evidence)**: 통제 이행 여부를 입증하는 감사 로그, SOC 2/ISMS-P 인증서, WAF 설정 내역 등의 디지털 검증 증거이다.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공동 통제(Shared / Joint Control)**: 패치 관리, IAM 연동 등 CSP와 고객이 협력하여 각자 영역을 구성해야 완성되는 통제이다.
 - **상속 통제(Inherited Control)**: 데이터센터 물리 보안 등 CSP의 보안 수행 결과를 고객이 자신의 보안 통제로 온전히 인정받는 항목이다.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **책임 할당 행렬(Responsibility Assignment Matrix / RACI Matrix)**: 통제별 담당자(Responsible), 최종책임자(Accountable), 협의자(Consulted), 통보자(Informed)를 식별하는 매트릭스이다.
 - **책임 검증 계획(Responsibility Verification Plan)**: CSP 및 고객의 보안 통제 이행 결과를 어떤 주기로 검증하고 평가할 것인지 정한 계획이다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스형 인프라(Infrastructure as a Service, IaaS)**: 컴퓨팅 자원(VM, Storage, Network)을 제공받고 OS부터 응용까지 고객이 직접 통제하는 모델이다.
 - **서비스형 플랫폼(Platform as a Service, PaaS)**: 개발 런타임, DB를 CSP가 관리하고, 고객은 애플리케이션 및 데이터 보안만 전담하는 모델이다.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-145**: 클라우드 컴퓨팅의 5대 필수 특징, 3대 서비스 모델, 4대 배치 모델의 정의 표준이다.
 - **ISO/IEC 27017:2015**: 클라우드 서비스 제공자와 고객의 개별 정보보호 통제 및 가이드라인을 제시하는 국제 클라우드 보안 표준이다.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **통제별 책임 완결성(Control Responsibility Completeness)**: 전체 클라우드 기술 스택에 단 하나의 미지정 영역도 존재하지 않도록 책임 및 검증을 명확화한 상태이다.
 

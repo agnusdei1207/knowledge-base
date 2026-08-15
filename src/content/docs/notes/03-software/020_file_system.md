@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **File System (파일 시스템)**: OS가 디스크(HDD/SSD/NVM) 블록 장치 상의 데이터를 파일 및 디렉터리 구조로 조직화, 저장, 검색, 권한 제어 및 장애 일관성을 관리하는 구조체.
 - **VFS (Virtual File System)**: 복수의 이종 파일 시스템(ext4, NTFS, FAT, NFS 등)을 표준 POSIX System Call 인터페이스(open, read, write, close)로 추상화해 주는 OS 커널 추상화 레이어.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Inode (Index Node)**: Linux/Unix 파일 시스템에서 파일 이름 제외한 권한(Mode), 소유자(UID/GID), 파일 크기, 시간 인스탬프 및 물리 블록 포인터를 보관하는 128B~256B 데이터 구조체.
 - **MFT (Master File Table)**: Windows NTFS 파일 시스템에서 파일 및 디렉터리의 모든 속성, 메타데이터 및 Extent 블록 위치를 1KB 레코드 단위로 총괄 관리하는 데이터베이스.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Extent**: 연속된 여러 물리 블록의 시작 번호와 길이(Length)만을 묶어서 관리함으로써 큰 파일의 메타데이터 크기와 디스크 탐색 오버헤드를 대폭 줄이는 할당 방식.
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **fsync()**: 메모리 페이지 캐시(Page Cache)에 딜레이되어 있는 변경 데이터를 실제 물리 블록 디스크까지 강제 조율 확정(Flush/Commit)하는 POSIX 시스템 콜.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Space Sharing**: APFS 전용 기능으로, 동일 디스크 파티션 안에서 복수의 가상 볼륨이 물리 용량을 정적으로 나누지 않고 동적으로 공유하는 기술.
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dirty Page Flush**: OS 페이지 캐시(Page Cache)의 찌꺼기(Dirty) 데이터를 커널 백그라운드 스레드(flusher/pdflush)가 디스크로 주기적 동기화 기록하는 동작.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파일 시스템 선택 기준(File System Selection Criteria)**: 타깃 OS 호환성, 디바이스 매체(HDD/SSD/Flash), 장애 내구성 및 스냅샷 요구에 따른 수립 체계.
 

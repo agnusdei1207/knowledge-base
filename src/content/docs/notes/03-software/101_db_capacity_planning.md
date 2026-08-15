@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Database Capacity Planning (데이터베이스 용량 산정 및 계획)**: 데이터베이스 서비스의 향후 비즈니스 성장률, 피크 타임 TPS/IOPS, 데이터 수명주기를 정량 분석하여, 디스크 Storage, Memory, CPU, Network 대역폭 사양과 증설 타임라인을 사전 설계하는 자원 관리 공학.
 - **Overhead Multiplier (운영 오버헤드 계수)**: pure 순수 테이블 데이터 크기 외에 B+Tree 인덱스, WAL/Redo Log, Temp Table, DB Buffer Pool, Replication Replica 용량 오버헤드를 합산하기 위해 적용하는 승수 (보통 1.5~2.5배 체계).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Vector Sizing (다차원 통합 산정)**: 단순 Disk GB 크기 산정이 아닌, TPS(처리 속도), IOPS(디스크 렌더링), Memory(Buffer Pool 적중률), Network 등 4대 축의 동시 산정.
 - **Threshold-Driven Lead Time Scaling**: Disk 사용률 70~80% 선에 닿는 시점과 Lead Time을 역산하여 자원 선행 증설 수행.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pure Table Size Calculation**: `(Row Count) × (Sum of Column Average Byte Lengths)`.
 - **Total Storage Formula**: `(Pure Table Size + Index Size) × (Replication Factor) × (Growth Rate) × (Safety Margin 1.3)`.
@@ -73,7 +73,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Load Testing Verification**: nJMeter / Locust 등으로 피크 부하를 시뮬레이션하여 실제 자원 고갈 지점(Break Point)을 검증하는 프로세스.
 
@@ -109,7 +109,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vertical Capacity vs Horizontal Capacity**: 단일 고성능 서버의 CPU/RAM/NVMe 확장 산정 대 Read Replica / Sharding 기반 노드 수평 분산 산정.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Temp Table / Log Bloat**: 복잡한 `GROUP BY / ORDER BY` 쿼리가 Disk Temp Table을 생성하거나, 장시간 트랜잭션으로 WAL Log가 커져 사전 예측치보다 디스크가 폭증하는 현상.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **용량 산정 수립 기준(Database Capacity Planning Standards)**: 4대 자원 축(Storage, RAM, IOPS, CPU), 오버헤드 계수(2배) 및 Lead Time 역산성에 의거한 체계.
 

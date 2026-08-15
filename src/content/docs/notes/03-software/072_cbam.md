@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBAM (Cost Benefit Analysis Method, 아키텍처 비용 편익 분석 기법)**: 카네기 멜론 대학 SEI가 ATAM의 후속으로 정립한 평가 기법으로, ATAM에서 도출된 다양한 아키텍처 전략(Architectural Strategies)의 비용(Cost) 대 비즈니스 편익/효용(Benefit/Utility) 및 ROI를 정량 평가하여 투자 우선순위를 결정하는 경제적 분석 모델.
 - **ROI (Return on Investment, 투자 대비 수익)**: 아키텍처 변경에 투자되는 수명주기 총비용 대비 얻게 되는 비즈니스 효용의 비율.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Benefit-Cost Ratio (BCR, 효익-비용 비율)**: 특정 아키텍처 전략 $j$의 가중 효익($B_j$)을 그 전략 도입 수명주기 비용($C_j$)으로 나눈 산출값 ($BCR_j = B_j / C_j$).
 - **Economic Evaluation of Architecture**: 기술적 우수성에 국한되지 않고, 한정된 IT 예산(Budget) 내에서 최대 ROI를 내는 아키텍처 투자 전략 선발.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architectural Strategy (AS, 아키텍처 전략)**: 품질 속성 요구를 충족시키기 위해 아키텍터가 제안한 디자인 패턴, 아키텍처 스타일 및 기술 요소 결정.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBAM 9 Step Process**: 1. 시나리오 정제 $\rightarrow$ 2. 아키텍처 전략(AS) 도출 $\rightarrow$ 3. 효용 수치 산정 $\rightarrow$ 4. 시나리오 가중치 할당 $\rightarrow$ 5. 효익 계산 $\rightarrow$ 6. 비용 계산 $\rightarrow$ 7. BCR 계산 $\rightarrow$ 8. 우선순위 결정 $\rightarrow$ 9. 투자 확정.
 
@@ -119,7 +119,7 @@ $$B_j = \sum_i W_i \cdot \Delta U_{ij}, \qquad BCR_j = \frac{B_j}{C_j}$$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ATAM vs CBAM Comparison**: ATAM은 기술적 리스크(Risk/Tradeoff) 식별에 집중, CBAM은 그 리스크 해소를 위한 자본 투자(Cost/Benefit/ROI) 식별에 집중.
 
@@ -138,7 +138,7 @@ $$B_j = \sum_i W_i \cdot \Delta U_{ij}, \qquad BCR_j = \frac{B_j}{C_j}$$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Subjective Utility Bias**: 효용 점수나 시나리오 가중치 평가 시 개별 이해관계자의 정성적 편향(Bias)이 개입되어 수치가 왜곡되는 문제.
 
@@ -158,7 +158,7 @@ $$B_j = \sum_i W_i \cdot \Delta U_{ij}, \qquad BCR_j = \frac{B_j}{C_j}$$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBAM 평가 수립 기준(CBAM Evaluation Standards)**: IT 프로젝트 예산 제약성, ROI 정량화 요건 및 C-Level 의사결정 체계에 의거한 체계.
 

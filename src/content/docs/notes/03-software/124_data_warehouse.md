@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Warehouse (DW / 데이터 웨어하우스)**: 빌 인몬(Bill Inmon) 및 랄프 킴볼(Ralph Kimball)이 정립한 기업용 통합 의사결정 지원 분석 DB로, 주제 지향성(Subject-Oriented), 통합성(Integrated), 시계열성(Time-Variant), 비휘발성(Non-Volatile) 4대 특징을 지닌 데이터 집적소.
 - **Star Schema vs Snowflake Schema**: 차원 모델링의 대표 2대 구조로, 중앙의 사실 테이블(Fact Table)을 중심으로 차원 테이블(Dimension Table)이 직접 1:N 조인(Star)되거나 차원 테이블이 재정규화(Snowflake)되는 형태.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Subject-Oriented (주제 지향성)**: 고객, 상품, 매출 등 비즈니스 주요 주제 영역별 데이터 구성.
 - **Time-Variant (시계열성)**: 데이터 갱신 시 과거 이력을 삭제하지 않고 5~10년 치 시간 차원의 스냅샷으로 축적.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SCD (Slowly Changing Dimension)**: 시간 경과에 따른 차원 속성의 변경(예: 유저 주소 변경)을 이력 관리하는 기술 (Type 1: 덮어쓰기, Type 2: 신규 행 추가 이력 보존).
 
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kimball vs Inmon**: 킴볼은 데이터 마트(DM)를 선 구축 후 통합하는 Bottom-Up 방식, 인몬은 전사 DW를 선 구축 후 마트로 분출하는 Top-Down 방식.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Snowflake Schema**: 스타 스키마의 차원 테이블을 2NF/3NF로 추가 재정규화하여 디스크 중복을 줄인 형태 (조인 수 증가).
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Columnar Storage & Partitioning**: DW 데이터를 행(Row)이 아닌 컬럼(Column) 단위로 디스크에 수평 정렬하여, 특정 컬럼 집계 쿼리 처리속도 10배 이상 가속화.
 
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DW 수립 기준(Data Warehouse Standards)**: Kimball 차원 모델링, Star Schema, Parquet Columnar 포맷 및 Cloud DW(Snowflake) 수용성에 의거한 체계.
 

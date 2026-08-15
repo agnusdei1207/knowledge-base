@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소스 코딩(Source Coding)**: 원천 데이터(Source Data)의 통계적 중복성(Redundancy)을 제거하여 표현 비트 길이를 최소화하는 무손실/유손실 압축 부호화 기술.
 - **엔트로피(Entropy)**: 정보 이론에서 심벌 발생 확률 분포에 따른 심벌당 표현 최저 평균 비트 수의 이론적 한계치($H(X) = -\sum P(x) \log_2 P(x)$).
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심벌(Symbol)**: 데이터 소스를 구성하는 문자, 알파벳, 화소 값, 양자화 토큰 등의 최소 부호화 단위.
 - **접두 부호(Prefix Code / Prefix-free Code)**: 어떠한 부호어(Codeword)도 타 부호어의 접두어(Prefix)와 일치하지 않아 구분자 없이 즉시 복호 가능한 비트 부호.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드북(Codebook)**: 심벌과 가변 비트 부호어(Codeword) 간 매핑 구조를 저장한 룩업 테이블 또는 트리(Tree) 구조.
 - **문맥 모델(Context Model)**: 직전 심벌 출력 패턴에 기반하여 현재 심벌의 동적 출현 확률을 예측하는 통계 모델.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **재시작 지점(Restart Point)**: 비트 손실 시 이후 모든 심벌 복구가 파손되는 현상을 방지하기 위해 일정 주기로 복호 상태를 초기화하는 마커.
 - **심벌 통계 전달(Symbol Statistics Delivery)**: 원문 스트림에서 각 알파벳 및 토큰의 빈도수를 측정하여 확률 엔진으로 주입하는 단계.
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **허프만 부호화(Huffman Coding)**: 심벌 발생 확률에 따라 이진 트리를 구성하고 정수 비트(Integer Bit) 단위의 접두 부호를 할당하는 그리디 무손실 압축 알고리즘.
 - **산술 부호화(Arithmetic Coding)**: 심벌열을 누적 확률 구간으로 표현하여 평균 비트 수를 엔트로피에 근접시키는 알고리즘.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오류 전파(Error Propagation)**: 압축 스트림 내 1비트 손상 시 가변 길이 부호 동기화 파손으로 이후 심벌이 연속 훼손되는 현상.
 - **모델 불일치(Model Mismatch)**: 압축 시 적용한 확률 모델과 실제 입력 데이터 빈도가 달라 압축 후 데이터 크기가 더 커지는 현상.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **무손실 복원(Lossless Reconstruction)**: 압축 해제 후 원본 파일과 단 1비트 오차도 없이 동일하게 복구하는 기술.
 - **엔트로피 한계(Entropy Bound / Shannon Entropy Limit)**: 데이터 손실 없이 최대로 축소할 수 있는 물리적 최저 평균 비트 수.

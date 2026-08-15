@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency (멱등성)**: 수학에서 유래한 개념. 동일한 연산을 1회 또는 N회 반복해도 최종 결과가 동일한 성질. 분산 시스템에서 네트워크 재시도·메시지 중복 전달에도 결제 중복 등 부작용이 발생하지 않도록 보장하는 핵심 설계 원칙.
 - **Idempotency Key (멱등 키)**: 클라이언트가 "이 요청은 저번에 보낸 것과 같은 요청이다"를 서버에 알리기 위해 요청 헤더에 포함하는 고유 식별자(UUID 등). Stripe, AWS 등 주요 결제/클라우드 API가 표준으로 채택.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Request Fingerprint (요청 지문)**: 멱등 키가 같은데 요청 본문(금액, 수신자 등)이 다른 '변조 재시도'를 검출하기 위해, 요청 본문의 해시값을 최초 저장 시 함께 기록하고 재시도 시 비교하는 기법.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency Gate (멱등성 게이트)**: API 핸들러 앞에 위치하여 멱등 키와 요청 지문을 검사하고, 최초 요청만 업무 처리기로 통과시키고 중복 요청에는 저장된 응답을 반환하는 진입 제어 계층.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transactional Outbox Pattern**: 업무 DB 갱신과 메시지 발행을 원자적으로 처리하기 위해, 메시지를 별도 Outbox 테이블에 저장(같은 DB 트랜잭션)한 뒤, 별도 발행기(CDC 등)가 Outbox를 읽어 메시지 브로커에 발행하는 패턴.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Naturally Idempotent Operation (자연 멱등 연산)**: 추가 구현 없이 본래부터 멱등한 연산. HTTP PUT(리소스를 특정 값으로 설정), DELETE(이미 없으면 성공 반환), 특정 값으로의 UPDATE(SET status = 'PAID') 등이 해당.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Partial Commit (부분 확정)**: 업무 처리(결제 승인)는 성공했지만 멱등 키·응답 저장이 실패한 상태. 이 경우 재시도 시 결제가 중복 실행되어 Idempotency가 깨짐. Atomic Commit 또는 Transactional Outbox로 방지.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멱등 처리 방식 선택 기준**: 요청 성격(생성/설정/수정)과 분산 환경의 중복 위험 수준을 평가하여, Idempotency Key, 자연 멱등 연산, Conditional Update 중 적합한 방식을 선택하는 설계 기준.
 

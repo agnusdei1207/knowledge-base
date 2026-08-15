@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Journaling (저널링)**: 파일 시스템의 메타데이터나 파일 데이터 변경 사항을 실제 디스크 블록(Home Block)에 반영하기 전, 순차 전용 저널 영역(Journal Log)에 1차로 커밋 기록하는 장애 복구 기술.
 - **fsck (File System Check)**: 비저널링 파일 시스템 장애 발생 시 전체 디스크 블록을 풀스캔하여 일관성을 검사 및 수리하는 명령어로, 디스크 용량 증대에 따라 수 시간 이상 소모되는 한계 보유.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Write-Ahead Logging (WAL)**: 실제 물리 블록 데이터 갱신에 앞서, 해당 트랜잭션 갱신 로그를 저널 영역에 먼저 기록 완료하는 기본 원칙.
 - **Checkpoint (체크포인트)**: 저널 영역에 성공적으로 기록된 커밋 트랜잭션 데이터를 물리 디스크 Home Block으로 완전 동기화 이송하는 주기적 작업.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transaction Block**: 하나 이상의 파일 연산(Inode 변경, Block Allocation 등)을 묶어 단위 커밋 처리하는 저널 트랜잭션 단위.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Journal Replay (REDO)**: 전원 정상 차단 실패 후 부팅 시, 저널에 Commit 표식이 완료된 트랜잭션을 디스크 Home Block으로 재적용하여 빠르게 정합성을 수습하는 과정.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ordered Mode**: ext4의 기본 저널링 모드로, 파일 데이터 블록을 먼저 디스크 Home Block에 쓴 후 관련 메타데이터만을 저널 영역에 커밋하여 성능과 무결성을 균형 제어하는 방식.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Barrier (Write Barrier)**: 현대 NVMe/SSD 장치의 휘발성 캐시 갱신 재정렬(Reordering)로 인해 저널 커밋 블록보다 Home Block이 먼저 쓰여 정합성이 파괴되는 것을 막는 디스크 동기화 벽.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **저널링 모드 선택 기준(Journaling Mode Selection Criteria)**: 시스템 내구성 목표, I/O 스루풋 타깃 및 디스크 매체(HDD/SSD) 특성에 기반한 튜닝 체계.
 

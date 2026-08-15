@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Virtual Thread (가상 스레드)**: Java 21에서 정식화된 JVM 관리 경량 스레드로, 소수 캐리어 스레드에 다중화되는 실행 단위.
 - **Carrier Thread**: Virtual Thread를 실제로 할당받아 CPU 코어 상에서 실행하는 하부의 OS Platform Thread (ForkJoinPool 잇스턴스).
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Unmount / Mount**: Virtual Thread가 I/O Blocking 인가 시 Carrier Thread와의 연결을 떼어내고(Unmount), I/O 완료 시 유휴 Carrier Thread에 다시 인가(Mount)되는 동작.
 - **Thread-per-request Model**: 복잡한 비동기/반응형(Reactive) 코드 체인 없이, 전통적인 순차적 블로킹 코드(Thread-per-request) 스타일을 유지하면서도 극상의 동시성(High Throughput)을 달성하는 패턴.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Continuation.yield()**: Blocking I/O 호출 시 Virtual Thread의 스택 프레임을 힙(Heap)으로 덤프 이송하고 Carrier Thread 제어권을 반납하는 함수.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thread Pinning**: 특정 네이티브•외부 함수 실행 중 가상 스레드가 캐리어에서 분리되지 못하는 현상.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Platform Thread vs Virtual Thread**: Platform Thread는 OS 커널 1:1 매핑 스레드, Virtual Thread는 JVM 내부 $M:N$ 매핑 경량 스레드.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ReentrantLock**: Thread Pinning을 유발하는 `synchronized` 키워드 대신 Virtual Thread 환경에서 안전하게 Unmount를 지원하는 대안 락 클래스.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Virtual Thread 적용 기준(Virtual Thread Adoption Criteria)**: I/O 바운드 비율, synchronized 사용 유무, DB 커넥션 쿼터에 기반한 수립 체계.
 

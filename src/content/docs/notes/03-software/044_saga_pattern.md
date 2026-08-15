@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Saga Pattern**: 마이크로서비스 아키텍처(MSA) 환경에서 단일 ACID DB 트랜잭션을 사용할 수 없을 때, 각 서비스의 로컬 트랜잭션을 순차 실행하고 중간 실패 시 보상 트랜잭션(Compensating Transaction)을 역순으로 실행하여 최종 일관성(Eventual Consistency)을 달성하는 분산 트랜잭션 패턴.
 - **Compensating Transaction (보상 트랜잭션)**: 이미 성공하여 로컬 DB에 커밋(Commit)된 과거 트랜잭션의 효과를 역으로 상쇄(Undo/Rollback)시키는 비즈니스 반대 연산 (e.g., 결제 취소, 재고 복원).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Choreography Saga**: 중앙 컨트롤러 없이 각 서비스가 비동기 이벤트를 발행/구독(Pub/Sub)하여 자율적으로 다음 트랜잭션 및 보상 트랜잭션을 연쇄 실행하는 방식.
 - **Orchestration Saga**: 중앙의 전용 오케스트레이터(Saga Orchestrator) 서비스가 각 마이크로서비스에 실행 커맨드를 하달하고 전체 사가 상태(State)를 총괄 관리하는 방식.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Saga Orchestrator**: Orchestration 방식에서 사가의 전 과정 진행 상태(State Machine)를 DB에 보관하며, 서비스들에 수행 커맨드 전송 및 실패 시 보상 명령을 순차 하달하는 중앙 제어기.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compensating Flow (보상 흐름)**: 3단계(e.g., 배송)에서 실패 발생 시, 2단계(결제) $\rightarrow$ 1단계(주문) 순서로 역순의 보상 트랜잭션을 실행하여 상태를 취소 수습하는 흐름.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Choreography vs Orchestration**: Choreography는 비동기 Pub/Sub 기반으로 서비스 간 결합도가 낮으나 복잡해지면 추적 난항, Orchestration은 중앙 관리로 흐름 추적이 쉬우나 Orchestrator 결합도 증가.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lack of Isolation (격리성 부재)**: 사가 진행 중 중간 커밋 데이터(Dirty Read)가 타 트랜잭션에 노출되어 데이터 불일치가 유발되는 한계.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 트랜잭션 선택 기준(Distributed Transaction Selection Criteria)**: 서비스 개수, 데이터 격리성 요구 및 보상 가능 여부에 기반한 선정 체계.
 

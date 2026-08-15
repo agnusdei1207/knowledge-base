@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **광 인터커넥트(Optical Interconnect)**: 기존 구리(Copper) 선로의 물리적 감쇠 및 발열 한계를 극복하기 위해, 광파이프라인 및 광섬유(Optical Fiber)를 통해 빛(Laser)으로 데이터를 송수신하는 고속 인터커넥트 기술.
 - **E/O & O/E 변환**: 전기 신호를 광 신호로 변환하는 광 송신(E/O) 및 광 신호를 다시 전기 신호로 래칭하는 광 수신(O/E) 변환 과정.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WDM(Wavelength Division Multiplexing)**: 단일 광섬유에 여러 파장 채널을 결합해 병렬 전송하는 다중화 기술.
 - **링크 버짓(Link Budget, $P_{\mathrm{rx}} = P_{\mathrm{tx}}-L_{\mathrm{total}}$)**: 광 송신기 출력($P_{\mathrm{tx}}$), 커넥터/광섬유 손실($L_{\mathrm{total}}$) 및 수신 감도($P_{\mathrm{sens}}$)를 종합 계산한 신호 여유(Margin) 지표.
@@ -60,7 +60,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SerDes(Serializer/Deserializer)**: 칩 내부 병렬 전기 데이터를 고속 직렬 신호로 변환 및 원복하는 물리 계층 칩셋.
 - **PIC/Modulator(Silicon Photonics)**: 전기 신호를 빛의 세기·위상으로 변조하는 광집적회로.
@@ -90,7 +90,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PAM4(Pulse Amplitude Modulation 4)**: 4개 전압/광 신호 레벨을 통해 1개 심볼당 2비트를 전송하는 고속 광 변조 방식.
 
@@ -128,7 +128,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pluggable Transceiver**: QSFP, OSFP 등 기존 스위치 전면에 탈착하는 표준 착탈식 광 모듈.
 
@@ -146,7 +146,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파장 드리프트(Wavelength Drift)**: 온도 상승 시 레이저 다이오드(LD) 중심 파장이 변동하여 WDM 채널 분리 불량을 유발하는 현상.
 
@@ -166,7 +166,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **광 인터커넥트 선택 기준(Optical Interconnect Selection Criteria)**: 전송 대역폭, 전송 거리, 비트 당 에너지 효율(pJ/bit) 및 CPO 패키징 가능성에 따른 체계.
 

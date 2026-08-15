@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서브넷 마스크(Subnet Mask)**: 32비트 IP 주소에서 네트워크 영역(1)과 호스트 영역(0)을 구별하기 위한 비트 마스크.
 - **네트워크 프리픽스(Network Prefix)**: 라우터가 라우팅을 수행하는 기준이 되는 IP 주소의 상위 비트 영역.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인터넷 프로토콜 주소 관리(Internet Protocol Address Management, IPAM)**: 네트워크 내 IP 주소 할당, 서브네팅 현황, CIDR 집약 경로를 통합 트래킹 및 관리하는 솔루션.
 - **집약 프리픽스(Aggregated Prefix)**: 여러 개의 하위 연속 서브넷을 대표하기 위해 추출한 공통 비트열 라우팅 주소.
@@ -140,7 +140,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서브넷(Subnet)**: 브로드캐스트 도메인을 격리하기 위해 하나의 네트워크를 논리적으로 쪼갠 세부 구역.
 - **가변 프리픽스(Variable Prefix)**: 8, 16, 24 비트의 클래스 경계에 얽매이지 않고 /27, /29 등 임의의 비트로 정의되는 주소 표기법.
@@ -163,7 +163,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **주소 재설계(Address Redesign)**: 초기에 호스트 여유 공간을 고려하지 못해 서브넷 고갈 발생 시 전체 IP 대역을 변경해야 하는 고비용 재작업.
 - **브로드캐스트 도메인(Broadcast Domain)**: L2 스위치 네트워크 내에서 브로드캐스트 패킷이 전파되는 영향 범위.
@@ -183,7 +183,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **주소 수요 산정(Address Capacity Planning)**: 현재 필요 장비 수뿐만 아니라 향후 인프라 확장을 감안한 유효 호스트 공간 사전 계산 프로세스.
 - **주소 블록 결정(Address Block Selection)**: 연속된 주소 배치와 CIDR 경로 집약 이점을 극대화하도록 IP 대역을 전략적으로 선택하는 체계.

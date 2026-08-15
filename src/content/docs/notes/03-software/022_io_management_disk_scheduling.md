@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Disk Scheduling (디스크 스케줄링)**: OS 커널 및 I/O subsystem이 디스크 I/O 요청 큐(Request Queue) 상의 억세스 요청 순서를 정렬/조율하여, HDD 헤더의 탐색 시간(Seek Time) 및 SSD의 I/O 지연시간을 최적화하는 스케줄링.
 - **Seek Time (탐색 시간)**: HDD 헤드가 목표 트랙까지 이동하는 데 걸리는 기계적 지연시간.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rotational Latency (회전 지연시간)**: 헤드가 트랙에 안착한 후, 디스크 플래터가 회전하여 원하는 섹터가 헤드 바로 아래에 도달할 때까지의 대기시간.
 - **blk-mq (Multi-Queue Block I/O Layer)**: 현대 Linux 커널 상에서 코어별/하드웨어 큐별로 분할하여 NVMe 초고속 병렬 I/O를 지원하는 다중 큐 블록 I/O 서브시스템.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Elevator Algorithm (엘리베이터 알고리즘)**: SCAN/LOOK 알고리즘처럼 디스크 헤드가 한쪽 방향 끝까지 스위핑 이동하며 중간에 만나는 요청을 순차 처리하는 방식.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Request Merging & Sorting**: I/O 스케줄러가 인접한 디스크 블록 요청을 1개의 큰 요청으로 합치고(Merging), 트랙 순서로 재정렬(Sorting)하는 처리.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SSTF (Shortest Seek Time First)**: 현재 헤드 위치에서 탐색 거리가 가장 가까운 요청을 무조건 먼저 처리하는 방식으로, 기아(Starvation) 발생 가능.
 - **SCAN / C-SCAN**: 헤드가 디스크 한쪽 끝에서 반대쪽 끝으로 이동하며 처리(SCAN), 또는 한쪽 방향으로만 이동하며 처리 후 원위치 복귀(C-SCAN).
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **none / mq-deadline / bfq**: Linux 커널 블록 계층 마운트 옵션으로, SSD/NVMe는 `none` 또는 `mq-deadline`, HDD는 `bfq` 선택권 제공.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디스크 스케줄러 선택 기준(Disk Scheduler Selection Criteria)**: 저장 매체 타입(HDD vs SSD vs NVMe), I/O 큐 깊이 및 응답시간 타깃에 기반한 튜닝 체계.
 

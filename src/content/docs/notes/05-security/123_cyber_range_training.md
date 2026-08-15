@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버 레인지(Cyber Range)**: 실제 시스템•업무 상황을 모사한 격리 환경에서 공격•방어•복구를 반복하고 수행 결과를 측정하는 훈련 체계이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 트윈**: 실제 시스템의 구조•상태•동작을 디지털 환경에 대응시킨 모형이다.
 - **IaC(Infrastructure as Code)**: 인프라 설정을 코드로 정의해 반복 배포하는 방식이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **레드팀**: 훈련에서 공격자 역할을 수행하는 팀이다.
 - **블루팀**: 훈련에서 탐지•대응•복구를 수행하는 팀이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **AAR(After Action Review)**: 훈련 결과와 판단 과정을 분석해 개선 과제를 정하는 사후검토이다.
 - **격리 환경•훈련 시나리오 구성**: 재현 환경과 안전 경계 및 상황 순서를 설계하는 단계이다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **도상 훈련**: 토론으로 계획•역할•연락망을 점검하는 방식이다.
 - **CTF(Capture The Flag)**: 제한된 환경에서 보안 문제를 해결하는 기술 훈련이다.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
@@ -184,7 +184,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **재현 가능성**: 같은 공격과 조건을 다시 실행해 팀 대응의 개선 여부를 비교할 수 있는 속성이다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문서 AI(Document AI)**: 문자•레이아웃•필드 관계를 분석해 문서를 구조화한다.
 - **필드 관계(Field Relation)**: 항목명•값과 표의 행•열 간 의미 연결이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **레이아웃 분석(Layout Analysis)**: 문서 영역과 논리적 읽기 순서를 복원한다.
 - **업무 스키마 매핑(Business Schema Mapping)**: 추출 데이터를 업무 필드에 대응시킨다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문서 분류기(Document Classifier)**: 문서 유형과 처리 경로를 판정한다.
 - **정보 추출기(Information Extractor)**: 구조 영역의 데이터를 추출•매핑한다.
@@ -86,7 +86,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **추출 스키마(Extraction Schema)**: 필드별 자료형과 검증 규칙 구조이다.
 - **인식 신뢰도(Confidence Score)**: 모델 결과의 정확성 추정 점수이다.
@@ -119,7 +119,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문자 인식**: 문서 이미지에서 글자와 좌표를 추출하는 데 초점을 둔 처리 방식 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **언어모델 보정**: 인식 결과의 문맥을 해석해 오류를 고치거나 원하는 형식으로 변환하는 방식 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -138,7 +138,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **필드 누락(Field Missing)**: 양식 변화로 필수 데이터가 추출되지 않은 문제이다.
 - **저신뢰 필드(Low-confidence Field)**: 인식 점수가 낮거나 규칙과 충돌한 값이다.
@@ -158,7 +158,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자동화 범위(Automation Scope)**: 자동 승인 가능한 문서•필드 기준이다.
 - **원문 대조(Original Review)**: 추출 결과를 원본 좌표와 확인하는 절차이다.

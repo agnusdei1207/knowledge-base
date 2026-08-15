@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개발•보안•운영(Development, Security, and Operations, DevSecOps)**: 세 팀이 보안을 공동 운영하는 방식이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Shift Left•Right**: 보안을 개발 초기로 앞당기고 운영 관측•사고 결과를 다시 개발로 돌리는 접근이다.
 - **코드형 보안**: 정책•검사•구성•증거를 코드와 버전관리로 반복 실행하는 방식이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 구성요소의 출처•의존성을 기록한 명세서이다.
 - **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 소스 코드를 정적으로 검사하는 시험이다.
@@ -92,7 +92,7 @@ DevSecOps 통제 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지속적 통합•제공(Continuous Integration/Continuous Delivery, CI/CD)**: 통합•시험•배포를 자동화하는 파이프라인이다.
 - **보안 게이트**: 위험 기준으로 파이프라인 진행 여부를 결정하는 통제점이다.
@@ -144,7 +144,7 @@ DevSecOps 통제 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공동 책임**: 제품•보안•운영팀이 수명주기 전반의 보안 결과를 함께 소유하는 원칙이다.
 - **시프트 레프트(Shift Left)**: 설계•개발•빌드 단계에서 결함을 예방•탐지하는 접근이다.
@@ -167,7 +167,7 @@ DevSecOps 통제 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 기관이다.
 - **안전한 소프트웨어 개발 프레임워크(Secure Software Development Framework, SSDF)**: 안전한 개발 관행 체계이다.
@@ -191,7 +191,7 @@ DevSecOps 통제 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 기반 배포**: 노출•영향이 큰 변경은 차단하고 낮은 위험은 자동화해 흐름과 안전을 함께 확보하는 방식이다.
 

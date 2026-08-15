@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FinOps (Financial Operations / 핀옵스)**: 기술(DevOps), 재무(Finance), 비즈니스(Business) 조직이 결합하여 클라우드 비용을 투명하게 가시화(Inform), 최적화(Optimize), 자동화 운영(Operate)하는 지속적 재무 거버넌스 및 비용 최적화 체계.
 - **Unit Economics (단위 경제성)**: 총비용 절감이 아닌, '고객 1명당 클라우드 서비스 원가' 또는 '주문 1건당 인프라 비용' 지표를 측정해 비즈니스 수익성과 비용을 연결하는 핵심 지표.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Inform, Optimize, Operate**: 가시성 확보(Inform), 리소스/요율 최적화(Optimize), 자동화 및 문화 정착(Operate) 3단계 지속 순환.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cost Allocation Tagging**: 모든 EC2, S3 자원에 `Team:Checkout, Env:Prod` 태그를 부착해 전사 공유 인프라 비용을 부서별로 100% 투명하게 정산(Cost Attribution)하는 기법.
 
@@ -70,7 +70,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Right-Sizing**: CPU/메모리 평균 사용률이 10% 미만인 EC2 인스턴스를 한 단계 아래 사양(t3.xlarge $\rightarrow$ t3.medium)으로 다운사이징.
 
@@ -111,7 +111,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAPEX Budget vs OPEX FinOps**: 년 1회 고정 이월 예산(CAPEX)과 일단위 실시간 변동 종량제 절감(OPEX FinOps).
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Untagged Resources (태그 미부착 자원)**: 인프라에 소유자 태그가 없어 어느 팀 비용인지 알 수 없는 공백 자원.
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FinOps 수립 기준(FinOps Architecture Standards)**: Inform-Optimize-Operate 3대 라이프사이클, Tagging 100%, Savings Plans, Right-sizing 및 Unit Economics 지표성에 의거한 체계.
 

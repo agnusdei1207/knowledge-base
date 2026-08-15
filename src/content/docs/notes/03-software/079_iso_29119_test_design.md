@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC/IEEE 29119**: 파편화되어 있던 기존 소프트웨어 테스트 관련 국제 표준들(IEEE 829, IEEE 1008, BS 7925 등)을 하나로 통합 개편하여, 테스트 개념, 프로세스, 서식 및 기법을 국제적으로 규정한 표준 시리즈.
 - **Part 4: Test Techniques (ISO 29119-4)**: 동적/정적 테스트 설계 기법(블랙박스, 화이트박스, 경험기반 기법 등) 및 커버리지 측정식을 상세 명시한 Part.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Risk-Based Testing (RBT, 위험 기반 테스트)**: ISO 29119의 기본 아키텍처 사상으로, 시스템 위험도에 따라 테스트 우선순위 및 테스트 설계를 차등 배정하는 방식.
 - **Standard Part Structure (5개 파트 구성)**: Part 1(개념/용어), Part 2(프로세스), Part 3(문서 양식), Part 4(설계 기법), Part 5(기능 기반 테스트).
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Specification-based vs Structure-based vs Experience-based**: 명세 기반(블랙박스: 동등분할, 경계값), 구조 기반(화이트박스: 구문, 분기, MC/DC), 경험 기반(탐색적 테스트, 오류 추정).
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Condition & Test Procedure**: Test Condition은 '무엇을 테스트할 것인가', Test Case는 '입력값과 기대출력값', Test Procedure는 '실행 순서(Script)'.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IEEE 829 vs ISO 29119**: IEEE 829는 주로 테스트 문서 양식(Test Documentation)에 치중한 반면, ISO 29119는 프로세스, 서식, 설계 기법, 키워드 동적 테스트까지 포괄 통합.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Traceability Matrix (TTM)**: 요구사항 ID $\rightarrow$ Test Condition $\rightarrow$ Test Case $\rightarrow$ Execution Result 간의 추적성 테이블.
 
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO 29119 수용 기준(ISO 29119 Standards)**: 시스템 중요도, Part 1~5 표준 체계 및 TTA/SW 감리 기준성에 의거한 체계.
 

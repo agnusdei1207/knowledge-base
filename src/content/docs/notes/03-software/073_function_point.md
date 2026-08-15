@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Function Point (FP, 기능점수)**: 개발 언어나 구현 기술에 독립적으로, 최종 사용자가 요구하는 소프트웨어의 논리적 기능 규모(Functional Size)를 5가지 표준 기능 유형으로 분류 및 수치화하여 SW 개발 대가 및 비용을 산정하는 국제 표준(ISO/IEC 14143) 규모 측정 단위.
 - **IFPUG (International Function Point Users Group)**: 기능점수 산정 가이드라인(CPM: Counting Practices Manual)을 정립 및 유지 관리하는 세계 최대의 기능점수 국제 표준 단체.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technology-Independent Metric**: C, Java, Python 등 프로그래밍 언어나 DB 종류에 영위받지 않고 순수 사용자 기능 명세서만으로 획득 가능한 기술 독립적 단위.
 - **5 Function Types (5가지 기능 유형)**: 데이터 기능 2가지(ILF, EIF) 및 트랜잭션 기능 3가지(EI, EO, EQ).
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Functions (데이터 기능)**: 시스템 내부/외부에 저장되어 사용자가 참조/관리하는 파일로, ILF와 EIF로 구성.
 - **Transactional Functions (트랜잭션 기능)**: 시스템 경계(Boundary)를 넘어 입출력/조회를 수행하는 기능으로, EI, EO, EQ로 구성.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DET, RET, FTR (복잡도 측정 요소)**: DET(Data Element Type: 식별 가능한 필드 수), RET(Record Element Type: 서브 데이터 그룹 수), FTR(File Type Referenced: 참조 논리 파일 수).
 
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Indicative / Estimated FP (간이법)**: 기획/분석 단계에서 상세 DET/RET/FTR 정보 없이 기능 유형별 평균 가중치(Average Weight)를 적용하여 빠르게 예산을 산정하는 방식.
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW 대가 산정 가이드**: 한국소프트웨어산업협회(KOSA)에서 매년 개정 발표하는 공공 IT 사업 FP 당 단가(e.g., FP당 약 55만원선) 및 보정계수 지침.
 
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기능점수 산정 수립 기준(Function Point Standards)**: KOSA SW 대가 산정 가이드, IFPUG CPM 4.3.1 표준 및 공공사업 계약 법률에 의거한 체계.
 

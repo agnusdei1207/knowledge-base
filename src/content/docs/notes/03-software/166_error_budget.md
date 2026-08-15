@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Error Budget (오류 예산)**: 100% 가용성에서 조직이 목표로 합의한 SLO(Service Level Objective)를 뺀 수치로, 한 달 동안 합법적으로 허용된 서비스 중단 가능 시간.
 - **Velocity vs Reliability Trade-off**: 기능 배포 속도(Velocity)와 서비스 신뢰성(Reliability) 사이에서 SRE 조직이 Error Budget을 잣대로 우선순위를 통제하는 합의 기제.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Burn Rate (예산 소진율)**: 남은 오류 예산이 평소 대비 몇 배속으로 고갈되고 있는지를 계산하여, 1시간 뒤 예산 파산이 예상되면 즉시 Page(온콜 알림)를 발생시키는 지표.
 
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rolling Window (이동 구간)**: 달력 기준 1일~말일이 아닌, "최근 30일" 등 이동하는 기간 슬라이딩 윈도우 방식으로 Error Budget 복원력을 계산하는 기법.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Window Alerting**: 5분 동안 예산의 5%를 태우는 초특급 장애와, 3일 동안 예산의 10%를 갉아먹는 미세 장애를 동시에 잡기 위한 듀얼 윈도우 알림 기법.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fast Burn vs Slow Burn**: 수십 분 내로 예산을 전소시키는 Fast Burn은 즉각 개입(Page), 며칠에 걸쳐 갉아먹는 Slow Burn은 티켓(Ticket) 기반 처리.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Calendar Window Reset Illusion**: 매월 1일 자정에 예산이 100%로 리셋되었다고 해서, 31일에 낸 장애의 근본 원인이 고쳐지지 않았음에도 다시 배포를 강행하는 꼼수.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Error Budget 수립 기준(Budget Standards)**: SLO 허용치(0.1%), Burn Rate (144x/60x), Feature Freeze Policy 및 Rolling Window 계산법에 의거한 체계.
 

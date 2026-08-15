@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Service Mesh**: 마이크로서비스 간(East-West) 네트워크 통신 제어, 라우팅, 보안(mTLS), 분산 트레이싱을 애플리케이션 코드 수정 없이 인프라 레이어(Sidecar Proxy)에서 투명하게 처리하는 아키텍처 계층.
 - **Control Plane**: 서비스 메시 전체의 정책 설정, 라우팅 규칙, mTLS 인증서 발급(CA)을 관장하여 데이터 플레인으로 동기화 배포하는 제어 서브시스템 (e.g. Istiod).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sidecar Pattern**: 비즈니스 서비스 컨테이너가 존재하는 동일 Pod 내에 Envoy Proxy 컨테이너를 함께 띄워, 모든 인바운드/아바운드 네트워크 트래픽을 가로채어(iptables) 중계 제어하는 배치 구조.
 - **mTLS (Mutual TLS)**: 통신하는 양측 마이크로서비스(Sidecar Proxy 간)가 상호 TLS 디지털 인증서를 검증하고 데이터를 암호화하여 제로 트러스트(Zero Trust) 네트워크 보안을 구현하는 기술.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Envoy Proxy**: C++로 작성된 초고속 L7 프록시로, Dynamic Configuration(xDS API)을 수용하여 Service Mesh의 표준 Data Plane 역할을 수행.
 - **Istiod**: 기존 Pilot, Citadel, Galley 통제 시스템이 단일 바이너리로 통합되어 컨트롤 플레인 기능을 총괄 수행하는 Istio의 중앙 제어 daemon.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **xDS Protocol**: Envoy 프록시가 컨트롤 플레인(Istiod)으로부터 라우팅(RDS), 엔드포인트(EDS), 클러스터(CDS), 리스너(LDS) 구성을 동적으로 수신하는 gRPC 기반 제어 프로토콜.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ambient Mesh (Ambient Mode)**: Sidecar Proxy 주입에 따른 Pod 메모리/CPU 오버헤드를 소멸시키기 위해, 노드 단위 ztunnel(L4)과 전용 Waypoint Proxy(L7)로 분리 구동하는 Sidecarless Service Mesh 아키텍처.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sidecar Footprint**: 워크로드별 프록시가 사용하는 메모리•CPU와 추가 네트워크 처리 비용.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 메시 도입 기준(Service Mesh Adoption Criteria)**: 마이크로서비스 개수 수량, Polyglot 스택 유무, Zero-Trust mTLS 요구 및 K8s 성숙도에 기반한 채택 체계.
 

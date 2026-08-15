@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bounded Context (바운디드 컨텍스트)**: 특정 도메인 모델과 보편적 언어가 일관된 의미를 갖는 명시적 경계.
 - **Context Map (컨텍스트 맵)**: 프로젝트 내에 존재하는 여러 Bounded Context 간의 상호 의존성, 통합 관계 및 데이터 흐름 방식을 시각화한 조감도.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Upstream / Downstream (U/D)**: Context 간 의존 방향을 나타내는 관계로, Upstream(U)은 데이터/계약을 제공하는 공급자, Downstream(D)은 그 계약에 의존하는 소비자.
 - **Anti-Corruption Layer (ACL)**: Upstream의 모델이나 레거시 인터페이스 오염이 Downstream 도메인 모델로 들어오지 못하도록 중간에서 차단/변환해 주는 오염 방지 계층.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shared Kernel (공유 커널)**: 두 Bounded Context가 도메인 모델의 일부(코드/DB)를 밀접하게 공유하는 통합 관계.
 - **Open Host Service (OHS) / Published Language (PL)**: Upstream 컨텍스트가 Downstream들에 표준화된 접근 프로토콜(REST/gRPC)과 데이터 표준 형식(JSON/XML)을 공개하는 관계.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event-Driven Context Integration**: Bounded Context 간 결합도를 최저로 낮추기 위해, REST API 직접 호출 대신 Domain Event (Kafka)를 발행하여 비동기 동기화하는 기법.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Single Model vs Bounded Context**: 전사 단일 모델은 모든 팀이 1개 대형 ERD/클래스를 공유하여 병목 유발, Bounded Context는 도메인별로 모델을 쪼개어 독립성 확보.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Conway's Law (콘웨이의 법칙)**: 소프트웨어 아키텍처 구조는 그 소프트웨어를 개발하는 조직의 소통 구조를 그대로 반영한다는 법칙 (1 팀 = 1 Bounded Context 인가 이유).
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컨텍스트 경계 설정 기준(Bounded Context Boundary Standards)**: Ubiquitous Language 일관성, 조직 구조(Conway's Law) 및 MSA 서비스 분할 타깃에 기반한 체계.
 

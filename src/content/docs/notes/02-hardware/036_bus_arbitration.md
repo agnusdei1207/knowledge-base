@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **버스 중재 (Bus Arbitration)**: 복수의 버스 마스터(CPU, DMAC, GPU, PCIe Switch)가 하나의 공유 버스(Shared Bus) 사용권을 동시 요구할 때, 신호 충돌(Collision)을 방지하고 배타적 사용권(Grant)을 1개 마스터에 할당하는 하드웨어 제어 기법.
 - **버스 마스터 (Bus Master)**: 시스템 버스 상에서 주소와 제어 신호를 구동하여 독립 트랜잭션(Read/Write)을 시작할 수 있는 능력을 가진 하드웨어 제어 장치.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **요청 신호 (Bus Request, BREQ)**: 버스 마스터가 버스 사용권을 필요로 할 때 중재기로 발송하는 하드웨어 핀 신호.
 - **승인 신호 (Bus Grant, BGRT)**: 중재기가 경합을 거쳐 특정 마스터로 사용권 인가를 통지하는 핀 신호.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중재기 (Bus Arbitrator)**: 중앙 집중 또는 분산식 중재 알고리즘을 하드웨어 Logic 회로로 집적하여 BREQ/BGRT 핀을 매핑 제어하는 제어 장치.
 - **공유 버스 (Shared Bus)**: CPU, 메모리, 주변장치가 공동 공유하는 Address, Data, Control 물리 전송선.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **경합 상태 (Bus Contention State)**: 2개 이상의 마스터 장치가 동일한 시스템 클록 엣지에서 BREQ 신호를 동시 출력한 불일치 상태.
 - **사용권 반납 (Bus Release)**: 전송을 완결한 마스터가 BGRT 신호를 소거하고 버스 점유 핀(BUSY)을 0으로 릴리즈 해주는 하드웨어 동작.
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙 집중식 중재 (Centralized Arbitration)**: 1개의 독립된 하드웨어 제어기(Central Arbitrator)가 시스템 전체 마스터의 BREQ/BGRT 신호를 통합 통제하는 방식.
 - **분산식 중재 (Distributed Arbitration)**: 전용 중재기 없이, 각 마스터 칩이 공유 중재 버스 상의 신호를 스스로 대조하여 승인을 독자 판단하는 방식.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **라운드 로빈 중재 (Round-Robin Arbitration)**: 버스 승인 기회를 회전 휠 방식(0 -> 1 -> 2 -> 0)으로 순환 부여하여 모든 마스터에 동일한 대역폭 지분을 공정 보장하는 알고리즘.
 - **트래픽 등급 (Traffic Class / QoS)**: 버스 패킷에 우선순위 태그(QoS 0~7)를 달아, 실시간 CPU 억세스는 최우선 통과시키고 백그라운드 DMA는 차순위 처리하는 기술.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **버스 중재 선택 기준 (Bus Arbitration Selection Criteria)**: 대상 시스템의 입출력 저지연 목표, 버스 마스터 개수, 가용성 요구(SPOF 방지) 및 트래픽 QoS를 평가하여 중재 방식을 확정하는 프레임워크.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **RISC-V**: 로열티 없는 개방형 표준으로 기본 정수 명령어와 표준•사용자 정의 확장을 조합하는 ISA이다.
 - **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 소프트웨어가 프로세서를 제어하기 위한 기계어 명령, 레지스터 집합, 메모리 데이터 형태 및 시스템 콜 사양을 정의하는 인터페이스.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기본 ISA(Base ISA)**: 모든 RISC-V 호환 코어가 의무적으로 구현해야 하는 최소 단위의 40여 개 정수 연산 명령어 집합(RV32I/RV64I/RV128I/RV32E).
 - **표준 확장(Standard Extension)**: RISC-V International에서 관리하는 공식 사양으로, M(곱셈/나눗셈), A(원자적 연산), F/D(부동소수점), C(압축), V(벡터) 등의 모듈형 확장 세트.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISA 프로파일(ISA Profile)**: 범용 OS 구동 및 바이너리 소프트웨어 생태계 호환성을 위해 필수 확장 조합을 그룹화한 표준 프로파일(예: RVA22, RVI20).
 - **권한 아키텍처(Privileged Architecture)**: 시스템 모드간 격리와 예외/인터럽트 처리를 규정한 하드웨어 사양(M-mode: Machine, S-mode: Supervisor, U-mode: User).
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **레지스터 전송 수준(Register Transfer Level, RTL)**: Verilog, VHDL, Chisel 등으로 프로세서 내 동기식 플립플롭과 조합 논리 회로 동작을 정의하는 로직 설계 모델.
 - **적합성 시험(Conformance Test / Architectural Compliance Test)**: 구현된 RISC-V 코어가 RISC-V International의 표준 명령어 및 특권 사양을 완벽히 충족하는지 검증하는 테스트 스위트.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **코어 지식재산권(Intellectual Property, IP)**: 이미 설계 및 검증이 완료되어 SoC 합성에 즉시 사용 가능한 프로세서 블록(예: ARM Cortex Core).
 - **Arm**: 독점적 ISA 권한을 바탕으로 검증된 상용 IP 라이선싱 체계를 제공하는 대표적 칩 아키텍처 비즈니스 모델.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그램 이진 인터페이스(Application Binary Interface, ABI)**: 함수 호출 규칙, 레지스터 사용 약속, 스택 프레임 구조를 정의하여 소프트웨어 바이너리 간 결합을 보장하는 상호작용 규격.
 - **차등 테스트(Differential Testing)**: Golden Reference 소프트웨어 시뮬레이터(Spike, QEMU 등)와 설계한 RTL의 레지스터 변화를 클록 단위로 상호 비교하는 검증 기법.
@@ -177,7 +177,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Arm IP**: Arm 사가 완제품으로 제공하는 검증된 프로세서 물리 회로 설계 블록.
 - **구현 방식 선택 기준(Implementation Decision Criteria)**: 전용 연산자 추가 필요성, 자체 RTL 검증 능력, 칩 출시 타임투마켓, 총 소요 비용을 종합 평가하는 결정 프레임워크.

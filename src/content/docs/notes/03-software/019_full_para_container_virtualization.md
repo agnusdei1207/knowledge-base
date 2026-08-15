@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Full Virtualization (전가상화)**: 게스트 OS 수정 없이 하드웨어 전체를 하이퍼바이저가 완전 흉내내어(Binary Translation / Hardware-Assist) 구동시키는 가상화 방식.
 - **Paravirtualization (반가상화)**: 게스트 OS 커널 소스 코드를 일부 수정하여 특권 명령 실행 시 하이퍼바이저에 하이퍼콜(Hypercall)을 직접 호출하는 고성능 가상화 방식.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hypercall**: 반가상화 환경에서 게스트 OS가 하이퍼바이저 제어 서비스를 직접 호출하기 위해 사용하는 전용 소프트웨어 인터럽트/시스템 콜.
 - **Namespaces & Cgroups**: Linux 커널 기능으로, 프로세스의 리소스 뷰(PID, Net, Mount)를 격리(Namespaces)하고 자원 사용량(CPU, RAM)을 제어(Cgroups)하는 컨테이너 핵심 기술.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **virtio**: Linux KVM/QEMU 환경에서 반가상화(Paravirtualization) 디스크/네트워크 I/O 고속 드라이버 표준 API 프레임워크.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Binary Translation**: 전가상화에서 하드웨어 지원이 없을 때 게스트의 Ring 0 특권 명령어를 런타임에 동적으로 동등한 안전 코드로 번역하여 하이퍼바이저에 넘기는 기법.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kata Containers**: 컨테이너의 경량성/속도 장점과 VM의 완벽한 커널 보안 격리 장점을 융합한 MicroVM 기반 컨테이너 기술.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kernel Shared Vulnerability (Dirty COW 등)**: 컨테이너 가상화 환경에서 Host Kernel 공유로 인해 단 1개의 컨테이너 취약점이 Host OS 전체 권한 탈취로 전파되는 보안 리스크.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상화 격리 선택 기준(Virtualization Isolation Criteria)**: OS 이종성, 보안 격리수준, 부팅 속도 타깃 및 리소스 가용성에 기반한 체계.
 

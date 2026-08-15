@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **해밍 코드(Hamming Code)**: 패리티 검사 결과를 이진 위치값으로 조합해 한 비트 오류를 고치는 부호이다.
 - **오류 정정 부호(Error-Correcting Code, ECC)**: 중복 비트를 추가해 저장•전송 과정의 오류를 검출하고 정정하는 부호이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **해밍 거리(Hamming Distance)**: 길이가 같은 두 비트열에서 값이 다른 자리의 개수이다.
 - **단일 오류 정정 및 이중 오류 검출(Single Error Correction, Double Error Detection, SECDED)**: 한 비트 오류는 정정하고 두 비트 오류는 검출하는 방식이다.
@@ -64,7 +64,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **패리티 그룹**: 특정 패리티 비트가 검사하는 코드워드 위치의 집합이다.
 - **코드워드(Codeword)**: 데이터 비트와 패리티 비트를 묶은 저장•전송 단위이다.
@@ -97,7 +97,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **패리티 위치**: 코드워드의 1•2•4•8처럼 2의 거듭제곱 자리에 배치하는 검사 비트 위치이다.
 - **$2^p \geq d+p+1$**: 데이터 $d$비트의 모든 오류 위치와 정상 상태를 구분하는 최소 패리티 $p$ 조건이다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 오류 정정(Single Error Correction, SEC)**: 코드워드의 단일 비트 오류 위치를 식별해 정정하는 능력이다.
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 생성 다항식의 나머지로 버스트 오류를 검출하는 방식이다.
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잠복 오류(Latent Error)**: 즉시 드러나지 않은 채 저장장치에 남아 다른 오류와 겹칠 수 있는 손상이다.
 - **메모리 스크러빙**: 메모리를 주기적으로 읽고 오류를 정정해 손상 누적을 막는 작업이다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **재전송 가능성**: 오류 검출 후 원본 데이터를 다시 요청해 받을 수 있는 운영 조건이다.
 - **오류 형태**: 단일•이중•버스트처럼 한 코드워드에서 예상되는 비트 손상의 분포이다.

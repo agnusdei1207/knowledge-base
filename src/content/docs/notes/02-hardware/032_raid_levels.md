@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID(Redundant Array of Independent Disks)**: 복수의 물리 디스크를 논리적으로 묶어 스트라이핑(Striping), 미러링(Mirroring), 패리티(Parity) 기법으로 성능과 가용성을 보장하는 스토리지 아키텍처.
 - **가용성(Availability)**: 어레이 내부 디스크 고장 시에도 서비스 정지 없이 데이터 접근성을 유지하는 시스템 안정성.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스트라이핑(Striping)**: 데이터를 블록 단위로 분산 적재하여 입출력 대역폭을 가속하는 기법.
 - **미러링(Mirroring)**: 데이터를 2개 이상 디스크에 1:1 복제하여 고장 시 즉시 복구를 지원하는 기법.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID 컨트롤러(RAID Controller)**: 스트라이핑 매핑, 패리티 연산, 재구축(Rebuild)을 통제하는 하드웨어 ASIC.
 - **스트라이프 매퍼(Stripe Mapper)**: 호스트의 LBA를 물리 디스크 번호와 블록 오프셋으로 매핑하는 엔진.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부분 스트라이프 쓰기(Partial Stripe Write)**: 전체 스트라이프보다 작은 단위의 갱신으로 RMW 4회 I/O 지연 유발.
 - **쓰기 구멍(Write Hole)**: 연산 도중 정전 발생 시 데이터/패리티 불일치 결함 현상.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID 0(Striping)**: 성능 위주의 분산 저장, 가용성 미지원.
 - **RAID 1(Mirroring)**: 100% 복제, 장애 시 즉시 복구(용량 효율 50%).
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **핫 스페어(Hot Spare)**: 장애 시 자동 승격되어 재구축(Rebuild)을 수행하는 예비 디스크.
 - **재구축(Rebuild)**: 장애 디스크 교체 후 나머지 데이터를 읽어 새 디스크에 원래 데이터를 재생성하는 복구 작업.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID 아키텍처 선택 기준 (RAID Decision Criteria)**: 대상 시스템의 입출력 워크로드(Random Write vs Sequential Read), 가용성 목표(1-disk vs 2-disk fault), 디스크 당 용량 크기 및 비용 효율성을 종합 평가하여 RAID 0/1/5/6/10을 확정하는 프레임워크.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Pattern**: 소프트웨어 시스템의 전체적인 구조, 서브시스템 간 역할 분담, 통신 방식 및 고유 품질 속성(Quality Attributes)을 해결하기 위한 검증된 고차원 구조 청사진.
 - **Layered Pattern (계층형 패턴)**: Presentation, Business Logic, Persistence 계층으로 세부 관심사를 세로로 분리하여 모듈성을 높이는 가장 보편적 아키텍처.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Separation of Concerns (관심사 분리)**: 비즈니스 로직, 화면 UI, 데이터 영속화 레이어를 상호 독립적인 모듈로 격리하여 코드 수정 파급을 최소화하는 원칙.
 - **System Quality Attributes (품질 속성)**: 가용성(Availability), 성능(Performance), 확장성(Scalability), 보안성(Security), 유지보수성(Modifiability) 등 아키텍처 패턴 선택을 결정짓는 척도.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MVC (Model-View-Controller)**: UI(View), 비즈니스 데이터/로직(Model), 입력 처리 및 데이터 흐름 중계(Controller)를 분리하는 데스크톱/웹 아키텍처 패턴.
 - **EDA (Event-Driven Architecture)**: 이벤트 생산자(Producer)와 소비자(Consumer)가 브로커(Broker)를 경유하여 비동기 메시지 기반으로 결합도를 극단적으로 낮춘 아키텍처.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Decision Record (ADR)**: 특정 아키텍처 패턴 채택 이유, 맥락, 고려된 대안 및 트레이드오프 결과를 기록 관리하는 문서.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Monolith vs Microservices vs Event-Driven**: 소규모/단순 서비스는 Monolith, 독립된 도메인 스케일링은 MSA, 실시간 비동기 스트리밍은 EDA 선택.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architectural Degradation (아키텍처 부패)**: 초기에 수립한 아키텍처 패턴 규칙(계층 무단 점프, 서비스 간 직접 DB 억세스 등)을 개발 진행 중 어김으로써 시스템이 무질서해지는 현상.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **아키텍처 패턴 선택 기준(Architecture Pattern Selection Criteria)**: 시스템 품질 목표(Scalability, Availability), 팀 역량 및 도메인 복잡도에 의거한 체계.
 

@@ -20,10 +20,10 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **미국 국립표준기술연구소 인공지능 위험관리 프레임워크(National Institute of Standards and Technology Artificial Intelligence Risk Management Framework, NIST AI RMF)**: 인공지능의 사용 맥락과 영향을 거버넌스•매핑•측정•관리 기능으로 다루는 자발적 위험관리 프레임워크이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **NIST AI RMF(NIST AI Risk Management Framework)**: 미국 국립표준기술연구소(NIST)가 제정한 인공지능의 안전성, 신뢰성 및 사회적 영향을 관리하기 위한 자발적 위험관리 프레임워크.
+- **AI 위험관리(AI Risk Management)**: AI 시스템의 전 수명주기에서 발생 가능한 잠재적 부정적 영향과 편향, 오류, 오남용을 체계적으로 식별·측정·통제하는 활동.
 
 </details>
 
@@ -35,13 +35,12 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **자발적 범용성(English, English)**: 산업 중립적인 AI 위험관리 틀을 다양한 조직과 AI 수명주기에 자발적으로 적용할 수 있는 특성이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **거버넌스 중심성(English, English)**: 정책•책임•위험 허용수준이 맥락 파악•측정•위험 처리 기능의 방향을 지속 조정하는 특성이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **시험•평가•검증•확인(Test, Evaluation, Verification and Validation, TEVV)**: AI의 성능•안전•편향•설명성 등 신뢰성 특성을 증거로 확인하는 활동 묶음이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **증거 기반 반복성(English, English)**: TEVV 결과와 불확실성•잔여 위험을 기록하고 운영 변화에 따라 위험 판단을 갱신하는 특성이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **자발적 범용성(Voluntary & Broad Applicability)**: 특정 산업이나 기술에 종속되지 않고 다양한 규모의 조직과 AI 수명주기 전반에 유연하게 적용 가능한 특성.
+- **거버넌스 중심성(Governance Centricity)**: 조직의 정책, 책임, 문화, 위험 허용수준(Risk Tolerance)이 매핑, 측정, 관리의 전 과정을 총괄 조율하는 특성.
+- **TEVV(Test, Evaluation, Verification, and Validation)**: AI 시스템의 신뢰성, 성능, 공정성, 견고성을 지속적인 시험, 평가, 검증, 확인을 통해 증거 기반으로 입증하는 절차.
+- **증거 기반 반복성(Evidence-Based Iteration)**: TEVV 결과와 잔여 위험을 문서화하고 운영 환경 변화에 따라 위험 평가를 주기적으로 갱신하는 특성.
 
 </details>
 
@@ -54,13 +53,12 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **거버넌스(English, Govern)**: 정책•책임•문화•위험 허용수준을 정해 모든 AI 위험관리 기능을 조정하는 기능이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **매핑(English, Map)**: 사용 맥락•행위자•영향받는 공동체와 긍정•부정 영향을 파악해 위험 시나리오를 정의하는 기능이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **측정(English, Measure)**: AI 위험과 신뢰성 특성을 TEVV•지표•불확실성•추적 증거로 측정하는 기능이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **관리(English, Manage)**: 측정한 위험의 우선순위를 정하고 완화•감시•소통하며 배포•중단 결정을 연결하는 기능이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **거버넌스(Govern)**: AI 위험관리 원칙, 내부 책임 체계, 조직 문화 및 위험 허용 기준을 수립·운영하는 핵심 기능.
+- **매핑(Map)**: AI 사용 맥락, 이해관계자, 잠재적 부정 영향 및 사회적 위험 시나리오를 식별하고 구조화하는 기능.
+- **측정(Measure)**: 정량적/정성적 지표와 TEVV 기법을 활용하여 식별된 AI 위험의 심각도와 발생 가능성을 분석하는 기능.
+- **관리(Manage)**: 측정된 위험의 우선순위를 지정하고, 완화 대책 적용, 지속 모니터링 및 배포 여부를 의사결정하는 기능.
 
 </details>
 
@@ -84,19 +82,10 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **위험 허용수준(English, English)**: 조직이 목표를 달성하면서 받아들일 수 있다고 정한 AI 위험의 한계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **영향받는 공동체(English, English)**: AI의 개발•배포•사용 결과로 이익이나 피해를 받을 수 있어 위험 요구사항과 경험을 제공하는 집단이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **TEVV 결과(English, English)**: 사용 맥락에 맞는 신뢰성 지표와 불확실성을 측정한 보고이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **위험 처리안(English, English)**: 측정 결과에 따라 완화•수용•중단 대안을 비교한 제안이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **잔여 위험(English, English)**: 위험 완화 조치를 적용한 뒤에도 남아 허용•추가 완화•중단 판단이 필요한 위험이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **정책•역할•위험 허용수준 전달(English, English)**: 거버넌스가 책임과 의사결정 기준을 AI 팀에 제공하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **목적•맥락•영향 매핑(English, English)**: 사용 환경•행위자•공동체와 긍정•부정 영향을 파악하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **TEVV 측정•평가(English, English)**: 공동체 요구를 반영해 위험•신뢰성•불확실성을 측정하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **TEVV 결과•처리안 보고(English, English)**: 측정 결과와 완화•수용•중단 대안을 거버넌스에 제시하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **배포•완화•중단 결정(English, English)**: 잔여 위험을 허용수준과 비교해 조치를 선택하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **위험 허용수준(Risk Tolerance)**: 조직이 비즈니스 목표를 추구하면서 감수할 수 있는 AI 위험의 상한 기준선.
+- **영향 평가 및 완화(Impact Assessment & Mitigation)**: AI 배포로 인해 영향받는 공동체와 사용자 보호를 위한 선제적 가드레일 적용 단계.
 
 </details>
 
@@ -128,10 +117,10 @@ AI 시스템
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **국제표준화기구/국제전기기술위원회 42001(International Organization for Standardization/International Electrotechnical Commission 42001, ISO/IEC 42001)**: 조직의 인공지능 경영시스템(Artificial Intelligence Management System, AIMS) 요구사항과 선택적 인증 기준을 정한 국제표준이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **ISO/IEC 42001**: 인공지능 경영시스템(AIMS)에 관한 국제 인증 표준 규격.
+- **NIST AI RMF**: 실무 중심의 위험 식별 및 TEVV 프로파일 작성을 지원하는 실천적 가이드라인.
 
 </details>
 
@@ -146,12 +135,10 @@ AI 시스템
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **영향 대상 누락(English, English)**: 사용 맥락과 영향받는 공동체를 매핑하지 않아 실제 피해 시나리오가 위험 측정에서 빠지는 문제이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **모델•환경 변화(English, English)**: 배포 후 데이터•사용자•업무 환경이나 모델이 달라져 기존 위험 측정과 통제의 유효성이 떨어지는 변화이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **AI RMF 1.0(English, English)**: 적용 시 최신 NIST 버전과 사용사례별 프로필을 함께 확인해야 하는 프레임워크 버전이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **영향 대상 식별(Impacted Communities Mapping)**: 취약 계층 및 최종 사용자 등 실제 피해 가능 집단을 식별하고 다각적 이해관계자 참여 보장.
+- **사회기술적 관점(Socio-technical Perspective)**: 단순 알고리즘 코드의 정확도에만 머물지 않고 인간-AI 상호작용 및 사회적 파급 효과까지 통합 관리.
 
 </details>
 
@@ -167,10 +154,9 @@ AI 시스템
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **사용사례별 적용(Use-case-specific Application)**: 맥락·영향을 측정 지표와 배포 결정에 연결하는 절차.
+- **신뢰할 수 있는 인공지능 거버넌스(Trustworthy AI Governance)**: Govern-Map-Measure-Manage 4대 기능을 유기적으로 결합하여 혁신과 안전을 양립하는 AI 위험관리 체계.
 
 </details>
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hadoop (Apache Hadoop)**: 대용량 데이터의 수평 분산 저장(HDFS)과 분산 배치 연산(MapReduce)을 지원하는 오픈소스 1세대 빅데이터 처리 프레임워크.
 - **HDFS (Hadoop Distributed File System)**: 수백 대의 범용 서버 디스크를 128MB 단위 분산 블록(Block)으로 쪼개고, 3중 복제(Replication Factor = 3)하여 대용량 파일 내구성 및 병렬 읽기를 보장하는 디스크 파일 시스템.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Locality (데이터 지역성)**: 데이터가 저장된 HDFS 블록 노드로 계산 프로그램(Map Code)을 직접 이동시켜 처리하는 "Moving Computation to Data" 기법.
 - **Batch Processing**: 실시간 Stream 처리가 아닌 대용량 데이터 집계용 Batch(일괄) 연산 지향.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **YARN (Yet Another Resource Negotiator)**: 하둡 2.0부터 도입되어 ResourceManager와 NodeManager를 통해 분산 노드의 CPU/Memory 컨테이너(Container) 자원을 할당 관리하는 오케스트레이터.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shuffle & Sort Phase**: Map 단계의 디스크 Output 결과를 동일 Key끼리 묶어 Reduce 노드로 전송하는 네트워크 병목 발생 단계.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Disk vs In-Memory**: MapReduce의 물질화와 Spark의 메모리 재사용 특성 비교.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Combiner (Mini-Reducer)**: Map 노드 디스크에서 네트워크로 셔플 데이터를 보내기 직전, 로컬 상에서 미리 1차 집계를 수행해 네트워크 트래픽을 폭감시키는 임시 리듀서.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hadoop 수립 기준(Hadoop Architecture Standards)**: HDFS 3중 복제, Data Locality, Combiner 최적화 및 Spark와의 조합성에 의거한 체계.
 

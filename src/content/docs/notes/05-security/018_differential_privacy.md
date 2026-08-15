@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차등 프라이버시(Differential Privacy, DP)**: 인접 데이터셋(Adjacent Dataset) 간의 출력 확률 분포 차이를 프라이버시 예산 Epsilon(ε), Delta(δ)로 통제하여 개별 데이터의 포함 여부를 추론할 수 없도록 보장하는 수학적 프라이버시 보호 모델.
 - **인접 데이터셋(Adjacent Dataset)**: 단 하나의 개인 데이터 레코드 추가/삭제 여부만 차이나는 두 데이터셋.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프라이버시 예산 ε(Epsilon)**: 인접한 두 데이터셋의 질의 출력 확률 분포 차이에 허용되는 상한값으로, ε이 0에 가까울수록 강력한 프라이버시 보장.
 - **실패 확률 δ(Delta)**: 순수 ε-차등 프라이버시 보장을 위배할 수 있는 소극적 예외 확률값 (일반적으로 1/N보다 충분히 작은 값 설정).
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **민감도(Sensitivity)**: 데이터셋 내 단일 개인 레코드의 추가/삭제로 인해 질의 함수 f의 결과가 변동될 수 있는 최대 변화량.
 - **기여 한도(Contribution Bound)**: 단일 개인의 레코드가 전체 질의 집계에 미치는 영향 횟수 및 크기의 상한을 제한하는 통제.
@@ -98,7 +98,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **예산 차감(Budget Consumption)**: 질의 수행 시 소비된 ε, δ 값을 전체 지정 예산에서 공제 기록하는 절차.
 - **기여 한도•민감도 산정**: 레코드 제한과 민감도 연산을 통해 필요한 노이즈 스케일을 결정하는 단계.
@@ -143,7 +143,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중앙 DP(Centralized DP)**: 신뢰할 수 있는 중앙 데이터 수집자가 원본을 집계한 후 결괏값에 노이즈를 주입하는 방식.
 - **로컬 DP(Local DP, LDP)**: 중앙 수집자를 불신하여 각 사용자 단말(Client)에서 데이터를 전송하기 전 자체 노이즈를 주입하는 방식.
@@ -166,7 +166,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **DP-SGD(Differentially Private Stochastic Gradient Descent)**: 딥러닝 학습 시 각 표본의 기울기(Gradient)를 클리핑하고 노이즈를 주입하는 프라이버시 보존 학습 알고리즘.
 - **기울기 클리핑(Gradient Clipping)**: 단일 데이터 표본이 모델 파라미터 업데이트에 미치는 영향을 제한하기 위해 기울기 벡터의 노름(Norm) 상한을 설정하는 기법.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **DP 모델 선택 기준(DP Model Selection Criteria)**: 데이터 수집 아키텍처, 수집자 신뢰성, 유용성 요구수준 및 예산 소비 속도를 종합 반영한 설계 지침.
 

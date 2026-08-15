@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **레거시 시스템의 점진 대체(Incremental Legacy Replacement)**: 빅뱅 방식의 교체 위험을 피하기 위해, 독립적인 업무 경계별로 신규 마이크로서비스를 배치하고 검증된 범위부터 기존 모놀리식 기능을 서서히 제거하는 현대화(Modernization) 원칙.
 - **스트랭글러 피그 패턴(Strangler Fig Pattern)**: 나무를 감싸며 자라다가 결국 숙주 나무를 대체하는 교살무화과(Strangler Fig) 나무처럼, 사용자의 트래픽 라우팅을 점진적으로 신규 서비스로 전환하여 레거시를 자연스럽게 도태시키는 아키텍처 패턴.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기능·데이터 소유권 이관(Ownership Transfer)**: 트래픽 분기 및 섀도우 테스트(병행 검증)를 거친 후, 특정 비즈니스 로직 처리와 해당 데이터 테이블의 CUD(생성·수정·삭제) 권한(정본)을 완전히 신규 시스템으로 넘기는 전환 원칙.
 - **파사드(Facade, API Gateway)**: 클라이언트 앱(호출자) 앞단에 위치하여 신·구 시스템의 물리적 분리를 추상화하고, 요청 URL이나 헤더에 따라 트래픽을 레거시 또는 신규 서비스로 적절히 라우팅하는 단일 진입점.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 정본(System of Record, SoR)**: 특정 도메인 데이터(예: 고객 정보)에 대해 마스터 권한(Mastership)을 가지며, 생성·수정 권한과 최종적인 데이터의 진실(Single Source of Truth)을 소유하는 시스템.
 - **신규 서비스(New Service)**: 스트랭글러 패턴을 통해 새롭게 분리 구축되어 클라우드 네이티브 아키텍처(MSA)를 따르고 특정 도메인의 데이터 소유권을 확보한 독립 배포 단위.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **2. 병행 라우팅 설정(Shadowing/Mirroring)**: 파사드(Gateway) 또는 서비스 메시(Istio 등)를 통해 실 트래픽을 신규 시스템으로 복제(미러링)하여, 사용자에게 영향을 주지 않고 내부적으로 결과를 비교하는 단계.
 - **3. 결과 정합성 판정(Validation & Verification)**: 섀도우 트래픽으로 발생한 신·구 시스템의 응답 데이터(Payload), 레이턴시, 오류율 차이를 모니터링 툴로 대조하여 전환 허용 기준(Threshold)을 충족하는지 평가하는 단계.
@@ -142,7 +142,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **점진 전환(Incremental Migration / Strangler Fig)**: 서비스를 중단하지 않고 비즈니스 도메인 단위로 쪼개어 단계적으로 신·구 시스템을 교체하며, 문제 발생 시 파사드 라우팅으로 즉각 복귀(Rollback)가 가능한 안정적 방식.
 - **일괄 재작성(Big-Bang Rewrite)**: 수년 간 새로운 아키텍처로 전체 시스템을 병렬 개발한 뒤, 특정 D-Day(명절 연휴 등)에 구 시스템을 완전히 내리고 신규 시스템으로 일거에 대체하는 고위험 방식.
@@ -165,7 +165,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이중 쓰기(Dual Write) 문제**: 과도기 동안 신·구 시스템이 동일한 개념의 데이터를 각자의 DB에 기록할 경우, 분산 트랜잭션 실패 시 어느 쪽이 진실(SoR)인지 어긋나게 되는 데이터 정합성 파괴 현상.
 - **변경 데이터 캡처(Change Data Capture, CDC)**: 레거시 DB의 트랜잭션 로그(Binlog, Redo Log 등)를 비동기로 읽어내어 신규 서비스 DB(또는 카프카)로 스트리밍함으로써 시스템 간 실시간 동기화를 맞추는 데이터 파이프라인 기술.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소유권 이관 기준(Ownership Transition Criteria)**: 독립된 도메인 경계 내에서 섀도우 트래픽 검증을 완벽히 통과한 후, API 호출 진입점과 마스터 데이터(DB)의 제어권을 최종적으로 신규 시스템으로 이양하는 의사결정 기준.
 

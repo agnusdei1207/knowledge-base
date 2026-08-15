@@ -18,7 +18,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 슬라이싱(Network Slicing)**: 단일 5G 물리 네트워크 위에 무선(RAN), 전송(Transport), 코어(Core) 가상 자원을 분할하여 독립적인 종단(End-to-End) 가상 논리망을 구축하는 기술이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 사업자와 고객 간에 정의된 처리량, 종단 지연시간, 자원 격리성 및 가용성 보장 계약 수치이다.
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **종단 자원 조립(End-to-End Resource Orchestration, E2E Resource Orchestration)**: RAN 서브넷, 전송 서브넷, 코어 서브넷 자원을 유기적으로 연결하여 하나의 독립 가상망으로 서비스하는 조립 과정이다.
 - **자원 격리(Resource Isolation)**: 특정 슬라이스에서 트래픽 폭주나 장애가 발생해도 타 슬라이스의 대역폭, 지연, NF 자원에 전혀 영향을 미치지 않도록 차단하는 특성이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **슬라이스 오케스트레이터(Network Slice Orchestrator, CSO/NSO)**: 서비스 수명주기 자동화 및 영역별 서브넷 오케스트레이터(NSSMF)와 연동하여 E2E 슬라이스를 구축하는 중앙 통제 시스템이다.
 - **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입자의 S-NSSAI 식별자를 분석하여 적합한 코어망 슬라이스(AMF/SMF 인스턴스)를 지정하는 5G 코어 NF이다.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **슬라이스 선택 정책(Slice Selection Policy)**: 단말의 서비스 요청 정보(S-NSSAI), 가입자 프로필 및 네트워크 상태에 따라 사용할 슬라이스를 매핑하는 지침이다.
 - **도메인 자원 배치(Domain Resource Instantiation)**: 무선, 전송, 코어 각 도메인에서 오케스트레이션 명령에 맞춰 실체화된 자원(Subnet Instance)을 할당받는 과정이다.
@@ -140,7 +140,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 슬라이스(Network Slice)**: 독립된 가상화 네트워크 자원 집합으로, 완전히 분리된 전용 5G 인프라 환경을 의미한다.
 - **서비스 품질 제어(Quality of Service Control, QoS Control)**: 동일한 물리 네트워크 채널 내에서 패킷 큐의 우선순위(DSCP, 5QI)를 부여해 품질 차등을 주는 기법이다.
@@ -164,7 +164,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 수준 지표(Service Level Indicator, SLI)**: SLA 보장 여부를 판가름하기 위해 정밀 측정하는 실제 성능 수치(지연시간, 패킷손실률 등)이다.
 
@@ -184,7 +184,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **종단 슬라이스(End-to-End Network Slice, E2E Network Slice)**: 무선 접속망, 유선 전송망, 5G 코어망 전 영역이 유기적으로 연동된 완전한 형태의 가상 네트워크이다.
 

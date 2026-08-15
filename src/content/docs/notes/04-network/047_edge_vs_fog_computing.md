@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엣지 컴퓨팅(Edge Computing)**: 데이터가 발생하는 최외곽 앤드포인트(센서/단말) 단에서 연산과 제어를 즉시 수행하는 분산 처리 기술이다.
 - **포그 컴퓨팅(Fog Computing)**: 엣지 단말과 중앙 클라우드 사이의 중간 네트워크 계층(스위치/게이트웨이)에 포그 노드를 배치하여 다수 엣지 데이터를 집계, 필터링 및 조정하는 다계층 아키텍처이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조정 범위(Control & Orchestration Domain)**: 단일 연산 노드가 제어하고 데이터를 집계할 수 있는 기기 및 현장의 물리적/논리적 영역 범위이다.
 - **장애 독립성(Fault Autonomy / Isolation)**: 상위 포그 노드나 중앙 클라우드가 마비되어도 엣지 노드가 현장의 필수 제어를 독립적으로 계속 구동하는 특성이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엣지 노드(Edge Node)**: 현장 센서/기계에 내장되거나 직결되어 데이터 수집 및 즉시 제어를 실행하는 앤드포인트 장치이다.
 - **포그 노드(Fog Node)**: 엣지 노드 상위의 스위치, 라우터, 로컬 서버 형태로 존재하여 지역 트래픽을 집계하고 오케스트레이션을 수행하는 노드이다.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원시 데이터(Raw Data)**: 센서가 측정한 정제되지 않은 연속 데이터로, 엣지 단에서 즉시 처리되거나 축약 대상이 된다.
 - **요약 상태(Summarized State)**: 엣지 노드가 원시 데이터를 분석하여 상위 포그 노드로 수송하기 위해 축약한 핵심 지표 데이터이다.
@@ -126,7 +126,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제어 기한(Control Latency Deadline)**: 시스템의 안전과 정상 동작을 위해 센서 측정부터 제어 출력까지 반드시 완료되어야 하는 최대 허용 시간 수치이다.
 
@@ -149,7 +149,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이중화(Redundancy & High Availability)**: 특정 포그 노드의 고장이나 망 단락 시 예비 노드로 작업을 즉시 핸드오버하는 고가용성 설계이다.
 

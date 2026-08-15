@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **강화학습(Reinforcement Learning)**: 환경 상호작용으로 누적 보상을 최대화하는 정책을 학습한다.
 - **지연 보상(Delayed Reward)**: 행동 이후 수신돼 장기 가치에 영향을 주는 보상이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정책(Policy)**: 상태에서 행동을 결정하는 규칙•확률 분포이다.
 - **가치 함수(Value Function)**: 상태•행동의 미래 누적 보상 기댓값이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **에이전트(Agent)**: 상태를 관측하고 정책에 따라 행동하는 학습 주체이다.
 - **환경(Environment)**: 행동에 따라 다음 상태와 보상을 반환한다.
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경험(Experience)**: 상태•행동•보상•다음 상태로 구성된 학습 자료이다.
 - **정책 갱신(Policy Update)**: 가치 추정치로 행동 규칙을 개선한다.
@@ -116,7 +116,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **온정책(On-policy)**: 현재 정책이 수집한 경험으로 해당 정책을 갱신한다.
 - **오프정책(Off-policy)**: 과거•다른 정책 경험으로 목표 정책을 학습한다.
@@ -135,7 +135,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보상 해킹(Reward Hacking)**: 의도와 다르게 보상값만 극대화하는 행위이다.
 - **안전 행동 집합(Safe Action Set)**: 환경 손상을 막는 허용 행동 범위이다.
@@ -155,7 +155,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보상 정렬(Reward Alignment)**: 보상 함수와 실무 목표의 일치 상태이다.
 - **탐색 위험(Exploration Risk)**: 미지 행동 시험 과정의 잠재 손실이다.

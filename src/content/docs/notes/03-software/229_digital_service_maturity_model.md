@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 서비스 성숙도 모형(Digital Service Maturity Model)**: 사용자 성과를 만드는 전략•조직•기술•운영 역량의 현재 수준과 목표 수준 및 개선 경로를 단계별로 진단하는 모형이다.
 - **성숙도(Maturity)**: 조직의 역량이 개인 의존 상태에서 반복•측정•지속 개선 가능한 상태로 발전한 정도이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **병목 식별(Bottleneck Identification)**: 역량 차원별 수준 편차에서 서비스 성과 향상을 가장 제한하는 취약 능력을 찾는 활동이다.
 - **단계 표현(Maturity Level)**: 역량의 반복 가능성•표준화•측정•개선 수준을 순서 있는 등급으로 나타내는 방식이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **성숙 기준(Maturity Criteria)**: 사용자 경험•운영•데이터•기술 등 각 역량 차원의 단계와 통과 조건이다.
 - **역량 차원(Capability Dimension)**: 사용자 경험•조직•운영•데이터•기술처럼 성숙도를 나눠 평가하는 영역이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **1. 평가 범위 합의**: 대상 서비스•사용자 성과•평가 차원을 확정하는 단계이다.
 - **2. 차원별 수준 판정**: 단계별 통과 조건을 실제 증거와 대조하는 단계이다.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관리 단계(Managed Level)**: 공통 절차와 지표가 조직에 정착돼 서비스를 반복 가능하게 측정•운영하는 수준이다.
 - **초기 단계(Initial Level)**: 절차와 책임이 불명확해 개인 경험에 의존해 임시 대응하는 수준이다.
@@ -161,7 +161,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단계 자가평가 오류**: 산출물과 운영 지표의 교차 확인 없이 조직 의견만으로 성숙 수준을 높게 판정하는 문제이다.
 - **성과 대시보드(Outcome Dashboard)**: 사용자•업무 결과와 개선 과제의 효과를 지속 관찰하는 화면이다.
@@ -184,7 +184,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개선 우선순위 기준**: 평균 등급보다 서비스 결과를 막는 역량을 찾아 현실적인 목표 수준까지 먼저 개선하는 기준이다.
 - **병목 우선 개선(Bottleneck-First Improvement)**: 전체 평균 등급보다 사용자 성과를 가장 제한하는 역량에 자원을 먼저 배분하는 원칙이다.

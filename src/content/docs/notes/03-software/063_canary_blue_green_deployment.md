@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zero-Downtime Deployment (무장애 배포)**: 신규 버전 서비스 배포 시, 기존 서비스의 중단 시간(Downtime) 없이 24x365 가용성을 유지하며 버전을 전환하는 배포 기술.
 - **Canary Deployment**: 광산의 탄광 새(Canary) 위험 감지 원리에서 유래하여, 신규 버전을 전체 트래픽 중 소수(e.g., 5% $\rightarrow$ 10% $\rightarrow$ 100%) 유저에게 점진적으로 노출시키는 가중치 배포 방식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blast Radius (장애 영향 반지름)**: 신규 버전 배포 시 버그가 발생했을 때 영향을 받는 유저 및 시스템의 범위로, Canary 배포는 이 영향 범위를 극도로 제어.
 - **Routing Switch**: 로드밸런서(Nginx, ALB)나 Service Mesh(Istio)를 활용하여 엔드포인트 트래픽 방향을 순간적으로 100% 교체하는 작업.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ingress Controller / Service Mesh**: Kubernetes 환경에서 Blue/Green Pod 또는 Canary Pod 군으로 트래픽 비율(Weight)을 정밀하게 분사 제어하는 엣지 라우팅 엔진.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Automated Canary Analysis (ACA)**: Kayenta/Flagger 도구를 사용하여 Canary Pod의 런타임 지표(Error rate, Latency)를 정상 Pod 지표와 실시간 통계 비교하는 자동 분석 기법.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rolling Update vs Blue-Green vs Canary**: Rolling은 Pod를 하나씩 순차 교체(자원 추가 0), Blue-Green은 1:1 일괄 전환(자원 추가 100%), Canary는 소수 비율 노출 후 확대(자원 추가 소량).
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Expand-Contract Pattern (DB 스키마 하위 호환)**: 구버전과 신버전이 트래픽 전환 과정에서 DB를 공유할 때, 칼럼 삭제/변경 시 구버전 애플리케이션이 파괴되지 않게 2단계로 나누어 DB 스키마를 변경하는 기법.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **무장애 배포 선택 기준(Zero-Downtime Deployment Standards)**: 인프라 자원 예산, 롤백 속도 요건 및 무장애 가용성에 의거한 체계.
 

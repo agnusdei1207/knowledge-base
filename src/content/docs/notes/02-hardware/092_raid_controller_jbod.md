@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID Controller**: 하드웨어 가속 칩셋과 전원 보호 캐시(BBU/Flash)를 탑재하여 디스크 스트라이핑, 패리티 연산(RAID 5/6) 및 미러링을 온전 오프로드하는 전용 어댑터.
 - **JBOD(Just a Bunch of Disks)**: 디스크들을 하드웨어 RAID 묶음이나 패리티 생성 없이 각각 개별 물리 블록 디바이스로 OS/SDS에 1:1 직결 패스스루 노출하는 방식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BBU/Flash Backup Unit**: 정전 시 RAID 쓰기 캐시를 배터리로 유지하거나 비휘발 매체에 보존하는 모듈.
 - **HBA Passthrough Mode**: RAID 논리 볼륨을 만들지 않고 각 디스크를 OS에 직접 노출하는 컨트롤러 모드.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAID Engine (XOR/P+Q Engine)**: RAID 5/6 패리티 데이터 생성을 위해 hardware XOR 및 Reed-Solomon 연산을 전용 가속하는 컨트롤러 내 코어.
 - **Passthrough Controller**: 디스크 어레이를 단일 LUN으로 묶지 않고 JBOD 1:1 원형 디바이스로 OS에 맵핑하는 패스스루 커넥터.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Write-Back vs Write-Through**: 데이터를 캐시에만 써서 즉시 완료를 반환(Write-Back)할지, 물리 디스크 덤프까지 대기(Write-Through)할지 결정하는 캐시 정책.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **S.M.A.R.T**: 디스크의 에러율, 온도, 섹터 상태를 측정하는 자가 진단 메타데이터.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dual RAID Controller**: 컨트롤러 장애(SPOF)에 대비하여 2개의 RAID 컨트롤러를 Active-Active/Active-Standby 구성하는 고가용성 설계.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스토리지 토폴로지 선택 기준(Storage Topology Selection Criteria)**: 단일 서버 vs 대규모 분산 스토리지, BBU 캐시 필요성, 비용 및 SDS 적용 여부에 따른 체계.
 

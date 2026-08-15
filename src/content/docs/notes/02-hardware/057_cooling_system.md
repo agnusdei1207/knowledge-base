@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **냉각 시스템(Cooling System)**: 서버, GPU 및 네트워크 장비 발열을 외부 매체(공기/냉매/절연액)를 통해 대기 중으로 방출하는 냉열 유틸리티 설비.
 - **열 부하(Heat Load)**: 컴퓨팅 하드웨어 전력 소모에 의해 발생하는 총 발열량(kW/BTU).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **열전달 경로(Heat-Transfer Path)**: 반도체 접합부(Junction)부터 히트싱크/콜드플레이트, 열교환기, 쿨링타워까지 이어지는 열 이동 메커니즘.
 - **냉각 용량(Cooling Capacity)**: 냉각 설비가 단위 시간 당 최대로 제거할 수 있는 열 전달 능력.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **열 수집부(Heat Collection Unit)**: 히트싱크, 수랭 콜드플레이트 등 발생 열을 매체로 전도 흡수하는 블록.
 - **열 전달부(Heat Transport Unit)**: 송풍 팬, 펌프 및 배관을 활용하여 수열 매체를 방열 공간으로 순환시키는 블록.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **냉각 상태 값(Cooling-State Value)**: 입출구 온습도, 유량(LPM), 계통 내 차압(PSI) 등의 모니터링 데이터.
 - **순환 운전값(Circulation Setpoint)**: 랙 발열 수준에 맞춰 펌프 RPM 및 밸브 개도율을 제어하는 목표값.
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공랭(Air Cooling)**: 팬(Fan)을 이용해 차가운 공기를 랙 전면으로 흡입하고 열을 배출하는 전통적 방식.
 - **직접 수랭(Direct Liquid Cooling, DLC)**: CPU/GPU 표면에 물(Water/Glycol)이 순환하는 콜드플레이트를 직접 밀착시키는 열교환 방식.
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **N+1 펌프 구성(N+1 Pump Redundancy)**: 필요한 펌프 N대에 예비 펌프 1대를 추가해 단일 고장에 대비하는 구성.
 - **드립리스 커넥터(Dripless Quick Disconnect)**: 수랭 배관 탈착 시 냉각수가 밖으로 흘러내리지 않게 밸브를 자동 차단하는 유압용 커넥터.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **발열 밀도(Heat Density)**: 단위 면적 또는 랙 당 발생하는 전력 소비 heat load.
 - **냉각 방식 선택 기준(Cooling System Selection Criteria)**: 랙 당 kW 전력 밀도, 공간 효율성, CAPEX 및 PUE 목표치에 근거한 설비 결정 체계.

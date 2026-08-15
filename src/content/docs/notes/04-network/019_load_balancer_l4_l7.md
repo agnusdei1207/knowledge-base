@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **로드 밸런서(Load Balancer)**: 연결과 요청을 여러 정상 백엔드에 분산하는 장비이다.
 - **가상 IP 주소(Virtual IP Address, VIP)**: 클라이언트가 접속하는 대표 서비스 주소이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **L4 로드 밸런서(Layer 4 Load Balancer)**: 주소•포트•연결 상태로 백엔드를 선택하는 장비이다.
 - **L7 로드 밸런서(Layer 7 Load Balancer)**: URL•헤더•쿠키로 백엔드를 선택하는 장비이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **리스너(Listener)**: 서비스 주소와 포트에서 요청을 받는 입구이다.
 - **서버 풀(Server Pool)**: 같은 기능을 제공하는 백엔드 서버 집합이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 확인(Health Check)**: 백엔드의 포트 연결이나 응용 응답을 검사해 분산 대상 포함 여부를 정하는 기능이다.
 - **상태 탐사**: 백엔드의 포트 연결이나 응용 경로에 시험 요청을 보내는 절차이다.
@@ -141,7 +141,7 @@ VIP 서비스 요청
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
 - **역방향 프록시(Reverse Proxy)**: 요청을 해석하고 백엔드에 새 요청을 보내는 중계 방식이다.
@@ -164,7 +164,7 @@ VIP 서비스 요청
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 외부화**: 사용자 상태를 백엔드 로컬 메모리 밖의 공용 저장소에 두어 세션 고정 의존을 줄이는 방식이다.
 - **다중 영역**: 로드 밸런서와 백엔드를 서로 다른 장애 구역에 배치해 단일 장애를 줄이는 구성이다.
@@ -186,7 +186,7 @@ VIP 서비스 요청
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정상 집합(Healthy Backend Set)**: 상태 검사를 통과해 새 연결•요청을 받을 수 있다고 판정된 백엔드 목록이다.
 

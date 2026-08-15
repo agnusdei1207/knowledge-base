@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EDA (Event-Driven Architecture)**: 마이크로서비스 간에 API를 직접 호출(Sync)하지 않고, 특정 상태의 변화를 나타내는 이벤트(사건)를 발행(Publish)하면 관심 있는 서비스가 비동기적으로 구독(Subscribe)하여 처리하는 느슨한 결합 아키텍처.
 - **Event (이벤트/사건)**: 시스템 내에서 의미 있는 상태 변화가 일어났음을 나타내는 불변(Immutable)의 과거 시제 기록 (예: `OrderCreated`, `PaymentCompleted`).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Asynchronous (비동기성)**: 이벤트를 발행한 후, 소비자가 처리를 완료할 때까지 기다리지 않고 즉각 자신의 다음 작업을 수행하는(Fire and Forget) 통신 특성.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Message Broker (메시지 브로커)**: 발행된 이벤트를 안전하게 저장하고 구독자에게 라우팅해 주는 중앙 허브 인프라 (Apache Kafka, RabbitMQ, AWS SNS/SQS).
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transactional Outbox Pattern**: 데이터베이스에 비즈니스 데이터를 저장하는 트랜잭션과 동일한 트랜잭션으로 'Outbox' 테이블에 이벤트를 저장하여, 서버가 죽어도 이벤트 발행 누락을 방지하는 필수 패턴.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event-Carried State Transfer (상태 전송 이벤트)**: 이벤트 데이터 안에 소비자가 필요로 하는 모든 상태 정보(주문액, 유저명)를 꽉 채워서 보내, 소비자가 생산자에게 다시 REST API를 질의할 필요가 없게 만드는 설계 기법.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency (멱등성)**: 네트워크 재시도나 브로커 오류로 인해 "동일한 이벤트가 2번 이상 수신"되더라도, 결제 중복 차감과 같은 사이드 이펙트 없이 1번만 처리한 것과 같은 상태를 유지하는 설계.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EDA 수립 기준**: 비동기 느슨한 결합(Decoupling), Transactional Outbox를 통한 원자성 보장, 멱등성(Idempotency) 기반 소비자 설계 및 DLQ 격리에 의거한 체계.
 

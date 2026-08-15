@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 매핑(Cache Mapping)**: 메인 메모리(DRAM)의 물리적 데이터 블록을 고속 캐시 메모리(SRAM)의 특정 라인 위치에 배치하고 적중 여부를 판단하기 위한 주소 변환 알고리즘.
 - **캐시 라인(Cache Line / Block)**: 메인 메모리와 캐시 메모리 간 데이터 전송 및 일관성 관리의 기본 블록 단위(일반적으로 64-Byte).
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연관도(Associativity)**: 하나의 메인 메모리 블록이 적재될 수 있는 후보 캐시 라인(Set 내의 Way)의 개수.
 - **평균 메모리 접근 시간(Average Memory Access Time, AMAT)**: 적중 시간과 미스 비율, 미스 페널티의 곱으로 계산되는 전체 메모리 참조 지연 지표.
@@ -61,7 +61,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **태그(Tag)**: 메모리 주소 상위 비트로 구성되어, 캐시 라인에 들어있는 데이터가 어떤 메인 메모리 블록에서 온 것인지를 정밀 검증하는 식별자.
 - **인덱스(Index)**: 메모리 주소 중간 비트로 구성되어, 접근할 캐시 집합(Set) 번호를 다중화 디코더로 선택하는 인덱스 비트.
@@ -110,7 +110,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 적중(Cache Hit)**: 요청한 메인 메모리 블록이 이미 캐시 메모리 상의 유효한 라인에 존재하여 SRAM에서 무지연 읽어오는 상태.
 - **캐시 미스(Cache Miss)**: 요청 블록이 캐시에 없어 다음 캐시 계층이나 DRAM에서 가져와야 하는 상태.
@@ -152,7 +152,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 매핑(Direct Mapping)**: 1개 블록이 오직 1개 정해진 캐시 라인 위치로만 매핑되는 단순 방식 (Set 1개당 Way 1개).
 - **완전 연관 매핑(Fully Associative Mapping)**: Index 필드 없이 메인 메모리 블록이 캐시의 임의의 아무 라인에나 들어갈 수 있는 구조.
@@ -173,7 +173,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비차단 캐시(Non-Blocking Cache / MSHR)**: 미스 처리 중에도 멈추지 않고 Miss Status Holding Register(MSHR)를 통해 다른 캐시 요청을 계속 가동하는 기술.
 - **프리페치(Prefetching)**: 공간/시간 지역성을 분석하여 향후 접근될 데이터를 미스 발생 전에 캐시로 미리 인출하는 기술.
@@ -193,7 +193,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **태그 비교 비용(Tag Comparison Cost)**: N-way 연관도 증설 시 태그 비교기 회로 증가로 수반되는 다이 면적, 적중 지연시간 및 전력 소모 오버헤드.
 - **매핑 선택 기준(Cache Mapping Selection Criteria)**: 대상 시스템의 캐시 계층(L1, L2, L3, TLB) 특성에 따라 AMAT를 최저로 만드는 연관도와 구조를 결정하는 공학적 지표.

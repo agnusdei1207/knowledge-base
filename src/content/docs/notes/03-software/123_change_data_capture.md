@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CDC (Change Data Capture / 변경 데이터 캡처)**: 소스 데이터베이스의 CUD(Create, Update, Delete) 데이터 변경 이벤트를 실시간 감지하여, 타깃 시스템(Search Engine, Data Lake, Cache)으로 부하 없이 100% 동기화 전파하는 파이프라인 기술.
 - **Log-based CDC**: 데이터베이스 내부 트랜잭션 로그(MySQL Binlog, PostgreSQL WAL)를 직접 꼬리 물어 파싱함으로써 소스 DB CPU 부하를 0%에 가깝게 최소화하는 대표 CDC 메커니즘.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zero DB Performance Overhead**: 쿼리가 아닌 이진 파일(Binlog)을 직접 읽으므로 DB CPU 부하 최소화.
 - **Delete Capture Support**: SQL 폴링과 달리 `DELETE` 구문에 의한 삭제 이벤트(Tombstone Record)까지 100% 포착.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Initial Snapshot & Binlog Streaming**: 최초 가동 시 전체 테이블의 Initial Snapshot을 뜨고, 이후부터 Binlog를 실시간 스트리밍으로 전환하는 2단계 절차.
 
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Log-based vs Trigger-based vs Query-based**: Log-based는 DB 로그 파싱(부하 0%), Trigger-based는 DB 트리거 생성(쓰기 부하 발생), Query-based는 `WHERE updated_at` SQL 폴링(삭제 감지 불가).
 
@@ -112,7 +112,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Before & After Field**: Debezium CDC 이벤트 내부에 변경 전 상태(`before`)와 변경 후 상태(`after`)가 함께 담기는 JSON 페이로드 구조.
 
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Schema Evolution (DDL 변경)**: 소스 DB에 `ALTER TABLE`로 컬럼이 변경될 때 CDC 커넥터가 이를 실시간 감지하여 타깃 DB 스키마도 자동 갱신 조치.
 
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CDC 아키텍처 수립 기준(CDC Architecture Standards)**: Log-based Binlog 파싱, Debezium Kafka Connect 및 ElasticSearch/Redis 실시간 동기화성에 의거한 체계.
 

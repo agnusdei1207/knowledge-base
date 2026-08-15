@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Entity Integrity (개체 무결성)**: 릴레이션에서 튜플(행)의 고유 식별을 위해 기본키(Primary Key)를 구성하는 어떤 속성도 `NULL` 값이나 중복 값을 가질 수 없도록 강제하는 규칙.
 - **Referential Integrity (참조 무결성)**: 외래키(Foreign Key)의 값은 참조하는 부모 릴레이션의 기본키(또는 Unique Key) 값과 반드시 일치하거나, 또는 `NULL`이어야 한다는 릴레이션 간 관계 강제 규칙.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Uniqueness & Non-Null Constraint (개체 무결성의 독점적 지위)**: 기본키는 절대 `NULL`이 될 수 없으며, 중복을 배제하여 릴레이션 내 유일성(Uniqueness)을 확립.
 - **Referential Validity (참조 무결성의 유효성)**: 외래키는 부모 릴레이션의 PK 집합에 명확히 존재하는 값에만 바인딩.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Parent-Child Relation**: PK를 소유한 부모 릴레이션과 해당 PK를 FK로 참조하는 자식 릴레이션 간의 구조적 종속 관계.
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cascade Execution Flow**: 부모 튜플 수정/삭제 시 런타임에 지정된 Referencing Action(RESTRICT, CASCADE, SET NULL, SET DEFAULT)이 트리거되는 절차.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dual Pillars of Relational Model**: E.F. Codd의 관계형 모델을 떠받치는 2대 핵심 기둥인 개체 무결성과 참조 무결성.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Surrogate PK & FK Indexing**: 비즈니스 자연키 대신 대리키(Surrogate Key)를 PK로 사용하여 개체 무결성을 보호하고, FK에는 반드시 B-Tree 인덱스를 생성해 참조 무결성 검사 속도 확보.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개체•참조 무결성 수립 기준(Entity & Referential Standards)**: PK 식별 유일성, FK 참조 정합성 및 Cascading 삭제 수용성에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동적 임의 접근 메모리(Dynamic Random-Access Memory, DRAM)**: 1개의 트랜지스터와 1개의 커패시터(1T1C) 셀 구조를 기반으로 높은 집적도와 경제적 용량을 제공하지만, 전하 방전 방지를 위해 주기적 리프레시(Refresh)가 필수적인 휘발성 반도체.
 - **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 6T 래치 셀을 기반으로 리프레시 없이 낮은 접근 지연을 제공하는 휘발성 반도체.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **1T1C 셀(1T1C Cell)**: 1개 Access Transistor와 1개 Storage Capacitor로 구성된 DRAM 비트 셀로, 커패시터에 전하(Charge)를 충전/방전하여 비트를 구별함.
 - **6T 래치(6T Latch)**: 4개의 Cross-coupled Inverter 트랜지스터와 2개의 Pass-gate 트랜지스터로 구성된 SRAM 비트 셀로, 쌍안정(Bistable) 상태를 정적으로 유지함.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **워드라인(Wordline)**: 메모리 셀 행(Row)을 선택하여 접근 트랜지스터 게이트를 Turn-on 시키는 행 선택 제어선.
 - **비트라인(Bitline)**: 선택된 셀의 데이터 전하 및 래치 전압 신호를 Sense Amplifier로 전달하거나 쓰기 전압을 싣는 열 데이터선.
@@ -87,7 +87,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **행 활성(Row Activation / RAS)**: DRAM 주소의 Row Address를 활성화하여 해당 행의 1T1C 셀 전하를 비트라인으로 방출 및 감지 증폭하는 1단계.
 - **열 선택(Column Selection / CAS)**: Sense Amp에 래칭된 행 데이터 중 억세스하고자 하는 Column Address 비트를 선택 인출하는 2단계.
@@ -113,7 +113,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **리프레시(Refresh)**: 커패시터의 자연 누설 전류(Leakage Current)로 데이터 1이 0으로 변질되는 현상을 방지하기 위해, 매 64ms 주기마다 전체 행을 읽어 재충전하는 동작.
 - **접근 지연(Access Latency)**: CPU가 명령을 발생시킨 후 실제 메모리가 유효 데이터를 버스 상에 적재하기까지 걸리는 클록/시간.
@@ -132,7 +132,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **행 적중(Row Hit / Open-Page Policy)**: 이전에 열린 DRAM Row를 프리차지 없이 연속 Column 인출만 수행하여 DRAM 접근 지연을 60ns에서 15ns로 대폭 절감하는 기술.
 - **오류 정정 코드(Error-Correcting Code, ECC)**: 미세 공정화에 따라 우주선(Cosmic Ray)이나 Alpha Particle로 인한 DRAM/SRAM 비트 반전(Single Event Upset)을 1-bit 정정, 2-bit 감지하는 정밀 회로.
@@ -152,7 +152,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 소자 선택 기준(Memory Device Selection Criteria)**: 대상 시스템 계층의 대역폭, 단위 용량당 제조 단가, 접근 지연 목표 및 리프레시 오버헤드를 대조하여 최적의 DRAM/SRAM 소자를 배치하는 프레임워크.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **AI 위험(AI Risk)**: 데이터•모델•사용 맥락에서 피해가 발생할 가능성과 영향이다.
 - **AI 위험관리(AI Risk Management)**: 위험을 식별•평가•처리하고 반복 감시한다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **NIST AI RMF**: AI 위험관리를 Govern•Map•Measure•Manage로 구성한다.
 - **잔여 위험(Residual Risk)**: 통제 후에도 남아 처리 결정이 필요한 위험이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 대장(Risk Register)**: 시나리오•원인•영향•통제•담당자 기록이다.
 - **허용 한도(Risk Tolerance)**: 조직이 승인 아래 수용할 수 있는 위험 경계이다.
@@ -83,7 +83,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 시나리오(Risk Scenario)**: 원인•사건•피해 대상을 연결한 경로이다.
 - **중단 기준(Stop Criterion)**: 잔여 위험•사고가 한도를 넘을 때의 중지 조건이다.
@@ -114,7 +114,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 품질 위험(Data-quality Risk)**: 대표성•오염•드리프트로 성능•공정성이 훼손된다.
 - **보안•오남용 위험(Security and Misuse Risk)**: 공격•유출•목적 외 사용으로 피해가 발생한다.
@@ -136,7 +136,7 @@ AI 위험은 데이터 품질, 보안•오남용, 법적•사회적 영역으�
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **맥락 누락(Context Omission)**: 목적•영향 집단•오용 경로가 빠진 문제이다.
 - **승인 불명확(Unclear Approval)**: 잔여 위험 처리 책임이 정해지지 않은 문제이다.
@@ -154,7 +154,7 @@ AI 위험은 데이터 품질, 보안•오남용, 법적•사회적 영역으�
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 수용(Risk Acceptance)**: 잔여 위험이 한도 안이라고 책임자가 승인한다.
 - **위험 재평가(Risk Reassessment)**: 환경•데이터•모델•사고 변화 후 다시 판정한다.

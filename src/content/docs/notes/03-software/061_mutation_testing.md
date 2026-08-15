@@ -75,7 +75,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PITest (PIT)**: 자바 생태계 표준 바이트코드 수준 뮤테이션 테스트 자동화 프레임워크.
 
@@ -112,7 +112,7 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Code Coverage vs Mutation Score**: Code Coverage는 실행 여부(Quantity), Mutation Score는 단언문의 정합성 및 결함 탐지력(Quality) 측정.
 
@@ -130,7 +130,7 @@ $$MS = \frac{\text{Killed Mutants}}{\text{Total Mutants} - \text{Equivalent Muta
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Equivalent Mutant Problem**: 로직상 원본과 차이가 없는 변이체 생성으로 인한 수동 분석 오버헤드.
 

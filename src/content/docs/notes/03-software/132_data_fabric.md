@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Fabric (데이터 패브릭)**: Gartner가 선정한 핵심 데이터 아키텍처로, 온프레미스, 클라우드, Multi-Cloud에 파편화된 이종 데이터 원천들을 물리적 이동 없이 Active Metadata(활성 메타데이터), AI/ML 지식 그래프(Knowledge Graph)를 기반으로 하나로 유연하게 직조(Fabric)하여 실시간 가상화 통합을 렌더링하는 기술.
 - **Active Metadata (활성 메타데이터)**: 데이터 스크레이핑에 의한 수동 메타데이터(Passive Metadata)가 아닌, 쿼리 패턴, 사용자 접근 로그, 파이프라인 성능 실시간 데이터를 AI로 자동 지속 분석하여 파이프라인 최적화에 능동 반영하는 메타데이터.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Virtualization (데이터 가상화)**: 물리적 데이터 이동 0회로 분산 저장소 데이터를 가상 뷰(Virtual View)로 결합.
 - **AI-Driven Data Management**: AI/ML 알고리즘이 추천 데이터셋, 자동으로 보안 PII 마스킹 처리 실행.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Virtualization Layer (가상화 레이어)**: Trino/Denodo 기반으로 서로 다른 DB(PostgreSQL, S3, Snowflake)를 단일 SQL 인터페이스로 묶어주는 가상 통합 엔진.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Fabric vs Data Mesh**: Fabric은 기술/AI/메타데이터 중심의 통합 자동화 접근(Technology-centric), Mesh는 조직/도메인 팀 중심의 분산 책임 접근(People & Process-centric).
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Virtualization Efficiency**: 가상화 쿼리를 사용함으로써 ETL 개발 수개월 단축 및 스토리지 중복 비용 0원 달성.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Virtualization Query Performance Latency**: 물리 데이터 이관이 없으므로, 서로 다른 멀티 클라우드 간 `JOIN` 실행 시 네트워크 렌더링 지연 발생 위험.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Fabric 수립 기준(Data Fabric Architecture Standards)**: Active Metadata, Knowledge Graph, Data Virtualization (Trino) 및 Unified Security에 의거한 체계.
 

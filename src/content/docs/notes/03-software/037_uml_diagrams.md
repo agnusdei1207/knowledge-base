@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UML (Unified Modeling Language)**: 객체지향 소프트웨어 시스템의 아키텍처, 정적 구조(Structural) 및 동적 행위(Behavioral)를 시각화하여 명세하는 표준 객체 모델링 언어 (OMG 표준).
 - **Structural Diagrams (구조 다이어그램)**: 시스템의 정적(Static) 컴포넌트, 클래스, 물리 배치를 표현하는 다이어그램 체계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OMG (Object Management Group)**: UML, CORBA 등의 객체지향 기술 국제 표준 사양을 제정 관리하는 컨소시엄.
 - **Sequence Diagram**: 객체들 간에 주고받는 메시지(Message) 송수신 순서를 시간의 흐름(Time Sequence)에 따라 시각화하는 핵심 상호작용 다이어그램.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Class Diagram**: 시스템의 정적 구조를 구성하는 클래스, 속성(Attribute), 메서드(Method) 및 관계(Association, Aggregation, Composition, Generalization)를 시각화하는 대표적 구조 다이어그램.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Generalization vs Realization**: Generalization은 일반화/상속(IS-A), Realization은 인터페이스의 구체화/구현 관계.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Composition vs Aggregation**: Composition은 전체-부분이 생명주기를 공유하는 강한 결합(포함 관계 소멸 시 부분도 소멸), Aggregation은 생명주기가 독립적인 약한 집합 관계.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model-Implementation Drift**: 시스템 수정 진행 중 UML 설계서가 업데이트되지 않아 실제 코드와 UML 간 불일치가 유발되는 설계 부패.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UML 선택 기준(UML Diagram Selection Criteria)**: 아키텍처 레이어, 런타임 제어 복잡도 및 동적/정적 모듈성에 따른 도면 채택 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부동소수점(Floating-Point)**: 실수를 부호•지수•유효숫자로 나눠 유한 비트에 근사하는 표현 방식이다.
 - **전기전자공학자협회 부동소수점 산술 표준(IEEE Standard for Floating-Point Arithmetic, IEEE 754)**: 부동소수점 형식•연산•특수값을 정한 표준이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **바이어스 지수(Biased Exponent)**: 음수 지수를 비부호 값으로 저장하는 규칙이다.
 - **숨은 비트(Hidden Bit)**: 정규수의 선행 1을 저장하지 않는 규칙이다.
@@ -61,7 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부호 필드(Sign Field)**: 값의 부호를 저장하는 비트 영역이다.
 - **지수 필드(Exponent Field)**: 값의 크기 범위를 저장하는 비트 영역이다.
@@ -92,7 +92,7 @@ IEEE 754 저장 워드
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정규수(Normal Number)**: 숨은 선행 1을 사용해 유효 비트를 늘린 일반 유한값이다.
 - **지수 패턴**: 저장 지수의 비트 조합으로 정규수•서브노멀•특수값을 구분하는 기준이다.
@@ -138,7 +138,7 @@ IEEE 754 저장 워드
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **binary16**: 16비트로 저장하는 IEEE 754 이진 형식이다.
 - **binary32**: 32비트로 저장하는 IEEE 754 이진 형식이다.
@@ -166,7 +166,7 @@ IEEE 754 저장 워드
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **10진 연산(Decimal Arithmetic)**: 사람이 쓴 10진 자릿수 그대로 계산해 금액 같은 값을 정확히 다루는 방식이다.
 - **보상 합산(Compensated Summation)**: 덧셈에서 버려진 하위 비트 오차를 별도 변수로 보정하는 합산법이다.
@@ -193,7 +193,7 @@ IEEE 754 저장 워드
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정수 형식**: 자릿값의 정확한 일치가 필요한 계산 표현이다.
 - **10진 형식**: 10진 자릿값을 정확히 보존하는 계산 표현이다.

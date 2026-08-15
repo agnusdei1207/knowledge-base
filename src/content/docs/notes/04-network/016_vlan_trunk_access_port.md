@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 물리적 스위치 토폴로지와 무관하게 L2 스위치 상에서 논리적으로 브로드캐스트 도메인을 분할하는 네트워크 가상화 기술.
 - **브로드캐스트 영역(Broadcast Domain)**: 스위치 단에서 발송된 브로드캐스트 패킷(FF:FF:FF:FF:FF:FF)이 직접 도달하는 L2 논리적 통신 범위.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **액세스 포트(Access Port)**: PC, 서버 등 일반 단말과 연결되어 단 하나의 VLAN(Untagged)에만 속하는 스위치 물리 포트.
 - **포트 VLAN 식별자(Port VLAN Identifier, PVID)**: Access Port로 유입되는 일반 프레임(Untagged Frame)에 내부적으로 부여할 기본 VLAN ID 값.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **허용 VLAN 목록(Allowed VLAN List)**: Trunk Port 통과 시 물리적 보안을 위해 인가된 VLAN ID 트래픽만 전송을 허용하도록 제한하는 필터링 명세.
 - **네이티브 VLAN(Native VLAN)**: 802.1Q Trunk Port에서 태그(Tag)가 붙지 않은 일반 Untagged 프레임이 유입되었을 때 기본 귀속되는 VLAN (기본값: VLAN 1).
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **VLAN 태그 부착(Tag Insertion)**: Access Port로 들어온 Untagged 프레임이 Trunk Port로 나갈 때 802.1Q Tag(4바이트)를 헤더에 삽입하는 동작.
 - **VLAN 태그 제거(Tag Removal)**: Trunk Port를 타고 들어온 Tagged 프레임이 목적지 Access Port로 나갈 때 802.1Q Tag를 탈거하여 순수 이더넷 프레임으로 복원하는 동작.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **액세스 포트(Access Port)**: 단일 VLAN에만 속하여 802.1Q 태깅 없이 순수 이더넷 프레임만 단말과 주고받는 포트 모드.
 - **트렁크 포트(Trunk Port)**: 복수의 VLAN 트래픽을 식별하기 위해 802.1Q 헤더를 부착하여 다중 VLAN 트래픽을 상호 중계하는 포트 모드.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네이티브 VLAN 불일치(Native VLAN Mismatch)**: Trunk Link로 연결된 두 스위치 간 Native VLAN 설정이 달라(예: Switch A=VLAN 1, Switch B=VLAN 99) 무태그 패킷이 엉뚱한 VLAN으로 오유입되는 보안/통신 장애.
 - **접근 제어 목록(Access Control List, ACL)**: L3/L4 IP 및 Port 조건에 따라 패킷 허용(Permit) 및 차단(Deny)을 수행하는 정책 리스트.
@@ -179,7 +179,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 VLAN 허용 원칙(Least VLAN Allowance Principle)**: 보안 및 성능 최적화를 위해 Trunk 포트에는 실제로 통신이 필요한 최소한의 VLAN만 Allowed List에 등록하여 운영하는 정책.
 

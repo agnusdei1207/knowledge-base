@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 프로세서가 실행 가능한 기계어 명령어, 레지스터 집합, 주소 지정 방식 및 데이터 타입을 정의한 하드웨어-소프트웨어 인터페이스 규격.
 - **축소 명령어 집합 컴퓨터(Reduced Instruction Set Computer, RISC)**: 고정 길이의 단순한 기계어 명령어를 사용하여 명령어 해독 속도를 높이고 파이프라인 처리에 최적화한 프로세서 구조.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **로드·스토어 구조(Load/Store Architecture)**: ALU 연산은 오직 범용 레지스터 사이에서만 수행하고, 메모리 접근은 명시적인 Load/Store 명령어만 허용하여 파이프라인을 단순화한 구조.
 - **코드 밀도(Code Density)**: 일정 바이트 크기의 메모리 공간에 수용 가능한 프로그램 기능 단위 및 기계어 명령어의 집약도.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명령어 인코딩(Instruction Encoding)**: 연산자(Op-code) 필드, 레지스터 번호, 즉치(Immediate) 값을 명령어 2진 비트 열에 배치하는 규격.
 - **마이크로연산(Micro-operation, $\mu\text{op}$)**: 복잡한 CISC 기계어 명령어를 프로세서 실행 유닛에서 직접 처리할 수 있도록 분해한 RISC 형태의 단순 내부 연산 단위.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명령어 경계 판정(Instruction Boundary Detection)**: 가변 길이 명령어가 연속 적재된 바이트 스트림에서 각 명령어의 시작 포인터와 끝 길이를 산출하는 전처리.
 - **아키텍처 상태(Architectural State)**: 레지스터, PC, 메모리 및 PSR 플래그 등 소프트웨어가 직접 관찰 가능한 프로세서의 논리적 상태.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **바이너리 호환성(Binary Compatibility)**: 기존 작성된 수많은 기계어 실행 바이너리를 별도 재컴파일 없이 최신 CPU에서 구동 가능한 성질.
 - **해독부 면적(Decoder Area)**: 프로세서 다이(Die) 상에서 인코딩 디코더 및 Microcode ROM 회로가 차지하는 칩 면적 비율.
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **압축 명령어(Compressed Instruction)**: RISC 환경에서 자주 쓰는 32비트 명령을 16비트로 줄여 코드 밀도를 CISC 수준으로 끌어올리는 기술(예: ARM Thumb, RISC-V C-extension).
 - **에뮬레이션(Emulation)**: 다른 ISA 바이너리를 소프트웨어적 변환을 통해 실시간 해석 구동하는 기술.
@@ -185,7 +185,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **벤치마크(Benchmark)**: SPEC, Geekbench 등 하드웨어 성능을 다각도로 객관 검증하는 표준 평가 프로그램 세트.
 - **ISA 선택 기준(ISA Selection Criteria)**: 시스템 개발 목적(모바일 저전력, 고성능 데이터센터, 레가시 호환 등)에 따라 적합한 명령어 아키텍처를 결정하는 평가 지표.

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Database Replication (데이터베이스 복제)**: 데이터베이스의 가용성(High Availability), 재해 복구(DR), 트래픽 분산(Read Scale-Out)을 위해, 원본 데이터베이스 노드의 갱신 데이터(Binary Log / Write-Ahead Log)를 1개 이상의 타 데이터베이스 노드로 지속 동기화하는 물리적 복제 아키텍처.
 - **Master-Slave (Primary-Replica) Architecture**: 주 노드(Primary/Master)는 100% Write(CUD) 및 Read를 담당하고, 복제 노드(Replica/Slave)는 오직 Read 전용 쿼리를 분산 처리하거나 주 노드 장애 시 승격(Failover)되는 형태.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Replication Lag (복제 지연)**: 주 노드에서 Commit된 변경 데이터가 네트워크 지연이나 복제 노드의 락 경합으로 인해 복제 노드에 뒤늦게 반영되는 시간차 현상.
 - **Failover / Failback**: 주 노드 다운 시 복제 노드를 새로운 주 노드로 자동/수동 승격(Failover)시키는 고가용성 프로세스.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Binary Log (Binlog) / WAL (Write-Ahead Log)**: MySQL의 Binlog, PostgreSQL의 WAL 등 데이터 변경 이력이 이진 형태로 기록되는 파일로, 복제 노드가 이를 읽어 롤-포워드(Replay) 수행.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Semi-Synchronous Replication (반동기식 복제)**: 주 노드가 트랜잭션 Commit 시 최소 1개 이상의 복제 노드가 릴레이 로그(Relay Log)에 복제 완료 신호(ACK)를 보낼 때까지 기다린 후 최종 Commit 응답을 보내는 타협 방식.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RPO & RTO in Replication**: 확인 범위와 장애 지점에 따라 허용 가능한 손실량과 복구 시간이 달라지는 목표.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Read-Your-Own-Writes Consistency**: 사용자가 본인 프로필 수정 직후 조회 시, 복제 지연이 일어나는 Replica가 아닌 Primary 노드로 쿼리를 강제 우회시켜 본인이 수정한 최신 데이터를 즉시 확인케 하는 기법.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복제 수립 기준(Database Replication Standards)**: RPO/RTO 목표치, Replication Lag 관용성 및 ProxySQL Read/Write 분손성에 의거한 체계.
 

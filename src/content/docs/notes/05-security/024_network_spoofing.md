@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스푸핑(Spoofing)**: 프로토콜 상의 정당한 주소, 신원, 응답 헤더 정보를 위변조하여 자신이 정직한 통신 대상인 것처럼 속이는 공격.
 - **중간자 공격(Man-In-The-Middle Attack, MITM)**: 송수신자 사이의 데이터 흐름에 몰래 개입하여 암호화되지 않은 패킷을 도청, 위변조, 세션 가로채기를 수행하는 공격.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ARP(Address Resolution Protocol)**: L2 인접 네트워크에서 IP 주소를 해당하는 물리적 MAC 주소로 매핑 도출하는 프로토콜.
 - **IP(Internet Protocol)**: L3 패킷에 출발지/목적지 논리 IP 주소를 부여하여 엔드-투-엔드 라우팅을 지원하는 프로토콜.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동적 ARP 검사(Dynamic ARP Inspection, DAI)**: L2 스위치에서 DHCP Snooping 데이터베이스를 검증하여 위조된 거짓 ARP 패킷을 물리 포트 단위에서 드롭 차단하는 보안 기술.
 - **uRPF(Unicast Reverse Path Forwarding)**: 라우터 입력 인터페이스로 수신된 패킷의 출발지 IP 주소가 라우팅 테이블(FIB)의 역방향 경로와 일치하지 않으면 위조 패킷으로 간주하여 차단하는 L3 방어 기술.
@@ -98,7 +98,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **캐시 오염(Cache Poisoning)**: 검증되지 않은 위조 주소 매핑으로 피해 호스트의 캐시를 부정 갱신하는 공격.
 - **출발지 위조(Source IP Spoofing)**: IP 헤더의 Source Address 필드를 임의의 타깃 주소로 위조하여 트래픽을 가공 전송하는 단계.
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **IETF BCP 84(Best Current Practice 84)**: 이종 네트워크 경계 라우터에서 출발지 IP 주소 위변조 패킷을 차단하기 위한 Ingress/uRPF 필터링 지침.
 - **IETF RFC 4033~4035(DNSSEC Specifications)**: DNS 데이터 무결성 및 출처 인증을 제공하는 DNSSEC 표준 규격 문서.
@@ -181,7 +181,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **계층별 스푸핑 방어 체계(Layered Anti-Spoofing Architecture)**: L2 스위치, L3 라우터, L7 DNS 및 애플리케이션에 걸친 다계층 주소 검증 아키텍처.
 

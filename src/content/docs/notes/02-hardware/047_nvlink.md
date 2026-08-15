@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVLink(NVIDIA NVLink)**: NVIDIA GPU 간 및 GPU-CPU 간 고대역폭·저지연 데이터 P2P 통신을 지원하는 전용 고속 인터커넥트.
 - **인터커넥트(Interconnect)**: 프로세서, 메모리, 확장 장치 간 데이터 패킷 및 신호를 고속 이송하는 신호 채널 망.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **링크 결합(Link Aggregation)**: 동일 GPU 노드 간 복수의 물리 NVLink 레인을 하나로 번들링하여 전송 대역폭을 선형 확장하는 기술.
 - **NVSwitch**: 복수의 NVLink 라인을 스위칭하여 다수 GPU 간의 Non-blocking 다대다(All-to-All) 통신을 보장하는 전용 스위치.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NCCL(NVIDIA Collective Communications Library)**: NVLink 토폴로지를 자동 파악하여 집단 통신 연산을 가속화하는 최적화 라이브러리.
 - **엔드포인트(Endpoint)**: NVLink 신호선을 수용하여 데이터 패킷을 송수신하는 GPU/CPU 하드웨어 레인 터미널.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **All-Reduce**: 분산 GPU의 부분 결과 텐서를 합산한 후 완전한 결과 텐서를 모든 GPU로 전파하는 집단 통신 연산.
 - **Reduce-Scatter**: 텐서를 쪼개어 각 GPU의 로컬 텐서와 동시 합산 및 분산 축소하는 파이프라인 연산.
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 NVLink(Direct NVLink)**: 스위치 없이 GPU 노드 간 점대점(P2P) 직결로 결합하는 방식.
 - **NVSwitch 패브릭(NVSwitch Fabric)**: 스위치 ASIC을 매개하여 노드 수 확장에 따른 All-to-All 통신을 지원하는 패브릭.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로세스/샤드 배치(Process/Shard Placement)**: 통신 밀집 프로세스를 물리적으로 가까운 GPU NVLink 포트에 매핑하는 기술.
 - **꼬리 지연(Tail Latency)**: 동기화 시 특정 저속 레인으로 인해 전체 텐서 통신이 대기하는 지연 현상.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **피어 통신(Peer Communication)**: 호스트 메모리 경유 없이 GPU 간 직접 텐서를 읽고 쓰는 Direct P2P 방식.
 - **GPU 연결 선택 기준(GPU Interconnect Selection Criteria)**: 연결 GPU의 개수, All-to-All 대역폭 요구 수준 및 TCO에 기반한 선택 체계.

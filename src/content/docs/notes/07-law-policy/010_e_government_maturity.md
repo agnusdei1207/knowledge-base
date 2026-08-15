@@ -83,7 +83,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OSI·TII·HCI·EPI 자료 요청**: 대상·시점·자료 기준 제시.
 - **표준화 지표 자료 회신**: 서비스·통신·인적 자본·참여 자료 제출.
@@ -127,7 +127,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보 제공·상호작용 단계**: 공공정보 안내와 양방향 소통 수준.
 - **거래 단계(Transaction Stage)**: 신청·결제·결과 통지의 온라인 완결 수준.

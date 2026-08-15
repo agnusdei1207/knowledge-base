@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파장 분할 다중화(Wavelength Division Multiplexing, WDM)**: 단일 광섬유(Optical Fiber) 코어 내에 서로 다른 개별 빛의 파장(Wavelength, $\lambda$)을 결합(Mux)하여 독립된 다중 데이터 채널을 동시에 병렬 전송하는 광 다중화 기술이다.
 - **저밀도 파장 분할 다중화(Coarse Wavelength Division Multiplexing, CWDM)**: 20nm의 널찍한 채널 간격을 적용하여 비냉각(Uncooled) 레이저 소자로 제작함으로써 설치 비용을 낮춘 단거리 광 다중화 기술이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인접 채널 간섭(Adjacent Channel Interference)**: DWDM과 같이 파장 간격이 매우 좁아질 때(50GHz 이하), 이웃한 파장 채널 간 파장 겹침 및 사파 혼합(FWM)으로 인해 광 신호 품질이 저하되는 현상이다.
 - **광 신호대잡음비(Optical Signal-to-Noise Ratio, OSNR)**: 광 영역에서 수신된 빔 신호 전력 대비 EDFA 광증폭기가 유발한 자연방출 잡음(ASE Noise) 전력의 비율(dB)이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜스폰더(Transponder / OEO Transponder)**: 표준 회선 신호(Grey Optical)를 WDM 전용 고정밀 ITU-T 규격 파장(Colored Optical)으로 상호 광-전-광(O-E-O) 변환하는 인터페이스 장치이다.
 - **에르븀 첨가 광섬유 증폭기(Erbium-Doped Fiber Amplifier, EDFA)**: 광 신호를 전기 신호로 재변환하지 않고 에르븀 이온 특성을 이용해 C-Band(1530~1565nm) 광 파장들을 아날로그 상태 그대로 일괄 직접 증폭하는 핵심 광 증폭기이다.
@@ -89,7 +89,7 @@ WDM 구성요소
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파장 연속성(Wavelength Continuity Constraint)**: 광 경로(Lightpath) 상에 파장 변환기(Wavelength Converter)가 없을 경우, 출발지부터 목적지 노드까지 동일한 파장 번호($\lambda_k$)가 전 구간 통틀어 연속 비어있어야 하는 제약 조건이다.
 - **광 복호 여유(Optical Decoding Margin)**: 수신 트랜스폰더의 최소 요구 OSNR 대비 실제 도착한 OSNR 간의 데시벨(dB) 안전 여유 수치이다.
@@ -136,7 +136,7 @@ WDM 구성요소
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스펙트럼 단편화(Spectrum Fragmentation)**: Flex-Grid 광망에서 파장 채널의 개설과 해제가 반복되면서 주파수 대역 내에 파편화된 빈 슬롯이 산재하여 대용량 채널을 연속 할당하지 못하는 현상이다.
 
@@ -161,7 +161,7 @@ WDM 구성요소
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **광 손실(Optical Loss / Attenuation)**: 광섬유 접속점(Splice), 커넥터 및 유리 매체 자체 감쇠로 인해 빛의 세기(dBm)가 줄어드는 물리적 손실 현상이다.
 
@@ -180,7 +180,7 @@ WDM 구성요소
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신규 광섬유 없는 용량 확장(Capacity Expansion without Fiber Trenching)**: WDM 파장 다중화를 적용하여 물리적 토목 공사 없이 기존 광케이블 인프라의 전송 용량을 극대화하는 경제적 효과이다.
 - **광 경로 공학 제약(Optical Path Engineering Constraints)**: OSNR 하락, 색분산, 사파 혼합 비선형성 및 파장 연속성을 통합 계산하여 광전송망을 설계해야 하는 기술적 경계이다.

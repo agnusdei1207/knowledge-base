@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Chaos Engineering (카오스 엔지니어링)**: 통제된 장애로 분산 System의 복원력 가설을 검증하는 규율
 - **Fault Injection (장애 주입)**: 지연•중단•자원 고갈 등 실패 조건을 의도적으로 만드는 기법
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blast Radius (영향 반경)**: 실험 실패가 영향을 줄 수 있는 최대 자원•Traffic 범위
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Resilience Hypothesis (복원력 가설)**: 특정 장애에도 정상 지표가 유지될 것이라는 검증 명제
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Abort Condition (중단 조건)**: 사용자 지표가 안전 한계를 넘을 때 실험을 멈추는 규칙
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GameDay**: 여러 Team이 합의한 장애 시나리오를 실행•관측•회고하는 훈련
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kill Switch**: Abort 조건 도달 시 모든 장애 주입을 즉시 중지하는 장치
 

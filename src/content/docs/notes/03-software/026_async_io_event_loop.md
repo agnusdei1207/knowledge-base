@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Async I/O (비동기 I/O)**: 프로세스가 I/O 요청 인가 후 결과를 기다리지 않고 즉시 제어권을 반환받아 타 작업을 수행하며, I/O 완료 시 시그널/콜백으로 결과를 수신받는 기법.
 - **Event Loop (이벤트 루프)**: 단일/소수의 스레드가 무한 루프를 구동하며, OS Multiplexing 엔진(epoll/kqueue)으로부터 전달된 I/O Event들을 Event Queue에서 인출하여 전용 Callback Handler에 디스패치하는 구조.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Non-blocking I/O**: I/O Read/Write 호출 시 커널 데이터 미준비 시에도 블록되지 않고 즉시 `EWOULDBLOCK / EAGAIN` 에러 코드를 반환받아 타 작업을 계속하는 기법.
 - **Reactor Pattern**: 이벤트 루프가 동시 유입되는 서비스 요청 Event를 감지(Demultiplexing)하여 등록된 EventHandler로 연산을 디스패치하는 비동기 이벤트 처리 디자인 패턴.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **epoll / kqueue / io_uring**: Linux와 BSD 계열에서 준비 또는 완료 이벤트를 전달하는 I/O 인터페이스.
 - **Worker Thread Pool**: Event Loop 내에서 CPU 연산이 오래 걸리는 작업(암호화, 대용량 계산)이 수행되어 Event Loop가 Block되는 사태를 막기 위해 위임하는 백그라운드 스레드 풀.
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Loop Blocking**: 이벤트 루프에서 긴 블로킹•계산 작업을 실행해 다른 이벤트 처리가 지연되는 현상.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **io_uring**: 제출 큐와 완료 큐 링으로 비동기 I/O 요청과 결과 전달을 묶는 Linux 인터페이스.
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backpressure (역압력)**: Event Queue에 처리 불가능할 정도의 I/O Event가 유입될 때, 유입 소켓 읽기(`socket.pause()`)를 차단하여 시스템 OOM을 막는 기술.
 
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비동기 이중화 선택 기준(Async I/O Selection Criteria)**: 동시 세션 수 타깃, I/O 대 연산 작업 비율, 프레임워크 생태계에 기반한 선택 체계.
 

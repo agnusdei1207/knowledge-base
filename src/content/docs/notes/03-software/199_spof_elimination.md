@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SPOF (Single Point of Failure, 단일 장애점)**: 시스템에서 해당 구성요소 하나만 고장 나도 전체 서비스가 완전히 중단되는 취약점. 다중화, 경로 이중화, 소프트웨어 내결함성 설계로 제거 대상.
 - **Dependency Map (의존성 지도)**: 서비스가 정상 동작하기 위해 의존하는 모든 구성요소(서버, DB, DNS, 전원, 네트워크 스위치 등)와 그 관계를 시각화한 지도. SPOF를 찾기 위한 선행 분석 도구.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Independent Failure Domain (독립 장애 도메인)**: 전원·네트워크·랙·가용 영역(AZ) 등을 물리적으로 분리하여, 하나의 고장 원인이 두 도메인에 동시에 영향을 미칠 수 없도록 격리한 자원 경계.
 
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fault Injection (장애 주입)**: 프로덕션 또는 스테이징 환경에서 의도적으로 서버 종료, 네트워크 단절, 디스크 가득 참 등의 장애를 발생시켜 대체 경로와 자동 복구 절차가 실제로 동작하는지 검증하는 기법.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cascading Failure (연쇄 장애)**: 한 서비스의 장애가 이를 호출하는 상위 서비스의 스레드·자원을 모두 소진시키고, 이것이 다시 더 상위 서비스를 마비시키는 도미노 현상. Circuit Breaker로 방지.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Graceful Degradation (점진적 기능 저하)**: 전체 서비스가 완전히 멈추는 대신, 의존 컴포넌트 장애 시 비핵심 기능만 비활성화하고 핵심 기능은 축소된 형태로 계속 제공하는 소프트웨어 내결함성 전략.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blast Radius (피해 반경)**: 하나의 장애·사고가 실제로 영향을 미치는 범위. 마이크로 세그멘테이션, 독립 장애 도메인 설계로 Blast Radius를 최소화하는 것이 SPOF 제거의 핵심 목표.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SPOF Audit (단일 장애점 감사)**: 신규 시스템 도입 또는 아키텍처 변경 시 의존성 지도와 FMEA를 갱신하여 새로운 SPOF가 생겨나지 않았는지 주기적으로 검토하는 거버넌스 활동.
 

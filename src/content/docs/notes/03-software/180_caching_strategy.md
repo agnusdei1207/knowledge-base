@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache (캐시)**: 데이터베이스(DB) 조회의 지연(Latency)을 줄이고 부하를 분산시키기 위해, 자주 사용되는 데이터를 메모리(Redis, Memcached)에 임시 저장하는 고속 데이터 계층.
 - **Cache-Aside (캐시 어사이드 / Look-Aside)**: 데이터를 읽을 때 항상 캐시를 먼저 확인하고, 없으면 DB에서 읽어온 후 캐시에 밀어넣는 가장 보편적이고 안전한 지연 적재(Lazy Loading) 전략.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Invalidation (캐시 무효화)**: DB의 데이터가 변경(Update/Delete)되었을 때, 캐시에 남아있는 과거 데이터(Stale Data)를 강제로 지워버리는 작업. Cache-Aside의 핵심 쓰기 패턴.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TTL (Time To Live)**: 캐시에 저장된 데이터가 유효한 시간(수명). TTL이 만료되면 해당 데이터는 메모리에서 자동 삭제(Eviction)되며, 다음 요청 시 DB에서 새로 조회.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Write-Behind (Write-Back)**: 모든 데이터를 일단 캐시에만 아주 빠르게 쓰고(응답 완료), 백그라운드 스레드가 모아두었다가 나중에(Asynchronous) 한꺼번에 DB에 벌크로 밀어넣는 고성능 쓰기 전략.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Miss (캐시 미스)**: 캐시에 찾는 데이터가 없어 결국 느린 원본 DB까지 다녀와야 하는 상황. 이것이 반복되면 캐시를 도입한 의미가 퇴색됨.
 
@@ -136,7 +136,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Stampede (캐시 스탬피드 / Thundering Herd)**: 매우 핫(Hot)한 데이터의 TTL이 만료된 순간, 수만 개의 동시 요청이 전부 캐시 미스를 내고 동시에 DB로 돌진하여 DB가 즉사하는 대형 장애 현상.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐싱 전략 수립 기준**: 데이터 정합성 요구 수준(강결합 vs 최종 일관성), 읽기/쓰기 비율 패턴(Read-Heavy vs Write-Heavy), 장애 전파 차단(Circuit Breaker)에 의거한 체계.
 

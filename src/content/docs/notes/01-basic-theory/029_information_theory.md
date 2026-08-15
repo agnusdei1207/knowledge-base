@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정보이론(Information Theory)**: 사건의 불확실성을 정보량으로 정량화해 압축과 통신의 한계를 분석하는 이론이다.
 - **자기 정보량**: 확률 $p(x)$인 사건 하나의 놀라움을 $-\log_2p(x)$로 나타낸 값이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **엔트로피(Entropy)**: 정보원의 평균 정보량이자 무손실 압축의 이론적 하한이다.
 - **채널 용량(Channel Capacity)**: 임의로 낮은 오류율로 신뢰 전송할 수 있는 최대 정보율이다.
@@ -63,7 +63,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소스 부호화(Source Coding)**: 정보원의 중복을 제거해 평균 부호 길이를 줄이는 과정이다.
 - **채널 부호화(Channel Coding)**: 오류 검출•정정용 여분 비트를 붙여 전송 신뢰도를 높이는 과정이다.
@@ -99,7 +99,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상호정보량 $I(X;Y)$**: 수신값 $Y$를 관측해 줄어든 송신값 $X$의 불확실성이다.
 - **가산 백색 가우시안 잡음 채널(Additive White Gaussian Noise Channel, AWGN)**: 전 대역에 균일한 가우시안 잡음이 더해지는 채널 모델이다.
@@ -152,7 +152,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 길이(Block Length)**: 한 번의 부호화와 복호화에서 함께 처리하는 기호 또는 비트의 수이다.
 - **대칭성**: 상호정보량에서 $I(X;Y)=I(Y;X)$가 성립해 방향을 구분하지 않는 성질이다.
@@ -174,7 +174,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **변조(Modulation)**: 디지털 정보를 반송파의 진폭•주파수•위상 변화로 바꿔 채널에 싣는 과정이다.
 - **적응형 부호화(Adaptive Coding)**: 정보원 분포나 채널 상태에 맞춰 부호 길이와 코드율을 조정하는 방식이다.
@@ -201,7 +201,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **설계 경계**: 무손실 압축에는 엔트로피 하한, 신뢰 전송에는 채널 용량 상한을 적용하는 기준이다.
 

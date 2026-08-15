@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **회귀 분석(Regression Analysis)**: 입력 변수와 결과 변수 간의 조건부 관계를 모형화하여 영향력 추정 및 값을 예측하는 통계적 분석 기법.
 - **독립 변수(Independent Variable)**: 결과를 설명하는 입력 변수(Predictor, Feature).
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잔차**: 관측값에서 회귀 모형의 예측값을 뺀 차이다.
 - **등분산성**: 입력이나 예측 구간이 달라도 잔차가 흩어진 폭이 일정한 성질이다.
@@ -60,7 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **회귀 계수**: 다른 입력이 같을 때 입력 한 단위 변화에 따른 예측값의 변화 방향과 크기이다.
 - **분산 팽창 계수(Variance Inflation Factor, VIF)**: 입력 변수 간 연관성이 회귀 계수 분산을 키운 정도이다.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최소제곱법(Ordinary Least Squares, OLS)**: 잔차 제곱합이 최소인 회귀 계수를 추정하는 방법이다.
 - **일반화 오차**: 학습에 사용하지 않은 새 데이터에서 발생하는 예측 오차이다.
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상관 분석**: 두 변수의 공동 변화 방향과 강도를 측정하지만 예측식이나 인과 방향은 주지 않는 분석이다.
 - **다중공선성**: 입력 변수끼리 강하게 연관돼 개별 회귀 계수 추정이 불안정한 상태이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이분산성**: 입력 구간에 따라 잔차 분산이 달라지는 상태이다.
 - **강건 표준오차**: 이분산성이 있어도 계수 불확실성을 타당하게 추정하도록 보정한 표준오차이다.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 오차**: 학습에 쓰지 않은 데이터로 측정한 예측 오차이다.
 - **입력 범위**: 회귀 모형이 관계를 학습해 예측 근거를 갖는 독립 변수의 관측 구간이다.

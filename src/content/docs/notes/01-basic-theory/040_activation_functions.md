@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **활성화 함수(Activation Function)**: 뉴런의 가중합(Weighted Sum)을 비선형 출력으로 변환하여 신경망의 비선형성(Nonlinearity)을 학습하게 하는 함수.
 - **비선형성(Nonlinearity)**: 선형 결합을 넘어 복잡한 데이터 구조를 학습할 수 있는 굽은 결정 경계의 특성.
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **도함수**: 입력 변화에 대한 출력 변화율로 역전파 기울기의 통과 배율이다.
 - **기울기 소실**: 작은 도함수가 층마다 곱해져 앞쪽 층의 학습 신호가 거의 사라지는 현상이다.
@@ -63,7 +63,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가중합 $z=Wx+b$**: 입력과 가중치의 곱을 합하고 편향을 더한 활성화 함수 입력이다.
 - **활성값 $a=f(z)$**: 가중합에 활성화 함수를 적용해 다음 층으로 전달하는 출력이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 기울기**: 출력 기울기에 활성화 함수 도함수를 곱해 이전 층으로 전달하는 값이다.
 - **손실 함수**: 예측값과 정답의 차이를 학습이 최소화할 하나의 수치로 계산하는 함수이다.
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sigmoid**: 입력을 0~1로 압축하며 양끝에서 포화하는 함수이다.
 - **Tanh**: 입력을 -1~1의 영중심 값으로 압축하는 함수이다.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **누설 정류 선형 유닛(Leaky Rectified Linear Unit, Leaky ReLU)**: 음수 구간에 작은 기울기를 남기는 변형이다.
 - **Softmax**: 여러 클래스 점수를 합이 1인 확률 분포로 바꾸는 다중 분류 출력 함수이다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 기준**: 출력 의미와 도함수의 포화•음수 구간 특성으로 활성화 함수를 고르는 기준이다.
 

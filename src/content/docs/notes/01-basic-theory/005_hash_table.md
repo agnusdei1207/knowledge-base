@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **해시 테이블(Hash Table)**: 키를 버킷 인덱스로 변환하여 키·값 쌍을 $O(1)$ 평균 시간에 저장 및 조회함.
 - **버킷(Bucket)**: 해시 테이블에서 동일 인덱스에 할당되는 데이터 엔트리 저장 메모리 공간.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **균등 해싱 가정(SUHA, Simple Uniform Hashing Assumption)**: 각 키가 모든 버킷에 독립적이고 동일한 확률로 고르게 매핑된다는 분석 전제.
 - **충돌(Collision)**: 서로 다른 두 개 이상의 키가 동일한 버킷 인덱스로 변환되는 현상.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **해시 함수(Hash Function)**: 임의 길이 키를 고정 크기 정수 해시값 및 버킷 인덱스로 매핑하는 매핑 함수.
 - **엔트리(Entry)**: 해시 테이블에 함께 적재되는 키(Key)와 값(Value)의 바인딩 단위.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **버킷 인덱스(Bucket Index)**: 해시값을 버킷 배열 크기로 모듈러 연산하여 산출한 실제 메모리 배열 주소.
 - **원본 키 대조(Key Equality Check)**: 충돌 후보 엔트리의 키와 검색 대상 키의 일치 여부를 정밀 검증함.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **균형 이진 탐색 트리(BBST, Balanced Binary Search Tree)**: 키 순서 보존 및 범위 조회를 $O(\log n)$ 시간에 보장함.
 - **정렬 배열(Sorted Array)**: 키 순서대로 연속 메모리에 저장하여 이진 탐색을 지원하는 배열.
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **재해싱(Rehashing)**: 버킷 배열 크기를 2배 등으로 확장하고 기존 엔트리들의 해시 인덱스를 재산정함.
 - **무작위 해시 시드(Randomized Hash Seed)**: 런타임마다 임의 난수를 시드로 적용하여 해시 예측 공격을 차단함.
@@ -184,7 +184,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **적재율 통제(Load Factor Control)**: 임계 적재율 도달 시 자동 리사이징을 수행하여 충돌 탐사 길이를 차단함.
 

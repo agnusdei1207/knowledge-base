@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고장 형태 및 영향 분석(Failure Mode and Effects Analysis, FMEA)**: 시스템 기능, 부품, 공정 등에서 발생할 수 있는 잠재 고장 모드를 식별하고 그 원인과 영향, 현재의 예방 통제 수단을 체계적으로 분석하여 조치 우선순위를 정하는 상향식 위험 관리 기법이다.
 - **고장 모드(Failure Mode)**: 요구되는 기능이 전혀 수행되지 않거나 의도한 사양과 다르게 작동하는 구체적인 실패의 형태와 방식을 의미한다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **원인-고장 모드-영향 관계(Cause-Mode-Effect Relationship)**: 특정 원인이 구체적인 실패 형태(고장 모드)를 유발하고, 이 실패가 상위 시스템이나 최종 고객에게 피해로 파급되는 일련의 인과 사슬 구조이다.
 - **현재 통제(Current Controls)**: 고장 원인 발생을 사전에 예방하거나, 이미 발생한 고장 모드가 고객에게 전달되기 전에 내부에서 발견하도록 시스템에 도입되어 있는 현행 통제 수단이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심각도(Severity, S)**: 해당 고장이 발생했을 때 사용자 안전, 핵심 업무 영속성, 고객 만족도 등에 미치는 피해의 정도를 1~10점으로 평가한 척도이다.
 - **발생도(Occurrence, O)**: 고장을 유발하는 근본 원인이 실제 운영 환경에서 얼마나 자주 발생할 것인가를 빈도나 확률로 추정한 척도이다.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 우선순위 수(Risk Priority Number, RPN)**: 심각도(S), 발생도(O), 검출도(D)의 점수를 곱하여 도출(1~1000)하며, 개선 조치가 필요한 항목들의 상대적 우선순위를 결정하는 보조 지표이다.
 - **조치 효과 검증(Verification of Action Effectiveness)**: 제안된 개선 조치 완료 후 설계나 공정 변경을 통해 고장 원인이 제거되거나 발생 빈도가 줄었음을 증거로 확인하고, S/O/D 지수를 재평가하는 필수 검증 절차이다.
@@ -134,7 +134,7 @@ FMEA 분석팀
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **설계 고장 형태 및 영향 분석(Design Failure Mode and Effects Analysis, DFMEA)**: 제품 설계 초기 단계에 기능 및 구조적 관점에서 잠재 고장 모드를 찾아내어 설계 결함을 최소화하는 FMEA의 한 분야이다.
 - **공정 고장 형태 및 영향 분석(Process Failure Mode and Effects Analysis, PFMEA)**: 제조, 조립, 서비스 제공 과정에서 작업 방식, 설비, 작업자 오류 등으로 인한 공정상 잠재 고장을 분석하는 기법이다.
@@ -152,7 +152,7 @@ FMEA 분석팀
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고심각도 저빈도 위험(High Severity, Low Occurrence Risk)**: 발생 확률이 매우 낮아 전체 RPN 수치는 작더라도, 실제 발생 시 인명 피해나 시스템 마비 등 치명적 결과를 초래해 예외적인 최우선 조치가 요구되는 위험 항목이다.
 - **점수 곱의 왜곡(Distortion of RPN Multiplication)**: S, O, D의 곱셉 방식 때문에 심각도가 극단적으로 높은 항목과 발생 빈도만 높은 항목이 동일한 RPN을 갖게 되어 치명적 위험이 관리 우선순위에서 밀리는 통계적 한계이다.
@@ -175,7 +175,7 @@ FMEA 분석팀
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 기반 우선순위(Risk-based Prioritization)**: RPN 점수에만 의존하지 않고 고심각도, 법규 위반, 안전 직결 위험을 절대적 우선순위로 설정한 후, 발생도와 검출도를 순차적으로 개선하는 실무적 위험 관리 원칙이다.
 - **우선조치 결정(Priority Action Decision)**: 시스템 평가 시 잠재적 고장 중 가장 치명적인 영향을 미치는 요소를 도출하고 가용 자원을 집중하여 선제적으로 제거하는 의사결정 과정이다.

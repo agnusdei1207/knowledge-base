@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영지식 증명(Zero-Knowledge Proof, ZKP)**: 비밀값을 공개하지 않고 정해진 관계가 성립한다는 사실만 증명하는 암호 프로토콜이다.
 - **명제(Statement)**: 증명자가 참이라고 주장하고 검증자가 확인할 공개 주장이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **완전성(Completeness)**: 명제가 참이고 올바른 비밀 증거를 소유한 경우, 정직한 검증자는 이를 확률 1에 가깝게 참으로 승인하는 성질.
 - **건전성(Soundness)**: 명제가 거짓인 경우, 부정직한 증명자가 검증자를 속여 거짓을 참으로 인정받을 수 없는 수학적 성질.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관계(Relation)**: 공개 입력(Public Input)과 비밀 증거(Witness)가 성립해야 하는 수학적 조건식.
 - **회로(Circuit)**: 검증하려는 업무 제약 논리를 덧셈과 곱셈 문(Gate)의 산술 회로(Arithmetic Circuit)로 표현한 데이터 구조.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문맥 결합(Context Binding)**: 서비스 요청자 ID, 챌린지 난수, 세션 파라미터를 공개 입력에 바인딩하여 생성된 증명의 재사용(Replay)을 방지하는 기법.
 - **증명 파라미터(Proving Key)**: 증명자가 연산 회로에 비밀 증거를 투입하여 증명을 생성할 때 사용하는 공개 파라미터.
@@ -144,7 +144,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **zk-SNARK(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge)**: 증명 크기가 수백 바이트로 매우 작고 검증 속도가 빠르나 초기 신뢰 설정(Trusted Setup)이 필요한 방식.
 - **zk-STARK(Zero-Knowledge Scalable Transparent Argument of Knowledge)**: 신뢰 설정 없이 투명(Transparent)하며 양자 내성을 제공하지만 증명 크기가 상대적으로 큰 방식.
@@ -167,7 +167,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISO/IEC 9798-5:2009(ISO/IEC 9798-5 Standard)**: 영지식 기법을 활용한 신원 인증 프로토콜 규정 국제 표준.
 - **신뢰 설정(Trusted Setup)**: zk-SNARK에서 공통 파라미터 생성 시 사용된 무작위 파라미터(Toxic Waste)를 완전 파기해야 하는 절차.
@@ -189,7 +189,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영지식 증명 선택(ZKP Scheme Selection)**: 프라이버시 보호 수준, 증명 크기, 신뢰 설정 조건 및 연산 비용을 반영한 기술 채택 지침.
 

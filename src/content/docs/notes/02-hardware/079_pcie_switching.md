@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PCIe(Peripheral Component Interconnect Express)**: 고속 직렬 점대점(Point-to-Point) 레인(x1, x4, x8, x16)을 사용하는 대표적인 온보드/서버 인터커넥트 규격.
 - **PCIe 스위치(PCIe Switch)**: 1개의 업스트림(Upstream) 포트를 복수의 다운스트림(Downstream) 포트로 패키징 라우팅하여 PCIe 엔드포인트를 확충하는 칩셋.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TLP(Transaction Layer Packet)**: PCIe 상에서 Read/Write, Completion 패킷 정보를 담고 있는 트랜잭션 계층 패킷.
 - **P2P(Peer-to-Peer) 전송**: GPU<->NVMe, GPU<->GPU 간 트랜잭션이 CPU/DRAM 호스트 메모리를 거치지 않고 PCIe 스위치 내부에서 직통 전송되는 기술.
@@ -62,7 +62,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Root Complex**: CPU 및 호스트 DRAM 메모리 하이어라키와 PCIe 버스 패브릭을 결합하는 최상위 노드.
 - **Upstream Port**: PCIe 스위치 상에서 Root Complex 또는 상위 스위치를 향해 결합하는 입력 레인 포트.
@@ -95,7 +95,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Requester ID & Tag**: 완료 TLP를 원래 요청과 대응시키는 요청자 식별자와 태그.
 - **Credit-Based Flow Control**: 수신 측 버퍼 공간 수치(Credit)를 송신 측이 사전 확인하여 패킷 드롭을 방지하는 흐름 제어.
@@ -139,7 +139,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Direct Attachment**: PCIe 스위치 없이 CPU/Root Complex 레인에 엔드포인트를 1:1 직접 결합하는 토폴로지.
 
@@ -157,7 +157,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Downtraining**: 신호 잡음이나 레이아웃 결함으로 인해 Gen5 x16 레인이 Gen4 또는 x4/x8로 물리 하향 동작하는 현상.
 - **IOMMU(Input-Output MMU)**: 가상 머신(VM) 및 P2P DMA 연산 시 메모리 주소 변환 및 영역 침범을 격리하는 하드웨어.
@@ -178,7 +178,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PCIe 선택 기준(PCIe Architecture Selection Criteria)**: 엔드포인트 팬아웃 수량, P2P 전송 수요 및 오버서브스크립션 비율에 기초한 설계 체계.
 

@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스 목표·측정 기준·책임의 합의.
 - **가치 흐름(Value Stream)**: 수요를 가치로 전환하는 활동·관행·역할 경로.
@@ -133,7 +133,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ITIL v3 서비스 생명주기(Service Lifecycle)**: 전략·설계·전환·운영·개선 단계 모델.
 

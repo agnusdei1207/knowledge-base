@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **온라인 신속 신원확인 2(Fast Identity Online 2, FIDO2)**: 비밀번호 없이 비패스워드(Passwordless) 및 피싱 저항성 공개키 기반 인증을 제공하는 W3C 및 FIDO 얼라이언스 국제 표준.
 - **웹 인증(Web Authentication, WebAuthn)**: 브라우저 JavaScript API 수준에서 RP 서버와 인증자(Authenticator) 간 자격증명 생성 및 검증을 표준화한 W3C 명세.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RP ID**: 자격 증명을 특정 FQDN 도메인(예: example.com)에 엄격히 결속시키는 식별자.
 - **Origin**: 브라우저가 인식하는 요청 발신자의 Scheme, Host, Port 조합.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RP 서버(Relying Party Server)**: Challenge 난수를 발급하고, 자격증명 등록 시 전달받은 공개키로 Challenge 서명을 검증하는 백엔드.
 - **인증자(Authenticator)**: 플랫폼 보안 칩(Platform) 또는 외부 보안키(Cross-Platform)로 개인키 생성 및 서명을 집행하는 하드웨어/소프트웨어.
@@ -88,7 +88,7 @@ FIDO2 인증 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자격 증명 ID(Credential ID)**: RP 서버가 사용자 계정과 맵핑된 등록 공개키를 검색하기 위한 고유 식별값.
 - **도전값•RP 정책 생성**: RP 서버가 난수 Challenge와 UV/UP 요구조건을 묶어 전달하는 단계.
@@ -136,7 +136,7 @@ WebAuthn 인증 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FIDO2 구성 역할 분리(FIDO2 Sub-specs)**: 애플리케이션-브라우저 간 WebAuthn 명세와, 브라우저-하드웨어 인증자 간 CTAP2 명세의 표준 분담 구조.
 
@@ -154,7 +154,7 @@ WebAuthn 인증 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C WebAuthn Level 2/3**: 최신 브라우저 및 패스키(Passkey) 동기화를 지원하는 W3C 웹 인증 레벨 스펙.
 - **FIDO CTAP 2.1/2.2**: Enterprise Attestation 및 바이오인증 보안성이 강화된 인증자 인터페이스 규격.
@@ -175,7 +175,7 @@ WebAuthn 인증 요청
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증자 수명 관리(Authenticator Lifecycle Management)**: 패스키 등록, 기기 추가, 분실 폐기 및 비상 복구를 메인 FIDO2 인증과 동등 수준의 신원확인으로 통제하는 정책.
 

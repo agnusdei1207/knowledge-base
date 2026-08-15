@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO 26262 (차량 기능 안전 국제 표준)**: 자동차에 탑재되는 전기/전자(E/E: Electrical/Electronic) 시스템의 고장으로 인한 인명 사고 위험을 방지하기 위해, 개발 전 수명주기(V-Model) 동안 정립해야 할 국제 기능 안전(Functional Safety) 표준.
 - **ASIL (Automotive Safety Integrity Level, 자동차 안전 무결성 수준)**: ISO 26262의 핵심 평가 지표로, 위험원 분석(HARA)을 통해 위험도를 ASIL A(최저)부터 ASIL D(최고 위험)까지 4단계로 등급화한 무결성 수준.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3-Factor ASIL Determination**: 심각도(Severity, S0~S3), 노출 빈도(Exposure, E0~E4), 제어 가능성(Controllability, C0~C3) 3가지 요소를 조합하여 ASIL 등급 도출.
 - **Bi-directional Traceability (양방향 추적성)**: Safety Goal에서 출발하여 SW 요구사항(SSR), 소스코드, 단윗/통합 테스트 케이스까지 양방향으로 추적 가능해야 하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ASIL Decomposition (ASIL 분해)**: 최고 등급인 ASIL D 요구사항을 독립적인 하드웨어/소프트웨어 아키텍처 다중화(Redundancy)를 통해 ASIL B(D) + ASIL B(D) 형태로 분해하여 개발 부담을 완화하는 기법.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MISRA-C / CERT-C**: ISO 26262 Part 6에서 ASIL C/D 등급 소프트웨어 작성 시 필수 적용하도록 강제하는 안전 코딩 컨벤션 규칙.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MC/DC Coverage (ASIL D 전용)**: 개별 조건식이 전체 분기 결과에 독립적으로 영향을 미침을 검증하는 최고 난이도의 화이트박스 커버리지.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SOTIF (ISO 21448, Safety of the Intended Functionality)**: 시스템 구성요소의 고장이 없더라도, 자율주행 센서(카메라/라이더)의 환경 인지 한계(안개, 악천후)로 인해 발생하는 의도된 기능의 안전성 한계를 다루는 확장 표준.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기능 안전 수립 기준(Functional Safety Standards)**: ISO 26262 Part 1~12 표준, HARA 기반 ASIL 등급 및 SOTIF 연계성에 의거한 체계.
 

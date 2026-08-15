@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Socket Server**: 단일 파워 메인보드 상에 2개 이상의 독립 물리 CPU 소켓(2P, 4P, 8P)을 장착하여 고성능 연산 및 메모리 대역폭을 확장하는 서버 시스템.
 - **SMP(Symmetric Multiprocessing)**: 여러 개의 CPU 소켓 코어들이 하나의 대칭적 메모리 공간과 OS 커널을 대등하게 공유하여 명령을 병렬 수행하는 아키텍처.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interconnect Fabric(UPI/Infinity Fabric)**: 소켓 간 캐시 일관성 패킷, 원격 메모리 억세스 및 I/O 억세스를 초저지연 시리얼 전송하는 소켓 인터페이스 (Intel UPI, AMD Infinity Fabric).
 - **Local vs Remote Access**: 같은 소켓 메모리와 인터커넥트를 거친 원격 메모리의 지연·대역폭 차이.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA Node**: 1개의 물리 CPU 소켓 코어 그룹, L1/L2/L3 캐시, 메모리 컨트롤러 및 1차 파티션 로컬 DRAM으로 구성된 단위 블록.
 - **First-Touch Allocation**: OS 커널 상에서 메모리 페이지를 최초 할당 시 해당 요청을 발생시킨 CPU 코어의 로컬 NUMA Node DRAM에 최우선 할당하는 물리 정책.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Numactl / CPU Affinity**: 특정 멀티소켓 OS 런타임 상에서 프로세스 스레드 및 메모리 영역을 특정 NUMA 노드 코어 및 DRAM으로 강제 바인딩 고정하는 Linux 도구/기능.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UMA(Uniform Memory Access)**: 모든 CPU가 메모리에 거의 동일한 지연 특성으로 접근하는 구조.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Sharing**: 독립 데이터가 같은 캐시 라인을 공유해 불필요한 일관성 무효화를 유발하는 현상.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티소켓 확장 기준(Multi-Socket Adoption Criteria)**: 업무 워크로드의 스케일아웃 vs 스케일업 요구성, NUMA 튜닝 가능성 및 TCO 단가에 기반한 수립 체계.
 

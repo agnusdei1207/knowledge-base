@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SCI (Software Carbon Intensity, 소프트웨어 탄소 집약도)**: 소프트웨어 실행으로 인해 발생하는 운영 탄소(O)와 하드웨어 생산에서 비롯된 내재 탄소(M)의 합계를, 해당 소프트웨어가 처리한 유용한 기능 단위(R)로 나눈 탄소 효율 지표.
 - **Green Software Foundation (그린 소프트웨어 재단)**: SCI 스펙을 정의하고 ISO 표준(ISO 21031) 제정을 추도한 단체로, 마이크로소프트, 구글, 어도비 등이 참여하는 소프트웨어 탄소 중립화 주도 산업 연합.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Carbon Aware Computing (탄소 인식 컴퓨팅)**: 그리드(전력망)의 탄소 집약도(I)가 낮은 시간대(태양광·풍력 발전 비중이 높을 때)나 지역에 컴퓨팅 워크로드를 몰아서 실행하여 같은 전력 소비로 탄소 배출을 줄이는 기법.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Telemetry (텔레메트리)**: 소프트웨어 실행 중 CPU 사용률, 메모리 소비량, 네트워크 I/O 등의 에너지 소비 관련 데이터를 자동으로 수집하고 모니터링하는 체계. SCI 계산의 핵심 원천 데이터.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLO (Service Level Objective, 서비스 수준 목표)**: 응답 시간 P99 < 200ms, 가용성 99.9% 등 서비스의 최소 품질 요건. SCI를 낮추려다 SLO를 위반하면 해당 최적화 방안은 채택 불가.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GHG Protocol (온실가스 프로토콜)**: 기업의 온실가스 배출을 범주화(Scope 1/2/3)하여 측정하는 글로벌 회계 표준. SCI는 소프트웨어 영역의 Scope 2·3 일부를 측정하는 특화 지표.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Carbon Intensity (탄소 집약도, I)**: 특정 시간대·지역에서 생산된 전력 1kWh당 배출되는 이산화탄소 환산량(gCO₂eq/kWh). 태양광·풍력이 많은 낮에는 낮고, 화력발전이 많은 밤에는 높음. 탄소 인식 컴퓨팅의 핵심 변수.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Demand Shaping (수요 조절)**: 에너지 비용이나 탄소 집약도가 낮은 시간대에 사용자의 행동을 유도(예: 업로드는 밤에, 미디어는 낮은 화질로)하여 소프트웨어의 전력 수요와 탄소 배출을 줄이는 그린 소프트웨어 전략.
 

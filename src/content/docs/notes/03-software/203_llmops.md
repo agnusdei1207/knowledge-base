@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LLM (Large Language Model, 대규모 언어 모델)**: 수천억 개의 매개변수를 가지고 방대한 텍스트 데이터로 사전 학습(Pre-training)된 생성형 AI 기반 언어 모델. GPT-4, Claude, Gemini 등이 대표적.
 - **LLMOps (Large Language Model Operations)**: MLOps를 LLM의 특성(비결정 응답, 프롬프트 의존성, 환각, 고비용 API 호출)에 맞게 확장한 운영 체계. 모델·프롬프트·RAG 구성을 버전 관리·평가·배포·감시하는 전 과정.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RAG (Retrieval-Augmented Generation, 검색 증강 생성)**: LLM이 고정된 학습 데이터의 지식 한계를 극복하기 위해, 사용자 질문에 관련된 외부 문서를 실시간으로 검색하여 LLM의 입력 컨텍스트에 제공함으로써 최신·도메인 특화 답변의 사실적 근거를 보강하는 패턴.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LLM Gateway (LLM 게이트웨이)**: 모든 LLM API 호출의 단일 진입점으로, 인증·모델 라우팅(비용 최적화)·요청 제한(Rate Limiting)·응답 캐싱·관측 로깅을 중앙에서 처리하는 구성요소.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Prompt Regression (프롬프트 회귀)**: 프롬프트를 수정한 후, 기존에 잘 동작하던 질문 유형에서 품질이나 응답 형식이 오히려 나빠지는 현상. 회귀 방지를 위해 수정 시마다 전체 평가 세트 재실행 필수.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fine-Tuning (미세조정)**: 사전 학습된 LLM의 가중치를 도메인 특화 데이터셋으로 추가 학습하여, 특정 톤·형식·도메인 지식을 모델에 내재화하는 기법. RAG보다 추론 비용이 낮지만 학습 비용이 높고 지식 업데이트가 어려움.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Promotion Gate (승격 게이트)**: 품질(RAGAS Score), 근거성(Faithfulness), 안전(Toxicity), 비용(토큰 예산) 등 각 항목의 합격 임계값을 모두 통과해야만 Production 배포를 허용하는 다중 기준 관문.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Configuration Promotion (구성 승격)**: 품질·근거성·안전·비용의 4가지 승격 게이트를 모두 통과한 모델+프롬프트+RAG 조합을 Production 라우팅 대상으로 지정하는 LLMOps의 최종 배포 결정 절차.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Cassandra**: Master 노드가 전혀 없는 완전한 피어-투-피어(Peer-to-Peer Ring) 아키텍처 기반의 대용량 분산 Wide-Column Store NoSQL 데이터베이스.
 - **Masterless P2P Architecture**: 마스터-슬레이브 구조의 단일 장애점(SPOF)을 제거하고, 클러스터 내 모든 노드가 동일한 권한으로 쿼리 분산과 데이터 저장을 분담하는 아키텍처.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Query-Driven Modeling**: RDBMS의 정규화와 달리, 오직 애플리케이션의 쿼리 패밀리(Query Table) 패턴에 맞춰 테이블을 각각 비정규화(Denormalization) 설계.
 - **Append-Only Write Mechanics**: CommitLog + MemTable + SSTable 구조를 활용해 100% 순차 디스크 I/O(Sequential Write)로 쓰기 처리량 극대화.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Partition Key**: 데이터를 어느 물리적 노드(Shard Ring)에 분산 저장할지 결정하는 해시 키.
 - **Clustering Key**: 동일 파티션 노드 내부에서 데이터를 물리적으로 정렬(ASC/DESC)해 두는 정렬 키.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quorum Consistency Equation ($R + W > N$)**: 읽기 복제본 수($R$) + 쓰기 복제본 수($W$) > 총 복제 계수($N$) 조건을 충족하면 항상 가장 최신의 데이터를 읽을 수 있음을 보증하는 수식.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Denormalization in Cassandra**: Cassandra는 조인(`JOIN`)이 없으므로, 쿼리 화면 1개당 테이블 1개를 만들어 동일한 데이터를 중복 저장하는 비정규화가 표준 지침.
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Tombstone Threshold Overwrite**: DELETE 연산 시 생성되는 묘비(Tombstone)가 파티션 내 수만 개 쌓이면 `SELECT` 스캔 시 읽기 타임아웃 장애가 발생하므로 주기적 Compaction 필수.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cassandra 수립 기준(Cassandra Design Standards)**: Masterless P2P 노드 구성, Query-Driven Data Modeling 및 $R+W>N$ Tunable Consistency에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **탈옥(Jailbreak Attack)**: 롤플레이, 역발상 시나리오, 적대적 접미사(Adversarial Suffix) 등 정교한 자연어 프롬프트를 이용해 LLM의 안전 정렬(Safety Alignment) 및 섭리 필터를 우회하여 유해 응답을 유도하는 공격이다.
 - **AI(Artificial Intelligence)**: 기계학습 및 딥러닝 알고리즘으로 추론, 생성, 지능형 작업을 수행하는 정보기술 체계이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **적대적 접미사(Adversarial Suffix Attack)**: 무의미해 보이는 토큰 조합(GCG 등)을 입력 프롬프트 뒤에 결합하여 LLM의 윤리 거부 확률을 암호학적으로 상쇄시키는 경사하강법 기반 공격이다.
 - **다중 턴 우회(Multi-turn Bypass Attack)**: 단일 프롬프트 대신 여러 단계의 질문 대화(Multi-turn)를 거치면서 모델의 경계심을 무력화하고 위험 의도를 분산 주입하는 공격 기법이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **안전 정책(Safety Policy)**: 법적•윤리적•보안 위험 주제(악성코드 생성, 개인정보 유출 등)의 거부 수준을 명시한 정책 기준 체계이다.
 - **가드레일(Guardrails)**: LLM 입출력 전후단에 위치하여 유해 텍스트, 인젝션, 탈옥 의도를 실시간 감지 차단하는 별도 독립 보조 AI/Rule 엔진이다.
@@ -95,7 +95,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **누적 문맥 위험 분류(Cumulative Context Risk Classification)**: 멀티 턴 대화 시 단일 프롬프트가 아닌 전체 세션의 누적 토큰 위험도를 평가하는 기술이다.
 - **정상 거부율(False Refusal Rate, FRR)**: 탈옥 방어를 강화하는 과정에서 정상적인 사용자의 안전한 질문까지 오탐하여 거부하는 비율이다.
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 턴 우회(Single-turn Bypass)**: DAN(Do Anything Now)과 같이 한 번의 거대한 프롬프트로 윤리 필터를 속이는 방식이다.
 - **자동화 탐색(Automated Adversarial Search / GCG Attack)**: GCG(Greedy Coordinate Gradient) 등 수학적 경사하강법으로 탈옥 토큰 조합을 기계적으로 자동 산출하는 방식이다.
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: LLM 애플리케이션 위험 1위(LLM01)로 탈옥을 지정한 표준화 기구이다.
 - **LLM01:2025**: 프롬프트 인젝션 및 탈옥 공격에 관한 OWASP 2025 표준 분류이다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **탈옥 피해 제한(Jailbreak Blast Radius Containment)**: 모델의 거부 정책이 뚫리더라도 Output Guardrail과 런타임 샌드박스를 통해 실질적 자산 피해를 무력화하는 방어 체계이다.
 

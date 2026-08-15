@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API(Application Programming Interface)**: 클라이언트 및 애플리케이션이 AI 모델과 추론 데이터를 주고받는 상호작용 엔드포인트이다.
 - **모델 추출 공격(Model Extraction Attack / Model Stealing)**: 대상 모델(Target Model)의 API를 대량으로 질의하고 반환되는 라벨, 확률(Softmax), 임베딩을 이용해 동일한 기능과 성능을 가진 대리 모델(Surrogate Model)을 훔쳐 복제하는 IP 탈취 공격이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **결정 경계(Decision Boundary)**: 고차원 특징 공간에서 모델이 클래스를 분류하는 수학적 분류 경계면이다.
 - **능동 질의(Active Query / Active Learning Query)**: 무작위 질의 대신 결정 경계 근처의 불확실성이 높은 샘플만 선별 질의하여 추출 효율을 극대화하는 수법이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **질의 생성기(Query Generator / Synthetic Query Synthesizer)**: GAN, Diffusion, OOD 샘플링 기법을 활용해 대상 모델의 결정 경계를 자극하는 합성 데이터를 자동 생성하는 모듈이다.
 - **대리 학습기(Surrogate Model Trainer)**: 대상 모델 API로부터 수집된 (입력, 출력) 페어 데이터셋을 바탕으로 학생 모델을 지도 학습시키는 엔진이다.
@@ -95,7 +95,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **불일치 경계 탐색(Disagreement Boundary Search)**: 대리 모델과 대상 모델 간 예측 결과가 상충하는 고위험 영역의 질의를 집중 생성하여 복제 오차를 교정하는 방식이다.
 - **카나리 입력(Canary Inputs / Trapdoor Data)**: 공격자가 모델을 추출하여 상용화할 때 원본 소유자의 데이터가 포함되었음을 증명하기 위해 삽입한 특수 함정 데이터이다.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **라벨 기반 추출(Label-only Extraction Attack)**: Top-1 클래스 라벨만 제공받는 조건에서 0/1 바이너리 질의를 대량 투입하여 복제하는 방식이다.
 - **점수 기반 추출(Score-based / Soft-label Extraction Attack)**: 클래스별 정밀 확률 벡터(Softmax)를 수집하여 손실 함수(KLDiv 등)를 직접 줄여 복제하는 방식이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **AI 100-2e2025 (NIST AI 100-2e2025 Privacy in AI)**: AI 모델의 IP 추출, 프라이버시 침해, 차분 보안 통제를 다룬 NIST 규격이다.
@@ -185,7 +185,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복제 비용(Reconstruction / Stealing Cost)**: 공격자가 대리 모델을 완성하기 위해 지출해야 하는 API 비용 및 시간을 의미한다.
 - **귀속(Attribution / Ownership Proof)**: 복제된 모델에 대해 법적 소유권 및 원본 무단 도용 여부를 기술적으로 증명해내는 능력이다.

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 정의 네트워킹(Software-Defined Networking, SDN)**: 제어 평면과 데이터 평면을 분리하고 논리적 중앙 제어기로 망 동작을 프로그래밍하는 네트워크 아키텍처이다.
 - **제어 평면 및 데이터 평면(Control Plane & Data Plane)**: 패킷의 최적 이동 경로를 결정하는 제어 평면과 결정된 라우팅 규칙에 따라 하드웨어 패킷을 고속 포워딩하는 데이터 평면의 분리 구성이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **논리적 중앙 제어(Logical Centralized Control)**: 복수의 물리 컨트롤러를 클러스터링하여 전체 토폴로지와 노드 상태를 단일 뷰(Single-pane-of-glass)로 제어하는 구조이다.
 - **텔레메트리 폐루프(Telemetry Closed-Loop Automation)**: 인밴드 네트워크 텔레메트리(INT) 모니터링 수치와 AI/ML 알고리즘을 결합하여 자율적으로 흐름 테이블 규칙을 보정·재배포하는 자동화 체계이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **노스바운드·사우스바운드 인터페이스(Northbound & Southbound Interface, NBI/SBI)**: NBI는 애플리케이션 요구사항을 컨트롤러에 전달하고, SBI는 컨트롤러가 결정한 흐름 규칙을 스위치 하드웨어에 주입하는 규격이다.
 - **흐름 규칙(Flow Rules / Flow Entry)**: 스위치 메모리(TCAM)에 저장되어 수신 패킷 매칭 조건(Match)과 수행 동작(Action: Forward, Drop, Modify)을 규정하는 테이블 엔트리이다.
@@ -90,7 +90,7 @@ SDN 3계층 참조 아키텍처
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 의도(Network Intent / Intent-Driven Networking)**: 운용자가 "단말 A와 B 간 10Gbps 대역폭 및 1ms 지연 보장"과 같이 결과 중심 요구조건을 선언하는 언어 표현식이다.
 - **텔레메트리(Network Telemetry / In-band Network Telemetry - INT)**: 데이터 패킷 헤더에 지연, 수신 스위치 ID, 큐 점유율을 적재하여 Real-time 트래픽 상태를 수집하는 모니터링 방식이다.
@@ -128,7 +128,7 @@ SDN 3계층 참조 아키텍처
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 정의 네트워킹 중앙 제어(SDN Centralized Control)**: 모든 스위치가 자체 라우팅 계산을 하지 않고 중앙 컨트롤러가 작성해 준 라우팅 엔트리대로 지정 이동하는 제어 방식이다.
 - **분산 제어(Distributed Routing Control / Traditional IP)**: 각 라우터가 이웃 라우터와 OSPF/BGP 제어 메시지를 주고받으며 독립적으로 분산 최단 경로 알고리즘을 계산하는 방식이다.
@@ -152,7 +152,7 @@ SDN 3계층 참조 아키텍처
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 동기화(State Synchronization / Consensus)**: 다중 SDN 컨트롤러 클러스터(Raft/Paxos) 노드 간 전역 네트워크 토폴로지 데이터베이스의 일관성을 동일하게 유지하는 기술이다.
 - **자동 절체(Automatic Failover & High Availability)**: 주 컨트롤러 고장 시 대기 컨트롤러가 제어 권한을 인수하는 고가용성 설계이다.
@@ -173,7 +173,7 @@ SDN 3계층 참조 아키텍처
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전역 정책 자동화(Global Policy Automation)**: 사람의 개입 없이 오픈 API와 AI 폐루프 텔레메트리를 결합해 네트워크 전체 인프라 제어를 실시간 자동화하는 상태이다.
 

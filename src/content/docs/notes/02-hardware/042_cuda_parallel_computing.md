@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CUDA(Compute Unified Device Architecture)**: NVIDIA GPU 기반 데이터 병렬 연산을 병렬 언어 확장으로 구현하는 생태계 및 프레임워크.
 - **호스트(Host)**: CUDA 커널 및 데이터를 준비하여 GPU로 전달하고 전체 제어를 총괄하는 CPU 실행 주체.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **커널(Kernel)**: GPU 스레드들이 독립 데이터 파이프라인 상에서 병렬로 구동하는 전용 함수.
 - **그리드(Grid)**: 동일 커널 호출에 의해 생성되어 실행되는 전체 스레드 블록들의 최상위 묶음.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **호스트 런타임(Host Runtime)**: 메모리 할당, 데이터 전송, 커널 런칭을 관장하는 C/C++ API 계층.
 - **커널 실행 계층(Kernel Execution Hierarchy)**: 그리드를 블록 단위로 SM에 매핑하고 하위 스레드를 디스패치하는 구조.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복사 엔진(Copy Engine)**: GPU 연산 코어와 독립적으로 DMA 기반 데이터 전송을 전담하는 HW 엔진.
 - **H2D/D2H(Host-to-Device / Device-to-Host)**: CPU 메모리와 GPU 전역 메모리 간 텐서 데이터를 이송하는 방향.
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SYCL**: 이종 가속기 지원을 위한 오픈 표준 C++ 기반 단일 소스 병렬 프로그래밍 모델.
 - **ND-range(N-Dimensional Range)**: SYCL에서 전체 글로벌 워크 아이템과 단일 워크 그룹의 배치를 정의하는 실행 범위.
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전역 동기화(Global Synchronization)**: 모든 스트림/스레드가 멈추어 불필요한 바이어 병목을 유발하는 상태.
 - **고정 호스트 메모리(Pinned Host Memory)**: 가상 메모리 페이징을 방지하여 DMA 복사 속도를 극대화하는 호스트 영역.
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공급자 종속(Vendor Lock-in)**: 특정 벤더 하드웨어 및 소프트웨어 생태계에 대한 구속 상태.
 - **세부 최적화(Hardware-Specific Optimization)**: 타깃 반도체의 아키텍처적 특성을 100% 활용하는 하드웨어 밀착 최적화.

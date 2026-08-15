@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UCIe(Universal Chiplet Interconnect Express)**: 서로 다른 제조사와 공정의 칩렛 간 연동을 규정하는 개방형 인터커넥트 표준.
 - **D2D(Die-to-Die)**: 패키지 내부 칩렛 간 고속 데이터 및 제어 신호를 주고받는 초저지연 인터페이스.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **계층 분리(Layer Separation)**: 프로토콜 계층, D2D 어댑터 계층, 물리(PHY) 계층으로 명확히 구획하여 유연성을 확보하는 모듈형 설계.
 - **플릿(Flit, Flow Control Unit)**: D2D 어댑터 계층에서 전송 및 흐름 제어의 기본 단위가 되는 고정 패킷 단위.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로토콜 계층(Protocol Layer)**: PCIe, CXL 및 커스텀 Streaming 트랜잭션의 인코딩/디코딩을 수행하는 계층.
 - **D2D 어댑터(D2D Adapter)**: 플릿 분할, CRC 생성, 재전송 제어 및 링크 상태 관리를 전담하는 중간 제어 계층.
@@ -91,7 +91,7 @@ UCIe 계층 경계
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주대역(Mainband)**: 고속 텐서 및 트랜잭션 플릿 데이터를 집중 수송하는 고속 데이터 레인 채널.
 - **측대역(Sideband)**: 링크 트레이닝, 레인 초기화, 전력 관리 및 오류 모니터링을 전담하는 독립 저속 채널.
@@ -131,7 +131,7 @@ UCIe 계층 경계
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **독자 D2D 링크(Proprietary D2D Link)**: 특정 벤더 자체 표준으로 개발된 칩렛 간 전용 인터커넥트(예: AMD Infinity Fabric 등).
 - **칩렛 재사용(Chiplet Reuse)**: 표준 UCIe 라우터를 활용하여 제작된 칩렛을 타사 시스템 설계 시 재활용하는 성질.
@@ -150,7 +150,7 @@ UCIe 계층 경계
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BER(Bit Error Rate)**: 전송 전 비트 중 신호 왜곡으로 인하여 오류가 발생한 비트의 수치 비율.
 - **신호 눈 마진(Signal Eye Margin)**: 물리적 차동 신호의 전압 및 시점 마진을 통해 전송 노이즈 여유를 측정하는 검사.
@@ -172,7 +172,7 @@ UCIe 계층 경계
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **D2D 인터페이스 선택 기준(D2D Interface Selection Criteria)**: 이종 칩렛 재사용성, 표준 생태계 활용도 및 개별 전용 가속 성능 간의 선택 기준.
 

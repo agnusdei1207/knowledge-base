@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보조 프로세스(Auxiliary Process/Container)**: 메인 애플리케이션과 동일한 라이프사이클과 배포 단위(예: Kubernetes Pod)를 공유하며, 핵심 비즈니스 로직 외의 횡단 기능을 대행하는 별도의 실행 단위.
 - **사이드카 패턴(Sidecar Pattern)**: 로깅, 모니터링, 프록시(네트워크), 설정 동기화 등의 공통 횡단 기능을 보조 프로세스로 분리하여 메인 애플리케이션 옆(Sidecar)에 배치하는 분산 시스템 설계 패턴.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생명주기 결합(Lifecycle Coupling)**: 메인 앱과 사이드카가 항상 동일한 노드(Pod)에 함께 배포·시작·종료되며, 준비 상태(Readiness)의 순서를 보장하여 안정적인 서비스 요청 처리를 돕는 운영 원칙.
 - **횡단 기능(Cross-Cutting Concern)**: 특정 비즈니스 도메인에 국한되지 않고 시스템 전체(보안, 로깅, 트레이싱, 재시도 처리 등)에 걸쳐 공통적으로 요구되는 인프라적 기능.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메인 애플리케이션(Main Application)**: 사용자의 실제 비즈니스 요청을 처리하는 핵심 컨테이너로, 인프라 로직을 모른 채 순수 업무 로직에만 집중.
 - **공유 네트워크 네임스페이스(Shared Network Namespace)**: 메인 앱과 사이드카가 동일한 IP 주소와 포트 공간을 공유하여, 원격 호출 오버헤드 없이 `localhost` 기반의 루프백(Loopback) 통신을 가능하게 하는 리눅스 커널 격리 기술.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **2. 루프백 전달(Loopback Forwarding)**: 사이드카가 외부 요청에 대한 인증, SSL 복호화 등을 마친 후, 안전한 평문(Plaintext) 트래픽을 공유 네트워크의 `localhost` 포트를 통해 메인 앱으로 전달하는 단계.
 - **1. 통신 정책 적용(Policy Enforcement)**: 사이드카(예: Envoy 프록시)가 트래픽을 가로채어 양방향 TLS(mTLS), 서킷 브레이커, 속도 제한(Rate Limiting) 등 서비스 메시(Service Mesh) 규칙을 심사하는 단계.
@@ -135,7 +135,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임베디드 라이브러리(Embedded Library)**: 넷플릭스 OSS(Hystrix, Ribbon 등)처럼 공통 인프라 기능을 SDK 형태로 앱 코드에 직접 컴파일하여 결합하는 전통적 방식. (언어 종속적)
 - **사이드카 패턴(Sidecar Pattern)**: 이스티오(Istio), 데이터독 에이전트(Datadog Agent) 등 보조 프로세스(컨테이너)로 분리하는 클라우드 네이티브 방식.
@@ -158,7 +158,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자원 오버헤드(Resource Overhead)**: 수천 개의 파드가 구동되는 환경에서 각 파드마다 탑재된 사이드카가 소모하는 누적 CPU/메모리 비용이 상당한 인프라 낭비를 초래하는 현상.
 - **시작/종료 순서 불일치(Race Condition in Lifecycle)**: 파드 구동 시 메인 앱이 사이드카(프록시)보다 먼저 켜져 외부 DB 연결에 실패하거나, 종료 시 프록시가 먼저 꺼져 메인 앱의 응답 처리가 유실되는 타이밍 문제.
@@ -180,7 +180,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **횡단 기능 배치 방식 선택 기준(Cross-cutting Concern Placement Strategy)**: 인프라 격리의 편익(배포 독립성, 다국어 지원)과 그에 따른 부작용(자원 오버헤드, 네트워크 홉 증가)을 트레이드오프 분석하여 최적의 아키텍처 패턴을 결정하는 기준.
 

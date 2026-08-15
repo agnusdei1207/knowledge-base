@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **CTI(Cyber Threat Intelligence)**: 위협 행위자•기법•지표를 분석한 사이버 위협 인텔리전스이다.
 - **CTI 자동화**: CTI의 수집•정규화•평가•배포를 연결하는 운영 방식이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **IoC(Indicator of Compromise)**: 침해 흔적을 식별하는 관측값이다.
 - **TTP(Tactics, Techniques, and Procedures)**: 공격자가 목표 달성에 사용하는 행동 방식이다.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TIP(Threat Intelligence Platform)**: 여러 CTI 피드를 정규화•평가•배포하는 플랫폼이다.
 - **OSINT(Open-Source Intelligence)**: 공개 출처에서 수집한 위협 정보이다.
@@ -93,7 +93,7 @@ CTI 자동화
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **품질 점수**: 출처 신뢰도•시효•자산 관련성•적중 결과를 결합한 배포 판단값이다.
 - **STIX CTI 객체 구성**: 위협정보를 객체•관계•출처•시간 구조로 정규화하는 단계이다.
@@ -143,7 +143,7 @@ CTI 피드
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **STIX 역할**: 위협의 객체•관계•시간•출처를 표현하는 역할이다.
 - **TAXII 역할**: 조직•도구 사이에서 CTI를 전송하는 역할이다.
@@ -166,7 +166,7 @@ CTI 피드
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OASIS(Organization for the Advancement of Structured Information Standards)**: 구조화 정보표준 촉진기구이다.
 - **HTTPS(Hypertext Transfer Protocol Secure)**: 암호화된 웹 통신 프로토콜이다.
@@ -192,7 +192,7 @@ CTI 피드
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **시효 관리**: 오래되거나 관련 없는 위협정보가 차단 정책으로 확산되지 않게 만료를 통제하는 활동이다.
 

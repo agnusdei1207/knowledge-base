@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인피니밴드(InfiniBand, IB)**: 고성능 컴퓨팅(HPC) 및 AI 클러스터에서 노드 간 초저지연, 고대역폭, 무손실 원격 직접 메모리 접근(RDMA)을 제공하는 전용 스위치 패브릭 기술.
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: CPU 및 운영체제 커널 개입 없이 호스트 메모리 데이터를 네트워크상에서 직접 읽고 쓰는 고성능 통신 기술.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 수준(Service Level, SL)**: 트래픽 우선순위와 가상 통로(Virtual Lane, VL) 매핑을 통해 트래픽을 분류하고 관리하는 논리적 속성.
 - **적응형 경로(Adaptive Routing, AR)**: 네트워크 혼잡 상태를 실시간 탐지하여 다중 경로 중 최적 경로를 동적 선택하는 전달 방식.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인피니밴드 스위치(InfiniBand Switch)**: 목적지 주소 및 서브넷 경로 정보를 기반으로 패킷을 고속 전달하는 저지연 패브릭 하드웨어.
 - **서브넷 관리자(Subnet Manager, SM)**: 패브릭 내 장치 탐색(Discovery), 주소 할당, 경로 및 분할 정책을 중앙 집중적으로 제어하는 관리 주체.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 통로(Virtual Lane)**: 한 물리 링크에서 트래픽 종류별 흐름과 버퍼를 논리적으로 분리하는 통신 경로로 정의된다.
 - **경로표**: 목적지 주소에 따라 스위치가 선택할 출력 포트를 기록한 전달 정보로 정의된다.
@@ -122,7 +122,7 @@ HCA와 IB 스위치는 RDMA 패킷을 SL과 P_Key에 맞춰 전달한다.
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **융합 이더넷 기반 RDMA(RDMA over Converged Ethernet, RoCE)**: 기존 이더넷 인프라 위에서 무손실 혼잡 제어를 통해 RDMA를 지원하는 프로토콜.
 - **NVLink•NVSwitch**: GPU 메모리 간 초고속 데이터 전송 및 다수 GPU의 다대다 연결을 지원하는 전용 인터커넥트 기술.
@@ -144,7 +144,7 @@ HCA와 IB 스위치는 RDMA 패킷을 SL과 P_Key에 맞춰 전달한다.
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **핫스폿 혼잡**: 다수 흐름이 특정 스위치나 링크에 몰려 완료 지연이 증가하는 현상이다.
 - **경로 텔레메트리**: 링크별 트래픽•지연•오류를 관측해 배치와 우회 경로를 조정하는 정보을 말한다.
@@ -165,7 +165,7 @@ P_Key, HCA, SL을 함께 검증한다.
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전용 패브릭**: 장치•스위치•관리 체계를 고성능 클러스터 통신에 맞춰 함께 구성한 네트워크로 정의된다.
 - **패브릭 격리**: P_Key 등으로 통신 가능한 종단 집단을 나누어 상호 접근을 제한하는 통제을 의미한다.

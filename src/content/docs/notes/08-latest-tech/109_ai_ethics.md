@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **AI 윤리(AI Ethics)**: AI 목적•사용•영향의 허용 여부를 판단하는 규범이다.
 - **윤리 원칙(Ethical Principle)**: 공정성•투명성•안전성•책임성의 가치 기준이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **금지 경계(Prohibition Boundary)**: 가치 절충 없이 개발•사용을 중단할 기준이다.
 - **가치 충돌(Value Conflict)**: 공정성•프라이버시 등 가치가 상충하는 상황이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가치 헌장(Value Charter)**: 권리•책임•금지의 윤리 판단 기준 문서이다.
 - **숙의(Deliberation)**: 이해관계자가 가치•피해•선택 근거를 논의한다.
@@ -83,7 +83,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비AI 대안(Non-AI Alternative)**: 같은 목적을 AI 없이 달성하는 방법이다.
 - **강제 금지선(Mandatory Prohibition)**: 가치 절충보다 우선하는 법적•권리상 금지 기준이다.
@@ -121,7 +121,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **책임 있는 AI(Responsible AI)**: 윤리 원칙을 지표•시험•설계•감독으로 구현한다.
 - **AI 거버넌스(AI Governance)**: 의사결정 권한•책임•승인•감사를 운영한다.
@@ -142,7 +142,7 @@ AI의 가치 원칙은 Responsible AI의 제품 통제와 AI 거버넌스의 조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제품 통제 미연결**: 윤리 원칙이 지표•시험•금지 조건으로 구현되지 않은 문제이다.
 - **가치 우선순위(Value Priority)**: 충돌하는 원칙 중 먼저 보호할 가치 순서이다.
@@ -162,7 +162,7 @@ AI의 가치 원칙은 Responsible AI의 제품 통제와 AI 거버넌스의 조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **허용 범위(Permissible Scope)**: 법적•윤리 판단 후 AI 사용을 허용한 조건이다.
 - **책임 구조(Accountability Structure)**: 승인•감독•사고•구제의 주체와 권한이다.

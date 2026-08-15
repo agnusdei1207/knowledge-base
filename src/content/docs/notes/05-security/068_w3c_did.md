@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 표준 및 분산 신원 생태계 기술 표준을 제정하는 국제 웹 규격 제정 기구이다.
 - **분산 식별자(Decentralized Identifier, DID)**: 중앙화된 등록기관 없이 자기주권형 암호키 쌍과 바인딩되어 고유 식별 및 검증이 가능한 URI 표준 식별자이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DID 문서(DID Document)**: DID 주체의 공개키, 인증(Authentication) 메커니즘, 검증 관계 및 서비스 엔드포인트를 담은 JSON-LD 데이터 문서이다.
 - **검증 관계(Verification Relationship)**: 공개키가 서명 검증(assertionMethod), 신원 인증(authentication), 키 합의(keyAgreement) 중 어떤 용도로 사용 가능한지 명시하는 목적 제약 매핑이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DID 주체(DID Subject)**: 해당 DID 식별자가 나타내는 사람, 조직, 기기, 개체 또는 데이터 대상이다.
 - **제어자(DID Controller)**: DID 문서의 갱신, 키 회전 및 비활성화 권한을 가짐을 암호학적으로 증명할 수 있는 주체이다.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **현재 DID 문서(Active DID Document)**: 해소 시점에 특정 DID 저장소에서 추출된 활성 상태의 최신 암호키 및 검증 관계 문서이다.
 - **키 용도 판정(Key Purpose Verification)**: 검증에 사용된 공개키가 DID 문서 내 명시된 목적(assertionMethod 등)과 정확히 일치하는지 심사하는 과정이다.
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙 식별자(Centralized Identifier)**: 서비스 제공자가 자체 서버 DB에 사용자 아이디와 패스워드를 발급·관리하는 방식이다.
 - **연합 식별자(Federated Identifier)**: Google, Naver 등 SSO 인가 서버가 사용자 식별 토큰을 발행 및 통제하는 중앙집중형 연동 방식이다.
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C DID Core 1.0**: W3C의 분산 식별자 아키텍처 및 데이터 모델 최고 표준 권고안 명세이다.
 - **키 회전(Key Rotation)**: 노출 위험 및 유효기간 만료에 대비해 DID 문서 내 검증 공개키를 안전하게 새 키로 교체 업데이트하는 절차이다.
@@ -195,7 +195,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DID 수용 조건(DID Acceptance Criteria)**: DID 방법의 거버넌스 신뢰성, 최신 DID 문서 활성 여부, 공개키의 검증 관계 적합성이 모두 만족되어야 검증을 승인하는 판단 지침이다.
 

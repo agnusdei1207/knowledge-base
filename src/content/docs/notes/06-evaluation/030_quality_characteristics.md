@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **품질 특성(Quality Characteristics)**: 시스템이나 소프트웨어 제품이 갖추어야 할 본질적 품질 속성을 기능성, 성능, 보안 등 거시적이고 평가 가능한 독립적 관점으로 분류한 최상위 기준이다.
 - **하위 특성(Sub-characteristics)**: 광범위한 상위 품질 특성을 실제 개발과 시험 단계에서 명확한 검증 요구사항 및 정량적 측정 메트릭으로 세분화한 실무 단위 속성이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기능 적합성(Functional Suitability)**: 시스템이 제공하는 기능들이 사용자가 명시적으로 요구한 명세뿐만 아니라 암묵적으로 기대하는 비즈니스 목적까지 올바르게 충족시키는 정도이다.
 - **성능 효율성(Performance Efficiency)**: 명시된 사용자 수 및 부하 조건 속에서 시스템이 투입한 자원과 처리 시간 대비 목표 성능(응답속도, 처리량)을 얼마나 최적화하여 제공하는지의 정도이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기능 완전성(Functional Completeness)**: 요구사항 명세서에 정의된 모든 기능 집합을 누락 없이 시스템이 100% 온전히 제공하는지에 대한 정도이다.
 - **기능 정확성(Functional Correctness)**: 시스템이 데이터를 처리할 때 산식 오류나 반올림 오차 없이 사용자가 기대하는 정밀도로 정확한 결괏값을 도출하는 정도이다.
@@ -97,7 +97,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **합격선(Threshold/Acceptance Limit)**: 시스템 성능 및 품질 측정 결과가 비즈니스 요구사항을 수용 가능하다고 기술적으로 판정할 수 있는 정량적인 최소, 또는 최대 한계 기준값이다.
 - **품질 위험•우선순위 정의(Define Quality Risk & Priority)**: 시스템 실패 시 발생하는 재무적, 운영적 피해와 특정 사용 조건을 평가하여 시스템 생존에 직결된 핵심 품질 관점을 정렬하는 초기 단계이다.
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **p95 지연시간(95th Percentile Latency)**: 전체 서비스 요청 중 가장 빠른 95%의 트랜잭션이 완료된 응답 시간을 의미하며, 일부 아웃라이어를 제외한 대다수 사용자가 겪는 체감 성능의 기준 지표이다.
 - **초당 트랜잭션 처리 건수(Transactions Per Second, TPS)**: 1초 동안 웹 서버나 데이터베이스 시스템이 내부 오류 없이 성공적으로 완료한 단위 업무(트랜잭션)의 절대 수량이다.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상충 조정(Trade-off Adjustment)**: 데이터 암호화 수준 상향으로 인한 응답 속도 저하처럼 한 품질 영역의 개선 조치가 다른 특성을 훼손할 때, 비즈니스 목표에 맞게 최적의 수용 수준을 결정하는 의사결정 활동이다.
 - **측정 환경(Measurement Environment)**: 애플리케이션 품질 결괏값에 결정적 영향을 미치는 더미 데이터 볼륨, 동시 접속 부하 툴 설정, 네트워크 대역폭, 하드웨어 스펙 등의 물리적, 논리적 제반 시험 조건이다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수용 결정(Acceptance Decision)**: 분리하여 측정된 기능 적합성, 성능 효율성, 호환성, 보안성의 각 정량적 합격선을 모두 통과한 경우에만 최종 시스템을 인수하며, 미달된 특정 특성에 대해서는 명확한 원인 규명 및 추가 개선을 지시하는 단계적 판정 기준이다.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Monolithic Architecture**: 모든 비즈니스 기능, 데이터베이스 억세스 및 UI 처리 로직이 단일 실행 단위(Single Deployment Unit) 및 코드베이스로 묶여 작동하는 전통적 아키텍처.
 - **Microservice Architecture (MSA)**: 비즈니스 도메인(Bounded Context) 단위로 분할된 소형 독립 서비스들이 자체 DB와 CI/CD 파이프라인을 구동하며 REST/gRPC로 통신하는 분산 아키텍처.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Coupling & Cohesion**: 배포 형태와 무관하게 모듈 경계의 결합도와 내부 응집도를 평가하는 설계 속성.
 - **Distributed Overhead**: MSA 전환 시 발생하는 네트워크 latency, 데이터 최종 일관성(Eventual Consistency) 관리, 분산 Tracing 등 분산 시스템 고유의 복잡도 및 비용.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Strangler Fig Pattern (스트랭글러 패턴)**: 레거시 Monolithic 시스템의 기능을 하나씩 마이크로서비스로 떼어내어 점진적으로(Incremental) MSA로 이행하는 전환 아키텍처 패턴.
 
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Migration Threshold**: Monolithic의 코드 복잡도가 극에 달해 MSA의 분산 운영 비용을 상회하는 시점에 실행하는 아키텍처 전환 임계 지점.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **First Rule of Distributed Systems**: "분산 시스템을 만들지 마라(Don't distribute), 정말 어쩔 수 없이 필요할 때까지는." - Martin Fowler.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Premature Optimization (조기 최적화)**: 도메인에 대한 이해가 부족한 초기 단계에서 유행을 따라 무작정 MSA를 도입하여 시스템을 파행으로 모는 안티패턴.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **아키텍처 선택 기준(Architecture Paradigm Selection Criteria)**: 조직 규모, 비즈니스 성숙도, DevOps 자동화 수준 및 도메인 복잡도에 의거한 체계.
 

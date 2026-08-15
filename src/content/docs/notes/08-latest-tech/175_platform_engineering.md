@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **플랫폼 엔지니어링(Platform Engineering)**: 인프라•배포•관측•보안 기능을 개발자가 스스로 사용하는 내부 제품으로 설계•운영하는 공학 접근하는 개념을 의미한다.
 - **개발자 경험(Developer Experience, DevEx)**: 개발 과정에서 느끼는 생산성•인지부하•대기 시간에 대한 경험로 정의된다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **골든 패스(Golden Path)**: 조직의 권장 도구•정책•절차를 안전한 기본값으로 조합한 개발 경로로 정의된다.
 - **탈출 경로(Escape Hatch)**: 골든 패스로 해결하지 못하는 요구에 관리된 예외•확장 선택권을 제공하는 장치을 말한다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능과 데이터를 호출하기 위한 명세화된 접점을 말한다.
 - **개발자 포털**: 플랫폼 기능을 탐색•요청하고 처리 상태를 확인하는 사용자 접점을 말한다.
@@ -98,7 +98,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명령줄 인터페이스(Command-Line Interface, CLI)**: 문자 명령으로 플랫폼 기능을 호출하는 사용자 접점이다.
 - **셀프서비스**: 개발자가 수동 티켓 대기 없이 API•포털•CLI로 필요한 기능을 직접 사용하는 방식이다.
@@ -139,7 +139,7 @@ IDP는 골든 패스와 자동화를 셀프서비스로 제공한다.
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개발•운영(Development and Operations, DevOps)**: 개발•운영의 협업•자동화•공동 책임을 강조하는 문화와 실천 원칙을 말한다.
 - **사이트 신뢰성 공학(Site Reliability Engineering, SRE)**: 신뢰성 목표와 자동화로 서비스를 운영하는 공학 체계이다.
@@ -162,7 +162,7 @@ IDP는 SLO를 지키며 개발•운영 협업과 신뢰성 운영을 지원한�
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제품 적합성**: 플랫폼 기능이 실제 개발자 여정의 반복 문제와 대기 시간을 해결하는 정도을 말한다.
 - **플랫폼 SLO**: IDP 기능의 가용성•지연•지원 품질 목표를 운영하는 개념이다.
@@ -182,7 +182,7 @@ IDP는 SLO를 지키며 개발•운영 협업과 신뢰성 운영을 지원한�
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자발적 채택**: 강제 규정이 아니라 편의•안전•속도 이점 때문에 개발자가 골든 패스를 선택하는 상태을 말한다.
 - **인지부하**: 개발자가 업무 목표 외에 인프라•도구•정책을 이해하고 결정하는 데 드는 정신적 부담이다.

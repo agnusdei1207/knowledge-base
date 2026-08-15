@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PMU(Performance Monitoring Unit)**: CPU 내부의 사이클, 캐시 미스, 분기 실패 등 마이크로아키텍처 사건을 계수하는 하드웨어 블록.
 - **HPC(Hardware Performance Counter)**: PMU 내부에 배치되어 특정 성능 이벤트 발생 횟수를 카운팅하고 기록하는 특수한 MSR(Model Specific Register) 카운터 레지스터.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PEBS/SPE(Precise Event-Based Sampling)**: 이벤트 발생 위치와 실행 정보를 낮은 스키드로 샘플링하는 정밀 계측 기능.
 - **Multiplexing**: 물리 카운터보다 많은 이벤트를 시간 분할해 번갈아 측정하는 기법.
@@ -62,7 +62,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Selector(PerfEvtSel MSR)**: 카운터가 계측할 특정 하드웨어 이벤트(Cache Miss, Branch Miss 등) 및 유저/커널 모드 비트를 지정하는 레지스터.
 - **Performance Counter MSR(PMC MSR)**: Event Selector에 의해 지정된 이벤트 횟수가 물리적으로 1씩 증가 누적되는 카운터 레지스터.
@@ -92,7 +92,7 @@ PMU 계측 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PMI(Performance Monitor Interrupt)**: 카운터 레지스터가 Overflow 되었을 때 OS로 제어권을 넘겨 PEBS 샘플 버퍼를 비우게 하는 하드웨어 인터럽트.
 
@@ -134,7 +134,7 @@ PMU 계측 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Software Profiling**: 샘플링·계측 코드를 이용해 함수 시간, 호출 관계와 할당 등을 분석하는 방식.
 
@@ -153,7 +153,7 @@ PMU 계측 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CPU Pinning**: 분석 스레드가 다른 CPU 코어로 migration 되어 PMU MSR 데이터가 오염되는 것을 막기 위해 코어를 정적 바인딩하는 설정.
 
@@ -173,7 +173,7 @@ PMU 계측 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PMU 분석 선택 기준(PMU Performance Profiling Criteria)**: 타깃 성능 병목, 분석 세밀도(Microarchitectural vs Function), 오버헤드 허용성에 기초한 체계.
 

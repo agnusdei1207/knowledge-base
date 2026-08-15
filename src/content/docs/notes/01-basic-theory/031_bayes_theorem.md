@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **베이즈 정리(Bayes' Theorem)**: 사전 확률(Prior Probability)과 우도(Likelihood)를 결합하여 데이터 관측 기반 사후 확률(Posterior Probability)을 추론하는 조건부 확률 체계.
 - **조건부 확률(Conditional Probability)**: 사건 A가 발생했다는 전제하에 사건 B가 발생할 확률 $P(B|A)$.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양성 예측도(Positive Predictive Value, PPV)**: 검사 양성 판정 시 실제 양성일 확률.
 - **민감도(Sensitivity)**: 실제 양성을 양성으로 판정하는 비율.
@@ -64,7 +64,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **우도 모형(Likelihood Model)**: 가설별 증거 발생 확률($P(E \mid H)$) 계산.
 - **주변 확률(Marginal Probability, $P(E)$)**: 모든 가설에 대한 증거의 총 확률.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **$P(H\mid E)$**: 증거 $E$를 관측한 뒤 가설 $H$가 참일 사후 확률이다.
 - **적용 조건 $P(E)>0$**: 베이즈 식의 분모인 증거 확률이 0이 아니어야 한다는 조건이다.
@@ -136,7 +136,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **베이지안 통계**: 모수의 불확실성을 확률로 표현하고 증거로 사전 확률을 갱신하는 관점이다.
 - **빈도주의 통계**: 모수를 고정값으로 보고 반복 실험의 장기 빈도로 추정과 오류를 해석하는 관점이다.
@@ -158,7 +158,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조건부 의존**: 다른 조건을 고정해도 두 증거 사이의 확률 관계가 남는 성질이다.
 - **민감도 분석**: 사전 분포 같은 가정을 바꿨을 때 결론이 얼마나 달라지는지 확인하는 절차이다.
@@ -184,7 +184,7 @@ $$P(H \mid E)=\frac{P(E \mid H)P(H)}{P(E)}$$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **희귀 사건**: 모집단에서 발생 비율인 기저율이 매우 낮은 사건이다.
 - **독립적 추가 증거**: 기존 증거와 조건부 의존이 없어 새로운 정보를 제공하는 관측이다.

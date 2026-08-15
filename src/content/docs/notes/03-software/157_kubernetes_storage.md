@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스 영속 스토리지(Persistent Storage)**: 파드(Pod) 파기 후에도 데이터를 보존하기 위해 PVC(요청), PV(자원), StorageClass(자동 설정)로 추상화한 체계.
 - **PVC(PersistentVolumeClaim)**: 스토리지 용량과 접근 모드 등을 명시하여 사용자(개발자)가 자원을 요청하는 객체.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dynamic Provisioning**: 관리자가 일일이 PV 디스크를 만들어 두지 않아도, PVC 신청 즉시 StorageClass와 CSI 드라이버가 AWS EBS를 3초 만에 자동 생성.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CSI (Container Storage Interface)**: K8s 코어 엔진과 외부 스토리지 벤더(AWS EBS, NetApp, Portworx) 간의 플러그인 호환 표준 규격.
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VolumeBindingMode**: `WaitForFirstConsumer` 옵션을 설정하여, Pod가 실제 스케줄링된 동일 AZ(가용 영역)에 EBS 디스크를 뒤늦게 동적 생성하도록 보장하는 옵션.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RWO vs RWX**: RWO(ReadWriteOnce)는 단 1개 Node만 읽기/쓰기 가능(EBS 디스크), RWX(ReadWriteMany)는 수십 개 Node가 동시 읽기/쓰기 가능(EFS NFS/S3).
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-AZ EBS Volume Attach Error**: AWS EBS 디스크는 특정 AZ(ap-northeast-2a)에 고정되므로, Pod가 타 AZ(2c)로 이사 가면 디스크 마운트 불가 500 에러 발생.
 

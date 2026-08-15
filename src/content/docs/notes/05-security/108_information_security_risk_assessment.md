@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정보보호 위험평가(Information Security Risk Assessment)**: 조직의 자산, 위협, 취약점을 분석하여 위험의 우선순위를 결정하는 평가 활동.
 - **위험 시나리오(Risk Scenario)**: 위협 주체가 취약점을 악용하여 침해사고를 일으키는 일련의 과정 및 관계.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 기준(Risk Criteria)**: 위험 수용 가능성과 영향 정도를 일관되게 비교하기 위한 정량•정성적 기준.
 - **정성 평가(Qualitative Assessment)**: 위험 수준을 높음, 중간, 낮음 등 서술적 등급으로 평가하는 방식.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무•자산 의존성(Business-Asset Dependency)**: 핵심 비즈니스 프로세스와 이를 지원하는 IT 자산 간의 연관 관계.
 - **위험 등록부(Risk Register)**: 식별된 위험 시나리오, 위험 등급, 소유자 및 대응 상태를 기록•관리하는 문서.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 수준(Risk Level)**: 발생 가능성과 영향도의 결합으로 산출되는 산술적 등급.
 - **불확실성(Uncertainty)**: 데이터의 부족이나 추정 불확실로 인해 위험 분석 결과에 영향을 미치는 정도.
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정성 평가 적용(Qualitative Assessment Application)**: 초기 스크리닝 및 판단 자료가 부족할 때 서술적 등급을 사용하는 모델.
 - **반정량 평가 적용(Semi-Quantitative Assessment Application)**: 자산 간 상대적 통제 우선순위 산출 시 점수화 기법을 적용하는 모델.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제 표준을 개발•발행하는 국제 기구.
 - **IEC(International Electrotechnical Commission)**: 전기•전자 분야 국제 표준을 개발하는 협력 기구.
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **의사결정 가능한 위험 근거(Decision-Enabling Risk Basis)**: 경영진이 실질적인 보안 투자 및 위험 처리를 결정할 수 있도록 검증된 시나리오 기반의 자료.
 

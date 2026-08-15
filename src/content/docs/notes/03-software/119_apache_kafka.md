@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Kafka**: LinkedIn이 개발한 분산 이벤트 스트리밍 플랫폼(Distributed Event Streaming Platform)으로, 초당 수백만 건의 메시지를 디스크 Append-Only Commit Log에 순차 저장하여 초저지연 수평 분산 송수신을 담당하는 비동기 메시지 브로커.
 - **Partition & Offset**: 토픽(Topic)을 수평 분할한 카프카의 기본 병렬 처리 단위(Partition)와, 파티션 내부에서 메시지마다 64-bit 순차 정수로 부여되는 고유 식별자(Offset).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zero-Copy Technology**: OS Kernel의 `sendfile()` 시스템 콜을 활용해, 디스크 페이지 캐시에서 네트워크 NIC 버퍼로 직접 데이터를 전송하여 CPU/메모리 복사 오버헤드를 0으로 차단.
 - **ISR (In-Sync Replicas)**: Leader 파티션의 최신 Offset을 지연 없이 실시간 추종하고 있는 하이 퀄리티 Follower 레플리카 노드들의 집합.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Producer, Broker, Consumer, Controller**: 카프카 시스템을 이끄는 4대 물리적 핵심 요소.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **`acks=all` (`acks=-1`)**: Leader 파티션뿐만 아니라 ISR 그룹 내의 모든 `min.insync.replicas` 노드가 유효하게 기록 완료 메시지(ACK)를 보낼 때까지 Producer가 기다리는 최고 안전성 옵션.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RabbitMQ vs Kafka**: RabbitMQ는 메시지 발송 후 소멸되는 전통적 AMQP 큐, Kafka는 디스크 보존형 Pub/Sub 이벤트 로그 플랫폼.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consumer Lag**: Producer의 최신 메시지 생성 오프셋과 Consumer가 현재 소비 완료한 오프셋 간의 지연 격차 지표.
 - **Rebalance Storm**: 컨슈머 추가/가동중단 시 전체 컨슈머 그룹의 파티션 매핑이 일시 멈추고 다시 배정되는 락업 현상.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kafka 수립 기준(Apache Kafka Standards)**: Zero-Copy 파이프라인, `acks=all` 내구성, KRaft 메타데이터 및 Consumer Lag 모니터링 체계에 의거한 기준.
 

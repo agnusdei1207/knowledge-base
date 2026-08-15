@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Redis (Remote Dictionary Server)**: 모든 데이터를 메인 메모리(RAM)에 상주시시켜 서브밀리초(Sub-millisecond) 단위의 초고속 응답을 렌더링하는 인메모리 키-값(In-Memory Key-Value) 데이터 구조 저장소.
 - **Rich Data Structures**: 단순 String 외에 Hashes, Lists, Sets, Sorted Sets(ZSet), Bitmaps, HyperLogLog, Geospatial 등 풍부한 내장 자료구조(Data Structure)를 원자적(Atomic)으로 제공하는 특성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **In-Memory Speed**: RAM 기반 $1\text{ms}$ 이하의 Sub-millisecond 초저지연 성능.
 - **Atomic Operations**: 단일 스레드 기반으로 모든 자료구조 명령어가 동시성 충돌 없이 원자적(Atomic)으로 수행.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sorted Set (ZSet)**: 각 멤버에 점수(Score)를 부여하여 랭킹 및 순위판(Leaderboard)을 $O(\log N)$으로 유지해 주는 대표 자료구조.
 - **RDB vs AOF**: RDB는 특정 시점의 메모리 덤프 파일, AOF는 모든 CUD 명령어를 파일 끝에 덧붙여 기록하는 로그 파일.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Maxmemory Policy (제거 정책)**: 메모리가 `maxmemory` 한계치에 도달했을 때 키를 삭제하는 정책 (LRU, LFU, Volatile-LRU 등).
 - **TTL (Time To Live)**: 키에 만료 시간(Seconds)을 설정하여 자동 소멸시키는 캐시 제어 지표.
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Redis vs Memcached**: Redis는 다채로운 자료구조, 영속성, 클러스터링을 지원하는 종합 저장소, Memcached는 단순 String 전용 멀티스레드 정적 캐시.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Stampede (캐시 재앙)**: 대량의 핫키(Hot Key) TTL이 동시에 만료되어 순간적으로 수만 건의 쿼리가 RDBMS로 직접 몰려 DB가 다운되는 현상.
 - **O(N) Command Threat**: 단일 스레드 특성상 `KEYS *` 또는 `FLUSHALL` 같은 $O(N)$ 명령을 실행하면 전체 Redis가 먹통(Lockup)이 되는 심각한 위협.
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Redis 수립 기준(Redis Architecture Standards)**: 인메모리 사양, Maxmemory LRU 정책, RDB/AOF 영속성 및 Redis Cluster 구축에 의거한 체계.
 

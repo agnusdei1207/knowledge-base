@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **트래픽 셰이핑(Traffic Shaping)**: 초과 패킷을 큐에 저장해 지연 전송하는 제어 기법이다.
 - **트래픽 폴리싱(Traffic Policing)**: 초과 패킷을 폐기하거나 재표시하는 제어 기법이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **버스트 허용**: 버킷에 미리 축적한 토큰 범위에서 장기 평균 속도보다 큰 순간 전송을 허용하는 성질이다.
 
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **토큰 버킷**: 일정 속도로 생성되는 토큰과 패킷 크기를 비교해 약정 적합•초과 트래픽을 판정하는 방식이다.
 - **약정 정보율(Committed Information Rate, CIR)**: 장기적으로 보장하거나 허용하는 평균 정보율이다.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)**: 패킷의 서비스 등급을 표시하는 IP 헤더 값이다.
 - **정책•패킷 크기 전달**: 가입자 속도 정책과 패킷 전송에 필요한 토큰 수를 판정기에 제공하는 단계이다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응답 지연 초과**: 셰이핑 큐가 계속 늘어 패킷이 응용의 지연 한도보다 오래 대기하는 문제이다.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **초과 트래픽 처리 선택**: 지연 허용 여부와 계약 한도 집행 위치를 기준으로 트래픽 셰이핑과 트래픽 폴리싱을 결정하는 기준이다.
 

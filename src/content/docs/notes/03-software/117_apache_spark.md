@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Spark**: 기존 MapReduce의 디스크 I/O 병목을 극복하기 위해 인메모리(In-Memory) 기반 RDD(Resilient Distributed Dataset) 및 DAG(Directed Acyclic Graph) 실행 엔진을 활용하여, 배치 및 스트리밍 연산을 최대 100배 빠르게 연산하는 2세대 분산 데이터 처리 엔진.
 - **RDD (Resilient Distributed Dataset)**: 장애 발생 시 계보(Lineage) 추적을 통해 메모리상에서 즉시 복원 가능한, 불변(Immutable) 분산 데이터 집합.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lazy Evaluation (지연 연산)**: Action(예: `count()`, `collect()`) 구문이 호출되기 전까지는 실제 연산을 수행하지 않고 DAG 최적화 그래프만 축적하는 특성.
 - **Catalyst Optimizer**: SQL 및 DataFrame 연산을 논리적/물리적 계획(Logical/Physical Plan)으로 자동 튜닝해 주는 내부 쿼리 최적화 엔진.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Driver vs Executor**: Driver는 main() 함수를 실행하며 DAG 맵을 짜고 Task를 배정하는 마스터, Executor는 각 노드 메모리상에서 Task를 실행하고 결과를 리턴하는 일꾼.
 
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BroadCast Hash Join**: 대용량 테이블과 소용량 테이블 조인 시, 소용량 테이블을 모든 Executor 메모리에 복제(Broadcast)하여 Shuffle I/O 0회로 조인하는 기법.
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transformation vs Action**: Transformation(`map`, `filter`, `groupBy`)은 지연 연산으로 DAG 구성, Action(`select`, `collect`, `save`)은 연산 즉시 실행.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Skew Salting**: 특정 Key에 파티션 데이터가 몰려 Executor OOM 발생 시, Key 뒤에 임의 숫자(Salting)를 붙여 균등 수평 분산시키는 튜닝 기법.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spark 아키텍처 수립 기준(Apache Spark Standards)**: In-Memory RDD 튜닝, Catalyst/AQE 최적화, Data Skew Salting 및 Structured Streaming 수용성에 의거한 체계.
 

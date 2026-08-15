@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Lakehouse (데이터 레이크하우스)**: 데이터 레이크(Data Lake)의 저비용 객체 스토리지 수평 확장성과, 데이터 웨어하우스(DW)의 100% ACID 트랜잭션 및 고성능 SQL 쿼리 관리 기능을 결합한 차세대 모던 데이터 아키텍처.
 - **Open Table Format**: 객체 스토리지 파일 위에서 ACID 트랜잭션, 타임 트래블(Time Travel), 스키마 진화(Schema Evolution)를 가능케 해주는 오픈소스 메타데이터 표기 표준 (Delta Lake, Apache Iceberg, Apache Hudi).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID Transactions on Object Storage**: 스냅숏 메타데이터로 원자적 테이블 변경 제공.
 - **Decoupled Storage and Compute**: S3 스토리지 용량과 Spark/Presto 쿼리 엔진의 수평 분리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID Transaction Log**: Parquet 데이터 파일들의 변경 이력을 JSON/AVRO 트랜잭션 로그로 기록하여 동시성 및 타임 트래블 제어.
 
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Optimistic Concurrency Control (OCC)**: 동시 쓰기 시 락(Lock)을 걸지 않고, Commit 시점에 타 트랜잭션의 파일 변경 유무를 검사하여 충돌 시 자동 재시도하는 기법.
 
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Evolution**: DW (정형 전용) $\rightarrow$ Data Lake (비정형 전용, 무질서) $\rightarrow$ Lakehouse (정형/비정형 통합 + ACID).
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vacuum Operation**: 타임 트래블 이력 기간이 지난 구버전 S3 쓰레기 Parquet 파일들을 주기적으로 삭제하여 디스크 비용을 정제하는 작업.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lakehouse 수립 기준(Data Lakehouse Standards)**: S3 객체 스토리지, Delta Lake / Apache Iceberg Open Table Format, OCC 동시성 제어 및 Databricks/Trino 통합성에 의거한 체계.
 

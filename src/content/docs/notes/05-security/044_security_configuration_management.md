@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 구성 관리(Security Configuration Management, SCM)**: IT 자산의 OS, 시스템 소프트웨어, 애플리케이션 및 인프라 설정을 사전 승인된 안전한 보안 기준선(Baseline)으로 통제•유지하는 보안 관제 활동.
 - **구성 편차(Configuration Drift)**: 수동 작업, 긴급 장애 조치, 오설정 등으로 인해 실운영 자산의 실제 설정이 승인된 기본 보안 기준선에서 벗어난 상태.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 기준선(Security Baseline)**: 자산 종류, 환경, 버전별로 최소한으로 준수해야 할 필수 보안 설정 가이드라인.
 - **보상 통제(Compensating Controls)**: 비즈니스 영향이나 유효성 한계로 보안 기준선을 직접 적용할 수 없을 때 동등 수준의 위험 감축 효과를 제공하는 대체 통제.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정책 검사(Policy Check / Pre-flight Assessment)**: 소스 코드 배포 또는 IaC 커밋 이전 단계에서 보안 지침 준수 여부를 자동 판정하는 사전 검사.
 - **편차 탐지(Drift Detection)**: 런타임 상태를 수시 스캐닝하여 최초 승인 상태와의 구성 차이를 식별 추적하는 탐지.
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **코드형 인프라(Infrastructure as Code, IaC)**: 서버, 네트워크 등 인프라 구성을 테라폼, 앤서블 등의 코드 형태로 정의 및 관리하는 기술.
 - **지속적 통합•제공(Continuous Integration/Continuous Delivery, CI/CD)**: 개발부터 테스트, 배포까지의 과정을 자동화 파이프라인으로 구성하는 DevOps 방법론.
@@ -141,7 +141,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정기 수동 점검(Manual Compliance Audit)**: 주기적 또는 수작업으로 대상 장비에 직접 접속하여 보안 구성을 일일이 점검하는 방식.
 - **실행 중 편차 탐지(Continuous Runtime Drift Detection)**: Agent 또는 API 기반으로 운영 환경 설정을 지속 감시하여 실시간 이탈을 탐지하는 방식.
@@ -161,7 +161,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소 SP 800-128(NIST SP 800-128)**: 시스템 보안 구성 관리의 절차와 기준선 통제를 정의한 가이드라인.
 - **CIS 벤치마크(CIS Benchmarks)**: 전 세계 보안 전문가들이 합의 수립한 OS, DB, 클라우드별 구체적 설정 가이드.
@@ -182,7 +182,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **예외 만료 관리(Exception Expiration Management)**: 사유가 명확한 구성 예외 건에 대해 대체 보상 통제 및 시한을 두고 주기적으로 잔존 여부를 평가하여 자동 정상화하는 절차.
 

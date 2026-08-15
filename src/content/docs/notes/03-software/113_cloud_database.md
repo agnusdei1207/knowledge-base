@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Database (클라우드 데이터베이스)**: 퍼블릭 클라우드(AWS, GCP, Azure) 환경에서 인프라 프로비저닝, OS/DB 패치, 백업, Failover 고가용성을 완전 관리형(Fully-Managed PaaS/SaaS) 형태로 제공받는 데이터베이스 서비스.
 - **Amazon RDS (Relational Database Service)**: 전통적 RDBMS(MySQL, PostgreSQL, Oracle) 엔진 인스턴스를 EC2 기반의 완전 관리형으로 제공하는 1세대 클라우드 DB.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Decoupled Architecture (Aurora)**: Compute 노드와 Distributed Storage 레이어를 상호 독립 분리.
 - **Serverless & On-Demand (DynamoDB)**: 프로비저닝 없이 쿼리 횟수 및 디스크 사용량 단위 자동 과금.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AWS Multi-AZ Deployment**: 2개 이상의 가용 영역(AZ)에 Primary DB와 Standby DB를 동기 복제(Synchronous Replication)하여 주 노드 다운 시 DNS 엔드포인트 자동 전환(Failover)을 보장하는 구조.
 
@@ -75,7 +75,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Aurora 6-Way Storage Replication**: Aurora는 데이터를 6개 조각으로 쪼개어 3개 가용 영역(AZ)에 2개씩 복제 후 4/6 Write Quorum 수용.
 
@@ -114,7 +114,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud DB Selection Matrix**: 레거시 이관은 RDS, 고성능 대용량 RDBMS는 Aurora, 초고속 수평 분산 NoSQL은 DynamoDB 선택.
 
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vendor Lock-in**: DynamoDB 등 특정 클라우드 전용 API 사용 시 타 클라우드(GCP, Azure)나 온프레미스로 마이그레이션하기 극도로 어려워지는 현상.
 
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 DB 수립 기준(Cloud Database Standards)**: 엔진 호환성, RTO/RPO SLA, I/O 비용 분석 및 Serverless 요구성에 의거한 체계.
 

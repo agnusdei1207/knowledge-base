@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 오염(Data Poisoning)**: AI 모델 학습 단계(Training Phase)에서 악성 샘플, 변조된 라벨(Label), 또는 스텔스 백도어 트리거를 데이터셋에 몰래 주입하여 모델의 추론 성능을 저하시키거나 특정 조건에서 공격자가 원하는 비인가 결과를 출력하도록 가중치를 변조하는 공격 기술이다.
 - **AI(Artificial Intelligence)**: 빅데이터와 머신러닝/딥러닝 파이프라인을 통해 지능형 추론과 생성을 집행하는 기술이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표적 오염(Targeted Poisoning Attack)**: 전체 모델 성능을 유지하면서 공격자가 지정한 특정 개체(예: 특정 인물, 특정 IP)에 대해서만 정반대 판단을 도출하게 만드는 오염 공격이다.
 - **백도어 오염(Backdoor Poisoning Attack)**: 학습 데이터에 특정한 안경, 핑거프린트, 워터마크 노이즈 트리거를 주입하여 배포 후 해당 트리거 감지 시에만 비인가 악성 동작을 야기하는 공격이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수집 격리소(Ingestion Sandbox / Quarantine Buffer)**: 외부 크롤링 및 사용자 피드백 데이터가 주 학습 데이터베이스로 합류하기 전에 무결성을 정밀 검사하는 차단 격리 영역이다.
 - **불변 학습 버전(Immutable Training Versioning / DVC)**: DVC(Data Version Control) 기법을 활용해 검증 완료된 오염 없는 데이터셋만을 암호화 해시로 수명주기 고정 관리하는 레포지토리이다.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정상 평가(Clean Standard Evaluation)**: 오염되지 않은 보편적 테스트 데이터셋으로 모델의 종합 성능을 평가하는 관문이다.
 - **표적 평가(Subpopulation / Targeted Evaluation)**: 소수 특정 계층이나 표적 데이터군에 대한 오탐 비율을 집중 검사하는 관문이다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가용성 오염(Availability / Denial of Service Poisoning Attack)**: 전체 데이터셋에 대량의 노이즈(Dirty Data)를 집어넣어 모델의 전반적인 정확도를 0%에 가깝게 폭망시키는 서비스 거부 공격이다.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **AI 100-2e2025 (NIST AI 100-2e2025 Data Poisoning)**: AI 수명주기 중 데이터 오염 및 무결성 관리 통제를 수록한 NIST 표준 보고서이다.
@@ -187,7 +187,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오염 복구 가능성(Poisoning Recovery & Remediation Capability)**: 오염 발생 시 즉각 데이터 계보를 역추적하여 악성 표본을 격리하고 이전 정상 데이터 버전(DVC)으로 재학습 복구하는 능력이다.
 

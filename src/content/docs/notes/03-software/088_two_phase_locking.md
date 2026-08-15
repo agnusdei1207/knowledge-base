@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2PL (Two-Phase Locking Protocol, 2단계 잠금 프로토콜)**: 트랜잭션의 잠금(Lock) 획득과 해제를 2개의 직교되는 단계(성장 단계: Growing Phase, 축소 단계: Shrinking Phase)로 분리하여, 트랜잭션의 충돌 직렬 가능성(Conflict Serializability)을 100% 보장하는 동시성 제어 프로토콜.
 - **Growing Phase (확장/성장 단계)**: 트랜잭션이 필요한 새로운 Lock(S-Lock, X-Lock)을 획득만 할 수 있고, 보유한 Lock을 전혀 해제(Unlock)할 수 없는 단계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lock Point**: 트랜잭션이 마지막 Lock을 획득하여 Growing Phase가 완료되고 Shrinking Phase로 넘어가기 바로 직전의 시점.
 - **Cascading Rollback (연쇄 롤백)**: 기본 2PL에서 한 트랜잭션이 Unlock한 미커밋 데이터를 타 트랜잭션이 읽었을 때, 원본 트랜잭션 취소 시 타 트랜잭션까지 도미노처럼 연속 롤백되는 현상.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **S-Lock / X-Lock**: Shared Lock(읽기 전용 공유 락), Exclusive Lock(쓰기 전용 배타 락).
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Strict 2PL (엄격한 2PL)**: 연쇄 롤백(Cascading Rollback)을 방지하기 위해, 모든 X-Lock(배타 락)을 Shrinking Phase에 해제하지 않고 트랜잭션이 Commit/Rollback 될 때까지 유지하는 프로토콜.
 - **Rigorous 2PL (강력한 2PL)**: 모든 S-Lock과 X-Lock을 포함한 모든 락을 Commit/Rollback 시점까지 전혀 해제하지 않는 완벽한 2PL 변형.
@@ -106,7 +106,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cascading Rollback Avoidance**: Strict 2PL 및 Rigorous 2PL은 미커밋 데이터 유출을 막아 연쇄 롤백을 완전 방지(Avoids Cascading Aborts).
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deadlock in 2PL**: 2PL 규약을 준수하다가 두 트랜잭션이 상대방이 보유한 락을 교차 대기(Circular Wait)하여 영원히 멈추는 현상.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2PL 수립 기준(2PL Protocol Standards)**: 직렬 가능성 요건, 연쇄 롤백 차단성 및 Strict 2PL 채택 여부에 의거한 체계.
 

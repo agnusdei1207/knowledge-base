@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 오케스트레이션/자동화/대응(SOAR, Security Orchestration, Automation, and Response)**: 이종 보안 도구 연결 및 반복 사건 대응을 플레이북 기반으로 자동/승인 실행하는 보안 플랫폼.
 - **보안 정보/이벤트 관리(SIEM, Security Information and Event Management)**: 다기종 로그 상관분석을 통해 보안 경보를 생성/통합하는 관제 플랫폼.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오케스트레이션(Orchestration)**: 서로 다른 보안 도구의 조회/판단/조치 호출을 단일 사건 흐름으로 연결하는 기능.
 - **플레이북(Playbook)**: 사건 조건, 정보 수집, 분기, 승인, 조치와 원복 순서를 실행 가능한 절차로 정의한 표준 문서.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사건 맥락 입력부**: 중복 경보를 묶고 자산•신원•위협 정보를 보강하는 구성요소이다.
 - **플레이북 엔진**: 조건•분기•승인•조치 순서에 따라 플레이북을 실행하는 구성요소이다.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멱등성(Idempotency)**: 같은 조치를 여러 번 호출해도 결과가 한 번 실행한 것과 같게 유지되는 성질이다.
 - **원복(Rollback)**: 자동 조치가 잘못됐을 때 차단•격리•계정 상태를 조치 전으로 되돌리는 기능이다.
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 자동 대응**: 고신뢰•저영향•가역적 조치를 사람 승인 없이 즉시 실행하는 방식이다.
 - **승인 기반 대응**: 자동 조사 후 영향이 큰 표준 조치를 사람 승인으로 실행하는 방식이다.
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가역성**: 실행한 보안 조치를 이전 상태로 되돌릴 수 있는 정도이다.
 - **멱등 키(Idempotency Key)**: 재시도에서도 중복 조치를 막는 요청 식별자이다.
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SOAR 실행 방식 선택**: 탐지 신뢰도•조치 영향•가역성에 따라 자동•승인•수동 대응을 결정하는 판단이다.
 

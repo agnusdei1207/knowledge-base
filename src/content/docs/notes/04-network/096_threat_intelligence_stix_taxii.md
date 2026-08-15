@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격자•기법•대상•흔적을 근거와 맥락으로 분석해 방어 판단에 쓰는 정보이다.
 - **구조화된 위협 정보 표현(Structured Threat Information eXpression, STIX)**: 위협 개체와 관계를 기계가 읽을 수 있게 표현하는 표준 자료 모델이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 지표(Indicator)**: 악성 주소•파일값처럼 특정 공격 활동을 탐지할 수 있는 조건과 유효 기간을 가진 정보이다.
 - **관측 자료(Observed Data)**: 네트워크나 시스템에서 실제로 발견한 주소•파일•행위와 관측 시각을 기록한 사실이다.
@@ -60,7 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **STIX 객체 저장소**: 위협 개체•관계•공유 표시를 보존하는 저장소이다.
 - **위협 검증•보강기**: 출처•신뢰도•수명•관계를 확인하고 위협 맥락을 추가하는 구성요소이다.
@@ -97,7 +97,7 @@ CTI 교환 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **증분 동기화**: 마지막 수신 뒤 추가•변경된 객체만 교환하는 방식이다.
 - **스키마 검증•매핑**: 표준 객체를 내부 형식으로 정확히 변환했는지 확인하는 절차이다.
@@ -173,7 +173,7 @@ CTI 교환 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **구조화 정보 표준화 기구(Organization for the Advancement of Structured Information Standards, OASIS)**: 정보 교환 표준을 개발하는 국제 비영리 기구이다.
 - **OASIS STIX 2.1**: STIX 위협 개체와 관계를 규정한 표준이다.

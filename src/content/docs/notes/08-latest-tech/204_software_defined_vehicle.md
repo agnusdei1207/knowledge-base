@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 정의 차량(Software Defined Vehicle, SDV)**: 중앙 컴퓨팅과 서비스 기반 구조에서 차량 기능과 가치를 소프트웨어로 지속 구현•갱신하는 차량을 의미한다.
 - **전자제어장치(Electronic Control Unit, ECU)**: 차량의 특정 기능을 센서 입력과 제어 로직으로 제어하는 장치이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하드웨어 추상화**: 장치별 차이를 공통 API로 감춰 차량 기능을 하드웨어 구현과 분리하는 방식로 정의된다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 차량 기능을 정해진 요청•응답 규격으로 호출하는 접점을 의미한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구역 제어기(Zone Controller)**: 차량 구역별 센서•구동기 연결과 전력•통신을 집약해 중앙 컴퓨터와 연결하는 제어기을 말한다.
 - **중앙 HPC**: 여러 차량 기능을 통합 실행하고 구역 제어기와 고속 네트워크로 연결되는 연산 플랫폼을 의미한다.
@@ -110,7 +110,7 @@ Vehicle OS와 HPC는 API로 기능과 장치를 분리한다.
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 계약**: 차량 기능이 제공하는 인터페이스•데이터•권한•버전의 합의를 정의한 명세을 말한다.
 
@@ -144,7 +144,7 @@ API, Vehicle OS, HPC가 서비스 계약에 따라 기능을 실행한다.
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하드웨어(Hardware, HW)**: 차량 기능을 실행하고 물리 입출력을 제공하는 장치 자원을 말한다.
 - **소프트웨어(Software, SW)**: 차량 기능과 제어 로직을 구현하는 프로그램을 말한다.
@@ -166,7 +166,7 @@ ECU, SDV, HW•SW의 결합 수준을 비교한다.
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **파티셔닝**: 안전 등급과 자원 요구가 다른 기능을 실행 영역으로 분리해 상호 간섭을 제한하는 방식로 정의된다.
 - **자동차 안전 무결성 수준(Automotive Safety Integrity Level, ASIL)**: 차량 기능의 위험도에 따라 요구 안전 수준을 구분한 등급이다.
@@ -186,7 +186,7 @@ ECU, SDV, HW•SW의 결합 수준을 비교한다.
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스화**: 차량 기능을 표준 인터페이스로 제공하여 여러 애플리케이션이 재사용하고 독립 갱신하게 하는 설계을 말한다.
 

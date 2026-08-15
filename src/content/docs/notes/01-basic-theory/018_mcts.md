@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **몬테카를로 트리 탐색(Monte Carlo Tree Search, MCTS)**: 선택•확장•롤아웃•역전파를 반복해 보상 추정치가 높은 경로에 탐색을 집중하는 기법이다.
 - **선택(Selection)**: UCT로 탐색 트리의 경로를 고르는 단계이다.
@@ -44,7 +44,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **트리 적용 신뢰 상한(Upper Confidence Bound applied to Trees, UCT)**: 평균 보상과 방문 횟수로 탐색•활용을 조절하는 선택식이다.
 - **탐색 예산(Search Budget)**: MCTS가 반복할 수 있는 시간•롤아웃 횟수•계산량의 한도이다.
@@ -73,7 +73,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **트리 정책(Tree Policy)**: UCT로 기존 노드를 따라가며 확장할 상태와 행동을 고르는 규칙이다.
 - **롤아웃 정책(Rollout Policy)**: 확장 상태부터 종료까지 모의 행동을 선택해 보상 표본을 만드는 규칙이다.
@@ -106,7 +106,7 @@ MCTS 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보상(Reward)**: 모의 행동 결과가 목표를 달성한 정도를 나타내는 값이다.
 - **미시도 행동**: 현재 탐색 트리 노드에서 아직 자식으로 확장하지 않은 행동이다.
@@ -146,7 +146,7 @@ MCTS 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미니맥스(Minimax)**: 상대의 최선 대응을 가정해 최소•최대 값을 역전파하는 결정 규칙이다.
 - **평가 함수(Evaluation Function)**: 종료하지 않은 상태의 유리함을 점수로 추정하는 함수이다.
@@ -169,7 +169,7 @@ MCTS 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **탐색 상수(Exploration Constant)**: UCT에서 저방문 행동의 탐색 보너스 크기를 조절하는 계수이다.
 - **가상 손실(Virtual Loss)**: 병렬 작업자가 같은 경로에 몰리지 않도록 선택 중인 노드의 가치를 일시적으로 낮추는 값이다.
@@ -195,7 +195,7 @@ MCTS 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **롤아웃 가능성**: 현재 상태부터 종료까지 모의 행동을 실행해 보상 표본을 얻을 수 있는 조건이다.
 - **정확한 평가**: 비말단 상태의 결과 가치를 평가 함수가 신뢰할 수 있게 추정하는 조건이다.

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW Cost Estimation (소프트웨어 대가산정)**: 소프트웨어 개발, 기획, 운영 및 유지보수 사업 추진 시, 요구사항 규모(FP) 및 사업 특성에 맞춰 합리적이고 객관적인 SW 개발비를 산정하는 체계적인 가이드라인 절차.
 - **KOSA SW Cost Estimation Guide**: 한국소프트웨어산업협회(KOSA)에서 매년 최신화하여 공개하는 국내 공공/민간 IT 사업 대가 산정의 표준 지침.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Value-Based Estimation (가치 기반 산정)**: 단순 투입 인력의 수(Man-Month)가 아닌, 사용자가 얻게 되는 소프트웨어 기능 가치(FP)에 기반하여 대가를 산정하는 방식.
 - **Adjustment Factors (보정계수)**: 사업의 연계성, 마이크로프로세서, 보안성 수준 및 다국어 지원에 따라 기본 개발비에 곱해지는 가중치 계수.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FP Unit Price (기능점수당 단가)**: KOSA에서 정한 FP 1점당 금액 (e.g., 약 55만원~60만원대).
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Direct Cost Calculation Formula**: Direct Development Cost = $FP \times \text{Unit Price} \times (C_1 \times C_2 \times C_3 \times C_4 \times C_5)$.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Maintenance Cost Ratio (유지관리 대가)**: 소프트웨어 개발비의 일정 비율(e.g., 요율제 10~15%) 또는 기능점수 재산정(FP 기반)으로 매년 지급하는 운용 대가.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Man-Month (M/M) Repress**: 법적으로 금지된 Headcounting 투입 공수(M/M) 방식 강요 근절 및 FP 대가 산정 정착 요구.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW 대가산정 수립 기준(SW Cost Estimation Standards)**: KOSA 대가 가이드, 소프트웨어 진흥법 및 공공 IT 예산 편성 지침에 의거한 체계.
 

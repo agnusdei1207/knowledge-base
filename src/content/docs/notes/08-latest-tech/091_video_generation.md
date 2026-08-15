@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영상 생성(Video Generation)**: 텍스트•이미지 조건으로 동적 프레임을 합성하는 기술이다.
 - **시간 연속성(Temporal Continuity)**: 프레임 간 객체•위치•동작이 연결되는 성질이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **시공간 표현(Spatiotemporal Representation)**: 공간 정보와 시간 변화를 결합한 특징이다.
 - **움직임 조건(Motion Conditioning)**: 궤적•카메라•포즈로 시간 변화를 제어한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조건 인코더(Condition Encoder)**: 텍스트•이미지 조건을 잠재 특징으로 변환한다.
 - **잠재 텐서(Latent Tensor)**: 공간•시간 위치를 압축한 다차원 특징 맵이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **객체 상태(Object State)**: 시점별 객체의 외형•위치•자세 표현이다.
 - **물리 일관성(Physical Consistency)**: 생성 움직임이 물리 법칙을 따르는 상태이다.
@@ -124,7 +124,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프레임별 생성(Frame-by-frame)**: 프레임을 독립 합성한 뒤 영상화한다.
 - **비디오 확산(Video Diffusion)**: 시공간 잡음을 반복 제거한다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **객체 변형(Object Morphing)**: 시점 간 객체 속성•외형이 왜곡되는 현상이다.
 - **장기 오차 누적(Error Accumulation)**: 초기 오류가 후속 프레임으로 전파되는 현상이다.
@@ -164,7 +164,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **조건 충족도(Condition Fidelity)**: 지정한 입력 조건의 반영 정도이다.
 - **시간 일관성**: 객체•움직임의 연속성 유지 정도이다.

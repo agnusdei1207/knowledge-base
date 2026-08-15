@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **On-Device Model Deployment**: 경량 Model과 Runtime을 단말에 설치해 내부에서 추론하는 방식
 - **Offline Inference**: Network 연결 없이 단말 Model로 수행하는 추론
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LiteRT**: Mobile•Embedded Device용 Google ML 추론 Runtime
 - **ONNX (Open Neural Network Exchange)**: ML Framework 간 Model 교환 표준
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Device Inference Runtime**: Model Graph를 해석해 지원 가속기에 연산을 배치하는 Engine
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Device Farm**: 다양한 제조사•OS•Chipset 단말을 자동 시험하는 환경
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Inference**: 요청 난이도•자원•품질에 따라 단말과 Cloud를 분기하는 방식
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Accuracy Degradation (정확도 저하)**: 과도한 압축으로 원본 대비 예측 품질이 하락하는 현상
 

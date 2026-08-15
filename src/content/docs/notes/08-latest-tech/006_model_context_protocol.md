@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**: AI 호스트와 외부 서버 간 도구·리소스·프롬프트 발견 및 교환을 표준화한 연결 프로토콜. 시스템의 자율적 기능 발견과 일관된 상호작용을 매개하는 핵심 아키텍처.
 
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **요청 자기기술성(Self-Descriptive Request)**: 요청이 프로토콜 버전·클라이언트 식별·기능 메타데이터를 자체적으로 전달하는 성질.
 - **서버 발견(Server Discovery)**: 클라이언트가 호출 전 서버 기능을 선택적으로 조회하는 원격 프로시저 호출 절차.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)**: 사용자 동의•보안 정책과 여러 MCP 클라이언트 연결을 관리하는 인공지능 애플리케이션이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **MCP 클라이언트(MCP Client)**: 서버별 연결과 프로토콜 메시지 교환을 관리하는 호스트 내부 구성요소를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무상태 코어(Stateless Core)**: 초기화 핸드셰이크와 프로토콜 세션 없이 각 요청이 필요한 메타데이터를 전달하는 구조를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **캐시 힌트(Cache Hint)**: 목록•리소스 응답의 유지 시간과 공유 범위를 알려 재조회 비용을 줄이는 정보이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -139,7 +139,7 @@ MCP 클라이언트
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개방형 응용 프로그래밍 인터페이스 명세(OpenAPI Specification, OpenAPI)**: 고정된 하이퍼텍스트 전송 프로토콜(Hypertext Transfer Protocol, HTTP) API 계약을 기술하는 명세를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 
@@ -159,7 +159,7 @@ MCP 클라이언트
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 경계(Trust Boundary)**: 호스트•클라이언트•서버 사이에서 인증•권한•입력 검증 책임이 달라지는 보안 경계를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **전송 계층 보안(Transport Layer Security, TLS)**: 원격 전송 메시지의 기밀성•무결성과 서버 인증을 제공하는 보안 프로토콜이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -178,7 +178,7 @@ MCP 클라이언트
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MCP 적용 구분(MCP Application Division)**: AI 호스트가 모델의 기능 발견•컨텍스트 교환이 필요할 때 MCP를 적용하고, 고정 HTTP 계약만 필요하면 OpenAPI를 적용하는 구분이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 

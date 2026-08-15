@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **API 플랫폼(API Platform)**: 기관별 데이터와 행정 기능의 표준 연결 기반.
 - **디지털 신원(Digital Identity)**: 온라인 신원 검증과 서비스 접근 권한.
@@ -90,7 +90,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이용 근거·권한 확인 요청**: 법적 근거·동의·접근 권한 검증.
 - **공공 데이터 조회 요청**: 공통 API로 필요한 기관 자료 요청.
@@ -129,7 +129,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전자정부(e-Government)**: 기관별 행정 절차를 온라인으로 제공하는 정부 모델.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Query Execution Plan (쿼리 실행 계획)**: SQL 질의를 처리하기 위해 DBMS 옵티마이저(Optimizer)가 테이블 스캔 방식(Index Scan/Full Scan), 조인 알고리즘(Nested Loop/Hash Join), 조인 순서(Join Order)를 정형화하여 결정한 물리적 연산 실행 트리의 명세서.
 - **Cost-Based Optimizer (CBO, 비용 기반 옵티마이저)**: 카디널리티(Cardinality), 인덱스 상태, 데이터베이스 통계 정보(Statistics)를 바탕으로 각 실행 가능한 물리적 경로의 CPU/Disk I/O 비용(Cost)을 계산하여 최저 비용 경로를 선택하는 엔진.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cost Estimation based on Statistics**: 데이터베이스 `ANALYZE` 통계 기반의 정량적 비용 계산.
 - **Tree-structured Operator Architecture**: Root에서 Leaf 노드 방향으로 데이터 조인/필터링 연산이 전달되는 트리 아키텍처 구조.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cardinality (카디널리티)**: 특정 연산 단계에서 반환될 것으로 옵티마이저가 예측한 튜플(행)의 수.
 - **Filtered (필터링 비율)**: Table Scan 또는 Index Scan 후 `WHERE` 조건에 의해 남겨진 튜플의 백분율($\%$).
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Query Rewrite (쿼리 재작성)**: 뷰(View) 펴기, 서브쿼리 불내포화(Unnesting), 정적 조건절 전파 등을 통해 옵티마이저가 처리하기 쉬운 형태로 SQL 구문을 등가 변환하는 기법.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Rule-Based Optimizer (RBO)**: 우선순위 규칙(15가지 규칙)에 따라 무조건 정적으로 실행 계획을 세우는 과거 방식.
 - **Cost-Based Optimizer (CBO)**: 데이터 통계를 바탕으로 동적 비용을 산출하여 실행 계획을 선택하는 현대 표준 방식.
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Optimizer Hint**: 옵티마이저의 판단 대신 개발자가 직접 인덱스나 조인 방식을 강제 지정하는 주석 힌트 (`/*+ INDEX(a idx_user) USE_HASH(b) */`).
 
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 계획 튜닝 수립 기준(Query Optimization Standards)**: CBO 통계 정보 최신성, EXPLAIN 실행 계획 검증 및 Optimizer Hint 가이드라인에 의거한 체계.
 

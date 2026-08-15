@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISMS(Information Security Management System)**: 정보보호 위험과 통제를 조직적으로 관리하는 인증 체계.
 - **ISMS-P(Personal Information & Information Security Management System)**: 정보보호 및 개인정보보호 관리체계를 통합 심사하는 인증.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증 범위(Certification Scope)**: 심사 대상이 되는 서비스, 조직, 시스템 및 정보 경계.
 - **위험평가(Risk Assessment)**: 자산, 위협, 취약점 및 개인정보 처리 흐름을 분석하는 활동.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보호대책 요구사항(Protective Measures Requirements)**: 식별된 위험을 완화하기 위한 관리적•물리적•기술적 통제 영역.
 - **개인정보 처리단계(Personal Information Processing Lifecycle)**: 개인정보의 수집, 이용, 제공, 위탁, 파기 등 전 과정 보호 영역.
@@ -92,7 +92,7 @@ ISMS-P 통합 관리체계
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심사 발견사항(Audit Findings)**: 심사를 통해 확인된 통제의 결함 및 부적합 사항.
 - **시정조치(Corrective Action)**: 심사 발견사항의 근본 원인을 제거하여 재발을 방지하는 개선 활동.
@@ -141,7 +141,7 @@ ISMS-P 통합 관리체계
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 </details>
 
@@ -157,7 +157,7 @@ ISMS-P 통합 관리체계
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정보통신망법 제47조(Network Act Article 47)**: 정보보호 관리체계(ISMS) 인증의 법적 의무 및 근거 조항.
 - **개인정보 보호법 제32조의2(PIPA Article 32-2)**: 개인정보보호 관리체계(ISMS-P) 인증 및 유효기간에 관한 법적 조항.
@@ -178,7 +178,7 @@ ISMS-P 통합 관리체계
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증 범위 한계(Limitations of Certification Scope)**: 인증이 특정 서비스 및 시스템 경계 내 통제만 보장하는 한계점.
 

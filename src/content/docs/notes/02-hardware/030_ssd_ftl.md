@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플래시 변환 계층 (Flash Translation Layer, FTL)**: SSD 컨트롤러 내부 펌웨어 형태로 탑재되어, 호스트의 파일 시스템 논리 주소(LPN/LBA)를 물리 NAND 플래시 주소(PPN/PBA)로 동적 매핑하고 가비지 컬렉션(GC) 및 마모도 평준화(Wear Leveling)를 총괄하는 핵심 펌웨어 엔지니어링 레이어.
 - **비제자리 갱신 (Out-of-Place Update)**: NAND Flash 하드웨어 물리 특성상 '제자리 덮어쓰기(Overwrite)'가 불가능하여, 덮어쓸 데이터를 항상 물리적 클린 빈 페이지(Clean Page)에 새로 쓰고 기존 페이지를 무효화(Invalidate)하는 동작 방식.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가비지 컬렉션 (Garbage Collection, GC)**: 무효화된(Invalid) 페이지가 적재된 희생 블록(Victim Block)에서 유효(Valid) 페이지만 딴 클린 블록으로 복사 인출한 뒤, 해당 희생 블록 전체를 Erase 복구시키는 재활용 과정.
 - **마모도 평준화 (Wear Leveling)**: P/E Cycle(Program/Erase Cycle) 수명 한계를 지닌 NAND 블록들이 특정 블록만 집중 마모되는 것을 막기 위해 전 블록의 P/E Count를 균등화 스위칭하는 기법.
@@ -57,7 +57,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LPN-PPA 매핑 테이블 (LPN-PPA Mapping Table)**: 호스트 논리 페이지 번호(Logical Page Number)를 실제 낸드 물리 페이지 주소(Physical Page Address)로 대조 변환해 주는 SRAM/DRAM 상의 룩업 표.
 - **메타데이터 복구기 (Metadata Recovery Engine / Power-Loss Protection)**: 갑작스러운 불시 정전(SPO) 발생 시, 저널링 로그와 DRAM 매핑 체크포인트를 결합하여 LPN-PPA 테이블을 무결하게 100% 복구하는 하드웨어/소프트웨어 블록.
@@ -94,7 +94,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **희생 블록 (Victim Block)**: 가비지 컬렉션(GC) 실행 시 무효(Invalid) 페이지 비율이 가장 높아 유효 데이터 이동 오버헤드가 적은 최적의 소거 대상 물리 블록.
 - **매핑 저널 (Mapping Journal)**: LPN-PPA 변경 이력을 Flash NAND 전용 저널링 블록에 로그 형태로 영구 적재하는 복구 롤링 기법.
@@ -136,7 +136,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이지 매핑 FTL (Page-Level Mapping FTL)**: LPN 4KB 단위마다 독립적인 PPA 4KB를 매핑하는 방식으로, 임의 쓰기 성능은 극상이나 매핑 테이블 크기(DRAM 용량)가 매우 커지는 방식.
 - **블록 매핑 FTL (Block-Level Mapping FTL)**: LBN(논리 블록)과 PBN(물리 블록)만 매핑하는 방식으로 매핑 테이블은 극도로 작으나 임의 쓰기 시 병합(Merge) 오버헤드로 WAF가 폭증하는 방식.
@@ -157,7 +157,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **초과 예비 공간 (Over-Provisioning, OP)**: 전체 물리 낸드 용량 중 호스트 유저에게 노출하지 않고 FTL가 가비지 컬렉션(GC) 및 Wear Leveling 전용 공간으로 감추어 두는 여유 낸드 비율 (보통 7% ~ 28%).
 - **TRIM 명령 (TRIM Command)**: 호스트 OS가 파일 삭제 시 해당 논리 블록이 더 이상 쓰이지 않음을 SSD FTL에 명시적으로 통지하여 FTL이 사전 무효화(Invalidate) 처리하도록 돕는 SATA/NVMe 명령.
@@ -177,7 +177,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FTL 최적화 기준 (FTL Optimization Criteria)**: 워크로드의 임의 쓰기 비율, Over-Provisioning(OP) 공간 비율, WAF 및 TRIM 연동 여부를 종합 분석하여 FTL 펌웨어 파라미터를 확정하는 프레임워크.
 

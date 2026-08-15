@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사건수 분석(Event Tree Analysis, ETA)**: 초기 사건 발생 이후 방어 장벽의 성공•실패 조합을 순방향으로 전개하여 발생 가능한 모든 결과 시나리오와 각 경로의 확률을 정량적으로 분석하는 귀납적 위험 평가 기법이다.
 - **초기 사건(Initiating Event)**: 사건수 분석의 출발점이 되는 기기 고장, 가스 누출, 화재 등 시스템의 정상 상태를 교란하는 최초의 비정상 사건을 의미한다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순방향 귀납 분석(Forward Inductive Analysis)**: 하나의 시작 사건에서 출발하여 후속 방어 장벽의 성공/실패 결과에 따라 가능한 최종 상태로 나아가는 인과관계 전개 방식이다.
 - **조건부 확률(Conditional Probability)**: 선행 사건이나 앞선 장벽의 결과가 특정 상태로 주어졌을 때, 그 다음 장벽이 성공하거나 실패할 확률을 정량화한 수치이다.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **방어 장벽(Defense Barrier)**: 초기 사건 발생 시 사고의 진행을 감지, 차단, 완화, 복구하기 위해 시스템 내에 설계된 물리적 장치나 관리적 절차를 의미한다.
 - **분기(Branch)**: 각 방어 장벽의 작동 성공 또는 실패 여부에 따라 논리적으로 나뉘는 구체적인 사고 시나리오 전개 경로이다.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시나리오(Scenario)**: 초기 사건의 발생과 그에 대응하는 방어 장벽들의 작동 성공 및 실패 결과들이 시간 순으로 이어진 구체적이고 완전한 사고 전개 경로이다.
 - **결과 확률(Consequence Probability)**: 초기 사건의 발생 빈도와 각 시나리오 경로별 방어 장벽 분기의 조건부 확률들을 모두 곱하여 산출한 최종 상태의 예상 발생 가능성이다.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ETA 적용(ETA Application)**: 초기 사건 이후 방어 장벽의 작동 결과에 따른 피해 파급 경로를 시간 순방향으로 전개하며 분석하는 접근법이다.
 - **결함수 분석(Fault Tree Analysis, FTA)**: 최상위 사고(Top Event)를 먼저 정의하고, 그 사고를 유발하는 시스템 내 하위 원인들의 논리적 조합을 역방향으로 분해해 나가는 연역적 분석 기법이다.
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **독립성 가정(Assumption of Independence)**: 하나의 방어 장벽 작동 성공 또는 실패가 다른 장벽의 작동 확률에 아무런 영향을 미치지 않는다고 전제하는 가정으로, 실제와 다를 경우 오류를 유발한다.
 - **공통 원인 고장(Common Cause Failure, CCF)**: 전원 상실, 극심한 환경 변화 등 단일 원인으로 인해 여러 방어 장벽이나 다중화된 시스템이 동시에 실패하는 현상이다.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잔여 위험(Residual Risk)**: 식별된 취약 경로에 대해 방어 장벽 보강 및 다중화 등 위험 감소 조치를 적용한 이후에도 시스템에 여전히 남아 있는 통제 가능한 수준의 사고 가능성과 예상 피해이다.
 - **장벽 보강 결정(Barrier Reinforcement Decision)**: 발생 확률과 예상 피해가 큰 취약 경로의 방어 장벽을 우선적으로 개선하고, 장벽 간 공통 원인 고장을 제거하여 시스템 안전성을 극대화하는 관리적 판단이다.

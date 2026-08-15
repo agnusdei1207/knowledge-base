@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AUTOSAR(Automotive Open System Architecture)**: 글로벌 완성차(OEM) 및 부품사(Tier-1)가 공동 제정한 자동차 전자제어장치(ECU) 소프트웨어 개방형 표준 아키텍처.
 - **ECU(Electronic Control Unit)**: 차량 내 각 기능(엔진, 섀시, ADAS 등)을 제어하는 임베디드 컴퓨터 단말.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표준 인터페이스(Standardized Interface)**: 애플리케이션(SWC)과 기본 소프트웨어(BSW) 간 데이터 교환 및 함수 호출 규칙 규격.
 - **ARXML(AUTOSAR XML)**: SWC 포트 사양, BSW 설정, CAN/Ethernet 통신 매핑 정보를 규정하는 AUTOSAR 전용 표준 XML 설명 파일.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SWC(Software Component)**: 차량 기능(예: 제동, 조향 등)을 구현하는 최상위 애플리케이션 소프트웨어 캡슐화 단원.
 - **RTE(Runtime Environment)**: SWC 간 또는 SWC와 BSW 간의 포트 통신 및 함수 호출을 중개하는 추상화 미들웨어 계층.
@@ -88,7 +88,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플랫폼 할당(Platform Allocation)**: 차량 기능 속성(실시간 제어 vs 동적 서비스)에 따라 Classic 또는 Adaptive 노드로 SWC를 배분하는 공정.
 - **러너블(Runnable)**: RTE가 수신 이벤트 또는 정속 주기에 맞춰 호출 실행하는 SWC 내부 코드 엔티티.
@@ -140,7 +140,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 구성(Static Configuration)**: 빌드 시점에 태스크, RTE 매핑과 BSW 메모리 배치를 결정하는 아키텍처.
 - **SOA(Service-Oriented Architecture)**: 서비스 바인딩 및 발견을 런타임에 동적으로 매핑하는 서비스 지향 아키텍처.
@@ -159,7 +159,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ARXML 스키마**: 툴 벤더 간 맵핑 불일치를 차단하기 위해 엄격히 동기화하는 메타모델 규격.
 - **원자적 갱신(Atomic Update)**: 갱신 단위를 완전 적용하거나 이전 상태로 롤백하는 업데이트 기법.
@@ -180,7 +180,7 @@ Adaptive 구조: [Adaptive 응용] -- [ARA•기능 클러스터]
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플랫폼 선택 기준(Platform Selection Criteria)**: 하드 실시간성, 컴퓨팅 파워, 동적 서비스 요구량에 기반한 아키텍처 결정 체계.
 

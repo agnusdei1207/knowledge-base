@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DAST (Dynamic Application Security Testing, 동적 보안 분석)**: 런타임 구동 중인 웹/API 애플리케이션 외부 엔드포인트에 실제 악의적 공격 모의 페이로드(HTTP Payload)를 주입하여 런타임 보안 취약점을 탐지하는 블랙박스 동적 보안 테스트.
 - **Black-box Security Testing**: 소스코드에 대한 정보가 전혀 없는 상태에서 외부 공격자(Hacker) 관점으로 동작 중인 애플리케이션의 HTTP Request/Response 반응을 수집하여 취약점 검증.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Positive 0% 지향**: 실제 구동 중인 서버에 공격을 가하여 HTTP 200/500 응답 결과로 성공 여부를 입증하므로, 정적 분석(SAST)에 비해 오탐율(False Positive)이 극도로 낮음.
 - **No Source Code Needed**: 소스코드 언어나 라이브러리에 독립적이며(Language Agnostic), 런타임 HTTP 엔드포인트만 노출되어 있으면 스캔 가능.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spider / Crawler**: 웹 애플리케이션 내의 모든 URL, 링크, Form, API 엔드포인트를 자동으로 탐색하여 공격 대상 표면(Attack Surface) 목록을 수집하는 엔진.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Passive vs Active Scanning**: Passive는 트래픽을 관찰만 하여 헤더 설정 등을 검사, Active는 실제로 공격 쿼리를 주입(Inject)하여 DB/서버 응답을 변형 검증.
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IAST (Interactive Application Security Testing)**: SAST(코드 내부)와 DAST(외부 모의 침투)를 통합하여, DAST 공격 시 애플리케이션 내부에 주입된 에이전트가 코드 라인까지 정밀 역추적하는 현대적 기법.
 
@@ -136,7 +136,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Production Risk**: 실운영(Prod) DB에 DAST Active Scan을 가할 경우 `DELETE/UPDATE` 쿼리가 발사되어 데이터가 파괴될 수 있으므로, 반드시 Isolated Staging 환경에서 스캔 필수.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DAST 도입 수립 기준(DAST Adoption Standards)**: 런타임 환경 준비도, API 크롤링 사양 및 IAST로의 발전 가능성에 의거한 체계.
 

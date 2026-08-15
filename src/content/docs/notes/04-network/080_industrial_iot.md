@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **산업용 사물 인터넷(Industrial Internet of Things, IIoT)**: 설비 데이터를 상태 감시•예지 정비•생산 조건•안전 제어 판단에 연결하는 산업 운영 체계이다.
 - **정보 기술(Information Technology, IT)**: 업무 데이터 처리와 분석을 담당하는 기술 영역이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현장 검증(Field Validation)**: 상위 분석에서 승인한 명령을 최신 공정 상태•허용 한도•안전 연동 조건과 다시 대조하는 과정이다.
 - **비무장 지대(DeMilitarized Zone, DMZ)**: IT와 OT 사이의 직접 연결을 차단하고 중계•검사 시스템을 두는 경계 구간이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OT DMZ**: IT와 OT의 직접 연결을 차단하고 중계•검사 시스템을 배치한 경계이다.
 - **프로그래머블 논리 제어기(Programmable Logic Controller, PLC)**: 현장 제어 논리를 실행하는 산업 제어 장치이다.
@@ -90,7 +90,7 @@ IT 분석•업무 시스템
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 조건 재검증(Safety Condition Revalidation)**: 명령 실행 직전에 최신 설비 상태와 허용 범위•보호 조건을 다시 확인하는 과정이다.
 - **공정 데이터 수집**: 측정값•설비 부하•운전 단계를 함께 획득하는 단계이다.
@@ -137,7 +137,7 @@ IT 분석•업무 시스템
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소비자 사물 인터넷(Consumer Internet of Things, 소비자 IoT)**: 개인 기기를 연결해 편의와 사용자 자동화를 제공하는 사물 인터넷 환경이다.
 
@@ -156,7 +156,7 @@ IT 분석•업무 시스템
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 노후화(State Staleness)**: 분석과 승인 사이에 공정 상태가 바뀌어 과거 측정값에 맞춘 명령이 현재 설비에 위험해지는 문제이다.
 
@@ -175,7 +175,7 @@ IT 분석•업무 시스템
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 연동 차단(Safety Interlock Blocking)**: 승인된 명령이라도 최신 안전 조건을 위반하면 상위 제어보다 우선해 실행을 막는 기능이다.
 

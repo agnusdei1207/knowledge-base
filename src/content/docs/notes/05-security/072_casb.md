@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 접근 보안 브로커(Cloud Access Security Broker, CASB)**: 온프레미스와 클라우드 인프라 또는 사용자 단말과 클라우드 애플리케이션 사이에 위치하여 중앙 보안 정책을 인라인/API 기반으로 중계•집행하는 보안 솔루션이다.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 클라우드 공급자가 운영하는 완성형 소프트웨어 서비스(Salesforce, M365 등) 모델이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 발견(Cloud Discovery)**: 네트워크 방화벽/SWG 로그 분석을 통해 사내에서 사용 중인 수천 개 SaaS의 종류와 위험도를 자동 탐지하는 기능이다.
 - **그림자 IT(Shadow IT)**: 중앙 IT/보안 부서의 승인 없이 사용자들이 임의로 구독•사용하는 위험 클라우드 앱 및 자산이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 엔진(Policy Engine)**: 신원, 기기 무결성, 접속 위치, 데이터 민감도, 사용 행위를 대조해 통제 조치를 결정하는 중앙 판단 모듈이다.
 - **서비스 위험(Service Risk Rating)**: SaaS 서비스의 규정 준수, 데이터 암호화 지원 여부, 보안 사고 이력을 기반으로 계산한 위험 점수이다.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인라인 검사(Inline Inspection)**: Forward/Reverse 프록시 패스를 통해 트래픽을 실시간 인터셉트하여 업로드/다운로드 트래픽을 즉시 제어하는 방식이다.
 - **API 사후 점검(API Out-of-band Inspection)**: SaaS 서비스 API를 연계하여 이미 저장된 파일의 공유 상태, 맬웨어 감염, 오설정을 주기적으로 검사하는 방식이다.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계층 보안 검사 부담(Transport Layer Security Inspection Overhead, TLS Inspection Overhead)**: SSL/TLS 대용량 트래픽의 복호화 및 재암호화 처리에 따른 CASB 프록시 인프라 지연 및 성능 부하 현상이다.
 - **로그 기반 발견(Log-based Discovery)**: 방화벽, SWG 로그를 오프라인/SIEM으로 수신하여 사내 SaaS 사용 현황 및 위험도만 측정하는 비간섭 분석 방식이다.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 27017:2015**: 클라우드 서비스 환경의 거버넌스 및 고객/제공자의 보안 통제 요구사항 지침이다.
 - **CSA CCM v4.1 (Cloud Security Alliance Cloud Controls Matrix v4.1)**: 17개 도메인의 197개 통제 항목으로 구성된 글로벌 클라우드 보안 프레임워크이다.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **집행 사각지대(Enforcement Blind Spot)**: 미인가 단말(BYOD), 모바일 앱, 비인가 SaaS 접속 시 프록시나 API 통제를 벗어나는 보안 가시성 공백 영역이다.
 

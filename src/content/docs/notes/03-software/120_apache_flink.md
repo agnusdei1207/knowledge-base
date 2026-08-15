@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Flink**: 무한한(Unbounded) 실시간 데이터 스트림을 이벤트 시간(Event Time) 기준으로 밀리초(ms) 단위의 초저지연 및 Stateful(상태 보존) 방식으로 처리하는 3세대 분산 스트림 처리 엔진.
 - **Event Time & Watermark**: 서버 수집 시각이 아닌 이벤트가 실제 발생한 시각(Event Time)을 기준으로 늦게 도착한 데이터(Late Data)까지 정확히 처리하게 해주는 시계열 제어 메커니즘.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Stateful Stream Processing**: 연산자 내부 메모리/RocksDB에 상태(State)를 상주시켜 이전 이벤트 연산 결과를 유지.
 - **Asynchronous Barrier Snapshotting (ABS)**: Chandy-Lamport 알고리즘 기반 비동기 스냅샷으로 성능 저하 없는 고가용성 보장.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **JobManager vs TaskManager**: JobManager는 데이터흐름 그래프(JobGraph) 관리 및 체크포인트 총괄, TaskManager는 슬롯(Slot) 단위로 실제 연산 스레드 실행.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Checkpoint Barrier**: Stream 데이터 흐름 사이에 주입되는 특수 제어 표식으로, 연산자가 이 Barrier를 만나면 현재 상태(State)를 스냅샷으로 뜬 후 하류 연산자로 전달.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Native Streaming vs Micro-Batch**: Flink는 이벤트 1건 단위 레코드 전송(True Native), Spark는 N초 단위로 메시지를 모아서 처리(Micro-Batch).
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backpressure (역압력)**: 상류(Upstream) 연산자의 생산 속도가 하류(Downstream) 연산자의 소비 속도보다 빨라 버퍼가 차올라 멈추는 현상.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Flink 아키텍처 수립 기준(Apache Flink Standards)**: Event Time, Watermark 지연 수용성, RocksDB Incremental Checkpoint 및 Exactly-Once 수용성에 의거한 체계.
 

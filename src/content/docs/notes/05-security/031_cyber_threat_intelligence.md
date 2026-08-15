@@ -20,11 +20,10 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자•의도•TTP•대상•신뢰도 맥락을 부여하여 방어 의사결정을 지원하는 실행 가능한 지식.
-- **침해 지표(Indicator of Compromise, IoC)**: 악성 IP•도메인•파일 해시 등 침해를 식별하는 관측 흔적.
+- **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자 프로파일, 공격 의도, TTP, 표적 대상, 신뢰도 등 맥락을 부여하여 방어 의사결정을 지원하는 실행 가능한 지식.
+- **침해 지표(Indicator of Compromise, IoC)**: 악성 IP, 도메인, 파일 해시, 레지스트리 키 등 시스템이 침해되었음을 식별하는 관측 흔적.
 
 </details>
 
@@ -37,11 +36,10 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)**: 공격자가 목적 달성을 위해 반복 사용하는 고유한 공격 행위 패턴.
-- **신뢰도 평가(Confidence Scoring)**: 위협 출처•관측 시점•증거를 다각도로 검증하여 대응 확신 수준을 산정하는 절차.
+- **전술·기술·절차(Tactics, Techniques, and Procedures, TTP)**: 공격자가 목적 달성을 위해 반복적으로 사용하는 고유한 공격 행위 패턴 및 방법론.
+- **신뢰도 평가(Confidence Scoring)**: 위협 정보 출처, 관측 시점, 교차 검증 증거를 다각도로 평가하여 방어 조치 적용 확신도를 수치화하는 절차.
 
 </details>
 
@@ -55,11 +53,10 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **정보 요구(Priority Intelligence Requirements, PIR)**: 소비자의 의사결정 및 대응에 필요한 핵심 산출물을 사전에 정의한 요구사항.
-- **피드백(Feedback Loop)**: 배포된 정보가 탐지•차단•헌팅에 미친 실효성을 평가하여 분석 파이프라인에 재반영하는 절차.
+- **정보 요구(Priority Intelligence Requirements, PIR)**: 조직의 보안 의사결정과 위협 대응에 필수적인 핵심 산출물 및 요구사항 정의.
+- **피드백 루프(Feedback Loop)**: 배포된 CTI가 보안 장비 차단, 탐지 룰 생성, 위협 헌팅에 기여한 실효성을 측정하여 수집·분석 파이프라인을 지속 개선하는 체계.
 
 </details>
 
@@ -88,15 +85,10 @@ CTI 운영 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **정규화(Normalization)**: 이종 원천 데이터를 표준화된 통일 형식과 데이터 필드로 변환하는 처리.
-- **보강(Enrichment)**: 정규화된 지표에 자산 중요도•위협 맥락•지리 정보 등을 연계하는 가공 작업.
-- **오탐(False Positive)**: 정상 행위나 자산을 위협으로 오인하여 탐지•차단하는 오판 결과.
-- **정규화•중복 제거(Normalization & Deduplication)**: 원천별 데이터 형식을 일관화하고 중복 지표를 통합하는 단계.
-- **신뢰도•수명 평가(Confidence & TTL Assessment)**: 위협 출처•관측 시점•증적 및 유효기간(TTL)을 검증하는 단계.
-- **맥락 분석•산출물 생성(Contextualization & Intelligence Production)**: 자산•TTP•확신 수준을 연계하여 소비 목적별 인텔리전스를 가공하는 단계.
+- **데이터 정규화(Normalization)**: 이종 원천의 위협 데이터를 표준화된 통일 형식과 필드로 변환하는 전처리 과정.
+- **STIX/TAXII**: 위협 인텔리전스 표현 표준 포맷(STIX)과 이를 안전하게 자동 교환하기 위한 전송 프로토콜(TAXII).
 
 </details>
 
@@ -132,13 +124,10 @@ CTI 산출물 반환
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **전술 CTI(Tactical CTI)**: 실시간 탐지•차단에 즉시 적용 가능한 지표(IoC) 및 탐지 규칙 중심 정보.
-- **운영 CTI(Operational CTI)**: 공격 캠페인 조사 및 위협 헌팅에 필요한 TTP와 공격 경로 정보.
-- **전략 CTI(Strategic CTI)**: 보안 위험 관리 및 투자 의사결정에 필요한 위협 주체의 의도와 비즈니스 영향 분석 정보.
-- **보안 운영 센터(Security Operations Center, SOC)**: 이벤트를 실시간 관제하고 CTI를 적용하여 위협을 탐지•대응하는 전담 조직.
+- **전술 CTI(Tactical CTI)**: 방화벽/SIEM 등 보안 장비에 즉각 적용 가능한 침해 지표(IoC) 및 시그니처 중심 정보.
+- **전략 CTI(Strategic CTI)**: 경영진 및 CISO의 보안 투자와 정책 결정을 지원하는 공격 그룹 동향 및 지정학적 위협 분석 보고서.
 
 </details>
 
@@ -156,12 +145,10 @@ CTI 산출물 반환
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국 정부의 보안 및 기술 표준을 제정하는 기관.
-- **특별 간행물(Special Publication, SP 800-150)**: 사이버 위협 정보의 실시간 공유•교환•통합 활용을 위한 표준 가이드라인.
-- **지표 수명 관리(Indicator Lifecycle Management)**: 최초/최근 관측 시각, 유효기간, 철회 상태를 실시간 추적하여 노후 지표의 오차단을 방지하는 절차.
+- **NIST SP 800-150**: 사이버 위협 정보의 안전하고 효율적인 공유 및 협력을 위한 미국 표준 가이드라인.
+- **오탐 및 정보 과부하 제어(Noise & False Positive Control)**: 지표 수명주기(Aging/Revocation) 관리와 신뢰도 필터링을 통해 보안 관제 피로도(Alert Fatigue) 해소.
 
 </details>
 
@@ -177,10 +164,9 @@ CTI 산출물 반환
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **CTI 가치(CTI Value Metrics)**: 지표의 단순 수집량이 아닌, 방어 통제 자동 적용 및 실제 대응 조치 결정 기여도를 평가하는 기준.
+- **선제적 보안 방어 체계(Proactive Security Posture)**: 단순 지표 수집을 넘어 공격자 맥락과 TTP 기반으로 위협을 선제 차단하고 대응을 자동화하는 핵심 보안 역량.
 
 </details>
 

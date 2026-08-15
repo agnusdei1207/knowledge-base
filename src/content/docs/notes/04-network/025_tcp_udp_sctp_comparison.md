@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 스트림을 제공하는 전송 프로토콜이다.
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 없이 독립 데이터그램을 전달하는 전송 프로토콜이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **바이트 스트림(Byte Stream)**: 메시지 경계를 보존하지 않는 연속 바이트 전송 모델이다.
 - **데이터그램(Datagram)**: 각 메시지의 독립 경계를 유지하는 전송 단위이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SCTP 연관(SCTP Association)**: 여러 주소와 스트림을 포함하는 두 종단 사이의 통신 상태이다.
 </details>
@@ -86,7 +86,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 프로토콜 선택**: 신뢰성•지연•메시지 경계•다중 경로 요구로 종단 방식을 고르는 원칙이다.
 </details>
@@ -110,7 +110,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **멀티호밍(Multihoming)**: 여러 네트워크 경로를 등록하여 장애 시 경로를 전환하는 기능이다.
 - **멀티스트리밍(Multistreaming)**: 독립 순서 공간으로 스트림 간 선두 차단을 줄이는 기능이다.
@@ -131,7 +131,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 주소와 공인 주소를 변환하는 기능이다.
 - **선두 차단(Head-of-line Blocking)**: 앞선 데이터 손실 때문에 뒤 데이터도 전달되지 못하고 기다리는 현상이다.
@@ -151,7 +151,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 프로토콜 결정**: 신뢰성•지연•메시지 경계•다중 경로 요구에 맞춰 종단 방식을 고르는 판단이다.
 </details>

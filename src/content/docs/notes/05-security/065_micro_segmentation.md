@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **마이크로 세그멘테이션(Micro-Segmentation)**: 서버, 가상 머신(VM), 컨테이너 단위로 네트워크 경계를 세분화하여 승인된 동서 트래픽 통신만 핀포인트 허용하는 차세대 보안 기법이다.
 - **측면 이동(Lateral Movement)**: 단일 워크로드 침해 성공 후 데이터센터 내부의 타 서버 및 자원으로 격리망을 넘어 확산 공격하는 기법이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동서 트래픽(East-West Traffic)**: 데이터센터 내부 서버 간, VM 간, 또는 컨테이너 간에 발생하는 내부 가로 방향 통신 트래픽이다.
 - **기본 거부(Default Deny / Zero-Trust Default)**: 명시적으로 허용(Whitelist)된 정책 이외의 모든 통신 시도를 원천 차단하는 기본 동작 모드이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자산 가시성(Asset Visibility)**: 데이터센터 내 모든 워크로드, IP, OS, 콘텍스트를 자동으로 식별하고 매핑하는 기능이다.
 - **흐름 가시성(Flow Visibility)**: 워크로드 간 실제 송수신되는 애플리케이션 프로토콜, 포트, 의존 관계 트래픽을 지도화(Topology Mapping)하는 능력이다.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 버전(Policy Version / Sequence)**: 관리면에서 전달된 통제 규칙 세트의 신선도와 정합성을 식별하는 일련번호이다.
 - **과차단(Over-blocking / False Positive Blocking)**: 필수 정상 통신 흐름이 미흡한 정책 정의로 인해 차단되어 발생되는 서비스 장애 현상이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: L2 레벨에서 broadcast domain을 분할하는 전통적 사내망 구역 분리 기술이다.
 - **호스트•워크로드 정책(Host/Workload Agent Policy)**: OS 커널 방화벽(iptables/Windows Filtering Platform)에 에이전트를 설치하여 1:1 통제하는 정책이다.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-207**: 제로 트러스트 아키텍처 내 마이크로 세그멘테이션 배치 지침 표준이다.
 - **NIST SP 800-125B**: 가상화 데이터센터 내 하이퍼바이저 및 가상 네트워크의 세그멘테이션 보안 표준 지침이다.
@@ -201,7 +201,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **침해 도달 범위(Blast Radius)**: 단일 자원 침해 발생 시 공격자가 통신 경로를 통해 도달 가능한 데이터센터 내 최대 피해 범위이다.
 

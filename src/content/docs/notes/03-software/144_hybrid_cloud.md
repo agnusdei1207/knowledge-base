@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Cloud (하이브리드 클라우드)**: 자체 프라이빗 클라우드(On-Premise IDC, Private Cloud)와 공용 퍼블릭 클라우드(AWS, GCP Public Cloud)를 암호화 전용회선(AWS DirectConnect)이나 VPN으로 상호 통합 연결하여, 데이터와 워크로드를 보안 등급별로 유연하게 분산 배치하는 통합 아키텍처.
 - **Data Sovereignty (데이터 주권)**: 금융/공공/의료 등 법률적 규제 데이터(개인정보, 금융 계정)를 반드시 국경 내부의 프라이빗 IDC에 저장 보존해야 하는 규제 준수 수칙.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Workload Partitioning**: 보안 우려가 큰 RDBMS Core DB는 Private에, 웹 프론트엔드/API 서버는 Public에 분산 배치.
 - **Cloud Bursting**: 평시 온프레미스 가동, 트래픽 10배 폭발 시 퍼블릭 클라우드로 스케일아웃.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Network Interconnect**: On-Premise IDC와 AWS VPC를 BGP 라우팅 전용회선(DirectConnect) 및 IPsec VPN으로 묶어 단일 사설망(10.x.x.x)처럼 통합.
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Transit Gateway**: 온프레미스 인프라와 여러 퍼블릭 VPC 라우팅을 중앙에서 묶어 라우팅을 제어하는 가상 라우터.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Positioning**: 퍼블릭의 고성능/가성비와 프라이빗의 최고 보안성 2가지 장점만을 취합한 최상위 모델.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Split-Brain Risk in Data Sync**: 온프레미스 DB와 퍼블릭 DB 간 네트워크 단선 시 양쪽에서 CUD가 각자 발생하여 데이터 정합성이 깨지는 현상.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hybrid Cloud 수립 기준(Hybrid Standards)**: DirectConnect 전용회선, Cloud Bursting, Anthos/Outposts 통합 관리 및 CASB 보안 통제성에 의거한 체계.
 

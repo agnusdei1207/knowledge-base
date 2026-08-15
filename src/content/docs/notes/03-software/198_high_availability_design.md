@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **HA (High Availability, 고가용성)**: 시스템이 특정 기간 동안 정상적으로 서비스를 제공할 수 있는 확률을 의미하며, 일반적으로 연간 가용성 목표를 "몇 나인(9)"으로 표현(예: 99.99% = "포 나인"). 이를 달성하기 위해 자원을 다중화하고 장애 전환 체계를 구축.
 - **Failure Domain (장애 도메인)**: 하나의 물리적 장애(전원 단절, 스위치 불량, 랙 화재 등)가 동시에 영향을 미치는 자원의 범위. HA 설계의 핵심은 이 도메인을 최대한 분리하여 하나의 장애가 전체 시스템에 미치는 영향을 최소화하는 것.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Split Brain (분할 뇌 현상)**: 클러스터 노드들 간의 네트워크가 단절되었을 때, 각 노드가 자신만이 정상 Primary라고 판단하여 동시에 쓰기 작업을 수행하는 데이터 충돌 현상. Quorum과 Fencing으로 방지.
 
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **State Replication (상태 복제)**: Active 노드의 메모리 상태, 세션 데이터, 처리 중인 트랜잭션 정보를 Standby 노드에 실시간으로 복제하여, 전환 후에도 진행 중이던 작업을 끊김 없이 이어받는 기술.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **STONITH (Shoot The Other Node In The Head)**: 문자 그대로 "상대 노드의 머리를 쏴라"를 의미하는 Fencing 기법. 네트워크 단절 등 이상이 감지된 노드의 전원을 원격으로 강제 차단하여 Split Brain을 방지.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Active-Active (액티브-액티브)**: 모든 인스턴스가 평상시에도 동시에 트래픽을 처리하는 방식. 한 인스턴스에 장애가 발생하면 나머지가 해당 부하를 자연스럽게 흡수하여 전환 시간이 사실상 0.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Chaos Engineering (카오스 엔지니어링)**: Netflix가 창시한 복원력 검증 기법으로, 운영 환경에 의도적으로 서버 장애, 네트워크 단절 등을 주입하여 HA 절차가 실제로 동작하는지 검증하는 실험.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLO·Error Budget (서비스 수준 목표·오류 예산)**: SLO는 달성해야 할 가용성 목표(예: 99.95%)이고, 오류 예산은 목표 달성을 위해 허용되는 최대 다운타임 시간. 오류 예산이 소진될 위기이면 신규 배포를 멈추고 안정화에 집중.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID (Atomicity, Consistency, Isolation, Durability)**: 관계형 데이터베이스(RDBMS)의 트랜잭션 수용 모델로, 데이터의 무결성과 즉각적인 강한 일관성(Strict Immediate Consistency)을 최우선 보장하는 원칙.
 - **BASE (Basically Available, Soft-state, Eventual Consistency)**: 분산 NoSQL 및 마이크로서비스(MSA)의 트랜잭션 모델로, 시스템의 고가용성(High Availability)과 수평 확장성(Scale-Out)을 위해 즉각적 일관성을 포기하고 최종 일관성(Eventual Consistency)을 지향하는 원칙.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Basically Available**: 분산 노드 일부에 장애가 나도 시스템 전체가 멈추지 않고 가용 응답을 보장함.
 - **Soft-State**: 외부 이벤트 전파 없이도 노드의 데이터 상태가 변경될 수 있음 (시간에 따른 일관성 변화).
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compensating Transaction (보상 트랜잭션)**: BASE 모델에서 마이크로서비스 간 비동기 체인이 도중 실패했을 때, 이미 Commit된 이전 단계의 변경 사항을 원복(Undo)하기 위해 반대(Reverse) 연산 트랜잭션을 실행하는 기법.
 
@@ -73,7 +73,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transactional Outbox Pattern**: ACID DB에 로컬 비즈니스 데이터와 아웃박스(Outbox) 이벤트 테이블을 단일 트랜잭션으로 커밋한 후, CDC(Debezium)나 Poller가 이를 비동기 전파하는 패턴.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consistency Tradeoff**: 계좌 이체, 주식 체결 등 1원이라도 틀리면 안 되는 핵심 도메인은 ACID, 좋아요 수, SNS 피드, 장바구니 등은 BASE 수용.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotent Consumer (멱등 수신기)**: 비동기 메시지가 중복 수신(At-Least-Once)되더라도 멱등 키(Idempotency Key)를 검사하여 중복 갱신을 차단하는 설계.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜잭션 수립 기준(Transaction Architecture Standards)**: 무결성 요구 수준, 서비스 가용성 SLA, MSA 분산 구조 및 Polyglot Persistence에 의거한 체계.
 

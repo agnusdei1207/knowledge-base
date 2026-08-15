@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다중접속 에지 컴퓨팅(Multi-Access Edge Computing, MEC)**: 5G 무선 기지국(gNB) 및 코어망 인접 에지에 연산, 저장 및 네트워크 서비스(RNIS) 기능을 분산 배치하는 클라우드 아키텍처이다.
 - **로컬 브레이크아웃(Local Breakout, LBO)**: 사용자 데이터 패킷을 코어망 백본까지 이동시키지 않고 에지 기지국 단의 Local UPF에서 즉시 라우팅하여 분기하는 기술이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다중접속 에지 컴퓨팅 오케스트레이터(MEC Orchestrator, MEO)**: 에지 응용의 배치와 수명주기를 관리하는 제어기이다.
 - **사용자면 기능(User Plane Function, UPF)**: 5G 코어 아키텍처에서 사용자 패킷을 오프로딩하여 에지 데이터망으로 라우팅하는 핵심 NF이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **로컬 사용자면 기능(Local User Plane Function, Local UPF)**: SMF의 제어를 받아 트래픽을 코어 백본망이 아닌 현장 MEC 호스트로 라우팅하는 5G NF이다.
 - **MEC 플랫폼(MEC Platform, MEP)**: 에지 호스트 내에서 응용 프로그램의 등록, 데이터 릴레이 및 무선 네트워크 서비스 API를 중계하는 제어 모듈이다.
@@ -90,7 +90,7 @@ ETSI MEC 시스템 아키텍처
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **트래픽 조향(Traffic Steering)**: 5G 코어 SMF와 MEC MEP 간 연동을 통해 특정 5QI 트래픽의 데이터 전달 경로를 Local UPF로 지정하는 규칙 적용 절차이다.
 - **프로토콜 데이터 단위 세션(Protocol Data Unit Session, PDU Session)**: 단말과 MEC 에지 데이터망(DN) 간에 확립되는 사용자 세션 경로이다.
@@ -128,7 +128,7 @@ ETSI MEC 시스템 아키텍처
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중앙 클라우드(Central Cloud)**: 수도권 또는 통합 데이터센터(IDC)에 대용량 서버 인프라를 모아둔 중앙 집중형 클라우드이다.
 
@@ -151,7 +151,7 @@ ETSI MEC 시스템 아키텍처
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **세션 앵커(Session Anchor UPF / PSA)**: 단말이 이동하더라도 PDU 세션의 데이터 분기 기준점으로 작동하는 UPF 엔티티이다.
 - **원격 증명(Remote Attestation)**: 무선망 가장자리에 노출된 MEC 호스트의 OS 및 무결성 상태를 검증하는 위변조 방지 보안 기술이다.
@@ -172,7 +172,7 @@ ETSI MEC 시스템 아키텍처
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 잔류(Data Residency)**: 기업 및 국토 내부에서 발생한 데이터 패킷이 외부 지역이나 통신사 백본망으로 나가지 않고 로컬에서 소멸되는 관제 원칙이다.
 

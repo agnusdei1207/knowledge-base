@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부울 대수(Boolean Algebra)**: 0•1 변수와 AND•OR•NOT 연산을 다루는 대수 체계이다.
 - **논리 게이트(Logic Gate)**: 부울 연산을 전기적 회로로 구현한 소자이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **진리표(Truth Table)**: 모든 입력 조합과 그에 대응하는 출력을 나열한 표이다.
 - **카르노 맵(Karnaugh Map)**: 출력이 같은 인접 항을 묶어 부울식을 최소화하는 도표이다.
@@ -61,7 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **리터럴(Literal)**: 입력 변수나 그 부정으로 이루어진 논리식의 최소 단위이다.
 - **곱항(Product Term)**: 여러 리터럴을 AND로 묶어 하나의 출력 조건을 나타낸 항이다.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **참 리터럴**: 원 입력 변수를 그대로 사용하는 리터럴이다.
 - **부정 리터럴**: 입력 변수에 NOT을 적용한 리터럴이다.
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기본 게이트**: 조건 결합과 반전을 수행하는 AND•OR•NOT 게이트이다.
 - **배타 게이트**: 입력의 다름이나 같음을 판정하는 XOR•XNOR 게이트이다.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **형식 등가성(Formal Equivalence)**: 모든 입력에서 원 논리식과 구현 회로의 출력이 같은지 수학적으로 검증하는 성질이다.
 - **글리치(Glitch)**: 신호 경로의 지연 차이로 생기는 순간적인 잘못된 출력이다.
@@ -187,7 +187,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **게이트망**: 논리 함수를 구현하도록 여러 게이트를 연결한 회로이다.
 

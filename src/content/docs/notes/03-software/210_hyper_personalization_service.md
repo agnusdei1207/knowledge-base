@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hyper-Personalization Service**: 개인 이력과 실시간 맥락으로 순간별 제안을 선택하는 서비스
 - **Real-Time Context**: 현재 시간•위치•Device•Channel•행동 의도 정보
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Frequency Capping (노출 빈도 제한)**: 같은 제안의 횟수와 간격을 제한하는 정책
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Decision Engine (의사결정 엔진)**: Model 점수와 정책을 결합해 최종 제안을 선택하는 모듈
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Closed-Loop Learning**: 노출 후 반응을 다음 추천 Feature와 학습에 반영하는 구조
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Segment-Based Offer**: 공통 속성으로 묶은 집단에 같은 제안을 제공하는 방식
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Filter Bubble (필터 버블)**: 과거 취향에 맞는 정보만 반복 제공해 다양성이 사라지는 현상
 

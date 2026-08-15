@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **권한 인지 RAG(Permission-Aware RAG)**: 요청자 권한으로 검색 공간과 답변 근거를 제한하는 방식이다.
 - **접근 제어 목록(Access Control List, ACL)**: 자원별 허용•거부 주체와 권한 목록이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신원•접근 관리(Identity and Access Management, IAM)**: 신원을 확인하고 유효 권한을 계산하는 체계이다.
 - **권한 버전(Permission Version)**: 원천•색인•캐시의 권한 상태 식별값이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신원 문맥(Identity Context)**: 인증 상태와 사용자•서비스•그룹을 결합한 권한 입력이다.
 - **권한 검색기(Permission-aware Retriever)**: 유효 권한 범위에서만 문서를 검색한다.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사전 필터링(Pre-filtering)**: 검색 전에 권한으로 문서 공간을 제한한다.
 - **반환 전 재검증**: 문맥 전달 직전에 최신 원천 권한을 확인한다.
@@ -123,7 +123,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 색인 분리(Security Index Segmentation)**: 권한 영역별로 독립 색인을 운영한다.
 - **사후 필터링(Post-filtering)**: 검색 후 권한 없는 후보를 제거한다.
@@ -142,7 +142,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **권한 반영 지연**: ACL 변경이 색인•캐시에 늦게 적용되는 문제이다.
 - **선노출(Pre-exposure)**: 권한 검증 전에 비인가 정보가 로그•캐시에 기록되는 문제이다.
@@ -162,7 +162,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **권한 경계(Permission Boundary)**: 원천부터 답변까지 동일 정책을 적용하는 범위이다.
 - **정책 결정성(Policy Determinism)**: 같은 조건에서 항상 같은 권한 결과를 내는 성질이다.

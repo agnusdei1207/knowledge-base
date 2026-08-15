@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUF(Physical Unclonable Function)**: 반도체 제조 공정 중 발생하는 불가피한 미세 나노 물리적 편차(Manufacturing Variation)를 기반으로 고유 암호 키 및 반도체 지문을 생성하는 보안 기술.
 - **제조 편차(Manufacturing Variation)**: 칩 제조 시 실리콘 다이 간 게이트 지연, 에칭 차이 등으로 생기는 불가피한 물리적 산란 현상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고유성(Uniqueness)**: 서로 다른 칩 간 생성되는 PUF 응답 비트열이 상호 명확히 구분되는 확률적 차별성 (Ideal 50% Inter-HD).
 - **신뢰성(Reliability)**: 동일 칩 상에서 온도, 전압, 노화 변동에도 매번 동일한 PUF 키 응답을 재현해내는 안정성 (Ideal 0% Intra-HD).
@@ -60,7 +60,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUF 회로(PUF Circuit)**: SRAM 셀 초기화 상태, Ring Oscillator 발진 주파수 차이 등을 활용하여 0/1 고유 응답 비트를 생성하는 회로.
 - **보조 데이터 저장소(Helper-Data Store)**: 키 복원 시 오류 정정을 위해 헬퍼 데이터(BCH/Reed-Solomon 코딩)를 보관하는 저장 영역.
@@ -91,7 +91,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **등록(Enrollment)**: 파운드리 칩 생산 단계에서 PUF 기준 응답을 수집하고 헬퍼 데이터를 생성/저장하는 최초 등록 단계.
 - **재생(Reconstruction)**: 디바이스 현장 구동 시 헬퍼 데이터와 PUF 실시간 응답을 결합하여 메모리 상에 키를 임시 복원하는 런타임 단계.
@@ -137,7 +137,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **약한 PUF(Weak PUF)**: 소수의 fixed 챌린지-응답을 통해 칩 내부 고유 암호 키(DUK)를 생성하는 온칩 PUF (예: SRAM PUF).
 - **강한 PUF(Strong PUF)**: 수많은 챌린지-응답 쌍(CRP)을 형성하여 디바이스 상호 인증에 직접 활용하는 외부 방출용 PUF (예: Arbiter PUF).
@@ -157,7 +157,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **안정 비트(Stable Bit)**: 환경 변화에서도 값의 뒤집힘 확률이 낮은 PUF 셀 비트.
 - **모델링 공격(Modeling Attack)**: 머신러닝(ML) 알고리즘을 통해 강한 PUF의 대량 CRP 입력-출력 패턴을 학습하여 암호키를 추정해내는 기법.
@@ -179,7 +179,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUF 유형 선택 기준(PUF Type Selection Criteria)**: 암호 키 온칩 생성용인지, 외부 장치 상호 인증용인지에 따른 칩셋 선택 지표.
 

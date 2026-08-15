@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 카드(Model Card)**: 모델의 용도•성능•한계•위험을 문서화한 명세서이다.
 - **평가 증적(Evaluation Evidence)**: 성능•한계 주장을 뒷받침하는 데이터•지표•시험 결과이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **적용 경계(Application Boundary)**: 허용 사용자•업무•환경과 금지 맥락 범위이다.
 - **잔여 위험(Residual Risk)**: 완화 후에도 남아 판단이 필요한 위험이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대상 모델 식별(Model Identification)**: 이름•버전•구조를 배포 파일과 연결한다.
 - **사용자 범위(User Scope)**: 허용•금지 사용자와 역할 범위이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **승인 문서(Approved Document)**: 주장•증적 일치를 검토해 배포 승인한 버전이다.
 - **재평가(Reevaluation)**: 모델•데이터•환경 변경 후 성능•한계를 다시 시험한다.
@@ -122,7 +122,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터 카드(Data Card)**: 데이터 출처•수집•구성•품질•용도를 기록한다.
 - **시스템 카드(System Card)**: 전체 AI 서비스의 구조•안전•운영 통제를 기록한다.
@@ -141,7 +141,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **버전 불일치(Version Mismatch)**: 배포 모델과 카드 버전이 다른 문제이다.
 - **집단별 실패 은폐**: 평균값으로 특정 집단•환경 오류가 가려진 문제이다.
@@ -161,7 +161,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동시 배포(Co-deployment)**: 모델과 해당 모델 카드를 한 승인 단위로 제공한다.
 - **재발행(Reissue)**: 변경 후 평가•한계를 반영해 카드를 다시 승인•배포한다.

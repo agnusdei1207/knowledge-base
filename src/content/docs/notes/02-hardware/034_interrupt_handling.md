@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 처리 (Interrupt Handling)**: CPU가 명령어를 구동하는 도중 외부 입출력 장치나 내부 트랩 예외 신호(IRQ)가 수신되면, 현재 구동 중인 문맥을 스택에 백업하고 전용 처리 루틴(ISR)으로 제어를 전환하여 수습한 후 복귀하는 시퀀스.
 - **인터럽트 요청 신호 (Interrupt Request, IRQ)**: 타이머, NIC, 디스크 제어기 등이 CPU 핀이나 메세지 버스를 통해 즉시 처리를 필요로 함을 전달하는 하드웨어 신호.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 지연 (Interrupt Latency)**: 하드웨어 IRQ 신호가 발생한 순간부터 CPU가 문맥 저장을 마치고 actual ISR의 첫 번째 기계어 명령어를 실행하기 직전까지의 대기 시간.
 - **중첩 인터럽트 (Nested Interrupt)**: 어떤 ISR이 구동 중일 때, 그보다 더 우선순위(Priority)가 높은 긴급 IRQ(예: 전원 트랩, NMI)가 들어오면 기존 ISR을 중단하고 우선 실행하는 구조.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 제어기 (Interrupt Controller / APIC, NVIC)**: 각 장치의 IRQ 핀을 집적 받아 마스킹, 우선순위 판정 후 CPU Core로 대표 IRQ 신호를 보류 발송하는 전용 반도체.
 - **인터럽트 벡터 테이블 (Interrupt Vector Table, IVT)**: 0번지 메모리 구역에 배치되어, 각 인터럽트 벡터 번호(0~255)마다 처리할 32/64-bit ISR 시작 메모리 주소를 매핑해둔 함수 포인터 배열.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **원인 해제 (Source Clear)**: ISR 함수 내부에서 입출력 장치 컨트롤러의 Status 레지스터 비트를 0으로 덮어써서 동일 IRQ가 재발동되는 것을 막는 행위.
 - **지연 처리 (Deferred Processing / Bottom-Half, Top-Half)**: ISR(Top-Half)에서는 원인 해제 및 큐 등록만 1us 내로 하고, 시간이 걸리는 복잡한 처리는 SoftIRQ/Tasklet(Bottom-Half)으로 미루는 Linux 커널 기법.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **벡터 방식 (Vectored Interrupt)**: 장치가 자신의 고유 벡터 번호를 버스로 응답하여, CPU가 식별 지연 없이 IVT를 룩업해 1-Step 점프하는 현대적 하드웨어 방식.
 - **데이지체인 방식 (Daisy Chain Interrupt)**: 여러 장치가 단일 IRQ 및 Interrupt Acknowledge(INTA) 신호선을 직렬(Daisy Chain) 핀으로 연결하여, 물리적 거리 우선순위에 따라 원인을 1:1 찾는 임베디드 방식.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지연 처리 (Top-Half / Bottom-Half)**: ISR(Top-Half)에서는 하드웨어 Lock을 해제하고 IRQ Clear만 가볍게(1us) 처리하고, 패킷 조립 및 Disk I/O 등 중대형 작업은 Workqueue/SoftIRQ(Bottom-Half)로 미루어 인터럽트 지연을 감축하는 기술.
 - **우선순위 노화 (Priority Aging)**: APIC 스케줄링 시 저우선순위 장치가 고우선 장치에 밀려 영구 지연(Starvation)되는 것을 막고자 대기 시간에 비례해 IRQ 우선순위를 높여주는 기법.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 설계 판단 기준 (Interrupt Architecture Decision Criteria)**: 대상 시스템의 인터럽트 발생 빈도, 허용 지연시간(Latency), CPU 코어 수 및 하드웨어 핀 제약을 평가하여 벡터/데이지체인 및 Top/Bottom Half 구조를 확정하는 결정 프레임워크.
 

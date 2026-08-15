@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spinlock (스핀락)**: 락 획득 실패 시 스레드가 CPU를 반납하지 않고 `while` 루프 기반 바쁜 대기(Busy Waiting)를 수행하여 락을 즉각 가로채는 동기화 기법.
 - **Mutex (뮤텍스)**: 락 획득 실패 시 스레드를 OS 커널 대기 큐(Wait Queue)로 블록 이송(Sleep/Block)시켜 CPU를 타 스레드에 양도하는 상호 배제 기법.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Busy Waiting (바쁜 대기)**: 실행 상태를 유지하며 락 상태를 반복 검사하는 동작.
 - **Context Switch Threshold**: 문맥 전환에 소모되는 대략적인 시간 비용(약 수 μs 수치)으로, 임계 구역 실행시간과의 비교 기준점.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Atomic Test-and-Set (TAS)**: 하드웨어 수준에서 락 변수의 읽기와 쓰기를 단일 불가분(Atomic) 명령어로 실행하는 전용 지시어.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sleep-capable Context**: 인터럽트 핸들러(ISR)와 달리 커널 스케줄러에 의해 수면(Sleep)이 허용되는 프로세스/스레드 런타임 문맥.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interrupt Service Routine (ISR)**: 하드웨어 인터럽트를 처리하며 일반적인 수면 락을 사용할 수 없는 실행 문맥.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cache Line Bouncing**: 멀티소켓/멀티코어 환경에서 잦은 스핀락 TAS 수행으로 인해 L1/L2 캐시 일관성(MESI) 프로토콜 트래픽이 폭증하는 병목.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동기화 선택 기준(Spinlock vs Mutex Selection Criteria)**: 런타임 문맥(ISR vs Thread), 임계 구역 수행 시간 및 문맥 전환 비용에 기반한 수립 체계.
 

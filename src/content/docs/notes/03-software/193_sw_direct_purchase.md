@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Commercial Software Direct Purchase (상용 소프트웨어 직접구매)**: 공공기관이 SI(시스템 통합) 사업자에게 구축 비용과 함께 모든 소프트웨어를 일괄 구매하던 관행(통합 발주)을 타파하고, 특정 상용 SW(DB, WAS, OS 등)의 공급자와 발주기관이 직접 1:1 계약을 체결하는 조달 방식.
 - **SW 대가 분리**: 구축사에게 지급되는 개발 인건비(공사비)와 상용 SW 구매 비용(자재비)을 분리하여 계약하고 정산하는 원칙으로, 직접구매 제도의 핵심 전제.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vendor Lock-in (벤더 종속)**: 특정 SW 공급사의 제품에 지나치게 의존하여, 계약 만료 후 다른 제품으로 전환하는 것이 기술적·경제적으로 불가능해지는 위험. 직접구매 시 중립 규격으로 선정하여 방지.
 
@@ -50,7 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인계서 (Handover Document)**: 상용 SW 공급자가 발주기관에게 SW를 납품한 후, 이를 구축사에게 설치·연계 작업을 위해 인계할 때 사용하는 공식 문서. 공급자·구축사 간 책임 경계를 명확히 함.
 
@@ -75,7 +75,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TCO (Total Cost of Ownership, 총소유비용)**: SW를 선택할 때 초기 구매 가격만 보는 것이 아니라, 연간 유지보수 비용, 교육 비용, 버전 업그레이드 비용, 계약 종료 후 전환(Migration) 비용까지 포함한 전체 생애주기 비용.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bundled Procurement (통합 발주)**: SI 업체에게 SW 구매와 구축 개발을 모두 일괄 위임하는 방식. 발주기관 입장에서 관리는 편하지만, SW 가격과 라이선스 조건에 대한 통제권을 완전히 잃는 단점.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DR (Disaster Recovery, 재해복구) 환경 라이선스**: 본 운영 서버 외에, 재해 발생 시를 대비한 백업 서버에도 동일 SW가 설치될 때, 해당 서버에 대한 라이선스를 별도로 구매해야 하는지 여부. 이를 간과하면 라이선스 위반 발생.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW 조달 전략 기준**: 구매하려는 SW가 독립적으로 분리 가능한지, 발주기관이 직접 라이선스와 가격을 통제할 필요성이 있는지를 판단하는 의사결정 기준.
 

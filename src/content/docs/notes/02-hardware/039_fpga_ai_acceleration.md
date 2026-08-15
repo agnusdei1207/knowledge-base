@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FPGA(Field-Programmable Gate Array)**: 하드웨어 논리 회로와 배선 연결 구조를 재구성할 수 있는 프로그래머블 반도체.
 - **재구성 회로(Reconfigurable Circuit)**: 비트스트림을 변경하여 연산 논리 및 데이터 경로를 재설정 가능한 하드웨어 회로.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공간 병렬 파이프라인(Spatial Parallel Pipeline)**: 연산 단계를 물리적으로 나눈 하드웨어 레지스터에 분치하여 데이터를 연속 흐름 방식으로 처리하는 구조.
 - **II(Initiation Interval)**: 파이프라인이 다음 새 입력을 받기까지 소요되는 클록 주기 간격.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LUT(Look-Up Table)**: 조합 논리 회로 진리표를 저장하여 임의 논리 함수를 구현하는 FPGA 기본 구성 소자.
 - **DSP 슬라이스(DSP Slice)**: 고속 곱셈과 누산(MAC) 연산을 수행하도록 하드웨어로 고정 제작된 연산 블록.
@@ -94,7 +94,7 @@ FPGA AI 가속기
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **구성 제어기(Configuration Controller)**: 비트스트림 인가 및 무결성 검증을 통해 FPGA 자원을 초기화하는 칩 내부 컨트롤러.
 - **타일(Tile)**: 대용량 텐서를 온칩 BRAM 크기에 맞춰 분할한 데이터 단위 블록.
@@ -133,7 +133,7 @@ FPGA AI 가속기
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **배치 처리량(Batch Throughput)**: 다수의 입력을 묶어 처리할 때 단위 시간당 처리 가능한 데이터 개수.
 - **타이밍 클로저(Timing Closure)**: 합성 및 배치·배선 후 최악 지연 경로가 목표 클록 주기를 만족하도록 맞추는 과정.
@@ -155,7 +155,7 @@ FPGA AI 가속기
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화(Quantization)**: FP32 데이터를 INT8/INT4 등 낮은 정밀도로 변환하여 메모리 및 연산량을 절감하는 기법.
 - **부분 재구성(Partial Reconfiguration)**: 시스템 전체 정지 없이 특정 FPGA 로직 구역만 실시간 재설정하는 기술.
@@ -178,7 +178,7 @@ FPGA AI 가속기
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **엄격한 지연 상한(Strict Latency Bound)**: 최악의 워크로드 조건에서도 정해진 한계 시간을 절대로 초과하지 않는 실시간 조건.
 - **AI 가속기 선택 기준(AI Accelerator Selection Criteria)**: 알고리즘 변동 주기, 지연 결정성, 개발 예산에 기반한 반도체 선택 체계.

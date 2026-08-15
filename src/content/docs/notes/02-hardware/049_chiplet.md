@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **칩렛(Chiplet)**: 대형 모놀리식 칩을 기능 단위의 소형 다이(Die)로 분할 제조 후 고밀도 패키징으로 상호 연결하는 반도체 구조.
 - **D2D(Die-to-Die)**: 패키지 내부 칩렛 간 고속, 저지연 데이터 및 제어 신호를 전달하는 인터페이스 통신.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **KGD(Known Good Die)**: 패키지 조립(Advanced Packaging) 전 사전 개별 웨이퍼 검사(Wafer Test)를 거쳐 정상 동작이 보장된 단품 다이.
 - **이종 집적(Heterogeneous Integration)**: 연산, 메모리, 아날로그, I/O 등 기능에 맞춰 서로 다른 최적 제조 공정 칩렛을 통합 패키징하는 방식.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연산 칩렛(Compute Chiplet)**: 최첨단 미세공정(예: 3nm/2nm)을 적용하여 CPU/GPU/NPU 연산 코어를 탑재하는 핵심 다이.
 - **I/O 칩렛(I/O Chiplet)**: 레거시 공정(예: 6nm/12nm)을 적용하여 PCIe, DDR/HBM 컨트롤러 등 표준 입출력을 담당하는 다이.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **칩렛 트랜잭션(Chiplet Transaction)**: D2D 파이프라인 상에서 분할 칩렛 간 송수신되는 명령 및 데이터 패킷.
 - **CRC(Cyclic Redundancy Check)**: D2D 패킹 전송 신호의 비트 오염 여부를 판별하는 순환 중복 검사.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 SoC(Single System on Chip)**: 단일 모놀리식 실리콘 다이 상에 모든 시스템 블록을 전면 내장 제조하는 체계.
 - **온다이 지연(On-Die Latency)**: 단일 다이 내부 배선 상에서 지연되는 극초저 지연시간.
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **번인 시험(Burn-In Test)**: 고온/고전압 스트레스를 인가하여 수율 불량 칩렛을 패키징 전 선별하는 공정 검사.
 - **링크 오류율(Link Error Rate)**: D2D 물리선 전송 과정에서 발생하는 신호 오류 비트율.
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **재사용 이득(Reuse Benefit)**: 동일 칩렛 IP를 복수 서버/데스크톱 라인업에 재활용하여 단가를 낮추는 경제적 효과.
 - **칩렛 선택 기준(Chiplet Adoption Criteria)**: 웨이퍼 수율 개선 이득, D2D 패키징 비용, IP 재사용율에 근거한 반도체 파운드리 판단 체계.

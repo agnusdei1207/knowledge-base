@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Arm TrustZone**: 시스템을 보안(Secure)과 비보안(Non-secure)의 2개 도메인으로 수평 격리하는 하드웨어 기술
 - **보안 상태(Secure State)**: 암호 키, TEE 및 보안 자원에 하드웨어 직결 접근이 허용되는 실행 도메인
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NS 비트(Non-Secure Bit)**: 버스 트랜잭션 신호선에 탑재되어 요청 발원지를 파악하는 하드웨어 제어 신호
 - **공유 버퍼(Shared Buffer)**: 비보안 영역과 보안 영역 간 데이터를 교환하기 위해 지정된 비보안 영역 메모리
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SMC(Secure Monitor Call)**: A-profile 상에서 Non-secure 구역에서 Secure World로 전환하기 위해 발생시키는 예외 인스트럭션.
 - **TEE(Trusted Execution Environment)**: TrustZone Secure World 상에서 구동되는 경량 보안 OS(OP-TEE, QSEE 등).
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Secure Monitor**: Normal World와 Secure World 간의 Context Switch(레지스터 저장/복원)를 관장하는 최고 권한 펌웨어 계층.
 - **공유 버퍼 검증(Shared-Buffer Validation)**: Normal World에서 인가된 주소 파라미터가 NS 영역 내에 존재하는지 TEE가 사전에 검증하는 보안 절차.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OS 권한 격리**: Ring/EL(Execution Level) 기반 소프트웨어 관점 프로세스 간 페이지 테이블(MMU) 보호 방식.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TCB 최소화(TCB Minimization)**: 공격 표면(Attack Surface)을 줄이기 위해 TEE 내부 코드 및 드라이버 수용을 극소화하는 원칙.
 - **경계 취약점(Boundary Vulnerability)**: Normal World에서 전달된 잘못된 포인터(Point-to-Secure)를 TEE가 무비판 수용 시 발생하는 메모리 침범.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 격리 지표(Security Isolation Metrics)**: 보호 데이터 치명도 및 커널 신뢰성 기반 TrustZone 채택 기준
 

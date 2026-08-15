@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자컴퓨터의 공격에도 안전하도록 설계하면서 고전 컴퓨터와 통신망에서 실행하는 공개키 암호 체계이다.
 - **RSA(Rivest-Shamir-Adleman)**: 큰 정수의 인수분해 난제에 기반한 공개키 암호 체계을 말한다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모듈 격자 기반 키 캡슐화 메커니즘(Module-Lattice-Based Key-Encapsulation Mechanism, ML-KEM)**: 모듈 격자 문제로 공유 비밀을 캡슐화•복원하는 표준 키 설정 방식을 의미한다.
 - **모듈 격자 기반 디지털 서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: 모듈 격자 문제 기반의 표준 양자내성 전자서명 방식이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)**: 공유 비밀키를 직접 전송하지 않고 공개키로 캡슐화하고 개인키로 복원하는 키 설정 방식을 의미한다.
 - **양자내성 전자서명**: 양자 공격을 고려한 수학적 난제에 기반해 메시지의 진위와 무결성을 검증하는 방식이다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이브리드 전환**: 기존 암호와 양자내성암호를 함께 사용하여 이행 중 호환성과 보안을 유지하는 방식로 정의된다.
 
@@ -129,7 +129,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고전 공개키(Classical Public Key, Classical PK)**: 인수분해•이산로그 난제에 기반한 기존 공개키 암호을 의미한다.
 - **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용해 도청을 탐지하며 대칭키를 분배하는 기술을 의미한다.
@@ -149,7 +149,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 네트워크가 단편화 없이 전송할 수 있는 최대 패킷 크기을 말한다.
 
@@ -168,7 +168,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선취 후 복호화(Harvest Now, Decrypt Later, HNDL)**: 현재 수집한 암호문을 보관했다가 미래 양자컴퓨터로 복호화하려는 위협로 정의된다.
 

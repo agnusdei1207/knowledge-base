@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **JTAG(Joint Test Action Group)**: IC 칩셋 및 PCB 핀 연결 상태를 직렬 경계 스캔으로 검사하는 물리 인터페이스
 - **TAP(Test Access Port)**: JTAG 통신을 위한 4~5개 물리 신호 핀을 관리하는 포트 제어기
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직렬 스캔 체인(Serial Scan Chain)**: 복수의 IC 경계 셀들을 TDI-TDO 형태로 엮어 데이터를 직렬 전송하는 경로
 - **경계 스캔 셀(Boundary-Scan Cell)**: 물리 핀에 결합되어 값을 강제 구동하거나 캡처하는 하드웨어 래치
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TAP 제어기(TAP Controller)**: TMS 신호 및 TCK 클록에 맞춰 16개 내부 유한 상태 머신(FSM) 상태를 전이하는 제어 모듈.
 - **명령 레지스터(IR, Instruction Register)**: EXTEST, INTEST, SAMPLE/PRELOAD 등 실행할 JTAG 명령어를 수용하는 레지스터.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EXTEST(External Test)**: IC 외부 PCB 패턴 배선 간의 쇼트(Short) 및 오픈(Open) 단선 여부를 테스트하는 기본 JTAG 명령어.
 - **시험 패턴(Test Pattern)**: PCB 인쇄 배선망의 단락을 검증하기 위해 TDI로 인가하는 0/1 시퀀스 비트열.
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SWD(Serial Wire Debug)**: Arm 코어 전용 2-Pin(SWCLK, SWDIO) 경량 디버깅 인터페이스.
 - **UART**: asynchronous 직렬 비동기 통신을 통한 콘솔 및 CLI 로그 인터페이스.
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디버그 인증·잠금(Debug Lock/Fuse)**: 출하 후 인증된 주체만 JTAG 접근을 허용하거나 영구 비활성화하는 보안 설정.
 - **IDCODE/BYPASS**: IDCODE를 통한 칩셋 ID 확인 및 BYPASS 명령을 통한 무관 IC 레지스터 1-Bit 우회 처리.
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **JTAG 운영(JTAG Operation)**: 양산 검사 단계의 BSR 테스트와 출하 후 보안 Lock 설정 기반의 생애주기 관리
 

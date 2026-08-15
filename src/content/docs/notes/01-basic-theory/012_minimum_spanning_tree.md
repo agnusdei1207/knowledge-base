@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 신장 트리(Minimum Spanning Tree, MST)**: 모든 정점을 사이클 없이 연결하면서 간선 가중치 합을 최소화한 트리이다.
 - **신장 트리(Spanning Tree)**: 그래프의 모든 정점을 사이클 없이 연결한 트리이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **컷(Cut)**: 그래프의 정점 집합을 겹치지 않는 두 영역으로 나눈 경계이다.
 - **컷 속성(Cut Property)**: 현재 선택 간선을 가르지 않는 컷의 최소 횡단 간선이 안전하다는 성질이다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **우선순위 큐(Priority Queue)**: 후보 중 가중치가 가장 작은 간선을 먼저 꺼내는 자료구조이다.
 - **서로소 집합(Disjoint Set Union, DSU)**: 연결 영역의 대표를 조회하고 합쳐 사이클을 판정하는 자료구조이다.
@@ -91,7 +91,7 @@ MST 알고리즘 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **간선 밀도**: 가능한 전체 간선 수에 비해 실제 간선이 차지하는 비율이다.
 - **입력 구조**: 간선 목록•인접 목록•인접 행렬로 구분한 그래프 표현이다.
@@ -118,7 +118,7 @@ MST 알고리즘 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **크루스칼(Kruskal)**: 전체 간선을 가중치순으로 검사해 사이클 없는 간선을 선택하는 알고리즘이다.
 - **프림(Prim)**: 현재 트리와 바깥 정점을 잇는 최소 간선으로 연결 영역을 확장하는 알고리즘이다.
@@ -146,7 +146,7 @@ MST 알고리즘 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 신장 숲(Minimum Spanning Forest)**: 비연결 그래프의 각 연결 성분에서 만든 MST의 집합이다.
 - **결정적 보조 정렬**: 같은 가중치의 간선을 정점 식별자 같은 추가 기준으로 정렬해 결과를 재현하는 방식이다.
@@ -170,7 +170,7 @@ MST 알고리즘 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인접 구조**: 각 정점의 이웃과 가중치를 저장해 프림이 확장 후보를 찾는 그래프 표현이다.
 

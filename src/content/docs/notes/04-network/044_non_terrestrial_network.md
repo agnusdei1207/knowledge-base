@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비지상망(Non-Terrestrial Network, NTN)**: 저궤도 위성(LEO), 정지궤도 위성(GEO) 및 성층권 고고도 무인 항공 플랫폼(HAPS)을 무선 기지국으로 활용하여 전 지구 3D 입체 커버리지를 제공하는 3GPP 표준 기술이다.
 - **고고도 플랫폼 스테이션(High-Altitude Platform Station, HAPS)**: 약 20km 성층권 고도에서 태양광 무인기 또는 비행선 형태로 장기간 체공하며 국소 지역 무선 통신을 중계하는 비지상 플랫폼이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **왕복 시간(Round-Trip Time, RTT)**: 신호가 송신되어 수신기에 도달한 후 응답을 되돌려 받는 데 걸리는 총 전파 지연시간이다.
 - **도플러 편이(Doppler Shift)**: 저궤도 위성의 고속 이동(초속 약 7.5km)으로 인해 수신 반송파 주파수가 변동하는 현상이다.
@@ -63,7 +63,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 링크(Service Link)**: 이동 단말(UE)과 위성/HAPS 비지상 탑재체 간에 형상되는 무선 접속 링크이다.
 - **피더 링크(Feeder Link)**: 위성/HAPS 탑재체와 지상에 설치된 NTN 게이트웨이 간에 형성되는 유선 연동 백홀 무선 링크이다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **도플러 보상(Doppler Compensation)**: 위성의 궤도 예측 정보(Ephemeris Data)를 기반으로 단말 송수신 반송파 주파수의 도플러 오차를 실시간 선보정하는 연산 기법이다.
 
@@ -133,7 +133,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정지궤도(Geostationary Earth Orbit, GEO)**: 약 35,786km 적도 상공에 위치하여 지구 자전 속도와 동일하게 공전함으로써 지상에서 정지된 것처럼 보이는 위성 궤도이다.
 
@@ -155,7 +155,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **링크 예산(Link Budget)**: 송신 전력, 안테나 이득, 자유 공간 전파 손실 및 대기 흡수 감쇄를 산정하여 수신 SNR 한도를 계산하는 무선 설계 작업이다.
 - **가시 시간(Time of Visibility, TOV)**: 단말 위치에서 궤도를 이동하는 특정 LEO 위성과 무선 링크를 계속 유지할 수 있는 유효 시간 범위이다.
@@ -176,7 +176,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **플랫폼 선택(Platform Selection Criteria)**: 요구 지연시간(RTT), 가시 시간, 서비스 커버리지 범위에 따라 LEO, GEO, HAPS 중 최적의 비지상 구조를 선정하는 평가 기준이다.
 

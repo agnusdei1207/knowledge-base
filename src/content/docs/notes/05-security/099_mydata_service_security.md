@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **마이데이터 서비스 보안**: 정보주체가 동의한 본인정보의 전송•수신•활용•철회 전 과정에서 주체•범위•목적을 결속해 보호하는 체계이다.
 - **API(Application Programming Interface)**: 서비스 기능과 데이터를 정해진 요청•응답 형식으로 제공하는 경계이다.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동의 관리**: 전송 목적•항목•수신자•기간의 생성•변경•철회를 관리하는 활동이다.
 - **최소 권한 토큰**: 동의한 범위•대상•만료를 반영한 접근 토큰이다.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정보전송자**: 법정 대상 개인정보를 보유하고 요청에 따라 제공하는 기관이다.
 - **정보수신자**: 전송받은 개인정보를 정보주체가 지정한 목적 안에서 활용하는 기관이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **송신자 제한 토큰**: 접근 토큰을 특정 클라이언트 키에 결속해 탈취자의 사용을 막는 자격이다.
 - **Nonce**: 요청의 신규성을 확인해 재전송을 막는 일회성 난수이다.
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **마이데이터 보호 단계**: 동의•인가, 기관 간 API 전송, 수신 후 저장•철회에 서로 다른 통제를 적용하는 구분이다.
 - **파생본 근거 재판정**: 동의 철회 뒤 가공 결과의 보유•이용 근거를 다시 확인하는 통제이다.
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보호법 제35조의2**: 법정 전송 대상과 수신자 요건을 규정한 조항이다.
 - **OAuth(Open Authorization)**: 보호 자원의 제한된 접근 권한을 제3자 응용에 위임하는 인가 프레임워크이다.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동의 지배 원칙**: 정보주체의 유효한 동의가 토큰 발급•전송 필드•원본과 파생 데이터 이용•철회 후 종료까지 일관되게 적용되어야 한다는 원칙이다.
 

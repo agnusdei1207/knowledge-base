@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 모니터링(Network Monitoring)**: 상태•흐름•패킷 표본을 수집해 장애 원인을 분석하는 체계이다.
 - **단순 네트워크 관리 프로토콜(Simple Network Management Protocol, SNMP)**: 장비의 관리 정보와 상태를 조회•통지하는 프로토콜이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신호 결합**: 장비 카운터•통신 흐름•패킷 표본을 같은 시간축과 인터페이스 기준으로 연결하는 과정이다.
 
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정규화•상관 분석**: 서로 다른 관측 단위와 수집 시각을 공통 축으로 변환해 상태 변화와 통신 주체를 연결하는 과정이다.
 
@@ -86,7 +86,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **객체 식별자(Object Identifier, OID)**: 관리 정보 트리의 항목을 식별하는 값이다.
 - **IP 흐름 정보 내보내기(Internet Protocol Flow Information Export, IPFIX)**: 표준 형식으로 흐름 레코드를 내보내는 프로토콜이다.
@@ -130,7 +130,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **넷플로(NetFlow)**: 공통 속성의 패킷을 흐름 레코드로 집계하는 기술이다.
 
@@ -151,7 +151,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사건 왜곡**: 서로 다른 시점의 상태와 흐름을 같은 원인으로 연결하는 문제이다.
 - **네트워크 시간 프로토콜(Network Time Protocol, NTP)**: 네트워크 장비의 시각을 동기화하는 프로토콜이다.
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관측 수단 선택**: 분석 질문과 수집 비용에 따라 장비 상태•흐름 레코드•패킷 표본 수집 방식을 조합하는 기준이다.
 

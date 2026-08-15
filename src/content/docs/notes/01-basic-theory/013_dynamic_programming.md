@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장•재사용해 계산량을 줄이는 알고리즘 설계 기법이다.
 - **상태값(State Value)**: 부분 문제를 나타내는 각 상태에서 구할 결과이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중복 부분 문제(Overlapping Subproblems)**: 같은 작은 문제가 여러 계산 경로에서 반복해 나타나는 성질이다.
 - **최적 부분 구조(Optimal Substructure)**: 부분 문제의 최적해로 전체 최적해를 구성할 수 있는 성질이다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태(State)**: 부분 문제를 서로 구분하는 최소 변수의 조합이다.
 - **메모이제이션(Memoization)**: 필요한 상태를 재귀로 계산해 저장하고 중복 호출 때 재사용하는 방식이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미계산 상태**: 상태 저장소에 아직 결과가 기록되지 않은 부분 문제이다.
 - **의존 상태**: 현재 상태값을 점화식으로 구하기 전에 값이 필요한 하위 상태이다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하향식(Top-down)**: 목표 상태에서 필요한 하위 상태만 재귀로 계산•저장하는 방식이다.
 - **상향식(Bottom-up)**: 기저 상태부터 의존 순서대로 전체 상태값을 계산하는 방식이다.
@@ -161,7 +161,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 정의**: 이후 선택 결과를 구분하는 최소 정보를 하나의 부분 문제로 표현하는 기준이다.
 - **순환 의존**: 상태들이 서로의 값을 먼저 요구해 계산 순서를 정할 수 없는 관계이다.
@@ -185,7 +185,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **실제 계산량**: 목표값을 구하는 과정에서 값을 계산하는 상태의 수이다.
 

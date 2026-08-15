@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DDD (Domain-Driven Design)**: Eric Evans가 창안한 소프트웨어 설계 접근법으로, 복잡한 비즈니스 도메인을 중심으로 소프트웨어 모델을 구축하고 도메인 전문가와 개발자가 동일한 보편적 언어를 사용하는 개발 방법론.
 - **Ubiquitous Language (보편적 언어)**: 기획자, 현업 전문가, 아키텍트, 개발자 등 모든 이해관계자가 요구사항 정의부터 소스코드의 클래스/메서드 명칭까지 통일되게 사용하는 단일 공통 언어.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bounded Context**: 특정 모델과 보편적 언어가 일관된 의미를 갖는 명시적 경계.
 - **Context Map**: 여러 Bounded Context 간의 관계(Upstream/Downstream, Shared Kernel, ACL)와 데이터 연동 방식을 시각화한 지도.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Aggregate & Aggregate Root**: 데이터 변경의 단위이자 트랜잭션 일관성을 보장하는 연관 객체 묶음(Aggregate)과, 외부에서 해당 묶음으로 접근 가능한 유일한 관문 객체(Aggregate Root).
 - **Entity vs Value Object (VO)**: Entity는 고유 식별자(ID)와 연속된 생명주기를 가진 객체인 반면, Value Object는 식별자 없이 값(Value) 자체의 불변성(Immutability)만을 표현하는 객체.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Storming**: 도메인 전문가와 개발자가 한자리에 모여 주황색 포스트잇에 도메인 이벤트(Domain Event)를 시간순으로 벽면에 붙여가며 Bounded Context를 도출하는 워크숍 기법.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Anemic Domain Model (빈혈 도메인 모델)**: Entity 내부에 getter/setter만 존재하고 비즈니스 상태 변경 로직은 모두 외부 Service 클래스에 흩어져 있는 악성 antipattern.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACL (Anti-Corruption Layer)**: 다른 레거시 Bounded Context의 도메인 모델 오염이 내 순수한 도메인 모델로 들어오지 못하도록 중간에서 변환(Translate)해 주는 변환기 레이어.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DDD 도입 판정 기준(DDD Adoption Standards)**: 비즈니스 도메인의 복잡성, 현업의 참여도 및 MSA 전환 요구에 의거한 체계.
 

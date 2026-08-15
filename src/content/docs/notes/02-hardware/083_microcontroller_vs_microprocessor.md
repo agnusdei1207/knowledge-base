@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MCU(Microcontroller Unit)**: CPU 코어, ROM/Flash, RAM 및 I/O 주변장치(ADC, Timer, UART 등)를 단일 실리콘 칩에 집적(One-chip)한 저전력 제어용 반도체.
 - **MPU(Microprocessor Unit)**: 외부 메모리와 주변장치를 확장해 범용 OS와 고성능 응용을 처리하는 프로세서.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **온칩(On-Chip)**: CPU, 메모리, 주변장치가 단일 반도체 실리콘 다이 내부에 물리적으로 통합된 형태.
 - **MMU(Memory Management Unit)**: 가상 주소 변환과 프로세스별 메모리 보호를 수행하는 하드웨어.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MCU 온칩 자원**: Flash Memory, SRAM, ADC/DAC, PWM, CAN/UART/SPI 등 단일 칩 내부 레지스터 자원.
 - **MPU 외부 자원**: 외부 DRAM 컨트롤러(DDR4/5), PCIe 레인, 고속 시리얼 통신 등 오프칩 확장 자원.
@@ -82,7 +82,7 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **하드 실시간 요구(Hard Real-time Demand)**: 센서/모터 제어 시 마감시간(Deadline) 지연이 치명적 사고로 이어지는 제약.
 
@@ -124,7 +124,7 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WCET(Worst-Case Execution Time)**: 태스크 자체 연산이 완료되는 최악 실행시간 상한.
 
@@ -144,7 +144,7 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신호 무결성(Signal Integrity)**: MPU 오프칩 고속 메모리 버스 설계 시 전자기적 간섭(EMI) 및 노이즈를 억제하는 PCB 기술.
 
@@ -164,7 +164,7 @@ MPU 구조: [MPU 처리부] -- [MPU 외부 자원]
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **처리기 선택 기준(Processor Selection Criteria)**: 마감시간 임계성, 대용량 메모리 요구, 소비 전력 및 칩셋 비용에 기반한 결정 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OAuth 2.0 (Open Authorization 2.0)**: 사용자의 비밀번호를 제3자 앱(Client)에 넘기지 않고, 구글이나 카카오 등 인가 서버(Authorization Server)를 통해 한시적인 접근 권한(Access Token)만 안전하게 위임하는 표준 프레임워크.
 - **OIDC (OpenID Connect)**: OAuth 2.0 프레임워크 위에서 작동하며, 사용자가 '누구인지(Identity)' 증명하는 ID Token(JWT)을 추가 발급하여 간편 로그인(SSO)을 표준화한 인증 프로토콜.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Access Token (접근 토큰)**: 리소스 서버(구글 캘린더 API 등)에 접근하기 위한 랜덤 문자열(또는 JWT) 출입증. OAuth 2.0의 핵심 결과물.
 - **ID Token (신원 토큰)**: 사용자의 이름, 이메일, 발급자 정보 등 신원(Identity) 정보를 담고 있는 무조건적인 JWT 포맷의 토큰. OIDC의 핵심 결과물.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Authorization Server (인가 서버)**: 사용자를 로그인시키고 동의 화면을 띄운 뒤, 인가 코드(Code)와 최종 토큰(Access/ID Token)을 발급하는 중앙 권한 관리 주체(예: Google 서버).
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Authorization Code (인가 코드)**: 클라이언트가 토큰을 직접 받기 전, 브라우저(프론트)를 통해 전달받는 1회용 교환권. 이 코드를 백엔드 서버로 가져가야만 실제 토큰으로 교환 가능.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Scope (스코프)**: Access Token이 허용하는 권한의 범위(예: `calendar.read`, `profile`). OIDC를 사용하려면 반드시 `openid` 스코프를 요청해야 함.
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PKCE (Proof Key for Code Exchange)**: 모바일 앱처럼 `Client Secret`을 안전하게 숨길 수 없는 환경(Public Client)에서, 인가 코드(Code) 가로채기 공격(Interception Attack)을 방어하기 위해 도입된 암호학적 챌린지 기법.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Token Validation (토큰 검증)**: 수신한 ID Token의 서명(Signature), 발급자(Issuer), 대상(Audience), 만료 시간(Expiration)을 클라이언트가 직접 검증해야 하는 OIDC 핵심 보안 수칙.
 

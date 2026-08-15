@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DAS(Direct Attached Storage)**: 서버에 HBA 전용 케이블(SATA/SAS/NVMe)을 통하여 직접 물리 결합하는 블록 스토리지.
 - **NAS(Network Attached Storage)**: 표준 Ethernet IP 네트워크 기반으로 파일 서버(NFS/SMB)가 파일 레벨 입출력을 서빙하는 네트워크 스토리지.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 레벨 I/O(Block-Level I/O)**: 논리 블록 주소 기반으로 호스트 파일시스템이 블록 장치에 접근하는 방식.
 - **파일 레벨 I/O(File-Level I/O)**: 파일 경로와 오프셋으로 원격 파일시스템에 접근하는 방식.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **HBA(Host Bus Adapter)**: 서버 호스트 슬롯 상에서 FC/SAS 인터페이스를 물리 제어하는 전용 어댑터 카드.
 - **FC Switch**: SAN 전용 광 인터커넥트 패브릭을 형성하고 Zoning 및 LUN Masking을 수행하는 스위치.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LUN Masking**: 지정된 호스트 식별자에만 특정 **LUN** 접근을 허용하는 스토리지 설정.
 - **Zoning**: FC 패브릭에서 통신 가능한 포트·WWN 집합을 제한하는 접근 통제.
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multipathing**: 서버와 SAN 사이에 복수 I/O 경로를 구성하고 장애 경로에서 대체 경로로 전환하는 기법.
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVMe-oF(NVMe over Fabrics)**: Ethernet·FC 등 패브릭을 통해 원격 NVMe 블록 접근을 제공하는 프로토콜.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스토리지 선택 기준(Storage Architecture Selection Criteria)**: 데이터 억세스 단위(Block vs File), 성능/지연시간 목표, 공유 범위 및 TCO에 기반한 체계.
 

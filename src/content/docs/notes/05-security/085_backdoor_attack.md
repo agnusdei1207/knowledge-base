@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백도어 공격(Backdoor Attack / Trojan Attack)**: AI 모델 학습 시 특정 스티커, 문구, 패턴 등 비밀 트리거(Trigger)를 심어놓아, 평상시 정상 입력에는 99% 정상 동작하지만 해당 트리거 감지 시 공격자가 의도한 오판을 도출시키는 딥러닝 트로이목마 공격이다.
 - **AI(Artificial Intelligence)**: 기계학습 및 딥러닝 기반으로 자율 판단과 추론을 수행하는 시스템이다.
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오염 표본(Poisoned Sample)**: 학습 데이터 내에 트리거 패턴과 공격 표적 라벨(Target Label)을 합성 주입한 표본이다.
 - **모델 오염(Model Weight Poisoning / Fine-tuning Poisoning)**: 학습 데이터뿐만 아니라 공급망의 파인튜닝/가중치 자체에 트로이목마를 직접 주입하는 수법이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트리거 평가기(Trigger Evaluator / Backdoor Scanner)**: Neural Cleanse 등의 역공학 기법으로 모델 내부에 숨겨진 잠재적 트리거 패턴 존재 여부를 탐지하는 검사 엔진이다.
 - **승격•복구 게이트(Promotion & Remediation Gate)**: ASR 수치가 유효 기준 이상인 백도어 의심 모델의 배포를 차단하고 안전한 버전으로 즉시 원복(Rollback)시키는 방어 게이트이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트리거 연관(Trigger Association)**: 뉴럴 네트워크 레이어 내에서 입력 트리거 특징(Feature)과 특정 타깃 클래스를 강제로 맵핑 바인딩시키는 현상이다.
 - **목표 행동(Target Class / Attack Action)**: 백도어 활성화 시 공격자가 출력시키고자 하는 비인가 정답 라벨 또는 시스템 명령이다.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **일반 데이터 오염(Generic Data Poisoning)**: 모델 전반의 가용성을 무력화하거나 특정 샘플의 오판을 도출하는 공격이다.
 - **적대적 예제(Adversarial Example)**: 모델의 학습 가중치 변경 없이 추론 시점에 입력 데이터에 미세 노이즈를 섞어 착시를 유발하는 공격이다.
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **AI 100-2e2025 (NIST AI 100-2e2025 Backdoor Attacks)**: 백도어 트로이목마 공격 및 방어 정량 지침을 수록한 NIST 표준이다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백도어 승격 기준(Backdoor Promotion Criteria)**: 일반 Clean Accuracy 성능을 보장함과 동시에 ASR 수치가 0%에 수렴하는 검증된 모델만 배포 승인하는 보안 게이트 지침이다.
 

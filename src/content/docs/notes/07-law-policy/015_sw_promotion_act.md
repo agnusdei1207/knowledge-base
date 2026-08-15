@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 진흥법(Software Promotion Act)**: SW 산업 지원과 공공사업 발주 질서의 법률.
 - **산업 진흥 법률(Industry Promotion Act)**: 산업 기반과 공정한 시장 질서를 규율하는 법률.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **과업 통제(Task Control)**: 계약 전 범위와 변경·대가·기간의 심의.
 - **상용 소프트웨어 직접구매**: 상용 SW를 통합사업과 분리 구매하는 제도.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **과업심의위원회(Task Review Committee)**: 과업·기간·변경 대가의 적정성 심의 조직.
 </details>
@@ -86,14 +86,14 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제안요청서(Request for Proposal, RFP)**: 과업·기간·산출물·평가 조건의 발주 문서.
 - **대가·기간 조정**: 과업 변경을 계약금액·수행 기간에 반영하는 활동.
-- **직접구매•사업 기간 검토(English, English)**: 대상 제품과 적정 사업 기간을 사전에 확인하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **과업 내용•기간 심의(English, English)**: 과업의 명확성•적정성•수행 가능성을 검토하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **확정 과업으로 계약(English, English)**: 심의 결과를 제안요청서와 계약 내용에 반영하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **대가•기간 조정 심의(English, English)**: 변경 과업의 계약금액과 수행 기간을 조정하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **직접구매•사업 기간 검토**: 대상 제품과 적정 사업 기간을 사전에 확인하는 단계.
+- **과업 내용•기간 심의**: 과업의 명확성•적정성•수행 가능성을 검토하는 단계.
+- **확정 과업으로 계약**: 심의 결과를 제안요청서와 계약 내용에 반영하는 단계.
+- **대가•기간 조정 심의**: 변경 과업의 계약금액과 수행 기간을 조정하는 단계.
 
 </details>
 
@@ -133,7 +133,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공공 SW사업(Public SW Project)**: 과업심의·적정 기간·대가 기준의 공공 발주.
 - **과업심의(Task Review)**: 계약 전 과업과 변경·대가·기간 심의.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구두·무상 과업(Unrecorded Unpaid Task)**: 기록·대가·기간 조정 없는 추가 과업.
 - **기술지원 책임(Technical Support Responsibility)**: 설치·연동·하자·복구의 공급자별 책임.
@@ -173,7 +173,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **과업 변경 통제(Task Change Control)**: 추가 범위를 대가·기간과 함께 조정하는 절차.
 

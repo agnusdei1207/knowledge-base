@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PMEM(Persistent Memory)**: 바이트 주소 지정과 전원 차단 후 데이터 유지 특성을 결합한 영속 메모리.
 - **바이트 주소 지정(Byte-Addressability)**: 블록 I/O 대신 CPU가 로드·스토어 명령으로 주소에 접근하는 성질.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DAX(Direct Access)**: 파일 매핑 후 페이지 캐시와 전통적 블록 I/O 경로 없이 영속 메모리에 접근하는 방식.
 - **캐시 라인 플러시(clflush/clwb)**: CPU 캐시 메모리 상의 갱신 데이터를 차세대 비휘발 PMEM 영역으로 강제 덤프 유도하는 CPU 명령어.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ADR(Asynchronous DRAM Refresh)**: 전원 장애 순간 CPU 캐시 외 버퍼 메모리의 전력을 유지하여 PMEM으로 덤프 완료시키는 하드웨어 전원 보호 회로.
 - **PMDK(Persistent Memory Development Kit)**: PMEM 전용 영속 힙(Heap), 트랜잭션, 락(Lock)을 C/C++ 표준 제어하는 오픈소스 라이브러리 스택.
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순서 보존 쓰기(Ordered Persistence)**: Log -> Data -> Commit Record 순서대로 clwb/sfence를 인가하여 전원 사고 시 데이터 오염을 차단하는 기법.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVDIMM(Non-Volatile DIMM)**: DRAM과 Flash를 단일 DIMM에 혼합하거나(NVDIMM-N), 차세대 비휘발 소자를 결합한 표준 메인 메모리 폼팩터.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Power-Failure Injection**: 개발 완료 후 전원을 강제로 비정기 셧다운하여 PMEM 상의 Crash Consistency 정합성을 검증하는 테스팅.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PMEM 선택 기준(PMEM Adoption Criteria)**: 초저지연 바이트 억세스, 장애 정합성 수용 및 CXL 확장성에 기반한 체계.
 

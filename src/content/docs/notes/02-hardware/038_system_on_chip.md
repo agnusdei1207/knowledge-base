@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SoC(System on Chip)**: 연산·메모리·I/O 등 제반 시스템 기능을 단일 다이에 집적한 반도체.
 - **I/O(Input/Output)**: 반도체 칩 내부와 외부 주변 장치 간 신호 전달 체계.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NoC(Network on Chip)**: 칩 내부 IP 간 패킷 기반 트랜잭션 수송을 담당하는 고속 온칩 인터커넥트.
 - **IP 블록(Intellectual Property Block)**: 특정 기능을 수행하도록 미리 설계·검증된 재사용 가능한 하드웨어 회로 블록.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 서브시스템(Memory Subsystem)**: 온칩 캐시, SRAM 및 외부 DRAM 컨트롤러로 구성된 데이터 공급 장치.
 - **리셋 관리기(Reset Manager)**: 각 IP의 시퀀스별 초기화 및 리셋 해제를 제어하는 하드웨어 블록.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전력 게이팅(Power Gating)**: 유휴 상태의 IP 블록에 공급되는 전원을 완전히 차단하여 정적 누설 전력을 제거하는 제어 기술.
 - **CPU(Central Processing Unit)**: 범용 제어 및 연산을 처리하는 중앙 제어 장치.
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SiP(System in Package)**: 이종 공정 또는 기능별 복수 다이를 단일 패키지 내부에 수직/수평 결합한 시스템.
 - **MPU 기반 보드(MPU-based Board)**: 주 프로세서, 메모리, peripheral IC들을 PCB 상에서 배선 연결한 구성.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 채널(Virtual Channel)**: 단일 물리 링크 내에서 논리적 전송 통로를 다중화하여 Head-of-Line Blocking을 방지하는 기술.
 - **캐시 일관성(Cache Coherence)**: 멀티 코어 및 가속기 간 공유 메모리 캐시 데이터의 정합성을 보장하는 구조.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이종 공정(Heterogeneous Process)**: 아날로그, 메모리, 로직 등 기능에 맞춰 최적 반도체 공정을 다르게 적용하는 제조 기술.
 - **통합 방식 선택 기준(Integration Method Selection Criteria)**: 생산량, 소형화, 이종 통합 요구에 따라 SoC, SiP, MPU 보드를 결정하는 판단 기준.

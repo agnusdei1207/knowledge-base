@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **균형 탐색 트리(Balanced Search Tree)**: 키 순서 조건과 균형 규칙으로 높이를 제한한 계열이며 B-Tree•AVL•레드블랙 트리를 포함한다.
 - **편향 트리(Skewed Tree)**: 한쪽 자식만 이어져 선형화된 트리이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **로그 시간 $O(\log n)$**: 입력이 늘어도 처리 단계가 완만하게 증가하는 시간 상한이다.
 - **균형 유지**: 한쪽 경로가 지나치게 길어지지 않도록 트리 높이를 제한하는 작업이다.
@@ -65,7 +65,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **루트(Root)**: 트리 탐색을 시작하는 최상위 노드이다.
 - **균형 정보**: 높이 차나 색상처럼 트리의 균형 규칙을 판정하는 노드 상태이다.
@@ -101,7 +101,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **균형 규칙 위반**: 갱신으로 높이 차•색상•노드 키 수 조건을 벗어난 상태이다.
 
@@ -144,7 +144,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **B-Tree**: 한 노드에 여러 키와 자식을 저장해 저장장치 페이지 접근 횟수를 줄이는 균형 트리이다.
 - **AVL 트리(Adelson-Velsky and Landis Tree, AVL)**: 좌우 서브트리 높이 차를 1 이하로 유지하는 이진 탐색 트리이다.
@@ -173,7 +173,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **B-Tree 차수(Order)**: 한 노드가 가질 수 있는 자식 수의 상한이다.
 - **복구 로그(Recovery Log)**: 장애 복구를 위해 변경 이력을 기록하는 로그이다.
@@ -201,7 +201,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선택 기준**: 저장 매체와 조회•갱신 비율에 따라 균형 트리 종류를 고르는 판단 기준이다.
 

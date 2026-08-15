@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 연속성 계획(Business Continuity Plan, BCP)**: 재해, 재난 발생 시 비즈니스 핵심 기능을 유지하고 복구하기 위한 방안 및 계획.
 - **업무 연속성 관리체계(Business Continuity Management System, BCMS)**: 조직의 업무 연속성 전 과정을 기획, 수립, 운영, 평가, 개선하는 통합 체계.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 영향 분석(Business Impact Analysis, BIA)**: 재해 발생 시 업무 중단에 따른 영향을 평가하고 복구 우선순위를 설정하는 분석 활동.
 - **최대 허용 중단 기간(Maximum Tolerable Period of Disruption, MTPD)**: 비즈니스가 치명적인 피해 없이 견딜 수 있는 최대 중단 한계 시간.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연속성 전략(Continuity Strategy)**: 대체 사업장, 인력, 시스템 및 서드파티 조달을 통해 복구 목표를 달성하는 전략.
 - **지휘 체계(Command Structure)**: 재난 발동 선언, 통제 및 비상 대응을 총괄하는 의사결정 책임 구조.
@@ -92,7 +92,7 @@ BIA · 복구 목표
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BIA 기반 복구 목표(BIA-driven Recovery Targets)**: BIA 결과를 반영하여 MTPD 이내로 설정된 RTO 및 RPO 복구 지표.
 - **발동•전환•복귀 훈련(Activation, Switch and Return Exercise)**: 비상계획 발동, 대체 인프라 전환 및 정상 복귀 전 과정을 시험하는 훈련.
@@ -138,7 +138,7 @@ BIA · 복구 목표
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **재해 복구 계획(Disaster Recovery Plan, DRP)**: BCP의 하위 계획으로 IT 인프라, 시스템, 데이터의 복구에 특화된 기술 계획.
 - **정보기술(Information Technology, IT)**: 비즈니스 처리를 지원하는 컴퓨팅, 데이터베이스, 네트워크 등 기술 자산.
@@ -156,7 +156,7 @@ BIA · 복구 목표
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제 표준을 개발•발행하는 국제 기구.
 - **기술시방서(Technical Specification, TS)**: 표준 제정에 앞서 기술 표준화 지침을 제공하는 문서 규격.
@@ -181,7 +181,7 @@ BIA · 복구 목표
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **훈련 기반 연속성 증명(Exercise-based Continuity Demonstration)**: 실전 모의 훈련을 통해 복구 목표 달성 여부를 입증하는 결과.
 

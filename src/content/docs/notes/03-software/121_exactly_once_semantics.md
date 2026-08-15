@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EOS (Exactly-Once Semantics)**: 분산 스트리밍 환경에서 네트워크 재시도, 시스템 장애 시에도 메시지 유실(Zero Loss) 및 중복(Zero Duplication) 없이 단 1회만 처리를 보장하는 메커니즘.
 - **At-Least-Once (최소 한 번 처리)**: 메시지 유실은 없으나 수신 재시도로 인해 데이터 중복 가능성이 있는 보장 레벨.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency (멱등성)**: 동일 연산을 반복 수행해도 최종 상태가 1번 수행한 결과와 동일하게 유지되는 성질.
 - **2PC (Two-Phase Commit / 2단계 커밋)**: 스트림 처리 엔진과 타깃 저장소 간 트랜잭션을 준비(Prepare)와 커밋(Commit) 단계로 나누어 원자성을 보장하는 분산 트랜잭션 프로토콜.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transactional Coordinator**: Kafka/Flink 내부에서 트랜잭션 오프셋과 상태 스냅샷을 단일 트랜잭션 ID로 묶어 atomic commit을 관장하는 보장 엔진.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Two-Phase Commit Protocol in Flink**: `beginTransaction()` $\rightarrow$ `preCommit()` $\rightarrow$ `commit()` 3단계 훅(Hook)을 통한 타깃 시스템 원자적 출력.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜잭션 비용 (Performance Tradeoff)**: 2PC 락 및 멱등성 검사로 인해 최소 1번 처리(At-Least-Once) 대비 지연 시간 발생.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멱등성 부재 출력 위험 (Non-Idempotent Sink)**: Sink DB가 Unique Key 없는 INSERT 전용일 경우 장애 시 중복 데이터 발생 위험.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **EOS 수립 기준**: 재생 가능 소스, 엔진 스냅샷, 2단계 커밋 확정 및 멱등성 기반의 데이터 처리 체계.
 

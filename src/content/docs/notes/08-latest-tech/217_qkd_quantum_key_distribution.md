@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태를 전송하고 측정 교란을 검사하여 도청 가능성을 탐지하면서 대칭키 재료를 분배하는 기술을 말한다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이중 채널**: 양자 상태를 보내는 양자 채널과 신원 확인•키 정제를 수행하는 인증된 고전 채널을 함께 사용하는 개념을 의미한다.
 - **양자 비트 오류율(Quantum Bit Error Rate, QBER)**: 수신한 양자 비트 중 오류 비율로 세션 폐기 여부를 판단하는 지표로 정의된다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자 채널**: 단일 광자 등 양자 상태를 송수신해 측정 교란을 탐지할 수 있는 물리 경로로 정의된다.
 - **인증된 고전 채널**: 기저 공개•표본 비교•후처리 메시지의 위변조를 막는 별도 통신 경로로 정의된다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 확인**: 송수신자가 같은 최종 비밀키를 보유하는지 검증하는 절차이다.
 
@@ -125,7 +125,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **베넷-브라사드 1984(Bennett-Brassard 1984, BB84)**: 두 기저로 양자 상태를 준비•측정해 일치한 기저의 비트로 키를 만드는 QKD 프로토콜이다.
 - **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자 공격에도 안전하도록 설계한 고전 컴퓨터용 공개키 암호을 의미한다.
@@ -146,7 +146,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고전 채널 인증**: 중간자 공격을 막기 위해 QKD 후처리 메시지의 송신자와 무결성을 검증하는 절차을 의미한다.
 
@@ -165,7 +165,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 정제**: 기저 선별•오류 정정•프라이버시 증폭을 거쳐 공유 비밀키를 생성하는 후처리 과정을 말한다.
 

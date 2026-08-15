@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **라우팅(Routing)**: 네트워크 계층(L3)에서 송신 패킷의 목적지 IP 주소를 참조하여 최적의 경로를 탐색하고 다음 홉(Next Hop) 및 출력 인터페이스로 스위칭해주는 제어 과정.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 이기종 네트워크 간 패킷 전송과 호스트 지정을 담당하는 논리적 주소 체계 프로토콜.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관리 거리(Administrative Distance, AD)**: 서로 다른 라우팅 프로토콜(예: OSPF, BGP, Static)이 동일 목적지 경로를 알릴 때 신뢰 경로를 결정하는 소스 신뢰도 값(값이 작을수록 우수한 경로).
 - **메트릭(Metric)**: 동일 라우팅 프로토콜 내부에서 최적 경로를 산출하기 위해 대역폭(Bandwidth), 지연(Delay), 홉 수(Hop Count), 코스트(Cost) 등을 기준으로 계산한 비용 값.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **라우팅 정보 베이스(Routing Information Base, RIB)**: 다양한 경로 출처로부터 수집된 모든 후보 경로 및 상태 정보를 보관하는 제어 평면의 소프트웨어 데이터베이스.
 - **포워딩 정보 베이스(Forwarding Information Base, FIB)**: RIB에서 최종 승리한 최적 경로만을 추출하여 라우팅 하드웨어(TCAM/ASIC)에 탑재하는 데이터 평면의 고속 포워딩 표.
@@ -98,7 +98,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다음 홉(Next Hop)**: 목적지 IP로 전달하기 위해 거쳐야 하는 인접 라우터의 IP 주소 또는 출구 포트.
 - **후보 경로 수집(Candidate Route Collection)**: 정적 설정(Static Route) 및 동적 프로토콜(OSPF/BGP)로부터 패킷의 목적지 경로 정보를 RIB로 수집하는 절차.
@@ -139,7 +139,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정적 라우팅(Static Routing)**: 네트워크 관리자가 목적지 IP 및 Next-Hop 경로를 직접 라우터 장비에 고정 명시하여 설정하는 방식.
 - **동적 라우팅(Dynamic Routing)**: 라우팅 프로토콜(OSPF, BGP 등)을 활성화하여 라우터 간에 이웃(Neighbor)을 맺고 경로 정보를 자동 교환 및 갱신하는 방식.
@@ -163,7 +163,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 추적(Route Tracking / Object Tracking)**: 정적 라우팅 설정 시 IP SLA 핑 또는 인접 링크 상태를 지속 추적하여 링크 장애 시 정적 경로를 자동으로 삭제/우회시키는 기술.
 - **경로 재분배(Route Redistribution)**: 이종 라우팅 프로토콜 간(예: OSPF <-> BGP, Static -> OSPF) 경로 정보를 상호 변환하여 주입해 주는 설정.
@@ -184,7 +184,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기본 경로(Default Route / Default Gateway)**: 라우팅 테이블에 명시적인 특정 서브넷 경로가 존재하지 않을 때 패킷을 포워딩하는 최후의 경로 (`0.0.0.0/0`).
 - **라우팅 방식 결정(Routing Strategy Selection)**: 네트워크 규모, 장애 자동 수렴 필요성 및 하드웨어 성능을 다각도로 평가하여 정적/동적 라우팅 혼용 전략을 수립하는 절차.

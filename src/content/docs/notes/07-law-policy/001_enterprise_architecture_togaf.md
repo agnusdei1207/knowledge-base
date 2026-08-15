@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **아키텍처 저장소(Architecture Repository)**: 도메인 모델, 표준, 원칙 및 변경 이력 등 아키텍처 자산을 중앙 집중적으로 통합 보관하고 공유하는 지식 베이스.
 - **도메인 정합성(Domain Consistency)**: 업무, 데이터, 응용, 기술 구조 간의 관계가 모순 없이 연결되며, 특정 요소 변경 시 전체 시스템의 영향도가 일관되게 유지되는 성질.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ADM 순환(ADM Cycle)**: 요구사항 관리를 중심으로 각 단계를 반복하며 아키텍처를 점진적으로 개선해 나가는 순환적 개발 프로세스이다.
 - **아키텍처 비전 수립(Architecture Vision)**: 아키텍처 이니셔티브의 범위를 설정하고 이해관계자의 목표와 제약사항을 식별하는 초기 계획 단계이다.
@@ -139,7 +139,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보화 계획 체계(Informatization Planning System)**: 기업의 정보화 목표를 달성하기 위해 전략(ISP), 예산(ISMP), 구조(EA)를 연계하는 마스터 플랜 체계이다.
 - **정보전략계획(Information Strategy Planning, ISP)**: 중장기 정보화 비전과 투자 우선순위를 도출하는 전략적 이행 로드맵이다.
@@ -161,7 +161,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사전 검토(Pre-Review)**: 신규 정보화 사업 추진 시 EA 표준 및 기존 시스템과의 중복성을 사전에 검증하는 통제 절차이다.
 - **범정부 EA 포털(GEAP)**: 공공기관의 정보화 자원 현황과 아키텍처 정보를 통합 관리하고 공유하는 국가 차원의 EA 시스템이다.

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Platform Engineering (플랫폼 엔지니어링)**: 소프트웨어 개발팀이 복잡한 인프라나 K8s 설정 조작 없이, 애플리케이션 개발 본연에 집중할 수 있도록 셀프서비스 방식의 개발 인프라 플랫폼(IDP)을 구축 및 제품(Product)으로 운영하는 현대적 운영 패러다임.
 - **IDP (Internal Developer Platform, 내부 개발자 플랫폼)**: 플랫폼 엔지니어링 팀이 구축한 전사 단일 셀프서비스 포털로, 환경 생성, CI/CD 배포, 텔레메트리 모니터링을 클릭 몇 번이나 API로 즉각 자동 처리하는 내부 전용 인프라 플랫폼.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Self-Service Capabilities**: 개발자가 인프라팀에 티켓을 끊어 기다리지 않고, IDP 포털에서 클릭 1번으로 K8s Namespace, DB, Redis 인스턴스를 동적 자동 프로비저닝하는 기능.
 - **Golden Path (황금 경로)**: 플랫폼 팀이 전사범위로 검증한 가장 안전하고 표준화된 템플릿 기반 개발-배포-운영 가이드라인 경로.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backstage**: Spotify가 공개한 대표적인 CNCF 오픈소스 내부 개발자 포털(IDP) 프레임워크로, 서비스 카탈로그, 템플릿, 문서(TechDocs)를 단일 웹 UI로 통합.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Score Spec**: 개발자가 인프라 상세 지식 없이 `score.yaml` 에 필요 자원(DB, Cache)을 선언하면 IDP가 환경별(Dev/Prod)로 알맞은 Terraform/Helm 자원으로 번역해 주는 오픈 소스 표준 사양.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Product Mindset**: 플랫폼 엔지니어링 팀은 플랫폼을 내부 개발자(User)에게 파는 '제품(Product)'으로 생각하여 개발자 만족도(NPS, DX)를 지속 관측 및 개선하는 사상.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Platform As A Product**: 플랫폼 엔지니어링 추진 시 인프라를 일방적으로 강요하지 않고, 내부 스버베이 및 DX 측정을 통해 피드백 로드맵을 구축하는 운영 방식.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플랫폼 엔지니어링 수립 기준(Platform Engineering Standards)**: 개발 조직 인지 부하 수준, CNCF Backstage/OPA 수용성 및 DX 생산성 지표에 의거한 체계.
 

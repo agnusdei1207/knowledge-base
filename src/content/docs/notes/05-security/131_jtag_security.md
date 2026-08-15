@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **JTAG(Joint Test Action Group)**: 칩 시험•경계주사•디버그용 하드웨어 접근 방식이다.
 - **JTAG 보안**: 장치 수명주기와 권한에 따라 TAP 접근을 제한하는 하드웨어 통제이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수명주기 상태**: 제조•운영•수리 단계별 JTAG 기능과 전이 조건을 구분한 장치 상태이다.
 - **디버그 인증**: 장치•작업자•명령 범위를 검증한 뒤 잠금을 제한적으로 해제하는 통제이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TAP(Test Access Port)**: JTAG 명령•데이터를 전달하는 인터페이스이다.
 - **경계주사**: 보드 핀 상태를 관측•제어하는 시험 기법이다.
@@ -92,7 +92,7 @@ JTAG 접근 통제
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **RMA(Return Merchandise Authorization)**: 회수 제품에 진단•수리 접근을 승인하는 절차이다.
 - **JTAG 접근 통제**: 상태•작업자•명령•만료시간을 검증하는 통제이다.
@@ -138,7 +138,7 @@ JTAG 접근 통제
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디버그 잠금**: 운영 단계에서 CPU•메모리 접근 등 위험한 디버그 명령을 비활성화하는 통제이다.
 - **디버그 처리기 접근**: JTAG의 CPU•메모리 접근 범위를 제한하는 기준이다.
@@ -162,7 +162,7 @@ JTAG 접근 통제
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **IEEE 1687**: 칩 내부 계측기 접근 구조를 다루는 표준이다.
 - **P1687 개정안**: IEEE 1687의 개정 과정에 있는 표준안으로 내부 디버그 경로의 최신 요구사항을 확인하는 기준이다.
@@ -183,7 +183,7 @@ JTAG 접근 통제
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **한시 권한**: 승인된 수리 작업의 명령•자원•시간만 허용하고 종료 즉시 회수하는 원칙이다.
 - **인증형 디버그**: 승인된 작업자에게 제한된 JTAG 권한만 부여하는 방식이다.

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스형 네트워크(Network as a Service, NaaS)**: 하드웨어 네트워크 장비와 유무선 회선을 직접 구매·소유하지 않고, 소프트웨어 기반 가상 인프라를 필요한 만큼 구독하여 사용료(OpEx)를 지급하는 클라우드 네트워크 서비스 모델이다.
 - **소프트웨어 정의 네트워킹(Software-Defined Networking, SDN)**: NaaS 서비스 제공자가 네트워크 장비 제어 평면을 중앙 오케스트레이터로 가상화하여 고객에게 프로그래밍 가능 환경을 제공하는 핵심 기술이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자본 지출 및 운영 지출(Capital Expenditure & Operational Expenditure, CapEx & OpEx)**: 네트워크 하드웨어 구입 시의 고정 자산 투자(CapEx)를 사용한 만큼 지불하는 월간 가변 비용(OpEx) 구조로 전환하는 경제성 지표이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 공급자가 약속하는 대역폭, 지연, 손실률 및 가용성에 관한 서비스 품질 계약이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 접점(Portal & Open API)**: 고객이 대시보드나 코드(IaC)를 통해 대역폭을 동적 가조정하고 보안 정책을 배포하는 통합 인터페이스 계층이다.
 - **제어 기능(Central Orchestrator)**: 고객 의도(Intent)를 해석하여 SD-WAN 터널 생성, NFV 방화벽 체이닝 및 L2/L3 경로를 자동 연산·주입하는 중앙 두뇌 모듈이다.
@@ -91,7 +91,7 @@ NaaS 4계층 참조 아키텍처
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 의도(Service Intent / Intent-Based Networking)**: 이용자가 요구하는 종단 간 대역폭, 보안 등급, 지연 시간 조건을 장비 독립적 언어로 선언한 주문 사양서이다.
 - **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)**: 멀티 벤더 회선 및 복합 트래픽 정책을 중앙 제어 소프트웨어로 최적화하는 WAN 가상화 기술이다.
@@ -130,7 +130,7 @@ NaaS 4계층 참조 아키텍처
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공급자 종속(Vendor Lock-in)**: 특정 NaaS 사업자의 전용 API, 데이터 모델 및 프로토콜 사용으로 인해 다른 서비스 공급자로 전환 시 막대한 이관 비용이 발생하는 상태이다.
 
@@ -153,7 +153,7 @@ NaaS 4계층 참조 아키텍처
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **종단 측정점(End-to-End Measurement Point)**: 고객 서비스 접속 구간 양 끝단에 위치시켜 실제 체감 품질 및 SLA 위반 책임을 객관적으로 산출하는 모니터링 지점이다.
 - **구성 내보내기(Configuration Export & Migration)**: 특정 벤더 NaaS 환경의 네트워크 정책 및 접속 설정을 표준화된 형식(JSON/YAML)으로 이관 가능하게 추출하는 기능이다.
@@ -174,7 +174,7 @@ NaaS 4계층 참조 아키텍처
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **네트워크 제공 방식(Network Delivery Models)**: 변동성, 투자 비용, 통제권 요소를 다각도로 평가하여 NaaS, On-Premise, Managed Service 중 최적을 선정하는 의사결정 체계이다.
 

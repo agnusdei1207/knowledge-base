@@ -20,11 +20,11 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **5세대 이동통신(Fifth Generation Mobile Communications, 5G)**: 초고속•초저지연•초연결 서비스를 지원하도록 정의한 이동통신 세대이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: 국제이동통신 성능 요구와 무선 인터페이스 승인 및 주파수 이용을 담당하는 국제기구 부문이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 5G 무선 접속망•코어망•서비스의 상세 구현 규격을 개발하는 국제 표준협력체이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **5세대 이동통신(Fifth Generation Mobile Communications, 5G)**: 초고속•초저지연•초연결 서비스를 지원하도록 정의한 이동통신 세대.
+- **국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)**: 국제이동통신 성능 요구와 무선 인터페이스 승인 및 주파수 이용을 담당하는 국제기구 부문.
+- **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 5G 무선 접속망•코어망•서비스의 상세 구현 규격을 개발하는 국제 표준협력체.
 
 </details>
 
@@ -36,13 +36,13 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **국제이동통신-2020(International Mobile Telecommunications-2020, IMT-2020)**: 국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)이 5G 후보 기술의 성능 요구와 평가 방법 및 승인 무선 인터페이스를 정의한 국제 체계이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **3세대 파트너십 프로젝트 릴리즈(3rd Generation Partnership Project Release, 3GPP Release)**: 무선•코어•서비스 규격을 기능 묶음과 일정에 따라 동결하여 배포하는 버전 단위이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **기술 규격(Technical Specification, TS)**: 3GPP 구현의 규범 요구사항을 담는 문서이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **기술 보고서(Technical Report, TR)**: 후보 기술•요구•영향의 조사 결과를 담는 문서이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **새로운 무선(New Radio, NR)**: 5G 단말과 기지국 사이의 무선 전송 규격이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **국제이동통신-2020(International Mobile Telecommunications-2020, IMT-2020)**: 국제전기통신연합 전파통신부문(International Telecommunication Union Radiocommunication Sector, ITU-R)이 5G 후보 기술의 성능 요구와 평가 방법 및 승인 무선 인터페이스를 정의한 국제 체계.
+- **3세대 파트너십 프로젝트 릴리즈(3rd Generation Partnership Project Release, 3GPP Release)**: 무선•코어•서비스 규격을 기능 묶음과 일정에 따라 동결하여 배포하는 버전 단위.
+- **기술 규격(Technical Specification, TS)**: 3GPP 구현의 규범 요구사항을 담는 문서.
+- **기술 보고서(Technical Report, TR)**: 후보 기술•요구•영향의 조사 결과를 담는 문서.
+- **새로운 무선(New Radio, NR)**: 5G 단말과 기지국 사이의 무선 전송 규격.
 
 </details>
 
@@ -55,11 +55,11 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **무선 접속망(Radio Access Network, RAN)**: 단말을 기지국을 거쳐 코어망에 연결하는 무선 네트워크 영역이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **서비스 및 시스템(Service and System Aspects, SA)**: 3GPP에서 서비스 요구와 시스템 아키텍처를 담당하는 규격 그룹이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **핵심망 및 단말(Core Network and Terminals, CT)**: 3GPP에서 코어망과 단말 연동 프로토콜을 담당하는 규격 그룹이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **무선 접속망(Radio Access Network, RAN)**: 단말을 기지국을 거쳐 코어망에 연결하는 무선 네트워크 영역.
+- **서비스 및 시스템(Service and System Aspects, SA)**: 3GPP에서 서비스 요구와 시스템 아키텍처를 담당하는 규격 그룹.
+- **핵심망 및 단말(Core Network and Terminals, CT)**: 3GPP에서 코어망과 단말 연동 프로토콜을 담당하는 규격 그룹.
 
 </details>
 
@@ -85,14 +85,14 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **국제이동통신(International Mobile Telecommunications, IMT)**: 국제전기통신연합이 세대별 이동통신 성능 목표와 평가 절차를 정하는 국제 체계이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **IMT 성능 요구•평가 절차 제공(English, English)**: ITU-R이 세대별 성능 목표와 후보 평가 기준을 제시하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **동결 규격•후보 무선기술 제출(English, English)**: 3GPP가 확정한 무선•코어 규격으로 국제 평가를 요청하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **평가•승인 무선 인터페이스 권고(English, English)**: 후보의 요구 충족성과 타당성을 검증해 국제 체계로 승인하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **지역 표준•적용 릴리즈 전달(English, English)**: 승인 규격을 지역 표준과 사업자 적용 기준으로 전환하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **단말•망 장비 호환 결과 보고(English, English)**: 단말•기지국•코어망의 연동과 로밍 결과를 확인하는 단계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **국제이동통신(International Mobile Telecommunications, IMT)**: 국제전기통신연합이 세대별 이동통신 성능 목표와 평가 절차를 정하는 국제 체계.
+- **IMT 성능 요구•평가 절차 제공**: ITU-R이 세대별 성능 목표와 후보 평가 기준을 제시하는 단계.
+- **동결 규격•후보 무선기술 제출**: 3GPP가 확정한 무선•코어 규격으로 국제 평가를 요청하는 단계.
+- **평가•승인 무선 인터페이스 권고**: 후보의 요구 충족성과 타당성을 검증해 국제 체계로 승인하는 단계.
+- **지역 표준•적용 릴리즈 전달**: 승인 규격을 지역 표준과 사업자 적용 기준으로 전환하는 단계.
+- **단말•망 장비 호환 결과 보고**: 단말•기지국•코어망의 연동과 로밍 결과를 확인하는 단계.
 
 </details>
 
@@ -128,10 +128,10 @@ ITU-R
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **비독립모드(Non-Standalone, NSA)**: 기존 장기진화(Long-Term Evolution, LTE) 코어망과 제어 기능을 활용하면서 5세대 새로운 무선(5G New Radio, 5G NR)을 함께 사용하는 구성이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
-- **독립모드(Standalone, SA)**: 5G 전용 코어망과 NR로 슬라이싱•저지연 등 5G 기능을 온전히 제공하는 구성이며, 이를 통해 실질적인 작동 방식과 사용 맥락을 구체화한다.
+- **비독립모드(Non-Standalone, NSA)**: 기존 장기진화(Long-Term Evolution, LTE) 코어망과 제어 기능을 활용하면서 5세대 새로운 무선(5G New Radio, 5G NR)을 함께 사용하는 구성.
+- **독립모드(Standalone, SA)**: 5G 전용 코어망과 NR로 슬라이싱•저지연 등 5G 기능을 온전히 제공하는 구성.
 </details>
 
 | 구분 | ITU-R IMT-2020 | 3GPP 5G 규격 |
@@ -146,11 +146,11 @@ ITU-R
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **릴리즈 호환성(English, English)**: 단말•기지국•코어가 서로 다른 3GPP Release 선택 기능을 지원하여 접속•서비스가 제한되는 문제이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **주파수 적합성(English, English)**: 국가별 할당 대역•출력•채널 조건에 맞는 3GPP 밴드와 장비를 선택해야 하는 조건이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **상호운용 시험(English, English)**: 서로 다른 제조사의 단말•무선망•코어망이 같은 프로파일로 접속•이동•서비스를 수행하는지 확인하는 시험이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **릴리즈 호환성**: 단말•기지국•코어가 서로 다른 3GPP Release 선택 기능을 지원하여 접속•서비스가 제한되는 문제.
+- **주파수 적합성**: 국가별 할당 대역•출력•채널 조건에 맞는 3GPP 밴드와 장비를 선택해야 하는 조건.
+- **상호운용 시험**: 서로 다른 제조사의 단말•무선망•코어망이 같은 프로파일로 접속•이동•서비스를 수행하는지 확인하는 시험.
 
 </details>
 
@@ -166,10 +166,10 @@ ITU-R
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **국제 요구-상세 규격 관계(English, English)**: ITU-R은 세대 성능과 국제 무선 체계를 정하고 3GPP는 이를 만족하는 구현 가능한 시스템 규격을 개발하는 관계이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
-- **국제 로밍(English, English)**: 다른 국가•사업자 망에서도 가입자 인증과 이동통신 서비스를 이어서 사용할 수 있는 기능이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **국제 요구-상세 규격 관계**: ITU-R은 세대 성능과 국제 무선 체계를 정하고 3GPP는 이를 만족하는 구현 가능한 시스템 규격을 개발하는 관계.
+- **국제 로밍**: 다른 국가•사업자 망에서도 가입자 인증과 이동통신 서비스를 이어서 사용할 수 있는 기능.
 
 </details>
 

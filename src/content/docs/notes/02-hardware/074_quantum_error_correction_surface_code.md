@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **QEC(Quantum Error Correction)**: 환경 잡음으로 인한 큐비트 파동함수의 비트 반전(Bit Flip) 및 위상 반전(Phase Flip) 오류를 복수의 물리 큐비트로 부호화하여 정정하는 내결함 기술.
 - **표면 코드(Surface Code)**: 2D 평면 격자 상에 데이터 큐비트와 앤실라(Ancilla) 큐비트를 교대로 배열하여 인접 큐비트 패리티만 측정(Stabilizer Measurement)하는 대표적 QEC 코드.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **안정자(Stabilizer Measurement)**: 큐비트 본래 양자 상태($|\psi\rangle$)를 붕괴시키지 않고, X/Z 패리티 텐서 연산자($X_1 X_2 X_3 X_4$, $Z_1 Z_2 Z_3 Z_4$)를 통해 오류 신호만 관측하는 기법.
 - **오류 증후군(Syndrome)**: 앤실라 큐비트 패리티 측정 결과로 얻어지는 0/1 오류 신호 패턴 데이터.
@@ -62,7 +62,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 큐비트(Data Qubit)**: 실제 논리 양자 상태 정보의 파동함수를 분산 보유하는 2D 격자 큐비트.
 - **앤실라 큐비트(Ancilla/Measure Qubit)**: 인접한 4개 데이터 큐비트의 X/Z 패리티를 얽힘 측정하여 덤프받는 보조 큐비트.
@@ -93,7 +93,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 주기(Code Cycle)**: 표면 코드 상에서 1회 X/Z 패리티 안정자 측정을 완성하는 단위 시간.
 
@@ -133,7 +133,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **내결함 양자 컴퓨팅(FTQC/Fault-Tolerant Quantum Computing)**: 오류가 전파되지 않도록 논리 연산과 오류 정정을 함께 설계한 양자 컴퓨팅.
 - **오류 완화(Error Mitigation)**: NISQ(Noisy Intermediate-Scale Quantum) 시대에 오류 정정 없이 통계적 억제를 가하는 기술 (Zero-Noise Extrapolation 등).
@@ -152,7 +152,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스트리밍 복호(Streaming Decoding)**: 증후군 생성 속도를 따라가며 연속적으로 오류를 추정하는 실시간 복호 기술.
 - **자원 오버헤드(Resource Overhead)**: 논리 큐비트와 논리 연산에 필요한 물리 큐비트·측정·복호 자원.
@@ -173,7 +173,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **QEC 채택 기준(QEC Adoption Criteria)**: 물리 게이트 오류율, 복호기 런타임 처리량 및 큐비트 오버헤드 수용성에 기초한 내결함 체계.
 

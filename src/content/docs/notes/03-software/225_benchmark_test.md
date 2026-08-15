@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **벤치마크 테스트(Benchmark Test, BMT)**: 후보 제품을 동일한 환경•자료•부하•측정 절차에서 실행해 기능 적합성과 성능을 수치로 비교하는 시험이다.
 - **후보 제품(Candidate Product)**: 공통 시험 조건에서 기능과 성능을 비교할 평가 대상 제품이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **반복 측정(Repeated Measurement)**: 같은 조건의 여러 실행 결과와 분산을 비교해 우연한 편차와 실제 제품 차이를 구분하는 방식이다.
 - **조건 통제(Controlled Condition)**: 제품 외의 장비•자료•부하•설정•실행 절차를 후보마다 동일하게 유지하는 원칙이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **실행 제어기(Execution Controller)**: 후보별 예열•반복 횟수•실행 순서와 공통 부하 적용을 통제하는 구성요소이다.
 - **동결 환경(Frozen Environment)**: 시험 중 임의 변경하지 않도록 장비•소프트웨어 버전•튜닝 허용 범위를 확정한 환경이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **4. 원시 자료 저장**: 각 후보의 요청별 시간•오류•자원 사용량과 실행 설정을 가공 전 상태로 보존하는 단계이다.
 - **1. 시험 조건 확정**: 지표•대표 부하•반복 횟수•합격선을 사전에 등록하는 단계이다.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개념 증명(Proof of Concept, PoC)**: 신기술이나 설계 방안의 구현 가능성을 제한된 범위에서 검증하는 시험이다.
 - **문서 평가(Document Evaluation)**: 제안 내용•실적•수행 계획을 증거 자료로 검토해 시험 전 후보를 선별하는 방식이다.
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **설정 편차**: 후보별 튜닝 범위가 달라 제품 자체가 아닌 시험 조건 차이가 결과를 만드는 문제이다.
 - **예열(Warm-Up)**: 초기 적재•컴파일•캐시 효과가 안정된 뒤 본 측정을 시작하도록 미리 부하를 실행하는 절차이다.
@@ -182,7 +182,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **후보 선정 기준**: 운영 대표 부하의 반복 측정 결과가 사전 합격선을 충족한 제품만 선정하는 기준이다.
 - **사전 합격선(Predefined Acceptance Threshold)**: 결과를 보기 전에 정한 기능•성능•오류율의 최소 통과 기준이다.

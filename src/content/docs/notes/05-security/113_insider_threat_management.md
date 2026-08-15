@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **내부자 위협(Insider Threat)**: 합법적 접근 권한을 가진 내부자가 인적, 기술적, 사회적 요인으로 자산에 실질적 손실을 입히는 위험.
 - **내부자 위협 관리(Insider Threat Management)**: 내부 권한의 남용, 부주의, 계정 도용 위험을 식별, 분석, 예방하는 관리 체계.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고의 행위(Malicious Intentional Action)**: 개인의 이익이나 불만을 이유로 승인되지 않은 정보 반출 및 시스템 파괴를 도모하는 위협.
 - **실수 행위(Unintentional Human Error)**: 보안 수칙 미숙지, 입력 오류, 절차 누락으로 발생하는 침해 위협.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 권한(Least Privilege)**: 직무 수행에 반드시 필요한 최소한의 자원 접근 권한만 부여하는 원칙.
 - **직무 분리(Separation of Duties, SoD)**: 침해 사고 예방을 위해 단일 사용자에게 과도한 권한 집중을 제한하는 통제.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비례적 조사(Proportional Investigation)**: 탐지된 징후의 위험도 및 법적 타당성에 따라 적절한 수준의 조사를 수행하는 원칙.
 - **인사 변동 상태 확정(HR Status Confirmation)**: 입사, 부서 이동, 휴직, 퇴직 예정 등 임직원의 신분 상태를 확인하는 단계.
@@ -142,7 +142,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **악의적 내부자(Malicious Insider)**: 이익 수취나 불만 해소를 목적으로 조직 자산을 침해하는 행위자.
 - **부주의 내부자(Careless Insider)**: 보안 인식 부족으로 절차를 우회하거나 정보를 오발송하는 행위자.
@@ -163,7 +163,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 정보보호 가이드라인 및 기술 규격을 발행하는 미국 정부 기관.
 - **특별 간행물(Special Publication, SP)**: NIST가 작성하는 가이드라인 및 표준 안내서.
@@ -193,7 +193,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개인정보 보호(Privacy Protection)**: 사용자 행위 감시 과정에서 법적 최소 수집과 목적 제한을 충족시키는 원칙.
 - **비례 대응(Proportional Response)**: 침해 위험의 심각도에 적합한 단계별 조치를 적용하는 원칙.

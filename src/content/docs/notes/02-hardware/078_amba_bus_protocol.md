@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AMBA(Advanced Microcontroller Bus Architecture)**: Arm이 제정한 SoC 내부 CPU, 메모리와 주변장치 간 표준 인터페이스 규격.
 - **SoC(System on Chip)**: CPU, GPU, NPU, 메모리 인터페이스, 입출력 레지스터가 단일 실리콘 다이에 통합된 시스템 칩.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AXI(Advanced eXtensible Interface)**: 읽기/쓰기 채널 분리, Out-of-Order 실행 및 5개 독립 채널을 지원하는 최고성능 AMBA 3/4/5 온칩 버스 규격.
 - **AHB(Advanced High-Performance Bus)**: 주소와 데이터 단계를 겹쳐 파이프라이닝을 지원하는 버퍼링 시스템 버스 규격.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Manager Block**: 읽기·쓰기 트랜잭션을 능동 발행하는 CPU, DMA 등의 요청 장치.
 - **Subordinate/Target Block**: 요청을 받아 메모리·레지스터 접근을 수행하는 대상 장치.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VALID/READY 핸드셰이크**: AXI 5개 채널 상에서 송신측(VALID)과 수신측(READY) 신호가 모두 High(1)일 때 데이터 전송이 성립되는 메커니즘.
 - **PSEL/PENABLE/PREADY**: APB 버스의 2-Phase(Setup Phase -> Enable Phase) 전송을 제어하는 고유 핸드셰이크 신호.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **독립 채널(Independent Channel)**: AXI 버스 상의 5개 전용 물리 선로 (Read Addr, Read Data, Write Addr, Write Data, Write Resp).
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CDC(Clock Domain Crossing)**: 서로 다른 동작 클록(Hz)을 사용하는 버스 블록 간 신호 수용 시 발생하는 준안정성(Metastability) 방지 기술.
 - **Protocol Checker**: AMBA 핸드셰이크 라이프사이클 위반을 RTL 시뮬레이션 상에서 실시간 탐지하는 Verification IP.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AMBA 선택 기준(AMBA Selection Criteria)**: 대상 IP의 데이터 전송률, 동시성, 인터페이스 회로 면적에 기반한 채택 체계.
 

@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 보고(Integrated Reporting)**: 진척·비용·품질·위험의 공통 기준 보고.
 - **관리 기준(Management Standard)**: 범위·일정·비용·변경의 공통 통제 방식.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관리 기준 배포**: 공통 양식·지침·보고 주기 전달.
 - **사업 현황 보고**: 진척·비용·품질·위험 자료 제출.
@@ -134,7 +134,7 @@ PMO
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프로젝트 관리자(Project Manager, PM)**: 개별 사업의 범위·일정·비용·품질 책임자.
 
@@ -154,7 +154,7 @@ PMO
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **역할 충돌(Role Conflict)**: PMO 감독·지원과 PM 실행 책임의 혼재.
 - **책임 할당표(Responsibility Assignment Matrix)**: 결정·실행·검토·보고 역할 배정.

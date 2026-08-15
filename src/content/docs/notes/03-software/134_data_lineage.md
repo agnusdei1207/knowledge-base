@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Lineage (데이터 계보)**: 소스 데이터베이스부터 최종 BI 대시보드 및 AI/ML 모델에 이르기까지, 데이터가 이동, 가공, 변환되는 전체 라이프사이클 흐름을 시각적인 방향성 그래프(DAG)로 추적하여 파이프라인 변경 영향도 분석(Impact Analysis) 및 데이터 장애 원인을 추적하는 기법.
 - **OpenLineage**: Spark, Airflow, Flink 등의 파이프라인 프레임워크로부터 데이터 계보 이벤트를 자동 수집하는 표준 오픈소스 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Impact Analysis (영향도 분석)**: 특정 소스 테이블 변경 시 하류(Downstream) 시스템의 영향을 1초 만에 시각적으로 파악.
 - **Root Cause Analysis (원인 분석)**: 대시보드 지표 수치 파행 시 상류(Upstream) 연산 노드 오류 지점을 역추적.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Upstream & Downstream**: 특정 데이터 노드를 기준으로 상류 원천 데이터를 Upstream, 하류 소비처 데이터를 Downstream이라 칭함.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SQL AST (Abstract Syntax Tree) Parser**: SQL 문장을 파싱하여 어떤 컬럼이 결합(`col_A + col_B AS total`)되었는지 계보 노드로 분해.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Design-Time vs Runtime Lineage**: 설계 시점 계보는 코드/DDL 기반 예상 경로, 런타임 계보는 실제 실행 로그 기반 실제 가동 경로.
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lineage Disruption Danger**: 파이프라인 중간에 Python 스크립트나 외부 API호출이 섞여 계보 연결고리가 끊어지는 현상.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Lineage 수립 기준(Data Lineage Standards)**: Column-Level Lineage, OpenLineage 프레임워크, OpenMetadata 그래프 시각화 및 영향도 분석성에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Circuit Breaker Pattern**: 전기 회로의 누전 차단기(Circuit Breaker) 원리를 소프트웨어에 적용하여, 원격 서비스 호출 실패율이 일정 임계치(Threshold)를 초과 시 차단기를 내려(Open) 호출을 즉시 차단함으로써 타 서비스로의 Cascading Failure를 방지하는 장애 격리 패턴.
 - **Cascading Failure (연쇄 장애)**: 하나의 마이크로서비스 장애(지연/다운)가 호출측 서비스의 스레드 및 커넥션 풀을 강제 고착(Blocking)시켜 시스템 전체로 마비가 연쇄 전파되는 현상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Closed State**: 차단기가 닫힌 정상 상태로, 모든 외부 원격 호출을 허용하며 호출 실패율 및 지연 시간을 sliding window 큐에 누적 모니터링.
 - **Open State**: 실패율이 임계치를 초과하여 차단기가 열린 장애 차단 상태로, 원격 호출을 즉시 거부하고 Fallback 응답을 즉시 반환.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sliding Window**: 최근 $N$개의 호출 수(Count-based) 또는 최근 $N$초(Time-based) 동안의 원격 호출 성공/실패 수치를 지속적으로 유지하는 윈도우 슬라이딩 모니터링 큐.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Probe Request (시험 호출)**: Half-Open 상태에서 타깃 서비스가 정상 복구되었는지 여부를 사전에 테스트하기 위해 전송하는 최소한의 한정된 호출.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Resilience4j vs Hystrix**: Hystrix는 Netflix에서 개발한 구형 서킷 브레이커(Thread-pool 위주, deprecated), Resilience4j는 함수형 Java 8+ / Reactor 중심의 가볍고 현대적인 표준 라이브러리.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bulkhead Pattern (격벽 패턴)**: 선박의 격벽 구조처럼 서비스별로 스레드 풀(Thread Pool) 또는 세마포어를 분리 지정하여, 특정 서비스 장애 시 타 스레드 풀이 고갈되는 것을 물리적으로 막는 기법.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서킷 브레이커 설계 기준(Circuit Breaker Design Standards)**: 서비스 중요도, 원격 타임아웃 쿼터 및 Fallback 데이터 보유 유무에 기반한 수립 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **The Twelve-Factor App (12-Factor App)**: Heroku 엔지니어들이 정립한 모던 클라우드 네이티브(Cloud-Native) SaaS 애플리케이션 구축 및 배포를 위한 12가지 베스트 프랙티스 아키텍처 원칙.
 - **Cloud-Native App**: 클라우드 가상화/컨테이너(Kubernetes) 환경에서 수평적 확장(Scale-out), 자동 배포, 및 장애 복구(Self-healing)가 최적화되어 작동하는 소프트웨어.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dev/Prod Parity (개발/운영 환경 동등성)**: 개발 환경, 검증 환경, 실운영 환경 간의 도구, DB, 네트워크 격차를 최소화하여 "내 컴퓨터에선 되는데요" 장애를 차단하는 원칙.
 - **Disposability (폐기 가능성)**: 프로세스가 빠른 시작(Fast Startup)과 안전한 종료(Graceful Shutdown)를 지원하여 언제든 파기 및 재생성 가능한 상태.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backing Services**: 애플리케이션이 네트워크를 통해 이용하는 모든 부가 서비스(Database, Message Broker, SMTP, Caching)를 바인딩된 자원으로 취급하는 원칙.
 
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Build-Release-Run Pipeline**: 코드 컴파일(Build) $\rightarrow$ 환경 변수 결합(Release) $\rightarrow$ 프로세스 구동(Run)을 명확히 3단계로 차단 분리하는 배포 흐름.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Legacy Monolith vs 12-Factor App**: Legacy는 로컬 서버 파일/세션 상주 및 하드코딩 설정으로 스케일아웃 불가, 12-Factor는 완벽한 무상태와 환경변수 분리로 컨테이너 최적화.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Graceful Shutdown**: SIGTERM 신호 수신 시 진행 중인 HTTP 요청을 모두 완결 처리한 후 안전하게 프로세스를 파기(Disposability)하는 종료 처리.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud-Native 설계 기준(Cloud-Native Architecture Standards)**: 컨테이너 오케스트레이션, CI/CD 자동화 및 12-Factor 지침 준수율에 의거한 체계.
 

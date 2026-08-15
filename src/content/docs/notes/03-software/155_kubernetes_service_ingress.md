@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스 서비스(Kubernetes Service)**: IP가 수시로 변경되는 파드(Pod)들에 단일 가상 IP(VIP)를 부여하여 로드밸런싱 및 서비스 디스커버리(Service Discovery)를 제공하는 객체.
 - **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 HTTP/HTTPS 트래픽을 도메인 및 경로(URL Path) 기반으로 백엔드 서비스로 분기 라우팅하는 L7 계층 로드밸런서.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Service Types**: ClusterIP(내부 전용 VIP), NodePort(노드 포트 오픈), LoadBalancer(CSP 클라우드 ELB 연동), ExternalName(외부 CNAME 맵핑).
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **kube-proxy & iptables/IPVS**: kube-proxy가 Node마다 상주하며 Service Virtual IP로 유입된 L4 패킷을 실제 Pod IP로 iptables/IPVS 환원 라우팅.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Path-based Routing**: `app.com/api` $\rightarrow$ API Service 로, `app.com/pay` $\rightarrow$ Pay Service 로 L7 URL 경로 분기 처리.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ClusterIP vs NodePort vs LoadBalancer**: ClusterIP는 클러스터 내부용, NodePort는 노드 IP:Port 개방, LoadBalancer는 Cloud ELB 맵핑.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AWS ALB Ingress Controller Target-Type**: `instance` 방식(NodePort 경유) 대신 `ip` 방식(Pod IP 직접 타겟팅)으로 설정하여 L4 노드포트 병목 레이턴시 50% 절감.
 

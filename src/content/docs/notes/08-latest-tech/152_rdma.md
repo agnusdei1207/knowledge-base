@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 시스템의 CPU 및 운영체제 커널 개입 없이 호스트 메모리 데이터를 네트워크상에서 직접 읽고 쓰는 고성능 데이터 전송 기술.
 - **중앙처리장치(Central Processing Unit, CPU)**: 범용 연산•시스템 제어 프로세서
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메모리 영역(Memory Region, MR)**: RDMA 전송을 위해 어댑터에 등록되어 접근이 승인된 가상 메모리 공간.
 - **지역/원격 키(Local Key/Remote Key, L_Key/R_Key)**: 로컬 노드 및 원격 노드에서 메모리 접근 권한을 검증하기 위한 고유 식별값.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보호 영역(Protection Domain, PD)**: RDMA 자원(QP, MR)들을 논리적으로 그룹화하여 자원 간의 접근을 격리하는 보안 경계.
 - **등록 메모리(Registered Memory)**: 어댑터에 접근 권한이 고정되어 RDMA 작업이 허용된 메모리 영역.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **직접 전송**: 네트워크 어댑터가 승인된 원격 메모리를 읽거나 쓰는 동작을 말한다.
 
@@ -123,7 +123,7 @@ RDMA 자원 관리자 ── 1. 메모리 등록•접근 키 발급 ──▶ �
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단측 원격 직접 메모리 접근(One-Sided Remote Direct Memory Access, One-Sided RDMA)**: 원격 응용의 작업 게시 없이 네트워크 어댑터가 원격 메모리를 직접 읽거나 쓰는 방식을 의미한다.
 - **양측 송신•수신**: 송신자와 수신자가 각각 작업과 버퍼를 게시해 메시지를 교환하는 방식을 의미한다.
@@ -146,7 +146,7 @@ RDMA는 원격 CPU의 개입 여부와 메시지 경계에 따라 방식을 구�
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **R_Key 유효기간**: 원격 키로 등록 메모리에 접근할 수 있도록 허용한 시간 범위을 말한다.
 - **큐 고갈**: 완료를 회수하지 못해 새 작업 요청이나 결과를 기록할 큐 공간이 부족한 상태을 의미한다.
@@ -167,7 +167,7 @@ R_Key, QP, CQ의 수명과 상태를 함께 관리한다.
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **직접 메모리 조작(Direct Memory Access)**: CPU 명시적 처리 없이 메모리 읽기/쓰기.
 - **완료 상태(Completion Status)**: 작업 결과 기록 개념.

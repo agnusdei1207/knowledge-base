@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 가능 자격증명(Verifiable Credential, VC)**: 발급 기관이 사용자의 자격 및 속성 주장(Claim)에 암호화 전자서명을 부여한 위변조 불가능한 기계 판독형 디지털 증명서 규격이다.
 - **종이 증명서(Paper Certificate)**: 직인 기반의 증명서로 원본 대조 및 수동 대면 확인이 필요한 서류 형태 자격이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **발급자(Issuer)**: 주체의 신원 및 자격 속성을 확인하고 비밀키로 서명된 VC를 생성하여 전달하는 권위 있는 기관이다.
 - **보유자(Holder)**: 발급받은 VC를 단말 지갑에 암호화 보관하고, 서비스 제출 시 VP를 구성하여 전달하는 개인/객체 주체이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주장(Claim)**: VC 메타데이터 내에 명시된 자격 소유자, 학력, 자격증, 생년월일 등의 신원 속성 키-값(Key-Value) 정보이다.
 - **신뢰 체계(Trust Registry Framework)**: 적법한 발급자 신원과 인가된 자격 스키마 목록을 제공하는 분산 거버넌스 등록부이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **목적 제한(Purpose Limitation)**: 검증자가 요구한 명시적 이용 목적 외의 용도로 자격 속성을 저장, 활용, 재제공할 수 없도록 통제하는 보안 원칙이다.
 - **업무 적합성(Business-Fit Evaluation)**: 전자서명이 유효하더라도 대상 자격 종류가 요청 서비스의 법적, 절차적 인가 요구사항과 일치하는지 심사하는 단계이다.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙 조회 증명(Centralized Real-time Verification)**: 자격 제시 시점마다 발급기관 서버로 API를 조회하여 무결성을 대조하는 종속적 확인 방식이다.
 
@@ -187,7 +187,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C VC Data Model 2.0**: JSON-LD 및 JWT 기반 VC/VP의 데이터 구문, 서명 스키마, 검증 기준을 정의한 최신 규격이다.
 - **W3C Bitstring Status List 1.0**: 자격 폐기 상태를 비트스트림 형태로 고밀도 압축하여 프라이버시 노출 및 추적을 차단하는 기술 규격이다.
@@ -206,7 +206,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VC 수용 조건(VC Acceptance Criteria)**: 암호 무결성, 발급자 신뢰성, VC 미폐기 상태, 자격 유효기간, 및 비즈니스 인가 규칙을 모두 충족해야 검증을 인가하는 원칙이다.
 

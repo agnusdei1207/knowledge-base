@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MongoDB**: JSON/BSON(Binary JSON) 문서 형태의 가변 데이터 모델(Document Model)을 사용하는 대표적인 범용 오픈소스 NoSQL 문서 데이터베이스.
 - **BSON (Binary JSON)**: JSON 구조의 유연성을 유지하면서, 이진(Binary) 직렬화를 통해 빠르게 파싱하고 추가적인 데이터 타입(Date, 64-bit Int 등)을 인덱싱 지원하는 바이너리 문서 형식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Single Document Atomicity**: RDBMS의 다중 테이블 ACID 트랜잭션 대신, 단일 문서(Document) 내부의 서브 필드/배열 수정에 대해 100% 원자성(Atomicity) 보장.
 - **Dynamic Schema**: 사전 `ALTER TABLE` DDL 없이 컬럼(필드)을 자유롭게 추가/수정 가능.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Embedded vs Referenced**: 서브 문서로 내포(Embedded)하여 조인 0회를 달성할 것인가, DBRef 식별자로 참조(Referenced)하여 데이터를 쪼갤 것인가의 데이터 모델링 선택.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Oplog (Operations Log)**: Primary 노드의 모든 CUD 데이터 변경 사항이 시계열 이진 기록으로 남는 특수 캡드 컬렉션(Capped Collection)으로, Secondary 노드가 이를 릴레이 복제.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Modeling Tradeoff**: Embedded는 조인이 없어 조회가 압도적으로 빠르나 문서 크기가 커지고 무한 성장 시 16MB 제한 도달, Referenced는 문서 크기가 작고 중복이 없으나 조인(`$lookup`) 연산 오버헤드 발생.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **16MB Document Limit**: MongoDB 단일 Document의 최대 크기 한계로, 배열이 무한 성장(Unbounded Array)하면 16MB 에러가 나므로 분리 필수.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MongoDB 모델 수립 기준(MongoDB Architecture Standards)**: BSON 내포 구조 적합성, 16MB 한계 준수 및 Replica Set HA 구성에 의거한 체계.
 

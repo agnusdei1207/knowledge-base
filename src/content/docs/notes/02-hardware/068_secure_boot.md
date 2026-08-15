@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 부팅(Secure Boot)**: 전원 인가 직후 하드웨어 신뢰 루트(Root of Trust)에서 시작하여 다음 단계 부팅 펌웨어의 암호화 서명과 무결성을 단계별 검증한 후 제어권을 넘기는 메커니즘.
 - **RoT(Root of Trust)**: 루트 공개키 해시와 최초 검증 로직을 Boot ROM·eFuse로 보호하는 신뢰의 시작점.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 서명(Digital Signature)**: 공개키 암호 알고리즘으로 펌웨어의 출처와 무결성을 검증하는 암호값.
 - **무결성(Integrity)**: 바이너리 해시(SHA-256) 비교를 통해 저장소 내 펌웨어 이미지의 위변조 유무를 입증하는 성질.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Boot ROM**: 칩셋 파운드리 제조 시 물리 Mask로 각인되어 최초 검증 코드를 수행하는 변경 불가능한 전용 ROM.
 - **신뢰 저장소(Trust Store)**: eFuse, OTP(One-Time Programmable) 등 루트 공개키 해시 및 롤백 방지 버전을 영구 저장하는 보안 영역.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 기준(Trust Anchor)**: 검증의 기준이 되는 eFuse 상의 Root Public Key Hash 수치.
 - **A/B 슬롯(A/B Slot)**: 펌웨어 검증 실패 시 정상 작동 뱅크로 롤백 부팅하기 위한 듀얼 이미지 슬롯 구조.
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **일반 부팅(Normal Boot)**: 검증 절차 없이 Flash의 진입점 주소로 직접 점프하여 펌웨어를 즉시 실행하는 구조.
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **키 폐기(Key Revocation)**: 비밀키 노출 시 해당 서명 키를 eFuse 비트 컷을 통해 영구 무효화하는 보안 대책.
 </details>
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부팅 승인 기준(Boot Authorization Criteria)**: 무결성 검증, 키 폐기 여부 및 Anti-Rollback 버전에 근거한 부팅 인가 기준.
 

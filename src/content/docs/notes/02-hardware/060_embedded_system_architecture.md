@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **임베디드 시스템(Embedded System)**: 특정 목적의 기능을 전용 수행하기 위해 마이크로프로세서, 메모리 및 I/O 펌웨어를 물리 결합한 시스템.
 - **펌웨어(Firmware)**: 임베디드 칩셋의 ROM/Flash 메모리에 상주하여 하드웨어를 직접 제어하는 캡슐화된 제어 로직.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **마감시간(Deadline)**: 센서 신호 유입 후 액추에이터 제어 명령이 반드시 출력 완료되어야 하는 시한 한계.
 - **실시간 입출력(Real-Time I/O)**: 센서 인터럽트 인가 시 지연시간 상한(Bounded Latency) 내에 I/O를 제어하는 동작.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력부(Input Unit)**: ADC, GPIO, 센서 인터럽트 신호를 수용하는 인터페이스.
 - **처리·제어부(Processing & Control Unit)**: MCU/MPU 메인 연산 코어 및 RTOS 커널 스케줄러.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제어 주기(Control Cycle)**: 센서 획득-연산-액추에이터 출력까지 정기적으로 반복되는 타임 슬롯.
 - **워치독(Watchdog Timer)**: 펌웨어 교착 상태나 Infinite Loop 도달 시 시스템을 강제 리셋시키는 카운터 타이머.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MCU(Microcontroller Unit)**: CPU 코어, ROM, RAM, I/O를 단일 실리콘 다이에 집적한 저전력 전용 칩셋.
 - **MPU/SoC(Microprocessor Unit / System on Chip)**: 외부 DRAM을 연동하여 고성능 OS(Linux 등) 및 그래픽/네트워크를 제어하는 칩셋.
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WCET(Worst-Case Execution Time)**: 태스크가 연산 시 유발할 수 있는 가장 긴 이론적 최악 실행 시간.
 - **A/B 파티션(A/B Partitioning)**: OTA 펌웨어 업데이트 시 듀얼 뱅크 플래시를 사용하여 업데이트 실패 시 롤백하는 구조.
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **임베디드 처리 구조 선택 기준(Embedded Architecture Selection Criteria)**: 마감시간 실시간성, 타깃 연산 복잡도 및 전력 한계에 기반한 칩셋 선택 체계.
 

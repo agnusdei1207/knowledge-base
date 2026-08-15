@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 가속기(AI Accelerator)**: 신경망 텐서 연산을 범용 CPU보다 높은 효율로 가속 전용 처리하는 하드웨어 프로세서.
 - **워크로드 특성(Workload Characteristics)**: AI 모델 알고리즘의 연산 타입, 정밀도, 대역폭 요구, 모델 갱신 빈도 등의 속성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실모델 적합성(Workload Fit)**: 대상 AI 모델 연산자가 가속기 하드웨어로 직접 오프로딩되는 호환 비율.
 - **실효 성능(Effective Performance)**: 단순 이론 정점(Peak TOPS)이 아닌 메모리 병목 및 폴백 오버헤드를 반영한 실제 종단 연산 속도.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컴파일러(Compiler)**: AI 연산 그래프를 타깃 하드웨어 전용 가속 바이너리로 변환하는 도구.
 - **런타임(Runtime)**: 텐서 메모리 할당, 커널 디스패치 및 디바이스 간 오프로딩을 관장하는 실행 환경.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 변경 주기(Model Change Cycle)**: AI 알고리즘 및 신경망 레이어 구조가 수정 배포되는 빈도.
 - **결정적 지연(Deterministic Latency)**: 최악의 워크로드 조건에서도 일정 범위의 지연 상한을 보장하는 특성.
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SIMT(Single Instruction, Multiple Threads)**: GPU에서 다수 스레드에 동일 인스트럭션을 인가하는 병렬 모델.
 - **NRE(Non-Recurring Engineering)**: ASIC 반도체 칩 개발 시 발생하는 일회성 초기 개발 비용.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정점 성능(Peak Performance)**: 이론상 최적 조건에서 가속기가 낼 수 있는 최대 구동 성능.
 - **연산자·정밀도 지원 범위(Operator/Precision Coverage)**: 타깃 가속기가 하드웨어로 오프로딩 지원하는 연산자 및 데이터 규격 비율.
@@ -176,7 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 가속기 선택 기준(AI Accelerator Selection Criteria)**: 알고리즘 특성, 지연 결정성, 소비 전력, NRE 회수 생산량에 근거한 반도체 선택 체계.
 

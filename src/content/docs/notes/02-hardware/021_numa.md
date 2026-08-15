@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비균등 메모리 접근(Non-Uniform Memory Access, NUMA)**: 멀티소켓/멀티코어 시스템에서 프로세서와 물리 메모리(DRAM)의 상대적 물리 위치에 따라 메모리 접근 지연시간(Latency)과 대역폭이 비균등하게 달라지는 대용량 공유 메모리 아키텍처.
 - **NUMA 노드(NUMA Node)**: CPU 코어 그룹, 사설/공유 캐시, 독점 메인 메모리 제어기(DRAM Channel)를 하나로 묶어 독립 제어하는 물리적/논리적 도메인 단위.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **로컬 메모리(Local Memory)**: 명령을 실행 중인 CPU 코어와 동일한 NUMA 노드 내부의 메모리 제어기에 직접 결합되어 무지연 접근이 가능한 메인 메모리.
 - **원격 메모리(Remote Memory)**: 명령을 실행 중인 코어와 물리적으로 떨어져 타 NUMA 노드에 속해 있어 노드 간 인터커넥트(QPI, UPI, Infinity Fabric)를 우회 접근해야 하는 메모리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 제어기(Memory Controller / Integrated MC)**: CPU 소켓 내부에 통합 탑재되어 4/8-Channel DDR4/DDR5/HBM DRAM 억세스를 제어하는 하드웨어 컨트롤러.
 - **NUMA 인지 운영체제(NUMA-Aware OS)**: CPU 친화도(CPU Affinity)와 물리 메모리 페이지 allocation을 동일 NUMA 노드로 바인딩 관리하는 운영체제 커널 (Linux Kernel NUMA subsystem).
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CPU 친화도(CPU Affinity)**: 특정 스레드/프로세스가 지정된 NUMA 노드의 코어 세트에서만 바인딩되어 실행되도록 고정하는 스케줄링 설정.
 - **홈 노드(Home Node)**: 해당 물리 주소 페이지의 실제 DRAM이 꽂혀있는 기준 NUMA 노드.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **UMA (Uniform Memory Access)**: 단일 전역 버스나 크로스바 스위치를 사용하여 어떤 코어에서 물리 메모리를 억세스하든 지연시간이 동일한 구형 아키텍처.
 - **다중 소켓(Multi-Socket)**: 메인보드 상에 2개, 4개, 8개의 독립 CPU 소켓을 물리 탑재하여 랙 서버 용량을 늘리는 기술.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최초 접근 정책(First-Touch Policy)**: 페이지를 최초 접근한 스레드의 NUMA 노드에 물리 페이지를 배치하는 정책.
 - **자동 NUMA 균형(Automatic NUMA Balancing)**: Linux 커널이 런타임 페이지 폴트 통계를 분석해 스레드와 페이지를 동일 노드로 끌어당기는 자율 동기화 기능.
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA 튜닝 프레임워크(NUMA Optimization Framework)**: 멀티소켓 서버 구축 시 하드웨어 노드 토폴로지 분석, OS 커널 바인딩, DB 버퍼 풀 파티셔닝을 결합하여 로컬 메모리 히트율을 극대화하는 종합 가이드라인.
 

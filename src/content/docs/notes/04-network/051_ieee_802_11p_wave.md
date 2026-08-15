@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차량 환경 무선 접속(Wireless Access in Vehicular Environments, WAVE / IEEE 802.11p)**: 5.9GHz 대역 주파수를 사용하여 가입 절차 없이 고속 이동 차량 간(V2V) 및 차량-인프라 간(V2I) 안전 메시지를 교환하는 무선 통신 기술 표준이다.
 - **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: IEEE 802.11p 물리/MAC 규격 및 IEEE 1609 상위 표준을 정립한 글로벌 학술 표준화 기구이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **직교 주파수 분할 다중화(Orthogonal Frequency-Division Multiplexing, OFDM)**: 서로 직교하는 부반송파를 이용해 데이터를 병렬 전송하는 무선 변조 기술로, 802.11p에서는 10MHz 채널로 변형 채택된다.
 - **메가헤르츠(Megahertz, MHz)**: 무선 주파수 대역폭 크기를 나타내는 단위로, 802.11p는 도플러 수용성을 높이기 위해 기존 20MHz 무선랜을 10MHz 반채널(Half-clocked)로 둔감화하여 활용한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **WAVE 단문 메시지 프로토콜(WAVE Short Message Protocol, WSMP)**: IP 프로토콜 오버헤드를 제거하여 기본 안전 메시지(BSM/CAM)를 수ms 이내 초저지연 전달하는 전용 라우팅 프로토콜이다.
 - **제어 채널 및 서비스 채널(Control Channel & Service Channel, CCH / SCH)**: 1609.4 규격에 따라 무선 채널을 긴급 제어 전용(CCH)과 일반 서비스 전용(SCH)으로 50ms마다 교번(Switching) 분할하는 채널 구조이다.
@@ -89,7 +89,7 @@ WAVE 프로토콜 스택 아키텍처
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최신성(Freshness & Anti-Replay)**: 수신된 무선 프레임의 시각정보와 시퀀스를 판별해 재전송 및 지연 메시지를 차단하는 무결성 속성이다.
 - **서명 OCB 프레임(Signed OCB Frame)**: IEEE 1609.2 보안 서명이 부착되어 802.11p OCB 헤더로 포장된 차량 무선 프레임이다.
@@ -127,7 +127,7 @@ WAVE 프로토콜 스택 아키텍처
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **WAVE OCB(WAVE OCB Mode)**: 무선랜 AP와의 핸드셰이크 접속 과정이 전면 제거되어 100km/h 이상의 고속 이동 상태에서도 즉시 프레임을 교환하는 접속 방식이다.
 - **인프라 와이파이(Infrastructure Wi-Fi)**: AP와 4-Way Handshake를 거쳐 무선 연결(BSS)을 맺고 데이터를 수송하는 일반 무선랜 접속 방식이다.
@@ -151,7 +151,7 @@ WAVE 프로토콜 스택 아키텍처
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **채널 경쟁(Channel Contention / CSMA/CA)**: 동일 5.9GHz 무선 채널을 주변 차량들이 동시에 사용하려고 경쟁할 때 발생하는 무선 패킷 충돌 현상이다.
 - **인증서 폐기 정보(Certificate Revocation List, CRL)**: 만료 전 실효된 가명 인증서 목록을 OBU 단말에 배포하여 위장 메시지를 거부하게 하는 기술이다.
@@ -172,7 +172,7 @@ WAVE 프로토콜 스택 아키텍처
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 메시지 기한(Safety Message Latency Deadline)**: 서비스별 안전 판단 전에 메시지 처리를 끝내야 하는 시간 한도이다.
 

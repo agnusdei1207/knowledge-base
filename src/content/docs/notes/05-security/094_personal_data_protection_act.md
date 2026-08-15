@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개인정보 보호법(Personal Data Protection Act, PIPA)**: 개인정보의 수집, 이용, 제공, 관리, 파기 등 전주기 처리 기준과 정보주체의 권리 및 처리자의 법적 책임을 명시한 일반법이다.
 - **정보주체(Data Subject)**: 처리되는 정보에 의해 식별되는 사람으로서 해당 개인정보의 주체이자 권리 행사자이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **처리 정당성(Legitimacy of Processing)**: 법률상 명시된 근거(동의, 계약 이행, 법령상 의무 등)에 기반하여 목적 달성에 필요한 최소한의 정보만을 처리하는 원칙이다.
 - **목적 제한(Purpose Limitation)**: 개인정보를 수집 목적 범위를 벗어나 부당하게 이용하거나 제3자에게 제공하는 것을 엄격히 금지하는 원칙이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제3자 제공(Third-Party Provision)**: 개인정보 수령자가 자신의 독자적인 처리 목적을 위해 개인정보를 이전받는 행위로 별도 동의 또는 법적 근거가 필수적인 관계이다.
 - **처리 위탁(Outsourcing / Delegation of Processing)**: 위탁자의 업무 처리를 위해 수탁자에게 개인정보를 이전하는 행위로 계약서 명시, 수탁자 교육·점검이 강제되는 관계이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정보주체 권리(Data Subject Rights)**: 법령에 따라 본인 개인정보의 열람, 정정, 삭제, 처리정지를 요청하고 신속히 결과를 받거나 이의를 제기할 권리이다.
 - **파기 증적(Destruction Audit Trail)**: 파기 일시, 파기 대상, 파기 방법, 파기 확인자 등을 기록하여 법적 이행을 증빙하는 서면/전자 기록이다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수집(Collection)**: 정보주체 또는 제3자로부터 개인정보를 적법하게 취득하는 형태이다.
 - **이용(Use)**: 수집한 개인정보를 개인정보처리자의 내부 업무 목적 범주 내에서 활용하는 형태이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보호법 제15조(PIPA Article 15 - Collection & Use)**: 개인정보의 수집 및 이용이 가능한 적법 근거 6가지를 명시한 조항이다.
 - **보호법 제17조(PIPA Article 17 - Third-Party Provision)**: 개인정보의 제3자 제공 요구 조건 및 고지 의무를 규정한 조항이다.
@@ -185,7 +185,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개인정보 전주기 추적(Personal Data Lifecycle Traceability)**: 수집 근거부터 이용, 제3자 제공, 위탁, 백업 사본의 파기에 이르는 전체 흐름에 식별 메타데이터를 매핑하여 이력을 입증하는 통제 원칙이다.
 

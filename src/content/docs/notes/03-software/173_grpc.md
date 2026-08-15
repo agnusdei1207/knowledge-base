@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **gRPC (gRPC Remote Procedure Calls)**: 구글(Google)이 개발한 고성능 오픈소스 RPC 프레임워크로, HTTP/2와 Protocol Buffers를 기반으로 마이크로서비스 간의 초고속 양방향 통신을 지원하는 기술.
 - **Protocol Buffers (Protobuf)**: XML이나 JSON 대비 크기가 절반 이하로 작고 파싱(Parsing) 속도가 수십 배 빠른, 구글이 개발한 이진(Binary) 직렬화 데이터 포맷.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deadline / Timeout (기한/타임아웃)**: gRPC 호출 시 클라이언트가 "언제까지 응답이 안 오면 호출을 취소하겠다"고 명시하는 시간 제약으로, MSA 환경에서 무한 대기(Cascading Failure)를 방지하는 방어 기제.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Stub (스텁)**: `.proto` 파일을 컴파일(protoc)하여 자동 생성된 클라이언트 측 프록시 객체로, 네트워크 통신과 직렬화의 복잡성을 숨기고 마치 로컬 메서드를 부르는 것처럼 보이게 하는 대리자.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bidirectional Streaming (양방향 스트리밍)**: 클라이언트와 서버가 하나의 HTTP/2 연결(Connection) 위에서 독립적인 데이터 스트림을 비동기적으로 동시에 주고받는 gRPC의 가장 강력한 통신 모델.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Unary RPC (단항 RPC)**: REST API처럼 1개의 요청을 보내면 1개의 응답을 받는 가장 기본적이고 단순한 gRPC 통신 방식.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Load Balancing Issue**: HTTP/2는 장기 지속 연결(Long-Lived Connection)을 맺으므로, L4(TCP) 로드밸런서를 쓰면 트래픽 분산이 안 되고 특정 서버로 요청이 몰리는 연결 쏠림 현상.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **gRPC 수립 기준**: `.proto` 계약(IDL) 관리, HTTP/2 인프라 호환성(L7 로드밸런서), Deadline(기한) 전파 및 하위 호환성 유지 룰(reserved)에 의거한 체계.
 

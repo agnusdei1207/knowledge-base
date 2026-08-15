@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **White-box Testing (화이트박스 테스트, Structural Testing)**: 소스코드의 내부 구조, 제어 흐름(Control Flow), 조건문 및 실행 경로(Path)를 투명하게 들여다보며 커버리지(Coverage)를 측정하고 테스트 케이스를 설계하는 기법.
 - **Black-box Testing (블랙박스 테스트, Functional Testing)**: 소스코드의 내부 구조를 전혀 보지 않고, 시스템에 입력값(Input)을 투입하여 기대되는 출력값(Output) 사양 명세 준수 여부를 검증하는 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Control Flow Graph (CFG)**: 프로그램 내부의 제어 흐름 분기(If/Switch/Loop)를 노드(Node)와 엣지(Edge)로 시각화하여 화이트박스 경로를 추출하는 그래프.
 - **Specification-based Technique**: 블랙박스 테스트의 근본 사상으로, 소프트웨어 요구사항 사양서(SRS)만을 근거로 입력 조건 분할 및 테스트 케이스 설계.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Statement/Branch/Condition Coverage**: 구문 커버리지(모든 문장 1회 이상 실행), 분기 커버리지(모든 True/False 분기 실행), 조건 커버리지(각 조건식의 True/False 분리 실행).
 - **Equivalence Partitioning (동등 분할)**: 블랙박스 기법으로, 입력값 영역을 유효/무효 동등 클래스로 분할하여 각 구역 대표값 1개씩을 추출하는 설계.
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Basis Path Testing (기본 경로 테스트)**: McCabe의 순환 복잡도(Cyclomatic Complexity: $V(G) = E - N + 2P$)를 계산하여 소프트웨어의 독립적인 실행 경로 수를 산출하고 검증하는 화이트박스 기법.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **White-box vs Black-box Comparison**: 화이트박스는 개발자 중심의 단윗 테스트에 최적, 블랙박스는 QA/사용자 중심의 시스템/인수 테스트에 최적.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Coverage Fallacy (커버리지의 함정)**: 코드 커버리지 100%를 달성하더라도 요구사항 누락이나 비즈니스 로직 오류를 완전히 보장하지는 못하므로 블랙박스 테스트와 수평 연동 필수.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **테스트 기법 선택 기준(Test Technique Selection Standards)**: 검증 대상 테스트 레벨(Unit vs System), 코드 공개성 및 도메인 위협 수준에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GPU(Graphics Processing Unit)**: 다수 연산 유닛으로 대규모 데이터 병렬 처리를 높은 처리량으로 수행하는 프로세서.
 - **SIMT(Single Instruction, Multiple Threads)**: 단일 명령어를 워프 단위의 다수 스레드에 공통으로 발행하여 독립 처리하는 execution 모델.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **워프(Warp)**: SIMT 모델에서 하나의 명령을 동기화하여 동시 실행하는 최소 스레드 묶음 단위(보통 32개 스레드).
 - **지연 은닉(Latency Hiding)**: 한 워프가 메모리 전송을 대기할 때 다른 준비된 워프를 즉시 교체 스케줄링하여 유휴를 방지하는 기법.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **워프 스케줄러(Warp Scheduler)**: 매 클록마다 명령어 실행 준비가 끝난 워프를 선정하여 인스트럭션을 디스패치하는 컨트롤러.
 - **공유 메모리(Shared Memory)**: 동일 스레드 블록 내부 스레드들이 데이터를 고속 공유·재활용하는 온칩 SRAM.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 디스패처(Block Dispatcher)**: 커널의 스레드 블록을 하드웨어 자원 여유가 있는 SM에 배치하는 스케줄링 하드웨어.
 - **스레드 블록(Thread Block)**: 동일한 SM에 배정되어 공유 메모리와 바리어 동기화를 사용할 수 있는 스레드 집합.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SIMD(Single Instruction, Multiple Data)**: 하나의 대형 연산자가 여러 데이터 레인에 단일 벡터 인스트럭션을 동시 적용하는 체계.
 - **벡터 레인(Vector Lane)**: SIMD 연산기에서 개별 데이터 요소를 병렬 처리하는 일차원 독립 연산 통로.
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **레인 활용률(Lane Utilization)**: 워프 32개 레인 중 실제 연산을 유효 수행 중인 스레드의 비율.
 - **커널 융합(Kernel Fusion)**: 연관된 복수의 커널 함수를 단일 커널로 통합하여 전역 메모리 통신 오버헤드를 줄이는 기법.
@@ -180,7 +180,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동일 연산(Data-Parallel Operation)**: 대규모 입력 요소에 동일 알고리즘을 독립 적용하는 컴퓨팅 형태.
 - **실행 장치 선택 기준(Execution Engine Selection Criteria)**: 병렬성 형태, 분기 복잡도, 데이터 액세스 규칙성에 기반한 최적 프로세서 선택 기준.

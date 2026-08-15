@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Saga Pattern (사가 패턴)**: 마이크로서비스(MSA) 환경에서 2PC의 성능 저하를 피하기 위해, 긴 분산 트랜잭션을 여러 개의 로컬 트랜잭션으로 쪼개고, 실패 시 완료된 트랜잭션을 역순으로 되돌리는 보상(Compensating) 트랜잭션 패턴.
 - **2PC (Two-Phase Commit, 2단계 커밋)**: 분산된 여러 데이터베이스가 모두 커밋할 준비가 되었는지 투표(Prepare)한 후, 만장일치일 때만 일제히 커밋(Commit)하여 강력한 원자성(Atomicity)을 보장하는 전통적 프로토콜.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compensating Transaction (보상 트랜잭션)**: 이미 커밋(Commit)되어 물리적으로 되돌릴 수 없는 로컬 트랜잭션의 논리적 효과를 무효화하기 위해, 반대되는 작업(예: 결제 완료 $\rightarrow$ 결제 취소 API 호출)을 수행하는 비즈니스 트랜잭션.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Orchestration (오케스트레이션)**: Saga의 구현 방식 중 하나로, 중앙의 오케스트레이터(Saga Execution Coordinator)가 상태 머신에 따라 각 서비스에게 해야 할 일(Command)을 순차적으로 지시하고 실패 시 보상 트랜잭션까지 통제하는 중앙집중형 구조.
 - **Choreography (코레오그래피)**: 중앙 통제 없이, 각 마이크로서비스가 자신이 할 일을 마친 뒤 이벤트를 발행(Publish)하면 다른 서비스가 이를 구독(Subscribe)하여 다음 할 일을 알아서 수행하는 릴레이 구조.
@@ -73,7 +73,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pivot Transaction (피벗 트랜잭션)**: Saga 패턴에서 "이 트랜잭션이 성공하면 전체 Saga는 웬만하면 성공으로 가야 한다"는 분수령 역할을 하는 트랜잭션 (보통 외부 결제 연동이나 변경 불가능한 작업이 피벗이 됨).
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Semantic Lock (의미론적 잠금)**: Saga에서 물리적 DB Lock을 쓸 수 없으므로, 애플리케이션 레벨에서 상태를 `PENDING(진행중)`으로 마킹하여 다른 트랜잭션의 접근을 논리적으로 통제하는 기법.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency (멱등성)**: 보상 트랜잭션(결제 취소) 요청이 네트워크 오류로 2번 이상 들어오더라도, 이미 취소된 건이라면 추가 환불(사이드 이펙트) 없이 무시되도록 시스템을 설계하는 필수 원칙.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜잭션 선택 기준**: 시스템 결합도, 성능(비동기 여부), 물리적 락(Lock) 허용 여부, 롤백 비용에 의거하여 분산 트랜잭션 처리 패턴을 결정하는 기준.
 

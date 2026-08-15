@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **애드혹 주문형 거리 벡터(Ad Hoc On-Demand Distance Vector, AODV)**: 이동 애드혹 네트워크(MANET)에서 데이터 전송 요청이 발생했을 때만 동적으로 경로를 탐색하고 유지하는 반응형(Reactive/On-Demand) 라우팅 프로토콜이다.
 - **반응형 라우팅(Reactive / On-Demand Routing)**: 평시 라우팅 테이블 갱신을 정지하고, 데이터를 송신해야 하는 이벤트가 발생했을 때만 플러딩 기반 경로 탐색을 개시하는 라우팅 방식이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **역방향·순방향 경로(Reverse & Forward Path)**: RREQ 수신 시 이전 홉(Hop)을 역방향 경로로 저장하고, RREP 응답 시 역경로를 거슬러 순방향 데이터 라우팅 통로를 완성하는 기법이다.
 - **목적지 순차 번호(Destination Sequence Number, DestSeqNum)**: 목적지 노드가 라우팅 정보의 최신성(Freshness)을 나타내기 위해 발급·증가시키는 32비트 정수 값으로, 라우팅 루프(Loop)를 원천 차단한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **라우팅 테이블(Routing Table)**: 목적지 IP, 목적지 순차 번호(DestSeqNum), 다음 홉(Next Hop), 홉 카운트(Hop Count) 및 경로 생존 시간(Lifetime)을 보관하는 노드 메모리 구조이다.
 - **경로 오류(Route Error, RERR)**: 노드 이동으로 다음 홉 링크가 단절되었을 때 이를 발견한 노드가 송신측으로 경로 파기를 알리는 제어 메시지이다.
@@ -93,7 +93,7 @@ AODV 반응형 라우팅 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **생존 시간(Time to Live, TTL)**: RREQ 패킷이 무한정 플러딩되지 않도록 확산 범위를 제한하는 홉 수 제한 파라미터이다.
 - **RREQ 확산 및 RREP 회신**: 송신측의 브로드캐스트 탐색(RREQ)과 수신측/중계측의 유니캐스트 응답(RREP)을 통한 온디맨드 세션 구성 흐름이다.
@@ -132,7 +132,7 @@ AODV 반응형 라우팅 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **선제형 라우팅(Proactive / Table-Driven Routing)**: 데이터 송신 여부와 상관없이 모든 노드가 전체 망의 라우팅 정보를 주기적으로 갱신·유지하는 방식이다.
 
@@ -155,7 +155,7 @@ AODV 반응형 라우팅 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **확장 링 탐색(Expanding Ring Search)**: RREQ의 TTL을 1, 2, 4, 8로 단계적으로 크게 늘려 가까운 노드부터 탐색함으로써 전역 브로드캐스트 폭주(Broadcast Storm)를 예방하는 기법이다.
 - **블랙홀 공격(Blackhole Attack)**: 악의적인 노드가 자신이 목적지까지의 가장 최신(최고 DestSeqNum) 및 최단 경로를 가졌다고 거짓 RREP를 응답하여 패킷을 가로채고 폐기하는 보안 위협이다.
@@ -176,7 +176,7 @@ AODV 반응형 라우팅 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **유휴 제어량(Control Traffic Overhead)**: 데이터를 송신하지 않는 평시 상태에서 네트워크가 라우팅 유지보수를 위해 소비하는 대역폭 비율이다.
 

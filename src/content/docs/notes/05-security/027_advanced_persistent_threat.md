@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지능형 지속 위협(Advanced Persistent Threat, APT)**: 명확한 대상을 표적으로 설정하고, 지능형 기술(0-Day, Social Engineering 등)을 동원하여 시스템 내부에 은밀히 침투한 뒤 장기간(Persistent) 정찰, 권한 상승 및 정보 유출을 수행하는 공격.
 - **캠페인(Campaign)**: 동일한 공격 주체(APT 그룹)가 특정 정치적/경제적 목적 달성을 위해 다수의 정찰, 침투, 유출 활동을 장기간에 걸쳐 일련의 프로세스로 전개하는 작전 단위.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지속성(Persistence)**: 시스템 재부팅이나 보안 패치 후에도 원격 접속 통로를 유지하기 위해 레지스트리, 서비스, 스케줄러, 백도어를 등록하는 기술.
 - **권한 상승(Privilege Escalation)**: 일반 사용자 계정 권한에서 로컬 관리자(System) 또는 도메인 관리자(Domain Admin) 권한으로 계정 격상.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **핵심 자산(Crown Jewels)**: 기밀 문서, 고객 개인정보, 핵심 소스코드, 기밀 연구자산 등 조직에 치명적 타격을 주는 주요 데이터 및 시스템.
 - **위협 헌팅(Threat Hunting)**: 기존 보안 솔루션의 경보(Alert)에 의존하지 않고, 가설(Hypothesis) 기반으로 SIEM/EDR 로그를 능동 분석하여 미탐지된 APT 위협을 찾아내는 활동.
@@ -92,7 +92,7 @@ APT 침해•방어 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **초기 접근(Initial Access)**: 스피어 피싱, 워터링 홀, 공급망(Supply Chain) 취약점을 통해 내부 네트워크 진입 거점을 마련하는 단계.
 - **익스플로잇(Exploit)**: 소프트웨어 취약점(0-Day 등)을 악용하여 공격 코드를 성공적으로 실행시키는 기법.
@@ -145,7 +145,7 @@ APT 침해•방어 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기회주의 범죄(Opportunistic Crime)**: 불특정 다수의 미패치 시스템을 대상으로 질량 스캐닝하여 단기적 이익을 노리는 일반 악성코드 공격.
 - **내부자 위협(Insider Threat)**: 정당한 권한을 가진 인가자가 의도적/과실로 기밀 데이터를 유출하거나 방해하는 내부 위협.
@@ -168,7 +168,7 @@ APT 침해•방어 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **침해 지표(Indicator of Compromise, IOC)**: IP, Domain, Hash 등 단기 변경 가능한 기술적 침해 증적.
 - **TTP(Tactics, Techniques, and Procedures)**: 공격 그룹의 전술(T), 기술(T), 절차(P)로 도구 변형에도 변하지 않는 고차원적 공격 행동 패턴.
@@ -191,7 +191,7 @@ APT 침해•방어 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동시 축출(Simultaneous Eviction)**: APT 침해 분석 결과 확인된 모든 C2 IP, 백도어 파일, 탈취 계정을 특정 시점에 동시 재발급·삭제하는 완결 조치.
 

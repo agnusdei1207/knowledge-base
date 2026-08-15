@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto Failover (자동 장애 전환)**: 관리자가 수동으로 개입하지 않아도 시스템이 스스로 장애를 감지하고, 이전 활성 자원을 격리(Fencing)한 뒤 대체 자원을 Primary로 승격하여 요청 경로를 자동 전환하는 고가용성 핵심 메커니즘.
 - **Recovery Time Objective (RTO, 복구 시간 목표)**: 장애 발생 후 서비스가 정상화되어야 하는 최대 허용 시간. Auto Failover는 이 RTO를 분/시간 단위에서 초 단위로 줄이는 것을 목표로 함.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Heartbeat (하트비트)**: 클러스터 노드들이 "나는 살아있다"는 신호를 주기적으로 주고받는 생존 신호. 일정 횟수 이상 하트비트를 받지 못하면 해당 노드를 장애로 의심하는 1차 판단 근거.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Decision Engine (결정기)**: 여러 감지기에서 수집된 신호(헬스 체크 실패 횟수, 복제 지연, 쿼럼 충족 여부)를 종합하여 "진짜 장애인가?" 최종 판정을 내리는 두뇌 역할 구성요소.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hysteresis (히스테리시스)**: 장애 진입 조건(예: 헬스 체크 5회 연속 실패)과 장애 해제 조건(예: 3회 연속 성공)을 다른 임계값으로 설정하여, 상태가 임계값 근처에서 켰다 껐다 반복(Flapping)하는 것을 방지하는 제어 기법.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Graceful Failover vs Forced Failover**: Graceful Failover는 Active 노드가 정상적으로 상태를 Standby에 넘기고 역할을 전환하는 계획된 전환(예: 유지보수). Forced Failover는 Active가 응답 불가 시 Fencing 후 강제 전환하는 비계획 전환.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backoff with Jitter (지수 백오프 + 지터)**: Failover 직후 대량의 클라이언트 재시도가 신규 Primary에 동시 폭주(Thundering Herd)하는 것을 막기 위해, 재시도 간격을 지수적으로 늘리면서 무작위 시간 편차(Jitter)를 추가하여 요청을 시간적으로 분산하는 기법.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Chaos Test (카오스 시험)**: 정기적으로 실제 장애를 주입하여 Auto Failover 파이프라인(감지→펜싱→승격→전환)이 실제로 RTO 이내에 완료되는지 검증하고 증적을 보존하는 신뢰성 검증 활동.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **뉴로모픽 컴퓨팅(Neuromorphic Computing)**: 생물학적 뇌 신경망(뉴런/시냅스)의 전기적 동작 메커니즘을 모사하여 이산 스파이크 신호 기반으로 비동기 연산하는 하드웨어 컴퓨팅.
 - **스파이크(Spike)**: 뉴런 간 정보 전달 시 발화 시점과 임계값 도달 여부를 이산 펄스로 표현하는 비동기 이벤트.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SNN(Spiking Neural Network)**: 스파이크의 발화 시점(Timing)과 빈도(Frequency)에 정보를 인코딩하여 시공간 데이터를 가속 처리하는 신경망 모델.
 - **희소 이벤트(Sparse Event)**: 입력 데이터의 유의미한 변화가 발생한 극소수의 시간/공간 포인트에서만 스파이크가 기인하는 특성.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스파이크 인코더(Spike Encoder)**: 아날로그 센서(예: DVS 이벤트 카메라) 신호를 이산 주소 스파이크 이벤트로 인코딩하는 변환 회로.
 - **이벤트 라우터(Event Router)**: 발생된 주소 스파이크(AER) 패킷을 목적지 타깃 뉴런 코어로 저지연 라우팅 전송하는 온칩 네트워킹 로직.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주소 이벤트(AER, Address-Event Representation)**: 스파이크가 발생한 뉴런의 주소와 시점을 나타내는 디지털 통신 패킷.
 - **막전위(Membrane Potential)**: 뉴런 코어 내부의 누적된 전압 상태값.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **폰 노이만 AI 처리(Von Neumann AI Architecture)**: 정속 동기 클록 및 CPU/GPU/NPU 기반 조밀 텐서 연산 가속 구조.
 - **조밀 텐서(Dense Tensor)**: 행렬 및 텐서 내 수치들이 0이 아닌 유효값으로 채워져 있는 데이터 표현 방식.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이벤트율(Event Rate)**: 단위 시간당 뉴로모픽 코어로 인가되는 입력 스파이크의 유입 빈도.
 - **타임스탬프(Timestamp)**: 비동기 스파이크 신호의 시공간 순서를 보장하기 위해 부여되는 시간 정보.
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상시 저전력 반응(Always-On Low-Power Response)**: 수 mW 미만의 저전력으로 24시간 실시간 이벤트를 감지·추론하는 상태.
 - **AI 처리 구조 선택 기준(AI Compute Architecture Selection Criteria)**: 데이터 희소성, 전력 제약 조건 및 타깃 정확도에 근거한 반도체 선택 체계.

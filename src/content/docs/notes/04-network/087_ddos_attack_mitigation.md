@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 서비스 거부 방어 체계(Distributed Denial-of-Service Defense System, DDoS 방어 체계)**: 다수 공격원이 회선•연결 상태•서버 자원을 소진시키는 공격을 탐지•흡수•정화해 서비스 가용성을 유지하는 체계이다.
 
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **콘텐츠 전송 네트워크(Content Delivery Network, CDN)**: 분산 엣지에서 콘텐츠와 트래픽을 처리하는 네트워크이다.
 - **다단 완화(Multi-Layer Mitigation)**: CDN•상위 통신사업자•정화 센터에서 공격을 분산•차단하는 방식이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정화 센터(Scrubbing Center)**: 우회한 트래픽에서 악성 패킷을 제거하는 시설이다.
 - **기준선**: 정상 시간대의 트래픽 양•분포•연결•요청 특성을 기록한 이상 탐지 비교 기준이다.
@@ -89,7 +89,7 @@ DDoS 방어 체계
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상위 정화 우회(Upstream Scrubbing Diversion)**: 경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP) 경로를 변경해 대량 트래픽을 서비스 회선보다 큰 정화 센터로 먼저 보내는 대응이다.
 - **복구 검증**: 지연•오류•자원 사용량이 기준선으로 돌아왔는지 확인한 뒤 임시 제한을 해제하는 절차이다.
@@ -137,7 +137,7 @@ DDoS 방어 체계
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대역폭 공격(Bandwidth Attack)**: 대량 트래픽으로 회선 용량을 소진하는 공격이다.
 - **상태 소진 공격(State-Exhaustion Attack)**: 반개방 연결표 등 상태 자원을 소진하는 공격이다.
@@ -161,7 +161,7 @@ DDoS 방어 체계
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동기화 쿠키(Synchronize Cookie, SYN 쿠키)**: 서버가 반개방 상태를 저장하지 않고 응답 순서 번호에 연결 정보를 부호화하는 방어이다.
 - **7계층(Layer 7, L7)**: 응용 프로토콜과 요청을 처리하는 계층이다.
@@ -183,7 +183,7 @@ DDoS 방어 체계
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **완화 위치(Mitigation Point)**: 공격이 먼저 고갈시키는 회선•상태표•응용 자원보다 앞단에서 차단할 지점을 정하는 기준이다.
 

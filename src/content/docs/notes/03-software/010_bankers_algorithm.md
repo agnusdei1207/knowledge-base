@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Banker's Algorithm (은행원 알고리즘)**: 자원 요청 시, 사전 선언된 최대 요구량(Max Claim)을 바탕으로 신규 할당 후에도 시스템이 Safe State(안전 상태)를 유지하는지 시뮬레이션 계산하여 승인하는 대표적 교착상태 회피(Avoidance) 알고리즘.
 - **Safe State (안전 상태)**: 모든 프로세스가 최종적으로 작업을 마치고 정상 종료될 수 있는 안전 순서(Safe Sequence)가 최소 1개 이상 존재하는 시스템 상태.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Available Vector**: 각 자원 종류별로 현재 즉시 할당 가능한 유휴 자원 수량 배열 (크기 $m$).
 - **Max Matrix**: 프로세스별 수명주기 동안 요구 가능한 최대 자원 수량 행렬 ($n \times m$).
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Work Vector**: Safety Algorithm 시뮬레이션 중 임시 가용 자원 수량을 추적하는 가상 벡터.
 - **Finish Vector**: 프로세스 $i$의 정상 실행 완료 가능 여부를 표시하는 Boolean 배열 ($\text{Finish}[i] = \text{True/False}$).
@@ -89,7 +89,7 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Safety Algorithm**: `Work = Available`, `Finish[i] = False` 초기화 후, $\text{Need}_i \le \text{Work}$를 만족하는 $i$를 찾아 `Work = Work + Allocation_i`, `Finish[i] = True`를 반복 수행하는 4단계 알고리즘.
 
@@ -146,7 +146,7 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Safe vs Unsafe State**: Unsafe State는 교착상태가 발생할 수도 있는 불안전 가능성 상태이며, 교착상태 그 자체는 아님 (Unsafe ⊃ Deadlock).
 
@@ -164,7 +164,7 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Max Claim Pre-declaration**: 각 프로세스의 최대 자원 요구량을 사전에 선언해야 하는 제약.
 
@@ -184,7 +184,7 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **은행원 알고리즘 적용 기준(Banker's Algorithm Adoption Criteria)**: 자원 수 고정성, Max Claim 사전 선언 가능성, 연산 오버헤드 감당 여부에 기반한 적용 체계.
 

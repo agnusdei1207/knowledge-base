@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevOps (Development + Operations)**: 소프트웨어 개발(Development)과 정보기술 운영(Operations) 조직 간의 장벽을 허물고, 애자일 문화 및 자동화 도구를 기반으로 빠른 변경 릴리스와 신뢰성을 달성하는 문화적/기술적 협업 패러다임.
 - **CALMS Framework**: DevOps의 성공적 정착을 측정하는 5가지 척도 (Culture: 문화, Automation: 자동화, Lean: 린 프로세스, Measurement: 측정, Sharing: 공유).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Infinity Loop (무한 루프 8자 고리)**: DevOps의 생명주기를 나타내는 표준 모델로, Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Test $\rightarrow$ Release $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 의 선순환 순환고리.
 - **Continuous Everything (무한 연속성)**: 지속적 계획(Plan), 지속적 통합(CI), 지속적 테스트(CT), 지속적 배포(CD), 지속적 모니터링(CM)을 통합 추구.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevOps Toolchain**: Plan부터 Monitor까지 각 단계별로 사용되는 최적 자동화 도구들의 유기적 조합 묶음 (Jira, Git, Jenkins, SonarQube, Terraform, K8s, Prometheus).
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DORA 4 Key Metrics**: DevOps 팀의 성숙도를 측정하는 4대 지표 (배포 빈도, 변경 리드타임, 서비스 복구 시간 MTTR, 변경 실패율).
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Traditional Waterfall Silo vs DevOps Cross-Functional**: Traditional은 개발/QA/운영이 장벽(Silo)으로 분리되어 책임 전가 발생, DevOps는 1개 전담 팀(Cross-Functional Team)이 계획부터 운영까지 전권 소유.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **You Build It, You Run It**: 아마존 CTO 버너 보겔스(Werner Vogels)가 주창한 멘토링 구호로, 코드를 작성한 개발자가 해당 서비스의 실운영(On-call)까지 직접 책임진다는 문화적 원칙.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevOps 파이프라인 구축 기준(DevOps Pipeline Build Standards)**: DORA 지표 목표치, Toolchain 자동화율 및 조직 문화 성숙도에 의거한 체계.
 

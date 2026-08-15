@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자내성암호(Post-Quantum Cryptography, PQC) 전환**: 양자 공격에 취약한 공개키 암호를 양자내성 키 설정•서명 방식으로 단계적으로 교체하는 작업이다.
 - **지금 수집•나중 해독(Harvest Now, Decrypt Later, HNDL)**: 현재 암호문을 수집•보관한 뒤 미래의 양자컴퓨터로 해독하려는 위협이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이브리드 방식(Hybrid Mode)**: 기존 공개키 암호(ECDHE 등)와 양자내성암호(ML-KEM 등)를 결합하여 전환기 보안성과 호환성을 동시 확보하는 기법.
 - **암호 민첩성(Crypto Agility)**: 서비스 하드코딩 없이 정책 및 라이브러리 모듈 교체만으로 차세대 암호를 유연하게 도입하는 아키텍처.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **암호 자재명세서(Cryptographic Bill of Materials, CBOM)**: 시스템 내 사용 중인 암호 알고리즘, 키 길이, 인증서 및 라이브러리 의존성을 계목화한 관리 자산 대장.
 - **결합기(Combiner)**: 고전 암호 방식과 PQC 방식에서 각각 도출된 두 공유 비밀을 KDF를 통해 단일 대칭 세션키로 유도 결합하는 연산 모듈.
@@ -91,7 +91,7 @@ PQC 전환 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: PQC 공개키로 세션키를 캡슐화하고 개인키로 디캡슐화하는 기술.
 - **시범 배포(Pilot Deployment)**: 주요 대표 서비스에 PQC 모듈을 선제 적용하여 패킷 크기, 성능 및 안정성을 미리 검증하는 단계.
@@ -144,7 +144,7 @@ CBOM•보존기간 입력
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고전 방식 유지(Classical Mode Maintained)**: PQC 미지원 시스템을 위한 단기적 예외 유지 방식.
 - **PQC 단독 전환(Pure PQC Mode)**: 전 구간 PQC 지원 완결 후 레거시 암호 스위트를 완전 제거하는 최종 단계.
@@ -166,7 +166,7 @@ CBOM•보존기간 입력
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **NIST CSWP 15(NIST Cybersecurity White Paper 15)**: PQC 마이그레이션 과제와 CBOM 식별 및 위험 기반 이행 계획 가이드라인.
 - **NIST SP 800-227(NIST Special Publication 800-227)**: KEM 및 하이브리드 키 캡슐화 구조 적용을 위한 보안 권고안.
@@ -187,7 +187,7 @@ CBOM•보존기간 입력
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전환 완료 기준(Migration Completion Criteria)**: PQC 모듈 적용률과 더불어 레거시 취약 알고리즘의 완전 거부(Fail-closed) 조치를 포함하는 최종 평가 기준.
 

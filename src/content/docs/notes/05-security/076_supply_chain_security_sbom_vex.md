@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 공급망(Software Supply Chain)**: 소스코드, 오픈소스 의존성 획득, 빌드, 바이너리 저장소, CI/CD 배포로 연결되는 소프트웨어 조립 및 유통 파이프라인 구조이다.
 - **전이 의존성(Transitive Dependency)**: 개발자가 직접 추가한 라이브러리가 다시 하위로 엮어 불러오는 간접 수용 의존성 요소이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 소프트웨어를 구성하는 모든 오픈소스 부품, 라이브러리 버전, 관계를 표준(SPDX, CycloneDX)으로 명시한 명세서이다.
 - **취약점 악용 가능성 교환(Vulnerability Exploitability eXchange, VEX)**: SBOM 상 취약점 CVE의 실질적 영향 여부(Not Affected, Affected 등)와 판단 근거를 기계 읽기 양식으로 기재한 서술서이다.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **격리 빌드(Isolated Build)**: 외부 인터넷 접속과 권한이 통제된 샌드박스 파이프라인 컨테이너 내에서 빌드를 수행하는 방식이다.
 - **단명 자격(Ephemeral Credentials)**: 빌드 및 배포 작업 실행 시간 동안에만 임시로 발급되고 소멸하는 OIDC 기반 임시 자격 증명이다.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서명 산출물(Signed Artifact)**: Cosign/Sigstore 전자서명이 포함되어 무결성 및 발행자 출처가 검증된 빌드 바이너리/이미지이다.
 - **증적(Attestation / Evidence)**: 빌드 과정의 소스 ID, SBOM, VEX 결과가 암호학적으로 결속된 검증용 메타데이터이다.
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SBOM(Software Bill of Materials)**: 구성 부품 목록 및 패키지 간 상하 관계 가시화 문서이다.
 - **VEX(Vulnerability Exploitability eXchange)**: 취약점이 해당 애플리케이션에서 실제 실행/악용 가능한지 여부를 증명하는 서술 문서이다.
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-218 SSDF 1.1 (NIST Secure Software Development Framework 1.1, SSDF)**: 미국 정부의 안전한 소프트웨어 개발 생명주기 지침 가이드라인이다.
 - **SLSA 1.2 (Supply-chain Levels for Software Artifacts 1.2, SLSA)**: 구글이 주도하는 보안 공급망 산출물 무결성 보증 프레임워크 4단계 등급이다.
@@ -196,7 +196,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **산출물 승격 조건(Artifact Promotion Criteria)**: 서명 유효성, SLSA 출처 증명, VEX 상 고위험 CVE 미악용 판단이 완료되어 운영 환경 배포가 인가된 검증 상태이다.
 

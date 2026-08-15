@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Process Scheduling**: Ready Queue 상에 대기 중인 프로세스들에게 CPU 자원(Time Quantum/Priority)을 효율적으로 배분하는 OS 커널 스케줄링 정책.
 - **Preemptive vs Non-Preemptive**: 실행 중인 프로세스의 CPU 점유권을 커널이 강제 회수(Preemptive)할 수 있는지 여부에 따른 스케줄링 구분.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Time Quantum (Time Slice)**: Round-Robin 등 선점형 스케줄링에서 프로세스가 CPU를 한번에 점유 구동할 수 있는 허용 단위 시간.
 - **Convoy Effect**: FCFS 스케줄링 시 긴 CPU 버스트 타임을 갖는 프로세스가 앞서 점유함으로써 뒤따르는 짧은 I/O 작업들이 대기 지연되는 현상.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **vruntime(Virtual Runtime)**: CFS 스케줄러에서 프로세스의 실제 실행 시간을 우선순위 가중치(Nice value)로 보정한 가상 실행 시간.
 - **Red-Black Tree**: CFS에서 실행 주체를 vruntime 순으로 관리하던 자가 균형 이진 탐색 트리.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Aging**: Ready Queue에서 오래 대기한 프로세스의 우선순위를 점진적으로 상승시켜 기아 현상을 방지하는 대책.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MLFQ(Multi-Level Feedback Queue)**: 여러 개의 준비 큐를 두고, CPU 타임 슬라이스를 소진할 때마다 하위 큐로 강등(Demote)시키고 I/O 유발 시 상위 큐로 유지하는 자율 피드백 스케줄러.
 
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Nice Value**: Linux 프로세스의 스케줄링 우선순위 가중치(-20 ~ +19 수치)로, 높을수록 CPU 점유 몫이 감소.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스케줄링 알고리즘 선택 기준(Process Scheduling Selection Criteria)**: 워크로드 특성(Interactive vs Batch), 응답시간 타깃, 공정성 요구에 따른 최적 스케줄러 체계.
 

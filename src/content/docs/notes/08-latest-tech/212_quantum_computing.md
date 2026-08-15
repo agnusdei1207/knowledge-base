@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자컴퓨팅**: 큐비트의 중첩•얽힘•간섭을 양자 게이트로 조작하고 측정하여 계산 결과를 얻는 계산 방식을 의미한다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중첩**: 큐비트가 여러 기저 상태의 확률 진폭을 동시에 표현하는 양자 상태을 의미한다.
 - **얽힘**: 여러 큐비트의 상태가 분리해 기술할 수 없는 상관관계를 이루는 양자 상태을 의미한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자 게이트**: 큐비트의 확률 진폭과 위상을 가역적으로 변환하는 연산을 의미한다.
 - **큐비트(Qubit)**: 중첩된 기저 상태의 확률 진폭과 위상으로 양자 정보를 표현하는 계산 단위이다.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **샷(Shot)**: 동일한 양자 회로를 한 번 실행하고 측정한 표본로 정의된다.
 
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **잡음 중간 규모 양자(Noisy Intermediate-Scale Quantum, NISQ)**: 오류가 있고 큐비트 수와 회로 깊이가 제한된 중간 규모 양자 장치을 말한다.
 
@@ -153,7 +153,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디코히런스**: 환경과의 상호작용으로 큐비트의 중첩과 위상 정보가 손실되는 현상로 정의된다.
 
@@ -172,7 +172,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자 우위**: 특정 문제에서 양자 계산이 실용적으로 가능한 최선의 고전 계산보다 우수한 성능을 보이는 상태로 정의된다.
 

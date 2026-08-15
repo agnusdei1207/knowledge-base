@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **그래프 신경망(Graph Neural Network, GNN)**: 그래프 위상과 특징을 메시지 전달로 학습한다.
 - **간선 관계(Edge Relation)**: 두 노드 관계의 유형•강도•방향 정보이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메시지 전달(Message Passing)**: 이웃 특징을 계산•전달해 노드 상태를 갱신한다.
 - **과평활(Over-smoothing)**: 깊은 층에서 노드 표현이 유사해지는 현상이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **집계 함수(Aggregation Function)**: 이웃 메시지를 순서와 무관하게 결합한다.
 - **갱신 함수(Update Function)**: 현재 상태와 집계값으로 표현을 갱신한다.
@@ -85,7 +85,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **순서 불변성(Permutation Invariance)**: 이웃 입력 순서와 무관한 결과 성질이다.
 - **전파 깊이(Propagation Depth)**: 관계를 반영하는 이웃 홉 범위이다.
@@ -114,7 +114,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **그래프 합성곱 신경망(Graph Convolutional Network, GCN)**: 정규화 이웃을 합성곱으로 집계한다.
 - **GraphSAGE(Sample and Aggregate)**: 이웃 표본화로 귀납 학습한다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이웃 표본화(Neighbor Sampling)**: 연산량 제어를 위해 이웃 일부를 선택한다.
 - **평가 누출(Evaluation Leakage)**: 미래 정보가 학습에 반영돼 성능이 왜곡된다.
@@ -153,7 +153,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **집계 방식(Aggregation Method)**: 합•평균•어텐션 등 이웃 결합 규칙이다.
 - **노드 구별력(Node Discriminability)**: 관계 기반 노드 표현의 구분 정도이다.

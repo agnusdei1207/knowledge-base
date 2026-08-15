@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shared Responsibility Model (공유 책임 모델)**: CSP(클라우드 사업자, 예: AWS)와 고객(Customer) 간의 보안, 법적 준수, 시스템 운영 영역에 대한 책임 경계를 가시화한 규정.
 - **Security OF the Cloud vs Security IN the Cloud**: CSP는 클라우드 자체의 하드웨어/물리/가상화 보안(Security OF the Cloud)을 책임지고, 고객은 클라우드 내부의 데이터/OS/계정/권한 설정(Security IN the Cloud)을 100% 책임지는 원칙.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Security OF the Cloud (CSP 책임)**: 데이터센터 물리 보안, 서버 하드웨어, 스토리지, Hypervisor 가상화 레이어.
 - **Security IN the Cloud (고객 책임)**: 고객 데이터, IAM 계정 권한, OS 보안 패치, S3 퍼블릭 방화벽 설정.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CSP SOC Artifacts**: AWS SOC 1, 2, 3 보고서를 다운로드받아 CSP 담당 영역의 물리 통제 및 감사 이력을 확인하는 프로세스.
 
@@ -78,7 +78,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Responsibility Shift (책임 이동)**: 서비스 모델에 따라 공급자가 관리하는 계층이 달라지는 현상.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Security Misconception**: "클라우드로 옮기면 알아서 데이터 보안도 다 해결되겠지"라는 치명적 착각 안티패턴.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CSPM (Cloud Security Posture Management)**: 클라우드 고객 측의 설정 오류(퍼블릭 S3, Root AccessKey)를 실시간 자동으로 감지하여 차단해 주는 클라우드 보안 형상 관리 도구.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shared Responsibility 수립 기준(Shared Responsibility Standards)**: AWS/GCP 책임 분리 표, CSPM 설정 검증, KMS 데이터 암호화 및 IAM MFA 강제성에 의거한 체계.
 

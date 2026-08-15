@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW Business Impact Assessment (소프트웨어 사업 영향 평가)**: 공공기관이 소프트웨어를 직접 개발하려 할 때, 그 사업이 민간 소프트웨어 시장을 침해하는지를 사전에 평가하여 불필요한 공공 개발을 억제하고 민간 시장을 보호하는 법정 절차.
 - **소프트웨어 진흥법**: 국내 소프트웨어 산업의 진흥을 목적으로 하는 법률로, SW 사업 영향 평가 제도의 법적 근거를 제공하여 공공기관의 무분별한 SW 직접 개발을 통제하는 규제 기반.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 가능성 (Substitutability)**: 공공이 개발하려는 SW의 기능을 시장에 이미 존재하는 민간 상용 제품이 충족할 수 있는지 여부. 대체 가능하다면 직접 개발을 억제하고 민간 제품 구매로 유도.
 
@@ -50,7 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **평가위원회 (Evaluation Committee)**: SW 사업 영향 평가를 실제로 수행하는 전문가 위원회. 공무원, 법률 전문가, SW 산업 전문가, 시민단체 등으로 구성되어 특정 이해관계에 치우치지 않는 독립성 보장.
 
@@ -77,7 +77,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공시 (Public Disclosure)**: 평가 중인 사업의 기능, 범위, 예산 등을 일정 기간 공개하여 이해관계가 있는 민간 SW 기업들이 "우리 제품이 이미 있습니다"라고 이의를 제기할 수 있는 기회를 제도적으로 보장하는 절차.
 
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **COTS (Commercial Off-The-Shelf, 상용 기성품)**: 소프트웨어 개발 없이, 시중에 이미 판매 중인 범용 SW 패키지를 구매하여 즉시 도입하는 방식으로, SW 사업 영향 평가에서 '대체 가능'으로 판정될 경우 사용하는 선택지.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Functional Overlap (기능 중첩 문제)**: 공공 SW가 처음에는 내부 행정용이라고 시작했다가, 기능이 추가되면서 사실상 민간 기업들이 파는 서비스와 동일한 기능을 무상으로 제공하게 되는 '범위 확장' 현상.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SW 사업 영향 평가 결과서**: 공공기관의 SW 직접 개발의 정당성을 법적으로 증명하는 공식 문서로, 결과서 없이는 예산 집행 및 발주(RFP 공고)가 불가능한 법적 선행 요건.
 

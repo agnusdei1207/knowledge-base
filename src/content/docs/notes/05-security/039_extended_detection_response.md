@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **확장 탐지 및 대응(Extended Detection and Response, XDR)**: 단말•신원•메일•네트워크•클라우드 등 다계층 보안 텔레메트리를 통합하여 공격 경로 상관분석과 이종 제어점 조치를 수행하는 통합 보안 체계.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **텔레메트리(Telemetry Data)**: 엔드포인트, 네트워크, 이메일, IAM 등 이종 영역에서 발생하는 수집 행위 데이터.
 - **상관분석(Cross-domain Correlation)**: 이종 도메인의 신호를 계정, IP, 시각 타임스탬프를 매개로 묶어 공격 시나리오 단위로 구조화하는 분석 기법.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엔티티 해석(Entity Resolution)**: 사용자 계정, IP 주소, 기기 식별자, 프로세스 GUID를 동일한 실제 주체와 시간선으로 매핑하는 처리.
 - **사건화(Incident Aggregation)**: 도메인별 미세 경보를 공격 단계, 관련 자산, 원본 증적이 포함된 하나의 침해 사건 단위로 그룹화하는 절차.
@@ -88,7 +88,7 @@ XDR 기능 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **도메인 간 대응(Cross-domain Response)**: 단말 격리, 메일 삭제, 계정 세션 차단, FW/IPS IP 블록 조치를 단일 워크플로에서 유기적으로 집행하는 기법.
 - **엔티티•세션 해석(Entity & Session Resolution)**: 자산, 계정, 프로세스 식별 관계를 표준 시간선으로 통합하는 단계.
@@ -138,7 +138,7 @@ XDR 기능 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)**: 단말 내부 프로세스 및 행위 분석과 격리에 특화된 솔루션.
 - **네트워크 탐지•대응(Network Detection and Response, NDR)**: 네트워크 패킷 흐름 및 프로토콜 행위 상관 분석에 특화된 솔루션.
@@ -158,7 +158,7 @@ XDR 기능 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MITRE ATT&CK**: 공격 전술 및 기술을 아키텍처별로 구조화하여 도메인 탐지 가시성 커버리지를 평가하는 지식 프레임워크.
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 표준 기술 가이드라인을 제정하는 정부 기관.
@@ -180,7 +180,7 @@ XDR 기능 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 깊이(Integration Depth)**: 연동 센서의 수량을 넘어 공격 경로 전체의 상관 연결성 및 조치 이행 피드백 완결성을 평가하는 표준 지표.
 

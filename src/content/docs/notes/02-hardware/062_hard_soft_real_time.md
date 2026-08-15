@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실시간 시스템(Real-Time System)**: 산술적 정확성 및 완료 시간 정확성(Timing Correctness)을 동시 만족해야 하는 전산 체계
 - **데드라인 미스(Deadline Miss)**: 태스크 완료 시각이 정해진 마감시간을 초과하는 예외 상황
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 정확성(Timing Correctness)**: 연산 결과가 데드라인 이내에 산출되어야 정상으로 인정하는 평가 속성
 - **시스템 실패(System Failure)**: 단 1회의 미스로 시스템 파국, 치명적 손상 또는 서비스 중단이 발생하는 상태
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 등록기(Task Registrar)**: 태스크의 WCET, 주기(Period) 및 데드라인 파라미터를 커널 스케줄러에 등록하는 모듈.
 - **실시간 스케줄러(Real-Time Scheduler)**: RMS, EDF, LLF 등 타깃 마감 특성에 맞춘 커널 스케줄링 실행기.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **완료 시각(Completion Time)**: 태스크가 연산을 마치는 실제 타임스탬프.
 - **결과 폐기(Result Discard)**: 데드라인 초과 시 늦어진 연산 결과를 무효 처리하여 즉시 버리는 작업.
@@ -122,11 +122,11 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **하드 실시간(Hard Real-Time)**: 데드라인 초과가 곧 인명 피해나 시스템 치명적 참사(Catastrophe)로 이어지는 유형 (예: 차량 에어백, 항공 제어).
-- **펌 실시간(Firm Real-Time)**: 데드라인 초과 시 시스템 붕괴는 없으나 지연된 결과 가치가 0이 되어 무의미해지는 유형 (예: 동영상 프레임 디코딩, 주식 미체결 주문).
-- **소프트 실시간(Soft Real-Time)**: 데드라인 초과 시 결과 가치가 점진 감소하나 여전히 유효한 유형 (예: 웹 스트리밍, 온라인 게임 동기화).
+- **하드 실시간(Hard Real-Time)**: 단 1회의 데드라인 초과도 인명 손실이나 치명적 시스템 실패(Catastrophic Failure)로 이어지는 시스템 (예: 차량 에어백, 항공 비행 제어).
+- **펌 실시간(Firm Real-Time)**: 데드라인 초과 시 시스템 붕괴는 없으나 늦게 도착한 연산 결과의 유용성이 0이 되어 즉시 폐기하는 시스템 (예: 비디오 프레임 디코딩, 실시간 체결 주문).
+- **소프트 실시간(Soft Real-Time)**: 데드라인 초과 시 결과 가치가 점진적으로 감소하지만 여전히 시스템 유효성을 유지하는 시스템 (예: 웹 스트리밍, 온라인 게임).
 
 </details>
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **안전 영향 분석(Safety Impact Analysis)**: 시스템 내 각 태스크별 오버런 시의 치명도를 도메인(ISO 26262 등) 표준 기반 평가.
 - **장애 주입(Fault Injection)**: 의도적으로 타이밍 오버런 에러를 인가하여 시스템 세이프티 가드 동작 검증.
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실시간 유형 선택(Real-Time Selection)**: 시스템 치명성 및 오버런 파급력 기반의 실시간 유형 분류 체계
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **페이지드 어텐션(PagedAttention)**: KV 캐시를 비연속 물리 블록에 저장하고 논리 순서를 복원하는 기법이다.
 - **키-값 캐시(Key-Value Cache, KV Cache)**: 이전 토큰의 K•V 벡터를 저장하여 다음 토큰 생성에 재사용하는 메모리다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **논리 블록(Logical Block)**: 토큰 순서에 따라 모델이 연속적으로 바라보는 KV 캐시 단위다.
 - **물리 블록(Physical Block)**: GPU 메모리 풀에서 실제로 할당되는 고정 크기 저장 단위다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **블록 테이블(Block Table)**: 논리 블록 번호를 실제 물리 블록 주소에 대응시키는 표다.
 - **GPU(Graphics Processing Unit)**: 물리 KV 블록을 저장하고 어텐션을 병렬 처리하는 장치다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **주소 매핑**: 논리적 토큰 순서와 실제 비연속 메모리 주소의 대응 관계를 기록하는 과정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **참조 횟수**: 공유 물리 블록을 사용하는 요청 수로, 값이 0일 때만 블록을 안전하게 회수할 수 있다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **연속 키-값 할당(Contiguous Key-Value Allocation, Contiguous KV Allocation)**: 요청별 최대 길이에 맞춘 연속 공간을 미리 예약하여 주소 계산은 단순하지만 과다 예약과 단편화가 발생한다.
 </details>
@@ -151,7 +151,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **내부 단편화(Internal Fragmentation)**: 마지막 블록의 미사용 공간처럼 할당 단위 내부에서 발생하는 메모리 낭비다.
 - **조회 오버헤드**: 블록이 작아질수록 늘어난 주소 변환과 메모리 접근 때문에 발생하는 처리 비용이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -171,7 +171,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **블록 크기 선택**: 내부 단편화와 주소 조회 비용을 실제 요청 길이 분포와 커널 처리량으로 함께 측정해 결정한다.
 

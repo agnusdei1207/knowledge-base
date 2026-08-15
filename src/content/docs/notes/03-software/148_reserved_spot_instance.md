@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Reserved Instance (RI / 예약 인스턴스)**: 1년/3년 단위 장기 사용 약정을 조건으로 기본 On-Demand 요율 대비 최대 40~72% 할인된 가격으로 클라우드 컴퓨팅 자원을 선점 구매하는 비용 최적화 옵션.
 - **Spot Instance (스팟 인스턴스)**: CSP(AWS) 데이터센터의 미사용 잉여 인스턴스(Unused Capacity)를 경매식 요율로 80~90% 대폭 할인받되, CSP가 필요 시 2분 전 노티 후 강제 회수(Interruption)해 가는 고위험 초저가 옵션.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Capacity Reclaim & 2-Minute Warning**: 스팟 인스턴스는 CSP 자원 부족 시 2분 전 사전 노티(EventBridge) 후 인스턴스를 강제 셧다운 및 뺏어감.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spot Fleet & Auto Scaling Group**: 특정 단일 인스턴스 타입 회수 시 서비스가 멈추는 것을 막기 위해 `c5.large`, `c5a.large`, `m5.large` 등 이종 타겟으로 스팟을 묶어 자동 대체 구매하는 기술.
 
@@ -77,7 +77,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spot Interruption Handler**: 2분 회수 경보 이벤트(`aws.ec2.spot-instance-interrupt-notice`)를 수신하여 현재 태스크를 타 노드로 Cordon/Drain 이체하는 K8s 컨트롤러.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compute Savings Plans**: RI의 딱딱한 가상머신 규격 묶임을 깨고, 인스턴스 패밀리, 인스턴스 크기, 데이터센터 위치가 바뀌어도 할인 혜택을 알아서 유연 적용해 주는 현대적 약정 모델.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spot Capacity Unavailable**: 특정 리전에 해당 타입 스팟 잔여 자원이 0이 되어 Spot Fleet 생성이 안 되는 병목 현상.
 
@@ -157,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spot/RI 수립 기준(Spot and RI Standards)**: Base Load Compute Savings Plans, K8s Worker Spot Fleet Multi-AZ, Spot Handler 2분 훅 및 Stateful DB Spot 배제 원칙성에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제로 트러스트 아키텍처(Zero Trust Architecture, ZTA)**: 내부 네트워크 위치를 신뢰하지 않고 모든 접근 요청의 신원, 기기, 맥락을 지속 검증하여 최소 권한을 집행하는 보안 아키텍처이다.
 - **묵시적 신뢰(Implicit Trust)**: 네트워크 경계 내부 위치나 기본 세션만으로 추가 검증 없이 후속 접근을 자동 허용하는 보안 결함 방식이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **명시적 검증(Explicit Verification)**: 네트워크 위치와 무관하게 사용자 신원, 기기 무결성, 위치, 접근 목적을 매번 엄격히 검증하는 원칙이다.
 - **최소 권한(Least Privilege)**: 업무 수행에 반드시 필요한 최소 자원, 작업 행위, 제한 시간만 허용하여 권한 오남용을 방지하는 원칙이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 엔진(Policy Engine, PE)**: 신원, 기기 상태, 위협 인텔리전스 신호를 종합 평가하여 자원 접근 허용/거부 정책을 결정하는 주체이다.
 - **정책 관리자(Policy Administrator, PA)**: PE의 결정에 따라 세션을 암호화 제어하고 주체와 자원 간 접속 자격 증명 및 데이터 경로를 제어하는 구성요소이다.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 알고리즘(Trust Algorithm)**: 신원, 기기 무결성, 위치, 시간, 데이터 민감도 등 복합 신호를 평가하여 위험 점수를 도출하는 분석 로직이다.
 - **재인증(Re-authentication)**: 위험 점수 상승 또는 세션 만료 시 신원 및 MFA 통제를 재수행하도록 요구하는 처리 과정이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **경계 중심 보안(Perimeter-based Security)**: 네트워크 외곽 방화벽/VPN 중심 통제로 내부 망 접속자에 대해 고정적 신뢰를 부여하는 보안 방식이다.
 - **혼합 전환(Hybrid Transition)**: 기존 경계 보안을 유지하면서 핵심 자원부터 단계적으로 제로 트러스트 모델을 병행 도입하는 방식이다.
@@ -178,7 +178,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-207**: 제로 트러스트 아키텍처의 표준 개념, 논리 구성요소, 배치 모델 및 신뢰 알고리즘을 규정한 핵심 표준이다.
 - **CISA ZTMM 2.0 (Zero Trust Maturity Model 2.0)**: 신원, 기기, 네트워크, 애플리케이션, 데이터 등 5개 축별 ZTA 전환 성숙도 모델을 제시하는 미국 지침이다.
@@ -198,7 +198,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자원별 지속 검증(Resource-level Continuous Verification)**: 접근 시점 단 1회의 인증에 그치지 않고 자원 사용 전 과정에서 세션 무결성을 모니터링하는 통제 원칙이다.
 

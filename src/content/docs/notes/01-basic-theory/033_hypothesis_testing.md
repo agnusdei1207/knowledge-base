@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가설 검정(Hypothesis Testing)**: 표본 데이터를 기반으로 귀무가설($H_0$)의 기각 여부를 통계적으로 판정하는 절차.
 - **신뢰구간(Confidence Interval, CI)**: 참 모수(True Parameter)가 포함될 것으로 기대되는 통계적 추정 범위.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **유의수준(Significance Level, $\alpha$)**: 귀무가설이 참일 때 이를 기각하는 제1종 오류(Type I Error)의 허용 최대 확률.
 - **검정력(Statistical Power, $1-\beta$)**: 거짓인 귀무가설을 올바르게 기각할 확률.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검정 통계량**: 표본과 귀무가설의 차이를 기각 판단에 쓸 하나의 수치로 요약한 값이다.
 - **귀무분포**: 귀무가설이 참일 때 검정 통계량이 따르는 분포이다.
@@ -97,7 +97,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **귀무가설 $H_0$**: 차이 없음을 기본으로 둔 검정 가설이다.
 - **기각역**: 귀무가설을 기각하도록 정한 검정 통계량의 극단 범위이다.
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **포함률**: 같은 절차로 구간을 반복 생성할 때 참모수를 포함하는 비율이다.
 - **다중 검정(Multiple Testing)**: 같은 자료에서 여러 가설을 동시에 검정하는 상황이다.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사전 등록**: 데이터를 보기 전에 가설•분석법•중단 규칙을 기록하는 절차이다.
 - **가족별 오류율(Family-Wise Error Rate, FWER)**: 다중 검정에서 하나 이상 오탐이 발생할 확률이다.
@@ -193,7 +193,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 효과선(Practical Threshold)**: 통계적 유의성이 실무 가치를 갖기 위한 최소 임계값.
 - **신뢰구간 하한(Lower Bound)**: 참효과가 가질 수 있는 최소 경계값.

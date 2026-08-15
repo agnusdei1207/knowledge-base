@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOMMU(Input-Output Memory Management Unit)**: PCI/PCIe 디바이스의 DMA(Direct Memory Access) 트랜잭션 상에서 입출력 가상 주소(IOVA)를 물리 주소(HPA)로 변환하고 메모리 접근 권한을 검증하는 하드웨어 (Intel VT-d / AMD-Vi).
 - **IOVA(Input/Output Virtual Address)**: I/O 디바이스가 DMA 수행 시 사용하는 입출력 가상 주소.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOTLB(Input/Output Translation Lookaside Buffer)**: 최근 완료된 IOVA->HPA 변환 래칭 데이터를 보관하는 IOMMU 내장 초고속 캐시.
 - **IOMMU Domain**: 가상 머신(VM) 또는 특정 디바이스 그룹별로 독립된 I/O 페이지 테이블을 할당하여 메모리를 격리하는 논리 보안 영역.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **I/O Page Table**: IOVA를 물리 주소와 읽기·쓰기 권한에 매핑하는 하드웨어 변환표.
 - **Device Context Table**: PCIe BDF(Bus:Device:Function) 식별자 기반으로 해당 디바이스의 IOMMU Domain 매핑 정보를 저장하는 인덱스 테이블.
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOMMU Fault**: 비인가 주소 억세스, 권한 위반 또는 미할당 IOVA DMA 요청 발생 시 하드웨어가 트랜잭션을 차단하고 트리거하는 예외 신호.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Passthrough**: 물리 PCIe 장치 제어권을 특정 VM에 직접 할당하는 기능.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOTLB Invalidation**: I/O 매핑 갱신/해제 시 캐시 상의 만료된 IOTLB 변환 정보를 명시적 파기하는 하드웨어 플러시.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOMMU 채택 기준(IOMMU Adoption Criteria)**: 디바이스 Passthrough 여부, 보안 격리 등급 및 DMA 스루풋에 기반한 체계.
 

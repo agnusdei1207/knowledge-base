@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모의 침투 테스트(Penetration Testing, Penetration Test)**: 사전 승인된 규칙과 범위 내에서 실제 공격자의 전술 및 기법을 적용하여 시스템의 취약점과 침해 가능 경로를 실증 검증하는 보안 평가 기법.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **교전 규칙(Rules of Engagement, RoE)**: 테스트 허용 대상, 공격 기법 제한, 비상 연락망 및 긴급 중단 조건을 규정한 사전 법적 합의 문서.
 - **최소 영향 검증(Minimal Impact Verification)**: 목표 침해 가능성 입증 시 추가 공격을 즉시 중단하여 서비스 장애 및 데이터 변조를 최소화하는 원칙.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위협 모델(Threat Modeling)**: 표적 자산, 신원 구조, 데이터 흐름을 기반으로 현실적인 모의 공격 체인 시나리오를 설계하는 아키텍처 분석.
 - **증거 관리(Evidence Management)**: 침투 과정에서 취득한 셸 획득, 권한 상승 증적을 안전하게 암호화 보존하고 잔존물을 추적 조치하는 관리 절차.
@@ -85,7 +85,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **잔존물 정리(Cleanup & Artifact Removal)**: 모의 침투 시 생성된 테스트 계정, 웹셸, 백도어, 테스트 데이터를 완전히 제거하는 원상복구 작업.
 - **재시험(Re-testing)**: 보안 조치 이행 후 동일한 공격 시나리오를 재실행하여 공격 경로의 실질적 차단 완결성을 검증하는 단계.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **블랙박스 시험(Black-box Testing)**: 대상 시스템에 대한 사전 정보 없이 외부 공격자 관점에서 취약점을 탐색하는 기법.
 - **그레이박스 시험(Gray-box Testing)**: 일반 사용자 수준의 계정 정보와 제한된 시스템 내부 아키텍처 정보를 제공받아 효율을 높이는 기법.
@@ -159,7 +159,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 정보보호 분야 정부 기술 표준 기관.
 - **특별 간행물(Special Publication, SP 800-115)**: 정보보호 기술 평가, 침투 테스트 및 가용성 통제 표준 지침.
@@ -180,7 +180,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **완료 기준(Completion Criteria)**: 공격 성공 증적뿐 아니라 잔존물 제거, 보안 대책 이행 및 재시험 성공까지 포괄하는 프로젝트 종료 기준.
 

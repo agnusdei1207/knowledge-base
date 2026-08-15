@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 스레드(Virtual Thread)**: 운영체제가 아니라 자바 가상 머신(Java Virtual Machine, JVM)이 생성•스케줄링하여 다수 작업을 소수 캐리어에 다중화하는 경량 스레드을 말한다.
 - **플랫폼 스레드(Platform Thread)**: 운영체제 스레드와 직접 대응되어 실제 중앙처리장치(Central Processing Unit, CPU) 실행을 담당하는 기존 자바 스레드로 정의된다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **마운트•언마운트(Mount•Unmount)**: 가상 스레드를 캐리어 스레드에 연결하거나 분리하는 동작을 의미한다.
 - **피닝(Pinning)**: native•foreign 함수 등에서 가상 스레드가 캐리어를 계속 점유하는 상태을 말한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능과 데이터를 호출하기 위한 명세화된 접점이다.
 - **JVM 스케줄러**: 실행 가능한 가상 스레드를 캐리어에 배정하는 구성요소이다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **블로킹 입출력(Blocking Input/Output, Blocking I/O)**: 작업이 끝날 때까지 호출 스레드의 실행 흐름이 기다리는 파일•네트워크 입출력 방식이다.
 - **준비 큐**: 입출력이 끝나 다시 실행할 수 있는 가상 스레드를 대기시키는 JVM 스케줄러 자료구조로 정의된다.
@@ -128,7 +128,7 @@ JVM 스케줄러
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이벤트 루프**: 소수 스레드가 준비된 비동기 사건을 순차적으로 꺼내 처리하는 실행 모델이다.
 - **중앙처리장치 집약 작업(Central Processing Unit-Intensive Task, CPU-Intensive Task)**: 실행 시간 대부분을 계산에 사용해 입출력 대기가 적은 작업을 의미한다.
@@ -148,7 +148,7 @@ JVM 스케줄러
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자바 플라이트 레코더(Java Flight Recorder, JFR)**: JVM 실행 사건과 성능 정보를 낮은 부하로 기록하는 진단 기능로 정의된다.
 - **스레드 로컬**: 각 스레드에 독립 값을 연결해 현재 실행 흐름에서 접근하는 저장 영역을 의미한다.
@@ -168,7 +168,7 @@ JVM 스케줄러
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하류 동시성**: 데이터베이스•외부 API 등 호출 대상이 동시에 처리할 수 있는 요청 수이다.
 - **캐리어 다중화**: 많은 가상 스레드가 대기 시 캐리어를 반환하고 소수 플랫폼 스레드를 번갈아 사용하는 방식을 의미한다.

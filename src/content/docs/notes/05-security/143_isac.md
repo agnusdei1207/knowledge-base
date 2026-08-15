@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보공유분석센터(Information Sharing and Analysis Center, ISAC)**: 산업 위협정보를 공동 분석•공유하는 조직이다.
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체•행위•지표를 분석한 위협정보이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **회원 신뢰 모델**: 참여 자격•공유 범위•비밀 보호•책임을 회원 간 합의한 신뢰 구조이다.
 - **신호등 프로토콜(Traffic Light Protocol, TLP)**: 정보의 수신•재공유 범위를 표시하는 규칙이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **침해 지표(Indicator of Compromise, IoC)**: 침해 흔적을 식별하는 관측 증거이다.
 - **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)**: 위협 행위자의 공격 방식•절차이다.
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **표현 상태 전이(Representational State Transfer, REST)**: 웹 자원을 상태 없이 교환하는 설계 방식이다.
 - **컴퓨터 보안 사고 대응팀(Computer Security Incident Response Team, CSIRT)**: 조직의 사고를 분석•대응하는 전담 조직이다.
@@ -145,7 +145,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISAC 역할**: 산업 공동체의 위협을 분석•공유하는 역할이다.
 - **CSIRT 역할**: 조직 내부 사고를 직접 대응•복구하는 역할이다.
@@ -167,7 +167,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보통신기반 보호법 제16조**: 분야별 정보공유•분석센터의 구축•운영과 수행 업무 근거이다.
 - **사고대응•보안팀 포럼(Forum of Incident Response and Security Teams, FIRST)**: 사고대응팀 국제 포럼이다.
@@ -189,7 +189,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **품질 환류**: 회원의 적중•오탐•철회 결과로 공유 정보의 신뢰도와 유효기간을 갱신하는 활동이다.
 - **제한 범위 배포**: CTI를 TLP 허용 범위에만 배포하는 원칙이다.

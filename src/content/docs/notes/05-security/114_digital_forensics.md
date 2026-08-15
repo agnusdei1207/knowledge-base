@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 포렌식**: 디지털 데이터를 적법하게 식별•수집•보존•분석해 사실관계를 밝히는 조사 절차이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **휘발성 정보**: 전원 차단이나 시간 경과로 사라지는 메모리•프로세스•연결 정보이다.
 - **원본 보존**: 원본 변경을 막고 검증된 사본으로 분석하는 증거 처리 원칙이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **연계보관성(Chain of Custody)**: 증거의 수집•인수•처리•인계를 연속 기록해 신뢰성을 보장하는 원칙이다.
 - **해시값**: 원본과 사본의 동일성과 획득 후 무결성을 검사하는 고정 길이 값이다.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **증거 취급 기록**: 증거의 상태•담당자•시간•작업 내용을 단계마다 남긴 기록이다.
 - **조사 권한•범위 확인**: 증거 수집의 근거•대상•기간•도구 제한을 확인하는 단계이다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **라이브 포렌식**: 실행 중인 시스템에서 휘발성 정보를 수집하는 방식이다.
 - **데드 포렌식**: 전원 차단 후 저장 매체를 복제해 분석하는 방식이다.
@@ -164,7 +164,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
@@ -191,7 +191,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무결성**: 수집 이후 증거가 변하지 않았음을 입증하는 조건이다.
 - **포렌식 방식 선택**: 휘발성 정보 필요성과 원본 변경 위험에 따라 수집 방식을 정하는 판단이다.

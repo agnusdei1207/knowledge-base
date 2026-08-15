@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IaC(Infrastructure as Code)**: 클라우드 인프라를 수동 대신 기계가 판독 가능한 선언적 코드(Declarative Code)로 정의·배포하는 자동화 관행.
 - **테라폼(Terraform)**: HCL(HashiCorp Configuration Language) 기반 오픈소스 IaC 도구로 인프라 구축의 업계 표준 플랫폼.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **불변 인프라(Immutable Infrastructure)**: 서버 수정(Update) 대신 신규 서버 이미지로 대체(Replace)하여 환경 일관성을 보장하는 철학.
 - **선언형 접근(Declarative Approach)**: 최종 상태(What)만 선언 시 엔진이 생성/변경을 수행하는 방식.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 파일(State File)**: 생성된 인프라 리소스 정보를 매핑한 JSON 장부(`.tfstate`). 코드와 실제 환경 비교의 핵심 기준점.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Terraform Plan**: 인프라 변경 전 리소스 생성(+), 변경(~), 삭제(-) 내역을 시뮬레이션하여 치명적 실수를 방지하는 단계.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **구성 관리(Configuration Management)**: 인프라 프로비저닝 후 OS 내 패키지 설치 및 환경 설정(Conf)을 제어(Ansible, Chef 등).
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **구성 편차(Configuration Drift)**: 수동 조작으로 코드와 실제 인프라 상태가 어긋나는 현상.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GitOps**: IaC 코드까지 Git으로 관리하고, PR 머지 시 자동 인프라 배포를 수행하는 현대적 CI/CD 방법론.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디바이스 DNA(Device DNA)**: 하드웨어 고유 칩셋 특성, 소프트웨어 환경 및 사용자 데이터/행동 패턴을 동적 수집 결합하여 특정 단말을 일의적으로 식별하는 디지털 지문(Digital Fingerprint) 프로파일.
 - **장치 지문(Device Fingerprinting)**: 단말기의 OS 버전, MAC 주소, 브라우저 Canvas/WebGL 렌더링 파라미터, CPU 코어 수 등의 특징점 조합 프로파일.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복합 특성(Composite Attributes)**: HW(CPU/GPU/RAM), SW(OS/Browser/Font), NW(IP/Subnet), User(타자 주기, 센서 기울기) 등 다계층 특징 파라미터.
 - **유사도 점수(Similarity Score)**: 현재 수집된 디바이스 지문과 데이터베이스 상의 Baseline 프로파일 간 일치율 수치 (0~100%).
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **특성 수집기(Feature Collector)**: Client 단말 상에서 하드웨어, 소프트웨어, 네트워크 센서 데이터를 비침습적으로 인출하는 모듈.
 - **DNA 생성 엔진(DNA Generation Engine)**: 인출된 다차원 특성을 해싱, 정규화, 벡터화하여 표준 프로파일 형태로 변환하는 인프라.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RBA(Risk-Based Authentication)**: 도출된 **유사도 점수** 및 위치/시간 접속 위험도에 따라 차등적 2차 인증(MFA)을 인가하는 체계.
 - **세션 바인딩(Session Binding)**: 생성된 Device DNA 지문을 논스(Nonce) 및 현재 세션 토큰과 결합하여 메시지 재전송(Replay) 공격을 차단하는 기법.
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PUF(Physical Unclonable Function)**: 칩 제조 편차에서 장치 고유 응답이나 키 재료를 생성하는 기술.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오탐(False Positive)**: OS 정상 업데이트 후 지문 변동으로 인해 인가된 사용자가 블락되는 오류.
 - **최소 수집(Data Minimization)**: 프라이버시(GDPR) 법적 규제 준수를 위해 식별에 불필요한 과도한 개인정보 수집을 자제하는 원칙.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Device DNA 적용 기준(Device DNA Adoption Criteria)**: 디바이스 식별 정확도, 드리프트 수용성 및 법적 프라이버시 준수에 따른 체계.
 

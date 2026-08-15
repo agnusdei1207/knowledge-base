@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Iceberg**: Netflix가 창시하여 Apache 재단 top-level 프로젝트로 공개된 대규모 오픈형 Open Table Format 기술로, 거대한 파일 파티션을 3계층 메타데이터 트리(Metadata File $\rightarrow$ Manifest List $\rightarrow$ Manifest File)로 추적하여 초고속 데이터 Pruning 및 ACID 트랜잭션을 보장.
 - **Hidden Partitioning (숨겨진 파티셔닝)**: 사용자가 SQL 쿼리 작성 시 `WHERE date = '2026-08-12'`와 같이 파티션 변환 함수를 명시하지 않아도, Iceberg가 알아서 `days(timestamp)` 파티션을 자동 추적하여 쿼리를 가속해 주는 기능.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Engine-Agnostic Format**: 특정 엔진(Spark/Databricks)에 종속되지 않고 Trino, Presto, Flink, Snowflake, BigQuery에서 100% 동일 테이블 접근.
 - **Manifest-Level Data Pruning**: 각 Manifest File에 기록된 컬럼별 Min/Max 통계값을 읽어 무의미한 Parquet 파일 조회를 99% Skip.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Manifest File**: 실제 Parquet 데이터 파일들의 경로, 용량, Row Count, 컬럼별 Min/Max 값 등의 통계가 세밀하게 기록된 AVRO 파일.
 
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Position Delete vs Equality Delete**: Position Delete는 지워질 행의 파일 경로와 Offset 위치를 직접 찍어 지우는 방식, Equality Delete는 `id=101`처럼 삭제 조건값을 기록해 두었다가 읽기 시점에 조인해 지우는 방식.
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Open Standard Maturity**: Iceberg는 Snowflake, AWS Athena, BigQuery, StarRocks 등 모든 상용/오픈소스 DW 엔진에서 퍼스트 클래스로 동등 지원.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Expire Snapshots**: 수개월 지난 구버전 스냅샷 메타데이터와 고아(Orphan) Parquet 파일들을 정리해 스토리지 비용을 감축시키는 작업.
 
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Iceberg 수립 기준(Apache Iceberg Standards)**: 3계층 트래버스 메타데이터, Hidden Partitioning, Engine-Agnostic 중립성 및 Manifest Compaction에 의거한 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Consensus (분산 합의)**: 네트워크 분할이나 노드 장애가 발생하더라도, 분산 시스템 내의 정상적인 다수 노드(Quorum)가 단일한 데이터 값이나 연산 순서에 대해 동일한 결론에 도달하도록 보장하는 알고리즘 원리.
 - **Raft**: 이해와 구현이 매우 난해한 Paxos를 대체하기 위해 리더 선출(Leader Election), 로그 복제(Log Replication), 안전성(Safety) 문제로 분리하여 설계된 이해하기 쉬운(Understandable) 분산 합의 알고리즘.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Term (임기)**: Raft에서 논리적인 시간을 나타내는 단조 증가(Monotonically Increasing) 번호. 새로운 선거가 시작될 때마다 증가하며, 오래된 임기를 가진 리더의 명령은 즉각 무시되는 펜싱(Fencing) 토큰 역할.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quorum (정족수/과반수)**: 총 노드 수가 $N$개일 때, $\lfloor N/2 \rfloor + 1$ 개 노드의 동의. 서로 다른 두 Quorum은 반드시 1개 이상의 교집합 노드를 가지므로, 절대 2개의 다른 결론(Split-Brain)이 나오지 않음을 수학적으로 보장.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Two-Phase Commit (2PC) 유사성**: Raft의 로그 복제는 리더가 명령을 뿌리고(1단계), 과반수가 디스크에 썼다고 보고하면 커밋을 선언(2단계)하는 점에서 2PC와 비슷하나, 전체 노드(All)가 아닌 과반수(Quorum)만으로 진행되어 가용성이 훨씬 높은 알고리즘.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-Paxos (멀티 팩소스)**: 단일 값만 합의하는 Basic Paxos를 확장하여 연속적인 로그(상태 머신)를 구축하기 위해 고안된 구조이나, 규격화된 문서가 부족하여 구현체(Chubby, Spanner)마다 다르게 파편화된 복잡한 알고리즘.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Election Timeout Randomization (무작위 선거 타임아웃)**: 모든 팔로워가 동시에 타임아웃되어 다 같이 후보자가 되면 표가 갈라져(Split Vote) 아무도 리더가 못 되는 현상을 막기 위해, 각 노드의 타임아웃 시간을 150ms ~ 300ms 사이로 랜덤하게 분산하는 래프트 핵심 기법.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Replicated State Machine (복제된 상태 머신)**: 동일한 초기 상태를 가진 서버들이, 합의 알고리즘에 의해 똑같은 순서의 결정적(Deterministic) 로그 명령을 실행하면, 최종적으로 완벽히 동일한 상태에 도달한다는 분산 시스템의 최종 목표.
 

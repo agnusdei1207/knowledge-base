@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **V2X(Vehicle-to-Everything)**: 차량이 주변 객체와 정보를 교환하는 통신이다.
 - **OTA(Over-the-Air Update)**: 통신망으로 차량 소프트웨어를 원격 갱신하는 방식이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TARA(Threat Analysis and Risk Assessment)**: 자산•공격경로•영향•가능성을 분석하는 활동이다.
 - **CSMS(Cyber Security Management System)**: 차량 사이버 위험을 관리하는 체계이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ECU(Electronic Control Unit)**: 차량 기능을 제어하는 전자제어장치이다.
 - **CAN(Controller Area Network)**: ECU들이 메시지를 공유하는 내부 통신 버스이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개연성 검사**: 인증된 메시지도 위치•속도•시간상 가능한지 주변 정보와 대조하는 검사이다.
 - **V2X 신뢰**: 서명•신선도와 물리 개연성을 함께 확인하는 기준이다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **V2V(Vehicle-to-Vehicle)**: 차량 간 정보를 교환하는 V2X 유형이다.
 - **V2I(Vehicle-to-Infrastructure)**: 차량과 도로 인프라가 통신하는 유형이다.
@@ -158,7 +158,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **SAE(Society of Automotive Engineers)**: 자동차공학회이다.
@@ -182,7 +182,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다중 신뢰 검증**: 서명뿐 아니라 신선도•권한•물리 개연성을 함께 확인하는 원칙이다.
 - **V2X 제한 반영**: 다중 검증을 통과한 메시지만 제어에 사용하는 원칙이다.

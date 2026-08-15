@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공개키 암호**: 공개키와 개인키로 암호화•서명 역할을 분리하는 방식이다.
 - **부인방지**: 개인키 소유자만 만들 수 있는 서명으로 작성 사실을 사후에 부정하기 어렵게 하는 성질이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소인수분해 난제**: 큰 합성수를 원래 소수들의 곱으로 되돌리기 어렵다는 RSA의 안전성 기반이다.
 - **모듈러 역원**: 특정 수와 곱했을 때 기준 수로 나눈 나머지가 1이 되는 수이다.
@@ -65,7 +65,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최적 비대칭 암호화 패딩(Optimal Asymmetric Encryption Padding, OAEP)**: 난수로 RSA 암호문을 무작위화하는 패딩이다.
 - **확률적 서명 방식(Probabilistic Signature Scheme, PSS)**: 난수 솔트로 RSA 서명 보안성을 높이는 방식이다.
@@ -97,7 +97,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **평문(Plaintext)**: 암호화 전의 원래 메시지이다.
 - **암호문(Ciphertext)**: 암호화로 알아볼 수 없게 바뀐 결과이다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **디피-헬먼(Diffie-Hellman, DH)**: 유한체 이산 로그 난제 기반 키 합의 방식이다.
 - **타원곡선 암호(Elliptic Curve Cryptography, ECC)**: 타원곡선 이산 로그 난제 기반 공개키 암호이다.
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **측면 채널 공격(Side-channel Attack)**: 처리 시간 등 외부 차이로 비밀키를 추론하는 공격이다.
 - **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 개인키를 내부에서 보호하며 암호 연산을 수행하는 장비이다.
@@ -195,7 +195,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대칭키 암호**: 송수신자가 같은 비밀키로 대용량 데이터를 빠르게 암호화•복호화하는 방식이다.
 - **암호 방식 선택 기준**: 데이터 규모와 보호 기간에 따라 하이브리드 암호화와 양자내성암호 전환을 정하는 기준이다.

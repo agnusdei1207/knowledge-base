@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 접근 보안 중개(CASB, Cloud Access Security Broker)**: 온프레미스 사용자와 클라우드 서비스(SaaS/IaaS) 사이에 위치하여 접근 가시성 확보, DLP, 위협 방어, 규정 준수 정책을 통합 집행하는 보안 솔루션.
 - **섀도 IT(Shadow IT)**: 중앙 IT 부서 승인과 통제 없이 사용자가 임의로 사용하는 클라우드 서비스 및 소프트웨어.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 유출 방지(DLP, Data Loss Prevention)**: 콘텐츠 식별 및 정규표현식 매칭을 통해 중요 기밀의 무단 외부 전송 및 공유를 차단하는 기술.
 - **순방향 프록시(Forward Proxy)**: 사용자 단말에서 클라우드로 나가는 아웃바운드 트래픽을 중계하여 실시간 트래픽을 감시/통제하는 방식.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **접근 중개기(Access Broker)**: Proxy 및 API 기반으로 인바운드/아웃바운드 세션 및 저장 데이터를 수신/파싱하는 구성요소이다.
 - **CASB 정책 엔진(CASB Policy Engine)**: 수집된 트래픽 및 신원/단말/데이터 위험도를 기반으로 차단/격리/허용 조치를 판단하는 엔진이다.
@@ -97,7 +97,7 @@ CASB
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **격리•공유 회수(Quarantine & Share Revocation)**: 민감 데이터 유출 위험 감지 시 외부 공유 링크를 삭제하고 격리소로 이동시키는 조치이다.
 - **역방향 프록시(Reverse Proxy)**: 외부 단말에서 내부/인가된 클라우드 서비스로 진입하는 인바운드 세션을 트래픽 제어하는 방식이다.
@@ -162,7 +162,7 @@ CASB
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관리 단말(Managed Endpoint)**: 중앙 MDM/EDR에 의해 보안 정책 및 에이전트 통제가 적용된 기업 기기이다.
 - **비관리 단말(Unmanaged Endpoint)**: 기업 보안 통제권 밖에 있는 개인 소유(BYOD) 또는 외부 기기이다.
@@ -181,7 +181,7 @@ CASB
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CASB 연동 방식 선택(CASB Integration Pattern Selection)**: 서비스 특성, 단말 통제 수준, 실시간 차단 필요성에 따라 Forward Proxy, Reverse Proxy, API 방식을 최적으로 조합하는 커스터마이징 전략이다.
 

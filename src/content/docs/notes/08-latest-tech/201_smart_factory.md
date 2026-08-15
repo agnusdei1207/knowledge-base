@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스마트 팩토리(Smart Factory)**: 생산 데이터를 연결해 전 공정을 실시간 제어•최적화하는 지능형 공장로 정의된다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수직•수평 통합**: 설비에서 경영 계층까지 연결하고 공정•공장•공급망 사이의 데이터를 연계하는 방식이다.
 - **전사적 자원 관리(Enterprise Resource Planning, ERP)**: 수요•자재•원가•납기 계획을 관리하는 시스템로 정의된다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제조실행시스템(Manufacturing Execution System, MES)**: 생산 지시•실적•품질을 관리해 계획과 현장을 연결하는 시스템을 의미한다.
 - **감시 제어 및 데이터 수집(Supervisory Control and Data Acquisition, SCADA)**: 설비 상태를 수집•시각화하고 제어 명령을 전달하는 시스템을 의미한다.
@@ -106,7 +106,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **폐루프 최적화**: 현장 측정 결과를 분석하여 검증된 공정 조건으로 다시 반영하는 순환 방식로 정의된다.
 
@@ -143,7 +143,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 팩토리(Digital Factory)**: 가상 모델과 시뮬레이션을 이용해 공장과 생산 공정을 설계•검증하는 체계로 정의된다.
 
@@ -162,7 +162,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ISA-95**: 기업과 제어 시스템의 기능 계층과 정보 연계 기준을 정의한 국제표준을 의미한다.
 - **국제자동화학회(International Society of Automation, ISA)**: 산업 자동화 표준을 개발하는 전문 기관이다.
@@ -183,7 +183,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제어 안전성**: 분석 결과를 현장에 반영하기 전에 허용 한계와 승인 절차로 위험한 동작을 차단하는 성질을 의미한다.
 

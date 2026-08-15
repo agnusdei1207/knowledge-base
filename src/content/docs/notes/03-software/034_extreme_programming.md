@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Extreme Programming (XP)**: 1~2주 단위의 빠른 피드백, 개발자 간의 긴밀한 소통, 그리고 12가지 공학적 실천법(Practices)을 극단적으로 강조하여 소규모 팀의 생산성과 소프트웨어 품질을 극대화하는 애자일 방법론.
 - **Pair Programming (짝 프로그래밍)**: 2명의 개발자가 1대의 모니터/키보드를 공유하며, 코드를 직접 작성하는 Driver와 객관적 검토 및 아키텍처를 제시하는 Navigator로 역할을 나누어 개발하는 실천법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **5대 핵심 가치**: 의사소통(Communication), 단순성(Simplicity), 피드백(Feedback), 용기(Courage), 존중(Respect).
 - **Collective Code Ownership (공동 코드 소유)**: 모든 코드에 대한 수정 및 리팩토링 권한을 특정 개인이 아닌 전체 개발자 팀원 모두가 보유한다는 원칙.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Refactoring (리팩토링)**: 외부 동작 인터페이스(Behavior)는 유지한 채, 내부 코드의 가독성 및 아키텍처 구조를 지속적으로 개선하여 기술 부채를 소멸시키는 행위.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Red-Green-Refactor Loop**: TDD의 3단계 사이클로, 1단계: 실패하는 테스트 작성(Red), 2단계: 테스트 통과 코드 구현(Green), 3단계: 코드 정제(Refactor).
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Scrum vs XP**: Scrum은 관리/절차적 프레임워크(역할, 이벤트, 아티팩트)인 반면, XP는 기술/공학적 개발 실천법(TDD, Pair, Refactoring, CI) 위주.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pair Fatigue (페어 피로도)**: 하루 종일 2인이 모니터를 마주보며 지속적 소통을 수행할 때 누적되는 정신적/체력적 피로감.
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **XP 실천법 정착 기준(XP Practices Adoption Criteria)**: 코드 품질 수준, 자동화 테스트 커버리지 및 팀의 TDD 숙련도에 의거한 체계.
 

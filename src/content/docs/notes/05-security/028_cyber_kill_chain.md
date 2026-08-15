@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버 킬체인(Cyber Kill Chain)**: 록히드 마틴(Lockheed Martin)이 제안한 모델로, 사이버 공격의 침해 과정을 7단계(정찰부터 목적달성까지)로 모델화하여 단계별 끊기(Kill) 지점을 식별하는 침해 대응 방어 프레임워크.
 - **캠페인(Campaign)**: 하나의 공격 목표(Data Exfiltration, Ransomware 등) 달성을 위해 일정 기간 전개되는 다단계 공격 작전.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **유효 계정(Valid Account)**: 정상적으로 등록된 계정이나 공격자에게 자격증명이 탈취되어 정상 권한으로 위장 투입되는 공격 통로.
 - **다중 차단 기회(Multiple Intercept Opportunities)**: 7단계 공격 연쇄 중 단 한 단계에서만 성공적으로 차단해도 공격자의 최종 목적 달성을 원천 무력화할 수 있는 방어 기회.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관측•검증 지점(Observation & Verification Points)**: 7단계 각 과정에서 공격 징후 증적(Log, Packet, Event)을 수집·분석하고 차단 성공 여부를 검증하는 모니터링 포인트.
 - **대응 책임(Response Accountability)**: 탐지된 킬체인 단계에 대응하여 조치(Detect, Deny, Disrupt, Degrade, Deceive, Destroy)를 집행하는 거버넌스 담당 체계.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **1. 정찰(Reconnaissance)**: OSINT, 포트 스캐닝, 소셜 엔지니어링을 통해 표적 인프라 정보 수집.
 - **2. 무기화(Weaponization)**: 0-Day 익스플로잇과 악성 페이로드(PDF, HWP, Executable)를 합성 무기화.
@@ -133,7 +133,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MITRE ATT&CK**: 실제 공격자 TTP를 14개 전술 단계 및 세부 기술 매트릭스로 대규모 체계화한 지식 기반.
 - **사고 대응 수명주기(Incident Response Lifecycle)**: NIST SP 800-61 기반의 사고 준비, 탐지, 격리, 제거, 복구 통제 프로세스.
@@ -155,7 +155,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모의훈련(Cyber Simulation / Red Teaming)**: 킬체인 단계별 방어 통제(Email Gateway, EDR, C2 Filter)가 정상 작동하여 실제 공격을 끊어내는지 검증하는 모의 침투 활동.
 
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분석 모델 선택(Analysis Model Selection)**: 침해 흐름•세부 기법•운영 프로세스에 맞는 분석 모델 선택 지침.
 

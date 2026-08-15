@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 네이티브 애플리케이션 보호 플랫폼(Cloud-Native Application Protection Platform, CNAPP)**: 소스코드, IaC, 멀티 클라우드 오설정, 과도한 권한 및 런타임 위협을 연계 분석하는 통합 클라우드 보안 아키텍처이다.
 - **클라우드 네이티브(Cloud Native)**: 컨테이너, 마이크로서비스, 쿠버네티스, CI/CD 자동화를 통해 클라우드 환경에 최적화하여 애플리케이션을 구축•운영하는 방식이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드형 인프라(Infrastructure as Code, IaC)**: Terraform, CloudFormation 등을 사용하여 클라우드 인프라 구성을 코드로 선언•배포하는 방식이다.
 - **컨테이너 이미지(Container Image)**: 애플리케이션 구동에 필요한 라이브러리, 바이너리를 패키징한 실행 바이너리 레이어이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자산 관계 그래프(Asset Relationship Graph / Graph DB)**: 자산, 네트워크 인바운드, IAM 권한, CVE 취약점을 3D 그래프 노드로 시각 매핑하는 데이터베이스 모듈이다.
 - **공격 경로(Attack Path / Attack Graph)**: 퍼블릭 인터넷 노출 지점부터 비인가 관리자 권한을 거쳐 DB 데이터 유출로 이어지는 침해 시나리오 경로이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 드리프트(Operational Drift / Configuration Drift)**: 승인된 IaC 템플릿과 실제 클라우드 콘솔 수동 조작으로 인해 발생한 런타임 인프라 설정 간의 불일치 상태이다.
 - **공격 경로 단절 검증(Attack Path Severance Verification)**: 코드 조치 및 재배포 실행 후, 그래프 분석을 재실행하여 공격 가용 경로의 차단 여부를 검증하는 절차이다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개별 보안 도구(Siloed Point Security Tools)**: CSPM, CWPP, SAST 등 특정 영역에 특화되었으나 상호 간 신호 연동이 불가능한 파편화 솔루션이다.
 - **단순 통합 제품군(Aggregated Dashboard Suite)**: 개별 툴의 경보를 단순 수집하여 단순 리스트 형태 뷰만 제공하는 전통적 대시보드이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-190**: 컨테이너 아키텍처(이미지, 레지스트리, 오케스트레이터, 호스트 OS) 전주기 보안 지침 가이드라인이다.
 - **NIST SSDF 1.1 (Secure Software Development Framework 1.1)**: 안전한 소프트웨어 개발 생태계 조성을 위한 NIST 프레임워크 표준이다.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 우선순위화(Risk Prioritization / Contextual Risk Ranking)**: 1만 개의 취약점 중에서 실제 퍼블릭에 노출되어 데이터 유출로 이어지는 1%의 치명적 공격 경로를 골라내는 분석 능력이다.
 

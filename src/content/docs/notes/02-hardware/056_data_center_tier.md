@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터센터 등급(Data Center Rating)**: 데이터센터 인프라의 전력, 냉각, 구조 및 가용성 복원력(Resilience) 수준을 분류한 국제 표준 지표.
 - **복원력(Resilience)**: 예기치 못한 전력/냉각 중단 및 자연재해 발생 시 데이터센터 인프라가 미션 크리티컬 부하를 계속 유지하는 대응 능력.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Uptime Tier(Uptime Institute Tier)**: Uptime Institute가 정의한 데이터센터 시설 복원력 평가 표준 (Tier I~IV).
 - **TIA-942 Rated(Telecommunications Industry Association 942)**: 통신/IT 구조, 건축, 전기, 기계 설비를 종합 규정하는 데이터센터 표준 (Rated 1~4).
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **N(Need)**: 시스템의 정상 부하를 감당하기 위해 필요한 최소한의 전력/냉각 용량 유닛.
 - **중복 용량(Redundant Capacity)**: N+1, N+2, 2N 등 장비 고장/정비 시 대치 작동하기 위해 사전 배치된 예비 자원 용량.
@@ -78,7 +78,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 경로(Alternate Path)**: 주 경로 점검/고장 시 전력 및 냉각을 우회 수송하는 물리 가용 경로.
 - **경로 격리(Path Isolation)**: 장애 발생 경로 또는 정비 대상 라인을 물리적으로 전기/냉각망에서 안전 차단하는 작업.
@@ -116,7 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Tier I**: 단일 분배 경로와 기본 용량으로 구성된 데이터센터.
 - **Tier II**: 단일 분배 경로에 예비 용량 구성요소를 추가한 데이터센터.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 장애점(Common Failure Point)**: 물리적 A/B 경로 분리에도 불구하고 동일 전력 스위치룸 등을 공유하여 싱글 장애점이 되는 지점.
 - **상관 장애(Correlated Failure)**: 한 구역의 화재/침수가 물리적으로 인접한 타 이중화 구역까지 전파되는 연쇄 장애.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터센터 등급 선택 기준(Data Center Tier Selection Criteria)**: 서비스 파급력, 다운타임 허용치 및 TCO 예산에 기초한 등급 결정 체계.
 

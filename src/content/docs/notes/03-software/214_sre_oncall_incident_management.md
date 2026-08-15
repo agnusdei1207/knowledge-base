@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SRE (Site Reliability Engineering)**: Software Engineering으로 신뢰성과 개발 속도를 균형화하는 운영 접근법
 - **Incident Management**: 장애 호출•완화•복구•학습을 연결하는 대응 활동
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Actionable Alert (실행 가능 경보)**: 사용자 영향과 즉시 수행할 조치가 명확한 경보
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Incident Command**: IC•복구•소통 역할을 분리해 중대 장애를 통제하는 체계
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blameless Postmortem**: 개인 비난 없이 시스템 조건과 재발 방지를 분석하는 활동
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Major Incident**: 핵심 업무와 다수 고객에 큰 영향을 주어 전담 지휘가 필요한 사고
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **On-Call Fatigue**: 저가치 경보와 반복 수동 대응으로 당직 집중력이 저하되는 현상
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자내성암호(Post-Quantum Cryptography, PQC)**: 양자•고전 컴퓨터의 공격에 견디도록 설계한 공개키 암호 기술이다.
 - **쇼어 알고리즘**: 양자컴퓨터에서 소인수분해와 이산대수를 효율적으로 풀어 RSA•DH•ECC를 위협하는 알고리즘이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 수신자의 공개키로 대칭 세션키를 암호화(캡슐화)하여 전달하고 개인키로 복구하는 연산.
 - **전자서명(Digital Signature)**: 개인키로 서명값을 생성하고 공개키로 송신자 신원 및 메시지 무결성을 검증하는 비대칭 연산.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **암호 민첩성(Crypto Agility)**: 보안 위협 및 표준 변경 시 서비스 중단 없이 암호 알고리즘과 매개변수를 유연하게 교체 및 혼용할 수 있는 아키텍처 역량.
 - **암호 자산 목록(Crypto Asset Inventory)**: 조직 내부의 시스템, 라이브러리, 프로토콜 및 인증서에서 사용 중인 암호 알고리즘의 현황과 의존성을 관리하는 대장.
@@ -92,7 +92,7 @@ PQC 전환 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **캡슐화(Encapsulation)**: 수신자의 PQC 공개키를 사용하여 난수 기반 공유 비밀과 캡슐화 암호문을 동시에 생성하는 KEM 연산.
 - **디캡슐화(Decapsulation)**: 수신자의 PQC 개인키를 사용하여 전달받은 캡슐화 암호문으로부터 동일한 공유 비밀을 도출하는 KEM 연산.
@@ -137,7 +137,7 @@ PQC 전환 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모듈 격자 기반 전자서명 알고리즘(Module-Lattice-Based Digital Signature Algorithm, ML-DSA)**: NIST FIPS 204 표준으로 지정된 모듈 격자 문제 기반 고속 전자서명 표준.
 - **상태 비저장 해시 기반 전자서명 알고리즘(Stateless Hash-Based Digital Signature Algorithm, SLH-DSA)**: NIST FIPS 205 표준으로 지정된 해시 함수 단방향성을 기반으로 하는 안전 전자서명 표준.
@@ -159,7 +159,7 @@ PQC 전환 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **FIPS 203(FIPS 203 Standard)**: NIST에서 채택한 ML-KEM 키 캡슐화 메커니즘의 연산 규격 표준.
 - **FIPS 204(FIPS 204 Standard)**: NIST에서 채택한 ML-DSA 모듈 격자 전자서명 연산 규격 표준.
@@ -183,7 +183,7 @@ PQC 전환 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전환 우선순위(Migration Priority)**: 보호 대상 데이터의 기밀성 보존 기간과 서명 증거의 법적 유효기간을 종합 고려한 PQC 이행 순서.
 

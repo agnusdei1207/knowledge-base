@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **해시 함수(Hash Function)**: 임의 길이의 데이터를 고정된 길이의 다이제스트로 변환하는 단방향 암호학적 기법.
 - **다이제스트(Digest)**: 해시 함수를 통해 임의 메시지에서 도출된 고정 길이 출력값.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **쇄도 효과(Avalanche Effect)**: 입력 데이터의 단 1비트 변경으로도 해시 다이제스트 전체가 완전히 달라지는 특성.
 - **역상 저항성(Pre-image Resistance)**: 주어진 해시값 $h$로부터 원본 메시지 $m$을 역계산하는 것이 수학적으로 불가능한 특성.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **입력 전처리(Input Preprocessing)**: 메시지 인코딩, 길이 정보 추가, 블록 단위 패딩을 수행하는 초기화 절차.
 - **상태 변환 함수(State Compression Function)**: 메시지 블록과 이전 내부 상태를 조합하여 차기 내부 상태를 도출하는 함수.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **패딩(Padding)**: 입력 메시지를 블록 크기 배수에 맞추고 원래 메시지 길이를 합산 덧붙이는 전처리.
 - **반복 상태 갱신(Iterative State Update)**: 순차 분할된 블록들을 이전 해시 상태와 연계하여 반복 압축하는 과정.
@@ -139,7 +139,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SHA-2(Secure Hash Algorithm 2)**: SHA-256, SHA-512 등을 포함하는 대표적 암호학적 해시 표준 알고리즘.
 - **SHA-3(Secure Hash Algorithm 3)**: 스펀지(Sponge) 구조를 채택하여 기존 SHA-2와 내부 아키텍처를 달리한 해시 표준.
@@ -164,7 +164,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **솔트(Salt)**: 레인보우 테이블 공격 및 동일 패스워드 추측을 방지하기 위해 추가하는 솔트 난수값.
 - **Argon2id(Argon2id Key Derivation)**: 메모리 집약적 연산을 통해 GPU 전수조사 및 부채널 공격을 방어하는 패스워드 전용 해시 함수.
@@ -187,7 +187,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **용도 분리(Application Context Separation)**: 무결성/디지털서명용 해시와 패스워드 저장용 메모리 경화 해시의 목적별 명확한 통제 적용.
 

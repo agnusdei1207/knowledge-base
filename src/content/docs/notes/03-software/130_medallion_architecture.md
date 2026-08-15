@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Medallion Architecture (메달리온 아키텍처)**: Databricks가 정립한 데이터 레이크하우스 내부의 3단계 데이터 정제 파이프라인으로, 원시 데이터(Bronze) $\rightarrow$ 정제 데이터(Silver) $\rightarrow$ 비즈니스 집계 데이터(Gold) 3개 품질 계층으로 원자적 데이터 흐름을 체계화하는 설계 아키텍처.
 - **Bronze Layer (Raw Ingest)**: 소스 시스템의 100% 동일 원 원천 데이터를 덤프 저장하여 언제든 재처리(Re-processing)가 가능한 원형 보존 계층.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Single Source of Truth (단일 진실 고리)**: Silver 계층에서 전사 공통 코드를 일체화하여 지표 불일치 소멸.
 - **ACID-Backed Quality Incremental Promotion**: Delta Lake Open Table 기반으로 각 계층 승격 시 ACID 원자 커밋 보장.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quarantine Table (격리 테이블)**: Silver 계층으로 넘어갈 때 정식 품질 검사(Expectations)에 실패한 오류 레코드를 버리지 않고 별도 격리 보관하는 무결성 테이블.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Delta Live Tables (DLT) Expectations**: Databricks DLT 환경에서 데이터 승격 시 `CONSTRAINT valid_id EXPECT (id IS NOT NULL) ON VIOLATION DROP ROW` 구문으로 품질 강제.
 
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Maturity Progression**: Bronze (Raw 데이터) $\rightarrow$ Silver (검증 데이터) $\rightarrow$ Gold (비즈니스 가치 데이터).
 
@@ -150,7 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Incremental Processing (증분 승격)**: Bronze $\rightarrow$ Silver $\rightarrow$ Gold 승격 시 전체 스캔을 피하고 Delta Change Data Feed(CDF)를 활용해 증분(Incremental) 승격 연산 수행.
 
@@ -170,7 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메달리온 수립 기준(Medallion Architecture Standards)**: Bronze/Silver/Gold 3단계 레이어링, Quarantine 격리, DLT Expectations 및 Delta CDF 증분승격성에 의거한 체계.
 

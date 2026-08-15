@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multiprogramming (다중프로그래밍)**: 단일 CPU 코어 환경에서 여러 개의 프로세스를 물리 메모리에 적재하여, I/O 블로킹 발생 시 타 프로세스로 빠르게 시분할 교대 디스패치(Context Switching)하여 CPU 유휴 시간을 소멸시키는 기법.
 - **Multiprocessing (다중처리)**: 2개 이상의 물리 CPU 코어가 장착된 멀티코어/다중 소켓 아키텍처 상에서 여러 프로세스/스레드를 물리적으로 동시 병렬 실행(Parallel Execution)하는 기법.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interleaving**: 단일 CPU 코어가 시간에 따라 빠르게 프로세스들을 번갈아 교대 실행함으로써 사용자에게 마치 동시 실행되는 것처럼 느끼게 하는 기술.
 - **Parallel Execution**: 복수의 코어에 독립적 명령어가 각각 물리 디스패치되어 실제 진정한 동시 연산을 수행하는 기술.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SMP (Symmetric Multiprocessing)**: 모든 CPU 코어가 단일 버스를 통해 동일 메모리(RAM)와 I/O 디바이스를 등등하게 공유하는 대칭형 다중처리 구조.
 - **Amdahl's Law (암달의 법칙)**: 병렬화 가능한 비율($P$)과 코어 수($N$)에 따른 이론적 속도 향상 가속비(Speedup) 상한 계산 법칙.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Context Switch Overhead**: 다중프로그래밍 환경에서 프로세스 덤프 및 복원 시 소비되는 커널 주기 오버헤드.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multitasking vs Multithreading**: Multitasking은 OS 레벨의 다중 프로세스 제어 개념이며, Multithreading은 단일 프로세스 내의 복수 실행 흐름 제어 개념.
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Sharing**: 서로 다른 코어에서 구동되는 스레드들이 물리적으로 동일한 캐시 라인(64 Byte)에 속한 변수를 각각 수정할 때 불필요한 캐시 무효화 트래픽이 전파되는 현상.
 
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 아키텍처 선택 기준(Execution Architecture Criteria)**: 코어 수, I/O 바운드 비율, 직렬 구간 비율 및 동기화 오버헤드 수치에 기반한 체계.
 

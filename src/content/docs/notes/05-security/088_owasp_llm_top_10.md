@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: 오픈소스 웹 및 애플리케이션 보안 가이드라인 표준화 비영리 단체이다.
 - **LLM(Large Language Model)**: 대규모 트랜스포머 언어 모델로 문맥을 이해하고 자연어 및 코드를 생성하는 파운데이션 생성형 AI이다.
@@ -41,7 +41,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **판본 식별성(Version Determinism & Traceability)**: 기술 진화에 따라 2023년 버전과 2025년 최신 버전 간의 항목 변경(예: LLM07 System Prompt Leakage 신설, LLM10 Unbounded Consumption 추가)을 추적 관리하는 성질이다.
 - **서비스별 위협 모델(Service-tailored Threat Model)**: 10대 취약점 표준 목록을 그대로 적용하지 않고, 자사 서비스 아키텍처(챗봇 vs 에이전트 vs RAG)의 위험도에 맞추어 맞춤 재편하는 위협 평가 모델이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LLM01(LLM01: Prompt Injection)**: 직접/간접 프롬프트를 주입하여 시스템 프롬프트를 무력화하고 인가되지 않은 조작을 유도하는 최우선 위험이다.
 - **LLM02(LLM02: Sensitive Information Disclosure)**: LLM 추론 답변이나 PII 필터링 미비로 인해 민감 개인정보 및 기업 기밀이 노출되는 위험이다.
@@ -98,7 +98,7 @@ OWASP LLM Top 10 2025
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 경로 매핑(Attack Vector / Path Mapping)**: 10대 위험 항목이 서비스 내 프롬프트 유입, RAG 벡터 탐색, Tool Execution 중 어디서 발생하는지 도면화하는 작업이다.
 - **잔여 위험(Residual Risk)**: 방어 가드레일 및 통제를 도입한 후에도 남아 있는 수용 가능한 보안 위험 수준이다.
@@ -146,7 +146,7 @@ OWASP LLM Top 10 2025
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **LLM 응용 경계(LLM Application Boundary)**: 프롬프트 입력, 모델 추론, RAG 벡터 검색이 이루어지는 영역이다.
 - **웹 응용 경계(Web Application Boundary)**: HTTP/HTTPS 프론트엔드 및 백엔드 REST API의 통신 영역이다.
@@ -168,7 +168,7 @@ OWASP LLM Top 10 2025
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **목록식 점검 한계(Checklist-driven Inspection Pitfalls)**: 단순 체크리스트만 확인하고 실제 인젝션/탈옥 런타임 가드레일을 구축하지 않는 수동적 위험성이다.
 - **레드팀(Adversarial Red Teaming)**: AI 시스템을 대상으로 인젝션, 탈옥, PII 유출 공격을 가해 취약점을 발굴하는 평가 활동이다.
@@ -188,7 +188,7 @@ OWASP LLM Top 10 2025
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 분류의 활용 원칙(Risk Taxonomy Utilization Principles)**: OWASP Top 10을 고정 규제로 보지 않고 조직의 AI 보안 거버넌스 및 가드레일 설계의 출발점으로 활용하는 원칙이다.
 

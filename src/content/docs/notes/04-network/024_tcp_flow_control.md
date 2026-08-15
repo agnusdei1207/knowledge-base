@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 제어 프로토콜 흐름 제어(Transmission Control Protocol Flow Control, TCP 흐름 제어)**: 송신량이 수신 버퍼의 처리 능력을 넘지 않도록 제한하는 기능이다.
 </details>
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수신 윈도(Receive Window, rwnd)**: 수신 버퍼 여유로 미확인 전송량을 제한하는 값이다.
 - **혼잡 윈도(Congestion Window, cwnd)**: 경로 혼잡 상태로 미확인 전송량을 제한하는 값이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **슬라이딩 윈도**: 윈도 범위의 데이터를 연속 전송하고 ACK에 따라 범위를 이동하는 방식이다.
 </details>
@@ -84,7 +84,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수신 버퍼**: 수신 TCP가 응용이 읽기 전까지 도착 바이트를 보관하는 메모리 영역이다.
 - **윈도 범위 데이터**: rwnd와 cwnd 중 작은 유효 윈도 안에서 연속 전송하는 데이터이다.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정지-대기(Stop-and-wait)**: 데이터 하나를 보낸 뒤 ACK를 기다리는 방식이다.
 - **왕복 시간(Round-Trip Time, RTT)**: 데이터 전송부터 해당 ACK 수신까지 걸리는 시간이다.
@@ -152,7 +152,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제로 윈도(Zero Window)**: 수신 버퍼 여유가 없어 rwnd가 0인 상태이다.
 - **지속 타이머(Persist Timer)**: 윈도 갱신 유실을 막도록 탐사 시점을 관리하는 타이머이다.
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **흐름 제어 조정**: 수신 버퍼와 응용 소비율 및 rwnd를 함께 관측해 송신 허용량을 정하는 판단이다.
 </details>

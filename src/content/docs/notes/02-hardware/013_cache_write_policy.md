@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 쓰기 정책(Cache Write Policy)**: CPU가 메모리 쓰기(Store) 연산을 수행할 때, 갱신된 데이터를 고속 캐시 메모리와 하위 계층(DRAM 메인 메모리 / 하위 캐시)에 어떤 시점과 구조로 반영할지 결정하는 메모리 일관성 정책 규격.
 - **쓰기 트래픽(Write Traffic)**: 캐시 계층에서 하위 메모리 버스로 발생하는 쓰기 데이터 패킷 전송량 및 대역폭 점유율.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쓰기 할당(Write Allocate)**: 쓰기 미스(Write Miss) 발생 시 해당 메인 메모리 블록을 캐시 라인으로 먼저 적재(Fetch)한 후 쓰기 연산을 수행하는 정책.
 - **쓰기 비할당(No-Write Allocate / Write-Around)**: 쓰기 미스 발생 시 캐시에 데이터를 적재하지 않고 메인 메모리에 직접 기록하는 정책.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 배열(Cache Array)**: 태그 메모리, 데이터 메모리, Valid Bit, Dirty Bit 상태 플래그를 저장하는 SRAM 물리 배열.
 - **쓰기 버퍼(Write Buffer)**: Write-Through 정책에서 CPU가 메인 메모리 쓰기 완료를 기다리지 않고 연속 연산을 진행할 수 있도록 쓰기 요청을 임시 큐잉하는 FIFO 버퍼.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **더티 축출(Dirty Eviction)**: Write-Back 캐시에서 새로운 라인을 적재하기 위해 Dirty Bit=1인 기존 캐시 라인을 비울 때, 해당 데이터를 하위 메모리로 밀어 넣는 작업.
 - **캐시 플러시(Cache Flush)**: DMA 통신 전 또는 전원 차단 전에 캐시 내의 모든 Dirty Line을 메인 메모리로 강제 플러시 반영하는 유지 관리 연산.
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **즉시 가시성(Immediate Visibility)**: 쓰기 즉시 하위 메모리나 외부 I/O 장치가 최신 데이터를 그대로 관측할 수 있는 성질.
 - **쓰기 병합(Write Combining)**: 동일 캐시 라인 내의 무수한 수정 사항을 캐시 메모리 내부에서 하나로 병합하여 최종 결과만 1회 전송하는 효과.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비일관성 DMA(Non-Coherent DMA)**: 하드웨어 캐시 일관성 장치가 없는 임베디드 SoC에서 DMA 장치가 메모리를 직접 읽을 때 캐시 데이터와 불일치가 발생하는 현상.
 - **메모리 장벽(Memory Barrier / Fence)**: 쓰기 버퍼에 대기 중인 메모리 연산이 완전히 전송될 때까지 후속 메모리 연산을 지연시키는 명령 (`DMB`, `DSB`).
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쓰기 정책 선택 기준(Write Policy Selection Criteria)**: 시스템의 대역폭 제약, 데이터 정합성 요구, 전원 백업 능력 및 DMA 하드웨어 일관성 유무를 평가하여 최적의 쓰기 아키텍처를 결정하는 프레임워크.
 

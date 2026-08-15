@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DQM (Data Quality Management / 데이터 품질 관리)**: 기업이 보유한 데이터 자산의 유용성 및 신뢰성을 확보하기 위해, 6대 품질 진단 차원(완전성, 정확성, 일관성, 유효성, 유일성, 적시성)을 정의하고 지속 측정, 개선, 격리하는 프로세스.
 - **Completeness (완전성)**: 필수 데이터 항목이 널(Null)이나 공백 없이 100% 입력되었는지에 관한 품질 차원.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **6 Data Quality Dimensions**: Complete(완전성), Accurate(정확성), Consistent(일관성), Valid(유효성), Unique(유일성), Timely(적시성).
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Great Expectations**: Python/Spark 기반 오픈소스 대표 데이터 품질 진단 검증 프레임워크.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Quality Gate**: 파이프라인 중간(Spark DLT)에 배치되어 품질 검증 미달 레코드를 하류 시스템으로 가지 못하도록 차단 및 Quarantine 테이블로 격리하는 관문.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Automated DQ Profiler**: 수동 SQL 쿼리가 아닌 AI 기반 프로파일러로 대용량 데이터 품질 자동 측정.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DQ Alert Fatigue**: 품질 임계치를 너무 빡빡하게 설정하여 무의미한 에러 경보가 매일 폭증하여 무시되는 안티패턴.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DQM 수립 기준(DQM Architecture Standards)**: 6대 품질 차원, Great Expectations 프레임워크, Quality Gate 및 Quarantine 격리성에 의거한 체계.
 

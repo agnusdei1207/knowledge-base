@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **RAG 평가(RAG Evaluation)**: 검색•생성•운영 품질을 분리 측정하는 평가 체계이다.
 
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **문맥 재현율(Context Recall)**: 필요한 근거가 검색 문맥에 포함된 정도이다.
 - **문맥 정밀도(Context Precision)**: 검색 문맥 중 관련 근거의 비율이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기준 정답(Ground Truth)**: 검증된 근거 문서와 답변이다.
 - **검색 평가기**: 회수율•정밀도•순위로 검색 실패를 진단한다.
@@ -85,7 +85,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상위 k개 재현율(Recall at k, Recall@k)**: 상위 k개에 정답 근거가 포함된 질의 비율이다.
 - **평균 역순위(Mean Reciprocal Rank, MRR)**: 첫 관련 문서 순위 역수의 평균이다.
@@ -123,7 +123,7 @@ RAG 실행기
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정답셋•인간•모델 평가**: 자동 비교•전문가 판정•대량 의미 판정 방식이다.
 
@@ -141,7 +141,7 @@ RAG 실행기
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **평가자 일치도(Inter-rater Agreement)**: 모델 판정과 인간 합의 표본의 일치 정도이다.
 - **신뢰 구간(Confidence Interval)**: 표본 변동을 고려한 실제 품질의 추정 범위이다.
@@ -160,7 +160,7 @@ RAG 실행기
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개선 우선순위(Improvement Priority)**: 품질 목표를 가장 크게 저해하는 단계의 순서이다.
 

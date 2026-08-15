@@ -18,7 +18,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5세대 이동통신(Fifth-Generation Mobile Communication, 5G)**: 초고속, 초저지연, 대규모 연결을 제공하는 차세대 이동통신 기술 표준이다.
 - **4세대 이동통신(Fourth-Generation Mobile Communication, 4G)**: LTE 중심의 4세대 이동통신 기술 표준 규격이다.
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **망 기능(Network Function, NF)**: 5G 코어 아키텍처 내에서 독자적인 기능과 서비스 API를 제공하는 소프트웨어 모듈 단위이다.
 - **망 기능 저장소(Network Repository Function, NRF)**: NF 인스턴스의 프로필 등록, 상태 관리 및 동적 서비스 검색(Discovery)을 전담하는 코어 엔티티이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 무선 접속, 가입자 인증 및 이동성을 관장하는 5G 제어 평면 NF이다.
 - **통합 데이터 관리(Unified Data Management, UDM)**: 가입자 프로필, 인증 자격 증명 및 암호화 키를 관리하는 5G 데이터베이스 NF이다.
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전달 규칙(Forwarding Rule, PFCP)**: SMF가 PFCP 프로토콜을 통해 UPF에 설치하는 패킷 탐지(PDR) 및 전달 행동(FAR) 지침이다.
 - **세션 기능 발견(NF Discovery)**: AMF가 가입자 요구 세션을 처리하기 위해 NRF에 최적의 가용 SMF 인스턴스 검색을 요청하는 절차이다.
@@ -133,7 +133,7 @@ PDU 세션 확립 완료
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 모듈 간 기능 및 데이터를 표준 규격으로 주고받는 통신 인터페이스이다.
 - **서비스 기반 인터페이스(Service-Based Interface, SBI)**: 5G 코어 제어 평면 NF 간 HTTP/2 RESTful 통신을 가능하게 하는 3GPP 표준 인터페이스 버스이다.
@@ -157,7 +157,7 @@ PDU 세션 확립 완료
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **회로 차단기(Circuit Breaker)**: 연동 NF의 트래픽 폭주나 장애 발생 시 호출을 즉시 차단하고 우회하여 연쇄 장애(Cascading Failure)를 방지하는 소프트웨어 패턴이다.
 - **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: SBI API 통신 양단간 X.509 인증서를 통해 기계 신원을 상호 검증하는 보안 기술이다.
@@ -178,7 +178,7 @@ PDU 세션 확립 완료
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 발견(Service Discovery)**: NRF를 통해 가용 NF의 URI, 지원 슬라이스 및 주소 정보를 수신하여 서비스 호출 대상을 결정하는 동적 매핑 과정이다.
 

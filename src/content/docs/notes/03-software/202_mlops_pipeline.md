@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MLOps (Machine Learning Operations)**: DevOps의 원칙(자동화·CI/CD·모니터링)을 ML 모델 개발에 적용하여, 데이터 준비·학습·검증·배포·감시·재학습의 모델 전 생명주기를 코드처럼 관리·자동화하는 운영 체계.
 - **Model Lifecycle (모델 생명주기)**: ML 모델의 기획·데이터 수집·특성 공학(Feature Engineering)·학습·검증·배포·운영 모니터링·재학습·폐기에 이르는 전체 단계.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Drift (드리프트)**: 모델 배포 후 실세계 데이터가 학습 데이터와 다르게 변화하여 모델 예측 정확도가 저하되는 현상. 크게 데이터 드리프트(입력 분포 변화)와 개념 드리프트(입력-출력 관계 변화)로 구분.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Feature Store (피처 저장소)**: 학습 시 사용된 피처의 계산 로직·버전·값을 저장하여, 운영 추론 시에도 동일한 피처를 재사용(훈련-서빙 스큐 방지). Offline Store(배치 학습용)와 Online Store(실시간 추론용)로 구성.
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Promotion (모델 승격)**: 학습·평가를 완료한 후보 모델의 상태를 Staging → Production으로 올려 실제 운영 추론에 사용하도록 승인하는 절차. 수동 승인(Manual Approval) 또는 자동 승격 정책으로 운영.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CI/CD for ML**: 소프트웨어 CI/CD가 코드를 테스트·배포하듯, ML에서는 모델 코드 변경 시 자동으로 데이터 검증→학습→평가→스테이징 배포를 실행하는 자동화 파이프라인.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Training-Serving Skew (훈련-서빙 스큐)**: 학습 시 사용된 피처 계산 방식과 온라인 추론 시 사용되는 피처 계산 방식이 달라서, 학습 성능과 실제 운영 성능이 괴리되는 현상. Feature Store로 방지.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Promotion Criteria (모델 승격 기준)**: 오프라인 성능(AUC, F1)과 온라인 A/B Test 업무 KPI(클릭률, 전환율)를 모두 충족해야 운영 대상으로 승인하는 이중 합격 기준.
 

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Starvation (기아 현상)**: 우선순위 기반 스케줄링 환경에서 높은 우선순위를 갖는 신규 프로세스들이 지속 유입됨으로 인해, 하위 우선순위 프로세스가 CPU 자원을 영구히 할당받지 못하고 블록되는 부작용.
 - **Aging (에이징 기법)**: Ready Queue 내에서 대기하는 시간에 비례하여 프로세스의 우선순위 수치(Priority Score)를 점진적으로 상승시켜 기아 현상을 차단하는 기법.
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Priority Ceiling (우선순위 상한)**: 에이징 승격 시 저우선순위 프로세스가 하드 실시간/시스템 커널 프로세스의 최고 우선순위 영역을 침범하지 않도록 제한하는 상한선.
 - **Aging Step (상향 폭)**: 단위 시간 $T$ 경과 시마다 우선순위 수치를 얼마만큼 가산 인가할지 결정하는 튜닝 파라미터.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Wait-Time Counter**: PCB/TCB 내에서 프로세스가 Ready Queue에 수용된 이후 지나간 시간을 누적 계측하는 카운터.
 
@@ -81,7 +81,7 @@ $$\text{보정 우선순위} = \min(\text{기본 우선순위} + \text{대기 �
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Indefinite Blocking**: 기아 현상으로 인해 프로세스가 완료되지 못하고 무한 대기 상태에 처하는 장애 현상.
 
@@ -129,7 +129,7 @@ $$\text{보정 우선순위} = \min(\text{기본 우선순위} + \text{대기 �
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Static Priority**: 프로세스 생성 시 부여된 우선순위가 종료 시까지 절대 변하지 않는 방식.
 
@@ -148,7 +148,7 @@ $$\text{보정 우선순위} = \min(\text{기본 우선순위} + \text{대기 �
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fair Share Scheduling**: 유저 또는 Cgroups 그룹 단위로 CPU 점유 지분을 분배하여 기아를 차단하는 스케줄링 기법.
 
@@ -168,7 +168,7 @@ $$\text{보정 우선순위} = \min(\text{기본 우선순위} + \text{대기 �
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Aging 파라미터 튜닝 기준(Aging Parameter Tuning Criteria)**: 타깃 응답시간, Aging Step, Priority Ceiling 및 공정성에 의거한 튜닝 체계.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스토리지 가상화(Storage Virtualization)**: 물리적으로 파편화된 이기종(Heterogeneous) 스토리지 자원들을 추상화하여 단일 논리 스토리지 풀(Pool)로 통합 관리하는 기술.
 - **논리 저장 계층(Logical Storage Layer)**: 서버 호스트와 물리 스토리지 사이에서 주소 매핑 및 프로비저닝을 중간 제어하는 소프트웨어/하드웨어 계층.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **논리·물리 분리(Logical-Physical Separation)**: 서버 호스트가 인식하는 LUN 주소와 실제 데이터를 보유한 물리 디스크 주소를 매핑 테이블을 통해 수평 분리하는 속성.
 - **씬 프로비저닝(Thin Provisioning)**: 실제 물리 용량을 사전 선할당하지 않고, 실 데이터 쓰기 시점에 동적 할당하여 저장 효율성을 높이는 가상화 기술.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 볼륨(Logical Volume)**: 호스트가 인식하는 가상의 단일 드라이브 래퍼.
 - **스토리지 풀(Storage Pool)**: 이기종 물리 디스크 디바이스들의 용량을 하나로 집합해 둔 전체 자원 영역.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **주소 매핑(Address Mapping)**: 호스트 LBA 요청을 물리 스토리지 풀의 익스텐트 위치로 변환하는 작업.
 - **원자적 반영(Atomic Commit)**: 매핑 테이블 갱신 시 전원 차단 등 예외 발생 시에도 불완전 매핑이 기록되지 않도록 Transaction 처리하는 기법.
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Host-Based Virtualization**: 서버 OS 내 LVM(Logical Volume Manager) 소프트웨어를 통해 스토리지 가상화를 구현하는 방식.
 - **Network-Based Virtualization**: SAN 전용 가상화 어플라이언스/스위치 상에서 이기종 스토리지 어레이들을 통합 가상화하는 방식.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBT(Changed Block Tracking)**: 데이터 이동 중 변경된 블록만 추적하여 차분 복제하는 기술.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스토리지 가상화 선택 기준(Storage Virtualization Selection Criteria)**: 이기종 어레이 범위, 성능 지연 타깃, 비용 및 운용 복잡성에 기반한 아키텍처 수립 체계.
 

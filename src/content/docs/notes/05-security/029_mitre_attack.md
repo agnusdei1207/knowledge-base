@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **적대적 전술•기술•공통 지식(Adversarial Tactics, Techniques, and Common Knowledge, ATT&CK)**: 실제 발생한 사이버 공격자들의 전술(Tactics), 기술(Techniques), 절차(Procedures)를 기반으로 위협 행위를 매트릭스 형태로 체계화한 MITRE의 공개 지식 프레임워크.
 - **커버리지(Coverage)**: 조직의 보안 모니터링 환경에서 특정 ATT&CK 기법(Technique)을 실제 데이터 소스(Log) 및 탐지 규칙(Rule)으로 검증 감지할 수 있는 방어 범위 및 유효 비율.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전술(Tactics)**: 공격자가 해당 행동을 수행하는 목적(Why)을 나타내는 고차원적 14개 단계 (예: Initial Access, Persistence 등).
 - **기법(Techniques)**: 전술적 목적을 달성하기 위한 수단(How)을 정의한 공격 기술 (예: Phishing, Process Injection 등).
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **완화(Mitigation)**: 해당 ATT&CK 기법 공격 성공률 및 피해 노출을 줄이기 위해 적용하는 보안 정책 및 시스템 통제 설정 (M1042 등).
 - **탐지 전략(Detection Strategy)**: 기법 실행 증적(Process, Network, Registry 등)을 감지하기 위해 수집해야 할 필수 데이터 소스(Data Sources).
@@ -96,7 +96,7 @@ MITRE ATT&CK 지식 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위협 헌팅(Threat Hunting)**: ATT&CK 기법 매트릭스 기반 가설을 수립하여 SIEM/EDR 로그를 능동 탐색하고 미탐 지점을 발견하는 활동.
 - **모의공격 검증(Adversary Emulation / Red Teaming)**: Atomic Red Team 등 도구를 통해 특정 TTP 공격을 실제 실행하고 EDR/SIEM이 탐지하는지 검증하는 시뮬레이션.
@@ -141,7 +141,7 @@ MITRE ATT&CK 지식 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **운영 기술(Operational Technology, OT)**: 산업 공정, 에너지, 제조 시설을 제어하는 실시간 제어 인프라.
 
@@ -162,7 +162,7 @@ MITRE ATT&CK 지식 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ATT&CK 기법 ID(Technique ID)**: T1059(Command and Scripting Interpreter) 등 기법별로 부여된 글로벌 공통 식별 기호.
 - **관찰 편향(Observation Bias)**: 매트릭스의 특정 인기 기법에만 매몰되어 실제 자사 환경에 특화된 위협 및 비인기 TTP를 간과하는 분석적 오류.
@@ -182,7 +182,7 @@ MITRE ATT&CK 지식 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **커버리지 인정 기준(Coverage Validation Criteria)**: 탐지 규칙의 양적 수량이 아닌, 실제 모의공격 및 수집 데이터 소스를 통해 실증 감지된 기법만을 커버리지로 승인하는 기준.
 

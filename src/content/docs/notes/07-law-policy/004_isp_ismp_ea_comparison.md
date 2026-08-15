@@ -85,7 +85,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조·표준·중복 검토**: 현행 자원과 공동 활용·표준 대조.
 - **ISP 우선 과제 선정**: 기여도·효과·시급성·실행성 기반 선정.
@@ -127,7 +127,7 @@ EA위원회
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보화 계획 체계(Informatization Planning System)**: 중장기 투자·개별 발주·전사 구조를 연결하는 체계.
 

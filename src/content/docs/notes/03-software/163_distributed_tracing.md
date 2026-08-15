@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 추적(Distributed Tracing)**: 요청 경로의 모든 구간을 단일 ID로 묶어 지연(Latency)과 에러 지점을 추적하는 기술.
 - **Trace & Span**: **Trace**는 1개 요청의 전체 라이프사이클 식별자이며, **Span**은 서비스 내부의 실행 구간 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Parent-Child Span Relationship**: Span 간의 선후 종속 관계를 나타내는 구조로, 부모 Span이 여러 자식 Span(병렬 쿼리)을 품는 트리(Tree) 토폴로지.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C Trace Context**: HTTP 헤더 표준 규약(`traceparent: 00-4bf92f3...-01`)으로 벤더 종속 없이 추적 문맥을 호환 이관하는 W3C 글로벌 표준.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Head Sampling vs Tail Sampling**: 최초 요청 진입 시 10%만 수집 결정(Head)할 것인지, 끝까지 실행 후 에러(500)난 것만 100% 수집(Tail)할 것인지 결정하는 보존 전략.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sampling Rate (샘플링 비율)**: 수백만 건의 트래픽을 모두 저장하면 스토리지 비용이 폭증하므로, 1% 또는 10%의 대표 트레이스만 선별 저장하는 아키텍처.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Trace Context Broken (문맥 단절)**: Kafka 비동기 큐나 외부 Legacy 시스템을 지날 때 `trace_id` 헤더가 날아가 트레이스가 2동강으로 단절되는 파행.
 

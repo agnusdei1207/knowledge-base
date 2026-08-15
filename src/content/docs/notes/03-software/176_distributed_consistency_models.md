@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consistency Model (일관성 모델)**: 분산된 여러 대의 데이터베이스(복제본)에서 데이터 읽기(Read)와 쓰기(Write)의 순서와 시점이 클라이언트에게 어떻게 관찰될지 보장하는 수학적 계약.
 - **Strict Consistency (엄격한 일관성)**: 데이터가 쓰이는 즉시, 물리적 거리에 상관없이 우주 모든 곳의 클라이언트가 정확히 똑같은 최신 값을 읽을 수 있는 가장 강력한(현실 불가능한) 이론적 일관성.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Read-Your-Writes (자기 쓰기 읽기)**: 최종 일관성을 허용하더라도, "내가 작성한 게시글"만큼은 내가 새로고침 했을 때 즉시 보이도록 보장(Session Consistency)하여 사용자 경험을 방어하는 기법.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quorum (정족수)**: 5대의 복제 서버 중 3대 이상(과반수)에 쓰기가 성공해야 최종 쓰기 완료로 인정(W)하고, 읽을 때도 3대 이상(R)에서 읽어 가장 최신 버전을 채택하는 일관성 합의 공식(W + R > N).
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Linearizability (선형성)**: 쓰기 연산(W)이 끝난 직후부터 발생하는 모든 읽기(R)는 반드시 방금 쓴 값이나 그보다 최신 값을 반환해야 하며, 절대 과거로 회귀할 수 없음을 의미하는 단일 시점 모델.
 
@@ -118,7 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Causal Consistency (인과적 일관성)**: "질문이 작성됨 $\rightarrow$ 답변이 달림"처럼 원인과 결과가 명확한 데이터만 순서를 보장하고, 서로 무관한 게시글은 순서가 뒤섞여 보여도 허용하는 모델.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Split-Brain (스플릿 브레인)**: 네트워크 단절로 인해 2개의 노드가 서로 리더(Leader)라고 주장하며 양쪽에서 쓰기를 다 받아버려, 나중에 네트워크가 복구되었을 때 데이터 정합성이 완전히 붕괴되는 현상.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **일관성 수립 기준**: 비즈니스 도메인 불변식(Invariant)에 기반한 Quorum 튜닝, CAP 타협, Session Consistency(RYW) 보장 및 Raft 알고리즘에 의거한 체계.
 

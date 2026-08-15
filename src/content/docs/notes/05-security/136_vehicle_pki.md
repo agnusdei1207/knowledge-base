@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **PKI(Public Key Infrastructure)**: 인증서의 발급•사용•폐기를 관리하는 공개키 기반구조이다.
 - **V2X(Vehicle-to-Everything)**: 차량이 주변 객체와 정보를 교환하는 통신이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가명 인증서**: 실명 대신 단기 공개키•권한을 증명해 장기 추적을 줄이는 인증서이다.
 - **오동작 탐지**: 서명은 유효하지만 거짓이거나 물리적으로 불가능한 메시지를 판별하는 기능이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Root CA(Root Certificate Authority)**: 최상위 신뢰를 보증하는 인증기관이다.
 - **EA(Enrollment Authority)**: 차량의 장기 가입 자격을 확인하는 기관이다.
@@ -90,7 +90,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SCMS(Security Credential Management System)**: V2X 인증서의 등록•권한•폐기를 분리 운영하는 체계이다.
 - **가입 자격 검증•식별자 분리**: 장기 가입 자격을 확인하고 권한 요청에서 식별정보를 최소화하는 단계이다.
@@ -140,7 +140,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TLS(Transport Layer Security) 인증서**: 차량•서버 연결을 보호하는 인증서이다.
 - **가입•방송 자격 분리**: EA 가입 자격과 V2X 방송 권한을 분리하는 원칙이다.
@@ -162,7 +162,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **IEEE(Institute of Electrical and Electronics Engineers)**: 전기전자 기술표준을 개발하는 학회이다.
 - **WAVE(Wireless Access in Vehicular Environments)**: 차량 환경 무선접속 기술이다.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자격 분리**: 장기 가입, 단기 방송, 서버 연결 인증서를 목적별로 나누는 원칙이다.
 

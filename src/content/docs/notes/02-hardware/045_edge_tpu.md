@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Edge TPU(Edge Tensor Processing Unit)**: 모바일/IoT Edge 디바이스에서 완전 정수 양자화 신경망 추론을 전용 처리하도록 구글이 설계한 소형 ASIC 칩.
 - **현장 추론(Edge Inference)**: 원격 클라우드 서버 통신 없이 엣지 단말 소스 측에서 즉시 AI 모델을 추론 실행하는 방식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 정수 양자화(Full Integer Quantization)**: 모델 파라미터(가중치/활성화)를 8비트 정수(INT8)로 완전 변환하여 메모리 및 연산량을 삭감하는 변환 기술.
 - **지원 연산 컴파일(Supported-Operation Compilation)**: TFLite 모델 내 Edge TPU 전용 지원 연산자를 추출하여 바이트코드로 빌드하는 과정.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TFLite(TensorFlow Lite)**: 모바일 및 Edge 시스템에 최적화된 경량 추론 프레임워크 및 모델 규격.
 - **Edge TPU 컴파일러(Edge TPU Compiler)**: TFLite 모델을 입력받아 Edge TPU 지원 가능 영역과 CPU 폴백 영역으로 수직 분할하는 컴파일 도구.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정수 실행 계획(Integer Execution Plan)**: Edge TPU 지원/미지원 레이어 분할 및 메모리 할당 순서 명세.
 - **경계 텐서(Boundary Tensor)**: Edge TPU 가속 영역과 CPU 폴백 영역의 인터페이스 상에서 교환되는 중간 텐서 데이터.
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **온디바이스 NPU(On-Device NPU)**: 메인 AP/SoC 칩 내부에 하드웨어로 내장 통합된 신경망 가속 프로세서.
 - **클라우드 TPU(Cloud TPU)**: 데이터센터 환경에서 초거대 모델 학습 및 추론을 전담하는 대규모 TPU 인프라.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대표 보정 데이터(Representative Calibration Data)**: 양자화 시 텐서의 스케일 팩터 및 민감도 범위를 설정하는 샘플 데이터.
 - **지원 연산자 대체(Operator Substitution)**: 컴파일 불가능한 연산자를 연산 특성이 동일한 Edge TPU 전용 연산자로 재작성하는 최적화 기법.
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지원 연산률(Supported-Operation Ratio)**: 전체 신경망 레이어 중 Edge TPU 코어에서 컴파일되어 직접 가속 실행되는 비율.
 - **Edge TPU 적용 기준(Edge TPU Adoption Criteria)**: 완전 정수 양자화 수용성, 오프라인 미션 크리티컬 환경 여부 및 소비 전력 요구사항에 기반한 선택 기준.

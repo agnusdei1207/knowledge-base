@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI Code Generation (AI 기반 코드 자동 생성)**: 대규모 코드베이스로 학습된 LLM(Large Language Model) 기반 생성형 AI 도구가 인라인 주석, 함수 서명 및 개발자 지시(Prompt)를 분석하여 정교한 소스코드 및 단윗 테스트 조각을 자동 렌더링하는 기술.
 - **GitHub Copilot / Cursor AI**: OpenAI Codex / Claude 3.5 Sonnet / GPT-4o 등의 대형 언어 모델을 IDE(VS Code, IntelliJ)에 플러그인 형태로 연결하여 실시간 인라인 자동 완성(Auto-completion) 및 대화형 리팩터링을 제공하는 대표적 AI 페어 프로그래밍 도구.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Context-Aware Completion**: 현재 열려있는 파일의 상단 코드, 관련 인접 파일, 변수명 및 파일명 맥락(Context Window)을 읽어 들여 최적의 코드를 제안하는 특성.
 - **Hallucination (환각 현상)**: LLM의 특성상 존재하지 않는 라이브러리나 엉터리 API 메서드를 마치 존재하는 것처럼 그럴싸하게 생성해 내는 오류 현상.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fill-in-the-Middle (FIM)**: 커서의 위치(Prefix, Suffix) 앞뒤 코드를 동시에 인식하여 중간 비어있는 코드 조각을 정밀하게 채워 넣는 인라인 생성 알고리즘.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI Code Review Workflow**: AI 생성 코드를 맹신하지 않고, 개발자 자가 리뷰 $\rightarrow$ 빌드/단위 테스트 $\rightarrow$ SAST 정적 분석을 거쳐 메인 브랜치에 병합하는 안전 검증 절차.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **GitHub Copilot vs Cursor AI vs Amazon Q**: Copilot은 IDE 인라인 제안 중심, Cursor는 에디터 자체를 포크하여 전사 코드베이스 맥락 기반 대화형 개발 지원, Amazon Q는 AWS 클라우드 연동 특화.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Copyright & License Risk**: 오픈소스(GPL 등) 코드가 무단 학습되어 거의 동일하게 추천될 경우 발생하는 지식재산권 및 저작권 침해 분쟁.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 코드 생성 도입 기준(AI Code Generation Standards)**: 보안 유출 방지(Enterprise 옵션), 오픈소스 라이선스 필터링 및 개발자 코드 검증 역량에 의거한 체계.
 

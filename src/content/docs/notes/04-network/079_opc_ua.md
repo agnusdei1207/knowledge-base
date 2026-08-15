@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개방형 플랫폼 통신 통합 아키텍처(Open Platform Communications Unified Architecture, OPC UA)**: 산업 데이터의 값•자료형•단위•관계와 서비스•보안을 함께 규정하는 상호운용 표준이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **계층 보안(Layered Security)**: 애플리케이션 인증서와 세션 사용자 역할로 프로그램 신원과 노드별 작업 권한을 나눠 통제하는 방식이다.
 
@@ -52,7 +52,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보 모델(Information Model)**: 설비 데이터의 이름•자료형•단위•관계를 정의하는 모델이다.
 - **주소 공간(Address Space)**: 정보 모델의 노드•속성•참조를 제공하는 논리 공간이다.
@@ -89,7 +89,7 @@ OPC UA
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 채널 생성(Secure Channel Establishment)**: 신뢰된 애플리케이션 인증서와 정책을 검증해 메시지 무결성•기밀성을 보호하는 채널 수립 과정이다.
 - **접속점 탐색**: 서버 주소•지원 보안 정책•애플리케이션 인증서를 확인하는 단계이다.
@@ -153,7 +153,7 @@ OPC UA
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인증서 기반 통신 중단(Certificate-Induced Communication Failure)**: 인증서 만료나 신뢰 목록 갱신 실패로 보안 채널을 수립하지 못하는 문제이다.
 - **제조 실행 시스템(Manufacturing Execution System, MES)**: 생산 계획과 현장 설비 실적•품질 정보를 연계해 제조 활동을 관리하는 시스템이다.
@@ -173,7 +173,7 @@ OPC UA
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **컴패니언 명세(Companion Specification)**: 산업별 장비•데이터의 이름•단위•속성•관계를 공통 OPC UA 정보 모델로 정한 명세이다.
 

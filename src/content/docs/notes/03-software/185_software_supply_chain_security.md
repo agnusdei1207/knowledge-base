@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Software Supply Chain Security (소프트웨어 공급망 보안)**: 소스 코드 작성부터 빌드, 테스트, 패키징, 배포에 이르는 소프트웨어 생명주기(SDLC) 전 과정에서 의도적인 위조나 악성코드 삽입을 방어하는 보안 체계.
 - **SolarWinds Hack (솔라윈즈 사태)**: 2020년 발생한 대형 사건으로, 해커가 솔라윈즈의 '오리온' 네트워크 모니터링 소프트웨어의 빌드 시스템을 장악하고 악성코드를 심어, 업데이트를 받은 미국 정부 및 수만 개 기업이 뚫린 공급망 공격의 대표 사례.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLSA (Supply-chain Levels for Software Artifacts)**: 구글이 제안한 소프트웨어 공급망 무결성 프레임워크로, 빌드 프로세스의 보안 수준을 1단계부터 4단계까지 정의하여 위변조 저항성을 정량화한 국제 표준.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Policy Gate (정책 게이트)**: 배포(Deployment) 직전에 쿠버네티스나 배포 서버 앞단에서, 해당 컨테이너 이미지에 서명(Signature)과 출처(Provenance)가 올바르게 붙어있는지 확인하고 미달 시 배포를 차단하는 검문소.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Immutable Input (불변 입력)**: 빌드 시스템에 들어가는 모든 재료(소스코드, 의존성 라이브러리)의 버전과 해시값을 사전에 정확히 고정(Lock)하여, 중간에 내용이 몰래 바뀌는 것을 막는 통제.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Detection (탐지)**: 빌드가 끝난 뒤에 SBOM과 산출물을 까보며 취약점(CVE)이나 서명 변조를 사후에 찾아내는 모니터링 방식 (SCA 스캔, 컨테이너 스캔).
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dependency Confusion (의존성 혼동 공격)**: 사내 전용으로 쓰는 프라이빗 패키지(예: `my-corp-auth`)와 똑같은 이름의 악성 패키지를 공개 저장소(npm, PyPI)에 더 높은 버전으로 올리면, 패키지 매니저가 공개 저장소의 악성 패키지를 낚아채서 설치해 버리는 해킹 기법.
 - **Typosquatting (타이포스쿼팅)**: 유명한 패키지 이름(`requests`)과 비슷하게 철자를 꼬아서(`requsts`) 악성 패키지를 올리고, 개발자의 오타를 유도하여 악성코드를 퍼뜨리는 공격.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Attestation (아테스테이션 / 증명)**: "이 바이너리는 정상적인 파이프라인에서 내가 정당하게 빌드했다"는 것을 증명하기 위해, Provenance 정보에 암호학적 서명을 덧붙인 최종 문서.
 

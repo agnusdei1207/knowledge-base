@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 처리(Risk Treatment)**: 식별된 위험에 대하여 수용, 회피, 전가, 감소 등의 최적 대응 전략을 선정하고 이행하는 과정.
 - **잔여위험(Residual Risk)**: 보안 통제나 처리 대책을 적용한 후에도 여전히 감수해야 하는 통제 불가능한 위험.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 소유자(Risk Owner)**: 특정 위험의 처리 방식, 처리 예산 및 잔여위험의 수용 여부를 최종 의결하는 책임자.
 - **수용기준 초과(Exceeding Acceptable Risk Level)**: 잔여위험 수준이 조직이 사전에 정의한 위험 허용 한도를 벗어난 상태.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 처리계획(Risk Treatment Plan, RTP)**: 선택한 위험 처리 옵션의 세부 실행 절차, 자원, 담당자 및 기한을 명시한 계획.
 - **통제 증적(Control Audit Evidence)**: 위험 감소 통제가 정상적으로 동작하여 위험을 감소시켰음을 입증하는 자료.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **처리 옵션 선정(Treatment Option Selection)**: 법적 의무, 비용 대비 효과, 사업 목적을 고려하여 위험 처리 방안을 확정하는 활동.
 - **재평가(Re-assessment)**: 위험 처리 대책 이행 후 잔여위험 수준이 수용 가능한지 검증하는 활동.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수용(Risk Acceptance)**: 위험 감수 비용이 처리 비용보다 적을 때 해당 잔여위험을 수용하는 전략.
 - **회피(Risk Avoidance)**: 위험을 유발하는 해당 사업 및 활동 자체를 중단하거나 포기하는 전략.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제 표준을 개발•발행하는 국제 기구.
 - **IEC(International Electrotechnical Commission)**: 전기•전자 분야 국제 표준을 개발하는 협력 기구.
@@ -185,7 +185,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **설명 가능한 위험 수용(Explainable Risk Acceptance)**: 잔여위험의 수준, 승인자, 모니터링 조건이 명확히 수립되어 증명 가능한 상태.
 

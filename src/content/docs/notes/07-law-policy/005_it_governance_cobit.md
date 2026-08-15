@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **평가·지시·감독(Evaluate, Direct and Monitor, EDM)**: 방향·위험 한도·성과의 거버넌스 영역.
 - **정렬·계획·조직화(Align, Plan and Organize, APO)**: 전략·조직·예산·위험의 관리 영역.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **목표·방향·위험 한도 설정**: 우선 목표·지표·위험 수용 범위 결정.
 - **계획·구축·운영 증거 회신**: 관리 영역의 통제 결과를 지배기구에 보고.
@@ -134,11 +134,11 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
-- **COBIT 2019(COBIT 2019)**: IT 거버넌스•관리를 목표•통제•성과로 연결하는 프레임워크이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **COBIT 2019(COBIT 2019)**: IT 거버넌스•관리를 목표•통제•성과로 연결하는 프레임워크.
 - **ISO/IEC 38500**: 지배기구의 IT 평가·지시·모니터링 원칙.
-- **ITIL(Information Technology Infrastructure Library, ITIL)**: 서비스 가치사슬•관리 관행 기반 운영 프레임워크이며, 이를 통해 실질적인 작동 방식과 실무적 이점을 제공한다.
+- **ITIL(Information Technology Infrastructure Library, ITIL)**: 서비스 가치사슬•관리 관행 기반 운영 프레임워크.
 
 </details>
 
@@ -156,7 +156,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 수용 주체 불명확**: 거버넌스 결정과 관리 실행 책임의 혼재.
 - **설계요인(Design Factors)**: 전략·위험·규제·기술별 목표·통제 선택 조건.

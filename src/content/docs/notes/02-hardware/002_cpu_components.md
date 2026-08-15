@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중앙 처리 장치(Central Processing Unit, CPU)**: 기억장치로부터 기계어 명령어를 인출(Fetch), 해독(Decode), 실행(Execute), 저장(Write-back)하여 연산과 하드웨어를 총괄 제어하는 핵심 프로세서.
 - **제어장치(Control Unit, CU)**: 명령어 레지스터의 오퍼코드를 해독하여 내부 데이터 경로 및 외부 버스의 제어 신호(Control Signal)를 타이밍에 맞게 생성하는 장치.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제어 경로(Control Path)**: 명령어 해독 결과와 시스템 상태를 바탕으로 데이터 경로의 MUX, ALU, 레지스터 쓰기 활성화 신호를 제어하는 로직 회로.
 - **데이터 경로(Data Path)**: 피연산자가 저장된 레지스터, 연산을 담당하는 ALU, 결과 전달 버스로 구성되어 실제 데이터 연산과 이동을 담당하는 하드웨어 라인.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **산술논리장치(Arithmetic Logic Unit, ALU)**: 범용 레지스터가 제공한 피연산자를 입력받아 제어 신호에 따른 정수/논리 연산을 실행하고 상태 플래그를 출력하는 연산 장치.
 - **제어장치(Control Unit, CU)**: IR에 적재된 명령어 오퍼코드(Op-code)를 마이크로 명령 또는 경선제어(Hardwired) 방식으로 해독하는 장치.
@@ -102,7 +102,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프로그램 카운터(Program Counter, PC)**: 다음 순서에 인출할 메모리 내 기계어 명령어의 주소값을 보유하는 특수 레지스터.
 - **명령어 레지스터(Instruction Register, IR)**: 메모리에서 인출한 명령어를 CU가 해독하기 직전까지 격리 보관하는 레지스터.
@@ -145,7 +145,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **범용 레지스터(General-Purpose Register, GPR)**: 정수, 부동소수점, 메모리 포인터 등의 데이터 연산 피연산자 및 결과를 임시 저장하는 멀티플레이 레지스터.
 - **스택 포인터(Stack Pointer, SP)**: 서브루틴 호출 및 파라미터 전달을 위한 메모리 스택의 최상단 주소를 추적하는 특수 레지스터.
@@ -168,7 +168,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다중 포트 레지스터 파일(Multi-Ported Register File)**: 단일 클록 주기에 여러 딜리버리 포트를 통해 복수의 Read/Write를 동시 수행할 수 있는 회로 구조.
 - **데이터 해저드(Data Hazard)**: 이전 명령어의 결과 기록이 완료되지 않은 상태에서 다음 명령어 데이터가 접근을 시도하여 선후 의존성이 파괴되는 문제.
@@ -193,7 +193,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 하드웨어 설계자와 소프트웨어 개발자 사이의 약속으로, 명령어 형태, 레지스터 구조, 주소 지정 방식을 지정하는 인터페이스 사양.
 - **CPU 구성 설계 기준(CPU Architecture Design Criteria)**: ISA의 타깃 목표(고성능 서버, 저전력 임베디드 등)에 따라 레지스터 폭, ALU 수, 제어 구조를 정형화하는 설계 지침.

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **삼진 내용 주소화 메모리(Ternary Content-Addressable Memory, TCAM)**: 입력 키를 0•1•무관 값으로 저장된 모든 규칙과 동시에 비교하는 병렬 검색 메모리이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **우선순위 선택**: 여러 규칙이 동시에 일치할 때 정책 순서가 가장 높은 항목의 동작을 고르는 방식이다.
 
@@ -52,7 +52,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TCAM 뱅크**: 경로•접근 제어 목록•서비스 품질 등 검색 기능이나 키 폭에 따라 값•마스크•유효 비트 항목을 나눈 하드웨어 영역이다.
 - **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 주소 기반으로 데이터와 동작을 저장하는 메모리이다.
@@ -86,7 +86,7 @@ TCAM 검색 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **일치 벡터 전달**: 모든 값•마스크 항목의 병렬 비교 결과를 비트 벡터로 제공하는 단계이다.
 - **최우선 인덱스 선택**: 동시에 일치한 항목 중 정책 우선순위가 가장 높은 위치를 고르는 단계이다.
@@ -126,7 +126,7 @@ TCAM 전체 항목 병렬 비교
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **내용 주소화 메모리(Content-Addressable Memory, CAM)**: 저장된 모든 값과 입력 키를 병렬로 정확 비교하는 메모리이다.
 - **최장 접두어 일치(Longest Prefix Match, LPM)**: 가장 긴 접두어가 일치하는 경로를 선택하는 방식이다.
@@ -151,7 +151,7 @@ TCAM 전체 항목 병렬 비교
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TCAM 고갈**: 특정 기능의 규칙 확장이 한정된 병렬 검색 항목을 점유해 다른 경로•보안•QoS 정책을 수용하지 못하는 문제이다.
 
@@ -169,7 +169,7 @@ TCAM 전체 항목 병렬 비교
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **검색 메모리 선택**: 규칙의 마스크•우선순위•정확 일치 요구와 용량을 기준으로 삼진•내용 주소화•정적 임의 접근 메모리를 결정하는 기준이다.
 

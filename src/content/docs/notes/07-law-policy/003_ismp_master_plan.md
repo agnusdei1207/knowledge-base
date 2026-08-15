@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상세 요구사항(Detailed Requirements)**: 시스템이 제공해야 할 기능적 요구뿐만 아니라 품질, 보안, 데이터 연계 등 비기능적 측면과 검증 가능한 수용 조건을 포함하는 기준이다.
 - **기능점수(Function Point, FP)**: 사용자가 인식하는 소프트웨어의 기능적 규모를 계량화하여 합리적인 개발 대가 및 일정 산정의 기준으로 활용하는 소프트웨어 규모 산정 기법이다.
@@ -87,7 +87,7 @@ ISMP
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **목표 구조•요구 기준선 수립(Establish Target Architecture & Requirements Baseline)**: 현업의 모호한 요구를 검증 가능한 형태로 정제하고 이를 지원할 최적의 기술 아키텍처를 매핑하는 단계이다.
 - **수용 기준•범위 승인(Approval of Acceptance Criteria & Scope)**: 발주자와 사용자 부서 간 시스템 인수 조건 및 최종 과업 범위에 대해 공식적인 합의를 도출하는 단계이다.
@@ -130,7 +130,7 @@ ISMP팀
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정보전략계획(Information Strategy Planning, ISP)**: 전사적 비전 달성을 위해 도출된 다수의 정보화 과제에 대한 중장기적 투자 로드맵이다.
 </details>
@@ -149,7 +149,7 @@ ISMP팀
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **예산•대가 분쟁(Budget & Cost Disputes)**: 초기 FP 산정 범위와 실제 RFP 계약 시 기대하는 범위 간의 차이로 인해 발생하는 발주자와 수행사 간의 마찰이다.
 - **요구사항 식별자(Requirement ID)**: 개별 요구사항부터 분석, 설계, 테스트에 이르는 전 생명주기 동안 추적성을 확보하기 위해 부여하는 고유 코드 체계이다.

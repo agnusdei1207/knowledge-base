@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소스 코딩(Source Coding)**: 정보원의 중복을 제거하거나 허용 왜곡을 이용해 표현 비트를 줄이는 부호화이다.
 - **채널 코딩(Channel Coding)**: 오류 제어용 중복을 추가해 전송 비트를 보호하는 부호화이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **통계적 중복**: 특정 기호나 패턴이 자주 나타나 더 짧은 표현으로 줄일 수 있는 반복성이다.
 - **순방향 오류 정정(Forward Error Correction, FEC)**: 보호 비트를 추가해 수신 측에서 재전송 없이 오류를 정정하는 방식이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잡음 채널(Noisy Channel)**: 전송 중 신호가 변형돼 비트 오류가 생길 수 있는 매체이다.
 - **압축 비트열**: 소스 부호기가 정보원 중복을 제거해 만든 축약 데이터이다.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드워드(Codeword)**: 채널 부호화로 만든 정보 비트와 보호 비트의 묶음이다.
 - **복호 순서**: 수신 측에서 채널 오류를 먼저 정정하고 그 결과의 압축을 푸는 처리 순서이다.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **엔트로피(Entropy)**: 무손실 소스 코딩의 평균 비트 수 하한이다.
 - **율-왜곡 함수**: 주어진 허용 왜곡에서 필요한 최소 정보율이다.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **적응형 코드율**: 관측한 채널 오류율에 맞춰 정보 비트와 보호 비트의 비율을 조정하는 방식이다.
 - **결합 소스-채널 코딩**: 짧은 지연 조건에서 압축과 오류 보호를 하나의 설계로 함께 조정하는 방식이다.
@@ -190,7 +190,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분리 코딩**: 소스 코딩과 채널 코딩을 각각 독립적으로 최적화하는 설계이다.
 - **결합 코딩**: 지연과 블록 제약을 함께 고려해 압축과 오류 보호를 동시에 조정하는 설계이다.

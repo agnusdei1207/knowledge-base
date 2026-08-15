@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 권한 위임 2.0(Open Authorization 2.0, OAuth 2.0)**: 사용자 비밀번호 노출 없이 제3자 애플리케이션(Client)에게 자원 접근 권한을 안전하게 위임하는 오픈 표준 프레임워크.
 - **오픈아이디 연결(OpenID Connect, OIDC)**: OAuth 2.0 프로토콜 레이어 상단에 사용자 신원 인증(Authentication) 및 ID 토큰(JWT) 전달 기능을 확장한 신원 표준.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **권한 코드(Authorization Code)**: 인가 서버가 사용자 동의 승인 후 클라이언트에 임시 발급하는 일회성/단기 교환용 코드.
 - **코드 교환용 증명 키(Proof Key for Code Exchange, PKCE)**: 모바일/SPA의 인가 코드 탈취 및 재전송 공격을 막기 위해 챌린지/검증 키를 결합하는 표준 확장.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자원 소유자(Resource Owner)**: 보호 대상 자원 접근 권한을 소유한 실제 사용자.
 - **클라이언트(Client)**: 사용자의 자원에 접근하기 위해 인가 서버에 권한 위임을 요청하는 서드파티 앱.
@@ -90,7 +90,7 @@ OAuth 2.0•OIDC 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라이언트•Redirect URI 검증**: 사전 등록된 Client ID 및 정확한 Redirect URI 매칭 확인 단계.
 - **권한 코드 생성**: 사용자 동의 후 일회성 Authorization Code 발급 단계.
@@ -142,7 +142,7 @@ API 자원 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OAuth•OIDC 역할 분리(OAuth vs OIDC Separation)**: OAuth 2.0은 API 리소스 접근 권한 위임(Authorization), OIDC는 사용자 신원 인증(Authentication)을 담당하는 명확한 기술적 역할 분담.
 
@@ -159,7 +159,7 @@ API 자원 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IETF RFC 9700**: OAuth 2.0 Security Best Current Practice(BCP) 표준 문서로 Implicit Grant 사용 금지 및 PKCE 의무화 지정.
 - **OIDC Core 1.0**: OpenID Connect 1.0 핵심 명세로 ID 토큰 무결성 및 사용자 인증 흐름 검증 지침.
@@ -178,7 +178,7 @@ API 자원 요청
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연동 목적별 표준 선택 기준(Standard Selection Criteria)**: API 권한 위임은 OAuth 2.0, 사용자 SSO 및 신원 전달은 OIDC를 선택하고 PKCE와 DPoP 보안을 적용하는 아키텍처 지침.
 

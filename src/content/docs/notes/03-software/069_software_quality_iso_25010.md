@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 25010**: SQuaRE(Software Product Quality Requirements and Evaluation) 시리즈의 핵심 표준으로, 소프트웨어 제품의 품질 특성(Product Quality Model)을 체계적으로 분류 및 정의한 국제 표준.
 - **Product Quality Model (제품 품질 모델)**: 소프트웨어의 내/외부 특성을 8대 주특성(25010:2011) 및 9대 주특성(25010:2023 개정판)으로 세분화한 평가 프레임워크.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quality in Use vs Product Quality**: 제품 품질(Product Quality)은 소프트웨어의 고유한 시스템적 특성, 사용 품질(Quality in Use, ISO/IEC 25019)은 특정 사용 맥락에서의 실제 유저 만족도 및 효과성.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **9대 주특성 (2023 개정판)**: Functional Suitability, Performance Efficiency, Compatibility, Interaction Capability(기존 Usability), Reliability, Security, Maintainability, Flexibility(기존 Portability), Safety(신규 추가).
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quality Requirement & Evaluation Process**: SQuaRE 표준 절차에 따라 요구사항 정립 $\rightarrow$ 측정 항목 메트릭 설계 $\rightarrow$ 테스트 실행 및 측정 $\rightarrow$ 수용 기준 대조.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2011 vs 2023 ISO 25010 Revision**: 2011년 8대 주특성 구조에서 2023년 개정을 통해 Usability $\rightarrow$ Interaction Capability로 명칭 변경, Portability $\rightarrow$ Flexibility로 통합 개편, **Safety(안전성)** 주특기 신규 추가.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quality Trade-off**: 성능 효율성(속도)을 높이려다 보안성(암호화 검사)이 떨어지거나, 신뢰성을 높이려다 성능 오버헤드가 발생하는 특성 간 상충 관계.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 25010 수용 기준(ISO 25010 Adoption Standards)**: 시스템 도메인 특성, SQuaRE 평가 지침 및 2023년 9대 주특기 표준에 의거한 체계.
 

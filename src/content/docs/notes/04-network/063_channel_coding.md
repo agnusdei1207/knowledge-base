@@ -18,7 +18,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **채널 코딩(Channel Coding)**: 무선/유선 채널의 잡음과 페이딩으로 인한 데이터 훼손을 방지하고자 송신 측에서 제어된 중복 비트(Redundancy Bit)를 부가하는 기술.
 - **순방향 오류 정정(Forward Error Correction, FEC)**: 수신 측에서 역방향 재전송 요청(ARQ) 없이 수신 패리티 정보만으로 스스로 오류를 검출하고 정정하는 부호화 방식.
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **부호율(Code Rate)**: 전체 부호어 비트($n$) 대비 유효 정보 비트($k$)의 비율($k/n$)로, 부호율이 낮을수록 중복 패리티가 증가하여 오류 복원 성능이 향상되나 대역폭 효율은 감소.
 - **최소 거리(Minimum Distance / Hamming Distance)**: 서로 다른 두 부호어 간의 최소 비트 차이 수($d_{min}$)로, 검출 및 정정 가능한 오류 수의 대수학적 한계를 결정.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 나눗셈 연산 기반의 나머지 값을 부호어에 부가하여 FEC 복호 후 잔존하는 미세 오류를 최종 판정하는 기법.
 - **신드롬(Syndrome)**: 수신된 부호어와 패리티 검사 행렬($H$)을 곱해 도출한 벡터로, 오류의 존재 여부 및 비트 위치를 추정하는 지표.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연판정(Soft Decision)**: 수신 신호를 0/1로 이분화(Hard Decision)하지 않고 아날로그 확률 가능도(LLR: Log-Likelihood Ratio) 정보를 보존하여 복호 성능을 개선하는 방식.
 - **혼성 자동 재전송 요청(Hybrid Automatic Repeat Request, HARQ)**: FEC 기반 물리 계층 복호와 MAC 계층 ARQ를 결합하여 수신 실패 패킷을 재전송 패킷과 결합(Combining)함으로써 복호 성공률을 높이는 기술.
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **해밍 부호(Hamming Code)**: 신드롬으로 단일 비트 오류를 정정하며, 확장 패리티 적용 시 SEC-DED를 지원하는 선형 블록 부호.
 - **리드-솔로몬 부호(Reed-Solomon Code, RS Code)**: 심벌($GF(2^m)$) 단위 부호화를 수행하여 연속 묶음 버스트 오류 정정에 특화된 비이진 선형 블록 부호.
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비트 오류율(Bit Error Rate, BER)**: 전송된 전체 비트 수 대비 수신 오류 비트 수의 비율.
 - **블록 오류율(Block Error Rate, BLER)**: 전송된 전체 부호어 블록 중 CRC 검사를 통과하지 못한 손상 블록의 비율.
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **페이딩(Fading)**: 다중 경로 전파 간섭으로 인해 수신 신호 진폭과 위상이 시간에 따라 유동 변동하는 현상.
 - **신뢰성·처리량 절충(Reliability-Throughput Trade-off)**: 패리티 증가 시 신뢰성은 상승하나 유효 전송률(Goodput)이 감소하는 상충 관계.

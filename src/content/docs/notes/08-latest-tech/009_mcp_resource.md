@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 컨텍스트 프로토콜 리소스(Model Context Protocol Resource, MCP Resource)**: 서버가 URI로 식별하여 클라이언트에 읽기 중심의 컨텍스트 데이터를 제공하는 MCP 기능을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **통합 자원 식별자(Uniform Resource Identifier, URI)**: 리소스를 고유하게 가리키는 주소 표기로 정의된다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **애플리케이션 제어 컨텍스트(Application-Controlled Context)**: 호스트가 리소스를 조회하고 모델 문맥에 포함할지 결정하여 데이터 사용 범위를 통제하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **변경 알림 구독(Change Notification Subscription)**: subscriptions/listen 스트림에서 선택한 리소스 변경 알림을 받는 기능을 지칭한다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 자원 식별자 템플릿(Uniform Resource Identifier Template, URI Template)**: 변수 자리를 포함해 여러 관련 리소스의 URI를 생성하는 주소 규칙으로 정의된다.
 - **다목적 인터넷 우편 확장 형식(Multipurpose Internet Mail Extensions Type, MIME Type)**: 리소스 내용의 데이터 유형과 해석 방식을 나타내는 표기로 정의된다.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **리소스 읽기(Resource Read)**: 클라이언트가 URI를 지정하고 서버가 MIME 형식과 함께 텍스트 또는 바이너리 내용을 반환하는 요청 흐름으로 정의된다.
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버와 리소스 명세•내용을 교환하는 구성요소이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -142,7 +142,7 @@ MCP 클라이언트
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **직접 리소스(Direct Resource)**: 고정 URI 하나로 특정 파일•레코드•문서 같은 컨텍스트를 식별해 제공하는 리소스 유형이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **도구(Tool)**: 모델이 외부 기능을 실행하도록 호출하는 MCP 기능으로 정의된다.
@@ -166,7 +166,7 @@ MCP 클라이언트
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **변경 알림 갱신(Notification Update)**: 구독한 변경 알림을 받아 필요한 리소스만 재조회하는 운영 방식을 지칭한다.
 - **리소스 통제 원칙(Resource Control Principle)**: URI 기반 문맥 제공 시 템플릿•테넌트•목적별 최소 필드로 노출 범위를 통제하는 원칙이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.

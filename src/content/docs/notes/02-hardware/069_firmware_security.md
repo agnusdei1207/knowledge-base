@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **펌웨어(Firmware)**: OS 구동 전 하드웨어 제어, 부팅 및 기본 I/O 통신을 관장하기 위해 Flash/ROM에 상주하는 초저수준 소프트웨어.
 - **펌웨어 취약점(Firmware Vulnerability)**: 펌웨어 내 코드 결함, 하드코딩된 암호키, 검증 부재 등에 의해 부트키트/루트킷이 설치되는 취약점.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OS 이전 실행(Pre-OS Execution)**: OS 커널과 보안 모듈이 로딩되기 전에 펌웨어가 구동되는 특성.
 - **공급망 위협(Supply Chain Threat)**: 칩셋 파운드리, 펌웨어 벤더, OEM 제조사 유통 과정에서의 악성 펌웨어 주입 위협.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자산·배포 관리(Asset/Deployment Management)**: 장치별 펌웨어 버전, **SBOM**(Software Bill of Materials) 및 패치 이력을 추적 관리하는 모듈.
 - **업데이트 검증(Update Verification)**: 펌웨어 OTA 적용 시 공개키 전자서명, 해시, 버전을 사전 검증하는 엔진.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **갱신 패키지(Update Package)**: 암호화 서명 메타데이터, 헤더, 펌웨어 실 바이너리가 패키징된 OTA 배포 파일.
 - **비활성 슬롯(Inactive Slot)**: A/B 슬롯 중 현재 구동 중이지 않은 대기 펌웨어 뱅크.
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BMC(Baseboard Management Controller)**: OS 가동과 무관하게 독립 전원/센서/IPMI 펌웨어를 원격 통제하는 고권한 관리 칩셋.
 - **권한 상승(Privilege Escalation)**: 일반 취약점을 악용하여 최상위 시스템 권한(Ring 0 / Ring -1)을 획득하는 공격.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관리망 격리(Management-Network Isolation)**: BMC 및 IPMI 인터페이스를 일반 데이터망과 물리·논리적으로 분리하는 네트워크 보안.
 - **JTAG/UART**: 하드웨어 직접 접근을 제공하는 온보드 테스트·디버깅 인터페이스.
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **갱신 승인(Update Approval)**: 서명 무결성, Anti-Rollback, SBOM 검증을 통과한 무결한 펌웨어 패키지만 인가하는 부팅 기준.
 

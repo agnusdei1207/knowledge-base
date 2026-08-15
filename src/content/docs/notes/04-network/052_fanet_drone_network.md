@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비행 애드혹 네트워크(Flying Ad-Hoc Network, FANET)**: 복수의 무인항공기(UAV)들이 고정 인프라 없이 3차원 공중 공간에서 자율적으로 동적 무선 네트워크 토폴로지를 구성하여 멀티홉 중계를 수행하는 무선망 기술이다.
 - **무인항공기(Unmanned Aerial Vehicle, UAV)**: 조종사가 탑승하지 않고 원격 조종 및 자율 비행을 수행하는 드론 기체 단위이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **링크 수명(Link Expiration Time, LET)**: 두 무인항공기의 현재 GPS 위치, 속도 및 비행 벡터를 분석하여 직접 무선 통신 링크가 유지될 수 있는 예상 지속 시간이다.
 - **토폴로지(Network Topology)**: 비행 노드들의 연속적 3차원 이동으로 인해 실시간 동적으로 변동하는 네트워크 연결 지형 구조이다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중계 무인항공기(Relay UAV)**: 송신 드론과 지상 게이트웨이 사이에서 데이터를 수용하여 다음 공중 노드로 패킷을 전달하는 중계 드론이다.
 - **게이트웨이 무인항공기(Gateway UAV)**: 공중 애드혹 네트워크와 지상 관제소(GCS) 또는 Satellite 백홀 간을 직접 연결하는 교량 드론이다.
@@ -92,7 +92,7 @@ FANET 공중 통신망 아키텍처
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이웃 상태(Neighbor State / Telemetry)**: 인접 드론이 보내오는 3D 좌표, 이동 방향 벡터, 링크 품질 및 잔여 배터리 수치 데이터 세트이다.
 - **멀티홉(Multi-Hop Routing)**: 전파 도달 거리를 넘어선 멀리 떨어진 노드까지 중간 노드들을 연속 거쳐 패킷을 전달하는 기술이다.
@@ -130,7 +130,7 @@ FANET 공중 통신망 아키텍처
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **이동 애드혹 네트워크(Mobile Ad-Hoc Network, MANET)**: 지상에서 이동하는 일반 스마트폰 및 단말들이 자율 형성하는 2차원 애드혹 무선망이다.
 - **차량 애드혹 네트워크(Vehicular Ad-Hoc Network, VANET)**: 도로 위를 지상 주행하는 차량들이 도로 인프라와 결합하여 형성하는 2차원 애드혹 무선망이다.
@@ -154,7 +154,7 @@ FANET 공중 통신망 아키텍처
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중계 부하(Relay Load / Traffic Load)**: 특정 드론에 멀티홉 중계 트래픽이 과도하게 몰려 통신 연산 및 배터리 소모가 폭증하는 현상이다.
 - **백홀 연속성(Backhaul Continuity)**: 주 게이트웨이 드론의 장애나 고장 시 보조 게이트웨이 드론으로 지상 통신 경로를 즉시 유지하는 가용성 기술이다.
@@ -175,7 +175,7 @@ FANET 공중 통신망 아키텍처
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비행 애드혹 네트워크 중계 경로(FANET Multi-Hop Routing Path)**: 예상 링크 수명(LET)과 드론 잔여 배터리가 최고인 노드들을 선별해 만든 3D 공중 통신 경로이다.
 

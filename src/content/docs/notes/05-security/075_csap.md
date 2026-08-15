@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 보안인증(Cloud Security Assurance Program, CSAP)**: 공공기관에 민간 클라우드 서비스를 제공하려는 사업자(CSP)의 보안 이행 여부를 독립 객관적으로 평가•인증하는 국가 법정 제도이다.
 - **공공 보안인증(Public Cloud Security Certification)**: 국가•공공기관 정보자산의 가치와 서비스 위험도에 따라 클라우드 인프라 및 앱의 보안 보증 수준을 검증하는 정보보호 체계이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스형 인프라(Infrastructure as a Service, IaaS)**: 서버, 스토리지, 네트워크 자원을 클라우드로 제공하는 서비스 유형이다.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 완성된 애플리케이션을 인터넷 기반으로 제공하는 클라우드 유형이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증기관(Certification Body)**: KISA(한국인터넷진흥원) 등 CSAP 운영을 총괄하고 심의를 거쳐 최종 인증서를 발급하는 주체이다.
 - **평가기관(Evaluation Body)**: KISA 및 지정된 전문 평가기관으로서 서면, 현장 실사, 취약점 기술 진단을 수행하는 주체이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 증적(Corrective Proof)**: 진단 과정에서 발견된 보안 미비점에 대해 설정을 변경하거나 정책을 보완했음을 증명하는 서류/스크린샷이다.
 - **인증 결정(Certification Decision)**: 심의 결과를 반영하여 승인, 조건부 승인, 불합격을 확정 통보하는 절차이다.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최초평가(Initial Evaluation)**: 신규 CSAP 인증 획득을 위해 전체 보안 통제 항목에 대해 시행하는 정밀 심사이다.
 - **운영 드리프트(Operational Drift)**: 시간 경과에 따라 클라우드 구성 변경, 권한 오설정 등으로 발생되는 인증 시점과의 보안 편차 현상이다.
@@ -180,7 +180,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드컴퓨팅법 제23조의2(Cloud Computing Act Article 23-2)**: 공공기관의 클라우드 서비스 이용 시 CSAP 보안인증 준수를 명시한 법률 조항이다.
 - **인증서 대조(Certificate Cross-check)**: 조달하려는 서비스명과 실제 발급된 CSAP 인증서 상의 대상 범위, 등급, 유효기간의 100% 일치 여부를 사전 확인하는 절차이다.
@@ -199,7 +199,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **도입 적합 조건(Compliance Condition for Adoption)**: 도입 대상 클라우드 서비스가 법정 등급, 물리/논리적 영역, 유효기간 요구를 완전하게 충족한 상태이다.
 

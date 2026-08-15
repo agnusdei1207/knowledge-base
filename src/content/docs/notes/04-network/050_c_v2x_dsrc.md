@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **셀룰러 차량·사물 통신(Cellular Vehicle-to-Everything, C-V2X)**: 3GPP 표준 기반의 셀룰러 무선 기술(PC5 Sidelink 및 Uu Cellular)을 사용하여 차량 통신을 수행하는 기술이다.
 - **전용 단거리 통신(Dedicated Short-Range Communications, DSRC)**: IEEE 802.11p 및 IEEE 1609(WAVE) 표준을 기반으로 5.9GHz 비면허 대역에서 근거리 무선 전송을 수행하는 기술이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기본 서비스 집합 외부 통신(Outside the Context of a Basic Service Set, OCB)**: AP 접속 과정(BSS Handshake) 없이 무선 채널상에서 데이터를 즉시 송수신하는 802.11p 무선 접속 모드이다.
 - **반송파 감지 다중 접속/충돌 회피(Carrier Sense Multiple Access with Collision Avoidance, CSMA/CA)**: 채널이 비어 있는지 감지한 후 전송하는 경합 방식 무선 매체 접근 제어 프로토콜이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차량 탑재 장치(On-Board Unit, OBU)**: C-V2X 또는 DSRC 무선 모듈이 탑재되어 차량 안전 메시지를 송수신하는 단말이다.
 - **노변 장치(Roadside Unit, RSU)**: V2I 신호를 수신하고 관제 센터와 연동하는 장치이다.
@@ -95,7 +95,7 @@ V2X 무선 표준 아키텍처 비교
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이드링크(Sidelink / PC5)**: 3GPP 표준에서 정의한 기지국을 경유하지 않는 단말 간 직접 무선 통신 통로이다.
 
@@ -134,7 +134,7 @@ SCMS PKI 가명 인증서 서명 적용
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 5G/6G 등 이동통신 기술 표준 체계를 주도하는 글로벌 표준화 기구이다.
 - **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 802.11 무선랜 및 802.11p WAVE 규격을 주도하는 국제 학술·표준 기구이다.
@@ -158,7 +158,7 @@ SCMS PKI 가명 인증서 서명 적용
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **백분위수(Percentile Latency / 99th Percentile)**: 무선 지연시간 측정값 중 상위 99% 차량까지 보장되는 수신 완료 시간 수치이다.
 - **전달 성능(Message Delivery Performance)**: 도심 밀집 환경에서 안전 패킷의 수신 성공률(PDR)과 지연시간 수치 지표이다.
@@ -179,7 +179,7 @@ SCMS PKI 가명 인증서 서명 적용
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **진화 경로(Evolutionary Path)**: C-ITS 무선망이 5G-V2X 및 6G-V2X로 무손실 지속 업그레이드될 수 있는 기술적 진화 수용성이다.
 

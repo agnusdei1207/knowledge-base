@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 인젝션(Prompt Injection)**: 시스템 지침(System Prompt)과 사용자 입력(User Input)이 자연어로 동일한 채널에 주입되는 취약점을 악용하여, LLM의 원래 행동 규칙을 하이재킹(Hijacking)하는 공격 기법이다.
 - **인공지능(Artificial Intelligence, AI)**: 인간의 지능적 행동을 흉내내는 컴퓨터 시스템 및 머신러닝 알고리즘 지칭이다.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 인젝션(Direct Prompt Injection)**: 공격자가 프롬프트 입력창을 통해 "이전 모든 지침을 무시하라"는 등 시스템 프롬프트를 무력화하는 명령을 직접 입력하는 공격 경로이다.
 - **간접 인젝션(Indirect Prompt Injection)**: 웹페이지, 이메일, RAG 탐색 문서 내에 은밀히 삽입된 악성 프롬프트 텍스트를 LLM이 수용하면서 의도치 않게 악성 동작을 수행하는 공격 경로이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시스템 프롬프트(System Prompt)**: 개발자가 LLM에 페르소나, 역할, 안전 거부 규칙, 응답 제약사항을 지정한 고권한 지침 텍스트이다.
 - **사용자 프롬프트(User Prompt)**: 사용자가 대화창이나 API 요청을 통해 LLM에 전달하는 비신뢰 입력 텍스트이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사용자 재승인(User Re-approval / Human-in-the-Loop)**: AI 에이전트가 삭제, 이체 등 고위험 액션을 수행하려 할 때 최종 인간의 명시적 승인을 강제하는 절차이다.
 - **거래 결속(Transaction Binding)**: 사용자가 최초 동의한 거래 파라미터(수신자, 금액 등)를 세션에 암호학적으로 고정하여 인젝션 변조를 막는 기술이다.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **탈옥(Jailbreak Attack)**: 롤플레이(DAN 등), 가상 시나리오, 2중 암호화 기법을 이용해 LLM의 윤리적/안전성 거부 필터를 무력화하는 직접 인젝션 변종이다.
 
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP(Open Worldwide Application Security Project)**: 글로벌 애플리케이션 보안 표준 연구 기관이다.
 - **OWASP LLM01:2025(OWASP Top 10 for LLM Applications 2025 - LLM01 Prompt Injection, LLM01:2025)**: OWASP가 최우선 LLM 애플리케이션 보안 위험 1위로 지정한 프롬프트 인젝션 위협 규격이다.
@@ -190,7 +190,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실패 격리(Failure Containment)**: LLM이 프롬프트 인젝션 공격에 넘어가 악성 명령을 생성하더라도, 런타임 샌드박스 및 PEP에 의해 실질적 손상이 발생하지 않도록 차단하는 안전 아키텍처이다.
 

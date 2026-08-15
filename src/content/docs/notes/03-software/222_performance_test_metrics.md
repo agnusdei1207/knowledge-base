@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **성능 테스트 지표(Performance Test Metrics)**: TPS•응답시간•동시 사용자•자원 사용률을 함께 측정해 시스템의 처리 능력, 사용자 지연과 포화 지점을 판단하는 지표 체계이다.
 - **초당 거래 수(Transactions Per Second, TPS)**: 시스템이 1초 동안 정상 완료한 업무 거래의 수이다.
@@ -36,7 +36,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **포화 판정**: 부하 증가에 따른 TPS•응답 분위수•오류율•자원 사용량을 함께 관찰해 변곡점을 찾는 활동이다.
 - **응답 분위수(Response Percentile)**: 전체 요청 중 지정 비율이 그 시간 안에 완료되는 지연값이다.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분석•판정기(Analysis Engine)**: 부하 구간별 TPS•지연•오류•자원을 연결해 목표 충족과 병목 지점을 판정하는 구성요소이다.
 - **부하 모델(Workload Model)**: 사용자 경로•요청 비율•동시 사용자•생각 시간을 정의한 시험 조건이다.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **4. 포화•병목 판정**: 분석기가 부하 증가 때 SLO 위반과 먼저 포화되는 자원•구간을 연결해 운영 한계를 정하는 단계이다.
 - **1. 부하 재현**: 사용자 경로와 생각 시간에 따라 단계별 요청 부하를 생성하는 단계이다.
@@ -147,7 +147,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응답 시간(Response Time)**: 사용자의 요청 전송부터 전체 응답 수신까지 걸린 시간의 분포로 체감 성능을 나타내는 지표이다.
 - **동시 사용자(Concurrent User)**: 같은 시점에 시스템과 상호작용하거나 세션을 유지하는 활동 사용자 수이다.
@@ -168,7 +168,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **꼬리 지연 은폐**: 평균 응답이 느린 일부 사용자의 p95•p99 지연을 가려 성능 문제를 놓치는 현상이다.
 - **95•99백분위 지연(95th/99th Percentile Latency, p95•p99)**: 요청의 95%•99%가 각각 해당 시간 안에 완료됨을 나타내는 꼬리 지연 지표이다.
@@ -193,7 +193,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **운영 용량 확정 기준**: p95와 오류율 SLO를 위반하기 전의 포화점 이하에서 운영 한계를 정하는 기준이다.
 - **안전 운영 용량(Safe Operating Capacity)**: 꼬리 지연과 오류율 목표를 지키면서 지속 처리할 수 있는 검증된 최대 부하이다.

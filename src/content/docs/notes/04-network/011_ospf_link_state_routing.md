@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최단 경로 우선 개방형 프로토콜(Open Shortest Path First, OSPF)**: 인터넷 상에서 널리 활용되는 링크 상태(Link-State) 방식의 대표적인 개방형 내부 라우팅 프로토콜(IGP).
 - **내부 게이트웨이 프로토콜(Interior Gateway Protocol, IGP)**: 단일 자율 시스템(Autonomous System, AS) 내부 네트워크의 라우팅 정보를 교환하기 위해 사용되는 프로토콜.
@@ -41,7 +41,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영역(Area)**: LSA Flooding 및 SPF 연산 범위를 논리적으로 그룹화하여 네트워크 부하를 분산시키는 계층적 영역 단위.
 - **플러딩(Flooding)**: 수신한 LSA 메시지를 자신이 수신한 포트를 제외한 영역 내 모든 OSPF 라우터 포트로 즉시 복사 유포하는 메커니즘.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **헬로 패킷(Hello Packet)**: 인접 라우터 간 OSPF 이웃(Neighbor) 관계를 맺고 생존(Keepalive) 여부를 주기적으로 확인하기 위해 송수신하는 패킷 (멀티캐스트 224.0.0.5).
 - **인접 관계(Adjacency)**: 헬로 매개변수가 일치하여 상호간 LSA를 교환하고 LSDB를 동기화하는 OSPF 라우터 간의 정식 상태.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **데이터베이스 동기화(Database Synchronization)**: 이웃 라우터 간 DBD(Database Description) 패킷과 LSR/LSU 패킷을 통해 최신 LSDB 상태를 동일하게 일치시키는 단계.
 - **최선 경로 설치(Best Route Installation)**: 완벽히 동기화된 LSDB상에서 다익스트라(Dijkstra) 알고리즘을 연산하여 최적 경로를 RIB/FIB 포워딩 테이블에 인스톨하는 단계.
@@ -143,7 +143,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OSPFv2(Open Shortest Path First version 2)**: IPv4 네트워크 경로 라우팅을 위해 제정된 OSPF 규격 (RFC 2328).
 - **OSPFv3(Open Shortest Path First version 3)**: IPv6 네트워크 경로 라우팅 및 다중 주소 체계(Address Family)를 지원하도록 재설계된 OSPF 규격 (RFC 5340).
@@ -166,7 +166,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영역 0(Area 0 / Backbone Area)**: 모든 하위 OSPF 영역들이 논리적/물리적으로 반드시 접속해야 하는 중심 백본 영역.
 - **지정 라우터(Designated Router, DR)**: Broadcast/Multi-Access 이더넷 환경에서 LSA 교환 세션 수($N*(N-1)/2 \rightarrow 2N$)를 줄이기 위해 중심 중계자로 선출되는 대표 라우터.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영역 설계(Area Design)**: 토폴로지 규모, 링크 변경 빈도 및 대역폭을 고려하여 백본 Area 0 및 Stub/NSSA 영역을 계층화하는 라우팅 설계.
 - **영역 결정(Area Boundary Selection)**: 라우팅 경로 요약(Summarization) 포인트를 ABR 위치에 정확히 배치하는 전략적 라우팅 의사결정.

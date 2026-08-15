@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무선 업데이트(Over-the-Air Update, OTA Update)**: 통신망을 통해 차량 소프트웨어를 원격으로 배포하고 검증•설치•복구하는 갱신 체계로 정의된다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **펌웨어 무선 업데이트(Firmware Over-the-Air, FOTA)**: ECU 펌웨어를 원격으로 갱신하는 방식을 말한다.
 - **소프트웨어 무선 업데이트(Software Over-the-Air, SOTA)**: 차량 애플리케이션과 소프트웨어를 원격으로 갱신하는 방식이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 업데이트 관리 시스템(Software Update Management System, SUMS)**: 차량 소프트웨어 갱신의 정책•대상•절차•이력을 관리하는 체계을 의미한다.
 - **빌드 시스템**: 배포할 차량 소프트웨어 패키지를 재현 가능하게 생성하는 공급 계층을 의미한다.
@@ -102,7 +102,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단계 배포**: 작은 차량 집단부터 갱신하여 결과를 확인한 뒤 대상 범위를 점진적으로 넓히는 방식을 의미한다.
 - **차량 식별 번호(Vehicle Identification Number, VIN)**: 차량을 고유하게 식별하는 표준 번호로 정의된다.
@@ -144,7 +144,7 @@ SUMS가 차량별 배포와 복구 이력을 관리한다.
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **A/B 슬롯(A/B Slot)**: 현재 실행 영역과 갱신 영역을 분리하여 설치 실패 시 이전 버전으로 복구하는 방식로 정의된다.
 
@@ -165,7 +165,7 @@ ECU의 저장 공간과 복구 요구에 따라 설치 방식을 선택한다.
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **의존성 매니페스트**: 대상 차량의 하드웨어•소프트웨어 버전과 패키지 호환 조건을 기계 판독 형식으로 명시하는 개념이다.
 - **하드웨어(Hardware, HW)**: 차량 소프트웨어를 실행하는 물리 장치 자원로 정의된다.
@@ -186,7 +186,7 @@ ECU의 저장 공간과 복구 요구에 따라 설치 방식을 선택한다.
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자동 롤백**: 갱신 후 정상 부팅이나 건강 검사가 실패하면 이전의 검증된 버전으로 되돌리는 복구 절차로 정의 체계 확립
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **딥페이크 탐지(Deepfake Detection)**: 생성형 AI 및 딥러닝으로 합성·변조된 비디오, 오디오, 이미지 미디어의 미세 흔적과 생체 및 출처 증거를 분석하여 조작 여부와 위협 수준을 판정하는 보안 기술이다.
 - **미지 생성기(Unseen Generator)**: 탐지 모델 학습 데이터셋에 포함되지 않은 최신 아키텍처나 하이퍼파라미터로 합성 미디어를 제작하는 새로운 생성 모델이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분포 이동(Distribution Shift)**: 신규 AI 생성 모델 도입 또는 미디어 재압축으로 인해 실제 입력 데이터의 분포가 탐지 모델의 학습 데이터 분포와 이탈하는 현상이다.
 - **미탐(False Negative, FN)**: 딥페이크 공격 미디어를 정상적인 원본 미디어로 잘못 판단하여 방어를 실패하는 오류이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 정규화(Input Normalization)**: 이종 카메라, 저장 파일, 실시간 스트리밍 채널 간 해상도, 프레임 레이트, 음질, 압축률 차이를 일정한 기준 포맷으로 표준화하는 전처리 과정이다.
 - **위험 정책 엔진(Risk Policy Engine)**: 합성 분석, 생체 반응, 출처 서명의 개별 점수를 종합하고 비즈니스 위험도에 따라 승인, 추가 인증, 차단 조치를 결정하는 코어 엔진이다.
@@ -92,7 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **다중 증거 결합(Multimodal Evidence Fusion)**: 합성 모델 추출 점수, 실시간 생체 검증 결과, PKI 서명 정보를 가중 합산하여 최종 조작 확률을 산출하는 기법이다.
 - **오류 비용(Error Cost)**: 딥페이크 통과로 인한 금융 사기 손실(FN 비용)과 정상 사용자 차단에 따른 불편(FP 비용)을 수치화한 리스크 평가 지표이다.
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **콘텐츠 흔적(Content Artifacts)**: 생성 AI 모델의 잠재 공간 합성 과정에서 나타나는 주파수 스펙트럼 이상, 눈동자 반사 불일치 등 데이터 고유 흔적이다.
 - **생체 반응(Biometric Challenge-Response)**: 실시간 본인 확인 시 임의의 머리 회전, 문구 낭독, 빛 조사 반응 등을 요청하여 합성 미디어를 가려내는 방식이다.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소로 AI 및 정보보안 분야의 표준 프레임워크를 제정하는 기관이다.
 - **AI 100-4(NIST AI 100-4 Technical Report)**: 합성 미디어 탐지, 워터마킹, 출처 투명성 검증 가이드라인 보고서이다.
@@ -176,7 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 기반 딥페이크 대응(Risk-Based Deepfake Response)**: 거래 금액 및 서비스 위험도에 따라 탐지 알고리즘, 생체 도전, 출처 서명 검증의 강도를 차등 적용하는 정책 프레임워크이다.
 

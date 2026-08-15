@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISMP (Information System Master Plan)**: 선정된 정보화 사업의 요구•목표•규모•발주 기준을 구체화하는 실행 계획
 - **RFP (Request for Proposal)**: 요구사항과 계약•평가 조건을 제시하는 제안요청서
@@ -33,7 +33,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **BPR (Business Process Reengineering)**: 목표 업무 달성을 위해 기존 절차를 근본적으로 재설계하는 기법
 
@@ -50,7 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FP (Function Point)**: 사용자 관점의 기능량으로 소프트웨어 규모를 측정하는 기법
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Baseline (기준선)**: 승인 후 변경 통제를 적용하는 범위•요구•비용의 기준 상태
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISP (Information Strategy Planning)**: 경영 전략과 연계한 전사 정보화 전략•과제를 수립하는 활동
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Scope Creep (범위 잠식)**: 통제되지 않은 요구 추가로 사업 범위가 지속 확장되는 현상
 

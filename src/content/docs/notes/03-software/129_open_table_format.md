@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Open Table Format (오픈 테이블 포맷)**: S3/GCS 등 클라우드 객체 스토리지 파일들 위에서 ACID 트랜잭션, 타임 트래블, 스키마/파티션 진화 기능을 가능하게 해주는 오픈소스 메타데이터 레이어 표준 (Delta Lake, Apache Iceberg, Apache Hudi).
 - **Metadata Management Layer**: 디렉터리 경로 스캔 방식(Hive Metastore)을 지양하고, 파일 단위 메타데이터(AVRO/JSON)를 관리하여 초고속 데이터 Pruning 및 동시성 제어를 렌더링하는 기술.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Acid Compliance & Time Travel**: 객체 스토리지 상에서 100% 원자성 및 과거 시점 복구 보장.
 - **Hidden Partitioning & Schema Evolution**: SQL 쿼리 파괴 없는 자동 파티션 갱신 및 스키마 변경.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Delta vs Iceberg vs Hudi**: Databricks 주도의 Delta Lake, Netflix/Apache 주도의 Iceberg, Uber 주도의 Hudi.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Copy-on-Write (CoW) vs Merge-on-Read (MoR)**: CoW는 수정/삭제 시 파일 전체를 새로 덮어쓰는 방식(읽기 최적화), MoR은 변경분만 별도 Delta/Delete 파일에 쓰고 읽을 때 조인하는 방식(쓰기 최적화).
 
@@ -109,7 +109,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Decision Tree for Open Table Format**: Databricks 환경은 Delta Lake, 다양한 DW/BI 쿼리 엔진 조합은 Iceberg, 초저지연 CDC 스트리밍은 Hudi 선택.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compaction & Vacuum**: 3대 포맷 공통으로 발생하는 자잘한 Small Files 및 구버전 메타데이터 파일 쓰레기를 정기 청소하는 배치 작업.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Open Table Format 수립 기준(Open Table Standards)**: S3 스토리지, Iceberg/Delta 메타데이터, Compaction/Vacuum 자동화 및 Multi-Engine 수용성에 의거한 체계.
 

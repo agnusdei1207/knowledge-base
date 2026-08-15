@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Reactive Programming (리액티브 프로그래밍)**: 데이터 스트림(Data Stream)과 변화 전파(Propagation of Change)에 기반하여, 비동기(Asynchronous) 이벤트 흐름을 선언적(Declarative)으로 작성하는 프로그래밍 파라다임.
 - **Reactive Streams Specification**: JVM 상에서 비동기 스트림 처리 시 논블로킹 역압(Non-blocking Backpressure)을 통제하기 위해 제정된 표준 규약 (Publisher, Subscriber, Subscription, Processor 4대 인터페이스).
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backpressure (역압)**: 데이터 소비자(Subscriber)가 자신의 처리 역량(Buffer)에 맞추어 생성자(Publisher)에게 전송 데이터 수량을 역으로 요청(`request(n)`)하여 데이터 폭주를 방지하는 제어 메커니즘.
 - **Reactive Manifesto 4대 요소**: Responsive(응답성), Resilient(복원력), Elastic(탄력성), Message-Driven(메시지 기반).
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Publisher**: 데이터를 생성하여 연결된 Subscriber에게 스트림 이벤트를 발행하는 인터페이스 (`subscribe(Subscriber)`).
 - **Subscriber**: Publisher가 발행하는 데이터를 수용하여 연산을 처리하는 인터페이스 (`onSubscribe`, `onNext`, `onError`, `onComplete`).
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cold Publisher vs Hot Publisher**: Cold는 구독(Subscribe)이 발생할 때마다 독립적 스트림 데이터를 처음부터 생성하는 반면, Hot은 구독 여부와 무관하게 이벤트를 상시 발행하는 차이.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mono vs Flux**: Project Reactor에서 제공하는 객체로, Mono는 0~1개의 단일 비동기 데이터 발행, Flux는 0~N개의 비동기 연속 데이터 스트림 발행.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **publishOn vs subscribeOn**: publishOn은 오퍼레이터 체인 하류(Downstream)의 실행 스케줄러 스레드를 변경하고, subscribeOn은 스트림 상류(Upstream) 구독 시작 스레드를 지정.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **리액티브 도입 선택 기준(Reactive Adoption Criteria)**: 타깃 세션 동시성 수치, DB/외부 API 비동기 R2DBC 수용 여부 및 개발팀 리액티브 숙련도에 기반한 체계.
 

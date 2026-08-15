@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MSA (Microservice Architecture)**: 대규모 애플리케이션을 비즈니스 도메인 단위로 분할하여, 독립적으로 배포/확장 가능한 소규모 서비스 집합으로 구성하는 소프트웨어 아키텍처 스타일.
 - **Database-per-Service**: 서비스가 자신의 데이터 저장소 스키마와 접근 계약을 소유하는 원칙.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Fault Isolation (장애 격리)**: 특정 마이크로서비스(e.g., 추천 서비스)에 장애가 발생해도 서킷 브레이커 등을 통해 타 핵심 서비스(e.g., 결제 서비스)로 붕괴가 전파되지 않는 성질.
 - **Polyglot Persistence**: 각 서비스의 특성에 맞춰 최적의 기술 스택(Java, Go, Python) 및 DB(RDBMS, NoSQL, In-memory)를 자유롭게 채택하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API Gateway**: 클라이언트 요청의 단일 진입점으로 라우팅, 인증/인가, Rate Limiting, SSL Termination을 일괄 처리하는 중앙 엣지 서버.
 - **Service Discovery**: 동적으로 스케일링/변경되는 마이크로서비스들의 IP/Port 위치 정보를 Registry(Eureka/Consul)에 등록하고 자동 매핑 검색하는 메커니즘.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Transaction**: 여러 마이크로서비스에 걸쳐 실행되는 트랜잭션으로, 단일 2PC 대신 Saga Pattern(Orchestration/Choreography) 기반 최종 일관성(Eventual Consistency)으로 수습.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Monolith (분산 모놀리스)**: 서비스가 분리됐지만 동기 의존과 공동 배포로 독립성이 없는 분산 구조.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Saga Pattern**: 마이크로서비스 간 분산 트랜잭션 수행 시, 각 서비스별 로컬 트랜잭션을 순차 실행하고 실패 시 보상 트랜잭션(Compensating Transaction)을 역순으로 실행하는 디자인 패턴.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MSA 도입 판정 기준(MSA Adoption Criteria)**: 조직 도메인 복잡도, DevOps 자동화 역량, 배포 민첩성 요구에 의거한 수립 체계.
 

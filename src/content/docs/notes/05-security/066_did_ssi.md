@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 식별자(Decentralized Identifier, DID)**: 중앙화된 중앙 등록기관 없이 사용자가 직접 생성•소유하고 검증 키와 제어 관계를 분산 저장소에서 확인하는 식별자 표준이다.
 - **자기주권 신원(Self-Sovereign Identity, SSI)**: 개인이 자신의 디지털 신원에 대한 정보 소유권과 통제권을 직접 행사하는 차세대 신원증명 패러다임이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DID 문서(DID Document)**: DID에 대응하는 공개키, 인증 메커니즘, 서비스 엔드포인트 정보가 포함된 JSON-LD 형식의 데이터 구조이다.
 - **검증 가능 프레젠테이션(Verifiable Presentation, VP)**: 보유자가 하나 이상의 VC를 조합하고 자신의 DID 비밀키로 서명하여 검증자에게 제출하는 제출용 데이터 패키지이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **발급자(Issuer)**: 주체의 자격을 확인하고 암호화 서명을 부여하여 VC를 발급하는 신뢰할 수 있는 기관이다.
 - **보유자(Holder)**: 발급된 VC를 단말 지갑(Wallet)에 암호화 보관하고, 서비스 요청 시 VP를 생성해 제출하는 주체이다.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **암호학적 증명(Cryptographic Proof)**: VC 및 VP에 부착되어 데이터 무결성, 발급자 신원, 보유자 소유권을 입증하는 서명 데이터이다.
 - **목적 적합성 판정(Purpose-Fit Evaluation)**: 암호적 서명이 유효하더라도 현재 서비스 제출 목적에 맞는지 검증자가 정책적으로 확인하는 과정이다.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙 신원(Centralized Identity)**: 서비스 제공 기관이 사용자 식별 정보와 자격 인증을 모두 독점 보관·통제하는 전통적 모델이다.
 - **연합 신원(Federated Identity)**: OAuth, SAML, OIDC를 통해 IdP(Identity Provider)가 타 서비스 로그인 인증을 대행 중계하는 모델이다.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **W3C DID Core 1.0**: DID 식별자 구조, DID 문서 데이터 모델 및 CRUD 동작 표준 규격이다.
 - **W3C VC Data Model 2.0**: VC 및 VP의 표준 JSON-LD 표현, 서명 구조 및 검증 표준 모델이다.
@@ -207,7 +207,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 신원 신뢰 사슬(Decentralized Identity Chain of Trust)**: 발급자 신원, DID 문서 공개키, VC/VP 전자서명, 폐기 상태 목록이 유기적으로 결합되어 완성되는 신뢰 검증 체계이다.
 

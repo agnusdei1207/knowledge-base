@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **로그(Log)**: 시스템/네트워크 장비에서 발생한 접속, 변경, 오류, 통신 행위를 시간/주체/대상 식별자와 함께 기록한 시스템 데이터.
 - **보안 정보/이벤트 관리(SIEM, Security Information and Event Management)**: 이종 보안 장비 및 시스템 로그를 통합 수집, 정규화, 상관분석하여 보안 위협을 실시간 탐지/관리하는 통합 관제 체계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **로그 정규화(Log Normalization)**: 상이한 로그 포맷을 공통 필드 구조(Timestamp, IP, User, Action)로 포맷 변환하는 전처리 기법.
 - **맥락 보강(Context Enrichment)**: 이벤트 데이터에 자산 중요도, 사용자 직무, IP 지리정보, 외부 위협 인텔리전스 정보를 결합하는 프로세스.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **로그 수집•품질 검사기(Log Collector & Quality Inspector)**: 원천 로그 수집 및 누락, 중복, 지연, 타임스탬프 오류를 검증하는 수집 모듈이다.
 - **정규화•보강기(Normalizer & Enricher)**: 수집 데이터를 공통 스키마로 정규화하고 자산 및 신원 맥락을 추가하는 엔진이다.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **탐지 규칙(Detection Rule)**: 공격 임계치, 발생 순서, 시간 범위를 논리식으로 정의한 위협 판단 기준이다.
 - **위험 점수(Risk Score)**: 자산 민감도, 위협 심각도, 공격 성공 가능성을 종합 계산한 경보 우선순위 지표이다.
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사용 사례(Use Case)**: 위협 시나리오, 필수 수집 로그, 분석 조건 및 대응 절차를 표준화한 관제 정의서이다.
 - **위협 정보(TI, Threat Intelligence)**: 악성 IP, Domain, Hash 등 외부 위협 지표(IoC) 데이터 집합이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오탐•미탐(False Positive & False Negative)**: 정상 행위를 공격으로 잘못 판정(오탐)하거나 실제 공격을 놓치는(미탐) 오류 현상이다.
 - **로그 품질 검사(Log Quality Control)**: 수집 로그의 필드 완전성, 타임스탬프 동기화, 누락 여부를 정기 검증하는 절차이다.
@@ -178,7 +178,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사건 시간선(Incident Timeline)**: 보안 사건 발생 시각순으로 이벤트를 나열하여 공격 경로와 피해 영향을 복원하는 기법이다.
 - **SIEM 분석 방식 선택(SIEM Analysis Method Selection)**: 조직의 인프라 특성 및 위협 모델에 적합한 규칙, 행위, TI 분석 비중을 결정하는 전략이다.

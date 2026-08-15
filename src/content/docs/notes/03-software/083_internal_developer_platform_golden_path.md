@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Golden Path (황금 경로, Paved Path)**: 플랫폼 엔지니어링 팀이 사전 검증하고 보안/비용 가드레일을 적용하여 정립한, 개발자가 가장 쉽고 빠르게 애플리케이션을 빌드-배포-운영할 수 있는 전사 표준 가이드라인 및 모범 사례(Best Practice) 경로.
 - **Paved Road Pattern**: 넷플릭스(Netflix)에서 시작된 개념으로, 개발자에게 강제가 아닌 "이 길(Paved Road)을 따라가면 가장 편하고 안전하게 목적지에 도착한다"는 선택적 인센티브를 제공하는 설계 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Op-in, Not Forced**: 개발자에게 Golden Path 사용을 무조건 강제(Enforce)하지 않고, 높은 생산성과 편의성(DX)을 통해 자발적 선택(Opt-in)을 유도하는 원칙.
 - **Pre-validated Guardrails**: 보안, 규정 준수, 비용 튜닝(FinOps) 정책이 사전에 자동 렌더링되어 있어 보안 검토 승인 대기 시간 소멸.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Software Templates (Backstage Scaffolder)**: `Cookiecutter` 또는 Backstage Scaffolder 기반으로 언어별(Java/Go/Node) 표준 폴더 구조, Dockerfile, Helm Chart가 완비된 스타터 프로젝트 생성기.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Time-to-First-Commit (TTFC)**: 신입 개발자나 신규 프로젝트팀이 레포지토리 작성부터 첫 프로덕션 배포까지 걸리는 정량적 소요 시간 지표.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Golden Path vs Mandated Standard**: Golden Path는 우수한 DX로 자발적 사용을 끌어내는 "당근", Mandated Standard는 거부 시 빌드를 파기하는 "채찍".
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Path Stagnation (경로 정체)**: 정립된 Golden Path 템플릿을 최신 라이브러리/K8s 버전으로 업데이트하지 않고 방치하여 레거시화되는 안티패턴.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Golden Path 수립 기준(Golden Path Standards)**: DX 만족도, Time-to-First-Commit (TTFC) 단축율 및 Escape Hatch 운용성에 의거한 체계.
 

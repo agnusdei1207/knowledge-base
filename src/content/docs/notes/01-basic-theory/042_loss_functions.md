@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **손실 함수(Loss Function)**: 모델의 예측값($\hat{y}$)과 실제 정답값($y$) 사이의 오차를 수치화하여 최적화 과정의 비용(Cost)으로 산출하는 함수.
 - **스칼라 비용(Scalar Cost)**: 여러 예측 오차를 학습이 최소화할 단일 숫자로 집계한 값.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기울기(Gradient)**: 예측 변화에 따라 손실이 가장 빠르게 증가하는 방향과 크기이다.
 - **부분미분(Partial Derivative)**: 여러 입력 중 하나만 변화시켰을 때 함수값의 변화율을 구하는 미분이다.
@@ -62,7 +62,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **예측값(Prediction, $\hat{y}$)**: 모델이 산출한 추정 결과이다.
 - **정답값(Ground Truth, $y$)**: 예측값과 비교할 학습 목표이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률 분류(Probabilistic Classification)**: 클래스별 확률을 예측하는 과업이다.
 - **이상치 민감도(Outlier Sensitivity)**: 극단 오차가 학습 방향에 미치는 영향 정도이다.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 엔트로피(Cross-Entropy)**: 정답 클래스에 낮은 확률을 준 예측에 큰 벌점을 주는 분류 손실이다.
 - **평균 제곱 오차(Mean Squared Error, MSE)**: 예측 오차를 제곱해 평균하는 회귀 손실이다.
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **포컬 손실(Focal Loss)**: 쉬운 표본의 가중치를 낮추고 어려운 표본을 강조하는 불균형 분류 손실이다.
 - **클래스 가중치(Class Weight)**: 희소 클래스의 손실 비중을 높여 다수 클래스 편중을 줄이는 계수이다.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 기준**: 출력 과업과 이상치 민감도로 학습 손실을 고르는 기준이다.
 

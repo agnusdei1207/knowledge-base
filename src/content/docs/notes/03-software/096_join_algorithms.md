@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Join Algorithms (RDBMS 3대 조인 알고리즘)**: 두 개 이상의 테이블을 연결하여 데이터를 인출할 때 옵티마이저가 데이터 스케일, 인덱스 보유 유무, 정렬 상태에 따라 선택하는 3가지 대표 물리적 조인 수행 방식 (NLJ, Hash Join, Sort Merge Join).
 - **Driving Table (Outer Table / Build Input)**: 조인 수행 시 먼저 읽혀서 조인의 주도권을 잡는 드라이빙(외부) 테이블.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Nested Loop Join (NLJ)**: 드라이빙 테이블의 튜플 1건당 드리븐 테이블의 B+Tree 인덱스를 반복 루프 탐색하는 소용량/OLTP 전용 조인 방식.
 - **Hash Join**: 작은 쪽 테이블(Build Input)로 메모리(Hash Area) 상에 해시 테이블을 빌드한 후, 큰 쪽 테이블(Probe Input)을 스캔하며 해시 버킷을 매칭하는 대용량/Non-Index 전용 조인 방식.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Build Phase & Probe Phase**: Hash Join의 2단계 절차로, Build Phase에서 작은 테이블로 해시 테이블을 생성하고, Probe Phase에서 큰 테이블의 해시 값을 맞춰 매칭.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hash Memory Overflow (PGA Spill)**: Build Input이 메모리(Join Buffer) 크기를 초과하여 디스크 Temp Tablespace로 유출되는 오버헤드 현상.
 
@@ -106,7 +106,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Join Choice Matrix**: OLTP 초고속 조절은 NLJ, 대용량 통계 조인은 Hash Join, 범위/정렬 집합 조인은 Sort Merge Join 선택.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Wrong Driving Table Selection**: NLJ 적용 시 대용량 테이블이 드라이빙(Outer)으로 선택되어 수백만 번의 반복 루프 인덱스 스캔이 발생하는 안티패턴.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조인 수립 기준(Join Algorithm Standards)**: 데이터 건수 스케일, 인덱스 구성 상태 및 OLTP vs OLAP 서비스 유형에 의거한 체계.
 

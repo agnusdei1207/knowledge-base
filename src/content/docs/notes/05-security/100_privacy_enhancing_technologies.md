@@ -17,7 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PETs(Privacy-Enhancing Technologies)**: 데이터 수집•저장•분석•공유에서 원본과 개인 참여 노출을 줄이는 기술군이다.
 - **보호 경계**: 입력•계산 서버•참여 기관•출력 중 누구에게 어떤 정보가 보이지 않아야 하는지를 정한 설계 기준이다.
@@ -33,7 +33,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 모델**: 보호 자산과 공격자의 지식•접근 능력을 가정한 시험 조건이다.
 - **공모**: 여러 참여자가 각자 가진 정보를 합쳐 보호 데이터를 추론하는 공격 조건이다.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 최소화**: 업무에 필요한 필드와 참여자만 보호 계산에 허용하는 원칙이다.
 - **보호 변환**: 데이터에 잡음•암호화•비밀 분산을 적용하는 처리이다.
@@ -89,7 +89,7 @@ PETs 적용 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 검증**: 공격자가 보호 데이터나 개인 참여를 추론할 가능성을 측정하는 시험이다.
 - **유용성 검증**: 보호 처리 뒤 결과의 정확도와 업무 품질을 측정하는 시험이다.
@@ -140,7 +140,7 @@ PETs 적용 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DP(Differential Privacy)**: 한 개인의 포함이 공개 결과에 미치는 영향을 제한하는 기법이다.
 - **HE(Homomorphic Encryption)**: 데이터를 복호화하지 않고 암호문 상태에서 연산하는 기법이다.
@@ -161,7 +161,7 @@ PETs 적용 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국의 기술 표준과 지침을 개발하는 기관이다.
 - **SP(Special Publication) 800-226**: DP의 구현•평가 위험을 제시하는 문서이다.
@@ -184,7 +184,7 @@ PETs 적용 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **목적 적합 PETs 선택**: 보호 경계•공격 가정•품질•지연•비용에 맞는 기술을 고르는 원칙이다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **책임 있는 AI(Responsible AI)**: 공정성•투명성•안전성을 기술•조직 통제로 구현한다.
 - **책임 공백(Accountability Gap)**: 오류•피해의 검토•시정•구제 책임자가 없는 상태이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통제 비례성(Control Proportionality)**: 맥락•피해에 비례해 검증•감독 강도를 정한다.
 - **잔여 위험(Residual Risk)**: 통제 후에도 남아 승인•추적이 필요한 위험이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공정성(Fairness)**: 집단 간 부당한 성능•피해 차이를 방지한다.
 - **책임성(Accountability)**: 설계•승인•운영•피해 대응 책임을 명확히 한다.
@@ -90,7 +90,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가치 충돌(Value Conflict)**: 정확성•공정성•프라이버시•안전 목표가 상충한다.
 - **이의제기(Appeal)**: AI 판단의 근거 확인과 재심•구제를 요청하는 절차이다.
@@ -121,7 +121,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **AI 윤리(AI Ethics)**: AI 개발•사용의 가치•금지 원칙을 제시한다.
 - **AI 거버넌스(AI Governance)**: 의사결정권•책임•승인•감사를 운영한다.
@@ -142,7 +142,7 @@ AI의 책임 체계는 가치 원칙, 의사결정 구조, 구현 통제로 구�
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공정성 훼손(Fairness Harm)**: 집단별 오류•피해 차이가 부당하게 커진 문제이다.
 - **이의제기 공백(Appeal Gap)**: 자동 판단의 인간 재심•구제 절차가 없는 문제이다.
@@ -160,7 +160,7 @@ AI의 책임 체계는 가치 원칙, 의사결정 구조, 구현 통제로 구�
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기술 통제(Technical Control)**: 데이터•모델•출력 위험을 측정•차단한다.
 - **감독 수준(Oversight Level)**: 인간 검토•승인•개입의 범위와 강도이다.

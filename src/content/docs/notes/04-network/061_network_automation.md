@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 자동화(Network Automation)**: 네트워크 목표 상태를 선언적 모델과 코드로 정의하고, 파이프라인으로 검증·배포·복구하는 자율 운영 인프라 체계.
 - **진실의 원천(SoT, Source of Truth)**: IP, VLAN, 보안 정책 등 네트워크 목표 상태(Intent)를 관리하는 단일 기준 데이터 저장소.
@@ -36,7 +36,7 @@ extra:
 - 선언적 IaC 및 CI/CD 자동화 파이프라인 체계 적용.
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **설정 드리프트(Configuration Drift)**: 장비 설정이 SoT 목표 상태에서 이탈하여 임의 변경된 현상.
 - **멱등성(Idempotency)**: 자동화 스크립트 반복 실행 시 항상 동일한 결과 상태를 보장하는 성질.
@@ -53,7 +53,7 @@ extra:
 - YANG 모델 기반 구조화와 멱등성 보장을 통한 설정 드리프트 차단 관리 원칙 준수.
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NETCONF(Network Configuration Protocol)**: YANG 기반 데이터를 SSH 상의 XML 인코딩 RPC로 조회·수정하는 IETF 표준.
 - **RPC(Remote Procedure Call)**: 클라이언트가 원격 제어 기능을 로컬 함수처럼 호출하는 통신 메커니즘.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **후보 설정(Candidate Config)**: 반영 전 변경 사항을 임시 저장하여 검증 및 롤백을 준비하는 공간.
 - **기능 광고(Capability Advertisement)**: NETCONF 세션 수립 시 지원 YANG 모듈 및 확장 기능을 알리는 절차.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **템플릿(Template)**: Jinja2 등의 엔진으로 SoT 변수를 장비별 표준 구문으로 동적 변환하는 코드 파일.
 - **도달성(Reachability)**: ICMP 또는 라우팅 테이블 참조를 통해 목적지 노드 간 패킷 전송이 가능한 상태.
@@ -174,7 +174,7 @@ extra:
 - 카나리 배포 전략과 Telemetry 연동 롤백 메커니즘을 적용한 운영 리스크 제어 체계 구축.
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **자동화 배포 범위(Automation Deployment Scope)**: 위험도에 따라 카나리 그룹, 랙, 데이터센터 단위로 자동화 적용 대상을 단계별 획정하는 전략적 범위.
 

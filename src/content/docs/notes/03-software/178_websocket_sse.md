@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WebSocket (웹 소켓)**: 단일 TCP 연결 위에서 클라이언트와 서버가 비동기적으로 동시에(전이중, Full-Duplex) 양방향 메시지를 주고받는 표준 프로토콜.
 - **SSE (Server-Sent Events)**: 서버가 클라이언트에게 단방향으로 텍스트 이벤트를 연속적으로 푸시(Push)하기 위한 HTML5 표준 HTTP 기반 통신 기술.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Handshake (핸드셰이크)**: WebSocket 연결 수립 시 클라이언트가 HTTP로 먼저 요청(`Upgrade: websocket`)을 보내고 서버가 수락(101 Switching Protocols)하여 프로토콜을 전환하는 초기화 과정.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Stream (이벤트 스트림)**: SSE에서 서버가 내려보내는 데이터 포맷으로, `event: (이름)\n data: (값)\n\n` 형태의 MIME 타입 `text/event-stream` 규칙을 따르는 메시지 구조.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Last-Event-ID (마지막 이벤트 식별자)**: SSE 연결이 끊겼다가 자동 재접속할 때, 브라우저가 HTTP 헤더에 담아 보내는 마지막 수신 메시지 번호로 유실된 데이터의 재전송을 요청하는 메커니즘.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Socket.io (소켓 아이오)**: 순수 WebSocket API의 복잡한 재접속, 폴링 폴백(Fallback), 네임스페이스 등을 추상화하여 제공하는 강력한 Node.js 기반 실시간 통신 라이브러리.
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Heartbeat / Ping-Pong (하트비트)**: L4/L7 로드밸런서 장비들이 오랫동안 데이터가 없는 유휴(Idle) TCP 커넥션을 강제로 끊는 것을 방지하기 위해 클라이언트와 서버가 주고받는 생존 확인 신호.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backpressure (역압)**: 통신 과정에서 데이터를 수신하는 측이 처리할 수 있는 양보다 데이터를 보내는 측의 전송 속도가 너무 빠를 때, 서버/클라이언트 메모리 고갈(OOM)을 막기 위해 흐름을 제어하는 기법.
 

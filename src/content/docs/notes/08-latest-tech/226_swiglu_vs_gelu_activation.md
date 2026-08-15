@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가우시안 오류 선형 유닛(Gaussian Error Linear Unit, GELU)**: 입력에 정규분포 누적확률을 곱하는 부드러운 활성화 함수을 말한다.
 - **스위시 게이트 선형 유닛(Swish Gated Linear Unit, SwiGLU)**: 스위시 게이트와 값 투영을 원소별로 곱하는 활성화 구조을 의미한다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **GELU 활성 경로**: 입력에 정규분포 누적분포함수 값을 곱해 신호를 부드럽게 조절하는 개념로 정의된다.
 
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **게이트 선형 유닛(Gated Linear Unit, GLU)**: 한 투영을 게이트로 사용해 다른 값 투영의 정보 흐름을 조절하는 구조로 정의된다.
 - **입력 특징**: 트랜스포머 블록에서 FFN으로 전달되는 토큰별 표현을 말한다.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **곱셈 게이팅**: 한 투영이 만든 게이트 값으로 다른 투영의 특징별 통과량을 조절하는 연산로 정의된다.
 
@@ -135,7 +135,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **은닉 차원**: 피드포워드 신경망 내부 투영 벡터의 폭으로, 파라미터 수와 연산량 및 표현력을 함께 결정하는 속성을 의미한다.
 - **대규모 언어 모델(Large Language Model, LLM)**: 대규모 텍스트로 학습해 언어 이해•생성을 수행하는 모델로 정의된다.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **파라미터 예산**: 모델 크기•메모리•연산량에 허용되는 가중치 규모로, 공정한 활성 함수 비교의 통제 조건이다.
 
@@ -176,7 +176,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **FFN 활성 선택**: 품질 이득•연산 비용•커널 지원을 함께 비교하여 활성 함수를 정하는 개념로 정의된다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인공지능 검색(Artificial Intelligence Search, AI 검색)**: 질의 해석•복수 검색•재순위로 근거 답변을 제공한다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이브리드 검색(Hybrid Search)**: 희소•밀집 검색 후보를 결합하는 기법이다.
 - **재순위(Reranking)**: 후보의 질의 관련성을 재평가해 순서를 조정한다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **질의 이해(Query Understanding)**: 의도•제약을 식별해 검색 경로와 필터를 정한다.
 - **후보 융합(Candidate Fusion)**: 검색 결과의 중복을 제거하고 점수•순위를 결합한다.
@@ -86,7 +86,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검색 경로(Search Path)**: 의도•제약에 따라 선택한 검색기•필터•융합 조합이다.
 - **출처 인용(Source Citation)**: 답변을 뒷받침하는 원문 위치와 문서이다.
@@ -122,7 +122,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전통 검색(Lexical Search)**: 어휘 일치와 빈도로 문서 순위를 계산한다.
 - **의미 검색(Semantic Search)**: 임베딩 의미 유사도로 문서를 찾는다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검색 누락(Retrieval Miss)**: 관련 근거가 검색•융합 후보에 포함되지 않는 문제이다.
 - **근거 불충실(Ungrounded Answer)**: 답변이 검색 원문의 범위를 벗어나는 문제이다.
@@ -163,7 +163,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검색 회수율(Retrieval Recall)**: 관련 문서 중 검색 후보에 포함된 비율이다.
 - **답변 충실성(Answer Faithfulness)**: 답변 주장이 검색 근거와 일치하는 정도이다.

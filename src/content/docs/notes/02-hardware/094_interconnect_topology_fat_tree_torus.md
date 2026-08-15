@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Interconnect Topology**: Supercomputer 및 AI 데이터센터 내 수천~수만 개의 노드(Node)와 스위치를 결합하는 물리적/논리적 네트워크 패브릭 구조.
 - **Fat-Tree**: 상위 계층으로 갈수록 링크 용량을 늘려 양분 대역폭을 확보하는 계층형 트리 토폴로지.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bisection Bandwidth**: 전체 네트워크 노드를 임의의 1:1 반으로 분할했을 때 두 집단 간을 연결하는 최소 총 전송 대역폭.
 - **Network Diameter**: 네트워크 패브릭 상에서 가장 먼 2개 노드 간을 통과할 때 소요되는 최대 홉(Hop) 수.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Spine/Core Switch**: Fat-Tree 계층에서 최상단에 배치되어 전체 Leaf 스위치 트래픽을 상호 라우팅하는 백본 스위치.
 - **Leaf/Access Switch**: 하단 서버 노드들과 직접 1:1 연결되는 1차 접근 스위치.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Adaptive Routing**: 네트워크 소켓 혼잡 상황을 인지하여 동적으로 비혼잡 우회 경로로 패킷을 전환하는 라우팅 기법.
 
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **All-Reduce**: AI 딥러닝 분산 학습 시 모든 GPU의 그래디언트(Gradient) 값을 합산하여 전역 공유하는 대표적 집단 통신(Collective Comm).
 
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Deadlock**: Torus 등의 순환 고리 토폴로지 상에서 패킷들이 상호 버퍼를 대기하며 트랜잭션이 영구 마비되는 현상.
 
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **토폴로지 선택 기준(Interconnect Topology Selection Criteria)**: 통신 패턴(All-Reduce vs Grid), 양분 대역폭 요구, 케이블 비용에 따른 선택 체계.
 

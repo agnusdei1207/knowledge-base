@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Service Models (클라우드 서비스 모델)**: NIST(미국 표준기술연구소)에서 정의한 클라우드 컴퓨팅 자원의 자율 제어 및 책임 범위에 따른 3대 서비스 분류 체계 (IaaS, PaaS, SaaS).
 - **IaaS (Infrastructure as a Service)**: 서버, 디스크, 네트워크 등 물리 하드웨어 인프라 자원만 렌탈받고, OS부터 미들웨어, 앱까지 소비자가 직접 구축하는 모델 (AWS EC2, Compute Engine).
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Shared Responsibility Model (공동 책임 모델)**: IaaS $\rightarrow$ PaaS $\rightarrow$ SaaS로 이동할수록 인프라 관리 부담이 CSP(클라우드 제공자)에게 대거 이관.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Service Stack Matrix**: Application, Data, Runtime, Middleware, OS, Virtualization, Compute, Storage, Networking 9개 스택별 관리 주체 매핑.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Control vs Efficiency Tradeoff**: IaaS는 자유도와 제어권 최상(운영 비용 증가), SaaS는 제어권 최하(즉시 개발 민첩성 극대화).
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Vendor Lock-in (베트종속성)**: PaaS/SaaS는 서비스 이전 시 특유의 API에 묶이는 베어 종속성(Lock-in) 발생 위험.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Misconfiguration Risk**: IaaS/PaaS 도입 시 고객 측의 Security Group/S3 Bucket 설정 미숙으로 인한 개인정보 유출 사고.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cloud Service Model 수립 기준(Cloud Standards)**: NIST 서비스 분류, Shared Responsibility Matrix 및 CASB 보안 통제성에 의거한 체계.
 

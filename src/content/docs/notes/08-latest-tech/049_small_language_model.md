@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소형 언어모델(Small Language Model, SLM)**: 제한된 연산•메모리에서 특정 범위의 언어 과업을 수행하도록 경량화한 모델로 정의된다.
 - **온디바이스 추론(On-Device Inference)**: 서버에 원본 데이터를 보내지 않고 단말 내부에서 모델을 실행하는 방식을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지식 증류(Knowledge Distillation)**: 큰 교사 모델의 응답과 지식을 작은 학생 모델에 학습시키는 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **지도 미세조정(Supervised Fine-Tuning, SFT)**: 정답•업무 예시로 모델의 응답 행동을 조정하는 학습 방법을 나타낸다.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **양자화(Quantization)**: 가중치를 더 적은 비트로 표현하여 모델 메모리와 연산량을 줄이는 방법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **가지치기(Pruning)**: 영향이 작은 가중치•연결•구조를 제거하여 연산량을 줄이는 기법으로 정의된다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **교사 모델(Teacher Model)**: 훈련용 응답과 확률 정보를 생성하여 작은 학생 모델에 능력을 전달하는 큰 모델을 나타낸다.
 - **실기기 검증(Real Device Verification)**: 목표 단말에서 실제 지연•메모리•전력•정확도를 측정하여 배포 적합성을 확인하는 절차를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -136,7 +136,7 @@ SLM 학습기
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소형 언어모델(Small Language Model, SLM)**: 제한된 자원 환경에서 특화 업무를 수행하는 경량 모델을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **대규모 언어모델(Large Language Model, LLM)**: 광범위한 문맥과 다목적 과업을 수행하는 대형 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -155,7 +155,7 @@ SLM 학습기
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **압축 회귀(Compression Degradation)**: 양자화•가지치기 후 업무 정확도나 출력 품질이 원본 모델보다 낮아지는 현상을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **상위 모델 위임(Fallback to Larger Model)**: SLM의 학습 범위 밖이거나 복합적인 요청을 더 큰 모델로 전달하는 정책으로 정의된다.
@@ -175,7 +175,7 @@ SLM 학습기
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자원 제약(Resource Constraints)**: 디바이스의 메모리•전력•연산 자원이 제한되어 모델 크기와 실행 방식에 제약을 주는 조건을 나타낸다.
 

@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인공지능 소프트웨어 감리(Artificial Intelligence Software Audit)**: 전주기 위험과 통제를 독립적으로 확인하는 보증 활동이다.
 - **인공지능(Artificial Intelligence, AI)**: 데이터에서 패턴을 학습해 예측•분류•생성 등 지능적 결과를 제공하는 기술이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **계보 추적(Lineage Traceability)**: 데이터•코드•모델•평가•배포 버전과 승인 이력을 연결해 판단 근거를 재현하는 활동이다.
 - **위험 기반 감리(Risk-Based Audit)**: 영향도와 발생 가능성에 따라 점검 범위•깊이•표본 크기를 달리하는 접근이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **감리 증적(Audit Evidence)**: 모델 카드•데이터•모델 계보•시험 결과•승인과 운영 이력을 보존한 판단 근거이다.
 - **인공지능 거버넌스(Artificial Intelligence Governance)**: 목적•위험•승인•책임 기준을 감독하는 체계이다.
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **4. 운영 통제 시험 요청**: 독립 감리가 운영 조직에 드리프트 감시•사람의 재심•중단 통제의 실제 작동 시험을 요구하는 단계이다.
 - **1. 위험 등급 분류**: AI의 목적•영향•피해 가능성으로 감리 깊이를 정하는 단계이다.
@@ -147,7 +147,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **운영 감리(Operational Audit)**: 배포 뒤 드리프트•오남용•사람 감독과 중단 통제의 지속 작동 여부를 점검하는 영역이다.
 - **데이터 감리(Data Audit)**: 학습 데이터의 출처•동의•대표성•품질•계보를 점검하는 영역이다.
@@ -170,7 +170,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **집단별 오류 은폐**: 전체 정확도 평균이 특정 집단의 높은 오판율과 차별 위험을 가리는 문제이다.
 - **드리프트(Drift)**: 운영 데이터 분포나 입력과 정답의 관계가 학습 시점과 달라지는 현상이다.
@@ -192,7 +192,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **감리 깊이 선택 기준**: 고영향 AI에는 데이터•모델•운영을 연결한 전주기 심층 감리, 저위험에는 증적 표본 점검을 적용하는 기준이다.
 - **고영향 인공지능(High-Impact AI)**: 생명•안전•권리 등에 중대한 영향을 줄 수 있어 강화된 위험 통제가 필요한 인공지능이다.

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Technical Debt (기술부채)**: 빠른 납기 등의 타협이 미래 변경 비용과 위험을 높이는 현상
 - **Principal•Interest (원금•이자)**: 개선 일회성 비용과 방치 중 반복되는 손실
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Remediation (상환)**: Refactoring•재설계•Upgrade로 부채 원인을 제거하는 활동
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Debt Register (부채 등록부)**: 부채 원인•영향•Owner•비용•상태를 관리하는 장부
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Risk Acceptance (위험 수용)**: 상환 비용보다 잔여 위험이 낮을 때 감시하며 보유하는 결정
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Architecture Debt**: 잘못된 경계•의존성으로 변경 영향이 전체로 확산되는 부채
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Metric Gaming (지표 게임화)**: 실제 품질보다 측정 점수만 높이는 편법 행동
 

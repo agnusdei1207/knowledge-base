@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술이다.
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술이다.
@@ -41,7 +41,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: 혼잡을 패킷 표시에 담아 송신률 감소를 유도하는 기능이다.
 - **혼잡 알림 패킷(Congestion Notification Packet, CNP)**: 수신 RNIC가 송신 RNIC에 혼잡을 알리는 패킷이다.
@@ -66,7 +66,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **송신 RoCE RNIC**: 작업 전송과 DCQCN 송신률을 조정하는 장치이다.
 - **이더넷 패브릭**: 경로•버퍼•ECN 표시를 제공하는 전송망이다.
@@ -102,7 +102,7 @@ RoCE 패브릭 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **CNP 혼잡 피드백**: 수신 RNIC가 ECN을 확인해 송신 RNIC에 속도 감소를 요청하는 절차이다.
 - **RoCE 큐 분류**: RoCE 트래픽을 지정 이더넷 우선순위 큐에 매핑하는 단계이다.
@@ -149,7 +149,7 @@ RoCE 패브릭 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **iWARP**: TCP의 신뢰 전송과 혼잡 제어를 이용하는 인터넷 광역 원격 직접 메모리 접근 프로토콜(Internet Wide Area RDMA Protocol)이다.
 - **RoCEv1**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 1(RDMA over Converged Ethernet version 1, RoCEv1)은 RDMA 프레임을 계층 2에서 직접 전달하는 방식이다.
@@ -170,7 +170,7 @@ RoCE 패브릭 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **PFC 멈춤의 경로 전파**: 한 우선순위 큐의 정지가 상류로 확산돼 무관한 흐름까지 막는 문제이다.
 - **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계이다.
@@ -193,7 +193,7 @@ RoCE 패브릭 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **RDMA 전송 방식 선택**: 계층 2 범위•IP 라우팅 필요성•손실망 TCP 활용 여부에 따라 RoCEv1•RoCEv2•iWARP를 결정하는 판단이다.
 

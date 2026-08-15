@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 보안 형상 관리(Data Security Posture Management, DSPM)**: 멀티 클라우드 및 온프레미스 저장소의 민감 데이터 위치, 접근 권한, 이동 경로, 보안 위험을 자동 식별하고 지속 교정하는 데이터 중심 보안 통제 기술이다.
 - **그림자 데이터(Shadow Data)**: 중앙 IT/보안 부서의 관리를 벗어나 미인가 클라우드 저장소, DB 백업본, 개발용 S3 등에 방치된 미관리 민감 데이터이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 분류(Data Classification)**: RegEx, NLP, ML 알고리즘을 이용해 개인정보, 금융정보, 지적재산권 데이터를 등급별 자동 태깅하는 식별 활동이다.
 - **데이터 계보(Data Lineage)**: 원천 데이터가 어디서 생성되어 어떤 파이프라인 및 복제본(Snapshot/Backup)으로 이동했는지 전체 흐름을 가시화하는 추적 기법이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **발견 엔진(Discovery Engine)**: API 및 비침투 스캔 기반으로 계정 내 모든 정형/비정형 데이터 저장소와 데이터베이스를 탐지하는 모듈이다.
 - **분류 엔진(Classification Engine)**: NLP 및 딥러닝 알고리즘으로 PII, PCI-DSS 대상, 암호화 키 등 민감 데이터 종류와 등급을 자동 판정하는 모듈이다.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비침투형 발견(Non-intrusive Discovery)**: DB 런타임 성능 저하 없이 Read-Only 메타데이터 및 스냅샷 복제본을 활용해 분석 스캔하는 기법이다.
 - **잔여 노출(Residual Exposure)**: 보안 조치 실행 후에도 남아있는 잠재적 데이터 노출 및 취약성 잔여 위험 수준이다.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 보안 형상 관리(Cloud Security Posture Management, CSPM)**: 클라우드 인프라 자원의 설정 오류 및 보안 통제를 스캐닝하는 보안 솔루션이다.
 - **데이터 유출 방지(Data Loss Prevention, DLP)**: 네트워크, 엔드포인트 상에서 트래픽을 검사하여 민감 데이터 유출을 실시간 차단하는 솔루션이다.
@@ -174,7 +174,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 27002 통제 5.12(ISO/IEC 27002 Control 5.12)**: 정보 자산의 분류, 식별, 등급 부여에 관한 국제 정보보호 표준 지침이다.
 - **NIST SP 800-122**: 개인식별정보(PII) 기밀성 보존 및 기밀성 유출 영향 평가 가이드라인 표준이다.
@@ -194,7 +194,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 위험 감소 성과(Data Risk Reduction Performance)**: 단순 오설정 탐지를 넘어 실질적인 민감 데이터 방치 건수 및 과권한 유출 경로 감소 실적 지표이다.
 

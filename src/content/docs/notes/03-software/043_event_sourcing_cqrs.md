@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Sourcing**: 시스템의 현재 상태(Current State)만을 DB에 덮어써서 보관하는 대신, 상태를 변화시키는 모든 비즈니스 도메인 사건(Event)들을 순차적 추가 전용(Append-Only) 로그로 저장하여 상태를 재생(Replay) 및 복원하는 패턴.
 - **CQRS (Command Query Responsibility Segregation)**: 시스템의 상태를 변경하는 명령(Command: C/U/D) 데이터 모델과, 상태를 단순 조회하는 쿼리(Query: R) 데이터 모델을 아예 데이터베이스 수준까지 분리(Separation)하는 아키텍처 패턴.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Append-Only Immutable Event**: 저장된 사건을 바꾸지 않고 정정•보상 사건을 추가하는 이벤트 기록 원칙.
 - **Eventual Consistency (최종 일관성)**: 쓰기(Command) 저장소에 반영된 이벤트가 메시지 브로커를 거쳐 읽기(Query) 전용 DB로 동기화될 때까지 약간의 시간 지연(Lag)이 존재하나, 최종적으로는 데이터 정합성이 수렴하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Projection (프로젝션)**: Event Store에 축적된 순차적 비즈니스 이벤트를 재생/가공하여, 읽기 전용 Query DB(RDBMS, Elasticsearch, Redis) 형태의 Read Model 데이터 뷰를 만드는 과정.
 - **Snapshot (스냅샷)**: 수천 개 이상의 이벤트 이력을 매번 처음부터 재구성하는 오버헤드를 막기 위해, 특정 시점(e.g., 매 100번째 이벤트)의 도메인 상태를 주기적으로 덤프 저장하는 기술.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Replay (이벤트 재생)**: 버그 수정이나 신규 Read Model 구축 시, Event Store에 저장된 처음부터의 모든 이벤트를 재실행하여 원하는 형태의 뷰 DB를 재구성하는 기법.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CQRS without Event Sourcing vs CQRS with Event Sourcing**: CQRS만 적용 시 Command DB와 Query DB를 일반 CRUD 형태로 분리하고, Event Sourcing 결합 시 Command DB 자체를 Event Store 기반으로 대체.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Versioning**: 이벤트 클래스 스키마가 변경(필드 추가/삭제)될 때 과거 저장된 구버전 이벤트와의 하향 호환성(Upcasting)을 유지하는 기법.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이벤트 소싱 CQRS 도입 기준(Event Sourcing CQRS Criteria)**: 변경 이력 감사 필수성, 읽기/쓰기 비율(e.g., 100:1), 및 도메인 복잡도에 기반한 채택 체계.
 

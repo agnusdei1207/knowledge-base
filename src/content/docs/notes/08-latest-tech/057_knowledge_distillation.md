@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지식 증류(Knowledge Distillation, KD)**: 대형 교사 모델의 출력•특징•관계를 소형 학생 모델로 이전하는 압축 학습을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **학생 모델(Student Model)**: 교사의 지식을 학습하여 더 적은 자원으로 독립 추론하도록 만든 작은 모델로 정의된다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트 타깃(Soft Target)**: 각 클래스의 상대적 관계를 담은 교사 모델의 확률분포를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **로짓(Logit)**: 소프트맥스로 확률을 만들기 전 모델이 클래스별로 출력한 점수를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -60,7 +60,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신호 변환기(Signal Converter)**: 템퍼러처와 차원 정렬을 적용해 교사 신호를 학생이 학습할 형태로 가공하는 요소로 정의된다.
 - **교사 모델(Teacher Model)**: 학생이 모방할 출력 확률•중간 특징•관계 지식을 제공하는 고성능 모델을 나타낸다.
@@ -94,7 +94,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **증류 신호(Distillation Signal)**: 교사가 학생에게 전달하는 출력 분포•중간 특징•표본 관계 정보로 정의된다.
 - **학생 단독 평가(Standalone Student Evaluation)**: 배포 조건과 같이 교사 없이 학생 모델만으로 품질과 자원을 검증하는 절차를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -134,7 +134,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응답 증류(Response Distillation, Response-based KD)**: 교사의 출력 확률과 소프트 타깃을 학생이 모방하도록 학습하는 기법을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **특징 증류(Feature Distillation, Feature-based KD)**: 교사와 학생의 중간 표현을 정렬하여 학습하는 방식을 나타낸다.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **교사 오류 전이(Teacher Error Propagation)**: 교사의 잘못된 예측과 편향을 학생이 함께 학습하는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **단계적 증류(Progressive Distillation)**: 교사와 학생의 용량 차이가 클 때 중간 크기 모델을 거쳐 지식을 이전하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응답 증류 선택 기준(Response Distillation Selection Criterion)**: 교사의 출력만 접근할 수 있을 때 확률분포를 학생이 모방하도록 학습하는 지침을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **특징•관계 증류 선택 기준(Feature/Relation Distillation Selection Criterion)**: 교사 내부 표현에 접근할 수 있고 더 풍부한 구조를 이전할 가치가 있을 때 적용하는 방식을 나타낸다.

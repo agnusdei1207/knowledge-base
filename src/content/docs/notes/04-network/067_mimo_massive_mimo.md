@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **다중입출력(Multiple-Input Multiple-Output, MIMO)**: 복수 안테나를 이용해 채널 조건에 따라 공간 다중화, 빔포밍 또는 다이버시티 이득을 얻는 무선 전송 기술이다.
 - **대규모 MIMO(Massive MIMO)**: 기지국에 수십~수백 개(64T64R, 128T128R 등)의 고밀도 안테나 배열을 장착하여 3차원 공간 빔포밍(3D-Beamforming) 및 다중 사용자 공간 다중화(MU-MIMO)를 실현하는 5G/6G 핵심 기술이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공간 스트림(Spatial Stream)**: 동일한 시간·주파수 자원 상에서 다중 안테나의 공간적 직교성을 이용해 독립적으로 전송되는 데이터 계층(Layer) 흐름이다.
 - **빔(Beam / Beamforming)**: 안테나 배열 소자 간 신호의 위상 및 진폭을 조절하여 특정 수신 단말 방향으로 전파 에너지를 집중시키는 공간 지향성 신호 형태이다.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **채널 행렬(Channel Matrix)**: 송신 안테나($N_T$)와 수신 안테나($N_R$) 간의 모든 복소 채널 응답($h_{ij}$)을 차원 배열로 나타낸 $N_R \times N_T$ 행렬 $H$이다.
 - **채널 순위(Channel Rank)**: 채널 행렬 $H$의 독립적인 행/열 벡터 수($\text{Rank}(H)$)로, 해당 물리 링크에서 이론적으로 최대로 보낼 수 있는 병렬 **공간 스트림** 수의 상한선이다.
@@ -89,7 +89,7 @@ MIMO 구성요소
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파일럿(Pilot Signal)**: 송수신 안테나 간 채널 응답 $H$를 정확히 측정하기 위해 무선 프레임 전면에 동봉하는 기지의 래퍼런스 신호(CSI-RS, SRS)이다.
 - **프리코딩(Precoding)**: 송신 측 안테나 소자들에 채널 행렬의 역행렬 또는 고유벡터 기반 **복소 가중치**를 사전 곱하여 공간 간섭을 제거하고 빔을 만산하는 사전 신호 처리 단계이다.
@@ -148,7 +148,7 @@ MIMO 구성요소
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파일럿 오염(Pilot Contamination)**: 이웃 셀 간 동일한 파일럿 정합 코드를 재사용함으로 인해 타 셀 단말의 채널 상태가 자 셀 채널 추정에 혼입되어 빔 타겟팅이 오작동하는 현상이다.
 - **안테나 보정(Antenna Calibration)**: Massive MIMO 배열 안테나 내 개별 RF 체인 간의 온도/소자 변화에 따른 진폭 및 위상 오차를 주기적으로 동기화 보정하는 기술이다.
@@ -169,7 +169,7 @@ MIMO 구성요소
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **복소 가중치(Complex Weight)**: 안테나 소자별 파형의 아날로그/디지털 위상 각도와 전력 진폭을 정밀 조절하는 행렬 계수이다.
 - **공간 이득의 조건(Conditions for Spatial Gain)**: 충분한 안테나 소자 간격, 풍부한 산사파 환경(Multipath), 정밀한 CSI 피드백이 전제되어야 공간 이득이 발현되는 원칙이다.

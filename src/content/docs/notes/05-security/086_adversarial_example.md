@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **적대적 예제(Adversarial Example)**: 사람이 안구 시각으로 식별할 수 없는 미세한 노이즈(Perturbation, $\epsilon$)를 원본 이미지/오디오/텍스트 입력에 주입하여, 머신러닝/딥러닝 모델이 완전히 엉뚱한 정답으로 분류 오판하도록 유도하는 추론 회피(Evasion) 공격 기법이다.
 - **판단 경계(Decision Boundary)**: 고차원 벡터 특징 공간에서 AI 모델이 개별 클래스를 분류 구획하는 수학적 결정 경계면이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표적 공격(Targeted Adversarial Attack)**: 공격자가 지정한 오판 타깃 클래스(예: 표지판 $\rightarrow$ 100km 제한)로 딥러닝 판단을 정밀 유도하는 공격 기법이다.
 - **비표적 공격(Untargeted Adversarial Attack)**: 특정 클래스가 아니더라도 원본 정답이 아닌 다른 임의의 분류값으로만 오판을 일으키게 만드는 공격 기법이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 모델(Threat Model)**: 공격자의 정보 보유 수준(White-box / Black-box)과 노이즈 크기 제약을 정의한 수학적 기준 모델이다.
 - **섭동 예산(Perturbation Budget / Epsilon Constraint $\epsilon$)**: 육안으로 지각 불가능하게 노이즈 크기를 제한하는 $l_\infty, l_2$ 임계 한계값이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교란 탐색(Perturbation Search / FGSM / PGD)**: 손실 함수의 경사(Gradient) 방향으로 픽셀을 미세 이동시켜 모델의 오분류를 유도하는 최적화 알고리즘 과정이다.
 - **환경 재현(Environmental Reproducibility)**: 카메라의 각도, 조명, 기상 조건의 물리 환경 변화 속에서도 물리적 적대적 패치가 유효하게 작동하는지 시험하는 단계이다.
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백색상자 공격(White-box Attack)**: 공격자가 대상 모델의 가중치, 레이어 아키텍처, 기울기(Gradient) 정보를 완전히 파악한 상태에서 PGD/C&W 알고리즘으로 최적의 노이즈를 계산하는 기법이다.
 - **흑색상자 공격(Black-box Attack)**: 모델 내부를 알 수 없어 대리 모델을 만들어 훈련시킨 후, 대리 모델에서 생성된 노이즈를 **전이성**을 활용해 주입하는 기법이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **AI 100-2e2025 (NIST AI 100-2e2025 Evasion Attacks)**: 적대적 예제를 AI 추론 단계 회피(Evasion) 공격으로 규정하고 정량 강건성 가이드를 수록한 NIST 규격이다.
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교란 강건성(Perturbation Robustness)**: 노이즈 주입 환경에서도 딥러닝 모델의 원래 정확도를 흔들림 없이 유지하는 내성 능력이다.
 - **피해 제한(Blast Radius Mitigation / Safety Containment)**: 적대적 예제로 인한 오분류 발생 시에도 하드웨어적 센서 퓨전으로 실질적 안전 사고를 막는 차단 원칙이다.

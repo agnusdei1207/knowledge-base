@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **소프트웨어 기술성 평가(Software Technology Evaluation)**: 제안 기술•품질•사업 관리•수행 역량을 공통 항목과 척도로 채점해 요구에 적합한 사업자를 선정하는 평가 절차이다.
 - **요구사항 기준선(Requirements Baseline)**: 평가 중 임의 변경하지 않도록 사업 목표•범위•필수 조건을 확정한 기준이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사전 척도(Predefined Scale)**: 충족 수준별 점수와 인정할 증거를 미리 정해 평가자의 판단 일관성을 높이는 척도이다.
 - **가중치 평가(Weighted Evaluation)**: 사업 우선순위에 따라 항목별 배점을 달리하고 점수를 합산하는 방식이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **점수 검증대장(Score Verification Ledger)**: 위원별 점수•판단 사유•편차와 조정 이력을 보존해 평가 결과를 추적하는 기록이다.
 - **평가위원회(Evaluation Committee)**: 이해충돌을 배제하고 공통 척도에 따라 제안을 독립 채점하는 조직이다.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **1. 요구 기준 도출**: 사업 목표와 범위에서 필수 조건과 평가 대상을 추출하는 단계이다.
 - **2. 항목•척도 설계**: 항목별 가중치•수준•인정 증거를 사전에 명시하는 단계이다.
@@ -141,7 +141,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기술성 평가(Technical Evaluation)**: 제안자의 기술 방안과 사업 수행 역량을 종합 채점해 실제 수행 가능성을 판단하는 방식이다.
 - **벤치마크 테스트(Benchmark Test, BMT)**: 후보 제품을 동일 환경과 시나리오에서 직접 실행해 성능•기능을 비교하는 시험이다.
@@ -164,7 +164,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가중치 왜곡**: 사업 목표와 무관한 항목에 높은 배점을 줘 최종 선정 결과의 타당성을 떨어뜨리는 문제이다.
 - **개념 증명(Proof of Concept, PoC)**: 핵심 기술이나 방안의 구현 가능성을 제한된 범위에서 검증하는 시험이다.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **제안 선정 기준**: 필수 기술 기준에 미달한 제안은 배제하고 충족한 후보는 사전 정의한 가중 점수로 선정하는 기준이다.
 - **필수 기준(Mandatory Criterion)**: 점수 합산 전에 후보가 반드시 충족해야 하며 미달 시 배제되는 조건이다.

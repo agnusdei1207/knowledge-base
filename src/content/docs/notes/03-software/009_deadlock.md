@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교착상태(Deadlock)**: 두 개 이상의 프로세스/스레드가 서로 상대방이 점유한 자원(Resource/Lock)을 기다리며 영구적으로 블록(Blocked)되어 실행을 멈추는 상태.
 - **Coffman 4대 조건**: 교착상태가 발생하기 위한 4가지 필수 충족 조건인 상호 배제(Mutual Exclusion), 점유와 대기(Hold & Wait), 비선점(No Preemption), 환형 대기(Circular Wait).
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mutual Exclusion (상호 배제)**: 자원은 한번에 한 프로세스만 독점 점유 가능한 속성.
 - **Hold & Wait (점유와 대기)**: 최소 1개의 자원을 잡은(Hold) 상태에서 타 프로세스가 잡고 있는 자원을 대기(Wait)하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Wait-for Graph**: 자원 할당 그래프에서 자원 노드를 제거하고 프로세스 간의 대기 방향(Edge)만을 간소화하여 사이클을 탐지하는 그래프.
 - **Resource Allocation Graph (RAG)**: 프로세스 노드($P$)와 자원 노드($R$) 간의 점유(Assignment Edge) 및 요청(Request Edge) 관계를 표기하는 그래프.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Banker's Algorithm (은행가 알고리즘)**: 자원 요청 시 최악의 최대 자원 요구량(Max Claim)을 가정하여 Safe Sequence가 존재할 때만 할당을 승인하는 회피 기법.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Safe State vs Unsafe State**: 모든 프로세스가 마감까지 완료될 수 있는 안전 순서(Safe Sequence)의 존재 유무 상태.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lock Ordering (Hierarchical Locking)**: 자원(락)에 고유 번호를 부여하고 항상 오름차순 번호 순서로만 락을 획득하게 강제하여 Circular Wait를 무력화하는 기법.
 - **Lock Timeout (tryLock)**: 락 획득 시 무한 대기 대신 타임아웃(예: 3초)을 인가하여 Hold & Wait를 끊어내는 기법.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교착상태 대응 선택 기준(Deadlock Trade-off Criteria)**: 자원 이용률 목표, 최대 요구량 파악 가능성, 시스템 롤백 허용성에 근거한 수립 체계.
 

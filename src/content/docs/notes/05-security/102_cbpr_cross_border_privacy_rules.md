@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Global CBPR(Global Cross-Border Privacy Rules)**: 국경 간 개인정보를 처리하는 컨트롤러의 책임성을 제3자가 검증 및 인증하는 국제 체계.
 - **국경 간 책임성(Cross-Border Accountability)**: 관할권을 넘어 개인정보를 이전•처리할 때 보호조치와 민원•시정 책임을 입증하는 능력.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBPR(Cross-Border Privacy Rules)**: 개인정보 컨트롤러의 국경 간 정보보호 책임성 체계를 인증하는 프로그램.
 - **PRP(Privacy Recognition for Processors)**: 개인정보 위탁 처리자(프로세서)의 통제 역량을 인증하는 프로그램.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Global CBPR Forum(Global CBPR Forum)**: 인증 요구사항 및 글로벌 운영 규칙을 수립•관리하는 국제 협력 기구.
 - **책임성 인증기관(Accountability Agent, AA)**: 조직의 인증 심사, 민원 처리, 사후관리를 수행하는 공인 기구.
@@ -92,7 +92,7 @@ Global CBPR 인증 생태계
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **역할별 인증 범위(Role-based Certification Scope)**: 컨트롤러 또는 프로세서 역할에 맞춰 특정한 심사 대상 경계.
 - **사후관리(Post-certification Management)**: 민원, 조사, 조직 변경사항을 주기적으로 점검해 인증 유효성을 관리하는 활동.
@@ -142,7 +142,7 @@ CBPR · PRP 등록    보완 · 재심사
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관할 법률(Jurisdictional Law)**: 개인정보의 국외 이전 적법성 및 정보주체 권리 구제를 판단하는 국가별 규율.
 
@@ -160,7 +160,7 @@ CBPR · PRP 등록    보완 · 재심사
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **컨트롤러 책임성(Controller Accountability)**: 처리 목적과 수단을 결정하는 조직의 CBPR 범위 및 통제 이행 기준.
 - **프로세서 책임성(Processor Accountability)**: 위탁 처리 지시를 이행하는 조직의 PRP 범위 및 통제 이행 기준.
@@ -180,7 +180,7 @@ CBPR · PRP 등록    보완 · 재심사
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증 검증(Certification Verification)**: CBPR•PRP 인증의 대상 역할, 범위, 유효기간의 실제 부합 여부를 대조하는 절차.
 - **이전법 검증(Transfer Law Verification)**: 개인정보 국외 이전의 적법성 및 관할 법률 충족 여부를 확인하는 절차.

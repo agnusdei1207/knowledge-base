@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **국제 이동통신 2030(International Mobile Telecommunications 2030, IMT-2030)**: ITU-R에서 제정한 2030년대 차세대 6G 이동통신의 비전, 목표 성능 및 사용 시나리오 규격이다.
 - **국제전기통신연합(International Telecommunication Union, ITU)**: 전 세계 전기통신 및 무선 주파수 표준화를 조정하는 유엔 산하 전문 기구이다.
@@ -41,7 +41,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비지상망(Non-Terrestrial Network, NTN)**: 저궤도 인공위성(LEO), 고고도 무인 항공 플랫폼(HAPS)을 무선 기지국으로 활용하여 전 지구 3D 입체 커버리지를 제공하는 망이다.
 - **통신·센싱 통합(Integrated Sensing and Communication, ISAC)**: 동일 무선 자원 파형으로 고속 데이터 전송과 주변 3D 공간의 물체/기상 감지를 동시에 수행하는 기술이다.
@@ -63,7 +63,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분산 컴퓨팅(Distributed Computing)**: 단말, 에지(MEC), 코어망 및 위성 인프라 전반에 컴퓨팅 연산 자원을 분산 배치하여 AI 추론을 고속 처리하는 아키텍처이다.
 
@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 트윈(Digital Twin)**: 실제 무선 채널, 기지국 상태, 이동 단말 위치를 가상 디지털 공간에 실시간 동기화하여 전파 환경을 시뮬레이션하는 기술이다.
 - **폐루프 제어(Closed-Loop Control)**: 관측된 네트워크 상태 및 실행 결과를 모니터링하여 자원 배정 및 빔포밍 정책을 능동적으로 실시간 피드백 조정하는 방식이다.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기술 성숙도(Technology Readiness Level, TRL)**: 신기술의 핵심 원리 연구부터 시험, 상용화까지의 단계적 완성도 평가 기준이다.
 
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수동 복구(Manual Fallback)**: AI 제어 알고리즘이나 위성 연결 오작동 시 안전한 기본 제어 파라미터나 지상망으로 라우팅을 즉시 전환하는 비상 복구 메커니즘이다.
 
@@ -174,7 +174,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단계 도입(Phased Deployment Strategy)**: IMT-2030 시나리오별 기술 성숙도(TRL) 검증을 거쳐 검증된 요소 기술부터 단계적으로 망에 적용하는 전략이다.
 

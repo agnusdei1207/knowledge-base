@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAFe (Scaled Agile Framework)**: 단일 팀 단위의 애자일(Scrum/Kanban)을 수십~수천 명 규모의 전사적(Enterprise) 대규모 개발 조직으로 확장하여 린-애자일(Lean-Agile) 문화와 비즈니스 민첩성(Business Agility)을 정착시키는 프레임워크.
 - **ART (Agile Release Train)**: 다수 교차기능 팀이 공통 비전과 계획 주기로 가치 흐름을 실행하는 장기 조직 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PI Planning (PI 플래닝)**: 8~12주 PI 주기마다 모든 ART 구성원(50~125명 이상)이 한자리에 모여 2일간 전사 목표, 팀 간 의존성, 위험 요소를 정렬하는 대규모 통합 계획 이벤트.
 - **Value Stream (가치 스트림)**: 아이디어/요구사항이 발화된 시점부터 최종 고객에게 소프트웨어 가치가 전달될 때까지의 전 과정 활동 파이프라인.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RTE (Release Train Engineer)**: ART 전체를 오케스트레이션하고 의존성 해소 및 PI 실행을 총괄 지휘하는 대규모 스케일의 Scrum Master.
 - **System Architect**: ART 전체의 기술 아키텍처 비전, 엔지니어링 가이드라인 및 서브시스템 간 기술 정합성을 통제하는 리드 아키텍트.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Program Board**: PI Planning 2일차에 각 팀의 Feature 개발 주입 건과 팀 간 의존성(Red String/Red Line)을 시각화하여 공유하는 매트릭스 보드.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IP Iteration (Innovation and Planning)**: 혁신•학습•계획과 다음 PI 준비를 지원하는 반복 구간.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAFe in Name Only (SINO)**: SAFe의 용어와 표면적 이벤트만 도입하고, 실제로는 관료적 하향식(Top-down) 통제와 거대한 사전에 만들어진 계획(Big Upfront Planning)을 고수하는 파행적 현상.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전사 애자일 확장 기준(Enterprise Agile Scaling Criteria)**: 개발 인력 수, 팀 간 의존성 복잡도, 거버넌스 요구에 따른 확장 체계.
 

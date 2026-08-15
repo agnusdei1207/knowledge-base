@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임베디드 시스템 보안 취약점(Embedded Security Vulnerabilities)**: 전용 장치의 하드웨어•펌웨어•통신•갱신•물리 경로에서 기밀성•무결성•가용성을 훼손할 수 있는 약점이다.
 - **공격면**: 공격자가 접근하거나 입력할 수 있는 통신•포트•갱신•물리 경로의 전체 범위이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하드코딩 자격증명**: 계정•암호•키를 펌웨어에 고정해 추출•재사용될 수 있는 결함이다.
 
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **JTAG(Joint Test Action Group)**: 칩 시험•디버깅에 사용하는 인터페이스이다.
 - **UART(Universal Asynchronous Receiver-Transmitter)**: 직렬 진단 통신에 사용하는 인터페이스이다.
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **결함 주입**: 전압•클록•빛을 교란해 연산 오류를 만들고 보안 검사를 우회하는 공격이다.
 - **JTAG•UART 포트**: 노출 시 로컬 공격 경로가 되는 디버그•진단 포트이다.
@@ -136,7 +136,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메모리 안전성**: 허용 범위 밖의 읽기•쓰기와 잘못된 객체 접근을 방지하는 속성이다.
 
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **ETSI(European Telecommunications Standards Institute)**: 유럽전기통신표준협회이다.
 - **EN(European Standard)**: 유럽표준 문서 유형이다.
@@ -186,7 +186,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전 생명주기 보안**: 제조•운영•갱신•지원 종료•폐기까지 장치의 신뢰와 복구 가능성을 유지하는 원칙이다.
 

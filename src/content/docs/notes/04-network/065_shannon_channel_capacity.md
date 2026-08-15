@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **채널 용량(Channel Capacity)**: 주어진 주파수 대역폭과 신호대잡음비(SNR) 조건에서 오류율을 0에 가깝게 유지하며 전달 가능한 이론적 최고 전송률($C$, unit: bps).
 - **섀넌 한계(Shannon Limit / Shannon Capacity Theorem)**: 백색 가우시안 잡음 채널에서 물리적으로 도달 가능한 최대 전송 한계 수식($C = B \log_2 (1 + S/N)$).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대역폭(Bandwidth)**: 신호 전송에 할당된 주파수 폭($B$, Hz)으로, SNR이 고정되면 채널 용량에 선형 기여.
 - **신호대잡음비(Signal-to-Noise Ratio, SNR)**: 수신 유효 신호 전력($S$) 대비 누적 잡음 전력($N$)의 선형 전력 비율($S/N$).
@@ -62,7 +62,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수식 기호 읽기와 역할(Formula Notation and Symbols)**: $C=B \log_2 (1 + S/N)$ 수식에서 $C$는 Capacity(bps), $B$는 Bandwidth(Hz), $S$는 Signal Power(Watt), $N$은 Noise Power(Watt)를 각각 규정.
 
@@ -93,7 +93,7 @@ C = B × log₂(1 + S/N)   [bps]
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **구현 격차(Implementation Gap)**: 유한 블록 길이와 실제 부호 복잡도로 인해 이론 한계 대비 발생하는 성능 차이.
 - **타당성 여유(Feasibility Margin)**: 무선 신호 이동성 페이딩 및 섀도잉 대비를 위해 목표 전송률 선면에 확보하는 Link Budget 안전 여유분.
@@ -139,7 +139,7 @@ C = B × log₂(1 + S/N)   [bps]
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대역폭 증대(Bandwidth Expansion)**: 주파수 반송파 묶음(Carrier Aggregation) 및 초고주파(mmWave) 대역을 추가 확보하여 전송 용량을 선형 대폭 늘리는 접근법.
 - **SNR 증대(SNR Enhancement)**: 송신 빔포밍, 출력 증대 및 중계기 설치를 통해 수신 신호 품질 $S/N$을 높여 용량을 로그 곡선으로 증대시키는 방식.
@@ -164,7 +164,7 @@ C = B × log₂(1 + S/N)   [bps]
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스펙트럼 효율(Spectral Efficiency)**: 단위 대역폭 1Hz 당 전송 가능한 비트 수(unit: bps/Hz)로 무선 주파수 자원 활용성 평가 지표.
 - **굿풋(Goodput)**: L1 물리 계층 비트 전송률이 아닌 L7 애플리케이션 수신 측에 최종 도달한 유효 순수 데이터 전송 속도.
@@ -184,7 +184,7 @@ C = B × log₂(1 + S/N)   [bps]
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로토콜 오버헤드(Protocol Overhead)**: Ethernet, IP, TCP, RLC, MAC 등 각 계층 헤더 및 제어 프레임 소모로 발생하는 비유효 데이터 비율.
 - **실제 굿풋(Actual Goodput)**: 재전송, 손실, 헤더 오버헤드가 제거되고 사용자가 체감하는 실제 응용 데이터 전송속도.

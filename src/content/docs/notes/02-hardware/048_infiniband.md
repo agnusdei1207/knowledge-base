@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인피니밴드(InfiniBand)**: 초고속·저지연 Switched Fabric 기반 고성능 컴퓨팅(HPC) 및 AI 클러스터용 상호연결망 기술.
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: OS 커널 및 CPU 개입 없이 원격 메모리에 직접 읽기·쓰기를 수행하는 기술.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 등록(Memory Registration)**: RDMA 전송 대상 메모리 영역을 HCA에 핀(Pin) 고정하고 가상-물리 주소 변환 및 접근 키(rkey/lkey)를 할당하는 사전 작업.
 - **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 호스트 메모리 버스(PCIe)와 InfiniBand 패브릭을 연결하는 전용 네트워크 하드웨어 인라인 카드.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **큐 쌍(Queue Pair, QP)**: RDMA 작업을 요청하는 송신 큐(SQ)와 수신 큐(RQ)의 쌍으로 구성된 통신 종단점.
 - **완료 큐(Completion Queue, CQ)**: QP에 등록된 요청 작업의 완료 상태(Work Completion) 결과를 비동기 통지받는 큐.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 요청(Work Request, WR)**: 애플리케이션이 QP의 SQ/RQ에 제출하는 RDMA Read/Write 명령 객체.
 - **등록 키(Registration Key, rkey/lkey)**: HCA가 원격/로컬 메모리 영역의 접근 권한 및 물리 주소를 검증하는 인증 키.
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RoCE(RDMA over Converged Ethernet)**: 표준 이더넷 망 상에서 UDP/IP 캡슐화를 통해 RDMA Verbs를 구동하는 통신 기술.
 - **RDMA 버브(RDMA Verbs)**: 원격 메모리 접근을 위해 애플리케이션에 제공되는 표준 API 인터페이스.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **키 폐기(Key Revocation)**: RDMA 전송 완료 후 할당된 rkey/lkey를 무효화하여 무단 메모리 접근을 차단하는 보안 절차.
 - **QP 오류 상태(QP Error State)**: 전송 타임아웃 또는 미인가 접근 발생 시 해당 QP가 잠김 처리되는 예외 상태.
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **패브릭 선택 기준(Fabric Selection Criteria)**: 지연시간 상한, 네트워크 구축 예산, 기존 인프라 호환성을 평가하여 최적 패브릭을 결정하는 기준.
 

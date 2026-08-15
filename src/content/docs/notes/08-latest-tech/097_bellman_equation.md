@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **벨만 방정식(Bellman Equation)**: 현재 가치를 즉시 보상과 할인된 다음 가치로 정의한다.
 - **장기 가치(Long-term Value)**: 미래 보상의 할인 누적 기댓값이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **벨만 기대 방정식(Bellman Expectation Equation)**: 특정 정책의 기대 가치를 계산한다.
 - **벨만 최적 방정식(Bellman Optimality Equation)**: 행동 최댓값으로 최적 가치를 계산한다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태가치 $V(s)$**: 상태에서 정책을 따를 때의 기대 누적 보상이다.
 - **행동가치 $Q(s,a)$**: 상태에서 행동 후 정책을 따를 때의 기대 누적 보상이다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **갱신 잔차(Update Residual)**: 가치 갱신 전후의 차이이다.
 - **종료 임계값(Termination Threshold)**: 반복 계산을 멈추는 잔차 기준이다.
@@ -128,7 +128,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정책 평가(Policy Evaluation)**: 고정 정책의 기대 누적 보상을 계산한다.
 - **정책 최적화(Policy Optimization)**: 행동을 비교해 장기 가치가 높은 정책을 찾는다.
@@ -148,7 +148,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **할인율 민감도(Discount Sensitivity)**: 할인율에 따라 가치•정책이 달라지는 성질이다.
 - **미수렴(Non-convergence)**: 갱신 잔차가 줄지 않아 고정점에 도달하지 못한 상태이다.
@@ -169,7 +169,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수렴 잔차(Convergence Residual)**: 반복 가치 갱신값의 차이이다.
 - **연산 목적(Computation Objective)**: 정책 평가 또는 최적 정책 탐색 목표이다.

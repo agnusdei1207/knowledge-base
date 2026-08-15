@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입출력 인터페이스 (Input/Output Interface, I/O Interface)**: 프로세서(CPU)와 외부 주변장치(SSD, NIC, GPU) 간의 클록 속도, 전압, 데이터 신호 버스 및 제어 타이밍 차이를 중계하고 조정하는 하드웨어 및 소프트웨어 제어 통신 체계.
 - **장치 제어기 (Device Controller)**: 레지스터(Status, Control, Data)를 내장하여 외부 장치의 미세 전자 신호를 CPU가 읽을 수 있는 데이터 패킷으로 변환하고 버스를 통제하는 전용 반도체.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **바쁜 대기 (Busy Wait / Polling)**: CPU가 주변장치의 Status 레지스터 상태를 루프 문으로 100% 끊임없이 감시 확인하며 준비될 때까지 연산을 멈추고 기다리는 방식.
 - **비동기 완료 통지 (Asynchronous Completion Notification)**: CPU가 입출력 요청 후 타 연산을 구동하다가 장치가 작업을 마쳤을 때 IRQ 신호로 비동기 통지받는 제어 구조.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **장치 드라이버 (Device Driver)**: OS 커널 공간에 적재되어 OS의 추상화된 I/O 시스템 콜을 장치 컨트롤러 전용 맵핑 레지스터 명령으로 변환하는 소프트웨어.
 - **직접 메모리 접근 제어기 (DMA Controller, DMAC)**: CPU 개입 없이 메모리와 주변장치 간에 블록 데이터를 바이트 단위로 고속 직접 전송하는 하드웨어 유닛.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 서비스 루틴 (Interrupt Service Routine, ISR)**: 주변장치의 IRQ 인터럽트 수신 시 CPU가 현재 실행 문맥을 백업하고 해당 I/O 수습을 실행하는 커널 루틴.
 - **I/O 채널 프로그램 (Channel Program / CCW)**: 채널 프로세서가 구동하는 입출력 전용 기계어 명령(Channel Command Word)의 집합.
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 폭주 (Interrupt Storm)**: 초당 수백만 회의 고속 I/O 발생 시 인터럽트 발생 횟수가 폭증하여 CPU가 ISR 문맥 스위칭 처리에 100% 파묻히는 마비 현상.
 - **바쁜 대기 (Busy Waiting)**: CPU가 주변장치의 준비 상태를 무한 루프로 조회하며 다른 프로세스 스케줄링을 블로킹하는 현상.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOMMU (Input-Output Memory Management Unit)**: DMA 장치가 직접 메모리 접근 시 가상 주소를 물리 주소로 변환하고 타 메모리 구역으로의 침범을 강제 차단하는 장치 보호 하드웨어.
 - **인터럽트 병합 (Interrupt Coalescing)**: 고속 네트워크 NIC에서 일정 시간(Time Window) 동안 수신된 패킷들을 모아 1회 인터럽트로 묶어 발송하여 CPU 폭주를 방지하는 최적화 기법.
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **I/O 인터페이스 선택 기준 (I/O Selection Criteria)**: 대상 시스템의 입출력 데이터 블록 크기, 트랜잭션 빈도, CPU 코어 여유 및 캐시 일관성 오버헤드를 평가하여 폴링/인터럽트/DMA/채널 방식을 선택하는 프레임워크.
 

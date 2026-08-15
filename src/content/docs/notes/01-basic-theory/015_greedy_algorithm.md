@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **탐욕 알고리즘(Greedy Algorithm)**: 매 단계의 국소 최선을 되돌리지 않고 확정해 해를 구성하는 기법이다.
 - **국소 최적 선택(Local Optimal Choice)**: 현재 단계에서 가장 유리한 후보를 선택하는 결정이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **탐욕 선택 속성(Greedy Choice Property)**: 국소 최선 선택을 포함하는 전역 최적해가 존재하는 성질이다.
 - **최적 부분 구조(Optimal Substructure)**: 부분 문제의 최적해로 전체 최적해를 구성할 수 있는 성질이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **후보 집합(Candidate Set)**: 아직 선택하거나 폐기할 수 있는 모든 대상을 보관하는 집합이다.
 - **목적 함수(Objective Function)**: 후보 선택의 비용이나 이익을 수치화해 우열을 정하는 함수이다.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **되돌림 없는 선택**: 부분 해에 확정한 후보를 이후 단계에서 취소하지 않는 처리 방식이다.
 - **타당성 판정**: 후보를 더한 부분 해가 제약 조건을 지키는지 확인하는 절차이다.
@@ -136,7 +136,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장•재사용하는 설계 기법이다.
 - **메모이제이션(Memoization)**: 계산한 상태값을 저장해 같은 상태에서 다시 사용하는 방식이다.
@@ -163,7 +163,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **교환 논증(Exchange Argument)**: 어떤 최적해의 선택을 탐욕 선택으로 바꿔도 손해가 없음을 보여 최적성을 증명하는 방법이다.
 - **동률 해소 규칙(Tie-breaking Rule)**: 목적값이 같은 후보 중 하나를 항상 동일한 기준으로 선택하는 규칙이다.
@@ -188,7 +188,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최적성 증명**: 탐욕 선택을 반복해도 전역 최적해가 보장됨을 논리적으로 보이는 과정이다.
 

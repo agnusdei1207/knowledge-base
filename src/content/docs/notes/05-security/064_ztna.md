@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제로 트러스트 네트워크 접근(Zero Trust Network Access, ZTNA)**: 검증된 주체와 단말에 승인된 특정 애플리케이션에 대한 동적 1:1 세션 통로만 제공하는 보안 접근 기술이다.
 - **가상 사설망(Virtual Private Network, VPN)**: 암호화 터널을 통해 원격 단말을 사내 L3/L4 네트워크 전체에 연결하는 고정형 경계접속 기술이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **앱 단위 접근(App-level Access Control)**: 네트워크 L3 접속을 차단하고 L7 애플리케이션 레벨에서 세션 단위로 접근 권한을 세분화하여 제어하는 방식이다.
 - **기원 서버 비공개(Origin Server Cloaking / Dark IP)**: 아웃바인드 전용 앱 커넥터를 통해 실제 애플리케이션 IP 및 방화벽 포트를 외부 인터넷에 절대 노출하지 않는 구조이다.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 브로커(Policy Broker)**: 신원, 기기 무결성, 맥락 신호를 검증하여 앱 접속 승인 여부를 종합 평가하고 정책을 전달하는 컨트롤 플레인이다.
 - **앱 커넥터(App Connector)**: 내부 망에서 클라우드/브로커 방향으로 인바운드가 아닌 아웃바운드 세션을 맺어 승인된 비공개 앱 연결을 중계하는 데이터 플레인이다.
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제한 세션(Scoped Session)**: 지정된 앱과 특정 작업 행위, 제한 시간 내에서만 유지되는 격리된 암호화 세션이다.
 - **연결 로그(Connection Log)**: 주체, 단말, 연결 앱, 세션 시간, 트래픽 양을 정밀 수집한 감사 증적이다.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **앱 프록시(App Proxy)**: 특정 웹 프로토콜(HTTP/HTTPS) 요청을 수신하여 내부 서버로 전달하는 웹 게이트웨이 기술이다.
 
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-207**: 제로 트러스트 컴포넌트 간 신호 전달 및 정책 집행 기준 규격 지침이다.
 - **CISA ZTMM 2.0 (Zero Trust Maturity Model 2.0)**: ZTNA의 단계적 성숙도 측정 및 도메인별 이행 표준 모델이다.
@@ -194,7 +194,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **원격 접근 방식 선택 기준(Remote Access Selection Criteria)**: 보안 민감도, 애플리케이션 프로토콜, 단말 상태에 맞춰 ZTNA, VPN, 앱 프록시를 최적 배치하는 평가 기준이다.
 

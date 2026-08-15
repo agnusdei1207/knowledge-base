@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Monitoring (모델 모니터링)**: 운영 입력•예측•정답을 기준선과 비교해 품질 변화를 감시하는 활동
 - **Drift (드리프트)**: 입력 분포나 입력•정답 관계가 학습 시점과 달라지는 현상
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Baseline (기준선)**: 운영 변화 판정에 사용하는 학습•검증 시점의 분포와 성능
 - **Delayed Label (지연 정답)**: 예측 이후 일정 시간이 지나 확정되는 실제 결과값
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Drift Detector (드리프트 탐지기)**: 기준선과 운영 분포의 거리•성능 차이를 판정하는 엔진
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Proxy Metric (대리지표)**: 실제 정답 확정 전 품질 변화를 추정하는 간접 지표
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Concept Drift (개념 드리프트)**: 입력과 정답 사이의 관계가 달라지는 현상
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Slice Analysis (슬라이스 분석)**: 세부 사용자군별 성능을 분리해 분석하는 기법
 

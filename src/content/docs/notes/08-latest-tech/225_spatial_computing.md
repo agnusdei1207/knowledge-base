@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공간 컴퓨팅(Spatial Computing)**: 센서로 물리 환경과 기기의 위치를 인식하고 디지털 정보•사용자 입력•기기 동작을 실제 공간 좌표에 정합하는 컴퓨팅 방식로 정의된다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공간 정합**: 가상 객체의 위치•크기•방향을 인식한 물리 공간의 좌표와 일치시키는 과정을 의미한다.
 - **광 검출 및 거리 측정(Light Detection and Ranging, LiDAR)**: 레이저 왕복 시간으로 물체 거리와 깊이를 측정하는 센서 기술을 의미한다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **센서 보정**: 카메라•관성•LiDAR의 좌표•시간•오차 특성을 맞추는 과정로 정의된다.
 - **센서 융합**: 여러 센서 관측을 결합하여 위치•깊이 추정의 정확도를 높이는 방식로 정의된다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공간 앵커**: 가상 콘텐츠를 실제 공간의 특정 좌표나 사물에 지속적으로 고정하는 기준점을 말한다.
 
@@ -135,7 +135,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **확장현실(Extended Reality, XR)**: 가상현실•증강현실•혼합현실을 포괄하는 기술 범주이다.
 - **증강현실(Augmented Reality, AR)**: 현실 시야에 디지털 정보를 정합하여 겹쳐 보이는 기술이다.
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **드리프트**: 센서 오차가 누적되어 디지털 객체가 고정된 물리 좌표에서 점차 벗어나는 위치 추정 오류이다.
 
@@ -176,7 +176,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **LiDAR 오차 검증**: 거리•깊이 측정값의 편향과 환경별 오차를 확인하는 활동을 말한다.
 

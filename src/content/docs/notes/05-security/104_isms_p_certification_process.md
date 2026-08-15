@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISMS-P 인증 절차(ISMS-P Certification Process)**: ISMS-P 인증 수립, 신청, 심사, 인증서 발급 및 사후관리를 단계별로 검증하는 체계.
 - **최초심사(Initial Audit)**: 관리체계 수립 및 2개월 이상 운영 실적을 근거로 인증 적합성을 평가하는 심사.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **2개월 이상 운영 실적(2-Month Operation Record)**: 최초심사 신청 전 관리체계를 실제로 수립하고 이행한 증거 기간.
 - **보완이행기간(Corrective Action Period)**: 심사에서 발굴된 결함을 100일 이내에 보완 완료해야 하는 기한.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인증위원회(Certification Committee)**: 심사 결과 보고서와 보완이행 결과를 심의하여 인증 발급 여부를 최종 의결하는 기구.
 - **인증기관(Certification Body)**: KISA, 금융보안원 등 인증 심사를 총괄 관리하는 기구.
@@ -92,7 +92,7 @@ ISMS-P 인증 주기
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서면심사(Document Audit)**: 정책, 지침, 위험평가 보고서 등 서면 증적의 적정성을 검증하는 과정.
 - **현장심사(On-site Audit)**: 인터뷰, 시스템 설정 점검, 실태 조사를 통해 실효성을 확인하는 과정.
@@ -138,7 +138,7 @@ ISMS-P 인증 주기
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 </details>
 
@@ -154,7 +154,7 @@ ISMS-P 인증 주기
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **중대한 변경사항(Major Environmental Changes)**: 서비스 추가, 시스템 이전, 법령 개정 등 위험 수준에 영향을 미치는 변화.
 - **결함 보완 100일(100-Day Remediation Limit)**: 보완이행 기간 초과 시 심사 불합격 처리되는 법정 기한.
@@ -173,7 +173,7 @@ ISMS-P 인증 주기
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관리체계의 지속성(Sustainability of Management System)**: 단발성 인증 취득을 넘어 지속적인 사후/갱신 관리를 통해 보안 수준을 유지하는 원칙.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스패닝 트리 프로토콜(Spanning Tree Protocol, STP)**: 중복 링크 일부를 비전달 상태로 두어 루프 없는 활성 트리를 만드는 프로토콜이다.
 - **고속 스패닝 트리 프로토콜(Rapid Spanning Tree Protocol, RSTP)**: 제안•동의로 경로를 빠르게 전환하는 프로토콜이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **브리지 ID(Bridge Identifier)**: 우선순위와 MAC 주소로 루트 스위치를 선출하는 비교값이다.
 - **경로 비용(Path Cost)**: 루트까지의 최적 포트를 고르는 누적 비용이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **루트 포트(Root Port)**: 비루트 스위치에서 루트까지 비용이 가장 낮은 포트이다.
 - **지정 포트(Designated Port)**: 각 링크 구간에서 프레임을 전달하는 대표 포트이다.
@@ -92,7 +92,7 @@ BPDU
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **BPDU 비교**: 수신한 BPDU의 루트 식별자•경로 비용•포트 정보를 우선순위대로 대조하는 절차이다.
 - **루트 브리지 선출**: 브리지 ID가 가장 낮은 스위치를 활성 트리의 기준점으로 고르는 절차이다.
@@ -141,7 +141,7 @@ BPDU 수신
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 하나의 스위치망을 논리적 브로드캐스트 영역으로 분리한 네트워크이다.
 
@@ -162,7 +162,7 @@ BPDU 수신
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **루트 가드(Root Guard)**: 더 우수한 외부 BPDU가 들어와도 지정 포트의 루트 변경을 막는 기능이다.
 - **PortFast**: 단말 포트를 대기 없이 즉시 전달 상태로 전환하는 기능이다.
@@ -185,7 +185,7 @@ BPDU 수신
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무루프 이중화(Loop-Free Redundancy)**: 평소 하나의 활성 경로만 전달하고 장애 때 대체 포트를 여는 구조이다.
 

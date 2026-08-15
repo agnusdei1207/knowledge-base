@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 컨텍스트 프로토콜(Model Context Protocol, MCP)**: 호스트와 서버의 기능•컨텍스트 교환을 표준화한 프로토콜로 정의된다.
 - **모델 컨텍스트 프로토콜 도구(Model Context Protocol Tool, MCP Tool)**: 구조화된 인자로 외부 시스템의 행동을 실행하는 MCP 기능을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자바스크립트 객체 표기법 스키마(JavaScript Object Notation Schema, JSON Schema)**: 도구 입력•출력 구조와 자료형•필수 필드를 정의하는 규격이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **부작용(Side Effect)**: 도구 실행으로 외부 시스템의 데이터나 상태가 바뀌는 현상을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **정책 집행기(Policy Enforcer)**: 권한•사용자 동의•부작용 허용 범위를 확인해 실행 여부를 결정하는 구성요소를 지칭한다.
 - **백엔드 도구(Backend Tool)**: MCP 서버가 검증 후 실제 외부 시스템에서 실행하는 기능을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인간 개입(Human-in-the-Loop, HITL)**: 고위험 호출을 사람이 검토•승인하는 통제로 정의된다.
 - **tools/list•tools/call**: MCP 서버의 도구 명세를 조회하고 선택한 도구를 실행하는 표준 요청으로 정의된다.
@@ -153,7 +153,7 @@ MCP 호스트•클라이언트
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **Resource**: 애플리케이션이 제공하고 모델이 문맥으로 읽는 데이터를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **Tool**: 모델이 구조화된 인자로 호출해 외부 행동을 수행하는 기능을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -179,7 +179,7 @@ MCP 호스트•클라이언트
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프롬프트 주입(Prompt Injection)**: 비신뢰 콘텐츠의 악성 지시로 도구 호출을 유도하는 공격을 지칭한다.
 - **최소권한(Least Privilege)**: 도구에 업무 수행에 필요한 최소 범위의 권한만 부여하는 원칙을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -198,7 +198,7 @@ MCP 호스트•클라이언트
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **도구 통제 결정(Tool Control Decision)**: 외부 시스템 변경이 필요한 작업은 허용 목록과 최소 권한으로 호출 범위를 좁히고 고위험은 HITL 승인을 적용하는 결정을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 기반 접근 제어(Role-Based Access Control, RBAC)**: 사용자 개인에게 권한을 직접 매핑하지 않고, 직무(Role) 단위로 권한을 묶어 배정하는 간접 접근 통제 모델.
 
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 계층(Role Hierarchy)**: 상위 역할이 하위 역할의 모든 공통 권한을 상속받는 구조.
 - **세션 활성화(Session Activation)**: 부여된 여러 역할 중 현재 세션에서 필요한 특정 역할만을 선택적 활성화하는 메커니즘.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **사용자(User)**: 시스템에 접근하는 개별 주체(사람, 시스템 프로세스).
 - **역할(Role)**: 직무 수행을 위해 정의된 권한들의 집합체.
@@ -86,7 +86,7 @@ RBAC 접근 제어 구조
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **세션(Session)**: 사용자가 접속하여 활성화시킨 역할 세트의 런타임 범위.
 - **사용자•역할 배정 검증**: 접속 요청 사용자가 지정 역할을 정식 할당받았는지 확인하는 단계.
@@ -134,7 +134,7 @@ RBAC 접근 제어 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **기본 RBAC(Flat RBAC / RBAC0)**: 사용자, 역할, 권한 간 매핑만 존재하는 가장 기본적인 구조.
 - **계층 RBAC(Hierarchical RBAC / RBAC1)**: 역할 간 상하 관계를 도입하여 상위 역할이 하위 역할의 권한을 상속받는 모델.
@@ -154,7 +154,7 @@ RBAC 접근 제어 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ANSI INCITS 359-2012**: NIST RBAC 표준 모델 및 API 규격을 정의한 정보기술 미국 국가 표준.
 - **NIST SP 800-53 Rev. 5**: 연방 정보 시스템을 위한 접근 통제(AC) 모범 사례 기준 지침.
@@ -174,7 +174,7 @@ RBAC 접근 제어 구조
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 권한 원칙(Principle of Least Privilege)**: 사용자가 업무 수행에 꼭 필요한 최소한의 역할과 세션 권한만을 부여받아야 한다는 보안 기본 준칙.
 

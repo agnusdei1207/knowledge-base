@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kanban System**: 토요타(Toyota)의 JIT(Just-In-Time) 생산방식에서 유래되어, 작업의 시각화(Visualization), WIP(Work-In-Progress) 한도 제한, 그리고 연속적인 당김(Pull) 메커니즘을 통해 리드타임(Lead Time)을 최적화하는 애자일 워크플로우 관리 기법.
 - **WIP (Work In Progress)**: 현재 착수되었으나 아직 최종 완료(Done)되지 않은 채 작업 보드 상의 각 상태 단계에 체류하고 있는 작업들의 수량.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Little's Law (리틀의 법칙)**: 안정된 시스템 상태에서 평균 리드타임(Lead Time)은 진행 중인 작업 수(WIP)에 비례하고 처리율(Throughput)에 반비례한다는 수학적 법칙 ($\text{Lead Time} = \frac{\text{WIP}}{\text{Throughput}}$).
 - **Cumulative Flow Diagram (CFD)**: 시간 경과에 따른 각 공정 단계별 작업 카드 축적 상태를 누적 영역 차트로 표현하여 병목(Bottleneck) 및 리드타임을 한눈에 시각화하는 도구.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kanban Board**: To Do, In Progress, Testing, Done 등의 상태 컬럼(Column)으로 나누어 작업 카드(Card)의 위치와 WIP 한도를 명시하는 시각화 보드.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Expedite Lane (긴급 패스트트랙)**: 장애 조치 등 초급송 긴급 작업 처리를 위해 WIP Limit 1로 별도 지정되어 타 일반 작업을 제치고 우선 처리되는 전용 라인.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lead Time vs Cycle Time**: Lead Time은 고객 요구 접수 시점부터 최종 전달 시점까지의 총 시간, Cycle Time은 작업 착수(In Progress)부터 완료 시점까지의 실제 작업 소요 시간.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WIP Limit Violations**: 긴급 작업 폭주로 WIP Limit가 상시 무력화되어 보드가 마비되는 파행 현상.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **칸반 도입 선택 기준(Kanban Adoption Criteria)**: 요구사항 유입의 불규칙성, 운영 유지보수성 성격 및 기존 조직 체계 유지 요구에 따른 선택 체계.
 

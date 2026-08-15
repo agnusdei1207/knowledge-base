@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 계층 구조(Memory Hierarchy)**: 프로세서의 처리 속도와 저장장치의 접근 지연시간, 용량, 비트당 비용(Cost per bit) 격차를 완화하기 위해 Register, SRAM Cache, DRAM Main Memory, NVMe SSD를 피라미드 형태로 단계 배치한 저장 아키텍처.
 - **지역성(Locality of Reference)**: 프로그램 실행 중 특정 시점에 특정 메모리 주소나 그 인근 주소를 집중하여 반복 참조하는 참조 특성(시간/공간 지역성).
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 지역성(Temporal Locality)**: 최근 접근된 메모리 번지가 가까운 미래에 다시 반복 접근될 확률이 매우 높은 특성 (예: 루프 변수, 함수 호출).
 - **공간 지역성(Spatial Locality)**: 특정 메모리 번지가 접근되면 그 인근 인접 번지들이 연속 접근될 확률이 높은 특성 (예: 배열, 순차 기계어 인출).
@@ -60,7 +60,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **레지스터(Register)**: CPU 코어 내부에서 명령어 피연산자와 상태를 보관하는 최상위 저장 소자.
 - **SRAM (Static RAM)**: 캐시 메모리(L1/L2/L3)로 사용되며 전원 공급 중 복사나 리프레시 없이 1~10ns 저지연을 제공하는 고속 반도체.
@@ -94,7 +94,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 블록(Cache Block / Line)**: DRAM 메인 메모리에서 SRAM 캐시 메모리로 한 번에 묶어서 전송 및 교체하는 64바이트 단위 전송 블록.
 - **비상주 페이지(Non-Resident Page)**: 가상 메모리 주소 상에는 존재하지만 물리 DRAM에 없어 SSD 보조기억장치로부터 로드해야 하는 페이지.
@@ -129,7 +129,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 집합(Working Set)**: 프로그램이 특정 구동 구간에서 시간/공간 지역성에 의해 집중적으로 반복 참조하는 페이지 및 데이터 영역.
 - **반복 교체(Thrashing / Cache Pollution)**: 작업 집합 크기가 상위 캐시 용량을 초과하여 인출된 블록이 재사용되기도 전에 축출되는 슬래싱 현상.
@@ -149,7 +149,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 블로킹(Cache Blocking / Tiling)**: 대용량 행렬 연산 시 데이터를 L1/L2 캐시 용량에 딱 맞는 소형 블록(Tile) 단위로 나누어 루프를 재구성함으로써 공간/시간 지역성을 극대화하는 알고리즘 최적화 기법.
 - **선인출(Hardware Prefetching)**: 주소 접근 패턴을 예측하여 다음 읽을 캐시 라인을 CPU가 미리 DRAM에서 상위 캐시로 당겨오는 기법.
@@ -169,7 +169,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 계층 설계 기준(Memory Hierarchy Selection Criteria)**: 대상 시스템의 컴퓨터 워크로드 특성(Single-thread, AI Tensor, DB I/O)과 캐시 적중률, AMAT 목표를 수립하여 계층별 용량 배분을 정형화하는 아키텍처 가이드라인.
 

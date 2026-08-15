@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 오케스트레이션•자동화 및 대응(Security Orchestration, Automation and Response, SOAR)**: 다양한 보안 이종 솔루션을 연계하여 침해사고 조사•승인•대응 절차를 오케스트레이션하고 자동화하는 플랫폼.
 - **플레이북(Playbook)**: 침해사고의 수집, 분석, 조건 분기, 인간 승인 및 조치 단계를 표준 워크플로로 정의한 실행 지침.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 중앙 로그 집계 및 상관분석을 통해 탐지 경보를 발생시키는 상위 관제 시스템.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: SOAR가 이종 보안 장비(방화벽, EDR, 메일 등)에 조회 및 차단 명령을 자동 전송하기 위한 연동 규약.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상태 머신(State Machine)**: 사건의 발생, 분석, 승인, 조치 완료 및 폐기 상태 간 표준 전이 규칙을 제어하는 엔진.
 - **큐(Queue / Task Queue)**: 이종 시스템 API 호출 연동 시 병목 및 일시적 장애에 대비하여 조치 요청을 보존하는 대기열.
@@ -90,7 +90,7 @@ SOAR 기능 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **멱등성(Idempotency)**: 동일한 조치 명령을 여러 번 실행해도 시스템의 최종 결과 상태가 한 번 실행했을 때와 동일하게 유지되는 성질.
 - **완료 증적(Completion Evidence)**: API 단순 반환값을 넘어 실제 Target 장비의 정책 상태 변경이 완료되었음을 입증하는 수집 결과.
@@ -142,7 +142,7 @@ SOAR 기능 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자동화 수준(Automation Level)**: 조치 위험도 및 비즈니스 영향도에 따라 정의되는 실행 자동화 단계(Low/Medium/High Level).
 - **수동 대응(Manual Incident Response)**: 분석가가 전체 조사 및 조치 과정을 개별 통제하고 결정하는 100% 인적 대응 방식.
@@ -166,7 +166,7 @@ SOAR 기능 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)**: SOAR 플레이북 표준화(CACAO) 등을 이끄는 국제 기구.
 - **자동화된 행동 과정 협업(Collaborative Automated Course of Action Operations, CACAO 2.0)**: SOAR 플레이북의 워크플로, 명령, 승인 및 서명 명세를 규정한 국제 표준.
@@ -189,7 +189,7 @@ SOAR 기능 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전한 자동화(Safe Automation Principles)**: 무차별 전면 자동화를 지양하고 정보 보강(Enrichment)부터 시작하여 단계적으로 차단 통제 권한을 확장하는 설계 원칙.
 

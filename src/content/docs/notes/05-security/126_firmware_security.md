@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **펌웨어 보안(Firmware Security)**: 하드웨어를 초기화•제어하는 저수준 소프트웨어의 실행 무결성, 자격증명 보호와 서명 기반 갱신 신뢰성을 보장하는 활동 지칭.
 
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하드코딩 자격증명(Hardcoded Credentials)**: 계정•암호•키를 코드에 고정해 추출•공유될 수 있는 결함에 해당함.
 - **인증 업데이트(Authenticated Update)**: 승인된 주체가 서명한 정식 펌웨어만 설치하는 기술.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 루트(Root of Trust, RoT)**: 신뢰 사슬을 시작하는 변조 방지 하드웨어•코드•키 기반을 일컫음.
 - **롤백 방지(Anti-Rollback)**: 취약한 구형 정식 버전의 재설치를 차단하는 메커니즘.
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OTA(Over-the-Air Update)**: 펌웨어를 무선 통신으로 원격 배포하는 방식.
 - **SBOM(Software Bill of Materials)**: 구성요소•버전•의존성을 기록한 소프트웨어 자재명세서를 의미함.
@@ -130,7 +130,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **장치별 비밀(Per-Device Secret)**: 하나의 장치가 노출돼도 동일 모델 전체로 피해가 확산되지 않게 개별 관리하는 비밀 정보에 해당함.
 
@@ -151,7 +151,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소 지칭.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물을 의미함.
@@ -177,7 +177,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **안전 복구(Secure Recovery)**: 변조•설치 실패를 탐지하고 서명된 정상 이미지로 되돌리는 기능.
 

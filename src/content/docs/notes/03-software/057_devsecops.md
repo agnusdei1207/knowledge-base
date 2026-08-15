@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevSecOps (Development + Security + Operations)**: 기존 DevOps 파이프라인의 전 단계(Plan부터 Deploy/Operate)에 보안(Security)을 내재화(Shift-Left)하여, 속도 저하 없이 자동화된 보안 검증 및 규정 준수를 달성하는 소프트웨어 공학 패러다임.
 - **Shift-Left Security**: 출시 직전이나 운영 단계에 수동으로 수행하던 보안 점검을 소프트웨어 개발 생명주기(SDLC)의 가장 왼쪽(초기 코딩/빌드 단계)으로 앞당겨 결함을 조기 발견/수정하는 전략.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Automated Security Gate**: CI/CD 파이프라인 상에 SAST, DAST, SCA 도구를 자동 연동하여 Critical 등급 취약점 발견 시 빌드를 파기시키는 자동 차단 장치.
 - **Continuous Compliance**: 소스코드 및 IaC(Infrastructure as Code) 보안 컴플라이언스 준수 여부를 상시 감시하여 규제 준수를 입증하는 속성.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAST (Static Application Security Testing)**: 소스코드나 바이너리를 직접 실행하지 않고 정적으로 분석하여 SQL Injection, XSS 등의 취약점을 조기 탐지하는 정적 보안 분석 (e.g. SonarQube, Fortify).
 - **DAST (Dynamic Application Security Testing)**: 구동 중인 실환경 웹 애플리케이션에 모의 침투 공격 쿼리를 동적으로 전송하여 런타임 취약점을 탐지하는 동적 보안 분석 (e.g. OWASP ZAP, Burp Suite).
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Container Image Scanning (Trivy)**: 컨테이너 Base Image 상의 OS 패키지(Debian, Alpine) 및 라이브러리에 포함된 CVE 취약점을 릴리스 직전 차단 검사하는 기법.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevOps vs DevSecOps**: DevOps는 속도와 민첩성 중심, DevSecOps는 속도와 보안의 균형(Shift-Left) 중심으로 개발 초기부터 보안팀 참여.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **False Positive (오탐)**: 취약점이 아님에도 보안 도구가 위험으로 오판하여 빌드를 차단하는 현상으로, 오탐 룰셋(Exclusion List)튜닝 필수.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DevSecOps 구축 기준(DevSecOps Selection Criteria)**: Shift-Left 달성도, 4대 보안 도구 연동 및 Security Gate 자동화 수준에 의거한 체계.
 

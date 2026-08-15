@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이미지 분류**: 이미지 전체가 어느 클래스에 속하는지 점수와 범주를 예측하는 기법이다.
 - **합성곱 신경망(Convolutional Neural Network, CNN)**: 공유 필터로 이미지의 국소 특징을 추출하는 신경망이다.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **계층적 특징**: 얕은 층의 선•질감부터 깊은 층의 사물 형태까지 단계적으로 학습한 표현이다.
 - **단일 레이블(Single-label)**: 이미지마다 하나의 클래스를 판정하는 방식이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백본**: 입력 이미지에서 특징 맵을 추출하는 신경망 본체이다.
 - **전역 평균 풀링(Global Average Pooling, GAP)**: 채널별 특징 맵의 평균으로 공간 축을 줄이는 집계 방식이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **특징 벡터**: 공간 특징 맵을 분류에 사용할 고정 길이 값으로 요약한 표현이다.
 - **정규화(Normalization)**: 픽셀값의 중심과 척도를 학습 때 기준에 맞추는 전처리이다.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **시각 기하 그룹망(Visual Geometry Group Network, VGG)**: 작은 합성곱 필터를 반복 적층한 백본이다.
 - **잔차 신경망(Residual Network, ResNet)**: 잔차 연결로 깊은 신경망의 학습 신호를 보존하는 백본이다.
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 전처리**: 학습 때와 같은 해상도•픽셀 분포•색상 순서로 이미지를 변환하는 절차이다.
 - **클래스 가중치**: 클래스별 오류 비용을 손실에 다르게 반영하는 값이다.
@@ -193,7 +193,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심층 안정성**: 계층이 깊어져도 학습 신호가 소실되지 않고 수렴하는 성질이다.
 - **연산 효율**: 제한된 계산량과 메모리로 필요한 정확도와 속도를 달성하는 정도이다.

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Clustered Index (클러스터드 인덱스)**: 테이블의 실제 디스크 데이터 행(Data Page)이 인덱스 키 순서대로 물리 정렬되어 저장되는 인덱스로, 리프 노드가 곧 실제 데이터 페이지인 구조 (테이블당 단 1개만 존재 가능).
 - **Covering Index (커버링 인덱스)**: 쿼리가 요청하는 모든 컬럼(`SELECT, WHERE, ORDER BY, GROUP BY`)이 인덱스 키 및 포함(Include) 컬럼 내에 100% 존재하여, 실제 데이터 페이지를 조회하는 디스크 I/O (Table Access / Key Lookup)를 전혀 수행하지 않고 인덱스 노드 탐색만으로 쿼리를 완결하는 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Physical Order Data Alignment (클러스터드의 물리적 정렬)**: PK 순서대로 물리 디스크 레코드가 연속 배치되어 순차 I/O 범위 검색에 압도적 우위.
 - **Zero Table Access (커버링의 테이블 접근 소멸)**: `SELECT name FROM users WHERE age = 30` 쿼리에서 `Index(age, name)` 이 존재할 경우, 실제 `users` 데이터 페이지 접근 생략.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Using Index (MySQL Explain)**: 쿼리 실행 계획(EXPLAIN)에서 Extra 항목에 `Using index`가 표시되면 커버링 인덱스로 작동하여 디스크 테이블 조회가 생략되었음을 의미.
 
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Key Lookup Elimination**: 일반 인덱스(Non-Covering)는 인덱스 스캔 후 2차로 PK를 통해 실제 데이터 레코드를 읽어 오지만, 커버링 인덱스는 2차 렌더링 과정을 완전 제거.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Include Index (포함 인덱스)**: SQL Server/PostgreSQL 등에서 B+Tree 키는 `(age)`로만 구성하고, 부가 결과 컬럼 `(name, email)`은 리프 노드에만 저장(INCLUDE)하여 인덱스 크기를 최적화하는 커버링 기법.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Page Split & DML Overhead**: Clustered Index 키(PK)로 무작위 UUID 등을 사용하거나, Covering Index에 너무 많은 컬럼을 담을 경우 인덱스 페이지 폭증 및 DML 성능 추락 현상.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인덱스 물리 구조 수립 기준(Index Physical Architecture Standards)**: Range Scan 쿼리 빈도, Key Lookup 소멸성 및 Page Split 방지성에 의거한 체계.
 

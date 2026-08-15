@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lambda Architecture**: Nathan Marz가 제안한 데이터 처리 파이프라인 패러다임으로, 정확성을 보장하는 배치 계층(Batch Layer), 초저지연을 보장하는 속도 계층(Speed Layer), 둘을 병합해 응답하는 서비스 계층(Serving Layer) 3가지 파이프라인을 이중 병렬 구축하는 빅데이터 아키텍처.
 - **Batch Layer (배치 계층)**: 전체 불변 데이터 원천(Immutable Data)을 주기로 일괄 계산하여 100% 완벽하고 정확한 Batch View를 생성하는 계층 (Hadoop, Spark).
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Immutable Raw Data (불변 원본 데이터)**: 덮어쓰기(Update)를 절대 하지 않고Append-Only 형태로 데이터 원천 보존.
 - **Eventually Exact (최종 정확성)**: Speed Layer의 임시 오차를 Batch Layer의 주기적 배치 계산으로 100% 정정 보완.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dual Pipeline Convergence**: 동일한 비즈니스 로직을 Batch(Spark)용과 Stream(Flink)용 2가지 코드 베이스로 이중 개발하는 람다의 치명적 오버헤드.
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Kappa Architecture**: Jay Kreps가 제안한 아키텍처로, 람다의 이중 배치/스트림 유지보수 단점을 극복하기 위해 Batch Layer를 제거하고, 오직 Stream Engine (Flink/Kafka Log Replay) 단일 파이프라인으로 전면 통일한 구조.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Single Stream Pipeline**: 카파 아키텍처는 오직 Stream Engine 단일화로 코드 중복 및 결과 불일치(Inconsistency) 문제 소멸.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Code Duplication Drift**: 배치 계층의 Java/Scala 코드와 속도 계층의 Stream 코드가 시간이 지남에 따라 파행되어 뷰 정합성이 깨지는 현상.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **빅데이터 파이프라인 수립 기준(Data Pipeline Standards)**: 100% 재계산 정확성, 이중 로직 유지 비용, Flink 스트림 성숙도 및 Kappa 수용성에 의거한 체계.
 

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AI Test Automation**: 요구•Code•실행 이력으로 Test 생성•선택•분석을 보조하는 기술
 - **Regression Test (회귀 테스트)**: 변경이 기존 정상 기능에 결함을 만들지 않았는지 확인하는 활동
@@ -35,7 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Oracle (테스트 오라클)**: 실행 결과의 참•거짓을 판정하는 기대값과 규칙
 - **Failure Clustering (실패 군집화)**: 유사 Log•Stack•증상을 묶어 근본 원인을 찾는 기법
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Isolated Runner (격리 실행기)**: 생성 Test가 외부 시스템에 영향을 주지 않게 실행하는 환경
 
@@ -82,7 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mutation Score (변이 점수)**: 인위적 Code 결함 중 Test가 탐지한 비율
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Generative AI (생성형 AI)**: 요구•Code 문맥으로 새 Test 시나리오를 생성하는 모델
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Flaky Test (불안정 테스트)**: Code 변경 없이 환경•Timing에 따라 결과가 달라지는 Test
 

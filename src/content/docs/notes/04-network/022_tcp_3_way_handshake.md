@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 제어 프로토콜 3단계 연결 설정(Transmission Control Protocol Three-Way Handshake, TCP 3-way handshake)**: SYN•SYN/ACK•ACK으로 양방향 초기 순서 번호와 연결 상태를 합의하는 절차이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동기화(Synchronize, SYN)**: TCP 연결 시작과 초기 순서 번호를 제안하는 플래그이다.
 - **확인 응답(Acknowledgment, ACK)**: 상대 순서 번호의 수신을 확인하는 플래그이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **리슨 소켓(Listen Socket)**: 서버 포트에서 새 연결 요청을 받는 소켓이다.
 - **SYN 큐(SYN Queue)**: 최종 ACK를 기다리는 반쪽 연결을 보관하는 큐이다.
@@ -89,7 +89,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **윈도 배율(Window Scale)**: 큰 TCP 수신 윈도를 표현하도록 윈도 필드의 배율을 정하는 옵션이다.
 - **반쪽 연결 상태**: 서버가 클라이언트의 SYN을 받고 최종 ACK를 기다리는 연결 상태이다.
@@ -131,7 +131,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **TCP 연결 설정**: SYN과 ACK로 양방향 연결 상태를 만드는 절차이다.
 - **TCP 연결 종료**: 각 송신 방향을 독립적으로 닫는 절차이다.
@@ -154,7 +154,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **SYN Flood**: 대량 SYN으로 서버의 반쪽 연결 자원을 고갈시키는 공격이다.
 - **SYN Cookie**: 최종 ACK 검증 전까지 서버의 연결 상태 저장을 늦추는 방어 기법이다.
@@ -176,7 +176,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 최대 전송 단위 블랙홀(Path Maximum Transmission Unit Black Hole, 경로 MTU 블랙홀)**: 큰 패킷이 폐기되지만 크기 조정 신호가 돌아오지 않아 통신이 멈추는 현상이다.
 

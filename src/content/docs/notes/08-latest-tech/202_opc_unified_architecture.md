@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **OPC 통합 아키텍처(OPC Unified Architecture, OPC UA)**: 산업 데이터의 의미•통신•보안을 통합하여 이기종 설비의 상호운용을 지원하는 표준이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **의미 기반 정보 모델**: 설비 객체를 노드•속성•참조 관계로 표현해 값의 의미까지 교환하게 하는 모델이다.
 - **클라이언트-서버(Client-Server)**: 클라이언트가 서버 기능을 호출하는 세션 기반 통신 모델을 의미한다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **주소 공간(AddressSpace)**: 설비 객체와 그 관계를 노드•속성•참조로 표현하는 OPC 통합 아키텍처의 정보 공간이다.
 - **클라이언트(Client)**: 서버의 주소 공간을 탐색하고 읽기•쓰기•구독을 요청하는 주체을 말한다.
@@ -101,7 +101,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **보안 채널**: 인증서를 검증한 통신 주체 사이에서 메시지의 서명과 암호화를 제공하는 연결이다.
 
@@ -141,7 +141,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단순 태그 프로토콜**: 주소와 값 중심으로 설비 데이터를 교환하는 통신 방식이다.
 
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동반 명세(Companion Specification)**: 산업별 장비와 데이터의 공통 의미 모델을 정의해 공급사 간 해석 차이를 줄이는 명세을 말한다.
 
@@ -179,7 +179,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **통신 패턴**: 질의•명령•다수 배포처럼 데이터 교환 주체와 방향을 구분하는 기준로 정의된다.
 

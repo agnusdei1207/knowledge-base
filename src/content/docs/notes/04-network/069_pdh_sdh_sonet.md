@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **준동기식 디지털 계위(Plesiochronous Digital Hierarchy, PDH)**: 독립적인 국부 클럭(Local Clock)을 사용하여 신호 전송 속도 편차를 비트 채움(Bit Stuffing) 방식으로 흡수 및 단계별 다단 다중화하는 1세대 디지털 전송 계위이다.
 - **동기식 디지털 계위(Synchronous Digital Hierarchy, SDH)**: 계층적 망 동기와 포인터, STM 프레임으로 하위 신호를 직접 분기·결합하는 ITU-T 광전송 계위이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **비트 채움(Bit Stuffing / Positive Stuffing)**: PDH 각 수발신 장치 간 국부 클럭의 미세한 주파수 편차를 흡수하기 위해 비유효 다미 비트를 인위적으로 끼워 넣어 프레임 속도를 맞추는 기술이다.
 - **포인터(Pointer)**: SDH/SONET 동기 프레임 헤더 영역에서 페이로드(VC/SPE)의 실제 시작 바이트 위치를 동적으로 지시하여, 클럭 위상 변동 수용 및 직접 분기결합을 가능케 하는 바이트 지표이다.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 컨테이너(Virtual Container, VC)**: SDH에서 하위 저속 신호(C-12, C-3, C-4 등)에 경로 오버헤드(POH)를 결합하여 프레임 내부에서 독립 관리되는 논리적 수용 단위(e.g. VC-12, VC-4)이다.
 - **동기 페이로드 봉투(Synchronous Payload Envelope, SPE)**: SONET에서 사용자 데이터 페이로드와 POH를 포함하여 STS-1 프레임 내부를 부유(Floating)하는 실물 데이터 영역이다.
@@ -93,7 +93,7 @@ SDH·SONET 구성요소
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **신호 매퍼(Signal Mapper)**: PDH, 이더넷, ATM 등 다양한 하위 사용자 신호를 규격화된 가상 컨테이너(VC-12/VC-3/VC-4)에 수용 매핑하는 변환기이다.
 - **경로 오버헤드(Path Overhead, POH)**: VC/SPE 신호가 생성되는 지점부터 최종 해제되는 수신 노드까지 유지되며 End-to-End 품질과 오류를 추적하는 헤더이다.
@@ -141,7 +141,7 @@ SDH·SONET 구성요소
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상호 연동(Interworking)**: ANSI 속도 체계(SONET OC-n)와 ITU-T 속도 체계(SDH STM-n) 및 기존 PDH E1/T1 회선 간의 상호 매핑 변환 통신 연동 기술이다.
 
@@ -166,7 +166,7 @@ SDH·SONET 구성요소
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지터(Jitter)**: 전송 노드의 포인터 조정(Pointer Adjustment) 연산 시 발생하는 디지털 신호 에지의 미세한 타이밍 흔들림 현상이다.
 - **클럭 품질(Clock Quality)**: 망동기(Network Sync) 제공 장치(SSU/PRC)의 주파수 정확도로, 품질 저하 시 포인터 조정 폭증 및 지터 훼손이 발생한다.
@@ -186,7 +186,7 @@ SDH·SONET 구성요소
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계위 선택(Transmission Hierarchy Selection)**: 전송 회선의 규모, 망 동기화 요구 수준, OAM 제어성 및 국제 호환성을 다각도로 검토하여 PDH, SDH, SONET, WDM/OTN 기술을 선정하는 의사결정 체계이다.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ASIC(Application-Specific Integrated Circuit)**: 특정 용도와 연산 알고리즘에 맞게 회로 논리를 완전히 고정하여 맞춤 제작하는 전용 반도체.
 - **전용 데이터 경로(Dedicated Data Path)**: 특정 연산의 데이터 이동 및 처리를 위해 하드웨어 배선을 고정 설계한 실행 경로.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고정형 데이터플로우(Stationary Dataflow)**: 가중치, 활성값, 부분합 중 하나를 PE 내부 버퍼에 고정 유지하여 피연산자 이동을 최소화하는 방식.
 - **NRE(Non-Recurring Engineering)**: 반도체 칩 설계, 마스크 제작, 시제품 검증 등에 소요되는 일회성 초기 개발 비용.
@@ -63,7 +63,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PE(Processing Element)**: 행렬 및 텐서 연산을 병렬 실행하는 ASIC 내부의 최단위 연산 블록.
 - **MAC(Multiply-Accumulate)**: 두 피연산자를 곱한 값을 기존 부분합에 누적하는 신경망 기본 연산.
@@ -97,7 +97,7 @@ ASIC AI 가속기
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **타일(Tile)**: 대용량 텐서를 온칩 SRAM 크기 및 PE 배열 구조에 맞춰 절편한 데이터 블록.
 - **멀티캐스트(Multicast)**: 동일한 데이터(가중치/활성값)를 복수의 PE로 일괄 분배 전송하는 방식.
@@ -132,7 +132,7 @@ ASIC AI 가속기
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FPGA(Field-Programmable Gate Array)**: 비트스트림을 통해 논리 회로 및 배선을 재구성할 수 있는 가속기.
 - **GPU(Graphics Processing Unit)**: 다수 전용 코어 기반 소프트웨어 프로그래밍 가능한 범용 병렬 가속기.
@@ -154,7 +154,7 @@ ASIC AI 가속기
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로그래머블 제어(Programmable Control)**: 하드웨어 기본 데이터 경로는 유지하면서 제어 명령 순서를 변경 가능케 하는 회로 설계 방식.
 - **연산기 가동률(Compute Utilization)**: 유휴 시간 대비 실제 의미 있는 연산을 수행하는 PE의 가동 비율.
@@ -179,7 +179,7 @@ ASIC AI 가속기
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 안정성(Model Stability)**: 신경망 구조 및 연산 타입이 오랜 기간 변경되지 않고 유지되는 특성.
 - **ASIC 선택 기준(ASIC Selection Criteria)**: 생산 수량, 전력 효율 및 서비스 수명을 종합 평가하여 ASIC 제작 여부를 판정하는 기준.

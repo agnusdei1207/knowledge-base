@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Cyber Resilience (사이버 레질리언스)**: 사이버 공격이 발생했을 때 막는 것(예방)에만 집중하는 것이 아니라, 공격이 성공하더라도 핵심 비즈니스 기능을 최소한 유지하면서 최대한 빠르게 정상 복구하는 조직 전체의 종합 역량.
 - **Assumption of Breach (침해 가정)**: "언젠가는 뚫린다"는 것을 전제로 시스템을 설계하는 원칙. 예방에만 의존하지 않고 '침해 후 어떻게 살아남을 것인가'를 중심으로 대응·복구 체계를 미리 구축.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Zero Trust (제로 트러스트)**: "절대 믿지 말고, 항상 검증하라(Never Trust, Always Verify)"는 원칙. 내부 네트워크 안에 있다고 해서 신뢰하지 않고, 모든 사용자와 기기의 접근 시도를 항상 인증·인가하여 침해가 발생해도 측면 이동(Lateral Movement)을 차단.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Immutable Backup (불변 백업)**: 랜섬웨어가 암호화하거나 삭제할 수 없도록, 백업 완료 후에는 어떤 계정도 수정·삭제가 불가능(Worm: Write Once, Read Many)하게 보호된 복구 데이터.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Lateral Movement (측면 이동)**: 공격자가 한 시스템에 처음 침투한 후, 내부 네트워크를 통해 다른 중요 시스템들로 이동·확산하는 공격 기법. 마이크로 세그멘테이션과 Zero Trust로 차단.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DR (Disaster Recovery)**: 지진·화재 등 물리적 재해로 인한 데이터센터 장애 시 사전에 구축된 백업 사이트(DR 사이트)에서 서비스를 복구하는 체계. 사이버 공격에 의한 오염 백업 문제는 다루지 않음.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Common Failure Point (공통 실패 지점)**: 운영 환경과 예비 환경이 같은 계정, 네트워크, 스토리지에 의존하여, 공격자가 하나만 침해해도 양쪽이 동시에 무너지는 설계 결함. Air-gap 격리로 차단.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CBREX (Cyber Business Resilience Exercise)**: 실제 사이버 공격 시나리오를 가정하여 조직의 격리·지속·복구 절차를 모의 훈련하는 사이버 레질리언스 연습. 훈련 결과를 탐지·대응 체계 개선에 환류.
 

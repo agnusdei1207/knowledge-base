@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분할 정복(Divide and Conquer)**: 문제를 독립된 부분으로 나눠 재귀로 해결한 뒤 부분 해를 결합하는 설계 기법이다.
 - **독립 부분 문제**: 다른 부분 문제의 중간 결과 없이 따로 해결할 수 있는 작은 문제이다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **상호 비의존성**: 한 부분 문제를 푸는 동안 다른 부분 문제의 계산이나 답을 요구하지 않는 성질이다.
 - **결합 비용(Combine Cost)**: 부분 문제의 해를 전체 해로 합치는 데 추가로 드는 시간과 메모리이다.
@@ -64,7 +64,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **종료 조건(Base Case)**: 재귀를 멈추고 답을 직접 구하는 최소 입력 조건이다.
 - **호출 스택(Call Stack)**: 재귀 호출의 복귀 위치와 부분 해를 쌓아 두는 메모리 영역이다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **복귀 문맥**: 재귀 호출을 마친 뒤 돌아갈 위치와 부분 해를 결합하는 데 필요한 정보이다.
 - **분할(Divide)**: 문제를 독립된 작은 부분 문제로 나누는 단계이다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동적 계획법(Dynamic Programming, DP)**: 중복되는 부분 문제의 해를 저장•재사용하는 기법이다.
 - **점화식(Recurrence Relation)**: 하위 상태값을 결합해 현재 상태값을 계산하는 관계식이다.
@@ -169,7 +169,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **임계 크기(Threshold Size)**: 재귀 호출보다 반복 처리가 유리해지는 부분 문제의 크기이다.
 - **제자리 결합(In-place Merge)**: 큰 별도 배열 없이 기존 저장 공간에서 부분 해를 합치는 방식이다.
@@ -195,7 +195,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **병렬 이득**: 독립 부분 문제를 동시에 실행해 줄인 전체 처리 시간이다.
 - **분할 비용**: 문제를 작은 부분 문제로 나누는 데 필요한 자원이다.

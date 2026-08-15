@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Delta Lake**: Databricks가 개발하여 오픈소스화한 대표적인 Open Table Format 기술로, 클라우드 객체 스토리지(S3, ADLS)의 불변 Parquet 파일 상에 JSON 트랜잭션 로그(`_delta_log/`)를 추가하여 ACID 트랜잭션, 타임 트래블, 멱등성 병합(UPSERT/MERGE)을 보장하는 스토리지 레이어.
 - **Delta Transaction Log (`_delta_log`)**: 테이블의 모든 파일 추가/삭제(Add/Remove Actions), 스키마 변경 이력이 순차적 JSON 커밋 파일(0000.json, 0001.json...)로 기록되는 산출물 디렉터리.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID Transactions**: S3 위에서 멀티노드 동시 Write/Read 시 100% 원자성 및 일관성 보장.
 - **UPSERT & MERGE Support**: RDBMS처럼 `MERGE INTO` 구문으로 소스 데이터를 타깃 Delta 테이블에 멱등 병합.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Add & Remove File Actions**: Delta Log 파일 내부의 핵심 JSON 액션으로, 새 파티션 파일이 생성되면 `AddFile`, 이전 파일이 삭제/병합되면 `RemoveFile`을 기록.
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Time Travel Query**: `SELECT * FROM my_table VERSION AS OF 3` 또는 `TIMESTAMP AS OF '2026-08-01'` 형태로 과거 특정 버전 데이터를 0.1초 만에 렌더링.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Open Table Format 3대장**: Databricks의 Delta Lake, Netflix의 Apache Iceberg, Uber의 Apache Hudi.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Z-Ordering**: 특정 컬럼(예: `user_id`, `date`) 공간 채움 곡선을 따라 데이터를 물리적으로 재배치하여 데이터 건너뛰기(Data Skipping) 극대화.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Delta Lake 수립 기준(Delta Lake Standards)**: `_delta_log` 메타데이터, `OPTIMIZE Z-Order` 파일 병합, `VACUUM` 7일 보존 및 Spark 통합성에 의거한 체계.
 

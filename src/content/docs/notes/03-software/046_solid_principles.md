@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SOLID Principles**: 로버트 C. 마틴(Uncle Bob)이 정립한 객체지향 설계(OOD) 및 아키텍처의 5가지 핵심 원칙(SRP, OCP, LSP, ISP, DIP)으로, 유지보수성과 확장성이 뛰어난 소프트웨어 구조를 구축하기 위한 설계 가이드라인.
 - **Maintainability (유지보수성)**: 시스템 변경 요구사항 발생 시, 주변 코드에 예기치 못한 부작용(Side Effect) 없이 안전하고 손쉽게 수정/확장 가능한 코드 성질.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SRP (Single Responsibility Principle)**: 클래스(모듈)는 단 하나의 변경 이유(Single Reason to Change)만을 가져야 한다는 단일 책임 원칙.
 - **OCP (Open-Closed Principle)**: 소프트웨어 개체는 확장에는 열려 있어야 하고(Open for Extension), 수정에는 닫혀 있어야 한다는(Closed for Modification) 개방 폐쇄 원칙.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Polymorphism (다형성)**: 하나의 추상 인터페이스를 통해 여러 구체 클래스가 다양한 방식으로 작동하도록 하는 객체지향의 핵심 특성으로 OCP/DIP의 기반.
 
@@ -87,7 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dependency Injection (DI)**: DIP 원칙을 실현하기 위해 외부에 있는 컨테이너가 객체 간 의존 관계를 주입(Injection)해 주는 기술.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bad Smells in Code**: SOLID 원칙을 위반했을 때 발생하는 코드 악취 (Rigidity: 경직성, Fragility: 취약성, Immobility: 부동성).
 
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Over-Engineering**: 실무 요구사항에 대비해 과도하게 인터페이스와 클래스를 잘게 쪼개어 가독성을 해치고 구조를 복잡하게 만드는 행위.
 
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SOLID 적용 기준(SOLID Adoption Criteria)**: 시스템 수명주기, 요구사항 변경 빈도 및 코드 복잡도에 의거한 수립 체계.
 

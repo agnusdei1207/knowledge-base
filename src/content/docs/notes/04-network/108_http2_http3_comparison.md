@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **하이퍼텍스트 전송 프로토콜 버전 2(Hypertext Transfer Protocol version 2, HTTP/2)**: TCP에서 다중 스트림을 제공하는 웹 전송 표준이다.
 - **하이퍼텍스트 전송 프로토콜 버전 3(Hypertext Transfer Protocol version 3, HTTP/3)**: QUIC에서 독립 스트림을 제공하는 웹 전송 표준이다.
@@ -41,7 +41,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **HTTP/3 운영•보안 제약**: UDP 차단•암호화 관측 저하•0-RTT 재전송 위험이다.
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜이다.
@@ -61,7 +61,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **전송 계층 보안 1.3(Transport Layer Security 1.3, TLS 1.3)**: 전송 구간 암호화와 인증을 제공하는 보안 프로토콜이다.
 - **HTTP/2 헤더 압축(HTTP/2 Header Compression, HPACK)**: HTTP/2 필드의 중복을 줄이는 압축 방식이다.
@@ -97,7 +97,7 @@ HTTP 전송 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **HTTP/2 대체(Fallback)**: UDP 차단이나 QUIC 실패 시 TCP•TLS 기반 HTTP/2로 전환하는 동작이다.
 - **QUIC•TLS 협상**: UDP 연결•암호 매개변수•연결 ID를 설정하는 단계이다.
@@ -137,7 +137,7 @@ Alt-Svc•지원 버전 확인
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계이다.
 
@@ -158,7 +158,7 @@ Alt-Svc•지원 버전 확인
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **0 왕복 시간 요청 재전송(Zero Round-Trip Time Request Replay, 0-RTT 요청 재전송)**: 공격자가 이전 조기 데이터를 다시 보내 비멱등 업무를 중복 실행하게 할 수 있는 위험이다.
 
@@ -177,7 +177,7 @@ Alt-Svc•지원 버전 확인
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **HTTP 버전 선택**: 손실•이동성•UDP 통과 가능성과 대체 경로를 근거로 HTTP/2와 HTTP/3을 결정하는 판단이다.
 

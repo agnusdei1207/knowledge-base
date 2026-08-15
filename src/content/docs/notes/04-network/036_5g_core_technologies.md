@@ -18,7 +18,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5세대 이동통신 서비스 유형(5G Service Types)**: ITU-R M.2083 표준에서 정의한 요구 성능 지표(대용량 속도, 극저지연, 대규모 접속)별 5G 핵심 서비스 분류 체계이다.
 - **초고속 이동통신(Enhanced Mobile Broadband, eMBB)**: 대용량 데이터 전송과 사용자 체감 속도 극대화를 목표로 하는 5G 서비스 유형이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 품질(Quality of Service, QoS)**: 응용별 요구사항에 맞춰 전송 속도, 패킷 손실률, 지연 시간, 우선순위를 차등 제어하는 서비스 품질 체계이다.
 - **사용자 평면 기능(User Plane Function, UPF)**: 5G 코어 아키텍처에서 사용자 패킷의 캡슐화, 라우팅, 모바일 에지 컴퓨팅(MEC) 데이터 분기를 담당하는 핵심 엔티티이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5세대 이동통신(Fifth-Generation Mobile Communication, 5G)**: 초고속, 초저지연, 초연결 성능을 기반으로 산업 네트워크를 아우르는 차세대 이동통신 표준 규격이다.
 
@@ -87,7 +87,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **QoS 정책(Quality of Service Policy, QoS Policy)**: 트래픽 특성별 차등화된 서비스 레벨(5QI)을 지정하여 자원 할당 및 패킷 우선순위를 결정하는 정책 체계이다.
 - **모바일 에지 컴퓨팅(Mobile Edge Computing, MEC)**: 코어망으로의 트래픽 이동 없이 기지국 단말 인근에서 데이터를 즉시 처리하여 극저지연을 실현하는 에지 컴퓨팅 기술이다.
@@ -125,7 +125,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **처리량(Throughput)**: 단위 시간당 네트워크를 거쳐 성공적으로 전송되는 데이터 양의 크기이다.
 - **접속 밀도(Connection Density)**: 단위 면적(km²) 당 네트워크 접속을 유지하며 데이터 전송을 수행할 수 있는 최대 단말 수이다.
@@ -148,7 +148,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 발주자와 사업자 간 합의된 네트워크 처리량, 지연 시간, 가용성 보장 계약 수치이다.
 - **종단 지연 예산(End-to-End Latency Budget, E2E Latency Budget)**: 전체 시스템 허용 지연 시간을 무선 구간, 전송 구간, 애플리케이션 처리 구간으로 분할 할당한 관리 기준이다.
@@ -169,7 +169,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최우선 품질 지표(Key Performance Indicator, KPI)**: 네트워크 구축 시 서비스의 성공 기준이 되는 최우선 품질 지표(처리량, 지연시간, 접속밀도)이다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX)**: 사이버 위협 객체와 연관 관계를 기계가 판독할 수 있는 JSON 형태로 정형화 표현하는 국제 표준.
 - **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: STIX 형태의 위협 객체를 HTTPS 기반 API를 통해 조회•게시•동기화하는 전송 프로토콜 규약.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자•의도•TTP•신뢰도 맥락을 부여한 실행 가능한 정형 정보.
 - **TAXII 컬렉션(TAXII Collection)**: 접근 권한 및 주제별 분류에 따라 STIX 객체들을 그룹화하여 관리하는 논리적 데이터 저장소.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: TAXII 컬렉션 내 STIX 객체를 프로그래밍 방식으로 조회•등록하기 위한 RESTful 규약.
 
@@ -89,7 +89,7 @@ STIX•TAXII 공유 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **변경분 조회(Delta Query)**: 객체 식별자와 수정 타임스탬프를 이용해 변경•철회된 최신 객체만 효율적으로 동기화하는 절차.
 - **STIX 프로파일(STIX Profile)**: 상호 운용성을 위해 검증 객체•관계•필드 규격을 사전에 정의한 프로파일 아키텍처.
@@ -149,7 +149,7 @@ TAXII 변경분 조회
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **구조화 정보 표준 발전 기구(Organization for the Advancement of Structured Information Standards, OASIS)**: STIX/TAXII 등 글로벌 개방형 정보 기술 표준을 제정 및 관리하는 국제 컨소시엄.
 - **OASIS STIX 2.1 Errata 01**: 위협 객체(SDO), 관계 객체(SRO) 등의 JSON 구조 및 연관성을 정률 정의한 표준 스펙.
@@ -173,7 +173,7 @@ TAXII 변경분 조회
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 검증(Trust Verification)**: 표준 형식 연동과 별개로 수신된 인텔리전스의 출처 신뢰성, 유효기간, 자사 환경 적합성을 종합 검증하는 프로세스.
 

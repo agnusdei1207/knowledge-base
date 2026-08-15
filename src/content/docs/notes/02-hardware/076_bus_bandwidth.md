@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **버스 대역폭(Bus Bandwidth)**: 단위 시간(초) 당 버스 선로를 통하여 전송할 수 있는 이론적/실효적 데이터 전송 수치 ($B_{\text{max}}$).
 - **전송률(Transfer Rate)**: 버스 상에서 데이터 신호(Bit/Symbol)가 초당 처리되는 횟수 (MT/s, GT/s).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MT/s & GT/s**: 초당 100만 회(Mega Transfers/sec) 및 10억 회(Giga Transfers/sec) 데이터 래칭을 의미하는 단위.
 - **인코딩 효율(Encoding Efficiency, $\eta_{\text{enc}}$)**: 물리 직렬 링크에서 실제 데이터를 전달하기 위한 라인 코딩(8b/10b, 128b/130b 등) 비율.
@@ -61,7 +61,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **송신 인터페이스(Transmit Interface)**: 데이터를 물리 버스 규격 폭(bit)에 맞추어 변환 및 패킹하는 발신 컨트롤러.
 - **프로토콜 계층(Protocol Layer)**: 주소/제어/CRC 헤더를 부가하여 프레임 패킷을 캡슐화하는 레이어.
@@ -98,7 +98,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **DDR(Double Data Rate)**: 클록 신호의 상승(Rising) 및 하강(Falling) 에지 모두에서 데이터를 전송하는 방식.
 - **실측 사용률(Utilization, U)**: 이론적 페이로드 상한 대비 실제 유효하게 전달된 페이로드 비율.
@@ -133,7 +133,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **병렬 버스(Parallel Bus)**: 넓은 비트 폭(예: 32bit/64bit)을 한 클록에 동시 전송하는 방식 (예: PCI, DDR Bus).
 - **직렬 링크(Serial Link)**: 고속 시리얼 레인(x1~x16)을 통해 차동 전압으로 데이터를 고속 래칭하는 방식 (예: PCIe, CXL).
@@ -152,7 +152,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **방향별 지표(Directional Metrics)**: 단방향(Simplex) 대역폭과 양방향(Full-Duplex) 통산 대역폭 수치 구분.
 - **버스 경합(Bus Contention)**: 다중 노드가 자원을 동시 요청 시 중재 지연으로 인한 처리량 하락 현상.
@@ -173,7 +173,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **대역폭 개선 기준(Bandwidth Optimization Criteria)**: 실측 사용률(Utilization), 병목 구간 원인 및 TCO에 기반한 승급/증설 기준.
 

@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지능정보화 기본법(Framework Act on Intelligent Informatization)**: 국가와 공공기관의 지능정보사회 정책•기본계획•시행계획과 공통 기반 조성을 규정하는 기본법이다.
 - **지능정보사회(Intelligent Information Society)**: 인공지능•데이터•정보통신기술이 사회 전반의 활동과 의사결정에 활용되는 사회이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **성과 환류(Performance Feedback)**: 기관의 추진 실적과 차년도 계획을 점검해 다음 사업과 예산 편성에 반영하는 과정이다.
 - **계획 계층(Planning Hierarchy)**: 국가의 중기 종합계획을 기관별 연간 실행계획과 사업•예산으로 구체화하는 구조이다.
@@ -56,7 +56,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기관 실행계획(Agency Action Plan)**: 국가 종합계획에 맞춰 중앙행정기관과 지방자치단체가 매년 사업과 예산을 구체화한 계획이다.
 - **종합계획(Master Plan)**: 국가 지능정보화 정책 방향과 중기 추진 과제를 정하는 상위 계획이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **5. 점검 의견 연계**: 정부가 기관 실적과 차년도 계획의 분석 결과를 예산기관에 전달해 편성 의견으로 연결하는 단계이다.
 - **1. 기관 의견 수렴**: 중앙행정기관과 지방자치단체의 정책•사업 의견을 모으는 단계이다.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기본법 적용 범위**: 국가•기관의 정책•계획•기반 규율이다.
 - **디지털포용법(Digital Inclusion Act)**: 디지털 접근•역량•이용 편의와 취약계층 포용을 다루는 법률이다.
@@ -161,7 +161,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **성과 기준 불일치**: 기관마다 다른 기준을 사용해 사업 간 효과 비교와 예산 우선순위 결정을 어렵게 만드는 문제이다.
 - **공통 성과지표(Common Performance Indicator)**: 기관별 사업 효과를 같은 기준으로 비교하도록 정의한 측정값이다.
@@ -183,7 +183,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **적용 법률 선택 기준**: 국가 정책•계획은 기본법, 특정 대상의 세부 권리•의무는 현행 특별법을 적용하는 기준이다.
 - **특별법(Special Act)**: 특정 대상이나 사안의 세부 권리•의무를 기본법보다 구체적으로 규율하는 법률이다.

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **온디바이스 인공지능(On-Device Artificial Intelligence, On-Device AI)**: 원본 데이터를 외부 서버로 보내지 않고 단말 내부에서 인공지능 모델 추론을 수행하는 방식으로 정의된다.
 - **현장 자율성(Field Autonomy)**: 네트워크 연결이나 중앙 서버 상태와 무관하게 단말이 필요한 판단을 계속 수행하는 능력을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신경망 처리장치(Neural Processing Unit, NPU)**: 신경망의 행렬•텐서 연산을 낮은 전력으로 가속하는 전용 장치를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **로컬 개인정보 처리(Local Data Privacy Processing)**: 원본 민감정보를 단말 내부에서 처리하여 외부 전송 범위를 줄이는 방식을 나타낸다.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 패키지(Model Package)**: 압축 모델•메타데이터•서명•지원 연산자 정보를 묶은 배포 단위를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **그래프 분할(Graph Partitioning)**: 모델 연산을 지원 여부에 따라 NPU•GPU•CPU 또는 외부 실행 구간으로 나누는 방법을 나타낸다.
@@ -96,7 +96,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 서명(Model Signing)**: 배포 모델의 출처와 무결성을 암호학적 서명으로 검증하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **해시(Hash)**: 모델 파일을 고정 길이 값으로 변환하여 승인된 원본과 같은지 확인하는 결과값을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -139,7 +139,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **에지 인공지능(Edge Artificial Intelligence, Edge AI)**: 현장 인접 서버가 여러 단말의 데이터를 집계하고 분산 추론•제어를 수행하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **클라우드 인공지능(Cloud Artificial Intelligence, Cloud AI)**: 중앙의 대규모 자원으로 복합 모델과 통합 분석을 수행하는 구조를 나타낸다.
@@ -158,7 +158,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **오프로딩(Offloading)**: 단말에서 처리하기 어려운 연산을 정책에 따라 에지나 클라우드로 위임하는 패턴을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **무선 업데이트(Over-the-Air Update, OTA Update)**: 통신망을 통해 단말의 모델과 런타임을 원격 갱신하는 방식으로 정의된다.
@@ -180,7 +180,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **온디바이스 선택 기준(On-Device Selection Criteria)**: 민감정보•오프라인 동작•즉시 응답이 중요하고 단말 자원으로 품질을 충족할 때 적용되는 기준으로 정의된다.
 - **외부 위임 기준(Offloading Criteria)**: 로컬 자원이나 품질 한계를 넘을 때 민감정보를 제거하고 허용된 범위만 외부로 전달하는 규칙을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

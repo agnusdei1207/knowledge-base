@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RDBMS (Relational Database Management System)**: E.F. Codd 박사의 관계형 모델(Relational Model)에 기반하여, 데이터를 2차원 테이블 형태인 릴레이션(Relation)으로 모델링하고 SQL을 통해 데이터 정의, 조회, 제약조건 관리를 수행하는 상용 데이터베이스 엔진.
 - **Relation (릴레이션)**: 속성(Attribute, 열)과 튜플(Tuple, 행)들로 구성된 수학적 집합 개념의 2차원 테이블.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mathematical Set Theory (수학적 집합론)**: 튜플의 순서나 속성의 순서가 무의미하며, 교집합, 합집합, 차집합, 카티션 곱(Cartesian Product) 등 관계 대수(Relational Algebra) 연산 지원.
 - **Declarative Query (선언형 질의)**: "어떻게(How) 데이터를 인출할 것인가"를 절차적으로 기술하지 않고, "무슨(What) 데이터를 원하는가"를 SQL로 선언하면 DBMS 옵티마이저가 실행 계획을 자동 수립.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Primary Key (기본키, PK)**: 릴레이션 내의 모든 튜플을 고유하게 식별(Uniquely Identify)하는 최소한의 속성 집합으로, Null을 허용하지 않음 (개체 무결성).
 - **Foreign Key (외래키, FK)**: 참조하는 타 릴레이션의 PK/Unique Key를 가리키는 속성으로, 참조 대상이 존재하거나 Null이어야 함 (참조 무결성).
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Super Key $\rightarrow$ Candidate Key $\rightarrow$ Primary Key / Alternate Key**: 유일성만 만족하면 슈퍼키, 유일성+최소성 만족 시 후보키, 후보키 중 선정된 1개가 기본키, 선택받지 못한 후보키가 대체키.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID vs BASE**: RDBMS는 원자성, 일관성, 격리성, 지속성의 Strict ACID 준수, NoSQL은 Basically Available, Soft-state, Eventual Consistency 준수.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Surrogate Key vs Natural Key**: 인공적으로 생성한 Auto-increment/UUID 키(대리키) 대 실제 비즈니스 도메인의 주민번호/학번(자연키). 실무에서는 변경 여파를 막기 위해 Surrogate Key를 PK로 선호.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RDBMS 수립 기준(RDBMS Modeling Standards)**: 데이터 정합성 수준(ACID), 무결성 제약조건 및 SQL 표준성에 의거한 체계.
 

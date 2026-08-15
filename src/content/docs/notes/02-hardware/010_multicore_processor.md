@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **멀티코어 프로세서(Multicore Processor)**: 단일 반도체 다이(Die) 칩 내부에 2개 이상의 독립적인 CPU 코어를 집적하여 다중 소프트웨어 스레드를 동시에 처리하는 시스템.
 - **스레드 수준 병렬성(Thread-Level Parallelism, TLP)**: 복수의 독립적인 소프트웨어 실행 스레드를 물리적으로 서로 다른 CPU 코어에서 병렬 구동하는 아키텍처 기법.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **암달의 법칙(Amdahl's Law)**: 코어 수 $N$을 무한히 증설하더라도 프로그램 내의 불가피한 직렬 처리 비율 $S$에 의해 전체 가속비(Speedup) 상한이 한정됨을 나타내는 성능 법칙 ($\text{Speedup} = \frac{1}{S + \frac{1-S}{N}}$).
 - **가속비(Speedup)**: 단일 코어 환경의 처리 시간 대비 멀티코어 병렬 처리 환경에서 달성된 상대적 성능 향상 비율.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사설 캐시(Private Cache)**: 각 물리 코어 내부에 독점 배치되어 L1/L2 캐시 역할을 수행하는 고속 데이터 캐시.
 - **최종 단계 캐시(Last-Level Cache, LLC)**: 모든 코어가 버스 또는 인터커넥트를 통해 공유하는 L3 용량 대형 캐시.
@@ -82,7 +82,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **캐시 일관성(Cache Coherence)**: 여러 코어의 사설 캐시에 복제되어 있는 동일 메모리 주소 데이터가 한 코어에서 갱신되었을 때 모든 코어가 동일한 최신 값을 읽도록 보장하는 통신 체계.
 - **쓰기 소유권(Write Ownership)**: 특정 코어가 캐시 라인을 변경하기 전 일관성 인터커넥트를 통해 해당 라인의 독점 권한을 취득하는 동작.
@@ -106,7 +106,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **동시 멀티스레딩(Simultaneous Multithreading, SMT)**: 단일 물리 코어 내부에서 디코더와 연산 자원을 공유하며 2개 이상의 논리 스레드(Logical Thread)를 동시 발행하는 기법 (예: Intel Hyper-Threading).
 - **동종 멀티코어(Homogeneous Multicore)**: 동일한 명령 처리 특성을 가진 코어들로 구성한 구조.
@@ -134,7 +134,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **거짓 공유(False Sharing)**: 서로 다른 스레드가 이용하는 독립 변수들이 동일한 64바이트 캐시 라인 내에 우연히 배치되어, 한 코어의 쓰기가 타 코어 사설 캐시를 끊임없이 Invalidation 시키는 병목 현상.
 - **패딩(Cache Line Padding)**: 거짓 공유 방지를 위해 구조체 내의 변수 사이에 불필요한 공백 바이트(Align 64)를 강제로 삽입하여 별도 캐시 라인으로 격리하는 기법.
@@ -156,7 +156,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메모리 대역폭(Memory Bandwidth)**: 프로세서 코어 집합이 초당 메인 메모리로부터 읽거나 쓸 수 있는 최대 데이터 전송량(GB/s).
 - **일관성 트래픽(Coherence Traffic)**: 사설 캐시 간의 일관성 상태 유지를 위해 인터커넥트에 유입되는 Snoop/Invalidate 패킷 양.

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Database Sharding (데이터베이스 샤딩)**: 단일 데이터베이스 서버의 스케일-업(Scale-Up) 한계를 극복하기 위해, 대용량 데이터를 샤드 키(Shard Key) 기준으로 분할하여 다수의 독립된 물리 DB 노드(Shard Node)에 수평 분산(Scale-Out) 저장하는 아키텍처.
 - **Shard Key (샤드 키)**: 데이터 튜플을 어떤 샤드 노드에 배치할지 결정하는 기준 컬럼 (예: `user_id`, `tenant_id`).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Horizontal Scaling (Scale-Out)**: DB 노드를 추가하여 저장 용량과 처리량을 늘리는 확장 방식.
 - **Data Skew (샤드 데이터 불균형)**: 부적절한 샤드 키로 특정 노드에 데이터와 요청이 집중되는 현상.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Consistent Hashing (일관된 해시)**: 샤드 노드가 추가/삭제되더라도 전체 데이터를 다시 재배치(Rebalancing)하지 않고 오직 $1/N$의 데이터만 이동시키는 고성능 해시 샤딩 알고리즘.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hash Ring**: $0 \sim 2^{32}-1$ 범위의 해시 공간을 원형 링으로 구성하여 노드와 데이터의 키 위치를 맵핑하는 구조.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Partitioning vs Sharding**: 파티셔닝은 single-node 내 파일 분할, 샤딩은 multi-node 간 네트워크 수평 분산.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Distributed Transaction Challenge**: 여러 샤드에 걸친 원자성과 격리를 별도 조정해야 하는 문제.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **샤딩 아키텍처 수립 기준(Sharding Architecture Standards)**: 데이터 스케일, Shard Key 선택성, Consistent Hashing 및 샤딩 미들웨어(Vitess)에 의거한 체계.
 

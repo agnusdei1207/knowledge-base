@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Continuous Deployment (CD, 지속적 배포)**: 파이프라인의 모든 자동화 테스트 및 품질 게이트(Quality Gate)를 성공적으로 통과한 소스코드가 사람의 수동 개입 없이(No Human Touch) 실운영(Production) 환경에 즉시 자동 출시 배포되는 프로세스.
 - **Continuous Delivery vs Continuous Deployment**: Continuous Delivery는 운영 배포 직전 '사람의 수동 승인(Manual Gate)' 절차가 존재하는 반면, Continuous Deployment는 이 과정까지 100% 자동화된 최종 단계.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Small Batch Deployment**: 수개월 분량의 거대한 릴리스 대신, 1~2개 커밋 단위의 아주 작은 단위(Small Batch)로 배포하여 장애 영향 범위를 최소화하는 기법.
 - **Guardrail Metrics**: 자동 배포 후 오류율(Error Rate), 지연시간(P99 Latency), CPU 사용량이 지정한 임계치(Threshold)를 초과 시 자동으로 배포를 롤백시키는 핵심 가드레일 모니터링 지표.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Auto-Rollback Engine**: Prometheus/Grafana 지표를 런타임에 가동 감시하여, 배포 후 이상 징후 감지 시 1초 이내에 이전 Pod 버전으로 트래픽을 자동 원복시키는 엔진.
 
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Progressive Delivery (점진적 전달)**: Canary 배포와 Feature Flag를 결합하여, 유저 군별/트래픽 비율별로 신규 기능을 점진적으로 안전하게 노출시키는 현대적 배포 기술.
 
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Manual Approval Gate vs Continuous Deployment**: Continuous Delivery는 수동 승인을 거치므로 규제/보안 준수(Compliance)에 유리하나 배포 속도가 느림. Continuous Deployment는 완전 자동화로 속도가 극대화되나 철저한 자동화 테스트와 관측성 필수.
 
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Backward Compatibility (하위 호환성)**: DB 스키마 변경 시, 구버전 애플리케이션과 신버전 애플리케이션 모두가 문제없이 동작하도록 Expand-Contract 패턴으로 스키마를 변경하는 기법.
 
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지속적 배포 도입 기준(Continuous Deployment Selection Criteria)**: 자동화 테스트 성숙도, Observability 구현 수준 및 도메인 가역성에 의거한 체계.
 

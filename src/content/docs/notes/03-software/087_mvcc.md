@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MVCC (Multi-Version Concurrency Control, 다중 버전 동시성 제어)**: 데이터베이스에서 데이터를 수정(Update/Delete)할 때 기존 데이터를 직접 덮어쓰지 않고, Undo Log 등에 과거 버전(Historical Version)을 롤백 세그먼트로 보존하여, 읽기(Read)와 쓰기(Write) 작업이 서로를 블로킹하지 않도록 제어하는 고성능 동시성 제어 메커니즘.
 - **Lock-Free Read ("Readers Never Block Writers, Writers Never Block Readers")**: 읽기 작업은 공유 락(S-Lock)을 걸지 않고 Undo Log 스냅샷을 읽고, 쓰기 작업은 비상적 락(X-Lock)을 걸어 쓰기를 수행하므로, 읽기와 쓰기가 상호 대기 없이 동시 구동되는 핵심 사상.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Snapshot Read vs Current Read**: Snapshot Read는 락 없이 Undo Log 버전 스냅샷을 조회하는 일반 `SELECT`, Current Read는 최신 커밋 데이터 조회를 위해 S-Lock/X-Lock을 거는 `SELECT ... FOR UPDATE` 또는 `UPDATE` 구문.
 - **Purge Thread / Vacuum**: 트랜잭션이 완료되어 더 이상 그 어떤 트랜잭션도 참조하지 않는 오래된 Undo Log 구버전(Garbage Version)을 주기적으로 메모리/디스크에서 수거 및 정돈하는 디비 백그라운드 프로세스.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hidden Metadata Columns (InnoDB 3대 숨은 열)**: DB_TRX_ID(해당 행을 가공한 트랜잭션 ID), DB_ROLL_PTR(Undo Log의 이전 버전을 가리키는 롤백 포인터), DB_ROW_ID(PK 부재 시 자동 생성되는 행 ID).
 
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Read View Visibility Rule**: 1. 행의 `DB_TRX_ID` < `m_up_limit_id` (Read View 생성 시점 이전 커밋된 TRX) $\rightarrow$ **볼 수 있음(Visible)**. 2. `DB_TRX_ID` $\ge$ `m_low_limit_id` (Read View 생성 이후 TRX) $\rightarrow$ **볼 수 없음(Invisible, Undo 롤백 포인터 추적)**.
 
@@ -126,7 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **S-Lock / X-Lock vs MVCC**: 2PL은 Read 시 S-Lock을 걸어 Write의 X-Lock과 상호 블로킹, MVCC는 Read 시 Lock을 걸지 않고 스냅샷을 읽어 최고의 동시 처리량 확보.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Undo Log Bloat (Undo 공간 팽창)**: 장시간 커밋되지 않는 트랜잭션(Long-running Transaction)이 존재할 경우 Purge 스레드가 구버전을 삭제하지 못해 Undo Log 용량이 폭증하고 조회가 느려지는 현상.
 
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MVCC 수립 기준(MVCC Concurrency Standards)**: 동시성 읽기 처리량(TPS) 요건, Undo Log 용량 쿼터 및 Purge 스레드 효율성에 의거한 체계.
 

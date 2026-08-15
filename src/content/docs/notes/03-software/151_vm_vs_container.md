@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상머신(VM, Virtual Machine)**: 하이퍼바이저(Hypervisor)가 하드웨어를 추상화하여 게스트 OS(Guest OS)를 독립적으로 실행하는 하드웨어 가상화 기술.
 - **컨테이너(Container)**: 호스트 OS(Host OS) 커널을 공유하며 리눅스 cgroups(Control Groups) 및 Namespaces(네임스페이스)를 통해 프로세스 수준에서 격리하는 가상화 기술.
@@ -46,7 +46,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **하이퍼바이저 vs 도커 엔진(Hypervisor vs Docker Engine)**: VM은 하이퍼바이저(Hypervisor)가 가상 하드웨어를 생성, 컨테이너는 도커 엔진(Docker Engine)이 커널 cgroups/Namespaces를 제어.
 

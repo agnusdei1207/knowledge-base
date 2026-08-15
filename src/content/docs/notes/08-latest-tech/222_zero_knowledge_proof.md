@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영지식 증명(Zero-Knowledge Proof, ZKP)**: 증명자가 비밀 증거를 공개하지 않고도 공개 명제가 참임을 검증자에게 입증하는 암호 기술이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영지식성**: 검증자가 명제의 참 여부 외에는 비밀 증거에 관한 추가 정보를 얻지 못하는 성질을 말한다.
 - **완전성**: 참인 명제와 올바른 증명을 정직한 검증자가 수락하는 성질로 정의된다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관계 $R(x,w)=1$**: 공개 명제 $x$와 비밀 증거 $w$가 정해진 검증 조건을 만족한다는 뜻로 정의된다.
 - **증명자(Prover)**: 비밀 증거로 공개 명제가 참임을 입증하는 증명을 생성하는 주체을 의미한다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **비대화형 증명**: 증명자가 한 번 제출한 증명만으로 검증자가 명제의 참 여부를 확인하는 방식이다.
 
@@ -121,7 +121,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **대화형 영지식 증명(Interactive Zero-Knowledge Proof, Interactive ZKP)**: 증명자와 검증자가 여러 차례 질의•응답하는 방식이다.
 - **영지식 간결 비대화형 지식 논증(Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, zk-SNARK)**: 작은 비대화형 증명을 제공하는 방식을 의미한다.
@@ -144,7 +144,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **신뢰 설정**: 일부 영지식 증명 방식이 사용할 초기 공개 파라미터를 생성하고 비밀 잔여물을 폐기하는 절차로 정의된다.
 
@@ -163,7 +163,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **건전성 검증**: 거짓 명제의 증명이 통과할 확률을 허용 범위 안으로 제한하는 활동이다.
 

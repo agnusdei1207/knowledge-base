@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVM 익스프레스 (Non-Volatile Memory Express, NVMe)**: 고속 PCIe 버스 상에서 초고속 플래시 SSD의 병렬 I/O 처리 성능을 극대화하기 위해 개발된 65,535개 다중 큐(Multi-Queue) 기반의 호스트 컨트롤러 프로토콜.
 - **PCIe (Peripheral Component Interconnect Express)**: 고속 직렬 점대점(Point-to-Point) 핀 레인(Lane) 기반으로 CPU와 초고속 차세대 I/O 장치를 연결하는 마더보드 확장 버스 표준.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제출 큐 (Submission Queue, SQ)**: 호스트 CPU가 블록 읽기/쓰기 NVMe 명령 파이프라인 엔트리를 등록 배치하는 호스트 RAM 상의 원형 큐.
 - **완료 큐 (Completion Queue, CQ)**: NVMe SSD 컨트롤러가 I/O 명령 수행을 완료한 뒤 그 상태 결과 패킷을 기록해 두는 호스트 RAM 상의 원형 큐.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVMe 호스트 드라이버 (NVMe Host Driver)**: OS 커널에서 Block I/O 요청을 64-Byte NVMe 명령어로 인코딩하고 SQ/CQ 원형 큐 메모리를 맵핑 통제하는 커널 소프트웨어.
 - **호스트 메모리 큐/버퍼 (Host Memory SQ/CQ Buffer)**: 호스트 DRAM 상에 DMA 주소로 할당되어 SQ, CQ 및 실제 데이터 Read/Write 버퍼를 보관하는 공간.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **큐 포인터 (Queue Pointer / SQ Tail, CQ Head)**: 호스트 드라이버와 NVMe 컨트롤러가 원형 큐 상에서 최신 명령 위치와 회수 위치를 가리키는 16-bit 인덱스.
 - **플래시 채널 (Flash Channel)**: NVMe 컨트롤러가 복수의 낸드 플래시 칩으로 동시에 읽기/쓰기를 분산 수행하는 병렬 데이터 통로.
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **AHCI (Advanced Host Controller Interface)**: 구형 SATA HDD/SSD 전용 프로토콜로, 단일 32-depth 큐 및 소프트웨어 락(Lock)에 의한 지연 병목이 극심했던 방식.
 - **큐 깊이 (Queue Depth / QD)**: 단일 큐 내에 동시에 처리 대기로 쌓아 둘 수 있는 최대 I/O 명령 묶음 개수.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **인터럽트 병합 (Interrupt Coalescing)**: 초당 수백만 IOPS 트래픽 시 인터럽트 폭증으로 인한 CPU 낭비를 막기 위해, CQ 완성을 일정 시간/개수 묶어서 1회 인터럽트로 발송하는 기술.
 - **적응형 폴링 (Adaptive Polling / `io_uring` Polling)**: 하이엔드 초저지연 I/O 처리 시 MSI-X 인터럽트 문맥 스위칭조차 소거하기 위해, CPU 코어가 CQ 메모리를 100% 비동기 폴링하는 기술.
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NVMe 아키텍처 최적화 기준 (NVMe Optimization Criteria)**: 대상 저장 시스템의 목표 IOPS, p99 Tail Latency, NUMA 토폴로지 및 `io_uring` 지원 여부를 평가하여 SQ/CQ 다중 큐 스케일링을 결정하는 가이드라인.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Software Testing (소프트웨어 테스트)**: 소프트웨어의 결함(Defect)을 도출하고 사용자 요구사항 준수 여부 및 제품 품질(Quality)을 동적/정적으로 검증/확인(V&V)하는 제반 활동.
 - **Verification vs Validation (V&V)**: Verification(검증)은 "제품을 올바르게 만들고 있는가?(Right Building)"를 명세서 사양 관점에서 검사, Validation(확인)은 "올바른 제품을 만들었는가?(Right Product)"를 사용자 목적 관점에서 검사.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Oracle**: 테스트 실행 결과가 참(True)인지 거짓(False)인지 판단하기 위해 미리 정의된 올바른 기대값(Expected Result) 또는 판단 기준.
 - **Regression Testing (회귀 테스트)**: 소스코드 수정이나 기능 추가 후, 기존에 정상 작동하던 다른 모듈에 부작용(Side Effect) 결함이 발생하지 않았음을 재검증하는 테스트.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Unit Test (단위 테스트)**: 소스코드의 최소 단위(메서드, 클래스)를 독립적으로 격리하여 비즈니스 로직의 정합성을 검증하는 속도 빠른 테스트 (JUnit, PyTest).
 - **Integration Test (통합 테스트)**: 단위 모듈 간의 인터페이스, 데이터 흐름, DB 연동, API 통신 결합 부작용을 검증하는 테스트 (Big Bang, Top-down, Bottom-up, Sandwich).
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Test Double (테스트 대역)**: 단위/통합 테스트 시 의존 객체(DB, 외부 API)를 가짜 객체로 대체하여 격리 테스트를 가능하게 하는 대역 객체 모음 (Dummy, Fake, Stub, Mock, Spy).
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Mock vs Stub**: Stub은 호출 시 미리 준비된 가짜 데이터(Fixed Response)를 반환하고, Mock은 가짜 데이터 반환뿐만 아니라 해당 메서드가 '몇 번, 어떤 파라미터로 호출되었는지(Behavior Verification)'까지 검증하는 객체.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Defect Inflow Cost**: 결함 발견 시점이 개발 극초기(요구분석)에서 운영 배포 후로 뒤로 밀릴수록 조치 비용이 지수함수적으로 증가하는 법칙.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 테스트 수립 기준(Software Testing Strategy Standards)**: V-Model 검증 레벨, Test Pyramid 비율 및 자동화 검증율에 의거한 체계.
 

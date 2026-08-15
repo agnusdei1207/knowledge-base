@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **버퍼 오버플로우(Buffer Overflow)**: 프로그램이 메모리 버퍼에 데이터를 기록할 때 할당된 경계 크기를 초과하여 인접한 메인 메모리 영역 및 반환 주소(SFP/RET)를 무단 덮어쓰는 구조적 취약점.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스택 카나리(Stack Canary)**: 함수 프레임 생성 시 반환 주소(RET) 바로 앞에 삽입되는 무작위 값으로, 함수 반환 전 무결성을 검사하여 오버플로우를 감지하는 보호 기법.
 - **데이터 실행 방지(Data Execution Prevention, DEP)**: 스택, 힙 등 데이터 메모리 영역에 실행 불가(NX) 속성을 부여하여 셸코드 실행을 차단하는 기술.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메모리 안전 언어(Memory Safe Languages)**: Rust, Go, Java 등 컴파일러 및 런타임 차원에서 배열 경계 검사(Bounds Check)와 자동 메모리 관리를 강제하여 버퍼 오버플로우를 근본 차단하는 언어.
 
@@ -88,7 +88,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **퍼징(Fuzzing)**: 무작위 및 비정상 경계 입력값을 대량 주입하여 메모리 크래시 및 오버플로우 취약점을 자동으로 검출하는 동적 테스트 기법.
 - **크래시(Crash)**: 메모리 세그먼테이션 오류(SIGSEGV) 등으로 인해 프로세스가 비정상 종료되는 현상.
@@ -138,7 +138,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메모리 보호 계층 선택 기준(Memory Defense Criteria)**: 스택 프레임 보호는 Stack Canary, 실행 방지는 DEP/NX, 주소 정적 맵핑 방지는 ASLR/PIE를 계층적 적용하는 선택 기준.
 
@@ -157,7 +157,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MITRE CWE-787**: 할당된 버퍼 영역 밖의 메모리에 데이터를 기록하는 버퍼 오버플로우 약점 명세.
 - **산출물 검사(Artifact Security Check)**: Checksec 등 자동화 도구로 배포 바이너리의 Canary, NX, PIE, RELRO 적용 여부를 검증하는 절차.
@@ -177,7 +177,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **다층 보호(Defense-in-Depth for Memory)**: 소스 코드 수준의 안전한 경계 검사부터 컴파일러 카나리, OS 커널 실행 제한(DEP/ASLR)까지 포괄하는 메모리 심층 방어 체계.
 

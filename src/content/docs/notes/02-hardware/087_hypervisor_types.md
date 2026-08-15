@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **하이퍼바이저(Hypervisor/VMM)**: 단일 물리 하드웨어 상에서 복수의 VM(Virtual Machine)들을 구동하기 위해 CPU, 메모리, 입출력 자원을 동적 추상화/스케줄링하는 하드웨어/소프트웨어 레이어.
 - **Type 1 (Bare-Metal)**: 호스트 OS 없이 물리 하드웨어 직상(Bare-Metal)에 직접 탑재되어 하드웨어를 직접 통제하는 하이퍼바이저.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Bare-Metal 실행**: 호스트 OS 개입 없이 물리 CPU 커널 모드(VMX Root Operation)에서 하드웨어를 직결 제어하는 구조.
 - **Hosted 실행**: 호스트 OS 상의 한 개 유저 프로세스 형태로 실행되어 입출력 트랜잭션을 호스트 OS 커널 드라이버에 위임하는 구조.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Guest VM**: 하이퍼바이저에 의해 할당된 vCPU, vRAM 상에서 독립적으로 구동되는 가상 머신.
 - **Host OS**: Type 2 환경에서 물리 하드웨어를 구동하고 하이퍼바이저를 애플리케이션으로 포용하는 메인 OS.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 I/O 패스**: 게스트 VM의 입출력 요청이 물리 하드웨어 장치로 도달하는 트랜잭션 수송 경로.
 
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VMM 오버헤드**: 하이퍼바이저 층을 경유함으로 인해 발생하는 CPU/메모리/I/O 자원 손실 비율.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **vCPU Overcommit**: 물리 CPU 코어 수 대비 초과된 가상 vCPU를 배정하여 활용률을 극대화하는 기법.
 
@@ -168,7 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **하이퍼바이저 선택 기준(Hypervisor Type Selection Criteria)**: 운영 환경, 성능·장애 경계와 드라이버 요구에 따른 체계.
 

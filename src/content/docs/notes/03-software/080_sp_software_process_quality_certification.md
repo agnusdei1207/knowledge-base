@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SP Certification (Software Process Quality Certification, 소프트웨어 프로세스 품질인증)**: 정보통신산업진흥원(NIPA)이 주관하여 국내 중소/중견 SW 기업의 프로젝트 수행 역량 및 품질 프로세스 수준을 평가하여 Level 2 또는 Level 3 인증을 부여하는 국내 법정 인증제도 (소프트웨어 진흥법 제21조).
 - **NIPA (National IT Industry Promotion Agency)**: 과기정통부 산하 정보통신산업진흥원으로, 국내 SW 개발 기업의 체질 개선을 위해 SP 인증을 심사/발급하는 주관 기관.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **5개 영역 17개 평가항목**: 개발, 프로젝트 관리, 조직 프로세스 관리, 프로세스 개선, 지원 등 5대 영역.
 - **Level 2 (프로젝트 차원)** vs **Level 3 (조직 차원)**: Level 2는 개별 프로젝트 단위의 성공적 완수 역량, Level 3는 전사 차원의 공통 프로세스 자산화 및 정량적 지속 개선 역량.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **17개 프랙티스**: 개발(요구사항, 설계, 구현, 테스트), 프로젝트 관리(계획, 진행통제, 위험관리, 협력업체 관리), 지원(형상관리, 품질보증), 조직 프로세스(표준, 훈련), 프로세스 개선(평가, 개선).
 
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NIPA SP Audit**: 서류 심사 $\rightarrow$ 현장 심사(프로젝트 산출물 및 개발자/PM 인터뷰) $\rightarrow$ 시정 조치 $\rightarrow$ 심의위원회 최종 승인 4단계 절차.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SP vs CMMI**: SP 인증은 NIPA 주관의 국내 중소기업 맞춤형(비용 저렴, 심사기간 단축), CMMI는 CMU SEI 주관의 해외 대형 글로벌 가이드라인.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Agile/DevOps Tailoring**: 전통적 Waterfall 위주의 SP 심사 항목을 최신 애자일(Scrum) 및 DevOps 파이프라인 산출물(Jira, Git, CI/CD)로 대체 증빙하는 재단 기법.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SP 인증 수립 기준(SP Certification Standards)**: NIPA SP 인증 기준, 소프트웨어 진흥법 및 기업 성장 단계별(Level 2 $\rightarrow$ Level 3) 이행에 의거한 체계.
 

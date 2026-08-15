@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SRE (Site Reliability Engineering)**: 구글(Google)이 창안한 모델로, 소프트웨어 공학(개발) 방법론을 IT 인프라 운영(Ops) 문제에 적용하여 시스템 신뢰성과 확장성을 달성하는 실천적 엔지니어링 체계.
 - **SLO (Service Level Objective)**: 고객과 약속한 가용성 목표치(예: 월간 성공률 99.9%). SLA(계약)를 지키기 위해 내부적으로 설정하는 척도.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Blameless Post-Mortem (비난 없는 사후 분석)**: 장애 발생 시 "누가" 잘못했는지가 아니라, "어떤 시스템적 허점"이 장애를 유발했는지 집중하여 재발 방지책을 도출하는 SRE 핵심 문화.
 
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLI (Service Level Indicator)**: 사용자 관점에서 실제 측정된 서비스 지표(예: 최근 5분간 HTTP 200 OK 응답 비율 99.95%).
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Burn Rate (예산 소진율)**: 한 달 치 Error Budget(43분)이 특정 장애로 인해 얼마나 빠르게 소모되고 있는지를 나타내는 속도 지표.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Class SRE Implements DevOps**: "SRE는 DevOps라는 철학을 구현하는 구체적인 실천(Class) 방법론이다"라는 구글의 정의.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Alert Fatigue (경고 피로)**: 너무 사소한 CPU 80% 알람이 수천 개씩 쏟아져 온콜(On-Call) 엔지니어가 중요한 진짜 장애 알림을 무시하게 되는 현상.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SRE 수립 기준(SRE Standards)**: SLI/SLO 정의, Error Budget 배포 통제, Toil 50% Rule 및 Blameless Postmortem에 의거한 체계.
 

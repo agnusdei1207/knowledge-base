@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 일관성 프로토콜(Cache Coherence Protocol)**: 멀티코어 프로세서 환경에서 동일한 메모리 주소를 공유하는 복수 사설 캐시(L1/L2) 사본들 간의 단일 작성자 및 최신 읽기 일관성을 유지하는 상태 머신 기반 통신 규약.
 - **소유권(Ownership)**: 특정한 캐시 라인에 대해 데이터를 직접 수정할 수 있고 하위 메모리나 타 캐시로 최신 데이터를 제공/반영할 책임을 갖는 독점 제어 권한.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 작성자 불변식(Single Writer Invariant, SWI)**: 특정 시점에 동일 주소 캐시 라인을 수정할 수 있는 쓰기 독점 권한은 오직 단 1개의 캐시만 보유할 수 있다는 핵심 규칙.
 - **다중 독자 불변식(Multiple Reader Invariant, MRI)**: 해당 캐시 라인을 수정하려는 쓰기 권한 소유자가 없을 때에 한하여 무수한 코어가 동시에 읽기 사본을 공유(Shared)할 수 있다는 규칙.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 비트(State Bits)**: 캐시 라인 태그 옆에 배치되어 해당 라인의 현재 일관성 상태(M, E, S, I / O)를 2~3비트로 기록하는 하드웨어 플래그.
 - **일관성 제어기(Coherence Controller)**: CPU의 Read/Write 요청 및 원격 코어의 Snooping/Directory 메시지를 수신하여 FSM 상태 전이를 처리하는 회로.
@@ -89,7 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **수정 상태(Modified, M)**: 데이터가 메모리와 달리 최신으로 갱신되었으며, 오직 이 캐시만 독점 소유권을 가진 상태 (Read/Write 가능).
 - **독점 상태(Exclusive, E)**: 데이터가 메모리와 일치하나, 타 캐시에는 사본이 없고 오직 이 캐시만 독점 보유한 상태 (무제한 Write 가능).
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MESI**: Modified, Exclusive, Shared, Invalid 4가지 상태를 사용하여 대중적으로 채택된 캐시 일관성 프로토콜.
 - **MOESI**: MESI에 **Owned(O)** 상태를 추가하여, 메인 메모리 쓰기(Write-back) 없이도 더티 데이터를 다른 코어들과 직접 공유 및 캐시 간 전송(C2C Transfer)할 수 있는 최적화 프로토콜.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소유권 지역화(Ownership Localization)**: 특정 데이터 쓰기 작업을 가급적 동일 코어에 묶어서 할당(Core Affinity)하여, 코어 간 소유권 핑퐁(Ping-Ponging) 무효화 트래픽을 예방하는 기법.
 - **캐시 간 전달(Cache-to-Cache Transfer / Direct C2C)**: 메모리까지 가지 않고 온칩 라우터를 통해 M/O 상태 캐시에서 직접 요청 코어로 데이터를 쏘아주는 고속 전송.
@@ -173,7 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **프로토콜 선택 기준(Protocol Selection Criteria)**: 대상 멀티코어 SoC의 사설 캐시 간 공유 쓰기 패턴, 온칩 라우터 대역폭, DRAM 메모리 접근 지연을 종합 평가하여 MESI/MOESI 및 Snooping/Directory 구조를 선택하는 가이드라인.
 

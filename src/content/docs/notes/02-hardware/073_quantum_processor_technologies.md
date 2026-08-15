@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **초전도 큐비트(Superconducting Qubit)**: 극저온(mK) 환경에서 조지프슨 접합(Josephson Junction) LC 회로의 비선형 에너지 준위를 큐비트로 구동하는 프로세서.
 - **이온 트랩 큐비트(Trapped-Ion Qubit)**: 진공 챔버 내에서 사중극자 전자기장(RF Paul Trap)으로 개별 이온을 공중에 포획하여 레이저로 상태를 제어하는 큐비트.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **게이트 시간(Gate Time)**: 단일·2큐비트 양자 게이트 연산을 완료하는 데 걸리는 시간.
 - **결맞음 시간(Coherence Time, T1/T2)**: 큐비트의 에너지와 위상 정보가 유지되는 물리 시간.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **고전 제어기(Classical Controller)**: RF 펄스 및 레이저 광학 신호를 성형하여 양자 하드웨어로 디스패치하는 컨트롤러.
 - **조지프슨 접합(Josephson Junction)**: 초전도 큐비트 비선형 인덕턴스를 형성하는 양자 터널링 단자.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **마이크로파 펄스(Microwave Pulse)**: 초전도 큐비트의 Bloch 구상 회전 연산을 유도하는 RF 전자기파.
 - **레이저 펄스(Laser Pulse)**: 이온의 내부 전자 에너지 준위 간 전이 및 진동 모드(Phonon) 얽힘을 유도하는 코히어런트 광원.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 간섭(Crosstalk)**: 인접 큐비트 구동 펄스가 주변 큐비트에 샐티되어 에러를 유발하는 현상.
 - **모드 혼잡(Mode Crowding)**: 이온 수 증가 시 진동 모드(Phonon) 밀집으로 인해 레이저 얽힘 제어가 곤란해지는 특성.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **이온 셔틀링(Ion Shuttling)**: 칩 트랩 상에서 전자기장을 통하여 이온을 물리적으로 이동시켜 다중 큐비트 모듈을 연결하는 기술.
 - **게이트 충실도(Gate Fidelity)**: 이상적 양자 게이트와 실제 하드웨어 실행 결과 간의 일치 비율 (% 수치).
@@ -172,7 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플랫폼 선택 기준(Quantum Processor Selection Criteria)**: 얕은 회로의 고속 반복 연산(VQE 등)인지, 얽힘 연결성이 중요한 연산인지에 따른 칩셋 선택 체계.
 

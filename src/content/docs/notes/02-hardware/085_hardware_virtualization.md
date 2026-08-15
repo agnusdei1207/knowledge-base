@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **하드웨어 가상화(Hardware-Assisted Virtualization)**: CPU 하드웨어 차원에서 가상화 전용 실행 모드(Root vs Non-Root)와 하이퍼바이저 지원 명령어를 내장하여 게스트 OS를 직접 수행하는 가상화 기술.
 - **하이퍼바이저(Hypervisor/VMM)**: 하드웨어와 가상 머신(VM) 사이에서 물리 자원을 추상화하고 VM 간 격리 및 스케줄링을 통제하는 가상화 제어 미들웨어.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VT-x / AMD-V**: Intel(VT-x) 및 AMD(AMD-V) x86 CPU 하드웨어 가상화 전용 명령어 집합.
 - **VMCS/VMCB(Virtual Machine Control Structure/Block)**: VMM 상태, 게스트 섀도 레지스터 상태 및 VM Exit 조건 메타데이터를 저장하는 하드웨어 메모리 데이터 구조.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **IOMMU(Input-Output MMU)**: 가상 머신(VM) 및 PCI 장치 간의 DMA(Direct Memory Access) 주소 변환과 장치 가상화 보안 격리를 담당하는 하드웨어 (Intel VT-d / AMD-Vi).
 - **vCPU(Virtual CPU)**: 하이퍼바이저가 물리 CPU 코어에 대한 연산 시간을 스케줄링하여 VM에 할당하는 가상 프로세서 단원.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VM Entry**: 하이퍼바이저(Root)에서 게스트 OS(Non-Root)로 실행 제어권을 넘기는 하드웨어 상태 전환 동작 (VMLAUNCH/VMRESUME).
 - **VM Exit**: 게스트 OS 실행 중 특권 명령(PRIV) 인가 또는 I/O 발생 시 하이퍼바이저(Root)로 제어권이 강제 트랩(Trap) 이행되는 현상.
@@ -130,7 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Binary Translation**: 하드웨어 지원이 없던 시절, 게스트 특권 명령을 동적으로 탐지하여 하이퍼바이저 안전 코드로 치환(BT)하던 소프트웨어 방식.
 
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SR-IOV(Single Root I/O Virtualization)**: 단일 PCIe 가상화 장치를 복수의 Virtual Function(VF)으로 분할하여 VM에 직결 인가하는 하드웨어 통제.
 - **Virtio**: 가상 I/O 장치 에뮬레이션 비용을 줄이기 위해 준가상화(Paravirtualized) ring-buffer 기반 드라이버 구조.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상화 선택 기준(Virtualization Technology Selection Criteria)**: 게스트 OS 수정 가능성, I/O 스루풋 타깃 및 HW CPU 지원 여부에 따른 체계.
 

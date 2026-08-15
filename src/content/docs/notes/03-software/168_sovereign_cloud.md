@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Sovereign Cloud (소버린 클라우드)**: 데이터가 저장된 물리적 위치(Data Residency)뿐만 아니라, 시스템 운영 주체와 암호키 통제권까지 현지 법(Local Jurisdiction)의 지배를 받도록 설계된 최고 수준의 독립형 클라우드.
 - **Data Sovereignty (데이터 주권)**: 국가나 기업이 스스로 생성한 데이터에 대해 해외 정부나 글로벌 CSP(Cloud Service Provider)의 간섭 없이 독립적인 접근/통제 권한을 행사하는 권리.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Operational Sovereignty (운영 주권)**: 글로벌 CSP 본사의 엔지니어가 백도어로 접속하지 못하도록 현지 국적의 직원(Local Staff)만이 서버 관리 권한을 행사하는 원칙.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **External KMS (외부 키 관리 시스템)**: CSP(AWS) 내부의 KMS를 쓰지 않고, 고객이 온프레미스 장비나 로컬 파트너의 KMS 장비에서 암호키를 생성·보유하여 CSP가 절대 데이터를 열어보지 못하게 막는 기술.
 
@@ -80,7 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Digital Sovereignty (디지털 주권)**: 데이터 주권, 소프트웨어(기술) 주권, 하드웨어 공급망 주권을 모두 포괄하는 국가 차원의 최상위 독립 통제권.
 
@@ -122,7 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Data Residency (데이터 레지던시)**: "물리적 서버 위치만 국내에 둘 뿐", 운영권과 암호키 통제권은 여전히 글로벌 CSP가 쥐고 있는 기초 단계 클라우드 요건.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Exit Strategy (탈출 전략/출구 전략)**: 특정 CSP가 파산하거나 적대적 인수합병이 발생했을 때, 즉각 데이터와 시스템을 다른 플랫폼으로 옮길 수 있는 포터빌리티(Portability) 설계.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **소버린 클라우드 수립 기준**: Data Residency 기본 충족, External KMS 암호권 보장, 로컬 파트너 운영권 및 Exit Strategy(컨테이너화)에 의거한 체계.
 

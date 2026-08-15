@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP)**: 전 세계 인터넷을 구성하는 자율 시스템(AS) 간에 서브넷 도달 가능성 정보와 라우팅 정책 경로를 교환하는 패스 벡터(Path-Vector) 방식의 외부 라우팅 프로토콜(EGP).
 - **자율 시스템(Autonomous System, AS)**: 하나의 단일 관리 주체(ISP, 대기업 등)에 의해 통합 제어되는 고유한 AS 번호(ASN)를 가진 IP 네트워크 집합.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자율 시스템 경로(Autonomous System Path, AS_PATH)**: 목적지 IP 프리픽스에 도달하기 위해 거쳐온 AS 번호들의 목록을 담은 BGP 필수 속성으로, 라우팅 루프 방지(자신의 AS 포함 시 폐기)에 활용됨.
 - **증분 갱신(Incremental Update)**: 초기 인접 세션 형성에만 전체 BGP 라우팅 테이블을 전송하고, 이후에는 토폴로지 변경/철회(Withdraw)된 경로만 부분 송신하는 방식.
@@ -59,7 +59,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **BGP 피어(BGP Peer / Neighbor)**: TCP 179번 포트를 통해 1:1로 BGP 세션을 정상적으로 수립하고 라우팅 정보를 상호 교환하는 인접 라우터.
 - **업데이트 메시지(UPDATE Message)**: 새로운 도달 경로(NLRI + Path Attributes)를 광고하거나 더 이상 유효하지 않은 경로(Withdrawn Routes)를 통보하는 BGP 핵심 제어 패킷.
@@ -99,7 +99,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **수신 정책(Inbound Policy)**: 상대 BGP Peer로부터 수신된 UPDATE 패킷 내 IP 프리픽스를 수용할지 검증하고 LOCAL_PREF 등의 속성을 변경하는 정책.
 - **선택 정책(Selection Policy)**: BGP Table에 모인 여러 라우팅 경로 중 우선순위 알고리즘 규칙에 따라 단일 최선의 경로(Best Path)를 선발하는 정책.
@@ -144,7 +144,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **외부 BGP(External Border Gateway Protocol, eBGP)**: 서로 다른 AS 번호를 가진 라우터 간에 맺는 BGP 세션 (TTL 기본 1).
 - **내부 BGP(Internal Border Gateway Protocol, iBGP)**: 동일한 AS 번호 내부 라우터 간에 외부 BGP 경로 정보를 반사/공유하기 위해 맺는 BGP 세션 (TTL 기본 255).
@@ -168,7 +168,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자원 공개키 기반구조(Resource Public Key Infrastructure, RPKI)**: BGP Route Hijacking(경로 탈취)을 방지하기 위해, 특정 IP 프리픽스를 광고할 권한이 정당한 기원 AS(Origin AS)에 있는지 암호학적으로 검증하는 자원 인증 기술.
 - **프리픽스 필터(Prefix Filter)**: 사설 IP 대역(RFC 1918) 및 비인가 대역(Bogon IP)이 외부 BGP로 유출되거나 유입되지 않도록 서브넷 리스트로 통제하는 기능.
@@ -189,7 +189,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 유출 방지(Route Leak Prevention)**: RPKI 기원 검증과 BGP Community 기반 정책 통제를 통해 오광고된 경로의 무단 전파를 차단하는 활동.
 - **경로 정책 결정(Routing Policy Selection)**: 아웃바운드는 LOCAL_PREF로, 인바운드는 AS_PATH Prepending 및 MED 속성 튜닝으로 트래픽 흐름을 주도하는 전략.

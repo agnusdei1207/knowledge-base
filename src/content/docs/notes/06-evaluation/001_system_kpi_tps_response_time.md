@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **측정 구간(Measurement Window, 관측 시간대)**: 성능 지표 산출의 통계적 유의성을 확보하기 위해 시작부터 종료 시점까지 일정하게 고정한 모니터링 및 집계 범위.
 - **성공 기준(Success Criteria, 정상 응답 조건)**: 기술적 오류(5xx 응답 등)나 비즈니스 취소를 제외하고 최종적으로 사용자에게 유효한 결과를 반환한 정상 처리 판정 규칙.
@@ -141,7 +141,7 @@ SLO 충족•병목 판정
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 거래(Business Transaction, 비즈니스 로직 단위)**: 사용자 관점에서 로그인, 결제 등 하나의 완전한 비즈니스 목적을 달성하기 위해 묶여서 실행되는 내부 시스템 요청들의 논리적 집합.
 - **처리량•응답시간•가용성 비교(Metric Comparison)**: 시스템을 평가할 때 단순 용량, 응답 민첩성, 중단 없는 연속성을 상호 교차 검증하여 특정 지표 편향에 의한 왜곡을 방지하는 다각도 분석 기법.
@@ -162,7 +162,7 @@ SLO 충족•병목 판정
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLO(Service Level Objective, 서비스 수준 목표)**: 도출된 SLI 지표에 대해 조직 내부적으로 설정한 현실적이고 엄격한 목표 달성 기준치(예: 결제 성공률 99.9%).
 - **SLA(Service Level Agreement, 서비스 수준 협약)**: 서비스 제공자와 고객 간에 체결된 공식 계약으로, SLO 미달 시 부과되는 페널티나 손해배상 등의 외부 책임 소재를 명시.
@@ -185,7 +185,7 @@ SLO 충족•병목 판정
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **다차원 성능 판단(Multidimensional Performance Evaluation)**: 어느 하나의 단일 지표에 얽매이지 않고 처리량, 지연시간, 오류율, 가용성을 총체적이고 입체적으로 교차 분석하여 시스템 성능을 확정하는 평가 철학.
 - **용량 한계(Capacity Limit, 임계 성능점)**: 시스템에 유입되는 부하가 계속 늘어남에도 불구하고 초당 처리량이 포화되어 정체되고 대기 지연과 시스템 오류가 지수 함수적으로 폭증하는 극단적 한계 시점.

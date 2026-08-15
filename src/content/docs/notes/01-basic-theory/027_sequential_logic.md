@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순차 논리 회로(Sequential Logic Circuit)**: 현재 입력과 저장 상태로 다음 상태와 출력을 결정하는 회로이다.
 - **저장 상태**: 과거 입력의 처리 결과를 레지스터에 보존한 내부 정보이다.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **유한 상태 머신(Finite State Machine, FSM)**: 현재 상태와 입력으로 다음 상태와 출력을 정하는 모델이다.
 - **클록 엣지**: 플립플롭이 입력을 받아 상태를 갱신하는 클록 신호의 변화 시점이다.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **플립플롭(Flip-Flop)**: 클록 엣지에서 1비트를 받아 저장하는 기억 소자이다.
 - **상태 레지스터**: 여러 플립플롭으로 FSM의 현재 상태를 저장하는 구성요소이다.
@@ -93,7 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **현재 상태(Current State)**: 지금 레지스터에 저장된 상태값이다.
 - **다음 상태(Next State)**: 다음 클록 엣지에 저장할 계산값이다.
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **조합 논리 회로**: 기억 소자 없이 현재 입력의 부울 함수만으로 출력을 정하는 회로이다.
 - **메타안정성(Metastability)**: 타이밍 위반으로 플립플롭 출력이 일정 시간 0과 1 사이에 머무는 현상이다.
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **클록 도메인 교차(Clock Domain Crossing, CDC)**: 서로 다른 클록 영역 사이에서 신호를 전달하는 과정이다.
 - **동기화기(Synchronizer)**: 다단 플립플롭으로 단일 비트 CDC의 메타안정성 전파 확률을 낮추는 회로이다.
@@ -181,7 +181,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 비트 CDC**: 서로 다른 클록 영역 사이로 한 비트의 제어 신호를 전달하는 과정이다.
 

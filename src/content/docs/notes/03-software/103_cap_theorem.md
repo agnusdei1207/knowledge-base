@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAP Theorem (CAP 정리 / 브루어의 정리)**: Eric Brewer 교수가 제창한 분산 시스템 트레이드오프 정리로, 분산 데이터베이스 환경에서 일관성(Consistency), 가용성(Availability), 분할 내성(Partition Tolerance)의 3가지 특성을 100% 동시에 만족시키는 것은 절대 불가능하며, 무조건 2 가지만 선택할 수 있다는 이론.
 - **Consistency (일관성, C)**: 분산 노드 중 어떤 노드에 읽기 쿼리를 던져도 항상 가장 최근에 쓰여진 동일하고 정확한 데이터를 반환받는 성질.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **P is Mandatory (P는 필수 선택 조건)**: 분산 네트워크 환경에서 통신 단절(P)은 제어 불가능한 물리적 장애이므로, 실질적 선택은 CP(일관성 선택) 대 AP(가용성 선택)의 2지선다로 귀결.
 - **PACELC Theorem**: CAP 정리를 확장하여, 네트워크 분할(P) 시 A와 C의 선택, 정상(Else) 시 Latency(L)와 Consistency(C) 간의 트레이드오프를 설명한 확장 이론.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CP System (HBase, Redis, MongoDB, RDBMS Cluster)**: 네트워크 단절 시 데이터 일관성을 위해 에러를 내거나 읽기/쓰기를 블로킹하는 시스템.
 - **AP System (Cassandra, DynamoDB, Couchbase)**: 네트워크 단절 시 데이터 불일치(Stale Data)를 감수하더라도 무조건 성공 응답을 반환하는 시스템.
@@ -74,7 +74,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Quorum Check (정족수 검사)**: CP 시스템에서 노드 분할 시 과반수 노드(Quorum)에 도달하지 못하면 쓰기/읽기 연산을 거부하는 메커니즘.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PACELC Theorem**: If **P**artition: choose **A** or **C** / **E**lse (정상 상태): choose **L**atency or **C**onsistency.
 
@@ -131,7 +131,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Tunable Consistency (가변 일관성)**: Cassandra/DynamoDB에서 읽기/쓰기 시 정족수 레벨(ONE, QUORUM, ALL)을 쿼리별로 조정하여 CP와 AP 성격을 가변적으로 변경하는 기법.
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CAP 선택 수립 기준(CAP Theorem Decision Standards)**: 비즈니스 허용 오차, RPO/RTO 목표 및 PACELC 트레이드오프 분석성에 의거한 체계.
 

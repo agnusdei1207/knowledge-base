@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메시지 큐 원격 측정 전송(Message Queuing Telemetry Transport, MQTT)**: 브로커가 토픽을 기준으로 메시지를 중계해 제한 장치와 저대역폭 환경을 지원하는 경량 발행•구독 프로토콜이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **서비스 품질(Quality of Service, QoS)**: 메시지 전달 확인 수준과 재전송•저장 비용을 정하는 기준이다.
 - **QoS 상충**: 전달 확인 수준이 높을수록 확인•저장•지연 비용이 증가하는 관계이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **세션•전달 저장소(Session/Delivery Store)**: 클라이언트 식별자에 연결한 구독•대기 메시지•미확인 QoS 교환 상태의 저장소이다.
 
@@ -88,7 +88,7 @@ MQTT
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **토픽 라우팅(Topic Routing)**: 발행 토픽과 구독 필터를 대조하고 구독별 권한과 QoS에 따라 메시지를 전달하는 방식이다.
 - **접근 제어 목록(Access Control List, ACL)**: 토픽별 발행•구독 허용 권한을 정한 목록이다.
@@ -133,7 +133,7 @@ ACL•토픽 필터 확인
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **QoS 0**: 확인 없이 최대 한 번 전달하는 수준이다.
 - **QoS 1**: 확인 응답으로 최소 한 번 전달하는 수준이다.
@@ -154,7 +154,7 @@ ACL•토픽 필터 확인
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **와일드카드 과다 권한(Wildcard Excessive Privilege)**: 한 클라이언트가 필요 범위를 넘어 여러 장치의 토픽을 수신하거나 발행하게 하는 문제이다.
 - **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대를 인증하고 전송 데이터를 암호화하는 프로토콜이다.
@@ -173,7 +173,7 @@ ACL•토픽 필터 확인
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MQTT 서비스 품질 선택**: 메시지 유실•중복의 업무 영향과 확인•저장 비용을 비교해 QoS 0•1•2를 결정하는 기준이다.
 

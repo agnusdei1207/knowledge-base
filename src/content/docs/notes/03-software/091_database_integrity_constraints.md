@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터베이스 무결성 제약(Database Integrity Constraints)**: DB에 저장된 데이터의 정확성, 유효성, 일관성 유지를 위해 DBMS 스키마 수준에서 강제하는 규칙 및 메커니즘.
 - **고아 데이터(Orphan Data)**: 참조 무결성(Referential Integrity) 결여로 부모 데이터 삭제 후 자식 테이블에 잔존하는 부정확한 데이터.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **선제적 런타임 차단(Pre-Validation)**: `INSERT/UPDATE/DELETE` 시 DBMS 엔진이 규칙 검사 후 위반 시 즉시 Abort/Rollback.
 - **중앙집중식 규칙 관리(Centralized Rule Management)**: DB 엔진 레벨의 통합 통제로 데이터 무결성 보장.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **개체 무결성(Entity Integrity)**: 기본키(PK)는 `NULL` 불가 및 고유성(Unique) 유지 필수.
 - **참조 무결성(Referential Integrity)**: 외래키(FK) 값은 참조 테이블의 PK/Unique와 동일하거나 `NULL` 유지.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Referential Action Options**: CASCADE(부모 삭제 시 자식도 자동 연쇄 삭제), SET NULL(자식 FK를 Null로 변경), RESTRICT/NO ACTION(자식이 있으면 부모 삭제 금지).
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Validation Level Tradeoff**: 앱 레벨 검증은 유연하나 다중 앱 접속 시 무결성 구멍 발생, DB 레벨 검증은 완벽하나 DB CPU 오버헤드 증가.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **FK Indexing Requirement**: 외래키(FK) 컬럼에 인덱스를 생성하지 않을 경우, 부모 테이블 삭제/수정 시 자식 테이블 전체에 Table Lock이 걸려 성능이 급락하는 안티패턴.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **무결성 수립 기준(Database Integrity Standards)**: 데이터 정확성 요구 수준, FK 인덱스 정책 및 참조 무결성 런타임 제어성에 의거한 체계.
 

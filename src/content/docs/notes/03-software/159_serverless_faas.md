@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서버리스 컴퓨팅(Serverless Computing)**: 클라우드 제공자가 인프라를 전담 관리하고, 개발자는 코드 실행에만 집중하는 컴퓨팅 모델.
 - **FaaS(Function as a Service)**: 이벤트 발생 시 1회성 함수(AWS Lambda)가 짧게 실행 후 종료되는 서버리스 구현 방식.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pay-per-Execution**: 24시간 서버 렌탈비가 아닌, 오직 함수가 호출되어 실행된 시간(100ms 단위) 및 메모리 사용량에 비례하여 과금.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Event Trigger Sources**: S3 Bucket 업로드, DynamoDB Stream 갱신, API Gateway HTTP 요청, EventBridge 스케줄러 등 Lambda를 트리거하는 사건 공급원.
 
@@ -78,7 +78,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Provisioned Concurrency**: Cold Start 응답 지연을 방지하기 위해, Lambda 컨테이너 N개를 항상 웜(Warm) 상태로 미리 켜 두는 사전 프로비저닝 기능.
 
@@ -119,7 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Stateless Nature**: FaaS 함수는 실행 후 즉시 소멸하므로, 함수 내부 로컬 디스크나 글로벌 변수에 상태(State)를 절대로 보존하지 못함.
 
@@ -138,23 +138,25 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
-- **RDBMS Connection Exhaustion**: Lambda가 초당 5,000개 오토스케일링 확장되면서 PostgreSQL RDBMS 커넥션 풀(Max 100개)을 일순간 파괴시키는 참사.
+- **데이터베이스 연결 고갈(DB Connection Exhaustion)**: 무상태 서버리스 함수 인스턴스가 대량으로 급증하면서 백엔드 RDBMS의 최대 연결 풀 한도를 초과해 데이터베이스 접근이 차단되는 현상.
+- **콜드 스타트 지연(Cold Start Latency)**: 유휴 상태의 함수 컨테이너를 새로 초기화하고 런타임을 구동하는 과정에서 발생하는 지연시간.
+- **실행 시간 한계(Execution Timeout)**: 클라우드 제공자가 단일 함수 실행 시간에 강제하는 최대 제한 시간(일반적으로 15분).
 
 </details>
 
-| 3대 FaaS 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| **1. Cold Start Latency** | 최초 부팅 시 1~3초 지연 발생 | **Provisioned Concurrency 또는 SnapStart 적용**|
-| **2. DB Connection Surge**| Lambda 1천 개 확장으로 RDBMS 뻗음 | **AWS RDS Proxy 도입으로 DB 커넥션 풀링** |
-| **3. 15-Minute Timeout** | 15분 이상 걸리는 대용량 ETL 실패 | **AWS Step Functions 오케스트레이션 적용** |
+| 컨테이너 신규 초기화 시 콜드 스타트 지연 | 프로비저닝된 동시성(Provisioned Concurrency) 및 SnapStart 적용 | **초기 응답 지연 해소** |
+| 대규모 함수 확장 시 RDBMS 연결 한도 초과 | RDS Proxy 및 데이터베이스 커넥션 풀러 연계 | **데이터베이스 연결 보호** |
+| 단일 함수 실행 시간 초과(15분 제한)로 인한 실패 | Step Functions 기반 단계별 비동기 오케스트레이션 구성 | **대규모 워크플로우 완결** |
 
-> 사례: **토스 / 당근마켓 / 쿠팡 AWS Lambda + API Gateway + DynamoDB 기반 서버리스 구축**
+> 요약: 데이터베이스 프록시와 프로비저닝된 동시성으로 서버리스 환경의 자원 고갈과 지연 위험을 해소.
 
 #### 한줄 요약
 
-- 이미지 업로드가 폭증해도 함수 동시성을 데이터베이스 처리량 아래로 제한하고 식별자로 중복을 막아 미리보기를 하나만 남겨야 한다.
+- 데이터베이스 연결 대행과 사전 인스턴스 확보로 함수 확장에 따른 지연과 연결 고갈을 통제한다.
 
 ## Ⅶ. 결론
 

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thread Pool**: 미리 지정된 유한 개수의 워커 스레드(Worker Thread) 세트를 사전 생성하여 작업 큐(Work Queue)의 Task를 반복 할당/재사용하는 동시성 제어 패턴.
 - **Task Queue (Work Queue)**: 제출된 작업(Runnable/Callable)이 워커 스레드에 의해 인출(Take)되기 전까지 대기하는 유한/무한 커널/인메모리 대기열.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Core Pool Size vs Maximum Pool Size**: 평시 상주하는 기본 워커 스레드 수(Core) 및 큐가 찼을 때 동적 확장 가능한 최대 워커 스레드 수(Max).
 - **Backpressure (역압력)**: 스레드 풀 포화 시 **Caller-Runs-Policy** 등을 인가하여 작업 인가자(Producer)의 송신 속도를 강제로 둔화시키는 흐름 제어.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Worker Thread**: Loop 문을 구동하며 Task Queue로부터 `take()` 블로킹 작업을 래칭하여 계산을 연산하고 다시 풀로 복귀하는 작업 스레드.
 - **Keep-Alive Time**: Core Pool Size를 초과하여 동적 생성된 초과 워커 스레드가 유휴(Idle) 상태로 생존 가능한 시간 한계.
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CallerRunsPolicy**: 포화 상태 발생 시 작업을 제출한 호출자 스레드(e.g., HTTP Acceptor Thread)가 해당 Task를 직접 실행하게 하여 유입을 차단하는 역압력 제어.
 
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ForkJoinPool**: Work-Stealing 알고리즘을 활용하여 큰 작업을 분할(Fork) 후 병렬 연산하고 합치는(Join) Java 전용 튜닝 스레드 풀.
 
@@ -156,7 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Work-Stealing**: ForkJoinPool 아키텍처 상에서 유휴 상태의 워커 스레드가 분주한 타 워커 스레드의 덱(Deque) 꼬리(Tail)에서 작업을 훔쳐와 병렬 처리하는 기법.
 
@@ -176,7 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **스레드 풀 용량 산정 공식**: CPU-bound 작업: $N_{\text{threads}} = N_{\text{CPU}} + 1$, I/O-bound 작업: $N_{\text{threads}} = N_{\text{CPU}} \times (1 + \frac{W}{C})$.
 

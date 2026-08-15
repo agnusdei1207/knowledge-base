@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Docker Container (도커 컨테이너)**: 호스트 OS의 커널(Kernel)을 공유하면서, 애플리케이션 실행에 필요한 코드, 라이브러리, 의존성 패키지를 불변 이미지(Immutable Image)로 패키징하여 격리된 프로세스로 빠르게 실행하는 리눅스 가상화 기술.
 - **cgroups & Namespaces**: 리눅스 커널의 핵심 격리 메커니즘으로, cgroups(Control Groups)는 CPU/Memory 자원 사용량을 제한하고, Namespaces는 PID/Net/IPC 등 가시 범위를 철저히 분리.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Immutable Infrastructure**: 한번 빌드된 Docker 이미지는 절대 수정되지 않으며, 변경 시 새 이미지를 빌드해 교체 배포.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Docker Engine & containerd**: Docker Client (CLI) $\rightarrow$ Docker Daemon (dockerd) $\rightarrow$ containerd $\rightarrow$ runc (OCI Runtime)로 이어지는 격리 프로세스 생성 체계.
 
@@ -79,7 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Multi-stage Build**: Dockerfile 내에서 빌드용 이미지와 실행용 이미지를 분리하여 최종 이미지 용량을 1GB에서 20MB로 파격 축소하는 기술.
 
@@ -121,7 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Hypervisor vs Container**: VM은 하이퍼바이저 기반 Guest OS 전체 탑재, Docker는 Host OS 커널 공유 격리 프로세스.
 
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Non-root Container User**: 컨테이너 내부 프로세스를 root 계정이 아닌 일반 유저(`USER appuser`)로 돌려 컨테이너 탈출 해킹(Container Escape)을 예방.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Docker 수립 기준(Docker Container Standards)**: OCI 규격, Multi-stage Build, Non-root 계정, OverlayFS 및 cgroups/NS 리소스 제어성에 의거한 체계.
 

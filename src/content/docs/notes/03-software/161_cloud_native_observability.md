@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관측성(Observability)**: Metrics, Logs, Traces(3대 기둥)를 통합 분석하여 복잡한 시스템의 비정상 원인을 추론하는 기술.
 - **관측성 3대 기둥(3 Pillars)**: 수치 집계(Metrics), 이벤트 기록(Logs), 분산 엔드-투-엔드 이동 경로(Traces) 데이터.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Trace ID Correlation**: 모든 로그 및 메트릭에 동일한 `trace_id: 8f9a2b...` 코드를 자동 주입하여 로그와 트레이스를 단 1클릭으로 대조 추적.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **OpenTelemetry Collector**: Receiver(수집) $\rightarrow$ Processor(배치/마스킹) $\rightarrow$ Exporter(전송) 3단계 구조로 텔레메트리 신호를 처리하는 중앙 수집 엔진.
 
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Context Propagation**: W3C Trace Context 표준(`traceparent` 헤더)을 HTTP 요청 헤더에 실어 다음 마이크로서비스로 전파(Propagate)하는 기법.
 
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Known Knowns vs Unknown Unknowns**: 모니터링은 이미 알고 있는 장애(CPU 90% 이상)를 체크, 관측성은 원인을 전혀 모르는 복잡한 장애(Unknown Unknowns)를 추론.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **High Cardinality Cost Explosion**: Log 및 Metric 라벨에 `user_id`, `email` 같은 수백만 개의 고유값을 함부로 넣었다가 저장소 디스크 및 비용이 폭발하는 안티패턴.
 

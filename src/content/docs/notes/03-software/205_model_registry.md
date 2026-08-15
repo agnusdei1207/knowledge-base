@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Registry (모델 레지스트리)**: 학습 완료된 ML 모델의 불변 버전(Immutable Version)에 코드·데이터·학습 환경의 계보(Lineage)와 평가 결과·승인 상태를 연결하여, 어떤 버전이 운영에 배포되었는지를 중앙에서 통제하는 MLOps 핵심 저장소.
 - **Model Lineage (모델 계보)**: 특정 모델 버전을 생성하는 데 사용된 학습 코드(Git 커밋)·데이터 버전·피처 버전·하이퍼파라미터·학습 실행 환경을 DAG로 연결한 이력. 모델 품질 문제 발생 시 원인 규명에 필수.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Artifact Hash (산출물 해시)**: 모델 파일의 바이너리 내용으로 계산한 SHA-256 등의 요약값. 동일한 해시값 = 동일한 모델 파일 보장. 배포 시 무결성 검증 및 변조 탐지에 사용.
 
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Signature (모델 서명)**: 모델이 입력으로 받는 데이터의 이름·자료형·형상(shape)과 출력하는 예측값의 스키마를 명시한 계약. 배포 전 입출력 형식 호환성 검증에 활용.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Four-Eyes Approval (2인 승인)**: 고위험 행위(Production 배포, 금융 모델 승격 등)를 한 명이 단독으로 실행하지 못하도록, 반드시 별개의 승인자가 확인·승인해야 완료되는 내부 통제 방식.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Experiment Tracker (실험 추적기)**: 각 학습 실행(Run)의 하이퍼파라미터·코드 버전·데이터 버전·평가 지표를 자동 기록하여 여러 실험을 비교하고 최적 조합을 찾는 도구. 모델 레지스트리와 연동하여 우수 실험을 후보 버전으로 승격.
 
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **RBAC (Role-Based Access Control, 역할 기반 접근 제어)**: 데이터 사이언티스트(모델 등록만 가능)·ML 엔지니어(Staging 승격)·승인자(Production 전환)·감사자(조회만)처럼, 역할별로 Model Registry 접근 권한을 분리하는 통제.
 
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Model Promotion·Rollback Criteria (모델 승격·복귀 기준)**: 성능·계보·규제 요건을 모두 충족한 불변 버전만 Production 승격을 허용하고, 장애·품질 저하 시 즉각 검증된 이전 버전으로 Production Alias를 복귀하는 의사결정 기준.
 

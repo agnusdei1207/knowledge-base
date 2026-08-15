@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **CPU(Central Processing Unit)**: 범용 명령 집합(Instruction Set Architecture) 디코딩 및 OS 커널 시스템 제어를 담당하는 전산 프로세서.
 - **서버 노드(Server Node)**: 컴퓨트(CPU/GPU), 메모리(DRAM/HBM), 저장장치(SSD) 및 NIC를 랙 섀시 인프라 상에 물리 탑재한 개별 시스템 유닛.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **종단 병목(End-to-End Bottleneck)**: 데이터 입출력 전체 파이프라인에서 가장 느린 자원에 의해 시스템 전체 성능이 수렴하는 현상.
 - **랙 전력 밀도(Rack Power Density)**: 단일 랙(Rack, 42U) 유닛 당 공급 수용 가능한 최대 전력(kW) 한도.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연산 계층(Compute Layer)**: 멀티 소켓 CPU, 병렬 가속 GPU 및 NPU를 배치하여 스칼라/벡터/텐서 계산을 처리하는 블록.
 - **메모리·스토리지 계층(Memory/Storage Layer)**: DRAM, CXL 팽창 메모리, NVMe SSD 등 주메모리 및 2차 저장 블록.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA(Non-Uniform Memory Access)**: 메모리가 연결된 CPU 소켓 위치에 따라 메모리 접근 대역폭 및 지연시간이 차별화되는 불균일 아키텍처.
 - **NVMe(Non-Volatile Memory Express)**: PCIe 버스를 통해 고속 파이프라이닝 IO를 지원하는 SSD 전용 인터페이스.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **범용 데이터센터 서버**: Web/WAS, 가상화(VM), 데이터베이스 등 균형 잡힌 I/O 및 컴퓨트 밸런스를 중시하는 랙 서버.
 - **AI/HPC 가속 서버**: 고성능 GPU, HBM, NVSwitch 및 InfiniBand NIC가 집약된 초고밀도 가속 전용 서버.
@@ -153,7 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NUMA 친화도(NUMA Affinity)**: 프로세스 스레드를 전용 메모리 및 PCIe NIC와 물리적으로 근접한 CPU 소켓에 고정(Pinning)하는 배치 기술.
 - **PCIe 루트 포트(PCIe Root Port)**: CPU와 각 PCIe 장치 간의 루트 인터페이스 채널.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지속 성능(Sustained Performance)**: 단순 정점 수치가 아닌 열/전력/I/O 제약 속에서 장시간 연속 유지 가능한 가용 성능.
 - **서버 구조 선택 기준(Server Architecture Selection Criteria)**: 워크로드 병렬성, 랙 전력 한도, TCO 및 가용성에 근거한 서버 선택 체계.

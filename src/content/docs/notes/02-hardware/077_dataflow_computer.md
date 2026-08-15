@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 흐름 컴퓨터(Dataflow Computer)**: 명령의 실행 순서를 결정하는 프로그램 카운터(PC) 없이, 입력 데이터(Token)가 모두 준비(Ready)되는 즉시 연산을 비순서(Out-of-Order)로 발화 실행하는 비폰노이만 컴퓨터 아키텍처.
 - **토큰(Token)**: 데이터 값(Value), 연산자의 목적지 노드 주소(Tag/Address) 및 콘텍스트 정보를 보유하는 전송 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 흐름 그래프(Dataflow Graph)**: 프로그램을 연산 노드와 데이터 의존 에지로 표현한 유향 그래프.
 - **태그(Tag)**: 루프 반복, 함수 재귀 호출 시 복수의 데이터 토큰을 물리 노드 상에서 구별 짓는 식별자 메타데이터.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **토큰 매칭 저장소(Matching Unit/Store)**: 수신된 토큰의 태그를 비교 검색하여 2-operand 발화 조건이 완성되었는지 판정하는 검색 저장소.
 - **준비 노드 스케줄러(Ready Queue)**: 입력 조건이 완성되어 연산 유닛으로 디스패치 대기 중인 발화 노드 대기열.
@@ -88,7 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **준비 노드(Ready Node)**: 연산에 필요한 모든 피연산자 토큰이 도착한 상태.
 - **결과 토큰(Result Token)**: ALU 실행 결과값에 후속 노드 매핑 태그를 결합한 전송 객체.
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **제어 흐름 컴퓨터(Control-Flow Computer)**: PC(Program Counter)에 의해서 순차적으로 명령어가 메모리에서 Fetch되어 수행되는 전통 폰노이만 컴퓨팅.
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백프레셔(Backpressure)**: 매칭 버퍼 팽창 시 상류 토큰 생성을 비동기 억제하는 흐름 제어.
 - **연산 입도(Coarse-Grained Granularity)**: 1개 토큰 당 단순 산술 연산 대신 대용량 텐서/블록 연산을 할당하여 토큰 매칭 오버헤드를 대폭 줄이는 방식.
@@ -166,7 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 구조 선택 기준(Execution Architecture Selection Criteria)**: 알고리즘의 데이터 의존성 분산도 및 토큰 오버헤드 감당성에 따른 아키텍처 채택 지표.
 

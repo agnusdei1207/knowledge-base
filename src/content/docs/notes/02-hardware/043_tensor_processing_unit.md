@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TPU(Tensor Processing Unit)**: 구글이 신경망의 텐서 및 행렬 곱 연산을 전용 처리하도록 개발한 커스텀 ASIC 가속기.
 - **텐서(Tensor)**: 다차원 수치 배열로 인공지능 모델의 입력, 가중치, 중간 상태를 나타내는 데이터 표현 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **XLA(Accelerated Linear Algebra)**: 연산 그래프 융합, 타일링, 샤딩을 통해 TPU 맞춤형 머신 코드를 생성하는 전용 도메인 컴파일러.
 - **시스톨릭 배열(Systolic Array)**: 데이터가 2D 펄스 형태로 인접 PE를 통과하며 곱셈과 부분합 누적을 동시 처리하는 구조.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **벡터 유닛(Vector Unit)**: Activation(Softmax, ReLU), Normalization, Element-wise 연산을 전담하는 하드웨어 유닛.
 - **TPU 런타임(TPU Runtime)**: 컴파일된 그래프 텐서 작업을 TPU 칩으로 런칭하고 DMA 제어를 총괄하는 실행 라이브러리.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **연산 그래프(Computation Graph)**: 딥러닝 모델 연산자와 텐서 흐름의 방향성 있는 그래프 표현(DAG).
 - **타일링(Tiling)**: 거대한 텐서를 온칩 자원 한계 크기에 맞춰 나눈 조각 블록.
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **TPU Pod**: 수백~수천 개의 TPU 칩을 전용 2D/3D Torus ICI 통신망으로 묶은 초거대 텐서 컴퓨팅 클러스터.
 - **GPU(Graphics Processing Unit)**: 범용 데이터 병렬 스레드 기반 멀티 캘큘레이션 가속기.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **모양 버킷화(Shape Bucketing)**: 가변 입력 텐서 셰이프를 정해진 버킷으로 고정 패딩하여 XLA 재컴파일을 방지하는 기법.
 - **컴파일 캐시(Compilation Cache)**: 이미 컴파일 완료된 그래프 버킷 핑거프린트를 저장하여 재사용하는 캐시.
@@ -175,7 +175,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가속기 선택 기준(Accelerator Selection Criteria)**: 텐서 구조, 분산 규모, 프레임워크 생태계에 기반한 프로세서 선택 체계.
 

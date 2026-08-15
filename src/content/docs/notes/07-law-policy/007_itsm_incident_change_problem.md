@@ -93,7 +93,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **근본 원인(Root Cause)**: 반복 인시던트를 일으키는 기저 결함.
 - **변경 위험 평가(Change Risk Assessment)**: 영향·실패 가능성·복구 방법 검토.
@@ -148,7 +148,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **영향 범위(Impact Scope)**: 변경 대상과 연결된 구성항목·서비스 범위.
 - **표준 변경(Standard Change)**: 절차·위험·복구법이 검증된 사전 승인 변경.

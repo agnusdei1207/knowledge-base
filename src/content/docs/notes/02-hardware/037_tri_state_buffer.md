@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3-상태 버퍼 (Tri-State Buffer / Three-State Buffer)**: 출력을 일반적인 2진 논리 상태인 '0'(Low) 및 '1'(High) 이외에, 전기적으로 신호선과의 연결을 완전히 절연시키는 고임피던스(High-Impedance, High-Z) 상태를 포함하여 3가지 상태로 출력할 수 있는 디지털 논리 게이트 회로.
 - **고임피던스(High-Impedance, High-Z)**: 출력단이 비활성화되어 공유선에 능동적인 0•1 전압을 구동하지 않는 상태.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **출력 활성화 신호 (Output Enable, OE / active-low OE#)**: 3-상태 버퍼의 드라이버를 켜서 0/1 신호를 버스로 쏘아 보낼지, 아니면 High-Z 상태로 숨길지를 제어하는 1-bit 제어 핀.
 - **OE 상호 배타 (OE Mutual Exclusion)**: 공유 버스에 꽂힌 N개의 3-상태 버퍼 중 특정 시점에 단 1개의 OE 신호만 Active(1 또는 0)가 되도록 디코더 하드웨어를 강제하는 제어 규칙.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pass Transistor (PMOS/NMOS)**: 3-상태 버퍼의 최종 출력을 담당하며, OE 신호가 0(Disable)일 때 두 트랜지스터가 모두 켜지지 않아 High-Z를 형성하는 CMOS 회로 소자.
 - **바이어스 저항 (Pull-Up / Pull-Down Resistor)**: 버스가 무구동(High-Z) 상태일 때 전압을 VCC(1) 또는 GND(0)로 끌어당겨 정해진 논리 상태를 고정해 주는 바이어스 저항.
@@ -91,7 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **순간 단락 (Pass-Through Short)**: 3-상태 버퍼 A가 High-Z로 빠져나오기 전에 버퍼 B가 켜져 순간적으로 VCC와 GND가 직통 연결되는 과도 단락 현상.
 
@@ -129,7 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티플렉서 (Multiplexer, MUX)**: 3-상태 버퍼를 쓰지 않고, 앤드-오어(AND-OR) 조합 논리 회로를 이용하여 여러 입력 중 1개를 선택 출력하는 내부 선택기.
 - **오픈 드레인 (Open-Drain)**: 논리 0만 강하게 끌어내리고 1은 풀업 저항에 의존하여, 다수 출력선을 그냥 묶어 앤드 연산(Wired-AND)을 만드는 회로 (I2C, Interrupt Line).
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 합성 (Logic Synthesis)**: Verilog/VHDL RTL 코드를 실리콘 게이트로 변환하는 도구로, 현대 ASIC 도구는 칩 내부 3-상태 버퍼 사용을 금지하고 MUX 구조로 자동 대체함.
 
@@ -167,7 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공유 버스 회로 선택 기준 (Shared Bus Circuit Decision Criteria)**: 대상 버스의 물리적 위치(On-Chip vs Off-Chip), 전송 방향성(Unidirectional vs Bidirectional), 핀 수 제약 및 신호 속도를 종합 분석하여 3-상태 버퍼, MUX, 오픈 드레인을 채택하는 프레임워크.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **변조(Modulation)**: 기저대역 정보 신호(디지털 비트/아날로그 음성)를 고주파 반송파(Carrier Wave)의 진폭, 주파수, 위상 특성에 실어 물리 전송 채널로 보낼 파형으로 변환하는 과정이다.
 - **기저대역(Baseband)**: 변조되기 직전의 유효 정보 신호가 가지는 고유한 변환 주파수 영역($0 \sim f_m$ Hz)이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **심벌(Symbol)**: 단위 시간(Symbol Time, $T_s$) 동안 전송되는 진폭과 위상의 단일 전파 파형 상태로, 변조 차수($M$)에 따라 $\log_2 M$ 개의 비트를 내포한다.
 - **성상도(Constellation Diagram)**: 동상(In-phase, I) 성분과 직교(Quadrature, Q) 성분의 2차원 복소 평면상에 디지털 변조 심벌들의 좌표를 가시화한 신호 배치도이다.
@@ -57,7 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **무선 주파수부(Radio Frequency, RF Front-End)**: 기저대역 디지털 심벌을 아날로그 고주파 파형으로 상향 변환(Up-conversion) 및 전력 증폭(PA)하거나, 수신 파형을 LNA로 증폭 및 하향 변환(Down-conversion)하는 믹서/증폭기 하드웨어이다.
 - **파일럿(Pilot Signal / Symbol)**: 무선 채널의 위상 위곡 및 위상 잡음(Phase Noise)을 복원하기 위해 송수신 간 미리 약속된 기지의 레퍼런스 신호이다.
@@ -90,7 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **동기화(Synchronization)**: 수신 RF 신호에서 반송파의 위상/주파수 오프셋 및 심벌 타이밍 시점을 정확히 맞추는 처리 프로세스이다.
 - **등화(Equalization)**: 무선 다중경로(Multi-path) 채널로 인해 왜곡된 신호의 심벌 간 간섭(ISI)을 억제하고 원래의 성상도 위치로 복원하는 신호 보정 기술이다.
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **진폭 변조(Amplitude Modulation, AM)**: 기저대역 신호의 전압 변화에 따라 반송파의 진폭 높낮이만을 변화시키는 아날로그 변조 방식이다.
 - **주파수 변조(Frequency Modulation, FM)**: 기저대역 신호의 전압 변화에 따라 반송파의 편위 주파수를 유동적으로 순시 변화시키는 아날로그 변조 방식이다.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **출력 백오프(Output Back-off, OBO)**: 고차 QAM 신호의 높은 PAPR로 인한 전력 증폭기(PA) 비선형 왜곡 및 옆 채널 간섭(ACLR)을 막기 위해 앰프 동작 지점을 최고 출력 대비 수 dB 낮추어 운용하는 마진 기술이다.
 - **적응 변조·부호화(Adaptive Modulation and Coding, AMC)**: 무선 채널의 Time-varying 특성에 대응하여 CQI 지표에 따라 QPSK부터 1024-QAM까지 변조 차수를 실시간 동적 전환하는 기술이다.
@@ -180,7 +180,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **효율·강인성 절충(Efficiency-Robustness Trade-off)**: 변조 차수를 올리면 전송속도(bps/Hz)는 증가하나 요구 SNR 기준이 높아져 잡음 내성은 약해지는 물리계층 관계이다.
 

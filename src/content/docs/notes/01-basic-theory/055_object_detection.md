@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **객체 탐지**: 이미지 속 여러 객체의 위치와 클래스를 함께 예측하는 비전 기법이다.
 - **바운딩 박스**: 객체의 위치를 감싸는 사각형 좌표이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **교집합 대 합집합 비율(Intersection over Union, IoU)**: 예측 상자와 정답 상자의 영역 일치도이다.
 - **평균 정밀도(Average Precision, AP)**: 정밀도-재현율 곡선을 요약한 클래스별 탐지 지표이다.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **백본(Backbone)**: 이미지에서 기본 특징을 추출하는 모델 부분이다.
 - **넥(Neck)**: 여러 해상도의 특징을 결합하는 모델 부분이다.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **후보 박스**: 탐지 헤드가 객체가 있을 것으로 예측한 위치 후보이다.
 - **중복 억제**: 같은 객체를 가리키는 겹친 상자 중 대표 결과만 남기는 처리이다.
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **한 번만 보기(You Only Look Once, YOLO)**: 이미지 전체에서 위치와 클래스를 한 번에 예측하는 1단계 모델이다.
 - **영역 기반 합성곱 신경망(Region-based Convolutional Neural Network, R-CNN)**: 후보 영역을 먼저 만들고 클래스와 위치를 정밀화하는 2단계 모델이다.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **포컬 손실**: 쉬운 배경 표본의 가중치를 낮춰 어려운 객체 표본 학습에 집중하는 손실 함수이다.
 - **클래스 불균형**: 배경 표본이 객체 표본보다 압도적으로 많아 학습이 치우친 상태이다.
@@ -175,7 +175,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **탐지 구조 선택 기준**: 실시간•엣지 제약과 소형•밀집 객체의 정밀도 요구로 1단계 또는 2단계 구조를 고르는 기준이다.
 

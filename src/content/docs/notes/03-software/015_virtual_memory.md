@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Virtual Memory (가상 메모리)**: 가상 주소를 물리 프레임에 매핑하여 프로세스별 주소 공간과 보호를 제공하는 메모리 추상화.
 - **Paging (페이징)**: 가상 주소 공간과 물리 주소 공간을 고정된 동일 크기 블록(Page / Frame, 보통 4KB)으로 분할하여 메모리를 관리하는 비연속 메모리 할당 기법.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MMU (Memory Management Unit)**: 페이지 테이블과 TLB를 이용해 가상 주소를 물리 주소로 변환하고 권한을 검사하는 하드웨어.
 - **Page Table**: 가상 페이지 번호(VPN)를 물리 프레임 번호(PFN)로 변환하기 위해 메모리 상에 상주하는 주소 변환 매핑 테이블.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Internal Fragmentation (내부 단편화)**: 페이징 기법에서 고정 4KB 블록 할당 시 내부 남은 여유 공간이 낭비되는 현상.
 - **External Fragmentation (외부 단편화)**: 세그멘테이션 기법에서 가변 크기 할당 및 해제가 반복되면서 총 여유 공간은 충분하나 연속된 공간이 부족하여 할당 불가한 현상.
@@ -83,7 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Page Table Walk**: TLB Miss 발생 시, MMU가 DRAM 메모리 상의 다단계 페이지 테이블(PGD-P4D-PUD-PMD-PTE) 노드들을 순차 트래버스하는 하드웨어 연산.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Paged Segmentation**: 세그멘테이션으로 논리 영역(Code, Data, Stack)을 나누고, 각 세그먼트 내부를 다시 고정 크기 페이징으로 세분화하는 혼합 메모리 관리 기법.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Huge Pages**: Linux 커널에서 기본 4KB 페이지 대신 2MB/1GB 대형 페이지를 할당하여 Page Table 메모리 상주량 및 TLB Miss 오버헤드를 대폭 억제하는 기술.
 
@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 메모리 선택 기준(Virtual Memory Architecture Criteria)**: 시스템 아키텍처 비트 수, 워크로드 메모리 크기, TLB 커버리지 수치에 근거한 설계 체계.
 

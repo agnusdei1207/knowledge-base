@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Requirements Engineering (요구공학)**: 소프트웨어 시스템이 제공해야 하는 기능(Functional) 및 비기능(Non-Functional) 요구사항을 도출, 분석, 명세, 검증 및 관리(Traceability)하는 체계적 공학 프로세스.
 - **SRS (Software Requirements Specification)**: 고객과 개발팀 간의 공식 계약적 요구사항 문서로, 기능/비기능 요구와 수용 기준(Acceptance Criteria)을 완결 명확하게 기술한 산출물.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Acceptance Criteria (수용 기준)**: 요구사항이 성공적으로 구현되었는지 여부를 객관적으로 테스트하고 검증(Verification)할 수 있는 명확한 조건.
 - **RTM (Requirements Traceability Matrix)**: 요구사항 ID부터 아키텍처, 소스코드, 테스트 케이스까지 양방향 추적성을 시각화한 매트릭스 표.
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Functional vs Non-Functional Requirements**: 기능 요구사항은 시스템이 구체적으로 무슨 동작을 해야 하는지(What to do), 비기능 요구사항은 어느 정도의 성능/보안/품질로 수행되어야 하는지(How well)를 의미.
 
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Requirements Baseline (요구사항 기준선)**: 개발 팀과 이해관계자가 공식 승인하여 향후 변경 통제(CCB)의 기준이 되는 정적 소프트웨어 요구사항 버전.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Structured Analysis vs Object-Oriented Analysis**: 구조적 분석은 DFD(Data Flow Diagram) 중심의 데이터 흐름 처리, 객체지향 분석은 UML Use Case/Class Diagram 중심의 객체 메세지 상호작용 처리.
 
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Ambiguity (모호성)**: "시스템은 매우 빨라야 한다"처럼 해석이 사람마다 달라 분쟁을 유발하는 나쁜 요구사항 작성 패턴.
 
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **요구공학 체계 수립 기준(Requirements Engineering Standards)**: 프로젝트 규모, 규제 수준(Compliance) 및 수용 검증 자동화 환경에 기반한 선정 체계.
 

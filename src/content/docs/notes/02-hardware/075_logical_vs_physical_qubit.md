@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **물리 큐비트(Physical Qubit)**: 초전도 회로, 이온 트랩 등 실제 하드웨어 칩 상에 결합된 노이즈 수용 전자기적 큐비트 단원.
 - **논리 큐비트(Logical Qubit)**: 여러 물리 큐비트에 논리 정보를 부호화해 오류율을 억제하는 계산 단위.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 거리(Code Distance, d)**: 논리 연산자를 형성하는 최소 물리 오류 사슬의 길이.
 - **파울리 프레임(Pauli Frame)**: 물리 펄스 대신 소프트웨어 계층 상에서 파울리($X, Y, Z$) 에러 트래킹을 수용하는 런타임 프레임워크.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 큐비트(Data Qubit)**: 실제 양자 연산 파동함수 정보 코드를 수용하는 물리 큐비트.
 - **앤실라 큐비트(Ancilla Qubit)**: 주변 데이터 큐비트의 패리티(X/Z) 오류를 측정(Stabilizer)하는 보조 큐비트.
@@ -85,7 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **내결함 일정(Fault-Tolerant Schedule)**: 오류 발생 시에도 전역 논리 에러로 확산되지 않도록 큐비트를 제어하는 QEC 스케줄링.
 - **실패 예산(Failure Budget)**: 타깃 알고리즘 성공률(예: 99%)을 달성하기 위해 허용되는 연산당 최대 논리 에러 한도.
@@ -125,7 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **QEC Threshold**: 코드 거리를 늘릴 때 논리 오류율이 감소하기 위한 물리 오류율 경계.
 
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Magic-State Distillation**: Non-Clifford 게이트(T-gate)를 논리 큐비트 상에 적용하기 위해 고품질 마법 상태를 정제하는 기술.
 - **Lattice Surgery**: 표면 코드 패치(Patch)들을 병합(Merge) 및 분할(Split)하여 논리 CNOT 게이트를 수행하는 2D 큐비트 연산 기법.
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **물리 자원 산정(Physical Resource Estimation)**: 실효 양자 알고리즘 구동에 요구되는 물리 큐비트 총량 및 디코더 성능을 설계 산출하는 프로세스.
 

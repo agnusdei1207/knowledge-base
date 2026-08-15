@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인증기관(Certificate Authority, CA)**: 신청자의 신원과 공개키 통제권을 확인하여 공개키•주체•용도를 연결한 인증서에 서명하는 신뢰기관이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **루트 CA(Root CA)**: 검증자가 미리 신뢰하는 최상위 기관으로 하위 CA 인증서에만 제한적으로 서명하는 신뢰 기준점.
 - **중간 CA(Intermediate CA)**: 루트에서 제한된 권한을 위임받아 조직이나 용도별 발급 범위와 사고 영향을 분리하는 하위 인증기관.
@@ -57,7 +57,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **등록기관(Registration Authority, RA)**: 인증서 발급 전 신청자의 신원, 도메인 소유권 및 공개키 통제권(PoP)을 확인하는 전담 기관.
 - **발급 CA(Issuing CA)**: RA의 검증을 통과한 신청자에게 최종 가입자 인증서를 발급하는 CA 모듈.
@@ -93,7 +93,7 @@ CA 발급 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인증서 서명 요청(Certificate Signing Request, CSR)**: 공개키, 주체 정보 및 개인키 보유 증명(PoP)을 담아 CA에 제출하는 발급 요청 문서.
 - **신원•키 통제권 검증(Identity & PoP Validation)**: 신청자의 신원/도메인과 제출된 공개키에 대응하는 개인키 소유를 대조하는 절차.
@@ -140,7 +140,7 @@ CSR 제출
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인증기관 계층(Certificate Authority Hierarchy, CA 계층)**: 최상위 신뢰 위임, 중간 정책 분리, 일상적 가입자 발급을 키와 기관별로 구분하는 3계층 아키텍처.
 
@@ -161,7 +161,7 @@ CSR 제출
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **인증기관 허가(Certification Authority Authorization, CAA)**: 도메인 소유자가 특정 CA만 해당 도메인 인증서를 발급하도록 지정하는 DNS 레코드.
 - **RFC 3647(RFC 3647 Standard)**: 인증서 정책(CP)과 인증업무 수행준칙(CPS)의 프레임워크를 규정한 IETF 표준.
@@ -184,7 +184,7 @@ CSR 제출
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최소 권한 발급(Least Privilege Issuance)**: CA별 필요한 발급 범위를 엄격히 제약하여 침해 시 전체 시스템에 미치는 영향을 최소화하는 원칙.
 

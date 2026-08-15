@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 호스트 내부에서 하나의 MCP 서버 연결과 자기기술적 JSON-RPC 요청을 관리하는 구성요소를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: 요청•응답•알림•오류를 JSON 객체로 표현하는 메시지 형식으로 정의된다.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **요청 메타데이터(Request Metadata)**: 각 요청에 프로토콜 버전•클라이언트 식별•기능을 담아 독립 처리를 가능하게 하는 정보를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **요청 식별자(Request Identifier, Request ID)**: 비동기 요청과 그에 대응하는 응답•취소를 연결하는 값으로 정의된다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **메시지 디스패처(Message Dispatcher)**: JSON-RPC 식별자와 메시지 유형으로 응답•알림•오류를 해당 요청과 처리기에 전달하는 구성요소를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **요청 메타 관리자(Request Metadata Manager)**: 요청마다 프로토콜 버전•클라이언트 식별•기능을 구성하는 요소로 정의된다.
@@ -92,7 +92,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **호출 식별자(Call Identifier)**: 비동기 JSON-RPC 요청과 나중에 도착한 응답을 정확히 연결하는 값을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **모델 컨텍스트 프로토콜 호스트(Model Context Protocol Host, MCP Host)**: 사용자 정책과 여러 MCP Client 연결을 관리하는 AI 애플리케이션을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -135,7 +135,7 @@ MCP 호스트
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스트리밍 가능 하이퍼텍스트 전송 프로토콜 클라이언트(Streamable Hypertext Transfer Protocol Client, Streamable HTTP Client)**: HTTP POST와 라우팅 헤더로 원격 MCP 서버와 통신하는 클라이언트를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 
@@ -157,7 +157,7 @@ MCP 호스트
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **재요청 정책(Retry Policy)**: 통신 장애 후 백오프•재시도 상한•멱등성으로 중복 실행을 통제하는 규칙을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **호스트 중계(Host Relay)**: 클라이언트가 서버 기능 명세와 실행 결과를 호스트에 전달하고 최종 사용 여부는 호스트가 결정하게 하는 책임 분리로 정의된다.

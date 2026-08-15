@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **사용자 및 엔티티 행동 분석(User and Entity Behavior Analytics, UEBA)**: 사용자•계정•기기 등의 과거 행위 이력 기반으로 정상 행위 기준선(Baseline)을 학습하여 이탈 행동 및 위협을 식별하는 머신러닝 분석 기법.
 - **시그니처(Signature-based Detection)**: 알려진 공격 패턴의 고정된 특징을 관측 데이터와 대조하는 결정론적 탐지 방식.
@@ -38,7 +38,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기준선(Behavioral Baseline)**: 개별 사용자 및 기기의 평소 정상적인 작동 행위 수치와 패턴 범위를 정의한 모형.
 - **동료군(Peer Group)**: 직무, 부서, 권한 등이 유사한 사용자를 그룹화하여 통계적 비교군으로 활용하는 집단.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **엔티티(Entity)**: 사용자, 계정, 기기, 애플리케이션 등 행위를 추적할 수 있는 최소 식별 객체.
 - **텔레메트리(Telemetry Data)**: 로그인, 파일 접근, 프로세스 실행, 네트워크 송수신 등 행위 수집 데이터.
@@ -91,7 +91,7 @@ UEBA 분석 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **위험 점수(Risk Score)**: 행위 편차의 통계적 이탈도와 자산 맥락 중요도를 산술 합산한 100점 만점 형태의 심각도 지표.
 - **피드백 보정(Feedback Tuning)**: 관제 분석가의 실제 조사 결과를 수집하여 머신러닝 임계값 및 편차 가중치를 미세 조정하는 프로세스.
@@ -140,7 +140,7 @@ UEBA 분석 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **고정 규칙(Static Rule-based Detection)**: 사전에 정의된 정적 임계값이나 조건문(If-Then)을 대조하는 방식.
 
@@ -161,7 +161,7 @@ UEBA 분석 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **기준선 오염(Baseline Poisoning)**: 학습 기간 중 잠복 공격자의 행위가 정상 데이터로 오인 학습되어 이상 탐지가 무력화되는 현상.
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 표준 기술 가이드라인을 작성하는 미국 정보보호 연구기관.
@@ -182,7 +182,7 @@ UEBA 분석 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **설명 가능성(Explainability / XAI in Security)**: 위험 점수의 산출 이유와 기준선 이탈 사유(어떤 파일, 어떤 시각, 평소 대비 몇 배 이탈 등)를 사람이 이해 가능한 근거로 제시하는 성질.
 

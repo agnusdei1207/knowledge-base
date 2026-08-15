@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지능형 검침 인프라(Advanced Metering Infrastructure, AMI)**: 스마트 미터와 전력사를 양방향 통신으로 연결해 계량 자료 수집과 원격 명령을 수행하는 검침 인프라이다.
 - **자동 원격 검침(Automatic Meter Reading, AMR)**: 사용량을 단방향 통신으로 자동 수집하는 검침 방식이다.
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검증•추정•편집(Validation, Estimation and Editing, VEE)**: 이상 계량값을 검증하고 누락값을 정해진 기준으로 추정•보정하는 처리이다.
 - **양방향 제어**: 전력사가 인증된 명령을 미터에 보내고 실행 결과까지 되받는 기능이다.
@@ -54,7 +54,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **헤드엔드 시스템(Head-End System, HES)**: 다수 스마트 미터의 통신 세션•자료 수집•재시도•명령 전달을 관리하는 시스템이다.
 - **계량 데이터 관리 시스템(Meter Data Management System, MDMS)**: 계량값을 장기 저장하고 VEE를 수행해 전력 업무 시스템에 제공하는 시스템이다.
@@ -89,7 +89,7 @@ AMI
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **품질 플래그**: 계량값이 원본•추정•보정 중 어떤 상태인지 표시해 과금 자료의 이력을 남기는 정보이다.
 - **원격 명령**: 권한 검증을 거쳐 스마트 미터의 설정•공급 상태를 변경하고 결과를 확인하는 제어 요청이다.
@@ -137,7 +137,7 @@ AMI
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **현장 검침**: 통신망 없이 작업자가 계량기를 방문해 사용량을 직접 확인•입력하는 방식이다.
 
@@ -158,7 +158,7 @@ AMI
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서와 공개키 암호로 계량기 신원과 통신 상대를 검증하는 체계이다.
 - **이중 승인**: 원격 차단처럼 영향이 큰 명령을 서로 다른 두 승인자가 확인해야 실행하는 통제이다.
@@ -178,7 +178,7 @@ AMI
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **검침 방식 선택(Metering Method Selection)**: 원격 제어 필요성•통신 여건•구축 비용을 비교해 AMI•AMR•현장 검침을 결정하는 과정이다.
 

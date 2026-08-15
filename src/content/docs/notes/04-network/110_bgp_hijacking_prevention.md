@@ -20,7 +20,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경계 게이트웨이 프로토콜(Border Gateway Protocol, BGP)**: AS 사이에서 인터넷 경로 정보를 교환하는 라우팅 프로토콜이다.
 - **BGP 하이재킹 방지(BGP Hijacking Prevention)**: 원점 권한•접두어 길이•AS 관계를 검증해 비인가 경로 전환을 막는 보안 체계이다.
@@ -40,7 +40,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 기원 인가(Route Origin Authorization, ROA)**: 접두어를 광고할 수 있는 원점 AS와 최대 길이를 명시한 서명 객체이다.
 - **다층 검증(Multi-Layer Validation)**: ROA 원점 권한•허용 접두어 길이•이웃 AS 관계 정책과 외부 전파 상태를 함께 확인하는 검증 방식이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 기원 검증(Route Origin Validation, ROV)**: BGP 광고의 원점 AS와 접두어 길이를 ROA와 대조하는 검증이다.
 - **리소스 공개키 기반구조(Resource Public Key Infrastructure, RPKI)**: 인터넷 번호 자원과 경로 기원 권한을 인증하는 기반구조이다.
@@ -103,7 +103,7 @@ BGP 하이재킹 방지 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **원점•접두어 검증(Origin/Prefix Validation)**: 광고 접두어의 원점 AS와 길이를 ROA의 허용 원점•최대 길이와 대조하는 검증이다.
 - **ROA 정책 등록**: 허용 원점 AS와 최대 접두어 길이를 RPKI에 게시하는 단계이다.
@@ -147,7 +147,7 @@ BGP 경로 광고
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **경로 누출(Route Leak)**: 원점 AS는 정상이지만 고객•제공자•동료 관계 정책에 어긋나게 배운 경로를 재광고하는 사고이다.
 - **ROA•ROV 불일치**: 광고 원점이나 접두어 길이가 등록된 권한 범위를 벗어난 상태이다.
@@ -171,7 +171,7 @@ BGP 경로 광고
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **외부 전파 지속(Continued External Propagation)**: 로컬에서 경로를 차단해도 다른 사업자가 잘못된 광고를 계속 선택•재전파하는 문제이다.
 - **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술과 운영 규칙을 공개한 표준 문서 체계이다.
@@ -192,7 +192,7 @@ BGP 경로 광고
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **차단•철회(Block/Withdraw)**: 원점•최대 길이•AS 관계가 불일치한 경로를 차단하고 광고 철회와 정상 수렴을 확인하는 대응 절차이다.
 - **RPKI 검증 운영**: 인증서와 서명 객체를 최신 상태로 유지하고 검증 실패를 감시하는 운영 활동이다.

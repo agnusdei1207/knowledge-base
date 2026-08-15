@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **웹 애플리케이션 방화벽(WAF, Web Application Firewall)**: HTTP/HTTPS 페이로드와 문맥을 심층 분석하여 SQL Injection, XSS 등 L7 응용 계층 공격을 탐지/차단하는 웹 전용 보안 시스템.
 - **하이퍼텍스트 전송 프로토콜(HTTP, Hypertext Transfer Protocol)**: 웹 클라이언트-서버 간 데이터(URL, Header, Body)를 교환하는 L7 응용 계층 표준 프로토콜.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정규화(Normalization)**: URL 인코딩, Base64 등 다중 인코딩된 난독화 입력을 표준 디코딩 형태로 변환하여 탐지 우회를 차단하는 기술.
 - **공격 서명(Attack Signature)**: 알려진 웹 공격 패턴 및 규칙 기반의 식별 문자열 집합.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **역방향 대리자(Reverse Proxy)**: 클라이언트와 원본 서버 사이에서 트래픽을 대리 수신 및 검사 후 전달하는 중계 구조이다.
 - **전송 계층 보안 종단기(TLS Terminal, Transport Layer Security Terminal)**: SSL/TLS 암호화 세션을 종단하여 복호화된 HTTP 페이로드를 탐지 엔진에 제공하는 구성요소이다.
@@ -95,7 +95,7 @@ WAF는 **역방향 대리자** 방식으로 배치되어 외부 요청을 선제
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 하이퍼텍스트 전송 프로토콜(HTTPS, Hypertext Transfer Protocol Secure)**: TLS 암호화 계층을 추가하여 데이터 보안성을 보장하는 HTTP 프로토콜이다.
 - **TLS 요청 복호화(TLS Request Decryption)**: HTTPS 암호화 세션을 해제하여 평문 HTTP 패킷을 추출하는 전처리 과정이다.
@@ -136,7 +136,7 @@ HTTPS 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **응용 코드 검증(Application Code Validation)**: 애플리케이션 내부에서 입력값 검증 및 세션/권한 제어를 직접 수행하는 보안 기법이다.
 - **네트워크 방화벽(Network Firewall)**: IP, Port, Protocol, Session State 기반으로 L3/L4 경계 트래픽을 제어하는 방어 시스템이다.
@@ -157,7 +157,7 @@ HTTPS 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오탐(False Positive)**: 정상적인 사용자 요청을 공격 트래픽으로 잘못 판단하여 차단하는 오류 현상이다.
 - **관측•튜닝(Observability & Tuning)**: 탐지 로그 및 오탐 내역을 분석하여 탐지 정책을 최적화하는 운영 활동이다.
@@ -176,7 +176,7 @@ HTTPS 요청
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **다층 웹 보안 통제(Multi-layered Web Security Control)**: L3/L4 네트워크 경계, L7 WAF, 애플리케이션 시큐어 코딩을 연계하는 심층 방어 전략이다.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **모바일 포렌식**: 모바일 기기•앱•백업•클라우드에서 디지털 증거를 적법하게 획득•분석하는 절차이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **최초 잠금 해제 전(Before First Unlock, BFU)**: 부팅 후 한 번도 잠금을 해제하지 않은 상태이다.
 - **최초 잠금 해제 후(After First Unlock, AFU)**: 부팅 후 한 번 이상 잠금을 해제한 상태이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **응용 프로그램 인터페이스(Application Programming Interface, API)**: 운영체제가 허용한 기능과 데이터의 호출 경계이다.
 - **데이터베이스(Database, DB)**: 앱의 구조화 데이터를 저장하는 저장소이다.
@@ -95,7 +95,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **획득 전략**: 기기 상태•잠금•암호화•법적 범위에 따라 추출 순서와 방법을 정하는 계획이다.
 - **격리•보존•추출 전략 적용**: 원격 명령•키•배터리 위험을 고려한 획득 절차를 실행하는 단계이다.
@@ -139,7 +139,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **논리 추출**: API나 백업이 허용한 데이터를 수집하는 방식이다.
 - **파일시스템 추출**: 파일 계층과 앱 DB 구조를 수집하는 방식이다.
@@ -160,7 +160,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 미국의 기술 표준 연구기관이다.
 - **특별 간행물(Special Publication, SP)**: NIST가 발행하는 전문 지침 문서이다.
@@ -187,7 +187,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **초기 상태 보존**: 격리•전원•잠금 상태를 기록하고 불필요한 상태 변화를 막는 원칙이다.
 - **추출 방식 선택**: 필요한 증거 범위와 단말 상태에 따라 논리•파일시스템•물리 추출을 정하는 판단이다.

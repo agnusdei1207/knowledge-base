@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력값 검증(Input Validation)**: 외부 클라이언트로부터 유입되는 모든 데이터에 대해 데이터 타입, 길이, 정규식 패턴 및 허용 범위를 서버 측에서 검증하는 보안 통제.
 - **파라미터 바인딩(Parameter Binding)**: DB SQL 문 및 외부 명령어 생성 시 실행 명령 구문과 사용자 입력 데이터를 물리적 파라미터로 격리 처리하는 기술.
@@ -36,7 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **허용 목록(Allowlist / Positive Validation)**: 명시적으로 승인한 허용 문자열, 데이터 형식 및 값의 집합만 수용하고 나머지는 전면 거부하는 방어 기법.
 - **정규화(Normalization / Canonicalization)**: 인코딩 및 우회 표현(URL Encoding, Unicode 등)을 단일 표준 이스케이프 형태로 변환 정제하는 사전 처리.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **파서(Parser)**: HTTP body, JSON, XML 등 외부 데이터 포맷을 구문 분석하여 데이터 모델로 객체화하는 구성요소.
 - **안전 실행 응용 프로그래밍 인터페이스(Secure Execution API)**: 사용자 입력을 쿼리 명령어가 아닌 파라미터 매개변수로만 처리하는 안전한 라이브러리.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 계약(Input Contract)**: API 및 폼 명세서 상에 데이터 규칙을 정의하는 계약 스펙.
 - **데이터베이스(Database, DB)**: 검증된 데이터가 파라미터 바인딩 쿼리를 통해 처리되는 저장소.
@@ -133,7 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 처리 역할 분리(Input Defense Separation)**: 정규화(표현 단일화), 검증(허용 여부 판정), 바인딩(구문/데이터 분리)의 역할을 독립 적용하는 설계 원칙.
 
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **MITRE CWE-20**: 부적절한 입력 검토(Improper Input Validation) 약점 명세.
 - **OWASP ASVS 5.0.0**: 입력 검증, 인코딩, 파라미터 바인딩 요구사항을 명시한 검증 표준.
@@ -171,7 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 통제 적용 기준(Input Control Criteria)**: 서버 측 허용목록 검증, PreparedStatement 파라미터 바인딩, 동적 인자 매핑을 규정한 전사 가이드라인.
 

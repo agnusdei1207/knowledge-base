@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SBOM(Software Bill of Materials)**: SW 구성 오픈소스, 라이브러리, 의존성 관계를 기계 판독 가능한 형태(Machine-Readable)로 명세한 디지털 부품표.
 - **Log4Shell**: Log4j 취약점 사태. 자사 내 취약 컴포넌트 식별 실패로 인한 SBOM 도입의 계기.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전이 의존성(Transitive Dependency)**: 개발자가 직접 포함한 라이브러리가 다시 의존하고 있는 간접 라이브러리.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SPDX(Software Package Data Exchange)**: 리눅스 재단 주도 ISO 표준(ISO/IEC 5962) SBOM 포맷. 라이선스 호환성 검증에 특화.
 - **CycloneDX**: OWASP 주도 포맷. 취약점 분석 및 공급망 보안(AppSec) 목적의 최적화된 경량 규격.
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **VEX(Vulnerability Exploitability eXchange)**: 취약점이 존재해도 구동 환경상 실제 악용(Exploit) 불가함을 명세하여 거짓 양성(False Positive)을 제거하는 상태서.
 
@@ -123,7 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **바이너리 분석(Binary Analysis)**: 소스코드 없는 레거시 시스템을 역분석하여 포함 라이브러리 목록을 강제 추출하는 기법.
 
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **purl**: `pkg:npm/lodash@4.17.21` 등 패키지 생태계 무관 전 세계 공통 고유 식별 주소 체계.
 
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **공급망 보안(Software Supply Chain Security)**: 개발부터 운영까지 외부 라이브러리 오염을 막는 보안 체계.
 

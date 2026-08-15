@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3D 적층 메모리(3D Stacked Memory)**: 여러 DRAM 다이를 수직 적층하고 TSV로 연결해 대역폭과 밀도를 높이는 기술.
 - **TSV(Through-Silicon Via)**: 실리콘 다이를 수직 관통해 적층 다이 사이의 전원·신호 경로를 형성하는 기술.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Wide I/O**: 많은 저속 신호선을 병렬로 사용해 전체 메모리 대역폭을 높이는 인터페이스 방식.
 - **Microbump**: Base Die와 적층 DRAM 다이 간의 접합 패드를 잇는 수십 μm 크기의 극소 볼 핀.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Silicon Interposer**: 호스트 GPU/CPU ASIC과 3D 적층 메모리를 평면 인접 탑재하여 초고밀도 라우팅을 매개하는 초미세 실리콘 기판.
 - **DRAM Core Stack**: 4층, 8층, 12층 또는 16층 형태로 수직 적층된 DRAM 파티션 레이어들.
@@ -86,7 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pseudo-Channel**: HBM3/3D 적층 메모리에서 1024-bit 넓은 버스를 논리적으로 분할 독립 구동하는 가상 채널 기술.
 
@@ -124,7 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **HBM(High Bandwidth Memory)**: 적층 DRAM과 광폭 인터페이스를 사용하는 고대역폭 메모리 규격.
 - **3D V-NAND**: NAND 플래시 셀 구조를 수직으로 적층해 저장 밀도를 높인 비휘발 매체.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Thermal Throttling**: 3D 수직 적층 구조 특성상 발열이 내부에 누적되어 칩 손상을 막기 위해 동작 속도를 하향하는 제어.
 
@@ -164,7 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **3D 적층 메모리 선택 기준(3D Memory Architecture Selection Criteria)**: 소요 대역폭(TB/s), 수율/패키징 단가 및 방열 인프라에 기초한 수립 체계.
 

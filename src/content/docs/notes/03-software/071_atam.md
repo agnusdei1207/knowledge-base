@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ATAM (Architecture Tradeoff Analysis Method, 아키텍처 상충관계 분석 기법)**: 카네기 멜론 대학 SEI가 개발한 소프트웨어 아키텍처 평가 방법론으로, 다수의 품질 속성(Quality Attributes: 성능, 보안성, 가용성 등) 간의 상충/절충 관계(Tradeoff)를 분석하여 시스템 위험 요소를 평가하는 기법.
 - **Tradeoff Point (절충점)**: 둘 이상의 품질 속성에 동시에 영향을 미치며, 한 품질 속성을 높이면 다른 품질 속성이 저하되는 아키텍처 결정 지점 (e.g., 암호화 적용으로 보안성$\uparrow$, 처리 성능 $\downarrow$).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Utility Tree (유틸리티 트리)**: 아키텍처 평가의 핵심 도구로, 최고 품질 목표(Utility)를 성능, 보안성, 가용성 등 세부 품질 속성 및 concrete 시나리오로 체계화한 4단계 층위 구조 트리.
 - **Risk & Non-Risk**: Risk는 요구사항을 충족시키지 못할 위험한 아키텍처 결정, Non-Risk는 품질 속성을 안전하게 달성하는 우수 결정.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Risk Theme (위험 테마)**: 개별 도출된 Risk 항목들을 상위 차원에서 그룹핑하여 아키텍처의 근본적이고 전사적인 위협 요소를 파악하는 범주.
 
@@ -81,7 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ATAM 4대 단계 (Phase 0 ~ 3)**: Phase 0(준비 및 커뮤니케이션), Phase 1(아키텍트 중심 평가), Phase 2(이해관계자 동시 평가), Phase 3(최종 결과 리포팅 및 후속조치).
 
@@ -117,7 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SAAM vs ATAM vs CBAM**: SAAM은 변경 용이성(Modifiability) 위주 초기 기법, ATAM은 다중 품질속성 상충관계(Tradeoff) 기법, CBAM은 경제성/비용(Cost-Benefit) 중심 기법.
 
@@ -135,7 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Six-Part Quality Attribute Scenario**: 자극원(Source), 자극(Stimulus), 환경(Environment), 대상(Artifact), 응답(Response), 응답 측정치(Response Measure)로 구성된 시나리오 구조.
 
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ATAM 평가 수립 기준(ATAM Evaluation Standards)**: 시스템 도메인 복잡도, 품질 속성 간 상충성 및 CBAM으로의 연계성에 의거한 체계.
 

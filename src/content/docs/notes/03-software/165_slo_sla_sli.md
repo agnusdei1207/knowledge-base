@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLI (Service Level Indicator)**: 성공한 요청 수를 전체 요청 수로 나눈 비율처럼, 사용자가 체감하는 서비스의 실제 가용성 및 성능 측정 지표(수치).
 - **SLO (Service Level Objective)**: 측정된 SLI가 일정 기간(1달) 동안 달성하기로 엔지니어링 팀 내부에서 합의한 타겟 목표치(예: 99.9%).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Error Budget (오류 예산)**: SLO 목표치(99.9%)를 제외한 0.1%의 여유분으로, 신규 기능 배포나 시스템 실험 과정에서 소비할 수 있는 공식적인 실패 허용량.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLO $\geq$ SLA**: 페널티 방지를 위해 내부 목표(SLO 99.9%)를 항상 외부 계약(SLA 99.5%)보다 엄격하게 설정하는 방어 기제.
 
@@ -78,7 +78,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Burn Rate**: Error Budget이 정상 소진율(1배수) 대비 얼마나 빠르게 고갈되고 있는지를 나타내는 경보 발송의 핵심 근거 수치.
 
@@ -120,7 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Latency SLO (지연시간 목표)**: "전체 요청의 99%가 300ms 이내에 응답해야 한다"와 같이 꼬리 지연(Tail Latency)을 관리하는 지표.
 
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Aspirational SLO**: 현실 불가능한 무결점 100% SLO를 설정하여 개발팀을 과로사로 몰아넣고 1년 내내 배포를 중단시키는 안티패턴.
 
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 관리(SLM) 수립 기준**: 비즈니스 페널티 SLA, 엔지니어링 목표 SLO, 기술적 측정치 SLI의 계층적 연동 및 Error Budget 기반 배포 통제에 의거한 체계.
 

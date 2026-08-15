@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스 파드 스케줄링(Kubernetes Pod Scheduling)**: 스케줄러(kube-scheduler)가 대기(Pending) 상태인 파드(Pod)를 리소스 여유, 테인트(Taint), 어피니티(Affinity) 규칙에 따라 적합한 노드에 배치(Binding)하는 프로세스.
 - **필터링 & 스코어링(Filtering & Scoring)**: 스케줄링 단계로, 1단계 필터링(부적합 노드 배제) 후 2단계 스코어링(최적 노드 선정)을 수행.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Taints & Tolerations**: Node에 칠해진 거부 도장(Taint)을 견딜 수 있는 인가 도장(Toleration)을 가진 Pod만 해당 Node에 들어올 수 있도록 차단하는 기법.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **NodeName Binding**: kube-scheduler가 점수 1등 노드를 결정하면 `Pod.spec.nodeName = "node-02"` 명세에 기록하는 최종 승인 단계.
 
@@ -72,7 +72,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Topology Spread Constraints**: Pod를 여러 가용 영역(AZ) 및 Node 간에 균등한 비율로 찢어서 분산 배치시키는 고가용성 스케줄링 기법.
 
@@ -110,7 +110,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **requiredDuringScheduling (Hard)**: 조건 미충족 시 Pod가 절대로 배치 안 되고 Pending으로 남음.
 - **preferredDuringScheduling (Soft)**: 가급적 선호하되, 노드가 없으면 조건 미충족 노드라도 들어가서 구동됨.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Pod Pending Emergency**: Node의 Memory/CPU Request 수치가 차올라 신규 Pod가 안 뜨고 `0/10 nodes are available` 에러 표출.
 

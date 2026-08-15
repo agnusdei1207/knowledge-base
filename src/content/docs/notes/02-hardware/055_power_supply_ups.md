@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **PSU(Power Supply Unit)**: 상용 AC 교류 전원을 입력받아 서버 내부 인프라에 맞춘 DC 직류 전원(12V/48V)으로 변환하는 장치.
 - **UPS(Uninterruptible Power Supply)**: 상용 전원 정전 발생 시 내부 축전지(배터리) 전원을 통해 끊김 없이 무정전 전력을 계속 공급하는 전원 보장 시스템.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Online UPS(Double-Conversion UPS)**: AC->DC 정류 및 DC->AC 인버터를 상시 구동하여 절체 지연 시간(0ms)을 보장하는 최고 신뢰성 UPS.
 - **A/B 이중 경로(A/B Dual Power Path)**: 변전소 인입선부터 PDU, 듀얼 PSU까지 두 개의 독립된 A/B 듀얼 전원 라인을 구축하는 가용성 기법.
@@ -67,7 +67,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정류기(Rectifier/Converter)**: 입력 AC 교류 전원을 DC 직류 전원으로 일차 변환하는 장치.
 - **DC 버스(DC Bus)**: 정류기, 배터리 충전 회로, 인버터를 묶어주는 중앙 직류 전원 라인.
@@ -101,7 +101,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 전원 이상(Input Power Anomaly)**: 상용 전원의 전압 강하(Sag), 전압 서지(Surge) 및 수초 이상의 전면 정전.
 - **배터리 방전(Battery Discharge)**: 정전 순간 배터리가 DC 버스로 즉각 전력을 방출하여 인버터 출력을 지속하는 동작.
@@ -148,7 +148,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Dual PSU**: 서버 내부 2개의 PSU(A/B)를 동시 장착하여 단일 변환기 고장에 대비하는 이중화 구성.
 - **Single PSU**: 단일 전원 입력 및 단일 PSU 변환기만을 구성하는 단순 전원 구성.
@@ -167,7 +167,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **배터리 열화(Battery Degradation)**: 사용 수명 경과 및 발열로 인하여 배터리 충전 용량이 감소하는 현상.
 - **공통 원인 장애(Common-Cause Failure)**: A/B 경로로 분리했으나 상위 동일 PDU나 동일 소스 변전소를 사용하여 동시 셧다운되는 장애.
@@ -189,7 +189,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **전원 보호 구성 선택 기준(Power Protection Selection Criteria)**: 서비스 SLAs, 허용 다운타임, 정전 대비 런타임에 근거한 인프라 결정 기준.
 

@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지식그래프(Knowledge Graph)**: 개체와 사실 관계를 그래프로 연결한 지식망이다.
 
@@ -37,7 +37,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **개체 연결(Entity Linking)**: 이름•별칭 언급을 고유 식별자에 매핑한다.
 - **자원 기술 프레임워크(Resource Description Framework, RDF)**: 사실을 주어•술어•목적어로 표현하는 표준이다.
@@ -55,7 +55,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **스키마(Schema)**: 허용할 개체•관계•속성 구조를 정의한다.
 - **개체(Entity)**: 고유 식별자로 구분되는 사실의 주체나 객체이다.
@@ -91,7 +91,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관계 경로 질의(Path Query)**: 여러 간선을 따라 연결과 파생 사실을 탐색한다.
 - **트리플 검증(Triple Validation)**: 관계•속성의 스키마 충족 여부를 판정한다.
@@ -126,7 +126,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **관계형 데이터베이스(Relational Database)**: 표•키•조인으로 정형 데이터를 관리한다.
 - **지식그래프**: 개체•관계•출처를 그래프로 관리한다.
@@ -149,7 +149,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **셰이프 제약 언어(Shapes Constraint Language, SHACL)**: RDF 그래프의 노드•속성 제약을 검증한다.
 - **오병합(False Merge)**: 서로 다른 대상을 하나의 개체로 연결한 오류이다.
@@ -169,7 +169,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **지식 신뢰성(Knowledge Reliability)**: 개체•관계•출처의 정합성을 유지한 상태이다.
 

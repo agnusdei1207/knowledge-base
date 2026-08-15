@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **폰 노이만 구조(Von Neumann Architecture, VNA)**: 명령어와 데이터가 단일 메모리와 데이터/주소 버스를 공유하여 순차적 접근 시 병목이 발생할 수 있는 프로그램 내장 방식 컴퓨터 아키텍처.
 - **하버드 구조(Harvard Architecture, HA)**: 명령어와 데이터용 메모리와 물리적 버스를 각각 분리하여 동일 클록 주기에 동시 접근 및 병렬 처리를 지원하는 아키텍처.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **주소 공간(Address Space)**: 프로세서가 직접 참조 가능한 물리적/논리적 메모리 주소의 전체 할당 범위.
 - **수정 하버드 구조(Modified Harvard Architecture, MHA)**: 메인 메모리는 단일 공간으로 통합하되, CPU 내부 L1 캐시를 명령어와 데이터 캐시로 분리하여 용량 유연성과 동시 접근 성능을 절충한 고성능 아키텍처.
@@ -63,7 +63,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **중앙 처리 장치(Central Processing Unit, CPU)**: 명령어 인출, 제어 신호 생성, 산술 논리 연산을 처리하는 컴퓨터 제어의 중추 장치.
 - **버스(Bus)**: CPU와 메모리, 주변 입출력 장치 간 통신을 담당하는 주소, 데이터, 제어 통로.
@@ -98,7 +98,7 @@ extra:
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **분리 경로(Separate Path)**: 명령어와 데이터를 물리적으로 격리된 신호 선로로 연결하여 대역폭 간섭을 극복하는 아키텍처 통로.
 - **공유 버스 접근(Shared Bus Access)**: 동일한 물리적 버스 상에서 타임 슬롯을 나누어 명령어와 데이터를 번갈아 인출하는 순차 방식.
@@ -130,7 +130,7 @@ extra:
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **단일 주소 공간(Unified Address Space)**: 프로그램 코드와 변수가 단일 메인 메모리의 논리 주소 영역에 통합 매핑되는 구조.
 - **실시간 신호 처리(Real-Time Signal Processing, RTSP)**: DSP 및 음성/영상 센서 제어와 같이 확정적 실행 시간(Deterministic Latency)이 요구되는 처리.
@@ -153,7 +153,7 @@ extra:
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **폰 노이만 병목(Von Neumann Bottleneck)**: 메모리와 프로세서 간 전송 속도 격차와 버스 공유로 인한 실행 지연 문제.
 - **명령 캐시 무효화(Instruction Cache Invalidation)**: 동적 코드 생성 후 구버전 명령어가 I-Cache에 남아 오류를 유발하지 않도록 캐시 데이터를 파기하는 연산.
@@ -176,7 +176,7 @@ extra:
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **디지털 신호 처리기(Digital Signal Processor, DSP)**: 음성, 영상, 무선 신호 등 연속 데이터를 고속 병렬 수학 연산으로 처리하는 전용 프로세서.
 - **결정적 처리량(Deterministic Throughput)**: 캐시 미스나 버스 충돌의 불확실성 없이 일정 시간 내 정해진 연산을 반드시 완료하는 보장성.

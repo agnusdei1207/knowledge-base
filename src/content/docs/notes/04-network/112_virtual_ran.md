@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무선접속망(Radio Access Network, RAN)**: 단말을 이동통신 코어망에 연결하는 무선 네트워크이다.
 - **중앙 장치(Central Unit, CU)**: 기지국의 상위 무선 계층과 정책을 처리하는 장치이다.
@@ -42,7 +42,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **무선 가속기(Radio Accelerator)**: 처리 시한이 엄격한 물리 계층 연산을 범용 중앙처리장치(Central Processing Unit, CPU) 대신 전담하는 장치이다.
 - **CU 소프트웨어 처리**: 상위 무선 계층을 범용 서버에서 독립적으로 실행하는 방식이다.
@@ -62,7 +62,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **운영 제어기**: 무선 품질과 자원 상태를 감시하여 배치•확장•복구를 결정하는 구성요소이다.
 - **클라우드 플랫폼**: 가상 CU•DU 실행 환경의 배포•격리•확장을 제공하는 플랫폼이다.
@@ -104,7 +104,7 @@ vRAN 실행 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **프런트홀**: DU와 무선 장치 사이에서 디지털 무선 신호와 제어 정보를 전달하는 구간이다.
 - **서비스 품질 보고**: CU•DU 처리 지연과 무선 품질을 운영 제어기에 전달해 자원 조정을 유도하는 정보이다.
@@ -153,7 +153,7 @@ vRAN 실행 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상머신 vRAN(Virtual Machine vRAN)**: 운영체제 단위로 기능을 강하게 격리하는 실행 방식이다.
 - **컨테이너 vRAN(Container vRAN)**: 호스트 커널을 공유하여 기능을 가볍게 배포하는 실행 방식이다.
@@ -177,7 +177,7 @@ vRAN 실행 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **자원 격리(Resource Isolation)**: 전용 CPU 코어•메모리•가속기를 배정해 다른 워크로드의 경쟁 영향을 차단하는 방식이다.
 - **3GPP 기술규격 38.401(3rd Generation Partnership Project Technical Specification 38.401, 3GPP TS 38.401)**: 차세대 무선접속망과 CU•DU 구조를 규정한 기술규격이다.
@@ -198,7 +198,7 @@ vRAN 실행 구조
 ## Ⅶ. 결론
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **vRAN 적용 조건**: 처리 시한•자원 격리•장애 후 잔여 용량을 모두 만족하는 배치 조건이다.
 

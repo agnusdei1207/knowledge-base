@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLA(Service Level Agreement)**: 고객과 제공자가 품질•측정•책임을 합의한 계약이다.
 
@@ -34,7 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLI(Service Level Indicator)**: 실제 서비스 품질을 측정한 지표이다.
 - **SLO(Service Level Objective)**: SLI에 설정한 내부 운영 목표값이다.
@@ -52,7 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 범위**: SLA가 적용되는 기능•사용자•지역•시간대와 제외 대상을 정한 경계이다.
 - **측정 규칙**: 지표의 데이터 원천•집계 주기•성공 기준•반올림 방법을 정한 규칙이다.
@@ -84,7 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **병행 측정**: 고객과 제공자가 같은 기간의 품질을 각각 측정하여 결과를 대조하는 방식이다.
 - **분쟁 조정**: 측정값이 다를 때 원시 데이터와 계약 규칙으로 위반 여부를 재판정하는 절차이다.
@@ -127,7 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SLI 역할**: 실제 품질 측정값을 제공하는 역할이다.
 - **SLO 역할**: 장애 예방과 배포의 내부 목표를 제공하는 역할이다.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **측정 경계 오류**: 고객 여정과 다른 시작•종료•제외 조건으로 품질을 계산하여 결과가 왜곡되는 문제이다.
 - **과도한 목표**: 사용자 가치보다 지나치게 높은 SLO•SLA가 비용과 변경 제약을 키우는 상태이다.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **관리 책임 분리**: 고객 대상 책임은 서비스 수준 협약과 서비스 크레딧, 내부 품질 관리는 서비스 수준 목표로 운영하는 결정이다.
 

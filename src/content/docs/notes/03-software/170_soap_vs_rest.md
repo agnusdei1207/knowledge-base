@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **SOAP (Simple Object Access Protocol)**: XML(Extensible Markup Language) 기반으로 HTTP, SMTP 등 다양한 트랜스포트 프로토콜 위에서 엄격한 메시지 포맷과 보안(WS-Security) 규격을 강제하는 엔터프라이즈급 API 연계 프로토콜.
 - **REST (Representational State Transfer)**: URI(Uniform Resource Identifier)로 자원을 식별하고, HTTP의 4대 메서드(GET, POST, PUT, DELETE)만을 사용하여 상태를 주고받는 경량화된 웹 표준 아키텍처 스타일.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **WS-* (Web Services Specifications)**: SOAP 생태계에서 라우팅, 신뢰성 보장(WS-ReliableMessaging), 트랜잭션(WS-AtomicTransaction) 등을 제공하기 위해 체계화된 확장 표준 스펙 모음.
 
@@ -53,7 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Envelope (봉투 구조)**: SOAP 메시지의 최상위 요소로, Header(인증, 트랜잭션 정보)와 Body(실제 호출할 데이터 및 오류 내역인 Fault)를 감싸는 포장지.
 
@@ -73,7 +73,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Uniform Interface (균일 인터페이스)**: REST의 제약 조건 중 하나로, 모든 자원에 대해 통일된 HTTP 메서드(CRUD) 조작 방식을 적용하여 클라이언트-서버 결합도를 낮추는 아키텍처 원칙.
 
@@ -115,7 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ACID Transaction**: 데이터베이스의 원자성, 일관성, 고립성, 지속성. SOAP은 WS-AtomicTransaction을 통해 분산 환경에서도 2PC 수준의 트랜잭션을 지원하지만 REST는 이를 직접 지원하지 못함.
 
@@ -134,7 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Idempotency (멱등성)**: 동일한 API 요청을 여러 번 수행해도 서버의 상태가 단 1번 수행한 것과 동일하게 유지되는 성질 (REST의 PUT/DELETE는 본질적으로 멱등성을 지님).
 
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **API Gateway**: SOAP/XML 요청을 받아 내부 Microservice에 맞게 REST/JSON으로 자동 변환해 주는 브릿지 역할의 클라우드 인프라 관문.
 

@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률 분포(Probability Distribution)**: 확률 변수(Random Variable)가 특정 값이나 구간에서 가질 수 있는 확률 밀도를 배정하는 수학적 법칙.
 - **확률 변수(Random Variable, RV)**: 무작위 시행(Random Experiment)의 결과를 수치로 대응시킨 변수.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률 질량 함수(Probability Mass Function, PMF)**: 이산 확률 변수의 값별 확률 부여 함수.
 - **확률 밀도 함수(Probability Density Function, PDF)**: 연속 구간의 확률 밀도 함수.
@@ -64,7 +64,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **표본 공간**: 한 시행에서 나올 수 있는 모든 결과의 집합이다.
 - **모수(Parameter)**: 확률 분포의 위치와 모양을 결정하는 값이다.
@@ -99,7 +99,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **독립 오차 합**: 여러 독립 변동이 더해져 연속값을 만드는 과정이다.
 - **고정 시행**: 성공 확률이 일정한 시행 횟수를 미리 정한 실험이다.
@@ -137,7 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **정규 분포**: 평균을 중심으로 좌우 대칭인 종 모양의 연속 분포이다.
 - **이항 분포**: 성공 확률이 일정한 독립 시행 $n$회에서 성공 횟수를 나타내는 분포이다.
@@ -163,7 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **잔차(Residual)**: 관측값에서 분포 모형이 예측한 값을 뺀 차이다.
 - **분위수-분위수 도표(Quantile-Quantile Plot, Q-Q Plot)**: 표본과 이론 분포의 분위수 일치를 점검하는 도표이다.
@@ -186,7 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **분포 선택 기준**: 값 유형보다 관측값을 만든 시행•합산•시간 구간 조건을 우선하는 기준이다.
 

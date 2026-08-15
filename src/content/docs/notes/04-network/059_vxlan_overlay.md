@@ -21,7 +21,7 @@ extra:
 ## Ⅰ. 개요
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 확장성 무선/유선 가상 랜(Virtual Extensible LAN, VXLAN)**: L2 이더넷 프레임을 L4 UDP 패킷으로 캡슐화(MAC-in-UDP)하여 L3 네트워크를 가로지르는 대규모 오버레이 가상 네트워크를 구축하는 IETF 표준 프로토콜이다.
 - **오버레이 네트워크(Overlay Network)**: 물리적 인프라(Underlay) 위에 터널링 기술을 적용하여 상위에 구축된 논리적 가상 네트워크층이다.
@@ -39,7 +39,7 @@ extra:
 ## Ⅱ. 특징
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **가상 네트워크 식별자(VXLAN Network Identifier, VNI)**: 기존 12비트 VLAN ID를 대체하여 최대 약 1,600만 개(24비트)의 개별 가상 세그먼트를 식별하는 고유 테넌트 ID이다.
 - **VXLAN 터널 종단점(VXLAN Tunnel Endpoint, VTEP)**: 원본 L2 프레임에 Outer IP/UDP/VXLAN 헤더를 캡슐화(Encapsulation)하고 역캡슐화(Decapsulation)를 수행하는 가상/물리 스위치 노드이다.
@@ -58,7 +58,7 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **브로드캐스트·미지의 유니캐스트·멀티캐스트(Broadcast, Unknown Unicast, Multicast, BUM Traffic)**: 수신 VTEP 위치를 모를 때 물리 언더레이망으로 복제 전송되는 무선/유선 플러딩 트래픽 세트이다.
 - **등가 다중 경로(Equal-Cost Multi-Path, ECMP)**: 동일 비용의 L3 경로에 흐름을 분산하는 라우팅 기술이다.
@@ -93,7 +93,7 @@ VXLAN 오버레이-언더레이 이중 구조
 ## Ⅳ. 흐름도
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **MAC·IP 위치 경로(MAC/IP Advertisement Route / EVPN Type-2)**: MP-BGP EVPN을 통해 단말의 MAC/IP 및 수용 VTEP IP 주소를 타 VTEP로 전달하는 경로 정보이다.
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 패킷 단편화를 막기 위해 무선/유선 라우터 인터페이스에 설정하는 최대 프레임 크기이다.
@@ -134,7 +134,7 @@ VXLAN 오버레이-언더레이 이중 구조
 ## Ⅴ. 종류 및 비교
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **VLAN 식별자(VLAN Identifier, VID)**: IEEE 802.1Q 프레임 헤더 내 12비트 크기로 위치하여 기존 L2 가상망을 구별하던 식별자이다.
 
@@ -157,7 +157,7 @@ VXLAN 오버레이-언더레이 이중 구조
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details>
-<summary>핵심 용어</summary>
+<summary>용어 설명</summary>
 
 - **점보 프레임(Jumbo Frame / MTU Expansion)**: VXLAN 캡슐화 헤더 50바이트 오버헤드로 인한 IP 단편화를 막기 위해 언더레이 MTU를 1,550~9,216바이트로 확장하는 설정이다.
 

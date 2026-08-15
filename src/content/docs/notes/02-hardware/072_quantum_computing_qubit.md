@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **큐비트(Qubit/Quantum Bit)**: 0과 1의 고전 비트 상태 외에 중첩(Superposition) 및 얽힘(Entanglement) 상태를 표현하는 양자 컴퓨팅의 기본 정보 단위.
 - **계산 기저(Computational Basis)**: 큐비트를 관측(Measurement) 시 수축 투영되는 고전 상태 기저벡터 ($|0\rangle, |1\rangle$).
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **확률 진폭(Probability Amplitude)**: 복소수 절댓값의 제곱이 각 계산 기저 수축 확률($|\alpha|^2, |\beta|^2$)을 결정하는 계수.
 - **중첩(Superposition)**: 단일 큐비트가 0과 1의 상태를 기하학적 블로흐 구(Bloch Sphere) 상에서 동시 보유하는 속성.
@@ -60,7 +60,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **큐비트 소자(Qubit Device)**: 초전도(Josephson Junction), 이온 트랩, 광자, 반도체 퀀텀닷 등 큐비트를 구현하는 물리 칩셋.
 - **결합 구조(Coupler)**: 큐비트 간 교환 상호작용(Exchange Interaction)을 제어하여 2-큐비트(CNOT, CZ) 얽힘 게이트를 형성하는 결합기.
@@ -90,7 +90,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 게이트(Quantum Gate)**: 상태 벡터를 가역적으로 회전 변환하는 유니타리 행렬(Unitary Matrix) 연산자.
 - **샷(Shot)**: 확률적 양자 회로 결과를 통계 수집하기 위해 동일 회로를 초기화 및 측정을 반복 집계하는 단위.
@@ -134,7 +134,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **결맞음 손실(Decoherence)**: 외부 환경 열/전자기 노이즈로 인해 큐비트의 양자 위상 정보가 붕괴되는 현상.
 - **양자 이득(Quantum Advantage)**: 특정 계산에서 양자 방식이 비교 가능한 고전 방식보다 우수함을 입증한 상태.
@@ -153,7 +153,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **결맞음 시간(Coherence Time, T1/T2)**: T1(에너지 완화 시간), T2(위상 상쇄 시간) 기반 큐비트 유지 한계 시간.
 - **QEC(Quantum Error Correction)**: 여러 물리 큐비트에 논리 정보를 부호화해 논리 오류율을 낮추는 기술.
@@ -174,7 +174,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 컴퓨팅 선택 기준(Quantum Computing Selection Criteria)**: 대상 문제의 양자 알고리즘 존재 여부, 회로 깊이 및 양자 이득 달성 가능성에 기초한 체계.
 

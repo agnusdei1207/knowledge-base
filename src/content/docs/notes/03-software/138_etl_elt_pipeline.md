@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ETL (Extract, Transform, Load)**: 소스 DB에서 데이터를 추출(Extract)하여 별도의 중간 변환 서버(Spark/ETL Tool)에서 정제/변환(Transform)을 모두 마친 후, 타깃 DW/DB에 적재(Load)하는 전통적 파이프라인.
 - **ELT (Extract, Load, Transform)**: 소스 DB의 날것 그대로 데이터(Raw Data)를 타깃 데이터 레이크/DW(S3, Snowflake)에 일단 우선 적재(Load)한 후, 타깃 엔진의 초고속 컴퓨팅 파워로 내부 변환(Transform)을 수행하는 모던 파이프라인.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Compute Layer Offloading**: ETL은 중간 서버 컴퓨터가 변환 연산 부담, ELT는 타깃 클라우드 DW(Snowflake, BigQuery)가 변환 연산 부담.
 - **Data Preservation (원본 보존성)**: ELT는 Raw 데이터가 타깃 S3에 100% 보존되어 언제든 재가공 가능.
@@ -54,7 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Transformation Offloading Layer**: ETL의 경우 Spark/Informatica 서버, ELT의 경우 Snowflake/BigQuery/dbt internal SQL 연산.
 
@@ -74,7 +74,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **dbt Transformation Flow**: S3/Snowflake에 덤프된 Bronze Raw 테이블을 dbt SQL 모델로 가공하여 Silver/Gold 테이블로 승격시키는 ELT 변환 과정.
 
@@ -113,7 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Domain Selection Criteria**: 보안/PII 민감 데이터는 ETL, 대용량 빅데이터 및 실시간 머신러닝은 ELT.
 
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **Snowflake Compute Credit Explosion**: ELT 변환 쿼리가 비효율적일 경우 타깃 클라우드 DW의 컴퓨팅 노드 사용료(Credit) 폭증 위험.
 
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ELT 수립 기준(Modern Data Stack Standards)**: Cloud DW, S3 Raw Preserved, dbt SQL Transformation 및 Airflow Orchestration에 의거한 체계.
 

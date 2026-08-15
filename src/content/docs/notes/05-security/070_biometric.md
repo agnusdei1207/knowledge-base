@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **생체 인증(Biometric Authentication)**: 지문, 얼굴, 홍채 등 개인의 신체적•행동적 특성을 추출하여 본인 여부를 식별 및 검증하는 인증 방식이다.
 - **생체 표본(Biometric Sample)**: 광학/음향/근적외선 센서가 라이브(Live) 상태에서 측정한 1차 원시 생체 데이터(Raw Data)이다.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **오수락률(False Match Rate, FMR)**: 타인의 생체 특성을 등록 사용자로 오인하여 잘못 허용하는 타인 수락 비율이다.
 - **오거부율(False Non-Match Rate, FNMR)**: 등록 사용자 본인의 정상적인 생체 특성을 잘못 거부하는 본인 거부 비율이다.
@@ -61,7 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **특징 추출기(Feature Extractor)**: 획득한 원시 생체 표본의 노이즈를 제거하고 정밀한 수학적 특징 벡터(템플릿)로 변환하는 알고리즘 모듈이다.
 - **매처(Matcher / Comparison Engine)**: 입력된 템플릿과 저장된 등록 템플릿 간 거리/유사도를 암호학적으로 비교 계산하는 연산부이다.
@@ -94,7 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **품질 검사(Quality Inspection)**: 입력된 표본 데이터의 선명도, 훼손도를 파악하여 특징점 추출 적합성을 확인하는 단계이다.
 - **제시 공격 검사(Presentation Attack Check)**: 센서에 닿은 표본의 미세 혈류, 체온, 3D 깊이감을 감지하여 위조 도구 여부를 심사하는 단계이다.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **지문 인식(Fingerprint Recognition)**: 손가락 끝 융선(Ridge)과 계곡(Valley)의 단점/분기점 특징을 센서로 정밀 비교하는 방식이다.
 - **얼굴 인식(Face Recognition)**: 카메라 및 3D Depth 센서로 눈, 코, 입 간의 거리 및 골격 3D 메쉬 구조를 비교하는 비접촉 방식이다.
@@ -159,7 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 19795-1:2021**: 생체 인식 시스템의 성능 시험 평가 및 오류율(FMR/FNMR/EER) 측정 방법론 국제 표준이다.
 - **ISO/IEC 30107-3:2023**: 생체 인식 제시 공격 탐지(PAD) 메커니즘의 시험 기법 및 성능 평가 국제 규격이다.
@@ -180,7 +180,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어</summary>
+<details><summary>용어 설명</summary>
 
 - **생체 인증 운영 품질(Biometric Operational Quality)**: EER 정밀도, PAD 제시 공격 방어력, TEE 기반 로컬 매칭 및 대체 인증 지원 성능을 종합한 생체 보안 지표이다.
 
