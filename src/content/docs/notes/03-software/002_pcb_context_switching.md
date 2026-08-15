@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **PCB(Process Control Block)**: 프로세스의 PID, 상태, PC, CPU 레지스터, 가상 메모리 매핑 및 파일 기술자 등 실행 정보를 보관하는 커널 자료구조.
 - **Context Switching**: 인터럽트나 시스템 콜 발생 시, CPU에서 실행 중인 프로세스/스레드의 레지스터 문맥을 PCB/TCB에 저장하고, 새로운 문맥을 복원하는 제어 전환 기법.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **복합 지표(Composite Indicator)**: 인재·제도·기술 수용을 여러 축으로 결합한 지표.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지식 역량(Knowledge Capability)**: 인재·교육훈련·과학 집중도의 개발 능력.
 - **기술 환경(Technology Environment)**: 규제·자본·기술 기반의 발전 여건.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가 자료(Assessment Data)**: 국가별 정량 통계와 경영진 설문의 결합 자료.
 - **정보기술 통합(IT Integration)**: 기술을 사회·기업·정부 성과로 전환하는 역량.
@@ -81,8 +78,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기준시점(Reference Date)**: 통계와 설문의 비교 기간을 맞추는 시점.
 - **표준화 점수(Standardized Score)**: 단위가 다른 지표를 공통 척도로 변환한 값.
@@ -127,8 +123,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기술 수용 역량(Technology Adoption Capability)**: 신기술을 사회·기업·정부 성과로 전환하는 능력.
 
@@ -147,8 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시차·편향(Time Lag and Bias)**: 기준시점이 다른 통계·설문의 결합 왜곡.
 - **세계 디지털 경쟁력 순위(World Digital Competitiveness Ranking, WDCR)**: 지식·기술·미래준비도 국가 순위.
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **장기 하락 요인(Long-term Decline Factor)**: 세 평가 축에서 지속되는 취약 지표.
 

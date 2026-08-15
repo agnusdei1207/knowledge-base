@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엣지 텐서 처리장치(Edge Tensor Processing Unit, Edge TPU)**: 완전 8비트 정수 지원 연산을 낮은 전력으로 실행하도록 설계된 엣지 추론용 전용 반도체다.
 - **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 연산에 맞춰 회로와 데이터 흐름을 고정 설계한 전용 반도체다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 정수 양자화**: 모델의 가중치와 활성값을 모두 정수 표현으로 변환하는 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **하위 그래프**: 전체 연산 그래프에서 같은 장치가 연속 실행하도록 묶은 일부 연산 구간을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Edge TPU 컴파일러**: 모델의 연산자와 텐서 형상을 검사해 지원 하위 그래프를 장치 코드로 변환한다.
 - **런타임**: TPU 호출•입출력 전송과 CPU 폴백 구간의 실행 순서를 제어한다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대표 데이터셋**: 양자화 범위를 정하도록 실제 운영 입력 분포를 대표해 제공하는 표본 데이터다.
 - **양자화 인지 학습(QAT)**: 학습 과정에 양자화 오차를 반영해 정수 변환 후 품질을 회복하는 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CPU 역할**: 미지원 연산과 복잡한 제어를 범용 명령으로 처리한다.
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 다양한 텐서 연산을 프로그램 가능한 병렬 코어로 처리한다.
@@ -145,8 +140,7 @@ CPU•GPU•Edge TPU는 범용성과 전력 효율이 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화 품질 저하**: INT8 변환 오차로 원본 모델보다 정확도가 낮아지는 문제다.
 - **CPU 왕복**: 미지원 연산 때문에 TPU와 CPU 사이에서 텐서를 반복 전송하여 종단 지연이 증가하는 현상이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -165,8 +159,7 @@ CPU•GPU•Edge TPU는 범용성과 전력 효율이 다르다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Edge TPU 선택 기준**: 완전 INT8 품질과 지원 연산 비율이 목표를 충족할 때 적용한다.
 - **CPU 폴백 기준**: Edge TPU가 지원하지 않는 연산만 경계를 최소화하여 CPU에서 처리한다.

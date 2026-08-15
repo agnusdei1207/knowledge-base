@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **표면 코드(Surface Code)**: 2차원 격자에서 이웃 큐비트의 안정자를 반복 측정해 오류를 정정하는 코드다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안정자**: 논리 상태를 직접 읽거나 바꾸지 않으면서 물리 오류의 징후를 드러내는 공동 측정 연산자을 말한다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 패치**: 하나 이상의 논리 큐비트를 표현하도록 경계를 갖춘 2차원 큐비트 격자 영역을 말한다.
 - **데이터 큐비트**: 논리 정보를 담도록 2차원 격자에 배치한 물리 큐비트을 의미한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시공간 해독**: 여러 측정 주기에 걸친 신드롬 변화를 연결하여 데이터 오류와 측정 오류를 함께 추정하는 개념을 의미한다.
 
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **회전 표면 코드**: 경계를 회전시킨 격자 배치로 같은 코드 거리에서 필요한 물리 큐비트 수를 줄인 변형을 의미한다.
 
@@ -147,8 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상관 오류**: 하나의 결함이 여러 큐비트에 연관된 오류를 만들어 독립 오류 가정을 깨뜨리는 현상을 말한다.
 
@@ -166,8 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 거리 확장**: 논리 연산을 바꾸는 데 필요한 최소 오류 수를 늘려 논리 오류율을 낮추는 방법을 의미한다.
 

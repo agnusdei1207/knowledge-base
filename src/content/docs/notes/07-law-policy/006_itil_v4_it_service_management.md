@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **ITIL v4(Information Technology Infrastructure Library v4)**: IT 서비스의 기회와 수요를 비즈니스 가치로 전환하는 현대적 ITSM 프레임워크.
 - **IT 서비스 관리(IT Service Management, ITSM)**: IT 서비스의 기획, 제공, 지원 및 지속적 개선 활동.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 가치 시스템(Service Value System, SVS)**: 원칙, 거버넌스, 가치사슬, 관리 관행 및 개선 체계의 통합 모델.
 - **서비스 가치 사슬(Service Value Chain, SVC)**: 수요를 가치로 전환하기 위해 핵심 활동들을 상황에 맞춰 조합하는 운영 모델.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **지도 원칙(Guiding Principles)**: 가치 중심 사고, 현재 위치 유지 및 반복 개선의 의사결정 권고 사항.
 - **관리 관행(Management Practices)**: 서비스 운영을 위한 일반, 서비스, 기술 관리 자원과 활동의 묶음.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 서비스 목표·측정 기준·책임의 합의.
 - **가치 흐름(Value Stream)**: 수요를 가치로 전환하는 활동·관행·역할 경로.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ITIL v3 서비스 생명주기(Service Lifecycle)**: 전략·설계·전환·운영·개선 단계 모델.
 
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **도입 부담(Adoption Burden)**: 모든 관리 관행의 일괄 적용에 따른 비용 및 조직적 저항.
 - **가치 기여도(Value Contribution)**: 서비스 개선이 고객 경험 및 비즈니스 성과에 미치는 영향 정도.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **4차원 모델(Four Dimensions)**: 조직, 기술, 파트너, 가치 흐름을 종합적으로 평가하는 서비스 관리 모델.
 

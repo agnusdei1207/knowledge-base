@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인공지능 거버넌스(Artificial Intelligence Governance, AI Governance)**: AI 의사결정권•책임•위험을 감독한다.
 - **책임 체계(Accountability Framework)**: 개발•승인•운영•중지의 결정권자를 정한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 등급(Risk Tier)**: 영향도별 검증•승인•감시 강도 기준이다.
 - **다기능 책임 배분(Cross-functional Accountability)**: 사업•모델•법무•보안 책임을 나눈다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 등록부(AI Inventory)**: 목적•소유자•사용 범위•위험 등급 목록이다.
 - **승인 기구(Approval Body)**: 독립 검토 후 배포•제한•중지를 결정한다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **필수 통제(Mandatory Control)**: 위험 등급별 배포 전 검증•감시 조치이다.
 - **위험 재평가(Risk Reassessment)**: 중대 변경•사고 후 등급과 통제를 다시 판정한다.
@@ -124,8 +120,7 @@ AI 등록•위험 기준 위원회
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 경영시스템(AI Management System)**: AI 정책•절차•책임을 반복 운영•개선한다.
 - **AI 위험관리(AI Risk Management)**: 개별 AI 위험을 식별•평가•처리한다.
@@ -146,8 +141,7 @@ AI 등록•위험 기준 위원회
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 사각지대(Control Gap)**: AI 목록•소유자 누락으로 감독받지 않는 영역이다.
 - **승인 강도 불일치**: 영향도와 다른 수준의 검증•승인을 적용한 문제이다.
@@ -166,8 +160,7 @@ AI 등록•위험 기준 위원회
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **승인권(Approval Authority)**: AI 배포•제한•중지를 결정하는 조직 권한이다.
 - **시정•중지 체계(Remediation and Suspension)**: 위반 시 개선•운영 중단을 집행한다.

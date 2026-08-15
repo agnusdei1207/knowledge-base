@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티 헤드 어텐션(Multi-Head Attention, MHA)**: 입력을 여러 부분공간에 투영해 어텐션을 병렬 계산하고 결합하는 구조이다.
 - **어텐션 헤드(Attention Head)**: 독립된 Q•K•V 투영으로 하나의 관계 관점을 학습하는 연산 단위이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티 쿼리 어텐션(Multi-Query Attention, MQA)**: 모든 쿼리 헤드가 하나의 K•V를 공유해 추론 메모리를 줄이는 구조이다.
 - **그룹 쿼리 어텐션(Grouped-Query Attention, GQA)**: 쿼리 헤드를 여러 그룹으로 나누고 그룹마다 하나의 K•V 헤드를 공유하는 구조로 정의된다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결(Concatenation, Concat)**: 헤드별 출력 벡터를 특성 차원 방향으로 이어 붙여 통합 표현을 만드는 연산이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **출력 투영(Output Projection)**: 연결한 헤드 출력을 $W^O$ 가중치 행렬로 변환해 모델 차원으로 되돌리는 연산을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헤드 분할**: 모델 차원을 헤드 수만큼 저차원 표현으로 재배열하여 병렬 어텐션 입력을 만드는 과정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **스케일드 닷 프로덕트 어텐션**: 각 헤드에서 Q•K 내적을 키 차원으로 보정하고 V를 가중합하는 연산이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키-값 캐시(Key-Value Cache, KV Cache)**: 이전 토큰의 K•V를 저장해 다음 토큰 생성에 재사용하는 메모리로 정의된다.
 
@@ -157,8 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헤드 제거 실험**: 특정 헤드를 비활성화한 뒤 품질 변화를 측정하여 관계 학습의 중복 여부를 확인하는 평가로 정의된다.
 - **체크포인트 변환**: MHA 가중치의 K•V 헤드를 매핑•병합하여 GQA나 MQA 구조에서 사용할 수 있게 바꾸는 과정을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -177,8 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헤드 공유 방식 선택 기준**: 최대 표현력에는 MHA를, 최소 캐시에는 MQA를, 두 요구의 절충에는 GQA를 적용하는 기준을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 

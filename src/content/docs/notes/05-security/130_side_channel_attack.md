@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사이드채널 공격(Side-Channel Attack, 부채널 공격)**: 암호 수학 자체가 아닌 시간•전력•전자기•캐시 등 구현 과정의 물리적•미세구조 흔적에서 비밀을 추론하는 공격이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구현 종속성**: 같은 알고리즘도 장치•컴파일•배치에 따라 누설 특성이 달라지는 성질이다.
 - **고차 누설**: 여러 마스킹 공유값의 누설을 결합할 때 비밀과 상관이 나타나는 현상이다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **누설 모델**: 비밀 중간값과 관측 신호 사이의 관계를 가정해 키 후보를 평가하는 모델이다.
 - **EM(Electromagnetic) 채널**: 연산 중 방출되는 전자기 신호의 관측 경로이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **흔적 정렬•필터링**: 반복 측정 신호의 시점을 맞추고 잡음을 줄여 통계 분석이 가능하게 하는 과정이다.
 - **EM 표본**: 표적 연산에서 반복 수집한 전자기 신호이다.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **타이밍 공격**: 실행 시간 차이로 비밀을 추론하는 공격이다.
 - **캐시 공격**: 비밀 의존 메모리 접근 패턴을 관측하는 공격이다.
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상수 시간**: 비밀과 무관한 실행 경로와 시간을 유지하는 기법이다.
 - **마스킹**: 비밀 중간값을 난수 공유값으로 나누는 기법이다.
@@ -176,8 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **실장 검증**: 소스뿐 아니라 컴파일된 코드와 실제 장치에서 누설•키 복구 가능성을 재시험하는 활동이다.
 

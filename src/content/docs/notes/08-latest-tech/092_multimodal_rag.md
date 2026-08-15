@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티모달 RAG(Multimodal RAG)**: 텍스트•이미지•표•도면을 검색해 근거 답변을 생성한다.
 - **원본 좌표(Original Coordinate)**: 문단•표 셀•이미지 영역의 원본 위치이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달별 표현 색인(Modal Representation Index)**: 모달 특징과 원본 위치를 결합한 색인이다.
 - **교차 모달 검색(Cross-modal Retrieval)**: 질의와 다른 모달의 관련 자료를 탐색한다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달 파싱(Modal Parsing)**: 텍스트•표•이미지와 원본 위치를 구조화한다.
 - **시각언어모델(Vision-Language Model, VLM)**: 시각 자료와 언어 질의를 공동 해석한다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결 메타데이터(Connection Metadata)**: 모달 식별자•좌표 기반 위치 추적 정보이다.
 - **융합 문맥(Fused Context)**: 모달별 근거를 결합한 생성 입력이다.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텍스트 변환(Text Conversion)**: 시각 자료를 설명문으로 바꿔 검색한다.
 - **공동 임베딩(Joint Embedding)**: 여러 모달을 공동 의미 공간에 매핑한다.
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시각 구조 손실(Visual Structure Loss)**: 표 셀•도면 배치가 소실되는 문제이다.
 - **교차 모달 정렬 오류(Alignment Error)**: 관련 없는 모달 근거가 연결되는 문제이다.
@@ -166,8 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검색 표현(Search Representation)**: 검색 점수 계산을 위한 모달 변환 데이터이다.
 - **영역 인용(Region Citation)**: 답변 근거를 원본 좌표 단위로 제시한다.

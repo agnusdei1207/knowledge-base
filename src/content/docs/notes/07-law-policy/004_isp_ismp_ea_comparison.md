@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **정보전략계획(Information Strategy Planning, ISP)**: 중장기 정보화 과제 및 투자 로드맵 수립 방법론.
 - **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 개별 사업 단위의 상세 요구사항, 발주 규모, 예산 계획 수립 방법론.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **제안요청서(Request for Proposal, RFP)**: 사업 요구사항, 규모, 예산, 검수 기준을 명시한 발주 문서.
 - **구조 축(Structural Axis)**: EA 기반의 현행•목표 구조 및 표준 준수 여부를 통제하는 아키텍처 거버넌스 역할.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **전주기 거버넌스(Lifecycle Governance)**: 투자(ISP), 발주(ISMP), 구축 및 EA 현행화 과정을 연결하는 통제 체계.
 
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구조·표준·중복 검토**: 현행 자원과 공동 활용·표준 대조.
 - **ISP 우선 과제 선정**: 기여도·효과·시급성·실행성 기반 선정.
@@ -126,8 +122,7 @@ EA위원회
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보화 계획 체계(Informatization Planning System)**: 중장기 투자·개별 발주·전사 구조를 연결하는 체계.
 
@@ -146,8 +141,7 @@ EA위원회
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **사업 목적 변질(Business Objective Distortion)**: ISP 전략과 ISMP 요구사항•검수 간의 추적성이 단절되어 발생하는 문제.
 - **과제 식별자(Requirement/Task ID)**: 과제의 전략적 목적부터 요구, 산출물, 검수까지 일관되게 추적하는 식별 코드.
@@ -166,8 +160,7 @@ EA위원회
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **전사 구조(Enterprise Structure)**: EA로 통제하고 투자•발주는 ISP•ISMP로 구체화하는 전략적 관리 체계.
 

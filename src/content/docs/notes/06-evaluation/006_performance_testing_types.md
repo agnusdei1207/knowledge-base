@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **성능 테스트(Performance Testing)**: 실제 환경 부하 재현을 통해 처리량, 지연시간, 오류율 등을 정량적으로 검증하는 활동.
 - **SLO(Service Level Objective)**: 성능 테스트 합격 여부를 판정하기 위한 정량적 목표 지표.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **부하 패턴(Load Pattern)**: 동시 접속 가상 사용자 수, 요청률, 증가율 등을 조합하여 구성한 트래픽 인가 형태.
 - **99백분위수(p99, 99th Percentile Latency)**: 꼬리 지연 악화를 감시하는 통계 지표.
@@ -56,7 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **워크로드 모델(Workload Model)**: API 호출 빈도, 접근 패턴 등을 실제 운영 부하와 흡사하게 조합한 모형.
 - **부하 생성기(Load Generator)**: 워크로드 프로파일에 따라 가상 사용자 요청을 수행하는 엔진.
@@ -154,7 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **업무 비율(Transaction Mix)**: 라이브 서비스의 실제 트랜잭션 비율을 분석해 조합한 가상 부하.
 - **시험 격리(Test Environment Isolation)**: 테스트 영향도를 운영망과 단절시키는 통제 조치.

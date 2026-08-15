@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 목표(Service Level Objective, SLO)**: 평가 기간에 달성하기로 정한 사용자 중심 품질 지표의 목표이다.
 - **오류 예산(Error Budget)**: SLO 평가 기간에 사용자 품질 목표가 허용하는 실패량을 운영 의사결정에 연결한 기준을 말한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오류 예산율**: SLO 목표율을 1에서 뺀 허용 실패 비율이다.
 - **소진율(Burn Rate)**: 허용 속도 대비 오류 예산의 실제 소진 속도를 나타낸 비율이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 지표(Service Level Indicator, SLI)**: 실제 사용자 품질을 좋은 사건과 적격 사건의 비율로 측정한 값을 의미한다.
 - **평가 기간**: SLI 실적과 SLO 달성 여부를 집계하는 시간 구간로 정의된다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적격 사건(Eligible Event)**: SLI 계산 대상에 포함되는 전체 요청이나 작업이다.
 - **잔여 예산**: 평가 기간의 총허용 실패량에서 실제 실패량을 뺀 값을 말한다.
@@ -131,8 +127,7 @@ SLI 측정
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **좋은 사건**: 적격 사건 중 성공•지연 임계값을 만족한 요청이나 작업로 정의된다.
 - **변경•안정화 판단**: 남은 오류 예산과 소진율을 근거로 신규 배포와 신뢰성 개선의 우선순위를 정하는 의사결정하는 개념로 정의된다.
@@ -153,8 +148,7 @@ SLI는 실제 품질, SLO는 목표 품질, 오류 예산은 허용 실패량을
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다중 소진율 경보**: 단기•장기 시간 구간의 예산 소진 속도를 함께 평가하는 경보 방식이다.
 - **재개 조건**: 배포 중지 뒤 사용자 품질과 예산 위험이 정한 수준으로 회복했음을 확인하는 기준을 말한다.
@@ -175,8 +169,7 @@ SLI의 대표성과 평가 경계를 먼저 검증한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고갈 임계치**: 안정화와 배포 중지를 시작하도록 정한 잔여 예산 또는 소진율 기준로 정의된다.
 - **운영 우선순위**: 오류 예산 상태에 따라 배포•복구•자동화•재발 방지의 수행 순서를 정한 기준을 말한다.

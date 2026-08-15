@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이진 트리 순회(Binary Tree Traversal)**: 루트와 두 하위 트리의 방문 순서를 정해 모든 노드를 처리하는 절차이다.
 - **방문(Visit)**: 노드의 데이터를 처리하거나 출력하는 동작이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전위 순회(Pre-order Traversal)**: 루트를 두 하위 트리보다 먼저 방문하는 순회이다.
 - **중위 순회(In-order Traversal)**: 두 하위 트리 사이에 루트를 방문하는 순회이다.
@@ -66,8 +64,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순회기(Traverser)**: 정해진 방문 순서에 따라 자식으로 내려가고 노드를 처리한 뒤 상위로 되돌아오는 주체이다.
 - **순회 스택(Traversal Stack)**: 돌아갈 노드와 실행 문맥을 저장하는 후입선출 구조이다.
@@ -97,8 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **명시적 스택**: 재귀 호출 대신 프로그램이 직접 노드와 방문 단계를 넣고 꺼내는 저장 구조이다.
 
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **널 표식(Null Marker)**: 직렬화할 때 빈 자식 위치를 보존하는 표시이다.
 - **이진 탐색 트리(Binary Search Tree, BST)**: 왼쪽 키는 작고 오른쪽 키는 큰 순서 조건을 가진 트리이다.
@@ -156,8 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스택 오버플로(Stack Overflow)**: 재귀 호출 스택이 용량 한도를 넘은 오류이다.
 - **스냅샷(Snapshot)**: 순회 중 변경과 분리해 특정 시점의 트리 상태를 고정한 복사본이나 뷰이다.
@@ -180,8 +174,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구조 기록**: 부모를 먼저 방문해야 하는 순회 목적이다.
 - **키 정렬**: 키 순서대로 노드를 방문해야 하는 순회 목적이다.

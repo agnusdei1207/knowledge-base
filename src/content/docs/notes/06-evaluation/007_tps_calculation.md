@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **TPS(Transactions Per Second)**: 1초 동안 오류나 지연 없이 성공적으로 완료한 비즈니스 업무 거래 또는 쿼리 건수.
 - **폐쇄형 부하(Closed Workload Model)**: 인간의 반복적 상호작용 행동(요청-응답-생각시간)을 모사한 테스트 부하 모델.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **대화형 응답시간 법칙(Interactive Response Time Law)**: 폐쇄형 큐 네트워크에서 동시 사용자(N)와 처리량(X), 응답시간(R), 생각시간(Z)이 $N=X(R+Z)$ 관계를 유지한다는 용량 검증 원칙.
 - **동시 사용자(N, Concurrent Users)**: 서비스 루프를 반복하며 인프라 부하를 유발하는 유효 사용자 수.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **응답시간(R, Response Time)**: 요청 출발부터 최종 결과값이 화면에 렌더링을 시작하기 전까지의 왕복 지연 시간.
 - **생각시간(Z, Think Time)**: 응답 수신 후 다음 요청 전송까지 사용자가 소비하는 휴지 시간.

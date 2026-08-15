@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인터넷 프로토콜 기반 확장형 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over Internet Protocol, SOME/IP)**: 차량 IP망에서 ECU 기능을 서비스로 발견하고 호출•구독하는 AUTOSAR 서비스 지향 미들웨어 규약이다.
 - **자동차 개방형 시스템 아키텍처(Automotive Open System Architecture, AUTOSAR)**: 차량 소프트웨어 아키텍처 표준이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 계약(Service Contract)**: 서비스 식별자(Identifier, ID)•인터페이스 버전•자료형으로 소비자와 제공자의 호출 호환성을 정한 규격이다.
 - **SOME/IP 서비스 탐색(Scalable service-Oriented MiddlewarE over Internet Protocol Service Discovery, SOME/IP-SD)**: 서비스 제공 위치•버전•TTL을 광고•탐색하고 이벤트 구독을 관리하는 규약이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 소비자•제공자**: 메서드 호출•이벤트 구독을 맡는 소비자와 기능 실행•이벤트 발행을 맡는 제공자이다.
 - **종단 간 보호(End-to-End Protection, E2E 보호)**: 순서 번호와 검사값으로 서비스 메시지의 손상•반복•누락을 검출하는 방식이다.
@@ -91,8 +88,7 @@ SOME/IP
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 제공•탐색(OfferService/FindService)**: 제공자가 서비스 ID•버전•종단점•TTL을 광고하고 소비자가 필요한 조건으로 탐색하는 절차이다.
 - **이벤트 그룹**: 소비자가 관련 상태 이벤트를 하나의 단위로 묶어 구독하도록 정의한 집합이다.
@@ -141,8 +137,7 @@ SOME/IP
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **요청•응답•무응답 요청**: 결과가 필요하면 응답을 받고 지연을 우선하면 처리 결과를 기다리지 않는 호출 방식이다.
 - **이벤트 통지**: 제공자가 상태 변화를 구독한 여러 소비자에게 배포하는 통신 방식이다.
@@ -161,8 +156,7 @@ SOME/IP
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계약 테스트(Contract Test)**: 서비스 소비자와 제공자의 ID•버전•자료형•직렬화 호환성을 검증하는 시험이다.
 - **생존 시간 튜닝(Time to Live Tuning, TTL 튜닝)**: 서비스 광고와 구독 상태의 유효 시간을 탐색 부하와 장애 재발견 시간에 맞춰 조정하는 작업이다.
@@ -182,8 +176,7 @@ SOME/IP
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통신 방식 선택(Communication Pattern Selection)**: 결과 필요 여부•지연 허용치•구독자 수에 따라 요청•응답•무응답•이벤트를 결정하는 과정이다.
 

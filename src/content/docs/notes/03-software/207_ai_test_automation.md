@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - AI가 만든 Test 수보다 같은 조건에서 실제 결함을 반복 탐지하는지가 중요하다.
 

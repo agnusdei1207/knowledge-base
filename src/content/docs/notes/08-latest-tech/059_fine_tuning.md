@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파인튜닝(Fine-Tuning)**: 사전학습 모델의 가중치를 목적 데이터로 추가 학습하여 특정 작업•도메인에 적응시키는 기법으로 정의된다.
 - **사전학습 모델(Pre-trained Model)**: 대규모 일반 데이터에서 범용 표현과 능력을 먼저 학습한 기반 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지도 파인튜닝(Supervised Fine-Tuning, SFT)**: 입력•정답 쌍으로 목표 출력 행동을 학습하는 방식으로 나타낸다.
 - **매개변수 효율적 파인튜닝(Parameter-Efficient Fine-Tuning, PEFT)**: 전체 기반 모델을 동결하고 일부 추가•선택 매개변수만 갱신하는 기술군을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **갱신 매개변수(Trainable Parameters)**: 학습 과정에서 실제로 값을 변경할 전체 가중치•어댑터•소프트 프롬프트의 범위를 나타낸다.
 - **목적함수(Objective Function)**: 목표 토큰 손실과 정규화 항을 결합하여 가중치 갱신 방향을 정하는 기준을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가 격리(Evaluation Isolation)**: 학습 데이터와 평가 데이터를 분리하여 데이터 누출 없이 일반화 성능을 측정하는 원칙으로 정의된다.
 - **기준 모델 평가(Baseline Model Evaluation)**: 학습 전 목표 과업과 기존 능력의 성능을 기록하여 변경 후 결과와 비교하는 절차를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 파인튜닝(Full Fine-Tuning, Full FT)**: 모델 전체 매개변수를 갱신하여 적응 폭은 크지만 자원 및 망각 부담이 큰 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **어댑터 기반 PEFT(Adapter-based PEFT)**: 기반 가중치를 동결하고 작은 작업별 모듈만 갱신하는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -145,8 +140,7 @@ Full FT와 PEFT 간 기반 모델 갱신 매개변수 범위의 차이점 비교
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **과적합(Overfitting)**: 학습 데이터에는 잘 맞지만 새로운 운영 입력에서 성능이 저하되는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **기존 능력 회귀셋(General Ability Regression Set)**: 파인튜닝 뒤 범용 능력과 안전성이 유지되는지 확인하는 고정 평가 모음으로 정의된다.
@@ -164,8 +158,7 @@ Full FT와 PEFT 간 기반 모델 갱신 매개변수 범위의 차이점 비교
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 파인튜닝 선택 기준(Full Fine-Tuning Selection Criterion)**: 모델 전반의 행동을 크게 바꿀 필요가 있고 충분한 자원이 있을 때 선택하는 기준을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **PEFT 및 프롬프트 튜닝 선택 기준(PEFT & Prompt Tuning Selection Criterion)**: 기반 모델을 공유하며 작업별 자원과 배포 자산을 줄여야 할 때 적용하는 가이드라인을 나타낸다.

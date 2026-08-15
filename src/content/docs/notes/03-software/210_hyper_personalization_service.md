@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - 동의와 이력이 부족하면 집단 제안부터 시작하고 신뢰할 Data가 쌓이면 정교화한다.
 

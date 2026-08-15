@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **IT 거버넌스(IT Governance)**: 지배기구가 IT 가치, 위험 및 자원의 방향을 감독하고 제어하는 체계.
 - **COBIT(Control Objectives for Information and Related Technologies)**: IT 거버넌스 및 관리 목표를 통제 및 성과 지표와 연결하는 프레임워크.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **COBIT 목표 연계(COBIT Goal Cascade)**: 이해관계자 요구를 기업, 정렬, 관리 목표로 전환하는 체계.
 - **거버넌스•관리 책임 분리(Governance vs. Management Separation)**: 방향 결정(거버넌스)과 실행(관리)의 책임을 구분하는 원칙.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가·지시·감독(Evaluate, Direct and Monitor, EDM)**: 방향·위험 한도·성과의 거버넌스 영역.
 - **정렬·계획·조직화(Align, Plan and Organize, APO)**: 전략·조직·예산·위험의 관리 영역.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목표·방향·위험 한도 설정**: 우선 목표·지표·위험 수용 범위 결정.
 - **계획·구축·운영 증거 회신**: 관리 영역의 통제 결과를 지배기구에 보고.
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **COBIT 2019(COBIT 2019)**: IT 거버넌스•관리를 목표•통제•성과로 연결하는 프레임워크.
 - **ISO/IEC 38500**: 지배기구의 IT 평가·지시·모니터링 원칙.
@@ -155,8 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 수용 주체 불명확**: 거버넌스 결정과 관리 실행 책임의 혼재.
 - **설계요인(Design Factors)**: 전략·위험·규제·기술별 목표·통제 선택 조건.
@@ -173,8 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **거버넌스 설계 결정(Governance Design Decision)**: 설계요인을 통해 COBIT 목표를 선별하고, EDM(거버넌스)과 관리 영역의 책임을 확정하는 판단 프로세스.
 

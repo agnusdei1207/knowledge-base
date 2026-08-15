@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 병렬화(Data Parallelism)**: 동일한 모델을 여러 연산 장치에 복제하고, 분할된 데이터 배치(Batch)를 각 장치가 병렬 처리한 뒤, 계산된 기울기(Gradient)를 전역적으로 동기화하여 학습하는 방식.
 - **전역 배치(Global Batch)**: 전체 학습 시스템이 한 번의 파라미터 갱신 단계를 위해 처리하는 전체 데이터 샘플의 총개수.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **로컬 배치(Local Batch)**: 단일 연산 장치가 한 번의 학습 단계에서 처리하는 개별 데이터 샘플 개수.
 - **올리듀스(All-Reduce)**: 모든 연산 장치의 기울기를 특정 연산으로 축약하고 그 결과를 모든 장치에 배포하여 동기화하는 집단 통신 방식.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 데이터 샘플러(Distributed Data Sampler)**: 여러 장치에 데이터가 중복되거나 누락되지 않도록 전체 데이터를 고유한 인덱스로 나누어 배정하는 모듈.
 - **모델/상태 복제본(Model/State Replica)**: 각 장치가 보유하는 동일한 파라미터와 옵티마이저 학습 상태 또는 ZeRO 기법에 의해 분할 보관되는 실행 단위.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순전파•역전파(Forward•Backward Propagation)**: 입력으로 예측을 계산하고 오차 기울기를 반대 방향으로 전달하는 학습 연산로 정의된다.
 - **전역 평균 기울기**: 모든 장치의 로컬 기울기를 합산한 뒤 참여 장치 수로 나눈 공동 갱신값을 말한다.
@@ -120,8 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텐서 병렬화(Tensor Parallelism)**: 하나의 계층 안에서 텐서 연산과 파라미터를 여러 장치에 나누는 방식이다.
 - **파이프라인 병렬화(Pipeline Parallelism)**: 연속 모델 층을 여러 장치 단계에 나누고 중간값을 전달하는 방식을 의미한다.
@@ -142,8 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확장 효율**: 장치 증가에 따른 이상적인 처리량 향상 대비 실제 처리량 향상의 비율을 의미한다.
 - **학습률 재조정**: 전역 배치 변화에 맞춰 파라미터 갱신 크기와 스케줄을 다시 설정하는 절차을 의미한다.
@@ -161,8 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 복제**: 같은 파라미터와 학습 상태를 여러 장치에 각각 적재하는 배치 방식을 말한다.
 - **기울기 동기화**: 장치별 계산 결과를 합쳐 모든 모델 복제본이 같은 파라미터로 갱신되게 하는 과정로 정의된다.

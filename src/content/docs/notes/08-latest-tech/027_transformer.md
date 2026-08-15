@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜스포머(Transformer)**: 셀프 어텐션으로 토큰 관계를 직접 계산하고 피드포워드 계층으로 표현을 변환하는 신경망 구조로 정의된다.
 - **순환 신경망(Recurrent Neural Network, RNN)**: 이전 은닉 상태를 다음 시점으로 전달해 시퀀스를 처리하는 구조이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **셀프 어텐션(Self-Attention)**: 같은 시퀀스 안의 토큰들이 서로의 관련도를 계산하여 문맥 정보를 결합하는 연산을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **크로스 어텐션(Cross-Attention)**: 한 시퀀스의 쿼리가 다른 시퀀스의 키와 밸류를 참조하여 정보를 연결하는 연산이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **피드포워드 신경망(Feed-Forward Network, FFN)**: 어텐션을 거친 각 토큰 표현을 위치별로 비선형 변환하는 계층을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **잔차 연결(Residual Connection)**: 계층 입력을 변환 결과에 더하여 원래 정보와 기울기 흐름을 보존하는 연결을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **쿼리•키•밸류(Query•Key•Value, Q•K•V)**: 검색•비교•전달 정보를 각각 나타내는 어텐션 벡터이다.
 - **위치 인코딩(Positional Encoding)**: 병렬 처리되는 토큰 표현에 순서와 상대 위치 정보를 더하는 표현이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **BERT(Bidirectional Encoder Representations from Transformers)**: 양방향 트랜스포머 인코더를 사전학습하여 입력 문맥 표현을 만드는 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 
@@ -156,8 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **희소 어텐션(Sparse Attention)**: 일부 토큰 관계만 계산해 장문 연산량을 줄이는 방식이다.
 - **키-값 캐시(Key-Value Cache, KV Cache)**: 자기회귀 생성 중 이전 토큰의 어텐션 키와 값을 저장하여 반복 계산을 줄이는 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -177,8 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시퀀스 구조 선택 기준**: 긴 문맥의 병렬 관계 계산에는 트랜스포머를, 짧은 스트림의 순차 상태 유지에는 RNN을 적용하는 기준을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 

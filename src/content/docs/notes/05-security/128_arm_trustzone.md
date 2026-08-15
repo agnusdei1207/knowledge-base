@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SoC(System on Chip)**: 시스템 기능을 하나의 칩에 통합한 반도체이다.
 - **CPU(Central Processing Unit)**: 명령을 해석•실행하는 중앙처리장치이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TCB(Trusted Computing Base)**: 보안을 위해 반드시 신뢰해야 하는 최소 구성요소 집합이다.
 - **TEE(Trusted Execution Environment)**: 신뢰 응용을 격리 실행하는 환경이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SMC(Secure Monitor Call)**: 보안 상태 전환을 요청하는 호출이다.
 - **TA(Trusted Application)**: TEE 내부에서 제한된 서비스를 수행하는 응용이다.
@@ -90,8 +87,7 @@ Arm TrustZone
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TOCTOU(Time of Check to Time of Use)**: 검증 후 사용 전에 공유 데이터가 바뀌는 취약점이다.
 - **실행 환경 호출 경계**: REE 요청을 TEE가 검증해 TA에 전달하는 경계이다.
@@ -132,8 +128,7 @@ REE•Normal World 반환
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SAU(Security Attribution Unit)**: Armv8-M에서 메모리 영역의 보안 속성을 설정하는 장치이다.
 - **MCU(Microcontroller Unit)**: 처리기•메모리•입출력을 통합한 마이크로컨트롤러이다.
@@ -154,8 +149,7 @@ REE•Normal World 반환
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **API(Application Programming Interface)**: 응용이 기능을 호출하는 연결 규격이다.
 - **GlobalPlatform TEE API**: TA의 암호•저장•시간 기능을 정의한 규격이다.
@@ -176,8 +170,7 @@ REE•Normal World 반환
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 격리**: 키•인증 등 민감 기능만 TEE에 두어 신뢰 코드와 공격면을 줄이는 원칙이다.
 

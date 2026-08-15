@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - 단말 자원과 Privacy가 충분하면 내부 처리하고, 복잡한 요청은 Cloud로 넘긴다.
 

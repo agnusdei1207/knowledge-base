@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 서비스 거부(Distributed Denial of Service, DDoS)**: 감염된 다수의 봇넷 및 외부 서버를 동원하여 타깃 시스템의 대역폭, 세션 테이블, 애플리케이션 자원을 고갈시켜 정상 서비스를 불능으로 만드는 공격.
 - **봇넷(Botnet)**: 악성코드에 감염되어 C2 서버 명령에 따라 일제히 공격하는 단말 집단.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반사 증폭(Reflective Amplification)**: DNS, NTP, Memcached 등 공개 UDP 서버로 출발지 IP를 피해자 주소로 위조하여 유발한 대용량 반사 응답(기존 대비 10~500배)으로 대역폭을 포화시키는 기법.
 - **4계층(Layer 4, L4)**: TCP/UDP 프로토콜 계층으로 SYN Flood, ACK Flood 등 세션 연결 자원을 타깃하는 영역.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스크러빙(Scrubbing Center)**: 공격 트래픽을 정제 센터로 우회해 유해 패킷을 버리고 정상 패킷만 원본으로 전달하는 처리.
 - **애니캐스트(Anycast BGP Routing)**: 동일한 IP 주소를 전 세계 여러 PoP(Point of Presence) 노드에 동시 배포하여 DDoS 트래픽을 근거리로 분산 흡수하는 라우팅 기법.
@@ -95,8 +92,7 @@ DDoS 방어 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 지표(Service Level Indicator, SLI)**: 정상 요청 성공률, Latency, 응답 시간 등 시스템 가용성 유지 상태를 측정하는 정량적 서비스 지표.
 - **고갈 자원 식별**: 네트워크 대역폭(Gbps), L4 세션 테이블(CPS), L7 CPU/DB 연산량 중 병목이 발생한 정확한 공격 레이어를 판별하는 단계.
@@ -151,8 +147,7 @@ DDoS 방어 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SYN 쿠키(SYN Cookie)**: TCP SYN-ACK 송신 시 연결 상태를 메모리 백로그 큐에 저장하지 않고, sequence number에 암호학적 해시 쿠키를 인코딩하여 ACK 수신 시 검증하는 기법.
 - **IETF BCP 38(Best Current Practice 38)**: 출발지 IP 주소 위조를 사전에 차단하기 위한 에지 라우터 필터링 규격.
@@ -174,8 +169,7 @@ DDoS 방어 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SLI 기반 DDoS 방어(SLI-driven Defense)**: 공격 트래픽 차단 수치에 연연하지 않고 최종 사용자 관점의 가용성 지표(SLI)를 유지하는 방어 원칙.
 

@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - CPU가 높아도 사용자가 멀쩡하면 Ticket으로 보고, 결제가 실패하면 즉시 호출한다.
 

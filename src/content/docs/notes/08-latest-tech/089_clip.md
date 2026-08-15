@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대조 언어-이미지 사전학습(Contrastive Language-Image Pre-training, CLIP)**: 이미지•텍스트를 공동 공간에 정렬하는 이중 인코더이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대조학습(Contrastive Learning)**: 정답 쌍은 가깝게, 오답 쌍은 멀게 학습한다.
 - **제로샷 분류(Zero-shot Classification)**: 클래스 표본 없이 문구 유사도로 분류한다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이중 인코더(Dual Encoder)**: 이미지와 텍스트를 독립 인코딩해 표현을 재사용한다.
 - **온도 계수(Temperature)**: 유사도 분포와 대조 손실의 구분 강도를 조절한다.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유사도 행렬(Similarity Matrix)**: 배치의 모든 이미지•텍스트 쌍 점수 행렬이다.
 - **대조 손실(Contrastive Loss)**: 정답•오답 쌍의 거리를 조정하는 손실 함수이다.
@@ -125,8 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지도 분류기(Supervised Classifier)**: 라벨 데이터로 학습해 클래스 확률을 출력한다.
 - **생성 모델(Generative Model)**: 시각 조건으로 자연어 설명을 생성한다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 민감도(Prompt Sensitivity)**: 설명 문구에 따라 예측 점수가 달라지는 성질이다.
 - **도메인 전이(Domain Transfer)**: 다른 업무 분야에 학습 표현을 적용하는 능력이다.
@@ -164,8 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 앙상블(Prompt Ensemble)**: 여러 클래스 문구 임베딩으로 예측 편차를 줄인다.
 - **전이 가능 범위(Transfer Range)**: 재학습 없이 허용 성능을 유지하는 영역이다.

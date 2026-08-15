@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 레이크하우스(Data Lakehouse)**: 데이터 레이크의 개방형 파일 저장에 웨어하우스의 원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID) 테이블 관리 기능을 결합한 아키텍처을 말한다.
 - **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션이 보장해야 하는 네 가지 성질을 말한다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오픈 테이블 포맷(Open Table Format)**: 파일 위에 스키마•스냅샷•트랜잭션 메타데이터를 정의해 여러 엔진이 공유하게 하는 형식을 말한다.
 - **스냅샷(Snapshot)**: 특정 시점에 유효한 데이터 파일•스키마•통계의 일관된 테이블 상태로 정의된다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **카탈로그(Catalog)**: 테이블 이름을 현재 메타데이터 위치와 연결하고 원자 커밋을 조정하는 관리 계층을 의미한다.
 - **오브젝트 데이터 파일**: 개방형 열 지향 형식으로 실제 테이블 데이터를 저장한 객체이다.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **원자 커밋**: 기준 버전 충돌을 확인한 뒤 현재 메타데이터 포인터를 한 번에 바꾸는 연산을 의미한다.
 - **후보 스냅샷**: 새 데이터 파일•스키마•통계를 포함하지만 아직 카탈로그에 확정되지 않은 테이블 상태로 정의된다.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 레이크**: 원시•비정형 데이터를 개방형 파일로 저비용 저장하는 아키텍처로 정의된다.
 - **데이터 웨어하우스**: 정형 BI를 위해 저장•질의•테이블 관리를 통합한 데이터 시스템로 정의된다.
@@ -147,8 +142,7 @@ BI•SQL•ML•DBMS의 저장•질의 특성을 비교한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **작은 파일 문제**: 다수의 소형 데이터 파일이 메타데이터 처리와 질의 입출력 비용을 높이는 현상을 말한다.
 - **스키마 계약**: 여러 엔진이 같은 테이블의 필드•자료형•변경 규칙을 일관되게 따르도록 정한 규칙이다.
@@ -167,8 +161,7 @@ BI•SQL•ML•DBMS의 저장•질의 특성을 비교한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **BI•ML 통합**: 분석 보고와 기계학습 워크로드가 동일한 테이블 상태를 공유하는 운영 방식로 정의된다.
 - **파일 유지관리**: 작은 파일 병합•재배치•통계 갱신으로 질의 성능과 비용을 관리하는 활동이다.

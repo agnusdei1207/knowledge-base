@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - ISP가 어떤 건물을 지을지 정한다면, ISMP는 선택한 건물의 설계•견적•입찰 조건을 확정한다.
 

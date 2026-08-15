@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **흐름 제어(Flow Control)**: 송신량이 수신 처리 능력을 넘지 않도록 제한하는 기능이다.
 - **혼잡 제어(Congestion Control)**: 송신량이 네트워크 경로 수용량을 넘지 않도록 제한하는 기능이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수신 윈도(Receive Window, rwnd)**: 수신 버퍼 여유를 나타내는 미확인 전송 한도이다.
 - **혼잡 윈도(Congestion Window, cwnd)**: 경로 혼잡 상태를 반영한 미확인 전송 한도이다.
@@ -61,8 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **슬라이딩 윈도(Sliding Window)**: 여러 데이터를 연속 전송하고 ACK에 따라 범위를 이동하는 방식이다.
 - **명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: 패킷 폐기 없이 종단에 혼잡을 알리는 기능이다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **느린 시작(Slow Start)**: cwnd를 빠르게 늘려 경로 수용량을 탐색하는 알고리즘이다.
 - **윈도 제한 데이터**: rwnd와 cwnd 중 작은 실제 윈도 안에서 연속 전송하는 데이터이다.
@@ -143,8 +139,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수신자 병목(Receiver Bottleneck)**: rwnd가 작아 수신 처리 능력이 전송량을 제한하는 상태이다.
 - **네트워크 병목(Network Bottleneck)**: cwnd가 작아 경로 수용량이 전송량을 제한하는 상태이다.
@@ -164,8 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대역폭-지연 곱(Bandwidth-Delay Product, BDP)**: 경로에 동시에 채울 수 있는 데이터량이다.
 - **왕복 시간(Round-Trip Time, RTT)**: 데이터 전송부터 ACK 수신까지 걸리는 시간이다.
@@ -184,8 +178,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제로 윈도**: 수신 버퍼가 가득 차 추가 수신 가능량을 0으로 알린 상태이다.
 </details>

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 큐비트(Logical Qubit)**: 하나의 양자 정보를 오류 정정 코드 공간에 인코딩하여 물리 오류로부터 보호하는 정보 단위을 의미한다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 공간**: 오류 정정 코드가 유효한 논리 상태를 표현하도록 여러 물리 큐비트 안에 정한 부분공간을 의미한다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물리 큐비트**: 실제 장치에서 양자 상태•게이트•측정을 구현하며 논리 큐비트를 구성하는 하드웨어 정보 단위로 정의된다.
 - **신드롬 추출**: 논리 상태를 붕괴시키지 않고 물리 오류의 징후를 반복 측정하는 과정을 의미한다.
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반복 오류 정정**: 신드롬을 주기적으로 측정•해독해 누적 물리 오류를 추적하는 과정이다.
 
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물리 대 논리 자원비**: 하나의 신뢰할 수 있는 논리 큐비트를 구현하는 데 필요한 물리 큐비트와 연산의 규모로 정의된다.
 
@@ -142,8 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오류 확산**: 하나의 물리 오류가 게이트 상호작용을 통해 여러 큐비트로 전파되어 논리 오류가 되는 현상이다.
 
@@ -161,8 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 오류율**: 오류 정정 후 논리 상태나 연산이 잘못될 확률이다.
 

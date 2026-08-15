@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 품질(Quality of Service, QoS)**: 혼잡 시 트래픽을 분류•표시하고 큐•대역폭•폐기 정책을 차등 적용하는 네트워크 트래픽 품질 관리 체계이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 연속성**: 도메인 경계의 차등 서비스 코드 포인트 표시와 내부 홉별 동작 규칙을 정렬해 종단 경로에서 같은 서비스 등급을 유지하는 성질이다.
 - **홉별 동작(Per-Hop Behavior, PHB)**: 표시된 등급에 따라 큐•대역폭•폐기를 차등 적용하는 동작이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차등 서비스 코드 포인트(Differentiated Services Code Point, DSCP)**: 패킷의 서비스 등급을 표시하는 IP 헤더 값이다.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 품질 목표와 미달 책임을 정한 협약이다.
@@ -86,8 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분류•표시**: 트래픽을 식별하고 서비스 등급을 패킷 헤더에 기록하는 단계이다.
 - **수용•트래픽 제어**: 자원 여유와 계약을 확인하고 속도•버스트•폐기 정책을 적용하는 단계이다.
@@ -135,8 +131,7 @@ SLA 판정 결과 반환
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통합 서비스(Integrated Services, IntServ)**: 흐름별 종단 자원을 예약해 품질을 보장하는 방식이다.
 - **차등 서비스(Differentiated Services, DiffServ)**: DSCP 등급과 PHB로 트래픽을 차등 처리하는 방식이다.
@@ -158,8 +153,7 @@ SLA 판정 결과 반환
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차등 서비스 코드 포인트 변경**: 도메인 경계에서 표시 정책이 달라 뒤쪽 장비가 원래 서비스 등급을 인식하지 못하는 현상이다.
 
@@ -177,8 +171,7 @@ SLA 판정 결과 반환
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 품질 방식 선택**: 흐름 수와 명시적 자원 보장•라우터 상태 확장 요구로 통합 서비스와 차등 서비스를 결정하는 기준이다.
 

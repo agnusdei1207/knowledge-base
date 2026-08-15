@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **샤플리 가산 설명(SHapley Additive exPlanations, SHAP)**: 예측 차이를 특징별 샤플리 값으로 분해한다.
 - **샤플리 값(Shapley Value)**: 모든 특징 연합의 한계 기여를 가중 평균한 값이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **샤플리 공정 배분(Shapley Allocation)**: 대칭성•효율성 원칙으로 기여 몫을 나눈다.
 - **가산 완전성(Additivity)**: 기준값과 기여도 합이 예측값과 일치한다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **특징 연합(Feature Coalition)**: 함께 존재한다고 가정한 특징 부분집합이다.
 - **마스커(Masker)**: 제외 특징을 배경값으로 대체한다.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연합 가치(Coalition Value)**: 특정 특징 연합이 만드는 기대 출력이다.
 - **부분집합(Subset)**: 전체 특징 중 일부로 구성한 집합이다.
@@ -129,8 +125,7 @@ SHAP 계산기
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Kernel SHAP**: 모델 비종속 특징 연합 표본으로 기여도를 근사한다.
 - **Tree SHAP**: 트리 분기 구조로 기여도를 효율 계산한다.
@@ -151,8 +146,7 @@ SHAP은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식�
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기준 왜곡(Baseline Distortion)**: 배경 분포가 운영 집단과 어긋난 문제이다.
 - **기여도 분산(Attribution Dispersion)**: 상관 특징의 몫이 가정에 따라 나뉘는 문제이다.
@@ -171,8 +165,7 @@ SHAP은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식�
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **해석 범위(Interpretation Scope)**: 배경•모델•특징 의존성 가정 내 유효 영역이다.
 - **배경 대표성(Background Representativeness)**: 기준 데이터가 운영 분포를 반영하는 정도이다.

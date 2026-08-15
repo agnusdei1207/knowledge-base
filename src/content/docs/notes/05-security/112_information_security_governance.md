@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보보호 거버넌스(Information Security Governance)**: 조직의 비즈니스 목적에 부합하도록 정보보호 전략, 투자, 위험 관리를 감독하는 의사결정 체계.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 허용 수준(Risk Tolerance Level)**: 사업 목적 달성을 위해 조직이 수용할 수 있는 최고 수준의 위험 한계.
 - **독립 보증(Independent Assurance)**: 보안 관리 조직과 독립된 감사 주체가 통제의 적합성과 유효성을 검증하는 활동.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가(Evaluate)**: 사업 환경, 위협 및 정보보호 전략의 적정성을 종합적으로 분석하는 활동.
 - **지시(Direct)**: 최고경영진이 정보보호 정책, 자원 배분 및 책임을 결정하여 하달하는 활동.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 소유자(Risk Owner)**: 담당 업무의 위험 수준을 판단하고 위험 처리 및 수용 여부를 최종 승인하는 책임자.
 - **최고정보보호책임자(Chief Information Security Officer, CISO)**: 전사 정보보호 전략 수립, 위험 관리 및 보안 통제를 총괄하는 임원급 책임자.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **거버넌스(Governance)**: 최고경영진 관점에서 위험 수용, 투자 및 방향을 결정하고 성과를 감시하는 활동.
 - **관리(Management)**: 거버넌스 방향에 따라 보안 통제를 계획, 수립, 운영, 측정하는 실행 활동.
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제 표준을 개발•발행하는 국제 기구.
 - **IEC(International Electrotechnical Commission)**: 전기•전자 분야 국제 표준을 개발하는 협력 기구.
@@ -186,8 +180,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추적 가능한 위험 수용(Traceable Risk Acceptance)**: 잔여위험의 수용 근거 및 승인 주체를 문서 기록으로 보존하는 원칙.
 

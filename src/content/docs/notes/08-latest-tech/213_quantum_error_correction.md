@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 오류 정정(Quantum Error Correction, QEC)**: 논리 정보를 여러 물리 큐비트의 공동 상태에 인코딩하여 양자 오류를 검출•정정하는 기술을 말한다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 인코딩**: 하나의 양자 정보를 여러 물리 큐비트의 코드 공간에 분산해 보호하는 방식이다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신드롬**: 논리 상태를 직접 측정하지 않고 안정자 측정으로 얻는 오류의 위치•유형에 관한 징후로 정의된다.
 - **물리 큐비트**: 양자 상태와 게이트를 장치에서 직접 구현하는 잡음 있는 계산 단위을 말한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신드롬 해독**: 반복 측정 결과로부터 가장 가능성 높은 물리 오류를 추정하고 복구 연산을 결정하는 과정이다.
 
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 거리**: 서로 다른 논리 상태를 잇는 최소 물리 오류 수로, 정정 가능한 오류 수를 결정하는 지표을 말한다.
 - **잡음 중간 규모 양자(Noisy Intermediate-Scale Quantum, NISQ)**: 오류가 있고 큐비트 수와 회로 깊이가 제한된 양자 장치을 말한다.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오류 임계값**: 물리 오류율이 그보다 낮을 때 코드 규모를 늘려 논리 오류율을 계속 낮출 수 있는 경계이다.
 
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 오류율**: 오류 정정 후 논리 상태나 연산이 잘못될 확률이다.
 

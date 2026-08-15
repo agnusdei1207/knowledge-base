@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시각언어모델(Vision-Language Model, VLM)**: 이미지•텍스트 관계를 학습해 판별•생성하는 모델이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시각 인코더(Vision Encoder)**: 픽셀을 패치•영역 단위 시각 표현으로 변환한다.
 - **연결 계층(Connector)**: 시각 표현을 언어 모델 입력 공간으로 사상한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텍스트 인코더(Text Encoder)**: 문장을 의미 특징이 담긴 언어 표현으로 변환한다.
 - **이미지 인코더(Image Encoder)**: 이미지를 패치•영역 시각 표현으로 변환한다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시각 조건 주입(Visual Conditioning)**: 정렬된 이미지 표현을 디코더 문맥에 전달한다.
 - **언어 토큰(Language Token)**: 디코더가 예측해 자연어 응답을 구성하는 단위이다.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대조 학습(Contrastive Learning)**: 일치 표현은 가깝게, 불일치 표현은 멀게 학습한다.
 - **이미지 매칭(Image Matching)**: 이미지와 문장의 대응 여부를 점수화한다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **광학 문자 인식(Optical Character Recognition, OCR)**: 이미지 글자를 문자 데이터로 변환한다.
 - **시각 환각(Visual Hallucination)**: 이미지에 없는 객체•관계를 생성하는 문제이다.
@@ -164,8 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **문자 정확도(Text Accuracy)**: 이미지 글자를 원문과 일치하게 인식한 정도이다.
 - **공간 관계 충실성(Spatial Faithfulness)**: 생성한 위치•관계가 실제 배치와 일치하는 정도이다.

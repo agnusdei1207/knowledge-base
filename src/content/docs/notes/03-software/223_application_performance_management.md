@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **애플리케이션 성능 관리(Application Performance Management, APM)**: 실제 사용자 요청부터 서비스 호출•코드•데이터베이스•인프라 지표를 연결해 성능과 장애 원인을 지속 관찰•진단하는 관리 체계이다.
 - **분산 추적(Distributed Tracing)**: 하나의 요청이 여러 서비스를 거치는 호출 경로와 작업 시간을 연결해 기록하는 관측 방식이다.
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추적 식별자(Trace Identifier, Trace ID)**: 한 분산 요청에서 생성된 모든 작업 구간을 같은 경로로 묶는 식별자이다.
 - **작업 구간(Span)**: 분산 요청 안의 개별 서비스 호출이나 코드 작업의 시작•종료와 상태를 기록한 단위이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 토폴로지(Service Topology)**: 애플리케이션과 데이터베이스의 호출•의존 관계를 연결해 장애 전파 경로를 보여 주는 구조도이다.
 - **소프트웨어 개발 키트(Software Development Kit, SDK)**: 애플리케이션에 관측 신호 수집 기능을 연결하는 라이브러리와 도구 모음이다.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **2. 신호 상관 분석**: APM 분석기가 메트릭•로그•트레이스를 호출 경로와 자원 지표에 연결해 지연 원인을 좁히는 단계이다.
 - **1. 관측 신호 전송**: 거래•메트릭•로그•트레이스를 공통 식별자와 함께 수집하는 단계이다.
@@ -143,8 +139,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **실사용자 모니터링(Real User Monitoring, RUM)**: 실제 사용자 단말에서 지역•기기별 체감 성능과 오류를 수집하는 방식이다.
 - **합성 모니터링(Synthetic Monitoring)**: 가상 요청을 정기 실행해 주요 경로의 가용성과 지연을 사전 감시하는 방식이다.
@@ -164,8 +159,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **측정 오버헤드**: 계측 에이전트와 신호 수집이 서비스에 추가하는 CPU•메모리•응답 지연 비용이다.
 - **중앙 처리장치(Central Processing Unit, CPU)**: 범용 연산과 프로그램 제어를 수행하는 프로세서이다.
@@ -189,8 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **관측 방식 선택 기준**: 실제 체감은 RUM, 사전 경로 감시는 합성 모니터링, 서비스별 원인 추적은 분산 추적을 사용하는 기준이다.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **벤치마크 테스트(Benchmark Test, BMT)**: 동일 환경•데이터•부하에서 후보 제품을 비교하는 시험.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재현 가능성(Reproducibility)**: 절차·환경·원자료로 결과를 재확인하는 성질.
 - **초당 트랜잭션 처리 건수(Transactions Per Second, TPS)**: 초당 성공한 업무 거래 수.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 테스트베드**: 후보별로 같은 하드웨어•SW•망 조건을 제공하는 환경.
 - **업무 시나리오**: 실제 사용자 과업과 데이터 분포를 재현한 시험 절차.
@@ -90,8 +87,7 @@ BMT
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **판정 임계치**: 시험 전에 고정한 지표별 합격•점수 기준값.
 - **반복 시험**: 정상•최대•장시간 부하를 반복 수행하는 시험.
@@ -142,8 +138,7 @@ BMT
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개념검증(Proof of Concept, PoC)**: 신기술의 제한 범위 적용 가능성 시험.
 
@@ -161,8 +156,7 @@ BMT
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최적화 조건 불공정**: 후보별 설정•준비 시간 차이의 결과 왜곡.
 - **급증 부하**: 요청량이 단시간에 크게 늘어나는 운영 부하.
@@ -181,8 +175,7 @@ BMT
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **장시간 안정성**: 지속 부하에서 성능•오류•자원 누수 없이 유지되는 성질.
 

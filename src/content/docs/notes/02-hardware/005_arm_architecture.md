@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Arm 아키텍처(Arm Architecture)**: 저전력 로드·스토어 기반 RISC 구조에 다단계 예외 수준(Exception Level, EL) 권한 격리와 모듈형 벡터 명령 확장을 결합한 산업 표준 ISA.
 - **명령어 집합 아키텍처(Instruction Set Architecture, ISA)**: 하드웨어가 실행하는 기계어 명령, 레지스터 구조, 메모리 모델 및 특권 모드를 정의하는 하드웨어-소프트웨어 인터페이스 사양.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **로드·스토어 구조(Load/Store Architecture)**: 메모리 직접 연산을 금지하고 오직 LDR/STR 명령으로만 메모리에 접근하며 연산은 범용 레지스터 사이에서만 수행하는 특성.
 - **코어 지식재산권(Core Intellectual Property, Core IP)**: 반도체 팹리스 업체에 즉시 제공되어 SoC 칩 합성에 사용 가능한 사전에 정밀 검증된 프로세서 블록.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AArch64**: A64 명령어 세트와 31개의 64비트 범용 레지스터(X0~X30)를 지원하는 64비트 실행 상태.
 - **AArch32**: 기존 32비트 ARM(A32) 및 Thumb(T32) 명령어 세트를 구동하며 15개의 32비트 범용 레지스터(R0~R14)를 지원하는 호환 실행 상태.
@@ -96,8 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프로세서 상태(Processor State, PSTATE)**: N, Z, C, V 조건 플래그, DAIF 인터럽트 마스크, 현재 EL 레벨 및 execution state 정보를 보관하는 CPU 상태 필드.
 - **예외 링크 레지스터(Exception Link Register, ELR_ELx)**: 예외 처리 완료 후 원본 복귀를 위해 이전 프로그램 카운터(PC) 주소를 저장하는 특수 레지스터.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시스템 온 칩(System on Chip, SoC)**: CPU 코어, GPU, NPU, 메모리 컨트롤러, 통신 모듈을 하나의 미세 반도체 다이에 집적한 시스템.
 - **x86-64**: CISC 아키텍처 기반의 64비트 범용 PC 및 서버 표준 ISA (Intel / AMD).
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네이티브 라이브러리(Native Library)**: C/C++ 등으로 작성되어 x86/Arm 특정 타깃 기계어로 직접 컴파일된 shared library (.so, .dll).
 - **런타임 기능 탐지(Runtime Feature Detection)**: 소스코드 실행 중 `getauxval()` 또는 system register 조회를 통해 NEON, SVE, SVE2 지원을 판별하는 기술.
@@ -185,8 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전력 효율(Power Efficiency)**: 연산 단위당 소모되는 주울(Joule) 및 와트(Watt) 전력 소비 비율.
 - **네이티브 라이브러리 재빌드(Native Library Rebuild)**: 소스 코드를 타깃 Arm AArch64 크로스 컴파일러로 재빌드하는 인프라 현대화 작업.

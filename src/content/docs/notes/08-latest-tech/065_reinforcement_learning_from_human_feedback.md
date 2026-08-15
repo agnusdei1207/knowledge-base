@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인간 피드백 강화학습(Reinforcement Learning from Human Feedback, RLHF)**: 사람이 더 낫다고 고른 응답을 보상 신호로 바꾸어 언어 모델의 생성 정책을 조정하는 학습 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **상대 선호(Relative Preference)**: 같은 입력에 대한 여러 응답 중 어느 답이 더 유용•안전한지 비교한 판단을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선호 데이터(Preference Data)**: 같은 입력의 여러 응답을 사람이 비교하여 우열을 기록한 학습 자료를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **보상 모델(Reward Model, RM)**: 응답이 인간에게 선호될 정도를 하나의 점수로 예측하는 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지도 파인튜닝 정책(SFT Policy)**: 모범 응답을 지도 학습하여 인간 피드백 강화학습의 초기 생성 정책과 참조 기준을 제공하는 정책을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **선호 데이터 구성(Preference Dataset Construction)**: 복수 응답을 사람이 비교•순위화한 학습 자료를 나타낸다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근접 정책 최적화(Proximal Policy Optimization, PPO)**: 한 번의 정책 갱신 폭을 제한하면서 보상 모델 점수를 높이는 강화학습 알고리즘을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **독립 평가(Independent Evaluation)**: 보상 모델 점수와 별개로 인간이 실제 유용성•안전성•실패 행동을 확인하는 평가를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RLHF 적용(RLHF Fine-Tuning)**: 보상 모델•PPO•KL 제약으로 정책 탐색과 선호 점수를 향상시키는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **직접 선호 최적화(Direct Preference Optimization, DPO)**: 별도 보상 모델과 온라인 강화학습 없이 선호 응답쌍으로 정책을 직접 조정하는 기법을 나타낸다.
@@ -149,8 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가자 편향(Annotator Bias)**: 특정 집단의 선호가 과대표되어 보상 모델의 기준이 왜곡되는 현상을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **보상 해킹(Reward Hacking)**: 실제 인간 의도보다 보상 모델의 허점을 이용하는 응답으로 높은 점수를 얻는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선호 대표성(Preference Representativeness)**: 보상 모델이 다양한 사용자 집단과 상황의 선호 기준을 균형 있게 반영하는 정도를 나타낸다.
 - **쿨백-라이블러 발산 계수 선택(KL Divergence Coefficient Selection)**: 보상 향상과 기존 정책의 언어 품질 보존을 함께 평가하여 이탈 제약 강도를 정하는 과정을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

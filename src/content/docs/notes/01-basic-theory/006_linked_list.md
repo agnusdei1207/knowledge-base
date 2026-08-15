@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결 리스트(Linked List)**: 비연속 노드를 링크로 이어 논리적 순서를 만드는 선형 자료구조이다.
 - **링크(Link)**: 다음 또는 이전 노드의 메모리 위치를 가리키는 참조 필드이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순차 접근(Sequential Access)**: 헤드부터 링크를 차례로 따라가 목표 노드에 도달하는 방식이다.
 - **상수 시간 갱신**: 선행 노드를 알고 있을 때 입력 크기와 무관하게 일정 횟수의 링크 변경으로 삽입•삭제하는 작업이다.
@@ -61,8 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헤드(Head)**: 연결 리스트의 첫 노드를 가리키는 시작 참조이다.
 - **노드(Node)**: 데이터와 다음 또는 이전 노드의 링크를 함께 저장하는 단위이다.
@@ -103,8 +100,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순회(Traversal)**: 헤드에서 시작해 링크를 따라 각 노드를 차례로 방문하는 작업이다.
 - **현재 노드**: 순회 과정에서 값과 다음 노드 참조를 읽는 노드이다.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 연결 리스트**: 각 노드가 다음 노드의 링크만 저장하는 구조이다.
 - **이중 연결 리스트(Doubly Linked List)**: 각 노드가 앞•뒤 노드의 링크를 모두 저장하는 구조이다.
@@ -163,8 +158,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선행 노드 참조**: 삽입•삭제 대상 바로 앞 노드를 직접 가리켜 위치 탐색을 줄이는 참조이다.
 - **캐시 지역성(Cache Locality)**: 인접 주소를 연속 접근할 때 캐시를 효율적으로 쓰는 성질이다.
@@ -190,8 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선행 노드**: 삽입•삭제할 위치의 바로 앞에 연결된 노드이다.
 - **중간 갱신**: 자료구조의 처음과 끝이 아닌 위치에서 원소를 삽입하거나 삭제하는 작업이다.

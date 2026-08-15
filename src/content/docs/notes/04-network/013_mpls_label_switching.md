@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다중 프로토콜 레이블 스위칭(Multiprotocol Label Switching, MPLS)**: IP 패킷 헤더의 3계층 목적지 주소를 매 홉마다 복잡하게 룩업하지 않고, L2와 L3 사이의 32비트 고정 크기 레이블(Label)을 기반으로 고속 포워딩하는 2.5계층 캡슐화 기술.
 - **전달 등가 클래스(Forwarding Equivalence Class, FEC)**: 동일한 목적지, 품질 요구사항(QoS) 및 제어 정책을 가져 동일한 LSP 경로로 전달되는 패킷들의 논리적 그룹.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레이블 경계 라우터(Label Edge Router, LER)**: IP 네트워크와 MPLS 네트워크의 경계에 위치하여 IP 패킷에 레이블을 최초 부착(Push)하거나 최종 제거(Pop)하는 라우터.
 - **레이블 스위칭 라우터(Label Switching Router, LSR)**: MPLS 백본 코어 중심에 위치하여 LFIB 테이블을 참조해 레이블을 교환(Swap)하고 고속 포워딩하는 코어 라우터.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레이블 전달 정보 기반(Label Forwarding Information Base, LFIB)**: LDP/RSVP-TE 프로토콜을 통해 수집한 [입력 인터페이스/입력 Label] -> [출력 인터페이스/출력 Label/동작(Push/Swap/Pop)] 매핑 정보를 저장하는 MPLS 고속 포워딩 데이터베이스.
 
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레이블 푸시(Label Push)**: Ingress LER에서 L3 IP 패킷 앞단에 32비트 MPLS Shim Header를 추가 삽입하는 동작.
 - **레이블 스왑(Label Swap)**: Transit LSR에서 유입된 패킷의 Ingress Label을 LFIB 표에 정의된 Egress Label로 교체하여 출구 포트로 보충 포워딩하는 동작.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 사설망(Virtual Private Network, VPN)**: MPLS 레이블 스택(Outer=LSP, Inner=VPN ID)을 활용하여 이동통신사/ISP 백본 망 상에서 다수 기업의 사설망을 완벽히 논리 격리해주는 서비스.
 
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레이블 분배 프로토콜(Label Distribution Protocol, LDP)**: Hop-by-Hop 방식으로 IP 서브넷 프리픽스와 MPLS Label 바인딩 정보를 인접 라우터 간에 자동으로 할당/전파하는 표준 프로토콜.
 - **자원 예약 프로토콜-트래픽 엔지니어링(Resource Reservation Protocol-Traffic Engineering, RSVP-TE)**: 원하는 대역폭(Bandwidth)과 명시적 경로(Explicit Route)를 지정하여 백본 내에 우회 LSP를 사전에 예약 생성하는 프로토콜.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 격리(Service Isolation)**: 다층 레이블 스택(Multi-level Label Stacking)을 활용하여 기업 간 VPN 트래픽을 완벽하게 분리하고 독자적인 QoS를 보장하는 기술.
 

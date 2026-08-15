@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사물인터넷(Internet of Things, IoT)**: 사물이 네트워크로 상태와 명령을 교환하는 체계이다.
 - **IoT 운영 구조**: 장치•게이트웨이•엣지•플랫폼의 데이터와 제어 책임을 연결하는 구조이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수명주기 추적**: 장치의 등록•자격 증명•설정•업데이트•롤백•폐기 상태를 중앙에서 일관되게 관리하는 과정이다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IoT 플랫폼**: 장치 등록•데이터•규칙•명령과 수명주기 상태를 통합 관리하는 플랫폼이다.
 
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **무선 업데이트(Over-the-Air, OTA)**: 통신망을 통해 장치 소프트웨어를 원격 갱신하는 방식이다.
 - **장치 등록**: 장치 식별자•소유 관계•자격 증명을 플랫폼에 연결하는 단계이다.
@@ -136,8 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **게이트웨이 중계형**: 이기종 IoT 프로토콜을 변환•집계해 상위 플랫폼에 연결하는 구조이다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 패킷 주소 지정과 전달을 담당하는 프로토콜이다.
@@ -156,8 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **장치 벽돌화**: OTA 실패 뒤 정상 부팅이나 원격 복구가 불가능한 상태이다.
 
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엣지형**: 저지연 판단과 회선 단절 중 안전 제어가 필요한 현장에서 중앙 플랫폼과 현장 상태를 협업 관리하는 구조이다.
 - **직접 연결형**: IP 장치가 중간 게이트웨이 없이 IoT 플랫폼에 직접 접속하는 구조이다.

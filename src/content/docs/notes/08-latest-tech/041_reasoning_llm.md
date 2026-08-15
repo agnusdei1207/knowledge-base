@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추론 특화 대규모 언어 모델(Reasoning Large Language Model, Reasoning LLM)**: 후학습과 테스트 시점 연산으로 복합 문제를 여러 단계로 해결하고 결과를 검증하는 능력을 강화한 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **후학습(Post-training)**: 사전학습 모델의 응답 행동을 과업 예시•선호•보상으로 추가 조정하는 학습 단계다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지도 미세조정(Supervised Fine-Tuning, SFT)**: 정답과 풀이 예시를 학습하여 응답 형식과 문제 해결 행동을 조정하는 방법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **검증 가능 보상 강화학습(Reinforcement Learning with Verifiable Rewards, RLVR)**: 정답•코드 실행처럼 자동 판정 가능한 결과를 보상으로 사용해 해결 정책을 개선하는 학습이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기반 모델**: 언어•코드•지식의 사전학습 표현을 후학습과 추론 계층에 제공하는 모델이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **추론 후학습**: 풀이•검증 데이터와 보상으로 다단계 문제 해결 정책을 강화하는 학습 단계로 정의된다.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **도구 권한**: 모델이 문제 해결 중 요청할 수 있는 외부 기능•자원•인자의 허용 범위다.
 - **검증 신호**: 후보 풀이의 계산•코드•검색 결과가 기준을 통과했는지 모델에 돌려주는 정보다.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **일반 대화 대규모 언어 모델(General Conversational Large Language Model, General Conversational LLM)**: 낮은 테스트 시점 연산으로 단순•지연 민감 요청에 즉시 응답하는 모델로 정의된다.
 </details>
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 라우팅**: 과업 난도와 지연•비용 기준으로 일반 모델과 추론 모델 중 처리 경로를 선택하는 방식이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **중간 결과 검증**: 장기 추론의 부분 계산과 도구 결과를 단계별로 확인하여 오류 누적을 줄이는 절차다.
@@ -172,8 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 이득**: 검증 가능한 과업에서 추론 확대로 얻는 품질 향상과 비용 절감의 차이로 정의된다.
 - **지연 비용**: 추론 자원 추가로 발생하는 응답 지연과 운영 부담이다.

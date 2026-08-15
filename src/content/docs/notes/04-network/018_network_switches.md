@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스위칭 계층**: 장비가 전달 대상을 정할 때 읽는 링크•네트워크•전송•응용 계층 정보의 구분이다.
 - **L2 스위치(Layer 2 Switch)**: 링크 계층 주소로 출력 포트를 고르는 장비이다.
@@ -40,8 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **매체 접근 제어(Media Access Control, MAC)**: 같은 링크의 인터페이스를 식별하는 주소 체계이다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 네트워크 주소를 기반으로 패킷 경로를 정하는 프로토콜이다.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포워딩 정보 베이스(Forwarding Information Base, FIB)**: 프리픽스별 다음 홉을 저장한 전달 표이다.
 - **5-튜플(Five-tuple)**: 연결을 식별하는 프로토콜과 양쪽 주소•포트의 묶음이다.
@@ -92,8 +89,7 @@ L2 스위치
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 계층 선택(Minimum Required Layer Selection)**: 필요한 분기 정보를 제공하는 가장 낮은 계층을 고르는 원칙이다.
 
@@ -114,8 +110,7 @@ L2 스위치
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계층 보안 종료(Transport Layer Security Termination, TLS 종료)**: 암호화 세션을 장비에서 끝내 응용 요청을 해석하는 처리이다.
 
@@ -135,8 +130,7 @@ L2 스위치
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 확인(Health Check)**: 서버가 요청을 처리할 수 있는지 주기적으로 판정하는 기능이다.
 - **상태 동기화(State Synchronization)**: 이중화 장비 사이의 연결과 정책 상태를 맞추는 기능이다.
@@ -156,8 +150,7 @@ L2 스위치
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스위칭 계층 결정**: 필요한 분기 정보를 제공하면서 검사•상태 비용이 가장 작은 계층을 고르는 판단이다.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **매개변수 효율적 미세조정(PEFT, Parameter-Efficient Fine-Tuning)**: 거대언어모델 가중치를 고정한 채, 일부 파라미터만 학습하여 특정 과업에 최적화하는 효율적인 미세조정 기술군.
 - **동결(Freeze)**: 모델 가중치를 학습 역전파 대상에서 제외하여, 컴퓨팅 자원을 절감하고 학습 효율을 제고하는 기법.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 갱신(Selective Update)**: 전체 가중치 대신 과업 적응에 필요한 최소 파라미터 집합만 갱신하는 기법.
 - **업무별 모듈(Task-specific Module)**: 기반 모델과 결합하여 특정 기능을 수행하는 경량 학습 자산.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **주입 구성(Injection Configuration)**: 학습 대상 층, 모듈 크기 및 연결 위치를 명시한 제어 데이터.
 - **학습 모듈(Trainable Module)**: 기반 모델과 분리되어 특정 과업의 변화량을 저장하는 파라미터 집합.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PEFT 구성(PEFT Configuration)**: 목표 품질과 자원 제약을 고려하여 최적의 방식과 대상 층을 설정하는 단계.
 - **업무별 경로(Task-specific Path)**: 동결된 기반 모델의 특정 위치에 삽입된 데이터 처리 계산 경로.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **어댑터(Adapter)**: 모델 층 사이에 경량 신경망을 삽입하여 도메인 특성을 학습하는 모듈.
 - **프롬프트 튜닝(Prompt Tuning)**: 입력 데이터 앞에 학습 가능한 가상 토큰을 추가하여 모델을 조정하는 방식.
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **학습 용량 부족(Insufficient Training Capacity)**: 갱신 파라미터 부족 또는 부적절한 위치로 과업 특성을 충분히 반영하지 못하는 현상.
 - **가중치 병합(Weight Merging)**: 학습 변화량을 기반 가중치에 병합하여 배포 효율성과 추론 안정성을 제고하는 기법.
@@ -168,8 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PEFT 유형 선택 기준(PEFT Type Selection Criterion)**: 과업 표현력•학습 자원•추론 경로와 모듈 전환 비용을 함께 비교하여 결정하는 지침을 나타낸다.
 - **병합 정책(Merging Policy)**: 고정 업무는 변화량을 병합하고 동적 다중 업무는 모듈을 분리 적재하는 방식으로 정하는 규칙으로 정의된다.

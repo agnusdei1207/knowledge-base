@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디피-헬만 키 교환(Diffie-Hellman Key Exchange, DH 키 교환)**: 비밀값을 직접 전송하지 않고 공개값 교환만으로 동일한 공유 비밀을 안전하게 합의하는 암호 알고리즘.
 - **DH 키 합의(DH Key Agreement)**: 도청 가능한 채널에서 공개 매개변수와 각자의 개인값을 결합하여 대칭 세션키의 원재료를 도출하는 기법.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공유 비밀(Shared Secret)**: 송수신 당사자가 각자의 개인값과 상대의 공개값을 조합하여 독립적으로 산출하는 동질의 암호값.
 - **순방향 비밀성(Perfect Forward Secrecy, PFS)**: 세션마다 일회성 임시 키를 사용하여 향후 장기 키가 노출되더라도 이전 통신 내용을 복호화할 수 없게 하는 성질.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **도메인 매개변수(Domain Parameters)**: DH 연산에 사용되는 소수 $p$ 및 생성원 $g$ 등 사전 정의된 공개 그룹 정보.
 - **개인값(Private Value)**: 각 당사자가 난수로 생성하여 외부에 절대 공개하지 않는 무작위 비밀값 $a, b$.
@@ -93,8 +90,7 @@ DH 키 합의 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개값 검증(Public Value Validation)**: 전달받은 공개값이 지정된 군(Group) 내 유효한 범위에 존재하는지 검증하여 소분군 공격 방어.
 - **협상 기록 인증(Transcript Authentication)**: 세션 시작 시 교환한 DH 파라미터와 공개값에 대해 전자서명을 부가하여 무결성을 증명함.
@@ -136,8 +132,7 @@ DH 키 합의 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 디피-헬만(Static Diffie-Hellman, Static DH)**: 개인값을 영구적/장기적으로 재사용하여 순방향 비밀성이 결여된 무인증 키 합의.
 - **임시 디피-헬만(Diffie-Hellman Ephemeral, DHE)**: 유한체 상에서 세션마다 새로운 개인값을 생성하여 순방향 비밀성을 보장함.
@@ -159,8 +154,7 @@ DH 키 합의 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IETF(Internet Engineering Task Force)**: 인터넷 관련 기술 표준(RFC)을 제정하는 국제 표준화 기구.
 - **RFC 7919(RFC 7919 Standard)**: TLS 전송 시 취약한 DH 그룹 사용을 금지하고 검증된 FFDHE 안전 그룹을 규정한 표준.
@@ -184,8 +178,7 @@ DH 키 합의 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증된 임시 키 합의(Authenticated Ephemeral Key Agreement)**: 공개키 인증서로 신원을 입증하고 세션별 일회성 DH 키로 PFS를 확보하는 표준 형태.
 - **DH 키 교환 방식 선택(DH Key Exchange Selection)**: 시스템 성능, 연산 자원 및 보안 요구수준에 맞춘 정적/DHE/ECDHE 방식의 결정.

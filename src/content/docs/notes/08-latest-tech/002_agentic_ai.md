@@ -19,8 +19,7 @@ extra:
 ---
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **에이전틱 AI(Agentic AI)**: 목표(Goal)를 하위 작업(Sub-task)으로 분해하고, 도구 실행(Tool Execution)·관찰(Observation)·재계획(Replanning) 루프를 자율적으로 반복하여 목표를 완수하는 지능형 시스템. 사람 개입을 최소화하여 복합 업무를 종단 간(End-to-End) 처리하는 핵심 자율 실행 패러다임.
 
@@ -34,8 +33,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목표 지향성(Goal-Oriented)**: 추상적인 목표를 의존 관계가 있는 하위 작업과 측정 가능한 완료 조건(Completion Condition)으로 변환하는 설계 특성이며, 이는 정해진 결과물에 수렴하도록 에이전트를 유도하여 실행의 구조적 완결성을 보장하는 핵심 기제임.
 - **자기 성찰(Self-Reflection)**: 도구 실행 후 반환된 관찰 결과와 오류 신호를 평가하여 다음 행동 경로(Plan-of-Action)를 동적으로 수정하는 특성을 말하며, 실무적 관점에서 시스템의 안정적 수렴과 비용 효율성을 보장하는 자기 교정 메커니즘임.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **작업 메모리(Working Memory)**: 현재 목표(Goal)·계획(Plan)·관찰 결과(Observation)·도구 실행 결과를 단기 보존하여 후속 LLM 추론과 행동 결정에 직접 활용되는 인메모리(In-Memory) 상태 저장소이며, 이는 컨텍스트 연속성을 유지하여 에이전트의 구조적 완결성과 차별화된 추론 성능을 보장하는 핵심 기술 기반임.
 - **대규모 언어 모델(Large Language Model, LLM)**: 자연어로 표현된 목표와 작업 문맥(Context)을 입력받아 다음 단계의 계획과 행동 후보(Tool Call)를 생성하는 추론 엔진이며, 이는 에이전트의 두뇌 역할을 수행하여 구조적 완결성을 높이는 핵심 기술 기반임.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인간 참여형 통제(Human-in-the-Loop, HITL)**: 고위험 행동을 실행하기 전에 사람이 맥락(Context)과 잠재적 영향을 검토하고 명시적으로 승인·거부하는 통제 방식을 의미하며, 이는 에이전트에게 광범위한 자율 권한을 위임하는 환경에서 구조적 완결성과 결과 신뢰성을 보장하는 핵심 기술 기반임.
 - **목표·완료 조건·과업계획 전달(Goal Provision)**: 사람이 에이전트에게 작업 목록, 의존성(Dependency), 예외 경로(Exception Path), 자율 수준(Autonomy Level)을 설정하여 위임하는 단계를 의미하며, 이는 실행 범위와 제약 조건을 명확히 함으로써 구조적 완결성을 높이는 핵심 시작 단계임.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **생성형 인공지능(Generative AI)**: 입력 프롬프트에 따라 텍스트·이미지·코드 등 콘텐츠를 단발적으로 합성하는 모델.
 - **에이전틱 워크플로(Agentic Workflow)**: 목표 달성을 위해 계획·행동·관찰·성찰 단계를 순환하며 작업을 점진적으로 완성하는 방식.
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **완료 조건(Completion Condition)**: 에이전트가 목표 달성 여부를 검증하고 루프를 종료하기 위한 측정 가능한 기준.
 
@@ -176,8 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **자율성 통제(Autonomy Control)**: 권한 스코프, 실행 비용, 승인 경계를 설정하여 에이전트의 자율적 행동 범위를 제한하는 운영 원칙.
 

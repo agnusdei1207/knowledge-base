@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포트(Port)**: 장치 안에서 응용 서비스를 구별하는 번호이다.
 - **소켓(Socket)**: 응용이 통신에 사용하는 운영체제 종단 객체이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 연결형 바이트 스트림을 전달하는 프로토콜이다.
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 프로토콜이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파일 서술자(File Descriptor, FD)**: 프로세스가 열린 소켓 객체를 참조하는 번호이다.
 - **리슨 소켓(Listen Socket)**: 서버에서 새 연결 요청을 기다리는 소켓이다.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **주소•포트 결합(bind)**: 소켓에 서버 주소와 포트를 지정하는 호출이다.
 - **연결 대기 전환(listen)**: 소켓을 연결 요청 대기 상태로 바꾸는 호출이다.
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TCP 소켓**: 연결별 상태를 갖는 바이트 스트림 통신 객체이다.
 - **UDP 소켓**: 연결 상태 없이 데이터그램을 송수신하는 통신 객체이다.
@@ -151,8 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **5-튜플(Five-tuple)**: 프로토콜과 양쪽 주소•포트로 구성한 통신 흐름 식별값이다.
 - **백로그(Backlog)**: 응용 수락 전 완료 연결을 대기시키는 큐 한도이다.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임시 포트(Ephemeral Port)**: 클라이언트의 새 연결에 일시 할당하는 출발지 포트이다.
 - **방화벽(Firewall)**: 허용한 주소•포트•프로토콜의 트래픽만 통과시키는 통제이다.

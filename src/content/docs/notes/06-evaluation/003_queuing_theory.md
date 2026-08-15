@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **대기행렬 이론(Queuing Theory)**: 요청 유입과 서버 처리 능력을 확률 모델화하여 시스템 혼잡도와 대기시간을 수학적으로 분석하는 이론.
 - **도착률($\lambda$, Arrival Rate)**: 단위 시간당 시스템 유입 평균 요청 건수.
@@ -38,7 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **이용률($\rho$, Utilization)**: 전체 서비스 처리 능력 대비 유입되는 도착률 부하가 차지하는 비율로, 혼잡도를 판단하는 척도.
 - **안정 조건(Stability Condition)**: 시스템의 장기 유입 부하가 가용 가능한 총 처리 역량 미만으로 유지되어 큐 대기열이 발산하지 않고 통제되는 전제 조건.
@@ -58,7 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **Kendall 표기(Kendall's Notation)**: 큐잉 시스템 특성을 규격화하여 도착 분포(A), 서비스 시간 분포(S), 서버 수(c), 시스템 최대 용량(K), 고객 규모(N), 서비스 큐 규율(D) 형식으로 축약 정의하는 표준 국제 기호.
 - **M/M/1/M/M/c(Markovian Queuing Models)**: 요청 도착 패턴이 포아송 분포($\lambda$), 서버 처리시간이 지수 분포($\mu$)를 갖는 조건 하의 단일 및 다중 병렬 서버 확률 모형.
@@ -99,7 +99,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **대기열(Queue, 버퍼)**: 트래픽 대비 서버 가용 역량이 부족할 때, 처리 순번을 부여받고 메모리상에 임시 보관되는 논리적 완충 공간.
 - **실측 보정(Empirical Calibration)**: 이론적 모형의 오차 유발 인자를 실제 환경 측정값과 대조해 튜닝하는 고도화 과정.
@@ -169,7 +169,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **도착분포(Arrival Distribution)**: 유입 간격이 통계적으로 어떤 확률 형태인지 함수화한 모델.
 - **서비스분포(Service Distribution)**: 단건 트랜잭션 처리시간의 흩어짐 양상을 정량화한 모델.
@@ -188,7 +188,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **비선형 증가(Non-linear Spike)**: 이용률($\rho$)이 1(100%)에 가까워질 때, 대기열 및 지연이 폭발적으로 지수 상승하는 현상.
 - **용량 산정(Capacity Planning)**: 목표 지연시간과 최대 유입률을 만족하는 최적 서버 노드 수 결정.

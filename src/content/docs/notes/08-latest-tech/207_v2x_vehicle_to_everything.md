@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차량•사물 통신(Vehicle-to-Everything, V2X)**: 차량이 다른 차량•인프라•보행자•망과 위험 및 교통 정보를 교환하는 협력 통신 체계을 말한다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **셀룰러 차량•사물 통신(Cellular Vehicle-to-Everything, C-V2X)**: 셀룰러 기술을 기반으로 차량의 직접 통신과 광역 망 통신을 지원하는 방식을 말한다.
 - **차량 간 통신(Vehicle-to-Vehicle, V2V)**: 차량끼리 위치•속도•위험 정보를 직접 교환하는 통신을 의미한다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차량 탑재 장치(On-Board Unit, OBU)**: 차량에 탑재되어 V2X 메시지를 생성•송수신•검증하고 센서 정보와 융합하는 장치로 정의된다.
 - **노변 장치(Roadside Unit, RSU)**: 도로 인프라와 차량 사이에서 교통•안전 메시지를 중계하는 통신 장치을 말한다.
@@ -96,8 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 검증**: 인증서•서명•신선도•물리 가능성을 확인해 메시지 수용 여부를 정하는 절차이다.
 
@@ -134,8 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PC5 인터페이스**: 기지국을 거치지 않고 인접 차량과 단말이 직접 통신하는 C-V2X 인터페이스을 의미한다.
 - **근거리 전용 통신(Dedicated Short-Range Communications, DSRC)**: 차량 안전 메시지를 위한 근거리 직접 통신 방식로 정의된다.
@@ -158,8 +153,7 @@ DSRC•ITS-G5•C-V2X의 직접•망 접속을 비교한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신선도 검증**: 메시지 발생 시각과 재전송 여부를 확인해 오래되거나 재사용된 위험 정보를 거부하는 절차이다.
 
@@ -177,8 +171,7 @@ DSRC•ITS-G5•C-V2X의 직접•망 접속을 비교한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Uu 인터페이스**: 차량 단말이 기지국과 서버를 경유해 광역 교통 서비스를 이용하는 셀룰러 인터페이스로 정의된다.
 

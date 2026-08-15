@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **콘텐츠 전송망(Content Delivery Network, CDN)**: 여러 지역의 엣지가 콘텐츠를 캐시•전달하는 분산 전송망이다.
 - **엣지 서비스 거점(Edge Point of Presence, PoP)**: 사용자와 가까운 지역에서 캐시•보안•전송을 수행하는 CDN 접점이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 적중(Cache Hit)**: CDN 엣지가 저장한 객체를 즉시 제공하는 상태이다.
 - **캐시 실패(Cache Miss)**: 보호 캐시나 원본에 객체를 요청해야 하는 상태이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **글로벌 요청 라우터**: DNS•애니캐스트로 정상 PoP를 선택하는 구성요소이다.
 - **엣지 PoP**: 캐시•보안•콘텐츠 전달을 수행하는 지역 접점이다.
@@ -97,8 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 키•신선도 판정**: 요청 변형•TTL•저장 가능성을 확인해 캐시 객체 사용 여부를 결정하는 단계이다.
 - **실패 요청 병합**: 같은 객체의 동시 캐시 실패를 하나의 상위 요청으로 합치는 단계이다.
@@ -141,8 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지역 캐시(Regional Cache)**: 제한된 지역이나 내부망의 반복 요청을 단일 지역에서 캐시하는 전달 방식이다.
 - **원본 직접 제공(Direct Origin Delivery)**: 엣지 캐시 없이 모든 요청을 원본 서버가 직접 처리하는 방식이다.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공유 캐시 노출**: 개인 응답을 같은 캐시 키로 저장해 다른 사용자에게 전달하는 정보 유출 문제이다.
 - **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계이다.
@@ -185,8 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **원본 보호(Origin Protection)**: 보호 캐시•요청 병합•접근 제한으로 원본 부하와 노출을 줄이는 원칙이다.
 - **콘텐츠 전달 방식 선택**: 사용자 분포•반복 요청 범위•개인화와 캐시 가능성에 따라 글로벌 CDN•지역 캐시•원본 제공을 결정하는 판단이다.

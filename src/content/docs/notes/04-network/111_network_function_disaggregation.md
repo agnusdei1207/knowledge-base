@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **5세대(Fifth Generation, 5G)**: 초고속•초저지연•초연결을 목표로 하는 이동통신 세대이다.
 - **무선접속망(Radio Access Network, RAN)**: 단말을 이동통신 코어망에 연결하는 무선 네트워크이다.
@@ -45,8 +44,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CU 중앙화**: 여러 DU의 상위 무선 계층 처리 자원을 중앙에서 공유하는 배치 방식이다.
 - **DU 현장 처리**: 시간 민감 스케줄링과 상위 물리 처리를 현장에서 수행하는 배치 방식이다.
@@ -66,8 +64,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **3세대 파트너십 프로젝트(3rd Generation Partnership Project, 3GPP)**: 이동통신 규격을 개발하는 국제 표준화 협력체이다.
 - **F1 인터페이스(F1 Interface)**: 3GPP가 CU와 DU 사이의 제어 평면과 사용자 평면 연결을 규정한 표준 인터페이스이다.
@@ -106,8 +103,7 @@ F1 인터페이스
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상위 계층 전달**: CU가 처리한 정책•패킷 정보를 F1을 통해 DU에 보내는 과정이다.
 - **자원 상태 환류**: DU가 무선 측정과 처리 자원 상태를 CU에 돌려보내 다음 정책에 반영하는 과정이다.
@@ -154,8 +150,7 @@ F1 인터페이스
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **일체형•분리형 기지국**: 일체형은 기능을 한 장비에 결합하고 분리형은 표준 인터페이스로 기능별 장치를 연결하는 구조 구분이다.
 - **분리점**: 기지국 프로토콜 계층 중 기능을 서로 다른 장치•위치로 나누는 경계이다.
@@ -180,8 +175,7 @@ F1 인터페이스
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용 시험**: 서로 다른 공급사의 DU•RU가 개방 프론트홀 규격에 맞게 동작하는지 검증하는 시험이다.
 - **3GPP 기술규격 38.401(3rd Generation Partnership Project Technical Specification 38.401, 3GPP TS 38.401)**: 차세대 무선접속망과 gNB-CU•gNB-DU 구조를 규정한 기술규격이다.
@@ -201,8 +195,7 @@ F1 인터페이스
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분리 적용 조건**: 장치 간 전송 지연•용량•동기가 분리한 기능의 처리 시한을 충족하는 조건이다.
 - **CU•DU•RU 분리 검증**: 전송•동기 조건이 각 기능의 처리 시한을 만족하는지 확인하는 검증이다.

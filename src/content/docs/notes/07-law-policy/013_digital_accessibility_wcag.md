@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 접근성(Digital Accessibility)**: 조건과 무관한 정보 인식·운용·이해·호환성.
 - **보조기술(Assistive Technology)**: 장애 사용자의 정보 인식·기능 조작 지원 기술.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **POUR 원칙(POUR Principles)**: 인식·운용·이해·견고성의 네 원칙.
 - **A·AA·AAA 적합성 수준**: 성공 기준의 기본·중간·최고 등급.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **웹 콘텐츠 접근성 지침(Web Content Accessibility Guidelines, WCAG)**: 인식•운용•이해•호환 성공 기준.
 - **사용자 인터페이스(User Interface, UI)**: 정보 인식과 기능 조작의 접점.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 텍스트(Alternative Text)**: 시각 정보의 의미·기능을 문자로 전달하는 수단.
 - **키보드 초점 순서(Keyboard Focus Order)**: 입력·버튼·링크의 논리적 이동 순서.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **견고성(Robustness)**: 표준 마크업 기반 브라우저·보조기술 호환성.
 
@@ -157,8 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사용자 시험(User Testing)**: 장애 사용자의 실제 과업 기반 장벽 확인 시험.
 
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **WCAG 2.2 AA**: A·AA 성공 기준을 충족하는 중간 수준.
 

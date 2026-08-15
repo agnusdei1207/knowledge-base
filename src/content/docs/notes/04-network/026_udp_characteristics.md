@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 연결 설정 없이 메시지 경계를 보존한 데이터그램을 전달하는 프로토콜이다.
 </details>
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비연결형(Connectionless)**: 연결 상태를 만들지 않고 데이터그램을 독립적으로 전달하는 성질이다.
 - **체크섬(Checksum)**: 헤더와 데이터의 비트 오류를 검출하는 값이다.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터그램(Datagram)**: 독립된 메시지 경계를 갖는 전송 단위이다.
 - **페이로드(Payload)**: UDP 헤더 뒤에 담기는 응용 데이터이다.
@@ -84,8 +81,7 @@ UDP 데이터그램
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **응용 재시도(Application Retry)**: UDP 손실 시 응용이 메시지를 다시 전송하는 기능이다.
 - **중복 제거(Deduplication)**: 같은 메시지를 여러 번 수신해도 한 번만 처리하는 기능이다.
@@ -120,8 +116,7 @@ UDP 데이터그램
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 순서와 재전송을 보장하는 바이트 스트림 프로토콜이다.
 </details>
@@ -140,8 +135,7 @@ UDP 데이터그램
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반사 공격(Reflection Attack)**: 위조한 출발지 주소로 응답을 피해자에게 보내는 공격이다.
 - **증폭 공격(Amplification Attack)**: 작은 요청보다 큰 응답을 생성해 공격 트래픽을 키우는 공격이다.
@@ -161,8 +155,7 @@ UDP 데이터그램
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IP 단편화(IP Fragmentation)**: MTU를 넘는 IP 패킷을 여러 조각으로 나누는 기능이다.
 </details>

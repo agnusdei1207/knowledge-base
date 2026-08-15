@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IT 아웃소싱(IT Outsourcing)**: IT 개발·운영·인프라·보안을 외부에 위탁하는 방식.
 - **서비스 조달(Service Procurement)**: 외부 사업자의 계약 성과·책임을 통제하는 조달.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **성과 계약(Performance-based Contract)**: SLA·SLM으로 목표·측정·책임을 관리하는 계약.
 - **서비스 수준 협약(Service Level Agreement, SLA)**: 가용성·복구·응답·보안 목표 합의.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전환 계획(Transition Plan)**: 자산·데이터·운영 지식 이전 계획.
 - **출구 계획(Exit Plan)**: 계약 종료 시 자산·계정·지식 반환 계획.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 합의서(Service Level Agreement)**: 품질 목표와 미달 책임의 계약.
 - **서비스 수준·이행안 제출**: 품질 목표·보고·보상 조건 제안.
@@ -136,8 +132,7 @@ MSP
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레거시 인프라(Legacy Infrastructure)**: 장기간 운영한 서버·네트워크·애플리케이션 기반.
 - **클라우드 운영 최적화**: MSP로 비용·성능·보안을 지속 관리하는 방식.
@@ -157,8 +152,7 @@ MSP
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **내부 역량 약화(Internal Capability Erosion)**: 핵심 지식·계정·결정권의 외부 의존.
 - **책임 할당표(Responsibility Assignment Matrix)**: 결정·실행·검토·보고 역할 배정표.
@@ -176,8 +170,7 @@ MSP
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **출구 시험(Exit Test)**: 자산·데이터·계정·운영 지식 회수 검증.
 

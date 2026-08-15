@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Brewer-Nash 모델**: 과거 접근 이력에 따라 경쟁 고객 데이터 접근을 동적으로 제한하는 기밀성 모델이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **만리장성 정책**: 한 경쟁사 정보를 본 주체와 다른 경쟁사 사이에 논리적 장벽을 세우는 정책이다.
 - **COI(Conflict of Interest)**: 교차 접근을 제한해야 하는 경쟁 회사 집합이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **COI 클래스**: 서로 경쟁하는 회사들의 집합이다.
 - **CD(Company Dataset)**: 한 회사에 속해 함께 통제할 정보 객체 집합이다.
@@ -86,8 +83,7 @@ Brewer-Nash 정책 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **원자적 처리**: 접근 결정과 이력 기록을 끼어들기 없이 하나의 작업으로 완료하는 처리이다.
 - **객체•이력 분류**: CD와 COI를 객체•이력에 연결한 판단 정보이다.
@@ -132,8 +128,7 @@ Brewer-Nash 정책 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **BLP(Bell-LaPadula Model)**: 보안 등급의 정보 흐름을 제한하는 모델이다.
 - **RBAC(Role-Based Access Control)**: 역할에 권한을 묶어 배정하는 모델이다.
@@ -154,8 +149,7 @@ Brewer-Nash 정책 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
@@ -179,8 +173,7 @@ Brewer-Nash 정책 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이력 기반 동적 권한**: 현재 역할이 아니라 과거에 접근한 고객 정보에 따라 다음 접근을 제한하는 방식이다.
 - **COI 선택**: 같은 경쟁 집단에서 기존 선택 회사만 허용하는 규칙이다.

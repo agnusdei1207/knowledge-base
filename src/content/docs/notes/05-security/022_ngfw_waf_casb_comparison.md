@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차세대 방화벽(Next-Generation Firewall, NGFW)**: IP/Port 통제를 넘어 L7 애플리케이션(App-ID) 및 사용자(User-ID) 기반으로 네트워크 심층 트래픽을 통제하는 보안 솔루션.
 - **웹 애플리케이션 방화벽(Web Application Firewall, WAF)**: HTTP/HTTPS 프로토콜을 전문 분석하여 OWASP Top 10 웹 공격(SQLi, XSS 등) 및 API 공격을 차단하는 전용 보안 솔루션.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **App-ID**: 패킷의 실제 페이로드 식별을 통해 표준 포트(예: 80, 443) 우회 통신을 감지하고 실제 실행 중인 애플리케이션을 판별하는 기술.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 클라우드 기반 환경에서 제공되는 소프트웨어 서비스 (Salesforce, Microsoft 365 등).
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 유출 방지(Data Loss Prevention, DLP)**: 개인정보, 금융정보, 기업 비밀 등 민감 데이터의 무단 외부 전송/유출을 실시간 검사·차단하는 보안 메커니즘.
 - **신원 제공자(Identity Provider, IdP)**: 사용자 신원 인증 정보를 중앙 관리하고 SSO 및 SAML/OAuth 기반으로 권한 검증을 제공하는 인프라.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 정책 문맥(Common Policy Context)**: IdP 신원, 자산 중요도 및 규정 준수 기준을 3개 솔루션에 연동하여 일관적으로 적용하는 통제 문맥.
 - **네트워크•앱 식별•통제**: NGFW를 통한 L3~L7 네트워크 세션 및 허용 애플리케이션 판정 단계.
@@ -125,8 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **HTTP(Hypertext Transfer Protocol)**: 웹 브라우저와 웹 서버 간 요청/응답을 전송하는 L7 프로토콜.
 - **API(Application Programming Interface)**: 애플리케이션 간 데이터 교환 및 기능 호출을 위한 규격화된 프로토콜 인터페이스.
@@ -149,8 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **섀도 IT(Shadow IT)**: 보안 승인을 거치지 않고 사내 직원이 개인적으로 사용하는 미인가 클라우드/SaaS 애플리케이션.
 - **NIST SP 800-41 Rev. 1(NIST SP 800-41 Standard)**: 방화벽 배치 및 아키텍처 수립을 가이드하는 표준 보안 기술 문서.
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계층별 심층 방어(Defense-in-Depth Architecture)**: 단일 보안 솔루션에 의존하지 않고 네트워크, 웹, 클라우드 각 레이어별로 상호 보완 솔루션을 배치하는 전략.
 

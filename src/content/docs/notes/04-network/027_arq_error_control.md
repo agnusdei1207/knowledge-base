@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **자동 재전송 요구(Automatic Repeat reQuest, ARQ)**: ACK•NAK와 타임아웃으로 유실•오류 프레임을 재전송하는 오류 제어 방식이다.
 - **확인 응답(Acknowledgment, ACK)**: 정상 수신을 송신자에게 알리는 응답이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순서 번호(Sequence Number)**: 새 프레임과 재전송 프레임을 구별하는 번호이다.
 </details>
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **송신 윈도(Sender Window)**: ACK 전에 연속 전송할 수 있는 순서 번호 범위이다.
 - **왕복 시간(Round-Trip Time, RTT)**: 프레임 전송부터 ACK 수신까지 걸리는 시간이다.
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **타임아웃 재전송**: 정한 시간 안에 확인 응답이 없으면 프레임을 다시 보내는 동작이다.
 - **순서 번호 프레임**: 송신 윈도 범위에서 새 데이터와 재전송을 구별하도록 번호를 붙인 프레임이다.
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정지-대기(Stop-and-Wait)**: 프레임 하나의 ACK 뒤 다음 프레임을 보내는 방식이다.
 - **후퇴-N(Go-Back-N)**: 누락 이후의 미확인 프레임까지 다시 보내는 방식이다.
@@ -151,8 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순방향 오류 정정(Forward Error Correction, FEC)**: 추가 정정 정보를 보내 수신 측이 일부 오류를 직접 복구하는 방식이다.
 </details>
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재전송 효율(Retransmission Efficiency)**: 오류율•왕복 시간•수신 버퍼를 기준으로 ARQ 방식을 선택하는 기준이다.
 </details>

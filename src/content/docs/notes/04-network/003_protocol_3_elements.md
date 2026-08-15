@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 프로토콜(Network Protocol)**: 통신 개체 간 신뢰성 있는 데이터 교환을 위한 표준 규약 집합.
 - **상호운용성(Interoperability)**: 서로 다른 기종 시스템이 표준을 준수하여 정보 교환 및 연동을 수행하는 능력.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **구문(Syntax)**: 메시지 데이터 구조, 필드 포맷, 인코딩 방식을 규정하는 형식 요소.
 - **의미(Semantics)**: 제어 동작, 응답 메시지 및 상태 전이를 정의하는 실질적 요소.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **필드(Field)**: 프로토콜 메시지 내에서 출발지 주소, 목적지 주소, 제어 플래그 등 고유 정보를 담는 논리적 구역.
 - **인코딩(Encoding)**: 전송할 데이터를 프로토콜 명세에 맞게 텍스트(ASCII/UTF-8) 또는 2진 바이너리 형태로 변환하는 규격.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구문 해석(Syntax Parsing)**: 수신된 바이너리/문자열 트래픽을 프로토콜 헤더 구조에 맞게 분해하여 데이터 구조체로 파싱하는 과정.
 - **의미 처리(Semantic Execution)**: 파싱된 제어 플래그와 데이터 명령에 따라 수신측 상태를 변경하거나 응답을 생성하는 제어 과정.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용성 검증(Interoperability Testing)**: 통신 장비 간 구문, 의미, 타이밍 규격 일치 여부를 종합적으로 분석하여 연동 결함을 검출하는 검증 기법.
 
@@ -147,8 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태표(State Table)**: 프로토콜이 취할 수 있는 모든 상태와 수신 이벤트에 따른 전이 경로를 행렬로 정의한 설계 명세서.
 - **버전 협상(Version Negotiation)**: 구문이나 의미가 다른 이기종/구버전 장비 간 통신 시 공통 지원 가능 버전을 협상하여 결정하는 절차.
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프로토콜 적합성(Protocol Conformance)**: 해당 네트워크 프로토콜 규격(RFC 등)의 구문, 의미, 타이밍 명세를 충실히 이행함을 증명하는 지표.
 - **검증 순서 결정(Verification Ordering)**: 연동 장애 발생 시 구문(패킷) -> 의미(상태) -> 타이밍(타이머) 순으로 원인을 정밀 추적하는 진단 방법론.

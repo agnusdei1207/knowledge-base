@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지속적 위협 노출 관리(Continuous Threat Exposure Management, CTEM)**: 조직의 실제 공격 노출면을 범위설정, 발견, 우선순위화, 검증, 동원의 5단계로 지속 평가하여 보안 위험을 선제 감축하는 프레임워크.
 - **폐루프(Closed-loop Mitigation)**: 위협 노출 발견부터 담당자 지정, 위험 조치, BAS 기반 재검증까지 완결성 있게 환류되는 선순환 절차.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 표면(Attack Surface)**: 인터넷에 노출된 IP, 도메인, SaaS, 클라우드 자산 및 내부 서비스 등 공격자가 침입 통로로 악용할 수 있는 전체 영역.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 클라우드 기반 애플리케이션 및 서비스로 외부 노출 및 권한 오설정 위협이 높은 영역.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **침해•공격 시뮬레이션(Breach and Attack Simulation, BAS)**: 실제 공격자의 전술 및 기법(TTPs)을 안전하게 자동 재현하여 내부 보안 통제 실효성과 도달 경로를 검증하는 솔루션.
 - **동원(Mobilization)**: 검증된 위협 노출에 대해 조치 소유자 지정, SLA 기준 조치 수행 및 재검증을 유기적으로 이행하는 단계.
@@ -77,8 +74,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **알려진 악용 취약점(Known Exploited Vulnerabilities, KEV) Catalog**: CISA가 실제 공격에 악용 중임을 공식 입증한 취약점 데이터베이스.
 - **악용 예측 점수 시스템(Exploit Prediction Scoring System, EPSS)**: 30일 이내 해당 취약점이 실제 악용될 확률을 예측 제공하는 점수 모델.
@@ -131,8 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 표면 관리(Attack Surface Management, ASM)**: 인터넷에 노출된 조직의 미관리 자산과 디지털 흔적을 지속 탐색하는 기술.
 - **취약점 관리(Vulnerability Management, VM)**: 시스템 내 소프트웨어 버그 및 보안 결함의 스캔 및 패치 관리에 집중하는 기술.
@@ -151,8 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 취약점 점수 시스템(Common Vulnerability Scoring System, CVSS v4.0)**: 기술적 심각도 외에 위협 지표와 적용 환경 맥락을 세밀히 반영하도록 정제된 최신 표준 스펙.
 - **미국 사이버보안•인프라 보안국(Cybersecurity and Infrastructure Security Agency, CISA)**: 미국의 사이버 보안 전담 기구로 KEV Catalog를 제정 관리함.
@@ -173,8 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **노출 감축 성과(Exposure Reduction Metrics)**: 노출 발견 수량이 아닌, 검증된 공격 경로의 실질적 차단율 및 재검증 성공률을 측정하는 핵심 성과 지표.
 

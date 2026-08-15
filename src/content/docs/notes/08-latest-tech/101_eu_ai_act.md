@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유럽연합 인공지능법(European Union Artificial Intelligence Act, EU AI Act)**: 용도•위험•역할별 AI 의무를 정한 규정이다.
 - **Regulation (EU) 2024/1689**: EU AI Act의 공식 법령 번호이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역외 적용(Extraterritorial Application)**: EU 시장 제공•출력 사용에 따른 적용 원칙이다.
 - **공급망 역할(Supply-chain Role)**: 공급자•배포자•수입자 등 법적 지위이다.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고위험 AI(High-risk AI)**: 안전•기본권 영향으로 강화 의무가 적용되는 시스템이다.
 - **위험 기반 분류(Risk-based Classification)**: 목적•맥락•피해에 따라 규제 강도를 나눈다.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 분류(Risk Classification)**: 용도•영향에 따라 규제 범주를 판정한다.
 - **중대 사고(Serious Incident)**: 건강•안전•기본권에 중대한 피해를 준 사건이다.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **금지된 AI 관행(Prohibited AI Practice)**: 법이 사용 자체를 금지한 AI 용도이다.
 - **투명성 의무 AI(Transparency-risk AI)**: 상호작용•합성 콘텐츠 고지 대상이다.
@@ -153,8 +148,7 @@ AI의 용도와 영향에 따라 금지 관행, 고위험 시스템, 투명성 �
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 등급 누락**: 목적•역할 오판으로 규제 의무가 빠진 문제이다.
 - **적합성 증적 부족**: 고위험 AI 요구사항 충족을 입증하지 못한 문제이다.
@@ -171,8 +165,7 @@ AI의 용도와 영향에 따라 금지 관행, 고위험 시스템, 투명성 �
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **출시 의무(Pre-market Obligation)**: 시장 제공 전 분류•평가•문서화 요구사항이다.
 - **감시 의무(Post-market Obligation)**: 출시 후 성능•사고 추적•보고•시정 요구사항이다.

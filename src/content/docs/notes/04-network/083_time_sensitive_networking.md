@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 민감 네트워킹(Time-Sensitive Networking, TSN)**: IEEE 802 이더넷에 시간 동기•트래픽 조정•신뢰성 기능을 적용해 지연 상한을 보장하는 결정형 네트워크 표준군이다.
 - **전기전자공학자협회 802(Institute of Electrical and Electronics Engineers 802, IEEE 802)**: 근거리•도시권 네트워크의 물리•데이터링크 기술을 규정하는 표준 계열이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **결정형 네트워크**: 정해진 조건에서 패킷의 최악 도착 시간을 계산하고 제한할 수 있는 네트워크이다.
 - **전기전자공학자협회 802.1AS(Institute of Electrical and Electronics Engineers 802.1AS, IEEE 802.1AS)**: TSN 참여 장비의 시각과 주파수를 공통 기준에 맞추는 시간 동기 표준이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스트림**: 송신자에서 수신자까지 동일한 주기•지연•손실 요구로 전달되는 연속 프레임 흐름이다.
 - **TSN 브리지(TSN Bridge)**: 결정형 큐•게이트•선점 제어를 실행하는 스위치이다.
@@ -92,8 +89,7 @@ TSN
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수용 제어**: 새 스트림을 추가해도 기존 스트림의 지연•대역 요구를 지킬 수 있는지 판정하는 기능이다.
 - **스트림 요구 등록**: 새 흐름의 주기•크기•지연•손실 한계를 구성기에 전달하는 단계이다.
@@ -141,8 +137,7 @@ TSN
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 인식 조정기(Time-Aware Shaper, TAS)**: 공통 시간표로 큐 게이트를 제어하는 방식이다.
 - **비동기 트래픽 조정기(Asynchronous Traffic Shaper, ATS)**: 시간 동기 없이 흐름별 전송률을 조정하는 방식이다.
@@ -163,8 +158,7 @@ TSN
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동기 오차 예산•가드 밴드**: 허용 시계 편차의 장비별 배분과 예약 게이트 전 보호 시간을 묶은 설계 기준이다.
 - **프레임 복제 및 중복 제거(Frame Replication and Elimination for Reliability, FRER)**: 서로 다른 경로로 프레임을 복제하고 수신부에서 중복을 제거해 재전송 없이 신뢰성을 높이는 기능이다.
@@ -183,8 +177,7 @@ TSN
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **마감시간**: 스트림 프레임이 목적지에 도착해야 하는 최종 시각으로 트래픽 조정 방식 선택의 기준이다.
 

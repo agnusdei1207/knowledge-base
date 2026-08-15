@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **국소 해석 가능 모델 불가지론 설명(Local Interpretable Model-agnostic Explanations, LIME)**: 예측 주변을 단순 대리모델로 근사한다.
 - **모델 불가지론(Model-agnostic)**: 입력•출력 호출만으로 설명할 수 있는 성질이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **교란 표본(Perturbed Sample)**: 특징을 바꿔 블랙박스 주변 반응을 관찰한다.
 - **국소 대리모델(Local Surrogate Model)**: 원본 주변의 블랙박스 예측을 근사한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근접 커널(Proximity Kernel)**: 원본과 표본의 거리를 학습 가중치로 변환한다.
 - **블랙박스 함수(Black-box Function)**: 입력에 대한 예측값만 반환한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **마스킹(Masking)**: 입력 특징을 제거•대체해 모델 반응을 관찰한다.
 - **거리 가중치(Distance Weight)**: 가까운 표본을 더 크게 반영하는 값이다.
@@ -121,8 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **샤플리 가산 설명(SHapley Additive exPlanations, SHAP)**: 예측 차이를 샤플리 값으로 기여도에 배분한다.
 - **특징 기여도(Feature Attribution)**: 특징이 예측을 증감시킨 영향의 크기이다.
@@ -142,8 +137,7 @@ LIME과 SHAP은 기여도를 계산하는 원리와 비용이 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **국소 충실도 저하**: 표본이 유효 근방을 벗어나 판단을 잘못 근사한 문제이다.
 - **설명 재현성(Explanation Reproducibility)**: 반복 설명의 기여도가 일관된 정도이다.
@@ -160,8 +154,7 @@ LIME과 SHAP은 기여도를 계산하는 원리와 비용이 다르다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **국소 충실도(Local Fidelity)**: 대리모델이 입력 주변 예측을 근사하는 정도이다.
 - **커널 폭(Kernel Width)**: 국소 설명에 반영할 표본의 거리 범위이다.

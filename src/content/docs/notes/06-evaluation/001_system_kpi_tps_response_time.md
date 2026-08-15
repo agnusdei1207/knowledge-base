@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **KPI(Key Performance Indicator)**: 비즈니스 및 기술적 목표 달성 여부를 정량적으로 측정하는 핵심 기준 지표.
 - **SLI(Service Level Indicator)**: 서비스 품질(가용성, 응답시간 등)의 직접적 정량 측정 지표.
@@ -40,7 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **처리량(Throughput)**: 단위 시간당 성공적으로 완료한 트랜잭션 건수나 데이터 전송량으로, 시스템의 전체적인 처리 규모를 대변하는 지표.
 - **응답시간(Response Time)**: 사용자 또는 클라이언트의 요청 송신 시점부터 최종 처리 결과를 수신하기까지 소요된 총 대기 및 실행 시간.
@@ -59,7 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **TPS(Transactions Per Second)**: 1초 동안 시스템이 오류 없이 성공적으로 완료한 비즈니스 거래 건수로, 시스템 용량 산정의 핵심 기준치.
 - **RPS(Requests Per Second)**: 초당 처리한 개별 기술적 요청(HTTP/API 등) 횟수로, 세부 호출 성능 판단 기준.

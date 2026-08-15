@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - 단일 Pod 실험이 안전하게 끝나야 다음 Zone 수준 실험으로 넓힌다.
 

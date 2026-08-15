@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대규모 언어 모델 서빙(Large Language Model Serving, LLM Serving)**: 언어 모델 추론을 다중 요청에 제공하며 자원•지연•품질을 통제하는 운영 체계로 정의된다.
 - **서비스 목표(Service Objective)**: 요청 처리에서 달성해야 할 품질•지연•처리량•비용 기준을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연속 배치(Continuous Batching)**: 완료 요청을 배치에서 제거하고 새 요청을 실행 중인 배치에 추가하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **프리필(Prefill)**: 입력 전체를 처리해 생성에 필요한 키-값 캐시(Key-Value Cache, KV Cache)를 만드는 단계를 나타낸다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 라우터(Model Router)**: 과업과 부하에 따라 사용할 모델과 복제본을 선택하는 구성요소를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **스케줄러(Scheduler)**: 연속 배치와 KV 메모리를 고려하여 실행 순서를 관리하는 모듈로 정의된다.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **할당량(Quota)**: 사용자나 서비스가 일정 시간 동안 사용할 수 있는 요청•토큰•자원의 상한을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **복제본(Replica)**: 동일 모델을 독립 실행하여 요청을 분산 처리하는 인스턴스를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오프라인 추론(Offline Inference)**: 즉시 응답 없이 대량 데이터를 고정 배치로 처리하여 비용과 처리량을 최적화하는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **온라인 서빙(Online Serving)**: 대화형 요청을 동적 배치로 처리하여 TTFT와 TPOT을 관리하는 방식으로 정의된다.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유효 처리량(Goodput)**: 품질•지연 목표를 모두 만족하면서 처리한 유효 요청이나 토큰의 양을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **페이지드 캐시(Paged Cache)**: KV Cache를 고정 크기 비연속 블록으로 나눠 동적 할당•회수하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -174,8 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **온라인 동적 배치(Online Dynamic Batching)**: 즉시 스트리밍 응답이 필요한 요청을 지연 목표에 맞춰 실행 중 재편하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **비동기 응용 프로그래밍 인터페이스(Asynchronous Application Programming Interface, Asynchronous API)**: 완료 시점이 유연한 대량 요청을 작업 큐로 처리하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

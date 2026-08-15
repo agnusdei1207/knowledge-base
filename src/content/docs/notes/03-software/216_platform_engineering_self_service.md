@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **내부 개발자 플랫폼(Internal Developer Platform, IDP)**: 개발팀의 인지 부하를 줄이기 위해 앱 개발·배포·운영 도구를 셀프서비스 형태로 제공하는 사내 표준화된 기술 제품(Product) 체계.
 - **플랫폼 엔지니어링(Platform Engineering)**: 개발팀이 일관되고 안전하게 소프트웨어를 전달할 수 있도록 내부 플랫폼을 제품처럼 설계·운영하고 지속 개선하는 기술 조직의 핵심 활동.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인지 부하 감소(Cognitive Load Reduction)**: 복잡한 인프라 설정이나 배포 파이프라인 구성 등 공통 기술의 복잡성을 골든 패스와 자동화 뒤로 추상화하여, 개발팀이 비즈니스 로직(업무 기능) 개발에만 온전히 집중하게 만드는 플랫폼의 핵심 효과.
 - **골든 패스(Golden Path, 권장 표준 경로)**: 조직의 보안 및 아키텍처 기준을 통과한 검증된 도구·구성·절차를 패키징하여, 대부분의 개발팀이 가장 안전하고 빠르게 제품을 출시할 수 있도록 권장하는 베스트 프랙티스 경로.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제어 평면(Control Plane)**: 카탈로그를 통한 개발자의 자원 요청을 수신하고, 선언적 정책(Policy)을 확인한 뒤 실제 인프라 자원의 프로비저닝·변경·삭제 전체 수명주기를 오케스트레이션하는 백엔드 핵심 엔진.
 - **개발자 포털·카탈로그(Developer Portal and Catalog)**: 개발자가 마이크로서비스, 인프라 템플릿, API 등을 통합 검색·요청하고, 전체 서비스의 소유권(Ownership) 및 배포 상태를 단일 화면(Single Pane of Glass)에서 확인하는 사용자 접점(UI).
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **2. 정책 자동 검증(Policy Auto-Verification)**: 제어 평면이 Policy-as-Code(예: OPA/Rego)로 작성된 가드레일을 참조하여, 요청된 자원 사양이 조직의 보안/비용 기준에 부합하는지 즉각적으로 심사하는 단계.
 - **1. 표준 사양 전달(Standard Spec Transmission)**: 개발자가 포털을 통해 선택한 골든 패스의 템플릿 매개변수와 구성 값을 제어 평면의 API로 선언적으로 전달하는 단계.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가드레일 셀프서비스(Guardrailed Self-Service)**: 반복적이고 표준화된 인프라 수요를 자동 정책 제어(Guardrail) 범위 내에서 개발팀이 대기 없이 직접 프로비저닝하는 이상적인 플랫폼 모델.
 - **티켓 기반 제공(Ticket-Based Provisioning)**: 개발팀이 JIRA나 ITSM 도구로 자원을 요청하면, 인프라/운영팀이 건별로 요구사항을 검토하고 수동으로 승인·처리하는 전통적 방식.
@@ -160,8 +155,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개발자 채택률(Developer Adoption Rate)**: 강제 지시가 아닌 개발자의 자발적 만족도를 기반으로 전체 개발팀 중 사내 공식 플랫폼을 활발히 사용하는 팀의 비중.
 - **서비스 수준 목표(Service Level Objective, SLO)**: 플랫폼 조직이 내부 고객(개발자)에게 약속하는 플랫폼 시스템의 가용성, API 응답 시간, 프로비저닝 성공률에 대한 정량적 목표 수치.
@@ -182,8 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **플랫폼 제공 경로 선택 기준(Platform Provisioning Strategy)**: 인프라 요청의 복잡도, 반복성, 위험도를 종합적으로 평가하여 셀프서비스 자동화 대상과 수동 개입 대상을 분류하는 의사결정 프레임워크.
 - **예외 경로(Exception Path, 이스케이프 해치)**: 표준 골든 패스만으로는 처리 불가능한 레거시 연동이나 특수 아키텍처 요구를 수용하기 위해, 가드레일을 벗어난 요청을 운영자가 개별 검토하도록 마련된 우회 승인 절차.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 선호 최적화(Direct Preference Optimization, DPO)**: 별도 보상 모델과 온라인 강화학습 없이 선호•비선호 응답쌍으로 정책을 직접 훈련하는 정렬 기법으로 정의된다.
 - **선호 응답쌍(Preference Pair)**: 같은 질문에 대한 선택 응답과 비선택 응답을 한 쌍으로 기록한 학습 신호를 나타낸다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **참조 모델(Reference Model)**: 정책 모델이 정렬 중 기존 품질을 잃지 않도록 기준 확률을 제공하는 동결 모델을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **상대 로그확률(Relative Log Probability)**: 정책과 참조 모델이 선호•비선호 응답에 부여한 로그확률 차이를 비교한 값을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 모델(Policy Model)**: 선호 응답 가능도를 높이고 비선호 응답 가능도를 낮추도록 갱신되는 모델을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **선호 데이터(Preference Data)**: 같은 입력에 대한 선호 응답과 비선호 응답의 쌍으로 구성된 학습 자료를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 응답(Chosen Response)**: 비교 평가에서 더 낫다고 판단되어 확률을 높일 학습 대상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **비선택 응답(Rejected Response)**: 비교 평가에서 덜 선호되어 선택 응답보다 확률을 낮출 학습 대상을 가리킨다.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **DPO 적용(DPO Application)**: 고정 선호쌍의 상대 로그확률을 직접 최적화하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **지도 미세조정(Supervised Fine-Tuning, SFT)**: 모범 응답의 정답 토큰 가능도를 높여 지시 행동을 학습하는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **길이 편향(Length Bias)**: 응답의 실제 품질보다 길고 자세한 형식이 선호 신호로 학습되는 문제를 나타낸다.
 - **정책 이탈(Policy Drift)**: 선호 데이터에 과도하게 맞추면서 참조 모델의 기존 언어 능력과 품질에서 멀어지는 현상을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -166,8 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 선호 최적화 선택 기준(DPO Selection Criteria)**: 대표성 있는 고정 선호쌍이 충분하고 온라인 정책 탐색이 필요하지 않을 때 사용되는 기준을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **독립 생성 평가(Out-of-Distribution Evaluation)**: 학습 선호쌍 밖의 새로운 질문에서도 품질•안전성을 유지하는지 검증하는 평가를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

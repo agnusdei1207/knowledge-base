@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **청킹(Chunking)**: 문서를 의미가 유지되는 검색 단위로 분할하는 기법이다.
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색 청크를 답변 근거로 제공하는 방식이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **중첩(Overlap)**: 인접 청크에 경계 문맥을 반복하는 기법이다.
 - **메타데이터(Metadata)**: 문서 식별자•위치•계층•인접 관계 정보이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구조 파서(Structure Parser)**: 제목•문단•표•코드 계층을 추출한다.
 - **경계 정책기**: 의미 구조의 분할 우선순위를 결정한다.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택적 중첩(Selective Overlap)**: 필요한 경계 구간에만 중첩을 적용한다.
 
@@ -118,8 +114,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고정 크기 청킹(Fixed-size Chunking)**: 일정 토큰 수로 문서를 분할한다.
 - **구조 기반 청킹(Structure-aware Chunking)**: 문서 계층과 경계를 따라 분할한다.
@@ -139,8 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근거 재현율•정밀도**: 정답 근거의 누락과 검색 잡음을 측정하는 지표이다.
 - **추적 가능성(Traceability)**: 청크에서 원문 위치로 되돌아갈 수 있는 성질이다.
@@ -159,8 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 기준**: 문서 구조•주제 전환•문맥 보존•중복 비용이다.
 

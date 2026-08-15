@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화 저랭크 적응(Quantized Low-Rank Adaptation, QLoRA)**: 4비트 기반 모델을 압축 상태로 동결하고 계산 시 역양자화하여 저랭크 적응 경로만 학습하는 기법을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **저랭크 적응(Low-Rank Adaptation, LoRA)**: 기반 가중치를 고정하고 두 작은 행렬이 만드는 변화량만 학습하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **4비트 정규 부동소수점(NormalFloat 4-bit, NF4)**: 정규분포 형태의 사전학습 가중치를 표현하도록 설계된 4비트 자료형으로 정의된다.
 - **이중 양자화(Double Quantization, DQ)**: 가중치 블록의 양자화 상수도 다시 양자화하여 저장량을 줄이는 기법을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 양자화(Block Quantization)**: 가중치를 블록 단위로 분할하여 개별 양자화 상수를 적용하는 방식.
 - **NF4 저장소(NF4 Storage)**: 양자화된 코드북과 상수를 저장하여 원본 가중치를 압축하는 공간.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **혼합 정밀도 학습(Mixed Precision Training)**: 기반 가중치는 저비트로 저장하고 계산과 학습 매개변수는 더 높은 정밀도로 처리하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **상태 페이징(State Paging)**: GPU 메모리 피크를 낮추도록 옵티마이저 상태를 CPU와 GPU 사이에서 이동하는 과정을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 미세조정(Full Fine-Tuning, FFT)**: 전체 가중치와 학습 상태를 고정밀로 갱신하는 방식을 나타낸다.
 - **LoRA 적용(LoRA Adaptation)**: 고정밀 기반 모델에 저랭크 변화량을 적용하여 학습하는 구조를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -155,8 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자화 손실(Quantization Loss)**: 4비트 정규 부동소수점 근사 및 역양자화로 인해 과업 품질이 저하되는 현상을 가리킨다.
 - **커널 호환성(Kernel Compatibility)**: 목표 GPU와 소프트웨어가 4비트 연산을 원활히 지원하는 성질로 정의된다.
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **저랭크 적응 선택 기준(LoRA Selection Criteria)**: 고정밀 원본 적재 메모리가 충분하고 양자화 오차 회피가 필요할 때의 판단 기준을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **양자화 저랭크 적응 선택 기준(QLoRA Selection Criteria)**: GPU 메모리가 병목이고 4비트 양자화 조건이 허용 범위일 때의 판단 기준을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.

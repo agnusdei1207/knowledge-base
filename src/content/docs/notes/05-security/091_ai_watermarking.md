@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **AI 워터마킹(AI Watermarking)**: 생성 모델의 콘텐츠(이미지·텍스트·음성)에 비가시적 식별 신호를 주입하여, 유통 과정의 변형에도 출처 및 위변조를 판독하는 기술
 - **출처 정보(Provenance Information)**: 콘텐츠의 생성, 편집, 유통 주체와 변경 이력을 타임스탬프 및 암호학적 서명(C2PA 등)으로 기록한 메타데이터
@@ -39,7 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **강건성(Robustness)**: 크기 변경, 압축, 인쇄, 패러프레이징 등 다양한 유통 변형 공격에도 워터마크 신호가 훼손되지 않고 유지되는 특성
 - **오탐률(False Positive Rate, FPR)**: 워터마크가 없는 순수 원본 콘텐츠를 AI 생성물로 잘못 판정하는 확률

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계층 보안(Transport Layer Security, TLS) 1.3 핸드셰이크**: 서버 인증과 임시 키 합의를 결합하는 연결 설정 절차이다.
 - **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)**: 트래픽의 기밀성과 무결성을 함께 보호하는 인증 암호 방식이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **한 번 왕복 시간(One Round-Trip Time, 1-RTT)**: 단 1회의 왕복 교환만으로 키 합의와 서버 신원 인증을 완료하고 응용 트래픽 암호화를 개시하는 구조.
 - **사전 공유키(Pre-Shared Key, PSK)**: 이전 암호 세션에서 파생 및 공유한 비밀값을 재연결 키 재료로 활용하는 세션 재개 기법.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대화 기록 해시(Transcript Hash)**: 현재 단계까지 교환된 모든 핸드셰이크 메시지의 순서와 내용을 연쇄적으로 믹싱한 해시 다이제스트.
 - **HKDF 키 스케줄(HMAC-based Extract-and-Expand Key Derivation Function Key Schedule)**: 공유 비밀과 대화 기록 해시를 입력으로 단계/방향별 하위 키를 유도하는 표준 키 파생 아키텍처.
@@ -93,8 +90,7 @@ TLS 1.3 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ClientHello**: 지원 암호스위트, 그룹 및 클라이언트 ECDHE 키 공유 파라미터를 동시 제출하는 메시지.
 - **ServerHello**: 선택된 암호스위트와 서버 ECDHE 키 공유 파라미터를 반환하는 메시지.
@@ -146,8 +142,7 @@ TLS 1.3 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 침해되더라도 과거 생성된 세션키 및 데이터가 복호화되지 않는 특성.
 - **전체 1-RTT(Full 1-RTT Handshake)**: 인증서 신원 검증과 새 ECDHE 키 합의를 포함하여 완벽한 PFS를 제공하는 신규 연결.
@@ -169,8 +164,7 @@ TLS 1.3 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **KeyUpdate**: 단일 연결 내에서 레코드 카운터 만료 전 송수신 트래픽 키를 갱신하는 TLS 1.3 전용 메시지.
 - **재전송 방지 정책(Anti-Replay Policy)**: Single-use 티켓, 타임스탬프 윈도우 등을 통해 0-RTT 패킷의 중복 재생 공격을 차단하는 통제.
@@ -190,8 +184,7 @@ TLS 1.3 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결 방식 선택(Connection Mode Selection)**: 트랜잭션의 멱등성 여부 및 PFS 제공 필요성을 기준으로 연결 모드를 결정하는 설계 지침.
 

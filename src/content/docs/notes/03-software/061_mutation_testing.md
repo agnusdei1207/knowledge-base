@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **Mutation Testing (MT, 변이 테스트)**: 원본 코드에 의도적 오류(Mutant)를 주입하여 단위 테스트의 결함 탐지력(Kill)을 검증하는 화이트박스 테스트 기법.
 - **Mutant (변이체)**: 원본 소스코드의 연산자, 조건을 인위적으로 변경(e.g., `+` $\rightarrow$ `-`)하여 만든 결함 주입 프로그램 버전.
@@ -46,7 +46,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **Mutation Operators (변이 연산자)**: 산술(AOR), 관계(ROR), 논리(LOR) 등 결함 주입 규칙.
 

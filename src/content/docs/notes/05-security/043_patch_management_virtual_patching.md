@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **패치 관리(Patch Management)**: 소프트웨어 결함 및 취약점 릴리스를 평가, 호환성 테스트, 단계별 배포 및 적용 효과 재검증하는 통제 운영 절차.
 - **가상 패치(Virtual Patching)**: 개발사의 정식 패치 적용 전까지 WAF, IPS 등 외부 경계 통제를 통해 취약점 공격 트래픽 경로를 선제 우회 차단하는 보상 통제.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **롤백(Rollback Plan)**: 보안 패치 적용 후 서비스 장애 또는 호환성 결함 발생 시 즉시 패치 이전 정상 운영 상태로 원상복구시키는 비상 회복 계획.
 
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **악용 가능성(Exploitability)**: KEV/EPSS 지표를 반영하여 해당 취약점이 실제 침해 공격에 악용될 확률 및 용이성.
 - **단계 배포(Staged Rollout)**: 전체 시스템 배포 전 대표 스테이징 환경 및 일부 카나리 그룹에 선적용하여 장애 유무를 다단계로 검증하는 방식.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **효과 검증(Effectiveness Verification)**: 패치 완료 후 바이너리 빌드 버전, 포트/패킷 차단 룰 적중률 및 잔여 침해 징후를 재검증하는 단계.
 - **영향 자산•악용 경로 식별(Asset Identification)**: 패치 대상 시스템 및 네트워크 접점을 특정하는 단계.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정식 패치(Official Vendor Patch)**: 벤더가 제공하는 소스/바이너리 패치 파일로 소프트웨어 결함을 완전히 제거하는 방식.
 - **구성 우회책(Configuration Workaround)**: 패치 전까지 해당 취약 기능의 사용을 비활성화하거나 접근 권한을 축소 조치하는 설정 변경.
@@ -155,8 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 패치 거버넌스 표준 규격을 제공하는 미국 기관.
 - **특별 간행물(Special Publication, SP 800-40 Rev. 4)**: 위험 기반 패치 관리 프로세스 표준 지침서.
@@ -176,8 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임시 통제 회수(Rules Removal)**: 정식 소스 패치 검증 배포가 완료된 후, 기존에 적용했던 가상 패치 룰이나 우회 설정을 철회하여 시스템 부하 및 오탐 위험을 원상 복구하는 절차.
 

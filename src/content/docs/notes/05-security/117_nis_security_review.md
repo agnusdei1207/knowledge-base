@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안성 검토**: 국가•공공기관 정보화사업의 계획 단계에서 보안대책 적절성을 확인하는 사전 절차이다.
 - **국가정보원(National Intelligence Service, NIS)**: 국가 정보보안 지침을 수립하는 기관이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제안요청서(Request for Proposal, RFP)**: 사업의 기능•보안 요구와 평가•검증 기준을 명시한 문서이다.
 
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검토 범위**: 사업 목적•데이터•네트워크•제품•연계 구조를 기준으로 정한 사전 검토 대상이다.
 - **RFP 추적**: 검토 의견을 발주 요구와 설계•검수 결과까지 연결하는 활동이다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검토 의견 반영**: 보안성 검토 결과를 조달•계약•구축•시험 조건으로 연결하는 활동이다.
 - **사업 경계•위험•위임 근거 검토**: 사업 유형•경계•정보 흐름과 검토 주체를 확인하는 단계이다.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안적합성 검증**: 도입 정보보호제품의 안전성과 실제 구성 적합성을 확인하는 절차이다.
 
@@ -154,8 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전자정부법 제56조**: 행정기관의 정보통신망 안전성 확보 근거이다.
 - **전자정부법 시행령 제69조**: 사전 보안성 검토 절차의 근거이다.
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계약 전 반영**: 보안 요구를 사업 초기의 제안요청서•계약•시험 기준에 포함하는 원칙이다.
 

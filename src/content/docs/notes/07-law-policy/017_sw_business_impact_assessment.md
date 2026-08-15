@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어사업 영향평가**: 공공사업의 민간 제품·서비스 대체성 평가.
 - **공공 SW사업(Public SW Project)**: 국가·공공기관의 SW 구축·운영 사업.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시장 대체성(Market Substitutability)**: 공공사업이 민간 수요·경쟁을 줄일 가능성.
 - **자체평가**: 발주기관이 직접 개발 필요성과 민간 대체성을 스스로 검토하는 절차.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **영향평가 결과 공시**: 평가 근거•시장 침해 가능성을 공개하는 절차.
 - **개선조치 요청**: 기능•범위•조달 방식의 수정을 요구하는 조치.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시장 중복•대체 분석**: 공공 기능과 민간 제품•수요의 중복을 분석하는 활동.
 - **영향 재평가**: 이의 근거와 최초 자료로 시장 영향 판단을 갱신하는 절차.
@@ -147,8 +143,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **민간 활용(Private-sector Utilization)**: 기존 제품·서비스로 직접 개발을 줄이는 방식.
 
@@ -166,8 +161,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사업 미반영(Non-reflection)**: 평가 결과를 기능·조달에 반영하지 않은 상태.
 - **민간 대체성**: 기존 민간 제품으로 공공 목적을 달성할 수 있는 정도.
@@ -187,8 +181,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구축 불가피성(Build Necessity)**: 민간 제품으로 목적 달성이 불가능한 정도.
 

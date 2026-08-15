@@ -17,8 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IEEE 802.11(Institute of Electrical and Electronics Engineers 802.11)**: 무선 프레임 전송 및 무선 매체 제어 기술 표준 규격 계열이다.
 - **접근점(Access Point, AP)**: 무선 단말을 유선 분배 시스템 및 외부 네트워크와 연결하는 중앙 무선 접속 장치이다.
@@ -34,8 +33,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **하위 호환성(Backward Compatibility)**: 신규 세대 무선 장비가 구형 표준 장비의 신호를 식별하여 상호 통신할 수 있는 호환 능력이다.
 - **실효 처리량(Effective Throughput)**: 프로토콜 오버헤드, 프레임 충돌, 전파 간섭을 제외한 응용 계층의 실제 데이터 전송 속도이다.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분배 시스템(Distribution System, DS)**: 복수의 AP를 유선 백본망과 상호 연결하여 무선 프레임을 라우팅하는 네트워크 논리 구조이다.
 
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비콘(Beacon Frame)**: AP가 SSID, 지원 레이트, 보안 정책, 동기화 정보를 주변에 주기적으로 브로드캐스팅하는 관리 프레임이다.
 - **서비스 세트 식별자(Service Set Identifier, SSID)**: 무선 LAN 네트워크를 식별하기 위해 AP가 제공하는 32바이트 고유 명칭이다.
@@ -131,8 +127,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Wi-Fi 5(IEEE 802.11ac)**: 5GHz 대역 중심의 VHT(Very High Throughput) 및 하향링크 MU-MIMO 기술을 도입한 세대이다.
 - **Wi-Fi 6(IEEE 802.11ax)**: OFDMA 및 양방향 MU-MIMO를 통해 고밀도 환경의 자원 효율을 극대화한 세대이다.
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공간 재사용(Spatial Reuse, BSS Coloring)**: 동일 채널 내 BSS 식별 태그를 부여하여 인접 AP 간 전파 간섭 문턱값을 조절하는 기술이다.
 - **Wi-Fi 보호 접속 3(Wi-Fi Protected Access 3, WPA3)**: SAE(Simultaneous Authentication of Equals) 기반 사전 암호화 및 192비트 보안을 제공하는 무선 보안 표준 규격이다.
@@ -183,8 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Wi-Fi 세대 선택(Wi-Fi Generation Selection)**: 접속 단말 밀도, 데이터 용량, 지연 시간, 주파수 대역 환경을 고려해 적합한 무선 LAN 표준 규격을 선정하는 의사결정 프로세스이다.
 

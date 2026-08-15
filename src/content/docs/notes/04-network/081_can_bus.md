@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제어기 영역 네트워크(Controller Area Network, CAN)**: 차량 ECU가 공유 회선에서 프레임 식별자로 전송 우선순위를 중재하는 차량용 버스 통신 규격이다.
 - **전자제어장치(Electronic Control Unit, ECU)**: 차량의 센서 입력을 처리하고 제어 명령을 실행하는 제어기이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비파괴 중재**: 동시 송신에서 낮은 우선순위 노드만 중단하고 승자의 프레임은 손상하지 않는 방식이다.
 - **버스 오프**: 오류 카운터가 한계를 넘은 노드를 송신에서 격리해 버스 영향을 차단하는 상태이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제어기 영역 네트워크 송수신기(Controller Area Network Transceiver, CAN 송수신기)**: ECU의 논리 비트와 차동 버스 전압을 상호 변환하는 회로이다.
 - **종단 저항**: 공유 회선 양 끝에서 신호 반사를 줄여 차동 파형을 유지하는 저항이다.
@@ -88,8 +85,7 @@ CAN 버스
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **우성 비트**: 열성 비트와 동시에 전송되면 버스 값을 0으로 결정해 중재 우위를 얻는 논리 비트이다.
 - **순환 중복 검사(Cyclic Redundancy Check, CRC)**: 다항식 나머지로 프레임 전송 오류를 검출하는 방식이다.
@@ -138,8 +134,7 @@ CAN 버스
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **클래식 CAN(Classical CAN, CAN CC)**: 최대 8바이트 데이터 필드를 지원하는 CAN 규격이다.
 - **가변 데이터율 CAN(CAN Flexible Data-Rate, CAN FD)**: 최대 64바이트와 데이터 구간 가속을 지원하는 규격이다.
@@ -160,8 +155,7 @@ CAN 버스
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **우선순위 기아**: 높은 우선순위 프레임이 반복되어 낮은 우선순위 프레임 전송이 계속 지연되는 현상이다.
 - **최악 응답 시간**: 가장 불리한 중재•재전송 조건에서 프레임 전송을 완료하기까지 걸리는 최대 시간이다.
@@ -180,8 +174,7 @@ CAN 버스
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CAN 세대 선택**: 제어 주기•데이터 크기•대역폭•ECU 호환성으로 CC•FD•XL을 결정하는 과정이다.
 

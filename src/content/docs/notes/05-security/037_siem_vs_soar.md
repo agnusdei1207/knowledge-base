@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 정보•이벤트 관리(Security Information and Event Management, SIEM)**: 이종 로그를 수집•정규화하고 상관관계 분석을 통해 실시간 탐지 경보를 생성하는 데이터 허브 플랫폼.
 - **보안 오케스트레이션•자동화 및 대응(Security Orchestration, Automation and Response, SOAR)**: 보안 도구를 연계하고 표준 플레이북 기반으로 사건 조사, 승인, 차단 조치를 자동화하는 플랫폼.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사건 ID(Incident Correlation ID)**: SIEM의 탐지 경보와 SOAR의 대응 플레이북 티켓을 일대일 연결하는 통합 고유 식별자.
 - **폐쇄 루프(Closed-loop Feedback)**: 자동 조치 및 수동 대응 결과를 SIEM 탐지 상관 규칙에 반영하여 탐지 정밀도를 높이는 환류 체계.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인계 계약(Handoff Contract / Interface Spec)**: SIEM과 SOAR 간 사건 ID, 증적 데이터, 위험도, 파싱 필드를 표준 규격으로 상호 정의한 인터페이스 명세.
 - **엔드포인트 탐지•대응(Endpoint Detection and Response, EDR)**: 단말 단위의 프로세스 및 네트워크를 제어하여 위협 시스템을 격리하는 기술.
@@ -89,8 +86,7 @@ SIEM•SOAR 연계 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 증적(Execution Audit Evidence)**: API 호출 성공을 넘어 대상 시스템의 실제 보안 정책 변경이 완결되었음을 증명하는 검증 기록.
 - **최소 권한 응용 프로그래밍 인터페이스(Least Privilege API)**: SOAR 조치 연동 시 필요한 최저 수준의 조회•변경 권한만을 부여한 API 호출 방식.
@@ -140,8 +136,7 @@ SIEM•SOAR 연계 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탐지 근거(Detection Rationale / Evidence)**: 원본 데이터, 정규화 파싱 결과 및 상관분석 시나리오 조건으로 구성된 SIEM의 탐지 입증 자료.
 - **대응 수행(Response Execution / Orchestration)**: 승인된 워크플로 및 커넥터를 통해 외부 장비 제어 조치를 완결하는 SOAR의 기능적 책임.
@@ -162,8 +157,7 @@ SIEM•SOAR 연계 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 정보보호 가이드라인 표준을 제공하는 미국 정부 기관.
 - **특별 간행물(Special Publication, SP 800-92)**: 전사 보안 로그 수집, 생성, 정규화, 관리 프로세스에 관한 규정.
@@ -185,8 +179,7 @@ SIEM•SOAR 연계 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 추적성(Operational Traceability)**: 최초 탐지 경보부터 자동 보강, 승인, 조치 집행 및 결과 환류까지의 전 과정이 단일 감사 이력으로 보존되는 속성.
 

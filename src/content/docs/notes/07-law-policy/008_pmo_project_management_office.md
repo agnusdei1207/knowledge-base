@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **프로젝트 관리 조직(Project Management Office, PMO)**: 다수 프로젝트의 성과와 위험을 감독하고 통제하는 관리 조직.
 - **거버넌스 조직(Governance Organization)**: 공통 표준을 통해 일정, 비용, 품질 및 위험을 통제하는 관리 주체.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **지원형 PMO(Supportive PMO)**: 자문, 교육 및 템플릿 제공을 통해 프로젝트 자율성을 존중하는 유형.
 - **통제형 PMO(Controlling PMO)**: 공통 표준과 절차의 준수 여부를 감독하는 유형.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통합 보고(Integrated Reporting)**: 진척·비용·품질·위험의 공통 기준 보고.
 - **관리 기준(Management Standard)**: 범위·일정·비용·변경의 공통 통제 방식.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **관리 기준 배포**: 공통 양식·지침·보고 주기 전달.
 - **사업 현황 보고**: 진척·비용·품질·위험 자료 제출.
@@ -133,8 +129,7 @@ PMO
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프로젝트 관리자(Project Manager, PM)**: 개별 사업의 범위·일정·비용·품질 책임자.
 
@@ -153,8 +148,7 @@ PMO
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 충돌(Role Conflict)**: PMO 감독·지원과 PM 실행 책임의 혼재.
 - **책임 할당표(Responsibility Assignment Matrix)**: 결정·실행·검토·보고 역할 배정.
@@ -172,8 +166,7 @@ PMO
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **권한 차등 PMO(Authority-differentiated PMO)**: 통제 필요성과 사업 위험 수준에 따라 최적의 PMO 유형을 선택•적용하는 방식.
 

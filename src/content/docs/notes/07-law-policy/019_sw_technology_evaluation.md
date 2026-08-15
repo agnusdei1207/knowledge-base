@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공공 소프트웨어사업(Public SW Project)**: 국가기관등의 SW 구축·운영 발주 사업.
 - **기술성 평가(Technical Evaluation)**: 기술·조직·품질·관리 역량 심사.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차등점수제(Differential Scoring)**: 기술평가 순위별 점수 차이를 두는 방식.
 - **RFP 평가기준(RFP Evaluation Criteria)**: 항목·배점·증빙·적격 기준.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가위원회**: 이해충돌을 통제하고 증거로 독립 심사하는 조직.
 - **우선협상대상자**: 기술•가격 순위로 우선 협상권을 얻은 업체.
@@ -96,8 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이해충돌 제척•회피**: 이해관계 위원의 심사 배제•자진 회피.
 - **독립 채점**: 공개 척도•증거에 따른 위원별 근거 채점.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최저가 선정(Lowest-price Selection)**: 규격 충족자 중 최저가 제안자 선정.
 
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **점수 편차**: 평가위원마다 다른 판단 척도로 기술점수가 벌어지는 문제.
 
@@ -177,8 +171,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사업 위험**: 제안 기술•조직•일정이 목표 달성을 저해할 가능성.
 - **실증 근거**: BMT•PoC로 구현 가능성과 성능을 확인한 자료.

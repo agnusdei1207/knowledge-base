@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 오염(Data Poisoning)**: AI 학습 데이터셋에 악성 표본을 주입하여 모델 판단 기준을 왜곡하고 무결성을 훼손하는 적대적 공격(Adversarial Attack)
 - **학습 파이프라인 공격(Training Pipeline Attack)**: 데이터 수집, 정제, 학습 파이프라인 개입을 통해 모델 행동을 변조하는 보안 위협
@@ -44,8 +43,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 계보(Data Lineage)**: 표본의 출처, 변환 이력, 승인 경로를 추적하는 데이터 관리 체계
 - **격리 데이터셋(Isolated Dataset)**: 신규 수집된 의심 표본을 검증 전까지 승인된 학습 데이터와 분리 저장하는 공간
@@ -78,8 +76,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **승격 판정(Promotion Decision)**: 검증된 데이터와 모델이 운영 배포 요건을 충족하는지 결정하는 승인 과정
 - **출처 검증(Provenance Validation)**: 데이터 제공자의 신뢰성 및 데이터 처리 경로의 정당성 확인
@@ -113,8 +110,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **클린 라벨 오염(Clean-label Poisoning)**: 라벨은 정상으로 유지하며 데이터 특징만 미세하게 조작하여 탐지를 우회하는 공격
 - **트리거 성공률(Trigger Success Rate)**: 백도어 공격에서 특정 트리거 입력 시 공격 성공 확률
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **표본 비중 급증(Sample Weight Explosion)**: 특정 데이터셋이 학습 분포를 지배하여 모델 편향을 유도하는 문제
 - **은닉 변조(Stealthy Modification)**: 외관상 정상적인 데이터로 보이나 학습 결과에 치명적 영향을 주는 변조
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **격리 전후 행동 변화(Behavioral Delta Analysis)**: 오염 가능성 데이터 포함 여부에 따른 모델 출력 차이 분석
 - **검증 데이터 재학습(Verified Retraining)**: 무결성이 입증된 안전한 데이터셋으로 모델을 다시 학습시키는 복구 방안

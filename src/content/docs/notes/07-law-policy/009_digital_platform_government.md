@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 플랫폼 정부(Digital Platform Government, DPG)**: 공공 데이터와 행정 기능을 표준 API로 연결하여 민간 역량과 융합하는 지능형 정부 운영 모델.
 - **응용 프로그래밍 인터페이스(API)**: 정보시스템 간 데이터 및 기능 연동을 위한 표준 접점.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **마이데이터(MyData)**: 정보주체가 본인 데이터의 조회, 전송 및 활용처를 직접 통제하는 체계.
 - **민관 협력(Public-Private Partnership)**: 민간의 기술 역량을 공공 서비스에 결합하고 책임을 상호 공유하는 방식.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **API 플랫폼(API Platform)**: 기관별 데이터와 행정 기능의 표준 연결 기반.
 - **디지털 신원(Digital Identity)**: 온라인 신원 검증과 서비스 접근 권한.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이용 근거·권한 확인 요청**: 법적 근거·동의·접근 권한 검증.
 - **공공 데이터 조회 요청**: 공통 API로 필요한 기관 자료 요청.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전자정부(e-Government)**: 기관별 행정 절차를 온라인으로 제공하는 정부 모델.
 
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **책임 경계(Responsibility Boundary)**: 민관 서비스 간의 데이터 관리 및 장애•침해 대응 주체를 구분하는 경계.
 - **접근 이력 감사(Access Log Audit)**: 개인정보 접근 기록과 승인 근거를 대조하는 검증 활동.
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **한 번만 제출 원칙(Once Only Principle)**: 행정 정보 제공 시 재요구하지 않는 데이터 공유 원칙.
 - **표준 API(Standard API)**: 데이터 연동을 위한 보안성 및 호환성이 확보된 표준 접점.

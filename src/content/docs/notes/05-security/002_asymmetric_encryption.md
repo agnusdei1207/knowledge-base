@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비대칭키 암호(Asymmetric Key Cryptography)**: 공개 키와 개인키라는 수치적으로 연관된 쌍을 사용하여 암호화와 복호화를 분리하는 기법.
 - **키 설정(Key Establishment)**: 통신 당사자 간 대칭 암호화에 사용할 공유 비밀 또는 세션키를 안전하게 합의/생성하는 과정.
@@ -38,8 +37,7 @@ extra:
 - 키 쌍으로 **키 분배**를 확장하고 **PKI**로 공개키 위조 방지
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개키(Public Key)**: 암호화 또는 서명 검증을 위해 누구에게나 자유롭게 공개 및 배포되는 키.
 - **개인키(Private Key)**: 복호화 또는 서명 생성에 사용되며 소유자만 엄격히 비밀로 보관해야 하는 키.
@@ -56,8 +54,7 @@ extra:
 - 배포된 공개키 무결성 담보를 위한 공인 인증기관(CA) 서명 및 인증서 유효성 검증 절차 필수 적용
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서 발급, 검증, 폐지 등을 통해 공개키의 신뢰성을 보장하는 신뢰 체계.
 - **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 개인키의 외부 유출 없이 내부에 격리하여 암호 연산을 수행하는 보안 전용 하드웨어.
@@ -91,8 +88,7 @@ extra:
 - 공개키는 **인증서**로 배포하고 개인키는 **HSM**에 격리
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 캡슐화 메커니즘(Key Encapsulation Mechanism, KEM)**: 수신자의 공개키로 세션키를 암호화(캡슐화)하여 전달하고 개인키로 복구하는 기술.
 - **폐기 상태 검증(Revocation Status Verification)**: 인증서가 유효기간 내에 존재하더라도 효력이 정지 또는 폐기되었는지 검증하는 절차.
@@ -140,8 +136,7 @@ extra:
 - **인증서•폐기 상태** 검증 뒤 공유 비밀을 설정해 **MITM** 차단
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최적 비대칭 암호 패딩(Optimal Asymmetric Encryption Padding, OAEP)**: RSA 암호화 시 무작위 패딩을 결합하여 결정론적 패턴 노출을 차단함.
 - **임시 타원곡선 디피-헬먼(Elliptic Curve Diffie-Hellman Ephemeral, ECDHE)**: 세션마다 일회성 키 쌍을 생성하여 순방향 비밀성(PFS)을 제공하는 합의 방식.
@@ -163,8 +158,7 @@ extra:
 - 호환성은 **RSA-OAEP**, 순방향 비밀성은 **ECDHE**, 양자 내성은 ML-KEM 선택
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순방향 비밀성(Perfect Forward Secrecy, PFS)**: 장기 개인키가 노출되더라도 과거 교환된 세션키 및 암호문이 복호화되지 않는 성질.
 - **HSM 격리(HSM Isolation)**: 개인키의 외부 추출을 기계적으로 금지하고 내부 전용 암호 연산만 허용하는 보호 구조.
@@ -184,8 +178,7 @@ extra:
 - **인증서 검증•HSM 격리**와 **ML-KEM** 전환 시험 적용
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개키 방식 선택**: 호환성•순방향 비밀성•양자 내성에 따라 RSA-OAEP•ECDHE•ML-KEM을 결정하는 판단이다.
 

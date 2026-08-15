@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 튜닝(Prompt Tuning)**: 동결 모델의 입력 앞에 붙는 과업별 가상 토큰 벡터만 학습하는 매개변수 효율적 파인튜닝 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **소프트 프롬프트(Soft Prompt)**: 사람이 읽는 문장이 아니라 역전파로 값이 갱신되는 연속 임베딩 벡터를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 토큰(Virtual Token)**: 실제 어휘 식별자가 아니라 학습 가능한 임베딩으로 입력 앞에 결합되는 과업 표현을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **동결 백본(Frozen Backbone)**: 학습 중 가중치를 유지하며 소프트 프롬프트가 조건화한 출력을 생성하는 기반 모델로 정의된다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 초기화기(Prompt Initializer)**: 가상 토큰의 길이•차원과 초기 임베딩 값을 구성하는 모듈을 나타낸다.
 - **임베딩 결합기(Embedding Concatenator)**: 소프트 프롬프트와 실제 토큰 임베딩을 하나의 입력 시퀀스로 연결하는 역할을 담당한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택 역전파(Selective Backpropagation)**: 기반 모델은 동결하고 가상 토큰 임베딩에만 손실 그래디언트를 적용하는 과정으로 정의된다.
 - **과업별 자산(Task-specific Asset)**: 업무별로 분리 저장하고 실행 시 선택 적재하는 작은 소프트 프롬프트 벡터를 가리킨다.
@@ -130,8 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **하드 프롬프트(Hard Prompt)**: 사람이 읽고 직접 작성•수정하는 자연어 지시문을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **프롬프트 튜닝 적용(Prompt Tuning Adaptation)**: 입력층에 학습 가능한 가상 토큰을 붙여 과업 행동을 조정함을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **표현 부족(Insufficient Expression)**: 가상 토큰이 너무 짧아 과업 정보를 충분히 담지 못하는 문제를 나타낸다.
 - **문맥 윈도우(Context Window)**: 모델이 한 번의 추론에서 참조할 수 있는 입력•출력 토큰의 최대 범위를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -172,8 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프롬프트 길이 선택(Prompt Length Selection)**: 과업 품질을 충족하는 최소 토큰 수와 실제 입력•출력 예산을 함께 비교해 결정하는 과정을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **적응 방식 선택(Adaptation Method Selection)**: 입력층 조정으로 충분하면 프롬프트 튜닝, 계층별 문맥 제어가 필요하면 접두어 튜닝을 적용함을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.

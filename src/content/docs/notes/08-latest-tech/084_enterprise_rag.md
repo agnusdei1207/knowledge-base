@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기업 RAG(Enterprise RAG)**: 사내 지식의 버전•권한•감사를 통합 관리하는 RAG 체계이다.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 계보(Data Lineage)**: 답변 근거의 원천•버전•처리 단계를 추적한 기록이다.
 - **허용 문맥(Allowed Context)**: 사용자가 열람할 수 있는 근거만 담은 모델 입력이다.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 커넥터(Data Connector)**: 문서 내용과 변경 이벤트를 수집 계층에 전달한다.
 - **색인(Index)**: 문서 조각과 메타데이터를 검색 가능한 형태로 저장한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메타데이터(Metadata)**: 문서의 버전•소유자•권한•유효 기간 정보이다.
 - **생명주기 동기화(Lifecycle Synchronization)**: 원천 변경을 색인과 답변 근거에 반영한다.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데모형 RAG(Demo RAG)**: 단일 흐름에서 기능과 업무 가치를 검증한다.
 - **기업 RAG**: 조직 지식의 권한•계보•생명주기를 통합 운영한다.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **색인 버전 지연(Index-version Lag)**: 원천 변경이 색인에 반영되지 않은 상태이다.
 - **권한 메타데이터 불일치(Permission-metadata Mismatch)**: 원천과 색인의 권한 상태가 다른 문제이다.
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 경계(Operational Boundary)**: 최신성•권한•계보를 보장할 계층과 책임 범위이다.
 

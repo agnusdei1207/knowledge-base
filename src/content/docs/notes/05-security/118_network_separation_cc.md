@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **망분리**: 업무망•인터넷망 등 보안영역을 격리하고 연계 경로를 통제하는 구조이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 연계**: 분리된 영역 사이에 필요한 경로만 허용하고 데이터 흐름을 검사하는 원칙이다.
 - **공통평가기준(Common Criteria, CC)**: 정보보호제품의 보안기능과 보증수준을 평가•인증하는 기준이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가대상(Target of Evaluation, TOE)**: CC에서 보안성 평가 범위로 정의한 대상이다.
 - **보호프로파일(Protection Profile, PP)**: 제품군의 공통 보안문제•목표•요구사항을 정의한 문서이다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안영역 간 흐름**: 망 경계의 승인된 연계 지점에서만 검사•통제되는 데이터 이동이다.
 - **CC 평가 범위**: TOE•PP•인증 버전•형상으로 한정된 제품 보증 경계이다.
@@ -140,8 +136,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물리적 망분리**: 별도 장비•회선으로 보안영역을 격리하는 방식이다.
 - **논리적 망분리**: 가상화로 실행영역을 분리하는 방식이다.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
@@ -185,8 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 지점 중심 설계**: 분리 방식의 수보다 실제 연계 경로와 우회 가능성을 관리하는 원칙이다.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 웹 애플리케이션 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 전 세계 전문가들이 애플리케이션 보안 연구 및 공개 도구를 개발 배포하는 국제 비영리 단체.
 - **OWASP Top 10**: 웹 애플리케이션 분야에서 발생하는 가장 파급력이 높은 상위 10가지 보안 위험 범주 및 통제 우선순위 지침.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 인식 자료(Risk Awareness Document)**: 정량적 통계 및 CTI를 기반으로 개발자와 보안팀의 공통 위협 인식을 제고하는 프레임워크.
 - **주기적 갱신(Periodic Update)**: 실제 침해사고 데이터와 보안 연구자 입증 결과를 종합하여 3~4년 주기로 상위 10대 위협 목록을 재정렬하는 활동.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 개발 생명주기(Software Development Life Cycle, SDLC)**: 소프트웨어 요구사항 수립부터 설계, 구현, 테스트, 배포, 유지보수까지의 전 과정.
 
@@ -87,8 +84,7 @@ OWASP 활용 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 증거(Verification Evidence)**: 보안 지침 이행 여부를 입증하는 정적 분석, 동적 스캔 및 점검 보고서 기록.
 - **Top 10 위험 범주 매핑(Risk Mapping)**: 개발 대상 서비스에 해당 OWASP Top 10 위협 항목을 대조 매핑하는 단계.
@@ -136,8 +132,7 @@ OWASP 활용 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험•요구•시험 역할 분리(Separation of Roles)**: Top 10은 위협 인식, ASVS는 구현 요구, WSTG는 검증 기법으로 구별하여 중복 없이 상호 보완 적용하는 원칙.
 
@@ -155,8 +150,7 @@ OWASP 활용 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP Top 10:2025**: 최신 위협 동향을 반영하여 정제된 최신 OWASP Top 10 스펙.
 - **OWASP ASVS 5.0.0**: 클라우드, API 보안 요구가 대폭 보강된 최신 ASVS 명세서.
@@ -176,8 +170,7 @@ OWASP 활용 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OWASP 자료 선택 기준(OWASP Selection Criteria)**: 단순 위험 대조용 Top 10, 개발 요구 명세용 ASVS, 모의 침투/검수용 WSTG를 용도에 맞추어 맞춤 적용하는 지침.
 

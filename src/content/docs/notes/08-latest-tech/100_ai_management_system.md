@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 42001**: AI 경영시스템의 수립•운영•유지•개선 요구사항 표준이다.
 - **AI 경영시스템(AI Management System, AIMS)**: AI 정책•목표•절차•통제를 지속 개선한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계획-실행-점검-개선(Plan-Do-Check-Act, PDCA)**: 정책•통제의 계획•실행•평가•개선 순환이다.
 - **모델 보증(Model Assurance)**: 개별 모델의 성능•안전 충족을 평가•입증한다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AIMS 경계(AIMS Scope)**: 적용할 조직•업무•AI•공급자 범위이다.
 - **리더십•자원 책임**: 경영진의 정책•역할•역량•자원 배정 책임이다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 처리 계획(Risk Treatment Plan)**: 위험 통제•담당자•기한을 정한 계획이다.
 - **운영 증적(Operational Evidence)**: 절차•통제의 실제 수행 기록이다.
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 27001**: 정보보호 경영시스템 요구사항 표준이다.
 - **ISO/IEC 23894**: AI 위험관리 방법을 안내하는 지침 표준이다.
@@ -144,8 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **범위 누락(Scope Omission)**: 외부 모델•공급자가 AIMS 경계에서 빠진 문제이다.
 - **통제 증적 부족**: 통제 책임과 수행 기록이 연결되지 않은 문제이다.
@@ -164,8 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 효과(Control Effectiveness)**: 절차•조치가 위험•부적합을 줄인 정도이다.
 - **지속 개선(Continual Improvement)**: 평가•시정 결과를 다음 계획에 반영한다.

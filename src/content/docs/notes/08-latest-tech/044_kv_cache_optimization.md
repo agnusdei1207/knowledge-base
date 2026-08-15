@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키-값 캐시(Key-Value Cache, KV Cache)**: 이전 토큰의 K•V 벡터를 저장하여 다음 토큰의 어텐션에서 재사용하는 메모리다.
 - **자기회귀 생성(Autoregressive Generation)**: 앞서 생성한 토큰을 문맥에 포함해 다음 토큰을 하나씩 만드는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키-값 헤드(Key-Value Head, KV Head)**: 어텐션에서 토큰별 키(Key, K)•밸류(Value, V) 벡터를 생성하고 캐시에 저장하는 헤드다.
 - **캐시 용량**: 모델 층•KV 헤드•토큰•배치 수•수치 정밀도에 비례해 필요한 메모리 크기다.
@@ -63,8 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 할당기**: 요청별 캐시 공간을 작은 블록 단위로 동적 배정하고 종료 후 반납하는 구성요소다.
 - **캐시 레이아웃**: 계층•헤드•토큰별 키•값을 메모리에 배치하고 논리 순서와 실제 주소를 연결하는 구조다.
@@ -104,8 +101,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프리필 캐시**: 입력 토큰 전체를 병렬 처리하여 생성 전에 구성한 초기 K•V 상태다.
 - **캐시 회수**: 요청 종료나 선점 뒤 더 이상 참조하지 않는 블록을 반납하여 가용 메모리를 복원하는 과정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -147,8 +143,7 @@ KV Cache
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티 헤드 어텐션 캐시(Multi-Head Attention Cache, MHA Cache)**: 쿼리 헤드마다 독립 K•V를 저장하여 표현력은 높지만 캐시 용량이 크다.
 - **그룹 쿼리 어텐션 캐시(Grouped-Query Attention Cache, GQA Cache)**: Q 그룹별로 K•V 헤드를 공유하여 캐시를 줄인다.
@@ -170,8 +165,7 @@ KV Cache
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 단편화**: 빈 영역이 흩어져 새 요청의 연속 공간을 배정하기 어려운 현상이다.
 - **페이징(Paging)**: 고정 크기 블록으로 캐시를 비연속 할당하여 단편화를 줄이는 방식이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -191,8 +185,7 @@ KV Cache
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 </details>
 

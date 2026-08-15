@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전한 다자간 연산(Secure Multi-Party Computation, MPC)**: 여러 참여자가 각자의 원본 입력을 공개하지 않고 정해진 함수의 결과만 공동 계산하는 기술이다.
 - **프라이버시 강화 기술(Privacy-Enhancing Technology, PET)**: 데이터 활용 과정에서 원본 노출과 개인 식별 가능성을 줄이는 기술군이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공모(Collusion)**: 일부 부정 참여자들이 자신들의 비밀 조각과 중간 연산값을 상호 결합하여 다른 정직한 참여자의 원본 입력값을 역추론하는 행위.
 - **반정직 공격자(Semi-Honest / Passive Adversary)**: 규정된 연산 프로토콜은 성실히 수행하지만, 중간 교환 메시지를 수집·분석하여 타인의 비밀을 추론하려는 위협 모델.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비밀 분산(Secret Sharing)**: 원본 데이터를 여러 개의 무작위 조각(Share)으로 분할하여 지정된 임계치 수량 이상이 모여야만 원본 복구가 가능케 하는 기술 (Shamir 등).
 - **비버 트리플(Beaver Triple)**: 비밀 분산 환경에서 곱셈 연산 시 요구되는 고비용 통신량을 줄이기 위해 오프라인 전처리 단계에서 무작위 튜플을 미리 생성하는 기법.
@@ -92,8 +89,7 @@ MPC 공동 연산 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임계값(Threshold, $m$)**: 전체 $n$개 조각 중 원본 비밀을 재구성하거나 연산을 완결하는 데 필요한 최소 조각의 수.
 - **재구성(Reconstruction)**: 각 참여자가 계산한 결과 조각들을 모아 무결성을 확인하고 최종 결괏값을 복원하는 단계.
@@ -138,8 +134,7 @@ MPC 공동 연산 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가블드 회로(Garbled Circuit)**: 야오 프로토콜로 회로의 진리표와 와이어 값을 암호화하여 2인 연산을 수행하는 방식.
 - **동형 암호(Homomorphic Encryption)**: 암호화된 상태에서 수학적 연산을 직접 수행하는 공개키 암호화 기술.
@@ -160,8 +155,7 @@ MPC 공동 연산 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO/IEC 4922-1:2023(ISO/IEC 4922-1 Standard)**: MPC의 기본 개념, 프레임워크 및 일반 요구사항을 규정한 국제 표준.
 - **ISO/IEC 4922-2:2024(ISO/IEC 4922-2 Standard)**: 비밀 분산 기반 MPC의 구체적 프로토콜과 보안 연산 절차를 규정한 국제 표준.
@@ -180,8 +174,7 @@ MPC 공동 연산 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **MPC 방식 선택(MPC Method Selection)**: 데이터 정밀도, 산술/논리 구조, 통신 오버헤드 및 공모 위협 모델을 종합 고려한 설계 지침.
 

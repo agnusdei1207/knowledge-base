@@ -17,8 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호 전송 계층 보안(Mutual Transport Layer Security, mTLS)**: 클라이언트와 서버가 각자의 X.509 디지털 인증서와 개인키 서명을 상호 검증하여 양방향 신원을 확인하는 TLS 확장 보안 프로토콜이다.
 - **전송 계층 보안(Transport Layer Security, TLS)**: 네트워크 응용 계층 간 통신 시 암호화, 데이터 무결성, 서버 신원 검증을 제공하는 전송 계층 암호화 프로토콜이다.
@@ -34,8 +33,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 체인(Certificate Chain)**: 종단 엔티티 인증서부터 중간 CA를 거쳐 루트 CA까지의 서명 관계를 연결한 검증 경로이다.
 - **세션 키(Session Key)**: mTLS 상호 인증 완료 후 양 종단 간 전송 데이터를 대칭키 암호화 방식으로 보호하기 위해 생성되는 임시 비밀키이다.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증기관(Certificate Authority, CA)**: 공개키 인증서를 발급, 서명, 폐기 관리하며 신뢰 체인의 최상위 신뢰점(Trust Anchor)을 제공하는 기관이다.
 - **신뢰 저장소(Trust Store)**: 상대방 인증서 체인의 유효성을 검증하기 위해 신뢰하는 루트 및 중간 CA 인증서를 보관하는 보안 저장소이다.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전자서명(Digital Signature)**: 송신자의 개인키로 암호화한 서명값을 수신자가 공개키로 검증하여 데이터 무결성과 비부인성을 보장하는 기술이다.
 - **서버 인증 증명(Server Authentication Proof)**: 서버가 자신의 인증서 체인과 난수 기반 전자서명을 클라이언트에 제공하여 신원을 입증하는 절차이다.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단방향 전송 계층 보안(One-Way Transport Layer Security, One-Way TLS)**: 서버만 인증서를 제시하고 클라이언트는 서버 신원만 검증한 채 세션 키를 형성하는 일반적인 TLS 방식이다.
 
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 폐기 목록(Certificate Revocation List, CRL)**: 인증기관이 만료 전 실효된 인증서 목록을 생성하여 서명·배포하는 폐기 검증 목록이다.
 - **최소 권한 원칙(Principle of Least Privilege, PoLP)**: 사용자 또는 기계에 업무 수행에 필요한 최소한의 접근 권한만 부여하는 보안 원칙이다.
@@ -179,8 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증과 인가 분리(Authentication/Authorization Separation)**: mTLS를 통한 기계 신원 인증(Authentication)과 서비스 접근 권한 인가(Authorization)를 엄격히 분리 관리하는 보안 원칙이다.
 

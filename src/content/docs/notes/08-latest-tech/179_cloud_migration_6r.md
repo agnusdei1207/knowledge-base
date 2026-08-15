@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **클라우드 마이그레이션 6R**: 업무 가치와 기술 조건에 따라 애플리케이션별 유지•폐기•이전•개선•재설계•교체 전략을 선택하는 체계이다.
 - **6R**: Retain•Retire•Rehost•Replatform•Refactor•Repurchase의 애플리케이션 전환 전략을 의미한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Retain**: 규제•종속성•가치 판단에 따라 현 환경에 자산을 유지하는 전략이다.
 - **Retire**: 사업 가치가 없거나 중복된 자산을 종료하는 전략로 정의된다.
@@ -62,8 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **종속성 지도**: 애플리케이션•데이터•인터페이스 사이 연결과 전환 순서를 식별한 자료이다.
 - **랜딩 존**: 클라우드 이전 대상이 사용할 계정•네트워크•신원•보안•관측 기반 환경을 의미한다.
@@ -103,8 +100,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **마이그레이션 웨이브**: 종속성과 위험을 고려해 함께 이전하는 대상 묶음이다.
 - **Cutover**: 데이터 동기화와 검증 뒤 실제 사용자 트래픽을 새 환경으로 전환하는 단계을 말한다.
@@ -141,8 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **7R**: 6R에 인프라 구조를 거의 바꾸지 않는 Relocate를 추가한 분류을 말한다.
 - **서비스형 소프트웨어(Software as a Service, SaaS)**: 공급자가 운영하는 소프트웨어를 서비스로 사용하는 방식로 정의된다.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **증분 복제**: 초기 데이터 복사 뒤 발생한 변경분만 반복 동기화해 전환 중단 시간을 줄이는 방식을 말한다.
 - **구성 관리 데이터베이스(Configuration Management Database, CMDB)**: IT 자산과 구성 항목의 속성•관계를 관리하는 저장소로 정의된다.
@@ -183,8 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구환경 종료**: 새 환경의 수용 기준을 통과한 뒤 기존 자원•계약•운영 경로를 폐기하는 단계로 정의된다.
 - **롤백**: Cutover 실패 시 트래픽과 데이터 처리를 검증된 이전 환경으로 되돌리는 절차로 정의된다.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **협대역 사물인터넷(Narrowband Internet of Things, NB-IoT)**: 180kHz 협대역 주파수와 깊은 실내 커버리지 향상(CE) 기술을 기반으로 고정형 소량 센서를 연결하는 3GPP 표준 LPWAN 기술이다.
 - **기계형 롱텀 에볼루션(Long-Term Evolution for Machines, LTE-M / Cat-M1)**: 1.4MHz 대역폭을 사용하여 최대 1Mbps 전송 속도, 이동성 핸드오버 및 VoLTE 음성 통화를 지원하는 3GPP 표준 LPWAN 기술이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **킬로헤르츠(Kilohertz, kHz)**: 주파수의 단위로, NB-IoT는 LTE 자원 블록(PRB) 1개 크기인 180kHz 극협대역을 사용하여 주파수 효율성을 극대화한다.
 - **절전 모드(Power Saving Mode, PSM)**: 망 등록 상태를 유지한 채 무선 송수신을 중단하여 단말 소비 전력을 줄이는 절전 기술이다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **범용 가입자 식별 모듈(Universal Subscriber Identity Module, USIM)**: 셀룰러 LPWAN 가입자의 고유 식별자(IMSI)와 코어망 접속 인증 키를 제공하는 보안 모듈이다.
 - **사물인터넷(Internet of Things, IoT)**: 센서 데이터를 셀룰러 기지국을 통해 서버 플랫폼으로 전달하는 전반적인 장치 응용 네트워크이다.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수신 창(Paging Window / Active Time)**: PSM 및 eDRX 절전 기상 후 단말이 서버로부터의 하향 제어 패킷을 수신하기 위해 무선기를 켜두는 시간 구간이다.
 
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **핸드오버(Handover)**: 이동하는 단말이 서비스 끊김 없이 이전 기지국에서 인접 기지국으로 무선 세션을 이관하는 통신 기술이다.
 - **NB-IoT 배치 방식(In-band / Guard-band / Standalone)**: 기존 LTE 대역 내부(In-band), 대역 간 보호대역(Guard-band), 별도 독자 대역(Standalone)에 NB-IoT 주파수를 할당하는 구동 옵션이다.
@@ -154,8 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반복 전송(Repetition / Coverage Enhancement)**: 수신 세기가 극도로 저하된 커버리지 확장(CE) 구역에서 동일 패킷을 반복 송신하여 SNR을 극대화하는 무선 기법이다.
 
@@ -174,8 +168,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **셀룰러 저전력 광역망 선택(Cellular LPWAN Selection Criteria)**: 서비스의 필요 데이터 속도, 이동성, 주파수 음영 정도 및 배터리 수명을 고려해 NB-IoT와 LTE-M 중 적합한 규격을 선택하는 의사결정 프로세스이다.
 

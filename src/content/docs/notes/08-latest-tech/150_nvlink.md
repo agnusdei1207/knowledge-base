@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NVLink**: 엔비디아가 독자 개발한 고속 상호연결(Interconnect) 기술로, 기존 PCIe 대역폭의 한계를 극복하고 다중 GPU 간 또는 GPU와 CPU 간의 초당 수백 GB급 초고속 데이터 전송을 지원하는 기술
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 대량 데이터에 같은 연산을 병렬 적용하는 프로세서 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NVSwitch**: 다수 GPU의 NVLink 경로를 다대다로 연결하는 스위치 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **스위치 도메인**: 하나 이상의 NVSwitch를 통해 직접 통신할 수 있도록 묶인 GPU 범위 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **GPU 종단**: 원래 그래픽 렌더링을 위해 개발되었으나, 수천 개의 산술 논리 연산 장치(ALU)를 바탕으로 한 강력한 병렬 처리 능력을 인정받아 딥러닝 연산의 핵심으로 자리 잡은 하드웨어
 - **NVLink 물리 경로**: 엔비디아가 독자 개발한 고속 상호연결(Interconnect) 기술로, 기존 PCIe 대역폭의 한계를 극복하고 다중 GPU 간 또는 GPU와 CPU 간의 초당 수백 GB급 초고속 데이터 전송을 지원하는 기술
@@ -94,8 +91,7 @@ GPU 종단은 NVLink 패킷과 메모리 요청을 처리한다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **토폴로지 배치**: 통신이 잦은 GPU 작업을 높은 대역폭으로 가까이 연결된 경로에 배치하는 방법 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **링크 포화**: 전송 요구량이 링크 용량에 도달해 추가 트래픽의 대기 시간이 증가하는 상태 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -132,8 +128,7 @@ NVSwitch
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인피니밴드(InfiniBand)**: 서버 사이에 저지연•고대역폭 RDMA를 제공하는 스위치 패브릭을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 원격 CPU 개입을 줄이고 등록된 메모리 사이를 직접 전송하는 기술 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -157,8 +152,7 @@ GPU의 연결 범위에 따라 직접 링크•스위치•서버 간 패브릭�
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계층형 집단 통신**: GPU•서버•랙처럼 속도가 다른 연결 범위별로 축약한 뒤 범위 사이 결과를 교환하는 방식 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **오류 격리**: 링크 장애가 다른 GPU와 작업 전체로 확산되지 않도록 경로와 자원을 분리하는 통제 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -179,8 +173,7 @@ GPU 간 통신은 링크 계층별 속도 차이를 반영해야 한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 NVLink**: 엔비디아가 독자 개발한 고속 상호연결(Interconnect) 기술로, 기존 PCIe 대역폭의 한계를 극복하고 다중 GPU 간 또는 GPU와 CPU 간의 초당 수백 GB급 초고속 데이터 전송을 지원하는 기술
 - **외부 패브릭**: NVSwitch 도메인 밖의 서버와 랙을 연결하는 InfiniBand•이더넷 등의 네트워크 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.

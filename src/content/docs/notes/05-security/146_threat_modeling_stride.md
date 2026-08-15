@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 모델링**: 시스템•공격•대응을 구조화해 설계 단계의 보안 결정을 지원하는 활동이다.
 - **공격 시나리오**: 공격자•사전조건•공격 경로•영향•대응을 연결해 구체화한 위협 서술이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신원 위조•변조•부인•정보 노출•서비스 거부•권한 상승(Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, STRIDE)**: 여섯 범주로 위협 누락을 점검하는 분류법이다.
 - **양방향 추적**: 위협을 보안 요구•통제•시험•운영 결과에 연결하고 반대 방향에서도 근거를 확인할 수 있게 하는 관리 방식이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 흐름도(Data Flow Diagram, DFD)**: 주체•프로세스•저장소•정보 흐름을 표현한 도식이다.
 - **신뢰 경계**: 데이터나 실행 주체가 이동할 때 정책•권한•신뢰 수준이 달라지는 지점이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **잔여위험**: 통제를 적용한 뒤에도 남아 위험 책임자가 근거를 검토•승인해야 하는 위험이다.
 - **모델 갱신**: 새 인터페이스•데이터 흐름•운영 사건을 반영해 경계와 위협, 기존 대응의 유효성을 다시 검토하는 활동이다.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **피해•재현성•악용성•영향 사용자•발견성(Damage, Reproducibility, Exploitability, Affected Users, Discoverability, DREAD)**: 다섯 평가 축으로 위험 순위를 참고하는 기법이다.
 - **공격 트리**: 공격 목표를 달성하는 조건과 대체 경로를 계층적으로 분해하는 분석 기법이다.
@@ -159,8 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 개발 수명주기(Security Development Lifecycle, SDL)**: 보안 활동을 개발 수명주기에 통합하는 방법이다.
 - **Microsoft SDL**: STRIDE 위협 식별을 포함한 Microsoft 개발 지침이다.
@@ -183,8 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 추적성**: 공격 시나리오를 보안 요구•통제•시험•운영 결과와 양방향으로 연결하는 성질이다.
 - **위험 처리**: 고영향 위협은 회피•완화하고 남은 위험은 책임자가 승인하는 의사결정이다.

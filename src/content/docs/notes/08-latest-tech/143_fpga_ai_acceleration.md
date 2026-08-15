@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **현장 프로그래머블 게이트 배열(Field-Programmable Gate Array, FPGA)**: 제조 후에도 논리•배선을 재구성하는 반도체을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **인공지능(Artificial Intelligence, AI)**: 학습한 모델로 인식•추론 작업을 수행하는 기술을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비트스트림(Bitstream)**: FPGA의 논리•배선•메모리 구성을 장치에 적재하는 설정 데이터 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **공간 파이프라인**: 연산 단계를 서로 다른 회로 블록에 동시에 배치해 데이터를 연속 처리하는 구조 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **룩업 테이블(Look-Up Table, LUT)**: 논리 함수를 구현하는 FPGA 기본 블록을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **디지털 신호처리(Digital Signal Processing, DSP) 블록**: 곱셈•누산을 수행하는 전용 회로 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -91,8 +88,7 @@ LUT, DSP 블록, BRAM을 조합해 맞춤 데이터 경로를 구성한다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **합성**: 설계한 연산과 제어 논리를 FPGA의 LUT•DSP•메모리 자원으로 변환하는 과정을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **타이밍 검증**: 배치•배선된 신호가 정한 클록 주기 안에 도착하는지 확인하는 절차 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -122,8 +118,7 @@ FPGA ── 파이프라인 결과 ──▶ 외부 인터페이스
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 소프트웨어 커널로 다양한 병렬 연산을 실행하는 범용 가속기을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **주문형 집적회로(Application-Specific Integrated Circuit, ASIC)**: 특정 연산과 데이터 경로를 제조할 때 고정한 전용 반도체 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -146,8 +141,7 @@ FPGA, GPU, ASIC는 변경 주기와 효율이 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **배치•배선**: 논리 블록을 물리 위치에 놓고 신호 경로를 연결하는 FPGA 구현 단계 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **클록 제약**: 회로가 충족해야 하는 동작 주기와 신호 도착 시간을 정한 조건 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -167,8 +161,7 @@ LUT•DSP•BRAM 자원 예산과 FPGA 타이밍을 함께 검증한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재구성성**: 제조 뒤에도 비트스트림을 바꾸어 회로 기능과 데이터 경로를 변경할 수 있는 성질 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **구현 복잡성**: 회로 설계•합성•배치•배선•타이밍 검증에 필요한 개발 부담 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **저랭크 적응(LoRA, Low-Rank Adaptation)**: 거대언어모델 가중치를 고정하고, 별도의 저랭크 행렬을 삽입하여 최소 파라미터만 학습하는 효율적 미세조정 기법.
 - **저랭크 행렬(Low-Rank Matrix)**: 행렬 변화량을 두 개의 소형 저랭크 행렬(A, B)의 곱으로 근사하여 표현한 행렬.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동결 가중치(Frozen Weight, $W_0$)**: 학습 중 업데이트 없이 고정된 기반 선형 변환 행렬.
 - **랭크(Rank, $r$)**: 학습 행렬의 차원을 결정하여 변화량의 표현 용량을 제한하는 파라미터.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **LoRA 변화량(LoRA Delta, $BA$)**: 모델 가중치 수정분을 생성하는 저랭크 행렬 곱($BA$) 결과값.
 - **대상 모듈(Target Module)**: 저랭크 적응 경로가 주입되는 어텐션 또는 FFN 선형층.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **초기화(Initialization)**: 학습 초기 LoRA 출력값이 원본 모델에 영향을 주지 않도록 행렬 값($A$는 가우시안, $B$는 0)을 설정하는 과정.
 - **변화량 학습(Delta Training)**: 원본 가중치는 고정한 채, 행렬 $A, B$의 그래디언트만을 계산하여 업데이트하는 과정.
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 미세조정(Full Fine-Tuning, FFT)**: 모델 전체 가중치를 갱신하여 높은 적응력을 보이나, 비용이 매우 높은 튜닝 기법.
 - **어댑터(Adapter)**: 모델 층 사이에 직렬 형태의 소형 모듈을 삽입하여 학습하는 방식.
@@ -151,8 +146,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **표현 용량 부족(Insufficient Expressive Capacity)**: 랭크값이 낮아 모델이 특정 과업의 복잡한 변화량을 충분히 반영하지 못하는 현상.
 - **주입 제거 시험(Ablation Study)**: 특정 선형층에 대한 LoRA 주입 유무별 성능을 비교하여 최적의 위치를 식별하는 분석 기법.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **랭크 선택(Rank Selection)**: 과업 요구사항과 자원 제약을 고려하여 최적의 랭크를 결정하는 전략.
 - **병합 방식(Merging Strategy)**: 정적 배포(통합 병합)와 동적 서비스(분리 운용)를 구분하는 관리 전략.

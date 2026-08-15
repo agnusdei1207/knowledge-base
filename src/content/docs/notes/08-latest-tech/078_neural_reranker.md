@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신경망 재순위 모델(Neural Reranker)**: 검색 후보를 신경망으로 재점수화하는 모델이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 인코더(Cross-Encoder)**: 질의와 문서를 함께 인코딩해 관련성을 점수화한다.
 - **ColBERT**: 문서 토큰을 사전 인코딩하고 질의와 후기 상호작용한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Top-k**: 1차 검색 결과 중 재평가할 상위 후보 수이다.
 - **입력 구성기**: 질의와 후보를 모델의 토큰•길이 형식으로 조합한다.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **후보 제한(Candidate Limitation)**: 1차 검색 누락 문서는 재순위할 수 없는 제약이다.
 - **재점수화(Rescoring)**: 질의•문서 상호작용으로 후보 점수를 갱신한다.
@@ -121,8 +117,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **점별•쌍별•목록별 학습**: 개별 점수•문서 선호•전체 순위를 각각 최적화한다.
 
@@ -140,8 +135,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상위 k개 재현율(Recall at k, Recall@k)**: 관련 정답이 후보에 포함된 비율이다.
 - **정규화 할인 누적 이득(nDCG)**: 관련성과 순위 위치를 반영한 지표이다.
@@ -161,8 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지연 예산(Latency Budget)**: 검색과 후보 추론을 포함한 응답 시간 한도이다.
 

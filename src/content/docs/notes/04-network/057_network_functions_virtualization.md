@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 기능 가상화(Network Functions Virtualization, NFV)**: 라우터, 방화벽, L4/L7 스위치 등 전용 장비의 제어 및 전달 기능을 범용 하드웨어 상의 소프트웨어 가상화 환경으로 구현하는 ETSI 아키텍처이다.
 - **가상 네트워크 기능(Virtual Network Function, VNF)**: 하이퍼바이저 기반 가상머신(VM) 위에서 독립 구동되는 라우팅/보안 소프트웨어 모듈이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **관리 및 오케스트레이션(Management and Orchestration, MANO)**: VNF/CNF 및 NFVI 컴퓨팅/저장/네트워크 자원의 수명주기를 관리하는 ETSI 표준 오케스트레이션 체계이다.
 - **상태 동기화(State Synchronization / Session Migration)**: VNF 인스턴스가 오토스케일링되거나 타 노드로 이관될 때 수신 패킷의 L4/L7 세션 컨텍스트를 동기화하는 기술이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NFV 오케스트레이터(NFV Orchestrator, NFVO)**: 네트워크 서비스 오케스트레이션 및 NFVI 전역 자원 할당을 총괄하는 중앙 모듈이다.
 - **VNF 관리자(VNF Manager, VNFM)**: 각 VNF 인스턴스의 인스턴스화, 배포, 파기 및 스케일링을 관리하는 모듈이다.
@@ -93,8 +90,7 @@ ETSI NFV 참조 아키텍처
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 서비스 명세(Network Service Descriptor, NSD)**: 서비스 구축에 필요한 VNF 모듈 목록, 연결 토폴로지(VLD) 및 자원 SLA 파라미터를 정의한 청사진 파일이다.
 
@@ -130,8 +126,7 @@ ETSI NFV 참조 아키텍처
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전용 어플라이언스(Dedicated Hardware Appliance)**: 전용 ASIC 파이프라인과 독점 하드웨어가 일체형으로 고정 판매되는 기존 장비이다.
 
@@ -153,8 +148,7 @@ ETSI NFV 참조 아키텍처
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가상화 오버헤드(Virtualization & Packet IO Overhead)**: 하이퍼바이저 패킷 복사 및 OS 컨텍스트 스위칭으로 인해 패킷 스루풋이 저하되는 현상이다.
 - **중앙처리장치(Central Processing Unit, CPU / NUMA Pinning)**: 가상화 인프라의 CPU 소켓 및 코어를 VNF 메모리 버스에 직접 고정 고립 할당하여 지연을 줄이는 기법이다.
@@ -174,8 +168,7 @@ ETSI NFV 참조 아키텍처
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탄력 확장(Elastic Auto-Scaling)**: 실시간 트래픽 폭주 시 VNF/CNF 인스턴스를 자동으로 증설하고 유휴 시 회수하는 동적 가용성 관리이다.
 

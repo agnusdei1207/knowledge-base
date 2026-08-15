@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **복합 시민 역량(Composite Civic Competency)**: 정보·도구를 평가·생산·안전 활용하는 역량.
 - **인공지능 편향(AI Bias)**: 데이터·모델·활용의 치우침에 따른 왜곡 결과.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **책임 있는 참여(Responsible Participation)**: 저작권·개인정보·소통 규범의 실천.
 - **디지털 시민성(Digital Citizenship)**: 디지털 권리·책임과 타인·규범 존중 태도.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보 평가(Information Evaluation)**: 콘텐츠의 출처·정확성·편향 판단.
 - **접근 역량(Access Competency)**: 기기·네트워크·서비스 이용 능력.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역량 진단(Competency Assessment)**: 생활 과업으로 접근·활용·안전 수준 측정.
 - **피싱(Phishing)**: 사칭을 통해 정보 제공·링크 접속을 유도하는 공격.
@@ -136,8 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인공지능 리터러시(AI Literacy)**: AI 산출물의 한계·편향·책임 검증 역량.
 - **소프트웨어 조작(Software Operation)**: 프로그램 설치·설정·기능 활용 능력.
@@ -157,8 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **무비판적 수용(Uncritical Acceptance)**: AI 결과의 출처·오류를 확인하지 않는 문제.
 - **교차 검증(Cross-checking)**: 출처·근거를 다른 자료와 대조하는 활동.
@@ -176,8 +170,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **접근 격차(Access Gap)**: 기기·통신망·보조기술에 따른 접속 기회 차.
 - **활용 격차(Usage Gap)**: 디지털 도구의 실제 과업 활용 능력 차.

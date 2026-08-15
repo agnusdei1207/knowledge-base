@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 오케스트레이션 플레이북(Security Orchestration Playbook, SOP)**: 보안 경보 유형별 위협 보강, 분석, 승인, 조치, 복구 절차 및 분기 조건을 표준화하여 보안 플랫폼에서 실행 가능한 자동화 워크플로우 정의서.
 - **SOAR(Security Orchestration, Automation and Response)**: 이기종 보안 도구들을 API로 연동하여 정형화된 플레이북을 실행하고 대응하는 통합 보안 플랫폼.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사람 참여**: 업무 영향이 큰 자동 조치를 담당자가 확인•승인하는 방식이다.
 - **롤백**: 자동 조치 실패나 오탐 발생 시 이전 상태로 되돌리는 기능이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오케스트레이션**: 서로 다른 보안 도구의 조회•판단•조치를 하나의 흐름으로 연결하는 기능이다.
 
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SIEM(Security Information and Event Management)**: 보안 이벤트를 수집•분석해 경보를 만드는 체계이다.
 - **EDR(Endpoint Detection and Response)**: 단말 위협을 탐지•격리•대응하는 체계이다.
@@ -144,8 +140,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 자동 대응**: 조건을 충족하면 사람 승인 없이 실행하는 방식이다.
 - **승인 기반 대응**: 사람이 확인한 뒤 조치를 실행하는 방식이다.
@@ -167,8 +162,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OASIS(Organization for the Advancement of Structured Information Standards)**: 구조화 정보표준 촉진기구이다.
 - **CACAO(Collaborative Automated Course of Action Operations)**: 보안 플레이북의 공유 스키마이다.
@@ -192,8 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전한 자동화**: 신뢰도•업무 영향•승인•롤백을 함께 통제하는 자동화 원칙이다.
 

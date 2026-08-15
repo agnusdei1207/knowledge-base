@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메타버스(Metaverse)**: 지속되는 공유 가상공간에서 이용자가 사회•업무•경제 활동과 디지털 권리를 이어가는 서비스 생태계이다.
 - **3차원(Three-Dimensional, 3D)**: 너비•높이•깊이의 세 공간 축으로 대상을 표현하는 방식로 정의된다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지속성**: 이용자가 접속을 종료한 뒤에도 가상 세계의 상태•관계•활동 결과가 보존되는 성질을 의미한다.
 
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **아바타**: 가상 세계에서 사용자의 정체성과 행위를 표현하는 디지털 대리 객체을 의미한다.
 - **정체성**: 사용자•아바타•에이전트의 인증•권한•평판을 연결한 정보을 의미한다.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공동 상태 동기화**: 여러 이용자에게 가상 공간과 객체의 변경 결과를 일관되게 전달하는 과정을 의미한다.
 
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 트윈(Digital Twin)**: 물리 대상의 상태와 이력을 가상 표현에 동기화하여 분석•예측을 지원하는 기술이다.
 - **가상현실(Virtual Reality, VR)**: 사용자를 컴퓨터 생성 환경에 몰입시키는 인터페이스 기술을 의미한다.
@@ -154,8 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가상 자산 권리**: 디지털 객체의 사용•이전•수익 권한과 이를 집행하는 플랫폼 규칙의 결합하는 개념을 말한다.
 
@@ -173,8 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용성 검증**: 다른 가상공간과 데이터•권한의 실제 교환 가능성을 확인하는 활동이다.
 

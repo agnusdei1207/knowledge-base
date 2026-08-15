@@ -160,7 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - 고치기 쉬운 Code보다 자주 바뀌고 장애 피해가 큰 핵심 Code부터 개선한다.
 

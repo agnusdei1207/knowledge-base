@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 헌팅(Threat Hunting)**: 기존 보안 장비(SIEM, EDR)의 자동 경보(Alert)에만 의존하지 않고, 검증 가능한 가설(Hypothesis)을 바탕으로 수집된 텔레메트리 데이터에서 미탐지된 은닉 위협을 능동 수색하는 체계적 탐색 활동.
 - **가설(Hypothesis)**: 예상 공격자의 행동, 관측 대상 텔레메트리, 반증(Falsification) 조건 및 수색 종료 조건을 명시한 검증 가능한 가정.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 공격 주체의 TTP, 악성 C2 인프라, 위협 시나리오 정보를 분석하여 수색 가설 수립에 활용하는 위협 정보.
 - **전술•기술•절차(Tactics, Techniques, and Procedures, TTP)**: 공격자의 고유한 공격 행위 패턴으로 단순 지표(IoC) 변경에 영향받지 않는 분석 기준.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텔레메트리(Telemetry)**: EDR 단말 프로세스 행위, NDR 패킷 유동, IAM 로그인 이력, Cloud Audit Log 등 조직 전체에서 실시간 수집되는 원격 모니터링 종합 로그.
 - **EDR(Endpoint Detection and Response)**: 단말 수준에서 일어나는 모든 프로세스 생성, 파일 변조, 레지스트리 수정 행위를 상세 기록하는 헌팅 데이터 소스.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탐지 공학(Detection Engineering)**: 위협 헌팅을 통해 발굴된 정교한 TTP 탐지 기법을 지속 자동화 검출 규칙으로 전환 개발하는 전문 엔지니어링 과정.
 - **플레이북(Playbook)**: 위협 식별 시 격리, 분석, 대응, 원인 제거를 위해 SOC 분석가가 실행해야 할 표준 대응절차(SOP).
@@ -144,8 +140,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **침해 지표 기반 헌팅(IoC-based Hunting)**: 알려진 최신 위협 지표(Hash, C2 IP 등)를 텔레메트리 전체 데이터에서 매칭 검색하는 1단계 헌팅.
 - **공격 행동 패턴 기반 헌팅(TTP-based Hunting)**: MITRE ATT&CK 기술(T-ID) 기반의 공격자 행동 패턴을 탐색하는 2단계 헌팅.
@@ -169,8 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST SP 800-61 Rev. 3(NIST SP 800-61 Standard)**: 침해사고 대응 및 지속적 위험 관리를 포함하는 종합 사이버 보안 사고 대응 지침.
 - **허니토큰(Honeytoken / Deception Technology)**: 침해자가 접근하도록 유인하는 가상의 무가치 자격증명/데이터로 접근 시 100% 탐지 알람 발생.
@@ -190,8 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헌팅 성과 지표(Hunting Efficacy Metrics)**: 헌팅을 통한 신규 위협 발굴 건수, 평균 탐지 시간(MTTD) 감소율 및 자동 탐지 규칙 전환 건수.
 

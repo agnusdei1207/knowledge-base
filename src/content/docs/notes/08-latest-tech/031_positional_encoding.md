@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위치 인코딩(Positional Encoding, PE)**: 순열 불변성(Permutation Invariance)을 가진 어텐션 연산에 토큰의 순서와 거리 정보를 주입하는 기법.
 - **순열 불변성(Permutation Invariance)**: 입력 원소의 순서 변경이 연산 결과에 영향을 주지 않는 특성.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **절대 위치 인코딩(Absolute PE)**: 토큰 순번에 대응하는 값을 입력 임베딩에 가산.
 - **상대 위치 인코딩(Relative PE)**: 토큰 간 거리/방향을 어텐션 점수 또는 Q, K 변환에 반영.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **회전 위치 임베딩(RoPE)**: Q, K 벡터를 위치 기반으로 회전시켜 내적에 상대적 거리를 반영.
 - **위치 보간(Position Interpolation)**: 긴 위치 인덱스를 학습 범위 내로 비례 압축하여 표현 확장.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위치 신호**: 고정 함수, 학습 벡터, 회전값 등을 활용한 순서 및 거리 표현값.
 - **임베딩 생성**: 위치 정보를 제외한 토큰 내용의 벡터 표현 생성 절차.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상대 위치 방식**: 토큰 간 거리 관계를 반영하여 장문 일반화에 유리.
 - **절대 위치 방식**: 토큰별 위치값을 입력에 명시적으로 가산.
@@ -143,8 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위치 외삽 오차**: 학습 길이 밖에서 위치 신호 왜곡 및 해석 불정확 현상.
 - **단거리 해상도**: 인접 토큰 간 위치 차이를 구분하는 정밀도.
@@ -163,8 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위치 표현 선택 기준**: 고정 길이에는 절대 위치를, 장문 외삽에는 RoPE와 위치 보간을 적용하는 설계 원칙.
 

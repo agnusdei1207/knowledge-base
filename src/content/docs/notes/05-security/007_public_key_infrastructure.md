@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개키 기반구조(Public Key Infrastructure, PKI)**: 인증서 발급, 검증, 폐지 수명주기를 통하여 공개키와 소유자 신원을 안전하게 바인딩하는 신뢰 메커니즘.
 - **PKI 신뢰 체계(PKI Trust Framework)**: 공인/신뢰 인증기관(CA)의 디지털 서명을 바탕으로 공개키, 신원, 사용 용도를 계층적으로 검증하는 아키텍처.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 기준점(Trust Anchor)**: 검증자의 신뢰 저장소(Trust Store)에 미리 등록되어 모든 인증서 경로 검증의 최상위 시작점이 되는 루트 인증서.
 - **인증기관(Certificate Authority, CA)**: 신원 및 키 통제권을 확인한 후 가입자의 공개키 인증서에 디지털 서명을 수행하는 기관.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **루트 CA(Root CA)**: 전체 신뢰 체계의 최상위에 위치하며 자체 서명(Self-signed) 인증서를 보유한 핵심 기관.
 - **중간 CA(Intermediate CA)**: 루트 CA로부터 서명 권한을 위임받아 특정 영역의 가입자 인증서를 직접 발급 및 관리하는 기관.
@@ -96,8 +93,7 @@ PKI 신뢰 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 통제권 검증(Proof of Possession, PoP)**: 인증서 신청자가 제출된 공개키에 상응하는 개인키를 실제로 소유하고 있는지 증명함.
 - **경로 검증(Certification Path Validation)**: 가입자 인증서로부터 루트 CA까지 서명의 무결성, 제약조건, 유효기간을 체인 검증하는 알고리즘.
@@ -152,8 +148,7 @@ PKI 신뢰 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공개 웹 PKI(Public Web PKI)**: 브라우저/OS 신뢰 저장소에 미리 탑재된 글로벌 공인 CA를 사용하는 공개 인터넷 환경의 PKI.
 - **사설 조직 PKI(Private Enterprise PKI)**: 특정 기업/기관 내부 단말 및 서버에 사설 루트 CA를 자체 배포하여 운영하는 전용 PKI.
@@ -174,8 +169,7 @@ PKI 신뢰 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **하드웨어 보안 모듈(Hardware Security Module, HSM)**: CA 루트 및 중간 키를 템퍼 리지스턴트(Tamper-resistant) 전용 물리 장비에 내장하여 서명 수행.
 - **mTLS(Mutual Transport Layer Security)**: 서버와 클라이언트가 서로의 X.509 인증서를 교환 및 검증하여 양방향 신원을 증명함.
@@ -197,8 +191,7 @@ PKI 신뢰 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증자 범위(Relying Party Scope)**: 대상 사용자군이 대외 불특정 다수인지, 내부 인프라 구성요소인지에 따른 PKI 배포 정책 수립.
 

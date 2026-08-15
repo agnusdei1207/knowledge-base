@@ -17,8 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말 접속 시 원하는 5G 가상 슬라이스를 지정하거나 허용받기 위해 주고받는 식별자 집합이다.
 - **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 특정 서비스 SLA를 충족시키기 위해 생성된 종단(End-to-End) 가상 네트워크 운용 객체이다.
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)**: 하나의 표준화된 슬라이스를 유일하게 식별하는 32비트 제어 식별자 파라미터이다.
 - **슬라이스·서비스 유형(Slice/Service Type, SST)**: eMBB(1), URLLC(2), mMTC(3) 등 5G 표준 슬라이스 서비스 특성을 나타내는 8비트 구별자이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입자의 S-NSSAI 식별자를 분석하여 접속할 NSI 매핑 정보를 AMF에 회신하는 코어 NF이다.
 - **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 NAS 요청 메시지에서 NSSAI를 수신하고 NSSF와 연동하여 슬라이스 접속을 처리하는 NF이다.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NSI 매핑(NSI Mapping)**: 수신된 S-NSSAI를 기반으로 가입자 프로필과 위치 조건을 대조하여 대상 NSI를 검색하는 알고리즘이다.
 - **NSSI 조합(NSSI Composition)**: 대상 NSI를 구동하기 위해 필요한 도메인별 NSSI의 가용 상태를 검증하고 통합 연동하는 절차이다.
@@ -134,8 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가입·지역 정보 전달(Registration & Location Provisioning)**: AMF가 NSSF에 접속 단말의 위치와 가입 정보를 전달하는 세션 제어 절차이다.
 
@@ -156,8 +151,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고아 자원(Orphan Resource)**: 상위 NSI 인스턴스가 해제되었음에도 수명주기 통제 실패로 회수되지 않고 잔류하는 NSSI 자원이다.
 - **매핑 불일치(Mapping Mismatch)**: S-NSSAI 식별자와 NSI/NSSI 매핑 테이블 설정 오차로 접속에 실패하는 오류 현상이다.
@@ -178,8 +172,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **슬라이스 가용성(Slice Availability)**: NSSF가 S-NSSAI 요청을 수신했을 때 이에 대응하는 NSI와 NSSI 자원이 정상 가동되어 즉시 할당 가능한 상태이다.
 

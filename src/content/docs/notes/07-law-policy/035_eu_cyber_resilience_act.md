@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유럽연합 사이버 복원력법(European Union Cyber Resilience Act, EU CRA)**: 유럽연합(European Union, EU) 시장의 디지털 요소 제품에 설계부터 지원기간까지 보안•취약점 처리 의무를 부과하는 제품보안 규정.
 - **디지털 요소 제품(Product with Digital Elements)**: SW 또는 원격 처리 기능을 포함한 연결 제품.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **생애주기 보안성**: 제품 출시 전 보안설계부터 공표한 지원기간의 취약점 처리와 업데이트까지 제조자 책임으로 관리하는 특성.
 - **위험 비례성**: 제품 중요도와 사이버보안 위험에 따라 자체평가 또는 제3자 적합성 평가를 적용하는 원칙.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제조자**: 제품의 위험평가•보안설계•기술문서와 지원기간의 취약점 처리를 책임지는 주체.
 - **적합성 평가**: 제품 등급에 따라 기술문서•시험•품질체계로 EU CRA 요구사항 충족 여부를 확인하는 절차.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험평가**: 제품의 사용•연결•지원기간 위험을 분석하는 활동.
 - **기술문서**: 적용한 보안 통제와 요구사항 충족을 입증하는 문서.
@@ -139,8 +135,7 @@ CSIRT•시장감시기관•이용자
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기본 제품**: 부속서 III의 중요 제품에 해당하지 않아 일반 필수 요구사항과 적합성 절차가 적용되는 디지털 요소 제품.
 - **중요 제품 등급 I(Class I)**: 핵심 보안 기능이나 위험 특성을 가져 표준 적용 여부에 따라 제3자 평가가 요구될 수 있는 부속서 III 제품.
@@ -159,8 +154,7 @@ CSIRT•시장감시기관•이용자
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적합성 경로**: 제품의 부속서 등급과 적용 표준에 따라 자체평가 또는 제3자 평가를 선택하는 절차.
 - **소프트웨어 자재명세서(Software Bill of Materials, SBOM)**: 제품을 구성하는 소프트웨어 부품과 버전•의존성을 기록해 취약점 영향을 추적하는 목록.
@@ -181,8 +175,7 @@ CSIRT•시장감시기관•이용자
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CRA 생애주기 의무(CRA Lifecycle Obligation)**: 출시 전 적합성과 출시 후 취약점 처리의 연결 원칙.
 

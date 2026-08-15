@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 대가(SW Cost)**: 사업 규모·작업량·단가·보정에 따른 비용.
 - **원가 추정 체계(Cost Estimation System)**: 규모·작업량과 단가로 비용을 계산하는 체계.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기능점수(Function Point, FP)**: 데이터·입력·출력·조회 기능의 규모 단위.
 - **인공지능 사업**: 데이터•학습•검증•배포•맞춤화 사업.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기능 규모**: 데이터•입력•출력•조회 기능의 계수 규모.
 - **내부 논리 파일(ILF)**: 대상 시스템이 관리하는 논리 데이터.
@@ -91,8 +88,7 @@ SW 대가
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **투입공수**: 과업을 수행하는 데 필요한 인력 수와 투입 기간을 결합한 작업량.
 - **기능 기준선**: 승인된 기능•규모의 대가•기간 조정 기준.
@@ -141,8 +137,7 @@ SW 대가
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **투입공수 방식**: 직무•등급•투입 기간을 인월로 산정하는 방식.
 - **혼합 산정**: 기능은 FP, 데이터•모델 작업은 투입공수를 적용하는 방식.
@@ -163,8 +158,7 @@ SW 대가
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **주관적 식별**: 경계•기능 판정 근거 부족에 따른 FP 편차.
 - **오차 범위**: 실제 비용이 추정값에서 벗어날 상•하한.
@@ -183,8 +177,7 @@ SW 대가
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **변경 범위**: 기준선에서 추가•삭제된 기능을 식별한 조정 대상.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **빅오 표기법(Big-O Notation, $O$)**: 입력이 충분히 커진 뒤 비용 증가율이 넘지 않는 점근 상한을 표기함.
 - **실측값(Empirical Measurement)**: 운영 환경에서 직접 실측한 실행 시간 및 메모리 소모 수치.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지배항(Dominant Term)**: 입력 크기가 무한히 증가할 때 최고차 차수로서 비용 증가율을 결정하는 대표 항.
 - **점근 추상화(Asymptotic Abstraction)**: 상수 계수와 하위 차수 항을 배제하고 최고차 항 기반의 비례 추세를 추출함.
@@ -60,8 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비용 함수 $T(n)$(Cost Function $T(n)$)**: 입력 크기 $n$에 대해 알고리즘이 실행하는 기본 연산 횟수의 수학적 표현.
 - **기준 함수 $g(n)$(Reference Function $g(n)$)**: 비용 함수의 점근적 증가율 비교 대상이 되는 표준 함수.
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양의 상수 $c$(Positive Constant $c$)**: 기준 함수를 확대하여 비용 함수의 최고 상한선으로 수용하는 조정 배율.
 - **기준점 $n_0$(Threshold $n_0$)**: 점근 상한 부등식이 이후 모든 입력 조건에서 지속 성립하는 최소 입력 크기.
@@ -109,8 +105,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **빅세타(Big-Theta Notation, $\Theta$)**: 점근적 상한과 하한을 동시에 한정하여 정확한 차수를 보증함.
 - **빅오메가(Big-Omega Notation, $\Omega$)**: 알고리즘 비용 증가율의 점근적 하한 경계를 표기함.
@@ -133,8 +128,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상수 비용(Constant Cost)**: 점근 차수 표기에서는 소거되나 실제 런타임 응답시간에 유의미한 영향력을 행사함.
 - **입력 사례(Input Case)**: 동일 데이터 규모 내 조건 구성에 따른 최선·평균·최악 실행 상태 분류.
@@ -153,8 +147,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 규모 경계(Input Scale Boundary)**: 점근 차수 우위와 상수 비용 우위 간 상대적 성능 역전이 발생하는 임계점.
 

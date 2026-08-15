@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **자동주행 시스템(Automated Driving System, ADS)**: 정의된 ODD에서 전체 DDT와 비상 시 대체 대응을 수행하는 시스템이다.
 - **운행 설계 영역(Operational Design Domain, ODD)**: 자동주행 기능이 작동하도록 설계된 도로•속도•기상•교통 조건이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **객체•사건 탐지 및 대응(Object and Event Detection and Response, OEDR)**: 주행 중 관련 객체와 사건을 탐지하고 상황에 맞는 대응을 생성하는 DDT 기능을 의미한다.
 - **국제자동차기술자협회(Society of Automotive Engineers International, SAE International)**: 자동차 기술 표준을 개발하는 국제 전문 단체이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동적 주행 과업 대체 대응(Dynamic Driving Task Fallback, DDT Fallback)**: 자동주행 시스템이 정상 주행 과업을 계속 수행할 수 없을 때 인계나 최소위험기동으로 대응하는 절차을 말한다.
 - **최소위험기동(Minimal Risk Maneuver, MRM)**: 정상 자동주행을 지속할 수 없을 때 위험을 최소화하는 상태로 차량을 이동•정지시키는 대응을 말한다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소위험상태(Minimal Risk Condition, MRC)**: 대체 대응 결과 차량과 주변의 위험이 최소화된 안정 상태이다.
 
@@ -132,8 +128,7 @@ OEDR과 DDT 상태에 따라 MRC 도달을 판단한다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SAE Level 4**: 제한된 ODD 안의 전체 DDT와 대체 대응을 시스템이 수행하는 자동화 수준로 정의된다.
 
@@ -153,8 +148,7 @@ ADS 자동화 수준별 운전자•시스템 책임을 비교한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보수적 가용성 판정**: ODD 경계나 시스템 상태가 불확실할 때 기능 진입을 막거나 조기에 종료하는 안전 판단이다.
 - **운전자 모니터링 시스템(Driver Monitoring System, DMS)**: 운전자의 주의•응답•인계 준비 상태를 확인하는 시스템이다.
@@ -175,8 +169,7 @@ SAE Level 3•DMS•MRM의 인계•대응 조건을 검증한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **자동화 수준별 대체 대응**: SAE Level 3는 운전자, Level 4 이상은 시스템이 대체 대응을 맡는 구분하는 개념을 의미한다.
 

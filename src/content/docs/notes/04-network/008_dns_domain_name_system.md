@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **도메인 이름 시스템(Domain Name System, DNS)**: 사람이 읽기 쉬운 문자열 도메인 주소(예: www.example.com)를 컴퓨터가 상호 통신할 수 있는 IP 주소로 상호 변환해주는 전 세계 분산 계층형 데이터베이스 시스템.
 - **자원 레코드(Resource Record, RR)**: 이름•유형•값•TTL로 구성된 DNS 정보 단위.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위임(Delegation)**: 상위 도메인 존(Zone)이 하위 도메인 영역의 관리 권한과 권한 있는 네임서버(NS 레코드) 정보를 분산 이관하는 메커니즘.
 - **유효 시간(Time To Live, TTL)**: DNS 리졸버가 특정 자원 레코드를 재조회하지 않고 캐시(Cache) 메모리에 보관 및 응답할 수 있는 유효 시간 규격.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스텁 리졸버(Stub Resolver)**: 클라이언트 OS 단에 내장되어 재귀 리졸버로 DNS 질의를 전송하고 최종 결과를 반환받는 최소 기능 리졸버.
 - **재귀 리졸버(Recursive Resolver / Local DNS)**: 클라이언트 대신 Root-TLD-Authoritative 계층을 직접 순회하며 질의하고 결과를 캐싱하는 네임서버.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **캐시 미스(Cache Miss)**: 질의 도메인의 유효한 RR이 재귀 리졸버의 캐시 메모리에 존재하지 않아 상위 네임서버 추적이 필요한 상태.
 - **루트 서버(Root Server)**: DNS 계층 구조의 최상단에서 TLD 서버의 IP 주소를 안내하는 시작점.
@@ -136,8 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재귀 질의(Recursive Query)**: 요청을 받은 리졸버가 최종 정답이나 에러 결과를 얻을 때까지 책임을 지고 상위 서버들을 추적하여 응답하는 방식.
 - **반복 질의(Iterative Query)**: 요청을 받은 네임서버가 스스로 추적하지 않고, 자신이 아는 다음 상위/하위 네임서버의 위치(Referral)만을 즉시 응답하는 방식.
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **DNS 증폭 공격(DNS Amplification Attack)**: UDP 프로토콜의 IP Spoofing 및 EDNS0 특징을 악용하여 위조된 피해자 IP로 대용량 DNS 응답을 집중 유도하는 반사 DDoS 공격.
 - **트랜잭션 서명(Transaction Signature, TSIG)**: Primary-Secondary DNS 간의 Zone Transfer(존 동기화) 시 HMAC 공유키를 사용하여 전송 데이터의 인가 여부와 무결성을 검증하는 기술.
@@ -179,8 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TTL 전환 계획(TTL Transition Planning)**: 서비스 IP 변경 및 컷오버(Cutover) 시 사전에 TTL을 축소하고 작업 완료 후 원복하는 단계별 가이드라인.
 - **운영 정책 결정(Operation Policy Selection)**: 고가용성 멀티 벤더 Authoritative DNS 이중화 및 DNSSEC 무결성 검증 정책을 결정하는 체계.

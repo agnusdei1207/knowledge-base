@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 설계 원칙**: 시스템 구조와 기본 동작에 보안을 내재화해 예외•우회 경로를 줄이는 기준이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전한 기본값**: 허용 근거가 없으면 접근을 거부하는 원칙이다.
 - **최소 권한**: 필요한 권한만 필요한 시간 동안 부여하는 원칙이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메커니즘 경제성**: 보안 구조를 작고 단순하게 만드는 원칙이다.
 - **공개 설계**: 알고리즘 은닉보다 제한된 비밀에 의존하는 원칙이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 집행점**: 접근 요청을 가로채 정책 결정을 실행하는 구성요소이다.
 - **정책 결정점**: 현재 정책으로 접근 허용 여부를 판단하는 구성요소이다.
@@ -134,8 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전 실패**: 보안 기능 장애 때 무단 접근 없는 상태로 전환하는 원칙이다.
 - **장애 전환**: 장애 시 대체 시스템으로 서비스를 잇는 방식이다.
@@ -157,8 +152,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
@@ -182,8 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **심층 방어**: 독립 통제를 여러 계층에 적용해 단일 실패의 전체 확산을 막는 원칙이다.
 

@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **InfiniBand 패브릭**: HCA와 스위치를 연결해 RDMA와 크레딧 기반 무손실 전송을 제공하는 인터커넥트이다.
 - **호스트 채널 어댑터(Host Channel Adapter, HCA)**: 서버를 InfiniBand 패브릭에 연결하는 장치이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **링크 무손실 흐름 제어**: HCA가 수신 버퍼의 여유 크레딧 범위에서 RDMA 자료를 보내는 방식이다.
 - **서브넷 관리자**: 패브릭 토폴로지를 발견하고 주소•경로•파티션을 계산•배포하는 중앙 제어 기능이다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **컴퓨트 HCA**: 서버 메모리의 RDMA 작업을 실행하는 장치이다.
 - **InfiniBand 스위치 패브릭**: HCA 간 무손실 패킷 경로를 제공하는 전송망이다.
@@ -95,8 +92,7 @@ InfiniBand 클러스터
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **크레딧 RDMA 전송**: HCA와 스위치가 다음 홉의 수신 버퍼 여유 안에서 RDMA 패킷을 보내는 방식이다.
 - **큐 페어(Queue Pair, QP)**: 송수신 작업 요청을 HCA에 게시하는 큐 쌍이다.
@@ -141,8 +137,7 @@ RDMA 작업 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 이더넷에서 RDMA를 제공하는 전송 방식이다.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 프로토콜이다.
@@ -163,8 +158,7 @@ RDMA 작업 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서브넷 관리자 단일 장애**: 토폴로지•주소•경로•파티션 변경 제어를 멈춰 패브릭 전체 운영에 영향을 주는 위험이다.
 - **InfiniBand 무역협회(InfiniBand Trade Association, IBTA)**: InfiniBand 규격과 상호운용을 관리하는 협회이다.
@@ -184,8 +178,7 @@ RDMA 작업 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **클러스터 인터커넥트 선택**: 최고 성능•이더넷 재사용•범용 호환 요구에 따라 InfiniBand•RoCEv2•TCP를 결정하는 판단이다.
 

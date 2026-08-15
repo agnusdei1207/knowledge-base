@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **그래프 탐색(Graph Traversal)**: 간선을 따라 노드를 중복 없이 방문해 도달성•경로를 분석하는 알고리즘이다.
 - **너비 우선 탐색(Breadth-First Search, BFS)**: 간선 거리가 가까운 노드부터 큐로 확장하는 탐색이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탐색 프런티어(Frontier)**: 다음에 방문할 노드를 보관하는 큐나 스택이다.
 - **방문 상태**: 노드의 미방문•활성•완료를 구분해 중복 처리를 막는 표시값이다.
@@ -64,8 +62,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탐색 제어기**: BFS나 DFS 규칙에 따라 다음 노드와 이웃 확장 순서를 결정하는 주체이다.
 - **큐(Queue)**: 먼저 발견한 노드를 먼저 꺼내는 프런티어 구조이다.
@@ -97,8 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확장 노드**: 프런티어에서 꺼내 이웃 목록을 확인하는 현재 노드이다.
 - **발견 상태**: 노드를 프런티어에 넣는 즉시 방문 대상으로 기록한 상태이다.
@@ -141,8 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **무가중치 최단 경로**: 모든 간선 비용이 같을 때 간선 수가 가장 적은 경로이다.
 - **분기 계수(Branching Factor)**: 한 노드에서 다음 단계로 확장되는 평균 이웃 수이다.
@@ -165,8 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양방향 탐색(Bidirectional Search)**: 시작점과 목표점에서 동시에 탐색해 두 영역이 만날 때 경로를 연결하는 방식이다.
 - **명시적 스택**: 재귀 호출 대신 프로그램이 직접 탐색 노드를 넣고 꺼내는 저장 구조이다.
@@ -189,8 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 간선 경로**: 시작점에서 목표점까지 거치는 간선 수가 가장 적은 경로이다.
 - **활성 경로 순환**: DFS가 현재 추적 중인 경로의 노드를 다시 만나 확인하는 순환이다.

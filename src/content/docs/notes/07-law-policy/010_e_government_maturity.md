@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **전자정부 성숙도 평가 모형(E-Government Maturity Model)**: 국가별 온라인 행정 서비스의 수준을 단계별 지표로 진단하는 평가 체계.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **종합 발전 평가(EGDI Comprehensive Assessment)**: 온라인 서비스, 통신 인프라, 인적 자본을 종합적으로 분석하는 국가 진단 지표.
 - **전자참여(E-Participation)**: 정보 공개, 의견 수렴 및 공동 결정 등 국민 참여 수준.
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **전자정부 발전 지수(EGDI, E-Government Development Index)**: OSI, TII, HCI의 산술 평균으로 산출된 국가별 발전 수준.
 - **온라인 서비스 지수(OSI, Online Service Index)**: 행정 서비스의 범위, 품질 및 처리 완결성 평가 지표.
@@ -82,8 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OSI·TII·HCI·EPI 자료 요청**: 대상·시점·자료 기준 제시.
 - **표준화 지표 자료 회신**: 서비스·통신·인적 자본·참여 자료 제출.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보 제공·상호작용 단계**: 공공정보 안내와 양방향 소통 수준.
 - **거래 단계(Transaction Stage)**: 신청·결제·결과 통지의 온라인 완결 수준.
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **온라인 접근 격차(Digital Divide)**: 지역, 계층 간 정보 접근성과 디지털 활용 역량의 차이.
 - **디지털 포용성(Digital Inclusion)**: 모든 국민이 조건과 무관하게 디지털 서비스를 향유할 수 있는 상태.
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **성숙도 기반 투자(Maturity-based Investment)**: 성숙도 지표 격차를 분석하여 전략적 우선순위를 도출하는 투자 방식.
 

@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **Process Lifecycle**: 프로세스가 생성(New)부터 준비(Ready), 실행(Running), 대기(Blocked), 종료(Terminated) 상태를 순환하는 커널 상태 제어 모델.
 - **fork() / exec()**: 부모 주소 공간을 복제(fork) 후, 새로운 바이너리 이미지로 교체(exec)하는 POSIX 프로세스 생성 시스템 콜.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 무선 접속망(Open Radio Access Network, O-RAN / Open RAN)**: 기지국 소프트웨어와 하드웨어를 분리하고 인터페이스를 개방 표준화하여 다양한 제조사 장비를 조합하는 무선 접속망 아키텍처이다.
 - **무선 접속망(Radio Access Network, RAN)**: 이동 통신 단말과 코어 네트워크 사이를 무선으로 연결해주는 기지국 및 인프라망이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 분산 장치(Open Distributed Unit, O-DU)**: RLC, MAC, High-PHY 프로토콜을 처리하는 가상화 분산 기지국 소프트웨어 장치이다.
 - **개방형 무선 장치(Open Radio Unit, O-RU)**: Low-PHY 및 무선주파수(RF) 송수신을 담당하는 하드웨어 전송 장치이다.
@@ -62,8 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 관리 및 오케스트레이션(Service Management and Orchestration, SMO)**: 전체 O-RAN 인프라의 수명주기, FOCOM/O-Cloud 관리 및 Non-RT RIC를 포함하는 통합 오케스트레이션 플랫폼이다.
 
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **A1 정책(A1 Policy)**: Non-RT RIC에서 결정된 모델 및 지침을 Near-RT RIC에 전달하는 정책 선언문이다.
 - **E2 구독 요청(E2 Subscription Request)**: Near-RT RIC가 특정 무선 자원 상태 및 셀 부하 지표를 주기적으로 보고하도록 E2 노드에 등록하는 요청이다.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **폐쇄형 무선 접속망(Closed Radio Access Network, Closed RAN)**: 단일 벤더가 HW와 SW, 그리고 내부 인터페이스를 독점 제공하는 전통적 기지국 방식이다.
 
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용성 시험(Interoperability Testing, IOT)**: 이종 O-RU•O-DU•O-CU의 규격 호환성을 검증하는 시험이다.
 - **동기 예산(Synchronization Budget)**: O-DU와 O-RU 간 Open Fronthaul 전송 시 허용되는 최대 시간 오차(Time Error, ns 단위) 한도 수치이다.
@@ -179,8 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용 비용(Interoperability & Integration Cost)**: 멀티 벤더 장비를 조합 및 통합 구축하고 연동 시험 및 책임 조정을 수행하는 데 투입되는 비용 수치이다.
 

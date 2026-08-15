@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **소버린 인공지능(Sovereign Artificial Intelligence, Sovereign AI)**: 국가나 권역이 AI의 데이터, 모델, 컴퓨팅 인프라, 운영 의사결정에 대해 실질적인 통제권을 확보하는 체계.
 - **컴퓨팅 주권(Computing Sovereignty)**: AI 학습 및 추론에 필요한 고성능 가속기와 인프라 자원을 자체적으로 확보하거나 대체할 수 있는 능력.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 정렬(Policy Alignment)**: 모델의 출력 행위를 자국의 법률, 언어, 문화, 위험 관리 기준에 맞게 조정하는 과정.
 - **모델 수명주기 통제(Model Lifecycle Control)**: AI 모델의 평가, 배포, 모니터링, 개선, 중단, 교체에 대한 독립적 권한 확보.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 계보(Data Lineage)**: 데이터의 생성 출처, 권리 관계, 가공 및 학습 활용 과정 전체를 추적하는 이력 관리 체계.
 - **모델 가중치(Model Weights)**: 학습 과정을 통해 최적화되어 모델의 출력 결과 특성을 결정하는 파라미터 값의 집합.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 평가 증적(Operational Audit Evidence)**: 모델 품질, 편향성, 교체 및 복구 시험 결과를 주권 통제 주체가 상시 검증할 수 있도록 남긴 기록.
 - **대체 경로(Alternative Path)**: 핵심 공급망 중단 시 대안 모델, 가속기, 도구 또는 전문 인력을 활용하여 서비스를 이어가는 복구 방안.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 레지던시(Data Residency)**: 데이터의 저장 및 처리 위치를 특정 권역으로 제한하는 기술적·관리적 요구 사항.
 - **소버린 클라우드(Sovereign Cloud)**: 특정 권역 내 클라우드 인프라의 데이터, 운영 및 기술에 대한 실질적 통제권을 유지하는 모델.
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **공급망 의존성(Supply Chain Dependency)**: AI 핵심 인프라(반도체, 소프트웨어, 모델, 전문 인력)의 외부 공급 중단에 노출되는 수준.
 - **출력 적합성(Output Alignment/Suitability)**: AI 모델의 결과물이 자국의 언어, 문화, 법률, 공공 가치 및 위험 관리 기준에 부합하는 정도.
@@ -172,8 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 통제(Direct Control)**: 핵심 AI 서비스의 데이터, 모델, 컴퓨팅 및 중단 결정을 국가·권역이 스스로 행사하는 독립 운영 방식.
 - **외부 조달(Outsourcing)**: 비핵심 AI 기능을 표준화된 계약 및 통제 조건 하에 외부 사업자의 서비스로 활용하는 방식.

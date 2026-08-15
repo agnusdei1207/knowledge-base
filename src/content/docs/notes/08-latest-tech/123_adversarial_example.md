@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적대적 예제(Adversarial Example)**: 인간에게는 인지되지 않으나 AI 모델의 예측을 방해하도록 미세한 노이즈(Perturbation)를 고의로 추가한 조작 데이터
 - **최악 방향 교란(Worst-case Perturbation)**: 모델 손실을 극대화하는 방향으로 최적화된 입력 변화량
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위협 모델(Threat Model)**: 공격자의 지식, 목표, 질의 접근, 교란 범위 및 계산 예산에 대한 가정
 - **교란 예산(Perturbation Budget, ε)**: 위협 모델이 허용하는 최대 입력 변화량
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목적함수(Objective Function)**: 비표적 오분류나 특정 표적 출력을 유도하도록 손실(Loss)을 최대화하는 함수
 - **교란 제약기(Perturbation Constraint)**: 입력 변화량이 지정된 거리 규범(Norm)과 허용 예산(ε) 내에 있는지 확인하는 구성요소
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제약 투영**: 허용 범위를 벗어난 교란 후보를 다시 거리 예산 안으로 되돌리는 연산 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **강건 정확도**: 허용된 공격을 적용한 뒤에도 정답을 유지한 표본의 비율 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -119,8 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **빠른 기울기 부호 방법(Fast Gradient Sign Method, FGSM)**: 손실 기울기의 부호를 이용해 한 번에 교란을 생성하는 공격 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **투영 경사 하강법(Projected Gradient Descent, PGD)**: 교란을 반복 갱신하고 매 단계 허용 범위에 투영하는 공격 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -142,8 +137,7 @@ FGSM, PGD, C&W는 탐색 반복과 교란 최적화 강도가 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **방어 과대평가**: 약한 공격만 사용해 실제보다 높은 적대적 강건성을 주장하는 문제 역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
 - **교란 의미 불일치**: 거리 규범과 $\epsilon$이 실제 허용 가능한 입력 변화와 맞지 않는 문제을  역할을 수행하는 핵심 기술 및 개념하는 특징을 가짐.
@@ -163,8 +157,7 @@ FGSM, PGD, C&W는 탐색 반복과 교란 최적화 강도가 다르다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 지식(Attack Knowledge)**: 모델 구조, 가중치, 기울기 또는 출력값 접근 가능 범위
 - **계산 강도(Computational Intensity)**: 교란 탐색을 위한 반복 횟수 및 연산 자원 수준

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유럽연합 인공지능법(EU AI Act)**: 위험·역할별 AI 의무 규정.
 - **범용 인공지능(General-purpose AI, GPAI)**: 다목적 모델의 문서·저작권·위험 의무.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 차등화**: 목적•사용 맥락별 금지•고위험•투명성 의무를 구분하는 원칙.
 - **공급망 책임성**: 제공자•수입자•유통업자•배포자에게 출시 전 검증과 문서 전달•운영•사후 감시 책임을 나눠 부여하는 원칙.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제공자**: AI 시스템이나 모델을 개발해 자기 이름으로 시장에 출시하는 주체.
 - **수입자**: 제3국 제공자의 의무와 필수 문서를 확인해 AI를 EU 시장에 공급하는 주체.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 분류**: 제공자•수입자•유통업자•배포자 역할 판단.
 - **위험 분류**: 실제 사용 목적을 기준으로 금지•고위험•투명성•GPAI 유형을 판단하는 절차.
@@ -146,8 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **금지 AI 관행**: 조작•사회적 점수화 등 허용할 수 없는 위험 때문에 법이 원칙적으로 사용을 금지한 AI 관행.
 - **고위험 AI**: 안전부품이나 법정 중요 용도에 사용돼 안전•기본권에 중대한 영향을 줄 수 있는 AI 시스템.
@@ -167,8 +162,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시스템별 위험 분류**: 모델 이름이 아니라 목적•결정 영향•배포 맥락에 따라 각 AI 시스템의 위험 등급을 판단하는 활동.
 - **공급망 문서 단절**: 제공자•수입자•유통업자•배포자 사이에서 지침•기술문서•사고 정보와 책임이 이어지지 않는 문제.
@@ -187,8 +181,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **금지 관행(Prohibited Practice)**: 허용 불가능한 위험으로 사용을 중단할 관행.
 - **인간 감독(Human Oversight)**: AI 결과를 사람이 검토·개입·중단하는 통제.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **첨단 운전자 지원 시스템(Advanced Driver Assistance System, ADAS)**: 환경과 운전자 상태를 인지해 경고•조향•가감속으로 운전자의 주행 과업을 보조하는 시스템이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운전자 모니터링 시스템(Driver Monitoring System, DMS)**: 운전자의 주의•졸음•응답 상태를 확인하여 감독 가능성을 판단하는 시스템을 말한다.
 - **국제자동차기술자협회(Society of Automotive Engineers International, SAE International)**: 자동차 기술 표준을 개발하는 국제 전문 단체을 말한다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **센서 융합**: 카메라•레이더 등 여러 센서의 관측을 결합해 객체•차선•자차 상태를 추정하는 과정로 정의된다.
 - **환경 센서**: 카메라•레이더•라이다•초음파로 도로•차선•객체•거리를 관측하는 입력 계층로 정의된다.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운행 설계 영역(Operational Design Domain, ODD)**: 도로•날씨•속도 등 운전자 지원 기능이 작동하도록 설계된 운행 조건 범위을 말한다.
 
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동적 주행 과업(Dynamic Driving Task, DDT)**: 조향•가감속과 주행환경 감시를 포함하는 주행 과업을 의미한다.
 
@@ -154,8 +149,7 @@ SAE 지원 수준에 따라 동적 주행 과업의 역할을 구분한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전한 해제**: 기능 한계나 운전자 미응답이 감지되면 경고와 단계적 제한을 거쳐 보조 기능을 종료하는 절차을 의미한다.
 
@@ -175,8 +169,7 @@ ADAS는 ODD•HMI•DMS를 함께 검증한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SAE Level 2**: 시스템이 조향과 가감속을 동시에 보조하지만 운전자가 환경 감시와 대응 책임을 유지하는 수준이다.
 

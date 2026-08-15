@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 접근 서비스 엣지(Secure Access Service Edge, SASE)**: 연결과 보안을 사용자 가까운 클라우드 서비스 거점에서 통합하는 아키텍처을 말한다.
 - **소프트웨어 정의 광역망(Software-Defined Wide Area Network, SD-WAN)**: 애플리케이션별 광역망 경로와 품질을 소프트웨어 정책으로 제어하는 연결 기술로 정의된다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제로 트러스트 네트워크 접근(Zero Trust Network Access, ZTNA)**: 신원•장치•맥락을 검증해 애플리케이션 단위 접근을 허용하는 기능로 정의된다.
 - **서비스 거점(Point of Presence, PoP)**: 사용자 가까이에서 연결•보안 정책을 집행하는 분산 엣지 위치을 의미한다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통합 신원•정책**: 사용자•장치•애플리케이션 맥락을 하나의 정책으로 평가해 모든 서비스 거점에 동일하게 집행하는 정책을 말한다.
 
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 맥락**: 사용자 신원•장치 상태•애플리케이션•위협 정보를 결합한 접근 판단 자료로 정의된다.
 - **경로 품질**: 네트워크 경로의 지연•손실•가용성을 측정한 상태로 정의된다.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기존 허브 경유 방식**: 지점•사용자 트래픽을 중앙 데이터센터의 보안 장비로 모아 검사하는 구조로 정의된다.
 - **남북 트래픽**: 조직 내부와 인터넷•외부 서비스 사이를 오가는 통신을 의미한다.
@@ -149,8 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **거점 품질 편차**: 지역별 서비스 거점의 용량•경로•장애 대응 차이로 사용자 경험이 달라지는 현상로 정의된다.
 - **탈출 계획**: 제공자 변경 시 정책•로그•연동•트래픽을 대체 환경으로 이전하는 절차로 정의된다.
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결•보안 통합**: 네트워크 경로 선택과 접근•콘텐츠 보안 정책을 하나의 서비스 체계로 운영하는 방식을 말한다.
 - **제공자 종속**: 특정 보안 접근 서비스 엣지 사업자의 거점•정책 모델•로그 형식에 의존해 이전이 어려운 상태을 말한다.

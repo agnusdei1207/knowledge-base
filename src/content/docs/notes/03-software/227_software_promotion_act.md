@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 진흥법(Software Promotion Act)**: 소프트웨어 산업•인력•기술을 진흥하고 공공 소프트웨어사업의 공정한 발주•계약•수행 기준을 정한 기본법이다.
 - **공공 소프트웨어사업(Public Software Project)**: 국가기관•지방자치단체•공공기관 등이 소프트웨어를 기획•구축•운영하는 사업이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **변경 심의(Change Review)**: 수행 중 추가•삭제되는 과업의 필요성과 범위•기간•대가 영향을 과업심의위원회가 판단하는 절차이다.
 - **요구사항 상세화(Requirements Specification)**: 발주 전에 기능•품질•범위•검수 기준을 구체적으로 명시하는 활동이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **과업심의위원회(Task Review Committee)**: 초기 과업과 변경 내용을 심의하고 계약금액•기간 조정의 근거를 결정하는 위원회이다.
 - **계약 조정(Contract Adjustment)**: 승인된 과업 변경의 범위•기간•금액•검수 기준을 계약에 반영하는 절차이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **4. 변경 영향 결정**: 과업심의위원회가 요구 변경이 범위•수행 기간•계약금액과 검수 기준에 미치는 영향을 판정하는 단계이다.
 - **1. 초기 과업 심의 요청**: 발주기관이 요구•기간•대가•검수 기준을 위원회에 제출하는 단계이다.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **과업심의(Task Review)**: 공공 소프트웨어사업의 과업 확정•변경과 계약 조정을 위원회가 판단하는 제도이다.
 - **요구사항 상세화 적용**: 발주 전 과업 규모와 검수 기준을 명확히 하는 활동이다.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기간•대가 조정 누락**: 과업 범위가 늘었는데 계약 기간과 금액을 함께 바꾸지 않아 무상 업무를 만드는 문제이다.
 - **무상 과업(Unpaid Scope Change)**: 계약 조정 없이 추가 업무를 요구해 사업자가 별도 기간과 대가 없이 수행하는 과업이다.
@@ -183,8 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공공 소프트웨어사업 절차 기준**: 발주 전 요구 상세화, 변경 전 과업심의, 승인 후 계약 조정을 순서대로 적용하는 기준이다.
 - **절차적 공정성(Procedural Fairness)**: 요구 확정•변경 심의•계약 조정을 사전에 정한 기준과 기록에 따라 수행하는 원칙이다.

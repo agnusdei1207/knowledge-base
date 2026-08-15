@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디스크 이미징**: 매체의 주소 가능한 전체 영역을 비트 단위로 복제하는 절차이다.
 - **비할당 영역**: 파일에 배정되지 않아 삭제 데이터 조각이 남을 수 있는 공간이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **쓰기 방지**: 분석 장비에서 원본 매체로 향하는 쓰기 명령을 차단하는 통제이다.
 - **보안 해시 알고리즘 256(Secure Hash Algorithm 256, SHA-256)**: 256비트 해시값으로 동일성•무결성을 검증하는 알고리즘이다.
@@ -60,8 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비트스트림 이미지**: 파일뿐 아니라 주소 가능한 매체 영역 전체를 그대로 복제한 사본이다.
 
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **해시 검증**: 획득 전후의 해시값을 비교해 사본의 동일성과 이후 무변경을 확인하는 절차이다.
 - **매체 식별•쓰기 방지 검증**: 매체 식별정보와 쓰기 차단 기능을 확인하는 단계이다.
@@ -141,8 +137,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **논리 획득**: 파일시스템이 보여 주는 선택 데이터를 복사하는 방식이다.
 - **물리 이미징**: 주소 가능한 매체 전체를 비트 단위로 복제하는 방식이다.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **솔리드 스테이트 드라이브(Solid-State Drive, SSD)**: 플래시 메모리를 사용하는 저장장치이다.
 - **TRIM**: 운영체제가 SSD에 삭제 블록 해제를 알리는 명령이다.
@@ -191,8 +185,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지속적 무결성 입증**: 획득 시점뿐 아니라 보관•분석 전 과정의 해시와 취급 기록을 유지하는 원칙이다.
 - **획득 방식 선택**: 수집 범위와 삭제 흔적 필요성에 따라 논리 획득 또는 물리 이미징을 정하는 판단이다.

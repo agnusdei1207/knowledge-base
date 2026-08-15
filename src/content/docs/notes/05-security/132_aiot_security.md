@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IoT(Internet of Things)**: 사물과 네트워크를 연결한 사물인터넷이다.
 - **AI(Artificial Intelligence)**: 데이터에서 학습해 판단하는 인공지능이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **센서 스푸핑**: 물리 신호를 조작해 센서 판단을 왜곡하는 공격이다.
 - **적대적 예제**: 입력을 조작해 AI 모델의 오판을 유도하는 공격이다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 추출**: 반복 질의와 출력 관찰로 대상 모델의 기능•파라미터를 복제하는 공격이다.
 - **모델 드리프트**: 학습•운영 데이터 분포 차이로 모델 판단 성능이 변하는 현상이다.
@@ -90,8 +87,7 @@ AIoT 보호 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안전 상태 전환**: 입력 이상이나 낮은 확신도를 감지하면 물리 제어를 제한•중지하는 동작이다.
 - **AI 추론 증거**: 모델 버전•추론값•확신도와 제어 판단을 기록한 자료이다.
@@ -136,8 +132,7 @@ AIoT 보호 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Edge AI**: 장치나 근거리 게이트웨이에서 AI 추론을 수행하는 방식이다.
 
@@ -157,8 +152,7 @@ AIoT 보호 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
@@ -182,8 +176,7 @@ AIoT 보호 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **경로 전체 보호**: 센서 입력부터 모델 판단과 액추에이터 동작까지 연결해 통제하는 원칙이다.
 - **AI 판단 경로**: 센서 입력•모델 추론•물리 동작을 잇는 통제 경로이다.

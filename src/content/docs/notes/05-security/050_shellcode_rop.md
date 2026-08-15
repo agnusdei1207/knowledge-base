@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **쉘코드(Shellcode)**: 취약점 익스플로잇 성공 시 대상 시스템 상에서 명령 쉘(Command Shell) 획득 또는 임의 코드를 실행하기 위해 삽입하는 기계어 어셈블리 명령 조각.
 - **반환 지향 프로그래밍(Return-Oriented Programming, ROP)**: DEP/NX 메모리 보호를 우회하기 위해 바이너리 내부의 기존 명령 조각(Gadget)들과 ret 연산자를 체이닝하여 임의 코드 실행을 달성하는 제어 흐름 탈취 공격.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제어 데이터(Control Data)**: 스택 반환 주소(RET), 함수 포인터, VTable 주소 등 프로그램 실행 제어 흐름을 결정하는 핵심 지점.
 - **실행 불가(No-eXecute, NX / DEP)**: 데이터 스택/힙 영역에 코드 실행 권한을 배제하는 메모리 보호 기법.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메모리 안전(Memory Safety)**: Bounds Checking 및 Type Safety를 통해 바운더리 밖 메모리 참조 및 수명 종료 객체 접근(Use-After-Free)을 막는 성질.
 - **가젯(Gadget)**: ROP 공격에서 pop/ret 등으로 끝나는 2~3개 연산의 기존 기계어 코드 조각.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **코드 주입(Code Injection)**: 비신뢰 데이터를 프로세스 메모리에 주입 후 쉘코드로 실행시키는 기법.
 - **흐름 검증(Control Flow Validation)**: 하드웨어 또는 컴파일러 레벨에서 간접 분기 및 반환 주소의 정당성을 체크하는 단계.
@@ -140,8 +136,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제어 탈취 방어 선택 기준(Control Hijacking Defense Criteria)**: 외부 기계어 주입에는 NX/DEP, 내부 정상 바이너리 조각 재사용 ROP에는 CFI 및 Hardware-enforced Shadow Stack을 맞춤 적용하는 지침.
 
@@ -159,8 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **MITRE CWE-787**: 메모리 버퍼 영역 외부에 쓰는 결함으로 제어 데이터 오염의 근본 원인.
 - **인텔 제어 흐름 강제 기술(Intel CET / Control-flow Enforcement Technology)**: 인텔 11세대 이후 CPU 하드웨어에 탑재된 IBT(간접 분기 추적) 및 Shadow Stack 기능.
@@ -179,8 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공격 경로별 실행 보호(Path-based Execution Protection)**: 직접 쉘코드 주입에는 NX, 주소 가젯 추정에는 ASLR, ROP 가젯 체이닝에는 CFI와 Shadow Stack을 결합하는 심층 방어 모델.
 

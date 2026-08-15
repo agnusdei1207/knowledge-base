@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **문맥 자유 문법(Context-Free Grammar, CFG)**: 좌변이 단일 비단말인 생성 규칙으로 재귀적 중첩 구문을 표현하는 문법이다.
 - **비단말 기호**: 생성 규칙으로 더 치환할 수 있는 구문 범주이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유도(Derivation)**: 생성 규칙을 반복 적용해 시작 기호를 단말열로 바꾸는 과정이다.
 - **단말열(Terminal String)**: 비단말이 모두 치환되어 단말 기호만 남은 문자열이다.
@@ -60,8 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **문법 4튜플 $G=(N,\Sigma,P,S)$**: 비단말•단말•생성 규칙•시작 기호로 CFG를 정의한 묶음이다.
 - **파서(Parser)**: 입력 토큰이 문법에 맞는지 검사하고 구문 트리로 바꾸는 분석기이다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유도 상태**: 생성 규칙을 적용하는 과정에서 현재 남아 있는 단말과 비단말의 기호열이다.
 - **입력 토큰 스트림**: 파서가 문법의 단말과 비교하도록 토큰을 순서대로 제공하는 입력이다.
@@ -140,8 +136,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정규 문법(Regular Grammar)**: 한 방향의 선형 생성 규칙으로 유한 상태 패턴을 표현하는 문법이다.
 - **문맥 의존 문법(Context-Sensitive Grammar)**: 비단말 주변 기호에 따라 규칙 적용 여부가 달라지는 문법이다.
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **좌재귀(Left Recursion)**: 비단말이 유도 결과의 맨 왼쪽에 다시 나타나 하향식 파서를 무한 호출시키는 재귀이다.
 - **좌인수분해(Left Factoring)**: 여러 생성 규칙의 공통 접두부를 묶어 다음 입력으로 규칙을 결정하게 하는 문법 변환이다.
@@ -192,8 +186,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **문법 선택 기준**: 규칙 적용이 중첩 구조만 필요한지 주변 기호까지 의존하는지 구분하는 기준이다.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추적 식별자(Trace Identifier, Trace ID)**: 하나의 전체 분산 요청을 식별하는 값을 의미한다.
 - **분산 추적(Distributed Tracing)**: Trace ID와 스팬의 부모•자식 관계로 종단 간 호출 경로와 지연을 재구성하는 관측 기법로 정의된다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스팬 식별자(Span Identifier, Span ID)**: 추적 안의 개별 연산을 식별하는 값을 말한다.
 - **스팬 컨텍스트(Span Context)**: 추적 식별자•스팬 식별자•표본화 정보 등 서비스 경계로 전파할 추적 문맥이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스팬(Span)**: 요청 경로에서 개별 연산의 시작•종료•상태•속성을 기록한 단위이다.
 - **스팬 생성기**: 개별 연산의 시작•종료•상태•속성을 계측하는 구성요소이다.
@@ -98,8 +95,7 @@ Trace ID와 Span ID를 부모•자식 관계로 보존한다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **부모•자식 관계**: 호출한 스팬과 피호출 스팬의 인과 순서를 연결하는 관계을 말한다.
 - **임계경로**: 전체 요청 완료 시간을 결정하는 가장 긴 의존 연산 경로을 의미한다.
@@ -136,8 +132,7 @@ Trace ID와 Span ID를 부모•자식 관계로 보존한다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **헤드 샘플링**: 요청이 시작될 때 트레이스 저장 여부를 결정하는 방식로 정의된다.
 - **테일 샘플링**: 트레이스가 끝난 뒤 오류•고지연 등 전체 결과를 보고 저장 여부를 결정하는 방식로 정의된다.
@@ -156,8 +151,7 @@ Trace ID와 Span ID를 부모•자식 관계로 보존한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **배기지(Baggage)**: 서비스 사이에 추적 문맥과 함께 전파하는 업무 정보을 의미한다.
 - **고카디널리티(High Cardinality)**: 속성값의 종류가 지나치게 많아 저장•색인 비용을 높이는 특성로 정의된다.
@@ -176,8 +170,7 @@ Trace ID와 Span ID를 부모•자식 관계로 보존한다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추적 연속성**: 비동기•외부 호출 경계를 지나도 같은 요청의 부모•자식 관계가 끊기지 않는 성질로 정의된다.
 - **샘플링 예산**: 비용 한도 안에서 보존할 트레이스의 비율과 우선순위를 정한 기준을 의미한다.

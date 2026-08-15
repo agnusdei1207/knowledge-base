@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 트윈(Digital Twin)**: 물리 대상과 상태•이력을 동기화하여 분석•예측•의사결정을 지원하는 생애주기 가상 표현로 정의된다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 동기화**: 센서 사건과 이력을 반영하여 가상 모델의 상태를 실제 대상과 일치시키는 과정로 정의된다.
 - **사물인터넷(Internet of Things, IoT)**: 센서와 통신으로 물리 대상의 상태와 사건을 수집하는 기술을 말한다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물리 대상•식별자**: 현실 자산과 디지털 표현을 일대일로 연결하는 대상 및 고유 식별 정보이다.
 - **트윈 상태 저장소**: 센서 사건과 이력을 반영해 물리 대상의 현재•과거 상태를 보존하는 데이터 계층이다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **피드백**: 분석•조치 결과를 물리 대상과 트윈 모델의 다음 상태에 반영하는 과정을 말한다.
 
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 섀도(Digital Shadow)**: 물리 대상의 변화가 가상 모델에 자동 반영되지만 가상 모델의 결과가 물리 대상에 자동 환류되지는 않는 표현로 정의된다.
 - **디지털 모델(Digital Model)**: 물리 대상과 자동 동기화 없이 설계•분석에 사용하는 가상 표현이다.
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 드리프트**: 설비 노후나 환경 변화로 모델의 예측과 실제 결과 사이의 오차가 커지는 현상이다.
 
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ISO 23247 시리즈**: 제조 디지털 트윈의 원칙•참조 구조•정보 교환을 정의한 국제표준이다.
 

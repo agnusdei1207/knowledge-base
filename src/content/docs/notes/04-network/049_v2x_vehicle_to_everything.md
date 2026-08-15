@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차량·사물 통신(Vehicle-to-Everything, V2X)**: 차량이 다른 차량(V2V), 도로 인프라(V2I), 보행자(V2P) 및 네트워크(V2N)와 주행 상태, 위험 경고, 도로 정보를 실시간 교환하는 협력형 주행 무선 통신 기술이다.
 - **PC5·Uu(PC5 Direct Link & Uu Cellular Interface)**: 기지국을 경유하지 않는 근거리 직접 무선 통신 인터페이스(PC5)와 기지국/코어망을 경유하는 광역 셀룰러 인터페이스(Uu)의 통신 규격이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위치·센서 개연성(Plausibility & Sensor Cross-Check)**: 수신된 V2X 위치/속도 정보가 실제 차량 라이다/카메라 센서의 물리적 측정치와 대조하여 유효한지 판정하는 검증 기법이다.
 - **공개키 기반구조(Public Key Infrastructure, PKI / SCMS)**: V2X 메시지 기밀성, 무결성, 비부인성을 보장하고 인증서를 주기적으로 발급/관리하는 보안 자격증명 체계이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **차량 탑재 장치(On-Board Unit, OBU)**: 차량 내부에 설치되어 차량 센서 상태(속도, 방향, 위치)를 V2X 메시지로 변환·서명하여 전송하는 무선 통신 모듈이다.
 - **노변 장치(Roadside Unit, RSU)**: 신호등, 교차로, 도로 구조물에 설치되어 주변 OBU 단말과 메시지를 교환하고 백엔드 C-ITS 서버와 연동하는 인프라 장치이다.
@@ -86,8 +83,7 @@ V2X 통신 아키텍처
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전자서명(Digital Signature)**: 메시지 송신 OBU의 가명 개인키로 생성한 서명값으로, 수신 OBU가 가명 공개키로 검증하여 위변조를 방지한다.
 - **최신성(Freshness & Anti-Replay)**: 수신 메시지의 타임스탬프와 시퀀스 번호를 분석하여 이전 수신 메시지의 재전송(Replay Attack)을 차단하는 속성이다.
@@ -127,8 +123,7 @@ V2X 통신 아키텍처
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PC5 직접 통신(PC5 Direct Communication / Sidelink)**: 기지국을 경유하지 않고 5.9GHz 대역 무선 채널로 근거리 앤드포인트 간 파형을 직접 전송하는 기술이다.
 - **Uu 망 경유 통신(Uu Cellular Communication)**: 기지국과 백본 코어망을 거쳐 V2X 서버와 데이터를 전송하는 세션 기반 이동통신 방식이다.
@@ -151,8 +146,7 @@ V2X 통신 아키텍처
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가명 인증서(Pseudonym Certificate / PCA)**: 차량 추적을 차단하기 위해 수 분~수 일 주기로 무작위 교체되는 V2X 전용 단기 발급 인증서이다.
 - **혼잡 제어(Congestion Control / DCC)**: 차량 밀집 지역에서 무선 채널 점유율(CBR)이 높아질 때 메시지 전송 주기를 동적으로 늘려 채널 마비를 예방하는 기술이다.
@@ -172,8 +166,7 @@ V2X 통신 아키텍처
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다중 검증(Multi-Layer Message Verification)**: PKI 가명 서명 검증, 타임스탬프 최신성 및 라이다 센서 Plausibility 검증을 연쇄 실행하는 통합 무결성 체계이다.
 

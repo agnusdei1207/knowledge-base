@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이중 중대성(Double Materiality)**: 사람·환경 영향과 재무 위험·기회를 함께 판정하는 원칙.
 - **유럽연합 기업 지속가능성 보고 지침(European Union Corporate Sustainability Reporting Directive, EU CSRD)**: 적용 기업이 지속가능성 정보를 이중 중대성 관점에서 공시하도록 규율하는 유럽연합 지침.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ESRS 공시**: 가치사슬의 정책•행동•목표•지표를 표준 항목에 따라 일관되게 공개하는 활동.
 - **검증 가능성**: 공시 데이터의 출처•산식•승인•변경을 내부통제로 보존하고 외부의 제한적 확신을 받게 하는 성질.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **영향•위험•기회(Impacts, Risks and Opportunities, IRO)**: 기업의 가치사슬에서 사람•환경에 미치는 영향과 지속가능성 요인이 만드는 재무 위험•기회를 함께 나타내는 평가 대상.
 - **경영기구**: 지속가능성 공시 정책•책임•내부통제를 승인하고 중요한 IRO의 보고 여부를 감독하는 주체.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가치사슬 경계**: 연결기업과 상•하류 활동 가운데 지속가능성 영향•위험•기회 자료를 수집할 범위.
 - **ESRS 보고서**: 중대성 평가 결과를 정책•행동•목표•지표의 표준 항목으로 작성한 보고서.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지속가능성 보고**: 재무 성과뿐 아니라 기업 활동의 사람•환경 영향과 관련 재무 위험을 ESRS에 따라 공시하는 보고.
 - **재무보고**: 회계기준에 따라 기업의 재무상태•성과•현금흐름을 재무제표로 공시하는 보고.
@@ -155,8 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **옴니버스 I(Omnibus I)**: CSRD의 적용 범위•일정•공시 부담을 축소한 유럽연합 규제 간소화 묶음.
 - **가치사슬 자료의 신뢰성 부족**: IRO별 원천•산식•승인•변경 증거가 없어 공시 수치와 중대성 판단을 검증하지 못하는 문제.
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CSRD 범위(CSRD Scope)**: 직원·순매출·회원국 이행 상태별 공시 대상 경계.
 

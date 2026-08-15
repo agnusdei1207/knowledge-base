@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 관리(Key Management)**: 암호키의 전 수명주기(생성, 보관, 배포, 회전, 폐기)를 계층화된 인프라 및 정책 기반으로 통제하는 메커니즘.
 - **루트 키(Root Key)**: 하위 암호키(KEK 등)의 기밀성을 보호하고 조직 전체 암호 체계의 최상위 신뢰점(Trust Anchor) 역할을 담당하는 무작위 키.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 암호화 키(Data Encryption Key, DEK)**: 실제 평문 데이터(DB 레코드, 파일 등)를 대칭 암호화(AES 등)할 때 사용하는 하위 암호키.
 - **키 암호화 키(Key Encryption Key, KEK)**: DEK를 암호화(Key Wrapping)하여 안전하게 보관·전송하기 위한 상위 암호키.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신원•접근 관리(Identity and Access Management, IAM)**: 키에 대한 접근 권한(Encrypt, Decrypt, Generate)을 요청 주체별로 세분화 통제하는 보안 체계.
 - **키 래핑(Key Wrapping)**: 상위 KEK를 사용하여 하위 DEK를 대칭/비대칭 암호화하여 기밀성과 무결성을 동시 제공하는 기술 (RFC 3394 등).
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **봉투 암호화(Envelope Encryption)**: 평문 데이터를 DEK로 암호화하고, 사용된 DEK를 KEK로 암호화(Wrapping)하여 데이터 암호문과 암호화된 DEK를 함께 보관하는 방식.
 - **제로화(Zeroization)**: 메모리 상에 존재하는 평문 DEK 사용 직후 해당 RAM 주소를 무작위 비트로 완전 덮어쓰기 소거하는 처리 (NIST SP 800-88).
@@ -140,8 +136,7 @@ DEK 생성 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비밀 관리기(Secret Manager)**: DB 접속 패스워드, API 토큰, OAuth 시크릿 등 텍스트 기반 응용 자격증명 배포 및 회전에 특화된 중앙 서비스.
 
@@ -161,8 +156,7 @@ DEK 생성 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이중 통제(Dual Control)**: 루트 키 생성/복구 등 치명적 키 관리 작업 시 2인 이상의 독립 관리자 동시 승인을 강제하는 원칙.
 - **분할 지식(Split Knowledge)**: 암호키 조각을 분할하여 어느 누구도 단독으로 키 전체를 파악할 수 없도록 격리하는 원칙.
@@ -184,8 +178,7 @@ DEK 생성 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 관리 체계 설계(Key Management Design)**: 데이터 중요도, 규제 준수(Compliance), HSM/KMS 하이브리드 결합 및 감사 체계를 통합 반영하는 권고 지침.
 

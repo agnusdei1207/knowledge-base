@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파이프라인 병렬(Pipeline Parallelism, PP)**: 모델의 연속적인 층(Layer)을 여러 연산 장치의 단계로 분할하고, 전체 배치를 작은 마이크로배치(Microbatch)로 나누어 각 장치가 파이프라인 형태로 중첩 처리하는 기법.
 - **마이크로배치(Microbatch)**: 학습 효율과 메모리 사용 최적화를 위해 전체 배치(Global Batch)를 더 작은 단위로 분할하여 파이프라인에 순차 투입하는 실행 단위.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **버블(Bubble)**: 파이프라인 연산 과정에서 전후 단계 간의 데이터 의존성으로 인해 연산 장치가 유휴(Idle) 상태가 되어 연산이 수행되지 않는 구간.
 - **단계 균형(Stage Balancing)**: 파이프라인 각 단계에 할당된 층의 연산량과 메모리 점유량을 최적화하여 단계 간 처리 시간 격차를 최소화한 상태.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **활성값 채널(Activation Channel)**: 순전파(Forward) 과정의 중간 출력값과 역전파(Backward) 과정의 기울기(Gradient) 정보를 인접 단계 간에 전달하는 통신 인터페이스.
 - **단계 분할기(Stage Partitioner)**: 모델의 연속된 층들을 전체 연산량, 메모리 점유량, 통신 비용이 균형을 이루도록 여러 장치 단계로 나누는 설계 모듈.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순전파 활성값**: 전단 단계가 계산해 후단 단계의 입력으로 보내는 중간 출력을 말한다.
 - **역전파 기울기**: 후단 단계가 계산해 전단 단계의 파라미터 갱신에 전달하는 미분값로 정의된다.
@@ -125,8 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **GPipe**: 모든 마이크로배치의 순전파를 마친 뒤 역전파를 수행하는 동기 스케줄을 말한다.
 - **1F1B(One Forward One Backward)**: 준비 단계 뒤 순전파와 역전파를 교대로 실행하는 스케줄을 말한다.
@@ -147,8 +142,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단계 병목**: 가장 느린 파이프라인 단계가 전체 마이크로배치 처리 간격을 제한하는 현상로 정의된다.
 - **버블 비율**: 전체 실행 시간 가운데 단계가 입력이나 결과를 기다리며 유휴한 시간의 비율로 정의된다.
@@ -166,8 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동기 학습**: 모든 파이프라인 단계가 같은 배치의 갱신 경계를 공유하는 학습 방식이다.
 - **처리량 균형**: 각 단계가 비슷한 속도로 마이크로배치를 처리해 유휴와 정체를 줄인 상태 원칙 준수

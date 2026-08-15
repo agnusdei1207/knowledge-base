@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전력 사용 효과성(Power Usage Effectiveness, PUE)**: 같은 기간의 데이터센터 총 시설 에너지를 IT 장비 에너지로 나눈 시설 효율 지표로 정의된다.
 - **시설 오버헤드**: 냉각•배전•조명 등 IT 장비 외 설비가 소비하는 에너지이다.
@@ -40,8 +39,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터센터 인프라 효율(Data Center infrastructure Efficiency, DCiE)**: IT 에너지를 총 시설 에너지로 나눈 PUE의 역수 지표을 말한다.
 - **해석 경계**: 전력 사용 효과성이 냉각•배전 효율만 나타내며 정보기술 작업 효율•탄소•물 사용량은 직접 나타내지 않는 범위로 정의된다.
@@ -59,8 +57,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **총 시설 계측**: 정한 데이터센터 경계 안의 정보기술•배전•냉각•조명 에너지를 모두 측정하는 기능을 의미한다.
 - **정보기술 장비 계측**: 서버•저장•네트워크 장비가 실제 사용한 에너지를 같은 기간에 측정하는 기능로 정의된다.
@@ -95,8 +92,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동일 조건 비교**: 계측 경계•기간•IT 부하•외기 온도를 맞춰 개선 전후 PUE를 대조하는 방법을 의미한다.
 - **오버헤드 분해**: 총 시설과 IT 에너지의 차이를 냉각•배전•조명 등 원인별로 나누는 분석하는 개념을 의미한다.
@@ -125,8 +121,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **부분 전력 사용 효과성(partial Power Usage Effectiveness, pPUE)**: 명시한 구역•모듈의 총에너지를 해당 IT 에너지로 나눈 지표을 의미한다.
 - **이상적 하한**: 총 시설 에너지가 IT 에너지보다 작을 수 없어 PUE가 이론적으로 가질 수 있는 최솟값 1을 말한다.
@@ -145,8 +140,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **부하•계절 영향**: IT 사용률과 외기 온도 차이가 냉각•배전 에너지와 PUE를 바꾸는 효과이다.
 - **단독 최적화**: PUE만 낮추면서 총전력•물•탄소•장비 효율•서비스 신뢰성의 악화를 놓치는 접근하는 개념로 정의된다.
@@ -166,8 +160,7 @@ $$PUE = \frac{\text{데이터센터 총 시설 에너지}}{\text{IT 장비 에�
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동일 경계 비교성**: 포함 설비•계측 위치•기간이 같아 두 PUE 값의 차이를 해석할 수 있는 성질로 정의된다.
 - **보조 지표**: PUE가 표현하지 못하는 WUE•탄소•IT 작업 효율•SLO를 함께 판단하는 값을 의미 체계 적용

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전자서명(Digital Signature)**: 개인키로 서명값을 생성하고 공개키로 메시지 무결성 및 송신자 신원을 검증하는 비대칭키 기반 기술.
 - **승인 주체•변경 여부 확인 한계(Limits of Unsigned Document Assurance)**: 서명이 없는 전자문서에서 작성자 신원 인증 및 사후 위변조 여부를 증명하기 어려운 한계.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서명 생성(Signature Generation)**: 원본 문서의 해시 다이제스트를 개인키로 암호화/연산하여 디지털 서명값을 도출하는 절차.
 - **서명 검증(Signature Verification)**: 공개키를 사용하여 서명값과 원본 문서 다이제스트의 연관 일치 여부를 판정하는 연산.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **하드웨어 보안 모듈(Hardware Security Module, HSM)**: 개인키 외부 유출 없이 내부에 격리하여 전자서명 연산을 고속으로 수행하는 전용 장비.
 - **공개키 인증서(Public Key Certificate)**: 공개키와 소유자 신원을 인증기관(CA)의 디지털 서명으로 결합한 표준 전자문서.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서명 문맥(Signature Context)**: 서명 목적, 타임스탬프, 업무 범위를 서명 연산에 바인딩하여 재사용 공격을 방어하는 파라미터.
 - **인증서 폐기 검증(Certificate Revocation Verification)**: 서명 시점 기준 인증서가 효력 정지 또는 폐기 상태인지를 대조하는 검증.
@@ -144,8 +140,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확률적 서명 방식(Probabilistic Signature Scheme, PSS)**: RSA 알고리즘에 솔트 및 무작위 난수 패딩을 도입하여 동일 메시지당 매번 다른 서명을 생성하는 기술.
 - **타원곡선 전자서명 알고리즘(Elliptic Curve Digital Signature Algorithm, ECDSA)**: 타원곡선 연산을 적용하여 짧은 키 길이로 높은 보안 강도를 제공하는 서명 표준.
@@ -168,8 +163,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **FIPS 186-5(FIPS 186-5 Standard)**: RSA, ECDSA 및 EdDSA 전자서명 연산과 검증 메커니즘을 정의한 미국 정부 표준.
 - **FIPS 204(FIPS 204 Standard)**: 양자 내성 모듈 격자 전자서명 알고리즘(ML-DSA)을 규정한 NIST 표준.
@@ -191,8 +185,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **장기 서명 증거(Long-Term Signature Validation Evidence)**: 서명 시점의 타임스탬프, CRL/OCSP 폐기 증거를 결합 보관하여 사후 검증을 보장하는 체계.
 - **전자서명 방식 선택(Digital Signature Scheme Selection)**: 호환성, 성능, 키 크기 및 양자 내성을 종합 고려한 전자서명 규격 채택.

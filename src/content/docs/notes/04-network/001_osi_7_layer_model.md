@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 시스템 간 상호접속 7계층 모델(OSI 7-Layer Model, Open Systems Interconnection 7-Layer Model)**: 통신 기능을 7단계로 표준화하여 이기종 시스템 간 상호운용성을 보장하는 국제 참조 모델.
 - **국제표준화기구(ISO, International Organization for Standardization)**: 전 세계 정보통신 네트워크 및 기술 표준을 제정하는 국제기구.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **계층 인터페이스(Layer Interface)**: 인접 계층이 서비스 접근점(SAP, Service Access Point)을 통해 상호작용하는 표준화된 논리적 접점.
 - **프로토콜 데이터 단위(PDU, Protocol Data Unit)**: 계층별 제어 헤더를 부착하여 인접 계층과 상호 교환하는 논리적 데이터 블록.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 포트 번호 기반 종단 간 신뢰성 있는 전송과 흐름/혼잡 제어를 제공하는 4계층 프로토콜.
 - **인터넷 프로토콜(Internet Protocol, IP)**: 논리적 IP 주소를 기반으로 패킷의 최적 경로 선택 및 홉간 전송을 담당하는 3계층 프로토콜.
@@ -98,8 +95,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **세그먼트(Segment)**: L4 전송 계층에서 포트 헤더와 제어 정보가 결합된 PDU.
 - **패킷(Packet)**: L3 네트워크 계층에서 IP 헤더와 라우팅 정보가 결합된 PDU.
@@ -146,8 +142,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 제어 프로토콜/인터넷 프로토콜 모델(Transmission Control Protocol/Internet Protocol Model, TCP/IP Model)**: 인터넷의 실무적 구현을 위해 OSI 7계층을 4개 실용 계층으로 통합한 프로토콜 아키텍처.
 
@@ -169,8 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 데이터링크 계층에서 단편화 없이 한 번에 전송할 수 있는 최대 IP 패킷 단위.
 - **차세대 방화벽(Next-Generation Firewall, NGFW)**: L3/L4 제어를 넘어 L7 애플리케이션 영역까지 실시간 트래픽을 검사하고 통제하는 보안 장비.
@@ -190,8 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계층별 장애 분석(Layered Troubleshooting)**: 수집된 PDU 및 주소 정보를 바탕으로 L1부터 L7까지 순차적/역순으로 장애 구간을 추적·원인 조치하는 기법.
 - **점검 시작점 결정(Starting Point Selection)**: Ping, Traceroute, 패킷 캡처 분석 결과에 맞춰 최적의 점검 레이어를 선별하는 의사결정 체계.

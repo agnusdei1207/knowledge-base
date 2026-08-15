@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **EU DORA(Digital Operational Resilience Act)**: EU 금융기관의 ICT 복원력 통합 규정.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **경영진 책임성**: 경영기구가 ICT 위험관리 전략•역할•자원•교육의 최종 책임을 지는 원칙.
 - **복원력 전 과정성**: ICT 위험의 식별•보호•탐지•대응•복구와 사고 보고•시험을 하나의 주기로 연결하는 특성.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ICT 위험관리**: ICT 위험의 식별•보호•탐지•대응•복구를 하나의 책임 체계로 운영하는 활동.
 - **사고 관리**: ICT 사고를 탐지•분류하고 대응•복구•개선 조치를 추적하는 절차.
@@ -86,8 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보 등록부**: 모든 ICT 제3자 계약과 중요 기능•하위 공급자•위치를 연결한 기록.
 - **출구 조건**: 계약 종료 시 데이터 반환•서비스 이전•대체 사업자 전환과 잔존 데이터 처리를 보장하는 계약 조건.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 및 정보시스템 지침 2(Network and Information Systems Directive 2, NIS2)**: 범산업의 주요•중요 조직에 적용할 사이버보안 의무를 정하고 회원국의 국내 이행을 요구하는 지침.
 
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **중요 기능•공급자 의존성**: 금융 서비스의 핵심 기능과 이를 지원하는 공급자•하위 공급자를 연결해 집중 위험과 사고 영향을 파악하는 관계.
 - **출구 조항 실행 불가능**: 계약에 종료 권리가 있어도 데이터 반출•대체 환경 복원을 시험하지 않아 실제 전환하지 못하는 문제.
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **중요 기능 의존성 통제**: 등록부·계약·시험·출구 전략 기반 외부 의존 관리.
 

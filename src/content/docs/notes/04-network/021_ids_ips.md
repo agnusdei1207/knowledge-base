@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **침입 탐지 시스템(Intrusion Detection System, IDS)**: 복제 트래픽에서 침입을 탐지하고 경보하는 보안 시스템이다.
 - **침입 방지 시스템(Intrusion Prevention System, IPS)**: 인라인에서 침입을 탐지하고 차단하는 보안 시스템이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시그니처 탐지(Signature Detection)**: 알려진 공격 패턴과 일치하는 트래픽을 찾는 방식이다.
 - **이상 탐지(Anomaly Detection)**: 정상 기준에서 벗어난 행위와 트래픽을 찾는 방식이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **세션 정규화(Session Normalization)**: 조각•인코딩•순서 차이를 표준 형태로 바꾸는 작업이다.
 - **세션 복원(Session Reconstruction)**: 패킷을 양방향 통신 흐름으로 재구성하는 작업이다.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인라인 배치(Inline Deployment)**: 통신 경로에서 트래픽을 검사하는 방식이다.
 - **경로 외 배치(Out-of-band Deployment)**: 복제한 트래픽만 통신 경로 밖에서 검사하는 방식이다.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **오탐(False Positive)**: 정상 트래픽을 공격으로 잘못 판단하는 오류이다.
 - **미탐(False Negative)**: 공격을 정상으로 판단하여 놓치는 오류이다.
@@ -154,8 +149,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Fail-Open**: IPS 장애 때 검사 없이 통신을 허용하는 방식이다.
 - **Fail-Close**: IPS 장애 때 통신을 차단하는 방식이다.
@@ -175,8 +169,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **바이패스(Bypass)**: 장애나 정책 조건에서 트래픽이 검사 기능을 우회해 흐르는 경로이다.
 

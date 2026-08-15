@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **X.509 인증서**: 공개키•소유자•용도•유효기간을 인증기관의 전자서명으로 연결하는 표준 전자 문서이다.
 - **인증기관(Certificate Authority, CA)**: 공개키와 소유자 신원을 확인하여 인증서에 서명하는 기관이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서명 대상(To Be Signed, TBS) 인증서**: 주체•공개키•유효기간•확장 정보를 담은 인증서 본문 데이터 구조.
 - **주체 대체 이름(Subject Alternative Name, SAN)**: 인증서가 유효한 도메인(FQDN) 또는 IP 주소를 명시하는 확장 필드.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **주체**: 인증서 공개키와 연결되는 소유자 정보.
 - **발급자**: 인증서 TBS 필드에 전자서명을 수행한 CA 기관.
@@ -98,8 +95,7 @@ X.509 인증서 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 서명 요청(Certificate Signing Request, CSR)**: 공개키, 주체 정보 및 개인키 소지 증명(PoP)을 포함하는 발급 요청 문서.
 - **경로 검증**: 인증서 서명이 신뢰 기준점(Root CA)까지 유효하게 연결되는지 검증하는 알고리즘.
@@ -155,8 +151,7 @@ CSR 제출
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계층 보안(Transport Layer Security, TLS)**: 통신 상대 신원 인증 및 데이터 암호화를 제공하는 보안 프로토콜.
 - **상호 전송 계층 보안(mutual Transport Layer Security, mTLS)**: 클라이언트와 서버가 서로의 X.509 인증서를 상호 검증하는 방식.
@@ -180,8 +175,7 @@ CSR 제출
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RFC 5280(RFC 5280 Standard)**: Internet X.509 v3 인증서, CRL 프로파일 및 경로 검증 절차 규정 표준.
 - **ITU-T X.509(ITU-T X.509 Standard)**: 인증서 및 폐기 목록의 기본 아키텍처를 정의한 국제 표준.
@@ -201,8 +195,7 @@ CSR 제출
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 승인(Certificate Validation Approval)**: 신뢰 경로, SAN, KU/EKU, 유효기간 및 폐기 상태 종합 판정 후 내리는 최종 승인.
 

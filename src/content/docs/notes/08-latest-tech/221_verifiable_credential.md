@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 가능 자격증명(Verifiable Credential, VC)**: 발급자의 자격 주장에 암호학적 증명을 결합하여 보유자가 제시하고 검증자가 진위와 상태를 확인할 수 있는 디지털 자격증명로 정의된다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 기능과 데이터를 호출하기 위한 명세화된 접점을 의미한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선택적 공개**: 이를 지원하는 자격증명 형식에서 검증 목적에 필요한 속성만 보여 주고 나머지 개인정보는 숨기는 방식로 정의된다.
 - **검증 가능 프레젠테이션(Verifiable Presentation, VP)**: 보유자가 하나 이상의 VC에서 필요한 정보와 보유 증명을 묶은 제출물로 정의된다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **발급자**: 주체의 자격을 확인하고 암호학적 증명을 결합한 VC를 발급하는 주체이다.
 - **보유자**: 발급받은 VC를 보관하고 요청 목적에 맞는 VP를 구성하는 주체이다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분산 식별자(Decentralized Identifier, DID)**: 중앙 등록기관 없이 주체와 검증 키를 식별하는 식별자로 정의된다.
 
@@ -125,8 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 목록 조회**: 개인정보 노출을 줄이면서 VC의 정지•취소 여부를 확인하는 개념로 정의된다.
 
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목적 제한**: 검증자가 요청 목적에 필요한 속성만 수집하고 다른 용도로 재사용하지 않도록 제한하는 원칙을 의미한다.
 
@@ -165,8 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 표준을 개발하는 국제 표준화 공동체을 의미한다.
 - **W3C VC 데이터 모델 2.0**: 발급자•보유자•검증자 사이의 자격증명 표현과 교환 방식을 정의한 권고안을 의미한다.

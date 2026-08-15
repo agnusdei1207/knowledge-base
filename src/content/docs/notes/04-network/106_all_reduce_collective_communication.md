@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전체 축소(All-Reduce)**: 모든 통신 순위의 값을 하나의 연산으로 축소하고 그 동일한 결과를 다시 모든 순위에 배포하는 집합 통신이다.
 - **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지연 순위**: 계산이나 통신 완료가 가장 늦어 모든 GPU의 다음 단계를 기다리게 하는 순위이다.
 - **축소 분산(Reduce-Scatter)**: 입력을 조각별로 축소해 각 순위가 서로 다른 완성 조각 하나씩을 보유하게 하는 연산이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순위 통신 그룹**: 집합 통신에 참여하는 프로세스•GPU 범위이다.
 - **버킷 스케줄러(Bucket Scheduler)**: 작은 텐서를 묶어 통신 시작을 조정하는 구성요소이다.
@@ -95,8 +92,7 @@ All-Reduce 통신 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **호출 계약 확인**: 모든 순위의 그룹•형상•자료형•연산•호출 순서가 같은지 확인하는 단계이다.
 - **텐서 버킷 구성**: 작은 텐서를 경로 특성과 크기에 맞는 전송 묶음으로 만드는 단계이다.
@@ -139,8 +135,7 @@ All-Reduce 호출
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계층형 All-Reduce**: 서버 내부의 빠른 링크로 먼저 집계한 뒤 서버별 결과만 느린 외부망에서 교환하는 방식이다.
 - **링 All-Reduce(Ring All-Reduce)**: 순위를 고리로 연결해 조각을 이웃에 순환 전송하며 링크 대역폭을 고르게 사용하는 방식이다.
@@ -160,8 +155,7 @@ All-Reduce 호출
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **호출 순서•형상 불일치**: GPU 순위별 집합 연산 계약이 달라 대기나 결과 오류를 만드는 문제이다.
 - **교착(Deadlock)**: 순위별 호출 순서가 달라 서로 다른 집합 연산 완료를 무한히 기다리는 상태이다.
@@ -181,8 +175,7 @@ All-Reduce 호출
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최느린 순위 병목(Straggler Bottleneck)**: 가장 늦은 순위의 완료 시간이 동기식 집합 통신 전체 완료 시간을 결정하는 현상이다.
 - **All-Reduce 알고리즘 선택**: 텐서 크기•순위 수•내부와 외부 링크 차이에 따라 링•트리•계층형을 결정하는 판단이다.

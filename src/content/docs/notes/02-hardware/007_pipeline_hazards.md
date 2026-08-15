@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파이프라인 해저드(Pipeline Hazard)**: 명령어 파이프라인 상에서 선후 명령 간의 데이터 의존성, 조건 분기 또는 하드웨어 자원 충돌로 인해 다음 클록에 명령어를 멈춤 없이 계속 실행하지 못하는 구조적 충돌 조건.
 - **스톨(Stall / Bubble)**: 해저드 충돌이 해결될 때까지 파이프라인의 특정 하위 단계를 멈추고 파이프라인 레지스터에 NOP(No Operation)를 투입하는 제어 기법.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **명령어당 사이클 수(Cycles Per Instruction, CPI)**: 단일 기계어 명령어를 최종 완결하는 데 소비되는 평균 클록 주기 수 ($\text{CPI} = \text{Ideal CPI} + \text{Hazard Stalls}$).
 - **버블(Bubble)**: 스톨이나 플러시 제어로 인해 유효한 명령어가 실행되지 못하고 비어 있는 파이프라인 슬롯.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **해저드 감지기(Hazard Detection Unit)**: 파이프라인 레지스터의 원천 레지스터(Rs1, Rs2)와 선행 명령어의 목적 레지스터(Rd) 번호를 실시간 비교하여 충돌을 감지하는 제어 논리회로.
 - **포워딩 경로(Forwarding Path / Bypass Multiplexer)**: EX/MEM 및 MEM/WB 파이프라인 레지스터의 연산 출력 데이터를 ID/EX 레지스터 입력으로 즉각 궤환시키는 우회 통로.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **원천 레지스터(Source Register, Rs)**: 현재 명령어 연산에 피연산자로 사용하기 위해 레지스터 파일에서 읽어오는 입력 레지스터.
 - **목적 레지스터(Destination Register, Rd)**: 이전 명령어가 연산 결과를 최종 기록하기 위해 지정한 Output 레지스터.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 해저드(Data Hazard)**: 앞선 명령어의 결과 기록(WB)이 완결되지 않은 상태에서 다음 명령어가 해당 레지스터를 읽으려 할 때 발생(RAW, WAR, WAW).
 - **제어 해저드(Control Hazard)**: 조건 분기 명령어(Branch) 실행 시 타깃 주소 결정 전 후속 명령어를 인출(Fetch)하여 발생하는 경로 불확정 문제.
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적재-사용 의존(Load-Use Dependency)**: Load 명령어 직후 해당 레지스터를 ALU 연산 피연산자로 바로 사용할 때 MEM 단계 완료 전에는 포워딩만으로 완벽 해소가 불가능하여 1클록 Stall이 필수적인 현상.
 - **분기 대상 버퍼(Branch Target Buffer, BTB)**: 분기 명령어의 주소와 과거 타깃 jump 주소를 캐싱하여 Fetch 단계에서 즉시 다음 PC를 공급하는 하드웨어.
@@ -181,8 +175,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **면적•전력 비용(Area & Power Cost)**: 추가적인 하드웨어 우회 MUX, 예측기 테이블 및 다중 포트 증설 시 초래되는 미세 다이 면적 증가와 동적 전력 소모.
 - **추가 CPI(CPI Overhead)**: 완화되지 못한 파이프라인 해저드 스톨 및 플러시로 인해 추가되는 명령어당 클록 수 오버헤드.

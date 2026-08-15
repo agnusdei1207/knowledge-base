@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 키 분배(Quantum Key Distribution, QKD)**: 양자 상태의 측정 교란을 이용하여 도청 가능성을 탐지하고 대칭키 원재료를 생성하는 기술이다.
 - **비복제 정리(No-Cloning Theorem)**: 알려지지 않은 양자 상태를 완벽하게 복제할 수 없다는 원리이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 비트 오류율(Quantum Bit Error Rate, QBER)**: 수신된 비트 중 송신 기저와 일치함에도 오류가 발생한 비율로, 환경 잡음과 도청자(Eve)의 개입 여부를 판정하는 통계 지표.
 - **인증된 고전 채널(Authenticated Classical Channel)**: 기저 대조, 오류 보정 및 비밀성 증폭 메시지의 위변조 방지 및 송신자 인증을 제공하는 통신 채널.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양자 상태(Quantum State)**: 광자의 편광 또는 위상 등 관측 시 상태 변화가 일어나는 양자 물리학적 상태.
 - **광자(Photon)**: 빛의 최소 입자 단위로 QKD에서 비트 정보(0, 1)와 기저를 전달하는 양자 정보 매체.
@@ -90,8 +87,7 @@ QKD 키 분배 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기저(Basis)**: 양자 비트를 인코딩 및 측정할 때 선택하는 측정 좌표계 (직교/대각 기저 등).
 - **오류 보정(Error Correction)**: 공개 고전 채널을 통해 비트 정보를 교환하여 송수신 간 원시 키 비트 불일치를 교정하는 후처리.
@@ -140,8 +136,7 @@ QKD 키 분배 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **BB84(Bennett-Brassard 1984)**: 무작위 편광 기저를 이용하여 양자키를 생성하는 최초의 표준 QKD 프로토콜.
 - **미끼 상태 BB84(Decoy-state BB84)**: 다광자 펄스 혼합을 통해 광자 수 분할 공격(PNS)을 방어하는 실용적 QKD 방식.
@@ -163,8 +158,7 @@ QKD 키 분배 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **광자 수 분할 공격(Photon-Number-Splitting Attack, PNS)**: 다광자 펄스에서 일부 광자를 도청자가 가로채어 키 정보를 유출하는 물리 공격.
 - **ITU-T Y.3800(ITU-T Y.3800 Standard)**: QKD 네트워크 아키텍처 및 계층별 기능 요구사항을 정의한 국제 표준.
@@ -184,8 +178,7 @@ QKD 키 분배 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 등록 조건(Key Registration Criteria)**: QBER 통계 검증, 고전 채널 서명 확인 및 비밀성 증폭 완결을 동시 만족하는 최종 승인 기준.
 

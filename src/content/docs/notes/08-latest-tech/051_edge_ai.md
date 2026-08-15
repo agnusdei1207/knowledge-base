@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엣지 인공지능(Edge Artificial Intelligence, Edge AI)**: 현장 인접 장치나 게이트웨이에서 인공지능 추론과 제어를 수행하는 분산 컴퓨팅 구조로 정의된다.
 - **현장 자율 제어(Field Autonomous Control)**: 중앙 연결이 끊겨도 현장 장치가 로컬 판단으로 안전 동작을 계속하는 능력을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지연 동기화(Deferred Synchronization)**: 망 단절 중 결과를 로컬에 저장한 뒤 연결 복구 시 중앙으로 전송하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **중앙 제어면(Central Control Plane)**: 분산 장치의 신원•정책•모델 버전•운영 상태를 통합 관리하는 계층을 나타낸다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엣지 게이트웨이(Edge Gateway)**: 센서 데이터를 수집•전처리하고 현장 장치와 중앙 시스템을 연결하는 장치를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **추론 런타임(Inference Runtime)**: 학습된 모델을 목표 장치에서 불러와 입력 처리와 결과 생성을 실행하는 소프트웨어를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 전처리(Input Preprocessing)**: 원시 센서 데이터를 모델 입력 형식으로 변환하고 불필요한 정보를 제거하는 과정을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **상태 동기화(State Synchronization)**: 현장 결과와 장치 상태를 중앙 제어면에 전달하여 운영 이력을 일치시키는 기법으로 정의된다.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **온디바이스 인공지능(On-Device Artificial Intelligence, On-Device AI)**: 개인 단말이 독립적으로 로컬 추론을 수행하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **클라우드 인공지능(Cloud Artificial Intelligence, Cloud AI)**: 중앙의 고성능 자원으로 대규모 통합 분석과 모델 관리를 수행하는 구조를 나타낸다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 부팅(Secure Boot)**: 서명된 신뢰 코드만 장치 시작 과정에서 실행하는 보호 기법으로 정의된다.
 - **무선 업데이트(Over-the-Air Update, OTA Update)**: 모델과 설정을 네트워크로 원격 배포•갱신하는 방식을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -165,8 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엣지 배치 기준(Edge Deployment Criteria)**: 망 단절에도 지속해야 하는 실시간 현장 판단과 제어를 인접 장치에 두는 기준으로 정의된다.
 - **클라우드 배치 기준(Cloud Deployment Criteria)**: 여러 현장의 통합 분석•모델 학습•버전 관리는 중앙 자원에 두는 규칙을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.

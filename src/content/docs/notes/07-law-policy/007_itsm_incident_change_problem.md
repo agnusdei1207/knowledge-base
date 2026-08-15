@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **인시던트 관리(Incident Management)**: 서비스 중단이나 품질 저하 발생 시 신속한 서비스 정상화 활동.
 - **문제 관리(Problem Management)**: 반복적인 인시던트의 근본 원인을 식별하고 영구적인 해결책을 관리하는 활동.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **MTTR(Mean Time To Repair)**: 장애 발생 시점부터 서비스 정상화까지 소요된 평균 시간.
 - **알려진 오류(Known Error)**: 근본 원인과 우회 조치가 확인되어 기록된 문제 정보.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **KEDB(Known Error Database)**: 근본 원인과 우회 조치 정보를 통합 저장하여 재사용하는 데이터베이스.
 - **CAB(Change Advisory Board)**: 변경의 위험, 영향, 일정 및 롤백 계획을 심의하는 조직.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근본 원인(Root Cause)**: 반복 인시던트를 일으키는 기저 결함.
 - **변경 위험 평가(Change Risk Assessment)**: 영향·실패 가능성·복구 방법 검토.
@@ -147,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **영향 범위(Impact Scope)**: 변경 대상과 연결된 구성항목·서비스 범위.
 - **표준 변경(Standard Change)**: 절차·위험·복구법이 검증된 사전 승인 변경.
@@ -166,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 기반 변경(Risk-based Change)**: 변경의 위험도에 따라 표준 변경은 신속 처리, 고위험 변경은 CAB 심의를 수행하는 프로세스.
 - **근본 원인 분석(Root Cause Analysis, RCA)**: 반복적인 서비스 장애의 기저 원인을 증거 기반으로 규명하는 분석 기법.

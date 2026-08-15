@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스마트 계약(Smart Contract)**: 블록체인 가상머신에서 합의된 코드에 따라 결정적으로 상태 전이를 수행하는 프로그램로 정의된다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **결정적 실행**: 모든 검증 노드가 같은 입력과 상태에서 같은 연산 결과와 다음 상태를 계산하는 성질이다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **블록체인 가상머신(Virtual Machine, VM)**: 합의 규칙에 따라 스마트 계약 바이트코드를 실행하고 장부 상태를 갱신하는 환경을 의미한다.
 - **명세•계약 코드**: 당사자의 상태 전이 규칙과 조건•권한•예외 처리를 결정적으로 표현한 프로그램이다.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **트랜잭션**: 서명된 계약 호출과 입력을 블록체인에 제출하여 검증된 상태 변경을 요청하는 메시지이다.
 
@@ -122,8 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **업그레이드 가능 계약**: 프록시나 관리 절차를 통해 상태를 유지하면서 실행 로직을 교체할 수 있는 계약 구조로 정의된다.
 
@@ -141,8 +136,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검사•효과•상호작용(Checks-Effects-Interactions, CEI)**: 조건 검사와 상태 갱신을 외부 호출보다 먼저 수행하는 재진입 방지 패턴로 정의된다.
 
@@ -160,8 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **복구 가능성**: 오류•공격 시 계약을 중지•교체•롤백해 피해를 제한할 수 있는 성질을 의미한다.
 

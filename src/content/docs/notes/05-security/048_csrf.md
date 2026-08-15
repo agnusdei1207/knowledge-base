@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 사이트 요청 위조(Cross-Site Request Forgery, CSRF)**: 사용자가 자신의 의지와 무관하게 공격자가 의도한 비승인 수신처로 비밀번호 변경, 자금이체 등 상태 변경(State-changing) 요청을 전송하도록 유도하는 취약점.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **세션 쿠키(Session Cookie)**: 브라우저가 특정 도메인에 대한 요청 전송 시 매번 자동 첨부하는 인증 식별자.
 - **CSRF 토큰(Anti-CSRF Token)**: 세션별로 난수 생성되어 상태 변경 요청 폼/헤더에 포함되는 일회성/추측 불가능한 검증 키.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Origin**: HTTP 요청 헤더에 포함되는 요청 발신 출처(Scheme, Host, Port) 정보.
 - **Referer**: 요청이 유발된 직전 URL 주소를 포함하는 HTTP 헤더.
@@ -87,8 +84,7 @@ CSRF 검증 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **의도 검증(User Intent Verification)**: 요청에 포함된 Anti-CSRF 토큰의 세션 일치성 및 출처 헤더의 정당성을 확인하는 절차.
 - **위조 상태 변경 요청 생성**: 타깃 사이트의 POST 폼을 태그나 JS로 자동 전송하게 구성하는 단계.
@@ -135,8 +131,7 @@ CSRF 검증 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CSRF 방어 선택 기준(CSRF Mitigation Criteria)**: 요청 의도는 Anti-CSRF 토큰, 자동 쿠키 제한은 SameSite, 발신 위치는 Origin 헤더로 상호 보완 적용하는 원칙.
 
@@ -154,8 +149,7 @@ CSRF 검증 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **MITRE CWE-352**: 교차 사이트 요청 위조(Cross-Site Request Forgery) 취약점 명세.
 - **IETF RFC 9110**: HTTP 신구 규격을 정리하여 GET/HEAD 메서드의 무상태 조회를 명시한 표준.
@@ -175,8 +169,7 @@ CSRF 검증 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재인증(Re-authentication)**: 비밀번호 변경, 자금이체 등 고위험 작업 실행 직전 사용자의 비밀번호나 MFA를 재요청하여 본인 의사를 확정하는 방어책.
 

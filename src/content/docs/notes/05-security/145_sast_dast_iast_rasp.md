@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **응용 보안 검증**: 코드•실행•운영의 서로 다른 관점에서 취약점과 공격 가능성을 확인하는 활동이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 응용 보안 시험(Static Application Security Testing, SAST)**: 소스 코드를 정적으로 검사하는 시험이다.
 - **동적 응용 보안 시험(Dynamic Application Security Testing, DAST)**: 실행 응용을 외부에서 검사하는 시험이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 구성 분석(Software Composition Analysis, SCA)**: 제3자 구성요소의 취약점•라이선스를 분석하는 시험이다.
 - **응용보안 결과 연계**: SAST•DAST•IAST•RASP 결과를 실제 경로와 연결하는 활동이다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 회귀검증**: 수정한 취약점과 공격 경로가 다시 나타나지 않는지 확인하는 활동이다.
 - **정적 코드•구성요소 분석**: 코드 흐름과 제3자 의존성에서 취약 후보를 찾는 단계이다.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증 시점•위치**: 개발 코드, 시험 중 외부•내부, 운영 응용처럼 기법이 관찰하는 단계와 지점이다.
 - **네 가지 응용보안 기법**: 시점•가시성에 따라 선택하는 SAST•DAST•IAST•RASP이다.
@@ -163,8 +158,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개방형 웹 응용 보안 프로젝트(Open Worldwide Application Security Project, OWASP)**: 웹 응용 보안 공개 프로젝트이다.
 - **응용 보안 검증 표준(Application Security Verification Standard, ASVS)**: 응용 보안 검증 기준이다.
@@ -187,8 +181,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호 보완 검증**: 여러 시험 결과를 실제 경로•근본 수정•재시험으로 연결해 단일 기법의 사각을 줄이는 접근이다.
 - **응용보안 기법 선택**: SAST는 코드, DAST•IAST는 경로, RASP는 운영에 적용하는 판단이다.

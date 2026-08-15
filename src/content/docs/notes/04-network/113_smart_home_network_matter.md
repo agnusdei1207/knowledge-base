@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Matter 표준(Matter Standard)**: 인터넷 프로토콜(Internet Protocol, IP)망에서 서로 다른 제조사의 스마트 홈 기기 모델•명령•가입 보안을 통일하는 응용 계층 표준이다.
 - **모델•명령•가입 보안**: 기기 기능 표현•제어 명령•신뢰 자격 설치를 함께 규정하는 상호운용 범위이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **공통 데이터 모델**: 제조사와 전송망이 달라도 기기의 기능•속성•명령 의미를 동일하게 표현하는 규격이다.
 - **다중 관리자**: 여러 생태계의 관리자가 하나의 Matter 기기를 각 패브릭에서 제어하는 기능이다.
@@ -62,8 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가입 제어기**: 새 기기의 진위를 확인하고 패브릭 운영 자격을 설치하는 구성요소이다.
 - **패브릭 제어기**: 패브릭의 인증서•키•접근 권한과 기기 상태를 관리하는 구성요소이다.
@@ -101,8 +98,7 @@ Matter 스마트 홈 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **커미셔닝**: 새 기기의 진위를 확인하고 패브릭 운영 자격과 접근 권한을 설치하는 가입 절차이다.
 - **신뢰 저장소**: 제조사 인증기관 정보를 보관해 기기 증명서의 신뢰 체인을 검증하는 저장소이다.
@@ -148,8 +144,7 @@ BLE•IP 가입 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인터넷 프로토콜 버전 6(Internet Protocol version 6, IPv6)**: 128비트 주소 체계를 사용하는 IP 버전이다.
 - **Thread 연결**: 저전력 IPv6 메시 경로를 Matter 기기에 제공하는 방식이다.
@@ -172,8 +167,7 @@ BLE•IP 가입 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서명 무선 갱신(Signed Over-the-Air Update, 서명 OTA)**: 디지털 서명으로 출처와 무결성을 검증한 소프트웨어만 기기에 원격 설치하는 갱신 방식이다.
 - **기기 발견 트래픽**: 제어기가 같은 IP망에서 Matter 기기와 서비스를 찾기 위해 교환하는 탐색 메시지이다.
@@ -195,8 +189,7 @@ BLE•IP 가입 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연결 방식 선택**: 기기의 전력•대역폭•기존 자산 호환성을 비교해 Thread•Wi-Fi•브리지를 결정하는 과정이다.
 - **Wi-Fi 적용 조건**: 고대역폭과 전원 공급이 가능한 Matter 기기에 적용하는 조건이다.

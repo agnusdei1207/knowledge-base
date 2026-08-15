@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동형 암호(Homomorphic Encryption)**: 암호문을 복호화하지 않고 연산해도 그 결과를 복호화하면 평문 연산 결과와 대응하는 공개키 암호이다.
 - **동형성(Homomorphism)**: 암호문 연산의 복호화 결과가 동일한 평문 연산 결과와 대응하는 성질이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **노이즈 예산(Noise Budget)**: 암호문에 내재된 노이즈가 기계적 곱셈 연산에 의해 누적될 때 정상 복호화가 가능한 허용 한계 범위.
 - **완전 동형 암호(Fully Homomorphic Encryption, FHE)**: 부트스트래핑(Bootstrapping) 연산을 통해 노이즈를 제어함으로써 임의 깊이의 덧셈/곱셈을 무제한 지원하는 4세대 동형 암호.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가 키(Evaluation Key)**: 암호문 연산 과정에서 발생한 차수 증가 및 회전(Rotation)을 제어하기 위해 제공하는 공개 보조키 (재선형화 키 등).
 - **암호문 슬롯(Ciphertext Slot)**: 단일 암호문 다항식 구조 내에 복수의 평문 데이터를 배치하여 SIMD 병렬 연산을 가능케 하는 포맷 단위.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **회로 깊이(Circuit Depth)**: 덧셈/곱셈 연쇄 과정 중 복호화 전 수행 가능한 연속 곱셈 연산의 최대 한계 단계.
 - **재선형화(Relinearization)**: 암호문 간 곱셈 연산 후 2차로 확장된 암호문 차수를 1차 다항식 크기로 축소하는 연산.
@@ -135,8 +131,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **BFV(Brakerski/Fan-Vercauteren)**: 정수 및 모듈러 연산을 정확하게 보장하는 동형 암호 스킴.
 - **BGV(Brakerski-Gentry-Vaikuntanathan)**: 깊은 정수 연산 회로에서 레벨별 모듈러스 스위칭을 통해 고효율을 제공하는 동형 암호 스킴.
@@ -159,8 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레벨(Level)**: 동형 연산 시 남아있는 모듈러스 단계로 남아있는 곱셈 가능 횟수를 의미함.
 - **스케일(Scale)**: CKKS 스킴에서 실숫값의 소수점 이하 유효 정밀도를 유지하기 위한 비트 스케일링 배율.
@@ -181,8 +175,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동형 암호 방식 선택(HE Scheme Selection)**: 정확성•효율성•회로 깊이•무결성 요구에 따른 알고리즘 선택 지침.
 

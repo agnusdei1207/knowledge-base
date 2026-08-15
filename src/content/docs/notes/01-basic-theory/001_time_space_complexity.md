@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **알고리즘 복잡도(Algorithmic Complexity)**: 입력 크기(Input Size) 증가에 따른 연산량 및 메모리 증가율을 하드웨어 독립적으로 분석하는 상위 개념
 - **점근 분석(Asymptotic Analysis)**: 대규모 입력 시 지배항(Dominant Term) 중심으로 자원 소모의 점근적 한계를 평가하는 기법
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지배항(Dominant Term)**: 입력이 커질수록 전체 증가율을 결정하는 가장 빠르게 증가하는 항
 - **빅오(Big-O)**: 입력 증가에 따른 비용의 점근적 상한(Asymptotic Upper Bound) 표기
@@ -68,8 +66,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **계산 모델(Computational Model)**: 기본 연산 비용을 균일하다고 가정하여 하드웨어 차이를 배제하는 분석 모델
 - **기본 연산(Basic Operation)**: 비교·대입 등 실행 횟수로 전체 시간 비용을 대변하는 핵심 연산
@@ -101,8 +98,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비용 함수(Cost Function)**: 입력 크기에 따른 시간 또는 공간 사용량의 증가 추세를 나타내는 함수
 - **상한•하한(Upper/Lower Bound)**: 입력이 극단적으로 커질 때 비용 함수가 넘지 않는 위쪽 경계 및 반드시 도달하는 아래쪽 경계
@@ -117,8 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간복잡도(Time Complexity)**: 입력 크기(N) 증가에 따른 기본 연산 횟수의 점근적 증가 정도
 - **공간복잡도(Space Complexity)**: 입력 크기(N) 증가에 따른 최대 메모리 사용량의 점근적 증가 정도
@@ -144,8 +139,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대표 기본 연산(Representative Basic Operation)**: 전체 실행 시간 증가 추세를 대변하는 핵심 연산(예: 루프 내 비교·대입)
 - **벤치마크(Benchmark)**: 동일 입력 및 실행 환경에서 다수 알고리즘 후보의 실제 시간·공간 비용을 측정 및 비교하는 성능 평가
@@ -161,8 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **응답시간 한도(Response Time Limit)**: 시스템이 요청을 처리하고 결과를 반환해야 하는 최대 허용 지연 시간
 - **메모리 한도(Memory Limit)**: 알고리즘 실행 과정에서 동적으로 할당받아 사용할 수 있는 최대 메모리 임계치

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **산업용 사물인터넷(Industrial Internet of Things, IIoT)**: 산업 설비와 센서를 연결하여 물리 공정을 감시•분석•제어하는 체계을 의미한다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **현장 자율성**: 중앙 시스템이나 통신에 장애가 생겨도 에지가 필수 감시와 안전 제어를 지속하는 능력을 의미한다.
 
@@ -52,8 +50,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **산업 게이트웨이**: 기존 설비 프로토콜을 변환하고 데이터를 집계•보호하여 플랫폼과 연결하는 장치을 의미한다.
 - **센서**: 공정 상태를 측정해 디지털 데이터로 변환하는 장치을 의미한다.
@@ -105,8 +102,7 @@ PLC 데이터를 IIoT 플랫폼에 연결한다.
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **저장 후 전달(Store-and-Forward)**: 통신 장애 동안 데이터를 저장하고 연결이 복구되면 순서대로 전송하는 방식을 의미한다.
 
@@ -144,8 +140,7 @@ PLC 상태를 IIoT 플랫폼으로 전달한다.
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **감시 제어 및 데이터 수집(Supervisory Control and Data Acquisition, SCADA)**: 제한된 산업 구역에서 설비 상태를 중앙 감시하고 공정을 제어하는 운영 기술 체계을 의미한다.
 - **사물인터넷(Internet of Things, IoT)**: 사물의 상태와 기능을 네트워크 서비스에 연결하는 기술이다.
@@ -166,8 +161,7 @@ IIoT, 소비자 IoT, SCADA는 적용 범위와 제어 특성이 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 동기화**: 센서와 설비의 측정 시각을 공통 기준에 맞춰 사건 순서와 분석 정확도를 보장하는 과정이다.
 
@@ -185,8 +179,7 @@ IIoT, 소비자 IoT, SCADA는 적용 범위와 제어 특성이 다르다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **에지 제어**: 데이터 발생 현장 가까이에서 저지연 판단과 안전 동작을 수행하는 제어 방식이다.
 

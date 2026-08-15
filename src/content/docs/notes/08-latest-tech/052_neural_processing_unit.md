@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신경망 처리장치(Neural Processing Unit, NPU)**: 신경망의 행렬•텐서 연산을 데이터 흐름 방식으로 병렬 처리하는 전용 가속 프로세서를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **곱셈 누산(Multiply-Accumulate, MAC)**: 두 값을 곱한 결과를 기존 합에 누적하는 신경망 핵심 연산을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텐서(Tensor)**: 신경망의 입력•가중치•중간 결과를 여러 차원의 수 배열로 표현한 데이터를 나타낸다.
 - **온칩 메모리(On-chip Memory)**: 입력•가중치•중간 결과를 칩 내부에 저장해 외부 데이터 이동을 줄이는 메모리를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 임의 접근 메모리(Static Random-Access Memory, SRAM)**: 칩 내부에서 입력•가중치•중간 결과를 빠르게 재사용하는 메모리를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **직접 메모리 접근(Direct Memory Access, DMA)**: 프로세서 개입 없이 연산기와 메모리 사이의 텐서를 전송하는 방식을 나타낸다.
@@ -97,8 +94,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연산 그래프(Computation Graph)**: 모델 연산자와 텐서 의존관계를 노드와 연결로 표현한 구조를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **폴백(Fallback)**: NPU가 지원하지 않는 연산을 CPU 같은 다른 프로세서에서 대신 실행하는 처리를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -142,8 +138,7 @@ NPU
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙처리장치 역할(CPU Role)**: 복잡한 분기와 범용 순차 제어를 처리하는 역할을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **그래픽 처리장치(Graphics Processing Unit, GPU)**: 다수 코어로 범용 병렬 연산을 처리하지만 메모리•전력 비용이 큰 프로세서를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -165,8 +160,7 @@ CPU•GPU•NPU는 제어 유연성•병렬성•전력 효율이 다름.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연산 집약도(Arithmetic Intensity)**: 메모리에서 옮긴 데이터양에 비해 수행하는 연산량의 비율을 나타낸다.
 - **연산 융합(Operator Fusion)**: 여러 연산자를 하나의 커널로 묶어 중간 텐서 저장과 이동을 줄이는 기법을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -188,8 +182,7 @@ CPU•GPU•NPU는 제어 유연성•병렬성•전력 효율이 다름.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연산자 지원률(Operator Support Rate)**: 전체 모델 연산 중 NPU가 직접 실행할 수 있는 비율을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **폴백 경계(Fallback Boundary)**: 데이터 이동과 지연을 고려하여 NPU와 CPU 실행 구간을 나누는 지점을 나타낸다.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고급 데이터 링크 제어(High-Level Data Link Control, HDLC)**: 동기 회선의 프레임•순서•흐름•오류를 제어하는 프로토콜이다.
 - **비트 지향 프로토콜**: 연속 비트열의 패턴으로 프레임과 제어 정보를 구분하는 방식이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **경계 투명성**: 데이터 안의 연속된 1 뒤에 0을 채워 플래그 패턴이 프레임 경계로만 해석되게 하는 성질이다.
 - **정보 프레임(Information Frame, I-Frame)**: 사용자 데이터와 순서 번호를 전달하는 프레임이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Control**: I•S•U 프레임 유형과 송수신 순서 번호•명령•응답 상태를 표현하는 필드이다.
 
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확인 응답(Acknowledgement, ACK)**: 정상 수신과 다음 기대 순서를 알리는 응답이다.
 - **거부(Reject, REJ)**: 오류나 누락 프레임의 재전송을 요구하는 응답이다.
@@ -130,8 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정규 응답 모드(Normal Response Mode, NRM)**: 주국 허가 후 종국이 전송하는 모드이다.
 - **비동기 응답 모드(Asynchronous Response Mode, ARM)**: 종국이 주국 허가 없이 전송할 수 있는 모드이다.
@@ -153,8 +148,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확인 응답•거부 순서 상태 불일치**: 양단의 다음 기대 번호가 달라 누락 복구 범위나 정상 프레임 판단이 어긋나는 문제이다.
 

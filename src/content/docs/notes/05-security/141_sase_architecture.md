@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 접근 서비스 경계(Secure Access Service Edge, SASE)**: 광역망 연결과 보안을 근접 거점에서 제공하는 구조이다.
 - **접속 거점(Point of Presence, PoP)**: 사용자 가까이에서 연결•보안을 처리하는 접속 거점이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 
 </details>
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 웹 게이트웨이(Secure Web Gateway, SWG)**: 웹 트래픽을 검사•통제하는 게이트웨이다.
 - **클라우드 접근 보안 중개(Cloud Access Security Broker, CASB)**: 클라우드 접근 보안 중개 기능이다.
@@ -91,8 +88,7 @@ SASE 아키텍처
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지속 위험 평가**: 세션 중 행위•기기 상태•장애 정보를 반영해 접근 결정을 계속 갱신하는 활동이다.
 - **접근•검사•경로 흐름**: SASE가 PoP•SSE•SD-WAN을 연계하는 흐름이다.
@@ -143,8 +139,7 @@ SASE 아키텍처
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SASE 통합 범위**: SD-WAN 경로와 SSE 보안을 함께 통합하는 범위이다.
 - **SSE 통합 범위**: 기존 연결망 위에서 보안 기능만 통합하는 범위이다.
@@ -165,8 +160,7 @@ SASE 아키텍처
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메트로 이더넷 포럼(Metro Ethernet Forum, MEF)**: 네트워크 서비스 표준을 개발하는 산업 포럼이다.
 - **MEF 117**: SASE 서비스 속성 표준이다.
@@ -190,8 +184,7 @@ SASE 아키텍처
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 PoP**: 거점 장애 시 세션을 이어가기 위한 다른 공급자 거점이다.
 - **광역망(Wide Area Network, WAN)**: 넓은 지역을 연결하는 통신망이다.

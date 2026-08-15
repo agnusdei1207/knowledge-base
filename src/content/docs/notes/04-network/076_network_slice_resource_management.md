@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서비스 수준 명세(Service Level Specification, SLS)**: 서비스가 요구하는 지연•처리량•가용성 목표이다.
 - **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 종단 서비스를 제공하는 논리망 인스턴스이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수용 제어**: 신규 슬라이스를 추가해도 기존•신규 SLS를 충족하는지 판정하는 기능이다.
 
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **무선 접속망(Radio Access Network, RAN)**: 단말의 무선 접속과 무선 자원을 제공하는 망이다.
 - **전송망(Transport Network, TN)**: 접속망과 코어망 사이의 전달 경로를 제공하는 망이다.
@@ -130,8 +127,7 @@ SLS 서비스 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **혼합 할당**: 서비스별 최소 자원을 예약하고 남는 용량은 부하에 따라 공유하는 방식이다.
 
@@ -149,8 +145,7 @@ SLS 서비스 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반복 증감**: 부하가 임계값 주변에서 흔들릴 때 자원이 계속 확장•축소되는 현상이다.
 
@@ -168,8 +163,7 @@ SLS 서비스 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 예약**: 서비스별 자원량을 고정해 다른 슬라이스와 공유하지 않는 할당 방식이다.
 - **동적 공유**: 변동 수요가 큰 슬라이스 사이에서 측정 부하에 따라 자원을 재할당하는 방식이다.

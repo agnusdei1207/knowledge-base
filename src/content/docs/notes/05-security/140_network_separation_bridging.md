@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **망분리•망연계**: 보안영역의 직접 통신을 차단하고 승인된 정보만 검사•중계•감사하는 통제이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **세션 종단**: 중계 장치가 양쪽 연결을 각각 끝내 분리된 망의 직접 통신을 막는 방식이다.
 - **CDR(Content Disarm and Reconstruction)**: 실행 요소를 제거해 파일을 재구성하는 기술이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **무결성 전송**: 대상•순서•해시•재전송 정보를 검사해 오배송•변조•중복을 막는 기능이다.
 - **능동 콘텐츠•민감정보 검사**: CDR과 DLP로 위험 내용을 확인하는 통제이다.
@@ -86,8 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **감사 증적**: 승인부터 검사•전송•수신 결과까지 흐름을 재구성할 수 있게 남긴 기록이다.
 - **승인된 방향•자료•목적지 확인**: 정책•결재•예외에 따라 허용 전송 범위를 판정하는 단계이다.
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **자료 전송**: 저장 후 파일을 검사•전달하는 방식이다.
 - **스트림 연계**: 실시간 세션을 종단•중계하는 방식이다.
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST(National Institute of Standards and Technology)**: 미국 국립표준기술연구소이다.
 - **SP(Special Publication)**: NIST가 발행하는 특별간행물이다.
@@ -184,8 +178,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 정보 흐름**: 업무에 필요한 데이터•방향•시간•목적지만 허용하는 경계 통제 원칙이다.
 - **API 프록시**: 실시간 요청을 종단하고 승인 기능만 중계하는 방식이다.

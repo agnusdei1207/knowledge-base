@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **랜섬웨어(Ransomware)**: 내부 시스템에 침투하여 사용자/기업 중요 데이터를 비대칭 암호화하거나 외부에 유출한 후, 복구 및 비공개를 대가로 금전(암호화폐)을 요구하는 악성코드 및 사이버 갈취 공격.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **초기 접근(Initial Access)**: 피싱 메일, RDP/VPN 취약점, 탈취 자격증명을 악용하여 사내 인프라 내부로 최초 진입하는 공격 단계.
 - **권한 상승(Privilege Escalation)**: 일반 계정 권한에서 OS/Active Directory의 최고 관리자(SYSTEM, Domain Admin) 권한을 획득하는 기술.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **복구 신뢰 경계(Recovery Trust Boundary)**: 운영망 및 계정 관리면(AD 등)과 완벽히 격리되어 공격자가 백업 데이터를 임의로 수정/삭제할 수 없도록 통제된 보안 에어갭 경계.
 - **불변 백업(Immutable Backup)**: WORM(Write Once Read Many) 기술 기반으로 지정된 보존 기간 동안 어떠한 권한으로도 수정, 삭제, 덮어쓰기가 불가능한 백업 시스템.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **침해 지표(Indicator of Compromise, IOC)**: 랜섬웨어 악성코드 해시, C2 IP/도메인, 레지스트리 변조 등 공격 행위를 증명하는 기술적 관측 정보.
 - **신뢰 복구(Trusted Recovery)**: C2 통신 및 탈취된 관리자 계정이 완전 차단·재발급된 인프라 상태에서 검증된 불변 백업을 복원하는 사고 수습 절차.
@@ -136,8 +132,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **암호화 갈취(Single Extortion)**: 단순히 파일 시스템 데이터를 비대칭 암호화하여 복호화 키 대가를 요구하는 1세대 방식.
 - **이중 갈취(Double Extortion)**: 데이터 암호화와 동시에 기밀 데이터를 사전 탈취하여 대금 미지급 시 다크웹 공개를 협박하는 2세대 방식.
@@ -159,8 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST IR 8374 Rev. 1(NIST IR 8374 Standard)**: NIST CSF 2.0에 기반하여 조직의 랜섬웨어 위험 관리 성과를 측정하고 체계화한 지침 문서.
 - **NIST SP 800-61 Rev. 3(NIST SP 800-61 Standard)**: 사이버 침해사고 관리 및 대응 프레임워크 최신 표준.
@@ -181,8 +175,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **격리 후 신뢰 복원(Containment-first Trust Recovery)**: 악성 C2 통신 및 탈취 자격증명을 완전 격리/재발급한 후 오염되지 않은 백업 기반으로 시스템을 복구하는 원칙.
 

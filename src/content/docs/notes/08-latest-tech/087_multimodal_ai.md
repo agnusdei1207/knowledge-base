@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티모달 AI(Multimodal AI)**: 여러 신호를 정렬•융합해 공동 추론•생성하는 인공지능이다.
 - **모달리티(Modality)**: 텍스트•시각•음성 같은 정보 신호 유형이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 모달 정렬(Cross-modal Alignment)**: 모달별 대상•시점•의미를 대응시킨다.
 - **융합 추론(Fusion Reasoning)**: 모달 상호작용과 품질로 결과를 도출한다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달 인코더(Modality Encoder)**: 입력 모달을 특징 표현으로 변환한다.
 - **융합 모듈(Fusion Module)**: 정렬된 모달 표현의 상호작용을 결합한다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달별 표현(Modality Representation)**: 모달 인코더가 추출한 특징•토큰이다.
 - **교차 모달 문맥(Cross-modal Context)**: 시간•의미가 정렬•융합된 공동 표현이다.
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **초기 융합(Early Fusion)**: 입력•저수준 특징 단계에서 모달을 결합한다.
 - **중간 융합(Intermediate Fusion)**: 모달별 중간 표현을 상호작용시킨다.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달 정렬 오류(Modality Misalignment)**: 모달의 대상•시점이 잘못 대응된 문제이다.
 - **단일 모달 편향(Unimodal Bias)**: 모델이 한 모달에 과도하게 의존하는 문제이다.
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모달 상호작용(Modality Interaction)**: 한 모달이 다른 모달의 해석에 미치는 관계이다.
 - **모달 누락(Missing Modality)**: 입력 시점에 일부 모달을 사용할 수 없는 상태이다.

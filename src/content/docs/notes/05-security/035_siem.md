@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 정보 및 이벤트 관리(Security Information and Event Management, SIEM)**: 이종 보안 장비 및 시스템 로그를 중앙으로 수집•정규화•상관분석하여 실시간 위협 경보와 증적을 제공하는 빅데이터 보안 관리 플랫폼.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정규화(Normalization)**: 각기 다른 형식의 로그를 공통 데이터 스키마(ECS, CEF 등)와 표준 시각 기준(UTC)으로 변환하는 처리.
 - **상관분석(Correlation Analysis)**: 서로 다른 장비에서 발생한 이벤트를 시간, IP, 계정 등의 연관성을 기준으로 묶어 위협 행위를 추적하는 기법.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 외부 보안 솔루션, EDR 및 업무 시스템과 SIEM 간 자동 로그 수집 및 데이터 교환 규약.
 - **Syslog**: 네트워크 장비 및 유닉스/리눅스 시스템에서 보안 이벤트를 UDP/TCP 514 포트로 전달하는 인터넷 표준 프로토콜.
@@ -88,8 +85,7 @@ SIEM 기능 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **탐지 사례(Detection Use Case)**: 탐지할 위협 행위, 필요 수집 로그, 탐지 조건 및 조치 절차를 정형화한 분석 시나리오.
 - **튜닝(Tuning / Rule Optimization)**: 실제 관제 적중 및 오탐 피드백을 반영하여 상관분석 파서, 임계값 및 제외 예외 조건을 보정하는 활동.
@@ -140,8 +136,7 @@ SIEM 기능 구조
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **로그 관리(Log Management Systems, LMS)**: 법적 준수 및 사후 감사를 위해 원본 로그를 수집, 압축, 보존하고 빠른 검색을 지원하는 시스템.
 - **보안 데이터 레이크(Security Data Lake)**: Hadoop, S3, Snowflake 등 대용량 원본 보안 이벤트를 장기 저비용 보존하고 파이썬/머신러닝으로 분석하는 저장소.
@@ -162,8 +157,7 @@ SIEM 기능 구조
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소(National Institute of Standards and Technology, NIST)**: 보안 가이드라인 및 정부 표준 기술을 제시하는 미국 기관.
 - **특별 간행물(Special Publication, SP 800-92)**: 전사 컴퓨터 보안 로그 관리 정책, 프로세스 및 기술적 고려사항을 정리한 지침서.
@@ -185,8 +179,7 @@ SIEM 기능 구조
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분석 근거(Analytical Context & Evidence)**: 단순 경보 알림을 넘어 원본 로그, 정규화 필드, 자산 중요도가 결합되어 조사의 정당성을 입증하는 증적 데이터.
 

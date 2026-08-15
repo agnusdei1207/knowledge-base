@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물 사용 효과성(Water Usage Effectiveness, WUE)**: 같은 기간의 데이터센터 물 사용량을 정보기술 장비 에너지로 나눈 물 집약도을 말한다.
 - **킬로와트시(Kilowatt-hour, kWh)**: 일정 시간 동안 사용한 전기 에너지의 양을 나타내는 단위을 의미한다.
@@ -40,8 +39,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **물 수지**: 취수•재사용•방류•증발량을 구분해 데이터센터 물의 유입과 유출을 나타낸 관계을 의미한다.
 - **탄소 사용 효과성(Carbon Usage Effectiveness, CUE)**: 데이터센터 탄소 배출량을 IT 장비 에너지로 나눈 탄소 집약도이다.
@@ -61,8 +59,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **수원별 취수**: 상수•지하수•재생수 등 출처별로 데이터센터에 들어온 물의 양이다.
 - **지역 거버넌스**: 유역 물 스트레스와 전력•탄소•서비스 품질을 함께 고려해 취수•냉각 정책을 정하는 체계이다.
@@ -99,8 +96,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **현장 경계**: 데이터센터 시설 안에서 직접 취수•소비하는 물만 포함하는 측정 범위을 의미한다.
 - **원천 경계**: 현장 물에 전력 생산 과정의 간접 물 사용까지 포함하는 측정 범위을 의미한다.
@@ -128,8 +124,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **현장 물 사용 효과성(site Water Usage Effectiveness, site WUE)**: 데이터센터 경계에서 직접 사용하는 물을 기준으로 계산한 지표로 정의된다.
 - **원천 물 사용 효과성(source Water Usage Effectiveness, source WUE)**: 현장 물에 전력 생산 과정의 간접 물 사용까지 포함해 계산한 지표로 정의된다.
@@ -149,8 +144,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지역 물 스트레스**: 유역의 물 수요가 가용 수자원에 비해 높아 추가 취수의 사회•생태 영향이 큰 상태을 말한다.
 - **전력•물 상충**: 물을 줄이는 냉각이 전력과 탄소를 늘리거나 전력 효율 개선이 물 소비를 늘리는 관계을 의미한다.
@@ -169,8 +163,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동일 경계 비교성**: 포함한 물의 출처•취수•방류•재사용 범위와 기간이 같아 WUE 차이를 해석할 수 있는 성질로 정의된다.
 - **재생수**: 처리한 폐수를 냉각 등 비음용 용도로 다시 사용하는 수자원을 말 체계 적용

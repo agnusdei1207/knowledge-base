@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **정보전략계획(Information Strategy Planning, ISP)**: 경영 전략과 정보화 비전을 연계하여 정보화 목표 설정, 중장기 이행 로드맵 및 투자 계획을 수립하는 전략 방법론.
 - **현행•목표•갭 과제(As-Is, To-Be, Gap Task)**: 현 상태와 목표 모델 간의 차이를 식별하여 투자 우선순위를 결정하고 실행 과제를 도출하는 기법.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **환경 분석(Environment Analysis)**: 내부 역량, 외부 시장 트렌드, 경쟁사 동향 등을 종합적으로 분석하여 정보화 추진을 위한 기회와 위협을 도출하는 전략 기획 단계이다.
 - **목표 성과지표(Key Performance Indicator, KPI)**: 정보화 투자가 실질적인 비즈니스 성과로 이어지는지 추적 및 평가하기 위해 설정하는 정량화된 핵심 측정 기준이다.
@@ -51,8 +49,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **전략 방향(Strategic Direction)**: 기업의 경영 목표를 지원하기 위해 도출된 정보화 비전 및 추진 테마.
 - **현행 모델(As-Is Model)**: 현재 운영 중인 정보시스템의 기능, 성능, 한계점을 분석한 모델.
@@ -84,8 +81,7 @@ ISP
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **환경•요구 분석(Environment & Requirement Analysis)**: 비즈니스 이슈를 식별하고 관련 부서의 요구사항을 수렴하여 전략 수립의 기반을 마련하는 단계이다.
 - **현행 분석(As-Is Analysis)**: 현재 IT 자원과 업무 프로세스의 장단점을 진단하는 단계이다.
@@ -129,8 +125,7 @@ ISP팀
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보시스템 마스터플랜(Information System Master Plan, ISMP)**: 개별 시스템 구축 사업의 요구사항, 발주 규모, 기술 요건을 상세히 규정하는 실행 계획이다.
 - **전사 아키텍처(Enterprise Architecture, EA)**: 조직 내 다양한 정보시스템이 일관된 표준 하에 연계되도록 통제하는 기반 구조이다.
@@ -149,8 +144,7 @@ ISP팀
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유사 사업•기능 중복(Duplicated Functions & Projects)**: 여러 부서에서 유사한 과제를 중복 추진하여 예산이 낭비되는 비효율적 문제 상황이다.
 - **과제 기여 관계(Task Contribution Matrix)**: 도출된 정보화 과제가 기업의 핵심 성과지표 달성에 얼마나 직접적으로 기여하는지 매핑한 분석 도구이다.
@@ -168,8 +162,7 @@ ISP팀
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **투자 효과성(Effectiveness)**: 정보화 투자가 비즈니스 성과에 기여하는 정도를 평가하는 핵심 기준.
 - **실행성(Feasibility)**: 조직 자원 및 기술 역량 등을 고려한 과제 완수 가능성 평가 기준.

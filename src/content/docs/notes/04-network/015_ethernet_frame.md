@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이더넷 프레임(Ethernet Frame)**: 데이터링크 계층(L2)에서 송수신 물리 주소(MAC), 상위 데이터(Payload), 에러 검출 트레일러(FCS)를 캡슐화한 기본 전송 데이터 단위(PDU).
 - **매체 접근 제어 주소(Media Access Control Address, MAC Address)**: 48비트(6바이트) 크기로 구성되어 동일 L2 네트워크 내 송수신 인터페이스를 고유하게 구분하는 물리적 하드웨어 주소.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **프리앰블(Preamble)**: 수신측 NIC가 동기화 비트 클록(Clock)을 맞출 수 있도록 송신하는 7바이트의 `10101010` 비트 패턴.
 - **프레임 시작 구분자(Start Frame Delimiter, SFD)**: 프리앰블 바로 뒤에 위치하여 이더넷 프레임의 실제 시작점임을 알리는 1바이트의 `10101011` 비트 패턴.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이더타입(EtherType)**: Ethernet II 프레임에서 페이로드에 포함된 상위 3계층 프로토콜(예: 0x0800=IPv4, 0x0806=ARP, 0x86DD=IPv6)을 식별하는 2바이트 필드 (값 >= 0x0600).
 - **논리 링크 제어(Logical Link Control, LLC)**: IEEE 802.3 프레임에서 상위 프로토콜을 다중화(DSAP/SSAP)하고 흐름 제어를 수행하는 L2 상위 부계층.
@@ -94,8 +91,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 인터페이스 카드(Network Interface Card, NIC)**: 이더넷 프레임을 물리 신호로 직렬화하여 송수신하고, MAC 주소 및 CRC 오류 검증을 담당하는 하드웨어 장치.
 - **프레임 전송(Frame Transmission)**: L3 패킷을 수신하여 L2 헤더/트레일러(FCS)를 캡슐화하고 매체로 송출하는 과정.
@@ -140,8 +136,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이더넷 II(Ethernet II / DIX Ethernet)**: 디지털, 인텔, 제록스(DIX)가 규정한 프레임으로 Type 필드를 통해 L3 프로토콜을 직접 식별하여 상용 인터넷에서 표준으로 사용되는 방식.
 - **IEEE 802.3 LLC(Institute of Electrical and Electronics Engineers 802.3 LLC)**: 2바이트 필드를 Length로 사용하고 뒤에 802.2 LLC 및 SNAP 헤더를 추가하여 프로토콜을 식별하는 산업 표준 방식.
@@ -163,8 +158,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 프레임 페이로드로 실을 수 있는 최대 L3 IP 패킷 바이트 규격 (표준 이더넷: 1500바이트).
 - **점보 프레임(Jumbo Frame)**: 표준 MTU(1500바이트)보다 큰 최대 9000바이트의 페이로드를 수용하여 프레임 오버헤드와 CPU 인터럽트를 획기적으로 줄이는 기술.
@@ -185,8 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **경로 MTU 일치(Path MTU Alignment)**: 송수신 호스트부터 중간 L2/L3 스위치, 라우터 전 구간의 MTU 및 점보 프레임 설정을 동일하게 맞추는 최적화 가이드라인.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 폐지**: 유효기간 전이라도 개인키 유출•오발급•권한 상실이 발생한 인증서를 신뢰 대상에서 제외하는 조치이다.
 - **인증기관(Certificate Authority, CA)**: 인증서를 발급하고 폐지 상태에 서명하는 신뢰기관이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **폐지 정보 전파 지연(Propagation Delay)**: CA의 폐지 처리 시점과 검증자가 최신 상태를 대조하는 시점 사이의 보안 위험 구간.
 - **소프트 실패(Soft-fail)**: 상태 질의 실패 시 서비스 연속성을 위해 인증서를 승인 처리하는 가용성 중심 정책.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CRL 배포점(CRL Distribution Point, CDP)**: CA가 서명한 폐지 인증서 일련번호 목록을 게시하는 디렉터리 저장소.
 - **OCSP 응답자(OCSP Responder)**: 질의된 단일 인증서의 상태 및 적용 시각(thisUpdate/nextUpdate)을 전자서명하여 반환하는 서버.
@@ -96,8 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **thisUpdate**: 폐지 상태 정보가 생성 및 확인된 기준 시각.
 - **nextUpdate**: 차기 상태 정보가 제공되는 유효 한계 시각.
@@ -144,8 +140,7 @@ CA 폐지 상태 갱신
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 계층 보안(Transport Layer Security, TLS)**: 데이터 기밀성 및 상대 신원 검증을 제공하는 통신 보안 프로토콜.
 - **OCSP 스테이플링(OCSP Stapling)**: TLS 핸드셰이크 시 서버가 미리 발급받은 CA 서명 OCSP 응답을 클라이언트에 전달하는 기술.
@@ -166,8 +161,7 @@ CA 폐지 상태 갱신
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RFC 5280(RFC 5280 Standard)**: Internet X.509 인증서 및 CRL 프로파일과 경로 검증 규정 표준.
 - **RFC 6960(RFC 6960 Standard)**: OCSP 프로토콜 메시지 구조 및 상태 검증 기준 규정 표준.
@@ -186,8 +180,7 @@ CA 폐지 상태 갱신
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **폐지 확인 방식 선택(Revocation Method Selection)**: 시스템 성능, 네트워크 환경, 프라이버시 및 장애 위험을 종합 판단하여 CRL/OCSP/Stapling 중 최적 기법을 채택하는 통제 기준.
 

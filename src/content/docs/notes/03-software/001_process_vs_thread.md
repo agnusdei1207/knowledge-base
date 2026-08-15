@@ -19,7 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **프로세스(Process)**: 커널로부터 고유의 가상 주소 공간(Code, Data, Heap, Stack)과 PCB, 자원을 할당받아 실행되는 독립적인 자원 보호 및 실행 단위.
 - **스레드(Thread)**: 프로세스 내부에서 주소 공간을 공유하며, 독자적인 Stack 및 TCB를 갖고 CPU 스케줄링의 최소 단위로 실행되는 제어 흐름.
@@ -165,7 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어 (Key Terminology)</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 단위 선택 기준(Execution Unit Selection Criteria)**: 시스템 결함 격리 수준, 메모리 공유 빈도, 지연시간 타깃에 근거한 설계 아키텍처 수립 체계.
 

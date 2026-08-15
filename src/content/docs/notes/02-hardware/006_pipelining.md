@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파이프라이닝(Pipelining)**: 하나의 명령어를 인출, 해독, 실행 등 복수의 독립적 단계로 분할하고, 서로 다른 명령어의 처리 단계를 동일 시점에 겹쳐 실행(Overlapping)하여 단위 시간당 명령어 처리량(IPC)을 높이는 하드웨어 병렬 기법.
 - **비파이프라인 구조(Non-Pipelined Architecture)**: 한 명령어의 모든 실행 단계(Fetch~Write-back)가 최종 완결될 때까지 후속 명령어의 진입을 전면 대기시키는 순차 실행 아키텍처.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **처리량(Throughput)**: 단위 시간 동안 파이프라인 최종 단계를 빠져나와 완료(Commit)되는 기계어 명령어의 총량.
 - **지연시간(Latency)**: 단일 명령어의 인출(Fetch) 시작 시점부터 결과가 레지스터에 기록(Write-back) 완료될 때까지 소요되는 총 시간.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **명령어 인출(Instruction Fetch, IF)**: PC가 지시하는 메모리 주소에서 기계어를 읽어오고 PC를 다음 주소로 자동 증가시키는 1단계.
 - **명령어 해독(Instruction Decode, ID)**: IR의 오퍼코드를 디코딩하고 지정된 범용 레지스터 파일에서 피연산자를 인출하는 2단계.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 경로(Data Path)**: 피연산자와 연산 결과가 IF, ID, EX, MEM, WB 레지스터와 연산기를 거쳐 흐르는 하드웨어 통로.
 - **레지스터 파일(Register File)**: ID 단계에서 입력값을 읽어오고 WB 단계에서 최종 결과를 기록하는 멀티포트 저장 블록.
@@ -120,8 +116,7 @@ Instruction 4:                         IF  ──> ID  ──> EX  ──> MEM �
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **해저드(Hazard)**: 명령어 파이프라인 상에서 자원 경합, 데이터 의존성, 조건 분기로 인해 다음 클록에 명령어를 계속 실행하지 못하는 구조적 장애.
 - **버블(Bubble / Stall)**: 해저드 발생 시 파이프라인 하위 단계에 아무런 연산도 수행하지 않는 NOP(No Operation) 신호를 주입하여 1클록 멈추게 하는 지연.
@@ -142,8 +137,7 @@ Instruction 4:                         IF  ──> ID  ──> EX  ──> MEM �
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포워딩(Forwarding / Bypassing)**: EX/MEM 단계를 지난 ALU 연산 결과를 WB 레지스터 저장을 기다리지 않고 다음 클록의 EX 단계 입력 MUX로 직통 연결하는 하드웨어 기술.
 - **분기 예측(Branch Prediction)**: ID/EX 단계에서 조건 분기 결과가 확정되기 전에 BTB(Branch Target Buffer) 등을 통해 다음 Fetch 주소를 예측 구동하는 기술.
@@ -166,8 +160,7 @@ Instruction 4:                         IF  ──> ID  ──> EX  ──> MEM �
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **파이프라인 개선 기준(Pipeline Optimization Criteria)**: 실행 시간 공식 $\text{Execution Time} = \text{IC} \times \text{CPI} \times \text{Clock Cycle Time}$에 입각하여 파이프라인 깊이, 해저드 제어, 클록 주파수의 공학적 균형을 수립하는 평가 지표.
 

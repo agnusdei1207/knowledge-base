@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **토큰화(Tokenization)**: 원문 문자열을 모델 어휘에 정의된 토큰 조각으로 나누고 정수 ID 열로 변환하는 과정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **토큰 식별자(Token Identifier, Token ID)**: 모델 어휘의 각 토큰에 대응하여 신경망 입력으로 사용하는 정수 식별자로 정의된다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **어휘(Vocabulary)**: 모델이 직접 표현하고 생성할 수 있는 토큰과 ID의 정의 집합을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **서브워드(Subword)**: 단어보다 작지만 반복되는 형태나 의미를 보존하는 가변 길이 문자열 조각을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유니코드 정규화(Unicode Normalization)**: 동일 문자의 여러 코드 조합을 일관된 문자열로 맞추는 처리이다.
 - **바이트 페어 인코딩(Byte Pair Encoding, BPE)**: 말뭉치에서 자주 함께 나타나는 문자•토큰 쌍을 반복 병합하여 서브워드 어휘를 만드는 알고리즘을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사전 분절(Pre-tokenization)**: 공백•구두점•언어 규칙으로 서브워드 탐색 전에 기본 문자열 경계를 만드는 과정을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **식별자 매핑(Identifier Mapping, ID Mapping)**: 문자열 조각과 제어 기호를 정수 식별자에 대응시키는 과정이다.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단어 단위 토큰화**: 단어 전체를 한 ID로 표현해 토큰열은 짧지만 어휘•미등록어가 늘어나는 방식이다.
 - **서브워드 단위 토큰화**: 빈번한 문자열 조각을 가변 길이로 사용하여 어휘 크기와 토큰 수를 절충하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **토크나이저 버전 고정**: 학습•운영의 정규화•어휘•ID 파일과 버전을 명시하는 통제이다.
 - **복원율**: Token ID를 복호했을 때 원문 정보•표기가 보존되는 정도이다.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **복호(Decoding)**: 생성된 Token ID 열을 문자열로 되돌리는 처리이다.
 

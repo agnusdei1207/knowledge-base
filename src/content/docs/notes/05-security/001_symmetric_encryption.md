@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대칭키 암호(Symmetric Key Cryptography)**: 송신자와 수신자가 동일한 비밀키로 평문의 암·복호화를 수행하는 기법.
 - **비밀키(Secret Key)**: 암호화와 복호화에 공통으로 사용하며 외부에 노출하지 않아야 하는 핵심 통제값.
@@ -37,8 +36,7 @@ extra:
 - **비밀키** 기반 고속 암호화와 **키 유출 단일장애점** 내재
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **블록 암호(Block Cipher)**: 평문을 고정 길이 블록으로 나누어 비밀키로 변환하는 암호 기술.
 - **스트림 암호(Stream Cipher)**: 키스트림과 평문을 연속적으로 비트/바이트 단위 결합하는 암호화 기법.
@@ -61,8 +59,7 @@ extra:
 - 동일 키의 **논스 재사용**을 막아 암호문 규칙 노출 방지
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **부가 인증 데이터(Additional Authenticated Data, AAD)**: 암호화하지 않지만 인증 태그 계산에 포함하여 무결성을 검증하는 데이터.
 - **인증 태그(Authentication Tag)**: 암호문과 AAD의 변조 여부를 수신 측에서 검증하기 위한 데이터인증값.
@@ -91,8 +88,7 @@ extra:
 - 응용의 키 보관을 배제하고 **KMS•AEAD 모듈**에 위임
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **키 핸들(Key Handle)**: 원문 키를 외부에 노출하지 않고 암호 모듈이 허가된 키를 사용하게 하는 참조값.
 - **AEAD 암호•태그 생성(AEAD Encryption and Tag Generation)**: 평문 암호화와 동시에 AAD 기반 무결성 인증 태그를 일괄 생성하는 연산 과정.
@@ -136,8 +132,7 @@ extra:
 - **인증 태그 검증** 뒤에만 평문을 공개해 위조 자료 차단
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **고급 암호화 표준(Advanced Encryption Standard, AES)**: 128비트 블록과 128/192/256비트 키를 사용하는 대표적 블록 암호 표준.
 - **갈루아/카운터 모드(Galois/Counter Mode, GCM)**: 카운터 암호화와 갈루아 인증을 결합한 병렬 처리 가능 AEAD 운용 모드.
@@ -162,8 +157,7 @@ extra:
 - 통신은 **AEAD**, 디스크 섹터는 **AES-XTS** 선택
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연방 정보 처리 표준 197(Federal Information Processing Standards 197, FIPS 197)**: AES의 블록 길이와 키 연산 규격을 명시한 정부 표준.
 - **NIST SP 800-38D(NIST Special Publication 800-38D)**: AES-GCM의 인증 암호화 동작과 논스 조건을 정의한 기술 지침.
@@ -181,8 +175,7 @@ extra:
 - 용도별 **키•논스 공간** 분리와 **검증 후 평문 공개** 적용
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보호 대상별 암호 선택(Target-specific Cipher Selection)**: 통신 데이터에는 무결성을 포함한 AEAD를, 디스크 섹터에는 위치별 기밀성을 제공하는 AES-XTS를 적용하는 설계 기준.
 

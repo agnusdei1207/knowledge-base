@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소프트웨어 정의 네트워킹(Software-Defined Networking, SDN)**: 네트워크 제어 평면과 전달 데이터 평면을 물리 분리하여 관제하는 기술 구조이다.
 - **OpenFlow(OpenFlow Protocol / ONF Standard)**: SDN 컨트롤러와 OpenFlow 스위치 간에 흐름 테이블(Flow Table) 엔트리를 추가, 삭제, 조회하기 위한 사우스바운드 제어 프로토콜이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Match-Action(Match-Action Pipeline)**: 수신 패킷 헤더(L2~L4 필드)가 흐름 규칙 매칭 조건(Match)과 일치 시 지정된 액션(Forward, Drop, Modify)을 실행하는 제어 기법이다.
 - **Group·Meter 테이블(Group & Meter Table)**: 다중 경로 라우팅/미러링/페일오버를 관장하는 Group 테이블과 트래픽 대역폭 속도 제한(QoS)을 관장하는 Meter 테이블의 연동 구조이다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OpenFlow 채널(OpenFlow Channel / TLS Connection)**: SDN 컨트롤러와 OpenFlow 스위치 간의 암호화(TLS/TCP 6653 포트) 제어 메시지 교환 통로이다.
 - **데이터 경로(Data Path / OpenFlow Pipeline)**: 스위치 내부의 흐름 테이블(Flow Table) 파이프라인을 거쳐 패킷을 실제 물리 포트로 전송하는 데이터 포워딩 영역이다.
@@ -92,8 +89,7 @@ SDN 컨트롤러 및 OpenFlow 파이프라인 아키텍처
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Packet-In(Packet-In Control Message)**: 스위치 흐름 테이블에 일치하는 매칭 엔트리가 없을 때(Table-Miss) 패킷의 헤더 및 입력 포트 정보를 컨트롤러로 보내는 회신 메시지이다.
 - **Flow-Mod(Flow Modification Message / Flow-Mod)**: 컨트롤러가 스위치 흐름 테이블에 규칙을 추가(ADD), 수정(MODIFY), 삭제(DELETE)하도록 지시하는 하향 제어 메시지이다.
@@ -131,8 +127,7 @@ SDN 컨트롤러 및 OpenFlow 파이프라인 아키텍처
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **반응형 제어(Reactive Flow Setup / Dynamic Setup)**: 미지 패킷이 올 때마다 Packet-In으로 컨트롤러에 질의하여 동적으로 규칙을 주입받는 제어 방식이다.
 - **선제형 제어(Proactive Flow Setup / Static Setup)**: 트래픽 발생 이전에 컨트롤러가 예상 경로 규칙을 스위치에 미리 일괄 정적으로 주입해 두는 제어 방식이다.
@@ -156,8 +151,7 @@ SDN 컨트롤러 및 OpenFlow 파이프라인 아키텍처
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유휴 제한 시간(Idle Timeout / Hard Timeout)**: 스위치 TCAM의 메모리 고갈을 막기 위해 지정 시간 동안 일치 패킷이 없거나(Idle) 일정 시간(Hard)이 지나면 엔트리를 자동으로 파기하는 기술이다.
 
@@ -176,8 +170,7 @@ SDN 컨트롤러 및 OpenFlow 파이프라인 아키텍처
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **규칙 설치 전략(Hybrid Flow Rule Installation Strategy)**: 대용량 코어 트래픽은 선제형(Proactive)으로 주입하고 예외 트래픽은 반응형(Reactive)으로 조합하는 모범 구축 방식이다.
 

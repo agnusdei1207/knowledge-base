@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확산모델(Diffusion Model)**: 순방향 잡음 추가와 역방향 제거로 표본을 생성한다.
 - **모드 붕괴(Mode Collapse)**: 생성 분포의 일부 유형만 반복 생성하는 현상이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순방향 확산(Forward Diffusion)**: 원본에 시점별 잡음을 섞어 학습 상태를 만든다.
 - **역방향 잡음 제거(Reverse Denoising)**: 무작위 잡음에서 예측 잡음을 단계적으로 제거한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **잡음 스케줄(Noise Schedule)**: 시점별 신호와 잡음의 혼합 비율 규칙이다.
 - **잡음 제거 모델(Denoiser)**: 제거할 잡음이나 이전 상태를 예측한다.
@@ -82,8 +79,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시점 조건(Timestep Condition)**: 제거 모델에 현재 확산 단계를 알려 주는 입력이다.
 - **역전이(Reverse Transition)**: 현재 상태와 예측으로 이전 상태를 계산한다.
@@ -117,8 +113,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **잡음 제거 확산 확률 모델(Denoising Diffusion Probabilistic Model, DDPM)**: 확률적 마르코프 역전이 방식이다.
 - **잡음 제거 확산 암시 모델(Denoising Diffusion Implicit Model, DDIM)**: 결정론적 비마르코프 갱신 방식이다.
@@ -138,8 +133,7 @@ DDPM과 DDIM은 역전이의 확률성과 단계 수가 다르다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **잡음 제거 오차 누적**: 단계 축소•예측 오차가 최종 표본에 쌓이는 문제이다.
 - **조건 유도 강도(Guidance Scale)**: 조건 신호의 생성 영향력을 조절하는 값이다.
@@ -156,8 +150,7 @@ DDPM과 DDIM은 역전이의 확률성과 단계 수가 다르다.
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **생성 지연(Generation Latency)**: 역전이와 모델 추론의 전체 응답 시간이다.
 - **표본 다양성(Sample Diversity)**: 같은 조건에서 다른 유효 결과를 생성하는 정도이다.

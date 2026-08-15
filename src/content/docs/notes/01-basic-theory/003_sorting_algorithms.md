@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정렬 알고리즘(Sorting Algorithm)**: 원소들을 지정된 키 순서로 재배열하여 후속 탐색 및 병합 처리 효율을 높임.
 - **키(Key)**: 레코드 간 정렬 순서를 판단하고 비교하는 기준값.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비교 정렬(Comparison Sort)**: 키 대소 비교 연산 결과만으로 순서를 결정하는 정렬 기법.
 - **비교 정렬 하한(Lower Bound of Comparison Sort, $\Omega(n\log n)$)**: 비교 기반 정렬이 도달할 수 있는 이론적 최악 성능 한계.
@@ -64,8 +62,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정렬 제어기(Sort Controller)**: 정렬 대상 구간 관리 및 재귀·반복 제어 흐름을 전담함.
 - **비교 함수(Comparator)**: 두 원소의 키를 비교하여 대소 및 동등 관계를 판정함.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **입력 규모(Input Scale)**: 인메모리 처리와 외부 정렬 방식을 가르는 데이터 크기.
 - **선택 우선순위(Selection Priority)**: 시간, 공간, 안정성, 최악 상한 간 최우선 고려 조건.
@@ -119,8 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **퀵 정렬(Quick Sort)**: 피벗 기반 분할 후 좌우 구간을 독립 재귀 정렬함.
 - **병합 정렬(Merge Sort)**: 데이터를 반으로 분할 정렬 후 순서대로 합치는 분할 정복 기반 안정 정렬.
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **외부 정렬(External Sorting)**: 주기억장치 용량을 초과하는 대용량 데이터를 블록 단위로 나누어 디스크 기반으로 병합함.
 - **불균형 분할(Unbalanced Partition)**: 피벗 편향으로 인해 퀵 정렬의 재귀 깊이가 $O(n)$으로 심화되는 현상.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **안정성(Stability)**: 동일한 키 값을 가진 원소들의 초기 상대적 위치 관계를 정렬 후에도 보존하는 특성.
 

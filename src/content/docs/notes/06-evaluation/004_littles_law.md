@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **리틀의 법칙(Little's Law)**: 안정 상태 시스템 내 평균 작업 수(L)가 처리율($\lambda$)과 평균 체류시간(W)의 곱($L=\lambda W$)으로 도출된다는 대기행렬 법칙.
 - **평균 작업 수(L, WIP)**: 시스템 내 처리를 기다리거나 실행 중인 작업의 평균 개수.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **평균 처리율($\lambda$, Throughput)**: 단위 시간당 시스템이 완료하여 배출하거나 수용 중인 트랜잭션들의 평균 횟수.
 - **평균 체류시간($W$, Lead Time)**: 요청 진입부터 큐 대기, 실행, 완료되어 나갈 때까지 소요된 총 평균 시간.
@@ -60,7 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **측정 경계(Measurement Boundary)**: 분석 대상 작업의 시작과 완료 지점을 명확히 구획하여 통계 훼손을 방지하는 통제 범위.
 - **재공량(WIP: Work In Process)**: 시스템에 투입되어 처리가 완료되지 않은 채 대기하거나 실행 중인 잔여 작업량.
@@ -96,7 +96,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **유입량(Arrival Volume)**: 모니터링 기간 동안 특정 측정 경계 안으로 진입한 총 트랜잭션 횟수.
 - **완료량(Completion Volume)**: 기간 내 정상 처리를 거쳐 경계 밖으로 배출된 트랜잭션 총수.
@@ -138,7 +138,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **용량•동시성 산정(Capacity & Concurrency Estimation)**: 처리율과 체류시간 목표치를 리틀 법칙에 대입하여 안전한 동시 작업량을 기획하는 자원 계획 방식.
 - **암달의 법칙(Amdahl's Law)**: 순차 로직 비율로 인해 얻을 수 있는 성능 향상의 가속 한계를 예견하는 법칙.
@@ -160,7 +160,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **경계 정합성(Boundary Congruence)**: 작업 성격, 진입/종료점, 관측 구간을 통일하여 연산 논리의 무결성을 담보하는 원칙.
 - **비정상 상태(Unsteady State)**: 유입 트래픽($\lambda$)이 배출 완료량을 압도해 지연이 폭주하는 측정 불가 상태.
@@ -180,7 +180,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **평균값 검산(Average Validity Checking)**: 실측된 두 지표를 공식에 대입해 나머지 지표와 논리적으로 상통하는지 검사하는 무결성 검수.
 - **적용 판단(Application Decision)**: 안정 상태 시 리틀 법칙을, 붕괴 구간 시 시계열 분산 추적 모드로 전환하는 분석 전략.

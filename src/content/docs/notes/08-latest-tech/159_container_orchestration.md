@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **컨테이너 오케스트레이션(Container Orchestration)**: 다중 노드 환경에서 컨테이너의 배포, 네트워킹, 서비스 발견, 자원 관리, 장애 복구 및 확장을 자동화하여 선언적 목표 상태로 유지하는 운영 체계.
 - **컨테이너 런타임(Container Runtime)**: 호스트 운영체제 상에서 컨테이너의 실행, 격리 및 생명주기(이미지 로드, 시작, 정지)를 관리하는 하위 수준 소프트웨어.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목표 상태(Desired State)**: 운영자가 선언적으로 정의한 서비스의 실행 개수, 버전, 리소스 요구사항, 네트워크 규칙 등 지향하는 상태.
 - **서비스 발견(Service Discovery)**: 동적으로 할당되고 위치가 변경되는 컨테이너들의 주소를 식별하고, 안정적인 서비스 연결을 보장하는 기법.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스케줄러(Scheduler)**: 가용 자원, 정책(Affinity/Anti-Affinity), 제약 조건을 평가하여 컨테이너가 최적으로 실행될 호스트 노드를 선택하는 모듈.
 - **선언 조정(Reconciliation)**: 목표 상태와 실제 상태를 지속적으로 비교하여 차이를 감시하고 자동 동기화하는 제어 루프(Control Loop).
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **선언 조정기**: 목표 상태와 실제 상태의 차이를 계산해 배치•확장•복구 요청을 만드는 구성요소을 의미한다.
 - **준비 인스턴스**: 실행을 마치고 서비스 요청을 정상 처리할 수 있다고 판정된 컨테이너로 정의된다.
@@ -122,8 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **쿠버네티스(Kubernetes, K8s)**: 컨테이너 오케스트레이션 개념을 구현한 대표 플랫폼로 정의된다.
 - **운영체제(Operating System, OS)**: 하드웨어 자원과 응용 실행 환경을 관리하는 시스템 소프트웨어로 정의된다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 감시 루프**: 실제 실행 수•준비 상태•부하를 반복 관측해 목표와의 차이를 찾는 과정을 의미한다.
 - **주소 추상화**: 컨테이너 위치가 바뀌어도 동일한 서비스 이름과 가상 주소로 접근하게 하는 기능을 말한다.
@@ -164,8 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다중 호스트**: 컨테이너 실행 자원을 제공하도록 하나의 운영 체계로 묶은 여러 서버을 의미한다.
 - **동적 상태**: 장애•배포•부하 변화에 따라 컨테이너 수와 위치가 계속 달라지는 운영 상태을 의미한다.

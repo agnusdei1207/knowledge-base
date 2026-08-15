@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 병렬화(Model Parallelism)**: 단일 연산 장치의 메모리 한계를 초과하는 거대 모델의 파라미터, 연산 구조, 학습 상태를 여러 장치에 분할하여 공동 실행하는 병렬 학습 기법.
 - **모델 상태(Model State)**: 모델의 파라미터(Weight), 기울기(Gradient), 옵티마이저 상태(Optimizer State) 값을 포함하는 전체 학습 변수.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **활성값(Activation)**: 모델의 특정 층(Layer)에서 입력 데이터를 연산하여 생성하고 다음 층으로 전달하는 중간 출력값.
 - **파이프라인 버블(Pipeline Bubble)**: 파이프라인 병렬화 과정에서 전후 단계 간의 데이터 의존성으로 인해 특정 연산 장치가 유휴(Idle) 상태가 되는 시간적 공백.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **병렬 런타임(Parallel Runtime)**: 모델 조각, 통신 그룹을 장치 토폴로지에 최적 배치하고 분산 연산을 실행하는 소프트웨어 프레임워크.
 - **병렬화 계획기(Parallel Planner)**: 모델의 계층 구조, 텐서 크기, 장치 가용 메모리 및 토폴로지를 분석하여 최적의 분할 축, 단계 구성, 통신 그룹을 설계하는 모듈.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순전파•역전파(Forward•Backward Propagation)**: 입력으로 예측을 계산하고 오차 기울기를 반대 방향으로 전달하는 학습 연산이다.
 - **병목 평가**: 장치별 메모리•유휴 시간•통신량을 측정해 분할과 배치를 조정하는 과정이다.
@@ -120,8 +116,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **텐서 병렬화(Tensor Parallelism)**: 하나의 계층 안에서 텐서 연산과 파라미터를 여러 장치에 나누고 부분 결과를 합치는 방식을 말한다.
 - **파이프라인 병렬화(Pipeline Parallelism)**: 연속 모델 층을 여러 단계에 나누고 활성값•기울기를 단계 사이에 전달하는 방식을 의미한다.
@@ -142,8 +137,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 소유권**: 분할된 파라미터•기울기•옵티마이저 상태를 어느 장치가 보관하고 갱신하는지 정한 관계을 의미한다.
 - **체크포인트 샤드**: 모델 병렬 그룹이 맡은 학습 상태만 나누어 저장한 복구 데이터 조각을 말한다.
@@ -161,8 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분할 축**: 모델을 계층•행•열 등 어떤 차원을 기준으로 여러 장치에 나눌지 정한 방향이다.
 - **고대역폭 그룹**: 빈번한 부분 결과 교환을 감당하도록 빠른 링크로 연결한 장치 집합이다.

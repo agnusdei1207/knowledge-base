@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 IP 주소를 가진 내부 단말이 외부 인터넷망과 통신할 수 있도록 라우터/방화벽 경계에서 공인 IP 주소로 상호 변환해주는 기술.
 - **포트 주소 변환(Port Address Translation, PAT / NAT Overload)**: 단일 공인 IP 주소의 L4 포트 번호(Port Number)를 다르게 식별하여 다수의 사설 IP 단말이 공인 IP 1개를 공유(N:1)할 수 있도록 주소와 포트를 동시 변환하는 기술.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 기반 NAT(Stateful NAT)**: 패킷의 5-Tuple(프로토콜, 출발지/목적지 IP, 출발지/목적지 Port) 정보를 변환 테이블에 세션 상태로 보관하여 수신 응답 패킷을 역변환 처리하는 메커니즘.
 - **변환 테이블(Translation Table / NAT Table)**: 경계 장비 메모리상에 유지되는 변환 전/후 사설 IP, 공인 IP, L4 포트 및 세션 타임아웃 상태 정보표.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사설 IP 주소(Private IP Address)**: 공공 인터넷 라우팅이 불가능한 사내/내부 전용 주소 대역 (RFC 1918: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
 - **공인 IP 주소(Public IP Address)**: ICANN/KISA 등 주소 할당 기관으로부터 정식 부여받아 인터넷 전역 라우팅이 가능한 주소.
@@ -98,8 +95,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **5-튜플(5-Tuple)**: 패킷의 프로토콜, 출발지 IP, 출발지 Port, 목적지 IP, 목적지 Port 5가지 요소로 구성된 단일 연결 식별 단위.
 - **체크섬 갱신(Checksum Recalculation)**: NAT 장비가 IP 헤더 및 TCP/UDP 헤더의 주소/포트를 변경한 후 L3/L4 무결성 검증용 체크섬을 재산출하는 작업.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정적 NAT(Static NAT)**: 사설 IP 주소와 공인 IP 주소를 1:1로 고정 매핑하는 방식.
 - **동적 NAT(Dynamic NAT)**: 여러 사설 IP 주소가 다수의 공인 IP 주소 풀(Pool)에서 미사용 주소를 선점하여 1:1로 임시 매핑하는 방식.
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포트 포워딩(Port Forwarding)**: PAT 환경에서 외부 특정 포트(예: 8080)로 유입되는 연결 요청을 내부의 특정 사설 IP:Port로 전달하도록 정적으로 개방해 주는 기법.
 - **응용 계층 게이트웨이(Application Layer Gateway, ALG)**: FTP, SIP, H.323 등 패킷 페이로드(Payload) 내부에 IP/Port 정보가 포함된 프로토콜을 인지하여 페이로드 주소까지 보정 변환해주는 기능.
@@ -184,8 +178,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NAT 방식 선택(NAT Strategy Selection)**: 서비스 도달성(Inbound) 필요 유무와 내부 호스트 수 및 보안 요건을 고려하여 Static NAT, Dynamic NAT, PAT 중 최적을 결정하는 아키텍처 수립.
 

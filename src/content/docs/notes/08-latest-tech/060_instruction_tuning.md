@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지시 튜닝(Instruction Tuning)**: 다양한 과제의 지시문•입력•모범 응답으로 모델의 지시 이행을 지도 학습하는 기법으로 정의된다.
 - **지시 이행(Instruction Following)**: 요청의 목표•조건•출력 형식을 해석하여 그에 맞는 응답을 생성하는 능력을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다과제 혼합(Multi-task Mixing)**: 서로 다른 과제와 지시 표현을 함께 학습하여 새로운 지시로 일반화하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **대화 템플릿(Chat Template)**: 역할•지시•입력•응답•종료 경계를 일관된 토큰 형식으로 정의한 서식을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **과제 혼합기(Task Mixer)**: 과제별 표본 비율과 난도를 조정하여 특정 과제의 편중을 줄이는 모듈을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **지시 데이터 스키마(Instruction Data Schema)**: 지시문•선택 문맥•입력•모범 응답을 일관된 학습 필드로 표현한 구조를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가 누출(Evaluation Leakage)**: 평가 문항이나 유사 표본이 학습 데이터에 포함되어 일반화 성능이 과대 측정되는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **미학습 과제(Held-out Task)**: 학습에서 제외하고 새로운 지시에 대한 일반화 성능을 평가하는 독자 과제를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사전학습(Pre-training)**: 대규모 다음 토큰 예측으로 범용 언어 표현과 지식을 학습하는 단계를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **지시 튜닝 역할(Role of Instruction Tuning)**: 다과제 모범 응답으로 새로운 지시 이행 행동을 학습시키는 방식을 나타낸다.
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **과제 분포 편중(Task Distribution Imbalance)**: 일부 과제의 표본이 지나치게 많아 다른 지시의 일반화 성능이 저하되는 현상을 칭한다.
 - **템플릿 오염(Template Contamination)**: 역할•종료 토큰이 일관되지 않아 모델이 입력과 응답 경계를 혼동하는 문제를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -167,8 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지시 튜닝 적용 범위(Instruction Tuning Scope)**: 새 지시와 출력 형식을 안정적으로 따르는 능력을 학습할 때 적용하는 범위를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **선호•안전 정렬 적용 범위(Preference & Safety Alignment Scope)**: 사실성과 안전 행동을 별도 평가한 뒤 인간 의도에 맞게 조정할 때 적용하는 영역을 나타낸다.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **악성코드 정보 공유 플랫폼(Malware Information Sharing Platform, MISP)**: 위협 사건•지표•관측 데이터를 자동 상관 분석하고 기관 간 안전하게 공유하는 오픈소스 위협 인텔리전스 플랫폼.
 - **사이버 위협 인텔리전스(Cyber Threat Intelligence, CTI)**: 위협 데이터에 공격자•전술•신뢰도•영향 맥락을 부여한 정형 지식.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분류체계(Taxonomy)**: 위협 정보에 TLP, 신뢰 등급, 산업 분류 등의 분류 태그를 표준화하여 부여하는 체계.
 - **갤럭시(Galaxy)**: 위협 행위자, 기법, 악성코드 툴킷 등 고차원 위협 맥락 지식을 맵핑하는 묶음 구조.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이벤트(Event)**: 관련 속성, 지표, 맥락 정보를 하나의 사건 단위로 카테고리화한 MISP 분석 기본 단위.
 - **공유그룹(Sharing Group)**: 위협 정보의 열람•재배포 권한을 특정 조직 집합으로 제한하는 통제 메커니즘.
@@ -90,8 +87,7 @@ MISP 플랫폼 구조
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **경고목록(Warninglist)**: Google DNS, CDN 등 정상 주소를 위협 지표로 오인하는 오탐을 방지하기 위한 예외 검증 목록.
 - **트래픽 라이트 프로토콜(Traffic Light Protocol, TLP)**: RED, AMBER, GREEN, CLEAR 4가지 색상으로 위협 정보의 공유 허용 범위를 명시하는 공유 규약.
@@ -138,8 +134,7 @@ API 적중•오탐 관측 등록
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **구조화 위협 정보 표현(Structured Threat Information eXpression, STIX)**: 위협 객체와 연관 관계를 표현하는 표준 언어.
 - **신뢰 정보 자동 교환(Trusted Automated eXchange of Intelligence Information, TAXII)**: STIX 위협 데이터를 안전하게 전송하는 프로토콜.
@@ -160,8 +155,7 @@ API 적중•오탐 관측 등록
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사고 대응•보안 팀 포럼(Forum of Incident Response and Security Teams, FIRST)**: 전 세계 침해사고대응팀(CSIRT) 간 글로벌 협력 포럼.
 - **FIRST TLP 2.0**: 위협 정보의 기밀성 수준과 정보 공유 경계를 표준 정의한 최신 규격.
@@ -183,8 +177,7 @@ API 적중•오탐 관측 등록
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 품질(Operational Quality Metrics)**: 지표의 단순 수집량을 넘어 상관 관계 분석, 관측 피드백 적시성, TLP 공유 통제 준수율을 평가하는 성과 지표.
 

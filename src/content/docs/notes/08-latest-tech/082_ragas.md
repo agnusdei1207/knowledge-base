@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RAGAS**: 질의•문맥•응답•기준 정보로 RAG 품질을 자동 평가하는 프레임워크이다.
 - **검색 증강 생성(Retrieval-Augmented Generation, RAG)**: 검색 문서를 생성 답변의 근거로 제공하는 방식이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **충실성(Faithfulness)**: 응답 주장이 검색 문맥으로 뒷받침되는 정도이다.
 - **문맥 정밀도•재현율(Context Precision•Recall)**: 관련 근거의 순위와 포함 정도이다.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **평가 모델(Evaluation Model)**: 자연어 의미와 지표 규칙으로 표본을 판정한다.
 - **임베딩 모델(Embedding Model)**: 의미 유사도 지표를 위한 벡터를 생성한다.
@@ -87,8 +84,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 조건 고정(Execution-condition Pinning)**: 모델•프롬프트•버전•재시도를 기록한다.
 
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **LLM 기반 평가(LLM-based Evaluation)**: 모델의 의미 이해로 판정한다.
 - **비LLM 기반 평가(Non-LLM-based Evaluation)**: 문자열•통계•임베딩 계산으로 판정한다.
@@ -146,8 +141,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **점수 기준 이동(Score Baseline Shift)**: 모델•프롬프트 변경으로 점수 의미가 달라지는 현상이다.
 - **반복 실행 분포(Repeated-run Distribution)**: 반복 점수의 평균•분산•범위이다.
@@ -165,8 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지표 선택 기준(Metric Selection Criteria)**: 목적•스키마•인간 일치도•반복 안정성이다.
 

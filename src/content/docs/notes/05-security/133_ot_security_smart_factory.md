@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **OT(Operational Technology)**: 물리 공정•산업 설비를 감시•제어하는 운영기술이다.
 - **MES(Manufacturing Execution System)**: 생산 실행을 계획•추적하는 제조실행시스템이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **영역•통로**: 자산을 보안 영역으로 묶고 영역 간 허용 통신 경로를 통제하는 모델이다.
 - **정비창**: 공정 영향을 검토한 변경을 승인된 시간대에 적용하는 운영 구간이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IDMZ(Industrial Demilitarized Zone)**: IT와 OT의 직접 연결을 막는 중계 영역이다.
 - **SCADA(Supervisory Control and Data Acquisition)**: 산업 공정을 원격 감시•제어하는 체계이다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SL-T(Security Level-Target)**: 위험평가로 정한 영역•통로의 목표 보안수준이다.
 - **설비•프로토콜•의존성 식별**: 자산•통신•소유자와 공정 의존성을 파악하는 단계이다.
@@ -137,8 +133,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IIoT(Industrial Internet of Things)**: 산업 장치와 원격 플랫폼을 연결한 사물인터넷이다.
 
@@ -158,8 +153,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IEC(International Electrotechnical Commission)**: 국제전기기술위원회이다.
 - **IACS(Industrial Automation and Control Systems)**: 산업자동화•제어시스템이다.
@@ -183,8 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보상통제**: 즉시 패치하기 어려운 설비의 위험을 격리•허용목록•감시 등으로 줄이는 통제이다.
 

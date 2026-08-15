@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **방화벽**: 서로 다른 신뢰 구간 사이의 트래픽을 보안 규칙에 따라 허용하거나 차단하는 통제 장비이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기본 차단(Default Deny)**: 명시적으로 허용하지 않은 통신을 거부하는 정책이다.
 - **상태 추적(Stateful Inspection)**: 연결 상태를 기록하여 요청과 응답의 연관성을 검사하는 기능이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **보안 존(Security Zone)**: 정책 방향을 적용할 신뢰 구간이다.
 - **접근 제어 목록(Access Control List, ACL)**: 순서에 따라 평가하는 허용•차단 규칙 목록이다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 판정(Policy Decision)**: 보안 존•연결 상태•첫 일치 규칙•위협 검사 결과를 결합해 허용 여부를 결정하는 과정이다.
 - **보안 존 분류**: 입력•출력 인터페이스를 출발•목적 신뢰 구간에 대응시키는 절차이다.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **패킷 필터(Packet Filter)**: 주소와 포트 같은 패킷 필드로 통제하는 방화벽이다.
 - **상태 기반 방화벽(Stateful Firewall)**: 연결 상태와 양방향 문맥으로 통제하는 방화벽이다.
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비무장 지대(Demilitarized Zone, DMZ)**: 공개 서버를 내부망과 분리한 경계 구간이다.
 - **규칙 그림자(Rule Shadowing)**: 앞선 광범위 규칙 때문에 뒤 규칙이 적용되지 않는 현상이다.
@@ -185,8 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검사 범위 최소화(Minimum Inspection Scope)**: 필요한 주소•연결•응용 문맥까지만 검사해 통제 정밀도와 처리 비용을 균형화하는 원칙이다.
 

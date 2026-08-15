@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **온톨로지(Ontology)**: 도메인의 개념•관계•제약•공리를 공식화한 의미 모형이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **개념 계층(Concept Hierarchy)**: 상위•하위 개념과 상속 관계를 정의한다.
 - **공리(Axiom)**: 암묵 지식 추론과 모순 판정에 사용하는 논리 규칙이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **객체 속성(Object Property)**: 개체와 개체의 관계를 정의한다.
 - **데이터 속성(Data Property)**: 개체와 리터럴 값의 관계를 정의한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **추론기(Reasoner)**: 명시적 사실과 공리로 분류•파생 사실•모순을 계산한다.
 - **일관성 검사(Consistency Check)**: 개념•관계•규칙의 논리 모순을 탐지한다.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분류체계(Taxonomy)**: 용어의 상하위 분류 관계를 정의한다.
 - **온톨로지**: 개념•관계•제약•공리를 정의한다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **웹 온톨로지 언어(Web Ontology Language, OWL)**: 온톨로지 표현과 추론을 위한 표준 언어이다.
 - **OWL 프로파일(OWL Profile)**: 표현력과 추론 복잡도를 제한한 OWL 부분집합이다.
@@ -165,8 +159,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **하위 호환성(Backward Compatibility)**: 변경 후에도 기존 개체•질의가 같은 의미로 동작하는 성질이다.
 

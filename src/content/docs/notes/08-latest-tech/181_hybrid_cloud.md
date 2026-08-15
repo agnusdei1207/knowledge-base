@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **하이브리드 클라우드(Hybrid Cloud)**: 온프레미스(On-Premises)·사설 클라우드(Private Cloud)와 공용 클라우드(Public Cloud)를 단일 운영 체계로 통합하는 하이브리드 인프라 모델.
 - **온프레미스(On-Premises)**: 조직 내부 데이터센터에서 직접 구축·운영하는 폐쇄형 인프라 모델.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 중력(Data Gravity)**: 대규모 데이터 집중으로 인해 서비스와 애플리케이션이 데이터 위치로 모이는 성질.
 - **연결 단절 내성(Connectivity Resilience)**: 네트워크 장애 시에도 독립적 기능 수행 및 복구 후 동기화를 지원하는 능력.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **페더레이션(Federation)**: 분산된 신원 및 관리 영역 간 신뢰 기반 자원 공동 이용 모델.
 - **데이터 통합(Data Integration)**: 사설 및 공용 환경 간 데이터 원본·복제본의 동기화 및 정합성 유지 기능.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **배치 정책(Placement Policy)**: 규제, 지연, 데이터 위치, 비용에 따른 워크로드 실행 위치 결정 규칙.
 - **통합 운영(Unified Operations)**: 이기종 환경의 배포, 확장, 관측, 복구 상태를 공통 기준으로 관리하는 활동.
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티클라우드(Multi-Cloud)**: 둘 이상의 공용 클라우드 사업자를 목적별로 조합하여 사용하는 전략.
 - **사설 클라우드(Private Cloud)**: 조직 전용 자원 및 정책 기반 클라우드 서비스 운영 환경.
@@ -143,8 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **단일 원본(Single Source of Truth, SSOT)**: 데이터 충돌 방지를 위해 최종 갱신 권한을 특정 환경에 부여하는 방식.
 - **회로 차단기(Circuit Breaker)**: 환경 간 호출 반복 실패 시 요청을 일시 차단하여 연쇄 장애를 방지하는 통제 기법.
@@ -163,8 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **탄력 수요(Elastic Demand)**: 시간대별 변동폭이 커 공용 클라우드의 자동 확장이 유리한 수요.
 - **총소유비용(TCO, Total Cost of Ownership)**: IT 자원의 구축, 운영, 연결, 반출 등 전체 수명주기 소요 비용.

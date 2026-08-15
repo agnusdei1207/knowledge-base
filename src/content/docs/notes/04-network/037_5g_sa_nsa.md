@@ -17,8 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **독립형(Standalone, SA)**: 5G 무선기지국(gNB)과 5G 전용 코어망(5GC)만을 결합하여 단독으로 구축하는 5G 통신망 방식이다.
 - **비독립형(Non-Standalone, NSA)**: 기존 LTE 코어망(EPC) 및 제어 기지국(eNB)을 활용하면서 5G 무선망(gNB)을 데이터 확장 전용으로 연결하는 방식이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **진화형 패킷 코어(Evolved Packet Core, EPC)**: LTE 시스템의 가입자 인증, 세션 관리 및 패킷 라우팅을 제어하는 4세대 패킷 코어망이다.
 - **신규 무선(New Radio, NR)**: 3GPP에서 정의한 5G 이동통신 전용 무선 접속 기술(RAT) 규격이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이중 연결(Dual Connectivity, EN-DC)**: 단말이 LTE 기지국(Master Node)과 5G NR 기지국(Secondary Node)에 동시 접속하여 데이터를 송수신하는 기술이다.
 
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NR 단독 연결(NR Standalone Connectivity, NR SA)**: LTE 지원 없이 5G NR 무선망과 5GC만을 이용하여 가입자 제어 및 데이터 세션을 설정하는 절차이다.
 
@@ -125,8 +121,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 슬라이싱(Network Slicing)**: 단일 5G 물리망을 독립적인 가상 네트워크로 분할하여 서비스 품질(eMBB, URLLC, mMTC)을 맞춤 보장하는 기술이다.
 
@@ -149,8 +144,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통화 연속성(Call Continuity, EPS Fallback)**: SA 음성 통화(VoNR) 미지원 및 약전계 이동 시 LTE 망(VoLTE)으로 자동 세션을 전환하여 끊김을 방지하는 기술이다.
 - **과금 기록(Charging Data Record, CDR)**: 코어망이 데이터 사용량, 세션 시간, 접속 슬라이스 정보를 수집하여 과금을 부과하는 원시 데이터 세트이다.
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전환 기준(Migration Strategy Criteria)**: 5G 서비스 확장에 맞춰 NSA 구조에서 SA 코어 구조로의 단계별 투자 및 전환 시점을 결정하는 기준이다.
 

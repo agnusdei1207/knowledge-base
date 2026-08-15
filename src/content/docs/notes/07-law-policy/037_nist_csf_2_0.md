@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소 사이버보안 프레임워크 2.0(National Institute of Standards and Technology Cybersecurity Framework 2.0, NIST CSF 2.0)**: 사이버보안 위험관리 결과를 기능•범주•하위범주로 표현해 경영 목표와 연결하는 성과 분류체계.
 - **구현 등급(Implementation Tier)**: 위험관리 관행의 부분적·반복 가능·적응적 수준.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **거버넌스 중심성**: 조직의 전략•정책•책임•위험 허용수준이 식별부터 복구까지 모든 기능을 조정하게 하는 특성.
 - **성과 계층성**: 사이버보안 성과를 기능•범주•하위범주로 나누어 경영 목표와 현장 활동을 연결하는 구조적 특성.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **거버넌스(Govern)**: 조직 맥락•전략•책임•정책•공급망 위험을 정해 나머지 사이버보안 기능의 방향을 제공하는 기능.
 - **식별(Identify)**: 자산•업무 환경•위험과 개선 필요를 파악하여 보호 우선순위의 근거를 만드는 기능.
@@ -88,8 +85,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위험 허용수준**: 조직이 임무와 목표를 달성하면서 감수할 수 있다고 정한 사이버보안 위험의 한계.
 - **현재 프로파일**: 기능•범주•하위범주별로 조직이 현재 달성한 사이버보안 성과를 표현한 상태.
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NIST CSF 1.1•2.0**: 2.0은 1.1의 다섯 기능에 Govern을 추가해 경영 책임과 공급망 위험을 명확히 한 버전.
 
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 목록 오용**: 조직 임무와 위험 허용수준에 필요한 성과보다 개별 보안 조치의 설치 여부만 확인하는 문제.
 - **목표 하위범주**: 조직의 임무와 위험 허용수준에 맞춰 추가로 달성해야 한다고 선택한 구체적 사이버보안 성과.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **CSF 2.0 전사 정렬**: Govern으로 경영·공급망 위험과 보안 기능 통합.
 

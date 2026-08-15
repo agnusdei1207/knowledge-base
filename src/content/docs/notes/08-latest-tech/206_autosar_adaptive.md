@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행•관리하는 차량 소프트웨어 플랫폼로 정의된다.
 - **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능의 센서 입력•연산•제어 출력을 담당하는 컴퓨터을 의미한다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Adaptive 애플리케이션용 AUTOSAR 런타임(AUTOSAR Runtime for Adaptive Applications, ARA)**: Adaptive 애플리케이션이 통신•실행•진단 등 플랫폼 기능을 사용하는 표준 C++ 인터페이스이다.
 
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **실행 관리(Execution Management)**: 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작•중지•상태를 관리하는 서비스을 의미한다.
 - **ara::com**: ARA에서 서비스 탐색과 이벤트•메서드•필드 통신을 제공하는 인터페이스을 의미한다.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **매니페스트(Manifest)**: 애플리케이션•서비스•실행•배포 구성을 기계 판독 형식으로 선언한 명세을 의미한다.
 
@@ -132,8 +128,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Classic Platform**: MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼로 정의된다.
 - **마이크로컨트롤러 유닛(Microcontroller Unit, MCU)**: 프로세서•메모리•입출력을 단일 칩에 통합한 제어용 컴퓨터이다.
@@ -154,8 +149,7 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 예산**: 기능이 입력부터 출력까지 완료해야 하는 최대 허용 시간을 의미한다.
 
@@ -173,8 +167,7 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리하는 구조을 의미 체계 적용
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 대기(Time Wait, TIME_WAIT)**: 최종 ACK를 보낸 종단이 이전 연결의 지연 세그먼트 소멸까지 상태를 유지하는 TCP 종료 상태이다.
 - **확인 응답(Acknowledgment, ACK)**: 세그먼트 수신을 확인하는 응답이다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
 - **종료(Finish, FIN)**: 송신 방향 종료를 알리는 TCP 제어 플래그이다.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **4-튜플(Four-tuple)**: 양쪽 주소와 포트로 구성한 TCP 연결 식별값이다.
 - **지연 중복 세그먼트(Delayed Duplicate Segment)**: 종료 후 늦게 도착한 이전 연결의 데이터이다.
@@ -82,8 +79,7 @@ TIME_WAIT 상태
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최종 확인 대기(Last Acknowledgment, LAST_ACK)**: 수동 종료 종단이 마지막 FIN의 ACK를 기다리는 상태이다.
 - **최종 ACK 전송**: 능동 종료 종단이 수동 종단의 마지막 FIN 수신을 확인하는 절차이다.
@@ -132,8 +128,7 @@ TIME_WAIT 상태
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **종료 대기 2(Finish Wait 2, FIN_WAIT_2)**: 로컬 FIN의 ACK 뒤 상대 FIN을 기다리는 상태이다.
 - **종료 대기(Close Wait, CLOSE_WAIT)**: 상대 FIN 뒤 로컬 응용의 종료를 기다리는 상태이다.
@@ -154,8 +149,7 @@ TIME_WAIT 상태
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임시 포트(Ephemeral Port)**: 새 연결에 일시 할당하는 출발지 포트이다.
 - **최대 세그먼트 수명(Maximum Segment Lifetime, MSL)**: 세그먼트가 네트워크에 남을 수 있는 최대 시간이다.
@@ -174,8 +168,7 @@ TIME_WAIT 상태
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TCP 타임스탬프(TCP Timestamp)**: 송신 시각으로 오래된 세그먼트를 구별하는 TCP 옵션이다.
 </details>

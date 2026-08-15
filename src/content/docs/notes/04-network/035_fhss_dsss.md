@@ -17,8 +17,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대역 확산(Spread Spectrum, SS)**: 신호의 전송 대역폭을 데이터 전송에 필요한 최소 대역폭보다 훨씬 넓게 확산시켜 전송하는 무선 통신 기법이다.
 - **주파수 도약 대역 확산(Frequency-Hopping Spread Spectrum, FHSS)**: 의사잡음 코드 순서에 따라 반송 주파수를 정해진 주기로 고속 도약시켜 신호를 확산하는 방식이다.
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **의사잡음 코드(Pseudo-Noise Code, PN Code)**: 잡음과 유사한 난수 형태를 가지지만 송수신기가 동일하게 공유하는 결정론적 비트 서열 코드이다.
 - **동기화(Synchronization)**: 수신측에서 역확산을 수행하기 위해 송신측의 주파수 도약 시점 또는 PN 코드 위상을 정확히 일치시키는 과정이다.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확산 변조기(Spread Modulator)**: 반송 주파수를 도약시키거나 원신호에 PN 코드를 곱하여 광대역 파형으로 변환하는 장치이다.
 - **역확산 복조기(Despread Demodulator)**: 동일한 PN 코드 및 주파수 동기를 적용하여 광대역 수신 신호에서 원신호를 추출하는 장치이다.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확산 규칙(Spreading Code Pattern)**: FHSS의 도약 순서(Hopping Pattern)나 DSSS의 PN 코드 서열처럼 송수신기가 사전 공유한 신호 분산 알고리즘이다.
 
@@ -129,8 +125,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근원거리 문제(Near-Far Problem)**: 수신기 인근의 강한 전력 신호가 멀리 떨어진 약한 전력 신호를 교란하여 코드 역확산을 방해하는 현상이다.
 
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **처리 이득(Processing Gain, PG)**: 확산 대역폭과 데이터 대역폭의 비율로, 수신측 역확산 시 얻어지는 신호 대 잡음비(SNR) 개선량 지표이다.
 - **협대역 간섭(Narrowband Interference)**: 전체 대역 중 일부 주파수 영역에 집중적으로 발생하는 잡음 또는 이종 무선 신호 간섭이다.
@@ -173,8 +167,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **송신 전력 제어(Transmit Power Control, TPC)**: 수신 전력 수준을 평준화하여 DSSS 근원거리 문제를 해결하고 간섭을 줄이는 전력 통제 기법이다.
 

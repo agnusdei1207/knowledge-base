@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **지그비(Zigbee)**: IEEE 802.15.4 기반에서 비-IP 애플리케이션 프로파일과 메시 네트워크를 제공하는 저전력 IoT 통신 표준이다.
 - **스레드(Thread)**: IEEE 802.15.4 기반의 6LoWPAN 기술을 채택하여 저전력 기기들에 네이티브 IPv6 통신을 보장하는 무선 메시 전송 네트워크 표준이다.
@@ -40,8 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: IEEE 802.15.4 무선 물리/MAC 계층 표준 규격을 정립한 국제 표준화 기구이다.
 - **블루투스 저에너지(Bluetooth Low Energy, BLE)**: 스마트폰과 신규 Matter/Thread 기기 간 초기 커미셔닝(Commissioning) 보안 세션 형성에 활용되는 근거리 무선 규격이다.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Thread 경계 라우터(Thread Border Router)**: 저전력 802.15.4 Thread 메시망과 외부 일반 유무선 IPv6 네트워크(Wi-Fi/Ethernet) 사이에서 패킷을 패키징·라우팅하는 장치이다.
 - **Matter 브리지(Matter Bridge)**: IP 통신을 직접 지원하지 않는 기존 비-IP 기기(Zigbee, Z-Wave)의 데이터 모델과 명령을 Matter 표준 포맷으로 상호 변환해 주는 장치이다.
@@ -92,8 +89,7 @@ Matter 및 Thread/Zigbee 연동 아키텍처
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **커미셔닝(Commissioning)**: 신규 IoT 기기를 스마트홈 네트워크에 안전하게 등록하고 인증서 및 자격 증명(Credentials)을 부여하는 초기 설정 절차이다.
 - **기기 증명서(Device Attestation Certificate, DAC)**: 제조사가 생산 시 기기에 주입한 고유 PKI 인증서로, Matter 정식 인증 기기임을 검증하는 증명서이다.
@@ -134,8 +130,7 @@ Matter 및 Thread/Zigbee 연동 아키텍처
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 인증서(Node Operational Certificate, NOC)**: 특정 스마트홈 패브릭 안에서 커미셔닝이 완료된 후 기기 간 명령 교환을 허용하는 PKI 암호화 인증서이다.
 
@@ -157,8 +152,7 @@ Matter 및 Thread/Zigbee 연동 아키텍처
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델·명령 매핑(Data Model & Command Mapping)**: Matter 브리지가 기존 Zigbee 기기의 속성을 Matter의 스위치/조명 클러스터 모델로 양방향 번역하는 변환 규격이다.
 - **패브릭(Fabric)**: 동일한 PKI 루트 신뢰점(Root of Trust)을 공유하여 안전하게 상호 제어할 수 있는 Matter 기기들의 보안 영역 단위이다.

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연합학습(Federated Learning, FL)**: 원본 대신 로컬 업데이트를 집계하는 분산 학습이다.
 - **데이터 주권(Data Sovereignty)**: 소유자가 저장 위치•접근•처리를 통제하는 권리이다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연합 평균(Federated Averaging, FedAvg)**: 데이터 수에 비례해 로컬 변화량을 가중 평균한다.
 - **비독립•비동일분포(non-IID)**: 참여자별 클래스•특징•표본 분포가 다른 상태이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **연합 조정자(Federated Coordinator)**: 참여자•라운드•모델•설정을 통제한다.
 - **참여 클라이언트(Participant Client)**: 원본을 보유하고 로컬 학습한다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **학습 계약(Training Contract)**: 시작 모델•반복•학습률•제출 조건이다.
 - **연합 라운드(Federated Round)**: 모델 배포•로컬 학습•집계•갱신의 반복 주기이다.
@@ -123,8 +119,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **교차 기기 연합학습(Cross-device FL)**: 다수 개인 단말이 불규칙하게 참여한다.
 - **교차 사일로 연합학습(Cross-silo FL)**: 소수 기관이 안정적으로 협업한다.
@@ -143,8 +138,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **업데이트 충돌(Update Conflict)**: non-IID로 변화량의 최적 방향이 다른 문제이다.
 - **보안 집계(Secure Aggregation)**: 개별 업데이트를 숨기고 합계만 공개한다.
@@ -163,8 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **참여 안정성(Participation Stability)**: 참여자가 시간•자원 안에 업데이트를 제출하는 정도이다.
 - **집계 정책(Aggregation Policy)**: 선택•가중치•이상치•이탈을 반영한 갱신 규칙이다.

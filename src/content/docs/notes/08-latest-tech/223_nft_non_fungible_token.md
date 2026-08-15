@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 불가능 토큰(Non-Fungible Token, NFT)**: 블록체인에서 고유 식별자별 소유 상태와 이전 이력을 기록하는 토큰이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대체 불가능성**: 각 토큰이 고유 식별자와 속성을 가져 다른 토큰과 일대일로 동일하게 교환되지 않는 성질을 의미한다.
 - **토큰 식별자(Token Identifier, Token ID)**: 스마트 계약 안에서 개별 토큰을 구별하는 고유 값을 의미한다.
@@ -53,8 +51,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **메타데이터**: 대체 불가능 토큰이 가리키는 콘텐츠 주소•창작자•속성값 등을 표현하는 구조화된 데이터을 말한다.
 - **스마트 계약(Smart Contract)**: NFT의 발행•소유•승인•이전 규칙을 집행하는 프로그램을 말한다.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **민팅(Minting)**: 스마트 계약이 새 토큰 식별자와 최초 소유 상태를 블록체인에 생성하는 과정을 말한다.
 
@@ -122,8 +118,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **이더리움 의견 요청 721(Ethereum Request for Comments 721, ERC-721)**: 고유 토큰의 소유•조회•이전 인터페이스를 정의한 표준로 정의된다.
 - **이더리움 의견 요청 1155(Ethereum Request for Comments 1155, ERC-1155)**: 여러 토큰 유형과 수량을 한 계약에서 관리하는 표준을 말한다.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IPFS 핀 고정**: 내용 주소로 참조한 파일을 노드가 계속 보관하도록 지정해 외부 콘텐츠의 가용성을 유지하는 방식로 정의된다.
 
@@ -164,8 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **소유 상태**: 특정 토큰을 이전할 수 있는 블록체인 주소를 장부에 기록한 정보이며 저작권 자체를 뜻하지는 않는 정보을 말한다.
 

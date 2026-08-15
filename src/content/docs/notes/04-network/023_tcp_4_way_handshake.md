@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전송 제어 프로토콜 4단계 연결 종료(Transmission Control Protocol Four-Way Handshake, TCP 4-way handshake)**: 양방향 송신을 FIN•ACK로 각각 독립 종료하는 절차이다.
 </details>
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **능동 종료(Active Close)**: 먼저 FIN을 보내 연결 종료를 시작하는 역할이다.
 - **수동 종료(Passive Close)**: 상대 FIN을 먼저 받고 응용 종료를 기다리는 역할이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **능동 종료 대기(Finish Wait, FIN_WAIT)**: 능동 종료 측이 상대의 종료 진행을 기다리는 상태이다.
 - **수동 종료 대기(Close Wait, CLOSE_WAIT)**: 수동 종료 측이 응용의 소켓 종료를 기다리는 상태이다.
@@ -86,8 +83,7 @@ TCP 상태 저장소
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최대 세그먼트 수명 두 배(Twice the Maximum Segment Lifetime, 2MSL)**: 지연 세그먼트 소멸과 최종 ACK 재전송을 위해 기다리는 시간이다.
 - **능동 FIN 전송**: 능동 종료 종단이 자신의 송신 방향 종료를 알리는 절차이다.
@@ -157,8 +153,7 @@ TCP 상태 저장소
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임시 포트**: 클라이언트가 새 연결을 만들 때 운영체제가 일시 할당하는 출발지 포트이다.
 </details>

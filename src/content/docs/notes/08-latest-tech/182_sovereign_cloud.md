@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **소버린 클라우드(Sovereign Cloud)**: 국가·권역이 데이터, 인프라, 기술 통제권을 독립적으로 보유하는 클라우드 모델.
 - **데이터 주권(Data Sovereignty)**: 데이터 생성·저장 국가의 법률 및 통제 정책을 준수하는 원칙.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **운영 주권(Operational Sovereignty)**: 지정된 현지 법인·인력·절차를 통해 서비스 관리 및 접근을 통제하는 능력.
 - **기술 주권(Technological Sovereignty)**: 공급 중단 시에도 기술 기반 서비스 유지, 대체, 이전이 가능한 독립적 대응 능력.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **고객 통제 키(Customer Managed Key, CMK)**: 클라우드 제공자가 접근할 수 없도록 고객이 생성·보관·폐기 권한을 전유하는 암호화 키.
 - **다중 승인(Multi-Party Authorization)**: 관리자 접근이나 비상 복호화 시 독립된 복수 인력의 동의를 요구하는 통제 절차.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **통제 증적(Control Evidence)**: 데이터 위치, 현지 운영, 접근 차단 등의 통제 절차가 실제 작동함을 입증하는 기록.
 - **종료 전략(Exit Strategy)**: 계약 종료나 공급 중단 시 데이터와 업무를 다른 환경으로 안전하게 이전·복구하는 계획.
@@ -130,8 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 레지던시(Data Residency)**: 데이터 저장 및 처리 위치를 특정 지역으로만 제한하는 요구 사항.
 - **규제 준수 리전(Compliance Region)**: 특정 지역 내에서 규제 인증 및 계약상 보호 조치를 강화하여 제공하는 클라우드 운영 구역.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **관할권 통제(Jurisdictional Control)**: 제공자·하도급자·인력에 적용되는 법적 요구 사항과 외부 접근을 계약·기술적으로 제한하는 능력.
 - **이전성(Portability)**: 데이터·구성·운영 절차를 개방형 표준으로 반출하여 대체 환경에서 복구 가능한 성질.
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **원격 접근 위험(Remote Access Risk)**: 권역 외부 인력이나 법적 요구가 시스템에 접근할 위험.
 - **공급망 의존(Supply Chain Dependency)**: 특정 사업자 중단이 서비스 연속성을 제약하는 상태.

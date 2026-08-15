@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SABSA(Sherwood Applied Business Security Architecture)**: 사업 위험을 보안 구현•지표까지 추적하는 방법론이다.
 
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **비즈니스 속성**: 보호 목표를 사업 언어와 측정 가능한 성공 기준으로 표현한 속성이다.
 - **추적성**: 사업 요구•위험•통제•구성•지표를 양방향으로 연결하는 성질이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SABSA 계층**: 요구를 맥락•개념•논리•물리•운영으로 구체화하는 구조이다.
 
@@ -84,8 +81,7 @@ SABSA 계층
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **양방향 추적**: 상위 사업 요구를 구현•지표로 내려 연결하고 운영 결과를 다시 사업 위험으로 올려 설명하는 방식이다.
 - **사업 속성•목표 임계값 정의**: 보호 가치•측정값•책임을 사업 언어로 정하는 단계이다.
@@ -131,8 +127,7 @@ SABSA 계층
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **TOGAF(The Open Group Architecture Framework)**: 전사 아키텍처 전환 프레임워크이다.
 - **Zachman 프레임워크**: 관점별 아키텍처 산출물 분류 체계이다.
@@ -154,8 +149,7 @@ SABSA 계층
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **SABSA 매트릭스**: 여섯 계층과 육하원칙으로 산출물을 점검하는 틀이다.
 - **ISO(International Organization for Standardization)**: 국제표준화기구이다.
@@ -178,8 +172,7 @@ SABSA 계층
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사업 가치 입증**: 보안 구현과 운영 성과가 어떤 사업 목표•위험에 기여하는지 연결해 설명하는 활동이다.
 - **위험 추적•전사 전환 결합**: SABSA 위험 추적과 TOGAF 전환을 결합하는 방식이다.

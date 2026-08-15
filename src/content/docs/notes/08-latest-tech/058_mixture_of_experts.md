@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전문가 혼합(Mixture of Experts, MoE)**: 라우터가 토큰별로 다수 전문가 중 일부만 활성화하는 조건부 계산 신경망 구조를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **조건부 계산(Conditional Computation)**: 입력에 선택된 일부 매개변수만 실행하여 전체 모델 용량과 활성 연산량을 분리하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Top-k 라우팅(Top-k Routing)**: 라우터 점수가 높은 k개 전문가를 토큰별로 선택하는 방식을 나타낸다.
 - **부하 균형 손실(Load Balancing Loss)**: 토큰이 특정 전문가에 몰리지 않도록 라우팅 분포를 고르게 유도하는 학습 항을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **순방향 신경망 전문가(Feed-Forward Network Expert, FFN Expert)**: 토큰별 비선형 변환을 수행하며 다른 전문가와 독립된 매개변수를 가진 블록을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **Top-k 라우터(Top-k Router)**: 토큰별 전문가 점수를 계산하고 가장 높은 일부 전문가와 결합 가중치를 선택하는 모듈로 정의된다.
@@ -86,8 +83,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **라우팅 확률(Routing Probability)**: 각 토큰이 전문가별로 배정될 적합도를 나타내는 점수 분포를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **전체 상호 통신(All-to-All)**: 각 장치가 다른 모든 장치와 전문가 입력•출력 토큰을 교환하는 통신 기법으로 정의된다.
@@ -126,8 +122,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **밀집 순방향 신경망(Dense Feed-Forward Network, Dense FFN)**: 모든 토큰이 동일한 신경망 전체를 실행하여 구조는 단순하지만 활성 연산량이 큰 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **Top-1 MoE(Top-1 Mixture of Experts)**: 토큰마다 전문가 하나만 활성화해 연산을 최소화하는 기법으로 정의된다.
@@ -148,8 +143,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **라우팅 쏠림(Routing Imbalance)**: 토큰이 일부 전문가에 집중되어 다른 전문가는 방치되고 병목이 발생하는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **전문가 붕괴(Expert Collapse)**: 일부 전문가만 유용한 기능을 학습하고 나머지 전문가의 품질이 떨어지는 상태를 나타낸다.
@@ -169,8 +163,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전문가 혼합 선택 기준(MoE Selection Criterion)**: 희소 활성화의 연산 절감이 부하 균형과 장치 간 통신 비용보다 클 때 적용하는 지침을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **밀집 순방향 신경망 선택 기준(Dense FFN Selection Criterion)**: 모델 규모가 작거나 단순 실행과 안정적인 지연이 더 중요할 때 적용하는 가이드라인을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.

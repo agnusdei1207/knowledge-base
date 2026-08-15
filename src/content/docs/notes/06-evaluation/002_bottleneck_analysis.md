@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **병목(Bottleneck)**: 시스템 처리량을 제한하고 응답 지연을 유발하는 제약 자원 및 구간.
 - **임계 경로(Critical Path)**: 최종 사용자 응답시간을 결정하는 최장 실행 시간 경로.
@@ -37,7 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **포화(Saturation, 큐 대기열 적체)**: 서버가 유입되는 요청을 즉시 처리하지 못하고 한계에 부딪혀 대기열(Queue)에 작업이 누적되어 지연이 기하급수적으로 늘어나는 징후.
 - **상관 분석(Correlation Analysis)**: 어플리케이션 계층의 요청 지연 발생 시점과 인프라 계층의 자원 포화 시점을 동일한 시계열 그래프상에 배치하여 인과 관계를 추론하는 분석 기법.
@@ -55,7 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details><summary>핵심 용어(Core Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **USE(Utilization, Saturation, Errors)**: 시스템 내부 자원을 대상으로 이용률, 대기열 포화도, 에러 발생을 점검하여 인프라 병목을 진단하는 방법론.
 - **RED(Requests, Errors, Duration)**: 마이크로서비스 및 API별로 초당 요청률, 실패율, 응답시간 지연을 관측하여 소프트웨어 및 아키텍처 제약을 분석하는 방법론.
@@ -137,7 +137,7 @@ extra:
 
 </details>
 
-<details><summary>Key Terms</summary>
+<details><summary>용어 설명</summary>
 
 - **Resource Bottleneck**: A state where hardware components like CPU, Memory, Disk, or Network reach limits, causing task queues and performance degradation.
 - **DB(Database)**: Backend storage where concurrency control, locks, and data integrity constraints often create bottlenecks.

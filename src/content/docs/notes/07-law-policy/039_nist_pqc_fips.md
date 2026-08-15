@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **미국 국립표준기술연구소 양자내성암호(National Institute of Standards and Technology Post-Quantum Cryptography, NIST PQC)**: 양자컴퓨터 공격에도 안전한 공개키 암호 알고리즘을 선정•표준화하는 사업.
 - **연방정보처리표준(Federal Information Processing Standards, FIPS) 203•204•205**: 양자 공격에 견디는 키 설정과 디지털 서명 알고리즘을 규정한 미국 연방 표준.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **암호 민첩성(Crypto Agility)**: 프로토콜과 데이터 형식을 크게 바꾸지 않고 용도별 알고리즘•매개변수를 교체하는 능력.
 - **용도 분리성**: ML-KEM은 공유 비밀 설정에, 대칭키는 실제 데이터 암호화에 사용하는 특성.
@@ -58,8 +56,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **FIPS 203(FIPS 203)**: ML-KEM으로 통신 당사자의 공유 비밀을 설정하는 표준.
 - **키 캡슐화 메커니즘(Key-Encapsulation Mechanism, KEM)**: 공개키를 이용해 공유 비밀을 생성•캡슐화하고 수신자가 개인키로 복원하게 하는 방식.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **암호 자산•데이터 수명**: 사용 중인 알고리즘•키•인증서•장비와 데이터가 비밀로 보호되어야 할 기간을 연결한 목록.
 - **지금 수집하고 나중에 해독(Harvest Now, Decrypt Later, HNDL) 위험**: 현재 탈취한 장기 보호 암호문을 미래 양자컴퓨터로 복호화하는 위험.
@@ -134,8 +130,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PQC 알고리즘**: 양자컴퓨터 공격에도 안전한 공개키 암호 알고리즘으로 NIST가 표준화하는 후보군.
 
@@ -152,8 +147,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **성능**: 커진 키•서명•암호문으로 인한 패킷 분할•지연•처리량 변화.
 - **상호운용성**: PQC 구현과 기존 장비•프로토콜이 함께 동작할 수 있는 성질.
@@ -172,8 +166,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PQC 전환 결정(PQC Migration Decision)**: 데이터 수명•시스템 의존성•시험 결과를 종합해 ML-KEM•ML-DSA•SLH-DSA 채택 여부를 정하는 판단.
 

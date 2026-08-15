@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **델타 레이크(Delta Lake)**: Parquet 데이터 파일과 순차 트랜잭션 로그를 결합해 ACID 테이블을 관리하는 오픈 테이블 형식이다.
 - **원자성•일관성•격리성•지속성(Atomicity, Consistency, Isolation, Durability, ACID)**: 트랜잭션이 보장해야 하는 네 가지 성질을 의미한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **`_delta_log`**: 버전별 파일 추가•제거와 스키마•프로토콜 동작을 기록하는 시스템 관리 경로로 정의된다.
 - **체크포인트(Checkpoint)**: 특정 로그 버전까지의 테이블 상태를 요약해 전체 로그 재생을 줄이는 파일로 정의된다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **테이블 스냅샷**: 특정 로그 버전에서 유효한 스키마와 데이터 파일 집합을 나타내는 일관된 상태을 의미한다.
 - **프로토콜 버전**: 읽기•쓰기 엔진이 지원해야 할 Delta 기능과 동작 규칙의 수준로 정의된다.
@@ -85,8 +82,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **낙관적 동시성 제어**: 기준 상태에서 변경을 준비한 뒤 커밋 직전에 동시 변경과의 충돌을 검사하는 방식로 정의된다.
 - **원자 로그 버전**: 충돌 검증을 통과한 변경 전체가 하나의 순차 버전으로 확정된 기록을 의미한다.
@@ -119,8 +115,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Apache Iceberg**: 스냅샷과 매니페스트 계층으로 대규모 분석 테이블의 파일 상태를 관리하는 오픈 테이블 형식이다.
 - **Apache Hudi**: 타임라인과 파일 그룹으로 증분 처리•갱신 작업을 관리하는 오픈 테이블 형식이다.
@@ -139,8 +134,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **시간 여행(Time Travel)**: 버전이나 시각을 지정해 보존된 과거 스냅샷을 조회하는 기능을 의미한다.
 - **보존 정책**: 과거 재현 기간과 저장 비용을 고려해 로그•데이터 파일을 유지•삭제하는 규칙로 정의된다.
@@ -159,8 +153,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상호운용 시험**: 서로 다른 엔진이 같은 Delta 테이블의 읽기•쓰기•삭제 기능을 일관되게 처리하는지 확인하는 시험을 의미한다.
 - **정리 안전검사**: 삭제할 파일이 보존 중인 스냅샷에서 참조되지 않는지 확인하는 절차을 의미한다.

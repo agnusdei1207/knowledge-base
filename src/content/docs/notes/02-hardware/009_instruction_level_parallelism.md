@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **명령어 수준 병렬성(Instruction-Level Parallelism, ILP)**: 단일 프로그램 실행 스레드 내에서 상호 데이터 의존성이 없는 독립적인 기계어 명령어들을 찾아 동일 클록 주기에 다중 파이프라인에서 동시 처리하는 프로세서 하드웨어 병렬 기법.
 - **클록당 명령어 수(Instructions Per Cycle, IPC)**: 프로세서가 1클록 주기에 완결(Commit) 처리하는 평균 명령어 수 지표.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **슈퍼스칼라(Superscalar)**: 단일 클록 주기에 복수의 기계어 명령어를 동시 인출, 해독, 발행할 수 있도록 다중 데이터 경로를 파라메트릭 구축한 하드웨어 아키텍처.
 - **비순서 실행(Out-of-Order Execution, OoO)**: 피연산자 연산 준비가 끝난 독립 명령어부터 원래 프로그램 서순과 다르게 먼저 계산(OoO)하되, 결과는 서순대로 저장(In-order Commit)하는 기술.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **레지스터 리네이밍(Register Renaming)**: 소수의 아키텍처 레지스터(GPR)를 다수의 물리 레지스터(PRF)에 매핑하여 가짜 의존성(WAR, WAW)을 제거하는 기술.
 - **명령어 윈도(Instruction Window / Issue Queue)**: 인출·해독된 기계어들이 적재되어 피연산자의 ALU 연산 준비 완료 여부를 실시간 추적 스케줄링하는 대기열.
@@ -83,8 +80,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **종속 명령 깨우기(Wakeup & Select)**: ALU 연산이 완료되어 결과를 생성한 순간, 해당 연산 결과를 기다리던 이슈 큐 내부의 종속 명령어 활성화 비트를 켜는 스케줄링 제어 logic.
 - **비순서 발행(Out-of-Order Issue)**: 프로그램의 정적 순서와 무관하게 연산 피연산자가 모두 준비된 명령어를 하드웨어 실행 유닛으로 즉각 즉시 내보내는 방식.
@@ -104,8 +100,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **스레드 수준 병렬성(Thread-Level Parallelism, TLP)**: 멀티코어 환경에서 서로 독립적인 소프트웨어 스레드/프로세스를 동시 구동하는 병렬성.
 - **데이터 수준 병렬성(Data-Level Parallelism, DLP)**: SIMD 및 Vector 연산기에서 단일 명령어로 대량의 데이터 배열 항목을 병렬 연산하는 기법.
@@ -132,8 +127,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **쓰기 후 읽기 의존 사슬(RAW Dependency Chain)**: 연산 결과가 연속하여 다음 연산의 피연산자로 줄지어 사슬을 형성하여 ILP 추출을 저해하는 현상.
 - **다중 누산기(Multiple Accumulators)**: 루프 내 연산 사슬을 2~4개의 독립 레지스터 변수로 분할 연산 후 최종 합산하여 RAW 의존 길이를 짧게 줄이는 루프 최적화 기법.
@@ -155,8 +149,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **임계 경로(Critical Path)**: 프로그램 코드 내에서 직렬로 연결된 가장 긴 RAW 데이터 의존 사슬로, 단일 스레드가 추출할 수 있는 이론적 최고 ILP 한계선.
 - **병렬성 전환 기준(Parallelism Shift Criteria)**: ILP 확장이 RAW 임계 경로와 하드웨어 전력 한계에 도달했을 때 TLP(멀티스레드) 또는 DLP(SIMD/GPU)로 구조 전환을 결정하는 기준.

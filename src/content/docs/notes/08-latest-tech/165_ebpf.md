@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **eBPF(Extended Berkeley Packet Filter)**: 검증된 프로그램을 커널 훅에 동적으로 부착해 네트워크•보안•관측 기능을 확장하는 실행 기술로 정의된다.
 - **커널 훅(Kernel Hook)**: 네트워크•시스템 호출•추적 등 커널 실행 경로에서 프로그램을 연결하는 지점을 의미한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **검증기(Verifier)**: eBPF 바이트코드의 종료 가능성과 메모리•포인터 안전성을 적재 전에 검사하는 커널 구성요소을 의미한다.
 - **도움 함수(Helper Function)**: eBPF 프로그램이 지정된 실행 문맥에서 호출할 수 있도록 커널이 허용한 기능을 의미한다.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사용자 공간 로더(User-Space Loader)**: eBPF 프로그램과 맵을 적재•부착하고 수명주기를 관리하는 개념을 의미한다.
 - **검증기 안전성 검사**: 제어 흐름•메모리 접근•종료 가능성을 검사해 적재를 통제하는 활동을 의미한다.
@@ -106,8 +103,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **바이트코드 적재**: 사용자 공간 로더가 eBPF 프로그램을 커널 검증기에 제출하는 절차을 말한다.
 - **훅 부착**: 검증된 프로그램을 네트워크•추적•보안 사건이 발생하는 지점에 연결하는 동작을 말한다.
@@ -137,8 +133,7 @@ eBPF 실행기•JIT ── 4. 정책 조회•상태 기록 ──▶ eBPF Map
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **커널 모듈**: 운영체제 커널 권한으로 직접 적재되어 깊은 기능 변경을 수행하는 코드이다.
 - **사용자 공간 에이전트**: 독립 프로세스에서 시스템 응용 프로그래밍 인터페이스를 이용해 상태를 관측하고 제어하는 프로그램이다.
@@ -158,8 +153,7 @@ eBPF 실행기•JIT ── 4. 정책 조회•상태 기록 ──▶ eBPF Map
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **한 번 컴파일 후 어디서나 실행(Compile Once, Run Everywhere, CO-RE)**: 한 번 컴파일한 eBPF 프로그램을 여러 커널 구조에 맞추는 방식로 정의된다.
 - **버클리 타입 형식(BPF Type Format, BTF)**: 커널 자료형과 구조체 배치 정보를 제공하는 메타데이터 형식을 의미한다.
@@ -179,8 +173,7 @@ eBPF 실행기•JIT ── 4. 정책 조회•상태 기록 ──▶ eBPF Map
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **커널 호환성**: 대상 커널이 프로그램 유형•훅•도움 함수•버클리 타입 형식 정보를 지원하는 정도을 의미한다.
 - **최소 권한**: 프로그램 적재•부착•맵 접근에 필요한 권한만 주는 보안 원칙을 말한다.

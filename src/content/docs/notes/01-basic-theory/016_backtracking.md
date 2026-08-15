@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **백트래킹(Backtracking)**: 제약을 어긴 분기를 버리고 이전 선택으로 돌아가 다른 후보를 탐색하는 기법이다.
 - **조합 폭발(Combinatorial Explosion)**: 후보 조합이 지수적으로 늘어 실행 가능한 시간이나 메모리를 초과하는 현상이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상태 공간 트리(State Space Tree)**: 부분해를 노드로 펼쳐 가능한 선택 경로를 표현한 탐색 공간이다.
 - **유망성(Promising)**: 현재 부분해가 유효한 완성 해로 확장될 수 있는 성질이다.
@@ -62,8 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **재귀 탐색(Recursive Search)**: 유망한 부분해를 다음 단계 입력으로 삼아 같은 탐색 함수를 다시 호출하는 동작이다.
 - **부분해(Partial Solution)**: 일부 변수만 정해져 아직 완성되지 않은 해이다.
@@ -96,8 +93,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제약 충족 문제(Constraint Satisfaction Problem, CSP)**: 여러 제약을 모두 만족하는 변수값 조합을 찾는 문제이다.
 - **상태 복구**: 재귀 탐색에서 돌아온 뒤 선택으로 바뀐 부분해를 이전 상태로 환원하는 작업이다.
@@ -143,8 +139,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **완전 탐색(Exhaustive Search)**: 가능한 후보를 모두 생성하고 검사해 해를 찾는 방식이다.
 - **분기 한정(Branch and Bound)**: 목적 함수의 경계로 최적값을 개선할 수 없는 분기를 제거하는 방식이다.
@@ -169,8 +164,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **강한 제약**: 낮은 검사 비용으로 많은 무효 후보를 조기에 제거할 수 있는 조건이다.
 - **상태 독립성**: 한 분기에서 바꾼 값이 복구되어 다른 후보의 탐색 결과에 영향을 주지 않는 성질이다.
@@ -195,8 +189,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적용 조건**: 부분해 단계에서 제약 위반을 판정해 하위 분기를 제거할 수 있는 조건이다.
 

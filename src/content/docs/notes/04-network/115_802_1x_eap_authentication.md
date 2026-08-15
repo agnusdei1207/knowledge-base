@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE) 802.1X**: 확장 가능 인증 프로토콜 결과에 따라 네트워크 통제 포트의 접근 권한을 부여하는 포트 기반 접근 제어 표준이다.
 - **확장 가능 인증 프로토콜(Extensible Authentication Protocol, EAP)**: 여러 인증 방식을 공통 요청•응답 구조로 운반하는 인증 프레임워크이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증 요청자(Supplicant)**: 단말에서 EAP 자격과 응답을 제시하는 주체이다.
 - **인증 중계자(Authenticator)**: 접속 장비에서 EAP 대화를 중계하고 포트 정책을 집행하는 주체이다.
@@ -63,8 +61,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **EAPOL 중계**: 단말의 EAP 요청•응답을 접속 장비가 수신하는 중계이다.
 - **RADIUS 중계**: 접속 장비가 EAP 대화와 권한 정보를 인증 서버와 교환하는 중계이다.
@@ -101,8 +98,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 체인 검증**: 인증서 서명을 신뢰 저장소의 인증기관까지 확인해 상대 신원의 유효성을 판정하는 과정이다.
 - **전송 계층 보안 기반 EAP(EAP-Transport Layer Security, EAP-TLS)**: 단말과 인증 서버가 인증서로 상호 신원을 검증하는 EAP 방식이다.
@@ -148,8 +144,7 @@ EAPOL 접속 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **터널형 EAP**: 서버 인증으로 보호 터널을 만든 뒤 그 안에서 계정 자격을 검증하는 EAP 방식이다.
 - **매체 접근 제어 인증 우회(Media Access Control Authentication Bypass, MAB)**: 802.1X를 지원하지 않는 장비의 MAC 주소만 확인해 제한적으로 접근을 허용하는 예외 방식이다.
@@ -170,8 +165,7 @@ EAPOL 접속 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서 폐기 상태**: 만료 전 신뢰가 철회된 인증서를 인증 과정에서 거부하도록 제공하는 상태 정보이다.
 - **상호운용 시험**: 단말•접속 장비•RADIUS 서버가 표준 EAP와 포트 정책을 일관되게 처리하는지 검증하는 시험이다.
@@ -191,8 +185,7 @@ EAPOL 접속 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **최소 권한 MAB**: 인증 미지원 장비에 주소 기반 예외를 적용하되 필요한 망 영역과 기간만 허용하는 통제이다.
 - **주기 재인증(Periodic Reauthentication)**: 접속 중에도 정해진 주기나 상태 변화 시 자격과 권한을 다시 검증하는 절차이다.

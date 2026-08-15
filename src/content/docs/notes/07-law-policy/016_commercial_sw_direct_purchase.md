@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **상용 소프트웨어(Commercial Software)**: 완제품으로 판매·라이선스되는 소프트웨어.
 - **공공 조달 제도(Public Procurement System)**: 상용 SW를 구축 용역과 분리 계약하는 제도.
@@ -41,8 +40,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **적합성 검증(Conformity Assessment)**: 중립 규격·BMT·지원 조건 기반 제품 검증.
 - **벤치마크 테스트(Benchmark Test, BMT)**: 동일 조건에서 기능•성능•호환성을 비교하는 시험.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **조달 계약(Procurement Contract)**: 제품·라이선스·납기·지원 책임 계약.
 - **라이선스(License)**: 사용자·장치·기간·기능별 소프트웨어 이용 권리.
@@ -95,8 +92,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **제품 평가•BMT**: 규격•시험•유지관리 조건으로 적합성을 검증하는 단계.
 - **대상•제외 검토와 규격 공고**: 법정 대상•예외와 중립 규격을 확인하는 단계.
@@ -140,8 +136,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **직접 구매(Direct Purchase)**: 제품을 구축 용역과 분리 계약하는 방식.
 - **SI 일괄 구매(SI Bundled Purchase)**: 제품을 구축 용역에 포함하는 조달.
@@ -161,8 +156,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **책임 공백(Responsibility Gap)**: 공급자 지원과 구축자 설치·연동 범위 단절.
 - **중립 규격(Vendor-neutral Specification)**: 기능·성능·호환성 중심 규격.
@@ -182,8 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **직접구매 적용 판단**: 사업 규모·제품 기준과 제외 사유 판정.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **에이전트 권한 제어(Agent Authorization & Control)**: 에이전트가 위임받은 범위 안에서만 자원과 도구를 사용하도록 인증•인가•승인을 강제하는 통제 체계를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **인증(Authentication)**: 접근을 요청하는 사용자•에이전트•도구의 신원을 확인하는 절차로 정의된다.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **권한 위임(Delegation)**: 사용자가 에이전트에게 수행할 행동의 범위와 기간을 정해 권한을 넘기는 행위이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **정책 결정점(Policy Decision Point, PDP)**: 정책과 주체•자원•환경 속성을 평가하여 접근 허용 여부를 판단하는 지점을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -60,8 +58,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 관리(Policy Management)**: 역할•속성•금지 규칙과 정책 버전을 정의하고 변경하는 기능을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
 - **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 에이전트가 외부 기능을 요청하는 호출 경계로, PEP가 정책을 집행하는 지점을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -91,8 +88,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정책 질의(Policy Query)**: PEP가 요청의 주체•자원•행동•환경 정보를 PDP에 전달하여 허용 여부를 묻는 과정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **추가 승인(Additional Approval)**: 정책상 고위험으로 분류된 행동을 실행하기 전에 사용자에게 최종 결정을 요청하는 절차를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -141,8 +137,7 @@ PEP
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 기반 접근통제(Role-Based Access Control, RBAC)**: 직무 역할에 권한을 묶고 사용자나 에이전트에 역할을 할당하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **속성 기반 접근통제(Attribute-Based Access Control, ABAC)**: 주체•자원•행동•환경 속성을 정책으로 평가하여 접근을 결정하는 방식을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -164,8 +159,7 @@ PEP
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **단기 자격증명(Short-term Credential)**: 작업이 끝나거나 정해진 시간이 지나면 자동 만료되어 권한 잔존을 줄이는 인증 정보이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **권한 상승(Privilege Escalation)**: 허용된 여러 도구를 조합하여 본래 위임 범위를 넘는 행동이 가능해지는 현상을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
@@ -185,8 +179,7 @@ PEP
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **권한 통제 구분(Authorization Control Division)**: 안정적 직무 권한에는 RBAC를, 동적 속성•도구 조합•상황 판단에는 ABAC를 적용해 권한 상승을 통제하는 결정을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 

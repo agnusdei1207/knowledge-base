@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **아키텍처 품질속성 트레이드오프(Architecture Quality Tradeoff)**: 성능•가용성•보안 같은 비기능 요구사항을 품질 시나리오로 구체화하고 설계 결정이 품질 간에 만드는 상충 효과를 평가하는 의사결정 방법이다.
 - **비기능 요구사항(Non-Functional Requirement, NFR)**: 시스템이 기능을 어떤 품질 수준과 제약 안에서 제공해야 하는지 나타내는 요구사항이다.
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유틸리티 트리(Utility Tree)**: 품질 목표를 시나리오로 세분화하고 중요도와 난이도로 우선순위를 정하는 구조이다.
 - **아키텍처 트레이드오프 분석 방법(Architecture Tradeoff Analysis Method, ATAM)**: 품질 시나리오로 아키텍처의 위험•민감점•상충점을 평가하는 방법이다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **민감도 분석(Sensitivity Analysis)**: 설계 파라미터 변화가 품질 속성과 상충 관계에 미치는 영향을 측정하는 분석이다.
 - **민감점(Sensitivity Point)**: 작은 설계값 변화가 특정 품질 결과를 크게 바꾸는 지점이다.
@@ -84,8 +81,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **3. 상충 분석 결과**: 평가팀이 대안별 효익•민감점•다른 품질의 부작용을 비교해 결과를 전달하는 단계이다.
 - **1. 시나리오 구체화**: 품질 요구를 자극•환경•대상•응답•측정값으로 표현하는 단계이다.
@@ -133,8 +129,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가용성 택틱(Availability Tactic)**: 복제와 장애 전환으로 중단을 줄이지만 비용과 상태 동기화 복잡도를 높일 수 있는 설계 기법이다.
 - **성능 택틱(Performance Tactic)**: 비동기 처리•캐시 등으로 응답 시간과 처리량을 개선하는 설계 기법이다.
@@ -155,8 +150,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **국소 최적화(Local Optimization)**: 한 구성요소의 품질만 개선해 전체 경로의 다른 필수 품질을 악화시키는 문제이다.
 - **아키텍처 결정 기록(Architecture Decision Record, ADR)**: 결정의 배경•대안•근거•결과•재검토 조건을 남기는 문서이다.
@@ -179,8 +173,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **택틱 선택 기준**: 필수 품질 한계를 위반하는 대안은 폐기하고 모든 한계를 충족하는 대안에 검증된 택틱을 적용하는 기준이다.
 - **수용 위험(Accepted Risk)**: 대안의 효익과 비용을 비교한 뒤 이해관계자가 감수하기로 합의한 잔여 위험이다.

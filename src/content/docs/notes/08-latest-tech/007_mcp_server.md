@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **MCP Server(Model Context Protocol Server)**: 도구·리소스·프롬프트를 표준 기능으로 노출하고 백엔드 접근과 실행을 통제하는 프로그램. 시스템 자율적 기능 발견과 일관된 상호작용을 매개하는 핵심 아키텍처.
 - **인공지능(Artificial Intelligence, AI)**: 학습•추론으로 기능을 선택하고 결과를 생성하는 기술이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -36,8 +35,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기능 발견(Function Discover)**: 클라이언트가 서버의 도구•리소스•프롬프트 목록과 명세를 조회하는 과정을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
 - **검증 축(Validation Axis)**: 인증•인가•입력 검증으로 서버 실행 경계를 통제하는 관점이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -54,8 +52,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **도구 제공자(Tool Provider)**: 스키마와 실행 결과를 공개하고 권한 검증 후 백엔드 동작을 수행하는 핵심 서버 모듈.
 - **프로토콜 처리기(Protocol Handler)**: JSON-RPC 요청/응답을 해석하여 기능 처리기에 전달하는 통신 중계 모듈.
@@ -98,8 +95,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **요청•응답 상관관계(Request/Response Correlation)**: JSON-RPC 식별자를 이용해 각 실행 요청과 성공•오류 결과를 연결하는 관계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버의 기능 목록•명세를 발견하고 실행 결과를 교환하는 구성요소를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
@@ -146,8 +142,7 @@ MCP 클라이언트
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **Local MCP Server**: 호스트가 시작한 프로세스로 실행되고 stdio를 통해 한 클라이언트와 메시지를 교환하는 서버이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **REST API Server**: 고정된 HTTP 메서드•자원 계약으로 기능을 제공하는 서버를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -170,8 +165,7 @@ MCP 클라이언트
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **서버 최소 권한(Server Least Privilege)**: MCP Server가 제공 기능에 필요한 백엔드 자원과 작업만 접근하도록 계정•경로•명령을 제한하는 원칙이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **구조화 오류(Structured Error)**: 실패 원인과 재시도 가능 여부를 클라이언트가 판정하도록 코드와 데이터로 표현한 실행 결과를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.

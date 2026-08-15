@@ -19,8 +19,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NVLink**: NVIDIA가 GPU•CPU 등 처리기 사이의 고대역폭 직접 통신을 위해 제공하는 전용 인터커넥트이다.
 - **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기이다.
@@ -40,8 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **토폴로지 인식 집합 통신**: GPU•NVSwitch 연결과 링크 상태에 따라 NCCL이 링•트리 경로를 선택하는 방식이다.
 - **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치이다.
@@ -61,8 +59,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **GPU•CPU 메모리 도메인**: 자료 저장과 상호 접근 경계를 제공하는 영역이다.
 - **NVLink 포트**: 처리기 사이의 고속 링크를 제공하는 접속부이다.
@@ -97,8 +94,7 @@ NVLink 인터커넥트
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **통신 순위•자료 배치**: NCCL이 자주 교환하는 GPU 순위를 가까운 링크에 배치하는 방식이다.
 - **집합 통신(Collective Communication)**: 여러 GPU가 하나의 그룹으로 브로드캐스트•리듀스•전체 리듀스 등을 수행하는 통신 방식이다.
@@ -143,8 +139,7 @@ NVLink 인터커넥트
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **InfiniBand**: 전용 RDMA와 크레딧 제어를 제공하는 클러스터 인터커넥트이다.
 - **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술이다.
@@ -166,8 +161,7 @@ NVLink 인터커넥트
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사용률 편중**: GPU 집합 통신 경로가 같은 NVLink•NVSwitch 포트에 집중되는 문제이다.
 - **토폴로지 인식 순위 배치(Topology-Aware Rank Placement)**: 통신량이 큰 GPU 순위를 가까운 링크와 같은 스위치 도메인에 배치하는 기법이다.
@@ -187,8 +181,7 @@ NVLink 인터커넥트
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **가속기 연결 방식 선택**: 통신 범위•범용 장치 연결•서버 간 확장 요구에 따라 NVLink•PCIe•RDMA망을 배정하는 판단이다.
 

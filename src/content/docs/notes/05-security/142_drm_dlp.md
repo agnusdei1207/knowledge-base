@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **디지털 권리 관리(Digital Rights Management, DRM)**: 배포 후 파일 사용 권한을 통제하는 기술이다.
 - **데이터 유출 방지(Data Loss Prevention, DLP)**: 민감정보의 비인가 이동을 차단하는 통제이다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 분류**: 업무 가치•민감도•법적 요구에 따라 보호 등급과 취급 규칙을 정하는 활동이다.
 - **콘텐츠 검사**: 패턴•지문•등급•맥락을 분석해 데이터 민감 여부를 판정하는 기능이다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **라이선스 서버**: DRM 문서의 권한과 키 사용을 결정하는 서버이다.
 - **범용 직렬 버스(Universal Serial Bus, USB)**: 단말과 주변장치를 연결하는 직렬 버스이다.
@@ -91,8 +88,7 @@ DRM•DLP 통합 데이터 보안
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **데이터 지문**: 내용 특징값을 대조해 같거나 유사한 민감정보를 찾는 기술이다.
 - **사용•반출 집행**: DRM으로 사용을 제한하고 DLP로 이동을 검사하는 활동이다.
@@ -142,8 +138,7 @@ DRM•DLP 통합 데이터 보안
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보 권리 관리(Information Rights Management, IRM)**: 기업 정보에 세분화된 권한을 적용하는 체계이다.
 - **저장•전송 암호화(Data-at-rest/In-transit Encryption)**: 저장소와 통신 구간의 평문 노출을 막는 보호 방식이다.
@@ -164,8 +159,7 @@ DRM•DLP 통합 데이터 보안
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **월드 와이드 웹 컨소시엄(World Wide Web Consortium, W3C)**: 웹 표준을 개발하는 국제 컨소시엄이다.
 - **개방형 디지털 권리 언어(Open Digital Rights Language, ODRL)**: 디지털 권리 정책 표현 언어이다.
@@ -187,8 +181,7 @@ DRM•DLP 통합 데이터 보안
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **사용•이동 통합 통제**: 파일 사용 권한과 조직 안팎의 전송 경로를 같은 분류•신원 기준으로 관리하는 원칙이다.
 - **보호 방식 선택**: 사용 제한에는 DRM, 반출 차단에는 DLP를 정하는 판단이다.

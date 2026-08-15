@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기밀 컴퓨팅(Confidential Computing)**: 하드웨어 기반 신뢰 실행 환경(TEE)과 원격 증명(Remote Attestation)을 통해 데이터 처리 및 사용 중(Data in Use) 기밀성과 무결성을 보장하는 기술.
 - **사용 중 데이터(Data in Use)**: 응용 프로그램이 RAM 메모리에 적재되어 CPU/GPU 레지스터 및 캐시에서 연산 수행 중인 데이터.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 실행 환경(Trusted Execution Environment, TEE)**: CPU/SoC 내부의 하드웨어 수준 격리 영역으로, 호스트 OS나 하이퍼바이저조차 내부 데이터에 접근 불가능한 안심 구역 (Intel SGX/TDX, AMD SEV 등).
 - **원격 증명(Remote Attestation)**: TEE 내부에서 실행 중인 워크로드의 신원, 초기화 측정값 및 보안 상태를 서명된 암호학적 증거로 원격 검증기관에 입증하는 절차.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **워크로드(Workload)**: TEE 격리 구역 내부에서 안전하게 실행되는 대상 애플리케이션 및 연산 컨테이너.
 - **측정값(Measurement)**: TEE 부팅 및 워크로드 로딩 시 바이너리, 코드, 초기 상태를 하드웨어 측에서 암호학적으로 해싱한 고유값 (MRTD, MRENCLAVE).
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰 컴퓨팅 기반(Trusted Computing Base, TCB)**: 시스템의 보안성을 유지하기 위해 신뢰해야 하는 필수 하드웨어, 펌웨어 및 소프트웨어 전체 영역.
 - **측정값•증거 생성**: TEE 초기화 시 하드웨어 비밀키(Attestation Key)로 측정값에 서명하여 증명 패킷을 생성하는 단계.
@@ -137,8 +133,7 @@ TEE 실행 요청
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **엔클레이브(Enclave)**: 애플리케이션의 특정 민감 함수/코드 블록 단위만 TEE로 물리 격리하는 방식 (Intel SGX 등).
 - **기밀 가상머신(Confidential VM, CVM)**: 수정 없이 가상머신(VM) 전체의 게스트 OS 및 메모리를 호스트로부터 격리 암호화하는 방식 (AMD SEV-SNP, Intel TDX).
@@ -160,8 +155,7 @@ TEE 실행 요청
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **부채널 공격(Side-channel Attack)**: 캐시 메모리 액세스 타임, 전력 소비량, 미세 전자기파를 관측하여 TEE 내부 암호키를 추론하는 공격.
 - **IETF RFC 9334(Remote Attestation Procedures, RATS)**: 원격 증명 프로토콜의 표준 아키텍처 및 역할(Attester, Verifier, Relying Party) 규정 문서.
@@ -182,8 +176,7 @@ TEE 실행 요청
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **기밀 컴퓨팅 아키텍처 선택(Confidential Computing Selection)**: 보호 대상 크기(TCB), 코드 수정 가능성 및 GPU 연산 여부를 감안한 TEE 구현 지침.
 

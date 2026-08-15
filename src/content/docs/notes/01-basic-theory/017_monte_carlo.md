@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **몬테카를로 방법(Monte Carlo Method)**: 확률분포에서 반복 추출한 난수 표본의 통계량으로 직접 계산하기 어려운 값을 근사하는 기법이다.
 - **해석해(Analytical Solution)**: 수식 변형으로 정확한 값을 닫힌 형태로 구한 해이다.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **독립 표본(Independent Sample)**: 서로의 발생 결과에 영향을 주지 않는 표본이다.
 - **표본평균(Sample Mean)**: 표본값의 합을 표본 수로 나눈 통계량이다.
@@ -75,8 +73,7 @@ $$
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **확률분포(Probability Distribution)**: 확률변수가 가질 수 있는 값과 각 값의 발생 가능성을 나타내는 규칙이다.
 - **추정량(Estimator)**: 표본으로부터 모수나 목표값을 계산하는 규칙이다.
@@ -110,8 +107,7 @@ $$
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **모델 평가**: 생성된 표본을 모델에 넣어 추정에 사용할 출력값을 구하는 과정이다.
 
@@ -144,8 +140,7 @@ $$
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **결정론적 구적법(Deterministic Quadrature)**: 정해진 격자점의 함수값을 가중합해 저차원 적분을 근사하는 기법이다.
 - **매끄러운 함수(Smooth Function)**: 입력 변화에 따라 값이 급격히 끊기지 않아 적은 격자점으로도 오차를 줄이기 쉬운 함수이다.
@@ -168,8 +163,7 @@ $$
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **독립 난수 스트림(Independent Random Stream)**: 병렬 작업마다 겹치지 않는 난수열을 배정해 표본 간 상관을 막는 생성 흐름이다.
 - **중요도 표본추출(Importance Sampling)**: 영향이 큰 영역을 더 자주 뽑아 분산을 줄이는 기법이다.
@@ -193,8 +187,7 @@ $$
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **신뢰구간 폭**: 추정값의 불확실성을 나타내는 신뢰구간 상한과 하한 사이의 길이다.
 - **계산 예산**: 표본 생성과 모델 평가에 사용할 수 있는 시간과 연산 자원의 한도이다.

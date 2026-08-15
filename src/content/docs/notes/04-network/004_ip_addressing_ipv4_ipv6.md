@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **IP 주소(IP Address)**: 네트워크 계층에서 호스트 인터페이스를 식별하여 패킷 라우팅을 수행하는 논리적 주소.
 - **IPv4**: 32비트 주소 체계로 8비트씩 4개 옥텟을 10진수로 표기하는 4세대 프로토콜.
@@ -38,8 +37,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>핵심 용어(Key Terms)</summary>
+<details><summary>용어 설명</summary>
 
 - **LPM(Longest Prefix Match)**: 라우팅 테이블 항목 중 비트가 가장 길게 일치하는 경로를 최적 경로로 선택하는 알고리즘.
 - **SLAAC(Stateless Address Autoconfiguration)**: DHCP 서버 없이 라우터 광고(RA) 메시지로 IPv6 주소를 자동 생성하는 기법.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 프리픽스(Network Prefix)**: IP 주소의 상위 비트 영역으로, 서브넷 및 라우팅 구역 전체를 대표하는 계층적 네트워크 식별자.
 - **인터페이스 식별자(Interface Identifier)**: IP 주소의 하위 비트 영역으로, 지정된 서브넷 내부에서 단일 호스트/인터페이스를 유일하게 구분하는 식별자.
@@ -90,8 +87,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **주소 결정 프로토콜(Address Resolution Protocol, ARP)**: IPv4 주소를 기반으로 동일 L2 브로드캐스트 도메인 내 대상의 MAC 주소를 조회하는 프로토콜.
 - **이웃 탐색 프로토콜(Neighbor Discovery Protocol, NDP)**: ICMPv6 메시지를 활용하여 이웃 L2 MAC 주소 해석, 라우터 발견 및 주소 중복 검사(DAD)를 수행하는 IPv6 프로토콜.
@@ -128,8 +124,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **네트워크 주소 변환(Network Address Translation, NAT)**: 사설 IP 주소 공간(RFC 1918)을 공인 IP 주소로 상호 변환하여 주소 부족 완화 및 내부망 보안을 확보하는 기술.
 
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **듀얼 스택(Dual Stack)**: 동일 네트워크 장비 및 서버의 OS에 IPv4와 IPv6 프로토콜 스택을 동시에 활성화하여 병행 운용하는 기술.
 - **라우터 광고(Router Advertisement, RA)**: 라우터가 네트워크 호스트에게 프리픽스, MTU, 기본 게이트웨이 정보를 정기적으로 공지하는 ICMPv6 메시지.
@@ -171,8 +165,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **IPv6 전환(IPv6 Transition)**: IPv4 인프라를 IPv6로 이행하기 위한 듀얼 스택, 터널링(6to4/GRE), 변환(NAT64/DNS64) 메커니즘 체계.
 - **전환 방식 결정(Transition Strategy Selection)**: 서비스 연동성, 인프라 노후도 및 보안 정책을 검토하여 시스템별 최적의 IPv6 전환 로드맵을 확정하는 절차.

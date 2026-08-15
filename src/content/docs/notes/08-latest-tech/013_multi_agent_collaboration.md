@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티 에이전트 시스템(Multi-Agent System, MAS)**: 복수의 자율 에이전트가 역할•정보•상태를 조정하여 공동 목표를 수행하는 체계를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
 - **역할 특화(Role Specialization)**: 계획•검색•실행•검증 책임을 각 에이전트의 전문 능력에 맞게 분리하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
@@ -37,8 +36,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **위임(Delegation)**: 하위 목표와 완료 조건을 적합한 담당 에이전트에게 이양하는 행위로 정의된다.
 - **공유 상태(Shared State)**: 여러 에이전트가 진행 정보와 산출물을 함께 조회하고 갱신하는 저장 공간이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -56,8 +54,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **협업 토폴로지(Collaboration Topology)**: 에이전트 사이의 지휘•위임•통신 관계를 중앙형•계층형•분산형 등으로 구성한 구조로 정의된다.
 - **역할•능력 계약(Role/Capability Contract)**: 각 에이전트의 책임•사용 도구•입력•출력과 위임 가능 범위를 명시한 계약이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **책임 경계(Responsibility Boundary)**: 각 에이전트가 소유하는 작업•입출력•완료 조건의 범위로 정의된다.
 - **독립 검증(Independent Verification)**: 산출물을 만든 에이전트와 분리된 주체가 별도 기준으로 품질을 판정하는 절차로 정의된다.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **중앙형 협업(Centralized Collaboration)**: 단일 조정자가 작업을 배분하고 결과를 통합하는 구조로 정의된다.
 - **계층형 협업(Hierarchical Collaboration)**: 상위 에이전트가 하위 목표를 단계적으로 위임하고 부분 결과를 모으는 구조이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
@@ -162,8 +157,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **버전 충돌(Version Conflict)**: 여러 에이전트가 같은 공유 상태나 산출물을 동시에 변경하여 갱신 내용이 충돌하는 현상으로 정의된다.
 - **동일 편향(Confirmation Bias)**: 작성자와 검증자가 같은 문맥•가정에 의존해 동일한 오류를 놓치는 문제로 정의된다.
@@ -182,8 +176,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **역할 분담 결정(Role Delegation Decision)**: 과업 복잡도와 검증 필요성에 따라 단일 에이전트와 MAS 협업 구조 중 선택하는 결정이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 

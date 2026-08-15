@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티캐스트**: 하나의 송신 패킷을 가입한 여러 수신자 경로의 분기점에서 선택적으로 복제하는 일대다 전송 방식이다.
 - **멀티캐스트 그룹(Multicast Group)**: 같은 그룹 주소의 데이터를 수신하겠다고 가입한 수신자들의 논리적 집합이다.
@@ -40,8 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인터넷 그룹 관리 프로토콜(Internet Group Management Protocol, IGMP)**: 접속망의 단말과 라우터 사이에서 멀티캐스트 그룹 가입•탈퇴 상태를 관리하는 프로토콜이다.
 - **프로토콜 독립 멀티캐스트(Protocol Independent Multicast, PIM)**: 기존 유니캐스트 경로 정보를 이용해 라우터 간 멀티캐스트 분배 트리를 구성하는 프로토콜이다.
@@ -59,8 +57,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분배 트리**: 송신원 또는 RP에서 가입 수신자 방향으로 패킷을 복제•전달하는 경로 구조이다.
 - **집결점(Rendezvous Point, RP)**: 임의 송신원 멀티캐스트의 공유 트리 중심을 제공하는 라우터이다.
@@ -95,8 +92,7 @@ IGMP 접속망
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **PIM 가입 전파**: 수신 측 라우터가 상위 경로에 멀티캐스트 그룹•송신원 트리 참여를 요청하는 과정이다.
 - **가입 가지**: 분배 트리에서 수신자가 존재해 멀티캐스트 패킷을 전달해야 하는 경로이다.
@@ -136,8 +132,7 @@ RPF 검사
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **ASM 공유 트리**: 모든 송신원을 허용하고 RP 중심 트리로 송신원을 찾는 방식이다.
 - **송신원 지정 멀티캐스트(Source-Specific Multicast, SSM)**: 수신자가 특정 송신원•그룹 조합만 선택해 가입하는 방식이다.
@@ -160,8 +155,7 @@ RPF 검사
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **질의자 이중화**: 그룹 가입 상태를 주기적으로 확인하는 IGMP 질의자 장애에 대비해 예비 장비를 구성하는 방식이다.
 - **IGMP 스누핑(IGMP Snooping)**: 스위치가 IGMP 가입 보고를 관찰해 가입한 포트에만 멀티캐스트를 전달하는 기능이다.
@@ -181,8 +175,7 @@ RPF 검사
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **멀티캐스트 방식 선택**: 송신원 지정 가능성•수신자 밀도•RP 운영 여부를 기준으로 SSM•PIM-SM•PIM-DM을 결정하는 과정이다.
 

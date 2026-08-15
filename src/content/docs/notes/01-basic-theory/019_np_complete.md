@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NP-완전(NP-Complete)**: NP에 속하면서 모든 NP 문제를 다항 시간에 환원받는 결정 문제 부류이다.
 - **결정 문제(Decision Problem)**: 답이 예 또는 아니오로 정해지는 계산 문제이다.
@@ -40,8 +39,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NP-난해(NP-Hard)**: 모든 NP 문제를 다항 환원받아 적어도 NP만큼 어려운 문제 부류이다.
 - **다항 시간(Polynomial Time)**: 입력 크기의 다항식으로 제한되는 실행 시간이다.
@@ -62,8 +60,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인증서(Certificate)**: 결정 문제의 긍정 답이 맞음을 검증하는 데 사용하는 보조 정보이다.
 - **완전성 증명**: 대상 문제의 NP 소속과 NP-난해성을 함께 보이는 증명이다.
@@ -96,8 +93,7 @@ NP-완전성
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **NP 소속 증명**: 인증서 크기와 검증 시간이 입력 크기의 다항식으로 제한됨을 보이는 과정이다.
 - **환원 구성**: 알려진 NP-완전 문제의 인스턴스를 대상 문제의 인스턴스로 변환하는 과정이다.
@@ -138,8 +134,7 @@ NP-완전성
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **다항 시간(Polynomial Time, P)**: 결정론적 알고리즘으로 다항 시간에 풀 수 있는 결정 문제 집합이다.
 - **정지 문제(Halting Problem)**: 임의 프로그램이 입력에서 멈추는지 판정하는 일반 알고리즘이 존재하지 않는 문제이다.
@@ -163,8 +158,7 @@ NP-완전성
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **환원 방향**: NP-난해성을 전달하기 위해 알려진 NP-완전 문제에서 대상 문제로 향해야 하는 변환 방향이다.
 - **불리언 만족 가능성 문제(Boolean Satisfiability Problem, SAT)**: 불 논리식을 참으로 만드는 변수 할당의 존재 여부를 판정하는 문제이다.
@@ -188,8 +182,7 @@ NP-완전성
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **근사해(Approximate Solution)**: 최적해와 같음을 보장하지 않지만 다항 시간에 구하고 품질 경계로 차이를 제한하는 해이다.
 - **결정형**: 예•아니오를 답하는 문제 형태이다.

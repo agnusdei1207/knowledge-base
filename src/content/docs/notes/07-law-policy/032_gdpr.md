@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **유럽연합 일반개인정보보호법(General Data Protection Regulation, GDPR)**: 처리•권리•책임•이전 규정.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **원칙 중심성**: 적법성•공정성•투명성•목적 제한•최소화 원칙으로 처리를 통제하는 특성.
 - **근거 중심성**: 개인정보 처리 목적마다 법이 인정한 적법 근거를 정하는 특성.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **정보주체**: 열람•삭제•이동•반대 권리를 행사하는 개인.
 - **처리자**: 처리 목적•수단을 결정하고 준수 책임을 지는 주체.
@@ -89,8 +86,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **처리정보 고지**: 목적•근거•항목•기간•수신자•이전•권리 안내.
 - **권리 요청**: 본인 확인 후 적용 조건•예외•기한 판단.
@@ -130,8 +126,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **삭제권**: 목적 소멸•동의 철회•불법 처리 시 삭제 요구.
 - **이동권**: 제공 정보를 기계 판독 형식으로 수령•전송할 권리.
@@ -150,8 +145,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **동의 의존**: 계약•법적 의무•정당한 이익 등 다른 적법 근거를 검토하지 않고 모든 처리를 동의에만 의존하는 문제.
 - **삭제권•법정 보존 충돌**: 정보주체의 삭제 요구와 세법 등 별도 법률의 보존 의무가 동시에 적용되는 문제.
@@ -170,8 +164,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **EU 대상 처리(EU-targeted Processing)**: EU 재화·서비스 제공 또는 행동 모니터링.
 - **목적별 적법 근거(Lawful Basis by Purpose)**: 목적별 동의·계약·의무·이익 기준.

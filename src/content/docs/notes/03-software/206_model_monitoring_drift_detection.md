@@ -162,7 +162,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details><summary>쉽게 이해하기 (학습용)</summary>
+<details><summary>용어 설명</summary>
 
 - 입력 분포가 달라졌다는 이유만으로 재학습하지 않고 실제 정답과 업무 손실을 확인한다.
 

@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포워딩(Forwarding, Bypassing)**: 연산 결과를 레지스터에 쓰기 전 후속 명령어의 입력으로 직접 전달하여 데이터 대기 사이클(Stall)을 제거하는 기법.
 - **분기 예측(Branch Prediction)**: 조건 분기의 실행 결과가 확정되기 전 과거 이력을 기반으로 방향과 타깃 주소를 사전에 추정하는 기술.
@@ -39,8 +38,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분기 오예측(Branch Misprediction)**: 예측된 분기 방향이 실제 계산 결과와 일치하지 않는 상태.
 - **플러시 패널티(Flush Penalty)**: 오예측 시 오경로 명령어를 무효화하고 올바른 주소에서 재인출할 때 발생하는 사이클 손실.
@@ -57,8 +55,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **포워딩 제어기(Forwarding Unit)**: 파이프라인 레지스터의 목적지 레지스터 번호와 후속 명령어의 소스 레지스터 번호를 비교하는 회로.
 - **우회 MUX(Bypass Multiplexer)**: 레지스터 파일 출력과 포워딩 경로 중 유효 피연산자를 선택하는 다중화기.
@@ -92,8 +89,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **분기 이력 표(Branch History Table, BHT)**: 분기 성공/실패 이력을 저장하는 2비트 카운터 기반 테이블.
 - **분기 타깃 버퍼(Branch Target Buffer, BTB)**: 분기 명령어 주소와 타깃 주소를 매핑 보관하는 캐시.
@@ -124,8 +120,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **RAW 데이터 해저드(Read After Write Data Hazard)**: 앞 명령어의 쓰기가 완료되기 전에 뒤 명령어가 읽기를 시도하는 상태.
 - **제어 해저드(Control Hazard)**: 분기 명령어의 실행 결과가 확정되지 않아 인출 경로를 결정하지 못하는 상태.
@@ -145,8 +140,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **명령어 재배치(Instruction Reordering)**: 컴파일러가 독립적인 명령어를 Load와 Use 사이에 배치하여 스톨을 은닉하는 기법.
 - **재주문 버퍼(Reorder Buffer, ROB)**: 추측 실행 결과를 순서대로 Commit하여 정밀 예외를 보장하는 버퍼.
@@ -166,8 +160,7 @@ extra:
 
 ## Ⅶ. 결론
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **해저드 제어 체계(Hazard Control Framework)**: 포워딩, 분기 예측, ROB 커밋 구조를 통합하여 파이프라인 손실을 최소화하는 아키텍처.
 

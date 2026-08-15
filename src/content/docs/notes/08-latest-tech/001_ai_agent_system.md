@@ -20,8 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인공지능 에이전트 시스템(AI Agent System)**: 목표(Goal)를 작업(Task)으로 분해하여 도구(Tool)를 실행하고 관찰 결과에 따라 행동을 조정(ReAct)하는 자율적 문제 해결 체계. 복잡한 실무 업무 자동화를 위해 계획, 추론, 실행, 통제 아키텍처를 통합한 핵심 아키텍처.
 
@@ -35,8 +34,7 @@ extra:
 
 ## Ⅱ. 특징
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목표 지향성(Goal-Oriented)**: 목표를 의존 관계와 완료 조건이 있는 하위 작업으로 분해하는 실무 안정성 핵심 기전.
 - **추론-행동(ReAct, Reasoning and Acting)**: 추론으로 행동 선택 및 결과 관찰 후 오류 복구·재계획 반영하는 반복 방식.
@@ -55,8 +53,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **대규모 언어 모델(LLM, Large Language Model)**: 자연어 지시·문맥 기반 계획, 응답, 행동 후보 생성하는 에이전트의 핵심 추론 엔진.
 - **오케스트레이터(Orchestrator)**: 목표·정책 기반 모델, 계획, 평가, 도구 호출의 순서 및 종료를 조정하는 핵심 제어 기전.
@@ -93,8 +90,7 @@ extra:
 
 ## Ⅳ. 흐름도
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **목표·완료 조건·예산 등록(Goal/Budget Registration)**: 작업 범위·금지 행동·종료 기준·자원 한도를 설정하는 단계.
 - **현재 상태·기억 제공(Context Provision)**: 이전 행동·결과·장기 지식을 조회하여 판단 맥락 제공.
@@ -139,8 +135,7 @@ extra:
 
 ## Ⅴ. 종류 및 비교
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **AI Agent**: 목표 달성을 위해 계획·행동·관찰을 반복하며 외부 도구를 실행하는 자율 시스템.
 - **검색 증강 생성(RAG, Retrieval-Augmented Generation)**: 외부 자료를 검색하여 근거 기반 응답을 생성하는 방식.
@@ -159,8 +154,7 @@ extra:
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-<details>
-<summary>용어 설명</summary>
+<details><summary>용어 설명</summary>
 
 - **인간 참여형 통제(HITL, Human-in-the-Loop)**: 고위험 행동 실행 전 사람이 맥락과 영향을 검토하고 승인하는 통제 체계.
 - **최소 권한(Least Privilege)**: 작업에 필요한 도구와 데이터만 제한된 범위에서 사용하도록 하는 보안 원칙.
