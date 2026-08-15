@@ -25,7 +25,7 @@ extra:
 
 - **물사용효율(Water Usage Effectiveness, WUE)**: 데이터센터의 연간 물 사용량을 순수 IT 장비의 연간 소비 전력량으로 나눈 수자원 효율 평가 표준 지표.
 - **데이터센터 수자원 효율(Data Center Water Efficiency)**: 증발식 냉각탑 등으로 인한 막대한 수자원 소비를 줄이고 수자원 재활용률을 높이는 친환경 관리 체계.
-- **지속가능성 지표(Sustainability Metrics)**: PUE(전력), CUE(탄소)와 함께 데이터센터의 친환경 ESG 성과를 종합 평가하는 핵심 삼총사 지표.
+- **지속가능성 지표(Sustainability Metrics)**: PUE(전력), CUE(탄소)와 함께 데이터센터의 친환경 ESG 성과를 종합 평가하는 주요 3대 지표.
 
 </details>
 

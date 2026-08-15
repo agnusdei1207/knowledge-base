@@ -23,7 +23,7 @@ extra:
 
 - **Docker Container (도커 컨테이너)**: 호스트 OS의 커널(Kernel)을 공유하면서, 애플리케이션 실행에 필요한 코드, 라이브러리, 의존성 패키지를 불변 이미지(Immutable Image)로 패키징하여 격리된 프로세스로 빠르게 실행하는 리눅스 가상화 기술.
 - **cgroups & Namespaces**: 리눅스 커널의 핵심 격리 메커니즘으로, cgroups(Control Groups)는 CPU/Memory 자원 사용량을 제한하고, Namespaces는 PID/Net/IPC 등 가시 범위를 철저히 분리.
-- **OverlayFS (Union File System)**: 이미지 레이어를 읽기 전용(Read-Only) 계층으로 공유하고, 변경사항만 제일 위 쓰기 계층(Writable Layer)에 기록하는 초경량 레이어드 파일시스템.
+- **OverlayFS (Union File System)**: 이미지 레이어를 읽기 전용(Read-Only) 계층으로 공유하고, 변경사항만 제일 위 쓰기 계층(Writable Layer)에 기록하는 경량 레이어드 파일시스템.
 
 </details>
 

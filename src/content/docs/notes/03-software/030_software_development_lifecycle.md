@@ -138,7 +138,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Shift-Left Testing**: 보안 및 품질 검증(SAST, Unit Test)을 SDLC 후반부에서 구현/설계 극초반부(Left)로 전진 배치하여 결함 수정 비용을 획기적으로 낮추는 전원배치 전략.
+- **Shift-Left Testing**: 보안 및 품질 검증(SAST, Unit Test)을 SDLC 후반부에서 구현/설계 극초반부(Left)로 전진 배치하여 결함 수정 비용을 효과적으로 낮추는 전원배치 전략.
 
 </details>
 

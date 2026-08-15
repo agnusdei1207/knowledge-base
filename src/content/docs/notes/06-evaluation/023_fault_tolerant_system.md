@@ -24,7 +24,7 @@ extra:
 
 - **고장 감내 시스템(Fault-Tolerant System, FTS)**: 하드웨어나 소프트웨어의 일부 부품에 결함이 발생하더라도 서비스 중단이나 성능 저하 없이 정상 기능을 지속 수행하는 시스템.
 - **고장 감내(Fault Tolerance)**: 결함(Fault)이 오류(Error) 및 전체 시스템 실패(Failure)로 전파되지 않도록 자원을 다중화하고 격리하는 설계 기법.
-- **연속 가용성(Continuous Availability)**: 다운타임 0(Zero Downtime)을 목표로 하여 장애 조치 지연 시간(Failover Delay)조차 허용하지 않는 초고신뢰성 아키텍처.
+- **연속 가용성(Continuous Availability)**: 다운타임 0(Zero Downtime)을 목표로 하여 장애 조치 지연 시간(Failover Delay)조차 허용하지 않는 고신뢰성 아키텍처.
 
 </details>
 
@@ -149,7 +149,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **공통 원인 고장(Common Cause Failure, CCF)**: 전원 계통이나 공유 펌웨어 등 단일 원인으로 복수 부품이 동시 고장 나는 현상에 대한 물리적/논리적 분리 설계 필요.
-- **비용 최적화(Cost-Effectiveness)**: 모든 워크로드에 FTS를 도입하기 어려우므로 BIA 분석을 통해 최상위 미션 크리티컬 업무에만 선별 적용.
+- **비용 최적화(Cost-Effectiveness)**: 모든 워크로드에 FTS를 도입하기 어려우므로 BIA 분석을 통해 미션 크리티컬 업무에만 선별 적용.
 - **카오스 엔지니어링 검증(Chaos Engineering Validation)**: 실제 하드웨어 장애 주입 테스트를 통해 락스텝 전환 및 무중단 유지 여부를 사전 검증.
 
 </details>
@@ -169,7 +169,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **미션 크리티컬 무중단 인프라(Mission-Critical Continuous Infrastructure)**: 하드웨어 락스텝과 자가 격리 기술을 결합하여 비즈니스 연속성과 데이터 무결성을 완벽 사수하는 최상위 신뢰성 체계.
+- **미션 크리티컬 무중단 인프라(Mission-Critical Continuous Infrastructure)**: 하드웨어 락스텝과 자가 격리 기술을 결합하여 비즈니스 연속성과 데이터 무결성을 보장하는 신뢰성 체계.
 
 </details>
 

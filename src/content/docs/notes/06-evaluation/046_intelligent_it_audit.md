@@ -180,7 +180,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **데이터 기반의 선제적 위험 예방 감리(Predictive Audit Framework)**: AI 기술을 통해 감리의 효율성과 품질을 획기적으로 향상시켜 소프트웨어 결함과 프로젝트 실패 위험을 사전에 방지하는 선진 감리 체계.
+- **데이터 기반의 선제적 위험 예방 감리(Predictive Audit Framework)**: AI 기술을 통해 감리의 효율성과 품질을 효과적으로 향상시켜 소프트웨어 결함과 프로젝트 실패 위험을 사전에 방지하는 선진 감리 체계.
 
 </details>
 

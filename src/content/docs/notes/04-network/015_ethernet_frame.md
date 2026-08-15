@@ -161,7 +161,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **최대 전송 단위(Maximum Transmission Unit, MTU)**: 프레임 페이로드로 실을 수 있는 최대 L3 IP 패킷 바이트 규격 (표준 이더넷: 1500바이트).
-- **점보 프레임(Jumbo Frame)**: 표준 MTU(1500바이트)보다 큰 최대 9000바이트의 페이로드를 수용하여 프레임 오버헤드와 CPU 인터럽트를 획기적으로 줄이는 기술.
+- **점보 프레임(Jumbo Frame)**: 표준 MTU(1500바이트)보다 큰 최대 9000바이트의 페이로드를 수용하여 프레임 오버헤드와 CPU 인터럽트를 효과적으로 줄이는 기술.
 - **가상 근거리 통신망 태그(Virtual Local Area Network Tag, VLAN Tag / 802.1Q Tag)**: 스위치 트렁크 포트 통신 시 L2 헤더의 Source MAC과 EtherType 사이에 추가 삽입되는 4바이트 VLAN 식별자 (TPID=0x8100 + TCI=VLAN ID/Priority).
 - **IEEE 802.1Q**: 이더넷 프레임에 4바이트 VLAN 태그를 추가하여 논리적 네트워크를 격리하는 이더넷 트렁킹 국제 표준.
 
