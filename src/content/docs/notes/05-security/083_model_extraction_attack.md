@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 83
   label: "083. 모델 추출 공격 (Model Extraction Attack)"
@@ -61,9 +61,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **질의 생성기(Query Generator / Synthetic Query Synthesizer)**: GAN, Diffusion, OOD 샘플링 기법을 활용해 대상 모델의 결정 경계를 자극하는 합성 데이터를 자동 생성하는 모듈이다.
-- **대리 학습기(Surrogate Model Trainer)**: 대상 모델 API로부터 수집된 (입력, 출력) 페어 데이터셋을 바탕으로 학생 모델을 지도 학습시키는 엔진이다.
-- **충실도(Fidelity / Agreement Rate)**: 대리 모델이 동일한 입력에 대해 원본 대상 모델과 얼마나 동일하게 분류 판단하는지의 일치 비율(%) 지표이다.
+- **충실도(Fidelity / Agreement Rate)**: 대리 모델이 동일 입력에 대해 원본 모델과 동일하게 분류하는 일치 비율(%) 지표이다.
+- **대리 모델(Surrogate Model)**: 공격자가 대상 모델의 입출력 페어로 학습시켜 기능을 복제한 모사 모델이다.
 
 </details>
 
