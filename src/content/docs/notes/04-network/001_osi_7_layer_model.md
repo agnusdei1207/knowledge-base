@@ -25,6 +25,7 @@ extra:
 - **개방형 시스템 간 상호접속 7계층 모델(OSI 7-Layer Model, Open Systems Interconnection 7-Layer Model)**: 통신 기능을 7단계로 표준화하여 이기종 시스템 간 상호운용성을 보장하는 국제 참조 모델.
 - **국제표준화기구(ISO, International Organization for Standardization)**: 전 세계 정보통신 네트워크 및 기술 표준을 제정하는 국제기구.
 
+- **OSI 7계층 참조 모델(OSI 7-Layer Reference Model)**: 이종 컴퓨터 및 네트워크 간의 상호 통신 호환성을 위해 물리, 데이터링크, 네트워크, 전송, 세션, 표현, 응용 계층으로 기능을 분할한 ISO 국제 표준 아키텍처.
 </details>
 
 - 정의: 통신 기능을 7계층으로 표준화한 **OSI 참조 모델**

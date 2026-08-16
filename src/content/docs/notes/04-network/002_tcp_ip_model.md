@@ -26,6 +26,7 @@ extra:
 - **인터넷 프로토콜(IP, Internet Protocol)**: 논리 IP 주소 기반 이기종망 간 패킷 라우팅 및 최선형 전달(Best-Effort Delivery)을 수행하는 비연결형 인터넷 프로토콜.
 - **TCP/IP 4계층 모델(TCP/IP 4-Layer Model)**: 인터넷 기능을 IP 계층 중심의 4개 실용 계층으로 구조화한 모래시계형 실무 프로토콜 아키텍처.
 
+- **TCP/IP 4계층 프로토콜 스택(TCP/IP 4-Layer Protocol Stack)**: 네트워크 액세스, 인터넷(IP), 전송(TCP/UDP), 응용 계층으로 구성되어 실제 인터넷 통신을 총괄하는 실무 표준 프로토콜 체계.
 </details>
 
 - 정의: 인터넷 통신 기능을 4계층으로 구조화한 **TCP/IP 모델**

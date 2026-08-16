@@ -25,6 +25,7 @@ extra:
 - **도메인 이름 시스템(Domain Name System, DNS)**: 사람이 읽기 쉬운 문자열 도메인 주소(예: www.example.com)를 컴퓨터가 상호 통신할 수 있는 IP 주소로 상호 변환해주는 전 세계 분산 계층형 데이터베이스 시스템.
 - **자원 레코드(Resource Record, RR)**: 이름•유형•값•TTL로 구성된 DNS 정보 단위.
 
+- **도메인 네임 시스템(Domain Name System, DNS)**: 도메인 명을 숫자로 된 IP 주소로 변환하기 위해 루트, TLD, 권한 네임서버로 계층 분산된 인터넷 핵심 주소 해석 시스템.
 </details>
 
 - 정의/개념: 도메인과 자원 레코드를 해석하는 분산 **DNS**
