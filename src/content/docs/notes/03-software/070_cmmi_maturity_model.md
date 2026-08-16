@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "CMMI 성숙도 모델 (Capability Maturity Model Integration)"
-date: "2026-08-13T17:14:00+09:00"
+date: "2026-08-16T17:16:00+09:00"
 tags:
   - "notes-software"
 weight: 70
@@ -136,7 +136,7 @@ extra:
 | 중심 개념 | **조직 전체의 성숙도 (Maturity Level)** | **특정 프로세스 영역의 역량 (Capability Level)**|
 | 등급 범위 | **Level 1 ~ Level 5 (5단계)** | **Level 0 ~ Level 3 (4단계)** |
 | 장점 | **조직 간 성숙도 비교가 명확함 (인증 목적)** | **조직이 원하는 특정 영역을 핀포인트 개선 가능** |
-| 적용 목적 | 대형 SI 입찰, 조직 전체 등급 인증 | 수주 목적이 아닌 조직 내부 자체 프로세스 개선 |
+| 적용 기준 | 대형 SI 입찰, 조직 전체 등급 인증 | 수주 목적이 아닌 조직 내부 자체 프로세스 개선 |
 
 #### 한줄 요약
 

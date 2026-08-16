@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 60%"
     variant: note
 title: "InfiniBand"
-date: "2026-08-14T07:12:00+09:00"
+date: "2026-08-16T17:16:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 151
@@ -127,7 +127,7 @@ HCA와 IB 스위치는 RDMA 패킷을 SL과 P_Key에 맞춰 전달한다.
 
 | 비교 기준 | InfiniBand | RoCE | NVLink•NVSwitch |
 |:---|:---|:---|:---|
-| 적용 대상 | 전용 다중 노드 클러스터 | 이더넷 기반 기존망 | 단일 서버 내부 GPU |
+| 적용 기준 | 전용 다중 노드 클러스터 | 이더넷 기반 기존망 | 단일 서버 내부 GPU |
 | 핵심 특징 | 관리형 RDMA 통합 패브릭 | 이더넷 기반 RDMA | GPU 메모리 고속 직접 연결 |
 | 한계 | 고비용 전용 장비 필요 | 복잡한 무손실 환경 구성 | 노드 간 연결 확장성 제한 |
 

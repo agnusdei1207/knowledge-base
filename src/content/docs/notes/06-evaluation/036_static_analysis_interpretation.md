@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정적 분석 결과 해석 (Static Analysis Result Interpretation)"
-date: "2026-08-14T00:10:00+09:00"
+date: "2026-08-16T17:16:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 36
@@ -160,7 +160,7 @@ extra:
 
 </details>
 
-| 제기된 문제 | 적용 대책 | 기대 효과 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 환경 없는 **도구 심각도** 맹신 | 전문가 **분류 검토** | 실제 위험에 수정 공수 집중 |
 | **예외 지시어** 남용 | 사유·교차 검토·**예외 만료** | 영구 취약점 은폐 방지 |

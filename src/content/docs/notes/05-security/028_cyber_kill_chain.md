@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "사이버 킬체인 (Cyber Kill Chain)"
-date: "2026-08-13T18:48:54+09:00"
+date: "2026-08-16T17:16:00+09:00"
 tags:
   - "notes-security"
 weight: 28
@@ -137,7 +137,7 @@ extra:
 
 | 보안 분석 모델 | **사이버 킬체인 (Cyber Kill Chain)** | **MITRE ATT&CK** | **사고 대응 수명주기 (NIST IR)** |
 |:---|:---|:---|:---|
-| 주요 목적 | 공격 단계별 조기 차단 지점(Kill Point) 설계 | 세부 공격 행동(TTP) 매핑 및 헌팅 | 사고 발생 시 수습, 격리, 복구 관리 |
+| 적용 기준 | 공격 단계별 조기 차단 지점(Kill Point) 설계 | 세부 공격 행동(TTP) 매핑 및 헌팅 | 사고 발생 시 수습, 격리, 복구 관리 |
 | 모델 구조 | 7단계 선형(Linear) 순차 프로세스 | 14개 전술(Tactics) & 500+ 세부 기술(Techniques) 매트릭스 | 4단계 순환(Preparation, Detect, Contain, Post) |
 | 장단점 | 단순하고 직관적이나 비선형 TTP 표현 한계 | 세밀하고 정교하나 공격 시순 및 캠페인 맥락 파악 복잡 | 조직 관점 절차 중심이나 기술적 공격 분석 미흡 |
 
