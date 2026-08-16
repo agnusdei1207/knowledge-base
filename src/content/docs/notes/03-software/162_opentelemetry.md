@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **벤더 중립(Vendor Agnostic)**: 단일 OTel SDK로 Datadog, Jaeger, Prometheus 등 백엔드 유연성 확보.
+- **벤더 중립**: 단일 OTel SDK로 Datadog, Jaeger, Prometheus 등 백엔드 유연성 확보.
 - **통합 API(Unified Telemetry API)**: Metrics, Logs, Traces 3대 데이터의 통합 수집 표준화.
-- **자동 계측(Auto-Instrumentation)**: 코드 수정 없는 Java Agent 및 라이브러리 훅 기반 자동 데이터 수집.
+- **자동 계측**: 코드 수정 없는 Java Agent 및 라이브러리 훅 기반 자동 데이터 수집.
 
 #### 한줄 요약
 

@@ -130,7 +130,7 @@ extra:
 | 비교 항목 | GitHub Copilot | Cursor AI | Amazon Q Developer |
 |:---|:---|:---|:---|
 | 주 모델 엔진 | OpenAI GPT-4o / Codex | **Claude 3.5 Sonnet / GPT-4o** | Amazon Titan / Claude |
-| 프로젝트 맥락 범위 | 열려있는 탭 및 커서 전후 텍스트 | **전체 소스 코드베이스 인덱싱 (RAG)** | AWS 인프라 및 API 코드 연동 |
+| 프로젝트 맥락 범위 | 열려있는 탭 및 커서 전후 텍스트 | **전체 소스 코드베이스 인덱싱 ** | AWS 인프라 및 API 코드 연동 |
 | IDE 지원 형태 | 기존 VS Code/IntelliJ 플러그인 | **VS Code 기반 독립 전용 에디터** | VS Code/IntelliJ 플러그인 |
 | 주요 강점 | 가장 광범위한 생태계 및 안정성 | **코드베이스 전체 수정 및 다중 파일 생성** | **AWS 클라우드 배포 파이프라인 연동** |
 

@@ -131,7 +131,7 @@ extra:
 |:---|:---|:---|
 | **가상화 수준** | **하드웨어 가상화 (Guest OS 전체 탑재)** | **OS 커널 레벨 가상화 (Host OS 커널 공유)** |
 | **부팅 속도** | Guest OS 시작 필요 | **Process 중심 빠른 시작** |
-| **자원 용량 (Size)**| OS Image 포함 | **App•의존성 Layer 중심** |
+| **자원 용량 **| OS Image 포함 | **App•의존성 Layer 중심** |
 | **격리 및 보안성** | Guest Kernel 경계 | **Host Kernel 공유 경계** |
 
 #### 한줄 요약

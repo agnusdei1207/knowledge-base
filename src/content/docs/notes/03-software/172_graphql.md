@@ -132,7 +132,7 @@ extra:
 | **엔드포인트** | **URI 자원별 다수 생성 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
 | **데이터 페칭**| 서버가 정해둔 고정된 구조로 응답받음 (Over/Under-fetching) | **클라이언트가 필요한 필드만 유연하게 선택**|
 | **HTTP 메서드**| Resource별 Method 의미 활용 | Query는 GET•POST, Mutation은 POST 중심 |
-| **버저닝(Versioning)**| `/v1/users`, `/v2/users` 처럼 API 버전 분리 관리| **Deprecated 어노테이션으로 스키마 단일 진화 유지**|
+| **버저닝**| `/v1/users`, `/v2/users` 처럼 API 버전 분리 관리| **Deprecated 어노테이션으로 스키마 단일 진화 유지**|
 
 #### 한줄 요약
 

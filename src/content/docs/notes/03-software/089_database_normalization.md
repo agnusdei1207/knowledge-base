@@ -77,8 +77,8 @@ extra:
 
 | 정규형 (Normal Form) | 제거 대상 (Eliminated Target) | 정규화 만족 조건 및 상태 |
 |:---|:---|:---|
-| **1NF (제1정규형)** | **Repeating Group (다속성/다중값)** | 모든 속성의 도메인이 **원자값(Atomic Value)** 으로만 구성 |
-| **2NF (제2정규형)** | **Partial Functional Dependency** | 기본키가 복합키일 때, **완전 함수 종속(Full FD)** 만족 |
+| **1NF (제1정규형)** | **Repeating Group (다속성/다중값)** | 모든 속성의 도메인이 **원자값** 으로만 구성 |
+| **2NF (제2정규형)** | **Partial Functional Dependency** | 기본키가 복합키일 때, **완전 함수 종속** 만족 |
 | **3NF (제3정규형)** | **Transitive Functional Dependency**| 기본키가 아닌 속성 간의 **이행적 함수 종속성 제거** |
 | **BCNF (보이스-코드)**| **Non-Key Determinant** | 모든 함수적 종속성 $X \rightarrow Y$ 에서 **결정자 $X$가 후보키** |
 

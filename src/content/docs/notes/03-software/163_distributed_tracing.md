@@ -44,8 +44,8 @@ extra:
 </details>
 
 - **추적 ID 주입(Trace ID Injection)**: 모든 요청에 글로벌 고유 식별자 주입.
-- **문맥 전파(Context Propagation)**: HTTP 헤더 기반 W3C Trace Context 규약 전파.
-- **계층 시각화(Waterfall Visualization)**: Jaeger/Tempo 기반 계층형 트리 지연 시각화.
+- **문맥 전파**: HTTP 헤더 기반 W3C Trace Context 규약 전파.
+- **계층 시각화**: Jaeger/Tempo 기반 계층형 트리 지연 시각화.
 
 #### 한줄 요약
 

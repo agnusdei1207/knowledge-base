@@ -137,7 +137,7 @@ extra:
 
 | 비교 항목 | Batch Data Pipeline (배치 파이프라인) | Real-Time Streaming Pipeline (실시간 파이프라인) |
 |:---|:---|:---|
-| **데이터 연산 시점**| **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 (Sub-second)** |
+| **데이터 연산 시점**| **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 ** |
 | **핵심 메시지 브로커**| HDFS, AWS S3, File Storage | **Apache Kafka, Apache Pulsar** |
 | **핵심 연산 프레임워크**| Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
 | **주요 사용 도메인** | 정기 결제 정산, 월간 일괄 보고서 | **실시간 FDS 결제차단, 랭킹 차트, 실시간 추천** |

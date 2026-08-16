@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **지표(Metrics)**: Prometheus 기반 시스템 자원(CPU/RAM) 및 서비스 성능(QPS) 시각화.
-- **로그(Logs)**: Loki/Fluentbit 기반 구조화(JSON) 및 오류 상세 문맥 파악.
-- **추적(Traces)**: Jaeger/Tempo 기반 분산 서비스 간 호출 경로 및 병목 구간 추적.
+- **지표**: Prometheus 기반 시스템 자원(CPU/RAM) 및 서비스 성능(QPS) 시각화.
+- **로그**: Loki/Fluentbit 기반 구조화(JSON) 및 오류 상세 문맥 파악.
+- **추적**: Jaeger/Tempo 기반 분산 서비스 간 호출 경로 및 병목 구간 추적.
 
 #### 한줄 요약
 
@@ -135,7 +135,7 @@ extra:
 |:---|:---|:---|
 | **핵심 질문** | **"시스템이 지금 정상인가?" (Known)**| **"왜 3번째 MSA 서비스에서 멈췄는가?" (Unknown)**|
 | **수집 데이터** | 사전 정의 지표 중심 | **Metrics•Logs•Traces 연계** |
-| **상관 관계 (Correlation)**| Signal별 분석 중심 | **Trace Context 기반 교차 분석** |
+| **상관 관계 **| Signal별 분석 중심 | **Trace Context 기반 교차 분석** |
 | **적용 범위**| 알려진 상태 감시 | 복잡한 분산 원인 추론 |
 
 #### 한줄 요약

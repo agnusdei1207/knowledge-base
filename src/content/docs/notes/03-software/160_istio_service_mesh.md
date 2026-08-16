@@ -45,7 +45,7 @@ extra:
 
 - **트래픽 관리**: VirtualService 및 DestinationRule 기반 카나리 배포 및 트래픽 분할.
 - **제로 트러스트 보안**: 자동 mTLS 암호화 및 SPIFFE/SPIRE 기반 워크로드 신원 인증.
-- **관측성(Observability)**: Kiali, Jaeger, Prometheus 연동을 통한 전사 서비스 맵 및 분산 추적(Distributed Tracing) 시각화.
+- **관측성**: Kiali, Jaeger, Prometheus 연동을 통한 전사 서비스 맵 및 분산 추적(Distributed Tracing) 시각화.
 
 #### 한줄 요약
 

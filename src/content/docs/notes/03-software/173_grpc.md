@@ -131,7 +131,7 @@ extra:
 |:---|:---|:---|
 | **통신 프로토콜** | HTTP 의미와 자원 API | **HTTP/2 기반 RPC•다중화** |
 | **Payload**| JSON 등 Representation 선택 | **Protobuf Binary Message**|
-| **계약(Contract)** | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
+| **계약** | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
 | **브라우저 지원** | Web API로 직접 사용 용이 | **gRPC-Web•Connect 등 Adapter** 고려 |
 
 #### 한줄 요약

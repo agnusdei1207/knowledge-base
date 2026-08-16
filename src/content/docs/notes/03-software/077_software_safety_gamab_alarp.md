@@ -76,7 +76,7 @@ extra:
 
 | 구분 분류 | 안전 원칙 명칭 | 핵심 판단 기준 및 메커니즘 |
 |:---|:---|:---|
-| **GAMAB** | **Globalement Au Moins Aussi Bon** | 신규 시스템의 총 위험도가 기존 레퍼런스 시스템보다 **적어도 같거나 더 안전해야 함 (Equivalence)** |
+| **GAMAB** | **Globalement Au Moins Aussi Bon** | 신규 시스템의 총 위험도가 기존 레퍼런스 시스템보다 **적어도 같거나 더 안전해야 함 ** |
 | **ALARP** | **Unacceptable Region** | 리스크 수준이 너무 높아 어떤 이유로도 허용 불가 $\rightarrow$ **무조건적인 위험 제거** |
 | | **ALARP Region** | 비용이 안전 편익에 비해 현저히 불균형(Gross Disproportion)을 이루지 않는 한 **위험 저감 계속** |
 | | **Broadly Acceptable Region** | 리스크가 극히 미미하여 추가 저감 조치 없이 **잔여 위험을 그대로 수용** |

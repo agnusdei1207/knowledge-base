@@ -134,8 +134,8 @@ extra:
 
 | 비교 항목 | Lambda Architecture (람다) | Kappa Architecture (카파) |
 |:---|:---|:---|
-| **파이프라인 구조** | **이중 파이프라인 (Batch + Speed Layer)**| **단일 파이프라인 (Stream Layer Only)** |
-| **코드 베이스 관리** | **이중 유지보수 오버헤드 (Spark + Flink)**| **단일 코드 베이스 (Flink / Kafka)** |
+| **파이프라인 구조** | **이중 파이프라인 (Batch + Speed Layer)**| **단일 파이프라인 ** |
+| **코드 베이스 관리** | **이중 유지보수 오버헤드 (Spark + Flink)**| **단일 코드 베이스 ** |
 | **과거 데이터 재처리**| **Batch Layer 전면 재계산 (HDFS)** | **Kafka Log Replay 기반 스트림 재계산** |
 | **결과 정합성** | 배치•스트림 로직 차이 위험 | 단일 로직이나 재생 부작용 관리 필요 |
 

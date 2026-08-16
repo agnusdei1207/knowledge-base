@@ -132,7 +132,7 @@ extra:
 
 | 비교 항목 | OAuth 2.0 (순수 인가) | OIDC (인증 확장) |
 |:---|:---|:---|
-| **목적 (Purpose)** | **권한 위임 (Authorization)** | **신원 확인 및 로그인 (Authentication)**|
+| **목적 ** | **권한 위임 ** | **신원 확인 및 로그인 **|
 | **핵심 결과물** | **Access Token** | **ID Token (JWT 포맷 강제)** |
 | **토큰의 내용** | 서버만 알면 되는 랜덤 문자열 (Opaque Token 가능) | **반드시 사용자의 속성(Claim)이 담긴 구조화된 JWT**|
 | **표준 Scope** | 리소스 서버가 정의 (예: `email`, `contacts`) | **`openid` 스코프 필수 요청** |

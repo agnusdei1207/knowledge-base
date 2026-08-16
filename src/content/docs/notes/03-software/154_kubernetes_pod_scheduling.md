@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **2단계 스케줄링 파이프라인(Two-Phase Scheduling Pipeline)**: 필터링으로 부적합 노드를 제외하고, 스코어링으로 적합도가 높은 노드를 채점하여 우선순위 결정.
-- **제약 조건 정책(Constraint Policies)**: 노드 어피니티, 파드 안티-어피니티, 테인트/톨러레이션(Taints & Tolerations)을 적용하여 세밀한 배치 통제.
+- **제약 조건 정책**: 노드 어피니티, 파드 안티-어피니티, 테인트/톨러레이션(Taints & Tolerations)을 적용하여 세밀한 배치 통제.
 - **우선순위 및 선점(Priority & Preemption)**: 우선순위 높은 파드를 배치하기 위해 저우선순위 파드를 강제로 축출(Eviction)하는 기법.
 
 #### 한줄 요약

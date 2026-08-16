@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **개체 무결성(Entity Integrity)**: PK 기반 Unique 및 NOT NULL 보장으로 각 튜플의 유일 식별 체계 확립.
-- **참조 무결성(Referential Integrity)**: FK 기반 부모-자식 간 참조 관계 및 정합성 보장.
-- **참조 동작(Referential Action)**: DDL 선언 시 `CASCADE`, `SET NULL`, `RESTRICT` 등 연쇄 삭제/수정 규칙 지원.
+- **개체 무결성**: PK 기반 Unique 및 NOT NULL 보장으로 각 튜플의 유일 식별 체계 확립.
+- **참조 무결성**: FK 기반 부모-자식 간 참조 관계 및 정합성 보장.
+- **참조 동작**: DDL 선언 시 `CASCADE`, `SET NULL`, `RESTRICT` 등 연쇄 삭제/수정 규칙 지원.
 
 #### 한줄 요약
 
@@ -76,10 +76,10 @@ extra:
 
 | 구분 (Category) | Entity Integrity (개체 무결성) | Referential Integrity (참조 무결성) |
 |:---|:---|:---|
-| **대상 키 (Key)** | **Primary Key (기본키)** | **Foreign Key (외래키)** |
+| **대상 키 ** | **Primary Key (기본키)** | **Foreign Key (외래키)** |
 | **핵심 규칙** | **`NOT NULL` & `UNIQUE` (중복/빈값 절대 불가)** | **부모 릴레이션 PK 존재값 또는 `NULL`만 허용** |
 | **위반 시 제약** | `INSERT/UPDATE` 시 PK 중복/Null 입력 거부 | 부모 없는 `user_id`로 자식 Order 생성 불가 |
-| **목적** | **릴레이션 내 튜플의 유일 식별(Identification)**| **릴레이션 간 연관성 및 고아 데이터 방지** |
+| **목적** | **릴레이션 내 튜플의 유일 식별**| **릴레이션 간 연관성 및 고아 데이터 방지** |
 
 #### 한줄 요약
 

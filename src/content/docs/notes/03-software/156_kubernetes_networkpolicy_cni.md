@@ -45,7 +45,7 @@ extra:
 
 - **CNI**: Pod IP 할당 및 오버레이 네트워크 터널링(Calico, Cilium, AWS CNI).
 - **NetworkPolicy**: L3/L4 인그레스(Ingress) 및 이그레스(Egress) 트래픽 격리 규칙 집행.
-- **기본 거부 정책(Default Deny All)**: 전체 트래픽 차단 후 핀포인트 허용 규칙(Allow Rule)을 통한 통신 제한.
+- **기본 거부 정책**: 전체 트래픽 차단 후 핀포인트 허용 규칙(Allow Rule)을 통한 통신 제한.
 
 #### 한줄 요약
 

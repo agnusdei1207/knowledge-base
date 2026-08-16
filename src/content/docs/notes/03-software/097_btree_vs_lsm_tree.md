@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- **정의**: 데이터를 디스크 페이지에 제자리 수정(`In-Place Update`) 방식으로 저장하여 읽기 성능을 최적화한 **B-Tree** 엔진과, 인메모리 기록 후 순차 덧붙이기(`Out-of-Place Append-Only`) 및 병합(`Compaction`)으로 쓰기 속도를 극대화한 **LSM-Tree** 엔진.
+- 정의: 데이터를 디스크 페이지에 제자리 수정(`In-Place Update`) 방식으로 저장하여 읽기 성능을 최적화한 **B-Tree** 엔진과, 인메모리 기록 후 순차 덧붙이기(`Out-of-Place Append-Only`) 및 병합(`Compaction`)으로 쓰기 속도를 극대화한 **LSM-Tree** 엔진.
 - 배경/필요성: 저장 구조 불일치는 **읽기 증폭•쓰기 증폭•정리 지연** 유발
 
 #### 한줄 요약

@@ -125,7 +125,7 @@ extra:
 
 | 비교 항목 | SAAM (Software Architecture Analysis) | ATAM (Architecture Tradeoff Analysis) | CBAM (Cost Benefit Analysis Method) |
 |:---|:---|:---|:---|
-| 핵심 평가 목표 | **변경 용이성 (Modifiability) 단일 평가** | **다중 품질 속성 간 상충 관계 (Tradeoff)**| **아키텍처 투자 대비 경제성/ROI (Cost/Benefit)** |
+| 핵심 평가 목표 | **변경 용이성 (Modifiability) 단일 평가** | **다중 품질 속성 간 상충 관계 **| **아키텍처 투자 대비 경제성/ROI (Cost/Benefit)** |
 | 주 주요 분석 도구 | 변경 시나리오 대입 | **Utility Tree & 4대 산출물 매트릭스** | **ROI 계산식 (Benefit / Cost Ratio)** |
 | 시나리오 종류 | 변경 시나리오 | **품질 속성 시나리오 (성능, 보안, 가용 등)** | 경제 가치 시나리오 |
 

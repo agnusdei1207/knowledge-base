@@ -45,8 +45,8 @@ extra:
 </details>
 
 - **스토리지 추상화**: PVC(요청)와 PV(자원)를 분리하여 애플리케이션 종속성 제거.
-- **동적 프로비저닝(Dynamic Provisioning)**: StorageClass 기반 AWS EBS/EFS 실시간 자동 생성.
-- **접근 모드 제어(Access Modes)**: RWO(ReadWriteOnce), ROX(ReadOnlyMany), RWX(ReadWriteMany) 권한 관리.
+- **동적 프로비저닝**: StorageClass 기반 AWS EBS/EFS 실시간 자동 생성.
+- **접근 모드 제어**: RWO(ReadWriteOnce), ROX(ReadOnlyMany), RWX(ReadWriteMany) 권한 관리.
 
 #### 한줄 요약
 

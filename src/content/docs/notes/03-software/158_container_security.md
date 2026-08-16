@@ -44,10 +44,10 @@ extra:
 
 </details>
 
-- **빌드 단계(Build)**: Trivy/Grype 이미지 CVE 스캔 및 서명(Cosign).
-- **배포 단계(Admission)**: OPA Gatekeeper/Kyverno 정책 기반 위험 파드 차단.
-- **런타임 단계(Runtime)**: Seccomp 시스템 콜 제한 및 AppArmor 프로필 적용.
-- **이상 행위 감시(Monitoring)**: Falco 기반 비정상 행위(쉘 접속 등) 실시간 탐지.
+- **빌드 단계**: Trivy/Grype 이미지 CVE 스캔 및 서명(Cosign).
+- **배포 단계**: OPA Gatekeeper/Kyverno 정책 기반 위험 파드 차단.
+- **런타임 단계**: Seccomp 시스템 콜 제한 및 AppArmor 프로필 적용.
+- **이상 행위 감시**: Falco 기반 비정상 행위(쉘 접속 등) 실시간 탐지.
 
 #### 한줄 요약
 

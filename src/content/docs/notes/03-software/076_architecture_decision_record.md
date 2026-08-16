@@ -83,7 +83,7 @@ extra:
 | **Title (제목)** | `ADR-0001: RDB 대신 MongoDB 채택` 형태로 순번과 명칭 부여 | 짧고 명확한 결정 단위 표현 |
 | **Status (상태)** | **Proposed (제안) / Accepted (승인) / Deprecated (폐기) / Superseded (대체)** | 현 상태를 명확히 표시 |
 | **Context (맥락)** | 왜 이 결정이 필요했는지의 비즈니스/기술적 배경 및 제약조건 | 주관적 주장이 아닌 객관적 문제 명시 |
-| **Decision (결정)** | **선택한 아키텍처 솔루션 및 기각된 대안들(Rejected Alternatives)** | 기술적 선택 근거 명시 |
+| **Decision (결정)** | **선택한 아키텍처 솔루션 및 기각된 대안들** | 기술적 선택 근거 명시 |
 | **Consequences (결과)** | **결정에 따른 positive(이점) 및 negative(트레이드오프/비용) 파급 효과** | 감수할 단점(Negative)까지 솔직히 서술 |
 
 #### 한줄 요약

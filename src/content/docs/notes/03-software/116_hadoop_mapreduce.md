@@ -135,7 +135,7 @@ extra:
 
 | 비교 항목 | Hadoop MapReduce (1세대) | Apache Spark (2세대) |
 |:---|:---|:---|
-| **연산 저장 매체** | **디스크 I/O 기반 (Map Disk Spill 후 Reduce)**| **인메모리 기반 (RAM RDD / DataFrame)** |
+| **연산 저장 매체** | **디스크 I/O 기반 (Map Disk Spill 후 Reduce)**| **인메모리 기반 ** |
 | **처리 특성** | 단계별 물질화•대형 배치 | **중간 결과 재사용•반복 연산** |
 | **적합 연산** | 대규모 1회성 Batch ETL 연산 | **반복적 머신러닝, 실시간 Stream, Interactive Query**|
 | **장애 복구 방식** | 블록 재실행 (Re-Execution) | **RDD Lineage ( 계보 추적 기반 재계산)** |

@@ -128,7 +128,7 @@ extra:
 |:---|:---|:---|:---|
 | 데이터베이스 | 단일 중앙 RDBMS 공유 | **Service-per-Database** 독립 DB | 이벤트 저장소 / 비동기 뷰 DB |
 | 통신 방식 | 인메모리 함수 호출 | Synchronous REST/gRPC | **Asynchronous Event (Pub/Sub)** |
-| 일관성 모델 | 강한 일관성 (ACID) | 2PC 또는 Saga 패턴 (최종 일관성) | **최종 일관성 (Eventual Consistency)** |
+| 일관성 모델 | 강한 일관성 (ACID) | 2PC 또는 Saga 패턴 (최종 일관성) | **최종 일관성 ** |
 | 적합한 분야 | 소규모 Web App, 초기 MVP | **대규모 복잡 엔터프라이즈 도메인** | **실시간 피드, IoT, 대용량 트래픽 통지** |
 
 #### 한줄 요약

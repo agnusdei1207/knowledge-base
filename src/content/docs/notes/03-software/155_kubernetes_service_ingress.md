@@ -43,8 +43,8 @@ extra:
 
 </details>
 
-- **서비스(Service)**: ClusterIP, NodePort, LoadBalancer, ExternalName 4대 노출 옵션 제공.
-- **인그레스(Ingress)**: L7 경로 기반 분기(URL Path) 및 호스트 기반 라우팅 제공.
+- **서비스**: ClusterIP, NodePort, LoadBalancer, ExternalName 4대 노출 옵션 제공.
+- **인그레스**: L7 경로 기반 분기(URL Path) 및 호스트 기반 라우팅 제공.
 - **TLS 종료(TLS Termination)**: cert-manager 기반 SSL/TLS 인증서 자동 관리 및 종료 처리.
 
 #### 한줄 요약

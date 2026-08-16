@@ -152,7 +152,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 지나친 원칙 교조적 적용으로 인터페이스 폭증 (**Over-Engineering**) | 변경 가능성이 거의 없는 고정 로직은 단순 구현 유지 (YAGNI 원칙) | 가독성 및 복잡도 균형 |
-| LSP 위반을 차단하기 위한 상속 오남용 | "상속(Inheritance)보다 **합성(Composition)**을 우대하라" 원칙 채택 | 부작용 없는 치환성 확보 |
+| LSP 위반을 차단하기 위한 상속 오남용 | "상속(Inheritance)보다 **합성**을 우대하라" 원칙 채택 | 부작용 없는 치환성 확보 |
 | DIP 적용 후 객체 조립 위치가 분산 | **Composition Root•DI Container**로 조립 집중 | 객체 생성과 업무 로직 분리 |
 
 > 사례: **Clean Code & Clean Architecture** 기반 SOLID 5대 원칙 리팩토링 가이드 정착

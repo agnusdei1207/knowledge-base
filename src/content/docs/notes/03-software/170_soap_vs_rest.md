@@ -62,7 +62,7 @@ extra:
 | 구성요소 | SOAP 역할 | REST 역할 |
 |:---|:---|:---|
 | **설계 중심** | **Function / Action (행위 위주)** | **Resource / Entity (자원 위주)** |
-| **명세(Contract)** | **WSDL 기반 XML 계약**| OpenAPI 등 별도 명세 선택 |
+| **명세** | **WSDL 기반 XML 계약**| OpenAPI 등 별도 명세 선택 |
 | **전송 프로토콜**| HTTP 등 Transport와 Message 규격 분리 | **HTTP 의미 체계** 활용 |
 | **오류 처리** | **SOAP Fault** 구조 | HTTP Status와 Problem Detail 등 |
 | **보안 체계** | **WS-Security** 확장 가능 | TLS•OAuth 등 Web 보안 조합 |

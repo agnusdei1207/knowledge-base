@@ -138,7 +138,7 @@ extra:
 |:---|:---|:---|
 | **처리 방식** | **Event-by-Event (레코드 1건 단위 즉시 처리)** | **Micro-Batch (N초 단위로 묶어서 처리)** |
 | **지연 특성** | 레코드 단위 파이프라인 지연 | 트리거•배치 주기에 따른 지연 |
-| **상태 관리 (State)** | **RocksDB 기반 대용량 State 내장 지원** | Memory / Checkpoint RDD 중심 |
+| **상태 관리 ** | **RocksDB 기반 대용량 State 내장 지원** | Memory / Checkpoint RDD 중심 |
 | **시간 기준** | **Event Time•Watermark 중심** | Event Time•Watermark도 지원 |
 
 #### 한줄 요약

@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- **정의**: 모든 데이터를 메인 메모리에 상주시켜 초고속 응답을 제공하는 **인메모리 키-값 저장소**
-- **배경/필요성**: 기존 디스크 I/O 병목으로 초고속 QPS 대응 및 **실시간 순위 처리 제한**
+- 정의: 모든 데이터를 메인 메모리에 상주시켜 초고속 응답을 제공하는 **인메모리 키-값 저장소**
+- 배경/필요성: 기존 디스크 I/O 병목으로 초고속 QPS 대응 및 **실시간 순위 처리 제한**
 
 #### 한줄 요약
 
@@ -127,7 +127,7 @@ extra:
 | 비교 항목 | Redis (Remote Dictionary Server) | Memcached |
 |:---|:---|:---|
 | 데이터 구조 | **Strings, Hashes, Lists, Sets, ZSets 등 다채로움**| **단순 String (Key-Value) 전용** |
-| 아키텍처 스레드 | **단일 스레드 (Single-Threaded Event Loop)**| **멀티 스레드 (Multi-Threaded)** |
+| 아키텍처 스레드 | **단일 스레드 **| **멀티 스레드 ** |
 | 영속성 (Persistence)| **지원 (RDB 스냅샷 & AOF 로그)** | 자체 영속성 미지원 |
 | 고가용성 (HA) | **Sentinel (자동 승격) & Redis Cluster** | 독립 노드 운영 (외부 라우팅 필요) |
 

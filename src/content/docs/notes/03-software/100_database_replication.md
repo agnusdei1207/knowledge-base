@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **읽기 부하 분산(Read Scale-Out)**: 복제 노드 활용을 통한 읽기 성능 향상 및 고가용성(`HA`) 확보.
+- **읽기 부하 분산**: 복제 노드 활용을 통한 읽기 성능 향상 및 고가용성(`HA`) 확보.
 - **복제 방식**: 동기식(`Synchronous`), 비동기식(`Asynchronous`), 반동기식(`Semi-Synchronous`) 복제 지원.
 - **운영 Trade-off**: 복제 지연(`Replication Lag`) 발생에 따른 읽기 정합성 관리 필요.
 
