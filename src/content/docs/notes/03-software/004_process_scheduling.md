@@ -25,6 +25,8 @@ extra:
 - **Preemptive vs Non-Preemptive**: 실행 중인 프로세스의 CPU 점유권을 커널이 강제 회수(Preemptive)할 수 있는지 여부에 따른 스케줄링 구분.
 - **CFS(Completely Fair Scheduler)**: Linux 커널 2.6.23부터 도입된 Red-Black Tree 기반 vruntime(가상 실행시간) 최소 프로세스를 선점 선택하는 완전 공정 스케줄러.
 
+- **프로세스 스케줄링(Process Scheduling)**: 운영체제 커널이 CPU 자원을 프로세스들에게 공정하고 효율적으로 배분하기 위한 정책 및 기법.
+- **선점형•비선점형 스케줄링(Preemptive vs Non-Preemptive Scheduling)**: 실행 중인 프로세스의 CPU를 강제로 회수할 수 있는지(선점) 자발적 반납까지 대기하는지(비선점)에 따른 분류.
 </details>
 
 - 정의/개념: 시스템 응답시간, 처리량(Throughput), CPU 이용률 및 공정성을 극대화하기 위해 Ready Queue 프로세스를 선점/비선점 디스패치하는 **프로세스 스케줄링 알고리즘**

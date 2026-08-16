@@ -25,6 +25,8 @@ extra:
 - **Priority Boost**: 하위 큐에 잔류하여 기아(Starvation) 상태에 빠진 프로세스들을 일정 주기($S$)마다 최상위 큐로 일괄 승격시키는 보정 메커니즘.
 - **Gaming Defense**: 할당량 소진 직전 CPU를 반납해 강등을 피하는 행위를 누적 사용시간으로 방지하는 정책.
 
+- **다단계 피드백 큐(Multilevel Feedback Queue, MLFQ)**: 서로 다른 우선순위와 타임 슬라이스를 가진 다중 큐를 구성하고 프로세스의 실행 이력에 따라 동적으로 우선순위를 조정하는 스케줄링 알고리즘.
+- **우선순위 부스트(Priority Boost)**: 기아 현상(Starvation)을 방지하기 위해 일정 주기마다 모든 프로세스의 우선순위를 최상위 큐로 일괄 승격하는 메커니즘.
 </details>
 
 - 정의/개념: 프로세스의 실행 동작 이력(I/O-bound vs CPU-bound)에 따라 우선순위 레벨을 자율 피드백 조율하는 대표적 실무 스케줄링 정책인 **MLFQ(Multilevel Feedback Queue)**

@@ -25,6 +25,9 @@ extra:
 - **Context Switching**: 인터럽트나 시스템 콜 발생 시, CPU에서 실행 중인 프로세스/스레드의 레지스터 문맥을 PCB/TCB에 저장하고, 새로운 문맥을 복원하는 제어 전환 기법.
 - **TCB(Thread Control Block)**: 스레드 단위 스케줄링 시 TID, 레지스터 상태, PC, SP, 우선순위 등을 독립적으로 보관하는 스레드 제어 정보체.
 
+- **문맥 전환(Context Switching)**: CPU에서 실행 중인 프로세스/스레드의 레지스터 문맥을 PCB/TCB에 저장하고 신규 프로세스의 문맥을 복원하는 제어 전환 기법.
+- **프로세스 제어 블록(Process Control Block, PCB)**: 프로세스의 PID, 상태, PC, CPU 레지스터, 가상 메모리 매핑 정보를 보관하는 커널 자료구조.
+- **스레드 제어 블록(Thread Control Block, TCB)**: 스레드 단위 스케줄링 시 TID, 레지스터 상태, PC, SP 등을 독립적으로 보관하는 커널 정보체.
 </details>
 
 - 정의: 멀티태스킹 환경에서 CPU 하드웨어 자원을 선점 공유하기 위해 실행 주체의 상태(레지스터, 가상 메모리 등)를 PCB/TCB에 보존/복원하는 기법
@@ -41,6 +44,8 @@ extra:
 - **TLB Miss/Invalidation**: 프로세스 문맥 전환 시 MMU CR3 변경으로 기존 TLB 캐시가 무효화되어 발생되는 메모리 주소 번역 지연 현상.
 - **Cache Locality Loss**: 문맥 전환으로 인해 CPU L1/L2/L3 캐시 상의 기존 데이터가 쫓겨나고 신규 프로세스 데이터로 교체(Cache Pollution)되어 성능이 저하되는 현상.
 
+- **CR3 레지스터(Control Register 3, CR3)**: x86 아키텍처에서 현재 프로세스의 최상위 페이지 테이블 물리 주소를 보관하는 MMU 제어 레지스터.
+- **주소 변환 비용(Address Translation Overhead)**: 프로세스 전환 시 CR3 교체로 인해 TLB 캐시가 무효화되어 발생하는 메모리 접근 지연.
 </details>
 
 - CPU 레지스터, PC, SP 및 MMU 레지스터(**CR3**)를 커널 메모리(**PCB/TCB**)에 보존

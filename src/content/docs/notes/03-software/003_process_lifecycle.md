@@ -25,6 +25,8 @@ extra:
 - **fork() / exec()**: 부모 주소 공간을 복제(fork) 후, 새로운 바이너리 이미지로 교체(exec)하는 POSIX 프로세스 생성 시스템 콜.
 - **Zombie Process**: 실행 완료(exit) 후, 부모 프로세스의 자원 수거(wait)가 이루어지지 않아 PID 및 PCB 메타데이터가 커널에 잔존하는 상태.
 
+- **프로세스 생명주기(Process Lifecycle)**: 프로세스가 생성(New)되어 준비(Ready), 실행(Running), 대기(Blocked/Waiting), 종료(Terminated) 상태로 전이하는 전체 생명주기.
+- **좀비 프로세스(Zombie Process)**: 실행 종료 후 자원은 반납했으나 부모 프로세스가 wait() 시스템 콜로 종료 상태(Exit Status)를 수거하지 않아 프로세스 테이블에 남아있는 프로세스.
 </details>
 
 - 정의: 생성부터 준비•실행•대기•종료까지의 **상태 전이** 관리

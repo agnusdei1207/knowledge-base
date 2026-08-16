@@ -40,6 +40,7 @@ extra:
 - **격리 범위(Isolation Boundary)**: 특정 프로세스의 메모리 훼손이나 비정상 종료가 타 프로세스에 영향을 주지 않는 보호 경계.
 - **공유 범위(Shared Boundary)**: 동일 프로세스 내 스레드들이 Code, Data, Heap 및 개방 파일(File Descriptor)을 함께 공유하는 범위.
 
+- **문맥 전환 비용(Context Switching Overhead)**: CPU 레지스터 상태 저장/복원, TLB 플러시 및 캐시 무효화로 인해 발생하는 시스템 지연.
 </details>
 
 - 프로세스별 **가상 주소 공간**으로 결함•보안 경계 형성
