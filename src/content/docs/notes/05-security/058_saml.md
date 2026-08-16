@@ -22,168 +22,171 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **보안 주장 마크업 언어(Security Assertion Markup Language, SAML) 2.0**: 이종 도메인 간 사용자 인증(Authentication) 및 인가(Authorization) 데이터를 XML 기반 보안 주장(Assertion)으로 교환하는 연합 인증 표준.
-- **확장 가능 마크업 언어(Extensible Markup Language, XML)**: 서명 및 암호화 구조체를 표현하기 위해 SAML 데이터 교환 시 사용되는 마크업 포맷.
-- **통합 인증(Single Sign-On, SSO)**: 단 일회 사용자 인증으로 연계된 이종 서비스 체계(SP)에 추가 로그인 없이 통합 접근하는 기능.
+- **SAML 2.0 (보안 주장 마크업 언어 2.0)**: 회사 A(본사)와 회사 B(자회사)처럼 완전히 남남인 도메인끼리, "이 직원 우리 회사 사람 맞으니까 로그인시켜줘" 하고 XML 증명서를 팩트로 주고받는 고전적인 기업 연합 로그인(SSO) 표준이다.
+- **XML**: "이름: 홍길동, 부서: 영업팀" 같은 정보를 태그(`<name>`)로 묶고 그 위에 위조 방지용 전자서명을 팩트로 덮어씌우는, SAML의 핵심 데이터 포맷이다.
 
 </details>
 
-- 정의/개념: XML 주장으로 신원을 연합하는 **SAML 2.0**
-- 배경/필요성: 개별 비밀번호 공유는 **조직 간 자격증명 노출** 유발
+- 정의: 이종 도메인 간 사용자 인증(Authentication) 및 인가(Authorization) 데이터를 XML 기반 보안 주장(Assertion)으로 교환하는 연합 인증 팩트 표준이다.
+- 배경: 서비스마다 각자 아이디/비번을 따로 만들면, 퇴사자 관리가 안 되고 직원들이 비밀번호를 포스트잇에 적어두다 팩트로 털리기 때문이다.
 
 #### 한줄 요약
 
-- **XML 서명 Assertion**으로 이종 도메인 SSO 연계
+- 직원들이 사이트마다 비번 외울 필요 없이, 본사 서버가 보증서(XML 서명) 하나 끊어주면 자회사들까지 싹 팩트 로그인되는 기술이다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Assertion**: 사용자 식별자(NameID), 인증 방법(AuthnStatement), 속성(AttributeStatement) 및 유효조건(Conditions)이 담긴 서명 문서.
-- **Metadata**: IdP와 SP 간 사전 교환하여 신뢰관계를 형성하는 공개키 인증서, Entity ID 및 수신 엔드포인트 URL 정보 파일.
-- **신원 제공자(Identity Provider, IdP)**: 사용자를 1차 인증하고 SAML Assertion을 생성하여 전자서명 발급하는 인증 서버.
-- **서비스 제공자(Service Provider, SP)**: IdP가 발급한 SAML Assertion 서명 및 수신자 조건을 검증하여 자원 접근을 허용하는 서비스 애플리케이션.
-- **식별자(ID / InResponseTo)**: AuthnRequest와 Response 간의 1:1 바인딩 대조를 수행하여 세션 주입을 막는 키.
-- **Recipient**: SAML Assertion 응답이 도착해야 할 대상 SP의 정확한 Assertion Consumer Service(ACS) URL.
-- **재전송 공격(Replay Attack)**: 이미 사용된 정상 SAML Response를 다시 전송하여 무단 승인을 노리는 공격.
+- **Assertion (보안 주장)**: IdP(본사 서버)가 "내가 얘 신분증 확인했음!" 하고 도장 쾅 찍어서 SP(자회사 서버)한테 보내주는 위조 불가능한 팩트 보증서다.
+- **재전송 공격 (Replay Attack)**: 해커가 남이 정상적으로 로그인할 때 쓰던 Assertion(보증서)을 몰래 복사해뒀다가, 나중에 그대로 다시 서버에 던져서 팩트로 로그인(세션 탈취)하는 얍삽한 해킹이다.
 
 </details>
 
-- **IdP(Identity Provider)**와 **SP(Service Provider)** 간 **Metadata** 사전 교환을 통한 상호 신뢰 형성.
-- XML 서명(XML Signature) 및 XML 암호화(XML Encryption) 기술을 적용한 **Assertion** 무결성 보장.
-- **InResponseTo(요청 ID)**, **Recipient** 수신 주소 및 유효 시간(NotOnOrAfter) 검증을 통한 **재전송 공격** 차단.
+- **팩트 신뢰 관계 사전 형성**: IdP(인증 제공자)와 SP(서비스 제공자) 간에 메타데이터(Metadata)와 공개키를 사전 교환하여, 서로만 믿고 대화하는 철통같은 상호 신뢰를 팩트로 형성한다.
+- **팩트 무결성 보장**: XML 서명(XML Signature) 기술을 적용하여, 중간에 해커가 직급(사원 $\to$ 사장)이나 부서를 무단 조작하지 못하게 Assertion 무결성을 팩트 보장한다.
+- **팩트 재전송 공격 차단**: InResponseTo(요청 ID)와 Recipient(수신 주소), 유효 시간(NotOnOrAfter)을 SP에서 깐깐하게 검증하여 보증서 재사용(Replay) 공격을 팩트 차단한다.
 
 #### 한줄 요약
 
-- XML 서명 기반 Assertion 무결성 확보 및 Recipient/InResponseTo 대조를 통해 연합 SSO 재전송을 막음.
+- 서로 키(인증서) 나눠 갖고, 위조 못 하게 XML에 서명 빡세게 걸고, 한 번 쓴 보증서는 두 번 다시 못 쓰게 팩트로 막는다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **로컬 세션(Local Session)**: SP가 IdP의 SAML Assertion 검증을 수락한 후 자체 쿠키/세션을 발급하는 단계.
+- **IdP (신원 제공자)**: 본사 통합 인증 서버다. 사원증(비번) 검사하고 Assertion 보증서를 찍어내는 공장이다.
+- **SP (서비스 제공자)**: 자회사 업무 웹사이트다. IdP가 던져준 보증서를 보고 "어 우리 본사 도장 맞네" 하면 자기네 서비스를 열어주는 놈이다.
+- **로컬 세션 (Local Session)**: SP가 SAML 보증서 검사를 끝내고, "ㅇㅋ 팩트 통과" 한 뒤에 자기네 서비스 전용 로그인 세션(쿠키)을 구워주는 마지막 단계다.
 
 </details>
 
 ```text
-SAML 연합 인증 구조
-├─ 사용자 브라우저: 요청•응답 중계
-├─ SP: 주장 검증•로컬 세션 생성
-├─ IdP: 사용자 인증•응답 서명
-├─ SAML Assertion: 신원•속성•조건 전달
-└─ 메타데이터•검증 체계: 신뢰•재전송 관리
+[ SAML 2.0 연합 인증 팩트 아키텍처 ]
+
+[ 1. 사용자 브라우저 ] ── ("자회사(SP) 접속했더니, 본사(IdP) 로그인 창으로 팩트 튕겨줌")
+      │
+      ▼
+[ 2. IdP (인증 서버) ] ── ("본사 사번으로 로그인 성공! 보증서(Assertion) 만들고 팩트 서명함")
+      │
+      ▼
+[ 3. SAML Assertion (보증서) ] ── ("이름, 부서 정보가 담긴 위조 불가능한 XML 문서를 팩트로 전달함")
+      │
+      ▼
+[ 4. SP (서비스 서버) ] ── ("보증서 도장(서명) 확인하고, 내 주소로 온 거 맞는지 팩트 체크함")
+      │
+      ▼
+[ 5. 로컬 세션 생성 ] ── ("검증 통과했으니 자회사 서비스 쓸 수 있게 세션을 팩트로 구워줌")
 ```
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 사용자 브라우저 | HTTP Redirect/POST 바인딩을 통해 SAML AuthnRequest 및 Response를 중계 |
-| SP | **SP**가 제출된 SAML Assertion 서명, Recipient, Time validity 검증 및 **로컬 세션** 생성 |
-| IdP | **IdP**가 자원 소유자를 인증하고 계정 속성을 **Assertion**에 수록 후 공개키 서명 집행 |
-| SAML Assertion | NameID, AuthnStatement, Conditions를 포함하는 무결성 보장 XML 주장체 |
-| 메타데이터•검증 체계 | EntityID, X.509 Certificate 공개키 교환을 통한 **Metadata** 기반 서명 검증 |
+| 구성요소 | 팩트 폭행 책임 | 비고 |
+|:---|:---|:---|
+| **사용자 브라우저** | SP와 IdP 사이를 왔다 갔다 하면서 **SAML 요청서와 보증서를 배달하는 팩트 중계기 역할을 함** | Browser |
+| **IdP (신원 제공자)** | 사용자가 찐인지 확인하고 **속성(이름/직급)을 담아 XML 서명을 팩트로 발급함** | IdP |
+| **SAML Assertion** | 절대 조작이 불가능하도록 서명(Signature)이 걸린 **사용자 신분 및 인증 팩트 보증서(XML)임** | Assertion |
+| **SP (서비스 제공자)** | 보증서의 서명 무결성, 수신자(Recipient), 유효시간을 **서버단에서 깐깐하게 팩트로 검증함** | SP |
+| **메타데이터/검증 체계** | 사전에 맺어둔 신뢰 관계(공개키 교환)를 통해 **보증서 위조 여부를 팩트로 철저히 걸러냄** | Metadata |
 
 #### 한줄 요약
 
-- 사용자 브라우저 중계, IdP 서명 발급, SP 무결성/조건 검증 및 Metadata 신뢰 체계로 구성됨.
+- 브라우저가 배달하고 $\to$ IdP가 서명 찍고 $\to$ SP가 서명 검증하고 로컬 세션 열어주는 팩트 티키타카다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **인증 요청(Authentication Request, AuthnRequest)**: SP가 IdP로 사용자 인증을 위탁하기 위해 발송하는 SAML 요청 문서.
-- **응답 ID(Response ID)**: Replay 공격을 막기 위해 SP가 수신 테이블에 등록 체크하는 고유 난수 값.
-- **SAML AuthnRequest 생성**: SP가 요청 ID와 ACS URL을 담아 AuthnRequest를 생성하는 단계.
-- **사용자 신원 인증**: IdP가 사용자 자격증명을 1차 확인하는 단계.
-- **Assertion 조건•서명 생성**: IdP가 NameID 및 조건문을 수록하고 디지털 서명을 부여하는 단계.
-- **서명•대상•요청 결속 검증**: SP가 IdP 공개키로 서명, Recipient 및 InResponseTo를 확인하는 단계.
-- **재전송 차단•로컬 세션 생성**: 중복 Response ID를 차단하고 최종 세션을 생성하는 단계.
+- (상단 참조)
 
 </details>
 
 ```text
-서비스 접근
-    │
-    ▼
-1. SAML AuthnRequest 생성
-    │
-    ▼
-2. 사용자 신원 인증
-    │
-    ▼
-3. Assertion 조건•서명 생성
-    │
-    ▼
-4. 서명•대상•요청 결속 검증
-    │
-    ▼
-5. 재전송 차단•로컬 세션 생성
-    │
-    ├─ 응답 ID 중복 ── 로그인 거부
-    │
-    └─ 신규 응답 ID ── 로컬 세션 발급
+[ SAML 기반 통합 로그인 팩트 처리 흐름 ]
+
+┌──────────────────────────────┐
+│ 1. [SAML AuthnRequest 팩트 생성]
+│ ("SP가 '이 사람 누군지 인증 좀 해줘' 하고 요청서(ID 번호 포함)를 팩트로 날림")
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 2. [IdP 로그인 및 사용자 신원 팩트 인증]
+│ ("사용자가 본사 로그인 창에서 아이디/비번 치고 팩트 인증함")
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 3. [Assertion XML 팩트 서명 및 발급]
+│ ("IdP가 '인증 통과!'라는 보증서(Assertion)에 도장 찍어서 팩트 발송함")
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. [서명 / 대상(Recipient) / 요청(ID) 팩트 검증]
+│ ("SP가 서명 확인하고, 자기가 보낸 요청 ID(InResponseTo)에 대한 답이 맞는지 팩트 대조함")
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 5. [재전송(Replay) 차단 및 로컬 세션 팩트 발급]
+│ ("이미 써먹은 보증서면 즉시 팩트 컷! 새 거면 정상 로그인 세션 발급!")
+└──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. SAML AuthnRequest 생성: SP에서 요청 ID 및 ACS URL을 결합한 **AuthnRequest** 생성.
-2. 사용자 신원 인증: IdP 로그인 페이지로 리다이렉트되어 사용자 신원 인증 집행.
-3. Assertion 조건•서명 생성: IdP가 **Assertion** 문서에 XML 디지털 서명 집행.
-4. 서명•대상•요청 결속 검증: SP가 **Metadata** 공개키로 서명, Recipient 및 InResponseTo 1:1 검증.
-5. 재전송 차단•로컬 세션 생성: **응답 ID** 중복 여부 확인 후 승인 시 SP 로컬 세션 생성.
+1. 요청서 생성: SP에서 사용자 인증을 요구하는 고유 요청 ID(AuthnRequest)를 팩트 생성.
+2. 사용자 인증: IdP 로그인 페이지로 브라우저가 리다이렉트되어 사용자 신원을 팩트 인증.
+3. Assertion 생성: IdP가 사용자 속성(NameID 등)을 담은 Assertion 문서에 XML 디지털 서명을 팩트 집행.
+4. 결속 검증: SP가 사전 교환된 Metadata 공개키로 서명을 풀고, Recipient 및 InResponseTo를 1:1 팩트 검증.
+5. 재전송 차단: 응답 ID 중복 여부(Replay 공격) 확인 후, 최종 승인 시 SP 로컬 세션을 팩트 발급.
 
 #### 한줄 요약
 
-- AuthnRequest 생성, IdP 사용자 인증, Assertion XML 서명, SP 서명/Recipient 검증 및 재전송 차단을 구동함.
+- 요청서 쏘고 $\to$ 본사에서 로그인하고 $\to$ 보증서 받아오고 $\to$ 서명이랑 유효시간 팩트 검증해서 통과시킨다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **SP 시작(SP-Initiated SSO)**: 사용자가 SP 웹사이트 접속 시 SSO 절차가 시작되어 SP가 AuthnRequest를 먼저 발행하는 표준적인 흐름.
-- **IdP 시작(IdP-Initiated SSO)**: 사용자가 중앙 IdP 포털에서 애플리케이션 아이콘을 클릭하여 AuthnRequest 없이 IdP가 곧바로 SAML Response를 SP에 전송하는 흐름.
+- (상단 설명 참조)
 
 </details>
 
-| SAML 인증 시작 방식 | SP 시작 (SP-Initiated) | IdP 시작 (IdP-Initiated) |
+| SAML 인증 시작 방식 | **SP 시작 (SP-Initiated SSO)** | **IdP 시작 (IdP-Initiated SSO)** |
 |:---|:---|:---|
-| 적용 기준 | 이종 웹 애플리케이션 직접 접속 시 | 기업 내부 중앙 포털(Dashboard) 기반 접속 시 |
-| 핵심 특징 | **SP 시작**의 AuthnRequest 요청-응답 1:1 바인딩 대조 | **IdP 시작**의 Unsolicited Response 발송 및 인가 처리 |
-| 한계/주의점 | 추가 리다이렉션 홉 발생 | InResponseTo 검증 불가로 **재전송 공격** 위험 제어 필요 |
+| 팩트 폭행 비유 | **식당(SP)에 먼저 갔더니, 입구 컷 당하고 신분증(IdP) 떼오라고 시킴** | **주민센터(IdP)에서 신분증 묶음 들고, 곧바로 식당(SP)으로 밀고 들어감** |
+| 핵심 동작 방식 | 사용자가 서비스 웹사이트(SP)에 먼저 접속하면, **SP가 '인증 요청서(AuthnRequest)'를 팩트로 먼저 쏨** | 사내 포털(IdP)에서 아이콘을 클릭하면, **요청서 없이 IdP가 보증서를 SP로 바로 팩트 쏴버림** |
+| 장점 및 특징 | SP가 자기가 던진 '요청 ID'랑 '응답 ID'를 1:1로 맞출 수 있어서 **재전송 공격 방어가 팩트로 완벽함** | 사내 인트라넷 대시보드(포털)처럼 여러 앱을 **한 번의 클릭으로 띄울 때 팩트로 매우 편리함** |
+| 한계 및 문제점 | 브라우저가 SP $\to$ IdP $\to$ SP로 리다이렉션을 여러 번 쳐야 해서 **흐름이 팩트로 김** | SP 입장에선 자기가 요청하지도 않은 보증서가 뜬금없이 날아온 거라 **재전송(Replay) 공격 막기가 팩트로 빡셈** |
 
 #### 한줄 요약
 
-- 1:1 대조가 명확한 SP-Initiated SSO와, 중앙 포털 중심의 IdP-Initiated SSO 방식으로 구별함.
+- 보안이 중요하면 1:1 대조가 되는 **SP 시작**, 포털 메뉴에서 앱 여러 개 띄울 땐 **IdP 시작**이 팩트다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **OASIS SAML 2.0 Core**: SAML 2.0 스펙의 세부 텍스트, 프로토콜 및 구문 규칙을 명시한 국제 표준.
-- **XML 서명 래핑 공격(XML Signature Wrapping Attack, XSW)**: XML 구조 상에 무효한 위조 노드를 주입하여 서명 검증 엔진과 비즈니스 파싱 엔진 간의 불일치를 악용하는 연합 인증 공격.
-- **W3C XML Signature 1.1**: XML 문서 내 구체적 DOM 태그 요소의 서명 처리 규격.
+- **XML 서명 래핑 공격 (XSW)**: 해커가 XML 문서 구조를 교묘하게 꼬아서(Wrapping), 서명 검사하는 로직은 "어 정상 서명이네" 하고 속고, 실제 로그인 처리 로직은 "해커가 관리자(Admin)네!" 하고 속게 만드는 SAML 최악의 팩트 공격이다.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| 타 사이트용 Assertion 재사용 | **OASIS SAML 2.0 Core** 준수 및 Recipient, Audience 검증 | 비인가 SP로의 주장 전송 완전 차단 |
-| XML 서명 래핑 공격(XSW) | **W3C XML Signature 1.1** 기반 하드닝 및 서명 DOM 위치 검증 | 위조 XML 노드 주입에 의한 권한 우회 무력화 |
-| Response 재전송을 통한 세션 탈취 | **응답 ID** 캐싱 대조 및 NotOnOrAfter 단기 타임아웃 적용 | Replay 공격에 의한 무단 세션 생성 방지 |
+| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
+|:---|:---|:---|:---|
+| A 회사용 보증서(Assertion)를 해커가 훔쳐서 **B 회사 시스템 로그인에 팩트로 뚫어버림** | "이 보증서는 A 회사(Recipient) 전용입니다"라는 수신자 검증 로직을 SP 개발자가 팩트로 빼먹음 | **OASIS SAML 2.0 Core** 지침 준수 및 SP에서 수신자(Recipient)와 대상(Audience) **팩트 대조 강제** | 가로채기(Interception) 후 다른 타겟 사이트로의 무단 보증서 재사용 공격 팩트 차단 |
+| 해커가 XML 구조를 꼬아서 찌르니까 **일반 계정이 관리자(Admin) 권한으로 팩트 승인됨** | SP의 파싱 로직과 서명 검증 로직이 분리된 틈을 타, 가짜 XML 노드를 끼워 넣는 서명 래핑(XSW) 공격 발생 | **W3C XML Signature 1.1** 기반 하드닝 및 XML 노드 위치(DOM)에 대한 **엄격한 스키마 팩트 검증** | 서명 검증 우회 및 위조 XML 구조 주입(XSW 래핑) 공격 구조적 팩트 무력화 |
+| 해커가 어제 훔친 100% 정상 보증서를 **오늘 아침에 그대로 전송해서 로그인을 팩트로 뚫음** | 이미 한 번 사용한 응답(Response ID)을 폐기하지 않고 방치하여, 재전송(Replay) 공격이 팩트로 먹힘 | Assertion ID를 캐싱하여 중복을 검사하고, 유효시간(NotOnOrAfter)을 **5분 이내 단기로 팩트 설정** | 정상 보증서를 훔쳐서 재탕하는 Replay 세션 탈취 공격 팩트 원천 억제 |
 
 #### 한줄 요약
 
-- OASIS SAML 2.0 Core 스펙을 준수하고, XML 서명 래핑(XSW) 검증 강화 및 Response ID 캐싱을 집행함.
+- 수신자(Recipient) 확인 똑바로 하고, 래핑 공격(XSW) 안 당하게 파싱 빡세게 하고, 쓴 보증서는 팩트 폐기해라.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **요청 결속(Request-Response Binding Verification)**: InResponseTo, Recipient, NotOnOrAfter 파라미터를 1:1로 결합 대조하여 위조된 응답 주입을 방지하는 검증 지침.
+- **요청 결속 (Request-Response Binding)**: SP가 보증서를 받을 때 InResponseTo(내가 요청한 거 맞냐), Recipient(나한테 온 거 맞냐), NotOnOrAfter(시간 안 지났냐)를 1:1로 칼같이 팩트 대조하라는 핵심 보안 원칙이다.
 
 </details>
 
-- **요청 결속** 원칙에 따라 보안성이 높은 **SP 시작 SSO**를 우선 채택하고, XML 서명 무결성 검증 및 재전송 차단을 병행.
+- 기업 연합 인증의 핵심인 SAML은 강력한 보안을 위해 가급적 1:1 대조가 가능한 **SP 시작 SSO** 흐름을 채택하고, SP 측에서 InResponseTo, Recipient, NotOnOrAfter를 검증하는 철저한 **요청 결속**과 **XSW 래핑 공격 차단**을 다층 팩트 연동하는 실무 기조를 확립함
 
 #### 한줄 요약
 
-- **SP 시작 SSO**를 우선하고 서명•요청 결속 검증
+- 보안 빡센 **SP 시작 SSO**를 쓰고, **요청 결속(1:1 대조)**과 **래핑 공격 방어**로 팩트 통제해라.
