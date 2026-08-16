@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **Feature 정의 등록**: 계산식•Schema•Owner•Version 고정
-2. **단일 정의 기반 변환 실행**: 동일 Logic으로 Feature 생성
-3. **PIT Join 기반 Offline 이력 생성**: 미래 Data 누수 차단
-4. **Online Store 최신값 동기화**: 추론 입력 저지연 제공
-5. **품질•신선도•스큐 감시**: Offline•Online 불일치 탐지
+1. Feature 정의 등록: 계산식•Schema•Owner•Version 고정
+2. 단일 정의 기반 변환 실행: 동일 Logic으로 Feature 생성
+3. PIT Join 기반 Offline 이력 생성: 미래 Data 누수 차단
+4. Online Store 최신값 동기화: 추론 입력 저지연 제공
+5. 품질•신선도•스큐 감시: Offline•Online 불일치 탐지
 
 #### 한줄 요약
 

@@ -126,10 +126,10 @@ $$
 
 ### 동작 원리
 
-1. **신규 페이지 기록**: 빈 **PPA**를 할당하고 데이터를 Program함.
-2. **매핑•저널 갱신**: 신규 PPA 매핑과 복구 로그를 저장함.
-3. **기존 페이지 무효화**: 이전 PPA를 Invalid로 표시함.
-4. **가비지 컬렉션**: 임계치 아래면 유효 페이지 이주 후 Victim을 Erase함.
+1. 신규 페이지 기록: 빈 **PPA**를 할당하고 데이터를 Program함.
+2. 매핑•저널 갱신: 신규 PPA 매핑과 복구 로그를 저장함.
+3. 기존 페이지 무효화: 이전 PPA를 Invalid로 표시함.
+4. 가비지 컬렉션: 임계치 아래면 유효 페이지 이주 후 Victim을 Erase함.
 
 #### 한줄 요약
 - New Page Write -> LPN-PPA Table/Journal Update -> Old Page Invalidate -> (Free Block 부족 시) GC Valid Copy & Block Erase 순으로 실행됨.

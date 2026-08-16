@@ -103,11 +103,11 @@ extra:
 
 ### 동작 원리
 
-1. **Local Transaction 실행**: Service 경계에서 Commit
-2. **다음 단계 Command•Event 전달**: 진행 Context와 ID 전파
-3. **성공•실패 상태 기록**: Saga State Machine 갱신
-4. **후속 Action 결정**: 성공은 진행, 실패는 역순 보상
-5. **Action 실행•최종 상태 통지**: 완료•보상•수동개입 확정
+1. Local Transaction 실행: Service 경계에서 Commit
+2. 다음 단계 Command•Event 전달: 진행 Context와 ID 전파
+3. 성공•실패 상태 기록: Saga State Machine 갱신
+4. 후속 Action 결정: 성공은 진행, 실패는 역순 보상
+5. Action 실행•최종 상태 통지: 완료•보상•수동개입 확정
 
 #### 한줄 요약
 

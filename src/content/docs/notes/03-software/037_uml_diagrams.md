@@ -106,10 +106,10 @@ extra:
 
 ### 동작 원리
 
-1. **정적·동적 관점 판정**: 도표화 대상이 데이터/클래스 구조(Static)인지 런타임 이벤트(Dynamic)인지 구분.
-2. **구조 다이어그램 작성**: Class Diagram을 통해 필드, 메서드, 관계(Generalization/Composition) 작성.
-3. **행위 다이어그램 작성**: Sequence Diagram을 통해 Lifeline 및 synchronous/asynchronous 메시지 호출 정의.
-4. **관계 표기법 정립**: Aggregation(채워지지 않은 다이아몬드) vs Composition(검은 다이아몬드) 등 엄격 표기 준수.
+1. 정적·동적 관점 판정: 도표화 대상이 데이터/클래스 구조(Static)인지 런타임 이벤트(Dynamic)인지 구분.
+2. 구조 다이어그램 작성: Class Diagram을 통해 필드, 메서드, 관계(Generalization/Composition) 작성.
+3. 행위 다이어그램 작성: Sequence Diagram을 통해 Lifeline 및 synchronous/asynchronous 메시지 호출 정의.
+4. 관계 표기법 정립: Aggregation(채워지지 않은 다이아몬드) vs Composition(검은 다이아몬드) 등 엄격 표기 준수.
 
 #### 한줄 요약
 

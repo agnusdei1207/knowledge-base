@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **Event Stream 설정**: HTTP 응답을 지속 Stream으로 유지
-2. **ID 포함 Event 전송**: 재생 가능한 단조 Event ID 부여
-3. **Last-Event-ID로 재접속**: 마지막 수신 위치 전달
-4. **누락 Event 재생**: 저장된 다음 ID부터 순서대로 전송
-5. **Live Stream 전환**: Backlog 소진 후 신규 Event 전달
+1. Event Stream 설정: HTTP 응답을 지속 Stream으로 유지
+2. ID 포함 Event 전송: 재생 가능한 단조 Event ID 부여
+3. Last-Event-ID로 재접속: 마지막 수신 위치 전달
+4. 누락 Event 재생: 저장된 다음 ID부터 순서대로 전송
+5. Live Stream 전환: Backlog 소진 후 신규 Event 전달
 
 #### 한줄 요약
 

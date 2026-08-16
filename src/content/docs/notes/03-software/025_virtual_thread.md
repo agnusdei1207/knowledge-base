@@ -108,11 +108,11 @@ extra:
 
 ### 동작 원리
 
-1. **캐리어 탑재**: Virtual Thread가 JVM 스케줄러에 의해 유휴 **Carrier Thread**에 Mount.
-2. **가상 스레드 실행**: Java 코드 실행 및 연산 수행.
-3. **캐리어 분리 가능성 판정**: 블로킹 시 네이티브 호출 등 **Pinning** 조건 확인
-4. **분리·실행 가능 전환**: Pinning 미발생 시 Continuation 스택 힙 덤프 후 **Unmount** (Carrier Thread 유휴 전환).
-5. **고정 대기 **: 분리 불가 시 캐리어 점유 상태로 대기
+1. 캐리어 탑재: Virtual Thread가 JVM 스케줄러에 의해 유휴 **Carrier Thread**에 Mount.
+2. 가상 스레드 실행: Java 코드 실행 및 연산 수행.
+3. 캐리어 분리 가능성 판정: 블로킹 시 네이티브 호출 등 **Pinning** 조건 확인
+4. 분리·실행 가능 전환: Pinning 미발생 시 Continuation 스택 힙 덤프 후 **Unmount** (Carrier Thread 유휴 전환).
+5. 고정 대기 : 분리 불가 시 캐리어 점유 상태로 대기
 
 #### 한줄 요약
 

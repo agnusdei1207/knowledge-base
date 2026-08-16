@@ -130,11 +130,11 @@ API 자원 요청
 
 ### 동작 원리
 
-1. **클라이언트•Redirect URI 검증**: 클라이언트 요청의 Redirect URI 및 PKCE 조건 1차 대조.
-2. **권한 코드 생성**: 자원 소유자 인증 및 Scope 동의 후 Authorization Code 발급.
-3. **코드•PKCE 결속 검증**: 클라이언트가 제출한 code_verifier 검증 후 코드 교환 허용.
-4. **접근•ID 토큰 발급**: API용 **접근 토큰** 및 사용자 정보용 **신원 토큰** 생성 전송.
-5. **발급자•대상•범위 검증**: 자원 서버에서 토큰 서명(iss, aud), exp 및 Scope 인가 판정.
+1. 클라이언트•Redirect URI 검증: 클라이언트 요청의 Redirect URI 및 PKCE 조건 1차 대조.
+2. 권한 코드 생성: 자원 소유자 인증 및 Scope 동의 후 Authorization Code 발급.
+3. 코드•PKCE 결속 검증: 클라이언트가 제출한 code_verifier 검증 후 코드 교환 허용.
+4. 접근•ID 토큰 발급: API용 **접근 토큰** 및 사용자 정보용 **신원 토큰** 생성 전송.
+5. 발급자•대상•범위 검증: 자원 서버에서 토큰 서명(iss, aud), exp 및 Scope 인가 판정.
 
 #### 한줄 요약
 

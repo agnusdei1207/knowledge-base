@@ -125,11 +125,11 @@ SAML 연합 인증 구조
 
 ### 동작 원리
 
-1. **SAML AuthnRequest 생성**: SP에서 요청 ID 및 ACS URL을 결합한 **AuthnRequest** 생성.
-2. **사용자 신원 인증**: IdP 로그인 페이지로 리다이렉트되어 사용자 신원 인증 집행.
-3. **Assertion 조건•서명 생성**: IdP가 **Assertion** 문서에 XML 디지털 서명 집행.
-4. **서명•대상•요청 결속 검증**: SP가 **Metadata** 공개키로 서명, Recipient 및 InResponseTo 1:1 검증.
-5. **재전송 차단•로컬 세션 생성**: **응답 ID** 중복 여부 확인 후 승인 시 SP 로컬 세션 생성.
+1. SAML AuthnRequest 생성: SP에서 요청 ID 및 ACS URL을 결합한 **AuthnRequest** 생성.
+2. 사용자 신원 인증: IdP 로그인 페이지로 리다이렉트되어 사용자 신원 인증 집행.
+3. Assertion 조건•서명 생성: IdP가 **Assertion** 문서에 XML 디지털 서명 집행.
+4. 서명•대상•요청 결속 검증: SP가 **Metadata** 공개키로 서명, Recipient 및 InResponseTo 1:1 검증.
+5. 재전송 차단•로컬 세션 생성: **응답 ID** 중복 여부 확인 후 승인 시 SP 로컬 세션 생성.
 
 #### 한줄 요약
 

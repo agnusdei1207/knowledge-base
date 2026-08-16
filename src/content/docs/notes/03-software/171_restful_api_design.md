@@ -104,11 +104,11 @@ extra:
 
 ### 동작 원리
 
-1. **URI로 Resource 식별**: Collection•Document 대상 해석
-2. **Method 의미•권한 검증**: 허용 Operation과 주체 확인
-3. **조건부 요청•상태 처리**: ETag•멱등 Key와 업무 규칙 적용
-4. **Representation 생성**: Accept에 맞는 Resource 표현 구성
-5. **Status•Header•Link 구성**: 결과•Cache•다음 전이 제공
+1. URI로 Resource 식별: Collection•Document 대상 해석
+2. Method 의미•권한 검증: 허용 Operation과 주체 확인
+3. 조건부 요청•상태 처리: ETag•멱등 Key와 업무 규칙 적용
+4. Representation 생성: Accept에 맞는 Resource 표현 구성
+5. Status•Header•Link 구성: 결과•Cache•다음 전이 제공
 
 #### 한줄 요약
 

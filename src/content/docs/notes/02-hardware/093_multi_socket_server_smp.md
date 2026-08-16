@@ -114,11 +114,11 @@ extra:
 
 ### 동작 원리
 
-1. **CPU 선호도 설정**: **Numactl** 및 **CPU Affinity** 설정을 통한 프로세스 타깃 NUMA Node 인가.
-2. **최초 접근 페이지 배치**: **First-Touch Allocation** 구동으로 스레드가 실행되는 로컬 DRAM 상에 물리 페이지 작성.
-3. **원격 접근률 측정**: **Interconnect Fabric** 레이어 상의 원격 억세스(Remote Access) 트래픽 감시.
-4. **스레드·페이지 공동 배치**: 원격 트래픽 비중 우세 시 스레드 및 메모리를 1개 노드로 재배치(Auto-NUMA Balancing).
-5. **이동 후 재측정**: 로컬 접근률과 인터커넥트 트래픽 및 종단 지연을 다시 측정.
+1. CPU 선호도 설정: **Numactl** 및 **CPU Affinity** 설정을 통한 프로세스 타깃 NUMA Node 인가.
+2. 최초 접근 페이지 배치: **First-Touch Allocation** 구동으로 스레드가 실행되는 로컬 DRAM 상에 물리 페이지 작성.
+3. 원격 접근률 측정: **Interconnect Fabric** 레이어 상의 원격 억세스(Remote Access) 트래픽 감시.
+4. 스레드·페이지 공동 배치: 원격 트래픽 비중 우세 시 스레드 및 메모리를 1개 노드로 재배치(Auto-NUMA Balancing).
+5. 이동 후 재측정: 로컬 접근률과 인터커넥트 트래픽 및 종단 지연을 다시 측정.
 
 #### 한줄 요약
 

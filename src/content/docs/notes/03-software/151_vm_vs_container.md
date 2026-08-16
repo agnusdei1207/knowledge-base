@@ -95,11 +95,11 @@ extra:
 
 ### 동작 원리
 
-1. **격리 요구 판정**: Kernel 경계•OS 호환성 확인
-2. **실행 모델 선택**: VM 또는 Container 결정
-3. **가상•격리 환경 생성**: 가상 Hardware 또는 Namespace 구성
-4. **Guest OS 시작•Image Mount**: 선택 모델의 실행층 준비
-5. **Application 실행**: Guest 또는 Host Kernel에서 Process 시작
+1. 격리 요구 판정: Kernel 경계•OS 호환성 확인
+2. 실행 모델 선택: VM 또는 Container 결정
+3. 가상•격리 환경 생성: 가상 Hardware 또는 Namespace 구성
+4. Guest OS 시작•Image Mount: 선택 모델의 실행층 준비
+5. Application 실행: Guest 또는 Host Kernel에서 Process 시작
 
 #### 한줄 요약
 

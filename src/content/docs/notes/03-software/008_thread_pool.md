@@ -25,6 +25,7 @@ extra:
 - **Task Queue (Work Queue)**: 제출된 작업(Runnable/Callable)이 워커 스레드에 의해 인출(Take)되기 전까지 대기하는 유한/무한 커널/인메모리 대기열.
 - **RejectedExecutionHandler (포화 정책)**: 스레드 풀 및 작업 큐가 100% 포화(Full)되었을 때 신규 유입 작업을 거부(Abort), 호출자 직접 실행(Caller-Runs), 큐 무시(Discard) 등으로 제어하는 예외 정책.
 
+- **작업 거부 정책(Rejected Execution Policy, Abort/Discard)**: 작업 큐가 포화되고 최대 스레드 수(Max Pool Size)에 도달했을 때 신규 유입 작업을 처리하는 정책(예외 발생, 무시, 호출자 직접 실행).
 </details>
 
 - 정의/개념: 무분별한 스레드 생성/소멸 오버헤드를 막고 유한 자원 범위 내에서 작업을 병렬 스케줄링 재사용하는 **스레드 풀**
@@ -125,11 +126,11 @@ extra:
 
 ### 동작 원리
 
-1. **수용 조건 확인**: 제출된 Task의 유효성 검증 및 실행기 수용.
-2. **유휴 워커 확인**: 현재 동작 중인 스레드 수가 **Core Pool Size** 미만이면 즉시 워커 생성 후 실행.
-3. **큐 용량 확인**: Core 수 충족 시 **Work Queue** 대기열에 Task 삽입.
-4. **포화 정책 적용**: Work Queue가 가득 찼을 때 **Max Pool Size** 미만이면 동적 워커 생성, Max 초과 시 **RejectedExecutionHandler** 발동.
-5. **작업 실행**: 유휴 워커 스레드가 Task를 인출하여 연산 완료 및 자원 반납.
+1. 수용 조건 확인: 제출된 Task의 유효성 검증 및 실행기 수용.
+2. 유휴 워커 확인: 현재 동작 중인 스레드 수가 **Core Pool Size** 미만이면 즉시 워커 생성 후 실행.
+3. 큐 용량 확인: Core 수 충족 시 **Work Queue** 대기열에 Task 삽입.
+4. 포화 정책 적용: Work Queue가 가득 찼을 때 **Max Pool Size** 미만이면 동적 워커 생성, Max 초과 시 **RejectedExecutionHandler** 발동.
+5. 작업 실행: 유휴 워커 스레드가 Task를 인출하여 연산 완료 및 자원 반납.
 
 #### 한줄 요약
 

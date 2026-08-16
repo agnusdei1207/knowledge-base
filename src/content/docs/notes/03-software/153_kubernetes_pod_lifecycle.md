@@ -107,11 +107,11 @@ extra:
 
 ### 동작 원리
 
-1. **종료 상태 전환**: Kubelet이 Pod 종료 절차 인지
-2. **Endpoint 제외**: 신규 Traffic 전달 대상에서 제거
-3. **preStop Hook 실행**: Application별 사전 정리 수행
-4. **SIGTERM**•**유예**: 연결•작업 종료 시간을 제공
-5. **잔여 Process 종료**: 유예 후 남은 Process 강제 종료
+1. 종료 상태 전환: Kubelet이 Pod 종료 절차 인지
+2. Endpoint 제외: 신규 Traffic 전달 대상에서 제거
+3. preStop Hook 실행: Application별 사전 정리 수행
+4. SIGTERM**•**유예: 연결•작업 종료 시간을 제공
+5. 잔여 Process 종료: 유예 후 남은 Process 강제 종료
 
 #### 한줄 요약
 

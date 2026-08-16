@@ -101,11 +101,11 @@ extra:
 
 ### 동작 원리
 
-1. **불변 입력 확정**: Source•Dependency Version•Digest 고정
-2. **격리 빌드 수행**: 승인 Builder와 최소 권한 자격 증명 사용
-3. **증적 생성•결속**: Artifact Digest에 SBOM•Provenance 서명
-4. **불변 저장•배포 요청**: Registry에 Artifact와 증적 보관
-5. **정책 검증•운영 배포**: 소비 지점에서 신뢰 Policy 강제
+1. 불변 입력 확정: Source•Dependency Version•Digest 고정
+2. 격리 빌드 수행: 승인 Builder와 최소 권한 자격 증명 사용
+3. 증적 생성•결속: Artifact Digest에 SBOM•Provenance 서명
+4. 불변 저장•배포 요청: Registry에 Artifact와 증적 보관
+5. 정책 검증•운영 배포: 소비 지점에서 신뢰 Policy 강제
 
 #### 한줄 요약
 

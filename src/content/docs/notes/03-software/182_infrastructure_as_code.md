@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **Config 검증**: Syntax•Type•Module 입력 확인
-2. **State•실제 자원 Refresh**: 관리 객체와 현재 속성 대조
-3. **변경 Plan 생성**: 생성•변경•교체•삭제 범위 산출
-4. **Review•Policy 승인**: 파괴 변경•비용•보안 기준 검사
-5. **Apply•State 갱신**: Provider 호출과 결과 장부 기록
+1. Config 검증: Syntax•Type•Module 입력 확인
+2. State•실제 자원 Refresh: 관리 객체와 현재 속성 대조
+3. 변경 Plan 생성: 생성•변경•교체•삭제 범위 산출
+4. Review•Policy 승인: 파괴 변경•비용•보안 기준 검사
+5. Apply•State 갱신: Provider 호출과 결과 장부 기록
 
 #### 한줄 요약
 

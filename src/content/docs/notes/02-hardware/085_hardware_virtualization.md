@@ -120,11 +120,11 @@ extra:
 
 ### 동작 원리
 
-1. **VM 제어 상태 적재**: 하이퍼바이저가 **VMCS/VMCB** 상에 게스트 레지스터 및 인터럽트 트랩 조건을 세팅.
-2. **VM Entry·게스트 직접 실행**: **VM Entry**를 수행하여 VMX Non-Root 모드로 전환 후 일반 명령을 물리 CPU에서 직접(Direct Execution) 구동.
-3. **EPT·NPT 주소 변환**: 메모리 접근 시 하드웨어 **EPT/NPT**가 GVA·GPA·HPA 주소 변환 수행.
-4. **VM Exit·상태 저장**: 설정된 민감 사건 발생 시 **VM Exit**하고 제어 상태를 VMCS/VMCB에 기록.
-5. **하이퍼바이저 중재**: 하이퍼바이저가 특권 트랩 에뮬레이션 완결 후 다시 **VM Entry**를 인가하여 게스트 재개.
+1. VM 제어 상태 적재: 하이퍼바이저가 **VMCS/VMCB** 상에 게스트 레지스터 및 인터럽트 트랩 조건을 세팅.
+2. VM Entry·게스트 직접 실행: **VM Entry**를 수행하여 VMX Non-Root 모드로 전환 후 일반 명령을 물리 CPU에서 직접(Direct Execution) 구동.
+3. EPT·NPT 주소 변환: 메모리 접근 시 하드웨어 **EPT/NPT**가 GVA·GPA·HPA 주소 변환 수행.
+4. VM Exit·상태 저장: 설정된 민감 사건 발생 시 **VM Exit**하고 제어 상태를 VMCS/VMCB에 기록.
+5. 하이퍼바이저 중재: 하이퍼바이저가 특권 트랩 에뮬레이션 완결 후 다시 **VM Entry**를 인가하여 게스트 재개.
 
 #### 한줄 요약
 

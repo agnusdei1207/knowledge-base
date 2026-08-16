@@ -118,10 +118,10 @@ extra:
 
 ### 동작 원리
 
-1. **중재**•**식별**: 마스크•우선순위 검사 후 벡터로 처리기를 선택함.
-2. **문맥 저장**: PC•상태와 필요한 레지스터를 스택에 보존함.
-3. **ISR 실행**: **Source Clear•EOI** 후 지연 작업을 큐에 등록함.
-4. **지연 처리•문맥 복원**: Bottom-Half 실행을 예약하고 원래 흐름으로 복귀함.
+1. 중재**•**식별: 마스크•우선순위 검사 후 벡터로 처리기를 선택함.
+2. 문맥 저장: PC•상태와 필요한 레지스터를 스택에 보존함.
+3. ISR 실행: **Source Clear•EOI** 후 지연 작업을 큐에 등록함.
+4. 지연 처리•문맥 복원: Bottom-Half 실행을 예약하고 원래 흐름으로 복귀함.
 
 #### 한줄 요약
 - Priority Arbitration -> Context Save -> ISR Jump -> Source Clear & EOI -> Bottom-Half Offload -> Context Restore 순으로 수습됨.

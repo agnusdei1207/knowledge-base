@@ -108,11 +108,11 @@ extra:
 
 ### 동작 원리
 
-1. **요구 도출**: 인터뷰 및 Workshop을 통한 사용자 요구사항 추출.
-2. **요구 분석**: Use Case 및 DFD 모델링을 통한 요구사항의 모호성/충돌 조율.
-3. **요구 명세**: 정량적 **Acceptance Criteria** 및 비기능 SLO/SLA를 기재한 SRS 작성.
-4. **검토·기준선 승인**: Inspection 검증을 통한 **Requirements Baseline** 설정.
-5. **영향 분석·변경 반영**: 신규 요구 변경 요청 시 **CCB (Change Control Board)** 영향 분석 통제.
+1. 요구 도출: 인터뷰 및 Workshop을 통한 사용자 요구사항 추출.
+2. 요구 분석: Use Case 및 DFD 모델링을 통한 요구사항의 모호성/충돌 조율.
+3. 요구 명세: 정량적 **Acceptance Criteria** 및 비기능 SLO/SLA를 기재한 SRS 작성.
+4. 검토·기준선 승인: Inspection 검증을 통한 **Requirements Baseline** 설정.
+5. 영향 분석·변경 반영: 신규 요구 변경 요청 시 **CCB (Change Control Board)** 영향 분석 통제.
 
 #### 한줄 요약
 

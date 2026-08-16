@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **경량 Model 후보 전달**: Quantization•Pruning•Format 변환
-2. **호환성•품질•자원 검증**: 기기별 정확도•지연•Memory•전력 측정
-3. **승인 Version 등록**: 기기 Tier별 Package와 복구 Version 매핑
-4. **단계별 OTA 배포**: 서명된 Model을 Canary Ring에 배포
-5. **지연•오류•전력 전달**: Telemetry로 확대•Rollback 결정
+1. 경량 Model 후보 전달: Quantization•Pruning•Format 변환
+2. 호환성•품질•자원 검증: 기기별 정확도•지연•Memory•전력 측정
+3. 승인 Version 등록: 기기 Tier별 Package와 복구 Version 매핑
+4. 단계별 OTA 배포: 서명된 Model을 Canary Ring에 배포
+5. 지연•오류•전력 전달: Telemetry로 확대•Rollback 결정
 
 #### 한줄 요약
 

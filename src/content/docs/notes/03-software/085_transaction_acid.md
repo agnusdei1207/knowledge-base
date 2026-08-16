@@ -115,10 +115,10 @@ extra:
 
 ### 동작 원리
 
-1. **Active**: 트랜잭션 경계 안에서 읽기•변경 수행.
-2. **Partially Committed**: 마지막 연산 후 확정 조건 검증.
-3. **Committed**: 선행 로그와 커밋 기록으로 결과 지속성 확보.
-4. **Failed / Aborted**: 실패 변경을 Undo해 이전 일관 상태 복구.
+1. Active: 트랜잭션 경계 안에서 읽기•변경 수행.
+2. Partially Committed: 마지막 연산 후 확정 조건 검증.
+3. Committed: 선행 로그와 커밋 기록으로 결과 지속성 확보.
+4. Failed / Aborted: 실패 변경을 Undo해 이전 일관 상태 복구.
 
 #### 한줄 요약
 

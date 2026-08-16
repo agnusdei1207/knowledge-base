@@ -114,11 +114,11 @@ extra:
 
 ### 동작 원리
 
-1. **IOMMU 도메인 선택**: PCIe BDF 수치를 매핑하여 디바이스에 해당하는 **IOMMU Domain** 식별.
-2. **IOTLB 변환 조회**: 인가된 **IOVA** 주소의 **IOTLB** 캐시 적중 여부 파악.
-3. **페이지 테이블 순회**: 캐시 Miss 발생 시 하드웨어 **I/O Page Table** 순회(Page Walk) 수행.
-4. **주소·권한 검증**: 요청된 DMA 트랜잭션의 읽기·쓰기 접근 권한 검증.
-5. **IOMMU 폴트·차단**: 매핑·권한 위반 시 **IOMMU Fault**를 기록하고 DMA 요청 차단.
+1. IOMMU 도메인 선택: PCIe BDF 수치를 매핑하여 디바이스에 해당하는 **IOMMU Domain** 식별.
+2. IOTLB 변환 조회: 인가된 **IOVA** 주소의 **IOTLB** 캐시 적중 여부 파악.
+3. 페이지 테이블 순회: 캐시 Miss 발생 시 하드웨어 **I/O Page Table** 순회(Page Walk) 수행.
+4. 주소·권한 검증: 요청된 DMA 트랜잭션의 읽기·쓰기 접근 권한 검증.
+5. IOMMU 폴트·차단: 매핑·권한 위반 시 **IOMMU Fault**를 기록하고 DMA 요청 차단.
 
 #### 한줄 요약
 

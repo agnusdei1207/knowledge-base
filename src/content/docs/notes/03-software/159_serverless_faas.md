@@ -107,11 +107,11 @@ extra:
 
 ### 동작 원리
 
-1. **Trigger•권한 검증**: Event 형식과 실행 권한 확인
-2. **Warm Runtime 탐색**: 재사용 가능한 실행 환경 조회
-3. **Runtime 초기화**: 없으면 Image•Code•Runtime 준비
-4. **Function 실행**: 입력 처리와 외부 Service 호출
-5. **결과 저장•응답**: 상태 보존과 성공•실패 반환
+1. Trigger•권한 검증: Event 형식과 실행 권한 확인
+2. Warm Runtime 탐색: 재사용 가능한 실행 환경 조회
+3. Runtime 초기화: 없으면 Image•Code•Runtime 준비
+4. Function 실행: 입력 처리와 외부 Service 호출
+5. 결과 저장•응답: 상태 보존과 성공•실패 반환
 
 #### 한줄 요약
 

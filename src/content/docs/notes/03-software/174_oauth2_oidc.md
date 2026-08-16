@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **State•Nonce•PKCE 생성**: CSRF•Replay•Code 탈취 방어값 준비
-2. **사용자 인증•동의**: 인가 Server에서 신원•Scope 승인
-3. **Authorization Code 반환**: 등록된 Redirect URI로 일회 Code 전달
-4. **Code•Verifier로 Token 교환**: Token Endpoint에서 PKCE 검증
-5. **ID Token 검증•Access Token 사용**: 로그인과 API 권한 분리
+1. State•Nonce•PKCE 생성: CSRF•Replay•Code 탈취 방어값 준비
+2. 사용자 인증•동의: 인가 Server에서 신원•Scope 승인
+3. Authorization Code 반환: 등록된 Redirect URI로 일회 Code 전달
+4. Code•Verifier로 Token 교환: Token Endpoint에서 PKCE 검증
+5. ID Token 검증•Access Token 사용: 로그인과 API 권한 분리
 
 #### 한줄 요약
 

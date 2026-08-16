@@ -111,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **Domain Event / Command 도출**: 업무 사건과 이를 유발한 명령•행위자 탐색
-2. **Ubiquitous Language 정의**: 용어 충돌을 정제해 공통 모델 언어 수립
-3. **Bounded Context 경계 설정**: 모델 의미와 변경 책임이 응집된 경계 도출
-4. **Aggregate & Root 모델링**: 트랜잭션 불변 조건과 외부 접근 관문 설계
-5. **Tactical Design 코드 구현**: Entity•VO•Repository로 모델 구체화
+1. Domain Event / Command 도출: 업무 사건과 이를 유발한 명령•행위자 탐색
+2. Ubiquitous Language 정의: 용어 충돌을 정제해 공통 모델 언어 수립
+3. Bounded Context 경계 설정: 모델 의미와 변경 책임이 응집된 경계 도출
+4. Aggregate & Root 모델링: 트랜잭션 불변 조건과 외부 접근 관문 설계
+5. Tactical Design 코드 구현: Entity•VO•Repository로 모델 구체화
 
 #### 한줄 요약
 

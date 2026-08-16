@@ -111,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **후보 버전 등록**: Artifact•Lineage•Signature 불변 저장
-2. **평가•계보 검증**: 성능•출처•규제 요건 판정
-3. **Production 승인 전환**: 2인 승인과 이유 기록
-4. **Production Alias 갱신**: Alias를 승인 Version으로 전환
-5. **운영 모니터링 연계**: 품질 저하 시 이전 Version 복귀
+1. 후보 버전 등록: Artifact•Lineage•Signature 불변 저장
+2. 평가•계보 검증: 성능•출처•규제 요건 판정
+3. Production 승인 전환: 2인 승인과 이유 기록
+4. Production Alias 갱신: Alias를 승인 Version으로 전환
+5. 운영 모니터링 연계: 품질 저하 시 이전 Version 복귀
 
 #### 한줄 요약
 

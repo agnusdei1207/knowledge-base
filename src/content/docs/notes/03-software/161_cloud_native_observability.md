@@ -113,11 +113,11 @@ extra:
 
 ### 동작 원리
 
-1. **Metric 이상 구간 확인**: 오류율•지연•Traffic 변화 식별
-2. **대표 Trace 선택**: 오류•지연 요청의 Trace ID 확보
-3. **병목 Span 식별**: Service 호출 경로와 지연 구간 확인
-4. **동일 Context Log 조회**: Trace ID로 상세 오류 검색
-5. **원인 가설 검증**: 배포•자원•의존 Signal과 대조
+1. Metric 이상 구간 확인: 오류율•지연•Traffic 변화 식별
+2. 대표 Trace 선택: 오류•지연 요청의 Trace ID 확보
+3. 병목 Span 식별: Service 호출 경로와 지연 구간 확인
+4. 동일 Context Log 조회: Trace ID로 상세 오류 검색
+5. 원인 가설 검증: 배포•자원•의존 Signal과 대조
 
 #### 한줄 요약
 

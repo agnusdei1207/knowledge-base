@@ -111,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **심각도 분류**: 영향 고객•기능•Data•범위로 Severity 결정
-2. **대응 역할 지정**: IC•Ops•Comm 책임 분리
-3. **사용자 영향 완화**: Rollback•Failover•격리로 피해 축소
-4. **Service 복구**: 원인 제거와 핵심 지표 안정 확인
-5. **사후 조치 추적**: Postmortem 과제를 자동화•Runbook에 반영
+1. 심각도 분류: 영향 고객•기능•Data•범위로 Severity 결정
+2. 대응 역할 지정: IC•Ops•Comm 책임 분리
+3. 사용자 영향 완화: Rollback•Failover•격리로 피해 축소
+4. Service 복구: 원인 제거와 핵심 지표 안정 확인
+5. 사후 조치 추적: Postmortem 과제를 자동화•Runbook에 반영
 
 #### 한줄 요약
 

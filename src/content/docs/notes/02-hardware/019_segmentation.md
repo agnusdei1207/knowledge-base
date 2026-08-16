@@ -114,10 +114,10 @@ extra:
 
 ### 동작 원리
 
-1. **기술자 인출**: Selector로 GDT•LDT의 **세그먼트 기술자**를 선택함.
-2. **권한•존재 검사**: Present와 **DPL•접근 권한**을 검사함.
-3. **한계 검사**: Offset이 Limit을 넘으면 **보호 예외**를 발생함.
-4. **물리 주소 생성**: 유효하면 **Base+Offset**으로 선형 주소를 생성함.
+1. 기술자 인출: Selector로 GDT•LDT의 **세그먼트 기술자**를 선택함.
+2. 권한•존재 검사: Present와 **DPL•접근 권한**을 검사함.
+3. 한계 검사: Offset이 Limit을 넘으면 **보호 예외**를 발생함.
+4. 물리 주소 생성: 유효하면 **Base+Offset**으로 선형 주소를 생성함.
 
 #### 한줄 요약
 - Descriptor Fetch -> Present/Privilege Check -> Limit Check(Offset < Limit) -> Base+Offset 덧셈으로 PA 생성을 완결함.

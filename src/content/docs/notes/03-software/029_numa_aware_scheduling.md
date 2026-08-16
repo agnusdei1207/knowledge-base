@@ -101,11 +101,11 @@ extra:
 
 ### 동작 원리
 
-1. **토폴로지·부하 수집**: `numactl --hardware` 시스템 노드 간 거리(Distance Vector) 및 CPU/Memory 상태 파악.
-2. **스레드·페이지 공동 배치**: 프로세스 런타임 생성 시 **First-Touch Policy** 적용 및 로컬 노드 메모리 1차 할당.
-3. **원격 접근 통계 감시**: **NUMA Hint Fault** 및 PMU 하드웨어 카운터 모니터링을 통한 원격 억세스 추적.
-4. **이주 편익 판정**: 페이지 이주 비용(Page Copy) 대비 원격 지연 절감 편익 계산.
-5. **스레드·페이지 이주**: 편익 우위 시 스레드를 해당 노드로 이송하거나 페이지를 로컬 노드로 **AutoNUMA Page Migration**.
+1. 토폴로지·부하 수집: `numactl --hardware` 시스템 노드 간 거리(Distance Vector) 및 CPU/Memory 상태 파악.
+2. 스레드·페이지 공동 배치: 프로세스 런타임 생성 시 **First-Touch Policy** 적용 및 로컬 노드 메모리 1차 할당.
+3. 원격 접근 통계 감시: **NUMA Hint Fault** 및 PMU 하드웨어 카운터 모니터링을 통한 원격 억세스 추적.
+4. 이주 편익 판정: 페이지 이주 비용(Page Copy) 대비 원격 지연 절감 편익 계산.
+5. 스레드·페이지 이주: 편익 우위 시 스레드를 해당 노드로 이송하거나 페이지를 로컬 노드로 **AutoNUMA Page Migration**.
 
 #### 한줄 요약
 

@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **Claim 요구 검증**: 용량•Mode•Class 조건 확인
-2. **StorageClass 선택**: 명시값 또는 Default Class 결정
-3. **Volume Provisioning**: CSI가 요구에 맞는 Volume 생성
-4. **PV•PVC Binding**: Claim과 공급 자원을 결합
-5. **Node 연결•Mount**: Pod 실행 Node에 Volume 제공
+1. Claim 요구 검증: 용량•Mode•Class 조건 확인
+2. StorageClass 선택: 명시값 또는 Default Class 결정
+3. Volume Provisioning: CSI가 요구에 맞는 Volume 생성
+4. PV•PVC Binding: Claim과 공급 자원을 결합
+5. Node 연결•Mount: Pod 실행 Node에 Volume 제공
 
 #### 한줄 요약
 

@@ -120,11 +120,11 @@ extra:
 
 ### 동작 원리
 
-1. **I/O 요청 등록**: 소켓 Read/Write 요청을 Non-blocking 세팅 후 커널 **epoll_ctl()** 에 등록.
-2. **제어권 즉시 반환**: 즉시 반환받아 Event Loop 스레드는 타 이벤트 인출 구동.
-3. **완료 이벤트 수집**: 커널 epoll_wait() 신호 수신 시 **Event Queue**에 결과 이벤트 이송.
-4. **완료 처리기 디스패치**: Event Loop가 Queue 노드를 인출하여 **Callback Handler** 호출.
-5. **결과 처리·후속 등록**: 런타임 결과 반영 및 필요한 경우 후속 비동기 I/O 체이닝 등록.
+1. I/O 요청 등록: 소켓 Read/Write 요청을 Non-blocking 세팅 후 커널 **epoll_ctl()** 에 등록.
+2. 제어권 즉시 반환: 즉시 반환받아 Event Loop 스레드는 타 이벤트 인출 구동.
+3. 완료 이벤트 수집: 커널 epoll_wait() 신호 수신 시 **Event Queue**에 결과 이벤트 이송.
+4. 완료 처리기 디스패치: Event Loop가 Queue 노드를 인출하여 **Callback Handler** 호출.
+5. 결과 처리·후속 등록: 런타임 결과 반영 및 필요한 경우 후속 비동기 I/O 체이닝 등록.
 
 #### 한줄 요약
 

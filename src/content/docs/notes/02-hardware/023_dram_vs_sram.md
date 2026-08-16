@@ -105,8 +105,8 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ### 동작 원리
 
-1. **DRAM 접근**: 행 활성 후 **감지**•**복원**, 열 선택, 프리차지를 수행함.
-2. **SRAM 접근**: 워드라인 활성 후 래치의 차동 비트라인을 판독함.
+1. DRAM 접근: 행 활성 후 **감지**•**복원**, 열 선택, 프리차지를 수행함.
+2. SRAM 접근: 워드라인 활성 후 래치의 차동 비트라인을 판독함.
 
 #### 한줄 요약
 - DRAM은 Row Act -> Sense/Restore -> CAS -> Precharge의 복잡한 커패시터 동적 절차를 거치며, SRAM은 Wordline 래치 직통 독출로 완료함.

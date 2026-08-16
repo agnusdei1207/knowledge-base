@@ -115,11 +115,11 @@ extra:
 
 ### 동작 원리
 
-1. **지속적 상태 감시**: Heartbeat•Health•Lag 다중 수집
-2. **장애 판정**: Quorum•Hysteresis로 지속 장애 확정
-3. **Fencing 실행**: 구 Primary 전원•Storage•쓰기 차단
-4. **Standby 상태•용량 검증**: RPO와 N-1 용량 확인
-5. **트래픽 전환**: DNS•LB•Service Discovery 갱신
+1. 지속적 상태 감시: Heartbeat•Health•Lag 다중 수집
+2. 장애 판정: Quorum•Hysteresis로 지속 장애 확정
+3. Fencing 실행: 구 Primary 전원•Storage•쓰기 차단
+4. Standby 상태•용량 검증: RPO와 N-1 용량 확인
+5. 트래픽 전환: DNS•LB•Service Discovery 갱신
 
 #### 한줄 요약
 

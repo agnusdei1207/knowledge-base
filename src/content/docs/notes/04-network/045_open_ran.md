@@ -119,11 +119,11 @@ extra:
 
 ### 동작 원리
 
-1. **A1 정책 전달**: SMO/Non-RT RIC가 rApp을 구동하여 학습된 정책 지침(A1 Policy)을 A1 인터페이스를 통해 Near-RT RIC로 전송한다.
-2. **E2 무선 자원 구독**: Near-RT RIC가 E2 메시지를 발송하여 O-CU 및 O-DU의 주요 품질 지표(PRB, 지연시간)를 지속 수집하도록 등록한다.
-3. **E2 무선 상태 측정 피드백**: E2 노드(O-CU/O-DU)가 무선 상태(E2 Indication)를 Real-time으로 Near-RT RIC의 xApp 엔진에 보고한다.
-4. **xApp 제어 알고리즘 실행 및 명령 발송**: xApp이 수집된 상태를 AI 연산하여 최적의 부하 분산/핸드오버 제어 명령(E2 Control Command)을 하향 발송한다.
-5. **스케줄링 반영 및 피드백 모니터링**: O-DU/O-CU가 수신된 제어 명령에 따라 자원 할당을 재구성하고 그 결과를 피드백 모니터링한다.
+1. A1 정책 전달: SMO/Non-RT RIC가 rApp을 구동하여 학습된 정책 지침(A1 Policy)을 A1 인터페이스를 통해 Near-RT RIC로 전송한다.
+2. E2 무선 자원 구독: Near-RT RIC가 E2 메시지를 발송하여 O-CU 및 O-DU의 주요 품질 지표(PRB, 지연시간)를 지속 수집하도록 등록한다.
+3. E2 무선 상태 측정 피드백: E2 노드(O-CU/O-DU)가 무선 상태(E2 Indication)를 Real-time으로 Near-RT RIC의 xApp 엔진에 보고한다.
+4. xApp 제어 알고리즘 실행 및 명령 발송: xApp이 수집된 상태를 AI 연산하여 최적의 부하 분산/핸드오버 제어 명령(E2 Control Command)을 하향 발송한다.
+5. 스케줄링 반영 및 피드백 모니터링: O-DU/O-CU가 수신된 제어 명령에 따라 자원 할당을 재구성하고 그 결과를 피드백 모니터링한다.
 
 #### 한줄 요약
 

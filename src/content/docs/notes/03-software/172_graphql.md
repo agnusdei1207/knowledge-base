@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **Query Parsing**: Document를 AST로 변환
-2. **Schema•권한•비용 검증**: Type•Field•Depth 제한 검사
-3. **Execution Plan 생성**: Field 의존성과 병렬 구간 결정
-4. **Resolver 실행•Batch**: DataLoader로 반복 조회 통합
-5. **Data•Error 응답 조립**: Selection Set 형태로 결과 반환
+1. Query Parsing: Document를 AST로 변환
+2. Schema•권한•비용 검증: Type•Field•Depth 제한 검사
+3. Execution Plan 생성: Field 의존성과 병렬 구간 결정
+4. Resolver 실행•Batch: DataLoader로 반복 조회 통합
+5. Data•Error 응답 조립: Selection Set 형태로 결과 반환
 
 #### 한줄 요약
 

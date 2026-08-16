@@ -118,11 +118,11 @@ extra:
 
 ### 동작 원리
 
-1. **단말(UE)의 Requested NSSAI 요청 전송**: S-NSSAI 전달
-2. **AMF -> NSSF: 가입자 프로필 및 위치 정보 전달**: 선택 요청
-3. **NSSF: S-NSSAI 대비 가용 NSI 매핑 조회**: 정책 대조
-4. **무선/전송/코어 NSSI 하위 자원 결합 상태 확인**: 상태 검증
-5. **Allowed NSSAI 및 전용 NSI 바인딩 정보 반환**: 세션 확립
+1. 단말(UE)의 Requested NSSAI 요청 전송: S-NSSAI 전달
+2. AMF -> NSSF: 가입자 프로필 및 위치 정보 전달: 선택 요청
+3. NSSF: S-NSSAI 대비 가용 NSI 매핑 조회: 정책 대조
+4. 무선/전송/코어 NSSI 하위 자원 결합 상태 확인: 상태 검증
+5. Allowed NSSAI 및 전용 NSI 바인딩 정보 반환: 세션 확립
 
 #### 한줄 요약
 

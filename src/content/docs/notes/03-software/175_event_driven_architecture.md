@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **업무•Outbox 원자 저장**: Domain 변경과 발행 기록 Commit
-2. **CDC로 Outbox 변경 감지**: Transaction Log에서 Event 추출
-3. **Event Channel 발행**: Key•Schema•Header와 함께 전달
-4. **Consumer 멱등 처리**: Event ID로 중복 Side Effect 차단
-5. **처리 결과•Offset 저장**: 결과와 소비 위치를 일관되게 기록
+1. 업무•Outbox 원자 저장: Domain 변경과 발행 기록 Commit
+2. CDC로 Outbox 변경 감지: Transaction Log에서 Event 추출
+3. Event Channel 발행: Key•Schema•Header와 함께 전달
+4. Consumer 멱등 처리: Event ID로 중복 Side Effect 차단
+5. 처리 결과•Offset 저장: 결과와 소비 위치를 일관되게 기록
 
 #### 한줄 요약
 

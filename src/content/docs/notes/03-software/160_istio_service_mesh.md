@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Workload 신원 확인**: 양단 인증서와 Trust Domain 검증
-2. **mTLS Session 설정**: 통신 암호화와 상호 인증
-3. **VirtualService Rule 평가**: Host•Header•Weight 조건 해석
-4. **Destination Subset 선택**: Version Label별 대상 결정
-5. **요청 전달•Telemetry 기록**: Proxy 전달과 지표•추적 생성
+1. Workload 신원 확인: 양단 인증서와 Trust Domain 검증
+2. mTLS Session 설정: 통신 암호화와 상호 인증
+3. VirtualService Rule 평가: Host•Header•Weight 조건 해석
+4. Destination Subset 선택: Version Label별 대상 결정
+5. 요청 전달•Telemetry 기록: Proxy 전달과 지표•추적 생성
 
 #### 한줄 요약
 

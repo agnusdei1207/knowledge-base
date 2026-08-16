@@ -111,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **맥락•동의 검증**: 수집•활용 목적과 Consent 확인
-2. **허용 Feature 조회**: 목적에 필요한 최소 Feature 요청
-3. **이력•실시간 Feature 전달**: Batch•Streaming 시점 정합
-4. **후보•정책 기반 제안 선택**: 점수•빈도•다양성으로 Ranking
-5. **노출•반응•거부 Feedback**: 반응 Event를 다음 판단에 반영
+1. 맥락•동의 검증: 수집•활용 목적과 Consent 확인
+2. 허용 Feature 조회: 목적에 필요한 최소 Feature 요청
+3. 이력•실시간 Feature 전달: Batch•Streaming 시점 정합
+4. 후보•정책 기반 제안 선택: 점수•빈도•다양성으로 Ranking
+5. 노출•반응•거부 Feedback: 반응 Event를 다음 판단에 반영
 
 #### 한줄 요약
 

@@ -129,11 +129,11 @@ extra:
 
 ### 동작 원리
 
-1. **명령어 인출**: **PC(Program Counter)**가 가리키는 메모리 주소의 명령어를 Fetch하여 **IR(Instruction Register)**에 저장하고 PC 주소값을 명령어 크기만큼 증가시킴.
-2. **명령어 해독**: **CU(Control Unit)**가 IR의 Op-code를 해독하여 ALU 연산 종류와 Register File 읽기 선택 신호를 구동함.
-3. **피연산자 읽기**: 명령어가 지시하는 레지스터 번호에 접근하여 **레지스터 파일**에서 입력 데이터 2개를 읽어 ALU 입력 버스에 연결함.
-4. **연산 실행**: **ALU**가 지정된 기능(ADD, SUB, AND 등)을 실행하고 결과를 출력 버스에 싣는 동시에 Zero/Overflow 등 **상태 비트**를 생성함.
-5. **결과 기록**: 연산 결과를 지정된 레지스터에 쓰기(Latching)하고 상태 비트를 PSR에 갱신하여 1개 기계어 실행 주기를 완료함.
+1. 명령어 인출: **PC(Program Counter)**가 가리키는 메모리 주소의 명령어를 Fetch하여 **IR(Instruction Register)**에 저장하고 PC 주소값을 명령어 크기만큼 증가시킴.
+2. 명령어 해독: **CU(Control Unit)**가 IR의 Op-code를 해독하여 ALU 연산 종류와 Register File 읽기 선택 신호를 구동함.
+3. 피연산자 읽기: 명령어가 지시하는 레지스터 번호에 접근하여 **레지스터 파일**에서 입력 데이터 2개를 읽어 ALU 입력 버스에 연결함.
+4. 연산 실행: **ALU**가 지정된 기능(ADD, SUB, AND 등)을 실행하고 결과를 출력 버스에 싣는 동시에 Zero/Overflow 등 **상태 비트**를 생성함.
+5. 결과 기록: 연산 결과를 지정된 레지스터에 쓰기(Latching)하고 상태 비트를 PSR에 갱신하여 1개 기계어 실행 주기를 완료함.
 
 #### 한줄 요약
 - PC -> Memory Fetch -> IR -> CU Decode -> Register Read -> ALU Execute -> WB 순서로 5단계 인스트럭션 사이클이 연동됨.

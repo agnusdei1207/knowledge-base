@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **Image Layer 빌드**: Dockerfile로 재사용 Layer 생성
-2. **Image 서명•저장**: Digest•서명을 Registry에 보관
-3. **Image Pull•검증**: 대상 Image 무결성과 출처 확인
-4. **격리 환경 생성**: Namespace•cgroup•Mount 구성
-5. **Container Process 실행**: runc가 지정 Process 시작
+1. Image Layer 빌드: Dockerfile로 재사용 Layer 생성
+2. Image 서명•저장: Digest•서명을 Registry에 보관
+3. Image Pull•검증: 대상 Image 무결성과 출처 확인
+4. 격리 환경 생성: Namespace•cgroup•Mount 구성
+5. Container Process 실행: runc가 지정 Process 시작
 
 #### 한줄 요약
 

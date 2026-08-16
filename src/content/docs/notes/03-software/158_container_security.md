@@ -112,11 +112,11 @@ extra:
 
 ### 동작 원리
 
-1. **Image 신뢰 검증**: Digest•서명•취약점 기준 확인
-2. **Admission Policy 평가**: 특권•Root•Host 접근 검사
-3. **Policy 결과 처리**: 위반 요청 거부 또는 실행 승인
-4. **Runtime Profile 적용**: Seccomp•MAC 통제 부착
-5. **실행•이상 행위 감시**: Kernel 강제와 Event 대응
+1. Image 신뢰 검증: Digest•서명•취약점 기준 확인
+2. Admission Policy 평가: 특권•Root•Host 접근 검사
+3. Policy 결과 처리: 위반 요청 거부 또는 실행 승인
+4. Runtime Profile 적용: Seccomp•MAC 통제 부착
+5. 실행•이상 행위 감시: Kernel 강제와 Event 대응
 
 #### 한줄 요약
 

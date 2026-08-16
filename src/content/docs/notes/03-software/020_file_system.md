@@ -116,11 +116,11 @@ extra:
 
 ### 동작 원리
 
-1. **경로·권한 확인**: VFS 레이어를 통해 디렉터리 경로 트래버스 및 권한(ACL/Permission Bit) 검증.
-2. **블록 할당**: 유휴 **Extent/Block** 할당 탐색 및 디스크 블록 할당.
-3. **일관성 방식 선택**: 파일 시스템 타입에 따라 Journaling Log 기록 또는 COW 버퍼 할당.
-4. **데이터·복구 정보 기록**: 물리 디스크에 파일 내용 수용 및 저널 블록 Write.
-5. **매핑·메타데이터 확정**: Inode/MFT/B-Tree 포인터 **Commit** 갱신 완결.
+1. 경로·권한 확인: VFS 레이어를 통해 디렉터리 경로 트래버스 및 권한(ACL/Permission Bit) 검증.
+2. 블록 할당: 유휴 **Extent/Block** 할당 탐색 및 디스크 블록 할당.
+3. 일관성 방식 선택: 파일 시스템 타입에 따라 Journaling Log 기록 또는 COW 버퍼 할당.
+4. 데이터·복구 정보 기록: 물리 디스크에 파일 내용 수용 및 저널 블록 Write.
+5. 매핑·메타데이터 확정: Inode/MFT/B-Tree 포인터 **Commit** 갱신 완결.
 
 #### 한줄 요약
 
@@ -151,6 +151,8 @@ extra:
 
 - **Dirty Page Flush**: OS 페이지 캐시(Page Cache)의 찌꺼기(Dirty) 데이터를 커널 백그라운드 스레드(flusher/pdflush)가 디스크로 주기적 동기화 기록하는 동작.
 
+- **직접 I/O(O_DIRECT)**: OS 커널의 페이지 캐시(Page Cache)를 우회하여 사용자 버퍼와 저장장치 간에 데이터를 직접 전송하는 고성능 DB 전용 I/O 플래그.
+- **트림(TRIM / Deallocate)**: 파일 삭제 시 OS가 SSD에 해당 LBA 블록이 더 이상 유효하지 않음을 통지하여 FTL 가비지 컬렉션 효율을 높이는 SATA/NVMe 명령어.
 </details>
 
 | 문제 | 대책 | 효과 |

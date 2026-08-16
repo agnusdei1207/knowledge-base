@@ -99,10 +99,10 @@ extra:
 
 ### 동작 원리
 
-1. **Scheduling Queue 인출**: 미배치 Pod를 우선순위로 선택
-2. **부적합 Node Filtering**: 자원•Taint•Affinity 위반 제외
-3. **후보 Node Scoring**: 균형•지역성•선호 기준 평가
-4. **최고 점수 Node Binding**: 선택 Node를 Pod에 연결
+1. Scheduling Queue 인출: 미배치 Pod를 우선순위로 선택
+2. 부적합 Node Filtering: 자원•Taint•Affinity 위반 제외
+3. 후보 Node Scoring: 균형•지역성•선호 기준 평가
+4. 최고 점수 Node Binding: 선택 Node를 Pod에 연결
 
 #### 한줄 요약
 

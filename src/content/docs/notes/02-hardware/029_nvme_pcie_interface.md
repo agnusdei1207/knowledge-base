@@ -121,12 +121,12 @@ extra:
 
 ### 동작 원리
 
-1. **SQ 명령 게시**: 드라이버가 I/O 명령을 **Submission Queue**에 기록함.
-2. **SQ Tail 통지**: Doorbell에 새 Tail을 써서 컨트롤러에 알림.
-3. **컨트롤러 명령 인출**: 컨트롤러가 SQ를 읽고 FTL•채널에 배치함.
-4. **NAND 병렬 실행**: 복수 **Flash Channel**에서 요청을 처리함.
-5. **데이터•CQ 기록**: DMA 전송 후 **Completion Queue**에 상태를 기록함.
-6. **MSI-X•CQ 회수**: 호스트가 완료를 회수하고 CQ Head Doorbell을 갱신함.
+1. SQ 명령 게시: 드라이버가 I/O 명령을 **Submission Queue**에 기록함.
+2. SQ Tail 통지: Doorbell에 새 Tail을 써서 컨트롤러에 알림.
+3. 컨트롤러 명령 인출: 컨트롤러가 SQ를 읽고 FTL•채널에 배치함.
+4. NAND 병렬 실행: 복수 **Flash Channel**에서 요청을 처리함.
+5. 데이터•CQ 기록: DMA 전송 후 **Completion Queue**에 상태를 기록함.
+6. MSI-X•CQ 회수: 호스트가 완료를 회수하고 CQ Head Doorbell을 갱신함.
 
 #### 한줄 요약
 - SQ Command Push -> Doorbell Ring -> Controller DMA Fetch -> Flash Channel Execution -> Data/CQ DMA Write & MSI-X Interrupt 순으로 구동함.

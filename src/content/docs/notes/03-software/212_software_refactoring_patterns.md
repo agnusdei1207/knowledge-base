@@ -114,11 +114,11 @@ extra:
 
 ### 동작 원리
 
-1. **동작 고정**: Characterization Test로 현재 Behavior 기록
-2. **악취 선택**: 변경 비용이 큰 Code Smell 하나 지정
-3. **작은 변환**: 단일 Refactoring Pattern 적용
-4. **회귀 검증**: Test로 Behavior Contract 보존 확인
-5. **변경 확정**: 통과 시 Commit, 실패 시 Undo•단계 축소
+1. 동작 고정: Characterization Test로 현재 Behavior 기록
+2. 악취 선택: 변경 비용이 큰 Code Smell 하나 지정
+3. 작은 변환: 단일 Refactoring Pattern 적용
+4. 회귀 검증: Test로 Behavior Contract 보존 확인
+5. 변경 확정: 통과 시 Commit, 실패 시 Undo•단계 축소
 
 #### 한줄 요약
 - 기존 로직을 테스트로 꽁꽁 묶어둔 채 코드를 조금씩 썰어내고, 썰 때마다 삐끗하지 않았는지 테스트로 확인하며 한 걸음씩 나아가는 마이크로 스텝 진화 과정

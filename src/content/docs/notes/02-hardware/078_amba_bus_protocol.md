@@ -117,10 +117,10 @@ extra:
 
 ### 동작 원리
 
-1. **주소 디코딩·중재**: Master의 주소 전송 및 Interconnect 상의 주소 디코딩 및 중재(Arbitration).
-2. **AXI 독립 채널 핸드셰이크**: AXI 계층에서 **VALID/READY 핸드셰이크**를 통한 병렬 Read/Write 실행.
-3. **APB 브리지 변환**: 주변장치 접근 시 AXI/AHB 브리지에 의한 **PSEL**(Setup) -> **PENABLE/PREADY**(Enable) 2-Phase 신호 변환.
-4. **응답 변환·순서 정합**: 완료 응답(BRESP, RRESP) 수용 및 Master로 거래 종료 반환.
+1. 주소 디코딩·중재: Master의 주소 전송 및 Interconnect 상의 주소 디코딩 및 중재(Arbitration).
+2. AXI 독립 채널 핸드셰이크: AXI 계층에서 **VALID/READY 핸드셰이크**를 통한 병렬 Read/Write 실행.
+3. APB 브리지 변환: 주변장치 접근 시 AXI/AHB 브리지에 의한 **PSEL**(Setup) -> **PENABLE/PREADY**(Enable) 2-Phase 신호 변환.
+4. 응답 변환·순서 정합: 완료 응답(BRESP, RRESP) 수용 및 Master로 거래 종료 반환.
 
 #### 한줄 요약
 

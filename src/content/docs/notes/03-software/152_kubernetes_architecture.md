@@ -113,11 +113,11 @@ extra:
 
 ### 동작 원리
 
-1. **API 인증•검증**: 사용자와 Resource 명세 승인
-2. **목표 상태 저장**: API 서버가 etcd에 Object 기록
-3. **Node 선택**: 스케줄러가 제약•자원에 맞춰 Binding
-4. **Pod 실행**: Kubelet이 Runtime에 Container 생성 요청
-5. **상태 보고•조정**: 현재 상태 갱신과 편차 재조정
+1. API 인증•검증: 사용자와 Resource 명세 승인
+2. 목표 상태 저장: API 서버가 etcd에 Object 기록
+3. Node 선택: 스케줄러가 제약•자원에 맞춰 Binding
+4. Pod 실행: Kubelet이 Runtime에 Container 생성 요청
+5. 상태 보고•조정: 현재 상태 갱신과 편차 재조정
 
 #### 한줄 요약
 

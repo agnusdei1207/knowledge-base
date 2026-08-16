@@ -107,10 +107,10 @@ extra:
 
 ### 동작 원리
 
-1. **Write 순서 결정**: 동시 Operation의 단일 관찰 순서 확정
-2. **Commit Point 통과**: Write의 선형화 시점 형성
-3. **Write 성공 반환**: 완료를 Client에 통지
-4. **후속 Read에 최신값 반환**: 완료 전 값으로 회귀 방지
+1. Write 순서 결정: 동시 Operation의 단일 관찰 순서 확정
+2. Commit Point 통과: Write의 선형화 시점 형성
+3. Write 성공 반환: 완료를 Client에 통지
+4. 후속 Read에 최신값 반환: 완료 전 값으로 회귀 방지
 
 #### 한줄 요약
 

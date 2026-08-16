@@ -109,11 +109,11 @@ extra:
 
 ### 동작 원리
 
-1. **Channel•TLS 설정**: HTTP/2 연결과 상대 신원 확인
-2. **Metadata•Deadline 전파**: 인증•기한•취소 Context 전달
-3. **Protobuf Message 송수신**: 독립 Stream에서 Message 교환
-4. **Handler 처리•응답 전송**: Server Logic과 Backpressure 적용
-5. **Status•Trailer로 종료**: 성공•오류 상태와 상세정보 반환
+1. Channel•TLS 설정: HTTP/2 연결과 상대 신원 확인
+2. Metadata•Deadline 전파: 인증•기한•취소 Context 전달
+3. Protobuf Message 송수신: 독립 Stream에서 Message 교환
+4. Handler 처리•응답 전송: Server Logic과 Backpressure 적용
+5. Status•Trailer로 종료: 성공•오류 상태와 상세정보 반환
 
 #### 한줄 요약
 

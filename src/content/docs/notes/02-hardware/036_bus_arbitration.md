@@ -113,10 +113,10 @@ extra:
 
 ### 동작 원리
 
-1. **요청 수신**: 복수 마스터의 **BREQ**와 버스 상태를 수집함.
-2. **우선순위 평가**: Priority•Round-Robin•Aging 정책으로 승자를 정함.
-3. **배타적 승인•전송**: **BGRT** 후 Burst Limit 안에서 전송함.
-4. **사용권 반납•순환**: Release 후 다음 대기 마스터를 승인함.
+1. 요청 수신: 복수 마스터의 **BREQ**와 버스 상태를 수집함.
+2. 우선순위 평가: Priority•Round-Robin•Aging 정책으로 승자를 정함.
+3. 배타적 승인•전송: **BGRT** 후 Burst Limit 안에서 전송함.
+4. 사용권 반납•순환: Release 후 다음 대기 마스터를 승인함.
 
 #### 한줄 요약
 - BREQ Assert -> Priority Evaluation -> BGRT Assert -> Data Transfer -> Bus Release & Next Master Grant 순으로 동작함.

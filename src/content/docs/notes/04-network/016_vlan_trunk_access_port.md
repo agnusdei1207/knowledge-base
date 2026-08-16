@@ -118,10 +118,10 @@ extra:
 
 ### 동작 원리
 
-1. **Ingress Access Port (PVID 귀속)**: 포트 VLAN으로 분류
-2. **Trunk Port 송출 (VLAN 태그 부착)**: 802.1Q 태그 삽입
-3. **Trunk 통과 (허용 VLAN 전달 검증)**: 허용 목록 대조
-4. **Egress Access Port (VLAN 태그 제거)**: 태그 제거 후 전달
+1. Ingress Access Port (PVID 귀속): 포트 VLAN으로 분류
+2. Trunk Port 송출 (VLAN 태그 부착): 802.1Q 태그 삽입
+3. Trunk 통과 (허용 VLAN 전달 검증): 허용 목록 대조
+4. Egress Access Port (VLAN 태그 제거): 태그 제거 후 전달
 
 #### 한줄 요약
 

@@ -106,10 +106,10 @@ extra:
 
 ### 동작 원리
 
-1. **핵심 과업•성공 기준 매핑**: 사용자 과업과 WCAG SC 연결
-2. **Semantic•Keyboard 구현**: 대체 Text•Label•Focus 적용
-3. **자동화 위반 후보 검사**: 대비•Alt•구조 위반 후보 탐지
-4. **보조기술 과업 검증**: Screen Reader로 완료 여부 확인
+1. 핵심 과업•성공 기준 매핑: 사용자 과업과 WCAG SC 연결
+2. Semantic•Keyboard 구현: 대체 Text•Label•Focus 적용
+3. 자동화 위반 후보 검사: 대비•Alt•구조 위반 후보 탐지
+4. 보조기술 과업 검증: Screen Reader로 완료 여부 확인
 
 #### 한줄 요약
 

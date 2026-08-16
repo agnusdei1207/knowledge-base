@@ -107,11 +107,11 @@ extra:
 
 ### 동작 원리
 
-1. **Architecture 비전 수립**: 범위•원칙•이해관계자 확정
-2. **BA•DA•AA•TA 설계**: As-Is와 To-Be 구조 정의
-3. **Gap•전환 과제 도출**: 목표 전환에 필요한 과제 식별
-4. **Migration Roadmap 수립**: 의존성•비용•일정 기반 배치
-5. **구현 Governance 수행**: 표준 준수 심사와 현행 구조 갱신
+1. Architecture 비전 수립: 범위•원칙•이해관계자 확정
+2. BA•DA•AA•TA 설계: As-Is와 To-Be 구조 정의
+3. Gap•전환 과제 도출: 목표 전환에 필요한 과제 식별
+4. Migration Roadmap 수립: 의존성•비용•일정 기반 배치
+5. 구현 Governance 수행: 표준 준수 심사와 현행 구조 갱신
 
 #### 한줄 요약
 

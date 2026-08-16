@@ -104,11 +104,11 @@ extra:
 
 ### 동작 원리
 
-1. **목표 환경 검증**: 용량•복구•보안•운영 Runbook 시험
-2. **초기 Data 적재**: Snapshot을 대상 Storage에 복원
-3. **변경분 CDC 동기화**: Lag•순서•정합성 지속 검증
-4. **Canary Traffic 전환**: 일부 요청으로 성능•오류 비교
-5. **Cutover•잔여 자산 정리**: 전환 후 Rollback 기간과 삭제 관리
+1. 목표 환경 검증: 용량•복구•보안•운영 Runbook 시험
+2. 초기 Data 적재: Snapshot을 대상 Storage에 복원
+3. 변경분 CDC 동기화: Lag•순서•정합성 지속 검증
+4. Canary Traffic 전환: 일부 요청으로 성능•오류 비교
+5. Cutover•잔여 자산 정리: 전환 후 Rollback 기간과 삭제 관리
 
 #### 한줄 요약
 

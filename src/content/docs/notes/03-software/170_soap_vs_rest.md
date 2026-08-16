@@ -103,11 +103,11 @@ extra:
 
 ### 동작 원리
 
-1. **Interface 유형 식별**: SOAP Action 또는 REST Method 확인
-2. **계약•Message 검증**: WSDL Schema 또는 API 계약 검사
-3. **Action•Resource 처리**: 연산 호출 또는 자원 상태 조작
-4. **오류•표현 Mapping**: Fault 또는 HTTP 표현으로 변환
-5. **Protocol 응답 생성**: Envelope 또는 Representation 반환
+1. Interface 유형 식별: SOAP Action 또는 REST Method 확인
+2. 계약•Message 검증: WSDL Schema 또는 API 계약 검사
+3. Action•Resource 처리: 연산 호출 또는 자원 상태 조작
+4. 오류•표현 Mapping: Fault 또는 HTTP 표현으로 변환
+5. Protocol 응답 생성: Envelope 또는 Representation 반환
 
 #### 한줄 요약
 

@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Leader Log Append**: Current Term의 Command 기록
-2. **Follower AppendEntries**: 이전 Index•Term 확인 후 복제
-3. **Quorum Ack 확인**: 과반 Replica의 저장 승인 집계
-4. **Commit•State Machine 적용**: Commit Index 이동과 실행
-5. **Commit Index 전파**: 후속 Heartbeat로 Follower 적용 통지
+1. Leader Log Append: Current Term의 Command 기록
+2. Follower AppendEntries: 이전 Index•Term 확인 후 복제
+3. Quorum Ack 확인: 과반 Replica의 저장 승인 집계
+4. Commit•State Machine 적용: Commit Index 이동과 실행
+5. Commit Index 전파: 후속 Heartbeat로 Follower 적용 통지
 
 #### 한줄 요약
 

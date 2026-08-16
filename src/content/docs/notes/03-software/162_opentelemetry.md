@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Receiver 수신**: OTLP 등 입력 Protocol 처리
-2. **Resource•Context 보강**: Service•환경 Attribute 부착
-3. **Filter•Masking•Sampling**: 민감 정보와 수집량 통제
-4. **Batch•Memory 제한**: 전송 효율과 Buffer 상한 관리
-5. **Exporter 전송**: Signal별 Backend로 전달
+1. Receiver 수신: OTLP 등 입력 Protocol 처리
+2. Resource•Context 보강: Service•환경 Attribute 부착
+3. Filter•Masking•Sampling: 민감 정보와 수집량 통제
+4. Batch•Memory 제한: 전송 효율과 Buffer 상한 관리
+5. Exporter 전송: Signal별 Backend로 전달
 
 #### 한줄 요약
 

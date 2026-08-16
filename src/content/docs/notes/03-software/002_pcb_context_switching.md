@@ -46,6 +46,8 @@ extra:
 
 - **CR3 레지스터(Control Register 3, CR3)**: x86 아키텍처에서 현재 프로세스의 최상위 페이지 테이블 물리 주소를 보관하는 MMU 제어 레지스터.
 - **주소 변환 비용(Address Translation Overhead)**: 프로세스 전환 시 CR3 교체로 인해 TLB 캐시가 무효화되어 발생하는 메모리 접근 지연.
+- **TLB 플러시(TLB Flush)**: 프로세스 문맥 전환 시 주소 공간(CR3)이 변경되어 기존 가상-물리 주소 변환 캐시를 일괄 무효화하는 동작.
+- **비동기 I/O(Asynchronous I/O)**: I/O 작업 완료를 대기하며 스레드를 블록(Block)하지 않고 완료 시 이벤트/콜백으로 통지받아 문맥 전환을 최소화하는 I/O 처리 모델.
 </details>
 
 - CPU 레지스터, PC, SP 및 MMU 레지스터(**CR3**)를 커널 메모리(**PCB/TCB**)에 보존
@@ -128,11 +130,11 @@ extra:
 
 ### 동작 원리
 
-1. **현재 실행 문맥 저장**: **Timer Interrupt** 또는 I/O Block 발생 시 CPU 레지스터를 현재 **TCB/PCB** 및 **Kernel Stack**에 저장.
-2. **런 큐 정책 평가**: OS 커널 스케줄러가 Run-Queue 내 우선순위(CFS vruntime 등) 평가.
-3. **다음 PCB·TCB 선택**: 디스패치할 신규 스레드/프로세스 선정.
-4. **주소 공간 전환**: 프로세스 변경 시 **CR3** 레지스터 갱신 (**TLB Flush** 인가).
-5. **문맥 복원·디스패치**: 신규 TCB의 PC, SP 및 레지스터 세트를 복원하고 사용자 모드(User Mode) 복귀 실행.
+1. 현재 실행 문맥 저장: **Timer Interrupt** 또는 I/O Block 발생 시 CPU 레지스터를 현재 **TCB/PCB** 및 **Kernel Stack**에 저장.
+2. 런 큐 정책 평가: OS 커널 스케줄러가 Run-Queue 내 우선순위(CFS vruntime 등) 평가.
+3. 다음 PCB·TCB 선택: 디스패치할 신규 스레드/프로세스 선정.
+4. 주소 공간 전환: 프로세스 변경 시 **CR3** 레지스터 갱신 (**TLB Flush** 인가).
+5. 문맥 복원·디스패치: 신규 TCB의 PC, SP 및 레지스터 세트를 복원하고 사용자 모드(User Mode) 복귀 실행.
 
 #### 한줄 요약
 

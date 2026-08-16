@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Trace•Root Span 생성**: 최초 요청의 Trace Context 시작
-2. **Context Header 주입**: W3C Trace Context를 호출에 포함
-3. **다음 Service에서 추출**: 전달된 Trace•Parent 정보 복원
-4. **Child Span 생성•전파**: 현재 작업 기록과 하위 호출 연결
-5. **Span 종료•전송**: 상태•지연을 기록해 Backend 전달
+1. Trace•Root Span 생성: 최초 요청의 Trace Context 시작
+2. Context Header 주입: W3C Trace Context를 호출에 포함
+3. 다음 Service에서 추출: 전달된 Trace•Parent 정보 복원
+4. Child Span 생성•전파: 현재 작업 기록과 하위 호출 연결
+5. Span 종료•전송: 상태•지연을 기록해 Backend 전달
 
 #### 한줄 요약
 

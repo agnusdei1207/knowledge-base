@@ -111,11 +111,11 @@ extra:
 
 ### 동작 원리
 
-1. **Component•Dependency 추출**: Source•Binary 부품 식별
-2. **SBOM 생성•검증**: 필수 Field와 관계 완전성 확인
-3. **산출물•SBOM 서명•연결**: Digest•Attestation 보존
-4. **취약점•VEX 상관 분석**: 영향 Version과 실행 가능성 평가
-5. **영향 제품 Patch•추적**: 우선순위•조치•잔여 위험 관리
+1. Component•Dependency 추출: Source•Binary 부품 식별
+2. SBOM 생성•검증: 필수 Field와 관계 완전성 확인
+3. 산출물•SBOM 서명•연결: Digest•Attestation 보존
+4. 취약점•VEX 상관 분석: 영향 Version과 실행 가능성 평가
+5. 영향 제품 Patch•추적: 우선순위•조치•잔여 위험 관리
 
 #### 한줄 요약
 

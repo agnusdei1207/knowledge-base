@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **Source•Destination 식별**: 양쪽 Pod와 Namespace 확인
-2. **Pod•Namespace Selector 대조**: 정책 적용 대상 판정
-3. **Ingress•Egress Rule 평가**: 송신•수신 허용 조건 결합
-4. **Protocol•Port 확인**: L4 범위 일치 여부 확인
-5. **Packet 허용•차단**: Data Plane에서 최종 집행
+1. Source•Destination 식별: 양쪽 Pod와 Namespace 확인
+2. Pod•Namespace Selector 대조: 정책 적용 대상 판정
+3. Ingress•Egress Rule 평가: 송신•수신 허용 조건 결합
+4. Protocol•Port 확인: L4 범위 일치 여부 확인
+5. Packet 허용•차단: Data Plane에서 최종 집행
 
 #### 한줄 요약
 

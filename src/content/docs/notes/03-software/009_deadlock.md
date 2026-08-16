@@ -24,6 +24,8 @@ extra:
 - **교착상태(Deadlock)**: 두 개 이상의 프로세스/스레드가 서로 상대방이 점유한 자원(Resource/Lock)을 기다리며 영구적으로 블록(Blocked)되어 실행을 멈추는 상태.
 - **Coffman 4대 조건**: 교착상태가 발생하기 위한 4가지 필수 충족 조건인 상호 배제(Mutual Exclusion), 점유와 대기(Hold & Wait), 비선점(No Preemption), 환형 대기(Circular Wait).
 
+- **코프만 4대 조건(Coffman Conditions)**: 교착상태가 발생하기 위해 동시 성립해야 하는 상호 배제(Mutual Exclusion), 점유 대기(Hold & Wait), 비선점(No Preemption), 순환 대기(Circular Wait)의 4대 필요조건.
+- **자원 할당 그래프(Resource Allocation Graph, RAG)**: 프로세스와 자원 간의 요청 및 할당 관계를 유향 그래프로 모델링하여 대기 순환 사이클을 판별하는 분석 도구.
 </details>
 
 - 정의/개념: 실행 주체들이 서로의 자원을 기다려 진행하지 못하는 **교착상태**
@@ -117,11 +119,11 @@ extra:
 
 ### 동작 원리
 
-1. **예방 가능성 판정**: Coffman 4대 조건 사전 박탈 가능성 검증 (**Prevention**).
-2. **예방 적용**: Lock Ordering 적용으로 **Circular Wait** 사전 방지.
-3. **회피 가능성 판정**: 최대 요구량(Max Claim) 정보 파악 가능 여부 확인 (**Avoidance**).
-4. **회피 적용**: **Banker's Algorithm**을 활용한 Safe State 유지 자원 승인.
-5. **탐지·복구 적용**: 미파악 환경에서 **Wait-for Graph** 사이클 탐지 및 Victim Kill 복구.
+1. 예방 가능성 판정: Coffman 4대 조건 사전 박탈 가능성 검증 (**Prevention**).
+2. 예방 적용: Lock Ordering 적용으로 **Circular Wait** 사전 방지.
+3. 회피 가능성 판정: 최대 요구량(Max Claim) 정보 파악 가능 여부 확인 (**Avoidance**).
+4. 회피 적용: **Banker's Algorithm**을 활용한 Safe State 유지 자원 승인.
+5. 탐지·복구 적용: 미파악 환경에서 **Wait-for Graph** 사이클 탐지 및 Victim Kill 복구.
 
 #### 한줄 요약
 

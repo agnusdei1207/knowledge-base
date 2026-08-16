@@ -125,9 +125,9 @@ extra:
 
 ### 동작 원리
 
-1. **NAT Table Lookup & PAT Assignment**: 공인 주소•포트 할당
-2. **송신 튜플 변환 & Checksum 갱신**: 헤더 변환 후 송출
-3. **수신 튜플 복원**: 변환표 역조회 후 내부 주소 복원
+1. NAT Table Lookup & PAT Assignment: 공인 주소•포트 할당
+2. 송신 튜플 변환 & Checksum 갱신: 헤더 변환 후 송출
+3. 수신 튜플 복원: 변환표 역조회 후 내부 주소 복원
 
 #### 한줄 요약
 

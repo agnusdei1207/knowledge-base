@@ -134,11 +134,11 @@ $$\mathrm{Need}_i=\mathrm{Max}_i-\mathrm{Allocation}_i,\qquad \mathrm{Request}_i
 
 ### 동작 원리
 
-1. **요청 한도 검사**: $\text{Request}_i \le \text{Need}_i$ 및 $\text{Request}_i \le \text{Available}$ 1차 검증.
-2. **요청 가상 반영**: $\text{Available} = \text{Available} - \text{Request}_i$, $\text{Allocation}_i = \text{Allocation}_i + \text{Request}_i$, $\text{Need}_i = \text{Need}_i - \text{Request}_i$ 가상 세팅.
-3. **Work·Finish 초기화**: `Work = Available`, `Finish[i] = False` 포인터 초기화.
-4. **안전 순서 탐색**: $\text{Finish}[i] == \text{False}$ 및 $\text{Need}_i \le \text{Work}$ 만족하는 $i$ 탐색, `Work += Allocation_i`, `Finish[i] = True` 반복.
-5. **확정·복원 판정**: 모든 $i$에 대해 $\text{Finish}[i] == \text{True}$ 성립 시 확정(Safe), 실패 시(Unsafe) 가상 할당 롤백 및 요청 블록.
+1. 요청 한도 검사: $\text{Request}_i \le \text{Need}_i$ 및 $\text{Request}_i \le \text{Available}$ 1차 검증.
+2. 요청 가상 반영: $\text{Available} = \text{Available} - \text{Request}_i$, $\text{Allocation}_i = \text{Allocation}_i + \text{Request}_i$, $\text{Need}_i = \text{Need}_i - \text{Request}_i$ 가상 세팅.
+3. Work·Finish 초기화: `Work = Available`, `Finish[i] = False` 포인터 초기화.
+4. 안전 순서 탐색: $\text{Finish}[i] == \text{False}$ 및 $\text{Need}_i \le \text{Work}$ 만족하는 $i$ 탐색, `Work += Allocation_i`, `Finish[i] = True` 반복.
+5. 확정·복원 판정: 모든 $i$에 대해 $\text{Finish}[i] == \text{True}$ 성립 시 확정(Safe), 실패 시(Unsafe) 가상 할당 롤백 및 요청 블록.
 
 #### 한줄 요약
 

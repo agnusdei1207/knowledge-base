@@ -110,11 +110,11 @@ extra:
 
 ### 동작 원리
 
-1. **TLS 종료•Host 확인**: 인증서와 요청 Domain 검증
-2. **Path Rule 대조**: Host•URL에 맞는 Ingress Rule 선택
-3. **Service 선택**: Rule이 가리키는 Backend Service 확인
-4. **준비 Endpoint 선택**: Readiness 통과 Pod 중 대상 결정
-5. **Pod로 전달**: 선택 Endpoint에 요청 전달
+1. TLS 종료•Host 확인: 인증서와 요청 Domain 검증
+2. Path Rule 대조: Host•URL에 맞는 Ingress Rule 선택
+3. Service 선택: Rule이 가리키는 Backend Service 확인
+4. 준비 Endpoint 선택: Readiness 통과 Pod 중 대상 결정
+5. Pod로 전달: 선택 Endpoint에 요청 전달
 
 #### 한줄 요약
 

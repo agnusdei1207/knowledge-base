@@ -108,11 +108,11 @@ extra:
 
 ### 동작 원리
 
-1. **구독 설정**: Publisher가 Subscription을 Subscriber에 전달
-2. **수요량 요청**: Subscriber가 `request(n)`으로 허용 수량 지정
-3. **데이터 발행**: Publisher가 수요 범위에서 `onNext` 전달
-4. **변환**•**소비**: Processor가 데이터를 변환하고 하류로 전파
-5. **완료**•**에러**: `onComplete` 또는 `onError` 종단 신호 전달
+1. 구독 설정: Publisher가 Subscription을 Subscriber에 전달
+2. 수요량 요청: Subscriber가 `request(n)`으로 허용 수량 지정
+3. 데이터 발행: Publisher가 수요 범위에서 `onNext` 전달
+4. 변환**•**소비: Processor가 데이터를 변환하고 하류로 전파
+5. 완료**•**에러: `onComplete` 또는 `onError` 종단 신호 전달
 
 #### 한줄 요약
 

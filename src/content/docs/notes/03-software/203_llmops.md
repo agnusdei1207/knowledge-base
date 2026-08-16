@@ -111,10 +111,10 @@ extra:
 
 ### 동작 원리
 
-1. **평가 구성 제출**: Model•Prompt•RAG를 단일 Version 고정
-2. **품질•안전•비용 검증**: 반복 실행의 분포로 Gate 판정
-3. **승인 구성 Production 배포**: Gateway Routing 갱신
-4. **운영 관측**: 응답•지연•Token•비용•안전 판정 수집
+1. 평가 구성 제출: Model•Prompt•RAG를 단일 Version 고정
+2. 품질•안전•비용 검증: 반복 실행의 분포로 Gate 판정
+3. 승인 구성 Production 배포: Gateway Routing 갱신
+4. 운영 관측: 응답•지연•Token•비용•안전 판정 수집
 
 #### 한줄 요약
 

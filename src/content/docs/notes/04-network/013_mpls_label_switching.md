@@ -111,10 +111,10 @@ extra:
 
 ### 동작 원리
 
-1. **Ingress LER (Label Push)**: FEC별 레이블 부착
-2. **Transit LSR (Label Swap)**: LFIB의 출력 레이블로 교환
-3. **Penultimate LSR (PHP Pop)**: 마지막 전 홉에서 레이블 제거
-4. **Egress LER (IP Forwarding)**: 원본 IP 패킷 전달
+1. Ingress LER (Label Push): FEC별 레이블 부착
+2. Transit LSR (Label Swap): LFIB의 출력 레이블로 교환
+3. Penultimate LSR (PHP Pop): 마지막 전 홉에서 레이블 제거
+4. Egress LER (IP Forwarding): 원본 IP 패킷 전달
 
 #### 한줄 요약
 

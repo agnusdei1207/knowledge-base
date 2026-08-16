@@ -105,11 +105,11 @@ extra:
 
 ### 동작 원리
 
-1. **Cache Key 조회**: 정규화한 Key로 사본 탐색
-2. **Hit•Miss 판정**: Version•TTL로 사본 유효성 확인
-3. **원본 단일 조회**: Miss 동시 요청을 병합해 Origin 호출
-4. **Cache 적재•갱신**: 원본값을 TTL•Jitter와 저장
-5. **결과 반환**: 사본 또는 원본 결과 응답
+1. Cache Key 조회: 정규화한 Key로 사본 탐색
+2. Hit•Miss 판정: Version•TTL로 사본 유효성 확인
+3. 원본 단일 조회: Miss 동시 요청을 병합해 Origin 호출
+4. Cache 적재•갱신: 원본값을 TTL•Jitter와 저장
+5. 결과 반환: 사본 또는 원본 결과 응답
 
 #### 한줄 요약
 

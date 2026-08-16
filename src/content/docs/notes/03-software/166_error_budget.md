@@ -114,11 +114,11 @@ extra:
 
 ### 동작 원리
 
-1. **SLI 오류율 계산**: 유효 Event의 실패 비율 측정
-2. **허용 오류율 산출**: SLO로 기간별 Budget 계산
-3. **Multi-window Burn Rate 계산**: 단기•장기 소진 속도 대조
-4. **경보•운영 정책 선택**: Page•Ticket•변경 정책 결정
-5. **복구•변경 통제 실행**: Rollback•Freeze•안정화 수행
+1. SLI 오류율 계산: 유효 Event의 실패 비율 측정
+2. 허용 오류율 산출: SLO로 기간별 Budget 계산
+3. Multi-window Burn Rate 계산: 단기•장기 소진 속도 대조
+4. 경보•운영 정책 선택: Page•Ticket•변경 정책 결정
+5. 복구•변경 통제 실행: Rollback•Freeze•안정화 수행
 
 #### 한줄 요약
 

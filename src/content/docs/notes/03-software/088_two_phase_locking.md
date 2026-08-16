@@ -96,9 +96,9 @@ extra:
 
 ### 동작 원리
 
-1. **Basic 2PL**: 락을 다 얻으면 Shrinking Phase 진입하여 하나씩 `Unlock`. (연쇄 롤백 위험 존재).
-2. **Strict 2PL**: `UPDATE`한 X-Lock을 트랜잭션 종료 시(`Commit/Rollback`)까지 유지하여 타 트랜잭션의 Dirty Read 및 Cascading Rollback 원천 차단.
-3. **Rigorous 2PL**: 모든 락(S-Lock + X-Lock)을 트랜잭션 종료 시까지 들고 있어 직렬화 완벽 보장.
+1. Basic 2PL: 락을 다 얻으면 Shrinking Phase 진입하여 하나씩 `Unlock`. (연쇄 롤백 위험 존재).
+2. Strict 2PL: `UPDATE`한 X-Lock을 트랜잭션 종료 시(`Commit/Rollback`)까지 유지하여 타 트랜잭션의 Dirty Read 및 Cascading Rollback 원천 차단.
+3. Rigorous 2PL: 모든 락(S-Lock + X-Lock)을 트랜잭션 종료 시까지 들고 있어 직렬화 완벽 보장.
 
 #### 한줄 요약
 
