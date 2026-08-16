@@ -61,6 +61,7 @@ extra:
 - **CC Pin(Configuration Channel)**: USB-C 포트 단자의 삽입 방향, 역할(Host/Device), 전력 계측(USB PD) 및 Alt-Mode 진입을 협상하는 제어 핀.
 - **IOMMU(VT-d/AMD-Vi)**: Thunderbolt PCIe 터널링 인가 시 외부 악성 DMA 접근을 메모리 차원에서 차단하는 하드웨어 격리 장치.
 
+- **대체 모드(Alternate Mode, Alt-Mode)**: USB Type-C 케이블의 고속 차동 라인을 DisplayPort, PCIe, Thunderbolt 등 타 프로토콜 물리 전송선으로 용도 전환하는 규격.
 </details>
 
 ```text

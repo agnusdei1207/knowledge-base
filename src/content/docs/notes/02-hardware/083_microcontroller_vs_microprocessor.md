@@ -42,9 +42,10 @@ extra:
 - **MMU(Memory Management Unit)**: 가상 주소 변환과 프로세스별 메모리 보호를 수행하는 하드웨어.
 - **RTOS(Real-Time Operating System)**: 결정적(Deterministic) 마감시간(Deadline) 제어를 전용 수행하는 경량 실시간 커널 (MCU 주요 구동).
 
+- **실시간 운영체제 및 베어메탈(RTOS / Bare-Metal)**: 복잡한 가상 메모리 관리 없이 결정론적(Deterministic) 초저지연 응답을 보장하는 임베디드 펌웨어 실행 환경.
 </details>
 
-- ROM, RAM, I/O를 단일 칩에 융합한 **온칩(On-chip)** 형태의 소형화 및 초저전력 구동 (MCU)
+- ROM, RAM, I/O를 단일 칩에 융합한 **온칩** 형태의 소형화 및 초저전력 구동 (MCU)
 - 가상 메모리를 지원하는 **MMU** 내장 및 외부 고속 LPDDR/DDR 메모리 기반 고성능 멀티태스킹 (MPU)
 - **RTOS/Bare-Metal** 기반 하드 실시간 제어(MCU) vs Rich OS(Linux/Android) 기반 대용량 애플리케이션 수용(MPU)
 

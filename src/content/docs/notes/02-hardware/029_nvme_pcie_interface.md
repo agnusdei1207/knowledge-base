@@ -163,10 +163,10 @@ extra:
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| 무분별하게 **큐 깊이(Queue Depth)**를 올릴 때 포화 후 **p99 지연** 폭증 | 워크로드 최적 saturation 지점(QD 32~64)으로 큐 깊이 튜닝 | Tail Latency 80% 이상 절감 및 안정적 응답 확보 |
-| 초고속 4K I/O 구동 시 초당 백만 회 인터럽트 폭증으로 CPU 코어 점유 | Linux `io_uring` 기반 **적응형 폴링(Adaptive Polling)** 전환 | 인터럽트 Context Switch 오버헤드 완벽 소거 |
+| 무분별하게 **큐 깊이**를 올릴 때 포화 후 **p99 지연** 폭증 | 워크로드 최적 saturation 지점(QD 32~64)으로 큐 깊이 튜닝 | Tail Latency 80% 이상 절감 및 안정적 응답 확보 |
+| 초고속 4K I/O 구동 시 초당 백만 회 인터럽트 폭증으로 CPU 코어 점유 | Linux `io_uring` 기반 **적응형 폴링** 전환 | 인터럽트 Context Switch 오버헤드 완벽 소거 |
 | 호스트 CPU 코어와 NVMe PCIe 컨트롤러 소켓 위치 불일치 (NUMA 미스) | SQ/CQ 버퍼 메모리 및 MSI-X 인터럽트 **NUMA Affinity** 바인딩 | 원격 PCIe Root Complex 억세스 지연 차단 |
-| NVMe SSD 지속 쓰기 시 발열로 인한 **열 스로틀링(Thermal Throttling)** | 방열판 쿨링 구동 및 커널 차원의 Write IOPS 평탄화 스케줄링 | 스로틀링에 의한 급격한 성능 락(Lock) 현상 차단 |
+| NVMe SSD 지속 쓰기 시 발열로 인한 **열 스로틀링** | 방열판 쿨링 구동 및 커널 차원의 Write IOPS 평탄화 스케줄링 | 스로틀링에 의한 급격한 성능 락(Lock) 현상 차단 |
 
 #### 한줄 요약
 - Queue Depth 튜닝(Tail Latency 억제), `io_uring` Adaptive Polling, NUMA Affinity 바인딩 및 Thermal Throttling 방어를 적용함.

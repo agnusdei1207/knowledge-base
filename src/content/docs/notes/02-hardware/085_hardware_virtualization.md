@@ -60,6 +60,8 @@ extra:
 - **IOMMU(Input-Output MMU)**: 가상 머신(VM) 및 PCI 장치 간의 DMA(Direct Memory Access) 주소 변환과 장치 가상화 보안 격리를 담당하는 하드웨어 (Intel VT-d / AMD-Vi).
 - **vCPU(Virtual CPU)**: 하이퍼바이저가 물리 CPU 코어에 대한 연산 시간을 스케줄링하여 VM에 할당하는 가상 프로세서 단원.
 
+- **VMX 루트/비루트 모드(VMX Root / Non-Root Mode)**: 인텔 VT-x에서 하이퍼바이저가 실행되는 특권 모드(Root)와 게스트 OS가 직접 실행되는 격리 모드(Non-Root).
+- **입출력 가상화 기술(VT-d / AMD-Vi)**: 게스트 가상머신이 물리 PCIe 장치에 직접 DMA 접근할 수 있도록 I/O 주소를 변환·보호하는 하드웨어 IOMMU 기능.
 </details>
 
 ```text

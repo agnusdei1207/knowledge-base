@@ -148,6 +148,7 @@ extra:
 
 - **Thermal Throttling**: 3D 수직 적층 구조 특성상 발열이 내부에 누적되어 칩 손상을 막기 위해 동작 속도를 하향하는 제어.
 
+- **전력 전달 네트워크(Power Delivery Network, PDN)**: 3D 적층 구조의 복수 다이에 안정적인 전압을 공급하고 IR Drop 및 노이즈를 억제하기 위한 전력 배선망.
 </details>
 
 | 문제 | 대책 | 효과 |

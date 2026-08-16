@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 호스트의 논리적 덮어쓰기 요청을 물리 **비제자리 갱신(Out-of-Place Update)** 방식으로 수습하고, 논리 주소(LPN)와 물리 주소(PPA)를 동적 매핑 변환하는 SSD 핵심 펌웨어 아키텍처 **FTL(Flash Translation Layer)**.
+- 정의/개념: 호스트의 논리적 덮어쓰기 요청을 물리 **비제자리 갱신** 방식으로 수습하고, 논리 주소(LPN)와 물리 주소(PPA)를 동적 매핑 변환하는 SSD 핵심 펌웨어 아키텍처 **FTL(Flash Translation Layer)**.
 - 배경/필요성: NAND Flash 반도체 고유의 "Erase-before-Write"(쓰기 전 블록 단위 삭제 필수) 및 페이지 읽기/쓰기 대 블록 삭제 단위 불일치 하드웨어 제약을 호스트 OS 파일 시스템에 노출시키지 않고 은닉하기 위해 필수 도입.
 
 #### 한줄 요약
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **비제자리 갱신(Out-of-Place Update)** 방식을 적용하여 새 빈 페이지에 데이터 로드 후 기존 페이지를 무효 상태(Invalid)로 변경.
-- **가비지 컬렉션(GC)**을 비동기 수행하여 무효 페이지가 차 있는 희생 블록을 물리 Erase 시키고 재사용 프레임으로 회수.
-- GC 유효 페이지 이동 오버헤드로 인해 **쓰기 증폭(WAF)** 지표가 1.0 이상으로 상승하는 상충 관계 수반.
+- **비제자리 갱신** 방식을 적용하여 새 빈 페이지에 데이터 로드 후 기존 페이지를 무효 상태(Invalid)로 변경.
+- **가비지 컬렉션**을 비동기 수행하여 무효 페이지가 차 있는 희생 블록을 물리 Erase 시키고 재사용 프레임으로 회수.
+- GC 유효 페이지 이동 오버헤드로 인해 **쓰기 증폭** 지표가 1.0 이상으로 상승하는 상충 관계 수반.
 
 $$
 Write\ Amplification\ Factor\ (WAF) = \frac{NAND\ Physical\ Write\ Amount\ (Bytes)}{Host\ Logical\ Write\ Amount\ (Bytes)}
@@ -168,9 +168,9 @@ $$
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
 | 호스트 쓰기 지속 시 전경 GC로 **p99 지연** 상승 | 워크로드에 맞는 **Over-Provisioning•TRIM** 연동 | Free Block 여유 확보와 전경 GC 감소 |
-| 소규모 무작위 쓰기(Random Write) 지속 시 **쓰기 증폭(WAF)** 지표 폭증 | FTL 내 **Write Buffer Aggregation** 및 Page-level 매핑 구동 | WAF 1.2 이하 안정화 및 SSD 낸드 물리 수명 연장 |
+| 소규모 무작위 쓰기(Random Write) 지속 시 **쓰기 증폭** 지표 폭증 | FTL 내 **Write Buffer Aggregation** 및 Page-level 매핑 구동 | WAF 1.2 이하 안정화 및 SSD 낸드 물리 수명 연장 |
 | 특정 Read Only 데이터가 적재된 블록의 마모율 불균형으로 조기 불량 | **Static Wear Leveling** 가동으로 Cold Data 블록 정기 이주 | 전체 낸드 블록의 P/E Count 수명 균등화 |
-| 불시 정전(SPO) 시 DRAM 상의 LPN-PPA 매핑 테이블 유실 및 데이터 파손 | 칩 전용 **탄탈륨 커패시터(PLP)** 탑재 및 **매핑 저널** 회복 | 정전 후 부팅 시 LPN-PPA 매핑 100% 무결 복구 |
+| 불시 정전(SPO) 시 DRAM 상의 LPN-PPA 매핑 테이블 유실 및 데이터 파손 | 칩 전용 **탄탈륨 커패시터** 탑재 및 **매핑 저널** 회복 | 정전 후 부팅 시 LPN-PPA 매핑 100% 무결 복구 |
 
 #### 한줄 요약
 - Over-Provisioning(OP) 확충, OS TRIM 연동, Static Wear Leveling 및 PLP Tantalum Capacitor 회로 대책을 가동함.

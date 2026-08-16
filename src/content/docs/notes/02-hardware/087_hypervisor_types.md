@@ -152,6 +152,7 @@ extra:
 
 - **vCPU Overcommit**: 물리 CPU 코어 수 대비 초과된 가상 vCPU를 배정하여 활용률을 극대화하는 기법.
 
+- **단일 루트 I/O 가상화(Single Root I/O Virtualization, SR-IOV)**: 하나의 물리 PCIe 장치를 복수의 독립 가상 기능(VF)으로 분할하여 게스트 VM에 네이티브 성능으로 직접 할당하는 가상화 표준.
 </details>
 
 | 문제 | 대책 | 효과 |

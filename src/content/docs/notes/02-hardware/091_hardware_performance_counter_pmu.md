@@ -157,6 +157,7 @@ PMU 계측 구조
 
 - **CPU Pinning**: 분석 스레드가 다른 CPU 코어로 migration 되어 PMU MSR 데이터가 오염되는 것을 막기 위해 코어를 정적 바인딩하는 설정.
 
+- **정밀 이벤트 기반 샘플링(Processor Event-Based Sampling, PEBS)**: 하드웨어 성능 카운터 오버플로 시 CPU 내부 버퍼에 레지스터 상태와 IP 주소를 직접 기록하여 프로파일링 오버헤드를 최소화하는 인텔 하드웨어 기능.
 </details>
 
 | 문제 | 대책 | 효과 |

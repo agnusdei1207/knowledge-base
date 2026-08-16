@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 클록의 상승/하강 양 엣지에서 데이터를 전송(Double Data Rate)하며, 1T1C 커패시터의 **전하 누설(Charge Leakage)**을 차단하기 위해 **tREFI/tRFC** 타이밍 규격 기반의 주기적 전하 복원을 구동하는 **DDR SDRAM** 메인 메모리 기술.
+- 정의/개념: 클록의 상승/하강 양 엣지에서 데이터를 전송(Double Data Rate)하며, 1T1C 커패시터의 **전하 누설**을 차단하기 위해 **tREFI/tRFC** 타이밍 규격 기반의 주기적 전하 복원을 구동하는 **DDR SDRAM** 메인 메모리 기술.
 - 배경/필요성: 단일 엣지(SDR) 전송 한계를 극복하고 CPU와의 데이터 전송 대역폭을 극대화함과 동시에, 초미세 공정화에 따라 급증한 전하 누설 문제를 하드웨어 리프레시 타이밍 통제로 완벽 수습할 필요성 대두.
 
 #### 한줄 요약
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- 클록의 **양 엣지 전송(Double-Edge Transfer)** 기술을 적용하여 SDR 대비 동일 버스 클록 주파수에서 2배의 전송 속도(MT/s) 달성.
+- 클록의 **양 엣지 전송** 기술을 적용하여 SDR 대비 동일 버스 클록 주파수에서 2배의 전송 속도(MT/s) 달성.
 - 다중 뱅크의 **뱅크 병렬성**과 **버스트 전송**으로 행•열 명령 지연을 일부 중첩.
 - 매 64ms 시간 이내에 모든 행을 재충전해야 하는 **tREFI(Refresh Interval)** 및 **tRFC(Refresh Cycle Time)** 대기 시간 수반.
 
@@ -156,8 +156,8 @@ extra:
 
 | 문제 및 병목 원인 | 실무적 대책 및 해결 방안 | 기대 효과 |
 |:---|:---|:---|
-| All-Bank Refresh 시 tRFC 락업으로 인한 실시간 **꼬리 지연(Tail Latency)** 증대 | DDR5 / LPDDR5 **Per-Bank Refresh (REFpb)** 및 뱅크 스케줄링 적용 | 억세스 차단 시간 분산 및 p99 지연 대폭 감소 |
-| 특정 Row 집중 억세스로 인접 비트를 파괴하는 **로해머(Rowhammer)** 보안 취약점 | 컨트롤러/DRAM 내장 **TRR(Target Row Refresh)** 및 RFM 연동 | 인접 행 전하 강제 충전으로 비트 반전 공격 차단 |
+| All-Bank Refresh 시 tRFC 락업으로 인한 실시간 **꼬리 지연** 증대 | DDR5 / LPDDR5 **Per-Bank Refresh (REFpb)** 및 뱅크 스케줄링 적용 | 억세스 차단 시간 분산 및 p99 지연 대폭 감소 |
+| 특정 Row 집중 억세스로 인접 비트를 파괴하는 **로해머** 보안 취약점 | 컨트롤러/DRAM 내장 **TRR(Target Row Refresh)** 및 RFM 연동 | 인접 행 전하 강제 충전으로 비트 반전 공격 차단 |
 | 고온 환경(85℃ 이상) 작동 시 DRAM 전하 누설 속도 급증으로 데이터 파손 | 온도 센서 연동 2x Refresh (tREFI 간격 7.8us -> 3.9us 단축) | 고온 환경 데이터 보존성 완벽 유지 |
 | 초고속 전송(6400+ MT/s) 시 DQ/DQS 신호 스큐로 데이터 오류 | 부팅 시 **PHY Write/Read Training** 및 DQS Centering 수행 | 데이터 샘플링 마진 확보 및 신호 무결성 유지 |
 
