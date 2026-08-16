@@ -25,6 +25,7 @@ extra:
 - **전송 계층 보안(Transport Layer Security, TLS) 1.3 핸드셰이크**: 서버 인증과 임시 키 합의를 결합하는 연결 설정 절차이다.
 - **연관 데이터 포함 인증 암호(Authenticated Encryption with Associated Data, AEAD)**: 트래픽의 기밀성과 무결성을 함께 보호하는 인증 암호 방식이다.
 
+- **TLS 1.3 핸드셰이크(TLS 1.3 1-RTT / 0-RTT Handshake)**: 취약한 암호 스위트를 전면 폐기하고 Diffie-Hellman 키 교환과 인증을 단 1-RTT(세션 재개 시 0-RTT)만에 완결하는 차세대 전송 계층 보안 프로토콜.
 </details>
 
 - 정의/개념: 서버 인증과 임시 키 합의를 결합한 **TLS 1.3 핸드셰이크**

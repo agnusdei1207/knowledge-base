@@ -26,6 +26,7 @@ extra:
 - **PKI 신뢰 체계(PKI Trust Framework)**: 공인/신뢰 인증기관(CA)의 디지털 서명을 바탕으로 공개키, 신원, 사용 용도를 계층적으로 검증하는 아키텍처.
 - **소유자•용도 검증 한계(Limits of Unverified Public Key Usage)**: 검증 체계 없는 단순 공개키 배포 시 위변조 및 임의 소유자 위장 발생하는 한계.
 
+- **공개키 기반 구조(Public Key Infrastructure, PKI)**: 공인인증기관(CA), 등록기관(RA), 인증서 저장소(Repository)를 통해 X.509 전자서명 인증서의 발급, 검증, 폐기 전 라이프사이클을 보증하는 보안 신뢰 인프라.
 </details>
 
 - 정의/개념: 인증서 수명주기로 공개키와 신원을 묶는 **PKI 신뢰 체계**
