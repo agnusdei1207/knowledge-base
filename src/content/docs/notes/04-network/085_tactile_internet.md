@@ -53,7 +53,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **햅틱 조작기(Haptic Controller)**: 사용자의 위치•힘 명령을 감지하고 원격 장치의 촉각 반응을 재현하는 장치이다.
-- **엣지 제어기(Edge Controller)**: 사용자와 원격 장치 가까이에서 지연 예측•보간•상태 동기화를 수행하는 장치이다.
 
 </details>
 

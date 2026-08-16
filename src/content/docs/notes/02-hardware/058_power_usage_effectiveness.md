@@ -65,7 +65,6 @@ $$
 - **전체 에너지 계량(Total Facility Metering)**: 변전소 메인 입전 전력계(Utility Switchboard) 상의 전체 전력 측정.
 - **IT 에너지 계량(IT Equipment Metering)**: UPS 출력단 또는 PDU 소켓 레벨의 순수 서버 전력 측정.
 - **시설별 하위 계량(Sub-Metering)**: 냉각 칠러, 펌프, UPS 변환 손실을 개별 분리 계측하는 미터링.
-- **PUE 분석기(PUE Analyzer)**: 실시간 텔레메트리를 합산하여 시계열 PUE 지표를 도출하는 EMS(Energy Management System).
 
 </details>
 

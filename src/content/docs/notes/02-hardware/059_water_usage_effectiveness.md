@@ -63,7 +63,6 @@ $$
 
 - **물 사용 계량(Water-Use Metering)**: 상수도, 지하수, 재생수(Reclaimed Water) 인입 유량계 미터링.
 - **환경 정보(Environmental Info)**: 지역 수자원 스트레스 지수(WRI Water Stress Index), 외기 습도 텔레메트리.
-- **WUE 분석기(WUE Analyzer)**: EMS/DCIM 내에서 총 수자원량과 IT 전력량을 결합 산출하는 분석 모듈.
 
 </details>
 

@@ -58,7 +58,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **토큰 매칭 저장소(Matching Unit/Store)**: 수신된 토큰의 태그를 비교 검색하여 2-operand 발화 조건이 완성되었는지 판정하는 검색 저장소.
-- **준비 노드 스케줄러(Ready Queue)**: 입력 조건이 완성되어 연산 유닛으로 디스패치 대기 중인 발화 노드 대기열.
 - **실행 유닛(Processing Element/ALU)**: 준비 노드의 산술/논리 연산을 수행하고 결과값에 타깃 태그를 부가하여 출력 토큰을 생성하는 연산기.
 
 </details>

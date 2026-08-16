@@ -58,7 +58,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **작업 큐(Work Queue)**: MIMD 스케줄러가 코어들에 비동기 할당하기 위해 독립 작업 패킷을 대기시키는 큐.
-- **MIMD 스케줄러(MIMD Scheduler)**: 작업 큐의 업무를 유휴 코어로 비동기 배분하는 스케줄링 모듈.
 - **연산 레인(Execution Lane)**: SIMD 벡터 명령어를 한 번에 병렬 연산 처리하는 ALU 하드웨어 단위.
 - **배리어(Barrier)**: 비동기 MIMD 코어 간의 전역 연산 완료 시점을 수평 매칭하는 동기화 메커니즘.
 

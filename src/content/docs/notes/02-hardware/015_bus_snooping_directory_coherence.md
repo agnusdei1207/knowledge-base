@@ -59,7 +59,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **버스 중재기(Bus Arbiter)**: 멀티코어 공유 버스 환경에서 일관성 트랜잭션 요청 간의 획득 우선순위를 스케줄링하는 하드웨어 Arbiter.
-- **스누프 제어기(Snoop Controller)**: 사설 캐시 쪽에 배치되어 버스 라인의 주소를 항시 스누핑하고 캐시 라인 태그 상태를 M/E/S/I로 전이시키는 조작기.
 - **홈 디렉터리(Home Directory / Home Node)**: 각 메인 메모리 주소 블록의 디렉터리 상태(Uncached, Shared, Exclusive)와 Sharer Bit Vector를 보유한 중앙/분산 관리 노드.
 - **점대점 인터커넥트(Point-to-Point Interconnect / NoC)**: 크로스바 스위치, 2D-Mesh 구조로 특정 수신 노드로만 일관성 메시지를 직접 라우팅하는 온칩 네트워크 통로.
 - **공유 버스(Shared Bus)**: 모든 코어가 물리적 신호 선로를 공유하여 1개의 주소 트랜잭션을 모든 코어에 동시에 전파하는 구형 인터커넥트.

@@ -58,7 +58,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **상주 프레임 집합(Resident Frame Set)**: 현재 물리 RAM의 페이지 프레임에 적재되어 유효하게 구동 중인 가상 페이지들의 목록.
-- **교체 선택기(Replacement Selector)**: 메모리 포화 시 등록된 페이지 교체 알고리즘에 따라 희생 페이지의 PPN을 지시하는 OS 커널 모듈.
 - **후면 저장소(Backing Store / Swap Space)**: 물리 RAM에서 축출된 페이지나 미상주 페이지 데이터를 저장 보관하는 SSD 스왑 파일 영역.
 - **저장소 I/O(Storage I/O)**: Dirty Victim Page의 스왑 쓰기 및 신규 요청 페이지의 스왑 읽기를 처리하는 입출력 경로.
 

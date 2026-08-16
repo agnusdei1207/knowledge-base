@@ -57,8 +57,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **세그먼트 기술자(Segment Descriptor)**: 8바이트 구성의 하드웨어 태그로, Base 주소(32/64-bit), Limit 크기(20-bit), Present Bit, Privilege Level(DPL), Protection Bit(R/W/X) 정보를 저장하는 엔트리.
-- **보호 검사기(Protection Checker)**: 입력된 Offset이 기술자의 Limit 크기를 초과하거나 R/W/X 권한을 위반했는지를 하드웨어 파이프라인에서 실시간 대조 검사하는 로직.
-- **주소 생성기(Address Generator)**: 보호 검사기를 통과한 요청에 한하여 `Base + Offset` 산술 가산기를 구동하여 최종 물리 주소(PA)를 출력하는 덧셈 회로.
 - **세그먼트 테이블(Segment Table / GDT, LDT)**: x86 등 아키텍처에서 시스템 전체(GDT) 및 프로세스별(LDT) 세그먼트 기술자 배열을 저장 보관하는 테이블.
 
 </details>

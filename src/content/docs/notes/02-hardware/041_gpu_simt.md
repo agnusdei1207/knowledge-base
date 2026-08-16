@@ -91,7 +91,6 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **블록 디스패처(Block Dispatcher)**: 커널의 스레드 블록을 하드웨어 자원 여유가 있는 SM에 배치하는 스케줄링 하드웨어.
 - **스레드 블록(Thread Block)**: 동일한 SM에 배정되어 공유 메모리와 바리어 동기화를 사용할 수 있는 스레드 집합.
 - **분기 발산(Branch Divergence)**: 워프 내 스레드들이 if-else 조건에 따라 서로 다른 실행 경로로 갈라져 순차 처리되는 현상.
 

@@ -57,7 +57,6 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **로그 수집•품질 검사기(Log Collector & Quality Inspector)**: 원천 로그 수집 및 누락, 중복, 지연, 타임스탬프 오류를 검증하는 수집 모듈이다.
 - **정규화•보강기(Normalizer & Enricher)**: 수집 데이터를 공통 스키마로 정규화하고 자산 및 신원 맥락을 추가하는 엔진이다.
 - **보안 자료 저장소(Security Data Repository)**: 원본 로그 및 정규화 이벤트를 고속 검색 및 법적 감사를 위해 장기 보존하는 DB이다.
 - **상관분석 엔진(Correlation Engine)**: 탐지 규칙 및 행위 분석 모델을 적용하여 경보 발생 및 위험 점수를 산출하는 핵심 엔진이다.

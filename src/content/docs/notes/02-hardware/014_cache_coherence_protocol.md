@@ -57,7 +57,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **상태 비트(State Bits)**: 캐시 라인 태그 옆에 배치되어 해당 라인의 현재 일관성 상태(M, E, S, I / O)를 2~3비트로 기록하는 하드웨어 플래그.
-- **일관성 제어기(Coherence Controller)**: CPU의 Read/Write 요청 및 원격 코어의 Snooping/Directory 메시지를 수신하여 FSM 상태 전이를 처리하는 회로.
 - **일관성 연결망(Coherence Interconnect)**: 스누핑 브로드캐스트 패킷이나 디렉터리 P2P 메시지를 주고받는 온칩 인터커넥트 회로망.
 - **공유 메모리 계층(Shared Memory Hierarchy)**: L3 LLC 및 DRAM 메인 메모리로 구성되어 축출되는 더티 라인을 수용하는 상위 공유 구조.
 
