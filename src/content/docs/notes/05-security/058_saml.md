@@ -51,7 +51,7 @@ extra:
 
 - **IdP(Identity Provider)**와 **SP(Service Provider)** 간 **Metadata** 사전 교환을 통한 상호 신뢰 형성.
 - XML 서명(XML Signature) 및 XML 암호화(XML Encryption) 기술을 적용한 **Assertion** 무결성 보장.
-- **InResponseTo(요청 ID)**, **Recipient** 수신 주소 및 유효 시간(NotOnOrAfter) 검증을 통한 **재전송 공격(Replay Attack)** 차단.
+- **InResponseTo(요청 ID)**, **Recipient** 수신 주소 및 유효 시간(NotOnOrAfter) 검증을 통한 **재전송 공격** 차단.
 
 #### 한줄 요약
 

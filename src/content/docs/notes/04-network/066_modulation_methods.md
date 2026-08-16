@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 | 역할 및 핵심 기능 |
 |:---|:---|
-| **심벌 매퍼 (Symbol Mapper)** | 비트 묶음을 성상도 I/Q 좌표상의 특정 심벌 전압 레벨로 변환 |
+| **심벌 매퍼 ** | 비트 묶음을 성상도 I/Q 좌표상의 특정 심벌 전압 레벨로 변환 |
 | **송신 RF부 (Tx RF Front-End)** | I/Q 기저대역 신호를 직교 믹서로 고주파 반송파($f_c$)에 상향 변환 후 전력 증폭 |
-| **무선 채널 (Wireless Channel)** | Rayleigh/Rician Fading, multipath interference, AWGN 잡음 부가 |
+| **무선 채널 ** | Rayleigh/Rician Fading, multipath interference, AWGN 잡음 부가 |
 | **수신 동기·등화부 (Sync & Equalizer)** | Carrier Sync, Timing Sync 및 파일럿 기반 채널 왜곡 보정(Zero-Forcing/MMSE) |
-| **심벌 디매퍼 (Symbol Demapper)** | 등화된 수신 I/Q 좌표와 성상점 간 유클리드 거리를 산출하여 비트 가능도(LLR) 계산 |
+| **심벌 디매퍼 ** | 등화된 수신 I/Q 좌표와 성상점 간 유클리드 거리를 산출하여 비트 가능도(LLR) 계산 |
 
 #### 한줄 요약
 

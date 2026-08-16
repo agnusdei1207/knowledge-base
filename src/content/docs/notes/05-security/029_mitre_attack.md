@@ -48,8 +48,8 @@ extra:
 
 </details>
 
-- **전술(Tactics)** → **기법(Techniques)** → **서브기법(Sub-techniques)**으로 계층화된 구조적 위협 체계 제공
-- **절차 사례(Procedures)**를 통해 기법별 완화 통제(Mitigations) 및 데이터 소스(Data Sources) 기반 탐지 전략 제시
+- **전술** → **기법** → **서브기법**으로 계층화된 구조적 위협 체계 제공
+- **절차 사례**를 통해 기법별 완화 통제(Mitigations) 및 데이터 소스(Data Sources) 기반 탐지 전략 제시
 - **Enterprise**, **Mobile**, **ICS** 도메인을 구분하여 환경별 위협 기법 매트릭스 수립
 
 #### 한줄 요약

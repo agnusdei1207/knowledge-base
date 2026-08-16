@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- **개념**: **네트워크 자동화(Network Automation)**는 **진실의 원천(SoT)** 기반 목표 상태를 **YANG(Yet Another Next Generation)** 데이터 모델 및 코드(IaC, Infrastructure as Code)로 변환, 수동 개입 없이 검증·배포·복구하는 자율 운영 프로토콜 체계.
+- **개념**: **네트워크 자동화**는 **진실의 원천** 기반 목표 상태를 **YANG(Yet Another Next Generation)** 데이터 모델 및 코드(IaC, Infrastructure as Code)로 변환, 수동 개입 없이 검증·배포·복구하는 자율 운영 프로토콜 체계.
 - **필요성**: 장비별 수동 **CLI**는 사람의 실수(Human Error), 설정 파편화, 감사 누락을 유발하므로 **API** 기반 프로그래밍 가능 네트워크(Programmable Network) 전환 필수.
 
 #### 한줄 요약
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **설정 드리프트(Configuration Drift)** 탐지로 실운영 상태와 **SoT** 정본 간 갭을 자동 복구.
+- **설정 드리프트** 탐지로 실운영 상태와 **SoT** 정본 간 갭을 자동 복구.
 - **YANG 모델** 및 **CI** 검증 단계로 배포 전 구문 오류(Syntax Error)와 정책 충돌 선제 차단.
-- **멱등성(Idempotency)** 보장으로 플레이북 재실행 시 델타(Diff)만 부분 적용하여 연속성 유지.
+- **멱등성** 보장으로 플레이북 재실행 시 델타(Diff)만 부분 적용하여 연속성 유지.
 
 #### 한줄 요약
 - YANG 모델 기반 구조화와 멱등성 보장을 통한 설정 드리프트 차단 관리 원칙 준수.
@@ -79,7 +79,7 @@ extra:
 
 | 구성요소 | 역할 및 핵심 기능 |
 |:---|:---|
-| **진실의 원천(SoT)** | IPAM/DCIM 연동을 통한 목표 설정 정본 관리 |
+| **진실의 원천** | IPAM/DCIM 연동을 통한 목표 설정 정본 관리 |
 | **Git 및 CI/CD** | IaC 코드 버전 관리, 구문/YANG 검증 및 이력 관리 |
 | **Ansible** | Playbook 기반 장비 배포 및 의존성 조율 |
 | **YANG 및 API** | 프로토콜 표준 기반 트랜잭션 및 설정 조작 |
@@ -129,11 +129,11 @@ extra:
 
 ### 동작 원리
 
-1. **사전 검증**: 코드 제출 시 **기능 광고(Capability Advertisement)** 기반 YANG 스키마 유효성 및 정책 선제 검사.
+1. **사전 검증**: 코드 제출 시 **기능 광고** 기반 YANG 스키마 유효성 및 정책 선제 검사.
 2. **승인 변경 전달**: **Git** PR 승인 코드만 Ansible로 전달.
-3. **설정 차이 배포**: **NETCONF** Edit-config로 **후보 설정(Candidate Config)**에 델타 적용.
-4. **실제 상태 검증**: Commit 직후 **텔레메트리(Telemetry)** 지표로 수렴 여부 관측.
-5. **실패 시 복구**: Confirmed Commit 타임아웃으로 자동 **롤백(Rollback)** 수행.
+3. **설정 차이 배포**: **NETCONF** Edit-config로 **후보 설정**에 델타 적용.
+4. **실제 상태 검증**: Commit 직후 **텔레메트리** 지표로 수렴 여부 관측.
+5. **실패 시 복구**: Confirmed Commit 타임아웃으로 자동 **롤백** 수행.
 
 #### 한줄 요약
 - Candidate 설정 델타 적용 및 Confirmed Commit 기반 롤백 메커니즘 준수.

@@ -46,8 +46,8 @@ extra:
 </details>
 
 - 신뢰성 있는 패킷 전송을 위해 TCP 프로토콜(Port 179) 기반의 세션(Peer) 연결 수립.
-- **자율 시스템 경로(Autonomous System Path, AS_PATH)** 속성을 참조하여 자신이 속한 AS 번호 포함 시 패킷을 즉시 폐기함으로써 루프 방지.
-- **증분 갱신(Incremental Update)** 및 Keepalive 패킷을 사용하여 대규모 인터넷 라우팅 테이블 전송 시 대역폭 손실 극소화.
+- **자율 시스템 경로** 속성을 참조하여 자신이 속한 AS 번호 포함 시 패킷을 즉시 폐기함으로써 루프 방지.
+- **증분 갱신** 및 Keepalive 패킷을 사용하여 대규모 인터넷 라우팅 테이블 전송 시 대역폭 손실 극소화.
 
 #### 한줄 요약
 
@@ -152,7 +152,7 @@ extra:
 | AS 세션 범위 | 서로 다른 AS 간 라우터 연결 | 동일한 AS 내부 라우터 연결 |
 | AS_PATH 속성 갱신 | 패킷 송출 시 자신의 AS 번호를 AS_PATH에 추가 | AS_PATH를 변경하지 않고 그대로 전달 |
 | Split-Horizon 규칙 | 미적용 (AS_PATH로 루프 체크) | 적용 (iBGP로 받은 경로는 타 iBGP로 재광고 금지) |
-| 연결 확장성 방안 | eBGP Multihop 설정 | **경로 반사기(Route Reflector)** 또는 BGP Confederation 도입 |
+| 연결 확장성 방안 | eBGP Multihop 설정 | **경로 반사기** 또는 BGP Confederation 도입 |
 
 > 요약: 다른 자율 시스템과의 연결을 담당하는 eBGP와 AS 내부로 외부 경로를 투명하게 유통시키는 iBGP/Route Reflector 구조.
 

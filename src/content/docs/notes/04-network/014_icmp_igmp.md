@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: L3 IP 전송의 신뢰성 보완을 위한 에러 리포팅 메커니즘인 **인터넷 제어 메시지 프로토콜(Internet Control Message Protocol, ICMP)**과 1:N 멀티캐스트 그룹 관리 메커니즘인 **인터넷 그룹 관리 프로토콜(Internet Group Management Protocol, IGMP)**.
+- 정의/개념: L3 IP 전송의 신뢰성 보완을 위한 에러 리포팅 메커니즘인 **인터넷 제어 메시지 프로토콜**과 1:N 멀티캐스트 그룹 관리 메커니즘인 **인터넷 그룹 관리 프로토콜**.
 - 배경/필요성: 비연결형 Best-Effort 전송 특성을 갖는 IP 프로토콜만으로는 전송 실패 원인 분석, PMTUD(Path MTU Discovery) 탐색 및 멀티캐스트 그룹 수신자 추적이 불가능함.
 
 #### 한줄 요약

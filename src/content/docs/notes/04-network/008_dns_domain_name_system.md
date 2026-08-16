@@ -45,8 +45,8 @@ extra:
 
 </details>
 
-- 루트(Root) 및 **최상위 도메인(Top-Level Domain, TLD)** 네임서버 체계 중심의 계층적 **위임(Delegation)** 아키텍처 적용.
-- **유효 시간(Time To Live, TTL)** 튜닝을 통해 트래픽 부하 분산과 도메인 변경 사항의 조기 전파 속도 조율.
+- 루트(Root) 및 **최상위 도메인** 네임서버 체계 중심의 계층적 **위임** 아키텍처 적용.
+- **유효 시간** 튜닝을 통해 트래픽 부하 분산과 도메인 변경 사항의 조기 전파 속도 조율.
 - **DNSSEC(Domain Name System Security Extensions)**을 통한 응답 데이터의 출처 인증 및 데이터 무결성 보장.
 
 #### 한줄 요약
@@ -79,12 +79,12 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 대표 레코드/구조 |
 |:---|:---|:---|
-| **스텁 리졸버 (Stub Resolver)** | 애플리케이션의 DNS 요청 수신, Local DNS로 재귀 질의 전달 | OS DNS Client Service |
-| **재귀 리졸버 (Local DNS)** | Iterative 질의 순회 실행, TTL Caching, 질의 결과 최종 클라이언트 반환 | ISP DNS, 8.8.8.8, 1.1.1.1 |
-| **루트 네임서버 (Root Server)** | 전 세계 13개 대표 IP(Anycast 라우팅), TLD 네임서버 위치 안내 | Root Zone (`.`) |
+| **스텁 리졸버 ** | 애플리케이션의 DNS 요청 수신, Local DNS로 재귀 질의 전달 | OS DNS Client Service |
+| **재귀 리졸버 ** | Iterative 질의 순회 실행, TTL Caching, 질의 결과 최종 클라이언트 반환 | ISP DNS, 8.8.8.8, 1.1.1.1 |
+| **루트 네임서버 ** | 전 세계 13개 대표 IP(Anycast 라우팅), TLD 네임서버 위치 안내 | Root Zone (`.`) |
 | **TLD 네임서버 (TLD Server)** | `.com`, `.net`, `.kr` 등 최상위 도메인의 권한 있는 네임서버 정보 안내 | gTLD / ccTLD Server |
-| **권한 있는 네임서버 (Authoritative)** | 특정 도메인의 원본 **자원 레코드(Resource Record)** 관리 및 정답 응답 | Primary/Secondary DNS |
-| **자원 레코드 (Resource Record)** | A(IPv4), AAAA(IPv6), CNAME(별칭), MX(메일), NS(네임서버), TXT 등 | Zone File 정보 레코드 |
+| **권한 있는 네임서버 ** | 특정 도메인의 원본 **자원 레코드** 관리 및 정답 응답 | Primary/Secondary DNS |
+| **자원 레코드 ** | A(IPv4), AAAA(IPv6), CNAME(별칭), MX(메일), NS(네임서버), TXT 등 | Zone File 정보 레코드 |
 
 #### 한줄 요약
 
@@ -139,7 +139,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **재귀 질의 (Recursive Query)** | **반복 질의 (Iterative Query)** |
+| 비교 항목 | **재귀 질의 ** | **반복 질의 ** |
 |:---|:---|:---|
 | 질의 주체 | Client -> Recursive Resolver (Local DNS) | Recursive Resolver -> Root/TLD/Auth Server |
 | 응답 형태 | 최종 IP 주소 (또는 NXDOMAIN 에러) | 다음 위임 네임서버의 IP 주소 (Referral) |

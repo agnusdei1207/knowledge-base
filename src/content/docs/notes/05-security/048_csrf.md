@@ -43,7 +43,7 @@ extra:
 
 </details>
 
-- 브라우저의 **세션 쿠키(Session Cookie)** 자동 첨부 특성을 이용한 사용자 권한 대리 악용.
+- 브라우저의 **세션 쿠키** 자동 첨부 특성을 이용한 사용자 권한 대리 악용.
 - 상태 변경 HTTP 메서드(POST, PUT, DELETE)에 대한 동적 **CSRF 토큰(Anti-CSRF Token)** 및 Origin/Referer 검증.
 - **SameSite** 쿠키 속성을 적용하여 서드파티 컨텍스트의 자동 쿠키 전송 차단.
 
@@ -76,7 +76,7 @@ CSRF 검증 구조
 | 상태 변경 경로 | 계정 정보 변경, 비밀번호 수정, 이체 등 POST/PUT 경로 통제 |
 | CSRF 토큰 | 폼 또는 custom HTTP 헤더 상의 **CSRF 토큰** 검증 |
 | 출처 정책 | **Origin** 및 **Referer** 헤더 기반 교차 사이트 발신 검증 |
-| 쿠키 정책 | **SameSite=Lax/Strict** 속성 및 **안전 메서드(GET)**의 무상태성 준수 |
+| 쿠키 정책 | **SameSite=Lax/Strict** 속성 및 **안전 메서드**의 무상태성 준수 |
 
 #### 한줄 요약
 

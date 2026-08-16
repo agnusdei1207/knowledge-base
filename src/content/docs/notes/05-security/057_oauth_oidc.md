@@ -48,9 +48,9 @@ extra:
 
 </details>
 
-- **권한 코드(Authorization Code)** 교환 시 **PKCE** 및 엄격한 **Redirect URI** 결속 검증.
-- API 자원 접근용 **접근 토큰(Access Token)**과 클라이언트 사용자 신원확인용 **신원 토큰(ID Token)** 역할 분리.
-- 서명(iss, aud, exp) 및 **Nonce** 검증, 보안성 강화를 위한 **갱신 토큰 회전(Refresh Token Rotation)** 적용.
+- **권한 코드** 교환 시 **PKCE** 및 엄격한 **Redirect URI** 결속 검증.
+- API 자원 접근용 **접근 토큰**과 클라이언트 사용자 신원확인용 **신원 토큰** 역할 분리.
+- 서명(iss, aud, exp) 및 **Nonce** 검증, 보안성 강화를 위한 **갱신 토큰 회전** 적용.
 
 #### 한줄 요약
 
@@ -80,7 +80,7 @@ OAuth 2.0•OIDC 구조
 |:---|:---|
 | 자원 소유자 | 신원 인증 및 클라이언트 접근 권한 동의 표명 |
 | 클라이언트 | **OAuth 2.0/PKCE** 인가 요청, 토큰 수신 및 API 호출 |
-| 인가•OIDC 제공자 | **인가 서버(IdP)**로서 사용자 인증, Authorization Code, Access Token 및 ID Token 발급 |
+| 인가•OIDC 제공자 | **인가 서버**로서 사용자 인증, Authorization Code, Access Token 및 ID Token 발급 |
 | 자원 서버 | API 호출 시 제출된 Access Token 서명, 만료, Scope 및 객체 권한 2차 검증 |
 | 토큰•키 관리 | JWKS 공개키 배포, 토큰 유효기간(TTL) 및 Refresh Token 수명 통제 |
 
@@ -133,7 +133,7 @@ API 자원 요청
 1. **클라이언트•Redirect URI 검증**: 클라이언트 요청의 Redirect URI 및 PKCE 조건 1차 대조.
 2. **권한 코드 생성**: 자원 소유자 인증 및 Scope 동의 후 Authorization Code 발급.
 3. **코드•PKCE 결속 검증**: 클라이언트가 제출한 code_verifier 검증 후 코드 교환 허용.
-4. **접근•ID 토큰 발급**: API용 **접근 토큰** 및 사용자 정보용 **신원 토큰(ID Token)** 생성 전송.
+4. **접근•ID 토큰 발급**: API용 **접근 토큰** 및 사용자 정보용 **신원 토큰** 생성 전송.
 5. **발급자•대상•범위 검증**: 자원 서버에서 토큰 서명(iss, aud), exp 및 Scope 인가 판정.
 
 #### 한줄 요약
@@ -170,7 +170,7 @@ API 자원 요청
 |:---|:---|:---|
 | 인가 코드 탈취 및 재전송 공격 | **IETF RFC 9700** 가이드 준수 및 **PKCE** 적용 | 모바일/SPA 환경의 코드 탈취 및 재전송 완전 차단 |
 | ID Token 서명 검증 누락 | **OIDC Core 1.0** 지침 준수 및 iss, aud, Nonce 검증 | 위조 ID Token 주입 및 사용자 신원 도용 차단 |
-| Access Token 및 Refresh Token 탈취 | **갱신 토큰 회전(Refresh Token Rotation)** 및 mTLS/DPoP 결속 | 토큰 유출 시에도 재사용 및 권한 남용 불가능 조치 |
+| Access Token 및 Refresh Token 탈취 | **갱신 토큰 회전** 및 mTLS/DPoP 결속 | 토큰 유출 시에도 재사용 및 권한 남용 불가능 조치 |
 
 #### 한줄 요약
 

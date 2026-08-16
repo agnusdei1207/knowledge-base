@@ -132,7 +132,7 @@ DDoS 방어 구조
 
 ## Ⅴ. 종류 및 비교
 
-| DDoS 공격 유형 | **대역폭형 (Volumetric)** | **프로토콜형 (State-Exhaustion)** | **응용형 (Application Layer)** |
+| DDoS 공격 유형 | **대역폭형 ** | **프로토콜형 ** | **응용형 ** |
 |:---|:---|:---|:---|
 | 타깃 자원 | 네트워크 대역폭 (Gbps/Tbps) | Firewall/Server 세션 테이블 (CPS) | Web/DB Server CPU 및 RAM 연산 |
 | 주요 공격 기법 | UDP/NTP/DNS 반사 증폭, ICMP Flood | TCP SYN Flood, ACK Flood, RST Flood | HTTP GET/POST Flood, Slowloris, Slow Read |

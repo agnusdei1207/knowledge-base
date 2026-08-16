@@ -51,7 +51,7 @@ extra:
 
 - **주체**, **객체**, **행위**, **환경** 4대 속성의 논리 조합을 통한 세밀한(Fine-Grained) 인가 통제.
 - **PEP**, **PDP**, **PIP**, PAP 표준 논리 컴포넌트 분리 아키텍처 적용.
-- 실시간 Context 기반 **속성 신선도(Attribute Freshness)** 확보 및 무상태(Stateless) 인가 대조.
+- 실시간 Context 기반 **속성 신선도** 확보 및 무상태(Stateless) 인가 대조.
 
 #### 한줄 요약
 

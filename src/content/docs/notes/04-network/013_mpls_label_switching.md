@@ -46,8 +46,8 @@ extra:
 
 </details>
 
-- 입구 **레이블 경계 라우터(Label Edge Router, LER)**에서 패킷을 FEC로 정의하고 **레이블 스택(Label Stack)** 부착.
-- 코어 **레이블 스위칭 라우터(Label Switching Router, LSR)**에서는 IP 헤더 분석 없이 단지 20비트 Label ID 교환으로 하드웨어 고속 포워딩 수행.
+- 입구 **레이블 경계 라우터**에서 패킷을 FEC로 정의하고 **레이블 스택** 부착.
+- 코어 **레이블 스위칭 라우터**에서는 IP 헤더 분석 없이 단지 20비트 Label ID 교환으로 하드웨어 고속 포워딩 수행.
 - **레이블 스택** 구조를 통해 L3VPN(BGP/MPLS VPN), L2VPN(VPWS/VPLS) 및 Traffic Engineering의 정밀한 서비스 격리 수용.
 
 #### 한줄 요약
