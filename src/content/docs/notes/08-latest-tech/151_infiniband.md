@@ -29,7 +29,7 @@ extra:
 
 </details>
 
-- 정의/개념: RDMA•서브넷 관리•혼잡 제어의 **InfiniBand 패브릭**
+- 정의: RDMA•서브넷 관리•혼잡 제어의 **InfiniBand 패브릭**이다.
 - 배경/필요성: TCP/IP 기반 통신의 **지연•CPU 부하•패킷 손실** 한계
 
 #### 한줄 요약

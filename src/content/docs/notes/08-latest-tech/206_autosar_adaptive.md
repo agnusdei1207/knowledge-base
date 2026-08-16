@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**임.
+- 정의: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**임이다.
 - 배경/필요성: Classic의 정적 구성은 고성능 서비스의 **동적 배포•갱신** 수용이 어렵음.
 
 #### 한줄 요약

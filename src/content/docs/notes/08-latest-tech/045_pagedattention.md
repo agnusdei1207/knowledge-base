@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: KV Cache를 비연속 블록에 할당하는 **PagedAttention**
+- 정의: KV Cache를 비연속 블록에 할당하는 **PagedAttention**이다.
 - 배경/필요성: 연속 KV 예약으로 **메모리 단편화•과다 예약** 발생
 
 #### 한줄 요약
