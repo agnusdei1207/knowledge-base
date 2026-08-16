@@ -26,6 +26,7 @@ extra:
 - **LSM-Tree (Log-Structured Merge-Tree)**: 데이터를 인메모리(MemTable)에 먼저 기록한 후 디스크에 순차적 Append-Only(Out-of-Place Update)로 덤프(SSTable)하고, 지속적 병합(Compaction)을 거쳐 쓰기(Write) 속도를 극대화한 NoSQL(RocksDB, Cassandra) 스토리지 엔진 구조.
 - **In-Place Update vs Out-of-Place Update**: In-Place는 디스크의 해당 블록 위치를 직접 찾아가서 덮어쓰는 방식, Out-of-Place는 무조건 파일 끝에 계속 덧붙이고(Append) 과거 데이터는 정제(Compaction) 시 청소하는 방식.
 
+- **B+트리와 LSM-Tree(B+ Tree vs LSM-Tree)**: 읽기 및 범위 스캔에 최적화된 인-플레이스 업데이트 B+트리와, 대규모 쓰기 처리량에 최적화된 불변 순차 쓰기 기반 LSM-트리의 핵심 스토리지 엔진 아키텍처 비교.
 </details>
 
 - 정의: 데이터를 디스크 페이지에 제자리 수정(`In-Place Update`) 방식으로 저장하여 읽기 성능을 최적화한 **B-Tree** 엔진과, 인메모리 기록 후 순차 덧붙이기(`Out-of-Place Append-Only`) 및 병합(`Compaction`)으로 쓰기 속도를 극대화한 **LSM-Tree** 엔진.

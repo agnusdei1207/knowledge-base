@@ -25,6 +25,7 @@ extra:
 - **Model Lifecycle (모델 생명주기)**: ML 모델의 기획·데이터 수집·특성 공학(Feature Engineering)·학습·검증·배포·운영 모니터링·재학습·폐기에 이르는 전체 단계.
 - **Reproducibility (재현성)**: 같은 코드·데이터·환경에서 실험을 반복해도 동일한 모델 성능이 나오는 성질. 수동 노트북 실행 방식에서는 보장하기 어려운 MLOps의 핵심 목표.
 
+- **MLOps 파이프라인(Machine Learning Operations Pipeline)**: 머신러닝 모델의 데이터 수집, 특성 엔지니어링, 학습, 검증, 패키징, 배포, 모니터링, 재학습(CT) 전 주기를 자동화한 엔지니어링 라이프사이클.
 </details>
 
 - 정의/개념: Data•학습•검증•배포•관측을 자동화하는 **MLOps 체계**

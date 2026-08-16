@@ -26,6 +26,7 @@ extra:
 - **FaaS(Function as a Service)**: 이벤트 발생 시 1회성 함수(AWS Lambda)가 짧게 실행 후 종료되는 서버리스 구현 방식.
 - **콜드 스타트(Cold Start)**: 런타임 환경 최초 부팅 시 컨테이너를 새로 생성하며 발생하는 1~3초의 응답 지연(Latency) 현상.
 
+- **서버리스 FaaS(Function as a Service / AWS Lambda)**: 개발자가 서버 인프라 관리 없이 이벤트(HTTP, 메시지 큐) 트리거 시 무상태(Stateless) 함수 코드를 자동 확장 실행하고 사용한 시간(ms)만큼만 과금되는 클라우드 실행 모델.
 </details>
 
 - 정의/개념: Event에 따라 Function을 실행하는 **Serverless**•**FaaS**

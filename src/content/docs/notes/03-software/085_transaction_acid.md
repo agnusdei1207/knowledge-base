@@ -26,6 +26,7 @@ extra:
 - **ACID Property (ACID 특성)**: 트랜잭션의 정합성과 무결성을 완벽히 보장하기 위한 4가지 대원칙 (Atomicity, Consistency, Isolation, Durability).
 - **All-or-Nothing Rule**: 원자성(Atomicity)의 핵심 사상으로, 트랜잭션 내 모든 연산이 100% 반영되거나(Commit) 전혀 반영되지 않는(Rollback) 이분법적 실행 보장.
 
+- **트랜잭션 ACID(Atomicity, Consistency, Isolation, Durability)**: 원자성(All or Nothing), 일관성(Invariants 보존), 격리성(동시성 제어), 지속성(WAL 영속화)의 4대 필수 데이터 무결성 보장 원칙.
 </details>
 
 - 정의/개념: 데이터베이스 관리 시스템(DBMS)이 복수의 데이터 연산 집합을 하나의 논리적 단위로 처리하며 무결성을 보장하기 위해 준수해야 하는 4대 근본 속성인 **ACID (Atomicity, Consistency, Isolation, Durability)**

@@ -26,6 +26,7 @@ extra:
 - **Relation (릴레이션)**: 속성(Attribute, 열)과 튜플(Tuple, 행)들로 구성된 수학적 집합 개념의 2차원 테이블.
 - **Integrity Constraints (무결성 제약조건)**: 데이터베이스 내 데이터의 정확성(Accuracy)과 일관성(Consistency)을 유지하기 위해 DBMS가 런타임에 강제하는 규칙(개체, 참조, 도메인 무결성 등).
 
+- **관계형 데이터베이스(Relational Database, RDB)**: 데이터를 2차원 테이블(릴레이션) 형태로 저장하고 수학적 관계 대수(Relational Algebra)를 기반으로 SQL 질의를 수행하는 데이터베이스.
 </details>
 
 - 정의/개념: 데이터를 속성과 튜플로 이루어진 릴레이션(Table)으로 구조화하고, 키(Key) 및 무결성 제약조건(Integrity Constraints)을 통해 데이터의 정합성을 엄격히 통제하는 데이터 관리 시스템인 **RDBMS**

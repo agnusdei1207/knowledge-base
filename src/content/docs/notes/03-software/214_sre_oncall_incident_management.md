@@ -24,6 +24,7 @@ extra:
 - **SRE (Site Reliability Engineering)**: Software Engineering으로 신뢰성과 개발 속도를 균형화하는 운영 접근법
 - **Incident Management**: 장애 호출•완화•복구•학습을 연결하는 대응 활동
 
+- **사이트 신뢰성 엔지니어링(Site Reliability Engineering, SRE)**: 소프트웨어 엔지니어링 방법론을 IT 운영에 적용하여 SLI/SLO/SLA, 에러 예산(Error Budget), 장애 사후 분석(Blameless Postmortem)을 통해 시스템 가용성과 개발 속도를 동시에 달성하는 체계.
 </details>
 
 - 정의/개념: SLO 경보부터 완화•복구•학습까지 연결하는 **SRE 대응 체계**
