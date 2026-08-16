@@ -59,6 +59,7 @@ extra:
 - **세그먼트 기술자(Segment Descriptor)**: 8바이트 구성의 하드웨어 태그로, Base 주소(32/64-bit), Limit 크기(20-bit), Present Bit, Privilege Level(DPL), Protection Bit(R/W/X) 정보를 저장하는 엔트리.
 - **세그먼트 테이블(Segment Table / GDT, LDT)**: x86 등 아키텍처에서 시스템 전체(GDT) 및 프로세스별(LDT) 세그먼트 기술자 배열을 저장 보관하는 테이블.
 
+- **서술자 특권 레벨(Descriptor Privilege Level, DPL)**: 세그먼트에 접근하기 위해 요구되는 최소 CPU 특권 등급(Ring 0~3)을 명시한 보안 필드.
 </details>
 
 ```text

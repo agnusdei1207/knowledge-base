@@ -64,6 +64,8 @@ extra:
 - **레지스터 집합(Register Set)**: 연산 데이터를 고속 적재하는 범용 레지스터(X0~X30/R0~R14), 스택 포인터(SP), 링크 레지스터(LR), 프로그램 카운터(PC).
 - **EL 격리(Exception Level Isolation)**: EL0(User App), EL1(OS Kernel), EL2(Hypervisor), EL3(Secure Monitor/TrustZone)로 하드웨어 실행 특권을 구분하는 체계.
 
+- **AArch64 / A64**: 64비트 레지스터(X0~X30)와 고정 32비트 명령어 길이의 고효율 현대적 ARMv8-A 이상 명령어 세트.
+- **AArch32 / A32 / T32**: 기존 32비트 ARM(A32) 및 16/32비트 가변 길이 Thumb-2(T32) 명령어 세트와의 레가시 하위 호환 모드.
 </details>
 
 ```text
@@ -142,6 +144,7 @@ extra:
 - **가변 길이 명령•호환 모드(Variable-Length Instruction & Compatibility Mode)**: x86-64에서 1~15바이트 가변 비트를 복합 해석하여 하위 호환성을 유지하는 방식.
 - **재빌드•변환(Rebuild & Translation)**: x86 바이너리를 Arm 시스템에서 실행하기 위해 타깃 컴파일 재빌드 또는 동적 바이너리 번역(Rosetta 2 등)을 수행하는 작업.
 
+- **가변 벡터 연산(Scalable Vector Extension, SVE)**: 하드웨어 벡터 레지스터 길이에 구애받지 않고 동일 바이너리로 가변 폭 병렬 연산을 수행하는 ARM 벡터 아키텍처.
 </details>
 
 | 비교 항목 | Arm Architecture (v8 / v9) | x86-64 Architecture (AMD64 / EM64T) |

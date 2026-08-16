@@ -65,6 +65,7 @@ extra:
 - **쓰기 후 쓰기 의존(Write After Write, WAW)**: 두 쓰기 명령어 간의 완료 순서 교란으로 최종 결과가 덮어씌워지는 가짜 데이터 의존성(Output Dependency).
 - **정밀 복구(Precise Recovery)**: 예외나 분기 예측 오류 시 ROB의 순차 커밋 지점까지의 아키텍처 상태만 보존하고 이후 비순서 결과를 무효화하는 하드웨어 보장 기법.
 
+- **물리 레지스터 파일(Physical Register File, PRF)**: 레지스터 리네이밍(Register Renaming)을 통해 WAW/WAR 가짜 의존성을 제거하고 다수의 명령어를 비순서(OoO) 병렬 실행할 수 있도록 지원하는 확장 레지스터 배열.
 </details>
 
 | 구성요소 | 책임 |

@@ -64,6 +64,7 @@ extra:
 - **툴체인(Toolchain)**: GCC, LLVM/Clang, GDB 등 RISC-V 전용 C/C++ 타깃 실행파일을 컴파일하고 디버깅하는 소프트웨어 개발 도구 집합.
 - **바이너리 호환 대상(Binary Compatibility Target)**: 빌드된 실행 파일이 대상 칩셋에서 오류 없이 실행되도록 약속된 프로파일 및 확장 범위.
 
+- **제어 및 상태 레지스터(Control and Status Register, CSR)**: 프로세서의 동작 모드(M/S/U), 인터럽트 설정, 타이머 및 예외 처리를 제어하는 특수 레지스터.
 </details>
 
 ```text
@@ -134,6 +135,8 @@ extra:
 - **라이선스 ISA(Licensed ISA)**: 사용료(Royalty 및 License Fee) 지불 계약 없이는 사양 변경이나 하드웨어 코어 제조가 엄격히 금지되는 아키텍처.
 - **명령 확장 제약(Extension Restriction)**: 독점 권한 소유자의 인가를 받지 않고는 아키텍처에 사용자가 임의의 전용 명령어를 추가할 수 없게 막는 라이선스 제약.
 
+- **기본 정수 연산(Base Integer Operations, RV32I/RV64I)**: 산술, 논리, 분기 및 로드/스토어 명령을 포함하는 RISC-V의 필수 최소 명령어 세트.
+- **표준 확장 모듈(Standard Extensions, M/F/V/C)**: 곱셈/나눗셈(M), 부동소수점(F/D), 벡터 연산(V), 압축 명령(C) 등 필요에 따라 선택 조합 가능한 모듈식 확장.
 </details>
 
 | 비교 항목 | RISC-V (Open Standard ISA) | Arm (Commercial Licensed ISA) |

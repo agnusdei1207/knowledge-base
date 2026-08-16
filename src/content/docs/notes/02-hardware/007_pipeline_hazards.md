@@ -62,6 +62,7 @@ extra:
 - **분기 제어기(Branch Control Unit)**: EX 단계의 ALU Zero 플래그 조건과 예측 주소를 비교하여 실제 타깃 주소 분기 및 Flush 신호를 발생하는 장치.
 - **파이프라인 레지스터(Pipeline Register)**: IF/ID, ID/EX, EX/MEM, MEM/WB 단계 사이에 매 클록 데이터를 격리 전달하는 래칭 장치.
 
+- **파이프라인 플러시(Pipeline Flush)**: 분기 예측 실패나 예외 발생 시 잘못 인출된 파이프라인 내부 명령어들을 일괄 폐기하고 PC를 올바른 주소로 복구하는 연산.
 </details>
 
 ```text
