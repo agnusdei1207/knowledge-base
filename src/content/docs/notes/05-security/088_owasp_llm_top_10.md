@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 88
   label: "088. OWASP LLM Top 10 (OWASP LLM Top 10)"
@@ -22,180 +22,168 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **OWASP(Open Worldwide Application Security Project)**: 오픈소스 웹 및 애플리케이션 보안 가이드라인 표준화 비영리 단체이다.
-- **LLM(Large Language Model)**: 대규모 트랜스포머 언어 모델로 문맥을 이해하고 자연어 및 코드를 생성하는 파운데이션 생성형 AI이다.
-- **RAG(Retrieval-Augmented Generation)**: 외부 지식베이스(벡터 DB) 조회를 통해 LLM의 환각을 줄이고 정밀 답변을 도출하는 아키텍처이다.
-- **OWASP LLM Top 10 2025 (OWASP Top 10 for Large Language Model Applications 2025)**: 생성형 AI, LLM, RAG, 에이전트 시스템 도입 시 발생하는 최우선 핵심 보안 위협 10가지를 수록한 보안 가이드라인 표준 규격이다.
-- **LLM 응용 위험(LLM Application Risk / Vulnerabilities)**: 전통적 OWASP Top 10(웹 취약점)과 달리 자연어 인젝션, 환각, 모델 데이터 유출, 과도한 권한 부여 등 생성형 AI의 특수성에서 비롯되는 보안 위험이다.
+- **OWASP LLM Top 10 2025 (OWASP Top 10 for Large Language Model Applications 2025)**: 글로벌 애플리케이션 보안 기구인 OWASP가 생성형 AI, LLM, RAG, 에이전트 시스템 도입 시 기업이 직면하게 되는 최우선 핵심 보안 위협 10가지를 정리 선포한 산업계 최고 권위의 보안 가이드라인 표준 팩트 규격이다.
+- **LLM 응용 위험 (LLM Application Risk / Vulnerabilities)**: SQL 인젝션이나 XSS 등 전통적 OWASP Top 10 웹 취약점과 본질적으로 궤를 달리하는, 자연어 프롬프트 우회 인젝션, 환각 생성, 훈련 데이터 역전 유출, 에이전트 과도 권한 집행 등 생성형 AI만의 특수성에서 비롯되는 신종 보안 팩트 위험군이다.
 
 </details>
 
-- 정의/개념: LLM 응용의 10대 위험과 통제를 제시한
-  **OWASP LLM Top 10 2025**
-- 배경/필요성: 웹 취약점 분류만으로 다루기 어려운
-  **프롬프트·RAG·에이전트 위험**
+- 정의: 생성형 AI 생태계에 특화된 10대 최우선 핵심 위험 요소와 이에 대한 방어 통제 원칙을 명확히 제시한 글로벌 AI 보안 팩트 표준 규격이다.
+- 배경: 단순 웹 취약점 분류만으로는 딥러닝 내부 가중치 조작, **프롬프트 우회**, **RAG 벡터 오염**, **자율 에이전트 오작동 위험** 등 급변하는 AI 고유의 블랙박스 침투 위협을 도저히 포괄 대응할 수 없었기 때문이다.
 
 #### 한줄 요약
 
-- 생성형 AI, RAG 및 LLM 에이전트 애플리케이션의 10대 핵심 보안 위험과 대응책을 정의한 글로벌 대표 보안 표준 규격이다.
+- 생성형 AI 파운데이션 모델, RAG 및 LLM 에이전트 애플리케이션의 10대 핵심 보안 위험과 다층 방어 통제책을 정의한 글로벌 대표 보안 표준 팩트 규격이다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **판본 식별성(Version Determinism & Traceability)**: 기술 진화에 따라 2023년 버전과 2025년 최신 버전 간의 항목 변경(예: LLM07 System Prompt Leakage 신설, LLM10 Unbounded Consumption 추가)을 추적 관리하는 성질이다.
-- **서비스별 위협 모델(Service-tailored Threat Model)**: 10대 취약점 표준 목록을 그대로 적용하지 않고, 자사 서비스 아키텍처(챗봇 vs 에이전트 vs RAG)의 위험도에 맞추어 맞춤 재편하는 위협 평가 모델이다.
+- **판본 식별성 (Version Determinism & Traceability)**: 딥러닝 기술 진화에 즉각 발맞추어 2023년 구버전과 2025년 최신 개정 버전 간의 신규 위협 변경 항목(예: LLM07 System Prompt Leakage 신설, LLM10 Unbounded Consumption 추가)을 치밀하게 추적 관리하고 갱신하는 유지보수 팩트 성질이다.
+- **서비스별 위협 모델 (Service-tailored Threat Model)**: 10대 취약점 표준 목록 전체를 기계적으로 일괄 적용하지 않고, 자사 서비스 아키텍처(단순 챗봇 vs 복합 RAG vs 도구형 에이전트)의 공격 노출도(Attack Surface)에 맞추어 우선순위를 맞춤 재편하는 동적 위협 평가 팩트 모델이다.
 
 </details>
 
-- 입출력(Prompt/Output), 모델 공급망(Supply Chain), 데이터/RAG, 에이전트 권한(Agency), 자원 고갈 등 생성형 AI 수명주기 전체를 커버한다.
-- 2025년 개정을 통해 System Prompt Leakage(LLM07), Vector & Embedding Weaknesses(LLM08) 등 최신 엣지 취약점을 즉시 반영하여 **판본 식별성**을 유지한다.
-- 시스템 아키텍처에 맞춰 **서비스별 위협 모델**을 정립하고 다층 보안 통제(Defense in Depth)를 수립한다.
+- **전주기 생태계 포괄 커버**: 단순 입출력 텍스트(Prompt/Output) 방어를 넘어, 허깅페이스 모델 공급망(Supply Chain), 벡터 RAG 데이터베이스 연동, 에이전트 자율 권한(Agency), 클라우드 자원 고갈 등 생성형 AI 수명주기 생태계 전체 팩트를 커버한다.
+- **최신 위협 진화 즉시 반영 체계**: 2025년 전면 개정을 통해 페르소나 지침 탈취인 System Prompt Leakage(LLM07), 검색 오염인 Vector & Embedding Weaknesses(LLM08) 등 최신 엣지 취약점을 팩트로 반영하여 **판본 식별성**을 정교히 유지한다.
+- **아키텍처 맞춤형 통제**: 획일화된 솔루션 도입을 배제하고, 자사 시스템 아키텍처 특성에 맞춰 **서비스별 위협 모델**을 정립한 뒤 심층 다층 보안 통제(Defense in Depth)를 팩트로 수립하도록 가이드한다.
 
 #### 한줄 요약
 
-- AI 생명주기 전반 커버, 2025 최신 개정판 반영(System Prompt Leak, Vector 취약점 추가) 및 맞춤형 위협 모델링 기준을 제공한다.
+- AI 생명주기 생태계 전반 커버, 2025 개정판 최신 팩트 위협 반영(System Prompt Leak, Vector 취약점 추가 신설) 및 맞춤형 동적 위협 모델링 기준을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **LLM01(LLM01: Prompt Injection)**: 직접/간접 프롬프트를 주입하여 시스템 프롬프트를 무력화하고 인가되지 않은 조작을 유도하는 최우선 위험이다.
-- **LLM02(LLM02: Sensitive Information Disclosure)**: LLM 추론 답변이나 PII 필터링 미비로 인해 민감 개인정보 및 기업 기밀이 노출되는 위험이다.
-- **LLM03(LLM03: Supply Chain Risks)**: 허깅페이스 등 제3자 파운데이션 모델, 미검증 데이터셋, 파이썬 라이브러리 공급망 내 악성 백도어가 포함되는 위험이다.
-- **LLM04(LLM04: Data and Model Poisoning)**: 학습 데이터 및 RAG 지식베이스에 오염 샘플이나 트리거를 주입하여 모델 결정 경계를 조작하는 위험이다.
-- **LLM05(LLM05: Improper Output Handling)**: LLM 출력을 이스케이프 검증 없이 브라우저나 OS Shell로 곧바로 전달하여 XSS, RCE를 야기하는 위험이다.
-- **LLM06(LLM06: Excessive Agency)**: 에이전트에 과도한 과업 실행 권한(DB 삭제, 이체 API 호출)을 부여하여 시스템 조작 피해를 확대시키는 위험이다.
-- **LLM07(LLM07: System Prompt Leakage)**: 악의적 질의를 통해 기업의 자산이자 비밀 영업 기밀인 시스템 프롬프트(페르소나 지침)를 탈취하는 위험이다.
-- **LLM08(LLM08: Vector and Embedding Weaknesses)**: RAG 파이프라인 내 벡터 DB의 Access Control 미비, 임베딩 충돌 공격으로 민감 문맥이 반출되는 위험이다.
-- **LLM09(LLM09: Misinformation)**: LLM 환각(Hallucination) 응답을 별도 검증 없이 노출하여 법적, 사업적 손실을 일으키는 위험이다.
-- **LLM10(LLM10: Unbounded Consumption)**: 100k 토큰 이상의 대용량 입력 및 무한 툴 루프를 유발해 GPU 연산 자원 및 예산을 마비시키는 서비스 거부 위험이다.
+- **LLM01 (Prompt Injection)**: 공격자가 직접/간접 교묘한 프롬프트를 주입하여 개발자가 정의한 시스템 안전 지침 가중치를 무력화하고 비인가 조작을 유도하는 최상위 1위 팩트 위험이다.
+- **LLM02 (Sensitive Information Disclosure)**: LLM 추론 답변 내 PII 필터링 샌드박스 미비로 인해 민감 개인정보 및 타사 영업 기밀이 외부에 무단 노출 반출되는 프라이버시 팩트 위험이다.
+- **LLM03 (Supply Chain Risks)**: 허깅페이스 등 제3자 파운데이션 모델 다운로드, 미검증 무단 데이터셋, 서드파티 파이썬 플러그인 공급망 파이프라인 내부에 치명적 악성 백도어가 은닉 포함되는 감염 팩트 위험이다.
+- **LLM04 (Data and Model Poisoning)**: 모델 재학습 데이터 및 RAG 지식베이스 DB에 악성 오염 샘플이나 잠복 트리거를 몰래 주입하여 모델 분류 결정 경계 자체를 물리적으로 조작 파괴하는 팩트 위험이다.
+- **LLM05 (Improper Output Handling)**: 오염된 LLM의 출력을 적절한 이스케이프 검증 절차 없이 일반 브라우저 DOM이나 백엔드 OS Shell 터미널로 곧바로 전달 인가하여 XSS, RCE 대형 사고를 야기하는 연쇄 팩트 위험이다.
+- **LLM06 (Excessive Agency)**: 자율 에이전트에게 팝업 승인 없이 과도한 과업 실행 권한(핵심 DB 삭제, 거액 이체 API 자율 호출)을 무분별하게 부여하여 시스템 조작 파손 피해를 천문학적으로 확대시키는 인가 통제 팩트 위험이다.
+- **LLM07 (System Prompt Leakage)**: 2025 신설 항목으로, 공격자의 집요한 악의적 롤플레이 질의를 통해 기업의 핵심 지적 자산이자 비밀 영업 기밀 알고리즘인 백엔드 시스템 프롬프트(페르소나 지침서) 전문을 원문 그대로 탈취 반출하는 팩트 위험이다.
+- **LLM08 (Vector and Embedding Weaknesses)**: 2025 신설 항목으로, RAG 파이프라인 내 벡터 DB의 세밀한 사용자 접근통제(ACL) 미비 및 임베딩 쿼리 충돌 공격으로 타 부서의 민감 내부 문맥이 무단 교차 반출되는 권한 팩트 위험이다.
+- **LLM09 (Misinformation)**: 구 LLM08 Insecure Design을 대체한 위험으로, 거짓을 그럴싸하게 꾸며내는 LLM 환각(Hallucination) 응답을 별도의 팩트체크 교차 검증 로직 없이 일반 사용자에게 그대로 노출하여 심각한 법적 소송 및 브랜드 손실을 일으키는 팩트 위험이다.
+- **LLM10 (Unbounded Consumption)**: 구 LLM09 Model DoS를 구체화한 항목으로, 100k 토큰 이상의 무의미한 대용량 문맥 입력 및 에이전트의 종료 조건 없는 무한 툴 루프 반복을 고의 유발해 초고가 GPU 연산 자원 및 클라우드 예산을 파탄 마비시키는 서비스 거부 팩트 위험이다.
 
 </details>
 
 ```text
-OWASP LLM Top 10 2025
-├─ 입력·출력 경계
-├─ 정보·지시 경계
-├─ 공급·학습 경계
-├─ 검색·행동 경계
-└─ 판단·자원 경계
+[OWASP LLM Top 10 2025 핵심 보안 경계 아키텍처 팩트 매핑]
+
+├─ [입력/출력 신뢰 경계]   -->  Prompt Injection (01), Improper Output Handling (05)
+├─ [정보/지시 권한 경계]   -->  Sensitive Info Disclosure (02), System Prompt Leakage (07)
+├─ [공급/학습 무결 경계]   -->  Supply Chain Risks (03), Data/Model Poisoning (04)
+├─ [검색/행동 인가 경계]   -->  Excessive Agency (06), Vector & Embedding Weaknesses (08)
+└─ [판단/자원 가용 경계]   -->  Misinformation (09), Unbounded Consumption (10)
 ```
 
-선의 의미: 5대 핵심 도메인 경계별로 분류된 OWASP LLM Top 10 2025 보안 위협 매핑 아키텍처이다.
-
-| 5대 핵심 도메인 | 해당 OWASP 2025 위험 항목 | 주요 통제 방안 |
+| 5대 핵심 통제 도메인 | 해당 OWASP 2025 팩트 위험 항목 | 최우선 방어 보안 통제 가이드라인 |
 |:---|:---|:---|
-| 입력·출력 경계 | **LLM01** (Prompt Injection), **LLM05** (Improper Output Handling) | XML 프롬프트 태그 분리, LLM Output WAF 및 이스케이프 산화 |
-| 정보·지시 경계 | **LLM02** (Sensitive Info Disclosure), **LLM07** (System Prompt Leakage) | 런타임 PII Masking 가드레일, 시스템 프롬프트 유출 금지 필터 |
-| 공급·학습 경계 | **LLM03** (Supply Chain Risks), **LLM04** (Data and Model Poisoning) | 파운데이션 모델 서명 검증, DVC 데이터 버전 및 수집 격리소 |
-| 검색·행동 경계 | **LLM06** (Excessive Agency), **LLM08** (Vector & Embedding) | 최소 권한 IAM, Human-in-the-Loop 승인, RAG 벡터 ACL 조율 |
-| 판단·자원 경계 | **LLM09** (Misinformation), **LLM10** (Unbounded Consumption) | Fact-checking 인용 검증, TPM 가중 쿼터 및 Circuit Breaker |
+| **입력 및 출력 경계** | **LLM01**(Prompt Injection), **LLM05**(Improper Output) | 시스템 지시어와 사용자 XML 프롬프트 태그 분리 통제, 강력한 LLM Output WAF 필터 및 터미널 이스케이프 산화 팩트 처리 |
+| **정보 및 지시 경계** | **LLM02**(Sensitive Info), **LLM07**(System Prompt Leak) | 출력 런타임 구간 정밀 PII Masking 가드레일 가동, 시스템 프롬프트 소스코드 탈취 금지 내부 필터 룰 강제 집행 |
+| **공급 및 학습 경계** | **LLM03**(Supply Chain), **LLM04**(Poisoning) | 외부 파운데이션 모델 해시 서명 무결성 검증 락, DVC 데이터 버전 추적 보존 및 스크래핑 수집 격리소 팩트 운영 |
+| **검색 및 행동 경계** | **LLM06**(Excessive Agency), **LLM08**(Vector & Embed) | 최소 권한(Least Privilege) 에이전트 IAM 부여, Human-in-the-Loop 비가역 팝업 승인 체계, RAG 벡터 전용 ACL 권한 팩트 조율 |
+| **판단 및 자원 경계** | **LLM09**(Misinformation), **LLM10**(Unbounded Consump) | 문서 출처 인용(Fact-checking) 2차 자동 검증 파이프라인, TPM 가중 쿼터 제한 및 런타임 루프 회로 차단기(Circuit Breaker) 발동 |
 
 #### 한줄 요약
 
-- LLM01부터 LLM10까지 5대 보안 도메인(입출력, 정보지시, 공급학습, 검색행동, 판단자원)으로 분류 관리한다.
+- LLM01 인젝션부터 LLM10 자원 폭주까지 5대 보안 도메인(입출력, 정보지시, 공급학습, 검색행동, 판단자원)으로 구조화 분류 관리하는 팩트 체계이다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **공격 경로 매핑(Attack Vector / Path Mapping)**: 10대 위험 항목이 서비스 내 프롬프트 유입, RAG 벡터 탐색, Tool Execution 중 어디서 발생하는지 도면화하는 작업이다.
-- **잔여 위험(Residual Risk)**: 방어 가드레일 및 통제를 도입한 후에도 남아 있는 수용 가능한 보안 위험 수준이다.
-- **자산•신뢰 경계 확정(Asset & Trust Boundary Identification)**: LLM, DB, 사용자 입력, 외부 API 간의 신뢰 경계를 명확히 긋는 단계이다.
-- **LLM01~LLM10 시나리오 매핑(LLM Top 10 Scenario Mapping)**: 자원별로 10개 위협 발생 가능성을 대조 매핑하는 단계이다.
-- **예방•탐지•복구 통제 설계(Preventive, Detective & Corrective Control Design)**: 3중 방어 관문(가드레일, 샌드박스, 롤백)을 설계하는 단계이다.
-- **실제 공격•잔여 위험 평가(Empirical Attack & Residual Risk Assessment)**: AI 레드팀 평가를 가해 남은 취약점을 검증하는 단계이다.
-- **우선순위•통제 갱신(Priority & Control Re-alignment)**: 신종 바이패스 기법 등장 시 통제 룰을 상시 갱신하는 단계이다.
+- **공격 경로 매핑 (Attack Vector / Path Mapping)**: OWASP 10대 위험 항목 지표가 실제 자사 운영 서비스 내의 사용자 프롬프트 유입 구간, RAG 벡터 탐색 질의 구간, 에이전트 Tool Execution 샌드박스 구간 중 정확히 어디서 어떻게 촉발 발생하는지 시각적 도면화하는 선행 작업 팩트이다.
+- **잔여 위험 평가 (Empirical Residual Risk Assessment)**: 사내 보안팀이 방어 가드레일 및 PEP 통제 관문을 겹겹이 도입한 후에도 여전히 교묘하게 남아 시스템을 뚫어내는 수용 가능한 보안 위험 수준을 수치화하는 팩트 평가이다.
 
 </details>
 
 ```text
-서비스 자산·경계
-        |
-        v
-1. 자산·신뢰 경계 확정
-        |
-        v
-2. LLM01~LLM10 시나리오 매핑
-        |
-        v
-3. 예방·탐지·복구 통제 설계
-        |
-        v
-4. 실제 공격·잔여 위험 평가
-        |
-        v
-5. 우선순위·통제 갱신
-        |
-        v
-   위험 처리 계획
+[안전한 LLM 애플리케이션 보안 설계 프로세스 팩트 전개]
+         |
+         v
+1. 자사 서비스 핵심 운영 자산 및 컴포넌트 간 신뢰 경계(Trust Boundary) 명확 팩트 확정
+         |
+         v
+2. 도출된 자산 식별 구간에 OWASP LLM01~LLM10 공격 취약 시나리오 1:1 교차 팩트 매핑
+         |
+         v
+3. 구간별 방어 예방(Prevent), 실시간 탐지(Detect), 긴급 복구(Correct) 3중 통제 관문 설계
+         |
+         v
+4. 적대적 모의 AI 레드팀 공격 수행을 통한 실제 공격 방어력 측정 및 잔여 위험 팩트 평가
+         |
+         v
+5. 신규 취약점 및 바이패스 기법 등장에 맞춘 위험 우선순위 조정 및 통제 룰 런타임 상시 갱신
+         |
+         v
+[안정성과 프라이버시가 팩트로 보장된 LLM 운영 서비스 배포 유지]
 ```
 
 ### 동작 원리
 
-1. 자산·신뢰 경계 확정: 데이터·도구의 보안 경계 식별
-2. LLM01~LLM10 시나리오 매핑: 자산별 위협 경로 연결
-3. 예방·탐지·복구 통제 설계: 다층 방어 통제 배치
-4. 실제 공격·잔여 위험 평가: 레드팀 기반 잔여 위험 측정
-5. 우선순위·통제 갱신: 신종 우회에 맞춰 통제 보정
+1. 자산 경계 확정: LLM 모델, 벡터 DB, 사용자 입력, 외부 툴 API 간의 데이터 흐름 보안 통제선을 팩트 식별한다.
+2. OWASP 10 시나리오 매핑: 식별된 구간별로 어떤 LLM 10대 위협 경로가 치명타를 입힐 수 있는지 정밀 매핑 연결한다.
+3. 3중 다층 통제 설계: 입력 가드레일(예방), 런타임 모니터링(탐지), 롤백 샌드박스(복구) 방어막을 겹겹이 배치한다.
+4. 레드팀 잔여 위험 평가: 화이트해커 레드팀 기반의 가혹한 공격을 가해 뚫리지 않고 남은 방어율과 잔여 위험을 팩트 산출한다.
+5. 통제망 상시 갱신: 신종 우회 탈옥 팩트 기법 등장 시 지체 없이 룰셋을 보정하고 가중치를 패치한다.
 
 #### 한줄 요약
 
-- 자산 경계 확정, Top 10 시나리오 매핑, 다층 통제 설계, 레드팀 기반 잔여 위험 평가 및 통제 상시 갱신 절차로 이행된다.
+- 핵심 자산 경계 확정, Top 10 매핑 구조화, 다층 통제 설계망 구축, AI 레드팀 모의 침투 기반 잔여 위험 팩트 평가 및 통제룰 상시 갱신 절차로 이행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **LLM 응용 경계(LLM Application Boundary)**: 프롬프트 입력, 모델 추론, RAG 벡터 검색이 이루어지는 영역이다.
-- **웹 응용 경계(Web Application Boundary)**: HTTP/HTTPS 프론트엔드 및 백엔드 REST API의 통신 영역이다.
-- **에이전트 권한 경계(Agent Privilege / Action Boundary)**: AI 에이전트가 시스템 명령(OS Command, DB Query)을 집행하는 자율 실행 영역이다.
-- **HTTP(Hypertext Transfer Protocol)**: 웹 클라이언트와 서버 간의 데이터를 주고받는 표준 통신 프로토콜이다.
+- **LLM 응용 경계 (LLM Application Boundary)**: 비정형 자연어 프롬프트가 입력되고, 딥러닝 모델 추론이 일어나며, RAG 벡터 유사도 검색 매핑이 일어나는 통제 불확실성이 극히 높은 블랙박스 팩트 영역이다.
+- **기존 웹 응용 경계 (Traditional Web Application Boundary)**: 100% 정형화된 HTTP/HTTPS 프론트엔드 및 백엔드 REST API의 통신 영역으로, 패턴 매칭 WAF로 쉽게 팩트 차단이 가능한 화이트박스 영역이다.
+- **에이전트 권한 경계 (Agent Privilege / Action Boundary)**: AI 에이전트가 텍스트 생성을 넘어 외부 시스템 명령(OS Command, DB Insert/Delete Query)을 자율적으로 집행하고 변경하는 최고 위험도의 액션 팩트 영역이다.
 
 </details>
 
-| 보안 분석 영역 | 기존 Web OWASP Top 10 | OWASP LLM Top 10 2025 |
+| 보안 패러다임 분석 영역 | **기존 Web OWASP Top 10 (Web/API 보안)** | **신규 OWASP LLM Top 10 2025 (생성형 AI 보안)** |
 |:---|:---|:---|
-| 주 타격 대상 | **HTTP** 요청 파라미터, SQL 쿼리, 세션 토큰 | 자연어 프롬프트 지침, RAG 벡터 문맥, 에이전트 Tool Call 인자 |
-| 핵심 위협 매커니즘 | SQL Injection, XSS, Broken Auth | Prompt Injection (LLM01), System Prompt Leak (LLM07), Vector Risk (LLM08) |
-| 주 방어 메커니즘 | Input Sanitization, WAF, Role-based ACL | XML Tagging, LLM Input/Output Guardrails, **에이전트 권한 경계** 통제 |
-| 공격 결과 | DB 정보 유출, 세션 탈취, RCE | 비인가 시스템 조작, 백도어 실행, 과금 폭탄 DoS (LLM10) |
+| 시스템 주 타격 대상 | 정형화된 **HTTP** 요청 파라미터, SQL 쿼리문, 고정 세션 토큰 값 | 비정형 자연어 프롬프트 텍스트, RAG 벡터 문맥 뭉치, 에이전트 자율 Tool Call 인자 |
+| 핵심 치명적 위협 매커니즘 | 고전적 SQL Injection, XSS, Broken Auth 세션 하이재킹 | 지능적 Prompt Injection (LLM01), System Prompt Leak (LLM07), 검색 오염 Vector Risk (LLM08) |
+| 주 방어 체계 및 메커니즘 | 입력 Input Sanitization 정규식 룰, 정적 WAF 필터, Role-based 정적 ACL | 논리적 XML Tagging 샌드박싱, 동적 LLM Input/Output Guardrails, **에이전트 실행 권한 경계 PEP 통제** |
+| 방어 실패 시 공격 팩트 결과 | 고객 DB 정보 대량 유출, 관리자 세션 탈취, 서버 RCE 장악 통제 | 의도되지 않은 비인가 툴 조작 파손, 가중치 잠복 백도어 실행, 과금 폭탄 DoS (LLM10) 마비 사태 |
 
 #### 한줄 요약
 
-- 기존 Web OWASP는 HTTP 텍스트 파라미터 타격 중심이며, LLM OWASP 2025는 자연어 지시/RAG 문맥 및 에이전트 자율권 방어에 집중한다.
+- 기존 Web OWASP는 정형화된 HTTP 텍스트 파라미터 방어 중심이며, 최신 LLM OWASP 2025는 비정형 자연어 지시 통제, RAG 벡터 격리 및 자율 에이전트 행동 권한 통제에 집중하는 팩트 차이가 있다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **목록식 점검 한계(Checklist-driven Inspection Pitfalls)**: 단순 체크리스트만 확인하고 실제 인젝션/탈옥 런타임 가드레일을 구축하지 않는 수동적 위험성이다.
-- **레드팀(Adversarial Red Teaming)**: AI 시스템을 대상으로 인젝션, 탈옥, PII 유출 공격을 가해 취약점을 발굴하는 평가 활동이다.
-- **회귀 시험(Regression Testing)**: 보안 보정 후 과거 공격 시나리오의 차단 성공 여부를 지속 자동화 검증하는 시험이다.
+- **목록식 점검의 한계 (Checklist-driven Inspection Pitfalls)**: OWASP 문서를 단순 체크리스트 표로만 대충 형식적 확인하고, 막상 런타임 환경에서 실시간 방어하는 인젝션/탈옥 차단 가드레일 인프라는 전혀 구축하지 않는 수동적이고 무책임한 보안 행정 팩트 위험성이다.
+- **AI 레드팀 평가 (Adversarial Red Teaming Assessment)**: 단순 자동화 취약점 스캐너에 의존하지 않고 인간 보안 전문가가 직접 조직의 AI 시스템을 타깃으로 교묘한 인젝션, 탈옥, PII 유출 공격을 가해 심층 블랙박스 취약점을 발굴해 내는 팩트 평가 활동이다.
+- **자동화 회귀 시험 (Automated Regression Testing)**: 발견된 취약점에 방어 패치를 적용한 후, 과거에 뚫렸던 동일 공격 시나리오를 자동 스크립트로 지속 반복 투입하여 차단 방어막이 다시 열리지 않는지 영구적으로 자동 검증하는 팩트 파이프라인이다.
 
 </details>
 
-| 문제 | 대책 | 효과 |
-|:---|:---|:---|
-| 단순 체크리스트형 점검의 한계 | **목록식 점검 한계** 탈피 및 **공격 경로 매핑** | 서비스 아키텍처에 맞춘 실질적 AI 보안 통제 구현 |
-| 2025 개정 항목(Vector, System Prompt) 대응 미비 | **OWASP LLM Top 10 2025** 최신 표준 준용 | RAG 벡터 DB ACL 강화 및 시스템 프롬프트 유출 방지 |
-| 통제 실효성 부족 및 사후 유출 사고 | AI **레드팀** 및 자동화 **회귀 시험** 지속 집행 | 신종 바이패스 기법의 실시간 모니터링 및 즉시 보정 |
+| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
+|:---|:---|:---|:---|
+| **문서 위주의 단순 체크리스트형 보안 점검의 한계 노출** | 실효적 차단 가드레일 없는 서류상 탁상행정 보안 한계 | **목록식 점검 한계** 탈피 및 철저한 실제 아키텍처 **공격 경로 매핑** 팩트 집행 | 실 운영 서비스 아키텍처 맥락에 완벽히 부합하는 런타임 실효적 AI 보안 통제 구현 달성 |
+| **2025년 개정 신규 엣지 항목 (Vector 쿼리, System Prompt 유출) 대응 전무** | 과거 2023 구버전 기준표에 머물러 있는 나태한 보안 체계 유지 | 신규 **OWASP LLM Top 10 2025** 최신 글로벌 표준 지침 즉각 전면 팩트 준용 | RAG 벡터 DB 접근제어(ACL) 정밀 분리 강화 및 핵심 영업 기밀 시스템 프롬프트 소스 유출 완전 방지 |
+| **런타임 통제 방어망 실효성 부족 및 사후 프라이버시 2차 유출 사고 발생** | 배포 후 지속적인 적대적 해킹 시나리오 방어 검증 파이프라인 부재 | 고강도 AI **레드팀 모의침투** 강제 및 365일 CI/CD 자동화 **회귀 시험** 지속 팩트 집행 | 끊임없이 진화하는 신종 프롬프트 바이패스 기법의 실시간 모니터링 적발 및 방어 룰 즉시 팩트 보정 |
 
 #### 한줄 요약
 
-- OWASP LLM 2025 표준 준수, 단순 체크리스트를 넘어선 AI 레드팀 평가 및 회귀 시험 자동화를 수립한다.
+- 최신 OWASP LLM 2025 표준 철저 준수, 단순 체크리스트 서류 점검을 넘어선 고강도 AI 레드팀 실전 모의 평가 및 런타임 회귀 시험 파이프라인 자동화를 전사 수립한다.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **위험 분류의 활용 원칙(Risk Taxonomy Utilization Principles)**: OWASP Top 10을 고정 규제로 보지 않고 조직의 AI 보안 거버넌스 및 가드레일 설계의 출발점으로 활용하는 원칙이다.
+- **위험 분류의 탄력적 활용 원칙 (Risk Taxonomy Utilization Principles)**: OWASP Top 10 규격을 맹목적으로 지켜야 할 고정된 규제 틀로 보지 않고, 조직 특유의 창의적 AI 보안 거버넌스 수립 및 런타임 가드레일 다층 방어 설계의 튼튼한 팩트 출발점 뼈대로 유연하게 활용하는 최적화 원칙이다.
 
 </details>
 
-- 서비스별 **위협 모델**에 맞춰 통제하고 **레드팀**으로 검증
+- AI 보안은 정적인 리스트 점검이 아니므로, 서비스별 동적 **위협 모델**에 맞춰 아키텍처를 유연 통제하고 철저한 AI **레드팀 모의침투**로 방어망을 런타임 팩트 검증해야 한다.
 
 #### 한줄 요약
 
-- OWASP LLM Top 10 2025 표준 준수, 5대 도메인 다층 통제, AI 레드팀 회귀 시험 및 가드레일 체계 구축 필수.
+- 최신 OWASP LLM Top 10 2025 표준 준수, 5대 도메인 런타임 다층 통제망, AI 레드팀 고강도 회귀 시험 및 탄력적 위험 분류 거버넌스 가드레일 체계 팩트 구축 필수.
