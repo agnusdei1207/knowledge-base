@@ -152,7 +152,7 @@ v                     v                     v
 
 <details><summary>용어 설명</summary>
 
-- **순차 임계경로(Sequential Critical Path)**: 병렬화가 불가능하여 단일 코어의 연산 속도가 전체 응답 시간을 결정하는 실행 구간.
+- **순차 임계경로(Sequential Critical Path)**: 병렬화가 불가능하여 단일 코어의 연산 속도가 전체 응답 시간을 결정하는 구간.
 - **스레드 전환 오버헤드(Thread Migration Overhead)**: 워크로드 부하 변동 시 Big 코어와 LITTLE 코어 간에 스레드를 이전하면서 발생하는 캐시 미스와 스케줄링 비용.
 - **전력 밀도(Power Density)**: 단위 면적당 소모되는 전력량으로, 대형 코어에 집적도가 집중될 때 발열 핫스팟을 유발하는 지표.
 
