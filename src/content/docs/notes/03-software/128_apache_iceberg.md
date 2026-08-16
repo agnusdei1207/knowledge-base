@@ -84,11 +84,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Catalog** | 테이블명과 현재 Metadata 위치 관리 |
-| **Metadata File** | 스키마•파티션 규격•스냅숏 목록 보관 |
-| **Manifest List** | 스냅숏의 Manifest와 파티션 통계 보관 |
-| **Manifest File** | 데이터•삭제 파일 경로와 열 통계 보관 |
-| **Data•Delete File** | 행 데이터와 논리 삭제 정보 저장 |
+| Catalog | 테이블명과 현재 Metadata 위치 관리 |
+| Metadata File | 스키마•파티션 규격•스냅숏 목록 보관 |
+| Manifest List | 스냅숏의 Manifest와 파티션 통계 보관 |
+| Manifest File | 데이터•삭제 파일 경로와 열 통계 보관 |
+| Data•Delete File | 행 데이터와 논리 삭제 정보 저장 |
 
 #### 한줄 요약
 
@@ -143,10 +143,10 @@ extra:
 
 | 비교 항목 | Apache Iceberg | Delta Lake |
 |:---|:---|:---|
-| **오픈소스 주도** | **Apache Foundation (Netflix, Apple 개방 생태계)** | Databricks 주도 오픈소스 |
-| **메타데이터 구조** | **3-Tier AVRO Tree (Manifest List/File)** | JSON Transaction Log (`_delta_log`) |
-| **파티셔닝 기술** | **Hidden Partitioning (쿼리 자동 추적 파티셔닝)** | Explicit Partitioning (명시적 컬럼 파티션) |
-| **엔진 통합 특성** | **다중 엔진 중립성 중심** | Spark•Databricks 중심 |
+| 오픈소스 주도 | **Apache Foundation (Netflix, Apple 개방 생태계)** | Databricks 주도 오픈소스 |
+| 메타데이터 구조 | **3-Tier AVRO Tree (Manifest List/File)** | JSON Transaction Log (`_delta_log`) |
+| 파티셔닝 기술 | **Hidden Partitioning (쿼리 자동 추적 파티셔닝)** | Explicit Partitioning (명시적 컬럼 파티션) |
+| 엔진 통합 특성 | **다중 엔진 중립성 중심** | Spark•Databricks 중심 |
 
 #### 한줄 요약
 
@@ -162,9 +162,9 @@ extra:
 
 | 튜닝 영역 | 발생 원인 및 위협 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **Manifest File 누적** | 빈번한 스트리밍 커밋으로 Manifest 수천 개 | **`rewrite_manifests()` 연산으로 Manifest 병합** |
-| **Small Data Files** | 초 단위 쓰기로 1MB 이하 파일 폭발 | **`rewrite_data_files()` 병합 (Bin-packing)** |
-| **Orphan Data Files** | 실패한 트랜잭션의 더미 파일 찌꺼기 | **`remove_orphan_files()` 정기 스케줄 실행** |
+| Manifest File 누적 | 빈번한 스트리밍 커밋으로 Manifest 수천 개 | **`rewrite_manifests()` 연산으로 Manifest 병합** |
+| Small Data Files | 초 단위 쓰기로 1MB 이하 파일 폭발 | **`rewrite_data_files()` 병합 (Bin-packing)** |
+| Orphan Data Files | 실패한 트랜잭션의 더미 파일 찌꺼기 | **`remove_orphan_files()` 정기 스케줄 실행** |
 
 > 사례: **Snowflake / AWS Athena / Trino 모던 데이터 레이크하우스 아키텍처로 Apache Iceberg 채택**
 

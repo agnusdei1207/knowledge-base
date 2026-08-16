@@ -63,10 +63,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **복제 상태** | 노드별 로컬 변경 결과 보관 |
-| **변경 메타데이터** | 노드 식별자•태그•인과 관계 추적 |
-| **병합 함수** | 교환•결합•멱등 법칙으로 상태 결합 |
-| **전파 계층** | 상태•델타•연산을 다른 복제본에 전달 |
+| 복제 상태 | 노드별 로컬 변경 결과 보관 |
+| 변경 메타데이터 | 노드 식별자•태그•인과 관계 추적 |
+| 병합 함수 | 교환•결합•멱등 법칙으로 상태 결합 |
+| 전파 계층 | 상태•델타•연산을 다른 복제본에 전달 |
 
 #### 한줄 요약
 
@@ -125,10 +125,10 @@ extra:
 
 | CRDT 자료형 | 대표 구조 (Data Type) | 충돌 해결 메커니즘 및 특징 |
 |:---|:---|:---|
-| **G-Counter / PN-Counter** | **Vector Counter** | 노드별 증가(P)/감소(N) 벡터를 Max 연산하여 수렴 |
-| **LWW-Element-Set** | **Set (Add-Set / Remove-Set)** | 타임스탬프 부여하여 마지막 쓰기(LWW)가 최종 승리 |
-| **OR-Set (Observed-Remove)**| **Set with Tag** | 각 Element마다 고유 Tag(UUID)를 주어 삽입/삭제 추적 |
-| **RGA / Yjs / Automerge** | **Sequence Array (Text Edit)**| **Figma, Google Docs 동시 문서 편집 전용 시퀀스** |
+| G-Counter / PN-Counter | **Vector Counter** | 노드별 증가(P)/감소(N) 벡터를 Max 연산하여 수렴 |
+| LWW-Element-Set | **Set (Add-Set / Remove-Set)** | 타임스탬프 부여하여 마지막 쓰기(LWW)가 최종 승리 |
+| OR-Set (Observed-Remove) | **Set with Tag** | 각 Element마다 고유 Tag(UUID)를 주어 삽입/삭제 추적 |
+| RGA / Yjs / Automerge | **Sequence Array (Text Edit)**| **Figma, Google Docs 동시 문서 편집 전용 시퀀스** |
 
 #### 한줄 요약
 

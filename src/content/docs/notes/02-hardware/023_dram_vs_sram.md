@@ -76,11 +76,11 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 | 비교 항목 | DRAM (Dynamic RAM) | SRAM (Static RAM) |
 |:---|:---|:---|
-| **셀 구동 회로** | **1T1C** (1 Transistor + 1 Capacitor) | **6T** (6 Transistors Cross-Coupled Latch) |
-| **판독 메커니즘** | **파괴적 판독** (Sense Amp **복원** 필수) | **비파괴 판독** (래치 전압 상태 직접 유지) |
-| **리프레시 동작** | **주기적 Refresh** 필요 | 전원 공급 중 **Refresh 불필요** |
-| **비트당 면적•단가**| 1T1C 기반 고밀도•저비용 | 6T 기반 저밀도•고비용 |
-| **접근 지연** | Row Act•Precharge로 상대적 고지연 | 래치 직접 판독으로 상대적 저지연 |
+| 셀 구동 회로 | **1T1C** (1 Transistor + 1 Capacitor) | **6T** (6 Transistors Cross-Coupled Latch) |
+| 판독 메커니즘 | **파괴적 판독** (Sense Amp **복원** 필수) | **비파괴 판독** (래치 전압 상태 직접 유지) |
+| 리프레시 동작 | **주기적 Refresh** 필요 | 전원 공급 중 **Refresh 불필요** |
+| 비트당 면적•단가 | 1T1C 기반 고밀도•저비용 | 6T 기반 저밀도•고비용 |
+| 접근 지연 | Row Act•Precharge로 상대적 고지연 | 래치 직접 판독으로 상대적 저지연 |
 
 #### 한줄 요약
 - DRAM은 1T1C+Sense Amp 복원 회로 기반으로 동작하고 SRAM은 6T 래치 인버터 결합 회로 기반으로 동작함.
@@ -105,7 +105,7 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 ### 동작 원리
 
-1. **DRAM 접근**: 행 활성 후 **감지•복원**, 열 선택, 프리차지를 수행함.
+1. **DRAM 접근**: 행 활성 후 **감지**•**복원**, 열 선택, 프리차지를 수행함.
 2. **SRAM 접근**: 워드라인 활성 후 래치의 차동 비트라인을 판독함.
 
 #### 한줄 요약
@@ -122,10 +122,10 @@ Bit──┤Transistor ├──Capacitor──GND  Bit───┤ Inverter 1  
 
 | 성능 지표 | DRAM (Dynamic RAM) | SRAM (Static RAM) |
 |:---|:---|:---|
-| **핵심 용도** | 시스템 메인 메모리•GPU VRAM•HBM | CPU 캐시•온칩 버퍼•레지스터 파일 |
-| **집적 밀도** | 초고밀도 (동일 다이 면적당 SRAM의 약 6~10배) | 저밀도 (트랜지스터 6개로 칩 다이 면적 과다) |
-| **전력 요인** | Activate•Precharge•Refresh 동적 전력 | 다수 트랜지스터의 누설•접근 동적 전력 |
-| **제조 공정** | 커패시터 형성용 특수 3D DRAM 공정 수반 | 표준 논리 트랜지스터(CMOS) 공정과 100% 호환 |
+| 핵심 용도 | 시스템 메인 메모리•GPU VRAM•HBM | CPU 캐시•온칩 버퍼•레지스터 파일 |
+| 집적 밀도 | 초고밀도 (동일 다이 면적당 SRAM의 약 6~10배) | 저밀도 (트랜지스터 6개로 칩 다이 면적 과다) |
+| 전력 요인 | Activate•Precharge•Refresh 동적 전력 | 다수 트랜지스터의 누설•접근 동적 전력 |
+| 제조 공정 | 커패시터 형성용 특수 3D DRAM 공정 수반 | 표준 논리 트랜지스터(CMOS) 공정과 100% 호환 |
 
 #### 한줄 요약
 - DRAM은 대용량 메인 메모리 및 HBM 인프라 구축에 적용되며 SRAM은 표준 CMOS 공정의 CPU 온칩 고속 캐시로 적용됨.

@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Scheduler** | DAG 해석과 실행 가능 Task 판정 |
-| **Metadata DB** | Run•Task 상태•재시도•이력 보관 |
-| **Executor** | Task를 실행 큐•Pod•프로세스에 전달 |
-| **Worker** | Operator 코드 실행과 상태 보고 |
-| **Webserver** | 실행 상태•로그•수동 조작 UI 제공 |
+| Scheduler | DAG 해석과 실행 가능 Task 판정 |
+| Metadata DB | Run•Task 상태•재시도•이력 보관 |
+| Executor | Task를 실행 큐•Pod•프로세스에 전달 |
+| Worker | Operator 코드 실행과 상태 보고 |
+| Webserver | 실행 상태•로그•수동 조작 UI 제공 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Linux Crontab | Apache Airflow | Prefect / Dagster (3세대) |
 |:---|:---|:---|:---|
-| **의존성 제어** | 쉘•외부 상태로 직접 구현 | **DAG 기반 Task 의존성** | Asset•Flow 기반 의존성 |
-| **모니터링 UI** | 없음 (로그 파일 파싱 필요) | **우수 (웹 UI에서 Task 상태 시각화)**| **최상 (모던 데이터 아키텍처 UI)** |
-| **과거 백필 **| 불가능 (수동 스크립트 개별 가동)| **CLI 한 줄로 파티션 백필 완전 자동화**| 완전 자동화 |
-| **설정 방식** | 텍스트 Cron 표현식 | **Python DAG 코드** | Python Code & Asset 중심 |
+| 의존성 제어 | 쉘•외부 상태로 직접 구현 | **DAG 기반 Task 의존성** | Asset•Flow 기반 의존성 |
+| 모니터링 UI | 없음 (로그 파일 파싱 필요) | **우수 (웹 UI에서 Task 상태 시각화)**| **최상 (모던 데이터 아키텍처 UI)** |
+| 과거 백필  | 불가능 (수동 스크립트 개별 가동)| **CLI 한 줄로 파티션 백필 완전 자동화**| 완전 자동화 |
+| 설정 방식 | 텍스트 Cron 표현식 | **Python DAG 코드** | Python Code & Asset 중심 |
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 3대 Airflow 장애 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Scheduler Lag / Stalls**| Top-Level 파이썬 코드에 DB Heavy 쿼리 작성 | **Heavy 연산은 무조건 Operator 함수 내부 배치** |
-| **2. Database Bottleneck** | Task 수가 수만 개로 늘어나 DB Connection 차올라감| **PGBouncer 연동 및 Task Concurrency 제한** |
-| **3. OOM on Worker** | Worker 노드 메모리를 초과하는 대용량 DataFrame 연산 | **KubernetesPodOperator로 작업 노드 물리 분리** |
+| 1. Scheduler Lag / Stalls | Top-Level 파이썬 코드에 DB Heavy 쿼리 작성 | **Heavy 연산은 무조건 Operator 함수 내부 배치** |
+| 2. Database Bottleneck | Task 수가 수만 개로 늘어나 DB Connection 차올라감| **PGBouncer 연동 및 Task Concurrency 제한** |
+| 3. OOM on Worker | Worker 노드 메모리를 초과하는 대용량 DataFrame 연산 | **KubernetesPodOperator로 작업 노드 물리 분리** |
 
 > 사례: **쿠팡 / 카카오 / 네이버 MWAA (Amazon Managed Workflows for Apache Airflow) 운용**
 

@@ -79,10 +79,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Domain Ownership** | 도메인 팀이 데이터 품질•변경•지원 소유 |
-| **Data-as-a-Product** | 계약•SLO•문서•발견성 있는 상품 제공 |
-| **Self-Serve Platform** | 공통 수집•저장•품질•관측 기능 자동화 |
-| **Federated Governance** | 전사 규칙과 도메인 정책을 코드로 집행 |
+| Domain Ownership | 도메인 팀이 데이터 품질•변경•지원 소유 |
+| Data-as-a-Product | 계약•SLO•문서•발견성 있는 상품 제공 |
+| Self-Serve Platform | 공통 수집•저장•품질•관측 기능 자동화 |
+| Federated Governance | 전사 규칙과 도메인 정책을 코드로 집행 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Centralized Data Lake / DW | Data Mesh Architecture |
 |:---|:---|:---|
-| **데이터 소유권** | **중앙 데이터 엔지니어링 팀 총괄** | **각 현업 도메인 팀(Payment, Order) 개별 소유** |
-| **병목 형태** | 중앙 요청 큐 적체 가능 | 도메인별 역량•우선순위 편차 가능 |
-| **도메인 지식** | 중앙팀으로 전달 과정 필요 | **생산 도메인이 의미•품질 직접 소유** |
-| **인프라 관리 방식** | 중앙 통합 클러스터 운영 | **Self-Serve 플랫폼 기반 자급자족 생성** |
+| 데이터 소유권 | **중앙 데이터 엔지니어링 팀 총괄** | **각 현업 도메인 팀(Payment, Order) 개별 소유** |
+| 병목 형태 | 중앙 요청 큐 적체 가능 | 도메인별 역량•우선순위 편차 가능 |
+| 도메인 지식 | 중앙팀으로 전달 과정 필요 | **생산 도메인이 의미•품질 직접 소유** |
+| 인프라 관리 방식 | 중앙 통합 클러스터 운영 | **Self-Serve 플랫폼 기반 자급자족 생성** |
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 3대 Data Mesh 위험 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Data Silo (데이터 파편화)**| 연합 거버넌스 정책 없이 각 팀이 낭비 적재 | **전사 메타데이터 카탈로그 (OpenMetadata) 자동 갱신**|
-| **2. Domain Cost Explosion** | 도메인별로 엉성하게 인프라 중복 띄움 | **Self-Serve 플랫폼의 중앙 비용 통제 (FinOps) 모니터링**|
-| **3. Data Quality Failure** | 도메인 팀의 데이터 품질 무관심 | **Data Contract 체결 및 Violation 자동 감지 훅 설정** |
+| 1. Data Silo (데이터 파편화) | 연합 거버넌스 정책 없이 각 팀이 낭비 적재 | **전사 메타데이터 카탈로그 (OpenMetadata) 자동 갱신**|
+| 2. Domain Cost Explosion | 도메인별로 엉성하게 인프라 중복 띄움 | **Self-Serve 플랫폼의 중앙 비용 통제 (FinOps) 모니터링**|
+| 3. Data Quality Failure | 도메인 팀의 데이터 품질 무관심 | **Data Contract 체결 및 Violation 자동 감지 훅 설정** |
 
 > 사례: **토스 / 당근마켓 / Netflix 전사 Data Mesh 도메인 아키텍처 및 OpenMetadata 도입**
 

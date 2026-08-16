@@ -77,11 +77,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Dataset Node** | 원천•중간•결과 데이터 자산 표현 |
-| **Job Node** | 변환 작업•실행•코드 버전 표현 |
-| **Lineage Edge** | 읽기•쓰기•열 변환 의존 관계 표현 |
-| **Lineage Emitter** | 실행 이벤트와 입력•출력 메타데이터 전송 |
-| **Graph Store** | 상하류 탐색과 영향•원인 질의 제공 |
+| Dataset Node | 원천•중간•결과 데이터 자산 표현 |
+| Job Node | 변환 작업•실행•코드 버전 표현 |
+| Lineage Edge | 읽기•쓰기•열 변환 의존 관계 표현 |
+| Lineage Emitter | 실행 이벤트와 입력•출력 메타데이터 전송 |
+| Graph Store | 상하류 탐색과 영향•원인 질의 제공 |
 
 #### 한줄 요약
 
@@ -136,10 +136,10 @@ extra:
 
 | 비교 항목 | Design-Time Lineage (설계 시점 계보) | Runtime Lineage (런타임 계보) |
 |:---|:---|:---|
-| **수집 원천** | **소스 코드, SQL 파일, DDL 명세서** | **Spark, Airflow 실제 실행 런타임 로그** |
-| **장점** | 배포 전 사전 영향도 파악 가능 | **실제 실행 경로와 버전 확인** |
-| **단점** | 동적 쿼리(`EXECUTE IMMEDIATE`) 미반영 위험 | 파이프라인이 실행되어야만 계보 생성 |
-| **적용 시점** | CI/CD 배포 파이프라인 검증 | 실시간 관제 및 장애 원인 추적 |
+| 수집 원천 | **소스 코드, SQL 파일, DDL 명세서** | **Spark, Airflow 실제 실행 런타임 로그** |
+| 장점 | 배포 전 사전 영향도 파악 가능 | **실제 실행 경로와 버전 확인** |
+| 단점 | 동적 쿼리(`EXECUTE IMMEDIATE`) 미반영 위험 | 파이프라인이 실행되어야만 계보 생성 |
+| 적용 시점 | CI/CD 배포 파이프라인 검증 | 실시간 관제 및 장애 원인 추적 |
 
 #### 한줄 요약
 
@@ -155,9 +155,9 @@ extra:
 
 | 실무 난제 및 유스케이스 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Lineage Disconnect** | 외부 API나 수동 파이썬 코드로 연결고리 소멸| **OpenLineage Custom Emitter 에이전트 코드 이식** |
-| **2. Impact Analysis** | 소스 DB 컬럼 `user_id` 삭제 예고 | **Lineage Downstream 탐색으로 파급 대시보드 3개 사전 조치**|
-| **3. Root Cause Analysis** | CEO 보고서 수치가 전일 대비 -90% 급락 | **Lineage Upstream 역추적으로 3단계 전 Spark Job 에러 발견**|
+| 1. Lineage Disconnect | 외부 API나 수동 파이썬 코드로 연결고리 소멸| **OpenLineage Custom Emitter 에이전트 코드 이식** |
+| 2. Impact Analysis | 소스 DB 컬럼 `user_id` 삭제 예고 | **Lineage Downstream 탐색으로 파급 대시보드 3개 사전 조치**|
+| 3. Root Cause Analysis | CEO 보고서 수치가 전일 대비 -90% 급락 | **Lineage Upstream 역추적으로 3단계 전 Spark Job 에러 발견**|
 
 > 사례: **토스 / 당근마켓 OpenLineage & OpenMetadata 기반 전사 Data Lineage 시각화**
 

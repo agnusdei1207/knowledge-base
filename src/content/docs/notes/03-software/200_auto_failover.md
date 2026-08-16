@@ -135,9 +135,9 @@ extra:
 
 | 자동 전환 계층 | Client Failover | Service Failover | Data Failover |
 |:---|:---|:---|:---|
-| **전환 대상** | **호출자의 연결 대상 주소·경로** | **무상태 서비스 인스턴스** | **상태형 DB Primary 쓰기 노드** |
-| **핵심 통제** | 재시도 상한, DNS TTL 최소화 | 헬스 체크 기반 LB 제외 | Fencing + Quorum 기반 단일 승격 |
-| **Fencing 필요** | 불필요 | 불필요 (무상태) | **필수 (Split Brain 방지)** |
+| 전환 대상 | **호출자의 연결 대상 주소·경로** | **무상태 서비스 인스턴스** | **상태형 DB Primary 쓰기 노드** |
+| 핵심 통제 | 재시도 상한, DNS TTL 최소화 | 헬스 체크 기반 LB 제외 | Fencing + Quorum 기반 단일 승격 |
+| Fencing 필요 | 불필요 | 불필요 (무상태) | **필수 (Split Brain 방지)** |
 
 #### 한줄 요약
 
@@ -153,9 +153,9 @@ extra:
 
 | 3대 실무 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. 오탐 전환 (Flapping)** | 순간 네트워크 지연으로 헬스 체크 실패 → 불필요한 Failover | **히스테리시스 기반 연속 실패 횟수+지속 시간 조합으로 장애 판정 기준 엄격화**|
-| **2. Split Brain (이중 쓰기)** | Fencing 없이 Standby 승격 또는 Fencing 실패 무시 | **Fencing 실패 시 자동 승격 전면 중단, 반드시 수동 승인 요구 정책 강제화** |
-| **3. 전환 후 재시도 폭주** | Failover 완료 직후 모든 클라이언트가 동시 재접속 | **지수 백오프+지터(Jitter)로 재시도 분산 + N-1 용량 사전 검증으로 여유 확보** |
+| 1. 오탐 전환 (Flapping) | 순간 네트워크 지연으로 헬스 체크 실패 → 불필요한 Failover | **히스테리시스 기반 연속 실패 횟수+지속 시간 조합으로 장애 판정 기준 엄격화**|
+| 2. Split Brain (이중 쓰기) | Fencing 없이 Standby 승격 또는 Fencing 실패 무시 | **Fencing 실패 시 자동 승격 전면 중단, 반드시 수동 승인 요구 정책 강제화** |
+| 3. 전환 후 재시도 폭주 | Failover 완료 직후 모든 클라이언트가 동시 재접속 | **지수 백오프+지터(Jitter)로 재시도 분산 + N-1 용량 사전 검증으로 여유 확보** |
 
 > 사례: **PostgreSQL Patroni + etcd 기반 자동 Leader 선출 및 Fencing(AWS API로 구 Primary 강제 정지) 구현으로 RTO 30초 이내 Auto Failover 달성, MySQL InnoDB Cluster의 자동 장애 전환 운영 사례**
 

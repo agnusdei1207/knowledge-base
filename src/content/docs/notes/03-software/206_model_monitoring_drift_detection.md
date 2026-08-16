@@ -168,4 +168,4 @@ extra:
 
 </details>
 
-- 실제 성능 저하는 **재학습•Rollback**, 무영향 변화는 Baseline 갱신
+- 실제 성능 저하는 **재학습**•**Rollback**, 무영향 변화는 Baseline 갱신

@@ -161,7 +161,7 @@ extra:
 
 </details>
 
-- 현장 적합성은 **Alpha•Beta**, 계약•운영 수용은 **UAT•OAT**로 판정
+- 현장 적합성은 **Alpha**•**Beta**, 계약•운영 수용은 **UAT**•**OAT**로 판정
 
 #### 한줄 요약
 

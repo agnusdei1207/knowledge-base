@@ -71,7 +71,7 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| Image Trust | **취약점•서명**과 공급망 출처 검증 |
+| Image Trust | **취약점**•**서명**과 공급망 출처 검증 |
 | Admission Policy | 위험한 **Pod 명세**의 저장•배포 거부 |
 | Kernel Restriction | **System Call•파일 접근** 최소 권한 강제 |
 | Runtime Detection | 실행 중 **이상 행위** 탐지•대응 |
@@ -132,9 +132,9 @@ extra:
 
 | securityContext 설정 옵션 | 보안 위험 예방 효과 | 실무 필수 적용 기준 |
 |:---|:---|:---|
-| **`runAsNonRoot: true`** | **Container가 Root 계정으로 구동되어 호스트 점령 예방**| 필수 적용 |
-| **`allowPrivilegeEscalation: false`** | SUID 바이너리로 권한 상승 해킹 시도 차단 | 필수 적용 |
-| **`readOnlyRootFilesystem: true`**| 악성코드나 웹쉘 파일 다운로드 자체를 차단 | **필수 적용 (불변 런타임)**|
+| `runAsNonRoot: true` | **Container가 Root 계정으로 구동되어 호스트 점령 예방**| 필수 적용 |
+| `allowPrivilegeEscalation: false` | SUID 바이너리로 권한 상승 해킹 시도 차단 | 필수 적용 |
+| `readOnlyRootFilesystem: true` | 악성코드나 웹쉘 파일 다운로드 자체를 차단 | **필수 적용 (불변 런타임)**|
 
 #### 한줄 요약
 
@@ -150,9 +150,9 @@ extra:
 
 | 3대 컨테이너 보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Container Escape** | 과도한 특권과 Kernel 취약점 | **Admission 차단과 Runtime 최신화**|
-| **2. Vulnerable Base Image**| Ubuntu/Debian 베이스 이미지 CVE 속출 | **Chainguard / Distroless 최소 베이스 이미지 전환**|
-| **3. Secret File Leaks** | DB 비번을 이미지 내부나 환경변수로 박음 | **HashiCorp Vault / External Secrets Operator 연동** |
+| 1. Container Escape | 과도한 특권과 Kernel 취약점 | **Admission 차단과 Runtime 최신화**|
+| 2. Vulnerable Base Image | Ubuntu/Debian 베이스 이미지 CVE 속출 | **Chainguard / Distroless 최소 베이스 이미지 전환**|
+| 3. Secret File Leaks | DB 비번을 이미지 내부나 환경변수로 박음 | **HashiCorp Vault / External Secrets Operator 연동** |
 
 > 사례: **토스 / 당근마켓 / 쿠팡 OPA Gatekeeper & Falco & Trivy 통합 데브섹옵스(DevSecOps) 적용 사례**
 

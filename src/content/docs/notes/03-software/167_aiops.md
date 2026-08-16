@@ -72,7 +72,7 @@ extra:
 | Data Ingestion | **Metrics•Logs•Traces•Topology** 수집 |
 | Data Processing | Signal **정규화•품질•시간 정렬** 수행 |
 | ML Engine | **이상 탐지•Event 상관•원인 후보** 산출 |
-| Action Automation | 승인 정책에 따라 **Ticket•Runbook** 실행 |
+| Action Automation | 승인 정책에 따라 **Ticket**•**Runbook** 실행 |
 
 #### 한줄 요약
 
@@ -130,10 +130,10 @@ extra:
 
 | 비교 항목 | Traditional Monitoring (전통적 관제) | AIOps (인공지능 IT 운영) |
 |:---|:---|:---|
-| **임계치 설정 방식**| **운영자가 수동으로 고정 임계치(Static Rule) 설정**| **ML이 동적 베이스라인(Dynamic Baseline) 자동 학습**|
-| **장애 대응 시점** | 장애 발생 이후에 알람 수신 (사후 대응) | **징후를 사전 감지하여 장애 전 알람 (사전 예측)** |
-| **알람 처리 (노이즈)**| Event별 개별 처리 | **상관 분석으로 Incident 군집화** |
-| **문제 해결 주체** | 엔지니어가 규칙과 화면으로 판단 | **AI 추천과 정책 기반 자동 조치** |
+| 임계치 설정 방식 | **운영자가 수동으로 고정 임계치(Static Rule) 설정**| **ML이 동적 베이스라인(Dynamic Baseline) 자동 학습**|
+| 장애 대응 시점 | 장애 발생 이후에 알람 수신 (사후 대응) | **징후를 사전 감지하여 장애 전 알람 (사전 예측)** |
+| 알람 처리 (노이즈) | Event별 개별 처리 | **상관 분석으로 Incident 군집화** |
+| 문제 해결 주체 | 엔지니어가 규칙과 화면으로 판단 | **AI 추천과 정책 기반 자동 조치** |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 AIOps 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Data Silo & Poor Quality**| 네트워크, APM 데이터 규격이 모두 다름 | **OpenTelemetry 표준화로 통합 데이터 파이프라인 구축**|
-| **2. Black Box AI** | AI가 RCA를 내놓았지만 근거를 알 수 없음| **Explainable AI(XAI) 적용 및 토폴로지 인과 그래프 시각화**|
-| **3. Auto-Remediation 사고**| AI가 오판하여 멀쩡한 DB를 셧다운 시킴 | **도입 초기에는 '추천(Recommendation)'만 하고 인간이 최종 승인(Human-in-the-loop)**|
+| 1. Data Silo & Poor Quality | 네트워크, APM 데이터 규격이 모두 다름 | **OpenTelemetry 표준화로 통합 데이터 파이프라인 구축**|
+| 2. Black Box AI | AI가 RCA를 내놓았지만 근거를 알 수 없음| **Explainable AI(XAI) 적용 및 토폴로지 인과 그래프 시각화**|
+| 3. Auto-Remediation 사고 | AI가 오판하여 멀쩡한 DB를 셧다운 시킴 | **도입 초기에는 '추천(Recommendation)'만 하고 인간이 최종 승인(Human-in-the-loop)**|
 
 > 사례: **카카오 / 네이버 자체 AIOps 모델 구축을 통한 Alert 80% 감소 및 장애 인지 시간 단축**
 

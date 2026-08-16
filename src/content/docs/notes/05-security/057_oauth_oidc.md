@@ -150,8 +150,8 @@ API 자원 요청
 
 | 표준 | 역할 | 핵심 토큰 및 산출물 | 검증 핵심 |
 |:---|:---|:---|:---|
-| **OAuth 2.0** | 자원 접근 권한 위임(Authorization) | Access Token, Refresh Token | Scope 범위, Redirect URI, PKCE |
-| **OIDC** | 사용자 신원 인증(Authentication) | ID Token (JWT) | iss, sub, aud, Nonce 서명 검증 |
+| OAuth 2.0 | 자원 접근 권한 위임(Authorization) | Access Token, Refresh Token | Scope 범위, Redirect URI, PKCE |
+| OIDC | 사용자 신원 인증(Authentication) | ID Token (JWT) | iss, sub, aud, Nonce 서명 검증 |
 
 #### 한줄 요약
 

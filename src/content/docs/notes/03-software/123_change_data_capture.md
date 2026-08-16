@@ -82,11 +82,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Transaction Log** | 커밋 순서와 행 변경 내용 보관 |
-| **CDC Connector** | 로그 파싱•스키마 해석•이벤트 변환 |
-| **Offset Store** | 마지막 안전 처리 로그 위치 저장 |
-| **Event Broker** | 변경 이벤트 순서 보존•다중 전파 |
-| **Sink Consumer** | 키 기반 UPSERT•DELETE 멱등 반영 |
+| Transaction Log | 커밋 순서와 행 변경 내용 보관 |
+| CDC Connector | 로그 파싱•스키마 해석•이벤트 변환 |
+| Offset Store | 마지막 안전 처리 로그 위치 저장 |
+| Event Broker | 변경 이벤트 순서 보존•다중 전파 |
+| Sink Consumer | 키 기반 UPSERT•DELETE 멱등 반영 |
 
 #### 한줄 요약
 
@@ -102,9 +102,9 @@ extra:
 
 | CDC 구현 방식 | 메커니즘 및 동작 원리 | 장점 및 단점 비교 |
 |:---|:---|:---|
-| **Log-based CDC** | **DB 이진 트랜잭션 로그 파싱** | 낮은 조회 부하•로그 권한 필요 |
-| **Trigger-based CDC** | **테이블마다 CUD DB Trigger 작성** | 모든 DB 적용 가능, **소스 DB 쓰기 Latency 증가** |
-| **Query-based CDC** | **`WHERE updated_at > ?` 쿼리 폴링** | 구현 단순함, **`DELETE` 감지 불가, DB CPU 병목** |
+| Log-based CDC | **DB 이진 트랜잭션 로그 파싱** | 낮은 조회 부하•로그 권한 필요 |
+| Trigger-based CDC | **테이블마다 CUD DB Trigger 작성** | 모든 DB 적용 가능, **소스 DB 쓰기 Latency 증가** |
+| Query-based CDC | **`WHERE updated_at > ?` 쿼리 폴링** | 구현 단순함, **`DELETE` 감지 불가, DB CPU 병목** |
 
 #### 한줄 요약
 
@@ -141,9 +141,9 @@ extra:
 
 | 3대 CDC 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Binlog Expiration** | 대용량 트래픽 시 Binlog 파일이 일찍 삭제됨| **Binlog 보존 기간(Retention) 최소 3일 이상 연장** |
-| **2. DDL Schema Change** | 소스 DB 컬럼 추가/삭제 시 CDC 파행 | **Debezium Schema Registry 연동 및 DDL 이력 자동 추적**|
-| **3. Initial Snapshot Lag**| 수억 건 초기 스냅샷 도중 Binlog 오프셋 상실 | **Consistent Snapshot Mode (Lockless Snapshotting) 적용**|
+| 1. Binlog Expiration | 대용량 트래픽 시 Binlog 파일이 일찍 삭제됨| **Binlog 보존 기간(Retention) 최소 3일 이상 연장** |
+| 2. DDL Schema Change | 소스 DB 컬럼 추가/삭제 시 CDC 파행 | **Debezium Schema Registry 연동 및 DDL 이력 자동 추적**|
+| 3. Initial Snapshot Lag | 수억 건 초기 스냅샷 도중 Binlog 오프셋 상실 | **Consistent Snapshot Mode (Lockless Snapshotting) 적용**|
 
 > 사례: **배달의민족 / 쿠팡 MySQL $\rightarrow$ Debezium CDC $\rightarrow$ Kafka $\rightarrow$ ElasticSearch 검색 엔진 동기화**
 

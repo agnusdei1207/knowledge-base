@@ -81,11 +81,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Metadata•Owner** | 데이터셋•버전•생산자•소비자 책임 명시 |
-| **Schema•Semantics** | 열•타입•키•업무 의미 정의 |
-| **Quality Rules** | 완전성•유효성•건수•분포 합격선 정의 |
-| **SLO•Terms** | 신선도•가용성•보존•지원 수준 정의 |
-| **Evolution Policy** | 호환성•예고 기간•버전 전환 규칙 정의 |
+| Metadata•Owner | 데이터셋•버전•생산자•소비자 책임 명시 |
+| Schema•Semantics | 열•타입•키•업무 의미 정의 |
+| Quality Rules | 완전성•유효성•건수•분포 합격선 정의 |
+| SLO•Terms | 신선도•가용성•보존•지원 수준 정의 |
+| Evolution Policy | 호환성•예고 기간•버전 전환 규칙 정의 |
 
 #### 한줄 요약
 
@@ -140,10 +140,10 @@ extra:
 
 | 비교 항목 | API Contract (OpenAPI/Swagger) | Data Contract (OpenDataContract) |
 |:---|:---|:---|
-| **주요 대상** | **Microservice 간 REST API 통신** | **이종 데이터 파이프라인 및 DW/Lake 수집** |
-| **명세 내용** | Endpoint URL, Request/Response Body | **Schema, Quality Expectation, SLA, Freshness** |
-| **파괴적 변경 대응**| API URL 버저닝 (`/v1/user` $\rightarrow$ `/v2/user`)| **Data Contract 버저닝 및 하류 의존성 차단** |
-| **핵심 목적** | 서비스 동작 연동 보장 | **데이터 무결성 및 파이프라인 붕괴 방지** |
+| 주요 대상 | **Microservice 간 REST API 통신** | **이종 데이터 파이프라인 및 DW/Lake 수집** |
+| 명세 내용 | Endpoint URL, Request/Response Body | **Schema, Quality Expectation, SLA, Freshness** |
+| 파괴적 변경 대응 | API URL 버저닝 (`/v1/user` $\rightarrow$ `/v2/user`)| **Data Contract 버저닝 및 하류 의존성 차단** |
+| 핵심 목적 | 서비스 동작 연동 보장 | **데이터 무결성 및 파이프라인 붕괴 방지** |
 
 #### 한줄 요약
 
@@ -159,9 +159,9 @@ extra:
 
 | 3대 도입 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Producer Resistance**| 백엔드 개발자가 YAML 작성 귀찮아함 | **DB DDL/Protobuf 에서 Contract YAML 자동 추출 도구 배포**|
-| **2. Contract Drift** | 계약서만 써 두고 시스템 자동 검증 부재 | **GitHub Actions CI/CD 게이트웨이에 Contract 검증 자동화**|
-| **3. Legacy System Sync** | 레거시 DB의 컬럼 타입 무차별 변경 | **Schema Registry 기반 Kafka Topic 과 Contract 연동** |
+| 1. Producer Resistance | 백엔드 개발자가 YAML 작성 귀찮아함 | **DB DDL/Protobuf 에서 Contract YAML 자동 추출 도구 배포**|
+| 2. Contract Drift | 계약서만 써 두고 시스템 자동 검증 부재 | **GitHub Actions CI/CD 게이트웨이에 Contract 검증 자동화**|
+| 3. Legacy System Sync | 레거시 DB의 컬럼 타입 무차별 변경 | **Schema Registry 기반 Kafka Topic 과 Contract 연동** |
 
 > 사례: **토스 / 당근마켓 / Databricks Data Contract 적용 사례**
 

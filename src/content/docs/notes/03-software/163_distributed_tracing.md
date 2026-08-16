@@ -130,10 +130,10 @@ extra:
 
 | 비교 항목 | Head Sampling (헤드 샘플링) | Tail Sampling (테일 샘플링) |
 |:---|:---|:---|
-| **결정 시점** | **트래픽 진입 시점 (최초 인그레스)**| **요청이 끝까지 모두 완료된 후 후행 판정** |
-| **핵심 목적** | 비용 절감을 위해 무작위 1%만 수집 | **정상 1%, 지연/오류(500) 100% 선별 수집** |
-| **시스템 부하** | 매우 낮음 (안 뽑힌 요청은 즉시 버림)| 높음 (모든 데이터를 메모리에 들고 있다가 버림) |
-| **실무 적용** | OTel SDK 기본 내장 설정 | **OTel Collector 중앙 메모리 버퍼링 필요** |
+| 결정 시점 | **트래픽 진입 시점 (최초 인그레스)**| **요청이 끝까지 모두 완료된 후 후행 판정** |
+| 핵심 목적 | 비용 절감을 위해 무작위 1%만 수집 | **정상 1%, 지연/오류(500) 100% 선별 수집** |
+| 시스템 부하 | 매우 낮음 (안 뽑힌 요청은 즉시 버림)| 높음 (모든 데이터를 메모리에 들고 있다가 버림) |
+| 실무 적용 | OTel SDK 기본 내장 설정 | **OTel Collector 중앙 메모리 버퍼링 필요** |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 분산 추적 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Trace Context Broken** | Kafka Message Produce 시 헤더 복사 누락| **Kafka Record Header에 W3C Context 수동 주입** |
-| **2. Storage Cost Explosion**| 하루 1억 건 트레이스 100% 저장 (ES 파산)| **Tail Sampling 도입하여 Error 위주 선별 저장** |
-| **3. High Cardinality Tags** | Span Attribute에 UUID, 이메일을 난사함 | **PII 정보는 OTel Processor에서 마스킹/Drop 처리**|
+| 1. Trace Context Broken | Kafka Message Produce 시 헤더 복사 누락| **Kafka Record Header에 W3C Context 수동 주입** |
+| 2. Storage Cost Explosion | 하루 1억 건 트레이스 100% 저장 (ES 파산)| **Tail Sampling 도입하여 Error 위주 선별 저장** |
+| 3. High Cardinality Tags | Span Attribute에 UUID, 이메일을 난사함 | **PII 정보는 OTel Processor에서 마스킹/Drop 처리**|
 
 > 사례: **카카오 / 당근마켓 Spring Sleuth/Micrometer 연동 및 Kafka 비동기 Trace 연결 아키텍처**
 

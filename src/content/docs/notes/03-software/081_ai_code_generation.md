@@ -148,9 +148,9 @@ extra:
 
 | 3대 위험 요소 | 발생 원인 및 위협 내용 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Hallucination & CWE** | 존재하지 않는 API 제안 및 취약 코드 주입 | **독립 시험•SAST•의존성 검증** |
-| **2. Copyright / IP Risk** | GPL 라이선스 코드의 무단 유사 복사 | **GitHub Copilot 내 "Block suggestions matching public code" 활성화** |
-| **3. Privacy Leakage** | 기업 내부 기밀 코드가 외부 AI 모델 학습에 유출 | **Enterprise 전용 요금제 (학습 데이터 활용 OFF 설정) 계약** |
+| 1. Hallucination & CWE | 존재하지 않는 API 제안 및 취약 코드 주입 | **독립 시험•SAST•의존성 검증** |
+| 2. Copyright / IP Risk | GPL 라이선스 코드의 무단 유사 복사 | **GitHub Copilot 내 "Block suggestions matching public code" 활성화** |
+| 3. Privacy Leakage | 기업 내부 기밀 코드가 외부 AI 모델 학습에 유출 | **Enterprise 전용 요금제 (학습 데이터 활용 OFF 설정) 계약** |
 
 > 사례: **전사 GitHub Copilot Enterprise 도입 + Public Code Match Block + SonarQube 파이프라인 연동**
 

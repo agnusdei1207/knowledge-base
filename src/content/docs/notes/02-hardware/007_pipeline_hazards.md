@@ -78,10 +78,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 해저드 감지기 | Rs•Rd 비교로 **RAW•Load-Use** 탐지 |
+| 해저드 감지기 | Rs•Rd 비교로 **RAW**•**Load-Use** 탐지 |
 | 포워딩 경로 | 선행 결과를 **ALU 입력 MUX**로 우회 |
 | 분기 제어기 | 예측 검증 후 **Flush•PC 복구** 제어 |
-| 자원 중재기 | 공유 자원 충돌 시 **우선순위•Stall** 제어 |
+| 자원 중재기 | 공유 자원 충돌 시 **우선순위**•**Stall** 제어 |
 
 #### 한줄 요약
 - Hazard Detection Unit이 레지스터 번호 충돌을 감지하고 Forwarding MUX, Branch Controller, Resource Arbiter가 수습 조치를 실행함.
@@ -144,9 +144,9 @@ extra:
 
 | 비교 항목 | 데이터 해저드 (Data Hazard) | 제어 해저드 (Control Hazard) | 구조적 해저드 (Structural Hazard) |
 |:---|:---|:---|:---|
-| **발생 원인** | 선후 명령어 간 **RAW** (Read-After-Write) 데이터 의존성 | 조건 분기 결과 결정 전 **추측 인출** 수행 오예측 | 동일 클록 주기에 단일 하드웨어 자원 동시 접근 |
-| **치명도** | 매우 빈번함 (연속적 연산 코드에서 다수 발생) | 분기 미스 시 깊은 파이프라인일수록 페널티 대폭 증가 | 메모리/버스가 잘 분리된 아키텍처에서는 드묾 |
-| **주요 대책** | **포워딩**, 컴파일러 스케줄링, Stall | **분기 예측기**, BTB, Branch Target Early Compute | **자원 복제** (Harvard Architecture, Dual-Port Register) |
+| 발생 원인 | 선후 명령어 간 **RAW** (Read-After-Write) 데이터 의존성 | 조건 분기 결과 결정 전 **추측 인출** 수행 오예측 | 동일 클록 주기에 단일 하드웨어 자원 동시 접근 |
+| 치명도 | 매우 빈번함 (연속적 연산 코드에서 다수 발생) | 분기 미스 시 깊은 파이프라인일수록 페널티 대폭 증가 | 메모리/버스가 잘 분리된 아키텍처에서는 드묾 |
+| 주요 대책 | **포워딩**, 컴파일러 스케줄링, Stall | **분기 예측기**, BTB, Branch Target Early Compute | **자원 복제** (Harvard Architecture, Dual-Port Register) |
 
 #### 한줄 요약
 - RAW 의존성의 데이터 해저드, 분기 미스의 제어 해저드, 자원 점유의 구조적 해저드로 구분되며 포워딩, 예측기, 자원 복제로 대응함.

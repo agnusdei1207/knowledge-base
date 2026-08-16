@@ -79,10 +79,10 @@ extra:
 
 | 격리 수준 (Isolation Level) | 방지되는 이상 현상 | 구현 원리 및 런타임 제어 메커니즘 |
 |:---|:---|:---|
-| **1. Read Uncommitted** | 세 읽기 이상 허용 | 타 트랜잭션의 미커밋 변경도 읽기 가능 |
-| **2. Read Committed** | **Dirty Read 차단** | Undo Log에서 **커밋된 최신 스냅샷만 조회** (Oracle, PostgreSQL 기본) |
-| **3. Repeatable Read** | **Non-Repeatable Read 차단**| **트랜잭션 시작 시점의 Read View 스냅샷 고정** (MySQL InnoDB 기본) |
-| **4. Serializable** | **세 읽기 이상 방지** | 직렬화 충돌 검사 또는 범위 잠금 적용 |
+| 1. Read Uncommitted | 세 읽기 이상 허용 | 타 트랜잭션의 미커밋 변경도 읽기 가능 |
+| 2. Read Committed | **Dirty Read 차단** | Undo Log에서 **커밋된 최신 스냅샷만 조회** (Oracle, PostgreSQL 기본) |
+| 3. Repeatable Read | **Non-Repeatable Read 차단**| **트랜잭션 시작 시점의 Read View 스냅샷 고정** (MySQL InnoDB 기본) |
+| 4. Serializable | **세 읽기 이상 방지** | 직렬화 충돌 검사 또는 범위 잠금 적용 |
 
 #### 한줄 요약
 

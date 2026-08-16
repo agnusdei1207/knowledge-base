@@ -76,10 +76,10 @@ extra:
 
 | 실행 계획 구성 항목 | 대표적 값 및 의미 | 튜닝 핵심 관점 |
 |:---|:---|:---|
-| **type (접근 방식)** | **`system > const > eq_ref > ref > range > index > ALL`** | `ALL` (Full Table Scan) 발생 여부 파악 |
-| **rows (예상 행 수)**| 옵티마이저가 예측한 스캔 대상 튜플 수 (**Cardinality**) | 실제 반환 튜플 수와의 오차율 계산 |
-| **Extra (부가 정보)** | **`Using index, Using temporary, Using filesort`** | 임시•정렬 비용과 대체 경로 검토 |
-| **Join Algorithm** | **Nested Loop Join, Hash Join, Sort Merge Join** | 데이터 스케일에 맞는 조인 방식 배치 |
+| type (접근 방식) | **`system > const > eq_ref > ref > range > index > ALL`** | `ALL` (Full Table Scan) 발생 여부 파악 |
+| rows (예상 행 수) | 옵티마이저가 예측한 스캔 대상 튜플 수 (**Cardinality**) | 실제 반환 튜플 수와의 오차율 계산 |
+| Extra (부가 정보) | **`Using index, Using temporary, Using filesort`** | 임시•정렬 비용과 대체 경로 검토 |
+| Join Algorithm | **Nested Loop Join, Hash Join, Sort Merge Join** | 데이터 스케일에 맞는 조인 방식 배치 |
 
 #### 한줄 요약
 

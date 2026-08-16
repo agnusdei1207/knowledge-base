@@ -81,11 +81,11 @@ SDH·SONET 구성요소
 
 | 구성요소 | 역할 및 핵심 기능 |
 |:---|:---|
-| **가상 컨테이너 ** | 하위 클럭 신호를 정형화하고 종단 간 관리를 위한 경로 오버헤드(POH) 부가 수용 |
-| **포인터 ** | 프레임 내 VC/SPE의 시작 위치 바이트 주소를 실시간 추적 지시 |
-| **구간 오버헤드 ** | RSOH/MSOH 영역을 통해 노드 간 프레임 동기, BIP-8 오류 감시, APS 절체 제어 |
-| **분기결합 다중화기 ** | 링 토폴로지 상에서 프레임 풀 해체 없이 특정 VC 채널의 Add/Drop 수행 |
-| **디지털 교차연결기 ** | 국사 대용량 광선로 간 VC-12/VC-4 단위의 전자적 Cross-Connect 회선 재배치 |
+| 가상 컨테이너  | 하위 클럭 신호를 정형화하고 종단 간 관리를 위한 경로 오버헤드(POH) 부가 수용 |
+| 포인터  | 프레임 내 VC/SPE의 시작 위치 바이트 주소를 실시간 추적 지시 |
+| 구간 오버헤드  | RSOH/MSOH 영역을 통해 노드 간 프레임 동기, BIP-8 오류 감시, APS 절체 제어 |
+| 분기결합 다중화기  | 링 토폴로지 상에서 프레임 풀 해체 없이 특정 VC 채널의 Add/Drop 수행 |
+| 디지털 교차연결기  | 국사 대용량 광선로 간 VC-12/VC-4 단위의 전자적 Cross-Connect 회선 재배치 |
 
 #### 한줄 요약
 
@@ -152,11 +152,11 @@ SDH·SONET 구성요소
 
 | 비교 항목 | PDH (Plesiochronous) | SDH (Synchronous - ITU-T) | SONET (Synchronous - ANSI) |
 |:---|:---|:---|:---|
-| **동기 방식** | 개별 국부 클럭과 비트 채움 | 계층적 기준 클럭 동기 | 계층적 기준 클럭 동기 |
-| **기본 프레임 속도** | 이원화 (북미 DS1: 1.544M / 유럽 E1: 2.048M) | **STM-1** (155.52 Mbps) 기본 | **STS-1 / OC-1** (51.84 Mbps) 기본 |
-| **하위 신호 추출** | 다단 역다중화 (Demux Chain) 필수 | **포인터** 기법 기반 Direct Add-Drop | **포인터** 기법 기반 Direct Add-Drop |
-| **OAM & 절체 성능** | 관리 오버헤드 제한 | SOH/POH와 APS 지원 | Section/Line/Path OAM과 APS 지원 |
-| **벤더/지역 호환성** | 지역별 계위 차이 큼 | ITU-T 국제 계위 | ANSI 북미 계위 |
+| 동기 방식 | 개별 국부 클럭과 비트 채움 | 계층적 기준 클럭 동기 | 계층적 기준 클럭 동기 |
+| 기본 프레임 속도 | 이원화 (북미 DS1: 1.544M / 유럽 E1: 2.048M) | **STM-1** (155.52 Mbps) 기본 | **STS-1 / OC-1** (51.84 Mbps) 기본 |
+| 하위 신호 추출 | 다단 역다중화 (Demux Chain) 필수 | **포인터** 기법 기반 Direct Add-Drop | **포인터** 기법 기반 Direct Add-Drop |
+| OAM & 절체 성능 | 관리 오버헤드 제한 | SOH/POH와 APS 지원 | Section/Line/Path OAM과 APS 지원 |
+| 벤더/지역 호환성 | 지역별 계위 차이 큼 | ITU-T 국제 계위 | ANSI 북미 계위 |
 
 > 요약: 레거시 개별 회선에는 **PDH**, 글로벌 광 전송 백본 망 구축에는 **SDH**, 북미 계위 백본 및 국사 연동에는 **SONET** 표준을 채택한다.
 
@@ -175,10 +175,10 @@ SDH·SONET 구성요소
 
 | 실무 문제점 | 발생 원인 | 해결 대책 | 기대 효과 |
 |:---|:---|:---|:---|
-| **포인터 지터 폭증** | **클럭 품질** 저하 및 주파수 동기 이탈로 Pointer Adjustment 빈번 | Primary Reference Clock (PRC 세슘) 마스터 동기 강화 및 De-jitter 버퍼 적용 | 디지털 신호 지터 억제 및 무손실 transmission 구현 |
-| **이종 계위 연동 오류** | 북미 SONET(OC-3)과 유럽 SDH(STM-1) 간 페이로드 매핑 불일치 | **상호 연동**(Interworking) 매퍼(VC-3/VC-4 Gateway) 교차 설정 | 북미-유럽 간 국가 광 백본 상호운용성 완전 확보 |
-| **보호 절체 실패** | 링 토폴로지 상에서 APS 패킷 미동기 또는 예비 선로 수용량 부족 | Dual Ring(MS-SPRING) 50ms **보호 절체** 주기적 시뮬레이션 및 예비 선로 점유율 관리 | 케이블 절단 장애 시 서비스 무단절 50ms 복구 달성 |
-| **레거시 TDM 수용** | 광 백본 패킷망(IP/MPLS) 전환 시 기존 SDH E1/DS3 회선 수용 필요 | Circuit Emulation Service (CESoPSN / SAToP) 기술 연동 | 기존 SDH/PDH 전송 자산 보호 및 유연한 패킷망 이관 |
+| 포인터 지터 폭증 | **클럭 품질** 저하 및 주파수 동기 이탈로 Pointer Adjustment 빈번 | Primary Reference Clock (PRC 세슘) 마스터 동기 강화 및 De-jitter 버퍼 적용 | 디지털 신호 지터 억제 및 무손실 transmission 구현 |
+| 이종 계위 연동 오류 | 북미 SONET(OC-3)과 유럽 SDH(STM-1) 간 페이로드 매핑 불일치 | **상호 연동**(Interworking) 매퍼(VC-3/VC-4 Gateway) 교차 설정 | 북미-유럽 간 국가 광 백본 상호운용성 완전 확보 |
+| 보호 절체 실패 | 링 토폴로지 상에서 APS 패킷 미동기 또는 예비 선로 수용량 부족 | Dual Ring(MS-SPRING) 50ms **보호 절체** 주기적 시뮬레이션 및 예비 선로 점유율 관리 | 케이블 절단 장애 시 서비스 무단절 50ms 복구 달성 |
+| 레거시 TDM 수용 | 광 백본 패킷망(IP/MPLS) 전환 시 기존 SDH E1/DS3 회선 수용 필요 | Circuit Emulation Service (CESoPSN / SAToP) 기술 연동 | 기존 SDH/PDH 전송 자산 보호 및 유연한 패킷망 이관 |
 
 #### 한줄 요약
 
@@ -192,7 +192,7 @@ SDH·SONET 구성요소
 
 </details>
 
-- 기존 TDM은 **PDH**, 동기 광링은 **SDH·SONET**, 신규 광망은 **OTN** 선택.
+- 기존 TDM은 **PDH**, 동기 광링은 **SDH**•**SONET**, 신규 광망은 **OTN** 선택.
 
 #### 한줄 요약
 

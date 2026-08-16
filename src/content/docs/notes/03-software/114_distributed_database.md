@@ -72,11 +72,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **전역 카탈로그** | 분할•복제•위치 메타데이터 관리 |
-| **분산 질의 조정자** | 하위 질의 분배와 결과 취합 |
-| **트랜잭션 조정자** | 참여 노드의 커밋•중단 결정 |
-| **복제•합의 계층** | 사본 순서•정족수•장애전환 관리 |
-| **로컬 DB 노드** | 담당 파티션 저장과 로컬 연산 수행 |
+| 전역 카탈로그 | 분할•복제•위치 메타데이터 관리 |
+| 분산 질의 조정자 | 하위 질의 분배와 결과 취합 |
+| 트랜잭션 조정자 | 참여 노드의 커밋•중단 결정 |
+| 복제•합의 계층 | 사본 순서•정족수•장애전환 관리 |
+| 로컬 DB 노드 | 담당 파티션 저장과 로컬 연산 수행 |
 
 #### 한줄 요약
 
@@ -134,9 +134,9 @@ extra:
 
 | 비교 항목 | Homogeneous (동종 분산 DB) | Heterogeneous (이종 분산 DB) |
 |:---|:---|:---|
-| **DBMS 엔진 동일성**| **동일한 DBMS 제품으로 노드 구성 (Oracle-Oracle)**| **서로 다른 DBMS 엔진 혼용 (Oracle-MySQL)** |
-| **트랜잭션 통제** | DBMS 자체 프로토콜로 쉽게 2PC 및 Replication 가능 | **중간 게이트웨이 및 미들웨어 (ODBC/JDBC) 필수** |
-| **구현 난이도** | 상용 DB 지원으로 표준적 | **극도로 높음 (데이터 타입/SQL 변환 맵핑 필요)** |
+| DBMS 엔진 동일성 | **동일한 DBMS 제품으로 노드 구성 (Oracle-Oracle)**| **서로 다른 DBMS 엔진 혼용 (Oracle-MySQL)** |
+| 트랜잭션 통제 | DBMS 자체 프로토콜로 쉽게 2PC 및 Replication 가능 | **중간 게이트웨이 및 미들웨어 (ODBC/JDBC) 필수** |
+| 구현 난이도 | 상용 DB 지원으로 표준적 | **극도로 높음 (데이터 타입/SQL 변환 맵핑 필요)** |
 
 #### 한줄 요약
 
@@ -152,9 +152,9 @@ extra:
 
 | 3대 분산 장애 | 발생 원인 및 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Split-Brain 사태** | 네트워크 파티션 단절 시 2개의 Master 출현 | **Quorum (과반수 투표: $N/2 + 1$) 홀수 노드 구성** |
-| **2. 2PC Blocking 병목**| Coordinator 다운 시 Cohort 락 무한 대기 | **3PC (Three-Phase Commit) 또는 Raft Consensus 적용** |
-| **3. Distributed Deadlock**| 서로 다른 노드 자원을 교차 락 선점 시 교착 | **Global Deadlock Detector & Timeout Abort 적용** |
+| 1. Split-Brain 사태 | 네트워크 파티션 단절 시 2개의 Master 출현 | **Quorum (과반수 투표: $N/2 + 1$) 홀수 노드 구성** |
+| 2. 2PC Blocking 병목 | Coordinator 다운 시 Cohort 락 무한 대기 | **3PC (Three-Phase Commit) 또는 Raft Consensus 적용** |
+| 3. Distributed Deadlock | 서로 다른 노드 자원을 교차 락 선점 시 교착 | **Global Deadlock Detector & Timeout Abort 적용** |
 
 > 사례: **Google Spanner / TiDB 기반 글로벌 분산 RDBMS (NewSQL) 운용**
 

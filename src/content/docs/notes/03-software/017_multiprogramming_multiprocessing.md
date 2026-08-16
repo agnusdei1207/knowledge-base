@@ -140,10 +140,10 @@ extra:
 
 | 용어 개념 | 핵심 실행 특징 | 하드웨어 자원 관계 |
 |:---|:---|:---|
-| **Multiprogramming** | 메모리에 여러 프로그램을 적재 후 I/O 시 교대 실행 | 단일 CPU 유휴 소멸 |
-| **Multitasking** | Time Slice(타임 슬라이스) 기반으로 고속 전환 시분할 연산 | 사용자 체감 동시성 |
-| **Multiprocessing** | 복수의 물리 CPU 코어에서 병렬 동시 실행 | 멀티 코어 물리 확충 |
-| **Multithreading** | 단일 프로세스 내에서 복수의 스레드가 코드/데이터 공유 연산 | 프로세스 내부 자원 공유 |
+| Multiprogramming | 메모리에 여러 프로그램을 적재 후 I/O 시 교대 실행 | 단일 CPU 유휴 소멸 |
+| Multitasking | Time Slice(타임 슬라이스) 기반으로 고속 전환 시분할 연산 | 사용자 체감 동시성 |
+| Multiprocessing | 복수의 물리 CPU 코어에서 병렬 동시 실행 | 멀티 코어 물리 확충 |
+| Multithreading | 단일 프로세스 내에서 복수의 스레드가 코드/데이터 공유 연산 | 프로세스 내부 자원 공유 |
 
 #### 한줄 요약
 

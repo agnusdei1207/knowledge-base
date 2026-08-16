@@ -64,7 +64,7 @@ extra:
 | NodeSelector•Affinity | Label 기반 **Node 필수•선호 조건** 선언 |
 | Pod Anti-Affinity | 같은 Pod 집합의 **장애 영역 분산** |
 | Taints•Tolerations | Node 거부 조건과 **Pod 허용 예외** 결합 |
-| Priority•Preemption | 중요 Pod를 위한 **우선순위•선점** 통제 |
+| Priority•Preemption | 중요 Pod를 위한 **우선순위**•**선점** 통제 |
 
 #### 한줄 요약
 
@@ -119,8 +119,8 @@ extra:
 
 | 조건 강도 | 구체적 스케줄링 설정 구문 | 노드 미존재 시 동작 행위 |
 |:---|:---|:---|
-| **Hard Constraint (필수)** | `requiredDuringSchedulingIgnoredDuringExecution` | **Pod가 절대로 배치되지 않고 `Pending` 대기** |
-| **Soft Constraint (선호)** | `preferredDuringSchedulingIgnoredDuringExecution` | **선호 노드가 없으면 다른 일반 노드에 일단 배치됨** |
+| Hard Constraint (필수) | `requiredDuringSchedulingIgnoredDuringExecution` | **Pod가 절대로 배치되지 않고 `Pending` 대기** |
+| Soft Constraint (선호) | `preferredDuringSchedulingIgnoredDuringExecution` | **선호 노드가 없으면 다른 일반 노드에 일단 배치됨** |
 
 #### 한줄 요약
 
@@ -136,9 +136,9 @@ extra:
 
 | 3대 스케줄링 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Pod Pending (자원 부족)**| Node 자원 Request가 한계치 초과 | **Karpenter / Cluster Autoscaler 노드 증설**|
-| **2. Taint Node Isolation** | Master Node에 Taint 설정되어 배치 불가 | **Pod spec에 matching Toleration 추가 세팅** |
-| **3. Node Skew / Single Point**| 1개 Node에 Pod 10개가 쏠려 배치됨 | **`topologySpreadConstraints` 로 1/N 균등 분산**|
+| 1. Pod Pending (자원 부족) | Node 자원 Request가 한계치 초과 | **Karpenter / Cluster Autoscaler 노드 증설**|
+| 2. Taint Node Isolation | Master Node에 Taint 설정되어 배치 불가 | **Pod spec에 matching Toleration 추가 세팅** |
+| 3. Node Skew / Single Point | 1개 Node에 Pod 10개가 쏠려 배치됨 | **`topologySpreadConstraints` 로 1/N 균등 분산**|
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 Karpenter 연동 Pod 스케줄링 및 Topology Spread 분산 배치**
 

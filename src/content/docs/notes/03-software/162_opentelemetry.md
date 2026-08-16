@@ -130,9 +130,9 @@ extra:
 
 | 비교 항목 | OTel Collector Agent Mode (DaemonSet) | OTel Collector Gateway Mode (Deployment) |
 |:---|:---|:---|
-| **배치 위치** | **K8s 모든 Worker Node마다 1개씩 탑재** | **중앙 전용 K8s Pod 또는 EC2 배치** |
-| **핵심 목적** | **Node 내부 Pod 들의 트레이스를 초저지연 수집**| **전사 텔레메트리 중앙 집중 PII 마스킹 및 전송**|
-| **추천 구성** | **Agent (1차 수집) $\rightarrow$ Gateway (2차 마스킹/전송) 2단 혼용 아키텍처** |
+| 배치 위치 | **K8s 모든 Worker Node마다 1개씩 탑재** | **중앙 전용 K8s Pod 또는 EC2 배치** |
+| 핵심 목적 | **Node 내부 Pod 들의 트레이스를 초저지연 수집**| **전사 텔레메트리 중앙 집중 PII 마스킹 및 전송**|
+| 추천 구성 | **Agent (1차 수집) $\rightarrow$ Gateway (2차 마스킹/전송) 2단 혼용 아키텍처** |
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 
 | 3대 OpenTelemetry 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Agent CPU Overhead** | Java Auto-Instrumentation 과다 수집| **수집 범위를 HTTP/DB 쿼리로 한정 튜닝** |
-| **2. PII Leak in Traces** | HTTP Header의 Bearer Token이 Trace 유출 | **OTel Collector Processor에서 헤더 삭제**|
-| **3. OTel Collector OOM** | 트래픽 폭증 시 Collector 메모리 파산 | **`memory_limiter` 및 `batch` 프로세서 필수 설정**|
+| 1. Agent CPU Overhead | Java Auto-Instrumentation 과다 수집| **수집 범위를 HTTP/DB 쿼리로 한정 튜닝** |
+| 2. PII Leak in Traces | HTTP Header의 Bearer Token이 Trace 유출 | **OTel Collector Processor에서 헤더 삭제**|
+| 3. OTel Collector OOM | 트래픽 폭증 시 Collector 메모리 파산 | **`memory_limiter` 및 `batch` 프로세서 필수 설정**|
 
 > 사례: **토스 / 당근마켓 / 쿠팡 OpenTelemetry 표준 채택 및 Datadog/Jaeger 이중 전송 시스템**
 

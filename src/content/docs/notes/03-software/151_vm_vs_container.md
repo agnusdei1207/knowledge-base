@@ -111,10 +111,10 @@ extra:
 
 | 비교 기술 | Pure VM | Pure Container | Secure Container |
 |:---|:---|:---|:---|
-| **격리 경계** | Hypervisor/Guest OS | Host Kernel | MicroVM Hypervisor |
-| **시작 비용** | Guest OS 기동 비용 | Process 기동 중심 | MicroVM 기동 비용 |
-| **보안 수준** | Guest Kernel 격리 | Host Kernel 공유 | MicroVM Kernel 격리 |
-| **도메인** | 금융 코어 | 일반 MSA | AWS Lambda, SaaS |
+| 격리 경계 | Hypervisor/Guest OS | Host Kernel | MicroVM Hypervisor |
+| 시작 비용 | Guest OS 기동 비용 | Process 기동 중심 | MicroVM 기동 비용 |
+| 보안 수준 | Guest Kernel 격리 | Host Kernel 공유 | MicroVM Kernel 격리 |
+| 도메인 | 금융 코어 | 일반 MSA | AWS Lambda, SaaS |
 
 #### 한줄 요약
 
@@ -126,9 +126,9 @@ extra:
 
 | 3대 구축 의사결정 상황 | 최적 추천 아키텍처 기술 | 선택 사유 및 실무 대책 |
 |:---|:---|:---|
-| **1. 멀티테넌트 SaaS 보안** | **VM 또는 Kata Containers** | 테넌트별 Kernel 경계 확보 |
-| **2. K8s 수평 오토스케일링**| **Docker Container** | 빠른 복제와 고밀도 배치 |
-| **3. Windows 레거시 SW** | **VM (Windows Guest OS)** | Linux Host 커널에서 Windows SW 구동 불가 |
+| 1. 멀티테넌트 SaaS 보안 | **VM 또는 Kata Containers** | 테넌트별 Kernel 경계 확보 |
+| 2. K8s 수평 오토스케일링 | **Docker Container** | 빠른 복제와 고밀도 배치 |
+| 3. Windows 레거시 SW | **VM (Windows Guest OS)** | Linux Host 커널에서 Windows SW 구동 불가 |
 
 > 사례: **AWS Lambda (Firecracker MicroVM 사용) 및 쿠팡 / 당근마켓 K8s Container 혼용**
 

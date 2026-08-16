@@ -167,7 +167,7 @@ SAML 연합 인증 구조
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 타 사이트용 Assertion 재사용 | **OASIS SAML 2.0 Core** 준수 및 Recipient, Audience 검증 | 비인가 SP로의 주장 전송 완전 차단 |
-| **XML 서명 래핑 공격(XSW)** | **W3C XML Signature 1.1** 기반 하드닝 및 서명 DOM 위치 검증 | 위조 XML 노드 주입에 의한 권한 우회 무력화 |
+| XML 서명 래핑 공격(XSW) | **W3C XML Signature 1.1** 기반 하드닝 및 서명 DOM 위치 검증 | 위조 XML 노드 주입에 의한 권한 우회 무력화 |
 | Response 재전송을 통한 세션 탈취 | **응답 ID** 캐싱 대조 및 NotOnOrAfter 단기 타임아웃 적용 | Replay 공격에 의한 무단 세션 생성 방지 |
 
 #### 한줄 요약

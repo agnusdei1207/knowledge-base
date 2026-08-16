@@ -72,7 +72,7 @@ extra:
 |---|---|
 | Application Instrumentation | **Context 전파•Signal 생성** |
 | OTel Collector | **수집•처리•Routing**과 민감 정보 제거 |
-| Metrics Store | 시간별 **집계값•추세** 저장 |
+| Metrics Store | 시간별 **집계값**•**추세** 저장 |
 | Logs Store | Event의 **상세 문맥** 저장 |
 | Traces Store | 요청별 **Span 경로•지연** 저장 |
 | Analysis UI | Signal **상관 분석•시각화** 제공 |
@@ -133,10 +133,10 @@ extra:
 
 | 비교 항목 | Traditional Monitoring (모니터링) | Cloud-Native Observability (관측성) |
 |:---|:---|:---|
-| **핵심 질문** | **"시스템이 지금 정상인가?" (Known)**| **"왜 3번째 MSA 서비스에서 멈췄는가?" (Unknown)**|
-| **수집 데이터** | 사전 정의 지표 중심 | **Metrics•Logs•Traces 연계** |
-| **상관 관계 **| Signal별 분석 중심 | **Trace Context 기반 교차 분석** |
-| **적용 범위**| 알려진 상태 감시 | 복잡한 분산 원인 추론 |
+| 핵심 질문 | **"시스템이 지금 정상인가?" (Known)**| **"왜 3번째 MSA 서비스에서 멈췄는가?" (Unknown)**|
+| 수집 데이터 | 사전 정의 지표 중심 | **Metrics•Logs•Traces 연계** |
+| 상관 관계  | Signal별 분석 중심 | **Trace Context 기반 교차 분석** |
+| 적용 범위 | 알려진 상태 감시 | 복잡한 분산 원인 추론 |
 
 #### 한줄 요약
 
@@ -152,9 +152,9 @@ extra:
 
 | 3대 관측성 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. High Cardinality Costs**| Metric 라벨에 user_id 넣어서 비용 폭발| **High-cardinality 지표는 Log로 이관 정제** |
-| **2. Trace Data Overload** | 하루 수억 건 트레이스 저장 시 디스크 고갈| **Tail-based Sampling 적용 (성공 1%, 에러 100% 저장)**|
-| **3. Vendor Lock-in** | 특정 APM (Dynatrace, Datadog) SDK 종속 | **OpenTelemetry (OTel) 표준 SDK로 전면 통일** |
+| 1. High Cardinality Costs | Metric 라벨에 user_id 넣어서 비용 폭발| **High-cardinality 지표는 Log로 이관 정제** |
+| 2. Trace Data Overload | 하루 수억 건 트레이스 저장 시 디스크 고갈| **Tail-based Sampling 적용 (성공 1%, 에러 100% 저장)**|
+| 3. Vendor Lock-in | 특정 APM (Dynatrace, Datadog) SDK 종속 | **OpenTelemetry (OTel) 표준 SDK로 전면 통일** |
 
 > 사례: **토스 / 당근마켓 / 쿠팡 OpenTelemetry & Prometheus & Loki & Tempo 기반 통합 관측성 구축**
 

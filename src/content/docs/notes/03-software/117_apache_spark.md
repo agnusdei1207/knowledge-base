@@ -79,11 +79,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Driver** | 앱 제어•DAG 생성•태스크 결과 관리 |
-| **Catalyst•AQE** | 논리•물리 계획과 실행 중 재최적화 |
-| **DAG Scheduler** | 셔플 경계로 Stage•Task 분할 |
-| **Cluster Manager** | Executor 자원 요청•할당 |
-| **Executor** | 파티션 연산•캐시•셔플 데이터 처리 |
+| Driver | 앱 제어•DAG 생성•태스크 결과 관리 |
+| Catalyst•AQE | 논리•물리 계획과 실행 중 재최적화 |
+| DAG Scheduler | 셔플 경계로 Stage•Task 분할 |
+| Cluster Manager | Executor 자원 요청•할당 |
+| Executor | 파티션 연산•캐시•셔플 데이터 처리 |
 
 #### 한줄 요약
 
@@ -138,9 +138,9 @@ extra:
 
 | 연산 분류 (Operation) | 주요 메소드 종류 | 실행 특성 및 메커니즘 |
 |:---|:---|:---|
-| **Narrow Transformation** | **`map()`, `filter()`, `flatMap()`** | **1:1 파티션 맵핑 (Shuffle 없음, 초고속)** |
-| **Wide Transformation** | **`groupBy()`, `join()`, `distinct()`** | **N:M 파티션 맵핑 (Shuffle 디스크/네트워크 I/O 발생)** |
-| **Action** | **`collect()`, `count()`, `saveAsTextFile()`** | **DAG 지연 연산을 확정 짓고 실제 Executor 가동** |
+| Narrow Transformation | **`map()`, `filter()`, `flatMap()`** | **1:1 파티션 맵핑 (Shuffle 없음, 초고속)** |
+| Wide Transformation | **`groupBy()`, `join()`, `distinct()`** | **N:M 파티션 맵핑 (Shuffle 디스크/네트워크 I/O 발생)** |
+| Action | **`collect()`, `count()`, `saveAsTextFile()`** | **DAG 지연 연산을 확정 짓고 실제 Executor 가동** |
 
 #### 한줄 요약
 

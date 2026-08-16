@@ -129,10 +129,10 @@ extra:
 
 | 비교 항목 | REST API (JSON) | gRPC (Protobuf) |
 |:---|:---|:---|
-| **통신 프로토콜** | HTTP 의미와 자원 API | **HTTP/2 기반 RPC•다중화** |
-| **Payload**| JSON 등 Representation 선택 | **Protobuf Binary Message**|
-| **계약** | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
-| **브라우저 지원** | Web API로 직접 사용 용이 | **gRPC-Web•Connect 등 Adapter** 고려 |
+| 통신 프로토콜 | HTTP 의미와 자원 API | **HTTP/2 기반 RPC•다중화** |
+| Payload | JSON 등 Representation 선택 | **Protobuf Binary Message**|
+| 계약 | OpenAPI(Swagger) 등 선택적/약한 결합 | **`.proto` 기반 강력한 타입 검증 강제 결합** |
+| 브라우저 지원 | Web API로 직접 사용 용이 | **gRPC-Web•Connect 등 Adapter** 고려 |
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 
 | 3대 gRPC 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. L4 로드밸런싱 실패** | HTTP/2의 단일 Connection 유지 특성 | **Envoy, Istio 등 L7(Application) 로드밸런서 도입**|
-| **2. 프론트엔드 연동 불가**| 브라우저는 HTTP/2 프레이밍 직접 조작 불가| **gRPC-Web 또는 REST-to-gRPC Gateway (Envoy) 구축**|
-| **3. 구버전 스키마 충돌** | 필드를 삭제한 뒤 동일 필드 번호 재사용 | **`reserved` 키워드를 사용하여 번호 재사용 원천 금지**|
+| 1. L4 로드밸런싱 실패 | HTTP/2의 단일 Connection 유지 특성 | **Envoy, Istio 등 L7(Application) 로드밸런서 도입**|
+| 2. 프론트엔드 연동 불가 | 브라우저는 HTTP/2 프레이밍 직접 조작 불가| **gRPC-Web 또는 REST-to-gRPC Gateway (Envoy) 구축**|
+| 3. 구버전 스키마 충돌 | 필드를 삭제한 뒤 동일 필드 번호 재사용 | **`reserved` 키워드를 사용하여 번호 재사용 원천 금지**|
 
 > 사례: **토스 / 배달의민족 마이크로서비스 내부(East-West) 통신 속도 개선을 위한 REST $\rightarrow$ gRPC 대규모 마이그레이션**
 

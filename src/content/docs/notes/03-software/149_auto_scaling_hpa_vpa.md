@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 지표에 따라 복제본•자원 요청을 조정하는 **HPA•VPA**
+- 정의/개념: 지표에 따라 복제본•자원 요청을 조정하는 **HPA**•**VPA**
 - 배경/필요성: 수동 증설은 **부하 변동•자원 부족**에 적시 대응 곤란
 
 #### 한줄 요약
@@ -131,9 +131,9 @@ extra:
 
 | 오토스케일러 종류 | 대상 (Target Level) | 스케일링 동작 메커니즘 | 실무 적용 도구 예시 |
 |:---|:---|:---|:---|
-| **HPA** | **Pod Level (수평)** | **Pod 개수 증설 (Scale-out)** | **K8s Native HPA, KEDA** |
-| **VPA** | **Pod Level (수직)** | **Pod 리소스 체급 증설 (Scale-up)**| **K8s Native VPA** |
-| **Cluster Autoscaler**| **Node Level (인프라)**| **Worker Node EC2 개수 증설** | **Karpenter, Cluster Autoscaler** |
+| HPA | **Pod Level (수평)** | **Pod 개수 증설 (Scale-out)** | **K8s Native HPA, KEDA** |
+| VPA | **Pod Level (수직)** | **Pod 리소스 체급 증설 (Scale-up)**| **K8s Native VPA** |
+| Cluster Autoscaler | **Node Level (인프라)**| **Worker Node EC2 개수 증설** | **Karpenter, Cluster Autoscaler** |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 오토스케일링 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Flapping / Thrashing** | 지표가 순간 소폭 변할 때마다 Pod 생성/파기 반복| **Scale-down Stabilization Window (5분) 설정** |
-| **2. Slow Pod Boot Delay** | Pod 부팅 시간이 3분 걸려 초기 트래픽 퐁당 | **Prometheus 기반 KEDA 이벤트 오토스케일링** |
-| **3. Node Resource Exhaust** | HPA로 Pod만 늘다가 Node 메모리 부족 터짐 | **AWS Karpenter 도입으로 초고속 Node 자동 덤프**|
+| 1. Flapping / Thrashing | 지표가 순간 소폭 변할 때마다 Pod 생성/파기 반복| **Scale-down Stabilization Window (5분) 설정** |
+| 2. Slow Pod Boot Delay | Pod 부팅 시간이 3분 걸려 초기 트래픽 퐁당 | **Prometheus 기반 KEDA 이벤트 오토스케일링** |
+| 3. Node Resource Exhaust | HPA로 Pod만 늘다가 Node 메모리 부족 터짐 | **AWS Karpenter 도입으로 초고속 Node 자동 덤프**|
 
 > 사례: **쿠팡 / 당근마켓 / 카카오 KEDA 및 Karpenter 기반 초고속 5초 오토스케일링 적용 사례**
 

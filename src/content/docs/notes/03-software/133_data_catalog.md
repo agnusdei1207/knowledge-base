@@ -79,11 +79,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Metadata Crawler** | 스키마•테이블•파티션•통계 수집 |
-| **Lineage Extractor** | 작업•SQL의 입력•출력 관계 추출 |
-| **Search Index** | 이름•설명•태그•용어 기반 자산 검색 |
-| **Business Glossary** | 업무 용어와 기술 자산 의미 연결 |
-| **Ownership•Policy** | 소유자•품질•접근•PII 정책 관리 |
+| Metadata Crawler | 스키마•테이블•파티션•통계 수집 |
+| Lineage Extractor | 작업•SQL의 입력•출력 관계 추출 |
+| Search Index | 이름•설명•태그•용어 기반 자산 검색 |
+| Business Glossary | 업무 용어와 기술 자산 의미 연결 |
+| Ownership•Policy | 소유자•품질•접근•PII 정책 관리 |
 
 #### 한줄 요약
 
@@ -138,10 +138,10 @@ extra:
 
 | 비교 항목 | Data Dictionary (데이터 사전) | Business Glossary (용어집) | Data Catalog (데이터 카탈로그) |
 |:---|:---|:---|:---|
-| **주요 대상** | 단일 DB 테크니컬 스키마 | 전사 비즈니스 용어 정의 | **전사 하이브리드 멀티 소스 통합** |
-| **자동화 수준** | DDL 추출•수동 보완 | 업무 담당자 정의•승인 | **자동 수집과 소유자 검토 결합** |
-| **주요 핵심 기능**| 컬럼 타입, PK/FK 제약 조건 | 용어 정의, 단어 표준화 | **검색, Lineage, PII 태깅, SLA 관리** |
-| **대표 도메인** | DB Administrator 전용 | 현업 기획자 전용 | **Data Engineer, Scientist, C-Level** |
+| 주요 대상 | 단일 DB 테크니컬 스키마 | 전사 비즈니스 용어 정의 | **전사 하이브리드 멀티 소스 통합** |
+| 자동화 수준 | DDL 추출•수동 보완 | 업무 담당자 정의•승인 | **자동 수집과 소유자 검토 결합** |
+| 주요 핵심 기능 | 컬럼 타입, PK/FK 제약 조건 | 용어 정의, 단어 표준화 | **검색, Lineage, PII 태깅, SLA 관리** |
+| 대표 도메인 | DB Administrator 전용 | 현업 기획자 전용 | **Data Engineer, Scientist, C-Level** |
 
 #### 한줄 요약
 
@@ -157,9 +157,9 @@ extra:
 
 | 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Metadata Stale** | 크롤링 배치 주기가 일주일로 길어 갱신 지연 | **Debezium DDL 이벤트 감지 즉시 실시간 갱신** |
-| **2. Lineage Disconnect**| SQL 쿼리가 파이프라인 외부에서 수동 수정됨 | **OpenLineage 에이전트 Spark/Airflow 전면 탑재** |
-| **3. Low User Adoption** | 사용자들이 여전히 쿼리를 개발자에게 물어봄 | **Slack/Teams 챗봇과 카탈로그 검색 API 연동** |
+| 1. Metadata Stale | 크롤링 배치 주기가 일주일로 길어 갱신 지연 | **Debezium DDL 이벤트 감지 즉시 실시간 갱신** |
+| 2. Lineage Disconnect | SQL 쿼리가 파이프라인 외부에서 수동 수정됨 | **OpenLineage 에이전트 Spark/Airflow 전면 탑재** |
+| 3. Low User Adoption | 사용자들이 여전히 쿼리를 개발자에게 물어봄 | **Slack/Teams 챗봇과 카탈로그 검색 API 연동** |
 
 > 사례: **카카오 / 당근마켓 OpenMetadata 기반 전사 데이터 카탈로그 및 Lineage 구축**
 

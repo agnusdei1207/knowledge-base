@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 변환과 적재 순서를 달리하는 **ETL•ELT**
+- 정의/개념: 변환과 적재 순서를 달리하는 **ETL**•**ELT**
 - 배경/필요성: 보안 선처리와 원본 재가공은 **변환 위치•시점** 요구 상충
 
 #### 한줄 요약
@@ -62,11 +62,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Extractor** | 원천 변경•배치 데이터를 증분 추출 |
-| **Transformer** | 정제•표준화•마스킹•업무 규칙 적용 |
-| **Loader** | 스테이징•타깃에 멱등 적재 |
-| **Orchestrator** | 의존성•재시도•체크포인트 관리 |
-| **Quality•Lineage** | 계약 검사와 입력•출력 증거 기록 |
+| Extractor | 원천 변경•배치 데이터를 증분 추출 |
+| Transformer | 정제•표준화•마스킹•업무 규칙 적용 |
+| Loader | 스테이징•타깃에 멱등 적재 |
+| Orchestrator | 의존성•재시도•체크포인트 관리 |
+| Quality•Lineage | 계약 검사와 입력•출력 증거 기록 |
 
 #### 한줄 요약
 
@@ -121,10 +121,10 @@ extra:
 
 | 선택 요구사항 | ETL (Extract-Transform-Load) | ELT (Extract-Load-Transform) |
 |:---|:---|:---|
-| **보안 및 규제 ** | **적재 전 PII 암호화 필수 시 (ETL 우수)** | 타깃 저장소 보안 정책으로 커버 |
-| **데이터 스토리지 비용**| 온프레미스 디스크가 비싼 경우 | **클라우드 S3 스토리지 가격이 매우 저렴한 경우** |
-| **유연성 및 재가공** | 중간 원본 보존 정책에 좌우 | **Raw 보존 시 타깃에서 재가공** |
-| **엔지니어링 기술** | Spark, Scala 전문 엔지니어 필요 | **SQL 숙련 데이터 분석가도 파이프라인 개발** |
+| 보안 및 규제  | **적재 전 PII 암호화 필수 시 (ETL 우수)** | 타깃 저장소 보안 정책으로 커버 |
+| 데이터 스토리지 비용 | 온프레미스 디스크가 비싼 경우 | **클라우드 S3 스토리지 가격이 매우 저렴한 경우** |
+| 유연성 및 재가공 | 중간 원본 보존 정책에 좌우 | **Raw 보존 시 타깃에서 재가공** |
+| 엔지니어링 기술 | Spark, Scala 전문 엔지니어 필요 | **SQL 숙련 데이터 분석가도 파이프라인 개발** |
 
 #### 한줄 요약
 
@@ -140,9 +140,9 @@ extra:
 
 | 3대 ELT 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Target DW Cost Surge**| ELT dbt 변환 SQL 과다 실행으로 쿼리 비용 폭발| **`dbt incremental` 모델로 변환 쿼리 증분화** |
-| **2. PII Data Exposure** | PII 생값이 S3/DW Raw 영역에 그대로 노출 | **Ingestion 커넥터 단에서 PII Hash 단방향 암호화**|
-| **3. Raw Data Swamp** | ELT Raw 지대에 자잘한 쓰레기 파일 폭발 | **Lifecycle Policy 적용하여 90일 후 Cold Storage**|
+| 1. Target DW Cost Surge | ELT dbt 변환 SQL 과다 실행으로 쿼리 비용 폭발| **`dbt incremental` 모델로 변환 쿼리 증분화** |
+| 2. PII Data Exposure | PII 생값이 S3/DW Raw 영역에 그대로 노출 | **Ingestion 커넥터 단에서 PII Hash 단방향 암호화**|
+| 3. Raw Data Swamp | ELT Raw 지대에 자잘한 쓰레기 파일 폭발 | **Lifecycle Policy 적용하여 90일 후 Cold Storage**|
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 Fivetran + Snowflake + dbt 기반 Modern Data Stack ELT 운용**
 

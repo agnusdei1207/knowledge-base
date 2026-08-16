@@ -77,10 +77,10 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 전송 방식 및 포트 |
 |:---|:---|:---|
-| **DHCP 서버 (DHCP Server)** | 주소 풀 관리, 바인딩 테이블 갱신, 옵션(Gateway, DNS) 전달 | UDP 67 포트 수신 |
-| **DHCP 클라이언트 (DHCP Client)** | 부팅 시 IP 임대 요청, T1/T2 타이머 기준 임대 연장 요청 | UDP 68 포트 사용 |
-| **DORA 절차** | Discover(탐색) -> Offer(제안) -> Request(요청) -> ACK(확정) | L2/L3 Broadcast 및 Unicast 혼용 |
-| **DHCP 옵션 (Option)** | Option 3(Gateway), Option 6(DNS), Option 121(Static Route) 명세 | DHCP 파라미터 확장 헤더 |
+| DHCP 서버 (DHCP Server) | 주소 풀 관리, 바인딩 테이블 갱신, 옵션(Gateway, DNS) 전달 | UDP 67 포트 수신 |
+| DHCP 클라이언트 (DHCP Client) | 부팅 시 IP 임대 요청, T1/T2 타이머 기준 임대 연장 요청 | UDP 68 포트 사용 |
+| DORA 절차 | Discover(탐색) -> Offer(제안) -> Request(요청) -> ACK(확정) | L2/L3 Broadcast 및 Unicast 혼용 |
+| DHCP 옵션 (Option) | Option 3(Gateway), Option 6(DNS), Option 121(Static Route) 명세 | DHCP 파라미터 확장 헤더 |
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ extra:
 | 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
 |:---|:---|:---|:---|
 | Rogue DHCP 서버 출현 | 비인가 공유기/서버 접속으로 위조 IP/DNS 할당 | L2 스위치 **DHCP 스누핑(DHCP Snooping)** 적용 및 Trusted Port 지정 | 비인가 DHCP Offer/ACK 패킷 차단 |
-| **DHCP 고갈 공격** | 대량의 무작위 MAC 발송으로 IP 풀 조기 매진 | Port Security (학습 MAC 개수 제한) 및 DHCP Snooping Rate Limit | IP 풀 고갈 예방 및 DOS 방지 |
+| DHCP 고갈 공격 | 대량의 무작위 MAC 발송으로 IP 풀 조기 매진 | Port Security (학습 MAC 개수 제한) 및 DHCP Snooping Rate Limit | IP 풀 고갈 예방 및 DOS 방지 |
 | 서브넷 간 DHCP 전달 불능 | L2 브로드캐스트의 라우터 경계 차단 | 라우터에 **DHCP 릴레이 에이전트(ip helper-address)** 설정 | 서브넷 통합 DHCP 서비스 구현 |
 
 #### 한줄 요약

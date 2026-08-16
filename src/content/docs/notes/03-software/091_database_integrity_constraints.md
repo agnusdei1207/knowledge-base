@@ -79,10 +79,10 @@ extra:
 
 | 무결성 제약 유형 | 적용 선언 구문 (DDL) | 제약 조건 및 런타임 수용 동작 |
 |:---|:---|:---|
-| **Entity Integrity (개체)** | **`PRIMARY KEY, UNIQUE`** | 행(Tuple)의 유일성 보장, `NULL` 값 입력 원천 차단 |
-| **Referential Integrity (참조)**| **`FOREIGN KEY ... REFERENCES`**| 부모-자식 간 참조 관계 보장, 고아 데이터 발생 차단 |
-| **Domain Integrity (도메인)**| **`NOT NULL, CHECK, DEFAULT`** | 속성의 데이터 타입, 자릿수, 범위(`age > 0`) 조건 검증 |
-| **User-Defined (사용자정의)**| **`TRIGGER, STORED PROCEDURE`**| 복잡한 비즈니스 로직(예: 주말 결제 불가)의 DB level 검증 |
+| Entity Integrity (개체) | **`PRIMARY KEY, UNIQUE`** | 행(Tuple)의 유일성 보장, `NULL` 값 입력 원천 차단 |
+| Referential Integrity (참조) | **`FOREIGN KEY ... REFERENCES`**| 부모-자식 간 참조 관계 보장, 고아 데이터 발생 차단 |
+| Domain Integrity (도메인) | **`NOT NULL, CHECK, DEFAULT`** | 속성의 데이터 타입, 자릿수, 범위(`age > 0`) 조건 검증 |
+| User-Defined (사용자정의) | **`TRIGGER, STORED PROCEDURE`**| 복잡한 비즈니스 로직(예: 주말 결제 불가)의 DB level 검증 |
 
 #### 한줄 요약
 

@@ -146,9 +146,9 @@ CSF 핵심부
 
 | CSF 요소 | 역할 | 산출물 |
 |:---|:---|:---|
-| **CSF Core** | **Core 역할** | 기능•범주•하위범주 |
-| **조직 프로파일** | **Profile 역할** | 현재 프로파일•목표 프로파일 |
-| **Implementation Tier** | **Tier 역할** | Tier 1~4의 관행 수준 |
+| CSF Core | **Core 역할** | 기능•범주•하위범주 |
+| 조직 프로파일 | **Profile 역할** | 현재 프로파일•목표 프로파일 |
+| Implementation Tier | **Tier 역할** | Tier 1~4의 관행 수준 |
 
 #### 한줄 요약
 

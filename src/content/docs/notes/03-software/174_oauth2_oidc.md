@@ -132,10 +132,10 @@ extra:
 
 | 비교 항목 | OAuth 2.0 (순수 인가) | OIDC (인증 확장) |
 |:---|:---|:---|
-| **목적 ** | **권한 위임 ** | **신원 확인 및 로그인 **|
-| **핵심 결과물** | **Access Token** | **ID Token (JWT 포맷 강제)** |
-| **토큰의 내용** | 서버만 알면 되는 랜덤 문자열 (Opaque Token 가능) | **반드시 사용자의 속성(Claim)이 담긴 구조화된 JWT**|
-| **표준 Scope** | 리소스 서버가 정의 (예: `email`, `contacts`) | **`openid` 스코프 필수 요청** |
+| 목적  | **권한 위임 ** | **신원 확인 및 로그인 **|
+| 핵심 결과물 | **Access Token** | **ID Token (JWT 포맷 강제)** |
+| 토큰의 내용 | 서버만 알면 되는 랜덤 문자열 (Opaque Token 가능) | **반드시 사용자의 속성(Claim)이 담긴 구조화된 JWT**|
+| 표준 Scope | 리소스 서버가 정의 (예: `email`, `contacts`) | **`openid` 스코프 필수 요청** |
 
 #### 한줄 요약
 
@@ -151,9 +151,9 @@ extra:
 
 | 3대 보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Token Misuse (혼용)** | 개발자가 ID Token을 API 헤더에 넣고 호출 | **리소스 서버는 반드시 Access Token만 인가(Authorization) 처리**|
-| **2. Code Interception** | 해커가 브라우저 리다이렉트 시 인가 코드 탈취| **모든 Public Client(모바일, SPA)에 PKCE 무조건 의무화**|
-| **3. CSRF 및 Replay Attack**| 공격자가 조작된 로그인 링크를 클릭 유도 | **`state` 난수 및 `nonce` 값을 검증하여 위조 방지**|
+| 1. Token Misuse (혼용) | 개발자가 ID Token을 API 헤더에 넣고 호출 | **리소스 서버는 반드시 Access Token만 인가(Authorization) 처리**|
+| 2. Code Interception | 해커가 브라우저 리다이렉트 시 인가 코드 탈취| **모든 Public Client(모바일, SPA)에 PKCE 무조건 의무화**|
+| 3. CSRF 및 Replay Attack | 공격자가 조작된 로그인 링크를 클릭 유도 | **`state` 난수 및 `nonce` 값을 검증하여 위조 방지**|
 
 > 사례: **카카오 / 네이버 OIDC(OpenID Connect) 연동 시 JWT 검증(서명, 만료일, Audience) 누락으로 인한 계정 탈취 사례**
 

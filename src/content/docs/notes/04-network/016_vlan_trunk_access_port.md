@@ -79,11 +79,11 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 비고 |
 |:---|:---|:---|
-| **Access Port & PVID** | 일반 호스트 접속용 포트, 유입 프레임에 **PVID** 바인딩 (수신/송신 시 Untagged) | 1개 VLAN 수용 |
-| **Trunk Port** | 스위치 간 멀티 VLAN 연동, 프레임 헤더에 4B **IEEE 802.1Q Tag** 부착 후 전송 | 다수 VLAN 수용 |
-| **Native VLAN** | Trunk Port에서 802.1Q Tag 없이 전송되는 예외적인 기본 VLAN (양 스위치 일치 필수) | 기본 VLAN 1 |
-| **Allowed VLAN List** | Trunk에서 승인할 VLAN ID 목록 명시 | 보안 강화 기능 |
-| **SVI (L3 Interface)** | VLAN 간 통신(Inter-VLAN Routing)을 위해 L3 스위치에 부여하는 3계층 IP 게이트웨이 | L3 스위칭 중계 |
+| Access Port & PVID | 일반 호스트 접속용 포트, 유입 프레임에 **PVID** 바인딩 (수신/송신 시 Untagged) | 1개 VLAN 수용 |
+| Trunk Port | 스위치 간 멀티 VLAN 연동, 프레임 헤더에 4B **IEEE 802.1Q Tag** 부착 후 전송 | 다수 VLAN 수용 |
+| Native VLAN | Trunk Port에서 802.1Q Tag 없이 전송되는 예외적인 기본 VLAN (양 스위치 일치 필수) | 기본 VLAN 1 |
+| Allowed VLAN List | Trunk에서 승인할 VLAN ID 목록 명시 | 보안 강화 기능 |
+| SVI (L3 Interface) | VLAN 간 통신(Inter-VLAN Routing)을 위해 L3 스위치에 부여하는 3계층 IP 게이트웨이 | L3 스위칭 중계 |
 
 #### 한줄 요약
 
@@ -161,7 +161,7 @@ extra:
 
 | 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
 |:---|:---|:---|:---|
-| **Native VLAN Mismatch** | 트렁크 양단 Native VLAN 미일치로 CDP/STP 경고 발생 | 양단 Native VLAN ID 동일화 또는 Native VLAN Tagging 적용 | VLAN 트래픽 혼입 및 L2 루프 예방 |
+| Native VLAN Mismatch | 트렁크 양단 Native VLAN 미일치로 CDP/STP 경고 발생 | 양단 Native VLAN ID 동일화 또는 Native VLAN Tagging 적용 | VLAN 트래픽 혼입 및 L2 루프 예방 |
 | VLAN Hopping 보안 공격 | 트렁크 포트 모드 Auto 설정 시 위조 802.1Q 프레임 유입 | 사용하지 않는 포트 Shutdown 및 Trunk 모드 정적(Desirable) 고정 | 비인가 VLAN 침입 원천 차단 |
 | 불필요한 Broadcast 전파 | Trunk Port에 `switchport trunk allowed vlan all` 설정 | **허용 VLAN 목록(Allowed List)**에 필요한 VLAN만 최소 정의 | 불필요한 L2 트래픽 전파 방지 |
 | Inter-VLAN 무단 접근 | SVI 생성 후 VLAN 간 라우팅이 기본적으로 승인됨 | **SVI ACL**을 적용하여 업무별/부서별 L3 통신 필터링 | VLAN 간 논리적 장벽 완벽 유지 |

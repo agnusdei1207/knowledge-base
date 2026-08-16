@@ -79,11 +79,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **연산 엔진** | 공통 테이블 메타데이터로 읽기•쓰기 수행 |
-| **Open Table Format** | 스냅숏•스키마•파티션•삭제 규칙 정의 |
-| **Metadata File** | 데이터 파일 목록과 버전 이력 보관 |
-| **Catalog** | 테이블 이름과 현재 메타데이터 위치 관리 |
-| **Object Storage** | 불변 데이터•메타데이터 파일 저장 |
+| 연산 엔진 | 공통 테이블 메타데이터로 읽기•쓰기 수행 |
+| Open Table Format | 스냅숏•스키마•파티션•삭제 규칙 정의 |
+| Metadata File | 데이터 파일 목록과 버전 이력 보관 |
+| Catalog | 테이블 이름과 현재 메타데이터 위치 관리 |
+| Object Storage | 불변 데이터•메타데이터 파일 저장 |
 
 #### 한줄 요약
 
@@ -138,10 +138,10 @@ extra:
 
 | 비교 항목 | Data Warehouse (DW) | Data Lake | Data Lakehouse |
 |:---|:---|:---|:---|
-| **데이터 형태** | **정형 분석 모델 중심** | **다양한 원천 파일** | 다양한 파일의 관리형 테이블 |
-| **트랜잭션** | 엔진 관리 테이블 ACID | 파일 API 수준 | **테이블 포맷별 ACID 제공** |
-| **스토리지/컴퓨팅** | 결합형 (고비용) | 완전 분리형 (가성비) | **완전 분리형 (가성비 + 고성능)** |
-| **대표 기술** | Snowflake, Redshift | AWS S3, Hadoop HDFS | **Databricks, Iceberg, Delta Lake** |
+| 데이터 형태 | **정형 분석 모델 중심** | **다양한 원천 파일** | 다양한 파일의 관리형 테이블 |
+| 트랜잭션 | 엔진 관리 테이블 ACID | 파일 API 수준 | **테이블 포맷별 ACID 제공** |
+| 스토리지/컴퓨팅 | 결합형 (고비용) | 완전 분리형 (가성비) | **완전 분리형 (가성비 + 고성능)** |
+| 대표 기술 | Snowflake, Redshift | AWS S3, Hadoop HDFS | **Databricks, Iceberg, Delta Lake** |
 
 #### 한줄 요약
 
@@ -157,9 +157,9 @@ extra:
 
 | 튜닝 영역 | 문제 및 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. File Compaction** | 자잘한 파티션 파일 누적 속도 폭락 | **`OPTIMIZE` (Bin-packing) 파일 병합 주기적 실행** |
-| **2. Storage Cost** | 타임 트래블 구버전 파일 무한 누적 | **`VACUUM` 명령으로 7일 이전 구버전 물리 파일 삭제** |
-| **3. Schema Drift** | 소스 데이터 컬럼 타입 예가없이 변경 | **`mergeSchema` 옵션으로 안전한 스키마 진화 허용** |
+| 1. File Compaction | 자잘한 파티션 파일 누적 속도 폭락 | **`OPTIMIZE` (Bin-packing) 파일 병합 주기적 실행** |
+| 2. Storage Cost | 타임 트래블 구버전 파일 무한 누적 | **`VACUUM` 명령으로 7일 이전 구버전 물리 파일 삭제** |
+| 3. Schema Drift | 소스 데이터 컬럼 타입 예가없이 변경 | **`mergeSchema` 옵션으로 안전한 스키마 진화 허용** |
 
 > 사례: **카카오 / 당근마켓 / Databricks Delta Lake 기반 전사 데이터 레이크하우스 구축**
 

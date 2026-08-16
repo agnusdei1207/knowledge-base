@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **`_delta_log`** | Add•Remove•스키마•프로토콜 이력 보관 |
-| **Checkpoint** | 누적 로그 상태를 Parquet로 압축 |
-| **Parquet Files** | 테이블 행을 불변 열 지향 파일로 저장 |
-| **OPTIMIZE** | 작은 파일 병합•데이터 배치 개선 |
-| **VACUUM** | 보존 기간이 지난 미참조 파일 제거 |
+| `_delta_log` | Add•Remove•스키마•프로토콜 이력 보관 |
+| Checkpoint | 누적 로그 상태를 Parquet로 압축 |
+| Parquet Files | 테이블 행을 불변 열 지향 파일로 저장 |
+| OPTIMIZE | 작은 파일 병합•데이터 배치 개선 |
+| VACUUM | 보존 기간이 지난 미참조 파일 제거 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Delta Lake (Databricks) | Apache Iceberg (Netflix) | Apache Hudi (Uber) |
 |:---|:---|:---|:---|
-| **개발 및 주도 체계**| **Databricks 중심 오픈소스** | **Apache 재단 (독립 생태계)** | **Apache 재단 (스트리밍 중심)**|
-| **메타데이터 구조** | **JSON Log + Parquet Checkpoint**| **AVRO Manifest List + Manifest File**| Timeline Log + Avro |
-| **엔진 통합 특성** | Spark•Databricks 중심 | 다중 엔진 중립성 중심 | 증분•CDC 처리 중심 |
-| **ACID 동시성 제어**| **Optimistic Concurrency (OCC)** | **Optimistic Concurrency (OCC)** | MVCC / Copy-on-Write |
+| 개발 및 주도 체계 | **Databricks 중심 오픈소스** | **Apache 재단 (독립 생태계)** | **Apache 재단 (스트리밍 중심)**|
+| 메타데이터 구조 | **JSON Log + Parquet Checkpoint**| **AVRO Manifest List + Manifest File**| Timeline Log + Avro |
+| 엔진 통합 특성 | Spark•Databricks 중심 | 다중 엔진 중립성 중심 | 증분•CDC 처리 중심 |
+| ACID 동시성 제어 | **Optimistic Concurrency (OCC)** | **Optimistic Concurrency (OCC)** | MVCC / Copy-on-Write |
 
 #### 한줄 요약
 

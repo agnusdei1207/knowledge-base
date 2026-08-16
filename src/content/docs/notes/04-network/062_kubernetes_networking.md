@@ -81,11 +81,11 @@ extra:
 
 | 구성요소 | 역할 및 핵심 기능 |
 |:---|:---|
-| **인그레스 컨트롤러** | 외부 L7 라우팅 및 TLS Termination 실행 |
-| **서비스** | 고정 VIP 제공 및 로드밸런싱 |
-| **EndpointSlice** | 준비 상태의 Pod IP/Port 매핑 정보를 분할 수용 |
-| **NetworkPolicy** | Pod Label 기반 트래픽 L3/L4 접근제어 |
-| **CNI Data Path** | eBPF/iptables 기반 터널링 및 커널 패킷 포워딩 |
+| 인그레스 컨트롤러 | 외부 L7 라우팅 및 TLS Termination 실행 |
+| 서비스 | 고정 VIP 제공 및 로드밸런싱 |
+| EndpointSlice | 준비 상태의 Pod IP/Port 매핑 정보를 분할 수용 |
+| NetworkPolicy | Pod Label 기반 트래픽 L3/L4 접근제어 |
+| CNI Data Path | eBPF/iptables 기반 터널링 및 커널 패킷 포워딩 |
 
 #### 한줄 요약
 - Ingress, EndpointSlice, eBPF 기반 고성능 클라우드 네이티브 네트워크 아키텍처 구현 필수.
@@ -146,11 +146,11 @@ extra:
 
 | 비교 항목 | Ingress API | Gateway API (차세대 K8s 표준) |
 |:---|:---|:---|
-| **적용 목적** | 단일 팀 환경의 단순 HTTP/HTTPS 웹 서비스 외부 노출 | 멀티 테넌트, 다중 팀(인프라/개발) 역할 분리 및 L4~L7 고급 라우팅 |
-| **리소스 모델** | 단일 Ingress 리소스 내 모든 규칙 기술 | GatewayClass, Gateway, HTTPRoute, TLSRoute 등 역할별 객체 분리 |
-| **지원 프로토콜** | HTTP, HTTPS 중심 (L7) | HTTP, HTTPS, gRPC, TCP, UDP (L4~L7 통합 지원) |
-| **트래픽 제어** | 벤더 전용 주석(Annotation) 의존 | 가중치 기반 트래픽 분할(Splitting), 헤더 수정 표준 지원 |
-| **주요 한계** | 벤더 간 주석 호환성 부재, 복잡한 정책 표현 한계 | 초기 학습 곡선 존재, CNI/컨트롤러의 Gateway API 지원 확인 필요 |
+| 적용 목적 | 단일 팀 환경의 단순 HTTP/HTTPS 웹 서비스 외부 노출 | 멀티 테넌트, 다중 팀(인프라/개발) 역할 분리 및 L4~L7 고급 라우팅 |
+| 리소스 모델 | 단일 Ingress 리소스 내 모든 규칙 기술 | GatewayClass, Gateway, HTTPRoute, TLSRoute 등 역할별 객체 분리 |
+| 지원 프로토콜 | HTTP, HTTPS 중심 (L7) | HTTP, HTTPS, gRPC, TCP, UDP (L4~L7 통합 지원) |
+| 트래픽 제어 | 벤더 전용 주석(Annotation) 의존 | 가중치 기반 트래픽 분할(Splitting), 헤더 수정 표준 지원 |
+| 주요 한계 | 벤더 간 주석 호환성 부재, 복잡한 정책 표현 한계 | 초기 학습 곡선 존재, CNI/컨트롤러의 Gateway API 지원 확인 필요 |
 
 > 요약: 단순 웹 애플리케이션 외부 노출에는 **Ingress**, 대규모 조직의 역할 분리 및 gRPC/L4 다중 트래픽 제어에는 **Gateway API** 적용.
 
@@ -166,10 +166,10 @@ extra:
 
 | 실무 문제점 | 발생 원인 | 해결 대책 | 기대 효과 |
 |:---|:---|:---|:---|
-| **보안 정책 미작동** | NetworkPolicy 적용 시 미지원 CNI(Flannel 등) 사용 | Calico, Cilium 등 **NetworkPolicy** 지원 **CNI** 선택 및 eBPF 검증 | 파드 간 무단 통신 차단 및 Zero-Trust 보안 격리 달성 |
-| **503 에러 발생** | 파드 생성 직후 Readiness Probe 설정 누락으로 미준비 파드에 요청 전송 | 적절한 **Readiness Probe** 딜레이 설정 및 **EndpointSlice** 동기화 | 트래픽 핑퐁 및 서비스 503 오류 발생 방지 |
-| **Ingress 설정 혼선** | 단일 Ingress 파일에 개발팀과 인프라팀 설정이 뒤섞여 충돌 발생 | **Gateway API** 도입을 통한 역할별(Gateway/HTTPRoute) 권한 분리 | 운영 조직 간 변경 간섭 제거 및 유연한 라우팅 제어 |
-| **대규모 커널 병목** | 파드 증가에 따른 iptables 규칙 탐색 부하 | **eBPF** 기반 CNI 적용 가능성 검증 | 커널 패킷 처리 지연 완화 |
+| 보안 정책 미작동 | NetworkPolicy 적용 시 미지원 CNI(Flannel 등) 사용 | Calico, Cilium 등 **NetworkPolicy** 지원 **CNI** 선택 및 eBPF 검증 | 파드 간 무단 통신 차단 및 Zero-Trust 보안 격리 달성 |
+| 503 에러 발생 | 파드 생성 직후 Readiness Probe 설정 누락으로 미준비 파드에 요청 전송 | 적절한 **Readiness Probe** 딜레이 설정 및 **EndpointSlice** 동기화 | 트래픽 핑퐁 및 서비스 503 오류 발생 방지 |
+| Ingress 설정 혼선 | 단일 Ingress 파일에 개발팀과 인프라팀 설정이 뒤섞여 충돌 발생 | **Gateway API** 도입을 통한 역할별(Gateway/HTTPRoute) 권한 분리 | 운영 조직 간 변경 간섭 제거 및 유연한 라우팅 제어 |
+| 대규모 커널 병목 | 파드 증가에 따른 iptables 규칙 탐색 부하 | **eBPF** 기반 CNI 적용 가능성 검증 | 커널 패킷 처리 지연 완화 |
 
 #### 한줄 요약
 - eBPF 기반 보안 검증과 Readiness Probe 최적화, Gateway API 도입을 통한 실무 운영성 확보 체계 구축.

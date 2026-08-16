@@ -82,9 +82,9 @@ extra:
 
 | 구분 (Category) | 기능 유형 명칭 | 설명 및 기능적 정의 | 가중치 범위 (단순/보통/복잡) |
 |:---|:---|:---|:---|
-| **Data Functions** | **ILF (Internal Logical File)** | 애플리케이션 내부에서 유지/관리되는 논리적 데이터 그룹 (e.g., 회원 DB 테이블) | **7 / 10 / 15** |
+| Data Functions | **ILF (Internal Logical File)** | 애플리케이션 내부에서 유지/관리되는 논리적 데이터 그룹 (e.g., 회원 DB 테이블) | **7 / 10 / 15** |
 | | **EIF (External Interface File)** | 타 시스템에 존재하며 내 시스템이 '참조'만 하는 논리 파일 (e.g., 타사 카드사 인증 테이블) | **5 / 7 / 10** |
-| **Transactional**| **EI (External Input)** | 외부에서 유입된 데이터로 내부 ILF를 추가/수정/삭제하는 입력 기능 | **3 / 4 / 6** |
+| Transactional | **EI (External Input)** | 외부에서 유입된 데이터로 내부 ILF를 추가/수정/삭제하는 입력 기능 | **3 / 4 / 6** |
 | | **EO (External Output)** | 내부 데이터를 가공/계산/파생하여 외부로 출력하는 기능 (e.g., 통계 리포트) | **4 / 5 / 7** |
 | | **EQ (External Inquiry)** | 수학적 연산/가공 없이 단순히 데이터를 조회하여 보여주는 기능 (e.g., 마이페이지 조회) | **3 / 4 / 6** |
 

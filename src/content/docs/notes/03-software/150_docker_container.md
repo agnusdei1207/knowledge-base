@@ -43,8 +43,8 @@ extra:
 </details>
 
 - Host Kernel 공유로 **Guest OS 중복** 제거
-- **Namespaces•cgroups**로 가시 범위와 자원 사용 격리
-- **OverlayFS•CoW**로 Image Layer 재사용
+- **Namespaces**•**cgroups**로 가시 범위와 자원 사용 격리
+- **OverlayFS**•**CoW**로 Image Layer 재사용
 
 #### 한줄 요약
 
@@ -71,7 +71,7 @@ extra:
 | Docker Client•Daemon | **명령 API**와 Image•Container 수명주기 관리 |
 | containerd•runc | OCI Bundle로 **Container Process** 생성 |
 | Image•OverlayFS | 읽기 전용 Layer와 **CoW 변경층** 제공 |
-| Kernel 격리 기능 | **Namespaces•cgroups**로 범위•자원 제한 |
+| Kernel 격리 기능 | **Namespaces**•**cgroups**로 범위•자원 제한 |
 
 #### 한줄 요약
 
@@ -129,10 +129,10 @@ extra:
 
 | 비교 항목 | Virtual Machine (가상머신) | Docker Container (컨테이너) |
 |:---|:---|:---|
-| **가상화 수준** | **하드웨어 가상화 (Guest OS 전체 탑재)** | **OS 커널 레벨 가상화 (Host OS 커널 공유)** |
-| **부팅 속도** | Guest OS 시작 필요 | **Process 중심 빠른 시작** |
-| **자원 용량 **| OS Image 포함 | **App•의존성 Layer 중심** |
-| **격리 및 보안성** | Guest Kernel 경계 | **Host Kernel 공유 경계** |
+| 가상화 수준 | **하드웨어 가상화 (Guest OS 전체 탑재)** | **OS 커널 레벨 가상화 (Host OS 커널 공유)** |
+| 부팅 속도 | Guest OS 시작 필요 | **Process 중심 빠른 시작** |
+| 자원 용량  | OS Image 포함 | **App•의존성 Layer 중심** |
+| 격리 및 보안성 | Guest Kernel 경계 | **Host Kernel 공유 경계** |
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 
 | 3대 컨테이너 보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Image Fatness (대용량)**| 빌드 도구, 컴파일러가 이미지에 잔존 | **Multi-stage Build & Distroless 최소 이미지 적용**|
-| **2. Container Escape Risk**| Root 권한 실행으로 호스트 커널 탈출해킹| **Dockerfile 내 `USER node` 비루트 계정 지정** |
-| **3. Ephemeral Storage Loss**| 컨테이너 재시작 시 내부 데이터 소멸 | **Docker Volume / K8s PersistentVolume 마운트**|
+| 1. Image Fatness (대용량) | 빌드 도구, 컴파일러가 이미지에 잔존 | **Multi-stage Build & Distroless 최소 이미지 적용**|
+| 2. Container Escape Risk | Root 권한 실행으로 호스트 커널 탈출해킹| **Dockerfile 내 `USER node` 비루트 계정 지정** |
+| 3. Ephemeral Storage Loss | 컨테이너 재시작 시 내부 데이터 소멸 | **Docker Volume / K8s PersistentVolume 마운트**|
 
 > 사례: **토스 / 당근마켓 / 쿠팡 Docker & Kubernetes 기반 전사 마이크로서비스 배포**
 

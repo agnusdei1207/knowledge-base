@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **SQL•ACID**: 관계 모델과 분산 트랜잭션 제공
+- **SQL**•**ACID**: 관계 모델과 분산 트랜잭션 제공
 - **Distributed Shared-Nothing Scale-Out Architecture**
 - **Consensus Protocol (Raft / Paxos)** 및 **Distributed Time Sync (TrueTime / HLC)**
 
@@ -72,11 +72,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **SQL 게이트웨이** | SQL 분석•계획과 결과 조합 |
-| **범위 메타데이터** | 키 범위의 복제 그룹 위치 관리 |
-| **트랜잭션 조정자** | 교차 범위 원자 커밋 조정 |
-| **합의 복제 그룹** | 범위별 로그 순서와 정족수 커밋 |
-| **논리 시계** | 분산 트랜잭션의 시간 순서 부여 |
+| SQL 게이트웨이 | SQL 분석•계획과 결과 조합 |
+| 범위 메타데이터 | 키 범위의 복제 그룹 위치 관리 |
+| 트랜잭션 조정자 | 교차 범위 원자 커밋 조정 |
+| 합의 복제 그룹 | 범위별 로그 순서와 정족수 커밋 |
+| 논리 시계 | 분산 트랜잭션의 시간 순서 부여 |
 
 #### 한줄 요약
 
@@ -131,10 +131,10 @@ extra:
 
 | 비교 항목 | Traditional RDBMS (MySQL) | NoSQL (Cassandra, MongoDB) | NewSQL (CockroachDB, Spanner) |
 |:---|:---|:---|:---|
-| **트랜잭션 모델** | 엔진별 ACID | 제품별 보장 수준 | **분산 ACID** |
-| **수평 확장성** | 구성별 복제•샤딩 | 키•문서 기반 분산 | **키 범위 자동 분산** |
-| **SQL 인터페이스**| **SQL 지원** | 제품별 질의 API | SQL 호환 범위 제품별 상이 |
-| **합의 알고리즘** | 단일 Master 복제 | Gossip Protocol | **Raft / Paxos Consensus** |
+| 트랜잭션 모델 | 엔진별 ACID | 제품별 보장 수준 | **분산 ACID** |
+| 수평 확장성 | 구성별 복제•샤딩 | 키•문서 기반 분산 | **키 범위 자동 분산** |
+| SQL 인터페이스 | **SQL 지원** | 제품별 질의 API | SQL 호환 범위 제품별 상이 |
+| 합의 알고리즘 | 단일 Master 복제 | Gossip Protocol | **Raft / Paxos Consensus** |
 
 #### 한줄 요약
 

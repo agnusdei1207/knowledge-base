@@ -185,4 +185,4 @@ extra:
 
 #### 한줄 요약
 
-- L2는 **DAI**, L3는 **uRPF**, L7은 **DNSSEC•mTLS** 적용
+- L2는 **DAI**, L3는 **uRPF**, L7은 **DNSSEC**•**mTLS** 적용

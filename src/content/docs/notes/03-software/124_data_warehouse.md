@@ -82,10 +82,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Fact Table** | 정해진 Grain의 측정값•차원 키 저장 |
-| **Dimension Table** | 분석 축의 설명 속성과 이력 관리 |
-| **ETL•ELT Pipeline** | 원천 추출•표준화•품질 검증•적재 |
-| **Data Mart** | 부서•주제별 분석 모델과 집계 제공 |
+| Fact Table | 정해진 Grain의 측정값•차원 키 저장 |
+| Dimension Table | 분석 축의 설명 속성과 이력 관리 |
+| ETL•ELT Pipeline | 원천 추출•표준화•품질 검증•적재 |
+| Data Mart | 부서•주제별 분석 모델과 집계 제공 |
 
 #### 한줄 요약
 
@@ -140,10 +140,10 @@ extra:
 
 | 비교 항목 | Star Schema (스타 스키마) | Snowflake Schema (스노우플레이크 스키마) |
 |:---|:---|:---|
-| **차원 테이블 정규화**| **비정규화 (Denormalized, 단순 구조)** | **정규화 (Normalized 3NF, 복잡한 계층 구조)** |
-| **조인(`JOIN`) 복잡도** | **낮음 (Fact와 Dim 간 1단계 direct 조인)** | 높음 (Dim 간 다단계 조인 필요) |
-| **쿼리 처리 특성** | 조인 단계가 적어 단순 | 차원 계층 조인 비용 증가 |
-| **스토리지 용량** | 차원 속성 중복 가능 | 정규화로 차원 중복 감소 |
+| 차원 테이블 정규화 | **비정규화 (Denormalized, 단순 구조)** | **정규화 (Normalized 3NF, 복잡한 계층 구조)** |
+| 조인(`JOIN`) 복잡도 | **낮음 (Fact와 Dim 간 1단계 direct 조인)** | 높음 (Dim 간 다단계 조인 필요) |
+| 쿼리 처리 특성 | 조인 단계가 적어 단순 | 차원 계층 조인 비용 증가 |
+| 스토리지 용량 | 차원 속성 중복 가능 | 정규화로 차원 중복 감소 |
 
 #### 한줄 요약
 
@@ -159,9 +159,9 @@ extra:
 
 | 성능 최적화 기법 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **Columnar Format** | 행 기반 파일 탐색으로 무의미한 I/O 발생 | **Parquet / ORC 열 지향 저장 포맷 전면 적용** |
-| **Partition & Sort Key**| 수억 건 Fact 테이블 풀 스캔 | **날짜 파티셔닝 (`date_key`) 및 조회 조건 Sort Key 설정** |
-| **SCD Type 2 Overwrite**| 차원 변경 시 과거 이력 유실 | **`effective_date / current_flag` 컬럼 추가 이력 관리**|
+| Columnar Format | 행 기반 파일 탐색으로 무의미한 I/O 발생 | **Parquet / ORC 열 지향 저장 포맷 전면 적용** |
+| Partition & Sort Key | 수억 건 Fact 테이블 풀 스캔 | **날짜 파티셔닝 (`date_key`) 및 조회 조건 Sort Key 설정** |
+| SCD Type 2 Overwrite | 차원 변경 시 과거 이력 유실 | **`effective_date / current_flag` 컬럼 추가 이력 관리**|
 
 > 사례: **Snowflake / AWS Redshift / Google BigQuery 모던 클라우드 DW 구축**
 

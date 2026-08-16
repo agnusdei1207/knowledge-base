@@ -62,10 +62,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Public Cloud** | 공유 CSP 자원의 탄력적 서비스 제공 |
-| **Private Cloud** | 단일 조직 전용 자원과 통제 제공 |
-| **Hybrid Cloud** | Private•Public 간 배치•연결•복구 조정 |
-| **Multi-Cloud** | 복수 CSP의 역할•정책•비용 통합 관리 |
+| Public Cloud | 공유 CSP 자원의 탄력적 서비스 제공 |
+| Private Cloud | 단일 조직 전용 자원과 통제 제공 |
+| Hybrid Cloud | Private•Public 간 배치•연결•복구 조정 |
+| Multi-Cloud | 복수 CSP의 역할•정책•비용 통합 관리 |
 
 #### 한줄 요약
 
@@ -120,10 +120,10 @@ extra:
 
 | 비교 항목 | Public Cloud | Private Cloud | Hybrid Cloud | Multi-Cloud |
 |:---|:---|:---|:---|:---|
-| **자원 점유 방식** | Multi-Tenant | **Single-Tenant (독점)** | 혼합형 | Multi-CSP |
-| **비용 모델** | OPEX (종량제) | **CAPEX (초기 투자)** | CAPEX + OPEX | OPEX |
-| **보안 및 규제** | CSP 통제와 고객 설정 | 전용 통제와 자체 책임 | 경계 간 통제 필요 | CSP별 정책 통합 필요 |
-| **운영 복잡도** | **최저 (CSP가 전담)** | 높음 (자체 인력 필요) | **높음 (이종 망 관리)** | **최고 (멀티 솔루션)**|
+| 자원 점유 방식 | Multi-Tenant | **Single-Tenant (독점)** | 혼합형 | Multi-CSP |
+| 비용 모델 | OPEX (종량제) | **CAPEX (초기 투자)** | CAPEX + OPEX | OPEX |
+| 보안 및 규제 | CSP 통제와 고객 설정 | 전용 통제와 자체 책임 | 경계 간 통제 필요 | CSP별 정책 통합 필요 |
+| 운영 복잡도 | **최저 (CSP가 전담)** | 높음 (자체 인력 필요) | **높음 (이종 망 관리)** | **최고 (멀티 솔루션)**|
 
 #### 한줄 요약
 

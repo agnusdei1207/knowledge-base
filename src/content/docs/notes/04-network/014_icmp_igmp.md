@@ -84,10 +84,10 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 비고 |
 |:---|:---|:---|
-| **ICMP 헤더** | Type(8비트), Code(8비트), Checksum(16비트) + 원본 패킷 헤더 일부 | L3 IP 페이로드에 캡슐화 |
-| **IGMP Querier** | 서브넷 내 호스트 멀티캐스트 그룹 가입 여부 갱신 탐색 | 라우터 간 IP 비교 선출 |
-| **IGMP Snooping** | L2 스위치가 IGMP 리포트를 파싱하여 [VLAN ID - Group IP - Port] 매핑 DB 수립 | 무분별한 L2 Flooding 차단 |
-| **IGMPv1 / v2 / v3** | v1: Query/Report만 지원, v2: Explicit Leave 추가, v3: SSM(Source-Specific Multicast) 지원 | 버전별 호환성 관리 |
+| ICMP 헤더 | Type(8비트), Code(8비트), Checksum(16비트) + 원본 패킷 헤더 일부 | L3 IP 페이로드에 캡슐화 |
+| IGMP Querier | 서브넷 내 호스트 멀티캐스트 그룹 가입 여부 갱신 탐색 | 라우터 간 IP 비교 선출 |
+| IGMP Snooping | L2 스위치가 IGMP 리포트를 파싱하여 [VLAN ID - Group IP - Port] 매핑 DB 수립 | 무분별한 L2 Flooding 차단 |
+| IGMPv1 / v2 / v3 | v1: Query/Report만 지원, v2: Explicit Leave 추가, v3: SSM(Source-Specific Multicast) 지원 | 버전별 호환성 관리 |
 
 #### 한줄 요약
 

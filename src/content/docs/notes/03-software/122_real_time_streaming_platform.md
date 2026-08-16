@@ -75,11 +75,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **수집 계층** | 앱 이벤트•로그•CDC 변경분 추출 |
-| **이벤트 브로커** | 파티션 보존•버퍼링•다중 구독 제공 |
-| **스트림 처리기** | 이벤트 시간•윈도•키 상태 연산 |
-| **체크포인트 저장소** | 입력 위치와 처리 상태 복구점 보관 |
-| **서빙 저장소** | 가공 결과의 저지연 조회 제공 |
+| 수집 계층 | 앱 이벤트•로그•CDC 변경분 추출 |
+| 이벤트 브로커 | 파티션 보존•버퍼링•다중 구독 제공 |
+| 스트림 처리기 | 이벤트 시간•윈도•키 상태 연산 |
+| 체크포인트 저장소 | 입력 위치와 처리 상태 복구점 보관 |
+| 서빙 저장소 | 가공 결과의 저지연 조회 제공 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Batch Data Pipeline (배치 파이프라인) | Real-Time Streaming Pipeline (실시간 파이프라인) |
 |:---|:---|:---|
-| **데이터 연산 시점**| **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 ** |
-| **핵심 메시지 브로커**| HDFS, AWS S3, File Storage | **Apache Kafka, Apache Pulsar** |
-| **핵심 연산 프레임워크**| Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
-| **주요 사용 도메인** | 정기 결제 정산, 월간 일괄 보고서 | **실시간 FDS 결제차단, 랭킹 차트, 실시간 추천** |
+| 데이터 연산 시점 | **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 ** |
+| 핵심 메시지 브로커 | HDFS, AWS S3, File Storage | **Apache Kafka, Apache Pulsar** |
+| 핵심 연산 프레임워크 | Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
+| 주요 사용 도메인 | 정기 결제 정산, 월간 일괄 보고서 | **실시간 FDS 결제차단, 랭킹 차트, 실시간 추천** |
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 3대 스트리밍 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Backpressure 현상** | Serving DB 과부하로 Stream 연산자 멈춤 | **Async I/O 적용 및 Serving DB 인메모리/캐시 확장**|
-| **2. Out-of-Order Events** | 네트워크 지연으로 이벤트 순서 뒤틀림 | **Watermark 및 Allowed Lateness 버퍼 레이어 설정**|
-| **3. End-to-End EOS 파행** | 파이프라인 일부 노드 다운 시 중복 렌더링| **Kafka (acks=all) + Flink 2PC + Redis UPSERT 결합**|
+| 1. Backpressure 현상 | Serving DB 과부하로 Stream 연산자 멈춤 | **Async I/O 적용 및 Serving DB 인메모리/캐시 확장**|
+| 2. Out-of-Order Events | 네트워크 지연으로 이벤트 순서 뒤틀림 | **Watermark 및 Allowed Lateness 버퍼 레이어 설정**|
+| 3. End-to-End EOS 파행 | 파이프라인 일부 노드 다운 시 중복 렌더링| **Kafka (acks=all) + Flink 2PC + Redis UPSERT 결합**|
 
 > 사례: **카카오뱅크 실시간 FDS & 당근마켓 실시간 피드 추천 파이프라인 아키텍처**
 

@@ -78,12 +78,12 @@ extra:
 
 | 구성요소 | 바이트 크기 | 주요 역할 및 기능 |
 |:---|:---|:---|
-| **Preamble + SFD** | 7 + 1 Bytes | 수신 비트 클록 동기화 (Preamble) 및 본 프레임 시작 알림 (SFD) |
-| **Destination MAC** | 6 Bytes (48-bit) | 수신 호스트/인터페이스 물리 주소 (Unicast, Multicast, Broadcast) |
-| **Source MAC** | 6 Bytes (48-bit) | 송신 호스트/인터페이스 물리 주소 (스위치 CAM 테이블 학습의 기준) |
-| **EtherType / Length** | 2 Bytes | 0x0600 이상: **EtherType** (상위 L3 프로토콜) / 0x05DC 이하: **IEEE 802.3** 데이터 길이 |
-| **Payload + Pad** | 46 ~ 1500 Bytes | L3 IP 패킷 데이터 (최소 46바이트 미달 시 Pad 비트로 채움) |
-| **FCS (Trailer)** | 4 Bytes (32-bit) | Destination MAC부터 Pad까지 연산한 **CRC-32** 오류 검출값 |
+| Preamble + SFD | 7 + 1 Bytes | 수신 비트 클록 동기화 (Preamble) 및 본 프레임 시작 알림 (SFD) |
+| Destination MAC | 6 Bytes (48-bit) | 수신 호스트/인터페이스 물리 주소 (Unicast, Multicast, Broadcast) |
+| Source MAC | 6 Bytes (48-bit) | 송신 호스트/인터페이스 물리 주소 (스위치 CAM 테이블 학습의 기준) |
+| EtherType / Length | 2 Bytes | 0x0600 이상: **EtherType** (상위 L3 프로토콜) / 0x05DC 이하: **IEEE 802.3** 데이터 길이 |
+| Payload + Pad | 46 ~ 1500 Bytes | L3 IP 패킷 데이터 (최소 46바이트 미달 시 Pad 비트로 채움) |
+| FCS (Trailer) | 4 Bytes (32-bit) | Destination MAC부터 Pad까지 연산한 **CRC-32** 오류 검출값 |
 
 #### 한줄 요약
 

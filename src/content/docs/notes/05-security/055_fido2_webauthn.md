@@ -144,9 +144,9 @@ WebAuthn 인증 요청
 
 | 구성 요소 | 역할 | 연계 지점 |
 |:---|:---|:---|
-| **FIDO2** | 패스워드리스 공개키 인증 상위 기술 프레임워크 | WebAuthn과 CTAP2 규격을 결합 통합 |
-| **WebAuthn** | W3C 브라우저/애플리케이션 JS API 규격 | 서비스 **Origin** 디코딩 및 RP 서버 연동 |
-| **CTAP2** | FIDO 얼라이언스 클라이언트-인증자 통신 규격 | USB, BLE, NFC, YubiKey, 보안 칩셋 통신 |
+| FIDO2 | 패스워드리스 공개키 인증 상위 기술 프레임워크 | WebAuthn과 CTAP2 규격을 결합 통합 |
+| WebAuthn | W3C 브라우저/애플리케이션 JS API 규격 | 서비스 **Origin** 디코딩 및 RP 서버 연동 |
+| CTAP2 | FIDO 얼라이언스 클라이언트-인증자 통신 규격 | USB, BLE, NFC, YubiKey, 보안 칩셋 통신 |
 
 #### 한줄 요약
 

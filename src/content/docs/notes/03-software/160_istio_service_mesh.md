@@ -70,7 +70,7 @@ extra:
 | 구성요소 | 책임 |
 |---|---|
 | istiod | **xDS 설정•Identity•인증서** 배포 |
-| Traffic Rules | **VirtualService•DestinationRule** 의도 선언 |
+| Traffic Rules | **VirtualService**•**DestinationRule** 의도 선언 |
 | Envoy Proxy | Service 간 **mTLS•Routing•Telemetry** 집행 |
 | Ingress Gateway | Mesh 경계의 **L7 진입 Traffic** 제어 |
 
@@ -130,10 +130,10 @@ extra:
 
 | 비교 항목 | Traditional Sidecar Architecture | Modern Ambient Mesh (Sidecarless) |
 |:---|:---|:---|
-| **프록시 배치 방식** | **모든 Pod 1개당 Envoy 1개 주입 (1:1)** | **Node당 1개 ztunnel (L4) + 필요시 Waypoint (L7)** |
-| **메모리 오버헤드** | Pod별 Proxy 자원 필요 | Node•Waypoint로 **Proxy 공유** |
-| **앱 Pod 재시작** | Injection 변경 시 재시작 가능 | Sidecar Injection 불필요 |
-| **적용 판단** | Pod별 L7 통제 | L4 공통 통제와 선택적 L7 |
+| 프록시 배치 방식 | **모든 Pod 1개당 Envoy 1개 주입 (1:1)** | **Node당 1개 ztunnel (L4) + 필요시 Waypoint (L7)** |
+| 메모리 오버헤드 | Pod별 Proxy 자원 필요 | Node•Waypoint로 **Proxy 공유** |
+| 앱 Pod 재시작 | Injection 변경 시 재시작 가능 | Sidecar Injection 불필요 |
+| 적용 판단 | Pod별 L7 통제 | L4 공통 통제와 선택적 L7 |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 Istio 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Envoy Memory Bloat** | 모든 서비스 설정이 전 Envoy에 덤프됨 | **`Sidecar` CRD로 필요한 타겟 서비스만 핑퐁 제한**|
-| **2. High Traffic Latency**| Envoy 2번 거치며 5ms 지연 추가 | **Ambient Mesh (ztunnel) 전환으로 L4 속도 확보** |
-| **3. Strict mTLS Crash** | mTLS 안 붙은 미적용 Pod와 통신 불통 | **`PERMISSIVE` 모드 경유 후 `STRICT` 모드 격상**|
+| 1. Envoy Memory Bloat | 모든 서비스 설정이 전 Envoy에 덤프됨 | **`Sidecar` CRD로 필요한 타겟 서비스만 핑퐁 제한**|
+| 2. High Traffic Latency | Envoy 2번 거치며 5ms 지연 추가 | **Ambient Mesh (ztunnel) 전환으로 L4 속도 확보** |
+| 3. Strict mTLS Crash | mTLS 안 붙은 미적용 Pod와 통신 불통 | **`PERMISSIVE` 모드 경유 후 `STRICT` 모드 격상**|
 
 > 사례: **토스 / 당근마켓 / 쿠팡 Istio Service Mesh 및 Kiali / Jaeger 관제 운용**
 

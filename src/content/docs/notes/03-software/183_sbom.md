@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **Data Fields**로 공급자•이름•Version•purl•관계 기록
-- **SPDX•CycloneDX**로 생성•교환 자동화
+- **SPDX**•**CycloneDX**로 생성•교환 자동화
 - Release•산출물별 **SBOM 갱신•서명•배포 연결**
 
 #### 한줄 요약
@@ -70,9 +70,9 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| SCA Tool | Source•Binary의 **Component•Dependency** 추출 |
+| SCA Tool | Source•Binary의 **Component**•**Dependency** 추출 |
 | Standard Format | SPDX•CycloneDX로 **교환 Schema** 제공 |
-| Component ID | **purl•Hash**로 부품과 산출물 식별 |
+| Component ID | **purl**•**Hash**로 부품과 산출물 식별 |
 | VEX | 취약점의 **영향•악용 가능 상태**와 근거 전달 |
 
 #### 한줄 요약
@@ -131,10 +131,10 @@ extra:
 
 | 항목 | Source•Build-time SBOM | Binary•Run-time SBOM |
 |:---|:---|:---|
-| **대상** | 소스코드, 패키지 관리 파일 | 컨테이너 이미지, 실행 파일 |
-| **강점** | 선언된 전이 의존성 추적 | 실제 산출물의 숨은 부품 보완 |
-| **한계** | 미포함 개발 의존성 혼입 가능 | 난독화•정적 Linking 누락 가능 |
-| **주요 목적** | 개발 제품 투명성 | 외부•Legacy 산출물 검증 |
+| 대상 | 소스코드, 패키지 관리 파일 | 컨테이너 이미지, 실행 파일 |
+| 강점 | 선언된 전이 의존성 추적 | 실제 산출물의 숨은 부품 보완 |
+| 한계 | 미포함 개발 의존성 혼입 가능 | 난독화•정적 Linking 누락 가능 |
+| 주요 목적 | 개발 제품 투명성 | 외부•Legacy 산출물 검증 |
 
 #### 한줄 요약
 
@@ -150,9 +150,9 @@ extra:
 
 | 난제 | 원인 | 대책 |
 |:---|:---|:---|
-| **이름 오탐지** | 생태계별 동일 패키지명 | **purl** 식별자 강제 |
-| **경고 폭탄** | 미사용 라이브러리 취약점 | **VEX** 동반 False Positive 제거 |
-| **위변조** | 공급망 악성 부품 삽입 | **SLSA** 프레임워크 및 무결성 서명 |
+| 이름 오탐지 | 생태계별 동일 패키지명 | **purl** 식별자 강제 |
+| 경고 폭탄 | 미사용 라이브러리 취약점 | **VEX** 동반 False Positive 제거 |
+| 위변조 | 공급망 악성 부품 삽입 | **SLSA** 프레임워크 및 무결성 서명 |
 
 #### 한줄 요약
 

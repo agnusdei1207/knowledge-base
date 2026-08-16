@@ -140,12 +140,12 @@ extra:
 
 | 비교 항목 | MESI 프로토콜 (4-State) | MOESI 프로토콜 (5-State) |
 |:---|:---|:---|
-| **상태 구성** | Modified, Exclusive, Shared, Invalid | Modified, **Owned**, Exclusive, Shared, Invalid |
-| **더티 공유** | 별도 Owned 상태 없이 구현별 개입 처리 | **Owned** 상태로 더티 사본 공유 가능 |
-| **메모리 트래픽** | 더티 공유 때 쓰기 책임 이전 제약 | **Dirty Sharing**으로 Write-back 연기 |
-| **최신 데이터 제공자**| M 상태 캐시 또는 일관성 홈 노드 | **Owned** 상태 캐시가 사본 제공 |
-| **하드웨어 복잡도** | 비교적 단순함 | 5개 상태 전이 제어 로직 필요로 FSM 복잡 |
-| **구현 특성** | 4상태 기반의 비교적 단순한 제어 | 5상태 기반의 더티 공유 최적화 |
+| 상태 구성 | Modified, Exclusive, Shared, Invalid | Modified, **Owned**, Exclusive, Shared, Invalid |
+| 더티 공유 | 별도 Owned 상태 없이 구현별 개입 처리 | **Owned** 상태로 더티 사본 공유 가능 |
+| 메모리 트래픽 | 더티 공유 때 쓰기 책임 이전 제약 | **Dirty Sharing**으로 Write-back 연기 |
+| 최신 데이터 제공자 | M 상태 캐시 또는 일관성 홈 노드 | **Owned** 상태 캐시가 사본 제공 |
+| 하드웨어 복잡도 | 비교적 단순함 | 5개 상태 전이 제어 로직 필요로 FSM 복잡 |
+| 구현 특성 | 4상태 기반의 비교적 단순한 제어 | 5상태 기반의 더티 공유 최적화 |
 
 #### 한줄 요약
 - MESI는 4상태 제어, MOESI는 Owned 기반 더티 공유로 Write-back을 연기함.

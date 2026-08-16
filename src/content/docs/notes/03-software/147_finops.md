@@ -61,8 +61,8 @@ extra:
 | 구성요소 | 책임 |
 |---|---|
 | Inform | **비용 할당•예측**과 Unit Economics 산출 |
-| Optimize | **Right-sizing•요율**과 구조 개선 |
-| Operate | **정책•자동화**와 조직 의사결정 정착 |
+| Optimize | **Right-sizing**•**요율**과 구조 개선 |
+| Operate | **정책**•**자동화**와 조직 의사결정 정착 |
 
 #### 한줄 요약
 
@@ -119,10 +119,10 @@ extra:
 
 | 비교 항목 | Traditional IT Cost Management | Modern FinOps Architecture |
 |:---|:---|:---|
-| **비용 측정 주기** | 정기 사후 정산 중심 | **사용량 기반 지속 관측** |
-| **비용 주체** | 재무 부서 중심 | **기술•재무•사업 협업** |
-| **핵심 목표** | 예산 이월 방지 및 한도 통제 | **Unit Economics 기반 비즈니스 가치 극대화** |
-| **절감 기술 메커니즘**| 인프라 구매 억제 | **Right-sizing, RI/SP, Spot, Auto-Shutdown** |
+| 비용 측정 주기 | 정기 사후 정산 중심 | **사용량 기반 지속 관측** |
+| 비용 주체 | 재무 부서 중심 | **기술•재무•사업 협업** |
+| 핵심 목표 | 예산 이월 방지 및 한도 통제 | **Unit Economics 기반 비즈니스 가치 극대화** |
+| 절감 기술 메커니즘 | 인프라 구매 억제 | **Right-sizing, RI/SP, Spot, Auto-Shutdown** |
 
 #### 한줄 요약
 
@@ -138,9 +138,9 @@ extra:
 
 | 3대 FinOps 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Untagged Cloud Resource**| 개발자가 태그 없이 EC2 무단 생성 | **IaC (Terraform) 에서 Tag 미입력 시 생성 차단** |
-| **2. Dev Server Running 24/7**| 주말/야간에도 개발용 EC2가 계속 켜짐 | **Auto-Shutdown 스크립트 (주말 자동 끄기)** |
-| **3. RI Commitment Risk** | 3년 약정 후 서비스 철수로 약정 날림 | **Flexible Savings Plans (유연한 SP) 전환** |
+| 1. Untagged Cloud Resource | 개발자가 태그 없이 EC2 무단 생성 | **IaC (Terraform) 에서 Tag 미입력 시 생성 차단** |
+| 2. Dev Server Running 24/7 | 주말/야간에도 개발용 EC2가 계속 켜짐 | **Auto-Shutdown 스크립트 (주말 자동 끄기)** |
+| 3. RI Commitment Risk | 3년 약정 후 서비스 철수로 약정 날림 | **Flexible Savings Plans (유연한 SP) 전환** |
 
 > 사례: **토스 / 당근마켓 / 쿠팡 FinOps 팀 신설 및 전사 AWS 클라우드 비용 30% 이상 절감**
 

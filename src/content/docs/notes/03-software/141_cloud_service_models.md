@@ -79,10 +79,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **IaaS** | 고객은 OS 이상, 사업자는 가상화 이하 관리 |
-| **PaaS** | 고객은 코드•데이터, 사업자는 런타임 이하 관리 |
-| **SaaS** | 고객은 계정•설정•데이터 사용, 사업자는 앱 운영 |
-| **Shared Responsibility** | 계층별 보안•가용성•백업 책임 명시 |
+| IaaS | 고객은 OS 이상, 사업자는 가상화 이하 관리 |
+| PaaS | 고객은 코드•데이터, 사업자는 런타임 이하 관리 |
+| SaaS | 고객은 계정•설정•데이터 사용, 사업자는 앱 운영 |
+| Shared Responsibility | 계층별 보안•가용성•백업 책임 명시 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | IaaS (Infrastructure) | PaaS (Platform) | SaaS (Software) |
 |:---|:---|:---|:---|
-| **시스템 제어권** | **OS•런타임•앱 제어** | 앱•데이터 제어 | 계정•제품 설정 중심 |
-| **운영 인력 오버헤드**| **높음 (OS 보안 패치, 미들웨어 관리)**| 낮음 (인프라 관리 자동화) | **최저 (전혀 관리 불필요)** |
-| **개발 민첩성** | 보통 (인프라 프로비저닝 필요) | **높음 (코드만 push 하면 배포)** | **최고 (계정 생성 즉시 사용)** |
-| **Vendor Lock-in** | 낮음 (다른 Cloud VM으로 이관 쉬움) | 중간 (특정 Cloud API 종속) | **높음 (타 SaaS 전환 시 데이터 이관 난제)**|
+| 시스템 제어권 | **OS•런타임•앱 제어** | 앱•데이터 제어 | 계정•제품 설정 중심 |
+| 운영 인력 오버헤드 | **높음 (OS 보안 패치, 미들웨어 관리)**| 낮음 (인프라 관리 자동화) | **최저 (전혀 관리 불필요)** |
+| 개발 민첩성 | 보통 (인프라 프로비저닝 필요) | **높음 (코드만 push 하면 배포)** | **최고 (계정 생성 즉시 사용)** |
+| Vendor Lock-in | 낮음 (다른 Cloud VM으로 이관 쉬움) | 중간 (특정 Cloud API 종속) | **높음 (타 SaaS 전환 시 데이터 이관 난제)**|
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. IaaS OS Patch Overhead**| OS 보안 패치를 안 해서 랜섬웨어 감염 | **CSP의 Systems Manager (SSM) 자동 패치 구축** |
-| **2. PaaS Vendor Lock-in** | 특정 Cloud PaaS 런타임 종속 발생 | **Docker 컨테이너화(CaaS / K8s)로 이식성 확보** |
-| **3. SaaS Data Security** | SaaS 서비스 해킹 시 기업 데이터 유출 | **CASB (Cloud Access Security Broker) 도입 통제** |
+| 1. IaaS OS Patch Overhead | OS 보안 패치를 안 해서 랜섬웨어 감염 | **CSP의 Systems Manager (SSM) 자동 패치 구축** |
+| 2. PaaS Vendor Lock-in | 특정 Cloud PaaS 런타임 종속 발생 | **Docker 컨테이너화(CaaS / K8s)로 이식성 확보** |
+| 3. SaaS Data Security | SaaS 서비스 해킹 시 기업 데이터 유출 | **CASB (Cloud Access Security Broker) 도입 통제** |
 
 > 사례: **삼성전자 / 현대자동차 하이브리드 Cloud IaaS-PaaS-SaaS 혼용 아키텍처**
 

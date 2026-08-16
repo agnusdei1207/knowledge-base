@@ -110,7 +110,7 @@ extra:
 1. **종료 상태 전환**: Kubelet이 Pod 종료 절차 인지
 2. **Endpoint 제외**: 신규 Traffic 전달 대상에서 제거
 3. **preStop Hook 실행**: Application별 사전 정리 수행
-4. **SIGTERM•유예**: 연결•작업 종료 시간을 제공
+4. **SIGTERM**•**유예**: 연결•작업 종료 시간을 제공
 5. **잔여 Process 종료**: 유예 후 남은 Process 강제 종료
 
 #### 한줄 요약
@@ -127,10 +127,10 @@ extra:
 
 | 비교 항목 | Liveness Probe (생존 프로브) | Readiness Probe (준비 프로브) |
 |:---|:---|:---|
-| **검사 실패 원인** | 프로세스 다운, Deadlock, 무한 루프 | DB 커넥션 풀 차오름, 캐시 웜업 미완료 |
-| **K8s 조치 행위** | **`docker restart` (컨테이너 강제 재시작)**| **Service Endpoint IP 제거 (트래픽 유입 차단)**|
-| **장애 복구 효과** | 프로세스 재기동으로 데드락 해제 | **사용자에게 502/503 에러 표출 차단** |
-| **안티패턴 오용** | **외부 DB 접속 실패 시 Liveness 걸면 안 됨**| 외부 DB 연결 체크용으로 적극 활용 |
+| 검사 실패 원인 | 프로세스 다운, Deadlock, 무한 루프 | DB 커넥션 풀 차오름, 캐시 웜업 미완료 |
+| K8s 조치 행위 | **`docker restart` (컨테이너 강제 재시작)**| **Service Endpoint IP 제거 (트래픽 유입 차단)**|
+| 장애 복구 효과 | 프로세스 재기동으로 데드락 해제 | **사용자에게 502/503 에러 표출 차단** |
+| 안티패턴 오용 | **외부 DB 접속 실패 시 Liveness 걸면 안 됨**| 외부 DB 연결 체크용으로 적극 활용 |
 
 #### 한줄 요약
 
@@ -146,9 +146,9 @@ extra:
 
 | 3대 난제 | 원인 | 실무 대책 |
 |:---|:---|:---|
-| **1. Rolling Update 502**| 종료 전 트래픽 유입 | `preStop` sleep 훅 배치 |
-| **2. 부팅 타임아웃** | 느린 부팅 시 재시작 | Startup Probe 도입 |
-| **3. DB 연동 장애** | DB 다운 시 전체 재시작 | Liveness 배제 및 Readiness 사용 |
+| 1. Rolling Update 502 | 종료 전 트래픽 유입 | `preStop` sleep 훅 배치 |
+| 2. 부팅 타임아웃 | 느린 부팅 시 재시작 | Startup Probe 도입 |
+| 3. DB 연동 장애 | DB 다운 시 전체 재시작 | Liveness 배제 및 Readiness 사용 |
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 preStop sleep 훅 및 3대 Probes 무중단 배포 적용**
 

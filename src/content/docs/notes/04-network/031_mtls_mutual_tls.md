@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- 서비스 간 신원은 **mTLS**, 권한은 **RBAC•ABAC**로 분리
+- 서비스 간 신원은 **mTLS**, 권한은 **RBAC**•**ABAC**로 분리
 
 #### 한줄 요약
 

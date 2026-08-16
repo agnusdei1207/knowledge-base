@@ -79,10 +79,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Bronze** | 원천 값•수집 시각•출처를 재처리용 보존 |
-| **Silver** | 중복•오류 정제와 공통 스키마•키 적용 |
-| **Gold** | 용도별 지표•마트•특징 데이터 제공 |
-| **Quarantine** | 품질 실패 행과 규칙•사유 격리 |
+| Bronze | 원천 값•수집 시각•출처를 재처리용 보존 |
+| Silver | 중복•오류 정제와 공통 스키마•키 적용 |
+| Gold | 용도별 지표•마트•특징 데이터 제공 |
+| Quarantine | 품질 실패 행과 규칙•사유 격리 |
 
 #### 한줄 요약
 
@@ -139,10 +139,10 @@ extra:
 
 | 비교 항목 | Bronze Layer | Silver Layer | Gold Layer |
 |:---|:---|:---|:---|
-| **데이터 품질 상태** | 원천 보존 | 검증•표준화 상세 | 용도별 검증 집계 |
-| **스키마 형태** | 소스 원본 스키마 | 3NF 정규화 / 공통 스키마 | **Star Schema / Cube / Mart** |
-| **재처리 가능 여부** | **원천 스냅샷으로 상시 재처리 가능**| Bronze 기반 재생성 가능 | Silver 기반 재집계 가능 |
-| **저장 스토리지 포맷**| Delta / Parquet / JSON | **Delta Lake Parquet** | **Delta Lake Parquet** |
+| 데이터 품질 상태 | 원천 보존 | 검증•표준화 상세 | 용도별 검증 집계 |
+| 스키마 형태 | 소스 원본 스키마 | 3NF 정규화 / 공통 스키마 | **Star Schema / Cube / Mart** |
+| 재처리 가능 여부 | **원천 스냅샷으로 상시 재처리 가능**| Bronze 기반 재생성 가능 | Silver 기반 재집계 가능 |
+| 저장 스토리지 포맷 | Delta / Parquet / JSON | **Delta Lake Parquet** | **Delta Lake Parquet** |
 
 #### 한줄 요약
 
@@ -158,9 +158,9 @@ extra:
 
 | 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Full Reload Overhead** | 승격 연산 시 매번 Bronze 전체 스캔 | **Delta Change Data Feed (CDF) 기반 증분 승격** |
-| **2. Quarantine Storage Overflow**| 품질 규칙 과도 설정으로 Quarantine 폭발| **품질 검증 규칙(Expectations) 단계적 임계치 완화** |
-| **3. PII Security Leakage** | Bronze에 개인정보(PII)가 생값으로 노출 | **Bronze 가동 즉시 해시/단방향 암호화 처리 적용** |
+| 1. Full Reload Overhead | 승격 연산 시 매번 Bronze 전체 스캔 | **Delta Change Data Feed (CDF) 기반 증분 승격** |
+| 2. Quarantine Storage Overflow | 품질 규칙 과도 설정으로 Quarantine 폭발| **품질 검증 규칙(Expectations) 단계적 임계치 완화** |
+| 3. PII Security Leakage | Bronze에 개인정보(PII)가 생값으로 노출 | **Bronze 가동 즉시 해시/단방향 암호화 처리 적용** |
 
 > 사례: **카카오페이 / Databricks Delta Live Tables(DLT) 기반 전사 메달리온 아키텍처 운용**
 

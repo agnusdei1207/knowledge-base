@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: Pod 접점을 제공하는 **Service•Ingress** Network 객체
+- 정의/개념: Pod 접점을 제공하는 **Service**•**Ingress** Network 객체
 - 배경/필요성: 가변 Pod IP 직접 호출은 **발견•외부 노출•경로 분기** 곤란
 
 #### 한줄 요약
@@ -71,7 +71,7 @@ extra:
 |---|---|
 | 외부 Client | **Host•Path 요청**과 TLS Session 생성 |
 | Ingress•Controller | Ingress 규칙을 **L7 Proxy 설정**으로 구현 |
-| Service | 안정된 **VIP•DNS**와 Endpoint 집합 제공 |
+| Service | 안정된 **VIP**•**DNS**와 Endpoint 집합 제공 |
 | Pod | Readiness를 통과한 **Application Process** 실행 |
 
 #### 한줄 요약
@@ -130,10 +130,10 @@ extra:
 
 | Service 타입 | 네트워크 노출 범위 | 주요 용도 및 특징 |
 |:---|:---|:---|
-| **ClusterIP (기본값)** | **클러스터 내부 접점** | 내부 Service Discovery와 통신 |
-| **NodePort** | **모든 Node의 동일 포트(30000~32767) 개방**| 온프레미스 노드 테스트, 간단한 외부 노출 |
-| **LoadBalancer** | **AWS/Azure Cloud 외부 ELB 자동 프로비저닝**| 대국민 운영 서비스 L4 노출 표준 |
-| **ExternalName** | **외부 DNS CNAME 맵핑 제공** | 외부 오라클 DB를 서비스 이름으로 내부 연동 |
+| ClusterIP (기본값) | **클러스터 내부 접점** | 내부 Service Discovery와 통신 |
+| NodePort | **모든 Node의 동일 포트(30000~32767) 개방**| 온프레미스 노드 테스트, 간단한 외부 노출 |
+| LoadBalancer | **AWS/Azure Cloud 외부 ELB 자동 프로비저닝**| 대국민 운영 서비스 L4 노출 표준 |
+| ExternalName | **외부 DNS CNAME 맵핑 제공** | 외부 오라클 DB를 서비스 이름으로 내부 연동 |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 네트워크 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Extra Node Hop Latency** | ALB $\rightarrow$ NodePort $\rightarrow$ Pod 2번 점프 | **ALB target-type: ip 로 Pod 직접 타겟팅 튜닝** |
-| **2. ELB Cost Surge** | Service 20개마다 LoadBalancer 생성해 비용 폭발| **Ingress 1개로 통합하고 Path-based 라우팅** |
-| **3. SSL Certificate Expire**| HTTPS SSL 인증서 만료로 접속 장애 | **cert-manager 연동 Let's Encrypt 자동 갱신** |
+| 1. Extra Node Hop Latency | ALB $\rightarrow$ NodePort $\rightarrow$ Pod 2번 점프 | **ALB target-type: ip 로 Pod 직접 타겟팅 튜닝** |
+| 2. ELB Cost Surge | Service 20개마다 LoadBalancer 생성해 비용 폭발| **Ingress 1개로 통합하고 Path-based 라우팅** |
+| 3. SSL Certificate Expire | HTTPS SSL 인증서 만료로 접속 장애 | **cert-manager 연동 Let's Encrypt 자동 갱신** |
 
 > 사례: **카카오 / 당근마켓 / 쿠팡 AWS ALB Ingress Controller & cert-manager 기반 L7 트래픽 통합**
 

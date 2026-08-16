@@ -124,10 +124,10 @@ extra:
 
 | Flynn 분류 | 명령 스트림 | 데이터 스트림 | 아키텍처 특성 | 적용 예시 |
 |:---|:---|:---|:---|:---|
-| **SISD** | 단일 (Single) | 단일 (Single) | 단일 제어유닛 기반 스칼라 순차 처리 | 클래식 단일 코어 CPU 파이프라인 |
-| **SIMD** | 단일 (Single) | 다중 (Multiple) | 단일 제어유닛으로 다중 ALU 데이터 벡터 연산 | CPU AVX/NEON, GPU 텐서 코어 |
-| **MISD** | 다중 (Multiple) | 단일 (Single) | 동일 입력 데이터 대상 복수 파이프라인 다중 검증 | 우주 항공 결함 허용(Fault-tolerant) 시스템 |
-| **MIMD** | 다중 (Multiple) | 다중 (Multiple) | 독립 제어유닛 기반 비동기 파이프라인 동시 구동 | 멀티코어 CPU, 분산 데이터센터 노드 |
+| SISD | 단일 (Single) | 단일 (Single) | 단일 제어유닛 기반 스칼라 순차 처리 | 클래식 단일 코어 CPU 파이프라인 |
+| SIMD | 단일 (Single) | 다중 (Multiple) | 단일 제어유닛으로 다중 ALU 데이터 벡터 연산 | CPU AVX/NEON, GPU 텐서 코어 |
+| MISD | 다중 (Multiple) | 단일 (Single) | 동일 입력 데이터 대상 복수 파이프라인 다중 검증 | 우주 항공 결함 허용(Fault-tolerant) 시스템 |
+| MIMD | 다중 (Multiple) | 다중 (Multiple) | 독립 제어유닛 기반 비동기 파이프라인 동시 구동 | 멀티코어 CPU, 분산 데이터센터 노드 |
 
 #### 한줄 요약
 

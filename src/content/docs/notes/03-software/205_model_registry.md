@@ -131,9 +131,9 @@ extra:
 
 | MLOps 저장소 역할 | Model Registry | Experiment Tracker | Artifact Store |
 |:---|:---|:---|:---|
-| **핵심 목적** | **운영 배포 승인·버전·롤백 통제** | **후보 실험 비교·재현·선별** | **대용량 모델 파일 불변 보관** |
-| **주요 데이터** | 승인 상태·Production Alias·Audit Log | 파라미터·지표·코드·데이터 버전 | 모델 바이너리·Artifact Hash |
-| **사용 시점** | 배포·롤백·거버넌스 의사결정 | 학습·실험 비교 단계 | 모델 파일 저장·불러오기 |
+| 핵심 목적 | **운영 배포 승인·버전·롤백 통제** | **후보 실험 비교·재현·선별** | **대용량 모델 파일 불변 보관** |
+| 주요 데이터 | 승인 상태·Production Alias·Audit Log | 파라미터·지표·코드·데이터 버전 | 모델 바이너리·Artifact Hash |
+| 사용 시점 | 배포·롤백·거버넌스 의사결정 | 학습·실험 비교 단계 | 모델 파일 저장·불러오기 |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 실무 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. 승인 없는 Production 배포** | 단일 계정이 등록·승인·배포 모두 수행 가능 | **RBAC로 역할별 권한 분리 + 4-Eyes Approval 정책 강제화** |
-| **2. 계보 불완전으로 재현 불가** | 데이터 버전·피처 버전이 Lineage에 미연결 | **Artifact Hash + Data Snapshot + Feature Store 버전을 Lineage에 강제 연결** |
-| **3. 레지스트리 장애 시 배포 불가** | 레지스트리가 단일 장애점으로 작동 | **Active-Active 이중화 및 Alias 정보 외부 캐시 + 정기 복구 훈련** |
+| 1. 승인 없는 Production 배포 | 단일 계정이 등록·승인·배포 모두 수행 가능 | **RBAC로 역할별 권한 분리 + 4-Eyes Approval 정책 강제화** |
+| 2. 계보 불완전으로 재현 불가 | 데이터 버전·피처 버전이 Lineage에 미연결 | **Artifact Hash + Data Snapshot + Feature Store 버전을 Lineage에 강제 연결** |
+| 3. 레지스트리 장애 시 배포 불가 | 레지스트리가 단일 장애점으로 작동 | **Active-Active 이중화 및 Alias 정보 외부 캐시 + 정기 복구 훈련** |
 
 > 사례: **MLflow Model Registry를 활용한 금융 신용평가 모델의 4-Eyes Approval 배포 통제 및 규제 감사 로그 보존, Vertex AI Model Registry의 Production Alias 기반 무중단 모델 교체 사례**
 

@@ -71,7 +71,7 @@ extra:
 |---|---|
 | Leader | Client Write 수신과 **Log 복제•Commit** 조정 |
 | Candidate | Term 증가와 **과반 Vote** 요청 |
-| Follower | AppendEntries•Vote 요청을 **Term•Log**로 검증 |
+| Follower | AppendEntries•Vote 요청을 **Term**•**Log**로 검증 |
 | Replicated Log | 합의된 **Command 순서**와 Commit Index 보존 |
 
 #### 한줄 요약
@@ -130,10 +130,10 @@ extra:
 
 | 비교 항목 | Raft | Paxos (Multi-Paxos) |
 |:---|:---|:---|
-| **설계 철학** | **이해성(Understandability) 최우선 (교육/구현 용이)**| **수학적 완벽성 (최초 제안, 논문 난해)** |
-| **리더 선출** | **합의의 선행 조건으로 강력한 리더를 먼저 선출** | 리더 없이도 진행 가능하나 성능 위해 리더 차용 |
-| **로그 관리** | **리더의 로그가 절대적 기준 (방향성: 리더 $\rightarrow$ 팔로워)**| 각 인스턴스(로그 슬롯)별로 합의 도출 |
-| **대표 구현체** | **etcd, Consul, CockroachDB, MongoDB, Kafka(KRaft)**| Google Spanner, Chubby, Apache ZooKeeper(ZAB) |
+| 설계 철학 | **이해성(Understandability) 최우선 (교육/구현 용이)**| **수학적 완벽성 (최초 제안, 논문 난해)** |
+| 리더 선출 | **합의의 선행 조건으로 강력한 리더를 먼저 선출** | 리더 없이도 진행 가능하나 성능 위해 리더 차용 |
+| 로그 관리 | **리더의 로그가 절대적 기준 (방향성: 리더 $\rightarrow$ 팔로워)**| 각 인스턴스(로그 슬롯)별로 합의 도출 |
+| 대표 구현체 | **etcd, Consul, CockroachDB, MongoDB, Kafka(KRaft)**| Google Spanner, Chubby, Apache ZooKeeper(ZAB) |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 합의 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Split Vote 무한 반복**| 후보자들의 동시 선거 출마로 표 분산 | **노드별 Election Timeout 랜덤 설정** |
-| **2. Log 무한 증식** | 합의된 로그가 디스크 공간 한계치 초과 | **정기적 Snapshotting(스냅샷 압축) 후 과거 로그 삭제** |
-| **3. 네트워크 파티션 고립**| 분할된 구역에 고립된 구 리더가 쓰기 수신| **과반수 Ack 실패 시 커밋 불가 (새 리더가 임기 갱신)**|
+| 1. Split Vote 무한 반복 | 후보자들의 동시 선거 출마로 표 분산 | **노드별 Election Timeout 랜덤 설정** |
+| 2. Log 무한 증식 | 합의된 로그가 디스크 공간 한계치 초과 | **정기적 Snapshotting(스냅샷 압축) 후 과거 로그 삭제** |
+| 3. 네트워크 파티션 고립 | 분할된 구역에 고립된 구 리더가 쓰기 수신| **과반수 Ack 실패 시 커밋 불가 (새 리더가 임기 갱신)**|
 
 > 사례: **Kubernetes의 두뇌인 etcd 클러스터를 무조건 3, 5, 7개의 홀수(Odd) 노드로 배포하여 뗏목(Raft) 정족수를 유지하는 운영 사례**
 

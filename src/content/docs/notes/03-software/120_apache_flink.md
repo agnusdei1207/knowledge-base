@@ -77,11 +77,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **JobManager** | JobGraph•스케줄링•체크포인트 조정 |
-| **TaskManager** | 슬롯별 연산자 태스크 실행 |
-| **Watermark** | 이벤트 시간 진행과 윈도 종료 판정 |
-| **State Backend** | 키별 상태 저장•스냅샷 생성 |
-| **Checkpoint Storage** | 복구용 상태와 소스 위치 보관 |
+| JobManager | JobGraph•스케줄링•체크포인트 조정 |
+| TaskManager | 슬롯별 연산자 태스크 실행 |
+| Watermark | 이벤트 시간 진행과 윈도 종료 판정 |
+| State Backend | 키별 상태 저장•스냅샷 생성 |
+| Checkpoint Storage | 복구용 상태와 소스 위치 보관 |
 
 #### 한줄 요약
 
@@ -136,10 +136,10 @@ extra:
 
 | 비교 항목 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
 |:---|:---|:---|
-| **처리 방식** | **Event-by-Event (레코드 1건 단위 즉시 처리)** | **Micro-Batch (N초 단위로 묶어서 처리)** |
-| **지연 특성** | 레코드 단위 파이프라인 지연 | 트리거•배치 주기에 따른 지연 |
-| **상태 관리 ** | **RocksDB 기반 대용량 State 내장 지원** | Memory / Checkpoint RDD 중심 |
-| **시간 기준** | **Event Time•Watermark 중심** | Event Time•Watermark도 지원 |
+| 처리 방식 | **Event-by-Event (레코드 1건 단위 즉시 처리)** | **Micro-Batch (N초 단위로 묶어서 처리)** |
+| 지연 특성 | 레코드 단위 파이프라인 지연 | 트리거•배치 주기에 따른 지연 |
+| 상태 관리  | **RocksDB 기반 대용량 State 내장 지원** | Memory / Checkpoint RDD 중심 |
+| 시간 기준 | **Event Time•Watermark 중심** | Event Time•Watermark도 지원 |
 
 #### 한줄 요약
 
@@ -155,7 +155,7 @@ extra:
 
 | 실무 장애 및 병목 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **Backpressure 발생** | 특정 Operator 처리 병목으로 버퍼 상쇄 | **병목 Operator parallelism(병렬도) 증설** |
+| Backpressure 발생 | 특정 Operator 처리 병목으로 버퍼 상쇄 | **병목 Operator parallelism(병렬도) 증설** |
 | RocksDB State 폭증 | TTL 미설정으로 과거 Key State 잔존 | **`StateTtlConfig` 적용하여 만료 Key 자동 삭제** |
 | Checkpoint Timeout | RocksDB 스냅샷 S3 업로드 지연 | **Incremental Checkpointing (증분 스냅샷) 활성화**|
 

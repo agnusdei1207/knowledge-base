@@ -79,10 +79,10 @@ extra:
 
 | ACID 4대 속성 | 핵심 개념 및 보장 내용 | DBMS 내부 구현 메커니즘 |
 |:---|:---|:---|
-| **Atomicity (원자성)** | 중간 단계 실패 시 전체 변경 원복(**All or Nothing**) | **Undo Log**를 통한 `ROLLBACK` 처리 |
-| **Consistency (일관성)**| 송금 전후 통장 잔액 합계 등 비즈니스 불변식(Invariant) 유효 | **Primary Key, Foreign Key, Check 제약조건** 강제 |
-| **Isolation (격리성)** | 동시 실행 중인 타 트랜잭션의 중간 미확정 연산 관찰 불가 | **2PL (Two-Phase Locking), MVCC (Multi-Version)** |
-| **Durability (지속성)**| Commit 완료 후 디스크에 불변 보존 (장애 시 복구 가능) | **WAL (Write-Ahead Logging), Redo Log** 기록 |
+| Atomicity (원자성) | 중간 단계 실패 시 전체 변경 원복(**All or Nothing**) | **Undo Log**를 통한 `ROLLBACK` 처리 |
+| Consistency (일관성) | 송금 전후 통장 잔액 합계 등 비즈니스 불변식(Invariant) 유효 | **Primary Key, Foreign Key, Check 제약조건** 강제 |
+| Isolation (격리성) | 동시 실행 중인 타 트랜잭션의 중간 미확정 연산 관찰 불가 | **2PL (Two-Phase Locking), MVCC (Multi-Version)** |
+| Durability (지속성) | Commit 완료 후 디스크에 불변 보존 (장애 시 복구 가능) | **WAL (Write-Ahead Logging), Redo Log** 기록 |
 
 #### 한줄 요약
 
@@ -171,7 +171,7 @@ extra:
 
 </details>
 
-- 단일 불변식은 **ACID 경계**, 분산 장기 흐름은 **Saga•보상** 적용
+- 단일 불변식은 **ACID 경계**, 분산 장기 흐름은 **Saga**•**보상** 적용
 
 #### 한줄 요약
 

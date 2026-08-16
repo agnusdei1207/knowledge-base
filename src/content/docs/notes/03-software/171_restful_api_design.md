@@ -124,10 +124,10 @@ extra:
 
 | 성숙도 레벨 | 설계 수준 및 특징 | 매핑되는 기술 성향 |
 |:---|:---|:---|
-| **Level 0 (The Swamp)** | 단일 URI(`/api`), 단일 메서드(`POST`)만 사용하여 원격 함수 호출 | 전통적인 SOAP 기반 RPC |
-| **Level 1 (Resources)** | URI를 통해 각각의 자원(`/users`, `/orders`) 분리 식별 | 자원(명사) 중심 분산 설계 |
-| **Level 2 (HTTP Verbs)** | 자원에 HTTP 메서드(GET/POST/PUT/DELETE)와 상태 코드 매핑 | **실무적 표준 RESTful API** |
-| **Level 3 (HATEOAS)** | 응답 내부에 상태 전이를 위한 링크(Hypermedia) 포함 | **이론적 완벽한 RESTful API** |
+| Level 0 (The Swamp) | 단일 URI(`/api`), 단일 메서드(`POST`)만 사용하여 원격 함수 호출 | 전통적인 SOAP 기반 RPC |
+| Level 1 (Resources) | URI를 통해 각각의 자원(`/users`, `/orders`) 분리 식별 | 자원(명사) 중심 분산 설계 |
+| Level 2 (HTTP Verbs) | 자원에 HTTP 메서드(GET/POST/PUT/DELETE)와 상태 코드 매핑 | **실무적 표준 RESTful API** |
+| Level 3 (HATEOAS) | 응답 내부에 상태 전이를 위한 링크(Hypermedia) 포함 | **이론적 완벽한 RESTful API** |
 
 #### 한줄 요약
 
@@ -143,9 +143,9 @@ extra:
 
 | 3대 REST 설계 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. 컬렉션 대량 조회 병목**| `GET /users` 호출 시 수만 건 데이터 폭주 | **Pagination (Offset/Cursor 기반 페이징) 강제** |
-| **2. 복잡한 다중 필터링** | URI 경로만으로 검색 조건 표현 한계 | **Query String 파라미터 활용 (`?status=A&sort=desc`)**|
-| **3. API 버전 단절** | V1 백엔드 수정 시 구버전 모바일 앱 크래시 | **URI 버저닝 강제 (`/v1/users`, `/v2/users`)** |
+| 1. 컬렉션 대량 조회 병목 | `GET /users` 호출 시 수만 건 데이터 폭주 | **Pagination (Offset/Cursor 기반 페이징) 강제** |
+| 2. 복잡한 다중 필터링 | URI 경로만으로 검색 조건 표현 한계 | **Query String 파라미터 활용 (`?status=A&sort=desc`)**|
+| 3. API 버전 단절 | V1 백엔드 수정 시 구버전 모바일 앱 크래시 | **URI 버저닝 강제 (`/v1/users`, `/v2/users`)** |
 
 > 사례: **카카오 / 네이버 오픈 API의 URI 버전 관리 및 Offset Pagination에서 Cursor Pagination으로의 최적화**
 

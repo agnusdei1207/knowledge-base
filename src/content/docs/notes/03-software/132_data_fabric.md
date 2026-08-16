@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Data Sources** | DB•DW•Lake의 데이터와 메타데이터 제공 |
-| **Active Metadata** | 사용•품질•성능•변경 신호 지속 수집 |
-| **Knowledge Graph** | 의미•소유•리니지•정책 관계 연결 |
-| **Virtualization** | 통합 질의와 푸시다운•캐시 실행 |
-| **Policy Engine** | 접근•마스킹•보존 규칙 일관 집행 |
+| Data Sources | DB•DW•Lake의 데이터와 메타데이터 제공 |
+| Active Metadata | 사용•품질•성능•변경 신호 지속 수집 |
+| Knowledge Graph | 의미•소유•리니지•정책 관계 연결 |
+| Virtualization | 통합 질의와 푸시다운•캐시 실행 |
+| Policy Engine | 접근•마스킹•보존 규칙 일관 집행 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Traditional Data Warehouse / ETL | Data Fabric Architecture |
 |:---|:---|:---|
-| **데이터 접근 방식** | **물리적 ETL•ELT 복제** | 가상화•캐시•선택적 이동 조합 |
-| **메타데이터 활용** | Passive Metadata (수동 단순 등록) | **Active Metadata (AI 기반 실시간 추적)** |
-| **통합 구축 속도** | 느림 (ETL 파이프라인 구축 수개월) | **매우 빠름 (가상 뷰 생성으로 수일 내 연동)** |
-| **아키텍처 중심** | 중앙집중식 모놀리식 스토리지 | **하이브리드 멀티클라우드 가상 통합** |
+| 데이터 접근 방식 | **물리적 ETL•ELT 복제** | 가상화•캐시•선택적 이동 조합 |
+| 메타데이터 활용 | Passive Metadata (수동 단순 등록) | **Active Metadata (AI 기반 실시간 추적)** |
+| 통합 구축 속도 | 느림 (ETL 파이프라인 구축 수개월) | **매우 빠름 (가상 뷰 생성으로 수일 내 연동)** |
+| 아키텍처 중심 | 중앙집중식 모놀리식 스토리지 | **하이브리드 멀티클라우드 가상 통합** |
 
 #### 한줄 요약
 
@@ -156,9 +156,9 @@ extra:
 
 | 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Query Latency 병목** | 가상화 쿼리로 이종 DB 간 `JOIN` 시 네트워크 폭주 | **Trino Pushdown Predicate & 결과 Caching 적용** |
-| **2. Active Metadata 지연** | 메타데이터 크롤링 지연으로 낡은 맵핑 전파 | **Debezium CDC 기반 실시간 메타 동기화 훅** |
-| **3. Multi-Cloud Security**| AWS와 Azure 간 IAM 보안 정책 불일치 | **Immuta / Privacera 통합 데이터 거버넌스 적용** |
+| 1. Query Latency 병목 | 가상화 쿼리로 이종 DB 간 `JOIN` 시 네트워크 폭주 | **Trino Pushdown Predicate & 결과 Caching 적용** |
+| 2. Active Metadata 지연 | 메타데이터 크롤링 지연으로 낡은 맵핑 전파 | **Debezium CDC 기반 실시간 메타 동기화 훅** |
+| 3. Multi-Cloud Security | AWS와 Azure 간 IAM 보안 정책 불일치 | **Immuta / Privacera 통합 데이터 거버넌스 적용** |
 
 > 사례: **삼성전자 / 현대자동차 글로벌 멀티 클라우드 하이브리드 Data Fabric 가상화 구축**
 

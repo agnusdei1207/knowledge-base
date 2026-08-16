@@ -113,10 +113,10 @@ extra:
 
 | 비교 항목 | Rehost (Lift-and-Shift) | Replatform (Lift-and-Tweak) | Refactor (Cloud-Native) |
 |:---|:---|:---|:---|
-| **이관 속도** | 변경이 적어 빠름 | 부분 변경으로 중간 | 재설계로 장기화 가능 |
-| **코드 변경 범위**| 최소 | 플랫폼 연동부 중심 | 구조 전반 변경 |
-| **Cloud-Native 혜택**| 제한적 | 관리형 계층 활용 | **탄력성•복원력** 최적화 |
-| **초기 이관 비용**| 상대적으로 낮음 | 중간 | 개발 범위에 따라 높음 |
+| 이관 속도 | 변경이 적어 빠름 | 부분 변경으로 중간 | 재설계로 장기화 가능 |
+| 코드 변경 범위 | 최소 | 플랫폼 연동부 중심 | 구조 전반 변경 |
+| Cloud-Native 혜택 | 제한적 | 관리형 계층 활용 | **탄력성**•**복원력** 최적화 |
+| 초기 이관 비용 | 상대적으로 낮음 | 중간 | 개발 범위에 따라 높음 |
 
 #### 한줄 요약
 
@@ -132,9 +132,9 @@ extra:
 
 | 3대 마이그레이션 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. All-Refactor Fallacy** | 모든 서비스를 다 MSA 재개발하려다 예산 오버 | **Rehost로 일단 빠르게 옮긴 후 차근차근 Refactor**|
-| **2. Unknown Dependency** | 알려지지 않은 서버 간 조용한 의존성으로 다운 | **AWS Application Discovery Service로 의존성 시각화** |
-| **3. Data Migration Sync** | 이관 도중 발생한 DB 델타 데이터 유실 | **AWS DMS (Data Migration Service) CDC 실시간 동기화**|
+| 1. All-Refactor Fallacy | 모든 서비스를 다 MSA 재개발하려다 예산 오버 | **Rehost로 일단 빠르게 옮긴 후 차근차근 Refactor**|
+| 2. Unknown Dependency | 알려지지 않은 서버 간 조용한 의존성으로 다운 | **AWS Application Discovery Service로 의존성 시각화** |
+| 3. Data Migration Sync | 이관 도중 발생한 DB 델타 데이터 유실 | **AWS DMS (Data Migration Service) CDC 실시간 동기화**|
 
 > 사례: **삼성전자 / KB국민은행 AWS 마이그레이션 6R 프레임워크 적용 사례**
 

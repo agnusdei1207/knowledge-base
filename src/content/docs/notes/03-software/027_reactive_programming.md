@@ -75,10 +75,10 @@ extra:
 
 | 구성요소 | 주요 역할 및 핵심 메서드 |
 |:---|:---|
-| **Publisher** | 데이터 스트림의 발원지, `subscribe(Subscriber s)`로 구독 수용 |
-| **Subscriber** | 스트림 데이터 소비 주체, `onSubscribe()`, `onNext()`, `onError()`, `onComplete()` 제공 |
-| **Subscription** | 발행자-구독자 간 역압 조율 인터페이스, `request(long n)` 및 `cancel()` 핸들링 |
-| **Processor** | Publisher와 Subscriber 기능을 동시 수행하는 intermediate 오퍼레이터 레이어 |
+| Publisher | 데이터 스트림의 발원지, `subscribe(Subscriber s)`로 구독 수용 |
+| Subscriber | 스트림 데이터 소비 주체, `onSubscribe()`, `onNext()`, `onError()`, `onComplete()` 제공 |
+| Subscription | 발행자-구독자 간 역압 조율 인터페이스, `request(long n)` 및 `cancel()` 핸들링 |
+| Processor | Publisher와 Subscriber 기능을 동시 수행하는 intermediate 오퍼레이터 레이어 |
 
 #### 한줄 요약
 
@@ -111,8 +111,8 @@ extra:
 1. **구독 설정**: Publisher가 Subscription을 Subscriber에 전달
 2. **수요량 요청**: Subscriber가 `request(n)`으로 허용 수량 지정
 3. **데이터 발행**: Publisher가 수요 범위에서 `onNext` 전달
-4. **변환·소비**: Processor가 데이터를 변환하고 하류로 전파
-5. **완료·에러**: `onComplete` 또는 `onError` 종단 신호 전달
+4. **변환**•**소비**: Processor가 데이터를 변환하고 하류로 전파
+5. **완료**•**에러**: `onComplete` 또는 `onError` 종단 신호 전달
 
 #### 한줄 요약
 

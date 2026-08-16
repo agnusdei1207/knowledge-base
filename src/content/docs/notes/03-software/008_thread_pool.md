@@ -145,10 +145,10 @@ extra:
 
 | 스레드 풀 유형 | 특징 및 매커니즘 | 주요 용도 | 장단점 |
 |:---|:---|:---|:---|
-| **Fixed Thread Pool** | 고정된 스레드 수 유지, 무한/유한 Linked Queue | 일반적인 WAS, 백엔드 서버 | 메모리 한계 내 안정적 / 대기 지연 |
-| **Cached Thread Pool** | 필요 시 워커 확장과 유휴 워커 회수 | 짧은 비동기 작업 | 낮은 대기 / 무제한 확장 위험 |
-| **Scheduled Thread Pool** | 주기적 작업 실행 (Delay/Rate 스케줄링) | 주기적 배치, 헬스체크 | 시간 스케줄링 최적화 |
-| **ForkJoinPool** | 워커별 덱 기반 **Work-Stealing** | 분할 가능한 CPU 병렬 작업 | 부하 균형 / 블로킹 작업 주의 |
+| Fixed Thread Pool | 고정된 스레드 수 유지, 무한/유한 Linked Queue | 일반적인 WAS, 백엔드 서버 | 메모리 한계 내 안정적 / 대기 지연 |
+| Cached Thread Pool | 필요 시 워커 확장과 유휴 워커 회수 | 짧은 비동기 작업 | 낮은 대기 / 무제한 확장 위험 |
+| Scheduled Thread Pool | 주기적 작업 실행 (Delay/Rate 스케줄링) | 주기적 배치, 헬스체크 | 시간 스케줄링 최적화 |
+| ForkJoinPool | 워커별 덱 기반 **Work-Stealing** | 분할 가능한 CPU 병렬 작업 | 부하 균형 / 블로킹 작업 주의 |
 
 #### 한줄 요약
 

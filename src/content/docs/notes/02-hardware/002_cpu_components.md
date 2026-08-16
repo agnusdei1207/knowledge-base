@@ -91,7 +91,7 @@ extra:
 | 레지스터 파일 | **피연산자•연산 결과** 고속 보관 |
 | 특수 목적 레지스터 | **PC•IR•PSR**로 실행 위치•상태 관리 |
 | 산술논리장치 | 제어 신호에 따른 **산술•논리 연산** 수행 |
-| 내부 버스 | 블록 간 **피연산자•결과** 전송 |
+| 내부 버스 | 블록 간 **피연산자**•**결과** 전송 |
 
 #### 한줄 요약
 - Control Path(CU, PC, IR)가 전체 타이밍을 통제하고 Data Path(GPR, ALU, Internal Bus)가 피연산자 연산 및 결과 저장 라운드트립을 수행함.
@@ -152,10 +152,10 @@ extra:
 
 | 레지스터 유형 | 대표 레지스터 | 저장 데이터 | 처리 역할 및 실무 유용성 |
 |:---|:---|:---|:---|
-| **GPR (범용 레지스터)** | R0~R15, RAX~RDX | 연산 피연산자, 중간 계산 결과 | ALU 직접 연산 입력 공급 및 메모리 접근 횟수 최소화 |
-| **제어 레지스터** | **PC** (Program Counter), **IR** | 다음 명령 주소, 현재 기계어 | 명령어 인출 및 해독 제어 흐름의 연쇄성 유지 |
-| **주소 레지스터** | **SP** (Stack Pointer), **MAR** | 메모리 스택 Top 주소, RAM 주소 | 함수 호출 복귀 주소 관리 및 구조화된 메모리 추적 |
-| **상태 레지스터** | **PSR** (Status Register), Flags | Carry, Zero, Overflow, Interrupt Mask | 조건 분기(Branch) 판단 기준 제공 및 예외 상태 제어 |
+| GPR (범용 레지스터) | R0~R15, RAX~RDX | 연산 피연산자, 중간 계산 결과 | ALU 직접 연산 입력 공급 및 메모리 접근 횟수 최소화 |
+| 제어 레지스터 | **PC** (Program Counter), **IR** | 다음 명령 주소, 현재 기계어 | 명령어 인출 및 해독 제어 흐름의 연쇄성 유지 |
+| 주소 레지스터 | **SP** (Stack Pointer), **MAR** | 메모리 스택 Top 주소, RAM 주소 | 함수 호출 복귀 주소 관리 및 구조화된 메모리 추적 |
+| 상태 레지스터 | **PSR** (Status Register), Flags | Carry, Zero, Overflow, Interrupt Mask | 조건 분기(Branch) 판단 기준 제공 및 예외 상태 제어 |
 
 #### 한줄 요약
 - GPR은 연산 데이터 피연산자를 임시 보관하고 Control/상태 레지스터(PC, IR, PSR, SP)는 프로세서 Executing Context 유지 및 제어 흐름을 관장함.

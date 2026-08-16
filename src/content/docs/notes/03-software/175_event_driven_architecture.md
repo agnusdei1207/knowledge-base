@@ -129,10 +129,10 @@ extra:
 
 | 비교 항목 | Event Notification (이벤트 알림) | Event-Carried State Transfer (상태 전송) |
 |:---|:---|:---|
-| **페이로드 크기** | 매우 작음 (식별자 ID만 포함) | **상대적으로 큼 (관련 데이터 모두 포함)**|
-| **이벤트 예시** | `{"order_id": 123, "status": "created"}` | **`{"order_id": 123, "amount": 5000, "user": "A"}`** |
-| **추가 API 호출** | **소비자가 생산자 API를 다시 호출하여 상세 조회**| **이벤트만으로 로직 수행 가능 (독립적)** |
-| **결합도** | 상세 조회 시 Runtime 결합 잔존 | **Schema•Data 결합** 증가 |
+| 페이로드 크기 | 매우 작음 (식별자 ID만 포함) | **상대적으로 큼 (관련 데이터 모두 포함)**|
+| 이벤트 예시 | `{"order_id": 123, "status": "created"}` | **`{"order_id": 123, "amount": 5000, "user": "A"}`** |
+| 추가 API 호출 | **소비자가 생산자 API를 다시 호출하여 상세 조회**| **이벤트만으로 로직 수행 가능 (독립적)** |
+| 결합도 | 상세 조회 시 Runtime 결합 잔존 | **Schema•Data 결합** 증가 |
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 
 | 3대 EDA 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Dual-Write Problem**| DB 저장 성공 후, Kafka 전송 직전 서버 다운| **Transactional Outbox 패턴 및 CDC 도입**|
-| **2. Event Duplication** | 브로커의 재전송(At-Least-Once)으로 2번 처리 | **소비자 측 DB에 고유 `event_id` 처리 여부(멱등성) 체크 로직 필수** |
-| **3. Poison Message** | 버그가 있는 메시지가 파티션 맨 앞을 막고 무한 재시도| **일정 횟수 실패 시 DLQ(Dead Letter Queue)로 격리 조치** |
+| 1. Dual-Write Problem | DB 저장 성공 후, Kafka 전송 직전 서버 다운| **Transactional Outbox 패턴 및 CDC 도입**|
+| 2. Event Duplication | 브로커의 재전송(At-Least-Once)으로 2번 처리 | **소비자 측 DB에 고유 `event_id` 처리 여부(멱등성) 체크 로직 필수** |
+| 3. Poison Message | 버그가 있는 메시지가 파티션 맨 앞을 막고 무한 재시도| **일정 횟수 실패 시 DLQ(Dead Letter Queue)로 격리 조치** |
 
 > 사례: **토스 / 배달의민족 MSA 전환 시 Kafka 비동기 이벤트 통신 및 Spring Outbox Pattern 적용 사례**
 

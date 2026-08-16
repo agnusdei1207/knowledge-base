@@ -82,11 +82,11 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 비고 |
 |:---|:---|:---|
-| **관리 거리 ** | 이종 프로토콜 간 우선순위 결정 (Static: 1, OSPF: 110, BGP: 20/200) | AD 값이 낮을수록 우선 선점 |
-| **메트릭 ** | 동종 프로토콜 간 최적 경로 산출 (Hop Count, Cost 등) | 프로토콜마다 알고리즘 상이 |
-| **RIB (Control Plane)** | 모든 라우팅 소스의 후보 경로 수집 및 최적 경로 판정 DB | CPU/RAM 메모리 자원 사용 |
-| **FIB (Data Plane)** | 최적 경로 기반 하드웨어 포워딩 테이블 구축 및 **LPM** 검색 | TCAM 고속 메모리 장착 |
-| **ECMP (Load Balancing)** | 동일 Metric 경로에 대한 5-Tuple 기반 분산 | 대역폭 활용성 극대화 |
+| 관리 거리  | 이종 프로토콜 간 우선순위 결정 (Static: 1, OSPF: 110, BGP: 20/200) | AD 값이 낮을수록 우선 선점 |
+| 메트릭  | 동종 프로토콜 간 최적 경로 산출 (Hop Count, Cost 등) | 프로토콜마다 알고리즘 상이 |
+| RIB (Control Plane) | 모든 라우팅 소스의 후보 경로 수집 및 최적 경로 판정 DB | CPU/RAM 메모리 자원 사용 |
+| FIB (Data Plane) | 최적 경로 기반 하드웨어 포워딩 테이블 구축 및 **LPM** 검색 | TCAM 고속 메모리 장착 |
+| ECMP (Load Balancing) | 동일 Metric 경로에 대한 5-Tuple 기반 분산 | 대역폭 활용성 극대화 |
 
 #### 한줄 요약
 

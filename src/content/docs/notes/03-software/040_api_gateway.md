@@ -132,10 +132,10 @@ extra:
 
 | 구현체 및 솔루션 | 기술 기반 | 주요 특징 및 장단점 |
 |:---|:---|:---|
-| **Kong Gateway** | Nginx / OpenResty (Lua) | 플러그인 기반 정책과 독립 게이트웨이 운영 |
-| **Spring Cloud Gateway** | Java / Netty (Spring WebFlux) | Spring 생태계 통합과 비차단 I/O |
-| **AWS API Gateway** | Managed Cloud Service | 관리형 API와 서버리스 서비스 연동 |
-| **Envoy Proxy** | C++ | Service Mesh 및 Gateway 겸용 가능, 고성능 L7 라우팅 |
+| Kong Gateway | Nginx / OpenResty (Lua) | 플러그인 기반 정책과 독립 게이트웨이 운영 |
+| Spring Cloud Gateway | Java / Netty (Spring WebFlux) | Spring 생태계 통합과 비차단 I/O |
+| AWS API Gateway | Managed Cloud Service | 관리형 API와 서버리스 서비스 연동 |
+| Envoy Proxy | C++ | Service Mesh 및 Gateway 겸용 가능, 고성능 L7 라우팅 |
 
 #### 한줄 요약
 

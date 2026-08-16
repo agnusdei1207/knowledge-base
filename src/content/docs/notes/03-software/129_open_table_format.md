@@ -78,10 +78,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Catalog** | 테이블명과 현재 메타데이터 위치 관리 |
-| **Metadata File** | 스냅숏•스키마•파티션•통계 보관 |
-| **Data File** | 실제 행 데이터를 열 지향 파일로 저장 |
-| **Delete File** | 위치•동등 조건 기반 행 삭제 정보 저장 |
+| Catalog | 테이블명과 현재 메타데이터 위치 관리 |
+| Metadata File | 스냅숏•스키마•파티션•통계 보관 |
+| Data File | 실제 행 데이터를 열 지향 파일로 저장 |
+| Delete File | 위치•동등 조건 기반 행 삭제 정보 저장 |
 
 #### 한줄 요약
 
@@ -97,11 +97,11 @@ extra:
 
 | 비교 항목 | Delta Lake | Apache Iceberg | Apache Hudi |
 |:---|:---|:---|:---|
-| **최초 개발사** | **Databricks** | **Netflix** | **Uber** |
-| **주요 강점 도메인**| **Spark / Databricks 파이프라인**| **멀티 엔진(Trino/Snowflake) BI**| **초저지연 스트리밍 CDC UPSERT**|
-| **메타데이터 구조** | **JSON Commit Log (`_delta_log`)** | **3-Tier AVRO Metadata Tree** | Timeline Log + Key Index |
-| **파티셔닝** | 명시 파티션 중심 | **Hidden Partitioning** | 명시•필드 파티션 |
-| **쓰기 패턴 지원** | CoW•MoR | CoW•MoR | **CoW•MoR•레코드 인덱스** |
+| 최초 개발사 | **Databricks** | **Netflix** | **Uber** |
+| 주요 강점 도메인 | **Spark / Databricks 파이프라인**| **멀티 엔진(Trino/Snowflake) BI**| **초저지연 스트리밍 CDC UPSERT**|
+| 메타데이터 구조 | **JSON Commit Log (`_delta_log`)** | **3-Tier AVRO Metadata Tree** | Timeline Log + Key Index |
+| 파티셔닝 | 명시 파티션 중심 | **Hidden Partitioning** | 명시•필드 파티션 |
+| 쓰기 패턴 지원 | CoW•MoR | CoW•MoR | **CoW•MoR•레코드 인덱스** |
 
 #### 한줄 요약
 
@@ -136,9 +136,9 @@ extra:
 
 | 3대 유지보수 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Small File Problem** | 빈번한 스트리밍 삽입으로 Small File 누적 | **정기적인 `Compaction` 배치 작업 자동화** |
-| **2. Storage Cost Risk** | 타임 트래블 구버전 파일 물리 누적 | **7일/30일 기준 `VACUUM` / `Expire Snapshots` 수행**|
-| **3. Read Performance Drop**| MoR 삭제 파일 과다로 읽기 조인 지연 | **CoW 전환 또는 정기적 데이터 파일 Rewrite** |
+| 1. Small File Problem | 빈번한 스트리밍 삽입으로 Small File 누적 | **정기적인 `Compaction` 배치 작업 자동화** |
+| 2. Storage Cost Risk | 타임 트래블 구버전 파일 물리 누적 | **7일/30일 기준 `VACUUM` / `Expire Snapshots` 수행**|
+| 3. Read Performance Drop | MoR 삭제 파일 과다로 읽기 조인 지연 | **CoW 전환 또는 정기적 데이터 파일 Rewrite** |
 
 > 사례: **카카오 / 네이버 / 쿠팡 Databricks Delta Lake & Apache Iceberg 혼용 레이크하우스 운용**
 

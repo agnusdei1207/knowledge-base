@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: Event에 따라 Function을 실행하는 **Serverless•FaaS**
+- 정의/개념: Event에 따라 Function을 실행하는 **Serverless**•**FaaS**
 - 배경/필요성: 간헐 작업의 상시 Server는 **유휴 비용•운영 부담** 발생
 
 #### 한줄 요약
@@ -127,10 +127,10 @@ extra:
 
 | 비교 항목 | Traditional EC2 Server | Serverless FaaS (AWS Lambda) |
 |:---|:---|:---|
-| **인프라 관리** | OS•Patch•Scaling 직접 관리 | **공급자 관리 범위 확대** |
-| **과금 체계** | Provisioning 자원 시간 기반 | **호출•실행 자원 기반**|
-| **실행 시간** | 장기 Process에 적합 | 공급자별 **실행 제한** 존재 |
-| **초기 응답 지연** | 상시 Process면 작음 | **Cold Start** 발생 가능 |
+| 인프라 관리 | OS•Patch•Scaling 직접 관리 | **공급자 관리 범위 확대** |
+| 과금 체계 | Provisioning 자원 시간 기반 | **호출•실행 자원 기반**|
+| 실행 시간 | 장기 Process에 적합 | 공급자별 **실행 제한** 존재 |
+| 초기 응답 지연 | 상시 Process면 작음 | **Cold Start** 발생 가능 |
 
 #### 한줄 요약
 

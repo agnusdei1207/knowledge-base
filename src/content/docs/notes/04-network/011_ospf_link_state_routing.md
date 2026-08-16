@@ -83,11 +83,11 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 비고 |
 |:---|:---|:---|
-| **OSPF Neighbor / Adjacency** | **헬로 패킷**을 이용해 Hello/Dead Interval, Area ID, Subnet 일치 검증 후 Adjacency 형성 | 2-Way -> Full State 전이 |
-| **LSA (Link State Adv)** | Type 1(Router), Type 2(Network), Type 3(Summary), Type 5(External) 등 타입별 LSA 정보 유포 | 영역별 LSA 분리 통제 |
-| **LSDB** | 영역 내 모든 라우터가 100% 동일하게 공유하는 완벽한 네트워크 맵 토폴로지 DB | 모듈별 메모리 관리 |
-| **ABR (Area Border Router)** | Area 0과 서브 Area 간 경계에서 LSA Filtering 및 **경로 요약** 집행 | 백본 연동 필수 |
-| **ASBR (AS Boundary Router)** | 외부 타 라우팅 프로토콜(BGP, RIP, Static) 경로를 OSPF 내부로 재분배(Type 5 LSA) | 외부 경로 주입기 |
+| OSPF Neighbor / Adjacency | **헬로 패킷**을 이용해 Hello/Dead Interval, Area ID, Subnet 일치 검증 후 Adjacency 형성 | 2-Way -> Full State 전이 |
+| LSA (Link State Adv) | Type 1(Router), Type 2(Network), Type 3(Summary), Type 5(External) 등 타입별 LSA 정보 유포 | 영역별 LSA 분리 통제 |
+| LSDB | 영역 내 모든 라우터가 100% 동일하게 공유하는 완벽한 네트워크 맵 토폴로지 DB | 모듈별 메모리 관리 |
+| ABR (Area Border Router) | Area 0과 서브 Area 간 경계에서 LSA Filtering 및 **경로 요약** 집행 | 백본 연동 필수 |
+| ASBR (AS Boundary Router) | 외부 타 라우팅 프로토콜(BGP, RIP, Static) 경로를 OSPF 내부로 재분배(Type 5 LSA) | 외부 경로 주입기 |
 
 #### 한줄 요약
 

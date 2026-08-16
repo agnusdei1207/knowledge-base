@@ -79,10 +79,10 @@ extra:
 
 | 구성요소 | 핵심 역할 및 기능 | 주요 작동 방식 |
 |:---|:---|:---|
-| **DB_TRX_ID (6 Bytes)** | 해당 튜플을 마지막으로 `INSERT` 또는 `UPDATE`한 트랜잭션 식별자 | 가시성(Visibility) 판단의 기준 |
-| **DB_ROLL_PTR (7 Bytes)**| Undo Log 레코드에 저장된 이전 버전으로 이동하는 **롤백 포인터** | 단방향 링크드 리스트(Chain) 형성 |
-| **Undo Log (Rollback)** | 변경되기 전의 오리지널 레코드 데이터를 보관 | `ROLLBACK` 처리 및 MVCC 스냅샷 제공 |
-| **Read View** | `SELECT` 시점에 활성화된 트랜잭션 목록(TRX_IDs)을 포함한 메모리 객체 | "이 버전을 읽을 수 있는가?" 판단 |
+| DB_TRX_ID (6 Bytes) | 해당 튜플을 마지막으로 `INSERT` 또는 `UPDATE`한 트랜잭션 식별자 | 가시성(Visibility) 판단의 기준 |
+| DB_ROLL_PTR (7 Bytes) | Undo Log 레코드에 저장된 이전 버전으로 이동하는 **롤백 포인터** | 단방향 링크드 리스트(Chain) 형성 |
+| Undo Log (Rollback) | 변경되기 전의 오리지널 레코드 데이터를 보관 | `ROLLBACK` 처리 및 MVCC 스냅샷 제공 |
+| Read View | `SELECT` 시점에 활성화된 트랜잭션 목록(TRX_IDs)을 포함한 메모리 객체 | "이 버전을 읽을 수 있는가?" 판단 |
 
 #### 한줄 요약
 

@@ -77,10 +77,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **원본 데이터셋** | 불변 이벤트를 재처리 가능하게 보관 |
-| **배치 계층** | 전체 이력으로 배치 뷰 재계산 |
-| **속도 계층** | 미반영 최신 이벤트의 실시간 뷰 생성 |
-| **서비스 계층** | 배치•실시간 뷰의 시간 경계 병합 |
+| 원본 데이터셋 | 불변 이벤트를 재처리 가능하게 보관 |
+| 배치 계층 | 전체 이력으로 배치 뷰 재계산 |
+| 속도 계층 | 미반영 최신 이벤트의 실시간 뷰 생성 |
+| 서비스 계층 | 배치•실시간 뷰의 시간 경계 병합 |
 
 #### 한줄 요약
 
@@ -134,10 +134,10 @@ extra:
 
 | 비교 항목 | Lambda Architecture (람다) | Kappa Architecture (카파) |
 |:---|:---|:---|
-| **파이프라인 구조** | **이중 파이프라인 (Batch + Speed Layer)**| **단일 파이프라인 ** |
-| **코드 베이스 관리** | **이중 유지보수 오버헤드 (Spark + Flink)**| **단일 코드 베이스 ** |
-| **과거 데이터 재처리**| **Batch Layer 전면 재계산 (HDFS)** | **Kafka Log Replay 기반 스트림 재계산** |
-| **결과 정합성** | 배치•스트림 로직 차이 위험 | 단일 로직이나 재생 부작용 관리 필요 |
+| 파이프라인 구조 | **이중 파이프라인 (Batch + Speed Layer)**| **단일 파이프라인 ** |
+| 코드 베이스 관리 | **이중 유지보수 오버헤드 (Spark + Flink)**| **단일 코드 베이스 ** |
+| 과거 데이터 재처리 | **Batch Layer 전면 재계산 (HDFS)** | **Kafka Log Replay 기반 스트림 재계산** |
+| 결과 정합성 | 배치•스트림 로직 차이 위험 | 단일 로직이나 재생 부작용 관리 필요 |
 
 #### 한줄 요약
 
@@ -153,9 +153,9 @@ extra:
 
 | 람다 실무 문제점 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Dual Code Drift** | 배치/스트림 개발자가 달라 로직 불일치 | **Apache Beam / Flink Table API 통일 프레임워크 도입**|
-| **2. Serving Layer Overlap**| Batch View와 Real-Time View 중복 합산 | **Time Window 경계 컷오프(Cut-off) 메커니즘 정립** |
-| **3. Complex Maintenance** | 2개 분산 클러스터(Hadoop+Kafka) 운영 부담| **카파 아키텍처 (Stream Unified)로 전환 파이프라인** |
+| 1. Dual Code Drift | 배치/스트림 개발자가 달라 로직 불일치 | **Apache Beam / Flink Table API 통일 프레임워크 도입**|
+| 2. Serving Layer Overlap | Batch View와 Real-Time View 중복 합산 | **Time Window 경계 컷오프(Cut-off) 메커니즘 정립** |
+| 3. Complex Maintenance | 2개 분산 클러스터(Hadoop+Kafka) 운영 부담| **카파 아키텍처 (Stream Unified)로 전환 파이프라인** |
 
 > 사례: **SKT / KT 대용량 통신 로그 처리 람다 아키텍처 및 Flink 기반 카파 전환**
 

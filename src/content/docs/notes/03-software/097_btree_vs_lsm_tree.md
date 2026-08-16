@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 / 지표 | B-Tree Engine (MySQL InnoDB) | LSM-Tree Engine (RocksDB, Cassandra) |
 |:---|:---|:---|
-| **데이터 수정 방식** | **In-Place Update (지정 블록 덮어쓰기)** | **Out-of-Place Append-Only (순차 덧붙이기)** |
-| **핵심 구성 아키텍처**| **Root - Branch - Leaf Pages, WAL** | **WAL, MemTable, SSTable, Bloom Filter** |
-| **쓰기 특성** | 페이지 갱신•분할과 WAL 비용 | **순차 Flush 후 Compaction 비용** |
-| **읽기 특성** | **짧은 트리 경로와 페이지 캐시 활용** | 여러 SSTable 확인을 필터•캐시로 보완 |
-| **쓰기 증폭** | 페이지•WAL 갱신으로 발생 | **반복 Compaction으로 발생 가능** |
+| 데이터 수정 방식 | **In-Place Update (지정 블록 덮어쓰기)** | **Out-of-Place Append-Only (순차 덧붙이기)** |
+| 핵심 구성 아키텍처 | **Root - Branch - Leaf Pages, WAL** | **WAL, MemTable, SSTable, Bloom Filter** |
+| 쓰기 특성 | 페이지 갱신•분할과 WAL 비용 | **순차 Flush 후 Compaction 비용** |
+| 읽기 특성 | **짧은 트리 경로와 페이지 캐시 활용** | 여러 SSTable 확인을 필터•캐시로 보완 |
+| 쓰기 증폭 | 페이지•WAL 갱신으로 발생 | **반복 Compaction으로 발생 가능** |
 
 #### 한줄 요약
 

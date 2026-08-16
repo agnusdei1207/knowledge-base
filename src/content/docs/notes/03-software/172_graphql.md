@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: Type Schema 기반 API Query 언어•Runtime인 **GraphQL**
-- 배경/필요성: Client별 응답 모양 차이로 **Over•Under-fetching** 발생
+- 배경/필요성: Client별 응답 모양 차이로 **Over**•**Under-fetching** 발생
 
 #### 한줄 요약
 
@@ -129,10 +129,10 @@ extra:
 
 | 비교 항목 | REST API | GraphQL |
 |:---|:---|:---|
-| **엔드포인트** | **URI 자원별 다수 생성 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
-| **데이터 페칭**| 서버가 정해둔 고정된 구조로 응답받음 (Over/Under-fetching) | **클라이언트가 필요한 필드만 유연하게 선택**|
-| **HTTP 메서드**| Resource별 Method 의미 활용 | Query는 GET•POST, Mutation은 POST 중심 |
-| **버저닝**| `/v1/users`, `/v2/users` 처럼 API 버전 분리 관리| **Deprecated 어노테이션으로 스키마 단일 진화 유지**|
+| 엔드포인트 | **URI 자원별 다수 생성 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
+| 데이터 페칭 | 서버가 정해둔 고정된 구조로 응답받음 (Over/Under-fetching) | **클라이언트가 필요한 필드만 유연하게 선택**|
+| HTTP 메서드 | Resource별 Method 의미 활용 | Query는 GET•POST, Mutation은 POST 중심 |
+| 버저닝 | `/v1/users`, `/v2/users` 처럼 API 버전 분리 관리| **Deprecated 어노테이션으로 스키마 단일 진화 유지**|
 
 #### 한줄 요약
 
@@ -148,9 +148,9 @@ extra:
 
 | 3대 GraphQL 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. N+1 문제** | 계층형 리졸버가 부모/자식 각각 순차 쿼리 | **DataLoader 패턴 도입(ID를 모아 In Query로 배치/캐싱 처리)**|
-| **2. 악의적 쿼리 공격**| 무한 Depth 쿼리로 서버 메모리 고갈 공격 | **Query Depth Limit 제한 및 Query Cost(가중치) 상한선 설정**|
-| **3. HTTP 캐싱 불가** | 모든 쿼리가 POST 단일 엔드포인트로 전송됨| **Persisted Query(쿼리 해시화 GET 전송) 및 Apollo Client In-memory Cache 사용**|
+| 1. N+1 문제 | 계층형 리졸버가 부모/자식 각각 순차 쿼리 | **DataLoader 패턴 도입(ID를 모아 In Query로 배치/캐싱 처리)**|
+| 2. 악의적 쿼리 공격 | 무한 Depth 쿼리로 서버 메모리 고갈 공격 | **Query Depth Limit 제한 및 Query Cost(가중치) 상한선 설정**|
+| 3. HTTP 캐싱 불가 | 모든 쿼리가 POST 단일 엔드포인트로 전송됨| **Persisted Query(쿼리 해시화 GET 전송) 및 Apollo Client In-memory Cache 사용**|
 
 > 사례: **GitHub / Airbnb 마이크로서비스 연동 시 Apollo GraphQL 기반 Federation(슈퍼그래프) 아키텍처 적용**
 

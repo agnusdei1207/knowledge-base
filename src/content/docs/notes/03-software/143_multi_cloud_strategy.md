@@ -76,11 +76,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Workload Placement** | CSP별 기능•지역•규제에 따라 역할 배치 |
-| **IaC•CaaS** | 공통 배포와 이식 가능한 실행 단위 제공 |
-| **Unified Identity** | 사용자•서비스 신뢰와 권한 정책 연계 |
-| **Network•GSLB** | CSP 간 연결•라우팅•장애전환 관리 |
-| **Observability•FinOps** | 상태•SLO•비용•Egress 통합 관측 |
+| Workload Placement | CSP별 기능•지역•규제에 따라 역할 배치 |
+| IaC•CaaS | 공통 배포와 이식 가능한 실행 단위 제공 |
+| Unified Identity | 사용자•서비스 신뢰와 권한 정책 연계 |
+| Network•GSLB | CSP 간 연결•라우팅•장애전환 관리 |
+| Observability•FinOps | 상태•SLO•비용•Egress 통합 관측 |
 
 #### 한줄 요약
 
@@ -135,10 +135,10 @@ extra:
 
 | 비교 항목 | Single Cloud (AWS 전용) | Hybrid Cloud | Multi-Cloud |
 |:---|:---|:---|:---|
-| **CSP 개수** | **단 1개 (AWS 100%)** | 1개 퍼블릭 + 온프레미스 IDC | **2개 이상 (AWS + GCP + Azure)** |
-| **사업자 종속** | 단일 CSP 기능에 집중 | CSP•온프레미스 결합 | 복수 CSP이나 공통 계층 종속 가능 |
-| **운영 및 관리 비용** | 최저 (단일 통합 포털) | 중간 | **높음 (다중 기술 스택 인력 필요)**|
-| **장애 복구력 ** | 단일 CSP 리전 장애 시 위험 | IDC 복구 가능 | **CSP 수준의 전역 장애 우회** |
+| CSP 개수 | **단 1개 (AWS 100%)** | 1개 퍼블릭 + 온프레미스 IDC | **2개 이상 (AWS + GCP + Azure)** |
+| 사업자 종속 | 단일 CSP 기능에 집중 | CSP•온프레미스 결합 | 복수 CSP이나 공통 계층 종속 가능 |
+| 운영 및 관리 비용 | 최저 (단일 통합 포털) | 중간 | **높음 (다중 기술 스택 인력 필요)**|
+| 장애 복구력  | 단일 CSP 리전 장애 시 위험 | IDC 복구 가능 | **CSP 수준의 전역 장애 우회** |
 
 #### 한줄 요약
 

@@ -129,9 +129,9 @@ extra:
 
 | Access Mode | 약어 | 동시 접속 노드 수 | 대표 지원 스토리지 솔루션 |
 |:---|:---|:---|:---|
-| **ReadWriteOnce** | **RWO** | **단 1개 Node만 읽기/쓰기 단독 점유** | **AWS EBS, GCP Persistent Disk** |
-| **ReadOnlyMany** | **ROX** | **수십 개 Node가 동시에 읽기(Read) 전용**| **AWS EBS Snapshot, ISO Image** |
-| **ReadWriteMany** | **RWX** | **수십 개 Node가 동시에 읽기/쓰기 공유**| **AWS EFS (NFS), Ceph, GlusterFS** |
+| ReadWriteOnce | **RWO** | **단 1개 Node만 읽기/쓰기 단독 점유** | **AWS EBS, GCP Persistent Disk** |
+| ReadOnlyMany | **ROX** | **수십 개 Node가 동시에 읽기(Read) 전용**| **AWS EBS Snapshot, ISO Image** |
+| ReadWriteMany | **RWX** | **수십 개 Node가 동시에 읽기/쓰기 공유**| **AWS EFS (NFS), Ceph, GlusterFS** |
 
 #### 한줄 요약
 
@@ -147,9 +147,9 @@ extra:
 
 | 3대 스토리지 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Multi-AZ Multi-Attach Fail**| EBS 디스크와 Pod의 AZ 불일치 | **`volumeBindingMode: WaitForFirstConsumer` 설정** |
-| **2. Multi-Pod Log Share Fail**| EBS(RWO)로는 여러 Pod가 로그 못 씀| **AWS EFS (RWX 수용 스토리지) 로 교체** |
-| **3. Accidental PVC Deletion**| PVC 실수 삭제로 EBS 데이터 날아감 | **`reclaimPolicy: Retain` 으로 디스크 파기 방지** |
+| 1. Multi-AZ Multi-Attach Fail | EBS 디스크와 Pod의 AZ 불일치 | **`volumeBindingMode: WaitForFirstConsumer` 설정** |
+| 2. Multi-Pod Log Share Fail | EBS(RWO)로는 여러 Pod가 로그 못 씀| **AWS EFS (RWX 수용 스토리지) 로 교체** |
+| 3. Accidental PVC Deletion | PVC 실수 삭제로 EBS 데이터 날아감 | **`reclaimPolicy: Retain` 으로 디스크 파기 방지** |
 
 > 사례: **카카오 / 당근마켓 StatefulSet DB (EBS RWO + Retain Policy) 구축 운영**
 

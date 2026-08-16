@@ -78,9 +78,9 @@ extra:
 
 | 인덱스 구조 종류 | 데이터 탐색 복잡도 | 주요 특징 및 적합 연산 |
 |:---|:---|:---|
-| **B+Tree Index** | **$\mathcal{O}(\log N)$** | **범위 검색 (`BETWEEN, >, <`), 정렬 (`ORDER BY`), 동등 검색 (`=`) 모두 지원 (RDBMS 표준)** |
-| **Hash Index** | 평균 상수 시간 탐색 | **동등 비교 중심**, 키 순서 기반 범위•정렬 미지원 |
-| **Composite Index** | **$\mathcal{O}(\log N)$** | **다중 컬럼 조합 인덱스**, 첫 번째 컬럼의 선두 지정(Leading Column)이 필수적 |
+| B+Tree Index | **$\mathcal{O}(\log N)$** | **범위 검색 (`BETWEEN, >, <`), 정렬 (`ORDER BY`), 동등 검색 (`=`) 모두 지원 (RDBMS 표준)** |
+| Hash Index | 평균 상수 시간 탐색 | **동등 비교 중심**, 키 순서 기반 범위•정렬 미지원 |
+| Composite Index | **$\mathcal{O}(\log N)$** | **다중 컬럼 조합 인덱스**, 첫 번째 컬럼의 선두 지정(Leading Column)이 필수적 |
 
 #### 한줄 요약
 
@@ -152,9 +152,9 @@ extra:
 
 | 3대 안티패턴 | 발생 원인 및 쿼리 예시 | 실무 대책 및 튜닝 수용 방안 |
 |:---|:---|:---|
-| **1. 컬럼 좌변 가공** | `WHERE YEAR(created_at) = 2026` | **`WHERE created_at >= '2026-01-01' AND ...` 로 변경** |
-| **2. 묵시적 형변환** | `WHERE phone_no = 01012345678` (숫자형) | **`WHERE phone_no = '01012345678'` (문자열 일치)** |
-| **3. 부정형 조건** | `WHERE status != 'DELETED'` | **`WHERE status IN ('ACTIVE', 'PENDING')` 긍정형 전환** |
+| 1. 컬럼 좌변 가공 | `WHERE YEAR(created_at) = 2026` | **`WHERE created_at >= '2026-01-01' AND ...` 로 변경** |
+| 2. 묵시적 형변환 | `WHERE phone_no = 01012345678` (숫자형) | **`WHERE phone_no = '01012345678'` (문자열 일치)** |
+| 3. 부정형 조건 | `WHERE status != 'DELETED'` | **`WHERE status IN ('ACTIVE', 'PENDING')` 긍정형 전환** |
 
 > 사례: **MySQL InnoDB B+Tree 기반 복합 인덱스 `Index(dept_id, status, salary)` 튜닝**
 

@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: Pod 연결과 통신 정책을 분리하는 **CNI•NetworkPolicy**
+- 정의/개념: Pod 연결과 통신 정책을 분리하는 **CNI**•**NetworkPolicy**
 - 배경/필요성: Flat Pod Network는 침해 후 **Lateral Movement** 허용
 
 #### 한줄 요약
@@ -72,7 +72,7 @@ extra:
 | NetworkPolicy 객체 | Selector•Port 기반 **허용 의도** 선언 |
 | 정책 제어기 | 정책을 읽어 **집행 규칙**으로 변환 |
 | CNI Runtime | Pod의 **Network Namespace•주소** 구성 |
-| Data Plane | Packet 경로에서 **Ingress•Egress** 집행 |
+| Data Plane | Packet 경로에서 **Ingress**•**Egress** 집행 |
 
 #### 한줄 요약
 
@@ -130,10 +130,10 @@ extra:
 
 | 비교 항목 | Flannel CNI | Calico CNI | Cilium CNI (eBPF) |
 |:---|:---|:---|:---|
-| **네트워크 기술** | VXLAN / UDP Overlay | BGP / VXLAN | **eBPF (Kernel Layer)** |
-| **NetworkPolicy** | 별도 정책 Engine 필요 | **L3/L4 정책** 지원 | 표준 정책과 확장 정책 지원 |
-| **Data Plane** | 단순 Overlay 중심 | iptables•eBPF 선택 가능 | **eBPF 중심** |
-| **선택 기준** | 단순 연결 요구 | Routing•정책 운용 | 관측•정책 확장 요구 |
+| 네트워크 기술 | VXLAN / UDP Overlay | BGP / VXLAN | **eBPF (Kernel Layer)** |
+| NetworkPolicy | 별도 정책 Engine 필요 | **L3/L4 정책** 지원 | 표준 정책과 확장 정책 지원 |
+| Data Plane | 단순 Overlay 중심 | iptables•eBPF 선택 가능 | **eBPF 중심** |
+| 선택 기준 | 단순 연결 요구 | Routing•정책 운용 | 관측•정책 확장 요구 |
 
 #### 한줄 요약
 
@@ -149,9 +149,9 @@ extra:
 
 | 3대 CNI/보안 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. AWS Subnet IP 고갈** | AWS VPC CNI가 ENI마다 Pod IP 대량 선점| **Custom Networking (Pod 전용 Secondary Subnet)**|
-| **2. Rule 처리 병목** | Pod•정책 증가로 규칙 평가 비용 상승 | **규모 측정 후 eBPF Data Plane 검토**|
-| **3. Policy Misconfiguration**| NetworkPolicy 오기재로 전체 서비스 불통 | **Cilium Hubble UI로 패킷 Drop 실시간 시각화** |
+| 1. AWS Subnet IP 고갈 | AWS VPC CNI가 ENI마다 Pod IP 대량 선점| **Custom Networking (Pod 전용 Secondary Subnet)**|
+| 2. Rule 처리 병목 | Pod•정책 증가로 규칙 평가 비용 상승 | **규모 측정 후 eBPF Data Plane 검토**|
+| 3. Policy Misconfiguration | NetworkPolicy 오기재로 전체 서비스 불통 | **Cilium Hubble UI로 패킷 Drop 실시간 시각화** |
 
 > 사례: **토스 / 당근마켓 / 카카오 Cilium eBPF CNI & NetworkPolicy 기반 미세 격리 보안 적용**
 

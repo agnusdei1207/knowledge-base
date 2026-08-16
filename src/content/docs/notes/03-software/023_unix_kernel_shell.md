@@ -71,7 +71,7 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Shell | 명령 해석과 **Pipe•Redirection** 구성 |
+| Shell | 명령 해석과 **Pipe**•**Redirection** 구성 |
 | Kernel | 프로세스•메모리•I/O와 **System Call** 처리 |
 | File System | 디렉터리•메타데이터•영속 블록 관리 |
 

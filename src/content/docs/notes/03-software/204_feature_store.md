@@ -129,9 +129,9 @@ extra:
 
 | 피처 저장소 유형 | Offline Store | Online Store | Feature Registry |
 |:---|:---|:---|:---|
-| **용도** | **배치 ML 모델 학습·재현·백테스팅** | **실시간 추론 API에 피처 저지연 제공** | **피처 정의·버전·소유자 중앙 카탈로그** |
-| **저장 형태** | 시점별 대용량 이력 (Parquet/Iceberg) | 최신값 Key-Value (Redis/DynamoDB) | 메타데이터 (DB/Git) |
-| **응답 시간** | 수초~분 (배치) | 밀리초 이하 (실시간) | 수십 밀리초 (조회) |
+| 용도 | **배치 ML 모델 학습·재현·백테스팅** | **실시간 추론 API에 피처 저지연 제공** | **피처 정의·버전·소유자 중앙 카탈로그** |
+| 저장 형태 | 시점별 대용량 이력 (Parquet/Iceberg) | 최신값 Key-Value (Redis/DynamoDB) | 메타데이터 (DB/Git) |
+| 응답 시간 | 수초~분 (배치) | 밀리초 이하 (실시간) | 수십 밀리초 (조회) |
 
 #### 한줄 요약
 
@@ -147,9 +147,9 @@ extra:
 
 | 3대 실무 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. 데이터 누수 (Data Leakage)** | PIT Join 없이 단순 조인으로 학습 데이터 생성 | **Feature Store의 PIT Join 기능을 필수 적용하여 예측 시점 이후 데이터 차단**|
-| **2. 학습-서빙 스큐** | 학습팀과 서빙팀이 별도 피처 파이프라인 구현 | **Feature Transformer의 단일 계산 로직을 학습·추론 양쪽에 강제 공유** |
-| **3. 피처 소유자 부재** | 피처 생성자가 이직하면 관리 공백 발생 | **Feature Registry에 소유자·SLA·폐기 절차를 필수 등록하고 정기 감사** |
+| 1. 데이터 누수 (Data Leakage) | PIT Join 없이 단순 조인으로 학습 데이터 생성 | **Feature Store의 PIT Join 기능을 필수 적용하여 예측 시점 이후 데이터 차단**|
+| 2. 학습-서빙 스큐 | 학습팀과 서빙팀이 별도 피처 파이프라인 구현 | **Feature Transformer의 단일 계산 로직을 학습·추론 양쪽에 강제 공유** |
+| 3. 피처 소유자 부재 | 피처 생성자가 이직하면 관리 공백 발생 | **Feature Registry에 소유자·SLA·폐기 절차를 필수 등록하고 정기 감사** |
 
 > 사례: **Uber의 Michelangelo Feature Store, LinkedIn의 Feathr를 통한 수천 개 피처의 중앙 관리 및 팀 간 재사용으로 개발 생산성 향상, Airbnb의 Zipline Feature Store를 통한 학습-서빙 스큐 제거 사례**
 

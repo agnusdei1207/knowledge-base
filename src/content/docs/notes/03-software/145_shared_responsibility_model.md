@@ -68,7 +68,7 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| 고객 책임 | **데이터•IAM**과 애플리케이션 설정 통제 |
+| 고객 책임 | **데이터**•**IAM**과 애플리케이션 설정 통제 |
 | 서비스별 이동 경계 | 모델별 **관리 계층**과 책임 주체 구분 |
 | CSP 책임 | **물리 시설•하드웨어**와 가상화 통제 |
 
@@ -128,9 +128,9 @@ extra:
 
 | 3대 오해 사례 | 실상 (Actual Truth) | 해결책 및 책임 주체 |
 |:---|:---|:---|
-| **"AWS 쓰니까 백업도 알아서 되겠지"** | S3/RDS 백업 설정 및 주기는 **고객 책임** | **고객이 AWS Backup 정책 설정 수립** |
-| **"S3 버킷 유출은 AWS 책임이다"** | S3 퍼블릭 오픈 클릭은 **고객 책임** | **고객이 S3 Block Public Access 설정** |
-| **"EC2 바이러스 감염은 AWS 탓이다"** | EC2 OS 패치 및 백신 탑재는 **고객 책임** | **고객이 SSM Patch Manager 작동** |
+| "AWS 쓰니까 백업도 알아서 되겠지" | S3/RDS 백업 설정 및 주기는 **고객 책임** | **고객이 AWS Backup 정책 설정 수립** |
+| "S3 버킷 유출은 AWS 책임이다" | S3 퍼블릭 오픈 클릭은 **고객 책임** | **고객이 S3 Block Public Access 설정** |
+| "EC2 바이러스 감염은 AWS 탓이다" | EC2 OS 패치 및 백신 탑재는 **고객 책임** | **고객이 SSM Patch Manager 작동** |
 
 #### 한줄 요약
 
@@ -146,9 +146,9 @@ extra:
 
 | 3대 고객 책임 구현 지침 | 주요 장애/사고 예방책 | 실무 핵심 도입 도구 |
 |:---|:---|:---|
-| **1. CSPM 형상 관리** | S3 버킷/Security Group 설정 실수로 유출 | **Wiz, Palo Alto Prisma Cloud (CSPM)** |
-| **2. IAM MFA & Key Rotation**| Root AccessKey 유출로 코인 채굴기 도난 | **MFA 강제 및 90일 주기 AccessKey 자동 파기** |
-| **3. Data Encryption** | S3 저장 데이터 암호화 미적용 | **AWS KMS (KMS Customer Managed Key) 적용** |
+| 1. CSPM 형상 관리 | S3 버킷/Security Group 설정 실수로 유출 | **Wiz, Palo Alto Prisma Cloud (CSPM)** |
+| 2. IAM MFA & Key Rotation | Root AccessKey 유출로 코인 채굴기 도난 | **MFA 강제 및 90일 주기 AccessKey 자동 파기** |
+| 3. Data Encryption | S3 저장 데이터 암호화 미적용 | **AWS KMS (KMS Customer Managed Key) 적용** |
 
 > 사례: **카카오 / 당근마켓 / 금융사 AWS 공유 책임 모델 기반 CSPM 보안 적용**
 

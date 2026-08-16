@@ -65,10 +65,10 @@ extra:
 
 | 유형 | 데이터 모델•적합 접근 패턴 |
 |:---|:---|
-| **Key-Value Store** | 키 기반 단건 조회•세션•캐시 |
-| **Document Store** | 중첩 문서 단위 조회•상품 카탈로그 |
-| **Wide-Column Store** | 파티션 키 기반 대규모 쓰기•시계열 |
-| **Graph Store** | 정점•간선 기반 다단계 관계 순회 |
+| Key-Value Store | 키 기반 단건 조회•세션•캐시 |
+| Document Store | 중첩 문서 단위 조회•상품 카탈로그 |
+| Wide-Column Store | 파티션 키 기반 대규모 쓰기•시계열 |
+| Graph Store | 정점•간선 기반 다단계 관계 순회 |
 
 #### 한줄 요약
 

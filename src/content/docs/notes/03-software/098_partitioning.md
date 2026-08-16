@@ -79,10 +79,10 @@ extra:
 
 | 파티셔닝 전략 | 분할 기준 키 (Partition Key) | 실무 적합 워크로드 및 특성 |
 |:---|:---|:---|
-| **Range Partitioning** | **날짜, 일자, 연도 (`created_at`)** | **시계열 데이터, 매출 이력, 로그 테이블 (파티션 Drop 용이)** |
-| **Hash Partitioning** | **고객 ID, 주문 ID (`user_id`)** | **데이터가 특정 파티션에 치우치지 않고 균등 분산 필요시** |
-| **List Partitioning** | **지역 코드, 국가 코드 (`region_code`)** | **불연속적인 명확한 비즈니스 코드값 분류 시 적합** |
-| **Composite Partitioning**| **Range + Hash / Range + List** | 1차로 날짜 분할 후, 2차로 해시/목록 분할 (복합 구조) |
+| Range Partitioning | **날짜, 일자, 연도 (`created_at`)** | **시계열 데이터, 매출 이력, 로그 테이블 (파티션 Drop 용이)** |
+| Hash Partitioning | **고객 ID, 주문 ID (`user_id`)** | **데이터가 특정 파티션에 치우치지 않고 균등 분산 필요시** |
+| List Partitioning | **지역 코드, 국가 코드 (`region_code`)** | **불연속적인 명확한 비즈니스 코드값 분류 시 적합** |
+| Composite Partitioning | **Range + Hash / Range + List** | 1차로 날짜 분할 후, 2차로 해시/목록 분할 (복합 구조) |
 
 #### 한줄 요약
 

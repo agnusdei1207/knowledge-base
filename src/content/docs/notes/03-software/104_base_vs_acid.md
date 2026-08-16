@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 트랜잭션 보장 **ACID**와 분산 상태 모델 BASE의 비교
-- 배경/필요성: 단일 원자 경계를 서비스 전체로 확장하면 **결합•지연** 증가
+- 배경/필요성: 단일 원자 경계를 서비스 전체로 확장하면 **결합**•**지연** 증가
 
 #### 한줄 요약
 
@@ -62,10 +62,10 @@ extra:
 
 | 모델 요소 | 의미 |
 |:---|:---|
-| **ACID** | 원자성•일관성•격리성•지속성 보장 |
-| **Basically Available** | 일부 기능 저하 중에도 가용 응답 유지 |
-| **Soft State** | 비동기 전파 중 복제 상태가 시간에 따라 변화 |
-| **Eventual Consistency** | 추가 변경이 없으면 복제본이 최종 수렴 |
+| ACID | 원자성•일관성•격리성•지속성 보장 |
+| Basically Available | 일부 기능 저하 중에도 가용 응답 유지 |
+| Soft State | 비동기 전파 중 복제 상태가 시간에 따라 변화 |
+| Eventual Consistency | 추가 변경이 없으면 복제본이 최종 수렴 |
 
 #### 한줄 요약
 
@@ -142,9 +142,9 @@ extra:
 
 | 2대 비동기 난제 | 발생 원인 및 위험 요소 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Message Loss (메시지 유실)** | 비동기 이벤트 전파 중 브로커 다운 | **Transactional Outbox Pattern & CDC 적용** |
-| **2. Duplicate Message** | 네트워크 재시도로 중복 메시지 수신 | **Idempotency Key 및 Unique Constraint 적용** |
-| **3. Saga Failure** | 비동기 연쇄 처리 중 중간 단계 실패 | **보상 트랜잭션 (Compensating Transaction) 자동화**|
+| 1. Message Loss (메시지 유실) | 비동기 이벤트 전파 중 브로커 다운 | **Transactional Outbox Pattern & CDC 적용** |
+| 2. Duplicate Message | 네트워크 재시도로 중복 메시지 수신 | **Idempotency Key 및 Unique Constraint 적용** |
+| 3. Saga Failure | 비동기 연쇄 처리 중 중간 단계 실패 | **보상 트랜잭션 (Compensating Transaction) 자동화**|
 
 > 사례: **배달의민족 주문-결제(ACID) 및 라이더 배차-알림(BASE) 분리 아키텍처**
 

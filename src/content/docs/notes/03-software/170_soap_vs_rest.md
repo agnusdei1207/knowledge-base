@@ -61,11 +61,11 @@ extra:
 
 | 구성요소 | SOAP 역할 | REST 역할 |
 |:---|:---|:---|
-| **설계 중심** | **Function / Action (행위 위주)** | **Resource / Entity (자원 위주)** |
-| **명세** | **WSDL 기반 XML 계약**| OpenAPI 등 별도 명세 선택 |
-| **전송 프로토콜**| HTTP 등 Transport와 Message 규격 분리 | **HTTP 의미 체계** 활용 |
-| **오류 처리** | **SOAP Fault** 구조 | HTTP Status와 Problem Detail 등 |
-| **보안 체계** | **WS-Security** 확장 가능 | TLS•OAuth 등 Web 보안 조합 |
+| 설계 중심 | **Function / Action (행위 위주)** | **Resource / Entity (자원 위주)** |
+| 명세 | **WSDL 기반 XML 계약**| OpenAPI 등 별도 명세 선택 |
+| 전송 프로토콜 | HTTP 등 Transport와 Message 규격 분리 | **HTTP 의미 체계** 활용 |
+| 오류 처리 | **SOAP Fault** 구조 | HTTP Status와 Problem Detail 등 |
+| 보안 체계 | **WS-Security** 확장 가능 | TLS•OAuth 등 Web 보안 조합 |
 
 #### 한줄 요약
 
@@ -123,10 +123,10 @@ extra:
 
 | 비교 항목 | SOAP (금융/B2B 엔터프라이즈) | REST (모바일/웹 B2C 서비스) |
 |:---|:---|:---|
-| **적합한 비즈니스**| **은행 송금, 결제 게이트웨이, B2B 통합** | **모바일 앱 API, SPA 웹 프론트엔드 연동**|
-| **트랜잭션/상태**| **WS-AtomicTransaction 지원 (복잡한 분산 제어)**| 직접 지원 안 함 (분산 트랜잭션 Saga 패턴 구현 필요)|
-| **Payload 특성**| XML Envelope 부가 정보 | 표현 형식 선택 가능 |
-| **Caching** | Transport•Gateway별 별도 설계 | **HTTP Cache 의미** 활용 가능 |
+| 적합한 비즈니스 | **은행 송금, 결제 게이트웨이, B2B 통합** | **모바일 앱 API, SPA 웹 프론트엔드 연동**|
+| 트랜잭션/상태 | **WS-AtomicTransaction 지원 (복잡한 분산 제어)**| 직접 지원 안 함 (분산 트랜잭션 Saga 패턴 구현 필요)|
+| Payload 특성 | XML Envelope 부가 정보 | 표현 형식 선택 가능 |
+| Caching | Transport•Gateway별 별도 설계 | **HTTP Cache 의미** 활용 가능 |
 
 #### 한줄 요약
 
@@ -142,9 +142,9 @@ extra:
 
 | 3대 API 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. SOAP 캐싱 한계** | 모든 요청을 `POST`로 전송 | **조회 트래픽이 많은 시스템은 REST로의 마이그레이션 추진**|
-| **2. 비즈니스 중복 처리**| 네트워크 순단 시 결제 2번 요청 | **HTTP 헤더에 고유 Idempotency-Key 발급 및 서버 체크**|
-| **3. 하위 호환성 붕괴** | 파라미터 필드 삭제로 기존 클라이언트 에러| **URI 버저닝(`/v1/api`, `/v2/api`) 및 폐기 예정 통보(Deprecation)**|
+| 1. SOAP 캐싱 한계 | 모든 요청을 `POST`로 전송 | **조회 트래픽이 많은 시스템은 REST로의 마이그레이션 추진**|
+| 2. 비즈니스 중복 처리 | 네트워크 순단 시 결제 2번 요청 | **HTTP 헤더에 고유 Idempotency-Key 발급 및 서버 체크**|
+| 3. 하위 호환성 붕괴 | 파라미터 필드 삭제로 기존 클라이언트 에러| **URI 버저닝(`/v1/api`, `/v2/api`) 및 폐기 예정 통보(Deprecation)**|
 
 > 사례: **은행권 공동 오픈 API 망의 RESTful 전환 및 모바일 페이먼트 시스템의 JSON 경량화 아키텍처**
 

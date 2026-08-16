@@ -132,12 +132,12 @@ extra:
 
 | 비교 항목 | Write-Through (WT) | Write-Back (WB) |
 |:---|:---|:---|
-| **메모리 동기화 시점** | 캐시 갱신 시 **즉시 동기화** (Immediate) | 캐시 라인 축출(Eviction) 시 **지연 동기화** (Deferred) |
-| **메모리 버스 트래픽** | 높음 (매 Store 연산마다 버스 쓰기 발생) | 매우 낮음 (**Write Combining** 효과 발휘) |
-| **하드웨어 구현** | 단순함 (Dirty Bit 불필요, **Write Buffer** 필요) | 복잡함 (**Dirty Bit** 제어 및 Eviction 로직 필요) |
-| **데이터 일관성** | **즉시 가시성** 확보 (메인 메모리가 항상 최신) | 캐시-메모리 불일치 발생 (**Dirty Data** 존재) |
-| **미스 정책 조합** | 주로 No-Write Allocate 방식과 결합 | 주로 Write Allocate 방식과 결합 |
-| **주요 적용 위치** | 단순 MCU 캐시•일부 I/O 메모리 경로 | 범용 고성능 CPU의 데이터 캐시 계층 |
+| 메모리 동기화 시점 | 캐시 갱신 시 **즉시 동기화** (Immediate) | 캐시 라인 축출(Eviction) 시 **지연 동기화** (Deferred) |
+| 메모리 버스 트래픽 | 높음 (매 Store 연산마다 버스 쓰기 발생) | 매우 낮음 (**Write Combining** 효과 발휘) |
+| 하드웨어 구현 | 단순함 (Dirty Bit 불필요, **Write Buffer** 필요) | 복잡함 (**Dirty Bit** 제어 및 Eviction 로직 필요) |
+| 데이터 일관성 | **즉시 가시성** 확보 (메인 메모리가 항상 최신) | 캐시-메모리 불일치 발생 (**Dirty Data** 존재) |
+| 미스 정책 조합 | 주로 No-Write Allocate 방식과 결합 | 주로 Write Allocate 방식과 결합 |
+| 주요 적용 위치 | 단순 MCU 캐시•일부 I/O 메모리 경로 | 범용 고성능 CPU의 데이터 캐시 계층 |
 
 #### 한줄 요약
 - Write-Through는 메모리 즉시 가시성과 구현 단순성에 강점을 가지며, Write-Back은 쓰기 대역폭 절감 및 성능 최적화에 강점을 가짐.

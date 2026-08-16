@@ -126,11 +126,11 @@ extra:
 
 | 일관성 모델 | 보장 강도 | 보장 내용 및 특징 | 주요 사용처 |
 |:---|:---|:---|:---|
-| **Linearizability**| **Strong** | 실시간 순서와 최신 완료값 보장 | **잔액, 재고 불변식** |
-| **Sequential** | 상 (Strong) | 모든 노드가 동일한 작업 순서를 관찰함 | 멀티플레이 게임 이벤트 |
-| **Causal** | 중상 (Medium) | 인과 관계가 있는 데이터만 순서 보장 | 댓글 및 대댓글 시스템 |
-| **Session** | 중 (Medium) | **내(Session)가 쓴 데이터는 내가 즉시 최신으로 봄**| **SNS 내 프로필 편집** |
-| **Eventual** | **Weak** | 추가 Write가 없으면 Replica 수렴 | **피드, 집계 Cache** |
+| Linearizability | **Strong** | 실시간 순서와 최신 완료값 보장 | **잔액, 재고 불변식** |
+| Sequential | 상 (Strong) | 모든 노드가 동일한 작업 순서를 관찰함 | 멀티플레이 게임 이벤트 |
+| Causal | 중상 (Medium) | 인과 관계가 있는 데이터만 순서 보장 | 댓글 및 대댓글 시스템 |
+| Session | 중 (Medium) | **내(Session)가 쓴 데이터는 내가 즉시 최신으로 봄**| **SNS 내 프로필 편집** |
+| Eventual | **Weak** | 추가 Write가 없으면 Replica 수렴 | **피드, 집계 Cache** |
 
 #### 한줄 요약
 
@@ -146,9 +146,9 @@ extra:
 
 | 3대 일관성 난제 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Split-Brain 충돌** | 네트워크 단절 시 양방향 쓰기 허용 | **과반수(Quorum) 투표 기반 Raft/Paxos 합의 알고리즘 적용**|
-| **2. Stale Read 불만** | 결제 후 포인트가 안 깎인 걸로 보임 | **결제/재고 등 핵심 DB는 $W+R>N$ 강한 일관성 세팅** |
-| **3. 동시성 재고 마이너스**| 동시에 마지막 남은 재고 1개를 구매 요청 | **DB Optimistic Lock(버전 검사) 및 조건부 차감**|
+| 1. Split-Brain 충돌 | 네트워크 단절 시 양방향 쓰기 허용 | **과반수(Quorum) 투표 기반 Raft/Paxos 합의 알고리즘 적용**|
+| 2. Stale Read 불만 | 결제 후 포인트가 안 깎인 걸로 보임 | **결제/재고 등 핵심 DB는 $W+R>N$ 강한 일관성 세팅** |
+| 3. 동시성 재고 마이너스 | 동시에 마지막 남은 재고 1개를 구매 요청 | **DB Optimistic Lock(버전 검사) 및 조건부 차감**|
 
 > 사례: **아마존 DynamoDB의 Eventual Consistency 기본값 적용 및 결제 시 Strong Consistency 옵션 강제 튜닝**
 

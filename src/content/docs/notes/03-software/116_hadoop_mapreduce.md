@@ -76,11 +76,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **NameNode** | 파일•블록 위치 메타데이터 관리 |
-| **DataNode** | HDFS 블록 저장•복제•상태 보고 |
-| **ResourceManager** | 클러스터 자원과 앱 스케줄링 |
-| **NodeManager** | 노드 컨테이너 자원 실행•감시 |
-| **MapReduce** | Map•Shuffle•Reduce 배치 실행 |
+| NameNode | 파일•블록 위치 메타데이터 관리 |
+| DataNode | HDFS 블록 저장•복제•상태 보고 |
+| ResourceManager | 클러스터 자원과 앱 스케줄링 |
+| NodeManager | 노드 컨테이너 자원 실행•감시 |
+| MapReduce | Map•Shuffle•Reduce 배치 실행 |
 
 #### 한줄 요약
 
@@ -117,7 +117,7 @@ extra:
 
 1. **입력 분할 배치**: 블록 위치를 고려해 Map 태스크 할당
 2. **Map 연산**: 입력 레코드를 중간 키-값으로 변환
-3. **Shuffle•Sort**: 같은 키를 Reduce 파티션으로 전송•정렬
+3. **Shuffle**•**Sort**: 같은 키를 Reduce 파티션으로 전송•정렬
 4. **Reduce 연산**: 키별 값 집합을 집계•변환
 5. **HDFS 결과 기록**: 결과 파일을 분산 블록으로 저장
 
@@ -135,10 +135,10 @@ extra:
 
 | 비교 항목 | Hadoop MapReduce (1세대) | Apache Spark (2세대) |
 |:---|:---|:---|
-| **연산 저장 매체** | **디스크 I/O 기반 (Map Disk Spill 후 Reduce)**| **인메모리 기반 ** |
-| **처리 특성** | 단계별 물질화•대형 배치 | **중간 결과 재사용•반복 연산** |
-| **적합 연산** | 대규모 1회성 Batch ETL 연산 | **반복적 머신러닝, 실시간 Stream, Interactive Query**|
-| **장애 복구 방식** | 블록 재실행 (Re-Execution) | **RDD Lineage ( 계보 추적 기반 재계산)** |
+| 연산 저장 매체 | **디스크 I/O 기반 (Map Disk Spill 후 Reduce)**| **인메모리 기반 ** |
+| 처리 특성 | 단계별 물질화•대형 배치 | **중간 결과 재사용•반복 연산** |
+| 적합 연산 | 대규모 1회성 Batch ETL 연산 | **반복적 머신러닝, 실시간 Stream, Interactive Query**|
+| 장애 복구 방식 | 블록 재실행 (Re-Execution) | **RDD Lineage ( 계보 추적 기반 재계산)** |
 
 #### 한줄 요약
 

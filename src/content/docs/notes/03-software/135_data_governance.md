@@ -79,11 +79,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Governance Council** | 전사 원칙•우선순위•분쟁 결정 |
-| **Data Owner** | 도메인 데이터의 최종 승인•위험 책임 |
-| **Data Steward** | 정의•품질•이슈 조치의 실무 운영 |
-| **Policy Engine** | 접근•마스킹•보존 규칙 자동 집행 |
-| **Catalog•DQ Tool** | 자산•계보•품질 증거와 지표 제공 |
+| Governance Council | 전사 원칙•우선순위•분쟁 결정 |
+| Data Owner | 도메인 데이터의 최종 승인•위험 책임 |
+| Data Steward | 정의•품질•이슈 조치의 실무 운영 |
+| Policy Engine | 접근•마스킹•보존 규칙 자동 집행 |
+| Catalog•DQ Tool | 자산•계보•품질 증거와 지표 제공 |
 
 #### 한줄 요약
 
@@ -138,10 +138,10 @@ extra:
 
 | 비교 항목 | Centralized Data Governance | Federated Governance (Modern) |
 |:---|:---|:---|
-| **의사결정 주체** | **중앙 데이터 거버넌스 위원회 독점** | **중앙 연합회 + 현업 도메인 팀 협의** |
-| **정책 집행 방식** | 수동 승인 및 인간 개입 중심 | **Policy-as-Code 자동 코드화 집행** |
-| **조직 민첩성** | 일관성 높지만 승인 병목 가능 | 자율성 높지만 역량 편차 관리 필요 |
-| **적합 아키텍처** | 전통적 모놀리식 DW / RDBMS | **Data Mesh, Data Lakehouse 아키텍처** |
+| 의사결정 주체 | **중앙 데이터 거버넌스 위원회 독점** | **중앙 연합회 + 현업 도메인 팀 협의** |
+| 정책 집행 방식 | 수동 승인 및 인간 개입 중심 | **Policy-as-Code 자동 코드화 집행** |
+| 조직 민첩성 | 일관성 높지만 승인 병목 가능 | 자율성 높지만 역량 편차 관리 필요 |
+| 적합 아키텍처 | 전통적 모놀리식 DW / RDBMS | **Data Mesh, Data Lakehouse 아키텍처** |
 
 #### 한줄 요약
 
@@ -157,9 +157,9 @@ extra:
 
 | 3대 거버넌스 위험 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **1. Paper Governance** | 문서로만 규정을 만들고 시스템 자동 통제 0건 | **OpenPolicyAgent (OPA) 연동 Policy-as-Code 구현** |
-| **2. Resistance from Devs**| 지나치게 빡빡한 수동 승인 절차로 개발 지연 | **Self-Serve 카탈로그 통합으로 1초 만에 권한 신청**|
-| **3. PII Leakage Risk** | 개발DB로 원본 개인정보가 그대로 복제됨 | **데이터 수집 즉시 Masking / Anonymization 자동화**|
+| 1. Paper Governance | 문서로만 규정을 만들고 시스템 자동 통제 0건 | **OpenPolicyAgent (OPA) 연동 Policy-as-Code 구현** |
+| 2. Resistance from Devs | 지나치게 빡빡한 수동 승인 절차로 개발 지연 | **Self-Serve 카탈로그 통합으로 1초 만에 권한 신청**|
+| 3. PII Leakage Risk | 개발DB로 원본 개인정보가 그대로 복제됨 | **데이터 수집 즉시 Masking / Anonymization 자동화**|
 
 > 사례: **삼성전자 / 토스 / 카카오뱅크 전사 Data Governance & OpenMetadata 적용**
 

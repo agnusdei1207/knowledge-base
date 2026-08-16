@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- 접속 선택은 **NSSAI**, E2E 운용은 **NSI•NSSI**로 관리
+- 접속 선택은 **NSSAI**, E2E 운용은 **NSI**•**NSSI**로 관리
 
 #### 한줄 요약
 

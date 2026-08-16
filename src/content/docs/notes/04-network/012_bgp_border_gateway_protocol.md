@@ -83,11 +83,11 @@ extra:
 
 | 구성요소 | 역할 및 세부 기능 | 비고 |
 |:---|:---|:---|
-| **BGP Peer (Neighbor)** | Open, Keepalive 패킷으로 TCP 179 세션 및 FSM(Finite State Machine) 상태 유지 | Established 상태 필수 |
-| **Path Attributes** | Weight(Cisco), LOCAL_PREF, AS_PATH, Origin, MED, Community 등 | 최적 경로 판단의 기준 |
-| **Inbound Policy** | 수신된 경로 중 허용/거부(Prefix-list) 및 속성 변경(Route-map) 수행 | 유입 경로 통제 |
-| **Best Path Selector** | 10단계 이상의 정밀한 BGP 최적 경로 결정 알고리즘 집행 | 단일 최적 경로 선발 |
-| **Outbound Policy** | 상대 Peer에게 이 경로를 전파할지 여부 및 속성 수정 통제 | 유출 경로 통제 |
+| BGP Peer (Neighbor) | Open, Keepalive 패킷으로 TCP 179 세션 및 FSM(Finite State Machine) 상태 유지 | Established 상태 필수 |
+| Path Attributes | Weight(Cisco), LOCAL_PREF, AS_PATH, Origin, MED, Community 등 | 최적 경로 판단의 기준 |
+| Inbound Policy | 수신된 경로 중 허용/거부(Prefix-list) 및 속성 변경(Route-map) 수행 | 유입 경로 통제 |
+| Best Path Selector | 10단계 이상의 정밀한 BGP 최적 경로 결정 알고리즘 집행 | 단일 최적 경로 선발 |
+| Outbound Policy | 상대 Peer에게 이 경로를 전파할지 여부 및 속성 수정 통제 | 유출 경로 통제 |
 
 #### 한줄 요약
 

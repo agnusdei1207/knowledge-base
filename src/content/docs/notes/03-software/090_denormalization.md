@@ -80,9 +80,9 @@ extra:
 
 | 구분 (Category) | 적용 기법 (Technique) | 실무 적용 목적 및 사례 |
 |:---|:---|:---|
-| **테이블 반정규화** | **Table Merging, Partitioning, Summary Table** | 1:1 관계 테이블을 1개로 병합하여 조인 0화, 월별 매출 요약표 사전 생성 |
-| **속성 반정규화** | **Duplicated Column, Derived Column** | 주문 테이블에 고객 이름 중복 저장, 장바구니에 총결제금액 파생 컬럼 미리 저장 |
-| **관계 반정규화** | **Redundant Foreign Key (중복 FK)** | A $\rightarrow$ B $\rightarrow$ C 3단계 조인을 A $\rightarrow$ C 직접 참조 FK 추가로 단축 |
+| 테이블 반정규화 | **Table Merging, Partitioning, Summary Table** | 1:1 관계 테이블을 1개로 병합하여 조인 0화, 월별 매출 요약표 사전 생성 |
+| 속성 반정규화 | **Duplicated Column, Derived Column** | 주문 테이블에 고객 이름 중복 저장, 장바구니에 총결제금액 파생 컬럼 미리 저장 |
+| 관계 반정규화 | **Redundant Foreign Key (중복 FK)** | A $\rightarrow$ B $\rightarrow$ C 3단계 조인을 A $\rightarrow$ C 직접 참조 FK 추가로 단축 |
 
 #### 한줄 요약
 

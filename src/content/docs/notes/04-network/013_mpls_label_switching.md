@@ -73,11 +73,11 @@ extra:
 
 | 구성요소 | 주요 역할 및 책임 | 대응 패킷 동작 |
 |:---|:---|:---|
-| **Ingress LER** | IP 패킷 검사, FEC 분류, MPLS Shim Header 부착 | **Push** (레이블 삽입) |
-| **Core LSR** | LFIB 룩업, In-Label을 Out-Label로 1:1 대체 교환 | **Swap** (레이블 교환) |
-| **Egress LER** | MPLS Shim Header 제거, 순수 L3 IP 패킷으로 복원 후 전송 | **Pop** (레이블 제거) |
-| **PHP (Penultimate Hop Popping)** | Egress LER 전단 라우터(Egress-1)에서 미리 Outer Label을 Pop 하여 Egress 부하 경감 | **Pop** (PHP 동작) |
-| **MPLS Shim Header** | 32-bit (Label ID 20-bit + TC/QoS 3-bit + Bottom of Stack 1-bit + TTL 8-bit) | L2와 L3 사이에 위치 |
+| Ingress LER | IP 패킷 검사, FEC 분류, MPLS Shim Header 부착 | **Push** (레이블 삽입) |
+| Core LSR | LFIB 룩업, In-Label을 Out-Label로 1:1 대체 교환 | **Swap** (레이블 교환) |
+| Egress LER | MPLS Shim Header 제거, 순수 L3 IP 패킷으로 복원 후 전송 | **Pop** (레이블 제거) |
+| PHP (Penultimate Hop Popping) | Egress LER 전단 라우터(Egress-1)에서 미리 Outer Label을 Pop 하여 Egress 부하 경감 | **Pop** (PHP 동작) |
+| MPLS Shim Header | 32-bit (Label ID 20-bit + TC/QoS 3-bit + Bottom of Stack 1-bit + TTL 8-bit) | L2와 L3 사이에 위치 |
 
 #### 한줄 요약
 

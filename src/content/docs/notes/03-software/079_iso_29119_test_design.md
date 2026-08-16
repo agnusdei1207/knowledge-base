@@ -79,9 +79,9 @@ extra:
 
 | 분류 (Category) | 주요 설계 기법 (Test Techniques) | 대표적인 적용 레벨 및 성격 |
 |:---|:---|:---|
-| **Specification-based**<br/>(명세 기반 기법) | **Equivalence Partitioning, Boundary Value Analysis, Decision Table, State Transition** | 요구사항 명세서(SRS) 기반, 시스템/인수 테스트 수준 적용 |
-| **Structure-based**<br/>(구조 기반 기법) | **Statement, Branch, Condition, MC/DC Coverage, Data Flow Testing** | 소스코드 구조 기반, 개발자 단위/통합 테스트 수준 적용 |
-| **Experience-based**<br/>(경험 기반 기법) | **Error Guessing, Exploratory Testing, Checklist-based Testing** | 테스터의 도메인 직관 및 경험 기반, 보완적 적용 |
+| Specification-based**<br/>(명세 기반 기법) | **Equivalence Partitioning, Boundary Value Analysis, Decision Table, State Transition | 요구사항 명세서(SRS) 기반, 시스템/인수 테스트 수준 적용 |
+| Structure-based**<br/>(구조 기반 기법) | **Statement, Branch, Condition, MC/DC Coverage, Data Flow Testing | 소스코드 구조 기반, 개발자 단위/통합 테스트 수준 적용 |
+| Experience-based**<br/>(경험 기반 기법) | **Error Guessing, Exploratory Testing, Checklist-based Testing | 테스터의 도메인 직관 및 경험 기반, 보완적 적용 |
 
 #### 한줄 요약
 

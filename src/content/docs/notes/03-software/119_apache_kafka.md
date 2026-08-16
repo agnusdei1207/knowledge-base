@@ -78,11 +78,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Producer** | 키로 파티션을 선택해 이벤트 발행 |
-| **Topic•Partition** | 이벤트 순서•병렬성•보존 경계 제공 |
-| **Broker•ISR** | 파티션 리더 저장과 팔로워 복제 |
-| **KRaft Controller** | 클러스터 메타데이터와 리더 선출 관리 |
-| **Consumer Group** | 파티션 분담과 처리 오프셋 관리 |
+| Producer | 키로 파티션을 선택해 이벤트 발행 |
+| Topic•Partition | 이벤트 순서•병렬성•보존 경계 제공 |
+| Broker•ISR | 파티션 리더 저장과 팔로워 복제 |
+| KRaft Controller | 클러스터 메타데이터와 리더 선출 관리 |
+| Consumer Group | 파티션 분담과 처리 오프셋 관리 |
 
 #### 한줄 요약
 
@@ -137,10 +137,10 @@ extra:
 
 | 비교 항목 | Traditional Message Queue (RabbitMQ) | Event Streaming Platform (Kafka) |
 |:---|:---|:---|
-| **메시지 보존 방식** | **소비자(Consumer) 수신 즉시 Queue에서 삭제** | **디스크 영속성 보존 (일수/용량 단위 retention)** |
-| **메시지 재처리** | 큐 정책•DLQ 범위에서 재처리 | **Offset 이동으로 보존 이벤트 재생** |
-| **처리 성능** | 라우팅•확인 정책에 좌우 | 파티션•배치•복제 정책에 좌우 |
-| **라우팅 기능** | 복잡한 Exchange / Binding 라우팅 우수 | Simple Topic/Partition 라우팅 중심 |
+| 메시지 보존 방식 | **소비자(Consumer) 수신 즉시 Queue에서 삭제** | **디스크 영속성 보존 (일수/용량 단위 retention)** |
+| 메시지 재처리 | 큐 정책•DLQ 범위에서 재처리 | **Offset 이동으로 보존 이벤트 재생** |
+| 처리 성능 | 라우팅•확인 정책에 좌우 | 파티션•배치•복제 정책에 좌우 |
+| 라우팅 기능 | 복잡한 Exchange / Binding 라우팅 우수 | Simple Topic/Partition 라우팅 중심 |
 
 #### 한줄 요약
 
@@ -157,8 +157,8 @@ extra:
 
 | 실무 장애 및 병목 | 발생 원인 | 실무 대책 및 해결방안 |
 |:---|:---|:---|
-| **Consumer Lag 폭증** | 컨슈머 연산 속도가 프로듀서 전송 속도를 못 따라감 | **파티션 개수 확장 및 컨슈머 인스턴스 동시 증설** |
-| **Rebalance Storm 발생**| `max.poll.interval.ms` 시간 초과로 컨슈머 쫓겨남 | **`max.poll.records` 단축 및 Cooperative Rebalance 적용** |
+| Consumer Lag 폭증 | 컨슈머 연산 속도가 프로듀서 전송 속도를 못 따라감 | **파티션 개수 확장 및 컨슈머 인스턴스 동시 증설** |
+| Rebalance Storm 발생 | `max.poll.interval.ms` 시간 초과로 컨슈머 쫓겨남 | **`max.poll.records` 단축 및 Cooperative Rebalance 적용** |
 | 메시지 중복 수신 (At-Least-Once) | 컨슈머 처리 성공 후 오프셋 커밋 전 튕김 발생 | **Consumer 로직 멱등성(Idempotency) 구현** |
 
 > 사례: **쿠팡 / 네이버 Kafka 기반 실시간 로그 수집 & Flink Stream 파이프라인 연동**
