@@ -57,32 +57,29 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **참조•점유 분석기(Reference and Retention Analyzer)**: 두 개 이상의 시점에서 추출한 힙 덤프 파일 간의 객체 수량 증감, 보유 크기(Retained Size) 차이, 도미네이터 트리의 변화를 비교 연산하여 누수의 유력한 용의자 객체를 자동 판별하는 심층 진단 도구이다.
-- **보유 크기(Retained Size)**: 특정 객체(A) 단일 크기(Shallow Size)뿐만 아니라, A가 소멸될 경우 GC에 의해 동반 회수될 수 있는 하위 종속 객체들의 메모리 크기까지 전부 합산한 실질적인 메모리 해방 기대치이다.
-- **도미네이터(Dominator)**: 특정 하위 객체 집합으로 향하는 유일한 길목(참조 경로)에 서 있어서, 그 객체가 살아있는 한 하위 객체들도 절대 GC되지 않도록 생사여탈권을 지배하는 루트(Root) 객체이다.
-- **메모리 계측기(Memory Instrumentation)**: 애플리케이션에 부착된 에이전트(JMX, APM 등)를 통해 힙, Non-Heap, 네이티브 메모리 영역의 사용량 추이와 실시간 객체 할당률, GC 소요 시간 등을 모니터링 대시보드에 지속 스트리밍하는 관측 모듈이다.
-- **덤프•프로필 수집기(Dump and Profile Collector)**: 관리자가 수동으로 트리거하거나 **OOM** Exception 발생 시점(HeapDumpOnOutOfMemoryError)에 자동으로 당시의 완벽한 힙 메모리 스냅샷 파일(.hprof 등)과 스레드 덤프를 안전하게 생성하고 저장소에 보존하는 백업 컴포넌트이다.
-- **운영 제어기(Operational Controller)**: 도출된 메모리 분석 결과 리포트를 바탕으로, 캐시 만료 시간(TTL) 조절, 객체 풀(Pool) 사이즈 조정, 스레드 큐(Queue) 한계치 축소, 혹은 JVM 시작 파라미터(Xmx) 튜닝 등을 결정하고 시스템에 반영하는 통제 모듈이다.
+- **보유 크기(Retained Size)**: 특정 객체가 소멸될 경우 GC에 의해 동반 회수될 하위 종속 객체들의 메모리 크기까지 합산한 실질 해방량이다.
+- **도미네이터(Dominator)**: 특정 하위 객체 집합으로 향하는 유일한 참조 경로에 위치하여, 해당 객체가 살아있는 한 하위 객체들의 GC를 차단하는 루트 객체이다.
+- **힙 덤프(Heap Dump)**: OOM 발생 시점의 힙 메모리 전체 객체·참조 관계를 스냅샷으로 저장한 파일(.hprof)이다.
 
 </details>
 
 ```text
 [Memory 진단 체계]
- ├── [Memory 계측기]
- ├── [Dump•Profile 수집기]
- ├── [참조•점유 분석기]
- └── [운영 제어기]
+ ├── 계측: Heap·Native·GC·Allocation Rate 수집
+ ├── 수집: 힙 덤프·스레드 덤프 스냅샷 보존
+ ├── 분석: Retained Size·Dominator 경로 추적
+ └── 조치: Cache·Pool·Queue·Heap 설정 조정
 ```
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Memory 계측기 | Heap•Native•GC•**Allocation Rate** 수집 |
-| Dump•Profile 수집기 | 객체•참조•할당 이력 **Snapshot** 보존 |
-| 참조•점유 분석기 | Retained Size•**Dominator** 경로 분석 |
-| 운영 제어기 | Cache•Pool•Queue•**Heap 설정** 조정 |
+| 계측 | Heap·Native·GC·**Allocation Rate** 수집 |
+| 수집 | 객체·참조·할당 이력 **힙 덤프** 보존 |
+| 분석 | **Retained Size**·**Dominator** 경로 추적 |
+| 조치 | Cache·Pool·Queue·**Heap 설정** 조정 |
 
 #### 한줄 요약
-- 단순한 시계열 사용량 그래프와 정적인 거미줄 모양의 힙 참조 트리를 크로스 체크하여, 공간 부족이 인프라 할당량 탓인지 애플리케이션 버그 탓인지 명확히 가려내는 진단 아키텍처
+- 힙 계측·덤프 수집·Retained Size 기반 분석·설정 조정의 4단계 메모리 진단 체계
 
 ## Ⅳ. 흐름도
 
