@@ -26,6 +26,7 @@ extra:
 - **NUMA 노드(NUMA Node)**: CPU 코어 그룹, 사설/공유 캐시, 독점 메인 메모리 제어기(DRAM Channel)를 하나로 묶어 독립 제어하는 물리적/논리적 도메인 단위.
 - **메모리 경합(Memory Contention)**: 단일 전역 메모리 버스에 다수 코어의 접근 요청이 동시에 몰려 신호 지연 및 억세스 병목이 일어나는 현상.
 
+- **불균일 기억장치 접근(Non-Uniform Memory Access, NUMA)**: 다중 프로세서 환경에서 CPU 코어가 로컬 메모리에 접근하는 속도와 타 노드의 원격 메모리에 접근하는 속도가 서로 다른 메모리 아키텍처.
 </details>
 
 - 정의/개념: 프로세서 소켓과 물리 DRAM 메모리를 다수의 **NUMA 노드(NUMA Node)**로 분할 구축하여, 로컬 메모리와 원격 메모리 간의 접근 지연시간 차이가 발생하는 **비균등 메모리 접근** 아키텍처.
@@ -136,6 +137,7 @@ extra:
 - **다중 소켓(Multi-Socket)**: 메인보드 상에 2개, 4개, 8개의 독립 CPU 소켓을 물리 탑재하여 랙 서버 용량을 늘리는 기술.
 - **배치 민감도(Placement Sensitivity)**: 스레드와 페이지 할당 위치(로컬 vs 원격)에 따라 전체 애플리케이션 처리 성능이 최대 수 배 이상 요동치는 현상.
 
+- **원격 메모리 접근(Remote Memory Access)**: 상호 연결망(QPI, UPI)을 거쳐 타 NUMA 노드의 메모리에 접근함으로써 지연 시간이 증가하는 현상.
 </details>
 
 | 비교 항목 | NUMA (Non-Uniform Memory Access) | UMA (Uniform Memory Access) |

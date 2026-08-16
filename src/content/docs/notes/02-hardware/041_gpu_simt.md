@@ -27,6 +27,7 @@ extra:
 - **SM(Streaming Multiprocessor)**: 워프 스케줄링, 레지스터 할당, ALU 연산 및 온칩 메모리를 관리하는 GPU 핵심 연산 단위.
 - **CPU(Central Processing Unit)**: 복잡한 제어 흐름과 직렬 스레드 처리에 최적화된 범용 프로세서.
 
+- **단일 명령 다중 스레드(Single Instruction Multiple Threads, SIMT)**: 다수의 병렬 스레드가 동일한 명령어를 서로 다른 데이터(레지스터)를 바탕으로 락스텝(Lockstep) 실행하는 GPU 하드웨어 실행 모델.
 </details>
 
 - 정의/개념: SM이 다수 스레드를 **워프** 단위로 묶어 동일 인스트럭션을 독립 데이터에 분산 발행하는 **SIMT** 모델

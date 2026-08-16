@@ -26,6 +26,7 @@ extra:
 - **보안 상태(Secure State)**: 암호 키, TEE 및 보안 자원에 하드웨어 직결 접근이 허용되는 실행 도메인
 - **비보안 상태(Non-Secure State)**: 범용 OS 및 일반 애플리케이션이 구동되며 보안 자원 접근이 차단되는 도메인
 
+- **암 트러스트존(ARM TrustZone)**: 단일 프로세서 코어를 하드웨어 수준에서 보안 세계(Secure World)와 비보안 일반 세계(Normal World)로 물리적 격리 분할하는 시스템 수준 보안 아키텍처.
 </details>
 
 - 정의/개념: 하드웨어 기반 2개 실행 도메인(Secure World vs Normal World) 및 버스 트랜잭션 속성을 통해 시스템 전반을 수평 격리하는 **Arm TrustZone**

@@ -26,6 +26,7 @@ extra:
 - **ECU(Electronic Control Unit)**: 차량 내 각 기능(엔진, 섀시, ADAS 등)을 제어하는 임베디드 컴퓨터 단말.
 - **소프트웨어 재사용(Software Reuse)**: 하드웨어 종속성이 제거된 표준화된 SWC(Software Component)를 타 칩셋/타 차량 플랫폼에 재배치하여 재활용하는 성질.
 
+- **오토사(Automotive Open System Architecture, AUTOSAR)**: 차량용 임베디드 소프트웨어의 재사용성과 모듈화를 위해 응용 계층, 런타임 환경(RTE), 기본 소프트웨어(BSW)를 표준화한 개방형 자동차 소프트웨어 아키텍처.
 </details>
 
 - 정의/개념: 차량용 전장 소프트웨어 계층(Application-RTE-BSW/ARA) 구조 및 인터페이스 메커니즘을 규격화한 **AUTOSAR** 플랫폼

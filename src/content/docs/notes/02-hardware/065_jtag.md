@@ -26,6 +26,7 @@ extra:
 - **TAP(Test Access Port)**: JTAG 통신을 위한 4~5개 물리 신호 핀을 관리하는 포트 제어기
 - **경계 스캔(Boundary Scan)**: IC 물리 핀과 로직 사이에 전용 셀을 배치하여 외부 탐침 없이 전기적 상태를 강제 인가/관측하는 검사 기술
 
+- **제이태그(Joint Test Action Group, JTAG / IEEE 1149.1)**: 인쇄회로기판(PCB) 상의 칩 핀들을 물리적 프로브 접촉 없이 경계 스캔(Boundary Scan) 및 온칩 디버깅(On-Chip Debugging)할 수 있도록 정의한 4~5핀 표준 테스트 인터페이스.
 </details>
 
 - 정의/개념: TAP 상태 머신 및 경계 스캔 셀 체인을 통해 PCB 물리적 핀 납땜 및 배선 단락을 비침습 방식으로 검사하는 **JTAG**

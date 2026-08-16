@@ -27,6 +27,7 @@ extra:
 - **오프칩 데이터 이동(Off-Chip Data Movement)**: 가속기와 외부 DRAM 간 데이터를 송수신하며 소비되는 전송 동작.
 - **AI(Artificial Intelligence)**: 학습된 신경망 모델 기반 추론 및 연산 기술.
 
+- **주문형 반도체(Application-Specific Integrated Circuit, ASIC)**: 특정 딥러닝 알고리즘이나 전용 워크로드의 연산 효율을 극대화하기 위해 맞춤 설계된 고정 하드웨어 칩(TPU 등).
 </details>
 
 - 정의/개념: 특정 AI 알고리즘·연산 정밀도·데이터 흐름 전용 회로를 하드웨어 제조 시점에 완전 고정한 **ASIC** 가속기

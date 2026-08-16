@@ -29,6 +29,7 @@ extra:
 - **ASIC(Application-Specific Integrated Circuit)**: 특정 응용 목적에 맞게 기능이 고정 제작되는 주문형 반도체.
 - **GPU(Graphics Processing Unit)**: 대규모 코어 기반 스레드 병렬 처리 중심 소프트웨어 프로그래밍 가능한 가속기.
 
+- **현장 프로그램 가능 게이트 어레이(Field-Programmable Gate Array, FPGA)**: 제조 후에도 하드웨어 기술 언어(HDL)를 통해 내부 논리 블록(LUT)과 배선을 재구성할 수 있는 유연한 반도체 소자.
 </details>
 
 - 정의/개념: AI 모델 알고리즘에 맞게 회로 논리 및 데이터 경로를 **비트스트림**으로 유연하게 재매핑하는 **FPGA AI 가속** 방식

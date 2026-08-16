@@ -62,6 +62,7 @@ extra:
 - **행 버퍼(Row Buffer)**: 뱅크 내부에서 ACT 명령 구동 시 선택된 Row 행 전체(8KB)의 전하를 읽어온 후 래칭 보관하는 SRAM 성격의 고속 버퍼.
 - **리프레시 카운터(Refresh Counter)**: 매 tREFI 주기마다 리프레시를 실행할 DRAM 칩 내부의 Row 주소를 0번부터 순차적으로 올리는 칩 내장 카운터.
 
+- **자동 재생(Auto Refresh, CBR)**: DRAM 컨트롤러가 주기적으로 명령을 내려 메모리 셀 커패시터의 전하 누설을 방지하고 데이터를 보존하는 동작.
 </details>
 
 ```text

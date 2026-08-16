@@ -26,6 +26,7 @@ extra:
 - **PCIe (Peripheral Component Interconnect Express)**: 고속 직렬 점대점(Point-to-Point) 핀 레인(Lane) 기반으로 CPU와 초고속 차세대 I/O 장치를 연결하는 마더보드 확장 버스 표준.
 - **SSD (Solid-State Drive)**: NAND Flash 반도체를 고밀도 배열하여 비휘발성 대용량 블록 입출력을 제공하는 대용량 저장장치.
 
+- **비휘발성 메모리 익스프레스(Non-Volatile Memory Express, NVMe)**: 고속 PCIe 버스에 최적화되어 최대 64K 개의 큐와 큐당 64K 개의 명령을 병렬 처리할 수 있는 플래시 전용 호스트 컨트롤러 인터페이스.
 </details>
 
 - 정의/개념: **PCIe** 직렬 레인 위에서 최대 65,535개 I/O SQ•CQ와 병렬 명령 처리를 제공하는 **NVMe** 저장 프로토콜.
