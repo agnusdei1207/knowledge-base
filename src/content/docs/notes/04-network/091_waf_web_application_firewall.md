@@ -64,7 +64,6 @@ extra:
 - **WAF 정책 엔진(WAF Policy Engine)**: 서명 매칭, 긍정/부정 보안 모델, 속도 제한 규칙을 적용하여 공격을 판정하는 핵심 엔진이다.
 - **원본 웹 서버(Origin Web Server)**: WAF 검증을 통과한 유효 트래픽만 수신하여 비즈니스 로직을 처리하는 내부 서버이다.
 - **균일 자원 위치 지정자(URL, Uniform Resource Locator)**: 웹 리소스의 위치와 접근 프로토콜을 명시하는 식별자이다.
-- **관측•튜닝기(Observability & Tuning Engine)**: 로그 분석, 오탐/미탐 모니터링을 통해 WAF 탐지 규칙을 최적화하는 관리 도구이다.
 
 </details>
 

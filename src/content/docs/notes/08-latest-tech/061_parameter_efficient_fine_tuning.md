@@ -56,7 +56,6 @@ extra:
 
 - **주입 구성(Injection Configuration)**: 학습 대상 층, 모듈 크기 및 연결 위치를 명시한 제어 데이터.
 - **학습 모듈(Trainable Module)**: 기반 모델과 분리되어 특정 과업의 변화량을 저장하는 파라미터 집합.
-- **실행 관리자(Execution Manager)**: 기반 모델과 모듈의 병합, 적재 및 전환을 통합 제어하는 컴포넌트.
 
 </details>
 

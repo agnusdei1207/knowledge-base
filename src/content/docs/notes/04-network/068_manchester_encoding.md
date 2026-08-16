@@ -56,19 +56,19 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **천이 검출기(Transition Detector)**: 수신 물리 신호 파형에서 상승 에지(Rising Edge)와 하강 에지(Falling Edge)의 시점 및 방향성을 추출하는 아날로그/디지털 감지 센서 회로이다.
+- **에지 검출(Edge Detection)**: 수신 물리 신호 파형에서 상승 에지(Rising Edge)와 하강 에지(Falling Edge)의 시점 및 방향을 감지하는 회로 기능이다.
 - **지터(Jitter)**: 동기 클럭 시점이 신호 전송 경로의 잡음과 분산 현상으로 인해 이상적인 시간 축 위치에서 미세하게 위상이 오가는 타이밍 왜곡 현상이다.
 - **비트 오류율(Bit Error Rate, BER)**: 전송된 총 비트 수 대비 수신 측에서 클럭 엇갈림 또는 전압 왜곡으로 잘못 복호된 비트 비율이다.
 
 </details>
 
-- **천이 검출기**가 전압 에지를 상시 추적하여 수신 클럭을 복원하며, 물리 매체의 **지터**(Jitter)가 상승할 경우 수신 윈도우 판정 시점이 교란되어 **BER**이 증가할 수 있다.
+- **에지 검출**로 전압 에지를 상시 추적하여 수신 클럭을 복원하며, 물리 매체의 **지터**(Jitter)가 상승할 경우 수신 윈도우 판정 시점이 교란되어 **BER**이 증가할 수 있다.
 
 ```text
 맨체스터 인코딩 구성요소
 ├─ 비트 클럭(Bit Clock Generator)
 ├─ 맨체스터 인코더(Encoder)
-├─ 천이 검출기(Transition Detector)
+├─ 에지 검출(Edge Detection)
 ├─ PLL & 클럭 복구기(PLL & Clock Recovery)
 └─ 데이터 판정기(Data Decoder)
 ```
@@ -77,7 +77,7 @@ extra:
 |:---|:---|
 | **비트 클럭 (Bit Clock Generator)** | 데이터 비트 전송 속도의 2배 주기를 갖는 기준 타이밍 클럭 신호 제공 |
 | **맨체스터 인코더 (Encoder)** | 데이터 비트와 비트 클럭을 XOR 논리 연산하여 비트 중앙 전이를 만드는 회로 |
-| **천이 검출기 (Transition Detector)** | 수신 파형의 High->Low, Low->High 전압 반전 시점을 에지 기반 감지 |
+| **에지 검출 (Edge Detection)** | 수신 파형의 High→Low, Low→High 전압 반전 시점을 에지 기반 감지 |
 | **PLL & 클럭 복구기 (PLL & Clock Recovery)** | 수신된 천이 시점에 내부 VCO 발진기를 동기화하여 수신 래치 클럭 생성 |
 | **데이터 판정기 (Data Decoder)** | 복구된 클럭 타임에서 비트 중앙 전이 방향(상승/하강)을 해석해 0/1 복원 |
 
