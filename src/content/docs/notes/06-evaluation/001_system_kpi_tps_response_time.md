@@ -29,6 +29,7 @@ extra:
 - **중단(Outage)**: 서비스 제공 불가로 인한 비즈니스 연속성 훼손 구간.
 - **성능 지표 체계(Performance Metric Framework)**: 서비스 품질 평가를 위한 정량적 지표 통합 관리 모델.
 
+- **시스템 성능 지표(System Performance KPIs / TPS & Latency)**: 단위 시간당 처리 가능한 트랜잭션 건수(TPS)와 요청부터 응답 반환까지의 지연 시간(Response Time)으로 시스템 용량과 처리 성능을 정량화하는 핵심 평가 척도.
 </details>
 
 - 정의: **처리량·응답시간·가용성**의 정량 관리 체계
