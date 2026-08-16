@@ -55,9 +55,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **도구 제공자(Tool Provider)**: 스키마와 실행 결과를 공개하고 권한 검증 후 백엔드 동작을 수행하는 핵심 서버 모듈.
-- **프로토콜 처리기(Protocol Handler)**: JSON-RPC 요청/응답을 해석하여 기능 처리기에 전달하는 통신 중계 모듈.
 - **기능 레지스트리(Function Registry)**: 도구·리소스·프롬프트 명세와 처리기를 등록·관리하는 통합 관리소.
-- **정책 집행기(Policy Enforcer)**: 주체·테넌트·권한·입력 범위를 검증하여 실행 여부를 결정하는 보안 모듈.
 - **백엔드 어댑터(Backend Adapter)**: 검증된 MCP 요청을 내부 API 또는 업무 시스템 호출로 변환하는 변환 모듈.
 - **표준 입출력(Standard Input/Output, stdio)**: 로컬 클라이언트와 서버 프로세스가 메시지를 교환하는 전송 방식이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
 - **스트리밍 가능 하이퍼텍스트 전송 프로토콜(Streamable Hypertext Transfer Protocol, Streamable HTTP)**: 원격 MCP 요청을 HTTP POST와 라우팅 헤더로 교환하는 전송 방식을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.

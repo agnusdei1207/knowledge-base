@@ -47,7 +47,6 @@ extra:
 
 - **데이터 계보(Data Lineage)**: 표본의 출처, 변환 이력, 승인 경로를 추적하는 데이터 관리 체계
 - **격리 데이터셋(Isolated Dataset)**: 신규 수집된 의심 표본을 검증 전까지 승인된 학습 데이터와 분리 저장하는 공간
-- **기준 평가기(Baseline Evaluator)**: 모델 행동의 정상성, 표적 오판, 백도어 발동 여부를 고정된 검증셋(Golden Dataset)으로 판별하는 구성요소
 </details>
 
 ```text

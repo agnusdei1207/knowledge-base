@@ -57,7 +57,6 @@ extra:
 - **모델/상태 복제본(Model/State Replica)**: 각 장치가 보유하는 동일한 파라미터와 옵티마이저 학습 상태 또는 ZeRO 기법에 의해 분할 보관되는 실행 단위.
 - **로컬 학습기(Local Learner)**: 장치별로 할당된 로컬 배치에 대해 순전파(Forward) 및 역전파(Backward)를 수행하여 기울기를 산출하는 연산 엔진.
 - **기울기 동기화기(Gradient Synchronizer)**: All-Reduce 등의 집단 통신을 통해 각 장치의 로컬 기울기를 합산하여 전역 평균 기울기를 생성하는 통신 인터페이스.
-- **전역 단계 제어기(Global Step Controller)**: 기울기 동기화 후 파라미터 갱신, 체크포인트 저장, 전체 학습 단계(Step) 진행을 조정하는 총괄 모듈.
 - **ZeRO(Zero Redundancy Optimizer)**: 복제된 모델 파라미터, 기울기, 옵티마이저 상태를 여러 연산 장치 사이에 분할 저장하여 메모리 중복을 제거하는 최적화 기법.
 
 </details>

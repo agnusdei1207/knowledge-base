@@ -58,7 +58,6 @@ extra:
 
 - **조건 인코더(Condition Encoder)**: 텍스트•이미지 조건을 잠재 특징으로 변환한다.
 - **잠재 텐서(Latent Tensor)**: 공간•시간 위치를 압축한 다차원 특징 맵이다.
-- **일관성 평가기(Consistency Evaluator)**: 프레임의 물리•시간 개연성을 검증한다.
 
 </details>
 

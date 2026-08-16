@@ -54,10 +54,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **행동 선택기(Action Selector)**: 현재 목표와 누적된 관찰 이력을 바탕으로 호출할 최적의 도구와 인자를 결정하는 추론 모듈.
-- **도구 실행기(Tool Executor)**: 선택된 API를 실제로 호출하고 타임아웃, 예외 처리, 데이터 정제를 수행하는 실행 계층.
-- **관찰 통합기(Observation Integrator)**: 도구 실행 결과를 포맷팅하여 LLM 컨텍스트 윈도우에 피드백으로 주입하는 모듈.
-- **종료 판정기(Termination Decider)**: 충분한 근거가 확보되었거나 최종 답변(Final Answer) 도출 완료 여부를 검증하는 통제 모듈.
+- **Thought-Action-Observation 루프**: LLM이 사고(Thought)로 계획을 세우고, 행동(Action)으로 도구를 호출하며, 관찰(Observation)로 결과를 받아 다음 단계를 결정하는 반복 구조이다.
+- **최종 답변(Final Answer)**: 충분한 근거가 확보되어 루프를 종료하고 사용자에게 반환하는 최종 출력이다.
 
 </details>
 

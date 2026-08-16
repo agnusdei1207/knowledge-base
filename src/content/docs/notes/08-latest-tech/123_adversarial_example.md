@@ -57,7 +57,6 @@ extra:
 
 - **목적함수(Objective Function)**: 비표적 오분류나 특정 표적 출력을 유도하도록 손실(Loss)을 최대화하는 함수
 - **교란 제약기(Perturbation Constraint)**: 입력 변화량이 지정된 거리 규범(Norm)과 허용 예산(ε) 내에 있는지 확인하는 구성요소
-- **강건성 평가기(Robustness Evaluator)**: 정의된 위협 모델 범위에서 공격 후 정답률을 측정하는 구성요소
 </details>
 
 ```text

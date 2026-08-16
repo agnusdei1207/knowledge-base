@@ -54,7 +54,6 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **연합 조정자(Federated Coordinator)**: 참여자•라운드•모델•설정을 통제한다.
 - **참여 클라이언트(Participant Client)**: 원본을 보유하고 로컬 학습한다.
 - **로컬 학습기(Local Trainer)**: 원본으로 파라미터•기울기 변화량을 계산한다.
 - **로컬 업데이트(Local Update)**: 참여자가 계산한 모델 변화량이다.
