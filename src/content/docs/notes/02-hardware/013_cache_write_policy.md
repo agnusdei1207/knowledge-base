@@ -62,7 +62,7 @@ extra:
 - **캐시 배열(Cache Array)**: 태그 메모리, 데이터 메모리, Valid Bit, Dirty Bit 상태 플래그를 저장하는 SRAM 물리 배열.
 - **쓰기 버퍼(Write Buffer)**: Write-Through 정책에서 CPU가 메인 메모리 쓰기 완료를 기다리지 않고 연속 연산을 진행할 수 있도록 쓰기 요청을 임시 큐잉하는 FIFO 버퍼.
 - **버퍼 포화(Buffer Saturation)**: 연속적인 Write-Through 요청 속도가 쓰기 버퍼 배출 속도를 초과하여 버퍼가 꽉 채워져 CPU가 파이프라인 Stall에 빠지는 상태.
-- **쓰기 정책 제어부(Write Policy Controller)**: Store 명령 수신 시 Hit/Miss 여부 및 WT/WB 설정에 따라 MUX와 버스 제어 신호를 생성하는 로직 회로.
+- **쓰기 정책 제어 로직(Write Policy Logic)**: Store 명령 수신 시 Hit/Miss 여부 및 WT/WB 설정에 따라 경로를 선택하는 하드웨어 로직.
 
 </details>
 
@@ -80,7 +80,7 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 쓰기 정책 제어부 | **WT•WB•할당 정책** 경로 선택 |
+| 쓰기 정책 제어 로직 | **WT·WB·할당 정책** 경로 선택 |
 | 더티 비트 | WB 라인의 **하위 계층 미반영** 상태 표시 |
 | 쓰기 버퍼 | 하위 계층 쓰기 요청을 **비동기 큐잉** |
 | 하위 메모리 계층 | WT 요청•WB 축출 라인의 **최종 저장** |
