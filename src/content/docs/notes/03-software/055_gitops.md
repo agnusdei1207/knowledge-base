@@ -22,150 +22,165 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **GitOps**: Weaveworks에서 제안한 Cloud-Native 인프라 및 애플리케이션 배포 운용 패러다임으로, Git 리포지토리를 시스템 상태의 '유일한 진실의 원천(Single Source of Truth)'으로 삼고 Pull 기반의 에이전트가 이를 클러스터에 자동 동기화(Reconciliation)하는 방식.
-- **Single Source of Truth (SSOT)**: 모든 인프라(IaC) 및 애플리케이션 K8s 매니페스트 설정의 불변 원본을 오직 Git 저장소 단 한 곳으로 통합 정의하는 사상.
-- **Declarative Infrastructure**: "어떻게(How)" 스크립트를 실행할지가 아닌 "무엇을(What)" 배치할 것인지를 K8s YAML 매니페스트로 선언하여 관리하는 방식.
+- **GitOps(깃옵스)**: "내가 짠 서버 설정 코드(Git)랑 실제 떠 있는 서버 상태를 100% 똑같이 맞춰라!"라고 로봇(ArgoCD)한테 시켜서 자동 동기화하는 클라우드 네이티브의 끝판왕 배포 메타이다.
+- **진실의 원천(SSOT, Single Source of Truth)**: 누가 서버에 몰래 들어가서 설정 바꾸는 짓을 절대 금지하고, 무조건 "Git 저장소에 있는 텍스트만 진짜"라고 믿는 종교적 팩폭 원칙이다.
+- **선언적 인프라(Declarative Infrastructure)**: 서버 세팅할 때 쉘 스크립트로 "깔아라" 명령하는 게 아니라, YAML 파일에 "나는 Pod 3개 원함"이라고 선언해두면 로봇이 알아서 맞춰주는 쿨한 방식이다.
 
-- **깃옵스(GitOps / ArgoCD / Flux)**: 선언적 인프라 및 애플리케이션의 목표 상태(Desired State)를 단일 진실 공급원인 Git 리포지토리에 저장하고 컨트롤러가 실제 클러스터 상태와 자동 동기화하는 운영 방식.
 </details>
 
-- 정의/개념: Git 저장소를 유일한 진실의 원천(Single Source of Truth)으로 선언하고, K8s 클러스터 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**
-- 배경/필요성: 외부 배포 권한과 수동 변경은 **키 유출•드리프트** 유발
+- 정의: Git 저장소를 유일한 진실의 원천(SSOT)으로 선언하고, K8s 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**
+- 배경: 개발자가 실서버에 직접 접속해서 설정 바꾸다 보면 **서버랑 코드 상태가 틀어지고(Drift), 털리면 보안 대참사**가 터지기 때문
 
 #### 한줄 요약
 
-- Git의 선언적 구성을 실제 상태와 지속해서 맞추는 깃옵스가 핵심이다.
+- 서버에 직접 접속하지 마라. 깃허브(Git)에 "이렇게 해놔"라고 쓰면 봇이 서버를 알아서 세팅해 준다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Reconciliation Loop (조정 루프)**: GitOps 컨트롤러가 Git 저장소의 Desired State와 K8s 클러스터의 Actual State 간의 차이(Drift)를 주기적으로(e.g., 3분) 비교하고 자동 수정 동기화하는 무한 루프.
-- **Pull-based Deployment**: K8s 내부의 GitOps 에이전트(ArgoCD)가 외부 Git 저장소에서 상태를 끌어와(Pull) 배포함으로써, 클러스터 외부로의 6443/TCP 포트 오픈 및 보안 키 유출을 차단하는 기술.
+- **조정 루프(Reconciliation Loop)**: 깃옵스 봇이 3분마다 Git(목표 상태)이랑 K8s(현재 상태)를 째려보면서, 조금이라도 다르면 냅다 멱살 잡고 뜯어고치는 무한 감시 루프이다.
+- **풀 기반 배포(Pull-based Deployment)**: 밖에서 서버로 억지로 밀어 넣는(Push) 게 아니라, 서버 안쪽에 있는 봇이 "새 코드 떴네?" 하고 안전하게 안으로 당겨오는(Pull) 철벽 방어 기술이다.
 
 </details>
 
-- 4대 핵심 원칙 (**Declarative, Versioned/Immutable, Pulled Automatically, Continuously Reconciled**)
-- Push 기반과 대비되는 **Pull 기반 배포 아키텍처**
-- 자동 **Drift Detection & Self-healing (자동 복구)** 제공
+- **Declarative(선언형), Versioned(버전 관리), Pulled(당겨옴), Reconciled(동기화)** 4대 원칙 사수.
+- 외부에서 들어오는 포트를 다 막아버리는 **Pull 기반 배포 아키텍처**로 보안력 떡상.
+- 누가 수동으로 서버 만지면 즉시 감지하고 원래대로 복구해버리는 **Self-healing(자동 복구)** 제공.
 
 #### 한줄 요약
 
-- Git 선언 기준선, 풀 기반 제어기, 드리프트 복구가 핵심이다.
+- 깃허브만 믿고(선언형), 안으로 안전하게 당겨오며(Pull), 누가 건들면 무한으로 복구(조정 루프)한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **ArgoCD / FluxCD**: CNCF 아키텍처 상의 표준 GitOps 툴로, Kubernetes Custom Resource Definition(CRD)을 기반으로 Git의 YAML 파일과 K8s 상태를 실시간 동기화.
+- **ArgoCD / FluxCD**: K8s 클러스터 안방에 눌러앉아서, 깃허브만 뚫어지게 쳐다보다가 YAML 파일 바뀌는 순간 냅다 클러스터에 반영해 버리는 깃옵스의 행동대장(표준 툴)이다.
 
 </details>
 
 ```text
-[개발자 Commit & PR] ──► [Git Manifest Repository (SSOT)]
-                                    ▲
-                                    │ (Pull & Watch)
- [K8s Cluster 내 ArgoCD Engine] ─────┴─────► [K8s Target Cluster (Actual State)]
+[ GitOps 십자포화 아키텍처 ]
+
+[ 깃허브 (SSOT, 유일한 진실) ] ◀────┐ (Pull & Watch)
+(개발자가 YAML 올림)                 │ "어? 파일 바뀌었네?"
+                                     │
+               [ K8s 클러스터 (철벽 방어) ]
+               │                     │
+               │ [ ArgoCD (행동대장) ] │
+               │       │ (Sync)      │
+               │       ▼             │
+               │ [ Pod (실제 앱) ]   │
+               └─────────────────────┘
 ```
 
-선의 의미: Git 저장소가 SSOT 역할을 수행하고, K8s 내부에 상주하는 ArgoCD Engine이 Git의 Desired State를 주기적 Watch/Pull 하여 Target Cluster에 Apply 하는 구조.
-
-| 구성요소 | 책임 |
+| 구성요소 | 팩트 폭행 책임 |
 |:---|:---|
-| 개발자 | 선언 상태 변경과 PR 검토 수행 |
-| Git 매니페스트 저장소 | 원하는 상태와 변경 이력 보관 |
-| GitOps 제어기 | 선언•실제 상태 비교와 조정 수행 |
-| K8s 대상 클러스터 | 실제 워크로드 상태 실행•보고 |
+| **개발자 / 운영자** | K8s 서버에 접속 못 함. 무조건 깃허브에 YAML 수정해서 PR(결재) 올림 |
+| **Git 저장소 (SSOT)** | "서버 상태는 이러해야 한다"라고 적어둔 법전이자 유일한 진실의 원천 |
+| **제어기 (ArgoCD)** | 깃허브(법전)랑 K8s(현실)를 비교해, 현실이 어긋나면 줘패서 맞추는 봇 |
+| **K8s 클러스터** | 제어기가 줘패는 대로 묵묵히 돌아가면서 서비스를 띄워주는 현장 |
 
 #### 한줄 요약
 
-- 변경 주체•상태 저장소•제어기•클러스터가 핵심이다.
+- 개발자는 깃허브만 고치고, 깃허브를 째려보던 봇이 서버에 그걸 그대로 복붙하는 구조다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **OutOfSync & Synced**: ArgoCD 상에서 Git의 선언 상태와 K8s 실물 상태가 다를 때 `OutOfSync`, 완벽히 일치할 때 `Synced`로 표시되는 상태 구분.
+- **OutOfSync & Synced**: Git에 적힌 내용이랑 실제 서버 상태가 다르면 빨간불 뜨는 `OutOfSync`(동기화 깨짐), 똑같이 예쁘게 맞춰져 있으면 초록불 뜨는 `Synced`(동기화 완벽) 상태이다.
 
 </details>
 
 ```text
+[ GitOps 조정 및 배포 십자포화 흐름 ]
 ┌──────────────────────────────┐
-│ Git Manifest PR Approved     │
+│ 1. Git YAML 수정 & PR 승인   │
+│ (Pod 3개 ➔ 5개로 변경)       │
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 선언 상태 기록            │
-│ 2. 저장소 변경 관찰          │
-│ 3. 상태 차이 판정            │
-│ 4. 목표 상태 적용            │
-│ 5. 드리프트 복구             │
+│ 2. ArgoCD가 깃허브 째려봄    │
+│ ("어? 5개로 바뀌었네?")      │
 └──────────────┬───────────────┘
                ▼
-  [Synced & Healthy 상태 유지]
+┌──────────────────────────────┐
+│ 3. 상태 차이(Drift) 판정     │
+│ (Git은 5개, 현실은 3개네?)   │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. 냅다 동기화 (Sync)        │
+│ (Pod 2개 더 띄워버림)        │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 5. Synced 상태 회복          │
+│ (평화로운 초록불 유지)       │
+└──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. 선언 상태 기록: 승인된 매니페스트 변경을 Git에 기록.
-2. 저장소 변경 관찰: 제어기가 새 커밋과 선언 상태 감지.
-3. 상태 차이 판정: 원하는 상태와 실제 상태의 차이 식별.
-4. 목표 상태 적용: 제어기가 K8s API로 변경 사항 반영.
-5. 드리프트 복구: 수동 변경을 감지해 선언 상태로 조정.
+1. 선언 기록: "Pod 5개 띄워"라고 적힌 YAML을 깃허브에 반영.
+2. 변경 감지: K8s 안에 있는 ArgoCD가 깃허브를 째려보다가 변경 감지.
+3. 차이 판정: "깃허브엔 5개인데 현실엔 3개밖에 없네?" (`OutOfSync` 뜸).
+4. 동기화 적용: 묻고 더블로 Pod 2개 더 띄워서 깃허브랑 똑같이 맞춤(`Sync`).
+5. 자가 치유: 누가 몰래 서버 들어가서 Pod 죽여도 다시 살려내서 무한 복구.
 
 #### 한줄 요약
 
-- 실제 상태 관찰, 상태 차이 판정, 목표 상태 적용의 순환이 핵심이다.
+- 목표 설정(Git) $\to$ 차이 발견(OutOfSync) $\to$ 뜯어고침(Sync) $\to$ 완벽 일치(Synced)의 무한 반복이다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Push-based CI/CD vs Pull-based GitOps**: Push 기반(Jenkins, GitHub Actions)은 CI 서버가 K8s 6443 포트에 직접 접속하여 명령 전송, Pull 기반(ArgoCD)은 K8s 내부 에이전트가 Git을 끌어당겨 내부 적용.
+- **Push 기반(CI/CD) vs Pull 기반(GitOps)**: 젠킨스가 K8s에 접속하려고 키 털리면서 억지로 쑤셔 넣는 게 Push, 서버 안에 있는 요원이 깃허브만 안전하게 읽어서 당겨오는 게 Pull 방식이다.
 
 </details>
 
-| 비교 항목 | Traditional Push-based CI/CD (Jenkins, Actions) | GitOps Pull-based Pattern (ArgoCD, Flux) |
+| 비교 항목 | **Traditional Push (Jenkins 꼰대)** | **Pull-based GitOps (ArgoCD MZ)** |
 |:---|:---|:---|
-| 배포 주체 | 외부 CI/CD 서버 | **K8s 클러스터 내부 에이전트** |
-| 방화벽 / 보안 | 외부 실행기에 K8s API 권한 부여 | **내부 제어기가 저장소를 조회해 권한 경계 축소** |
-| 수동 변경 대응 | 별도 드리프트 탐지•복구 절차 필요 | **Self-healing으로 선언 상태 재조정** |
-| 롤백 (Rollback) | CI 파이프라인 재구동 | **`git revert` 후 제어기의 상태 재조정** |
+| 배포 주체 | 밖에서 젠킨스가 때려 박음 | **클러스터 안에서 봇이 당겨옴** |
+| 보안 / 방화벽 | K8s 서버 문 활짝 열고 젠킨스한테 키 줘야 함 | **K8s 문 닫아걸고 봇이 깃허브만 읽음** |
+| 수동 조작 억제| 누가 몰래 서버 건드려도 아무도 모름 | **누가 만지면 봇이 즉시 감지하고 자동 원복** |
+| 롤백 (Rollback)| 파이프라인 첨부터 다시 돌리느라 속 터짐 | **걍 `git revert` 치면 1초 만에 구버전 롤백** |
 
 #### 한줄 요약
 
-- 선언 상태는 깃옵스, 명령 작업은 푸시 배포가 핵심이다.
+- 밖에서 쑤셔 넣으면 위험하고 관리 안 되니, 안에서 당겨오는(Pull) 똑똑한 방식을 쓴다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Sealed Secrets**: Git-first 사상을 유지하기 위해 DB 암호나 토큰을 비대칭키로 암호화하여 Git에 안전하게 commit 한 후, K8s 내부 컨트롤러만 복호화하게 만드는 기법.
+- **실드 시크릿(Sealed Secrets)**: 깃옵스 할 때 DB 비번을 깃허브에 평문으로 올리면 털리니까, 못 알아보게 암호화해서 올려놓고 클러스터 안에서만 복호화하게 만드는 암호화 기법이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Git 저장소에 K8s Secret 비밀키 평문 저장 위험 | **Sealed Secrets / External Secrets Operator + Vault** | 평문 비밀정보 노출 위험 축소 |
-| 수십~수백 개 앱 매니페스트 관리 복잡도 | **ArgoCD ApplicationSet + Helm / Kustomize** | 매니페스트 중복 제거 |
-| CI 파이프라인과 CD 파이프라인의 저장소 엉킴 | **App Source Repo 대 Deployment Manifest Repo 분리** | 권한 및 보안 격리 |
-
-> 사례: **Kubernetes + ArgoCD + Kustomize + Sealed Secrets** 기업 표준 GitOps 스택
+| DB 비번 평문으로 깃허브 올렸다가 해커한테 털림 | **Sealed Secrets / Vault** 써서 무조건 암호화 | 깃허브 털려도 복호화 못 하는 철벽 보안 |
+| 소스 코드랑 배포 YAML을 한 저장소에 뒀다 꼬임 | **소스 저장소** 대 **배포 매니페스트 저장소** 찢기 | 파이프라인 엉키는 거 막고 권한 분리 |
+| Dev/Stg/Prod 3개 YAML 다 복붙하느라 죽어남 | **Kustomize / Helm** 떡칠해서 중복 템플릿 제거 | 설정 파일이 수백 개로 증식하는 지옥 탈출 |
 
 #### 한줄 요약
 
-- 정책 검증, 외부 비밀 저장소, 최소 권한에 기반한 조정 통제가 핵심이다.
+- 비밀번호는 무조건 암호화해서 올리고, 소스코드용 깃과 배포용 깃은 제발 분리해라.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **GitOps 채택 기준(GitOps Adoption Criteria)**: K8s 오케스트레이션 사용 유무, Zero-Trust 보안 수준 및 CI/CD 자동화 성숙도에 따른 체계.
+- **GitOps 도입 판정 기준(GitOps Adoption Criteria)**: K8s를 써서 자동 복구의 꿀을 빨 수 있는지, 보안(Zero-Trust)이 생명인지 각 재서 Push를 버리고 Pull로 넘어갈지 정하는 잣대이다.
 
 </details>
 
-- 선언 상태 조정이 필요한 K8s는 **GitOps**, 명령형 작업은 **Push 파이프라인** 선택
+- **GitOps 도입 판정 기준** 원칙에 따라, K8s 환경의 MSA는 닥치고 **GitOps (ArgoCD)**, 레거시 VM이나 단순 배치는 **Push 파이프라인(Jenkins)** 채택 기조 확립함
 
 #### 한줄 요약
 
-- 깃옵스의 자동 복구와 운영 감사성을 확보할 수 있는지가 핵심이다.
+- K8s의 선언적 철학과 Git의 강력한 버전 관리가 만나 탄생한 클라우드 네이티브의 끝판왕이다.

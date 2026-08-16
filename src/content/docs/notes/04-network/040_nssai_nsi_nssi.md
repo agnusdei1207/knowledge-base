@@ -2,10 +2,13 @@
 sidebar:
   order: 40
   label: "040. NSSAI•NSI•NSSI"
-  badge: { text: "기출 • 50%", variant: note }
+  badge:
+    text: "기출 • 50%"
+    variant: note
 title: "네트워크 슬라이스 식별 체계"
 date: "2026-08-13T16:56:00+09:00"
-tags: ["notes-network"]
+tags:
+  - "notes-network"
 weight: 40
 extra:
   question_no: "040"
@@ -19,167 +22,163 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **네트워크 슬라이스 선택 지원 정보(Network Slice Selection Assistance Information, NSSAI)**: 단말 접속 시 원하는 5G 가상 슬라이스를 지정하거나 허용받기 위해 주고받는 식별자 집합이다.
-- **네트워크 슬라이스 인스턴스(Network Slice Instance, NSI)**: 특정 서비스 SLA를 충족시키기 위해 생성된 종단(End-to-End) 가상 네트워크 운용 객체이다.
-- **네트워크 슬라이스 서브넷 인스턴스(Network Slice Subnet Instance, NSSI)**: 무선, 전송, 코어 등 개별 도메인 내에서 NSI를 구성하기 위해 실체화된 하위 가상 자원 객체이다.
+- **NSSAI(Network Slice Selection Assistance Information)**: 폰이 기지국에 붙을 때 "나 자율주행 1번 슬라이스에 탈래" 하고 보여주는 가상 차선 예약 티켓(번호표) 묶음이다.
+- **NSI(Network Slice Instance)**: 기지국, 전송망, 코어망을 다 조립해서 폰부터 넷플릭스 서버까지 하나로 쫙 뚫어놓은 통짜 가상 고속도로(슬라이스 완성품)다.
+- **NSSI(Network Slice Subnet Instance)**: NSI(고속도로)를 조립하기 위해 무선망, 유선망, 코어망 각각에서 떼어낸 부품(서브넷 조각)들이다.
 
 </details>
 
-- 정의/개념: **NSSAI, NSI, NSSI**는 5G 네트워크 슬라이싱 아키텍처의 식별 및 운용 핵심 체계로, 단말의 서비스 요청 식별자(**NSSAI/S-NSSAI**), 종단 가상망 운용 객체(**NSI**), 무선/전송/코어 영역별 하위 자원 객체(**NSSI**) 간 바인딩 구조를 정의한다.
-- 배경/필요성: 가입자 단말이 요구하는 서비스 식별자를 실제 무선, 전송, 코어망의 가상 인프라 자원 및 인스턴스와 일관되게 연결하고 수명주기를 관리하기 위해 제정되었다.
+- 정의: **NSSAI, NSI, NSSI**는 5G 슬라이싱의 뼈대로, 단말의 예약 티켓(**NSSAI**)을 보고, 부품(**NSSI**)을 조립해 완성된 가상 차선(**NSI**)에 꽂아 넣는 식별 및 운용 체계다.
+- 배경: 폰이 "전용망 뚫어줘" 했을 때, 수많은 장비가 얽힌 통신망에서 정확히 어떤 부품들을 조립해서 연결해 줄지 **기준과 족보를 명확히 정리하기 위해 제정됨**
 
 #### 한줄 요약
 
-- 슬라이스 요청 식별자(NSSAI)를 종단 가상망 인스턴스(NSI) 및 영역별 하위 인스턴스(NSSI)로 연동 매핑하는 5G 슬라이싱 식별·운용 체계.
+- 폰이 번호표(NSSAI)를 내밀면, 통신사가 부품(NSSI)들을 조립해 만든 통짜 고속도로(NSI)로 안내하는 식별 체계다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **단일 네트워크 슬라이스 선택 지원 정보(Single Network Slice Selection Assistance Information, S-NSSAI)**: 하나의 표준화된 슬라이스를 유일하게 식별하는 32비트 제어 식별자 파라미터이다.
-- **슬라이스·서비스 유형(Slice/Service Type, SST)**: eMBB(1), URLLC(2), mMTC(3) 등 5G 표준 슬라이스 서비스 특성을 나타내는 8비트 구별자이다.
-- **슬라이스 구분자(Slice Differentiator, SD)**: 동일한 SST 서비스 내에서 사업자별, 고객별 개별 슬라이스를 세부 구별하기 위한 24비트 추가 식별자이다.
+- **S-NSSAI(Single NSSAI)**: 티켓 묶음(NSSAI) 안에 들어있는 낱장 티켓. 하나의 슬라이스(가상 차선)를 유일하게 가리키는 32비트짜리 식별 번호표다.
+- **SST(Slice/Service Type)**: "1번은 유튜브(eMBB), 2번은 자율주행(URLLC), 3번은 센서(mMTC)"라고 5G 표준으로 못 박아둔 8비트 서비스 대분류다.
+- **SD(Slice Differentiator)**: 같은 1번(유튜브)이라도 "이건 SKT VIP용, 저건 알뜰폰용" 하고 세밀하게 한 번 더 찢어주는 24비트짜리 소분류 꼬리표다.
 
 </details>
 
-- **S-NSSAI 구조 표준화**: SST(8bit)와 SD(24bit)의 결합으로 구성되며, 단말당 최대 8개의 S-NSSAI를 포함하는 Requested/Allowed NSSAI를 운용한다.
-- **계층적 인스턴스 구조**: 1개의 종단 NSI는 무선(RAN NSSI), 전송(Transport NSSI), 코어(Core NSSI) 등 복수의 하위 NSSI 결합으로 실체화된다.
-- **자원 유연성 및 공유성**: NSSI는 특정 NSI 전용으로 할당(Dedicated)되거나, 효율성을 위해 타 NSI 간에 공유(Shared)되어 배정될 수 있다.
+- **S-NSSAI 표준 족보**: 대분류 SST(8비트)와 소분류 SD(24비트)를 합쳐서 32비트 슬라이스 번호를 만들고, 폰 하나당 이 번호표를 최대 8개까지 주머니에 넣고 다닐 수 있음.
+- **계층적 인스턴스 조립**: 1개의 완성된 고속도로(NSI)는 반드시 무선(RAN), 전송(Transport), 코어망(Core)의 하위 부품(NSSI)들이 레고 블록처럼 결합되어 만들어짐.
+- **부품(NSSI)의 독점과 렌탈**: 빡센 보안망은 코어 NSSI를 혼자 독식(Dedicated)하고, 싼 요금제 망은 여러 NSI가 코어 NSSI를 공유(Shared)해서 렌탈해 씀.
 
 #### 한줄 요약
 
-- SST+SD 결합 구조의 S-NSSAI 식별자를 기반으로 종단 NSI와 영역별 NSSI 하위망을 조립·격리·공유 운용.
+- S-NSSAI(티켓)를 보고, 무선/유선/코어 부품(NSSI)들을 떼다 조립해서 하나의 완성된 길(NSI)을 닦아주는 거다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **네트워크 슬라이스 선택 기능(Network Slice Selection Function, NSSF)**: 가입자의 S-NSSAI 식별자를 분석하여 접속할 NSI 매핑 정보를 AMF에 회신하는 코어 NF이다.
-- **접속·이동성 관리 기능(Access and Mobility Management Function, AMF)**: 단말의 NAS 요청 메시지에서 NSSAI를 수신하고 NSSF와 연동하여 슬라이스 접속을 처리하는 NF이다.
+- **AMF(Access and Mobility Management Function)**: 폰이 낸 번호표(NSSAI)를 제일 먼저 받아서 "너 이거 탈 자격 있냐?" 검사하는 코어망 문지기다.
+- **NSSF(Network Slice Selection Function)**: AMF가 "얘 1번 티켓 냈는데 어디로 보내?" 물어보면 "1번 NSI 고속도로로 태워라" 하고 길을 매핑해 주는 코어망 안내원이다.
 
 </details>
 
 ```text
-네트워크 슬라이스 식별 및 인스턴스 계층 아키텍처
-├─ 서비스 제어 및 선택 계층 (Control & Selection Layer)
-│  ├─ 단일 슬라이스 선택 지원 정보 (S-NSSAI = SST + SD)
-│  ├─ 슬라이스 선택 정보 집합 (NSSAI / Requested / Allowed)
-│  └─ 접속 관제 및 슬라이스 선택 (AMF / NSSF)
-└─ 종단 가상 인스턴스 운용 계층 (End-to-End Instance Layer)
-   └─ 종단 네트워크 슬라이스 인스턴스 (NSI)
-      ├─ 무선망 슬라이스 서브넷 (RAN NSSI)
-      ├─ 전송망 슬라이스 서브넷 (Transport NSSI)
-      └─ 코어망 슬라이스 서브넷 (Core NSSI)
+[ 5G 슬라이싱 식별 팩트 폭행 구조 ]
+
+[ 폰 (티켓 제시: S-NSSAI 1번 탈래요) ]
+            │
+[ AMF / NSSF (검표 및 안내: ㅇㅋ 1번 도로 가라) ]
+            │
+            ▼
+[ 종단 고속도로 완성품 (NSI) ] ◀─── (여기로 안내됨)
+   ┌────────┼────────┐
+   ▼        ▼        ▼
+[무선 부품] [유선 부품] [코어 부품] (NSSI 3대장)
 ```
 
-선의 의미: 제어 계층의 S-NSSAI/NSSAI 식별자가 AMF와 NSSF를 통해 종단 NSI 및 무선, 전송, 코어 도메인의 NSSI 하위 인스턴스로 동적 바인딩되는 아키텍처 구조이다.
-
-| 구성요소 | 책임 |
-|:---|:---|
-| S-NSSAI (SST + SD) | 8비트 SST(eMBB/URLLC/mMTC)와 24비트 SD를 결합하여 개별 슬라이스를 유일하게 식별 |
-| NSSAI (Requested/Allowed) | 단말이 연결 요청 시 제출하는 Requested NSSAI 및 망이 인가한 Allowed NSSAI 목록 관리 |
-| AMF / NSSF | 단말 접속 시 Requested S-NSSAI를 수신하고 NSSF 조회를 통해 접속할 NSI 매핑 회신 |
-| 종단 NSI (Network Slice Inst.) | SLA를 충족시키기 위해 3대 영역 NSSI를 총괄 통합한 E2E 가상 네트워크 객체 |
-| 무선 NSSI (RAN Subnet Inst.) | 기지국 PRB 자원, 무선 베어러(DRB) 및 RRM 기능을 수용하는 무선 하위 객체 |
-| 전송 NSSI (TN Subnet Inst.) | 프론트홀/백홀 패킷 라우팅 및 FlexE/SRv6 가상 유선 채널을 보장하는 전송 하위 객체 |
-| 코어 NSSI (Core Subnet Inst.) | AMF, SMF, UPF 등 가상화된 코어망 NF 인스턴스를 수용하는 코어 하위 객체 |
+| 구성요소 | 팩트 폭행 책임 | 비고 |
+|:---|:---|:---|
+| **S-NSSAI (티켓)** | 폰이 들이미는 **SST(대분류) + SD(소분류) 32비트 가상 차선 예약 티켓** | 파라미터 |
+| **AMF / NSSF (검표원)** | 티켓 보고 요금제 확인한 뒤, **어느 NSI(고속도로)로 밀어 넣을지 길 안내** | 제어 NF |
+| **NSI (완성품)** | 무선, 유선, 코어를 엮어서 폰부터 서버까지 **1차선으로 쫙 뚫어놓은 통짜 도로** | E2E 인스턴스 |
+| **NSSI (하위 부품)** | 무선망, 유선망, 코어망이 각각 뜯겨서 **NSI 조립에 바쳐진 실체 자원 조각들** | 서브넷 인스턴스 |
 
 #### 한줄 요약
 
-- S-NSSAI 식별자를 기반으로 AMF와 NSSF가 접속을 중계하고 종단 NSI와 3대 도메인 NSSI가 조립 결합되는 계층 구조.
+- 폰이 티켓(S-NSSAI) 내면 AMF/NSSF가 검표하고, 부품(NSSI)으로 엮어 만든 도로(NSI)에 태워 보낸다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **NSI 매핑(NSI Mapping)**: 수신된 S-NSSAI를 기반으로 가입자 프로필과 위치 조건을 대조하여 대상 NSI를 검색하는 알고리즘이다.
-- **NSSI 조합(NSSI Composition)**: 대상 NSI를 구동하기 위해 필요한 도메인별 NSSI의 가용 상태를 검증하고 통합 연동하는 절차이다.
+- (상단 참조)
 
 </details>
 
 ```text
-1. 단말(UE)의 Requested NSSAI 요청 전송 (RRC / NAS Registration)
-      │
-      v
-2. AMF -> NSSF: 가입자 프로필 및 위치 정보 전달 (Slice Selection Request)
-      │
-      v
-3. NSSF: S-NSSAI 대비 가용 NSI 매핑 조회 (NSI Mapping Lookup)
-      │
-      ├─ 매핑 실패 ---- 요청 거절 (Registration Reject)
-      └─ 매핑 성공
-            │
-            v
-      4. 무선/전송/코어 NSSI 하위 자원 결합 상태 확인 (NSSI Assembly)
-            │
-            v
-      5. Allowed NSSAI 및 전용 NSI 바인딩 정보 반환 및 PDU 세션 확립
+[ 5G S-NSSAI 기반 슬라이스 접속 십자포화 흐름 ]
+
+┌──────────────────────────────┐
+│ 1. [단말의 번호표 제시]      │
+│ (S-NSSAI: 나 유튜브 차선 줘) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 2. [AMF/NSSF의 팩트 체크]    │
+│ (너 이 슬라이스 탈 요금제 됨?)│
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 3. [가용 NSI(완성품) 매핑]   │
+│ (ㅇㅋ 조립 완료된 1번 타라)  │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. [NSSI 부품 결합 상태 확인]│
+│ (무선/유선/코어 부품 다 멀쩡함?)
+└──────────────┬───────────────┘
+               ▼
+       (PDU 세션 뚫리고 데이터 전송)
 ```
 
 ### 동작 원리
 
-1. 단말(UE)의 Requested NSSAI 요청 전송: S-NSSAI 전달
-2. AMF -> NSSF: 가입자 프로필 및 위치 정보 전달: 선택 요청
-3. NSSF: S-NSSAI 대비 가용 NSI 매핑 조회: 정책 대조
-4. 무선/전송/코어 NSSI 하위 자원 결합 상태 확인: 상태 검증
-5. Allowed NSSAI 및 전용 NSI 바인딩 정보 반환: 세션 확립
+1. 티켓 제출: 폰이 기지국에 붙으면서 "나 1번 슬라이스 태워줘(S-NSSAI)" 하고 요청함.
+2. 검표 및 조회: AMF가 NSSF 찔러서 "얘 1번 티켓 냈는데 가용 도로 있냐?" 물어봄.
+3. NSI 매핑: NSSF가 정책 뒤져보고 "어, 1번 NSI 뚫려있으니 거기로 보내" 하고 매핑해 줌.
+4. 부품 검증 및 개통: NSI를 이루는 3대 부품(NSSI) 멀쩡한지 확인하고, 최종적으로 길(세션)을 뚫어버림.
 
 #### 한줄 요약
 
-- 단말의 S-NSSAI 요청 수신, NSSF의 NSI 매핑 조회, 영역별 NSSI 조합 확인 및 Allowed NSSAI 회신을 통한 세션 연결 절차.
+- 티켓(S-NSSAI) 검사하고, 맵(NSSF) 뒤져서 빈 도로(NSI) 찾은 뒤, 부품(NSSI) 점검하고 차단기 올려주는 흐름이다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **가입·지역 정보 전달(Registration & Location Provisioning)**: AMF가 NSSF에 접속 단말의 위치와 가입 정보를 전달하는 세션 제어 절차이다.
+- **NSMF(Network Slice Management Function)**: 완성품 고속도로(NSI) 전체를 관리하고 조립을 지시하는 십장(작업 반장)이다.
+- **NSSMF(Network Slice Subnet Management Function)**: 무선, 유선, 코어 각 구역에서 부품(NSSI)들을 찍어내고 관리하는 하청업체 반장이다.
 
 </details>
 
-| 슬라이스 구분 | **NSSAI (S-NSSAI)** | **NSI (Network Slice Instance)** | **NSSI (Slice Subnet Instance)** |
+| 비교 항목 | **NSSAI / S-NSSAI** | **NSI (완성품)** | **NSSI (부품)** |
 |:---|:---|:---|:---|
-| 핵심 개념 | 5G 슬라이스를 식별하는 32bit 제어 파라미터 | 엔드투엔드(E2E) 가상 네트워크 운용 객체 | 무선/전송/코어 각 영역별 가상 자원 객체 |
-| 구성 형태 | SST (8bit) + SD (24bit) 결합 코드 | 1개 이상의 RAN, TN, Core NSSI 통합체 | NFV VNF/CNF, PRB, FlexE 채널 자원 묶음 |
-| 주요 역할 | 단말 접속 요청 식별 및 NSSF 매핑 | 서비스 SLA 목표와 E2E 트래픽 수용 | 도메인별 자원 제어 및 독립•공유 할당 |
-| 관리 주체 | 단말(UE), AMF, NSSF (제어 평면) | NSMF (Network Slice Management Func.) | NSSMF (Slice Subnet Management Func.) |
-
-> 요약: NSSAI는 식별 코드, NSI는 E2E 가상망 실체, NSSI는 도메인별 자원 조립 단위.
+| 팩트 폭행 비유 | "나 1번 차선 탈래" 들이미는 **예약 티켓** | 톨게이트부터 서울까지 **완성된 통짜 고속도로** | 도로 깔기 위해 투입된 **아스팔트, 시멘트 조각** |
+| 물리적 실체 유무 | 그냥 32비트짜리 **글자(파라미터)**에 불과함 | 3대 자원이 결합되어 돌아가는 **실제 가상 네트워크** | 무선/코어망 등 각 구역에서 뜯어온 **실체 자원** |
+| 누가 관리하나? | 단말(UE)이 들고 오고 AMF/NSSF가 팩트 체크함 | **NSMF (작업 반장)**가 뚝딱뚝딱 조립하고 관리함 | **NSSMF (하청 반장)**가 부품 찍어내서 바침 |
 
 #### 한줄 요약
 
-- NSSAI로 요청 식별, NSI로 E2E 가상망 운용, NSSI로 도메인별 가상 자원 조립 수행.
+- NSSAI는 단순한 식별 '글자'고, NSI는 살아서 굴러가는 '네트워크 전체'며, NSSI는 그걸 이루는 '레고 블록'이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **고아 자원(Orphan Resource)**: 상위 NSI 인스턴스가 해제되었음에도 수명주기 통제 실패로 회수되지 않고 잔류하는 NSSI 자원이다.
-- **매핑 불일치(Mapping Mismatch)**: S-NSSAI 식별자와 NSI/NSSI 매핑 테이블 설정 오차로 접속에 실패하는 오류 현상이다.
-- **서비스 수준 협약(Service Level Agreement, SLA)**: 슬라이스가 고객에게 약속한 최저 보장 성능 지표 수치이다.
+- **고아 자원(Orphan Resource)**: 고속도로(NSI) 철거 명령 떨어졌는데, 밑에 하청(NSSMF)이 코어망 부품(NSSI) 회수하는 걸 깜빡해서 허공에 둥둥 떠서 서버 리소스만 축내는 좀비 자원이다.
 
 </details>
 
-| 문제점 | 발생 원인 | 실무 대응 대책 | 기대 효과 |
+| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
 |:---|:---|:---|:---|
-| S-NSSAI 매핑 오차 | 코어망 NSSF와 로밍 망 간 S-NSSAI 매핑 설정 불일치 | NSSF 매핑 테이블 자동화 및 3GPP 표준 SST 바인딩 | 로밍 및 타사 슬라이싱 접속 실패 예방 |
-| NSSI 고아 자원 발생 | NSI 삭제 시 하위 NSSI 인스턴스 수명주기 회수 누락 | 오케스트레이터(NSMF-NSSMF) 간 자원 연쇄 회수 자동화 | 불필요 자원 점유 차단 및 인프라 효율성 향상 |
-| 동일 S-NSSAI 품질 변동 | 지역별 NSI 및 무선 NSSI 자원 수용 한계 직면 | AI 기반 Closed-loop NSI 자원 오토스케일링 적용 | 전 지역 동일한 SLA 지속 유지 |
-| S-NSSAI 오남용 보안 | 불인가 단말의 특수 S-NSSAI(URLLC) 위장 접속 시도 | NSSF 및 UDM 가입자 2차 슬라이스 인가(Secondary Auth) | 불법 인가 슬라이스 접속 원천 차단 |
+| 폰이 티켓(S-NSSAI) 냈는데 **망에서 벤치 먹고 튕김** | 로밍 갔는데 그 동네 NSSF 매핑 테이블에 내 티켓 번호가 없음 | **NSSF 매핑 테이블 동기화** 및 3GPP 표준 SST(1,2,3) 통일 | 로밍 및 타 통신사 슬라이스 억까 팅김 예방 |
+| 슬라이스 없앴는데 **서버(코어망) CPU 점유율이 그대로임** | NSI는 죽였는데 하위 부품인 NSSI를 회수 안 한 **고아 자원 발생** | 오케스트레이터(NSMF-NSSMF) 간 자원 **연쇄 회수 자동화** | 좀비 자원(Orphan) 컷 및 리소스 누수 대참사 방어 |
+| 누군가 불법 티켓 위장해서 **기업 비밀망 뚫으려고 덤빔** | 1차 인증 허술한 틈을 타 특수 목적(URLLC) 슬라이스로 무지성 접근 | UDM 가입자 DB 털어서 **2차 슬라이스 인가(Secondary Auth)** 때림 | 불법 해커 슬라이스 침투 원천 차단 |
 
 #### 한줄 요약
 
-- NSSF 매핑 테이블 자동화, NSSMF 오케스트레이션을 통한 고아 자원 회수, 도메인별 SLI 모니터링으로 슬라이싱 체계 안정화.
+- 로밍 갔을 때 안 튕기게 티켓 번호 표준 맞추고, 슬라이스 철거할 땐 부품(NSSI) 찌꺼기 하나 없이 연쇄 폭파시켜라.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **슬라이스 가용성(Slice Availability)**: NSSF가 S-NSSAI 요청을 수신했을 때 이에 대응하는 NSI와 NSSI 자원이 정상 가동되어 즉시 할당 가능한 상태이다.
+- (상단 참조)
 
 </details>
 
-- 접속 선택은 **NSSAI**, E2E 운용은 **NSI**•**NSSI**로 관리
+- 단말의 접속 요구는 **NSSAI**로 식별하고, 실체적 서비스는 **NSI(완성품)**와 **NSSI(부품)**의 조립으로 구현하는 5G 슬라이싱 식별·오케스트레이션 기조 확립함
 
 #### 한줄 요약
 
-- S-NSSAI 식별 체계 확립 및 NSI/NSSI 동적 오케스트레이션 자동화 체계 구현 필수.
+- 5G 슬라이싱이 마법처럼 굴러가는 이유는, S-NSSAI라는 '이름표'와 NSI/NSSI라는 '레고 조립도'가 완벽하게 맞물려 돌아가기 때문이다.

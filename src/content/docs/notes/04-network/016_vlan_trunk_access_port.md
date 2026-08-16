@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 16
-  label: "016. VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
+  label: "016. VLAN•트렁크•액세스 포트"
   badge:
     text: "기출 • 70%"
     variant: note
@@ -22,159 +22,166 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **가상 근거리 통신망(Virtual Local Area Network, VLAN)**: 물리적 스위치 토폴로지와 무관하게 L2 스위치 상에서 논리적으로 브로드캐스트 도메인을 분할하는 네트워크 가상화 기술.
-- **브로드캐스트 영역(Broadcast Domain)**: 스위치 단에서 발송된 브로드캐스트 패킷(FF:FF:FF:FF:FF:FF)이 직접 도달하는 L2 논리적 통신 범위.
+- **VLAN(Virtual Local Area Network)**: 스위치 하나를 소프트웨어적으로 쪼개서, 영업부랑 개발부 랜선이 같은 기계에 꽂혀 있어도 서로 절대 통신 못 하게 막아버리는 논리적 가상망이다.
+- **브로드캐스트 영역(Broadcast Domain)**: 누가 "야 다 들어!" 하고 브로드캐스트 패킷(FF:FF:FF:FF:FF:FF)을 쐈을 때, 그 소리가 닿는 물리적/논리적 동네 크기다.
 
 </details>
 
-- 정의/개념: L2 브로드캐스트 영역을 논리 분할하는 **VLAN**
-- 배경/필요성: 단일 물리망은 **브로드캐스트•부서 트래픽 격리 불가**
+- 정의: 스위치 내부에서 L2 브로드캐스트 영역을 논리적으로 쪼개버리는 **네트워크 가상화 기술**
+- 배경: 단일 물리망에 다 때려 박으면 브로드캐스트 폭풍이 일고 **부서 간 보안 격리도 불가능했기 때문**
 
 #### 한줄 요약
 
-- L2 브로드캐스트 도메인 분리 및 논리적 VLAN 격리 아키텍처 구현.
+- 스위치 하나를 여러 개처럼 쪼개서 부서별로 트래픽을 완벽하게 찢어놓는 꼼수다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **액세스 포트(Access Port)**: PC, 서버 등 일반 단말과 연결되어 단 하나의 VLAN(Untagged)에만 속하는 스위치 물리 포트.
-- **포트 VLAN 식별자(Port VLAN Identifier, PVID)**: Access Port로 유입되는 일반 프레임(Untagged Frame)에 내부적으로 부여할 기본 VLAN ID 값.
-- **트렁크 포트(Trunk Port)**: 스위치 간 또는 스위치-라우터 간 연결 시 복수 개의 VLAN 트래픽을 단일 링크로 동시에 전달하는 포트.
-- **IEEE 802.1Q(Institute of Electrical and Electronics Engineers 802.1Q)**: 이더넷 프레임 헤더에 4바이트 VLAN Tag(VLAN ID 1~4094, Priority)를 추가 삽입하는 표준 트렁킹 프로토콜.
-- **매체 접근 제어 주소(Media Access Control Address, MAC 주소)**: L2 스위치에서 각 VLAN ID별로 독립적인 CAM 테이블(Per-VLAN MAC Table)을 유지하여 수신 노드를 식별하는 물리 주소.
+- **액세스 포트(Access Port)**: PC 꽂는 구멍. 여긴 VLAN 하나만 할당돼서, PC는 지가 VLAN에 속해있는지도 모른 채 쌩 데이터(Untagged)만 뱉어낸다.
+- **트렁크 포트(Trunk Port)**: 스위치끼리 연결하는 고속도로 톨게이트. 여러 VLAN 트래픽이 한 선으로 지나가야 하니까 "너 몇 번 VLAN이냐?" 하고 이름표를 달아준다.
+- **IEEE 802.1Q**: 트렁크 포트 넘어갈 때 이더넷 프레임에 4바이트짜리 꼬리표(VLAN Tag)를 쑤셔 넣는 국제 표준 규격이다.
 
 </details>
 
-- 스위치 내부에서 **포트 VLAN 식별자(Port VLAN Identifier, PVID)** 및 **IEEE 802.1Q** 헤더 태깅 기반으로 브로드캐스트와 **MAC 주소** 학습 범위를 완벽히 격리.
-- 일반 단말 연결용 **액세스 포트**와 스위치 간 연결용 **트렁크 포트**로 역할을 분리하여 스위칭 효율화.
-- 서로 다른 VLAN 간 통신은 L3 라우터 또는 L3 스위치의 Inter-VLAN Routing(SVI)을 거치도록 강제하여 보안 정책 수립 지원.
+- 스위치 포트에 꽂힌 PC 트래픽을 분류하고, **IEEE 802.1Q** 꼬리표를 달아 브로드캐스트와 **MAC 주소** 학습 범위를 완벽히 격리.
+- 일반 단말 연결용 1차선 **액세스 포트**와 스위치 간 고속도로인 **트렁크 포트**로 역할을 분리하여 스위칭 효율화.
+- 서로 다른 VLAN(영업부 $\leftrightarrow$ 개발부) 간 통신은 무조건 L3 라우터나 SVI를 거치게 강제하여 깐깐하게 보안 정책 통제.
 
 #### 한줄 요약
 
-- Access Port(Untagged) 및 Trunk Port(802.1Q Tagged) 기반 L2 네트워크 구별 체계 구축.
-
+- 단말은 액세스 포트에 꽂고 스위치끼리는 트렁크로 이어서, 꼬리표(802.1Q)로 부서를 구별한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **허용 VLAN 목록(Allowed VLAN List)**: Trunk Port 통과 시 물리적 보안을 위해 인가된 VLAN ID 트래픽만 전송을 허용하도록 제한하는 필터링 명세.
-- **네이티브 VLAN(Native VLAN)**: 802.1Q Trunk Port에서 태그(Tag)가 붙지 않은 일반 Untagged 프레임이 유입되었을 때 기본 귀속되는 VLAN (기본값: VLAN 1).
-- **스위치 가상 인터페이스(Switched Virtual Interface, SVI)**: L3 스위치 내부에서 특정 VLAN 전용 게이트웨이 역할을 수행하도록 생성된 논리적 계층 3 가상 인터페이스.
-- **인터넷 프로토콜(Internet Protocol, IP)**: SVI 인터페이스에 할당되어 Inter-VLAN 라우팅을 수행하는 L3 주소.
+- **포트 VLAN 식별자(PVID)**: 액세스 포트로 맨몸(Untagged) 패킷이 들어오면, 스위치가 내부적으로 "너는 10번 VLAN 옷 입어" 하고 입혀주는 라벨이다.
+- **네이티브 VLAN(Native VLAN)**: 트렁크 포트에 꼬리표 안 달린 쌩 패킷이 날아오면 버리지 않고 주워 담아주는 기본 쓰레기통(보통 VLAN 1)이다.
+- **SVI(Switched Virtual Interface)**: 쪼개진 VLAN끼리 통신시켜 주려고 L3 스위치 안에다 소프트웨어로 뚫어놓은 가짜 라우터(게이트웨이)다.
 
 </details>
 
 ```text
-[ Access Port (PVID 10) ] ---> (Switch A) === [ Trunk Port (802.1Q Tagged) ] ===> (Switch B)
- (PC: Untagged Frame)          Tagging VLAN 10   (Allowed List: 10, 20)           Untagged Port 10
-                                                      |
-                                                      v
-                                        [ SVI (L3 Gateway: 192.168.10.1) ]
-                                        (Inter-VLAN Routing to VLAN 20)
+[ VLAN 분할 및 팩트 폭행 트렁킹 구조 ]
+
+[ PC (영업부) ] ── (쌩 패킷) ──▶ [ 액세스 포트 (PVID 10) ]
+                                      │ (스위치 A 내부: 10번 꼬리표 달음)
+                                      ▼
+                               [ 트렁크 포트 (802.1Q) ]
+                                      │ (고속도로: 10번, 20번 다 지나감)
+                                      ▼
+                               [ 트렁크 포트 (802.1Q) ]
+                                      │ (스위치 B 내부)
+                                      ▼
+                               [ SVI (가짜 라우터) ] ──▶ (개발부 VLAN 20으로 라우팅됨)
 ```
 
-*Access Port(PVID), 802.1Q Trunk Port 및 SVI L3 게이트웨이 간의 상호 작용 구조.*
-
-| 구성요소 | 역할 및 세부 기능 | 비고 |
+| 구성요소 | 팩트 폭행 책임 | 비고 |
 |:---|:---|:---|
-| Access Port & PVID | 일반 호스트 접속용 포트, 유입 프레임에 **PVID** 바인딩 (수신/송신 시 Untagged) | 1개 VLAN 수용 |
-| Trunk Port | 스위치 간 멀티 VLAN 연동, 프레임 헤더에 4B **IEEE 802.1Q Tag** 부착 후 전송 | 다수 VLAN 수용 |
-| Native VLAN | Trunk Port에서 802.1Q Tag 없이 전송되는 예외적인 기본 VLAN (양 스위치 일치 필수) | 기본 VLAN 1 |
-| Allowed VLAN List | Trunk에서 승인할 VLAN ID 목록 명시 | 보안 강화 기능 |
-| SVI (L3 Interface) | VLAN 간 통신(Inter-VLAN Routing)을 위해 L3 스위치에 부여하는 3계층 IP 게이트웨이 | L3 스위칭 중계 |
+| **액세스 포트 (Access)** | PC 꽂는 구멍, 쌩 패킷 들어오면 **PVID** 꼬리표 몰래 붙여줌 | 딱 1개 VLAN 취급 |
+| **트렁크 포트 (Trunk)** | 스위치끼리 잇는 고속도로, 패킷에 **802.1Q 꼬리표(4B)** 찰칵 달아서 쏨 | 여러 VLAN 수용 |
+| **Native VLAN** | 트렁크에 꼬리표 안 달린 패킷이 굴러오면 받아주는 고아원 | 양쪽 스위치 똑같아야 함 |
+| **Allowed VLAN List** | 트렁크 통과할 때 "10번, 20번만 지나가!" 하고 허가증 검사하는 명부 | 트래픽 새는 거 막음 |
+| **SVI (가짜 라우터)** | VLAN끼리(영업부 $\to$ 개발부) 통신하라고 L3 스위치에 뚫어놓은 게이트웨이 | 라우터 대용품 |
 
 #### 한줄 요약
 
-- Allowed VLAN List, Native VLAN 및 L3 Inter-VLAN Routing용 SVI 구성 체계 준수.
+- 액세스에서 PVID 발라서 받고, 트렁크로 보낼 땐 꼬리표 달고, 허가받은 놈만 통과시킨다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **VLAN 태그 부착(Tag Insertion)**: Access Port로 들어온 Untagged 프레임이 Trunk Port로 나갈 때 802.1Q Tag(4바이트)를 헤더에 삽입하는 동작.
-- **VLAN 태그 제거(Tag Removal)**: Trunk Port를 타고 들어온 Tagged 프레임이 목적지 Access Port로 나갈 때 802.1Q Tag를 탈거하여 순수 이더넷 프레임으로 복원하는 동작.
-- **PVID 귀속(PVID Classification)**: Access Port로 유입된 프레임을 해당 포트의 PVID 값으로 분류하는 과정.
-- **허용 VLAN 전달(Allowed VLAN Forwarding)**: Trunk Port 송출 시 프레임의 VLAN ID가 Allowed List에 등록되어 있는지 검증하는 과정.
+- **VLAN 태그 부착(Tag Insertion)**: 액세스 포트로 들어온 쌩 패킷이 트렁크(고속도로)를 탈 때, 목적지 MAC 뒤에 4바이트 꼬리표를 강제로 쑤셔 넣는 동작이다.
+- **허용 VLAN 전달(Allowed VLAN Forwarding)**: 트렁크 포트가 "VLAN 10번 허가증 있냐?" 하고 명부(Allowed List) 확인해서 없으면 가차 없이 패킷을 찢어버리는 과정이다.
 
 </details>
 
 ```text
-[ 송신 호스트 (Untagged Frame) ]
-               |
-               v
-[ 1. Ingress Access Port (PVID 귀속) ] -------> 포트에 설정된 PVID(예: VLAN 10) 부여
-               |
-               v
-[ 2. Trunk Port 송출 (VLAN 태그 부착) ] ------> 802.1Q 4Byte Tag(VLAN ID 10) 삽입
-               |
-               v
-[ 3. Trunk 통과 (허용 VLAN 전달 검증) ] ------> Trunk Allowed List 상의 VLAN 10 등록 여부 검증
-               | (Allowed List 일치)
-               v
-[ 4. Egress Access Port (VLAN 태그 제거) ] ----> 802.1Q Tag 탈거 후 수신 호스트로 Untagged 전송
+[ VLAN 꼬리표 뗐다 붙였다 십자포화 흐름 ]
+┌──────────────────────────────┐
+│ 0. [PC] 쌩 프레임 전송       │
+│ (나 영업부(VLAN10)인지 모름) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 1. [액세스 포트] PVID 부여   │
+│ (넌 이제부터 영업부(10번)다) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 2. [트렁크 포트] 꼬리표 부착 │
+│ (802.1Q 태그 달고 발사)      │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 3. [반대편 트렁크] 허가증 검사│
+│ (Allowed List에 10번 있냐?) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. [반대편 액세스] 꼬리표 뗌 │
+│ (다시 쌩 프레임으로 PC에 전달)│
+└──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. Ingress Access Port (PVID 귀속): 포트 VLAN으로 분류
-2. Trunk Port 송출 (VLAN 태그 부착): 802.1Q 태그 삽입
-3. Trunk 통과 (허용 VLAN 전달 검증): 허용 목록 대조
-4. Egress Access Port (VLAN 태그 제거): 태그 제거 후 전달
+1. Ingress Access Port (PVID 귀속): 포트에 들어올 때 PVID 값으로 소속을 강제 분류함.
+2. Trunk Port 송출 (VLAN 태그 부착): 스위치 밖(트렁크)으로 나갈 때 802.1Q 꼬리표를 찰칵 박음.
+3. Trunk 통과 (허용 VLAN 검증): 허용 리스트(Allowed List)에 없는 꼬리표는 매정하게 버림.
+4. Egress Access Port (VLAN 태그 제거): 단말(PC)로 나갈 땐 꼬리표 떼서 모르게 줌.
 
 #### 한줄 요약
 
-- Ingress PVID 분류, 802.1Q Tag Insertion, Allowed List 검증 및 Egress Tag Stripping 프로세스 구동.
+- 들어올 때 번호표 붙이고(PVID), 나갈 때 꼬리표 달고(Tag), 도착하면 떼서(Untag) PC한테 준다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **액세스 포트(Access Port)**: 단일 VLAN에만 속하여 802.1Q 태깅 없이 순수 이더넷 프레임만 단말과 주고받는 포트 모드.
-- **트렁크 포트(Trunk Port)**: 복수의 VLAN 트래픽을 식별하기 위해 802.1Q 헤더를 부착하여 다중 VLAN 트래픽을 상호 중계하는 포트 모드.
+- **액세스 포트(Access Port)**: 단일 VLAN에만 속하여 802.1Q 꼬리표 없이 순수 이더넷 프레임만 단말과 주고받는 포트 모드다.
+- **트렁크 포트(Trunk Port)**: 복수의 VLAN 트래픽을 식별하기 위해 802.1Q 헤더를 부착하여 상호 중계하는 고속도로 모드다.
 
 </details>
 
-| 비교 항목 | **액세스 포트 ** | **트렁크 포트 ** |
+| 비교 항목 | **액세스 포트 (일반 국도)** | **트렁크 포트 (다차선 고속도로)** |
 |:---|:---|:---|
-| 수용 VLAN 개수 | 단 1개의 VLAN만 수용 가능 | 복수 개(1~4094)의 VLAN 동시 수용 |
-| 프레임 헤더 형태 | 일반 Untagged 이더넷 프레임 송수신 | 4바이트 **IEEE 802.1Q** Tagged 프레임 송수신 (Native 제외) |
-| 주 연결 대상 장비 | 엔드포인트 단말 (PC, IP Phone, Server, Printer) | 네트워크 장비 간 (Switch-to-Switch, Switch-to-Router/Firewall) |
-| 주요 보안 설정 | Port Security, Dynamic ARP Inspection(DAI) | **Allowed VLAN List** 명시, **Native VLAN** 변경 및 Tagging |
-
-> 요약: 단말 접속용 Access Port와 장비 간 다중 VLAN 통신용 Trunk Port의 기능 및 헤더 처리 방식 차이.
+| 수용 VLAN 개수 | **딱 1개만 (독점)** | **여러 개 동시 수용 (1~4094)** |
+| 꼬리표(Tag) 유무 | PC랑 통신하니까 **꼬리표 없음(Untagged)** | 스위치끼리 식별해야 하니까 **꼬리표 찰칵(Tagged)** |
+| 주 연결 대상 | PC, 프린터, 서버 (머리 나쁜 일반 단말) | 스위치, 라우터 (머리 좋은 네트워크 장비) |
+| 주요 튜닝 옵션 | 하나만 꽂아라 (Port Security) 막아두기 | 쓸데없는 거 막게 **Allowed List** 짜기 |
 
 #### 한줄 요약
 
-- 단일 VLAN 수용 Access Port와 Multi-VLAN 수용 Trunk Port의 역할 분담 체계 수립.
+- 꼬리표 없이 하나만 받는 건 액세스 포트, 꼬리표 덕지덕지 달고 여러 개 받는 건 트렁크 포트다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **네이티브 VLAN 불일치(Native VLAN Mismatch)**: Trunk Link로 연결된 두 스위치 간 Native VLAN 설정이 달라(예: Switch A=VLAN 1, Switch B=VLAN 99) 무태그 패킷이 엉뚱한 VLAN으로 오유입되는 보안/통신 장애.
-- **접근 제어 목록(Access Control List, ACL)**: L3/L4 IP 및 Port 조건에 따라 패킷 허용(Permit) 및 차단(Deny)을 수행하는 정책 리스트.
-- **SVI 접근 제어 목록(SVI ACL / VACL)**: SVI 게이트웨이에 ACL을 결합하여 VLAN 간(Inter-VLAN) 무단 라우팅을 차단하는 보안 기법.
+- **Native VLAN 불일치(Mismatch)**: 스위치 A는 쓰레기통을 1번으로, 스위치 B는 99번으로 설정해놔서 꼬리표 없는 쌩 패킷이 엄한 동네로 잘못 굴러가는 치명적 장애다.
+- **SVI ACL (VACL)**: 기껏 VLAN 쪼개놨는데 SVI(가짜 라우터) 뚫었다고 아무나 막 넘어가면 쪼갠 의미가 없으니까, "넌 영업부니까 개발부 서버 오지마" 하고 막는 검문소 정책이다.
 
 </details>
 
-| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
-|:---|:---|:---|:---|
-| Native VLAN Mismatch | 트렁크 양단 Native VLAN 미일치로 CDP/STP 경고 발생 | 양단 Native VLAN ID 동일화 또는 Native VLAN Tagging 적용 | VLAN 트래픽 혼입 및 L2 루프 예방 |
-| VLAN Hopping 보안 공격 | 트렁크 포트 모드 Auto 설정 시 위조 802.1Q 프레임 유입 | 사용하지 않는 포트 Shutdown 및 Trunk 모드 정적(Desirable) 고정 | 비인가 VLAN 침입 원천 차단 |
-| 불필요한 Broadcast 전파 | Trunk Port에 `switchport trunk allowed vlan all` 설정 | **허용 VLAN 목록(Allowed List)**에 필요한 VLAN만 최소 정의 | 불필요한 L2 트래픽 전파 방지 |
-| Inter-VLAN 무단 접근 | SVI 생성 후 VLAN 간 라우팅이 기본적으로 승인됨 | **SVI ACL**을 적용하여 업무별/부서별 L3 통신 필터링 | VLAN 간 논리적 장벽 완벽 유지 |
+| 문제 | 대책 | 효과 |
+|:---|:---|:---|
+| 양쪽 스위치 **Native VLAN 설정이 달라서** 쌩 패킷이 엉뚱한 부서로 넘어감 | 양단 Native VLAN 번호를 무조건 **똑같이 맞추거나 아예 안 씀** | 트래픽 짬뽕되는 대참사 및 L2 루프 원천 예방 |
+| 해커가 노트북 꽂고 가짜 꼬리표 조작해서 **다른 부서 VLAN으로 쳐들어감(Hopping)** | 빈 포트 싹 다 끄고, 트렁크 포트를 **수동 모드(on)**로 고정해버림 | 비인가 VLAN 호핑 침입 원천 차단 |
+| 트렁크로 쓸데없는 방송 다 넘어가서 **반대편 스위치까지 다 뻗음** | **허용 VLAN 목록(Allowed List)**에 진짜 쓰는 VLAN만 한 땀 한 땀 적음 | 쓰레기 트래픽 새는 거 막아서 찌꺼기 대역폭 아낌 |
+| SVI 열어줬더니 영업부가 **재무부 DB 서버까지 막 넘어가서 접속함** | SVI에다 **접근 제어 목록(ACL)** 걸어서 포트/IP 깐깐하게 막음 | 부서 간 보안 장벽 완벽 유지 |
 
 #### 한줄 요약
 
-- Native VLAN Mismatch 예방, Trunk Allowed List 최소화 및 SVI ACL 기반 라우팅 통제 체계 수립.
+- Native VLAN 똑같이 맞추고, 트렁크 허가증(Allowed List) 깐깐하게 주고, SVI 뚫었으면 ACL로 막아라.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **최소 VLAN 허용 원칙(Least VLAN Allowance Principle)**: 보안 및 성능 최적화를 위해 Trunk 포트에는 실제로 통신이 필요한 최소한의 VLAN만 Allowed List에 등록하여 운영하는 정책.
+- **최소 VLAN 허용 원칙(Least VLAN Allowance Principle)**: "트렁크 뚫을 때 제발 `allowed vlan all` 치고 퇴근하지 말고, 진짜 쓰는 VLAN 번호만 적어라"라는 보안 및 성능 최적화 진리다.
 
 </details>
 
@@ -182,4 +189,4 @@ extra:
 
 #### 한줄 요약
 
-- IEEE 802.1Q 기반 Trunking 및 최소 VLAN 수용 원칙을 통한 L2/L3 네트워크 보안 체계 적용.
+- 무지성으로 다 열어주지 말고, 꼭 필요한 VLAN만 트렁크에 싣고 통신은 ACL로 철저히 통제해라.

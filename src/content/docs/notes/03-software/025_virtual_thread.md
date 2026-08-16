@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 25
-  label: "025. 가상 스레드: Java Project Loom (Virtual Thread)"
+  label: "025. 가상 스레드: Java Project Loom"
   badge:
     text: "기출 • 50%"
     variant: note
@@ -21,153 +21,161 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Virtual Thread (가상 스레드)**: Java 21에서 정식화된 JVM 관리 경량 스레드로, 소수 캐리어 스레드에 다중화되는 실행 단위.
-- **Carrier Thread**: Virtual Thread를 실제로 할당받아 CPU 코어 상에서 실행하는 하부의 OS Platform Thread (ForkJoinPool 잇스턴스).
-- **Continuation**: Virtual Thread의 런타임 스택 및 실행 재개 지점을 JVM 힙(Heap) 공간에 바인딩 보존/복원하는 핵심 메커니즘.
+- **가상 스레드(Virtual Thread)**: Java 21에서 정식 등판한 기술로, OS 커널 스레드 1개(캐리어) 위에 수백만 개의 가짜 스레드를 얹어서 돌리는 JVM 관리형 초경량 스레드이다.
+- **캐리어 스레드(Carrier Thread)**: 가상 스레드를 등에 업고 실제 CPU 코어 위를 달리는 진짜 OS 플랫폼 스레드(ForkJoinPool의 일꾼)이다.
+- **컨티뉴에이션(Continuation)**: 가상 스레드가 디스크나 네트워크 대기(I/O)로 멍 때릴 때, 하던 작업(콜스택)을 그대로 힙(Heap)에 덤프하고 캐리어 스레드에서 내리게 해주는 탈착식 기억 장치이다.
 
 </details>
 
-- 정의/개념: 대기 작업을 캐리어 스레드에 다중화하는 **Virtual Thread**
-- 배경/필요성: 요청별 플랫폼 스레드는 대기 증가 시 **스레드 자원 상한** 도달
+- 정의: I/O 대기 시간에 OS 스레드를 낭비하지 않도록, 수백만 개의 가짜 스레드를 소수의 진짜 스레드(캐리어)에 다중화($M:N$)하는 **Virtual Thread**
+- 배경: 요청당 OS 스레드를 하나씩 주면, DB나 API 대기할 때 스레드가 멍 때리면서 램이 터져버리는 **스레드 자원 상한** 한계 때문
 
 #### 한줄 요약
 
-- 다수 가상 스레드를 소수 캐리어 스레드에 다중화하는 것이 핵심이다.
+- DB 응답 기다릴 때 스레드 놀리지 말고 다른 일 하도록, 수십만 개의 짭 스레드를 굴리는 자바 21의 치트키다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Unmount / Mount**: Virtual Thread가 I/O Blocking 인가 시 Carrier Thread와의 연결을 떼어내고(Unmount), I/O 완료 시 유휴 Carrier Thread에 다시 인가(Mount)되는 동작.
-- **Thread-per-request Model**: 복잡한 비동기/반응형(Reactive) 코드 체인 없이, 전통적인 순차적 블로킹 코드(Thread-per-request) 스타일을 유지하면서도 극상의 동시성(High Throughput)을 달성하는 패턴.
+- **마운트/언마운트(Mount/Unmount)**: 가상 스레드가 일할 땐 캐리어에 올라타고(Mount), 파일 읽느라 대기할 땐 짐 싸서 내려오는(Unmount) 승하차 메커니즘이다.
+- **요청당 스레드 모델(Thread-per-request Model)**: 콜백 지옥이나 Reactive처럼 코드 꼬아놓지 않고, 옛날처럼 위에서 아래로 짜는 동기식 코드를 그대로 유지하면서 극강의 동시성을 뽑는 방식이다.
 
 </details>
 
-- 필요에 따라 확장되는 스택으로 플랫폼 스레드보다 낮은 초기 비용
-- 지원되는 블로킹 연산에서 **Unmount / Mount**로 캐리어 재사용
-- 기존 **Thread-per-request** 스타일의 순차 코드 활용 가능
+- 초기 생성 비용이 쥐꼬리만 해서 스레드 풀(Thread Pool) 없이 막 찍어내도 됨.
+- 블로킹(I/O 대기) 걸리면 **언마운트(Unmount)**해서 뒤에 대기하는 놈한테 캐리어를 양보함.
+- 비동기 Reactive 코딩 버리고, 인간 친화적인 **요청당 스레드(Thread-per-request)** 깡코딩으로 복귀함.
 
 #### 한줄 요약
 
-- 대기 동시성은 확대되지만 CPU 계산 병렬도는 코어 수로 제한된다.
+- 블로킹 땐 미련 없이 캐리어를 양보하고, 코드는 옛날처럼 직관적인 동기식으로 짠다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Continuation.yield()**: Blocking I/O 호출 시 Virtual Thread의 스택 프레임을 힙(Heap)으로 덤프 이송하고 Carrier Thread 제어권을 반납하는 함수.
+- **Continuation.yield()**: "나 DB 응답 기다려야 되니까 먼저 가" 하면서 런타임 스택을 힙으로 복사하고 캐리어를 미련 없이 놔주는 양보 함수이다.
 
 </details>
 
 ```text
-[가상 스레드 집합] -------- [JVM 스케줄러] -------- [캐리어 스레드 집합]
-          \\                      /
-           \\                    /
-              [입출력 하위 시스템]
+[ 가상 스레드 십자포화 아키텍처 ]
+  [ 가상 스레드 1 ] [ 가상 스레드 2 ] ... [ 가상 스레드 100만 ]
+         │               │                       │
+         └───────┬───────┴───────┬───────────────┘
+                 ▼ (M:N 다중화)
+           [ JVM 스케줄러 (ForkJoinPool) ]
+         (누구 먼저 캐리어에 태울지 조율)
+                 │
+        ┌────────┴────────┐ (Mount / Unmount)
+        ▼                 ▼
+ [ 캐리어 스레드 A ] [ 캐리어 스레드 B ]
+     (진짜 CPU 코어에서 하드웨어 굴림)
 ```
-
-선의 의미: 수십만 개의 Virtual Thread가 JVM ForkJoinPool 기반 Carrier Thread로 $M:N$ 매핑 스케줄링되고 I/O Unmount/Mount 연동되는 아키텍처.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 가상 스레드 집합 | 사용자 로직과 동적 스택 상태 보유 |
-| JVM 스케줄러 | 실행 가능한 가상 스레드를 캐리어에 할당 |
-| 캐리어 스레드 집합 | 가상 스레드를 실제 CPU에서 실행 |
-| 입출력 하위 시스템 | 지원 블로킹 I/O의 **Unmount**•**Mount** 연계 |
+| **가상 스레드 집합** | 개발자가 짠 비즈니스 로직과 현재 어디까지 실행했는지(스택)를 힙에 보관하는 껍데기 |
+| **JVM 스케줄러** | 놀고 있는 캐리어 스레드를 찾아서 쉴 틈 없이 가상 스레드를 꽂아버리는 악덕 매니저 |
+| **캐리어 스레드 집합** | OS가 관리하는 찐 스레드로, 가상 스레드를 등에 업고 실제 CPU 코어에서 땀 흘리는 노예 |
+| 입출력 하위 시스템 | 가상 스레드가 DB를 찌를 때 대기 상태를 감지하고 멱살 잡아 내리게(**Unmount**) 하는 심판 |
 
 #### 한줄 요약
 
-- 호출 스택, JVM, 운영체제가 가상 스레드 실행을 연결한다.
+- 수백만 가상 스레드를 JVM 스케줄러가 몇 안 되는 캐리어 스레드에 쉴 새 없이 태우고 내린다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Thread Pinning**: 특정 네이티브•외부 함수 실행 중 가상 스레드가 캐리어에서 분리되지 못하는 현상.
+- **스레드 피닝(Thread Pinning)**: 가상 스레드 안에서 `synchronized` 쓰거나 JNI 호출하면, 언마운트가 막혀서 캐리어 스레드를 통째로 물고 늘어지는 민폐(고정) 현상이다.
 
 </details>
 
 ```text
+[ 가상 스레드 마운트/언마운트 십자포화 흐름 ]
 ┌──────────────────────────────┐
-│ 실행 가능 가상 스레드      │
+│ 1. 큐에서 가상 스레드 대기   │
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 캐리어 탑재             │
-│ 2. 가상 스레드 실행        │
+│ 2. Mount & CPU 실행          │
+│ (유휴 캐리어에 올라타서 연산)│
 └───────┬──────────────────────┘
-        ├─ 실행 완료 ───────────▶ [결과 반환]
-        │ 블로킹
-        ▼
+        │ ├─ 연산 완료 ────▶ [종료 및 결과 반환]
+        │ │ (끝남)
+        ▼ ▼ (DB/네트워크 대기 발생)
 ┌──────────────────────────────┐
-│ 3. 캐리어 분리 가능성 판정 │
-└───────┬──────────────────────┘
-        ├─ 가능 ─▶ 4. 분리•실행 가능 전환
-        └─ 불가 ─▶ 5. 고정 대기 (Thread Pinning)
+│ 3. 스레드 피닝(Pinning) 검사 │
+│ (synchronized 썼는지 확인)   │
+└───────┬───────────────┬──────┘
+        │(안 씀)        │(씀)
+        ▼               ▼
+  [4. Unmount 가동] [5. Pinning (고정)]
+  (힙으로 짐 싸서   (캐리어 물고 뻗음,
+   캐리어 양보함)    다른 놈 못 탐)
 ```
 
 ### 동작 원리
 
-1. 캐리어 탑재: Virtual Thread가 JVM 스케줄러에 의해 유휴 **Carrier Thread**에 Mount.
-2. 가상 스레드 실행: Java 코드 실행 및 연산 수행.
-3. 캐리어 분리 가능성 판정: 블로킹 시 네이티브 호출 등 **Pinning** 조건 확인
-4. 분리·실행 가능 전환: Pinning 미발생 시 Continuation 스택 힙 덤프 후 **Unmount** (Carrier Thread 유휴 전환).
-5. 고정 대기 : 분리 불가 시 캐리어 점유 상태로 대기
+1. 탑재 대기: 가상 스레드가 생성되어 JVM 스케줄러 큐에서 벤치 대기함.
+2. Mount 및 실행: 놀고 있는 **캐리어 스레드**에 올라타서(Mount) 코드를 미친 듯이 실행함.
+3. 블로킹 및 Pinning 검사: I/O 대기가 터졌을 때, `synchronized`나 네이티브 호출로 캐리어에 본드가 붙었는지(**Pinning**) 확인함.
+4. Unmount (정상 양보): Pinning이 아니면 작업 상태(Continuation)를 힙에 덤프 뜨고 캐리어에서 쿨하게 내림(Unmount).
+5. Pinning (고정 대기): Pinning에 걸리면 캐리어에서 못 내리고 멱살 잡은 채로 멍 때림.
 
 #### 한줄 요약
 
-- 블로킹 시 분리•실행 가능 전환, 분리 불가 구간은 고정 대기가 핵심이다.
+- 대기 걸리면 캐리어를 놔주는 게 기본인데, synchronized를 쓰면 캐리어를 물고 늘어진다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Platform Thread vs Virtual Thread**: Platform Thread는 OS 커널 1:1 매핑 스레드, Virtual Thread는 JVM 내부 $M:N$ 매핑 경량 스레드.
+- **플랫폼 스레드 vs 가상 스레드(Platform vs Virtual Thread)**: 플랫폼 스레드는 OS가 직접 관리하는 무겁고 비싼 진짜 스레드고, 가상 스레드는 JVM이 메모리에 찍어내는 가볍고 싼 짭 스레드이다.
 
 </details>
 
-| 비교 항목 | Platform Thread (전통적 스레드) | Virtual Thread (Java 21 Loom) |
+| 비교 항목 | 플랫폼 스레드 (전통적 스레드) | **가상 스레드 (Java 21 Loom)** |
 |:---|:---|:---|
-| 스케줄링 주체 | OS Kernel Scheduler | **JVM Scheduler (ForkJoinPool)** |
-| 매핑 관계 | OS Kernel Thread와 **1:1** 매핑 | OS Carrier Thread와 **M:N** 매핑 |
-| 메모리 특성 | 네이티브 스택 등 플랫폼 자원 사용 | 필요에 따라 확장되는 동적 스택 |
-| 동시성 상한 | OS 스레드 자원에 직접 영향 | 메모리와 하위 자원에 의해 제한 |
-| 적합한 워크로드 | CPU-bound 연산 | **I/O-bound (HTTP/DB) 웹 서버 연산** |
+| 스케줄링 주체 | OS 커널 스케줄러 (무거움) | **JVM 스케줄러** (ForkJoinPool, 가벼움) |
+| 매핑 관계 | OS 커널 스레드와 **1:1 매핑** | 소수 캐리어 스레드와 수백만 개 **M:N 다중화** |
+| 스택 메모리 | 시작부터 1MB씩 떼가서 메모리 금방 터짐 | 필요할 때 힙(Heap)에 수백 바이트 단위로 쪼개 씀 |
+| 최고존엄 용도 | CPU 100% 갈구는 빡센 연산 (CPU-bound) | DB 찌르고 API 기다리는 대기빵 (**I/O-bound**) 웹 서버 |
 
 #### 한줄 요약
 
-- 블로킹 I/O는 가상, CPU 계산은 플랫폼 스레드가 핵심이다.
+- 계산은 비싸고 무거운 플랫폼 스레드로 치고, I/O 대기빵은 싸고 가벼운 가상 스레드로 돌려막는다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **ReentrantLock**: Thread Pinning을 유발하는 `synchronized` 키워드 대신 Virtual Thread 환경에서 안전하게 Unmount를 지원하는 대안 락 클래스.
+- **리엔트런트 락(ReentrantLock)**: 가상 스레드가 `synchronized` 썼다가 피닝(Pinning) 터지는 꼴을 막기 위해 락킹이 필요할 때 강제로 쥐여주는 안전한 대안 락 클래스이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 네이티브 호출의 장기 **Thread Pinning** | JFR 고정 이벤트로 원인 구간 측정•축소 | 캐리어 점유시간 감소 |
-| 가상 스레드를 풀로 제한해 동시성 축소 | 작업별 가상 스레드 생성과 자원별 제한 분리 | 스레드 대기열 중복 방지 |
-| 무한 생성으로 인한 하부 DB 커넥션 풀(HikariCP) 고갈 | **Semaphore** 기반 자원 억세스 수량 제한 | 하부 인프라 고갈 예방 |
-
-> 사례: Spring Boot 3.2+ 내 `spring.threads.virtual.enabled=true` 옵션을 통한 Virtual Thread 전면 인가
+| `synchronized` 쓰면 가상 스레드가 **Pinning** 걸려서 캐리어가 싹 다 마비됨 | 낡은 `synchronized` 다 뜯어내고 **`ReentrantLock`**으로 교체함 | 피닝 터지는 걸 막아서 Unmount 정상 작동 보장 |
+| 가상 스레드를 풀(Pool)로 제한하려다 동시성이 다 죽어버림 | 가상 스레드는 **무한 생성**하고, DB 커넥션 풀을 **세마포어(Semaphore)**로 막음 | 스레드 고갈은 막고 하위 인프라(DB) 터지는 것도 방어 |
+| 스레드 100만 개 띄웠는데 `ThreadLocal` 썼다가 메모리(OOM) 터짐 | 100만 개에 데이터 복사 안 되게 **스코프 값(Scoped Values)**으로 갈아엎음 | 메모리 복사 오버헤드 박살 내고 극한의 밀도 달성 |
 
 #### 한줄 요약
 
-- 세마포어, 캐리어 사용률, 스레드 로컬을 통제한다.
+- synchronized는 뜯어내고, 스레드 풀은 버리며, ThreadLocal은 Scoped Values로 바꾼다.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **Virtual Thread 적용 기준(Virtual Thread Adoption Criteria)**: I/O 바운드 비율, synchronized 사용 유무, DB 커넥션 쿼터에 기반한 수립 체계.
+- **가상 스레드 적용 기준(Virtual Thread Adoption Criteria)**: 이 작업이 디스크를 긁는지, CPU를 긁는지, 피닝의 위험이 있는지를 따져서 플랫폼 스레드와 가상 스레드를 가르는 잣대이다.
 
 </details>
 
-- 대기 중심 요청은 **Virtual Thread**, CPU 병렬도는 **코어 한도**로 제한
+- **가상 스레드 적용 기준** 원칙에 따라, 웹 API/DB 대기 빵엔 무조건 **가상 스레드** 떡칠, 암호화나 압축 같은 깡연산엔 기존 **플랫폼 스레드** 채택 기조 확립함
 
 #### 한줄 요약
 
-- I/O 대기와 고정 구간 및 CPU 계산량을 함께 평가하는 것이 핵심이다.
+- DB나 외부 API 찌를 때는 무조건 가상 스레드 쓰고, 빡센 계산 할 때만 플랫폼 스레드를 써라.

@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 56
-  label: "056. DevOps 파이프라인 (DevOps Pipeline)"
+  label: "056. DevOps 파이프라인"
   badge:
     text: "기출 • 50%"
     variant: note
@@ -22,154 +22,164 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **DevOps (Development + Operations)**: 소프트웨어 개발(Development)과 정보기술 운영(Operations) 조직 간의 장벽을 허물고, 애자일 문화 및 자동화 도구를 기반으로 빠른 변경 릴리스와 신뢰성을 달성하는 문화적/기술적 협업 패러다임.
-- **CALMS Framework**: DevOps의 성공적 정착을 측정하는 5가지 척도 (Culture: 문화, Automation: 자동화, Lean: 린 프로세스, Measurement: 측정, Sharing: 공유).
-- **Feedback Loop**: 실운영 환경의 모니터링 로그/지표를 개발팀으로 실시간 환류하여 다음 스프린트의 기능 개선에 즉시 피드백 반영하는 선순환 구조.
+- **데브옵스(DevOps, Development + Operations)**: "나는 개발 끝냈으니 운영팀이 배포해라" 하고 퇴근하는 이기주의를 박살 내고, 개발과 운영이 한 몸이 되어 미친 듯이 배포하고 책임도 같이 지는 문화이다.
+- **CALMS 프레임워크(CALMS Framework)**: 무늬만 DevOps 한다면서 도구만 바꾼 팀을 팩폭하기 위해 들이미는 5가지 잣대(문화, 자동화, 린, 측정, 공유)이다.
+- **피드백 루프(Feedback Loop)**: 운영 서버에서 에러 로그 뜨면 바로 개발팀 메신저로 쏴줘서 "형들 버그 났어 빨리 고쳐"라고 즉각적으로 환류되는 무한 잔소리 구조이다.
 
 </details>
 
-- 정의/개념: 소프트웨어 계획(Plan)부터 코딩, 빌드, 테스트, 출시, 배포, 운영 및 모니터링 무한 루프를 자동화된 도구 체인(Toolchain)으로 연결한 **DevOps Pipeline**
-- 배경/필요성: 개발•운영 분업은 **인계 지연•책임 단절** 유발
+- 정의: 아이디어 기획(Plan)부터 코딩, 빌드, 테스트, 배포, 모니터링까지 쉴 새 없이 돌아가는 무한 루프(Infinity Loop)를 도구 체인으로 엮어낸 **DevOps Pipeline**
+- 배경: 개발팀은 "새 기능 넣자!" 하고 운영팀은 "건들지 마 터져!" 하며 매일 싸우는 **사일로(Silo) 현상**을 타파하기 위함
 
 #### 한줄 요약
 
-- 데브옵스의 공동 책임과 피드백 루프를 자동 전달 과정에 연결하는 것이 핵심이다.
+- 개발과 운영이 멱살 잡지 않고 한 몸이 되어, 코드 짜는 즉시 봇이 배포하고 봇이 감시하는 무한 루프다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Infinity Loop (무한 루프 8자 고리)**: DevOps의 생명주기를 나타내는 표준 모델로, Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Test $\rightarrow$ Release $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 의 선순환 순환고리.
-- **Continuous Everything (무한 연속성)**: 지속적 계획(Plan), 지속적 통합(CI), 지속적 테스트(CT), 지속적 배포(CD), 지속적 모니터링(CM)을 통합 추구.
+- **무한 루프(Infinity Loop)**: 코딩 끝났다고 장땡이 아니라, 모니터링 피드백 받아서 다시 기획하고 코딩하는 '뫼비우스의 띠(8자 고리)' 같은 DevOps의 노예 생명주기이다.
+- **도라 메트릭스(DORA Metrics)**: 이 회사가 찐 DevOps 팀인지 팩폭하는 구글의 4대 전투력 측정기(배포 빈도, 변경 리드타임, 복구 시간 MTTR, 배포 실패율)이다.
 
 </details>
 
-- **CALMS Framework (Culture, Automation, Lean, Measurement, Sharing)** 지향
-- **DevOps Infinity Loop** 8자 생명주기 자동화
-- **DORA Metrics (Deployment Frequency, Lead Time for Changes, MTTR, Change Failure Rate)** 성과 측정
+- **CALMS Framework (Culture, Automation, Lean, Measurement, Sharing)** 지향.
+- 기획부터 모니터링까지 끊임없이 굴러가는 **DevOps Infinity Loop(8자 순환)** 자동화.
+- 구글의 뼈 때리는 **DORA Metrics**로 우리 팀 배포 전투력 측정.
 
 #### 한줄 요약
 
-- 공동 소유, 지속적 통합, 피드백 루프가 핵심이다.
+- 도구만 쓰지 말고 문화(CALMS)를 바꾸고, 무한으로 굴리며(Loop), 구글 잣대(DORA)로 팩폭한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **DevOps Toolchain**: Plan부터 Monitor까지 각 단계별로 사용되는 최적 자동화 도구들의 유기적 조합 묶음 (Jira, Git, Jenkins, SonarQube, Terraform, K8s, Prometheus).
+- **데브옵스 툴체인(DevOps Toolchain)**: 기획(Jira) $\to$ 코드(Git) $\to$ 빌드(Jenkins) $\to$ 배포(ArgoCD) $\to$ 운영(K8s) $\to$ 감시(Prometheus)로 엮어놓은 무자비한 자동화 파이프라인이다.
 
 </details>
 
 ```text
-       [Plan / Issue (Jira)] ─── [Code / Version (Git)]
-                │                         │
-                │                         │
-     [Monitor (Prometheus)] ─── [Build & Test (Jenkins)]
-                │                         │
-                │                         │
-     [Operate (Kubernetes)] ─── [Deploy (ArgoCD)]
+[ DevOps 무한 루프 십자포화 체인 ]
+
+[ 기획 (Jira) ] ───────▶ [ 코드 (Git) ]
+      ▲                        │
+      │                        ▼
+[ 감시 (Prometheus) ]    [ 빌드/테스트 (Jenkins) ]
+      ▲                        │
+      │                        ▼
+[ 운영 (Kubernetes) ] ◀─ [ 배포 (ArgoCD) ]
 ```
 
-선의 의미: Plan $\rightarrow$ Code $\rightarrow$ Build $\rightarrow$ Deploy $\rightarrow$ Operate $\rightarrow$ Monitor 과정이 끊임없이 순환 환류(Infinity Loop)되는 DevOps 파이프라인 도구 체인 구조.
-
-| 구성요소 | 책임 |
+| 구성요소 | 팩트 폭행 책임 |
 |:---|:---|
-| 계획 플랫폼 (Jira) | 요구사항•백로그와 작업 우선순위 관리 |
-| 변경 저장소 (Git) | 소스 변경과 검토 이력 보관 |
-| 통합 실행기 (Jenkins) | 빌드•시험•정적 분석 자동 실행 |
-| 배포 제어기 (ArgoCD) | 승인 산출물을 대상 환경에 전달 |
-| 운영 플랫폼 (Kubernetes) | 서비스 실행과 자원 상태 관리 |
-| 관측 플랫폼 (Prometheus) | 운영 지표 수집과 피드백 제공 |
+| **기획 (Jira)** | "이번 주엔 이거 만들어"라고 개발자들 스케줄 잡고 채찍질하는 백로그 관리판 |
+| **코드 (Git)** | 짠 코드 커밋하고 리뷰어한테 털리면서 코드 품질 높이는 버전 관리 |
+| **통합 (Jenkins/Action)** | 깃에 소스 올라오면 잽싸게 낚아채서 빌드하고 테스트 코드 돌려보는 봇 |
+| **배포 (ArgoCD/CD)** | 검사 끝난 새 코드를 실운영 클러스터에 야무지게 꽂아 넣는 배달부 |
+| **운영 (K8s/AWS)** | 배포된 프로그램이 죽지 않도록 자원 펑펑 써가며 띄워주는 현장 |
+| **감시 (Prometheus)** | 메모리 터졌는지 눈에 불을 켜고 째려보다 메신저로 알람 쏘는 CCTV |
 
 #### 한줄 요약
 
-- 계획•변경•통합•배포•운영•관측 연결이 핵심이다.
+- 지라(기획)부터 프로메테우스(감시)까지 사람 손 안 타게 도구들을 사슬처럼 엮어놓은 거다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **DORA 4 Key Metrics**: DevOps 팀의 성숙도를 측정하는 4대 지표 (배포 빈도, 변경 리드타임, 서비스 복구 시간 MTTR, 변경 실패율).
+- **크로스 펑셔널 팀(Cross-Functional Team)**: 옛날처럼 개발 따로, 인프라 따로 노는 게 아니라 기획자, 개발자, 엔지니어가 한 팀에 묶여서 요람에서 무덤까지 다 책임지는 특공대이다.
 
 </details>
 
 ```text
+[ DevOps 파이프라인 십자포화 흐름 ]
 ┌──────────────────────────────┐
-│ Jira Issue / Git Branch 생성 │
+│ Jira 이슈 생성 & Git 코딩    │
+│ ("버튼 색깔 바꿔주세요")     │
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. 변경 통합•시험            │
-│ 2. 정적 보안 검증            │
-│ 3. 승인 버전 배포            │
-│ 4. 운영 지표 관측            │
-│ 5. DORA 지표 환류            │
+│ 1. 봇이 빌드/테스트 (CI)     │
+│ (Jenkins가 뚝딱뚝딱)         │
 └──────────────┬───────────────┘
                ▼
- [다음 스프린트 피드백 환류 완료]
+┌──────────────────────────────┐
+│ 2. 운영 서버 배포 (CD)       │
+│ (ArgoCD가 냅다 꽂음)         │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 3. 실운영 모니터링 (CCTV)    │
+│ (에러율 급증 감지)           │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. 피드백 환류 (무한 루프)   │
+│ ("형들 망했어 다시 코딩해")  │
+└──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. 변경 통합•시험: 실행기가 빌드와 단위•통합 시험 수행.
-2. 정적 보안 검증: SAST 결과로 품질 게이트 판정.
-3. 승인 버전 배포: 배포 제어기가 운영 플랫폼에 전달.
-4. 운영 지표 관측: 오류율•지연시간•복구 상태 수집.
-5. DORA 지표 환류: 성과 지표를 다음 개선 계획에 반영.
+1. 코드/기획: 지라 티켓 따고 로컬에서 코딩 후 커밋.
+2. CI 통합: 봇이 눈썹 휘날리며 빌드하고 단위 테스트 돌림.
+3. CD 배포: 테스트 통과하면 실운영 쿠버네티스(K8s)에 바로 띄움.
+4. 모니터링 관측: 감시 카메라가 메모리 누수나 에러를 24시간 째려봄.
+5. 피드백 루프: 문제 생기면 지라 이슈로 다시 꽂히고 처음부터 무한 반복.
 
 #### 한줄 요약
 
-- 검증 산출물 등록, 승인 버전 전달, 개선 피드백 환류의 순환이 핵심이다.
+- 코딩 $\to$ 빌드 $\to$ 배포 $\to$ 감시 $\to$ 에러 나면 피드백 $\to$ 다시 코딩의 무한 루프다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Traditional Waterfall Silo vs DevOps Cross-Functional**: Traditional은 개발/QA/운영이 장벽(Silo)으로 분리되어 책임 전가 발생, DevOps는 1개 전담 팀(Cross-Functional Team)이 계획부터 운영까지 전권 소유.
+- **전통적 사일로 vs 데브옵스(Traditional Silo vs DevOps)**: "내 로컬에선 잘 되는데 서버 세팅 문제 아님?" 하며 부서끼리 싸우는 게 사일로(Silo), "우리 팀이 싼 똥은 우리가 치운다"가 데브옵스이다.
 
 </details>
 
-| 비교 항목 | Traditional Silo Structure | DevOps Cross-Functional Structure |
+| 비교 항목 | **Traditional Silo (꼰대 조직)** | **DevOps (애자일 특공대)** |
 |:---|:---|:---|
-| 조직 형태 | 개발팀, QA팀, 운영팀 완전 분리 (Silo) | **개발+운영 융합 전담 팀 (Cross-Functional)** |
-| 릴리스 주기 | 수개월 단위의 대규모 릴리스 | **매일/수시 소규모 연속 릴리스 (Continuous)** |
-| 책임 소재 | "배포 후엔 운영팀 책임" 책임 전가 | **"You Build It, You Run It" 공동 책임** |
-| 인프라 관리 | 서버 관리자에 의한 수동 작업 | **Infrastructure as Code (IaC) 자동화** |
+| 조직 형태 | 개발팀 3층, 운영팀 4층 (철벽 방어) | **개발+운영이 한 팀으로 일함 (Cross-Functional)** |
+| 릴리스 주기 | 두 달에 한 번씩 야근하며 대규모 배포 | **하루에도 수십 번 찔끔찔끔 상시 배포** |
+| 책임 소재 | 배포 끝나면 "운영팀 수고~" 퇴근 | **"니가 짠 코드는 니가 운영해 (You Build It, You Run It)"** |
+| 자동화 | 사람이 SSH로 접속해서 직접 명령어 침 | **Pipeline 봇이랑 인프라 코드(IaC)가 다 해줌** |
 
 #### 한줄 요약
 
-- 잦은 변경에는 DevOps 통합 운영, 엄격한 인수에는 단계별 인계가 적합하다.
+- 부서 나눠서 네 탓 내 탓 하는 게 사일로고, 특공대처럼 한 팀이 돼서 다 책임지는 게 데브옵스다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **You Build It, You Run It**: 아마존 CTO 버너 보겔스(Werner Vogels)가 주창한 멘토링 구호로, 코드를 작성한 개발자가 해당 서비스의 실운영(On-call)까지 직접 책임진다는 문화적 원칙.
+- **유 빌드 잇, 유 런 잇(You Build It, You Run It)**: 아마존 CTO 형님이 남긴 명언으로, 자기가 짠 코드가 새벽 3시에 서버에서 터지면 직접 노트북 켜고 수습하라는 피도 눈물도 없는 책임 철학이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 문화적 변화 없이 도구(Jenkins/K8s)만 도입하여 실패 | **CALMS 프레임워크 기반 멘탈리티 혁신 & C-Level 지원** | DevOps 조직 문화 정착 |
-| 자동화 시험 부족으로 배포 결함 유입 | 위험 기반 **Test Automation** 강화 | 배포 변경 실패율 감소 |
-| 운영 지표 가시성 부재 | **Prometheus + Grafana + OpenTelemetry** 연계 | 평균 복구 시간 단축 |
-
-> 사례: **Atlassian Jira + Git + Jenkins + SonarQube + K8s + Grafana** 기반 DevOps 파이프라인 구축
+| 젠킨스만 깔아놓고 우리도 DevOps 한다고 헛소리함 | 툴만 깔지 말고 **CALMS 기반 마인드셋** 뜯어고침 | 장벽 무너지고 진짜 '한 팀'으로 일하게 됨 |
+| 자동 배포 뚫어놨더니 에러가 빛의 속도로 서버에 꽂힘 | **자동화 테스트(Test Automation)** 빡세게 강제 | 운영 서버 터지는 빈도(실패율) 급감 |
+| 새벽에 서버 죽었는데 알람 안 울려서 아침에 난리 남 | **Prometheus + Grafana CCTV** 메신저 알람 쏨 | 유저가 빡치기 전에 빛의 속도로 복구함 (MTTR 감소) |
 
 #### 한줄 요약
 
-- 개발•운영 공동 평가, 인프라 코드화, 관측성이 핵심이다.
+- 툴만 바꾸지 말고 문화를 뜯어고치고, 테스트를 강제하며, 24시간 감시망(CCTV)을 깔아야 한다.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **DevOps 파이프라인 구축 기준(DevOps Pipeline Build Standards)**: DORA 지표 목표치, Toolchain 자동화율 및 조직 문화 성숙도에 의거한 체계.
+- **데브옵스 파이프라인 구축 기준(DevOps Pipeline Build Standards)**: 팀이 DORA 지표 상위 티어인지, 툴체인 자동화는 세팅됐는지 팩트 체크해서 인계 과정을 결정하는 잣대이다.
 
 </details>
 
-- 빈번한 변경은 **DevOps 공동 운영**, 엄격한 인수는 **단계별 승인** 선택
+- **DevOps 파이프라인 구축 기준** 원칙에 따라, 빈번한 배포가 생명인 곳은 **DevOps 공동 운영**, 규제가 빡센 금융망은 옛날식 **단계별 인계** 채택 기조 확립함
 
 #### 한줄 요약
 
-- DevOps 통합 운영에서는 점진적 전달과 가드레일로 속도와 안정성을 함께 관리하는 것이 핵심이다.
+- DevOps는 툴을 까는 게 아니라, "우리가 짠 코드는 우리가 책임진다"는 마인드를 파이프라인에 녹이는 거다.

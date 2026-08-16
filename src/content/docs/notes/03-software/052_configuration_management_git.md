@@ -1,7 +1,7 @@
 ---
 sidebar:
   order: 52
-  label: "052. 형상 관리: Git•브랜치 전략 (Configuration Management Git)"
+  label: "052. 형상 관리: Git•브랜치 전략"
   badge:
     text: "미출 • 50%"
     variant: note
@@ -22,157 +22,159 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Configuration Management (SCM, 소프트웨어 형상 관리)**: 소프트웨어 생명주기 동안 변경되는 소스코드, 문서, 환경 설정 등의 변경 이력을 식별, 통제, 감사하여 시스템 무결성과 버전 추적성을 보장하는 공학적 활동.
-- **Git & DVCS (Distributed Version Control System)**: 중앙 서버 외에 모든 개발자가 전체 히스토리를 가진 로컬 리포지토리(Local Repository)를 분산 소유하여 병렬 브랜치 작업 및 오프라인 커밋을 지원하는 분산 형상 관리 시스템.
-- **Branch Strategy (브랜치 전략)**: 다수의 개발자가 동일 코드베이스에서 병렬로 개발할 때, 충돌을 최소화하고 안정적인 배포(Mainline)를 유지하기 위해 브랜치 생성, 병합(Merge), 릴리스 흐름 규칙을 정립한 워크플로우 (GitFlow, Trunk-based).
+- **소프트웨어 형상 관리(SCM, Configuration Management)**: 코드가 언제, 왜, 어떻게 바뀌었는지 족보를 기록하고, 나중에 버그 터지면 "아, 이 사람이 이때 고쳤구나" 하고 범인을 잡거나 롤백하게 해주는 생명줄이다.
+- **깃 분산 버전 관리(Git DVCS)**: 옛날 중앙 서버 죽으면 개발 올스톱되는 시스템과 달리, 모든 개발자 노트북이 '전체 코드 족보(히스토리)'를 통째로 복사해서 들고 다니는 상남자식 시스템이다.
+- **브랜치 전략(Branch Strategy)**: 수십 명이 코드를 짜고 합칠 때, 깃허브 충돌(Conflict)로 멱살 잡는 걸 막기 위해 "이 브랜치엔 배포본만, 저기선 개발만"이라고 그어놓은 교통 정리 선이다.
 
 </details>
 
-- 정의/개념: 소프트웨어 개발 과정의 모든 산출물(코드, 문서, 설정)에 대한 버전 식별, 통제 및 추적성을 분산 저장소(Git)와 전략적 워크플로우를 통해 체계화하는 **Configuration Management & Git Branch Strategy**
-- 배경/필요성: 병렬 변경의 기준선 부재는 **덮어쓰기•릴리스 재현 실패** 유발
+- 정의: 코드와 설정 파일이 꼬이지 않게 버전 이력을 통제(SCM)하고, 이를 **Git(분산 버전 관리)**과 **브랜치 전략**으로 체계화하는 시스템인 **Configuration Management & Git**
+- 배경: 형상 관리를 안 하면 "최종본_진짜최종_마지막.zip" 파일이 굴러다니고, **누가 언제 코드를 덮어썼는지 몰라서 프로젝트가 멸망**하기 때문
 
 #### 한줄 요약
 
-- 변경을 식별•통제하고 승인 상태를 재현하는 형상 관리가 핵심이다.
+- 코드가 어떻게 변해왔는지 족보를 기록하고, 여럿이 안 싸우고 합치기 위한 깃(Git)과 룰이다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Baseline (형상 기준선)**: 공식적으로 검토 및 승인되어 향후 변경 통제(CCB)의 기준점이 되는 소프트웨어 형상 항목(Configuration Item)의 버전 집합체.
-- **DAG (Directed Acyclic Graph)**: Git이 커밋(Commit)들의 부모-자식 관계와 히스토리 병합 흐름을 관리하기 위해 내부적으로 사용하는 방향성 비순환 그래프 데이터 구조.
+- **베이스라인(Baseline, 형상 기준선)**: "자, 여기까지 개발한 건 승인됐고 배포 나간다!"라고 도장을 쾅 찍어둔 절대 못 바꾸는 세이브 포인트이다.
+- **방향성 비순환 그래프(DAG, Directed Acyclic Graph)**: Git이 코드를 저장할 때 쓰는 뼈대 구조로, 커밋(점)들이 화살표(방향)로 이어지면서 족보를 만들되 시간 역주행(순환)은 안 되는 일방통행 지도이다.
 
 </details>
 
-- 분산 버전 관리(**DVCS**) 기반의 빠른 로컬 커밋 및 브랜칭
-- **DAG (Directed Acyclic Graph)** 기반의 커밋 히스토리 추적 및 무결성(SHA-1/SHA-256) 보장
-- 형상 식별, 통제, 감사(Audit), 기록의 SCM 4대 기본 활동 및 **Branch Strategy** 인가
+- 빠른 로컬 커밋과 깃 브랜칭으로 분산 환경(**DVCS**)의 장점을 극대화함.
+- 커밋 히스토리를 **DAG (Directed Acyclic Graph)**로 관리하고 해시(SHA-1)로 무결성을 수호함.
+- 형상 식별, 통제, 감사(Audit), 기록의 4대 기본 활동을 **Branch Strategy**로 통제함.
 
 #### 한줄 요약
 
-- 분산 버전 관리 시스템의 이력과 커밋 계보 기반 변경 통합이 핵심이다.
+- 내 PC에 전체 족보를 들고(분산), 해시로 조작을 막으며(무결성), 브랜치로 싸움을 방지한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **3가지 작업 영역 (Three Trees)**: Git이 파일을 관리하는 3개 구역으로 Working Directory(작업 공간), Staging Area(Index, 커밋 대기 공간), Repository(Git Directory, 영구 커밋 보관소).
+- **깃 3대 작업 구역(Three Trees)**: 내 맘대로 코드 짜는 '작업 공간', 커밋할 것만 카트에 담아두는 '스테이징 에어리어', 도장 찍고 영구 보관하는 '로컬 저장소'의 3단 콤보이다.
 
 </details>
 
 ```text
-[작업 공간 (Working Directory)]
-      | (git add)
-      ▼
-[Staging Area (Index)]
-      | (git commit)
-      ▼
-[로컬 저장소 (Local Repository)]
-      | (git push)
-      ▼
-[원격 저장소 (Remote Repository)]
+[ Git 분산 형상 관리 십자포화 아키텍처 ]
+
+[ 내 PC (작업 공간) ] ──(git add)──▶ [ 카트 (Staging Area) ]
+                                            │ (git commit)
+                                            ▼
+ [ 중앙 서버 (원격 저장소) ] ◀──(git push)── [ 내 PC (로컬 저장소) ]
 ```
 
-선의 의미: 파일 변경이 `git add`로 Staging Area에 등록되고, `git commit`으로 Local Repository에 래칭된 후 `git push`로 Remote에 동기화되는 아키텍처.
-
-| 구성요소 | 책임 |
+| 구성요소 | 팩트 폭행 책임 |
 |:---|:---|
-| 작업 공간 (Working Directory) | 실제 파일 수정 상태 보관 |
-| Staging Area (Index) | 다음 커밋에 포함할 파일 스냅샷 선택 |
-| 로컬 저장소 (Local Repository) | 커밋 객체•트리•참조와 계보 보관 |
-| 원격 저장소 (Remote Repository) | 팀 간 참조 공유와 통합 기준선 제공 |
+| **작업 공간 (Working Dir)** | 개발자가 맘대로 키보드 두들기며 소스 코드를 지지고 볶는 로컬 PC 폴더 |
+| **Staging Area (Index)** | 커밋으로 묶기 전에 "이 파일이랑 저 파일만 올려야지" 하고 장바구니에 담아두는 대기실 |
+| **로컬 저장소 (Local Repo)**| `commit` 치면 인터넷 연결 없이도 내 PC에 영구 박제되는 개인용 코드 보관소 |
+| **원격 저장소 (Remote Repo)**| 팀원들 다 같이 볼 수 있게 `push` 해서 올려두는 중앙 서버 (GitHub, GitLab) |
 
 #### 한줄 요약
 
-- 작업 트리, 인덱스, 객체 데이터베이스, 참조의 연결 구조가 핵심이다.
+- 작업 폴더에서 고치고 $\to$ 장바구니(add)에 담고 $\to$ 로컬에 박제(commit) 후 $\to$ 깃허브(push)에 쏜다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Merge vs Rebase**: Merge는 두 브랜치 줄기를 합쳐 새로운 커밋(Merge Commit)을 남기는 방식, Rebase는 브랜치의 베이스 커밋을 재조정하여 깔끔한 단일 일자형 히스토리를 유지하는 방식.
+- **병합 vs 리베이스(Merge vs Rebase)**: 가지를 합칠 때, 'Merge'는 두 줄기를 묶는 흉터를 남기는 정직한 방법이고, 'Rebase'는 내 커밋을 최신 코드 끝에 이어 붙여서 족보를 깔끔한 일자로 펴버리는 기술이다.
 
 </details>
 
 ```text
+[ Git 커밋 및 PR 십자포화 흐름 ]
 ┌──────────────────────────────┐
-│ 작업 공간 파일 수정          │
+│ 1. 로컬에서 코드 뚝딱뚝딱    │
+│ (작업 공간 파일 수정)        │
 └──────────────┬───────────────┘
                ▼
 ┌──────────────────────────────┐
-│ 1. Staging 이송             │
-│ 2. 로컬 커밋                │
-│ 3. Push•PR                  │
-│ 4. CI 검증•Code Review      │
-│ 5. Mainline 병합            │
+│ 2. add & commit              │
+│ (Staging 올리고 로컬에 박제) │
 └──────────────┬───────────────┘
                ▼
-   [신규 Baseline 형성 완료]
+┌──────────────────────────────┐
+│ 3. push & PR (Pull Request)  │
+│ (GitHub에 올려서 리뷰 요청)  │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 4. CI 검증 & 코드 리뷰       │
+│ (빌드 터지면 병합 버튼 잠김) │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ 5. 메인 브랜치로 병합 (Merge)│
+│ (운영 나갈 새 Baseline 탄생) │
+└──────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. Staging 이송: `git add`로 선택 파일의 Index 스냅샷 갱신
-2. 로컬 커밋: 트리와 부모 참조를 가진 커밋 객체 생성
-3. Push**•**PR: 원격 브랜치를 공유하고 변경 검토 요청 생성
-4. CI 검증·Code Review: 자동 검사와 동료 검토로 병합 조건 판정
-5. Mainline 병합: 보호된 기준 브랜치에 승인 변경 통합
+1. 코드 수정: 로컬에서 버그 잡고 기능 만듦.
+2. 로컬 커밋: 변경사항을 장바구니(`add`)에 담고 결제(`commit`)해서 로컬 히스토리를 땀.
+3. Push 및 PR: 깃허브에 올린 뒤 "이거 메인에 합쳐도 됨?" 하고 허락 맡음(Pull Request).
+4. 검증 및 리뷰: 자동화(CI)가 테스트 돌려주고, 팀원들이 코드 까보고 지적질함.
+5. 병합: 승인 나면 `main` 브랜치에 덮어쓰고(Merge) 새 배포 기준선(Baseline) 잡음.
 
 #### 한줄 요약
 
-- 선택 변경 스냅샷부터 기준선 병합까지의 검증 흐름이 핵심이다.
+- 로컬 커밋 $\to$ 깃허브 푸시 $\to$ PR 올려서 검사받기 $\to$ 메인에 합치기의 배포 파이프라인이다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **GitFlow**: master, develop, feature, release, hotfix 5개 브랜치를 활용하여 정기적 대규모 릴리스를 지원하는 전통적 브랜치 전략.
-- **Trunk-based Development**: 모든 개발자가 단일 main(Trunk) 브랜치에 매일 수차례 짧은 수명의 Feature 브랜치를 지속 통합(CI)하는 현대적 애자일/DevOps 브랜치 전략.
+- **깃플로우 vs 트렁크 기반 개발(GitFlow vs Trunk-based Development)**: `develop`, `release` 등 브랜치 5개 파서 복잡하게 관리하는 전통 전략(GitFlow)과, `main` 하나에 다 때려 박고 매일 수시로 배포하는 최신 애자일 전략(Trunk-based)의 차이이다.
 
 </details>
 
-| 비교 항목 | GitFlow (전통적 확장형) | Trunk-based Development (현대 애자일형) |
+| 비교 항목 | **GitFlow (전통적 확장형)** | **Trunk-based (현대 애자일 전략)** |
 |:---|:---|:---|
-| 브랜치 구조 | develop•feature•release•hotfix 역할 분리 | main 중심의 짧은 feature 브랜치 |
-| 브랜치 수명 | 릴리스 병행을 위한 장기 브랜치 가능 | 통합 지연을 줄이는 짧은 브랜치 |
-| 통합/배포 주기 | 정기적 릴리스 주기 (배치 통합) | **지속적 통합 및 배포 (CI/CD 상시 지속 배포)** |
-| 충돌 위험 | 장기 분기 시 병합 충돌 증가 | 작은 단위의 잦은 병합으로 충돌 범위 축소 |
-| 필수 전제조건 | 정적 배포 절차, 수동 테스트 환경 | **고도로 자동화된 CI/CD 및 자동 테스트 파이프라인** |
+| 브랜치 구조 | `main`, `develop`, `feature`, `release`, `hotfix` 복잡하게 분리 | 걍 `main`(트렁크) 하나랑 짧은 `feature`만 씀 |
+| 브랜치 수명 | 한 번 파면 몇 달씩 살아서 합칠 때 지옥 열림 | 파자마자 몇 시간~하루 만에 바로 합쳐버림 |
+| 통합/배포 주기| 한 달에 한 번 날 잡고 배치로 배포함 | **하루에도 수십 번 CI/CD 뚫고 지속 배포함** |
+| 충돌(Merge) | 오래 묵혀둬서 합칠 때 **충돌 폭발(Merge Hell)** | 찔끔찔끔 합쳐서 충돌 날 건덕지가 없음 |
 
 #### 한줄 요약
 
-- 잦은 배포에는 트렁크 기반 개발, 병행 버전에는 깃플로가 적합하다.
+- 한 달에 한 번 배포하면 깃플로우, 하루에 10번 배포하면 트렁크 기반 개발이 맞다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Protected Branch**: main/master 브랜치에 직접적인 `git push`를 금지하고, 반드시 PR 통과 및 CI 성공 시에만 병합을 허용하는 보안 통제 설정.
+- **보호 브랜치(Protected Branch)**: 아무나 `main` 브랜치에 억지로 `push` 해서 서버 날려먹는 걸 막기 위해, "무조건 PR 올리고 팀원 승인받아야 합친다"고 걸어두는 깃허브 절대 방어막이다.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| main 브랜치에 무단 직투입(Direct Push)하여 코드 파괴 | **Protected Branch** 설정 및 필수 PR 승인자(Min 1~2명) 인가 | 메인라인 안정성 보장 |
-| API Key / DB 비밀번호가 Git 커밋 히스토리에 유출 | **git-secrets, Gitleaks** 등 Pre-commit Hook 연동 | 보안 사고 조기 차단 |
-| 장기 Feature 브랜치로 인한 최악의 Merge Hell 발생 | **Trunk-based 전환** 및 1일 1회 이상 메인라인 Rebase/Merge | 병합 충돌 최소화 |
-
-> 사례: GitHub Enterprise + **Trunk-based Development + Protected Branch Rule** 적용
+| 누군가 `main` 브랜치에 무지성 직투입(Direct Push)해서 서버 터짐 | **보호 브랜치(Protected Branch)** 걸고 코드 리뷰(PR) 필수화 | 똥 코드로부터 메인라인 방어 사수 |
+| AWS 키나 DB 비번이 깃허브에 그대로 올라가서 털림 | **git-secrets, Gitleaks** 같은 Pre-commit Hook 연동 | 커밋 치는 순간 비번 검사해서 대참사 차단 |
+| 한 달 동안 혼자 코딩하다가 `main`이랑 합치려니 500개 충돌남 | **Trunk-based 전환** 및 무조건 하루 한 번 이상 `Rebase/Merge` | 병합 지옥(Merge Hell) 박살 내고 스트레스 제거 |
 
 #### 한줄 요약
 
-- 보호 브랜치, 필수 CI, 검토 승인에 기반한 기준선 보호가 핵심이다.
+- 메인 브랜치는 `Protected`로 잠그고, 비번은 훅(Hook)으로 검사하며, 코드는 묵히지 말고 바로 합쳐라.
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **형상 통제 수립 기준(Configuration Management Standards)**: 배포 빈도, 조직 팀 규모, 테스트 자동화 수준에 기반한 브랜치 전략 선정 체계.
+- **형상 통제 및 브랜치 전략 기준(Configuration Management Standards)**: 팀이 하루에 배포를 몇 번이나 하는지, 자동화(CI/CD) 수준은 어떤지 각 재서 브랜치를 몇 개나 팔지 정하는 잣대이다.
 
 </details>
 
-- **형상 통제 수립 기준**에 따라 continuous delivery 지향 시 **Trunk-based Development + Protected Main Branch** 채택
+- **형상 통제 수립 기준** 원칙에 따라, 최신 애자일/CI/CD 환경엔 닥치고 **Trunk-based Development + Protected Branch**, 옛날식 패키지 SW는 **GitFlow** 채택 기조 확립함
 
 #### 한줄 요약
 
-- 배포 주기와 지원 방식에 맞는 브랜치 전략으로 변경 추적성을 확보하는 것이 핵심이다.
+- 코드를 어떻게 합치고 릴리스할지에 대한 교통 정리가 안 돼 있으면 깃(Git)도 그냥 쓰레기통이다.
