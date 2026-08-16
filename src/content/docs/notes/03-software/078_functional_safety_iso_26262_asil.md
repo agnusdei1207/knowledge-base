@@ -26,6 +26,7 @@ extra:
 - **ASIL (Automotive Safety Integrity Level, 자동차 안전 무결성 수준)**: ISO 26262의 핵심 평가 지표로, 위험원 분석(HARA)을 통해 위험도를 ASIL A(최저)부터 ASIL D(최고 위험)까지 4단계로 등급화한 무결성 수준.
 - **HARA (Hazard Analysis and Risk Assessment)**: 차량의 주행 오동작으로 인한 위해 요소(Hazard)를 식별하고 위험도를 정량화하는 프로세스.
 
+- **자동차 기능안전성(ISO 26262 / ASIL)**: 차량용 전기·전자 시스템의 고장으로 인한 위험을 방지하기 위해 심각도(Severity), 노출도(Exposure), 통제성(Controllability)을 결합하여 안전성 요구등급(ASIL A~D)을 정의한 국제 표준.
 </details>
 
 - 정의/개념: 승용차 및 상용차 E/E 시스템의 고장으로 발생할 수 있는 사고 위험을 방지하고자 HARA를 통해 ASIL(A~D) 등급을 부여하고 개발 전 수명주기(Safety Lifecycle)를 통제하는 기능 안전 표준인 **ISO 26262**

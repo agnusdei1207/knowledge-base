@@ -26,6 +26,7 @@ extra:
 - **Continuous Delivery (CD, 지속적 전달)**: CI 과정을 통과한 소프트웨어를 언제든지 검증/운영 환경으로 프로덕션 릴리스할 수 있도록 준비(Staging 준비 완료)해 두는 수동 승인형 자동화 단계.
 - **Continuous Deployment (CD, 지속적 배포)**: 모든 품질 게이트(Quality Gate) 테스트를 통과한 소스코드가 사람의 개입 없이(No Human Touch) 실운영(Prod) 환경으로 자동 배포 완료되는 완결형 단계.
 
+- **CI/CD 파이프라인(Continuous Integration / Continuous Delivery)**: 형상관리부터 자동 빌드·테스트(CI) 및 무중단 배포(CD)까지의 소프트웨어 릴리스 전 과정을 자동화한 엔지니어링 파이프라인.
 </details>
 
 - 정의/개념: 개발자의 소스코드 커밋부터 컴파일, 테스트, 정적 분석, 컨테이너 빌드 및 실운영 환경 배포까지 전 과정을 자동화 파이프라인으로 연결한 **CI/CD Pipeline**

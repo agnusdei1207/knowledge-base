@@ -26,6 +26,7 @@ extra:
 - **Database-per-Service**: 서비스가 자신의 데이터 저장소 스키마와 접근 계약을 소유하는 원칙.
 - **Decomposition**: Monolithic 시스템을 DDD(Domain-Driven Design) Bounded Context 기법을 적용하여 독립적 마이크로서비스로 분할 도출하는 설계 기법.
 
+- **마이크로서비스 아키텍처(Microservice Architecture, MSA)**: 단일 대형 애플리케이션을 비즈니스 도메인 중심의 독립 배포 가능한 작은 서비스 단위들로 분할하고 API/메시징으로 통신하는 분산 아키텍처.
 </details>
 
 - 정의/개념: 단일 애플리케이션을 도메인 단위의 독립적 소형 서비스로 분할하여, 독자적 DB(Database-per-service)와 독립적 CI/CD 배포 파이프라인을 운영하는 **MSA (Microservice Architecture)**

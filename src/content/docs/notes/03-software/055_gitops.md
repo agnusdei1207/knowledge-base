@@ -26,6 +26,7 @@ extra:
 - **Single Source of Truth (SSOT)**: 모든 인프라(IaC) 및 애플리케이션 K8s 매니페스트 설정의 불변 원본을 오직 Git 저장소 단 한 곳으로 통합 정의하는 사상.
 - **Declarative Infrastructure**: "어떻게(How)" 스크립트를 실행할지가 아닌 "무엇을(What)" 배치할 것인지를 K8s YAML 매니페스트로 선언하여 관리하는 방식.
 
+- **깃옵스(GitOps / ArgoCD / Flux)**: 선언적 인프라 및 애플리케이션의 목표 상태(Desired State)를 단일 진실 공급원인 Git 리포지토리에 저장하고 컨트롤러가 실제 클러스터 상태와 자동 동기화하는 운영 방식.
 </details>
 
 - 정의/개념: Git 저장소를 유일한 진실의 원천(Single Source of Truth)으로 선언하고, K8s 클러스터 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**

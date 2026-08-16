@@ -26,6 +26,7 @@ extra:
 - **Ubiquitous Language (보편적 언어)**: 기획자, 현업 전문가, 아키텍트, 개발자 등 모든 이해관계자가 요구사항 정의부터 소스코드의 클래스/메서드 명칭까지 통일되게 사용하는 단일 공통 언어.
 - **Strategic vs Tactical Design**: DDD는 전사 도메인을 분할하는 전략적 설계(Bounded Context, Context Map)와 서비스 내부 객체를 모델링하는 전술적 설계(Entity, VO, Aggregate, Repository) 2개 레벨로 나뉨.
 
+- **도메인 주도 설계(Domain-Driven Design, DDD)**: 복잡한 비즈니스 도메인을 유비쿼터스 언어(Ubiquitous Language)와 바운디드 컨텍스트(Bounded Context), 애그리게잇(Aggregate) 중심으로 모델링하는 설계 방법론.
 </details>
 
 - 정의/개념: 기술 중심이 아닌 비즈니스 도메인 지식에 집중하여 현업과 개발팀이 동일한 보편적 언어(Ubiquitous Language) 기반으로 도메인 모델을 코드로 구체화하는 **DDD (Domain-Driven Design)**

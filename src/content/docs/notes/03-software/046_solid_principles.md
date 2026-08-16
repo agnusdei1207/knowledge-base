@@ -26,6 +26,7 @@ extra:
 - **Maintainability (유지보수성)**: 시스템 변경 요구사항 발생 시, 주변 코드에 예기치 못한 부작용(Side Effect) 없이 안전하고 손쉽게 수정/확장 가능한 코드 성질.
 - **Coupling & Cohesion**: 모듈 간 의존도인 결합도(Coupling)는 낮추고(Loose Coupling), 모듈 내부 연관성인 응집도(Cohesion)는 높이는(High Cohesion) 객체지향의 기본 대원칙.
 
+- **SOLID 원칙(SOLID Principles)**: SRP(단일 책임), OCP(개방 폐쇄), LSP(리스코프 치환), ISP(인터페이스 분리), DIP(의존역전)의 5대 객체지향 설계 핵심 원칙.
 </details>
 
 - 정의/개념: 객체지향 프로그래밍에서 코드의 유지보수성, 가독성 및 확장성을 극대화하기 위해 준수해야 할 5가지 핵심 설계 원칙의 두문자어인 **SOLID Principles**

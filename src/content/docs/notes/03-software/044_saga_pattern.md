@@ -26,6 +26,7 @@ extra:
 - **Compensating Transaction (보상 트랜잭션)**: 이미 성공하여 로컬 DB에 커밋(Commit)된 과거 트랜잭션의 효과를 역으로 상쇄(Undo/Rollback)시키는 비즈니스 반대 연산 (e.g., 결제 취소, 재고 복원).
 - **2PC (Two-Phase Commit)**: 분산 DB 트랜잭션의 전통적 방식으로 Prepare/Commit 2단계를 거치며, 전역 락(Global Lock)으로 인한 락 경합 및 성능 저하 유발.
 
+- **사가 패턴(Saga Pattern)**: 분산 MSA 환경에서 2PC 분산 락 대신 각 서비스별 로컬 트랜잭션의 연쇄 실행과 실패 시 보상 트랜잭션(Compensating Transaction)을 통해 최종 일관성을 보장하는 패턴.
 </details>
 
 - 정의/개념: 각 마이크로서비스별 독립 로컬 트랜잭션 커밋 후, 실패 발생 시 역순으로 **보상 트랜잭션**을 실행하여 데이터 최종 일관성을 수습하는 **Saga Pattern**

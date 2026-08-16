@@ -26,6 +26,7 @@ extra:
 - **CQRS (Command Query Responsibility Segregation)**: 시스템의 상태를 변경하는 명령(Command: C/U/D) 데이터 모델과, 상태를 단순 조회하는 쿼리(Query: R) 데이터 모델을 아예 데이터베이스 수준까지 분리(Separation)하는 아키텍처 패턴.
 - **Event Store**: 이벤트 소싱 아키텍처에서 수정/삭제 없이 오직 Append-Only 방식으로만 이벤트 로그를 원자적으로 보관하는 이벤트 전용 데이터베이스.
 
+- **이벤트 소싱 및 CQRS(Event Sourcing & CQRS)**: 애플리케이션의 모든 상태 변경을 불변의 이벤트 로그로 순차 기록(Event Sourcing)하고, 데이터 조회(Query) 모델과 변경(Command) 모델을 물리적으로 분리하는 설계 패턴.
 </details>
 
 - 정의/개념: 상태 변경 이벤트 자체를 불변(Immutable) 원본 데이터로 축적(Event Sourcing)하고, 쓰기 전용 Command 모델과 읽기 전용 Query 모델을 분리(CQRS)하는 결합 패턴인 **Event Sourcing & CQRS**

@@ -26,6 +26,7 @@ extra:
 - **Shift-Left Security**: 출시 직전이나 운영 단계에 수동으로 수행하던 보안 점검을 소프트웨어 개발 생명주기(SDLC)의 가장 왼쪽(초기 코딩/빌드 단계)으로 앞당겨 결함을 조기 발견/수정하는 전략.
 - **Policy as Code (PaC)**: 보안/컴플라이언스 규정 정책(e.g., K8s 보안 룰, AWS IAM 정책)을 OPA(Open Policy Agent)나 Kyverno 코드 형태로 작성하여 CI/CD에서 자동 검증하는 기술.
 
+- **데브섹옵스(DevSecOps / Shift-Left Security)**: 개발 초기 단계(Shift-Left)부터 CI/CD 파이프라인 전반에 SAST, DAST, SCA, 컨테이너 이미지 스캔 등 보안 검증을 내재화하여 안전한 소프트웨어를 신속 배포하는 체계.
 </details>
 
 - 정의/개념: DevOps 파이프라인 전반에 보안(Security)을 문화이자 자동화된 코드 검증 단계로 내재화(Shift-Left)하는 아키텍처 방법론인 **DevSecOps**

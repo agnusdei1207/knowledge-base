@@ -26,6 +26,7 @@ extra:
 - **Cascading Failure (연쇄 장애)**: 하나의 마이크로서비스 장애(지연/다운)가 호출측 서비스의 스레드 및 커넥션 풀을 강제 고착(Blocking)시켜 시스템 전체로 마비가 연쇄 전파되는 현상.
 - **Fallback**: 서킷 브레이커가 Open 상태이거나 원격 호출 실패 시, 에러 메세지 대신 예비 캐시 데이터나 우회(Fallback) 응답값을 반환하여 유저 경험을 보존하는 기법.
 
+- **서킷 브레이커 패턴(Circuit Breaker Pattern)**: 원격 서비스 장애 발생 시 호출을 차단(Open)하여 연쇄 장애(Cascading Failure)를 방지하고, 정상 복구 여부를 주기적으로 검증(Half-Open) 후 재연결(Closed)하는 탄력성 패턴.
 </details>
 
 - 정의/개념: 원격 호출의 연쇄 장애(Cascading Failure)를 차단하기 위해 타깃 서비스의 에러 비율/지연율을 모니터링하여 차단기(Open/Closed/Half-Open)를 자동 제어하는 **Circuit Breaker Pattern**
