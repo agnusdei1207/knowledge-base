@@ -52,6 +52,7 @@ extra:
 - **비말단 상태(Non-terminal State)**: 게임이나 의사결정이 아직 종료되지 않아 후속 행동이 남은 상태이다.
 - **최다 방문 기준**: 탐색 종료 시 방문 횟수가 가장 큰 루트 행동을 최종 행동으로 고르는 기준이다.
 
+- **트리 상한 신뢰도(Upper Confidence Bounds applied to Trees, UCT)**: 탐험(Exploration)과 활용(Exploitation) 간의 균형을 유지하기 위해 노드 선택에 적용하는 수식.
 </details>
 
 ![자식 방문 수에 따른 UCT 탐험 보너스](/study/diagrams/uct-exploration-bonus.svg)
@@ -77,6 +78,7 @@ extra:
 - **노드 통계(Node Statistics)**: 각 노드의 방문 횟수와 누적•평균 보상을 저장한 값이다.
 - **탐색 트리**: 방문한 상태를 노드로, 행동을 간선으로 누적한 부분 상태 공간 트리이다.
 
+- **모의 진행(Simulation / Rollout)**: 현재 상태에서 게임 종료 시점까지 무작위 또는 가벼운 정책으로 빠르게 수를 진행하는 단계.
 </details>
 
 ```text
@@ -148,6 +150,7 @@ MCTS 구조
 - **롤아웃 편향(Rollout Bias)**: 롤아웃 정책의 치우친 표본화가 노드 보상 추정을 왜곡하는 현상이다.
 - **지평선 효과(Horizon Effect)**: 제한된 탐색 깊이 밖의 결과를 보지 못해 현재 행동 평가가 왜곡되는 현상이다.
 
+- **최소•최대 역전파(Min-Max Backpropagation)**: 2인 제로섬 게임에서 플레이어별 보상을 교대로 반전·집계하며 트리의 상위 노드로 가치를 전달하는 절차.
 </details>
 
 | 게임 트리 탐색 기법 | MCTS | 미니맥스 |

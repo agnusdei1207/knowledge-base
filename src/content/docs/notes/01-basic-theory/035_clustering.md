@@ -30,8 +30,8 @@ extra:
 
 </details>
 
-- **정의**: 데이터 간의 유사성을 거리(Distance), 밀도(Density), 연결성(Connectivity) 지표로 측정하여 비지도 방식으로 그룹화하는 데이터 분석 기법.
-- **배경**: 대규모 미정제 데이터에서 정답 레이블(Label) 부재로 인한 지도 학습(Supervised Learning) 모델 구축의 한계 극복 및 숨겨진 패턴 식별 필수.
+- 정의: 데이터 간의 유사성을 거리(Distance), 밀도(Density), 연결성(Connectivity) 지표로 측정하여 비지도 방식으로 그룹화하는 데이터 분석 기법.
+- 배경: 대규모 미정제 데이터에서 정답 레이블(Label) 부재로 인한 지도 학습(Supervised Learning) 모델 구축의 한계 극복 및 숨겨진 패턴 식별 필수.
 
 #### 한줄 요약
 - 이름표 없는 점 지도에서 가까이 모이거나 촘촘히 이어진 점을 같은 색으로 묶어, 데이터가 스스로 만드는 집단 구조를 찾는다.
@@ -142,6 +142,7 @@ extra:
 - **$\varepsilon$ 이웃 반경**: DBSCAN이 표본의 이웃을 조회할 때 사용하는 최대 거리이다.
 - **밀도 균질성**: 서로 다른 군집의 이웃 밀도가 하나의 ε•MinPts로 구분될 만큼 비슷한 성질이다.
 
+- **군집 형태 및 밀도 균질성(Cluster Shape & Density Homogeneity)**: k-평균의 구형(Spherical) 군집 가정과 DBSCAN의 임의 형상·가변 밀도 처리 능력 간의 데이터 기하학적 차이.
 </details>
 
 | 군집화 알고리즘 | K-Means | DBSCAN |
@@ -169,6 +170,7 @@ extra:
 - **거리 지배**: 값 범위가 큰 특징 하나가 거리 계산의 대부분을 차지하는 상태이다.
 - **결과 변동성**: 초기 중심이나 표본 순서에 따라 군집 배정 결과가 달라지는 성질이다.
 
+- **k-거리 그래프(k-distance Graph)**: 각 데이터 포인트의 k번째 최근접 이웃까지의 거리를 정렬하여 DBSCAN의 최적 반경($\varepsilon$)을 도출하는 기법.
 </details>
 
 | 문제 | 대책 | 효과 |
@@ -187,6 +189,7 @@ extra:
 
 - **선택 기준(Selection Criteria)**: 군집 수의 사전 지식과 군집 형상•밀도•잡음 요구를 함께 보는 기준.
 
+- **DBSCAN(Density-Based Spatial Clustering of Applications with Noise)**: 밀도 기반으로 군집을 형성하여 임의 형태의 클러스터와 노이즈(이상치)를 효과적으로 분리하는 알고리즘.
 </details>
 
 - 군집 수가 알려진 구형은 **K-Means**, 임의 형상•잡음은 **DBSCAN** 선택

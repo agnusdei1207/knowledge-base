@@ -111,6 +111,7 @@ $$
 
 - **모델 평가**: 생성된 표본을 모델에 넣어 추정에 사용할 출력값을 구하는 과정이다.
 
+- **통계량•종료 조건 판정(Statistics and Stopping Condition Evaluation)**: 표본 평균·분산의 오차 범위가 허용 임계치 $\varepsilon$ 이하로 수렴했는지 검사하는 단계.
 </details>
 
 ```text

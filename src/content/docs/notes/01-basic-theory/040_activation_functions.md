@@ -47,6 +47,7 @@ extra:
 - **순전파(Forward Propagation)**: 예측값을 입력에서 출력 방향으로 계산하는 과정이다.
 - **역전파(Backpropagation)**: 손실 기울기를 이전 층으로 전달하는 과정이다.
 
+- **비선형 변환(Non-linear Transformation)**: 다층 퍼셉트론(MLP)이 단순 선형 결합을 넘어 복잡한 비선형 결정 경계와 함수를 근사할 수 있도록 부여하는 수학적 비선형 사상.
 </details>
 
 ![Sigmoid Tanh ReLU 활성화 함수 비교 차트](/study/diagrams/activation-function-comparison.svg)

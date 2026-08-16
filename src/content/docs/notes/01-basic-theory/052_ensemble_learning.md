@@ -169,6 +169,7 @@ extra:
 - **운영 지연(Operational Latency)**: 여러 모델을 실행하고 결합하는 응답시간이다.
 - **운영 비용(Operational Cost)**: 여러 모델 실행에 드는 자원 사용량이다.
 
+- **OOF 예측(Out-of-Fold Prediction)**: 교차검증의 각 검증 폴드 예측값을 모아 전체 학습 데이터에 대한 누수 없는 메타 특성(Meta-feature)을 생성하는 스태킹 앙상블 기법.
 </details>
 
 | 문제 | 대책 | 효과 |
