@@ -25,6 +25,7 @@ extra:
 - **유럽연합 인공지능법(European Union Artificial Intelligence Act, EU AI Act)**: 용도•위험•역할별 AI 의무를 정한 규정이다.
 - **Regulation (EU) 2024/1689**: EU AI Act의 공식 법령 번호이다.
 
+- **EU 인공지능법(EU AI Act)**: 인공지능 시스템이 초래할 수 있는 위험을 허용 불가 위험(금지), 고위험(엄격한 적합성 평가 및 품질관리 의무), 제한된 위험(투명성 의무), 최소 위험(자율 규제)의 4단계로 분류하여 세계 최초로 법제화한 포괄적 AI 규제 프레임워크.
 </details>
 
 - 정의/개념: AI 위험•공급망 역할별 의무를 정한 **EU AI Act**

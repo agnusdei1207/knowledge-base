@@ -24,6 +24,7 @@ extra:
 
 - **에이전틱 검색 증강 생성(Agentic Retrieval-Augmented Generation, Agentic RAG)**: 목표 분해•도구 호출•근거 평가를 반복하는 RAG 방식이다.
 
+- **에이전틱 RAG(Agentic RAG / Multi-Hop RAG)**: 단순 1회성 검색에 그치지 않고, 에이전트가 질문을 다단계로 분해하여 검색 필요성을 스스로 판단(Routing)하고 검색된 문서의 적합성을 평가·재검색(Self-Reflection)하여 최종 답변을 도출하는 지능형 RAG 체계.
 </details>
 
 - 정의/개념: 계획•도구 호출•근거 평가를 반복하는 **Agentic RAG**
