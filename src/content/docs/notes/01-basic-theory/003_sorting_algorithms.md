@@ -22,8 +22,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **정렬 알고리즘(Sorting Algorithm)**: 원소들을 지정된 키 순서로 재배열하여 후속 탐색 및 병합 처리 효율을 높이는 알고리즘.
-- **키(Key)**: 레코드 간 정렬 순서를 판단하고 비교하는 기준값.
+- **키 대소 비교 규칙(Key Comparison Rule)**: 정렬 대상 원소 간의 우선순위를 결정하기 위해 정의된 전순서(Total Order) 비교 기준.
+- **데이터베이스 인덱싱(Database Indexing)**: 대량의 레코드를 B-Tree 등의 정렬된 구조로 유지하여 검색 성능을 극대화하는 색인 기술.
 
 </details>
 
