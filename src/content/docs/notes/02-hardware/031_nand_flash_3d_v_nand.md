@@ -169,7 +169,7 @@ extra:
 
 #### 한줄 요약
 
-- **Multi-Stack 분할 식각·LDPC 에러 정정·Read Retry·SLC 동적 캐싱**
+- 고단 적층의 식각 난이도는 Multi-Stack 분할로 완화하고, 비트 오류는 LDPC 에러 정정과 Read Retry로 잡으며, 쓰기 성능은 SLC 동적 캐싱으로 유지한다.
 
 ## Ⅶ. 결론
 

@@ -172,7 +172,7 @@ extra:
 
 #### 한줄 요약
 
-- **RAID 6/10 전환·Hot Spare 자동 승격·BBU 캐시(Write Hole 방어)·Patrol Read**
+- 이중 패리티가 필요하면 RAID 6이나 10으로 전환하고, Hot Spare 자동 승격으로 디스크 장애에 즉시 대응하며, BBU 캐시로 Write Hole을 방어하고, Patrol Read로 잠복 불량을 사전 탐지한다.
 
 ## Ⅶ. 결론
 
