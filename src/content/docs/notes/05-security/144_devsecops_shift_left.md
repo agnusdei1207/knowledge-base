@@ -49,7 +49,7 @@ DevSecOps 아키텍처는 코드 작성부터 운영 단계까지 단계별 통�
 | **테스트 단계** | DAST, IAST | 스테이징(Staging) 환경에 배포된 애플리케이션을 대상으로 HTTP/S 프로토콜 기반의 퍼징(Fuzzing) 및 페이로드 삽입(SQLi, XSS 등) 공격 모의. | OWASP ZAP, Burp Suite Enterprise |
 | **배포 단계** | SBOM, Image Signing | 무결성 검증을 위해 SPDX/CycloneDX 포맷의 SBOM(소프트웨어 자재명세서)을 생성하고, 컨테이너 이미지에 서명(Cosign 등)을 수행하여 Admission Controller에서 검증. | Syft, Sigstore(Cosign), OPA |
 
-## Ⅳ. 흐름도 (동작 원리)
+## Ⅳ. 흐름도
 
 CI/CD 파이프라인에서 보안 게이트(Security Gate)를 통과하지 못하면 Fail-Fast 원칙에 따라 파이프라인이 중단된다.
 

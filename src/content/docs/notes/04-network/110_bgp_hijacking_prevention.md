@@ -3,7 +3,7 @@ sidebar:
   order: 110
   label: "110. BGP 하이재킹 방지 (BGP Hijacking Prevention)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "BGP 하이재킹 방지 (BGP Hijacking Prevention)"
 date: "2026-08-13T16:51:54+09:00"

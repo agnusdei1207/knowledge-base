@@ -3,7 +3,7 @@ sidebar:
   order: 108
   label: "108. HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "HTTP/2•HTTP/3 비교 (HTTP/2 HTTP/3 Comparison)"
 date: "2026-08-13T16:51:54+09:00"

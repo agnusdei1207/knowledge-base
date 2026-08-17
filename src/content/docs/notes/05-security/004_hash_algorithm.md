@@ -3,7 +3,7 @@ sidebar:
   order: 4
   label: "004. 해시 알고리즘 (Hash Algorithm)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "해시 알고리즘 (Hash Algorithm)"
 date: "2026-08-13T18:43:10+09:00"

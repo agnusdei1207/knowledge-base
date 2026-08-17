@@ -3,7 +3,7 @@ sidebar:
   order: 123
   label: "123. 사이버 레인지 (Cyber Range, 가상 실전 훈련장)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "사이버 레인지 (Cyber Range, 가상 실전 훈련장)"
 date: "2026-08-13T22:08:00+09:00"

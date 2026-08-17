@@ -3,7 +3,7 @@ sidebar:
   order: 31
   label: "031. 폭포수 모델 vs 애자일"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "폭포수 모델 vs 애자일 (Waterfall vs Agile)"
 date: "2026-08-13T14:18:00+09:00"

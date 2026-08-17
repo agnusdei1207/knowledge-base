@@ -3,7 +3,7 @@ sidebar:
   order: 88
   label: "088. 락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
 date: "2026-08-13T19:02:00+09:00"

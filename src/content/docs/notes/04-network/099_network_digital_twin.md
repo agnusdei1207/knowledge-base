@@ -3,7 +3,7 @@ sidebar:
   order: 99
   label: "099. 네트워크 디지털 트윈"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "네트워크 디지털 트윈 (Network Digital Twin)"
 date: "2026-08-06T23:27:50+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 37
   label: "037. UML 다이어그램 유형"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "UML 다이어그램 유형 (UML Diagrams)"
 date: "2026-08-13T14:37:00+09:00"

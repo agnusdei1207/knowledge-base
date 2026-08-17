@@ -3,7 +3,7 @@ sidebar:
   order: 22
   label: "022. I/O 관리•디스크 스케줄링"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
 date: "2026-08-13T13:47:00+09:00"

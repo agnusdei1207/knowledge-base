@@ -76,7 +76,7 @@ extra:
 - **Action Engine**:
   - 악의적 행위 탐지 시 세션 종료, 스레드 Exception 발생, 경고 로깅, 혹은 페이로드 무력화 조치 수행.
 
-## Ⅳ. 동작 원리 (흐름도)
+## Ⅳ. 흐름도
 
 ### 1. IAST/RASP의 Byte-code Instrumentation 동작 흐름
 

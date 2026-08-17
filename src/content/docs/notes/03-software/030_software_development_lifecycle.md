@@ -3,7 +3,7 @@ sidebar:
   order: 30
   label: "030. 소프트웨어 개발 생명주기 SDLC"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "소프트웨어 개발 생명주기 SDLC (Software Development Lifecycle)"
 date: "2026-08-13T14:15:00+09:00"

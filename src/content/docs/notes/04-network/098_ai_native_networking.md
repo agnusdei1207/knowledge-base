@@ -3,7 +3,7 @@ sidebar:
   order: 98
   label: "098. AI 네이티브 네트워킹"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "AI 네이티브 네트워킹 (AI-Native Networking)"
 date: "2026-08-06T23:27:50+09:00"

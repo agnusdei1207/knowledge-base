@@ -3,7 +3,7 @@ sidebar:
   order: 101
   label: "101. 분산 클라우드 네트워킹 (Distributed Cloud Networking)"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "분산 클라우드 네트워킹 (Distributed Cloud Networking)"
 date: "2026-08-06T23:27:50+09:00"

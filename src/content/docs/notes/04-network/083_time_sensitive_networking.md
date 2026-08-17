@@ -3,7 +3,7 @@ sidebar:
   order: 83
   label: "083. 시간 민감 네트워킹 (TSN)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "시간 민감 네트워킹 (Time-Sensitive Networking, TSN)"
 date: "2026-08-06T23:27:50+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 13
   label: "013. PQC 전환 로드맵•하이브리드 방식 (PQC Migration Hybrid)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: "PQC 전환 로드맵•하이브리드 방식 (PQC Migration Hybrid)"
 date: "2026-08-13T18:48:54+09:00"

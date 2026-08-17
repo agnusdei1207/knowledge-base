@@ -3,7 +3,7 @@ sidebar:
   order: 110
   label: "110. BCP 업무 연속성 계획 (Business Continuity Plan)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "BCP 업무 연속성 계획 (Business Continuity Plan)"
 date: "2026-08-13T21:42:00+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 21
   label: "021. 파일 시스템 저널링"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "파일 시스템 저널링 (File System Journaling)"
 date: "2026-08-13T13:43:00+09:00"

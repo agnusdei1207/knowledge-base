@@ -3,7 +3,7 @@ sidebar:
   order: 97
   label: "097. 개인정보 영향평가 PIA (Privacy Impact Assessment)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "개인정보 영향평가 PIA (Privacy Impact Assessment)"
 date: "2026-08-13T21:16:00+09:00"

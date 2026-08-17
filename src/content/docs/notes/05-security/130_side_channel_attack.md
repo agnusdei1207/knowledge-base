@@ -3,7 +3,7 @@ sidebar:
   order: 130
   label: "130. 사이드채널 공격 (Side-Channel Attack)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: 사이드채널 공격 (Side-Channel Attack)
 date: "2026-08-13T22:22:00+09:00"

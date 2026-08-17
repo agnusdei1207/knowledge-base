@@ -3,7 +3,7 @@ sidebar:
   order: 44
   label: "044. 보안 구성 관리 (Security Configuration Management)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "보안 구성 관리 (Security Configuration Management)"
 date: "2026-08-13T19:22:00+09:00"

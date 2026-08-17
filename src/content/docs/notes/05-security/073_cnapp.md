@@ -3,7 +3,7 @@ sidebar:
   order: 73
   label: "073. 클라우드 네이티브 애플리케이션 보호 플랫폼 (Cloud-Native Application Protection Platform, CNAPP)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: "클라우드 네이티브 애플리케이션 보호 플랫폼 (Cloud-Native Application Protection Platform, CNAPP)"
 date: "2026-08-13T20:28:00+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 98
   label: "098. 파티셔닝: 범위•해시•리스트 (Partitioning)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
 date: "2026-08-13T20:02:00+09:00"

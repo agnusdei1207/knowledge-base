@@ -3,7 +3,7 @@ sidebar:
   order: 91
   label: "091. 인공지능 워터마킹 (Artificial Intelligence Watermarking)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: "인공지능 워터마킹 (Artificial Intelligence Watermarking)"
 date: "2026-08-13T21:04:00+09:00"

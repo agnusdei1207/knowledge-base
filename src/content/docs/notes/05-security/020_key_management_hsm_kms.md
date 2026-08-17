@@ -3,7 +3,7 @@ sidebar:
   order: 20
   label: "020. 키 관리 - HSM•KMS (Key Management HSM KMS)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "키 관리 - HSM•KMS (Key Management HSM KMS)"
 date: "2026-08-13T18:48:54+09:00"

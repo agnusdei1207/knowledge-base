@@ -3,7 +3,7 @@ sidebar:
   order: 77
   label: "077. 비밀 관리 - Vault•AWS Secrets (Secrets Management)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "비밀 관리 - Vault•AWS Secrets (Secrets Management)"
 date: "2026-08-13T20:36:00+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 41
   label: "041. 모의 침투 테스트 (Penetration Testing, 펜테스트)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "모의 침투 테스트 (Penetration Testing, 펜테스트)"
 date: "2026-08-13T19:15:00+09:00"

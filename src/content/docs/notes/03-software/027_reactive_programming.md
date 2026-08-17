@@ -3,7 +3,7 @@ sidebar:
   order: 27
   label: "027. 리액티브 프로그래밍"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
 date: "2026-08-13T14:05:00+09:00"

@@ -3,7 +3,7 @@ sidebar:
   order: 114
   label: "114. 네트워크 접근 제어 NAC"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "네트워크 접근 제어 NAC"
 date: "2026-08-06T23:27:50+09:00"

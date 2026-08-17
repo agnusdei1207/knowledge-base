@@ -3,7 +3,7 @@ sidebar:
   order: 137
   label: "137. 보안 설계 원칙 — 페일 세이프•최소 노출 (Security Design Principles)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: 보안 설계 원칙 — 페일 세이프•최소 노출 (Security Design Principles)
 date: "2026-08-13T22:36:00+09:00"

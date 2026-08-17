@@ -3,7 +3,7 @@ sidebar:
   order: 139
   label: "139. 보안 아키텍처 평가 — SABSA (SABSA Security Architecture)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: 보안 아키텍처 평가 — SABSA (SABSA Security Architecture)
 date: "2026-08-13T22:40:00+09:00"

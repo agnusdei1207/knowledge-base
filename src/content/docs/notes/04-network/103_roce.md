@@ -3,7 +3,7 @@ sidebar:
   order: 103
   label: "103. RoCE — RDMA over Converged Ethernet (RoCE)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "RoCE — RDMA over Converged Ethernet (RoCE)"
 date: "2026-08-13T16:51:54+09:00"

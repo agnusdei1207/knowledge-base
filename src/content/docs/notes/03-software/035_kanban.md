@@ -3,7 +3,7 @@ sidebar:
   order: 35
   label: "035. 칸반"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "칸반 (Kanban)"
 date: "2026-08-13T14:31:00+09:00"

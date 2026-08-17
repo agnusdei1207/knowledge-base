@@ -3,7 +3,7 @@ sidebar:
   order: 43
   label: "043. 패치 관리•가상 패치 (Patch Management Virtual Patching)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "패치 관리•가상 패치 (Patch Management Virtual Patching)"
 date: "2026-08-13T19:20:00+09:00"

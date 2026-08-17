@@ -3,7 +3,7 @@ sidebar:
   order: 81
   label: "081. AI 코드 생성: GitHub Copilot (AI Code Generation)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "AI 코드 생성: GitHub Copilot (AI Code Generation)"
 date: "2026-08-13T18:20:00+09:00"

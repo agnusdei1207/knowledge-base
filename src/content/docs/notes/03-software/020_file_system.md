@@ -3,7 +3,7 @@ sidebar:
   order: 20
   label: "020. 파일 시스템: FAT•NTFS•ext4•APFS"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
 date: "2026-08-13T13:40:00+09:00"

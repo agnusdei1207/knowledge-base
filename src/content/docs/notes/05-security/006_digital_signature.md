@@ -3,7 +3,7 @@ sidebar:
   order: 6
   label: "006. 전자 서명 (Digital Signature)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "전자 서명 (Digital Signature)"
 date: "2026-08-13T18:45:57+09:00"

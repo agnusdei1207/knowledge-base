@@ -3,7 +3,7 @@ sidebar:
   order: 107
   label: "107. 글로벌 CDN 아키텍처 (Global CDN Architecture)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "글로벌 CDN 아키텍처 (Global CDN Architecture)"
 date: "2026-08-13T16:51:54+09:00"

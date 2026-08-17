@@ -3,7 +3,7 @@ sidebar:
   order: 29
   label: "029. NUMA 인지 스케줄링"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "NUMA 인지 스케줄링 (NUMA-aware Scheduling)"
 date: "2026-08-13T14:12:00+09:00"

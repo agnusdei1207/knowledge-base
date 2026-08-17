@@ -3,7 +3,7 @@ sidebar:
   order: 113
   label: "113. 내부자 위협 관리 (Insider Threat Management)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "내부자 위협 관리 (Insider Threat Management)"
 date: "2026-08-13T21:48:00+09:00"

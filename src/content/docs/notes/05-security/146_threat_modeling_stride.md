@@ -3,7 +3,7 @@ sidebar:
   order: 146
   label: "146. 위협 모델링 — STRIDE•DREAD (Threat Modeling STRIDE)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: 위협 모델링 — STRIDE•DREAD (Threat Modeling STRIDE)
 date: "2026-08-13T22:54:00+09:00"
@@ -72,7 +72,7 @@ extra:
 
 *※ 최근 실무에서는 DREAD의 주관성을 보완하기 위해 CVSS(Common Vulnerability Scoring System)를 함께 활용하는 추세이다.*
 
-## Ⅳ. 흐름도 및 동작 원리
+## Ⅳ. 흐름도
 
 위협 모델링은 다음의 구조화된 파이프라인을 거친다.
 

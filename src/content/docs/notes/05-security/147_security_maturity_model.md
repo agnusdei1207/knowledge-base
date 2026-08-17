@@ -3,7 +3,7 @@ sidebar:
   order: 147
   label: "147. 보안 성숙도 모델 (Security Maturity Model)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
 date: "2026-08-13T22:56:00+09:00"
@@ -78,7 +78,7 @@ Security Maturity Assessment Framework
 | **목표 프로파일 (Target Profile)** | NIST CSF의 Tiers나 C2M2의 MIL(Maturity Indicator Level) 기준을 바탕으로, 부서별/자산별로 다르게 설정된 목표 수준 템플릿 | 맹목적인 만점 추구를 방지하고 리소스 최적화 |
 | **개선 로드맵 (Remediation Roadmap)** | 격차(Gap) 분석 후, 선행되어야 할 보안 인프라(예: IAM 통합)와 후행 기술(예: Zero Trust 정책)의 의존성(Dependency)을 모델링한 단계별 이행 계획 | 경영진 보고용 타당성(Justification) 및 예산 확보 근거 |
 
-## Ⅳ. 흐름도 (동작 원리)
+## Ⅳ. 흐름도
 
 보안 성숙도 평가 및 개선 체계는 일회성 진단이 아닌 지속적 파이프라인(Continuous Pipeline) 형태로 동작한다.
 

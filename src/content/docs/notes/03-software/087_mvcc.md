@@ -3,7 +3,7 @@ sidebar:
   order: 87
   label: "087. MVCC 다중 버전 동시성 제어 (MVCC)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (MVCC)"
 date: "2026-08-13T18:56:00+09:00"

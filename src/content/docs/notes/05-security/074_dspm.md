@@ -3,7 +3,7 @@ sidebar:
   order: 74
   label: "074. DSPM 데이터 보안 형상 관리 (Data Security Posture Management)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "DSPM 데이터 보안 형상 관리 (Data Security Posture Management)"
 date: "2026-08-13T20:30:00+09:00"

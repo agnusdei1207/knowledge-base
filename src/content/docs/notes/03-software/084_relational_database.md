@@ -3,7 +3,7 @@ sidebar:
   order: 84
   label: "084. 관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
 date: "2026-08-13T18:38:00+09:00"

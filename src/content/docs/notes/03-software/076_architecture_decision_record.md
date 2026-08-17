@@ -3,7 +3,7 @@ sidebar:
   order: 76
   label: "076. 아키텍처 결정 기록 ADR (Architecture Decision Record)"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
 date: "2026-08-13T17:50:00+09:00"

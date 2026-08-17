@@ -3,7 +3,7 @@ sidebar:
   order: 92
   label: "092. 딥페이크 탐지 (Deepfake Detection)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: "딥페이크 탐지 (Deepfake Detection)"
 date: "2026-08-13T21:06:00+09:00"

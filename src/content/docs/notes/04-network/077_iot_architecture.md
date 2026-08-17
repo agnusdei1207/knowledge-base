@@ -3,7 +3,7 @@ sidebar:
   order: 77
   label: "077. IoT 아키텍처"
   badge:
-    text: "미출제 • 30%"
+    text: "미출 • 30%"
     variant: note
 title: "IoT 아키텍처 (IoT Architecture)"
 date: "2026-08-06T23:27:50+09:00"

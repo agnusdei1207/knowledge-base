@@ -3,7 +3,7 @@ sidebar:
   order: 100
   label: "100. 데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
   badge:
-    text: "미출제 • 50%"
+    text: "미출 • 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
 date: "2026-08-13T20:14:00+09:00"

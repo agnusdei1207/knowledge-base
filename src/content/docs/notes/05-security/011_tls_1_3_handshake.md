@@ -3,7 +3,7 @@ sidebar:
   order: 11
   label: "011. TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
   badge:
-    text: "미출제 • 70%"
+    text: "미출 • 70%"
     variant: note
 title: "TLS 1.3 핸드셰이크 (TLS 1.3 Handshake)"
 date: "2026-08-13T18:48:54+09:00"
