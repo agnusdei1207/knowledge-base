@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- 분산 축소/병렬화는 **배깅(Random Forest)**, 편향 축소/정밀도는 **부스팅(XGB/LGBM)**, 이종 모델 결합은 **스태킹(Stacking)** 선택
+- 분산 축소/병렬화는 **배깅(Random Forest)**, 편향 축소/정밀도는 **부스팅(XGB/LGBM)**, 이종 모델 결합은 스태킹(Stacking) 선택
 
 #### 한줄 요약
 

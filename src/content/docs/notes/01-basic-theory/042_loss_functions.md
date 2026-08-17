@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- 확률 분류 문제는 **Cross-Entropy/Focal Loss**, 일반 회귀는 **MSE**, 이상치 혼재 회귀는 **Huber Loss** 선택
+- 확률 분류 문제는 **Cross-Entropy/Focal Loss**, 일반 회귀는 **MSE**, 이상치 혼재 회귀는 Huber Loss 선택
 
 #### 한줄 요약
 

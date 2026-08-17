@@ -182,7 +182,7 @@ extra:
 
 </details>
 
-- 은닉층 고속 학습은 **ReLU/GELU**, 이진 분류 출력은 **Sigmoid**, 순환 시계열 상태는 **Tanh** 선택
+- 은닉층 고속 학습은 **ReLU/GELU**, 이진 분류 출력은 **Sigmoid**, 순환 시계열 상태는 Tanh 선택
 
 #### 한줄 요약
 

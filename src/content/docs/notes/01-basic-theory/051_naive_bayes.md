@@ -183,7 +183,7 @@ extra:
 
 </details>
 
-- 연속 수치 데이터는 **Gaussian NB**, 단어 빈도/카운트는 **Multinomial NB**, 이진 유무는 **Bernoulli NB** 선택
+- 연속 수치 데이터는 **Gaussian NB**, 단어 빈도/카운트는 **Multinomial NB**, 이진 유무는 Bernoulli NB 선택
 
 #### 한줄 요약
 

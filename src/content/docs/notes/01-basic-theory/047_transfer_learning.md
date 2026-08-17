@@ -176,7 +176,7 @@ extra:
 
 </details>
 
-- 유사 도메인/소량 라벨은 **특징 추출(Feature Extraction)**, 도메인 갭 존재는 **점진적 미세조정(Fine-Tuning)**, 대규모 독자 데이터는 **Scratch 학습** 선택
+- 유사 도메인/소량 라벨은 **특징 추출(Feature Extraction)**, 도메인 갭 존재는 **점진적 미세조정(Fine-Tuning)**, 대규모 독자 데이터는 Scratch 학습 선택
 
 #### 한줄 요약
 

@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- 독립 표본은 **일반 K-Fold**, 불균형 라벨은 **층화 K-Fold**, 시계열 데이터는 **TimeSeriesSplit** 선택
+- 독립 표본은 **일반 K-Fold**, 불균형 라벨은 **층화 K-Fold**, 시계열 데이터는 TimeSeriesSplit 선택
 
 #### 한줄 요약
 

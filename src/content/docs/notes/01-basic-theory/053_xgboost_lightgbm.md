@@ -184,7 +184,7 @@ extra:
 
 </details>
 
-- 중소규모/균형 트리는 **XGBoost**, 대규모 고차원 정형 데이터는 **LightGBM**, 범주형 중심은 **CatBoost** 선택
+- 중소규모/균형 트리는 **XGBoost**, 대규모 고차원 정형 데이터는 **LightGBM**, 범주형 중심은 CatBoost 선택
 
 #### 한줄 요약
 
