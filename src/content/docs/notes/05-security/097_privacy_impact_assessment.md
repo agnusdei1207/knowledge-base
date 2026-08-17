@@ -12,7 +12,7 @@ tags:
 weight: 97
 extra:
   question_no: "097"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "법정 고위험 처리의 사전 영향평가 절차가 독립적임"

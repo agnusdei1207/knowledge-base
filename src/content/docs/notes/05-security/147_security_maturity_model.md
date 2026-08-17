@@ -12,7 +12,7 @@ tags:
 weight: 147
 extra:
   question_no: "147"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "SAMM•BSIMM•C2M2 비교와 개선로드맵이 독립적임"

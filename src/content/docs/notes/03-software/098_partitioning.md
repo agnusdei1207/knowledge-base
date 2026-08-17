@@ -12,7 +12,7 @@ tags:
 weight: 98
 extra:
   question_no: "098"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "파티션 키•분할 방식은 대용량 설계 핵심"

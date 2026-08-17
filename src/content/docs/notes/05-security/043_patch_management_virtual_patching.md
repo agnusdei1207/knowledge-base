@@ -12,7 +12,7 @@ tags:
 weight: 43
 extra:
   question_no: "043"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "패치•가상패치 선택과 검증 폐루프가 독립적임"

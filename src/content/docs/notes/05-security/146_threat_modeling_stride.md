@@ -12,7 +12,7 @@ tags:
 weight: 146
 extra:
   question_no: "146"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "STRIDE 기반 설계 위협도출은 독립 방법론 가치가 큼"

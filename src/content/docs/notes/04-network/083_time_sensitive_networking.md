@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 83
 extra:
   question_no: "083"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "설계형: 결정론 산업 Ethernet 현재 핵심"

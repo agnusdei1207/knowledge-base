@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 108
 extra:
   question_no: "108"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "비교형: HTTP/2•HTTP/3 선택 조건"

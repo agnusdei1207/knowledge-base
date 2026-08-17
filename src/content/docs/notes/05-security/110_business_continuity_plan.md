@@ -12,7 +12,7 @@ tags:
 weight: 110
 extra:
   question_no: "110"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "업무영향•연속전략•훈련을 묶는 독립 계획 주제임"

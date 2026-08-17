@@ -12,7 +12,7 @@ tags:
 weight: 114
 extra:
   question_no: "114"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "접근 보안 핵심 주제"

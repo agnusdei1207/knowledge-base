@@ -12,7 +12,7 @@ tags:
 weight: 113
 extra:
   question_no: "113"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "행위•권한•데이터를 잇는 내부자 위험 설계가 독립적임"

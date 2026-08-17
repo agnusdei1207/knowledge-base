@@ -12,7 +12,7 @@ tags:
 weight: 100
 extra:
   question_no: "100"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "복제 지연•일관성•장애전환 설계 가치"

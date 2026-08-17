@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 99
 extra:
   question_no: "099"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "설계•운영형: 변경 전 Twin 검증 현재성"

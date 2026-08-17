@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 98
 extra:
   question_no: "098"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "설계•운영형: AI 폐루프•Guardrail 전망"

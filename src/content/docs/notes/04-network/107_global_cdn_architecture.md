@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 107
 extra:
   question_no: "107"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "설계형: CDN Cache•Shield•Origin 보호"

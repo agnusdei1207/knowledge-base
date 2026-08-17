@@ -11,7 +11,7 @@ tags: [notes-software]
 weight: 20
 extra:
   question_no: "020"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "할당•메타데이터•장애 일관성 비교"

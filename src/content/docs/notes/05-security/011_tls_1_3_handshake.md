@@ -12,7 +12,7 @@ tags:
 weight: 11
 extra:
   question_no: "011"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "핸드셰이크•0-RTT•키 갱신을 묻는 현대 설계 주제임"

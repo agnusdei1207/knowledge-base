@@ -12,7 +12,7 @@ tags:
 weight: 74
 extra:
   question_no: "074"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "데이터 발견•분류•노출을 다루는 독립 클라우드 설계임"

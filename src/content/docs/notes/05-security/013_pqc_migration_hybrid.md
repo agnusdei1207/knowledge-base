@@ -12,7 +12,7 @@ tags:
 weight: 13
 extra:
   question_no: "013"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "암호 자산 전환•하이브리드 설계가 실무 핵심이 됨"

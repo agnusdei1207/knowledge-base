@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 110
 extra:
   question_no: "110"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "보안•문제대책형: Hijack•Leak 다층 방어"

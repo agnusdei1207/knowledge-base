@@ -12,7 +12,7 @@ tags:
 weight: 6
 extra:
   question_no: "006"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "PKI와 PQC 서명 전환을 잇는 독립 기반 주제임"

@@ -12,7 +12,7 @@ tags:
 weight: 76
 extra:
   question_no: "076"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "ADR은 설계 근거•대안 추적의 실무 문서"

@@ -12,7 +12,7 @@ tags:
 weight: 81
 extra:
   question_no: "081"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "AI 코드 생성의 생산성•보안 검증이 현안"

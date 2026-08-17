@@ -12,7 +12,7 @@ tags:
 weight: 123
 extra:
   question_no: "123"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "재현 환경•상황주입•평가를 갖춘 독립 훈련체계임"

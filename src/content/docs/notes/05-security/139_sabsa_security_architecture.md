@@ -12,7 +12,7 @@ tags:
 weight: 139
 extra:
   question_no: "139"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "비즈니스 위험을 보안구현으로 추적하는 독립 방법론임"

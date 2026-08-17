@@ -12,7 +12,7 @@ tags:
 weight: 88
 extra:
   question_no: "088"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "2PL은 직렬성•교착상태 절충의 기본 기법"

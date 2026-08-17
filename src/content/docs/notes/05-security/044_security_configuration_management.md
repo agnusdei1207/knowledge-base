@@ -12,7 +12,7 @@ tags:
 weight: 44
 extra:
   question_no: "044"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "안전 기준선•드리프트 관리는 여러 환경의 선행 통제임"

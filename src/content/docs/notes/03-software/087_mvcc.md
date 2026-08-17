@@ -12,7 +12,7 @@ tags:
 weight: 87
 extra:
   question_no: "087"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "MVCC는 동시 읽기•버전 정리 설계 핵심"

@@ -12,7 +12,7 @@ tags:
 weight: 91
 extra:
   question_no: "091"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "워터마크 삽입•강건성 검증은 독립 진위기술 축임"

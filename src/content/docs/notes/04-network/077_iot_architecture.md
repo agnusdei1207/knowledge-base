@@ -12,7 +12,7 @@ tags:
 weight: 77
 extra:
   question_no: "077"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "설계형: Device•Gateway•Cloud IoT 기반"

@@ -12,7 +12,7 @@ tags:
 weight: 130
 extra:
   question_no: "130"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "누설원•측정•마스킹을 잇는 독립 하드웨어 공격임"

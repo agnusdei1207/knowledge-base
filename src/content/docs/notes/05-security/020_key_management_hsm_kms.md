@@ -12,7 +12,7 @@ tags:
 weight: 20
 extra:
   question_no: "020"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "키 생성•보관•회전•폐기는 모든 암호 답안의 기반임"

@@ -12,7 +12,7 @@ tags:
 weight: 137
 extra:
   question_no: "137"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "최소권한•안전실패•완전중재를 묶는 설계 우산임"

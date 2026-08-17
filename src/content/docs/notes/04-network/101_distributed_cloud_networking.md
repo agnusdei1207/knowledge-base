@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 101
 extra:
   question_no: "101"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "설계형: 분산 Cloud 경로•정책 정합성"

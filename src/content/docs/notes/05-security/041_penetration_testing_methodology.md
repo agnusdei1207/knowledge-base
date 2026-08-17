@@ -12,7 +12,7 @@ tags:
 weight: 41
 extra:
   question_no: "041"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "승인•공격경로•재검증을 갖춘 독립 평가 방법론임"

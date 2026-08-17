@@ -12,7 +12,7 @@ tags:
 weight: 4
 extra:
   question_no: "004"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "전자서명•무결성•공급망 답안의 공통 선행개념임"

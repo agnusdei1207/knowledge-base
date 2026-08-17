@@ -11,7 +11,7 @@ tags: ["notes-network"]
 weight: 103
 extra:
   question_no: "103"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "설계•운영형: AI Ethernet Fabric 유력"

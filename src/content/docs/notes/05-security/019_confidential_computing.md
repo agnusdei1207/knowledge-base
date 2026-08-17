@@ -12,7 +12,7 @@ tags:
 weight: 19
 extra:
   question_no: "019"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "클라우드•AI의 사용 중 데이터 보호 설계로 독립성이 큼"

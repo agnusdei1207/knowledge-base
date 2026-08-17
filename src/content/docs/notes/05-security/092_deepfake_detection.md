@@ -12,7 +12,7 @@ tags:
 weight: 92
 extra:
   question_no: "092"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "무표식 합성물 탐지•임계값 운영은 독립 설계 주제임"

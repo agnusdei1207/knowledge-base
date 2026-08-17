@@ -12,7 +12,7 @@ tags:
 weight: 73
 extra:
   question_no: "073"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 70
   priority_note: "클라우드 보안 도구군을 통합하는 코드-런타임 우산임"

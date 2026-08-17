@@ -12,7 +12,7 @@ tags:
 weight: 77
 extra:
   question_no: "077"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 50
   priority_note: "동적 비밀•워크로드 신원•회전을 묶는 독립 설계임"

@@ -12,7 +12,7 @@ tags:
 weight: 84
 extra:
   question_no: "084"
-  source_status: "미출제"
+  source_status: "미출"
   source_history: ""
   priority: 30
   priority_note: "릴레이션•키•제약은 데이터베이스의 기초"
