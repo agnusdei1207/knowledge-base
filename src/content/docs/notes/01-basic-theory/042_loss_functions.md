@@ -167,7 +167,7 @@ extra:
 
 #### 한줄 요약
 
-- **Huber 손실 이상치 억제·Focal Loss 클래스불균형 해소·Label Smoothing 과적합 방지**
+- 이상치가 많으면 Huber 손실로 영향을 억제하고, 클래스 불균형에는 Focal Loss를 적용하며, Label Smoothing으로 과적합을 완화한다.
 
 ## Ⅶ. 결론
 

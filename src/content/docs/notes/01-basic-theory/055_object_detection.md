@@ -182,7 +182,7 @@ extra:
 
 #### 한줄 요약
 
-- **Mosaic 증강 소형객체 검출·Soft-NMS 밀집객체 보존·TensorRT 양자화 가속·Focal Loss 불균형 해소**
+- 소형 객체는 Mosaic 증강으로 검출률을 높이고, 밀집 객체에는 Soft-NMS로 과도한 제거를 방지하며, TensorRT 양자화로 추론을 가속하고, 클래스 불균형은 Focal Loss로 해소한다.
 
 ## Ⅶ. 결론
 

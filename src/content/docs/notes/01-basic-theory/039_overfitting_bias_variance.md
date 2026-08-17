@@ -173,7 +173,7 @@ extra:
 
 #### 한줄 요약
 
-- **Dropout/Weight Decay 규제·Early Stopping 조기종료·Data Augmentation 데이터확장·ResNet 용량확대**
+- 과적합은 Dropout·Weight Decay 규제와 Early Stopping으로 억제하고, 데이터 부족은 Data Augmentation으로 보완하며, 과소적합이면 ResNet 등 모델 용량을 확대한다.
 
 ## Ⅶ. 결론
 

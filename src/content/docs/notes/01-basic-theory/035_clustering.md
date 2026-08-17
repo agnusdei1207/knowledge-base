@@ -172,7 +172,7 @@ extra:
 
 #### 한줄 요약
 
-- **StandardScaler 거리 정규화·K-Means++ 초기화·HDBSCAN 가변밀도 대응·UMAP 고차원 축소**
+- 스케일 차이는 StandardScaler로 정규화하고, K-Means 초기화는 K-Means++로 안정화하며, 가변 밀도에는 HDBSCAN을 적용하고 고차원 데이터는 UMAP으로 축소한다.
 
 ## Ⅶ. 결론
 

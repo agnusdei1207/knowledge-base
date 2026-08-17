@@ -174,7 +174,7 @@ extra:
 
 #### 한줄 요약
 
-- **num_leaves 제약 과적합 방지·LightGBM GPU 대규모 가속·CatBoost 범주형 처리·TreeSHAP XAI**
+- num_leaves를 제한해 과적합을 방지하고, 대규모 데이터에는 LightGBM GPU 가속을 적용하며, 범주형 변수는 CatBoost로 자동 처리하고, 예측 근거는 TreeSHAP으로 설명한다.
 
 ## Ⅶ. 결론
 

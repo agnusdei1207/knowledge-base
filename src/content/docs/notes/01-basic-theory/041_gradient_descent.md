@@ -174,7 +174,7 @@ extra:
 
 #### 한줄 요약
 
-- **AdamW 가중치감쇄 분리·Gradient Clipping 발산방지·Cosine 스케줄러 수렴안정화**
+- AdamW로 가중치 감쇄를 분리 적용하고, Gradient Clipping으로 기울기 폭주를 방지하며, Cosine 스케줄러로 학습률을 점진 감소시켜 수렴을 안정화한다.
 
 ## Ⅶ. 결론
 

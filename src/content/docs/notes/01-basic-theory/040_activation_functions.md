@@ -172,7 +172,7 @@ extra:
 
 #### 한줄 요약
 
-- **은닉층 ReLU 표준화·Dying ReLU 방지용 Leaky ReLU/GELU·배치 정규화 결합**
+- 은닉층에는 ReLU를 표준 적용하고, 죽은 뉴런이 문제면 Leaky ReLU나 GELU로 교체하며, 배치 정규화와 결합해 학습 안정성을 확보한다.
 
 ## Ⅶ. 결론
 

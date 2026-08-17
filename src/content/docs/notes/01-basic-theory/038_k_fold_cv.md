@@ -167,7 +167,7 @@ extra:
 
 #### 한줄 요약
 
-- **Pipeline 데이터누출 차단·GroupKFold 개체격리·TimeSeriesSplit 미래참조 방지·Nested CV 비편향 튜닝**
+- 전처리는 Pipeline으로 묶어 데이터 누출을 차단하고, 동일 개체는 GroupKFold로 격리하며, 시계열은 TimeSeriesSplit으로 미래 참조를 방지하고, 하이퍼파라미터 튜닝은 Nested CV로 편향을 제거한다.
 
 ## Ⅶ. 결론
 
