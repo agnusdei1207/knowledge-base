@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
-date: "2026-08-13T19:50:00+09:00"
+date: "2026-08-17T22:50:00+09:00"
 tags:
   - "notes-software"
 weight: 96
@@ -22,138 +22,163 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Join Algorithms (RDBMS 3대 조인 알고리즘)**: 두 개 이상의 테이블을 연결하여 데이터를 인출할 때 옵티마이저가 데이터 스케일, 인덱스 보유 유무, 정렬 상태에 따라 선택하는 3가지 대표 물리적 조인 수행 방식 (NLJ, Hash Join, Sort Merge Join).
-- **Driving Table (Outer Table / Build Input)**: 조인 수행 시 먼저 읽혀서 조인의 주도권을 잡는 드라이빙(외부) 테이블.
-- **Driven Table (Inner Table / Probe Input)**: 드라이빙 테이블의 각 튜플마다 매칭 조인을 당하는 드리븐(내부) 테이블.
+- **3대 물리 조인 알고리즘(NLJ, Hash Join, Sort Merge Join)**: 외부 행마다 내부 인덱스를 반복 탐색하는 NLJ, 메모리 해시 테이블을 빌드하여 매칭하는 Hash Join, 조인 키 기준 정렬 후 병합하는 Sort Merge Join.
+- **조인 병목 및 디스크 스필(Join Bottleneck & Spill)**: 잘못된 드라이빙 테이블 선택이나 메모리 부족으로 인해 수백만 번의 반복 I/O 또는 디스크 임시 파일 쓰기가 발생하는 현상.
 
 </details>
 
-- 정의: 두 개 이상의 테이블을 연결할 때 데이터 스케일, 인덱스 보유 유무, 정렬 상태에 따라 선택하는 3가지 물리적 조인 수행 방식인 **중첩 루프 조인**, **해시 조인**, **정렬 머지 조인**.
-- 배경/필요성: 부적합 조인 선택은 **반복 I/O•정렬•임시 공간** 증가 유발
+- 정의/개념: 데이터베이스 옵티마이저가 데이터 크기, 인덱스 유무, 정렬 상태에 따라 **NLJ(중첩루프), Hash Join(해시), Sort Merge Join(정렬머지)** 중 최적 방식을 선택하는 물리 조인 알고리즘
+- 배경/필요성: 대용량 조인 시 부적합한 알고리즘 선택으로 인한 **중첩 반복 I/O 병목, 메모리 초과에 따른 디스크 스필(Spill) 및 질의 지연 위험** 직면
 
 #### 한줄 요약
 
-- 한 명씩 찾기, 색인표 만들기, 정렬된 명단 함께 읽기 중 조건에 맞는 방법을 고른다.
+- 데이터 규모와 인덱스 환경에 맞추어 NLJ, Hash Join, Sort Merge Join 중 최적 알고리즘을 선택하여 조인 성능을 극대화
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Nested Loop Join (NLJ)**: 드라이빙 테이블의 튜플 1건당 드리븐 테이블의 B+Tree 인덱스를 반복 루프 탐색하는 소용량/OLTP 전용 조인 방식.
-- **Hash Join**: 작은 쪽 테이블(Build Input)로 메모리(Hash Area) 상에 해시 테이블을 빌드한 후, 큰 쪽 테이블(Probe Input)을 스캔하며 해시 버킷을 매칭하는 대용량/Non-Index 전용 조인 방식.
-- **Sort Merge Join**: 두 테이블을 조인 키(Join Key) 기준으로 각각 미리 정렬(Sort)한 후, 두 정렬된 집합을 동시에 스캔하며 머지(Merge) 결합하는 정렬 전용 조인 방식.
+- **Driving Table(Outer Table)**: 조인을 주도하여 먼저 읽히는 테이블로, NLJ에서는 건수가 가장 적은 소용량 테이블을 선정해야 함.
+- **Driven Table(Inner Table)**: Driving 테이블의 각 행마다 매칭되는 테이블로, 반드시 조인 컬럼에 B+Tree 인덱스가 존재해야 함.
 
 </details>
 
-- **중첩 루프 조인**: 작은 외부 입력과 효율적 내부 접근에 강점
-- **해시 조인**: 큰 동등 조인과 충분한 작업 메모리에 강점
-- **정렬 머지 조인**: 정렬 입력과 범위 조인에 강점
+- 소량 데이터 및 OLTP 환경에서 최초 행 응답(First Row)이 빠른 **중첩 루프 조인(NLJ)**
+- 대용량 데이터 및 동등 조인(`=`)에서 인덱스 없이도 고속 처리 가능한 **해시 조인(Hash Join)**
+- 이미 정렬된 대용량 데이터나 비동등 조인(`<, >`)에 유리한 **정렬 머지 조인(Sort Merge Join)**
 
 #### 한줄 요약
 
-- 결과 건수, 조인 조건, 정렬 여부, 작업 메모리에 따라 가장 적은 읽기와 비교를 만드는 방식이 달라진다.
+- OLTP 소량 조인은 NLJ, 대용량 분석은 Hash Join, 정렬된 대규모 배치는 Sort Merge Join을 적용
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Build Phase & Probe Phase**: Hash Join의 2단계 절차로, Build Phase에서 작은 테이블로 해시 테이블을 생성하고, Probe Phase에서 큰 테이블의 해시 값을 맞춰 매칭.
+- **Build Phase & Probe Phase**: Hash Join에서 작은 테이블로 해시 테이블을 메모리에 구성하는 단계(Build)와 큰 테이블을 읽으며 해시 버킷을 매칭하는 단계(Probe).
 
 </details>
 
 ```text
- [중첩 루프 조인] ─── [해시 조인]
-          │                  │
-          └── [정렬 머지 조인]
+[ 3대 조인 알고리즘 물리 처리 구조도 ]
+
+ 1. [ Nested Loop Join (NLJ) ]
+    Outer Table (100건) ──(한 건씩 루프)──► Inner Table B+Tree Index 탐색
+
+ 2. [ Hash Join ]
+    Small Table ──► [ 메모리 Hash Table 빌드 (Build Phase) ]
+                                 ▲
+    Large Table ──► [ 해시 버킷 매칭 스캔 (Probe Phase) ]
+
+ 3. [ Sort Merge Join ]
+    Table A (정렬) ───┐
+                      ├──► [ 동시 순차 투 포인터 머지 (Merge Scan) ]
+    Table B (정렬) ───┘
 ```
 
-선의 의미: NLJ는 순차 이중 루프 스캔, Hash Join은 해시 테이블 생성 및 프로브 스캔, Sort Merge Join은 정렬 후 동시 머지 스캔을 수행하는 3대 아키텍처.
+선의 의미: 인덱스 기반 반복 루프(NLJ), 메모리 해시 매칭(Hash), 정렬 후 순차 병합(Sort Merge)의 3대 물리 아키텍처.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 중첩 루프 조인 | 외부 행마다 내부 입력의 일치 행 탐색 |
-| 해시 조인 | 작은 입력으로 해시표를 만들고 큰 입력 대조 |
-| 정렬 머지 조인 | 조인 키로 정렬된 두 입력을 순차 병합 |
+| 중첩 루프 조인 (NLJ) | 드라이빙 테이블의 각 행마다 **드리븐 테이블의 B+Tree 인덱스를 반복 탐색** |
+| 해시 조인 (Hash Join) | 소용량 Build Input으로 **해시 테이블을 빌드하고 대용량 Probe Input과 고속 대조** |
+| 정렬 머지 조인 (Sort Merge) | 조인 키를 기준으로 **두 테이블을 사전 정렬한 후 동시 순차 스캔으로 병합** |
+| 조인 버퍼 (Join Buffer) | 해시 테이블 빌드 및 정렬 연산을 위해 **메모리(PGA/Work Area) 자원 할당** |
 
 #### 한줄 요약
 
-- 두 입력의 역할과 조건, 작업 공간을 정해 조인 방식을 실행한다.
+- NLJ(인덱스 루프), Hash Join(해시 매칭), Sort Merge(정렬 순차 병합)로 구성된 조인 아키텍처
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Hash Memory Overflow (PGA Spill)**: Build Input이 메모리(Join Buffer) 크기를 초과하여 디스크 Temp Tablespace로 유출되는 오버헤드 현상.
+- **Hash Join 2단계 처리 절차**: 소용량 테이블 해시 빌드 $\to$ 메모리 버퍼 적재 $\to$ 대용량 테이블 프로브 스캔 $\to$ 매칭 결과 반환.
 
 </details>
 
 ```text
-[1. Build Phase]
- Small Table (Build Input) ──► Hash Function ──► [Memory Hash Table 생성]
+[ Hash Join 2단계 실행 파이프라인 ]
 
-[2. Probe Phase]
- Large Table (Probe Input) ──► Hash Function ──► [Hash Bucket 일치 여부 스캔] ──► Result
+ ┌────────────────────────────────────────┐
+ │ 1. Build Phase: 소용량 테이블(Build)   │
+ │    - 해시 함수 적용 및 메모리 해시 생성│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. Probe Phase: 대용량 테이블(Probe)   │
+ │    - 행을 읽어 동일 해시 함수 대입    │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. 해시 버킷 매칭 검사 및 튜플 결합    │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. 최종 조인 결과 셋 반환              │
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. Build Phase: 상대적으로 튜플 수가 적은 소용량 테이블(Build Input)을 선택해 해시 함수를 적용하고 메모리 내 해시 테이블 빌드.
-2. Probe Phase: 대용량 테이블(Probe Input)의 레코드를 읽어 동일한 해시 함수를 적용한 후, 해당 해시 버킷을 즉시 비교하여 매칭 튜플 렌더링.
+1. Build Phase: 카디널리티가 작은 테이블(Build Input)을 선택하여 조인 키에 해시 함수를 적용하고 메모리 상에 해시 테이블을 구축.
+2. Probe Phase: 큰 테이블(Probe Input)을 순차 스캔하며 각 레코드의 조인 키에 동일한 해시 함수를 적용.
+3. 버킷 매칭: 계산된 해시 값으로 메모리 내 해시 버킷을 즉시 조회하여 실제 키 일치 여부를 검증.
+4. 결과 반환: 일치하는 행을 결합하여 클라이언트에 최종 결과 집합을 반환.
 
 #### 한줄 요약
 
-- 두 명단을 작업대에서 맞추다가 공간이 부족하면 일부를 임시 보관소에 두고 나누어 처리한다.
+- 소용량 해시 빌드 $\to$ 대용량 프로브 스캔 $\to$ 버킷 일치 검증 $\to$ 결과 반환의 4단계 절차
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Join Choice Matrix**: OLTP 초고속 조절은 NLJ, 대용량 통계 조인은 Hash Join, 범위/정렬 집합 조인은 Sort Merge Join 선택.
+- **NLJ vs Hash Join vs Sort Merge**: OLTP와 OLAP, 인덱스 유무 및 조인 조건식에 따른 3대 알고리즘 비교.
 
 </details>
 
-| 비교 항목 | Nested Loop Join (NLJ) | Hash Join | Sort Merge Join |
+| 구분 | Nested Loop Join (NLJ) | Hash Join | Sort Merge Join |
 |:---|:---|:---|:---|
-| 주요 사용 환경 | **OLTP (실시간 웹 서비스)** | **OLAP / DW (대용량 분석)** | 배치 / 비동등 조인 |
-| 인덱스 의존성 | 내부 입력의 효율적 접근 경로가 중요 | 해시 빌드•프로브에 인덱스 불필요 | 정렬 인덱스로 정렬 비용 감소 가능 |
-| 조인 연산자 | 동등(`=`), 범위(`>`, `<`) 모두 가능 | **오직 동등 (`=`) 조인만 가능** | 동등(`=`), 범위(`>`, `<`) 모두 가능 |
-| 메모리 사용량 | 최소 (커서 레벨 처리) | **높음 (Hash Area 메모리 필요)**| 중간~높음 (Sort Area 필요) |
-| 반응 속도 | **First Row 반환 매우 빠름** | **Last Row 반환 (전체 완료 필요)**| Last Row 반환 |
+| **적용 기준** | 소량 데이터 조회 및 실시간 OLTP 트랜잭션 | 대용량 데이터 분석 및 인덱스가 없는 환경 | 정렬이 이미 완료된 대용량 데이터 및 범위 조인 |
+| **핵심 특징** | **드라이빙 행마다 B+Tree 인덱스 탐색, 빠른 첫 행 반환** | **메모리 해시 테이블 빌드 후 프로브 매칭 (동등 조인 전용)** | **조인 키 기준 사전 정렬 후 투 포인터 순차 병합** |
+| **한계** | 대용량 처리 시 반복 랜덤 I/O로 성능 급락 | 대용량 빌드 시 메모리 초과(Disk Spill) 발생 | 정렬되지 않은 대용량 데이터의 정렬 비용 폭증 |
 
 #### 한줄 요약
 
-- 소량은 하나씩 찾고, 대량 등치는 해시표로 찾고, 정렬된 명단은 나란히 읽는다.
+- OLTP 실시간에는 NLJ, 대용량 동등 조인에는 Hash Join, 정렬된 대규모 집합에는 Sort Merge Join을 적용
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Wrong Driving Table Selection**: NLJ 적용 시 대용량 테이블이 드라이빙(Outer)으로 선택되어 수백만 번의 반복 루프 인덱스 스캔이 발생하는 안티패턴.
+- **디스크 스필(Disk Spill)**: Hash Join의 Build Input 또는 Sort Merge의 정렬 대상이 메모리(join_buffer, sort_area)를 초과하여 임시 디스크로 튕겨 나가는 성능 저하 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| NLJ 조인 시 대용량 테이블이 Outer로 잘못 선택됨 | **`LEADING` 힌트 또는 서브쿼리로 소용량 드라이빙 강제**| 조인 루프 횟수 폭락 |
-| Inner 테이블에 B+Tree 인덱스가 없어 NLJ 수행 시 TPS 추락 | **Inner 컬럼 인덱스 생성 또는 `USE_HASH` 힌트로 전환** | 쿼리 응답시간 회복 |
-| Hash Join 시 메모리 부족으로 디스크 Spill 발생 | **`join_buffer_size` 확장 및 Build Input 크기 축소** | 디스크 I/O 병목 제거 |
-
-> 사례: **MySQL / Oracle `/*+ USE_NL(a b) */` 및 `/*+ USE_HASH(a b) */` 힌트 튜닝**
+| NLJ 수행 시 대용량 테이블이 Outer로 잘못 지정 | **`LEADING` 힌트 또는 서브쿼리로 소용량 드라이빙 강제** | 조인 루프 횟수 및 인덱스 탐색 비용 급감 |
+| Inner 테이블의 조인 키 인덱스 부재로 NLJ 성능 폭락 | **Inner 컬럼에 B+Tree 인덱스 생성 또는 `USE_HASH` 힌트로 전환** | 인덱스 스캔 복원 또는 고속 해시 조인 전환 |
+| Hash Join 시 Build Input 메모리 초과로 디스크 Spill 발생 | **`join_buffer_size` 확장 및 WHERE 절 선필터링으로 Build 축소** | 디스크 I/O 병목 원천 차단 |
 
 #### 한줄 요약
 
-- 같은 테이블도 한 고객을 찾을 때와 모든 고객을 처리할 때 알맞은 결합 방식이 다르다.
+- 소용량 드라이빙 강제, Inner 인덱스 확보, 메모리 버퍼 확장을 통해 조인 병목을 제거
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **조인 수립 기준(Join Algorithm Standards)**: 데이터 건수 스케일, 인덱스 구성 상태 및 OLTP vs OLAP 서비스 유형에 의거한 체계.
+- **조인 최적화 원칙(Join Optimization Principle)**: 옵티마이저가 쿼리 환경에 맞추어 올바른 알고리즘을 선택할 수 있도록 통계와 인덱스를 완비하고 필요시 힌트로 제어하는 엔지니어링 원칙.
 
 </details>
 
-- 작은 외부 입력은 **NLJ**, 큰 동등 조인은 **Hash**, 정렬 입력은 **Merge** 선택
+- **조인 알고리즘**은 RDBMS 성능의 승패를 가르는 핵심 엔진 기술이며, 트랜잭션 특성과 데이터 볼륨에 맞추어 인덱스 설계와 메모리 튜닝을 병행하여 최적의 조인 효율을 달성해야 함
 
 #### 한줄 요약
 
-- 조인 선택 검증 기준으로 실제 데이터 양과 준비 상태에 맞는 방법인지 확인한다.
+- NLJ, Hash Join, Sort Merge Join의 장단점을 파악하고 데이터 규모에 부합하는 최적 조인을 구현

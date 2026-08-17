@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-08-13T18:50:00+09:00"
+date: "2026-08-17T22:10:00+09:00"
 tags:
   - "notes-software"
 weight: 86
@@ -22,157 +22,165 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Transaction Isolation Level (트랜잭션 격리 수준)**: ANSI/ISO SQL 표준에서 정립한 4단계 수준(Read Uncommitted, Read Committed, Repeatable Read, Serializable)으로, 다중 트랜잭션이 동시 실행될 때 데이터 고립성(Isolation)과 동시성(Concurrency) 간의 트레이드오프를 통제하는 동시성 제어 단계.
-- **Read Phenomenon / Anomalies (읽기 이상 현상)**: 동시 트랜잭션 수행 시 격리 수준이 낮음으로 인해 발생하는 3대 현상 (Dirty Read, Non-Repeatable Read, Phantom Read).
-- **Concurrency vs Consistency Tradeoff**: 격리 수준을 높이면 데이터 일관성과 무결성은 완벽해지나 동시 처리량(TPS) 및 잠금 대기 오버헤드가 폭증하는 트레이드오프 관계.
+- **트랜잭션 격리 수준 4단계**: Read Uncommitted(Level 0), Read Committed(Level 1), Repeatable Read(Level 2), Serializable(Level 3)로 구성된 ANSI/ISO SQL 표준 동시성 제어 등급.
+- **3대 읽기 이상 현상(Read Anomalies)**: Dirty Read(미커밋 데이터 조회), Non-Repeatable Read(동일 행 재조회 시 값 변경), Phantom Read(범위 재조회 시 유령 행 출현).
 
 </details>
 
-- 정의/개념: 다중 사용자 환경에서 트랜잭션의 동시 처리 성능(TPS)과 데이터 정합성을 동시에 제어하기 위해 3대 읽기 이상 현상 방지 수준을 4단계로 규정한 표준 제어 체계인 **Transaction Isolation Level**
-- 배경/필요성: 동시 읽기•쓰기는 **오염 읽기•불변식 훼손** 유발
+- 정의/개념: 다중 트랜잭션 동시 실행 시 발생하는 3대 읽기 이상 현상을 제어하기 위해 **Read Uncommitted부터 Serializable까지 4단계로 직렬화 수준을 규정**한 동시성 제어 표준
+- 배경/필요성: 동시성(Concurrency)과 격리성(Isolation)의 상충으로 인한 **Dirty Read, Phantom Read 등 데이터 부정합 및 Lock 경합 지연 위험** 직면
 
 #### 한줄 요약
 
-- 동시 거래의 가시성과 허용 이상을 정하는 트랜잭션 격리 수준이 핵심이다.
+- 4단계 격리 수준과 MVCC/Lock 메커니즘을 통해 동시 처리 성능과 데이터 정합성 간 최적의 트레이드오프를 달성
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **4-Level Isolation Hierarchy**: Read Uncommitted (Level 0) $\rightarrow$ Read Committed (Level 1) $\rightarrow$ Repeatable Read (Level 2) $\rightarrow$ Serializable (Level 3).
-- **MVCC & Lock-based Mechanism**: RDBMS 엔진(MySQL InnoDB, Oracle, PostgreSQL)마다 S-Lock/X-Lock 락 기반 방식 또는 MVCC(Undo Log 스냅샷) 방식을 혼용하여 구현.
+- **MVCC(Multi-Version Concurrency Control)**: 읽기 작업이 락을 걸지 않고 Undo Log의 특정 시점 스냅샷(Read View)을 조회하여 동시성을 극대화하는 기법.
+- **Next-Key Lock**: MySQL InnoDB에서 레코드 락과 갭 락을 결합하여 Repeatable Read 수준에서도 Phantom Read를 방지하는 잠금 기법.
 
 </details>
 
-- **ANSI/ISO SQL 92 표준 4단계** 격리 수준 제공
-- 동시성 이상 현상 (**Dirty Read, Non-Repeatable Read, Phantom Read**) 단계별 차단
-- 데이터베이스 엔진별 기본 값 상이 (MySQL: **Repeatable Read**, Oracle/PostgreSQL: **Read Committed**)
+- **ANSI/ISO SQL 92 표준 4단계** 격리 수준 계층화
+- 격리 수준 상승에 따른 **Dirty Read, Non-Repeatable Read, Phantom Read 단계적 차단**
+- 데이터베이스 엔진별 기본값 상이 (MySQL: **Repeatable Read**, Oracle/PostgreSQL: **Read Committed**)
 
 #### 한줄 요약
 
-- 이상 방지와 대기•취소•재시도 비용 절충이 핵심이다.
+- 4대 격리 수준별로 이상 현상을 단계적으로 차단하며 MVCC 스냅샷과 잠금을 통해 동시성을 제어
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Dirty Read**: 커밋되지 않은 타 트랜잭션의 변경 데이터를 읽는 현상.
-- **Non-Repeatable Read**: 한 트랜잭션 내에서 동일한 쿼리를 두 번 실행할 때 중간에 타 트랜잭션이 `UPDATE`하여 읽기 결과 값이 달라지는 현상.
-- **Phantom Read**: 한 트랜잭션 내에서 범위 쿼리를 두 번 실행할 때 중간에 타 트랜잭션이 `INSERT`하여 이전에 없던 유령(Phantom) 행이 나타나는 현상.
+- **Read View(가시성 스냅샷)**: 트랜잭션 시작 시점의 활성 트랜잭션 ID 목록을 기반으로 어떤 버전의 Undo 레코드를 읽을지 결정하는 가시성 판단 구조체.
 
 </details>
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                 Transaction Isolation Levels & Read Anomalies           │
-├─────────────────────┬──────────────┬──────────────────┬─────────────────┤
-│ Isolation Level     │ Dirty Read   │ Non-Repeatable   │ Phantom Read    │
-├─────────────────────┼──────────────┼──────────────────┼─────────────────┤
-│ 1. Read Uncommitted │ 발생 허용    │ 발생 허용        │ 발생 허용       │
-│ 2. Read Committed   │ 방지 (Safe)  │ 발생 허용        │ 발생 허용       │
-│ 3. Repeatable Read  │ 방지 (Safe)  │ 방지 (Safe)      │ 발생 (MySQL방지)│
-│ 4. Serializable     │ 방지 (Safe)  │ 방지 (Safe)      │ 방지 (Safe)     │
-└─────────────────────┴──────────────┴──────────────────┴─────────────────┘
+[ 트랜잭션 격리 수준 및 읽기 이상 현상 매트릭스 구조도 ]
+
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                 Transaction Isolation Levels & Read Anomalies          │
+ ├─────────────────────┬──────────────┬──────────────────┬────────────────┤
+ │ 격리 수준 (Level)   │ Dirty Read   │ Non-Repeatable   │ Phantom Read   │
+ ├─────────────────────┼──────────────┼──────────────────┼────────────────┤
+ │ 1. Read Uncommitted │ 발생 허용    │ 발생 허용        │ 발생 허용      │
+ │ 2. Read Committed   │ 차단 (Safe)  │ 발생 허용        │ 발생 허용      │
+ │ 3. Repeatable Read  │ 차단 (Safe)  │ 차단 (Safe)      │ 발생(InnoDB방지│
+ │ 4. Serializable     │ 차단 (Safe)  │ 차단 (Safe)      │ 차단 (Safe)    │
+ └─────────────────────┴──────────────┴──────────────────┴────────────────┘
 ```
 
-선의 의미: 격리 수준이 올라갈수록(Level 0 $\rightarrow$ Level 3) 3대 이상 현상이 순차적으로 차단되는 아키텍처 매트릭스.
+선의 의미: 레벨이 올라갈수록 데이터 무결성은 향상되나 잠금 대기 및 동시 처리량(TPS)이 저하되는 트레이드오프 관계.
 
-| 격리 수준 (Isolation Level) | 방지되는 이상 현상 | 구현 원리 및 런타임 제어 메커니즘 |
-|:---|:---|:---|
-| 1. Read Uncommitted | 세 읽기 이상 허용 | 타 트랜잭션의 미커밋 변경도 읽기 가능 |
-| 2. Read Committed | **Dirty Read 차단** | Undo Log에서 **커밋된 최신 스냅샷만 조회** (Oracle, PostgreSQL 기본) |
-| 3. Repeatable Read | **Non-Repeatable Read 차단**| **트랜잭션 시작 시점의 Read View 스냅샷 고정** (MySQL InnoDB 기본) |
-| 4. Serializable | **세 읽기 이상 방지** | 직렬화 충돌 검사 또는 범위 잠금 적용 |
+| 구성요소 | 책임 |
+|:---|:---|
+| Read Uncommitted (Level 0) | 커밋되지 않은 데이터 조회를 허용하며 **최대 동시성 제공** |
+| Read Committed (Level 1) | 커밋 완료된 데이터만 조회하여 **Dirty Read 차단 (Undo Log 최신 커밋본 조회)** |
+| Repeatable Read (Level 2) | 트랜잭션 시작 시점 스냅샷을 고정하여 **Non-Repeatable Read 차단** |
+| Serializable (Level 3) | 모든 트랜잭션을 순차 직렬화하여 **Phantom Read를 포함한 모든 이상 현상 원천 차단** |
 
 #### 한줄 요약
 
-- 업무•가시성•동시성•충돌 처리 구조가 핵심이다.
+- Level 0부터 Level 3까지 단계별로 Dirty Read, Non-Repeatable Read, Phantom Read를 순차적으로 억제
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Read View (스냅샷 가시성)**: Repeatable Read 등급에서 트랜잭션이 시작된 TRX ID 시점의 Undo Log 버전을 고정하여, 타 트랜잭션이 아무리 수정해도 동일 결과 보장.
+- **MVCC 읽기 판정 절차**: 쿼리 실행 시 생성된 Read View와 대상 레코드의 DB_TRX_ID를 대조하여 Undo 체인을 역추적하는 과정.
 
 </details>
 
 ```text
-┌──────────────────────────────┐
-│ 트랜잭션 읽기•쓰기 요청      │
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 1. 격리 수준 확인            │
-│ 2. 가시 버전•잠금 판정       │
-│ 3. 읽기•변경 수행            │
-│ 4. 충돌•불변식 검사          │
-│ 5. 대기•커밋•취소 결정       │
-└──────────────┬───────────────┘
-               ▼
-         [결과 반환]
+[ 격리 수준별 MVCC 및 락 판정 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. 트랜잭션 시작: TRX_ID 및 격리수준확인│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. Read View 생성: 가시성 스냅샷 고정  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. 쿼리 실행: Undo 체인 역추적 조회    │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. 쓰기 충돌 검사: 행 락/Next-Key 검증  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. 커밋 및 가시성 확정: Read View 소멸 │
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. 격리 수준 확인: 업무 트랜잭션의 허용 이상 결정.
-2. 가시 버전•잠금 판정: MVCC 스냅샷 또는 잠금 규칙 적용.
-3. 읽기•변경 수행: 허용된 버전을 읽고 변경 집합 생성.
-4. 충돌•불변식 검사: 쓰기 충돌과 업무 조건 검증.
-5. 대기•커밋•취소 결정: 정책에 따라 재시도 가능한 결과 반환.
+1. 트랜잭션 시작: 고유한 트랜잭션 ID(TRX_ID)를 할당받고 설정된 격리 수준을 확인.
+2. Read View 생성: Repeatable Read는 첫 SELECT 시점에, Read Committed는 매 SELECT마다 Read View를 생성.
+3. 쿼리 실행: 레코드의 TRX_ID가 Read View 범위보다 최신이면 Undo Log를 역추적하여 일관된 과거 버전을 조회.
+4. 쓰기 충돌 검사: UPDATE/DELETE 수행 시 대상 행에 X-Lock을 획득하고 직렬화 충돌 여부를 검증.
+5. 커밋 및 확정: 트랜잭션 커밋 완료 후 Read View를 해제하고 변경 사항을 영속화.
 
 #### 한줄 요약
 
-- 가시성•충돌 검사 기반 대기•커밋•취소 흐름이 핵심이다.
+- 트랜잭션 시작 $\to$ Read View 생성 $\to$ Undo 역추적 조회 $\to$ 잠금 검증 $\to$ 커밋 확정의 5단계 흐름
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Locking vs MVCC**: Locking은 읽기에도 S-Lock을 걸어 쓰기(X-Lock)와 상호 블로킹(Blocking) 발생, MVCC는 읽기 작업이 락을 걸지 않고 Undo Log 버전을 읽어 "Readers never block Writers" 구현.
+- **2PL vs MVCC**: 읽기와 쓰기가 상호 블로킹되는 비관적 2단계 잠금(2PL)과 읽기가 쓰기를 블로킹하지 않는 다중 버전 동시성 제어(MVCC).
 
 </details>
 
-| 비교 항목 | Lock 기반 동시성 제어 (2PL) | MVCC 기반 동시성 제어 (Undo Log) |
+| 구분 | Lock 기반 동시성 제어 (2PL) | MVCC 기반 동시성 제어 (Undo Log) |
 |:---|:---|:---|
-| 동시성 특성 | 읽기•쓰기가 잠금에 따라 대기 가능 | **스냅샷 읽기로 읽기•쓰기 경합 감소** |
-| 구현 방식 | 공유 락(S-Lock) 및 비상적 락(X-Lock) | **Undo Log 메타데이터 버전 관리** |
-| 대표적 DBMS | 과거 RDBMS 기술 표준 | **MySQL InnoDB, PostgreSQL, Oracle** |
-| 저장 공간 | 디스크 Lock Manager 테이블 점유 | **Undo Tablespace 메모리/디스크 오버헤드** |
+| **적용 기준** | 데이터 충돌이 극심하여 완벽한 직렬화가 요구될 때 | 읽기 비중이 높고 대규모 동시 조회가 요구되는 웹 서비스 |
+| **핵심 특징** | **공유락(S-Lock)과 배타락(X-Lock)으로 상호 대기 제어** | **스냅샷 조회를 통해 읽기와 쓰기가 상호 블로킹되지 않음** |
+| **한계** | 읽기/쓰기 동시 실행 시 잠금 대기 및 데드락 빈발 | 장기 트랜잭션 시 Undo 영역 비대화 및 스냅샷 오버헤드 |
 
 #### 한줄 요약
 
-- 허용 이상 감소와 대기•재시도 증가의 단계 비교가 핵심이다.
+- 2PL은 잠금 기반으로 엄격하게 직렬화하며, MVCC는 스냅샷 기반으로 읽기 성능과 동시성을 극대화
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Write Skew (쓰기 왜곡)**: Repeatable Read 수준에서 두 트랜잭션이 서로 다른 행을 각각 개별 조건 검사 후 수정할 때, 개별조건은 통과했으나 전체 비즈니스 불변식이 파괴되는 현상 (Serializable 필요).
+- **Write Skew(쓰기 왜곡)**: Repeatable Read 수준에서 두 트랜잭션이 각각 서로 다른 행을 검사 후 갱신할 때 전체 시스템 불변식이 파괴되는 이상 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| MySQL InnoDB에서 Repeatable Read 사용 시 Phantom Read 발생 가능성 | **`SELECT ... FOR UPDATE` (Pessimistic Lock / Next-Key Lock) 적용** | 유령 읽기 차단 |
-| Serializable 설정 시 데드락(Deadlock) 및 TPS 폭망 | **기본 Read Committed 사용 + 애플리케이션 Optimistic Lock (Version) 병행**| 고성능 정합성 달성 |
-| Long-running 트랜잭션으로 인한 Undo Log 폭증 | **트랜잭션 내부 외부 API 통신 제거 및 빠르게 Commit 완료** | DB 성능 보존 |
-
-> 사례: **결제 및 재고 시스템 내 Read Committed + Optimistic Locking (`@Version`) 조합**
+| Serializable 설정 시 극심한 락 경합 및 TPS 폭락 | **Read Committed 기본 채택 + 애플리케이션 Optimistic Lock(`@Version`) 결합** | 고성능 동시 처리와 갱신 분실 방지 동시 달성 |
+| Repeatable Read에서 `SELECT ... FOR UPDATE` 누락 시 쓰기 왜곡 | **비즈니스 불변식 검증 쿼리에 명시적 비관적 잠금(Pessimistic Lock) 적용** | 데이터 정합성 보장 및 갭 락 활성화 |
+| 장기 트랜잭션 방치로 인한 Undo 테이블스페이스 폭증 | **트랜잭션 내부 외부 API 통신 제거 및 짧은 트랜잭션 경계 유지** | Undo 영역 팽창 방지 및 DB 성능 보존 |
 
 #### 한줄 요약
 
-- 제품 의미 검증과 원자 갱신•멱등성 기반 재시도가 핵심이다.
+- Read Committed + 낙관적 락 조합, 비관적 락 선별 적용, 트랜잭션 경계 최소화로 최적의 튜닝을 달성
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **격리 수준 수립 기준(Isolation Level Standards)**: 서비스 TPS 요구량, 읽기 이상 허용성 및 Optimistic vs Pessimistic Lock 선택성에 의거한 체계.
+- **격리 수준 설계 원칙(Isolation Design Principle)**: 비즈니스 도메인의 정합성 요구 수준과 시스템 처리량(TPS) 목표를 고려하여 최적의 격리 수준을 결정하는 공학적 원칙.
 
 </details>
 
-- 일반 조회는 **Read Committed**, 교차 불변식은 **Serializable•명시 잠금** 적용
+- **트랜잭션 격리 수준**은 무결성과 성능의 타협점을 찾는 핵심 아키텍처 결정 요소이며, 기본 Read Committed/Repeatable Read 수준에 낙관적/비관적 락을 적절히 결합하여 최적의 데이터베이스 성능을 도출해야 함
 
 #### 한줄 요약
 
-- 불변식•허용 이상•충돌 비용 기반 격리 수준 결정 기준이 핵심이다.
+- 4대 격리 수준의 특성을 이해하고 MVCC와 락 기법을 조합하여 데이터 정합성과 동시 처리량을 최적화

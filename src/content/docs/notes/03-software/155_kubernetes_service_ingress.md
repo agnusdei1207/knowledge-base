@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-14T02:12:00+09:00"
+date: "2026-08-18T01:55:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -22,147 +22,171 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **쿠버네티스 서비스(Kubernetes Service)**: IP가 수시로 변경되는 파드(Pod)들에 단일 가상 IP(VIP)를 부여하여 로드밸런싱 및 서비스 디스커버리(Service Discovery)를 제공하는 객체.
-- **쿠버네티스 인그레스(Kubernetes Ingress)**: 외부 HTTP/HTTPS 트래픽을 도메인 및 경로(URL Path) 기반으로 백엔드 서비스로 분기 라우팅하는 L7 계층 로드밸런서.
-- **인그레스 컨트롤러(Ingress Controller)**: 인그레스(Ingress) 규칙을 감지하여 NGINX나 AWS ALB 등 실체 엔진의 설정을 변경하고 TLS(Transport Layer Security) 인증서 처리를 수행하는 엔진.
+- **쿠버네티스 서비스(Service)**: 동적으로 생성/소멸되는 파드들에 고정된 가상 IP(VIP)와 내부 DNS 이름을 부여하여 L4 로드밸런싱과 서비스 디스커버리를 제공하는 객체.
+- **쿠버네티스 인그레스(Ingress)**: 외부에서 유입되는 HTTP/HTTPS 트래픽을 단일 진입점에서 접수하여 호스트(Host) 및 URL 경로(Path) 기반으로 백엔드 서비스에 분기 라우팅하는 L7 계층 객체.
 
 </details>
 
-- 정의/개념: Pod 접점을 제공하는 **Service**•**Ingress** Network 객체
-- 배경/필요성: 가변 Pod IP 직접 호출은 **발견•외부 노출•경로 분기** 곤란
+- 정의/개념: 동적으로 변하는 파드 IP를 추상화하여 **단일 진입 VIP를 제공하는 Service(L4)와 경로 기반 라우팅을 제공하는 Ingress(L7)** 네트워킹 아키텍처
+- 배경/필요성: 파드의 잦은 재시작과 IP 변경으로 인한 **서비스 탐색(Discovery) 불가 및 L7 경로 기반 외부 트래픽 분기 라우팅 한계** 직면
 
 #### 한줄 요약
 
-- 파드가 교체돼 주소가 바뀌어도 서비스라는 대표번호는 유지되고 Ingress는 외부 요청의 주소와 경로를 보고 대표번호를 선택한다.
+- L4 계층의 서비스(Service)와 L7 계층의 인그레스(Ingress)를 결합하여 안정적인 내부 서비스 탐색과 지능형 외부 트래픽 라우팅을 실현
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Service Types**: ClusterIP(내부 전용 VIP), NodePort(노드 포트 오픈), LoadBalancer(CSP 클라우드 ELB 연동), ExternalName(외부 CNAME 맵핑).
+- **4대 서비스 타입**: 내부 전용 ClusterIP, 노드 포트 개방 NodePort, 클라우드 연동 LoadBalancer, 외부 CNAME 매핑 ExternalName.
+- **TLS 종료(TLS Termination)**: Ingress 계층에서 HTTPS 인증서를 일괄 복호화(cert-manager 연동)하여 백엔드 파드의 암복호화 연산 부담을 제거.
 
 </details>
 
-- **서비스**: ClusterIP, NodePort, LoadBalancer, ExternalName 4대 노출 옵션 제공.
-- **인그레스**: L7 경로 기반 분기(URL Path) 및 호스트 기반 라우팅 제공.
-- **TLS 종료(TLS Termination)**: cert-manager 기반 SSL/TLS 인증서 자동 관리 및 종료 처리.
+- 파드가 교체되어도 변하지 않는 **안정적인 내부 가상 IP(VIP) 및 CoreDNS 도메인 제공**
+- 단일 IP/로드밸런서 뒤에서 복수의 마이크로서비스로 분기하는 **L7 URL 경로 기반 라우팅**
+- cert-manager 기반의 **SSL/TLS 인증서 자동 발급 및 갱신(TLS Termination)**
 
 #### 한줄 요약
 
-- 서비스는 준비된 파드 목록을 한 주소 뒤에 모으고 인그레스 컨트롤러는 선언된 웹 규칙을 실제 프록시 설정으로 바꾼다.
+- L4 가상 IP 로드밸런싱과 L7 호스트/경로 기반 프록시를 통해 마이크로서비스 네트워킹을 완성
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **kube-proxy & iptables/IPVS**: kube-proxy가 Node마다 상주하며 Service Virtual IP로 유입된 L4 패킷을 실제 Pod IP로 iptables/IPVS 환원 라우팅.
+- **인그레스 및 서비스 트래픽 계층**: Ingress Controller(L7 NGINX/ALB), Service VIP(kube-proxy iptables/IPVS), Endpoints(실제 Pod IP 목록).
 
 </details>
 
 ```text
-[외부 Client] ─── [Ingress•Controller]
-                         │
-                    [Service]
-                    ┌────┴────┐
-                  [Pod A]   [Pod B]
+[ 쿠버네티스 인그레스(L7) 및 서비스(L4) 트래픽 흐름도 ]
+
+ [ 외부 클라이언트 (HTTPS Request) ]
+                 │
+                 ▼
+ 1. [ Ingress Controller (AWS ALB / NGINX Ingress) ] (L7 TLS Termination)
+    • Host: `api.example.com` ──► Path: `/order` ➔ Order Service
+    • Host: `api.example.com` ──► Path: `/pay`   ➔ Pay Service
+                 │
+                 ▼
+ 2. [ Kubernetes Service (ClusterIP VIP: 10.96.0.1) ] (L4 iptables/IPVS)
+                 │
+                 ▼
+ 3. [ EndpointSlice (파드 IP 목록: 10.244.1.5, 10.244.2.8) ]
+                 │
+        ┌────────┴────────┐
+        ▼                 ▼
+ 4. [ Order Pod 1 ]   [ Order Pod 2 ] (Readiness Probe 통과 파드)
 ```
 
+선의 의미: 외부 HTTPS 요청이 Ingress Controller(L7)에서 경로 매핑 후 Service(L4)와 Endpoints를 거쳐 최종 파드로 전달되는 구조.
+
 | 구성요소 | 책임 |
-|---|---|
-| 외부 Client | **Host•Path 요청**과 TLS Session 생성 |
-| Ingress•Controller | Ingress 규칙을 **L7 Proxy 설정**으로 구현 |
-| Service | 안정된 **VIP**•**DNS**와 Endpoint 집합 제공 |
-| Pod | Readiness를 통과한 **Application Process** 실행 |
+|:---|:---|
+| 인그레스 컨트롤러 (Ingress) | 외부 HTTP/HTTPS 트래픽을 접수하여 **TLS 복호화 및 도메인/URL 경로별 분기 라우팅** |
+| 쿠버네티스 서비스 (Service) | 파드 집합에 **고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4)** |
+| 엔드포인트슬라이스 (Endpoints)| Readiness Probe를 통과한 **유효한 백엔드 파드들의 실제 IP/Port 목록 실시간 관리** |
+| kube-proxy (L4 프록시) | 노드의 커널 iptables 또는 IPVS 규칙을 갱신하여 **Service VIP 트래픽을 파드로 부하분산** |
 
 #### 한줄 요약
 
-- DNS와 인증서가 건물 이름과 신분을 보장하면 인그레스가 안내하고 서비스가 준비된 파드 중 한 곳으로 연결한다.
+- 인그레스 컨트롤러(L7 분기), 서비스 VIP(L4 추상화), EndpointSlice(파드 목록)가 결합
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Path-based Routing**: `app.com/api` $\rightarrow$ API Service 로, `app.com/pay` $\rightarrow$ Pay Service 로 L7 URL 경로 분기 처리.
+- **인그레스 트래픽 전달 5단계 파이프라인**: HTTPS 요청 수신 $\to$ TLS 복호화 $\to$ Ingress Path 매칭 $\to$ Service VIP 전달 $\to$ 파드 수신.
 
 </details>
 
 ```text
-[HTTPS 요청]
-     │
-     ▼
-1. TLS 종료•Host 확인
-     │
-     ▼
-2. Path Rule 대조
-     │
-     ▼
-3. Service 선택
-     │
-     ▼
-4. 준비 Endpoint 선택
-     │
-     ▼
-5. Pod로 전달
-     │
-     ▼
-[HTTP 응답]
+[ 쿠버네티스 외부 트래픽 유입 및 서비스 라우팅 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. 외부 사용자 HTTPS 도메인 요청 접수  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. Ingress: TLS 인증서 종료(Termination)│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. Ingress: URL Path 룰 매칭 (Service 결정)
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. kube-proxy / IPVS: 준비된 Pod IP 선택│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. 타깃 파드 컨테이너로 HTTP 요청 전달 │
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. TLS 종료•Host 확인: 인증서와 요청 Domain 검증
-2. Path Rule 대조: Host•URL에 맞는 Ingress Rule 선택
-3. Service 선택: Rule이 가리키는 Backend Service 확인
-4. 준비 Endpoint 선택: Readiness 통과 Pod 중 대상 결정
-5. Pod로 전달: 선택 Endpoint에 요청 전달
+1. 요청 접수: 외부 사용자가 `https://app.com/order` URL로 DNS 질의 후 인그레스 로드밸런서로 접속.
+2. TLS 복호화: Ingress Controller가 보유한 TLS 인증서(Secret)로 HTTPS 패킷을 복호화(TLS Termination).
+3. Path 매칭: Ingress 규칙(`spec.rules.http.paths`)을 대조하여 `/order` 경로에 지정된 `order-service`를 선정.
+4. 파드 IP 선택: Endpoints에서 Readiness 점검을 통과한 건강한 파드 IP(`10.244.1.5`)를 로드밸런싱 알고리즘으로 선정.
+5. 요청 전달: 선택된 백엔드 파드 컨테이너의 타깃 포트(8080)로 평문 HTTP 요청을 즉시 프록시 전달.
 
 #### 한줄 요약
 
-- 외부 요청은 인그레스에서 호스트와 경로로 서비스가 정해지고 그 서비스의 준비된 파드에만 전달된다.
+- 요청 접수 $\to$ TLS 복호화 $\to$ Path 매칭 $\to$ 파드 IP 선택 $\to$ 컨테이너 전달의 5단계
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **ClusterIP vs NodePort vs LoadBalancer**: ClusterIP는 클러스터 내부용, NodePort는 노드 IP:Port 개방, LoadBalancer는 Cloud ELB 맵핑.
+- **Service(L4) vs Ingress(L7)**: L4 전송 계층 패킷 전달(Service)과 L7 응용 계층 경로 라우팅(Ingress).
 
 </details>
 
-| Service 타입 | 네트워크 노출 범위 | 주요 용도 및 특징 |
+| 구분 | 쿠버네티스 서비스 (Service: L4) | 쿠버네티스 인그레스 (Ingress: L7) |
 |:---|:---|:---|
-| ClusterIP (기본값) | **클러스터 내부 접점** | 내부 Service Discovery와 통신 |
-| NodePort | **모든 Node의 동일 포트(30000~32767) 개방**| 온프레미스 노드 테스트, 간단한 외부 노출 |
-| LoadBalancer | **AWS/Azure Cloud 외부 ELB 자동 프로비저닝**| 대국민 운영 서비스 L4 노출 표준 |
-| ExternalName | **외부 DNS CNAME 맵핑 제공** | 외부 오라클 DB를 서비스 이름으로 내부 연동 |
+| **적용 기준** | 클러스터 내부 마이크로서비스 간 통신, 단순 L4 TCP/UDP 노출 | 대외 웹 서비스 도메인 통합, URL 경로 기반 마이크로서비스 라우팅 |
+| **핵심 특징** | **고정 가상 IP(VIP), CoreDNS 탐색, iptables/IPVS 분산** | **Host/Path 기반 라우팅, TLS Termination, 쿠키 세션 고정** |
+| **한계** | HTTP 헤더나 URL 경로 기반의 세부 분기 라우팅 불가 | 별도의 Ingress Controller(NGINX/ALB 등) 설치 및 운영 필수 |
 
 #### 한줄 요약
 
-- 서비스는 파드 교체를 숨기는 내부 접점이고 Ingress는 여러 접점을 하나의 외부 주소와 인증서 뒤에 배치하는 규칙이다.
+- 내부 통신과 L4 로드밸런싱은 Service, 외부 웹 도메인 통합과 L7 라우팅은 Ingress를 선택
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **AWS ALB Ingress Controller Target-Type**: `instance` 방식(NodePort 경유) 대신 `ip` 방식(Pod IP 직접 타겟팅)으로 설정하여 L4 노드포트 병목 레이턴시 50% 절감.
+- **AWS ALB Ingress Controller Target-Type IP**: NodePort를 거치는 불필요한 네트워크 홉(Hop)을 건너뛰고 ALB가 VPC CNI 파드 IP로 직접 트래픽을 쏘아주는 고성능 최적화 기법.
 
 </details>
 
-| 3대 네트워크 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Extra Node Hop Latency | ALB $\rightarrow$ NodePort $\rightarrow$ Pod 2번 점프 | **ALB target-type: ip 로 Pod 직접 타겟팅 튜닝** |
-| 2. ELB Cost Surge | Service 20개마다 LoadBalancer 생성해 비용 폭발| **Ingress 1개로 통합하고 Path-based 라우팅** |
-| 3. SSL Certificate Expire | HTTPS SSL 인증서 만료로 접속 장애 | **cert-manager 연동 Let's Encrypt 자동 갱신** |
-
-> 사례: **카카오 / 당근마켓 / 쿠팡 AWS ALB Ingress Controller & cert-manager 기반 L7 트래픽 통합**
+| NodePort 경유로 인한 2단계 네트워크 점프 및 불필요한 레이턴시 | **AWS ALB Ingress의 `alb.ingress.kubernetes.io/target-type: ip` 설정** | 네트워크 홉 제거 및 응답 지연 50% 단축 |
+| 마이크로서비스마다 LoadBalancer 생성 시 클라우드 ELB 비용 폭증 | **단일 Ingress Controller로 통합하고 Host/Path 기반 분기** | 클라우드 로드밸런서 비용 80% 이상 절감 |
+| SSL/TLS 인증서 갱신 누락으로 인한 서비스 접속 불가 사고 | **`cert-manager` 도입 및 Let's Encrypt 자동 갱신 파이프라인 구축** | 인증서 만료 장애 0건 보장 |
 
 #### 한줄 요약
 
-- 배포 중 파드가 바뀌어도 내부 호출은 서비스 이름을 사용하고 준비 해제와 연결 배출을 묶어 기존 요청이 끝날 시간을 확보해야 한다.
+- Target-Type IP 최적화, Ingress 단일 통합, cert-manager 자동화를 통해 네트워크 성능과 비용을 최적화
 
 ## Ⅶ. 결론
 
-- 내부 L4 접점은 **Service**, 외부 HTTP 분기는 Ingress 선택
+<details><summary>용어 설명</summary>
+
+- **게이트웨이 API(Kubernetes Gateway API)**: Ingress의 기능적 한계를 극복하기 위해 역할 기반(인프라/개발자)으로 L4~L7 라우팅을 고도화한 차세대 네트워킹 표준.
+
+</details>
+
+- **쿠버네티스 서비스 및 인그레스**는 클라우드 네이티브 네트워크 트래픽 제어의 핵심 근간이며, 내부 서비스는 Service VIP로 추상화하고 외부 유입은 Ingress와 Gateway API를 통해 지능적으로 라우팅해야 함
 
 #### 한줄 요약
 
-- 파드 집합의 안정된 내부 주소는 서비스로, 웹 경로와 인증서 통합은 Ingress로 제공한다.
+- L4 서비스 가상 IP와 L7 인그레스 경로 라우팅을 결합하여 고성능 클라우드 네트워킹을 완성

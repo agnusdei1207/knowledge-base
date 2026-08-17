@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
-date: "2026-08-13T21:14:00+09:00"
+date: "2026-08-17T23:30:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -22,159 +22,167 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Apache Cassandra**: Master 노드가 전혀 없는 완전한 피어-투-피어(Peer-to-Peer Ring) 아키텍처 기반의 대용량 분산 Wide-Column Store NoSQL 데이터베이스.
-- **Masterless P2P Architecture**: 마스터-슬레이브 구조의 단일 장애점(SPOF)을 제거하고, 클러스터 내 모든 노드가 동일한 권한으로 쿼리 분산과 데이터 저장을 분담하는 아키텍처.
-- **Tunable Consistency (조정 가능한 일관성)**: 쿼리 실행 시 일관성 레벨(Consistency Level: `ONE`, `QUORUM`, `ALL`)을 지정하여 CAP 정리상의 AP와 CP 성격을 가변 선택할 수 있는 파라미터.
+- **마스터리스 P2P 및 Wide-Column(Masterless Wide-Column)**: 단일 마스터 없이 모든 노드가 대등하게 참여하는 피어-투-피어(P2P) 해시 링 위에서 파티션 키 기반의 행과 동적 컬럼을 관리하는 분산 NoSQL.
+- **쓰기 처리량 병목 및 단일 장애점(SPOF & Write Bottleneck)**: 단일 마스터 노드에 모든 쓰기가 집중되는 구조로 인해 발생하는 처리량 한계와 마스터 다운 시 서비스 중단 위험.
 
 </details>
 
-- 정의/개념: 마스터 노드가 없는 P2P 해시 링 구조에서 Partition Key 기반으로 대용량 데이터를 수평 분산하고, 쓰기 성능을 극대화한 Wide-Column NoSQL인 **Apache Cassandra**
-- 배경/필요성: 단일 주 노드 구조는 **쓰기 병목•장애 집중** 유발
+- 정의/개념: 마스터리스(Masterless) P2P 링 구조에서 **파티션 키 기반 수평 분산과 LSM-Tree 쓰기 최적화 및 가변 일관성을 제공**하는 Wide-Column NoSQL
+- 배경/필요성: 단일 마스터 노드 구조의 RDBMS에서 발생하는 **쓰기 처리량 병목, 단일 장애점(SPOF) 위험 및 글로벌 다중 리전 분산 확장 한계** 직면
 
 #### 한줄 요약
 
-- 조회할 묶음을 정해 균등 분산하고 시간순으로 쌓는 저장소이다.
+- 마스터리스 P2P 링과 LSM-Tree 구조를 통해 무중단 고가용성과 초고속 대용량 쓰기 처리량을 달성
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Query-Driven Modeling**: RDBMS의 정규화와 달리, 오직 애플리케이션의 쿼리 패밀리(Query Table) 패턴에 맞춰 테이블을 각각 비정규화(Denormalization) 설계.
-- **Append-Only Write Mechanics**: CommitLog + MemTable + SSTable 구조를 활용해 100% 순차 디스크 I/O(Sequential Write)로 쓰기 처리량 극대화.
+- **쿼리 주도 데이터 모델링(Query-Driven Modeling)**: 조인이 지원되지 않으므로 화면 조회 쿼리(1 Query)마다 전용 비정규화 테이블(1 Table)을 생성하는 모델링 기법.
+- **가변 일관성(Tunable Consistency)**: 쿼리마다 응답을 수신할 복제 노드 수($R+W>N$, Quorum)를 지정하여 가용성과 일관성의 균형을 동적으로 조절하는 속성.
 
 </details>
 
-- **Masterless Ring Architecture**: 대등 노드 기반 분산•확장
-- **Query-Driven Data Modeling (Partition Key + Clustering Key)**
-- **LSM-Tree 형태의 CommitLog + MemTable + SSTable 쓰기 파이프라인**
+- 마스터가 없어 단일 장애점(SPOF)이 전혀 없는 **완전 대등 노드 P2P 링 아키텍처**
+- CommitLog + MemTable + SSTable을 통한 **100% 순차 쓰기(Sequential I/O) 극대화**
+- 파티션 키(분산 저장)와 클러스터링 키(물리 정렬)를 결합한 **복합 기본키(Primary Key) 구조**
 
 #### 한줄 요약
 
-- 쓰기와 장애 내성은 높지만 파티션 키를 벗어난 조회에는 부적합하다.
+- 마스터리스 P2P 링과 순차 쓰기 기반 스토리지 엔진으로 대규모 시계열 및 로그 쓰기를 초고속 처리
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Partition Key**: 데이터를 어느 물리적 노드(Shard Ring)에 분산 저장할지 결정하는 해시 키.
-- **Clustering Key**: 동일 파티션 노드 내부에서 데이터를 물리적으로 정렬(ASC/DESC)해 두는 정렬 키.
+- **Partition Key & Clustering Key**: 어느 노드에 저장할지 결정하는 파티션 키(Partition Key)와 해당 노드 내부에서 데이터를 정렬 저장하는 클러스터링 키(Clustering Key).
 
 </details>
 
 ```text
-[파티션 키] ───── [토큰 링]
-     │                │
-[코디네이터] ─── [복제 노드]
-     │                │
-[CommitLog] ──── [MemTable•SSTable]
+[ Apache Cassandra P2P 토큰 링 및 스토리지 구조도 ]
+
+ 1. [ Masterless P2P 토큰 링 아키텍처 ]
+               [ 노드 1 (Token 0~1000) ]
+              /                         \
+    [ 노드 4 (3001~4000) ]           [ 노드 2 (1001~2000) ]
+              \                         /
+               [ 노드 3 (2001~3000) ]
+
+ 2. [ 노드 내부 쓰기 엔진 (LSM-Tree) ]
+    쓰기 요청 ──► CommitLog (디스크 순차) + MemTable (RAM)
+                                               │ (Flush)
+                                               ▼
+                                      [ SSTable (불변 파일) ]
 ```
 
-선의 의미: 키 배치•요청 조정•복제•LSM 저장 책임의 정적 관계.
+선의 의미: P2P 토큰 링으로 데이터 노드를 분산하고 노드 내부에서는 CommitLog와 MemTable로 순차 쓰기를 수행하는 구조.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 파티션 키 | 토큰으로 데이터 배치 노드 결정 |
-| 토큰 링 | 노드별 토큰 범위와 복제 위치 관리 |
-| 코디네이터 | 요청을 복제 노드에 전달하고 응답 취합 |
-| 복제 노드 | 복제 계수에 따라 파티션 사본 보관 |
-| CommitLog | 쓰기 복구를 위한 변경 기록 |
-| MemTable•SSTable | 메모리 적재 후 불변 파일로 플러시 |
+| 파티션 키 (Partition Key) | 해시 토큰(Murmur3)을 계산하여 **데이터가 저장될 물리 노드(토큰 범위) 결정** |
+| 클러스터링 키 (Clustering) | 동일 파티션 내부에서 **데이터를 디스크에 물리적으로 정렬(ASC/DESC) 보관** |
+| 코디네이터 노드 (Coordinator)| 클라이언트 요청을 최초 수신하여 **복제 계수에 따른 타깃 노드들에 분기 전달 및 취합** |
+| 복제 엔진 (LSM-Tree) | CommitLog에 선행 기록 후 **MemTable에서 SSTable로 순차 플러시하여 쓰기 완결** |
 
 #### 한줄 요약
 
-- 배치 키, 접수자, 쓰기 기록, 정렬 파일, 사본 수선으로 구성된다.
+- 파티션 키, 클러스터링 키, 코디네이터 노드, LSM 엔진이 결합하여 분산 저장과 빠른 쓰기를 실현
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Quorum Consistency Equation ($R + W > N$)**: 읽기 복제본 수($R$) + 쓰기 복제본 수($W$) > 총 복제 계수($N$) 조건을 충족하면 항상 가장 최신의 데이터를 읽을 수 있음을 보증하는 수식.
+- **Cassandra 쓰기/읽기 코디네이션 절차**: 요청 접수 $\to$ 토큰 계산 $\to$ 복제 노드 병렬 전송 $\to$ Quorum 일관성 확인 $\to$ 결과 반환.
 
 </details>
 
 ```text
-[클라이언트 요청]
-       │
-       ▼
-1. 코디네이터 선택
-       │
-       ▼
-2. 파티션 토큰 계산
-       │
-       ▼
-3. 복제 노드 요청
-       │
-       ▼
-4. 일관성 수준 판정
-       │
-       ▼
-5. 응답 취합
-       │
-       ▼
-  [결과 반환]
+[ Cassandra 쿼리 코디네이션 5단계 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. 임의 노드 접속: 코디네이터 역할 수행│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. 파티션 키 해시(Murmur3) 토큰 계산  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. 복제본 노드들에 요청 병렬 전달     │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. 설정된 일관성 수준(QUORUM) 충족 검증│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. 최신 타임스탬프 데이터 취합 및 반환│
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. 코디네이터 선택: 접속 노드가 요청 조정 역할 수행
-2. 파티션 토큰 계산: 키 해시로 담당 범위 식별
-3. 복제 노드 요청: 복제 계수에 따른 노드로 전달
-4. 일관성 수준 판정: ONE•QUORUM•ALL 충족 확인
-5. 응답 취합: 최신 타임스탬프 비교와 복구 수행
+1. 임의 노드 접속: 클라이언트가 클러스터 내 임의의 노드에 접속하면 해당 노드가 코디네이터(Coordinator)가 됨.
+2. 토큰 계산: 쿼리의 파티션 키에 해시 함수(Murmur3Partitioner)를 적용하여 데이터의 토큰 값을 계산.
+3. 요청 병렬 전달: 토큰 링 메타데이터를 참조하여 해당 데이터를 담당하는 복제 노드(Replica Nodes)들에 요청을 전송.
+4. 일관성 충족 검증: 지정된 일관성 수준(예: QUORUM = 과반수 응답)이 만족될 때까지 대기.
+5. 최신 응답 반환: 응답 노드들의 타임스탬프를 비교하여 가장 최신 데이터를 클라이언트에 반환하고 불일치 시 Read Repair를 실행.
 
 #### 한줄 요약
 
-- 모든 담당 사본에 쓰기를 보내되 몇 곳의 확인을 기다릴지는 요청마다 정한다.
+- 코디네이터 접속 $\to$ 토큰 계산 $\to$ 복제 노드 전달 $\to$ QUORUM 검증 $\to$ 최신 결과 반환의 5단계
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Denormalization in Cassandra**: Cassandra는 조인(`JOIN`)이 없으므로, 쿼리 화면 1개당 테이블 1개를 만들어 동일한 데이터를 중복 저장하는 비정규화가 표준 지침.
+- **RDBMS vs Cassandra**: 정규화된 테이블과 조인을 지원하는 RDBMS와 쿼리별 비정규화 테이블을 구성하는 Cassandra.
 
 </details>
 
-| 비교 항목 | RDBMS (Relational Database) | Apache Cassandra (Wide-Column) |
+| 구분 | RDBMS (관계형 데이터베이스) | Apache Cassandra (Wide-Column NoSQL) |
 |:---|:---|:---|
-| 데이터 모델링 기준| **엔티티 관계 중심 정규화 (1NF, 2NF, 3NF)**| **화면 쿼리 중심 비정규화 (1 Table per Query)** |
-| 관계 결합 | **DBMS 조인•서브쿼리 지원** | 쿼리별 비정규화 테이블 설계 |
-| 수평 확장성 | 제품•구성별 분산 방식 적용 | **P2P 링 노드 추가와 재분배** |
-| 쓰기 메커니즘 | In-Place Update (Random Write I/O) | **LSM-Tree Out-of-Place (Sequential I/O)** |
+| **적용 기준** | 복잡한 조인 및 트랜잭션 무결성 중심 도메인 | 초대규모 시계열 로그, IoT 센서, 대량 쓰기 워크로드 |
+| **핵심 특징** | **3NF 정규화 모델링, 조인 및 서브쿼리 지원** | **쿼리 주도 비정규화 모델링(1 Query 1 Table), P2P 링** |
+| **한계** | 대규모 쓰기 시 단일 마스터 I/O 병목 발생 | 파티션 키가 없는 임의 조건 조회 시 Full Cluster Scan 폭망 |
 
 #### 한줄 요약
 
-- 적게 기다리면 빠르고 잘 버티며, 많이 기다리면 최신 확인 범위가 넓어진다.
+- 복합 조인은 RDBMS, 단일 마스터 한계를 넘는 대규모 분산 쓰기는 Cassandra를 채택
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Tombstone Threshold Overwrite**: DELETE 연산 시 생성되는 묘비(Tombstone)가 파티션 내 수만 개 쌓이면 `SELECT` 스캔 시 읽기 타임아웃 장애가 발생하므로 주기적 Compaction 필수.
+- **묘비 레코드(Tombstone)**: Cassandra에서 DELETE 수행 시 즉시 삭제되지 않고 생성되는 삭제 표식으로, 수만 개가 누적되면 SELECT 조회 시 타임아웃을 유발하는 안티패턴.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Partition Key 없이 `SELECT` 조회 시 전체 노드 Scan 폭사 | **모든 쿼리에 Partition Key 필수 포함 및 테이블 재설계**| 핫스팟/Scan 방지 |
-| 삭제 데이터가 디스크에 묘비(**Tombstone**)로 쌓여 읽기 타임아웃 | **`gc_grace_seconds` 튜닝 및 Size-Tiered Compaction 실행**| Tombstone 청소 |
-| 특정 Partition Key 용량 폭증 (Hot Partition) | **Partition Key에 날짜/시간 버킷(`user_id + YYYYMM`) 추가** | 균등 수평 분산 |
-
-> 사례: **넷플릭스 / 시스코 시계열 로그 및 유저 시청 이력 저장소로 Cassandra 운용**
+| 파티션 키 없이 `SELECT` 조회 시 전체 클러스터 스캔 발생 | **조회 쿼리마다 파티션 키를 필수로 포함하는 테이블 전용 재설계** | 노드 스캔 폭사 방지 및 $O(1)$ 라우팅 |
+| 대량 DELETE로 인한 묘비(Tombstone) 누적 및 쿼리 타임아웃 | **`gc_grace_seconds` 단축 및 Size-Tiered Compaction 스케줄 가동** | 묘비 조기 제거 및 읽기 성능 복원 |
+| 특정 파티션에 수 기가바이트 데이터 누적 (Hot Partition) | **파티션 키에 날짜/시간 버킷(`user_id + YYYYMM`) 결합 분할** | 파티션 크기 100MB 이내 균등 분산 |
 
 #### 한줄 요약
 
-- 장치와 날짜로 서랍을 나누면 한 서랍이 끝없이 커지지 않고 시간순으로 읽을 수 있다.
+- 파티션 키 필수 포함, 컴팩션 기반 묘비 정리, 시간 버킷 키 결합을 통해 Cassandra의 성능을 유지
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **Cassandra 수립 기준(Cassandra Design Standards)**: Masterless P2P 노드 구성, Query-Driven Data Modeling 및 $R+W>N$ Tunable Consistency에 의거한 체계.
+- **글로벌 다중 데이터센터 복제(Multi-Datacenter Replication)**: 대륙 간 네트워크 지연을 극복하기 위해 로컬 쿼럼(LOCAL_QUORUM)을 활용하여 글로벌 복제를 구현하는 아키텍처.
 
 </details>
 
-- 파티션 키로 닫히는 대규모 쓰기는 **Cassandra**, 임의 조인은 RDBMS 선택
+- **Apache Cassandra**는 글로벌 스케일의 대규모 쓰기 트래픽을 처리하는 가장 진보된 분산 Wide-Column 데이터베이스이며, 쿼리 패턴에 부합하는 철저한 비정규화 설계와 가변 일관성 튜닝을 통해 무중단 분산 환경을 구축해야 함
 
 #### 한줄 요약
 
-- Cassandra 모델 적용 기준은 키 분배와 파일•사본 정리를 함께 다룬다.
+- 마스터리스 P2P 아키텍처와 쿼리 주도 비정규화 모델링을 통해 무중단 대용량 쓰기를 완성

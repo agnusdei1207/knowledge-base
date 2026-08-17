@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
-date: "2026-08-14T06:05:00+09:00"
+date: "2026-08-18T05:05:00+09:00"
 tags: ["notes-software"]
 weight: 208
 extra:
@@ -21,150 +21,175 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **On-Device Model Deployment**: 경량 Model과 Runtime을 단말에 설치해 내부에서 추론하는 방식
-- **Offline Inference**: Network 연결 없이 단말 Model로 수행하는 추론
+- **온디바이스 AI 모델 배포(On-Device Model Deployment)**: 클라우드 서버에 의존하지 않고, 양자화(Quantization)와 가지치기(Pruning)로 경량화된 AI 모델을 모바일 기기나 임베디드 단말의 NPU/GPU/CPU에서 구동할 수 있도록 포맷을 변환(LiteRT, ONNX Runtime, TensorRT-LLM)하여 OTA(Over-The-Air)로 배포·실행하는 엣지 추론 기술.
+- **클라우드 추론의 한계 및 프라이버시 위험(Cloud Latency & Privacy Leakage Risk)**: 네트워크 단절 시 서비스 불가, 수백 밀리초의 전송 지연, 서버 API 비용 폭증 및 사진·음성 등 민감한 개인정보의 외부 유출 위험.
 
 </details>
 
-- 정의/개념: 경량 AI Model을 단말에 배포해 내부 추론하는 **기술**
-- 배경/필요성: Cloud 추론의 **Network 지연•전송 비용•Privacy 노출** 발생
+- 정의/개념: 경량화된 AI 모델을 스마트폰, 엣지 기기에 직접 탑재하여 **네트워크 연결 없이 로컬에서 실시간 저지연 추론을 수행하는 온디바이스 배포** 기술
+- 배경/필요성: 클라우드 기반 추론 시 발생하는 **네트워크 지연, 막대한 서버 API 비용 및 민감 개인정보 외부 유출 위험** 직면
 
 #### 한줄 요약
 
-- 제한된 자원에서 저지연•Offline•**Privacy 보존 추론** 제공
+- 모델 경량화(INT8 양자화)와 크로스 플랫폼 런타임(LiteRT/ONNX) 및 안전한 OTA 배포를 결합하여 오프라인 초저지연 프라이버시 AI를 실현
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **LiteRT**: Mobile•Embedded Device용 Google ML 추론 Runtime
-- **ONNX (Open Neural Network Exchange)**: ML Framework 간 Model 교환 표준
+- **LiteRT (구 TensorFlow Lite)**: 구글이 발표한 차세대 모바일/임베디드 전용 고성능 엣지 AI 추론 런타임.
+- **양자화(Quantization: FP32 $\to$ INT8)**: 부동소수점 32비트 가중치를 8비트 정수로 압축하여 모델 용량을 75% 절감하고 NPU 연산 속도를 4배 향상시키는 기법.
 
 </details>
 
-- **Quantization**: FP32를 INT8 등으로 변환해 크기•연산 감소
-- **Pruning**: 영향이 작은 연결을 제거해 Parameter 축소
-- **가속기 활용**: CPU•GPU•NPU에 지원 연산자 배치
-- **OTA 운영**: Canary 배포와 Rollback•Cloud Fallback 적용
+- 네트워크 오프라인 상태에서도 10ms 이내 실시간 동작하는 **초저지연 오프라인 추론**
+- 단말기 내부에서만 데이터를 처리하여 외부 유출을 원천 차단하는 **강력한 프라이버시 보호**
+- 이기종 하드웨어 가속기(NPU, GPU, DSP, CPU)를 자동 매핑하는 **하드웨어 가속 런타임 지원**
 
 #### 한줄 요약
 
-- 압축•표준 Format•가속기•OTA로 **단말 제약** 극복
+- 양자화, 가지치기, 하드웨어 델리게이트, 안전한 OTA 카나리 배포를 통해 엣지 기기의 제약을 극복
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Device Inference Runtime**: Model Graph를 해석해 지원 가속기에 연산을 배치하는 Engine
+- **온디바이스 AI 5대 아키텍처 계층**: Model Compression(경량화 엔진), Unified Format(LiteRT/ONNX), Inference Runtime(추론 엔진), Hardware Accelerator(NPU/GPU/CPU), OTA Controller(배포/롤백).
 
 </details>
 
 ```text
-[On-Device AI]
- ├── [경량 Model Package | Weight•Operator•서명]
- ├── [Inference Runtime | Graph•가속기 Interface]
- ├── [CPU•GPU•NPU | Tensor 연산]
- ├── [On-Device App | Sensor•전처리•업무 Logic]
- └── [배포•관측 제어기 | OTA•Telemetry•Rollback]
+[ 온디바이스 AI 모델 변환, 배포 및 단말 런타임 아키텍처 구조도 ]
+
+ 1. [ 클라우드/개발 환경: 모델 경량화 파이프라인 ]
+    ┌─────────────────────────────────────────────────────────────┐
+    │  • PyTorch 원본 (FP32 ➔ INT8 PTQ/QAT 양자화 + Pruning)       │
+    │  • 포맷 변환: LiteRT (.tflite) / ONNX Runtime (.onnx)       │
+    └────────────────────────────┬────────────────────────────────┘
+                                 │ (암호화 서명 후 OTA 전송)
+                                 ▼
+ 2. [ 엣지 단말 환경 (Edge Device: 스마트폰 / 자율주행 / IoT) ]
+    ┌─────────────────────────────────────────────────────────────┐
+    │ 3. [ 온디바이스 앱 (Sensor / Camera Input ➔ App Logic) ]   │
+    │                           │                                 │
+    │                           ▼                                 │
+    │ 4. [ 추론 런타임 (LiteRT / ONNX Runtime Execution Engine) ] │
+    │       │ (Operator Graph 파싱 및 하드웨어 델리게이트)        │
+    │       ├───────────────────┬───────────────────┐             │
+    │       ▼                   ▼                   ▼             │
+    │ 5. [ NPU 가속기 ]    [ 모바일 GPU ]      [ 단말 CPU ]       │
+    │    (INT8 텐서 연산)   (FP16 연산)        (Fallback 처리)    │
+    └─────────────────────────────────────────────────────────────┘
 ```
 
+선의 의미: 클라우드에서 경량화되어 서명된 모델이 단말 추론 런타임에 로드되어 NPU/GPU 가속기를 통해 실시간 추론되는 구조.
+
 | 구성요소 | 책임 |
-|---|---|
-| 경량 Model Package | Weight•Operator•서명•**Version** 보관 |
-| Inference Runtime | Graph 최적화와 **가속기 Interface** 제공 |
-| CPU•GPU•NPU | 특성별 **Tensor 연산** 수행 |
-| On-Device App | Sensor 전처리•추론 호출•업무 Logic 실행 |
-| 배포•관측 제어기 | OTA•Telemetry•**Rollback** 통제 |
+|:---|:---|
+| 경량화 변환기 (Compression) | 원본 모델을 **INT8 양자화(PTQ/QAT), 가지치기하여 LiteRT/ONNX 표준 포맷으로 변환** |
+| 추론 런타임 (Inference Engine)| 모델 그래프를 파싱하고 **연산자를 분석하여 NPU/GPU 델리게이트에 최적 분배 실행** |
+| 하드웨어 가속기 (NPU/GPU/CPU)| 단말 내부 칩셋에서 **초당 수십조 회(TOPS)의 병렬 텐서 연산을 저전력으로 처리** |
+| 온디바이스 앱 (Device App) | 카메라, 마이크 센서 입력 전처리를 수행하고 **추론 결과를 즉각 비즈니스 로직에 반영** |
+| OTA 배포 제어기 (OTA Controller)| 기기 사양별 모델 바이너리를 **Canary 방식으로 배포하고 오류 시 이전 버전 롤백** |
 
 #### 한줄 요약
 
-- 경량 Package를 Runtime•가속기가 실행하고 **OTA 제어기**가 운영
+- 경량화 변환기, 추론 런타임, NPU 가속기, 단말 앱, OTA 제어기가 결합하여 온디바이스 AI를 완성
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Device Farm**: 다양한 제조사•OS•Chipset 단말을 자동 시험하는 환경
+- **온디바이스 모델 배포 5단계 수명주기**: 모델 양자화 변환 $\to$ 디바이스 팜(Farm) 검증 $\to$ 암호화 서명 등록 $\to$ 카나리 OTA 배포 $\to$ 텔레메트리 감시 및 롤백.
 
 </details>
 
 ```text
-[학습 Model 입력]
-          │
-          ▼
-[1. 경량 Model 후보 전달]
-          │
-          ▼
-[2. 호환성•품질•자원 검증]
-          │
-          ▼
-[3. 승인 Version 등록]
-          │
-          ▼
-[4. 단계별 OTA 배포]
-          │
-          ▼
-┌───[5. 지연•오류•전력 전달]───┐
-│ 이상: Rollback•Cloud Fallback│
-│ 정상: 배포 비율 확대         │
-└───────────────────────────────┘
+[ 온디바이스 AI 모델 경량화, 검증 및 OTA 배포 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. PyTorch 모델 INT8 양자화 및 ONNX 변환│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. Device Farm에서 기종별 지연/전력 검증│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. 암호화 서명 및 기기 사양별 매핑 등록│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. Canary 5% 점진적 OTA 무선 배포      │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. 발열/크래시 모니터링 및 필요 시 롤백│
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. 경량 Model 후보 전달: Quantization•Pruning•Format 변환
-2. 호환성•품질•자원 검증: 기기별 정확도•지연•Memory•전력 측정
-3. 승인 Version 등록: 기기 Tier별 Package와 복구 Version 매핑
-4. 단계별 OTA 배포: 서명된 Model을 Canary Ring에 배포
-5. 지연•오류•전력 전달: Telemetry로 확대•Rollback 결정
+1. 경량 변환: PyTorch 객체 검출 모델을 QAT(양자화 인지 학습)를 거쳐 500MB에서 45MB 크기의 LiteRT 포맷으로 변환.
+2. 디바이스 검증: Device Farm의 50개 실기기(Galaxy, iPhone)에서 추론 속도(15ms), 메모리 점유(80MB), 배터리 소모량을 측정.
+3. 서명 등록: 변조 방지를 위해 비대칭 키로 전자서명하고 저사양 기기용과 프리미엄 기기용 모델 패키지를 분리 등록.
+4. 카나리 배포: 백그라운드 Wi-Fi 연결 시 전체 단말의 5%에만 신규 모델을 조용히 다운로드하여 활성화.
+5. 모니터링: NPU 크래시 및 배터리 이상 발열 지표가 없음을 확인한 후 전 세계 단말로 100% 확대 배포.
 
 #### 한줄 요약
 
-- 실제 기기 검증 후 Canary OTA와 **현장 지표**로 배포 통제
+- 양자화 변환 $\to$ 기기 검증 $\to$ 암호화 서명 $\to$ 카나리 배포 $\to$ 텔레메트리 감시의 5단계
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Hybrid Inference**: 요청 난이도•자원•품질에 따라 단말과 Cloud를 분기하는 방식
+- **On-Device vs Cloud vs Hybrid 추론**: 단말 단독 실행(On-Device), 서버 전송 실행(Cloud), 상황별 동적 분기(Hybrid).
 
 </details>
 
-| 비교 항목 | On-Device | Cloud | Hybrid |
-|---|---|---|---|
-| 강점 | 저지연•Offline•Privacy | 대형 Model•중앙 갱신 | **자원별 동적 분기** |
-| 제약 | Device 자원•파편화 | Network•비용•정보 전송 | 구현•출력 일관성 |
-| 적용 | 민감•실시간 입력 | 고품질 대형 연산 | 기기 편차•복합 요청 |
+| 구분 | 온디바이스 추론 (On-Device AI) | 클라우드 추론 (Cloud AI) | 하이브리드 추론 (Hybrid AI) |
+|:---|:---|:---|:---|
+| **적용 기준** | 오프라인 통신 음영 지역, 초저지연 제어, 민감 의료/금융 데이터 | 초대형 파운데이션 모델(70B+ LLM), 중앙 집중 고성능 연산 | 단말 사양 편차가 크거나 요청 복잡도에 따라 유연 대응 |
+| **핵심 특징** | **네트워크 독립(0ms 전송 지연), 강력한 프라이버시, 서버 비용 0** | **모델 크기 제약 없음, 즉각적인 중앙 업데이트 및 일관된 성능** | **단말 SLM 1차 처리 후 복잡한 질의만 클라우드 LLM으로 Fallback** |
+| **한계** | 기기 NPU 성능/메모리 제약 및 하드웨어 파편화 대응 공수 | 네트워크 지연, 서버 API 비용 폭증, 데이터 보안 노출 위험 | 단말과 클라우드 간 라우팅 구현 복잡도 및 통신 오버헤드 |
 
 #### 한줄 요약
 
-- Privacy•지연•Model 규모•Network로 **추론 위치** 결정
+- 초저지연과 프라이버시는 온디바이스, 초대형 연산은 클라우드, 비용과 품질의 균형은 하이브리드를 선택
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Accuracy Degradation (정확도 저하)**: 과도한 압축으로 원본 대비 예측 품질이 하락하는 현상
+- **양자화 인지 학습(QAT: Quantization-Aware Training)**: 양자화로 인한 소수점 손실을 학습 과정에서 미리 시뮬레이션하여 정확도 하락(Accuracy Drop)을 1% 미만으로 방어하는 고급 기법.
 
 </details>
 
-| 고려사항 | 대책 |
-|---|---|
-| Device별 NPU•Memory 편차 | 기기 Tier별 **Model Variant** 시험 |
-| 압축에 따른 정확도 저하 | 대표 Data와 **QAT•허용 오차** 검증 |
-| Model 탈취 | Weight 암호화•Keystore•**Secure Enclave** 적용 |
-| OTA 오배포 | 서명•Canary•**Automatic Rollback** 연계 |
+| 문제 | 대책 | 효과 |
+|:---|:---|:---|
+| 과도한 양자화 압축으로 원본 대비 모델 정확도 급락 | **단순 사후 양자화(PTQ) 대신 `양자화 인지 학습(QAT)` 의무 적용** | 원본 대비 99% 이상 정확도 유지 |
+| 안드로이드/iOS 수백 개 칩셋 파편화로 특정 NPU 크래시 | **실제 기기 기반 `Device Farm` 자동화 호환성 회귀 테스트 수행** | 단말 크래시율 0% 달성 |
+| 배포된 온디바이스 모델 파일의 탈취 및 리버스 엔지니어링 | **모델 가중치 AES 암호화 및 `Secure Enclave / KeyStore` 복호화** | AI 지식재산권(IP) 완벽 보호 |
 
 #### 한줄 요약
 
-- 기기별 품질•자원•보안•복구를 검증해 **현장 장애** 제한
+- QAT 적용, 디바이스 팜 테스트, 모델 파일 암호화를 통해 온디바이스 AI의 성능과 보안을 보장
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- 단말 자원과 Privacy가 충분하면 내부 처리하고, 복잡한 요청은 Cloud로 넘긴다.
+- **온디바이스 SLM (Small Language Model)**: Llama-3-8B, Gemma-2B 등 스마트폰 내부 NPU에서 초당 30토큰 이상으로 구동되는 차세대 생성형 AI.
 
 </details>
 
-- Privacy•저지연은 **On-Device**, 자원•품질 한계는 Hybrid Fallback 적용
+- **온디바이스 AI 모델 배포**는 클라우드 비용을 절감하고 데이터 주권과 즉각적 반응성을 실현하는 핵심 엣지 컴퓨팅 패러다임이며, LiteRT/ONNX 표준 포맷과 안전한 OTA 카나리 배포 거버넌스를 통해 고성능 엣지 AI 생태계를 완성해야 함
+
+#### 한줄 요약
+
+- INT8 양자화와 크로스 플랫폼 런타임 및 OTA 카나리 배포를 통해 초저지연 프라이버시 엣지 AI를 완성

@@ -22,14 +22,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **다중 프로세서 스케줄링(Multiprocessor Scheduling)**: 복수의 CPU 코어에 프로세스·스레드를 효율적으로 배분하여 코어 이용률·캐시 효율·부하 균형을 최적화하는 스케줄링 기법.
-- **SQMS(Single Queue Multiprocessor Scheduling)**: 모든 CPU 코어가 단일 전역 실행 큐를 공유하고 동기화 잠금을 경쟁하여 작업을 획득하는 단순 스케줄링 방식.
-- **MQMS(Multi-Queue Multiprocessor Scheduling)**: CPU 코어별로 독립 로컬 큐를 보유하고 작업 훔치기(Work Stealing)로 코어 간 부하를 분산하는 확장형 스케줄링 방식.
+- **로컬 큐 및 작업 훔치기(Local Queue & Work Stealing)**: 코어마다 전용 큐를 할당해 락 없이 작업을 디스패치하고 유휴 코어가 바쁜 코어의 작업을 가로채는 방식.
+- **락 경합 및 캐시 친화도 파괴(Lock Contention & Affinity Loss)**: 단일 전역 큐 접근 락 대기로 인한 코어 확장성 저하 및 스레드가 이종 코어로 이동하며 L1/L2 캐시 미스가 급증하는 문제.
 
 </details>
 
-- 정의/개념: 멀티코어 환경에서 단일 전역 큐의 잠금 경합을 수반하는 **SQMS**와 코어별 로컬 큐로 캐시 친화도·확장성을 확보하는 **MQMS** 비교
-- 배경/필요성: 코어 수 증가에 따라 단일 큐 잠금 경합이 선형 확장을 저해하므로, **코어별 큐 분리 및 동적 부하 분산 체계 필수**
+- 정의/개념: 다중 코어 환경에서 단일 큐 공유(SQMS)의 잠금 병목을 극복하기 위해 **코어별 독립 로컬 큐와 작업 훔치기(Work Stealing)**를 적용하는 분산 스케줄링 구조
+- 배경/필요성: 코어 수 증가 시 전역 큐 락 경합(Lock Contention) 심화 및 빈번한 코어 이동으로 인한 **캐시 친화도(Cache Affinity) 파괴** 직면
 
 #### 한줄 요약
 

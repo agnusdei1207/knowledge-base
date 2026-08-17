@@ -21,14 +21,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **가상 스레드(Virtual Thread)**: Java 21(Project Loom)에서 도입된 JVM 관리형 경량 스레드로, 소수의 OS 플랫폼 스레드(캐리어) 위에 수백만 개를 M:N으로 다중화하는 동시성 모델.
-- **캐리어 스레드(Carrier Thread)**: 가상 스레드를 실제 CPU 코어에서 실행하는 OS 플랫폼 스레드로, ForkJoinPool이 관리.
-- **컨티뉴에이션(Continuation)**: 가상 스레드의 I/O 대기 시 실행 상태(콜 스택)를 JVM 힙에 저장하고 캐리어 스레드를 해제하는 재개 가능 실행 단위.
+- **M:N 다중화(Continuation & Carrier Thread)**: 수백만 개의 경량 가상 스레드를 소수의 OS 커널 스레드(캐리어)에 매핑하고 I/O 시 힙 메모리로 분리하는 기법.
+- **메모리 고갈 및 디버깅 복잡도(Stack Exhaustion & Complexity)**: 스레드당 1MB의 물리 스택 할당으로 인한 OOM 한계 및 비동기 콜백 체인의 추적 어려움.
 
 </details>
 
-- 정의/개념: I/O 대기 시 OS 스레드 블로킹 낭비를 제거하기 위해 수백만 개의 **가상 스레드**를 소수의 **캐리어 스레드**에 M:N 다중화하는 **Java Virtual Thread**
-- 배경/필요성: 요청당 OS 스레드 1:1 할당 모델은 I/O 대기 중 스레드가 유휴 상태를 유지하여 스레드·메모리 자원 상한에 도달하므로, **JVM 관리형 M:N 경량 스레드 체계 필수**
+- 정의/개념: JVM 런타임이 콜 스택을 힙에 저장하고 **M:N 다중화(Continuation & ForkJoinPool)**로 I/O 대기 시 플랫폼 스레드를 양보하는 경량 동시성 기법
+- 배경/필요성: 기존 OS 1:1 스레드 모델의 스택 메모리 고갈 및 논블로킹 Reactive 코드 도입 시 **디버깅 복잡도 폭증 한계** 직면
 
 #### 한줄 요약
 

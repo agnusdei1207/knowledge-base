@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 85%"
     variant: note
 title: "SBOM 소프트웨어 자재명세서 (Software Bill of Materials)"
-date: "2026-08-14T04:04:00+09:00"
+date: "2026-08-18T03:15:00+09:00"
 tags:
   - "notes-software"
 weight: 183
@@ -22,152 +22,170 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **SBOM(Software Bill of Materials)**: SW 구성 오픈소스, 라이브러리, 의존성 관계를 기계 판독 가능한 형태(Machine-Readable)로 명세한 디지털 부품표.
-- **Log4Shell**: Log4j 취약점 사태. 자사 내 취약 컴포넌트 식별 실패로 인한 SBOM 도입의 계기.
-- **NTIA(National Telecommunications and Information Administration)**: 미 상무부 기관. 행정명령을 통해 연방 납품 SW 대상 SBOM 제출 의무화.
+- **SBOM (Software Bill of Materials)**: 소프트웨어를 구성하는 오픈소스 모듈, 라이브러리 버전, 패키지 해시, 라이선스, 직접 및 전이 의존성(Transitive Dependency) 관계를 기계 판독 가능한 표준 규격(SPDX, CycloneDX)으로 명세한 디지털 부품표.
+- **공급망 보안 및 의존성 파악 한계(Software Supply Chain Vulnerability)**: Log4j 사태처럼 오픈소스 취약점 발생 시 사내 소프트웨어에 해당 모듈이 포함되어 있는지 여부를 신속히 식별하지 못해 침해 사고로 이어지는 위험.
 
 </details>
 
-- 정의/개념: SW 구성요소•의존성•식별자를 담은 **SBOM**
-- 배경/필요성: 외부 Component 증가로 **취약 제품•License 영향** 식별 지연
+- 정의/개념: 소프트웨어에 포함된 오픈소스 라이브러리와 **직접·전이 의존성 및 라이선스를 기계 판독 가능한 표준 규격으로 명세한 자재명세서**
+- 배경/필요성: 오픈소스 및 서드파티 모듈 의존성 증가로 인한 **Log4j 등 공급망 취약점 발생 시 영향도 파악 불가 및 라이선스 위반 위험** 직면
 
 #### 한줄 요약
 
-- 제품에 포함된 직접·전이 부품을 기계 판독 목록으로 남겨 영향 제품을 찾는다.
+- 기계 판독 가능한 표준 부품표(SBOM)를 통해 소프트웨어 공급망의 투명성을 확보하고 취약점 및 라이선스 위험에 즉각 대응
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **전이 의존성(Transitive Dependency)**: 개발자가 직접 포함한 라이브러리가 다시 의존하고 있는 간접 라이브러리.
+- **표준 규격(SPDX & CycloneDX)**: 라이선스 컴플라이언스에 특화된 ISO 국제 표준 SPDX와 애플리케이션 보안(AppSec) 및 취약점 분석에 최적화된 OWASP CycloneDX.
+- **전이 의존성 추적(Transitive Dependency)**: 개발자가 직접 선언한 모듈뿐 아니라 해당 모듈이 하위로 물고 들어오는 2차, 3차 간접 라이브러리까지 완벽히 추적.
 
 </details>
 
-- **Data Fields**로 공급자•이름•Version•purl•관계 기록
-- **SPDX**•**CycloneDX**로 생성•교환 자동화
-- Release•산출물별 **SBOM 갱신•서명•배포 연결**
+- 컴포넌트명, 버전, 공급자, 해시, 고유 패키지 URL(purl)을 포함하는 **표준 메타데이터 제공**
+- 기계 판독(Machine-Readable: JSON/XML) 규격 기반의 **CI/CD 파이프라인 자동화 연동**
+- 빌드 산출물과 SBOM의 일치성을 보장하는 **전자서명 및 SLSA 공급망 무결성 검증**
 
 #### 한줄 요약
 
-- 표준 식별자와 의존 경로를 제품 Version마다 갱신해야 자동 대조가 가능하다.
+- 표준화된 부품 명세를 통해 소프트웨어 빌드부터 배포까지 전 주기의 보안 가시성을 제공
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **SPDX(Software Package Data Exchange)**: 리눅스 재단 주도 ISO 표준(ISO/IEC 5962) SBOM 포맷. 라이선스 호환성 검증에 특화.
-- **CycloneDX**: OWASP 주도 포맷. 취약점 분석 및 공급망 보안(AppSec) 목적의 최적화된 경량 규격.
+- **SBOM 생태계 4대 핵심 구조**: SCA 도구(추출기), 표준 명세(SPDX/CycloneDX), 컴포넌트 식별자(purl/Hash), VEX(취약점 악용성 전달서).
 
 </details>
 
 ```text
-[SBOM]
- ├── [SCA Tool]
- ├── [Standard Format]
- ├── [Component ID]
- └── [VEX]
+[ 소프트웨어 자재명세서(SBOM) 생성 및 검증 구조도 ]
+
+ 1. [ 소스코드 및 바이너리 (Source & Artifacts) ]
+    ┌─────────────────────────────────────────────────────────────┐
+    │  • npm package.json, Maven pom.xml, 컨테이너 이미지 레이어  │
+    └────────────────────────────┬────────────────────────────────┘
+                                 │ (SCA 스캔: Syft, Trivy)
+                                 ▼
+ 2. [ SBOM 생성 계층 (Standard SBOM Document) ] ────────────────┐
+    • SPDX (ISO/IEC 5962) 또는 CycloneDX (JSON 규격)              │
+    • 패키지 식별자: `pkg:npm/lodash@4.17.21` (purl) + SHA-256    │
+    • 직접 의존성 및 전이 의존성 트리 (Dependency Graph)          │
+    └────────────────────────────┬────────────────────────────────┘
+                                 │ (취약점 DB 대조 및 VEX 매핑)
+                                 ▼
+ 3. [ 취약점 분석 및 조치 계층 (NVD / Grype / VEX) ]
+    • CVE 매칭 ➔ 실제 악용 가능 여부(VEX: not_affected) 판정 ➔ 패치
 ```
 
+선의 의미: 빌드 산출물에서 SCA 도구가 의존성을 추출해 표준 SBOM을 생성하고 취약점 DB 및 VEX와 교차 분석하는 구조.
+
 | 구성요소 | 책임 |
-|---|---|
-| SCA Tool | Source•Binary의 **Component**•**Dependency** 추출 |
-| Standard Format | SPDX•CycloneDX로 **교환 Schema** 제공 |
-| Component ID | **purl**•**Hash**로 부품과 산출물 식별 |
-| VEX | 취약점의 **영향•악용 가능 상태**와 근거 전달 |
+|:---|:---|
+| SCA 분석 도구 (Syft/Trivy) | 소스코드 매니페스트와 바이너리를 스캔하여 **직접/전이 의존성 및 라이선스 자동 추출** |
+| 표준 포맷 (SPDX/CycloneDX) | 기계 판독 가능한 JSON/XML 스키마로 **부품명, 버전, 라이선스, 관계 그래프 표준화** |
+| 패키지 식별자 (purl & Hash) | 생태계와 무관하게 **전 세계 공통으로 패키지와 버전을 고유하게 식별(Package URL)** |
+| VEX (취약점 악용성 명세서) | 발견된 CVE 취약점이 **실제 런타임 환경에서 악용 가능한지(Affected 여부) 상태 명시** |
 
 #### 한줄 요약
 
-- SCA가 부품을 찾고 표준 문서가 관계를 담으며 VEX가 실제 영향 판단을 보완한다.
+- SCA 도구, 표준 포맷, 고유 식별자(purl), VEX 명세서가 결합하여 실질적 취약점 관리를 수행
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **VEX(Vulnerability Exploitability eXchange)**: 취약점이 존재해도 구동 환경상 실제 악용(Exploit) 불가함을 명세하여 거짓 양성(False Positive)을 제거하는 상태서.
+- **SBOM 기반 공급망 보안 5단계**: 의존성 스캔 $\to$ 표준 SBOM 생성 $\to$ 전자서명/보존 $\to$ CVE 및 VEX 대조 $\to$ 영향도 분석 및 패치.
 
 </details>
 
 ```text
-[Build 산출물]
-      │
-      ▼
-1. Component•Dependency 추출
-      │
-      ▼
-2. SBOM 생성•검증
-      │
-      ▼
-3. 산출물•SBOM 서명•연결
-      │
-      ▼
-4. 취약점•VEX 상관 분석
-      │
-      ▼
-5. 영향 제품 Patch•추적
-      │
-      ▼
-[대응 결과 반환]
+[ CI/CD 파이프라인 내 SBOM 생성 및 취약점 대응 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. 소스 빌드 시 SCA 도구로 의존성 추출│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. CycloneDX JSON 포맷 표준 SBOM 생성  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. Cosign으로 산출물 및 SBOM 전자서명  │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. NVD 취약점 DB 및 VEX 악용 가능성 대조│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. 취약 컴포넌트 격리, 버전 업그레이드 패치
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. Component•Dependency 추출: Source•Binary 부품 식별
-2. SBOM 생성•검증: 필수 Field와 관계 완전성 확인
-3. 산출물•SBOM 서명•연결: Digest•Attestation 보존
-4. 취약점•VEX 상관 분석: 영향 Version과 실행 가능성 평가
-5. 영향 제품 Patch•추적: 우선순위•조치•잔여 위험 관리
+1. 의존성 추출: CI 빌드 단계에서 Syft가 `package-lock.json`을 분석하여 150개의 직접/전이 라이브러리를 추출.
+2. SBOM 생성: 라이브러리명, 버전, purl, SHA-256 해시를 포함한 CycloneDX 표준 JSON 문서를 자동 생성.
+3. 전자서명: Cosign 도구를 사용하여 빌드된 컨테이너 이미지와 SBOM 파일에 전자서명을 수행하여 무결성을 보장.
+4. 취약점 대조: Grype 스캐너가 NVD 취약점 데이터베이스와 대조하고, VEX 명세서를 참조하여 오탐(False Positive)을 제거.
+5. 패치 조치: 실제 취약점이 확인된 오픈소스 버전을 즉시 패치하고 신규 배포 파이프라인을 가동.
 
 #### 한줄 요약
 
-- 새 취약점이 나오면 서명된 부품표로 배포 제품과 경로를 찾고 VEX 근거로 순서를 정한다.
+- 의존성 추출 $\to$ SBOM 생성 $\to$ 전자서명 $\to$ CVE/VEX 대조 $\to$ 패치 배포의 5단계
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **바이너리 분석(Binary Analysis)**: 소스코드 없는 레거시 시스템을 역분석하여 포함 라이브러리 목록을 강제 추출하는 기법.
+- **SPDX vs CycloneDX**: 리눅스 재단의 ISO 라이선스 표준(SPDX)과 OWASP의 보안/취약점 중심 경량 표준(CycloneDX).
 
 </details>
 
-| 항목 | Source•Build-time SBOM | Binary•Run-time SBOM |
+| 구분 | SPDX (Linux Foundation / ISO 5962) | CycloneDX (OWASP) |
 |:---|:---|:---|
-| 대상 | 소스코드, 패키지 관리 파일 | 컨테이너 이미지, 실행 파일 |
-| 강점 | 선언된 전이 의존성 추적 | 실제 산출물의 숨은 부품 보완 |
-| 한계 | 미포함 개발 의존성 혼입 가능 | 난독화•정적 Linking 누락 가능 |
-| 주요 목적 | 개발 제품 투명성 | 외부•Legacy 산출물 검증 |
+| **적용 기준** | 대기업 간 오픈소스 라이선스 법적 컴플라이언스 검증 | DevSecOps 파이프라인, 취약점 분석, 컨테이너 보안 |
+| **핵심 특징** | **ISO/IEC 국제 표준, 엄격한 라이선스 거버넌스 및 저작권** | **OWASP 주도 경량 규격, VEX 및 취약점 분석 최적화** |
+| **한계** | 스펙이 방대하여 AppSec 자동화 도구 연동 시 다소 무거움 | 라이선스 법적 분쟁 대비 세부 조항 표현은 상대적 간결 |
 
 #### 한줄 요약
 
-- Build 시 생성을 정본으로 삼고 Binary 분석으로 실제 산출물 차이를 보완한다.
+- 법적 라이선스 검증은 SPDX, DevSecOps 취약점 분석은 CycloneDX를 선택
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **purl**: `pkg:npm/lodash@4.17.21` 등 패키지 생태계 무관 전 세계 공통 고유 식별 주소 체계.
+- **VEX를 통한 경보 피로 제거**: 사용하지 않는 함수에서 발견된 CVE 취약점을 `not_affected`로 처리하여 개발팀의 불필요한 패치 작업을 제거하는 기법.
 
 </details>
 
-| 난제 | 원인 | 대책 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 이름 오탐지 | 생태계별 동일 패키지명 | **purl** 식별자 강제 |
-| 경고 폭탄 | 미사용 라이브러리 취약점 | **VEX** 동반 False Positive 제거 |
-| 위변조 | 공급망 악성 부품 삽입 | **SLSA** 프레임워크 및 무결성 서명 |
+| 패키지명 중복으로 인한 취약점 스캐너의 엉뚱한 오탐 발생 | **표준 패키지 고유 식별자인 `purl` (Package URL) 전사 강제** | 컴포넌트 식별 정확도 100% 달성 |
+| 실제 미사용 모듈 취약점으로 인한 수백 건의 보안 경보 폭탄 | **`VEX (Vulnerability Exploitability eXchange)` 문서 동시 배포** | 개발팀 불필요 패치 공수 80% 절감 |
+| 공급망 공격(Supply Chain Attack)으로 변조된 악성 라이브러리 유입 | **SLSA 프레임워크 준수 및 Sigstore/Cosign 기반 SBOM 서명 검증** | 악의적 모듈 무단 삽입 원천 차단 |
 
 #### 한줄 요약
 
-- 이름 대신 purl•Hash를 쓰고 VEX 근거와 서명을 제품 Version에 함께 연결한다.
+- purl 식별자 강제, VEX 오탐 제거, Cosign 전자서명을 통해 SBOM 운영의 실효성을 확보
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **공급망 보안(Software Supply Chain Security)**: 개발부터 운영까지 외부 라이브러리 오염을 막는 보안 체계.
+- **글로벌 공급망 보안 의무화(Executive Order 14028)**: 미국 연방정부 및 EU Cyber Resilience Act(CRA)에 따라 전 세계 공공/엔터프라이즈 납품 소프트웨어의 SBOM 제출이 법제화되는 추세.
 
 </details>
 
-- Release마다 **서명 SBOM**, 운영은 취약점•VEX•배포 자산 연결
+- **SBOM 소프트웨어 자재명세서**는 소프트웨어 공급망 투명성과 사이버 복원력을 확보하는 핵심 무기이며, CI/CD 파이프라인 내 표준 SBOM 생성과 VEX 취약점 교차 검증을 의무화하여 소프트웨어 공급망 보안을 완성해야 함
 
 #### 한줄 요약
 
-- 빌드마다 제품 해시와 서명된 SBOM을 만들고 배포 자산·취약점·VEX를 연결해야 부품표가 실제 대응 도구가 된다.
+- 표준화된 부품 명세(SBOM)와 전자서명 및 VEX를 결합하여 안전한 소프트웨어 공급망을 완성

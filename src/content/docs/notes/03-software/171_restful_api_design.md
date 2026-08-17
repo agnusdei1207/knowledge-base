@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-14T03:16:00+09:00"
+date: "2026-08-18T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -22,147 +22,171 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **REST (Representational State Transfer)**: 로이 필딩(Roy Fielding)이 창안한 웹(Web)의 장점을 최대한 활용할 수 있는 네트워크 아키텍처 스타일로, 자원 중심의 URI와 HTTP 표준 메서드를 결합한 통신 구조.
-- **RESTful API**: REST의 기본 원칙 6가지(Uniform Interface, Stateless, Cacheable, Client-Server, Layered System, Code on Demand)를 엄격히 준수하여 설계된 시스템 간 API 연계 규격.
-- **Resource (자원)**: `/users/123` 처럼 소프트웨어가 관리하는 모든 엔터티(명사)로, 행위(동사)가 아니라 자원 그 자체를 고유한 주소(URI)로 식별하는 객체.
+- **RESTful API 설계 원칙(Roy Fielding)**: 명사형 URI로 자원(Resource)을 식별하고, HTTP 표준 메서드(GET, POST, PUT, DELETE)와 상태 코드를 활용하여 무상태(Stateless)로 통신하는 웹 아키텍처 원칙.
+- **동사형 RPC 남발 및 캐싱 한계(Action-Centric Bottleneck)**: `/getUser`, `/deleteUser` 등 동작 중심의 임의 엔드포인트 남발로 인한 API 직관성 저하와 HTTP 표준 캐싱 활용 불가 위험.
 
 </details>
 
-- 정의/개념: Resource와 HTTP 의미를 결합한 **RESTful API**
-- 배경/필요성: 동작별 임의 Endpoint는 **발견•Cache•Client 호환성** 저하
+- 정의/개념: 웹 표준 HTTP 프로토콜을 활용하여 **명사형 URI로 자원을 식별하고 표준 메서드로 상태를 조작**하는 RESTful 아키텍처 설계 원칙
+- 배경/필요성: RPC 스타일의 동사형 엔드포인트 남발로 인한 **API 발견성 저하, HTTP 캐싱 불가 및 클라이언트-서버 간 결합도 심화 위험** 직면
 
 #### 한줄 요약
 
-- 주문이라는 대상에 주소를 붙이고 조회·생성·변경·삭제를 공통 HTTP 의미로 표현하면 새 클라이언트도 같은 규칙으로 결과를 예측할 수 있다.
+- 명사형 자원 식별과 HTTP 표준 메서드(CRUD) 및 무상태성을 준수하여 확장성과 독립성을 갖춘 API를 설계
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Uniform Interface (균일한 인터페이스)**: 클라이언트 플랫폼(Android, iOS, Web)과 무관하게, URI로 지정한 리소스에 대해 동일한 표준 조작 방식(GET, POST, PUT, DELETE)을 보장하는 특성.
-- **Stateless (무상태성)**: 서버가 클라이언트의 이전 상태(세션)를 기억하지 않고, 각 요청은 독립적으로 완전한 문맥(Token 등)을 포함해야 하는 서버 확장성 보장 특성.
+- **균일한 인터페이스(Uniform Interface 4원칙)**: 자원 식별(URI), 표현을 통한 조작(JSON), 자기 서술적 메시지(Self-descriptive), 애플리케이션 상태 엔진으로서의 하이퍼미디어(HATEOAS).
+- **무상태성(Statelessness)**: 서버가 클라이언트의 세션 상태를 저장하지 않고 모든 요청이 인증 토큰을 포함하여 독립 완결적으로 처리되는 성질.
 
 </details>
 
-- **Resource Identification in Requests (URI를 통한 명확한 자원 식별)**
-- **Manipulation of Resources through Representations (JSON/XML 표현을 통한 자원 조작)**
-- **Self-descriptive Messages (HTTP 헤더와 Content-Type을 통한 자기 서술성)**
-- **HATEOAS (Hypermedia As The Engine Of Application State - 하이퍼링크 기반 상태 전이)**
+- 행위가 아닌 자원(Resource) 자체를 명사형 복수형(`/users`, `/orders`)으로 식별하는 **URI 설계**
+- 조회(GET), 생성(POST), 전체 교체(PUT), 일부 수정(PATCH), 삭제(DELETE)의 **HTTP 메서드 표준 매핑**
+- 200(OK), 201(Created), 400(Bad Request), 404(Not Found) 등 **표준 HTTP 상태 코드 반환**
 
 #### 한줄 요약
 
-- `/createOrder`처럼 동작마다 새 규칙을 만들지 않고 `/orders` 자원과 POST를 조합해 주소와 행위의 뜻을 API 전체에서 유지한다.
+- 자원 식별, 표준 메서드 매핑, 무상태 통신을 통해 클라이언트와 서버의 완벽한 분리와 캐싱 성능을 확보
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Representation (표현)**: 자원의 실제 데이터 포맷. 동일한 자원(`/users/1`)이라도 클라이언트의 요청(Accept Header)에 따라 JSON, XML, HTML 등 다양한 형태(표현)로 응답할 수 있는 유연성.
+- **RESTful API 4대 설계 요소**: 자원(URI), 행위(HTTP Method), 표현(Representation JSON/XML), 상태 코드(HTTP Status).
 
 </details>
 
+```text
+[ RESTful API 표준 계층 아키텍처 및 자원 조작 구조 ]
+
+ 1. [ 자원 식별 계층 (URI Resource) ]
+    • 명사형 복수 계층: `/api/v1/users/{userId}/orders/{orderId}`
+                           │
+                           ▼
+ 2. [ 표준 행위 계층 (HTTP Methods) ]
+    • GET (조회: 안전/멱등)  • POST (생성: 비멱등)  • PUT (교체: 멱등)
+    • PATCH (부분수정)       • DELETE (삭제: 멱등)
+                           │
+                           ▼
+ 3. [ 표현 및 메타데이터 계층 (Representation & Headers) ]
+    • Headers: `Content-Type: application/json`, `If-Match: "eTag123"`
+    • Body:    { "orderId": 100, "amount": 50000, "status": "PAID" }
+                           │
+                           ▼
+ 4. [ 표준 결과 응답 계층 (HTTP Status Codes) ]
+    • 200 OK / 201 Created / 400 Bad Request / 404 Not Found / 500 Internal
+```
+
+선의 의미: 명사형 URI로 자원을 특정하고 HTTP 메서드로 조작하여 표준 상태 코드와 JSON 표현을 반환하는 구조.
+
 | 구성요소 | 책임 |
-|---|---|
-| URI | 명사형 계층으로 **Resource 식별** |
-| HTTP Method | 조회•생성•교체•삭제의 **표준 의미** 표현 |
-| HTTP Status | 처리 결과와 **오류 Class** 전달 |
-| HTTP Header | 표현•인증•Cache•조건부 요청 **Metadata** 제공 |
+|:---|:---|
+| 자원 식별자 (URI) | 행위(동사)를 배제하고 **명사형 복수형 계층 구조로 비즈니스 엔터티 식별** |
+| HTTP 메서드 (Verbs) | CRUD 행위를 **표준 HTTP 메서드(GET/POST/PUT/PATCH/DELETE)로 일관 매핑** |
+| HTTP 상태 코드 | 처리 결과를 **2xx(성공), 4xx(클라이언트 오류), 5xx(서버 오류)로 명확히 전달** |
+| HTTP 헤더 및 표현 | Content-Type, Accept, Cache-Control, **ETag 등을 통해 메타데이터와 캐싱 제어** |
 
 #### 한줄 요약
 
-- 자원 모델이 상품 목록을 정하고 HTTP 인터페이스가 공통 조작법을 제공하며 조건부 요청은 같은 상품을 동시에 고칠 때 덮어쓰기를 막는다.
+- URI(자원), HTTP Method(행위), Representation(표현), Status Code(결과)가 결합
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **HATEOAS (Hypermedia As The Engine Of Application State)**: 서버가 응답 데이터뿐만 아니라, "다음에 클라이언트가 수행할 수 있는 관련 API 링크(Hyperlink)"들을 함께 반환하는 REST의 최종 성숙도(Level 3) 단계.
+- **RESTful 요청 처리 5단계 파이프라인**: URI 자원 식별 $\to$ 메서드 인가 검증 $\to$ 조건부 ETag 검사 $\to$ 비즈니스 처리 $\to$ HATEOAS 응답 구성.
 
 </details>
 
 ```text
-[HTTP 요청]
-    │
-    ▼
-1. URI로 Resource 식별
-    │
-    ▼
-2. Method 의미•권한 검증
-    │
-    ▼
-3. 조건부 요청•상태 처리
-    │
-    ▼
-4. Representation 생성
-    │
-    ▼
-5. Status•Header•Link 구성
-    │
-    ▼
-[HTTP 응답]
+[ RESTful API 요청 수신 및 상태 전이 파이프라인 ]
+
+ ┌────────────────────────────────────────┐
+ │ 1. HTTP Request 수신 및 URI 자원 식별 │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 2. HTTP Method 의미 및 Bearer 토큰 검증│
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 3. 조건부 요청(ETag / If-Match) 동시성 검사
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 4. 도메인 로직 수행 및 JSON 표현 생성 │
+ └───────────────────┬────────────────────┘
+                     │
+                     ▼
+ ┌────────────────────────────────────────┐
+ │ 5. HTTP 상태 코드 및 HATEOAS 링크 응답│
+ └────────────────────────────────────────┘
 ```
 
 ### 동작 원리
 
-1. URI로 Resource 식별: Collection•Document 대상 해석
-2. Method 의미•권한 검증: 허용 Operation과 주체 확인
-3. 조건부 요청•상태 처리: ETag•멱등 Key와 업무 규칙 적용
-4. Representation 생성: Accept에 맞는 Resource 표현 구성
-5. Status•Header•Link 구성: 결과•Cache•다음 전이 제공
+1. 자원 식별: 요청된 URI(`/orders/101`)를 파싱하여 특정 주문 자원을 식별.
+2. 메서드 검증: `PUT` 메서드의 유효성과 JWT Bearer 토큰의 접근 권한을 확인.
+3. 조건부 검사: `If-Match: "v1.0"` 헤더의 ETag를 비교하여 타 사용자의 동시 수정 덮어쓰기(Lost Update)를 방지.
+4. 표현 생성: 비즈니스 로직을 수행하고 주문 엔터티의 현재 상태를 JSON 객체로 직렬화.
+5. 응답 회신: HTTP `200 OK` 상태 코드와 함께 다음 상태 전이 링크(`_links: { "cancel": "/orders/101/cancel" }`)를 반환.
 
 #### 한줄 요약
 
-- 클라이언트가 알고 있던 엔터티 태그를 함께 보내면 서버는 현재 버전과 같을 때만 수정해 다른 사용자의 최신 변경을 덮지 않는다.
+- 자원 식별 $\to$ 메서드 검증 $\to$ 조건부 ETag 검사 $\to$ 로직 수행 $\to$ HATEOAS 회신의 5단계
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Richardson Maturity Model (리처드슨 성숙도 모델)**: API가 진정한 RESTful에 얼마나 가까운지 평가하는 4단계 척도로, 실무에서는 통상 Level 2를 RESTful로 인정하는 기준.
+- **RPC 스타일 vs RESTful 스타일**: 행위 함수 호출 방식(RPC)과 자원 상태 조작 방식(RESTful).
 
 </details>
 
-| 성숙도 레벨 | 설계 수준 및 특징 | 매핑되는 기술 성향 |
+| 구분 | RPC 스타일 API (원격 프로시저 호출) | RESTful API 스타일 (자원 중심) |
 |:---|:---|:---|
-| Level 0 (The Swamp) | 단일 URI(`/api`), 단일 메서드(`POST`)만 사용하여 원격 함수 호출 | 전통적인 SOAP 기반 RPC |
-| Level 1 (Resources) | URI를 통해 각각의 자원(`/users`, `/orders`) 분리 식별 | 자원(명사) 중심 분산 설계 |
-| Level 2 (HTTP Verbs) | 자원에 HTTP 메서드(GET/POST/PUT/DELETE)와 상태 코드 매핑 | **실무적 표준 RESTful API** |
-| Level 3 (HATEOAS) | 응답 내부에 상태 전이를 위한 링크(Hypermedia) 포함 | **이론적 완벽한 RESTful API** |
+| **적용 기준** | 단일 작업 수행, 복잡한 다단계 프로세스 배치 실행 | 대고객 CRUD 서비스, 모바일/웹 표준 API, 오픈 API |
+| **핵심 특징** | **`/createUser`, `/deleteUser` 등 동사형 엔드포인트** | **`/users` 명사형 URI + HTTP Method (POST/DELETE)** |
+| **한계** | 엔드포인트 남발로 인한 API 파편화 및 HTTP 캐싱 불가 | 순수 CRUD로 표현하기 힘든 복잡한 트랜잭션 모델링 난이도 |
 
 #### 한줄 요약
 
-- RPC는 `approveOrder` 같은 업무 명령을 직접 부르고 REST는 주문 자원의 상태 표현을 공통 HTTP 규칙으로 바꾼다.
+- 단순 프로시저 호출은 RPC, 자원 중심의 표준성과 확장성은 RESTful API를 선택
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Over-fetching & Under-fetching**: REST의 고정된 응답 구조 탓에 클라이언트가 불필요한 데이터를 너무 많이 받거나(Over), 한 번에 못 받아 API를 여러 번 쪼개서 호출(Under)해야 하는 고질적 성능 저하 요인.
+- **커서 기반 페이징(Cursor-based Pagination)**: 대규모 데이터 조회 시 Offset 방식의 성능 저하와 데이터 중복을 방지하기 위해 마지막 조회 ID를 기준으로 조회하는 기법.
 
 </details>
 
-| 3대 REST 설계 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. 컬렉션 대량 조회 병목 | `GET /users` 호출 시 수만 건 데이터 폭주 | **Pagination (Offset/Cursor 기반 페이징) 강제** |
-| 2. 복잡한 다중 필터링 | URI 경로만으로 검색 조건 표현 한계 | **Query String 파라미터 활용 (`?status=A&sort=desc`)**|
-| 3. API 버전 단절 | V1 백엔드 수정 시 구버전 모바일 앱 크래시 | **URI 버저닝 강제 (`/v1/users`, `/v2/users`)** |
-
-> 사례: **카카오 / 네이버 오픈 API의 URI 버전 관리 및 Offset Pagination에서 Cursor Pagination으로의 최적화**
+| 대용량 컬렉션 전체 조회 시 DB 메모리 고갈 및 타임아웃 | **`limit`과 `cursor` 기반의 Cursor Pagination 필수 적용** | 대용량 데이터 초고속 페이징 보장 |
+| 동시 수정 요청 시 타 사용자의 최신 변경사항 덮어쓰기 발생 | **`ETag` 헤더 및 낙관적 락(`If-Match: 412 Precondition Failed`)** | 데이터 갱신 정합성 100% 보장 |
+| API 필드 스키마 변경 시 기존 모바일 클라이언트 비정상 종료 | **URI 버저닝(`/v1/users`, `/v2/users`) 및 구버전 Deprecation 공지** | 무중단 API 하위 호환성 유지 |
 
 #### 한줄 요약
 
-- 결제 생성 요청이 시간 초과로 다시 도착해도 같은 멱등성 키의 기존 결과를 반환하면 실제 결제는 한 번만 남는다.
+- 커서 페이징, ETag 낙관적 락, URI 버저닝을 통해 실무 RESTful API의 성능과 안정성을 확보
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **RESTful 수립 기준**: 리처드슨 Level 2 이상(명사형 URI, HTTP 메서드/상태코드), Stateless 기반 토큰 인증 및 Pagination에 의거한 체계.
+- **OpenAPI / Swagger 표준 명세**: RESTful API의 명세와 테스트를 코드 수준에서 자동화하는 인터페이스 표준.
 
 </details>
 
-- Resource 중심 Web API는 **URI•Method•Status•Stateless** 일관 적용
+- **RESTful API 설계 원칙**은 웹의 확장성과 단순성을 극대화하는 소프트웨어 아키텍처의 기본 규약이며, 리처드슨 성숙도 모델(Level 2+)을 준수하고 커서 페이징과 ETag 동시성 제어를 결합하여 고품질의 API를 구축해야 함
 
 #### 한줄 요약
 
-- 자원 주소와 HTTP 의미를 일관되게 적용하고 생성에는 멱등성 키, 수정에는 엔터티 태그를 사용해 재전송과 동시 변경을 안전하게 처리해야 한다.
+- 명사형 URI와 HTTP 표준 메서드 및 무상태 설계를 통해 확장성과 호환성이 뛰어난 API를 완성
