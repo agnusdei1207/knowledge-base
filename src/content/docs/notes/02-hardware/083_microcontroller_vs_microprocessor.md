@@ -45,7 +45,7 @@ extra:
 </details>
 
 - 단일 칩 내부에 연산, 저장(SRAM/Flash), 아날로그 인터페이스(ADC/PWM)를 모두 집적한 **온칩(On-Chip) 고집적 저전력 설계 (MCU)**
-- 기가바이트급 외부 LPDDR/DDR 메모리와 **MMU(Memory Management Unit)**를 결합하여 다중 프로세스 가상 메모리를 지원하는 **고성능 컴퓨팅 (MPU)**
+- 기가바이트급 외부 LPDDR/DDR 메모리와 **MMU(Memory Management Unit)** 를 결합하여 다중 프로세스 가상 메모리를 지원하는 **고성능 컴퓨팅 (MPU)**
 - 마이크로초 단위의 확정적 반응 시간을 보장하는 하드 실시간 제어(**RTOS/베어메탈**) vs 풍부한 멀티스레딩 지원(**Rich OS**)
 
 #### 한줄 요약

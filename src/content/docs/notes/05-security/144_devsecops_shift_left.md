@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의: **DevSecOps 보안 시프트 레프트(Shift-Left)**는 소프트웨어 개발 수명 주기(SDLC)의 초기 단계(좌측)부터 보안 통제, 테스트 및 정책 검증을 CI/CD 파이프라인에 내재화하여 결함 수정 비용을 최소화하고 배포 속도와 보안성을 동시에 달성하는 보안 자동화 아키텍처이다.
+- 정의: **DevSecOps 보안 시프트 레프트(Shift-Left)** 는 소프트웨어 개발 수명 주기(SDLC)의 초기 단계(좌측)부터 보안 통제, 테스트 및 정책 검증을 CI/CD 파이프라인에 내재화하여 결함 수정 비용을 최소화하고 배포 속도와 보안성을 동시에 달성하는 보안 자동화 아키텍처이다.
 - 배경 및 필요성: 
   - **결함 수정 비용의 기하급수적 증가**: 운영(Production) 단계에서 발견된 취약점을 수정하는 비용은 설계 단계 대비 최대 100배 이상 소요된다.
   - **기존 후행 보안 검사의 한계**: 릴리스 직전에 수행되는 전통적인 모의해킹 및 보안 감사는 병목(Bottleneck) 현상을 유발하여 애자일(Agile) 및 지속적 배포(CD) 사상과 충돌한다.
@@ -105,15 +105,15 @@ DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로
 
 1. **오탐(False Positive)으로 인한 피로도 및 배포 지연**
    - **문제점**: 무분별한 보안 도구 도입은 방대한 양의 오탐을 발생시켜, 개발팀의 "알람 피로(Alert Fatigue)"를 유발하고 CI/CD 파이프라인의 핵심인 '속도'를 저해한다.
-   - **대책**: 초기 도입 시에는 **Audit Mode(모니터링 전용)**로 운영하여 데이터를 수집하고, 이후 베이스라인을 설정하여 신규 유입되는 크리티컬(Critical/High) 취약점에 대해서만 Build Breaker를 활성화(Enforcing Mode)하는 점진적 튜닝(Tuning)이 필수적이다.
+   - **대책**: 초기 도입 시에는 **Audit Mode(모니터링 전용)** 로 운영하여 데이터를 수집하고, 이후 베이스라인을 설정하여 신규 유입되는 크리티컬(Critical/High) 취약점에 대해서만 Build Breaker를 활성화(Enforcing Mode)하는 점진적 튜닝(Tuning)이 필수적이다.
 2. **시크릿(Secret) 하드코딩 방지 누락**
    - **문제점**: 소스코드나 IaC 파일에 AWS Access Key, DB 패스워드 등이 하드코딩되어 Git Repository에 푸시되면, 즉각적인 정보 유출 사고로 이어진다.
    - **대책**: 개발 환경에서 `git-secrets` 또는 `trufflehog`를 Pre-commit Hook으로 강제화하고, CI 파이프라인 최상단에 Secret Scanning 단계를 배치한다. 근본적으로는 HashiCorp Vault, AWS Secrets Manager 등의 외부 키 관리 시스템(KMS)으로 시크릿을 분리해야 한다.
 3. **소프트웨어 공급망 보안 (Supply Chain Security)**
    - **문제점**: Log4j 사태와 같이 신뢰할 수 없는 외부 오픈소스 패키지의 취약점이 내부 시스템으로 전이될 위험성이 커지고 있다.
-   - **대책**: 빌드 파이프라인에서 생성된 **SBOM(CycloneDX 등)**을 중앙 형상관리 시스템(Dependency-Track 등)에 연동하여 자산의 가시성을 확보하고, 서명되지 않은 이미지의 K8s 클러스터 내부 배포를 차단하는 OPA Gatekeeper(또는 Kyverno) 정책을 적용해야 한다. (SLSA Level 3 이상 준수 목표)
+   - **대책**: 빌드 파이프라인에서 생성된 **SBOM(CycloneDX 등)** 을 중앙 형상관리 시스템(Dependency-Track 등)에 연동하여 자산의 가시성을 확보하고, 서명되지 않은 이미지의 K8s 클러스터 내부 배포를 차단하는 OPA Gatekeeper(또는 Kyverno) 정책을 적용해야 한다. (SLSA Level 3 이상 준수 목표)
 
 ## Ⅶ. 결론
 
-- DevSecOps 보안 시프트 레프트는 단순한 도구의 도입이 아닌, 개발(Dev), 보안(Sec), 운영(Ops) 조직 간의 단절(Silo)을 허물고 **보안을 공통의 책임(Shared Responsibility)**으로 인식하는 문화적 혁신이다.
-- 성공적인 정착을 위해서는 CI/CD 파이프라인에 보안 도구를 API 형태로 심리스(Seamless)하게 통합하는 **자동화(Automation)**와 함께, 불필요한 마찰을 줄이는 **정책 기반 통제(Policy as Code)**가 병행되어야 한다. 궁극적으로 Shift-Left의 예방적 통제와 Shift-Right의 런타임 가시성 확보가 유기적으로 연결될 때 강력한 클라우드 네이티브 보안을 실현할 수 있다.
+- DevSecOps 보안 시프트 레프트는 단순한 도구의 도입이 아닌, 개발(Dev), 보안(Sec), 운영(Ops) 조직 간의 단절(Silo)을 허물고 **보안을 공통의 책임(Shared Responsibility)** 으로 인식하는 문화적 혁신이다.
+- 성공적인 정착을 위해서는 CI/CD 파이프라인에 보안 도구를 API 형태로 심리스(Seamless)하게 통합하는 **자동화(Automation)** 와 함께, 불필요한 마찰을 줄이는 **정책 기반 통제(Policy as Code)** 가 병행되어야 한다. 궁극적으로 Shift-Left의 예방적 통제와 Shift-Right의 런타임 가시성 확보가 유기적으로 연결될 때 강력한 클라우드 네이티브 보안을 실현할 수 있다.

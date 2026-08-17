@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 복잡한 네트워크 관계를 표현하기 위해 **노드(Node), 관계(Edge), 속성(Property) 및 무색인 인접성(Index-Free Adjacency)**을 제공하는 그래프 NoSQL
+- 정의/개념: 복잡한 네트워크 관계를 표현하기 위해 **노드(Node), 관계(Edge), 속성(Property) 및 무색인 인접성(Index-Free Adjacency)** 을 제공하는 그래프 NoSQL
 - 배경/필요성: 소셜 네트워크 및 추천 시스템에서 RDBMS의 다단계 Recursive JOIN 수행 시 발생하는 **기하급수적 인덱스 탐색 비용 및 성능 급락 위험** 직면
 
 #### 한줄 요약

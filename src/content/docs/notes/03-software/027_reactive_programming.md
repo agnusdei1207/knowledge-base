@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 데이터 변화를 이벤트 스트림으로 묶어버리고, 역압(Backpressure)으로 폭주를 제어하며 비동기로 쳐내는 **리액티브 프로그래밍**
-- 배경: 넷플릭스 같은 데서 생산 속도가 소비 속도를 미친 듯이 넘어서버리면 **버퍼 고갈과 OOM(Out of Memory)**이 터지기 때문
+- 배경: 넷플릭스 같은 데서 생산 속도가 소비 속도를 미친 듯이 넘어서버리면 **버퍼 고갈과 OOM(Out of Memory)** 이 터지기 때문
 
 #### 한줄 요약
 
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **Reactive Streams (Publisher, Subscriber, Subscription)** 표준 스펙을 따름.
-- **Non-blocking Backpressure (`request(n)`)**로 소비자(구독자) 멱살을 보호함.
+- **Non-blocking Backpressure (`request(n)`)** 로 소비자(구독자) 멱살을 보호함.
 - 콜백 지옥을 체인 메서드(Operator Chain)로 묶어 비동기 스레딩을 우아하게 만듦.
 
 #### 한줄 요약

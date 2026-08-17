@@ -134,7 +134,7 @@ Production      ───► RASP                 ───► Runtime API Hooki
 ### 2. SAST의 높은 오탐률에 의한 개발 생산성 저하
 - **문제**: 수많은 오탐(False Positive)으로 인해 개발자가 보안 경고를 무시하는 Alert Fatigue 발생.
 - **대책**:
-  - DAST 및 IAST 결과를 SAST 결과와 **상호 연관 분석(Correlation Analysis)**하여, 실제 도달 가능성(Reachability)이 증명된 취약점 우선순위 상향 조정.
+  - DAST 및 IAST 결과를 SAST 결과와 **상호 연관 분석(Correlation Analysis)** 하여, 실제 도달 가능성(Reachability)이 증명된 취약점 우선순위 상향 조정.
   - 커스텀 Sanitizer(사내 공통 필터링 모듈)를 SAST 엔진의 룰셋에 매핑하여 정상 필터링 로직을 통과한 흐름은 안전으로 판단하도록 설정.
 
 ### 3. 클라우드 네이티브 환경(MSA, Serverless) 호환성

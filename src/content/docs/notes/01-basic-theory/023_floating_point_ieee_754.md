@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- **바이어스 지수와 암묵적 선행 1(Hidden Bit)**을 통한 정밀도 극대화 ($(-1)^S \times (1.M) \times 2^{E - \text{Bias}}$)
+- **바이어스 지수와 암묵적 선행 1(Hidden Bit)** 을 통한 정밀도 극대화 ($(-1)^S \times (1.M) \times 2^{E - \text{Bias}}$)
 - 유한한 가수 비트로 인한 **반올림 오차(Rounding Error)** 및 연산 순서에 따른 **비결합성** 존재
 - 서브노멀(Subnormal), $\pm 0$, $\pm\infty$, NaN(Not a Number) 등 **특수 수치 상태의 엄밀한 표준 정의**
 

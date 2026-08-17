@@ -46,7 +46,7 @@ extra:
 
 - UPDATE/DELETE 없이 무조건 **Append-Only**로 밀어 넣어서 완벽한 감사(Audit) 추적과 타임머신(상태 재구성)을 지원함.
 - 트래픽 90%를 차지하는 읽기(Query) DB만 따로 수평 확장(Scale-out)할 수 있어서 가성비가 지림.
-- 데이터 씽크가 바로 안 맞는 **최종 일관성(Eventual Consistency)**을 감수해야 하며, 너무 쌓이면 성능이 떡락하므로 **스냅샷(Snapshotting)**을 찍음.
+- 데이터 씽크가 바로 안 맞는 **최종 일관성(Eventual Consistency)** 을 감수해야 하며, 너무 쌓이면 성능이 떡락하므로 **스냅샷(Snapshotting)** 을 찍음.
 
 #### 한줄 요약
 

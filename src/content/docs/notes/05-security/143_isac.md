@@ -20,7 +20,7 @@ extra:
 
 ## Ⅰ. 개요
 
-- 정의: **ISAC(Information Sharing and Analysis Center, 정보공유분석센터)**는 특정 산업군(금융, 의료, 통신, 에너지 등) 내의 소속 기관들이 사이버 위협 인텔리전스(CTI), 침해 지표(IoC), 취약점 정보 및 전술·기술·절차(TTP)를 안전하고 신속하게 수집, 분석, 교환하도록 지원하는 산업 특화형 보안 협력 및 정보 공유 플랫폼이다.
+- 정의: **ISAC(Information Sharing and Analysis Center, 정보공유분석센터)** 는 특정 산업군(금융, 의료, 통신, 에너지 등) 내의 소속 기관들이 사이버 위협 인텔리전스(CTI), 침해 지표(IoC), 취약점 정보 및 전술·기술·절차(TTP)를 안전하고 신속하게 수집, 분석, 교환하도록 지원하는 산업 특화형 보안 협력 및 정보 공유 플랫폼이다.
 - 배경 및 필요성:
   - **단일 조직 방어의 한계**: 고도화된 APT(Advanced Persistent Threat) 및 다단계 공급망 공격(Supply Chain Attack)은 개별 기업의 보안 관제 인프라(SIEM, EDR)만으로는 선제적 탐지와 방어가 불가능함.
   - **산업군 타겟형 공격의 증가**: 특정 산업군을 노리는 맞춤형 랜섬웨어(예: 의료망 랜섬웨어, 금융 SW 취약점 악용)와 국가 배후 해킹 그룹(State-sponsored Actor)의 등장으로 동일 산업 내 신속한 수평적 위협 전파 체계가 요구됨.
@@ -33,7 +33,7 @@ extra:
 ## Ⅱ. 특징
 
 - **국제 표준 기반 자동화 연동 체계 (STIX/TAXII)**: 이기종 보안 장비 및 플랫폼 간에 위협 인텔리전스를 사람의 개입 없이 기계가 직접 파싱하고 공유할 수 있도록, OASIS 국제 표준인 STIX(Structured Threat Information eXpression) 데이터 모델과 TAXII(Trusted Automated eXchange of Intelligence Information) 전송 프로토콜을 전면 채택.
-- **기밀성 제어 및 정보 유통 통제 (TLP 프로토콜)**: 미국 국토안보부(DHS) 산하 CISA 및 FIRST(Forum of Incident Response and Security Teams)에서 정의한 **신호등 프로토콜(TLP, Traffic Light Protocol)**을 데이터 객체 단위로 적용하여, 정보의 민감도에 따른 수신자 제한 및 재공유(Redistribution) 범위를 암호학적, 논리적으로 통제.
+- **기밀성 제어 및 정보 유통 통제 (TLP 프로토콜)**: 미국 국토안보부(DHS) 산하 CISA 및 FIRST(Forum of Incident Response and Security Teams)에서 정의한 **신호등 프로토콜(TLP, Traffic Light Protocol)** 을 데이터 객체 단위로 적용하여, 정보의 민감도에 따른 수신자 제한 및 재공유(Redistribution) 범위를 암호학적, 논리적으로 통제.
 - **실전적 침해 지표(IoC) 및 TTP 중심의 분석**: 단순한 악성 IP나 해시값(Hash)의 공유를 넘어, 공격자의 의도와 방법론을 서술하는 MITRE ATT&CK 프레임워크 기반의 TTP(Tactics, Techniques, and Procedures)를 컨텍스트화하여 제공.
 - **철저한 비식별화(De-identification) 및 데이터 정제**: 침해 사고 발생 기관을 유추할 수 있는 내부 IP 대역(RFC 1918), 임직원 이메일, 내부 호스트명, 민감한 비즈니스 데이터 등을 데이터 수집 단계에서 자동 마스킹(Data Sanitization)하여 익명성을 보장.
 - **위협 정보 생명주기(Lifecycle) 및 평판 관리**: 수집된 IoC가 시간이 지남에 따라 오탐(False Positive)을 유발하거나 유효성을 잃는 것을 방지하기 위해 시간 기반의 만료 속성(Valid_Until)과 노후화 모델(Decay Model)을 적용. 적중/오탐 피드백 루프를 통한 신뢰도 점수(Confidence Score) 자동 보정.
@@ -54,7 +54,7 @@ ISAC의 정보 공유 아키텍처는 데이터의 원천 수집부터 분석, �
 ### 2. 핵심 표준 및 프로토콜 상세 (STIX / TAXII / TLP)
 
 #### 가. STIX 2.1 (Structured Threat Information eXpression)
-STIX는 위협의 식별, 분석, 대응에 필요한 정보를 구조화된 JSON 형태로 정의하는 언어이다. STIX 2.1은 노드에 해당하는 **SDO (STIX Domain Objects)**와 노드 간의 엣지에 해당하는 **SRO (STIX Relationship Objects)**로 구성된 그래프 데이터 모델이다.
+STIX는 위협의 식별, 분석, 대응에 필요한 정보를 구조화된 JSON 형태로 정의하는 언어이다. STIX 2.1은 노드에 해당하는 **SDO (STIX Domain Objects)** 와 노드 간의 엣지에 해당하는 **SRO (STIX Relationship Objects)** 로 구성된 그래프 데이터 모델이다.
 - **주요 SDO**: `indicator` (침해 지표), `malware` (악성코드), `threat-actor` (위협 행위자), `campaign` (공격 캠페인), `vulnerability` (취약점)
 - **주요 SRO**: `uses` (사용함), `indicates` (나타냄), `targets` (공격 대상)
 

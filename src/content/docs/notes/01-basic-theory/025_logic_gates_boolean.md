@@ -45,8 +45,8 @@ extra:
 
 </details>
 
-- 진리표 기반 최소항 도출 후 **카르노 맵 / 퀸-맥클러스키(Quine-McCluskey)**를 통한 체계적 논리식 간소화
-- **NAND / NOR 만능 게이트(Universal Gate)**의 기능적 완전성을 활용한 단일 CMOS 표준 셀 제조 공정 단순화
+- 진리표 기반 최소항 도출 후 **카르노 맵 / 퀸-맥클러스키(Quine-McCluskey)** 를 통한 체계적 논리식 간소화
+- **NAND / NOR 만능 게이트(Universal Gate)** 의 기능적 완전성을 활용한 단일 CMOS 표준 셀 제조 공정 단순화
 - 게이트 단수(Logic Depth) 축소를 통한 **신호 전파 지연 시간($t_{pd}$) 및 임계 경로(Critical Path) 최소화**
 
 #### 한줄 요약

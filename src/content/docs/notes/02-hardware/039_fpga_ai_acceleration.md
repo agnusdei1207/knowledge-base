@@ -42,7 +42,7 @@ extra:
 
 </details>
 
-- **재구성 가능성(Reconfigurability)**으로 비트스트림 기반 회로 변경 지원
+- **재구성 가능성(Reconfigurability)** 으로 비트스트림 기반 회로 변경 지원
 - **커스텀 데이터 타입(FP8/INT4)** 및 맞춤형 연산기 직접 구현
 - 파이프라인 병렬성 기반 결정적 저지연(Deterministic Latency) 실현
 
