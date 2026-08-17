@@ -15,7 +15,7 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 30
-  priority_note: "미출제, 개발 생명주기 비교 기초"
+  priority_note: "미출, 개발 생명주기 비교 기초"
 ---
 
 ## Ⅰ. 개요
