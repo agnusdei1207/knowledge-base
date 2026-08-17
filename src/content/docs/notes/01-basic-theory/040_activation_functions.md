@@ -22,14 +22,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **활성화 함수(Activation Function)**: 인공신경망의 각 뉴런에서 가중합(Weighted Sum, $z = \mathbf{w}^T\mathbf{x} + b$)을 입력받아 비선형 활성값($a = f(z)$)으로 변환하는 수학 함수.
-- **비선형성(Nonlinearity)**: 다층 신경망(MLP)이 단순 선형 결합($W_2(W_1X) = W_{new}X$)으로 축퇴되는 것을 방지하고 임의의 복잡한 함수를 근사(Universal Approximation Theorem)할 수 있도록 보장하는 성질.
-- **기울기 소실(Vanishing Gradient)**: 역전파 연쇄 법칙(Chain Rule) 적용 시 1보다 작은 도함수($f'(z) < 1$)가 여러 층에 걸쳐 누적 곱해져 초기 층의 가중치 갱신 기울기가 0으로 소멸하는 현상.
+- **비선형 활성화 변환(Nonlinear Activation Transform)**: 선형 결합($\mathbf{w}^T\mathbf{x}+b$)의 출력을 비선형 영역으로 매핑하여 다층 퍼셉트론의 범용 근사 정리(Universal Approximation)를 실현하는 연산.
+- **기울기 소실(Vanishing Gradient)**: 역전파 연쇄 법칙 적용 시 1보다 작은 도함수($f'(z) \le 0.25$)가 연속 곱해져 초기 레이어의 가중치 갱신 기울기가 0으로 소멸하는 현상.
 
 </details>
 
-- 정의/개념: 뉴런의 가중합에 비선형 변환을 적용해 결정 경계를 형성하는 **수학 함수**
-- 배경/필요성: 선형 축퇴를 방지하고 Sigmoid의 **기울기 소실**을 극복하기 위해 ReLU 도입 필요
+- 정의/개념: 인공 뉴런의 선형 가중합에 **비선형 활성화 변환($f(z)$)**을 가하여 신경망의 복잡한 특징 표현력과 결정 경계를 부여하는 비선형 연산 함수
+- 배경/필요성: 심층 신경망 역전파 시 Sigmoid/Tanh 계열의 포화(Saturation)로 인한 **기울기 소실(Vanishing Gradient) 및 학습 정체** 직면
 
 #### 한줄 요약
 
