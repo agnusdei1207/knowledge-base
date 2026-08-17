@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 47
   label: "047. 전이 학습 (Transfer Learning)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "전이 학습 (Transfer Learning)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 47

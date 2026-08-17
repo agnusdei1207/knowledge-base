@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 22
   label: "022. 튜링 머신 (Turing Machine)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "튜링 머신 (Turing Machine)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 22

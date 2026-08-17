@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 38
   label: "038. K-Fold 교차 검증 (K-Fold Cross-Validation)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38

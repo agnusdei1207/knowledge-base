@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 56
   label: "056. 이미지 분류: ResNet•VGG•EfficientNet(Image Classification)"
@@ -202,7 +202,7 @@ extra:
 
 </details>
 
-- **백본 선택 기준**에 따라 **심층 안정성**이 우선이면 **ResNet**, **연산 효율**이 우선이면 **EfficientNet**을 선택한다.
+- **심층 안정성** 우선이면 **ResNet**, **연산 효율** 우선이면 **EfficientNet** 백본 선택
 
 #### 한줄 요약
 

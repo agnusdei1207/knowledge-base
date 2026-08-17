@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "빅오 표기법 (Big-O Notation)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:01:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 2

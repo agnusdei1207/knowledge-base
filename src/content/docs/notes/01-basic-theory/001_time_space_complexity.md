@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "알고리즘 시간복잡도•공간복잡도 (Time/Space Complexity)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 1
@@ -82,7 +82,7 @@ extra:
 └─ 점근 차수 판정: 증가율 분류
 ```
 
-가지의 의미: 동일 계산 모델을 공유하는 정적 분석(Static Analysis) 구성 요소 집합.
+선의 의미: 가지(`├─`, `└─`)는 동일 계산 모델을 공유하는 정적 분석 구성 요소 소유 관계
 
 | 구성요소 | 책임 |
 |:---|:---|

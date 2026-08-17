@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 29
   label: "029. 정보이론: 엔트로피•채널 용량•섀넌 한계 (Information Theory Shannon)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "정보이론: 엔트로피•채널 용량•섀넌 한계 (Information Theory Shannon)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 29

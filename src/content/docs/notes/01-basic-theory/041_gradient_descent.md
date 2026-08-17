@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 41
   label: "041. 경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 41

@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 37
   label: "037. 유사도 측정: 코사인•자카드•유클리드 (Similarity Measures)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "유사도 측정: 코사인•자카드•유클리드 (Similarity Measures)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 37

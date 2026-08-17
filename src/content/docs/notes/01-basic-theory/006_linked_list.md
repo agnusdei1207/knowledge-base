@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 6
   label: "006. 연결 리스트 (Linked List)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "연결 리스트 (Linked List)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 6

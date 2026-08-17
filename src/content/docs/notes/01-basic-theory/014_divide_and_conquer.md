@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 14
   label: "014. 분할 정복 (Divide and Conquer)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 15%"
     variant: note
 title: "분할 정복 (Divide and Conquer)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 14

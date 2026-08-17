@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 8
   label: "008. 트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8

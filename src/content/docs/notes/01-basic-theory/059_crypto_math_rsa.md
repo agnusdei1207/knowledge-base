@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 59
   label: "059. 암호 수학: 이산 대수•RSA 원리(Cryptography Mathematics)"

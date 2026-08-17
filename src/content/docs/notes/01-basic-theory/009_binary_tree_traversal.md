@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 9
   label: "009. 이진 트리 순회: 전위•중위•후위 (Binary Tree Traversal)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 30%"
     variant: note
 title: "이진 트리 순회: 전위•중위•후위 (Binary Tree Traversal)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-17T17:03:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 9
