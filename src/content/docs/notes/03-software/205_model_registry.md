@@ -61,7 +61,7 @@ extra:
 ```text
 [ 모델 레지스트리(MLflow Model Registry) 아키텍처 및 거버넌스 구조도 ]
 
- 1. [ 모델 아티팩트 저장소 (Artifact Store: S3 / GCS) ]
+ 1. [ 모델 아티저장소 (Artifact Store: S3 / GCS) ]
     ┌─────────────────────────────────────────────────────────────┐
     │  • model.onnx / model.pkl + SHA-256 Hash + 입출력 Signature │
     └────────────────────────────┬────────────────────────────────┘
@@ -86,7 +86,7 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 아티팩트 저장소 (Artifact) | 모델 바이너리 파일과 **SHA-256 무결성 해시, 입출력 모델 서명(Signature) 불변 보관** |
+| 아티저장소 (Artifact) | 모델 바이너리 파일과 **SHA-256 무결성 해시, 입출력 모델 서명(Signature) 불변 보관** |
 | 계보 그래프 (Lineage) | 코드 커밋, **훈련 데이터 스냅샷, 피처 버전, 하이퍼파라미터 간의 1:1 관계 추적** |
 | 검증 증적 (Validation) | 오프라인 벤치마크 점수, **편향성(Fairness), 보안 검사 결과를 모델 버전과 결합 보관** |
 | 승인 정책 (Approval RBAC) | 역할 기반 접근 제어로 **2인 승인(4-Eyes)을 거쳐 Staging에서 Production으로 승격** |
@@ -100,7 +100,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **모델 레지스트리 5단계 수명주기**: 모델 아티팩트 등록 $\to$ 계보 결속 및 검증 $\to$ 2인 승인(4-Eyes) $\to$ Production Alias 전환 $\to$ 이상 감지 시 즉각 롤백.
+- **모델 레지스트리 5단계 수명주기**: 모델 아티등록 $\to$ 계보 결속 및 검증 $\to$ 2인 승인(4-Eyes) $\to$ Production Alias 전환 $\to$ 이상 감지 시 즉각 롤백.
 
 </details>
 
@@ -145,7 +145,7 @@ extra:
 
 #### 한줄 요약
 
-- 아티팩트 등록 $\to$ 계보 결속 $\to$ 2인 승인 $\to$ 별칭 전환 $\to$ 즉각 롤백의 5단계
+- 아티등록 $\to$ 계보 결속 $\to$ 2인 승인 $\to$ 별칭 전환 $\to$ 즉각 롤백의 5단계
 
 ## Ⅴ. 종류 및 비교
 
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-| 구분 | 모델 레지스트리 (Model Registry) | 실험 추적기 (Experiment Tracker) | 아티팩트 저장소 (Artifact Store) |
+| 구분 | 모델 레지스트리 (Model Registry) | 실험 추적기 (Experiment Tracker) | 아티저장소 (Artifact Store) |
 |:---|:---|:---|:---|
 | **적용 기준** | 상용 환경 배포 승인, 거버넌스 감사, 롤백 제어 | 모델 개발 단계의 수많은 하이퍼파라미터 튜닝 비교 | 대용량 모델 가중치 파일의 물리적 안전 저장 |
 | **핵심 특징** | **승인 상태(Staging/Prod), Production Alias, Lineage 관리** | **Run별 파라미터, 손실 함수 그래프, 메트릭 시각화 비교** | **S3/GCS 객체 스토리지, SHA-256 무결성 바이너리 보관** |

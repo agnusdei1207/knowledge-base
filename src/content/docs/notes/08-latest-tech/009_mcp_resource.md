@@ -37,11 +37,11 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **애플리케이션 제어 컨텍스트(Application-Controlled Context)**: 호스트가 리소스를 조회하고 모델 문맥에 포함할지 결정하여 데이터 사용 범위를 통제하는 방식을 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
+- **애플리케이션 제어 컨텍스트(Application-Controlled Context)**: 호스트가 리소스를 조회하고 모델 문맥에 포함할지 결정하여 데이터 사용 범위를 통제하는 방식이다.
 - **변경 알림 구독(Change Notification Subscription)**: subscriptions/listen 스트림에서 선택한 리소스 변경 알림을 받는 기능을 지칭한다.
 - **제어 축(Control Axis)**: 애플리케이션이 조회와 모델 문맥 포함 여부를 결정하는 기능 영역으로 정의된다.
-- **식별 축(Identification Axis)**: URI와 URI Template로 컨텍스트를 식별하는 기능 영역이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **최신성 축(Recency Axis)**: 변경 알림 구독으로 선택 리소스의 갱신을 추적하는 기능 영역을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
+- **식별 축(Identification Axis)**: URI와 URI Template로 컨텍스트를 식별하는 기능 영역.
+- **최신성 축(Recency Axis)**: 변경 알림 구독으로 선택 리소스의 갱신을 추적하는 기능 영역.
 
 </details>
 
@@ -87,12 +87,12 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **리소스 읽기(Resource Read)**: 클라이언트가 URI를 지정하고 서버가 MIME 형식과 함께 텍스트 또는 바이너리 내용을 반환하는 요청 흐름으로 정의된다.
-- **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버와 리소스 명세•내용을 교환하는 구성요소이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)**: 권한 범위의 리소스 명세와 내용을 제공하는 구성요소를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
-- **리소스 목록•템플릿 요청(Resource List/Template Request)**: 권한 범위의 URI와 템플릿을 조회하는 단계를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
+- **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버와 리소스 명세•내용을 교환하는 구성요소.
+- **모델 컨텍스트 프로토콜 서버(Model Context Protocol Server, MCP Server)**: 권한 범위의 리소스 명세와 내용을 제공하는 구성요소이다.
+- **리소스 목록•템플릿 요청(Resource List/Template Request)**: 권한 범위의 URI와 템플릿을 조회하는 단계이다.
 - **URI 읽기 요청(URI Read Request)**: 선택한 리소스의 텍스트•바이너리 내용을 요구하는 단계를 지칭한다.
-- **URI 해석•권한 검증 후 내용 반환(URI Execution)**: URI와 테넌트 권한을 확인해 MIME 정보와 내용을 제공하는 단계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **변경 알림 구독 등록(Notification Subscription)**: 선택한 리소스의 갱신 알림 유형을 등록하는 단계를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
+- **URI 해석•권한 검증 후 내용 반환(URI Execution)**: URI와 테넌트 권한을 확인해 MIME 정보와 내용을 제공하는 단계.
+- **변경 알림 구독 등록(Notification Subscription)**: 선택한 리소스의 갱신 알림 유형을 등록하는 단계.
 - **구독 리소스 변경 알림(Subscribed Notification)**: 변경 URI의 재조회 필요성을 클라이언트에 알리는 단계로 정의된다.
 
 </details>
@@ -139,9 +139,9 @@ MCP 클라이언트
 
 <details><summary>용어 설명</summary>
 
-- **직접 리소스(Direct Resource)**: 고정 URI 하나로 특정 파일•레코드•문서 같은 컨텍스트를 식별해 제공하는 리소스 유형이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **직접 리소스(Direct Resource)**: 고정 URI 하나로 특정 파일•레코드•문서 같은 컨텍스트를 식별해 제공하는 리소스 유형.
 - **도구(Tool)**: 모델이 외부 기능을 실행하도록 호출하는 MCP 기능으로 정의된다.
-- **프롬프트(Prompt)**: 사용자가 선택해 재사용할 수 있는 메시지•작업 틀을 제공하는 MCP 기능을 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
+- **프롬프트(Prompt)**: 사용자가 선택해 재사용할 수 있는 메시지•작업 틀을 제공하는 MCP 기능.
 
 </details>
 
@@ -163,7 +163,7 @@ MCP 클라이언트
 <details><summary>용어 설명</summary>
 
 - **변경 알림 갱신(Notification Update)**: 구독한 변경 알림을 받아 필요한 리소스만 재조회하는 운영 방식을 지칭한다.
-- **리소스 통제 원칙(Resource Control Principle)**: URI 기반 문맥 제공 시 템플릿•테넌트•목적별 최소 필드로 노출 범위를 통제하는 원칙이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **리소스 통제 원칙(Resource Control Principle)**: URI 기반 문맥 제공 시 템플릿•테넌트•목적별 최소 필드로 노출 범위를 통제하는 원칙.
 
 </details>
 

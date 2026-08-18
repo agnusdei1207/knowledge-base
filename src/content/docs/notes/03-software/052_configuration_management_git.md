@@ -69,7 +69,7 @@ extra:
  [ 중앙 서버 (원격 저장소) ] ◀──(git push)── [ 내 PC (로컬 저장소) ]
 ```
 
-| 구성요소 | 팩트 폭행 책임 |
+| 구성요소 | 직관적 비교 책임 |
 |:---|:---|
 | **작업 공간 (Working Dir)** | 개발자가 맘대로 키보드 두들기며 소스 코드를 지지고 볶는 로컬 PC 폴더 |
 | **Staging Area (Index)** | 커밋으로 묶기 전에 "이 파일이랑 저 파일만 올려야지" 하고 장바구니에 담아두는 대기실 |
@@ -132,7 +132,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **깃플로우 vs 트렁크 기반 개발(GitFlow vs Trunk-based Development)**: `develop`, `release` 등 브랜치 5개 파서 복잡하게 관리하는 전통 전략(GitFlow)과, `main` 하나에 다 때려 박고 매일 수시로 배포하는 최신 애자일 전략(Trunk-based)의 차이이다.
+- **깃플로우 vs 트렁크 기반 개발(GitFlow vs Trunk-based Development)**: `develop`, `release` 등 브랜치 5개 파서 복잡하게 관리하는 전통 전략(GitFlow)과, `main` 하나에 다 집중 적용하고 매일 수시로 배포하는 최신 애자일 전략(Trunk-based)의 차이이다.
 
 </details>
 

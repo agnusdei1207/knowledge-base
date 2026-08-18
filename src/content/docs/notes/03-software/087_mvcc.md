@@ -39,7 +39,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Snapshot Read vs Current Read**: Snapshot Read는 락 없이 Undo Log 버전 스냅샷을 조회하는 일반 `SELECT`, Current Read는 최신 커밋 데이터 조회를 위해 S-Lock/X-Lock을 거는 `SELECT ... FOR UPDATE` 또는 `UPDATE` 구문.
+- **Snapshot Read vs Current Read**: Snapshot Read는 락 없이 Undo Log 버전 스냅샷을 조회하는 일반 `SELECT`, Current Read는 최신 커밋 데이터 조회를 위해 S-Lock/X-Lock을 거는 `SELECT.. FOR UPDATE` 또는 `UPDATE` 구문.
 - **Purge Thread / Vacuum**: 트랜잭션이 완료되어 더 이상 그 어떤 트랜잭션도 참조하지 않는 오래된 Undo Log 구버전(Garbage Version)을 주기적으로 메모리/디스크에서 수거 및 정돈하는 디비 백그라운드 프로세스.
 
 </details>
@@ -155,7 +155,7 @@ extra:
 |:---|:---|:---|
 | 장시간 트랜잭션으로 인한 **Undo Log Bloat (용량 폭증)** | **트랜잭션 내부 외부 API 통신 제거 및 `max_execution_time` 제한**| Undo 공간 폭증 방지 |
 | PostgreSQL의 경우 Vacuum 미작동 시 테이블 팽창(Bloat) | **Autovacuum 파라미터 튜닝 및 pg_repack 수동 정돈** | 디스크 성능 보존 |
-| MVCC 환경에서 `SELECT ... FOR UPDATE` 시 Locking Read로 변환 | **비관적 락(Locking Read) 대신 Optimistic Lock(버전 칼럼) 병행**| 블로킹 최소화 |
+| MVCC 환경에서 `SELECT.. FOR UPDATE` 시 Locking Read로 변환 | **비관적 락(Locking Read) 대신 Optimistic Lock(버전 칼럼) 병행**| 블로킹 최소화 |
 
 > 사례: **MySQL InnoDB `innodb_undo_tablespaces` 세그먼트 분리 & Purge 스레드 튜닝**
 

@@ -164,7 +164,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | Serializable 설정 시 극심한 락 경합 및 TPS 폭락 | **Read Committed 기본 채택 + 애플리케이션 Optimistic Lock(`@Version`) 결합** | 고성능 동시 처리와 갱신 분실 방지 동시 달성 |
-| Repeatable Read에서 `SELECT ... FOR UPDATE` 누락 시 쓰기 왜곡 | **비즈니스 불변식 검증 쿼리에 명시적 비관적 잠금(Pessimistic Lock) 적용** | 데이터 정합성 보장 및 갭 락 활성화 |
+| Repeatable Read에서 `SELECT.. FOR UPDATE` 누락 시 쓰기 왜곡 | **비즈니스 불변식 검증 쿼리에 명시적 비관적 잠금(Pessimistic Lock) 적용** | 데이터 정합성 보장 및 갭 락 활성화 |
 | 장기 트랜잭션 방치로 인한 Undo 테이블스페이스 폭증 | **트랜잭션 내부 외부 API 통신 제거 및 짧은 트랜잭션 경계 유지** | Undo 영역 팽창 방지 및 DB 성능 보존 |
 
 #### 한줄 요약

@@ -23,7 +23,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **MCP Server(Model Context Protocol Server)**: 도구·리소스·프롬프트를 표준 기능으로 노출하고 백엔드 접근과 실행을 통제하는 프로그램. 시스템 자율적 기능 발견과 일관된 상호작용을 매개하는 핵심 아키텍처.
-- **인공지능(Artificial Intelligence, AI)**: 학습•추론으로 기능을 선택하고 결과를 생성하는 기술이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **인공지능(Artificial Intelligence, AI)**: 학습•추론으로 기능을 선택하고 결과를 생성하는 기술.
 
 </details>
 
@@ -38,7 +38,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **기능 발견(Function Discover)**: 클라이언트가 서버의 도구•리소스•프롬프트 목록과 명세를 조회하는 과정을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
-- **검증 축(Validation Axis)**: 인증•인가•입력 검증으로 서버 실행 경계를 통제하는 관점이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **검증 축(Validation Axis)**: 인증•인가•입력 검증으로 서버 실행 경계를 통제하는 관점.
 - **구조화 결과(Structured Result)**: 클라이언트가 후속 처리할 수 있도록 정해진 필드와 형식으로 반환한 실행 결과를 지칭한다.
 
 </details>
@@ -57,10 +57,10 @@ extra:
 - **도구 제공자(Tool Provider)**: 스키마와 실행 결과를 공개하고 권한 검증 후 백엔드 동작을 수행하는 핵심 서버 모듈.
 - **기능 레지스트리(Function Registry)**: 도구·리소스·프롬프트 명세와 처리기를 등록·관리하는 통합 관리소.
 - **백엔드 어댑터(Backend Adapter)**: 검증된 MCP 요청을 내부 API 또는 업무 시스템 호출로 변환하는 변환 모듈.
-- **표준 입출력(Standard Input/Output, stdio)**: 로컬 클라이언트와 서버 프로세스가 메시지를 교환하는 전송 방식이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **표준 입출력(Standard Input/Output, stdio)**: 로컬 클라이언트와 서버 프로세스가 메시지를 교환하는 전송 방식.
 - **스트리밍 가능 하이퍼텍스트 전송 프로토콜(Streamable Hypertext Transfer Protocol, Streamable HTTP)**: 원격 MCP 요청을 HTTP POST와 라우팅 헤더로 교환하는 전송 방식을 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
-- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: MCP 요청•응답•알림•오류를 표현하는 메시지 형식이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **표현 상태 전송 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 백엔드 자원을 고정 HTTP 계약으로 호출하는 인터페이스이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **자바스크립트 객체 표기법 원격 절차 호출(JavaScript Object Notation Remote Procedure Call, JSON-RPC)**: MCP 요청•응답•알림•오류를 표현하는 메시지 형식.
+- **표현 상태 전송 응용 프로그래밍 인터페이스(Representational State Transfer Application Programming Interface, REST API)**: 백엔드 자원을 고정 HTTP 계약으로 호출하는 인터페이스.
 
 </details>
 
@@ -95,12 +95,12 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **요청•응답 상관관계(Request/Response Correlation)**: JSON-RPC 식별자를 이용해 각 실행 요청과 성공•오류 결과를 연결하는 관계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **요청•응답 상관관계(Request/Response Correlation)**: JSON-RPC 식별자를 이용해 각 실행 요청과 성공•오류 결과를 연결하는 관계.
 - **모델 컨텍스트 프로토콜 클라이언트(Model Context Protocol Client, MCP Client)**: 서버의 기능 목록•명세를 발견하고 실행 결과를 교환하는 구성요소를 뜻하며, 복잡한 문제 해결과 동적 환경 적응에 필수적인 역할을 수행한다.
-- **버전•메타•기능 목록 요청(List Request)**: 요청별 프로토콜 버전•클라이언트 식별과 목록 조회를 전달하는 단계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **버전•메타•기능 목록 요청(List Request)**: 요청별 프로토콜 버전•클라이언트 식별과 목록 조회를 전달하는 단계.
 - **기능 명세•캐시 힌트 제공(Spec/Hint Provision)**: 기능 설명•입력 스키마•유지 시간•공유 범위를 반환하는 단계를 지칭한다.
-- **기능명•구조화 인자 요청(Function/Argument Request)**: 선택한 기능과 검증할 인자를 서버에 전달하는 단계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **권한•입력 검증 후 백엔드 실행(Backend Execution)**: 허용된 주체와 입력의 작업만 업무 시스템에서 수행하는 단계이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **기능명•구조화 인자 요청(Function/Argument Request)**: 선택한 기능과 검증할 인자를 서버에 전달하는 단계.
+- **권한•입력 검증 후 백엔드 실행(Backend Execution)**: 허용된 주체와 입력의 작업만 업무 시스템에서 수행하는 단계.
 
 </details>
 
@@ -142,9 +142,9 @@ MCP 클라이언트
 
 <details><summary>용어 설명</summary>
 
-- **Local MCP Server**: 호스트가 시작한 프로세스로 실행되고 stdio를 통해 한 클라이언트와 메시지를 교환하는 서버이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **REST API Server**: 고정된 HTTP 메서드•자원 계약으로 기능을 제공하는 서버를 말하며, 실무적 관점에서 안정성과 효율성을 보장하는 주요 기전으로 작용한다.
-- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹 자원을 식별하는 표준 문자열이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
+- **Local MCP Server**: 호스트가 시작한 프로세스로 실행되고 stdio를 통해 한 클라이언트와 메시지를 교환하는 서버.
+- **REST API Server**: 고정된 HTTP 메서드•자원 계약으로 기능을 제공하는 서버이다.
+- **통합 자원 식별자(Uniform Resource Identifier, URI)**: 웹 자원을 식별하는 표준 문자열.
 
 </details>
 
@@ -165,8 +165,8 @@ MCP 클라이언트
 
 <details><summary>용어 설명</summary>
 
-- **서버 최소 권한(Server Least Privilege)**: MCP Server가 제공 기능에 필요한 백엔드 자원과 작업만 접근하도록 계정•경로•명령을 제한하는 원칙이며, 이는 구조적 완결성을 높이고 차별화된 성능을 제공하는 기술적 기반이 된다.
-- **구조화 오류(Structured Error)**: 실패 원인과 재시도 가능 여부를 클라이언트가 판정하도록 코드와 데이터로 표현한 실행 결과를 의미하며, 시스템의 자율적 판단과 실행을 가능하게 하는 핵심 아키텍처 요소이다.
+- **서버 최소 권한(Server Least Privilege)**: MCP Server가 제공 기능에 필요한 백엔드 자원과 작업만 접근하도록 계정•경로•명령을 제한하는 원칙.
+- **구조화 오류(Structured Error)**: 실패 원인과 재시도 가능 여부를 클라이언트가 판정하도록 코드와 데이터로 표현한 실행 결과.
 
 </details>
 

@@ -62,7 +62,7 @@ extra:
 ```text
 [ 분산 추적(Distributed Tracing) 계층 트리 구조도 ]
 
- 1. [ Client Request ] ──► [ Trace ID: 0x4bf9... 생성 (Root Span) ]
+ 1. [ Client Request ] ──► [ Trace ID: 0x4bf9.. 생성 (Root Span) ]
                                  │
                                  ▼
  2. [ Order Service Span (150ms) ] ── (W3C traceparent 헤더 주입)

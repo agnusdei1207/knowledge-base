@@ -69,7 +69,7 @@ extra:
  2. [ 자동 학습 파이프라인 (Training Pipeline: Kubeflow / Airflow) ]
     • 데이터 전처리 ➔ 분산 모델 학습 ➔ 오프라인 평가 (AUC / F1)  │
     └────────────────────────────┬────────────────────────────────┘
-                                 │ (검증 통과 시 아티팩트 승격)
+                                 │ (검증 통과 시 아티승격)
                                  ▼
  3. [ 모델 레지스트리 (Model Registry: MLflow) ] ────────────────┐
     • Model Artifact, Hyperparameters, Dataset Hash, 계보 보관   │

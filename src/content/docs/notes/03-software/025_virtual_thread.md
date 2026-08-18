@@ -61,7 +61,7 @@ extra:
 ```text
 [ 가상 스레드 M:N 다중화 구조 ]
 가상 스레드 (수백만 개, JVM 힙 관리)
-[VT1] [VT2] ... [VT_N]
+[VT1] [VT2].. [VT_N]
        │ M:N 스케줄링
 JVM 스케줄러 (ForkJoinPool)
 ├─ 유휴 캐리어에 가상 스레드 배정 (Mount)
