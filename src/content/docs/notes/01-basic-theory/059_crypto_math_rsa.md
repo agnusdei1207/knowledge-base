@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 큰 소수들의 곱으로 구성된 **소인수분해 난제 및 오일러 정리($ed \equiv 1 \pmod{\phi(n)}$)** 에 기반한 비대칭 공개키 암호화 알고리즘
-- 배경/필요성: 대칭키 암호의 사전 키 배송(Key Distribution) 취약점 및 통신 당사자 간 **부인 방지(Non-repudiation) 불가 한계** 직면
+- 배경/필요성: 대칭키 암호의 사전 키 배송(Key Distribution) 취약점 및 통신 당사자 간 전자서명 기반 부인 방지(Non-repudiation) 구현 필요
 
 #### 한줄 요약
 
