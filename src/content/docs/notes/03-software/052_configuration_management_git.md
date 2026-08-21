@@ -158,7 +158,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 누군가 `main` 브랜치에 무지성 직투입(Direct Push)해서 서버 터짐 | **보호 브랜치(Protected Branch)** 걸고 코드 리뷰(PR) 필수화 | 똥 코드로부터 메인라인 방어 사수 |
-| AWS 키나 DB 비번이 깃허브에 그대로 올라가서 털림 | **git-secrets, Gitleaks** 같은 Pre-commit Hook 연동 | 커밋 치는 순간 비번 검사해서 대참사 차단 |
+| AWS 키나 DB 비번이 깃허브에 그대로 올라가서 털림 | **git-secrets, Gitleaks** 같은 Pre-commit Hook 연동 | 커밋 치는 순간 비번 검사해서 심각한 결함 차단 |
 | 한 달 동안 혼자 코딩하다가 `main`이랑 합치려니 500개 충돌남 | **Trunk-based 전환** 및 무조건 하루 한 번 이상 `Rebase/Merge` | 병합 지옥(Merge Hell) 박살 내고 스트레스 제거 |
 
 #### 한줄 요약

@@ -129,7 +129,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **인터리브 정책(Interleave Policy)**: 노드 1개에 메모리가 빵 터지는 걸 막으려고, 메모리 할당을 0번, 1번, 0번, 1번 노드에 골고루 흩뿌려서 대역폭(Bandwidth)을 떡상시키는 전략이다.
+- **인터리브 정책(Interleave Policy)**: 노드 1개에 메모리가 빵 터지는 걸 막으려고, 메모리 할당을 0번, 1번, 0번, 1번 노드에 골고루 흩뿌려서 대역폭(Bandwidth)을 대폭 향상시키는 전략이다.
 
 </details>
 
@@ -153,7 +153,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Local로 뒀더니 0번 메모리만 차서 **NUMA 노드 고갈** 기반 멈춤 | 오라클/PostgreSQL 구동 시 `numactl --interleave=all` 갈김 | 용량 빵빵하게 다 쓰고 대역폭 떡상시켜서 불균형 박살 |
+| Local로 뒀더니 0번 메모리만 차서 **NUMA 노드 고갈** 기반 멈춤 | 오라클/PostgreSQL 구동 시 `numactl --interleave=all` 갈김 | 용량 빵빵하게 다 쓰고 대역폭 대폭 향상시켜서 불균형 박살 |
 | AutoNUMA 켰더니 이사(Migration)하느라 CPU 처먹고 더 느려짐 | **`numactl --cpunodebind=0`** 기반 애초에 이사 못 가게 못 박음 | 스캔/복사 오버헤드 원천 봉쇄하고 철통같은 로컬 접근 사수 |
 | 가상머신(VM) 올렸더니 호스트 NUMA 다 무시하고 똥망됨 | 하이퍼바이저에 **vNUMA** 활성화해서 게스트 OS한테 알려줌 | 게스트 OS가 "아 여긴 0번이구나" 깨닫고 자체 튜닝 돌림 |
 
