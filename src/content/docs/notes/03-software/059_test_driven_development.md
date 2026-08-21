@@ -3,7 +3,7 @@ sidebar:
   order: 59
   label: "059. 테스트 주도 개발 (TDD)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "테스트 주도 개발 (Test-Driven Development)"
 date: "2026-08-17T20:20:00+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 구현 코드 작성 전 실패 테스트를 먼저 정의하고 **Red-Green-Refactor 사이클**을 반복하여 인터페이스 설계와 코드 품질을 완성하는 개발 방법론
+- 정의/개념: 구현 코드 작성 전 실패 테스트를 먼저 정의하고 **Red-Green-Refactor 사이클** 반복하여 인터페이스 설계와 코드 품질을 완성하는 개발 방법론
 - 배경/필요성: 사후 테스트 작성 시 발생하는 **테스트 불가 스파게티 코드 양산 및 리팩터링 시 회귀 결함 공포** 직면
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **Red→Green→Refactor** 마이크로 사이클로 짧은 피드백 주기 실현
-- 테스트가 설계를 이끄는 **Test-First Development**로 자연스러운 의존성 분리 달성
+- 테스트가 설계를 이끄는 **Test-First Development** 기반 자연스러운 의존성 분리 달성
 - 반복 누적으로 **회귀 테스트 스위트(Regression Test Suite)** 자동 구축
 
 #### 한줄 요약
@@ -137,7 +137,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 전통적 방식 (Test-Last) | TDD (Test-First) |
+| 구분 | 전통적 방식 (Test-Last) | TDD (Test-First) |
 |:---|:---|:---|
 | 테스트 작성 시점 | 구현 완료 후 | **구현 이전** |
 | 의존성 설계 | 강한 결합 구조로 격리 어려움 | **테스트 가능한 의존성 분리 설계** |

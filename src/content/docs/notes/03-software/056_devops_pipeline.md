@@ -3,7 +3,7 @@ sidebar:
   order: 56
   label: "056. DevOps 파이프라인"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
 date: "2026-08-17T20:05:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 - **CALMS Framework** 기반으로 문화·자동화·린·측정·공유를 추구
 - 기획부터 모니터링까지 **DevOps Infinity Loop** 자동화 순환
-- **DORA Metrics**로 조직의 DevOps 성숙도와 배포 성과를 정량 측정
+- **DORA Metrics** 기반 조직의 DevOps 성숙도와 배포 성과를 정량 측정
 
 #### 한줄 요약
 
@@ -136,7 +136,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 전통 사일로 조직 | DevOps |
+| 구분 | 전통 사일로 조직 | DevOps |
 |:---|:---|:---|
 | 조직 구성 | 개발·운영 부서 분리 | **교차기능 팀(Cross-Functional)** |
 | 배포 주기 | 수주~수개월 단위 대규모 배포 | **일 단위 고빈도 소규모 배포** |

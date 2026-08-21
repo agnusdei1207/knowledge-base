@@ -3,7 +3,7 @@ sidebar:
   order: 42
   label: "042. 서비스 메시: Istio•Envoy"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "서비스 메시: Istio•Envoy (Service Mesh)"
 date: "2026-08-17T19:25:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 - **컨트롤 플레인(Istiod)** 과 **데이터 플레인(Envoy)** 역할 분리로 정책과 실행을 분리
 - 애플리케이션 코드 수정 없이 **사이드카 프록시** 삽입으로 카나리 배포·트래픽 분할 구현
-- 서비스 간 통신을 **mTLS**로 강제 암호화하여 Zero Trust 보안 달성
+- 서비스 간 통신을 **mTLS** 기반 강제 암호화하여 Zero Trust 보안 달성
 
 #### 한줄 요약
 
@@ -133,11 +133,11 @@ Istiod (Control Plane)
 
 </details>
 
-| 비교 항목 | 사이드카 모드 (전통 Istio) | 앰비언트 모드 (Ambient Mesh) |
+| 구분 | 사이드카 모드 (전통 Istio) | 앰비언트 모드 (Ambient Mesh) |
 |:---|:---|:---|
 | 적용 기준 | 완전한 L7 제어·Pod별 격리 필요 | 자원 효율 우선·사이드카 오버헤드 최소화 |
 | 핵심 특징 | Pod별 사이드카·완전한 L4~L7 처리 | 노드당 ztunnel(L4)+선택적 Waypoint(L7) |
-| 한계 및 위험 | 사이드카 자원 오버헤드·Pod 재시작 필요 | L7 세분화 제어에 추가 Waypoint 구성 필요 |
+| 한계 | 사이드카 자원 오버헤드·Pod 재시작 필요 | L7 세분화 제어에 추가 Waypoint 구성 필요 |
 
 #### 한줄 요약
 
