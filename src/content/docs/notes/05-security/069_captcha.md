@@ -3,7 +3,7 @@ sidebar:
   order: 69
   label: "069. CAPTCHA•reCAPTCHA (CAPTCHA)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "CAPTCHA•reCAPTCHA (CAPTCHA)"
 date: "2026-08-13T20:20:00+09:00"
@@ -184,7 +184,7 @@ extra:
 
 </details>
 
-- 자동화 매크로 공격에 대응하여 **공격 경제성 저하**를 달성하기 위해, 저위험 구간은 **호출률 제한(Rate Limiting)**, 중위험은 **적응형 CAPTCHA**, 고위험 핵심 자산은 **MFA**를 계층 배치하는 다층 보안 체계 구축 필수
+- 자동화 매크로 공격에 대응하여 **공격 경제성 저하** 활용 달성하기 위해, 저위험 구간은 **호출률 제한(Rate Limiting)**, 중위험은 **적응형 CAPTCHA**, 고위험 핵심 자산은 **MFA** 활용 계층 배치하는 다층 보안 체계 구축 필수
 
 #### 한줄 요약
 

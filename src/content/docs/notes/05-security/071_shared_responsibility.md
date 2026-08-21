@@ -3,7 +3,7 @@ sidebar:
   order: 71
   label: "071. 클라우드 보안 공유 책임 모델 (Cloud Shared Responsibility)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "클라우드 보안 공유 책임 모델 (Cloud Shared Responsibility)"
 date: "2026-08-13T20:24:00+09:00"
@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- 클라우드 전환 시 발생하는 보안 공백을 방지하기 위해, **NIST SP 800-145** 및 **ISO/IEC 27017**에 기반하여 IaaS, PaaS, SaaS 계층별 통제 범위를 정립하고, **CSPM 도구를 통한 고객 책임 영역의 지속적 검증**을 수행하여 **통제별 책임 완결성**을 확보하는 실무 거버넌스 구축 필수
+- 클라우드 전환 시 발생하는 보안 공백을 방지하기 위해, **NIST SP 800-145** 및 **ISO/IEC 27017** 대상 기반하여 IaaS, PaaS, SaaS 계층별 통제 범위를 정립하고, **CSPM 도구를 통한 고객 책임 영역의 지속적 검증** 수행하여 **통제별 책임 완결성** 확보하는 실무 거버넌스 구축 필수
 
 #### 한줄 요약
 

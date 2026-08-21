@@ -3,7 +3,7 @@ sidebar:
   order: 75
   label: "075. 클라우드 CSAP 보안 인증 등급제(Cloud Security Assurance Program)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "클라우드 CSAP 보안 인증 등급제(Cloud Security Assurance Program)"
 date: "2026-08-13T20:32:00+09:00"
@@ -198,7 +198,7 @@ extra:
 
 </details>
 
-- **도입 적합 조건**을 무결하게 보장하기 위해, 대상 클라우드의 **CSAP** 인증서 상 서비스 범위(Scope), 인프라 유형(IaaS/SaaS), 등급(상/중/하) 및 유효기간을 교차 대조하는 검증 거버넌스 확립 필수이다.
+- **도입 적합 조건** 무결하게 보장하기 위해, 대상 클라우드의 **CSAP** 인증서 상 서비스 범위(Scope), 인프라 유형(IaaS/SaaS), 등급(상/중/하) 및 유효기간을 교차 대조하는 검증 거버넌스 확립 필수이다.
 
 #### 한줄 요약
 

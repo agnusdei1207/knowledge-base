@@ -3,7 +3,7 @@ sidebar:
   order: 81
   label: "081. 탈옥 Jailbreak 공격 (Jailbreak Attack)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "탈옥 Jailbreak 공격 (Jailbreak Attack)"
 date: "2026-08-13T20:44:00+09:00"

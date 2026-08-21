@@ -3,7 +3,7 @@ sidebar:
   order: 143
   label: "143. 보안 정보 공유 플랫폼 — ISAC (ISAC)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: 보안 정보 공유 플랫폼 — ISAC (ISAC)
 date: "2026-08-13T22:48:00+09:00"
@@ -158,7 +158,7 @@ ISAC 인프라는 대규모 위협 데이터가 실시간 교차하는 허브이
 ### 3. STIX JSON Parsing 취약점 공격 방어
 - **이슈**: 악의적인 공격자가 ISAC 시스템을 타겟으로, 심층적으로 중첩(Deeply Nested)된 STIX 객체나 비정상 크기의 JSON 페이로드를 TAXII Inbox로 제출하여 파서의 OOM(Out of Memory)이나 역직렬화(Deserialization) 취약점을 트리거.
 - **대응 아키텍처**:
-  - 수집 API 앞단에 **JSON Schema Validator**를 배치하여 규격에 맞지 않는 페이로드를 엣지에서 즉시 Drop (Fast Fail).
+  - 수집 API 앞단에 **JSON Schema Validator** 활용 배치하여 규격에 맞지 않는 페이로드를 엣지에서 즉시 Drop (Fast Fail).
   - 파싱 시 최대 중첩 깊이(Max Depth) 제한 및 페이로드 크기 제한(예: Max 5MB).
   - 메모리 오버플로우를 방지하기 위해 컨테이너 샌드박스 환경 내에서 데이터 정제 워커(Worker)를 분리하여 비동기 메시지 큐(Kafka/RabbitMQ) 기반으로 처리.
 

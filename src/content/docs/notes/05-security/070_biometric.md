@@ -3,7 +3,7 @@ sidebar:
   order: 70
   label: "070. 생체 인식 — 지문•얼굴•홍채 (Biometric Authentication)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "생체 인식 — 지문•얼굴•홍채 (Biometric Authentication)"
 date: "2026-08-13T20:22:00+09:00"

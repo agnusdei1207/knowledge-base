@@ -3,7 +3,7 @@ sidebar:
   order: 144
   label: "144. DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: DevSecOps 보안 시프트 레프트 (DevSecOps Shift-Left)
 date: "2026-08-13T22:50:00+09:00"
@@ -93,7 +93,7 @@ sequenceDiagram
 
 DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로 분류할 수 있다.
 
-| 비교 항목 | Shift-Left | Shift-Right | Shield-Right (Runtime Security) |
+| 구분 | Shift-Left | Shift-Right | Shield-Right (Runtime Security) |
 | :--- | :--- | :--- | :--- |
 | **주요 목적** | 결함의 조기 발견 및 수정, 취약점 유입 원천 차단 | 운영 환경의 실사용 데이터 기반 위협 탐지 및 피드백 | 실행 환경의 제로데이 공격 및 이상행위 즉각 차단 |
 | **수행 시점** | Plan, Code, Build, Test (CI 단계) | Release, Deploy, Operate (CD 및 운영 단계) | Operate 단계 (런타임) |

@@ -3,7 +3,7 @@ sidebar:
   order: 147
   label: "147. 보안 성숙도 모델 (Security Maturity Model)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: 보안 성숙도 모델 (Security Maturity Model)
 date: "2026-08-13T22:56:00+09:00"
@@ -47,7 +47,7 @@ extra:
 
 ## Ⅲ. 구조 및 구성요소
 
-일반적인 보안 성숙도 평가는 **역량 평가 매트릭스(Capability Assessment Matrix)** 와 **증거 수집 체계**로 구성되며, 이는 다시 평가, 식별, 계획, 측정의 순환 구조를 갖는다.
+일반적인 보안 성숙도 평가는 **역량 평가 매트릭스(Capability Assessment Matrix)** 와 **증거 수집 체계** 기반 구성되며, 이는 다시 평가, 식별, 계획, 측정의 순환 구조를 갖는다.
 
 ### 1. 보안 성숙도 평가 프레임워크 아키텍처
 
@@ -115,7 +115,7 @@ graph TD
 
 현업에서 주로 사용되는 대표적인 보안 성숙도 모델은 다음과 같으며, 각각의 설계 철학과 적용 범위가 명확히 구분된다.
 
-| 비교 항목 | OWASP SAMM v2 | BSIMM (Building Security In Maturity Model) | DOE C2M2 (Cybersecurity Capability Maturity Model) |
+| 구분 | OWASP SAMM v2 | BSIMM (Building Security In Maturity Model) | DOE C2M2 (Cybersecurity Capability Maturity Model) |
 | :--- | :--- | :--- | :--- |
 | **정의 및 핵심 철학** | 소프트웨어 보증(Software Assurance)을 위한 포괄적이고 처방적인(Prescriptive) 오픈소스 성숙도 모델 | 전 세계 선도 기업들의 실제 관찰된(Observational) 보안 관행 데이터를 바탕으로 한 실증적 벤치마킹 프레임워크 | 미국 에너지부(DOE)가 제정한 전사적 사이버보안 및 IT/OT 통합 역량 성숙도 평가 프레임워크 |
 | **구조 (Domains / Practices)** | 5 Business Functions <br> 15 Security Practices | 4 Domains <br> 12 Practices <br> 130+ Activities | 10 Domains <br> 300+ Practices |
@@ -123,7 +123,7 @@ graph TD
 | **적용 대상 및 범위** | SDLC 전반 (DevSecOps 파이프라인 고도화 시 최적) | 엔터프라이즈급 S/W 개발 조직의 성과 비교 및 트렌드 파악 | 중요 인프라, 전사 IT 및 OT(운영기술) 네트워크, 공급망 보안 |
 | **장단점** | **장점**: 벤더 중립적, 구체적 개선 로드맵 수립 용이 <br> **단점**: 조직 맥락이 결여될 시 기계적 목표 설정 위험 | **장점**: 타사 실제 성공 사례 기반의 현실적 가이드 <br> **단점**: 처방(How-to)이 아닌 관찰이므로 조직 고유 모델 생성은 어려움 | **장점**: 전사적 리스크 매니지먼트 및 OT 환경 포괄 <br> **단점**: 광범위하여 특정 소프트웨어 개발 프로세스 상세 평가는 부족 |
 
-> **핵심 요약**: 소프트웨어 개발보안 내재화가 목표라면 **OWASP SAMM**을, 동종 업계와의 성과 비교가 필요하다면 **BSIMM**을, 전사 IT/OT 인프라와 거버넌스 전반의 역량을 진단하려면 **C2M2**를 선택하는 것이 바람직하다.
+> **핵심 요약**: 소프트웨어 개발보안 내재화가 목표라면 **OWASP SAMM** , 동종 업계와의 성과 비교가 필요하다면 **BSIMM** , 전사 IT/OT 인프라와 거버넌스 전반의 역량을 진단하려면 **C2M2** 활용 선택하는 것이 바람직하다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -146,6 +146,6 @@ graph TD
 
 ## Ⅶ. 결론
 
-성숙도 평가는 단순한 현재 상태의 '성적표(Scorecard)'나 컴플라이언스 체크리스트가 아니다. **보안 성숙도 모델**은 조직이 직면한 위협을 식별하고, 제한된 리소스 하에서 어떤 보안 역량을 우선적으로 강화해야 하는지에 대한 **위험 기반 로드맵(Risk-based Roadmap)** 을 수립하기 위한 가장 전략적인 도구이다. 
+성숙도 평가는 단순한 현재 상태의 '성적표(Scorecard)'나 컴플라이언스 체크리스트가 아니다. **보안 성숙도 모델**을 기반으로 조직이 직면한 위협을 식별하고, 제한된 리소스 하에서 어떤 보안 역량을 우선적으로 강화해야 하는지에 대한 **위험 기반 로드맵(Risk-based Roadmap)** 을 수립하기 위한 가장 전략적인 도구이다.
 
 실무적으로 성공적인 성숙도 모델 정착을 위해서는 OWASP SAMM, BSIMM, C2M2 등 조직의 비즈니스 목적에 부합하는 모델을 정확히 **선택(Selection)** 하고, 주관적 설문이 아닌 시스템 데이터에 기반한 **아티철저한 검증(Artifact-based Verification)** 체계를 자동화해야 한다. 궁극적으로 주기적인 재평가 피드백 루프를 통해 개발, 운영, 거버넌스 전반의 보안 내재화(Security Built-in) 수준을 지속적으로 끌어올리는 것이 핵심이다.
