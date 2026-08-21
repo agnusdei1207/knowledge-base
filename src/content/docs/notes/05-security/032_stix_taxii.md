@@ -5,8 +5,8 @@ sidebar:
   badge:
     text: "기출 · 70%"
     variant: note
-title: "STIX•TAXII 위협 공유 (STIX TAXII)"
-date: "2026-08-13T18:56:00+09:00"
+title: "사이버 위협 정보 표준 표현 및 자동 교환 규격 : STIX 및 TAXII (OASIS Standard)"
+date: "2026-08-22T08:15:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -15,164 +15,170 @@ extra:
   source_status: "기출"
   source_history: "123회, 138회"
   priority: 70
-  priority_note: "123•138회 반복된 구조화 공유 표준 핵심 주제임"
+  priority_note: "OASIS STIX 2.1(SDO/SRO 객체 모델/JSON), TAXII 2.1(RESTful API/Collection/Channel), TLP 표식 및 지표 철회(Revoked)"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>용어 설명</summary>
 
-- **STIX (구조화 위협 정보 표현)**: 해킹 위협 정보를 전 세계 어떤 보안 장비(방화벽, 백신)든 똑같이 알아먹을 수 있도록 기계 판독 가능한 JSON 포맷으로 통일한 공통 언어다.
-- **TAXII (신뢰 정보 자동 교환)**: 그 STIX 언어로 만들어진 위협 정보를, 보안 장비끼리 안전하고 빠르게(API 기반) 주고받기 위한 전송 패킷 데이터 프로토콜이다.
+- **STIX(Structured Threat Information Expression / OASIS STIX 2.1)**: 사이버 공격의 침해 지표(IoC), 공격 동기, 악성코드, TTP, 표적 자산 및 공격자 그룹 간의 복잡한 상관관계를 기계가 판독 가능한 JSON 기반 그래프 오브젝트 모델로 정형화한 글로벌 표준 위협 표현 언어.
+- **TAXII(Trusted Automated eXchange of Intelligence Information / TAXII 2.1)**: STIX 형식으로 구조화된 사이버 위협 인텔리전스(CTI)를 HTTPS/RESTful API 기반으로 조직 간, 또는 이종 보안 장비 간에 안전하고 신속하게 실시간 전송·공유하는 애플리케이션 계층 통신 프로토콜.
 
 </details>
 
-- 정의: 사이버 위협 객체를 정형화하여 표현하는 공통 언어(STIX)와 이를 장비 간 자동 교환하는 통신 규약(TAXII)의 연계 체계다.
-- 배경: 사람이 눈으로 읽는 PDF 보고서나 이메일로는, 하루에 수십만 개씩 쏟아지는 위협 지표(IP, 해시)를 현장 방화벽에 실시간으로 자동 연동(차단)할 수 없기 때문이다.
+- 정의/개념: 사이버 위협의 '데이터 구조(What: STIX)'와 '전송 메커니즘(How: TAXII)'을 이원화 표준화하여, 보안 솔루션 간 **기계 판독형 CTI 실시간 자동 공유 및 차단 연동(Machine-to-Machine Integration)** 을 가능하게 하는 **사이버 위협 공유 아키텍처**
+- 배경/필요성: 벤더별 독자적인 데이터 포맷(비정형 텍스트, PDF, CSV)과 수동 이메일 공유 체계로 인해 발생하는 위협 지표 파싱 오류, 대응 지연, 이종 보안 장비 연동 불능의 한계를 극복할 요구
 
 #### 한줄 요약
-
-- 해커의 위협 정보를 기계가 읽는 언어(STIX)로 번역하고, 패킷 데이터망(TAXII)을 통해 전 세계 보안 장비에 쏴주는 거다.
+- STIX JSON 객체 모델로 위협 맥락을 표현하고 TAXII REST API로 이종 보안 장비 간 실시간 자동 교환을 실현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **CTI (위협 인텔리전스)**: 위협 데이터에 공격자, 의도, 행동 패턴(TTP), 신뢰도 등 맥락을 달아준 실행 가능한 정보다.
-- **TAXII 컬렉션 (TAXII Collection)**: "국내 금융권 타깃", "신종 랜섬웨어 IP"처럼 위협 정보를 주제별로 묶어놓은 논리적 보관함(게시판)이다.
-- **표식 및 철회 (Marking & Revocation)**: 이 정보가 "극비 등급(TLP Red)"인지, 아니면 해커가 버린 IP라서 "이제 차단 풀면 되는 썩은 정보(Revoked)"인지를 알려주는 꼬리표(메타데이터)다.
+- **STIX 2.1 도메인 객체(SDO) vs 관계 객체(SRO)**:
+  - **SDO(STIX Domain Objects / 18종)**: 위협 행위자(`threat-actor`), 침해 지표(`indicator`), 악성코드(`malware`), 공격 패턴(`attack-pattern`) 등 독립된 실체.
+  - **SRO(STIX Relationship Objects / 2종)**: 객체 간 의미적 연결(`relationship`, `sighting`).
+- **신뢰성 및 수명주기 메타데이터(Marking & Revocation)**: 정보 공개 범위를 지정하는 TLP(Traffic Light Protocol) 라벨과, 공격자가 인프라를 폐기했을 때 지표를 무효화하는 `revoked: true` 속성.
 
 </details>
 
-- **표준 문법 적용**: 기계가 바로 씹어먹고 차단할 수 있는 STIX 객체 모델로 위협 맥락(CTI)을 정밀하게 묘사한다.
-- **채널 동기화**: TAXII 컬렉션을 구독해 두면, 새로운 위협 정보가 뜰 때마다 알림을 받고 즉각 실시간 동기화된다.
-- **수명주기 통제**: 옛날 IP를 계속 차단하는 오탐(뻘짓)을 막기 위해, 표식(Marking)과 철회(Revocation) 메타데이터로 통제한다.
+- **그래프 기반 의미론적 표현 (Graph-Based Modeling)**: 공격자 $\rightarrow$ 사용 도구 $\rightarrow$ 침해 지표 $\rightarrow$ 표적 자산의 다차원 관계망을 JSON-LD 형태로 모델링
+- **TAXII 2.1 컬렉션 및 채널 아키텍처**: P2P 공유를 지원하는 **컬렉션(Collection)** 과 Hub-and-Spoke 발행-구독을 지원하는 **채널(Channel)** 제공
+- **델타 쿼리(Delta Query) 기반 고효율 동기화**: `added_after` 매개변수를 통해 최근 변경 및 철회된 객체만 증분 동기화하여 네트워크 대역폭 절감
 
 #### 한줄 요약
-
-- 문법 통일해서 기계 먹여주고(STIX), 게시판에 올리면 알람 가고(TAXII), 썩은 정보는 유통기한(철회)으로 걸러낸다.
+- 그래프 기반 JSON-LD 모델링, TAXII RESTful API 전송, TLP 표식 및 증분(Delta) 동기화를 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **API (RESTful)**: TAXII 서버와 보안 장비가 서로 STIX 위협 정보를 달라고 요청하거나 던져줄 때 쓰는 웹 표준 통신 방식이다.
+- **TAXII 서버 API 루트(API Root)**: 테넌트 또는 조직 단위로 격리된 TAXII 서비스 진입점으로, 하위에 여러 개의 컬렉션(Collections)과 상태 엔드포인트를 호스팅하는 RESTful 구조.
 
 </details>
 
 ```text
-[ STIX/TAXII 공유 및 교환 아키텍처 ]
-
-[ 1. 생산자 및 소비자 정책 ] ── (이 민감한 첩보를 누구한테 주고받을지 신뢰 권한을 통제함)
-      │
-      ▼
-[ 2. STIX 객체 및 관계 생성 ] ── (해커 IP와 공격 목적을 기계가 알아먹는 JSON(STIX)으로 번역함)
-      │
-      ▼
-[ 3. 버전, 표식, 철회 메타데이터 ] ── (기밀 등급과 수명 만료/철회 상태를 꼬리표로 붙임)
-      │
-      ▼
-[ 4. TAXII 자원 (API 컬렉션) ] ── (번역된 정보들을 주제별로 묶어 TAXII 서버 보관함에 적재함)
-      │
-      ▼
-[ 5. 목록, 객체, 상태 교환 ] ── (TAXII 프로토콜을 타고 방화벽이나 관제 SIEM으로 배달됨)
+[ CTI 생산자 (Threat Intel Provider / ISAC) ]
+ ├─ 위협 이벤트 분석 ➔ STIX 2.1 JSON 객체 생성:
+ │  ├─ SDO: `indicator` (IP: 198.51.100.1), `malware` (Ransomware.LockBit)
+ │  ├─ SRO: `relationship` (`indicator` ── indicates ──▶ `malware`)
+ │  └─ Meta: `confidence: 90`, `lang: "en"`, `revoked: false`
+ └─ HTTPS POST ➔ TAXII 2.1 서버 API 루트로 전송
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│ [ TAXII 2.1 서버 (Trusted Intelligence Repository) ]                    │
+│  ├─ API Root: `/api/v2.1/`                                              │
+│  ├─ Collections: `/collections/financial-threats/objects/`              │
+│  └─ 접근 제어: OAuth 2.0 / mTLS 상호 인증 및 TLP 기반 권한 필터링      │
+└────────────────────────────────────┬────────────────────────────────────┘
+                                     │ (HTTPS GET / Delta Query: `?added_after=...`)
+                                     ▼
+[ CTI 소비자 (Enterprise SOC / SIEM / SOAR / NGFW) ]
+ ├─ STIX 파서: JSON 객체 파싱 ➔ IP/Domain 지표 추출
+ ├─ 철회 검사: `revoked: true` 확인 시 기존 차단 룰셋 자동 해제
+ └─ 방화벽 자동 주입: `confidence >= 80` 지표를 차단 ACL에 실시간 반영
 ```
 
-| 구성요소 | 책임 | 비고 |
+선의 의미: 생산자가 STIX 2.1 그래프 객체를 생성하여 TAXII 서버에 게시하면, 소비자가 API를 통해 증분 조회하여 방화벽/SOAR에 자동 반영하는 구조
+
+| 구성요소 | 핵심 책임 및 역할 | 비고 |
 |:---|:---|:---|
-| **생산자 및 소비자 정책** | 이 귀한 정보를 **누구한테 주고받을지 신뢰 권한을 통제함** | Policy |
-| **STIX 객체 및 관계** | 해커 IP와 공격 목적을 **기계가 알아먹는 JSON(STIX)으로 번역함** | STIX |
-| **버전, 표식, 철회 속성** | 정보의 등급(TLP)과 **더 이상 안 쓰는 폐기(Revoke) 상태를 꼬리표로 붙임** | Meta |
-| **TAXII 자원 (컬렉션)** | 번역된 정보들을 주제별로 묶어 **TAXII 서버 보관함에 적재함** | TAXII |
-| **목록, 객체 상태 교환** | TAXII 프로토콜(API)을 통해 **이기종 장비 간에 데이터를 실시간 자동 배달함** | Transfer |
+| **STIX SDO (Domain Objects)** | 위협 행위자, 캠페인, 침해 지표, 취약점 등 18개 도메인 실체 정의 | OASIS STIX 2.1 |
+| **STIX SRO (Relationships)** | SDO 간의 인과적·행위적 관계(`uses`, `indicates`, `targets`)를 그래프로 연결 | Relationship |
+| **TAXII API Root** | 특정 보안 도메인 및 권한 그룹에 할당된 RESTful 서비스 인스턴스 | Endpoint |
+| **TAXII Collection** | 소비자가 접근 권한에 따라 STIX 객체를 조회·구독할 수 있는 논리적 데이터셋 | Data Store |
+| **TLP 마킹 메타데이터** | TLP 2.0(RED, AMBER+STRICT, AMBER, GREEN, CLEAR) 기반 정보 공유 범위 제약 | Data Marking |
 
 #### 한줄 요약
-
-- 정보 번역(STIX) $\to$ 꼬리표 달기(철회) $\to$ 서버 적재(TAXII) $\to$ 방화벽 배달의 일원화된 시스템이다.
+- STIX SDO/SRO 객체, TAXII API Root/컬렉션, TLP 마킹 메타데이터가 결합한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **변경분 조회 (Delta Query)**: 한 번에 수백만 개 위협 지표를 다 받으면 서버가 발생하니까, "어제 이후로 새로 추가되거나 삭제된 정보만 내놔" 하고 묻는 효율적인 기술이다.
-- **STIX 프로파일 (STIX Profile)**: 아무 JSON이나 던지면 에러 나니까, "우리끼린 무조건 이 양식에 맞춰서 보내자"고 사전에 합의한 규격서다.
+- **STIX/TAXII 연동 4단계 파이프라인**:
+  1. **생산 및 직렬화(Produce & Serialize)**: 위협 데이터를 STIX 2.1 JSON으로 인코딩
+  2. **게시(Publish)**: TAXII 서버 컬렉션에 HTTPS POST
+  3. **증분 수집(Ingest)**: 소비자가 변경분(Delta) 쿼리로 최신 객체 가져오기
+  4. **보안 장비 집행(Enforce)**: 파싱된 지표를 차세대 방화벽 및 EDR에 실시간 적용
 
 </details>
 
 ```text
-[ STIX 위협 정보 게시 및 TAXII 동기화 흐름 ]
-
-[ 정보 생산자 (위협 발굴팀) ]
-1. STIX 객체 및 프로파일 문법 검증 ── ("JSON 표준 규격대로 잘 적었지?")
-      ▼
-2. 권한 검증 및 TAXII 서버 객체 저장 ── ("권한 있는 놈이 보낸 거 맞네. 컬렉션에 저장!")
-
-====================== (TAXII 서버를 통한 자동 교환) ======================
-
-[ 정보 소비자 (보안 관제팀) ]
-3. TAXII 변경분(Delta) 및 철회 객체 조회 ── ("어제 이후로 추가/삭제된 정보만 내놔!")
-      ▼
-4. 방화벽/SIEM 내 검증 객체 적용 ── ("철회된 IP는 차단 풀고, 새 IP는 방화벽에 밀어 넣어!")
+1. [위협 인텔리전스 생산] CTI 분석가가 새로운 APT 침해 지표 및 TTP를 STIX 2.1 JSON 객체로 직렬화
+            │
+            ▼
+2. [TAXII 게시] 생산자가 TAXII 2.1 서버의 지정된 컬렉션 엔드포인트로 `POST /collections/{id}/objects/` 호출
+            │
+            ▼
+3. [접근 제어 및 저장] TAXII 서버가 생산자의 mTLS 인증서 및 API 토큰을 검증하고 DB에 STIX 번들 저장
+            │
+            ▼
+4. [증분 동기화] 기업 SOC의 SOAR 시스템이 `GET /collections/{id}/objects/?added_after=2026-08-20T00:00:00Z` 질의
+            │
+            ▼
+5. [객체 파싱 및 집행] SOAR가 STIX 번들을 파싱하여 `revoked` 여부 확인 ➔ 고신뢰 IoC를 NGFW 블랙리스트에 자동 등록
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. STIX 객체 검증: 생산자가 전송한 STIX 파일이 약속된 프로파일(스키마)에 맞는지 검증함.
-2. 권한 검증 및 저장: 생산자의 게시 권한(접근통제) 확인 후, TAXII 컬렉션 데이터베이스에 저장함.
-3. 변경분/철회 조회: 소비자가 타임스탬프를 이용해 최신 변경 객체와 철회(Revoked) 객체만 효율적으로 추출함.
-4. 검증 객체 적용: 자사 자산에 미치는 영향을 검토(오탐 확인)한 후, 최종 유효 객체만 보안 장비에 반영함.
+1. **스키마 유효성 검증**: JSON Schema에 따른 필수 필드(`id`, `type`, `created`, `spec_version`) 검사
+2. **RESTful 전송 계층**: HTTP 표준 상태 코드(200 OK, 202 Accepted)와 JSON 미디어 타입 사용
+3. **타임스탬프 기반 필터링**: 불필요한 전체 덤프 전송을 배제하고 변경분만 효율적으로 동기화
+4. **지표 상태 머신 평가**: 신규 등록, 신뢰도 수정, 지표 폐기(`revoked`) 상태를 분기 처리
+5. **오케스트레이션 실행**: 보안 장비 API(REST)를 호출하여 차단 정책을 무인 자동화로 배포
 
 #### 한줄 요약
-
-- 생산자는 규격 맞춰서 게시판에 올리고, 소비자는 어제오늘 바뀐 내용(변경분/철회)만 효율적으로 뽑아 적용한다.
+- STIX 직렬화, TAXII REST 게시, mTLS 인증 저장, 증분 쿼리 수집, SOAR/방화벽 자동 배포 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- (상단 참조)
+- **STIX/TAXII 1.x vs 2.1 버전 진화 비교**: XML에서 JSON으로의 전환, 폴링 중심에서 RESTful API로의 아키텍처 현대화 비교.
 
 </details>
 
-| 표준 구분 | **STIX 2.1 (위협 표현 언어)** | **TAXII 2.1 (위협 전송 프로토콜)** |
+| 비교 항목 | STIX 1.x / TAXII 1.x (레거시) | STIX 2.1 / TAXII 2.1 (현재 표준) |
 |:---|:---|:---|
-| 핵심 특징 | **편지지에 적는 공통 문법 및 양식** | **편지를 빠르고 안전하게 배달하는 패킷 데이터 기사** |
-| 핵심 역할 | 해킹 위협 객체와 연관 관계를 **기계(JSON)가 씹어먹게 구조화함** | 권한이 있는 사용자에게 **컬렉션 단위로 묶어서 API로 배달함** |
-| 연계 결과 (기대 효과) | 제조사가 다른 이기종 보안 장비 간 **해석 가능한 공통 위협 정보 생성** | API를 통한 **실시간 위협 정보(CTI) 자동 동기화 달성** |
+| **데이터 표현 형식** | **XML (복잡하고 무거운 스키마)** | **JSON (경량화, 고속 파싱, 기계 친화적)** |
+| **데이터 모델 구조** | 계층적 트리(Tree) 구조 | **노드-엣지 그래프(Graph) 오브젝트 모델** |
+| **통신 프로토콜** | SOAP / XML-RPC 기반 웹 서비스 | **RESTful API (HTTPS + JSON)** |
+| **메타데이터 관리** | TLP 및 수명주기 표현 복잡 | **TLP 2.0 마킹 및 `revoked`/`confidence` 기본 내장** |
+| **처리 성능 및 대역폭**| 파싱 오버헤드 큼, 대용량 트래픽 발생 | **초고속 직렬화, 증분(Delta) 쿼리로 대역폭 극소화** |
+| **상용 솔루션 지원** | 점진적 지원 중단 (Deprecated) | **글로벌 SIEM, SOAR, TIP(MISP 등) 표준 채택** |
 
 #### 한줄 요약
-
-- 'STIX'는 문법(What)이고 'TAXII'는 배달망(How)이다. 이 둘이 합쳐져야 첩보 자동화가 완성된다.
+- STIX 1.x는 무거운 XML 구조였으나, STIX 2.1/TAXII 2.1은 경량 JSON 그래프 모델과 RESTful API로 진화하였다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **OASIS**: STIX와 TAXII를 관리하고 글로벌 표준 스펙을 쾅쾅 찍어내는 국제 표준화 단체다.
-- **HTTPS / mTLS (상호 인증)**: 첩보 배달(TAXII) 중에 해커가 도청하거나 조작하지 못하도록, 통신 구간을 암호화하고 보내는 놈과 받는 놈 양쪽을 다 깐깐하게 인증(mTLS)하는 보안 기술이다.
+- **TLP 2.0 (Traffic Light Protocol)**: 위협 정보의 공유 허용 범위를 명시하는 퍼스트(FIRST) 표준 규격:
+  - `TLP:RED`: 발신자와 수신자 개인으로 한정 (외부 공유 절대 불가)
+  - `TLP:AMBER+STRICT`: 수신 조직 내부로만 한정 (고객사/협력사 공유 불가)
+  - `TLP:AMBER`: 수신 조직 및 관련 고객사/협력사 공유 가능
+  - `TLP:GREEN`: 동일 커뮤니티(ISAC 회원사) 내 공유 가능
+  - `TLP:CLEAR`: 대외 공개 가능 (과거 TLP:WHITE)
 
 </details>
 
-| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
-|:---|:---|:---|:---|
-| 첩보 파일 받았는데 **우리 회사 방화벽이 해석을 못 함** | 보안 벤더마다 JSON 필드(외부 래퍼)나 속성값을 자기들 마음대로 구성함 | **OASIS STIX 2.1 Errata 01** 규격 강제 적용 및 객체 의미 표준화 | 이기종 장비 간 위협 정보 파싱 에러 방지 및 절대적 상호운용성 확보 |
-| 해커가 버린 옛날 IP를 차단해서 **정상 고객이 다 막힘** | 업데이트되지 않은 죽은 지표를 삭제하지 않고 방화벽에 계속 룰로 놔둠 | **STIX 표식(Marking)** 과 **철회(Revoked)** 속성값을 최우선 파싱하여 룰 해제 | 위협 정보의 생명주기 강제 통제 및 정상 자산의 억울한 오차단 방어 |
-| TAXII 통신망 중간에서 **해커가 위협 정보를 자기 맘대로 조작함** | TAXII API 서버 간 인터넷 통신 구간에 대한 암호화 및 인증이 미흡함 | TAXII 채널 **HTTPS 암호화** 및 클라이언트/서버 간 **mTLS 상호 인증** 의무화 | 위협 정보 교환망의 도청 원천 방지 및 인가된 객체만의 무결성 보호 |
+| 문제 | 대책 | 효과 |
+|:---|:---|:---|
+| 벤더 간 STIX JSON 확장 필드 남용으로 인한 **이기종 보안 장비 파싱 실패 및 연동 단절** | **OASIS STIX 2.1 Core 스펙 준수 및 커스텀 프로퍼티(`x_...`) 사용 엄격 제한** | 이기종 SIEM/SOAR 간 위협 데이터 상호운용성 100% 보장 |
+| 공격자가 C2 도메인을 변경했음에도 방화벽 룰이 잔존하여 발생하는 **정상 IP 오차단 장애** | **STIX 객체의 `revoked: true` 및 `valid_until` 만료 속성 우선 파싱 및 룰 자동 회수** | 노후화된 지표의 능동적 폐기 및 비즈니스 정상 트래픽 보호 |
+| 인터넷 구간 TAXII API 통신 시 공격자의 중간자 도청 및 위협 지표 변조(Tampering) | **TAXII 통신 채널에 TLS 1.3 암호화 및 클라이언트-서버 간 mTLS 상호 인증 강제** | 위협 정보 전송 구간 기밀성/무결성 100% 확보 및 비인가 주체 차단 |
 
 #### 한줄 요약
-
-- 벤더 맘대로 못 쓰게 OASIS 규격 강제하고, 철회(Revoked)된 지표는 즉시 차단 풀며, 통신 구간은 mTLS로 잠가라.
+- Core 규격 준수로 호환성을 확보하고, `revoked` 파싱으로 오차단을 막으며, mTLS로 전송 구간을 보호한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **신뢰 검증 (Trust Verification)**: "우체부(TAXII)가 편지(STIX)를 잘 갖다줬다"고 끝이 아니라, 그 편지에 적힌 지표가 진짜 오탐 없는 믿을만한 정보인지 시스템 적용 전에 최종 검사하는 거다.
-
-</details>
-
-- 수신된 위협 인텔리전스는 기계 판독 언어인 **STIX** 및 자동 교환망인 **TAXII** 활용 통해 연동 효율성을 극대화하되, 시스템 자동 적용 전 반드시 내부망 **신뢰 검증** 및 **철회(Revoke)** 메타데이터를 재확인하여 대형 오차단을 막는 실무 기조를 확립함
+- 사이버 위협 정보의 글로벌 공유와 무인 자동화 대응을 실현하는 **STIX 및 TAXII 아키텍처**는 CTI 생태계의 핵심 표준 프로토콜이며, 실무 구현 시 **STIX 2.1 기반 그래프 객체 모델링**, **TAXII 2.1 RESTful API 기반 전사 TIP 및 SOAR 연동**, **TLP 2.0 기반 데이터 거버넌스 및 `revoked` 자동 파기 메커니즘**을 통합 구축하여 단절 없는 실시간 위협 정보 교환 생태계를 완성
 
 #### 한줄 요약
-
-- 정보 번역(STIX)과 배달(TAXII)은 자동화하되, 방화벽 차단 스위치를 올리기 전엔 반드시 철회 여부를 교차 검증하라.
+- STIX 2.1의 구조화된 위협 표현과 TAXII 2.1의 안전한 RESTful 전송을 결합하여 실시간 위협 공유를 실현한다.
