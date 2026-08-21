@@ -3,7 +3,7 @@ sidebar:
   order: 127
   label: "127. Delta Lake (Delta Lake)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
 date: "2026-08-18T00:25:00+09:00"
@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- **Delta Lake**는 데이터 레이크에 엔터프라이즈급 신뢰성을 부여한 혁신적인 오픈 테이블 포맷이며, Z-Order 인덱싱과 배치·스트리밍 통합 파이프라인을 구축하여 레이크하우스의 핵심 엔진으로 운용해야 함
+- **Delta Lake** 기반 데이터 레이크에 엔터프라이즈급 신뢰성을 부여한 혁신적인 오픈 테이블 포맷이며, Z-Order 인덱싱과 배치·스트리밍 통합 파이프라인을 구축하여 레이크하우스의 핵심 엔진으로 운용해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 141
   label: "141. 클라우드 서비스 모델: IaaS•PaaS•SaaS (Cloud Service Models)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "클라우드 서비스 모델: IaaS•PaaS•SaaS (Cloud Service Models)"
 date: "2026-08-18T00:50:00+09:00"
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- **클라우드 서비스 모델**은 디지털 전환의 핵심 인프라 패러다임이며, 비즈니스 도메인의 중요도와 엔지니어링 역량에 따라 IaaS, PaaS, SaaS를 조화롭게 결합하는 클라우드 스마트 전략을 수립해야 함
+- **클라우드 서비스 모델** 디지털 전환의 핵심 인프라 패러다임이며, 비즈니스 도메인의 중요도와 엔지니어링 역량에 따라 IaaS, PaaS, SaaS를 조화롭게 결합하는 클라우드 스마트 전략을 수립해야 함
 
 #### 한줄 요약
 

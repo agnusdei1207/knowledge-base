@@ -3,7 +3,7 @@ sidebar:
   order: 116
   label: "116. 빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
 date: "2026-08-17T23:55:00+09:00"
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- **Hadoop과 MapReduce**는 빅데이터 분산 처리의 기초 표준을 정립한 기술이며, 현대 데이터 레이크하우스 환경에서도 HDFS의 높은 내구성과 YARN의 자원 스케줄링을 기반으로 대규모 배치 파이프라인을 견고하게 유지 발전시켜야 함
+- **Hadoop과 MapReduce** 기반 빅데이터 분산 처리의 기초 표준을 정립한 기술이며, 현대 데이터 레이크하우스 환경에서도 HDFS의 높은 내구성과 YARN의 자원 스케줄링을 기반으로 대규모 배치 파이프라인을 견고하게 유지 발전시켜야 함
 
 #### 한줄 요약
 

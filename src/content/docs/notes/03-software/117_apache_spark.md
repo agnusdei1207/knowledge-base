@@ -3,7 +3,7 @@ sidebar:
   order: 117
   label: "117. Apache Spark"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
 date: "2026-08-18T00:00:00+09:00"
@@ -184,7 +184,7 @@ extra:
 
 </details>
 
-- **Apache Spark**는 현대 빅데이터 및 AI 엔지니어링의 표준 분산 컴퓨팅 엔진이며, Catalyst 최적화와 메모리 튜닝 및 AQE를 결합하여 페타바이트급 데이터 파이프라인의 처리 속도를 극대화해야 함
+- **Apache Spark** 기반 현대 빅데이터 및 AI 엔지니어링의 표준 분산 컴퓨팅 엔진이며, Catalyst 최적화와 메모리 튜닝 및 AQE를 결합하여 페타바이트급 데이터 파이프라인의 처리 속도를 극대화해야 함
 
 #### 한줄 요약
 

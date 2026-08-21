@@ -3,7 +3,7 @@ sidebar:
   order: 147
   label: "147. FinOps 클라우드 비용 최적화 (FinOps)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "FinOps 클라우드 비용 최적화 (FinOps)"
 date: "2026-08-18T01:20:00+09:00"
@@ -186,7 +186,7 @@ extra:
 
 </details>
 
-- **FinOps**는 클라우드 네이티브 환경에서 기업의 수익성과 엔지니어링 민첩성을 동시에 견인하는 핵심 거버넌스 체계이며, Inform-Optimize-Operate 3대 라이프사이클을 전사 문화로 내재화하여 클라우드 투자의 가치를 극대화해야 함
+- **FinOps** 기반 클라우드 네이티브 환경에서 기업의 수익성과 엔지니어링 민첩성을 동시에 견인하는 핵심 거버넌스 체계이며, Inform-Optimize-Operate 3대 라이프사이클을 전사 문화로 내재화하여 클라우드 투자의 가치를 극대화해야 함
 
 #### 한줄 요약
 

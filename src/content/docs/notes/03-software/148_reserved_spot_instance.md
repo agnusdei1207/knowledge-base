@@ -3,7 +3,7 @@ sidebar:
   order: 148
   label: "148. 예약 인스턴스•스팟 인스턴스 (Reserved and Spot Instances)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "예약 인스턴스•스팟 인스턴스 (Reserved and Spot Instances)"
 date: "2026-08-18T01:25:00+09:00"
@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- **예약 및 스팟 인스턴스**는 클라우드 FinOps의 핵심 비용 절감 무기이며, 워크로드의 상태 유무와 트래픽 패턴을 엄밀히 분류하여 스마트 인스턴스 믹스를 구성해야 함
+- **예약 및 스팟 인스턴스** 기반 클라우드 FinOps의 핵심 비용 절감 무기이며, 워크로드의 상태 유무와 트래픽 패턴을 엄밀히 분류하여 스마트 인스턴스 믹스를 구성해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 129
   label: "129. 오픈 테이블 포맷 비교 (Open Table Format)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "오픈 테이블 포맷 비교 (Open Table Format)"
 date: "2026-08-18T00:35:00+09:00"
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **오픈 테이블 포맷**은 데이터 레이크하우스의 핵심 메타데이터 표준이며, 비즈니스 워크로드에 맞추어 Delta Lake, Apache Iceberg, Apache Hudi 중 최적의 포맷을 선정하고 정기적인 컴팩션 및 거버넌스를 결합해야 함
+- **오픈 테이블 포맷** 데이터 레이크하우스의 핵심 메타데이터 표준이며, 비즈니스 워크로드에 맞추어 Delta Lake, Apache Iceberg, Apache Hudi 중 최적의 포맷을 선정하고 정기적인 컴팩션 및 거버넌스를 결합해야 함
 
 #### 한줄 요약
 
