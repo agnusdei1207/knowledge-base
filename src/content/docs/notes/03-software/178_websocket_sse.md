@@ -3,7 +3,7 @@ sidebar:
   order: 178
   label: "178. 웹 소켓•Server-Sent Events (WebSocket SSE)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
 date: "2026-08-14T03:44:00+09:00"
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의/개념: 양방향 **WebSocket**과 Server 단방향 **SSE** 실시간 통신
+- 정의/개념: 양방향 **WebSocket** 및 Server 단방향 **SSE** 실시간 통신
 - 배경/필요성: 반복 Polling은 **빈 요청 Traffic•갱신 지연** 발생
 
 #### 한줄 요약

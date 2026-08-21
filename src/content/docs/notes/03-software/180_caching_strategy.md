@@ -3,7 +3,7 @@ sidebar:
   order: 180
   label: "180. 캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
 date: "2026-08-14T03:52:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 - **Lazy Loading (지연 로딩)**: (Cache-Aside) 클라이언트가 요청한 데이터만 캐시에 적재하므로, 안 쓰는 데이터가 캐시 메모리를 낭비하지 않는 공간 효율성 확보.
 - **Stale Data Risk (구버전 노출 위험)**: (Cache-Aside) 캐시에 들어간 데이터는 DB가 바뀌어도 TTL이 끝날 때까지 갱신되지 않으므로 최신성 위배(Inconsistency) 발생 가능성 내재.
-- **Write-Through**는 Cache•DB 동기 경로로 최신성 창을 축소
+- **Write-Through** 기반 Cache•DB 동기 경로로 최신성 창을 축소
 
 #### 한줄 요약
 
@@ -70,7 +70,7 @@ extra:
 | 구성요소 | 책임 |
 |---|---|
 | Cache Store | Key별 **고속 사본•Version** 보관 |
-| Origin | 권위 있는 **Source of Truth**와 영속성 제공 |
+| Origin | 권위 있는 **Source of Truth** 및 영속성 제공 |
 | Eviction Policy | 용량 부족 때 **축출 Key** 결정 |
 | TTL•Invalidation | 사본의 **유효 기간•변경 반영** 통제 |
 
@@ -123,7 +123,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Cache-Aside (Look-Aside) | Write-Through |
+| 구분 | Cache-Aside (Look-Aside) | Write-Through |
 |:---|:---|:---|
 | 주요 용도 | **일반적인 읽기 최적화 (가장 많이 씀)** | **읽기/쓰기 모두 중요한 정합성 필수 구간** |
 | 캐시 공간 효율 | **실제 요청된 데이터만 적재 (효율 높음)** | **안 읽을 데이터도 무조건 적재 (효율 낮음)** |

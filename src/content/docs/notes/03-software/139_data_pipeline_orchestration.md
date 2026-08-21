@@ -3,7 +3,7 @@ sidebar:
   order: 139
   label: "139. 데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
 date: "2026-08-14T00:51:00+09:00"
@@ -135,7 +135,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Linux Crontab | Apache Airflow | Prefect / Dagster (3세대) |
+| 구분 | Linux Crontab | Apache Airflow | Prefect / Dagster (3세대) |
 |:---|:---|:---|:---|
 | 의존성 제어 | 쉘•외부 상태로 직접 구현 | **DAG 기반 Task 의존성** | Asset•Flow 기반 의존성 |
 | 모니터링 UI | 없음 (로그 파일 파싱 필요) | **우수 (웹 UI에서 Task 상태 시각화)**| **최상 (모던 데이터 아키텍처 UI)** |

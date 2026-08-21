@@ -3,7 +3,7 @@ sidebar:
   order: 169
   label: "169. 클라우드 회귀 (Cloud Repatriation)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "클라우드 회귀 (Cloud Repatriation)"
 date: "2026-08-14T03:08:00+09:00"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: Cloud Workload를 자체 환경으로 재배치하는 **Repatriation**
-- 배경/필요성: 도입 후 **TCO•규제•종속성**이 초기 가정을 벗어날 수 있음
+- 배경/필요성: 도입 후 **TCO•규제•종속성** 초기 가정을 벗어날 수 있음
 
 #### 한줄 요약
 
@@ -63,7 +63,7 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| 종속성 제거 | 공급자 고유 API를 **이식 가능 Interface**로 전환 |
+| 종속성 제거 | 공급자 고유 API를 **이식 가능 Interface** 기반 전환 |
 | 목표 인프라 | 용량•HA•보안•운영 **실행 기반** 제공 |
 | 데이터 동기화 | Snapshot•CDC로 **원본•대상 정합성** 유지 |
 | Traffic 전환 | Canary•DNS와 **Rollback 경로** 관리 |
@@ -122,7 +122,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Public Cloud Retention (퍼블릭 유지) | Cloud Repatriation (클라우드 회귀) |
+| 구분 | Public Cloud Retention (퍼블릭 유지) | Cloud Repatriation (클라우드 회귀) |
 |:---|:---|:---|
 | 적합한 워크로드 패턴 | **예측 불가능한 스파이크(Spike) 트래픽** | **1년 내내 일정한 안정 부하 (Steady-State)**|
 | 핵심 편익 | **탄력성•관리형 Service•민첩성**| **통제권•예측 비용•Data 지역성**|
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **클라우드 회귀 기준**에 따라 안정 부하 워크로드 최적화 시 **TCO 검증 기반 클라우드 회귀** 선별 적용
+- **클라우드 회귀 기준** 대상 따라 안정 부하 워크로드 최적화 시 **TCO 검증 기반 클라우드 회귀** 선별 적용
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 140
   label: "140. 데이터 계약 (Data Contract)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "데이터 계약 (Data Contract)"
 date: "2026-08-14T00:58:00+09:00"
@@ -138,7 +138,7 @@ extra:
 
 </details>
 
-| 비교 항목 | API Contract (OpenAPI/Swagger) | Data Contract (OpenDataContract) |
+| 구분 | API Contract (OpenAPI/Swagger) | Data Contract (OpenDataContract) |
 |:---|:---|:---|
 | 주요 대상 | **Microservice 간 REST API 통신** | **이종 데이터 파이프라인 및 DW/Lake 수집** |
 | 명세 내용 | Endpoint URL, Request/Response Body | **Schema, Quality Expectation, SLA, Freshness** |

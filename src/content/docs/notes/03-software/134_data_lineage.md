@@ -3,7 +3,7 @@ sidebar:
   order: 134
   label: "134. 데이터 계보 (Data Lineage)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "데이터 계보 (Data Lineage)"
 date: "2026-08-14T00:16:00+09:00"
@@ -134,7 +134,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Design-Time Lineage (설계 시점 계보) | Runtime Lineage (런타임 계보) |
+| 구분 | Design-Time Lineage (설계 시점 계보) | Runtime Lineage (런타임 계보) |
 |:---|:---|:---|
 | 수집 원천 | **소스 코드, SQL 파일, DDL 명세서** | **Spark, Airflow 실제 실행 런타임 로그** |
 | 장점 | 배포 전 사전 영향도 파악 가능 | **실제 실행 경로와 버전 확인** |

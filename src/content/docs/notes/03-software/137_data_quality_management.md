@@ -3,7 +3,7 @@ sidebar:
   order: 137
   label: "137. 데이터 품질 관리: 완전성•정확성•일관성 (Data Quality Management)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "데이터 품질 관리: 완전성•정확성•일관성 (Data Quality Management)"
 date: "2026-08-14T00:37:00+09:00"
@@ -135,7 +135,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Manual DQ Management (수동 점검) | Automated DQM Platform (자동화) |
+| 구분 | Manual DQ Management (수동 점검) | Automated DQM Platform (자동화) |
 |:---|:---|:---|
 | 품질 검증 시점 | **사후 분석 (사용자가 오류 보고 시 수동 쿼리)** | **사전/실시간 (Quality Gate 파이프라인 탑재)** |
 | 오류 레코드 처리 | 타깃 DB에 이미 오염 데이터 저장됨 | **Quarantine 테이블로 즉시 자동 격리 차단** |

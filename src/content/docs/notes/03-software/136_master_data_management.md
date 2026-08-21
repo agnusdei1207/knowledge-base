@@ -3,7 +3,7 @@ sidebar:
   order: 136
   label: "136. 마스터 데이터 관리 (Master Data Management, MDM)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "마스터 데이터 관리 (Master Data Management, MDM)"
 date: "2026-08-14T00:30:00+09:00"
@@ -130,7 +130,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Deterministic Matching (확정적 매칭) | Probabilistic Matching (확률적 매칭) |
+| 구분 | Deterministic Matching (확정적 매칭) | Probabilistic Matching (확률적 매칭) |
 |:---|:---|:---|
 | 매칭 조건 기준 | **주민등록번호, 사업자번호 등 고유키 100% 일치** | **이름, 주소, 전화번호 등의 복합 유사도 점수** |
 | 오탐 | 키 품질•재사용 오류에 좌우 | 임계값에 따라 오탐 발생 가능 |

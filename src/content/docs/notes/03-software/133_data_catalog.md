@@ -3,7 +3,7 @@ sidebar:
   order: 133
   label: "133. 데이터 카탈로그 (Data Catalog)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "데이터 카탈로그 (Data Catalog)"
 date: "2026-08-14T00:09:00+09:00"
@@ -136,7 +136,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Data Dictionary (데이터 사전) | Business Glossary (용어집) | Data Catalog (데이터 카탈로그) |
+| 구분 | Data Dictionary (데이터 사전) | Business Glossary (용어집) | Data Catalog (데이터 카탈로그) |
 |:---|:---|:---|:---|
 | 주요 대상 | 단일 DB 테크니컬 스키마 | 전사 비즈니스 용어 정의 | **전사 하이브리드 멀티 소스 통합** |
 | 자동화 수준 | DDL 추출•수동 보완 | 업무 담당자 정의•승인 | **자동 수집과 소유자 검토 결합** |

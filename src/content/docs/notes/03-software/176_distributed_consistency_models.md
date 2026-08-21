@@ -3,7 +3,7 @@ sidebar:
   order: 176
   label: "176. 분산 시스템 일관성 모델 (Distributed System Consistency)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "분산 시스템 일관성 모델 (Distributed System Consistency)"
 date: "2026-08-14T03:36:00+09:00"

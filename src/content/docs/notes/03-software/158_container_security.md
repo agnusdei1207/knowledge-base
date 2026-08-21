@@ -3,7 +3,7 @@ sidebar:
   order: 158
   label: "158. 컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
 date: "2026-08-14T02:24:00+09:00"
@@ -71,8 +71,8 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| Image Trust | **취약점**•**서명**과 공급망 출처 검증 |
-| Admission Policy | 위험한 **Pod 명세**의 저장•배포 거부 |
+| Image Trust | **취약점**•**서명** 및 공급망 출처 검증 |
+| Admission Policy | 위험한 **Pod 명세** 저장•배포 거부 |
 | Kernel Restriction | **System Call•파일 접근** 최소 권한 강제 |
 | Runtime Detection | 실행 중 **이상 행위** 탐지•대응 |
 

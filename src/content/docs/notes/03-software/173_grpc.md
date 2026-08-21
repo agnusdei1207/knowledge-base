@@ -3,7 +3,7 @@ sidebar:
   order: 173
   label: "173. gRPC (gRPC)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "gRPC (gRPC)"
 date: "2026-08-14T03:24:00+09:00"
@@ -127,7 +127,7 @@ extra:
 
 </details>
 
-| 비교 항목 | REST API (JSON) | gRPC (Protobuf) |
+| 구분 | REST API (JSON) | gRPC (Protobuf) |
 |:---|:---|:---|
 | 통신 프로토콜 | HTTP 의미와 자원 API | **HTTP/2 기반 RPC•다중화** |
 | Payload | JSON 등 Representation 선택 | **Protobuf Binary Message**|

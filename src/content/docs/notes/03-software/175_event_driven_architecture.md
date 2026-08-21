@@ -3,7 +3,7 @@ sidebar:
   order: 175
   label: "175. 이벤트 기반 아키텍처 (Event-Driven Architecture)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "이벤트 기반 아키텍처 (Event-Driven Architecture)"
 date: "2026-08-14T03:32:00+09:00"
@@ -68,7 +68,7 @@ extra:
 
 | 구성요소 | 책임 |
 |---|---|
-| Event Producer | 상태 변화를 **불변 Event**로 발행 |
+| Event Producer | 상태 변화를 **불변 Event** 기반 발행 |
 | Event Channel | Event **저장•순서•전달•재생** 제공 |
 | Event Consumer | 구독 Event를 **멱등 처리**하고 결과 저장 |
 | Schema Registry | 생산자•소비자 간 **계약 호환성** 검증 |
@@ -127,7 +127,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Event Notification (이벤트 알림) | Event-Carried State Transfer (상태 전송) |
+| 구분 | Event Notification (이벤트 알림) | Event-Carried State Transfer (상태 전송) |
 |:---|:---|:---|
 | 페이로드 크기 | 매우 작음 (식별자 ID만 포함) | **상대적으로 큼 (관련 데이터 모두 포함)**|
 | 이벤트 예시 | `{"order_id": 123, "status": "created"}` | **`{"order_id": 123, "amount": 5000, "user": "A"}`** |

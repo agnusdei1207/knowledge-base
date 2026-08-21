@@ -3,7 +3,7 @@ sidebar:
   order: 157
   label: "157. 쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
 date: "2026-08-14T02:20:00+09:00"

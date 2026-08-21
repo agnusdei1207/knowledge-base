@@ -3,7 +3,7 @@ sidebar:
   order: 138
   label: "138. ETL•ELT 파이프라인 (ETL ELT Pipeline)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
 date: "2026-08-14T00:44:00+09:00"

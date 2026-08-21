@@ -3,7 +3,7 @@ sidebar:
   order: 172
   label: "172. GraphQL (GraphQL)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "GraphQL (GraphQL)"
 date: "2026-08-14T03:20:00+09:00"
@@ -71,7 +71,7 @@ extra:
 | Query | 읽을 Field와 **응답 Selection Set** 선언 |
 | Mutation | 상태 변경 Operation과 **입력값** 선언 |
 | Schema | Type•Field•Argument의 **API 계약** 정의 |
-| Resolver | Field를 **Data Source•업무 Logic**에 연결 |
+| Resolver | Field를 **Data Source•업무 Logic** 대상 연결 |
 
 #### 한줄 요약
 
@@ -127,7 +127,7 @@ extra:
 
 </details>
 
-| 비교 항목 | REST API | GraphQL |
+| 구분 | REST API | GraphQL |
 |:---|:---|:---|
 | 엔드포인트 | **URI 자원별 다수 생성 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
 | 데이터 페칭 | 서버가 정해둔 고정된 구조로 응답받음 (Over/Under-fetching) | **클라이언트가 필요한 필드만 유연하게 선택**|

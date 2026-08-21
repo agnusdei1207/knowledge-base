@@ -3,7 +3,7 @@ sidebar:
   order: 135
   label: "135. 데이터 거버넌스 (Data Governance)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "데이터 거버넌스 (Data Governance)"
 date: "2026-08-14T00:23:00+09:00"
@@ -136,7 +136,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Centralized Data Governance | Federated Governance (Modern) |
+| 구분 | Centralized Data Governance | Federated Governance (Modern) |
 |:---|:---|:---|
 | 의사결정 주체 | **중앙 데이터 거버넌스 위원회 독점** | **중앙 연합회 + 현업 도메인 팀 협의** |
 | 정책 집행 방식 | 수동 승인 및 인간 개입 중심 | **Policy-as-Code 자동 코드화 집행** |

@@ -3,7 +3,7 @@ sidebar:
   order: 177
   label: "177. 분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
 date: "2026-08-14T03:40:00+09:00"
@@ -71,8 +71,8 @@ extra:
 |---|---|
 | Leader | Client Write 수신과 **Log 복제•Commit** 조정 |
 | Candidate | Term 증가와 **과반 Vote** 요청 |
-| Follower | AppendEntries•Vote 요청을 **Term**•**Log**로 검증 |
-| Replicated Log | 합의된 **Command 순서**와 Commit Index 보존 |
+| Follower | AppendEntries•Vote 요청을 **Term**•**Log** 기반 검증 |
+| Replicated Log | 합의된 **Command 순서** 및 Commit Index 보존 |
 
 #### 한줄 요약
 
@@ -128,7 +128,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Raft | Paxos (Multi-Paxos) |
+| 구분 | Raft | Paxos (Multi-Paxos) |
 |:---|:---|:---|
 | 설계 철학 | **이해성(Understandability) 최우선 (교육/구현 용이)**| **수학적 완벽성 (최초 제안, 논문 난해)** |
 | 리더 선출 | **합의의 선행 조건으로 강력한 리더를 먼저 선출** | 리더 없이도 진행 가능하나 성능 위해 리더 차용 |
