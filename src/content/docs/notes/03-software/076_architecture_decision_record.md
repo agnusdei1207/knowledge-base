@@ -3,7 +3,7 @@ sidebar:
   order: 76
   label: "076. 아키텍처 결정 기록 ADR (Architecture Decision Record)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
 date: "2026-08-13T17:50:00+09:00"
@@ -134,7 +134,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Wiki / Confluence 문서화 | ADR (Architecture Decision Record) |
+| 구분 | Wiki / Confluence 문서화 | ADR (Architecture Decision Record) |
 |:---|:---|:---|
 | 저장 위치 | 외부 SaaS / 웹서버 (Wiki 플랫폼) | **Git 소스코드 레포지토리 내부 (`doc/adr/`)** |
 | 버전 동기화 | 별도 변경 절차로 코드와 이격 가능 | **동일 PR에서 코드•결정 기록 함께 검토 가능** |

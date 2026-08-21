@@ -3,7 +3,7 @@ sidebar:
   order: 122
   label: "122. 실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
 date: "2026-08-13T22:52:00+09:00"
@@ -135,7 +135,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Batch Data Pipeline (배치 파이프라인) | Real-Time Streaming Pipeline (실시간 파이프라인) |
+| 구분 | Batch Data Pipeline (배치 파이프라인) | Real-Time Streaming Pipeline (실시간 파이프라인) |
 |:---|:---|:---|
 | 데이터 연산 시점 | **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 ** |
 | 핵심 메시지 브로커 | HDFS, AWS S3, File Storage | **Apache Kafka, Apache Pulsar** |

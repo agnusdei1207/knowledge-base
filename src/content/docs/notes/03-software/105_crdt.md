@@ -3,7 +3,7 @@ sidebar:
   order: 105
   label: "105. CRDT 충돌 없는 복제 데이터 (Conflict-free Replicated Data Type)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "CRDT 충돌 없는 복제 데이터 (Conflict-free Replicated Data Type)"
 date: "2026-08-13T20:52:00+09:00"

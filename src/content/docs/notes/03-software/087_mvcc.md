@@ -3,7 +3,7 @@ sidebar:
   order: 87
   label: "087. MVCC 다중 버전 동시성 제어 (MVCC)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (MVCC)"
 date: "2026-08-13T18:56:00+09:00"
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- **Snapshot Read**로 읽기•쓰기 경합 감소
+- **Snapshot Read** 기반 읽기•쓰기 경합 감소
 - **Snapshot Read (스냅샷 기반 시점 일관성 관찰)**
 - 오래된 구버전 청소를 위한 **Purge / Vacuum 백그라운드 스레드 오버헤드**
 
@@ -132,7 +132,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Lock 기반 동시성 제어 (Strict 2PL) | MVCC 기반 동시성 제어 (Multi-Version) |
+| 구분 | Lock 기반 동시성 제어 (Strict 2PL) | MVCC 기반 동시성 제어 (Multi-Version) |
 |:---|:---|:---|
 | 읽기/쓰기 경합 | 잠금 모드에 따라 상호 대기 가능 | **스냅샷 읽기로 일반 읽기•쓰기 경합 감소** |
 | 읽기 오버헤드 | **공유 락(S-Lock) 획득 및 해제 오버헤드** | **스냅샷 생성 및 Undo Log 역추적 오버헤드** |

@@ -3,7 +3,7 @@ sidebar:
   order: 81
   label: "081. AI 코드 생성: GitHub Copilot (AI Code Generation)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "AI 코드 생성: GitHub Copilot (AI Code Generation)"
 date: "2026-08-13T18:20:00+09:00"
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - **Context-Aware Inline Completion (IDE 기반 실시간 자동 완성)**
-- **Boilerplate & Unit Test 초안 생성**으로 반복 작업 단축
+- **Boilerplate & Unit Test 초안 생성** 기반 반복 작업 단축
 - **Hallucination (환각)** 및 보안 취약점(CWE) 주입 위험성 상존으로 인한 개발자 코드 리뷰 필수
 
 #### 한줄 요약
@@ -127,7 +127,7 @@ extra:
 
 </details>
 
-| 비교 항목 | GitHub Copilot | Cursor AI | Amazon Q Developer |
+| 구분 | GitHub Copilot | Cursor AI | Amazon Q Developer |
 |:---|:---|:---|:---|
 | 주 모델 엔진 | OpenAI GPT-4o / Codex | **Claude 3.5 Sonnet / GPT-4o** | Amazon Titan / Claude |
 | 프로젝트 맥락 범위 | 열려있는 탭 및 커서 전후 텍스트 | **전체 소스 코드베이스 인덱싱 ** | AWS 인프라 및 API 코드 연동 |

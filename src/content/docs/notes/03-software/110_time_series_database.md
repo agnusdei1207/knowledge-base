@@ -3,7 +3,7 @@ sidebar:
   order: 110
   label: "110. 시계열 데이터베이스 (Time Series Database)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "시계열 데이터베이스 (Time Series Database)"
 date: "2026-08-13T21:28:00+09:00"
@@ -133,7 +133,7 @@ extra:
 
 </details>
 
-| 비교 항목 | RDBMS (PostgreSQL, MySQL) | TSDB (Prometheus, InfluxDB, TimescaleDB) |
+| 구분 | RDBMS (PostgreSQL, MySQL) | TSDB (Prometheus, InfluxDB, TimescaleDB) |
 |:---|:---|:---|
 | 데이터 갱신/삭제 | 업무 행 갱신•삭제 지원 | **덧붙이기 중심•지연 표본 처리** |
 | 압축률 및 용량 | 범용 행•열 압축 적용 | **시간•값 상관성을 활용한 압축** |

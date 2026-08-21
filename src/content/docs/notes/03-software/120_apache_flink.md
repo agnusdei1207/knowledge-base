@@ -3,7 +3,7 @@ sidebar:
   order: 120
   label: "120. Apache Flink 스트림 처리 (Apache Flink)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
 date: "2026-08-13T22:38:00+09:00"
@@ -134,7 +134,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
+| 구분 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
 |:---|:---|:---|
 | 처리 방식 | **Event-by-Event (레코드 1건 단위 즉시 처리)** | **Micro-Batch (N초 단위로 묶어서 처리)** |
 | 지연 특성 | 레코드 단위 파이프라인 지연 | 트리거•배치 주기에 따른 지연 |

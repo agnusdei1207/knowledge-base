@@ -3,7 +3,7 @@ sidebar:
   order: 130
   label: "130. 메달리온 아키텍처 (Medallion Architecture)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
 date: "2026-08-13T23:48:00+09:00"
@@ -137,7 +137,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Bronze Layer | Silver Layer | Gold Layer |
+| 구분 | Bronze Layer | Silver Layer | Gold Layer |
 |:---|:---|:---|:---|
 | 데이터 품질 상태 | 원천 보존 | 검증•표준화 상세 | 용도별 검증 집계 |
 | 스키마 형태 | 소스 원본 스키마 | 3NF 정규화 / 공통 스키마 | **Star Schema / Cube / Mart** |

@@ -3,7 +3,7 @@ sidebar:
   order: 88
   label: "088. 락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
 date: "2026-08-13T19:02:00+09:00"
@@ -112,7 +112,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Basic 2PL (기본 2PL) | Strict 2PL (엄격한 2PL) | Rigorous 2PL (강력한 2PL) |
+| 구분 | Basic 2PL (기본 2PL) | Strict 2PL (엄격한 2PL) | Rigorous 2PL (강력한 2PL) |
 |:---|:---|:---|:---|
 | X-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** | **트랜잭션 Commit / Rollback 시점** |
 | S-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** |

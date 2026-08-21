@@ -3,7 +3,7 @@ sidebar:
   order: 84
   label: "084. 관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
 date: "2026-08-13T18:38:00+09:00"
@@ -86,7 +86,7 @@ extra:
 |:---|:---|:---|
 | **Entity Integrity**<br/>(개체 무결성) | 릴레이션의 기본키(PK)는 **Null 값을 가질 수 없으며 고유(Unique)** 해야 함 | PK 필드에 `NULL` 입력 시 Insert Error 방출 |
 | **Referential Integrity**<br/>(참조 무결성) | 외래키(FK) 값은 **참조되는 릴레이션의 PK 값과 같거나 Null** 이어야 함 | 부모 테이블에 없는 `user_id`로 Order 생성 불가 |
-| **Domain Integrity**<br/>(도메인 무결성)| 속성(Attribute)에 입력되는 값은 **정의된 도메인 영역 범위 내**에 존재해야 함 | 나이(Age) 필드에 음수(`-5`)나 문자열 입력 차단 |
+| **Domain Integrity**<br/>(도메인 무결성)| 속성(Attribute)에 입력되는 값은 **정의된 도메인 영역 범위 내** 대상 존재해야 함 | 나이(Age) 필드에 음수(`-5`)나 문자열 입력 차단 |
 
 #### 한줄 요약
 
@@ -136,7 +136,7 @@ extra:
 
 </details>
 
-| 비교 항목 | RDBMS (관계형 데이터베이스) | NoSQL (비관계형 데이터베이스) |
+| 구분 | RDBMS (관계형 데이터베이스) | NoSQL (비관계형 데이터베이스) |
 |:---|:---|:---|
 | 데이터 구조 | **정형 2차원 테이블 (Schema-First)** | **비정형/반정형 (JSON Document, Key-Value 등)** |
 | 트랜잭션 수용 | **다중 행•관계의 ACID 트랜잭션에 강점** | **제품별 ACID 범위와 일관성 모델 상이** |

@@ -3,7 +3,7 @@ sidebar:
   order: 115
   label: "115. NewSQL: CockroachDB•Spanner (NewSQL)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "NewSQL: CockroachDB•Spanner (NewSQL)"
 date: "2026-08-13T22:03:00+09:00"
@@ -129,7 +129,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Traditional RDBMS (MySQL) | NoSQL (Cassandra, MongoDB) | NewSQL (CockroachDB, Spanner) |
+| 구분 | Traditional RDBMS (MySQL) | NoSQL (Cassandra, MongoDB) | NewSQL (CockroachDB, Spanner) |
 |:---|:---|:---|:---|
 | 트랜잭션 모델 | 엔진별 ACID | 제품별 보장 수준 | **분산 ACID** |
 | 수평 확장성 | 구성별 복제•샤딩 | 키•문서 기반 분산 | **키 범위 자동 분산** |

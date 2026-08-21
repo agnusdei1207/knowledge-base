@@ -3,7 +3,7 @@ sidebar:
   order: 121
   label: "121. 정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
 date: "2026-08-13T22:45:00+09:00"

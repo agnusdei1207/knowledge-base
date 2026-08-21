@@ -3,7 +3,7 @@ sidebar:
   order: 98
   label: "098. 파티셔닝: 범위•해시•리스트 (Partitioning)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
 date: "2026-08-13T20:02:00+09:00"
@@ -133,7 +133,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Local Partitioned Index (로컬 인덱스) | Global Partitioned Index (글로벌 인덱스) |
+| 구분 | Local Partitioned Index (로컬 인덱스) | Global Partitioned Index (글로벌 인덱스) |
 |:---|:---|:---|
 | 인덱스 생성 구조| **각 파티션 파일마다 독립적으로 인덱스 관리** | **전체 파티션 통틀어 단 1개의 거대 인덱스 관리**|
 | 파티션 삭제 시 영향 | **해당 로컬 인덱스 파티션만 관리** | **제품•옵션에 따라 글로벌 인덱스 유지 작업 필요** |

@@ -3,7 +3,7 @@ sidebar:
   order: 55
   label: "055. GitOps"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "GitOps"
 date: "2026-08-13T15:47:00+09:00"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: Git 저장소를 유일한 진실의 원천(SSOT)으로 선언하고, K8s 내부 에이전트가 Git 매니페스트 상태를 상시 감시하여 자동 배포 및 드리프트(Drift) 복구를 수행하는 패러다임인 **GitOps**
-- 배경: 개발자가 실서버에 직접 접속해서 설정 바꾸다 보면 **서버랑 코드 상태가 틀어지고(Drift), 털리면 보안 대참사**가 터지기 때문
+- 배경: 개발자가 실서버에 직접 접속해서 설정 바꾸다 보면 **서버랑 코드 상태가 틀어지고(Drift), 털리면 보안 대참사** 터지기 때문
 
 #### 한줄 요약
 
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - **Declarative(선언형), Versioned(버전 관리), Pulled(당겨옴), Reconciled(동기화)** 4대 원칙 사수.
-- 외부에서 들어오는 포트를 다 막아버리는 **Pull 기반 배포 아키텍처**로 보안력 떡상.
+- 외부에서 들어오는 포트를 다 막아버리는 **Pull 기반 배포 아키텍처** 기반 보안력 떡상.
 - 누가 수동으로 서버 만지면 즉시 감지하고 원래대로 복구해버리는 **Self-healing(자동 복구)** 제공.
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **Traditional Push (Jenkins 꼰대)** | **Pull-based GitOps (ArgoCD MZ)** |
+| 구분 | **Traditional Push (Jenkins 꼰대)** | **Pull-based GitOps (ArgoCD MZ)** |
 |:---|:---|:---|
 | 배포 주체 | 밖에서 젠킨스가 집중 배치 | **클러스터 안에서 봇이 당겨옴** |
 | 보안 / 방화벽 | K8s 서버 문 활짝 열고 젠킨스한테 키 줘야 함 | **K8s 문 닫아걸고 봇이 깃허브만 읽음** |

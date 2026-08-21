@@ -3,7 +3,7 @@ sidebar:
   order: 119
   label: "119. Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "Apache Kafka 이벤트 스트리밍 (Apache Kafka)"
 date: "2026-08-13T22:31:00+09:00"
@@ -135,7 +135,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Traditional Message Queue (RabbitMQ) | Event Streaming Platform (Kafka) |
+| 구분 | Traditional Message Queue (RabbitMQ) | Event Streaming Platform (Kafka) |
 |:---|:---|:---|
 | 메시지 보존 방식 | **소비자(Consumer) 수신 즉시 Queue에서 삭제** | **디스크 영속성 보존 (일수/용량 단위 retention)** |
 | 메시지 재처리 | 큐 정책•DLQ 범위에서 재처리 | **Offset 이동으로 보존 이벤트 재생** |

@@ -3,7 +3,7 @@ sidebar:
   order: 114
   label: "114. 분산 데이터베이스 (Distributed Database)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "분산 데이터베이스 (Distributed Database)"
 date: "2026-08-13T21:56:00+09:00"
@@ -132,7 +132,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Homogeneous (동종 분산 DB) | Heterogeneous (이종 분산 DB) |
+| 구분 | Homogeneous (동종 분산 DB) | Heterogeneous (이종 분산 DB) |
 |:---|:---|:---|
 | DBMS 엔진 동일성 | **동일한 DBMS 제품으로 노드 구성 (Oracle-Oracle)**| **서로 다른 DBMS 엔진 혼용 (Oracle-MySQL)** |
 | 트랜잭션 통제 | DBMS 자체 프로토콜로 쉽게 2PC 및 Replication 가능 | **중간 게이트웨이 및 미들웨어 (ODBC/JDBC) 필수** |

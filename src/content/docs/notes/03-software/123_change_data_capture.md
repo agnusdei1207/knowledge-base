@@ -3,7 +3,7 @@ sidebar:
   order: 123
   label: "123. 변경 데이터 캡처 CDC (Change Data Capture)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
 date: "2026-08-13T22:59:00+09:00"

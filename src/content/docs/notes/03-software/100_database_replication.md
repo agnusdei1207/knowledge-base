@@ -3,7 +3,7 @@ sidebar:
   order: 100
   label: "100. 데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
 date: "2026-08-13T20:14:00+09:00"
@@ -133,7 +133,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Asynchronous (비동기식 복제) | Semi-Synchronous (반동기식 복제) | Synchronous (동기식 복제) |
+| 구분 | Asynchronous (비동기식 복제) | Semi-Synchronous (반동기식 복제) | Synchronous (동기식 복제) |
 |:---|:---|:---|:---|
 | 쓰기 지연 | 로컬 커밋 후 응답 | 지정 복제 노드 ACK 대기 | 합의 범위 ACK 대기 |
 | 데이터 유실 위험 | 미전파 로그 손실 가능 | ACK 위치 이후 장애 조건별 상이 | 합의 범위 내 로그 보존 |
