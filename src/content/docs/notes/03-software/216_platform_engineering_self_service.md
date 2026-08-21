@@ -3,7 +3,7 @@ sidebar:
   order: 216
   label: "216. 플랫폼 엔지니어링 셀프서비스 (Platform Engineering Self-Service)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "플랫폼 엔지니어링 셀프서비스 (Platform Engineering Self-Service)"
 date: "2026-08-18T05:40:00+09:00"
@@ -188,7 +188,7 @@ extra:
 
 </details>
 
-- **플랫폼 엔지니어링 셀프서비스**는 DevOps의 이상을 대규모 조직에서 현실화하는 핵심 인프라 패러다임이며, 백스테이지 개발자 포털과 Policy-as-Code 가드레일을 결합하여 개발자 경험(DevEx) 향상과 전사 거버넌스를 완성해야 함
+- **플랫폼 엔지니어링 셀프서비스** 기반 DevOps의 이상을 대규모 조직에서 현실화하는 핵심 인프라 패러다임이며, 백스테이지 개발자 포털과 Policy-as-Code 가드레일을 결합하여 개발자 경험(DevEx) 향상과 전사 거버넌스를 완성해야 함
 
 #### 한줄 요약
 

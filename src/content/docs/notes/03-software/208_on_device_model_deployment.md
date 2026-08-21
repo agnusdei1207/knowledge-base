@@ -3,7 +3,7 @@ sidebar:
   order: 208
   label: "208. 온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
 date: "2026-08-18T05:05:00+09:00"
@@ -188,7 +188,7 @@ extra:
 
 </details>
 
-- **온디바이스 AI 모델 배포**는 클라우드 비용을 절감하고 데이터 주권과 즉각적 반응성을 실현하는 핵심 엣지 컴퓨팅 패러다임이며, LiteRT/ONNX 표준 포맷과 안전한 OTA 카나리 배포 거버넌스를 통해 고성능 엣지 AI 생태계를 완성해야 함
+- **온디바이스 AI 모델 배포** 기반 클라우드 비용을 절감하고 데이터 주권과 즉각적 반응성을 실현하는 핵심 엣지 컴퓨팅 패러다임이며, LiteRT/ONNX 표준 포맷과 안전한 OTA 카나리 배포 거버넌스를 통해 고성능 엣지 AI 생태계를 완성해야 함
 
 #### 한줄 요약
 

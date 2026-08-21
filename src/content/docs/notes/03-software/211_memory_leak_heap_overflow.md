@@ -3,7 +3,7 @@ sidebar:
   order: 211
   label: "211. 메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
 date: "2026-08-18T05:20:00+09:00"
@@ -192,7 +192,7 @@ extra:
 
 </details>
 
-- **메모리 누수 및 힙 고갈**은 시스템의 장기적 신뢰성을 파괴하는 치명적 런타임 장애이며, Full GC 후 기저선 회복 여부를 상시 감시하고 MAT 덤프 분석과 ThreadLocal 해제를 철저히 준수하여 무결점 무중단 서비스를 완성해야 함
+- **메모리 누수 및 힙 고갈** 시스템의 장기적 신뢰성을 파괴하는 치명적 런타임 장애이며, Full GC 후 기저선 회복 여부를 상시 감시하고 MAT 덤프 분석과 ThreadLocal 해제를 철저히 준수하여 무결점 무중단 서비스를 완성해야 함
 
 #### 한줄 요약
 
