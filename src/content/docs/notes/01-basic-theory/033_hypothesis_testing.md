@@ -3,7 +3,7 @@ sidebar:
   order: 33
   label: "033. 가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
 date: "2026-08-17T09:25:00+09:00"

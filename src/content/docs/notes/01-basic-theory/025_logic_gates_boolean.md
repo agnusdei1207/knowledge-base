@@ -3,7 +3,7 @@ sidebar:
   order: 25
   label: "025. 논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
   badge:
-    text: "미출 • 15%"
+    text: "미출 · 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
 date: "2026-08-17T09:25:00+09:00"

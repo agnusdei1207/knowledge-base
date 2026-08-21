@@ -3,7 +3,7 @@ sidebar:
   order: 41
   label: "041. 경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "경사하강법: SGD•Adam•AdaGrad (Gradient Descent)"
 date: "2026-08-21T22:01:00+09:00"

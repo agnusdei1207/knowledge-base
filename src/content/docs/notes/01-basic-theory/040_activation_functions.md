@@ -3,7 +3,7 @@ sidebar:
   order: 40
   label: "040. 활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
 date: "2026-08-21T22:01:00+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 인공 뉴런의 선형 결합에 **비선형 활성화 변환**을 적용하여 신경망의 특징 표현력과 결정 경계를 형성하는 연산 함수
+- 정의/개념: 인공 뉴런의 선형 결합에 **비선형 활성화 변환**  적용하여 신경망의 특징 표현력과 결정 경계를 형성하는 연산 함수
 - 배경/필요성: 심층 신경망 역전파 시 시그모이드 계열의 포화에 따른 **기울기 소실(Vanishing Gradient)** 및 학습 정체 극복
 
 #### 한줄 요약
@@ -162,7 +162,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Sigmoid의 은닉층 적용 시 **심각한 기울기 소실** | 은닉층을 **ReLU / GELU**로 전면 교체 | 심층망(100+ 층) 안정적 학습 보장 |
+| Sigmoid의 은닉층 적용 시 **심각한 기울기 소실** | 은닉층을 **ReLU / GELU** 기반  전면 교체 | 심층망(100+ 층) 안정적 학습 보장 |
 | ReLU 음수 구간 뉴런 불능화인 **Dying ReLU 현상** | **Leaky ReLU ($\alpha=0.01$) 또는 ELU / GELU** 채택 | 음수 영역 미세 기울기 보존 |
 | 큰 가중치로 인한 활성화 함수의 **극단 포화** | **배치 정규화(BatchNorm)** 및 He/Xavier 초기화 | 가중합 $z$ 분포 안정화 |
 | 트랜스포머 언어 모델의 확률적 활성화 요구 | **GELU (Gaussian Error Linear Unit)** 적용 | LLM/BERT 자연어 표현력 극대화 |
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- 심층 은닉층에는 **ReLU/GELU**, 이진 분류 최종 출력층에는 **Sigmoid**, 순환 상태 전이에는 **Tanh**를 배치하여 계층별 목적 최적화
+- 심층 은닉층에는 **ReLU/GELU**, 이진 분류 최종 출력층에는 **Sigmoid**, 순환 상태 전이에는 **Tanh** 활용  배치하여 계층별 목적 최적화
 
 #### 한줄 요약
 

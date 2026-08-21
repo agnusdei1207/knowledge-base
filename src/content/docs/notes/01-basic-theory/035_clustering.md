@@ -3,7 +3,7 @@ sidebar:
   order: 35
   label: "035. 클러스터링: K-Means•DBSCAN (Clustering)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "클러스터링: K-Means•DBSCAN (Clustering)"
 date: "2026-08-17T09:25:00+09:00"
@@ -83,7 +83,7 @@ extra:
 | 특징 전처리기 | 차원 간 단위 차이를 제거하여 **공정한 거리 척도 환경 조성** |
 | 군집 중심 (Centroid) | K-Means 군집의 **평균 위치 벡터($\mu_k$) 보관 및 갱신** |
 | 밀도 파라미터 ($\varepsilon, \text{MinPts}$) | DBSCAN의 **이웃 반경 및 핵심점 판정 임계치 정의** |
-| 군집 평가기 | **실루엣 계수($s$) 및 엘보우 곡선**으로 군집 분리도 및 타당성 평가 |
+| 군집 평가기 | **실루엣 계수($s$) 및 엘보우 곡선** 기반  군집 분리도 및 타당성 평가 |
 
 #### 한줄 요약
 

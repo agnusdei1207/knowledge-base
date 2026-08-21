@@ -3,7 +3,7 @@ sidebar:
   order: 20
   label: "020. 오토마타 이론: DFA•NFA (Automata Theory)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "오토마타 이론: DFA•NFA (Automata Theory)"
 date: "2026-08-17T09:25:00+09:00"
@@ -173,7 +173,7 @@ extra:
 | NFA 결정화 시 발생하는 **상태 폭증(State Explosion)** | **Hopcroft 상태 최소화** 및 Lazy DFA(지연 결정화) 적용 | 전이표 메모리 최소화 및 상태 압축 |
 | 악성 입력에 의한 백트래킹 엔진의 **ReDoS 공격** | DFA 기반 선형 엔진(RE2, Rust Regex) 및 매칭 타임아웃 | $O(N)$ 선형 시간 보장 및 **ReDoS 차단** |
 | 다중 정규식 패턴 간 **토큰 우선순위 충돌** | 수용 상태에 규칙 순서 기반 **우선순위 가중치** 부여 | Lexer의 결정적 최장 일치(Longest Match) 보장 |
-| NFA의 **$\varepsilon$-전이 연쇄**로 인한 수용 판정 누락 | 상태 전이 전후 **$\varepsilon$-Closure 집합 연산** 정밀 수행 | NFA 시뮬레이션의 수학적 정합성 확보 |
+| NFA의 **$\varepsilon$-전이 연쇄** 기반  인한 수용 판정 누락 | 상태 전이 전후 **$\varepsilon$-Closure 집합 연산** 정밀 수행 | NFA 시뮬레이션의 수학적 정합성 확보 |
 
 #### 한줄 요약
 

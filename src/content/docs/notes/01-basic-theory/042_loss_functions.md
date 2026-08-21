@@ -3,7 +3,7 @@ sidebar:
   order: 42
   label: "042. 손실 함수: Cross-Entropy•MSE (Loss Functions)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "손실 함수: Cross-Entropy•MSE (Loss Functions)"
 date: "2026-08-21T22:01:00+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 모델의 예측값과 실제 타깃 간의 오차를 단일 스칼라 수치로 정량화하여 **역전파 기울기 산출의 기준**을 제공하는 목적 함수
+- 정의/개념: 모델의 예측값과 실제 타깃 간의 오차를 단일 스칼라 수치로 정량화하여 **역전파 기울기 산출의 기준**  제공하는 목적 함수
 - 배경/필요성: 분류 및 회귀 과업의 확률분포 특성에 부합하지 않는 손실 함수 채택 시 발생하는 **학습 정체 및 이상치 왜곡** 해소 필요
 
 #### 한줄 요약
@@ -182,7 +182,7 @@ extra:
 
 </details>
 
-- 확률 분류에는 **Cross-Entropy/Focal Loss**, 표준 회귀에는 **MSE**, 이상치 혼입 회귀에는 **Huber Loss**를 선택하여 과업 확률분포에 최적화
+- 확률 분류에는 **Cross-Entropy/Focal Loss**, 표준 회귀에는 **MSE**, 이상치 혼입 회귀에는 **Huber Loss** 활용  선택하여 과업 확률분포에 최적화
 
 #### 한줄 요약
 

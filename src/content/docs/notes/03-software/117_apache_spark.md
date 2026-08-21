@@ -162,7 +162,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **데이터 스큐 솔팅(Data Skew Salting)**: 특정 키(Key)에 데이터가 집중되어 단일 Executor의 메모리가 터지는(OOM) 현상을 막기 위해 키 뒤에 임의 난수를 붙여 분산시키는 기법.
+- **데이터 스큐 솔팅(Data Skew Salting)**: 특정 키(Key)에 데이터가 집중되어 단일 Executor의 메모리가 발생하는(OOM) 현상을 막기 위해 키 뒤에 임의 난수를 붙여 분산시키는 기법.
 
 </details>
 

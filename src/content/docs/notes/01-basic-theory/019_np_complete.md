@@ -3,7 +3,7 @@ sidebar:
   order: 19
   label: "019. NP-완전 문제 (NP-Complete)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "NP-완전 문제 (NP-Complete)"
 date: "2026-08-17T09:25:00+09:00"
@@ -46,7 +46,7 @@ extra:
 
 - **$\text{NP-Complete} = \text{NP} \cap \text{NP-Hard}$** 관계 성립
 - 단 하나의 NP-Complete 문제라도 다항 시간($P$) 알고리즘이 발견되면 모든 NP 문제가 다항 시간에 풀려 **$P = NP$ 증명**
-- 결정 문제의 **NP-완전**과 최적화(Optimization) 문제의 **NP-난해(NP-Hard)** 분류 명확화
+- 결정 문제의 **NP-완전** 및  최적화(Optimization) 문제의 **NP-난해(NP-Hard)** 분류 명확화
 
 #### 한줄 요약
 

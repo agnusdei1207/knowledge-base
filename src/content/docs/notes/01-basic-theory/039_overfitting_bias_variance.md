@@ -3,7 +3,7 @@ sidebar:
   order: 39
   label: "039. 과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
 date: "2026-08-17T09:25:00+09:00"
@@ -51,7 +51,7 @@ extra:
 
 - 모델 용량 증가 시 **편향은 지속 감소하고 분산은 지수적으로 증가**
 - 학습 곡선(Learning Curve) 상에서 **검증 손실이 반등하기 시작하는 지점을 최적 복잡도로 판정**
-- 고편향(과소적합)은 모델 확장으로, 고분산(과적합)은 **가중치 규제(L1/L2) 및 드롭아웃**으로 제어
+- 고편향(과소적합)은 모델 확장으로, 고분산(과적합)은 **가중치 규제(L1/L2) 및 드롭아웃** 기반  제어
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 27
   label: "027. 순차 논리 회로: 플립플롭•레지스터 (Sequential Logic)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "순차 논리 회로: 플립플롭•레지스터 (Sequential Logic)"
 date: "2026-08-17T09:25:00+09:00"

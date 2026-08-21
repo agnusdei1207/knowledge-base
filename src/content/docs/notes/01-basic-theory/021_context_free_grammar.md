@@ -3,7 +3,7 @@ sidebar:
   order: 21
   label: "021. 문맥 자유 문법 (Context-Free Grammar)"
   badge:
-    text: "미출 • 15%"
+    text: "미출 · 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
 date: "2026-08-17T09:25:00+09:00"

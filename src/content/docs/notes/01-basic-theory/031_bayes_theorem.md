@@ -3,7 +3,7 @@ sidebar:
   order: 31
   label: "031. 확률 기초: 베이즈 정리 (Bayes Theorem)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
 date: "2026-08-17T09:25:00+09:00"
