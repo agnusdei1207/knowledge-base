@@ -3,7 +3,7 @@ sidebar:
   order: 18
   label: "018. 가상화•하이퍼바이저"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "가상화•하이퍼바이저 (Virtualization•Hypervisor)"
 date: "2026-08-17T18:20:00+09:00"
@@ -44,7 +44,7 @@ extra:
 
 - VM별 독립 가상 자원 할당으로 단일 VM 장애가 타 VM에 전파되지 않는 **격리 경계** 형성
 - **Intel VT-x / AMD-V** 하드웨어 가상화로 VM Exit/Entry 오버헤드 최소화
-- 호스트 OS 직결 여부에 따른 **Type 1 고성능**과 **Type 2 개발 편의성** 간 성능 차이
+- 호스트 OS 직결 여부에 따른 **Type 1 고성능** 및 **Type 2 개발 편의성** 간 성능 차이
 
 #### 한줄 요약
 
@@ -131,11 +131,11 @@ Type 1 (Bare-Metal)         Type 2 (Hosted)
 
 </details>
 
-| 비교 항목 | Type 1 (ESXi, Hyper-V, KVM) | Type 2 (VirtualBox, VMware Workstation) | 컨테이너 (Docker, LXC) |
+| 구분 | Type 1 (ESXi, Hyper-V, KVM) | Type 2 (VirtualBox, VMware Workstation) | 컨테이너 (Docker, LXC) |
 |:---|:---|:---|:---|
 | 적용 기준 | 고성능·고가용성 클라우드 서버 인프라 | 개발·테스트 환경 간편 구성 | 경량 마이크로서비스·클라우드 네이티브 |
 | 핵심 특징 | 물리 하드웨어 직접 제어·낮은 오버헤드 | 호스트 OS 경유·높은 설치 편의성 | 호스트 OS 커널 공유·VM 없는 경량 격리 |
-| 한계 및 위험 | 설치·관리 복잡성 높음 | 호스트 OS 이중 거침으로 성능 오버헤드 증가 | 커널 공유로 호스트 OS 취약점 노출 위험 |
+| 한계 | 설치·관리 복잡성 높음 | 호스트 OS 이중 거침으로 성능 오버헤드 증가 | 커널 공유로 호스트 OS 취약점 노출 위험 |
 
 #### 한줄 요약
 
