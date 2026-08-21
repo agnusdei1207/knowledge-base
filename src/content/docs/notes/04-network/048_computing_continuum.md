@@ -3,7 +3,7 @@ sidebar:
   order: 48
   label: "048. 컴퓨팅 연속체 (Computing Continuum)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "컴퓨팅 연속체 (Computing Continuum / Cloud-Edge Continuum)"
 date: "2026-08-13T17:14:00+09:00"
@@ -137,7 +137,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **컴퓨팅 연속체 (Continuum)** | **기존 고립 운영 (Siloed Edge/Cloud)** |
+| 구분 | **컴퓨팅 연속체 (Continuum)** | **기존 고립 운영 (Siloed Edge/Cloud)** |
 |:---|:---|:---|
 | 비유 및 핵심 특징 | 전국 지점이 자원 셰어하는 **하나의 대기업** | 지들끼리 밥그릇 챙기는 **독립 가맹점들** |
 | 제어 및 관리 | 전국의 모든 컴퓨터를 **한 화면에서 완벽히 통제함** | 클라우드 따로, 에지 따로 **파편화 됨** |
@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- 엣지와 클라우드의 고립된 사일로(Silo)를 타파하기 위해, 단일 **제어면(Unified Control Plane)** 으로 묶어 **데이터 중력**과 SLO 기반 워크로드 마이그레이션을 밥 먹듯이 수행하는 컴퓨팅 연속체 기조 확립함
+- 엣지와 클라우드의 고립된 사일로(Silo)를 타파하기 위해, 단일 **제어면(Unified Control Plane)** 으로 묶어 **데이터 중력** 및 SLO 기반 워크로드 마이그레이션을 밥 먹듯이 수행하는 컴퓨팅 연속체 기조 확립함
 
 #### 한줄 요약
 

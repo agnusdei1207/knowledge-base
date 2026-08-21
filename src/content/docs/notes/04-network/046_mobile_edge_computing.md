@@ -3,7 +3,7 @@ sidebar:
   order: 46
   label: "046. 모바일 엣지 컴퓨팅 (MEC)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 (MEC, Mobile Edge Computing / Multi-access Edge Computing)"
 date: "2026-08-13T17:10:00+09:00"
@@ -139,7 +139,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **모바일 에지 컴퓨팅 (MEC)** | **중앙 클라우드 (Central Cloud)** |
+| 구분 | **모바일 에지 컴퓨팅 (MEC)** | **중앙 클라우드 (Central Cloud)** |
 |:---|:---|:---|
 | 비유 및 핵심 특징 | 집 앞 1분 거리 **동네 편의점** | 차 타고 1시간 가야 하는 **코스트코 대형마트** |
 | 서버 위치 | **우리 동네 기지국 지하실** (수백 미터 내외) | **서울, 판교 대형 데이터센터** (수백 km 이상) |

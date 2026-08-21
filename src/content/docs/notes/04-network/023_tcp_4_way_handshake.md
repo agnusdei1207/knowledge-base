@@ -3,7 +3,7 @@ sidebar:
   order: 23
   label: "023. TCP 4-way Handshake"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "TCP 4-way Handshake•연결 해제 (TCP 4-way Handshake)"
 date: "2026-08-06T23:27:50+09:00"
@@ -184,7 +184,7 @@ TIME_WAIT  ──(4. ㅇㅋ 잘가: ACK) ────────▶ CLOSED
 
 </details>
 
-- 반대 방향 데이터가 남으면 **반쪽 종료(Half-Close)** 를 사용하고, 비정상 패킷 충돌을 막기 위해 최종 ACK 후 **TIME_WAIT(2MSL)** 동안 **임시 포트**를 유지하는 아키텍처 기조 확립함
+- 반대 방향 데이터가 남으면 **반쪽 종료(Half-Close)** 를 사용하고, 비정상 패킷 충돌을 막기 위해 최종 ACK 후 **TIME_WAIT(2MSL)** 동안 **임시 포트** 활용 유지하는 아키텍처 기조 확립함
 
 #### 한줄 요약
 

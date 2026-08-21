@@ -3,7 +3,7 @@ sidebar:
   order: 49
   label: "049. V2X 차량사물통신 (V2X Vehicle-to-Everything)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "V2X 차량사물통신 (V2X Vehicle-to-Everything)"
 date: "2026-08-13T17:16:00+09:00"
@@ -141,7 +141,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **PC5 (Direct / Sidelink)** | **Uu (Cellular)** |
+| 구분 | **PC5 (Direct / Sidelink)** | **Uu (Cellular)** |
 |:---|:---|:---|
 | 비유 및 핵심 특징 | 앞차랑 창문 내리고 하는 **다이렉트 육성 무전** | 통신사 기지국 껴서 하는 **카톡 단톡방** |
 | 무선 전달 경로 | 기지국 완전 무시하고 **차끼리 1:1, 1:N 직접 쏨** | **5G 기지국이랑 코어망** 싹 다 거쳐서 쏨 |

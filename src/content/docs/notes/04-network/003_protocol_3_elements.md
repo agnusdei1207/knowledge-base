@@ -3,7 +3,7 @@ sidebar:
   order: 3
   label: "003. 네트워크 프로토콜 3요소"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "네트워크 프로토콜 3요소 (Protocol 3 Elements)"
 date: "2026-08-13T16:07:00+09:00"

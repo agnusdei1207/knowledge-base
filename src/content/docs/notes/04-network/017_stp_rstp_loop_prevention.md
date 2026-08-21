@@ -3,7 +3,7 @@ sidebar:
   order: 17
   label: "017. STP•RSTP"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "스패닝 트리 루프 방지 (STP•RSTP•PVST+)"
 date: "2026-08-06T23:27:50+09:00"
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **브리지 ID**가 가장 낮은(우선순위가 좋은) 스위치를 전체 트리의 뿌리(Root Bridge)로 선출.
-- **경로 비용**을 계산하여 루트까지의 가장 빠른 길(Root Port)과 트래픽을 통과시킬 포트(Designated Port)를 결정.
-- 구식 STP의 50초 딜레이를 개선한 **RSTP**는 제안•동의(Proposal/Agreement) 방식으로 토폴로지를 빛의 속도로 전환.
+- **브리지 ID** 가장 낮은(우선순위가 좋은) 스위치를 전체 트리의 뿌리(Root Bridge)로 선출.
+- **경로 비용** 계산하여 루트까지의 가장 빠른 길(Root Port)과 트래픽을 통과시킬 포트(Designated Port)를 결정.
+- 구식 STP의 50초 딜레이를 개선한 **RSTP** 기반 제안•동의(Proposal/Agreement) 방식으로 토폴로지를 빛의 속도로 전환.
 
 #### 한줄 요약
 
