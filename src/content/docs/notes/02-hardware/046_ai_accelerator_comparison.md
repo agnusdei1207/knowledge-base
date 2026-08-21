@@ -3,7 +3,7 @@ sidebar:
   order: 46
   label: "046. AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "AI 가속기 비교: CPU•GPU•NPU•FPGA•ASIC (AI Accelerator Comparison)"
 date: "2026-08-21T12:50:00+09:00"
@@ -42,7 +42,7 @@ extra:
 
 </details>
 
-- **유연성-효율성 상충**에 따른 하드웨어 아키텍처 결정
+- **유연성-효율성 상충** 대상 따른 하드웨어 아키텍처 결정
 - 전용 컴파일러 및 프레임워크 생태계 성숙도에 따른 **실효 가속 성능** 편차
 - 대규모 양산 시 **NRE** 분산에 따른 경제성 역전
 

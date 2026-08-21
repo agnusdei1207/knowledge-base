@@ -3,7 +3,7 @@ sidebar:
   order: 59
   label: "059. 물 사용 효율 (WUE)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "물 사용 효율 (WUE)"
 date: "2026-08-21T12:50:00+09:00"
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 연간 총 용수 사용량을 순수 IT 전력으로 나눠 냉각이 물을 얼마나 쓰는지 드러내는 **WUE(Water Usage Effectiveness)** 지표
-- 배경/필요성: **증발식 냉각(Evaporative Cooling)**으로 전력을 줄이면 그만큼 물을 쓰는데, 이 소비는 전력 지표에 전혀 나타나지 않음
+- 배경/필요성: **증발식 냉각(Evaporative Cooling)** 기반 전력을 줄이면 그만큼 물을 쓰는데, 이 소비는 전력 지표에 전혀 나타나지 않음
 
 $$
 \text{WUE} = \frac{\text{연간 총 용수 사용량 (Annual Water Usage, Liter)}}{\text{순수 IT 장비 전력 소비량 (IT Equipment Energy, kWh)}} \quad [\text{L/kWh}]
@@ -46,7 +46,7 @@ $$
 </details>
 
 - 값이 0에 가까울수록 냉각 과정에서 소비하는 물이 적음
-- **물-에너지 넥서스(Water-Energy Nexus)**를 수치로 드러내 전력과 물의 상충을 가시화
+- **물-에너지 넥서스(Water-Energy Nexus)** 활용 수치로 드러내 전력과 물의 상충을 가시화
 - 재이용수·빗물 활용의 효과를 별도 계산 없이 직접 반영
 
 #### 한줄 요약
@@ -95,7 +95,7 @@ $$
 
 </details>
 
-```text� 읽어야 한다.
+```text� 읽어야 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
