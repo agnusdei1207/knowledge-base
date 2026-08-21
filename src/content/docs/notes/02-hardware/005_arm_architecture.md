@@ -3,7 +3,7 @@ sidebar:
   order: 5
   label: "005. ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
 date: "2026-08-21T12:50:00+09:00"
@@ -45,7 +45,7 @@ extra:
 </details>
 
 - 로드·스토어로만 메모리에 접근해 파이프라인 설계 단순화
-- EL0~EL3 **예외 수준**으로 소프트웨어 권한 계층 분리
+- EL0~EL3 **예외 수준** 기반 소프트웨어 권한 계층 분리
 - 프로파일별 **TrustZone**·벡터·가상화 기능 범위로 응용 분야 구분
 
 #### 한줄 요약

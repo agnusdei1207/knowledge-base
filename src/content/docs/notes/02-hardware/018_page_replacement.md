@@ -3,7 +3,7 @@ sidebar:
   order: 18
   label: "018. 페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "페이지 교체 알고리즘: OPT•FIFO•LRU•LFU (Page Replacement)"
 date: "2026-08-17T19:14:00+09:00"

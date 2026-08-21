@@ -3,7 +3,7 @@ sidebar:
   order: 9
   label: "009. 명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "명령어 수준 병렬성 ILP (Instruction-Level Parallelism)"
 date: "2026-08-17T17:28:00+09:00"
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 단일 스레드의 독립성이 충분하면 **ILP** 자원을 확대하고, 의존성 또는 **메모리 병목**이 우세하면 TLP·DLP 전환을 우선 검토해 전력·면적 투자 결정
+- 단일 스레드의 독립성이 충분하면 **ILP** 자원을 확대하고, 의존성 또는 **메모리 병목** 우세하면 TLP·DLP 전환을 우선 검토해 전력·면적 투자 결정
 
 #### 한줄 요약
 

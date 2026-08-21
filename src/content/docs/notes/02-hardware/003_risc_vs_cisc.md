@@ -3,7 +3,7 @@ sidebar:
   order: 3
   label: "003. 명령어 집합 구조: RISC와 CISC (RISC and CISC Instruction Set Architectures)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "명령어 집합 구조: RISC와 CISC (RISC and CISC Instruction Set Architectures)"
 date: "2026-08-17T16:35:00+09:00"
@@ -158,7 +158,7 @@ extra:
 
 </details>
 
-- 실행 단순성과 전력 효율이 우선이면 **RISC**, 코드 밀도와 **이진 호환성**이 우선이면 CISC를 선택하고 소프트웨어 생태계와 구현 비용을 함께 평가
+- 실행 단순성과 전력 효율이 우선이면 **RISC**, 코드 밀도와 **이진 호환성** 우선이면 CISC를 선택하고 소프트웨어 생태계와 구현 비용을 함께 평가
 
 #### 한줄 요약
 
