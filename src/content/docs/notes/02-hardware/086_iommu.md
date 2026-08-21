@@ -3,7 +3,7 @@ sidebar:
   order: 86
   label: "086. 입출력 메모리 관리 장치 (IOMMU)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "입출력 메모리 관리 장치 (IOMMU)"
 date: "2026-08-19T17:36:03+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 장치의 직접 메모리 접근 요청에서 **IOVA(Input/Output Virtual Address)**를 물리 주소로 변환하고 접근 범위를 제한하는 **IOMMU(Input-Output Memory Management Unit)**
+- 정의/개념: 장치의 직접 메모리 접근 요청에서 **IOVA(Input/Output Virtual Address)** 활용 물리 주소로 변환하고 접근 범위를 제한하는 **IOMMU(Input-Output Memory Management Unit)**
 - 배경/필요성: 직접 메모리 접근은 CPU의 페이지 권한 검사를 통째로 건너뛰므로, 장치 하나가 시스템 메모리 전체를 읽고 쓸 수 있음
 
 #### 한줄 요약
@@ -113,7 +113,7 @@ DMA 전달        예외 통지
 분기 결과: 캐시 적중 여부는 성능만 좌우하지만 권한 검증 결과는 허용과 차단을 가르므로, 두 갈림길은 이름만 비슷할 뿐 성격이 완전히 다름
 
 #### 한줄 요약
-- **IOMMU Fault**가 발생했다는 것은 드라이버가 잘못 매핑했거나 장치가 규약을 벗어났다는 뜻이므로, 이 예외는 성능 지표가 아니라 결함 신호로 다뤄야 한다.
+- **IOMMU Fault** 발생했다는 것은 드라이버가 잘못 매핑했거나 장치가 규약을 벗어났다는 뜻이므로, 이 예외는 성능 지표가 아니라 결함 신호로 다뤄야 한다.
 
 ## Ⅴ. 종류 및 비교
 

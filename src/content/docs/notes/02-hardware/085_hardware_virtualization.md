@@ -3,7 +3,7 @@ sidebar:
   order: 85
   label: "085. 하드웨어 가상화: VT-x•AMD-V"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "하드웨어 가상화: VT-x•AMD-V (Hardware Virtualization)"
 date: "2026-08-19T17:36:03+09:00"
@@ -42,8 +42,8 @@ extra:
 
 </details>
 
-- **VMX Root / Non-Root 모드**로 하이퍼바이저와 게스트의 실행 권한을 하드웨어에서 구분
-- **VMCS(Virtual Machine Control Structure)**가 문맥과 전환 조건을 하드웨어 수준에서 보관
+- **VMX Root / Non-Root 모드** 기반 하이퍼바이저와 게스트의 실행 권한을 하드웨어에서 구분
+- **VMCS(Virtual Machine Control Structure)** 문맥과 전환 조건을 하드웨어 수준에서 보관
 - 2단계 중첩 페이징으로 소프트웨어 섀도 페이지 테이블 관리 부담 제거
 
 #### 한줄 요약
@@ -77,7 +77,7 @@ extra:
 | 게스트 VM | 수정 없는 표준 OS가 물리 CPU에서 직접 실행 |
 | 하이퍼바이저 | 가상 CPU 스케줄링과 시스템 자원 통제 |
 | VMCS 제어 블록 | 양측 레지스터 상태와 트랩 발생 원인 기록 |
-| 중첩 페이징 MMU | **GPA to HPA 변환**을 하드웨어에서 2단계로 수행 |
+| 중첩 페이징 MMU | **GPA to HPA 변환** 하드웨어에서 2단계로 수행 |
 | **VT-d(Intel Virtualization Technology for Directed I/O)** | 장치 직결 시 DMA 주소 변환과 인터럽트 격리 |
 
 #### 한줄 요약
@@ -139,7 +139,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 빈번한 입출력으로 모드 전환 비용 누적 | **SR-IOV(Single Root I/O Virtualization)** 또는 반가상 드라이버 적용 | 제어 유연성과 데이터 경로 비용의 절충 |
-| 2단계 변환으로 페이지 워크 비용 증가 | **휴지 페이지(Huge Pages, 2MB/1GB)**와 페이지 배치 최적화 | 변환 캐시 도달 범위 확대와 워크 감소 |
+| 2단계 변환으로 페이지 워크 비용 증가 | **휴지 페이지(Huge Pages, 2MB/1GB)** 및 페이지 배치 최적화 | 변환 캐시 도달 범위 확대와 워크 감소 |
 | 가상 CPU와 메모리가 다른 노드에 배치돼 지연 | 가상 CPU·메모리·입출력을 같은 노드에 고정 | 원격 접근 트래픽 감소 |
 | 코어·캐시 공유로 인한 사이드채널 노출 | 완화 기능과 코어 스케줄링 격리를 위협 모델에 맞춰 적용 | 성능 비용과 테넌트 간 정보 노출 위험 절충 |
 

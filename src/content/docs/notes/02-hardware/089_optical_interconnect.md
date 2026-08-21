@@ -3,7 +3,7 @@ sidebar:
   order: 89
   label: "089. 광 인터커넥트"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "광 인터커넥트 (Optical Interconnect)"
 date: "2026-08-17T09:25:00+09:00"
@@ -142,10 +142,10 @@ extra:
 
 </details>
 
-| 비교 항목 | 플러거블 광 트랜시버 (Pluggable Optical Module) | 동반 패키지 광학 (Co-Packaged Optics, CPO) | 근거리 구리선 (Direct Attach Copper, DAC) |
+| 구분 | 플러거블 광 트랜시버 (Pluggable Optical Module) | 동반 패키지 광학 (Co-Packaged Optics, CPO) | 근거리 구리선 (Direct Attach Copper, DAC) |
 |:---|:---|:---|:---|
 | 구현 위치 및 폼팩터 | 스위치 전면 패널 착탈식 포트 (OSFP, QSFP-DD) | 스위치/ASIC 기판에 광 엔진 직접 패키징 | 구리 케이블 직결 (패시브/액티브 DAC) |
-| 전송 거리 및 전력 소모 | 수백 $\text{m}\sim$ 수십 $\text{km}$, 채널당 높은 SerDes 전력 | 수십 $\text{m}\sim$ 수 $\text{km}$, 채널당 전력 $30\sim 50\%$ 절감 | $1\sim 3\,\text{m}$ 초단거리 제한, 초저전력 |
+| 전송 거리 및 전력 소모 | 수백 $\text{m}\sim$ 수십 $\text{km}$, 채널당 높은 SerDes 전력 |  수십 $\text{m}\sim$ 수 $\text{km}$, 채널당 전력 $30\sim 50\%$ 절감 |  $1\sim 3\,\text{m}$ 초단거리 제한, 초저전력 |
 | 한계 및 유지보수성 | SerDes 배선 손실 및 전면 패널 밀도 한계 | 광원 고장 시 수리 난이도 극심 (ELS 모듈 분리 필요) | 100G+ 대역폭 시 전송 거리 $1\,\text{m}$ 이하로 급감 |
 
 #### 한줄 요약

@@ -3,7 +3,7 @@ sidebar:
   order: 91
   label: "091. 하드웨어 성능 카운터•PMU"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "하드웨어 성능 카운터•PMU (Hardware Performance Counter and PMU)"
 date: "2026-08-17T09:25:00+09:00"
@@ -143,10 +143,10 @@ extra:
 
 </details>
 
-| 비교 항목 | 하드웨어 PMU 계측 (Hardware PMU / PMC) | 소프트웨어 계측 프로파일링 (Software Profiling / Instrumentation) |
+| 구분 | 하드웨어 PMU 계측 (Hardware PMU / PMC) | 소프트웨어 계측 프로파일링 (Software Profiling / Instrumentation) |
 |:---|:---|:---|
 | 계측 메커니즘 | CPU 내부 하드웨어 전용 MSR 레지스터가 자동 계수 | 소스 코드 또는 바이너리에 타이머/카운터 코드 삽입 |
-| 성능 오버헤드 및 간섭 | 극소 오버헤드 ($<1\%$, 프로브 이펙트 최소화) | 함수 호출마다 오버헤드 누적 ($5\sim 30\%$, 프로브 왜곡 발생) |
+| 성능 오버헤드 및 간섭 | 극소 오버헤드 ($<1\%$, 프로브 이펙트 최소화) |  함수 호출마다 오버헤드 누적 ($5\sim 30\%$, 프로브 왜곡 발생) |
 | 분석 데이터 및 한계 | 마이크로아키텍처 뼛속 병목 (IPC, 캐시 미스, TMA) | 상위 레벨 함수 호출 시간 및 콜 스택 추적 한정 |
 
 #### 한줄 요약
@@ -183,4 +183,4 @@ extra:
 
 #### 한줄 요약
 
-- **하드웨어 이벤트 정량화와 Topdown 분석**을 통한 시스템 성능 최적화 달성
+- **하드웨어 이벤트 정량화와 Topdown 분석** 통한 시스템 성능 최적화 달성

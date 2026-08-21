@@ -3,7 +3,7 @@ sidebar:
   order: 83
   label: "083. 마이크로컨트롤러 vs 마이크로프로세서"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
 date: "2026-08-17T09:25:00+09:00"
@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 온칩 단일 칩 집적 실시간 제어의 **MCU**와 외부 메모리 확장 고성능 OS 구동의 **MPU**
+- 온칩 단일 칩 집적 실시간 제어의 **MCU** 및 외부 메모리 확장 고성능 OS 구동의 **MPU**
 
 ## Ⅱ. 특징
 
@@ -140,7 +140,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 마이크로컨트롤러 (MCU : Cortex-M, AVR, PIC) | 마이크로프로세서 (MPU : Cortex-A, x86-64) |
+| 구분 | 마이크로컨트롤러 (MCU : Cortex-M, AVR, PIC) | 마이크로프로세서 (MPU : Cortex-A, x86-64) |
 |:---|:---|:---|
 | 칩 집적도 및 메모리 아키텍처 | CPU, Flash, SRAM, 주변장치 단일 칩 집적 (On-Chip) | CPU 코어 중심, 외부 DRAM/NAND 플래시 필수 |
 | OS 및 시간 결정론 (Determinism) | 베어메탈 또는 RTOS, 나노/마이크로초 확정적 반응 | Linux/Android/Windows 등 Rich OS, 스케줄링 지터 발생 |
@@ -181,4 +181,4 @@ extra:
 
 #### 한줄 요약
 
-- **시간 결정론과 연산 성능 요구량**에 맞춘 MCU/MPU 분할 및 협업 아키텍처 설계
+- **시간 결정론과 연산 성능 요구량** 대상 맞춘 MCU/MPU 분할 및 협업 아키텍처 설계

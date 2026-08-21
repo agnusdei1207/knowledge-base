@@ -3,7 +3,7 @@ sidebar:
   order: 92
   label: "092. RAID 컨트롤러•JBOD"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "RAID 컨트롤러•JBOD (RAID Controller and JBOD)"
 date: "2026-08-17T09:25:00+09:00"
@@ -33,7 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- 하드웨어 ASIC 기반 패리티 제어의 **HW RAID**와 원시 디스크 1:1 직결 기반의 **JBOD(SDS)** 비교
+- 하드웨어 ASIC 기반 패리티 제어의 **HW RAID** 및 원시 디스크 1:1 직결 기반의 **JBOD(SDS)** 비교
 
 ## Ⅱ. 특징
 
@@ -142,7 +142,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 하드웨어 RAID 컨트롤러 (HW RAID) | JBOD / HBA 패스스루 (JBOD / SDS) |
+| 구분 | 하드웨어 RAID 컨트롤러 (HW RAID) | JBOD / HBA 패스스루 (JBOD / SDS) |
 |:---|:---|:---|
 | 데이터 보호 구현 계층 | 전용 하드웨어 RAID ASIC 및 온보드 펌웨어 | 상위 OS 커널 파일시스템(ZFS) 또는 분산 SDS(Ceph) |
 | 캐싱 및 쓰기 가속 | BBU/플래시 보호(FBWC) Write-Back 캐시 가속 | 드라이브 자체 캐시 또는 NVMe 저널/캐시 티어링 |

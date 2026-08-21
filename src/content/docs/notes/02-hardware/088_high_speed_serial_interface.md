@@ -3,7 +3,7 @@ sidebar:
   order: 88
   label: "088. 고속 직렬 인터페이스: USB•Thunderbolt"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
 date: "2026-08-17T09:25:00+09:00"
@@ -147,7 +147,7 @@ extra:
 
 </details>
 
-| 비교 항목 | USB 3.2 Gen 2x2 | USB4 (Gen 3x2 / Gen 4) | Thunderbolt 4 / 5 |
+| 구분 | USB 3.2 Gen 2x2 | USB4 (Gen 3x2 / Gen 4) | Thunderbolt 4 / 5 |
 |:---|:---|:---|:---|
 | 최대 전송 대역폭 | 최대 20 Gbps (단순 데이터) | 40 Gbps ~ 80 Gbps (동적 대역폭 공유) | 40 Gbps (TB4) / 80~120 Gbps (TB5 Bandwidth Boost) |
 | PCIe 터널링 및 영상 지원 | 지원 불가 (순수 USB 데이터만 전송) | 선택적 지원 (제조사 구현에 따라 상이) | 필수 지원 (PCIe 32~64Gbps, 듀얼 4K/단일 8K 필수) |
@@ -188,4 +188,4 @@ extra:
 
 #### 한줄 요약
 
-- **대역폭 확장과 엄격한 DMA 하드웨어 격리**를 통한 고속 직렬 인터페이스 구축
+- **대역폭 확장과 엄격한 DMA 하드웨어 격리** 활용 통한 고속 직렬 인터페이스 구축

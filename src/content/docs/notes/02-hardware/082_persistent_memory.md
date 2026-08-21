@@ -3,7 +3,7 @@ sidebar:
   order: 82
   label: "082. 퍼시스턴트 메모리 (Persistent Memory)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "퍼시스턴트 메모리 (Persistent Memory)"
 date: "2026-08-17T09:25:00+09:00"
@@ -147,9 +147,9 @@ extra:
 
 </details>
 
-| 비교 항목 | 퍼시스턴트 메모리 (PMEM : CXL/NVDIMM) | DRAM (동적 램) | NVMe SSD (NAND 플래시) |
+| 구분 | 퍼시스턴트 메모리 (PMEM : CXL/NVDIMM) | DRAM (동적 램) | NVMe SSD (NAND 플래시) |
 |:---|:---|:---|:---|
-| 접근 단위 및 지연시간 | 바이트 단위 (Byte-Addressable), 수십~수백 $\text{ns}$ | 바이트 단위 (Byte-Addressable), 수십 $\text{ns}$ | 블록 단위 (Block I/O : 4KB), 수십 $\mu\text{s}$ |
+| 접근 단위 및 지연시간 | 바이트 단위 (Byte-Addressable), 수십~수백 $\text{ns}$ |  바이트 단위 (Byte-Addressable), 수십 $\text{ns}$ |  블록 단위 (Block I/O : 4KB), 수십 $\mu\text{s}$ |
 | 데이터 영속성 (비휘발성) | 비휘발성 (전원 차단 시 영구 보존) | 휘발성 (전원 차단 시 데이터 소멸) | 비휘발성 (NAND 플래시 셀 보존) |
 | 한계 및 주 적용 분야 | CPU 캐시 플러시 오버헤드 (인메모리 DB/저널) | 재시작 지연 및 용량 확장 한계 (연산 버퍼) | 읽기/쓰기 수명 제한 및 I/O 병목 (대용량 저장) |
 

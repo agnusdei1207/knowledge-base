@@ -3,7 +3,7 @@ sidebar:
   order: 81
   label: "081. 스토리지 가상화 (Storage Virtualization)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "스토리지 가상화 (Storage Virtualization)"
 date: "2026-08-17T09:25:00+09:00"
@@ -146,7 +146,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 호스트 기반 가상화 (Host-Based : LVM) | 네트워크 기반 가상화 (Network-Based : SAN Appliance) | 스토리지 배열 기반 가상화 (Array-Based : Controller) |
+| 구분 | 호스트 기반 가상화 (Host-Based : LVM) | 네트워크 기반 가상화 (Network-Based : SAN Appliance) | 스토리지 배열 기반 가상화 (Array-Based : Controller) |
 |:---|:---|:---|:---|
 | 가상화 구현 위치 | 호스트 OS 커널 드라이버/볼륨 관리자(LVM) | SAN 스위치 패브릭 또는 전용 어플라이언스 | 메인 스토리지 컨트롤러 펌웨어 |
 | 이기종 지원 및 확장성 | 단일 호스트 내부 한정, 이기종 스토리지 수용 | SAN 망 내 모든 벤더 이기종 스토리지 통합 | 하위 SAS/FC 확장 인클로저 또는 벤더 지원 장치 |
@@ -186,4 +186,4 @@ extra:
 
 #### 한줄 요약
 
-- **벤더 종속성 탈피와 논리-물리 분리**를 통한 동적 스토리지 풀링 최적화
+- **벤더 종속성 탈피와 논리-물리 분리** 활용 통한 동적 스토리지 풀링 최적화
