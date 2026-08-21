@@ -3,7 +3,7 @@ sidebar:
   order: 25
   label: "025. 신뢰도 성장 모델 (Reliability Growth Model)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "신뢰도 성장 모델 (Reliability Growth Model)"
 date: "2026-08-17T09:25:00+09:00"
@@ -44,7 +44,7 @@ extra:
 </details>
 
 - **잠재 결함 총량** 및 시간당 결함 발견율 추정
-- **결함 수정 효과**를 반영한 통계적 모수 추정
+- **결함 수정 효과** 활용 반영한 통계적 모수 추정
 - 수렴하는 **성장 곡선** 기반 최적 출시 시점 결정
 
 #### 한줄 요약

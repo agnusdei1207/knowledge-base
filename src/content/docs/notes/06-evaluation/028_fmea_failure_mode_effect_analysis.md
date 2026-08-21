@@ -3,7 +3,7 @@ sidebar:
   order: 28
   label: "028. FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "FMEA 고장 모드 영향 분석 (FMEA Failure Mode Effect Analysis)"
 date: "2026-08-17T09:25:00+09:00"
@@ -44,8 +44,8 @@ extra:
 
 </details>
 
-- **원인·고장 모드·영향**을 상향식 추적
-- **현재 통제**와 고장 모드의 직접 연계 평가
+- **원인·고장 모드·영향** 상향식 추적
+- **현재 통제** 및 고장 모드의 직접 연계 평가
 - S·O·D와 고심각도 기반 **위험 기반 조치**
 
 #### 한줄 요약

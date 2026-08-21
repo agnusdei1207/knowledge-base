@@ -3,7 +3,7 @@ sidebar:
   order: 22
   label: "022. 자동 페일오버•페일백 (Auto Failover Failback)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "자동 페일오버•페일백 (Auto Failover Failback)"
 date: "2026-08-17T09:25:00+09:00"

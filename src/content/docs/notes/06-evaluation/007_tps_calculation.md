@@ -3,7 +3,7 @@ sidebar:
   order: 7
   label: "007. TPS 계산 - 동시 사용자•응답 시간 공식 (TPS Calculation)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "TPS 계산 - 동시 사용자•응답 시간 공식 (TPS Calculation)"
 date: "2026-08-17T09:25:00+09:00"
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **대화형 응답시간 법칙**으로 처리량 관계 산출
+- **대화형 응답시간 법칙** 기반 처리량 관계 산출
 - 업무 TPS와 내부 API RPS를 분리 측정
-- 피크·업무 비율을 **부하 보정**에 반영
+- 피크·업무 비율을 **부하 보정** 대상 반영
 
 #### 한줄 요약
 
