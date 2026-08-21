@@ -3,7 +3,7 @@ sidebar:
   order: 79
   label: "079. PCIe 스위칭 아키텍처 (PCIe Switching)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
 date: "2026-08-17T09:25:00+09:00"
@@ -150,7 +150,7 @@ $$
 
 </details>
 
-| 비교 항목 | PCIe 스위칭 토폴로지 (Switching) | PCIe 직접 직결 토폴로지 (Direct Attach) |
+| 구분 | PCIe 스위칭 토폴로지 (Switching) | PCIe 직접 직결 토폴로지 (Direct Attach) |
 |:---|:---|:---|
 | 확장성 및 포트 수 | 수십~수백 개 엔드포인트 확장 (단일 스위치 96~144 레인) | CPU SoC 내장 레인 수(보통 64~128 레인)에 엄격히 제한 |
 | P2P 통신 및 호스트 부하 | 스위치 내부에서 P2P 패킷 직결 처리, 호스트 CPU 개입 0 | 호스트 CPU/루트 컴플렉스를 경유하여 왕복 지연 발생 |
@@ -190,4 +190,4 @@ $$
 
 #### 한줄 요약
 
-- **엔드포인트 밀집도와 P2P 트래픽 비율**에 최적화된 PCIe 스위칭 패브릭 설계
+- **엔드포인트 밀집도와 P2P 트래픽 비율** 대상 최적화된 PCIe 스위칭 패브릭 설계

@@ -3,7 +3,7 @@ sidebar:
   order: 78
   label: "078. AMBA 버스 프로토콜"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
 date: "2026-08-17T09:25:00+09:00"
@@ -145,7 +145,7 @@ extra:
 
 </details>
 
-| 비교 항목 | AXI (Advanced eXtensible Interface) | AHB (Advanced High-performance Bus) | APB (Advanced Peripheral Bus) |
+| 구분 | AXI (Advanced eXtensible Interface) | AHB (Advanced High-performance Bus) | APB (Advanced Peripheral Bus) |
 |:---|:---|:---|:---|
 | 채널 구조 및 전송 모드 | 5개 독립 채널 (AR, R, AW, W, B), 비순차(OoO) 버스트 | 단일 공유 버스, 파이프라인 주소/데이터 버스트 | 2단계 비파이프라인 제어 (Setup, Access) |
 | 주 용도 및 대역폭 | CPU, GPU, NPU, DDR 메모리 컨트롤러 (최고 성능) | 온칩 온보드 SRAM, DMA 제어기 (중간 성능) | UART, 타이머, I2C, GPIO 레지스터 (저속/초저전력) |

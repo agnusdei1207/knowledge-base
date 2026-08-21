@@ -3,7 +3,7 @@ sidebar:
   order: 80
   label: "080. 스토리지 계층: DAS•NAS•SAN"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
 date: "2026-08-17T09:25:00+09:00"
@@ -144,7 +144,7 @@ extra:
 
 </details>
 
-| 비교 항목 | DAS (Direct Attached Storage) | NAS (Network Attached Storage) | SAN (Storage Area Network) |
+| 구분 | DAS (Direct Attached Storage) | NAS (Network Attached Storage) | SAN (Storage Area Network) |
 |:---|:---|:---|:---|
 | I/O 접근 단위 및 프로토콜 | 블록 레벨 (Block I/O), SAS/SATA/NVMe | 파일 레벨 (File I/O), NFS/SMB/CIFS | 블록 레벨 (Block I/O), FC/iSCSI/NVMe-oF |
 | 연결 매체 및 네트워크 | 점대점 전용 케이블 직결 (No Network) | 범용 TCP/IP 이더넷 (LAN 공유망) | 전용 광 파이버 채널(FC) 또는 분리된 SAN 망 |
@@ -184,4 +184,4 @@ extra:
 
 #### 한줄 요약
 
-- **I/O 프로토콜(Block vs File)과 대역폭/지연시간 요구치**에 맞춘 스토리지 계층화
+- **I/O 프로토콜(Block vs File)과 대역폭/지연시간 요구치** 대상 맞춘 스토리지 계층화

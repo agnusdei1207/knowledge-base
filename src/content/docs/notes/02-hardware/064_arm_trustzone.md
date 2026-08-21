@@ -3,7 +3,7 @@ sidebar:
   order: 64
   label: "064. Arm TrustZone 보안 확장 (Arm TrustZone)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "Arm TrustZone 보안 확장 (Arm TrustZone)"
 date: "2026-08-19T17:36:03+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 하나의 프로세서와 버스를 보안·비보안 두 상태로 갈라 **신뢰 실행 환경(TEE, Trusted Execution Environment)**을 만드는 **Arm TrustZone** 확장
+- 정의/개념: 하나의 프로세서와 버스를 보안·비보안 두 상태로 갈라 **신뢰 실행 환경(TEE, Trusted Execution Environment)** 만드는 **Arm TrustZone** 확장
 - 배경/필요성: 범용 OS는 코드 규모가 커 침해를 전제해야 하므로, OS가 뚫려도 키와 인증 연산은 남는 별도 경계가 필요
 
 #### 한줄 요약
@@ -42,8 +42,8 @@ extra:
 
 </details>
 
-- 시스템 버스의 **NS(Non-Secure) 비트**로 메모리·주변장치 접근을 하드웨어에서 차단
-- **보안 모니터(Secure Monitor)**를 유일한 출입구로 삼아 두 상태 사이 전환을 통제
+- 시스템 버스의 **NS(Non-Secure) 비트** 기반 메모리·주변장치 접근을 하드웨어에서 차단
+- **보안 모니터(Secure Monitor)** 활용 유일한 출입구로 삼아 두 상태 사이 전환을 통제
 - 보안 측 코드량을 최소로 유지해 검증 가능한 범위 안에 공격 표면을 가둠
 
 #### 한줄 요약

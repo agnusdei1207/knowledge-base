@@ -3,7 +3,7 @@ sidebar:
   order: 66
   label: "066. CAN 통신 (Controller Area Network)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "CAN 통신 (Controller Area Network)"
 date: "2026-08-19T17:36:03+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 노드 주소가 아닌 **메시지 식별자(CAN ID)**로 우선순위를 정해 충돌 없이 중재하는 차동 2선식 멀티마스터 버스 **CAN(Controller Area Network)**
+- 정의/개념: 노드 주소가 아닌 **메시지 식별자(CAN ID)** 기반 우선순위를 정해 충돌 없이 중재하는 차동 2선식 멀티마스터 버스 **CAN(Controller Area Network)**
 - 배경/필요성: 제어기를 점대점으로 잇는 방식은 부품이 늘수록 배선 중량과 비용이 제곱에 가깝게 증가하고 노이즈에도 취약
 
 #### 한줄 요약
@@ -43,8 +43,8 @@ extra:
 </details>
 
 - 물리 주소 없이 메시지 식별자로 방송하고 수신 측이 필터링
-- 동시 송신 시에도 **비파괴 비트 단위 중재(Non-Destructive Bitwise Arbitration)**로 재전송 불필요
-- 에러 카운터 기반 3단계 격리를 거쳐 최종적으로 **버스 오프(Bus-Off)**로 노드 분리
+- 동시 송신 시에도 **비파괴 비트 단위 중재(Non-Destructive Bitwise Arbitration)** 기반 재전송 불필요
+- 에러 카운터 기반 3단계 격리를 거쳐 최종적으로 **버스 오프(Bus-Off)** 기반 노드 분리
 
 #### 한줄 요약
 - 중재에서 진 노드가 데이터를 잃지 않고 다음 기회를 기다린다는 점이 이 버스의 결정적 성질이며, 그래서 최악 지연을 계산할 수 있다.
