@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "컴퓨터 구조 개요: 폰 노이만 vs 하버드 아키텍처 (Von Neumann vs Harvard Architecture)"
-date: "2026-08-19T17:13:54+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 1
@@ -22,13 +22,12 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **폰 노이만 아키텍처(Von Neumann Architecture)**: 명령어와 데이터를 단일 메모리와 단일 버스에서 처리하는 컴퓨터 구조.
-- **하버드 아키텍처(Harvard Architecture)**: 명령어 메모리와 데이터 메모리를 물리적으로 분리해 동시 접근을 가능하게 하는 컴퓨터 구조.
-- **수정 하버드 아키텍처(Modified Harvard Architecture)**: L1 캐시 수준에서 명령어·데이터 경로를 분리하되 하위 메모리는 공유하는 절충 구조.
+- **폰 노이만 아키텍처(Von Neumann Architecture)**: 단일 메모리 공간과 단일 시스템 버스를 공유하여 명령어 인출과 데이터 접근을 순차적으로 처리하는 컴퓨터 구조.
+- **하버드 아키텍처(Harvard Architecture)**: 명령어 메모리/버스와 데이터 메모리/버스를 물리적으로 분리하여 명령어 인출과 데이터 접근의 동시 처리를 지원하는 컴퓨터 구조.
 
 </details>
 
-- 정의/개념: 명령어와 데이터가 메모리 버스를 공유하는 **폰 노이만 아키텍처(Von Neumann Architecture)**와 경로를 분리하는 **하버드 아키텍처(Harvard Architecture)**로 갈리는 컴퓨터 구조 선택
+- 정의/개념: 명령어와 데이터가 메모리 버스를 공유하는 **폰 노이만 아키텍처**와 경로를 분리하는 **하버드 아키텍처**로 갈리는 컴퓨터 구조 선택
 - 배경/필요성: 단일 버스에서 명령어 인출과 데이터 접근이 경합해 처리량이 제한됨
 
 #### 한줄 요약
@@ -38,8 +37,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **폰 노이만 병목(Von Neumann Bottleneck)**: 명령어와 데이터가 공유 버스의 대역폭을 경쟁해 CPU 처리 속도가 메모리 전송 속도에 제한되는 현상.
-- **명령어 인출(Instruction Fetch)**: CPU가 다음에 실행할 명령어를 메모리에서 가져오는 파이프라인 첫 단계.
+- **수정 하버드 아키텍처(Modified Harvard Architecture)**: L1 캐시 계층에서 명령어 캐시(I-Cache)와 데이터 캐시(D-Cache)를 분리하고 하위 메모리는 단일 통합 공간으로 공유하는 절충형 구조.
+- **폰 노이만 병목(Von Neumann Bottleneck)**: 명령어 인출과 데이터 메모리 접근이 단일 공유 버스의 대역폭을 경합함으로써 CPU 처리 성능이 버스 전송 속도에 제약되는 현상.
+- **명령어 인출(Instruction Fetch)**: 프로그램 카운터(PC)가 가리키는 메모리 주소에서 실행할 명령어를 CPU 내부 레지스터로 가져오는 파이프라인 첫 단계.
 
 </details>
 
@@ -54,9 +54,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **명령어 캐시(Instruction Cache, I-cache)**: 명령어 인출 전용으로 분리된 캐시로, 데이터 접근과 독립적인 명령어 대역폭을 제공.
-- **데이터 캐시(Data Cache, D-cache)**: 데이터 읽기·쓰기 전용으로 분리된 캐시로, 명령어 인출과 독립적인 데이터 대역폭을 제공.
-- **통합 메모리(Unified Memory)**: 명령어와 데이터가 같은 주소 공간을 공유하는 단일 물리 저장 자원.
+- **명령어 캐시(Instruction Cache, I-cache)**: 명령어 인출 전용 고속 캐시로, 데이터 접근과의 버스 경합을 차단하고 연속적인 명령어 공급 대역폭을 보장하는 메모리.
+- **데이터 캐시(Data Cache, D-cache)**: 데이터 읽기 및 쓰기 연산 전용 고속 캐시로, 명령어 인출 파이프라인과 독립적인 데이터 전송 경로를 제공하는 메모리.
+- **통합 메모리(Unified Memory)**: 명령어와 데이터가 동일한 물리적 주소 공간과 메모리 채널을 공유하는 단일 저장 계층.
 
 </details>
 
@@ -91,8 +91,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **캐시 유지보수(Cache Maintenance)**: I-cache·D-cache 간 일관성을 유지하기 위해 캐시 무효화·플러시를 수행하는 작업.
-- **자기 수정 코드(Self-Modifying Code)**: 실행 중 데이터 경로로 생성한 명령어를 즉시 실행하는 코드 패턴.
+- **캐시 유지보수(Cache Maintenance)**: I-Cache와 D-Cache 간의 데이터 불일치를 방지하기 위해 캐시 플러시(Flush) 및 무효화(Invalidate)를 수행하는 일관성 제어 동작.
+- **자기 수정 코드(Self-Modifying Code)**: 실행 중 프로그램 데이터 영역에서 생성 또는 수정한 기계어 명령어를 메모리에 기록한 후 즉시 실행하는 코드 패턴.
 
 </details>
 
@@ -132,7 +132,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 개입 없이 주변 장치가 메모리와 직접 데이터를 전송하는 방식으로, 캐시 사본과 메모리 사본의 불일치를 유발할 수 있음.
+- **직접 메모리 접근(Direct Memory Access, DMA)**: CPU 개입 없이 주변장치와 주기억장치 간에 고속으로 대용량 데이터를 직접 전송하는 하드웨어 제어 방식.
 
 </details>
 
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 명령어·데이터 동시성과 주소 공간 유연성을 함께 요구하는 범용 CPU는 **수정 하버드 아키텍처(Modified Harvard Architecture)** 유지, 저장소까지 분리 가능한 고정 워크로드는 **하버드 아키텍처(Harvard Architecture)** 선택
+- 명령어·데이터 동시성과 주소 공간 유연성을 함께 요구하는 범용 CPU는 **수정 하버드 아키텍처** 유지, 저장소까지 분리 가능한 고정 워크로드는 **하버드 아키텍처** 선택
 
 #### 한줄 요약
 - 구조 이름보다 실제 워크로드가 명령어와 데이터를 얼마나 동시에 접근하는지가 선택 기준이다.

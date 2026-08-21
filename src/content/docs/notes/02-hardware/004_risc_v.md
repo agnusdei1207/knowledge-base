@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 70%"
     variant: note
 title: "RISC-V 개방형 ISA (RISC-V Open Standard ISA)"
-date: "2026-08-19T17:15:03+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 4
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **RISC-V**: 명세를 공개해 누구나 구현할 수 있게 하고, 최소 공통 규격 위에 필요한 기능만 확장으로 얹도록 설계된 명령어 집합 구조.
-- **개방형 ISA(Open ISA)**: 명세 문서를 공개해 라이선스 협상 없이 여러 주체가 서로 호환되는 구현을 만들 수 있게 하는 ISA 운영 방식.
-- **명세 기반 호환성(Specification-Based Compatibility)**: 내부 구현이 달라도 명세가 규정한 관찰 결과만 같으면 동일한 바이너리가 동작하도록 보장하는 성질.
+- **RISC-V**: 오픈소스 라이선스(BSD 등) 기반으로 기본 정수 명령어 세트(Base ISA)와 모듈형 표준/커스텀 확장을 제공하는 개방형 명령어 집합 구조.
+- **개방형 ISA(Open ISA)**: 로열티나 라이선스 제약 없이 누구나 자유롭게 하드웨어를 구현하고 기능을 확장할 수 있도록 공개된 명령어 세트 표준 규격.
+- **명세 기반 호환성(Specification-Based Compatibility)**: 마이크로아키텍처 구현 방식과 무관하게 표준 ISA 명세 규격을 충족하여 동일 바이너리의 상호 운용성을 보장하는 특성.
 
 </details>
 
@@ -38,9 +38,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **기본 ISA(Base ISA)**: 정수 레지스터와 최소 명령어 동작만 규정해 어떤 구현이든 반드시 지켜야 하는 공통 규격(RV32I·RV64I 등).
-- **표준 확장(Standard Extension)**: 곱셈(M)·원자 연산(A)·부동소수점(F/D)·벡터(V)처럼 명세 위원회 합의를 거쳐 인코딩까지 고정한 추가 기능.
-- **사용자 정의 확장(Custom Extension)**: 표준이 쓰지 않기로 남겨 둔 인코딩 공간에 제품 특화 연산을 얹어, 표준 확장과 충돌하지 않게 하는 확장.
+- **기본 ISA(Base ISA)**: 정수 연산 및 기본 제어 흐름을 정의하여 모든 하드웨어 구현체가 반드시 준수해야 하는 필수 최소 명령어 세트(RV32I/RV64I).
+- **표준 확장(Standard Extension)**: RISC-V International 표준 위원회의 승인을 통해 공식 Opcode 인코딩이 지정된 부동소수점(F/D), 벡터(V), 원자적 연산(A) 등의 모듈형 확장 세트.
+- **사용자 정의 확장(Custom Extension)**: 표준 Opcode 공간과 충돌을 방지하도록 비워둔 예약 영역을 활용해 도메인 특화 연산을 구현하는 사용자 정의 명령어 확장.
 
 </details>
 
@@ -55,9 +55,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **권한 아키텍처(Privileged Architecture)**: 예외·인터럽트·보호 모드의 동작을 규정해 운영체제가 구현마다 다시 이식되지 않도록 고정한 규격.
-- **제어 및 상태 레지스터(Control and Status Register, CSR)**: 권한 상태·예외 원인·타이머 같은 시스템 값을 담아 권한 아키텍처의 동작을 소프트웨어에 노출하는 레지스터.
-- **ISA 프로파일(ISA Profile)**: 특정 운영체제나 생태계가 전제해도 되는 확장 조합을 한 묶음으로 고정해, 배포자가 검사할 대상을 줄여 주는 호환 기준.
+- **권한 아키텍처(Privileged Architecture)**: User(U), Supervisor(S), Machine(M) 모드 등 실행 권한 계층과 시스템 예외·인터럽트 제어 메커니즘을 정의한 시스템 아키텍처 명세.
+- **제어 및 상태 레지스터(Control and Status Register, CSR)**: 프로세서 동작 모드, 예외 처리 상태, 가상 메모리 설정, 성능 카운터를 제어하고 모니터링하는 시스템 전용 레지스터.
+- **ISA 프로파일(ISA Profile)**: 특정 소프트웨어 플랫폼(Linux, Android 등) 실행에 필요한 기본 ISA 및 필수 표준 확장의 조합을 표준화한 호환성 규격(RVA, RVE 등).
 
 </details>
 
@@ -89,9 +89,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **레지스터 전송 수준(Register-Transfer Level, RTL)**: 레지스터 간 데이터 이동과 조합 논리로 회로를 기술하는 설계 추상 수준으로, 명세를 실제 게이트로 옮기기 직전 단계.
-- **적합성 시험(Compliance Test)**: 구현이 명세가 규정한 명령어 동작과 예외 처리를 빠짐없이 지키는지 확인하는 시험.
-- **차등 시험(Differential Testing)**: 참조 구현과 대상 구현에 같은 입력을 넣고 결과가 갈리는 지점을 찾아, 명세 해석 차이를 드러내는 검증 기법.
+- **레지스터 전송 수준(Register-Transfer Level, RTL)**: 하드웨어 기술 언어(HDL)를 통해 플립플롭 간 신호 전달 및 조합 논리 동작을 표현하는 디지털 회로 설계 수준.
+- **적합성 시험(Compliance Test)**: 하드웨어 구현체가 공식 ISA 표준 명세의 명령어 동작, 예외 처리 및 레지스터 상태 변화를 정확히 준수하는지 검증하는 테스트 스위트.
+- **차등 시험(Differential Testing)**: 공식 골든 참조 모델(Spike 등)과 실제 RTL 구현체에 동일한 테스트 벡터를 주입하여 출력 상태의 불일치를 탐지하는 비교 검증 기법.
 
 </details>
 
@@ -135,9 +135,9 @@ RTL 수정 후   프로파일 선언 후
 
 <details><summary>용어 설명</summary>
 
-- **응용 프로그램 이진 인터페이스(Application Binary Interface, ABI)**: 컴파일된 코드가 인자 전달·레지스터 용도·데이터 정렬을 어떻게 처리할지 정한 규약으로, 어긋나면 컴파일은 되어도 실행이 깨짐.
-- **예약 인코딩(Reserved Encoding)**: 향후 표준화를 위해 비워 둔 명령어 비트 패턴으로, 여기에 사용자 정의 명령을 넣으면 나중에 표준 확장과 충돌.
-- **기능 탐지(Feature Discovery)**: 실행 시점에 지원 확장을 조회해 코드 경로를 고르는 방식으로, 하나의 바이너리가 여러 구현에서 동작하게 하는 수단.
+- **응용 프로그램 이진 인터페이스(Application Binary Interface, ABI)**: 컴파일된 기계어 프로그램 간 함수 호출 규약(Calling Convention), 레지스터 할당 규칙 및 데이터 메모리 정렬 방식을 정의한 저수준 인터페이스.
+- **예약 인코딩(Reserved Encoding)**: 향후 표준 확장을 위해 사전에 할당을 유보해 둔 명령어 Opcode 비트 패턴 영역.
+- **기능 탐지(Feature Discovery)**: 소프트웨어가 런타임에 CSR 또는 디바이스 트리를 조회하여 프로세서가 지원하는 ISA 확장 기능을 동적으로 판별하는 기법.
 
 </details>
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "DRAM과 SRAM 비교 (DRAM vs SRAM)"
-date: "2026-08-19T17:23:09+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 23
@@ -22,13 +22,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **동적 램(Dynamic Random Access Memory, DRAM)**: 트랜지스터 1개+커패시터 1개(1T1C) 셀로 비트를 저장하고 주기적 리프레시가 필요한 휘발성 메모리.
-- **정적 램(Static Random Access Memory, SRAM)**: 6개 트랜지스터(6T) 래치 셀로 전원 공급 중 데이터를 안정 유지하는 휘발성 메모리.
-- **휘발성 메모리(Volatile Memory)**: 전원이 끊기면 저장 데이터가 사라지는 메모리.
+- **동적 램(Dynamic Random Access Memory, DRAM)**: 1개의 트랜지스터와 1개의 커패시터(1T1C)로 단일 비트를 전하 형태로 저장하며, 누설 전하 보충을 위한 주기적 리프레시(Refresh)가 요구되는 고집적 휘발성 메모리.
+- **정적 램(Static Random Access Memory, SRAM)**: 4개 또는 6개의 트랜지스터(6T)로 구성된 쌍안정 플립플롭 래치 구조로 데이터를 저장하여 전원 공급 중에는 리프레시 없이 초고속 접근을 유지하는 휘발성 메모리.
+- **휘발성 메모리(Volatile Memory)**: 전원 공급이 중단되면 저장된 데이터가 소멸하는 특성을 가진 반도체 기억장치.
 
 </details>
 
-- 정의/개념: 커패시터 전하로 비트를 담는 **동적 램(Dynamic Random Access Memory, DRAM)**과 래치 상태로 담는 **정적 램(Static Random Access Memory, SRAM)**으로 갈리는 **휘발성 메모리**
+- 정의/개념: 커패시터 전하로 비트를 담는 **동적 램(DRAM)**과 래치 상태로 담는 **정적 램(SRAM)**으로 갈리는 **휘발성 메모리**
 - 배경/필요성: 단일 반도체 소자로는 초고속 접근 속도(SRAM)와 고집적 대용량(DRAM)의 물리적 동시 달성 불가
 
 #### 한줄 요약
@@ -38,14 +38,14 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **1T1C 셀(One Transistor-One Capacitor Cell)**: DRAM 비트를 트랜지스터 1개와 커패시터 1개로 구성하는 최소 셀; 고집적 가능.
-- **6T 셀(Six-Transistor Cell)**: SRAM 래치와 접근 경로를 6개 트랜지스터로 구성하는 셀; 래치 안정성 우수.
-- **리프레시(Refresh)**: DRAM 커패시터의 누설 전하를 주기적으로 재충전해 데이터를 보존하는 동작; 접근 지연 원인.
+- **1T1C 셀(One Transistor-One Capacitor Cell)**: 트랜지스터 1개와 커패시터 1개로 구성되어 실리콘 면적당 집적도를 극대화할 수 있는 DRAM의 최소 저장 셀 단위.
+- **6T 셀(Six-Transistor Cell)**: 2개의 교차 결합 인버터와 2개의 접근 트랜지스터로 구성되어 판독 시 셀 상태를 파괴하지 않고 최고속 동작을 보장하는 SRAM의 단위 셀.
+- **리프레시(Refresh)**: 커패시터의 유전체 누설 전류로 인해 소실되는 전하를 방지하기 위해 주기적으로 전체 행을 읽어 재충전하는 동작.
 
 </details>
 
-- **1T1C 셀(One Transistor-One Capacitor Cell)**로 고집적 대용량을 얻는 대신 주기적 **리프레시** 부담
-- **6T 셀(Six-Transistor Cell)** 래치로 복원 없는 판독과 초고속 접근 지원
+- **1T1C 셀**로 고집적 대용량을 얻는 대신 주기적 **리프레시** 부담
+- **6T 셀** 래치로 복원 없는 판독과 초고속 접근 지원
 - 동일 공정에서 DRAM은 비트당 면적·비용 낮고, SRAM은 비트당 지연 낮음
 
 #### 한줄 요약
@@ -55,9 +55,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **커패시터(Capacitor)**: 전하를 저장해 DRAM 셀의 논리 상태를 표현하는 소자.
-- **감지 증폭기(Sense Amplifier)**: 비트라인의 작은 전압 차이를 논리 1·0으로 증폭하고 DRAM 판독 후 복원하는 회로.
-- **교차 결합 인버터(Cross-Coupled Inverter)**: SRAM 내부에서 두 인버터의 출력을 서로의 입력으로 연결해 두 안정 상태를 유지하는 회로.
+- **커패시터(Capacitor)**: 전하를 충전하거나 방전하여 논리 1과 0의 2진 데이터를 전압 차이로 표현하는 DRAM의 저장 소자.
+- **감지 증폭기(Sense Amplifier)**: 비트라인의 미세한 전하 이동에 따른 전압 변화를 감지하여 전식 논리 전압 레벨(0 또는 Vdd)로 증폭하고, 파괴적 판독 후 셀 데이터를 원래대로 복원하는 회로.
+- **교차 결합 인버터(Cross-Coupled Inverter)**: 두 개의 CMOS 인버터가 상호 입력-출력으로 연결되어 양방향 피드백을 통해 2개의 안정된 논리 상태를 지속 유지하는 SRAM의 래치 회로.
 
 </details>
 
@@ -89,9 +89,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **파괴적 판독(Destructive Read)**: DRAM 읽기 과정에서 셀 전하가 변해 판독 후 원래 전하를 복원해야 하는 방식.
-- **비파괴적 판독(Non-Destructive Read)**: SRAM 읽기에서 래치 상태가 변하지 않아 복원 불필요한 방식.
-- **프리차지(Precharge)**: 다음 DRAM 행 접근 전 비트라인 전압을 기준값(Vdd/2)으로 초기화하는 동작.
+- **파괴적 판독(Destructive Read)**: 커패시터의 전하가 비트라인과 공유되면서 셀 내부의 원래 데이터가 소실되어, 판독 직후 감지 증폭기를 통한 재충전(복원)이 필수적인 읽기 동작.
+- **비파괴적 판독(Non-Destructive Read)**: 래치 회로의 상태를 직접 반전시키지 않고 비트라인의 차동 전압만을 감지하여 데이터 손실 없이 즉시 읽기를 완료하는 동작.
+- **프리차지(Precharge)**: 다음 행(Row) 접근을 위해 비트라인 쌍의 전압을 기준 레벨(일반적으로 Vdd/2)로 균등하게 충전하여 초기화하는 동작.
 
 </details>
 
@@ -127,9 +127,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **행 적중(Row Hit)**: 이미 활성화된 DRAM 행에서 필요한 열에 접근해 행 활성화 비용을 줄이는 상황.
-- **Row Hammer**: 특정 DRAM 행을 반복 활성화해 인접 행의 커패시터 전하에 간섭해 오류 가능성을 높이는 현상.
-- **오류 정정 코드(Error Correcting Code, ECC)**: 저장·전송 데이터의 오류를 검출·정정하는 코드.
+- **행 적중(Row Hit)**: DRAM 접근 시 요청된 주소가 이미 행 버퍼(Sense Amplifier)에 활성화(Open)되어 있어 추가적인 행 활성화 및 프리차지 지연 없이 즉시 열 접근이 가능한 상태.
+- **Row Hammer**: 특정 DRAM 행을 극도로 빈번하게 반복 활성화(Activating)함으로써 인접한 희생 행의 커패시터 전하 누설을 가속하여 비트 플립(Bit Flip) 오류를 유발하는 물리적 하드웨어 취약점.
+- **오류 정정 코드(Error Correcting Code, ECC)**: 메모리 저장 또는 전송 데이터에 패리티 비트를 추가하여 싱글 비트 오류를 자체 정정(SEC)하고 더블 비트 오류를 검출(DED)하는 신뢰성 보장 메커니즘.
 
 </details>
 
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 저지연 반복 접근은 **정적 램(Static Random Access Memory, SRAM)** 캐시로, 대용량 집적은 **동적 램(Dynamic Random Access Memory, DRAM)** 주기억장치로 계층화하며, 두 메모리는 대체 관계보다 지연·집적도에 따른 상호 보완 관계로 유지
+- 저지연 반복 접근은 **SRAM** 캐시로, 대용량 집적은 **DRAM** 주기억장치로 계층화하며, 두 메모리는 대체 관계보다 지연·집적도에 따른 상호 보완 관계로 유지
 
 #### 한줄 요약
 - 선택이라는 표현이 무색할 만큼 두 메모리의 역할은 물리 특성이 이미 정해 두었고, 설계자가 실제로 정하는 것은 각 계층의 용량 비율뿐이다.

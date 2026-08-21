@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "하드•펌•소프트 실시간 (Hard•Firm•Soft Real-Time)"
-date: "2026-08-19T17:36:03+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 62

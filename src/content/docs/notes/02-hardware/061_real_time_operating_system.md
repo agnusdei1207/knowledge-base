@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "실시간 운영체제 (RTOS)"
-date: "2026-08-19T17:36:03+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 61

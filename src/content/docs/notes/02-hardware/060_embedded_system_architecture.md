@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "임베디드 시스템 구조 (Embedded System Architecture)"
-date: "2026-08-19T17:36:03+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 60
@@ -23,7 +23,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **임베디드 시스템(Embedded System)**: 특정 목적의 전자기기나 기계 장치 내부에 내장되어 제어, 통신, 센싱을 전담하는 하드웨어·소프트웨어 통합 컴퓨팅 시스템.
-- **HW/SW 공동 설계(HW/SW Co-Design)**: 목표 성능, 전력, 비용 요구사항에 맞춰 기능을 하드웨어 회로와 소프트웨어 알고리즘으로 최적 분할하는 설계 방법론.
 
 </details>
 
@@ -39,6 +38,7 @@ extra:
 
 - **실시간성(Real-Time Property)**: 논리적인 연산 결과의 정확성뿐만 아니라 정해진 시간 제약(Deadline) 내에 결과를 출력해야 하는 특성.
 - **자원 제약성(Resource Constraint)**: 배터리 수명, 초소형 패키지 면적, 제한된 메모리 용량(KB~MB 단위) 내에서 동작해야 하는 하드웨어 제약.
+- **HW/SW 공동 설계(HW/SW Co-Design)**: 목표 성능, 전력, 비용 요구사항에 맞춰 기능을 하드웨어 회로와 소프트웨어 알고리즘으로 최적 분할하는 설계 방법론.
 
 </details>
 

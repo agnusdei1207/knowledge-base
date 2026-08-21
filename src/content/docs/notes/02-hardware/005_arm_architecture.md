@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "ARM 프로세서 아키텍처•동작 모드 (ARM Architecture)"
-date: "2026-08-19T17:15:34+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 5
@@ -22,9 +22,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Arm 아키텍처(Arm Architecture)**: 로드·스토어 명령어 모델과 권한·예외·보안 동작을 정의하는 프로세서 아키텍처 계열.
-- **프로파일(Profile)**: 응용 분야별로 Arm 기능 집합과 시스템 모델을 구분한 아키텍처 분류(A·R·M-profile).
-- **실행 상태(Execution State)**: 레지스터 폭과 명령어 실행 규칙을 정하는 프로세서 상태(AArch64·AArch32).
+- **Arm 아키텍처(Arm Architecture)**: 로드·스토어(Load-Store) 기반 RISC 구조로, 프로파일별로 시스템 기능과 실행 권한 계층을 최적화한 범용 프로세서 아키텍처.
+- **프로파일(Profile)**: 응용 분야별 요구사항에 맞춰 기능 집합과 하드웨어 구조를 특화한 Arm 아키텍처 분류(A/R/M-Profile).
+- **실행 상태(Execution State)**: 레지스터 너비, 주소 공간 크기, 명령어 세트 규격을 정의하는 프로세서 동작 모드(AArch64/AArch32).
 
 </details>
 
@@ -38,9 +38,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **예외 수준(Exception Level, EL)**: 앱·OS·하이퍼바이저·펌웨어를 EL0~EL3으로 분리해 권한을 계층화하는 Arm A-profile의 실행 단계.
-- **TrustZone**: 동일 코어에서 보안 상태(Secure World)와 비보안 상태(Normal World)를 분리해 자원 접근을 통제하는 Arm 보안 아키텍처.
-- **벡터 확장(Vector Extension)**: 하나의 명령어로 여러 데이터 요소를 병렬 처리해 SIMD·ML 워크로드 처리량을 높이는 확장.
+- **예외 수준(Exception Level, EL)**: 사용자 애플리케이션(EL0), OS 커널(EL1), 하이퍼바이저(EL2), 시큐어 모니터/펌웨어(EL3)로 실행 권한을 계층화한 Armv8/v9 실행 모델.
+- **TrustZone**: 단일 물리 코어를 하드웨어 수준에서 일반 영역(Normal World)과 보안 영역(Secure World)으로 완벽히 격리하는 Arm 보안 확장 기술.
+- **벡터 확장(Vector Extension)**: NEON, SVE(Scalable Vector Extension) 등 단일 명령어로 다중 데이터를 병렬 처리하는 SIMD 확장 기술.
 
 </details>
 
@@ -55,10 +55,10 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **A-profile(Application Profile)**: 범용 OS·가상화·고성능 처리를 위한 Arm 프로파일.
-- **R-profile(Real-Time Profile)**: 예측 가능한 결정적 응답 시간이 필요한 실시간 제어용 Arm 프로파일.
-- **M-profile(Microcontroller Profile)**: 저전력·소형 임베디드 장치 제어용 Arm 프로파일.
-- **AArch64**: 64비트 일반 목적 레지스터 31개와 A64 명령어 집합을 제공하는 Arm 실행 상태.
+- **A-profile(Application Profile)**: 가상 메모리(MMU)와 풍부한 OS 기능, 멀티코어 가상화를 지원하는 고성능 컴퓨팅용 프로파일.
+- **R-profile(Real-Time Profile)**: MPU 기반으로 예측 가능하고 결정론적인(Deterministic) 초저지연 응답을 보장하는 실시간 임베디드 제어용 프로파일.
+- **M-profile(Microcontroller Profile)**: 초저전력 및 빠른 하드웨어 인터럽트 처리에 최적화된 마이크로컨트롤러 전용 프로파일(Cortex-M).
+- **AArch64**: 64비트 범용 레지스터 31개와 64비트 가상 주소 공간, A64 명령어 세트를 제공하는 64비트 실행 상태.
 
 </details>
 
@@ -94,9 +94,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **예외(Exception)**: 현재 명령어 실행을 중단하고 정의된 처리기로 제어를 옮기는 사건(인터럽트·시스템 호출·오류).
-- **벡터 테이블(Vector Table)**: 예외 종류별 처리기 시작 주소를 보관하며, VBAR_ELx 레지스터가 기준 주소를 지정.
-- **예외 복귀(Exception Return)**: 저장한 실행 상태를 복원해 예외 발생 전 실행 지점으로 돌아가는 동작.
+- **예외(Exception)**: 인터럽트, 시스템 호출(SVC/HVC/SMC), 메모리 폴트 등 현재 실행 흐름을 중단하고 상위 특권 처리기로 제어를 전환시키는 하드웨어 사건.
+- **벡터 테이블(Vector Table)**: 각 예외 유형별 인터럽트 서비스 루틴(ISR)의 진입점 주소를 저장하는 메모리 테이블(VBAR_ELx로 기준 주소 지정).
+- **예외 복귀(Exception Return)**: ERET 명령어를 통해 SPSR과 ELR에 보관된 프로세서 상태와 복귀 주소를 복원하고 이전 실행 수준으로 복귀하는 동작.
 
 </details>
 
@@ -140,9 +140,9 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **런타임 기능 탐지(Runtime Feature Detection)**: 실행 중 프로세서가 지원하는 확장을 ID 레지스터로 확인해 코드 경로를 결정하는 방식.
-- **동적 전압·주파수 조절(Dynamic Voltage and Frequency Scaling, DVFS)**: 부하·온도에 따라 전압과 주파수를 조절하는 전력 관리 기법.
-- **최소 권한 원칙(Principle of Least Privilege)**: 코드가 동작에 필요한 최소 EL·자원 접근만 갖도록 설계하는 보안 원칙.
+- **런타임 기능 탐지(Runtime Feature Detection)**: CPUID 및 시스템 레지스터를 조회하여 런타임에 프로세서가 지원하는 확장 기능(AES, FP, SVE 등)을 동적으로 판별하는 기법.
+- **동적 전압·주파수 조절(Dynamic Voltage and Frequency Scaling, DVFS)**: 시스템 부하 및 발열 상태에 따라 동작 전압과 클록 주파수를 동적으로 조절하여 전력 소모를 최적화하는 기법.
+- **최소 권한 원칙(Principle of Least Privilege)**: 각 소프트웨어 모듈이 임무 수행에 필요한 최소한의 예외 수준(EL)과 하드웨어 자원 접근 권한만 부여받도록 강제하는 보안 설계 원칙.
 
 </details>
 

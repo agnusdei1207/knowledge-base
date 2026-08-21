@@ -6,7 +6,7 @@ sidebar:
     text: "기출 • 50%"
     variant: note
 title: "전력 사용 효율 (PUE)"
-date: "2026-08-19T17:36:03+09:00"
+date: "2026-08-21T12:50:00+09:00"
 tags:
   - "notes-hardware"
 weight: 58
@@ -23,7 +23,6 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **PUE(Power Usage Effectiveness)**: 데이터센터 총 투입 전력량을 순수 IT 장비(서버, 스토리지, 네트워크)가 소비한 전력량으로 나눈 에너지 효율 표준 지표.
-- **The Green Grid**: IT 산업의 에너지 효율 향상을 위해 PUE, WUE, CUE 등의 지표를 제정한 글로벌 컨소시엄.
 
 </details>
 
@@ -141,6 +140,7 @@ PUE 절감 착수 → 계측 지점 표준화 후 데이터 수집
 <details><summary>용어 설명</summary>
 
 - **물-전력 트레이드오프(Water-Energy Nexus)**: PUE를 낮추기 위해 증발식 수랭을 과도하게 쓰면 용수 사용량(WUE)이 급증하는 상충 문제.
+- **The Green Grid**: IT 산업의 에너지 효율 향상을 위해 PUE, WUE, CUE 등의 지표를 제정한 글로벌 컨소시엄.
 
 </details>
 
