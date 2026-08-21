@@ -3,7 +3,7 @@ sidebar:
   order: 86
   label: "086. 트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
 date: "2026-08-17T22:10:00+09:00"
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- **트랜잭션 격리 수준**은 무결성과 성능의 타협점을 찾는 핵심 아키텍처 결정 요소이며, 기본 Read Committed/Repeatable Read 수준에 낙관적/비관적 락을 적절히 결합하여 최적의 데이터베이스 성능을 도출해야 함
+- **트랜잭션 격리 수준** 무결성과 성능의 타협점을 찾는 핵심 아키텍처 결정 요소이며, 기본 Read Committed/Repeatable Read 수준에 낙관적/비관적 락을 적절히 결합하여 최적의 데이터베이스 성능을 도출해야 함
 
 #### 한줄 요약
 

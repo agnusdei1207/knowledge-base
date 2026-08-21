@@ -3,7 +3,7 @@ sidebar:
   order: 71
   label: "071. ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)"
 date: "2026-08-17T21:10:00+09:00"
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- **ATAM**은 아키텍처의 설계 결함과 품질 상충을 사전에 가시화하는 핵심 도구이며, 도출된 위험 요소는 CBAM의 경제성 평가와 연계하여 최적의 투자 의사결정을 내려야 함
+- **ATAM** 아키텍처의 설계 결함과 품질 상충을 사전에 가시화하는 핵심 도구이며, 도출된 위험 요소는 CBAM의 경제성 평가와 연계하여 최적의 투자 의사결정을 내려야 함
 
 #### 한줄 요약
 

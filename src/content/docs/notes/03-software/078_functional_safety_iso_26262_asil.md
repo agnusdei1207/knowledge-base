@@ -3,7 +3,7 @@ sidebar:
   order: 78
   label: "078. 기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
 date: "2026-08-17T21:40:00+09:00"
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- **ISO 26262**는 SDV(Software Defined Vehicle) 및 자율주행 시대의 필수 안전 헌법이며, HARA 기반의 철저한 수명주기 통제와 SOTIF 표준과의 연계를 통해 최고 수준의 차량 안전성을 보증해야 함
+- **ISO 26262** 기반 SDV(Software Defined Vehicle) 및 자율주행 시대의 필수 안전 헌법이며, HARA 기반의 철저한 수명주기 통제와 SOTIF 표준과의 연계를 통해 최고 수준의 차량 안전성을 보증해야 함
 
 #### 한줄 요약
 

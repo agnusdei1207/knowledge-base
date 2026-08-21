@@ -3,7 +3,7 @@ sidebar:
   order: 85
   label: "085. 트랜잭션 ACID (Transaction ACID)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
 date: "2026-08-17T22:05:00+09:00"
@@ -174,7 +174,7 @@ extra:
 
 </details>
 
-- **트랜잭션 ACID**는 데이터베이스 엔지니어링의 핵심 근간이며, 최신 클라우드 및 분산 시스템에서는 단일 노드의 ACID 무결성과 분산 서비스 간 Saga 최종 일관성을 유기적으로 결합하여 아키텍처를 설계해야 함
+- **트랜잭션 ACID** 기반 데이터베이스 엔지니어링의 핵심 근간이며, 최신 클라우드 및 분산 시스템에서는 단일 노드의 ACID 무결성과 분산 서비스 간 Saga 최종 일관성을 유기적으로 결합하여 아키텍처를 설계해야 함
 
 #### 한줄 요약
 

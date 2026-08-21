@@ -3,7 +3,7 @@ sidebar:
   order: 77
   label: "077. 소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
 date: "2026-08-17T21:35:00+09:00"
@@ -179,7 +179,7 @@ extra:
 
 </details>
 
-- **GAMAB과 ALARP**는 무조건적인 제로 리스크가 불가능한 복잡계 시스템에서 공학적이고 합리적인 안전 기준선을 제시하며, 정량적 위험 평가와 Safety Case를 통해 최고 수준의 시스템 신뢰성을 보장해야 함
+- **GAMAB과 ALARP** 기반 무조건적인 제로 리스크가 불가능한 복잡계 시스템에서 공학적이고 합리적인 안전 기준선을 제시하며, 정량적 위험 평가와 Safety Case를 통해 최고 수준의 시스템 신뢰성을 보장해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 67
   label: "067. 정적 분석 SAST"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "정적 분석 SAST (Static Application Security Testing)"
 date: "2026-08-17T20:50:00+09:00"
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- **SAST**는 개발 초기에 보안 약점을 원천 차단하는 핵심 수단이며, 룰셋 최적화와 DAST/SCA와의 연계를 통해 완성도 높은 SSDLC를 구축
+- **SAST** 기반 개발 초기에 보안 약점을 원천 차단하는 핵심 수단이며, 룰셋 최적화와 DAST/SCA와의 연계를 통해 완성도 높은 SSDLC를 구축
 
 #### 한줄 요약
 

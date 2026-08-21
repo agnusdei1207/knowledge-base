@@ -3,7 +3,7 @@ sidebar:
   order: 68
   label: "068. 동적 애플리케이션 보안 테스트 DAST"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
 date: "2026-08-17T20:55:00+09:00"
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- **DAST**는 실제 공격자의 시각에서 시스템의 보안성을 검증하는 필수 절차이며, SAST 및 IAST와의 유기적 연계를 통해 빈틈없는 SSDLC 파이프라인을 완성
+- **DAST** 기반 실제 공격자의 시각에서 시스템의 보안성을 검증하는 필수 절차이며, SAST 및 IAST와의 유기적 연계를 통해 빈틈없는 SSDLC 파이프라인을 완성
 
 #### 한줄 요약
 

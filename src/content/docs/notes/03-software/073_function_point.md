@@ -3,7 +3,7 @@ sidebar:
   order: 73
   label: "073. SW 기능점수 FP 측정 (Function Point)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "SW 기능점수 FP 측정 (Function Point)"
 date: "2026-08-17T21:20:00+09:00"

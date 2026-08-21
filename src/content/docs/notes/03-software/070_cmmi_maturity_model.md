@@ -3,7 +3,7 @@ sidebar:
   order: 70
   label: "070. CMMI 성숙도 모델 (Capability Maturity Model Integration)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "CMMI 성숙도 모델 (Capability Maturity Model Integration)"
 date: "2026-08-17T21:05:00+09:00"
@@ -80,9 +80,9 @@ extra:
 | 구성요소 | 책임 |
 |:---|:---|
 | Level 1: Initial (초기) | 프로세스가 비공식적이며 **개인 영웅주의에 의존하는 혼돈 상태** |
-| Level 2: Managed (관리됨) | **프로젝트 단위**의 요구사항, 일정, 비용 통제 및 기본적인 작업 재현성 보장 |
+| Level 2: Managed (관리됨) | **프로젝트 단위** 요구사항, 일정, 비용 통제 및 기본적인 작업 재현성 보장 |
 | Level 3: Defined (정의됨) | **전사 표준 프로세스(PAL)** 를 수립하고 프로젝트 특성에 맞춘 테일러링 수행 |
-| Level 4: Quantitatively Managed | **통계적·정량적 기법**을 적용하여 프로세스 성과 및 변동성을 예측 제어 |
+| Level 4: Quantitatively Managed | **통계적·정량적 기법** 적용하여 프로세스 성과 및 변동성을 예측 제어 |
 | Level 5: Optimizing (최적화) | 결함 근본 원인 분석과 신기술 도입을 통한 **전사 프로세스의 지속적 혁신** |
 
 #### 한줄 요약
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- **CMMI**는 단순한 대외 인증 획득을 넘어 조직의 엔지니어링 체질을 개선하는 프레임워크이므로, 현대의 애자일 및 클라우드 자동화 환경과 결합하여 실질적인 비즈니스 성과를 창출해야 함
+- **CMMI** 기반 단순한 대외 인증 획득을 넘어 조직의 엔지니어링 체질을 개선하는 프레임워크이므로, 현대의 애자일 및 클라우드 자동화 환경과 결합하여 실질적인 비즈니스 성과를 창출해야 함
 
 #### 한줄 요약
 
