@@ -3,7 +3,7 @@ sidebar:
   order: 95
   label: "095. 실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
 date: "2026-08-17T22:45:00+09:00"
@@ -171,7 +171,7 @@ extra:
 
 </details>
 
-- **쿼리 실행 계획 최적화**는 데이터베이스 성능을 극대화하는 핵심 분석 기술이며, `EXPLAIN ANALYZE`를 활용한 정밀 진단과 통계 최신화, 적절한 인덱스 설계를 통해 최고 수준의 쿼리 처리량을 달성해야 함
+- **쿼리 실행 계획 최적화** 기반 데이터베이스 성능을 극대화하는 핵심 분석 기술이며, `EXPLAIN ANALYZE`를 활용한 정밀 진단과 통계 최신화, 적절한 인덱스 설계를 통해 최고 수준의 쿼리 처리량을 달성해야 함
 
 #### 한줄 요약
 

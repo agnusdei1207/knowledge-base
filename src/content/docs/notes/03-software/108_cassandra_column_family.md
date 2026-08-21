@@ -3,7 +3,7 @@ sidebar:
   order: 108
   label: "108. Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
 date: "2026-08-17T23:30:00+09:00"
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- **Apache Cassandra**는 글로벌 스케일의 대규모 쓰기 트래픽을 처리하는 가장 진보된 분산 Wide-Column 데이터베이스이며, 쿼리 패턴에 부합하는 철저한 비정규화 설계와 가변 일관성 튜닝을 통해 무중단 분산 환경을 구축해야 함
+- **Apache Cassandra** 기반 글로벌 스케일의 대규모 쓰기 트래픽을 처리하는 가장 진보된 분산 Wide-Column 데이터베이스이며, 쿼리 패턴에 부합하는 철저한 비정규화 설계와 가변 일관성 튜닝을 통해 무중단 분산 환경을 구축해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 96
   label: "096. 조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
 date: "2026-08-17T22:50:00+09:00"
@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- **조인 알고리즘**은 RDBMS 성능의 승패를 가르는 핵심 엔진 기술이며, 트랜잭션 특성과 데이터 볼륨에 맞추어 인덱스 설계와 메모리 튜닝을 병행하여 최적의 조인 효율을 달성해야 함
+- **조인 알고리즘** RDBMS 성능의 승패를 가르는 핵심 엔진 기술이며, 트랜잭션 특성과 데이터 볼륨에 맞추어 인덱스 설계와 메모리 튜닝을 병행하여 최적의 조인 효율을 달성해야 함
 
 #### 한줄 요약
 

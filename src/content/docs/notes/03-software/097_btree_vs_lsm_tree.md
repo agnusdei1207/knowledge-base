@@ -3,7 +3,7 @@ sidebar:
   order: 97
   label: "097. B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
 date: "2026-08-17T22:55:00+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 제자리 수정 기반의 읽기 최적화 **B-Tree(B+Tree)** 와 순차적 추가 및 컴팩션 기반의 대규모 쓰기 최적화 **LSM-Tree**를 비교한 스토리지 엔진 구조
+- 정의/개념: 제자리 수정 기반의 읽기 최적화 **B-Tree(B+Tree)** 와 순차적 추가 및 컴팩션 기반의 대규모 쓰기 최적화 **LSM-Tree** 활용 비교한 스토리지 엔진 구조
 - 배경/필요성: 워크로드 특성(Read-Heavy vs Write-Heavy)에 맞지 않는 스토리지 엔진 선택 시 발생하는 **쓰기 증폭(WAF), 읽기 증폭 및 디스크 I/O 병목 위험** 직면
 
 #### 한줄 요약
@@ -177,7 +177,7 @@ extra:
 
 </details>
 
-- **B-Tree와 LSM-Tree**는 현대 데이터베이스 아키텍처의 양대 산맥이며, 읽기 중심 OLTP 시스템에는 B-Tree를, 대용량 실시간 쓰기 워크로드에는 LSM-Tree를 적재적소에 배치하여 전체 시스템 처리량을 극대화해야 함
+- **B-Tree와 LSM-Tree** 기반 현대 데이터베이스 아키텍처의 양대 산맥이며, 읽기 중심 OLTP 시스템에는 B-Tree를, 대용량 실시간 쓰기 워크로드에는 LSM-Tree를 적재적소에 배치하여 전체 시스템 처리량을 극대화해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 107
   label: "107. Redis 인메모리 데이터베이스 (Redis In-Memory Database)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "Redis 인메모리 데이터베이스 (Redis In-Memory Database)"
 date: "2026-08-17T23:25:00+09:00"
@@ -182,7 +182,7 @@ extra:
 
 </details>
 
-- **Redis**는 현대 웹 서비스의 초고속 성능을 견인하는 핵심 인메모리 데이터 플랫폼이며, 단일 스레드 특성에 맞춘 비차단 명령어 사용과 Redis Cluster 고가용성 구성을 통해 무결점 캐싱 환경을 구축해야 함
+- **Redis** 기반 현대 웹 서비스의 초고속 성능을 견인하는 핵심 인메모리 데이터 플랫폼이며, 단일 스레드 특성에 맞춘 비차단 명령어 사용과 Redis Cluster 고가용성 구성을 통해 무결점 캐싱 환경을 구축해야 함
 
 #### 한줄 요약
 

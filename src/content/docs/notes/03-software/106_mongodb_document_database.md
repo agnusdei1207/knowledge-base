@@ -3,7 +3,7 @@ sidebar:
   order: 106
   label: "106. MongoDB 문서 데이터베이스 (MongoDB Document Database)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "MongoDB 문서 데이터베이스 (MongoDB Document Database)"
 date: "2026-08-17T23:20:00+09:00"
@@ -182,7 +182,7 @@ extra:
 
 </details>
 
-- **MongoDB 문서 데이터베이스**는 복잡한 비즈니스 엔티티를 가장 직관적으로 표현하는 고성능 NoSQL 솔루션이며, 도메인 경계에 맞춘 적절한 내포/참조 설계와 Replica Set 고가용성 구성을 통해 안정적인 데이터 플랫폼을 구축해야 함
+- **MongoDB 문서 데이터베이스** 기반 복잡한 비즈니스 엔티티를 가장 직관적으로 표현하는 고성능 NoSQL 솔루션이며, 도메인 경계에 맞춘 적절한 내포/참조 설계와 Replica Set 고가용성 구성을 통해 안정적인 데이터 플랫폼을 구축해야 함
 
 #### 한줄 요약
 
