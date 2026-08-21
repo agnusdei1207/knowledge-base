@@ -3,7 +3,7 @@ sidebar:
   order: 29
   label: "029. NVMe•PCIe 인터페이스 (NVMe PCIe)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "NVMe•PCIe 인터페이스 (NVMe PCIe)"
 date: "2026-08-17T16:50:00+09:00"
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 초고속 플래시 스토리지의 입출력 병렬성을 극대화하기 위해 **다중 큐(Multi-Queue) 및 PCIe 직결 버스**를 사용하는 호스트 컨트롤러 인터페이스 규격
+- 정의/개념: 초고속 플래시 스토리지의 입출력 병렬성을 극대화하기 위해 **다중 큐(Multi-Queue) 및 PCIe 직결 버스** 활용 사용하는 호스트 컨트롤러 인터페이스 규격
 - 배경/필요성: 기존 SATA/AHCI의 단일 큐(32 명령) 구조에 따른 I/O 병목 극복 및 다중 코어 기반 고성능 SSD 병렬 처리 필요
 
 #### 한줄 요약
