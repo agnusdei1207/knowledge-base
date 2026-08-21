@@ -167,7 +167,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 패키지명 중복으로 인한 취약점 스캐너의 엉뚱한 오탐 발생 | **표준 패키지 고유 식별자인 `purl` (Package URL) 전사 강제** | 컴포넌트 식별 정확도 100% 달성 |
-| 실제 미사용 모듈 취약점으로 인한 수백 건의 보안 경보 폭탄 | **`VEX (Vulnerability Exploitability eXchange)` 문서 동시 배포** | 개발팀 불필요 패치 공수 80% 절감 |
+| 실제 미사용 모듈 취약점으로 인한 수백 건의 보안 경보 대량 부하 | **`VEX (Vulnerability Exploitability eXchange)` 문서 동시 배포** | 개발팀 불필요 패치 공수 80% 절감 |
 | 공급망 공격(Supply Chain Attack)으로 변조된 악성 라이브러리 유입 | **SLSA 프레임워크 준수 및 Sigstore/Cosign 기반 SBOM 서명 검증** | 악의적 모듈 무단 삽입 원천 차단 |
 
 #### 한줄 요약

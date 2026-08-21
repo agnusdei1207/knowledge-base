@@ -184,7 +184,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **경로 정책 결정(Routing Policy Selection)**: 아웃바운드는 내 맘대로(LOCAL_PREF) 꽂고, 인바운드는 여권 도장(AS_PATH)을 길게 늘여서 우회하게 만드는 살벌한 튜닝 전략이다.
+- **경로 정책 결정(Routing Policy Selection)**: 아웃바운드는 내 맘대로(LOCAL_PREF) 꽂고, 인바운드는 여권 도장(AS_PATH)을 길게 늘여서 우회하게 만드는 엄격한 튜닝 전략이다.
 
 </details>
 

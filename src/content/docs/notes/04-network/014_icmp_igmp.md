@@ -45,7 +45,7 @@ extra:
 </details>
 
 - **ICMP 유형(Type)** 및 **코드(Code)** 를 조합하여 "왜 전송이 실패했는지" 구체적인 에러 원인 통보.
-- **IGMP 질의(Query)**, **보고(Report)**, **탈퇴(Leave)** 3단계 메시지 핑퐁으로 서브넷 내 방송 가입자를 동적으로 관리.
+- **IGMP 질의(Query)**, **보고(Report)**, **탈퇴(Leave)** 3단계 메시지 상호 메시지 교환으로 서브넷 내 방송 가입자를 동적으로 관리.
 - L2 스위치의 **IGMP 스누핑(IGMP Snooping)** 기능과 엮어서, 안 보는 놈한테는 방송 트래픽이 새어 나가지 않게 완전 차단.
 
 #### 한줄 요약
@@ -146,7 +146,7 @@ extra:
 | 존재 목적 | 1:1 전송 중 길 끊기거나 에러 났을 때 **따지러 가는 용도** | IPTV 켤 때처럼 1:N 방송을 **볼 사람한테만 주려는 용도** |
 | 주요 메시지 | 에러(Unreachable), 초과(Time Exceeded), 핑(Echo) | 질문(Query), 가입(Report), 탈퇴(Leave) |
 | 대상 트래픽 | **1:1 유니캐스트(Unicast)** 피드백용 | **1:N 멀티캐스트(Multicast)** 통제용 |
-| 보안 이슈 | 핑 존나 때려서 CPU 터트림 (Smurf Attack 등) | 아무나 막 쏴서 스위치 뻗게 함 (Unknown Multicast Flooding) |
+| 보안 이슈 | 핑 매우 때려서 CPU 터트림 (Smurf Attack 등) | 아무나 막 쏴서 스위치 뻗게 함 (Unknown Multicast Flooding) |
 
 #### 한줄 요약
 

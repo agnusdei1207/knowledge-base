@@ -148,7 +148,7 @@ extra:
 | 시스템 주 타격 대상 | 정형화된 **HTTP** 요청 파라미터, SQL 쿼리문, 고정 세션 토큰 값 | 비정형 자연어 프롬프트 텍스트, RAG 벡터 문맥 뭉치, 에이전트 자율 Tool Call 인자 |
 | 핵심 치명적 위협 매커니즘 | 고전적 SQL Injection, XSS, Broken Auth 세션 하이재킹 | 지능적 Prompt Injection (LLM01), System Prompt Leak (LLM07), 검색 오염 Vector Risk (LLM08) |
 | 주 방어 체계 및 메커니즘 | 입력 Input Sanitization 정규식 룰, 정적 WAF 필터, Role-based 정적 ACL | 논리적 XML Tagging 샌드박싱, 동적 LLM Input/Output Guardrails, **에이전트 실행 권한 경계 PEP 통제** |
-| 방어 실패 시 공격 결과 | 고객 DB 정보 대량 유출, 관리자 세션 탈취, 서버 RCE 장악 통제 | 의도되지 않은 비인가 툴 조작 파손, 가중치 잠복 백도어 실행, 과금 폭탄 DoS (LLM10) 마비 사태 |
+| 방어 실패 시 공격 결과 | 고객 DB 정보 대량 유출, 관리자 세션 탈취, 서버 RCE 장악 통제 | 의도되지 않은 비인가 툴 조작 파손, 가중치 잠복 백도어 실행, 과금 대량 부하 DoS (LLM10) 마비 사태 |
 
 #### 한줄 요약
 

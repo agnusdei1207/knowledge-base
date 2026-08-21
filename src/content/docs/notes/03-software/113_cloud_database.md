@@ -162,7 +162,7 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Aurora 사용 시 소량 쿼리 빈발로 I/O 비용 폭증 (비용 폭탄) | **Aurora I/O-Optimized 요금제로 변경 및 캐시 계층(Redis) 도입** | 예측 가능한 고정 비용 및 I/O 절감 |
+| Aurora 사용 시 소량 쿼리 빈발로 I/O 비용 폭증 (비용 대량 부하) | **Aurora I/O-Optimized 요금제로 변경 및 캐시 계층(Redis) 도입** | 예측 가능한 고정 비용 및 I/O 절감 |
 | DynamoDB Table Scan 쿼리로 인한 RCU 폭증 및 과금 | **Global Secondary Index(GSI) 설계 및 Scan 대신 Query 강제** | 쿼리 비용 및 응답 시간 90% 절감 |
 | 특정 클라우드 DB 독점 API 사용에 따른 Vendor Lock-in | **Spring Data 추상화 계층 및 표준 인터페이스 래퍼 구축** | 멀티 클라우드 이식성 확보 |
 

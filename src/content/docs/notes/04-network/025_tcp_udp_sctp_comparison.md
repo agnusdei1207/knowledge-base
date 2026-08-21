@@ -56,7 +56,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **SCTP 연관(Association)**: TCP의 '연결(Connection)'에 대응하는 말로, 랜선(IP)을 여러 개 묶어서 하나의 끈끈한 관계를 맺는 SCTP만의 사기 개념이다.
-- **SCTP 4-Way Handshake**: TCP의 3-Way가 해커(SYN Flood)한테 너무 잘 침해당하니까, 쿠키(Cookie)를 강제 도입해 4번 핑퐁하며 철벽 방어하는 초기 연결 방식이다.
+- **SCTP 4-Way Handshake**: TCP의 3-Way가 해커(SYN Flood)한테 너무 잘 침해당하니까, 쿠키(Cookie)를 강제 도입해 4번 상호 메시지 교환하며 철벽 방어하는 초기 연결 방식이다.
 
 </details>
 
@@ -67,7 +67,7 @@ extra:
        │          │          │
        ▼          ▼          ▼
    [ TCP ]    [ UDP ]    [ SCTP ]
-   (꼼꼼함)   (개빠름)   (다중경로)
+   (꼼꼼함)   (매우 빠른 처리)   (다중경로)
        │          │          │
        ▼          ▼          ▼
 [ IP 계층 (L3 라우터가 길 찾음) ]

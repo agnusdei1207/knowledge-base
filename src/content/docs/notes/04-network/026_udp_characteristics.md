@@ -22,7 +22,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **UDP(User Datagram Protocol)**: "잘 받았어?" 같은 확인 절차(3-Way Handshake) 싹 다 씹고, 일단 냅다 데이터부터 꽂아 넣고 보는 쿨한 폭주족 프로토콜이다.
+- **UDP(User Datagram Protocol)**: "잘 받았어?" 같은 확인 절차(3-Way Handshake) 싹 다 씹고, 일단 냅다 데이터부터 꽂아 넣고 보는 단순한 폭주족 프로토콜이다.
 
 </details>
 
@@ -35,7 +35,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **비연결형(Connectionless)**: 상대방이 죽었든 살았든, 바쁘든 말든 묻지도 따지지도 않고(No State), 걍 주소만 찍고 우편물 집어 던지는 쿨한 성질이다.
+- **비연결형(Connectionless)**: 상대방이 죽었든 살았든, 바쁘든 말든 묻지도 따지지도 않고(No State), 걍 주소만 찍고 우편물 집어 던지는 단순한 성질이다.
 - **체크섬(Checksum)**: UDP가 하는 유일한 품질 검사로, 배달 중에 패킷이 찌그러졌는지(비트 오류) 확인만 하고 찌그러졌으면 걍 쓰레기통에 버리는 최소한의 양심이다.
 
 </details>

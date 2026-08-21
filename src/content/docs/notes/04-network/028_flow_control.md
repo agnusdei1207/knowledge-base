@@ -56,7 +56,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **슬라이딩 윈도우(Sliding Window)**: 대답 안 기다리고 한 번에 냅다 쏠 수 있는 창문(윈도우) 크기 단위의 고속 전송 꼼수다.
-- **ECN(Explicit Congestion Notification)**: 라우터가 패킷 버리기 직전에 "나 지금 존나 힘드니까 쫌만 천천히 쏴라" 하고 패킷에 빨간불 켜서 알려주는 매너 기능이다.
+- **ECN(Explicit Congestion Notification)**: 라우터가 패킷 버리기 직전에 "나 지금 매우 힘드니까 쫌만 천천히 쏴라" 하고 패킷에 빨간불 켜서 알려주는 매너 기능이다.
 
 </details>
 
