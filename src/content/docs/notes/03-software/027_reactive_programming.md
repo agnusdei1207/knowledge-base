@@ -3,7 +3,7 @@ sidebar:
   order: 27
   label: "027. 리액티브 프로그래밍"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
 date: "2026-08-13T14:05:00+09:00"
@@ -79,9 +79,9 @@ extra:
 
 | 구성요소 | 주요 역할 및 핵심 메서드 |
 |:---|:---|
-| **Publisher** | 스트림 데이터의 발원지, "내꺼 볼 사람?" 하고 **`subscribe(Subscriber)`**로 구독자를 받음 |
-| **Subscriber** | 데이터를 씹고 맛보는 주체, **`onNext()`**로 데이터 받고 **`onComplete/onError()`**로 끝냄 |
-| **Subscription** | 구독자와 발행자 사이 계약서, 데이터 수량을 역으로 조율하는 **`request(n)`**과 취소 **`cancel()`** 핸들링 |
+| **Publisher** | 스트림 데이터의 발원지, "내꺼 볼 사람?" 하고 **`subscribe(Subscriber)`** 기반 구독자를 받음 |
+| **Subscriber** | 데이터를 씹고 맛보는 주체, **`onNext()`** 기반 데이터 받고 **`onComplete/onError()`** 기반 끝냄 |
+| **Subscription** | 구독자와 발행자 사이 계약서, 데이터 수량을 역으로 조율하는 **`request(n)`** 및 취소 **`cancel()`** 핸들링 |
 | Processor | Publisher와 Subscriber 성질을 둘 다 가져서, 중간에서 데이터를 지지고 볶는 가공자 레이어 |
 
 #### 한줄 요약
@@ -128,8 +128,8 @@ extra:
 
 1. 구독 요청: 소비자가 데이터 뱉는 놈한테 `subscribe()`로 나도 껴달라고 조름.
 2. 구독 설정: 뱉는 놈이 알았다고 **`Subscription`** 객체를 던져줌 (`onSubscribe`).
-3. 수요량 요청: 소비자가 뻗지 않을 만큼만 **`request(n)`**으로 개수를 콕 집어 요청함(역압).
-4. 데이터 발행: 뱉는 놈이 요청받은 개수 안에서만 **`onNext()`**로 데이터를 쏴줌.
+3. 수요량 요청: 소비자가 뻗지 않을 만큼만 **`request(n)`** 기반 개수를 콕 집어 요청함(역압).
+4. 데이터 발행: 뱉는 놈이 요청받은 개수 안에서만 **`onNext()`** 기반 데이터를 쏴줌.
 5. 스트림 완료/에러: 다 줬으면 **`onComplete()`**, 중간에 터지면 **`onError()`** 쏘고 셧다운함.
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **명령형 동기 (Imperative)** | **리액티브 비동기 (Reactive)** |
+| 구분 | **명령형 동기 (Imperative)** | **리액티브 비동기 (Reactive)** |
 |:---|:---|:---|
 | 데이터 처리 방향 | 필요할 때 강력히 끌고 옴 (**Pull Model**) | 발행자가 이벤트 생기면 알아서 밀어줌 (**Push Model**) |
 | 블로킹(대기) 여부 | DB 쿼리 치고 올 때까지 스레드가 멍 때림 | 찔러놓고 딴짓하다가 이벤트 오면 콜백 쳐냄 (**Non-blocking**) |

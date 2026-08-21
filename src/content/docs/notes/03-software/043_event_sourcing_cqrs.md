@@ -3,7 +3,7 @@ sidebar:
   order: 43
   label: "043. 이벤트 소싱•CQRS"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "이벤트 소싱•CQRS (Event Sourcing CQRS)"
 date: "2026-08-13T14:58:00+09:00"
@@ -44,7 +44,7 @@ extra:
 
 </details>
 
-- UPDATE/DELETE 없이 무조건 **Append-Only**로 밀어 넣어서 완벽한 감사(Audit) 추적과 타임머신(상태 재구성)을 지원함.
+- UPDATE/DELETE 없이 무조건 **Append-Only** 기반 밀어 넣어서 완벽한 감사(Audit) 추적과 타임머신(상태 재구성)을 지원함.
 - 트래픽 90%를 차지하는 읽기(Query) DB만 따로 수평 확장(Scale-out)할 수 있어서 가성비가 지림.
 - 데이터 씽크가 바로 안 맞는 **최종 일관성(Eventual Consistency)** 을 감수해야 하며, 너무 쌓이면 성능이 떡락하므로 **스냅샷(Snapshotting)** 을 찍음.
 
@@ -140,7 +140,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **전통적 CRUD 아키텍처** | **Event Sourcing + CQRS** |
+| 구분 | **전통적 CRUD 아키텍처** | **Event Sourcing + CQRS** |
 |:---|:---|:---|
 | 데이터 저장 상태 | 현재 팩트만 남고 과거는 덮어씌워짐 (휘발성) | **모든 과거 상태 변경 로그가 완벽히 박제됨 (영속성)** |
 | 감사(Audit) 추적 | 별도 로그 테이블을 구질구질하게 파야 됨 | 이벤트 자체가 로그라서 **타임머신(Replay) 쌉가능** |

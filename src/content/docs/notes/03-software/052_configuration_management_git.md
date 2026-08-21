@@ -3,7 +3,7 @@ sidebar:
   order: 52
   label: "052. 형상 관리: Git•브랜치 전략"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "형상 관리: Git•브랜치 전략 (Configuration Management Git)"
 date: "2026-08-13T15:32:00+09:00"
@@ -28,7 +28,7 @@ extra:
 
 </details>
 
-- 정의: 코드와 설정 파일이 꼬이지 않게 버전 이력을 통제(SCM)하고, 이를 **Git(분산 버전 관리)** 과 **브랜치 전략**으로 체계화하는 시스템인 **Configuration Management & Git**
+- 정의: 코드와 설정 파일이 꼬이지 않게 버전 이력을 통제(SCM)하고, 이를 **Git(분산 버전 관리)** 과 **브랜치 전략** 기반 체계화하는 시스템인 **Configuration Management & Git**
 - 배경: 형상 관리를 안 하면 "최종본_진짜최종_마지막.zip" 파일이 굴러다니고, **누가 언제 코드를 덮어썼는지 몰라서 프로젝트가 멸망**하기 때문
 
 #### 한줄 요약
@@ -46,7 +46,7 @@ extra:
 
 - 빠른 로컬 커밋과 깃 브랜칭으로 분산 환경(**DVCS**)의 장점을 극대화함.
 - 커밋 히스토리를 **DAG (Directed Acyclic Graph)** 로 관리하고 해시(SHA-1)로 무결성을 수호함.
-- 형상 식별, 통제, 감사(Audit), 기록의 4대 기본 활동을 **Branch Strategy**로 통제함.
+- 형상 식별, 통제, 감사(Audit), 기록의 4대 기본 활동을 **Branch Strategy** 기반 통제함.
 
 #### 한줄 요약
 
@@ -136,7 +136,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **GitFlow (전통적 확장형)** | **Trunk-based (현대 애자일 전략)** |
+| 구분 | **GitFlow (전통적 확장형)** | **Trunk-based (현대 애자일 전략)** |
 |:---|:---|:---|
 | 브랜치 구조 | `main`, `develop`, `feature`, `release`, `hotfix` 복잡하게 분리 | 걍 `main`(트렁크) 하나랑 짧은 `feature`만 씀 |
 | 브랜치 수명 | 한 번 파면 몇 달씩 살아서 합칠 때 지옥 열림 | 파자마자 몇 시간~하루 만에 바로 합쳐버림 |

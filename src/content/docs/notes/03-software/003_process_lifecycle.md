@@ -3,7 +3,7 @@ sidebar:
   order: 3
   label: "003. 프로세스 생성•종료•상태 전이"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "프로세스 생성•종료•상태 전이 (Process Lifecycle)"
 date: "2026-08-13T12:46:00+09:00"
@@ -137,7 +137,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 준비 상태 (Ready State) | 실행 상태 (Running State) | 대기 상태 (Blocked State) |
+| 구분 | 준비 상태 (Ready State) | 실행 상태 (Running State) | 대기 상태 (Blocked State) |
 |:---|:---|:---|:---|
 | CPU 점유 여부 | 미점유 (스케줄러 디스패치 대기) | **점유 중** (명령어 파이프라인 실행) | 미점유 (이벤트 발생 시까지 CPU 실행 불가) |
 | 상주 큐 위치 | **준비 큐 (Ready Queue)** | CPU 코어 레지스터 | **대기 큐 (Device/Wait Queue)** |
@@ -178,4 +178,4 @@ extra:
 
 #### 한줄 요약
 
-- **5단계 상태 전이 통제와 좀비 프로세스 방지**를 통한 운영체제 자원 관리 안정성 확보
+- **5단계 상태 전이 통제와 좀비 프로세스 방지** 활용 통한 운영체제 자원 관리 안정성 확보

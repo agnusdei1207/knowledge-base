@@ -3,7 +3,7 @@ sidebar:
   order: 20
   label: "020. 파일 시스템: FAT•NTFS•ext4•APFS"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
 date: "2026-08-13T13:40:00+09:00"
@@ -142,7 +142,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 저널링 기반 (ext4, NTFS) | Copy-on-Write 기반 (APFS, ZFS, Btrfs) | 단순 테이블 기반 (FAT32, exFAT) |
+| 구분 | 저널링 기반 (ext4, NTFS) | Copy-on-Write 기반 (APFS, ZFS, Btrfs) | 단순 테이블 기반 (FAT32, exFAT) |
 |:---|:---|:---|:---|
 | 데이터 갱신 방식 | **In-Place Update** (기존 블록 덮어쓰기) | **Out-of-Place Update** (신규 블록 기록 후 포인터 교체) | In-Place Update |
 | 장애 복구 메커니즘 | **저널 로그(Journal Log) 리플레이** | 트리 루트 포인터 원자적 교체 및 롤백 | 파일 할당 테이블 수동 복구(chkdsk/fsck) |

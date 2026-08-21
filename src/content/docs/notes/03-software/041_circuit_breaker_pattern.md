@@ -3,7 +3,7 @@ sidebar:
   order: 41
   label: "041. 서킷 브레이커 패턴"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "서킷 브레이커 패턴 (Circuit Breaker Pattern)"
 date: "2026-08-13T14:50:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-- **Closed $\rightarrow$ Open $\rightarrow$ Half-Open $\rightarrow$ Closed**로 이어지는 3단계 기어 변속(상태 전이) 메커니즘을 굴림.
+- **Closed $\rightarrow$ Open $\rightarrow$ Half-Open $\rightarrow$ Closed** 기반 이어지는 3단계 기어 변속(상태 전이) 메커니즘을 굴림.
 - "최근 100번 중에 50번 실패하면 차단!" 같은 **슬라이딩 윈도우(Sliding Window)** 룰을 씀.
 - 선 끊고 바로 **Fallback(대체 응답)** 을 날려서, 500 에러 대신 예쁜 에러 창을 띄워줌.
 
@@ -134,7 +134,7 @@ extra:
 
 </details>
 
-| 비교 항목 | **Resilience4j** (요즘 대세) | **Netflix Hystrix** (단종된 유물) |
+| 구분 | **Resilience4j** (요즘 대세) | **Netflix Hystrix** (단종된 유물) |
 |:---|:---|:---|
 | 기반 기술 | Java 8 함수형 인터페이스, 람다 기반 | 무거운 스레드 풀 격리 중심, 구닥다리 |
 | 모듈 쪼개기 | 서킷 브레이커, Rate Limiter 등 골라 씀 | 모놀리식 덩어리라 통째로 박아야 함 |

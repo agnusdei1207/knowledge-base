@@ -3,7 +3,7 @@ sidebar:
   order: 21
   label: "021. 파일 시스템 저널링"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "파일 시스템 저널링 (File System Journaling)"
 date: "2026-08-13T13:43:00+09:00"
@@ -181,8 +181,8 @@ extra:
 
 </details>
 
-- 리눅스 엔터프라이즈 운영체제는 기본적으로 **`data=ordered` 모드와 Write Barrier 활성화**를 표준으로 채택하며, 읽기 집약 환경에서는 **`noatime`** 병행 적용 필수
+- 리눅스 엔터프라이즈 운영체제는 기본적으로 **`data=ordered` 모드와 Write Barrier 활성화** 활용 표준으로 채택하며, 읽기 집약 환경에서는 **`noatime`** 병행 적용 필수
 
 #### 한줄 요약
 
-- **WAL 기반 저널링과 적정 모드 튜닝**을 통해 스토리지 I/O 성능과 시스템 장애 복구 신뢰성 동시 확보
+- **WAL 기반 저널링과 적정 모드 튜닝** 통해 스토리지 I/O 성능과 시스템 장애 복구 신뢰성 동시 확보

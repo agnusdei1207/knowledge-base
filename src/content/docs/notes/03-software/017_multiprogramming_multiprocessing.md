@@ -3,7 +3,7 @@ sidebar:
   order: 17
   label: "017. 다중프로그래밍•다중처리"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "다중프로그래밍•다중처리 (Multiprogramming•Multiprocessing)"
 date: "2026-08-13T13:29:00+09:00"
@@ -129,7 +129,7 @@ extra:
 
 </details>
 
-| 비교 항목 | 다중프로그래밍 (Multiprogramming) | 시분할/멀티태스킹 (Multitasking) | 다중처리 (Multiprocessing) | 멀티스레딩 (Multithreading) |
+| 구분 | 다중프로그래밍 (Multiprogramming) | 시분할/멀티태스킹 (Multitasking) | 다중처리 (Multiprocessing) | 멀티스레딩 (Multithreading) |
 |:---|:---|:---|:---|:---|
 | 핵심 목적 | CPU 유휴 시간 최소화 | 대화형 응답성 극대화 | 연산 처리량(Throughput) 극대화 | 프로세스 내 자원 공유 및 경량 동시성 |
 | 코어 자원 | **단일 코어** 중심 (I/O 전환) | **단일/멀티 코어** (타임 슬라이스) | **복수 물리 코어/CPU** 필수 | 단일/멀티 코어 상 스레드 실행 |
@@ -170,5 +170,5 @@ extra:
 
 #### 한줄 요약
 
-- **워크로드 특성에 따른 시분할 동시성과 물리 병렬 처리의 최적 결합**을 통한 시스템 성능 극대화
+- **워크로드 특성에 따른 시분할 동시성과 물리 병렬 처리의 최적 결합** 통한 시스템 성능 극대화
 
