@@ -3,7 +3,7 @@ sidebar:
   order: 144
   label: "144. ASIC AI Acceleration (ASIC AI 가속)"
   badge:
-    text: "기출 • 60%"
+    text: "기출 · 60%"
     variant: note
 title: "ASIC AI Acceleration (ASIC AI 가속)"
 date: "2026-08-14T06:58:00+09:00"
@@ -50,7 +50,7 @@ extra:
 
 #### 한줄 요약
 
-- 고정 워크로드의 효율과 **변경 시 재설계 비용**의 상충
+- 고정 워크로드의 효율과 **변경 시 재설계 비용** 상충
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -166,7 +166,7 @@ ASIC, GPU, FPGA는 변경 가능성과 전력 효율이 다르다.
 
 </details>
 
-- **연산 안정성•양산량**으로 ASIC과 GPU 선택
+- **연산 안정성•양산량** 기반 ASIC과 GPU 선택
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 182
   label: "182. 소버린 클라우드 (Sovereign Cloud)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "소버린 클라우드 (Sovereign Cloud)"
 date: "2026-08-16T17:16:00+09:00"
@@ -175,4 +175,4 @@ extra:
 
 #### 한줄 요약
 
-- **관할권•원격 접근•키•이전성**에 따라 주권 적용 범위 결정
+- **관할권•원격 접근•키•이전성** 대상 따라 주권 적용 범위 결정

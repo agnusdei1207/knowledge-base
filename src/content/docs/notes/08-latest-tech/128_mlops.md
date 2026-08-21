@@ -3,7 +3,7 @@ sidebar:
   order: 128
   label: "128. MLOps (Machine Learning Operations)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
 date: "2026-08-14T06:26:00+09:00"
@@ -117,7 +117,7 @@ extra:
 
 #### 한줄 요약
 
-- 후보를 검증•배포하고 **드리프트 신호**로 재학습
+- 후보를 검증•배포하고 **드리프트 신호** 기반 재학습
 
 ## Ⅴ. 종류 및 비교
 

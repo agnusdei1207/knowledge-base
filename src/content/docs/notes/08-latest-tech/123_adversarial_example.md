@@ -3,7 +3,7 @@ sidebar:
   order: 123
   label: "123. 적대적 예제 (Adversarial Example)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "적대적 예제 (Adversarial Example)"
 date: "2026-08-14T06:16:00+09:00"
@@ -166,4 +166,4 @@ FGSM, PGD, C&W는 탐색 반복과 교란 최적화 강도가 다르다.
 
 #### 한줄 요약
 
-- 공격 지식•예산별 **강건 정확도**로 방어 채택 결정
+- 공격 지식•예산별 **강건 정확도** 기반 방어 채택 결정

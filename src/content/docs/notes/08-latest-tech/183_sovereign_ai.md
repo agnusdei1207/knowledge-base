@@ -3,7 +3,7 @@ sidebar:
   order: 183
   label: "183. 소버린 AI (Sovereign AI)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "소버린 AI (Sovereign AI)"
 date: "2026-08-16T17:16:00+09:00"
@@ -177,4 +177,4 @@ extra:
 
 #### 한줄 요약
 
-- **민감도•공급망 의존•대체 가능성**에 따라 주권 수준 결정
+- **민감도•공급망 의존•대체 가능성** 대상 따라 주권 수준 결정

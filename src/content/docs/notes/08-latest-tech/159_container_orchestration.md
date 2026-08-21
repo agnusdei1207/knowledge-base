@@ -3,7 +3,7 @@ sidebar:
   order: 159
   label: "159. Container Orchestration (컨테이너 오케스트레이션)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "Container Orchestration (컨테이너 오케스트레이션)"
 date: "2026-08-14T07:28:00+09:00"

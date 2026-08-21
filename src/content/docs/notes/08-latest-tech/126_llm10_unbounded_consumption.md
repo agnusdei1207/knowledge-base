@@ -3,7 +3,7 @@ sidebar:
   order: 126
   label: "126. LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
 date: "2026-08-14T06:22:00+09:00"
@@ -32,7 +32,7 @@ extra:
 
 #### 한줄 요약
 
-- 요청 수와 **토큰•시간•도구 비용**을 함께 제한
+- 요청 수와 **토큰•시간•도구 비용** 함께 제한
 
 ## Ⅱ. 특징
 
@@ -50,7 +50,7 @@ extra:
 
 #### 한줄 요약
 
-- 동일 요청 수도 **토큰•도구 반복**에 따라 비용 편차 발생
+- 동일 요청 수도 **토큰•도구 반복** 대상 따라 비용 편차 발생
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -178,4 +178,4 @@ extra:
 
 #### 한줄 요약
 
-- 복합 자원 한도와 **격리 실행 풀**로 사용자 독점 차단
+- 복합 자원 한도와 **격리 실행 풀** 기반 사용자 독점 차단

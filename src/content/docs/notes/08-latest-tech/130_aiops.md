@@ -3,7 +3,7 @@ sidebar:
   order: 130
   label: "130. AIOps (Artificial Intelligence for IT Operations)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
 date: "2026-08-14T06:30:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 </details>
 
-규칙 기반 운영과 **AIOps**는 정상 기준과 경보 상관분석 방식이 다르다.
+규칙 기반 운영과 **AIOps** 기반 정상 기준과 경보 상관분석 방식이 다르다.
 
 - 다중 신호•토폴로지 기반 **경보 상관분석**
 - 동적 정상 기준 기반 **이상 탐지**
@@ -176,4 +176,4 @@ extra:
 
 #### 한줄 요약
 
-- 원인 후보는 근거로 검증하고 **고위험 복구**는 사람이 결정
+- 원인 후보는 근거로 검증하고 **고위험 복구** 기반 사람이 결정

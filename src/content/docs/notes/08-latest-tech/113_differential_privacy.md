@@ -3,7 +3,7 @@ sidebar:
   order: 113
   label: "113. 차등 프라이버시 (Differential Privacy)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
 date: "2026-08-14T05:56:00+09:00"
@@ -45,7 +45,7 @@ extra:
 
 ![프라이버시 예산에 따른 출력 확률비 상한](/study/diagrams/dp-epsilon-likelihood-bound.svg)
 
-> 오른쪽으로 갈수록 파란 $e^\epsilon$ 선과 점이 빠르게 증가해 출력 구별 범위가 넓어지며, $\delta=0$인 **순수 DP**의 확률비 상한이다.
+> 오른쪽으로 갈수록 파란 $e^\epsilon$ 선과 점이 빠르게 증가해 출력 구별 범위가 넓어지며, $\delta=0$인 **순수 DP** 확률비 상한이다.
 
 - 보호 단위•인접성 정의에 따른 **프라이버시 보장 경계**
 - 민감도•$\epsilon,\delta$ 기반 **무작위 잡음 보정**
@@ -123,9 +123,9 @@ extra:
 
 </details>
 
-**Central DP**와 **Local DP**는 잡음을 추가하는 주체와 신뢰 경계가 다르다.
+**Central DP** 및 **Local DP** 기반 잡음을 추가하는 주체와 신뢰 경계가 다르다.
 
-| 비교 기준 | 중앙 DP | 로컬 DP |
+| 구분 | 중앙 DP | 로컬 DP |
 |:---|:---|:---|
 | 적용 기준 | 신뢰할 중앙 수집자 존재 | 중앙 수집자 불신 |
 | 핵심 특징 | 수집 후 중앙의 **잡음 추가** | 전송 전 사용자의 **값 무작위화** |

@@ -3,7 +3,7 @@ sidebar:
   order: 106
   label: "106. SHAP 설명 기법 (SHapley Additive exPlanations)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "SHAP 설명 기법 (SHapley Additive exPlanations)"
 date: "2026-08-14T05:42:00+09:00"
@@ -31,7 +31,7 @@ extra:
 - 배경/필요성: 단순 중요도는 상호작용 특징의 **기여도 배분 기준 부족**
 
 #### 한줄 요약
-- **기준값•특징 기여도 합**으로 개별 예측 설명
+- **기준값•특징 기여도 합** 기반 개별 예측 설명
 
 ## Ⅱ. 특징
 
@@ -135,14 +135,14 @@ SHAP 계산기
 
 SHAP은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식을 선택한다.
 
-| 비교 기준 | Kernel SHAP | Tree SHAP | Deep SHAP |
+| 구분 | Kernel SHAP | Tree SHAP | Deep SHAP |
 |:---|:---|:---|:---|
 | 적용 기준 | 모델 비종속 설명 | 트리 모델 설명 | 심층 모델 근사 설명 |
 | 핵심 특징 | 표본 추출 기반 **기여도 근사** | 트리 구조 기반 **효율 계산** | 기준 내부 출력 기반 **역전파 근사** |
 | 한계 | 높은 계산량•분산 | 트리 모델 한정 | 근사 가정•기준값 민감 |
 
 #### 한줄 요약
-- **모델 비종속•트리•심층 모델**에 따라 계산 방식 구분
+- **모델 비종속•트리•심층 모델** 대상 따라 계산 방식 구분
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -175,4 +175,4 @@ SHAP은 모델 구조에 따라 Kernel SHAP, Tree SHAP, Deep SHAP 계산 방식�
 - 범용 모델은 **Kernel SHAP**, 트리는 **Tree SHAP**, 신경망은 **Deep SHAP** 선택
 
 #### 한줄 요약
-- **모델 구조•배경 대표성**에 따라 SHAP 계산기•해석 범위 결정
+- **모델 구조•배경 대표성** 대상 따라 SHAP 계산기•해석 범위 결정

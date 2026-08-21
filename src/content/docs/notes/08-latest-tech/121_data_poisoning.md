@@ -3,7 +3,7 @@ sidebar:
   order: 121
   label: "121. 데이터 오염 (Data Poisoning)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
 date: "2026-08-16T17:16:00+09:00"

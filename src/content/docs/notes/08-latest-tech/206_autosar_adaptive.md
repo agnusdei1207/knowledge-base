@@ -3,7 +3,7 @@ sidebar:
   order: 206
   label: "206. AUTOSAR Adaptive Platform"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
 date: "2026-08-14T12:02:00+09:00"
@@ -44,8 +44,8 @@ extra:
 </details>
 
 - **POSIX** 기반 독립 프로세스 실행•자원 격리
-- `ara::com` 기반 **동적 서비스 탐색•통신**이 핵심임.
-- 실행•건강•설정•갱신의 **플랫폼 생명주기 통합**이 핵심임.
+- `ara::com` 기반 **동적 서비스 탐색•통신** 핵심임.
+- 실행•건강•설정•갱신의 **플랫폼 생명주기 통합** 핵심임.
 #### 한줄 요약
 
 - 고성능 차량 앱을 독립 프로세스로 실행하고 표준 서비스로 통신•상태•갱신을 관리한다.
@@ -62,7 +62,7 @@ extra:
 
 </details>
 
-**ARA•UCM•PHM•POSIX**가 Adaptive 애플리케이션의 실행 기반을 구성한다.
+**ARA•UCM•PHM•POSIX** Adaptive 애플리케이션의 실행 기반을 구성한다.
 
 ```text
                 [ARA•ara::com]
@@ -98,7 +98,7 @@ extra:
 
 </details>
 
-**UCM•PHM•ARA**가 배포•통신•건강 상태를 관리한다.
+**UCM•PHM•ARA** 배포•통신•건강 상태를 관리한다.
 
 ```text
 [UCM]
@@ -173,8 +173,8 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 
 </details>
 
-- 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic**으로 분리함.
+- 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic** 기반 분리함.
 
 #### 한줄 요약
 
-- **통신•시간•안전 책임**을 Classic과 Adaptive 사이에 분리
+- **통신•시간•안전 책임** Classic과 Adaptive 사이에 분리
