@@ -5,8 +5,8 @@ sidebar:
   badge:
     text: "기출 · 50%"
     variant: note
-title: "NVLink 고대역폭 인터커넥트 (NVLink)"
-date: "2026-08-13T16:51:54+09:00"
+title: "초고속 GPU 스케일업 인터커넥트 : NVLink 및 NVSwitch (High-Bandwidth Interconnect)"
+date: "2026-08-22T08:15:00+09:00"
 tags: ["notes-network"]
 weight: 105
 extra:
@@ -14,181 +14,145 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 50
-  priority_note: "비교형: 138회 NVLink Scale-up 구성"
+  priority_note: "GPU-to-GPU 고대역폭, NVSwitch 풀 메시(Full-Mesh), 단일 공유 메모리 풀(SHMEM), NCCL 가속"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>용어 설명</summary>
 
-- **NVLink**: NVIDIA가 GPU•CPU 등 처리기 사이의 고대역폭 직접 통신을 위해 제공하는 전용 인터커넥트이다.
-- **그래픽처리장치(Graphics Processing Unit, GPU)**: 병렬 연산을 대량 처리하는 가속기이다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치이다.
-- **고속 주변기기 연결(Peripheral Component Interconnect Express, PCIe)**: 호스트와 주변장치를 연결하는 고속 직렬 버스이다.
-- **고대역폭 스케일업 연결**: 한 시스템의 GPU•CPU 메모리 도메인을 전용 고속 링크로 확장하는 연결 방식이다.
-- **GPU 간 대역폭 병목**: 여러 가속기가 PCIe 공유 경로를 사용할 때 통신량이 링크 용량을 초과하는 문제이다.
+- **NVLink**: NVIDIA가 GPU 간(GPU-to-GPU) 및 CPU-GPU 간의 초고속 데이터 교환을 위해 개발한 전용 점대점(Point-to-Point) 직렬 통신 인터커넥트 프로토콜.
+- **NVSwitch**: 단일 서버 노드(DGX/HGX) 내에서 다수의 GPU를 완전 비차단 풀 메시(Full-Mesh) 토폴로지로 연결하여 모든 GPU가 동일한 초대역폭으로 상호 직접 접근할 수 있도록 중계하는 고성능 스위치 반도체.
 
 </details>
 
-- 정의/개념: GPU•CPU 메모리 도메인을 잇는 **고대역폭 스케일업 연결**이다.
-- 배경/필요성: PCIe의 **GPU 간 대역폭 병목** 발생한다.
+- 정의/개념: 표준 PCIe 버스의 대역폭 한계를 극복하고 복수의 GPU 메모리 공간을 단일 통합 가상 주소 공간(Unified Memory Space)으로 묶어, **GPU 간 최대 1.8TB/s~7.2TB/s의 양방향 대역폭** 을 제공하는 **초고속 스케일업(Scale-Up) 인터커넥트 아키텍처**
+- 배경/필요성: 수천억 파라미터 규모의 초거대 언어 모델(LLM) 훈련 시 텐서 병렬화(Tensor Parallelism) 연산에서 발생하는 폭발적인 GPU 간 중간 가중치 동기화 트래픽을 PCIe 버스(128GB/s)로 수용할 수 없는 극심한 통신 병목을 해소할 요구
 
 #### 한줄 요약
-
-- 한 서버 안의 여러 GPU가 CPU 메모리를 돌아가지 않고 전용 고속 통로로 서로의 자료를 주고받게 한다.
+- NVSwitch와 전용 직렬 링크를 통해 단일 노드 내 복수 GPU를 완전 비차단 고대역폭 공유 메모리로 연결한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **토폴로지 인식 집합 통신**: GPU•NVSwitch 연결과 링크 상태에 따라 NCCL이 링•트리 경로를 선택하는 방식이다.
-- **NVSwitch**: 여러 NVLink 포트를 교차 연결해 다수 GPU가 동시에 통신할 경로를 제공하는 스위치이다.
-- **NVIDIA 집합 통신 라이브러리(NVIDIA Collective Communications Library, NCCL)**: 다중 GPU 집합 통신 경로를 선택하는 라이브러리이다.
-- **상호 메모리 접근**: GPU와 CPU가 연결된 다른 처리기의 메모리 자료를 직접 읽고 쓰는 기능이다.
-- **다중 GPU 교차 연결**: NVSwitch가 여러 NVLink 포트를 동시에 연결해 GPU 쌍 사이 경로를 제공하는 구조이다.
+- **공유 메모리 가상화(Unified Memory / SHMEM)**: 물리적으로 분리된 8개~72개 GPU의 고대역폭 메모리(HBM)를 하나의 거대한 단일 주소 공간으로 매핑하여 임의의 GPU가 타 GPU의 HBM에 직접 로드/스토어(Load/Store)를 수행하는 기술.
+- **하드웨어 집합 통신 가속(SHARP in NVSwitch)**: All-Reduce 등 집합 연산 시 데이터를 GPU 코어에서 처리하지 않고 NVSwitch 하드웨어 레지스터에서 직접 덧셈/리듀스를 수행하여 반환하는 기술.
 
 </details>
 
-- **GPU**•**CPU** 간 **상호 메모리 접근** 핵심이다.
-- **NVSwitch** 기반 **다중 GPU 교차 연결** 핵심이다.
-- **NCCL** 기반 **토폴로지 인식 집합 통신** 핵심이다.
+- **PCIe 대비 최대 14배 이상 초고대역폭 제공**: NVLink 5세대(Blackwell) 기준 GPU당 양방향 1.8TB/s 대역폭 달성
+- **단일 노드 내 완전 비차단 풀 메시(Full-Mesh)**: NVSwitch 패브릭을 통해 모든 GPU 간 1-홉(Hop) 직접 통신 보장
+- **NCCL(NVIDIA Collective Communications Library) 최적화**: 토폴로지 자동 인식 기반으로 링(Ring) 및 트리(Tree) 알고리즘을 하드웨어 레벨에서 최적 스케줄링
 
 #### 한줄 요약
-
-- 빠른 링크가 있어도 자주 통신하는 GPU가 멀리 배치되면 여러 스위치와 외부망을 거쳐 대기 시간이 커진다.
+- PCIe 대비 14배 대역폭, NVSwitch 기반 풀 메시 연결, 하드웨어 집합 연산 및 단일 메모리 풀을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **GPU•CPU 메모리 도메인**: 자료 저장과 상호 접근 경계를 제공하는 영역이다.
-- **NVLink 포트**: 처리기 사이의 고속 링크를 제공하는 접속부이다.
-- **NVSwitch 패브릭**: 여러 포트의 동시 교차 경로를 제공하는 전송망이다.
-- **패브릭 관리자(Fabric Manager)**: 링크•파티션•접근 상태를 관리하는 구성요소이다.
-- **NCCL 통신 계층**: 토폴로지별 집합 통신 경로를 선택하는 계층이다.
+- **NVLink 패브릭 관리자(Fabric Manager)**: NVSwitch 스위칭 라우팅 테이블을 프로그래밍하고 GPU 간의 메모리 접근 격리 및 장애 링크를 관리하는 시스템 데몬.
 
 </details>
 
 ```text
-NVLink 인터커넥트
-├─ GPU•CPU 메모리 도메인
-├─ NVLink 포트
-├─ NVSwitch 패브릭
-├─ 패브릭 관리자
-└─ NCCL 통신 계층
+[ GPU 0 (HBM3e) ] ── (NVLink 5 Port) ──┐                        ┌── (NVLink 5 Port) ── [ GPU 4 (HBM3e) ]
+[ GPU 1 (HBM3e) ] ── (NVLink 5 Port) ──┼──▶ [ NVSwitch 패브릭 ] ◀──┼── (NVLink 5 Port) ── [ GPU 5 (HBM3e) ]
+[ GPU 2 (HBM3e) ] ── (NVLink 5 Port) ──┤    (비차단 크로스바 스위치)  ├── (NVLink 5 Port) ── [ GPU 6 (HBM3e) ]
+[ GPU 3 (HBM3e) ] ── (NVLink 5 Port) ──┘    (All-Reduce 가속 엔진)   └── (NVLink 5 Port) ── [ GPU 7 (HBM3e) ]
+                                                       │
+                                                       ▼ (단일 14.4TB/s 공유 메모리 도메인 형성)
+                                          [ NCCL 텐서 병렬화 가속 엔진 ]
 ```
 
-가지의 의미: 메모리•링크•교차 연결•관리•통신 책임을 분리한 구조이다.
+선의 의미: 8개의 GPU가 NVSwitch 패브릭을 통해 풀 메시로 결합되어 GPU 간 메모리 복사 없이 단일 공유 메모리 풀을 구성하는 스케일업 아키텍처
 
-| 구성요소 | 책임 |
-|:---|:---|
-| GPU•CPU 메모리 도메인 | **GPU•CPU 메모리 도메인** 자료 저장•상호 접근 경계 제공 |
-| NVLink 포트 | **NVLink 포트** 처리기 사이 고속 링크 제공 |
-| NVSwitch 패브릭 | **NVSwitch 패브릭** 여러 포트의 동시 교차 경로 제공 |
-| 패브릭 관리자 | **패브릭 관리자** 링크•파티션•접근 상태 관리 |
-| NCCL 통신 계층 | **NCCL 통신 계층** 토폴로지별 집합 통신 경로 선택 |
+| 구성요소 | 핵심 책임 및 역할 | 비고 |
+|:---|:---|:---|
+| **NVLink 인터페이스** | GPU 칩셋에 내장된 고속 차동 시그널링(PAM4) 물리 송수신기(PHY) 및 링크 컨트롤러 | Direct Point-to-Point |
+| **NVSwitch ASIC** | 다수의 NVLink 포트를 임의의 GPU 간에 무충돌 라인 레이트로 교차 연결 | Crossbar Switch |
+| **통합 메모리 제어기**| 타 GPU의 HBM 어드레스를 로컬 메모리처럼 주소 변환(Direct Load/Store) | Unified Memory |
+| **패브릭 관리자 (FM)**| NVSwitch 라우팅 테이블 프로그래밍, 토폴로지 동적 구성 및 링크 오류 감시 | NVIDIA Fabric Manager |
+| **NCCL 라이브러리** | All-Reduce, All-to-All 집합 연산을 NVLink 하드웨어 파이프라인에 1:1 매핑 | Collective Comm |
 
 #### 한줄 요약
-
-- GPU 포트를 NVSwitch가 교차 연결하고 관리자가 접근 영역을 정하면 NCCL이 집합 통신 경로를 선택한다.
+- NVLink 인터페이스, NVSwitch 크로스바, 통합 메모리 제어기, 패브릭 관리자, NCCL 라이브러리가 결합한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **통신 순위•자료 배치**: NCCL이 자주 교환하는 GPU 순위를 가까운 링크에 배치하는 방식이다.
-- **집합 통신(Collective Communication)**: 여러 GPU가 하나의 그룹으로 브로드캐스트•리듀스•전체 리듀스 등을 수행하는 통신 방식이다.
-- **링크 토폴로지 발견**: GPU•포트•스위치 연결과 링크 상태를 수집하는 단계이다.
-- **도메인•파티션 구성**: 처리기 사이의 상호 접근 경계와 권한을 설정하는 단계이다.
-- **집합 경로 활성화**: 집합 연산에 맞는 링•트리 경로를 생성하는 단계이다.
-- **집합 데이터 전송**: 선택한 경로로 여러 GPU의 자료를 교환하는 단계이다.
+- **토폴로지 인식 랭크 배치(Topology-Aware Rank Placement)**: NCCL이 GPU 간의 물리적 NVLink 링크 상태와 NVSwitch 연결 구조를 감지하여 텐서 병렬화 랭크(Rank)를 가장 가까운 GPU 쌍에 자동 매핑하는 기법.
 
 </details>
 
 ```text
-1. 링크 토폴로지 발견
-        │
-        ▼
-2. 도메인•파티션 구성
-        │
-        ▼
-집합 통신 요청
-        │
-        ▼
-3. 통신 순위•자료 배치
-        │
-        ▼
-4. 집합 경로 활성화
-        │
-        ▼
-5. 집합 데이터 전송
-        │
-        └── 집합 통신 결과 반환
+1. 시스템 초기화 시 패브릭 관리자(FM)가 GPU 및 NVSwitch 연결 상태를 탐색하여 비차단 크로스바 라우팅 설정
+            │
+            ▼
+2. 딥러닝 프레임워크(PyTorch)가 NCCL 집합 통신(All-Reduce) 요청 트리거
+            │
+            ▼
+3. NCCL이 NVSwitch 하드웨어 토폴로지를 인식하여 최적의 Ring / Tree 데이터 전송 경로 활성화
+            │
+            ▼
+4. 각 GPU가 PCIe 및 CPU 개입 없이 NVLink 하드웨어를 통해 타 GPU의 HBM 메모리로 직접 DMA 전송
+            │
+            ▼
+5. NVSwitch 하드웨어 가속기에서 텐서 합산(SHARP Reduction)을 동시 수행 ➔ 전 GPU에 동기화된 가중치 즉각 반환
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. 링크 토폴로지 발견: GPU•포트•스위치 연결의 **링크 토폴로지 발견** 수행한다.
-2. 도메인•파티션 구성: 상호 접근 경계와 권한의 **도메인•파티션 구성** 수행한다.
-3. 통신 순위•자료 배치: 자주 교환할 GPU에 **통신 순위•자료 배치** 활용 적용한다.
-4. 집합 경로 활성화: 연산별 링•트리의 **집합 경로 활성화** 활용 수행한다.
-5. 집합 데이터 전송: **집합 통신** 경로로 **집합 데이터 전송** 수행한다.
+1. **하드웨어 패브릭 수립**: NVSwitch가 8개~72개 GPU 간의 전용 고속 고밀도 버스 링크 활성화
+2. **토폴로지 최적화**: NCCL이 홉 수가 최소화되는 텐서 교환 알고리즘(Ring/Tree) 자동 선택
+3. **직접 메모리 액세스**: 송신 GPU가 수신 GPU의 HBM 주소에 100ns 이하 레이턴시로 데이터 직접 기록
+4. **인패브릭 연산**: 단순 데이터 중계를 넘어 스위치 내부 연산 유닛에서 집합 덧셈 동시 수행
+5. **초고속 동기화 완료**: 기존 InfiniBand/이더넷 대비 5~10배 빠른 속도로 텐서 병렬화 스텝 종료
+
 #### 한줄 요약
-
-- 연결 구조를 먼저 확인해 자주 통신하는 GPU를 가깝게 놓고 NCCL이 연산에 맞는 링이나 트리 경로를 사용한다.
+- 패브릭 초기화, NCCL 토폴로지 인식, Ring/Tree 경로 수립, NVLink 직접 DMA 전송, 인패브릭 연산 완료 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **InfiniBand**: 전용 RDMA와 크레딧 제어를 제공하는 클러스터 인터커넥트이다.
-- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술이다.
-- **모델 병렬(Model Parallelism)**: 하나의 모델을 여러 GPU에 나누는 병렬화 방식이다.
-- **텐서 병렬(Tensor Parallelism)**: 하나의 텐서 연산을 여러 GPU에 나누는 병렬화 방식이다.
+- **NVLink 세대별 진화 및 PCIe/네트워크 비교**: 세대별 대역폭 발전 및 스케일업(NVLink)과 스케일아웃(InfiniBand/Ethernet)의 역할 분담 비교.
 
 </details>
 
-| 가속기 연결 방식 | **NVLink** | **PCIe** | **InfiniBand**•**RoCE** |
-|:---|:---|:---|:---|
-| 적용 기준 | 한 도메인의 **모델 병렬**•**텐서 병렬** | 저장•망 장치의 범용 연결 | 랙•클러스터 간 집합 통신 |
-| 핵심 특징 | 스케일업 메모리 연결 | 범용 호스트•장치 버스 | 스케일아웃 **RDMA**망 |
-| 한계 | 전용 생태계•토폴로지 제약 | GPU 간 대역폭•공유 병목 | 망 혼잡•외부 경로 지연 |
+| 비교 항목 | NVLink 4 (Hopper H100) | NVLink 5 (Blackwell B200) | 범용 PCIe Gen5 | 스케일아웃 (InfiniBand NDR) |
+|:---|:---|:---|:---|:---|
+| **GPU당 양방향 대역폭**| **900 GB/s** | **1,800 GB/s (1.8 TB/s)** | **128 GB/s** | 100 GB/s (800Gbps Link) |
+| **스위치 도메인 확장** | 단일 노드 8 GPU (NVLink Switch) | **단일 랙 72 GPU (NVL72)** | 단일 메인보드 8 Slot | 수만 대 노드 클러스터 |
+| **통신 메커니즘** | **직접 HBM 로드/스토어 (SHMEM)** | **NVL72 랙 스케일 단일 메모리 풀**| PCIe 버스 호스트 DMA | RDMA 네트워크 패킷 전송 |
+| **주요 적용 병렬화** | **텐서 병렬화 (Tensor Parallelism)**| **초거대 MoE / 텐서 병렬화** | 스토리지/NIC 연결 | **데이터 병렬화 (DP / PP)** |
+| **지연 시간 (Latency)**| **$\le 100\text{ns}$ (초극저지연)** | **$\le 100\text{ns}$ (랙 스케일 극저지연)**| $\sim 1\mu\text{s}$ | $\sim 1\sim 2\mu\text{s}$ |
 
 #### 한줄 요약
-
-- 한 시스템의 GPU 통신은 NVLink, 범용 장치는 PCIe, 서버 간 통신은 InfiniBand나 RoCE가 맡는다.
+- NVLink 5는 1.8TB/s로 NVL72 랙 스케일 메모리 풀을 형성하며, 텐서 병렬화 극저지연 처리에 독점적 우위를 갖는다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **사용률 편중**: GPU 집합 통신 경로가 같은 NVLink•NVSwitch 포트에 집중되는 문제이다.
-- **토폴로지 인식 순위 배치(Topology-Aware Rank Placement)**: 통신량이 큰 GPU 순위를 가까운 링크와 같은 스위치 도메인에 배치하는 기법이다.
-- **경로 재구성(Path Reconfiguration)**: 링크 장애나 혼잡 시 집합 통신의 링•트리 경로를 다시 선택하는 복구 방식이다.
+- **NVLink 단선 및 성능 디그레이션**: 특정 GPU 간 NVLink 차동 라인 접촉 불량이나 PHY 에러로 링크 대역폭이 절반으로 축소(Degraded)될 때 전체 클러스터 동기화 속도가 최저속 링크에 맞춰지는 병목 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 통신 GPU의 도메인 분리 | **토폴로지 인식 순위 배치** | 외부망 경유 트래픽 감소 |
-| 일부 링크의 **사용률 편중** | 링•트리 경로 분산 | 유효 대역폭 향상 |
-| 링크 장애의 성능 급락 | 오류 감시•**경로 재구성** | 집합 통신 지속성 확보 |
+| 특정 NVLink 차동 신호선 오류 시 링크 대역폭 반토막 및 클러스터 전체 훈련 지연 | **패브릭 관리자(FM) 기반 비트 에러 실시간 감시 및 동적 링 경로 재구성** | 불량 링크 조기 격리 및 통신 데드락 방지, 정상 훈련 지속 |
+| 텐서 통신량이 많은 GPU 쌍이 NVSwitch 도메인 경계를 넘어 배치되어 병목 발생 | **NCCL 토폴로지 인식(Topology-Aware) 랭크 매핑 및 근접 GPU 우선 할당** | NVSwitch 간 홉 수 최소화 및 All-Reduce 통신 효율 30% 향상 |
+| 고밀도 NVLink 스케일업(NVL72) 환경에서 랙 내부 과열로 인한 Thermal Throttling | **수랭식 직접 냉각(Direct-to-Chip Liquid Cooling) 및 열 분산 설계** | GPU 및 NVSwitch 쓰로틀링 방지, 100% 지속 최대 대역폭 보증 |
 
 #### 한줄 요약
-
-- 텐서 통신량이 큰 GPU를 같은 NVSwitch 도메인에 배치하고 링크 편중과 장애 링크의 대체 경로를 확인한다.
+- FM 에러 감시로 경로를 재구성하고, 토폴로지 인식 배치로 홉을 줄이며, 액체 냉각으로 쓰로틀링을 방지한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **가속기 연결 방식 선택**: 통신 범위•범용 장치 연결•서버 간 확장 요구에 따라 NVLink•PCIe•RDMA망을 배정하는 판단이다.
-
-</details>
-
-- 한 도메인 스케일업은 **NVLink**, 범용 장치는 **PCIe**, 서버 간 확장은 **RDMA**망을 택하는 **가속기 연결 방식 선택** 필요하다.
+- 수조 파라미터 거대 인공지능 모델의 분산 학습 및 실시간 추론을 가속하기 위해 **단일 노드/단일 랙 스케일업을 위한 NVLink 및 NVSwitch 패브릭**은 필수 불가결한 핵심 하드웨어 기술이며, 최근 NVL72 아키텍처를 통해 72개 GPU를 단일 거대 가상 GPU로 묶는 혁신을 달성하고, 스케일아웃 계층의 **InfiniBand/RoCEv2** 와 유기적으로 결합하여 초고성능 AI 팩토리 인프라를 완성
 
 #### 한줄 요약
-
-- NVLink 설계는 최고 링크 속도보다 자주 통신하는 GPU를 같은 도메인에 두고 외부망으로 나가는 경계를 줄이는 것이 중요하다.
+- NVLink와 NVSwitch를 통해 노드/랙 내부를 극저지연 공유 메모리로 묶고 스케일아웃 네트워크와 결합하여 대규모 AI 학습을 가속한다.

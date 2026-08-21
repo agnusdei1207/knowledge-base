@@ -5,8 +5,8 @@ sidebar:
   badge:
     text: "미출 · 50%"
     variant: note
-title: "RoCE — RDMA over Converged Ethernet (RoCE)"
-date: "2026-08-13T16:51:54+09:00"
+title: "이더넷 기반 무손실 고속 전송 : RoCE 및 RoCEv2 (RDMA over Converged Ethernet)"
+date: "2026-08-22T08:15:00+09:00"
 tags: ["notes-network"]
 weight: 103
 extra:
@@ -14,186 +14,150 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 50
-  priority_note: "설계•운영형: AI Ethernet Fabric 유력"
+  priority_note: "RoCEv1(L2) vs RoCEv2(L3 UDP 4791), 무손실 이더넷(PFC/IEEE 802.1Qbb), ECN/DCQCN 혼잡 제어"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>용어 설명</summary>
 
-- **통합 이더넷 기반 원격 직접 메모리 접근(RDMA over Converged Ethernet, RoCE)**: 이더넷 패브릭에서 RDMA를 제공하는 전송 기술이다.
-- **원격 직접 메모리 접근(Remote Direct Memory Access, RDMA)**: 호스트 간 등록 메모리를 직접 연결하는 전송 기술이다.
-- **RDMA 네트워크 인터페이스 카드(RDMA Network Interface Card, RNIC)**: RDMA 전송과 혼잡 제어를 처리하는 장치이다.
-- **전송 제어 프로토콜(Transmission Control Protocol, TCP)**: 신뢰성 있는 바이트 흐름을 제공하는 전송 프로토콜이다.
-- **중앙처리장치(Central Processing Unit, CPU)**: 범용 명령 실행과 연산을 담당하는 처리장치이다.
-- **CPU 부하•지연 증가**: TCP 소켓의 반복 복사와 커널 처리로 처리장치 사용량과 전송 지연이 커지는 문제이다.
+- **RoCE(RDMA over Converged Ethernet)**: 값비싼 InfiniBand 전용 케이블과 스위치 대신, 범용 데이터센터 이더넷(Ethernet) 인프라 상에서 InfiniBand 전송 계층 패킷을 캡슐화하여 RDMA 서비스를 제공하는 표준 기술 (IBTA 표준).
+- **RoCEv2(Routable RoCE / InfiniBand over UDP)**: L2 브로드캐스트 도메인에 국한되던 RoCEv1의 한계를 극복하기 위해, IP 및 UDP 헤더(목적지 포트 4791)로 InfiniBand 패킷을 캡슐화하여 L3 라우팅을 지원하는 차세대 표준.
 
 </details>
 
-- 정의/개념: **RoCE** 기반 이더넷 패브릭에서 RNIC 간 직접 전송을 제공하는 기술이다.
-- 배경/필요성: **TCP** 소켓의 복사•커널 처리로 **CPU** **CPU 부하•지연 증가** 발생한다.
+- 정의/개념: 이더넷 인프라 상에서 **무손실 패브릭(Lossless Fabric: PFC, ECN)** 과 **UDP/IP 캡슐화(RoCEv2)** 를 결합하여, 커널 우회 및 제로 카피 기반의 초저지연·고대역폭 전송을 L3 라우팅 규모로 확장한 **데이터센터 AI 네트워크 아키텍처**
+- 배경/필요성: 수만 개의 GPU가 참여하는 대규모 분산 AI 모델 학습 환경에서 InfiniBand의 높은 구축 비용 및 벤더 종속성을 탈피하고, 표준 이더넷 생태계의 가성비와 확장성을 활용할 요구
 
 #### 한줄 요약
-
-- 기존 이더넷 장비를 활용해 서버 메모리 사이를 빠르게 전송하되 혼잡으로 패킷이 버려지지 않게 별도 제어한다.
+- 범용 이더넷 상에서 UDP 캡슐화와 무손실 제어(PFC/ECN)를 통해 L3 라우팅 가능한 고성능 RDMA를 구현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **명시적 혼잡 알림(Explicit Congestion Notification, ECN)**: 혼잡을 패킷 표시에 담아 송신률 감소를 유도하는 기능이다.
-- **혼잡 알림 패킷(Congestion Notification Packet, CNP)**: 수신 RNIC가 송신 RNIC에 혼잡을 알리는 패킷이다.
-- **우선순위 흐름 제어(Priority Flow Control, PFC)**: 지정 우선순위의 링크 전송을 일시 정지하는 기능이다.
-- **RoCEv2(RDMA over Converged Ethernet version 2)**: IP 라우팅을 지원하는 RoCE 버전이다.
-- **인터넷 프로토콜(Internet Protocol, IP)**: 주소 기반 패킷 라우팅을 제공하는 네트워크 프로토콜이다.
-- **데이터센터 정량화 혼잡 알림(Data Center Quantized Congestion Notification, DCQCN)**: CNP 피드백으로 RoCE 송신률을 조정하는 방식이다.
-- **제로 카피•CPU 개입 감소**: RNIC가 등록 메모리 사이를 직접 전송해 중간 복사와 처리장치 작업을 줄이는 특성이다.
-- **IP 라우팅 확장**: RoCEv2가 UDP/IP 캡슐화로 계층 3 경로를 통과하는 특성이다.
-- **혼잡 조기 통제**: 패킷 손실 전에 ECN•CNP로 혼잡을 알리고 송신률을 낮추는 제어이다.
+- **PFC(Priority-based Flow Control, IEEE 802.1Qbb)**: 이더넷 링크 전체를 일시 정지시키는 레거시 PAUSE(802.3x)와 달리, 8개의 CoS 우선순위 큐 중 특정 큐(통상 Queue 3/4)에만 PAUSE 프레임을 전송하여 무손실(Lossless) 전송을 보장하는 L2 흐름 제어 기술.
+- **DCQCN(Data Center Quantized Congestion Notification)**: 스위치 버퍼가 차오르면 ECN 마킹(IP ToS/DSCP)을 수행하고, 수신 RNIC가 송신 RNIC로 CNP(혼잡 알림 패킷)를 회신하여 송신 속도를 정밀 감속하는 L3 엔드투엔드 혼잡 제어 알고리즘.
 
 </details>
 
-- **RNIC** 기반 **제로 카피•CPU 개입 감소** 핵심이다.
-- **RoCEv2** 기반 **IP 라우팅 확장** 핵심이다.
-- **ECN**•**CNP**•**DCQCN** 기반 **혼잡 조기 통제** 핵심이다.
+- **L3 라우팅 확장성 (RoCEv2 UDP 4791)**: 표준 IP 라우팅 및 ECMP(Equal-Cost Multi-Path) 해싱을 완벽 지원하여 대규모 데이터센터 리프-스파인(Leaf-Spine) 패브릭에 유연하게 배포
+- **무손실 이더넷(Lossless Ethernet) 기반 패킷 드롭 방지**: L2 PFC 하드웨어 버퍼 제어와 L3 ECN/DCQCN 선제적 감속을 결합하여 제로 패킷 손실 보장
+- **기존 이더넷 생태계 호환성**: 100G/200G/400G/800G 상용 스위치 및 광모듈을 그대로 활용하여 인프라 구축 비용(CapEx) 대폭 절감
 
 #### 한줄 요약
-
-- 패킷이 버려진 뒤 멈추기보다 ECN으로 혼잡을 일찍 알려 속도를 낮추고 PFC는 순간 폭주를 막는 마지막 장치로 쓴다.
+- L3 IP/UDP 라우팅 지원, PFC/DCQCN 기반 무손실 전송, 상용 이더넷 하드웨어 호환성을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **송신 RoCE RNIC**: 작업 전송과 DCQCN 송신률을 조정하는 장치이다.
-- **이더넷 패브릭**: 경로•버퍼•ECN 표시를 제공하는 전송망이다.
-- **수신 RoCE RNIC**: 패킷을 수신하고 CNP 피드백을 생성하는 장치이다.
-- **혼잡•PFC 제어기**: 큐 분류•ECN•순간 정지를 통제하는 구성요소이다.
-- **패브릭 관측기**: 경로별 ECN•PFC•손실•지연을 측정하는 구성요소이다.
+- **CNP(Congestion Notification Packet)**: ECN(CE 비트)이 마킹된 패킷을 수신한 목적지 RNIC가 발신지 RNIC로 즉시 전송하여 전송 레이트(Rate)를 낮추도록 지시하는 전용 제어 패킷 (RoCEv2 Opcode 0x81).
 
 </details>
 
 ```text
-RoCE 패브릭 구조
-├─ 송신 RoCE RNIC
-├─ 이더넷 패브릭
-├─ 수신 RoCE RNIC
-├─ 혼잡•PFC 제어기
-└─ 패브릭 관측기
+[ 송신 호스트 (Host A: GPU/RNIC) ]                   [ 수신 호스트 (Host B: GPU/RNIC) ]
+ ├─ RDMA User Buffer (Pinned)                         ├─ RDMA User Buffer (Pinned)
+ └─ DCQCN 송신 레이트 제어기                            └─ CNP 생성 엔진
+         │                                                    ▲
+         ▼ (1. RoCEv2 패킷 송출: UDP Dst Port 4791)          │
+┌─────────────────────────────────────────────────────────────┼───────────────────────────────────┐
+│ [ 리프-스파인 무손실 이더넷 패브릭 (Leaf-Spine Network) ]    │                                   │
+│  ├─ L2 계층: PFC (IEEE 802.1Qbb) ── (버퍼 임계치 도달 시 상류 스위치로 PAUSE 전송: 무손실 보장) │
+│  └─ L3 계층: WRED / ECN (RFC 3168) ── (스위치 큐 점유 시 IP 헤더 ECN 비트를 '11'로 마킹)         │
+└─────────────────────────────────────────────────────────────┼───────────────────────────────────┘
+         ▲                                                    │ (2. ECN 마킹 패킷 수신)
+         └──────────────── (3. CNP 패킷 역방향 전송) ─────────┘
 ```
 
-가지의 의미: 송수신•전달•혼잡 통제•관측 책임을 분리한 정적 구조이다.
+선의 의미: RoCEv2 데이터 패킷이 스위치 패브릭에서 ECN 마킹을 거쳐 수신단에 도착하고, 수신 RNIC가 생성한 CNP 피드백을 통해 송신단이 레이트를 조절하는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 송신 RoCE RNIC | **송신 RoCE RNIC** 작업 전송과 DCQCN 송신률 조정 |
-| 이더넷 패브릭 | **이더넷 패브릭** 경로•버퍼•ECN 표시 제공 |
-| 수신 RoCE RNIC | **수신 RoCE RNIC** 패킷 수신과 CNP 피드백 생성 |
-| 혼잡•PFC 제어기 | **혼잡•PFC 제어기** 큐 분류•ECN•순간 정지 통제 |
-| 패브릭 관측기 | **패브릭 관측기** 큐•ECN•PFC•손실•지연 측정 |
+| 구성요소 | 핵심 책임 및 역할 | 비고 |
+|:---|:---|:---|
+| **RoCEv2 RNIC** | UDP 4791 캡슐화/역캡슐화, DMA 메모리 읽기/쓰기, DCQCN 레이트 제어기 구동 | Mellanox ConnectX |
+| **PFC 제어기 (L2)** | 스위치 입력 버퍼 고갈 시 송신 포트에 802.1Qbb PAUSE 프레임을 전송하여 드롭 방지 | Lossless Queue |
+| **ECN 마킹 엔진 (L3)** | 스위치 출력 큐의 WRED 임계치 초과 시 패킷 폐기 대신 IP 헤더 ECN 비트 마킹 | RFC 3168 ECN |
+| **CNP 생성기** | 수신된 패킷의 ECN 마킹을 감지하여 발신지로 50$\mu\text{s}$ 주기 CNP 패킷 회신 | Congestion Signal |
+| **ECMP 패브릭** | UDP 출발지 포트 번호(엔트로피 해시)를 기반으로 다중 스파인 경로에 트래픽 균등 분산 | Load Balancing |
 
 #### 한줄 요약
-
-- 스위치가 혼잡을 표시하면 수신 장치가 송신 장치에 속도를 낮추라고 알리고 순간 폭주는 PFC가 잠시 멈춘다.
+- RoCEv2 RNIC, PFC 무손실 큐, ECN 스위치 마킹, CNP 피드백 루프, ECMP 분산 패브릭이 결합한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **CNP 혼잡 피드백**: 수신 RNIC가 ECN을 확인해 송신 RNIC에 속도 감소를 요청하는 절차이다.
-- **RoCE 큐 분류**: RoCE 트래픽을 지정 이더넷 우선순위 큐에 매핑하는 단계이다.
-- **다중 경로 전달**: 흐름 해시로 여러 패브릭 경로에 트래픽을 분산하는 단계이다.
-- **ECN 혼잡 표시**: 스위치 큐가 임계값에 도달하면 패킷에 혼잡 정보를 표시하는 단계이다.
-- **송신률 조정**: CNP의 혼잡 정도에 맞춰 송신 RNIC의 전송 속도를 줄이는 단계이다.
+- **PFC 데드락(PFC Deadlock)**: 링(Ring) 또는 복합 토폴로지에서 스위치 간 버퍼가 서로 상대를 향해 영구적으로 PAUSE 프레임을 전송하여 트래픽 흐름이 완전히 마비되는 교착 상태.
 
 </details>
 
 ```text
-1. RoCE 큐 분류
-        │
-        ▼
-2. 다중 경로 전달
-        │
-        ▼
-큐 임계값 판정
-        ├─ 미만: 정상 전달
-        └─ 이상
-             │
-             ▼
-     3. ECN 혼잡 표시
-             │
-             ▼
-     4. CNP 혼잡 피드백
-             │
-             ▼
-     5. 송신률 조정
-             │
-             └── 조정된 트래픽 재전송
+1. 송신 호스트가 GPU 메모리의 텐서 데이터를 RoCEv2(UDP 4791)로 캡슐화하여 패브릭으로 라인 레이트 송출
+            │
+            ▼
+2. 스위치 버퍼가 경고 임계치(ECN Threshold)에 도달 ➔ 스위치가 패킷 IP 헤더의 ECN 필드를 '11'(CE)로 마킹
+            │
+            ▼
+3. 수신 호스트 RNIC가 CE 마킹을 감지 ➔ 송신 호스트를 목적지로 하는 CNP(혼잡 알림 패킷)를 즉시 송출
+            │
+            ▼
+4. 송신 RNIC의 DCQCN 엔진이 CNP를 수신하여 해당 큐 페어(QP)의 전송 속도를 즉각 감속(Rate Throttling)
+            │
+            ▼
+5. 순간 폭주로 스위치 버퍼가 위험 임계치에 도달할 경우 ➔ L2 PFC PAUSE가 발동하여 0ms 무손실 방어
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. RoCE 큐 분류: 트래픽에 **RoCE 큐 분류** 활용 적용한다.
-2. 다중 경로 전달: 경로 해시로 **다중 경로 전달** 수행한다.
-3. ECN 혼잡 표시: 큐 임계값에서 **ECN 혼잡 표시** 활용 적용한다.
-4. CNP 혼잡 피드백: 수신 RNIC가 **CNP 혼잡 피드백** 기반 혼잡을 통지한다.
-5. 송신률 조정: 혼잡 정도에 맞춰 **송신률 조정** 수행한다.
+1. **UDP 캡슐화 전송**: InfiniBand BTH(기본 전송 헤더) 앞에 IP 및 UDP 헤더를 부착하여 전송
+2. **ECN 선제 마킹**: 스위치 큐가 넘치기 전에 패킷을 폐기하지 않고 비트만 수정하여 하류로 전달
+3. **CNP 신속 피드백**: 수신단이 혼잡 상태를 인지하고 고우선순위 CNP를 역방향으로 전송
+4. **DCQCN 전송률 조절**: 송신단이 $\alpha$ 가중치에 따라 속도를 줄이고, 혼잡 해소 시 타이머 기반으로 속도 점진 회복
+5. **PFC 최후 방어선**: DCQCN 반응 시간 이전에 버퍼가 가득 찰 경우에만 PFC가 일시 정지하여 패킷 드롭 원천 방지
+
 #### 한줄 요약
-
-- 스위치 큐가 차기 시작하면 패킷에 표시하고 수신 서버가 송신 서버에 알려 속도를 줄여 버려지는 패킷을 예방한다.
+- RoCEv2 송출, ECN 스위치 마킹, CNP 역방향 통지, DCQCN 감속, PFC 무손실 방어 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **iWARP**: TCP의 신뢰 전송과 혼잡 제어를 이용하는 인터넷 광역 원격 직접 메모리 접근 프로토콜(Internet Wide Area RDMA Protocol)이다.
-- **RoCEv1**: 통합 이더넷 기반 원격 직접 메모리 접근 버전 1(RDMA over Converged Ethernet version 1, RoCEv1)은 RDMA 프레임을 계층 2에서 직접 전달하는 방식이다.
-- **사용자 데이터그램 프로토콜(User Datagram Protocol, UDP)**: 비연결형 데이터그램을 전달하는 전송 프로토콜이다.
+- **RoCEv1 vs RoCEv2 vs InfiniBand**: L2 전용 무손실 이더넷, L3 라우팅 지원 UDP/IP 이더넷, 네이티브 전용 패브릭의 비교.
 
 </details>
 
-| RDMA 전송 방식 | **RoCEv1** | **RoCEv2** | **iWARP** |
+| 비교 항목 | RoCEv1 (IB over L2 Ethernet) | RoCEv2 (IB over UDP/IP) | 네이티브 인피니밴드 (InfiniBand) |
 |:---|:---|:---|:---|
-| 적용 기준 | 단일 2계층의 소규모 무손실망 | 대규모 라우팅 데이터센터 | 손실망의 TCP 혼잡 제어 활용 |
-| 핵심 특징 | 2계층 RDMA 직접 전달 | **UDP**/**IP** 라우팅 RDMA | TCP 기반 RDMA |
-| 한계 | 방송 영역•확장성 제한 | ECN•**PFC** 복잡성•패킷 손실 | TCP 처리 지연•장비 지원 |
+| **캡슐화 계층** | **L2 이더넷 (EtherType: 0x8915)** | **L3/L4 UDP/IP (UDP Port: 4791)** | **InfiniBand Native Frame** |
+| **L3 라우팅 가능 여부**| **불가 (단일 L2 서브넷에 국한)** | **완벽 지원 (IP 기반 L3 패브릭 라우팅)**| InfiniBand 서브넷 라우터 필요 |
+| **혼잡 제어 메커니즘**| PFC (L2 Flow Control) 단독 의존 | **ECN + CNP + DCQCN + PFC 결합** | **신용 기반 흐름 제어 (Credit-Based)** |
+| **인프라 비용 (CapEx)**| 저렴 (표준 L2 스위치) | **저렴 (표준 L3 데이터센터 스위치)** | **매우 높음 (전용 케이블 및 스위치)** |
+| **주요 적용 영역** | 소규모 클러스터, 단일 랙 스토리지 | **초대규모 AI 데이터센터 (GPU 백본)** | 국가 슈퍼컴퓨터, 초고성능 HPC |
 
 #### 한줄 요약
-
-- 한 2계층 안이면 RoCEv1, 라우팅 규모면 RoCEv2, 일반 손실망의 TCP 동작을 원하면 iWARP를 고려한다.
+- RoCEv1은 소규모 L2 단일 랙용, RoCEv2는 초대규모 AI 클러스터 표준, InfiniBand는 최고 성능 전용망이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **PFC 멈춤의 경로 전파**: 한 우선순위 큐의 정지가 상류로 확산돼 무관한 흐름까지 막는 문제이다.
-- **의견 요청 문서(Request for Comments, RFC)**: 인터넷 기술 규격을 공개하는 문서 체계이다.
-- **RFC 3168**: ECN 동작을 규정한 인터넷 표준이다.
-- **전기전자공학자협회(Institute of Electrical and Electronics Engineers, IEEE)**: 전기•전자•통신 표준을 개발하는 전문 기구이다.
-- **IEEE 802.1Qbb**: PFC 동작을 규정한 이더넷 표준이다.
+- **헤드 오브 라인 블로킹(Head-of-Line Blocking, HoL)**: 특정 큐의 PFC 정지로 인해 해당 큐를 공유하는 다른 무관한 정상 트래픽까지 스위치 포트에서 전송이 가로막히는 전파 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 인캐스트의 버퍼 손실 | **RFC 3168** 기반 **ECN** 조기 표시 | 송신률 선제 조정 |
-| PFC 멈춤의 경로 전파 | **IEEE** **IEEE 802.1Qbb** 기반 우선순위 제한 | 교착•머리막힘 완화 |
-| 경로별 큐 설정 불일치 | 전 구간 큐 매핑 검증 | 무손실 동작 일관성 |
+| 스위치 간 PFC PAUSE 전파로 인한 패브릭 전체의 **PFC 데드락(Deadlock) 및 HoL 블로킹** | **PFC 데드락 워치독(Deadlock Watchdog)** 활성화 및 ECN 임계치를 PFC보다 낮게 사전 튜닝 | PFC 발동 빈도 90% 감소 및 데드락 발생 시 강제 큐 드레인으로 복구 |
+| 다중 GPU가 단일 목적지로 동시 전송 시 버퍼 폭발로 인한 **인캐스트(Incast) 패킷 손실** | **스위치 WRED ECN 조기 마킹 및 송신단 DCQCN 정밀 튜닝** (Fast Recovery 적용) | 버퍼 오버플로우 방지 및 무손실 상태에서 처리율 98% 유지 |
+| ECMP 라우팅 시 동일 플로우가 특정 링크로 쏠려 발생하는 **패브릭 불균형 및 핫스팟(Hotspot)** | RoCEv2 UDP Source Port에 **5-Tuple 엔트로피 해시 무작위화(Entropy Hashing)** 적용 | 리프-스파인 다중 경로 간 완벽한 트래픽 로드밸런싱 달성 |
 
 #### 한줄 요약
-
-- 혼잡 임계값을 실측해 ECN을 먼저 사용하고 PFC는 지정 우선순위의 순간 손실 방지에만 제한한다.
+- ECN/PFC 튜닝으로 데드락을 방지하고, DCQCN으로 인캐스트를 해소하며, 엔트로피 해싱으로 ECMP 부하를 분산한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **RDMA 전송 방식 선택**: 계층 2 범위•IP 라우팅 필요성•손실망 TCP 활용 여부에 따라 RoCEv1•RoCEv2•iWARP를 결정하는 판단이다.
-
-</details>
-
-- 단일 2계층은 **RoCEv1**, 라우팅 패브릭은 **RoCEv2**, 일반 손실망은 **iWARP** 활용 택하는 **RDMA 전송 방식 선택** 필요하다.
+- 하이퍼스케일 AI 데이터센터에서 GPU 간 통신 병목을 해소하고 비용 효율적인 고성능 네트워크를 구축하기 위해 **RoCEv2 기반의 무손실 이더넷 아키텍처**가 핵심 표준으로 채택되고 있으며, 인프라의 안정성을 극대화하기 위해 **PFC/ECN 듀얼 혼잡 제어 파라미터 최적화**, **PFC 데드락 워치독**, **엔트로피 해시 기반 ECMP 로드밸런싱**을 통합 적용하여 고성능 AI 패브릭을 완성
 
 #### 한줄 요약
-
-- RoCE 성능은 빠른 RNIC보다 모든 경로의 큐 분류와 혼잡 표시, PFC 멈춤을 함께 조정할 때 나온다.
+- RoCEv2와 무손실 이더넷(PFC/ECN) 및 DCQCN을 결합하여 고효율 AI 분산 학습 네트워크를 실현한다.
