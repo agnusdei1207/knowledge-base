@@ -20,11 +20,25 @@ extra:
 
 ## Ⅰ. 개요
 
+<details><summary>용어 설명</summary>
+
+- **위협 모델링(Threat Modeling)**: 시스템 아키텍처와 데이터 흐름(DFD)을 분석하여 잠재적 보안 위협을 식별하고 대응 우선순위를 수립하는 기법.
+
+</details>
+
+
 - 정의: **위협 모델링(Threat Modeling)** 은 소프트웨어 및 시스템 아키텍처 설계 단계에서 데이터 흐름과 신뢰 경계를 분석하여 잠재적 보안 위협을 식별하고, 이에 대한 체계적인 완화(Mitigation) 전략을 수립하는 사전 예방적 보안 엔지니어링 프로세스이다.
 
 위협 모델링의 핵심은 시스템의 구조적 취약점을 구현 이전에 발견함으로써, 소프트웨어 개발 수명주기(SDLC) 초기(Shift-Left)에 보안 통제를 통합하여 재설계 비용을 최소화하고 아키텍처 수준의 방어력을 확보하는 데 있다.
 
 ## Ⅱ. 특징
+
+<details><summary>용어 설명</summary>
+
+- **STRIDE 모델**: Spoofing(신분도용), Tampering(변조), Repudiation(부인), Information Disclosure(정보유출), Denial of Service(서비스거부), Elevation of Privilege(권한상승).
+
+</details>
+
 
 - **자산 및 흐름 중심의 시각화**: 데이터 흐름도(DFD, Data Flow Diagram)를 사용하여 시스템의 구성 요소, 데이터의 흐름, 권한이 변경되는 신뢰 경계(Trust Boundary)를 시각적으로 분해한다.
 - **구조화된 위협 도출 (STRIDE)**: Microsoft에서 고안한 STRIDE 방법론을 적용하여 각 DFD 컴포넌트(프로세스, 데이터 저장소, 데이터 흐름, 외부 엔티티)에 존재할 수 있는 위협 범주를 체계적으로 매핑한다.
@@ -32,6 +46,13 @@ extra:
 - **보안 통제 추적성 (Traceability)**: 도출된 위협 시나리오는 아키텍처 보안 요구사항, 방어 코드 구현, 그리고 종단간 침투 테스트 항목으로 1:1 양방향 추적이 가능해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>용어 설명</summary>
+
+- **데이터 흐름도(DFD)**: 프로세스, 데이터 저장소, 엔티티, 신뢰 경계(Trust Boundary)를 시각화한 분석 다이어그램.
+
+</details>
+
 
 위협 모델링을 구성하는 핵심 프레임워크는 시스템 분해(DFD), 위협 식별(STRIDE), 위협 평가(DREAD)로 구성된다.
 
@@ -74,6 +95,13 @@ extra:
 
 ## Ⅳ. 흐름도
 
+<details><summary>용어 설명</summary>
+
+- **위협 식별 및 완화 흐름**: DFD 작성 $\to$ STRIDE 위협 도출 $\to$ DREAD 위험 평가 $\to$ 완화 통제 적용.
+
+</details>
+
+
 위협 모델링은 다음의 구조화된 파이프라인을 거친다.
 
 ```mermaid
@@ -101,6 +129,13 @@ graph TD
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>용어 설명</summary>
+
+- **위협 평가 모델 비교**: STRIDE(위협 분류), PASTA(비즈니스 위험 중심), DREAD(정량 평가)의 특성 비교.
+
+</details>
+
+
 다양한 위협 모델링 방법론이 존재하며, 분석의 주체와 목적에 따라 적합한 프레임워크를 선택해야 한다.
 
 | 구분 | STRIDE | PASTA (Process for Attack Simulation & Threat Analysis) | OCTAVE | 공격 트리 (Attack Trees) |
@@ -111,6 +146,13 @@ graph TD
 | **단점** | 비즈니스 영향을 반영하지 않으며, DFD에 크게 의존함 | 절차가 방대하여 애자일(Agile) 환경 적용에 부담 | 소프트웨어 아키텍처 수준의 구체적인 취약점 도출 어려움 | 트리 구성이 복잡해질 수 있으며 완화 대책 도출과는 거리가 있음 |
 
 ## Ⅵ. 실무 고려사항 및 대책
+
+<details><summary>용어 설명</summary>
+
+- **아키텍처 변경 시 위협 모델 누락**: CI/CD와 연계하여 Threat Modeling-as-Code를 자동화하는 지속적 관리 대책.
+
+</details>
+
 
 ### 1. 신뢰 경계(Trust Boundary) 설정 오류 방지
 - **문제점**: 마이크로서비스 아키텍처(MSA)에서 내부망(Internal Network)에 대한 과도한 신뢰(Implicit Trust)로 인해 내부 서비스 간 통신 시 신뢰 경계를 설정하지 않는 문제 발생.
@@ -129,6 +171,13 @@ graph TD
 - **보안 대책**: 시스템의 핵심 자산(Crown Jewels)과 인터넷 연결 진입점(Entry Points)에 분석을 집중한다. 표준 보안 프레임워크를 수립하여(예: '모든 내부 DB 접근은 비밀번호 대신 IAM Role을 사용한다') 공통 위협을 아키텍처 수준에서 일괄 완화 처리함으로써 위협 시나리오 도출 범위를 최적화한다.
 
 ## Ⅶ. 결론
+
+<details><summary>용어 설명</summary>
+
+- **설계 단계 보안(Secure by Design)**: 코딩 이전 아키텍처 단계에서 구조적 취약점을 원천 제거하는 핵심 프레임워크.
+
+</details>
+
 
 소프트웨어 보안 취약점의 절반 이상은 단순한 코딩 오류가 아닌 시스템 아키텍처 설계 단계의 구조적 결함에서 기인한다. **위협 모델링(Threat Modeling)** 과 **STRIDE/DREAD 방법론** 이러한 아키텍처 결함을 DFD 분석과 신뢰 경계 검증을 통해 코드 구현 전에 사전에 식별하고 방어할 수 있는 강력한 보안 엔지니어링 도구이다.
 

@@ -2,7 +2,9 @@
 sidebar:
   order: 190
   label: "190. 범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
-  badge: { text: "기출 • 70%", variant: note }
+  badge:
+    text: "기출 · 70%"
+    variant: note
 title: "범정부 EA 참조 모형 TRM•DRM (Government EA TRM DRM)"
 date: "2026-08-18T03:50:00+09:00"
 tags: ["notes-software"]

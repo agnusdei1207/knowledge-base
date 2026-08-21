@@ -2,7 +2,9 @@
 sidebar:
   order: 189
   label: "189. EA 전사적 아키텍처 (Enterprise Architecture)"
-  badge: { text: "기출 • 85%", variant: note }
+  badge:
+    text: "기출 · 85%"
+    variant: note
 title: "EA 전사적 아키텍처 (Enterprise Architecture)"
 date: "2026-08-18T03:45:00+09:00"
 tags: ["notes-software"]

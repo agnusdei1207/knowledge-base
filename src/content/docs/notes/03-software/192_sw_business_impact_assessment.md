@@ -2,7 +2,9 @@
 sidebar:
   order: 192
   label: "192. 소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
-  badge: { text: "기출 • 70%", variant: note }
+  badge:
+    text: "기출 · 70%"
+    variant: note
 title: "소프트웨어 사업 영향 평가 (SW Business Impact Assessment)"
 date: "2026-08-18T04:00:00+09:00"
 tags: ["notes-software"]

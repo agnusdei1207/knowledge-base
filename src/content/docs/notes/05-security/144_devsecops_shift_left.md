@@ -20,6 +20,13 @@ extra:
 
 ## Ⅰ. 개요
 
+<details><summary>용어 설명</summary>
+
+- **Shift-Left(보안 좌측 이동)**: 소프트웨어 개발 생명주기(SDLC)의 초기 기획·설계·구현 단계부터 보안 활동을 선제 내재화하는 방법론.
+
+</details>
+
+
 - 정의: **DevSecOps 보안 시프트 레프트(Shift-Left)** 는 소프트웨어 개발 수명 주기(SDLC)의 초기 단계(좌측)부터 보안 통제, 테스트 및 정책 검증을 CI/CD 파이프라인에 내재화하여 결함 수정 비용을 최소화하고 배포 속도와 보안성을 동시에 달성하는 보안 자동화 아키텍처이다.
 - 배경 및 필요성: 
   - **결함 수정 비용의 기하급수적 증가**: 운영(Production) 단계에서 발견된 취약점을 수정하는 비용은 설계 단계 대비 최대 100배 이상 소요된다.
@@ -28,12 +35,26 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>용어 설명</summary>
+
+- **DevSecOps**: 개발(Dev), 보안(Sec), 운영(Ops)이 단일 파이프라인에서 보안 통제를 자동화하는 협업 문화.
+
+</details>
+
+
 1. **파이프라인 내재화 및 보안 자동화 (Security as Code)** - SAST(정적 분석), DAST(동적 분석), SCA(소프트웨어 구성 분석) 등의 보안 도구를 Jenkins, GitLab CI, GitHub Actions 등의 CI/CD 파이프라인에 Action/Step 단위로 통합하여 사람의 개입 없이 자동 실행한다.
 2. **정책 기반의 코드형 보안 (Policy as Code, PaC)** - OPA(Open Policy Agent), Kyverno 등을 활용하여 인프라 및 애플리케이션의 보안 준수 여부를 선언적 코드(Rego 등)로 정의하고, 파이프라인 상에서 위반 시 빌드를 차단(Build Breaking)한다.
 3. **지속적 피드백 루프 (Fast Feedback Loop)** - 개발자가 코드를 커밋(Commit)하거나 PR(Pull Request)을 생성하는 즉시 보안 취약점 여부를 알림(Slack, Jira 티켓 등)받아 컨텍스트 전환 없이 즉각적으로 조치할 수 있다.
 4. **Shift-Left와 Shift-Right의 양립** - 개발 초기의 예방(Shift-Left)뿐만 아니라, 운영 환경에서의 위협 탐지 및 사고 대응(Shift-Right) 결과를 다시 개발 백로그로 환류하는 폐쇄 루프(Closed-Loop) 구조를 지향한다.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>용어 설명</summary>
+
+- **보안 품질 게이트(Quality Gate)**: 취약점 임계치 초과 시 CI/CD 파이프라인의 빌드 및 배포를 자동 차단하는 정책 엔진.
+
+</details>
+
 
 DevSecOps 아키텍처는 코드 작성부터 운영 단계까지 단계별 통제 포인트를 갖는다.
 
@@ -46,6 +67,13 @@ DevSecOps 아키텍처는 코드 작성부터 운영 단계까지 단계별 통�
 | **배포 단계** | SBOM, Image Signing | 무결성 검증을 위해 SPDX/CycloneDX 포맷의 SBOM(소프트웨어 자재명세서)을 생성하고, 컨테이너 이미지에 서명(Cosign 등)을 수행하여 Admission Controller에서 검증. | Syft, Sigstore(Cosign), OPA |
 
 ## Ⅳ. 흐름도
+
+<details><summary>용어 설명</summary>
+
+- **자동화된 보안 파이프라인**: 커밋(SAST) $\to$ 빌드(SCA) $\to$ 테스트(DAST/IAST) $\to$ 배포(IaC 검증)의 순차 검증 흐름.
+
+</details>
+
 
 CI/CD 파이프라인에서 보안 게이트(Security Gate)를 통과하지 못하면 Fail-Fast 원칙에 따라 파이프라인이 중단된다.
 
@@ -87,6 +115,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>용어 설명</summary>
+
+- **전통적 보안 vs DevSecOps**: 사후 펜테스트 중심의 수동 검증과 지속적 자동화 보안 검증의 비교.
+
+</details>
+
+
 DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로 분류할 수 있다.
 
 | 구분 | Shift-Left | Shift-Right | Shield-Right (Runtime Security) |
@@ -99,6 +134,13 @@ DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로
 
 ## Ⅵ. 실무 고려사항 및 대책
 
+<details><summary>용어 설명</summary>
+
+- **개발자 피로도 및 오탐(False Positive)**: 과도한 파이프라인 차단으로 인한 개발 생산성 저하를 방지하는 튜닝 대책.
+
+</details>
+
+
 1. **오탐(False Positive)으로 인한 피로도 및 배포 지연** - **문제점**: 무분별한 보안 도구 도입은 방대한 양의 오탐을 발생시켜, 개발팀의 "알람 피로(Alert Fatigue)"를 유발하고 CI/CD 파이프라인의 핵심인 '속도'를 저해한다.
    - **대책**: 초기 도입 시에는 **Audit Mode(모니터링 전용)** 로 운영하여 데이터를 수집하고, 이후 베이스라인을 설정하여 신규 유입되는 크리티컬(Critical/High) 취약점에 대해서만 Build Breaker를 활성화(Enforcing Mode)하는 점진적 튜닝(Tuning)이 필수적이다.
 2. **시크릿(Secret) 하드코딩 방지 누락** - **문제점**: 소스코드나 IaC 파일에 AWS Access Key, DB 패스워드 등이 하드코딩되어 Git Repository에 푸시되면, 즉각적인 정보 유출 사고로 이어진다.
@@ -107,6 +149,13 @@ DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로
    - **대책**: 빌드 파이프라인에서 생성된 **SBOM(CycloneDX 등)** 을 중앙 형상관리 시스템(Dependency-Track 등)에 연동하여 자산의 가시성을 확보하고, 서명되지 않은 이미지의 K8s 클러스터 내부 배포를 차단하는 OPA Gatekeeper(또는 Kyverno) 정책을 적용해야 한다. (SLSA Level 3 이상 준수 목표)
 
 ## Ⅶ. 결론
+
+<details><summary>용어 설명</summary>
+
+- **보안 내재화(Security Built-in)**: 출시 지연 없이 안전한 소프트웨어를 신속 배포하는 지속적 보안 거버넌스.
+
+</details>
+
 
 - DevSecOps 보안 시프트 레프트는 단순한 도구의 도입이 아닌, 개발(Dev), 보안(Sec), 운영(Ops) 조직 간의 단절(Silo)을 허물고 **보안을 공통의 책임(Shared Responsibility)** 으로 인식하는 문화적 혁신이다.
 - 성공적인 정착을 위해서는 CI/CD 파이프라인에 보안 도구를 API 형태로 심리스(Seamless)하게 통합하는 **자동화(Automation)** 와 함께, 불필요한 마찰을 줄이는 **정책 기반 통제(Policy as Code)** 가 병행되어야 한다. 궁극적으로 Shift-Left의 예방적 통제와 Shift-Right의 런타임 가시성 확보가 유기적으로 연결될 때 강력한 클라우드 네이티브 보안을 실현할 수 있다.

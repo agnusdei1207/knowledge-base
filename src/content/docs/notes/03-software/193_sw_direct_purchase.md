@@ -2,7 +2,9 @@
 sidebar:
   order: 193
   label: "193. SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
-  badge: { text: "기출 • 70%", variant: note }
+  badge:
+    text: "기출 · 70%"
+    variant: note
 title: "SW 조달: 상용SW 직접구매 (SW Direct Purchase)"
 date: "2026-08-18T04:05:00+09:00"
 tags: ["notes-software"]

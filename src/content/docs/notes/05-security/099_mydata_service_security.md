@@ -2,7 +2,9 @@
 sidebar:
   order: 99
   label: "099. 마이데이터 서비스 보안"
-  badge: { text: "기출 • 50%", variant: note }
+  badge:
+    text: "기출 · 50%"
+    variant: note
 title: "마이데이터 서비스 보안"
 date: "2026-08-13T21:20:00+09:00"
 tags: ["notes-security"]

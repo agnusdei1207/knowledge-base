@@ -20,6 +20,13 @@ extra:
 
 ## Ⅰ. 개요
 
+<details><summary>용어 설명</summary>
+
+- **ISAC(Information Sharing and Analysis Center)**: 동종 산업 부문(금융, 통신, 에너지) 간 사이버 보안 위협 정보를 수집·분석·공유하는 전문 보안 협력 체계.
+
+</details>
+
+
 - 정의: **ISAC(Information Sharing and Analysis Center, 정보공유분석센터)** 는 특정 산업군(금융, 의료, 통신, 에너지 등) 내의 소속 기관들이 사이버 위협 인텔리전스(CTI), 침해 지표(IoC), 취약점 정보 및 전술·기술·절차(TTP)를 안전하고 신속하게 수집, 분석, 교환하도록 지원하는 산업 특화형 보안 협력 및 정보 공유 플랫폼이다.
 - 배경 및 필요성:
   - **단일 조직 방어의 한계**: 고도화된 APT(Advanced Persistent Threat) 및 다단계 공급망 공격(Supply Chain Attack)은 개별 기업의 보안 관제 인프라(SIEM, EDR)만으로는 선제적 탐지와 방어가 불가능함.
@@ -32,6 +39,13 @@ extra:
 
 ## Ⅱ. 특징
 
+<details><summary>용어 설명</summary>
+
+- **TLP(Traffic Light Protocol)**: 위협 정보의 공유 범위와 배포 권한을 색상(RED, AMBER, GREEN, WHITE)으로 통제하는 분류 프로토콜.
+
+</details>
+
+
 - **국제 표준 기반 자동화 연동 체계 (STIX/TAXII)**: 이기종 보안 장비 및 플랫폼 간에 위협 인텔리전스를 사람의 개입 없이 기계가 직접 파싱하고 공유할 수 있도록, OASIS 국제 표준인 STIX(Structured Threat Information eXpression) 데이터 모델과 TAXII(Trusted Automated eXchange of Intelligence Information) 전송 프로토콜을 전면 채택.
 - **기밀성 제어 및 정보 유통 통제 (TLP 프로토콜)**: 미국 국토안보부(DHS) 산하 CISA 및 FIRST(Forum of Incident Response and Security Teams)에서 정의한 **신호등 프로토콜(TLP, Traffic Light Protocol)** 을 데이터 객체 단위로 적용하여, 정보의 민감도에 따른 수신자 제한 및 재공유(Redistribution) 범위를 암호학적, 논리적으로 통제.
 - **실전적 침해 지표(IoC) 및 TTP 중심의 분석**: 단순한 악성 IP나 해시값(Hash)의 공유를 넘어, 공격자의 의도와 방법론을 서술하는 MITRE ATT&CK 프레임워크 기반의 TTP(Tactics, Techniques, and Procedures)를 컨텍스트화하여 제공.
@@ -39,6 +53,13 @@ extra:
 - **위협 정보 생명주기(Lifecycle) 및 평판 관리**: 수집된 IoC가 시간이 지남에 따라 오탐(False Positive)을 유발하거나 유효성을 잃는 것을 방지하기 위해 시간 기반의 만료 속성(Valid_Until)과 노후화 모델(Decay Model)을 적용. 적중/오탐 피드백 루프를 통한 신뢰도 점수(Confidence Score) 자동 보정.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>용어 설명</summary>
+
+- **STIX/TAXII**: 위협 정보 표현 표준 언어(STIX)와 자동화된 교환 프로토콜(TAXII).
+
+</details>
+
 
 ISAC의 정보 공유 아키텍처는 데이터의 원천 수집부터 분석, 연관 관계 도출, 안전한 배포 및 연동에 이르기까지 MSA(Microservices Architecture) 기반의 다계층(Multi-tier)으로 구성된다.
 
@@ -92,6 +113,13 @@ TAXII는 HTTPS 기반의 RESTful API를 사용하여 STIX 데이터를 안전하
 
 ## Ⅳ. 흐름도
 
+<details><summary>용어 설명</summary>
+
+- **위협 인텔리전스 공유 파이프라인**: 수집 $\to$ 비식별화 $\to$ 분석/상관관계 $\to$ 배포로 이어지는 자동화 절차.
+
+</details>
+
+
 ISAC 시스템 내에서 미가공 위협 데이터(Raw Data)가 수집되어 정제, 컨텍스트화 된 후 회원사의 EDR/SIEM에 연동되기까지의 엔드투엔드 파이프라인(End-to-End Pipeline)이다.
 
 ```mermaid
@@ -127,6 +155,13 @@ sequenceDiagram
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>용어 설명</summary>
+
+- **부문별 ISAC 모델**: 금융보안원(Financial ISAC)과 공공/국방/통신 ISAC의 운영 체계 비교.
+
+</details>
+
+
 정보 공유의 주체와 목적, 신뢰 경계(Trust Boundary)에 따라 다음과 같이 구분된다.
 
 | 구분 | ISAC (산업별 정보공유분석센터) | CSIRT / CERT (침해사고대응팀) | Commercial CTI (상용 위협 인텔리전스) |
@@ -138,6 +173,13 @@ sequenceDiagram
 | **주요 배포 방식** | TAXII 기반 Push/Pull, 월간 동향 보고서 | 내부 SOAR 및 티켓팅 시스템(Jira, ServiceNow) | API 기반 실시간 Data Stream 전송 |
 
 ## Ⅵ. 실무 고려사항 및 대책
+
+<details><summary>용어 설명</summary>
+
+- **민감 데이터 유출 방지**: 정보 공유 과정에서 회원사 내부 IP 및 기밀이 노출되지 않도록 하는 난독화/비식별화 대책.
+
+</details>
+
 
 ISAC 인프라는 대규모 위협 데이터가 실시간 교차하는 허브이므로, 가용성 보장과 데이터 기밀성 확보가 최우선 고려되어야 한다.
 
@@ -169,5 +211,12 @@ ISAC 인프라는 대규모 위협 데이터가 실시간 교차하는 허브이
   - ISAC 수집단에서 NLP 및 정규표현식 기반의 PII 탐지 엔진을 통과시켜, 매칭되는 문자열을 자동 마스킹(Redaction, 예: `***-***-****`) 혹은 해시 처리 후 저장.
 
 ## Ⅶ. 결론
+
+<details><summary>용어 설명</summary>
+
+- **사이버 집단 방어(Collective Defense)**: 개별 기관의 단독 방어를 넘어 범국가·산업 간 협업으로 위협에 선제 대응하는 보안 거버넌스.
+
+</details>
+
 
 ISAC은 단순한 보안 정보 게시판이나 위협 데이터의 저장소가 아니라, 산업 생태계 전체의 집단 사이버 복원력(Collective Cyber Resilience)을 극대화하기 위한 **협력적 위협 인텔리전스 공유의 핵심 신경망**이다. 고도화된 타겟팅 공격에 선제 대응하기 위해서는 STIX/TAXII와 같은 국제 표준 기반의 기계 가독형 인텔리전스 교환과, TLP 프로토콜을 통한 정밀한 기밀성 통제가 필수적이다. 향후 ISAC 플랫폼은 단순 지표(IoC) 공유를 넘어, AI/ML 기술을 접목한 공격 그룹 TTP 자동 매핑, SOAR 플랫폼과의 원활한 실시간 양방향 연동(Auto-Remediation), 그리고 제로 트러스트(Zero Trust) 아키텍처와의 융합을 통해 선제적이고 능동적인 산업 보안 협력 체계로 발전해 나갈 것이다.

@@ -20,6 +20,13 @@ extra:
 
 ## Ⅰ. 개요
 
+<details><summary>용어 설명</summary>
+
+- **애플리케이션 보안 테스팅(AST)**: 소스코드 정적 분석(SAST), 런타임 동적 분석(DAST), 상호작용 분석(IAST), 자가 방어(RASP)를 포괄하는 보안 검증 프레임워크.
+
+</details>
+
+
 - 정의: **SAST, DAST, IAST, RASP** 기반 소프트웨어 개발 생명주기(SDLC) 전반에 걸쳐 코드, 빌드 환경, 런타임 환경에 대한 정적·동적 분석 및 실시간 방어 기법을 결합하여 애플리케이션의 취약점을 탐지하고 악의적 공격을 차단하는 **응용 보안 검증 기술**이다.
 - 등장 배경 및 필요성:
   - 단일 검증 기술의 한계: SAST의 높은 오탐률(False Positive), DAST의 낮은 코드 커버리지 및 위치 추적 불가.
@@ -27,6 +34,13 @@ extra:
   - DevSecOps 패러다임: CI/CD 파이프라인 통합과 실시간 방어가 요구됨.
 
 ## Ⅱ. 특징
+
+<details><summary>용어 설명</summary>
+
+- **SAST vs DAST**: 소스코드 화이트박스 검증과 블랙박스 런타임 모의 침투 검증.
+
+</details>
+
 
 ### 1. 기술적 관점의 차이와 상호 보완성
 - **가시성(Visibility)**:
@@ -41,6 +55,13 @@ extra:
 - **Shift-Right**: RASP는 프로덕션(Production) 런타임 내에 배포되어 Zero-day 취약점 방어 수행.
 
 ## Ⅲ. 구조 및 구성요소
+
+<details><summary>용어 설명</summary>
+
+- **IAST(Interactive AST)**: 에이전트를 통해 애플리케이션 내부 실행 흐름과 외부 요청을 동시 분석하여 오탐을 극소화하는 기법.
+
+</details>
+
 
 ### 1. SAST (Static Application Security Testing) 구성요소
 소스코드 컴파일 이전 혹은 컴파일 단계에서 문법을 파싱하여 논리적 보안 결함을 탐지.
@@ -78,6 +99,13 @@ extra:
 
 ## Ⅳ. 흐름도
 
+<details><summary>용어 설명</summary>
+
+- **RASP(Runtime Application Self-Protection)**: 운영 환경에서 애플리케이션 내부에 상주하며 실시간 공격을 탐지하고 차단하는 자가 방어 엔진.
+
+</details>
+
+
 ### 1. IAST/RASP의 Byte-code Instrumentation 동작 흐름
 
 ```mermaid
@@ -113,6 +141,13 @@ Production      ───► RASP                 ───► Runtime API Hooki
 
 ## Ⅴ. 종류 및 비교
 
+<details><summary>용어 설명</summary>
+
+- **4대 AST 기술 비교**: 분석 대상, 수행 단계, 장점 및 한계의 종합 비교.
+
+</details>
+
+
 | 구분 | SAST (정적) | DAST (동적) | IAST (상호작용) | RASP (런타임 자가방어) |
 | :--- | :--- | :--- | :--- | :--- |
 | **분석 대상** | 소스 코드, 바이트 코드 | 실행 중인 웹 애플리케이션 | 런타임 앱 내부 흐름 + 트래픽 | 프로덕션 환경의 앱 런타임 맥락 |
@@ -123,6 +158,13 @@ Production      ───► RASP                 ───► Runtime API Hooki
 | **언어 종속성** | 종속적 (언어별 Parser 필요) | 독립적 (HTTP/Web 인터페이스 기반) | 종속적 (JVM, CLR 등 에이전트 필요) | 종속적 (플랫폼 레벨 API 후킹 필요) |
 
 ## Ⅵ. 실무 고려사항 및 대책
+
+<details><summary>용어 설명</summary>
+
+- **CI/CD 파이프라인 빌드 지연**: 무거운 전체 검사 대신 차등(Incremental) 스캔을 적용하는 최적화 대책.
+
+</details>
+
 
 ### 1. IAST 및 RASP 도입 시 성능 저하(Overhead) 문제
 - **문제**: Byte-code 계측 및 런타임 Taint Tracking은 CPU 및 메모리 오버헤드를 유발하여 트랜잭션 지연 발생.
@@ -144,6 +186,13 @@ Production      ───► RASP                 ───► Runtime API Hooki
   - 마이크로서비스 간 인증 및 데이터 흐름은 API Gateway 및 서비스 메시(Service Mesh) 수준에서의 분산 트레이싱(Distributed Tracing) 보안 솔루션 연동.
 
 ## Ⅶ. 결론
+
+<details><summary>용어 설명</summary>
+
+- **계층적 AST 전략**: 개발부터 운영까지 각 SDLC 단계에 최적화된 AST 도구를 파이프라인에 통합하는 엔지니어링 표준.
+
+</details>
+
 
 - **최적의 보안 파이프라인 통합(DevSecOps)**: 완벽한 단일 보안 검증 도구는 존재하지 않는다. 초기 코드 작성 단계에서는 **SAST** 기반 빠른 피드백을 제공하고, 빌드 및 테스트 단계에서는 **DAST** 동적 페이로드 주입과 **IAST** 내부 코드 계측을 결합하여 가시성과 정확도를 극대화해야 한다.
 - **운영 환경의 최후 방어선**: 최종적으로 프로덕션 환경에서는 런타임 맥락을 인지하는 **RASP** 활용 배치하여 제로데이 공격 및 미처 발견하지 못한 잔여 취약점(Residual Risk)에 대한 방어 체계를 확립함으로써, 다층적 방어(Defense in Depth) 전략을 완성해야 한다.
