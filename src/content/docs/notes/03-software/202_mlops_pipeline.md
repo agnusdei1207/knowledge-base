@@ -3,7 +3,7 @@ sidebar:
   order: 202
   label: "202. MLOps 파이프라인 (MLOps Pipeline)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
 date: "2026-08-18T04:40:00+09:00"
@@ -190,7 +190,7 @@ extra:
 
 </details>
 
-- **MLOps 파이프라인**은 인공지능 모델을 실험실에서 산업 현장으로 전환하는 핵심 엔지니어링 인프라 모델이며, Feature Store와 Model Registry 기반의 Lineage 관리와 지속적 학습(CT)을 내재화하여 고신뢰 AI 서비스를 완성해야 함
+- **MLOps 파이프라인** 인공지능 모델을 실험실에서 산업 현장으로 전환하는 핵심 엔지니어링 인프라 모델이며, Feature Store와 Model Registry 기반의 Lineage 관리와 지속적 학습(CT)을 내재화하여 고신뢰 AI 서비스를 완성해야 함
 
 #### 한줄 요약
 

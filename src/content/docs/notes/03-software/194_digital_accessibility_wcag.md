@@ -3,7 +3,7 @@ sidebar:
   order: 194
   label: "194. 디지털 접근성: WCAG 2.1 (Digital Accessibility WCAG)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "디지털 접근성: WCAG 2.1 (Digital Accessibility WCAG)"
 date: "2026-08-18T04:10:00+09:00"

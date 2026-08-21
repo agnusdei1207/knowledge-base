@@ -3,7 +3,7 @@ sidebar:
   order: 198
   label: "198. 고가용성 설계: Active-Active•Active-Standby (High Availability Design)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "고가용성 설계: Active-Active•Active-Standby (High Availability Design)"
 date: "2026-08-18T04:25:00+09:00"
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- **고가용성 설계**는 엔터프라이즈 시스템의 생존을 결정짓는 핵심 아키텍처 원칙이며, Active-Active 및 Hot Standby의 적재적소 배치와 쿼럼/펜싱 기반의 안전한 페일오버를 구축하여 무중단 클라우드 서비스를 완성해야 함
+- **고가용성 설계** 기반 엔터프라이즈 시스템의 생존을 결정짓는 핵심 아키텍처 원칙이며, Active-Active 및 Hot Standby의 적재적소 배치와 쿼럼/펜싱 기반의 안전한 페일오버를 구축하여 무중단 클라우드 서비스를 완성해야 함
 
 #### 한줄 요약
 

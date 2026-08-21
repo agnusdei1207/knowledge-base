@@ -3,7 +3,7 @@ sidebar:
   order: 200
   label: "200. 자동 페일오버 (Auto Failover)"
   badge:
-    text: "기출 • 50%"
+    text: "기출 · 50%"
     variant: note
 title: "자동 페일오버 (Auto Failover)"
 date: "2026-08-18T04:35:00+09:00"
@@ -189,7 +189,7 @@ extra:
 
 </details>
 
-- **자동 페일오버**는 고가용성 인프라의 최종 완성 단계이며, 속도보다 안전(Safety First)을 최우선으로 하여 STONITH 펜싱과 쿼럼 합의가 검증된 경우에만 자동 승격을 수행하도록 설계해야 함
+- **자동 페일오버** 기반 고가용성 인프라의 최종 완성 단계이며, 속도보다 안전(Safety First)을 최우선으로 하여 STONITH 펜싱과 쿼럼 합의가 검증된 경우에만 자동 승격을 수행하도록 설계해야 함
 
 #### 한줄 요약
 
