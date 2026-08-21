@@ -3,7 +3,7 @@ sidebar:
   order: 201
   label: "201. 멱등성 설계 (Idempotency Design)"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "멱등성 설계 (Idempotency Design)"
 date: "2026-08-14T05:30:00+09:00"

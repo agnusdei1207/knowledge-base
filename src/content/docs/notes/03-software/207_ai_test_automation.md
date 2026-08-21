@@ -3,7 +3,7 @@ sidebar:
   order: 207
   label: "207. AI 기반 테스트 자동화 (AI Test Automation)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "AI 기반 테스트 자동화 (AI Test Automation)"
 date: "2026-08-14T06:00:00+09:00"
@@ -31,7 +31,7 @@ extra:
 
 #### 한줄 요약
 
-- 변경•결함 이력으로 Test를 선별하고 **Oracle**로 판정 통제
+- 변경•결함 이력으로 Test를 선별하고 **Oracle** 기반 판정 통제
 
 ## Ⅱ. 특징
 
@@ -49,7 +49,7 @@ extra:
 
 #### 한줄 요약
 
-- AI는 생성•선택을 보조하고 **정답 판정**은 검증된 규칙으로 통제
+- AI는 생성•선택을 보조하고 **정답 판정** 검증된 규칙으로 통제
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -120,7 +120,7 @@ extra:
 
 #### 한줄 요약
 
-- 변경 후보부터 Mutation 탐지까지 **AI 품질**을 순환 검증
+- 변경 후보부터 Mutation 탐지까지 **AI 품질** 순환 검증
 
 ## Ⅴ. 종류 및 비교
 
@@ -130,7 +130,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Rule 기반 | ML 기반 | 생성형 AI |
+| 구분 | Rule 기반 | ML 기반 | 생성형 AI |
 |---|---|---|---|
 | 목적 | 결정적 반복 실행 | Test 선택•실패 분류 | 새 Test 후보 생성 |
 | 강점 | **Oracle 신뢰성** | **이력 기반 효율** | **문맥 기반 확장** |
@@ -167,4 +167,4 @@ extra:
 
 </details>
 
-- Oracle•보안•**Mutation Score•재현성**을 통과한 영역부터 자동화 확대
+- Oracle•보안•**Mutation Score•재현성** 통과한 영역부터 자동화 확대

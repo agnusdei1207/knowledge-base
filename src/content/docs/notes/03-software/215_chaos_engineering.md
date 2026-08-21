@@ -3,7 +3,7 @@ sidebar:
   order: 215
   label: "215. 카오스 엔지니어링 (Chaos Engineering)"
   badge:
-    text: "미출 • 30%"
+    text: "미출 · 30%"
     variant: note
 title: "카오스 엔지니어링 (Chaos Engineering)"
 date: "2026-08-14T06:40:00+09:00"
@@ -26,12 +26,12 @@ extra:
 
 </details>
 
-- 정의/개념: 정상 상태를 정하고 장애 주입으로 **Resilience 가설**을 검증
+- 정의/개념: 정상 상태를 정하고 장애 주입으로 **Resilience 가설** 검증
 - 배경/필요성: 정상 Test만으로는 숨은 의존성과 **Cascading Failure** 탐지 곤란
 
 #### 한줄 요약
 
-- 작은 통제 장애로 자동 복구의 **실제 동작**을 사전 검증
+- 작은 통제 장애로 자동 복구의 **실제 동작** 사전 검증
 
 ## Ⅱ. 특징
 
@@ -119,7 +119,7 @@ extra:
 
 #### 한줄 요약
 
-- 정상 기준과 복구 가설을 **통제 장애**로 검증
+- 정상 기준과 복구 가설을 **통제 장애** 기반 검증
 
 ## Ⅴ. 종류 및 비교
 
@@ -129,7 +129,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Chaos Engineering | DR Drill | Load Test |
+| 구분 | Chaos Engineering | DR Drill | Load Test |
 |---|---|---|---|
 | 검증 대상 | 자동 복구•숨은 의존성 | 사람•Runbook•RTO/RPO | 처리량•지연•병목 |
 | 자극 | **Fault Injection** | 재해 전환 시나리오 | Traffic 증가 |
@@ -150,7 +150,7 @@ extra:
 | 고려사항 | 대책 |
 |---|---|
 | Blast Radius 초과 | Stage 선행 후 단일 Pod부터 **점진 확대** |
-| 정상 상태 판정 분쟁 | 사용자 Business 지표와 **SLO**로 통일 |
+| 정상 상태 판정 분쟁 | 사용자 Business 지표와 **SLO** 기반 통일 |
 | 수동 중단 지연 | APM 연동 **Abort•Kill Switch** 자동화 |
 | 조직의 실험 공포 | 합의된 Scenario로 정기 **GameDay** 수행 |
 

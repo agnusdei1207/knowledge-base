@@ -3,7 +3,7 @@ sidebar:
   order: 197
   label: "197. 재해 복구 RTO•RPO (Disaster Recovery RTO RPO)"
   badge:
-    text: "미출 • 70%"
+    text: "미출 · 70%"
     variant: note
 title: "재해 복구 RTO•RPO (Disaster Recovery RTO RPO)"
 date: "2026-08-14T05:10:00+09:00"
@@ -130,7 +130,7 @@ extra:
 
 </details>
 
-| 비교 항목 | Backup Restore | Warm Standby | Active-Active |
+| 구분 | Backup Restore | Warm Standby | Active-Active |
 |:---|:---|:---|:---|
 | RTO / RPO 목표 | **시간~일 / 시간 단위 (긴 목표)** | **분~시간 / 분 단위 (중간 목표)** | **초 / 0~분 단위 (최단 목표)** |
 | 예비 환경 상태 | 백업 저장소만 존재 (환경은 재구성) | 축소된 환경이 항상 켜져 있음 (Scale-up) | 전체 용량 환경이 실시간 동시 운영 |

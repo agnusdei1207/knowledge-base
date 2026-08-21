@@ -3,7 +3,7 @@ sidebar:
   order: 182
   label: "182. IaC 인프라스트럭처 코드"
   badge:
-    text: "미출 • 50%"
+    text: "미출 · 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
 date: "2026-08-14T04:00:00+09:00"
@@ -45,9 +45,9 @@ extra:
 
 </details>
 
-- **Declarative Config**로 목표 상태 정의
-- **State**•**Plan**으로 실제 자원과 변경 범위 비교
-- **Version Control•Review**로 인프라 변경 추적
+- **Declarative Config** 기반 목표 상태 정의
+- **State**•**Plan** 기반 실제 자원과 변경 범위 비교
+- **Version Control•Review** 기반 인프라 변경 추적
 
 #### 한줄 요약
 
