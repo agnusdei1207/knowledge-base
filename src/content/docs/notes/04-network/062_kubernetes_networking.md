@@ -5,8 +5,8 @@ sidebar:
   badge:
     text: "기출 · 50%"
     variant: note
-title: "쿠버네티스 네트워킹 - CNI•Ingress (Kubernetes Networking)"
-date: "2026-08-13T16:20:00+09:00"
+title: "쿠버네티스 컨테이너 네트워킹 : CNI, Service, Ingress 및 NetworkPolicy"
+date: "2026-08-22T08:15:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -15,178 +15,153 @@ extra:
   source_status: "기출"
   source_history: "137회"
   priority: 50
-  priority_note: "설계형: 137회 CNI•Ingress•Policy 장문"
+  priority_note: "CNI 플러그인(Calico, Cilium), Service VIP(kube-proxy/eBPF), Ingress 및 Gateway API"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>용어 설명</summary>
 
-- **K8s (쿠버네티스, Kubernetes)**: 수백 대의 도커 컨테이너(가상 앱)가 죽으면 다시 살려내고, 접속자 몰리면 복제본을 마구 찍어내는 클라우드 컨테이너계의 신이자 오케스트레이션 지휘관이다.
-- **CNI (컨테이너 네트워크, Container Network Interface)**: 수만 개의 컨테이너(파드)들이 서로 통신할 수 있게, 가상 랜선 꼽아주고 IP 주소 던져주는 네트워크 배관공(플러그인) 표준이다.
-- **Ingress (인그레스)**: 클러스터 밖에서 들어오는 트래픽을 "naver.com은 A 컨테이너로, /login은 B 컨테이너로 가라"고 길을 분배해 주는 대문지기(L7 라우터)다.
+- **쿠버네티스 네트워킹(Kubernetes Networking)**: 모든 파드(Pod)가 NAT(Network Address Translation) 없이 고유한 IP를 부여받아 클러스터 전역에서 상호 1:1 직접 통신할 수 있도록 규정한 평면 네트워크(Flat Network) 모델.
+- **컨테이너 네트워크 인터페이스(Container Network Interface, CNI)**: 쿠버네티스 런타임(Kubelet)이 파드의 생성 및 삭제 시 가상 네트워크 인터페이스(veth)를 동적으로 할당하고 IP 라우팅을 구성하는 표준 플러그인 규격.
+- **인그레스(Ingress) 및 게이트웨이 API**: 클러스터 외부의 HTTP/HTTPS 트래픽을 호스트명(Host) 및 URL 경로(Path) 기반으로 서비스(Service)에 라우팅하는 L7 프록시 계층.
 
 </details>
 
-- 정의: **쿠버네티스 네트워킹** 수만 개의 파드(Pod)가 서로 NAT 없이 다이렉트로 통신할 수 있게 **CNI** 기반 밑바닥 배관을 깔고, 밖에서 들어오는 요청을 **서비스(Service)** 와 **Ingress** 기반 안내하는 거대한 클라우드 가상 라우팅 체계다.
-- 배경: 도커 컨테이너들은 껐다 켜질 때마다 IP가 계속 바뀌어서 다른 서비스들이 길을 찾을 수가 없으니까, **컨테이너 IP가 매번 롤백돼도 고정된 이름으로 찰떡같이 찾아가게 만들려고 도입했다.** #### 한줄 요약
+- 정의/개념: 파드 간 무손실 직접 통신을 위한 **CNI(Container Network Interface)**, 파드의 동적 IP 변경을 추상화하는 **서비스(Service VIP)**, 외부 L7 라우팅을 담당하는 **인그레스(Ingress)** 및 L3/L4 보안 격리를 집행하는 **NetworkPolicy** 로 구성된 클라우드 네이티브 네트워크 아키텍처
+- 배경/필요성: 동적으로 생성·소멸하는 대규모 컨테이너 환경에서 포트 충돌을 방지하고, 고정 엔드포인트를 제공하며 마이크로서비스 간 안전한 제로 트러스트 통신을 달성할 요구
 
-- IP가 뻑하면 바뀌는 컨테이너들을 위해, CNI로 가상 랜선을 깔고 Ingress 대문지기로 외부 손님을 안내하는 셋업이다.
+#### 한줄 요약
+- CNI 평면 네트워크, Service VIP 로드밸런싱, Ingress L7 라우팅, NetworkPolicy 보안을 통합 제공한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **파드 (Pod)**: 쿠버네티스 안에서 돌아가는 가장 작은 세포 단위다. 컨테이너 1~2개가 모여서 한 IP 주소를 셰어해서 쓴다.
-- **서비스 (Service / VIP)**: 파드들이 죽고 다시 살아나면서 IP가 매번 바뀌니까, "니들 IP 매번 외우기 빡세니까 이거 써라" 하고 앞에 떡하니 세워놓은 고정 가상 IP(VIP)이자 얼굴마담이다.
+- **서비스 가상 IP(Service VIP)**: 여러 파드로 구성된 워크로드의 단일 진입점 역할을 수행하며, kube-proxy(iptables/IPVS) 또는 eBPF를 통해 활성 파드로 L4 로드밸런싱을 수행하는 불변 가상 IP.
+- **네트워크 정책(NetworkPolicy)**: 레이블 셀렉터(Label Selector)를 기반으로 파드 간 인그레스(Ingress) 및 이그레스(Egress) 트래픽을 화이트리스트 방식으로 격리 통제하는 가상 방화벽 리소스.
 
 </details>
 
-- **NAT 없는 평등한 IP (Flat Network)**: 쿠버네티스 동네 안에선 공유기 포트포워딩(NAT) 설정 꼬이는 거 없이 모든 파드가 고유 IP를 가지고 1:1 다이렉트로 통신한다.
-- **고정된 얼굴마담 (서비스 VIP)**: 파드가 100번 죽어서 IP가 100번 바뀌어도, 클라이언트는 '서비스'라는 고정된 간판(가상 IP)만 보고 접속하면 알아서 쌩쌩한 파드로 토스(로드밸런싱)해 준다.
-- **L7 문지기 (인그레스)**: HTTPS 인증서(TLS) 다 달아주고, URL 경로(/api, /login)마다 각각 다른 파드로 트래픽을 쪼개서 분배하는 대문지기 역할을 수행한다.
+- **모든 파드 간 NAT-less 평면 통신**: 노드 위치와 무관하게 모든 파드가 자신의 고유 IP로 타 노드의 파드와 포트 변환 없이 직접 통신
+- **서비스 디스커버리 및 가상 로드밸런싱**: CoreDNS와 연계하여 서비스 도메인 이름을 VIP로 해석하고, 백엔드 파드로 균등 트래픽 분배
+- **커널 레벨 eBPF 가속 (Cilium CNI)**: 전통적인 iptables의 $O(N)$ 순차 룩업 병목을 극복하고, eBPF 맵을 통한 $O(1)$ 초고속 커널 패킷 포워딩 실현
 
 #### 한줄 요약
-
-- 파드끼리 프리패스로 통신하고, IP 바뀔 거 대비해 고정 간판(Service) 세워두며, 외부 트래픽은 대문지기(Ingress)가 정리한다.
+- NAT 없는 평면 통신, Service VIP 기반 로드밸런싱, eBPF 커널 가속 및 NetworkPolicy 제로 트러스트 격리를 지원한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **네트워크 정책 (NetworkPolicy)**: 파드들끼리 아무나 통신 못하게 "웹 파드만 DB 파드랑 통신해라!"라고 족쇄를 채워버리는 가상 방화벽 룰이다.
-- **eBPF (고성능 데이터 패스)**: 리눅스 커널 안에서 돌아가는 압도적 성능 기술로, 옛날 iptables처럼 룰 뒤지느라 시간 까먹는 거 없이 패킷을 빛의 속도로 목적지에 꽂아버리는 부스터 칩이다.
+- **게이트웨이 API(Gateway API)**: 기존 Ingress의 벤더별 어노테이션(Annotation) 파편화 한계를 극복하고, 인프라 관리자(Gateway)와 앱 개발자(HTTPRoute)의 권한을 명확히 분리한 차세대 L4~L7 라우팅 표준.
 
 </details>
 
 ```text
-[ 쿠버네티스 네트워킹 직관적 비교 구조 ]
-
-[ 1. Ingress (대문 문지기) ] ── (외부 접속자 L7 분배 및 TLS 암호화)
-      │
-      ▼
-[ 2. Service (고정 얼굴마담) ] ── (VIP 가상 IP를 달고 있는 로드밸런서)
-      │
-      ▼
-[ 3. NetworkPolicy (가상 방화벽) ] ── (파드끼리 통신해도 되는지 체크 검사)
-      │
-      ▼
-[ 4. CNI 배관 (Calico, Cilium / eBPF) ] ── (파드한테 진짜 패킷을 쏴주는 고속도로)
-      │
-      ▼
-[ 5. Pod (컨테이너 세포) ] ── (실제로 서버 앱이 돌아가는 목적지 종단점)
+[ 클러스터 외부 사용자 (HTTP / HTTPS) ]
+   │
+   ▼ (외부 DNS ➔ Ingress Controller / Gateway API)
+[ Ingress Controller (Envoy / Nginx) ] ── (L7 호스트 / 경로 분기 및 TLS 종단)
+   │
+   ▼ (Service VIP 라우팅 / kube-proxy or eBPF)
+[ Service (ClusterIP / LoadBalancer) ]
+   │
+   ▼ (NetworkPolicy 화이트리스트 접근 제어 검증)
+[ CNI 네트워크 패브릭 (Calico / Cilium eBPF) ]
+   ├───────────────────────────────┬───────────────────────────────┐
+   ▼ (Node 1)                      ▼ (Node 2)                      ▼ (Node 3)
+[ Pod A (veth0) ]               [ Pod B (veth0) ]               [ Pod C (veth0) ]
 ```
 
-| 구성요소 | 책임 | 비고 |
+선의 의미: 외부 트래픽이 Ingress에서 L7 라우팅된 후 Service VIP를 거쳐 NetworkPolicy 검증을 통과하고 CNI 패브릭을 통해 최종 대상 파드로 전달되는 계층 흐름
+
+| 구성요소 | 책임 및 역할 | 비고 |
 |:---|:---|:---|
-| **Ingress (인그레스)** | URL 주소 보고 패킷 길 터주고 암호화 인증서 달아주는 **똑똑한 L7 대문지기** | Gateway API 객체 |
-| **Service (서비스)** | 파드 IP 바뀌든 말든 클라이언트가 믿고 쏘는 **고정 가상 IP 간판 (얼굴마담)** | L4 LoadBalancer |
-| **NetworkPolicy** | 해킹당한 웹 파드가 함부로 DB 파드 못 쑤시게 막아버리는 **방화벽 족쇄** | Security 객체 |
-| **CNI (네트워크 플러그인)**| 파드 켜질 때 가상 랜선 꼽아주고 라우팅 던져주는 **밑바닥 배관공 (Calico, Cilium)** | Network Add-on |
-| **eBPF (가속 엔진)** | 옛날 iptables 룰북 뒤지는 거 버리고 커널 레벨에서 **빛의 속도로 꽂아주는 부스터** | Datapath Tech |
+| **Ingress / Gateway API** | 클러스터 외부 L7 트래픽 수용, TLS 종단(Offload), 경로 기반 라우팅 | L7 프록시 |
+| **Service (ClusterIP/NodePort)** | 파드 그룹에 고정 VIP를 부여하고 백엔드 엔드포인트(EndpointSlice)로 부하 분산 | L4 가상 로드밸런서 |
+| **NetworkPolicy** | 네임스페이스 및 파드 레이블 기반의 인그레스/이그레스 L3/L4 패킷 필터링 | 선언적 보안 정책 |
+| **CNI 플러그인** | veth 페어 생성, IPAM(IP 주소 할당), 노드 간 오버레이(VXLAN/Geneve) 또는 BGP 라우팅 | Calico, Cilium, Flannel |
+| **eBPF 커널 엔진** | iptables를 대체하여 리눅스 커널 레벨에서 소켓 계층 직결 고속 포워딩 수행 | Cilium BPF Datapath |
 
 #### 한줄 요약
-
-- 인그레스가 외부 손님 받고 $\to$ 서비스가 파드 찾고 $\to$ 정책이 검사하고 $\to$ CNI 배관 타고 최종 파드(앱)에 꽂히는 구조.
+- Ingress, Service, NetworkPolicy, CNI, eBPF 엔진이 결합하여 쿠버네티스 네트워킹을 완성한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **준비 상태 (Readiness Probe)**: 파드가 켜졌다고 바로 트래픽 쏘지 않고, "너 진짜로 트래픽 받을 준비(DB 연동 등) 끝났냐?" 찔러보고 "ㅇㅋ" 해야만 패킷을 밀어 넣어주는 체크 지표다.
+- **엔드포인트 슬라이스(EndpointSlice)**: 서비스에 속한 백엔드 파드들의 실시간 IP/포트 상태를 추적하고, 대규모 클러스터에서 etcd 부하를 줄이기 위해 파드 목록을 분할 관리하는 리소스.
+- **준비성 프로브(Readiness Probe)**: 컨테이너 내부 애플리케이션이 실제 트래픽을 수신할 준비가 완료되었는지를 검증하여 정상 판정 시에만 Service VIP 엔드포인트에 IP를 등록하는 메커니즘.
 
 </details>
 
 ```text
-[ 쿠버네티스 외부 트래픽 진입 십자포화 흐름 ]
-
-┌──────────────────────────────┐
-│ 1. [외부 사용자 접속 요청]   │
-│ (유저: naver.com/login 접속할게요!)
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 2. [Ingress 컨트롤러 (L7 라우팅)]
-│ (문지기: 어 /login 요청이네? 로그인 전용 서비스로 가라)
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 3. [Service (고정 VIP 로드밸런싱)]
-│ (얼굴마담: 로그인 파드가 3개 있군. 2번 파드로 토스!)
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 4. [NetworkPolicy & 준비 상태 점검]
-│ (방화벽: 허용! / 프로브: 2번 파드 일할 준비 완료 확인!)
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 5. [파드(Pod) 내부 컨테이너 도달]│
-│ (파드: 요청받았다. 로그인 페이지 HTML 던져줌)
-└──────────────────────────────┘
+1. 외부 클라이언트가 `api.domain.com/user`로 HTTPS 요청 전송 ➔ Ingress 공인 IP 수신
+            │
+            ▼
+2. Ingress Controller가 TLS 복호화 및 Host/Path 룰 파싱 ➔ 대상 Service(User-Service) 매핑
+            │
+            ▼
+3. Service가 EndpointSlice에서 Readiness Probe를 통과한 정상 파드(Pod IP) 목록 조회
+            │
+            ▼
+4. kube-proxy(IPVS) 또는 eBPF 맵이 대상 Pod IP로 패킷 헤더 변환(DNAT) 및 부하 분산
+            │
+            ▼
+5. CNI 패브릭을 거쳐 NetworkPolicy 검증 후 대상 노드의 veth 인터페이스로 패킷 주입
 ```
 
-### 동작 원리
+**동작 원리**
 
-1. 외부 접속: 클라이언트가 Ingress 컨트롤러 공인 IP로 HTTP/HTTPS 요청을 날림.
-2. Ingress 라우팅: 문지기가 패킷을 까보고 도메인(Host)이랑 경로(Path)에 맞는 Service로 길을 터줌.
-3. Service 로드밸런싱: 서비스가 묶여 있는 수많은 파드 중 살아있는 놈한테 트래픽을 쪼개서 분배(라운드 로빈)함.
-4. 정책 & 프로브 검사: CNI랑 방화벽(NetworkPolicy)이 보안 검사하고, 파드가 진짜 준비됐는지(Readiness) 체크함.
-5. 파드 도달: 다 뚫고 들어온 트래픽이 최종 컨테이너 앱에 꽂힘.
+1. **외부 인입 및 L7 처리**: Ingress가 단일 로드밸런서 IP에서 여러 도메인 요청을 라우팅
+2. **서비스 디스커버리**: EndpointSlice 컨트롤러가 파드 헬스체크 결과를 반영하여 유효 파드 풀 유지
+3. **가상 로드밸런싱**: 커널 eBPF/IPVS 맵이 ClusterIP를 목적지 Pod IP로 1:1 주소 변환
+4. **보안 인가**: CNI 에이전트가 송수신 파드의 레이블을 검증하여 허용된 트래픽만 통과
+5. **로컬 전달**: 노드 내부 veth pair 및 네트워크 네임스페이스를 통해 컨테이너 소켓으로 패킷 전달
 
 #### 한줄 요약
-
-- 대문(Ingress) 통과 $\to$ 안내원(Service)이 길 안내 $\to$ 보안 검색대(Policy/Probe) 통과 $\to$ 목적지(Pod) 도착의 5단계 흐름이다.
+- Ingress L7 파싱, Service VIP 매핑, EndpointSlice 유효성 검증, eBPF 변환, CNI 전달 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Gateway API (차세대 표준)**: Ingress가 옵션질(Annotation) 덕지덕지 붙어서 스파게티 개판 코드가 되니까, 이거 싹 다 갈아엎고 권한 분리 완전 지원하게 만든 넥스트 제너레이션 최신 라우팅 규격이다.
+- **오버레이 CNI vs 언더레이/BGP CNI**: 패킷을 VXLAN/Geneve로 캡슐화하여 노드 간 전달하는 방식과, 물리 네트워크 스위치와 BGP 피어링을 맺어 파드 IP를 네이티브 라우팅하는 방식.
 
 </details>
 
-| 구분 | **Ingress (기존 대문지기)** | **Gateway API (차세대 넥스트 대문지기)** |
-|:---|:---|:---|
-| 핵심 특징 | 라벨 덕지덕지 붙여놓은 **스파게티 문지기** | 권한이랑 기능 싹 다 쪼개놓은 **체계적인 경비대** |
-| 설정 방식 | 벤더사마다 주석(Annotation) 달아서 **설정 파편화 과도하게 발생** | 표준 API 스펙이라 **어디서든 설정 규격이 똑같음** |
-| 관리 권한 | 개발자 한 명이 Ingress 파일 하나로 **북치고 장구치고 혼자 다 함** | 인프라팀(게이트웨이), 개발팀(라우팅) **권한 쪼개기 완전 지원** |
-| 지원 프로토콜 | HTTP/HTTPS (L7) **웹 브라우저용 트래픽만 지원함** | HTTP, gRPC, TCP, UDP (L4~L7) **싹 다 뚫어버림** |
-| 주력 용도 | 작은 웹 서비스 하나 굴리는 **단순한 소규모 개발 환경** | 멀티 테넌트 굴리는 **대기업급 엔터프라이즈 환경** |
+| 비교 항목 | Flannel CNI (기본형) | Calico CNI (보안/BGP) | Cilium CNI (차세대 eBPF) |
+|:---|:---|:---|:---|
+| **데이터 평면 기술** | Linux Bridge / VXLAN 오버레이 | iptables / Linux Routing (BGP) | **eBPF (Extended BPF 커널 가속)** |
+| **NetworkPolicy 지원** | **미지원 (보안 통제 불가)** | **지원 (강력한 L3~L4 방화벽)** | **지원 (L3~L7 API 단위 심층 제어)** |
+| **성능 확장성** | 소규모 적합 (캡슐화 오버헤드) | 중대규모 적합 (BGP 네이티브 전송) | **초대규모 고성능 ($O(1)$ BPF Map)** |
+| **서비스 프록시 구현** | 표준 kube-proxy (iptables) | 표준 kube-proxy / eBPF 모드 | **kube-proxy 완전 대체 (eBPF Host-Routing)** |
+| **서비스 메시 통합** | 별도 사이드카 프록시 필수 | 별도 사이드카 프록시 필수 | **사이드카 없는(Sidecarless) 서비스 메시** |
 
 #### 한줄 요약
-
-- Ingress는 간단한 웹사이트 돌릴 땐 좋지만 덩치 커지면 설정 꼬이니까, 대기업들은 기능 다 쪼개진 Gateway API로 넘어간다.
+- Flannel은 단순 오버레이, Calico는 BGP/NetworkPolicy, Cilium은 eBPF 기반 고성능/L7 보안 CNI이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Flannel / Calico / Cilium (CNI 종류)**: 쿠버네티스 배관공(CNI) 브랜드들이다. Flannel은 싼 맛에 쓰는 구형, Calico는 방화벽(Policy) 잘 치는 현역, Cilium은 eBPF 달고 날아다니는 최신 사기캐다.
-- **503 에러 (Service Unavailable)**: 대문지기(Ingress)가 뒤에 있는 서비스(파드)한테 패킷을 던졌는데, 파드가 뻗었거나 아직 준비가 안 돼서 "응답 없음" 뱉을 때 나오는 빡치는 에러 코드다.
+- **CoreDNS 지연 및 Conntrack 고갈**: 대규모 파드가 외부 도메인 질의 시 iptables conntrack 테이블 경합으로 인해 5초 타임아웃 지연(UDP 레이스 컨디션)이 발생하는 현상.
 
 </details>
 
-| 장애/위험 요소 | 원인 분석 | 실무 대책 및 해결방안 | 기대 효과 |
-|:---|:---|:---|:---|
-| 서비스 켰는데 **사용자한테 503 에러 과도하게 쏟아짐** | 파드 내부 DB 켜지기도 전에 서비스(VIP)가 냅다 트래픽부터 무지성 꽂아버림 | 컨테이너 완벽히 준비될 때까지 패킷 안 주는 **Readiness Probe 딜레이 빡세게 세팅** | 미준비 파드에 패킷 전달되어 발생하는 503 상호 메시지 교환 에러 차단 |
-| 방화벽(Policy) 걸었는데 **파드끼리 프리패스로 다 뚫림** | 기본 플러그인(Flannel 등)은 네트워크 족쇄(Policy) 기능을 애초에 지원 안 함 | Policy 지원하는 **Calico나 Cilium(eBPF) CNI로 갈아치움** | 해킹된 웹 파드가 내부 DB 파드 쑤시는 거 완벽 방어 |
-| 파드 1만 개 넘어가니까 **네트워크 속도 급격한 저하하고 뻗음** | 옛날 iptables 방식이 룰 수만 개를 위에서부터 순서대로 찾느라 커널 터져나감 | iptables 버리고 커널에서 빛의 속도로 꽂아주는 **eBPF 기반 CNI(Cilium) 전면 도입** | 대규모 클러스터 패킷 처리 지연(Latency) 박살 내고 가속 |
+| 문제 | 대책 | 효과 |
+|:---|:---|:---|
+| 컨테이너 부팅 중 미준비 상태에서 트래픽 유입으로 인한 503/502 오류 발생 | **Readiness Probe(준비성 검사)** 및 `initialDelaySeconds` 정밀 구성 | 미준비 파드 트래픽 유입 차단 및 무중단 배포 보증 |
+| 대규모 클러스터에서 수만 개 파드 생성 시 iptables 룰 순차 룩업으로 CPU 과부하 | iptables를 전면 배제하고 **eBPF 기반 Cilium CNI** 도입 | 룰 개수 무관 $O(1)$ 초고속 패킷 포워딩 및 CPU 자원 70% 절감 |
+| CoreDNS 질의 폭증 및 conntrack 테이블 경합으로 인한 간헐적 5초 DNS 지연 | 각 노드에 **NodeLocal DNSCache** 데몬셋 배포 및 TCP DNS 활성화 | 로컬 캐싱을 통한 DNS 응답 시간 1ms 단축 및 conntrack 고갈 방지 |
 
 #### 한줄 요약
-
-- 파드 준비될 때까지 기다려주고(Readiness Probe), 방화벽 잘 치는 CNI 쓰고, 규모 커지면 무조건 eBPF 달린 Cilium으로 갈아타라.
+- Readiness Probe로 503을 방지하고, Cilium eBPF로 성능을 가속하며, NodeLocal DNSCache로 DNS 지연을 차단한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- (상단 참조)
-
-</details>
-
-- 수시로 생성되고 소멸하는 파드의 불안정한 생명주기 통신 장애를 극복하기 위해, **고정 서비스(VIP)** 와 **Ingress / Gateway API** 기반 엮고 **eBPF 기반 CNI** 기반 데이터 패스를 가속하는 클라우드 네이티브 네트워킹 기조 확립함
+- 클라우드 네이티브 환경의 확장성과 보안성을 달성하기 위해 **쿠버네티스 표준 네트워킹 아키텍처**를 구축하되, 대규모 엔터프라이즈 환경에서는 **eBPF 기반 Cilium CNI**, **Gateway API 표준**, **엄격한 NetworkPolicy 화이트리스트 보안**, **NodeLocal DNSCache**를 통합 적용하여 고성능·고보안 컨테이너 인프라를 완성
 
 #### 한줄 요약
-
-- 쿠버네티스 네트워킹은 수시로 죽고 사는 수만 개의 도커 컨테이너들을 강력히 하나의 거대한 시스템처럼 굴러가게 만드는 신경망이다.
+- CNI, Service, Gateway API 및 eBPF 가속을 결합하여 고성능 클라우드 네이티브 네트워크를 구현한다.
