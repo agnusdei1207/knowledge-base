@@ -3,7 +3,7 @@ sidebar:
   order: 155
   label: "155. 쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
 date: "2026-08-18T01:55:00+09:00"
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- **쿠버네티스 서비스 및 인그레스**는 클라우드 네이티브 네트워크 트래픽 제어의 핵심 근간이며, 내부 서비스는 Service VIP로 추상화하고 외부 유입은 Ingress와 Gateway API를 통해 지능적으로 라우팅해야 함
+- **쿠버네티스 서비스 및 인그레스** 기반 클라우드 네이티브 네트워크 트래픽 제어의 핵심 근간이며, 내부 서비스는 Service VIP로 추상화하고 외부 유입은 Ingress와 Gateway API를 통해 지능적으로 라우팅해야 함
 
 #### 한줄 요약
 

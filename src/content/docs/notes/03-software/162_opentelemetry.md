@@ -3,7 +3,7 @@ sidebar:
   order: 162
   label: "162. OpenTelemetry (OpenTelemetry)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
 date: "2026-08-18T02:20:00+09:00"
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- **OpenTelemetry**는 클라우드 네이티브 관측성의 단일 표준 규격이며, 2-Tier 수집기 아키텍처와 메모리 제어 프로세서를 결합하여 벤더 비종속적이고 안정적인 엔터프라이즈 관측 인프라를 구축해야 함
+- **OpenTelemetry** 기반 클라우드 네이티브 관측성의 단일 표준 규격이며, 2-Tier 수집기 아키텍처와 메모리 제어 프로세서를 결합하여 벤더 비종속적이고 안정적인 엔터프라이즈 관측 인프라를 구축해야 함
 
 #### 한줄 요약
 

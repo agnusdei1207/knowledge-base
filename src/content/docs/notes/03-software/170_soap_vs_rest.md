@@ -3,7 +3,7 @@ sidebar:
   order: 170
   label: "170. SOAP vs REST 비교 (SOAP vs REST)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
 date: "2026-08-18T02:55:00+09:00"
@@ -189,7 +189,7 @@ extra:
 
 </details>
 
-- **SOAP과 REST**는 상호 배타적인 경쟁 관계가 아닌 도메인 특성에 따른 최적의 선택지이며, 금융 트랜잭션과 B2B 계약은 SOAP으로 보호하고 대고객 웹/모바일 서비스는 RESTful API를 적용하여 엔터프라이즈 통합을 완성해야 함
+- **SOAP과 REST** 기반 상호 배타적인 경쟁 관계가 아닌 도메인 특성에 따른 최적의 선택지이며, 금융 트랜잭션과 B2B 계약은 SOAP으로 보호하고 대고객 웹/모바일 서비스는 RESTful API를 적용하여 엔터프라이즈 통합을 완성해야 함
 
 #### 한줄 요약
 

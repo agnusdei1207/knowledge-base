@@ -3,7 +3,7 @@ sidebar:
   order: 154
   label: "154. 쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
 date: "2026-08-18T01:50:00+09:00"
@@ -188,7 +188,7 @@ extra:
 
 </details>
 
-- **쿠버네티스 파드 스케줄링**은 분산 클러스터의 자원 효율성과 서비스 무중단 가용성을 좌우하는 핵심 엔진이며, 필수 조건(Hard)과 선호 조건(Soft)을 정교하게 조합하고 토폴로지 분산 제약을 적용해야 함
+- **쿠버네티스 파드 스케줄링** 분산 클러스터의 자원 효율성과 서비스 무중단 가용성을 좌우하는 핵심 엔진이며, 필수 조건(Hard)과 선호 조건(Soft)을 정교하게 조합하고 토폴로지 분산 제약을 적용해야 함
 
 #### 한줄 요약
 

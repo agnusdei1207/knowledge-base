@@ -3,7 +3,7 @@ sidebar:
   order: 174
   label: "174. OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
 date: "2026-08-18T03:05:00+09:00"
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **OAuth 2.0과 OIDC**는 모던 웹·클라우드 환경의 인증 및 인가를 지탱하는 사실상의 글로벌 표준이며, ID Token을 통한 신원 증명과 Access Token을 통한 최소 권한 위임 원칙을 철저히 준수해야 함
+- **OAuth 2.0과 OIDC** 기반 모던 웹·클라우드 환경의 인증 및 인가를 지탱하는 사실상의 글로벌 표준이며, ID Token을 통한 신원 증명과 Access Token을 통한 최소 권한 위임 원칙을 철저히 준수해야 함
 
 #### 한줄 요약
 

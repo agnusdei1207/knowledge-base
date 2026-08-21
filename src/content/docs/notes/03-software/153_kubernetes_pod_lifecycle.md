@@ -3,7 +3,7 @@ sidebar:
   order: 153
   label: "153. 쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
   badge:
-    text: "기출 • 30%"
+    text: "기출 · 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
 date: "2026-08-18T01:45:00+09:00"
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- **쿠버네티스 파드 생명주기**는 컨테이너 가용성을 결정짓는 핵심 메커니즘이며, 내부 프로세스 고장은 Liveness로 복구하고 외부 트래픽 수용은 Readiness로 제어하는 프로브 분리 원칙을 준수해야 함
+- **쿠버네티스 파드 생명주기** 기반 컨테이너 가용성을 결정짓는 핵심 메커니즘이며, 내부 프로세스 고장은 Liveness로 복구하고 외부 트래픽 수용은 Readiness로 제어하는 프로브 분리 원칙을 준수해야 함
 
 #### 한줄 요약
 

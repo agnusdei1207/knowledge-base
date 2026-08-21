@@ -3,7 +3,7 @@ sidebar:
   order: 156
   label: "156. 쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
 date: "2026-08-18T02:00:00+09:00"
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **쿠버네티스 CNI 및 NetworkPolicy**는 클라우드 네이티브 제로 트러스트 보안의 출발점이며, 고성능 eBPF 기반 CNI를 바탕으로 Default Deny 미세 격리를 적용하여 클러스터 내부의 침해 확산을 원천 차단해야 함
+- **쿠버네티스 CNI 및 NetworkPolicy** 기반 클라우드 네이티브 제로 트러스트 보안의 출발점이며, 고성능 eBPF 기반 CNI를 바탕으로 Default Deny 미세 격리를 적용하여 클러스터 내부의 침해 확산을 원천 차단해야 함
 
 #### 한줄 요약
 

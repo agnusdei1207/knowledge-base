@@ -3,7 +3,7 @@ sidebar:
   order: 161
   label: "161. 클라우드 네이티브 관측성 (Cloud Native Observability)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "클라우드 네이티브 관측성 (Cloud Native Observability)"
 date: "2026-08-18T02:15:00+09:00"
@@ -187,7 +187,7 @@ extra:
 
 </details>
 
-- **클라우드 네이티브 관측성**은 복잡한 마이크로서비스 운영의 필수 전제조건이며, OpenTelemetry 표준을 기반으로 메트릭, 로그, 트레이스를 유기적으로 결합하여 시스템의 투명성과 복원력을 완성해야 함
+- **클라우드 네이티브 관측성** 복잡한 마이크로서비스 운영의 필수 전제조건이며, OpenTelemetry 표준을 기반으로 메트릭, 로그, 트레이스를 유기적으로 결합하여 시스템의 투명성과 복원력을 완성해야 함
 
 #### 한줄 요약
 

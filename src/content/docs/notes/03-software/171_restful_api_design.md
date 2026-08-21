@@ -3,7 +3,7 @@ sidebar:
   order: 171
   label: "171. RESTful API 설계 원칙 (RESTful API Design)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
 date: "2026-08-18T03:00:00+09:00"
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- **RESTful API 설계 원칙**은 웹의 확장성과 단순성을 극대화하는 소프트웨어 아키텍처의 기본 규약이며, 리처드슨 성숙도 모델(Level 2+)을 준수하고 커서 페이징과 ETag 동시성 제어를 결합하여 고품질의 API를 구축해야 함
+- **RESTful API 설계 원칙** 웹의 확장성과 단순성을 극대화하는 소프트웨어 아키텍처의 기본 규약이며, 리처드슨 성숙도 모델(Level 2+)을 준수하고 커서 페이징과 ETag 동시성 제어를 결합하여 고품질의 API를 구축해야 함
 
 #### 한줄 요약
 

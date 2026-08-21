@@ -3,7 +3,7 @@ sidebar:
   order: 150
   label: "150. Docker 컨테이너 (Docker Container)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
 date: "2026-08-18T01:30:00+09:00"
@@ -183,7 +183,7 @@ extra:
 
 </details>
 
-- **Docker 컨테이너**는 모던 소프트웨어 엔지니어링의 사실상 표준(De-facto Standard) 배포 단위이며, 멀티 스테이지 최소 빌드와 비루트 보안 수칙을 준수하여 쿠버네티스 오케스트레이션의 기반을 완성해야 함
+- **Docker 컨테이너** 기반 모던 소프트웨어 엔지니어링의 사실상 표준(De-facto Standard) 배포 단위이며, 멀티 스테이지 최소 빌드와 비루트 보안 수칙을 준수하여 쿠버네티스 오케스트레이션의 기반을 완성해야 함
 
 #### 한줄 요약
 

@@ -3,7 +3,7 @@ sidebar:
   order: 160
   label: "160. 서비스 메시 Istio (Service Mesh Istio)"
   badge:
-    text: "기출 • 85%"
+    text: "기출 · 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
 date: "2026-08-18T02:10:00+09:00"
@@ -183,7 +183,7 @@ extra:
 
 </details>
 
-- **Istio 서비스 메시**는 마이크로서비스 아키텍처(MSA)의 보안, 트래픽 통제, 관측성을 인프라 계층으로 외재화하는 핵심 플랫폼이며, 사이드카 스코프 최적화와 점진적 mTLS 전환을 통해 운영 안정성을 극대화해야 함
+- **Istio 서비스 메시** 기반 마이크로서비스 아키텍처(MSA)의 보안, 트래픽 통제, 관측성을 인프라 계층으로 외재화하는 핵심 플랫폼이며, 사이드카 스코프 최적화와 점진적 mTLS 전환을 통해 운영 안정성을 극대화해야 함
 
 #### 한줄 요약
 

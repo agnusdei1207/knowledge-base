@@ -3,7 +3,7 @@ sidebar:
   order: 165
   label: "165. SLO•SLA•SLI (SLO•SLA•SLI)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "SLO•SLA•SLI (SLO•SLA•SLI)"
 date: "2026-08-18T02:35:00+09:00"
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- **SLO, SLA, SLI**는 현대 클라우드 소프트웨어 운영의 핵심 거버넌스 프레임워크이며, 사용자 관점의 SLI를 측정하고 SLA 위반 전 안전 마진 내에서 SLO 기반의 오류 예산을 운영하여 비즈니스 가치를 극대화해야 함
+- **SLO, SLA, SLI** 기반 현대 클라우드 소프트웨어 운영의 핵심 거버넌스 프레임워크이며, 사용자 관점의 SLI를 측정하고 SLA 위반 전 안전 마진 내에서 SLO 기반의 오류 예산을 운영하여 비즈니스 가치를 극대화해야 함
 
 #### 한줄 요약
 

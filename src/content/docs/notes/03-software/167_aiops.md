@@ -3,7 +3,7 @@ sidebar:
   order: 167
   label: "167. AIOps (Artificial Intelligence for IT Operations)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
 date: "2026-08-18T02:45:00+09:00"
@@ -187,7 +187,7 @@ extra:
 
 </details>
 
-- **AIOps**는 복잡성이 극대화된 클라우드 네이티브 환경을 관리하는 필수 지능형 운영 패러다임이며, OpenTelemetry 표준 데이터 파이프라인과 점진적인 Human-in-the-Loop 자동화를 결합하여 자율 운영(NoOps) 인프라를 완성해야 함
+- **AIOps** 기반 복잡성이 극대화된 클라우드 네이티브 환경을 관리하는 필수 지능형 운영 패러다임이며, OpenTelemetry 표준 데이터 파이프라인과 점진적인 Human-in-the-Loop 자동화를 결합하여 자율 운영(NoOps) 인프라를 완성해야 함
 
 #### 한줄 요약
 

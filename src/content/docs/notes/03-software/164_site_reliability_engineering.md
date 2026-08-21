@@ -3,7 +3,7 @@ sidebar:
   order: 164
   label: "164. SRE 사이트 신뢰성 공학 (Site Reliability Engineering)"
   badge:
-    text: "기출 • 70%"
+    text: "기출 · 70%"
     variant: note
 title: "SRE 사이트 신뢰성 공학 (Site Reliability Engineering)"
 date: "2026-08-18T02:30:00+09:00"
