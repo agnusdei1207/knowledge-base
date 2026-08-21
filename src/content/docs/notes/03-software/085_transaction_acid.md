@@ -45,9 +45,7 @@ extra:
 
 - 실패 시 변경 사항을 완전 롤백하는 **All-or-Nothing 원자적 수행(Undo Log)**
 - 트랜잭션 전후의 무결성 제약조건을 항시 만족하는 **일관성(Consistency) 유지**
-- **2PL 및 MVCC 기반의 동시성 제어(Isolation)** 와 **WAL 기반 영구 보존(Durability)**
-
-#### 한줄 요약
+- **2PL 및 MVCC 기반의 동시성 제어(Isolation)** 와 **WAL 기반 영구 보존(Durability)** #### 한줄 요약
 
 - Undo 로그, 무결성 제약조건, MVCC 동시성 제어, WAL 로그를 상호 결합하여 무결성을 달성
 

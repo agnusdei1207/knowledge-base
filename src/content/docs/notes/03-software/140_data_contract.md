@@ -46,9 +46,7 @@ extra:
 
 - **Explicit Binding between Producer & Consumer (생산자와 소비자 간 명시적 책임 배정)**
 - **Syntax, Semantics, Quality, SLA 4대 종합 명세 정의**
-- **Automated CI/CD Breaking Change Prevention (CI/CD 상에서 파괴적 변경 사전 블로킹)**
-
-#### 한줄 요약
+- **Automated CI/CD Breaking Change Prevention (CI/CD 상에서 파괴적 변경 사전 블로킹)** #### 한줄 요약
 
 - 약속 문서만 두지 않고 설계 변경과 실제 납품 자료를 같은 규칙으로 검사해야 한다.
 
@@ -163,9 +161,7 @@ extra:
 | 2. Contract Drift | 계약서만 써 두고 시스템 자동 검증 부재 | **GitHub Actions CI/CD 게이트웨이에 Contract 검증 자동화**|
 | 3. Legacy System Sync | 레거시 DB의 컬럼 타입 무차별 변경 | **Schema Registry 기반 Kafka Topic 과 Contract 연동** |
 
-> 사례: **토스 / 당근마켓 / Databricks Data Contract 적용 사례**
-
-#### 한줄 요약
+> 사례: **토스 / 당근마켓 / Databricks Data Contract 적용 사례** #### 한줄 요약
 
 - 주문서 양식을 바꿀 때 기존 사용처가 깨지는지 먼저 보고 실제 주문도 약속한 품질인지 다시 검사한다.
 

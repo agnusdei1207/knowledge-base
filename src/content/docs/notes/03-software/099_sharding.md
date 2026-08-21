@@ -45,9 +45,7 @@ extra:
 
 - 독립된 물리 서버를 지속 추가하여 용량을 증설하는 **Shared-Nothing 기반 수평 확장(Scale-Out)**
 - 데이터 편향(Data Skew)을 방지하고 균등 배치를 유도하는 **샤드 키(Shard Key) 설계**
-- 샤드 노드 증감 시 리밸런싱 비용을 최소화하는 **일관된 해싱(Consistent Hashing) 적용**
-
-#### 한줄 요약
+- 샤드 노드 증감 시 리밸런싱 비용을 최소화하는 **일관된 해싱(Consistent Hashing) 적용** #### 한줄 요약
 
 - Shared-Nothing 수평 확장과 일관된 해싱을 통해 대규모 읽기/쓰기 처리량을 선형적으로 확장
 

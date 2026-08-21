@@ -45,9 +45,7 @@ extra:
 
 - 행위가 아닌 자원(Resource) 자체를 명사형 복수형(`/users`, `/orders`)으로 식별하는 **URI 설계**
 - 조회(GET), 생성(POST), 전체 교체(PUT), 일부 수정(PATCH), 삭제(DELETE)의 **HTTP 메서드 표준 매핑**
-- 200(OK), 201(Created), 400(Bad Request), 404(Not Found) 등 **표준 HTTP 상태 코드 반환**
-
-#### 한줄 요약
+- 200(OK), 201(Created), 400(Bad Request), 404(Not Found) 등 **표준 HTTP 상태 코드 반환** #### 한줄 요약
 
 - 자원 식별, 표준 메서드 매핑, 무상태 통신을 통해 클라이언트와 서버의 완벽한 분리와 캐싱 성능을 확보
 

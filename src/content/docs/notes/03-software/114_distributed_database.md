@@ -156,9 +156,7 @@ extra:
 | 2. 2PC Blocking 병목 | Coordinator 다운 시 Cohort 락 무한 대기 | **3PC (Three-Phase Commit) 또는 Raft Consensus 적용** |
 | 3. Distributed Deadlock | 서로 다른 노드 자원을 교차 락 선점 시 교착 | **Global Deadlock Detector & Timeout Abort 적용** |
 
-> 사례: **Google Spanner / TiDB 기반 글로벌 분산 RDBMS (NewSQL) 운용**
-
-#### 한줄 요약
+> 사례: **Google Spanner / TiDB 기반 글로벌 분산 RDBMS (NewSQL) 운용** #### 한줄 요약
 
 - 자료가 고르게 나뉘는지뿐 아니라 지점 이동 시간과 추가 공간도 재야 한다.
 

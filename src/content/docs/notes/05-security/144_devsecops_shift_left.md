@@ -28,14 +28,10 @@ extra:
 
 ## Ⅱ. 특징
 
-1. **파이프라인 내재화 및 보안 자동화 (Security as Code)**
-   - SAST(정적 분석), DAST(동적 분석), SCA(소프트웨어 구성 분석) 등의 보안 도구를 Jenkins, GitLab CI, GitHub Actions 등의 CI/CD 파이프라인에 Action/Step 단위로 통합하여 사람의 개입 없이 자동 실행한다.
-2. **정책 기반의 코드형 보안 (Policy as Code, PaC)**
-   - OPA(Open Policy Agent), Kyverno 등을 활용하여 인프라 및 애플리케이션의 보안 준수 여부를 선언적 코드(Rego 등)로 정의하고, 파이프라인 상에서 위반 시 빌드를 차단(Build Breaking)한다.
-3. **지속적 피드백 루프 (Fast Feedback Loop)**
-   - 개발자가 코드를 커밋(Commit)하거나 PR(Pull Request)을 생성하는 즉시 보안 취약점 여부를 알림(Slack, Jira 티켓 등)받아 컨텍스트 전환 없이 즉각적으로 조치할 수 있다.
-4. **Shift-Left와 Shift-Right의 양립**
-   - 개발 초기의 예방(Shift-Left)뿐만 아니라, 운영 환경에서의 위협 탐지 및 사고 대응(Shift-Right) 결과를 다시 개발 백로그로 환류하는 폐쇄 루프(Closed-Loop) 구조를 지향한다.
+1. **파이프라인 내재화 및 보안 자동화 (Security as Code)** - SAST(정적 분석), DAST(동적 분석), SCA(소프트웨어 구성 분석) 등의 보안 도구를 Jenkins, GitLab CI, GitHub Actions 등의 CI/CD 파이프라인에 Action/Step 단위로 통합하여 사람의 개입 없이 자동 실행한다.
+2. **정책 기반의 코드형 보안 (Policy as Code, PaC)** - OPA(Open Policy Agent), Kyverno 등을 활용하여 인프라 및 애플리케이션의 보안 준수 여부를 선언적 코드(Rego 등)로 정의하고, 파이프라인 상에서 위반 시 빌드를 차단(Build Breaking)한다.
+3. **지속적 피드백 루프 (Fast Feedback Loop)** - 개발자가 코드를 커밋(Commit)하거나 PR(Pull Request)을 생성하는 즉시 보안 취약점 여부를 알림(Slack, Jira 티켓 등)받아 컨텍스트 전환 없이 즉각적으로 조치할 수 있다.
+4. **Shift-Left와 Shift-Right의 양립** - 개발 초기의 예방(Shift-Left)뿐만 아니라, 운영 환경에서의 위협 탐지 및 사고 대응(Shift-Right) 결과를 다시 개발 백로그로 환류하는 폐쇄 루프(Closed-Loop) 구조를 지향한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -103,14 +99,11 @@ DevSecOps의 보안 접근법은 적용 시점과 대상에 따라 세 가지로
 
 ## Ⅵ. 실무 고려사항 및 대책
 
-1. **오탐(False Positive)으로 인한 피로도 및 배포 지연**
-   - **문제점**: 무분별한 보안 도구 도입은 방대한 양의 오탐을 발생시켜, 개발팀의 "알람 피로(Alert Fatigue)"를 유발하고 CI/CD 파이프라인의 핵심인 '속도'를 저해한다.
+1. **오탐(False Positive)으로 인한 피로도 및 배포 지연** - **문제점**: 무분별한 보안 도구 도입은 방대한 양의 오탐을 발생시켜, 개발팀의 "알람 피로(Alert Fatigue)"를 유발하고 CI/CD 파이프라인의 핵심인 '속도'를 저해한다.
    - **대책**: 초기 도입 시에는 **Audit Mode(모니터링 전용)** 로 운영하여 데이터를 수집하고, 이후 베이스라인을 설정하여 신규 유입되는 크리티컬(Critical/High) 취약점에 대해서만 Build Breaker를 활성화(Enforcing Mode)하는 점진적 튜닝(Tuning)이 필수적이다.
-2. **시크릿(Secret) 하드코딩 방지 누락**
-   - **문제점**: 소스코드나 IaC 파일에 AWS Access Key, DB 패스워드 등이 하드코딩되어 Git Repository에 푸시되면, 즉각적인 정보 유출 사고로 이어진다.
+2. **시크릿(Secret) 하드코딩 방지 누락** - **문제점**: 소스코드나 IaC 파일에 AWS Access Key, DB 패스워드 등이 하드코딩되어 Git Repository에 푸시되면, 즉각적인 정보 유출 사고로 이어진다.
    - **대책**: 개발 환경에서 `git-secrets` 또는 `trufflehog`를 Pre-commit Hook으로 강제화하고, CI 파이프라인 최상단에 Secret Scanning 단계를 배치한다. 근본적으로는 HashiCorp Vault, AWS Secrets Manager 등의 외부 키 관리 시스템(KMS)으로 시크릿을 분리해야 한다.
-3. **소프트웨어 공급망 보안 (Supply Chain Security)**
-   - **문제점**: Log4j 사태와 같이 신뢰할 수 없는 외부 오픈소스 패키지의 취약점이 내부 시스템으로 전이될 위험성이 커지고 있다.
+3. **소프트웨어 공급망 보안 (Supply Chain Security)** - **문제점**: Log4j 사태와 같이 신뢰할 수 없는 외부 오픈소스 패키지의 취약점이 내부 시스템으로 전이될 위험성이 커지고 있다.
    - **대책**: 빌드 파이프라인에서 생성된 **SBOM(CycloneDX 등)** 을 중앙 형상관리 시스템(Dependency-Track 등)에 연동하여 자산의 가시성을 확보하고, 서명되지 않은 이미지의 K8s 클러스터 내부 배포를 차단하는 OPA Gatekeeper(또는 Kyverno) 정책을 적용해야 한다. (SLSA Level 3 이상 준수 목표)
 
 ## Ⅶ. 결론

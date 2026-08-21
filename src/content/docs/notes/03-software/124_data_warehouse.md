@@ -45,9 +45,7 @@ extra:
 
 - 주제 지향성, 통합성, 시계열성, 비휘발성의 **4대 고유 특성 완비**
 - Fact Table(측정값)과 Dimension Table(분석 축) 기반의 **차원 모델링(Dimensional Modeling)**
-- 대용량 집계 쿼리를 가속화하는 **열 지향 저장(Columnar Storage) 및 OLAP 지원**
-
-#### 한줄 요약
+- 대용량 집계 쿼리를 가속화하는 **열 지향 저장(Columnar Storage) 및 OLAP 지원** #### 한줄 요약
 
 - 4대 특성과 스타 스키마 기반 차원 모델링을 통해 복합 분석 쿼리를 고속으로 처리
 

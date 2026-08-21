@@ -157,9 +157,7 @@ extra:
 | 2. 멱등 키 범위 혼용 | 서로 다른 사용자의 키가 충돌 | **멱등 키에 사용자 ID + 업무 유형 접두어(Prefix)를 포함하여 충돌 방지** |
 | 3. TTL 만료 후 중복 요청 | 클라이언트 재시도 창(예: 7일)보다 TTL이 짧게 설정됨 | **클라이언트 최대 재시도 기간의 2배 이상 TTL 설정 및 모니터링**|
 
-> 사례: **Stripe의 Idempotency-Key 헤더 표준화로 결제 중복 방지 구현, Kafka Consumer의 At-least-once 메시지를 멱등 처리하여 DB에 중복 Insert 방지하는 패턴**
-
-#### 한줄 요약
+> 사례: **Stripe의 Idempotency-Key 헤더 표준화로 결제 중복 방지 구현, Kafka Consumer의 At-least-once 메시지를 멱등 처리하여 DB에 중복 Insert 방지하는 패턴** #### 한줄 요약
 
 - 결제 요청이 다시 와도 주문 키에 저장한 승인 결과만 반환한다.
 

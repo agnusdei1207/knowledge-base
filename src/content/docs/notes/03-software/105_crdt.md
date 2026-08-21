@@ -148,9 +148,7 @@ extra:
 | 시계열 타임스탬프 오차로 인한 LWW 실수 오버라이드 | **Lamport Timestamp 또는 Vector Clock 인과성 결합** | 데이터 덮어쓰기 방지 |
 | CRDT 수렴 결과와 비즈니스 수량 제약(재고 < 0) 충돌 | **CRDT 기반 최종 수렴 + 비즈니스 유효성 검증 레이어**| 무결성 파괴 방지 |
 
-> 사례: **Figma 실시간 화이트보드 (Yjs CRDT) & Redis Hashes/Counters CRDT 수용**
-
-#### 한줄 요약
+> 사례: **Figma 실시간 화이트보드 (Yjs CRDT) & Redis Hashes/Counters CRDT 수용** #### 한줄 요약
 
 - 동시에 편집한 글은 자동으로 합칠 수 있어도 문장의 의미가 자연스러운지는 사람이 확인해야 한다.
 

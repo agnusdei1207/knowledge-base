@@ -45,9 +45,7 @@ extra:
 
 - 메모리 기반 1ms 미만의 **초저지연 응답 속도(Sub-millisecond Latency)**
 - Strings, Hashes, Lists, Sets, Sorted Sets(ZSet) 등 **풍부한 내장 자료구조 원자적 지원**
-- RDB 스냅샷 및 AOF 변경 로그를 통한 **인메모리 데이터의 디스크 영속성(Persistence) 보장**
-
-#### 한줄 요약
+- RDB 스냅샷 및 AOF 변경 로그를 통한 **인메모리 데이터의 디스크 영속성(Persistence) 보장** #### 한줄 요약
 
 - 단일 스레드 비동기 루프로 동시성 락 경합 없이 원자적 연산을 수행하며 RDB/AOF로 영속성을 보완
 

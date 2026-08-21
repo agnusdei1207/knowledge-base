@@ -165,7 +165,5 @@ MCP 호스트
 
 ## Ⅶ. 결론
 
-- 연결•메시지 중계는 **MCP Client**, 기능 공개는 **MCP Server**
-
-#### 한줄 요약
+- 연결•메시지 중계는 **MCP Client**, 기능 공개는 **MCP Server** #### 한줄 요약
 - **연결 책임•기능 제공 책임** 대상 따라 Client•Server 결정

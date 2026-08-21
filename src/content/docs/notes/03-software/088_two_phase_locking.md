@@ -138,9 +138,7 @@ extra:
 | Basic 2PL의 연쇄 롤백(**Cascading Rollback**) | **실무 DBMS에서는 Strict 2PL (X-Lock Commit 시점 해제) 강제**| 연쇄 롤백 완전 차단 |
 | 락 점유 기간 장기화로 인한 동시성 TPS 하락 | **2PL 대신 MVCC (Multi-Version Concurrency Control) 엔진 채택**| 동시성 TPS 극대화 |
 
-> 사례: **MySQL InnoDB / Oracle DBMS 내 Strict 2PL 기반 락 매니저 운용**
-
-#### 한줄 요약
+> 사례: **MySQL InnoDB / Oracle DBMS 내 Strict 2PL 기반 락 매니저 운용** #### 한줄 요약
 
 - 모든 이체가 계좌 번호순으로 잠그면 반대 순서 대기로 생기는 교착을 줄일 수 있다.
 

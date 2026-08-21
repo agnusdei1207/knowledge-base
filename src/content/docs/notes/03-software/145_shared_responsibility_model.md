@@ -44,9 +44,7 @@ extra:
 
 - 물리 시설과 가상화 계층을 CSP가 전담하는 **Security OF the Cloud 책임**
 - 데이터 암호화, 계정 통제, 방화벽을 고객이 전담하는 **Security IN the Cloud 책임**
-- IaaS에서 PaaS, SaaS로 갈수록 고객 책임이 CSP로 이관되는 **서비스 모델별 가변 경계**
-
-#### 한줄 요약
+- IaaS에서 PaaS, SaaS로 갈수록 고객 책임이 CSP로 이관되는 **서비스 모델별 가변 경계** #### 한줄 요약
 
 - 서비스 모델(IaaS/PaaS/SaaS)에 따라 가변적으로 이동하는 보안 책임 경계를 정밀하게 관리
 

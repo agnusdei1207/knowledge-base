@@ -45,9 +45,7 @@ extra:
 
 - 메모리 상에서 중간 데이터를 유지하는 **인메모리 컴퓨팅(In-Memory Computing)**
 - 연산 파이프라인을 최적화하여 한 번에 실행하는 **지연 평가(Lazy Evaluation)**
-- SQL, Streaming, 머신러닝(MLlib), 그래프(GraphX)를 아우르는 **통합 분산 데이터 플랫폼**
-
-#### 한줄 요약
+- SQL, Streaming, 머신러닝(MLlib), 그래프(GraphX)를 아우르는 **통합 분산 데이터 플랫폼** #### 한줄 요약
 
 - 인메모리 RDD 계보 복원과 Catalyst 최적화를 통해 고속 반복 연산과 대규모 스트리밍을 지원
 

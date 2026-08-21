@@ -47,9 +47,7 @@ extra:
 
 - **3-Tier Data Quality Advancement (Bronze $\rightarrow$ Silver $\rightarrow$ Gold)**
 - **Replayability Guarantee (Bronze 레이어 상시 원본 보존으로 언제든 재처리 가능)**
-- **Schema Enforcement & Data Isolation (품질 검증 실패 데이터는 Quarantine 에 격리)**
-
-#### 한줄 요약
+- **Schema Enforcement & Data Isolation (품질 검증 실패 데이터는 Quarantine 에 격리)** #### 한줄 요약
 
 - 색깔별 폴더가 아니라 각 단계의 입학 기준과 탈락 사유, 다시 시작할 원본이 있어야 한다.
 
@@ -162,9 +160,7 @@ extra:
 | 2. Quarantine Storage Overflow | 품질 규칙 과도 설정으로 Quarantine 폭발| **품질 검증 규칙(Expectations) 단계적 임계치 완화** |
 | 3. PII Security Leakage | Bronze에 개인정보(PII)가 생값으로 노출 | **Bronze 가동 즉시 해시/단방향 암호화 처리 적용** |
 
-> 사례: **카카오페이 / Databricks Delta Live Tables(DLT) 기반 전사 메달리온 아키텍처 운용**
-
-#### 한줄 요약
+> 사례: **카카오페이 / Databricks Delta Live Tables(DLT) 기반 전사 메달리온 아키텍처 운용** #### 한줄 요약
 
 - 불량 로그는 버리지 않고 이유와 함께 따로 두며 검사 결과가 맞아야 최종 지표를 바꾼다.
 

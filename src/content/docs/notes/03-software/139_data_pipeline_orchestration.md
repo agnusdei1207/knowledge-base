@@ -46,9 +46,7 @@ extra:
 
 - **Workflow-as-Code (Python 코드 기반의 DAG 선언 및 Git 버전 통제)**
 - **Robust Failure Recovery & Backfill (실패 시 조건부 Retry, SLA 모니터링, 과거 파티션 백필)**
-- **Extensible Architecture (Operator, Sensor, Hook을 활용한 모든 클라우드/DB 연동)**
-
-#### 한줄 요약
+- **Extensible Architecture (Operator, Sensor, Hook을 활용한 모든 클라우드/DB 연동)** #### 한줄 요약
 
 - 순서표가 있어도 작업을 한꺼번에 너무 많이 보내면 공용 창구가 막히므로 동시 실행 수를 제한해야 한다.
 
@@ -160,9 +158,7 @@ extra:
 | 2. Database Bottleneck | Task 수가 수만 개로 늘어나 DB Connection 차올라감| **PGBouncer 연동 및 Task Concurrency 제한** |
 | 3. OOM on Worker | Worker 노드 메모리를 초과하는 대용량 DataFrame 연산 | **KubernetesPodOperator로 작업 노드 물리 분리** |
 
-> 사례: **쿠팡 / 카카오 / 네이버 MWAA (Amazon Managed Workflows for Apache Airflow) 운용**
-
-#### 한줄 요약
+> 사례: **쿠팡 / 카카오 / 네이버 MWAA (Amazon Managed Workflows for Apache Airflow) 운용** #### 한줄 요약
 
 - 적재와 검사가 끝나야 게시하고 과거 재작업은 별도 줄에서 천천히 보낸다.
 

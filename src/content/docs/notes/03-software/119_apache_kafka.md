@@ -46,9 +46,7 @@ extra:
 
 - **High Throughput & Low Latency (Zero-Copy & PageCache 기술 활용)**
 - **Decoupled Architecture & Message Replay (Offset 조작으로 과거 이벤트 재처리)**
-- **Distributed Replication (Leader-Follower ISR 기반 고가용성 보장)**
-
-#### 한줄 요약
+- **Distributed Replication (Leader-Follower ISR 기반 고가용성 보장)** #### 한줄 요약
 
 - 병렬성과 재처리는 좋으나 순서 보장과 편중 및 재배정을 관리해야 한다.
 
@@ -161,9 +159,7 @@ extra:
 | Rebalance Storm 발생 | `max.poll.interval.ms` 시간 초과로 컨슈머 쫓겨남 | **`max.poll.records` 단축 및 Cooperative Rebalance 적용** |
 | 메시지 중복 수신 (At-Least-Once) | 컨슈머 처리 성공 후 오프셋 커밋 전 튕김 발생 | **Consumer 로직 멱등성(Idempotency) 구현** |
 
-> 사례: **쿠팡 / 네이버 Kafka 기반 실시간 로그 수집 & Flink Stream 파이프라인 연동**
-
-#### 한줄 요약
+> 사례: **쿠팡 / 네이버 Kafka 기반 실시간 로그 수집 & Flink Stream 파이프라인 연동** #### 한줄 요약
 
 - 같은 주문의 순서는 한 일지에서 지키고 각 일지의 밀린 양을 따로 봐야 한다.
 

@@ -46,9 +46,7 @@ extra:
 
 - **Centralized Metadata Search Engine (구글 스타일 데이터 탐색 지원)**
 - **Automated Data Lineage & Schema Extraction (데이터 변환 흐름 추적)**
-- **Role-Based Access & PII Auto Tagging (보안 및 거버넌스 연동)**
-
-#### 한줄 요약
+- **Role-Based Access & PII Auto Tagging (보안 및 거버넌스 연동)** #### 한줄 요약
 
 - 책 목록을 자동으로 모아도 제목·저자·대출 가능 여부가 틀리면 쓸 수 없어 담당자의 검토가 필요하다.
 
@@ -161,9 +159,7 @@ extra:
 | 2. Lineage Disconnect | SQL 쿼리가 파이프라인 외부에서 수동 수정됨 | **OpenLineage 에이전트 Spark/Airflow 전면 탑재** |
 | 3. Low User Adoption | 사용자들이 여전히 쿼리를 개발자에게 물어봄 | **Slack/Teams 챗봇과 카탈로그 검색 API 연동** |
 
-> 사례: **카카오 / 당근마켓 OpenMetadata 기반 전사 데이터 카탈로그 및 Lineage 구축**
-
-#### 한줄 요약
+> 사례: **카카오 / 당근마켓 OpenMetadata 기반 전사 데이터 카탈로그 및 Lineage 구축** #### 한줄 요약
 
 - 목록을 열어 본 횟수보다 맞는 자료를 찾아 실제로 썼는지를 재야 한다.
 

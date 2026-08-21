@@ -49,9 +49,7 @@ extra:
 
 #### 한줄 요약
 
-- **WAL 원칙 기반 트랜잭션 보장·초고속 저널 리플레이 복구·3단계 저널링 모드(Journal/Ordered/Writeback) 제공**
-
-## Ⅲ. 구조 및 구성요소
+- **WAL 원칙 기반 트랜잭션 보장·초고속 저널 리플레이 복구·3단계 저널링 모드(Journal/Ordered/Writeback) 제공** ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -96,9 +94,7 @@ extra:
 
 #### 한줄 요약
 
-- **트랜잭션 관리자·저널 로그 영역(Descriptor/Commit)·체크포인트 플러시·REDO 복구 엔진**
-
-## Ⅳ. 흐름도
+- **트랜잭션 관리자·저널 로그 영역(Descriptor/Commit)·체크포인트 플러시·REDO 복구 엔진** ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -125,9 +121,7 @@ extra:
                                      (미커밋 불완전 트랜잭션 폐기)
 ```
 
-**동작 원리**
-
-1. **트랜잭션 캡슐화**: 파일 변경에 필요한 Inode, 디렉터리 엔트리, 블록 할당 비트맵 수정을 하나의 트랜잭션으로 구성
+**동작 원리** 1. **트랜잭션 캡슐화**: 파일 변경에 필요한 Inode, 디렉터리 엔트리, 블록 할당 비트맵 수정을 하나의 트랜잭션으로 구성
 2. **저널 선행 기록 (WAL)**: 실제 Home Block을 수정하기 전 저널 영역에 Descriptor와 변경 블록을 순차 기록
 3. **Commit Block 기록**: 트랜잭션의 모든 블록이 물리 저널에 기록 완료되면 Commit Block을 기록하여 트랜잭션 완료 확정
 4. **체크포인트 동기화**: 백그라운드 데몬이 커밋된 데이터를 실제 Home Block으로 복사하고 저널 버퍼 공간 회수
@@ -135,9 +129,7 @@ extra:
 
 #### 한줄 요약
 
-- **트랜잭션 생성 $\to$ 저널 선행 기록(WAL) $\to$ Commit Block 확정 $\to$ 체크포인트 동기화 / 장애 시 REDO 리플레이**
-
-## Ⅴ. 종류 및 비교
+- **트랜잭션 생성 $\to$ 저널 선행 기록(WAL) $\to$ Commit Block 확정 $\to$ 체크포인트 동기화 / 장애 시 REDO 리플레이** ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -153,9 +145,7 @@ extra:
 
 #### 한줄 요약
 
-- 완전 무결성은 **Journal 모드**, 범용 최적 표준은 **Ordered 모드**, 극한의 성능은 **Writeback 모드**
-
-## Ⅵ. 실무 고려사항 및 대책
+- 완전 무결성은 **Journal 모드**, 범용 최적 표준은 **Ordered 모드**, 극한의 성능은 **Writeback 모드** ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -171,9 +161,7 @@ extra:
 
 #### 한줄 요약
 
-- **Write Barrier 기반 WAL 순서 강제·Ordered 모드 기반 SSD 수명 보호·noatime 기반 메타 I/O 절감**
-
-## Ⅶ. 결론
+- **Write Barrier 기반 WAL 순서 강제·Ordered 모드 기반 SSD 수명 보호·noatime 기반 메타 I/O 절감** ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 

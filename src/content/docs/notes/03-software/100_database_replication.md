@@ -158,9 +158,7 @@ extra:
 | 오판 승격으로 이중 주 노드 발생 | **쿼럼•펜싱•자동 장애전환** | Split-Brain 차단 |
 | 복제 노드 읽기 과부하 | **지연 가중 라우팅•부하 제한** | 읽기 부하 분산 |
 
-> 사례: **MySQL Master-Replica + ProxySQL Read/Write Splitting & Semi-Sync 적용**
-
-#### 한줄 요약
+> 사례: **MySQL Master-Replica + ProxySQL Read/Write Splitting & Semi-Sync 적용** #### 한줄 요약
 
 - 사본이 늦으면 최신 값이 필요한 읽기에서 빼고, 원본 장애 때 둘이 동시에 원본이 되지 않게 막아야 한다.
 

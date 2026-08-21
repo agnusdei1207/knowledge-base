@@ -45,9 +45,7 @@ extra:
 
 - 사용자 비밀번호를 클라이언트에 전혀 제공하지 않는 **안전한 권한 위임(Delegated Authorization)**
 - 표준 JWT 클레임(iss, sub, aud, exp)을 포함하는 **사용자 신원 확인(ID Token / SSO)**
-- 모바일/SPA 등 공개 클라이언트(Public Client)의 코드 탈취를 차단하는 **PKCE 보안 확장**
-
-#### 한줄 요약
+- 모바일/SPA 등 공개 클라이언트(Public Client)의 코드 탈취를 차단하는 **PKCE 보안 확장** #### 한줄 요약
 
 - Access Token과 ID Token의 분리 및 PKCE 챌린지를 통해 웹/모바일 환경의 인증·인가를 완벽히 통제
 

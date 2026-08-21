@@ -153,9 +153,7 @@ extra:
 | 2. Slow Pod Boot Delay | Pod 부팅 시간이 3분 걸려 초기 트래픽 퐁당 | **Prometheus 기반 KEDA 이벤트 오토스케일링** |
 | 3. Node Resource Exhaust | HPA로 Pod만 늘다가 Node 메모리 부족 터짐 | **AWS Karpenter 도입으로 초고속 Node 자동 덤프**|
 
-> 사례: **쿠팡 / 당근마켓 / 카카오 KEDA 및 Karpenter 기반 초고속 5초 오토스케일링 적용 사례**
-
-#### 한줄 요약
+> 사례: **쿠팡 / 당근마켓 / 카카오 KEDA 및 Karpenter 기반 초고속 5초 오토스케일링 적용 사례** #### 한줄 요약
 
 - 주문 신호가 울린 순간이 아니라 새 작업자가 자리를 받아 일을 시작한 순간까지 재고, 작업장에 빈자리가 없으면 노드부터 늘려야 한다.
 

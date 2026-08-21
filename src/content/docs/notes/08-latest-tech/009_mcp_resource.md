@@ -156,9 +156,7 @@ MCP 클라이언트
 > 요약: 문맥 조회에는 **Resource**, 행동에는 **Tool**, 작업 틀에는 **Prompt** 활용 적용함.
 
 #### 한줄 요약
-- 고정 URI 문맥은 **Resource**, 행동 실행은 **Tool**
-
-## Ⅵ. 실무 고려사항 및 대책
+- 고정 URI 문맥은 **Resource**, 행동 실행은 **Tool** ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 

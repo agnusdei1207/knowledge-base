@@ -46,9 +46,7 @@ extra:
 
 - **Append-Only Write**: 시간순 덧붙이기 중심 쓰기 경로
 - **Delta Compression**: 값•시간 차이를 활용한 압축
-- **Continuous Downsampling & Retention Policy (수명주기 자동화)**
-
-#### 한줄 요약
+- **Continuous Downsampling & Retention Policy (수명주기 자동화)** #### 한줄 요약
 
 - 연속 쓰기에 강하지만 태그가 폭증하면 색인과 메모리 비용이 커진다.
 
@@ -158,9 +156,7 @@ extra:
 | 원본 초 단위 데이터를 영구 보관하여 디스크 고갈 | **Retention Policy (7일 후 1시간 다운샘플링 및 파기)** | 디스크 90% 절감 |
 | 클럭 디비에이션(Clock Drift)으로 타임스탬프 역전 | **NTP (Network Time Protocol) 동기화 및 Late Data 허용 윈도**| 수집 정합성 보장 |
 
-> 사례: **쿠버네티스 클러스터 모니터링 (Prometheus + Thanos) & Smart Factory IoT TSDB 구축**
-
-#### 한줄 요약
+> 사례: **쿠버네티스 클러스터 모니터링 (Prometheus + Thanos) & Smart Factory IoT TSDB 구축** #### 한줄 요약
 
 - 이름표 종류를 제한하고 오래된 원본은 필요한 통계만 남겨 비용을 관리한다.
 

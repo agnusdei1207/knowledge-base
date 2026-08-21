@@ -45,9 +45,7 @@ extra:
 
 - 파드가 교체되어도 변하지 않는 **안정적인 내부 가상 IP(VIP) 및 CoreDNS 도메인 제공**
 - 단일 IP/로드밸런서 뒤에서 복수의 마이크로서비스로 분기하는 **L7 URL 경로 기반 라우팅**
-- cert-manager 기반의 **SSL/TLS 인증서 자동 발급 및 갱신(TLS Termination)**
-
-#### 한줄 요약
+- cert-manager 기반의 **SSL/TLS 인증서 자동 발급 및 갱신(TLS Termination)** #### 한줄 요약
 
 - L4 가상 IP 로드밸런싱과 L7 호스트/경로 기반 프록시를 통해 마이크로서비스 네트워킹을 완성
 

@@ -23,27 +23,23 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **보안 성숙도(Security Maturity)**: 보안 관행(Practices)과 프로세스가 특정 조직 내에서 얼마나 제도화(Institutionalized)되고, 측정 가능하며, 지속적으로 개선되고 있는지를 나타내는 역량의 정도이다.
-- **아티기반 증거(Artifact-based Evidence)**: 평가의 객관성을 확보하기 위해 인터뷰나 설문에 의존하지 않고, 실제 CI/CD 파이프라인 로그, 취약점 점검 결과서, 정적/동적 분석(SAST/DAST) 리포트 등의 산출물을 통해 보안 관행 수행 여부를 입증하는 방식이다.
+- **아티팩트 기반 증거(Artifact-based Evidence)**: 평가의 객관성을 확보하기 위해 인터뷰나 설문에 의존하지 않고, 실제 CI/CD 파이프라인 로그, 취약점 점검 결과서, 정적/동적 분석(SAST/DAST) 리포트 등의 산출물을 통해 보안 관행 수행 여부를 입증하는 방식이다.
 - **목표 프로파일(Target Profile)**: 조직의 비즈니스 목표, 위협 모델, 법적 규제 의무를 바탕으로 설정한 이상적인 보안 역량 수준의 집합이다.
 
 </details>
 
 - 정의: **보안 성숙도 모델(Security Maturity Model)** 은 조직의 보안 관행이 체계적으로 반복, 측정, 개선되는 역량의 정도를 객관적 지표로 평가하여 지속적 개선을 위한 위험 기반 로드맵을 제공하는 **평가 체계**이다.
-- 배경 및 필요성: 도입된 보안 솔루션의 갯수나 단편적인 정책 보유 여부만으로는 보안 조직의 실제 방어 역량과 프로세스 내재화 수준을 파악하기 어렵다. 이에 따라 현재 역량(As-Is)과 목표 역량(To-Be) 간의 갭(Gap)을 아티기반으로 정량화하고, 위험도에 기반하여 제한된 자원을 효율적으로 투자하기 위한 기준 프레임워크가 필요해졌다.
+- 배경 및 필요성: 도입된 보안 솔루션의 갯수나 단편적인 정책 보유 여부만으로는 보안 조직의 실제 방어 역량과 프로세스 내재화 수준을 파악하기 어렵다. 이에 따라 현재 역량(As-Is)과 목표 역량(To-Be) 간의 갭(Gap)을 아티팩트 기반으로 정량화하고, 위험도에 기반하여 제한된 자원을 효율적으로 투자하기 위한 기준 프레임워크가 필요해졌다.
 
 ## Ⅱ. 특징
 
 보안 성숙도 모델은 주관적 평가를 배제하고 실질적인 보안 내재화 상태를 측정하기 위해 다음과 같은 고도의 기술적·관리적 특징을 지닌다.
 
-1. **아티기반 증거 수집 (Artifact-based Evidence Collection)**
-   - 보안 관행의 수행 여부를 담당자의 구두 진술에 의존하지 않고, JIRA 티켓, SonarQube 스캔 결과, AWS CloudTrail 로그, IAM 정책 JSON 파일 등 명시적이고 검증 가능한 시스템 레벨의 증거(Artifact)로 확인한다.
+1. **아티팩트 기반 증거 수집 (Artifact-based Evidence Collection)** - 보안 관행의 수행 여부를 담당자의 구두 진술에 의존하지 않고, JIRA 티켓, SonarQube 스캔 결과, AWS CloudTrail 로그, IAM 정책 JSON 파일 등 명시적이고 검증 가능한 시스템 레벨의 증거(Artifact)로 확인한다.
    - 이를 통해 점수의 신뢰성을 확보하고 자동화된 보안 지표(Metrics) 추출 체계와의 연동을 도모한다.
-2. **역량 수준(Capability)과 제도화 수준(Institutionalization)의 분리/결합 측정**
-   - 모델에 따라 보안 목적 달성 능력(Capability Level)과 해당 능력이 조직의 표준 프로세스로 안착되어 반복·측정되는 정도(Maturity Indicator Level, MIL)를 입체적으로 분석한다.
-3. **위험 기반 로드맵 우선순위화 (Risk-based Roadmap Prioritization)**
-   - 성숙도 점수가 낮다고 무조건 개선 대상에 포함하는 것이 아니라, 해당 영역의 비즈니스 임팩트(Business Impact)와 프로세스 의존성(Dependencies)을 결합하여 고위험-고효율 영역에 선행 투자하는 로드맵을 수립한다.
-4. **목표 프로파일링 및 벤치마킹 (Target Profiling & Benchmarking)**
-   - 금융, 제조, IT 등 산업별 특성에 맞춘 동종 업계 벤치마킹 데이터를 활용(예: BSIMM)하거나, 자사의 위협 모델링 결과를 반영하여 무리한 일괄 최고 등급(예: Level 3) 달성이 아닌 현실적인 목표를 설정한다.
+2. **역량 수준(Capability)과 제도화 수준(Institutionalization)의 분리/결합 측정** - 모델에 따라 보안 목적 달성 능력(Capability Level)과 해당 능력이 조직의 표준 프로세스로 안착되어 반복·측정되는 정도(Maturity Indicator Level, MIL)를 입체적으로 분석한다.
+3. **위험 기반 로드맵 우선순위화 (Risk-based Roadmap Prioritization)** - 성숙도 점수가 낮다고 무조건 개선 대상에 포함하는 것이 아니라, 해당 영역의 비즈니스 임근거(Business Impact)와 프로세스 의존성(Dependencies)을 결합하여 고위험-고효율 영역에 선행 투자하는 로드맵을 수립한다.
+4. **목표 프로파일링 및 벤치마킹 (Target Profiling & Benchmarking)** - 금융, 제조, IT 등 산업별 특성에 맞춘 동종 업계 벤치마킹 데이터를 활용(예: BSIMM)하거나, 자사의 위협 모델링 결과를 반영하여 무리한 일괄 최고 등급(예: Level 3) 달성이 아닌 현실적인 목표를 설정한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -74,7 +70,7 @@ Security Maturity Assessment Framework
 | 핵심 구성요소 | 기술적 상세 내용 및 적용 대상 | 실무적 의의 |
 | :--- | :--- | :--- |
 | **평가 매트릭스 (Assessment Matrix)** | SAMM의 5개 Business Function (Governance, Design, Implementation, Verification, Operations)과 15개 Security Practice, 각 Practice별 3단계 성숙도 레벨로 구성된 2차원 또는 3차원 그리드 | 주관적 해석을 방지하고 일관된 척도 제공 |
-| **아티수집기 (Artifact Collector)** | GitLab CI/CD 파이프라인 YAML 파일, DefectDojo 취약점 관리 플랫폼의 API 응답(JSON), SIEM 로그, 펜테스트(Pentest) 산출물 | 평가의 감사 추적성(Auditability) 및 자동화 기반 마련 |
+| **아티팩트 수집기 (Artifact Collector)** | GitLab CI/CD 파이프라인 YAML 파일, DefectDojo 취약점 관리 플랫폼의 API 응답(JSON), SIEM 로그, 펜테스트(Pentest) 산출물 | 평가의 감사 추적성(Auditability) 및 자동화 기반 마련 |
 | **목표 프로파일 (Target Profile)** | NIST CSF의 Tiers나 C2M2의 MIL(Maturity Indicator Level) 기준을 바탕으로, 부서별/자산별로 다르게 설정된 목표 수준 템플릿 | 맹목적인 만점 추구를 방지하고 리소스 최적화 |
 | **개선 로드맵 (Remediation Roadmap)** | 격차(Gap) 분석 후, 선행되어야 할 보안 인프라(예: IAM 통합)와 후행 기술(예: Zero Trust 정책)의 의존성(Dependency)을 모델링한 단계별 이행 계획 | 경영진 보고용 타당성(Justification) 및 예산 확보 근거 |
 
@@ -129,23 +125,20 @@ graph TD
 
 성숙도 모델을 실제 업무에 적용할 때 발생하는 한계점과 이를 극복하기 위한 아키텍처 및 관리적 대책은 다음과 같다.
 
-1. **아티수집의 오버헤드 및 수동 평가의 비효율성**
-   - **문제**: 평가 항목(Practice)마다 담당자에게 증거(문서, 로그 등)를 수동으로 요구하면, 평가 주기가 길어지고 피로도가 극증한다.
+1. **아티팩트 수집의 오버헤드 및 수동 평가의 비효율성** - **문제**: 평가 항목(Practice)마다 담당자에게 증거(문서, 로그 등)를 수동으로 요구하면, 평가 주기가 길어지고 피로도가 극증한다.
    - **대책 (보안 대책/기술적 구현)**: **보안 측정 자동화 아키텍처(Automated Security Metrics Architecture)** 구축.
      - CI/CD 파이프라인 내에서 SAST/DAST 스캔 실행 여부를 Webhook으로 받아 중앙 대시보드(예: DefectDojo, Splunk)에 지표화한다.
      - JIRA/ServiceNow API와 연동하여 취약점 SLA 준수율을 실시간으로 계산해 성숙도 레벨 평가에 반영한다.
-2. **모든 영역에 대한 비현실적 최고 등급 목표 설정 (Over-engineering)**
-   - **문제**: 전 영역 MIL 3(또는 Level 3) 달성을 목표로 삼을 경우, ROI가 나오지 않는 영역에 과도한 비용이 소모된다.
+2. **모든 영역에 대한 비현실적 최고 등급 목표 설정 (Over-engineering)** - **문제**: 전 영역 MIL 3(또는 Level 3) 달성을 목표로 삼을 경우, ROI가 나오지 않는 영역에 과도한 비용이 소모된다.
    - **대책**: **위험 기반 프로파일링(Risk-based Profiling)** 수행.
      - 내부 백오피스 시스템은 Level 1(기본 통제)을 유지하고, 고객 PII 처리 외부 대국민 서비스망은 Level 3(지속 측정 및 최적화)을 목표로 하는 등 시스템/업무 중요도에 따른 **차등적 목표(Target Profile)** 를 수립해야 한다.
      - NIST SP 1302 등 CSF 조직 프로파일 가이드를 차용하여 위험 허용선(Risk Appetite)과 목표 레벨을 정렬한다.
-3. **평가 지표와 실제 위협 완화 간의 괴리 (Paper Security)**
-   - **문제**: 성숙도 점수는 높으나 실제 모의해킹이나 침해사고 발생 시 무력화되는 현상(문서상으로만 존재하는 보안).
+3. **평가 지표와 실제 위협 완화 간의 괴리 (Paper Security)** - **문제**: 성숙도 점수는 높으나 실제 모의해킹이나 침해사고 발생 시 무력화되는 현상(문서상으로만 존재하는 보안).
    - **대책**: **지속적 검증(Continuous Verification) 및 퍼플팀(Purple Team) 훈련 연계**.
-     - 성숙도 모델의 Verification 도메인에 BAS(Breach and Attack Simulation) 도구 결과나 퍼플팀 훈련 결과를 아티강제 포함시켜, 방어 관행이 실제로 작동하는지(Effectiveness)를 검증 지표로 삼는다.
+     - 성숙도 모델의 Verification 도메인에 BAS(Breach and Attack Simulation) 도구 결과나 퍼플팀 훈련 결과를 아티팩트에 강제 포함시켜, 방어 관행이 실제로 작동하는지(Effectiveness)를 검증 지표로 삼는다.
 
 ## Ⅶ. 결론
 
 성숙도 평가는 단순한 현재 상태의 '성적표(Scorecard)'나 컴플라이언스 체크리스트가 아니다. **보안 성숙도 모델** 기반 조직이 직면한 위협을 식별하고, 제한된 리소스 하에서 어떤 보안 역량을 우선적으로 강화해야 하는지에 대한 **위험 기반 로드맵(Risk-based Roadmap)** 을 수립하기 위한 가장 전략적인 도구이다.
 
-실무적으로 성공적인 성숙도 모델 정착을 위해서는 OWASP SAMM, BSIMM, C2M2 등 조직의 비즈니스 목적에 부합하는 모델을 정확히 **선택(Selection)** 하고, 주관적 설문이 아닌 시스템 데이터에 기반한 **아티철저한 검증(Artifact-based Verification)** 체계를 자동화해야 한다. 궁극적으로 주기적인 재평가 피드백 루프를 통해 개발, 운영, 거버넌스 전반의 보안 내재화(Security Built-in) 수준을 지속적으로 끌어올리는 것이 핵심이다.
+실무적으로 성공적인 성숙도 모델 정착을 위해서는 OWASP SAMM, BSIMM, C2M2 등 조직의 비즈니스 목적에 부합하는 모델을 정확히 **선택(Selection)** 하고, 주관적 설문이 아닌 시스템 데이터에 기반한 **아티팩트 기반 철저한 검증(Artifact-based Verification)** 체계를 자동화해야 한다. 궁극적으로 주기적인 재평가 피드백 루프를 통해 개발, 운영, 거버넌스 전반의 보안 내재화(Security Built-in) 수준을 지속적으로 끌어올리는 것이 핵심이다.

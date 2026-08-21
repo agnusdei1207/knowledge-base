@@ -47,13 +47,9 @@ extra:
 
 - 단일 CPU 코어 기준 **실행 상태(Running)** 는 시점당 단 하나의 프로세스에만 배정
 - CPU 스케줄러 디스패치를 대기하는 **준비 상태(Ready)** 와 외부 이벤트 대기를 위한 **대기 상태(Blocked)** 의 큐 분리 운영
-- 프로세스 종료 시 부모 프로세스의 `wait()`/`waitpid()` 호출을 통한 자식 프로세스 PCB 자원 정리 및 **좀비 프로세스 방지**
+- 프로세스 종료 시 부모 프로세스의 `wait()`/`waitpid()` 호출을 통한 자식 프로세스 PCB 자원 정리 및 **좀비 프로세스 방지** #### 한줄 요약
 
-#### 한줄 요약
-
-- **5단계 상태 분리·Ready/Wait 큐 이원화·디스패치/선점/I/O 이벤트 기반 상태 전이**
-
-## Ⅲ. 구조 및 구성요소
+- **5단계 상태 분리·Ready/Wait 큐 이원화·디스패치/선점/I/O 이벤트 기반 상태 전이** ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -87,9 +83,7 @@ extra:
 
 #### 한줄 요약
 
-- **PCB 상태 저장소·Ready/Wait 큐 이원화·OS 스케줄러 디스패치 및 이벤트 인터럽트 복귀**
-
-## Ⅳ. 흐름도
+- **PCB 상태 저장소·Ready/Wait 큐 이원화·OS 스케줄러 디스패치 및 이벤트 인터럽트 복귀** ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -117,9 +111,7 @@ extra:
            └── 5. 실행 종료 (exit) ──► [ 종료 상태 (Terminated) ]
 ```
 
-**동작 원리**
-
-1. **디스패치(Dispatch)**: 스케줄러가 준비 큐에서 최우선 순위 프로세스를 선택하여 CPU를 할당하고 실행 상태로 전이
+**동작 원리** 1. **디스패치(Dispatch)**: 스케줄러가 준비 큐에서 최우선 순위 프로세스를 선택하여 CPU를 할당하고 실행 상태로 전이
 2. **타이머 선점(Preempt)**: 할당된 타임 슬라이스(Time Quantum)가 만료되면 인터럽트를 통해 프로세스를 준비 상태로 강제 복귀
 3. **I/O 대기(Blocked)**: 실행 중 디스크 읽기나 네트워크 소켓 수신 요청 시 CPU를 반납하고 대기 큐로 전이
 4. **이벤트 완료(Wakeup)**: 하드웨어 I/O 완료 인터럽트 수신 시 대기 상태의 프로세스를 깨워 준비 큐로 재진입
@@ -127,9 +119,7 @@ extra:
 
 #### 한줄 요약
 
-- **생성(New) $\to$ 준비(Ready) $\to$ 디스패치 후 실행(Running) $\to$ 선점/I/O 대기(Blocked) $\to$ 완료 후 종료(Terminated)**
-
-## Ⅴ. 종류 및 비교
+- **생성(New) $\to$ 준비(Ready) $\to$ 디스패치 후 실행(Running) $\to$ 선점/I/O 대기(Blocked) $\to$ 완료 후 종료(Terminated)** ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -164,9 +154,7 @@ extra:
 
 #### 한줄 요약
 
-- **SIGCHLD 기반 waitpid() 비동기 회수·I/O Timeout 정책·ulimit(nproc) 생성 한도 통제**
-
-## Ⅶ. 결론
+- **SIGCHLD 기반 waitpid() 비동기 회수·I/O Timeout 정책·ulimit(nproc) 생성 한도 통제** ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 

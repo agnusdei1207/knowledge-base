@@ -46,9 +46,7 @@ extra:
 
 - **End-to-End Real-Time Pipeline (Ingestion $\rightarrow$ Broker $\rightarrow$ Engine $\rightarrow$ Serving)**
 - **Sub-second Low Latency & High Ingestion Throughput**
-- **Stateful Stream Processing & Exactly-Once Consistency**
-
-#### 한줄 요약
+- **Stateful Stream Processing & Exactly-Once Consistency** #### 한줄 요약
 
 - 브로커는 이벤트를 보존하고 처리기는 상태를 계산하므로 두 계층의 위치•상태•출력 복구 경계를 맞춰야 한다.
 
@@ -160,9 +158,7 @@ extra:
 | 2. Out-of-Order Events | 네트워크 지연으로 이벤트 순서 뒤틀림 | **Watermark 및 Allowed Lateness 버퍼 레이어 설정**|
 | 3. End-to-End EOS 파행 | 파이프라인 일부 노드 다운 시 중복 렌더링| **Kafka (acks=all) + Flink 2PC + Redis UPSERT 결합**|
 
-> 사례: **카카오뱅크 실시간 FDS & 당근마켓 실시간 피드 추천 파이프라인 아키텍처**
-
-#### 한줄 요약
+> 사례: **카카오뱅크 실시간 FDS & 당근마켓 실시간 피드 추천 파이프라인 아키텍처** #### 한줄 요약
 
 - 같은 장치 사건은 순서대로 처리하되 한 장치가 전체 처리량을 독점하지 않는지 확인한다.
 

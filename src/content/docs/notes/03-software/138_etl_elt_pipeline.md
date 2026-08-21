@@ -46,9 +46,7 @@ extra:
 
 - **ETL (Transform Pre-Load: 보안/PII 선 마스킹 및 레거시 DW에 적합)**
 - **ELT (Transform Post-Load: Raw 보존, 클라우드 레이크하우스 & dbt 연동에 적합)**
-- **Pipeline Latency & Scalability Tradeoff (적재 속도 및 확장성 트레이드오프)**
-
-#### 한줄 요약
+- **Pipeline Latency & Scalability Tradeoff (적재 속도 및 확장성 트레이드오프)** #### 한줄 요약
 
 - 어디까지 성공했는지 기억하고 같은 구간을 다시 넣어도 결과가 한 번만 남게 만든다.
 
@@ -144,9 +142,7 @@ extra:
 | 2. PII Data Exposure | PII 생값이 S3/DW Raw 영역에 그대로 노출 | **Ingestion 커넥터 단에서 PII Hash 단방향 암호화**|
 | 3. Raw Data Swamp | ELT Raw 지대에 자잘한 쓰레기 파일 폭발 | **Lifecycle Policy 적용하여 90일 후 Cold Storage**|
 
-> 사례: **카카오 / 당근마켓 / 쿠팡 Fivetran + Snowflake + dbt 기반 Modern Data Stack ELT 운용**
-
-#### 한줄 요약
+> 사례: **카카오 / 당근마켓 / 쿠팡 Fivetran + Snowflake + dbt 기반 Modern Data Stack ELT 운용** #### 한줄 요약
 
 - 급여의 주민번호는 적재 전에 마스킹하고 분석에 필요한 나머지는 원본으로 보관한다.
 

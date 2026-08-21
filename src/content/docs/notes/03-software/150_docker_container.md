@@ -44,9 +44,7 @@ extra:
 
 - Guest OS 없이 프로세스 단위로 실행되어 **수 초 이내의 초고속 부팅 및 경량화**
 - 불변 인프라(Immutable Infrastructure)를 보장하는 **Dockerfile 기반 이미지 패키징**
-- cgroups 및 Namespaces를 통한 **프로세스 수준의 안전한 자원 격리**
-
-#### 한줄 요약
+- cgroups 및 Namespaces를 통한 **프로세스 수준의 안전한 자원 격리** #### 한줄 요약
 
 - OS 커널 수준의 경량 가상화를 통해 하드웨어 자원 낭비를 없애고 마이크로서비스 배포를 표준화
 

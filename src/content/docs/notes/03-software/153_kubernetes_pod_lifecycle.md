@@ -44,9 +44,7 @@ extra:
 
 - Pending $\to$ Running $\to$ Succeeded/Failed로 이어지는 **명확한 파드 상태 전이(Pod Phase)**
 - 프로세스 기동, 생존, 트래픽 준비 상태를 독립적으로 감시하는 **3대 프로브(Probe) 체계**
-- 롤링 업데이트 시 트래픽 유실을 방지하는 **preStop 훅 및 Graceful Shutdown 보장**
-
-#### 한줄 요약
+- 롤링 업데이트 시 트래픽 유실을 방지하는 **preStop 훅 및 Graceful Shutdown 보장** #### 한줄 요약
 
 - 프로브의 역할 분리와 정상 종료 절차를 통해 서비스 단절 없는 고가용성을 실현
 

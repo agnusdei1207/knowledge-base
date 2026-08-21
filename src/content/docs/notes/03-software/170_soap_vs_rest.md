@@ -45,9 +45,7 @@ extra:
 
 - WSDL 기반의 엄격한 인터페이스 계약 및 WS-Security 기반의 **SOAP 고신뢰성 보장**
 - URI 자원 식별과 HTTP 표준 메서드를 재사용하는 **REST의 경량성과 유연성**
-- 표준 HTTP 캐싱(Cache-Control) 및 JSON 페이로드를 통한 **웹·모바일 최적화**
-
-#### 한줄 요약
+- 표준 HTTP 캐싱(Cache-Control) 및 JSON 페이로드를 통한 **웹·모바일 최적화** #### 한줄 요약
 
 - 행위 중심의 엄격한 프로토콜(SOAP)과 자원 중심의 경량 웹 아키텍처(REST)의 상호 보완적 활용
 

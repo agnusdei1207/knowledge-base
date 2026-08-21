@@ -46,9 +46,7 @@ extra:
 
 - **Organization & RACI Framework (데이터 소유자 Data Owner & Data Steward 지정)**
 - **Data Quality & Standard Alignment (전사 메타데이터 단어, 코드 표준화)**
-- **Security & Regulatory Compliance (PII 마스킹, RBAC/ABAC 접근 통제 및 GDPR 수용)**
-
-#### 한줄 요약
+- **Security & Regulatory Compliance (PII 마스킹, RBAC/ABAC 접근 통제 및 GDPR 수용)** #### 한줄 요약
 
 - 규칙 문서만 만들지 않고 시스템 검사와 담당자 조치, 결과 지표까지 이어야 한다.
 
@@ -161,9 +159,7 @@ extra:
 | 2. Resistance from Devs | 지나치게 빡빡한 수동 승인 절차로 개발 지연 | **Self-Serve 카탈로그 통합으로 1초 만에 권한 신청**|
 | 3. PII Leakage Risk | 개발DB로 원본 개인정보가 그대로 복제됨 | **데이터 수집 즉시 Masking / Anonymization 자동화**|
 
-> 사례: **삼성전자 / 토스 / 카카오뱅크 전사 Data Governance & OpenMetadata 적용**
-
-#### 한줄 요약
+> 사례: **삼성전자 / 토스 / 카카오뱅크 전사 Data Governance & OpenMetadata 적용** #### 한줄 요약
 
 - 고객 연락처의 주인·검사 기준·가림 규칙·예외 종료일을 한 줄로 이어 관리한다.
 

@@ -45,9 +45,7 @@ extra:
 
 - 객체 스토리지 파일 쓰기에 대한 **완벽한 ACID 트랜잭션 및 스냅샷 격리**
 - RDBMS와 동일한 멱등성 병합 처리를 지원하는 **`MERGE INTO` (UPSERT) 지원**
-- Spark Structured Streaming과 완벽히 통합된 **배치 및 스트리밍 통합 처리**
-
-#### 한줄 요약
+- Spark Structured Streaming과 완벽히 통합된 **배치 및 스트리밍 통합 처리** #### 한줄 요약
 
 - JSON 커밋 로그와 OCC 동시성 제어를 통해 객체 스토리지의 신뢰성과 데이터 정합성을 보장
 

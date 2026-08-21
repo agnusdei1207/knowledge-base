@@ -46,9 +46,7 @@ extra:
 
 - **낮은 조회 부하**: 트랜잭션 로그 기반 변경 추출
 - **삭제 이벤트 추적**: 제품•설정이 제공하는 삭제 기록 캡처
-- **Schema History Tracking (테이블 DDL 변경 이력 실시간 추적)**
-
-#### 한줄 요약
+- **Schema History Tracking (테이블 DDL 변경 이력 실시간 추적)** #### 한줄 요약
 
 - CDC는 첫 전체 복사와 이후 로그 사이의 빈 구간을 없애고 마지막 확정 위치부터 안전하게 다시 읽어야 한다.
 
@@ -145,9 +143,7 @@ extra:
 | 2. DDL Schema Change | 소스 DB 컬럼 추가/삭제 시 CDC 파행 | **Debezium Schema Registry 연동 및 DDL 이력 자동 추적**|
 | 3. Initial Snapshot Lag | 수억 건 초기 스냅샷 도중 Binlog 오프셋 상실 | **Consistent Snapshot Mode (Lockless Snapshotting) 적용**|
 
-> 사례: **배달의민족 / 쿠팡 MySQL $\rightarrow$ Debezium CDC $\rightarrow$ Kafka $\rightarrow$ ElasticSearch 검색 엔진 동기화**
-
-#### 한줄 요약
+> 사례: **배달의민족 / 쿠팡 MySQL $\rightarrow$ Debezium CDC $\rightarrow$ Kafka $\rightarrow$ ElasticSearch 검색 엔진 동기화** #### 한줄 요약
 
 - 같은 원본 키와 최신 변경 번호로 검색 문서를 고치고 삭제까지 전달해야 오래된 결과가 남지 않는다.
 

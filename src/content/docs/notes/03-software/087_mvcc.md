@@ -46,9 +46,7 @@ extra:
 
 - **Snapshot Read** 기반 읽기•쓰기 경합 감소
 - **Snapshot Read (스냅샷 기반 시점 일관성 관찰)**
-- 오래된 구버전 청소를 위한 **Purge / Vacuum 백그라운드 스레드 오버헤드**
-
-#### 한줄 요약
+- 오래된 구버전 청소를 위한 **Purge / Vacuum 백그라운드 스레드 오버헤드** #### 한줄 요약
 
 - 스냅샷 읽기와 쓰기 충돌•버전 정리의 비용 절충이 핵심이다.
 
@@ -157,9 +155,7 @@ extra:
 | PostgreSQL의 경우 Vacuum 미작동 시 테이블 팽창(Bloat) | **Autovacuum 파라미터 튜닝 및 pg_repack 수동 정돈** | 디스크 성능 보존 |
 | MVCC 환경에서 `SELECT.. FOR UPDATE` 시 Locking Read로 변환 | **비관적 락(Locking Read) 대신 Optimistic Lock(버전 칼럼) 병행**| 블로킹 최소화 |
 
-> 사례: **MySQL InnoDB `innodb_undo_tablespaces` 세그먼트 분리 & Purge 스레드 튜닝**
-
-#### 한줄 요약
+> 사례: **MySQL InnoDB `innodb_undo_tablespaces` 세그먼트 분리 & Purge 스레드 튜닝** #### 한줄 요약
 
 - 스냅샷 수명•팽창률•보존 지평선 통제가 핵심이다.
 

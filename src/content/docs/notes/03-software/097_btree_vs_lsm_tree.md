@@ -45,9 +45,7 @@ extra:
 
 - 제자리 수정(In-Place) 기반으로 **읽기 응답 지연(Read Latency)이 짧은 B-Tree**
 - 순차 쓰기(Sequential Write) 기반으로 **초고속 쓰기 처리량(Write Throughput)을 보장하는 LSM-Tree**
-- 쓰기 증폭(Write Amplification)과 읽기 증폭(Read Amplification) 간의 **명확한 트레이드오프**
-
-#### 한줄 요약
+- 쓰기 증폭(Write Amplification)과 읽기 증폭(Read Amplification) 간의 **명확한 트레이드오프** #### 한줄 요약
 
 - B-Tree는 읽기 경로가 짧고 예측 가능하며, LSM-Tree는 순차 I/O로 쓰기 처리량을 극대화
 

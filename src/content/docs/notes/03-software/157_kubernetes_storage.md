@@ -151,9 +151,7 @@ extra:
 | 2. Multi-Pod Log Share Fail | EBS(RWO)로는 여러 Pod가 로그 못 씀| **AWS EFS (RWX 수용 스토리지) 로 교체** |
 | 3. Accidental PVC Deletion | PVC 실수 삭제로 EBS 데이터 날아감 | **`reclaimPolicy: Retain` 으로 디스크 파기 방지** |
 
-> 사례: **카카오 / 당근마켓 StatefulSet DB (EBS RWO + Retain Policy) 구축 운영**
-
-#### 한줄 요약
+> 사례: **카카오 / 당근마켓 StatefulSet DB (EBS RWO + Retain Policy) 구축 운영** #### 한줄 요약
 
 - 데이터베이스 파드의 영역과 볼륨 영역을 맞추고 PVC 삭제와 별개인 백업을 복원해 봐야 노드 손실과 오삭제를 모두 견딜 수 있다.
 

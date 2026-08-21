@@ -46,9 +46,7 @@ extra:
 
 - **결과 단일 반영**: 입력 위치•상태•출력 확정의 일관성
 - **Idempotent Producer & Transactional Consumer (멱등 생산자 및 트랜잭션 소비자)**
-- **End-to-End Exactly-Once (Source $\rightarrow$ Engine $\rightarrow$ Sink 전체 구간 2PC 보장)**
-
-#### 한줄 요약
+- **End-to-End Exactly-Once (Source $\rightarrow$ Engine $\rightarrow$ Sink 전체 구간 2PC 보장)** #### 한줄 요약
 
 - 재시도 시에도 데이터 처리의 최종 장부상 반영 횟수가 단 1회임을 보장하는 논리적 정합성 원칙.
 
@@ -153,9 +151,7 @@ extra:
 | 1. 멱등성 미지원 | Unique Constraint 없는 일반 INSERT | **UPSERT(Merge Into) 또는 고유 식별자 부여** |
 | 2. 트랜잭션 타임아웃 | 보존 시간(`transaction.timeout.ms`) 초과 | **설정값 확장 및 스냅샷 주기 동기화**|
 
-> 사례: **카카오페이 / 토스 실시간 결제 스트림 파이프라인 Kafka-Flink EOS 적용**
-
-#### 한줄 요약
+> 사례: **카카오페이 / 토스 실시간 결제 스트림 파이프라인 Kafka-Flink EOS 적용** #### 한줄 요약
 
 - 동일한 거래 식별자 기반의 중복 요청 필터링을 통해 결과 무결성 유지.
 

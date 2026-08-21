@@ -46,9 +46,7 @@ extra:
 
 - **Event-Driven & Low-Latency Stream-First Architecture (True Streaming)**
 - **Event Time, Processing Time, Ingestion Time 3대 시간 개념 및 Watermark 수용**
-- **RocksDB State Backend & Chandy-Lamport 알고리즘 기반 Checkpoint**
-
-#### 한줄 요약
+- **RocksDB State Backend & Chandy-Lamport 알고리즘 기반 Checkpoint** #### 한줄 요약
 
 - 낮은 지연을 제공하지만 워터마크와 상태 및 체크포인트 비용을 관리해야 한다.
 
@@ -159,9 +157,7 @@ extra:
 | RocksDB State 폭증 | TTL 미설정으로 과거 Key State 잔존 | **`StateTtlConfig` 적용하여 만료 Key 자동 삭제** |
 | Checkpoint Timeout | RocksDB 스냅샷 S3 업로드 지연 | **Incremental Checkpointing (증분 스냅샷) 활성화**|
 
-> 사례: **카카오 / 네이버 실시간 이상 결제 탐지(FDS) & 실시간 방송 시청자 수 집계**
-
-#### 한줄 요약
+> 사례: **카카오 / 네이버 실시간 이상 결제 탐지(FDS) & 실시간 방송 시청자 수 집계** #### 한줄 요약
 
 - 늦은 거래를 기다리는 시간과 그동안 쌓이는 계정 상태의 크기를 함께 정해야 한다.
 

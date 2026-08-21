@@ -113,9 +113,7 @@ Istiod (Control Plane)
 5. 목적지 워크로드 전달 및 텔레메트리 수집
 ```
 
-**동작 원리**
-
-1. **정책 셋업**: Istiod가 xDS로 라우팅 룰·인증서를 Envoy에 실시간 배포
+**동작 원리** 1. **정책 셋업**: Istiod가 xDS로 라우팅 룰·인증서를 Envoy에 실시간 배포
 2. **가로채기**: 애플리케이션 발신 트래픽을 사이드카 Envoy가 iptables 기반으로 가로챔
 3. **mTLS 통신**: 발신 Envoy와 수신 Envoy 간 상호 TLS 인증 및 암호화 통신 수행
 4. **인가 검증**: 수신 Envoy가 AuthorizationPolicy 기준 트래픽 허용 여부 판정

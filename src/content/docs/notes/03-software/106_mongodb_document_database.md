@@ -45,9 +45,7 @@ extra:
 
 - 도메인 객체를 자연스럽게 표현하는 **BSON 기반의 가변 스키마(Dynamic Schema)**
 - 조인 없이 단일 쿼리로 연관 데이터를 인출하는 **문서 내포(Embedding) 최적화**
-- 자동 장애 조치(Failover)를 지원하는 **Replica Set 및 분산 샤딩(Sharding) 아키텍처**
-
-#### 한줄 요약
+- 자동 장애 조치(Failover)를 지원하는 **Replica Set 및 분산 샤딩(Sharding) 아키텍처** #### 한줄 요약
 
 - 유연한 BSON 문서 모델과 WiredTiger 엔진을 통해 고성능 읽기/쓰기와 수평 확장을 지원
 

@@ -45,9 +45,7 @@ extra:
 
 - **Latency vs Consistency (일관성이 강할수록 합의 시간이 길어져 지연 속도 증가)**
 - **Availability vs Consistency (일관성이 강할수록 노드 하나만 죽어도 전체 쓰기 거부 발생)**
-- **Stale Read Acceptance (최종 일관성 채택 시 오래된 데이터를 읽는 비즈니스 리스크 감수)**
-
-#### 한줄 요약
+- **Stale Read Acceptance (최종 일관성 채택 시 오래된 데이터를 읽는 비즈니스 리스크 감수)** #### 한줄 요약
 
 - 모든 복사본의 최신값을 확인할수록 응답은 늦고 분할 때 거부될 수 있으므로 재고와 피드에 같은 강도를 적용하지 않는다.
 
@@ -150,9 +148,7 @@ extra:
 | 2. Stale Read 불만 | 결제 후 포인트가 안 깎인 걸로 보임 | **결제/재고 등 핵심 DB는 $W+R>N$ 강한 일관성 세팅** |
 | 3. 동시성 재고 마이너스 | 동시에 마지막 남은 재고 1개를 구매 요청 | **DB Optimistic Lock(버전 검사) 및 조건부 차감**|
 
-> 사례: **아마존 DynamoDB의 Eventual Consistency 기본값 적용 및 결제 시 Strong Consistency 옵션 강제 튜닝**
-
-#### 한줄 요약
+> 사례: **아마존 DynamoDB의 Eventual Consistency 기본값 적용 및 결제 시 Strong Consistency 옵션 강제 튜닝** #### 한줄 요약
 
 - 재고는 현재 버전과 수량이 맞을 때만 차감하고 사용자가 방금 쓴 프로필은 세션 토큰보다 오래된 복제본에서 읽지 않게 해야 한다.
 

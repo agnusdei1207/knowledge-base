@@ -46,9 +46,7 @@ extra:
 
 - **6대 핵심 데이터 품질 평가 차원 보유 (Completeness, Accuracy, Consistency 등)**
 - **Closed-Loop Quality Improvement (프로파일링 $\rightarrow$ 진단 $\rightarrow$ Quarantine 격리 $\rightarrow$ 피드백 순환)**
-- **Automated Data Quality Gate & Expectation Enforcement (자동화된 규칙 기반 차단)**
-
-#### 한줄 요약
+- **Automated Data Quality Gate & Expectation Enforcement (자동화된 규칙 기반 차단)** #### 한줄 요약
 
 - 참고 통계와 결제 금액은 같은 오류라도 피해가 달라 서로 다른 합격선을 써야 한다.
 
@@ -160,9 +158,7 @@ extra:
 | 2. Pipeline Stalls | 1건의 오류로 전체 대용량 파이프라인 멈춤 | **`ON VIOLATION DROP ROW` (오류행만 격리 후 계속)**|
 | 3. Lack of Root Cause | 어디서 데이터가 찌그러졌는지 추적 불가 | **Data Lineage (계보) 연동으로 상류 소스 역추적** |
 
-> 사례: **카카오 / 당근마켓 Great Expectations & Soda 기반 자동 데이터 품질 검증**
-
-#### 한줄 요약
+> 사례: **카카오 / 당근마켓 Great Expectations & Soda 기반 자동 데이터 품질 검증** #### 한줄 요약
 
 - 주문 번호가 없는 주문은 매출에 넣지 않고 따로 보관해 원본을 고친 뒤 다시 검사한다.
 

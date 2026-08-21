@@ -45,9 +45,7 @@ extra:
 
 - Metadata File $\to$ Manifest List $\to$ Manifest File의 **3계층 메타데이터 트리 아키텍처**
 - 사용자가 파티션 구조를 몰라도 최적 프루닝을 수행하는 **숨겨진 파티셔닝(Hidden Partitioning)**
-- Spark, Trino, Flink, Snowflake, BigQuery 등 **다양한 연산 엔진에 대한 완전한 중립성**
-
-#### 한줄 요약
+- Spark, Trino, Flink, Snowflake, BigQuery 등 **다양한 연산 엔진에 대한 완전한 중립성** #### 한줄 요약
 
 - 메타데이터 수준의 세밀한 통계와 엔진 중립성을 바탕으로 페타바이트급 테이블을 고속으로 관리
 

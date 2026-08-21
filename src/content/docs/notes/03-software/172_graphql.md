@@ -45,9 +45,7 @@ extra:
 
 - **Single Endpoint (모든 요청을 단일 주소인 POST `/graphql`로 처리)**
 - **Client-Specified Queries (클라이언트가 필요한 필드와 Depth를 직접 선택 조합)**
-- **Strongly Typed Schema (서버-클라이언트 간 명확한 데이터 타입 계약 보장)**
-
-#### 한줄 요약
+- **Strongly Typed Schema (서버-클라이언트 간 명확한 데이터 타입 계약 보장)** #### 한줄 요약
 
 - 스키마가 주문 가능한 필드와 타입을 정하고 클라이언트가 응답 모양을 고르면 리졸버가 여러 데이터 원천의 결과를 조립한다.
 
@@ -152,9 +150,7 @@ extra:
 | 2. 악의적 쿼리 공격 | 무한 Depth 쿼리로 서버 메모리 고갈 공격 | **Query Depth Limit 제한 및 Query Cost(가중치) 상한선 설정**|
 | 3. HTTP 캐싱 불가 | 모든 쿼리가 POST 단일 엔드포인트로 전송됨| **Persisted Query(쿼리 해시화 GET 전송) 및 Apollo Client In-memory Cache 사용**|
 
-> 사례: **GitHub / Airbnb 마이크로서비스 연동 시 Apollo GraphQL 기반 Federation(슈퍼그래프) 아키텍처 적용**
-
-#### 한줄 요약
+> 사례: **GitHub / Airbnb 마이크로서비스 연동 시 Apollo GraphQL 기반 Federation(슈퍼그래프) 아키텍처 적용** #### 한줄 요약
 
 - 사용자가 상품 객체를 볼 권한이 있어도 원가 필드를 볼 권한은 별도일 수 있으므로 리졸버마다 필드 수준 권한을 확인해야 한다.
 

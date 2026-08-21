@@ -46,9 +46,7 @@ extra:
 
 - **SQL**•**ACID**: 관계 모델과 분산 트랜잭션 제공
 - **Distributed Shared-Nothing Scale-Out Architecture**
-- **Consensus Protocol (Raft / Paxos)** 및 **Distributed Time Sync (TrueTime / HLC)**
-
-#### 한줄 요약
+- **Consensus Protocol (Raft / Paxos)** 및 **Distributed Time Sync (TrueTime / HLC)** #### 한줄 요약
 
 - 확장과 ACID를 함께 제공하지만 합의 왕복과 재시도 비용이 생긴다.
 
@@ -154,9 +152,7 @@ extra:
 | 순차 증가 PK 사용 시 특정 Range로 쓰기 쏠림 | 단일 Range 노드 핫스팟 병목 | **PK에 Hash / UUID / TSID 조합으로 수평 분산** |
 | 클럭 오차로 인한 HLC 시계 왜곡 | 트랜잭션 충돌 및 Retry 폭증 | **NTP 클럭 동기화 주기 단축 및 관리** |
 
-> 사례: **토스뱅크 / 카카오페이 CockroachDB 기반 코어 뱅킹 Distributed SQL 운용**
-
-#### 한줄 요약
+> 사례: **토스뱅크 / 카카오페이 CockroachDB 기반 코어 뱅킹 Distributed SQL 운용** #### 한줄 요약
 
 - 함께 바꾸는 데이터를 가까이 두어 여러 지역을 오가는 합의 횟수를 줄인다.
 

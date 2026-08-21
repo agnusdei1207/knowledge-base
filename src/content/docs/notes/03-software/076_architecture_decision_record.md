@@ -46,9 +46,7 @@ extra:
 
 - **Co-located with Code (Git 버전 관리 시스템과의 완전 통합)**
 - 단편적 결과가 아닌 **Context & Trade-off Consequences 기록**
-- 불변 이력 보존 및 **Superseded (대체됨) 링크 연결 수명주기**
-
-#### 한줄 요약
+- 불변 이력 보존 및 **Superseded (대체됨) 링크 연결 수명주기** #### 한줄 요약
 
 - 공동 이력, 근거 보존, 대체 연결이 핵심이다.
 
@@ -159,9 +157,7 @@ extra:
 | ADR 덮어쓰기로 과거 결정 이유 파악 곤란 | **Superseded 상태와 신규 ADR 양방향 링크** | 결정 이력 추적성 확보 |
 | 개발자들이 Markdown 양식 작성을 귀찮아함 | **IDE (VS Code, IntelliJ) ADR 전용 플러그인 연동** | 작성 장벽 제거 |
 
-> 사례: **CNCF 및 오픈소스 프로젝트 내 `adr-tools` 기반 Git 레포지토리 관리**
-
-#### 한줄 요약
+> 사례: **CNCF 및 오픈소스 프로젝트 내 `adr-tools` 기반 Git 레포지토리 관리** #### 한줄 요약
 
 - 중대 아키텍처 결정 선별과 모듈 연결, 대체 연결이 핵심이다.
 

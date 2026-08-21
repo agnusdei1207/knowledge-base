@@ -46,9 +46,7 @@ extra:
 
 - **End-to-End Pipeline Traceability (Upstream / Downstream 상하류 추적)**
 - **Column-Level Fine-Grained Lineage (컬럼 레벨의 세밀한 핀포인트 매핑)**
-- **Automated OpenLineage Parsing & Impact Analysis (자동화된 영향도 분석)**
-
-#### 한줄 요약
+- **Automated OpenLineage Parsing & Impact Analysis (자동화된 영향도 분석)** #### 한줄 요약
 
 - 설계 계보는 예정 노선, 실행 계보는 실제 이동 기록이며 둘 다 빠진 길이 없는지 확인해야 한다.
 
@@ -159,9 +157,7 @@ extra:
 | 2. Impact Analysis | 소스 DB 컬럼 `user_id` 삭제 예고 | **Lineage Downstream 탐색으로 파급 대시보드 3개 사전 조치**|
 | 3. Root Cause Analysis | CEO 보고서 수치가 전일 대비 -90% 급락 | **Lineage Upstream 역추적으로 3단계 전 Spark Job 에러 발견**|
 
-> 사례: **토스 / 당근마켓 OpenLineage & OpenMetadata 기반 전사 Data Lineage 시각화**
-
-#### 한줄 요약
+> 사례: **토스 / 당근마켓 OpenLineage & OpenMetadata 기반 전사 Data Lineage 시각화** #### 한줄 요약
 
 - 열 하나를 바꾸기 전에 그 열을 쓰는 보고서와 작업을 찾아 고칠 순서를 정한다.
 

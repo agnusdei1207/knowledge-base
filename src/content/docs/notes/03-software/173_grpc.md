@@ -45,9 +45,7 @@ extra:
 
 - **HTTP/2 Transport (바이너리 프레이밍, 멀티플렉싱, 헤더 압축, 서버 푸시 지원)**
 - **Protocol Buffers Serialization (JSON 텍스트 포맷 대비 작고 빠른 이진 직렬화 메커니즘)**
-- **Polyglot & Code Generation (하나의 `.proto` 파일에서 Java, Go, Python 등 다국어 클라이언트/서버 스텁(Stub) 코드 자동 생성)**
-
-#### 한줄 요약
+- **Polyglot & Code Generation (하나의 `.proto` 파일에서 Java, Go, Python 등 다국어 클라이언트/서버 스텁(Stub) 코드 자동 생성)** #### 한줄 요약
 
 - 한 연결에서 여러 통화를 동시에 처리하되 호출자가 기다릴 시간을 넘기면 하위 서비스까지 취소를 전달해 불필요한 작업을 멈춘다.
 
@@ -152,9 +150,7 @@ extra:
 | 2. 프론트엔드 연동 불가 | 브라우저는 HTTP/2 프레이밍 직접 조작 불가| **gRPC-Web 또는 REST-to-gRPC Gateway (Envoy) 구축**|
 | 3. 구버전 스키마 충돌 | 필드를 삭제한 뒤 동일 필드 번호 재사용 | **`reserved` 키워드를 사용하여 번호 재사용 원천 금지**|
 
-> 사례: **토스 / 배달의민족 마이크로서비스 내부(East-West) 통신 속도 개선을 위한 REST $\rightarrow$ gRPC 대규모 마이그레이션**
-
-#### 한줄 요약
+> 사례: **토스 / 배달의민족 마이크로서비스 내부(East-West) 통신 속도 개선을 위한 REST $\rightarrow$ gRPC 대규모 마이그레이션** #### 한줄 요약
 
 - 모델 추론 호출에 짧은 기한을 두고 취소를 하위 처리까지 전파하면 느린 요청이 연결과 연산 장치를 계속 차지하지 않는다.
 

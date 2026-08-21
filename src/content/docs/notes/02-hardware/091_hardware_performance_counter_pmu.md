@@ -33,9 +33,7 @@ extra:
 
 #### 한줄 요약
 
-- CPU 내부 마이크로아키텍처 사건을 하드웨어적으로 계측하여 **마이크로초 단위 병목을 분석하는 PMU & 성능 카운터**
-
-## Ⅱ. 특징
+- CPU 내부 마이크로아키텍처 사건을 하드웨어적으로 계측하여 **마이크로초 단위 병목을 분석하는 PMU & 성능 카운터** ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -48,13 +46,9 @@ extra:
 
 - 소스 코드 수정이나 실행 간섭(Probe Effect) 없이 나노초 단위로 정확히 계측하는 **비침습적 하드웨어 수준 수집**
 - 파이프라인 프런트엔드/백엔드 바운드, 배드 스펙큘레이션을 체계적으로 진단하는 **Topdown 마이크로아키텍처 분석(TMA)**
-- 정확한 병목 코드 라인을 식별하는 **PEBS/SPE 정밀 샘플링** 및 물리 카운터 한계를 극복하는 **시분할 다중화(Multiplexing)**
+- 정확한 병목 코드 라인을 식별하는 **PEBS/SPE 정밀 샘플링** 및 물리 카운터 한계를 극복하는 **시분할 다중화(Multiplexing)** #### 한줄 요약
 
-#### 한줄 요약
-
-- **비침습 하드웨어 계측·Topdown 마이크로아키텍처 분석(TMA)·PEBS 정밀 샘플링 및 시분할 다중화(Multiplexing)**
-
-## Ⅲ. 구조 및 구성요소
+- **비침습 하드웨어 계측·Topdown 마이크로아키텍처 분석(TMA)·PEBS 정밀 샘플링 및 시분할 다중화(Multiplexing)** ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -92,9 +86,7 @@ extra:
 
 #### 한줄 요약
 
-- **이벤트 원천(ALU/Cache/Branch)·이벤트 선택기(Event Selector MSR)·성능 카운터(PMC MSR)·프로파일링 툴(perf/VTune)**
-
-## Ⅳ. 흐름도
+- **이벤트 원천(ALU/Cache/Branch)·이벤트 선택기(Event Selector MSR)·성능 카운터(PMC MSR)·프로파일링 툴(perf/VTune)** ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -121,9 +113,7 @@ extra:
    [ 5. IPC, 캐시 미스율, TMA 메트릭 산출 ──> 병목 핫스팟 코드 라인 확정 ]
 ```
 
-**동작 원리**
-
-1. **이벤트 설정**: `perf` 툴이 측정할 이벤트(CPU Cycles, Instructions, LLC-Misses)를 MSR에 프로그래밍
+**동작 원리** 1. **이벤트 설정**: `perf` 툴이 측정할 이벤트(CPU Cycles, Instructions, LLC-Misses)를 MSR에 프로그래밍
 2. **하드웨어 계수**: CPU 파이프라인에서 명령어가 실행될 때마다 PMU 카운터 레지스터가 1클록 단위로 계수
 3. **샘플링 인터럽트**: 설정된 샘플링 주기에 도달하여 카운터가 오버플로우되면 PMI 인터럽트를 발생시키고 PEBS로 현재 IP 덤프
 4. **다중화 보정**: 시분할 다중화로 수집된 이벤트에 대해 `(총 경과 시간 / 실제 측정 시간)` 배율을 곱해 실제 이벤트 수 보정
@@ -131,9 +121,7 @@ extra:
 
 #### 한줄 요약
 
-- 타깃 이벤트 MSR 설정 $\to$ **워크로드 실행 및 하드웨어 카운팅 $\to$ 카운터 오버플로우 시 PMI 인터럽트/PEBS 기록 $\to$ 시분할 다중화 스케일링 보정 $\to$ Topdown 병목 분석**
-
-## Ⅴ. 종류 및 비교
+- 타깃 이벤트 MSR 설정 $\to$ **워크로드 실행 및 하드웨어 카운팅 $\to$ 카운터 오버플로우 시 PMI 인터럽트/PEBS 기록 $\to$ 시분할 다중화 스케일링 보정 $\to$ Topdown 병목 분석** ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -151,9 +139,7 @@ extra:
 
 #### 한줄 요약
 
-- 마이크로아키텍처 병목 규명은 **PMU 하드웨어 계측**, 상위 콜스택 추적은 **소프트웨어 프로파일링**
-
-## Ⅵ. 실무 고려사항 및 대책
+- 마이크로아키텍처 병목 규명은 **PMU 하드웨어 계측**, 상위 콜스택 추적은 **소프트웨어 프로파일링** ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -169,9 +155,7 @@ extra:
 
 #### 한줄 요약
 
-- **카운터 시분할 다중화(Multiplexing) 보정·CPU Affinity 피닝 고정·PEBS 버퍼링 기반 PMI 인터럽트 오버헤드 억제**
-
-## Ⅶ. 결론
+- **카운터 시분할 다중화(Multiplexing) 보정·CPU Affinity 피닝 고정·PEBS 버퍼링 기반 PMI 인터럽트 오버헤드 억제** ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -179,8 +163,6 @@ extra:
 
 </details>
 
-- 고성능 시스템 최적화 및 커널 튜닝 시 **Intel TMA(Topdown Microarchitecture Analysis) 방법론과 Linux perf/eBPF 연계 표준 채택**
-
-#### 한줄 요약
+- 고성능 시스템 최적화 및 커널 튜닝 시 **Intel TMA(Topdown Microarchitecture Analysis) 방법론과 Linux perf/eBPF 연계 표준 채택** #### 한줄 요약
 
 - **하드웨어 이벤트 정량화와 Topdown 분석** 통한 시스템 성능 최적화 달성

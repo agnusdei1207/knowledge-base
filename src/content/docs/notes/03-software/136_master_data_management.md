@@ -46,9 +46,7 @@ extra:
 
 - **Single Version of Truth (전사 단일 골든 레코드 생성)**
 - **Deterministic & Probabilistic Matching (확정적 및 확률적 디두플리케이션 매칭)**
-- **Cross-Referencing & Real-Time Sync (원천 시스템 간 Master-Local ID 맵핑 및 2way 동기화)**
-
-#### 한줄 요약
+- **Cross-Referencing & Real-Time Sync (원천 시스템 간 Master-Local ID 맵핑 및 2way 동기화)** #### 한줄 요약
 
 - 비슷하다고 무조건 합치지 않고 값의 우선순위와 애매한 경우의 사람 검토가 필요하다.
 
@@ -155,9 +153,7 @@ extra:
 | 2. Under-Merge (과소병합) | 띄어쓰기 오타로 동일인이 2개 계정 분리 | **주소/이름 전처리 인핸서(Address Cleanser) 강화**|
 | 3. Real-Time Sync Lag | MDM 갱신 후 소스 DB로 2way 동기화 지연 | **Kafka CDC 기반 비동기 양방향 동기화 파이프라인**|
 
-> 사례: **삼성전자 / LG전자 글로벌 통합 상품 MDM & 금융사 고객 MDM 아키텍처**
-
-#### 한줄 요약
+> 사례: **삼성전자 / LG전자 글로벌 통합 상품 MDM & 금융사 고객 MDM 아키텍처** #### 한줄 요약
 
 - 잘못 합친 고객과 놓친 중복 고객, 사람이 확인한 시간까지 함께 재야 한다.
 

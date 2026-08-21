@@ -47,9 +47,7 @@ extra:
 
 - **Mathematical Set Theory (관계 대수 및 집합론 기반 구조)**
 - **Declarative SQL (선언형 구조화 질의 언어 사용)**
-- 엔진 수준의 **ACID Transaction & Integrity Enforcement (무결성 강제)**
-
-#### 한줄 요약
+- 엔진 수준의 **ACID Transaction & Integrity Enforcement (무결성 강제)** #### 한줄 요약
 
 - 집합 연산, 선언형 질의, 무결성 강제가 핵심이다.
 
@@ -161,9 +159,7 @@ extra:
 | 대량 쓰기에서 FK 검증 비용 증가 | 인덱스•배치•파티션 최적화 후 **FK 유지 여부** 판단 | 처리량과 참조 무결성 균형 |
 | 복합키(Composite Key) 사용 시 Join SQL 복잡도 폭증 | **단일 대리키(ID) 도입 및 복합 속성은 Unique Index 처리**| SQL 가독성 확보 |
 
-> 사례: **MySQL InnoDB / PostgreSQL 기반 RDBMS 도메인 모델링 정착**
-
-#### 한줄 요약
+> 사례: **MySQL InnoDB / PostgreSQL 기반 RDBMS 도메인 모델링 정착** #### 한줄 요약
 
 - 안정 후보키, 참조 무결성, 질의 패턴, 원자성을 지키는 최소 범위가 핵심이다.
 

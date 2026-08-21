@@ -158,9 +158,7 @@ extra:
 | 특정 파티션 파일 용량 폭증 (**Data Skew**) | **Range + Hash Composite Partitioning (복합 파티셔닝) 도입**| 균등 수평 분산 |
 | 파티션 삭제 시 글로벌 인덱스가 Unusable 파행 | **인덱스는 Local Index 생성을 표준 지침으로 준수** | 수명주기 관리 안정성 |
 
-> 사례: **PostgreSQL / MySQL `PARTITION BY RANGE (TO_DAYS(created_at))` 파티셔닝 운용**
-
-#### 한줄 요약
+> 사례: **PostgreSQL / MySQL `PARTITION BY RANGE (TO_DAYS(created_at))` 파티셔닝 운용** #### 한줄 요약
 
 - 서랍을 나눈 뒤에는 필요한 서랍만 열리는지와 한 서랍에 자료가 몰리지 않는지 확인해야 한다.
 

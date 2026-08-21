@@ -45,9 +45,7 @@ extra:
 
 - 객체 스토리지 기반의 **100% ACID 트랜잭션 및 스냅샷 격리 보장**
 - 과거 특정 시점의 데이터 상태를 쿼리하고 원복하는 **타임 트래블(Time Travel) 지원**
-- Spark, Trino, Presto, Flink 등 **다양한 연산 엔진이 단일 테이블을 직접 공유(Engine-Agnostic)**
-
-#### 한줄 요약
+- Spark, Trino, Presto, Flink 등 **다양한 연산 엔진이 단일 테이블을 직접 공유(Engine-Agnostic)** #### 한줄 요약
 
 - 오픈 메타데이터 표준을 통해 레이크의 경제성과 DW의 정합성을 동시에 달성
 

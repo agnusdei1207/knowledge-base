@@ -149,9 +149,7 @@ MCP 클라이언트
 > 요약: **MCP** 기반 기능 발견, **OpenAPI** 기반 고정 HTTP 계약에 초점을 둠.
 
 #### 한줄 요약
-- 기능 발견은 **MCP**, 고정 HTTP 계약은 **OpenAPI**
-
-## Ⅵ. 실무 고려사항 및 대책
+- 기능 발견은 **MCP**, 고정 HTTP 계약은 **OpenAPI** ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
