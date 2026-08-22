@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "138회"
   priority: 70
-  priority_note: "138회 기출, 사이버 위협 인텔리전스(CTI: Cyber Threat Intelligence), CTI 전주기 자동화(수집 Ingestion $\\rightarrow$ 정규화 Normalization $\\rightarrow$ 품질 평가 Scoring $\\rightarrow$ 자동 배포 Distribution $\\rightarrow$ 시효 만료 Aging), OASIS STIX 2.1(위협 정보 구조화 객체), TAXII 2.1(전송 프로토콜), FIRST TLP 2.0(정보 공유 통제 신호등)"
+  priority_note: '138회 기출, 사이버 위협 인텔리전스(CTI: Cyber Threat Intelligence), CTI 전주기 자동화(수집 Ingestion $\rightarrow$ 정규화 Normalization $\rightarrow$ 품질 평가 Scoring $\rightarrow$ 자동 배포 Distribution $\rightarrow$ 시효 만료 Aging), OASIS STIX 2.1(위협 정보 구조화 객체), TAXII 2.1(전송 프로토콜), FIRST TLP 2.0(정보 공유 통제 신호등)'
 ---
 
 ## Ⅰ. 개요

@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "131회"
   priority: 50
-  priority_note: "131회 기출, 적대적 예제(Adversarial Example / Evasion Attack), 미세 섭동(Perturbation $\epsilon$), FGSM/PGD/C&W 알고리즘, 적대적 훈련(Adversarial Training), 센서 퓨전(Sensor Fusion) 및 Fail-Safe"
+  priority_note: '131회 기출, 적대적 예제(Adversarial Example / Evasion Attack), 미세 섭동(Perturbation $\epsilon$), FGSM/PGD/C&W 알고리즘, 적대적 훈련(Adversarial Training), 센서 퓨전(Sensor Fusion) 및 Fail-Safe'
 ---
 
 ## Ⅰ. 개요

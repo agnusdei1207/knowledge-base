@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "126회, 134회, 138회"
   priority: 85
-  priority_note: "126•134•138회 반복 기출, ISMS-P 인증 전주기 절차 5단계(준비/운영 2개월 $\rightarrow$ 서면/현장심사 $\rightarrow$ 결함 보완 100일 $\rightarrow$ 인증위원회 심의/발급 $\rightarrow$ 사후관리), 최초심사 vs 사후심사(연 1회) vs 갱신심사(3년 주기), 인증기관(KISA/금보원) vs 심사기관(TTA/KAIT/KTL)"
+  priority_note: '126•134•138회 반복 기출, ISMS-P 인증 전주기 절차 5단계(준비/운영 2개월 $\rightarrow$ 서면/현장심사 $\rightarrow$ 결함 보완 100일 $\rightarrow$ 인증위원회 심의/발급 $\rightarrow$ 사후관리), 최초심사 vs 사후심사(연 1회) vs 갱신심사(3년 주기), 인증기관(KISA/금보원) vs 심사기관(TTA/KAIT/KTL)'
 ---
 
 ## Ⅰ. 개요

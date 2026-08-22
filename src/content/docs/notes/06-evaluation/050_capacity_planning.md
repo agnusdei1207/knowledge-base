@@ -15,7 +15,7 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 50
-  priority_note: "용량 계획(Capacity Planning) 방법론, 3대 산정 접근법(시계열 추세 분석 Trend Analysis, 워크로드/큐잉 모델링 Workload Modeling, 부하 시험 실측 Load Testing), 피크 부하(Peak TPS) 및 N-1 결함 감내 헤드룸(Headroom) 산식, 하드웨어 조달 리드타임(Procurement Lead Time) 역산 발주 시점($T_{\text{Order}} = T_{\text{Exhaustion}} - \text{Lead Time}$), Scale-Up vs Scale-Out vs 클라우드 오토스케일링 및 FinOps 비용 최적화"
+  priority_note: '용량 계획(Capacity Planning) 방법론, 3대 산정 접근법(시계열 추세 분석 Trend Analysis, 워크로드/큐잉 모델링 Workload Modeling, 부하 시험 실측 Load Testing), 피크 부하(Peak TPS) 및 N-1 결함 감내 헤드룸(Headroom) 산식, 하드웨어 조달 리드타임(Procurement Lead Time) 역산 발주 시점($T_{\text{Order}} = T_{\text{Exhaustion}} - \text{Lead Time}$), Scale-Up vs Scale-Out vs 클라우드 오토스케일링 및 FinOps 비용 최적화'
 ---
 
 ## Ⅰ. 개요

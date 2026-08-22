@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "122회"
   priority: 50
-  priority_note: "122회 기출, 정보보호 위험 평가(Risk Assessment) 3대 핵심 요소(자산 Asset, 위협 Threat, 취약점 Vulnerability), 위험 산정 공식($\text{Risk} = f(\text{Asset}, \text{Threat}, \text{Vulnerability})$), 정성적(Qualitative) vs 반정량적(Semi-quantitative) vs 정량적(Quantitative: SLE, ARO, ALE) 평가 방법론, ISO/IEC 27005 및 NIST SP 800-30"
+  priority_note: '122회 기출, 정보보호 위험 평가(Risk Assessment) 3대 핵심 요소(자산 Asset, 위협 Threat, 취약점 Vulnerability), 위험 산정 공식($\text{Risk} = f(\text{Asset}, \text{Threat}, \text{Vulnerability})$), 정성적(Qualitative) vs 반정량적(Semi-quantitative) vs 정량적(Quantitative: SLE, ARO, ALE) 평가 방법론, ISO/IEC 27005 및 NIST SP 800-30'
 ---
 
 ## Ⅰ. 개요
