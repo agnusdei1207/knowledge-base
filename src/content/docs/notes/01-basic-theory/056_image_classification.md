@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 56
-  label: "056. 이미지 분류 — ResNet·VGG·EfficientNet (Image Classification)"
+  label: "056. 이미지 분류: ResNet·VGG·EfficientNet (Image Classification)"
   badge:
     text: "기출 · 30%"
     variant: note
-title: "이미지 분류 — ResNet·VGG·EfficientNet (Image Classification)"
+title: "이미지 분류: ResNet·VGG·EfficientNet (Image Classification)"
 date: "2026-08-21T22:15:00+09:00"
 tags:
   - "notes-basic-theory"
@@ -113,7 +113,8 @@ extra:
 [ 5. 최고 확률 대표 클래스 출력 ]
 ```
 
-**동작 원리** 1. **초기 합성곱 및 다운샘플링**: 저수준 엣지 및 기본 시각 특징을 고해상도에서 추출
+**동작 원리**
+1. **초기 합성곱 및 다운샘플링**: 저수준 엣지 및 기본 시각 특징을 고해상도에서 추출
 2. **다단계 잔차/MBConv 계층 통과**: 해상도를 줄이고 채널을 늘리며 추상화된 의미 특징 학습
 3. **글로벌 평균 풀링(GAP) 적용**: 위치 정보를 요약하고 1차원 특징 벡터로 변환
 4. **소프트맥스(Softmax) 정규화**: 최종 분류 로짓을 0~1 사이의 확률값으로 변환
@@ -168,19 +169,15 @@ extra:
 
 </details>
 
-- 표준 백본 네트워크로는 안정성과 호환성이 검증된 ResNet을 기본 축으로 유지하고, 연산 자원이 극도로 제한된 온디바이스 및 모바일 환경에서는 복합 스케일링 기반의 EfficientNet으로 전환하는 설계가 타당
+- 표준 백본 네트워크로는 안정성과 호환성이 검증된 ResNet을 기본 축으로 유지하고, 연산 자원이 극도로 제한된 온디바이스 및 모바일 환경에서는 복합 스케일링 기반의 EfficientNet으로 전환하는 설계 타당
 
 #### 한줄 요약
 
 - 일반 서버 환경은 ResNet을 기본으로 하고, 엣지 환경은 EfficientNet으로 전환
-`;
 
-// 2~4교시 확장 블록 (논술감 판정)
-notes['056_image_classification.md'] += `
 ## 2~4교시 확장
 
 **예상 문항**
 > 딥러닝 기반 이미지 분류 모델에서 신경망의 깊이 심화에 따른 기울기 소실 문제 해결 방안과 연산 효율성을 극대화하기 위한 아키텍처 설계 전략을 논하시오. (25점)
 
-**목차 조립**: \`Ⅰ → Ⅱ → Ⅲ → Ⅵ → Ⅶ\`
-`;
+**목차 조립**: `Ⅰ → Ⅱ → Ⅲ → Ⅵ → Ⅶ`

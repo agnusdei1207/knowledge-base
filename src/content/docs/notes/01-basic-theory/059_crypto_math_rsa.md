@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 59
-  label: "059. 암호 수학 — 이산 대수·RSA 원리 (Cryptography Mathematics)"
+  label: "059. 암호 수학: 이산 대수·RSA 원리 (Cryptography Mathematics)"
   badge:
     text: "기출 · 50%"
     variant: note
-title: "암호 수학 — 이산 대수·RSA 원리 (Cryptography Mathematics)"
+title: "암호 수학: 이산 대수·RSA 원리 (Cryptography Mathematics)"
 date: "2026-08-21T22:15:00+09:00"
 tags:
   - "notes-basic-theory"
@@ -113,7 +113,8 @@ extra:
 [ 5. 수신자: 복호문 M = C^d mod n 복원 ]
 ```
 
-**동작 원리** 1. **두 거대 소수 생성**: 밀러-라빈 소수 판정법을 통해 1024비트 이상의 소수 $p, q$ 선별
+**동작 원리**
+1. **두 거대 소수 생성**: 밀러-라빈 소수 판정법을 통해 1024비트 이상의 소수 $p, q$ 선별
 2. **$n$ 및 $\phi(n)$ 계산**: $n=pq$와 $\phi(n)=(p-1)(q-1)$ 산출
 3. **공개키 및 비밀키 산출**: $\gcd(e, \phi(n))=1$인 $e$를 정하고 $e \cdot d \equiv 1 \pmod{\phi(n)}$인 $d$ 계산
 4. **송신자 암호화**: 공개키 $(e, n)$을 사용하여 $C \equiv M^e \pmod n$ 연산 수행
@@ -169,7 +170,7 @@ extra:
 
 </details>
 
-- 현행 레거시 호환성을 위해 OAEP 패딩이 적용된 RSA 2048비트 이상을 유지하되, 고성능 모바일 환경에는 타원곡선(ECC)을, 장기 기밀성이 요구되는 핵심 인프라는 NIST 표준 양자내성암호(PQC)로 단계적 전환하는 암호 민첩성 확보 전략이 필수적
+- 현행 레거시 호환성을 위해 OAEP 패딩이 적용된 RSA 2048비트 이상을 유지하되, 고성능 모바일 환경에는 타원곡선(ECC)을, 장기 기밀성이 요구되는 핵심 인프라는 NIST 표준 양자내성암호(PQC)로 단계적 전환하는 암호 민첩성 확보 전략 필수
 
 #### 한줄 요약
 

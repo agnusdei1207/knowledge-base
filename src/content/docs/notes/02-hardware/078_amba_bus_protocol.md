@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- Arm SoC 내부의 고속 연산 IP부터 저속 주변장치까지 **계층별 최적화된 온칩 버스 표준 규격(AXI, AHB, APB)** ## Ⅱ. 특징
+- Arm SoC 내부의 고속 연산 IP부터 저속 주변장치까지 **계층별 최적화된 온칩 버스 표준 규격(AXI, AHB, APB)**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -46,9 +48,13 @@ extra:
 
 - 5개의 독립적인 단방향 채널(AR, R, AW, W, B)을 통해 양방향 동시 전송 및 **미완료 트랜잭션(Outstanding) 지원 (AXI)**
 - 파이프라인 주소/데이터 전송 및 단일 공유 버스 기반의 **고효율 시스템 인터커넥트 (AHB)**
-- 복잡한 제어 로직을 배제하고 무대기(No-Wait) 2단계 신호로 저전력을 달성하는 **주변장치 전용 인터페이스 (APB)** #### 한줄 요약
+- 복잡한 제어 로직을 배제하고 무대기(No-Wait) 2단계 신호로 저전력을 달성하는 **주변장치 전용 인터페이스 (APB)**
 
-- **5개 독립 채널 및 Out-of-Order 지원(AXI)·파이프라인 주소/데이터(AHB)·2단계 무대기 단순 제어(APB)** ## Ⅲ. 구조 및 구성요소
+#### 한줄 요약
+
+- **5개 독립 채널 및 Out-of-Order 지원(AXI)·파이프라인 주소/데이터(AHB)·2단계 무대기 단순 제어(APB)**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -86,7 +92,9 @@ extra:
 
 #### 한줄 요약
 
-- **마스터 블록(Manager)·AXI Crossbar Interconnect·프로토콜 브리지(Bridge)·슬레이브 블록(Subordinate)** ## Ⅳ. 흐름도
+- **마스터 블록(Manager)·AXI Crossbar Interconnect·프로토콜 브리지(Bridge)·슬레이브 블록(Subordinate)**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -115,14 +123,18 @@ extra:
    [ 4. 슬레이브 응답 채널(B/R)을 통해 마스터로 전송 완료(OKAY/SLVERR) 반환 ]
 ```
 
-**동작 원리** 1. **트랜잭션 요청**: AXI 마스터가 주소와 버스트 길이를 싣고 AWVALID/ARVALID=1 인가
+**동작 원리**
+
+1. **트랜잭션 요청**: AXI 마스터가 주소와 버스트 길이를 싣고 AWVALID/ARVALID=1 인가
 2. **AXI 고속 전송**: 크로스바가 주소를 디코딩하여 타깃 슬레이브와 VALID/READY 일치 사이클에 버스트 데이터 전송
 3. **APB 브리지 변환**: 타깃이 저속 IP일 경우 브리지가 AXI 요청을 받아 PSEL=1(Setup) $\to$ PENABLE=1(Access) 2단계로 변환
 4. **응답 수신**: 전송 완료 후 슬레이브가 BRESP/RRESP(OKAY, EXOKAY, SLVERR, DECERR) 신호를 반환하여 트랜잭션 종결
 
 #### 한줄 요약
 
-- 마스터 트랜잭션 요청 $\to$ **AXI VALID/READY 양방향 핸드셰이크 $\to$ 브리지 경유 시 PSEL/PENABLE 2단계 절체 $\to$ 데이터 전송 $\to$ BRESP/RRESP 응답 완료** ## Ⅴ. 종류 및 비교
+- 마스터 트랜잭션 요청 $\to$ **AXI VALID/READY 양방향 핸드셰이크 $\to$ 브리지 경유 시 PSEL/PENABLE 2단계 절체 $\to$ 데이터 전송 $\to$ BRESP/RRESP 응답 완료**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -141,7 +153,9 @@ extra:
 
 #### 한줄 요약
 
-- 최고성능 고대역폭은 **AXI**, 온칩 시스템 백본은 **AHB**, 저전력 주변장치 제어는 **APB** ## Ⅵ. 실무 고려사항 및 대책
+- 최고성능 고대역폭은 **AXI**, 온칩 시스템 백본은 **AHB**, 저전력 주변장치 제어는 **APB**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -158,7 +172,9 @@ extra:
 
 #### 한줄 요약
 
-- **Assertion 기반 Protocol Checker 검증·CDC Async FIFO 비동기 클록 도메인 격리·브리지 타임아웃/슬레이브 에러(SLVERR) 격리** ## Ⅶ. 결론
+- **Assertion 기반 Protocol Checker 검증·CDC Async FIFO 비동기 클록 도메인 격리·브리지 타임아웃/슬레이브 에러(SLVERR) 격리**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -166,6 +182,8 @@ extra:
 
 </details>
 
-- 차세대 복합 SoC 및 칩렛(Chiplet) 설계에서 **코어 백본은 AXI5/CHI 표준 채택 및 말단 제어부에 AXI-APB 계층화 브리지 표준 적용** #### 한줄 요약
+- 차세대 복합 SoC 및 칩렛(Chiplet) 설계에서 **코어 백본은 AXI5/CHI 표준 채택 및 말단 제어부에 AXI-APB 계층화 브리지 표준 적용**
+
+#### 한줄 요약
 
 - **대역폭 요구량과 전력/면적 예산(PPA)** 에 맞춘 AXI/AHB/APB 계층 버스 토폴로지 최적화

@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- USB Type-C 기반으로 **고속 데이터, DP Alt Mode 영상, PCIe 터널링, USB PD 240W를 통합 전송하는 규격** ## Ⅱ. 특징
+- USB Type-C 기반으로 **고속 데이터, DP Alt Mode 영상, PCIe 터널링, USB PD 240W를 통합 전송하는 규격**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -45,9 +47,13 @@ extra:
 
 - DisplayPort 영상 신호를 별도 변환기 없이 네이티브 패킷으로 직결 전송하는 **얼터네이트 모드(DP Alt Mode)**
 - 외장 데스크톱 가속기 및 NVMe 드라이브를 단일 케이블로 핫플러그 연결하는 **PCIe 프로토콜 터널링**
-- 케이블 내장 식별 칩(**e-Marker**)과 실시간 통신하여 화재 위험을 방지하고 최대 240W를 전달하는 **USB PD 3.1 규격** #### 한줄 요약
+- 케이블 내장 식별 칩(**e-Marker**)과 실시간 통신하여 화재 위험을 방지하고 최대 240W를 전달하는 **USB PD 3.1 규격**
 
-- **DisplayPort Alt Mode 영상 출력·PCIe 직결 터널링·e-Marker 및 USB PD 3.1(최대 240W EPR) 전력 협상** ## Ⅲ. 구조 및 구성요소
+#### 한줄 요약
+
+- **DisplayPort Alt Mode 영상 출력·PCIe 직결 터널링·e-Marker 및 USB PD 3.1(최대 240W EPR) 전력 협상**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -89,7 +95,9 @@ extra:
 
 #### 한줄 요약
 
-- **호스트 컨트롤러(Router/Switch)·Type-C 포트 및 CC 핀·e-Marker 인증 케이블·IOMMU/DMA 보안 모듈** ## Ⅳ. 흐름도
+- **호스트 컨트롤러(Router/Switch)·Type-C 포트 및 CC 핀·e-Marker 인증 케이블·IOMMU/DMA 보안 모듈**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -116,7 +124,9 @@ extra:
    [ 5. IOMMU DMA 방화벽 검증 ──> PCIe / DP / USB3 동적 패킷 터널링 개시 ]
 ```
 
-**동작 원리** 1. **연결 및 방향 감지**: CC 핀의 풀업/풀다운 저항 값을 측정하여 케이블 삽입 방향 및 전원 공급 역할 결정
+**동작 원리**
+
+1. **연결 및 방향 감지**: CC 핀의 풀업/풀다운 저항 값을 측정하여 케이블 삽입 방향 및 전원 공급 역할 결정
 2. **e-Marker 조회**: 케이블 내부 칩과 VCONN 라인을 통해 통신하여 40Gbps 지원 여부 및 최대 5A 용량 확인
 3. **USB PD 협상**: 호스트와 디바이스가 지원 가능한 PDO(Power Data Object)를 교환하여 최적 전력 프로파일 합의
 4. **프로토콜 핸드셰이크**: USB4/TB 라우터가 링크 트레이닝을 거쳐 양단이 지원하는 최고 속도(40~80Gbps) 결정
@@ -124,7 +134,9 @@ extra:
 
 #### 한줄 요약
 
-- CC 핀 연결 감지 $\to$ **e-Marker 케이블 인증 $\to$ USB PD 전력 협상 $\to$ USB4/TB4 터널링 프로토콜 핸드셰이크 $\to$ IOMMU 보안 검증 및 동적 패킷 전송** ## Ⅴ. 종류 및 비교
+- CC 핀 연결 감지 $\to$ **e-Marker 케이블 인증 $\to$ USB PD 전력 협상 $\to$ USB4/TB4 터널링 프로토콜 핸드셰이크 $\to$ IOMMU 보안 검증 및 동적 패킷 전송**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -143,7 +155,9 @@ extra:
 
 #### 한줄 요약
 
-- 단순 데이터는 **USB 3.2**, 범용 확장은 **USB4**, 최고성능 풀옵션 인증은 **Thunderbolt 4/5** ## Ⅵ. 실무 고려사항 및 대책
+- 단순 데이터는 **USB 3.2**, 범용 확장은 **USB4**, 최고성능 풀옵션 인증은 **Thunderbolt 4/5**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -160,7 +174,9 @@ extra:
 
 #### 한줄 요약
 
-- **Intel VT-d/Kernel DMA Protection 기반 Thunderspy 차단·e-Marker 미인증 케이블 60W 제한·USB PD 온도 센서 스로틀링** ## Ⅶ. 결론
+- **Intel VT-d/Kernel DMA Protection 기반 Thunderspy 차단·e-Marker 미인증 케이블 60W 제한·USB PD 온도 센서 스로틀링**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -168,6 +184,8 @@ extra:
 
 </details>
 
-- 차세대 워크스테이션 및 모바일 랩톱 설계 시 **Thunderbolt 4/5 및 USB4 2.0 표준 채택과 IOMMU DMA 보호 하드웨어 표준 활성화** #### 한줄 요약
+- 차세대 워크스테이션 및 모바일 랩톱 설계 시 **Thunderbolt 4/5 및 USB4 2.0 표준 채택과 IOMMU DMA 보호 하드웨어 표준 활성화**
 
-- **대역폭 확장과 엄격한 DMA 하드웨어 격리** 활용 통한 고속 직렬 인터페이스 구축
+#### 한줄 요약
+
+- **대역폭 확장과 엄격한 DMA 하드웨어 격리**를 통한 고속 직렬 인터페이스 구축

@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- 다중 소켓 간 고속 인터커넥트와 캐시 일관성을 지원하는 **대칭형 멀티프로세싱(SMP) 및 ccNUMA 서버 아키텍처** ## Ⅱ. 특징
+- 다중 소켓 간 고속 인터커넥트와 캐시 일관성을 지원하는 **대칭형 멀티프로세싱(SMP) 및 ccNUMA 서버 아키텍처**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -44,9 +46,13 @@ extra:
 
 - 다수의 CPU 코어가 분산된 물리 메모리를 단일 주소 공간으로 투명하게 공유하는 **대칭형 다중 처리(SMP) 단일 OS 뷰**
 - 하드웨어 디렉터리 프로토콜 기반으로 소켓 간 캐시 일관성을 실시간 유지하는 **ccNUMA 아키텍처**
-- 로컬 메모리 접근($\sim 80\,\text{ns}$) 대비 원격 메모리 접근($\sim 140\,\text{ns}$) 시 발생하는 **NUMA Ratio 지연시간 불균형 관리** #### 한줄 요약
+- 로컬 메모리 접근($\sim 80\,\text{ns}$) 대비 원격 메모리 접근($\sim 140\,\text{ns}$) 시 발생하는 **NUMA Ratio 지연시간 불균형 관리**
 
-- **단일 OS 통합 가상 메모리 뷰(SMP)·ccNUMA 하드웨어 캐시 일관성·로컬 대비 원격 메모리 지연 비율(NUMA Ratio: 1.5~2.5x) 관리** ## Ⅲ. 구조 및 구성요소
+#### 한줄 요약
+
+- **단일 OS 통합 가상 메모리 뷰(SMP)·ccNUMA 하드웨어 캐시 일관성·로컬 대비 원격 메모리 지연 비율(NUMA Ratio: 1.5~2.5x) 관리**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -83,7 +89,9 @@ extra:
 
 #### 한줄 요약
 
-- **NUMA 노드(Socket+Local DRAM)·소켓 간 인터커넥트 패브릭(UPI/IF)·OS NUMA 스케줄러·소켓별 PCIe I/O 컨트롤러** ## Ⅳ. 흐름도
+- **NUMA 노드(Socket+Local DRAM)·소켓 간 인터커넥트 패브릭(UPI/IF)·OS NUMA 스케줄러·소켓별 PCIe I/O 컨트롤러**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -113,14 +121,18 @@ extra:
    [ 4. AutoNUMA 커널 데몬이 원격 접근 감지 시 페이지를 로컬 노드로 마이그레이션 ]
 ```
 
-**동작 원리** 1. **스레드 바인딩**: `numactl --cpunodebind=0 --membind=0` 명령으로 프로세스를 소켓 0에 고정
+**동작 원리**
+
+1. **스레드 바인딩**: `numactl --cpunodebind=0 --membind=0` 명령으로 프로세스를 소켓 0에 고정
 2. **로컬 메모리 할당**: First-Touch 커널 메커니즘에 의해 소켓 0에 직결된 로컬 DDR 메모리에 물리 페이지 할당
 3. **메모리 I/O 처리**: 로컬 접근은 내부 크로스바로 즉시 인출, 원격 접근은 UPI 인터커넥트를 통해 패킷 통신
 4. **자동 마이그레이션**: Linux AutoNUMA가 힌트 페이지 폴트를 통해 원격 접근 빈도를 모니터링하여 데이터 페이지를 스레드 근처로 이동
 
 #### 한줄 요약
 
-- 스레드 NUMA 노드 바인딩(CPU Affinity) $\to$ **First-Touch 로컬 메모리 우선 할당 $\to$ 로컬 vs 원격(Remote) 메모리 I/O 감시 $\to$ AutoNUMA 페이지 마이그레이션 $\to$ 캐시 일관성 유지 완료** ## Ⅴ. 종류 및 비교
+- 스레드 NUMA 노드 바인딩(CPU Affinity) $\to$ **First-Touch 로컬 메모리 우선 할당 $\to$ 로컬 vs 원격(Remote) 메모리 I/O 감시 $\to$ AutoNUMA 페이지 마이그레이션 $\to$ 캐시 일관성 유지 완료**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -139,7 +151,9 @@ extra:
 
 #### 한줄 요약
 
-- 대용량 단일 메모리는 **멀티소켓(ccNUMA)**, 균일 저지연은 **단일 소켓(UMA)**, 대규모 확장은 **분산 클러스터(MPP)** ## Ⅵ. 실무 고려사항 및 대책
+- 대용량 단일 메모리는 **멀티소켓(ccNUMA)**, 균일 저지연은 **단일 소켓(UMA)**, 대규모 확장은 **분산 클러스터(MPP)**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -156,7 +170,9 @@ extra:
 
 #### 한줄 요약
 
-- **numactl 기반 CPU & Memory 노드 바인딩·64바이트 캐시 라인 패딩(False Sharing 방지)·하이퍼바이저 vNUMA 토폴로지 일치** ## Ⅶ. 결론
+- **numactl 기반 CPU & Memory 노드 바인딩·64바이트 캐시 라인 패딩(False Sharing 방지)·하이퍼바이저 vNUMA 토폴로지 일치**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -164,6 +180,8 @@ extra:
 
 </details>
 
-- 미션 크리티컬 DB 및 AI 거대 모델 학습 시스템에서 **2-Socket/4-Socket ccNUMA 서버 표준 채택 및 CXL 기반 메모리 풀링 확장 결합** #### 한줄 요약
+- 미션 크리티컬 DB 및 AI 거대 모델 학습 시스템에서 **2-Socket/4-Socket ccNUMA 서버 표준 채택 및 CXL 기반 메모리 풀링 확장 결합**
 
-- **메모리 지역성(Locality) 극대화와 소켓 간 인터커넥트 최적화** 활용 통한 멀티소켓 확장
+#### 한줄 요약
+
+- **메모리 지역성(Locality) 극대화와 소켓 간 인터커넥트 최적화**를 통한 멀티소켓 확장

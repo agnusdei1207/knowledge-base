@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- I/O 접근 단위(Block/File) 및 연결 패브릭에 따른 **DAS(직결)·NAS(파일 공유)·SAN(전용 블록망) 아키텍처** ## Ⅱ. 특징
+- I/O 접근 단위(Block/File) 및 연결 패브릭에 따른 **DAS(직결)·NAS(파일 공유)·SAN(전용 블록망) 아키텍처**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -49,7 +51,9 @@ extra:
 
 #### 한줄 요약
 
-- **블록 I/O(DAS/SAN) vs 파일 I/O(NAS)·FC/iSCSI 전용 패브릭·MPIO 다중 경로 고가용성** ## Ⅲ. 구조 및 구성요소
+- **블록 I/O(DAS/SAN) vs 파일 I/O(NAS)·FC/iSCSI 전용 패브릭·MPIO 다중 경로 고가용성**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -88,7 +92,9 @@ extra:
 
 #### 한줄 요약
 
-- **호스트 서버(HBA/NIC)·접근 계층(NFS/SMB/SCSI)·물리 전송 채널(SAS/Ethernet/FC)·스토리지 어레이(LUN/RAID)** ## Ⅳ. 흐름도
+- **호스트 서버(HBA/NIC)·접근 계층(NFS/SMB/SCSI)·물리 전송 채널(SAS/Ethernet/FC)·스토리지 어레이(LUN/RAID)**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -116,14 +122,18 @@ extra:
                                            [ 4. MPIO 다중 경로 로드밸런싱 가동 ]
 ```
 
-**동작 원리** 1. **접근 단위 판정**: 다수 클라이언트 간 문서/미디어 파일 공유가 주 목적이면 NAS(NFS/SMB)로 분기
+**동작 원리**
+
+1. **접근 단위 판정**: 다수 클라이언트 간 문서/미디어 파일 공유가 주 목적이면 NAS(NFS/SMB)로 분기
 2. **블록 공유 판정**: 단일 서버 전용 초저비용 저장이면 DAS, 대규모 고성능 DB/가상화 클러스터면 SAN 분기
 3. **패브릭 보안 설정**: SAN 구성 시 비인가 접근을 차단하기 위해 FC 스위치 Zoning 및 스토리지 LUN Masking 체결
 4. **MPIO 경로 가동**: 호스트 OS의 MPIO 드라이버가 다중 HBA 링크에 Round-Robin 또는 Failover 정책을 활성화
 
 #### 한줄 요약
 
-- I/O 단위(File vs Block) 판별 $\to$ **공유 범위(단일 vs 다중) 판정 $\to$ DAS(직결) / NAS(파일) / SAN(FC망) 결정 $\to$ Zoning & LUN Masking 보안 $\to$ MPIO 다중 경로 확정** ## Ⅴ. 종류 및 비교
+- I/O 단위(File vs Block) 판별 $\to$ **공유 범위(단일 vs 다중) 판정 $\to$ DAS(직결) / NAS(파일) / SAN(FC망) 결정 $\to$ Zoning & LUN Masking 보안 $\to$ MPIO 다중 경로 확정**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -142,7 +152,9 @@ extra:
 
 #### 한줄 요약
 
-- 로컬 직결은 **DAS**, 범용 파일 공유는 **NAS**, 고성능 엔터프라이즈 블록 풀은 **SAN** ## Ⅵ. 실무 고려사항 및 대책
+- 로컬 직결은 **DAS**, 범용 파일 공유는 **NAS**, 고성능 엔터프라이즈 블록 풀은 **SAN**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -158,7 +170,9 @@ extra:
 
 #### 한줄 요약
 
-- **10/25GbE LACP 링크 집성(NAS)·MPIO(다중 경로) 이중화 페일오버·FC Zoning 및 LUN Masking 볼륨 보안** ## Ⅶ. 결론
+- **10/25GbE LACP 링크 집성(NAS)·MPIO(다중 경로) 이중화 페일오버·FC Zoning 및 LUN Masking 볼륨 보안**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -166,6 +180,8 @@ extra:
 
 </details>
 
-- 데이터센터 엔지니어링 구축 시 **단일 노드는 NVMe DAS, 파일 공유는 Scale-Out NAS, 고성능 DB는 NVMe-oF 기반 All-Flash SAN 표준 채택** #### 한줄 요약
+- 데이터센터 엔지니어링 구축 시 **단일 노드는 NVMe DAS, 파일 공유는 Scale-Out NAS, 고성능 DB는 NVMe-oF 기반 All-Flash SAN 표준 채택**
 
-- **I/O 프로토콜(Block vs File)과 대역폭/지연시간 요구치** 대상 맞춘 스토리지 계층화
+#### 한줄 요약
+
+- **I/O 프로토콜(Block vs File)과 대역폭/지연시간 요구치**에 맞춘 스토리지 계층화

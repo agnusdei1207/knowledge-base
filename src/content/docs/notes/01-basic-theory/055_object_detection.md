@@ -1,11 +1,11 @@
 ---
 sidebar:
   order: 55
-  label: "055. 객체 탐지 — YOLO·R-CNN (Object Detection)"
+  label: "055. 객체 탐지: YOLO·R-CNN (Object Detection)"
   badge:
     text: "기출 · 50%"
     variant: note
-title: "객체 탐지 — YOLO·R-CNN (Object Detection)"
+title: "객체 탐지: YOLO·R-CNN (Object Detection)"
 date: "2026-08-21T22:15:00+09:00"
 tags:
   - "notes-basic-theory"
@@ -44,9 +44,11 @@ extra:
 
 </details>
 
-- **위치 인식(Localization) 및 분류(Classification)** 대상 다중 손실(Multi-task Loss) 동시 최적화
+- **위치 인식(Localization) 및 분류(Classification)**에 대한 다중 손실(Multi-task Loss) 동시 최적화
 - 2-Stage Detector: 영역 제안과 정밀 분류의 분리를 통한 **높은 검출 정확도(mAP) 달성**
-- 1-Stage Detector: 단일 회귀 파이프라인 설계를 통한 **실시간 고속 추론(FPS) 구현** #### 한줄 요약
+- 1-Stage Detector: 단일 회귀 파이프라인 설계를 통한 **실시간 고속 추론(FPS) 구현**
+
+#### 한줄 요약
 
 - 2-Stage는 높은 정확도, 1-Stage는 실시간 속도에 특화되어 상호 발전
 
@@ -108,7 +110,8 @@ extra:
 [ 5. 비최대 억제(NMS) 적용 및 최종 탐지 확정 ]
 ```
 
-**동작 원리** 1. **백본 기반 계층적 특징 맵 추출**: 합성곱 연산을 통해 해상도별 특징 맵 생성
+**동작 원리**
+1. **백본 기반 계층적 특징 맵 추출**: 합성곱 연산을 통해 해상도별 특징 맵 생성
 2. **멀티스케일 FPN 특징 융합**: 하향식 경로와 횡단 연결을 통해 고수준 의미와 세부 공간 정보 결합
 3. **바운딩 박스 좌표 및 클래스 확률 예측**: 그리드 셀 또는 앵커 박스 단위로 $(x, y, w, h)$와 클래스 점수 산출
 4. **신뢰도 임계값 필터링**: 배경 확률이 높거나 신뢰도가 낮은 박스 사전 배제
@@ -162,7 +165,7 @@ extra:
 
 </details>
 
-- 실시간성(30fps 이상)이 필수적인 자율주행 및 로보틱스 관제에는 YOLO 계열의 1-Stage 검출기를 채택하고, 정밀 판독이 핵심인 의료/제조 불량 검사 과업에는 Faster R-CNN을 적용하는 도메인별 분기 전략이 타당
+- 실시간성(30fps 이상)이 필수적인 자율주행 및 로보틱스 관제에는 YOLO 계열의 1-Stage 검출기를 채택하고, 정밀 판독이 핵심인 의료/제조 불량 검사 과업에는 Faster R-CNN을 적용하는 도메인별 분기 전략 타당
 
 #### 한줄 요약
 

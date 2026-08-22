@@ -47,9 +47,13 @@ extra:
 
 - 배터리/플래시 보호 캐시(**FBWC**)를 통해 정전 시에도 데이터 유실 없이 초고속 Write-Back 캐싱을 지원하는 **HW RAID**
 - 하드웨어 개입 없이 원시 디스크의 S.M.A.R.T 텔레메트리와 직접 I/O 제어권을 소프트웨어로 넘기는 **JBOD (HBA Passthrough)**
-- 대용량 드라이브 고장 시 수십 시간 동안 I/O 병목을 유발하는 **하드웨어 리빌드 페널티 vs 소프트웨어 네트워크 병렬 복구** #### 한줄 요약
+- 대용량 드라이브 고장 시 수십 시간 동안 I/O 병목을 유발하는 **하드웨어 리빌드 페널티 vs 소프트웨어 네트워크 병렬 복구**
 
-- **BBU/FBWC 쓰기 캐시 가속(RAID) vs HBA Passthrough 원시 I/O(JBOD)·소프트웨어 장애 제어** ## Ⅲ. 구조 및 구성요소
+#### 한줄 요약
+
+- **BBU/FBWC 쓰기 캐시 가속(RAID) vs HBA Passthrough 원시 I/O(JBOD)·소프트웨어 장애 제어**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -87,7 +91,9 @@ extra:
 
 #### 한줄 요약
 
-- **호스트 서버·BBU/FBWC 쓰기 캐시·하드웨어 RAID 엔진(XOR/P+Q)·HBA Passthrough 컨트롤러·물리 드라이브** ## Ⅳ. 흐름도
+- **호스트 서버·BBU/FBWC 쓰기 캐시·하드웨어 RAID 엔진(XOR/P+Q)·HBA Passthrough 컨트롤러·물리 드라이브**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -114,7 +120,9 @@ extra:
    [ 6. 쓰기 완료 응답 및 트랜잭션 종결 ]
 ```
 
-**동작 원리** 1. **경로 분기**: 고성능 단일 서버는 HW RAID, 분산 클라우드 환경은 JBOD/SDS로 분기
+**동작 원리**
+
+1. **경로 분기**: 고성능 단일 서버는 HW RAID, 분산 클라우드 환경은 JBOD/SDS로 분기
 2. **RAID 캐싱**: Write-Back 모드에서 FBWC 캐시에 데이터 적재 후 즉각 ACK 반환
 3. **하드웨어 패리티**: 컨트롤러 ASIC이 XOR 연산을 수행하여 데이터와 패리티를 복수 디스크에 기록
 4. **JBOD 패스스루**: HBA가 I/O 명령을 변환 없이 타깃 원시 디스크로 직접 전달
@@ -122,7 +130,9 @@ extra:
 
 #### 한줄 요약
 
-- 아키텍처 선정(HW RAID vs JBOD/SDS) $\to$ **RAID 경로(BBU 캐시 Write-Back $\to$ 하드웨어 패리티 계산 및 드라이브 분산) vs JBOD 경로(HBA Passthrough $\to$ SDS 다중 복제/Erasure Coding) $\to$ 쓰기 완료** ## Ⅴ. 종류 및 비교
+- 아키텍처 선정(HW RAID vs JBOD/SDS) $\to$ **RAID 경로(BBU 캐시 Write-Back $\to$ 하드웨어 패리티 계산 및 드라이브 분산) vs JBOD 경로(HBA Passthrough $\to$ SDS 다중 복제/Erasure Coding) $\to$ 쓰기 완료**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -140,7 +150,9 @@ extra:
 
 #### 한줄 요약
 
-- 단일 서버 고성능 DB는 **HW RAID**, 대규모 분산 스케일아웃은 **JBOD(SDS)** ## Ⅵ. 실무 고려사항 및 대책
+- 단일 서버 고성능 DB는 **HW RAID**, 대규모 분산 스케일아웃은 **JBOD(SDS)**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -157,7 +169,9 @@ extra:
 
 #### 한줄 요약
 
-- **SDS 전용 NVMe Write-Buffer 티어링·듀얼 RAID 컨트롤러(HA) 구축·ZFS/Ceph 도입 시 HBA IT(Initiator Target) 모드 플래싱** ## Ⅶ. 결론
+- **SDS 전용 NVMe Write-Buffer 티어링·듀얼 RAID 컨트롤러(HA) 구축·ZFS/Ceph 도입 시 HBA IT(Initiator Target) 모드 플래싱**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -165,6 +179,8 @@ extra:
 
 </details>
 
-- 차세대 하이퍼컨버지드(HCI) 및 분산 클라우드 인프라에서 **NVMe-oF 기반 JBOD 풀링 및 소프트웨어 정의 이레이저 코딩(Erasure Coding) 표준 채택** #### 한줄 요약
+- 차세대 하이퍼컨버지드(HCI) 및 분산 클라우드 인프라에서 **NVMe-oF 기반 JBOD 풀링 및 소프트웨어 정의 이레이저 코딩(Erasure Coding) 표준 채택**
+
+#### 한줄 요약
 
 - **단일 서버 하드웨어 신뢰성(RAID)과 분산 소프트웨어 확장성(JBOD)** 의 최적 선택

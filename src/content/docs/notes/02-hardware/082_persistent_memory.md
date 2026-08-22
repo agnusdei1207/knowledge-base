@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- 나노초 단위 바이트 접근성과 비휘발성을 결합한 **하이브리드 영속 메모리(PMEM) 아키텍처** ## Ⅱ. 특징
+- 나노초 단위 바이트 접근성과 비휘발성을 결합한 **하이브리드 영속 메모리(PMEM) 아키텍처**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -45,9 +47,13 @@ extra:
 
 - OS 커널의 페이지 캐시 복사 및 블록 디바이스 드라이버 오버헤드를 제거하는 **DAX(Direct Access) 초저지연 매핑**
 - CPU 캐시 계층의 휘발성 데이터를 비휘발성 영역으로 강제 방출하는 **clwb(Cache Line Write Back) 및 sfence 명령어 제어**
-- 전원 장애 시에도 데이터 유실 없이 즉각적인 재기동을 보장하는 **장애 정합성(Crash Consistency) 및 재시작 지연 극소화** #### 한줄 요약
+- 전원 장애 시에도 데이터 유실 없이 즉각적인 재기동을 보장하는 **장애 정합성(Crash Consistency) 및 재시작 지연 극소화**
 
-- **DAX(Direct Access) 커널 우회·clwb/sfence 명시적 영속화(Flushing)·Crash Consistency 장애 정합성** ## Ⅲ. 구조 및 구성요소
+#### 한줄 요약
+
+- **DAX(Direct Access) 커널 우회·clwb/sfence 명시적 영속화(Flushing)·Crash Consistency 장애 정합성**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -83,7 +89,9 @@ extra:
 
 #### 한줄 요약
 
-- **PMDK 영속 라이브러리·DAX 파일시스템 매핑·clwb/sfence 캐시 제어·ADR(Asynchronous DRAM Refresh)** ## Ⅳ. 흐름도
+- **PMDK 영속 라이브러리·DAX 파일시스템 매핑·clwb/sfence 캐시 제어·ADR(Asynchronous DRAM Refresh)**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -116,7 +124,9 @@ extra:
         +─────────────────────────────────────────+
 ```
 
-**동작 원리** 1. **WAL 로깅**: 변경할 메모리 주소와 이전/이후 값을 포함하는 저널 로그를 PMEM에 기록
+**동작 원리**
+
+1. **WAL 로깅**: 변경할 메모리 주소와 이전/이후 값을 포함하는 저널 로그를 PMEM에 기록
 2. **로그 영속화**: clwb 명령으로 로그 캐시 라인을 비휘발성 도메인으로 방출하고 sfence로 직렬화
 3. **본 데이터 기록**: 실제 객체 필드를 수정하고 다시 clwb로 메모리 컨트롤러 WPQ로 배출
 4. **커밋 확정**: 커밋 플래그를 1로 세팅하고 sfence를 인가하여 트랜잭션 원자적 완료
@@ -124,7 +134,9 @@ extra:
 
 #### 한줄 요약
 
-- WAL 로깅 작성 $\to$ **clwb & sfence 로그 영속화 $\to$ 본 데이터 기록 및 플러시 $\to$ 커밋 플래그 영속(Ordered Persistence) $\to$ 장애 복구 정합성 확보** ## Ⅴ. 종류 및 비교
+- WAL 로깅 작성 $\to$ **clwb & sfence 로그 영속화 $\to$ 본 데이터 기록 및 플러시 $\to$ 커밋 플래그 영속(Ordered Persistence) $\to$ 장애 복구 정합성 확보**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -143,7 +155,9 @@ extra:
 
 #### 한줄 요약
 
-- 바이트 비휘발성은 **PMEM**, 휘발성 최고속은 **DRAM**, 대용량 블록은 **NVMe SSD** ## Ⅵ. 실무 고려사항 및 대책
+- 바이트 비휘발성은 **PMEM**, 휘발성 최고속은 **DRAM**, 대용량 블록은 **NVMe SSD**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -160,7 +174,9 @@ extra:
 
 #### 한줄 요약
 
-- **clwb/sfence 명시적 플러시 및 ADR 회로 연동·상대 오프셋 포인터 매핑(ASLR 대응)·PMDK 기반 장애 주입(PFI) 시험** ## Ⅶ. 결론
+- **clwb/sfence 명시적 플러시 및 ADR 회로 연동·상대 오프셋 포인터 매핑(ASLR 대응)·PMDK 기반 장애 주입(PFI) 시험**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -168,6 +184,8 @@ extra:
 
 </details>
 
-- 차세대 서버 메모리 계층에서 **CXL 3.0 Type-3 기반 영속 메모리 확장 및 PMDK 기반 저널링 표준 채택** #### 한줄 요약
+- 차세대 서버 메모리 계층에서 **CXL 3.0 Type-3 기반 영속 메모리 확장 및 PMDK 기반 저널링 표준 채택**
+
+#### 한줄 요약
 
 - **바이트 접근성과 장애 정합성(Crash Consistency)** 을 통한 영속 인메모리 컴퓨팅 구현

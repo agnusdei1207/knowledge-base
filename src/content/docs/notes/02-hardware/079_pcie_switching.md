@@ -33,7 +33,9 @@ extra:
 
 #### 한줄 요약
 
-- 단일 Root Complex 하단에서 **PCIe 레인 확장 및 고속 P2P 트랜잭션 라우팅을 제공하는 스위칭 패브릭** ## Ⅱ. 특징
+- 단일 Root Complex 하단에서 **PCIe 레인 확장 및 고속 P2P 트랜잭션 라우팅을 제공하는 스위칭 패브릭**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -48,13 +50,17 @@ extra:
 
 - 호스트 CPU/메모리 경유 없이 스위치 내부 패브릭에서 직접 패킷을 중계하는 **초저지연 Peer-to-Peer(P2P) DMA 전송**
 - 다수의 고속 엔드포인트 동시 송신 시 발생하는 **업스트림 초과 구독(Oversubscription) 대기 지연 통제**
-- 가상화 환경(SR-IOV)에서 불법적인 P2P 메모리 접근을 방지하는 **ACS(Access Control Services) 및 IOMMU 격리** $$
+- 가상화 환경(SR-IOV)에서 불법적인 P2P 메모리 접근을 방지하는 **ACS(Access Control Services) 및 IOMMU 격리**
+
+$$
 \rho = \frac{\sum_{i=1}^{N} B_{i,\mathrm{demand}}}{B_{\mathrm{up,usable}}}
 $$
 
 #### 한줄 요약
 
-- **CPU 우회 P2P DMA 직결·초과 구독(Oversubscription) 대역폭 관리·ACS/IOMMU 하드웨어 격리** ## Ⅲ. 구조 및 구성요소
+- **CPU 우회 P2P DMA 직결·초과 구독(Oversubscription) 대역폭 관리·ACS/IOMMU 하드웨어 격리**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -94,7 +100,9 @@ $$
 
 #### 한줄 요약
 
-- **루트 컴플렉스(Root Complex)·업스트림 포트(USP)·스위칭 패브릭 코어·다운스트림 포트(DSP)·엔드포인트(EP)** ## Ⅳ. 흐름도
+- **루트 컴플렉스(Root Complex)·업스트림 포트(USP)·스위칭 패브릭 코어·다운스트림 포트(DSP)·엔드포인트(EP)**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -120,7 +128,9 @@ $$
                                             [ 4. DSP 2 로 직결 전송 ]  [ USP 로 리다이렉트 ]
 ```
 
-**동작 원리** 1. **TLP 수신**: 엔드포인트 GPU가 발행한 메모리 읽기/쓰기 TLP가 다운스트림 포트 1(DSP 1)로 인입
+**동작 원리**
+
+1. **TLP 수신**: 엔드포인트 GPU가 발행한 메모리 읽기/쓰기 TLP가 다운스트림 포트 1(DSP 1)로 인입
 2. **주소 디코딩**: 스위칭 패브릭이 TLP 헤더의 64비트 주소를 분석하여 목적지 포트 판별
 3. **ACS 검증**: P2P 트랜잭션일 경우 ACS 레지스터를 조회하여 해당 가상 도메인 간의 직접 통신 권한 확인
 4. **P2P 직결 포워딩**: 권한이 유효하면 호스트 CPU 개입 없이 DSP 2(NVMe SSD)로 패킷을 즉시 크로스바 스위칭
@@ -128,7 +138,9 @@ $$
 
 #### 한줄 요약
 
-- TLP 패킷 인입 $\to$ **Requester ID/Tag 장부 기록 $\to$ 목적지 메모리 주소 디코딩 $\to$ ACS/IOMMU 보안 검증 $\to$ 다운스트림 DSP 직결 라우팅 / 완료(CplD) TLP 반환** ## Ⅴ. 종류 및 비교
+- TLP 패킷 인입 $\to$ **Requester ID/Tag 장부 기록 $\to$ 목적지 메모리 주소 디코딩 $\to$ ACS/IOMMU 보안 검증 $\to$ 다운스트림 DSP 직결 라우팅 / 완료(CplD) TLP 반환**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -146,7 +158,9 @@ $$
 
 #### 한줄 요약
 
-- 고밀도 가속기 P2P는 **PCIe 스위칭**, 소수 장치 초저지연은 **직접 직결(Direct Attach)** ## Ⅵ. 실무 고려사항 및 대책
+- 고밀도 가속기 P2P는 **PCIe 스위칭**, 소수 장치 초저지연은 **직접 직결(Direct Attach)**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -162,7 +176,9 @@ $$
 
 #### 한줄 요약
 
-- **업스트림 대역폭 초과 구독(Oversubscription) 통제·리타이머(Retimer) 신호 무결성 확보·ACS/IOMMU P2P 보안 격리** ## Ⅶ. 결론
+- **업스트림 대역폭 초과 구독(Oversubscription) 통제·리타이머(Retimer) 신호 무결성 확보·ACS/IOMMU P2P 보안 격리**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -170,6 +186,8 @@ $$
 
 </details>
 
-- AI 가속 서버(8x GPU) 및 NVMe-oF 스토리지 어레이에서 **PCIe Gen5/Gen6 스위칭 패브릭(Broadcom, Microchip) 및 CXL 스위칭 표준 채택** #### 한줄 요약
+- AI 가속 서버(8x GPU) 및 NVMe-oF 스토리지 어레이에서 **PCIe Gen5/Gen6 스위칭 패브릭(Broadcom, Microchip) 및 CXL 스위칭 표준 채택**
 
-- **엔드포인트 밀집도와 P2P 트래픽 비율** 대상 최적화된 PCIe 스위칭 패브릭 설계
+#### 한줄 요약
+
+- **엔드포인트 밀집도와 P2P 트래픽 비율**에 맞춘 최적화된 PCIe 스위칭 패브릭 설계

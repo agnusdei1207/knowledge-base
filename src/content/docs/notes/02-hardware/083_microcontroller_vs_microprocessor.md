@@ -32,7 +32,9 @@ extra:
 
 #### 한줄 요약
 
-- 온칩 단일 칩 집적 실시간 제어의 **MCU** 및 외부 메모리 확장 고성능 OS 구동의 **MPU** ## Ⅱ. 특징
+- 온칩 단일 칩 집적 실시간 제어의 **MCU** 및 외부 메모리 확장 고성능 OS 구동의 **MPU**
+
+## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
@@ -48,7 +50,9 @@ extra:
 
 #### 한줄 요약
 
-- **온칩(On-Chip) 원칩 집적·MMU 가상 메모리 및 Rich OS(MPU) vs MPU/RTOS 결정론적(Deterministic) 제어** ## Ⅲ. 구조 및 구성요소
+- **온칩(On-Chip) 원칩 집적·MMU 가상 메모리 및 Rich OS(MPU) vs MPU/RTOS 결정론적(Deterministic) 제어**
+
+## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
@@ -86,7 +90,9 @@ extra:
 
 #### 한줄 요약
 
-- **MCU 온칩 올인원(Core/SRAM/Flash/ADC) vs MPU 멀티코어/MMU/외부 DDR/고속 인터커넥트** ## Ⅳ. 흐름도
+- **MCU 온칩 올인원(Core/SRAM/Flash/ADC) vs MPU 멀티코어/MMU/외부 DDR/고속 인터커넥트**
+
+## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
@@ -113,14 +119,18 @@ extra:
    [ 4. 복합 시스템 : MPU(인지/GUI) + MCU(모터/안전) 이종 하이브리드 구성 확정 ]
 ```
 
-**동작 원리** 1. **시간 제약 분석**: 센서/모터 제어에서 마이크로초 단위 인터럽트 응답과 WCET 보장이 요구되는지 평가
+**동작 원리**
+
+1. **시간 제약 분석**: 센서/모터 제어에서 마이크로초 단위 인터럽트 응답과 WCET 보장이 요구되는지 평가
 2. **OS 요구 판정**: 그래픽 UI, 복잡한 네트워크 스택, 딥러닝 추론 등 MMU 기반 범용 OS가 필수적인지 검토
 3. **단독 칩셋 할당**: 단순 펌웨어 제어는 초저전력 단일 칩 MCU, 대용량 연산은 고속 MPU로 분기
 4. **하이브리드 결합**: 로봇/드론처럼 영상 인식(MPU)과 자세 제어(MCU)가 동시 요구될 경우 SPI/UART로 연결된 이종 듀얼 프로세서 구성
 
 #### 한줄 요약
 
-- 실시간 지연 제약 분석 $\to$ **Rich OS(Linux/Windows) 및 MMU 요구 판정 $\to$ MCU 단독 / MPU 단독 / 이종 하이브리드(MCU+MPU) 아키텍처 결정** ## Ⅴ. 종류 및 비교
+- 실시간 지연 제약 분석 $\to$ **Rich OS(Linux/Windows) 및 MMU 요구 판정 $\to$ MCU 단독 / MPU 단독 / 이종 하이브리드(MCU+MPU) 아키텍처 결정**
+
+## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
@@ -138,7 +148,9 @@ extra:
 
 #### 한줄 요약
 
-- 초저전력 결정론적 실시간 제어는 **MCU**, 대규모 연산 및 범용 OS는 **MPU** ## Ⅵ. 실무 고려사항 및 대책
+- 초저전력 결정론적 실시간 제어는 **MCU**, 대규모 연산 및 범용 OS는 **MPU**
+
+## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
@@ -155,7 +167,9 @@ extra:
 
 #### 한줄 요약
 
-- **MPU OS 지터 방지용 전용 보조 MCU 분리·고속 DDR PCB 임피던스 매칭(SI)·정적 메모리 할당 기반 스택 오버플로우 원천 차단** ## Ⅶ. 결론
+- **MPU OS 지터 방지용 전용 보조 MCU 분리·고속 DDR PCB 임피던스 매칭(SI)·정적 메모리 할당 기반 스택 오버플로우 원천 차단**
+
+## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
@@ -163,6 +177,8 @@ extra:
 
 </details>
 
-- 자율주행 및 로보틱스 시스템 설계 시 **안전/모터 제어용 MCU(AURIX/STM32)와 딥러닝/인지용 MPU(Jetson/Snapdragon) 이종 통합 표준 채택** #### 한줄 요약
+- 자율주행 및 로보틱스 시스템 설계 시 **안전/모터 제어용 MCU(AURIX/STM32)와 딥러닝/인지용 MPU(Jetson/Snapdragon) 이종 통합 표준 채택**
 
-- **시간 결정론과 연산 성능 요구량** 대상 맞춘 MCU/MPU 분할 및 협업 아키텍처 설계
+#### 한줄 요약
+
+- **시간 결정론과 연산 성능 요구량**에 맞춘 MCU/MPU 분할 및 협업 아키텍처 설계
