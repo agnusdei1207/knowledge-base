@@ -15,7 +15,7 @@ extra:
   source_status: "기출"
   source_history: "134회, 135회"
   priority: 70
-  priority_note: "($\epsilon, \delta$)-DP 수학적 정의, 인접 데이터셋, 라플라스/가우시안 노이즈, 프라이버시 회계 및 DP-SGD"
+  priority_note: '($\epsilon, \delta$)-DP 수학적 정의, 인접 데이터셋, 라플라스/가우시안 노이즈, 프라이버시 회계 및 DP-SGD'
 ---
 
 ## Ⅰ. 개요
