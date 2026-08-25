@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-08-21T22:01:00+09:00"
+date: "2026-08-25T10:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 데이터의 통계적 중복성을 제거하는 **소스 코딩(압축)** 및 전송 신뢰성을 위해 잉여 비트를 부가하는 **채널 코딩(오류 제어)**의 변환 체계
-- 배경/필요성: 잡음 채널에서 압축 데이터의 단일 비트 손상 시 발생하는 **전체 프레임 디코딩 붕괴** 및 전송 신뢰성 저하 방지
+- 배경/필요성: 잡음 채널에서 압축 데이터의 단일 비트 손상 시 **전체 프레임 디코딩 붕괴 발생**
 
 #### 한줄 요약
 
@@ -98,25 +98,26 @@ extra:
 원본 정보원 심볼 (Text / Image / Audio)
    │
    ▼
-[ 1. 소스 부호화 (Source Encoding) ] : Huffman / Arithmetic / H.264 압축 (비트 축소)
+[ 1. 소스 부호화 ] : Huffman / Arithmetic / H.264 압축 (비트 축소)
    │
    ▼
-[ 2. 채널 부호화 (Channel Encoding) ] : LDPC / Turbo / Polar Code 부호화 (패리티 추가)
+[ 2. 채널 부호화 ] : LDPC / Turbo / Polar Code 부호화 (패리티 추가)
    │
    ▼
-[ 3. 물리 계층 변조 및 잡음 채널 통과 (QAM / AWGN) ]
+[ 3. 물리 채널 전송 ] : 변조 후 잡음 채널 통과 (QAM / AWGN)
    │
    ▼
-[ 4. 채널 복호화 (Channel Decoding) ] : 신드롬 계산 및 LLR 반복 복호로 비트 에러 정정
+[ 4. 채널 복호화 ] : 신드롬 계산 및 LLR 반복 복호로 비트 에러 정정
    │
    ▼
-[ 5. 소스 복호화 (Source Decoding) ] : 오류 정정된 압축 비트열 압축 해제
+[ 5. 소스 복호화 ] : 오류 정정된 압축 비트열 압축 해제
    │
    ▼
 최종 원본 데이터 완벽 복원
 ```
 
 **동작 원리**
+
 1. **소스 부호화**: 정보원의 상관관계를 분석해 엔트로피 수준으로 데이터 압축
 2. **채널 부호화**: 압축된 비트열에 패리티 생성 행렬을 곱해 오류 정정 코드워드 생성
 3. **물리 채널 전송**: 변조된 심볼이 잡음 채널을 통과하며 노이즈 및 페이딩 인입
@@ -131,9 +132,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **소스 코딩 vs 채널 코딩 핵심 비교**:
-  - 소스 코딩: 중복성 제거($\text{Bit} \downarrow$), 엔트로피 $H(X)$ 목표, Huffman/LZW/JPEG/HEVC.
-  - 채널 코딩: 구조적 중복 추가($\text{Bit} \uparrow$), 채널 용량 $C$ 목표, Hamming/RS/LDPC/Polar.
+- **소스 코딩(Source Coding)**: 정보원의 중복성을 제거하여 최소 비트로 압축하는 기법.
+- **채널 코딩(Channel Coding)**: 채널 잡음에 대비하여 구조적 패리티를 추가해 오류를 복구하는 기법.
 
 </details>
 
@@ -151,7 +151,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **JSCC(Joint Source-Channel Coding, 결합 소스-채널 코딩)**: 초저지연(URLLC) 통신처럼 블록 길이가 극히 짧아 분리 정리가 깨지는 환경에서 압축률과 채널 부호율을 동시에 동적 최적화하는 기법.
+- **결합 소스-채널 코딩(Joint Source-Channel Coding, JSCC)**: 초저지연(URLLC) 통신처럼 블록 길이가 극히 짧아 분리 정리가 깨지는 환경에서 압축률과 채널 부호율을 동시에 동적 최적화하는 기법.
+- **적응형 변조 및 코딩(Adaptive Modulation and Coding, AMC)**: 무선 채널의 신호 품질(CQI)에 따라 변조 차수와 채널 부호율을 실시간으로 가변 제어하는 기법.
 
 </details>
 
