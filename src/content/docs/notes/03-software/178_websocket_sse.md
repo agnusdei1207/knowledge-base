@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 178
-  label: "178. 웹 소켓•Server-Sent Events (WebSocket SSE)"
+  label: "178. 웹 소켓•Server-Sent Events"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
-date: "2026-08-14T03:44:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -22,153 +22,131 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **WebSocket (웹 소켓)**: 단일 TCP 연결 위에서 클라이언트와 서버가 비동기적으로 동시에(전이중, Full-Duplex) 양방향 메시지를 주고받는 표준 프로토콜.
-- **SSE (Server-Sent Events)**: 서버가 클라이언트에게 단방향으로 텍스트 이벤트를 연속적으로 푸시(Push)하기 위한 HTML5 표준 HTTP 기반 통신 기술.
-- **Polling / Long Polling (폴링)**: 클라이언트가 주기적으로 서버에 새 데이터가 있는지 HTTP 요청을 날리는 구형 방식으로, 불필요한 네트워크 트래픽과 서버 부하 유발.
+- **WebSocket**: 단일 TCP 연결 위에서 클라이언트와 서버가 전이중(Full-Duplex)으로 양방향 통신을 수행하는 프로토콜(`ws://`, `wss://`).
+- **SSE (Server-Sent Events)**: 표준 HTTP 연결을 통해 서버가 클라이언트에게 단방향으로 텍스트 이벤트를 실시간 푸시하는 HTML5 기술(`text/event-stream`).
 
 </details>
 
-- 정의/개념: 양방향 **WebSocket** 및 Server 단방향 **SSE** 실시간 통신
-- 배경/필요성: 반복 Polling은 **빈 요청 Traffic•갱신 지연** 발생
+- 정의/개념: 단일 지속 연결 위에서 **양방향 전이중 통신을 제공하는 WebSocket과 서버 단방향 푸시 스트리밍을 제공하는 SSE 실시간 통신 기술**
+- 배경/필요성: 주기적 HTTP 폴링(Polling) 방식에서 발생하는 **빈 요청 트래픽 낭비, 서버 연결 오버헤드 및 실시간 갱신 지연 해결 불가**
 
 #### 한줄 요약
-
-- 웹소켓은 서로 말하는 전화이고 SSE는 서버가 번호를 붙여 계속 보내는 방송이라 통신 방향부터 다르다.
+- 양방향 상호작용은 WebSocket, 서버 단방향 푸시는 SSE를 적용하여 실시간 웹 서비스를 구현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Handshake (핸드셰이크)**: WebSocket 연결 수립 시 클라이언트가 HTTP로 먼저 요청(`Upgrade: websocket`)을 보내고 서버가 수락(101 Switching Protocols)하여 프로토콜을 전환하는 초기화 과정.
+- **101 Switching Protocols**: WebSocket 연결 수립을 위해 HTTP 요청 헤더(`Upgrade: websocket`)를 전송하고 프로토콜을 전환하는 핸드셰이크 응답.
+- **text/event-stream**: SSE에서 서버가 연결을 끊지 않고 지속적으로 이벤트를 밀어넣기 위해 사용하는 표준 MIME 타입.
 
 </details>
 
-- **WebSocket**: Full-Duplex(전이중 양방향), Binary/Text 데이터 포맷 지원, 독자적 프로토콜(`ws://`, `wss://`)
-- **SSE**: Simplex(서버 $\rightarrow$ 클라이언트 단방향), Text(UTF-8) 전용 포맷 지원, HTTP 프로토콜(`http://`, `https://`) 유지
-- **Connection Keeping (연결 유지)**: 두 기술 모두 한 번 연결된 TCP 세션을 종료하지 않고 계속 열어두어(Keep-Alive) 패킷 오버헤드 최소화
+- 단일 TCP 커넥션 상에서 패킷 오버헤드 없이 양방향 통신을 지원하는 **WebSocket 전이중 통신**
+- 표준 HTTP/HTTPS 포트(80/443)를 그대로 재사용하여 방화벽 친화적인 **SSE 단방향 푸시**
+- 브라우저 기본 내장 자동 재접속(Auto-reconnect) 및 **`Last-Event-ID` 기반 누락 복구(SSE)**
 
 #### 한줄 요약
-
-- 연결을 오래 유지하면 새 요청을 반복하지 않아도 되지만 끊긴 위치와 느린 수신자의 버퍼를 별도로 관리해야 한다.
+- 전이중 양방향 통신(WebSocket)과 HTTP 기반 단방향 스트리밍(SSE)이 각각의 영역을 담당한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Event Stream (이벤트 스트림)**: SSE에서 서버가 내려보내는 데이터 포맷으로, `event: (이름)\n data: (값)\n\n` 형태의 MIME 타입 `text/event-stream` 규칙을 따르는 메시지 구조.
+- **실시간 통신 4대 인프라 요소**: Connection Gateway(연결 관리), Protocol Handler(프레임/이벤트 처리), Message Broker(Redis Pub/Sub), Replay Store(누락 복구).
 
 </details>
 
 ```text
-[Real-time Delivery]
- ├── [Connection Gateway]
- ├── [Protocol Handler]
- ├── [Message Broker]
- └── [Replay Store]
+[WebSocket 및 SSE 실시간 스트리밍 아키텍처]
+|-- 1. Client Layer (Browser / Mobile App)
+|   |-- WebSocket: `ws.send()` <-> `ws.onmessage()` (양방향 프레임 통신)
+|   `-- SSE: `new EventSource('/stream')` (단방향 이벤트 수신)
+`-- 2. Real-time Gateway & Protocol Handler Layer
+    |-- WebSocket Handler (HTTP Upgrade 101 전환 및 양방향 TCP 소켓 관리)
+    `-- SSE Handler (MIME: `text/event-stream` 청크 응답 유지)
+`-- 3. Message Broker & Fan-out Layer (Redis Pub/Sub / Apache Kafka)
+`-- 4. Replay Store Layer (Event ID별 누락 메시지 임시 버퍼링)
 ```
 
-| 구성요소 | 책임 |
-|---|---|
-| Connection Gateway | Handshake•인증과 **장기 연결 수명주기** 관리 |
-| Protocol Handler | WebSocket Frame 또는 **SSE Event** 처리 |
-| Message Broker | Server 간 **실시간 Event Fan-out** 제공 |
-| Replay Store | Event ID별 **누락 Message 재생** 지원 |
+선의 의미: 계층 및 클라이언트의 연결을 게이트웨이가 수립하고 백엔드 Redis Pub/Sub을 통해 다중 인스턴스 간 실시간 이벤트를 전파하는 구조
+
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **연결 게이트웨이 (Gateway)**| 클라이언트와의 **핸드셰이크, 인증, Keep-Alive 하트비트 및 커넥션 수명주기 관리** | 장기 연결 유지 |
+| **프로토콜 핸들러 (Handler)**| WebSocket 이진/텍스트 프레임 파싱 및 **SSE `text/event-stream` 청크 인코딩** | 프로토콜 처리 |
+| **메시지 브로커 (Broker)** | 서버 인스턴스 간 **실시간 메시지 브로드캐스트(Fan-out) 및 수평 확장 지원** | Redis Pub/Sub |
+| **재생 저장소 (Replay Store)**| 연결 단절 시 재접속 클라이언트에게 **`Last-Event-ID` 기반 누락 이벤트 재생** | 무손실 복구 |
 
 #### 한줄 요약
-
-- 실시간 게이트웨이가 연결을 받고 핸들러가 통신 방식을 처리하며 브로커는 다른 서버의 사건을 전달하고 재생 저장소는 끊긴 동안의 방송을 보관한다.
+- 연결 게이트웨이, 프로토콜 핸들러, 메시지 브로커, 재생 저장소가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Last-Event-ID (마지막 이벤트 식별자)**: SSE 연결이 끊겼다가 자동 재접속할 때, 브라우저가 HTTP 헤더에 담아 보내는 마지막 수신 메시지 번호로 유실된 데이터의 재전송을 요청하는 메커니즘.
+- **SSE 단방향 연결 및 재접속 5단계**: Stream 연결 $\to$ Event ID 포함 전송 $\to$ 네트워크 단절 $\to$ Last-Event-ID 재접속 $\to$ 누락 재생 및 라이브 전환.
 
 </details>
 
 ```text
-[SSE 연결 요청]
-      │
-      ▼
-1. Event Stream 설정
-      │
-      ▼
-2. ID 포함 Event 전송
-      │
-   [연결 단절]
-      │
-      ▼
-3. Last-Event-ID로 재접속
-      │
-      ▼
-4. 누락 Event 재생
-      │
-      ▼
-5. Live Stream 전환
-      │
-      ▼
-[SSE 전달 지속]
+클라이언트의 실시간 피드 구독 요청
+        │
+   1. [Event Stream 수립] 클라이언트가 `GET /events` 요청 후 서버가 `text/event-stream` 응답 유지
+        │
+   2. [이벤트 푸시] 서버가 단조 증가 `id: 101`을 포함한 JSON 이벤트를 지속 전송
+        │
+   3. [네트워크 단절] 모바일 음영지역 진입으로 TCP 연결 일시 단절 발생
+        │
+   4. [자동 재접속] 브라우저 EventSource가 헤더에 `Last-Event-ID: 101`을 담아 자동 재연결
+        │
+   5. 서버가 재생 저장소에서 `id: 102~105` 누락분을 즉시 회신하고 라이브 스트림으로 복귀
 ```
 
-### 동작 원리
-
-1. Event Stream 설정: HTTP 응답을 지속 Stream으로 유지
-2. ID 포함 Event 전송: 재생 가능한 단조 Event ID 부여
-3. Last-Event-ID로 재접속: 마지막 수신 위치 전달
-4. 누락 Event 재생: 저장된 다음 ID부터 순서대로 전송
-5. Live Stream 전환: Backlog 소진 후 신규 Event 전달
-
 #### 한줄 요약
-
-- 클라이언트가 마지막 방송 번호를 보내면 서버는 누락분을 먼저 재생하고 이후 새 사건을 같은 연결로 이어 보낸다.
+- Stream 수립 → 이벤트 푸시 → 단절 발생 → Last-Event-ID 재접속 → 누락 재생 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Socket.io (소켓 아이오)**: 순수 WebSocket API의 복잡한 재접속, 폴링 폴백(Fallback), 네임스페이스 등을 추상화하여 제공하는 강력한 Node.js 기반 실시간 통신 라이브러리.
+- **WebSocket vs SSE**: 통신 방향, 프로토콜, 데이터 포맷, 방화벽 통과, 자동 재접속 비교.
 
 </details>
 
-| 시나리오 | WebSocket 우선 | SSE 우선 |
+| 비교 항목 | 웹 소켓 (WebSocket) | Server-Sent Events (SSE) |
 |:---|:---|:---|
-| 채팅 / 다중 멀티플레이 게임 | **O (클라이언트의 잦은 데이터 송신 필수)** | X (단방향 푸시만 가능) |
-| 주식 호가창 / 실시간 피드 | $\triangle$ (오버스펙 및 프록시 설정 복잡) | **O (단방향 텍스트 전송 최적화)** |
-| 바이너리 파일(이미지) 스트리밍 | **O (이진 데이터 프레임 완벽 지원)** | X (텍스트 전용) |
-| 푸시 알림  | $\triangle$ | **O (자동 재접속 기능 강력)** |
+| 통신 방향성 | **전이중 양방향 (Full-Duplex: Bidirectional)** | **서버 $\rightarrow$ 클라이언트 단방향 (Simplex: Push)**|
+| 프로토콜 및 포트 | **독자 프로토콜 (`ws://`, `wss://`)** | **표준 HTTP/HTTPS 프로토콜 (`http://`, `https://`)**|
+| 지원 데이터 포맷 | **텍스트(UTF-8) 및 바이너리(Binary) 데이터** | **텍스트(UTF-8) 전용 포맷 (`text/event-stream`)**|
+| 자동 재접속 지원 | 직접 수동 구현 (라이브러리 필요) | **브라우저 네이티브 기본 내장 (자동 재연결)** |
+| 프록시/방화벽 호환성| L7 로드밸런서의 별도 WebSocket 설정 필요 | **일반 HTTP 패킷으로 기존 인프라/방화벽 100% 호환** |
+| 최적 적용 사례 | **실시간 채팅, 다중 멀티플레이 게임, 화상 협업** | **주식 실시간 시세 호가창, 알림 피드, AI 응답 스트리밍**|
 
 #### 한줄 요약
-
-- 공동 편집처럼 양쪽이 자주 보내면 웹소켓을, 진행률 알림처럼 서버가 보내기만 하면 SSE를 우선 선택한다.
+- 양방향 상호작용과 바이너리는 WebSocket, 서버 단방향 텍스트 푸시와 AI 스트리밍은 SSE를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Heartbeat / Ping-Pong (하트비트)**: L4/L7 로드밸런서 장비들이 오랫동안 데이터가 없는 유휴(Idle) TCP 커넥션을 강제로 끊는 것을 방지하기 위해 클라이언트와 서버가 주고받는 생존 확인 신호.
+- **Idle Timeout**: L4/L7 로드밸런서가 일정 시간 트래픽이 없는 유휴 커넥션을 강제로 종료하는 현상.
 
 </details>
 
-| 3대 실무 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. 유휴 연결 강제 종료 | LB/Proxy 장비의 Idle Timeout 설정 | **서버/클라이언트 간 주기적인 Ping-Pong (하트비트) 발송** |
-| 2. 다중 서버 상태 공유 | 로드밸런싱으로 인해 접속 서버가 다름 | **Redis Pub/Sub 또는 Kafka를 활용한 백엔드 메시지 버스 구축**|
-| 3. 재배포 시 트래픽 폭주 | 배포 시 전체 연결이 끊기며 동시 접속 시도| **Connection Draining(점진 종료) 및 재접속 시 Jitter(지연 난수) 적용**|
+| 로드밸런서 Idle Timeout으로 인한 주기적 연결 끊김 | **클라이언트-서버 간 주기적 Ping-Pong 하트비트 프레임 전송** | 유휴 연결 강제 종료 원천 차단 |
+| 다중 서버 스케일아웃 시 특정 서버 접속자에게 메시지 미전달 | **Redis Pub/Sub 또는 Kafka를 활용한 백엔드 메시지 브로드캐스트** | 전 서버 접속자에게 실시간 전파 |
+| 서버 재배포 시 수만 개 클라이언트 동시 재접속 폭풍(Thundering Herd)| **Connection Draining(점진 종료) 및 재접속 시 Jitter(난수 지연) 부여** | 서버 과부하 및 다운타임 방지 |
+| HTTP/1.1 브라우저당 최대 동시 연결 수(6개) 제한에 따른 SSE 블로킹 | **HTTP/2 프로토콜을 적용하여 단일 TCP 커넥션 내 다중화(Multiplexing)**| 브라우저 연결 한계 극복 |
 
-> 사례: **Slack 채팅 시스템의 WebSocket 기반 양방향 버스 아키텍처 및 토스증권의 호가창 SSE 기반 단방향 푸시 적용** #### 한줄 요약
-
-- 서버 배포 전에 기존 연결을 천천히 비우고 재접속 시간을 분산해야 수천 개 클라이언트가 동시에 새 서버를 압박하지 않는다.
+#### 한줄 요약
+- Ping-Pong 하트비트, Redis Pub/Sub, Jitter 분산 재접속, HTTP/2 다중화로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **Backpressure (역압)**: 통신 과정에서 데이터를 수신하는 측이 처리할 수 있는 양보다 데이터를 보내는 측의 전송 속도가 너무 빠를 때, 서버/클라이언트 메모리 고갈(OOM)을 막기 위해 흐름을 제어하는 기법.
-
-</details>
-
-- 양방향•Binary는 **WebSocket**, Server Text Push는 SSE 선택
+- 실시간 웹 애플리케이션 아키텍처 설계 시 **실시간 채팅과 게임 등 전이중 양방향 통신은 WebSocket을 채택하고, 주식 시세·알림·LLM 토큰 스트리밍 등 단방향 푸시는 HTTP/2 기반 SSE를 표준 도입**하여 네트워크 효율성과 사용자 경험 극대화
 
 #### 한줄 요약
-
-- 양방향·이진 교환은 웹소켓으로, 서버 텍스트 알림은 SSE로 구성하고 둘 다 ID·하트비트·역압 정책을 마련해야 한다.
+- WebSocket과 SSE는 양방향 전이중 통신과 HTTP 표준 기반 단방향 스트리밍이라는 고유의 특성을 바탕으로 실시간 클라우드 네이티브 서비스를 완성하는 핵심 통신 기술이다.

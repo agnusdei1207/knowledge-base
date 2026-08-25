@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 175
-  label: "175. 이벤트 기반 아키텍처 (Event-Driven Architecture)"
+  label: "175. 이벤트 기반 아키텍처"
   badge:
     text: "미출 · 70%"
     variant: note
 title: "이벤트 기반 아키텍처 (Event-Driven Architecture)"
-date: "2026-08-14T03:32:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 175
@@ -22,148 +22,131 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **EDA (Event-Driven Architecture)**: 마이크로서비스 간에 API를 직접 호출(Sync)하지 않고, 특정 상태의 변화를 나타내는 이벤트(사건)를 발행(Publish)하면 관심 있는 서비스가 비동기적으로 구독(Subscribe)하여 처리하는 느슨한 결합 아키텍처.
-- **Event (이벤트/사건)**: 시스템 내에서 의미 있는 상태 변화가 일어났음을 나타내는 불변(Immutable)의 과거 시제 기록 (예: `OrderCreated`, `PaymentCompleted`).
-- **Decoupling (느슨한 결합)**: 이벤트를 발행하는 생산자(Producer)는 누가 이벤트를 소비하는지 알 필요가 없으며, 단지 메시지 브로커에 던지기만 하면 되는 독립적 상태.
+- **EDA(Event-Driven Architecture)**: 상태 변화(Event)를 발행하고 구독하는 비동기 메시지 채널을 통해 서비스 간 결합도를 최소화하는 분산 아키텍처.
+- **Event**: 시스템 내에서 발생한 비즈니스 상태 변화를 나타내는 불변(Immutable)의 과거 시제 팩트(Fact) 메시지.
 
 </details>
 
-- 정의/개념: 상태 변화 Event를 발행•구독하는 **EDA**
-- 배경/필요성: 동기 연쇄 호출은 **시간 결합•장애 전파•지연 누적** 발생
+- 정의/개념: 상태 변화(Event)를 불변 메시지로 발행하고 **다수의 구독 서비스가 이를 비동기 수신하여 독립 처리하는 느슨한 결합 기반의 분산 아키텍처**
+- 배경/필요성: 동기식(HTTP) 연쇄 호출 구조에서 발생하는 **시간적 강결합, 단일 서비스 장애의 전사 전파(Cascading Failure) 및 응답 지연 누적 해결 불가**
 
 #### 한줄 요약
-
-- 주문 서비스가 수신자 주소를 모르고 주문 생성 사건을 게시하면 결제·재고·알림 서비스가 각자 속도로 읽어 처리한다.
+- 비동기 이벤트 발행·구독을 통해 서비스 간 결합도를 제거하고 최종 일관성과 확장성을 달성한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Asynchronous (비동기성)**: 이벤트를 발행한 후, 소비자가 처리를 완료할 때까지 기다리지 않고 즉각 자신의 다음 작업을 수행하는(Fire and Forget) 통신 특성.
+- **Eventual Consistency**: 실시간 동기 일치 대신 메시지 브로커를 거쳐 시차를 두고 데이터가 일치되는 최종 일관성 모델.
+- **Fire-and-Forget**: 생산자가 이벤트를 브로커에 발행한 후 소비자의 처리 완료를 기다리지 않고 즉시 제어권을 반환하는 비동기 패턴.
 
 </details>
 
-- **Loose Coupling (생산자와 소비자 간의 시간적, 공간적, 수량적 완벽한 분리)**
-- **Eventual Consistency (실시간이 아닌 일정 시간 후 시스템 간 데이터가 일치되는 최종 일관성 지향)**
-- **Scalability & Resiliency (구독자별 독립적인 확장성 및 특정 서버 장애 시에도 이벤트 유실 없는 탄력성)** #### 한줄 요약
+- 생산자와 소비자가 서로의 존재를 알 필요가 없는 **시간적·공간적 느슨한 결합(Decoupling)**
+- 실시간 2PC 트랜잭션 락 없이 비동기 정합성을 달성하는 **최종 일관성(Eventual Consistency)**
+- 브로커 버퍼링을 통해 트래픽 스파이크를 흡수하는 **높은 탄력성 및 수평 확장성**
 
-- 생산자와 소비자가 동시에 켜져 있지 않아도 브로커가 사건을 보관하지만 지연·중복·순서를 각 소비자가 명시적으로 다뤄야 한다.
+#### 한줄 요약
+- 느슨한 결합, 최종 일관성, 높은 복원력을 통해 대규모 분산 트래픽을 유연하게 처리한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Message Broker (메시지 브로커)**: 발행된 이벤트를 안전하게 저장하고 구독자에게 라우팅해 주는 중앙 허브 인프라 (Apache Kafka, RabbitMQ, AWS SNS/SQS).
+- **EDA 4대 아키텍처 구성요소**: Event Producer(발행자), Transactional Outbox(원자 저장), Message Broker(Kafka 채널), Event Consumer(멱등 소비자).
 
 </details>
 
 ```text
-[Event Channel]
- ├── [Event Producer]
- ├── [Event Consumer]
- └── [Schema Registry]
+[이벤트 기반 아키텍처(EDA) 및 Transactional Outbox 구조]
+|-- 1. Event Producer Service (주문 서비스)
+|   |-- Business Database (RDBMS: `Orders` 테이블 데이터 저장)
+|   `-- Transactional Outbox (`Outbox` 테이블에 이벤트를 동일 트랜잭션으로 원자적 커밋)
+`-- 2. CDC & Event Ingestion Layer (Debezium Engine -> DB WAL 로그 추출)
+`-- 3. Event Channel / Message Broker (Apache Kafka 클러스터)
+|   |-- Topics & Partitioning (주문 파티션 로그 영속 보관 및 재생 지원)
+|   `-- Schema Registry (Avro / JSON Schema 계약 검증)
+`-- 4. Event Consumer Services (구독 서비스)
+    |-- Payment Service (이벤트 수신 -> 결제 처리 -> 멱등성 테이블 기록)
+    `-- Inventory Service (이벤트 수신 -> 재고 차감 -> 오프셋 커밋)
 ```
 
-| 구성요소 | 책임 |
-|---|---|
-| Event Producer | 상태 변화를 **불변 Event** 기반 발행 |
-| Event Channel | Event **저장•순서•전달•재생** 제공 |
-| Event Consumer | 구독 Event를 **멱등 처리**하고 결과 저장 |
-| Schema Registry | 생산자•소비자 간 **계약 호환성** 검증 |
+선의 의미: 계층 및 비즈니스 데이터와 이벤트를 Outbox에 원자 저장하고 CDC를 통해 Kafka로 발행하여 구독자가 멱등 처리하는 구조
+
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **이벤트 생산자 (Producer)** | 상태 변화를 **불변 이벤트로 모델링하고 Transactional Outbox에 안전 저장** | 발행 주체 |
+| **메시지 브로커 (Broker)** | 이벤트를 파티션 디스크에 영속 저장하고 **구독자에게 순서 보장 및 재생(Replay) 제공**| Kafka, RabbitMQ |
+| **이벤트 소비자 (Consumer)** | 이벤트를 구독하여 비즈니스 로직을 수행하고 **고유 Event ID 기반 멱등 처리** | 비동기 처리기 |
+| **스키마 레지스트리** | 생산자와 소비자 간의 **이벤트 스키마 변경 및 상하위 호환성(Avro/JSON) 검증** | 데이터 계약 거버넌스 |
 
 #### 한줄 요약
-
-- 아웃박스가 발송 대장을 업무와 함께 적고 브로커가 배달하며 소비자는 수령 번호를 저장해 같은 소포가 다시 와도 한 번만 반영한다.
+- 생산자, 메시지 브로커, 멱등 소비자, 스키마 레지스트리가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Transactional Outbox Pattern**: 데이터베이스에 비즈니스 데이터를 저장하는 트랜잭션과 동일한 트랜잭션으로 'Outbox' 테이블에 이벤트를 저장하여, 서버가 죽어도 이벤트 발행 누락을 방지하는 필수 패턴.
+- **Transactional Outbox 발행 및 소비 5단계**: 비즈니스/Outbox 원자 커밋 $\to$ CDC 변경분 감지 $\to$ Kafka 발행 $\to$ Consumer 멱등 처리 $\to$ 결과 저장 및 오프셋 커밋.
 
 </details>
 
 ```text
-[업무 변경 요청]
-      │
-      ▼
-1. 업무•Outbox 원자 저장
-      │
-      ▼
-2. CDC로 Outbox 변경 감지
-      │
-      ▼
-3. Event Channel 발행
-      │
-      ▼
-4. Consumer 멱등 처리
-      │
-      ▼
-5. 처리 결과•Offset 저장
-      │
-      ▼
-[비동기 상태 반영]
+주문 생성 비즈니스 요청 발생
+        │
+   1. [원자적 커밋] 비즈니스 데이터(`Orders`)와 이벤트(`Outbox`)를 단일 로컬 트랜잭션으로 DB 커밋
+        │
+   2. [CDC 로그 감지] Debezium이 DB 트랜잭션 로그(WAL/Binlog)를 읽어 Outbox 변경분 실시간 추출
+        │
+   3. [브로커 발행] 추출된 `OrderCreated` 이벤트를 Kafka 토픽 파티션으로 안정적 발행
+        │
+   4. [Consumer 멱등 처리] 결제 서비스가 이벤트를 읽고 고유 `event_id` 중복 여부를 DB에서 검증 후 처리
+        │
+   5. 비즈니스 상태를 갱신하고 Kafka 오프셋을 커밋하여 비동기 상태 반영 완료
 ```
 
-### 동작 원리
-
-1. 업무•Outbox 원자 저장: Domain 변경과 발행 기록 Commit
-2. CDC로 Outbox 변경 감지: Transaction Log에서 Event 추출
-3. Event Channel 발행: Key•Schema•Header와 함께 전달
-4. Consumer 멱등 처리: Event ID로 중복 Side Effect 차단
-5. 처리 결과•Offset 저장: 결과와 소비 위치를 일관되게 기록
-
 #### 한줄 요약
-
-- 주문과 발행 기록을 함께 저장하고 소비자가 처리 번호와 결과를 함께 커밋하면 전송이 반복돼도 결제는 한 번만 남는다.
+- 원자 커밋 → CDC 감지 → 브로커 발행 → 멱등 처리 → 오프셋 커밋 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Event-Carried State Transfer (상태 전송 이벤트)**: 이벤트 데이터 안에 소비자가 필요로 하는 모든 상태 정보(주문액, 유저명)를 꽉 채워서 보내, 소비자가 생산자에게 다시 REST API를 질의할 필요가 없게 만드는 설계 기법.
+- **Event Notification vs Event-Carried State Transfer**: 단순 사건 알림(Notification)과 전체 상태 데이터를 포함하는 전송(State Transfer).
 
 </details>
 
-| 구분 | Event Notification (이벤트 알림) | Event-Carried State Transfer (상태 전송) |
+| 비교 항목 | 이벤트 알림 (Event Notification) | 상태 전송 (Event-Carried State Transfer) |
 |:---|:---|:---|
-| 페이로드 크기 | 매우 작음 (식별자 ID만 포함) | **상대적으로 큼 (관련 데이터 모두 포함)**|
-| 이벤트 예시 | `{"order_id": 123, "status": "created"}` | **`{"order_id": 123, "amount": 5000, "user": "A"}`** |
-| 추가 API 호출 | **소비자가 생산자 API를 다시 호출하여 상세 조회**| **이벤트만으로 로직 수행 가능 (독립적)** |
-| 결합도 | 상세 조회 시 Runtime 결합 잔존 | **Schema•Data 결합** 증가 |
+| 페이로드 데이터 | **최소 식별자만 포함 (`{ "orderId": 100 }`)**| **전체 상세 데이터 포함 (`{ "orderId": 100, "amount": 50000, "user": "Kim" }`)**|
+| 추가 API 질의 | **소비자가 상세 조회를 위해 생산자 REST 호출**| **추가 API 호출 0회 (이벤트 데이터만으로 완결)** |
+| 런타임 결합도 | 생산자 서버 가용성에 런타임 종속 잔존 | **완벽한 독립성 (생산자가 다운되어도 처리 가능)** |
+| 네트워크 대역폭 | 작음 (경량 메시지) | 상대적 큼 (대용량 메시지) |
 
 #### 한줄 요약
-
-- 알림은 사건만 알려 주고 상태 전송은 처리할 값까지 담으며 이벤트 소싱은 처음부터 모든 변경을 다시 재생할 수 있게 남긴다.
+- 단순 신호 전달은 이벤트 알림, 생산자 의존성을 완전히 제거하려면 상태 전송(ECST)을 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Idempotency (멱등성)**: 네트워크 재시도나 브로커 오류로 인해 "동일한 이벤트가 2번 이상 수신"되더라도, 결제 중복 차감과 같은 사이드 이펙트 없이 1번만 처리한 것과 같은 상태를 유지하는 설계.
+- **Dual-Write Problem**: DB 저장 성공 후 네트워크 오류로 Kafka 발행에 실패하여 DB와 메시지 브로커 간 정합성이 깨지는 난제.
 
 </details>
 
-| 3대 EDA 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Dual-Write Problem | DB 저장 성공 후, Kafka 전송 직전 서버 다운| **Transactional Outbox 패턴 및 CDC 도입**|
-| 2. Event Duplication | 브로커의 재전송(At-Least-Once)으로 2번 처리 | **소비자 측 DB에 고유 `event_id` 처리 여부(멱등성) 체크 로직 필수** |
-| 3. Poison Message | 버그가 있는 메시지가 파티션 맨 앞을 막고 무한 재시도| **일정 횟수 실패 시 DLQ(Dead Letter Queue)로 격리 조치** |
+| DB 저장과 Kafka 발행 간 불일치 (Dual-Write) | **Transactional Outbox 패턴 및 Debezium CDC 파이프라인 구축** | 이벤트 발행 누락 0건 보장 |
+| 네트워크 재시도로 인한 이벤트 중복 수신 | **소비자 측 DB에 고유 `event_id` Unique 인덱스 및 멱등 처리 로직 구현**| 중복 결제 및 부작용 원천 차단 |
+| 결함 메시지가 파티션을 가로막고 무한 재시도 (Poison Pill)| **재시도 3회 초과 시 DLQ(Dead Letter Queue)로 격리 후 후속 메시지 처리** | 파이프라인 정체 방지 |
+| 이벤트 스키마 임의 변경으로 소비자 역직렬화 에러 | **Schema Registry 도입 및 `BACKWARD` 호환성 정책 강제** | 무중단 스키마 진화 보장 |
 
-> 사례: **토스 / 배달의민족 MSA 전환 시 Kafka 비동기 이벤트 통신 및 Spring Outbox Pattern 적용 사례** #### 한줄 요약
-
-- 실패 메시지를 끝없이 같은 파티션에서 재시도하지 말고 DLQ로 격리해 정상 주문을 계속 처리한 뒤 원인을 고쳐 재전송해야 한다.
+#### 한줄 요약
+- Outbox 패턴, 멱등성 보장, DLQ 격리, 스키마 레지스트리로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **EDA 수립 기준**: 비동기 느슨한 결합(Decoupling), Transactional Outbox를 통한 원자성 보장, 멱등성(Idempotency) 기반 소비자 설계 및 DLQ 격리에 의거한 체계.
-
-</details>
-
-- 즉시 일관성은 **동기 호출**, 지연 허용 흐름은 Outbox 기반 EDA
+- 대규모 분산 마이크로서비스 환경에서 시스템 간 결합도를 제거하고 고가용성을 달성하기 위해 **Transactional Outbox와 Debezium CDC 기반의 Apache Kafka 이벤트 기반 아키텍처를 표준 도입**하고, **Consumer 멱등성 보장과 DLQ 격리 정책**을 결합하여 완벽한 비동기 분산 플랫폼 완성
 
 #### 한줄 요약
-
-- 즉시 일관성이 필요한 업무는 동기 경계를 유지하고 최종 일관성을 허용하는 흐름은 아웃박스·멱등성·스키마·DLQ를 갖춘 이벤트 방식으로 분리해야 한다.
+- 이벤트 기반 아키텍처는 불변 이벤트의 비동기 발행·구독과 최종 일관성을 통해 마이크로서비스 간의 시간적·공간적 결합을 완벽히 해소하는 핵심 분산 아키텍처다.
