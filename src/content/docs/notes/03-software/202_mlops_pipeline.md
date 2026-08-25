@@ -1,13 +1,14 @@
----
+﻿---
 sidebar:
   order: 202
-  label: "202. MLOps 파이프라인 (MLOps Pipeline)"
+  label: "202. MLOps 파이프라인"
   badge:
     text: "기출 · 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-08-18T04:40:00+09:00"
-tags: ["notes-software"]
+date: "2026-08-25T11:00:00+09:00"
+tags:
+  - "notes-software"
 weight: 202
 extra:
   question_no: "202"
@@ -21,152 +22,113 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **MLOps 파이프라인 (MLOps Pipeline)**: 머신러닝 모델의 데이터 수집, 피처 엔지니어링, 모델 학습, 오프라인 검증, 패키징, 서빙 배포, 실시간 드리프트 감시, 지속적 재학습(CT: Continuous Training)에 이르는 모델 수명주기(ML Lifecycle) 전 과정을 자동화하고 버전 관리하는 운영 엔지니어링 체계.
-- **실험 재현 불가 및 훈련-서빙 불일치(Reproducibility Deficit & Skew)**: 데이터 과학자의 주피터 노트북 기반 수동 학습으로 인해 코드·데이터 버전이 유실되고, 학습 피처와 온라인 추론 피처 간 로직 차이로 운영 성능이 급락하는 위험.
+- **MLOps 파이프라인**: 데이터 수집, 피처 가공, 모델 학습, 검증, 서빙, 드리프트 감시, 지속적 재학습(CT)까지 ML 수명주기를 자동화하는 엔지니어링 체계.
+- **Continuous Training(지속적 학습)**: 모델 성능 저하 또는 데이터 드리프트 감지 시 파이프라인이 자동 트리거되어 최신 데이터로 재학습하는 루프.
 
 </details>
 
-- 정의/개념: 데이터 수집부터 피처 엔지니어링, 모델 학습, 배포, 모니터링, 재학습(CT)까지 **ML 전 주기를 자동화하는 머신러닝 운영 파이프라인** 체계
-- 배경/필요성: 데이터 과학자의 수동 실험과 일회성 배포로 인한 **재현 불가, 훈련-서빙 불일치(Skew) 및 데이터 드리프트 방치 위험** 직면
+- 정의/개념: 데이터 수집부터 피처 가공, 모델 학습, 배포, 모니터링, 재학습(CT)까지 **ML 전 주기를 자동화하고 버전 관리하는 운영 엔지니어링 체계**
+- 배경/필요성: 주피터 노트북 기반 수동 실험과 배포로 인한 **실험 재현 불가, 훈련-서빙 스큐(Skew) 및 데이터 드리프트 방치 해결 불가**
 
 #### 한줄 요약
-
-- 코드(Git), 데이터(DVC), 모델(Registry)의 계보(Lineage) 관리와 CI/CD/CT 자동화를 통해 고품질 AI 모델의 지속적 배포를 실현
+- 코드, 데이터, 모델의 Lineage 관리와 CI/CD/CT 자동화를 통해 고품질 AI 모델의 지속적 배포를 실현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **지속적 학습(CT: Continuous Training)**: 데이터 드리프트(Data Drift)나 개념 드리프트(Concept Drift) 발생 시 사람의 개입 없이 검증된 파이프라인이 자동 트리거되어 최신 데이터로 모델을 재학습하는 MLOps 핵심 특성.
-- **계보 추적(Lineage Tracking)**: 배포된 특정 모델이 어떤 원천 데이터셋, 피처 버전, 하이퍼파라미터, 학습 코드로 생성되었는지 1:1로 암호학적 추적성을 제공.
+- **Training-Serving Skew**: 학습 시 사용한 피처 계산 로직과 운영 추론 시 피처 로직이 미세하게 달라 모델 성능이 급락하는 현상.
+- **Data & Model Lineage**: 배포된 모델이 어떤 원천 데이터셋, 피처 버전, 하이퍼파라미터, 학습 코드로 생성되었는지 1:1 역추적하는 계보.
 
 </details>
 
 - 코드뿐만 아니라 데이터와 모델 아티팩트까지 동결 관리하는 **다차원 버전 관리(Code + Data + Model)**
-- Offline Store와 Online Store의 계산 로직을 일치시키는 **Feature Store 기반 훈련-서빙 스큐 방지**
-- 데이터 드리프트 탐지 시 자동으로 파이프라인을 기동하는 **이벤트 기반 지속적 재학습(CT)** #### 한줄 요약
+- Offline Store와 Online Store의 로직을 단일화하는 **Feature Store 기반 스큐(Skew) 방어**
+- 운영 데이터의 드리프트를 실시간 감지하여 자동 재학습하는 **지속적 학습(Continuous Training)**
 
-- 피처 저장소, 모델 레지스트리, 카나리 서빙, 드리프트 감시를 결합하여 모델 성능 저하를 방어
+#### 한줄 요약
+- 다차원 버전 관리, Feature Store 스큐 방어, 지속적 학습(CT)을 통해 프로덕션 AI 안정성을 확보한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **MLOps 5대 핵심 파이프라인 계층**: Feature Store(피처 일관성), Training Pipeline(Kubeflow), Model Registry(MLflow), Model Serving(Triton/KServe), Quality Monitoring(Evidently).
+- **MLOps 파이프라인 4대 핵심 계층**: Feature Store(피처 단일화), Training Pipeline(자동 학습), Model Registry(계보 관리), Serving & Monitoring(카나리 서빙 및 드리프트 관측).
 
 </details>
 
 ```text
-[ MLOps 전 수명주기(End-to-End) 파이프라인 아키텍처 구조도 ]
-
- 1. [ 피처 관리 계층 (Feature Store: Feast) ] ────────────────────┐
-    • Offline Store (Parquet: 배치 학습용) / Online Store (Redis: 실시간 추론)
-    └────────────────────────────┬────────────────────────────────┘
-                                 │ (데이터 품질 검증 게이트 통과)
-                                 ▼
- 2. [ 자동 학습 파이프라인 (Training Pipeline: Kubeflow / Airflow) ]
-    • 데이터 전처리 ➔ 분산 모델 학습 ➔ 오프라인 평가 (AUC / F1)  │
-    └────────────────────────────┬────────────────────────────────┘
-                                 │ (검증 통과 시 아티승격)
-                                 ▼
- 3. [ 모델 레지스트리 (Model Registry: MLflow) ] ────────────────┐
-    • Model Artifact, Hyperparameters, Dataset Hash, 계보 보관   │
-    └────────────────────────────┬────────────────────────────────┘
-                                 │ (Canary / Shadow 점진 배포)
-                                 ▼
- 4. [ 서빙 및 관측 계층 (Model Serving & Quality Monitoring) ] ───┐
-    • KServe 추론 서빙 ➔ Evidently/Arize 데이터/개념 드리프트 감시│
-    └────────────────────────────┬────────────────────────────────┘
-                                 │
-                                 ▼ (Drift 감지 시 재학습 자동 트리거)
-                    [ Continuous Training (CT) 피드백 루프 ]
+[MLOps 전 수명주기 파이프라인 및 CI/CD/CT 구조]
+|-- 1. Data & Feature Store Layer (Feast / Hopsworks: 오프라인 배치 + 온라인 저지연 피처)
+`-- 2. Automated Training Pipeline Layer (Kubeflow Pipelines / Airflow DAG)
+    |-- Data Validation (Great Expectations: 스키마 및 이상치 검증)
+    `-- Distributed Training & Hyperparameter Tuning (Ray / PyTorch Lightning)
+`-- 3. Model Registry & Lineage Layer (MLflow / Weights & Biases)
+    `-- Model Artifacts + Dataset Hash + Git Commit + Hyperparameters 불변 보관
+`-- 4. Serving & Quality Monitoring Layer (KServe / Triton + Evidently Drift Monitor)
+    `-- Canary Deployment -> Drift 감지 시 -> [Continuous Training (CT) 피드백 루프]
 ```
 
-선의 의미: Feature Store의 데이터로 학습하여 Model Registry에 등록하고 KServe로 배포한 후, 드리프트 감지 시 재학습으로 피드백되는 선순환 구조.
+선의 의미: 계층 및 Feature Store 데이터로 학습하여 Registry에 등록하고 KServe로 배포한 후 드리프트 감지 시 재학습으로 피드백되는 선순환 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 피처 저장소 (Feature Store) | 학습용 배치 피처와 추론용 실시간 피처의 **정의와 계산 로직을 단일화하여 스큐 방어** |
-| 학습 파이프라인 (Training) | 데이터 검증, 전처리, **분산 GPU 학습, 오프라인 성능 검증을 DAG 코드로 자동 실행** |
-| 모델 레지스트리 (Registry) | 학습된 모델 아티팩트의 **버전, 메타데이터, Lineage 추적 및 승격 상태(Production) 관리** |
-| 모델 서빙 (Serving) | 승인된 모델을 컨테이너화하여 **Canary, A/B Test 방식으로 트래픽 점진 노출 및 롤백** |
-| 품질 모니터링 (Monitoring) | 운영 추론 데이터의 **데이터 드리프트, 개념 드리프트, 비즈니스 KPI 감시 및 CT 트리거** |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **피처 저장소 (Feature Store)**| 학습용 배치 피처와 추론용 실시간 피처의 **정의와 계산 로직을 단일화하여 스큐 방어** | Feast, Redis |
+| **학습 파이프라인 (Training)** | 데이터 검증, 전처리, **분산 GPU 학습, 오프라인 성능 검증을 DAG 코드로 자동 실행** | Kubeflow Pipelines |
+| **모델 레지스트리 (Registry)** | 학습된 모델 아티팩트의 **버전, 메타데이터, Lineage 추적 및 승격 상태(Production) 관리**| MLflow Model Registry |
+| **모델 서빙 및 관측 (Serving)** | 승인된 모델을 컨테이너화하여 **Canary 배포 및 실시간 데이터/개념 드리프트 감시** | KServe, Evidently |
 
 #### 한줄 요약
-
-- 피처 저장소, 학습 파이프라인, 모델 레지스트리, 서빙 엔진, 품질 모니터링이 결합
+- Feature Store, 학습 파이프라인, 모델 레지스트리, 서빙/관측 계층이 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **MLOps 파이프라인 5단계 수명주기**: 데이터 품질 검증 $\to$ 자동 학습 및 평가 $\to$ 모델 레지스트리 등록 $\to$ 카나리 배포 $\to$ 드리프트 감시 및 자동 재학습.
+- **MLOps 5단계**: 데이터 품질 검증 $\to$ Kubeflow 자동 학습 $\to$ MLflow 레지스트리 승격 $\to$ KServe 카나리 배포 $\to$ 드리프트 감지 및 CT 재학습.
 
 </details>
 
 ```text
-[ MLOps 지속적 통합, 배포 및 학습(CI/CD/CT) 파이프라인 ]
-
- ┌────────────────────────────────────────┐
- │ 1. 입력 데이터 품질 및 스키마 검증 게이트
- └───────────────────┬────────────────────┘
-                     │
-                     ▼
- ┌────────────────────────────────────────┐
- │ 2. Kubeflow 자동 분산 학습 및 오프라인 평가
- └───────────────────┬────────────────────┘
-                     │
-                     ▼
- ┌────────────────────────────────────────┐
- │ 3. MLflow 레지스트리 등록 및 Lineage 결속
- └───────────────────┬────────────────────┘
-                     │
-                     ▼
- ┌────────────────────────────────────────┐
- │ 4. K8s KServe 기반 Canary 10% 점진 배포│
- └───────────────────┬────────────────────┘
-                     │
-                     ▼
- ┌────────────────────────────────────────┐
- │ 5. 드리프트 감지 시 CT 자동 트리거 재학습│
- └────────────────────────────────────────┘
+MLOps 지속적 통합 및 배포 파이프라인 가동
+        │
+   1. [데이터 검증] Great Expectations 도구로 학습 데이터 결측치, 이상치, 스키마 검증
+        │
+   2. [자동 분산 학습] Kubeflow Pipelines가 GPU 클러스터에서 분산 학습 및 오프라인 평가(AUC 0.92)
+        │
+   3. [레지스트리 승격] Git 커밋 해시와 DVC 데이터셋 해시를 묶어 MLflow에 Staging 모델 승격
+        │
+   4. [카나리 배포] KServe를 통해 실시간 트래픽의 10%를 신규 모델로 라우팅하며 레이턴시 관측
+        │
+   5. [드리프트 재학습] 운영 데이터 분포 변화(KS-Test $p<0.05$) 감지 시 CT 파이프라인 자동 재학습
 ```
 
-### 동작 원리
-
-1. 데이터 검증: Great Expectations를 통해 학습 데이터의 결측치, 이상치, 스키마 일치 여부를 검증.
-2. 학습 및 평가: 검증을 통과하면 Kubeflow Pipelines가 GPU 클러스터에서 학습을 수행하고 AUC 0.92를 달성.
-3. 레지스트리 승격: 학습 코드 커밋 해시, DVC 데이터 해시와 함께 MLflow Model Registry에 'Staging'으로 승격.
-4. 카나리 배포: Argo Rollouts를 통해 실시간 트래픽의 10%를 신규 모델로 라우팅하며 응답 지연과 에러율을 관측.
-5. 드리프트 재학습: 1개월 후 입력 피처 분포가 변경(KS-Test $p < 0.05$)되면 Evidently가 CT 파이프라인을 자동 트리거.
-
 #### 한줄 요약
-
-- 데이터 검증 $\to$ 자동 학습 $\to$ 레지스트리 등록 $\to$ 카나리 배포 $\to$ 드리프트 재학습의 5단계
+- 데이터 검증 → 자동 학습 → 레지스트리 승격 → 카나리 배포 → 드리프트 재학습 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **MLOps 성숙도 3단계 (Google MLOps Maturity)**: Level 0(수동 실행), Level 1(파이프라인 지속 학습 CT), Level 2(CI/CD/CT 완전 자동화).
+- **Google MLOps 성숙도 3단계**: Level 0(수동 프로세스), Level 1(ML 파이프라인 지속 학습 CT), Level 2(CI/CD/CT 전면 자동화).
 
 </details>
 
-| 구분 | 레벨 0: 수동 프로세스 (Manual) | 레벨 1: ML 파이프라인 자동화 (CT) | 레벨 2: CI/CD/CT 전면 자동화 |
+| 비교 항목 | 레벨 0: 수동 프로세스 (Manual) | 레벨 1: ML 파이프라인 자동화 (CT) | 레벨 2: CI/CD/CT 전면 자동화 |
 |:---|:---|:---|:---|
-| **적용 기준** | 연구 중심의 초기 AI 실험, PoC 검증 단계 | 모델이 정기적으로 갱신되어야 하는 실제 상용 서비스 | 수십 개 모델을 실시간 배포/재학습하는 엔터프라이즈 환경 |
-| **핵심 특징** | **주피터 노트북 수동 실행, 모델 파일 수동 배포** | **파이프라인 코드화, 드리프트 감지 시 자동 재학습(CT)** | **모델 코드 변경 시 CI/CD 자동 빌드 + CT 자동 재학습 통합** |
-| **한계** | 재현성 결여, 훈련-서빙 불일치, 수동 배포 지연 | 파이프라인 코드 자체의 변경 테스트 및 배포는 수동 | 인프라 복잡도 최고 및 대규모 플랫폼 엔지니어링 역량 요구 |
+| 핵심 특징 | **주피터 노트북 수동 실행, 수동 배포** | **파이프라인 코드화, 드리프트 시 자동 재학습** | **코드 변경 CI/CD 빌드 + CT 재학습 전면 통합**|
+| 훈련-서빙 방식 | 데이터 과학자가 수동 아티팩트 전달 | 학습 파이프라인 자동화 및 모델 레지스트리 | 자동화된 모듈 빌드, 테스트, 배포 파이프라인 |
+| 재현성 및 계보 | 재현성 결여, 수동 실험 이력 분실 | **데이터 및 모델 Lineage 추적 가능** | **코드, 데이터, 모델 100% 완전 자동 추적** |
+| 최적 적용 단계 | 연구 중심 초기 AI 실험, PoC 단계 | 정기적 모델 갱신이 필요한 일반 상용 서비스 | 수십 개 모델을 실시간 운영하는 엔터프라이즈 |
 
 #### 한줄 요약
-
-- PoC는 레벨 0, 일반 상용 운영은 레벨 1(CT), 대규모 AI 서비스는 레벨 2(CI/CD/CT)를 지향
+- PoC는 레벨 0, 일반 상용 서비스는 레벨 1(CT), 대규모 엔터프라이즈는 레벨 2(CI/CD/CT)를 지향한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **훈련-서빙 스큐(Training-Serving Skew)**: 학습 시 사용한 파이썬 판다스 전처리 코드와 운영 서빙 시 자바/C++ 전처리 로직이 미세하게 달라 모델 정확도가 급락하는 현상.
+- **Data Drift vs Concept Drift**: 입력 데이터의 통계적 분포가 변하는 현상(Data Drift)과 입력과 정답 라벨 간의 관계 자체가 변하는 현상(Concept Drift).
 
 </details>
 
@@ -174,22 +136,15 @@ extra:
 |:---|:---|:---|
 | 데이터/코드 버전 분실로 이전 모델 재현 불가 사고 | **Git(코드) + DVC(데이터셋 해시) + Docker(환경) 3중 동결 관리** | 실험 및 모델 100% 재현성 보장 |
 | 학습과 실시간 추론 시 피처 계산 로직 차이로 스큐 발생 | **`Feature Store (Feast)` 도입으로 온/오프라인 피처 로직 단일화** | 훈련-서빙 스큐 에러 0건 달성 |
-| 데이터 분포 변화로 인한 모델 성능 저하 방치 | **`Evidently / Arize` 드리프트 감시 연동 및 자동 CT 파이프라인 트리거** | 상시 최고 수준 모델 정확도 유지 |
+| 데이터 분포 변화로 인한 모델 성능 저하 방치 | **`Evidently / Arize` 드리프트 감시 연동 및 자동 CT 파이프라인 트리거**| 상시 최고 수준 모델 정확도 유지 |
+| 불량 모델 배포로 인한 대규모 비즈니스 손실 위험 | **Shadow / Canary 10% 점진 배포 및 자동 롤백 프로브 구축** | 배포 결함 피해 최소화 |
 
 #### 한줄 요약
-
-- 3중 버전 고정, Feature Store 도입, 드리프트 감시 자동화를 통해 MLOps의 신뢰성을 확보
+- 3중 버전 동결, Feature Store 단일화, 드리프트 감시 자동화, 카나리 롤백으로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **생성형 AI 시대의 MLOps 확장 (LLMOps)**: 파운데이션 모델의 등장에 따라 RAG 파이프라인, 파인튜닝, 프롬프트 버전 관리, 환각(Hallucination) 감시로 확장되는 진화 추세.
-
-</details>
-
-- **MLOps 파이프라인** 인공지능 모델을 실험실에서 산업 현장으로 전환하는 핵심 엔지니어링 인프라 모델이며, Feature Store와 Model Registry 기반의 Lineage 관리와 지속적 학습(CT)을 내재화하여 고신뢰 AI 서비스를 완성해야 함
+- 머신러닝 모델의 산업화와 운영 안정성을 확립하기 위해 **Feature Store와 Model Registry 기반의 Lineage 관리 체계를 표준 도입**하고, **Kubeflow 기반의 CI/CD/CT 자동화 파이프라인과 실시간 드리프트 감시 체계**를 결합하여 지속 가능한 엔터프라이즈 MLOps 플랫폼 완성
 
 #### 한줄 요약
-
-- 데이터/모델 버전 관리와 CI/CD/CT 파이프라인을 통해 재현 가능하고 지속 가능한 AI 운영을 완성
+- MLOps 파이프라인은 데이터, 코드, 모델의 다차원 버전 관리와 지속적 학습(CT)을 통해 AI 서비스의 재현성과 신뢰성을 보장하는 핵심 운영 체계다.
