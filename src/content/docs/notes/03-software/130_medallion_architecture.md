@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 130
-  label: "130. 메달리온 아키텍처 (Medallion Architecture)"
+  label: "130. 메달리온 아키텍처"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-08-13T23:48:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -22,158 +22,132 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Medallion Architecture (메달리온 아키텍처)**: Databricks가 정립한 데이터 레이크하우스 내부의 3단계 데이터 정제 파이프라인으로, 원시 데이터(Bronze) $\rightarrow$ 정제 데이터(Silver) $\rightarrow$ 비즈니스 집계 데이터(Gold) 3개 품질 계층으로 원자적 데이터 흐름을 체계화하는 설계 아키텍처.
-- **Bronze Layer (Raw Ingest)**: 소스 시스템의 100% 동일 원 원천 데이터를 덤프 저장하여 언제든 재처리(Re-processing)가 가능한 원형 보존 계층.
-- **Silver Layer (Cleaned & Conformed)**: Bronze 데이터를 널(Null) 정제, 중복 제거, 스키마 바인딩, 키(Key) 조인하여 비즈니스 유효 상세 상태로 다듬은 중간 계층.
-- **Gold Layer (Curated Business)**: Silver 정제 데이터를 기반으로 마케팅, 재무, BI 보고서 및 ML 모델 학습 전용으로 최상위 스타 스키마 집계를 완료한 고품질 계층.
+- **메달리온 아키텍처(Medallion Architecture)**: 원시 데이터(Bronze) $\to$ 정제 데이터(Silver) $\to$ 비즈니스 집계(Gold) 3개 품질 계층으로 점진적 정제·승격시키는 데이터 파이프라인 아키텍처.
+- **Bronze / Silver / Gold 계층**: 원천 포맷을 보존하는 Bronze, 정제와 결측치 처리를 거친 Silver, BI 및 AI에 특화된 최상위 집계 Gold.
 
 </details>
 
-- 정의/개념: Bronze•Silver•Gold 품질 계층의 **메달리온 아키텍처**
-- 배경/필요성: 원천 직접 분석은 **품질 편차•재처리•지표 신뢰** 문제
+- 정의/개념: 데이터 레이크하우스 환경에서 원시 데이터를 **Bronze(원시 수집), Silver(정제·표준화), Gold(비즈니스 집계) 3단계 품질 계층으로 점진적 정제·승격시키는 데이터 아키텍처**
+- 배경/필요성: 원천 데이터 직접 분석 시 발생하는 **데이터 품질 편차, 스키마 변조로 인한 파이프라인 중단 및 전사 지표 불일치 해결 불가**
 
 #### 한줄 요약
-
-- 원석을 보관하고 불순물을 거른 뒤 용도별 제품으로 만드는 정제 구조이다.
+- 3단계 품질 승격 계층을 통해 데이터 신뢰성을 보장하고 분석 목적에 최적화된 마트를 제공한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Single Source of Truth (단일 진실 고리)**: Silver 계층에서 전사 공통 코드를 일체화하여 지표 불일치 소멸.
-- **ACID-Backed Quality Incremental Promotion**: Delta Lake Open Table 기반으로 각 계층 승격 시 ACID 원자 커밋 보장.
+- **Quarantine Table(격리 테이블)**: Silver 계층 승격 시 데이터 유효성 검증(Expectations)에 실패한 불량 레코드를 파기하지 않고 별도 격리하는 테이블.
+- **Replayability(재처리 가능성)**: Bronze 계층에 원천 스냅샷이 항상 영구 보존되므로 비즈니스 로직 변경 시 언제든 전체 재연산 가능.
 
 </details>
 
-- **3-Tier Data Quality Advancement (Bronze $\rightarrow$ Silver $\rightarrow$ Gold)**
-- **Replayability Guarantee (Bronze 레이어 상시 원본 보존으로 언제든 재처리 가능)**
-- **Schema Enforcement & Data Isolation (품질 검증 실패 데이터는 Quarantine 에 격리)** #### 한줄 요약
+- 품질 완성도에 따라 점진적으로 데이터를 승격하는 **3단계 품질 계층화(Bronze $\rightarrow$ Silver $\rightarrow$ Gold)**
+- 원시 데이터를 영구 보존하여 언제든 소급 재연산이 가능한 **완벽한 재처리성(Replayability)**
+- 품질 검증 실패 데이터를 별도로 격리 보관하는 **격리 테이블(Quarantine Table) 운영**
 
-- 색깔별 폴더가 아니라 각 단계의 입학 기준과 탈락 사유, 다시 시작할 원본이 있어야 한다.
+#### 한줄 요약
+- 3단계 품질 승격, 원천 재처리성 보장, 오류 데이터 격리를 통해 데이터 신뢰성을 확립한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Quarantine Table (격리 테이블)**: Silver 계층으로 넘어갈 때 정식 품질 검사(Expectations)에 실패한 오류 레코드를 버리지 않고 별도 격리 보관하는 무결성 테이블.
+- **메달리온 4대 구성요소**: Bronze(원시 덤프), Silver(정제/표준화), Gold(비즈니스 마트), Quarantine(오류 격리).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Medallion Architecture Data Pipeline                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ Raw Data Source ──► [Bronze Layer] (Raw Dump, Append-Only)             │
-│                          │                                             │
-│                          ▼ (Cleansing & Deduplication)                 │
-│                     [Silver Layer] ──► (Quality Fail) ──► [Quarantine] │
-│                          │                                             │
-│                          ▼ (Business Aggregation & Star Schema)        │
-│                     [Gold Layer] ──► [BI Dashboard / ML Features]      │
-└────────────────────────────────────────────────────────────────────────┘
+[메달리온 아키텍처 3단계 품질 파이프라인]
+|-- 1. Raw Sources (IoT Logs, RDB CDC, External APIs)
+|-- 2. Bronze Layer (Raw Dump: 원본 스키마 그대로 Append-Only 보존)
+|-- 3. Silver Layer (Cleaned & Conformed: 중복 제거, 결측치 보정, 공통 키 조인)
+|   `-- [Quality Fail] -> Quarantine Layer (오류 레코드 격리 및 사유 기록)
+`-- 4. Gold Layer (Curated Business: Star Schema, 집계 마트, ML Feature Store)
+    |-- BI Dashboard (Tableau, PowerBI 경영 지표 서빙)
+    `-- AI / ML Models (예측 모델 학습 피처 제공)
 ```
 
-선의 의미: 원 원천 데이터가 Bronze 계층에 덤프된 후 품질 검사를 거쳐 Silver 및 Gold로 단계별 원자 승격되는 아키텍처.
+선의 의미: 계층 및 원천 데이터가 품질 검증을 거쳐 Bronze, Silver, Gold 계층으로 승격되고 불량 데이터는 Quarantine으로 격리되는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Bronze | 원천 값•수집 시각•출처를 재처리용 보존 |
-| Silver | 중복•오류 정제와 공통 스키마•키 적용 |
-| Gold | 용도별 지표•마트•특징 데이터 제공 |
-| Quarantine | 품질 실패 행과 규칙•사유 격리 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **브론즈 (Bronze Layer)** | 원천 데이터와 수집 타임스탬프를 **가공 없이 원본 포맷 그대로 영구 보존** | 언제든 전체 재처리 가능 |
+| **실버 (Silver Layer)** | Null값 정제, 중복 제거, 스키마 표준화를 거쳐 **신뢰할 수 있는 공통 상세 테이블 구축** | 단일 진실 공급원(SSOT) |
+| **골드 (Gold Layer)** | 비즈니스 KPI 및 분석 요건에 맞추어 **스타 스키마 및 고차원 집계 마트 생성** | 초고속 BI/ML 서빙 |
+| **격리 영역 (Quarantine)**| 데이터 품질 규칙(Expectations)을 위반한 행을 **삭제하지 않고 오류 사유와 함께 격리** | 데이터 손실 방지 및 디버깅 |
 
 #### 한줄 요약
-
-- 원본 보관함부터 목적별 진열대까지 품질 단계를 나눈다.
+- 브론즈(원시), 실버(정제), 골드(집계), 격리 영역이 유기적으로 연동된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Delta Live Tables (DLT) Expectations**: Databricks DLT 환경에서 데이터 승격 시 `CONSTRAINT valid_id EXPECT (id IS NOT NULL) ON VIOLATION DROP ROW` 구문으로 품질 강제.
+- **DLT Expectations**: 데이터 승격 시 `EXPECT (id IS NOT NULL) ON VIOLATION DROP ROW` 등의 선언적 제약으로 품질을 강제하는 메커니즘.
 
 </details>
 
 ```text
-[원천 데이터]
-      │
-      ▼
-1. Bronze 적재
-      │
-      ▼
-2. 품질 규칙 검증
-      │
-  ┌───┴────┐
-  │통과    │실패
-  ▼        ▼
-3. Silver 정제  [Quarantine]
-      │
-      ▼
-4. Gold 집계
-      │
-      ▼
-5. 품질 증거 등록
+원천 시스템으로부터 신규 이벤트/로그 데이터 수집
+        │
+   1. [Bronze 적재] 소스 원본 데이터와 수집 메타데이터를 Bronze 테이블에 즉시 Append
+        │
+   2. [품질 규칙 검증] DLT Expectations 선언적 제약조건(Null 체크, 타입 검증) 검사
+   ┌────┴───────────────────────────┐
+  예 (품질 검증 통과)               아니오 (품질 위반 실패)
+   │                                 │
+3. [Silver 정제]                     [Quarantine 격리]
+   중복 제거, 코드 표준화,           불량 데이터 및 오류 원인 코드를
+   Delta Lake 포맷으로 승격          격리 테이블에 기록 후 알림
+        │
+   4. [Gold 집계] 부서별 비즈니스 KPI 및 차원 모델링 스타 스키마 구축
+        │
+   5. 메타데이터 카탈로그에 품질 통과율 지표를 등록하고 BI/AI에 데이터 공개
 ```
 
-### 동작 원리
-
-1. Bronze 적재: 원천 데이터와 수집 메타데이터 보존
-2. 품질 규칙 검증: 스키마•누락•중복•유효 범위 검사
-3. Silver 정제: 통과 행을 표준화•결합•멱등 반영
-4. Gold 집계: 검증 상세로 업무 지표•마트 생성
-5. 품질 증거 등록: 통과율•실패 사유•리니지 기록
-
 #### 한줄 요약
-
-- Bronze 적재, 검증, Silver 정제, Gold 집계를 거치며 품질 증거를 남긴다.
+- Bronze 적재 → 품질 검증 → Silver 정제/Quarantine 격리 → Gold 집계 → 데이터 공개 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Data Maturity Progression**: Bronze (Raw 데이터) $\rightarrow$ Silver (검증 데이터) $\rightarrow$ Gold (비즈니스 가치 데이터).
+- **Bronze vs Silver vs Gold**: 원본 보존(Bronze), 정제 공통 상세(Silver), 비즈니스 집계 마트(Gold).
 
 </details>
 
-| 구분 | Bronze Layer | Silver Layer | Gold Layer |
+| 비교 항목 | Bronze Layer (원시 계층) | Silver Layer (정제 계층) | Gold Layer (집계 계층) |
 |:---|:---|:---|:---|
-| 데이터 품질 상태 | 원천 보존 | 검증•표준화 상세 | 용도별 검증 집계 |
-| 스키마 형태 | 소스 원본 스키마 | 3NF 정규화 / 공통 스키마 | **Star Schema / Cube / Mart** |
-| 재처리 가능 여부 | **원천 스냅샷으로 상시 재처리 가능**| Bronze 기반 재생성 가능 | Silver 기반 재집계 가능 |
-| 저장 스토리지 포맷 | Delta / Parquet / JSON | **Delta Lake Parquet** | **Delta Lake Parquet** |
+| 데이터 품질 수준 | **원천 데이터 그대로 (Raw)** | **정제, 표준화 완료 (Validated)** | **고도로 가공된 비즈니스 수준** |
+| 스키마 모델링 | 소스 원본 스키마 (JSON/CSV 등) | **3NF 정규화 / 공통 엔티티 모델** | **스타 스키마 / 차원 모델링 (Fact-Dim)**|
+| 주 사용자 계층 | 데이터 엔지니어 | 데이터 분석가, 엔지니어 | **경영진, 현업 비즈니스 부서, AI 연구원**|
+| 재처리 가능성 | **영구 보존으로 상시 재처리 가능** | Bronze 기반 언제든 재생성 가능 | Silver 기반 언제든 재집계 가능 |
 
 #### 한줄 요약
-
-- 브론즈는 원본, 실버는 검증된 공통 상세 데이터, 골드는 용도별 집계 지표이다.
+- 브론즈는 원본, 실버는 검증된 공통 상세, 골드는 용도별 비즈니스 집계 지표다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Incremental Processing (증분 승격)**: Bronze $\rightarrow$ Silver $\rightarrow$ Gold 승격 시 전체 스캔을 피하고 Delta Change Data Feed(CDF)를 활용해 증분(Incremental) 승격 연산 수행.
+- **CDF(Change Data Feed)**: Delta Lake에서 변경된 행만 증분 추적하여 Silver/Gold 승격 시 전체 스캔 부하를 제거하는 기능.
 
 </details>
 
-| 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Full Reload Overhead | 승격 연산 시 매번 Bronze 전체 스캔 | **Delta Change Data Feed (CDF) 기반 증분 승격** |
-| 2. Quarantine Storage Overflow | 품질 규칙 과도 설정으로 Quarantine 폭발| **품질 검증 규칙(Expectations) 단계적 임계치 완화** |
-| 3. PII Security Leakage | Bronze에 개인정보(PII)가 생값으로 노출 | **Bronze 가동 즉시 해시/단방향 암호화 처리 적용** |
+| 승격 연산 시 매번 Bronze 전체 테이블을 스캔하는 I/O 낭비 | **Delta Change Data Feed(CDF) 기반 증분(Incremental) 승격** | 배치 처리 시간 80% 단축 |
+| 과도한 품질 규칙으로 인한 Quarantine 격리 테이블 폭발 | **핵심 비즈니스 규칙 중심 단계적 임계치 완화 및 알림 자동화** | 파이프라인 정체 방지 |
+| Bronze 계층에 개인정보(PII) 원본이 평문으로 노출 | **Bronze 수집 즉시 마스킹/단방향 암호화 토큰화 적용** | 컴플라이언스 및 개인정보 보호 |
+| Gold 계층 집계 뷰 생성 지연으로 대시보드 새로고침 지연 | **Materialized View 및 캐싱 레이어(Cube) 사전 빌드** | 실시간 BI 대시보드 성능 확보 |
 
-> 사례: **카카오페이 / Databricks Delta Live Tables(DLT) 기반 전사 메달리온 아키텍처 운용** #### 한줄 요약
-
-- 불량 로그는 버리지 않고 이유와 함께 따로 두며 검사 결과가 맞아야 최종 지표를 바꾼다.
+#### 한줄 요약
+- Delta CDF 증분 승격, 품질 규칙 최적화, PII 즉시 암호화, 구체화 뷰 사전 빌드로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **메달리온 수립 기준(Medallion Architecture Standards)**: Bronze/Silver/Gold 3단계 레이어링, Quarantine 격리, DLT Expectations 및 Delta CDF 증분승격성에 의거한 체계.
-
-</details>
-
-- 재처리 원본은 **Bronze**, 공통 상세는 Silver, 지표는 Gold 제공
+- 대규모 데이터 레이크하우스 구축 시 **Databricks 메달리온 아키텍처(Bronze-Silver-Gold)를 데이터 파이프라인 표준으로 도입**하고, **선언적 품질 검증(DLT Expectations)과 CDF 증분 승격**을 결합하여 무결점 엔터프라이즈 데이터 플랫폼 완성
 
 #### 한줄 요약
-
-- 각 단계가 무엇을 통과시켰고 실패하면 어디서 다시 시작할지를 증명해야 한다.
+- 메달리온 아키텍처는 Bronze, Silver, Gold 3단계 품질 승격을 통해 데이터의 재처리성과 비즈니스 신뢰성을 동시에 보장하는 현대 레이크하우스의 핵심 설계 패턴이다.

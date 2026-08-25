@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 123
-  label: "123. 변경 데이터 캡처 CDC (Change Data Capture)"
+  label: "123. 변경 데이터 캡처 CDC"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
-date: "2026-08-13T22:59:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 123
@@ -22,141 +22,129 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **CDC (Change Data Capture / 변경 데이터 캡처)**: 소스 데이터베이스의 CUD(Create, Update, Delete) 데이터 변경 이벤트를 실시간 감지하여, 타깃 시스템(Search Engine, Data Lake, Cache)으로 부하 없이 100% 동기화 전파하는 파이프라인 기술.
-- **Log-based CDC**: 데이터베이스 내부 트랜잭션 로그(MySQL Binlog, PostgreSQL WAL)를 직접 꼬리 물어 파싱함으로써 소스 DB CPU 부하를 0%에 가깝게 최소화하는 대표 CDC 메커니즘.
-- **Debezium**: Apache Kafka Connect 기반의 오픈소스 대표 Log-based CDC 커넥터 프레임워크.
+- **CDC(Change Data Capture)**: 데이터베이스의 삽입·수정·삭제(CUD) 변경을 감지하여 타깃 시스템으로 실시간 동기화하는 기술.
+- **Log-based CDC**: 데이터베이스의 트랜잭션 로그(Binlog, WAL)를 직접 파싱하여 소스 DB 부하를 최소화하는 표준 방식.
 
 </details>
 
-- 정의/개념: DB 변경 로그를 이벤트로 전파하는 **CDC(Change Data Capture)**
-- 배경/필요성: 주기 조회는 **삭제 누락•DB 부하•동기화 지연** 유발
+- 정의/개념: 원천 데이터베이스의 CUD 변경 이벤트를 감지하여 **타깃 시스템(검색엔진, 캐시, 데이터 레이크)으로 부하 없이 실시간 동기화 전파하는 기술**
+- 배경/필요성: 주기적 SQL 폴링 방식의 **소스 DB CPU 부하 폭증, `DELETE` 삭제 감지 불가 및 데이터 동기화 지연 해결 불가**
 
 #### 한줄 요약
-
-- 원본 장부를 매번 복사하지 않고 바뀐 부분만 찾아 다른 시스템에 전달하는 것이 핵심이다.
+- 트랜잭션 로그 파싱을 통해 소스 DB 부하 없이 CUD 이벤트를 타깃 저장소로 실시간 동기화한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Zero DB Performance Overhead**: 쿼리가 아닌 이진 파일(Binlog)을 직접 읽으므로 DB CPU 부하 최소화.
-- **Delete Capture Support**: SQL 폴링과 달리 `DELETE` 구문에 의한 삭제 이벤트(Tombstone Record)까지 100% 포착.
+- **Debezium**: MySQL Binlog, PostgreSQL WAL 등을 읽어 Kafka 토픽으로 JSON/Avro 이벤트를 발행하는 오픈소스 CDC 플랫폼.
+- **Tombstone Event**: 원본 레코드 삭제(`DELETE`) 시 타깃 캐시/검색엔진에서도 즉시 삭제되도록 발행하는 `null` 페이로드 메시지.
 
 </details>
 
-- **낮은 조회 부하**: 트랜잭션 로그 기반 변경 추출
-- **삭제 이벤트 추적**: 제품•설정이 제공하는 삭제 기록 캡처
-- **Schema History Tracking (테이블 DDL 변경 이력 실시간 추적)** #### 한줄 요약
+- 쿼리 실행 없이 이진 로그를 읽어 소스 DB 부하를 0화하는 **로그 기반 저부하(Zero-Overhead) 추출**
+- SQL 폴링에서 불가능한 **삭제 이벤트(`DELETE`) 완벽 포착 및 전파**
+- `ALTER TABLE` 등 소스 DDL 변경을 추적하는 **스키마 진화(Schema Evolution) 대응**
 
-- CDC는 첫 전체 복사와 이후 로그 사이의 빈 구간을 없애고 마지막 확정 위치부터 안전하게 다시 읽어야 한다.
+#### 한줄 요약
+- 저부하 로그 추출, 삭제 이벤트 포착, 스키마 변경 추적을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Initial Snapshot & Binlog Streaming**: 최초 가동 시 전체 테이블의 Initial Snapshot을 뜨고, 이후부터 Binlog를 실시간 스트리밍으로 전환하는 2단계 절차.
+- **CDC 4대 컴포넌트**: Transaction Log(Binlog/WAL), Debezium Connector(파서), Kafka Topic(이벤트 허브), Sink Consumer(타깃 반영기).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Log-based CDC Architecture                      │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Source DB (MySQL/PG)] ──► [Binlog / WAL File]                         │
-│                                  │ (Log Parsing)                       │
-│                                  ▼                                     │
-│                     [Debezium CDC Connector]                           │
-│                                  │ (Kafka Topic Publish)               │
-│                                  ▼                                     │
-│                     [Kafka Cluster (Event Stream)]                     │
-│                                  │                                     │
-│        ┌─────────────────────────┼─────────────────────────┐           │
-│        ▼                         ▼                         ▼           │
-│  [ElasticSearch]           [Redis Cache]           [Snowflake DW]      │
-└────────────────────────────────────────────────────────────────────────┘
+[Log-based CDC 데이터 동기화 아키텍처]
+|-- Source DB (MySQL / PostgreSQL: 트랜잭션 로그 Binlog / WAL 기록)
+`-- Debezium CDC Connector (Kafka Connect 프레임워크 기반 Log 파싱)
+    |-- Schema History Topic (DDL 변경 이력 메타데이터 보관)
+    `-- Kafka Cluster (Event Topic: CUD 변경 JSON 이벤트 스트림)
+        |-- Elasticsearch (검색 인덱스 실시간 동기화)
+        |-- Redis Cache (캐시 데이터 자동 무효화 / 갱신)
+        `-- Snowflake / Iceberg (데이터 레이크하우스 실시간 적재)
 ```
 
-선의 의미: 소스 DB의 Binlog를 Debezium 커넥터가 읽어 Kafka로 전파하고, ElasticSearch/Redis/DW 등 타깃 시스템으로 실시간 무부하 동기화하는 구조.
+선의 의미: 계층 및 Source DB의 로그가 Debezium을 통해 Kafka로 전파되고 타깃 시스템들로 다중 동기화되는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Transaction Log | 커밋 순서와 행 변경 내용 보관 |
-| CDC Connector | 로그 파싱•스키마 해석•이벤트 변환 |
-| Offset Store | 마지막 안전 처리 로그 위치 저장 |
-| Event Broker | 변경 이벤트 순서 보존•다중 전파 |
-| Sink Consumer | 키 기반 UPSERT•DELETE 멱등 반영 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **트랜잭션 로그 (Log)** | 커밋된 순서대로 데이터 변경(CUD) 바이너리 기록을 **디스크에 영구 보관** | Binlog, WAL, Redo Log |
+| **CDC 커넥터 (Debezium)** | 트랜잭션 로그를 논블로킹 파싱하여 **표준 이벤트 포맷으로 변환 후 Kafka 발행** | Initial Snapshot + Streaming |
+| **오프셋 저장소 (Offset)** | 마지막으로 안전하게 파싱 완료한 **로그 파일명 및 포지션 바이트 위치 저장** | 재시작 시 중복/유실 방지 |
+| **이벤트 브로커 (Kafka)** | 변경 이벤트를 토픽 파티션에 저장하고 **다수의 타깃 시스템에 병렬 전파** | 멱등성 및 순서 보장 |
+| **타깃 컨슈머 (Sink)** | 변경 이벤트를 수신하여 **검색엔진, 캐시, DW에 UPSERT/DELETE 멱등 반영** | 최종 일관성 수렴 |
 
 #### 한줄 요약
-
-- 원본 장부, 일지 판독기, 책갈피, 전달 일지, 대상 반영기로 구성된다.
+- 트랜잭션 로그, CDC 커넥터, 오프셋 저장소, 카프카 브로커, 타깃 컨슈머가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Log-based vs Trigger-based vs Query-based**: Log-based는 DB 로그 파싱(부하 0%), Trigger-based는 DB 트리거 생성(쓰기 부하 발생), Query-based는 `WHERE updated_at` SQL 폴링(삭제 감지 불가).
+- **Initial Snapshot $\to$ Streaming 전환**: 최초 가동 시 기존 테이블 데이터를 읽어 초기 스냅샷을 뜬 후, 스냅샷 시점의 Binlog 오프셋부터 실시간 스트리밍으로 전환하는 기법.
 
 </details>
 
-| CDC 구현 방식 | 메커니즘 및 동작 원리 | 장점 및 단점 비교 |
-|:---|:---|:---|
-| Log-based CDC | **DB 이진 트랜잭션 로그 파싱** | 낮은 조회 부하•로그 권한 필요 |
-| Trigger-based CDC | **테이블마다 CUD DB Trigger 작성** | 모든 DB 적용 가능, **소스 DB 쓰기 Latency 증가** |
-| Query-based CDC | **`WHERE updated_at > ?` 쿼리 폴링** | 구현 단순함, **`DELETE` 감지 불가, DB CPU 병목** |
+```text
+소스 DB에서 비즈니스 트랜잭션 커밋 (`UPDATE users SET score=95 WHERE id=101`)
+        │
+   1. [트랜잭션 로그 기록] DB 엔진이 Binlog 파일에 변경 전(before)/변경 후(after) 바이트 기록
+        │
+   2. [논블로킹 로그 파싱] Debezium이 Binlog 꼬리를 물고 읽어 JSON 변경 이벤트로 직렬화
+        │
+   3. [Kafka 토픽 발행] PK(id=101)를 메시지 키로 지정하여 Kafka `db.users` 토픽으로 전송
+        │
+   4. [오프셋 위치 커밋] 처리 완료된 Binlog 파일 위치(Pos=120485)를 커넥터 메타데이터에 기록
+        │
+   5. Elasticsearch 및 Redis 컨슈머가 이벤트를 읽어 캐시 및 인덱스를 즉시 갱신
+```
 
 #### 한줄 요약
-
-- 변경 일지를 읽는 방식이 가장 자연스럽지만 권한이 없으면 표식이나 주기 조회를 사용한다.
+- 로그 기록 → 논블로킹 파싱 → 카프카 발행 → 오프셋 커밋 → 타깃 저장소 반영 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Before & After Field**: Debezium CDC 이벤트 내부에 변경 전 상태(`before`)와 변경 후 상태(`after`)가 함께 담기는 JSON 페이로드 구조.
+- **CDC 3대 구현 방식**: Log-based(트랜잭션 로그 파싱), Trigger-based(DB 트리거 작성), Query-based(타임스탬프 폴링).
 
 </details>
 
-```text
-{
-  "before": { "id": 101, "name": "홍길동", "score": 80 },
-  "after":  { "id": 101, "name": "홍길동", "score": 95 },
-  "op": "u",   // 'c': Create, 'u': Update, 'd': Delete
-  "ts_ms": 1770854400000
-}
-```
+| 비교 항목 | Log-based CDC (로그 기반) | Trigger-based CDC (트리거 기반) | Query-based CDC (쿼리 폴링) |
+|:---|:---|:---|:---|
+| 데이터 추출 원리 | **DB 이진 트랜잭션 로그 파싱** | **테이블별 CUD DB 트리거 생성** | **`WHERE updated_at > ?` 주기적 SQL 실행**|
+| 소스 DB 부하 | **거의 없음 (디스크 읽기 최소화)**| **높음 (소스 DB 쓰기 지연 증가)**| **매우 높음 (주기적 Full Table Scan)** |
+| `DELETE` 감지 | **완벽 지원 (Tombstone 이벤트)** | **지원 (트리거 내 삭제 감지)** | **원천 불가 (삭제된 행 조회 불가)** |
+| 구현 복잡도 | DB 로그 권한 및 커넥터 구성 필요 | 테이블마다 트리거 관리 부담 | 매우 단순 (표준 SQL) |
 
 #### 한줄 요약
-
-- 첫 전체 복사의 끝과 변경 일지의 시작을 맞추고 마지막 발행 위치를 책갈피로 남긴다.
+- 성능과 삭제 감지가 필수적인 환경에서는 Log-based CDC가 표준 선택지다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Schema Evolution (DDL 변경)**: 소스 DB에 `ALTER TABLE`로 컬럼이 변경될 때 CDC 커넥터가 이를 실시간 감지하여 타깃 DB 스키마도 자동 갱신 조치.
+- **Binlog Retention**: 대용량 트래픽 발생 시 Binlog 디스크가 차서 파일이 일찍 삭제되는 현상을 방지하기 위한 보존 기간 설정.
 
 </details>
 
-| 3대 CDC 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Binlog Expiration | 대용량 트래픽 시 Binlog 파일이 일찍 삭제됨| **Binlog 보존 기간(Retention) 최소 3일 이상 연장** |
-| 2. DDL Schema Change | 소스 DB 컬럼 추가/삭제 시 CDC 파행 | **Debezium Schema Registry 연동 및 DDL 이력 자동 추적**|
-| 3. Initial Snapshot Lag | 수억 건 초기 스냅샷 도중 Binlog 오프셋 상실 | **Consistent Snapshot Mode (Lockless Snapshotting) 적용**|
+| 트래픽 급증 시 Binlog 조기 삭제로 CDC 동기화 단절 | **Binlog 보존 기간(Retention)을 최소 3~7일 이상 확보** | 로그 유실로 인한 전면 재동기화 방지 |
+| 소스 DB `ALTER TABLE` DDL 실행 시 CDC 파싱 에러 | **Debezium Schema Registry 연동 및 Avro/Protobuf 스키마 자동 진화**| 무중단 스키마 마이그레이션 |
+| 수억 건 대용량 초기 스냅샷 도중 테이블 락 병목 | **`Consistent Snapshot Mode` (Lockless Snapshot) 옵션 적용** | 서비스 무중단 초기 동기화 완료 |
+| 네트워크 단절 재연결 시 메시지 중복 발행 | **타깃 Sink 계층에 고유 PK 기반 UPSERT 및 멱등성 로직 강제** | 중복 데이터 왜곡 0화 |
 
-> 사례: **배달의민족 / 쿠팡 MySQL $\rightarrow$ Debezium CDC $\rightarrow$ Kafka $\rightarrow$ ElasticSearch 검색 엔진 동기화** #### 한줄 요약
-
-- 같은 원본 키와 최신 변경 번호로 검색 문서를 고치고 삭제까지 전달해야 오래된 결과가 남지 않는다.
+#### 한줄 요약
+- Binlog 보존 주기 확장, 스키마 레지스트리 연동, Lockless 스냅샷, 멱등 Sink로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **CDC 아키텍처 수립 기준(CDC Architecture Standards)**: Log-based Binlog 파싱, Debezium Kafka Connect 및 ElasticSearch/Redis 실시간 동기화성에 의거한 체계.
-
-</details>
-
-- 로그 권한•삭제 추적이 가능하면 **Log-based**, 아니면 Trigger•Query 선택
+- 마이크로서비스 간 데이터 분산 및 실시간 CQRS(명령/조회 분리) 아키텍처를 구현하기 위해 **Debezium 기반 Log-based CDC와 Apache Kafka를 표준 파이프라인으로 도입**하고, **스키마 진화 관리와 멱등 컨슈머**를 결합하여 무결점 실시간 동기화 인프라 완성
 
 #### 한줄 요약
-
-- 첫 복사와 변경 일지의 경계, 마지막 책갈피, 삭제와 구조 변경까지 맞아야 한다.
+- CDC는 소스 DB의 트랜잭션 로그를 직접 파싱하여 부하 없이 타깃 시스템으로 변경을 실시간 전파하는 현대 이벤트 주도 아키텍처의 필수 기술이다.

@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 133
-  label: "133. 데이터 카탈로그 (Data Catalog)"
+  label: "133. 데이터 카탈로그"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "데이터 카탈로그 (Data Catalog)"
-date: "2026-08-14T00:09:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 133
@@ -15,164 +15,136 @@ extra:
   source_status: "미출"
   source_history: ""
   priority: 50
-  priority_note: "카탈로그는 데이터 검색•책임•정책 기반"
+  priority_note: "데이터 탐색•계보•거버넌스 핵심"
 ---
 
 ## Ⅰ. 개요
 
 <details><summary>용어 설명</summary>
 
-- **Data Catalog (데이터 카탈로그)**: 전사 데이터 자산의 위치, 스키마, 소유자, 데이터 계보(Lineage), 품질 지표, 접근 권한 등의 메타데이터를 수집 및 색인(Indexing)하여, 데이터 탐색(Discoverability) 및 거버넌스를 지원하는 중앙 검색 시스템.
-- **Data Discoverability (데이터 탐색 용이성)**: 데이터 소비자가 원하는 데이터셋의 위치와 형태를 1초 만에 검색어로 찾아내 활용할 수 있는 상태.
-- **OpenMetadata / Apache Atlas**: 전사 데이터 카탈로그 및 메타데이터 자동 크롤링 구축을 위한 표준 오픈소스 솔루션.
+- **데이터 카탈로그(Data Catalog)**: 분산된 전사 데이터 자산의 메타데이터를 수집·색인하여 데이터 탐색(Discovery), 계보(Lineage), 거버넌스를 지원하는 중앙 플랫폼.
+- **Data Discoverability**: 분석가나 개발자가 원하는 데이터셋을 구글 검색처럼 키워드로 즉시 찾아낼 수 있는 자산 탐색성.
 
 </details>
 
-- 정의/개념: 데이터 자산의 검색•책임•정책을 제공하는 **Data Catalog**
-- 배경/필요성: 저장소 확장은 **자산 위치•의미•신뢰도 탐색 비용** 증가
+- 정의/개념: 분산된 전사 데이터 자산의 위치, 스키마, 계보, 소유권, 비즈니스 의미를 **중앙에서 색인하여 검색·거버넌스를 제공하는 메타데이터 관리 플랫폼**
+- 배경/필요성: 데이터 저장소의 다변화로 인한 **데이터 자산 위치 탐색 곤란, 비즈니스 의미 불일치 및 전사 거버넌스 통제 불가 해결 불가**
 
 #### 한줄 요약
-
-- 여러 데이터 저장소의 자산이 어디에 있고 무엇이며 누가 책임지는지 제공하는 메타데이터 색인이다.
+- 전사 메타데이터를 통합 색인하여 데이터 탐색성, 신뢰성, 거버넌스를 보장한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Automated Metadata Harvesting**: DB, S3, Spark 작업으로부터 스키마 및 Lineage를 에이전트가 자동 수집.
-- **Business Glossary & PII Tagging**: 개인정보(PII) 컬럼 자동 태깅 및 비즈니스 용어집(Glossary) 매핑.
+- **Automated Metadata Harvesting**: DB, S3, Spark 작업으로부터 스키마 및 계보 정보를 크롤러 에이전트가 자동 수집.
+- **Business Glossary**: 전사 공통 비즈니스 용어와 물리적 DB 테이블/컬럼 간의 의미론적 매핑 정의.
 
 </details>
 
-- **Centralized Metadata Search Engine (구글 스타일 데이터 탐색 지원)**
-- **Automated Data Lineage & Schema Extraction (데이터 변환 흐름 추적)**
-- **Role-Based Access & PII Auto Tagging (보안 및 거버넌스 연동)** #### 한줄 요약
+- 자연어 및 키워드 기반의 **전사 데이터 자산 통합 검색 엔진(Search Engine)**
+- 데이터의 생성부터 가공, 소비까지 추적하는 **엔드투엔드 데이터 계보(Lineage) 시각화**
+- PII 개인정보 자동 탐지 및 역할 기반 접근 제어를 지원하는 **통합 보안 거버넌스 연동**
 
-- 책 목록을 자동으로 모아도 제목·저자·대출 가능 여부가 틀리면 쓸 수 없어 담당자의 검토가 필요하다.
+#### 한줄 요약
+- 자동 메타데이터 수집, 계보 시각화, 비즈니스 용어집 매핑을 통해 데이터 자산화를 실현한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Metadata Crawler & Profiler**: 데이터베이스 및 S3를 지속 수집하여 컬럼별 Null 비율, Distinct Count 등의 프로파일링 통계 자동 추출 엔진.
+- **데이터 카탈로그 4대 계층**: Ingestion Layer(크롤러), Core Storage(Elasticsearch/Graph DB), Governance(용어집/PII), UI Portal(검색/계보 포털).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Data Catalog Architecture                       │
-├────────────────────────────────────────────────────────────────────────┤
-│ Target Sources: [MySQL]  [AWS S3]  [Snowflake]  [Apache Spark Engine] │
-├────────────────────────────────────────────────────────────────────────┤
-│ Ingestion Layer: [Metadata Crawler / Profiler / Lineage Extractor]    │
-├────────────────────────────────────────────────────────────────────────┤
-│ Core Engine: [Search Engine (Elasticsearch)]  [Graph DB (Lineage)]    │
-│              [Business Glossary & PII Auto Tagging Engine]             │
-├────────────────────────────────────────────────────────────────────────┤
-│ UI Portal: [Data Discovery Search UI]  [Data Lineage Visualizer]       │
-└────────────────────────────────────────────────────────────────────────┘
+[데이터 카탈로그 아키텍처]
+|-- Data Sources (MySQL, Snowflake, Amazon S3, Spark, Kafka)
+`-- Ingestion Layer (Metadata Crawler, Profiler, OpenLineage Extractor)
+    `-- Core Engine Layer
+        |-- Search Engine (Elasticsearch: 테이블, 컬럼, 태그 전문 검색)
+        |-- Graph Database (Neo4j: 데이터 계보 Lineage 및 관계 그래프)
+        `-- Governance Engine (Business Glossary 용어집 + PII 자동 태깅)
+`-- User Interface Portal (Data Discovery UI + Data Lineage Graph + Access Request)
 ```
 
-선의 의미: 이종의 타깃 소스로부터 메타데이터 크롤러가 수집한 정보를 검색엔진 및 Graph DB로 색인하여 UI 포털에 렌더링하는 아키텍처.
+선의 의미: 계층 및 이종의 원천 소스로부터 메타데이터 크롤러가 수집한 정보를 검색엔진과 그래프 DB로 색인하여 포털에 제공하는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| Metadata Crawler | 스키마•테이블•파티션•통계 수집 |
-| Lineage Extractor | 작업•SQL의 입력•출력 관계 추출 |
-| Search Index | 이름•설명•태그•용어 기반 자산 검색 |
-| Business Glossary | 업무 용어와 기술 자산 의미 연결 |
-| Ownership•Policy | 소유자•품질•접근•PII 정책 관리 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **메타데이터 크롤러** | DB 스키마, 파티션, 프로파일링 통계를 **주기적 또는 이벤트 기반으로 자동 수집** | Glue, DataHub |
+| **계보 추출기 (Lineage)** | Airflow/Spark SQL 파싱을 통해 **테이블 및 컬럼 간의 입출력 변환 관계 추출** | OpenLineage |
+| **검색 색인 엔진** | 테이블명, 설명, 태그, 비즈니스 용어 기반으로 **서브초 단위 고속 전문 검색 제공** | Elasticsearch |
+| **비즈니스 용어집** | 업무 표준 용어와 물리적 기술 자산 간의 **의미론적 매핑 및 소유자(Owner) 지정** | Business Glossary |
+| **거버넌스 엔진** | 주민번호 등 PII 민감정보를 자동 식별하고 **접근 권한(RBAC) 및 보안 정책 통제** | Policy Enforcer |
 
 #### 한줄 요약
-
-- 여러 데이터 저장소 자산의 위치·의미·책임자를 검색하는 메타데이터 색인이다.
+- 크롤러, 계보 추출기, 검색 색인, 비즈니스 용어집, 거버넌스 엔진이 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Lineage Visualization**: Raw Data $\rightarrow$ Silver $\rightarrow$ Gold $\rightarrow$ Dashboard까지 데이터가 변환되는 이중화 과정을 그래프 노드로 시각화.
+- **메타데이터 수집 및 공개 5단계**: 기술 메타데이터 크롤링 $\to$ 리니지 추출 $\to$ PII/용어 자동 태깅 $\to$ 소유자 승인 $\to$ 검색 색인 공개.
 
 </details>
 
 ```text
-[데이터 자산 변경]
-       │
-       ▼
-1. 기술 메타데이터 수집
-       │
-       ▼
-2. 리니지•프로파일 생성
-       │
-       ▼
-3. 용어•민감도 분류
-       │
-       ▼
-4. 소유자 검토•승인
-       │
-       ▼
-5. 검색 색인•공개
+원천 시스템에서 신규 테이블 생성 및 배치 파이프라인 가동
+        │
+   1. [기술 메타데이터 수집] 크롤러가 DDL 스키마, 컬럼 타입, 테이블 코멘트 자동 수집
+        │
+   2. [리니지 추출] SQL 파서 및 Airflow 훅을 통해 입력 소스와 타깃 출력 간 계보 매핑
+        │
+   3. [용어 및 PII 분류] 머신러닝 프로파일러가 주민번호/이메일 PII 자동 태깅 및 용어집 연결
+        │
+   4. [소유자 검토/승인] 도메인 데이터 오너가 카탈로그 포털에서 메타데이터 검토 및 설명 보강
+        │
+   5. Elasticsearch에 색인되어 전사 분석가와 개발자에게 즉시 검색 및 쿼리 가능하게 공개
 ```
 
-### 동작 원리
-
-1. 기술 메타데이터 수집: 커넥터가 스키마•변경 정보 추출
-2. 리니지•프로파일 생성: 입출력 관계와 품질 통계 계산
-3. 용어•민감도 분류: 업무 의미•PII 후보 자동 태깅
-4. 소유자 검토•승인: 책임자가 의미•정책•신뢰도 확인
-5. 검색 색인•공개: 권한별 검색•계보•품질 정보 제공
-
 #### 한줄 요약
-
-- 데이터 저장소를 자동 크롤링하여 목록화하고, 소유권과 스키마 메타데이터를 정제하여 검색 서비스로 제공한다.
+- 메타 수집 → 계보 추출 → 용어/PII 태깅 → 오너 승인 → 검색 색인 공개 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Comparison of Metadata Tools**: 단순 DB 컬럼 명세서(Dictionary), 현업 단어집(Glossary), 360도 검색/계보/보안 통합 플랫폼(Catalog).
+- **사전 vs 용어집 vs 카탈로그**: 단순 컬럼 명세서(Dictionary), 업무 단어집(Glossary), 360도 검색/계보 통합 플랫폼(Catalog).
 
 </details>
 
-| 구분 | Data Dictionary (데이터 사전) | Business Glossary (용어집) | Data Catalog (데이터 카탈로그) |
+| 비교 항목 | 데이터 사전 (Data Dictionary) | 비즈니스 용어집 (Business Glossary) | 데이터 카탈로그 (Data Catalog) |
 |:---|:---|:---|:---|
-| 주요 대상 | 단일 DB 테크니컬 스키마 | 전사 비즈니스 용어 정의 | **전사 하이브리드 멀티 소스 통합** |
-| 자동화 수준 | DDL 추출•수동 보완 | 업무 담당자 정의•승인 | **자동 수집과 소유자 검토 결합** |
-| 주요 핵심 기능 | 컬럼 타입, PK/FK 제약 조건 | 용어 정의, 단어 표준화 | **검색, Lineage, PII 태깅, SLA 관리** |
-| 대표 도메인 | DB Administrator 전용 | 현업 기획자 전용 | **Data Engineer, Scientist, C-Level** |
+| 주요 대상 | **단일 DB 단위의 기술 스키마** | **전사 비즈니스 표준 용어 정의** | **전사 멀티 소스 통합 메타데이터** |
+| 수집/관리 방식 | DDL 역공학 및 수동 문서화 | 현업 도메인 담당자 수동 정의 | **크롤러 자동 수집 + 소유자 협업** |
+| 핵심 지원 기능 | 컬럼 타입, Nullable, PK/FK 제약 | 표준 단어, 동의어, 비즈니스 정의 | **통합 검색, Lineage, PII 태깅, SLA** |
+| 주 사용자 계층 | DBA, 백엔드 개발자 | 기획자, 비즈니스 분석가 | **전사 전 직원 (엔지니어, 현업, 임원)**|
 
 #### 한줄 요약
-
-- 사전은 책의 항목 설명, 용어집은 공통 단어 뜻, 카탈로그는 여러 책의 위치와 관계를 찾는 목록이다.
+- 사전은 기술 명세, 용어집은 단어 뜻, 카탈로그는 전사 데이터 자산의 위치와 계보를 찾는 통합 플랫폼이다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Metadata Stored Stale Danger**: 크롤링 주기가 너무 길 경우 실제 소스 DB의 삭제된 테이블을 카탈로그가 여전히 안내하는 갱신 지연 현상.
+- **Metadata Stale**: 크롤링 주기가 너무 길어 소스 DB에서 이미 변경/삭제된 스키마가 카탈로그에 방치되는 갱신 지연 현상.
 
 </details>
 
-| 3대 구축 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Metadata Stale | 크롤링 배치 주기가 일주일로 길어 갱신 지연 | **Debezium DDL 이벤트 감지 즉시 실시간 갱신** |
-| 2. Lineage Disconnect | SQL 쿼리가 파이프라인 외부에서 수동 수정됨 | **OpenLineage 에이전트 Spark/Airflow 전면 탑재** |
-| 3. Low User Adoption | 사용자들이 여전히 쿼리를 개발자에게 물어봄 | **Slack/Teams 챗봇과 카탈로그 검색 API 연동** |
+| 배치 주기 지연으로 삭제된 테이블이 카탈로그에 방치 (**Stale**) | **Debezium CDC 기반 DDL 변경 이벤트 즉시 실시간 갱신 트리거** | 메타데이터 최신성 100% 유지 |
+| SQL 쿼리가 파이프라인 외부에서 수동 수정되어 계보 단절 | **OpenLineage 에이전트를 Spark, Trino, Airflow 전면에 탑재** | 자동화된 엔드투엔드 계보 복원 |
+| 카탈로그 도입 후 현업 사용률 저조 (낮은 활용도) | **Slack / Teams 사내 챗봇과 카탈로그 검색 API 연동** | 데이터 탐색 진입 장벽 제거 |
+| PII 마스킹 정책 누락으로 인한 컴플라이언스 위반 | **정규표현식 및 LLM 기반 PII 자동 분류 태거 상시 가동** | 민감정보 노출 원천 차단 |
 
-> 사례: **카카오 / 당근마켓 OpenMetadata 기반 전사 데이터 카탈로그 및 Lineage 구축** #### 한줄 요약
-
-- 목록을 열어 본 횟수보다 맞는 자료를 찾아 실제로 썼는지를 재야 한다.
+#### 한줄 요약
+- CDC 실시간 갱신, OpenLineage 연동, 메신저 챗봇 연동, PII 자동 분류로 안정성을 확보한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **Data Catalog 수립 기준(Data Catalog Standards)**: OpenMetadata 오픈소스, Lineage 자동 추출, PII 태깅 및 Elasticsearch 검색 가속성에 의거한 체계.
-
-</details>
-
-- 기술 구조는 **사전**, 업무 의미는 Glossary, 통합 탐색은 Catalog 선택
+- 전사 데이터 민주화와 거버넌스 확립을 위해 **OpenMetadata / DataHub 기반의 오픈소스 데이터 카탈로그를 전사 메타데이터 표준으로 도입**하고, **OpenLineage 자동 계보 추적과 PII 자동 태깅**을 결합하여 신뢰할 수 있는 데이터 자산화 완성
 
 #### 한줄 요약
-
-- 책이 몇 권 등록됐는지보다 필요한 책을 믿고 찾아 빌릴 수 있는지가 중요하다.
+- 데이터 카탈로그는 전사 데이터의 위치, 의미, 계보, 소유권을 통합 색인하여 데이터 탐색성을 극대화하는 엔터프라이즈 데이터 거버넌스의 핵심 플랫폼이다.

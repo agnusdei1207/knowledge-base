@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 121
-  label: "121. 정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
+  label: "121. 정확히 한 번 처리 Exactly-Once"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
-date: "2026-08-13T22:45:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 121
@@ -22,149 +22,128 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **EOS (Exactly-Once Semantics)**: 분산 스트리밍 환경에서 네트워크 재시도, 시스템 장애 시에도 메시지 유실(Zero Loss) 및 중복(Zero Duplication) 없이 단 1회만 처리를 보장하는 메커니즘.
-- **At-Least-Once (최소 한 번 처리)**: 메시지 유실은 없으나 수신 재시도로 인해 데이터 중복 가능성이 있는 보장 레벨.
-- **At-Most-Once (최대 한 번 처리)**: 메시지 중복은 없으나 네트워크 장애 시 데이터 유실이 발생할 수 있는 보장 레벨.
+- **EOS(Exactly-Once Semantics)**: 분산 스트리밍 환경에서 장애 재시도가 발생해도 데이터의 유실(Zero Loss)과 중복(Zero Duplication) 없이 결과가 단 1회만 반영되는 처리 보장 수준.
+- **End-to-End EOS**: Source(재생 가능), Engine(상태 스냅샷), Sink(2PC 트랜잭션/멱등성)의 3단계가 모두 결합되어야만 달성되는 완전한 단일 반영 체계.
 
 </details>
 
-- 정의/개념: 재시도 후에도 결과를 한 번만 반영하는 **Exactly-Once**
-- 배경/필요성: 장애 복구 재처리는 **중복 반영•오프셋 유실** 위험 유발
+- 정의/개념: 분산 스트림 환경에서 시스템 장애나 재시도가 발생해도 **데이터의 유실과 중복 없이 결과가 정확히 단 1회만 반영됨을 보장하는 처리 규약**
+- 배경/필요성: 분산 메시징의 네트워크 재시도 시 발생하는 **데이터 중복 인입, 결제 금액 중복 차감 및 오프셋 불일치 정합성 왜곡 해결 불가**
 
 #### 한줄 요약
-
-- 장애 발생 시 재처리해도 타깃 시스템에 결과가 중복 반영되지 않도록 관리하는 원칙.
+- Source, Engine, Sink 3단계의 분산 트랜잭션과 멱등성을 결합하여 완벽한 단 1회 반영을 달성한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Idempotency (멱등성)**: 동일 연산을 반복 수행해도 최종 상태가 1번 수행한 결과와 동일하게 유지되는 성질.
-- **2PC (Two-Phase Commit / 2단계 커밋)**: 스트림 처리 엔진과 타깃 저장소 간 트랜잭션을 준비(Prepare)와 커밋(Commit) 단계로 나누어 원자성을 보장하는 분산 트랜잭션 프로토콜.
+- **Idempotency(멱등성)**: 동일한 연산이나 메시지 처리를 여러 번 반복 수행하더라도 시스템의 최종 상태가 1회 수행 결과와 동일하게 유지되는 성질.
+- **Two-Phase Commit Sink**: Flink 등의 스트림 엔진이 외부 Sink 스토리지와 연동하여 체크포인트 성공 시점에만 데이터를 영구 커밋하는 프로토콜.
 
 </details>
 
-- **결과 단일 반영**: 입력 위치•상태•출력 확정의 일관성
-- **Idempotent Producer & Transactional Consumer (멱등 생산자 및 트랜잭션 소비자)**
-- **End-to-End Exactly-Once (Source $\rightarrow$ Engine $\rightarrow$ Sink 전체 구간 2PC 보장)** #### 한줄 요약
+- Source 재생, Engine 상태 스냅샷, Sink 2PC가 결합된 **End-to-End Exactly-Once 보장**
+- 중복 수신 시에도 최종 상태를 1회로 유지하는 **멱등성(Idempotency) 기반 쓰기**
+- 트랜잭션 코디네이터 및 체크포인트 장벽을 통한 **분산 원자적 커밋(Atomic Commit)**
 
-- 재시도 시에도 데이터 처리의 최종 장부상 반영 횟수가 단 1회임을 보장하는 논리적 정합성 원칙.
+#### 한줄 요약
+- 멱등성 생산자와 2단계 커밋 소비자를 통해 장애 복구 시에도 100% 데이터 정합성을 보장한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Transactional Coordinator**: Kafka/Flink 내부에서 트랜잭션 오프셋과 상태 스냅샷을 단일 트랜잭션 ID로 묶어 atomic commit을 관장하는 보장 엔진.
+- **EOS 3대 구성요소**: Replayable Source(Kafka 오프셋), Stateful Engine(Flink Chandy-Lamport 스냅샷), Transactional Sink(2PC 지원 스토리지).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   End-to-End Exactly-Once Semantics (EOS)              │
-├────────────────────────────────────────────────────────────────────────┤
-│ [1. 재처리 가능 소스] ──► [2. 상태 유지 엔진] ──► [3. 트랜잭션 Sink]
-│ (오프셋 관리)             (스냅샷 체크포인트)      (2단계 커밋 확정)
-└────────────────────────────────────────────────────────────────────────┘
+[End-to-End Exactly-Once Semantics (EOS) 아키텍처]
+|-- 1. Replayable Source (Kafka: Offset 기반 과거 특정 위치 재전송 보장)
+|   `-- [이벤트 스트림 + Checkpoint Barrier 주입]
+|-- 2. Stateful Processing Engine (Flink: Chandy-Lamport 상태 비동기 스냅샷)
+|   `-- [Pre-Commit 트랜잭션 생성 및 연산자 State 관리]
+`-- 3. Transactional / Idempotent Sink (PostgreSQL / Kafka / Iceberg)
+    |-- Two-Phase Commit Sink (체크포인트 완료 ACK 수신 후 최종 Commit)
+    `-- Idempotent UPSERT Sink (Unique Key 기반 Merge Into 중복 덮어쓰기)
 ```
 
-선의 의미: Source(Offset), Engine(Checkpoint), Sink(2PC/Idempotent) 3개 영역이 모두 삼위일체로 맞물려야만 End-to-End EOS가 달성되는 아키텍처.
+선의 의미: 계층 및 Source의 오프셋 재생, Engine의 상태 스냅샷, Sink의 2PC 확정이 결합된 3단 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 재생 가능 소스 | 체크포인트 위치부터 입력 재공급 |
-| 상태 스냅샷 | 입력 위치와 연산 상태를 함께 저장 |
-| 트랜잭션 조정자 | 체크포인트와 출력 확정 순서 조정 |
-| 트랜잭션•멱등 Sink | 중복 시도에도 결과를 한 번만 반영 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **재생 가능 소스 (Source)** | 장애 복구 시 지정된 체크포인트 오프셋부터 **데이터를 유실 없이 재공급** | Kafka, Kinesis 등 |
+| **상태 유지 엔진 (Engine)** | 연산자 내부 상태와 읽기 오프셋을 **Chandy-Lamport 알고리즘으로 동시 스냅샷** | Flink, Spark Streaming |
+| **트랜잭션 조정자** | 스트림 체크포인트 완료 시점과 **Sink 스토리지의 물리 커밋 시점을 1:1 동기화**| 2PC Coordinator 역할 |
+| **트랜잭션/멱등 Sink** | 중복 메시지가 도달하더라도 **2PC 트랜잭션 또는 UPSERT로 1회만 영구 반영** | Kafka Producer, RDB UPSERT |
 
 #### 한줄 요약
-
-- 재생 가능한 원본, 엔진 상태 스냅샷, 분산 트랜잭션 확정 관리자로 구성.
+- 재생 가능한 소스, 상태 스냅샷 엔진, 트랜잭션/멱등 Sink가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Two-Phase Commit Protocol in Flink**: `beginTransaction()` $\rightarrow$ `preCommit()` $\rightarrow$ `commit()` 3단계 훅(Hook)을 통한 타깃 시스템 원자적 출력.
+- **Two-Phase Commit Sink 파이프라인**: 트랜잭션 시작 $\to$ 사전 기록(Pre-Commit) $\to$ 체크포인트 스냅샷 $\to$ 최종 커밋(Commit).
 
 </details>
 
 ```text
-[이벤트 처리]
-      │
-      ▼
-1. 출력 트랜잭션 시작
-      │
-      ▼
-2. 출력 사전 기록
-      │
-      ▼
-3. 상태•오프셋 스냅샷
-      │
-      ▼
-4. 체크포인트 완료 판정
-      │
-      ▼
-5. 출력 커밋•중단
+스트림 데이터 유입 및 체크포인트 주기 도달
+        │
+   1. [트랜잭션 시작] Sink 연산자가 타깃 DB에 `beginTransaction()` 호출하여 임시 트랜잭션 오픈
+        │
+   2. [사전 기록 (Pre-Commit)] 처리 결과를 타깃 DB의 트랜잭션 버퍼에 사전 기록 (미확정 상태)
+        │
+   3. [상태 스냅샷 완료] 모든 연산자의 State 스냅샷이 S3에 저장되고 JobManager가 완료 판정
+        │
+   4. [최종 커밋 전파] JobManager가 Sink 연산자에 `commit()` 명령을 전파하여 물리 커밋 확정
+        │
+   5. 장애 발생 시 이전 체크포인트로 롤백하고 열려있던 미완료 트랜잭션은 즉시 `abort()` 폐기
 ```
 
-### 동작 원리
-
-1. 출력 트랜잭션 시작: 체크포인트별 Sink 거래 생성
-2. 출력 사전 기록: 결과를 미확정 상태로 기록
-3. 상태•오프셋 스냅샷: 연산 상태와 입력 위치 저장
-4. 체크포인트 완료 판정: 모든 연산자 저장 성공 확인
-5. 출력 커밋•중단: 성공 시 확정, 실패 시 폐기•재시도
-
 #### 한줄 요약
-
-- 입력 오프셋과 상태 스냅샷이 동기화된 이후 외부 확정을 수행하여 정합성 보장.
+- 트랜잭션 오픈 → 사전 기록 → 상태 스냅샷 완료 → 최종 커밋 확정 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **트랜잭션 비용 (Performance Tradeoff)**: 2PC 락 및 멱등성 검사로 인해 최소 1번 처리(At-Least-Once) 대비 지연 시간 발생.
+- **처리 보장 3단계 레벨**: At-Most-Once(최대 1번), At-Least-Once(최소 1번), Exactly-Once(정확히 1번).
 
 </details>
 
-| 처리 보장 레벨 | At-Most-Once (최대 1번) | At-Least-Once (최소 1번) | Exactly-Once (정확히 1번) |
+| 비교 항목 | At-Most-Once (최대 1번) | At-Least-Once (최소 1번) | Exactly-Once (정확히 1번) |
 |:---|:---|:---|:---|
-| 처리 누락 위험 | ACK 전 손실 가능 | 재시도로 누락 억제 | 전체 경계 실패 시 보장 제한 |
-| 중복 반영 위험 | 재시도하지 않아 낮음 | 재시도로 발생 가능 | 거래•멱등 경계에서 억제 |
-| 네트워크 재시도 | 안 함 (Fire and Forget) | 성공할 때까지 계속 재시도 | 멱등성/2PC 기반 재시도 |
-| 처리 성능  | **최상 ** | 상 (고성능) | **중간 (2PC/스냅샷 오버헤드)** |
+| 데이터 유실 위험 | **네트워크 장애 시 유실 발생 가능** | **유실 0% (Zero Loss 보장)** | **유실 0% (Zero Loss 보장)** |
+| 데이터 중복 위험 | 중복 없음 | **재시도로 인한 중복 발생 가능** | **중복 0% (Zero Duplication 보장)**|
+| 처리 지연 및 오버헤드| 지연 없음 (최고 처리량) | 낮음 (단순 재시도 오버헤드) | **2PC 및 스냅샷으로 인한 추가 지연**|
+| 최적 적용 분야 | 단순 로그 수집, IoT 원격 센서 | 클릭스트림, 대용량 웹 로그 집계 | **금융 계좌 이체, 결제 정산, 재고 관리**|
 
 #### 한줄 요약
-
-- 데이터 처리 시 입력, 계산, 출력 단계별 확정 관리로 결과 무결성 달성.
+- 속도 중심은 At-Most-Once, 유실 방지는 At-Least-Once, 금융 결제는 Exactly-Once를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **멱등성 부재 출력 위험 (Non-Idempotent Sink)**: Sink DB가 Unique Key 없는 INSERT 전용일 경우 장애 시 중복 데이터 발생 위험.
+- **Non-Idempotent Sink Risk**: 대상 DB에 기본키(PK) 제약이 없어 단순 `INSERT`가 반복 실행될 경우 데이터가 N배로 증식하는 장애.
 
 </details>
 
-| 2대 EOS 장애 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. 멱등성 미지원 | Unique Constraint 없는 일반 INSERT | **UPSERT(Merge Into) 또는 고유 식별자 부여** |
-| 2. 트랜잭션 타임아웃 | 보존 시간(`transaction.timeout.ms`) 초과 | **설정값 확장 및 스냅샷 주기 동기화**|
+| PK 제약 없는 일반 `INSERT`로 인한 중복 데이터 증식 | **`UPSERT` (Merge Into / ON DUPLICATE KEY UPDATE) 적용** | 중복 메시지 수신 시 자동 덮어쓰기 |
+| 2PC 트랜잭션 유지 시간 초과로 타깃 DB 타임아웃 | **`transaction.timeout.ms` 확장 및 Flink 체크포인트 주기 최적화** | 트랜잭션 만료 크래시 방지 |
+| 분산 노드 크래시 후 미완료 좀비 트랜잭션 누적 | **Kafka 트랜잭션 프로듀서의 `transactional.id` 고정 재사용** | 장애 재시작 시 이전 좀비 자동 정리 |
+| 체크포인트 지연으로 인한 End-to-End Latency 증가 | **미니배치 버퍼 튜닝 및 RocksDB 증분 스냅샷 적용** | 지연시간 50% 단축 |
 
-> 사례: **카카오페이 / 토스 실시간 결제 스트림 파이프라인 Kafka-Flink EOS 적용** #### 한줄 요약
-
-- 동일한 거래 식별자 기반의 중복 요청 필터링을 통해 결과 무결성 유지.
+#### 한줄 요약
+- UPSERT 멱등 쓰기, 트랜잭션 타임아웃 동기화, 트랜잭션 ID 재사용, 증분 스냅샷으로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **EOS 수립 기준**: 재생 가능 소스, 엔진 스냅샷, 2단계 커밋 확정 및 멱등성 기반의 데이터 처리 체계.
-
-</details>
-
-- Sink 거래 지원은 **2PC**, 미지원 Sink는 멱등 키로 단일 반영
+- 금융 거래 및 실시간 결제 정산 시스템의 무결성을 위해 **Replayable Source, Stateful Flink Engine, 2PC Sink가 결합된 End-to-End Exactly-Once 아키텍처를 표준 채택**하고, **UPSERT 멱등성 설계를 병행**하여 무손실·무중복 데이터 파이프라인 완성
 
 #### 한줄 요약
-
-- 최종 데이터 반영 정합성 보장 체계 적용
+- Exactly-Once는 재생 가능한 소스와 상태 스냅샷, 분산 2PC 커밋을 유기적으로 결합하여 장애 시에도 단 1회 처리를 보장하는 분산 컴퓨팅의 최고 정합성 모델이다.

@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 122
-  label: "122. 실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
+  label: "122. 실시간 스트리밍 플랫폼"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-13T22:52:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -22,156 +22,125 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Real-Time Streaming Platform (실시간 스트리밍 플랫폼)**: 발생 즉시 흘러나오는 연속적인 비동기 이벤트(Events/Logs/Metrics)를 소스로부터 수집(Ingestion), 분산 버퍼링(Messaging Broker), 실시간 연산(Stream Processing), 서빙 저장소(Serving DB)까지 서브밀리초~초 단위 지연으로 통합 처리하는 엔드투엔드 파이프라인 아키텍처.
-- **Data Pipeline Decoupling**: 수집(Kafka)과 연산(Flink/Spark)과 저장(Cassandra/Redis)의 물리적 레이어를 완벽히 분리하여 노드 장애 전파를 차단하는 아키텍처 사상.
-- **Event-Driven Architecture (EDA)**: 중앙 집중식 요청-응답(REST API)이 아닌, 상태 변경 이벤트 발생(Event Publication)을 구독(Subscribe)하여 즉각 반응하는 시스템 구조.
+- **실시간 스트리밍 플랫폼**: 이벤트 발생 즉시 수집, 메시지 브로커 버퍼링, 분산 연산, 서빙 저장소까지 밀리초 단위 초저지연으로 연결하는 데이터 아키텍처.
+- **4대 파이프라인 레이어**: Ingestion(수집), Broker(버퍼링), Processing(연산), Serving(조회).
 
 </details>
 
-- 정의/개념: 이벤트 수집•보존•연산•서빙을 잇는 **스트리밍 플랫폼**
-- 배경/필요성: 주기 배치는 **즉시 탐지•연속 상태 갱신** 지연
+- 정의/개념: 발생 즉시 흘러나오는 비동기 이벤트를 **수집(Ingestion), 분산 버퍼링(Broker), 실시간 연산(Processing), 서빙(Serving)까지 초저지연으로 통합 처리하는 파이프라인**
+- 배경/필요성: 주기적 배치 처리 방식의 **즉각적 이상 탐지(FDS) 불가, 실시간 상태 갱신 지연 및 사용자 반응성 저하 해결 불가**
 
 #### 한줄 요약
-
-- 우체국이 편지를 일단 쌓아 두고 분류하듯, 브로커가 연속 이벤트를 보존해 처리 속도 차이를 흡수하는 것이 핵심이다.
+- 수집, 버퍼링, 스트림 연산, 서빙 계층을 결합하여 밀리초 단위 실시간 데이터 처리를 구현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Low Latency & High Throughput**: 수십만 QPS 이벤트를 수ms 이내 초저지연 처리.
-- **Stateful Processing & End-to-End EOS**: 파이프라인 전체에 걸쳐 단 1번 처리(Exactly-Once) 보장.
+- **Pipeline Decoupling**: 수집기, 메시지 큐, 연산 엔진, 서빙 DB의 책임을 분리하여 노드 장애 전파를 차단하는 구조.
+- **End-to-End Low Latency**: 이벤트 발생부터 화면 조회까지 전체 소요 시간을 1초 미만(Sub-second)으로 단축.
 
 </details>
 
-- **End-to-End Real-Time Pipeline (Ingestion $\rightarrow$ Broker $\rightarrow$ Engine $\rightarrow$ Serving)**
-- **Sub-second Low Latency & High Ingestion Throughput**
-- **Stateful Stream Processing & Exactly-Once Consistency** #### 한줄 요약
+- 이벤트 발생부터 화면 반영까지 **1초 미만의 엔드투엔드 초저지연(Sub-second Latency)**
+- 각 계층 간의 장애 전파를 차단하는 **느슨한 결합(Decoupled Pipeline)**
+- 수십만 QPS 트래픽을 유실 없이 수용하는 **수평 확장(Scale-Out) 기반 고처리량**
 
-- 브로커는 이벤트를 보존하고 처리기는 상태를 계산하므로 두 계층의 위치•상태•출력 복구 경계를 맞춰야 한다.
+#### 한줄 요약
+- 초저지연, 계층 분리, 수평 확장을 통해 대규모 이벤트를 실시간으로 처리한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Ingestion, Message Broker, Stream Engine, Serving Store**: 실시간 스트리밍 플랫폼을 지탱하는 4대 레이어.
+- **4대 핵심 컴포넌트**: Debezium/Kafka Connect(수집), Apache Kafka(브로커), Apache Flink(스트림 연산), Redis/Elasticsearch(서빙).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Real-Time Streaming Platform Pipeline                │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. Ingestion Layer   ──► [Kafka Connect, Debezium CDC, Flume]          │
-│ 2. Broker Layer      ──► [Apache Kafka / Redpanda (Log Ingestion)]     │
-│ 3. Processing Layer  ──► [Apache Flink / Spark Streaming (State Engine)]│
-│ 4. Serving Layer     ──► [Redis / Cassandra / ElasticSearch / Pinot]  │
-└────────────────────────────────────────────────────────────────────────┘
+[실시간 스트리밍 플랫폼 4대 계층 아키텍처]
+|-- 1. Ingestion Layer (수집 계층: Debezium CDC, Kafka Connect, Flume)
+|-- 2. Broker Layer (분산 버퍼 계층: Apache Kafka / Redpanda - Partition Log)
+|-- 3. Processing Layer (스트림 연산 계층: Apache Flink / Spark Streaming - Stateful)
+`-- 4. Serving Layer (실시간 서빙 계층: Redis, Elasticsearch, ClickHouse, Cassandra)
 ```
 
-선의 의미: 데이터 수집 커넥터부터 메시지 브로커, 스트림 연산 엔진, 최종 서비스 디스플레이 DB까지 일체형으로 연결되는 파이프라인.
+선의 의미: 계층 및 수집된 원천 이벤트가 브로커 버퍼와 연산 엔진을 거쳐 서빙 DB로 파이프라이닝되는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 수집 계층 | 앱 이벤트•로그•CDC 변경분 추출 |
-| 이벤트 브로커 | 파티션 보존•버퍼링•다중 구독 제공 |
-| 스트림 처리기 | 이벤트 시간•윈도•키 상태 연산 |
-| 체크포인트 저장소 | 입력 위치와 처리 상태 복구점 보관 |
-| 서빙 저장소 | 가공 결과의 저지연 조회 제공 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **수집 계층 (Ingestion)** | RDB 트랜잭션 로그 및 앱 로그를 **실시간 이벤트 포맷으로 추출/발행** | Debezium, Kafka Connect |
+| **이벤트 브로커 (Broker)** | 대량 이벤트를 디스크에 순차 보존하고 **생산자와 소비자의 속도 차이 버퍼링** | Kafka, Pulsar |
+| **스트림 처리기 (Engine)** | 이벤트 시간 기준 윈도우 집계 및 **키별 상태(Keyed State) 실시간 계산** | Flink, Spark Streaming |
+| **서빙 저장소 (Serving)** | 가공된 집계 결과를 색인하여 **최종 사용자/API에 10ms 이내 초고속 서빙** | Redis, Elasticsearch |
 
 #### 한줄 요약
-
-- 작성자, 사건 일지, 계산자, 복구 사진, 서비스 장부로 구성된다.
+- 수집 계층, 분산 브로커, 스트림 엔진, 서빙 저장소가 유기적으로 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Stream-Table Duality (KTable)**: 이벤트 스트림(Stream)은 변화의 기록이고, 테이블(Table)은 특정 시점의 현재 상태라는 스트림-테이블 이중성 이론.
+- **실시간 스트림 처리 5단계**: CDC 이벤트 캡처 $\to$ 카프카 토픽 버퍼링 $\to$ Flink 윈도우 연산 $\to$ 서빙 DB 멱등 쓰기 $\to$ 대시보드 푸시.
 
 </details>
 
 ```text
-[원천 이벤트]
-      │
-      ▼
-1. 이벤트 수집
-      │
-      ▼
-2. 파티션 로그 보존
-      │
-      ▼
-3. 상태•윈도 연산
-      │
-      ▼
-4. 결과 멱등 반영
-      │
-      ▼
-5. 지연•복구 감시
-      │
-      ▼
- [서비스 조회]
+서비스 DB 트랜잭션 및 사용자 액션 발생
+        │
+   1. [CDC 수집] Debezium이 DB Binlog를 실시간 감지하여 JSON 이벤트로 변환
+        │
+   2. [브로커 버퍼링] Apache Kafka의 특정 파티션에 Append-Only 순차 기록 및 ISR 복제
+        │
+   3. [스트림 연산] Apache Flink가 Event Time Watermark 기준으로 5분 슬라이딩 윈도우 집계
+        │
+   4. [서빙 저장소 멱등 쓰기] 가공된 집계 결과를 Redis / Elasticsearch에 UPSERT 반영
+        │
+   5. 웹소켓을 통해 프론트엔드 관제 대시보드 및 실시간 FDS 차단 엔진에 즉시 푸시
 ```
 
-### 동작 원리
-
-1. 이벤트 수집: 커넥터가 원천 변경을 표준 이벤트로 변환
-2. 파티션 로그 보존: 키 기준 순서 경계와 재생 위치 저장
-3. 상태•윈도 연산: 이벤트 시간으로 키별 결과 계산
-4. 결과 멱등 반영: 거래•멱등 키로 Sink 결과 갱신
-5. 지연•복구 감시: Lag•Backpressure•체크포인트 추적
-
 #### 한줄 요약
-
-- 일지 위치와 계산 상태, 외부 장부 결과를 같은 경계로 맞춰 다시 시작해도 틀어지지 않게 한다.
+- CDC 수집 → 카프카 버퍼링 → Flink 윈도우 연산 → 서빙 저장소 쓰기 → 실시간 표출 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Batch vs Real-Time**: 배치는 T+1일 일괄 처리, 실시간 스트리밍은 발생 1초 이내 즉각 연산 및 알림.
+- **배치 vs 실시간 스트리밍**: 주기적 일괄 연산(배치)과 이벤트 발생 즉시 연속 연산(실시간).
 
 </details>
 
-| 구분 | Batch Data Pipeline (배치 파이프라인) | Real-Time Streaming Pipeline (실시간 파이프라인) |
+| 비교 항목 | 배치 데이터 파이프라인 (Batch) | 실시간 스트리밍 플랫폼 (Streaming) |
 |:---|:---|:---|
-| 데이터 연산 시점 | **주기적 일괄 처리 (매일 자정 T+1일)** | **이벤트 발생 즉시 연속 처리 ** |
-| 핵심 메시지 브로커 | HDFS, AWS S3, File Storage | **Apache Kafka, Apache Pulsar** |
-| 핵심 연산 프레임워크 | Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
-| 주요 사용 도메인 | 정기 결제 정산, 월간 일괄 보고서 | **실시간 FDS 결제차단, 랭킹 차트, 실시간 추천** |
+| 데이터 처리 주기 | **주기적 일괄 실행 (매일 자정, T+1일)** | **이벤트 발생 즉시 연속 실행 (밀리초 단위)** |
+| 핵심 저장/버퍼 | HDFS, S3 객체 스토리지 | **Apache Kafka, Apache Pulsar** |
+| 핵심 연산 엔진 | Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
+| 최적 적용 도메인 | **월간 결제 정산, 일일 재무 보고서** | **이상금융거래 탐지(FDS), 실시간 피드 추천**|
 
 #### 한줄 요약
-
-- Kafka는 사건을 남기고 Flink•Spark는 사건을 계산하며 Sink는 서비스할 결과를 보관한다.
+- 사후 분석은 배치 파이프라인, 즉시 대응이 필요한 서비스는 실시간 스트리밍 플랫폼을 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Data Spikes (트래픽 폭증)**: 이벤트 폭증 시 브로커 파티션 및 스트림 연산자 튜닝으로 역압력(Backpressure) 방지.
+- **Backpressure**: 서빙 DB의 쓰기 지연으로 인해 스트림 엔진의 버퍼가 차올라 전체 파이프라인이 멈추는 현상.
 
 </details>
 
-| 3대 스트리밍 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Backpressure 현상 | Serving DB 과부하로 Stream 연산자 멈춤 | **Async I/O 적용 및 Serving DB 인메모리/캐시 확장**|
-| 2. Out-of-Order Events | 네트워크 지연으로 이벤트 순서 뒤틀림 | **Watermark 및 Allowed Lateness 버퍼 레이어 설정**|
-| 3. End-to-End EOS 파행 | 파이프라인 일부 노드 다운 시 중복 렌더링| **Kafka (acks=all) + Flink 2PC + Redis UPSERT 결합**|
+| 서빙 DB 병목으로 인한 파이프라인 **Backpressure** 차단 | **Async I/O 적용 및 서빙 DB 전면에 Redis 캐시 버퍼 배치** | 파이프라인 정체 해소 |
+| 네트워크 지연으로 인한 지연 이벤트(Late Data) 순서 왜곡 | **Watermark 튜닝 및 `allowedLateness` 지연 허용 버퍼 설정** | 지연 데이터 유실 없는 정확한 집계 |
+| 파이프라인 장애 복구 시 데이터 중복 표출 | **Kafka `acks=all` + Flink 2PC + 서빙 DB UPSERT 삼위일체 결합**| End-to-End Exactly-Once 달성 |
+| 트래픽 급증 시 브로커 파티션 병목 | **파티션 키 Salt 해싱 및 파티션 수 동적 확장** | 브로커 부하 균등 분산 |
 
-> 사례: **카카오뱅크 실시간 FDS & 당근마켓 실시간 피드 추천 파이프라인 아키텍처** #### 한줄 요약
-
-- 같은 장치 사건은 순서대로 처리하되 한 장치가 전체 처리량을 독점하지 않는지 확인한다.
+#### 한줄 요약
+- Async I/O, 워터마크 튜닝, End-to-End EOS 결합, 파티션 분산으로 파이프라인을 최적화한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **스트리밍 파이프라인 수립 기준(Streaming Architecture Standards)**: Ingestion QPS, Kafka-Flink-Redis 3대 통합성, EOS 및 Watermark 설계에 의거한 체계.
-
-</details>
-
-- 즉시 상태 갱신은 **스트리밍**, 지연 허용 대량 집계는 배치 선택
+- 실시간 이상거래 탐지(FDS) 및 AI 실시간 추천 서비스를 위해 **Debezium(CDC) - Kafka(Broker) - Flink(Processing) - Redis(Serving) 표준 아키텍처를 구축**하고, **Watermark와 멱등성 설계를 적용**하여 무결점 초저지연 플랫폼 완성
 
 #### 한줄 요약
-
-- 사건 위치•계산 상태•최종 결과가 같은 시점으로 복구되어야 믿을 수 있다.
+- 실시간 스트리밍 플랫폼은 수집, 버퍼링, 연산, 서빙의 4대 계층을 유기적으로 결합하여 이벤트 발생 즉시 비즈니스 가치를 창출하는 현대 데이터 인프라의 핵심이다.
