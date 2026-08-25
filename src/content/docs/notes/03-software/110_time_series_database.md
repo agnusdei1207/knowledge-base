@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 110
-  label: "110. 시계열 데이터베이스 (Time Series Database)"
+  label: "110. 시계열 데이터베이스"
   badge:
     text: "미출 · 30%"
     variant: note
 title: "시계열 데이터베이스 (Time Series Database)"
-date: "2026-08-13T21:28:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 110
@@ -22,154 +22,127 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **TSDB (Time Series Database / 시계열 데이터베이스)**: 시간의 흐름(Timestamp)에 따라 발생하는 연속적인 수치 측정 데이터(Metrics, Log, Event, Financial Tick)를 고속 적재하고, 압축 및 다운샘플링(Downsampling) 처리에 특화된 전용 데이터베이스.
-- **Timestamp Indexing**: 타임스탬프를 1차 클러스터링 인덱스 키로 지정하여 시간 범위 검색(`WHERE time >= now() - 1h`)을 $O(1)$ 수준으로 가속화하는 구조.
-- **Downsampling & Retention Policy**: 시간이 오래된 고해상도 초 단위 데이터를 5분/1시간 단위의 대표 통계값(Avg, Max, Min)으로 축약(Downsample)하고 오래된 원본을 자동 파기(Retention)하는 수명주기 관리 정책.
+- **TSDB(Time Series Database)**: 시간(Timestamp)을 1차 기준으로 삼아 대규모 수치 데이터를 고속 적재하고 시간 범위 집계에 특화된 데이터베이스.
+- **Downsampling & Retention Policy**: 오래된 고해상도 데이터를 저해상도 대표값(평균/최대)으로 요약하고 원본을 자동 삭제하는 수명주기 정책.
 
 </details>
 
-- 정의/개념: 시간순 측정값의 적재•집계•보존에 특화된 **TSDB**
-- 배경/필요성: 고빈도 측정값 누적으로 **저장량•시간 범위 집계 비용** 증가
+- 정의/개념: 시간의 흐름에 따라 발생하는 연속 측정 데이터를 **초고속 적재하고 시간 범위 집계 및 자동 다운샘플링·보존 정책(Retention)에 특화**된 데이터베이스
+- 배경/필요성: IoT 및 시스템 모니터링 환경에서 고빈도 측정값 폭증 시 RDBMS의 **디스크 I/O 병목, 저장량 급증 및 시간 범위 집계 성능 저하 해결 불가**
 
 #### 한줄 요약
-
-- 시간 도장이 찍힌 측정값을 빠르게 쌓고 요약 및 보관하는 데이터베이스이다.
+- 시간 인덱싱과 델타 압축, 다운샘플링을 통해 대규모 시계열 데이터를 효율적으로 관리한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **High-Rate Append-Only Write**: 갱신(Update) 및 삭제(Delete)가 거의 발생하지 않고, 무조건 시간 순서대로 덧붙이는 쓰기 전용 특성.
-- **Gorilla Compression Algorithm**: 페이스북이 개발한 시계열 압축 알고리즘으로, 타임스탬프와 수치 float 값의 XOR 차이값만 저장해 90% 이상 디스크 압축률 달성.
+- **Append-Only Write**: 갱신이나 삭제 없이 시간 순서대로 덧붙이기만 수행하여 쓰기 I/O를 극대화하는 구조.
+- **Gorilla Compression**: 페이스북이 고안한 시계열 압축 기법으로, 타임스탬프 델타와 부동소수점 XOR 차이값만 저장하여 90% 이상 용량 절감.
 
 </details>
 
-- **Append-Only Write**: 시간순 덧붙이기 중심 쓰기 경로
-- **Delta Compression**: 값•시간 차이를 활용한 압축
-- **Continuous Downsampling & Retention Policy (수명주기 자동화)** #### 한줄 요약
+- 갱신/삭제 없는 시간 순차 추가 기반의 **초고속 순차 쓰기(Append-Only Write)**
+- 타임스탬프 및 수치 변화량만을 인코딩하는 **델타 압축(Gorilla Delta-of-Delta)**
+- 시간 경과에 따라 데이터 해상도를 조절하는 **연속 다운샘플링 및 보존 정책(Retention)**
 
-- 연속 쓰기에 강하지만 태그가 폭증하면 색인과 메모리 비용이 커진다.
+#### 한줄 요약
+- 덧붙이기 전용 쓰기, 고효율 델타 압축, 수명주기 자동화로 시계열 데이터를 최적화한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Metric & Tags (Labels)**: `cpu_usage{host="server01", region="us-east"}`와 같이 메트릭 이름과 메타데이터 태그(Tag Set)의 조합 구조.
+- **TSDB 핵심 구조**: Metric & Tag(식별 인덱스), Time Partition(시간 단위 파티셔닝), Compressed Block(압축 청크), Retention Worker(보존 관리자).
 
 </details>
 
 ```text
-[시계열 표본] ───── [태그 인덱스]
-      │                   │
-[시간 파티션] ───── [압축 블록]
-      │                   │
-[집계 규칙] ─────── [보존 정책]
+[TSDB 시계열 데이터 저장 및 수명주기 파이프라인]
+|-- Ingestion Layer (고속 수집기: 초당 수십만 메트릭 버퍼링)
+`-- Time-Series Storage Engine
+    |-- Tag Index (역색인 / Inverted Index: host, region 등 다차원 필터링)
+    |-- Time Partitioning (시간 단위 파티션 분할: 일별/주별 청크 생성)
+    |-- Columnar Compressed Chunk (Gorilla XOR + Double Delta 압축)
+    `-- Lifecycle Engine (Downsampling 집계 + Retention 자동 만료 파기)
 ```
 
-선의 의미: 표본 식별•시간 배치•압축•집계•보존의 정적 관계.
+선의 의미: 계층 및 수집된 시계열 데이터가 태그 인덱싱과 시간 파티션을 거쳐 압축·보존 관리되는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 시계열 표본 | 시간•메트릭•태그•필드 값 저장 |
-| 태그 인덱스 | 시계열 식별과 필터 후보 탐색 |
-| 시간 파티션 | 시간 범위별 데이터 배치•제거 |
-| 압축 블록 | 시간•값 차이를 묶어 저장량 절감 |
-| 집계 규칙 | 구간별 평균•최댓값 등 생성 |
-| 보존 정책 | 해상도별 보관 기간과 삭제 관리 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **메트릭 및 태그 (Tag Set)** | 시계열의 출처를 식별하고 **다차원 필터링을 지원하는 역색인(Inverted Index)** | 고유 시계열(Series) 식별 |
+| **시간 파티션 (Time Chunk)**| 시간 범위별로 데이터를 물리적 청크로 분할하여 **시간 범위 조회 및 일괄 삭제 가속**| Drop Table 수준 고속 만료 |
+| **압축 엔진 (Gorilla)** | 인접한 타임스탬프와 수치값의 비트 차이만을 계산하여 **저장 공간 90% 이상 절감** | XOR 부동소수점 압축 |
+| **수명주기 관리자 (Retention)**| 정책에 따라 1초 데이터를 1분/1시간 단위로 요약하고 **만료 데이터를 자동 백그라운드 파기** | 스토리지 용량 고갈 방지 |
 
 #### 한줄 요약
-
-- 측정 이름표, 색인, 시간 상자, 압축 묶음, 보존 담당자로 구성된다.
+- 태그 인덱스, 시간 파티션, 압축 청크, 보존 관리자가 결합하여 시계열을 수명주기별로 통제한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **High Cardinality**: 태그(Tag) 값의 조합 수가 무한히 많아져(예: `user_id`를 태그로 삽입), TSDB 인덱스 메모리가 수십 GB 이상 폭증하여 DB가 다운되는 안티패턴.
+- **High Cardinality**: 태그 조합의 고유 개수가 수천만 개로 폭증하여 인덱스 메모리가 고갈되는 현상.
 
 </details>
 
 ```text
-[측정값 수신]
-      │
-      ▼
-1. 시계열 식별
-      │
-      ▼
-2. 시간 파티션 배치
-      │
-      ▼
-3. 압축 블록 기록
-      │
-      ▼
-4. 구간 집계 생성
-      │
-      ▼
-5. 보존 만료 처리
-      │
-      ▼
-[조회용 데이터]
+IoT 센서 및 서버 모니터링 메트릭 유입
+        │
+   1. [시계열 식별] Metric 이름과 Tag 집합을 매핑하여 해당 Series ID 식별 ($O(1)$)
+        │
+   2. [시간 파티션 배치] Timestamp 기준으로 현재 활성 시간 청크 메모리 버퍼에 할당
+        │
+   3. [델타 압축 및 디스크 플러시] Gorilla 알고리즘으로 압축 후 디스크 불변 블록에 기록
+        │
+   4. [다운샘플링 롤업] 7일 경과 시 초 단위 데이터를 5분 평균/최대값으로 자동 재집계
+        │
+   5. [보존 정책 만료] 30일 초과된 원본 시간 파티션 블록을 디스크에서 즉시 일괄 삭제
 ```
 
-### 동작 원리
-
-1. 시계열 식별: 메트릭과 태그 집합으로 계열 결정
-2. 시간 파티션 배치: 타임스탬프로 저장 구간 선택
-3. 압축 블록 기록: 시간•값 차이를 압축해 저장
-4. 구간 집계 생성: 정책별 해상도의 요약값 계산
-5. 보존 만료 처리: 만료 원본•집계 파티션 제거
-
 #### 한줄 요약
-
-- 측정값을 시간 상자에 모아 압축하고 오래된 구간은 요약값만 남긴다.
+- 시계열 식별 → 시간 파티션 배치 → 델타 압축 플러시 → 다운샘플링 롤업 → 만료 삭제 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **TimescaleDB vs InfluxDB**: TimescaleDB는 PostgreSQL 기반의 확장 TSDB(SQL 통용), InfluxDB는 전용 NoSQL 엔진.
+- **TSDB vs RDBMS**: 시계열 전용 압축과 시간 파티셔닝에 특화된 TSDB와 범용 정규화 테이블을 관리하는 RDBMS.
 
 </details>
 
-| 구분 | RDBMS (PostgreSQL, MySQL) | TSDB (Prometheus, InfluxDB, TimescaleDB) |
+| 비교 항목 | 범용 RDBMS (PostgreSQL, MySQL) | 전용 TSDB (Prometheus, InfluxDB, TimescaleDB) |
 |:---|:---|:---|
-| 데이터 갱신/삭제 | 업무 행 갱신•삭제 지원 | **덧붙이기 중심•지연 표본 처리** |
-| 압축률 및 용량 | 범용 행•열 압축 적용 | **시간•값 상관성을 활용한 압축** |
-| 시간 범위 집계 | 인덱스•파티션 설계에 좌우 | **시간 파티션•연속 집계 활용** |
-| 데이터 수명주기 | 수동 `DELETE FROM` (디스크 파편화) | **자동 Retention Policy & Downsampling** |
+| 데이터 쓰기 패턴 | 임의 행 갱신(Update) 및 단건 삭제 | **100% 시간순 덧붙이기 쓰기 (Append-Only)** |
+| 압축률 및 효율 | 범용 페이지 압축 (보통 2~3배) | **Gorilla 전용 비트 압축 (최대 10~20배 압축)** |
+| 시간 범위 집계 | B+Tree 인덱스 스캔 부하 발생 | **시간 파티션 기반 연속 집계(Continuous Aggregate)** |
+| 데이터 수명주기 | 수동 `DELETE`로 인한 디스크 파편화 | **시간 청크 단위 즉시 Drop 및 자동 Downsampling** |
 
 #### 한줄 요약
-
-- 시계열 모델 선택 기준에서 관계형 데이터베이스는 업무 관계를, 시계열 데이터베이스는 시간 변화와 구간 통계를 다룬다.
+- 정형 비즈니스 원장은 RDBMS, 시간 변화와 구간 통계 중심 데이터는 TSDB를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Cardinality Control**: 태그 키-값으로 유일한 값(UUID, User ID, IP 등)을 절대 넣지 않고, 카테고리성 범주값만 사용하는 규칙.
+- **Cardinality Explosion**: 태그 필드에 사용자 ID나 UUID 같은 유일값을 넣어 인덱스 엔트리가 수억 개로 폭증하는 안티패턴.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| `user_id`를 Tag로 지정하여 **High Cardinality** 인덱스 폭발 | **고선택성 고유값은 Tag 대신 Value/Field로 지정** | 메모리 락업 방지 |
-| 원본 초 단위 데이터를 영구 보관하여 디스크 고갈 | **Retention Policy (7일 후 1시간 다운샘플링 및 파기)** | 디스크 90% 절감 |
-| 클럭 디비에이션(Clock Drift)으로 타임스탬프 역전 | **NTP (Network Time Protocol) 동기화 및 Late Data 허용 윈도**| 수집 정합성 보장 |
+| UUID/User-ID 태그 지정으로 **High Cardinality** 인덱스 폭발 | **고선택성 고유값은 Tag 대신 Value/Field로 격리 지정** | 인덱스 메모리 폭주 원천 차단 |
+| 초 단위 원본 데이터 영구 보관으로 인한 디스크 고갈 | **Retention Policy 수립 (7일 보관 후 1시간 단위 다운샘플링)** | 스토리지 비용 90% 절감 |
+| 서버 간 클럭 오차(Clock Drift)로 인한 타임스탬프 역전 | **NTP 시간 동기화 강제 및 Late-Arriving 허용 윈도 버퍼 설정** | 시계열 정렬 무결성 보장 |
+| 피크 시 메트릭 폭증으로 인한 수집 엔진 다운 | **전면에 Kafka/Vector 버퍼 큐 배치 및 배치 쓰기(Batch Write)** | 수집 지연 스파이크 흡수 |
 
-> 사례: **쿠버네티스 클러스터 모니터링 (Prometheus + Thanos) & Smart Factory IoT TSDB 구축** #### 한줄 요약
-
-- 이름표 종류를 제한하고 오래된 원본은 필요한 통계만 남겨 비용을 관리한다.
+#### 한줄 요약
+- 태그 카디널리티 제어, 다운샘플링 정책, NTP 동기화, 카프카 버퍼링으로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **TSDB 수립 기준(TSDB Architecture Standards)**: Ingestion QPS, High Cardinality 제어, Gorilla 압축 및 Retention Downsampling 정책에 의거한 체계.
-
-</details>
-
-- 시간 범위 집계•보존 자동화가 핵심이면 **TSDB** 선택
+- 대규모 IoT 센서 데이터 및 클라우드 인프라 관제를 위해 **TSDB의 Gorilla 압축과 시간 청크 파티셔닝을 적극 활용**하고, **태그 카디널리티 통제와 자동 다운샘플링·Retention 정책**을 결합하여 초저비용 고효율 시계열 플랫폼 구축
 
 #### 한줄 요약
-
-- 시계열 보존 적용 기준은 측정 주기•보존 기간•해상도를 함께 정한다.
+- TSDB는 시간 인덱싱과 고효율 델타 압축, 수명주기 관리를 통해 대규모 시계열 데이터를 최적 처리하는 특화 데이터베이스다.

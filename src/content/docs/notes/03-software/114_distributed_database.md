@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 114
-  label: "114. 분산 데이터베이스 (Distributed Database)"
+  label: "114. 분산 데이터베이스"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "분산 데이터베이스 (Distributed Database)"
-date: "2026-08-13T21:56:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 114
@@ -22,154 +22,129 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Distributed Database (분산 데이터베이스)**: 물리적으로 서로 떨어진 다수의 데이터베이스 노드(Physical Node)에 데이터를 분할(Sharding) 및 복제(Replication) 저장하되, 애플리케이션에는 네트워크 투명성(Transparencies)을 통해 단일 DB처럼 보여주는 데이터 시스템.
-- **Distributed Transparencies (분산 투명성 6대 요소)**: 위치, 분할, 복제, 병행, 장애, 자원 투명성을 통해 사용자가 물리적 노드 위치나 샤딩 여부를 알 필요 없이 단일 DB로 인식하게 해주는 특성.
-- **Shared-Nothing Architecture**: 노드 간 디스크나 메모리를 공유하지 않고, 독립된 노드들이 네트워크(Message Passing)로만 통신하는 분산 아키텍처의 표준.
+- **분산 데이터베이스(Distributed Database)**: 물리적으로 분산된 여러 노드에 데이터를 분할/복제 저장하면서도 논리적으로는 하나의 DB처럼 작동하는 시스템.
+- **6대 분산 투명성**: 위치, 분할, 복제, 병행, 장애, 자원 투명성(Location, Fragmentation, Replication, Concurrency, Failure, Resource).
 
 </details>
 
-- 정의/개념: 분할•복제 데이터를 하나처럼 제공하는 **분산 데이터베이스**
-- 배경/필요성: 단일 노드는 **용량•처리량•장애 영향•지역 지연** 한계
+- 정의/개념: 물리적으로 분산된 다수의 독립 노드에 데이터를 분할·복제 저장하되 **6대 분산 투명성을 통해 단일 논리 DB처럼 투명하게 제공**하는 시스템
+- 배경/필요성: 단일 노드 데이터베이스의 **물리적 자원 한계, 단일 장애점(SPOF) 위험 및 글로벌 지역 간 통신 지연 해결 불가**
 
 #### 한줄 요약
-
-- 장부를 지점에 나누고 사본과 합의 규칙으로 하나처럼 쓰는 데이터베이스이다.
+- Shared-Nothing 아키텍처와 분산 투명성을 통해 수평 확장성과 무중단 고가용성을 달성한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **High Availability & Fault Tolerance**: 1개 노드 다운 시에도 타 노드로 서비스 자동 연속.
-- **Scalability (Horizontal Scale-Out)**: 노드 추가를 통해 디스크 용량 및 TPS 무제한 증설.
+- **Shared-Nothing**: 각 노드가 CPU, 메모리, 디스크를 독립적으로 보유하고 네트워크 메시지 교환으로만 협력하는 구조.
+- **Two-Phase Commit (2PC)**: 분산 노드 간 원자적 커밋을 위해 Prepare와 Commit 2단계로 진행되는 합의 프로토콜.
 
 </details>
 
-- **Shared-Nothing**: 독립 자원을 가진 노드의 수평 확장
-- **6대 분산 투명성 (Location, Partition, Replication, Concurrency, Failure, Resource)**
-- **Two-Phase Commit (2PC) / Consensus (Raft/Paxos)** 기반 분산 일관성 보장
+- 노드 간 자원을 공유하지 않고 독립 확장하는 **Shared-Nothing 수평 확장(Scale-Out)**
+- 물리적 분산 배치를 응용 프로그램에 은닉하는 **6대 분산 투명성(Transparencies) 보장**
+- 분산 트랜잭션의 원자성을 보장하는 **2PC(Two-Phase Commit) 및 Raft 합의 엔진 연계**
 
 #### 한줄 요약
-
-- 수평 확장과 장애 대응은 좋아지지만 네트워크와 사본 비용이 추가된다.
+- 수평 확장, 6대 투명성, 분산 트랜잭션 합의를 통해 신뢰성 있는 분산 처리를 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Location & Replication Transparency**: 데이터가 어느 물리 노드에 있는지, 몇 개의 복제본이 존재하는지 사용자가 알 필요 없이 단순 SQL로 접근 가능함.
+- **GDD(Global Data Dictionary)**: 전체 분산 클러스터의 샤딩 룰, 복제본 위치, 데이터 매핑 메타데이터를 통합 관리하는 전역 카탈로그.
 
 </details>
 
 ```text
-[전역 카탈로그] ─── [분산 질의 조정자]
-        │                    │
-[트랜잭션 조정자] ── [복제•합의 계층]
-        │                    │
-        └──── [로컬 DB 노드] ┘
+[분산 데이터베이스 통합 계층 아키텍처]
+|-- 클라이언트 애플리케이션 (단일 DB로 인식하고 표준 SQL 질의)
+`-- 분산 데이터베이스 관리 시스템 (DDBMS)
+    |-- 전역 데이터 딕셔너리 (GDD: 위치, 샤드 매핑, 복제본 카탈로그)
+    |-- 분산 질의 최적화기 (Global Query Optimizer: 분산 플랜 수립 및 셔플링)
+    |-- 트랜잭션 코디네이터 (Transaction Coordinator: 2PC / Raft 분산 커밋)
+    `-- 로컬 DBMS 노드들 (Local Node 1, 2, 3: 독자 스토리지 및 트랜잭션 엔진)
 ```
 
-선의 의미: 위치 정보•질의•트랜잭션•복제•저장의 정적 협력 관계.
+선의 의미: 계층 및 DDBMS가 전역 메타데이터와 분산 조율을 통해 로컬 노드들을 통제하는 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 전역 카탈로그 | 분할•복제•위치 메타데이터 관리 |
-| 분산 질의 조정자 | 하위 질의 분배와 결과 취합 |
-| 트랜잭션 조정자 | 참여 노드의 커밋•중단 결정 |
-| 복제•합의 계층 | 사본 순서•정족수•장애전환 관리 |
-| 로컬 DB 노드 | 담당 파티션 저장과 로컬 연산 수행 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **전역 카탈로그 (GDD)** | 데이터의 분할(Shard), 복제본 위치, **노드 상태 메타데이터를 전역 관리** | 위치 투명성 제공 |
+| **분산 질의 조정자** | 전역 SQL을 분석하여 **하위 질의로 분할 전송하고 중간 결과를 병합/취합** | 네트워크 셔플 최소화 |
+| **트랜잭션 조정자** | 분산 트랜잭션 발생 시 **2PC 프로토콜을 가동하여 전역 원자성(Commit/Abort) 통제** | Prepare $\to$ Commit 단계 제어 |
+| **로컬 DBMS 노드** | 자신에게 할당된 데이터 파티션을 저장하고 **로컬 ACID 트랜잭션을 독립 실행** | Shared-Nothing 독립 자원 |
 
 #### 한줄 요약
-
-- 위치표, 안내자, 사본 규칙, 거래 조정자, 이동 담당자로 구성된다.
+- 전역 카탈로그, 분산 질의 조정자, 트랜잭션 코디네이터, 로컬 DB 노드가 유기적으로 협력한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Two-Phase Commit (2PC)**: 분산 DB 트랜잭션 시 Coordinator가 Prepare Phase와 Commit Phase 2단계를 통해 참여 노드(Cohort) 전체의 동시 커밋을 완전 원자 보장하는 프로토콜.
+- **2PC(Two-Phase Commit) 파이프라인**: Coordinator가 모든 Participant에 Prepare를 요청하고 전원 Yes 응답 시 Commit을 전파하는 프로토콜.
 
 </details>
 
 ```text
-[분산 트랜잭션]
-       │
-       ▼
-1. 참여 노드 식별
-       │
-       ▼
-2. Prepare 요청
-       │
-       ▼
-3. 투표 결과 수집
-       │
-       ▼
-4. 전역 결정 기록
-       │
-       ▼
-5. 결정 전파
-       │
-       ▼
-  [결과 반환]
+클라이언트가 분산 트랜잭션 커밋 요청
+        │
+   1. [참여 노드 식별] 트랜잭션 코디네이터(Coordinator)가 대상 샤드 노드들 식별
+        │
+   2. [Phase 1: Prepare] 코디네이터가 모든 참여 노드에 Prepare 요청 전송
+        │
+   모든 노드가 'Yes(준비 완료)' 응답을 보냈는가?
+   ┌────┴───────────────────────────┐
+  예 (전원 성공)                    아니오 (1개 노드라도 실패/타임아웃)
+   │                                 │
+3. [Phase 2: Global Commit]         [Phase 2: Global Abort]
+   코디네이터가 Commit 로그 작성 후   코디네이터가 Abort 전파 후
+   모든 노드에 커밋 전파 및 완료     모든 노드가 롤백 수행
 ```
 
-### 동작 원리
-
-1. 참여 노드 식별: 변경 대상 파티션과 담당 노드 결정
-2. Prepare 요청: 각 노드가 변경 준비와 로그 기록 수행
-3. 투표 결과 수집: 모든 준비 성공 여부 확인
-4. 전역 결정 기록: 조건에 따라 Commit•Abort 확정
-5. 결정 전파: 참여 노드가 결정 적용 후 잠금 해제
-
 #### 한줄 요약
-
-- 안내소가 담당 지점을 찾고 사본 확인까지 마친 결과를 하나의 장부처럼 돌려준다.
+- 노드 식별 → Prepare 요청 → 투표 결과 취합 → Global Commit/Abort 확정 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Homogeneous vs Heterogeneous**: 동종 분산 DB는 동일한 DBMS 엔진(예: MySQL-MySQL)으로 구성, 이종 분산 DB는 서로 다른 DBMS(Oracle-MySQL)를 GDD로 묶은 구조.
+- **동종(Homogeneous) vs 이종(Heterogeneous)**: 동일 DBMS 엔진으로 구성된 동종 분산 DB와 서로 다른 DBMS 엔진을 미들웨어로 연계한 이종 분산 DB.
 
 </details>
 
-| 구분 | Homogeneous (동종 분산 DB) | Heterogeneous (이종 분산 DB) |
+| 비교 항목 | 동종 분산 DB (Homogeneous) | 이종 분산 DB (Heterogeneous) |
 |:---|:---|:---|
-| DBMS 엔진 동일성 | **동일한 DBMS 제품으로 노드 구성 (Oracle-Oracle)**| **서로 다른 DBMS 엔진 혼용 (Oracle-MySQL)** |
-| 트랜잭션 통제 | DBMS 자체 프로토콜로 쉽게 2PC 및 Replication 가능 | **중간 게이트웨이 및 미들웨어 (ODBC/JDBC) 필수** |
-| 구현 난이도 | 상용 DB 지원으로 표준적 | **극도로 높음 (데이터 타입/SQL 변환 맵핑 필요)** |
+| 노드 DBMS 엔진 | **동일한 DBMS 제품으로 구성 (예: PG-PG)** | **서로 다른 DBMS 제품 혼용 (예: Oracle-MySQL)**|
+| 트랜잭션 통제 | **DBMS 자체 분산 프로토콜로 쉽게 2PC 구현** | **XA 표준 미들웨어 및 분산 게이트웨이 필수** |
+| 데이터 모델 매핑 | 단일 데이터 모델 및 표준 SQL 통용 | SQL 문법 및 데이터 타입 변환 매핑 오버헤드 큼 |
+| 최적 적용 분야 | **신규 대규모 분산 시스템 구축, NewSQL** | **기업 간 시스템 통합(EAI), 레거시 DB 통합** |
 
 #### 한줄 요약
-
-- 데이터베이스 배치 선택 기준에서 한 지점은 단순하고 여러 지점은 넓게 확장되지만 연락과 합의가 필요하다.
+- 신규 확장은 동종 분산 DB, 이종 시스템 간 데이터 통합은 이종 분산 DB를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Split-Brain Problem**: 네트워크 단절 시 분산 노드가 둘로 쪼개져 서로 자신이 Master라고 주장하며 데이터 오염을 발생시키는 사태 (Quorum 과반수 투표로 해결).
+- **Split-Brain**: 네트워크 분할 시 고립된 서브 클러스터들이 서로 자신을 Master로 선언하여 데이터 오염을 유발하는 현상.
 
 </details>
 
-| 3대 분산 장애 | 발생 원인 및 위험 요소 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Split-Brain 사태 | 네트워크 파티션 단절 시 2개의 Master 출현 | **Quorum (과반수 투표: $N/2 + 1$) 홀수 노드 구성** |
-| 2. 2PC Blocking 병목 | Coordinator 다운 시 Cohort 락 무한 대기 | **3PC (Three-Phase Commit) 또는 Raft Consensus 적용** |
-| 3. Distributed Deadlock | 서로 다른 노드 자원을 교차 락 선점 시 교착 | **Global Deadlock Detector & Timeout Abort 적용** |
+| 네트워크 단절 시 양쪽이 Master를 자처하는 **Split-Brain** | **홀수 개 노드 구성 및 과반수 정족수(Quorum: $N/2 + 1$) 합의 강제** | 스플릿 브레인 원천 차단 |
+| 2PC 코디네이터 크래시 시 참여 노드 잠금 블로킹 | **Raft / Paxos 기반 탈중앙 합의 알고리즘으로 코디네이터 자동 승격**| 무한 대기 락 해소 |
+| 분산 노드 간 자원 교차 선점으로 인한 **분산 데드락** | **글로벌 데드락 감지기(Wait-For Graph) 및 Lock Timeout Abort** | 교착 상태 조기 발견 및 해제 |
+| 노드 간 데이터 불일치 및 통신 지연 | **멀티 팩터 복제 계수(RF=3) 및 비동기 Read Repair 파이프라인** | 정합성 및 읽기 성능 최적화 |
 
-> 사례: **Google Spanner / TiDB 기반 글로벌 분산 RDBMS (NewSQL) 운용** #### 한줄 요약
-
-- 자료가 고르게 나뉘는지뿐 아니라 지점 이동 시간과 추가 공간도 재야 한다.
+#### 한줄 요약
+- Quorum 과반수 합의, Raft 합의 엔진, 분산 데드락 감지기, Read Repair로 운영한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **분산 DB 수립 기준(Distributed Database Standards)**: 6대 분산 투명성, Quorum Raft 합의 알고리즘 및 Multi-Region Scale-Out에 의거한 체계.
-
-</details>
-
-- 지역 지연•확장이 이득이고 조정 비용을 감당하면 **분산 DB** 선택
+- 글로벌 트래픽을 처리하는 대규모 시스템 설계를 위해 **6대 분산 투명성을 보장하는 Shared-Nothing 분산 데이터베이스를 표준 채택**하고, **2PC의 블로킹 한계를 극복하는 Raft 기반 NewSQL 기술을 도입**하여 고성능 트랜잭션 완비
 
 #### 한줄 요약
-
-- 선택 기준은 수평 확장과 연락•합의•이동 비용을 함께 비교한다.
+- 분산 데이터베이스는 물리적 분산 배치를 투명하게 은닉하고 분산 합의를 통해 무중단 확장성과 정합성을 실현하는 차세대 데이터 인프라다.
