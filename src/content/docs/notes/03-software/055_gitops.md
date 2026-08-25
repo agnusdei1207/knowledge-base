@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 55
-  label: "055. GitOps (GitOps)"
+  label: "055. GitOps"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-22T07:15:00+09:00"
+date: "2026-08-25T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -22,138 +22,131 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **GitOps**: Git 저장소를 단일 진실 공급원(SSOT)으로 삼아 인프라 및 애플리케이션의 선언적 매니페스트를 관리하고, 클러스터 내부 에이전트가 이를 지속적으로 동기화하는 클라우드 네이티브 운영 패러다임.
-- **단일 진실 공급원(Single Source of Truth, SSOT)**: 시스템의 목표 상태(Desired State)를 정의하는 유일한 권위 있는 데이터 소스로서의 Git 저장소.
-- **선언적 인프라(Declarative Infrastructure)**: 절차적 실행 명령 대신 최종적으로 도달해야 하는 시스템 구성 상태를 YAML, JSON 등으로 명세하는 방식.
+- **GitOps**: Git 저장소를 시스템의 단일 진실 공급원(SSOT)으로 삼고, 선언적(Declarative) 매니페스트를 클러스터에 자동 동기화하는 운영 모델.
+- **SSOT(Single Source of Truth)**: 시스템의 목표 상태(Desired State)를 정의하는 유일한 단일 권위 저장소(Git).
 
 </details>
 
-- 정의/개념: Git 저장소를 **단일 진실 공급원(SSOT)** 으로 선언하고, 내부 컨트롤러의 지속적 조정 루프(Reconciliation Loop)를 통해 목표 상태를 자동 수렴시키는 **GitOps** 운영 모델
-- 배경/필요성: 수동 클러스터 접근(kubectl 등)으로 인한 환경 드리프트(Configuration Drift), 감사 추적 부재 및 배포 파이프라인의 보안 자격증명 노출 위험 해소 요구
+- 정의/개념: Git 저장소를 **단일 진실 공급원(SSOT)** 으로 삼고, 클러스터 내부 컨트롤러가 목표 상태를 자동 수렴시키는 **GitOps** 운영 모델
+- 배경/필요성: 수동 `kubectl` 실행으로 인한 **형상 드리프트(Drift), 감사 추적 불가 및 CI 서버의 클러스터 관리자 권한 노출 해결 불가**
 
 #### 한줄 요약
-- 선언적 인프라 명세를 Git에 버전 관리하고, 클러스터 에이전트가 목표 상태를 자동 동기화한다.
+- 선언적 인프라 명세를 Git에 버전 관리하고, 클러스터 내부 에이전트가 목표 상태를 자동 동기화한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **조정 루프(Reconciliation Loop)**: Git 저장소에 정의된 목표 상태와 쿠버네티스 클러스터의 실제 상태(Actual State)를 주기적으로 비교하여 불일치 발생 시 자동으로 일치시키는 수렴 메커니즘.
-- **풀 기반 배포(Pull-based Deployment)**: 외부 CI 서버가 클러스터에 직접 명령을 푸시하지 않고, 클러스터 내부의 에이전트가 Git 저장소의 변경 사항을 감지하여 안전하게 인입하는 방식.
+- **Pull-based Deployment**: 외부 CI가 클러스터에 접속하는 대신, 클러스터 내부의 ArgoCD/Flux가 Git을 아웃바운드로 감시하여 상태를 당겨오는 방식.
+- **Reconciliation Loop(조정 루프)**: Git의 선언 상태(Desired)와 K8s 실제 상태(Actual)의 차이(Drift)를 주기적으로 비교하여 일치시키는 제어 루프.
 
 </details>
 
-- 선언형(Declarative), 버전 제어(Versioned), 자동 인입(Pulled), 지속적 조정(Reconciled)의 OpenGitOps 4대 핵심 원칙 준수
-- 클러스터 외부 인바운드 방화벽 포트 개방 없이 동작하는 **풀 기반(Pull-based)** 배포를 통한 제로 트러스트 보안 강화
-- 수동 임의 변경 발생 시 목표 상태로 강제 복구하는 **자가 치유(Self-healing)** 및 형상 드리프트 방지
+- **OpenGitOps 4대 원칙**(선언형 명세, Git 버전 제어, 풀 기반 자동 인입, 지속적 조정) 준수
+- 클러스터 인바운드 방화벽 오픈 없는 **풀 기반(Pull-based)** 배포로 제로 트러스트 보안 달성
+- 런타임 임의 수정 발생 시 Git 선언 상태로 강제 복구하는 **자가 치유(Self-Healing)**
 
 #### 한줄 요약
-- 풀 기반 동기화와 조정 루프를 통해 형상 드리프트를 차단하고 자가 치유를 제공한다.
+- 풀 기반 동기화와 조정 루프로 형상 드리프트를 차단하고 완벽한 자가 치유를 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **GitOps 컨트롤러(ArgoCD / FluxCD)**: 쿠버네티스 클러스터 내부에서 동작하며 Git 저장소의 매니페스트 변경을 감지하고 상태를 동기화하는 전용 오퍼레이터.
+- **ArgoCD / FluxCD**: Kubernetes 클러스터 내부에서 동작하며 Git 리포지토리의 YAML 변경을 감지하여 K8s API로 동기화하는 GitOps 컨트롤러.
 
 </details>
 
 ```text
-[ 개발자 / 운영자 ] ───(PR 생성/승인)───▶ [ Git 배포 저장소 (SSOT) ]
-                                                    │
-                                                    ▼ (Pull & Watch)
-                              [ 쿠버네티스 클러스터 ]
-                               ├─ [ GitOps 컨트롤러 (ArgoCD) ]
-                               │        │ (Reconcile / Sync)
-                               │        ▼
-                               └─ [ 애플리케이션 파드 (Actual State) ]
+[GitOps 아키텍처 및 Pull 동기화 구조]
+|-- Git 저장소 (단일 진실 공급원 - SSOT)
+|   |-- 앱 소스 레포 (Application Source Code & Dockerfile)
+|   `-- 배포 매니페스트 레포 (K8s YAML, Helm Charts, Kustomize)
+|-- CI 파이프라인 (GitHub Actions: 빌드, 이미지 푸시, 배포 레포 태그 변경 PR)
+`-- 대상 K8s 클러스터 (Target Kubernetes Cluster)
+    |-- GitOps 컨트롤러 (ArgoCD Operator: Git 리포지토리 주기적 Polling / Webhook)
+    |-- Reconciliation Engine (Desired State vs Actual State Diff 분석)
+    `-- 애플리케이션 파드 (Actual State: 목표 상태로 자동 수렴)
 ```
 
-선의 의미: Git 저장소에 선언된 매니페스트를 클러스터 내부 컨트롤러가 단방향으로 감시 및 동기화하는 구조
+선의 의미: 계층 및 클러스터 내부 컨트롤러의 아웃바운드 Pull 동기화 구조
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Git 저장소 (SSOT)** | 시스템의 목표 상태를 정의하는 선언적 쿠버네티스 매니페스트(YAML)의 완전한 버전 보관 |
-| **GitOps 컨트롤러** | Git 저장소와 클러스터 상태를 비교하여 차이점(Drift) 감지 및 자동 동기화(Sync) 수행 |
-| **쿠버네티스 클러스터** | 선언된 파드, 서비스, 인그레스 등 실제 인프라 자원을 프로비저닝하고 실행 상태 유지 |
-| **CI 파이프라인** | 소스 코드 빌드, 컨테이너 이미지 푸시 후 Git 배포 저장소의 이미지 태그를 자동 갱신 |
+| **Git 배포 저장소 (SSOT)** | 시스템 목표 상태를 정의하는 K8s 매니페스트(YAML)의 완전한 버전 보관 |
+| **GitOps 컨트롤러 (ArgoCD)** | Git 저장소와 실제 클러스터 상태를 비교하여 **차이(Drift) 감지 및 자동 Sync** |
+| **Reconciliation Engine** | K8s API Server를 호출하여 파드 생성, 서비스 갱신 등 **자가 치유(Self-Healing)** |
+| **CI 파이프라인** | 앱 빌드 후 **배포 Git 저장소의 이미지 태그(`image.tag`)만 갱신** |
 
 #### 한줄 요약
-- Git 저장소를 기준으로 내부 오퍼레이터가 실제 클러스터 상태를 지속적으로 비교 및 동기화한다.
+- Git 배포 저장소(SSOT), ArgoCD 컨트롤러, 조정 엔진, 타깃 K8s 클러스터가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **상태 동기화(Sync Status)**: Git의 목표 상태와 클러스터의 실제 상태가 일치하는 상태(`Synced`) 또는 불일치가 감지된 상태(`OutOfSync`).
+- **OutOfSync**: Git에 정의된 매니페스트 내용과 실제 K8s 클러스터 리소스 상태 사이에 불일치가 발생한 상태.
 
 </details>
 
 ```text
-1. 매니페스트 수정 및 PR 병합 (Git 저장소 목표 상태 갱신)
-            │
-            ▼
-2. GitOps 컨트롤러 감시(Watch): Git 커밋 변경 사항 자동 감지
-            │
-            ▼
-3. 형상 드리프트(Drift) 비교 판정: 목표 상태와 실제 상태의 Diff 분석
-            │
-            ▼
-4. 자동 조정 및 롤아웃 (Sync): 쿠버네티스 API를 호출하여 파드 및 자원 갱신
-            │
-            ▼
-5. Synced 상태 수렴 및 자가 치유 유지: 불일치 발생 시 지속적 자동 복구
+개발자가 배포 매니페스트 Git 저장소에 PR 병합 (예: image.tag: v2.0)
+        │
+   1. ArgoCD가 Webhook 또는 Polling을 통해 Git 신규 커밋 감지
+        │
+   2. Git 목표 상태(v2.0)와 클러스터 실제 상태(v1.0)를 비교하여 OutOfSync 판정
+        │
+   3. K8s API Server를 호출하여 신규 ReplicaSet 생성 및 롤링 배포 수행
+        │
+   4. 클러스터 상태가 목표 상태(v2.0)와 일치(Synced)됨을 확인
+        │
+   (누군가 수동으로 kubectl delete pod 실행 시)
+   ┌────┴─────┐
+   │ 즉각 자가 치유(Self-Healing) 작동하여 Git 매니페스트 기준으로 원상 복구
 ```
 
-**동작 원리**
-
-1. **선언적 정의 갱신**: 개발자가 인프라/배포 사양을 수정한 후 코드 리뷰를 거쳐 Git 메인 브랜치에 병합
-2. **변경 감지**: 클러스터 내의 ArgoCD가 웹훅(Webhook) 또는 폴링(Polling)으로 Git 저장소의 신규 커밋 식별
-3. **드리프트 판정**: Git 매니페스트(Desired)와 클러스터 런타임(Actual)을 비교하여 `OutOfSync` 상태 감지
-4. **동기화 실행**: 선언된 매니페스트를 적용하여 롤링 업데이트, 카나리 배포 등 자동 릴리즈 실행
-5. **자가 치유**: 외부에서 수동으로 자원을 변조하더라도 조정 루프가 이를 감지하여 Git 상태로 즉시 원복
-
 #### 한줄 요약
-- Git 커밋 변경을 감지하여 클러스터에 배포하고, 임의 변경 발생 시 Git 기준으로 자동 원복한다.
+- 매니페스트 커밋 → 변경 감지 → OutOfSync 판정 → 자동 Sync 롤아웃 → Synced 수렴 및 자가치유 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **푸시 기반 CI/CD**: Jenkins, GitLab CI 등의 외부 빌드 서버가 클러스터 관리자 권한을 획득하여 직접 `kubectl apply`를 실행하는 전통적 배포 방식.
+- **Push 기반 CI/CD vs Pull 기반 GitOps**: Jenkins가 K8s kubeconfig 관리자 권한을 쥐고 밀어넣는 Push와 ArgoCD가 내부에서 당겨오는 Pull 비교.
 
 </details>
 
-| 비교 항목 | 푸시 기반 배포 (Traditional CI/CD) | 풀 기반 배포 (GitOps Model) |
+| 비교 항목 | 전통적 Push 기반 CI/CD (Jenkins) | Pull 기반 GitOps 모델 (ArgoCD) |
 |:---|:---|:---|
-| **배포 실행 주체** | 외부 CI 서버 (Jenkins, GitHub Actions) | 클러스터 내부 컨트롤러 (ArgoCD, FluxCD) |
-| **보안 및 자격증명** | CI 서버에 클러스터 관리자(Admin) 토큰 저장 필수 | 클러스터 내부에서 아웃바운드 Git 접근만 수행 (Zero Inbound) |
-| **형상 드리프트 제어** | 수동 변경 발생 시 다음 배포까지 불일치 방치 | 조정 루프를 통해 수동 변경을 즉각 감지하고 자동 원복 |
-| **롤백 메커니즘** | 이전 빌드 파이프라인 재실행 필요 | `git revert` 커밋을 통한 즉각적이고 선언적인 롤백 |
+| 배포 실행 주체 | **외부 CI 서버 (Jenkins, GitHub Actions)** | **클러스터 내부 컨트롤러 (ArgoCD, Flux)** |
+| 클러스터 보안 | CI 서버에 **K8s Admin Token 영구 보관** | **외부 접근 차단 (아웃바운드 Git 통신만 수행)** |
+| 형상 드리프트 대응 | 수동 변경 발생 시 방치됨 | **주기적 조정 루프로 감지 후 즉시 원복** |
+| 롤백 절차 | 이전 빌드 파이프라인 재실행 | **`git revert` 커밋 하나로 수 초 내 롤백** |
 
 #### 한줄 요약
-- 외부에서 인증서를 쥐고 밀어넣는 푸시 방식 대신, 내부에서 안전하게 당겨오는 풀 방식을 적용한다.
+- Push 방식의 보안 위험과 형상 드리프트를 Pull 방식 GitOps의 자가 치유와 제로 인바운드로 해결한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **실드 시크릿(Sealed Secrets)**: Git 저장소에 비밀 정보를 안전하게 보관하기 위해 비대칭 암호화를 적용하고 클러스터 내부의 컨트롤러만 복호화할 수 있도록 지원하는 보안 도구.
+- **Sealed Secrets / External Secrets Operator**: Git에 비밀번호를 비대칭 암호화하여 커밋하고 클러스터 내부에서만 복호화하는 보안 솔루션.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Git 공개/공유 저장소 내 기밀 데이터(Secret) 평문 노출 위험 | **Sealed Secrets / HashiCorp Vault / SOPS** 연동 암호화 | Git 저장소 내 암호화된 기밀 보관 및 안전한 클러스터 복호화 |
-| 애플리케이션 소스 코드와 배포 매니페스트 혼재로 인한 빌드 루프 | **앱 소스 저장소** 와 **배포 매니페스트 저장소** 의 물리적 분리 | CI 파이프라인 무한 루프 방지 및 접근 권한 분리 |
-| 다중 환경(Dev/Staging/Prod)별 매니페스트 중복 및 관리 복잡성 | **Kustomize 오버레이** 또는 **Helm 차트** 템플릿 표준화 | 환경별 차이점만 오버레이 관리하여 매니페스트 중복 제거 |
+| Git 저장소에 DB 암호 등 Secret 평문 노출 | **Sealed Secrets 또는 External Secrets Operator(Vault 연동)** | Git에 암호화된 비밀 저장 및 클러스터 안전 복호화 |
+| 소스 코드와 배포 매니페스트 혼재로 인한 빌드 루프 | **애플리케이션 소스 레포와 배포 매니페스트 레포의 물리적 분리** | CI 무한 루프 차단 및 개발자/운영자 권한 격리 |
+| 환경별(Dev, Stg, Prod) 매니페스트 중복 | **Kustomize Overlay 또는 Helm Chart** 템플릿 표준화 | 공통 Base 매니페스트 재사용 및 환경별 값만 오버레이 |
+| 긴급 핫픽스 시 수동 변경의 원복 충돌 | 긴급 조치도 반드시 **Git 커밋/PR을 통해 수행하는 문화 정착** | 변경 이력 100% 추적성 및 거버넌스 사수 |
 
 #### 한줄 요약
-- 기밀 데이터 암호화(Sealed Secrets), 저장소 분리, Kustomize 템플릿 관리를 통해 운영성을 확보한다.
+- Secret 암호화, 레포지토리 물리 분리, Kustomize 템플릿화, Git 기반 핫픽스로 운영성을 확보한다.
 
 ## Ⅶ. 결론
 
-- 쿠버네티스 기반 마이크로서비스 환경에서 배포 자동화와 인프라 보안을 강화하기 위해 **GitOps(ArgoCD/Flux)** 모델을 표준으로 채택하되, 저장소 분리 전략과 Sealed Secrets 기반의 시크릿 거버넌스를 병행하여 클라우드 네이티브 운영 성숙도를 극대화
+- 쿠버네티스 클라우드 네이티브 환경은 **GitOps(ArgoCD)와 Kustomize/Helm 템플릿**을 표준 배포 모델로 채택하고, **External Secrets 기반 시크릿 거버넌스**를 결합하여 제로 트러스트 지속 배포 완성
 
 #### 한줄 요약
-- 선언적 매니페스트와 풀 기반 조정 루프를 통해 안전하고 추적 가능한 지속 배포를 실현한다.
+- GitOps는 Git을 단일 진실 공급원으로 선언하고 자가 치유를 통해 인프라와 배포의 신뢰성을 극대화하는 클라우드 운영의 표준 패러다임이다.
