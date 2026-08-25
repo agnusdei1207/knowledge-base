@@ -1,17 +1,17 @@
----
+﻿---
 sidebar:
   order: 61
-  label: "061. 네트워크 자동화 (Network Automation)"
+  label: "061. 네트워크 자동화"
   badge:
     text: "미출 · 50%"
     variant: note
-title: "프로그래머블 네트워크 운영 자동화 : NETCONF, RESTCONF, Ansible (Network Automation)"
-date: "2026-08-22T08:15:00+09:00"
+title: "프로그래머블 네트워크 운영 자동화 : NetDevOps (Network Automation)"
+date: "2026-08-25T12:00:00+09:00"
 tags:
   - "notes-network"
 weight: 61
 extra:
-  question_no: "061"
+  question_no: "61"
   source_status: "미출"
   source_history: ""
   priority: 50
@@ -22,122 +22,108 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **네트워크 자동화(Network Automation)**: CLI(Command Line Interface) 기반의 수동 장비 구성을 배제하고, 인프라 코드화(IaC) 툴과 프로그래머블 API를 활용하여 네트워크 프로비저닝, 구성 검증, 텔레메트리 모니터링, 롤백을 자동화하는 소프트웨어 공학적 운영 체계.
-- **진실의 원천(Source of Truth, SoT)**: 네트워크의 이상적인 목표 구성 상태(IP 주소, VLAN, 라우팅 정책 등)를 단일하게 정의하여 보관하는 신뢰 저장소(Git, NetBox 등).
+- **Network Automation (네트워크 자동화)**: 수동 CLI 구성을 배제하고 IaC와 표준 API로 네트워크 프로비저닝과 검증을 자동화하는 운영 체계.
+- **Source of Truth (진실의 원천, SoT)**: IP, VLAN, 라우팅 정책 등 네트워크의 목표 구성 상태를 단일하게 정의 보관하는 Git/NetBox 저장소.
 
 </details>
 
-- 정의/개념: 선언적 데이터 모델(**YANG**)과 표준 트랜잭션 프로토콜(**NETCONF/RESTCONF**) 및 오케스트레이션 도구(**Ansible/Terraform**)를 결합하여 이종 네트워크 장비의 설정 생애주기를 코드로 자동 제어하는 **NetDevOps 아키텍처**
-- 배경/필요성: 수동 CLI 설정 과정에서 발생하는 인간 실수(Human Error)로 인한 광역 네트워크 장애를 원천 차단하고, 수천 대의 장비 구성을 수 분 내에 일관되게 배포·검증할 요구
+- 정의/개념: 선언적 데이터 모델(**YANG**), 트랜잭션 프로토콜(**NETCONF/RESTCONF**), IaC 도구(**Ansible**)를 결합하여 **장비 설정을 코드로 자동 관리하는 NetDevOps 아키텍처**
+- 배경/필요성: 장비별 수동 CLI 입력에 따른 **휴먼 에러 빈발, 대규모 망 설정 변경 시 수일의 지연 및 트랜잭션/자동 롤백 불가**
 
 #### 한줄 요약
-- SoT와 YANG 모델, NETCONF/RESTCONF 및 Ansible을 통해 네트워크 구성을 코드로 자동화한다.
+- Git 기반 SoT와 NETCONF/YANG 트랜잭션을 통해 무중단 자동 프로비저닝 및 자동 롤백을 실현한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **설정 드리프트(Configuration Drift)**: 진실의 원천(SoT)에 정의된 표준 기준 설정과 실제 운영 중인 네트워크 장비의 활성 설정(Running Config) 사이에 불일치가 발생하는 현상.
-- **멱등성(Idempotency)**: 동일한 자동화 스크립트나 API 요청을 여러 번 반복 실행하더라도 네트워크 장비의 최종 상태가 항상 목표 상태와 동일하게 유지되는 성질.
+- **Idempotency (멱등성)**: 동일한 자동화 스크립트를 여러 번 반복 실행하더라도 네트워크 장비 상태가 항상 목표 상태와 동일하게 유지되는 특성.
+- **YANG Data Model**: 장비 설정 항목의 데이터 타입과 유효성 검증 규칙을 구조화하여 정의하는 IETF 표준 모델링 언어 (RFC 6020/7950).
 
 </details>
 
-- **설정 드리프트 자동 탐지 및 자가 치유**: 장비의 실제 상태(Actual State)를 주기적으로 감사하여 SoT의 의도된 상태(Intended State)와 대조하고 차이점 발생 시 자동 원복
-- **트랜잭션 원자성(ACID) 및 Confirmed Commit**: 다중 장비 설정 적용 중 오류 발생 시 전체 변경을 이전 안정 상태로 즉시 되돌리는 자동 롤백(Rollback) 지원
-- **구조화된 표준 데이터 모델링(YANG)**: 비구조적 텍스트 문자열(CLI) 파싱의 한계를 탈피하여 표준 XML/JSON 데이터 구조 기반의 엄격한 타입 검증 수행
+- **진실의 원천(SoT) 기반 선언적 관리**: Git 저장소의 코드를 단일 기준값으로 삼아 인프라 드리프트(Drift) 원천 차단
+- **트랜잭션 ACID 및 자동 롤백**: 설정 오류 또는 통신 단절 시 **Confirmed Commit 기능을 통한 자동 롤백(Rollback)**
+- **구조화된 표준 데이터 모델(YANG)**: 벤더별 상이한 CLI 텍스트 파싱을 탈피하여 **NETCONF/RESTCONF 표준 API로 통합 제어**
 
 #### 한줄 요약
-- 설정 드리프트 자가 치유, 멱등성 보장, 트랜잭션 원자성 기반 자동 롤백을 제공한다.
+- SoT 선언적 관리, YANG 표준 데이터 모델링, Confirmed Commit 기반 트랜잭션 및 자동 롤백을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **YANG(Yet Another Next Generation)**: 네트워크 장비의 구성 데이터(Configuration)와 상태 데이터(State)를 계층적 트리 구조로 모델링하는 IETF 표준 데이터 모델링 언어 (RFC 6020/7950).
-- **NETCONF(Network Configuration Protocol)**: SSH 상에서 XML 기반 메시지(RPC)를 송수신하며 원자적 트랜잭션과 롤백을 지원하는 네트워크 관리 프로토콜 (RFC 6241).
-- **RESTCONF**: YANG 데이터 모델을 기반으로 HTTP/HTTPS 상에서 JSON/XML 페이로드를 RESTful API 형태로 조작하는 경량 관리 프로토콜 (RFC 8040).
+- **NETCONF vs RESTCONF**: SSH 상에서 XML RPC로 트랜잭션을 제어하는 NETCONF(RFC 6241)와 HTTPS 상에서 JSON/XML로 조작하는 경량 RESTCONF(RFC 8040).
 
 </details>
 
 ```text
-[ 진실의 원천 (Source of Truth - Git / NetBox) ] ── (표준 구성 선언: YAML/JSON)
-                    │
-                    ▼ (CI/CD 파이프라인: 구문 검증 및 정책 테스트)
-[ 자동화 오케스트레이션 엔진 (Ansible / Python Nornir) ]
-                    │
-                    ├───────────────────────────────┬───────────────────────────────┐
-                    ▼ (NETCONF - SSH / XML)         ▼ (RESTCONF - HTTPS / JSON)     ▼ (gNMI - gRPC)
-┌───────────────────────────────────────────────────────────────────────────────────────────┐
-│ 이기종 네트워크 인프라 계층 (YANG Data Model 기반 스위치/라우터/방화벽)                     │
-│ ├─ Candidate Config (임시 후보 저장소) ──(Commit 검증)──▶ Running Config (실운영 저장소)  │
-│ └─ 자동 롤백 엔진 (Confirmed Commit 만료 시 자동 원복)                                    │
-└───────────────────────────────────────────────────────────────────────────────────────────┘
+[NetDevOps 네트워크 자동화 파이프라인 및 아키텍처]
+|-- Source of Truth (Git / NetBox / Nautobot: YAML/JSON 선언적 목표 상태)
+`-- CI/CD Pipeline (YANG Linting 구문 검증 -> Containerlab 가상 시뮬레이션)
+`-- Automation Engine (Ansible / Python Nornir / Terraform)
+    |-- NETCONF Protocol (SSH Port 830, XML RPC 트랜잭션)
+    |-- RESTCONF Protocol (HTTPS Port 443, JSON/XML RESTful API)
+    `-- gNMI / OpenConfig (gRPC 기반 실시간 스트리밍 텔레메트리)
+`-- Heterogeneous Network Infrastructure (YANG 기반 라우터/스위치/방화벽)
+    `-- Datastores: [ Candidate Config (임시) ] -> commit -> [ Running Config (실운영) ]
 ```
 
-선의 의미: Git 저장소의 SoT 코드가 Ansible 엔진을 거쳐 표준 프로토콜(NETCONF/RESTCONF)로 이종 장비의 저장소 파이프라인에 안전하게 주입되는 구조
+선의 의미: Git의 SoT 코드가 Ansible 엔진을 거쳐 표준 프로토콜(NETCONF/RESTCONF)로 이종 장비의 저장소 파이프라인에 안전하게 주입되는 구조
 
-| 구성요소 | 책임 및 역할 | 프로토콜 / 표준 |
+| 구성요소 | 핵심 엔지니어링 책임 | 프로토콜 / 표준 |
 |:---|:---|:---|
-| **진실의 원천 (SoT)** | 네트워크의 모든 IP, VLAN, 라우팅 파라미터의 단일 기준값 유지 | Git, NetBox, Nautobot |
-| **자동화 엔진** | 플레이북을 실행하여 대상 장비에 순차/병렬로 변경 명령 배포 | Ansible, Nornir, Terraform |
-| **데이터 모델 (YANG)** | 장비 설정 항목의 자료형, 계층 구조, 유효성 검증 규칙 정의 | IETF RFC 6020 / 7950 |
-| **NETCONF 프로토콜** | SSH 보안 채널 상에서 Candidate/Running 데이터 저장소 트랜잭션 조작 | RFC 6241 (XML RPC) |
-| **RESTCONF 프로토콜**| 웹 기반 RESTful CRUD 인터페이스로 YANG 모델 엔드포인트 제어 | RFC 8040 (HTTP JSON) |
+| **진실의 원천 (SoT)** | 네트워크의 모든 IP, VLAN, 라우팅 파라미터의 **단일 목표 기준값 유지** | Git, NetBox |
+| **자동화 오케스트레이터**| 플레이북을 실행하여 **대상 장비에 순차/병렬로 변경 명령을 멱등하게 배포** | Ansible, Nornir |
+| **데이터 모델 (YANG)** | 장비 설정 항목의 **자료형, 계층 구조, 유효성 검증 규칙을 구조화 정의** | IETF RFC 7950 |
+| **NETCONF 프로토콜** | SSH 보안 채널 상에서 **Candidate/Running 데이터 저장소 트랜잭션 조작** | RFC 6241 (XML) |
+| **RESTCONF 프로토콜**| 웹 기반 **RESTful CRUD 인터페이스로 YANG 모델 엔드포인트 제어** | RFC 8040 (JSON) |
 
 #### 한줄 요약
-- SoT(Git), Ansible 자동화 엔진, YANG 데이터 모델, NETCONF/RESTCONF 프로토콜이 유기적으로 결합한다.
+- SoT, 자동화 엔진, YANG 데이터 모델, NETCONF/RESTCONF 프로토콜이 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **확정 커밋(Confirmed Commit)**: 장비에 변경 설정을 적용한 후 지정된 타임아웃 시간 내에 운영자 또는 자동화 시스템의 최종 확인(Confirm) 신호가 도착하지 않으면, 통신 단절로 간주하고 자동으로 이전 설정으로 롤백하는 안전장치.
+- **Confirmed Commit**: 장비에 변경 설정을 적용한 후 지정된 타임아웃(예: 120초) 내에 최종 확인(Confirm)이 없으면 자동으로 이전 설정으로 롤백하는 안전장치.
 
 </details>
 
 ```text
-1. 네트워크 엔지니어가 Git 저장소에 구성 코드(YAML/YANG) 커밋 및 Pull Request 생성
-            │
-            ▼
-2. CI 파이프라인에서 YANG 구문 검증(Linting) 및 가상 네트워크(Containerlab) 시뮬레이션
-            │
-            ▼
-3. Ansible이 NETCONF를 통해 대상 장비의 임시 저장소(Candidate Datastore)로 설정 전송
-            │
-            ▼
-4. 장비에 `commit confirmed 120` 명령 실행 ➔ 120초 동안 텔레메트리 헬스체크(Ping/BGP) 수행
-            │
-            ├─ [헬스체크 정상] ➔ 최종 `commit` 확정 ➔ 배포 성공 완료
-            ▼
-5. [헬스체크 실패 또는 링크 단절] ➔ 120초 타임아웃 만료 시 장비가 이전 상태로 자동 롤백
+NetDevOps Confirmed Commit 및 자동 롤백 파이프라인
+        │
+   1. [코드 작성 및 PR 생성] 엔지니어가 Git에 구성 코드(YAML/YANG) 커밋 및 PR 생성
+        │
+   2. [CI 사전 검증] YANG 린팅 및 가상 네트워크(Containerlab) 시뮬레이션 자동 테스트
+        │
+   3. [후보 저장소 전송] Ansible이 NETCONF로 대상 장비의 Candidate Datastore에 주입
+        │
+   4. [Confirmed Commit 실행] `commit confirmed 120` 명령으로 120초 동안 헬스체크 수행
+        │
+   ├─ [정상 헬스체크 통과] ➔ 최종 `commit` 확정 ➔ 배포 성공 완료
+   ▼
+5. [단선/장애 발생] ➔ 120초 타임아웃 만료 시 장비가 이전 정상 설정으로 자동 롤백
 ```
 
-**동작 원리**
-
-1. **사전 검증**: 코드 병합 전 CI 파이프라인에서 문법 오류 및 정책 충돌 사전 차단
-2. **후보 적재**: 실운영(Running) 설정에 직접 쓰지 않고 후보(Candidate) 메모리에 변경 사항 탑재
-3. **조건부 커밋**: Confirmed Commit을 실행하여 일시적으로 설정을 활성화하고 네트워크 도달성 계측
-4. **폐루프 검증**: 스트리밍 텔레메트리가 BGP 세션 및 패킷 포워딩 정상 상태를 확인하면 변경 영구 확정
-5. **무손실 복원**: 라우팅 고립 발생 시 자동 타임아웃 롤백을 통해 원격 관리 채널 및 정상 상태 자동 복구
-
 #### 한줄 요약
-- Git PR 생성, CI 사전 검증, Candidate 설정 적재, Confirmed Commit 검증, 실패 시 자동 롤백 순으로 동작한다.
+- Git PR 생성 → CI 사전 검증 → Candidate 설정 적재 → Confirmed Commit 검증 → 실패 시 자동 롤백 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **CLI 스크래핑(Screen Scraping)**: SSH 콘솔 문자열을 Expect나 정규표현식(Regex)으로 파싱하여 장비를 제어하는 전통적 비구조화 방식.
+- **Screen Scraping (CLI 파싱)**: SSH 콘솔 문자열을 정규표현식으로 파싱하여 장비를 제어하는 고전적 비구조화 방식.
 
 </details>
 
 | 비교 항목 | NETCONF (IETF RFC 6241) | RESTCONF (IETF RFC 8040) | 레거시 CLI 파싱 (Screen Scraping) |
 |:---|:---|:---|:---|
-| **전송 계층 / 포맷** | **SSH (TCP 830) / XML** | **HTTPS (TCP 443) / JSON, XML** | SSH / 비구조적 순수 텍스트(CLI) |
-| **데이터 모델링** | **YANG 데이터 모델 필수** | **YANG 데이터 모델 필수** | 모델 부재 (벤더별 독점 CLI 구문) |
-| **트랜잭션 지원** | **완전 지원 (Candidate/Rollback)**| 부분 지원 (HTTP 상태 코드 의존) | 미지원 (오류 발생 시 부분 적용 방치) |
-| **보안 및 인증** | SSH 공개키/패스워드 인증 | HTTPS TLS + OAuth/기본 인증 | SSH 쉘 인증 |
-| **적용 시나리오** | 코어 백본, 미션 크리티컬 네트워크 | 웹 대시보드 연동, 클라우드 오케스트레이션 | API 미지원 레거시 장비 수동 제어 |
+| **전송 계층 / 포맷**| **SSH (TCP 830) / XML** | **HTTPS (TCP 443) / JSON, XML** | SSH / 비구조적 순수 텍스트 |
+| **데이터 모델링** | **YANG 데이터 모델 필수** | **YANG 데이터 모델 필수** | 모델 부재 (제조사 독점 CLI 구문) |
+| **트랜잭션 지원** | **완전 지원 (Candidate/Rollback)**| 부분 지원 (HTTP 상태 코드 의존)| 미지원 (오류 발생 시 부분 적용 방치)|
+| **보안 및 인증** | SSH 공개키/패스워드 인증 | HTTPS TLS + OAuth/토큰 인증 | SSH 쉘 계정 인증 |
+| **주요 적용 영역** | **코어 백본, 미션 크리티컬 망** | **웹 대시보드 연동, 클라우드 연동** | API 미지원 레거시 장비 수동 제어 |
 
 #### 한줄 요약
 - NETCONF는 고신뢰 트랜잭션 백본 제어용, RESTCONF는 경량 웹 API 연동용, CLI 파싱은 레거시용이다.
@@ -146,23 +132,24 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **카나리 배포(Canary Deployment)**: 대규모 장비군 중 소수의 시범 노드(1~5%)에 설정을 선제 적용하여 이상 유무를 검증한 후 전체 인프라로 단계적 롤아웃하는 배포 전략.
-- **폭발 반경(Blast Radius)**: 단일 설정 오류나 자동화 버그가 발생했을 때 장애가 전파되는 물리적/논리적 영향 범위.
+- **Blast Radius (폭발 반경)**: 단일 설정 오류나 자동화 버그가 발생했을 때 장애가 전파되는 물리적/논리적 영향 범위.
+- **Canary Deployment (카나리 배포)**: 전체 장비 중 1~5%의 시범 노드에 설정을 선제 적용하여 검증 후 단계적 확대 배포하는 전략.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 자동화 스크립트 오작동으로 인한 대규모 장비 동시 셧다운 및 폭발 반경 확산 | **카나리(Canary) 단계별 배포** 및 배치 단위 순차 롤아웃 | 단일 오류 시 영향 범위 국소화 및 전면 장애 방지 |
-| 장비 펌웨어 버전 업그레이드 시 CLI 구문 변경으로 인한 스크립트 전면 실패 | 비구조적 CLI 파싱을 배제하고 **표준 YANG/NETCONF 인터페이스** 로 전환 | 장비 OS 변경에 무관한 데이터 모델 정합성 및 지속성 확보 |
-| 설정 커밋 후 라우팅 고립으로 인한 원격 접속 단절 및 장애 방치 | **Confirmed Commit (자동 타임아웃 롤백)** 기능 의무화 | 통신 단절 시 자동 이전 설정 복구 및 원격 관리성 유지 |
+| 자동화 스크립트 오작동으로 인한 대규모 장비 동시 셧다운 | **`카나리(Canary) 단계별 배포` 및 배치 단위 순차 롤아웃** | 오류 시 영향 범위 국소화 및 전면 장애 방지 |
+| 장비 펌웨어 업그레이드 시 CLI 구문 변경으로 스크립트 전면 실패 | 비구조적 CLI 파싱을 배제하고 **`표준 YANG/NETCONF`로 전환** | 장비 OS 변경에 무관한 데이터 모델 정합성 확보 |
+| 설정 적용 후 라우팅 고립으로 인한 원격 접속 단절 및 장애 방치 | **`Confirmed Commit (자동 타임아웃 롤백)` 기능 의무화** | 통신 단절 시 자동 이전 설정 복구 및 원격 관리 유지 |
+| Git 저장소와 실제 장비 설정 간의 불일치(**Configuration Drift**) | **주기적 `Drift Detection 배치 잡` 및 자동 동기화 트리거** | SoT와 실제 인프라 간의 100% 정합성 유지 |
 
 #### 한줄 요약
-- 카나리 배포로 장애 반경을 축소하고, YANG/NETCONF로 일관성을 확보하며, Confirmed Commit으로 원격 단절을 방지한다.
+- 카나리 배포, YANG/NETCONF 표준화, Confirmed Commit, Drift 감지 배치로 운영한다.
 
 ## Ⅶ. 결론
 
-- 인프라의 복잡도 증가와 휴먼 에러를 방지하기 위해 **NetDevOps 기반 네트워크 자동화 체계**를 필수 구축하되, 배포 신뢰성을 담보하기 위해 **Git 기반 진실의 원천(SoT)**, **YANG 데이터 모델**, **NETCONF Confirmed Commit 트랜잭션**, **카나리 검증 파이프라인**을 통합 구현하여 제로 다운타임(Zero-Downtime) 자율 운영 네트워크를 완성
+- 인프라 복잡도 증가와 휴먼 에러를 방지하기 위해 **NetDevOps 기반 네트워크 자동화 체계를 표준화**하고, 배포 신뢰성을 담보하기 위해 **Git 기반 진실의 원천(SoT), YANG 데이터 모델, NETCONF Confirmed Commit 트랜잭션, 카나리 검증 파이프라인**을 통합 구현하여 제로 다운타임(Zero-Downtime) 자율 운영 네트워크 완성
 
 #### 한줄 요약
-- SoT와 NETCONF/YANG 및 Confirmed Commit을 결합하여 고신뢰 네트워크 자동화를 실현한다.
+- SoT와 NETCONF/YANG 및 Confirmed Commit을 결합하여 고신뢰 네트워크 운영 자동화를 실현한다.
