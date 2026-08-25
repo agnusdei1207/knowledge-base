@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "오토마타 이론: DFA•NFA (Automata Theory)"
-date: "2026-08-17T09:25:00+09:00"
+date: "2026-08-25T09:52:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 20
@@ -23,8 +23,8 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **유한 오토마타(Finite Automaton)**: 유한한 개수의 상태와 입력 기호에 따른 전이 함수를 통해 정규 언어(Regular Language)의 수용 여부를 판정하는 추상 계산 기계 모델.
-- **DFA(Deterministic Finite Automaton)**: 주어진 현재 상태와 입력 기호에 대해 전이할 수 있는 다음 상태가 오직 하나로 결정론적으로 정의되는 유한 상태 기계.
-- **NFA(Nondeterministic Finite Automaton)**: 하나의 상태와 입력 기호에 대해 여러 개의 다음 상태 전이 또는 빈 문자열($\varepsilon$) 전이를 허용하는 비결정론적 상태 기계.
+- **결정론적 유한 오토마타(Deterministic Finite Automaton, DFA)**: 주어진 현재 상태와 입력 기호에 대해 전이할 수 있는 다음 상태가 오직 하나로 결정론적으로 정의되는 유한 상태 기계.
+- **비결정론적 유한 오토마타(Nondeterministic Finite Automaton, NFA)**: 하나의 상태와 입력 기호에 대해 여러 개의 다음 상태 전이 또는 빈 문자열($\varepsilon$) 전이를 허용하는 비결정론적 상태 기계.
 
 </details>
 
@@ -51,7 +51,7 @@ extra:
 
 - 유한한 메모리(상태)만을 사용하여 입력 문자열을 $O(n)$ 선형 시간에 스캔하는 **순차적 스트림 처리**
 - Subset Construction 알고리즘을 통해 상호 변환 가능하며 **DFA와 NFA의 언어 표현력은 완벽히 등가**
-- DFA는 문자당 $O(1)$ 즉시 전이 속도를 보장하나 최악 $O(2^{|Q|})$ **상태 폭증(State Explosion)** 가능성 상존
+- DFA는 문자당 $O(1)$ 즉시 전이 속도를 보장하나 최악 $O(2^{|Q|})$ **상태 폭증** 가능성 상존
 
 #### 한줄 요약
 
@@ -61,12 +61,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **5-튜플 $(Q, \Sigma, \delta, q_0, F)$**:
-  - $Q$: 유한 상태 집합 (Finite Set of States).
-  - $\Sigma$: 입력 알파벳 집합 (Input Alphabet).
-  - $\delta$: 상태 전이 함수 ($\text{DFA: } Q \times \Sigma \to Q, \text{ NFA: } Q \times (\Sigma \cup \{\varepsilon\}) \to \mathcal{P}(Q)$).
-  - $q_0$: 시작 상태 ($q_0 \in Q$).
-  - $F$: 최종 수용 상태 집합 ($F \subseteq Q$).
+- **5-튜플 오토마타 모델(5-Tuple Automata Model, $M = (Q, \Sigma, \delta, q_0, F)$)**: 상태 집합 $Q$, 입력 알파벳 $\Sigma$, 전이 함수 $\delta$, 시작 상태 $q_0$, 최종 수용 상태 집합 $F$로 구성된 정규 언어 인식기의 수학적 정의.
 
 </details>
 
@@ -129,7 +124,9 @@ extra:
 └─ DFA: q ∉ F  / NFA: S ∩ F = ∅  ⟹  [ Reject (문자열 거부) ]
 ```
 
-**동작 원리** 1. **초기 상태 설정**: DFA는 시작 상태 $q_0$를, NFA는 $q_0$의 $\varepsilon$-폐쇄 집합을 현재 활성 상태로 초기화
+**동작 원리**
+
+1. **초기 상태 설정**: DFA는 시작 상태 $q_0$를, NFA는 $q_0$의 $\varepsilon$-폐쇄 집합을 현재 활성 상태로 초기화
 2. **입력 기호 소비 및 전이**: 입력 스트림에서 기호를 하나씩 읽으며 전이 함수 $\delta$를 적용하여 다음 상태(또는 상태 집합) 갱신
 3. **수용 상태 판정**: 입력 문자열을 모두 소비한 후 최종 상태가 수용 상태 $F$에 포함되는지(NFA는 교집합 존재 여부) 확인하여 수용/거부 확정
 
@@ -141,9 +138,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **DFA vs NFA 매핑 차이**:
-  - DFA: $\delta: Q \times \Sigma \to Q$ (단일 상태, 직관적 구현, 상태 폭증 위험).
-  - NFA: $\delta: Q \times (\Sigma \cup \{\varepsilon\}) \to 2^Q$ (멱집합 다중 상태, 설계 용이, 런타임 추적 비용).
+- **결정론적 전이 함수**: DFA에서 상태 $q$와 입력 $a$에 대해 단 하나의 유일한 상태 $p \in Q$로 매핑되는 전이 규칙.
+- **비결정론적 전이 함수**: NFA에서 상태 $q$와 입력 $a$ 또는 $\varepsilon$에 대해 상태들의 부분집합 $2^Q$로 매핑되는 다중 전이 규칙.
 
 </details>
 
@@ -161,17 +157,17 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **ReDoS(Regular Expression Denial of Service)**: NFA 백트래킹 엔진의 지수적 역추적 취약점을 악용하여 CPU 사용률을 100%로 고갈시키는 공격.
-- **Hopcroft 상태 최소화(Minimization)**: DFA의 동치 상태(Equivalent States)를 병합하여 상태 수가 가장 적은 유일한 최소 DFA를 도출하는 $O(N \log N)$ 알고리즘.
+- **정규 표현식 서비스 거부 공격(Regular Expression Denial of Service, ReDoS)**: NFA 백트래킹 엔진의 지수적 역추적 취약점을 악용하여 CPU 자원을 고갈시키는 서비스 거부 공격.
+- **홉크로프트 상태 최소화(Hopcroft State Minimization)**: DFA의 동치 상태를 분할 병합하여 최소 상태의 유일한 DFA를 도출하는 $O(N \log N)$ 알고리즘.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| NFA 결정화 시 발생하는 **상태 폭증(State Explosion)** | **Hopcroft 상태 최소화** 및 Lazy DFA(지연 결정화) 적용 | 전이표 메모리 최소화 및 상태 압축 |
+| NFA 결정화 시 발생하는 **상태 폭증** | **홉크로프트 상태 최소화** 및 Lazy DFA(지연 결정화) 적용 | 전이표 메모리 최소화 및 상태 압축 |
 | 악성 입력에 의한 백트래킹 엔진의 **ReDoS 공격** | DFA 기반 선형 엔진(RE2, Rust Regex) 및 매칭 타임아웃 | $O(N)$ 선형 시간 보장 및 **ReDoS 차단** |
 | 다중 정규식 패턴 간 **토큰 우선순위 충돌** | 수용 상태에 규칙 순서 기반 **우선순위 가중치** 부여 | Lexer의 결정적 최장 일치(Longest Match) 보장 |
-| NFA의 **$\varepsilon$-전이 연쇄** 기반  인한 수용 판정 누락 | 상태 전이 전후 **$\varepsilon$-Closure 집합 연산** 정밀 수행 | NFA 시뮬레이션의 수학적 정합성 확보 |
+| NFA의 **$\varepsilon$-전이 연쇄**로 인한 수용 판정 누락 | 상태 전이 전후 **$\varepsilon$-Closure 집합 연산** 정밀 수행 | NFA 시뮬레이션의 수학적 정합성 확보 |
 
 #### 한줄 요약
 
