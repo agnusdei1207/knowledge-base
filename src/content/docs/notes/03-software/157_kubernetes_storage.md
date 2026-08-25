@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 157
-  label: "157. 쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
+  label: "157. 쿠버네티스 스토리지"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-14T02:20:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -22,143 +22,129 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **쿠버네티스 영속 스토리지(Persistent Storage)**: 파드(Pod) 파기 후에도 데이터를 보존하기 위해 PVC(요청), PV(자원), StorageClass(자동 설정)로 추상화한 체계.
-- **PVC(PersistentVolumeClaim)**: 스토리지 용량과 접근 모드 등을 명시하여 사용자(개발자)가 자원을 요청하는 객체.
-- **PV(PersistentVolume)**: 실제 클라우드 EBS나 NFS 등 할당된 영속 스토리지 물리 자원.
-- **StorageClass(SC)**: 관리자 설정에 따라 PVC 요청 시 특정 스토리지(AWS EBS `gp3` 등)를 자동 생성(Dynamic Provisioning)하는 규격 객체.
+- **쿠버네티스 스토리지 3대 요소**: PVC(사용자 요청서), PV(실제 영속 볼륨 자원), StorageClass(동적 프로비저닝 템플릿).
+- **CSI(Container Storage Interface)**: K8s 코어 수정 없이 외부 스토리지(EBS, EFS, Ceph) 플러그인을 연결하는 표준 인터페이스.
 
 </details>
 
-- 정의/개념: PVC•PV•StorageClass로 분리한 **Kubernetes Storage**
-- 배경/필요성: Container 쓰기층은 Pod 교체 시 **데이터 수명** 보장 불가
+- 정의/개념: 컨테이너 파드의 일시적 수명과 물리 스토리지 수명을 분리하기 위해 **PVC(요청), PV(자원), StorageClass(규격)로 추상화한 영속 스토리지 아키텍처**
+- 배경/필요성: 컨테이너 쓰기 계층(CoW)의 휘발성으로 인해 발생하는 **파드 재시작 시 데이터 영구 유실 및 스토리지 벤더 변경 시 앱 재설계 해결 불가**
 
 #### 한줄 요약
-
-- 애플리케이션은 저장 제품을 직접 고르지 않고 PVC에 필요한 크기와 접근 방법만 적어 인프라 변경과 데이터 수명을 분리한다.
+- 스토리지 요청과 물리 자원을 분리하고 동적 프로비저닝을 통해 데이터 영속성을 보장한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Dynamic Provisioning**: 관리자가 일일이 PV 디스크를 만들어 두지 않아도, PVC 신청 즉시 StorageClass와 CSI 드라이버가 AWS EBS를 3초 만에 자동 생성.
+- **Dynamic Provisioning**: 사용자가 PVC를 제출하면 관리자 수동 개입 없이 CSI 드라이버가 클라우드 EBS/EFS 디스크를 자동 생성.
+- **Access Modes**: 단일 노드 독점 쓰기(RWO: ReadWriteOnce), 다중 노드 읽기 전용(ROX: ReadOnlyMany), 다중 노드 동시 공유 쓰기(RWX: ReadWriteMany).
 
 </details>
 
-- **스토리지 추상화**: PVC(요청)와 PV(자원)를 분리하여 애플리케이션 종속성 제거.
-- **동적 프로비저닝**: StorageClass 기반 AWS EBS/EFS 실시간 자동 생성.
-- **접근 모드 제어**: RWO(ReadWriteOnce), ROX(ReadOnlyMany), RWX(ReadWriteMany) 권한 관리.
+- PVC(요청)와 PV(자원)를 분리하여 인프라 결합도를 제거하는 **스토리지 추상화**
+- StorageClass 및 CSI 드라이버를 통한 **클라우드 볼륨(EBS/EFS) 동적 프로비저닝**
+- RWO, ROX, RWX 3대 접근 제어를 통한 **상태 기반 워크로드(Stateful) 완벽 지원**
 
 #### 한줄 요약
-
-- PVC는 창고 요청서, PV는 배정된 창고, 스토리지 클래스는 창고를 만드는 표준으로 보면 세 객체의 책임이 구분된다.
+- 스토리지 추상화, 실시간 동적 프로비저닝, 3대 접근 모드 제어를 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **CSI (Container Storage Interface)**: K8s 코어 엔진과 외부 스토리지 벤더(AWS EBS, NetApp, Portworx) 간의 플러그인 호환 표준 규격.
+- **K8s 스토리지 계층 구조**: Pod/PVC(개발자 영역), PV/StorageClass(인프라 영역), CSI Driver/Cloud Disk(물리 영역).
 
 </details>
 
 ```text
-[PVC] ───────── [PV]
- │               │
-[StorageClass] ─ [CSI Driver]
+[쿠버네티스 영속 스토리지 추상화 구조]
+|-- 1. User Application Layer (개발자 영역)
+|   `-- Pod -> PersistentVolumeClaim (PVC: "gp3 볼륨 100Gi RWO 요청")
+|-- 2. Kubernetes Storage Control Layer (쿠버네티스 제어면)
+|   |-- StorageClass (Provisioner: `ebs.csi.aws.com`, ReclaimPolicy: `Retain`)
+|   `-- PersistentVolume (PV: "vol-012345 100Gi 바인딩 완료")
+`-- 3. Infrastructure & CSI Layer (물리 인프라 영역)
+    |-- AWS EBS CSI Driver (CreateVolume / AttachDisk API 호출)
+    `-- AWS EBS gp3 Storage (물리 SSD 블록 디스크)
 ```
 
-| 구성요소 | 책임 |
-|---|---|
-| PVC | 용량•Access Mode 등 **Storage 요구** 선언 |
-| PV | Claim과 결합되는 **영속 Volume 자원** 표현 |
-| StorageClass | Provisioner•Policy 등 **공급 규격** 정의 |
-| CSI Driver | 외부 Storage의 **생성•연결•Mount** 수행 |
+선의 의미: 계층 및 개발자가 PVC를 신청하면 StorageClass와 CSI 드라이버가 물리 디스크를 생성해 PV와 1:1 바인딩하는 구조
+
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **PVC (요청서)** | 개발자가 필요한 스토리지 **용량, AccessMode, StorageClass 요구 선언** | 개발자 추상화 객체 |
+| **PV (볼륨 자원)** | 클러스터에 프로비저닝된 **실제 물리 디스크 볼륨의 메타데이터 표현** | PVC와 1:1 바인딩 |
+| **스토리지 클래스 (SC)** | Provisioner, 볼륨 속성(`gp3/io2`), **재활용 정책(Retain/Delete) 정의** | 동적 생성 템플릿 |
+| **CSI 드라이버** | K8s 스토리지 API 요청을 받아 **실제 스토리지 생성, 노드 Attach/Mount 수행**| 표준 스토리지 플러그인 |
 
 #### 한줄 요약
-
-- 제어기가 PVC에 맞는 PV를 탐색하고 없으면 스토리지 클래스와 CSI로 새 PV를 동적 프로비저닝한 뒤 바인딩한다.
+- PVC(요청서), PV(자원), StorageClass(규격), CSI 드라이버가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **VolumeBindingMode**: `WaitForFirstConsumer` 옵션을 설정하여, Pod가 실제 스케줄링된 동일 AZ(가용 영역)에 EBS 디스크를 뒤늦게 동적 생성하도록 보장하는 옵션.
+- **동적 프로비저닝 5단계**: PVC 제출 $\to$ StorageClass 해석 $\to$ CSI 볼륨 생성 $\to$ PV-PVC 바인딩 $\to$ 노드 Attach 및 마운트.
 
 </details>
 
 ```text
-[PVC 제출]
-    │
-    ▼
-1. Claim 요구 검증
-    │
-    ▼
-2. StorageClass 선택
-    │
-    ▼
-3. Volume Provisioning
-    │
-    ▼
-4. PV•PVC Binding
-    │
-    ▼
-5. Node 연결•Mount
-    │
-    ▼
-[Pod Volume 제공]
+StatefulSet 데이터베이스 파드의 PVC 제출
+        │
+   1. [PVC 검증] API 서버가 PVC 명세(용량: 100Gi, AccessMode: RWO) 접수 및 유효성 검증
+        │
+   2. [StorageClass 선택] 명시된 `gp3-sc` 스토리지 클래스의 Provisioner(`ebs.csi.aws.com`) 호출
+        │
+   3. [CSI 볼륨 동적 생성] CSI 드라이버가 AWS API를 호출하여 실제 100Gi EBS gp3 디스크 생성
+        │
+   4. [PV 생성 및 바인딩] 생성된 EBS 디스크를 기반으로 PV 객체를 생성하고 PVC와 1:1 Bound 결합
+        │
+   5. 파드가 배치된 워커 노드에 EBS를 Attach하고 컨테이너 디렉터리로 Mount 완료
 ```
 
-### 동작 원리
-
-1. Claim 요구 검증: 용량•Mode•Class 조건 확인
-2. StorageClass 선택: 명시값 또는 Default Class 결정
-3. Volume Provisioning: CSI가 요구에 맞는 Volume 생성
-4. PV•PVC Binding: Claim과 공급 자원을 결합
-5. Node 연결•Mount: Pod 실행 Node에 Volume 제공
-
 #### 한줄 요약
-
-- 첫 소비자 대기를 사용하면 파드가 놓일 영역을 먼저 정하고 같은 영역에 볼륨을 만들어 지역 불일치로 인한 배치 실패를 막는다.
+- PVC 검증 → StorageClass 선택 → CSI 볼륨 생성 → PV-PVC 바인딩 → 노드 마운트 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **RWO vs RWX**: RWO(ReadWriteOnce)는 단 1개 Node만 읽기/쓰기 가능(EBS 디스크), RWX(ReadWriteMany)는 수십 개 Node가 동시 읽기/쓰기 가능(EFS NFS/S3).
+- **RWO vs ROX vs RWX**: 단일 노드 독점(RWO: EBS), 다중 노드 읽기 전용(ROX), 다중 노드 동시 읽기/쓰기 공유(RWX: EFS).
 
 </details>
 
-| Access Mode | 약어 | 동시 접속 노드 수 | 대표 지원 스토리지 솔루션 |
+| 비교 항목 | ReadWriteOnce (RWO) | ReadOnlyMany (ROX) | ReadWriteMany (RWX) |
 |:---|:---|:---|:---|
-| ReadWriteOnce | **RWO** | **단 1개 Node만 읽기/쓰기 단독 점유** | **AWS EBS, GCP Persistent Disk** |
-| ReadOnlyMany | **ROX** | **수십 개 Node가 동시에 읽기(Read) 전용**| **AWS EBS Snapshot, ISO Image** |
-| ReadWriteMany | **RWX** | **수십 개 Node가 동시에 읽기/쓰기 공유**| **AWS EFS (NFS), Ceph, GlusterFS** |
+| 접근 허용 범위 | **단 1개 Node만 읽기/쓰기 독점 점유** | **다수 Node에서 읽기(Read) 전용 공유** | **다수 Node에서 읽기/쓰기 동시 공유** |
+| 대표 지원 스토리지| **AWS EBS, GCP Persistent Disk** | **EBS Snapshot, 컨테이너 ISO 이미지** | **AWS EFS (NFS), CephFS, GlusterFS** |
+| I/O 성능 특성 | **블록 스토리지 기반 초고속 I/O** | 블록/파일 기반 읽기 전용 | 네트워크 파일시스템(NFS) 오버헤드 |
+| 최적 적용 워크로드| **MySQL, PostgreSQL, MongoDB 등 DB** | **정적 미디어 에셋, AI 모델 가중치 파일**| **웹 서버 공통 업로드 파일, CMS 시스템**|
 
 #### 한줄 요약
-
-- PVC는 소비자의 요구, PV는 공급된 자원, 스토리지 클래스는 공급 방식을 나타내므로 저장 제품 변경을 파드 명세에서 숨길 수 있다.
+- 고성능 데이터베이스는 RWO, 공유 파일 저장소는 RWX 스토리지를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Multi-AZ EBS Volume Attach Error**: AWS EBS 디스크는 특정 AZ(ap-northeast-2a)에 고정되므로, Pod가 타 AZ(2c)로 이사 가면 디스크 마운트 불가 500 에러 발생.
+- **WaitForFirstConsumer**: EBS 디스크가 파드보다 먼저 생성되어 다른 가용 영역(AZ)에 생기는 불일치(Multi-AZ Attach Fail)를 방지하는 바인딩 모드.
 
 </details>
 
-| 3대 스토리지 난제 | 발생 원인 | 실무 대책 및 해결방안 |
+| 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 1. Multi-AZ Multi-Attach Fail | EBS 디스크와 Pod의 AZ 불일치 | **`volumeBindingMode: WaitForFirstConsumer` 설정** |
-| 2. Multi-Pod Log Share Fail | EBS(RWO)로는 여러 Pod가 로그 못 씀| **AWS EFS (RWX 수용 스토리지) 로 교체** |
-| 3. Accidental PVC Deletion | PVC 실수 삭제로 EBS 데이터 날아감 | **`reclaimPolicy: Retain` 으로 디스크 파기 방지** |
+| EBS 볼륨과 Pod의 AZ가 불일치하여 디스크 마운트 실패 | **StorageClass에 `volumeBindingMode: WaitForFirstConsumer` 설정** | Pod 스케줄링된 AZ에 EBS 동적 생성 |
+| 단일 EBS(RWO)로 여러 웹 파드가 로그 공유 쓰기 불가 | **스토리지를 AWS EFS(RWX 지원 관리형 NFS)로 전환 배포** | 다중 노드 동시 쓰기 지원 |
+| PVC 실수 삭제 시 실제 백엔드 EBS 디스크 데이터 영구 파기 | **StorageClass의 `reclaimPolicy: Retain` 설정 강제** | 디스크 자동 삭제 방지 및 복구 보장 |
+| 볼륨 용량 부족으로 데이터베이스 쓰기 락다운 | **`allowVolumeExpansion: true` 설정으로 무중단 PVC 용량 증설** | 가동 중 실시간 스토리지 확장 |
 
-> 사례: **카카오 / 당근마켓 StatefulSet DB (EBS RWO + Retain Policy) 구축 운영** #### 한줄 요약
-
-- 데이터베이스 파드의 영역과 볼륨 영역을 맞추고 PVC 삭제와 별개인 백업을 복원해 봐야 노드 손실과 오삭제를 모두 견딜 수 있다.
+#### 한줄 요약
+- WaitForFirstConsumer 설정, RWX(EFS) 전환, Retain 정책, 무중단 볼륨 확장으로 운영한다.
 
 ## Ⅶ. 결론
 
-- 단일 Node Block은 **RWO**, 다중 Node 공유는 RWX Storage 선택
+- 쿠버네티스 기반 스테이트풀(Stateful) 워크로드를 안정적으로 운용하기 위해 **CSI 드라이버 기반의 동적 프로비저닝을 표준 구축하고, Multi-AZ 환경에서는 WaitForFirstConsumer 바인딩 모드와 Retain 데이터 보호 정책을 필수 적용**하여 고신뢰 클라우드 스토리지 아키텍처 완성
 
 #### 한줄 요약
-
-- 접근 범위와 장애 영역에 맞는 StorageClass를 고르고 Retain•Backup 정책을 함께 둔다.
+- 쿠버네티스 스토리지는 PVC, PV, StorageClass의 3단계 추상화를 통해 인프라와 애플리케이션을 완벽히 분리하고 데이터 영속성을 보장하는 핵심 기술이다.
