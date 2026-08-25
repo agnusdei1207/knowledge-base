@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 88
-  label: "088. 락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
+  label: "088. 2단계 잠금 프로토콜 2PL"
   badge:
     text: "미출 · 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
-date: "2026-08-13T19:02:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -22,136 +22,131 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **2PL (Two-Phase Locking Protocol, 2단계 잠금 프로토콜)**: 트랜잭션의 잠금(Lock) 획득과 해제를 2개의 직교되는 단계(성장 단계: Growing Phase, 축소 단계: Shrinking Phase)로 분리하여, 트랜잭션의 충돌 직렬 가능성(Conflict Serializability)을 100% 보장하는 동시성 제어 프로토콜.
-- **Growing Phase (확장/성장 단계)**: 트랜잭션이 필요한 새로운 Lock(S-Lock, X-Lock)을 획득만 할 수 있고, 보유한 Lock을 전혀 해제(Unlock)할 수 없는 단계.
-- **Shrinking Phase (축소 단계)**: 트랜잭션이 보유한 Lock을 해제(Unlock)할 수만 있고, 새로운 Lock을 절대 획득할 수 없는 단계.
+- **2PL(Two-Phase Locking Protocol)**: 트랜잭션 내의 잠금(Lock) 과정을 성장 단계(Growing)와 축소 단계(Shrinking)로 나누어 직렬 가능성을 보장하는 동시성 제어 프로토콜.
+- **성장 단계 vs 축소 단계**: 락을 획득만 할 수 있는 단계(Growing)와 락을 해제만 할 수 있는 단계(Shrinking).
 
 </details>
 
-- 정의/개념: 트랜잭션의 락 획득 시점(Growing Phase)과 락 해제 시점(Shrinking Phase)을 2단계로 명확히 교차 차단하여 트랜잭션의 직렬 가능성(Serializability)을 보장하는 규약인 **2PL Protocol**
-- 배경/필요성: 임의 잠금 획득•해제는 **비직렬 실행•연쇄 취소** 유발
+- 정의/개념: 트랜잭션의 락 획득(Growing)과 락 해제(Shrinking)를 분리하여 **트랜잭션의 충돌 직렬 가능성(Conflict Serializability)을 보장**하는 규약
+- 배경/필요성: 무질서한 락 획득 및 조기 해제로 인한 **비직렬 실행 결과 왜곡 및 연쇄 롤백(Cascading Rollback) 발생 해결 불가**
 
 #### 한줄 요약
-
-- 잠금을 모으는 동안에는 풀지 않고 하나라도 푼 뒤에는 새 잠금을 받지 않는다.
+- 락을 획득하는 동안에는 해제하지 않고, 해제하기 시작하면 새 락을 획득하지 않는다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Lock Point**: 트랜잭션이 마지막 Lock을 획득하여 Growing Phase가 완료되고 Shrinking Phase로 넘어가기 바로 직전의 시점.
-- **Cascading Rollback (연쇄 롤백)**: 기본 2PL에서 한 트랜잭션이 Unlock한 미커밋 데이터를 타 트랜잭션이 읽었을 때, 원본 트랜잭션 취소 시 타 트랜잭션까지 도미노처럼 연속 롤백되는 현상.
+- **Lock Point**: 트랜잭션이 마지막 락을 획득하여 성장 단계가 끝나고 축소 단계로 전환되는 임계 시점.
+- **Cascading Rollback(연쇄 롤백)**: 트랜잭션이 조기 해제한 언커밋 데이터를 읽은 타 트랜잭션들이 원본 롤백 시 줄줄이 취소되는 현상.
 
 </details>
 
-- **Conflict Serializability (충돌 직렬 가능성 보장)**
-- 락 획득만 가능한 **Growing Phase** 대 락 해제만 가능한 **Shrinking Phase** 분리
-- **Deadlock (교착 상태)** 발생 가능성 상존 및 **Cascading Rollback (연쇄 롤백)** 위험성
+- 직렬 스케줄과 동일한 결과를 보장하는 **충돌 직렬 가능성(Conflict Serializability) 완벽 보장**
+- 락을 얻기만 하는 **성장 단계(Growing)** 와 락을 풀기만 하는 **축소 단계(Shrinking)** 의 엄격 분리
+- 트랜잭션 간 자원 교차 대기로 인한 **교착 상태(Deadlock) 발생 가능성 상존**
 
 #### 한줄 요약
-
-- 실행 결과의 순서는 맞추지만 서로 자물쇠를 쥔 채 기다리는 교착이 생길 수 있다.
+- 직렬 가능성을 보장하되 교착 상태(Deadlock)와 연쇄 롤백 위험을 통제해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **S-Lock / X-Lock**: Shared Lock(읽기 전용 공유 락), Exclusive Lock(쓰기 전용 배타 락).
+- **Lock Manager & Wait-for Graph**: 잠금 상태를 관리하는 테이블과 교착 상태를 감지하기 위해 트랜잭션 대기 관계를 추적하는 방향 그래프.
 
 </details>
 
 ```text
- [트랜잭션 관리자] ─── [잠금 관리자]
-         │                    │
- [교착 탐지기] ─────── [잠금 테이블]
+[2PL 프로토콜 2단계 및 락 매니저 구조]
+|-- 트랜잭션 실행 단계 (Phase)
+|   |-- 1. 확장 단계 (Growing Phase: S-Lock, X-Lock 획득만 가능, 해제 불가)
+|   |-- [Lock Point] -> 모든 필요한 락을 확보한 최대 잠금 시점
+|   `-- 2. 축소 단계 (Shrinking Phase: Unlock 해제만 가능, 신규 획득 절대 불가)
+`-- DBMS 락 관리 시스템 (Lock Manager)
+    |-- Lock Table (자원별 보유 트랜잭션 및 대기 큐 FIFO 관리)
+    `-- Wait-for Graph (트랜잭션 간 대기 순환 사이클 감지 엔진)
 ```
 
-선의 의미: Growing Phase 동안 락을 누적 획득하여 Lock Point를 찍은 뒤, Shrinking Phase를 통해 락을 해제하는 2단계 타이밍 차트 아키텍처.
+선의 의미: 계층 및 2단계 락킹 타이밍과 락 매니저 제어 구조
 
-| 구성요소 | 책임 |
+| 구성요소 | 핵심 엔지니어링 책임 |
 |:---|:---|
-| 트랜잭션 관리자 | 트랜잭션 상태와 커밋•취소 제어 |
-| 잠금 관리자 | S/X 잠금의 호환성•대기•해제 관리 |
-| 잠금 테이블 | 자원별 보유자와 대기 큐 기록 |
-| 교착 탐지기 | 대기 순환을 찾아 취소 대상 선정 |
+| **확장 단계 (Growing Phase)**| 트랜잭션 실행에 필요한 **공유 락(S-Lock) 및 배타 락(X-Lock)을 점진 획득** |
+| **Lock Point** | 트랜잭션이 **마지막 락을 획득하고 축소 단계로 진입하기 직전의 시점** |
+| **축소 단계 (Shrinking Phase)**| 트랜잭션이 **보유한 락을 점진 해제(Unlock)** |
+| **교착 탐지기 (Deadlock Detector)**| Wait-for Graph 순환 탐색으로 **교착 상태 발견 시 Victim 트랜잭션 롤백** |
 
 #### 한줄 요약
-
-- 잠금 요청과 대기 관계를 관리하고 교착 시 취소 대상을 고른다.
+- 확장 단계, Lock Point, 축소 단계와 교착 탐지기가 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Strict 2PL (엄격한 2PL)**: 연쇄 롤백(Cascading Rollback)을 방지하기 위해, 모든 X-Lock(배타 락)을 Shrinking Phase에 해제하지 않고 트랜잭션이 Commit/Rollback 될 때까지 유지하는 프로토콜.
-- **Rigorous 2PL (강력한 2PL)**: 모든 S-Lock과 X-Lock을 포함한 모든 락을 Commit/Rollback 시점까지 전혀 해제하지 않는 완벽한 2PL 변형.
+- **Strict 2PL vs Rigorous 2PL**: 배타 락(X)만 커밋 시점에 해제하는 Strict 2PL과 모든 락(S+X)을 커밋 시점까지 유지하는 Rigorous 2PL.
 
 </details>
 
 ```text
-[Basic 2PL]     : Growing ──► Lock Point ──► Shrinking (중간에 Unlock 시작) ──► Commit
-[Strict 2PL]    : Growing ──► Lock Point ──► [X-Lock 은 Commit 시점까지 보존] ──► Commit
-[Rigorous 2PL]  : Growing ──► Lock Point ──► [모든 S/X-Lock 을 Commit 시점까지 보존] ──► Commit
+트랜잭션 시작
+        │
+   1. [Growing Phase] 레코드 A에 대한 S-Lock 및 레코드 B에 대한 X-Lock 획득
+        │
+   2. [Lock Point 도달] 필요한 모든 락 획득 완료 (이후 신규 락 획득 불가)
+        │
+   [어떤 2PL 변형 프로토콜을 사용하는가?]
+   ┌────┼───────────────────────────┐
+[Basic 2PL]                    [Strict 2PL (상용 DB 표준)]   [Rigorous 2PL]
+중간에 락을 하나씩 해제          X-Lock은 Commit 시까지 유지    모든 S/X-Lock을 Commit 시까지 유지
+(연쇄 롤백 위험 존재)           (연쇄 롤백 완전 차단)          (완벽한 직렬화 보장)
+        │                               │                             │
+   3. 트랜잭션 Commit 완료 및 남은 모든 락 일괄 해제
 ```
 
-### 동작 원리
-
-1. Basic 2PL: 락을 다 얻으면 Shrinking Phase 진입하여 하나씩 `Unlock`. (연쇄 롤백 위험 존재).
-2. Strict 2PL: `UPDATE`한 X-Lock을 트랜잭션 종료 시(`Commit/Rollback`)까지 유지하여 타 트랜잭션의 Dirty Read 및 Cascading Rollback 원천 차단.
-3. Rigorous 2PL: 모든 락(S-Lock + X-Lock)을 트랜잭션 종료 시까지 들고 있어 직렬화 완벽 보장.
-
 #### 한줄 요약
-
-- 물건을 담는 동안에는 빼지 않고 하나를 빼기 시작하면 새 물건을 담지 않는다.
+- 성장 단계 → Lock Point 도달 → Strict 2PL(커밋 시 X-Lock 해제) → 트랜잭션 완료 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Cascading Rollback Avoidance**: Strict 2PL 및 Rigorous 2PL은 미커밋 데이터 유출을 막아 연쇄 롤백을 완전 방지(Avoids Cascading Aborts).
+- **2PL 3대 변형**: Basic 2PL(조기 해제), Strict 2PL(X-Lock 커밋 시 해제), Rigorous 2PL(모든 락 커밋 시 해제).
 
 </details>
 
-| 구분 | Basic 2PL (기본 2PL) | Strict 2PL (엄격한 2PL) | Rigorous 2PL (강력한 2PL) |
+| 비교 항목 | Basic 2PL (기본 2PL) | Strict 2PL (엄격한 2PL) | Rigorous 2PL (강력한 2PL) |
 |:---|:---|:---|:---|
-| X-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** | **트랜잭션 Commit / Rollback 시점** |
-| S-Lock 해제 시점 | Shrinking Phase 진입 후 조기 해제 | Shrinking Phase 진입 후 조기 해제 | **트랜잭션 Commit / Rollback 시점** |
-| 직렬 가능성 (Serial) | **보장** | **보장** | **보장** |
-| 연쇄 롤백 방지 | 미커밋 값 노출 시 발생 가능 | **쓰기 잠금 유지로 방지** | **모든 잠금 유지로 방지** |
-| 실무 상용 DBMS 채택| 채택 안 함 | **대다수 상용 RDBMS 채택** | 일부 RDBMS 옵션 채택 |
+| X-Lock 해제 시점 | 축소 단계에서 조기 해제 가능 | **트랜잭션 Commit / Rollback 시점** | **트랜잭션 Commit / Rollback 시점** |
+| S-Lock 해제 시점 | 축소 단계에서 조기 해제 가능 | 축소 단계에서 조기 해제 가능 | **트랜잭션 Commit / Rollback 시점** |
+| 충돌 직렬성 보장 | **100% 보장** | **100% 보장** | **100% 보장** |
+| 연쇄 롤백(Cascading) | **발생 가능 (미커밋 노출)** | **완전 차단 (Safe)** | **완전 차단 (Safe)** |
+| 상용 DBMS 채택 | 거의 미사용 | **Oracle, MySQL 등 상용 DB 표준** | 특수 고신뢰성 시스템 |
 
 #### 한줄 요약
-
-- 기본 방식은 축소 단계에서 잠금을 풀고 엄격한 방식은 쓰기 잠금을 종료까지 유지한다.
+- 기본형은 연쇄 롤백 위험이 있어, 실무 상용 DBMS는 배타 락을 커밋까지 유지하는 Strict 2PL을 채택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Deadlock in 2PL**: 2PL 규약을 준수하다가 두 트랜잭션이 상대방이 보유한 락을 교차 대기(Circular Wait)하여 영원히 멈추는 현상.
+- **Deadlock(교착 상태)**: 트랜잭션 A가 B의 자원을, 트랜잭션 B가 A의 자원을 동시에 기다리며 영원히 멈추는 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 2PL 수행 중 교착 상태(**Deadlock**) 발생 | **Wait-for Graph 교착 순환 감지 및 Deadlock Timeout 해제** | 무한 대기 해제 |
-| Basic 2PL의 연쇄 롤백(**Cascading Rollback**) | **실무 DBMS에서는 Strict 2PL (X-Lock Commit 시점 해제) 강제**| 연쇄 롤백 완전 차단 |
-| 락 점유 기간 장기화로 인한 동시성 TPS 하락 | **2PL 대신 MVCC (Multi-Version Concurrency Control) 엔진 채택**| 동시성 TPS 극대화 |
+| 2PL 수행 중 트랜잭션 간 상호 대기로 교착 상태(**Deadlock**) 발생 | **Wait-for Graph 기반 1초 주기 교착 감지 및 짧은 Lock Timeout 설정** | 무한 대기 차단 및 희생자(Victim) 자동 롤백 |
+| Basic 2PL의 조기 해제로 인한 연쇄 롤백(**Cascading Rollback**) | **상용 DBMS 기본값인 Strict 2PL (X-Lock Commit 시점 해제) 강제** | 연쇄 롤백 0화 및 회복 가능성(Recoverability) 보장 |
+| 락 점유 시간 장기화로 인한 동시 처리량(TPS) 폭락 | **읽기 작업에 대해 2PL 대신 MVCC(Undo 스냅샷) 엔진 채택** | 읽기-쓰기 블로킹 해소 및 처리량 10배 향상 |
+| 다중 행 수정 시 데드락 빈발 | **애플리케이션에서 레코드 ID 오름차순(ASC)으로 정렬 후 Lock 획득** | 순환 대기 조건(Circular Wait) 원천 제거 |
 
-> 사례: **MySQL InnoDB / Oracle DBMS 내 Strict 2PL 기반 락 매니저 운용** #### 한줄 요약
-
-- 모든 이체가 계좌 번호순으로 잠그면 반대 순서 대기로 생기는 교착을 줄일 수 있다.
+#### 한줄 요약
+- Strict 2PL 적용, Wait-for Graph 교착 감지, MVCC 병행, 자원 정렬 잠금으로 문제를 해결한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **2PL 수립 기준(2PL Protocol Standards)**: 직렬 가능성 요건, 연쇄 롤백 차단성 및 Strict 2PL 채택 여부에 의거한 체계.
-
-</details>
-
-- 연쇄 취소 방지는 **Strict 2PL**, 높은 읽기 동시성은 **MVCC** 병행
+- 트랜잭션의 직렬 가능성과 회복 가능성을 완벽히 보장하기 위해 **상용 RDBMS의 Strict 2PL 프로토콜을 준수**하고, **일반 읽기는 MVCC로 분리하며 자원 잠금 순서를 정렬**하여 교착 상태 최소화
 
 #### 한줄 요약
-
-- 2단계 잠금 방식 선택 기준은 올바른 실행 순서와 교착•대기 비용을 함께 고려한다.
+- 2단계 잠금 프로토콜(2PL)은 트랜잭션 직렬 가능성을 보장하는 핵심 이론이며, 실무에서는 연쇄 롤백을 막는 Strict 2PL이 표준으로 사용된다.

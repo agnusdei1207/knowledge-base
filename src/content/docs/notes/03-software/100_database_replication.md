@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 100
-  label: "100. 데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
+  label: "100. 데이터베이스 복제: 마스터-슬레이브•멀티마스터"
   badge:
     text: "미출 · 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
-date: "2026-08-13T20:14:00+09:00"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 100
@@ -22,156 +22,132 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Database Replication (데이터베이스 복제)**: 데이터베이스의 가용성(High Availability), 재해 복구(DR), 트래픽 분산(Read Scale-Out)을 위해, 원본 데이터베이스 노드의 갱신 데이터(Binary Log / Write-Ahead Log)를 1개 이상의 타 데이터베이스 노드로 지속 동기화하는 물리적 복제 아키텍처.
-- **Master-Slave (Primary-Replica) Architecture**: 주 노드(Primary/Master)는 100% Write(CUD) 및 Read를 담당하고, 복제 노드(Replica/Slave)는 오직 Read 전용 쿼리를 분산 처리하거나 주 노드 장애 시 승격(Failover)되는 형태.
-- **Multi-Master (Primary-Primary) Architecture**: 2개 이상의 노드가 동시에 Write 및 Read 연산을 각각 독립 처리하며, 노드 간 변경 사항을 양방향 동기화하는 구조.
+- **데이터베이스 복제(Replication)**: 원본 노드의 데이터 변경 이력(Binary Log / WAL)을 보조 노드로 지속 전파하여 고가용성(HA)과 읽기 분산을 실현하는 기술.
+- **Primary-Replica (Master-Slave)**: 쓰기(Write)를 전담하는 Primary 노드와 읽기(Read)를 분산 처리하는 다수의 Replica 노드로 구성된 복제 모델.
 
 </details>
 
-- 정의/개념: 변경 로그를 다른 노드에 반영하는 **데이터베이스 복제**
-- 배경/필요성: 단일 DB 장애로 **서비스 중단•데이터 손실** 위험 집중
+- 정의/개념: 고가용성(HA)과 읽기 트래픽 분산을 위해 **주 노드의 변경 로그(Binlog/WAL)를 복제 노드로 전파·재생**하는 데이터베이스 이중화 기술
+- 배경/필요성: 단일 DB 장애 시 나타나는 **서비스 전체 중단(SPOF), 데이터 유실 및 읽기 트래픽 폭증에 따른 서버 다운 해결 불가**
 
 #### 한줄 요약
-
-- 원본 장부의 변경 일지를 다른 지점에 보내 같은 사본을 유지하는 방식이다.
+- 변경 로그를 복제 노드로 전파하여 읽기 부하를 분산하고 무중단 고가용성을 확보한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Replication Lag (복제 지연)**: 주 노드에서 Commit된 변경 데이터가 네트워크 지연이나 복제 노드의 락 경합으로 인해 복제 노드에 뒤늦게 반영되는 시간차 현상.
-- **Failover / Failback**: 주 노드 다운 시 복제 노드를 새로운 주 노드로 자동/수동 승격(Failover)시키는 고가용성 프로세스.
+- **Replication Lag(복제 지연)**: Primary에서 커밋된 데이터가 네트워크 지연이나 Replica의 I/O 경합으로 인해 복제본에 늦게 반영되는 시차 현상.
+- **Failover(장애 조치)**: Primary 노드 장애 시 가장 최신 로그를 보유한 Replica 노드를 새로운 Primary로 자동 승격시키는 절차.
 
 </details>
 
-- **읽기 부하 분산**: 복제 노드 활용을 통한 읽기 성능 향상 및 고가용성(`HA`) 확보.
-- **복제 방식**: 동기식(`Synchronous`), 비동기식(`Asynchronous`), 반동기식(`Semi-Synchronous`) 복제 지원.
-- **운영 Trade-off**: 복제 지연(`Replication Lag`) 발생에 따른 읽기 정합성 관리 필요.
+- 주 노드는 쓰기, 복제 노드는 읽기를 전담하는 **Read/Write 분리 아키텍처**
+- 요구사항에 따라 선택하는 **동기(Sync), 반동기(Semi-Sync), 비동기(Async) 복제** 지원
+- 네트워크 및 복제 노드 부하에 따른 **복제 지연(Replication Lag) 관리 트레이드오프**
 
 #### 한줄 요약
-
-- 사본이 늘면 읽기와 장애 대응은 좋아지지만 최신성 지연과 원본 충돌을 관리해야 한다.
+- 읽기 부하 분산과 자동 페일오버를 지원하되, 복제 지연에 따른 일관성을 관리해야 한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Binary Log (Binlog) / WAL (Write-Ahead Log)**: MySQL의 Binlog, PostgreSQL의 WAL 등 데이터 변경 이력이 이진 형태로 기록되는 파일로, 복제 노드가 이를 읽어 롤-포워드(Replay) 수행.
+- **Binlog & Relay Log**: MySQL Primary가 생성하는 Binary Log와 이를 Replica가 수신하여 로컬에 저장하는 Relay Log.
 
 </details>
 
 ```text
-[주 노드] ───── [변경 로그]
-    │                 │
-[복제 노드] ─── [복제 관리자]
-    │                 │
-[읽기 라우터] ── [장애 감지기]
+[데이터베이스 복제 아키텍처 및 로그 전파 체계]
+|-- Primary 노드 (Master: Write/Read 트랜잭션 전담)
+|   |-- Storage Engine (InnoDB DML 실행)
+|   `-- Binary Log (디스크 변경 이벤트 순차 기록)
+|-- ProxySQL / AWS Aurora Reader Endpoint (Read/Write 트래픽 자동 라우팅)
+`-- Replica 노드 (Slave: Read 전용 쿼리 분산 처리)
+    |-- I/O Thread (Primary의 Binlog를 읽어 Relay Log로 디스크 기록)
+    `-- SQL Thread (Relay Log를 순차 파싱하여 Replica 스토리지에 Replay 반영)
 ```
 
-선의 의미: 변경 전파•읽기 분산•장애 승격 책임 간 정적 협력 관계.
+선의 의미: 계층 및 주 노드에서 복제 노드로의 로그 전송 및 재생(Replay) 구조
 
-| 구성요소 | 책임 |
-|:---|:---|
-| 주 노드 | 쓰기 처리와 변경 로그 생성 |
-| 변경 로그 | 커밋 순서와 변경 내용을 지속 보관 |
-| 복제 노드 | 로그 재생과 읽기 요청 처리 |
-| 복제 관리자 | 전송 위치•지연•오류 상태 관리 |
-| 읽기 라우터 | 최신성 요구에 따라 읽기 노드 선택 |
-| 장애 감지기 | 주 노드 판정과 승격 절차 조정 |
+| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+|:---|:---|:---|
+| **Primary 노드 (Master)** | 모든 CUD 쓰기 트랜잭션을 처리하고 **Binary Log를 디스크에 순차 생성** | 시스템 내 유일한 쓰기 원천 (SSOT) |
+| **I/O Thread (Replica)** | Primary의 Binlog 덤프를 네트워크로 수신하여 **Relay Log에 순차 저장** | 네트워크 연결 유지 및 수신 전담 |
+| **SQL Thread (Replica)** | Relay Log에 기록된 트랜잭션을 읽어 **복제 노드 스토리지 엔진에 순차 재생** | 멀티스레드 복제(MTS)로 병렬 처리 |
+| **장애 감지기 (Orchestrator)**| Primary 헬스체크 및 다운 시 **최신 Replica를 Primary로 자동 승격(Failover)** | 쿼럼 기반 스플릿 브레인 방지 |
 
 #### 한줄 요약
-
-- 원본 장부와 변경 일지, 사본, 감시자, 승격 담당자로 구성된다.
+- Primary Binlog, Replica I/O Thread, Relay Log, SQL Thread가 유기적으로 작동한다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Semi-Synchronous Replication (반동기식 복제)**: 주 노드가 트랜잭션 Commit 시 최소 1개 이상의 복제 노드가 릴레이 로그(Relay Log)에 복제 완료 신호(ACK)를 보낼 때까지 기다린 후 최종 Commit 응답을 보내는 타협 방식.
+- **Semi-Synchronous Replication**: Primary가 커밋할 때 최소 1개의 Replica가 Relay Log에 기록 완료 신호(ACK)를 보낼 때까지 대기하는 복제 방식.
 
 </details>
 
 ```text
-[쓰기 요청]
-     │
-     ▼
-1. 변경 로그 기록
-     │
-     ▼
-2. 복제 노드 전송
-     │
-     ▼
-3. 변경 로그 재생
-     │
-     ▼
-4. 확인 수준 판정
-     │
-     ▼
-5. 지연•오류 감시
-     │
-     ▼
- [응답 반환]
+클라이언트가 Primary 노드에 데이터 쓰기 요청 (`UPDATE Balance ...`)
+        │
+   1. [Primary 트랜잭션] InnoDB 스토리지에 커밋 후 Binary Log에 이벤트 기록
+        │
+   2. [네트워크 전송] Dump Thread가 변경된 Binlog 이벤트를 Replica로 전송
+        │
+   3. [Relay Log 저장] Replica의 I/O Thread가 수신하여 로컬 Relay Log에 기록
+        │
+   [복제 동기화 방식 판정]
+   ┌────┴───────────────────────────┐
+[Asynchronous (비동기)]         [Semi-Synchronous (반동기)]
+Primary가 Replica 응답을         Replica가 Relay Log 기록 후 ACK 전송
+기다리지 않고 즉시 클라이언트에 응답   Primary가 ACK 수신 후 클라이언트에 응답
+        │                                 │
+   4. Replica의 SQL Thread가 Relay Log를 순차 재생하여 로컬 데이터 동기화 완료
 ```
 
-### 동작 원리
-
-1. 변경 로그 기록: 주 노드가 커밋 순서와 변경 내용 저장
-2. 복제 노드 전송: 로그 위치 이후 변경분 전달
-3. 변경 로그 재생: 복제 노드가 순서대로 데이터 반영
-4. 확인 수준 판정: 동기 방식별 ACK 충족 여부 확인
-5. 지연•오류 감시: 재생 위치와 장애 징후 측정
-
 #### 한줄 요약
-
-- 원본이 변경 일지를 보내고 사본의 확인 수준과 따라오는 속도를 계속 측정한다.
+- 쓰기 커밋 → Binlog 생성 → Replica 전송 → Relay Log 저장 → SQL Thread 재생 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **RPO & RTO in Replication**: 확인 범위와 장애 지점에 따라 허용 가능한 손실량과 복구 시간이 달라지는 목표.
+- **비동기 vs 반동기 vs 동기 복제**: 성능 우선의 비동기, 성능/안전성 절충의 반동기, 100% 무손실 동기 복제.
 
 </details>
 
-| 구분 | Asynchronous (비동기식 복제) | Semi-Synchronous (반동기식 복제) | Synchronous (동기식 복제) |
+| 비교 항목 | Asynchronous (비동기식) | Semi-Synchronous (반동기식) | Synchronous (동기식: Galera, 2PC) |
 |:---|:---|:---|:---|
-| 쓰기 지연 | 로컬 커밋 후 응답 | 지정 복제 노드 ACK 대기 | 합의 범위 ACK 대기 |
-| 데이터 유실 위험 | 미전파 로그 손실 가능 | ACK 위치 이후 장애 조건별 상이 | 합의 범위 내 로그 보존 |
-| 네트워크 의존성 | 낮음 | 중간 | 매우 높음 (네트워크 지연 시 블로킹) |
-| 적합 환경 | 지연 민감•손실 일부 허용 | 지연•내구성 균형 | 엄격한 내구성•일관성 요구 |
+| Primary 쓰기 지연 | **가장 짧음 (로컬 커밋 즉시 반환)**| 약간 증가 (최소 1대 ACK 대기) | 높음 (모든 복제본 커밋 완료 대기) |
+| 장애 시 데이터 유실 | **미전파 로그 유실 위험 (RPO > 0)**| **최소 1대 복제본 보존 (RPO $\approx$ 0)**| **데이터 유실 0 (RPO = 0 완벽 보장)** |
+| 네트워크 의존도 | 낮음 | 보통 | 매우 높음 (네트워크 지연 시 쓰기 블로킹) |
+| 실무 권장 표준 | 일반 웹 서비스 읽기 분산 | **엔터프라이즈 미션 크리티컬 표준** | 금융 결제 및 글로벌 분산 합의 DB |
 
 #### 한줄 요약
-
-- 복제 방식 선택 기준에서 한 원본은 순서가 단순하고 여러 원본은 가까이서 쓸 수 있지만 충돌 해결이 필요하다.
+- 지연 최소화는 비동기, 데이터 안전과 성능의 균형은 반동기, 무손실 정합성은 동기 복제를 선택한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Read-Your-Own-Writes Consistency**: 사용자가 본인 프로필 수정 직후 조회 시, 복제 지연이 일어나는 Replica가 아닌 Primary 노드로 쿼리를 강제 우회시켜 본인이 수정한 최신 데이터를 즉시 확인케 하는 기법.
+- **Read-Your-Own-Writes Consistency**: 사용자가 정보 수정 후 즉시 조회할 때 복제 지연을 피하기 위해 해당 사용자의 읽기 요청만 Primary로 라우팅하는 기법.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 복제 지연으로 최신 읽기 실패 | **세션 토큰•주 노드 라우팅** | Read-Your-Writes 확보 |
-| 오판 승격으로 이중 주 노드 발생 | **쿼럼•펜싱•자동 장애전환** | Split-Brain 차단 |
-| 복제 노드 읽기 과부하 | **지연 가중 라우팅•부하 제한** | 읽기 부하 분산 |
+| 복제 지연으로 사용자가 본인이 쓴 글을 즉시 조회 불가 | **세션 토큰 기반 '방금 수정한 사용자' 요청은 Primary로 강제 라우팅** | Read-Your-Own-Writes 정합성 보장 |
+| Primary 장애 시 잘못된 승격으로 이중 마스터(**Split-Brain**) 발생 | **MySQL Orchestrator 기반 쿼럼 투표 및 Raft 합의 펜싱(STONITH)** | 데이터 오염 및 충돌 원천 차단 |
+| 단일 SQL Thread 병목으로 Replication Lag 눈덩이 폭증 | **Multi-Threaded Slave (MTS: `replica_parallel_workers=8`) 활성화** | 릴레이 로그 병렬 재생으로 지연 해소 |
+| Replica 과부하로 인한 서비스 지연 | **ProxySQL 또는 L7 로드밸런서를 통한 가중치 기반 읽기 분산** | 안정적인 읽기 트래픽 처리 |
 
-> 사례: **MySQL Master-Replica + ProxySQL Read/Write Splitting & Semi-Sync 적용** #### 한줄 요약
-
-- 사본이 늦으면 최신 값이 필요한 읽기에서 빼고, 원본 장애 때 둘이 동시에 원본이 되지 않게 막아야 한다.
+#### 한줄 요약
+- Read-Your-Own-Writes 라우팅, Orchestrator 쿼럼 페일오버, MTS 병렬 재생, ProxySQL 분산으로 최적화한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **복제 수립 기준(Database Replication Standards)**: RPO/RTO 목표치, Replication Lag 관용성 및 ProxySQL Read/Write 분손성에 의거한 체계.
-
-</details>
-
-- 지연 우선은 **비동기**, 손실 제한은 반동기•동기 복제 선택
+- 고가용성 무중단 서비스와 대규모 읽기 확장을 위해 **Semi-Sync 기반 Primary-Replica 복제 토폴로지를 구축**하고, **Orchestrator 자동 페일오버와 ProxySQL 읽기/쓰기 분리**를 결합하여 안정적인 99.999% 가용성 달성
 
 #### 한줄 요약
-
-- 복제 운영 검증 기준은 최신 사본•원본 권한•장애 손실 범위를 함께 정한다.
+- 데이터베이스 복제는 변경 로그 전파를 통해 데이터 가용성과 읽기 확장성을 확보하는 현대 데이터 플랫폼의 필수 인프라 아키텍처다.

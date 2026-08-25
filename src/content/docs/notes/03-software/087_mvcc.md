@@ -1,12 +1,12 @@
----
+﻿---
 sidebar:
   order: 87
-  label: "087. MVCC 다중 버전 동시성 제어 (MVCC)"
+  label: "087. MVCC 다중 버전 동시성 제어"
   badge:
     text: "미출 · 50%"
     variant: note
-title: "MVCC 다중 버전 동시성 제어 (MVCC)"
-date: "2026-08-13T18:56:00+09:00"
+title: "MVCC 다중 버전 동시성 제어 (Multi-Version Concurrency Control)"
+date: "2026-08-25T11:00:00+09:00"
 tags:
   - "notes-software"
 weight: 87
@@ -22,153 +22,129 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **MVCC (Multi-Version Concurrency Control, 다중 버전 동시성 제어)**: 데이터베이스에서 데이터를 수정(Update/Delete)할 때 기존 데이터를 직접 덮어쓰지 않고, Undo Log 등에 과거 버전(Historical Version)을 롤백 세그먼트로 보존하여, 읽기(Read)와 쓰기(Write) 작업이 서로를 블로킹하지 않도록 제어하는 고성능 동시성 제어 메커니즘.
-- **Lock-Free Read ("Readers Never Block Writers, Writers Never Block Readers")**: 읽기 작업은 공유 락(S-Lock)을 걸지 않고 Undo Log 스냅샷을 읽고, 쓰기 작업은 비상적 락(X-Lock)을 걸어 쓰기를 수행하므로, 읽기와 쓰기가 상호 대기 없이 동시 구동되는 핵심 사상.
-- **Undo Log / Rollback Segment**: MVCC 동작을 위해 과거 데이터 버전의 트랜잭션 ID 및 포인터를 보존해 두는 메모리/디스크 영역.
+- **MVCC(Multi-Version Concurrency Control)**: 데이터를 갱신할 때 기존 데이터를 직접 덮어쓰지 않고 Undo Log에 과거 버전을 보존하여, 읽기와 쓰기가 상호 대기 없이 실행되도록 하는 고성능 동시성 메커니즘.
+- **Lock-Free Read**: 읽기 트랜잭션이 공유 락(S-Lock)을 획득하지 않고 Undo 스냅샷을 조회하므로, 쓰기 트랜잭션(X-Lock)과 서로 블로킹되지 않는 원칙.
 
 </details>
 
-- 정의/개념: 데이터 수정 시 이전 버전 데이터를 Undo Log 공간에 보존하여 스냅샷 읽기(Snapshot Read)를 구현함으로써, "읽기 작업이 쓰기 작업을 블로킹하지 않고, 쓰기 작업이 읽기 작업을 블로킹하지 않는" 동시성 제어 기법인 **MVCC (Multi-Version Concurrency Control)**
-- 배경/필요성: 읽기 잠금은 **쓰기 대기•동시 처리량 저하** 유발
+- 정의/개념: 데이터 수정 시 이전 버전을 Undo Log에 보존하여 **읽기와 쓰기가 상호 블로킹 없이 동시 실행되도록 지원하는 다중 버전 동시성 제어** 기법
+- 배경/필요성: 락(Lock) 기반 동시성 제어에서 발생하는 **읽기-쓰기 상호 블로킹 대기 및 대규모 동시 조회 처리량 급감 해결 불가**
 
 #### 한줄 요약
-
-- 스냅샷별 가시 버전으로 읽기•쓰기 대기를 줄이는 MVCC가 핵심이다.
+- 스냅샷 읽기로 읽기와 쓰기의 상호 대기를 없애고 동시 조회 성능을 극대화한다.
 
 ## Ⅱ. 특징
 
 <details><summary>용어 설명</summary>
 
-- **Snapshot Read vs Current Read**: Snapshot Read는 락 없이 Undo Log 버전 스냅샷을 조회하는 일반 `SELECT`, Current Read는 최신 커밋 데이터 조회를 위해 S-Lock/X-Lock을 거는 `SELECT.. FOR UPDATE` 또는 `UPDATE` 구문.
-- **Purge Thread / Vacuum**: 트랜잭션이 완료되어 더 이상 그 어떤 트랜잭션도 참조하지 않는 오래된 Undo Log 구버전(Garbage Version)을 주기적으로 메모리/디스크에서 수거 및 정돈하는 디비 백그라운드 프로세스.
+- **Snapshot Read vs Current Read**: 락 없이 Undo Log 스냅샷을 읽는 일반 `SELECT`와 행 락을 걸고 최신 데이터를 읽는 `SELECT ... FOR UPDATE` 및 DML.
+- **Purge Thread / Vacuum**: 트랜잭션이 종료되어 더 이상 어떤 트랜잭션도 참조하지 않는 오래된 Undo Log 가비지 버전을 수거하는 백그라운드 프로세스.
 
 </details>
 
-- **Snapshot Read** 기반 읽기•쓰기 경합 감소
-- **Snapshot Read (스냅샷 기반 시점 일관성 관찰)**
-- 오래된 구버전 청소를 위한 **Purge / Vacuum 백그라운드 스레드 오버헤드** #### 한줄 요약
+- **"읽기는 쓰기를 막지 않고, 쓰기는 읽기를 막지 않는"** Lock-Free 동시성 제어
+- Undo Log 체인 및 Read View를 통한 **스냅샷 기반 시점 일관성(Snapshot Isolation)** 보장
+- 트랜잭션 종료 후 오래된 구버전을 자동 수거하는 **Purge(MySQL) / Vacuum(PostgreSQL) 엔진** 필수
 
-- 스냅샷 읽기와 쓰기 충돌•버전 정리의 비용 절충이 핵심이다.
+#### 한줄 요약
+- Lock-Free 스냅샷 읽기로 대규모 동시성을 보장하며 백그라운드 버전 정리를 수행한다.
 
 ## Ⅲ. 구조 및 구성요소
 
 <details><summary>용어 설명</summary>
 
-- **Hidden Metadata Columns (InnoDB 3대 숨은 열)**: DB_TRX_ID(해당 행을 가공한 트랜잭션 ID), DB_ROLL_PTR(Undo Log의 이전 버전을 가리키는 롤백 포인터), DB_ROW_ID(PK 부재 시 자동 생성되는 행 ID).
+- **InnoDB 3대 숨은 컬럼**: `DB_TRX_ID`(트랜잭션 ID), `DB_ROLL_PTR`(이전 Undo 로그를 가리키는 롤백 포인터), `DB_ROW_ID`(행 식별자).
 
 </details>
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                   InnoDB Table Row (Data Page)                         │
-├─────────┬──────────────┬──────────────────┬────────────────────────────┤
-│ user_id │ name         │ DB_TRX_ID (102)  │ DB_ROLL_PTR ──────────────┐│
-└─────────┴──────────────┴──────────────────┴────────────────────────────┼┘
-                                                                         │ (포인터)
-┌────────────────────────────────────────────────────────────────────────▼┐
-│                   Undo Log Space (Rollback Segment)                    │
-├─────────┬──────────────┬──────────────────┬────────────────────────────┤
-│ user_id │ name         │ DB_TRX_ID (100)  │ DB_ROLL_PTR (Null)         │
-│ (1001)  │ (홍길동)     │ (초기 Insert TRX)│                            │
-└─────────┴──────────────┴──────────────────┴────────────────────────────┘
+[InnoDB MVCC 버전 체인 및 Undo Log 구조]
+|-- 클러스터드 인덱스 데이터 페이지 (Clustered Index Data Page)
+|   `-- [현재 최신 행] user_id: 1001, name: "홍길동_수정2", DB_TRX_ID: 105, DB_ROLL_PTR ──┐
+|-- Undo Log 세그먼트 (Rollback Segment: 과거 버전 체인)                                │ (포인터 역추적)
+|   |-- [과거 버전 1] user_id: 1001, name: "홍길동_수정1", DB_TRX_ID: 102, DB_ROLL_PTR ◄─┘
+|   `-- [초기 버전 0] user_id: 1001, name: "홍길동_초기", DB_TRX_ID: 100, DB_ROLL_PTR: NULL
+`-- 트랜잭션 Read View (가시성 판정: m_ids 활성 목록, m_low_limit_id, m_up_limit_id)
 ```
 
-선의 의미: 데이터 페이지의 행에 저장된 `DB_ROLL_PTR`이 Undo Log 공간에 보존된 이전 버전 데이터(TRX ID: 100)를 연결고리로 가리키는 MVCC 체인 구조.
+선의 의미: 계층 및 최신 레코드에서 `DB_ROLL_PTR`을 통해 과거 Undo Log 버전으로 연결되는 체인 구조
 
-| 구성요소 | 핵심 역할 및 기능 | 주요 작동 방식 |
+| 구성요소 | 핵심 엔지니어링 역할 | 가시성(Visibility) 판단 기준 |
 |:---|:---|:---|
-| DB_TRX_ID (6 Bytes) | 해당 튜플을 마지막으로 `INSERT` 또는 `UPDATE`한 트랜잭션 식별자 | 가시성(Visibility) 판단의 기준 |
-| DB_ROLL_PTR (7 Bytes) | Undo Log 레코드에 저장된 이전 버전으로 이동하는 **롤백 포인터** | 단방향 링크드 리스트(Chain) 형성 |
-| Undo Log (Rollback) | 변경되기 전의 오리지널 레코드 데이터를 보관 | `ROLLBACK` 처리 및 MVCC 스냅샷 제공 |
-| Read View | `SELECT` 시점에 활성화된 트랜잭션 목록(TRX_IDs)을 포함한 메모리 객체 | "이 버전을 읽을 수 있는가?" 판단 |
+| **DB_TRX_ID (6 Bytes)** | 해당 레코드를 마지막으로 `INSERT/UPDATE`한 **트랜잭션 식별자** | Read View 범위와 대조하여 가시성 판정 |
+| **DB_ROLL_PTR (7 Bytes)**| Undo Log에 저장된 **이전 버전 레코드를 가리키는 롤백 포인터** | 단방향 링크드 리스트(Undo Chain) 형성 |
+| **Undo Log 공간** | 변경되기 전의 원본 데이터를 보존하는 **롤백 세그먼트** | 롤백 처리 및 MVCC 과거 스냅샷 데이터 제공 |
+| **Read View (스냅샷)** | `SELECT` 실행 시점에 **활성화된 타 트랜잭션 ID 목록을 담은 객체** | 커밋 완료 여부를 대조해 볼 수 있는 버전 결정 |
 
 #### 한줄 요약
-
-- 스냅샷•메타데이터•체인•충돌•정리 구조가 핵심이다.
+- `DB_TRX_ID`, `DB_ROLL_PTR`, Undo Log 체인, Read View 가시성 판정이 결합된다.
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **Read View Visibility Rule**: 1. 행의 `DB_TRX_ID` < `m_up_limit_id` (Read View 생성 시점 이전 커밋된 TRX) $\rightarrow$ **볼 수 있음(Visible)**. 2. `DB_TRX_ID` $\ge$ `m_low_limit_id` (Read View 생성 이후 TRX) $\rightarrow$ **볼 수 없음(Invisible, Undo 롤백 포인터 추적)**.
+- **Read View 가시성 공식**: `DB_TRX_ID < min_trx_id`이면 커밋 완료(보임), `DB_TRX_ID >= max_trx_id`이면 이후 시작(안 보임, Undo 체인 역추적).
 
 </details>
 
 ```text
-┌──────────────────────────────┐
-│ 트랜잭션 읽기•변경 요청      │
-└──────────────┬───────────────┘
-               ▼
-┌──────────────────────────────┐
-│ 1. 변경 버전 생성            │
-│ 2. 읽기 스냅샷 생성          │
-│ 3. 가시 버전 판정            │
-│ 4. 쓰기 충돌 검사            │
-│ 5. 안전한 구버전 회수        │
-└──────────────┬───────────────┘
-               ▼
-         [결과 반환]
+클라이언트 SELECT 질의 요청 (트랜잭션 TRX 103)
+        │
+   1. [Read View 생성] 활성 트랜잭션 목록(m_ids: [102, 105]) 캡처
+        │
+   2. [레코드 확인] 대상 행의 `DB_TRX_ID`가 105(활성 중)임을 확인
+        │
+   3. [가시성 판정] TRX 105는 현재 미커밋 활성 상태이므로 현재 행은 Invisible 판정
+        │
+   4. [Undo 체인 추적] `DB_ROLL_PTR`을 따라 Undo Log의 과거 버전(TRX 102)으로 이동
+        │
+   5. [과거 버전 판정] TRX 102도 활성 상태이므로 다시 이전 버전(TRX 100)으로 이동
+        │
+   6. TRX 100은 이미 커밋된 완료 버전이므로 최종 Visible 판정 후 데이터 반환
 ```
 
-### 동작 원리
-
-1. 변경 버전 생성: 새 버전과 이전 버전 연결 정보 기록.
-2. 읽기 스냅샷 생성: 격리 수준에 맞는 가시성 기준 확보.
-3. 가시 버전 판정: 메타데이터와 버전 체인으로 행 선택.
-4. 쓰기 충돌 검사: 동시 변경의 잠금•재시도 여부 결정.
-5. 안전한 구버전 회수: 보존 지평선 밖 버전 정리.
-
 #### 한줄 요약
-
-- 버전 생성•가시성•충돌•안전 회수 흐름이 핵심이다.
+- 질의 인입 → Read View 생성 → TRX_ID 대조 → Undo 체인 역추적 → 가시 버전 반환 순으로 처리된다.
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **S-Lock / X-Lock vs MVCC**: 2PL은 Read 시 S-Lock을 걸어 Write의 X-Lock과 상호 블로킹, MVCC는 Read 시 Lock을 걸지 않고 스냅샷을 읽어 최고의 동시 처리량 확보.
+- **Strict 2PL vs MVCC**: 읽기 시 S-Lock을 걸어 쓰기를 막는 2단계 락킹(2PL)과 락 없이 스냅샷을 읽는 MVCC.
 
 </details>
 
-| 구분 | Lock 기반 동시성 제어 (Strict 2PL) | MVCC 기반 동시성 제어 (Multi-Version) |
+| 비교 항목 | Lock 기반 동시성 제어 (Strict 2PL) | MVCC 기반 동시성 제어 (Multi-Version) |
 |:---|:---|:---|
-| 읽기/쓰기 경합 | 잠금 모드에 따라 상호 대기 가능 | **스냅샷 읽기로 일반 읽기•쓰기 경합 감소** |
-| 읽기 오버헤드 | **공유 락(S-Lock) 획득 및 해제 오버헤드** | **스냅샷 생성 및 Undo Log 역추적 오버헤드** |
-| 디스크/메모리 부하 | 낮음 (현재 데이터만 디스크 보존) | **높음 (Undo Log 및 Purge 대기 구버전 점유)** |
-| 적용 대표 엔진 | 과거 데이터베이스 스토리지 엔진 | **MySQL InnoDB, Oracle, PostgreSQL** |
+| 읽기/쓰기 상호작용 | **읽기와 쓰기가 S-Lock/X-Lock으로 상호 블로킹** | **스냅샷 읽기로 읽기와 쓰기가 상호 대기 없음** |
+| 동시 조회 처리량 | 락 경합으로 인해 동시성 급감 | **대규모 동시 읽기 환경에서 초고속 처리량 유지** |
+| 스토리지 부하 | 낮음 (현재 데이터 페이지만 유지) | **높음 (Undo Log 및 구버전 데이터 세그먼트 점유)** |
+| 구버전 정리 필요성 | 없음 | **Purge 스레드 및 Vacuum 주기적 실행 필수** |
 
 #### 한줄 요약
-
-- 읽기 대기는 다중 버전 동시성 제어, 충돌 순서는 잠금 중심 제어가 핵심이다.
+- 2PL은 락 기반 상호 대기 제어, MVCC는 스냅샷 기반의 락-프리 동시성 제어다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **Undo Log Bloat (Undo 공간 팽창)**: 장시간 커밋되지 않는 트랜잭션(Long-running Transaction)이 존재할 경우 Purge 스레드가 구버전을 삭제하지 못해 Undo Log 용량이 폭증하고 조회가 느려지는 현상.
+- **Undo Log Bloat**: 장기 트랜잭션이 커밋되지 않고 살아있어 Purge 스레드가 과거 Undo 로그를 삭제하지 못해 디스크가 가득 차는 현상.
 
 </details>
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 장시간 트랜잭션으로 인한 **Undo Log Bloat (용량 폭증)** | **트랜잭션 내부 외부 API 통신 제거 및 `max_execution_time` 제한**| Undo 공간 폭증 방지 |
-| PostgreSQL의 경우 Vacuum 미작동 시 테이블 팽창(Bloat) | **Autovacuum 파라미터 튜닝 및 pg_repack 수동 정돈** | 디스크 성능 보존 |
-| MVCC 환경에서 `SELECT.. FOR UPDATE` 시 Locking Read로 변환 | **비관적 락(Locking Read) 대신 Optimistic Lock(버전 칼럼) 병행**| 블로킹 최소화 |
+| 장시간 트랜잭션으로 인한 Undo 공간 폭증(**Undo Log Bloat**)| **트랜잭션 내 외부 API 호출 배제 및 `max_execution_time` 제한** | Undo 테이블스페이스 폭증 차단 |
+| PostgreSQL의 미정리 구버전 누적으로 인한 Table Bloat | **Autovacuum 파라미터(threshold, scale_factor) 공격적 튜닝** | 데드 튜플 수거 및 디스크 I/O 성능 보존 |
+| MVCC 환경에서 `SELECT ... FOR UPDATE` 시 락 경합 | **조회 시 무분별한 비관적 락을 지양하고 낙관적 락(`@Version`) 병행**| 락 블로킹 최소화 및 TPS 극대화 |
+| Read View 과다 생성으로 인한 CPU 부하 | **읽기 전용 트랜잭션(`@Transactional(readOnly=true)`) 명시** | 플러시 오버헤드 제거 및 최적화 |
 
-> 사례: **MySQL InnoDB `innodb_undo_tablespaces` 세그먼트 분리 & Purge 스레드 튜닝** #### 한줄 요약
-
-- 스냅샷 수명•팽창률•보존 지평선 통제가 핵심이다.
+#### 한줄 요약
+- 장기 트랜잭션 제거, Autovacuum 튜닝, 낙관적 락 병행, readOnly 최적화로 성능을 유지한다.
 
 ## Ⅶ. 결론
 
-<details><summary>용어 설명</summary>
-
-- **MVCC 수립 기준(MVCC Concurrency Standards)**: 동시성 읽기 처리량(TPS) 요건, Undo Log 용량 쿼터 및 Purge 스레드 효율성에 의거한 체계.
-
-</details>
-
-- 읽기 중심 동시성은 **MVCC**, 엄격한 충돌 순서는 **명시 잠금** 병행
+- 웹 및 모바일 서비스의 대규모 동시 읽기 트래픽을 처리하기 위해 **InnoDB / PostgreSQL의 MVCC 엔진을 표준 활용**하고, **Undo Log 공간 관리와 Vacuum 최적화**를 통해 고성능 트랜잭션 시스템 구축
 
 #### 한줄 요약
-
-- 읽기 중심은 MVCC, 충돌 순서는 동시성 제어 방식 선택 기준에 따라 판단한다.
+- MVCC는 락 없는 스냅샷 조회를 통해 읽기와 쓰기의 동시성을 극대화하는 현대 관계형 데이터베이스의 핵심 엔진 아키텍처다.
