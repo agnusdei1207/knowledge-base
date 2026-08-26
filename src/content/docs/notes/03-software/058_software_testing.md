@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 58
   label: "058. 소프트웨어 테스팅"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 테스팅 (Software Testing)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:41:00+09:00"
 tags:
   - "notes-software"
 weight: 58
@@ -69,10 +69,10 @@ extra:
 
 | 테스트 레벨 | 검증 대상 | 핵심 검증 책임 및 도구 |
 |:---|:---|:---|
-| **단위 테스트 (Unit)** | 함수, 메서드, 모듈 단독 | **JUnit, Mockito** 기반 독립 격리 기능 및 분기 커버리지 검증 |
-| **통합 테스트 (Integration)**| 모듈 간 인터페이스, DB, API | **Testcontainers, SpringBootTest** 기반 데이터 흐름 및 상호작용 검증 |
-| **시스템 테스트 (System)** | 전체 통합 소프트웨어 시스템 | **JMeter, nGrinder** 기반 부하/성능, 보안 취약점, 신뢰성 검증 |
-| **인수 테스트 (Acceptance)** | 사용자 요구사항 명세서 | **Cucumber(BDD)**, 알파/베타 테스트 기반 계약 이행 및 최종 승인 |
+| 단위 테스트 (Unit) | 함수, 메서드, 모듈 단독 | **JUnit, Mockito** 기반 독립 격리 기능 및 분기 커버리지 검증 |
+| 통합 테스트 (Integration) | 모듈 간 인터페이스, DB, API | **Testcontainers, SpringBootTest** 기반 데이터 흐름 및 상호작용 검증 |
+| 시스템 테스트 (System) | 전체 통합 소프트웨어 시스템 | **JMeter, nGrinder** 기반 부하/성능, 보안 취약점, 신뢰성 검증 |
+| 인수 테스트 (Acceptance) | 사용자 요구사항 명세서 | **Cucumber(BDD)**, 알파/베타 테스트 기반 계약 이행 및 최종 승인 |
 
 #### 한줄 요약
 - 단위(Unit), 통합(Integration), 시스템(System), 인수(Acceptance) 4개 레벨로 완성된다.
@@ -88,13 +88,13 @@ extra:
 ```text
 요구사항 기반 테스트 케이스(TC) 및 테스트 오라클 정의
         │
-   1. [단위 테스트] Mock 객체를 활용하여 비즈니스 로직 독립 실행 및 커버리지 80% 달성
+   [단위 테스트] Mock 객체를 활용하여 비즈니스 로직 독립 실행 및 커버리지 80% 달성
         │
-   2. [통합 테스트] Testcontainers로 실제 DB/Kafka 컨테이너 띄워 모듈 간 인터페이스 검증
+   [통합 테스트] Testcontainers로 실제 DB/Kafka 컨테이너 띄워 모듈 간 인터페이스 검증
         │
-   3. [시스템 테스트] 스테이징 환경에서 JMeter 부하 테스트 및 보안 취약점 검증
+   [시스템 테스트] 스테이징 환경에서 JMeter 부하 테스트 및 보안 취약점 검증
         │
-   4. [인수 테스트] 최종 사용자 및 PO(Product Owner)의 시나리오 검증 및 릴리즈 승인
+   [인수 테스트] 최종 사용자 및 PO(Product Owner)의 시나리오 검증 및 릴리즈 승인
 ```
 
 #### 한줄 요약
@@ -110,11 +110,11 @@ extra:
 
 | Test Double 유형 | 정의 및 핵심 용도 | 실무 예시 |
 |:---|:---|:---|
-| **Dummy** | 파라미터 전달용으로만 쓰이며 **실제 사용되지 않는 빈 객체** | 로깅용 파라미터 `new DummyUser()` |
-| **Fake** | 실제 구현체와 동일하게 동작하나 **간이화된 객체** | **In-Memory H2 DB, HashMap 저장소** |
-| **Stub** | 테스트 시 지정된 **고정 응답값만 반환(Hardcoded)** | `when(userRepo.findById(1)).thenReturn(user)` |
-| **Spy** | 실제 객체를 감싸며 **호출된 횟수/파라미터 기록** | `verify(mailSender, times(1)).send()` |
-| **Mock** | 기대 행위(Behavior)를 미리 설정하고 **호출 여부를 검증** | **Mockito 프레임워크 기반 행위 검증** |
+| Dummy | 파라미터 전달용으로만 쓰이며 **실제 사용되지 않는 빈 객체** | 로깅용 파라미터 `new DummyUser()` |
+| Fake | 실제 구현체와 동일하게 동작하나 **간이화된 객체** | **In-Memory H2 DB, HashMap 저장소** |
+| Stub | 테스트 시 지정된 **고정 응답값만 반환(Hardcoded)** | `when(userRepo.findById(1)).thenReturn(user)` |
+| Spy | 실제 객체를 감싸며 **호출된 횟수/파라미터 기록** | `verify(mailSender, times(1)).send()` |
+| Mock | 기대 행위(Behavior)를 미리 설정하고 **호출 여부를 검증** | **Mockito 프레임워크 기반 행위 검증** |
 
 #### 한줄 요약
 - Dummy(채우기), Fake(간이 구현), Stub(고정 응답), Spy(기록), Mock(행위 검증)으로 역할을 분담한다.
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 소프트웨어 품질 보증은 **테스트 피라미드 원칙에 따른 단위/통합 테스트 자동화**를 근간으로 삼고, **V-Model 4대 테스트 레벨과 Test Double 격리 기법**을 결합하여 무결점 소프트웨어 릴리즈 확립
+- 품질 검증은 **테스트 피라미드**, 격리는 **대역 객체** 선택
 
 #### 한줄 요약
 - 소프트웨어 테스팅은 단순한 오류 적발을 넘어, 개발 초기부터 결함을 차단하고 아키텍처의 리팩토링 안전망을 제공하는 핵심 공학 활동이다.

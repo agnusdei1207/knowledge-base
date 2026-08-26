@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 53
   label: "053. CI/CD 파이프라인"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:40:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -74,11 +74,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **소스 저장소 (Git)** | 소스 코드 및 파이프라인 정의(**Pipeline as Code**) 형상 관리 |
-| **CI 러너 (Runner)** | 격리된 컨테이너 환경에서 **빌드, 단위/통합 테스트 자동 실행** |
-| **품질 게이트 (SonarQube)** | 코드 커버리지(80% 이상), 시큐어 코딩 규칙 검증 및 **Fail-Fast 집행** |
-| **아티팩트 저장소 (Harbor)** | 검증 완료된 **불변 컨테이너 이미지(Tag)** 저장 및 무결성 검증 |
-| **CD 배포 제어기 (ArgoCD)** | 대상 K8s 클러스터에 무중단(Blue/Green, Canary) 배포 실행 |
+| 소스 저장소 (Git) | 소스 코드 및 파이프라인 정의(**Pipeline as Code**) 형상 관리 |
+| CI 러너 (Runner) | 격리된 컨테이너 환경에서 **빌드, 단위/통합 테스트 자동 실행** |
+| 품질 게이트 (SonarQube) | 코드 커버리지(80% 이상), 시큐어 코딩 규칙 검증 및 **Fail-Fast 집행** |
+| 아티팩트 저장소 (Harbor) | 검증 완료된 **불변 컨테이너 이미지(Tag)** 저장 및 무결성 검증 |
+| CD 배포 제어기 (ArgoCD) | 대상 K8s 클러스터에 무중단(Blue/Green, Canary) 배포 실행 |
 
 #### 한줄 요약
 - Git 저장소, CI 러너, 품질 게이트, 아티팩트 레지스트리, CD 배포 제어기가 결합된다.
@@ -94,9 +94,9 @@ extra:
 ```text
 개발자가 Git 저장소로 코드 푸시 (Push / PR)
         │
-   1. [CI 단계] Webhook 트리거로 CI 러너 기동 -> 빌드 및 단위/통합 테스트 실행
+   [CI 단계] Webhook 트리거로 CI 러너 기동 -> 빌드 및 단위/통합 테스트 실행
         │
-   2. [검증 단계] SonarQube 정적 분석 및 Trivy 보안 취약점 스캔 수행
+   [검증 단계] SonarQube 정적 분석 및 Trivy 보안 취약점 스캔 수행
         │
    품질 게이트 기준(테스트 100% 통과, Critical 취약점 0건)을 충족하는가?
    ┌────┴─────┐
@@ -106,7 +106,7 @@ extra:
 Docker 이미지 빌드 후
 Harbor 저장소에 Push
    │
-   3. [CD 단계] 배포 방식에 따른 분기
+   [CD 단계] 배포 방식에 따른 분기
    ┌────┴───────────────────────────┐
 [Continuous Delivery]             [Continuous Deployment]
 스테이징 자동 배포 후             프로덕션 환경까지 완전 자동화 배포
@@ -154,7 +154,7 @@ Harbor 저장소에 Push
 
 ## Ⅶ. 결론
 
-- 성공적인 DevOps 실현을 위해 **Pipeline as Code 기반의 CI 자동화와 SonarQube 품질 게이트**를 필수 구축하고, 비즈니스 성숙도에 따라 **Continuous Deployment 및 GitOps**로 진화 완성
+- 통합 자동화는 **CI 품질 게이트**, 배포는 **GitOps** 선택
 
 #### 한줄 요약
 - CI/CD 파이프라인은 소프트웨어 품질 검증과 배포를 자동화하여 납기 단축과 장애 예방을 동시에 달성하는 DevOps의 핵심 엔진이다.

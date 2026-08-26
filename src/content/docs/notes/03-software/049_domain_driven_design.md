@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 49
   label: "049. 도메인 주도 설계 DDD"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "도메인 주도 설계 DDD (Domain-Driven Design)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:39:00+09:00"
 tags:
   - "notes-software"
 weight: 49
@@ -75,10 +75,10 @@ extra:
 
 | 구분 | 구성요소 | 핵심 책임 및 역할 |
 |:---|:---|:---|
-| **전략적 설계** | **Bounded Context & Context Map** | 모델의 유효 경계 확정 및 **MSA 서비스 분리 기준 수립** |
-| **전술적 단위** | **Aggregate & Aggregate Root** | 도메인 불변식을 보호하며 **원자적 데이터 변경 단위 보장** |
-| **도메인 객체** | **Entity vs Value Object (VO)** | 고유 식별자(ID)를 갖는 가변 엔티티 vs **불변 속성 값 객체** |
-| **도메인 서비스** | **Domain Service & Repository** | 단일 엔티티에 속하지 않는 로직 처리 및 **애그리게이트 루트 단위 저장/조회** |
+| 전략적 설계 | **Bounded Context & Context Map** | 모델의 유효 경계 확정 및 **MSA 서비스 분리 기준 수립** |
+| 전술적 단위 | **Aggregate & Aggregate Root** | 도메인 불변식을 보호하며 **원자적 데이터 변경 단위 보장** |
+| 도메인 객체 | **Entity vs Value Object (VO)** | 고유 식별자(ID)를 갖는 가변 엔티티 vs **불변 속성 값 객체** |
+| 도메인 서비스 | **Domain Service & Repository** | 단일 엔티티에 속하지 않는 로직 처리 및 **애그리게이트 루트 단위 저장/조회** |
 
 #### 한줄 요약
 - 전략적 Bounded Context와 전술적 Aggregate/Entity/VO가 결합된다.
@@ -92,15 +92,15 @@ extra:
 </details>
 
 ```text
-1. 이벤트 스토밍(Event Storming) 워크숍 수행 (도메인 이벤트 시간순 도출)
+이벤트 스토밍(Event Storming) 워크숍 수행 (도메인 이벤트 시간순 도출)
         │
-   2. 보편적 언어(Ubiquitous Language) 어휘 사전 확정
+   보편적 언어(Ubiquitous Language) 어휘 사전 확정
         │
-   3. 전략적 설계: Bounded Context 경계 식별 및 Context Map(ACL/Shared Kernel) 작성
+   전략적 설계: Bounded Context 경계 식별 및 Context Map(ACL/Shared Kernel) 작성
         │
-   4. 전술적 설계: Aggregate Root, Entity, VO 식별 및 도메인 메서드 설계
+   전술적 설계: Aggregate Root, Entity, VO 식별 및 도메인 메서드 설계
         │
-   5. Rich Domain Model 구현 (setter 금지, 풍부한 객체지향 도메인 완성)
+   Rich Domain Model 구현 (setter 금지, 풍부한 객체지향 도메인 완성)
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 비즈니스 규칙이 복잡한 핵심 도메인은 **DDD의 보편적 언어와 Aggregate 패턴을 적용한 풍부한 도메인 모델**을 구축하고, **Bounded Context 단위로 MSA를 분할**하여 영속적 아키텍처 확립
+- 도메인 모델링은 **DDD**, 서비스 경계는 **컨텍스트** 선택
 
 #### 한줄 요약
 - 도메인 주도 설계(DDD)는 소프트웨어의 중심을 기술 인프라가 아닌 비즈니스 본질에 일치시키는 현대 소프트웨어 공학의 정수다.

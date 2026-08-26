@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 55
   label: "055. GitOps"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:40:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Git 배포 저장소 (SSOT)** | 시스템 목표 상태를 정의하는 K8s 매니페스트(YAML)의 완전한 버전 보관 |
-| **GitOps 컨트롤러 (ArgoCD)** | Git 저장소와 실제 클러스터 상태를 비교하여 **차이(Drift) 감지 및 자동 Sync** |
-| **Reconciliation Engine** | K8s API Server를 호출하여 파드 생성, 서비스 갱신 등 **자가 치유(Self-Healing)** |
-| **CI 파이프라인** | 앱 빌드 후 **배포 Git 저장소의 이미지 태그(`image.tag`)만 갱신** |
+| Git 배포 저장소 (SSOT) | 시스템 목표 상태를 정의하는 K8s 매니페스트(YAML)의 완전한 버전 보관 |
+| GitOps 컨트롤러 (ArgoCD) | Git 저장소와 실제 클러스터 상태를 비교하여 **차이(Drift) 감지 및 자동 Sync** |
+| Reconciliation Engine | K8s API Server를 호출하여 파드 생성, 서비스 갱신 등 **자가 치유(Self-Healing)** |
+| CI 파이프라인 | 앱 빌드 후 **배포 Git 저장소의 이미지 태그(`image.tag`)만 갱신** |
 
 #### 한줄 요약
 - Git 배포 저장소(SSOT), ArgoCD 컨트롤러, 조정 엔진, 타깃 K8s 클러스터가 결합된다.
@@ -92,13 +92,13 @@ extra:
 ```text
 개발자가 배포 매니페스트 Git 저장소에 PR 병합 (예: image.tag: v2.0)
         │
-   1. ArgoCD가 Webhook 또는 Polling을 통해 Git 신규 커밋 감지
+   ArgoCD가 Webhook 또는 Polling을 통해 Git 신규 커밋 감지
         │
-   2. Git 목표 상태(v2.0)와 클러스터 실제 상태(v1.0)를 비교하여 OutOfSync 판정
+   Git 목표 상태(v2.0)와 클러스터 실제 상태(v1.0)를 비교하여 OutOfSync 판정
         │
-   3. K8s API Server를 호출하여 신규 ReplicaSet 생성 및 롤링 배포 수행
+   K8s API Server를 호출하여 신규 ReplicaSet 생성 및 롤링 배포 수행
         │
-   4. 클러스터 상태가 목표 상태(v2.0)와 일치(Synced)됨을 확인
+   클러스터 상태가 목표 상태(v2.0)와 일치(Synced)됨을 확인
         │
    (누군가 수동으로 kubectl delete pod 실행 시)
    ┌────┴─────┐
@@ -146,7 +146,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 쿠버네티스 클라우드 네이티브 환경은 **GitOps(ArgoCD)와 Kustomize/Helm 템플릿**을 표준 배포 모델로 채택하고, **External Secrets 기반 시크릿 거버넌스**를 결합하여 제로 트러스트 지속 배포 완성
+- 선언적 배포는 **GitOps**, 형상 일치는 **조정 루프** 선택
 
 #### 한줄 요약
 - GitOps는 Git을 단일 진실 공급원으로 선언하고 자가 치유를 통해 인프라와 배포의 신뢰성을 극대화하는 클라우드 운영의 표준 패러다임이다.

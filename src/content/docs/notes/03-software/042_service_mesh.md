@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 42
   label: "042. 서비스 메시: Istio•Envoy"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "서비스 메시: Istio•Envoy (Service Mesh)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:38:00+09:00"
 tags:
   - "notes-software"
 weight: 42
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Istiod (Control Plane)** | 라우팅 정책 수립, CA 인증서 발급, **xDS API**로 Envoy 프록시에 실시간 배포 |
-| **Envoy (Data Plane)** | Pod 내부에서 모든 네트워크 트래픽 가로채기, **mTLS 암호화**, 서킷 브레이커 실행 |
-| **비즈니스 워크로드** | 순수 비즈니스 로직만 수행하며 네트워크 횡단 관심사는 Envoy에 위임 |
-| **관측성 플랫폼 (Jaeger/Prometheus)** | Envoy가 수집한 분산 트레이스 및 메트릭을 집계하여 토폴로지 시각화 |
+| Istiod (Control Plane) | 라우팅 정책 수립, CA 인증서 발급, **xDS API**로 Envoy 프록시에 실시간 배포 |
+| Envoy (Data Plane) | Pod 내부에서 모든 네트워크 트래픽 가로채기, **mTLS 암호화**, 서킷 브레이커 실행 |
+| 비즈니스 워크로드 | 순수 비즈니스 로직만 수행하며 네트워크 횡단 관심사는 Envoy에 위임 |
+| 관측성 플랫폼 (Jaeger/Prometheus) | Envoy가 수집한 분산 트레이스 및 메트릭을 집계하여 토폴로지 시각화 |
 
 #### 한줄 요약
 - 중앙 Istiod(정책/인증서), Envoy 사이드카(트래픽 실행), 텔레메트리 관측 계층이 협력한다.
@@ -90,17 +90,17 @@ extra:
 </details>
 
 ```text
-1. Istiod가 xDS gRPC 프로토콜로 Envoy에 라우팅 룰 및 mTLS 인증서 배포
+Istiod가 xDS gRPC 프로토콜로 Envoy에 라우팅 룰 및 mTLS 인증서 배포
         │
-   2. 주문 서비스가 결제 서비스로 HTTP 호출 (iptables에 의해 Envoy로 가로채짐)
+   주문 서비스가 결제 서비스로 HTTP 호출 (iptables에 의해 Envoy로 가로채짐)
         │
-   3. 발신 Envoy가 결제 Envoy와 상호 X.509 인증서 검증 및 mTLS 암호화 터널 수립
+   발신 Envoy가 결제 Envoy와 상호 X.509 인증서 검증 및 mTLS 암호화 터널 수립
         │
-   4. 발신 Envoy가 카나리 가중치(90:10)에 맞춰 목적지 결제 Pod 선택 및 전달
+   발신 Envoy가 카나리 가중치(90:10)에 맞춰 목적지 결제 Pod 선택 및 전달
         │
-   5. 수신 Envoy가 권한 정책(AuthorizationPolicy) 검증 후 결제 컨테이너로 전달
+   수신 Envoy가 권한 정책(AuthorizationPolicy) 검증 후 결제 컨테이너로 전달
         │
-   6. 양측 Envoy가 Jaeger로 분산 트레이싱 Span 데이터 비동기 전송
+   양측 Envoy가 Jaeger로 분산 트레이싱 Span 데이터 비동기 전송
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 다국어 마이크로서비스 환경은 **Istio/Envoy 서비스 메시를 표준 도입**하고, 자원 효율을 위해 **Ambient Mesh와 eBPF 네트워크 가속**을 결합하여 제로 트러스트 통신망 확립
+- 서비스 통신 보안은 **Istio**, 자원 절감은 **Ambient** 선택
 
 #### 한줄 요약
 - 서비스 메시는 애플리케이션과 통신 인프라를 분리하여 보안, 라우팅, 관측성을 일원화하는 클라우드 네이티브의 핵심 계층이다.

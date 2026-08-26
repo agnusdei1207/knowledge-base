@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 57
   label: "057. DevSecOps"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:41:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -77,11 +77,11 @@ extra:
 
 | 파이프라인 단계 | 핵심 보안 도구 | 엔지니어링 책임 및 검증 내용 |
 |:---|:---|:---|
-| **Code (Pre-commit)** | **SonarLint, Gitleaks** | 개발자 IDE 시큐어 코딩 가이드 및 **비밀번호/Secret 유출 차단** |
-| **Build (SAST & SCA)** | **SonarQube, Snyk** | 소스 코드 취약점(CWE/OWASP Top 10) 및 **오픈소스 CVE/SBOM 분석** |
-| **Package (Image Scan)**| **Trivy, Clair** | 컨테이너 이미지의 OS 패키지 및 런타임 **CVE 취약점 자동 검증** |
-| **Deploy (Policy)** | **Kyverno, OPA** | Root 권한 컨테이너 차단 등 **Policy as Code 기반 배포 승인** |
-| **Operate (DAST & RASP)**| **OWASP ZAP, Falco** | 배포 후 **동적 모의 침투 테스트 및 eBPF 기반 런타임 위협 차단** |
+| Code (Pre-commit) | **SonarLint, Gitleaks** | 개발자 IDE 시큐어 코딩 가이드 및 **비밀번호/Secret 유출 차단** |
+| Build (SAST & SCA) | **SonarQube, Snyk** | 소스 코드 취약점(CWE/OWASP Top 10) 및 **오픈소스 CVE/SBOM 분석** |
+| Package (Image Scan) | **Trivy, Clair** | 컨테이너 이미지의 OS 패키지 및 런타임 **CVE 취약점 자동 검증** |
+| Deploy (Policy) | **Kyverno, OPA** | Root 권한 컨테이너 차단 등 **Policy as Code 기반 배포 승인** |
+| Operate (DAST & RASP) | **OWASP ZAP, Falco** | 배포 후 **동적 모의 침투 테스트 및 eBPF 기반 런타임 위협 차단** |
 
 #### 한줄 요약
 - Pre-commit(Secret 차단), CI(SAST/SCA/이미지 스캔), CD(OPA 정책), Ops(DAST/Falco)가 결합된다.
@@ -97,9 +97,9 @@ extra:
 ```text
 개발자 Git 코드 커밋 시도 (Pre-commit: Secret 스캔 통과)
         │
-   1. [CI 단계] SonarQube(SAST) 소스 분석 & Snyk(SCA) 오픈소스 CVE 스캔 실행
+   [CI 단계] SonarQube(SAST) 소스 분석 & Snyk(SCA) 오픈소스 CVE 스캔 실행
         │
-   2. [패키징 단계] Docker 빌드 후 Trivy가 컨테이너 이미지 스캔 수행
+   [패키징 단계] Docker 빌드 후 Trivy가 컨테이너 이미지 스캔 수행
         │
    Critical 취약점(CVSS >= 9.0) 또는 미승인 라이선스(GPL 등)가 발견되었는가?
    ┌────┴─────┐
@@ -108,7 +108,7 @@ extra:
 [파이프라인 즉시 차단]  [CD 단계로 진행]
 보안 이슈 리포트 발행     ArgoCD가 K8s 클러스터에 배포 실행 (OPA Gatekeeper 검증)
 개발자에게 즉시 피드백    │
-                 3. [Ops 단계] OWASP ZAP(DAST) 동적 침투 및 Falco 런타임 감시
+                 [Ops 단계] OWASP ZAP(DAST) 동적 침투 및 Falco 런타임 감시
 ```
 
 #### 한줄 요약
@@ -124,10 +124,10 @@ extra:
 
 | 보안 검증 기술 | 분석 대상 및 방식 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| **SAST (정적 분석)** | **소스 코드 원문 (Whitebox)** | 컴파일 전 조기 결함 발견 (Shift-Left) | 오탐(False Positive) 다소 높음 |
-| **SCA (오픈소스 분석)**| **의존성 라이브러리 및 SBOM** | 알려진 오픈소스 CVE 취약점 즉시 식별 | 제로데이 미공개 취약점 탐지 불가 |
-| **DAST (동적 분석)** | **실행 중인 애플리케이션 (Blackbox)** | 인증/세션 등 실제 런타임 취약점 검증 | 코드 상의 취약점 정확한 라인 미제공 |
-| **RASP (런타임 자가보호)**| **JVM/CLR 내부 에이전트 인터셉트** | SQL Injection 등 실제 공격 실시간 차단 | 런타임 애플리케이션 성능 오버헤드 |
+| SAST (정적 분석) | **소스 코드 원문 (Whitebox)** | 컴파일 전 조기 결함 발견 (Shift-Left) | 오탐(False Positive) 다소 높음 |
+| SCA (오픈소스 분석) | **의존성 라이브러리 및 SBOM** | 알려진 오픈소스 CVE 취약점 즉시 식별 | 제로데이 미공개 취약점 탐지 불가 |
+| DAST (동적 분석) | **실행 중인 애플리케이션 (Blackbox)** | 인증/세션 등 실제 런타임 취약점 검증 | 코드 상의 취약점 정확한 라인 미제공 |
+| RASP (런타임 자가보호) | **JVM/CLR 내부 에이전트 인터셉트** | SQL Injection 등 실제 공격 실시간 차단 | 런타임 애플리케이션 성능 오버헤드 |
 
 #### 한줄 요약
 - SAST/SCA는 개발/빌드 단계 조기 탐지, DAST/RASP는 배포/운영 단계 실시간 방어에 적합하다.
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 성공적인 클라우드 네이티브 보안을 위해 **CI/CD 파이프라인 전반에 SAST, SCA, Container Scan, DAST 도구 체인을 내재화**하고, **Policy as Code와 보안 챔피언 문화**를 결합하여 제로 트러스트 완성
+- 보안 내재화는 **Shift-Left**, 배포 통제는 **보안 게이트** 선택
 
 #### 한줄 요약
 - DevSecOps는 보안을 파이프라인의 걸림돌이 아닌 자동화된 안전장치로 전환하여 출시 속도와 보안성을 동시에 달성하는 필수 공학 체계다.

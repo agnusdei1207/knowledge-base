@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 56
   label: "056. DevOps 파이프라인"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:40:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -77,10 +77,10 @@ extra:
 
 | 파이프라인 단계 | 대표 도구 체인 | 핵심 엔지니어링 책임 |
 |:---|:---|:---|
-| **Plan & Code** | **Jira, Git, GitHub** | 애자일 백로그 관리, 브랜치 전략 기반 협업 및 코드 리뷰 |
-| **Build & Test (CI)** | **GitHub Actions, SonarQube** | 코드 컴파일, 단위/통합 테스트 자동화, **품질 게이트 검증** |
-| **Release & Deploy (CD)** | **Harbor, ArgoCD, Helm** | 불변 도커 이미지 패키징, **GitOps 기반 카나리 무중단 배포** |
-| **Operate & Monitor** | **Kubernetes, Prometheus, Grafana** | 컨테이너 자동 복구, **SLO 메트릭 감시 및 이슈 백로그 피드백** |
+| Plan & Code | **Jira, Git, GitHub** | 애자일 백로그 관리, 브랜치 전략 기반 협업 및 코드 리뷰 |
+| Build & Test (CI) | **GitHub Actions, SonarQube** | 코드 컴파일, 단위/통합 테스트 자동화, **품질 게이트 검증** |
+| Release & Deploy (CD) | **Harbor, ArgoCD, Helm** | 불변 도커 이미지 패키징, **GitOps 기반 카나리 무중단 배포** |
+| Operate & Monitor | **Kubernetes, Prometheus, Grafana** | 컨테이너 자동 복구, **SLO 메트릭 감시 및 이슈 백로그 피드백** |
 
 #### 한줄 요약
 - Plan/Code, Build/Test(CI), Release/Deploy(CD), Operate/Monitor(Ops)가 결합된다.
@@ -94,15 +94,15 @@ extra:
 </details>
 
 ```text
-1. Jira 백로그 요구사항 기반 기능 개발 및 Git 푸시
+Jira 백로그 요구사항 기반 기능 개발 및 Git 푸시
         │
-   2. CI 러너가 자동 트리거되어 빌드, 테스트, 정적 분석 실행 (품질 게이트 통과)
+   CI 러너가 자동 트리거되어 빌드, 테스트, 정적 분석 실행 (품질 게이트 통과)
         │
-   3. Harbor에 불변 이미지 태깅 후 ArgoCD가 K8s 프로덕션에 자동 배포
+   Harbor에 불변 이미지 태깅 후 ArgoCD가 K8s 프로덕션에 자동 배포
         │
-   4. Prometheus & Alertmanager가 프로덕션 에러율/응답시간 실시간 감시
+   Prometheus & Alertmanager가 프로덕션 에러율/응답시간 실시간 감시
         │
-   5. 운영 이상 징후 감지 시 Slack 경보 발송 및 Jira 버그 티켓 자동 생성 (피드백 환류)
+   운영 이상 징후 감지 시 Slack 경보 발송 및 Jira 버그 티켓 자동 생성 (피드백 환류)
 ```
 
 #### 한줄 요약
@@ -147,7 +147,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 성공적인 소프트웨어 딜리버리를 위해 **CALMS 원칙과 전 주기 Toolchain 자동화 파이프라인**을 구축하고, **플랫폼 엔지니어링(IDP)과 DORA 지표 관리**를 결합하여 개발 생산성과 운영 안정성 극대화
+- 개발운영 연계는 **DevOps 도구체인**, 역량 측정은 **DORA 지표** 선택
 
 #### 한줄 요약
 - DevOps 파이프라인은 기획부터 모니터링까지 전 과정을 하나로 통합하여 비즈니스 가치를 가장 빠르고 안정적으로 전달하는 현대 IT 운영의 핵심 축이다.

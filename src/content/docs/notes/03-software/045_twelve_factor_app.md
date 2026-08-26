@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 45
   label: "045. 12 팩터 앱"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "12 팩터 앱 (12 Factor App)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:38:00+09:00"
 tags:
   - "notes-software"
 weight: 45
@@ -77,11 +77,11 @@ extra:
 
 | 핵심 원칙 | 설계 책임 및 실무 규칙 |
 |:---|:---|
-| **설정 (Config)** | 비밀번호, API 키를 코드에 하드코딩하지 않고 **OS 환경 변수(ENV) 주입** |
-| **프로세스 (Processes)** | 로컬 디스크/세션 메모리 사용 금지, **무상태(Stateless)로 외부 DB/Redis 공유** |
-| **빌드/릴리즈/실행** | 컴파일(Build) $\to$ 설정 결합(Release) $\to$ 불변 컨테이너 실행(Run)의 단계 엄격 분리 |
-| **폐기 가능성** | 빠른 기동 및 SIGTERM 시 **Graceful Shutdown**으로 요청 유실 방지 |
-| **로그 (Logs)** | 로컬 파일 기록 금지, **`stdout` 이벤트 스트림으로 배출**하여 Fluentd/ELK 수집 |
+| 설정 (Config) | 비밀번호, API 키를 코드에 하드코딩하지 않고 **OS 환경 변수(ENV) 주입** |
+| 프로세스 (Processes) | 로컬 디스크/세션 메모리 사용 금지, **무상태(Stateless)로 외부 DB/Redis 공유** |
+| 빌드/릴리즈/실행 | 컴파일(Build) $\to$ 설정 결합(Release) $\to$ 불변 컨테이너 실행(Run)의 단계 엄격 분리 |
+| 폐기 가능성 | 빠른 기동 및 SIGTERM 시 **Graceful Shutdown**으로 요청 유실 방지 |
+| 로그 (Logs) | 로컬 파일 기록 금지, **`stdout` 이벤트 스트림으로 배출**하여 Fluentd/ELK 수집 |
 
 #### 한줄 요약
 - 단일 코드베이스, ENV 설정, Stateless 프로세스, stdout 로그 배출이 핵심 뼈대다.
@@ -97,11 +97,11 @@ extra:
 ```text
 개발자가 Git 단일 코드베이스(Codebase)에 커밋/푸시
         │
-   1. [Build 단계] 의존성 패키징 및 불변 Docker 이미지 생성
+   [Build 단계] 의존성 패키징 및 불변 Docker 이미지 생성
         │
-   2. [Release 단계] 빌드 이미지 + 환경별 Config(K8s ConfigMap/Secret) 결합
+   [Release 단계] 빌드 이미지 + 환경별 Config(K8s ConfigMap/Secret) 결합
         │
-   3. [Run 단계] 포트 바인딩된 Stateless 컨테이너 프로세스 기동
+   [Run 단계] 포트 바인딩된 Stateless 컨테이너 프로세스 기동
         │
    Kubernetes HPA에 의한 동적 Scale-out (프로세스 복제) 및 자원 자동 회수
 ```
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 인프라(Kubernetes)는 **12 Factor App 원칙을 준수하는 무상태 컨테이너**를 표준으로 개발하고, **환경변수 설정 및 stdout 로깅**을 연동하여 무한 확장성과 이식성 완성
+- 클라우드 확장은 **12 Factor 원칙**과 **무상태 컨테이너** 선택
 
 #### 한줄 요약
 - 12 Factor App은 애플리케이션을 클라우드 및 컨테이너 플랫폼에 최적화하여 수평 확장과 장애 회복을 자동화하는 필수 엔지니어링 표준이다.

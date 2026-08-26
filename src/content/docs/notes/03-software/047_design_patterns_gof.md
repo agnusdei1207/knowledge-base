@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 47
   label: "047. 디자인 패턴: GoF 23종"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "디자인 패턴: GoF 23종 (Design Patterns GoF)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:39:00+09:00"
 tags:
   - "notes-software"
 weight: 47
@@ -75,9 +75,9 @@ extra:
 
 | 분류 그룹 | 패턴 종류 (23종) | 핵심 책임 및 의도 |
 |:---|:---|:---|
-| **생성 패턴 (5종)** | **Singleton, Factory Method, Abstract Factory, Builder, Prototype** | 객체 생성 과정을 추상화하여 **인스턴스화 결합도 제거** |
-| **구조 패턴 (7종)** | **Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy** | 인터페이스 호환성 변환, **동적 기능 추가 및 구조적 합성** |
-| **행위 패턴 (11종)** | **Strategy, Template Method, Observer, State, Command, Iterator 등** | 런타임 **알고리즘 교체, 이벤트 구독 통지 및 상태 전이 위임** |
+| 생성 패턴 (5종) | **Singleton, Factory Method, Abstract Factory, Builder, Prototype** | 객체 생성 과정을 추상화하여 **인스턴스화 결합도 제거** |
+| 구조 패턴 (7종) | **Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy** | 인터페이스 호환성 변환, **동적 기능 추가 및 구조적 합성** |
+| 행위 패턴 (11종) | **Strategy, Template Method, Observer, State, Command, Iterator 등** | 런타임 **알고리즘 교체, 이벤트 구독 통지 및 상태 전이 위임** |
 
 #### 한줄 요약
 - 생성(인스턴스화 캡슐화), 구조(객체 합성), 행위(알고리즘 교체 및 협업)로 완벽히 구조화된다.
@@ -117,13 +117,13 @@ extra:
 
 | 핵심 패턴 | 분류 | 핵심 의도 및 해결책 | 코드 설계 특징 |
 |:---|:---|:---|:---|
-| **Singleton** | 생성 | 전역에서 단 하나의 인스턴스만 보장 | `private` 생성자 + `static getInstance()` |
-| **Factory Method** | 생성 | 객체 생성을 하위 서브클래스에 위임 | 상속을 통한 인스턴스화 분리 |
-| **Adapter** | 구조 | 호환되지 않는 인터페이스를 맞춤 변환 | 래퍼(Wrapper) 클래스로 중계 |
-| **Decorator** | 구조 | 상속 없이 런타임에 동적으로 기능 덧붙임 | 동일 인터페이스를 감싸며 부가기능 실행 |
-| **Proxy** | 구조 | 실제 객체 접근 제어, 지연 로딩, 보안 검증 | 실제 객체와 동일 인터페이스 대리자 |
-| **Strategy** | 행위 | **런타임에 알고리즘(전략)을 자유롭게 교체** | **인터페이스 위임 (Composition)** |
-| **Observer** | 행위 | 상태 변화 시 다수의 구독자에게 자동 통지 | **발행/구독 (Event Listener) 구조** |
+| Singleton | 생성 | 전역에서 단 하나의 인스턴스만 보장 | `private` 생성자 + `static getInstance()` |
+| Factory Method | 생성 | 객체 생성을 하위 서브클래스에 위임 | 상속을 통한 인스턴스화 분리 |
+| Adapter | 구조 | 호환되지 않는 인터페이스를 맞춤 변환 | 래퍼(Wrapper) 클래스로 중계 |
+| Decorator | 구조 | 상속 없이 런타임에 동적으로 기능 덧붙임 | 동일 인터페이스를 감싸며 부가기능 실행 |
+| Proxy | 구조 | 실제 객체 접근 제어, 지연 로딩, 보안 검증 | 실제 객체와 동일 인터페이스 대리자 |
+| Strategy | 행위 | **런타임에 알고리즘(전략)을 자유롭게 교체** | **인터페이스 위임 (Composition)** |
+| Observer | 행위 | 상태 변화 시 다수의 구독자에게 자동 통지 | **발행/구독 (Event Listener) 구조** |
 
 #### 한줄 요약
 - Singleton/Factory(생성), Adapter/Decorator/Proxy(구조), Strategy/Observer(행위)가 실무 최다 빈출 패턴이다.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 변화가 빈번한 핵심 비즈니스 도메인은 **GoF 디자인 패턴(Strategy, Factory, Observer)** 을 적극 활용하여 OCP를 실현하고, 단순 CRUD는 **YAGNI 원칙**을 지켜 오버엔지니어링 차단
+- 핵심 도메인은 **GoF 디자인 패턴**, 단순 로직은 **YAGNI** 선택
 
 #### 한줄 요약
 - GoF 디자인 패턴은 객체지향 5대 원칙(SOLID)을 실현하는 검증된 설계 청사진이며, 문제의 본질에 부합하는 선별적 적용이 핵심이다.
