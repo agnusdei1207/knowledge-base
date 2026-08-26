@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 115
   label: "115. NewSQL: CockroachDB•Spanner"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "NewSQL: CockroachDB•Spanner (NewSQL)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:52:00+09:00"
 tags:
   - "notes-software"
 weight: 115
@@ -69,10 +69,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **SQL 게이트웨이** | 표준 SQL 문법 파싱 및 **분산 질의 계획(Distributed Plan) 수립** | 분산 조인 및 셔플링 최적화 |
-| **분산 트랜잭션 조정자**| 다중 Range 간 교차 커밋을 위해 **2PC 및 Lock-Free MVCC 격리성 제어** | Serializable 격리성 보장 |
-| **Raft 합의 복제 그룹** | 키 범위(Range)마다 독립된 Raft 그룹을 구성하여 **과반수 합의로 변경 로그 복제** | 노드 장애 시 3초 내 리더 재선출 |
-| **분산 시계 (TrueTime/HLC)**| 글로벌 분산 노드 간 시간 순서를 결정하여 **락 없는 스냅샷 읽기(Lock-Free Read) 실현**| Spanner(GPS), Cockroach(HLC) |
+| SQL 게이트웨이 | 표준 SQL 문법 파싱 및 **분산 질의 계획(Distributed Plan) 수립** | 분산 조인 및 셔플링 최적화 |
+| 분산 트랜잭션 조정자 | 다중 Range 간 교차 커밋을 위해 **2PC 및 Lock-Free MVCC 격리성 제어** | Serializable 격리성 보장 |
+| Raft 합의 복제 그룹 | 키 범위(Range)마다 독립된 Raft 그룹을 구성하여 **과반수 합의로 변경 로그 복제** | 노드 장애 시 3초 내 리더 재선출 |
+| 분산 시계 (TrueTime/HLC) | 글로벌 분산 노드 간 시간 순서를 결정하여 **락 없는 스냅샷 읽기(Lock-Free Read) 실현**| Spanner(GPS), Cockroach(HLC) |
 
 #### 한줄 요약
 - SQL 게이트웨이, 분산 트랜잭션 조정자, Raft 합의 그룹, 분산 시계 엔진으로 구성된다.
@@ -88,18 +88,18 @@ extra:
 ```text
 클라이언트 분산 SQL 트랜잭션 요청 (`INSERT/UPDATE`)
         │
-   1. [SQL 파싱 및 라우팅] 게이트웨이 노드가 SQL을 분석하여 대상 키 범위(Range) 리더 식별
+   [SQL 파싱 및 라우팅] 게이트웨이 노드가 SQL을 분석하여 대상 키 범위(Range) 리더 식별
         │
-   2. [Raft 합의 쓰기] 대상 Range의 Raft 리더가 변경 로그를 팔로워 노드들에 병렬 전파
+   [Raft 합의 쓰기] 대상 Range의 Raft 리더가 변경 로그를 팔로워 노드들에 병렬 전파
         │
-   3. [정족수 커밋] 과반수(2/3) 노드 로그 기록 확인 후 Raft 리더가 로컬 디스크에 반영
+   [정족수 커밋] 과반수(2/3) 노드 로그 기록 확인 후 Raft 리더가 로컬 디스크에 반영
         │
-   4. [자동 분할(Split) 검사] 해당 Range 데이터가 64MB를 초과했는가?
+   [자동 분할(Split) 검사] 해당 Range 데이터가 64MB를 초과했는가?
    ┌────┴───────────────────────────┐
   예 (용량 임계치 초과)             아니오 (용량 여유 있음)
    │                                 │
-5. 32MB 단위로 Range 자동 분할 및   클라이언트에 분산 트랜잭션 완료 응답
-   타 노드로 청크 자동 리밸런싱
+32MB 단위로 Range 자동 분할 및   클라이언트에 분산 트랜잭션 완료 응답
+타 노드로 청크 자동 리밸런싱
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 글로벌 엔터프라이즈 코어 뱅킹 및 전자상거래 시스템 확장을 위해 **PostgreSQL 호환 분산 NewSQL(CockroachDB, Spanner)을 차세대 표준으로 도입**하고, **Locality 파티셔닝과 Colocated 테이블 설계**를 결합하여 무결점 무중단 분산 데이터베이스 완성
+- 글로벌 확장은 **NewSQL**, 정합성 보장은 **Raft** 선택
 
 #### 한줄 요약
 - NewSQL은 RDBMS의 강력한 정합성과 NoSQL의 무한한 수평 확장을 결합하여 차세대 글로벌 트랜잭션 시스템을 주도하는 분산 데이터베이스다.

@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 108
   label: "108. Cassandra 컬럼 패밀리 데이터베이스"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:51:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **파티션 키 (Partition Key)** | 해시 토큰(Murmur3)을 계산하여 **데이터가 저장될 물리 노드(토큰 범위) 결정** | 데이터 수평 분산 담당 |
-| **클러스터링 키 (Clustering)** | 동일 파티션 내부에서 **데이터를 디스크에 물리적으로 정렬(ASC/DESC) 보관** | 범위 검색(`BETWEEN`) 지원 |
-| **코디네이터 노드 (Coordinator)**| 클라이언트 요청을 최초 수신하여 **복제 계수에 따른 타깃 노드들에 분기 전달/취합** | 임의의 노드가 코디네이터 수행 |
-| **복제 엔진 (LSM-Tree)** | CommitLog에 선행 기록 후 **MemTable에서 SSTable로 순차 플러시하여 쓰기 완결** | 락 없는 초고속 쓰기 보장 |
+| 파티션 키 (Partition Key) | 해시 토큰(Murmur3)을 계산하여 **데이터가 저장될 물리 노드(토큰 범위) 결정** | 데이터 수평 분산 담당 |
+| 클러스터링 키 (Clustering) | 동일 파티션 내부에서 **데이터를 디스크에 물리적으로 정렬(ASC/DESC) 보관** | 범위 검색(`BETWEEN`) 지원 |
+| 코디네이터 노드 (Coordinator) | 클라이언트 요청을 최초 수신하여 **복제 계수에 따른 타깃 노드들에 분기 전달/취합** | 임의의 노드가 코디네이터 수행 |
+| 복제 엔진 (LSM-Tree) | CommitLog에 선행 기록 후 **MemTable에서 SSTable로 순차 플러시하여 쓰기 완결** | 락 없는 초고속 쓰기 보장 |
 
 #### 한줄 요약
 - 파티션 키, 클러스터링 키, 코디네이터 노드, LSM 엔진이 결합하여 분산 저장과 빠른 쓰기를 실현한다.
@@ -91,15 +91,15 @@ extra:
 ```text
 클라이언트가 임의의 노드에 CQL 쓰기 요청 접수
         │
-   1. [코디네이터 지정] 요청을 수신한 해당 노드가 트랜잭션 코디네이터(Coordinator) 역할 수행
+   [코디네이터 지정] 요청을 수신한 해당 노드가 트랜잭션 코디네이터(Coordinator) 역할 수행
         │
-   2. [토큰 계산] 파티션 키에 Murmur3Partitioner 적용하여 Hash Token 값 도출
+   [토큰 계산] 파티션 키에 Murmur3Partitioner 적용하여 Hash Token 값 도출
         │
-   3. [병렬 전송] 토큰 링 메타데이터 대조 후 대상 복제 노드 3대(Replica Factor=3)에 동시 전송
+   [병렬 전송] 토큰 링 메타데이터 대조 후 대상 복제 노드 3대(Replica Factor=3)에 동시 전송
         │
-   4. [QUORUM 검증] 설정된 일관성 수준(`ConsistencyLevel.QUORUM` = 2대) 응답 도달 확인
+   [QUORUM 검증] 설정된 일관성 수준(`ConsistencyLevel.QUORUM` = 2대) 응답 도달 확인
         │
-   5. 클라이언트에 1ms 이내 성공 반환 (복제본 불일치 시 백그라운드 Read Repair 수행)
+   클라이언트에 1ms 이내 성공 반환 (복제본 불일치 시 백그라운드 Read Repair 수행)
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 글로벌 스케일의 대규모 시계열 및 로그 쓰기 트래픽을 수용하기 위해 **Cassandra의 마스터리스 P2P 아키텍처와 LSM-Tree 엔진을 표준 도입**하고, **1 Query 1 Table 쿼리 주도 모델링과 Quorum 튜닝**을 통해 무중단 분산 데이터베이스 완성
+- 대규모 쓰기는 **Cassandra**, 가용성은 **P2P 링** 선택
 
 #### 한줄 요약
 - Apache Cassandra는 마스터리스 P2P 아키텍처와 쿼리 주도 비정규화 모델링을 통해 무중단 대용량 쓰기를 완성하는 대표적인 Wide-Column NoSQL이다.

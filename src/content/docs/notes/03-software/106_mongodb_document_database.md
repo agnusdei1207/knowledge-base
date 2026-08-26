@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 106
   label: "106. MongoDB 문서 데이터베이스"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MongoDB 문서 데이터베이스 (MongoDB Document Database)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:50:00+09:00"
 tags:
   - "notes-software"
 weight: 106
@@ -70,10 +70,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **BSON 도큐먼트** | 계층적 중첩 객체와 배열을 저장하는 **원자적 데이터 기본 단위** | 단일 문서 최대 크기 16MB |
-| **WiredTiger 스토리지** | 메모리 캐시 관리, **행 레벨 동시성 제어 및 저널링(WAL) 처리** | Snappy 기반 데이터 디스크 압축 |
-| **복제 세트 (Replica Set)**| Oplog 기반 데이터 복제 및 **Primary 장애 시 자동 선거(Raft 기반) 무중단 절체** | 1 Primary + N Secondary |
-| **샤드 클러스터 (Mongos)**| 샤드 키 기반으로 대용량 데이터를 **다중 노드에 수평 분산 라우팅** | 청크(Chunk) 자동 분할 및 밸런싱 |
+| BSON 도큐먼트 | 계층적 중첩 객체와 배열을 저장하는 **원자적 데이터 기본 단위** | 단일 문서 최대 크기 16MB |
+| WiredTiger 스토리지 | 메모리 캐시 관리, **행 레벨 동시성 제어 및 저널링(WAL) 처리** | Snappy 기반 데이터 디스크 압축 |
+| 복제 세트 (Replica Set) | Oplog 기반 데이터 복제 및 **Primary 장애 시 자동 선거(Raft 기반) 무중단 절체** | 1 Primary + N Secondary |
+| 샤드 클러스터 (Mongos) | 샤드 키 기반으로 대용량 데이터를 **다중 노드에 수평 분산 라우팅** | 청크(Chunk) 자동 분할 및 밸런싱 |
 
 #### 한줄 요약
 - BSON 문서 저장, WiredTiger 엔진, 복제 세트(HA), 샤드 클러스터(Scale-Out)로 구성된다.
@@ -87,15 +87,15 @@ extra:
 </details>
 
 ```text
-1. Primary 노드에 비정상 다운 장애 발생
+Primary 노드에 비정상 다운 장애 발생
         │
-   2. Secondary 노드 간 2초 주기 하트비트(Heartbeat) 응답 타임아웃 감지
+   Secondary 노드 간 2초 주기 하트비트(Heartbeat) 응답 타임아웃 감지
         │
-   3. [Raft 기반 선거] 가장 최신 Oplog를 보유한 Secondary가 Term을 올리고 선거 시작
+   [Raft 기반 선거] 가장 최신 Oplog를 보유한 Secondary가 Term을 올리고 선거 시작
         │
-   4. [과반수 획득] 정족수(Majority) 투표를 획득한 노드가 즉시 신규 Primary로 승격
+   [과반수 획득] 정족수(Majority) 투표를 획득한 노드가 즉시 신규 Primary로 승격
         │
-   5. Mongos 라우터 및 클라이언트 드라이버가 토폴로지 변경을 감지하고 쓰기 트래픽 자동 재개
+   Mongos 라우터 및 클라이언트 드라이버가 토폴로지 변경을 감지하고 쓰기 트래픽 자동 재개
 ```
 
 #### 한줄 요약
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 복잡한 도메인 객체를 직관적으로 모델링하기 위해 **MongoDB의 BSON 문서 구조와 내포(Embedding) 패턴을 적극 활용**하고, **16MB 한계를 고려한 참조 분리와 Replica Set/샤딩 아키텍처**를 통해 고성능 비정형 데이터 플랫폼 구축
+- 중첩 데이터는 **BSON 내포**, 대규모 확장은 **샤딩** 선택
 
 #### 한줄 요약
 - MongoDB는 BSON 문서 내포와 복제·샤딩 클러스터를 통해 유연한 데이터 모델과 무중단 고가용성을 실현하는 대표적인 문서 데이터베이스다.

@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 120
   label: "120. Apache Flink 스트림 처리"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:53:00+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **작업 관리자 (JobManager)** | JobGraph 생성, 태스크 스케줄링 및 **Chandy-Lamport 체크포인트 조율 총괄** | 분산 코디네이터 |
-| **태스크 관리자 (TaskManager)**| TaskSlot 단위로 연산자(Operator)를 할당받아 **메모리 및 CPU 병렬 연산 수행** | 멀티스레드 슬롯 분할 |
-| **워터마크 (Watermark)** | 스트림 내에 시간 진행을 명시하여 **지연 도착 이벤트의 윈도 종료 시점 확정** | 지연 데이터 수용 제어 |
-| **상태 백엔드 (State Backend)**| HashMap 또는 RocksDB를 통해 **키별 상태(Keyed State)를 고속 저장 및 관리** | TB급 대용량 상태 지원 |
-| **체크포인트 스토리지** | 장애 복구 시 원복할 **연산자 상태 스냅샷과 카프카 오프셋을 영구 보관** | S3 / HDFS 분산 스토리지 |
+| 작업 관리자 (JobManager) | JobGraph 생성, 태스크 스케줄링 및 **Chandy-Lamport 체크포인트 조율 총괄** | 분산 코디네이터 |
+| 태스크 관리자 (TaskManager) | TaskSlot 단위로 연산자(Operator)를 할당받아 **메모리 및 CPU 병렬 연산 수행** | 멀티스레드 슬롯 분할 |
+| 워터마크 (Watermark) | 스트림 내에 시간 진행을 명시하여 **지연 도착 이벤트의 윈도 종료 시점 확정** | 지연 데이터 수용 제어 |
+| 상태 백엔드 (State Backend) | HashMap 또는 RocksDB를 통해 **키별 상태(Keyed State)를 고속 저장 및 관리** | TB급 대용량 상태 지원 |
+| 체크포인트 스토리지 | 장애 복구 시 원복할 **연산자 상태 스냅샷과 카프카 오프셋을 영구 보관** | S3 / HDFS 분산 스토리지 |
 
 #### 한줄 요약
 - 작업 관리자, 태스크 관리자, 워터마크, 상태 백엔드, 체크포인트 저장소가 유기적으로 결합된다.
@@ -90,15 +90,15 @@ extra:
 ```text
 스트림 처리 도중 주기적 Checkpoint 트리거
         │
-   1. [Barrier 주입] JobManager의 지시로 Source 연산자가 이벤트 스트림 사이에 Checkpoint Barrier 삽입
+   [Barrier 주입] JobManager의 지시로 Source 연산자가 이벤트 스트림 사이에 Checkpoint Barrier 삽입
         │
-   2. [입력 정렬] 다중 입력 채널을 가진 연산자가 모든 채널의 동일 Barrier 번호 정렬 대기
+   [입력 정렬] 다중 입력 채널을 가진 연산자가 모든 채널의 동일 Barrier 번호 정렬 대기
         │
-   3. [비동기 상태 스냅샷] 연산자가 로컬 RocksDB State를 복사하여 백그라운드로 S3/HDFS에 비동기 업로드
+   [비동기 상태 스냅샷] 연산자가 로컬 RocksDB State를 복사하여 백그라운드로 S3/HDFS에 비동기 업로드
         │
-   4. [Barrier 하류 전파] 스트림 중단 없이 Barrier를 다음 Downstream 연산자로 즉시 방출
+   [Barrier 하류 전파] 스트림 중단 없이 Barrier를 다음 Downstream 연산자로 즉시 방출
         │
-   5. 모든 연산자의 스냅샷 완료 ACK를 수신한 JobManager가 최신 체크포인트 메타데이터를 영구 확정
+   모든 연산자의 스냅샷 완료 ACK를 수신한 JobManager가 최신 체크포인트 메타데이터를 영구 확정
 ```
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 실시간 이상거래 탐지(FDS) 및 실시간 스트림 분석을 위해 **Apache Flink의 이벤트 시간 기반 네이티브 스트리밍과 RocksDB 상태 백엔드를 표준 도입**하고, **증분 체크포인트와 Exactly-Once 트랜잭션**을 결합하여 고성능 실시간 데이터 플랫폼 완성
+- 실시간 스트림은 **Flink**, 무손실 복구는 **ABS** 선택
 
 #### 한줄 요약
 - Apache Flink는 이벤트 시간 처리와 강력한 상태 관리를 통해 밀리초 단위 초저지연과 무손실 정합성을 완성하는 차세대 스트림 처리 엔진이다.

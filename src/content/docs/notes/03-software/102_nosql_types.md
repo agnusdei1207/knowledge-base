@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 102
   label: "102. NoSQL 유형: 문서•키값•컬럼•그래프"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:50:00+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -69,10 +69,10 @@ extra:
 
 | NoSQL 유형 | 핵심 데이터 구조 | 주요 엔진 | 최적 적용 도메인 |
 |:---|:---|:---|:---|
-| **Key-Value Store** | **유일 키(Key)에 값(Value) 매핑 ($O(1)$)** | **Redis, DynamoDB** | **초고속 세션 저장소, 캐시, 장바구니** |
-| **Document Store** | **JSON/BSON 중첩 계층 문서 및 인덱싱** | **MongoDB, Couchbase** | **이커머스 상품 카탈로그, CMS 콘텐츠** |
-| **Wide-Column Store**| **Row Key 및 동적 컬럼 패밀리 희소 행렬** | **Cassandra, HBase** | **대용량 IoT 센서 시계열, 메시징 로그** |
-| **Graph Store** | **노드(Node), 간선(Edge), 속성(Property)**| **Neo4j, Amazon Neptune**| **소셜 네트워크 관계망, 금융 FDS 사기 탐지** |
+| Key-Value Store | **유일 키(Key)에 값(Value) 매핑 ($O(1)$)** | **Redis, DynamoDB** | **초고속 세션 저장소, 캐시, 장바구니** |
+| Document Store | **JSON/BSON 중첩 계층 문서 및 인덱싱** | **MongoDB, Couchbase** | **이커머스 상품 카탈로그, CMS 콘텐츠** |
+| Wide-Column Store | **Row Key 및 동적 컬럼 패밀리 희소 행렬** | **Cassandra, HBase** | **대용량 IoT 센서 시계열, 메시징 로그** |
+| Graph Store | **노드(Node), 간선(Edge), 속성(Property)**| **Neo4j, Amazon Neptune**| **소셜 네트워크 관계망, 금융 FDS 사기 탐지** |
 
 #### 한줄 요약
 - 키값(캐시), 문서(카탈로그), 컬럼(시계열), 그래프(관계망)의 4대 모델로 역할을 분담한다.
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 빅데이터와 클라우드 네이티브 환경에서 **단일 DB 만능주의를 탈피하고 도메인 워크로드에 부합하는 폴리글랏 퍼시스턴스(RDB + NoSQL 4대 모델)를 표준 구축**하여, **시스템 처리량과 확장성을 극대화**
+- 데이터 확장은 **NoSQL**, 아키텍처는 **폴리글랏** 선택
 
 #### 한줄 요약
 - 4대 NoSQL 모델은 데이터 구조와 접근 패턴에 특화된 비관계형 솔루션이며, 폴리글랏 아키텍처를 통해 최적의 시스템 확장을 실현한다.

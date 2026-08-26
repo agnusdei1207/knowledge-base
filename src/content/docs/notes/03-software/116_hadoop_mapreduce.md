@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 116
   label: "116. 빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:52:00+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -68,10 +68,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **NameNode (마스터)** | HDFS 파일 네임스페이스 및 **블록 위치 매핑 메타데이터를 메모리에 관리** | Active/Standby 이중화 |
-| **DataNode (워커)** | 128MB 단위 블록을 로컬 디스크에 저장하고 **3중 복제 및 주기적 하트비트 보고** | 데이터 지역성 제공 |
-| **ResourceManager (YARN)**| 클러스터 전체 CPU/RAM 자원을 스케줄링하고 **애플리케이션 컨테이너 할당** | 클러스터 자원 오케스트레이션 |
-| **MapReduce 엔진** | 데이터를 키-값으로 변환(Map), 셔플/정렬(Shuffle), **최종 집계(Reduce) 배치 수행** | 대용량 분산 배치 연산 |
+| NameNode (마스터) | HDFS 파일 네임스페이스 및 **블록 위치 매핑 메타데이터를 메모리에 관리** | Active/Standby 이중화 |
+| DataNode (워커) | 128MB 단위 블록을 로컬 디스크에 저장하고 **3중 복제 및 주기적 하트비트 보고** | 데이터 지역성 제공 |
+| ResourceManager (YARN) | 클러스터 전체 CPU/RAM 자원을 스케줄링하고 **애플리케이션 컨테이너 할당** | 클러스터 자원 오케스트레이션 |
+| MapReduce 엔진 | 데이터를 키-값으로 변환(Map), 셔플/정렬(Shuffle), **최종 집계(Reduce) 배치 수행** | 대용량 분산 배치 연산 |
 
 #### 한줄 요약
 - NameNode/DataNode(저장), YARN(자원 관리), MapReduce(연산)가 유기적으로 연동된다.
@@ -87,15 +87,15 @@ extra:
 ```text
 클라이언트가 MapReduce 대용량 배치 작업 제출
         │
-   1. [입력 분할] HDFS 블록 단위로 InputSplit 생성 후 Data Locality 노드에 Mapper 할당
+   [입력 분할] HDFS 블록 단위로 InputSplit 생성 후 Data Locality 노드에 Mapper 할당
         │
-   2. [Map 연산] 각 Mapper가 블록 데이터를 읽어 중간 `<Key, Value>` 쌍으로 변환 후 로컬 디스크 기록
+   [Map 연산] 각 Mapper가 블록 데이터를 읽어 중간 `<Key, Value>` 쌍으로 변환 후 로컬 디스크 기록
         │
-   3. [Shuffle & Sort] 동일한 Key를 가진 데이터들이 네트워크를 통해 특정 Reducer 노드로 이동 및 정렬
+   [Shuffle & Sort] 동일한 Key를 가진 데이터들이 네트워크를 통해 특정 Reducer 노드로 이동 및 정렬
         │
-   4. [Reduce 연산] Reducer가 정렬된 `<Key, List<Value>>` 집합을 받아 최종 집계 및 변환 연산 수행
+   [Reduce 연산] Reducer가 정렬된 `<Key, List<Value>>` 집합을 받아 최종 집계 및 변환 연산 수행
         │
-   5. [HDFS 기록] 최종 연산 결과를 HDFS에 3중 복제 파일로 영구 커밋하고 작업 완료
+   [HDFS 기록] 최종 연산 결과를 HDFS에 3중 복제 파일로 영구 커밋하고 작업 완료
 ```
 
 #### 한줄 요약
@@ -139,7 +139,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 비정형 데이터의 신뢰성 있는 저장을 위해 **HDFS의 3중 복제와 YARN 자원 관리를 기반 인프라로 구성**하고, **ETL 워크로드 특성에 따라 MapReduce와 Spark를 적재적소에 결합**하여 현대적 빅데이터 플랫폼 구축
+- 대용량 배치는 **MapReduce**, 고속 연산은 **Spark** 선택
 
 #### 한줄 요약
 - Hadoop은 HDFS의 분산 내구성과 MapReduce의 병렬 연산 모델을 통해 빅데이터 배치의 신뢰성을 완성하는 분산 컴퓨팅의 기초 프레임워크다.

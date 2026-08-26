@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 113
   label: "113. 클라우드 데이터베이스 - RDS•Aurora•DynamoDB"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "클라우드 데이터베이스 - RDS•Aurora•DynamoDB 비교"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:52:00+09:00"
 tags:
   - "notes-software"
 weight: 113
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **Amazon RDS** | MySQL, PostgreSQL 등 표준 엔진을 **EC2 및 EBS 기반 인스턴스로 관리형 제공** | 표준 RDBMS 100% 호환 |
-| **Amazon Aurora** | 컴퓨팅과 스토리지를 분리하여 **기존 RDBMS 대비 5배 처리량 및 15개 읽기 복제본 제공**| 6-Way 스토리지 쿼럼 복제 |
-| **Amazon DynamoDB** | 서버리스 아키텍처 기반으로 **초당 수백만 TPS의 단건 키-값 조회를 10ms 이내 처리** | 무제한 수평 자동 확장 |
-| **자동 장애전환 (Failover)**| 주 노드 장애 시 DNS 엔드포인트를 **대기 복제본으로 자동 전환하여 무중단 복구** | RTO 30초 미만 전환 |
+| Amazon RDS | MySQL, PostgreSQL 등 표준 엔진을 **EC2 및 EBS 기반 인스턴스로 관리형 제공** | 표준 RDBMS 100% 호환 |
+| Amazon Aurora | 컴퓨팅과 스토리지를 분리하여 **기존 RDBMS 대비 5배 처리량 및 15개 읽기 복제본 제공**| 6-Way 스토리지 쿼럼 복제 |
+| Amazon DynamoDB | 서버리스 아키텍처 기반으로 **초당 수백만 TPS의 단건 키-값 조회를 10ms 이내 처리** | 무제한 수평 자동 확장 |
+| 자동 장애전환 (Failover) | 주 노드 장애 시 DNS 엔드포인트를 **대기 복제본으로 자동 전환하여 무중단 복구** | RTO 30초 미만 전환 |
 
 #### 한줄 요약
 - RDS(표준 RDB), Aurora(초고성능 분산 RDB), DynamoDB(서버리스 NoSQL)로 역할을 분담한다.
@@ -89,15 +89,15 @@ extra:
 </details>
 
 ```text
-1. 주(Primary) DB 인스턴스에 하드웨어 크래시 발생
+주(Primary) DB 인스턴스에 하드웨어 크래시 발생
         │
-   2. [장애 감지] 클라우드 제어면(Control Plane)이 2초 주기 하트비트 실패 감지
+   [장애 감지] 클라우드 제어면(Control Plane)이 2초 주기 하트비트 실패 감지
         │
-   3. [승격 절차] Multi-AZ Standby 또는 최저 지연 Aurora Read Replica를 새 Writer로 승격
+   [승격 절차] Multi-AZ Standby 또는 최저 지연 Aurora Read Replica를 새 Writer로 승격
         │
-   4. [DNS 엔드포인트 갱신] DB CNAME 레코드가 가리키는 IP를 신규 Writer로 자동 수정
+   [DNS 엔드포인트 갱신] DB CNAME 레코드가 가리키는 IP를 신규 Writer로 자동 수정
         │
-   5. 클라이언트 커넥션 풀이 신규 Writer로 자동 재연결되어 무중단 트랜잭션 정상 재개
+   클라이언트 커넥션 풀이 신규 Writer로 자동 재연결되어 무중단 트랜잭션 정상 재개
 ```
 
 #### 한줄 요약
@@ -141,7 +141,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 애플리케이션 구축 시 **핵심 결제 원장은 Aurora의 스토리지 분리 고성능을 활용하고, 초고속 세션 및 로그는 DynamoDB 서버리스를 결합하는 폴리글랏 아키텍처**를 표준 채택하여 비용과 가용성 극대화
+- 원장 트랜잭션은 **Aurora**, 대규모 키값은 **DynamoDB** 선택
 
 #### 한줄 요약
 - 클라우드 데이터베이스는 워크로드 특성에 맞추어 RDS, Aurora, DynamoDB를 유기적으로 조합할 때 최상의 엔터프라이즈 가치를 창출한다.

@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 117
   label: "117. Apache Spark"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:53:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **드라이버 (Driver)** | 애플리케이션 진입점을 실행하고 **DAG 생성 및 태스크 스케줄링 총괄** | 단일 코디네이터 역할 |
-| **Catalyst 최적화기** | SQL/DataFrame 논리 계획을 분석하여 **Filter Pushdown 등 최적 물리 계획 생성** | 규칙/비용 기반 CBO |
-| **DAG 스케줄러** | 전체 연산 그래프를 셔플(Shuffle) 경계 기준으로 **Stage와 Task 단위로 분할** | 지연 평가 파이프라인화 |
-| **실행기 (Executor)** | 워커 노드에서 메모리 상에 RDD를 캐시하고 **할당된 태스크를 병렬 실행** | JVM 컨테이너 기반 |
+| 드라이버 (Driver) | 애플리케이션 진입점을 실행하고 **DAG 생성 및 태스크 스케줄링 총괄** | 단일 코디네이터 역할 |
+| Catalyst 최적화기 | SQL/DataFrame 논리 계획을 분석하여 **Filter Pushdown 등 최적 물리 계획 생성** | 규칙/비용 기반 CBO |
+| DAG 스케줄러 | 전체 연산 그래프를 셔플(Shuffle) 경계 기준으로 **Stage와 Task 단위로 분할** | 지연 평가 파이프라인화 |
+| 실행기 (Executor) | 워커 노드에서 메모리 상에 RDD를 캐시하고 **할당된 태스크를 병렬 실행** | JVM 컨테이너 기반 |
 
 #### 한줄 요약
 - 드라이버(총괄), Catalyst(최적화), DAG 스케줄러(분할), 실행기(연산)가 결합된다.
@@ -90,15 +90,15 @@ extra:
 ```text
 DataFrame / Spark SQL 쿼리 선언
         │
-   1. [논리 계획 수립] 파서와 카탈로그를 통해 Unresolved Plan을 Analyzed Logical Plan으로 변환
+   [논리 계획 수립] 파서와 카탈로그를 통해 Unresolved Plan을 Analyzed Logical Plan으로 변환
         │
-   2. [Catalyst 최적화] Filter Pushdown 및 Column Pruning을 적용하여 최적화된 논리 계획 도출
+   [Catalyst 최적화] Filter Pushdown 및 Column Pruning을 적용하여 최적화된 논리 계획 도출
         │
-   3. [물리 계획 생성] 브로드캐스트 해시 조인 등 최소 비용 물리 전략 선택 및 Stage 분할
+   [물리 계획 생성] 브로드캐스트 해시 조인 등 최소 비용 물리 전략 선택 및 Stage 분할
         │
-   4. [Tungsten 코드 생성] JVM 바이트코드를 런타임 동적 컴파일(Whole-Stage CodeGen)
+   [Tungsten 코드 생성] JVM 바이트코드를 런타임 동적 컴파일(Whole-Stage CodeGen)
         │
-   5. Executor 메모리 상에서 Task 병렬 실행 및 AQE 기반 런타임 파티션 동적 보정
+   Executor 메모리 상에서 Task 병렬 실행 및 AQE 기반 런타임 파티션 동적 보정
 ```
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ DataFrame / Spark SQL 쿼리 선언
 
 ## Ⅶ. 결론
 
-- 대규모 데이터 처리와 인공지능 엔지니어링을 위해 **Apache Spark의 인메모리 DAG 엔진과 Catalyst 최적화기를 분산 파이프라인의 핵심 표준으로 도입**하고, **AQE 동적 튜닝 및 Broadcast 조인을 적용**하여 초고속 레이크하우스 컴퓨팅 완성
+- 분산 연산은 **Spark 엔진**, 최적화는 **Catalyst** 선택
 
 #### 한줄 요약
 - Apache Spark는 인메모리 RDD와 DAG 실행 엔진을 통해 배치와 스트리밍 연산을 초고속으로 완수하는 현대 분산 데이터 엔지니어링의 표준 프레임워크다.
