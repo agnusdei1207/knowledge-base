@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-08-26T10:14:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -76,10 +76,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **리더 (Leader)** | 모든 클라이언트 쓰기 요청을 수신하고 **팔로워들에게 로그 복제(AppendEntries) 및 커밋 총괄** | 단일 쓰기 진입점 |
-| **후보자 (Candidate)** | 리더 장애 시 **Term(임기)을 증가시키고 팔로워들에게 RequestVote 과반 투표 요청** | 리더 선출 주체 |
-| **팔로워 (Follower)** | 리더의 심장박동(Heartbeat)을 수신하며 **로그를 디스크에 기록하고 일치성 검증** | 수동적 수신자 |
-| **복제 로그 (Log)** | 합의된 명령어의 **전역 순서(Log Index)와 Term 번호를 불변 디스크에 영속 보관** | Replicated Log |
+| 리더 (Leader) | 모든 클라이언트 쓰기 요청을 수신하고 **팔로워들에게 로그 복제(AppendEntries) 및 커밋 총괄** | 단일 쓰기 진입점 |
+| 후보자 (Candidate) | 리더 장애 시 **Term(임기)을 증가시키고 팔로워들에게 RequestVote 과반 투표 요청** | 리더 선출 주체 |
+| 팔로워 (Follower) | 리더의 심장박동(Heartbeat)을 수신하며 **로그를 디스크에 기록하고 일치성 검증** | 수동적 수신자 |
+| 복제 로그 (Log) | 합의된 명령어의 **전역 순서(Log Index)와 Term 번호를 불변 디스크에 영속 보관** | Replicated Log |
 
 #### 한줄 요약
 - 리더, 후보자, 팔로워, 복제 로그가 결합된다.

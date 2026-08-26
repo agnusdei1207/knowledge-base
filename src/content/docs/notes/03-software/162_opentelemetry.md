@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-08-26T10:10:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 162

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-08-26T10:11:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **스키마 (Schema)** | Type, Field, Argument의 **Query·Mutation 계약 선언** | SDL 명세 체계 |
-| **질의 언어 (Query / Mutation)**| 클라이언트가 응답받을 **Selection Set 필드 구조 및 변경 파라미터 선언** | 선언적 질의 |
-| **리졸버 (Resolver)** | 각 필드 요청을 **실제 DB 쿼리, 캐시, 백엔드 마이크로서비스 호출과 연결** | 필드 단위 실행 함수 |
-| **데이터로더 (DataLoader)** | 반복되는 자식 객체 조회를 **배치(Batching) 및 메모리 캐싱으로 묶어 N+1 해소** | 일괄 `IN` 조회 |
+| 스키마 (Schema) | Type, Field, Argument의 **Query·Mutation 계약 선언** | SDL 명세 체계 |
+| 질의 언어 (Query / Mutation)| 클라이언트가 응답받을 **Selection Set 필드 구조 및 변경 파라미터 선언** | 선언적 질의 |
+| 리졸버 (Resolver) | 각 필드 요청을 **실제 DB 쿼리, 캐시, 백엔드 마이크로서비스 호출과 연결** | 필드 단위 실행 함수 |
+| 데이터로더 (DataLoader) | 반복되는 자식 객체 조회를 **배치(Batching) 및 메모리 캐싱으로 묶어 N+1 해소** | 일괄 `IN` 조회 |
 
 #### 한줄 요약
 - 스키마, 쿼리/뮤테이션, 리졸버, 데이터로더가 결합된다.

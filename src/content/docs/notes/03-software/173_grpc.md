@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-08-26T10:11:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -74,10 +74,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **Protobuf IDL** | Service, RPC Method, Message의 **필드 번호·데이터 타입 엄격 선언** | `.proto` 파일 규격 |
-| **코드 생성기 (protoc)**| `.proto`를 컴파일하여 **다국어(Java, Go, C++) Stub 코드 자동 생성** | 컴파일 타임 검증 |
-| **채널 및 스텁 (Stub)** | 네트워크 통신을 은닉하고 **로컬 함수 호출 인터페이스 및 HTTP/2 채널 연결 관리**| 프록시 추상화 |
-| **서버 런타임 (Server)**| 수신된 이진 패킷을 역직렬화하여 **해당 서비스 핸들러 메서드로 디스패치 및 회신** | 비동기 고성능 서버 |
+| Protobuf IDL | Service, RPC Method, Message의 **필드 번호·데이터 타입 엄격 선언** | `.proto` 파일 규격 |
+| 코드 생성기 (protoc)| `.proto`를 컴파일하여 **다국어(Java, Go, C++) Stub 코드 자동 생성** | 컴파일 타임 검증 |
+| 채널 및 스텁 (Stub) | 네트워크 통신을 은닉하고 **로컬 함수 호출 인터페이스 및 HTTP/2 채널 연결 관리**| 프록시 추상화 |
+| 서버 런타임 (Server)| 수신된 이진 패킷을 역직렬화하여 **해당 서비스 핸들러 메서드로 디스패치 및 회신** | 비동기 고성능 서버 |
 
 #### 한줄 요약
 - Protobuf IDL, protoc 컴파일러, Channel/Stub, Server Runtime이 결합된다.

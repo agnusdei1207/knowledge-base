@@ -53,6 +53,7 @@ export default defineConfig({
         Sidebar: './src/components/Sidebar.astro',
       },
       lastUpdated: true,
+      pagefind: false,
     }),
   ],
   markdown: {

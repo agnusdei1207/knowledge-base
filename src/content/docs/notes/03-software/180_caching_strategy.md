@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
-date: "2026-08-26T10:14:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **캐시 저장소 (Cache Store)**| Key별 **고속 사본과 TTL을 메모리에 보관하여 초저지연 읽기 제공** | Redis, Memcached |
-| **원본 저장소 (Origin DB)** | 권위 있는 **단일 진실 공급원(Source of Truth) 및 영속 데이터 보존** | RDBMS (MySQL/PG) |
-| **축출 정책 (Eviction)** | 메모리 부족 시 **LRU(최근 미사용) 또는 LFU(빈도 기반) 기준 데이터 삭제** | 메모리 상한 제어 |
-| **무효화 계층 (Invalidation)**| 원본 변경 시 **캐시 키를 삭제하거나 TTL 만료를 통해 데이터 최신성 유지** | 정합성 보장 |
+| 캐시 저장소 (Cache Store)| Key별 **고속 사본과 TTL을 메모리에 보관하여 초저지연 읽기 제공** | Redis, Memcached |
+| 원본 저장소 (Origin DB) | 권위 있는 **단일 진실 공급원(Source of Truth) 및 영속 데이터 보존** | RDBMS (MySQL/PG) |
+| 축출 정책 (Eviction) | 메모리 부족 시 **LRU(최근 미사용) 또는 LFU(빈도 기반) 기준 데이터 삭제** | 메모리 상한 제어 |
+| 무효화 계층 (Invalidation)| 원본 변경 시 **캐시 키를 삭제하거나 TTL 만료를 통해 데이터 최신성 유지** | 정합성 보장 |
 
 #### 한줄 요약
 - 캐시 저장소, 원본 DB, 축출 정책, 무효화 계층이 결합된다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-26T10:11:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -74,10 +74,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **자원 소유자 (Resource Owner)**| 자신의 데이터에 대한 **제3자 애플리케이션의 접근을 승인/동의하는 실제 사용자** | 권한 승인 주체 |
-| **클라이언트 (Client App)** | 사용자를 대신하여 **인가 서버에 로그인을 요청하고 발급받은 토큰으로 API 호출** | Public / Confidential |
-| **인가 서버 (Auth Server/IdP)**| 사용자 인증 후 **인가 코드, Access Token, ID Token(JWT) 발급·서명**| IdP (Keycloak, Auth0) |
-| **자원 서버 (Resource Server)**| **Access Token의 유효성·Scope를 검증하고 보호 자원 반환**| API 백엔드 |
+| 자원 소유자 (Resource Owner)| 자신의 데이터에 대한 **제3자 애플리케이션의 접근을 승인/동의하는 실제 사용자** | 권한 승인 주체 |
+| 클라이언트 (Client App) | 사용자를 대신하여 **인가 서버에 로그인을 요청하고 발급받은 토큰으로 API 호출** | Public / Confidential |
+| 인가 서버 (Auth Server/IdP)| 사용자 인증 후 **인가 코드, Access Token, ID Token(JWT) 발급·서명**| IdP (Keycloak, Auth0) |
+| 자원 서버 (Resource Server)| **Access Token의 유효성·Scope를 검증하고 보호 자원 반환**| API 백엔드 |
 
 #### 한줄 요약
 - 자원 소유자, 클라이언트, 인가 서버, 자원 서버가 결합된다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
-date: "2026-08-26T10:14:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **연결 게이트웨이 (Gateway)**| 클라이언트와의 **핸드셰이크, 인증, Keep-Alive 하트비트 및 커넥션 수명주기 관리** | 장기 연결 유지 |
-| **프로토콜 핸들러 (Handler)**| WebSocket 이진/텍스트 프레임 파싱 및 **SSE `text/event-stream` 청크 인코딩** | 프로토콜 처리 |
-| **메시지 브로커 (Broker)** | 서버 인스턴스 간 **실시간 메시지 브로드캐스트(Fan-out) 및 수평 확장 지원** | Redis Pub/Sub |
-| **재생 저장소 (Replay Store)**| 연결 단절 시 재접속 클라이언트에게 **`Last-Event-ID` 기반 누락 이벤트 재생** | 무손실 복구 |
+| 연결 게이트웨이 (Gateway)| 클라이언트와의 **핸드셰이크, 인증, Keep-Alive 하트비트 및 커넥션 수명주기 관리** | 장기 연결 유지 |
+| 프로토콜 핸들러 (Handler)| WebSocket 이진/텍스트 프레임 파싱 및 **SSE `text/event-stream` 청크 인코딩** | 프로토콜 처리 |
+| 메시지 브로커 (Broker) | 서버 인스턴스 간 **실시간 메시지 브로드캐스트(Fan-out) 및 수평 확장 지원** | Redis Pub/Sub |
+| 재생 저장소 (Replay Store)| 연결 단절 시 재접속 클라이언트에게 **`Last-Event-ID` 기반 누락 이벤트 재생** | 무손실 복구 |
 
 #### 한줄 요약
 - 연결 게이트웨이, 프로토콜 핸들러, 메시지 브로커, 재생 저장소가 결합된다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RESTful API 설계 원칙 (RESTful API Design)"
-date: "2026-08-26T10:11:00+09:00"
+date: "2026-08-26T10:25:00+09:00"
 tags:
   - "notes-software"
 weight: 171
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **자원 식별자 (URI)** | 행위를 배제하고 **명사형 복수형 계층 구조로 비즈니스 엔터티 식별** | `/users/{id}` |
-| **HTTP 메서드 (Verbs)** | CRUD 행위를 **표준 HTTP 메서드(GET/POST/PUT)로 일관 매핑** | 의미론적 일관성 |
-| **HTTP 상태 코드** | 처리 결과를 **2xx, 4xx, 5xx 표준 상태 코드로 명확히 전달** | 표준 상태 규약 |
-| **HTTP 헤더 및 표현** | Content-Type, ETag 등을 통해 **메타데이터 및 캐싱 제어** | 무상태 제어 |
+| 자원 식별자 (URI) | 행위를 배제하고 **명사형 복수형 계층 구조로 비즈니스 엔터티 식별** | `/users/{id}` |
+| HTTP 메서드 (Verbs) | CRUD 행위를 **표준 HTTP 메서드(GET/POST/PUT)로 일관 매핑** | 의미론적 일관성 |
+| HTTP 상태 코드 | 처리 결과를 **2xx, 4xx, 5xx 표준 상태 코드로 명확히 전달** | 표준 상태 규약 |
+| HTTP 헤더 및 표현 | Content-Type, ETag 등을 통해 **메타데이터 및 캐싱 제어** | 무상태 제어 |
 
 #### 한줄 요약
 - URI(자원), HTTP Method(행위), Representation(표현), Status Code(결과)가 결합된다.
