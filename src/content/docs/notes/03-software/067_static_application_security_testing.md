@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 67
   label: "067. 정적 분석 SAST"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "정적 분석 SAST (Static Application Security Testing)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:43:00+09:00"
 tags:
   - "notes-software"
 weight: 67
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **구문 파서 (AST Parser)** | 소스코드를 파싱하여 **추상 구문 트리(AST) 및 제어 흐름 그래프(CFG) 생성** |
-| **오염 분석기 (Taint)** | Source(HTTP 파라미터)부터 Sink(SQL/명령어)까지 **미정화 데이터 흐름 추적** |
-| **규칙 엔진 (Rule Engine)** | KISA 47개 보안약점 및 CWE/OWASP 룰셋과 **패턴 매칭 검증** |
-| **품질 게이트 (SonarQube)** | 취약점 심각도(Critical/High) 기준 미달 시 **CI/CD 빌드 차단 및 리포트 발행** |
+| 구문 파서 (AST Parser) | 소스코드를 파싱하여 **추상 구문 트리(AST) 및 제어 흐름 그래프(CFG) 생성** |
+| 오염 분석기 (Taint) | Source(HTTP 파라미터)부터 Sink(SQL/명령어)까지 **미정화 데이터 흐름 추적** |
+| 규칙 엔진 (Rule Engine) | KISA 47개 보안약점 및 CWE/OWASP 룰셋과 **패턴 매칭 검증** |
+| 품질 게이트 (SonarQube) | 취약점 심각도(Critical/High) 기준 미달 시 **CI/CD 빌드 차단 및 리포트 발행** |
 
 #### 한줄 요약
 - AST 파서, Taint 오염 분석기, 규칙 매칭 엔진, 품질 게이트가 결합된다.
@@ -92,12 +92,12 @@ extra:
 ```text
 개발자가 소스 코드를 Git 저장소에 커밋/푸시
         │
-   1. [파싱 단계] SAST 도구가 소스 코드를 읽어 AST 및 CFG/DFG 그래프 생성
+   [파싱 단계] SAST 도구가 소스 코드를 읽어 AST 및 CFG/DFG 그래프 생성
         │
-   2. [오염 추적] HTTP 파라미터(Source)가 `PreparedStatement` 등 정화(Sanitizer) 없이
-                  `Statement.executeQuery()`(Sink)로 직접 전달되는지 분석
+   [오염 추적] HTTP 파라미터(Source)가 `PreparedStatement` 등 정화(Sanitizer) 없이
+              `Statement.executeQuery()`(Sink)로 직접 전달되는지 분석
         │
-   3. [룰셋 대조] KISA SQL Injection 취약점(CWE-89) 위반으로 판정 (정확한 소스 라인 특정)
+   [룰셋 대조] KISA SQL Injection 취약점(CWE-89) 위반으로 판정 (정확한 소스 라인 특정)
         │
    심각도 기준(Critical 취약점 1건 이상)에 위배되는가?
    ┌────┴─────┐
@@ -150,7 +150,7 @@ PR 병합 금지      CD 파이프라인 진행
 
 ## Ⅶ. 결론
 
-- 안전한 소프트웨어 개발 생애주기(SSDLC) 확립을 위해 **개발자 IDE 및 CI 파이프라인에 SAST를 필수 통합**하고, **KISA 47개 보안약점 룰셋 기반 품질 게이트**를 운영하여 보안 취약점 원천 차단
+- 코드 취약점은 **SAST**, 데이터 흐름 추적은 **오염 분석** 선택
 
 #### 한줄 요약
 - SAST는 소스 코드를 실행하지 않고 구문 파싱과 오염 분석을 통해 코딩 단계에서 보안 결함을 조기 제거하는 핵심 화이트박스 보안 도구다.

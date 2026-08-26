@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 76
   label: "076. 아키텍처 결정 기록 ADR"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:44:00+09:00"
 tags:
   - "notes-software"
 weight: 76
@@ -72,11 +72,11 @@ extra:
 
 | ADR 필드 | 필수 기록 내용 | 작성 가이드라인 |
 |:---|:---|:---|
-| **Title (제목)** | 순번과 핵심 결정을 명시 (`ADR-0001: RDB 대신 MongoDB 채택`) | 한눈에 파악 가능한 간결한 명사구 |
-| **Status (상태)** | **Proposed (제안) / Accepted (승인) / Superseded (대체됨)** | 현재 결정의 유효 상태 명시 |
-| **Context (맥락)** | 왜 이 결정이 필요했는지에 대한 **기술적/비즈니스적 배경과 제약** | 주관적 주장이 아닌 객관적 문제 서술 |
-| **Decision (결정)** | **선택한 아키텍처 솔루션 및 기각된 기술 대안들** | 기술적 선택 근거 명시 |
-| **Consequences (결과)** | **결정에 따른 positive(이점) 및 negative(트레이드오프 비용)** | 감수해야 할 단점까지 솔직히 기록 |
+| Title (제목) | 순번과 핵심 결정을 명시 (`ADR-0001: RDB 대신 MongoDB 채택`) | 한눈에 파악 가능한 간결한 명사구 |
+| Status (상태) | **Proposed (제안) / Accepted (승인) / Superseded (대체됨)** | 현재 결정의 유효 상태 명시 |
+| Context (맥락) | 왜 이 결정이 필요했는지에 대한 **기술적/비즈니스적 배경과 제약** | 주관적 주장이 아닌 객관적 문제 서술 |
+| Decision (결정) | **선택한 아키텍처 솔루션 및 기각된 기술 대안들** | 기술적 선택 근거 명시 |
+| Consequences (결과) | **결정에 따른 positive(이점) 및 negative(트레이드오프 비용)** | 감수해야 할 단점까지 솔직히 기록 |
 
 #### 한줄 요약
 - Title, Status, Context, Decision, Consequences 5대 필드로 완결된다.
@@ -92,15 +92,15 @@ extra:
 ```text
 아키텍처 변경 필요성 발생 (예: MSA 전환, DB 샤딩)
         │
-   1. [Proposed] 아키텍트가 ADR 마크다운 문서를 작성하여 Git 브랜치 생성
+   [Proposed] 아키텍트가 ADR 마크다운 문서를 작성하여 Git 브랜치 생성
         │
-   2. [Pull Request] 팀 엔지니어 및 이해관계자 코드 리뷰 및 기술 토론 진행
+   [Pull Request] 팀 엔지니어 및 이해관계자 코드 리뷰 및 기술 토론 진행
         │
-   3. [Accepted] 합의 완료 시 main 브랜치로 병합하여 현행 아키텍처로 공식 승인
+   [Accepted] 합의 완료 시 main 브랜치로 병합하여 현행 아키텍처로 공식 승인
         │
    (향후 2년 뒤 신기술 도입으로 설계가 바뀔 경우)
         │
-   4. [Superseded] 신규 ADR-0015를 발행하고 기존 ADR-0005에 'Replaced by ADR-0015' 링크 연결
+   [Superseded] 신규 ADR-0015를 발행하고 기존 ADR-0005에 'Replaced by ADR-0015' 링크 연결
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 지속 가능한 소프트웨어 아키텍처 거버넌스를 위해 **Git 기반 ADR(Architecture Decision Record) 작성을 팀 개발 문화로 표준화**하고, **모든 기술적 결정의 맥락과 트레이드오프를 투명하게 자산화**
+- 설계 결정은 **ADR 기록**, 변경 이력은 **대체 연결** 선택
 
 #### 한줄 요약
 - ADR은 아키텍처 결정의 배경 맥락과 트레이드오프를 코드와 함께 살아있는 문서로 보존하는 소프트웨어 공학의 핵심 지식 관리 도구다.

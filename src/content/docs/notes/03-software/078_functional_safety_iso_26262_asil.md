@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 78
   label: "078. 기능 안전 ISO 26262•ASIL"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "기능 안전 ISO 26262•ASIL (Functional Safety ISO 26262)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:45:00+09:00"
 tags:
   - "notes-software"
 weight: 78
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 정의 및 평가 기준 |
 |:---|:---|
-| **심각도 (Severity, S)** | 시스템 오작동 발생 시 탑승자/보행자의 **신체 상해 및 치사율 수준 (S0~S3)** |
-| **노출빈도 (Exposure, E)**| 위험을 유발할 수 있는 특정 주행 조건(고속도로, 빗길)의 **발생 시간 비율 (E0~E4)** |
-| **통제성 (Controllability, C)**| 고장 발생 시 운전자 또는 주변 차량이 **사고를 회피할 수 있는 통제력 (C0~C3)** |
-| **ASIL 등급 (QM, A~D)** | **매트릭스 결합 결과에 따른 SW 설계, 코딩, 테스트의 법적 차등 적용선** |
+| 심각도 (Severity, S) | 시스템 오작동 발생 시 탑승자/보행자의 **신체 상해 및 치사율 수준 (S0~S3)** |
+| 노출빈도 (Exposure, E) | 위험을 유발할 수 있는 특정 주행 조건(고속도로, 빗길)의 **발생 시간 비율 (E0~E4)** |
+| 통제성 (Controllability, C) | 고장 발생 시 운전자 또는 주변 차량이 **사고를 회피할 수 있는 통제력 (C0~C3)** |
+| ASIL 등급 (QM, A~D) | **매트릭스 결합 결과에 따른 SW 설계, 코딩, 테스트의 법적 차등 적용선** |
 
 #### 한줄 요약
 - S, E, C 3요소의 정량 평가를 통해 ASIL 등급을 확정하고 수준별 안전 요구사항을 도출한다.
@@ -90,17 +90,17 @@ extra:
 </details>
 
 ```text
-1. 차량 아이템 정의(Item Definition) 및 HARA 위험 분석 수행 -> Safety Goal (ASIL D) 도출
+차량 아이템 정의(Item Definition) 및 HARA 위험 분석 수행 -> Safety Goal (ASIL D) 도출
         │
-   2. 기능안전요구사항(FSR) -> 기술안전요구사항(TSR) -> SW 안전요구사항(SSR) 계층화
+   기능안전요구사항(FSR) -> 기술안전요구사항(TSR) -> SW 안전요구사항(SSR) 계층화
         │
-   3. SW 안전 아키텍처 설계 (메모리 파티셔닝 MPU, 워치독 타이머, 이중화 설계)
+   SW 안전 아키텍처 설계 (메모리 파티셔닝 MPU, 워치독 타이머, 이중화 설계)
         │
-   4. MISRA-C 표준 준수 코딩 및 단위 테스트 (ASIL D: MC/DC 커버리지 100% 달성)
+   MISRA-C 표준 준수 코딩 및 단위 테스트 (ASIL D: MC/DC 커버리지 100% 달성)
         │
-   5. HIL(Hardware-in-the-Loop) 시뮬레이션 기반 결함 주입(Fault Injection) 통합 테스트
+   HIL(Hardware-in-the-Loop) 시뮬레이션 기반 결함 주입(Fault Injection) 통합 테스트
         │
-   6. Safety Case 안전성 보고서 작성 및 TÜV SÜD 공인 인증 획득
+   Safety Case 안전성 보고서 작성 및 TÜV SÜD 공인 인증 획득
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- SDV(Software Defined Vehicle) 및 자율주행 시대의 안전성을 확보하기 위해 **ISO 26262 V-Model과 ASIL D 엔지니어링 프로세스를 필수 준수**하고, **SOTIF 및 AUTOSAR Adaptive 플랫폼과 융합**하여 차량 무결성 완성
+- 기능 안전은 **ISO 26262**, 검증 기준은 **ASIL D** 선택
 
 #### 한줄 요약
 - ISO 26262는 HARA 위험 분석을 기반으로 차량 전장 소프트웨어의 고장을 방지하고 생명을 보호하는 자동차 기능안전의 절대 표준이다.
