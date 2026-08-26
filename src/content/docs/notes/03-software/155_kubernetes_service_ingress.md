@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 155
   label: "155. 쿠버네티스 서비스•인그레스"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **인그레스 컨트롤러 (Ingress)**| 외부 HTTP/HTTPS 트래픽을 접수하여 **TLS 복호화 및 도메인/URL 경로별 분기 라우팅** | NGINX, AWS ALB |
-| **쿠버네티스 서비스 (Service)**| 파드 집합에 **고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4)** | ClusterIP, NodePort |
-| **엔드포인트슬라이스** | Readiness Probe를 통과한 **유효한 백엔드 파드들의 실제 IP/Port 목록 실시간 관리**| EndpointSlice |
-| **kube-proxy (L4 프록시)** | 노드의 커널 iptables 또는 IPVS 규칙을 갱신하여 **Service VIP 트래픽을 파드로 부하분산**| 커널 레벨 L4 분산 |
+| 인그레스 컨트롤러 (Ingress) | 외부 HTTP/HTTPS 트래픽을 접수하여 **TLS 복호화 및 도메인/URL 경로별 분기 라우팅** | NGINX, AWS ALB |
+| 쿠버네티스 서비스 (Service) | 파드 집합에 **고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4)** | ClusterIP, NodePort |
+| 엔드포인트슬라이스 | Readiness Probe를 통과한 **유효한 백엔드 파드들의 실제 IP/Port 목록 실시간 관리**| EndpointSlice |
+| kube-proxy (L4 프록시) | 노드의 커널 iptables 또는 IPVS 규칙을 갱신하여 **Service VIP 트래픽을 파드로 부하분산**| 커널 레벨 L4 분산 |
 
 #### 한줄 요약
 - 인그레스 컨트롤러(L7 분기), 서비스 VIP(L4 추상화), EndpointSlice(파드 목록)가 결합된다.
@@ -92,15 +92,15 @@ extra:
 ```text
 외부 사용자의 서비스 접근 요청 (HTTPS)
         │
-   1. [HTTPS 도메인 요청 수신] 사용자가 `https://api.com/order` URL로 Ingress ALB에 접속
+   [HTTPS 도메인 요청 수신] 사용자가 `https://api.com/order` URL로 Ingress ALB에 접속
         │
-   2. [TLS 복호화] Ingress Controller가 보유한 TLS 인증서(Secret)로 HTTPS 암호화 해제
+   [TLS 복호화] Ingress Controller가 보유한 TLS 인증서(Secret)로 HTTPS 암호화 해제
         │
-   3. [URL Path 룰 매칭] Ingress 규칙을 대조하여 `/order` 경로에 지정된 `order-service` 선정
+   [URL Path 룰 매칭] Ingress 규칙을 대조하여 `/order` 경로에 지정된 `order-service` 선정
         │
-   4. [Pod IP 선정] EndpointSlice에서 정상 작동 중인 백엔드 파드 IP(`10.244.1.5`)를 IPVS로 선택
+   [Pod IP 선정] EndpointSlice에서 정상 작동 중인 백엔드 파드 IP(`10.244.1.5`)를 IPVS로 선택
         │
-   5. 선택된 백엔드 파드 컨테이너의 8080 포트로 평문 HTTP 요청 즉시 프록시 전달
+   선택된 백엔드 파드 컨테이너의 8080 포트로 평문 HTTP 요청 즉시 프록시 전달
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 마이크로서비스 환경에서 최적의 네트워킹 아키텍처를 구현하기 위해 **내부 파드 간 통신은 Service VIP와 CoreDNS로 추상화하고, 대외 트래픽은 cert-manager와 Target-Type IP를 결합한 Ingress/Gateway API로 통합 제어**하여 고성능 엔터프라이즈 네트워킹 완성
+- 내부 통신은 **Service VIP**, 대외 경로는 **Ingress** 선택
 
 #### 한줄 요약
 - 쿠버네티스 서비스와 인그레스는 L4 가상 IP 로드밸런싱과 L7 경로 기반 라우팅을 결합하여 컨테이너 트래픽을 무결점으로 제어하는 핵심 네트워킹 기술이다.

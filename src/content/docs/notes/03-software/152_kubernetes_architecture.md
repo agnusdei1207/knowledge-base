@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 152
   label: "152. 쿠버네티스 아키텍처"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "쿠버네티스 아키텍처 (Kubernetes Architecture)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:59:00+09:00"
 tags:
   - "notes-software"
 weight: 152
@@ -74,13 +74,13 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **kube-apiserver** | 클러스터의 모든 요청을 접수하며 **인증(AuthN), 인가(AuthZ), 스키마 검증 및 etcd 접근 중계** | 수평 스케일아웃 |
-| **etcd 저장소** | Raft 알고리즘 기반으로 **클러스터의 모든 오브젝트 명세와 현재 상태를 분산 영속 저장** | 3/5대 홀수 쿼럼 |
-| **kube-scheduler** | 미배치된 파드의 리소스 요구량과 제약 조건을 분석하여 **최적의 워커 노드에 바인딩(Binding)** | 필터링 및 스코어링 |
-| **Controller Manager** | Node, Deployment, ReplicaSet 등의 컨트롤러를 구동하여 **목표 상태와 현재 상태를 지속 동기화** | Reconciliation Loop |
-| **kubelet** | 워커 노드의 마스터 에이전트로서 **컨테이너 런타임(CRI)에 파드 생성/삭제를 지시하고 헬스체크 보고** | 노드 에이전트 |
-| **kube-proxy** | 노드의 커널 iptables 또는 IPVS 규칙을 관리하여 **쿠버네티스 서비스(Service) 트래픽 로드밸런싱** | L4 프록시 |
-| **Container Runtime** | containerd/CRI-O 기반으로 **OCI 이미지를 다운로드하고 실제 컨테이너 프로세스를 실행** | CRI 인터페이스 |
+| kube-apiserver | 클러스터의 모든 요청을 접수하며 **인증(AuthN), 인가(AuthZ), 스키마 검증 및 etcd 접근 중계** | 수평 스케일아웃 |
+| etcd 저장소 | Raft 알고리즘 기반으로 **클러스터의 모든 오브젝트 명세와 현재 상태를 분산 영속 저장** | 3/5대 홀수 쿼럼 |
+| kube-scheduler | 미배치된 파드의 리소스 요구량과 제약 조건을 분석하여 **최적의 워커 노드에 바인딩(Binding)** | 필터링 및 스코어링 |
+| Controller Manager | Node, Deployment, ReplicaSet 등의 컨트롤러를 구동하여 **목표 상태와 현재 상태를 지속 동기화** | Reconciliation Loop |
+| kubelet | 워커 노드의 마스터 에이전트로서 **컨테이너 런타임(CRI)에 파드 생성/삭제를 지시하고 헬스체크 보고** | 노드 에이전트 |
+| kube-proxy | 노드의 커널 iptables 또는 IPVS 규칙을 관리하여 **쿠버네티스 서비스(Service) 트래픽 로드밸런싱** | L4 프록시 |
+| Container Runtime | containerd/CRI-O 기반으로 **OCI 이미지를 다운로드하고 실제 컨테이너 프로세스를 실행** | CRI 인터페이스 |
 
 #### 한줄 요약
 - 제어면 4대 요소와 워커 노드 3대 요소가 유기적으로 결합된다.
@@ -96,15 +96,15 @@ extra:
 ```text
 개발자의 kubectl apply -f pod.yaml 배포 요청
         │
-   1. [요청 접수 및 인증] kube-apiserver가 요청자의 권한을 인증(RBAC)하고 스키마 유효성 검증
+   [요청 접수 및 인증] kube-apiserver가 요청자의 권한을 인증(RBAC)하고 스키마 유효성 검증
         │
-   2. [etcd 영속 저장] 검증 완료된 Pod 명세를 etcd에 기록 (상태: Pending)
+   [etcd 영속 저장] 검증 완료된 Pod 명세를 etcd에 기록 (상태: Pending)
         │
-   3. [노드 스케줄링] kube-scheduler가 노드 리소스와 어피니티를 평가하여 최적 노드 선정 및 바인딩
+   [노드 스케줄링] kube-scheduler가 노드 리소스와 어피니티를 평가하여 최적 노드 선정 및 바인딩
         │
-   4. [워커 노드 파드 기동] 대상 노드의 kubelet이 이벤트를 감지하고 CRI(containerd)로 컨테이너 실행
+   [워커 노드 파드 기동] 대상 노드의 kubelet이 이벤트를 감지하고 CRI(containerd)로 컨테이너 실행
         │
-   5. [상태 동기화] kubelet이 파드의 Running 상태를 apiserver에 보고하여 etcd에 최종 갱신
+   [상태 동기화] kubelet이 파드의 Running 상태를 apiserver에 보고하여 etcd에 최종 갱신
 ```
 
 #### 한줄 요약
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 분산 클라우드 네이티브 환경을 구축하기 위해 **Multi-Master HA와 etcd 쿼럼 다중화 기반의 쿠버네티스를 전사 인프라 표준으로 도입**하고, **선언적 조정 루프(Reconciliation Loop)와 노드 리소스 예약 정책**을 결합하여 완전 자가 치유 클라우드 플랫폼 완성
+- 자가 치유는 **쿠버네티스**, 상태 무결성은 **etcd 쿼럼** 선택
 
 #### 한줄 요약
 - 쿠버네티스는 제어면과 워커 노드의 명확한 이원화와 선언적 자가 치유를 통해 대규모 컨테이너를 무결점으로 오케스트레이션하는 클라우드 네이티브의 핵심 운영체제다.

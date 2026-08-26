@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 153
   label: "153. 쿠버네티스 Pod 생명주기"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:59:00+09:00"
 tags:
   - "notes-software"
 weight: 153
@@ -72,11 +72,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **초기화 컨테이너 (Init)** | 메인 앱 실행 전 **DB 마이그레이션, 설정 파일 다운로드 등 사전 작업 완료** | 순차 실행 후 종료 |
-| **스타트업 프로브 (Startup)**| 무거운 애플리케이션의 **초기 기동 시간을 보장하여 불필요한 조기 재시작 차단** | 부팅 완료 시 비활성 |
-| **라이브니스 프로브 (Liveness)**| 내부 데드락이나 무한 루프 발생 시 **컨테이너 프로세스를 강제 재시작하여 복구** | 실패 시 Container Restart |
-| **레디니스 프로브 (Readiness)**| 워밍업 미완료 시 **Service Endpoint IP에서 파드를 제외하여 503 에러 차단** | 실패 시 트래픽 격리 |
-| **프리엔드 훅 (preStop)** | 파드 종료 전 **`sleep` 등을 수행하여 신규 트래픽 유입 차단 및 기존 세션 정리** | Graceful Shutdown 보조 |
+| 초기화 컨테이너 (Init) | 메인 앱 실행 전 **DB 마이그레이션, 설정 파일 다운로드 등 사전 작업 완료** | 순차 실행 후 종료 |
+| 스타트업 프로브 (Startup) | 무거운 애플리케이션의 **초기 기동 시간을 보장하여 불필요한 조기 재시작 차단** | 부팅 완료 시 비활성 |
+| 라이브니스 프로브 (Liveness) | 내부 데드락이나 무한 루프 발생 시 **컨테이너 프로세스를 강제 재시작하여 복구** | 실패 시 Container Restart |
+| 레디니스 프로브 (Readiness) | 워밍업 미완료 시 **Service Endpoint IP에서 파드를 제외하여 503 에러 차단** | 실패 시 트래픽 격리 |
+| 프리엔드 훅 (preStop) | 파드 종료 전 **`sleep` 등을 수행하여 신규 트래픽 유입 차단 및 기존 세션 정리** | Graceful Shutdown 보조 |
 
 #### 한줄 요약
 - 초기화 컨테이너, 3대 프로브, preStop 훅이 결합된다.
@@ -92,15 +92,15 @@ extra:
 ```text
 Deployment 롤링 배포 또는 파드 삭제 요청 수신
         │
-   1. [종료 이벤트 수신] API 서버가 파드 상태를 Terminating으로 전환
+   [종료 이벤트 수신] API 서버가 파드 상태를 Terminating으로 전환
         │
-   2. [Endpoints IP 제거] kube-proxy 및 Ingress 컨트롤러가 라우팅 테이블에서 파드 IP 제외
+   [Endpoints IP 제거] kube-proxy 및 Ingress 컨트롤러가 라우팅 테이블에서 파드 IP 제외
         │
-   3. [preStop 훅 실행] 네트워크 갱신 지연을 고려하여 `sleep 10` 훅을 실행해 안전 대기
+   [preStop 훅 실행] 네트워크 갱신 지연을 고려하여 `sleep 10` 훅을 실행해 안전 대기
         │
-   4. [SIGTERM 전달] 메인 프로세스에 SIGTERM을 전송하여 처리 중이던 세션 정상 완료 유도
+   [SIGTERM 전달] 메인 프로세스에 SIGTERM을 전송하여 처리 중이던 세션 정상 완료 유도
         │
-   5. `terminationGracePeriodSeconds`(기본 30초) 초과 시 SIGKILL로 잔여 프로세스 강제 정리
+   `terminationGracePeriodSeconds`(기본 30초) 초과 시 SIGKILL로 잔여 프로세스 강제 정리
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ Deployment 롤링 배포 또는 파드 삭제 요청 수신
 
 ## Ⅶ. 결론
 
-- 쿠버네티스 환경에서 무중단 서비스와 고신뢰 자가 치유를 달성하기 위해 **무거운 앱은 Startup Probe로 보호하고, 내부 고장 복구(Liveness)와 트래픽 라우팅 격리(Readiness)를 철저히 분리하며 preStop 훅 기반의 Graceful Shutdown을 표준 적용**하여 서비스 연속성 완성
+- 프로세스 복구는 **Liveness**, 트래픽 격리는 **Readiness** 선택
 
 #### 한줄 요약
 - 파드 생명주기 관리는 3대 프로브와 정상 종료 절차를 정밀 제어하여 무중단 배포와 안정적 자가 치유를 실현하는 쿠버네티스의 핵심 운영 기술이다.

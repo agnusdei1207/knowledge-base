@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 156
   label: "156. 쿠버네티스 NetworkPolicy•CNI"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **CNI 플러그인** | 파드 생성 시 **네트워크 네임스페이스를 생성하고 고유 IP 및 라우팅 경로 할당** | Calico, Cilium |
-| **NetworkPolicy 오브젝트**| `podSelector`, `ingress`, `egress`를 정의하여 **허용 대상 트래픽을 선언** | 선언적 YAML 방화벽 |
-| **정책 제어기 (Controller)**| 선언된 NetworkPolicy를 감지하여 **각 노드의 CNI 에이전트에 방화벽 규칙 전파** | 실시간 룰 동기화 |
-| **데이터 플레인 (eBPF)** | 커널 계층에서 **실제 패킷의 출발지/도착지 IP와 포트를 실시간 검사하여 차단/허용**| 초고속 패킷 검사 |
+| CNI 플러그인 | 파드 생성 시 **네트워크 네임스페이스를 생성하고 고유 IP 및 라우팅 경로 할당** | Calico, Cilium |
+| NetworkPolicy 오브젝트 | `podSelector`, `ingress`, `egress`를 정의하여 **허용 대상 트래픽을 선언** | 선언적 YAML 방화벽 |
+| 정책 제어기 (Controller) | 선언된 NetworkPolicy를 감지하여 **각 노드의 CNI 에이전트에 방화벽 규칙 전파** | 실시간 룰 동기화 |
+| 데이터 플레인 (eBPF) | 커널 계층에서 **실제 패킷의 출발지/도착지 IP와 포트를 실시간 검사하여 차단/허용**| 초고속 패킷 검사 |
 
 #### 한줄 요약
 - CNI 플러그인, NetworkPolicy 명세, 정책 제어기, eBPF 데이터 플레인이 결합된다.
@@ -90,15 +90,15 @@ extra:
 ```text
 Frontend 파드에서 Backend 파드로 API 요청 전송
         │
-   1. [패킷 생성 송출] Frontend 파드가 TCP SYN 패킷을 생성하여 veth 인터페이스로 방출
+   [패킷 생성 송출] Frontend 파드가 TCP SYN 패킷을 생성하여 veth 인터페이스로 방출
         │
-   2. [라벨 식별] 노드의 CNI 에이전트(Cilium)가 송신 파드와 수신 파드의 메타데이터 라벨 확인
+   [라벨 식별] 노드의 CNI 에이전트(Cilium)가 송신 파드와 수신 파드의 메타데이터 라벨 확인
         │
-   3. [정책 대조] 수신 파드 네임스페이스의 NetworkPolicy `from` 허용 목록과 대조
+   [정책 대조] 수신 파드 네임스페이스의 NetworkPolicy `from` 허용 목록과 대조
         │
-   4. [포트 검증] 타깃 포트가 정책에 허용된 `8080/TCP`인지 일치 여부 검사
+   [포트 검증] 타깃 포트가 정책에 허용된 `8080/TCP`인지 일치 여부 검사
         │
-   5. 정책과 일치 시 커널 레벨에서 즉시 통과, 비인가 접근 시 패킷을 즉시 Drop 폐기
+   정책과 일치 시 커널 레벨에서 즉시 통과, 비인가 접근 시 패킷을 즉시 Drop 폐기
 ```
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ Frontend 파드에서 Backend 파드로 API 요청 전송
 
 ## Ⅶ. 결론
 
-- 쿠버네티스 클러스터 내부의 제로 트러스트 보안을 완성하기 위해 **모든 네임스페이스에 Default Deny 기반의 NetworkPolicy를 기본 적용하고, 고성능 Cilium eBPF CNI와 Hubble 관측성을 결합**하여 내부 침해 확산을 원천 차단하는 클라우드 네이티브 네트워크 보안 완성
+- 통신망 구성은 **CNI**, 제로 트러스트 격리는 **NetworkPolicy** 선택
 
 #### 한줄 요약
 - CNI와 NetworkPolicy는 파드 간 연결성과 제로 트러스트 미세 격리 방화벽을 제공하여 클러스터 내부 보안을 완성하는 핵심 네트워킹 기술이다.

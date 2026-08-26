@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 157
   label: "157. 쿠버네티스 스토리지"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -73,10 +73,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **PVC (요청서)** | 개발자가 필요한 스토리지 **용량, AccessMode, StorageClass 요구 선언** | 개발자 추상화 객체 |
-| **PV (볼륨 자원)** | 클러스터에 프로비저닝된 **실제 물리 디스크 볼륨의 메타데이터 표현** | PVC와 1:1 바인딩 |
-| **스토리지 클래스 (SC)** | Provisioner, 볼륨 속성(`gp3/io2`), **재활용 정책(Retain/Delete) 정의** | 동적 생성 템플릿 |
-| **CSI 드라이버** | K8s 스토리지 API 요청을 받아 **실제 스토리지 생성, 노드 Attach/Mount 수행**| 표준 스토리지 플러그인 |
+| PVC (요청서) | 개발자가 필요한 스토리지 **용량, AccessMode, StorageClass 요구 선언** | 개발자 추상화 객체 |
+| PV (볼륨 자원) | 클러스터에 프로비저닝된 **실제 물리 디스크 볼륨의 메타데이터 표현** | PVC와 1:1 바인딩 |
+| 스토리지 클래스 (SC) | Provisioner, 볼륨 속성(`gp3/io2`), **재활용 정책(Retain/Delete) 정의** | 동적 생성 템플릿 |
+| CSI 드라이버 | K8s 스토리지 API 요청을 받아 **실제 스토리지 생성, 노드 Attach/Mount 수행**| 표준 스토리지 플러그인 |
 
 #### 한줄 요약
 - PVC(요청서), PV(자원), StorageClass(규격), CSI 드라이버가 결합된다.
@@ -92,15 +92,15 @@ extra:
 ```text
 StatefulSet 데이터베이스 파드의 PVC 제출
         │
-   1. [PVC 검증] API 서버가 PVC 명세(용량: 100Gi, AccessMode: RWO) 접수 및 유효성 검증
+   [PVC 검증] API 서버가 PVC 명세(용량: 100Gi, AccessMode: RWO) 접수 및 유효성 검증
         │
-   2. [StorageClass 선택] 명시된 `gp3-sc` 스토리지 클래스의 Provisioner(`ebs.csi.aws.com`) 호출
+   [StorageClass 선택] 명시된 `gp3-sc` 스토리지 클래스의 Provisioner(`ebs.csi.aws.com`) 호출
         │
-   3. [CSI 볼륨 동적 생성] CSI 드라이버가 AWS API를 호출하여 실제 100Gi EBS gp3 디스크 생성
+   [CSI 볼륨 동적 생성] CSI 드라이버가 AWS API를 호출하여 실제 100Gi EBS gp3 디스크 생성
         │
-   4. [PV 생성 및 바인딩] 생성된 EBS 디스크를 기반으로 PV 객체를 생성하고 PVC와 1:1 Bound 결합
+   [PV 생성 및 바인딩] 생성된 EBS 디스크를 기반으로 PV 객체를 생성하고 PVC와 1:1 Bound 결합
         │
-   5. 파드가 배치된 워커 노드에 EBS를 Attach하고 컨테이너 디렉터리로 Mount 완료
+   파드가 배치된 워커 노드에 EBS를 Attach하고 컨테이너 디렉터리로 Mount 완료
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ StatefulSet 데이터베이스 파드의 PVC 제출
 
 ## Ⅶ. 결론
 
-- 쿠버네티스 기반 스테이트풀(Stateful) 워크로드를 안정적으로 운용하기 위해 **CSI 드라이버 기반의 동적 프로비저닝을 표준 구축하고, Multi-AZ 환경에서는 WaitForFirstConsumer 바인딩 모드와 Retain 데이터 보호 정책을 필수 적용**하여 고신뢰 클라우드 스토리지 아키텍처 완성
+- 데이터 영속성은 **PV/PVC**, 자동 프로비저닝은 **CSI** 선택
 
 #### 한줄 요약
 - 쿠버네티스 스토리지는 PVC, PV, StorageClass의 3단계 추상화를 통해 인프라와 애플리케이션을 완벽히 분리하고 데이터 영속성을 보장하는 핵심 기술이다.

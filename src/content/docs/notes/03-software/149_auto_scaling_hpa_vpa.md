@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 149
   label: "149. 오토 스케일링 HPA•VPA"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "오토 스케일링 HPA•VPA (Auto Scaling HPA VPA)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:59:00+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -71,11 +71,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **지표 공급자 (Metrics)** | Kubelet 및 프로메테우스로부터 **CPU, Memory, QPS, Kafka Lag 수집** | 15초 주기 폴링 |
-| **HPA 제어기 (HPA)** | 목표 사용률에 맞추어 **Deployment 복제본(Replicas) 개수 수평 증감** | Scale-out / Scale-in |
-| **VPA 제어기 (VPA)** | 과거 사용량을 분석하여 **Pod의 CPU/Memory Resource Request 최적값 갱신** | Recommender / Updater |
-| **워크로드 제어기** | HPA/VPA의 변경 지시를 받아 **Deployment, StatefulSet Pod 명세를 갱신** | 롤링 업데이트 반영 |
-| **노드 스케일러 (Karpenter)**| Pod 배치 공간 부족(Pending) 감지 시 **클라우드 워커 노드(EC2) 즉각 프로비저닝** | 초고속 노드 스케일러 |
+| 지표 공급자 (Metrics) | Kubelet 및 프로메테우스로부터 **CPU, Memory, QPS, Kafka Lag 수집** | 15초 주기 폴링 |
+| HPA 제어기 (HPA) | 목표 사용률에 맞추어 **Deployment 복제본(Replicas) 개수 수평 증감** | Scale-out / Scale-in |
+| VPA 제어기 (VPA) | 과거 사용량을 분석하여 **Pod의 CPU/Memory Resource Request 최적값 갱신** | Recommender / Updater |
+| 워크로드 제어기 | HPA/VPA의 변경 지시를 받아 **Deployment, StatefulSet Pod 명세를 갱신** | 롤링 업데이트 반영 |
+| 노드 스케일러 (Karpenter) | Pod 배치 공간 부족(Pending) 감지 시 **클라우드 워커 노드(EC2) 즉각 프로비저닝** | 초고속 노드 스케일러 |
 
 #### 한줄 요약
 - 지표 공급자, HPA 제어기, VPA 제어기, 워크로드 제어기, 노드 스케일러가 결합된다.
@@ -91,15 +91,15 @@ extra:
 ```text
 대외 트래픽 유입으로 애플리케이션 부하 급증
         │
-   1. [지표 수집] Metrics Server가 Pod별 평균 CPU 사용률(예: 85%) 관측
+   [지표 수집] Metrics Server가 Pod별 평균 CPU 사용률(예: 85%) 관측
         │
-   2. [목표 편차 계산] HPA 설정 목표값(50%) 대비 초과 편차 비율 계산
+   [목표 편차 계산] HPA 설정 목표값(50%) 대비 초과 편차 비율 계산
         │
-   3. [복제본 산출] Desired Replicas 공식에 따라 Pod 복제본을 3개에서 6개로 증설 결정
+   [복제본 산출] Desired Replicas 공식에 따라 Pod 복제본을 3개에서 6개로 증설 결정
         │
-   4. [Deployment 반영] Deployment의 `replicas: 6`으로 갱신하여 신규 Pod 3개 생성 요청
+   [Deployment 반영] Deployment의 `replicas: 6`으로 갱신하여 신규 Pod 3개 생성 요청
         │
-   5. 노드 자원이 부족할 경우 Karpenter가 새 EC2 노드를 즉시 기동하여 신규 Pod 스케줄링 완료
+   노드 자원이 부족할 경우 Karpenter가 새 EC2 노드를 즉시 기동하여 신규 Pod 스케줄링 완료
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 애플리케이션의 탄력성과 자원 효율성을 극대화하기 위해 **무상태 워크로드는 KEDA와 HPA를 표준 구축하고, VPA를 통한 주기적 Right-Sizing 및 Karpenter 기반 초고속 노드 스케일링을 결합**하여 무결점 오토스케일링 아키텍처 완성
+- 무상태 확장은 **HPA**, 스펙 최적화는 **VPA** 선택
 
 #### 한줄 요약
 - HPA와 VPA는 부하 특성에 따라 수평 및 수직으로 자원을 동적 조정하여 시스템 가용성과 비용 효율을 동시에 보장하는 쿠버네티스의 핵심 탄력성 기술이다.

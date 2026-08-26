@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 160
   label: "160. 서비스 메시 Istio"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:01:00+09:00"
 tags:
   - "notes-software"
 weight: 160
@@ -74,11 +74,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **istiod (제어면)** | xDS API로 프록시 설정을 동적 배포하고 **CA 인증서 발급 및 서비스 디스커버리 총괄** | 단일 통합 컨트롤러 |
-| **Envoy 프록시 (데이터면)**| 파드 내 통신을 가로채 **mTLS 암호화, L7 로드밸런싱, 서킷 브레이커 집행** | C++ 고성능 프록시 |
-| **VirtualService (CRD)** | URL 경로, 헤더, **가중치(Weight)에 따른 트래픽 라우팅 규칙 선언** | 카나리 배포 규칙 |
-| **DestinationRule (CRD)** | 서브셋(v1/v2) 정의, **로드밸런싱 알고리즘, 연결 풀 및 서킷 브레이커 정책 선언** | 정책 및 타깃 정의 |
-| **Ingress / Egress Gateway**| 서비스 메시 클러스터의 **외부 진입 및 외부 반출 트래픽 전담 제어** | 경계 게이트웨이 |
+| istiod (제어면) | xDS API로 프록시 설정을 동적 배포하고 **CA 인증서 발급 및 서비스 디스커버리 총괄** | 단일 통합 컨트롤러 |
+| Envoy 프록시 (데이터면) | 파드 내 통신을 가로채 **mTLS 암호화, L7 로드밸런싱, 서킷 브레이커 집행** | C++ 고성능 프록시 |
+| VirtualService (CRD) | URL 경로, 헤더, **가중치(Weight)에 따른 트래픽 라우팅 규칙 선언** | 카나리 배포 규칙 |
+| DestinationRule (CRD) | 서브셋(v1/v2) 정의, **로드밸런싱 알고리즘, 연결 풀 및 서킷 브레이커 정책 선언** | 정책 및 타깃 정의 |
+| Ingress / Egress Gateway | 서비스 메시 클러스터의 **외부 진입 및 외부 반출 트래픽 전담 제어** | 경계 게이트웨이 |
 
 #### 한줄 요약
 - istiod(제어면), Envoy 프록시(데이터면), VirtualService, DestinationRule이 결합된다.
@@ -94,15 +94,15 @@ extra:
 ```text
 Order 서비스에서 Payment 서비스로 결제 요청 발생
         │
-   1. [요청 가로채기] iptables 규칙에 의해 Order 앱의 아웃바운드 패킷이 Envoy 사이드카로 리다이렉트
+   [요청 가로채기] iptables 규칙에 의해 Order 앱의 아웃바운드 패킷이 Envoy 사이드카로 리다이렉트
         │
-   2. [mTLS 상호 인증] Citadel 발급 X.509 인증서로 Payment 측 Envoy와 mTLS 세션 수립
+   [mTLS 상호 인증] Citadel 발급 X.509 인증서로 Payment 측 Envoy와 mTLS 세션 수립
         │
-   3. [가중치 룰 평가] VirtualService 명세를 대조하여 신규 v2 버전으로 10% 트래픽 분기 결정
+   [가중치 룰 평가] VirtualService 명세를 대조하여 신규 v2 버전으로 10% 트래픽 분기 결정
         │
-   4. [서브셋 전달] DestinationRule에 정의된 v2 Payment Pod IP로 암호화 gRPC 요청 전송
+   [서브셋 전달] DestinationRule에 정의된 v2 Payment Pod IP로 암호화 gRPC 요청 전송
         │
-   5. Envoy가 W3C Trace Context(`traceparent`) 헤더를 주입하고 실행 통계를 Jaeger로 회신
+   Envoy가 W3C Trace Context(`traceparent`) 헤더를 주입하고 실행 통계를 Jaeger로 회신
 ```
 
 #### 한줄 요약
@@ -146,7 +146,7 @@ Order 서비스에서 Payment 서비스로 결제 요청 발생
 
 ## Ⅶ. 결론
 
-- 마이크로서비스 환경에서 보안, 트래픽 통제, 관측성을 표준화하기 위해 **istiod와 Envoy 사이드카 기반의 Istio 서비스 메시를 표준 구축하고, Sidecar CRD 스코프 최적화와 점진적 mTLS 전환(PERMISSIVE $\rightarrow$ STRICT) 정책을 적용**하여 엔터프라이즈 마이크로서비스 통신 인프라 완성
+- 통신 보안은 **Istio mTLS**, 트래픽 제어는 **Envoy** 선택
 
 #### 한줄 요약
 - Istio 서비스 메시는 Envoy 프록시와 istiod 제어면을 통해 애플리케이션 코드 변경 없이 제로 트러스트 보안과 지능형 트래픽 라우팅을 실현하는 핵심 마이크로서비스 네트워킹 기술이다.
