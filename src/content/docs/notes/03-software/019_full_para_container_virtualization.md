@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 19
   label: "019. 전가상화•반가상화•컨테이너"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "전가상화•반가상화•컨테이너 (Virtualization Comparison)"
-date: "2026-08-25T10:45:00+09:00"
+date: "2026-08-26T09:34:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -70,9 +70,9 @@ extra:
 
 | 가상화 유형 | 하이퍼바이저/엔진 | 게스트 OS 상태 | 주소 변환 및 I/O 방식 |
 |:---|:---|:---|:---|
-| **전가상화** | KVM, VMware ESXi | **미수정 표준 OS (Windows/Linux)** | 하드웨어 EPT / 바이너리 변환 |
-| **반가상화** | Xen, Hyper-V | **커널 수정 필요 (하이퍼콜 지원)** | 하이퍼콜 직접 호출 / virtio |
-| **컨테이너** | Docker, containerd, Podman | **게스트 OS 없음 (호스트 커널 공유)** | 호스트 네이티브 주소 / veth 가상 이더넷 |
+| 전가상화 | KVM, VMware ESXi | **미수정 표준 OS (Windows/Linux)** | 하드웨어 EPT / 바이너리 변환 |
+| 반가상화 | Xen, Hyper-V | **커널 수정 필요 (하이퍼콜 지원)** | 하이퍼콜 직접 호출 / virtio |
+| 컨테이너 | Docker, containerd, Podman | **게스트 OS 없음 (호스트 커널 공유)** | 호스트 네이티브 주소 / veth 가상 이더넷 |
 
 #### 한줄 요약
 - 하이퍼바이저 기반 VM(전/반가상화)과 호스트 커널 공유 기반 컨테이너로 구조가 분기된다.
@@ -144,7 +144,7 @@ VM 가상화 채택   컨테이너 가상화 채택 (Docker / Kubernetes)
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 MSA는 **컨테이너(Docker/K8s)** 를 기본 채택하고, 멀티테넌트 보안 민감 서비스는 **마이크로VM(Kata Containers)**, 레거시/이종 OS는 **전가상화(KVM)** 를 결합한 하이브리드 가상화 체계 구축
+- 일반 MSA는 **컨테이너**, 보안 격리는 **마이크로VM** 선택
 
 #### 한줄 요약
 - 가상화 기술은 격리성과 성능의 트레이드오프 관계에 있으며, 서비스 특성에 따른 맞춤형 계층 배치가 필수적이다.

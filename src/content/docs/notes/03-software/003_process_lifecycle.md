@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 3
   label: "003. 프로세스 생성•종료•상태 전이"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "프로세스 생성•종료•상태 전이 (Process Lifecycle)"
-date: "2026-08-25T10:45:00+09:00"
+date: "2026-08-26T09:31:00+09:00"
 tags: [notes-software]
 weight: 3
 extra:
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **프로세스 제어 블록(PCB)** | PID, 프로세스 상태(Ready/Running/Blocked), CPU 레지스터 저장 |
-| **준비 큐(Ready Queue)** | 스케줄링 정책에 따라 CPU 할당을 대기 중인 PCB 연결 리스트 관리 |
+| 프로세스 제어 블록(PCB) | PID, 프로세스 상태(Ready/Running/Blocked), CPU 레지스터 저장 |
+| 준비 큐(Ready Queue) | 스케줄링 정책에 따라 CPU 할당을 대기 중인 PCB 연결 리스트 관리 |
 | 커널 스케줄러 | 준비 큐에서 최적 프로세스를 선택하여 CPU 제어권을 이양(Dispatch) |
-| **대기 큐(Wait Queue)** | 디스크/네트워크 I/O 완료 또는 시그널을 기다리는 PCB 격리 관리 |
+| 대기 큐(Wait Queue) | 디스크/네트워크 I/O 완료 또는 시그널을 기다리는 PCB 격리 관리 |
 | init / systemd (PID 1) | 부모 잃은 고아 프로세스를 입양하여 자원 누출 방지 |
 
 #### 한줄 요약
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 및 컨테이너 런타임 환경에서 **안정적인 프로세스 생명주기 관리(PID 1 reaping, 타임아웃, cgroups 프로세스 한도 통제)** 필수 적용
+- 좀비 방지는 **PID 1 수거**, 자원 폭증은 **cgroups 한도** 선택
 
 #### 한줄 요약
 - 프로세스 생명주기 통제는 시스템 자원 누수를 막고 고가용성 멀티태스킹을 보장하는 운영체제의 근간이다.
