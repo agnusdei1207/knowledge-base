@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "몬테카를로 트리 탐색 MCTS (Monte Carlo Tree Search)"
-date: "2026-08-25T09:52:00+09:00"
+date: "2026-08-26T09:25:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 18
@@ -181,7 +181,7 @@ $$
 
 </details>
 
-- 거대 분기 계수와 불확실성이 큰 의사결정 문제에는 **MCTS**, 정적 평가 함수가 명확한 좁은 분기 문제에는 **미니맥스(Minimax)**를 선택하며 롤아웃 편향 통제를 위해 **신경망 가치 평가**와 결합
+- 거대 분기는 **MCTS**, 정적 평가 명확 시 **미니맥스** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "그래프 탐색: BFS•DFS (Graph Traversal)"
-date: "2026-08-25T09:52:00+09:00"
+date: "2026-08-26T09:24:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 10
@@ -102,10 +102,7 @@ extra:
 </details>
 
 ```text
-시작 정점 (Start Vertex)
-   │
-   ▼
-1. 시작 정점 방문 표시 및 프런티어 삽입
+시작 정점 ──> 방문 표시 및 프런티어 삽입
    │
    ▼
 프런티어 유효성 검사
@@ -113,13 +110,13 @@ extra:
 └─ Not Empty
    │
    ▼
-2. 프런티어에서 다음 정점 추출 (Dequeue / Pop)
+1. 다음 정점 추출 (Dequeue / Pop)
    │
    ▼
-3. 인접 리스트 순회 및 미방문 이웃 정점 선별
+2. 미방문 이웃 선별 (인접 리스트 순회)
    │
    ▼
-4. 이웃 정점 방문 표시 및 프런티어 삽입 (Mark-on-Enqueue)
+3. 발견 표시 및 삽입 (Mark-on-Enqueue)
    │
    └─ 프런티어 유효성 검사로 반복
 ```
@@ -184,7 +181,7 @@ extra:
 
 </details>
 
-- 무가중치 최단 경로 및 최소 홉(Hop) 탐색은 **BFS**, 위상 정렬 및 순환(Cycle) 탐지는 **DFS** 선택
+- 최소 홉 최단 경로는 **BFS**, 위상 정렬과 순환 탐지는 **DFS** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "백트래킹 (Backtracking)"
-date: "2026-08-25T09:52:00+09:00"
+date: "2026-08-26T09:25:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 16
@@ -103,7 +103,7 @@ extra:
 1. 다음 후보 선택 (Candidate Selection)
    │
    ▼
-2. 후보값 적용 및 상태 기록
+2. 후보값 적용 (이전 상태 기록)
    │
    ▼
 3. 유망성 검사 (Promising Check)
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- 제약 충족 문제(CSP)는 **백트래킹**, 목적 함수 최적화와 경계 계산이 가능한 문제는 **분기 한정** 선택하여 상태 공간 탐색 비용을 최소화
+- 제약 충족은 **백트래킹**, 경계 계산 최적화는 **분기 한정** 선택
 
 #### 한줄 요약
 
