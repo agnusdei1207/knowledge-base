@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 176
   label: "176. 분산 시스템 일관성 모델"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "분산 시스템 일관성 모델 (Distributed System Consistency)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:14:00+09:00"
 tags:
   - "notes-software"
 weight: 176
@@ -22,13 +22,12 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Consistency Model(일관성 모델)**: 분산 복제본 환경에서 읽기/쓰기 연산의 순서와 시점이 클라이언트에게 어떻게 관찰될지를 정의한 계약.
-- **Linearizability & Eventual Consistency**: 물리적 절대 시간에 따른 즉시 최신성 보장(Linearizability)과 시차 후 수렴 보장(Eventual).
+- **Consistency Model(일관성 모델)**: 분산 복제본 환경에서 읽기/쓰기 연산의 순서와 시점이 클라이언트에게 어떻게 관찰되는지를 규정하는 정합성 계약.
 
 </details>
 
 - 정의/개념: 분산 복제본 환경에서 읽기와 쓰기 연산의 **관찰 순서와 최신성 보장 수준을 정의하는 분산 시스템 정합성 계약 규약**
-- 배경/필요성: 분산 복제 지연 및 네트워크 단절(CAP) 환경에서 **완벽한 최신성, 고가용성, 초저지연을 동시에 100% 만족 불가**
+- 배경/필요성: 분산 복제 환경에서 **복제 지연과 네트워크 단절로 인한 Stale Read 발생, 노드 간 데이터 불일치 해결 불가**
 
 #### 한줄 요약
 - 비즈니스 도메인 요구에 맞춰 선형성부터 최종 일관성까지 최적의 일관성 모델을 선택한다.
@@ -53,20 +52,19 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **정족수(Quorum) 기반 일관성 구조**: $N$(복제본 수), $W$(쓰기 정족수), $R$(읽기 정족수), Conflict Resolution(버전 충돌 해결).
+- **정족수(Quorum) 기반 일관성 구조**: $N$(복제본 수), $W$(쓰기 정족수), $R$(읽기 정족수), Conflict Resolution(충돌 해결 규칙).
 
 </details>
 
 ```text
-[분산 시스템 Quorum 기반 일관성 제어 구조]
-|-- 1. Client Read / Write Operations
-`-- 2. Quorum Coordination Layer (조정자 노드: Coordinator)
-    |-- N: Total Replicas (전체 복제본 수 = 3)
-    |-- W: Write Quorum (과반수 쓰기 승인 수 = 2)
-    |-- R: Read Quorum (과반수 읽기 조회 수 = 2)
-    `-- Quorum Equation: `W + R > N` (2 + 2 = 4 > 3 -> Strong Consistency 보장)
-`-- 3. Distributed Replicas (Node 1, Node 2, Node 3)
-    `-- Conflict Resolution Engine (Vector Clock, LWW: Last-Write-Wins 타임스탬프)
+[Quorum 기반 일관성 제어 시스템]
+├── 전체 물리적 구조
+│   └── 복제본 수 (N)
+├── 정족수 합의 계층
+│   ├── 쓰기 정족수 (W)
+│   └── 읽기 정족수 (R)
+└── 데이터 정합성 계층
+    └── 충돌 해결 규칙
 ```
 
 선의 의미: 계층 및 클라이언트의 요청을 조정자 노드가 정족수 공식에 따라 복제본 노드들에 전파하고 충돌을 해결하는 구조
@@ -90,17 +88,15 @@ extra:
 </details>
 
 ```text
-클라이언트의 데이터 갱신(X=5) 요청
+[쓰기 요청 수신] 클라이언트 쓰기 명령 접수
         │
-   1. [쓰기 요청 수신] 조정자(Coordinator)가 클라이언트로부터 쓰기 명령 접수
+   1. [전역 순서 결정] Raft/Paxos 합의로 트랜잭션 전역 논리 시계 부여
         │
-   2. [전역 순서 결정] Raft/Paxos 합의를 통해 트랜잭션 전역 논리 시계(Epoch/Term) 부여
+   2. [과반수 복제 커밋] 복제 노드 전송 및 과반수($W=2$) 승인으로 Commit 완료
         │
-   3. [과반수 복제 커밋] 복제 노드들에 패킷을 전송하고 과반수($W=2$) 승인을 받아 Commit 완료
+   3. [성공 반환] 클라이언트에게 쓰기 성공을 통지하여 Linearization Point 형성
         │
-   4. [성공 반환] 클라이언트에게 쓰기 성공(200 OK)을 즉시 통지 (Linearization Point)
-        │
-   5. 이후 어떤 클라이언트가 읽기($R=2$)를 수행해도 절대 과거 값으로 회귀하지 않고 최신 X=5 반환
+[최신값 반환] 이후 어떤 클라이언트가 읽기($R=2$)를 수행해도 최신값 반환
 ```
 
 #### 한줄 요약

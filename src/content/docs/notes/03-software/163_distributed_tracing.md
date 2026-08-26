@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 163
   label: "163. 분산 추적"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:10:00+09:00"
 tags:
   - "notes-software"
 weight: 163
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 분산 환경에서 단일 요청의 전체 이동 경로를 **Trace ID와 스팬(Span) 계층 트리로 시각화하여 지연 구간과 장애 병목을 추적하는 기술**
-- 배경/필요성: 수십 개 마이크로서비스 간 비동기 RPC 호출 환경에서 **단일 서버 로컬 로그 기반의 트랜잭션 흐름 추적 불가 및 병목 식별 불가 해결 불가**
+- 배경/필요성: 수십 개 마이크로서비스 간 비동기 RPC 호출 환경에서 **단일 서버 로컬 로그 기반의 트랜잭션 흐름 추적 불가**
 
 #### 한줄 요약
 - Trace ID와 부모-자식 Span 계층 구조를 통해 마이크로서비스 간 호출 흐름과 지연 병목을 시각화한다.
@@ -58,26 +58,26 @@ extra:
 </details>
 
 ```text
-[분산 추적 Trace 및 계층형 Span 트리 구조]
-|-- Trace ID: `4bf92f3577b34da6a3ce929d0e0e4736` (전체 트랜잭션 고유 UUID)
-|   |-- 1. [Root Span: API Gateway (200ms)] -> Parent ID: null
-|   |   |-- 2. [Child Span A: Order Service (180ms)] -> Parent ID: Gateway
-|   |   |   |-- 3. [Child Span A-1: Payment Service (120ms)] -> Parent ID: Order
-|   |   |   |   `-- [Child Span A-1-a: DB Query Call (100ms)]
-|   |   |   `-- 4. [Child Span A-2: Inventory Service (20ms)] -> Parent ID: Order
-|   |   |       `-- [Child Span A-2-a: Redis Get (5ms)]
-|   `-- Span Attributes: `http.method=POST`, `http.status_code=200`, `db.statement`
-```
-
+[분산 추적 아키텍처 구조]
+|-- 트레이스 식별자 (Trace ID)
+|   `-- 전체 분산 트랜잭션 고유 UUID
+|-- 스팬 (Span)
+|   `-- 루트 스팬 및 자식 스팬 (작업 단위)
+|-- 부모 스팬 식별자 (Parent ID)
+|   `-- 호출자-피호출자 선후 인과관계 정의
+|-- 스팬 속성 (Attributes)
+|   `-- 세부 문맥 메타데이터 (Key-Value)
+`-- 스팬 링크 (Span Links)
+    `-- 비동기 메시지 다대다 연관 관계 연결
 선의 의미: 계층 및 Root Span에서 W3C 헤더를 전달받아 Payment와 Inventory가 각각 자식 Span을 생성하여 트리를 완성하는 구조
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **트레이스 식별자 (Trace ID)**| 클라이언트 최초 요청부터 종료까지 **전체 분산 트랜잭션을 묶어주는 고유 UUID** | 전 구간 공유 |
-| **스팬 (Span)** | 마이크로서비스 내부의 **단일 작업 단위(HTTP 핸들러, DB 쿼리)의 시작/종료 시간 측정**| 시작/종료 ms 타임스탬프 |
-| **부모 스팬 식별자 (Parent ID)**| 호출자-피호출자 간의 **선후 인과관계를 정의하여 계층형 트리 그래프 조립** | DAG 트리 구성 |
-| **스팬 속성 (Attributes)** | `http.status_code`, `db.statement` 등 **디버깅에 필요한 세부 문맥 메타데이터 보관** | Key-Value 태그 |
-| **스팬 링크 (Span Links)** | Kafka 비동기 큐처럼 **직접적 부모-자식이 아닌 다대다 메시지 연관 관계 연결** | 비동기 연계 |
+| 트레이스 식별자 (Trace ID) | 클라이언트 최초 요청부터 종료까지 **전체 분산 트랜잭션을 묶어주는 고유 UUID** | 전 구간 공유 |
+| 스팬 (Span) | 마이크로서비스 내부의 **단일 작업 단위(HTTP 핸들러, DB 쿼리)의 시작/종료 시간 측정**| 시작/종료 ms 타임스탬프 |
+| 부모 스팬 식별자 (Parent ID) | 호출자-피호출자 간의 **선후 인과관계를 정의하여 계층형 트리 그래프 조립** | DAG 트리 구성 |
+| 스팬 속성 (Attributes) | `http.status_code`, `db.statement` 등 **디버깅에 필요한 세부 문맥 메타데이터 보관** | Key-Value 태그 |
+| 스팬 링크 (Span Links) | Kafka 비동기 큐처럼 **직접적 부모-자식이 아닌 다대다 메시지 연관 관계 연결** | 비동기 연계 |
 
 #### 한줄 요약
 - Trace ID, Span, Parent Span ID, Attributes, Span Links가 결합된다.
@@ -95,13 +95,13 @@ extra:
         │
    1. [Root Span 생성] API Gateway가 최초 진입점에서 Trace ID와 Root Span ID 생성
         │
-   2. [헤더 주입 (Inject)] Order Service 호출 HTTP 헤더에 `traceparent` 규격 주입
+   2. [헤더 주입] Order Service 호출 HTTP 헤더에 traceparent 규격 주입
         │
-   3. [헤더 추출 (Extract)] Order Service가 수신한 패킷의 헤더에서 Trace ID와 부모 ID 파싱
+   3. [헤더 추출] Order Service가 수신한 패킷의 헤더에서 Trace ID와 부모 ID 파싱
         │
-   4. [Child Span 생성] Order 내부 비즈니스 로직을 위한 Child Span을 생성하고 부모 ID 연결
+   4. [Child Span 생성] Order 내부 비즈니스 로직을 위한 Child Span 생성 및 부모 ID 연결
         │
-   5. 작업 종료 후 Span 실행 시간(180ms)을 기록하고 OTel Collector를 거쳐 Tempo로 비동기 전송
+   5. [백엔드 전송] 작업 종료 후 Span 실행 시간을 OTel Collector 거쳐 백엔드로 비동기 전송
 ```
 
 #### 한줄 요약
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 마이크로서비스 아키텍처의 분산 지연과 에러 병목을 신속히 규명하기 위해 **W3C Trace Context 기반의 OpenTelemetry 분산 추적을 전사 표준으로 구축**하고, **Grafana Tempo와 Tail-based Sampling**을 결합하여 고효율·저비용의 엔드투엔드 분산 가시성 완성
+- 마이크로서비스 호출 경로 추적은 **분산 추적**, 스토리지 비용 절감은 **테일 샘플링** 기반 적용
 
 #### 한줄 요약
 - 분산 추적은 W3C Trace Context와 계층형 Span 트리를 통해 마이크로서비스 간 호출 흐름과 지연 병목을 투명하게 시각화하는 핵심 관측성 기술이다.

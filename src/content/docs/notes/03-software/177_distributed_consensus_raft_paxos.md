@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 177
   label: "177. 분산 합의: Raft•Paxos"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "분산 합의: Raft•Paxos (Distributed Consensus Raft Paxos)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:14:00+09:00"
 tags:
   - "notes-software"
 weight: 177
@@ -58,14 +58,18 @@ extra:
 </details>
 
 ```text
-[Raft 분산 합의 클러스터 3대 상태 및 로그 구조]
-|-- 1. Leader Node (단일 리더: 쓰기 명령 수신 및 Heartbeat 전파)
-|   |-- Client Write Request 수신 -> Replicated Log에 Append
-|   `-- AppendEntries RPC 브로드캐스트 (과반수 승인 시 Commit Index 전진)
-|-- 2. Follower Nodes (팔로워 노드: 리더 명령 수신 및 디스크 기록)
-|   `-- Heartbeat 타임아웃 발생 시 -> 3. Candidate(후보자) 상태로 승격
-|-- 3. Candidate State (새 Term 번호 증가 및 RequestVote 과반수 투표 요청)
-`-- 4. Replicated State Machine (합의된 로그 순서대로 비즈니스 상태 갱신)
+[Raft 분산 합의 클러스터 구조]
+├── Leader Node
+│   ├── Client Write Request 수신
+│   ├── Replicated Log Append
+│   └── AppendEntries RPC 브로드캐스트
+├── Follower Nodes
+│   ├── Heartbeat 수신 및 로그 디스크 기록
+│   └── 타임아웃 시 Candidate 승격
+├── Candidate State
+│   └── Term 증가 및 RequestVote 과반수 투표
+└── Replicated State Machine
+    └── 합의된 로그 순서대로 상태 갱신
 ```
 
 선의 의미: 계층 및 리더가 클라이언트 요청을 받아 Replicated Log에 기록하고 과반수 팔로워에 복제하여 상태 머신을 동기화하는 구조
@@ -99,7 +103,7 @@ extra:
         │
    4. [Commit 확정] Leader가 `commitIndex`를 전진시키고 상태 머신(State Machine)에 실제 반영
         │
-   5. 클라이언트에게 성공 회신을 보내고, 후속 Heartbeat를 통해 팔로워들에게 최종 Commit 전파
+   클라이언트에게 성공 회신을 보내고, 후속 Heartbeat를 통해 팔로워들에게 최종 Commit 전파
 ```
 
 #### 한줄 요약

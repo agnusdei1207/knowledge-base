@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 180
   label: "180. 캐싱 전략: Cache-Aside•Write-Through"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "캐싱 전략: Cache-Aside•Write-Through (Caching Strategy)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:14:00+09:00"
 tags:
   - "notes-software"
 weight: 180
@@ -58,15 +58,15 @@ extra:
 </details>
 
 ```text
-[캐싱 전략 아키텍처 및 데이터 흐름 구조]
-|-- 1. Client Read / Write Requests
-`-- 2. Application Layer (캐싱 제어 로직)
-    |-- Cache-Aside Pattern: [Cache Get] -> [Hit 시 반환] / [Miss 시 DB 조회 후 Cache Put]
-    `-- Write-Through Pattern: [App] -> [Cache & DB 동시 동기 갱신]
-`-- 3. In-Memory Cache Layer (Redis Cluster / Memcached)
-    |-- Key-Value Store (TTL 기반 자동 만료, LRU 메모리 축출 정책)
-    `-- Mutex Lock (Cache Stampede 방어용 분산 락)
-`-- 4. Origin Database Layer (Source of Truth: RDBMS / NoSQL)
+[캐싱 전략 아키텍처 구조]
+├── Client Read / Write Requests
+├── Application Layer (캐싱 제어 로직)
+│   ├── Cache-Aside Pattern: Cache Get / Hit 반환 / Miss 시 DB 조회 후 Cache Put
+│   └── Write-Through Pattern: Cache & DB 동시 동기 갱신
+├── In-Memory Cache Layer (Redis Cluster / Memcached)
+│   ├── Key-Value Store (TTL 기반 자동 만료, LRU 메모리 축출 정책)
+│   └── Mutex Lock (Cache Stampede 방어용 분산 락)
+└── Origin Database Layer (Source of Truth: RDBMS / NoSQL)
 ```
 
 선의 의미: 계층 및 애플리케이션이 캐시와 원본 DB 간의 조회와 갱신 경로를 전략에 따라 제어하는 구조
@@ -104,9 +104,9 @@ extra:
    │                                 │
    └────┬────────────────────────────┘
         ▼
-   4. 클라이언트에 최종 데이터 반환
+   클라이언트에 최종 데이터 반환
         │
-   5. [데이터 수정 발생 시] DB에 신규 데이터를 쓰고, Redis의 기존 캐시 키를 즉시 삭제(Invalidation)
+   4. [데이터 수정 발생 시] DB에 신규 데이터를 쓰고, Redis의 기존 캐시 키를 즉시 삭제(Invalidation)
 ```
 
 #### 한줄 요약

@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 178
   label: "178. 웹 소켓•Server-Sent Events"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "웹 소켓•Server-Sent Events (WebSocket SSE)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:14:00+09:00"
 tags:
   - "notes-software"
 weight: 178
@@ -59,14 +59,14 @@ extra:
 
 ```text
 [WebSocket 및 SSE 실시간 스트리밍 아키텍처]
-|-- 1. Client Layer (Browser / Mobile App)
-|   |-- WebSocket: `ws.send()` <-> `ws.onmessage()` (양방향 프레임 통신)
-|   `-- SSE: `new EventSource('/stream')` (단방향 이벤트 수신)
-`-- 2. Real-time Gateway & Protocol Handler Layer
-    |-- WebSocket Handler (HTTP Upgrade 101 전환 및 양방향 TCP 소켓 관리)
-    `-- SSE Handler (MIME: `text/event-stream` 청크 응답 유지)
-`-- 3. Message Broker & Fan-out Layer (Redis Pub/Sub / Apache Kafka)
-`-- 4. Replay Store Layer (Event ID별 누락 메시지 임시 버퍼링)
+├── Client Layer (Browser / Mobile App)
+│   ├── WebSocket: ws.send() / ws.onmessage() (양방향 프레임 통신)
+│   └── SSE: new EventSource('/stream') (단방향 이벤트 수신)
+├── Real-time Gateway & Protocol Handler Layer
+│   ├── WebSocket Handler (HTTP Upgrade 101 전환 및 양방향 TCP 소켓 관리)
+│   └── SSE Handler (MIME: text/event-stream 청크 응답 유지)
+├── Message Broker & Fan-out Layer (Redis Pub/Sub / Apache Kafka)
+└── Replay Store Layer (Event ID별 누락 메시지 임시 버퍼링)
 ```
 
 선의 의미: 계층 및 클라이언트의 연결을 게이트웨이가 수립하고 백엔드 Redis Pub/Sub을 통해 다중 인스턴스 간 실시간 이벤트를 전파하는 구조
@@ -100,7 +100,7 @@ extra:
         │
    4. [자동 재접속] 브라우저 EventSource가 헤더에 `Last-Event-ID: 101`을 담아 자동 재연결
         │
-   5. 서버가 재생 저장소에서 `id: 102~105` 누락분을 즉시 회신하고 라이브 스트림으로 복귀
+   서버가 재생 저장소에서 `id: 102~105` 누락분을 즉시 회신하고 라이브 스트림으로 복귀
 ```
 
 #### 한줄 요약

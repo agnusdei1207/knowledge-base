@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 179
   label: "179. 분산 트랜잭션: Saga vs 2PC"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "분산 트랜잭션: Saga vs 2PC (Saga vs 2PC)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:14:00+09:00"
 tags:
   - "notes-software"
 weight: 179
@@ -59,16 +59,15 @@ extra:
 
 ```text
 [2PC 전역 커밋 구조 vs Saga 보상 트랜잭션 구조 비교]
-|-- 1. Two-Phase Commit (2PC: 동기식 물리 잠금 구조)
-|   `-- XA Coordinator (중앙 조정자: Phase 1 Prepare 투표 -> Phase 2 Commit 브로드캐스트)
-|       |-- DB A (Order DB: Prepare 상태에서 물리 락 유지)
-|       `-- DB B (Payment DB: Prepare 상태에서 물리 락 유지)
-`-- 2. Saga Pattern (오케스트레이션 방식: 비동기 비차단 구조)
-    `-- Saga Orchestrator (상태 머신: 단계별 로컬 트랜잭션 지시 및 실패 시 역순 보상 실행)
-        |-- 1. Order Service -> Local Commit (상태: PENDING)
-        |-- 2. Payment Service -> Local Commit (결제 완료)
-        `-- 3. Inventory Service -> 재고 부족 실패 발생 시 -> [역순 보상 트랜잭션 실행]
-            `-- 3-Comp. Payment Service -> [결제 취소 API 호출]
+├── Two-Phase Commit (2PC: 동기식 물리 잠금 구조)
+│   └── XA Coordinator (중앙 조정자: Phase 1 Prepare / Phase 2 Commit)
+│       ├── DB A (Order DB: Prepare 상태에서 물리 락 유지)
+│       └── DB B (Payment DB: Prepare 상태에서 물리 락 유지)
+└── Saga Pattern (오케스트레이션 방식: 비동기 비차단 구조)
+    └── Saga Orchestrator (상태 머신: 단계별 로컬 트랜잭션 및 보상 실행)
+        ├── Order Service (Local Commit, 상태: PENDING)
+        ├── Payment Service (Local Commit / 보상: 결제 취소 API)
+        └── Inventory Service (실패 감지 시 역순 보상 트리거)
 ```
 
 선의 의미: 계층 및 2PC의 중앙 잠금 동기 구조와 Saga의 오케스트레이터 기반 단계별 비차단 실행 및 역순 보상 구조
@@ -102,7 +101,7 @@ extra:
         │
    4. [역순 보상 트랜잭션 실행] Orchestrator가 Payment Service에 `결제 취소` 보상 API 호출
         │
-   5. Order Service의 주문 상태를 `CANCELLED`로 변경하고 사용자에게 실패 통지 완료
+   Order Service의 주문 상태를 `CANCELLED`로 변경하고 사용자에게 실패 통지 완료
 ```
 
 #### 한줄 요약

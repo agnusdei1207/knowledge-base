@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 174
   label: "174. OAuth 2.0•OIDC"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:11:00+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -76,8 +76,8 @@ extra:
 |:---|:---|:---|
 | **자원 소유자 (Resource Owner)**| 자신의 데이터에 대한 **제3자 애플리케이션의 접근을 승인/동의하는 실제 사용자** | 권한 승인 주체 |
 | **클라이언트 (Client App)** | 사용자를 대신하여 **인가 서버에 로그인을 요청하고 발급받은 토큰으로 API 호출** | Public / Confidential |
-| **인가 서버 (Auth Server/IdP)**| 사용자를 직접 인증하고 **인가 코드, Access Token, ID Token(JWT)을 발급/서명**| IdP (Keycloak, Auth0) |
-| **자원 서버 (Resource Server)**| API 요청에 포함된 **Access Token의 유효성과 Scope를 검증하고 보호된 자원 반환**| API 백엔드 |
+| **인가 서버 (Auth Server/IdP)**| 사용자 인증 후 **인가 코드, Access Token, ID Token(JWT) 발급·서명**| IdP (Keycloak, Auth0) |
+| **자원 서버 (Resource Server)**| **Access Token의 유효성·Scope를 검증하고 보호 자원 반환**| API 백엔드 |
 
 #### 한줄 요약
 - 자원 소유자, 클라이언트, 인가 서버, 자원 서버가 결합된다.
@@ -101,7 +101,7 @@ extra:
         │
    4. [토큰 교환] Client가 `/token`으로 Code와 원본 `code_verifier`를 전송하여 PKCE 일치 검증
         │
-   5. Client는 ID Token으로 로그인 처리하고, Access Token을 API 요청 헤더에 담아 자원 수신
+   Client는 ID Token으로 로그인 처리하고, Access Token을 API 요청 헤더에 담아 자원 수신
 ```
 
 #### 한줄 요약
@@ -136,7 +136,7 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 모바일/SPA 브라우저에서 인가 코드(Code) 가로채기 공격 발생 | **모든 Public Client에 PKCE (S256 챌린지) 의무 적용** | 인가 코드 탈취 및 도용 원천 차단 |
-| ID Token과 Access Token 혼용으로 인한 API 권한 검증 누락 | **API 서버는 Access Token만 검증하고 ID Token은 클라이언트 로그인에만 한정** | 권한 상승 및 토큰 오용 방지 |
+| ID Token과 Access Token 혼용으로 인한 API 권한 검증 누락 | **API는 Access Token만 검증, ID Token은 클라이언트 로그인 전용** | 권한 상승 및 토큰 오용 방지 |
 | CSRF 공격 및 토큰 재사용(Replay Attack) 침해 | **`state` 난수 파라미터 및 `nonce` 클레임 일치 여부 필수 검증** | 세션 하이재킹 및 위조 방지 |
 | 토큰 탈취 시 유효기간 만료 전까지 강제 만료 불가 | **Access Token 유효기간 단축(15분) 및 Redis 기반 토큰 블랙리스트 구축** | 침해 피해 최소화 |
 

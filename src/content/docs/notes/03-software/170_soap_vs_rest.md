@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SOAP vs REST 비교 (SOAP vs REST)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:10:00+09:00"
 tags:
   - "notes-software"
 weight: 170
@@ -28,10 +28,10 @@ extra:
 </details>
 
 - 정의/개념: 엄격한 XML 계약과 WS-보안을 강제하는 **SOAP 프로토콜과 HTTP 표준 메서드 및 URI로 자원을 다루는 REST 아키텍처 스타일의 웹 서비스 비교 패러다임**
-- 배경/필요성: 엔터프라이즈의 엄격한 트랜잭션 보장 요구와 웹·모바일 환경의 **경량 데이터 교환, 빠른 파싱 속도 및 캐싱 성능 요구 간의 상충 해결 불가**
+- 배경/필요성: 엔터프라이즈의 엄격한 트랜잭션 보장 요구와 웹·모바일 환경의 **경량 데이터 교환, 캐싱 및 무상태성(Statelessness) 요구 간의 상충 해결 필요**
 
 #### 한줄 요약
-- 엄격한 계약과 분산 트랜잭션은 SOAP, 경량 데이터 교환과 웹 캐싱을 통한 개발 민첩성은 REST를 선택한다.
+- 엄격한 계약과 분산 트랜잭션은 SOAP, 캐싱과 균일한 인터페이스(Uniform Interface)는 REST를 선택한다.
 
 ## Ⅱ. 특징
 
@@ -58,20 +58,15 @@ extra:
 </details>
 
 ```text
-[SOAP XML 봉투 구조 vs REST HTTP 자원 구조 비교]
-|-- 1. SOAP XML Message Structure (엄격한 Envelope 규격)
-|   |-- <soapenv:Envelope>
-|   |   |-- <soapenv:Header> (WS-Security 전자서명, 트랜잭션 컨텍스트 ID)
-|   |   |-- <soapenv:Body> (<getUser><id>100</id></getUser> RPC 메서드 호출)
-|   |   `-- <soapenv:Fault> (표준 오류 코드 및 스택 트레이스)
-|   `-- WSDL Contract (컴파일 타임 정적 스키마 강제)
-`-- 2. RESTful HTTP Message Structure (경량 자원 표현 규격)
-    |-- HTTP Request: `GET /api/v1/users/100 HTTP/1.1`
-    |-- Headers: `Accept: application/json`, `Authorization: Bearer <token>`
-    |-- HTTP Response: `200 OK` -> `{ "id": 100, "name": "Kim" }`
-    `-- HTTP Error: `404 Not Found` -> 표준 HTTP 상태 코드 매핑
-```
-
+[SOAP XML 봉투 구조 및 REST 자원 구조]
+|-- SOAP 프로토콜
+|   `-- XML 봉투(Envelope)에 RPC 메서드 호출 및 보안 캡슐화
+|-- REST 아키텍처
+|   `-- 명사형 URI 및 HTTP Method (GET/POST/PUT/DELETE) 기반 상태 전이
+|-- WSDL 명세서
+|   `-- 컴파일 타임 파라미터 및 반환 데이터 타입 엄격 검증 계약
+`-- JSON 표현 계층
+    `-- 초경량 텍스트 포맷으로 모바일/웹 통신 대역폭 최적화
 선의 의미: 계층 및 Envelope 규격에 행위를 담아 호출하는 SOAP과 URI 자원에 HTTP 메서드로 접근하는 REST의 메시지 구조 차이
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
@@ -97,20 +92,20 @@ extra:
         │
    1. [요청 수신] API 게이트웨이가 클라이언트의 엔드포인트 요청 패킷 수신
         │
-   2. [스키마 검증 분기] 인터페이스 유형에 따른 스키마 및 보안 검증
+   2. [스키마 검증] 인터페이스 유형에 따른 스키마 및 보안 검증
    ┌────┴───────────────────────────┐
   SOAP 경로                         REST 경로
    │                                 │
-   • WSDL XML 스키마 검증            • URI 자원 및 HTTP Method 해석
-   • WS-Security 전자서명 확인       • JSON Schema 및 Bearer 토큰 검증
+  WSDL XML 스키마 검증            URI 자원 및 HTTP Method 해석
+  WS-Security 전자서명 확인       JSON Schema 및 Bearer 토큰 검증
    │                                 │
    └────┬────────────────────────────┘
         ▼
    3. [비즈니스 로직 실행] 검증 통과된 파라미터를 백엔드 서비스로 전달하여 연산 수행
         │
-   4. [결과 직렬화] 연산 결과를 SOAP은 XML Envelope로, REST는 경량 JSON 페이로드로 직렬화
+   4. [결과 직렬화] SOAP은 XML Envelope, REST는 경량 JSON 페이로드로 직렬화
         │
-   5. SOAP은 XML Fault를, REST는 표준 HTTP 상태 코드(200, 201, 404)를 매핑하여 클라이언트에 회신
+   5. [응답 회신] SOAP은 XML Fault, REST는 표준 HTTP 상태 코드 매핑하여 회신
 ```
 
 #### 한줄 요약
@@ -156,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 시스템 통합 시 **높은 신뢰성과 2PC 분산 트랜잭션이 요구되는 금융 코어 및 B2B 대외 연계는 SOAP/WS-* 프로토콜을 적용하고, 대규모 트래픽과 모바일 민첩성이 요구되는 대고객 서비스는 RESTful API 표준을 채택하는 도메인 맞춤형 연계 전략**을 수립하여 시스템 완성
+- 고신뢰 B2B 트랜잭션 보장은 **SOAP**, 대고객 서비스는 **RESTful API** 기반 선택
 
 #### 한줄 요약
 - SOAP과 REST는 상호 배타적 경쟁 기술이 아니라, 엄격한 엔터프라이즈 보안·트랜잭션(SOAP)과 경량 웹·모바일 민첩성(REST)이라는 각자의 영역에서 최적의 성능을 발휘하는 핵심 연계 패러다임이다.

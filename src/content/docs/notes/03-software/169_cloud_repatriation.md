@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "클라우드 회귀 (Cloud Repatriation)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T10:10:00+09:00"
 tags:
   - "notes-software"
 weight: 169
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 퍼블릭 클라우드에 배포했던 워크로드와 데이터를 **비용(TCO) 절감, 데이터 주권 및 종속성 탈피를 위해 온프레미스나 프라이빗 인프라로 재배치하는 전략**
-- 배경/필요성: 대규모 상시 워크로드의 퍼블릭 클라우드 장기 운영 시 발생하는 **천문학적인 클라우드 사용료 비용 폭증, 대규모 데이터 반출 비용 및 벤더 종속 해결 불가**
+- 배경/필요성: 대규모 상시 워크로드의 퍼블릭 클라우드 장기 운영 시 발생하는 **클라우드 사용료 폭증 및 대규모 데이터 반출 비용(Data Gravity) 해결 필요**
 
 #### 한줄 요약
 - 지속적 대규모 부하의 TCO를 절감하고 데이터 통제권을 회복하기 위해 인프라를 자체 환경으로 회귀한다.
@@ -58,16 +58,16 @@ extra:
 </details>
 
 ```text
-[클라우드 회귀(Cloud Repatriation) 역방향 이관 아키텍처]
-|-- 1. Dependency Decoupling Layer (클라우드 전용 DynamoDB/Lambda -> K8s/Postgres 전환)
-|-- 2. Target On-Premise Infrastructure Layer
-|   `-- Private Bare-metal Nodes + K8s PaaS + Ceph SDS 스토리지 구축
-`-- 3. Continuous Data Synchronization Layer
-    |-- Initial Baseline Data Loading (AWS Snowball / Direct Connect 대용량 전송)
-    `-- Real-time CDC Synchronization (Debezium / Kafka 기반 실시간 변경분 추적)
-`-- 4. Traffic Migration & Cutover Layer (DNS Route53 가중치 라우팅 -> IDC 컷오버)
-```
-
+[클라우드 회귀(Cloud Repatriation) 아키텍처 구조]
+|-- 종속성 제거 (Decoupling)
+|   `-- 클라우드 전용 PaaS를 오픈소스 컨테이너(K8s) 표준으로 전환
+|-- 목표 인프라 (Target Infra)
+|   `-- 프라이빗 베어메탈 노드 및 K8s SDS 스토리지 구축
+|-- 데이터 동기화 (Data Sync)
+|   |-- AWS Snowball 기반 대용량 스냅샷 초기 데이터 적재
+|   `-- Debezium CDC 기반 실시간 변경 트랜잭션 동기화
+`-- 트래픽 전환 (Cutover)
+    `-- DNS 가중치 라우팅 기반 카나리 테스트 및 최종 컷오버
 선의 의미: 계층 및 클라우드 종속성을 제거하고 온프레미스 인프라 구축 후 CDC 실시간 동기화를 거쳐 트래픽을 안전하게 전환하는 구조
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
@@ -91,15 +91,15 @@ extra:
 ```text
 클라우드 회귀(Repatriation) 프로젝트 승인
         │
-   1. [TCO 및 타당성 검증] 전력, 상면비, 인건비를 포함한 5개년 TCO 산정 및 온프레미스 환경 검증
+   1. [TCO 및 타당성 검증] 전력, 상면비, 인건비를 포함한 5개년 TCO 산정
         │
-   2. [초기 데이터 적재] 클라우드 DB 스냅샷을 Snowball/전용선으로 온프레미스 스토리지에 복원
+   2. [초기 데이터 적재] 클라우드 DB 스냅샷을 Snowball/전용선으로 온프레미스 복원
         │
-   3. [변경분 CDC 동기화] Debezium을 통해 클라우드 운영 DB의 실시간 트랜잭션을 온프레미스로 복제
+   3. [변경분 CDC 동기화] Debezium을 통해 실시간 트랜잭션을 온프레미스로 복제
         │
-   4. [카나리 트래픽 전환] DNS 가중치 라우팅으로 5%의 사용자 트래픽을 사내 서버로 분기하여 검증
+   4. [카나리 트래픽 전환] DNS 가중치 라우팅으로 5% 사용자 트래픽 분기 검증
         │
-   5. 최종 트래픽 컷오버를 완료하고 롤백 유예 기간 경과 후 잔여 클라우드 자산 영구 삭제
+   5. [최종 컷오버] 트래픽 컷오버 완료 및 롤백 유예 기간 후 클라우드 자산 삭제
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 성공적인 클라우드 회귀를 추진하기 위해 **안정 부하(Steady-State) 워크로드를 대상으로 전력·인건비를 포함한 5개년 TCO 타당성을 철저히 검증하고, 오픈소스 쿠버네티스 표준화와 CDC 무중단 동기화 체계를 적용**하여 비용 최적화와 데이터 주권을 완벽히 양립시키는 하이브리드 인프라 전략 완성
+- 대규모 안정 부하 TCO 절감은 **클라우드 회귀**, 무중단 동기화는 **CDC** 기술 기반 활용
 
 #### 한줄 요약
 - 클라우드 회귀는 대규모 안정 부하 워크로드의 TCO 절감과 데이터 주권 회복을 위해 인프라를 자체 환경으로 안전하게 재배치하는 현대 인프라 최적화 전략이다.
