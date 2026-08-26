@@ -1,4 +1,4 @@
----
+﻿---
 sidebar:
   order: 138
   label: "138. 만리장성 보안 모델 (Brewer-Nash Model)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "동적 이해충돌 방지 및 정보 격리 모델 : Brewer-Nash 모델 (Chinese Wall Model)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T09:19:00+09:00"
 tags:
   - "notes-security"
 weight: 138
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 상호 경쟁 관계에 있는 기업 데이터의 교차 유출을 방지하기 위해 **객체 3계층 구조화(객체 $\rightarrow$ CD $\rightarrow$ COI) $\rightarrow$ 과거 접근 이력(Access History) 추적 $\rightarrow$ 단순 보안 읽기 규칙(Simple Security Rule) 적용 $\rightarrow$ 별표(*) 쓰기 규칙(Star-Property Rule)을 통한 간접 유출 차단 $\rightarrow$ 정제 데이터(Sanitized Data) 예외 처리** 를 집행하는 **동적 정보 흐름 격리 보안 모델**
+- 정의/개념: 상호 경쟁 관계에 있는 기업 데이터의 교차 유출을 방지하기 위해 **객체 3계층 구조화(객체 $\rightarrow$ CD $\rightarrow$ COI) $\rightarrow$ 과거 접근 이력(Access History) 추적 $\rightarrow$ 단순 보안 읽기 규칙(Simple Security Rule) 적용 $\rightarrow$ 별표(*) 쓰기 규칙(Star-Property Rule)을 통한 간접 유출 차단 $\rightarrow$ 정제 데이터(Sanitized Data) 예외 처리**를 집행하는 **동적 정보 흐름 격리 보안 모델**
 - 배경/필요성: 다국적 투자은행, 회계법인, 법무법인 등 복수의 경쟁 고객사를 동시에 수임하는 전문 서비스 조직에서 금융 규제(자본시장법, Sarbanes-Oxley) 준수 및 기업 비밀 보호 요구
 
 #### 한줄 요약
@@ -175,7 +175,7 @@ extra:
 | **핵심 목표** | **상업적 이해충돌(Conflict) 방지** | **군사적 기밀 유출 방지** | **데이터 비인가 변조 및 오염 방지**|
 | **통제 방식** | **동적 통제 (접근 이력 기반 실시간 변화)**| **정적 통제 (보안 등급 및 인가 레벨)** | 정적 통제 (무결성 등급 기준) |
 | **읽기 규칙** | **동일 CD 또는 미접근 COI만 허용** | **단순 보안: No Read Up (하위 등급 금지)**| 단순 무결성: No Read Down |
-| **쓰기 규칙** | **별표(*): 읽은 CD 외 타 CD 쓰기 금지**| **별표(*): No Write Down (하위 쓰기 금지)**| 별표(*): No Write Up (상위 쓰기 금지)|
+| **쓰기 규칙** | **별표(*): 읽은 CD 외 타 CD 쓰기 금지** | **별표(*): No Write Down (하위 쓰기 금지)** | 별표(*): No Write Up (상위 쓰기 금지) |
 | **적용 환경** | **금융, 투자은행, 법무/회계 컨설팅** | **국방, 군사 정보, 국가 정보기관** | **금융 원장, 시스템 무결성, DB 관리**|
 
 #### 한줄 요약
