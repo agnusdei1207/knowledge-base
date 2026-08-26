@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 138
   label: "138. ETL•ELT 파이프라인"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:56:00+09:00"
 tags:
   - "notes-software"
 weight: 138
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **추출기 (Extractor)** | 원천 시스템으로부터 CDC 또는 배치 쿼리를 통해 **데이터를 안전하게 증분 추출** | Fivetran, Airbyte |
-| **변환기 (Transformer)** | 정제, 결측치 보정, 공통 코드 매핑, **비즈니스 파생 컬럼 연산 수행** | Spark(ETL), dbt(ELT) |
-| **적재기 (Loader)** | 가공된 데이터 또는 원시 데이터를 **타깃 레이크/DW에 멱등(Idempotent) 적재** | Parquet / Iceberg |
-| **오케스트레이터** | 작업 간의 의존성(DAG) 관리, 스케줄링, **장애 시 자동 재시도 통제** | Airflow, Prefect |
-| **품질/계보 검증기** | 데이터 계약(Contract) 준수 여부를 검증하고 **상하류 계보 메타데이터 기록** | Great Expectations |
+| 추출기 (Extractor) | 원천 시스템으로부터 CDC 또는 배치 쿼리를 통해 **데이터를 안전하게 증분 추출** | Fivetran, Airbyte |
+| 변환기 (Transformer) | 정제, 결측치 보정, 공통 코드 매핑, **비즈니스 파생 컬럼 연산 수행** | Spark(ETL), dbt(ELT) |
+| 적재기 (Loader) | 가공된 데이터 또는 원시 데이터를 **타깃 레이크/DW에 멱등(Idempotent) 적재** | Parquet / Iceberg |
+| 오케스트레이터 | 작업 간의 의존성(DAG) 관리, 스케줄링, **장애 시 자동 재시도 통제** | Airflow, Prefect |
+| 품질/계보 검증기 | 데이터 계약(Contract) 준수 여부를 검증하고 **상하류 계보 메타데이터 기록** | Great Expectations |
 
 #### 한줄 요약
 - 추출기, 변환기, 적재기, 오케스트레이터, 품질 검증기가 결합된다.
@@ -90,15 +90,15 @@ extra:
 ```text
 원천 시스템 데이터 변경 발생
         │
-   1. [증분 추출] Airbyte 커넥터가 원천 DB 변경분을 JSON/Parquet으로 추출
+   [증분 추출] Airbyte 커넥터가 원천 DB 변경분을 JSON/Parquet으로 추출
         │
-   2. [Raw 우선 적재] 변환 없이 타깃 클라우드 S3 / Snowflake Bronze 영역에 즉시 Load
+   [Raw 우선 적재] 변환 없이 타깃 클라우드 S3 / Snowflake Bronze 영역에 즉시 Load
         │
-   3. [dbt SQL 변환] 타깃 DW의 분산 컴퓨팅 파워를 활용하여 SQL 기반 모델 변환 실행
+   [dbt SQL 변환] 타깃 DW의 분산 컴퓨팅 파워를 활용하여 SQL 기반 모델 변환 실행
         │
-   4. [품질 및 멱등 검증] dbt test를 통해 고유성, Not Null, 외래키 무결성 자동 검사
+   [품질 및 멱등 검증] dbt test를 통해 고유성, Not Null, 외래키 무결성 자동 검사
         │
-   5. 검증 완료된 결과를 Silver/Gold 테이블로 승격하고 BI 대시보드에 즉시 서빙
+   검증 완료된 결과를 Silver/Gold 테이블로 승격하고 BI 대시보드에 즉시 서빙
 ```
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 데이터 플랫폼 구축 시 **보안 민감 데이터는 ETL 기반으로 사전 마스킹하고, 대규모 분석 및 AI 데이터는 ELT(Fivetran + Snowflake + dbt) 기반으로 구축하는 하이브리드 파이프라인 전략**을 수립하여 처리 속도와 보안성을 동시에 완성
+- 보안 마스킹은 **ETL**, 대규모 유연성은 **ELT** 선택
 
 #### 한줄 요약
 - ETL과 ELT는 변환의 위치와 순서를 최적화하여 데이터 파이프라인의 보안성과 확장성을 결정짓는 핵심 엔지니어링 아키텍처다.

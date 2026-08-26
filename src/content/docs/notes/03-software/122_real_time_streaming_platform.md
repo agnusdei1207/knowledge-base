@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 122
   label: "122. 실시간 스트리밍 플랫폼"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:54:00+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -69,10 +69,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **수집 계층 (Ingestion)** | RDB 트랜잭션 로그 및 앱 로그를 **실시간 이벤트 포맷으로 추출/발행** | Debezium, Kafka Connect |
-| **이벤트 브로커 (Broker)** | 대량 이벤트를 디스크에 순차 보존하고 **생산자와 소비자의 속도 차이 버퍼링** | Kafka, Pulsar |
-| **스트림 처리기 (Engine)** | 이벤트 시간 기준 윈도우 집계 및 **키별 상태(Keyed State) 실시간 계산** | Flink, Spark Streaming |
-| **서빙 저장소 (Serving)** | 가공된 집계 결과를 색인하여 **최종 사용자/API에 10ms 이내 초고속 서빙** | Redis, Elasticsearch |
+| 수집 계층 (Ingestion) | RDB 트랜잭션 로그 및 앱 로그를 **실시간 이벤트 포맷으로 추출/발행** | Debezium, Kafka Connect |
+| 이벤트 브로커 (Broker) | 대량 이벤트를 디스크에 순차 보존하고 **생산자와 소비자의 속도 차이 버퍼링** | Kafka, Pulsar |
+| 스트림 처리기 (Engine) | 이벤트 시간 기준 윈도우 집계 및 **키별 상태(Keyed State) 실시간 계산** | Flink, Spark Streaming |
+| 서빙 저장소 (Serving) | 가공된 집계 결과를 색인하여 **최종 사용자/API에 10ms 이내 초고속 서빙** | Redis, Elasticsearch |
 
 #### 한줄 요약
 - 수집 계층, 분산 브로커, 스트림 엔진, 서빙 저장소가 유기적으로 결합된다.
@@ -88,15 +88,15 @@ extra:
 ```text
 서비스 DB 트랜잭션 및 사용자 액션 발생
         │
-   1. [CDC 수집] Debezium이 DB Binlog를 실시간 감지하여 JSON 이벤트로 변환
+   [CDC 수집] Debezium이 DB Binlog를 실시간 감지하여 JSON 이벤트로 변환
         │
-   2. [브로커 버퍼링] Apache Kafka의 특정 파티션에 Append-Only 순차 기록 및 ISR 복제
+   [브로커 버퍼링] Apache Kafka의 특정 파티션에 Append-Only 순차 기록 및 ISR 복제
         │
-   3. [스트림 연산] Apache Flink가 Event Time Watermark 기준으로 5분 슬라이딩 윈도우 집계
+   [스트림 연산] Apache Flink가 Event Time Watermark 기준으로 5분 슬라이딩 윈도우 집계
         │
-   4. [서빙 저장소 멱등 쓰기] 가공된 집계 결과를 Redis / Elasticsearch에 UPSERT 반영
+   [서빙 저장소 멱등 쓰기] 가공된 집계 결과를 Redis / Elasticsearch에 UPSERT 반영
         │
-   5. 웹소켓을 통해 프론트엔드 관제 대시보드 및 실시간 FDS 차단 엔진에 즉시 푸시
+   웹소켓을 통해 프론트엔드 관제 대시보드 및 실시간 FDS 차단 엔진에 즉시 푸시
 ```
 
 #### 한줄 요약
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 실시간 이상거래 탐지(FDS) 및 AI 실시간 추천 서비스를 위해 **Debezium(CDC) - Kafka(Broker) - Flink(Processing) - Redis(Serving) 표준 아키텍처를 구축**하고, **Watermark와 멱등성 설계를 적용**하여 무결점 초저지연 플랫폼 완성
+- 실시간 처리는 **4대 계층 플랫폼**, 지연 방지는 **CDC** 선택
 
 #### 한줄 요약
 - 실시간 스트리밍 플랫폼은 수집, 버퍼링, 연산, 서빙의 4대 계층을 유기적으로 결합하여 이벤트 발생 즉시 비즈니스 가치를 창출하는 현대 데이터 인프라의 핵심이다.

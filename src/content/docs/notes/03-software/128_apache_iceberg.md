@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 128
   label: "128. Apache Iceberg"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 128
@@ -73,11 +73,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **카탈로그 (Catalog)** | 테이블 이름과 **현재 최신 Metadata File(JSON)의 S3 위치 포인터 원자적 관리** | REST, AWS Glue 등 |
-| **메타데이터 파일 (Metadata)**| 테이블 스키마, 파티션 규격(Spec), **전체 스냅샷 이력 및 현재 스냅샷 ID 보관** | JSON 포맷 |
-| **매니페스트 리스트 (List)** | 특정 스냅샷을 구성하는 **Manifest File 목록과 파티션 범위 요약 통계 관리** | AVRO 포맷 |
-| **매니페스트 파일 (Manifest)**| 실제 Parquet 파일의 경로, 상태(Add/Delete), **컬럼별 Min/Max 통계 정보 보관** | 파일 수준 Data Skipping |
-| **데이터 파일 (Data File)** | 실제 비즈니스 레코드가 저장된 **불변(Immutable) Parquet/ORC 압축 파일** | 열 지향 포맷 |
+| 카탈로그 (Catalog) | 테이블 이름과 **현재 최신 Metadata File(JSON)의 S3 위치 포인터 원자적 관리** | REST, AWS Glue 등 |
+| 메타데이터 파일 (Metadata) | 테이블 스키마, 파티션 규격(Spec), **전체 스냅샷 이력 및 현재 스냅샷 ID 보관** | JSON 포맷 |
+| 매니페스트 리스트 (List) | 특정 스냅샷을 구성하는 **Manifest File 목록과 파티션 범위 요약 통계 관리** | AVRO 포맷 |
+| 매니페스트 파일 (Manifest) | 실제 Parquet 파일의 경로, 상태(Add/Delete), **컬럼별 Min/Max 통계 정보 보관** | 파일 수준 Data Skipping |
+| 데이터 파일 (Data File) | 실제 비즈니스 레코드가 저장된 **불변(Immutable) Parquet/ORC 압축 파일** | 열 지향 포맷 |
 
 #### 한줄 요약
 - 카탈로그, 메타데이터 파일, 매니페스트 리스트, 매니페스트 파일의 3계층 트리가 데이터 파일을 정밀 추적한다.
@@ -93,15 +93,15 @@ extra:
 ```text
 클라이언트가 Iceberg 테이블에 트랜잭션 쓰기 커밋
         │
-   1. [기준 스냅샷 확인] 트랜잭션 시작 시점의 테이블 스냅샷 ID 및 최신 파티션 규격 획득
+   [기준 스냅샷 확인] 트랜잭션 시작 시점의 테이블 스냅샷 ID 및 최신 파티션 규격 획득
         │
-   2. [데이터 파일 기록] 변경/추가된 데이터를 새로운 불변 Parquet 파일로 S3에 기록
+   [데이터 파일 기록] 변경/추가된 데이터를 새로운 불변 Parquet 파일로 S3에 기록
         │
-   3. [Manifest 생성] 기록된 데이터 파일 경로와 컬럼별 Min/Max 통계를 담은 AVRO 파일 작성
+   [Manifest 생성] 기록된 데이터 파일 경로와 컬럼별 Min/Max 통계를 담은 AVRO 파일 작성
         │
-   4. [Metadata JSON 생성] 신규 스냅샷 ID를 부여하고 새 Manifest List와 연결된 메타데이터 생성
+   [Metadata JSON 생성] 신규 스냅샷 ID를 부여하고 새 Manifest List와 연결된 메타데이터 생성
         │
-   5. [Catalog 원자 교체] 카탈로그의 현재 테이블 포인터를 신규 Metadata 파일 경로로 원자적 갱신
+   [Catalog 원자 교체] 카탈로그의 현재 테이블 포인터를 신규 Metadata 파일 경로로 원자적 갱신
 ```
 
 #### 한줄 요약
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 멀티 클라우드 및 이종 연산 엔진(Spark, Trino, Flink) 환경에서 **벤더 종속 없는 데이터 레이크하우스를 구축하기 위해 Apache Iceberg를 오픈 테이블 포맷 표준으로 채택**하고, **3계층 Manifest 트리와 숨겨진 파티셔닝**을 통해 페타바이트급 데이터 플랫폼 완성
+- 엔진 중립 레이크는 **Iceberg**, 파일 프루닝은 **Manifest 트리** 선택
 
 #### 한줄 요약
 - Apache Iceberg는 3계층 Manifest 트리와 숨겨진 파티셔닝을 기반으로 엔진 중립적인 고성능 레이크하우스를 완성하는 차세대 표준 오픈 테이블 포맷이다.

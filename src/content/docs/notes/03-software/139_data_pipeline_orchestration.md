@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 139
   label: "139. 데이터 파이프라인 오케스트레이션: Airflow"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:56:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -71,11 +71,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **스케줄러 (Scheduler)** | DAG 코드를 파싱하고 의존성을 평가하여 **실행 가능한 Task를 Executor 큐로 전달** | 2초 주기 루프 스캔 |
-| **메타데이터 DB** | DAG 실행(DagRun), Task 상태, 연결 정보, **변수(Variables)를 영구 보관** | PostgreSQL, MySQL |
-| **실행기 (Executor)** | 스케줄러로부터 받은 Task를 **Celery 워커나 Kubernetes Pod로 분산 할당** | K8s/Celery Executor |
-| **워커 (Worker)** | 할당받은 Operator의 비즈니스 로직을 **실제 프로세스/컨테이너에서 실행 후 결과 보고**| 분산 병렬 연산 |
-| **웹서버 (Webserver)** | 파이프라인 실행 상태 그래프, **로그 뷰어, 수동 재실행 인터페이스 제공** | Flask 기반 GUI |
+| 스케줄러 (Scheduler) | DAG 코드를 파싱하고 의존성을 평가하여 **실행 가능한 Task를 Executor 큐로 전달** | 2초 주기 루프 스캔 |
+| 메타데이터 DB | DAG 실행(DagRun), Task 상태, 연결 정보, **변수(Variables)를 영구 보관** | PostgreSQL, MySQL |
+| 실행기 (Executor) | 스케줄러로부터 받은 Task를 **Celery 워커나 Kubernetes Pod로 분산 할당** | K8s/Celery Executor |
+| 워커 (Worker) | 할당받은 Operator의 비즈니스 로직을 **실제 프로세스/컨테이너에서 실행 후 결과 보고**| 분산 병렬 연산 |
+| 웹서버 (Webserver) | 파이프라인 실행 상태 그래프, **로그 뷰어, 수동 재실행 인터페이스 제공** | Flask 기반 GUI |
 
 #### 한줄 요약
 - 스케줄러, 메타데이터 DB, 실행기, 워커, 웹서버가 결합된다.
@@ -91,15 +91,15 @@ extra:
 ```text
 정해진 스케줄 시각 도달 또는 수동 트리거 발생
         │
-   1. [DagRun 인스턴스 생성] 스케줄러가 메타데이터 DB에 신규 실행 인스턴스 생성 및 상태(Running) 기록
+   [DagRun 인스턴스 생성] 스케줄러가 메타데이터 DB에 신규 실행 인스턴스 생성 및 상태(Running) 기록
         │
-   2. [선행 의존성 및 Trigger Rule 검증] 선행 Task의 성공 완료 및 리소스 풀 가용 여부 확인
+   [선행 의존성 및 Trigger Rule 검증] 선행 Task의 성공 완료 및 리소스 풀 가용 여부 확인
         │
-   3. [Task 큐잉] 준비 완료된 Task를 Celery 브로커(Redis) 또는 K8s API 큐로 전송
+   [Task 큐잉] 준비 완료된 Task를 Celery 브로커(Redis) 또는 K8s API 큐로 전송
         │
-   4. [Worker 실행 및 상태 보고] 워커가 로직 실행 후 성공(Success)/실패(Failed) 상태를 메타 DB에 기록
+   [Worker 실행 및 상태 보고] 워커가 로직 실행 후 성공(Success)/실패(Failed) 상태를 메타 DB에 기록
         │
-   5. 실패 시 정의된 `retries` 횟수에 따라 지수 백오프 재시도, 성공 시 후속 Task 즉시 트리거
+   실패 시 정의된 `retries` 횟수에 따라 지수 백오프 재시도, 성공 시 후속 Task 즉시 트리거
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 수백 개의 데이터 파이프라인을 안정적으로 운용하기 위해 **Python 기반 Workflow-as-Code를 지원하는 Apache Airflow(MWAA/K8s)를 전사 오케스트레이션 표준으로 구축**하고, **KubernetesPodOperator와 멱등성 백필 설계**를 결합하여 엔터프라이즈 데이터 운영 자동화 완성
+- 파이프라인 통제는 **Airflow**, 의존성 제어는 **DAG** 선택
 
 #### 한줄 요약
 - 데이터 파이프라인 오케스트레이션은 DAG 기반의 선후 의존성 제어와 자동 재시도, 백필을 통해 복잡한 데이터 흐름을 무결점으로 지휘하는 핵심 플랫폼이다.

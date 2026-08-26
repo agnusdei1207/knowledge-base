@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 127
   label: "127. Delta Lake"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 127
@@ -72,11 +72,11 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **`_delta_log` (커밋 로그)** | 파일 추가/삭제(Add/Remove), **스키마 메타데이터 이력을 JSON 커밋으로 순차 기록** | 원자적 단일 진실 공급원 |
-| **체크포인트 (Checkpoint)**| 10개 커밋마다 누적 상태를 **단일 Parquet 파일로 압축하여 쿼리 시작 시간 단축** | 로그 재생 부하 제거 |
-| **Parquet 데이터 파일** | 테이블 레코드를 저장하는 **불변(Immutable) 열 지향 압축 파일** | Snappy 압축 지원 |
-| **OPTIMIZE & Z-Order** | 자잘한 파일을 512MB~1GB로 병합하고 **Z-Order 컬럼 기준으로 물리 데이터를 재정렬** | Data Skipping 극대화 |
-| **VACUUM 엔진** | 타임 트래블 보존 기간(예: 7일)이 경과한 **미참조 물리 Parquet 파일을 영구 삭제** | 스토리지 비용 절감 |
+| `_delta_log` (커밋 로그) | 파일 추가/삭제(Add/Remove), **스키마 메타데이터 이력을 JSON 커밋으로 순차 기록** | 원자적 단일 진실 공급원 |
+| 체크포인트 (Checkpoint) | 10개 커밋마다 누적 상태를 **단일 Parquet 파일로 압축하여 쿼리 시작 시간 단축** | 로그 재생 부하 제거 |
+| Parquet 데이터 파일 | 테이블 레코드를 저장하는 **불변(Immutable) 열 지향 압축 파일** | Snappy 압축 지원 |
+| OPTIMIZE & Z-Order | 자잘한 파일을 512MB~1GB로 병합하고 **Z-Order 컬럼 기준으로 물리 데이터를 재정렬** | Data Skipping 극대화 |
+| VACUUM 엔진 | 타임 트래블 보존 기간(예: 7일)이 경과한 **미참조 물리 Parquet 파일을 영구 삭제** | 스토리지 비용 절감 |
 
 #### 한줄 요약
 - `_delta_log`, 체크포인트, Parquet 데이터 파일, 유지보수 엔진(OPTIMIZE/VACUUM)으로 구성된다.
@@ -92,15 +92,15 @@ extra:
 ```text
 클라이언트가 타임 트래블 쿼리 실행 (`SELECT * FROM table VERSION AS OF 5`)
         │
-   1. [버전 해석] 쿼리에서 요청한 과거 버전(Version 5) 또는 타임스탬프 시점 확인
+   [버전 해석] 쿼리에서 요청한 과거 버전(Version 5) 또는 타임스탬프 시점 확인
         │
-   2. [체크포인트 로드] 버전 5 이전의 가장 최근 Checkpoint Parquet 파일을 메모리에 로드
+   [체크포인트 로드] 버전 5 이전의 가장 최근 Checkpoint Parquet 파일을 메모리에 로드
         │
-   3. [로그 재생] Checkpoint 이후부터 버전 5까지의 JSON 로그를 순차 파싱하여 Add/Remove 계산
+   [로그 재생] Checkpoint 이후부터 버전 5까지의 JSON 로그를 순차 파싱하여 Add/Remove 계산
         │
-   4. [유효 파일 목록 확정] 버전 5 시점에 유효했던 물리 Parquet 파일 경로 목록 정확히 도출
+   [유효 파일 목록 확정] 버전 5 시점에 유효했던 물리 Parquet 파일 경로 목록 정확히 도출
         │
-   5. 계산된 유효 Parquet 파일에 대해서만 Spark 엔진이 병렬 스캔하여 과거 결과 즉시 반환
+   계산된 유효 Parquet 파일에 대해서만 Spark 엔진이 병렬 스캔하여 과거 결과 즉시 반환
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 데이터 레이크에 엔터프라이즈급 신뢰성을 부여하기 위해 **Delta Lake의 JSON 트랜잭션 로그와 Z-Ordering 최적화를 표준 채택**하고, **UniForm(Universal Format) 기술을 결합**하여 Iceberg 등 타 엔진과의 상호 운용성을 확보한 레이크하우스 구축
+- Spark 기반 레이크는 **Delta Lake**, 정렬은 **Z-Order** 선택
 
 #### 한줄 요약
 - Delta Lake는 Parquet 파일과 JSON 트랜잭션 로그를 통해 객체 스토리지 상에서 무결점 ACID 트랜잭션과 고성능 UPSERT를 완성하는 대표 오픈 테이블 포맷이다.

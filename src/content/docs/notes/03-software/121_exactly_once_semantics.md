@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 121
   label: "121. 정확히 한 번 처리 Exactly-Once"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:54:00+09:00"
 tags:
   - "notes-software"
 weight: 121
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **재생 가능 소스 (Source)** | 장애 복구 시 지정된 체크포인트 오프셋부터 **데이터를 유실 없이 재공급** | Kafka, Kinesis 등 |
-| **상태 유지 엔진 (Engine)** | 연산자 내부 상태와 읽기 오프셋을 **Chandy-Lamport 알고리즘으로 동시 스냅샷** | Flink, Spark Streaming |
-| **트랜잭션 조정자** | 스트림 체크포인트 완료 시점과 **Sink 스토리지의 물리 커밋 시점을 1:1 동기화**| 2PC Coordinator 역할 |
-| **트랜잭션/멱등 Sink** | 중복 메시지가 도달하더라도 **2PC 트랜잭션 또는 UPSERT로 1회만 영구 반영** | Kafka Producer, RDB UPSERT |
+| 재생 가능 소스 (Source) | 장애 복구 시 지정된 체크포인트 오프셋부터 **데이터를 유실 없이 재공급** | Kafka, Kinesis 등 |
+| 상태 유지 엔진 (Engine) | 연산자 내부 상태와 읽기 오프셋을 **Chandy-Lamport 알고리즘으로 동시 스냅샷** | Flink, Spark Streaming |
+| 트랜잭션 조정자 | 스트림 체크포인트 완료 시점과 **Sink 스토리지의 물리 커밋 시점을 1:1 동기화**| 2PC Coordinator 역할 |
+| 트랜잭션/멱등 Sink | 중복 메시지가 도달하더라도 **2PC 트랜잭션 또는 UPSERT로 1회만 영구 반영** | Kafka Producer, RDB UPSERT |
 
 #### 한줄 요약
 - 재생 가능한 소스, 상태 스냅샷 엔진, 트랜잭션/멱등 Sink가 결합된다.
@@ -91,15 +91,15 @@ extra:
 ```text
 스트림 데이터 유입 및 체크포인트 주기 도달
         │
-   1. [트랜잭션 시작] Sink 연산자가 타깃 DB에 `beginTransaction()` 호출하여 임시 트랜잭션 오픈
+   [트랜잭션 시작] Sink 연산자가 타깃 DB에 `beginTransaction()` 호출하여 임시 트랜잭션 오픈
         │
-   2. [사전 기록 (Pre-Commit)] 처리 결과를 타깃 DB의 트랜잭션 버퍼에 사전 기록 (미확정 상태)
+   [사전 기록 (Pre-Commit)] 처리 결과를 타깃 DB의 트랜잭션 버퍼에 사전 기록 (미확정 상태)
         │
-   3. [상태 스냅샷 완료] 모든 연산자의 State 스냅샷이 S3에 저장되고 JobManager가 완료 판정
+   [상태 스냅샷 완료] 모든 연산자의 State 스냅샷이 S3에 저장되고 JobManager가 완료 판정
         │
-   4. [최종 커밋 전파] JobManager가 Sink 연산자에 `commit()` 명령을 전파하여 물리 커밋 확정
+   [최종 커밋 전파] JobManager가 Sink 연산자에 `commit()` 명령을 전파하여 물리 커밋 확정
         │
-   5. 장애 발생 시 이전 체크포인트로 롤백하고 열려있던 미완료 트랜잭션은 즉시 `abort()` 폐기
+   장애 발생 시 이전 체크포인트로 롤백하고 열려있던 미완료 트랜잭션은 즉시 `abort()` 폐기
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 금융 거래 및 실시간 결제 정산 시스템의 무결성을 위해 **Replayable Source, Stateful Flink Engine, 2PC Sink가 결합된 End-to-End Exactly-Once 아키텍처를 표준 채택**하고, **UPSERT 멱등성 설계를 병행**하여 무손실·무중복 데이터 파이프라인 완성
+- 원장 무결성은 **EOS 체계**, 중복 방지는 **멱등 싱크** 선택
 
 #### 한줄 요약
 - Exactly-Once는 재생 가능한 소스와 상태 스냅샷, 분산 2PC 커밋을 유기적으로 결합하여 장애 시에도 단 1회 처리를 보장하는 분산 컴퓨팅의 최고 정합성 모델이다.
