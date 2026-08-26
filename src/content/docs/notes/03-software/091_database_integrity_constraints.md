@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 91
   label: "091. 데이터베이스 무결성 제약 조건"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:47:00+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -69,10 +69,10 @@ extra:
 
 | 무결성 제약조건 | DDL 선언 키워드 | 핵심 엔지니어링 책임 |
 |:---|:---|:---|
-| **개체 무결성 (Entity)** | **`PRIMARY KEY`, `UNIQUE`** | 레코드의 고유 식별을 위해 **기본키의 유일성과 Not Null 강제** |
-| **참조 무결성 (Referential)**| **`FOREIGN KEY`, `ON DELETE`** | 부모-자식 간 관계 유효성을 보장하고 **고아 데이터(Orphan) 차단** |
-| **도메인 무결성 (Domain)** | **`NOT NULL`, `CHECK`, `DEFAULT`**| 속성값의 데이터 타입, 자릿수, **허용 범위(Check) 및 기본값 검증** |
-| **사용자 정의 무결성** | **`TRIGGER`, `STORED PROCEDURE`**| 단순 DDL로 표현 불가한 **복잡한 비즈니스 규칙 및 감사 로그 검증** |
+| 개체 무결성 (Entity) | **`PRIMARY KEY`, `UNIQUE`** | 레코드의 고유 식별을 위해 **기본키의 유일성과 Not Null 강제** |
+| 참조 무결성 (Referential) | **`FOREIGN KEY`, `ON DELETE`** | 부모-자식 간 관계 유효성을 보장하고 **고아 데이터(Orphan) 차단** |
+| 도메인 무결성 (Domain) | **`NOT NULL`, `CHECK`, `DEFAULT`**| 속성값의 데이터 타입, 자릿수, **허용 범위(Check) 및 기본값 검증** |
+| 사용자 정의 무결성 | **`TRIGGER`, `STORED PROCEDURE`**| 단순 DDL로 표현 불가한 **복잡한 비즈니스 규칙 및 감사 로그 검증** |
 
 #### 한줄 요약
 - 개체(행 유일성), 참조(관계 유효성), 도메인(값 범위), 사용자 정의(업무 규칙)로 무결성을 완성한다.
@@ -88,13 +88,13 @@ extra:
 ```text
 클라이언트가 부모 테이블(Users) 레코드 삭제 요청 (`DELETE FROM Users WHERE id = 101`)
         │
-   1. [FK 참조 탐색] DBMS 엔진이 자식 테이블(Orders)의 외래키 인덱스를 B-Tree 탐색
+   [FK 참조 탐색] DBMS 엔진이 자식 테이블(Orders)의 외래키 인덱스를 B-Tree 탐색
         │
    해당 user_id(101)를 참조하는 자식 주문 레코드가 존재하는가?
    ┌────┴───────────────────────────┐
   예 (자식 레코드 존재함)           아니오 (참조하는 자식 없음)
    │                                 │
-2. [ON DELETE 정책 판정]             [삭제 실행 완료]
+[ON DELETE 정책 판정]             [삭제 실행 완료]
    ┌────┼────────────────────┐      부모 레코드 정상 삭제 후 커밋
    │    │                    │
 [RESTRICT / NO ACTION]   [CASCADE]                 [SET NULL]
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 시스템 아키텍처의 안정성을 위해 **애플리케이션 검증에 더해 DBMS 레벨의 4대 무결성 제약조건(PK/FK/Check)을 필수 선언**하고, **FK 인덱싱 및 Soft Delete 정책**을 결합하여 고성능 무결점 데이터베이스 구축
+- 데이터 보호는 **DB 제약조건**, 삭제 통제는 **Soft Delete** 선택
 
 #### 한줄 요약
 - 데이터베이스 무결성 제약 조건은 어떠한 우회 접속이나 시스템 장애에도 데이터의 정확성과 일관성을 지켜내는 데이터베이스의 절대적 안전장치다.

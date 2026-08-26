@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 85
   label: "085. 트랜잭션 ACID"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:46:00+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -69,10 +69,10 @@ extra:
 
 | ACID 속성 | 핵심 정의 | DBMS 내부 구현 메커니즘 |
 |:---|:---|:---|
-| **원자성 (Atomicity)** | 트랜잭션 연산 전체가 **완료되거나 전혀 실행되지 않아야 함 (All or Nothing)** | **Undo Log 기반 롤백**, Savepoint 지점 복원 |
-| **일관성 (Consistency)** | 트랜잭션 전후에 **데이터베이스 무결성 제약조건이 항상 유지됨** | **기본키, 외래키, Check 제약조건**, 트리거 강제 |
-| **격리성 (Isolation)** | 동시 실행 중인 타 트랜잭션이 **현재 작업 중간 상태를 침범하지 못함** | **2PL (2단계 락킹), MVCC (다중 버전 제어)** |
-| **지속성 (Durability)** | 커밋 완료된 결과는 **시스템 장애나 전원 차단에도 영구 보존됨** | **WAL (Write-Ahead Log), Redo Log, Checkpoint** |
+| 원자성 (Atomicity) | 트랜잭션 연산 전체가 **완료되거나 전혀 실행되지 않아야 함 (All or Nothing)** | **Undo Log 기반 롤백**, Savepoint 지점 복원 |
+| 일관성 (Consistency) | 트랜잭션 전후에 **데이터베이스 무결성 제약조건이 항상 유지됨** | **기본키, 외래키, Check 제약조건**, 트리거 강제 |
+| 격리성 (Isolation) | 동시 실행 중인 타 트랜잭션이 **현재 작업 중간 상태를 침범하지 못함** | **2PL (2단계 락킹), MVCC (다중 버전 제어)** |
+| 지속성 (Durability) | 커밋 완료된 결과는 **시스템 장애나 전원 차단에도 영구 보존됨** | **WAL (Write-Ahead Log), Redo Log, Checkpoint** |
 
 #### 한줄 요약
 - Undo 로그(원자성), 제약조건(일관성), MVCC/2PL(격리성), WAL/Redo(지속성)가 유기적으로 결합된다.
@@ -88,18 +88,18 @@ extra:
 ```text
 트랜잭션 시작 (BEGIN TRANSACTION)
         │
-   1. [Active] DML 실행 및 메모리 버퍼와 Undo/Redo 로그에 변경 이력 기록
+   [Active] DML 실행 및 메모리 버퍼와 Undo/Redo 로그에 변경 이력 기록
         │
-   2. [Partially Committed] 마지막 SQL 연산 완료 후 무결성 제약조건 및 외래키 검증
+   [Partially Committed] 마지막 SQL 연산 완료 후 무결성 제약조건 및 외래키 검증
         │
    제약조건 위반이나 데드락 오류가 발생했는가?
    ┌────┴───────────────────────────┐
   아니오 (정상 완료)                 예 (오류 발생)
    │                                 │
-3. [Committed]                  4. [Failed]
-   Redo Log 디스크 플러시 (fsync)    │
-   트랜잭션 영구 반영 확정           5. [Aborted]
-                                     Undo Log 역순 실행으로 완전 롤백
+[Committed]                     [Failed]
+Redo Log 디스크 플러시 (fsync)    │
+트랜잭션 영구 반영 확정           [Aborted]
+                                 Undo Log 역순 실행으로 완전 롤백
 ```
 
 #### 한줄 요약
@@ -143,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 시스템의 핵심 원장 정합성을 위해 **단일 DB에서는 Undo/Redo 기반 ACID 트랜잭션을 엄격히 준수**하고, **분산 MSA 환경에서는 Saga 패턴 기반 최종 일관성(Eventual Consistency)** 을 상호 연계
+- 원장 무결성은 **ACID 트랜잭션**, 분산 환경은 **Saga** 선택
 
 #### 한줄 요약
 - 트랜잭션 ACID는 다중 동시성 환경과 장애 상황에서도 데이터베이스의 무결성과 영속성을 보장하는 핵심 공학 규약이다.

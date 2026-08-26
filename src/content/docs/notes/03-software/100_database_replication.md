@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 100
   label: "100. 데이터베이스 복제: 마스터-슬레이브•멀티마스터"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:49:00+09:00"
 tags:
   - "notes-software"
 weight: 100
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **Primary 노드 (Master)** | 모든 CUD 쓰기 트랜잭션을 처리하고 **Binary Log를 디스크에 순차 생성** | 시스템 내 유일한 쓰기 원천 (SSOT) |
-| **I/O Thread (Replica)** | Primary의 Binlog 덤프를 네트워크로 수신하여 **Relay Log에 순차 저장** | 네트워크 연결 유지 및 수신 전담 |
-| **SQL Thread (Replica)** | Relay Log에 기록된 트랜잭션을 읽어 **복제 노드 스토리지 엔진에 순차 재생** | 멀티스레드 복제(MTS)로 병렬 처리 |
-| **장애 감지기 (Orchestrator)**| Primary 헬스체크 및 다운 시 **최신 Replica를 Primary로 자동 승격(Failover)** | 쿼럼 기반 스플릿 브레인 방지 |
+| Primary 노드 (Master) | 모든 CUD 쓰기 트랜잭션을 처리하고 **Binary Log를 디스크에 순차 생성** | 시스템 내 유일한 쓰기 원천 (SSOT) |
+| I/O Thread (Replica) | Primary의 Binlog 덤프를 네트워크로 수신하여 **Relay Log에 순차 저장** | 네트워크 연결 유지 및 수신 전담 |
+| SQL Thread (Replica) | Relay Log에 기록된 트랜잭션을 읽어 **복제 노드 스토리지 엔진에 순차 재생** | 멀티스레드 복제(MTS)로 병렬 처리 |
+| 장애 감지기 (Orchestrator) | Primary 헬스체크 및 다운 시 **최신 Replica를 Primary로 자동 승격(Failover)** | 쿼럼 기반 스플릿 브레인 방지 |
 
 #### 한줄 요약
 - Primary Binlog, Replica I/O Thread, Relay Log, SQL Thread가 유기적으로 작동한다.
@@ -91,11 +91,11 @@ extra:
 ```text
 클라이언트가 Primary 노드에 데이터 쓰기 요청 (`UPDATE Balance ...`)
         │
-   1. [Primary 트랜잭션] InnoDB 스토리지에 커밋 후 Binary Log에 이벤트 기록
+   [Primary 트랜잭션] InnoDB 스토리지에 커밋 후 Binary Log에 이벤트 기록
         │
-   2. [네트워크 전송] Dump Thread가 변경된 Binlog 이벤트를 Replica로 전송
+   [네트워크 전송] Dump Thread가 변경된 Binlog 이벤트를 Replica로 전송
         │
-   3. [Relay Log 저장] Replica의 I/O Thread가 수신하여 로컬 Relay Log에 기록
+   [Relay Log 저장] Replica의 I/O Thread가 수신하여 로컬 Relay Log에 기록
         │
    [복제 동기화 방식 판정]
    ┌────┴───────────────────────────┐
@@ -103,7 +103,7 @@ extra:
 Primary가 Replica 응답을         Replica가 Relay Log 기록 후 ACK 전송
 기다리지 않고 즉시 클라이언트에 응답   Primary가 ACK 수신 후 클라이언트에 응답
         │                                 │
-   4. Replica의 SQL Thread가 Relay Log를 순차 재생하여 로컬 데이터 동기화 완료
+   Replica의 SQL Thread가 Relay Log를 순차 재생하여 로컬 데이터 동기화 완료
 ```
 
 #### 한줄 요약
@@ -147,7 +147,7 @@ Primary가 Replica 응답을         Replica가 Relay Log 기록 후 ACK 전송
 
 ## Ⅶ. 결론
 
-- 고가용성 무중단 서비스와 대규모 읽기 확장을 위해 **Semi-Sync 기반 Primary-Replica 복제 토폴로지를 구축**하고, **Orchestrator 자동 페일오버와 ProxySQL 읽기/쓰기 분리**를 결합하여 안정적인 99.999% 가용성 달성
+- 읽기 확장은 **복제 토폴로지**, 데이터 보호는 **Semi-Sync** 선택
 
 #### 한줄 요약
 - 데이터베이스 복제는 변경 로그 전파를 통해 데이터 가용성과 읽기 확장성을 확보하는 현대 데이터 플랫폼의 필수 인프라 아키텍처다.

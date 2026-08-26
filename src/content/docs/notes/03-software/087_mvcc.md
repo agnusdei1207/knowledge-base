@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 87
   label: "087. MVCC 다중 버전 동시성 제어"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (Multi-Version Concurrency Control)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:47:00+09:00"
 tags:
   - "notes-software"
 weight: 87
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 역할 | 가시성(Visibility) 판단 기준 |
 |:---|:---|:---|
-| **DB_TRX_ID (6 Bytes)** | 해당 레코드를 마지막으로 `INSERT/UPDATE`한 **트랜잭션 식별자** | Read View 범위와 대조하여 가시성 판정 |
-| **DB_ROLL_PTR (7 Bytes)**| Undo Log에 저장된 **이전 버전 레코드를 가리키는 롤백 포인터** | 단방향 링크드 리스트(Undo Chain) 형성 |
-| **Undo Log 공간** | 변경되기 전의 원본 데이터를 보존하는 **롤백 세그먼트** | 롤백 처리 및 MVCC 과거 스냅샷 데이터 제공 |
-| **Read View (스냅샷)** | `SELECT` 실행 시점에 **활성화된 타 트랜잭션 ID 목록을 담은 객체** | 커밋 완료 여부를 대조해 볼 수 있는 버전 결정 |
+| DB_TRX_ID (6 Bytes) | 해당 레코드를 마지막으로 `INSERT/UPDATE`한 **트랜잭션 식별자** | Read View 범위와 대조하여 가시성 판정 |
+| DB_ROLL_PTR (7 Bytes) | Undo Log에 저장된 **이전 버전 레코드를 가리키는 롤백 포인터** | 단방향 링크드 리스트(Undo Chain) 형성 |
+| Undo Log 공간 | 변경되기 전의 원본 데이터를 보존하는 **롤백 세그먼트** | 롤백 처리 및 MVCC 과거 스냅샷 데이터 제공 |
+| Read View (스냅샷) | `SELECT` 실행 시점에 **활성화된 타 트랜잭션 ID 목록을 담은 객체** | 커밋 완료 여부를 대조해 볼 수 있는 버전 결정 |
 
 #### 한줄 요약
 - `DB_TRX_ID`, `DB_ROLL_PTR`, Undo Log 체인, Read View 가시성 판정이 결합된다.
@@ -90,17 +90,17 @@ extra:
 ```text
 클라이언트 SELECT 질의 요청 (트랜잭션 TRX 103)
         │
-   1. [Read View 생성] 활성 트랜잭션 목록(m_ids: [102, 105]) 캡처
+   [Read View 생성] 활성 트랜잭션 목록(m_ids: [102, 105]) 캡처
         │
-   2. [레코드 확인] 대상 행의 `DB_TRX_ID`가 105(활성 중)임을 확인
+   [레코드 확인] 대상 행의 `DB_TRX_ID`가 105(활성 중)임을 확인
         │
-   3. [가시성 판정] TRX 105는 현재 미커밋 활성 상태이므로 현재 행은 Invisible 판정
+   [가시성 판정] TRX 105는 현재 미커밋 활성 상태이므로 현재 행은 Invisible 판정
         │
-   4. [Undo 체인 추적] `DB_ROLL_PTR`을 따라 Undo Log의 과거 버전(TRX 102)으로 이동
+   [Undo 체인 추적] `DB_ROLL_PTR`을 따라 Undo Log의 과거 버전(TRX 102)으로 이동
         │
-   5. [과거 버전 판정] TRX 102도 활성 상태이므로 다시 이전 버전(TRX 100)으로 이동
+   [과거 버전 판정] TRX 102도 활성 상태이므로 다시 이전 버전(TRX 100)으로 이동
         │
-   6. TRX 100은 이미 커밋된 완료 버전이므로 최종 Visible 판정 후 데이터 반환
+   TRX 100은 이미 커밋된 완료 버전이므로 최종 Visible 판정 후 데이터 반환
 ```
 
 #### 한줄 요약
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 웹 및 모바일 서비스의 대규모 동시 읽기 트래픽을 처리하기 위해 **InnoDB / PostgreSQL의 MVCC 엔진을 표준 활용**하고, **Undo Log 공간 관리와 Vacuum 최적화**를 통해 고성능 트랜잭션 시스템 구축
+- 동시 읽기 성능은 **MVCC**, 구버전 정리는 **Vacuum** 선택
 
 #### 한줄 요약
 - MVCC는 락 없는 스냅샷 조회를 통해 읽기와 쓰기의 동시성을 극대화하는 현대 관계형 데이터베이스의 핵심 엔진 아키텍처다.

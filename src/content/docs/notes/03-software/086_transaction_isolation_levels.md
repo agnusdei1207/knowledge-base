@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 86
   label: "086. 트랜잭션 격리 수준 4단계"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:46:00+09:00"
 tags:
   - "notes-software"
 weight: 86
@@ -69,10 +69,10 @@ extra:
 
 | 격리 수준 | Dirty Read | Non-Repeatable Read | Phantom Read | 주요 DBMS 기본값 |
 |:---|:---:|:---:|:---:|:---|
-| **Read Uncommitted (Level 0)** | **발생 (위험)** | 발생 | 발생 | 거의 미사용 |
-| **Read Committed (Level 1)** | **차단 (Safe)** | **발생 (허용)** | 발생 | **Oracle, PostgreSQL, SQL Server** |
-| **Repeatable Read (Level 2)** | **차단 (Safe)** | **차단 (Safe)** | 발생 (*InnoDB 차단)| **MySQL (InnoDB Engine)** |
-| **Serializable (Level 3)** | **차단 (Safe)** | **차단 (Safe)** | **차단 (Safe)** | 특수 금융 원장 등 극히 제한적 사용 |
+| Read Uncommitted (Level 0) | **발생 (위험)** | 발생 | 발생 | 거의 미사용 |
+| Read Committed (Level 1) | **차단 (Safe)** | **발생 (허용)** | 발생 | **Oracle, PostgreSQL, SQL Server** |
+| Repeatable Read (Level 2) | **차단 (Safe)** | **차단 (Safe)** | 발생 (*InnoDB 차단)| **MySQL (InnoDB Engine)** |
+| Serializable (Level 3) | **차단 (Safe)** | **차단 (Safe)** | **차단 (Safe)** | 특수 금융 원장 등 극히 제한적 사용 |
 
 #### 한줄 요약
 - Level 0부터 Level 3까지 Dirty Read, Non-Repeatable Read, Phantom Read를 순차적으로 억제한다.
@@ -88,17 +88,17 @@ extra:
 ```text
 트랜잭션 시작 (TRX_ID 할당)
         │
-   1. [Read View 생성] Repeatable Read는 최초 SELECT 시 1회 고정, Read Committed는 매 쿼리마다 생성
+   [Read View 생성] Repeatable Read는 최초 SELECT 시 1회 고정, Read Committed는 매 쿼리마다 생성
         │
-   2. [레코드 조회] 테이블 레코드의 생성 트랜잭션 ID(`DB_TRX_ID`) 확인
+   [레코드 조회] 테이블 레코드의 생성 트랜잭션 ID(`DB_TRX_ID`) 확인
         │
    레코드의 TRX_ID가 현재 Read View보다 최신(미커밋)인가?
    ┌────┴───────────────────────────┐
   예 (아직 커밋 안 됨)              아니오 (이미 커밋 완료됨)
    │                                 │
-3. [Undo Log 역추적]                 [현재 레코드 즉시 반환]
-   `DB_ROLL_PTR`을 따라 과거          일관된 데이터 읽기 완료
-   스냅샷 버전을 찾아 반환
+[Undo Log 역추적]                 [현재 레코드 즉시 반환]
+`DB_ROLL_PTR`을 따라 과거          일관된 데이터 읽기 완료
+스냅샷 버전을 찾아 반환
 ```
 
 #### 한줄 요약
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 데이터베이스 설계 시 **서비스 특성에 맞추어 MySQL(Repeatable Read) 또는 Oracle/PostgreSQL(Read Committed) 기본 격리 수준을 채택**하고, **낙관적/비관적 락을 결합**하여 정합성과 고성능 동시성 달성
+- 동시성 확보는 **RC 수준**, 정합성 보장은 **낙관적 락** 선택
 
 #### 한줄 요약
 - 트랜잭션 격리 수준은 성능과 정합성의 균형점을 결정하는 핵심 척도이며, MVCC와 락 기법을 적절히 결합하여 최적화해야 한다.

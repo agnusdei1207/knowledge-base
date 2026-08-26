@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 94
   label: "094. 클러스터드•커버링 인덱스"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클러스터드 인덱스•커버링 인덱스 (Clustered Covering Index)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T09:48:00+09:00"
 tags:
   - "notes-software"
 weight: 94
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 핵심 엔지니어링 책임 | I/O 최적화 메커니즘 |
 |:---|:---|:---|
-| **클러스터드 인덱스** | 데이터 행을 키 순서대로 디스크에 정렬하여 **범위 검색(BETWEEN, <, >) 속도 극대화** | 리프 노드가 곧 실제 데이터 페이지 (테이블당 1개) |
-| **커버링 인덱스** | SELECT/WHERE/ORDER BY 컬럼을 인덱스에 포함하여 **2차 Table Access(Key Lookup) 완전 생략** | 실행 계획 Extra에 `Using index` 표시 |
-| **포함 컬럼 (INCLUDE)** | B+Tree 정렬 키가 아닌 부가 컬럼을 **리프 노드에만 저장하여 인덱스 크기 최적화** | PostgreSQL, MSSQL `CREATE INDEX ... INCLUDE` |
-| **보조 인덱스 포인터** | InnoDB 보조 인덱스는 ROWID 대신 **클러스터드 PK 값을 포인터로 보관** | PK 변경 시 모든 보조 인덱스 영향 받음 |
+| 클러스터드 인덱스 | 데이터 행을 키 순서대로 디스크에 정렬하여 **범위 검색(BETWEEN, <, >) 속도 극대화** | 리프 노드가 곧 실제 데이터 페이지 (테이블당 1개) |
+| 커버링 인덱스 | SELECT/WHERE/ORDER BY 컬럼을 인덱스에 포함하여 **2차 Table Access(Key Lookup) 완전 생략** | 실행 계획 Extra에 `Using index` 표시 |
+| 포함 컬럼 (INCLUDE) | B+Tree 정렬 키가 아닌 부가 컬럼을 **리프 노드에만 저장하여 인덱스 크기 최적화** | PostgreSQL, MSSQL `CREATE INDEX ... INCLUDE` |
+| 보조 인덱스 포인터 | InnoDB 보조 인덱스는 ROWID 대신 **클러스터드 PK 값을 포인터로 보관** | PK 변경 시 모든 보조 인덱스 영향 받음 |
 
 #### 한줄 요약
 - 클러스터드는 데이터 물리 정렬을, 커버링은 테이블 접근 제거를 전담하여 디스크 I/O를 최소화한다.
@@ -91,17 +91,17 @@ extra:
 ```text
 클라이언트 SQL 질의 인입 (`SELECT user_id, name, email FROM Users WHERE age = 30`)
         │
-   1. [실행 계획 분석] CBO 옵티마이저가 인덱스 `idx_users_covering(age, user_id, name, email)` 확인
+   [실행 계획 분석] CBO 옵티마이저가 인덱스 `idx_users_covering(age, user_id, name, email)` 확인
         │
-   2. [컬럼 대조] SELECT 및 WHERE의 모든 컬럼이 인덱스 키에 100% 포함되어 있는가?
+   [컬럼 대조] SELECT 및 WHERE의 모든 컬럼이 인덱스 키에 100% 포함되어 있는가?
    ┌────┴───────────────────────────┐
   예 (커버링 인덱스 성립)            아니오 (일반 보조 인덱스)
    │                                 │
-3. [인덱스 리프 스캔]                [인덱스 스캔 후 Key Lookup]
-   리프 노드에서 컬럼 즉시 인출        추출된 PK로 테이블 블록 2차 랜덤 I/O 수행
-   (Table Access Zero!)              (디스크 I/O 병목 발생)
+[인덱스 리프 스캔]                [인덱스 스캔 후 Key Lookup]
+리프 노드에서 컬럼 즉시 인출        추출된 PK로 테이블 블록 2차 랜덤 I/O 수행
+(Table Access Zero!)              (디스크 I/O 병목 발생)
         │                                 │
-   4. 클라이언트에 결과 즉시 반환 (`Using index`)
+   클라이언트에 결과 즉시 반환 (`Using index`)
 ```
 
 #### 한줄 요약
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 트래픽 환경에서 데이터베이스 I/O 병목을 제거하기 위해 **순차적 PK 기반의 클러스터드 인덱스를 설계하고 핵심 조회 경로에 커버링 인덱스를 전략적 배치**하여, **Zero Key Lookup 기반의 고성능 쿼리 응답** 완성
+- 범위 정렬은 **클러스터드**, 룩업 제거는 **커버링 인덱스** 선택
 
 #### 한줄 요약
 - 클러스터드 인덱스와 커버링 인덱스는 물리적 순차 I/O와 테이블 룩업 제거를 통해 데이터베이스 디스크 I/O를 최소화하는 최상위 인덱스 최적화 기술이다.
