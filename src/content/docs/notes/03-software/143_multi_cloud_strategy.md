@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "멀티 클라우드 전략 (Multi Cloud Strategy)"
-date: "2026-08-26T09:58:00+09:00"
+date: "2026-08-26T13:12:17+09:00"
 tags:
   - "notes-software"
 weight: 143
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 단일 벤더 종속(Lock-in)을 방지하고 서비스별 최적 조합(Best-of-Breed)을 달성하기 위해 **2개 이상의 퍼블릭 CSP를 분산 운용하는 클라우드 전략**
-- 배경/필요성: 특정 클라우드 사업자 독점 사용 시 발생하는 **단일 CSP 전면 장애 전파, 가격 협상력 상실 및 타 플랫폼 이관 불가 해결 불가**
+- 배경/필요성: 단일 CSP 의존으로 **전면 장애·가격 종속·이관 제약**
 
 #### 한줄 요약
 - 2개 이상의 퍼블릭 클라우드를 조합하여 단일 장애점(SPOF)을 제거하고 비즈니스 연속성을 극대화한다.
@@ -59,25 +59,25 @@ extra:
 
 ```text
 [멀티 클라우드 통합 관리 및 추상화 구조]
-|-- 1. Governance & Abstraction Layer (통합 오케스트레이션 및 거버넌스)
+|-- Governance & Abstraction Layer (통합 오케스트레이션 및 거버넌스)
 |   |-- Terraform (IaC 멀티 클라우드 인프라 코드화)
 |   |-- Kubernetes (CaaS 컨테이너 기반 워크로드 표준화)
 |   `-- HashiCorp Vault (OIDC 기반 중앙 시크릿 및 IAM 통제)
-|-- 2. Global Traffic Layer (GSLB 기반 DNS 트래픽 라우팅)
-`-- 3. Multi-CSP Workload Layer
+|-- Global Traffic Layer (GSLB 기반 DNS 트래픽 라우팅)
+`-- Multi-CSP Workload Layer
     |-- Primary CSP: AWS (EKS 대외 웹/앱 + Aurora 주 결제 원장)
     `-- Secondary CSP: GCP (BigQuery 데이터 분석 + Vertex AI 머신러닝)
 ```
 
 선의 의미: 계층 및 이종 CSP 클라우드를 상단의 Terraform, Kubernetes 추상화 레이어로 묶어 제어하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 워크로드 배치 (Placement) | 기능 적합성, 데이터 주권, 비용에 따라 **최적의 CSP로 애플리케이션 분산 배정** | Best-of-Breed |
-| 인프라 추상화 (IaC/CaaS) | Terraform 및 Kubernetes를 통해 **CSP 간 이식 가능한 공통 배포 환경 제공** | Cloud-Agnostic |
-| 통합 신원 관리 (IAM) | HashiCorp Vault 및 OIDC를 통해 **이종 클라우드 간 통합 계정/시크릿 통제** | 단일 보안 창구 |
-| 글로벌 트래픽 라우터 | GSLB 헬스체크를 기반으로 **CSP 간 트래픽 분기 및 장애 시 타 CSP 자동 절체** | DNS 기반 Failover |
-| 통합 관제 및 FinOps | Datadog/Prometheus를 통해 **CSP 전반의 성능, SLO, Egress 네트워크 비용 통합 관측** | 멀티 클라우드 비용 통제 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 워크로드 배치 | 적합성·주권·비용별 **CSP 배정** |
+| 인프라 추상화 | IaC·CaaS 기반 **공통 배포 환경** 제공 |
+| 통합 신원 관리 | 이종 클라우드의 **계정·시크릿 통제** |
+| 글로벌 트래픽 라우터 | GSLB 기반 **트래픽 분기·장애 절체** |
+| 통합 관제·FinOps | CSP 전반의 **SLO·Egress 비용 관측** |
 
 #### 한줄 요약
 - 워크로드 배치, 인프라 추상화, 통합 IAM, GSLB, FinOps 관제가 결합된다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 종속 탈피는 **멀티 클라우드**, 이식성은 **K8s** 선택
+- CSP 장애·종속 위험이 전환 비용보다 크면 **멀티 클라우드** 선택
 
 #### 한줄 요약
 - 멀티 클라우드 전략은 2개 이상의 퍼블릭 클라우드를 조합하여 단일 장애점을 제거하고 비즈니스 연속성과 협상력을 극대화하는 핵심 인프라 전략이다.

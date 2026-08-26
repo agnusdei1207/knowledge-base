@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI 기반 테스트 자동화 (AI Test Automation)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:25:03+09:00"
 tags:
   - "notes-software"
 weight: 207
@@ -58,12 +58,12 @@ extra:
 </details>
 
 ```text
-[AI 기반 테스트 자동화 파이프라인 아키텍처]
-|-- 1. Test Generator (LLM / RAG: 요구사항 및 Git Diff 문맥 기반 테스트 케이스 초안 생성)
-`-- 2. Regression Test Selector (ML / TIA: 코드 의존성 및 과거 결함 Hotspot 기반 테스트 선별)
-`-- 3. Oracle & Review Gate Layer (규칙 기반 오라클 검증 + Human-in-the-Loop 승인)
-`-- 4. Isolated Sandbox Runner (컨테이너 격리 환경에서 테스트 스위트 병렬 실행)
-`-- 5. Mutation & Quality Evaluator (Mutation Score 및 Flaky Test 탐지 피드백)
+[AI 테스트 자동화 구성]
+|-- 테스트 생성기
+|-- 회귀 선별기
+|-- 오라클 게이트
+|-- 격리 실행기
+`-- 품질 평가기
 ```
 
 선의 의미: 계층 및 요구사항과 코드 변경을 분석하여 테스트를 생성/선별하고 오라클 게이트를 거쳐 샌드박스에서 실행 후 변이 점수를 평가하는 구조
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 소프트웨어 개발 속도와 품질의 딜레마를 극복하기 위해 **ML 기반의 테스트 영향도 선별(TIA)과 LLM 기반의 테스트 케이스 자동 생성을 CI/CD에 통합**하고, **규칙 기반 오라클 검증과 Mutation Testing 평가 체계**를 결합하여 신뢰할 수 있는 차세대 AI 테스트 엔지니어링 완성
+- 회귀 범위 축소에는 **TIA**, 신규 경계 탐색에는 **LLM 생성** 적용
 
 #### 한줄 요약
 - AI 기반 테스트 자동화는 테스트 케이스 생성, 영향도 선별, 실패 군집화를 통해 CI/CD 병목을 해소하고 결함 탐지력을 극대화하는 핵심 품질 혁신 기술이다.

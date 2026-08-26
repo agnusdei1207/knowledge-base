@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "요구사항 분석•명세 (Requirements Analysis)"
-date: "2026-08-26T09:36:00+09:00"
+date: "2026-08-27T00:17:00+09:00"
 tags:
   - "notes-software"
 weight: 36
@@ -56,20 +56,6 @@ extra:
 - **기능 vs 비기능 요구사항**: 시스템이 무엇을 수행하는가(기능: What)와 얼마나 잘 수행하는가(비기능: 성능, 보안, 신뢰성 등)의 분류.
 
 </details>
-
-```text
-[요구사항 분석 및 명세 관리 구조]
-|-- 요구 도출 저장소 (Elicitation: 인터뷰, 워크숍, 설문)
-|-- 분석 및 모델링 계층 (Analysis & Modeling)
-|   |-- 유스케이스 다이어그램 (Use Case Model)
-|   `-- 데이터 흐름도 / 도메인 모델 (DFD / Domain Class Model)
-|-- 요구사항 명세서 (SRS: ISO/IEC/IEEE 29148 표준 양식)
-|   |-- 기능 요구사항 (Functional: 유저 시나리오)
-|   `-- 비기능 요구사항 (Non-Functional: 응답시간, 가용성)
-`-- 형상 및 추적성 관리자 (RTM & 변경통제위원회 - CCB)
-```
-
-선의 의미: 계층 및 요구사항 정제/추적 파이프라인
 
 | 구성요소 | 책임 |
 |:---|:---|

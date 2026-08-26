@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "동적 다차원 속성 평가 및 세분화 인가 모델 : ABAC (Attribute-Based Access Control & NIST SP 800-162)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:46:51+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: NIST SP 800-162 및 OASIS XACML 3.0 표준에 입각하여 **4대 속성 결합 $\rightarrow$ PEP(정책집행점) 트래픽 차단 $\rightarrow$ PDP(정책결정점) 논리식 평가 $\rightarrow$ PIP(속성정보점) 실시간 속성 동기화 $\rightarrow$ PAP(정책저장소) 룰셋 대조** 를 집행하는 **세분화 동적 인가(Fine-Grained Dynamic Authorization) 아키텍처**
-- 배경/필요성: 재택근무, 클라우드 워크로드, 멀티 테넌트 SaaS 환경에서 사용자 위치와 단말 보안 상태가 가변적이므로, RBAC의 '역할 폭발(Role Explosion)'을 방지하고 문맥 인식(Context-Aware) 기반의 최소 권한 인가를 구현할 요구
+- 배경/필요성: RBAC만으로는 위치·단말 상태에 따른 **동적 인가** 판정 불가
 
 #### 한줄 요약
 - 주체/객체/행위/환경의 4대 속성과 PEP-PDP-PIP-PAP 엔진을 통해 실시간 문맥 인식 동적 인가를 집행한다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 제로 트러스트 보안 아키텍처의 핵심 인가 메커니즘인 **ABAC 모델**은 시간, 위치, 기기 무결성 등 동적 환경 맥락을 수용하여 최소 권한을 정밀하게 집행하며, 실무 구현 시 **NIST SP 800-162 및 OPA Rego 표준 채택**, **거시적 RBAC과 미시적 ABAC의 하이브리드 결합**, **PIP 속성 캐싱 최적화 및 웹훅 기반 즉각 무효화**, **Deny-Overrides 기반 기본 거부(Default Deny) 원칙 강제**를 구축하여 성능과 보안성이 조화된 차세대 동적 인가 생태계를 완성
+- 안정적 직무는 RBAC, 동적 위험은 **ABAC**으로 판정하고 기본 거부 적용
 
 #### 한줄 요약
 - 4대 속성 다차원 결합과 PEP-PDP 아키텍처 및 하이브리드 OPA 모델을 통해 제로 트러스트 동적 인가를 완성한다.

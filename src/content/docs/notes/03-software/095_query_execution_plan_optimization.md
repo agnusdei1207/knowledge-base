@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
-date: "2026-08-26T09:48:00+09:00"
+date: "2026-08-27T01:47:00+09:00"
 tags:
   - "notes-software"
 weight: 95
@@ -56,22 +56,6 @@ extra:
 - **EXPLAIN 6대 핵심 컬럼**: id(연산 순서), select_type(단순/서브쿼리), table(참조 테이블), type(조인/스캔 방식), rows(예상 행수), Extra(부가 정보).
 
 </details>
-
-```text
-[MySQL EXPLAIN 실행 계획 필드 구조]
-|-- id (실행 순서 식별자: id가 클수록, 같으면 위에 있을수록 먼저 실행)
-|-- select_type (SIMPLE, PRIMARY, SUBQUERY, DERIVED 등 쿼리 유형)
-|-- table (접근 대상 테이블 명)
-|-- type (접근 방식: const > eq_ref > ref > range > index > ALL)
-|-- possible_keys & key (후보 인덱스 목록 및 실제 선택된 인덱스)
-|-- key_len (인덱스에서 실제 사용된 바이트 길이)
-|-- ref (인덱스 키와 비교되는 컬럼 또는 상수)
-|-- rows (CBO가 예측한 검사 대상 레코드 수)
-|-- filtered (조건 필터링 후 남는 예상 행 비율: 100%가 이상적)
-`-- Extra (Using index, Using where, Using temporary, Using filesort 등)
-```
-
-선의 의미: 계층 및 쿼리 실행 계획 테이블의 주요 평가 컬럼
 
 | 접근 방식 (type) | 의미 및 성능 수준 | 발생 상황 및 판정 기준 |
 |:---|:---|:---|

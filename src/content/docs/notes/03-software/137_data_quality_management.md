@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "데이터 품질 관리: 완전성•정확성•일관성 (Data Quality Management)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T02:57:00+09:00"
 tags:
   - "notes-software"
 weight: 137
@@ -57,19 +57,7 @@ extra:
 
 </details>
 
-```text
-[데이터 품질 관리(DQM) 6대 프레임워크]
-|-- 1. Completeness (완전성: 필수값 Null/Blank 누락 방지)
-|-- 2. Accuracy (정확성: 실제 참값 및 허용 도메인 값과 100% 일치)
-|-- 3. Consistency (일관성: 시스템 간 동일 데이터의 포맷 및 의미 상충 0%)
-|-- 4. Validity (유효성: 이메일, 전화번호, 정규식 포맷 및 범위 준수)
-|-- 5. Uniqueness (유일성: 고유 식별키 PK 중복 0% 및 Deduplication)
-`-- 6. Timeliness (적시성: 비즈니스 SLA 시간 내 최신 데이터 적재 완료)
-```
-
-선의 의미: 계층 및 데이터의 신뢰성을 보장하는 6가지 다차원 품질 지표 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 완전성 (Completeness) | 필수 비즈니스 항목의 **Null, 공백, 미입력 결측치 비율 측정 및 차단** | `IS NOT NULL` 검증 |
 | 정확성 (Accuracy) | 수집된 데이터가 **실제 현실 참값 및 비즈니스 공식과 일치하는지 측정** | 참조 테이블 대조 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "스마트홈 IoT 표준 : Zigbee, Thread, Matter"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:50:58+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -60,23 +60,19 @@ extra:
 </details>
 
 ```text
-[Matter 공통 제어 및 Thread/Wi-Fi 통합 아키텍처]
-|-- Matter Multi-Admin Controllers (Apple Home, Google Home, SmartThings 스마트폰/스피커)
-|   `-- Matter Application Layer (공통 디바이스 데이터 모델, PASE/CASE 암호화 세션, IPv6)
-|-- Wi-Fi / Ethernet Subnet (스마트 TV, 보안 카메라 등 고대역폭 기기)
-|-- Matter Bridge (레거시 Zigbee / Z-Wave 게이트웨이 연동 및 Matter 데이터 매핑)
-`-- Thread Mesh Network (IEEE 802.15.4 + 6LoWPAN + IPv6 자가 치유 메시망)
-    |-- Thread Border Router (Wi-Fi/Ethernet <-> Thread 간 IPv6 무변환 라우팅)
-    `-- Low-Power End Devices (스마트 전구, 도어락, 온습도 센서)
+[스마트홈 IoT 계층]
+|-- 애플리케이션 계층
+|-- 네트워크/전송 계층
+`-- 물리/데이터링크 계층
 ```
 
 선의 의미: 계층 및 제어 단말이 Matter 공통 프로토콜을 통해 Wi-Fi 기기, Matter 브리지 경유 Zigbee 기기, 보더 라우터 경유 Thread 기기를 단일 인터페이스로 제어하는 구조
 
 | 계층 | 기술 표준 | 핵심 엔지니어링 책임 | 주관 단체 |
 |:---|:---|:---|:---|
-| **애플리케이션 계층** | **Matter** | **공통 디바이스 데이터 모델, 클러스터 제어, 기기 인증(DAC), Multi-Admin** | CSA |
-| **네트워크/전송 계층**| **Thread / Wi-Fi**| **IPv6, 6LoWPAN, UDP, CoAP, 자가 치유 메시 라우팅 (MLE/RPL)** | Thread Group, WFA |
-| **물리/데이터링크 계층**| **802.15.4 / 802.11** | **2.4GHz 무선 변복조, O-QPSK, DSSS, CSMA/CA 매체 접근 제어** | IEEE 802 위원회 |
+| 애플리케이션 계층 | **Matter** | **공통 디바이스 데이터 모델, 클러스터 제어, 기기 인증(DAC), Multi-Admin** | CSA |
+| 네트워크/전송 계층 | **Thread / Wi-Fi**| **IPv6, 6LoWPAN, UDP, CoAP, 자가 치유 메시 라우팅 (MLE/RPL)** | Thread Group, WFA |
+| 물리/데이터링크 계층 | **802.15.4 / 802.11** | **2.4GHz 무선 변복조, O-QPSK, DSSS, CSMA/CA 매체 접근 제어** | IEEE 802 위원회 |
 
 #### 한줄 요약
 - Matter 응용 계층, Thread/Wi-Fi 전송 계층, IEEE 802.15.4/802.11 물리 계층이 결합된다.
@@ -147,7 +143,7 @@ Matter 기기 커미셔닝(Commissioning) 및 패브릭 가입 파이프라인
 
 ## Ⅶ. 결론
 
-- 파편화된 스마트홈 IoT 시장의 기기 호환성을 완성하기 위해 **IPv6 기반 Thread 메시 네트워크와 CSA Matter 애플리케이션 표준을 차세대 스마트홈 아키텍처로 채택**하고, 레거시 전환을 위한 **Matter Bridge 기술과 다중 보더 라우터 이중화 및 DAC PKI 보안 인증**을 통합 구축하여 안전하고 확장성 있는 스마트홈 인프라 완성
+- 저전력 IPv6 전송은 **Thread**, 제조사 상호운용은 **Matter** 선택
 
 #### 한줄 요약
 - Thread IPv6 메시 인프라와 Matter 공통 응용 프로토콜을 결합하여 제조사 종속 없는 스마트홈 표준 환경을 완성한다.

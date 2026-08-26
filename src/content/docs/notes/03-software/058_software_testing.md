@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 테스팅 (Software Testing)"
-date: "2026-08-26T09:41:00+09:00"
+date: "2026-08-27T00:53:00+09:00"
 tags:
   - "notes-software"
 weight: 58
@@ -59,20 +59,20 @@ extra:
 
 ```text
 [V-Model 및 테스트 4단계 계층 구조]
-|-- 요구사항 분석 (Requirements) <============> [인수 테스트 (Acceptance: 알파/베타/사용자 인수)]
-|-- 기본/시스템 설계 (System Design) <======> [시스템 테스트 (System: 기능/비기능/성능/보안)]
-|-- 상세 설계 (Detailed Design) <==========> [통합 테스트 (Integration: 빅뱅/상향식/하향식/샌드위치)]
-`-- 소스 구현 (Coding) <=====================> [단위 테스트 (Unit: JUnit Mock 격리 검증)]
+|-- 요구사항 분석 ───────── 인수 테스트
+|-- 기본/시스템 설계 ───── 시스템 테스트
+|-- 상세 설계 ─────────── 통합 테스트
+`-- 소스 구현 ─────────── 단위 테스트
 ```
 
 선의 의미: 소프트웨어 개발 단계와 테스트 레벨 간의 1:1 V-Model 대응 구조
 
-| 테스트 레벨 | 검증 대상 | 핵심 검증 책임 및 도구 |
-|:---|:---|:---|
-| 단위 테스트 (Unit) | 함수, 메서드, 모듈 단독 | **JUnit, Mockito** 기반 독립 격리 기능 및 분기 커버리지 검증 |
-| 통합 테스트 (Integration) | 모듈 간 인터페이스, DB, API | **Testcontainers, SpringBootTest** 기반 데이터 흐름 및 상호작용 검증 |
-| 시스템 테스트 (System) | 전체 통합 소프트웨어 시스템 | **JMeter, nGrinder** 기반 부하/성능, 보안 취약점, 신뢰성 검증 |
-| 인수 테스트 (Acceptance) | 사용자 요구사항 명세서 | **Cucumber(BDD)**, 알파/베타 테스트 기반 계약 이행 및 최종 승인 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 단위 테스트 | **JUnit·Mockito** 기반 모듈 격리 검증 |
+| 통합 테스트 | **Testcontainers** 기반 인터페이스 연동 검증 |
+| 시스템 테스트 | **JMeter** 기반 전체 성능·보안 검증 |
+| 인수 테스트 | **Cucumber BDD** 기반 요구사항 승인 |
 
 #### 한줄 요약
 - 단위(Unit), 통합(Integration), 시스템(System), 인수(Acceptance) 4개 레벨로 완성된다.

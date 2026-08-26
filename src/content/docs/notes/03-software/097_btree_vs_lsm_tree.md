@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-26T09:48:00+09:00"
+date: "2026-08-27T01:53:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -56,18 +56,6 @@ extra:
 - **MemTable & SSTable**: LSM-Tree의 메모리 정렬 버퍼(MemTable: SkipList)와 디스크에 플러시된 불변 정렬 파일(SSTable: Sorted String Table).
 
 </details>
-
-```text
-[B-Tree vs LSM-Tree 스토리지 아키텍처 비교]
-|-- 1. B-Tree 엔진 (In-Place Update: 제자리 덮어쓰기)
-|   `-- Root Node -> Branch Node -> Leaf Page (디스크 16KB 고정 페이지 랜덤 I/O 덮어쓰기)
-`-- 2. LSM-Tree 엔진 (Out-of-Place: 메모리 버퍼 + 순차 디스크 플러시)
-    |-- 쓰기 요청 -> WAL (Write-Ahead Log) 순차 기록 + MemTable (인메모리 SkipList) 적재
-    |-- Flush -> Level 0 SSTable (불변 정렬 파일 디스크 순차 쓰기)
-    `-- Background Compaction -> Level 1 ~ N SSTable 병합 및 삭제 톰스톤(Tombstone) 정리
-```
-
-선의 의미: 계층 및 B-Tree의 고정 블록 랜덤 수정과 LSM-Tree의 메모리 버퍼링 및 백그라운드 컴팩션 구조
 
 | 구성요소 | B-Tree 엔진 | LSM-Tree 엔진 |
 |:---|:---|:---|

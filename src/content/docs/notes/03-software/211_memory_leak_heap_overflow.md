@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "메모리 누수•힙 고갈 (Memory Leak Heap Exhaustion)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:26:44+09:00"
 tags:
   - "notes-software"
 weight: 211
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: GC 대상 객체의 참조 미해제로 인해 **가용 힙 메모리가 점진적으로 소진되어 OutOfMemoryError(OOM)가 발생하는 런타임 장애**
-- 배경/필요성: 정적 컬렉션 무단 참조 및 ThreadLocal 미해제로 인한 **Stop-the-World GC 지연, OutOfMemoryError 크래시 및 전사 서비스 중단 해결 불가**
+- 정의/개념: 참조가 남은 객체를 회수하지 못하는 **메모리 누수**
+- 배경/필요성: 누적 참조로 **힙 할당 실패**와 서비스 중단 발생
 
 #### 한줄 요약
 - 힙 덤프(Heap Dump) 분석과 Dominator Tree 역추적을 통해 GC Root 강한 참조를 제거하고 힙 안정성을 확보한다.
@@ -58,23 +58,21 @@ extra:
 </details>
 
 ```text
-[JVM 메모리 누수 진단 및 힙 덤프 분석 아키텍처]
-|-- 1. Real-time APM Monitoring (Scouter / Pinpoint: 힙 사용량 우상향 및 Full GC 주기 감시)
-`-- 2. Dump Snapshot Collector (`jcmd <pid> GC.heap_dump /tmp/dump.hprof` 스냅샷 추출)
-`-- 3. Eclipse MAT Diagnostic Analyzer
-    |-- Dominator Tree (Retained Heap 상위 점유 객체 식별)
-    `-- Shortest Paths to GC Roots (Static Map -> ThreadLocal -> Entity 참조 경로 역추적)
-`-- 4. Code Remediation & JVM Tuning (`collection.clear()`, `ThreadLocal.remove()` 강제 적용)
+[누수 진단 체계]
+|-- APM 계측기
+|-- 덤프 수집기
+|-- MAT 분석기
+`-- 코드 수정 조치
 ```
 
-선의 의미: 계층 및 실시간 APM이 우상향 누수를 감지하면 jcmd로 힙 덤프를 추출하여 MAT에서 GC Root를 역추적하고 소스코드를 수정하는 구조
+선의 의미: 진단 체계를 이루는 정적 포함 관계
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **실시간 APM 계측기** | 힙 영역별 점유율, **Full GC 수행 횟수, 초당 객체 할당률(Allocation Rate) 모니터링** | Scouter, Pinpoint |
-| **덤프 스냅샷 수집기** | OOM 시점 또는 이상 징후 시점에 **전체 객체와 참조 그래프를 담은 `.hprof` 덤프 생성** | jcmd, jmap |
-| **MAT 분석기 (Analyzer)**| 덤프 파일을 파싱하여 **가장 많은 메모리를 점유한 Dominator 객체와 GC Root 경로 역추적** | Eclipse MAT |
-| **소스코드 수정 조치** | 정적 컬렉션 비우기, **ThreadLocal 해제, I/O 스트림 및 Native 메모리 명시적 close 처리**| 근본 원인 제거 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **APM 계측기** | 할당률과 **Full GC 기저선** 관측 |
+| **덤프 수집기** | 객체와 참조 그래프 **힙 덤프** 생성 |
+| **MAT 분석기** | **Dominator Tree**와 GC Root 경로 분석 |
+| **코드 수정 조치** | 강한 참조와 **ThreadLocal** 해제 |
 
 #### 한줄 요약
 - APM 계측기, 덤프 수집기, MAT 분석기, 소스코드 수정 조치가 결합된다.
@@ -88,18 +86,24 @@ extra:
 </details>
 
 ```text
-JVM 메모리 이상 징후 및 힙 고갈 트러블슈팅
-        │
-   1. [부하 인가 및 GC] 1,000 TPS 부하를 인가한 후 Full GC를 실행하여 불필요한 객체 정리
-        │
-   2. [힙 덤프 추출] 10분 간격으로 2개의 힙 덤프 파일(`dump_1.hprof`, `dump_2.hprof`) 생성
-        │
-   3. [도미네이터 분석] MAT에서 `SessionManager.activeUserMap` 정적 객체의 Retained Heap 폭증 확인
-        │
-   4. [원인 판정 및 수정] 로그아웃 시 Map 미삭제 버그를 특정하고 `map.remove(userId)` 코드 반영
-        │
-   5. [회귀 검증] 재배포 후 동일 부하에서 Full GC 이후 힙 점유율이 25% 기저선으로 정상 회복 확인
+[부하·Full GC]
+      |
+1. 힙 덤프 추출
+      |
+2. 도미네이터 분석
+      |
+3. GC Root 경로 추적
+      |
+4. 참조 해제
+      |
+5. 회귀 검증
 ```
+
+- 1. 힙 덤프 추출: 시점별 **객체 참조 그래프** 수집
+- 2. 도미네이터 분석: 상위 **Retained Heap** 식별
+- 3. GC Root 경로 추적: 회수 방해 **강한 참조** 확인
+- 4. 참조 해제: 컬렉션과 **ThreadLocal** 정리
+- 5. 회귀 검증: Full GC 후 **기저선 회복** 확인
 
 #### 한줄 요약
 - 부하 인가 → 덤프 추출 → 도미네이터 분석 → 원인 판정/수정 → 회귀 검증 순으로 진행된다.
@@ -142,7 +146,7 @@ JVM 메모리 이상 징후 및 힙 고갈 트러블슈팅
 
 ## Ⅶ. 결론
 
-- 시스템의 장기적인 신뢰성과 고가용성을 확보하기 위해 **APM을 통한 Full GC 후 힙 메모리 기저선 우상향 패턴을 상시 관측**하고, **Eclipse MAT 기반의 Dominator Tree 역추적과 ThreadLocal 명시적 해제 가이드라인을 개발 표준으로 준수**하여 무결점 엔터프라이즈 JVM 완성
+- Full GC 후 기저선 상승 시 **힙 덤프 분석** 후 참조 해제
 
 #### 한줄 요약
 - 메모리 누수와 힙 고갈은 Full GC 후 기저선 추적, 힙 덤프 Dominator 분석, 명시적 참조 해제를 통해 해결하는 핵심 시스템 성능 엔지니어링 영역이다.

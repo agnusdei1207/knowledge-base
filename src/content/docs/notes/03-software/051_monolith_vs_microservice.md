@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모놀리식 vs 마이크로서비스 (Monolith vs Microservice)"
-date: "2026-08-26T09:39:00+09:00"
+date: "2026-08-27T00:35:00+09:00"
 tags:
   - "notes-software"
 weight: 51
@@ -57,26 +57,11 @@ extra:
 
 </details>
 
-```text
-[Monolith vs Modular Monolith vs Microservices 구조]
-|-- 모놀리식 (Monolith: 단일 프로세스 & 단일 공유 DB)
-|   `-- [UI -> Controller -> Service -> DAO] -> [단일 통합 RDBMS]
-|-- 모듈러 모놀리스 (Modular Monolith: 단일 배포 & 내부 모듈 격리)
-|   |-- [주문 모듈 (내부 격리)] <--- [내부 이벤트/인터페이스] ---> [결제 모듈]
-|   `-- [단일 DB 내 도메인별 스키마 분리]
-`-- 마이크로서비스 (MSA: 네트워크 분산 & Database-per-Service)
-    |-- API Gateway -> [주문 서비스: 주문 DB] (독립 배포)
-    `-- Kafka Event -> [결제 서비스: 결제 DB] (독립 배포)
-```
-
-선의 의미: 아키텍처 모델별 프로세스 및 데이터베이스 경계
-
-| 비교 항목 | 모놀리식 (Monolithic) | 모듈러 모놀리스 (Modular Monolith) | 마이크로서비스 (MSA) |
-|:---|:---|:---|:---|
-| 배포 단위 | **단일 실행 바이너리** | **단일 실행 바이너리** | 서비스별 수십 개 컨테이너 |
-| 서비스 간 통신 | 인메모리 메서드 호출 | 인메모리 인터페이스/이벤트 | **네트워크 HTTP, gRPC, Kafka** |
-| 데이터베이스 | 단일 통합 DB (공유) | 단일 DB (스키마 논리 분리) | **Database-per-Service (물리 분리)** |
-| 트랜잭션 | **ACID (단일 트랜잭션)** | ACID (단일 트랜잭션) | **BASE (Saga 최종 일관성)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 모놀리식 | 단일 바이너리·공유 DB로 **ACID 트랜잭션** 제공 |
+| 모듈러 모놀리스 | 단일 배포에서 **모듈·스키마 경계** 격리 |
+| 마이크로서비스 | **Database-per-Service**와 독립 배포 제공 |
 
 #### 한줄 요약
 - Monolith(단일 통합), Modulith(단일 배포/모듈 격리), MSA(완전 네트워크 분산)로 대비된다.

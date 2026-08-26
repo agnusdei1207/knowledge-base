@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "온디바이스 AI 모델 배포: LiteRT•ONNX (On-Device Model Deployment)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:25:20+09:00"
 tags:
   - "notes-software"
 weight: 208
@@ -58,12 +58,12 @@ extra:
 </details>
 
 ```text
-[온디바이스 AI 모델 변환, OTA 배포 및 엣지 실행 아키텍처]
-|-- 1. Cloud Model Optimization (PyTorch -> INT8 QAT 양자화 -> LiteRT / ONNX 변환)
-|-- 2. OTA Model Distribution (단말 사양별 바이너리 매핑 + 비대칭 전자서명 검증)
-`-- 3. Edge Device Execution Environment
-    |-- 4. Inference Runtime: LiteRT / ONNX Runtime (Operator Graph 파싱 및 델리게이트)
-    `-- 5. Hardware Acceleration Layer: NPU (INT8 텐서 가속) / GPU (FP16) / CPU Fallback
+[온디바이스 AI 배포 구성]
+|-- 경량화 변환기
+|-- 추론 런타임
+|-- 하드웨어 가속기
+|-- 온디바이스 앱
+`-- OTA 제어기
 ```
 
 선의 의미: 계층 및 클라우드에서 경량화되어 서명된 모델이 단말 추론 런타임에 로드되어 NPU/GPU 가속기를 통해 실시간 추론되는 구조
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 인프라 비용을 절감하고 데이터 주권과 즉각적 반응성을 실현하기 위해 **PyTorch 모델의 INT8 QAT 양자화와 LiteRT/ONNX 표준 포맷 변환을 의무화**하고, **Device Farm 기반의 칩셋 호환성 검증과 안전한 OTA 카나리 배포 거버넌스**를 결합하여 고성능 온디바이스 AI 생태계 완성
+- 오프라인·민감 처리는 **LiteRT·ONNX**, 대형 연산은 **클라우드** 선택
 
 #### 한줄 요약
 - 온디바이스 AI 배포는 모델 경량화, 크로스 플랫폼 런타임, OTA 카나리 배포를 통해 네트워크 없이 초저지연과 프라이버시를 보장하는 핵심 엣지 컴퓨팅 기술이다.

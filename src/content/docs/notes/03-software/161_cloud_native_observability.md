@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 네이티브 관측성 (Cloud Native Observability)"
-date: "2026-08-26T10:25:00+09:00"
+date: "2026-08-26T13:14:23+09:00"
 tags:
   - "notes-software"
 weight: 161
@@ -74,9 +74,11 @@ extra:
 |   `-- Loki (구조화 JSON 로그)
 `-- 통합 분석 UI
     `-- Grafana (신호 간 원클릭 교차 분석)
+```
+
 선의 의미: 계층 및 OTel SDK가 생성한 3대 신호를 OTel Collector가 취합·가공하여 저장소로 라우팅하고 Grafana에서 통합 분석하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | OTel SDK (계측) | 애플리케이션에 주입되어 **W3C traceparent 전파 및 텔레메트리 생성** | 표준 계측 API |
 | OTel 수집기 | 텔레메트리를 수신해 **PII 마스킹 및 저장소 라우팅** | 파이프라인 가공 |

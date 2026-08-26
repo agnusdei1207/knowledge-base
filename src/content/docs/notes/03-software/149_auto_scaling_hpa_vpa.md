@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "오토 스케일링 HPA•VPA (Auto Scaling HPA VPA)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:16:59+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 쿠버네티스 환경에서 실시간 부하 지표에 따라 **Pod 복제본 수를 수평 증감하는 HPA와 Pod 자원 스펙을 수직 조정하는 VPA 메커니즘**
-- 배경/필요성: 수동 자원 증설 고수 시 발생하는 **돌발 트래픽 폭증 시 서비스 다운타임 발생 및 유휴 시간대 막대한 자원 낭비 해결 불가**
+- 배경/필요성: 수동 증설로는 **돌발 부하 대응·유휴 자원 회수 불가**
 
 #### 한줄 요약
 - 병렬 부하는 HPA로 Pod 수를 늘리고, 개별 Pod 자원 부족은 VPA로 리소스 스펙을 조정한다.
@@ -59,23 +59,22 @@ extra:
 
 ```text
 [쿠버네티스 오토스케일링(HPA / VPA) 아키텍처]
-|-- Metrics Provider (Metrics Server, Prometheus Adapter: CPU, Memory, QPS)
-|-- Autoscaler Controllers
-|   |-- HPA Controller (목표 지표 대비 Desired Replicas 계산 -> Deployment 스케일아웃)
-|   `-- VPA Controller (Recommender -> Updater -> Admission Controller Pod 재시작)
-`-- Node Provisioning Layer
-    `-- Karpenter / Cluster Autoscaler (Pending Pod 발생 시 EC2 노드 즉각 증설)
+|-- Metrics Provider (CPU, Memory, QPS)
+|-- HPA Controller (복제본 수 산정)
+|-- VPA Controller (자원 요청량 산정)
+|-- Workload Controller (Pod 명세 관리)
+`-- Node Scaler (워커 노드 용량 관리)
 ```
 
 선의 의미: 계층 및 지표 수집기에서 받은 메트릭을 바탕으로 HPA/VPA가 Pod를 확장하고 자원 부족 시 노드 스케일러가 연동되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 지표 공급자 (Metrics) | Kubelet 및 프로메테우스로부터 **CPU, Memory, QPS, Kafka Lag 수집** | 15초 주기 폴링 |
-| HPA 제어기 (HPA) | 목표 사용률에 맞추어 **Deployment 복제본(Replicas) 개수 수평 증감** | Scale-out / Scale-in |
-| VPA 제어기 (VPA) | 과거 사용량을 분석하여 **Pod의 CPU/Memory Resource Request 최적값 갱신** | Recommender / Updater |
-| 워크로드 제어기 | HPA/VPA의 변경 지시를 받아 **Deployment, StatefulSet Pod 명세를 갱신** | 롤링 업데이트 반영 |
-| 노드 스케일러 (Karpenter) | Pod 배치 공간 부족(Pending) 감지 시 **클라우드 워커 노드(EC2) 즉각 프로비저닝** | 초고속 노드 스케일러 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 지표 공급자 | **CPU·메모리·QPS** 수집 |
+| HPA 제어기 | 목표 지표별 **복제본 수 증감** |
+| VPA 제어기 | Pod의 **자원 요청량 갱신** |
+| 워크로드 제어기 | Deployment·StatefulSet의 **Pod 명세 반영** |
+| 노드 스케일러 | Pending Pod를 위한 **워커 노드 증설** |
 
 #### 한줄 요약
 - 지표 공급자, HPA 제어기, VPA 제어기, 워크로드 제어기, 노드 스케일러가 결합된다.

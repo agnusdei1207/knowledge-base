@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:11:38+09:00"
 tags:
   - "notes-software"
 weight: 153
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[쿠버네티스 파드 생명주기 및 3대 프로브 아키텍처]
-|-- 1. Pod Initialization Phase (파드 초기화 단계)
-|   `-- [Pending] -> [Init Containers (DB 마이그레이션)] -> [App Container Started]
-|-- 2. Kubelet Probe Monitoring Layer (3대 프로브 감시 계층)
-|   |-- Startup Probe (초기 부팅 완료 시까지 Liveness/Readiness 실행 보류)
-|   |-- Liveness Probe (데드락/무한루프 감지 시 -> 컨테이너 프로세스 자동 재시작)
-|   `-- Readiness Probe (트래픽 수용 준비 판정 -> K8s Service Endpoints 등록/제외)
-`-- 3. Traffic Routing Layer (Running 상태 도달 시 Service / Ingress 트래픽 유입)
-```
-
-선의 의미: 계층 및 kubelet이 3대 프로브를 순차적/병렬적으로 실행하여 컨테이너 상태를 제어하는 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 초기화 컨테이너 (Init) | 메인 앱 실행 전 **DB 마이그레이션, 설정 파일 다운로드 등 사전 작업 완료** | 순차 실행 후 종료 |
 | 스타트업 프로브 (Startup) | 무거운 애플리케이션의 **초기 기동 시간을 보장하여 불필요한 조기 재시작 차단** | 부팅 완료 시 비활성 |

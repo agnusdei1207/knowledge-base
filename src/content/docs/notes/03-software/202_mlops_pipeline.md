@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "MLOps 파이프라인 (MLOps Pipeline)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:23:34+09:00"
 tags:
   - "notes-software"
 weight: 202
@@ -58,15 +58,11 @@ extra:
 </details>
 
 ```text
-[MLOps 전 수명주기 파이프라인 및 CI/CD/CT 구조]
-|-- 1. Data & Feature Store Layer (Feast / Hopsworks: 오프라인 배치 + 온라인 저지연 피처)
-`-- 2. Automated Training Pipeline Layer (Kubeflow Pipelines / Airflow DAG)
-    |-- Data Validation (Great Expectations: 스키마 및 이상치 검증)
-    `-- Distributed Training & Hyperparameter Tuning (Ray / PyTorch Lightning)
-`-- 3. Model Registry & Lineage Layer (MLflow / Weights & Biases)
-    `-- Model Artifacts + Dataset Hash + Git Commit + Hyperparameters 불변 보관
-`-- 4. Serving & Quality Monitoring Layer (KServe / Triton + Evidently Drift Monitor)
-    `-- Canary Deployment -> Drift 감지 시 -> [Continuous Training (CT) 피드백 루프]
+[MLOps 파이프라인]
+|-- 피처 저장소
+|-- 학습 파이프라인
+|-- 모델 레지스트리
+`-- 모델 서빙 및 관측
 ```
 
 선의 의미: 계층 및 Feature Store 데이터로 학습하여 Registry에 등록하고 KServe로 배포한 후 드리프트 감지 시 재학습으로 피드백되는 선순환 구조
@@ -144,7 +140,7 @@ MLOps 지속적 통합 및 배포 파이프라인 가동
 
 ## Ⅶ. 결론
 
-- 머신러닝 모델의 산업화와 운영 안정성을 확립하기 위해 **Feature Store와 Model Registry 기반의 Lineage 관리 체계를 표준 도입**하고, **Kubeflow 기반의 CI/CD/CT 자동화 파이프라인과 실시간 드리프트 감시 체계**를 결합하여 지속 가능한 엔터프라이즈 MLOps 플랫폼 완성
+- 재현성 요구에는 **Lineage**, 성능 변화에는 **CI/CD/CT** 적용
 
 #### 한줄 요약
 - MLOps 파이프라인은 데이터, 코드, 모델의 다차원 버전 관리와 지속적 학습(CT)을 통해 AI 서비스의 재현성과 신뢰성을 보장하는 핵심 운영 체계다.

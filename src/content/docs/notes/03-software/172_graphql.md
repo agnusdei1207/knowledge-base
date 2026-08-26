@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GraphQL (GraphQL)"
-date: "2026-08-26T10:25:00+09:00"
+date: "2026-08-26T13:15:47+09:00"
 tags:
   - "notes-software"
 weight: 172
@@ -31,7 +31,7 @@ extra:
 - 배경/필요성: REST API의 고정 응답 구조로 인한 **데이터 과다 전송(Over-fetching) 및 다중 호출 왕복 지연(Under-fetching) 해결 불가**
 
 #### 한줄 요약
-- 단일 엔드포인트와 선언적 질의를 통해 Over/Under-fetching을 해소하고 네트워크 왕복을 최소화한다.
+- 선언적 필드 선택으로 과다 조회와 다중 호출을 줄인다.
 
 ## Ⅱ. 특징
 
@@ -42,12 +42,12 @@ extra:
 
 </details>
 
-- 모든 요청을 단일 엔드포인트(POST `/graphql`)로 처리하는 **Single Endpoint**
+- 단일 논리 엔드포인트를 사용하는 **Single Endpoint**
 - 클라이언트가 필요한 필드와 중첩 깊이를 직접 지정하는 **선언적 데이터 패칭(Declarative Fetching)**
 - 스키마 기반 타입 시스템과 `@deprecated`를 활용한 **무버전 점진적 진화(Versionless)**
 
 #### 한줄 요약
-- 단일 엔드포인트, 선언적 데이터 패칭, 강타입 스키마를 통해 모바일/웹 통신 효율을 극대화한다.
+- 단일 엔드포인트와 강타입 스키마로 응답 필드를 조정한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -59,24 +59,24 @@ extra:
 
 ```text
 [GraphQL 엔진 아키텍처 및 리졸버 실행 구조]
-|-- 1. Client Request Layer: Declarative Query (`POST /graphql`)
+|-- Client Request Layer
 |   `-- `query { user(id: 1) { name, posts { title, comments { text } } } }`
-`-- 2. GraphQL Engine Core Layer
+`-- GraphQL Engine Core Layer
     |-- Schema Definition (Type, Field, Query, Mutation 계약 명세)
     |-- Parser & Validator (AST 구문 변환, 쿼리 Depth 및 비용 검증)
     `-- Execution Engine (필드별 계층형 Resolver 실행 트리 조립)
-        |-- 3. DataLoader Batching Layer (N+1 방지: ID 수집 후 Batch `IN` 쿼리)
-        `-- 4. Multi-Data Source Layer (RDBMS, Redis, REST Microservices 연동)
+        |-- DataLoader Batching Layer
+        `-- Multi-Data Source Layer
 ```
 
 선의 의미: 계층 및 클라이언트의 선언적 쿼리를 엔진이 파싱하여 DataLoader를 거쳐 다중 데이터 소스에서 필드를 조립 반환하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 스키마 (Schema) | Type, Field, Argument의 **Query·Mutation 계약 선언** | SDL 명세 체계 |
-| 질의 언어 (Query / Mutation)| 클라이언트가 응답받을 **Selection Set 필드 구조 및 변경 파라미터 선언** | 선언적 질의 |
-| 리졸버 (Resolver) | 각 필드 요청을 **실제 DB 쿼리, 캐시, 백엔드 마이크로서비스 호출과 연결** | 필드 단위 실행 함수 |
-| 데이터로더 (DataLoader) | 반복되는 자식 객체 조회를 **배치(Batching) 및 메모리 캐싱으로 묶어 N+1 해소** | 일괄 `IN` 조회 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 스키마 | Type·Field·Argument의 **API 계약** 선언 |
+| Query·Mutation | 조회 필드와 변경 입력 선언 |
+| 리졸버 | 필드를 데이터 소스 호출에 연결 |
+| DataLoader | 요청 범위의 키를 배치·캐시해 N+1 완화 |
 
 #### 한줄 요약
 - 스키마, 쿼리/뮤테이션, 리졸버, 데이터로더가 결합된다.
@@ -85,7 +85,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **GraphQL 실행 5단계**: 쿼리 AST 파싱 $\to$ 스키마/비용 검증 $\to$ 실행 계획 수립 $\to$ DataLoader 리졸버 배치 실행 $\to$ JSON 응답 조립.
+- **GraphQL 실행**: 파싱, 검증, 실행 계획, 리졸버 배치 수행.
 
 </details>
 
@@ -98,10 +98,17 @@ extra:
         │
    3. [실행 계획 수립] 필드 간 의존성과 병렬 실행 가능한 리졸버 트리 생성
         │
-   4. [DataLoader 배치 실행] DataLoader가 각 사용자/게시글 ID를 모아 단 1번의 `IN` 쿼리로 DB 조회
+   4. [DataLoader 배치 실행] 요청 키를 모아 데이터 소스별 배치 조회
         │
    클라이언트가 요구한 Selection Set JSON 구조로 데이터를 조립하여 단일 응답 회신
 ```
+
+동작 원리:
+
+1. 쿼리 파싱: 요청을 AST로 변환
+2. 스키마 및 비용 검증: 타입·깊이·비용 확인
+3. 실행 계획 수립: 필드 의존성과 병렬성 결정
+4. DataLoader 배치 실행: 요청 키를 묶어 조회
 
 #### 한줄 요약
 - 쿼리 파싱 → 스키마/비용 검증 → 실행 계획 수립 → DataLoader 배치 실행 → JSON 조립 순으로 진행된다.
@@ -117,8 +124,8 @@ extra:
 | 비교 항목 | REST API | GraphQL |
 |:---|:---|:---|
 | 엔드포인트 구조 | **자원별 다수 엔드포인트 (`/users`, `/posts`)**| **단일 엔드포인트 (`/graphql`)** |
-| 응답 데이터 형태 | 서버가 정해둔 고정 포맷 (Over/Under-fetching) | **클라이언트가 요청한 필드만 정확히 반환** |
-| 네트워크 왕복 횟수 | 연관 데이터 조회를 위해 N번 다중 호출 필요 | **단 1번의 네트워크 왕복(Round-Trip)으로 일괄 수신**|
+| 응답 데이터 형태 | 자원별 표현 계약 | **Selection Set 기반 필드 선택** |
+| 연관 데이터 조회 | 엔드포인트·포함 옵션에 따라 호출 | 중첩 질의를 단일 요청으로 표현 |
 | HTTP 캐싱 활용 | **표준 HTTP GET 메서드 기반 브라우저/CDN 캐싱 용이**| POST 단일 요청으로 표준 HTTP 캐싱 활용 난이도 높음 |
 | 버전 관리 방식 | `/v1`, `/v2` URI 기반 물리적 버전 분리 | **`@deprecated` 어노테이션 기반 단일 스키마 진화**|
 
@@ -135,9 +142,9 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 계층형 리졸버의 N+1 개별 쿼리로 인한 DB 성능 고갈 | **DataLoader 패턴 도입으로 ID 취합 후 단일 배치 `IN` 쿼리 실행** | DB 쿼리 수 90% 이상 절감 |
-| 악의적인 무한 재귀 중첩 쿼리 공격으로 서버 OOM 다운 | **`graphql-depth-limit` 설정 및 쿼리 복잡도(Cost) 상한선 제한** | DoS 악성 쿼리 원천 차단 |
-| 단일 POST 요청으로 인한 브라우저/CDN HTTP 캐싱 불가 | **Persisted Queries (쿼리 해시화 GET 전송) 및 Apollo 캐시 적용** | 엣지 CDN 캐싱 및 대역폭 절감 |
+| 계층형 리졸버의 N+1 DB 조회 | **DataLoader 배치·요청 캐시** 적용 | 데이터 소스 호출 수 감소 |
+| 깊고 복잡한 쿼리의 자원 고갈 | **깊이·복잡도·시간 제한** 적용 | 요청별 자원 사용량 제한 |
+| GraphQL 응답의 CDN 캐시 제약 | **Persisted Query·클라이언트 캐시** 적용 | 캐시 키 안정화와 대역폭 절감 |
 | 다수 마이크로서비스 결합 시 스키마 관리 파편화 | **Apollo Federation 도입으로 서브그래프를 단일 슈퍼그래프로 통합** | 엔터프라이즈 마이크로서비스 연계 |
 
 #### 한줄 요약
@@ -145,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 복잡한 연관 데이터를 다루는 현대 모바일 및 웹 프론트엔드 환경에서 **Over/Under-fetching을 원천 해소하기 위해 GraphQL을 표준 도입**하고, **DataLoader 기반 N+1 최적화와 Query Depth/Cost 보안 정책**을 결합하여 고성능 선언적 데이터 서비스 완성
+- 가변 중첩 조회는 **GraphQL**, 단순 자원·HTTP 캐시는 **REST** 선택
 
 #### 한줄 요약
-- GraphQL은 단일 엔드포인트와 강타입 스키마 기반의 선언적 데이터 패칭을 통해 네트워크 왕복과 데이터 낭비를 최소화하는 현대 프론트엔드 최적화 핵심 API 기술이다.
+- GraphQL에는 N+1 완화와 쿼리 비용 제한을 함께 적용한다.

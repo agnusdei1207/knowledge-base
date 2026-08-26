@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이종 도메인 XML 연합 인증 및 싱글 사인온 : SAML 2.0 (Security Assertion Markup Language & OASIS)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:46:22+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 신원 제공자(**IdP: Identity Provider**)와 서비스 제공자(**SP: Service Provider**) 간의 사전 신뢰(Metadata/공개키)를 기반으로, **인증 요청(AuthnRequest) $\rightarrow$ 사용자 인증 $\rightarrow$ XML 서명된 Assertion 발행 $\rightarrow$ SP 검증 및 로컬 세션 수립** 을 집행하는 **엔터프라이즈 연합 SSO 아키텍처**
-- 배경/필요성: 기업 내 레거시 B2B 시스템, 클라우드 SaaS(Salesforce, Workday), 온프레미스 포털 간에 개별 계정을 생성/유지함에 따라 발생하는 비밀번호 관리 취약성과 계정 수명주기 통제 부재를 해결할 요구
+- 배경/필요성: 도메인별 계정 관리로는 **연합 신원** 수명주기 통제 곤란
 
 #### 한줄 요약
 - IdP와 SP 간 사전 신뢰를 바탕으로 XML 기반 서명 Assertion을 교환하여 이종 도메인 SSO를 구현한다.
@@ -182,7 +182,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 글로벌 엔터프라이즈 연합 신원 관리의 핵심 기둥인 **SAML 2.0 아키텍처**는 이종 도메인 간의 무결점 싱글 사인온을 보장하며, 실무 구현 시 **SP-Initiated SSO 방식 표준 채택**, **XML 서명 래핑(XSW) 방어를 위한 엄격한 파서 하드닝**, **Assertion ID 캐싱 기반 Replay 방어**, **Recipient 및 Audience 클레임의 철저한 대조**를 결합하여 완벽한 엔터프라이즈 연합 보안 신뢰 모델을 완성
+- 레거시 웹 연합은 **SAML 2.0**을 유지하고 XSW·재전송 검증을 강화
 
 #### 한줄 요약
 - PKI 메타데이터 신뢰와 XML 디지털 서명 및 다계층 유효성 검증을 통해 안전한 SAML 2.0 연합 SSO를 완성한다.

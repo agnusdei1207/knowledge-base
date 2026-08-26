@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "인가 위임 및 분산 신원 인증 표준 : OAuth 2.0 및 OIDC (OpenID Connect & RFC 6749/7636)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:46:06+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 권한 위임 표준인 **OAuth 2.0(Access Token/Refresh Token)** 과 신원 증명 표준인 **OIDC(ID Token)** 를 계층적으로 결합하여, **인가 코드 발급 $\rightarrow$ PKCE 검증 $\rightarrow$ 토큰 교환 $\rightarrow$ JWT 서명/클레임 검증 $\rightarrow$ API 자원 접근** 을 수행하는 **현대 분산 신원 및 권한 관리(IAM) 아키텍처**
-- 배경/필요성: 서드파티 앱마다 패스워드를 공유하던 기존 방식(패스워드 안티 패턴)의 보안 붕괴를 방지하고, 권한 위임(What you can do)과 신원 인증(Who you are)을 명확히 분리 통제할 요구
+- 배경/필요성: 서드파티 패스워드 공유로는 **권한 위임** 범위 통제 불가
 
 #### 한줄 요약
 - OAuth 2.0으로 API 자원 접근 권한을 위임하고, OIDC로 사용자 신원을 증명하여 패스워드 없는 안전한 연동을 구현한다.
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 웹 및 모바일 생태계의 분산 권한 위임과 통합 신원 인증을 주도하는 **OAuth 2.0 및 OIDC 아키텍처**는 현대 클라우드 IAM의 표준 인프라로서, 실무 구현 시 **RFC 9700 기반 PKCE 전면 강제**, **엄격한 Redirect URI 화이트리스트 관리**, **JWKS 기반 ID Token 서명 검증 및 클레임 무결성 평가**, **Refresh Token Rotation(RTR) 기반 수명주기 통제**를 결합하여 완결성 높은 제로 트러스트 인증/인가 체계를 완성
+- 권한 위임에는 **OAuth 2.0**, 신원 인증에는 OIDC를 쓰고 PKCE·RTR 적용
 
 #### 한줄 요약
 - OAuth 2.0 권한 위임과 OIDC 신원 인증에 PKCE 및 RTR을 결합하여 안전한 분산 인증을 완성한다.

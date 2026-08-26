@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-08-26T09:58:00+09:00"
+date: "2026-08-26T13:13:46+09:00"
 tags:
   - "notes-software"
 weight: 145
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 클라우드 환경에서 보안과 거버넌스 공백을 방지하기 위해 **CSP(Security OF the Cloud)와 고객(Security IN the Cloud)의 역할 및 통제 책임을 규정한 프레임워크**
-- 배경/필요성: 클라우드 도입 시 인프라 관리가 위탁됨에 따라 발생하는 **데이터 보호 및 IAM 권한 설정 주체 오인에 따른 보안 통제 사각지대 해결 불가**
+- 배경/필요성: 인프라 위탁만으로는 **데이터·IAM 책임 공백 방지 불가**
 
 #### 한줄 요약
 - CSP의 인프라 보안과 고객의 데이터/설정 보안 책임을 명확히 구분하여 보안 사각지대를 방지한다.
@@ -59,11 +59,11 @@ extra:
 
 ```text
 [클라우드 공유 책임 모델 분계선 구조]
-|-- 1. Customer Responsibility (Security IN the Cloud)
+|-- Customer Responsibility (Security IN the Cloud)
 |   |-- Customer Data Assets (데이터 분류 및 KMS 암호화)
 |   |-- Platform & IAM Management (MFA, RBAC/ABAC 최소 권한 통제)
 |   `-- OS / Network Firewall Configuration (OS 보안 패치, Security Group 포트 통제)
-`-- 2. CSP Responsibility (Security OF the Cloud)
+`-- CSP Responsibility (Security OF the Cloud)
     |-- Foundation Services (Compute, Storage, Database 인프라 소프트웨어)
     |-- Virtualization Layer (Hypervisor 격리 및 내부 네트워크 인프라)
     `-- Global Physical Infrastructure (리전/AZ 데이터센터 건물 출입, 전력, 공조)
@@ -71,12 +71,12 @@ extra:
 
 선의 의미: 계층 및 상단의 고객 통제 영역과 하단의 CSP 인프라 통제 영역을 서비스 모델별로 분계하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 고객 데이터 및 IAM (IN) | 데이터 암호화, 접근 통제(RBAC/ABAC), **루트 계정 MFA 및 최소 권한 부여 전담** | 고객 100% 전담 책임 |
-| 애플리케이션 및 OS (IN) | IaaS 가상머신의 **OS 보안 패치, 미들웨어 설정 및 애플리케이션 취약점 조치** | IaaS 환경 고객 책임 |
-| 가상화 및 플랫폼 (OF) | 하이퍼바이저 격리, 관리형 PaaS 런타임, **스토리지 결함 허용성 및 패치 제공** | CSP 전담 책임 |
-| 물리 데이터센터 (OF) | 전 세계 리전 및 가용 영역(AZ)의 **물리 출입 통제, 전력, 공조, 하드웨어 파기** | SOC/ISO 인증 증빙 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 고객 데이터·IAM | 암호화·접근 통제와 **MFA·최소 권한** |
+| 애플리케이션·OS | IaaS의 **패치·취약점 조치** |
+| 가상화·플랫폼 | 하이퍼바이저 격리와 **런타임 패치** |
+| 물리 데이터센터 | **출입·전력·공조·하드웨어 파기** 통제 |
 
 #### 한줄 요약
 - 고객 책임(IN)과 CSP 책임(OF)이 서비스 계층 경계를 중심으로 명확히 분리된다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 보안 공백 방지는 **공유 책임 모델**, 내부 통제는 **CSPM** 선택
+- 서비스 계층별 책임을 나누고 고객 영역은 **CSPM**으로 검증
 
 #### 한줄 요약
 - 클라우드 공유 책임 모델은 CSP와 고객의 보안 책임을 명확히 구분하여 보안 공백을 방지하는 클라우드 거버넌스의 가장 기본적이고 핵심적인 원칙이다.

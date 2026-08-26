@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "산업제어시스템 및 스마트팩토리 운영기술 보안 : OT 보안 (IEC 62443 & NIST SP 800-82)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T15:12:14+09:00"
 tags:
   - "notes-security"
 weight: 133
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 인명 안전과 생산 연속성을 보증하기 위해 **Purdue 엔터프라이즈 모델 기반 6계층 격리 $\rightarrow$ IEC 62443 영역(Zone) 및 통로(Conduit) 분할 $\rightarrow$ 산업 비무장지대(IDMZ Level 3.5) 중계 $\rightarrow$ 패치 불가 레거시 장비에 대한 보상 통제(Compensating Control) $\rightarrow$ 정비창(Maintenance Window) 기반 안전한 패치 배포** 를 집행하는 **산업 공정 복원력 아키텍처**
-- 배경/필요성: IT-OT 융합 및 IIoT(산업용 사물인터넷) 확산으로 폐쇄망이었던 공장 제어망이 인터넷 및 클라우드에 연결됨에 따라, 랜섬웨어(Stuxnet, BlackEnergy) 감염 및 국가 기간시설 테러 위협에 대한 글로벌 표준 보안 프레임워크 요구
+- 배경/필요성: IT 연결 증가로 폐쇄형 제어망의 **랜섬웨어 격리** 한계 발생
 
 #### 한줄 요약
 - IEC 62443 표준과 Purdue 모델 6계층 분할을 통해 안전성(Safety)과 고가용성 중심의 OT 보안을 확립한다.
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **결정론적 초저지연(Deterministic Real-time) 보장**: 통신 지연이 10ms 이내로 제한되는 산업용 이더넷(Modbus/TCP, Profinet, EtherCAT) 트래픽의 암호화 및 딥 패킷 인스펙션(DPI) 수행
-- **심층 방어 Purdue 모델 (Levels 0~5)**: 기업 IT망(Level 4/5)과 공장 OT망(Level 0~3) 사이에 산업용 DMZ(IDMZ Level 3.5)를 구축하여 다이렉트 통신 원천 차단
-- **독립된 안전 계장 시스템 (SIS: Safety Instrumented System)**: 해커가 SCADA/PLC를 완전 장악하더라도 물리적으로 독립된 SIS가 한계치 초과 시 비상 차단(Emergency Shutdown) 집행
+- **결정론적 실시간성**을 보존하는 산업 프로토콜 통제
+- **Purdue 모델**과 IDMZ로 IT·OT 직접 통신 차단
+- 독립된 **SIS**로 한계치 초과 시 비상 정지
 
 #### 한줄 요약
 - 가용성/안전성 최우선, IEC 62443 Zone/Conduit 분할, IDMZ 완충 격리, SIS 비상 인터락을 제공한다.
@@ -101,14 +101,14 @@ extra:
 
 선의 의미: IT망과 OT망 사이에 IDMZ(3.5)를 배치하여 트래픽을 단절하고, 각 계층을 Zone과 Conduit으로 분할하여 Level 0/1 물리 설비를 보호하는 구조
 
-| 계층 (Purdue Level) | 주요 설비 및 자산 | 핵심 보안 통제 기술 | 비고 |
-|:---|:---|:---|:---|
-| **Level 4/5 (IT망)** | ERP, 그룹웨어, 클라우드 SaaS | EDR, WAF, IPS, 계정 접근 통제 (IAM) | Enterprise |
-| **Level 3.5 (IDMZ)** | 이중화 Historian, 점프 호스트, 패치 WSUS | 단방향 데이터 다이오드(Data Diode), MFA 프록시 | Isolation |
-| **Level 3 (MES)** | 제조실행시스템(MES), 생산 스케줄러 | 롤백 가능한 백업 스냅샷, 자산 인벤토리 | Operations |
-| **Level 2 (SCADA/HMI)**| SCADA 서버, HMI 터치스크린 콘솔 | USB 포트 물리 봉인, 애플리케이션 화이트리스트 | Supervisory |
-| **Level 1 (PLC/DCS)** | PLC 제어기, 원격 단말 장치(RTU) | 산업용 제어 프로토콜 DPI 방화벽, 펌웨어 서명 | Basic Control |
-| **Level 0 & SIS** | 센서, 밸브, 모터, 독립 SIS 비상 정지 | 에어갭(Air-gapped) 물리 분리, 하드웨어 인터락 | Process & Safety|
+| 구성요소 | 책임 |
+|:---|:---|
+| **Level 4/5** | ERP·그룹웨어 등 기업 IT 운영 |
+| **Level 3.5 IDMZ** | IT·OT 사이의 중계와 직접 통신 차단 |
+| **Level 3** | MES와 공정 이력 관리 |
+| **Level 2** | SCADA·HMI 기반 원격 감시 제어 |
+| **Level 1** | PLC·DCS의 기본 제어 수행 |
+| **Level 0·SIS** | 물리 공정과 독립 비상 정지 담당 |
 
 #### 한줄 요약
 - Purdue 6계층(0~5), IDMZ Level 3.5 완충 격리, IEC 62443 Zone/Conduit 통로, SIS 비상 인터락으로 구성된다.
@@ -156,11 +156,11 @@ extra:
 
 **동작 원리**
 
-1. **가용성 중심 사전 검증**: 라이브 공정에 패치를 즉시 적용하지 않고 오프라인 테스트베드에서 100% 가동성 검증
-2. **비침습적 수동 관제**: OT 망에 부하를 주지 않기 위해 스위치 SPAN/TAP 포트 기반의 비침습적 수동형(Passive) 패킷 미러링 분석 적용
-3. **엄격한 프로토콜 화이트리스트**: Modbus Function Code(예: Read Only 0x03 허용, Write 0x05 차단) 레벨까지 DPI 심층 필터링
-4. **점진적 롤아웃과 즉시 가역성**: 1개 라인 단위로 순차 적용하며 실패 시 즉각 이전 펌웨어 이미지로 롤백
-5. **물리적 안전망 유지**: 사이버 제어망이 완전 붕괴되더라도 SIS 계장 시스템이 물리적 한계 임계치를 통제
+1. **OT 자산 식별 및 위험 평가**: 설비·버전·Zone·SL-T 확정
+2. **오프라인 테스트베드 사전 검증**: 호환성과 지연 측정
+3. **보상 통제 수립**: 패치 불가 설비에 격리·DPI 적용
+4. **정비창 단계적 배포**: 라인별 패치와 롤백 준비
+5. **공정 가동 및 이상 징후 관제**: 재가동 후 수동형 감시
 
 #### 한줄 요약
 - 자산 식별, 테스트베드 검증, 보상 통제 적용, 정비창 단계적 배포, 이상 관제 및 롤백 확보 순으로 동작한다.
@@ -206,7 +206,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 국가 핵심 기간시설과 스마트 제조 생태계의 실질적 안전성을 좌우하는 **스마트팩토리 OT 보안 아키텍처**는 물리 세계와 사이버 세계를 아우르는 절대적 방어 체계이며, 실무 구현 시 **IEC 62443 및 NIST SP 800-82 국제 표준 기반의 거버넌스 확립**, **Purdue Level 3.5 IDMZ를 통한 IT-OT 완전 분리**, **레거시 자산에 대한 화이트리스트 기반 보상 통제(Compensating Control) 내재화**, **정비창(Maintenance Window) 중심의 가용성 보장 패치 관리 체계 구축**을 통합 완성하여 최고 수준의 산업 안전성과 생산 연속성을 완성
+- 패치 가능 설비는 **정비창 배포**, 레거시는 **보상 통제** 적용
 
 #### 한줄 요약
 - IEC 62443 표준과 Purdue IDMZ 완충 격리 및 보상 통제를 통해 완벽한 스마트팩토리 OT 보안을 완성한다.

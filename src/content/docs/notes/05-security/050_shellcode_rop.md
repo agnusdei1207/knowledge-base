@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "메모리 재사용 및 제어 흐름 변조 방어 : 쉘코드 및 ROP"
-date: "2026-08-25T13:00:00+09:00"
+date: "2026-08-26T14:49:01+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -58,12 +58,16 @@ extra:
 </details>
 
 ```text
-[쉘코드 및 ROP 다계층 하드웨어/소프트웨어 방어 아키텍처]
-|-- Ingress: 공격자 페이로드 주입 (Shellcode 또는 ROP Gadget Chain)
-`-- Layer 1: Hardware DEP/NX (스택/힙 No-Execute 설정 -> 쉘코드 CPU 실행 즉각 차단)
-`-- Layer 2: OS ASLR / PIE (libc 가상 주소 무작위화 -> ROP 가젯 주소 산출 방해)
-`-- Layer 3: Intel CET IBT (유효하지 않은 가젯 점프 하드웨어 차단)
-`-- Layer 4: Intel CET Shadow Stack (하드웨어 격리 스택 RET 대조 -> 불일치 시 프로세스 즉시 사살)
+쉘코드·ROP 방어 구조
+|-- CPU 하드웨어
+|   |-- DEP·NX
+|   `-- Intel CET
+|       |-- IBT
+|       `-- Shadow Stack
+|-- 운영체제
+|   `-- ASLR
+`-- 컴파일러
+    `-- PIE·CFI
 ```
 
 선의 의미: DEP/NX가 쉘코드를 차단하고 ASLR이 가젯 탐색을 방해하며 Intel CET의 IBT 및 Shadow Stack이 ROP 실행을 최종 하드웨어 차단하는 구조
@@ -104,6 +108,12 @@ extra:
     ├─ IBT 검사: 점프 대상 위치가 유효한 분기 타깃(`ENDBR64`)인지 하드웨어 검증
     └─ Shadow Stack 검사: 일반 스택 RET 값과 하드웨어 Shadow Stack 복귀 주소 대조 ➔ [불일치 시 즉시 프로세스 사살]
 ```
+
+- 1. 취약점 트리거
+- 2. 1차 쉘코드 검사
+- 3. ROP 가젯 점프 시도
+- 4. ASLR 주소 난수화 대조
+- 5. Intel CET 하드웨어 검증
 
 #### 한줄 요약
 - 취약점 트리거 → DEP/NX 쉘코드 차단 → ROP 가젯 점프 → ASLR 주소 난수화 → Intel CET 하드웨어 검증 순으로 동작한다.
@@ -147,7 +157,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 소프트웨어 보안 방어를 우회하기 위해 진화한 코드 재사용 공격을 무력화하는 **쉘코드 및 ROP 다층 방어 아키텍처는 시스템 보안의 핵심**이며, 실무 구현 시 **C/C++ 코드의 안전한 메모리 관리 및 Rust 전환, 하드웨어 DEP/NX 및 Full ASLR/PIE 컴파일 적용, Intel CET(Shadow Stack & IBT) 및 ARM PAC 기반 하드웨어 제어 흐름 무결성 강제**를 통합 구축하여 지능형 메모리 공격에 대한 완전한 시스템 레질리언스 완성
+- 쉘코드는 **DEP/NX**, ROP는 **ASLR·CET**로 차단하고 메모리 안전 언어로 전환
 
 #### 한줄 요약
 - 쉘코드 및 ROP 방어는 DEP/NX로 쉘코드를 차단하고 ASLR과 Intel CET Shadow Stack으로 ROP 가젯 체이닝을 무력화하는 시스템 제어 흐름 보호 체계다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "부팅 신뢰 체인 및 펌웨어 무결성 검증 : Secure Boot (UEFI 2.11 & TCG TPM 2.0)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T15:01:02+09:00"
 tags:
   - "notes-security"
 weight: 127
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 변조 불가능한 하드웨어 앵커(PK)를 바탕으로 **플랫폼 키(PK) $\rightarrow$ 키 교환 키(KEK) $\rightarrow$ 서명 데이터베이스(db/dbx) 대조 $\rightarrow$ 부트로더 및 커널 전자서명 검증 $\rightarrow$ 신뢰 사슬(Chain of Trust) 릴레이 확립 $\rightarrow$ TPM 2.0 기반 부팅 측정(Measured Boot)** 을 집행하는 **플랫폼 부팅 무결성 보증 아키텍처**
-- 배경/필요성: 윈도우 OS 재설치 및 디스크 포맷으로도 제거되지 않는 펌웨어 레벨 부트킷 위협이 급증함에 따라, 부팅 전주기 무결성 검증 요구
+- 배경/필요성: OS 이전 부트킷은 **EDR 탐지와 재설치로 제거 불가**
 
 #### 한줄 요약
 - UEFI Secure Boot는 PK, KEK, db, dbx 키 계층을 통해 전자서명을 검증하여 부트킷을 차단하고 신뢰 사슬을 확립한다.
@@ -202,7 +202,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 최하위 펌웨어 계층부터 운영체제까지의 무결성을 보증하는 절대적 방어 기틀인 **Secure Boot 보안 부팅 아키텍처**는 엔드포인트 플랫폼 보안의 핵심 토대이며, 실무 구현 시 **UEFI 2.11 규격에 따른 PK/KEK/db/dbx 키 관리 체계 확립**, **취약 서명(dbx)의 지속적 업데이트를 통한 우회 차단**, **Trusted Boot로의 신뢰 사슬 연장**, **TCG TPM 2.0 Measured Boot와의 융합을 통한 원격 증명 체계 구축**을 완성하여 최고 수준의 플랫폼 신뢰성과 부트킷 방어력을 완성
+- 실행 차단은 **Secure Boot**, 원격 증명은 **Measured Boot** 적용
 
 #### 한줄 요약
 - PK/KEK/db/dbx 4대 키 구조와 신뢰 사슬 릴레이 및 TPM Measured Boot를 통해 무결점 Secure Boot를 완성한다.

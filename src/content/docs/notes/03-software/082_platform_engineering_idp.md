@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "플랫폼 엔지니어링 IDP (Platform Engineering IDP)"
-date: "2026-08-26T09:46:00+09:00"
+date: "2026-08-27T01:06:00+09:00"
 tags:
   - "notes-software"
 weight: 82
@@ -59,21 +59,22 @@ extra:
 
 ```text
 [플랫폼 엔지니어링 및 IDP 5계층 아키텍처]
-|-- 1. 개발자 제어 계층 (Developer Control Plane: Backstage 웹 포털 / CLI)
-|-- 2. 오케스트레이션 계층 (Integration Plane: Score / Humanitec 워크로드 매핑)
-|-- 3. 보안 및 정책 가드레일 (Security Plane: Open Policy Agent - OPA, 규정 검사)
-|-- 4. 리소스 프로비저닝 계층 (Resource Plane: Terraform, Crossplane, Helm)
-`-- 5. 인프라 계층 (Infrastructure Plane: K8s 클러스터, AWS/GCP, DB, Kafka)
+|-- 개발자 포털 (Backstage)
+|-- 플랫폼 오케스트레이터
+|-- 정책 가드레일 (OPA)
+|-- 인프라 프로비저너
+`-- 인프라 계층
 ```
 
 선의 의미: 계층 및 개발자 포털 요청-정책 검증-인프라 자동 프로비저닝 5계층 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 |
+| 구성요소 | 책임 |
 |:---|:---|
 | 개발자 포털 (Backstage) | 서비스 카탈로그, 표준 템플릿, API 문서를 제공하는 **단일 셀프서비스 웹 진입점** |
 | 플랫폼 오케스트레이터 | 개발자 워크로드 선언(Score)을 해석하여 **환경별 인프라 파라미터 자동 바인딩** |
 | 정책 가드레일 (OPA) | 비용 한도, 보안 암호화, 태그 표준을 **Policy as Code로 배포 전 자동 검증** |
 | 인프라 프로비저너 | Terraform 및 Crossplane을 구동하여 **K8s 네임스페이스 및 클라우드 DB 자동 생성** |
+| 인프라 계층 | K8s·클라우드·DB·Kafka **실행 자원** 제공 |
 
 #### 한줄 요약
 - 단일 포털, 오케스트레이터, OPA 정책 가드레일, IaC 프로비저너가 5계층으로 결합된다.

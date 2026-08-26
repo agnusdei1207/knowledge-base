@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "데이터 웨어하우스 (Data Warehouse)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:16:00+09:00"
 tags:
   - "notes-software"
 weight: 124
@@ -58,18 +58,16 @@ extra:
 </details>
 
 ```text
-[데이터 웨어하우스 스타 스키마 아키텍처]
-|-- Dim_Customer (고객 차원: Customer_ID PK, Name, City, Segment)
-|-- Dim_Product (상품 차원: Product_ID PK, Category, Brand)
-|-- Dim_Date (날짜 차원: Date_ID PK, Year, Quarter, Month, Day)
-`-- Fact_Sales (매출 사실 테이블)
-    |-- FK 연결 (Customer_ID, Product_ID, Date_ID)
-    `-- Measures 수치 측정값 (Amount, Quantity, Discount_Rate)
+[데이터 웨어하우스 구성]
+|-- 사실 테이블
+|-- 차원 테이블
+|-- ETL/ELT 파이프라인
+`-- 데이터 마트
 ```
 
 선의 의미: 계층 및 중앙의 Fact Table(측정값)과 주변의 Dimension Table(분석 축)이 1:N 연결되는 스타 스키마 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 사실 테이블 (Fact Table) | 매출액, 판매 수량 등 비즈니스 수치 측정값(Measure)과 **차원 외래키(FK)를 정밀 보관** | 수억 건 이상의 대용량 |
 | 차원 테이블 (Dimension) | 분석의 기준이 되는 고객, 상품, 지역, 일자의 **상세 설명 속성 및 이력(SCD) 관리** | 스타 스키마 비정규화 |

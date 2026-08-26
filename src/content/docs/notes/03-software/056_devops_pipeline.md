@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-26T09:40:00+09:00"
+date: "2026-08-27T00:47:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -57,30 +57,12 @@ extra:
 
 </details>
 
-```text
-[DevOps Infinity Loop 도구 체인 구조]
-|-- Plan & Code (기획 및 개발 계층)
-|   |-- Jira / Confluence (요구사항 백로그 및 스프린트 기획)
-|   `-- Git / GitHub (분산 형상 관리 및 Pull Request 코드 리뷰)
-|-- Build & Test (지속적 통합 계층: CI)
-|   |-- Jenkins / GitHub Actions (자동 컴파일 및 단위/통합 테스트)
-|   `-- SonarQube / Trivy (정적 분석 및 보안 취약점 게이트)
-|-- Release & Deploy (지속적 배포 계층: CD)
-|   |-- Harbor (불변 컨테이너 이미지 레지스트리)
-|   `-- ArgoCD / Helm (K8s GitOps 기반 무중단 롤아웃)
-`-- Operate & Monitor (운영 및 피드백 계층: Ops)
-    |-- Kubernetes (클러스터 컨테이너 오케스트레이션)
-    `-- Prometheus / Grafana / Datadog (실시간 메트릭 모니터링 및 Jira 환류)
-```
-
-선의 의미: 계층 및 단계별 도구 체인 연동 구조
-
-| 파이프라인 단계 | 대표 도구 체인 | 핵심 엔지니어링 책임 |
-|:---|:---|:---|
-| Plan & Code | **Jira, Git, GitHub** | 애자일 백로그 관리, 브랜치 전략 기반 협업 및 코드 리뷰 |
-| Build & Test (CI) | **GitHub Actions, SonarQube** | 코드 컴파일, 단위/통합 테스트 자동화, **품질 게이트 검증** |
-| Release & Deploy (CD) | **Harbor, ArgoCD, Helm** | 불변 도커 이미지 패키징, **GitOps 기반 카나리 무중단 배포** |
-| Operate & Monitor | **Kubernetes, Prometheus, Grafana** | 컨테이너 자동 복구, **SLO 메트릭 감시 및 이슈 백로그 피드백** |
+| 구성요소 | 책임 |
+|:---|:---|
+| Plan & Code | **Jira·Git** 기반 백로그·코드 리뷰 관리 |
+| Build & Test | **CI 품질 게이트** 기반 빌드·시험 자동화 |
+| Release & Deploy | **GitOps** 기반 불변 이미지 무중단 배포 |
+| Operate & Monitor | **SLO 메트릭** 감시와 이슈 피드백 |
 
 #### 한줄 요약
 - Plan/Code, Build/Test(CI), Release/Deploy(CD), Operate/Monitor(Ops)가 결합된다.

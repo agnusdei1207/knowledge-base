@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T03:00:00+09:00"
 tags:
   - "notes-software"
 weight: 138
@@ -57,18 +57,7 @@ extra:
 
 </details>
 
-```text
-[ETL vs ELT 데이터 파이프라인 아키텍처 비교]
-|-- 1. ETL 파이프라인 (Extract -> Transform -> Load)
-|   `-- Source DB ──(추출)──► [Spark/ETL 서버 (변환/마스킹)] ──(적재)──► Target DW
-|-- 2. ELT 파이프라인 (Extract -> Load -> Transform)
-|   `-- Source DB ──(추출)──► [Target Lakehouse/S3 (Raw 적재)] ──(dbt SQL 변환)──► Gold Mart
-`-- 3. Orchestration & Governance Layer (Apache Airflow / Dagster + OpenLineage)
-```
-
-선의 의미: 계층 및 ETL(중간 서버 변환)과 ELT(타깃 스토리지 내 변환)의 데이터 흐름 차이 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 추출기 (Extractor) | 원천 시스템으로부터 CDC 또는 배치 쿼리를 통해 **데이터를 안전하게 증분 추출** | Fivetran, Airbyte |
 | 변환기 (Transformer) | 정제, 결측치 보정, 공통 코드 매핑, **비즈니스 파생 컬럼 연산 수행** | Spark(ETL), dbt(ELT) |

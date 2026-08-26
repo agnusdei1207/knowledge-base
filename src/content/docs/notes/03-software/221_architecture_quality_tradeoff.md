@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "아키텍처 품질속성 트레이드오프 (Architecture Quality Tradeoff)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:27:01+09:00"
 tags:
   - "notes-software"
 weight: 221
@@ -58,15 +58,12 @@ extra:
 </details>
 
 ```text
-[아키텍처 품질속성 트레이드오프(ATAM) 분석 구조]
-|-- 1. Business Constraints & Goals (비즈니스 목표, 일정, 예산, 규제 컴플라이언스)
-`-- 2. Quality Attribute Utility Tree Layer
-    |-- Performance: 응답시간 P99 < 200ms (High Importance / High Difficulty)
-    |-- Availability: MTBF 99.999% 무중단 가용성 (High / Medium)
-    `-- Security: mTLS 상호 인증 및 전 구간 암호화 (High / Medium)
-`-- 3. Architectural Tactics & Tradeoff Evaluation
-    `-- Sensitivity & Tradeoff Point Analysis (성능 향상 캐싱 <-> 일관성 저하 상충 분석)
-`-- 4. Architecture Decision Record (ADR: 채택 대안, 수용 잔여 위험, 재검토 조건 영속화)
+[품질속성 트레이드오프 구성]
+|-- 비즈니스 제약
+|-- 유틸리티 트리
+|-- 아키텍처 택틱
+|-- 민감도/상충 분석
+`-- 아키텍처 결정 기록
 ```
 
 선의 의미: 계층 및 비즈니스 목표에 따라 유틸리티 트리를 작성하고 품질 택틱을 평가하여 상충점을 분석한 후 ADR로 문서를 영속화하는 구조
@@ -150,7 +147,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 시스템의 장기적인 아키텍처 건전성과 비즈니스 가치를 수호하기 위해 **유틸리티 트리 기반의 정량적 품질 시나리오와 ATAM 평가 프레임워크를 전사 표준화**하고, **택틱 상충 분석을 통해 도출된 의사결정과 수용된 잔여 위험을 ADR로 영속화**하여 최적의 아키텍처 품질 완성
+- 품질 충돌은 **ATAM**으로 타협하고 결정·잔여 위험은 **ADR** 기록
 
 #### 한줄 요약
 - 아키텍처 품질속성 트레이드오프는 품질 시나리오와 ATAM 분석을 통해 성능, 가용성, 보안 간의 최적 타협점을 도출하는 핵심 소프트웨어 아키텍처 의사결정 기술이다.

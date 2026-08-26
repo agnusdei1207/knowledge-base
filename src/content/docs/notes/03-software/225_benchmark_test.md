@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "벤치마크 테스트 (Benchmark Test, BMT)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:28:19+09:00"
 tags:
   - "notes-software"
 weight: 225
@@ -58,14 +58,12 @@ extra:
 </details>
 
 ```text
-[벤치마크 테스트(BMT) 공정 비교 및 실측 아키텍처]
-|-- 1. Benchmark Criteria & Scenarios (기능 적합성 체크리스트, 성능 SLO 합격선 정의)
-`-- 2. Isolated Testbed Infrastructure (동일 CPU/RAM 서버, 동일 스토리지 IOPS 고정)
-`-- 3. Standardized Workload Driver (공통 데이터셋 100만 건 + 분산 부하 스크립트 인가)
-    |-- Warm-Up Phase (10분 예열 후 캐시 안정화 확인)
-    `-- Execution Phase (동시 세션 1,000개 인가 -> 3회 반복 실측)
-`-- 4. Multi-Metric Raw Evidence Collector (TPS, P99 Latency, CPU/Mem 포화도, 에러율)
-`-- 5. Objective Scoring & Verification Ledger (원시 로그 무결성 해시 보존 및 종합 채점)
+[벤치마크 테스트 구성]
+|-- 평가 기준
+|-- 시험장 환경
+|-- 워크로드 구동기
+|-- 원시 증적 수집기
+`-- 판정 위원회
 ```
 
 선의 의미: 계층 및 사전 기준에 따라 고정된 시험장에서 동일 부하를 가하고 수집기가 실측 증적을 추출하여 객관적으로 채점하는 구조
@@ -149,7 +147,7 @@ BMT 벤치마크 테스트 실측 평가 가동
 
 ## Ⅶ. 결론
 
-- 공공 및 엔터프라이즈의 고위험 상용 솔루션 도입 실패를 원천 차단하기 위해 **통제된 독립 시험장과 대표 워크로드 기반의 벤치마크 테스트(BMT)를 의무화**하고, **블라인드 데이터셋 인가와 예열 후 3회 반복 측정 및 원시 증적 보존**을 결합하여 기술 검증의 절대적 공정성과 신뢰성 완성
+- 상용 제품 비교는 **BMT**, 신기술 실현 가능성은 **PoC**로 검증
 
 #### 한줄 요약
 - 벤치마크 테스트는 동일한 통제 환경에서 상용 제품의 성능과 기능을 객관적으로 실측 비교하여 최적의 솔루션을 선별하는 핵심 품질 실증 기술이다.

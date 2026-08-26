@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "디지털 서비스 성숙도 모형 (Digital Service Maturity Model)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:29:39+09:00"
 tags:
   - "notes-software"
 weight: 229
@@ -58,16 +58,12 @@ extra:
 </details>
 
 ```text
-[디지털 서비스 성숙도 진단 및 단계별 진화 아키텍처]
-|-- 1. Assessment Governance (진단 범위 정의: 비즈니스 KPI 및 서비스 경계 확정)
-`-- 2. 5 Capability Dimensions Layer
-    |-- Strategy & Vision (디지털 전략, 리더십 공약, 고객 중심 가치)
-    |-- Tech & Cloud Architecture (MSA, Cloud-Native, API First, CI/CD 자동화)
-    |-- Data & AI Intelligence (데이터 파이프라인, Feature Store, 실시간 분석)
-    |-- People & Culture (DevOps 문화, 실패 포용, 제품 중심 목적 조직)
-    `-- Operations & Process (SRE 신뢰성, 애자일 스프린트, 지속적 배포)
-`-- 3. Maturity Evidence Ledger (DORA 지표, 아키텍처 진단표, 실측 로그 증적)
-`-- 4. Gap Analysis & Evolution Roadmap (To-Be 목표 수준 대비 격차 과제 도출)
+[디지털 서비스 성숙도 구성]
+|-- 전략 및 리더십
+|-- 기술 아키텍처
+|-- 데이터 및 AI
+|-- 조직 및 문화
+`-- 운영 프로세스
 ```
 
 선의 의미: 계층 및 5대 역량 차원의 증적을 수집하여 현재 성숙도 레벨을 진단하고 갭 분석을 통해 단계적 로드맵을 도출하는 구조
@@ -87,7 +83,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **성숙도 진단 5단계**: 평가 범위 확정 $\to$ 역량별 실측 증적 수조 $\to$ 레벨 판정 및 병목 식별 $\to$ 개선 로드맵 실행 $\to$ 성과 재평가 및 환류.
+- **성숙도 진단 5단계**: 평가 범위 확정 $\to$ 역량별 실측 증적 수집 $\to$ 레벨 판정 및 병목 식별 $\to$ 개선 로드맵 실행 $\to$ 성과 재평가 및 환류.
 
 </details>
 
@@ -155,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈의 성공적인 디지털 전환(DX)을 실현하고 비즈니스 민첩성을 확보하기 위해 **5대 역량 차원의 증거 기반 디지털 서비스 성숙도 모형을 정기 평가 도구로 제도화**하고, **DORA 메트릭스 실측과 병목 우선 개선(Bottleneck-First) 및 현실적 타깃 로드맵**을 결합하여 자율 진화하는 디지털 조직 완성
+- 최저 역량은 **병목 우선 개선**, 목표 수준은 **ROI**로 결정
 
 #### 한줄 요약
 - 디지털 서비스 성숙도 모형은 전략, 기술, 데이터, 조직, 프로세스를 다차원으로 진단하여 병목을 제거하고 지속적 개선을 견인하는 핵심 디지털 엔지니어링 프레임워크다.

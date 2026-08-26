@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "내부 개발자 플랫폼 골든 패스 (Internal Developer Platform Golden Path)"
-date: "2026-08-26T09:46:00+09:00"
+date: "2026-08-27T01:09:00+09:00"
 tags:
   - "notes-software"
 weight: 83
@@ -59,15 +59,15 @@ extra:
 
 ```text
 [골든 패스(Golden Path) 4대 구성 체계]
-|-- 1. 시작 템플릿 (Software Templates: Spring Boot / Node.js 스타터 레포지토리 자동 생성)
-|-- 2. 권장 CI/CD 워크플로우 (ArgoCD, GitHub Actions, 카나리 롤아웃 사전 결합)
-|-- 3. 보안 및 비용 가드레일 (OPA Policy as Code, SonarQube 게이트, FinOps 예산 한도)
-`-- 4. 공식 탈출구 (Escape Hatch: 특수 목적 AI/GPU 워크로드를 위한 수동 IaC 허용 경로)
+|-- 시작 템플릿 (Scaffolder)
+|-- 권장 워크플로우 (CI/CD)
+|-- 정책 가드레일 (OPA)
+`-- 탈출구 (Escape Hatch)
 ```
 
 선의 의미: 계층 및 표준 템플릿-파이프라인-가드레일 결합과 탈출구 우회 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 |
+| 구성요소 | 책임 |
 |:---|:---|
 | 시작 템플릿 (Scaffolder) | 표준 아키텍처, Dockerfile, Helm이 포함된 **스타터 Git 레포지토리 원클릭 생성** |
 | 권장 워크플로우 (CI/CD) | 빌드, 컨테이너 서명, 카나리 배포, 메트릭 계측을 **자동으로 파이프라인 연계** |

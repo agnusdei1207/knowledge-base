@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "API 게이트웨이 (API Gateway)"
-date: "2026-08-26T09:37:00+09:00"
+date: "2026-08-27T00:29:00+09:00"
 tags:
   - "notes-software"
 weight: 40
@@ -56,19 +56,6 @@ extra:
 - **필터 체인(Filter Chain)**: 요청이 인입되어 라우팅되기 전후에 Pre-Filter(인증/로깅), Routing-Filter, Post-Filter(응답 가공)를 거치는 파이프라인.
 
 </details>
-
-```text
-[API 게이트웨이 필터 파이프라인 구조]
-|-- 외부 클라이언트 (HTTPS 호출)
-|-- API 게이트웨이 인프라 (L7 프록시 계층)
-|   |-- SSL / TLS 종단 처리기 (복호화 후 내부 고속 통신)
-|   |-- 사전 필터 (Pre-Filter: JWT 인증/인가, Rate Limiting 검증)
-|   |-- 라우팅 필터 (Route Filter: 서비스 디스커버리 연동 및 L7 경로 분기)
-|   `-- 사후 필터 (Post-Filter: 응답 헤더 변환, 지연시간 로깅, Trace 전파)
-`-- 내부 마이크로서비스 (주문, 결제, 상품 서비스)
-```
-
-선의 의미: 계층 및 단계별 필터 체인 파이프라인
 
 | 구성요소 | 책임 |
 |:---|:---|

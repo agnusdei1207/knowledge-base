@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "가설 검정•신뢰 구간 (Hypothesis Testing and Confidence Interval)"
-date: "2026-08-26T09:27:00+09:00"
+date: "2026-08-26T12:08:57+09:00"
 tags:
   - "notes-basic-theory"
 weight: 33
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- 가설 기각은 **유의확률**, 실질 효과 크기는 **신뢰구간** 선택
+- **유의수준**으로 기각하고, **신뢰구간**이 업무 임계값을 넘을 때 배포
 
 #### 한줄 요약
 

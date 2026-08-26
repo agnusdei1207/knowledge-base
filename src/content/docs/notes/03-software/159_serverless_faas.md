@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "서버리스 컴퓨팅•FaaS (Serverless Computing•FaaS)"
-date: "2026-08-26T10:00:00+09:00"
+date: "2026-08-26T13:13:17+09:00"
 tags:
   - "notes-software"
 weight: 159
@@ -58,20 +58,16 @@ extra:
 </details>
 
 ```text
-[서버리스 FaaS(AWS Lambda) 이벤트 구동 아키텍처]
-|-- 1. Event Sources (API Gateway HTTP, S3 Object Create, SQS Queue, EventBridge)
-`-- 2. FaaS Control Plane Layer
-    |-- Concurrency Manager (동시성 쿼터 및 요청 큐잉 통제)
-    |-- IAM Role & Trigger Validator (인증/인가 및 보안 검증)
-    `-- Container Scheduler (Warm 인스턴스 탐색 및 Cold Start 스케줄링)
-`-- 3. Function Execution Runtime Layer (Firecracker MicroVM)
-    |-- User Function Logic (Python / Node.js / Java 코드 실행)
-    `-- 4. External State Layer (DynamoDB / S3 / Redis 캐시로 상태 외부화)
+[서버리스 FaaS 구성]
+|-- 이벤트 소스
+|-- FaaS 제어면
+|-- 함수 런타임
+`-- 외부 영속 저장소
 ```
 
 선의 의미: 계층 및 이벤트 소스가 FaaS 제어면을 트리거하여 무상태 함수 컨테이너를 가동하고 외부 DB에 결과를 기록하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 이벤트 소스 (Event) | HTTP, S3 객체 생성, 큐 메시지 등 **함수 실행을 유발하는 트리거 신호 제공** | 비동기/동기 트리거 |
 | FaaS 제어면 (Control) | 인증/인가, 동시성 한도 검사, **컨테이너 웜/콜드 상태 판별 및 스케줄링 총괄** | 초고속 라우팅 |

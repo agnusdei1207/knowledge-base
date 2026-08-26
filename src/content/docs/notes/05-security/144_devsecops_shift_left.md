@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 개발 생명주기 보안 내재화 : DevSecOps 및 Shift-Left (NIST SP 800-218 SSDF)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T15:21:59+09:00"
 tags:
   - "notes-security"
 weight: 144
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 고품질의 안전한 소프트웨어를 신속 배포하기 위해 **Pre-commit 시크릿 스캔 $\rightarrow$ CI 빌드 시 SAST(정적 분석)/SCA(오픈소스 취약점) $\rightarrow$ 컨테이너/IaC 보안 검증 $\rightarrow$ CD 스테이징 시 DAST/IAST 동적 테스트 $\rightarrow$ SBOM 생성 및 이미지 서명(Cosign) $\rightarrow$ 런타임 RASP/EDR 연계** 를 집행하는 **전 주기 보안 자동화 파이프라인**
-- 배경/필요성: 애자일(Agile) 및 클라우드 네이티브(K8s/IaC) 환경의 일일 수십 회 배포 속도에 맞추어, 보안성(Security)과 개발 민첩성(Agility)의 상충을 해소할 자동화 거버넌스 요구
+- 배경/필요성: 배포 직전 보안 점검은 **재설계 비용**과 릴리스 지연 증가
 
 #### 한줄 요약
 - DevSecOps Shift-Left는 CI/CD 파이프라인 전 단계에 보안 검증을 자동 내재화하여 결함 비용을 최소화한다.
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **결함 수정 비용 극소화**: 프로덕션 배포 전에 코딩/빌드 단계에서 취약점을 조기 박멸하여 수정 비용 90% 이상 절감
-- **소프트웨어 공급망 무결성 보증**: 오픈소스 종속성(SCA), SPDX/CycloneDX 표준 SBOM 생성, Sigstore 기반 컨테이너 이미지 전자서명 강제
-- **Shift-Left와 Shift-Right의 폐쇄 루프 융합**: 개발 단계의 예방(Left)과 운영 런타임(Right: RASP, Observability)에서 수집된 위협 데이터를 다시 개발 백로그로 지속 피드백
+- 코딩·빌드 단계에서 결함을 찾는 **수정 비용 절감**
+- SBOM과 이미지 서명에 기반한 **공급망 무결성**
+- 런타임 위협을 개발에 돌려주는 **폐쇄 루프 피드백**
 
 #### 한줄 요약
 - 코드형 보안(PaC), 품질 게이트 빌드 차단, SBOM 공급망 무결성, 런타임 폐쇄 루프 피드백을 제공한다.
@@ -55,51 +55,30 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **DevSecOps 파이프라인 5단계 핵심 보안 컴포넌트**:
+- **DevSecOps 파이프라인 6단계 핵심 보안 컴포넌트**:
   1. **Code (IDE & Pre-commit)**: SonarLint, TruffleHog (Secret Scan, 정적 린팅).
   2. **Build (CI Pipeline)**: SAST (SonarQube), SCA (Snyk, Dependency-Check).
   3. **Package & Infra (Container/IaC)**: Trivy (이미지 스캔), Checkov/KICS (Terraform/K8s IaC 스캔).
   4. **Test (Staging CD)**: DAST (OWASP ZAP), IAST (Contrast Security).
-  5. **Deploy & Operate (Runtime)**: Sigstore Cosign (이미지 검증), Kyverno (배포 통제), RASP/WAF.
+  5. **Deploy (Admission Control)**: Sigstore Cosign 이미지 검증 및 Kyverno 배포 통제.
+  6. **Operate (Runtime)**: RASP, WAF, SIEM 기반 런타임 방어 및 개발 환류.
 
 </details>
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. Plan & Code 단계 (IDE & Pre-commit Hook) ]                         │
-│  ├─ [ 시큐어 코딩 린팅 ] ➔ IDE 플러그인 기반 실시간 취약 패턴 알림      │
-│  └─ [ 시크릿 스캐닝 ] ➔ TruffleHog 연동 API Key/비밀번호 커밋 원천 차단 │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (Git Push / PR 생성)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. Build & Scan 단계 (CI Server: Jenkins / GitHub Actions) ]           │
-│  ├─ [ SAST ] ➔ 소스코드 정적 분석 (SQLi, XSS, Buffer Overflow 탐지)     │
-│  ├─ [ SCA ] ➔ 오픈소스 라이브러리 CVE 취약점 및 라이선스 위반 검사     │
-│  └─ [ Quality Gate ] ➔ Critical 취약점 발견 시 빌드 강제 중단(Build Break)│
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (빌드 통과 시 아티팩트 생성)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 3. Package & Infra 단계 (Artifact & IaC Scanning) ]                   │
-│  ├─ [ Container Scan ] ➔ Trivy 기반 Docker 베이스 이미지 취약점 점검    │
-│  ├─ [ IaC Scan ] ➔ Checkov 연동 K8s/Terraform 구성 오류(Misconfig) 검증  │
-│  └─ [ 공급망 무결성 ] ➔ CycloneDX SBOM 생성 및 Cosign 이미지 전자서명   │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (스테이징 배포)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 4. Test & Deploy 단계 (CD Pipeline: ArgoCD & Admission Control) ]      │
-│  ├─ [ DAST / IAST ] ➔ 실행 중인 웹 앱 모의 침투 및 퍼징 테스트         │
-│  └─ [ Admission Controller ] ➔ OPA/Kyverno 기반 서명되지 않은 이미지 거부 │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (프로덕션 운영)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 5. Operate & Shield-Right 단계 (Runtime Protection & Feedback) ]       │
-│  ├─ [ RASP / WAF ] ➔ 런타임 제로데이 공격 능동 차단                     │
-│  └─ [ Feedback Loop ] ➔ 런타임 보안 이벤트를 개발팀 Jira 티켓 자동 생성  │
-└─────────────────────────────────────────────────────────────────────────┘
+DevSecOps 보안 도구 체계
+├─ Code
+│  └─ Pre-commit·Secret Scan
+├─ Build
+│  └─ SAST·SCA·Quality Gate
+├─ Package
+│  └─ IaC·Image Scan·SBOM
+├─ Test
+│  └─ DAST·IAST
+├─ Deploy
+│  └─ Admission Control·Cosign
+└─ Operate
+   └─ RASP·WAF·SIEM
 ```
 
 선의 의미: 코딩부터 빌드, 패키징, 테스트, 배포, 운영까지 단계별 보안 게이트를 거쳐 런타임 결과를 개발로 환류하는 구조
@@ -158,11 +137,11 @@ extra:
 
 **동작 원리**
 
-1. **조기 실패(Fail-Fast) 원칙**: 보안 취약점 발견 시 파이프라인을 최단 시간에 중단시켜 오염된 빌드 전파 차단
-2. **개발자 중심 피드백**: 보안 부서의 결재 대기 없이 CI 로그 및 PR 코멘트로 취약점 소스코드 라인을 개발자에게 즉각 가이드
-3. **위조 아티팩트 유입 차단**: Cosign 전자서명이 없는 비인가 컨테이너는 K8s Admission Controller가 클러스터 실행 원천 거부
-4. **소프트웨어 투명성 확보**: SBOM을 중앙 저장소(Dependency-Track)와 연동하여 신규 제로데이 발표 시 취약 모듈 1초 내 전사 검색
-5. **폐쇄 루프 MLOps/SecOps**: 런타임 RASP에서 탐지된 공격 벡터를 다음 스프린트의 정적 룰셋으로 자동 피드백
+1. **로컬 코딩 및 Commit**: Pre-commit 시크릿 탐지와 커밋 차단
+2. **CI 파이프라인 트리거 및 SAST/SCA 검증**: 코드·종속성 분석
+3. **품질 게이트 판정**: 취약점 임계치에 따른 빌드 중단
+4. **컨테이너/IaC 검사 및 서명**: SBOM 생성과 이미지 서명
+5. **배포 검증 및 CD 롤아웃**: 서명·DAST 통과 아티팩트 배포
 
 #### 한줄 요약
 - Pre-commit 시크릿 검사, CI SAST/SCA 분석, Quality Gate 판정, 이미지 서명/SBOM 생성, K8s 배포 통제 순으로 동작한다.
@@ -208,7 +187,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 소프트웨어 전달 속도와 보안성을 동시에 극대화하는 클라우드 네이티브 개발 문화의 핵심 표준인 **DevSecOps Shift-Left 아키텍처**는 미래 엔터프라이즈 소프트웨어 공학의 필수 패러다임이며, 실무 구현 시 **NIST SP 800-218(SSDF) 및 SLSA 표준 준수**, **Pre-commit부터 배포 통제까지 CI/CD 파이프라인 전 단계 보안 자동화**, **선언적 코드형 정책(Policy as Code) 기반 Quality Gate 확립**, **SBOM 및 컨테이너 전자서명 기반 공급망 무결성 확보**를 통합 완성하여 최고 수준의 개발 민첩성과 소프트웨어 신뢰성을 완성
+- 초기 결함은 **Shift-Left**, 런타임 위협은 **Shield-Right** 적용
 
 #### 한줄 요약
 - CI/CD 전 단계 보안 자동화와 코드형 정책(PaC)을 통해 무결점 DevSecOps Shift-Left를 완성한다.

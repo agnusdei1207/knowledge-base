@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "브라우저 자동 자격증명 악용 및 비승인 상태 변경 방어 : CSRF"
-date: "2026-08-25T13:00:00+09:00"
+date: "2026-08-26T14:49:01+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -59,8 +59,8 @@ extra:
 
 ```text
 [CSRF 다계층 방어 및 트랜잭션 무결성 아키텍처]
-|-- Ingress: 공격자의 위조 HTTP 요청 (attacker.com -> POST /transfer)
-`-- Layer 1: Browser Defense (SameSite=Lax/Strict 정책 -> 쿠키 첨부 누락)
+|-- 외부 요청 경계
+`-- Layer 1: Browser Defense (SameSite=Lax/Strict 정책)
 `-- Layer 2: Network & Gateway (Origin / Referer 헤더 신뢰 도메인 검증)
 `-- Layer 3: Application Server (Anti-CSRF Token Interceptor -> 세션 토큰 불일치 시 403 차단)
 `-- Layer 4: High-Risk Action (Step-Up 재인증 / OTP 확인 후 최종 상태 변경)
@@ -90,23 +90,27 @@ extra:
 ```text
 정상 폼 요청, 위조 요청 발생, SameSite 차단, 토큰 인터셉터 검증 및 403 차단 파이프라인
         │
-   1. [정상 폼 요청] 사용자가 송금 페이지 접속 ➔ 서버가 암호학적 난수(`csrf_token`)를 세션 및 폼에 주입
+   1. [동기화 토큰 발급] 서버가 암호학적 난수를 세션 및 폼에 주입
         │
-   2. [공격자 함정 유입] 사용자가 타 탭에서 공격자의 악성 웹사이트(`attacker.com`) 로드
+       [공격자 사이트 유입]
         │
-   3. [위조 요청 자동 발생] 악성 스크립트가 은행 URL(`POST /transfer`)로 이체 요청 전송
+       [위조 요청 전송]
         │
-   4. [SameSite 쿠키 차단] 최신 브라우저가 `SameSite=Lax` 정책에 따라 세션 쿠키를 누락하고 전송
+   2. [SameSite 쿠키 차단] 최신 브라우저가 `SameSite=Lax` 정책에 따라 세션 쿠키를 누락하고 전송
         │
    ├─ [쿠키가 첨부되어 도달한 경우: 2차 방어]
    ▼
-5. [서버 토큰 인터셉터 검증]
+3. [서버 토큰 인터셉터 검증]
     ├─ 서버가 세션의 `csrf_token`과 HTTP 요청 본문의 `csrf_token`을 비교
     └─ 공격자는 SOP로 토큰을 알 수 없으므로 `csrf_token` 누락/불일치 ➔ [403 Forbidden 차단]
         │
    ▼
-6. [보안 로그 기록] 위조 요청 이벤트를 SIEM으로 전송하고 트랜잭션 강제 중단
+       [403 차단 및 보안 로그 기록]
 ```
+
+- 1. 동기화 토큰 발급
+- 2. SameSite 쿠키 차단
+- 3. 서버 토큰 인터셉터 검증
 
 #### 한줄 요약
 - 정상 폼 난수 발급 → 악성 위조 요청 전송 → SameSite 쿠키 차단 → Anti-CSRF 토큰 대조 → 403 차단 및 로깅 순으로 동작한다.
@@ -150,7 +154,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 웹 애플리케이션의 신뢰 권한 모델을 악용하는 비승인 요청을 무력화하는 **CSRF 방어 아키텍처는 트랜잭션 무결성 보호의 필수 요소**이며, 실무 구현 시 **SameSite=Lax/Strict 쿠키 정책 전면 적용, 동기화 Anti-CSRF 토큰 및 Double Submit Cookie 패턴 구현, Origin/Referer 헤더 출처 검증, 고위험 작업에 대한 Step-Up 재인증 체계**를 결합하여 사용자 의도에 기반한 완전무결한 웹 트랜잭션 보안 완성
+- 상태 저장 세션은 **동기화 토큰**, 무상태 API는 **Double Submit** 적용
 
 #### 한줄 요약
 - CSRF 방어는 SameSite 쿠키와 Anti-CSRF 토큰 및 Step-Up 재인증을 결합하여 교차 사이트 요청 위조를 완벽히 차단하는 트랜잭션 보안 체계다.

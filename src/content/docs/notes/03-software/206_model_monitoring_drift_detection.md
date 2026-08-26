@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "모델 모니터링•드리프트 감지 (Model Monitoring Drift Detection)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:24:45+09:00"
 tags:
   - "notes-software"
 weight: 206
@@ -58,15 +58,12 @@ extra:
 </details>
 
 ```text
-[모델 드리프트 감지 및 지속적 재학습(CT) 아키텍처]
-|-- 1. Baseline Reference Store (학습 시점의 피처 분포, 성능 F1/AUC 기준선 보관)
-`-- 2. Real-time Telemetry Collector (Kafka / Fluentbit)
-    |-- Inference Inputs ($X$) + Model Predictions ($\hat{Y}$) 실시간 수집
-    `-- Delayed Ground Truth Labels ($Y$: 비동기 수집된 실제 정답 결합)
-`-- 3. Statistical Drift Detector (Evidently / Arize)
-    |-- Data Drift ($P(X)$: KS-Test, PSI 검정)
-    `-- Concept Drift ($P(Y|X)$: 성능 저하 및 F1 급락 판정)
-`-- 4. Response & Retraining Controller (CT 자동 재학습 DAG 파이프라인 트리거)
+[모델 드리프트 감지 구성]
+|-- 기준선 저장소
+|-- 텔레메트리 수집기
+|-- 정답 결합기
+|-- 드리프트 탐지기
+`-- 대응 제어기
 ```
 
 선의 의미: 계층 및 텔레메트리 수집기가 입력과 정답을 모아 정답 결합 엔진을 거쳐 드리프트 탐지기가 기준선과 비교 후 대응 제어기를 구동하는 구조
@@ -145,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 운영 중인 인공지능 모델의 성능 노후화를 방어하고 생명력을 유지하기 위해 **통계적 가설 검정 기반의 실시간 데이터 드리프트 감시와 슬라이스 분석 체계를 표준 구축**하고, **지연 정답 결합을 통한 개념 드리프트 확정 및 지속적 재학습(CT) 파이프라인 연계**를 통해 완전한 자율 복원형 MLOps 완성
+- 분포 변화에는 **통계 검정**, 성능 저하에는 **지연 정답·CT** 적용
 
 #### 한줄 요약
 - 모델 모니터링은 통계적 가설 검정과 지연 정답 매핑을 통해 데이터/개념 드리프트를 조기에 감지하고 자동 재학습을 트리거하는 핵심 MLOps 품질 관리 기술이다.

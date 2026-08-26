@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-08-26T09:58:00+09:00"
+date: "2026-08-26T13:14:27+09:00"
 tags:
   - "notes-software"
 weight: 146
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 온프레미스 레거시 시스템을 클라우드로 이관 시 **비즈니스 가치와 복잡도에 따라 Rehost, Replatform, Refactor, Repurchase, Retain, Retire 6가지 전략으로 분류한 의사결정 프레임워크**
-- 배경/필요성: 모든 레거시 시스템을 획일적 전면 재개발(Big-Bang)로 추진 시 발생하는 **예산 초과, 프로젝트 지연 및 이관 실패로 인한 비즈니스 마비 해결 불가**
+- 배경/필요성: 획일적 전면 재개발은 **예산 초과·지연·이관 실패 위험**
 
 #### 한줄 요약
 - 시스템의 가치와 복잡도에 따라 6가지 전략을 최적 매핑하여 안전한 클라우드 전환을 완수한다.
@@ -59,12 +59,12 @@ extra:
 
 ```text
 [클라우드 마이그레이션 6R 전략 구조]
-|-- 1. Technical Migration (기술 인프라 이전)
+|-- Technical Migration (기술 인프라 이전)
 |   |-- Rehost (Lift-and-Shift: 코드 수정 0%, EC2 VM 복제)
 |   `-- Replatform (Lift-and-Tweak: 관리형 RDS/PaaS 교체)
-|-- 2. Modernization (클라우드 네이티브 현대화)
+|-- Modernization (클라우드 네이티브 현대화)
 |   `-- Refactor (Re-architect: MSA, K8s 컨테이너, 서버리스 전면 재개발)
-`-- 3. Business Disposition (비즈니스 및 자산 정제)
+`-- Business Disposition (비즈니스 및 자산 정제)
     |-- Repurchase (Drop-and-Shop: 상용 SaaS 완제품 도입)
     |-- Retain (Do Nothing: 규제 및 잔존 감가상각으로 현행 유지)
     `-- Retire (Decommission: 중복 및 불필요 레거시 자산 영구 폐기)
@@ -72,14 +72,14 @@ extra:
 
 선의 의미: 계층 및 전사 레거시 자산을 기술 이전, 현대화, 비즈니스 정제의 3대 영역 6가지 전략으로 분기 배치하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| Rehost (재호스팅) | 애플리케이션 수정 없이 **가상머신(EC2)으로 그대로 이전하여 마이그레이션 속도 극대화** | Lift-and-Shift |
-| Replatform (재플랫폼) | 코드는 유지하되 **DB를 RDS 등 클라우드 관리형 PaaS로 교체하여 운영 효율 향상** | Lift-and-Tweak |
-| Refactor (재설계) | 핵심 비즈니스 시스템을 **MSA 및 컨테이너(K8s) 기반의 클라우드 네이티브로 전면 재개발** | Cloud-Native |
-| Repurchase (재구매) | 레거시 커스텀 패키지를 **Salesforce, Workday 등 완성형 SaaS 솔루션으로 대체** | Drop-and-Shop |
-| Retain (유지) | 기술적 제약이나 감가상각이 남은 시스템을 **당분간 온프레미스에 그대로 존치** | 위험 분산 |
-| Retire (폐기) | 더 이상 비즈니스 가치가 없거나 중복된 **레거시 서버 및 소프트웨어 영구 종료** | 비용 절감 |
+| 구성요소 | 책임 |
+|:---|:---|
+| Rehost | 무수정 **가상머신 이전** |
+| Replatform | 코드 유지와 **관리형 플랫폼 전환** |
+| Refactor | **클라우드 네이티브 재설계** |
+| Repurchase | 레거시 패키지의 **SaaS 대체** |
+| Retain | 제약이 남은 시스템의 **현행 유지** |
+| Retire | 저가치·중복 자산의 **영구 종료** |
 
 #### 한줄 요약
 - Rehost, Replatform, Refactor, Repurchase, Retain, Retire가 결합된다.

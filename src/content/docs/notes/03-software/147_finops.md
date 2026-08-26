@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "FinOps 클라우드 비용 최적화 (FinOps)"
-date: "2026-08-26T09:58:00+09:00"
+date: "2026-08-26T13:15:19+09:00"
 tags:
   - "notes-software"
 weight: 147
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 엔지니어링, 재무, 비즈니스 조직이 협력하여 **클라우드 비용을 가시화(Inform), 최적화(Optimize), 운영(Operate)하는 재무 거버넌스 프레임워크**
-- 배경/필요성: 종량제 클라우드 자원의 무분별한 프로비저닝으로 인한 **클라우드 비용 폭증, 팀별 비용 귀속 불투명 및 단위 경제성 측정 불가 해결 불가**
+- 배경/필요성: 종량제 자원 남용으로 **비용 귀속·단위 경제성 측정 불가**
 
 #### 한줄 요약
 - 가시화, 최적화, 지속 운영의 3단계 순환을 통해 비즈니스 가치 중심의 클라우드 재무 최적화를 달성한다.
@@ -58,28 +58,21 @@ extra:
 </details>
 
 ```text
-[FinOps 3대 핵심 라이프사이클 구조]
-|-- 1. Inform Phase (가시화 및 할당)
-|   |-- Cost Allocation Tagging (팀별/서비스별 비용 귀속)
-|   |-- Unit Economics (트랜잭션 1건당 인프라 원가 산출)
-|   `-- Budget Forecasting (예산 예측 및 이상 비용 Anomaly 감지)
-|-- 2. Optimize Phase (최적화 및 약정)
-|   |-- Resource Right-Sizing (과다 스펙 인스턴스 다운사이징)
-|   |-- Rate Optimization (Savings Plans, RI, Spot 인스턴스)
-|   `-- Waste Reduction (미사용 EBS 볼륨, 고아 스냅샷 삭제)
-`-- 3. Operate Phase (자동화 및 운영 거버넌스)
-    |-- Policy-as-Code (Terraform 태깅 강제 정책)
-    `-- Continuous Automation (비업무 시간 EC2 자동 셧다운)
+[FinOps 협업 운영 구조]
+`-- FinOps 전담 조직
+    |-- 개발 조직
+    |-- 재무 조직
+    `-- 사업 조직
 ```
 
-선의 의미: 계층 및 Inform(가시화)에서 Optimize(최적화)로, Optimize에서 Operate(운영)로 지속 순환하는 FinOps 루프 구조
+선의 의미: FinOps 전담 조직이 개발·재무·사업의 비용 책임을 조율하는 협업 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| Inform 계층 (가시화) | 자원 태깅, 예산 예측, 팀별 비용 귀속 및 **Unit Economics(건당 원가) 산출** | 비용 투명성 확보 |
-| Optimize 계층 (최적화) | 미사용 자원 정리, Right-Sizing, **Savings Plans(약정 할인) 및 Spot 적용** | 실질적 요금 절감 |
-| Operate 계층 (운영) | 비업무 시간 자동 정지, FinOps KPI 수립, **비용 이상 탐지(Anomaly) 자동 알림** | 지속적 거버넌스 |
-| FinOps 전담 조직 | 개발, 재무, 사업 간 협업을 조율하고 **전사 클라우드 비용 효율성 가이드라인 배포** | 크로스펑셔널 팀 |
+| 구성요소 | 책임 |
+|:---|:---|
+| FinOps 전담 조직 | 개발·재무·사업의 **비용 거버넌스 조율** |
+| 개발 조직 | 자원 사용량과 **최적화 실행** 책임 |
+| 재무 조직 | 예산·요율과 **비용 귀속** 관리 |
+| 사업 조직 | 서비스 가치와 **단위 경제성** 판단 |
 
 #### 한줄 요약
 - Inform(가시화), Optimize(최적화), Operate(자동화 운영)가 결합된다.

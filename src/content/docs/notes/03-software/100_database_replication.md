@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
-date: "2026-08-26T09:49:00+09:00"
+date: "2026-08-27T02:02:00+09:00"
 tags:
   - "notes-software"
 weight: 100
@@ -58,19 +58,16 @@ extra:
 </details>
 
 ```text
-[데이터베이스 복제 아키텍처 및 로그 전파 체계]
-|-- Primary 노드 (Master: Write/Read 트랜잭션 전담)
-|   |-- Storage Engine (InnoDB DML 실행)
-|   `-- Binary Log (디스크 변경 이벤트 순차 기록)
-|-- ProxySQL / AWS Aurora Reader Endpoint (Read/Write 트래픽 자동 라우팅)
-`-- Replica 노드 (Slave: Read 전용 쿼리 분산 처리)
-    |-- I/O Thread (Primary의 Binlog를 읽어 Relay Log로 디스크 기록)
-    `-- SQL Thread (Relay Log를 순차 파싱하여 Replica 스토리지에 Replay 반영)
+[데이터베이스 복제 구성]
+|-- Primary 노드
+|-- I/O Thread
+|-- SQL Thread
+`-- 장애 감지기
 ```
 
-선의 의미: 계층 및 주 노드에서 복제 노드로의 로그 전송 및 재생(Replay) 구조
+선의 의미: 변경 로그 복제와 장애 전환을 담당하는 구성
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | Primary 노드 (Master) | 모든 CUD 쓰기 트랜잭션을 처리하고 **Binary Log를 디스크에 순차 생성** | 시스템 내 유일한 쓰기 원천 (SSOT) |
 | I/O Thread (Replica) | Primary의 Binlog 덤프를 네트워크로 수신하여 **Relay Log에 순차 저장** | 네트워크 연결 유지 및 수신 전담 |

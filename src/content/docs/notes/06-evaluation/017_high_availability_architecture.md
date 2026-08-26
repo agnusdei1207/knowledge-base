@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "무중단 시스템 이중화 및 장애 복구 : 고가용성 아키텍처 (Active-Active vs Active-Standby & 펜싱)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T15:33:06+09:00"
 tags:
   - "notes-evaluation"
 weight: 17
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 무중단 비즈니스 연속성을 달성하기 위해 **계층별 특성(Stateless vs Stateful) 분류 $\rightarrow$ 무상태 계층 Active-Active 부하 분산 $\rightarrow$ 상태 저장 계층 Active-Standby 동기 복제 $\rightarrow$ 하트비트 및 홀수 쿼럼($(N/2)+1$) 감시 $\rightarrow$ STONITH 노드 펜싱(Fencing) 기반 스플릿 브레인 방어 $\rightarrow$ 가상 IP(VIP) 자동 페일오버** 를 집행하는 **엔드투엔드 고가용성 엔지니어링 체계**
-- 배경/필요성: 금융 거래, 의료 시스템, 대규모 이커머스 환경에서 단 수 분의 서비스 중단도 수억 원의 금전적 피해와 기업 신뢰도 추락을 초래하므로, 인프라 고장 발생 시에도 사용자 체감 다운타임을 0으로 수렴시키는 자동 복원 체계 필수
+- 배경/필요성: 단일 노드 장애로 **서비스 전체 중단** 발생
 
 #### 한줄 요약
 - 고가용성 설계는 Active-Active 및 Active-Standby 이중화와 펜싱 메커니즘을 통해 무중단 서비스 연속성을 보증한다.
@@ -43,9 +43,9 @@ extra:
 
 </details>
 
-- **소프트웨어 계층별 분리 적용 원칙**: 웹/WAS와 같은 무상태(Stateless) 계층은 Active-Active로 수평 확장하고, RDBMS와 같은 상태 저장(Stateful) 계층은 데이터 일관성을 위해 Active-Standby로 단일 쓰기 통제
-- **스플릿 브레인(Split-Brain)의 완벽한 억제**: 홀수 노드 쿼럼(Quorum) 합의와 하드웨어 전원 강제 차단(STONITH: Shoot The Other Node In The Head) 펜싱으로 다중 마스터 출현 원천 방어
-- **N-1 예비 용량(Headroom) 확보**: 액티브 노드 중 1대가 이탈하더라도 잔여 노드만으로 피크 부하를 70% 가동률 내에서 100% 정상 수용하도록 클러스터 용량 사이징
+- 무상태 A-A·상태 저장 A-S의 **계층별 이중화**
+- 쿼럼과 STONITH를 결합한 **스플릿 브레인 억제**
+- 노드 하나 없이 피크를 수용하는 **N-1 용량**
 
 #### 한줄 요약
 - 계층별 이중화 분리(무상태 A-A / 상태 A-S), 쿼럼 및 STONITH 펜싱, N-1 용량 확보를 제공한다.
@@ -63,46 +63,21 @@ extra:
 </details>
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. 트래픽 분산 및 진입 계층 (Traffic Routing Layer: Active-Active) ]  │
-│  ├─ [ Anycast GSLB / L4 Load Balancer (VRRP 이중화) ]                   │
-│  └─ [ 가상 IP(VIP: 10.0.0.100) 기반 트래픽 로드밸런싱 ]                 │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (병렬 트래픽 라운드로빈 분산)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. 무상태 애플리케이션 계층 (Stateless Web/WAS: Active-Active) ]      │
-├───────────────────────────────────┬─────────────────────────────────────┤
-│ [ WAS Node 1 (Active) ]           │ [ WAS Node 2 (Active) ]             │
-│ ├─ 트래픽 50% 병렬 처리           │ ├─ 트래픽 50% 병렬 처리             │
-│ └─ 세션 상태: [ Redis Cluster ] ◄─┴─► 세션 상태: [ Redis Cluster ]      │
-└───────────────────────────────────┴─────────────────────────────────────┘
-                                     │ (단일 쓰기 및 읽기 분기)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 3. 상태 저장 데이터 계층 (Stateful DB Layer: Active-Standby & Fencing)]│
-│                                                                         │
-│  [ Primary DB (Active: 쓰기/읽기) ] ──(동기 복제)──► [ Replica DB (Standby: 읽기)]
-│               ▲                                            ▲            │
-│               │ (전용 하트비트 네트워크)                    │            │
-│               ▼                                            ▼            │
-│  ┌───────────────────────────────────────────────────────────────────┐  │
-│  │ [ 클러스터 오케스트레이터: Pacemaker & Corosync (3-Node Quorum) ]  │  │
-│  │ ├─ 하트비트 3회 유실 감지 ➔ 과반수 합의 ➔ Primary STONITH 전원 차단 │  │
-│  │ └─ Replica를 New Primary로 마스터 승격 ➔ VIP 바인딩 즉시 전환     │  │
-│  └───────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────┘
+고가용성 아키텍처
+├─ Traffic·Routing Layer
+├─ Stateless Compute Layer
+├─ Stateful Data Layer
+└─ Cluster Management·Fencing Layer
 ```
 
 선의 의미: 로드밸런서가 무상태 WAS로 트래픽을 분산하고, 상태 저장 DB는 액티브-스탠바이 동기 복제와 쿼럼 펜싱으로 무중단 가용성을 보장하는 구조
 
-| 계층 컴포넌트 | 적용 이중화 방식 | 핵심 기술 및 메커니즘 | 실무 역할 |
-|:---|:---|:---|:---|
-| **로드밸런서 계층** | **Active-Active (Anycast) / Active-Standby (VRRP)** | Keepalived, F5 BIG-IP, VIP 플로팅 | 단일 진입점 SPOF 제거 |
-| **애플리케이션 계층**| **Active-Active (완전 병렬 분산)** | Stateless WAS, K8s HPA, Redis Session | 100% 자원 가동 및 N-1 수용 |
-| **데이터베이스 계층**| **Active-Standby (단일 마스터 복제)** | MySQL Group Replication, Oracle RAC | 데이터 일관성 및 무손실 승격 |
-| **클러스터 매니저** | **홀수 쿼럼 (Quorum 3-Node)** | Corosync, Pacemaker, etcd Quorum | 하트비트 감시 및 페일오버 오케스트레이션 |
-| **하드웨어 펜싱** | **STONITH (Shoot The Other Node)** | IPMI, iLO, vSphere API 전원 강제 차단 | 스플릿 브레인 원천 차단 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Traffic·Routing Layer** | VIP와 로드밸런서 진입점 이중화 |
+| **Stateless Compute Layer** | Active-Active 처리와 N-1 용량 확보 |
+| **Stateful Data Layer** | Active-Standby 복제와 단일 쓰기 보장 |
+| **Cluster Management·Fencing Layer** | 쿼럼 감시·페일오버·STONITH 집행 |
 
 #### 한줄 요약
 - Anycast 로드밸런서, 무상태 Active-Active WAS, Active-Standby DB, Pacemaker 쿼럼, STONITH 펜싱으로 구성된다.
@@ -153,11 +128,11 @@ extra:
 
 **동작 원리**
 
-1. **무상태 계층의 자원 효율 극대화**: Active-Active 구성은 유휴 자원 없이 모든 서버가 부하를 나누어 처리하므로 인프라 가성비(Cost Efficiency)가 최고 수준
-2. **단일 쓰기 원칙(Single-Writer Principle)**: 분산 DB가 아닌 전통적 RDBMS에서는 2개 노드가 동시 쓰기를 수행하면 데이터 충돌이 발생하므로 Active-Standby 모델로 쓰기 권한을 엄격히 단일화
-3. **홀수 정족수(Odd Quorum)의 수학적 원리**: $2N+1$개 노드 중 과반수인 $N+1$개 노드의 동의를 얻은 진영만 살아남게 하여 네트워크가 반으로 잘려도(50:50) 양쪽 모두 쓰기를 멈추는 안전 메커니즘
-4. **펜싱(STONITH)의 절대성**: 하트비트가 끊겼을 때 "상대 노드가 죽었는지, 네트워크만 끊겼는지" 알 수 없으므로, 무조건 상대를 강제 종료시킨 후 승격하여 데이터 오염 방지
-5. **무손실 동기 복제(Semi-sync / Sync)**: Active에서 Standby로 커밋 로그가 최소 1대 이상 복제되었음을 확인한 후 클라이언트에 응답하여 RPO=0 보장
+1. **정상 가동 및 동기 복제 상태**: 하트비트와 로그 복제
+2. **장애 발생 및 하트비트 유실 감지**: 쿼럼으로 장애 확정
+3. **STONITH 하드웨어 펜싱 집행**: 구 Primary 쓰기 차단
+4. **마스터 승격 및 VIP 플로팅 인계**: Replica 승격
+5. **서비스 정상화 및 RTO 달성**: 재연결과 Failback 준비
 
 #### 한줄 요약
 - 정상 동기 복제, 하트비트 유실 감지, STONITH 펜싱 차단, Standby 마스터 승격, VIP 인계 및 RTO 0초 수렴 순으로 동작한다.
@@ -204,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 예기치 못한 하드웨어 고장이나 소프트웨어 장애 상황에서도 비즈니스의 생명줄을 무중단으로 유지하는 최상위 인프라 공학인 **고가용성(HA) 아키텍처 체계**는 단순한 서버 다중화를 넘어 시스템 전체의 회복 탄력성(Resilience)을 보증하는 핵심 뼈대이며, 실무 구현 시 **무상태 계층 Active-Active와 상태 저장 계층 Active-Standby의 계층별 최적 분리**, **홀수 쿼럼($(N/2)+1$) 및 STONITH 펜싱 기반 스플릿 브레인 원천 차단**, **N-1 예비 용량 확보 및 무손실 동기 복제**, **카오스 엔지니어링(Chaos Mesh) 기반의 상시 장애 주입 검증**을 완성하여 최고 수준의 무결점 시스템 신뢰성과 비즈니스 연속성을 완성
+- 무상태는 **Active-Active**, 상태 저장은 **Active-Standby** 선택
 
 #### 한줄 요약
 - 계층별 Active-Active/Standby 최적화와 쿼럼 펜싱을 통해 완벽한 고가용성 무중단 아키텍처를 완성한다.

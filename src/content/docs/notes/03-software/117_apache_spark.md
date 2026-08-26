@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-26T09:53:00+09:00"
+date: "2026-08-26T13:11:08+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -31,7 +31,7 @@ extra:
 - 배경/필요성: 하둡 MapReduce의 단계별 디스크 I/O 물질화로 인한 **반복 머신러닝, 실시간 스트리밍 및 대화형 분석 쿼리의 심각한 지연 해결 불가**
 
 #### 한줄 요약
-- 인메모리 RDD와 DAG 지연 연산으로 디스크 기반 분산 처리 대비 최대 100배 빠른 연산을 실현한다.
+- 인메모리 캐시와 DAG 실행으로 반복 연산의 디스크 I/O를 줄인다.
 
 ## Ⅱ. 특징
 
@@ -63,18 +63,20 @@ extra:
 |   |-- Catalyst Optimizer (논리/물리 쿼리 최적화 및 코드 생성)
 |   `-- DAG Scheduler (Stage 분할 및 TaskSet 생성)
 `-- Cluster Manager (YARN / Kubernetes / Standalone: 자원 할당)
-    |-- Worker Node 1 -> Executor 1 (RAM RDD Cache + Task 1, 2 병렬 실행)
-    `-- Worker Node 2 -> Executor 2 (RAM RDD Cache + Task 3, 4 병렬 실행)
+    |-- Worker Node 1
+    |   `-- Executor 1
+    `-- Worker Node 2
+        `-- Executor 2
 ```
 
 선의 의미: 계층 및 Driver가 DAG를 수립하고 Cluster Manager를 통해 Executor들로 분산 실행하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 드라이버 (Driver) | 애플리케이션 진입점을 실행하고 **DAG 생성 및 태스크 스케줄링 총괄** | 단일 코디네이터 역할 |
-| Catalyst 최적화기 | SQL/DataFrame 논리 계획을 분석하여 **Filter Pushdown 등 최적 물리 계획 생성** | 규칙/비용 기반 CBO |
-| DAG 스케줄러 | 전체 연산 그래프를 셔플(Shuffle) 경계 기준으로 **Stage와 Task 단위로 분할** | 지연 평가 파이프라인화 |
-| 실행기 (Executor) | 워커 노드에서 메모리 상에 RDD를 캐시하고 **할당된 태스크를 병렬 실행** | JVM 컨테이너 기반 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 드라이버 | DAG 생성과 태스크 스케줄링 조정 |
+| Catalyst 최적화기 | SQL·DataFrame의 **논리·물리 계획** 최적화 |
+| DAG 스케줄러 | 셔플 경계로 Stage·Task 분할 |
+| 실행기 | RDD 캐시와 **할당 태스크** 실행 |
 
 #### 한줄 요약
 - 드라이버(총괄), Catalyst(최적화), DAG 스케줄러(분할), 실행기(연산)가 결합된다.
@@ -120,7 +122,7 @@ DataFrame / Spark SQL 쿼리 선언
 | 장애 복구 비용 | 유실된 단일 로컬 파티션만 즉시 재계산 | 이전 Stage 전체 재실행 또는 셔플 파일 재인출 |
 
 #### 한줄 요약
-- 파티션 내 초고속 처리는 Narrow 변환, 키 재분배 집계는 Wide 변환을 적용한다.
+- 파티션 내 연산은 Narrow, 키 재분배는 Wide 변환을 적용한다.
 
 ## Ⅵ. 실무 고려사항 및 대책
 
@@ -132,17 +134,17 @@ DataFrame / Spark SQL 쿼리 선언
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| `collect()` 호출로 거대 데이터가 Driver로 몰려 Driver OOM | **`collect()` 금지 및 `take(N)` 또는 스토리지 파일 저장** | Driver 메모리 고갈 원천 차단 |
+| `collect()`에 따른 Driver OOM | 크기 확인 후 **`take`·분산 저장** 사용 | Driver 메모리 유입량 제한 |
 | 특정 조인 키 편향으로 인한 Executor Data Skew OOM | **조인 키에 Salting 난수 부여 및 Broadcast Hash Join 전환** | 파티션 메모리 부하 균등 분산 |
-| 수많은 RDD 객체 생성으로 인한 Java GC 지연 발생 | **Kryo Serializer 적용 및 Tungsten 오프힙 메모리 관리 활용** | 메모리 효율 극대화 및 GC 오버헤드 제거 |
-| 소규모 파일 수천 개로 인한 셔플 I/O 병목 | **`coalesce()` 및 AQE의 Coalescing Shuffle Partitions 활성화** | 셔플 파티션 수 자동 최적화 |
+| 다수 객체 생성에 따른 Java GC 지연 | **Kryo·Tungsten 메모리 관리** 적용 | 직렬화 크기와 GC 부담 감소 |
+| 소규모 파일에 따른 셔플 I/O 병목 | **`coalesce`·AQE 파티션 병합** 적용 | 셔플 파티션 수 조정 |
 
 #### 한줄 요약
 - collect 지양, Salting 및 Broadcast 조인, Kryo 직렬화, 파티션 자동 병합으로 운영한다.
 
 ## Ⅶ. 결론
 
-- 분산 연산은 **Spark 엔진**, 최적화는 **Catalyst** 선택
+- 반복·대화형 연산은 **Spark**, 단순 배치는 **MapReduce** 선택
 
 #### 한줄 요약
-- Apache Spark는 인메모리 RDD와 DAG 실행 엔진을 통해 배치와 스트리밍 연산을 초고속으로 완수하는 현대 분산 데이터 엔지니어링의 표준 프레임워크다.
+- 재사용 데이터는 캐시하고 Wide 변환의 셔플 비용을 줄인다.

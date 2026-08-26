@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터센터 오버레이 터널링 기술 : VXLAN (Virtual Extensible LAN)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:54:57+09:00"
 tags:
   - "notes-network"
 weight: 59
@@ -58,14 +58,11 @@ extra:
 </details>
 
 ```text
-[VXLAN 오버레이 및 L3 언더레이 스파인-리프 패브릭 아키텍처]
-|-- Tenant Overlay Layer (가상머신 VM / 컨테이너 Pod: VNI 10000, 20000)
-`-- VTEP Layer (VXLAN Tunnel Endpoint: 하이퍼바이저 OVS 또는 ToR Leaf 스위치)
-    `-- 50-Byte Outer Encapsulation: [Outer ETH (14B) | Outer IP (20B) | UDP 4789 (8B) | VXLAN (8B)]
-`-- Underlay L3 IP Fabric (Spine-Leaf Architecture)
-    |-- Leaf Switch (VTEP 터널링 및 L3 라우팅 인입)
-    |-- Spine Switch (L3 ECMP 대등 다중 링크 고속 포워딩)
-    `-- MP-BGP EVPN Control Plane (호스트 MAC-IP 바인딩 사전 동기화)
+[VXLAN 구성]
+|-- VTEP
+|-- VNI
+|-- 언더레이 패브릭
+`-- MP-BGP EVPN
 ```
 
 선의 의미: 테넌트 VM의 L2 프레임이 송신 VTEP에서 50바이트 외부 헤더로 캡슐화되어 L3 언더레이를 고속 통과한 후 수신 VTEP에서 복원되는 구조
@@ -146,7 +143,7 @@ VXLAN 캡슐화 및 L3 언더레이 포워딩 파이프라인
 
 ## Ⅶ. 결론
 
-- 클라우드 데이터센터의 대규모 멀티 테넌시와 가상 머신 무중단 마이그레이션을 구현하기 위해 **VXLAN 기반 오버레이 네트워크를 표준 구축**하고, 운영 오버헤드를 통제하기 위해 **언더레이 점보 프레임(MTU 9000), MP-BGP EVPN 제어 평면, SmartNIC 하드웨어 오프로딩 엔진**을 결합하여 고성능·고확장성 클라우드 패브릭 완성
+- L3 위 L2 확장은 **VXLAN**, BUM 억제는 **MP-BGP EVPN** 적용
 
 #### 한줄 요약
 - VXLAN은 MAC-in-UDP 캡슐화와 24비트 VNI를 통해 L3 망 위에서 대규모 가상 L2 네트워크를 실현하는 핵심 데이터센터 오버레이 기술이다.

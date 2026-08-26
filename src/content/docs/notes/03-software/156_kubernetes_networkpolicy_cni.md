@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-26T10:00:00+09:00"
+date: "2026-08-26T13:12:26+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -58,18 +58,16 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 CNI 및 NetworkPolicy 패킷 필터링 구조]
-|-- 1. Frontend Pod (IP: `10.244.1.10` - CNI 할당) -> [GET /api/orders] 송신
-`-- 2. CNI Data Plane Layer (Cilium eBPF / Calico iptables)
-    |-- NetworkPolicy 검증 (`app=frontend` -> `app=backend` 화이트리스트 확인)
-    |-- Default Deny 정책 대조 (Port 8080/TCP 허용 여부 판정)
-    `-- Packet Filtering (인가된 패킷만 전달, 비인가 패킷은 커널 레벨 Drop)
-`-- 3. Backend Pod (안전하게 인가된 트래픽 수신 / DB 직결은 차단)
+[CNI·NetworkPolicy 구성]
+|-- CNI 플러그인
+|-- NetworkPolicy 오브젝트
+|-- 정책 제어기
+`-- 데이터 플레인
 ```
 
 선의 의미: 계층 및 프론트엔드 파드의 송신 패킷이 CNI Data Plane의 NetworkPolicy 룰셋을 거쳐 인가된 백엔드 파드로만 전달되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | CNI 플러그인 | 파드 생성 시 **네트워크 네임스페이스를 생성하고 고유 IP 및 라우팅 경로 할당** | Calico, Cilium |
 | NetworkPolicy 오브젝트 | `podSelector`, `ingress`, `egress`를 정의하여 **허용 대상 트래픽을 선언** | 선언적 YAML 방화벽 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VM vs 컨테이너 비교 (VM vs Container)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:11:10+09:00"
 tags:
   - "notes-software"
 weight: 151
@@ -57,22 +57,7 @@ extra:
 
 </details>
 
-```text
-[가상머신(VM) vs Docker 컨테이너 구조 비교]
-|-- 1. Virtual Machine Structure (하드웨어 가상화: 무거운 격리)
-|   |-- [App A + Guest OS (Linux)] / [App B + Guest OS (Windows)] (수 GB, 수 분 부팅)
-|   |-- Hypervisor (Type 1: KVM / VMware ESXi)
-|   `-- Physical Hardware (CPU, Memory, Storage)
-`-- 2. Docker Container Structure (OS 커널 가상화: 경량 프로세스)
-    |-- [App A + Libs] / [App B + Libs] (수십 MB, 수 밀리초 기동)
-    |-- Container Runtime (containerd -> runc)
-    |-- Host OS Kernel (Linux Namespaces + cgroups)
-    `-- Physical Hardware (CPU, Memory, Storage)
-```
-
-선의 의미: 계층 및 Guest OS를 가상화하는 무거운 VM 구조와 호스트 커널을 공유하는 경량 컨테이너 구조의 차이
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 가상머신 (VM) | 하이퍼바이저 기반으로 **독립된 Guest OS 커널을 실행하여 완벽한 하드웨어 격리 보장** | 완벽한 커널 격리 |
 | 컨테이너 (Container) | 호스트 커널을 공유하며 **Namespaces와 cgroups를 통해 격리된 프로세스 환경 제공** | 초경량 고속 기동 |

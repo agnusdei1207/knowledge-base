@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "쿠버네티스 컨테이너 네트워킹 : CNI•Service•Ingress"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:49:55+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -59,26 +59,22 @@ extra:
 
 ```text
 [쿠버네티스 다계층 네트워킹 및 트래픽 라우팅 아키텍처]
-|-- Cluster External (외부 클라이언트 HTTPS 요청 인입)
-`-- Ingress / Gateway API (L7 Host/Path 라우팅, TLS Offloading)
-`-- Service Abstraction (ClusterIP / LoadBalancer VIP)
-    `-- Service Routing Engine (kube-proxy IPVS / Cilium eBPF Host-Routing)
-`-- Security & Policy Layer (NetworkPolicy: L3~L7 레이블 기반 인그레스/이그레스 인가)
-`-- CNI Network Fabric (Calico BGP / Cilium eBPF / Flannel VXLAN)
-    |-- Node 1: Pod A (veth0, 10.244.1.2)
-    |-- Node 2: Pod B (veth0, 10.244.2.5)
-    `-- Node 3: Pod C (veth0, 10.244.3.8)
+|-- Ingress·Gateway API (L7 진입)
+|-- Service (고정 VIP·EndpointSlice)
+|-- NetworkPolicy (통신 인가)
+|-- CNI 플러그인 (파드 연결·IPAM)
+`-- eBPF 커널 엔진 (서비스 포워딩)
 ```
 
 선의 의미: 계층 및 외부 트래픽이 Ingress에서 L7 라우팅된 후 Service VIP를 거쳐 NetworkPolicy 검증을 통과하고 CNI 패브릭을 통해 파드로 전달되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **Ingress / Gateway API** | 클러스터 외부 L7 트래픽 수용, **TLS 종단(Offload), 경로 기반 라우팅 제어** | L7 프록시 계층 |
-| **Service (ClusterIP)** | 파드 그룹에 **고정 VIP를 부여하고 백엔드 엔드포인트(EndpointSlice)로 부하 분산** | L4 가상 로드밸런서 |
-| **NetworkPolicy** | 네임스페이스 및 파드 레이블 기반의 **인그레스/이그레스 패킷 필터링 방화벽** | 선언적 보안 정책 |
-| **CNI 플러그인** | veth 페어 생성, **IPAM(IP 주소 할당), 노드 간 오버레이/BGP 라우팅 수행** | Calico, Cilium |
-| **eBPF 커널 엔진** | iptables를 대체하여 **리눅스 커널 레벨에서 소켓 직결 $O(1)$ 초고속 포워딩** | BPF Datapath |
+| 구성요소 | 책임 |
+|:---|:---|
+| Ingress·Gateway API | TLS 종단과 **L7 경로 라우팅** |
+| Service | 고정 VIP와 **EndpointSlice 부하 분산** |
+| NetworkPolicy | 레이블 기반 **인그레스·이그레스 인가** |
+| CNI 플러그인 | veth·IPAM과 **노드 간 라우팅** |
+| eBPF 커널 엔진 | iptables 대체와 **고속 포워딩** |
 
 #### 한줄 요약
 - Ingress, Service, NetworkPolicy, CNI, eBPF 엔진이 결합된다.
@@ -94,16 +90,16 @@ extra:
 ```text
 쿠버네티스 외부 요청 인입 및 파드 전달 파이프라인
         │
-   1. [외부 요청 인입] 외부 클라이언트가 도메인 주소로 Ingress 공인 VIP에 HTTPS 요청 전송
+   [외부 요청 인입] 외부 클라이언트가 도메인 주소로 Ingress 공인 VIP에 HTTPS 요청 전송
         │
-   2. [Ingress L7 라우팅] Ingress Controller가 TLS 복호화 및 Host/Path 분석 후 대상 Service 매핑
+   [Ingress L7 라우팅] Ingress Controller가 TLS 복호화 및 Host/Path 분석 후 대상 Service 매핑
         │
-   3. [EndpointSlice 조회] Service가 Readiness Probe를 통과한 정상 파드(Pod IP) 목록 조회
+   [EndpointSlice 조회] Service가 Readiness Probe를 통과한 정상 파드(Pod IP) 목록 조회
         │
-   4. [eBPF / IPVS 부하 분산] 커널 eBPF 맵이 Service ClusterIP를 목적지 Pod IP로 고속 DNAT 변환
+   [eBPF / IPVS 부하 분산] 커널 eBPF 맵이 Service ClusterIP를 목적지 Pod IP로 고속 DNAT 변환
         │
    ▼
-5. [CNI 전달 및 수신] NetworkPolicy 검증을 거쳐 노드 내부 veth 인터페이스를 통해 파드 소켓으로 전달
+[CNI 전달 및 수신] NetworkPolicy 검증을 거쳐 노드 내부 veth 인터페이스를 통해 파드 소켓으로 전달
 ```
 
 #### 한줄 요약
@@ -119,11 +115,11 @@ extra:
 
 | 비교 항목 | Flannel CNI (기본형) | Calico CNI (보안/BGP) | Cilium CNI (차세대 eBPF) |
 |:---|:---|:---|:---|
-| **데이터 평면 기술** | Linux Bridge / VXLAN 오버레이 | iptables / Linux Routing (BGP) | **eBPF (Extended BPF 커널 가속)** |
-| **NetworkPolicy 지원**| **미지원 (보안 격리 불가)** | **지원 (강력한 L3~L4 방화벽)** | **지원 (L3~L7 API 단위 심층 제어)**|
-| **성능 확장성** | 소규모 적합 (캡슐화 오버헤드)| 중대규모 적합 (BGP 네이티브) | **초대규모 고성능 ($O(1)$ BPF Map)**|
-| **서비스 프록시 구현**| 표준 kube-proxy (iptables) | 표준 kube-proxy / eBPF 모드 | **kube-proxy 완전 대체 (eBPF)** |
-| **서비스 메시 통합** | 별도 사이드카 프록시 필수 | 별도 사이드카 프록시 필수 | **사이드카 없는(Sidecarless) 메시** |
+| 데이터 평면 기술 | Linux Bridge / VXLAN 오버레이 | iptables / Linux Routing (BGP) | **eBPF (Extended BPF 커널 가속)** |
+| NetworkPolicy 지원 | **미지원 (보안 격리 불가)** | **지원 (강력한 L3~L4 방화벽)** | **지원 (L3~L7 API 단위 심층 제어)**|
+| 성능 확장성 | 소규모 적합 (캡슐화 오버헤드)| 중대규모 적합 (BGP 네이티브) | **초대규모 고성능 ($O(1)$ BPF Map)**|
+| 서비스 프록시 구현 | 표준 kube-proxy (iptables) | 표준 kube-proxy / eBPF 모드 | **kube-proxy 완전 대체 (eBPF)** |
+| 서비스 메시 통합 | 별도 사이드카 프록시 필수 | 별도 사이드카 프록시 필수 | **사이드카 없는(Sidecarless) 메시** |
 
 #### 한줄 요약
 - Flannel은 단순 오버레이, Calico는 BGP/NetworkPolicy, Cilium은 eBPF 기반 고성능/L7 보안 CNI이다.
@@ -148,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 환경의 확장성과 보안성을 달성하기 위해 **쿠버네티스 표준 네트워킹 아키텍처를 구축**하고, 대규모 엔터프라이즈 환경에서는 **eBPF 기반 Cilium CNI, Gateway API 표준, 엄격한 NetworkPolicy 화이트리스트 보안, NodeLocal DNSCache**를 통합 적용하여 고성능·고보안 컨테이너 인프라 완성
+- 규모·정책·L7 요구에 따라 **Flannel·Calico·Cilium** 선택
 
 #### 한줄 요약
 - 쿠버네티스 네트워킹은 CNI, Service, Gateway API 및 eBPF 가속을 결합하여 고성능 컨테이너 통신을 실현하는 핵심 클라우드 인프라다.

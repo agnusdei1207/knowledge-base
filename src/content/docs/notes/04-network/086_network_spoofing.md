@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "네트워크 식별자 위변조 방어 : ARP, IP, DNS 스푸핑"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T14:04:45+09:00"
 tags:
   - "notes-network"
 weight: 86
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: L2(ARP), L3(IP), L7(DNS) 계층의 통신 식별자 위조에 대응하여 **DAI, uRPF/BCP 38, DNSSEC으로 발신지 무결성을 검증·차단하는 네트워크 방어 체계**
+- 정의/개념: 계층별 식별자 위조를 **DAI·uRPF·DNSSEC**으로 검증
 - 배경/필요성: 고전적 TCP/IP의 발신지 인증(Source Authentication) 부재로 인한 **식별자 위조 빈발, 중간자(MITM) 도청 및 DRDoS 반사 증폭 공격 방어 불가**
 
 #### 한줄 요약
@@ -70,11 +70,11 @@ extra:
 
 선의 의미: L2부터 L7까지 발생하는 계층별 식별자 위조 공격을 각 계층의 전용 검증 엔진(DAI, uRPF, DNSSEC)으로 차단하는 구조
 
-| 계층 | 공격 유형 | 핵심 엔지니어링 책임 | 표준 방어 기술 |
-|:---|:---|:---|:---|
-| **L2 링크 계층** | **ARP Spoofing** | 위조된 MAC의 GARP를 차단하고 **DHCP 바인딩 DB 대조 검증** | **DAI, DHCP Snooping** |
-| **L3 네트워크 계층**| **IP Spoofing** | 패킷 Source IP의 **FIB 역방향 도달성을 검사하여 위조 패킷 폐기** | **uRPF (Strict/Loose), BCP 38** |
-| **L7 응용 계층** | **DNS Spoofing**| 공개키 전자서명(RRSIG)을 검증하여 **캐시 포이즈닝 원천 차단** | **DNSSEC, DoH, 0x20 인코딩** |
+| 구성요소 | 책임 |
+|:---|:---|
+| **DAI·DHCP Snooping** | ARP와 신뢰 바인딩 대조 |
+| **uRPF·BCP 38** | 출발지 주소의 역경로·대역 검증 |
+| **DNSSEC 검증기** | 서명된 DNS 데이터의 무결성 검증 |
 
 #### 한줄 요약
 - L2는 DAI/DHCP Snooping, L3는 uRPF/BCP 38, L7은 DNSSEC을 통해 계층별 위변조를 방어한다.
@@ -102,6 +102,12 @@ extra:
 5. [L7 DNS 서명 검증] DNSSEC 리졸버가 RRSIG 전자서명을 검증하여 위조 응답 거부 및 정상 IP 해석
 ```
 
+- 1. L2 ARP 패킷 인입: 비신뢰 포트 ARP 검사
+- 2. DHCP Snooping 대조: IP·MAC 바인딩 검증
+- 3. L3 IP 패킷 인입: 출발지 역경로 검사
+- 4. FIB 불일치 패킷 폐기: 정책 위반 패킷 차단
+- 5. L7 DNS 서명 검증: DNSSEC 신뢰 체인 확인
+
 #### 한줄 요약
 - DAI 바인딩 검증 → uRPF 역경로 검사 → BCP 38 인그레스 필터링 → DNSSEC 암호 서명 검증 순으로 방어한다.
 
@@ -115,10 +121,10 @@ extra:
 
 | 비교 항목 | ARP 스푸핑 (L2 Spoofing) | IP 스푸핑 (L3 Spoofing) | DNS 스푸핑 (L7 Spoofing) |
 |:---|:---|:---|:---|
-| **위조 대상 식별자**| **Ethernet MAC 주소** | **IPv4 / IPv6 출발지 주소** | **도메인 네임 A/AAAA 레코드** |
-| **공격 유효 범위** | **동일 브로드캐스트 도메인 (LAN)**| **글로벌 전송망 전 구간 (WAN)** | **DNS 캐시 공유 사용자 전원** |
-| **주요 공격 목적** | **내부망 세션 도청, 자격증명 탈취 (MITM)** | **DDoS 반사 증폭(NTP/DNS), 신원 은닉** | **피싱 사이트 유도, 인증서 우회** |
-| **핵심 방어 기술** | **DAI, Static ARP, 802.1X 포트 인증** | **uRPF (Strict/Loose), BCP 38** | **DNSSEC, DoH(DNS over HTTPS)** |
+| 위조 대상 | IP·MAC 바인딩 | 출발지 IP 주소 | DNS 자원 레코드 |
+| 공격 범위 | 동일 L2 도메인 | 라우팅 경계와 반사 서비스 | 오염된 캐시 이용자 |
+| 공격 목적 | MITM·세션 도청 | 반사 공격·발신지 은닉 | 악성 목적지 유도 |
+| 핵심 방어 | **DAI·DHCP Snooping** | **uRPF·BCP 38** | DNSSEC 서명 검증 |
 
 #### 한줄 요약
 - ARP는 LAN 내부 도청용, IP는 WAN 증폭 공격용, DNS는 전역 피싱 사이트 유도용으로 악용된다.
@@ -143,7 +149,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 네트워크 통신의 신뢰성을 훼손하는 식별자 위조 위협에 대응하여 **L2 DAI, L3 uRPF 및 BCP 38, L7 DNSSEC을 결합한 계층별 다중 방어 아키텍처를 구축**하고, 종단 간 통신에는 **mTLS(상호 TLS)와 Zero Trust Network Access(ZTNA)** 원칙을 통합 적용하여 주소 위조에 흔들리지 않는 제로 트러스트 보안 인프라 완성
+- ARP 위조는 **DAI**, IP 위조는 uRPF, DNS 위조는 DNSSEC
 
 #### 한줄 요약
 - DAI, uRPF, DNSSEC과 제로 트러스트 mTLS를 결합하여 다계층 스푸핑 방어 체계를 구현한다.

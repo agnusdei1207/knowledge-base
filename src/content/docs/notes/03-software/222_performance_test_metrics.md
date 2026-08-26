@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "성능 테스트 지표: TPS•응답시간•동시 사용자 (Performance Test Metrics)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:27:19+09:00"
 tags:
   - "notes-software"
 weight: 222
@@ -58,15 +58,12 @@ extra:
 </details>
 
 ```text
-[성능 테스트 부하 모델링 및 다차원 지표 계측 아키텍처]
-|-- 1. Workload Model (사용자 시나리오 경로, Think Time 3초, 가상 사용자 수 N 정의)
-`-- 2. Distributed Load Generator (JMeter / Locust / k6 분산 부하 인가)
-`-- 3. System Under Test (SUT: 웹/앱 서버, 마이크로서비스, DB 클러스터)
-`-- 4. Multi-Dimensional Metrics Collector
-    |-- Throughput: TPS (Transactions Per Second), Network Throughput (Mbps)
-    |-- Latency: Average, Median (P50), P95, P99, Max Response Time
-    `-- Infrastructure: CPU, Memory, Disk I/O, JVM GC Pause, Thread Pool
-`-- 5. Saturation Analyzer (Knee Point 변곡점 및 안전 운영 용량 Safe Capacity 도출)
+[성능 테스트 구성]
+|-- 부하 모델
+|-- 부하 생성기
+|-- 시험 대상 시스템
+|-- 지표 수집기
+`-- 포화 분석기
 ```
 
 선의 의미: 계층 및 부하 모델에 따라 생성기가 SUT에 단계별 부하를 가하고 지표 수집기가 TPS, 지연, 자원을 측정하여 분석기가 포화점을 확정하는 구조
@@ -86,7 +83,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **성능 테스트 5단계**: 단계별 부하 인가 $\to$ 실시간 지표 계측 $\to$ 정규화 집계 $\to$ Knee Point 포화 판정 $\to$ 안전 운영 용량 확정.
+- **성능 테스트 5단계**: 단계별 부하 인가 $\to$ 실시간 지표 계측 $\to$ 자원 모니터링 $\to$ 병목 원인 분석 $\to$ 안전 운영 용량 확정.
 
 </details>
 
@@ -111,7 +108,7 @@ extra:
 ```
 
 #### 한줄 요약
-- 단계별 인가 → 실시간 계측 → 자원 관측 → 포화 판정 → 안전 용량 확정 순으로 진행된다.
+- 단계별 부하 인가 → 실시간 지표 계측 → 자원 모니터링 → 병목 원인 분석 → 안전 운영 용량 확정 순으로 진행된다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -151,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대규모 상용 서비스의 안정적인 오픈과 성능 신뢰성을 확보하기 위해 **TPS, P95/P99 꼬리 지연, 동시 사용자 및 인프라 자원 사용률을 다차원 복합 지표로 정의**하고, **리틀의 법칙 검증과 단계별 부하 시험을 통한 Knee Point 포화 변곡점 도출**을 결합하여 안전 운영 용량 확정
+- 처리 용량은 **TPS**, 체감 품질은 **P99**로 안전 용량 확정
 
 #### 한줄 요약
 - 성능 테스트 지표는 TPS, P99 지연, 동시 사용자, 자원 점유율의 상관관계를 분석하여 시스템의 포화 한계와 안전 용량을 확정하는 핵심 성능 엔지니어링 기술이다.

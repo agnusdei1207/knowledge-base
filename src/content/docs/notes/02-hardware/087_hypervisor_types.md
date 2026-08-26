@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "하이퍼바이저 유형: Type 1 vs Type 2 (Hypervisor Types)"
-date: "2026-08-26T10:45:00+09:00"
+date: "2026-08-26T23:43:00+09:00"
 tags:
   - "notes-hardware"
 weight: 87
@@ -161,7 +161,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 인프라 환경에 따라 **Type 1**과 **Type 2** 가상화 체계 차등 적용
+- 엔터프라이즈 운영은 **Type 1**, 개인 개발·시험은 **Type 2** 선택
 
 #### 한줄 요약
 - 하이퍼바이저는 엔터프라이즈 성능과 보안을 위한 Type 1과 개발 편의성을 위한 Type 2로 명확히 구분하여 설계해야 한다.

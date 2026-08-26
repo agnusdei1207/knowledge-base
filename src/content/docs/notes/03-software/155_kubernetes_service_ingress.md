@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 서비스•인그레스 (Kubernetes Service Ingress)"
-date: "2026-08-26T10:00:00+09:00"
+date: "2026-08-26T13:12:10+09:00"
 tags:
   - "notes-software"
 weight: 155
@@ -58,20 +58,16 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 인그레스(L7) 및 서비스(L4) 트래픽 구조]
-|-- 1. External Client (HTTPS Request)
-`-- 2. Ingress Controller Layer (AWS ALB / NGINX Ingress: L7 TLS Termination)
-    |-- Host: `api.example.com` / Path: `/order` -> Order Service
-    `-- Host: `api.example.com` / Path: `/pay`   -> Pay Service
-        `-- 3. Kubernetes Service Layer (ClusterIP VIP: 10.96.0.1 - L4 iptables/IPVS)
-            `-- 4. EndpointSlice Layer (Readiness Probe 통과한 Pod IP 목록)
-                |-- Order Pod 1 (10.244.1.5:8080)
-                `-- Order Pod 2 (10.244.2.8:8080)
+[쿠버네티스 서비스·인그레스 구성]
+|-- 인그레스 컨트롤러
+|-- 쿠버네티스 서비스
+|-- 엔드포인트슬라이스
+`-- kube-proxy
 ```
 
 선의 의미: 계층 및 외부 HTTPS 요청이 Ingress Controller(L7)에서 경로 매핑 후 Service(L4)와 Endpoints를 거쳐 파드로 전달되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 인그레스 컨트롤러 (Ingress) | 외부 HTTP/HTTPS 트래픽을 접수하여 **TLS 복호화 및 도메인/URL 경로별 분기 라우팅** | NGINX, AWS ALB |
 | 쿠버네티스 서비스 (Service) | 파드 집합에 **고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4)** | ClusterIP, NodePort |

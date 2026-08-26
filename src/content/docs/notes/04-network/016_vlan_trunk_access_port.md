@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:39:38+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -150,7 +150,7 @@ VLAN 프레임 생성 및 트렁크 전송 파이프라인
 
 ## Ⅶ. 결론
 
-- 대규모 엔터프라이즈 네트워크의 확장성과 보안성을 확보하기 위해 **VLAN 기반의 L2 브로드캐스트 도메인 격리와 IEEE 802.1Q 트렁크 설계를 표준 채택**하고, **DTP 비활성화, Native VLAN 격리, Allowed List 최소화 및 SVI VACL 방화벽 연동**을 결합하여 강력한 제로 트러스트 L2/L3 네트워크 인프라 완성
+- 단일 VLAN 단말은 **Access**, 복수 VLAN 백본은 **Trunk** 선택
 
 #### 한줄 요약
 - VLAN과 802.1Q 트렁킹 및 SVI 라우팅을 통해 브로드캐스트 도메인을 논리 분할하고 트래픽을 안전하게 집적·전달하는 핵심 L2 가상화 기술이다.

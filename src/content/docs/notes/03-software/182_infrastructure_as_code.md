@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "IaC 인프라스트럭처 코드 (Infrastructure as Code)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:17:45+09:00"
 tags:
   - "notes-software"
 weight: 182
@@ -58,24 +58,21 @@ extra:
 </details>
 
 ```text
-[IaC(Terraform) 엔진 및 원격 상태 관리 아키텍처]
-|-- 1. Configuration Layer: `main.tf` (HCL 기반 목표 상태 및 의존성 선언)
-`-- 2. Core Engine Layer (Terraform Core)
-    |-- Parser & Graph Builder (리소스 간 의존성 DAG 그래프 생성)
-    `-- Diff Engine (Config 코드 vs State 장부 vs 실제 인프라 비교)
-`-- 3. State Management Backend (AWS S3 + DynamoDB State Lock)
-    `-- `.tfstate` File (원격 암호화 저장 및 동시 수정 방지 분산 락)
-`-- 4. Provider Layer (AWS, GCP, Azure, K8s REST API CRUD 어댑터)
+[IaC 구성]
+|-- 코드 명세
+|-- 코어 엔진
+|-- 상태 백엔드
+`-- 프로바이더
 ```
 
 선의 의미: 계층 및 선언된 HCL 코드를 Core 엔진이 해석하여 원격 State와 비교 후 Provider API를 통해 실제 인프라를 프로비저닝하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| **코드 명세 (Config)** | 리소스의 **목표 속성, 변수, 의존성 관계를 선언적 HCL 언어로 정의** | Git 형상 관리 |
-| **코어 엔진 (Core)** | Config, State, 실제 자원 상태를 대조하여 **정확한 변경 범위(Plan) 산출** | DAG 그래프 해석 |
-| **상태 백엔드 (Backend)** | 인프라 매핑 장부(`.tfstate`)를 **S3/DynamoDB에 원격 저장하고 동시 수정 잠금**| State Locking |
-| **프로바이더 (Provider)** | 클라우드 공급자(AWS/GCP) API를 호출하여 **실제 물리 리소스 CRUD 실행** | 플러그인 어댑터 |
+| 코드 명세 | 리소스의 **목표 속성·의존성**을 HCL로 정의 | Git 형상 관리 |
+| 코어 엔진 | 상태를 대조하여 **변경 계획(Plan)** 산출 | DAG 그래프 해석 |
+| 상태 백엔드 | `.tfstate` 원격 저장과 **동시 수정 잠금** | State Locking |
+| 프로바이더 | 공급자 API로 **물리 리소스 CRUD** 실행 | 플러그인 어댑터 |
 
 #### 한줄 요약
 - 코드 명세, 코어 엔진, 상태 백엔드, 프로바이더가 결합된다.
@@ -143,7 +140,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 인프라의 재현성과 운영 무결성을 확립하기 위해 **HCL 선언적 코드 기반의 Terraform 프로비저닝을 전사 표준으로 도입**하고, **원격 State Lock과 Drift 감지 파이프라인 및 GitOps CI/CD 체계**를 결합하여 완전 자동화된 엔터프라이즈 IaC 완성
+- 인프라 재현은 **Terraform**, 상태 충돌 방지는 **원격 잠금** 선택
 
 #### 한줄 요약
 - IaC는 선언적 코드와 상태 파일 관리를 통해 인프라의 버전 관리, 자동 프로비저닝, 변경 사전 검증을 실현하는 현대 클라우드 운영의 핵심 기술이다.

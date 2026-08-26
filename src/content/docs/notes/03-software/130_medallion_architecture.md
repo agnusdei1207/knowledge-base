@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:34:00+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[메달리온 아키텍처 3단계 품질 파이프라인]
-|-- 1. Raw Sources (IoT Logs, RDB CDC, External APIs)
-|-- 2. Bronze Layer (Raw Dump: 원본 스키마 그대로 Append-Only 보존)
-|-- 3. Silver Layer (Cleaned & Conformed: 중복 제거, 결측치 보정, 공통 키 조인)
-|   `-- [Quality Fail] -> Quarantine Layer (오류 레코드 격리 및 사유 기록)
-`-- 4. Gold Layer (Curated Business: Star Schema, 집계 마트, ML Feature Store)
-    |-- BI Dashboard (Tableau, PowerBI 경영 지표 서빙)
-    `-- AI / ML Models (예측 모델 학습 피처 제공)
-```
-
-선의 의미: 계층 및 원천 데이터가 품질 검증을 거쳐 Bronze, Silver, Gold 계층으로 승격되고 불량 데이터는 Quarantine으로 격리되는 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 브론즈 (Bronze Layer) | 원천 데이터와 수집 타임스탬프를 **가공 없이 원본 포맷 그대로 영구 보존** | 언제든 전체 재처리 가능 |
 | 실버 (Silver Layer) | Null값 정제, 중복 제거, 스키마 표준화를 거쳐 **신뢰할 수 있는 공통 상세 테이블 구축** | 단일 진실 공급원(SSOT) |

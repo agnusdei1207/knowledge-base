@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 공급망 보안"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:19:12+09:00"
 tags:
   - "notes-software"
 weight: 185
@@ -58,25 +58,21 @@ extra:
 </details>
 
 ```text
-[소프트웨어 공급망 보안(SLSA 기반) 신뢰 체인 구조]
-|-- 1. Source Control Layer (Git: Branch Protection, 2인 코드 리뷰, GPG 커밋 서명)
-|-- 2. Trusted Ephemeral Builder Layer (격리 빌드 러너)
-|   |-- Hermetic Build (네트워크 격리 및 `package-lock.json` 해시 고정)
-|   `-- Reproducible Build (언제 빌드해도 비트 단위 동일한 산출물 생성)
-`-- 3. Attestation & Signing Layer (Cosign / Sigstore / Rekor)
-|   |-- Container Image SHA-256 Digest 결속
-|   `-- SBOM (CycloneDX) + SLSA Provenance 생성 및 Keyless 전자서명
-`-- 4. Deployment Policy Gate Layer (Kyverno / OPA Gatekeeper Admission Controller)
+[소프트웨어 공급망 보안 구성]
+|-- 소스 제어 계층
+|-- 신뢰 빌더
+|-- 증적 저장소
+`-- 정책 게이트
 ```
 
 선의 의미: 계층 및 소스 검증에서 격리 빌드를 거쳐 생성된 이미지와 증적을 저장하고 K8s 정책 게이트가 서명을 검증하여 실행을 허가하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| **소스 제어 계층 (Source)**| Branch Protection, 2인 이상 코드 리뷰, **GPG 커밋 서명으로 비인가 코드 유입 차단** | 소스코드 신뢰 확보 |
-| **신뢰 빌더 (Builder)** | 일회성(Ephemeral) 격리 컨테이너에서 **해시 고정된 불변 입력만으로 빌드 수행** | Hermetic 격리 빌드 |
-| **증적 저장소 (Attestation)**| 이미지 Digest에 결속된 **SBOM 및 SLSA Provenance를 생성하고 Sigstore 서명 보관**| 암호학적 출처 증명 |
-| **정책 게이트 (Policy Gate)**| K8s Admission Controller를 통해 **서명과 출처가 검증된 이미지만 클러스터 배포 허용** | Kyverno, Gatekeeper |
+| 소스 제어 계층 | **커밋 서명·코드 리뷰**로 비인가 유입 차단 | 소스코드 신뢰 확보 |
+| 신뢰 빌더 | **해시 고정 불변 입력**으로 격리 빌드 | Hermetic 빌드 |
+| 증적 저장소 | **SBOM·SLSA 출처 증명·서명** 보관 | 암호학적 출처 증명 |
+| 정책 게이트 | **서명·출처 검증 이미지**만 배포 허용 | Kyverno, Gatekeeper |
 
 #### 한줄 요약
 - 소스 제어, 신뢰 빌더, 증적 서명, 정책 게이트가 결합된다.
@@ -144,7 +140,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 지능화되는 소프트웨어 공급망 공격(SolarWinds 등)을 원천 차단하기 위해 **SLSA Level 3+ 표준을 준수하는 격리 빌드 파이프라인을 구축하고, CycloneDX SBOM 자동 생성, Sigstore Cosign 전자서명 및 Kyverno 배포 통제**를 결합하여 엔드투엔드 공급망 무결성 신뢰 체계 완성
+- 빌드 신뢰는 **SLSA**, 배포 차단은 **서명 정책 게이트** 선택
 
 #### 한줄 요약
 - 소프트웨어 공급망 보안은 소스코드 통제, 격리 빌드, SBOM 및 전자서명 증적, K8s 정책 게이트를 통해 전 과정의 무결성을 보장하는 핵심 클라우드 보안 체계다.

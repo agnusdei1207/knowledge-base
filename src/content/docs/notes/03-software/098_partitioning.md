@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
-date: "2026-08-26T09:48:00+09:00"
+date: "2026-08-27T01:56:00+09:00"
 tags:
   - "notes-software"
 weight: 98
@@ -56,16 +56,6 @@ extra:
 - **3대 파티셔닝 전략**: Range(연속 범위/날짜), Hash(해시 균등 분산), List(이산 코드값/지역).
 
 </details>
-
-```text
-[테이블 파티셔닝 3대 전략 체계]
-|-- 1. Range Partitioning (범위: created_at 일자/월별 분할 -> 시계열 이력 데이터)
-|-- 2. Hash Partitioning (해시: HASH(user_id) % 4 -> 특정 파티션 쏠림 방지 균등 분산)
-|-- 3. List Partitioning (목록: region_code in ('SEOUL', 'BUSAN') -> 불연속 비즈니스 코드 분할)
-`-- 4. Composite Partitioning (복합: 1차 Range 날짜 분할 + 2차 Hash 고객 분할)
-```
-
-선의 의미: 계층 및 3대 파티셔닝 분할 기준과 복합 파티셔닝 결합 구조
 
 | 파티셔닝 유형 | 분할 기준 키 (Partition Key) | 핵심 특징 및 적용 워크로드 |
 |:---|:---|:---|

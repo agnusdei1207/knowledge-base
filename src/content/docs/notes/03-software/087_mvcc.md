@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (Multi-Version Concurrency Control)"
-date: "2026-08-26T09:47:00+09:00"
+date: "2026-08-27T01:21:00+09:00"
 tags:
   - "notes-software"
 weight: 87
@@ -58,23 +58,21 @@ extra:
 </details>
 
 ```text
-[InnoDB MVCC 버전 체인 및 Undo Log 구조]
-|-- 클러스터드 인덱스 데이터 페이지 (Clustered Index Data Page)
-|   `-- [현재 최신 행] user_id: 1001, name: "홍길동_수정2", DB_TRX_ID: 105, DB_ROLL_PTR ──┐
-|-- Undo Log 세그먼트 (Rollback Segment: 과거 버전 체인)                                │ (포인터 역추적)
-|   |-- [과거 버전 1] user_id: 1001, name: "홍길동_수정1", DB_TRX_ID: 102, DB_ROLL_PTR ◄─┘
-|   `-- [초기 버전 0] user_id: 1001, name: "홍길동_초기", DB_TRX_ID: 100, DB_ROLL_PTR: NULL
-`-- 트랜잭션 Read View (가시성 판정: m_ids 활성 목록, m_low_limit_id, m_up_limit_id)
+[MVCC 버전 관리 구조]
+|-- DB_TRX_ID
+|-- DB_ROLL_PTR
+|-- Undo Log 공간
+`-- Read View
 ```
 
-선의 의미: 계층 및 최신 레코드에서 `DB_ROLL_PTR`을 통해 과거 Undo Log 버전으로 연결되는 체인 구조
+선의 의미: 현재 행과 과거 버전의 가시성을 판정하는 구성
 
-| 구성요소 | 핵심 엔지니어링 역할 | 가시성(Visibility) 판단 기준 |
-|:---|:---|:---|
-| DB_TRX_ID (6 Bytes) | 해당 레코드를 마지막으로 `INSERT/UPDATE`한 **트랜잭션 식별자** | Read View 범위와 대조하여 가시성 판정 |
-| DB_ROLL_PTR (7 Bytes) | Undo Log에 저장된 **이전 버전 레코드를 가리키는 롤백 포인터** | 단방향 링크드 리스트(Undo Chain) 형성 |
-| Undo Log 공간 | 변경되기 전의 원본 데이터를 보존하는 **롤백 세그먼트** | 롤백 처리 및 MVCC 과거 스냅샷 데이터 제공 |
-| Read View (스냅샷) | `SELECT` 실행 시점에 **활성화된 타 트랜잭션 ID 목록을 담은 객체** | 커밋 완료 여부를 대조해 볼 수 있는 버전 결정 |
+| 구성요소 | 책임 |
+|:---|:---|
+| DB_TRX_ID | 행을 변경한 **트랜잭션 식별자** 기록 |
+| DB_ROLL_PTR | **이전 버전**의 Undo 레코드 참조 |
+| Undo Log 공간 | 변경 전 데이터를 보존해 **롤백·스냅샷** 제공 |
+| Read View | 활성 트랜잭션 목록으로 **가시성** 판정 |
 
 #### 한줄 요약
 - `DB_TRX_ID`, `DB_ROLL_PTR`, Undo Log 체인, Read View 가시성 판정이 결합된다.

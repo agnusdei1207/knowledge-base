@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:11:54+09:00"
 tags:
   - "notes-software"
 weight: 154
@@ -57,23 +57,7 @@ extra:
 
 </details>
 
-```text
-[쿠버네티스 파드 스케줄링 2단계 파이프라인 구조]
-|-- 1. Scheduling Queue (PriorityClass 기반 Pending 파드 인출)
-|-- 2. Stage 1: Filtering (Predicates: 부적합 노드 배제)
-|   |-- Node Resource Check (CPU/Memory Request 여유 용량)
-|   |-- Taints & Tolerations (GPU/마스터 노드 격리 검사)
-|   `-- NodeAffinity (Hard: requiredDuringScheduling 필수 조건)
-|-- 3. Stage 2: Scoring (Priorities: 점수 가중치 합산)
-|   |-- NodeAffinity (Soft: preferredDuringScheduling 선호 가중치)
-|   |-- PodAntiAffinity & TopologySpread (AZ/노드 분산 가중치)
-|   `-- Node Resource Balanced Allocation (자원 균형도 채점)
-`-- 4. Binding Phase (최고 점수 1등 노드에 pod.spec.nodeName 바인딩 확정)
-```
-
-선의 의미: 계층 및 Pending 파드가 Filtering(부적합 배제)과 Scoring(점수 채점)을 거쳐 최종 노드에 바인딩되는 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 스케줄링 큐 (Queue) | 미배치된 파드를 **우선순위(PriorityClass) 순서대로 정렬하여 인출** | 우선순위 큐 |
 | 필터링 계층 (Filtering) | CPU/메모리 부족, Taint 불일치 등 **실행 불가능한 부적합 노드를 엄격 배제** | Hard 제약 검사 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "애드혹 라우팅 프로토콜 : AODV (Ad Hoc On-Demand Distance Vector)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:50:04+09:00"
 tags:
   - "notes-network"
 weight: 53
@@ -57,19 +57,6 @@ extra:
 
 </details>
 
-```text
-[AODV 온디맨드 대칭 경로 탐색 및 복구 아키텍처]
-|-- Source Node (데이터 발생 -> 라우팅 테이블 부재 시 RREQ 브로드캐스트 송출)
-`-- Intermediate Nodes (RREQ 플러딩 수신)
-|   |-- Loop Prevention Check (출발지 IP + Broadcast ID 중복 검사)
-|   |-- Reverse Pointer Setup (송신지 방향 역방향 라우팅 엔트리 메모리 캐싱)
-|   `-- Forwarding / RREP Interception (유효한 최신 DestSeqNum 보유 시 RREP 조기 회신)
-`-- Destination Node (DestSeqNum 갱신 -> 역방향 경로 따라 RREP 유니캐스트 회신)
-`-- Active Path Maintenance (Hello 패킷 링크 감시 / 단절 시 RERR 패킷 전파)
-```
-
-선의 의미: RREQ는 전체 망으로 브로드캐스트 전파되며 역방향 포인터를 생성하고 RREP는 역방향 경로를 따라 유니캐스트 회신되어 순방향 경로를 확정하는 구조
-
 | 메시지 유형 | 전송 방식 | 주요 포함 필드 | 역할 및 책임 |
 |:---|:---|:---|:---|
 | **RREQ (Route Request)**| **브로드캐스트 (Flooding)** | 출발지 IP/SeqNum, 목적지 IP/SeqNum, Hop Count | **경로 탐색 개시 및 중간 노드 역방향 포인터 구축** |
@@ -104,7 +91,7 @@ AODV RREQ/RREP 경로 탐색 및 데이터 전송 파이프라인
 ```
 
 #### 한줄 요약
-- RREQ 브로드캐스트 → 역방향 경로 수립 → RREP 유니캐스트 회신 → 순방향 경로 확정 순으로 동작한다.
+- 경로 탐색 개시 → 역방향 포인터 수립 → RREP 유니캐스트 회신 → 순방향 경로 확정 → 데이터 패킷 전송 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -146,7 +133,7 @@ AODV RREQ/RREP 경로 탐색 및 데이터 전송 파이프라인
 
 ## Ⅶ. 결론
 
-- 인프라리스 이동 무선망에서 에너지 및 대역폭 제약을 극복하기 위해 **AODV 반응형 라우팅 프로토콜을 적용**하여 제어 오버헤드를 최소화하고, 무선 취약성을 보완하기 위해 **Expanding Ring Search와 SAODV 보안 검증 체계 및 로컬 복구(Local Repair) 메커니즘**을 결합하여 고효율·고안전성 무선 애드혹 네트워크 완성
+- 간헐 통신은 **AODV**, 상시 트래픽은 **DSDV·OLSR** 선택
 
 #### 한줄 요약
 - AODV는 반응형 RREQ/RREP 경로 탐색과 DestSeqNum 루프 방지를 통해 자원을 보존하는 핵심 MANET 라우팅 프로토콜이다.

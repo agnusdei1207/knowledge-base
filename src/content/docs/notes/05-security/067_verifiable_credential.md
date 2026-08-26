@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "위변조 불가능한 디지털 자격증명 표준 : W3C Verifiable Credentials (VC Data Model 2.0 & Bitstring Status List)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:48:04+09:00"
 tags:
   - "notes-security"
 weight: 67
@@ -182,7 +182,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 종이 증명서와 중앙 집중형 조회의 보안 및 프라이버시 결함을 혁신하는 **W3C Verifiable Credentials(VC) 아키텍처**는 미래 디지털 사회의 핵심 신뢰 프로토콜이며, 실무 구현 시 **W3C VC Data Model 2.0 표준 준수**, **BBS+ 서명 기반의 선택적 공개(Selective Disclosure)**, **Bitstring Status List 1.0 기반의 초고속 분산 폐기 검증**, **거버넌스 신뢰 등록부(Trust Registry) 연계**를 통합 구축하여 신뢰성과 프라이버시가 완벽히 보장된 디지털 자격 생태계를 완성
+- 증명 속성은 **선택적 공개**하고 검증자는 서명·상태 목록·발급자 신뢰를 확인
 
 #### 한줄 요약
 - W3C VC 2.0과 비대칭 전자서명 및 Bitstring 폐기 검증을 통해 독립적이고 안전한 디지털 자격증명을 완성한다.

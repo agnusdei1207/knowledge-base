@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 레지스트리 (Model Registry)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:24:28+09:00"
 tags:
   - "notes-software"
 weight: 205
@@ -58,13 +58,11 @@ extra:
 </details>
 
 ```text
-[모델 레지스트리(Model Registry) 거버넌스 및 배포 아키텍처]
-|-- 1. Model Artifact Store (S3 / GCS: `model.onnx` + SHA-256 무결성 해시 불변 저장)
-`-- 2. Lineage & Metadata Graph (MLflow / W&B)
-    |-- Git Commit Hash + DVC Dataset Hash + Hyperparameters 1:1 결속
-    `-- Model Signature: 입력/출력 텐서 스키마(Tensor Schema) 정의
-`-- 3. Validation & Approval Layer (4-Eyes Approval: 데이터 사이언티스트 등록 -> 엔지니어 승인)
-`-- 4. Production Alias Layer (Serving Endpoint -> `champion` Alias -> 신규 Model v3.0 전환)
+[모델 레지스트리]
+|-- 아티팩트 저장소
+|-- 계보 그래프
+|-- 검증 및 승인
+`-- 별칭 제어기
 ```
 
 선의 의미: 계층 및 아티팩트와 계보가 등록되면 검증 증적에 따라 2인 승인을 거쳐 Production Alias가 신규 버전으로 전환되는 구조
@@ -150,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 AI 모델의 배포 안전성과 글로벌 규제 준수를 확립하기 위해 **MLflow 기반의 불변 아티팩트 저장소와 3중 계보(Lineage) 추적 체계를 전사 표준 구축**하고, **2인 승인(4-Eyes) 거버넌스와 Champion 별칭 기반 무중단 롤백**을 결합하여 고신뢰 MLOps 레지스트리 완성
+- 추적성 요구에는 **Lineage**, 배포 안전에는 **2인 승인·별칭** 적용
 
 #### 한줄 요약
 - 모델 레지스트리는 불변 버전 관리, 계보 추적, 2인 승인 거버넌스를 통해 검증된 AI 모델만을 안전하게 배포하는 핵심 MLOps 인프라다.

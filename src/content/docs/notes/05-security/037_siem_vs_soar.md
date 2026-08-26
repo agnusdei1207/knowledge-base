@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "보안 가시성 탐지와 대응 오케스트레이션의 결합 : SIEM vs SOAR"
-date: "2026-08-25T13:00:00+09:00"
+date: "2026-08-26T14:43:40+09:00"
 tags:
   - "notes-security"
 weight: 37
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 탐지 중심 데이터 허브(SIEM)와 실행 중심 오케스트레이터(SOAR)를 **사건 ID 기반 폐쇄 루프로 결합하여 탐지-대응을 초 단위로 통합하는 운영 기술**
-- 배경/필요성: SIEM 단독 운용 시 발생하는 **수동 분석·차단 지연(MTTR 수 시간), SOAR 단독 운용 시 원천 로그 및 복합 위협 탐지 트리거 부재**
+- 정의/개념: **SIEM 탐지**와 **SOAR 대응**을 결합한 보안 운영 구조
+- 배경/필요성: SIEM 단독 운용은 **수동 대응 병목**, SOAR 단독은 탐지 부재
 
 #### 한줄 요약
 - SIEM의 상관 탐지와 SOAR의 플레이북 오케스트레이션을 결합하여 MTTD와 MTTR을 극적으로 단축한다.
@@ -58,13 +58,12 @@ extra:
 </details>
 
 ```text
-[SIEM 탐지 및 SOAR 자동 대응 폐쇄 루프 아키텍처]
-|-- Ingestion & Detection Layer: SIEM (1. 전사 로그 수집, 정규화 상관분석 -> Alert 생성)
-`-- Handoff Interface (2. Incident Correlation ID 기반 표준 JSON 사건 전달)
-`-- Orchestration & Response Layer: SOAR (Playbook Engine: CTI 보강, Human-in-the-loop)
-`-- Action Executors & Closed-Loop Feedback
-    |-- Action Execution ──▶ 3. NGFW(C2 차단), EDR(호스트 격리), AD(계정 잠금)
-    `-- Feedback Loop ──▶ 4. SIEM 상관분석 룰 튜닝 피드백 및 WORM 증적 저장
+SIEM·SOAR 결합 구조
+|-- SIEM 탐지 계층
+|-- 인계 인터페이스
+|-- SOAR 대응 계층
+|-- 실행 커넥터
+`-- 폐쇄 루프 환류 모듈
 ```
 
 선의 의미: SIEM이 이종 로그를 분석하여 인시던트를 생성하면 SOAR가 플레이북을 가동해 장비들을 자동 제어하고 그 결과를 SIEM에 환류하는 구조
@@ -146,7 +145,7 @@ SIEM 상관 탐지, JSON 인계, SOAR CTI 보강, API 차단 및 폐쇄 루프 �
 
 ## Ⅶ. 결론
 
-- 지능형 사이버 위협에 대응하여 관제 센터의 완결성을 확보하는 **SIEM과 SOAR의 결합 아키텍처는 현대 SOC 운영의 핵심 표준**이며, 실무 구현 시 **CEF/ECS 기반의 무손실 인계 계약(Handoff Contract) 체결, OASIS CACAO 기반 표준 플레이북 구축, 사건 ID 기반의 양방향 폐쇄 루프(Closed-Loop) 환류 체계**를 통합 가동하여 탐지(MTTD)와 대응(MTTR)을 초 단위로 통합하는 차세대 보안 운영 환경 완성
+- 상관 탐지는 **SIEM**, 반복 대응은 **SOAR**로 폐쇄 루프 구성
 
 #### 한줄 요약
 - SIEM과 SOAR는 상관분석 탐지와 플레이북 오케스트레이션을 폐쇄 루프로 결합하여 무결점 자동 대응을 실현하는 차세대 보안 아키텍처다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "쿠버네티스 스토리지: PVC•PV•StorageClass (Kubernetes Storage)"
-date: "2026-08-26T10:00:00+09:00"
+date: "2026-08-26T13:12:42+09:00"
 tags:
   - "notes-software"
 weight: 157
@@ -58,20 +58,16 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 영속 스토리지 추상화 구조]
-|-- 1. User Application Layer (개발자 영역)
-|   `-- Pod -> PersistentVolumeClaim (PVC: "gp3 볼륨 100Gi RWO 요청")
-|-- 2. Kubernetes Storage Control Layer (쿠버네티스 제어면)
-|   |-- StorageClass (Provisioner: `ebs.csi.aws.com`, ReclaimPolicy: `Retain`)
-|   `-- PersistentVolume (PV: "vol-012345 100Gi 바인딩 완료")
-`-- 3. Infrastructure & CSI Layer (물리 인프라 영역)
-    |-- AWS EBS CSI Driver (CreateVolume / AttachDisk API 호출)
-    `-- AWS EBS gp3 Storage (물리 SSD 블록 디스크)
+[쿠버네티스 스토리지 구성]
+|-- PVC
+|-- PV
+|-- 스토리지 클래스
+`-- CSI 드라이버
 ```
 
 선의 의미: 계층 및 개발자가 PVC를 신청하면 StorageClass와 CSI 드라이버가 물리 디스크를 생성해 PV와 1:1 바인딩하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | PVC (요청서) | 개발자가 필요한 스토리지 **용량, AccessMode, StorageClass 요구 선언** | 개발자 추상화 객체 |
 | PV (볼륨 자원) | 클러스터에 프로비저닝된 **실제 물리 디스크 볼륨의 메타데이터 표현** | PVC와 1:1 바인딩 |

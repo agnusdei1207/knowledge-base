@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "서비스형 네트워크 : NaaS (Network as a Service)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:55:21+09:00"
 tags:
   - "notes-network"
 weight: 60
@@ -58,16 +58,11 @@ extra:
 </details>
 
 ```text
-[NaaS 서비스 플랫폼 및 다계층 오케스트레이션 아키텍처]
-|-- Customer Interface Layer (셀프서비스 웹 콘솔, RESTful API / MEF LSO 표준 인터페이스)
-`-- Central Orchestration & Control Layer
-|   |-- Service Intent Parser (고객 요구조건 SLA 해석 및 템플릿 변환)
-|   |-- SDN Controller (전역 트래픽 엔지니어링 및 오버레이 터널 경로 연산)
-|   `-- NFV Orchestrator (vEdge, vFirewall, vLoadBalancer VNF 동적 인스턴스화)
-`-- Virtual Data Fabric Layer
-|   |-- SD-WAN Overlay (지사 <-> 본사 <-> 멀티클라우드 IPsec/TLS 암호화 터널)
-|   `-- SASE Cloud Security Edge (FWaaS, SWG, CASB, ZTNA 정책 집행)
-`-- Telemetry & SLA Billing Layer (E2E 지연/패킷 손실 실시간 계측 및 종량제 과금)
+[NaaS 구성]
+|-- 셀프서비스 포털 / API
+|-- 중앙 오케스트레이터
+|-- 가상 데이터 패브릭
+`-- SLA 감시 및 빌링
 ```
 
 선의 의미: 고객의 포털 주문이 오케스트레이터로 전달되어 가상 데이터 패브릭을 구성하고 실시간 텔레메트리로 SLA 검증 및 종량제 과금이 수행되는 구조
@@ -106,7 +101,7 @@ NaaS 주문 및 온디맨드 자동 프로비저닝 파이프라인
 ```
 
 #### 한줄 요약
-- 포털 주문 → Intent 해석 → SDN/NFV 자동 프로비저닝 → 오버레이 터널 개통 → SLA 감시 순으로 동작한다.
+- 포털 서비스 주문 → 의도 파싱 → SDN/NFV 가상 인프라 배포 → 오버레이 터널 자동 연결 → SLA 폐루프 보증 및 과금 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -148,7 +143,7 @@ NaaS 주문 및 온디맨드 자동 프로비저닝 파이프라인
 
 ## Ⅶ. 결론
 
-- 클라우드 전환 가속화와 분산 근무 환경에 대응하여 네트워크 민첩성과 비용 효율을 극대화하기 위해 **NaaS 구독 모델을 전사 표준으로 도입**하되, 서비스 장애 및 벤더 종속 리스크를 제어하기 위해 **MEF LSO 표준 API 기반 멀티 사업자 전략, E2E DEM 성능 감시, Zero Trust SASE 통합 보안 체계**를 병행 구축하여 탄력적인 엔터프라이즈 통신 인프라 완성
+- 탄력 확장은 **NaaS**, 물리 통제권이 우선이면 **온프레미스** 선택
 
 #### 한줄 요약
 - NaaS는 SDN/NFV 기반 구독 모델과 SASE 보안을 융합하여 민첩성과 유연성을 제공하는 차세대 기업 네트워크 패러다임이다.

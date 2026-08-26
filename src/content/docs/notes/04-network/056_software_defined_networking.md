@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 정의 네트워킹 : SDN (Software-Defined Networking)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:52:27+09:00"
 tags:
   - "notes-network"
 weight: 56
@@ -59,24 +59,23 @@ extra:
 </details>
 
 ```text
-[ONF SDN 표준 3계층 아키텍처]
-|-- Application Layer (네트워크 가상화, 보안 방화벽, L4~L7 QoS 앱)
-|-- Northbound API - NBI (RESTful API, gRPC, Java SDK 추상화 제어)
-`-- Control Layer (SDN Controller: ONOS, ODL -> 전역 토폴로지 맵, CSPF 경로 연산)
-|-- Southbound API - SBI (OpenFlow 1.3/1.5, P4 Runtime, NETCONF, OVSDB)
-`-- Infrastructure Layer (Data Plane: 화이트박스 하드웨어 스위치, Open vSwitch)
-    `-- Flow Table Pipeline (TCAM 매칭 -> Forward / Modify / Drop 액션 실행)
+[SDN 구성]
+|-- 응용 계층
+|-- 노스바운드 API
+|-- 제어 계층
+|-- 사우스바운드 API
+`-- 인프라 계층
 ```
 
 선의 의미: 상위 비즈니스 앱 요구사항이 NBI를 통해 제어 계층으로 전달되고 계산된 흐름 규칙이 SBI를 통해 인프라 스위치로 하향 주입되는 구조
 
 | 계층 | 주요 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|:---|
-| **응용 계층 (Application)**| 트래픽 엔지니어링, 보안 모니터링, 가상 네트워크 | **비즈니스 SLA 정책 정의 및 NBI REST API 호출** | 비즈니스 로직 |
-| **노스바운드 API (NBI)** | RESTful API, gRPC, Java SDK | **응용 프로그램과 제어 계층 간의 추상화 인터페이스 제공** | 개방형 프로그래밍 |
-| **제어 계층 (Controller)** | ONOS, OpenDaylight, Ryu, 클라우드 컨트롤러 | **전역 토폴로지 관리, 최적 경로 연산, 흐름 규칙 생성** | Network OS |
-| **사우스바운드 API (SBI)** | OpenFlow, P4 Runtime, NETCONF, gNMI | **컨트롤러의 흐름 규칙을 스위치 하드웨어 TCAM에 프로그래밍** | 장치 제어 표준 |
-| **인프라 계층 (Data Plane)**| Open vSwitch(OVS), 화이트박스 ASIC 스위치 | **Flow Table 매칭에 따른 라인 레이트 고속 패킷 포워딩** | 고속 패킷 전달 |
+| 응용 계층 (Application) | 트래픽 엔지니어링, 보안 모니터링, 가상 네트워크 | **비즈니스 SLA 정책 정의 및 NBI REST API 호출** | 비즈니스 로직 |
+| 노스바운드 API (NBI) | RESTful API, gRPC, Java SDK | **응용 프로그램과 제어 계층 간의 추상화 인터페이스 제공** | 개방형 프로그래밍 |
+| 제어 계층 (Controller) | ONOS, OpenDaylight, Ryu, 클라우드 컨트롤러 | **전역 토폴로지 관리, 최적 경로 연산, 흐름 규칙 생성** | Network OS |
+| 사우스바운드 API (SBI) | OpenFlow, P4 Runtime, NETCONF, gNMI | **컨트롤러의 흐름 규칙을 스위치 하드웨어 TCAM에 프로그래밍** | 장치 제어 표준 |
+| 인프라 계층 (Data Plane) | Open vSwitch(OVS), 화이트박스 ASIC 스위치 | **Flow Table 매칭에 따른 라인 레이트 고속 패킷 포워딩** | 고속 패킷 전달 |
 
 #### 한줄 요약
 - 응용 계층(NBI), 제어 계층(컨트롤러), 인프라 계층(SBI/스위치)이 결합된다.
@@ -105,7 +104,7 @@ SDN Flow Table 매칭 및 Packet-In/Flow-Mod 파이프라인
 ```
 
 #### 한줄 요약
-- Flow Table 매칭 → Table-Miss 시 Packet-In → 컨트롤러 경로 연산 → Flow-Mod 설치 및 고속 포워딩 순으로 동작한다.
+- 패킷 인입 및 룩업 → Table-Miss Packet-In → 전역 최적 경로 연산 → Flow-Mod 규칙 설치 → 라인 레이트 고속 전달 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -147,7 +146,7 @@ SDN Flow Table 매칭 및 Packet-In/Flow-Mod 파이프라인
 
 ## Ⅶ. 결론
 
-- 대규모 데이터센터 및 클라우드 네트워크의 유연성과 자동화를 달성하기 위해 **SDN 아키텍처를 전면 표준화**하고, 제어 평면의 신뢰성을 보장하기 위해 **Raft 분산 컨트롤러 클러스터와 P4 프로그래머블 데이터 평면 및 사우스바운드 TLS 보안**을 결합하여 고신뢰 프로그래머블 네트워크 완성
+- 전역 정책 자동화는 **SDN**, 전달부 세밀 제어는 **P4** 적용
 
 #### 한줄 요약
 - SDN은 제어와 데이터 평면을 분리하여 전역 가시성과 소프트웨어 자동화를 실현하는 핵심 네트워크 기술이다.

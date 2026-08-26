@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "5G 코어 서비스 기반 아키텍처 : SBA (Service Based Architecture)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:46:55+09:00"
 tags:
   - "notes-network"
 weight: 38
@@ -60,17 +60,13 @@ extra:
 </details>
 
 ```text
-[5G 코어 SBA 제어 평면 및 CUPS 사용자 평면 분리 아키텍처]
-|-- Control Plane (SBA HTTP/2 Service-Based Bus)
-|   |-- AMF (단말 등록 / 이동성 제어: Namf)
-|   |-- SMF (세션 관리 / IP 할당 / UPF 제어: Nsmf)
-|   |-- PCF (QoS 정책 및 과금 규칙 통제: Npcf)
-|   |-- UDM / UDR (가입자 인증 데이터 및 프로파일 관리: Nudm / Nudr)
-|   |-- AUSF (인증 서버 기능: Nausf)
-|   `-- NRF (NF 동적 등록 / 검색 디렉터리: Nnrf)
-`-- User Plane (N4 PFCP 제어 분리)
-    |-- 5G gNB (New Radio 기지국: N2 C-Plane / N3 GTP-U)
-    `-- UPF (User Plane Function: N3 인입 -> N6 외부 데이터망 DN 고속 포워딩)
+[5G 코어 SBA 구성]
+|-- AMF
+|-- SMF
+|-- UPF
+|-- NRF
+|-- UDM / UDR
+`-- PCF
 ```
 
 선의 의미: 계층 및 제어 평면 NF들은 HTTP/2 버스로 연동되고 SMF가 N4(PFCP)를 통해 하위 UPF를 원격 제어하는 구조
@@ -152,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 차세대 통신 인프라의 민첩성과 유연성을 극대화하기 위해 **5G 코어망에 클라우드 네이티브 SBA 아키텍처를 전면 표준화**하고, 제어 평면의 무결성과 복원력을 보장하기 위해 **mTLS/OAuth 2.0 보안 체계와 서비스 메시 기반 서킷 브레이커 패턴**을 결합하여 고가용성 캐리어 그레이드 클라우드 인프라 완성
+- 제어 기능 확장은 **SBA**, 사용자 평면 분산은 **CUPS** 적용
 
 #### 한줄 요약
 - 5G 코어 SBA는 HTTP/2 REST API와 NRF를 통해 마이크로서비스 제어를 실현하며, CUPS와 서비스 메시를 결합하여 유연성과 가용성을 보장하는 핵심 차세대 코어 아키텍처다.

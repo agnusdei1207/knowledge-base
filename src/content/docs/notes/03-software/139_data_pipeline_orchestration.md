@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T03:03:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -58,18 +58,17 @@ extra:
 </details>
 
 ```text
-[Apache Airflow 분산 오케스트레이션 아키텍처]
-|-- Webserver (웹 GUI: DAG 시각화, 실행 상태 모니터링, 수동 트리거)
-|-- Scheduler (DAG 파싱, 의존성 검사, DagRun 생성 및 Task 큐잉)
-|-- Metadata Database (PostgreSQL: Task 인스턴스 상태, 실행 이력, 변수 보관)
-`-- Executor Layer (Kubernetes / Celery Executor)
-    |-- Worker Node 1 -> Task A (Python / Bash Operator 실행)
-    `-- Worker Node 2 -> Task B (SparkSubmit / S3 Sensor 실행)
+[Apache Airflow 구성]
+|-- 스케줄러
+|-- 메타데이터 DB
+|-- 실행기
+|-- 워커
+`-- 웹서버
 ```
 
 선의 의미: 계층 및 Scheduler가 DAG를 해석하여 DB에 상태를 기록하고 Executor를 통해 Worker 노드로 작업을 분산 실행하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 스케줄러 (Scheduler) | DAG 코드를 파싱하고 의존성을 평가하여 **실행 가능한 Task를 Executor 큐로 전달** | 2초 주기 루프 스캔 |
 | 메타데이터 DB | DAG 실행(DagRun), Task 상태, 연결 정보, **변수(Variables)를 영구 보관** | PostgreSQL, MySQL |

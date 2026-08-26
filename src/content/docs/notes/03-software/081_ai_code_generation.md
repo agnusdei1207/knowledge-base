@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "AI 코드 생성: GitHub Copilot (AI Code Generation)"
-date: "2026-08-26T09:46:00+09:00"
+date: "2026-08-27T01:03:00+09:00"
 tags:
   - "notes-software"
 weight: 81
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[AI 코드 생성 아키텍처 및 검증 체계]
-|-- 개발자 IDE (VS Code / IntelliJ)
-|   |-- Context Extractor (커서 전후 코드, 열린 탭, import 목록 추출)
-|   `-- Inline Renderer (생성된 코드 회색 고스트 텍스트 제안 -> Tab 수락)
-|-- AI Code Backend Proxy (GitHub Copilot / Cursor Server)
-|   |-- 프롬프트 가공 및 PII/보안 필터링 (개인정보 및 API 키 마스킹)
-|   `-- Public Code Filter (GPL 등 공개 오픈소스 복사 차단)
-`-- LLM 추론 엔진 (OpenAI Codex, GPT-4o, Claude 3.5 Sonnet)
-```
-
-선의 의미: 계층 및 IDE 컨텍스트 추출-보안 프록시 필터링-LLM 코드 생성 파이프라인
-
-| 구성요소 | 핵심 엔지니어링 책임 |
+| 구성요소 | 책임 |
 |:---|:---|
 | 컨텍스트 추출기 | 커서 전후 코드(FIM), 인접 파일, 주석을 수집하여 **최적의 LLM 프롬프트 구성** |
 | LLM 추론 엔진 | 사전 학습된 수십억 줄의 소스코드를 기반으로 **고품질 코드 후보 실시간 생성** |

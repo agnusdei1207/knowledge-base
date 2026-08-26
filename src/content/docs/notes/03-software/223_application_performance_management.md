@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "APM 애플리케이션 성능 관리 (Application Performance Management)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:27:39+09:00"
 tags:
   - "notes-software"
 weight: 223
@@ -58,14 +58,12 @@ extra:
 </details>
 
 ```text
-[APM 분산 추적 및 애플리케이션 성능 관리 아키텍처]
-|-- 1. Client & RUM Layer (브라우저 체감 성능, DNS/TCP 지연, JS 에러 수집)
-`-- 2. Application Instrumentation Layer (Pinpoint / Scouter / Datadog Java Agent)
-    |-- Bytecode Instrumentation (메서드 실행 시간, DB Connection Pool 모니터링)
-    `-- Distributed Trace Header Injection (W3C `traceparent` HTTP 헤더 전파)
-`-- 3. Dynamic Service Topology Map (서비스 간 실시간 호출 관계 및 TPS/지연 시각화)
-`-- 4. APM Correlation & Analysis Engine (슬로우 쿼리, 락 경합, 메모리 누수 이상 감지)
-`-- 5. Alert & Runbook Workflow (SLO 위반 시 담당자 호출 및 즉각 복구 런북 연계)
+[APM 구성]
+|-- 계측 에이전트
+|-- 분산 추적기
+|-- 서비스 토폴로지 맵
+|-- 분석 엔진
+`-- 경보 워크플로
 ```
 
 선의 의미: 계층 및 에이전트가 바이트코드를 계측하여 수집한 신호를 분석 엔진이 상관 분석하고 토폴로지 맵에 시각화하여 경보를 전달하는 구조
@@ -144,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 마이크로서비스 아키텍처의 복잡성 속에서 서비스 신뢰성을 확보하기 위해 **OpenTelemetry 표준 기반의 바이트코드 계측과 엔드투엔드 분산 추적 체계를 전사 표준 구축**하고, **RUM 체감 모니터링과 Tail-Based Sampling 및 SLO 기반 런북 연계**를 결합하여 완벽한 성능 관측성(Observability) 완성
+- 사용자 체감은 **RUM**, 백엔드 병목은 **분산 추적**으로 진단
 
 #### 한줄 요약
 - APM은 바이트코드 계측, 분산 추적, 서비스 토폴로지 맵을 통해 병목 구간과 결함 코드를 실시간으로 찾아내는 핵심 애플리케이션 성능 관리 기술이다.

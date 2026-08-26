@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 레이크하우스 (Data Lakehouse)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:22:00+09:00"
 tags:
   - "notes-software"
 weight: 126
@@ -58,20 +58,16 @@ extra:
 </details>
 
 ```text
-[데이터 레이크하우스 3계층 아키텍처]
-|-- 1. Compute Layer (다중 분산 쿼리 및 AI 연산 엔진)
-|   |-- Spark SQL, Databricks, Trino / Presto, DuckDB, MLlib (직접 쿼리)
-|-- 2. Open Table Format Layer (메타데이터 및 ACID 트랜잭션)
-|   |-- Delta Lake / Apache Iceberg / Apache Hudi
-|   |-- ACID 커밋 로그 (JSON / Avro 스냅샷 메타데이터 트리)
-|   `-- Time Travel, Schema Evolution, Partition Evolution
-`-- 3. Storage Layer (Cloud Object Storage)
-    `-- Amazon S3 / GCS / ADLS (불변 Parquet / ORC 열 지향 데이터 파일)
+[데이터 레이크하우스 구성]
+|-- 다중 연산 엔진
+|-- 오픈 테이블 포맷
+|-- 메타데이터 카탈로그
+`-- 객체 스토리지
 ```
 
 선의 의미: 계층 및 다중 연산 엔진이 오픈 테이블 포맷 메타데이터를 통해 S3의 Parquet 파일에 직접 접근하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 다중 연산 엔진 (Compute) | Spark, Trino, Python 등이 **공통 테이블 포맷을 통해 데이터를 직접 병렬 처리** | 벤더 종속 탈피 |
 | 오픈 테이블 포맷 (Format) | Delta Lake, Iceberg 등이 **ACID 트랜잭션, 타임 트래블, 스키마 진화 통제** | 메타데이터 기반 ACID |

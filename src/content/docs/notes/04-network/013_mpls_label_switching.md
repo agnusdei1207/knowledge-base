@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (Multiprotocol Label Switching)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:38:01+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -59,23 +59,23 @@ extra:
 </details>
 
 ```text
-[MPLS 네트워크 아키텍처 및 LSP 포워딩 구조]
-|-- Ingress LER (Label Edge Router: FEC 분류, 32-bit Shim Header Label Push)
-`-- Transit Core LSRs (Label Switching Routers)
-    |-- LFIB (Label Forwarding Information Base: 20-bit Label Swap)
-    `-- Penultimate Hop LSR (PHP 수행: Implicit Null Label 3 Pop 선제 제거)
-`-- Egress LER (Label Edge Router: 최종 Inner Label Pop, 원본 IP 패킷 복원 전달)
+[MPLS 구성]
+|-- 인입 LER
+|-- 코어 LSR
+|-- 송출 LER
+|-- 직전 홉 제거
+`-- MPLS Shim Header
 ```
 
 선의 의미: 계층 및 인입 LER에서 레이블이 Push되고 코어 LSR에서 LFIB 기반 Swap된 후 송출 LER에서 Pop되어 일반 IP로 복원되는 구조
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **인입 LER (Ingress)** | 패킷의 목적지 IP를 검사하여 FEC를 결정하고 **32비트 Shim Header 레이블 삽입(Push)** | Push 연산 |
-| **코어 LSR (Transit)** | 하드웨어 LFIB를 참조하여 **인입 레이블을 송출 레이블로 고속 교체(Swap)하여 포워딩** | Swap 연산 |
-| **송출 LER (Egress)** | 최종 레이블을 제거(**Pop**)하여 원본 IP 패킷을 복원한 후 목적지 일반 IP 라우팅 | Pop 연산 |
-| **직전 홉 제거 (PHP)** | 송출 LER의 레이블 팝 및 IP 룩업 이중 부하를 방지하기 위해 **직전 홉에서 외곽 레이블 선제 제거**| Label 3 (Implicit Null) |
-| **MPLS Shim Header** | L2 프레임과 L3 패킷 사이에 삽입되는 **32비트 헤더 (Label:20B, Exp/QoS:3B, S:1B, TTL:8B)** | 4바이트 고정 포맷 |
+| 인입 LER (Ingress) | 패킷의 목적지 IP를 검사하여 FEC를 결정하고 **32비트 Shim Header 레이블 삽입(Push)** | Push 연산 |
+| 코어 LSR (Transit) | 하드웨어 LFIB를 참조하여 **인입 레이블을 송출 레이블로 고속 교체(Swap)하여 포워딩** | Swap 연산 |
+| 송출 LER (Egress) | 최종 레이블을 제거(**Pop**)하여 원본 IP 패킷을 복원한 후 목적지 일반 IP 라우팅 | Pop 연산 |
+| 직전 홉 제거 (PHP) | 송출 LER의 레이블 팝 및 IP 룩업 이중 부하를 방지하기 위해 **직전 홉에서 외곽 레이블 선제 제거**| Label 3 (Implicit Null) |
+| MPLS Shim Header | L2 프레임과 L3 패킷 사이에 삽입되는 **32비트 헤더 (Label:20B, Exp/QoS:3B, S:1B, TTL:8B)** | 4바이트 고정 포맷 |
 
 #### 한줄 요약
 - 인입 LER(Push), 코어 LSR(Swap), 송출 LER(Pop), PHP 최적화, Shim Header가 결합된다.
@@ -115,11 +115,11 @@ MPLS LSP 패킷 전달 파이프라인
 
 | 비교 항목 | MPLS 레이블 스위칭 | 일반 L3 IP 라우팅 (Hop-by-Hop) |
 |:---|:---|:---|
-| **포워딩 기준** | **고정 20비트 MPLS Label ID 단순 인덱스 조회** | 32비트/128비트 IP 주소 기반 **최장 일치 검색 (LPM)** |
-| **패킷 룩업 위치** | **2.5계층 32비트 Shim Header** | 3계층 IP 헤더 내부 (20~60바이트 가변) |
-| **트래픽 경로 제어**| **RSVP-TE 기반 명시적 엔지니어링 경로 지정 (TE)** | 메트릭 최단 경로(IGP)로만 트래픽 편중 발생 |
-| **장애 복구 시간** | **MPLS Fast Reroute (FRR) 적용 시 50ms 이내 절체** | IGP 재수렴 대기로 수 초~수십 초 소요 |
-| **멀티테넌트 격리**| **BGP/MPLS L3VPN (VRF) 기반 완벽한 오버레이 격리** | 일반 IP 라우팅으로는 고객망 간 독립 격리 불가 |
+| 포워딩 기준 | **고정 20비트 MPLS Label ID 단순 인덱스 조회** | 32비트/128비트 IP 주소 기반 **최장 일치 검색 (LPM)** |
+| 패킷 룩업 위치 | **2.5계층 32비트 Shim Header** | 3계층 IP 헤더 내부 (20~60바이트 가변) |
+| 트래픽 경로 제어 | **RSVP-TE 기반 명시적 엔지니어링 경로 지정 (TE)** | 메트릭 최단 경로(IGP)로만 트래픽 편중 발생 |
+| 장애 복구 시간 | **MPLS Fast Reroute (FRR) 적용 시 50ms 이내 절체** | IGP 재수렴 대기로 수 초~수십 초 소요 |
+| 멀티테넌트 격리 | **BGP/MPLS L3VPN (VRF) 기반 완벽한 오버레이 격리** | 일반 IP 라우팅으로는 고객망 간 독립 격리 불가 |
 
 #### 한줄 요약
 - LPM 검색 기반 IP 라우팅 대비 고속 포워딩, 트래픽 엔지니어링(TE), 50ms 미만 고속 복구(FRR)를 제공한다.
@@ -144,7 +144,7 @@ MPLS LSP 패킷 전달 파이프라인
 
 ## Ⅶ. 결론
 
-- 통신 사업자 및 대규모 엔터프라이즈 코어 백본에서 고속 포워딩과 다중 테넌트 격리를 달성하기 위해 **MPLS 기반 L3VPN(VRF) 아키텍처를 표준 운용**하고, **BFD 연계 Fast Reroute(FRR) 50ms 고속 절체와 RSVP-TE 트래픽 엔지니어링**을 결합하여 고신뢰성 코어 전송망 완성
+- 고속 백본은 **MPLS**, 테넌트 격리는 **L3VPN·VRF** 적용
 
 #### 한줄 요약
 - MPLS는 2.5계층 32비트 고정 레이블과 LFIB 스위칭을 통해 초고속 전달과 FRR 고속 복구 및 완벽한 VPN 테넌트 격리를 제공하는 백본 핵심 기술이다.

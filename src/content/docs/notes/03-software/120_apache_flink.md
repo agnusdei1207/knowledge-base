@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-26T09:53:00+09:00"
+date: "2026-08-26T13:13:35+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 무한한 데이터 스트림을 **이벤트 시간(Event Time) 기준으로 밀리초 단위 초저지연 및 Stateful 방식으로 연속 처리하는 분산 스트림 엔진**
+- 정의/개념: **이벤트 시간과 상태** 기반으로 연속 데이터를 처리하는 분산 스트림 엔진
 - 배경/필요성: 기존 마이크로배치 방식의 **지연 이벤트 처리 불가, 연속적 상태(State) 계산의 한계 및 처리 지연시간 해결 불가**
 
 #### 한줄 요약
@@ -44,7 +44,7 @@ extra:
 
 - 이벤트 1건 단위로 즉시 연산하는 **네이티브 스트리밍(True Streaming)**
 - 네트워크 지연을 극복하는 **이벤트 시간(Event Time) 및 워터마크(Watermark) 제어**
-- RocksDB State Backend 및 ABS 기반의 **정확히 한 번(Exactly-Once) 무손실 복구**
+- 체크포인트와 호환 Source·Sink 기반 **Exactly-Once 처리** 지원
 
 #### 한줄 요약
 - 네이티브 스트리밍, 이벤트 시간 기반 윈도잉, RocksDB 상태 보존을 제공한다.
@@ -61,20 +61,22 @@ extra:
 [Apache Flink 분산 스트리밍 아키텍처]
 |-- JobManager (마스터 노드: JobGraph 분석, 리소스 스케줄링, Checkpoint Coordinator)
 `-- TaskManager Cluster (워커 노드들: TaskSlot 단위 병렬 실행)
-    |-- TaskManager 1 -> TaskSlot (Operator 실행 + RocksDB Local State)
-    |-- TaskManager 2 -> TaskSlot (Operator 실행 + RocksDB Local State)
+    |-- TaskManager 1
+    |   `-- TaskSlot·Local State
+    |-- TaskManager 2
+    |   `-- TaskSlot·Local State
     `-- Checkpoint Storage (S3 / HDFS: 비동기 Chandy-Lamport 스냅샷 파일 영구 저장)
 ```
 
 선의 의미: 계층 및 JobManager가 체크포인트를 주입하고 TaskManager들이 로컬 상태를 영구 스토리지에 비동기 복제하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 작업 관리자 (JobManager) | JobGraph 생성, 태스크 스케줄링 및 **Chandy-Lamport 체크포인트 조율 총괄** | 분산 코디네이터 |
-| 태스크 관리자 (TaskManager) | TaskSlot 단위로 연산자(Operator)를 할당받아 **메모리 및 CPU 병렬 연산 수행** | 멀티스레드 슬롯 분할 |
-| 워터마크 (Watermark) | 스트림 내에 시간 진행을 명시하여 **지연 도착 이벤트의 윈도 종료 시점 확정** | 지연 데이터 수용 제어 |
-| 상태 백엔드 (State Backend) | HashMap 또는 RocksDB를 통해 **키별 상태(Keyed State)를 고속 저장 및 관리** | TB급 대용량 상태 지원 |
-| 체크포인트 스토리지 | 장애 복구 시 원복할 **연산자 상태 스냅샷과 카프카 오프셋을 영구 보관** | S3 / HDFS 분산 스토리지 |
+| 구성요소 | 책임 |
+|:---|:---|
+| JobManager | JobGraph·스케줄링·**체크포인트 조율** |
+| TaskManager | TaskSlot에서 연산자 병렬 실행 |
+| Watermark | 이벤트 시간 진행과 윈도 종료 판단 |
+| State Backend | **Keyed State** 저장과 스냅샷 지원 |
+| Checkpoint Storage | 연산자 상태와 메타데이터 보관 |
 
 #### 한줄 요약
 - 작업 관리자, 태스크 관리자, 워터마크, 상태 백엔드, 체크포인트 저장소가 유기적으로 결합된다.
@@ -96,7 +98,7 @@ extra:
         │
    [비동기 상태 스냅샷] 연산자가 로컬 RocksDB State를 복사하여 백그라운드로 S3/HDFS에 비동기 업로드
         │
-   [Barrier 하류 전파] 스트림 중단 없이 Barrier를 다음 Downstream 연산자로 즉시 방출
+   [Barrier 하류 전파] Barrier를 다음 Downstream 연산자로 전달
         │
    모든 연산자의 스냅샷 완료 ACK를 수신한 JobManager가 최신 체크포인트 메타데이터를 영구 확정
 ```
@@ -115,8 +117,8 @@ extra:
 | 비교 항목 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
 |:---|:---|:---|
 | 데이터 처리 방식 | **이벤트 1건 단위 즉시 파이프라이닝 (Event-by-Event)**| **N초 주기로 마이크로배치를 묶어 처리 (Micro-Batch)**|
-| 처리 지연시간 (Latency)| **수 밀리초(ms) 단위의 극초저지연** | 수백 밀리초(ms) ~ 수 초 단위의 지연 |
-| 상태 관리 (State) | **RocksDB 내장 지원으로 테라바이트급 상태 보존** | 메모리 기반 RDD 캐싱 및 체크포인트 |
+| 지연 특성 | **이벤트 단위 파이프라인** | 트리거 간격 기반 마이크로배치 |
+| 상태 관리 | State Backend와 체크포인트 | 상태 저장소와 체크포인트 |
 | 시간 처리 모델 | **Event Time 및 Watermark 기본 최적화** | 워터마크 지원하나 배치 경계 의존적 |
 
 #### 한줄 요약
@@ -133,16 +135,16 @@ extra:
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
 | 하류 병목으로 인한 상류 파이프라인 **Backpressure** 차단 | **병목 Operator Parallelism(병렬도) 증설 및 키 Salting 분산** | 파이프라인 버퍼 막힘 해소 |
-| 무한 증식하는 Keyed State로 인한 메모리 및 디스크 고갈 | **`StateTtlConfig` 적용으로 비활성 Key State 자동 만료(TTL)** | 상태 크기 70% 압축 유지 |
-| 대용량 상태 스냅샷 시 S3 I/O 병목 및 체크포인트 타임아웃 | **Incremental Checkpointing(증분 스냅샷) 옵션 활성화** | 체크포인트 소요 시간 90% 단축 |
-| 너무 늦게 도착한 Late Event로 인한 집계 누락 | **`allowedLateness` 설정 및 Side Output으로 지연 데이터 별도 수집** | 데이터 유실 0화 및 정확성 보장 |
+| Keyed State 증가에 따른 저장 공간 고갈 | 비활성 상태에 **State TTL** 적용 | 상태 보존 기간과 크기 제한 |
+| 상태 스냅샷의 저장소 I/O 병목 | **Incremental Checkpointing** 적용 | 변경 상태 중심으로 전송량 감소 |
+| 늦은 이벤트에 따른 집계 누락 | **allowedLateness·Side Output** 적용 | 지연 데이터의 별도 처리 지원 |
 
 #### 한줄 요약
 - 병렬도 증설, State TTL 설정, 증분 체크포인트, Side Output으로 실무 안정성을 확보한다.
 
 ## Ⅶ. 결론
 
-- 실시간 스트림은 **Flink**, 무손실 복구는 **ABS** 선택
+- 이벤트 시간·대규모 상태는 **Flink**, 배치 통합은 **Spark** 선택
 
 #### 한줄 요약
-- Apache Flink는 이벤트 시간 처리와 강력한 상태 관리를 통해 밀리초 단위 초저지연과 무손실 정합성을 완성하는 차세대 스트림 처리 엔진이다.
+- 체크포인트 주기·상태 크기·허용 지연을 SLO에 맞춰 조정한다.

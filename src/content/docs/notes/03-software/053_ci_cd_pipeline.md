@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-26T09:40:00+09:00"
+date: "2026-08-27T00:38:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -56,21 +56,6 @@ extra:
 - **품질 게이트(Quality Gate)**: SonarQube 등에서 코드 커버리지, 코드 냄새, 보안 취약점 기준을 검사하여 미달 시 빌드를 강제 중단하는 관문.
 
 </details>
-
-```text
-[CI/CD 파이프라인 아키텍처]
-|-- 소스 저장소 (Git Repository: GitHub / GitLab - Webhook 트리거)
-|-- CI 빌드 및 테스트 계층 (GitHub Actions / Jenkins Runner)
-|   |-- 소스 코드 컴파일 & 종속성 패키징
-|   `-- 단위 테스트 (Unit Test) & 통합 테스트 (Integration Test)
-|-- 품질 게이트 계층 (Quality Gate: SonarQube 정적 분석, Trivy 보안 취약점 스캔)
-|-- 아티팩트 저장소 (Artifact Registry: Harbor / ECR - 불변 도커 이미지 저장)
-`-- CD 배포 제어 계층 (ArgoCD / Spinnaker)
-    |-- 스테이징 환경 배포 (자동)
-    `-- 프로덕션 환경 배포 (Delivery: 수동 승인 / Deployment: 완전 자동화)
-```
-
-선의 의미: 계층 및 단계별 CI/CD 자동화 파이프라인
 
 | 구성요소 | 책임 |
 |:---|:---|

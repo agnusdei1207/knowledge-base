@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:28:00+09:00"
 tags:
   - "notes-software"
 weight: 128
@@ -58,20 +58,17 @@ extra:
 </details>
 
 ```text
-[Apache Iceberg 3계층 메타데이터 트리 구조]
-|-- Iceberg Catalog (REST Catalog / AWS Glue: 최신 Metadata File 포인터 관리)
-|   `-- [v1.metadata.json] -> 테이블 스키마, 파티션 스펙(Spec), 전체 스냅샷 이력
-|       `-- [snap-1.avro (Manifest List)] -> 현재 스냅샷의 Manifest File 배열 및 파티션 범위
-|           |-- [manifest-1.avro (Manifest File)] -> Parquet 파일 경로, 컬럼별 Min/Max 통계
-|           `-- [manifest-2.avro (Manifest File)] -> Parquet 파일 경로, 컬럼별 Min/Max 통계
-`-- Data Layer (Amazon S3 / GCS)
-    |-- part-00001.parquet (실제 데이터 레코드 파일)
-    `-- part-00002.parquet (실제 데이터 레코드 파일)
+[Apache Iceberg 메타데이터 트리]
+`-- 카탈로그
+    `-- 메타데이터 파일
+        `-- 매니페스트 리스트
+            `-- 매니페스트 파일
+                `-- 데이터 파일
 ```
 
 선의 의미: 계층 및 Catalog가 메타데이터 파일을 가리키고 Manifest List와 Manifest File을 거쳐 실제 데이터 파일로 접근하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 카탈로그 (Catalog) | 테이블 이름과 **현재 최신 Metadata File(JSON)의 S3 위치 포인터 원자적 관리** | REST, AWS Glue 등 |
 | 메타데이터 파일 (Metadata) | 테이블 스키마, 파티션 규격(Spec), **전체 스냅샷 이력 및 현재 스냅샷 ID 보관** | JSON 포맷 |

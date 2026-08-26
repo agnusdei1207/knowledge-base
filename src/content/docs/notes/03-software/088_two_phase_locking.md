@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
-date: "2026-08-26T09:47:00+09:00"
+date: "2026-08-27T01:24:00+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[2PL 프로토콜 2단계 및 락 매니저 구조]
-|-- 트랜잭션 실행 단계 (Phase)
-|   |-- 1. 확장 단계 (Growing Phase: S-Lock, X-Lock 획득만 가능, 해제 불가)
-|   |-- [Lock Point] -> 모든 필요한 락을 확보한 최대 잠금 시점
-|   `-- 2. 축소 단계 (Shrinking Phase: Unlock 해제만 가능, 신규 획득 절대 불가)
-`-- DBMS 락 관리 시스템 (Lock Manager)
-    |-- Lock Table (자원별 보유 트랜잭션 및 대기 큐 FIFO 관리)
-    `-- Wait-for Graph (트랜잭션 간 대기 순환 사이클 감지 엔진)
-```
-
-선의 의미: 계층 및 2단계 락킹 타이밍과 락 매니저 제어 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 |
+| 구성요소 | 책임 |
 |:---|:---|
 | 확장 단계 (Growing Phase) | 트랜잭션 실행에 필요한 **공유 락(S-Lock) 및 배타 락(X-Lock)을 점진 획득** |
 | Lock Point | 트랜잭션이 **마지막 락을 획득하고 축소 단계로 진입하기 직전의 시점** |

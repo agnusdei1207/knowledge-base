@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오픈소스 사이버 위협 인텔리전스 공유 플랫폼 : MISP"
-date: "2026-08-25T13:00:00+09:00"
+date: "2026-08-26T14:43:40+09:00"
 tags:
   - "notes-security"
 weight: 33
@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 침해사고 이벤트 단위로 IoC를 구조화하고 **Taxonomy/Galaxy 태깅, Warninglist 오탐 정제, Sighting 피드백으로 협업하는 CTI 공유 플랫폼**
-- 배경/필요성: 개별 기관의 고립된 수동 위협 분석으로 인한 **동일 공격 그룹에 대한 중복 피해 발생, 위협 지표의 체계적 검증 및 자동 공유 체계 부재**
+- 정의/개념: 사건별 IoC를 검증·공유하는 **MISP CTI 플랫폼**
+- 배경/필요성: 기관별 수동 분석으로는 **위협 지표 공동 검증 불가**
 
 #### 한줄 요약
 - 사건 중심 모델과 Warninglist 오탐 정제 및 Sighting 피드백을 통해 기관 간 위협을 실시간 신뢰 공유한다.
@@ -58,12 +58,16 @@ extra:
 </details>
 
 ```text
-[MISP 플랫폼 내부 구조 및 다자간 동기화 아키텍처]
-|-- 1. Event Data Model (Event Container -> Attributes/Objects -> Taxonomy/Galaxy 태깅)
-`-- 2. Verification Engine (Warninglist 정상 IP 대조 + Sighting 커뮤니티 피드백 수렴)
-`-- 3. Sharing & Integration Layer (Sharing Groups 권한 통제 + STIX 2.1 / TAXII 2.1 서버)
-    |-- MISP-to-MISP P2P Mesh Sync ──▶ 타 기관 MISP 인스턴스 (기관 간 위협 동기화)
-    `-- PyMISP REST API ──▶ 사내 SIEM / SOAR / 차세대 방화벽 (실시간 자동 차단)
+MISP 플랫폼
+|-- 이벤트 데이터 모델
+|   |-- 속성·객체
+|   `-- Taxonomy·Galaxy
+|-- 검증 엔진
+|   |-- Warninglist
+|   `-- Sighting
+`-- 공유·연동 계층
+    |-- Sharing Group
+    `-- STIX·TAXII 브리지
 ```
 
 선의 의미: MISP가 이벤트를 생성하고 Warninglist와 Sighting으로 검증한 후 공유그룹 정책에 따라 타 기관 MISP 및 사내 보안 장비로 전송하는 구조
@@ -147,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 글로벌 위협 행위자에 맞서 집단지성 기반의 협업 방어망을 구축하는 **MISP 위협 공유 플랫폼 아키텍처는 CTI 생태계의 대표적인 핵심 허브**이며, 실무 구현 시 **사건 중심(Event) 모델 기반의 TTP 맥락화, Warninglist 및 Sighting 엔진을 통한 지표 무결성 검증, TLP 2.0 및 Sharing Group 기반의 철저한 접근 통제, STIX/TAXII 표준 프로토콜 연동**을 결합하여 신뢰성 높고 능동적인 글로벌 사이버 방어 인프라 완성
+- 제한 공유는 **Sharing Group**, 자동 검증은 **Sighting** 적용
 
 #### 한줄 요약
 - MISP는 사건 중심 모델과 Warninglist/Sighting 검증 및 TLP 공유그룹 통제를 통해 고신뢰 CTI 협업 생태계를 완성하는 오픈소스 플랫폼이다.

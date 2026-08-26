@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 메시 (Data Mesh)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:39:00+09:00"
 tags:
   - "notes-software"
 weight: 131
@@ -58,20 +58,16 @@ extra:
 </details>
 
 ```text
-[데이터 메시 4대 원칙 기반 아키텍처]
-|-- 1. Domain Data Products (현업 도메인 팀별 독립 데이터 제품)
-|   |-- [주문 도메인 제품] -> 코드 + 데이터(S3) + 스키마 + SQL/REST Output Port
-|   |-- [결제 도메인 제품] -> 코드 + 데이터(S3) + 스키마 + SQL/REST Output Port
-|   `-- [물류 도메인 제품] -> 코드 + 데이터(S3) + 스키마 + SQL/REST Output Port
-|-- 2. Self-Serve Data Platform Layer (셀프서비스 데이터 인프라)
-|   `-- 원클릭 S3/Spark/Airflow 템플릿 프로비저닝 및 공통 모니터링
-`-- 3. Federated Computational Governance Layer (연합형 전산 거버넌스)
-    `-- Policy-as-Code (자동 권한/PII 마스킹) + Data Contract + 통합 카탈로그
+[데이터 메시 구성]
+|-- 도메인 소유권
+|-- 데이터 제품
+|-- 셀프서비스 플랫폼
+`-- 연합 거버넌스
 ```
 
 선의 의미: 계층 및 현업 도메인이 Data Product를 독립 생성하고 하단의 셀프서비스 플랫폼과 연합 거버넌스가 이를 지원하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 도메인 소유권 (Domain) | 현업 도메인 팀이 **데이터 파이프라인 생성, 품질 검증, 생명주기를 직접 소유** | 비즈니스 맥락 유지 |
 | 데이터 제품 (Product) | 스키마, SLO, API 문서, 데이터 계약을 완비하여 **소비자에게 신뢰성 있게 서빙** | Data Contract 보증 |

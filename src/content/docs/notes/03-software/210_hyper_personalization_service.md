@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초개인화 서비스 (Hyper-Personalization Service)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:25:56+09:00"
 tags:
   - "notes-software"
 weight: 210
@@ -58,14 +58,12 @@ extra:
 </details>
 
 ```text
-[초개인화 서비스 실시간 의사결정 및 옴니채널 발송 아키텍처]
-|-- 1. Real-time Context Collector (GPS 위치, 인앱 클릭 스트림, 날씨 API 수집)
-`-- 2. Real-Time Feature Store (Feast / Redis: 과거 3년 구매 이력 + 최근 5분 세션 피처 10ms 결합)
-`-- 3. AI Decision & Ranking Engine (DeepFM / Two-Tower Model)
-    |-- Deep Learning Ranking (고객별 구매 확률 점수화)
-    `-- Business Policy Filter (Frequency Capping, 프라이버시 수신 동의 검증)
-`-- 4. Omni-channel Delivery Layer (인앱 배너, 개인화 푸시, 알림톡 즉시 발송)
-`-- 5. Feedback Loop Layer (클릭, 구매, 무시 반응을 실시간 강화학습 모델로 환류)
+[초개인화 서비스 구성]
+|-- 맥락 수집기
+|-- 피처 스토어
+|-- 의사결정 엔진
+|-- 옴니채널 발송기
+`-- 피드백 환류기
 ```
 
 선의 의미: 계층 및 실시간 수집된 맥락이 Feature Store에서 이력과 결합되어 의사결정 엔진의 필터링을 거쳐 채널로 발송되고 피드백되는 구조
@@ -144,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 디지털 비즈니스의 고객 전환율과 인게이지먼트를 극대화하기 위해 **Flink 스트리밍과 Feature Store 기반의 실시간 맥락 수집 아키텍처를 구축**하고, **딥러닝 랭킹 엔진과 옴니채널 폐쇄 루프(Closed-Loop) 학습 및 강력한 프라이버시 거버넌스**를 결합하여 감동적인 초개인화 고객 경험 완성
+- 정적 취향에는 **일반 개인화**, 순간 맥락에는 **초개인화** 선택
 
 #### 한줄 요약
 - 초개인화 서비스는 과거 이력과 실시간 맥락을 결합하여 지금 이 순간 고객에게 가장 적합한 가치를 1:1로 제공하는 차세대 AI 추천 기술이다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-26T10:25:00+09:00"
+date: "2026-08-26T13:18:05+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -59,25 +59,25 @@ extra:
 
 ```text
 [OAuth 2.0 및 OIDC 신뢰 경계 및 4대 엔티티 구조]
-|-- 1. Resource Owner (사용자: 브라우저/모바일에서 로그인 및 권한 위임 동의)
-|-- 2. Client Application (SPA / 모바일 앱)
+|-- Resource Owner
+|-- Client Application
 |   |-- PKCE Engine (code_verifier 생성 및 code_challenge S256 해시)
 |   `-- Token Storage (ID Token 및 Bearer Access Token 보관)
-|-- 3. Authorization Server / IdP (Google, Kakao, Keycloak 인가 서버)
+|-- Authorization Server / IdP
 |   |-- Login & Consent UI (사용자 인증 및 스코프 동의 화면 제공)
 |   |-- Token Issuer (Authorization Code 발급 및 ID/Access Token JWT 서명)
 |   `-- JWKS Endpoint (토큰 검증용 공개키 제공)
-`-- 4. Resource Server (백엔드 API 서버: Access Token 서명 및 Scope 검증 후 데이터 반환)
+`-- Resource Server
 ```
 
 선의 의미: 계층 및 사용자가 인가 서버에서 로그인하면 클라이언트가 인가 코드로 토큰을 교환받아 리소스 서버에 접근하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 자원 소유자 (Resource Owner)| 자신의 데이터에 대한 **제3자 애플리케이션의 접근을 승인/동의하는 실제 사용자** | 권한 승인 주체 |
-| 클라이언트 (Client App) | 사용자를 대신하여 **인가 서버에 로그인을 요청하고 발급받은 토큰으로 API 호출** | Public / Confidential |
-| 인가 서버 (Auth Server/IdP)| 사용자 인증 후 **인가 코드, Access Token, ID Token(JWT) 발급·서명**| IdP (Keycloak, Auth0) |
-| 자원 서버 (Resource Server)| **Access Token의 유효성·Scope를 검증하고 보호 자원 반환**| API 백엔드 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 자원 소유자 | 클라이언트의 **자원 접근 권한** 승인 |
+| 클라이언트 | 인가 요청과 토큰 기반 API 호출 |
+| 인가 서버·IdP | 코드·Access Token·ID Token 발급 |
+| 자원 서버 | **Access Token·Scope** 검증과 자원 제공 |
 
 #### 한줄 요약
 - 자원 소유자, 클라이언트, 인가 서버, 자원 서버가 결합된다.
@@ -86,7 +86,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **OIDC Auth Code with PKCE 5단계**: 인가 요청 $\to$ 사용자 로그인/동의 $\to$ 1회용 Code 회신 $\to$ PKCE 토큰 교환 $\to$ ID/Access Token 사용.
+- **OIDC Code with PKCE**: 인가 요청, 인증·동의, 코드 회신, 토큰 교환.
 
 </details>
 
@@ -103,6 +103,13 @@ extra:
         │
    Client는 ID Token으로 로그인 처리하고, Access Token을 API 요청 헤더에 담아 자원 수신
 ```
+
+동작 원리:
+
+1. 인가 요청: PKCE·state·nonce와 요청 전송
+2. 사용자 인증 및 동의: IdP 인증과 Scope 승인
+3. 인가 코드 회신: 등록 Redirect URI로 코드 전달
+4. 토큰 교환: code_verifier 검증 후 토큰 발급
 
 #### 한줄 요약
 - 인가 요청 → 사용자 인증 → 코드 회신 → 토큰 교환 → 토큰 사용 순으로 진행된다.
@@ -135,17 +142,17 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 모바일/SPA 브라우저에서 인가 코드(Code) 가로채기 공격 발생 | **모든 Public Client에 PKCE (S256 챌린지) 의무 적용** | 인가 코드 탈취 및 도용 원천 차단 |
+| 공개 클라이언트의 인가 코드 탈취 | **PKCE S256** 적용 | 탈취 코드의 토큰 교환 위험 감소 |
 | ID Token과 Access Token 혼용으로 인한 API 권한 검증 누락 | **API는 Access Token만 검증, ID Token은 클라이언트 로그인 전용** | 권한 상승 및 토큰 오용 방지 |
-| CSRF 공격 및 토큰 재사용(Replay Attack) 침해 | **`state` 난수 파라미터 및 `nonce` 클레임 일치 여부 필수 검증** | 세션 하이재킹 및 위조 방지 |
-| 토큰 탈취 시 유효기간 만료 전까지 강제 만료 불가 | **Access Token 유효기간 단축(15분) 및 Redis 기반 토큰 블랙리스트 구축** | 침해 피해 최소화 |
+| CSRF와 ID Token 재사용 공격 | **state·nonce 검증** | 요청 상관관계와 재사용 여부 확인 |
+| Access Token 탈취와 폐기 지연 | 위험 기반 **수명·회전·폐기 정책** 적용 | 토큰 노출 시간과 피해 범위 제한 |
 
 #### 한줄 요약
 - PKCE 의무화, 토큰 역할 분리, State/Nonce 검증, 블랙리스트 구축으로 운영한다.
 
 ## Ⅶ. 결론
 
-- 클라우드 및 마이크로서비스 환경에서 안전한 신원 관리와 권한 위임을 실현하기 위해 **OIDC 기반의 ID Token으로 사용자 인증(SSO)을 일원화하고, OAuth 2.0 Access Token과 PKCE 보안 확장을 결합**하여 제로 트러스트 엔터프라이즈 인증·인가 체계 완성
+- API 권한 위임은 **OAuth 2.0**, 로그인 신원은 **OIDC** 선택
 
 #### 한줄 요약
-- OAuth 2.0과 OIDC는 권한 위임과 신원 증명을 계층적으로 결합하여 현대 웹과 모바일 환경의 보안 로그인을 구현하는 핵심 글로벌 표준이다.
+- ID Token은 클라이언트, Access Token은 자원 서버에서 검증한다.

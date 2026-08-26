@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 계보 (Data Lineage)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T02:48:00+09:00"
 tags:
   - "notes-software"
 weight: 134
@@ -58,18 +58,17 @@ extra:
 </details>
 
 ```text
-[데이터 계보 그래프 아키텍처]
-|-- Upstream Layer (원천 소스 DB: MySQL `orders`, `users`)
-|   `-- [Job 1: Spark ETL Job] -> SQL AST 파싱 및 OpenLineage 이벤트 발행
-|-- Middle Layer (정제 및 마트: Delta Lake `silver_orders` -> `gold_sales_mart`)
-|   `-- [Job 2: Trino View] -> 컬럼 단위 집계 연산 매핑
-`-- Downstream Layer (최종 소비: Tableau Dashboard `Monthly Revenue`)
-`-- Graph Storage Layer (Neo4j / OpenMetadata: Dataset-Job-Column 노드 및 엣지 관리)
+[데이터 계보 구성]
+|-- 데이터셋 노드
+|-- 작업 노드
+|-- 계보 엣지
+|-- 계보 수집기
+`-- 그래프 저장소
 ```
 
 선의 의미: 계층 및 소스 데이터부터 변환 작업, 마트, 최종 BI 대시보드로 이어지는 상하류 의존성 그래프 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 데이터셋 노드 (Dataset) | 원천 테이블, 중간 파일, 최종 마트 등 **정적인 데이터 자산 개체 표현** | S3 버킷, DB 테이블 |
 | 작업 노드 (Job Node) | 데이터를 읽고 쓰는 **Airflow DAG, Spark Job, SQL 쿼리 작업 표현** | 버전 및 실행 이력 포함 |

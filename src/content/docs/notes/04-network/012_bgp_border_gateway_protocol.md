@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "경계 게이트웨이 프로토콜: BGP (Border Gateway Protocol)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:37:26+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -58,25 +58,23 @@ extra:
 </details>
 
 ```text
-[BGP 정책 라우팅 및 3단계 RIB 데이터베이스 아키텍처]
-|-- BGP Peer Session (TCP Port 179: eBGP / iBGP Peering)
-`-- BGP Routing Information Base (RIB) 3단계 구조
-    |-- 1. Adj-RIB-In (인접 피어로부터 수신한 원시 NLRI 경로 및 속성 보관)
-    |-- 2. Inbound Policy Filter (Prefix-list 검증, RPKI 유효성 체크, Local_Pref 할당)
-    |-- 3. Loc-RIB (BGP Best Path 결정 알고리즘을 거쳐 선발된 최적 경로 단일 보관)
-    |-- 4. Outbound Policy Filter (Route-map 필터링, AS_PATH Prepend, MED 조작)
-    `-- 5. Adj-RIB-Out (인접 BGP 피어에 광고할 UPDATE 메시지 큐) -> FIB 하드웨어 적재
+[BGP 구성]
+|-- BGP 피어
+|-- 경로 속성
+|-- 인바운드 정책 필터
+|-- 최선 경로 선정기
+`-- 아웃바운드 정책 필터
 ```
 
 선의 의미: 계층 및 인접 피어로부터 유입된 경로가 인바운드 정책을 거쳐 Loc-RIB에서 최선 경로로 선발된 후 아웃바운드 정책을 통해 재전파되는 구조
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **BGP 피어 (Neighbor)** | TCP 179번 포트를 통해 **피어링을 맺고 Open/Update/Keepalive 메시지 교환** | TCP 179 수신 |
-| **경로 속성 (Attributes)** | 경로의 선호도와 제약 조건을 명시하는 **메타데이터 (Weight, Local_Pref, AS_PATH, MED)** | 정책 제어 핵심 |
-| **인바운드 정책 필터** | 유입된 경로 중 비인가 프리픽스를 차단하고 **Local_Pref를 조작하여 아웃바운드 트래픽 제어** | 유출 경로 제어 |
-| **최선 경로 선정기** | 10단계 이상의 정형화된 **BGP 의사결정 프로세스를 통해 프리픽스당 최적 경로 1개 선출** | Loc-RIB 적재 |
-| **아웃바운드 정책 필터** | 선출된 최선 경로에 **AS_PATH Prepend를 적용하여 인바운드 유입 트래픽 경로 유도** | 유입 트래픽 제어 |
+| BGP 피어 (Neighbor) | TCP 179번 포트를 통해 **피어링을 맺고 Open/Update/Keepalive 메시지 교환** | TCP 179 수신 |
+| 경로 속성 (Attributes) | 경로의 선호도와 제약 조건을 명시하는 **메타데이터 (Weight, Local_Pref, AS_PATH, MED)** | 정책 제어 핵심 |
+| 인바운드 정책 필터 | 유입된 경로 중 비인가 프리픽스를 차단하고 **Local_Pref를 조작하여 아웃바운드 트래픽 제어** | 유출 경로 제어 |
+| 최선 경로 선정기 | 10단계 이상의 정형화된 **BGP 의사결정 프로세스를 통해 프리픽스당 최적 경로 1개 선출** | Loc-RIB 적재 |
+| 아웃바운드 정책 필터 | 선출된 최선 경로에 **AS_PATH Prepend를 적용하여 인바운드 유입 트래픽 경로 유도** | 유입 트래픽 제어 |
 
 #### 한줄 요약
 - BGP 피어, 경로 속성, 인바운드 필터, 최선 경로 선정기, 아웃바운드 필터가 결합된다.
@@ -125,10 +123,10 @@ BGP 라우팅 업데이트 수신 및 처리
 
 | 비교 항목 | eBGP (External BGP) | iBGP (Internal BGP) |
 |:---|:---|:---|
-| **세션 연결 대상** | **서로 다른 ASN에 속한 경계 라우터 간 연결** | **동일한 단일 ASN 내부 라우터 간 연결** |
-| **AS_PATH 갱신 동작** | 경로 광고 시 **자신의 AS 번호를 AS_PATH에 추가(Prepend)**| AS 내부 전달 시 **AS_PATH를 변경하지 않고 유지** |
-| **루프 방지 규칙** | **수신 AS_PATH에 자신의 ASN 존재 시 패킷 폐기** | iBGP로 학습한 경로는 타 iBGP 피어에 **재광고 금지 (Split Horizon)** |
-| **토폴로지 확장성** | 일반적으로 직접 연결(Directly Connected) 1홉 | 풀 메시(Full-Mesh) 필요 $\to$ **Route Reflector(RR)로 완화** |
+| 세션 연결 대상 | **서로 다른 ASN에 속한 경계 라우터 간 연결** | **동일한 단일 ASN 내부 라우터 간 연결** |
+| AS_PATH 갱신 동작 | 경로 광고 시 **자신의 AS 번호를 AS_PATH에 추가(Prepend)**| AS 내부 전달 시 **AS_PATH를 변경하지 않고 유지** |
+| 루프 방지 규칙 | **수신 AS_PATH에 자신의 ASN 존재 시 패킷 폐기** | iBGP로 학습한 경로는 타 iBGP 피어에 **재광고 금지 (Split Horizon)** |
+| 토폴로지 확장성 | 일반적으로 직접 연결(Directly Connected) 1홉 | 풀 메시(Full-Mesh) 필요 $\to$ **Route Reflector(RR)로 완화** |
 
 #### 한줄 요약
 - AS 간 통신은 eBGP를 적용하고, AS 내부 경로 전파는 iBGP와 Route Reflector(RR)를 적용한다.
@@ -154,7 +152,7 @@ BGP 라우팅 업데이트 수신 및 처리
 
 ## Ⅶ. 결론
 
-- 글로벌 인터넷 및 하이브리드 멀티클라우드 환경에서 대규모 경로 제어와 가용성을 확보하기 위해 **BGP 경로 벡터 프로토콜과 3단계 RIB 아키텍처를 표준 운용**하고, **RPKI(ROA) 암호화 검증과 Route Reflector 및 세밀한 Local_Pref/AS_PATH 정책 튜닝**을 결합하여 무결점 대외 라우팅 인프라 완성
+- AS 간 연결은 **eBGP**, 내부 경로 동기화는 **iBGP·RR** 선택
 
 #### 한줄 요약
 - BGP는 TCP 179 기반의 경로 벡터 알고리즘과 다양한 속성을 통해 자율 시스템 간 정책 라우팅을 수행하며, RPKI 보안 검증과 결합하여 안전한 인터넷 통신을 보장하는 핵심 기술이다.

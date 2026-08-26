@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-26T09:41:00+09:00"
+date: "2026-08-27T00:50:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -57,31 +57,13 @@ extra:
 
 </details>
 
-```text
-[DevSecOps 전 주기 보안 파이프라인 구조]
-|-- Plan & Code 계층 (Pre-commit)
-|   |-- IDE 보안 린터 (SonarLint: 시큐어 코딩 실시간 가이드)
-|   `-- Pre-commit 훅 (Gitleaks: API Key / Secret 커밋 차단)
-|-- Build & Test 계층 (CI)
-|   |-- SAST (Static Application Security Testing: SonarQube - XSS/SQLi 탐지)
-|   |-- SCA (Software Composition Analysis: Snyk - 오픈소스 CVE 분석 & SBOM 생성)
-|   `-- Container Scan (Trivy - 베이스 OS 및 도커 이미지 취약점 스캔)
-|-- Deploy 계층 (CD)
-|   `-- Policy as Code (Kyverno / OPA Gatekeeper - 비인가 K8s 자원 배포 차단)
-`-- Operate & Monitor 계층 (Ops)
-    |-- DAST (Dynamic Application Security Testing: OWASP ZAP - 런타임 모의 침투)
-    `-- RASP / Falco (Runtime Application Self-Protection - 런타임 이상 행위 탐지)
-```
-
-선의 의미: 계층 및 단계별 보안 검증 도구 연계 구조
-
-| 파이프라인 단계 | 핵심 보안 도구 | 엔지니어링 책임 및 검증 내용 |
-|:---|:---|:---|
-| Code (Pre-commit) | **SonarLint, Gitleaks** | 개발자 IDE 시큐어 코딩 가이드 및 **비밀번호/Secret 유출 차단** |
-| Build (SAST & SCA) | **SonarQube, Snyk** | 소스 코드 취약점(CWE/OWASP Top 10) 및 **오픈소스 CVE/SBOM 분석** |
-| Package (Image Scan) | **Trivy, Clair** | 컨테이너 이미지의 OS 패키지 및 런타임 **CVE 취약점 자동 검증** |
-| Deploy (Policy) | **Kyverno, OPA** | Root 권한 컨테이너 차단 등 **Policy as Code 기반 배포 승인** |
-| Operate (DAST & RASP) | **OWASP ZAP, Falco** | 배포 후 **동적 모의 침투 테스트 및 eBPF 기반 런타임 위협 차단** |
+| 구성요소 | 책임 |
+|:---|:---|
+| Code | **SonarLint·Gitleaks**로 시큐어 코딩과 Secret 차단 |
+| Build | **SAST·SCA**로 코드 취약점과 SBOM 분석 |
+| Package | **Trivy**로 컨테이너 이미지 CVE 검증 |
+| Deploy | **Policy as Code**로 비인가 자원 차단 |
+| Operate | **DAST·RASP**로 런타임 위협 탐지·차단 |
 
 #### 한줄 요약
 - Pre-commit(Secret 차단), CI(SAST/SCA/이미지 스캔), CD(OPA 정책), Ops(DAST/Falco)가 결합된다.

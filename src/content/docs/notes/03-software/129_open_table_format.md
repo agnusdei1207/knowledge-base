@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오픈 테이블 포맷 비교 (Open Table Format)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:31:00+09:00"
 tags:
   - "notes-software"
 weight: 129
@@ -58,19 +58,16 @@ extra:
 </details>
 
 ```text
-[오픈 테이블 포맷 3대 기술 아키텍처 비교]
-|-- 1. Compute Layer: [ Apache Spark ]  [ Trino / Presto ]  [ Apache Flink ]
-|-- 2. Open Table Format Metadata Layer
-|   |-- Delta Lake: JSON Commit Log (`_delta_log/`) + Parquet Checkpoint
-|   |-- Apache Iceberg: Metadata JSON -> Manifest List -> Manifest File (AVRO)
-|   `-- Apache Hudi: Timeline Metadata Log + Key Index (Bloom/HBase)
-`-- 3. Storage Layer: Amazon S3 / GCS / Azure ADLS
-    `-- 불변(Immutable) Parquet / ORC 데이터 파일 및 Delta 삭제 파일
+[오픈 테이블 포맷 구성]
+|-- 카탈로그
+|-- 메타데이터 계층
+|-- 데이터 파일
+`-- 삭제 파일
 ```
 
 선의 의미: 계층 및 이종의 처리 엔진들이 오픈 테이블 포맷 메타데이터를 거쳐 S3 파일에 연산을 수행하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 카탈로그 (Catalog) | 테이블 식별자와 **현재 유효한 최신 메타데이터 파일 위치를 원자적 관리** | Glue, REST Catalog |
 | 메타데이터 계층 | 스냅샷 버전, 스키마, 파티션 스펙, **파일별 Min/Max 통계 정보를 구조화 관리** | JSON / AVRO 트리 |

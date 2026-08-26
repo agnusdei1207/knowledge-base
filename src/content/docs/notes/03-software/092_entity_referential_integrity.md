@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "개체 무결성•참조 무결성 (Entity Referential Integrity)"
-date: "2026-08-26T09:47:00+09:00"
+date: "2026-08-27T01:38:00+09:00"
 tags:
   - "notes-software"
 weight: 92
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[개체 무결성과 참조 무결성 상호 작용 구조]
-|-- 부모 테이블: Users (사용자)
-|   `-- [PK: user_id (1001)] ◄── 개체 무결성 (Entity Integrity: Unique & NOT NULL)
-|                                    │
-|                                    ▼ (참조 무결성: FK 값은 부모 PK 존재값 또는 Null)
-`-- 자식 테이블: Orders (주문)
-    |-- [PK: order_id (5001)] ◄── 개체 무결성
-    `-- [FK: user_id (1001)]  ◄── 참조 무결성 (Referential Integrity)
-```
-
-선의 의미: 부모 테이블 PK의 개체 무결성을 자식 테이블 FK가 참조하여 무결성을 유지하는 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | 제약조건 위반 시 동작 |
+| 구성요소 | 책임 | 제약조건 위반 시 동작 |
 |:---|:---|:---|
 | 기본키 (Primary Key) | 튜플의 유일 식별을 위해 **중복 배제 및 Not Null 강제 (개체 무결성)** | PK 중복 또는 NULL 입력 시 `Insert Error` |
 | 외래키 (Foreign Key) | 부모 테이블의 PK를 참조하여 **유효한 값만 허용 (참조 무결성)** | 부모에 없는 부적격 ID 입력 시 `FK Constraint Error` |

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-26T09:40:00+09:00"
+date: "2026-08-27T00:44:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -59,14 +59,10 @@ extra:
 
 ```text
 [GitOps 아키텍처 및 Pull 동기화 구조]
-|-- Git 저장소 (단일 진실 공급원 - SSOT)
-|   |-- 앱 소스 레포 (Application Source Code & Dockerfile)
-|   `-- 배포 매니페스트 레포 (K8s YAML, Helm Charts, Kustomize)
-|-- CI 파이프라인 (GitHub Actions: 빌드, 이미지 푸시, 배포 레포 태그 변경 PR)
-`-- 대상 K8s 클러스터 (Target Kubernetes Cluster)
-    |-- GitOps 컨트롤러 (ArgoCD Operator: Git 리포지토리 주기적 Polling / Webhook)
-    |-- Reconciliation Engine (Desired State vs Actual State Diff 분석)
-    `-- 애플리케이션 파드 (Actual State: 목표 상태로 자동 수렴)
+|-- Git 배포 저장소 (SSOT)
+|-- GitOps 컨트롤러 (ArgoCD)
+|-- Reconciliation Engine
+`-- CI 파이프라인
 ```
 
 선의 의미: 계층 및 클러스터 내부 컨트롤러의 아웃바운드 Pull 동기화 구조

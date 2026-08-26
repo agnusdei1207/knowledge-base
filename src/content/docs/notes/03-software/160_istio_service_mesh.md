@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "서비스 메시 Istio (Service Mesh Istio)"
-date: "2026-08-26T10:01:00+09:00"
+date: "2026-08-26T13:13:34+09:00"
 tags:
   - "notes-software"
 weight: 160
@@ -58,21 +58,17 @@ extra:
 </details>
 
 ```text
-[Istio 서비스 메시 제어면 및 데이터면 구조]
-|-- 1. Control Plane Layer (istiod 단일 데몬)
-|   |-- Pilot (xDS gRPC API 동적 라우팅 설정 배포)
-|   |-- Citadel (SPIFFE 표준 CA 인증서 발급 및 mTLS 키 회전)
-|   `-- Galley (CRD 스키마 설정 검증 및 엔드포인트 동기화)
-`-- 2. Data Plane Layer (Envoy Proxy Sidecars)
-    |-- [Order Service Pod] ────(mTLS 암호화 통신)────► [Payment Service Pod]
-    |   |-- App Container (Port 80)                     |-- App Container (Port 80)
-    |   `-- Envoy Sidecar Proxy                         `-- Envoy Sidecar Proxy
-    `-- Distributed Tracing (Jaeger / Zipkin으로 W3C Trace Context 릴레이)
+[Istio 서비스 메시 구성]
+|-- istiod
+|-- Envoy 프록시
+|-- VirtualService
+|-- DestinationRule
+`-- Ingress / Egress Gateway
 ```
 
 선의 의미: 계층 및 istiod 제어면이 Envoy 프록시들에 xDS 설정과 mTLS 인증서를 배포하고 프록시 간 암호화 통신을 중계하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | istiod (제어면) | xDS API로 프록시 설정을 동적 배포하고 **CA 인증서 발급 및 서비스 디스커버리 총괄** | 단일 통합 컨트롤러 |
 | Envoy 프록시 (데이터면) | 파드 내 통신을 가로채 **mTLS 암호화, L7 로드밸런싱, 서킷 브레이커 집행** | C++ 고성능 프록시 |

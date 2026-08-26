@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "네트워크 기능 가상화 : NFV (Network Functions Virtualization)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:53:28+09:00"
 tags:
   - "notes-network"
 weight: 57
@@ -58,16 +58,12 @@ extra:
 </details>
 
 ```text
-[ETSI NFV 표준 3대 계층 및 MANO 아키텍처]
-|-- NFV MANO (Management and Orchestration)
-|   |-- NFVO (NFV Orchestrator: E2E 서비스 토폴로지 NSD 해석 및 전역 자원 조율)
-|   |-- VNFM (VNF Manager: VNF 인스턴스화, 스케일링, 복구 등 LCM 제어)
-|   `-- VIM (Virtualized Infrastructure Manager: OpenStack / K8s 가상 자원 할당)
-`-- VNF / CNF Layer (가상 네트워크 기능)
-|   `-- SFC Pipeline: [ vFirewall ] -> [ vLoadBalancer ] -> [ vRouter / vUPF ]
-`-- NFVI Layer (NFV Infrastructure)
-    |-- Virtualization Layer (KVM 하이퍼바이저, Docker/Containerd 런타임)
-    `-- Hardware Layer (범용 COTS x86 서버, NVMe 스토리지, DPDK/SR-IOV 100GbE NIC)
+[NFV 구성]
+|-- NFVO
+|-- VNFM
+|-- VIM
+|-- VNF / CNF
+`-- NFVI
 ```
 
 선의 의미: MANO 계층(NFVO/VNFM/VIM)이 NFVI 물리/가상 자원을 제어하여 VNF를 인스턴스화하고 SFC로 연계하는 구조
@@ -107,7 +103,7 @@ NFV 서비스 배포 및 수명주기 관리 파이프라인
 ```
 
 #### 한줄 요약
-- NSD 요청 → VIM 자원 할당 → VNFM 인스턴스화 → SFC 체이닝 구성 → 오토스케일링 감시 순으로 동작한다.
+- 서비스 요청 인입 → 가상 자원 예약 → NFVI 인프라 프로비저닝 → VNF 인스턴스화 → SFC 체이닝 및 감시 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -149,7 +145,7 @@ NFV 서비스 배포 및 수명주기 관리 파이프라인
 
 ## Ⅶ. 결론
 
-- 통신 인프라의 유연성과 CAPEX/OPEX 절감을 달성하기 위해 **ETSI 표준 NFV 아키텍처와 MANO 프레임워크를 필수 구축**하고, 소프트웨어 가상화에 따른 패킷 처리 성능 한계를 극복하기 위해 **DPDK, SR-IOV, NUMA CPU Pinning 가속 기술과 SDN 기반 SFC 체이닝**을 결합하여 캐리어급(Carrier-Grade) 고성능 가상화 인프라 완성
+- 기능 가상화는 **NFV·MANO**, 전달 성능은 **DPDK·SR-IOV** 적용
 
 #### 한줄 요약
 - NFV는 네트워크 기능을 범용 COTS 서버 위 소프트웨어로 전환하여 MANO로 자동화 제어하는 핵심 통신 가상화 패러다임이다.

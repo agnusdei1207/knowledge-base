@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 서비스 거부 공격 및 계층형 방어 체계 : DDoS 완화"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T14:05:47+09:00"
 tags:
   - "notes-network"
 weight: 87
@@ -58,22 +58,22 @@ extra:
 </details>
 
 ```text
-[DDoS 계층형 다단 방어 파이프라인 아키텍처]
-|-- Tier 1: Global ISP / CDN Anycast Edge (Tbps급 L3/L4 볼륨 공격 분산 흡수, BGP Flowspec)
-|-- Tier 2: Cloud Scrubbing Center (대용량 트래픽 세탁)
-|   |-- L4 Filter: SYN Proxy, SYN Cookie, UDP Rate Limiting
-|   `-- L7 Filter: JavaScript Challenge, Client TLS Fingerprint
-`-- Tier 3: Enterprise Origin Infrastructure (WAF / API Gateway / Origin App Server)
-    `-- Protected Traffic via GRE / IPsec Tunnel (정상 비즈니스 트래픽만 무손실 수신)
+[DDoS 다단 방어]
+|-- 상위 ISP·CDN
+|-- 스크러빙 센터
+`-- 원본 인프라
+    |-- WAF
+    |-- API 게이트웨이
+    `-- 응용 서버
 ```
 
 선의 의미: 대규모 공격 트래픽이 글로벌 Anycast CDN과 스크러빙 센터를 거치며 계층별로 필터링되어 정화된 정상 트래픽만 원본 서버에 도달하는 구조
 
-| 방어 계층 | 핵심 엔지니어링 책임 | 주요 특징 | 방어 대상 공격 |
-|:---|:---|:---|:---|
-| **상위 ISP / CDN 계층** | **BGP Anycast, BGP Flowspec으로 초대용량 트래픽 분산 및 회선 보호** | Tier 1 | NTP/DNS 증폭, UDP Flood |
-| **스크러빙 센터 계층** | **트래픽 세탁, SYN Cookie 검증, 딥 패킷 필터링으로 정상 패킷 선별** | Tier 2 | SYN Flood, Slowloris |
-| **온프레미스 / WAF 계층**| **L7 HTTP 트래픽 검사, 클라이언트 행동 분석, 정밀 Rate Limiting** | Tier 3 | HTTP GET/POST Flood |
+| 구성요소 | 책임 |
+|:---|:---|
+| **상위 ISP·CDN** | 볼륨 분산과 경계 필터링 |
+| **스크러빙 센터** | L3·L4 트래픽 정화와 정상 흐름 선별 |
+| **원본 WAF·게이트웨이** | L7 요청 검사와 속도 제한 |
 
 #### 한줄 요약
 - 상위 ISP/CDN Anycast, 클라우드 스크러빙 센터, 온프레미스 WAF의 3계층 다단 방어로 인프라를 보호한다.
@@ -101,6 +101,12 @@ DDoS 이상 감지, 트래픽 우회 및 스크러빙 정화 파이프라인
 5. [정상 트래픽 터널 전송] 세탁된 정상 패킷만 전용 GRE/IPsec 터널을 통해 원본 서버로 전달
 ```
 
+- 1. 트래픽 이상 감지: 기준선과 bps·pps 비교
+- 2. 스크러빙 센터 우회: 경로를 정화 센터로 전환
+- 3. L4 프로토콜 정화: SYN·UDP 정책 적용
+- 4. L7 봇넷 챌린지 검증: 요청 행동과 지문 검사
+- 5. 정상 트래픽 터널 전송: 정화 흐름을 원본에 전달
+
 #### 한줄 요약
 - Baseline 이상 감지 → BGP 트래픽 우회 → L4/L7 단계별 필터링 → GRE 정상 패킷 전달 → 서비스 가용성 유지 순으로 동작한다.
 
@@ -114,10 +120,10 @@ DDoS 이상 감지, 트래픽 우회 및 스크러빙 정화 파이프라인
 
 | 비교 항목 | 볼륨형 공격 (Volumetric Attack) | 프로토콜 상태 고갈 (State-Exhaustion) | 애플리케이션 공격 (L7 App Attack) |
 |:---|:---|:---|:---|
-| **공격 대상 자원** | **네트워크 회선 인입 대역폭 (bps)** | **방화벽/로드밸런서 세션 테이블 (pps)** | **웹 서버 CPU, 메모리, DB 커넥션** |
-| **대표 공격 기법** | **NTP/DNS/SSDP 반사 증폭, UDP Flood** | **TCP SYN Flood, ACK Flood, RST Flood** | **HTTP GET/POST Flood, Slowloris** |
-| **패킷 특성** | 무차별 대용량 비인가 UDP/ICMP 패킷 | 대량의 위조 플래그 TCP 제어 패킷 | 정상적인 규격의 정상 HTTP/HTTPS 요청 |
-| **핵심 방어 대책** | **BGP Anycast, CDN, 스크러빙 센터** | **SYN Proxy, SYN Cookie, TCB 관리** | **WAF, JS Challenge, Rate Limiting** |
+| 고갈 대상 | 회선 대역폭 | 세션·상태 테이블 | 응용·DB 자원 |
+| 공격 기법 | 반사 증폭·UDP Flood | SYN·ACK Flood | HTTP Flood·Slowloris |
+| 트래픽 특성 | 대용량 패킷 | 대량 제어 패킷 | 정상 형식의 악성 요청 |
+| 방어 대책 | **Anycast·스크러빙** | **SYN Proxy·Cookie** | WAF·챌린지·속도 제한 |
 
 #### 한줄 요약
 - 볼륨형은 대역폭 분산, 프로토콜형은 SYN Cookie, L7 공격은 WAF/Rate Limiting으로 방어한다.
@@ -142,7 +148,7 @@ DDoS 이상 감지, 트래픽 우회 및 스크러빙 정화 파이프라인
 
 ## Ⅶ. 결론
 
-- 진화하는 하이브리드 멀티벡터 사이버 공격으로부터 엔터프라이즈 서비스의 무중단 가용성을 사수하기 위해 **ISP-CDN-Scrubbing-WAF로 이어지는 다단 DDoS 방어 체계를 필수 구현**하되, 운영 효율성을 극대화하기 위해 **BGP Anycast 분산 인프라, 하드웨어 가속 SYN Proxy/Cookie, AI 기반 행동 프로파일링 및 자동화된 챌린지 검증**을 통합 연계하여 제로 다운타임(Zero-Downtime) 보안 아키텍처 완성
+- 볼륨 공격은 **상위 스크러빙**, L7 공격은 WAF에서 완화
 
 #### 한줄 요약
 - DDoS 방어는 BGP Anycast 분산 흡수와 스크러빙 센터 세탁 및 WAF 정밀 필터링을 결합한 다단 완화 아키텍처로 실현된다.

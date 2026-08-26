@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "SDN 제어 평면 : SDN 컨트롤러와 OpenFlow"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:54:14+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -58,16 +58,12 @@ extra:
 </details>
 
 ```text
-[SDN 컨트롤러 및 OpenFlow 다중 파이프라인 아키텍처]
-|-- Control Plane (SDN Controller: ONOS / ODL -> Topology DB, CSPF 연산)
-|-- Secure Channel (TLS 1.3 Encrypted Session, TCP Port 6653)
-`-- Data Plane (OpenFlow Switch Pipeline)
-    |-- Multi-Stage Flow Tables
-    |   |-- Table 0 (L2 MAC 매칭 -> Goto Table 1)
-    |   |-- Table 1 (L3/L4 ACL 정책 -> Goto Table 2)
-    |   `-- Table 2 (최종 포워딩 / Egress 포트 출력)
-    |-- Group Table (ALL 멀티캐스트, SELECT 로드밸런싱, FF 패스트 페일오버)
-    `-- Meter Table (플로우별 Rate Limiting 및 초과 패킷 DSCP 마킹/드롭)
+[SDN 제어 평면 구성]
+|-- SDN 컨트롤러
+|-- OpenFlow 채널
+|-- 흐름 테이블
+|-- 그룹 테이블
+`-- 미터 테이블
 ```
 
 선의 의미: TLS 보안 채널을 통해 제어 평면의 지시가 데이터 평면의 다중 테이블 파이프라인으로 적재되어 패킷을 처리하는 구조
@@ -107,7 +103,7 @@ OpenFlow Table-Miss 및 Flow-Mod 파이프라인
 ```
 
 #### 한줄 요약
-- 파이프라인 매칭 → Table-Miss 시 Packet-In 보고 → Flow-Mod 규칙 하향 주입 → 스위치 자체 고속 포워딩 순으로 동작한다.
+- 패킷 인입 및 다중 매칭 → Table-Miss Packet-In → 전역 경로 연산 → Flow-Mod 규칙 설치 → 라인 레이트 고속 포워딩 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -148,7 +144,7 @@ OpenFlow Table-Miss 및 Flow-Mod 파이프라인
 
 ## Ⅶ. 결론
 
-- SDN 인프라의 표준화된 패킷 제어를 위해 **OpenFlow 프로토콜과 SDN 컨트롤러의 Match-Action 다중 파이프라인 아키텍처를 구축**하고, 실무 운영 안정성을 확보하기 위해 **반응형/선제적 룰 주입의 하이브리드 운영, TCAM 타임아웃 최적화, Fail-Standalone 장애 복구 체계**를 통합 적용하여 고성능·고가용성 제어 평면 완성
+- 동적 세션은 **Reactive**, 고정 백본은 **Proactive** 룰 선택
 
 #### 한줄 요약
 - SDN 컨트롤러와 OpenFlow의 Match-Action 파이프라인을 결합하여 고신뢰 제어 평면을 구현한다.

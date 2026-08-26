@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:10:00+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -58,16 +58,16 @@ extra:
 </details>
 
 ```text
-[실시간 스트리밍 플랫폼 4대 계층 아키텍처]
-|-- 1. Ingestion Layer (수집 계층: Debezium CDC, Kafka Connect, Flume)
-|-- 2. Broker Layer (분산 버퍼 계층: Apache Kafka / Redpanda - Partition Log)
-|-- 3. Processing Layer (스트림 연산 계층: Apache Flink / Spark Streaming - Stateful)
-`-- 4. Serving Layer (실시간 서빙 계층: Redis, Elasticsearch, ClickHouse, Cassandra)
+[실시간 스트리밍 플랫폼 구성]
+|-- 수집 계층
+|-- 이벤트 브로커
+|-- 스트림 처리기
+`-- 서빙 저장소
 ```
 
 선의 의미: 계층 및 수집된 원천 이벤트가 브로커 버퍼와 연산 엔진을 거쳐 서빙 DB로 파이프라이닝되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 수집 계층 (Ingestion) | RDB 트랜잭션 로그 및 앱 로그를 **실시간 이벤트 포맷으로 추출/발행** | Debezium, Kafka Connect |
 | 이벤트 브로커 (Broker) | 대량 이벤트를 디스크에 순차 보존하고 **생산자와 소비자의 속도 차이 버퍼링** | Kafka, Pulsar |
@@ -140,7 +140,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 실시간 처리는 **4대 계층 플랫폼**, 지연 방지는 **CDC** 선택
+- 즉시 탐지·대응은 **스트리밍**, 사후 정산은 **배치** 선택
 
 #### 한줄 요약
 - 실시간 스트리밍 플랫폼은 수집, 버퍼링, 연산, 서빙의 4대 계층을 유기적으로 결합하여 이벤트 발생 즉시 비즈니스 가치를 창출하는 현대 데이터 인프라의 핵심이다.

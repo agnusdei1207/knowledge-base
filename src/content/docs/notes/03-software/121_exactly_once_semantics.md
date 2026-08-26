@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:07:00+09:00"
 tags:
   - "notes-software"
 weight: 121
@@ -58,19 +58,16 @@ extra:
 </details>
 
 ```text
-[End-to-End Exactly-Once Semantics (EOS) 아키텍처]
-|-- 1. Replayable Source (Kafka: Offset 기반 과거 특정 위치 재전송 보장)
-|   `-- [이벤트 스트림 + Checkpoint Barrier 주입]
-|-- 2. Stateful Processing Engine (Flink: Chandy-Lamport 상태 비동기 스냅샷)
-|   `-- [Pre-Commit 트랜잭션 생성 및 연산자 State 관리]
-`-- 3. Transactional / Idempotent Sink (PostgreSQL / Kafka / Iceberg)
-    |-- Two-Phase Commit Sink (체크포인트 완료 ACK 수신 후 최종 Commit)
-    `-- Idempotent UPSERT Sink (Unique Key 기반 Merge Into 중복 덮어쓰기)
+[End-to-End EOS 구성]
+|-- 재생 가능 소스
+|-- 상태 유지 엔진
+|-- 트랜잭션 조정자
+`-- 트랜잭션/멱등 Sink
 ```
 
 선의 의미: 계층 및 Source의 오프셋 재생, Engine의 상태 스냅샷, Sink의 2PC 확정이 결합된 3단 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 재생 가능 소스 (Source) | 장애 복구 시 지정된 체크포인트 오프셋부터 **데이터를 유실 없이 재공급** | Kafka, Kinesis 등 |
 | 상태 유지 엔진 (Engine) | 연산자 내부 상태와 읽기 오프셋을 **Chandy-Lamport 알고리즘으로 동시 스냅샷** | Flink, Spark Streaming |

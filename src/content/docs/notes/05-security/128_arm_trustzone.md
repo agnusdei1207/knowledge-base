@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "하드웨어 기반 시스템 공간 격리 및 TEE : ARM TrustZone (GlobalPlatform TEE & ARMv8-A)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T15:01:28+09:00"
 tags:
   - "notes-security"
 weight: 128
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 단일 하드웨어 자원을 효율적으로 활용하기 위해 **AXI 버스 NS(Non-Secure) 비트 태깅 $\rightarrow$ EL3 보안 모니터(Secure Monitor / SMC 호출) $\rightarrow$ TZASC(메모리 주소 제어) 및 TZPC(주변장치 제어) $\rightarrow$ 보안 마이크로커널(Secure OS / OP-TEE) 구동 $\rightarrow$ 신뢰 애플리케이션(TA) 암호 연산** 을 집행하는 **하드웨어 기반 시스템 격리 아키텍처**
-- 배경/필요성: 모바일 핀테크, 자동차 전장(ADAS), 사물인터넷(IoT) 환경에서 고가의 전용 보안 칩(SE)을 개별 탑재하지 않고도 메인 AP 칩셋 하나로 고성능 암호화와 강력한 하드웨어 격리를 동시 달성할 요구
+- 배경/필요성: 범용 OS 침해 시 소프트웨어 격리만으로는 **키 보호 불가**
 
 #### 한줄 요약
 - 단일 CPU와 AXI 버스를 NS 비트와 EL3 모니터로 분할하여 일반 세계와 격리된 하드웨어 TEE를 제공한다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 모바일 및 스마트 기기의 가장 핵심적인 하드웨어 신뢰 앵커인 **ARM TrustZone 아키텍처**는 현대 엔드포인트 보안의 중심축이며, 실무 구현 시 **AXI 시스템 버스 NS 비트 기반의 엄격한 하드웨어 격리**, **GlobalPlatform 표준 기반 마이크로커널 TEE 구축**, **EL3 보안 모니터의 안전한 컨텍스트 스위칭 및 TOCTOU 방어**, **차세대 ARM CCA(Confidential Compute Architecture / Realm)로의 확장**을 통합 구축하여 최고 수준의 하드웨어 신뢰성과 런타임 기밀성을 완성
+- 대용량 보안 연산은 **TrustZone**, 물리 공격 저항은 **SE** 선택
 
 #### 한줄 요약
 - AXI NS 비트와 EL3 모니터 및 TZASC/TZPC 하드웨어 제어를 통해 완벽한 ARM TrustZone TEE를 완성한다.

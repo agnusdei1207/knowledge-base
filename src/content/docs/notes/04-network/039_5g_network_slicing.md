@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "5G 종단간 네트워크 슬라이싱 (5G Network Slicing)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:47:15+09:00"
 tags:
   - "notes-network"
 weight: 39
@@ -59,15 +59,12 @@ extra:
 </details>
 
 ```text
-[5G E2E 네트워크 슬라이싱 계층 및 오케스트레이션 아키텍처]
-|-- Management & Orchestration (CSMF / NSMF / NSSMF)
-|   |-- CSMF (Customer Service Management: SLA 계약 접수)
-|   |-- NSMF (Network Slice Management: E2E NSI 라이프사이클 총괄)
-|   `-- Domain NSSMFs (RAN NSSMF / Transport NSSMF / Core NSSMF)
-`-- E2E Network Infrastructure (S-NSSAI 바인딩)
-    |-- RAN Domain: 5G gNB (가변 SCS, PRB 하드 파티셔닝, Preemption 스케줄러)
-    |-- Transport Domain: FlexE 타임슬롯 분할, SRv6(Segment Routing) 저지연 터널링
-    `-- Core Domain: 5GC SBA (NSSF 슬라이스 선택 -> 격리된 가상 UPF/SMF 인스턴스)
+[5G 네트워크 슬라이싱 구성]
+|-- CSMF / NSMF
+|-- NSSMF
+|-- NSSF
+|-- RAN 슬라이싱
+`-- 전송망 슬라이싱
 ```
 
 선의 의미: 계층 및 E2E 오케스트레이터가 도메인별 NSSMF를 통해 RAN, Transport, Core 인프라를 서비스별로 매핑하여 종단간 가상 파이프라인을 완성하는 구조
@@ -110,7 +107,7 @@ extra:
 ```
 
 #### 한줄 요약
-- SLA 접수 → 도메인별 자원 프로비저닝 → S-NSSAI 단말 세션 매핑 → NWDAF 폐루프 품질 보증 순으로 동작한다.
+- SLA 요구사항 접수 → 슬라이스 템플릿 생성 → 다중 도메인 자원 프로비저닝 → 단말 접속 및 세션 매핑 → NWDAF AI 폐루프 보증 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -151,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 차세대 5G/6G 통신 인프라의 다중 테넌트 서비스 수용력을 극대화하기 위해 **E2E 네트워크 슬라이싱 아키텍처를 전사 표준으로 수립**하고, 무선의 **PRB 하드 격리**, 전송망의 **FlexE/SRv6**, 코어망의 **SBA NFV 가상화**를 통합 제어하는 **NSMF 오케스트레이터와 NWDAF AI 자율 보증 체계**를 결합하여 고신뢰 특화망 완성
+- 결정론적 SLA는 **하드 슬라이싱**, 탄력 효율은 **소프트 슬라이싱** 선택
 
 #### 한줄 요약
 - 5G 네트워크 슬라이싱은 RAN-Transport-Core 전 구간을 가상화하여 서비스별 SLA를 100% 보장하는 차세대 핵심 통신 가상화 기술이다.

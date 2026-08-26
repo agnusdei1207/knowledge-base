@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "IP 네트워크 서비스 품질 보장 : QoS, DiffServ 및 IntServ"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:57:46+09:00"
 tags:
   - "notes-network"
 weight: 72
@@ -58,16 +58,12 @@ extra:
 </details>
 
 ```text
-[DiffServ 2계층 QoS 처리 아키텍처]
-|-- Ingress Edge Router Layer
-|   |-- Traffic Classifier (5-Tuple 패킷 분석 -> 트래픽 클래스 식별)
-|   |-- Traffic Marker (IP 헤더 DSCP 6비트 기록: EF, AF, BE)
-|   `-- Traffic Metering & Policer (계약 초과 패킷 즉시 드롭 또는 버퍼 셰이핑)
-`-- Core Router Layer (Stateless PHB 포워딩)
-    |-- Strict Priority Queue (EF: 음성 트래픽 최우선 무지연 전송)
-    |-- Class-Based Weighted Fair Queue (AF: 업무 데이터 최소 대역폭 보장)
-    |-- Best-Effort Queue (BE: 일반 웹 트래픽 잉여 대역폭 전송)
-    `-- Congestion Avoidance Engine (WRED: 가중치 기반 선제적 조기 패킷 폐기)
+[DiffServ 구성]
+|-- 분류기
+|-- 마커
+|-- 미터링 / 폴리서
+|-- 스케줄러
+`-- 혼잡 회피
 ```
 
 선의 의미: 엣지 라우터에서 정밀 분류 및 DSCP 마킹된 트래픽이 코어 라우터로 진입하여 상태 비저장 기반의 고속 PHB 스케줄링을 거치는 구조
@@ -107,7 +103,7 @@ DiffServ QoS 분류, 마킹 및 PHB 스케줄링 파이프라인
 ```
 
 #### 한줄 요약
-- 엣지 분류/마킹 → 트래픽 컨디셔닝 → 코어 DSCP 기반 PHB 큐잉 → LLQ 전송 및 WRED 혼잡 회피 순으로 동작한다.
+- 엣지 트래픽 분류 → DSCP 헤더 마킹 → 트래픽 컨디셔닝 → 코어 PHB 큐 매핑 → WRED 검증 및 송출 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -150,7 +146,7 @@ DiffServ QoS 분류, 마킹 및 PHB 스케줄링 파이프라인
 
 ## Ⅶ. 결론
 
-- 멀티미디어 트래픽과 미션 크리티컬 비즈니스 데이터를 안정적으로 수용하기 위해 **DiffServ 기반 DSCP/PHB 아키텍처를 표준 QoS 모델로 구축**하되, 실무 환경의 자원 고갈 및 정책 왜곡을 방지하기 위해 **LLQ 스케줄링, WRED 혼잡 회피, 신뢰 경계(Trust Boundary) 및 도메인 간 DSCP 매핑 체계**를 통합 적용하여 종단 간 SLA 품질 완성
+- 소규모 절대 예약은 **IntServ**, 대규모 클래스 차등은 **DiffServ** 선택
 
 #### 한줄 요약
 - DiffServ는 엣지 마킹과 코어 무상태 PHB 포워딩을 결합하여 인터넷 백본 및 엔터프라이즈 망의 서비스 품질을 보장하는 표준 QoS 모델이다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "XP: 페어 프로그래밍•TDD (Extreme Programming)"
-date: "2026-08-26T09:36:00+09:00"
+date: "2026-08-27T00:11:00+09:00"
 tags:
   - "notes-software"
 weight: 34
@@ -60,7 +60,7 @@ extra:
 ```text
 [XP(Extreme Programming) 4대 실천 영역 아키텍처]
 |-- 개발 실천 영역 (Engineering Practices)
-|   |-- TDD (Test-Driven Development: Red -> Green -> Refactor)
+|   |-- TDD (Test-Driven Development: Red / Green / Refactor)
 |   |-- 짝 프로그래밍 (Pair Programming: Driver & Navigator)
 |   `-- 리팩토링 (Refactoring: 기능 보존 코드 개선)
 |-- 통합 및 빌드 영역 (Integration Practices)
@@ -75,12 +75,12 @@ extra:
 
 선의 의미: 계층 및 12대 세부 실천법 연계 구조
 
-| 구분 | 핵심 실천법 | 주요 책임 및 역할 |
-|:---|:---|:---|
-| 개발 실천 | **TDD & 리팩토링** | 테스트 선행 작성으로 버그 예방, 코드 냄새(Code Smell) 상시 제거 |
-| 품질 협업 | **짝 프로그래밍** | **드라이버(입력) + 내비게이터(전략 검토)** 실시간 품질 검증 |
-| 통합/배포 | **지속적 통합 (CI)** | 코드 변경 즉시 자동 빌드 및 회귀 테스트로 결함 조기 발견 |
-| 고객 참여 | **상주 고객 (On-site)** | 개발 공간에 고객이 상주하여 요구사항 모호성 실시간 해소 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 개발 실천 영역 | **TDD·짝 프로그래밍·리팩토링**으로 품질 확보 |
+| 통합 및 빌드 영역 | **지속적 통합·공동 소유**로 변경 검증 |
+| 프로세스 및 관리 영역 | 계획 게임·작은 릴리즈로 **지속 가능성** 확보 |
+| 고객 협업 영역 | **상주 고객**으로 요구사항 모호성 해소 |
 
 #### 한줄 요약
 - 개발, 통합, 관리, 고객의 4대 실천 영역이 유기적으로 결합되어 품질을 견인한다.

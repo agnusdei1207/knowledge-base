@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-26T10:45:00+09:00"
+date: "2026-08-26T23:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -158,7 +158,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 전송 대역폭과 보안 요구에 따라 **Thunderbolt 5** 및 **IOMMU**를 통합 채택
+- 단순 데이터는 **USB 3.2**, PCIe 터널링·고대역폭은 **Thunderbolt 5** 선택
 
 #### 한줄 요약
 - 고속 직렬 인터페이스는 단일 Type-C 포트로 데이터, 영상, 전력을 통합하는 동시에 IOMMU 기반 DMA 격리를 갖추는 것이 필수적이다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "데이터 레이크 (Data Lake)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:19:00+09:00"
 tags:
   - "notes-software"
 weight: 125
@@ -58,18 +58,16 @@ extra:
 </details>
 
 ```text
-[데이터 레이크 메달리온 아키텍처]
-|-- 원천 데이터 소스 (IoT 센서, RDB Binlog, 웹 클릭 로그, 이미지/음성)
-`-- Cloud Object Storage (Amazon S3 / GCS)
-    |-- Bronze Zone (Raw Ingestion: 원본 포맷 그대로 영구 보존)
-    |-- Silver Zone (Cleaned: 정제, 중복제거, Parquet 열 지향 포맷 변환)
-    `-- Gold Zone (Business Aggregates: BI 대시보드 및 AI/ML 특화 피처)
-`-- Data Governance (Data Catalog: AWS Glue / Apache Atlas 메타데이터 관리)
+[데이터 레이크 구성]
+|-- 브론즈 계층
+|-- 실버 계층
+|-- 골드 계층
+`-- 데이터 카탈로그
 ```
 
 선의 의미: 계층 및 원천 데이터가 Bronze, Silver, Gold 영역으로 정제 승격되고 카탈로그로 통제되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 브론즈 계층 (Bronze) | 다양한 원천으로부터 수집된 원시(Raw) 데이터를 **가공 없이 시계열 스냅샷으로 영구 보존** | Append-Only 원본 보존 |
 | 실버 계층 (Silver) | 중복 제거, 결측치 보정, 파티셔닝을 거쳐 **정제된 Parquet 포맷으로 변환 관리** | 스키마 일관성 확보 |

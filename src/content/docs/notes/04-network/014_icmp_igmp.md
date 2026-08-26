@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "ICMP•IGMP (ICMP IGMP)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:38:40+09:00"
 tags:
   - "notes-network"
 weight: 14
@@ -59,25 +59,21 @@ extra:
 </details>
 
 ```text
-[ICMP 오류 보고 및 IGMP 멀티캐스트 제어 아키텍처]
-|-- 1. ICMP Control Layer (IP Protocol 1: L3 라우터 -> 발신지 호스트 오류 보고)
-|   |-- Echo Request (Type 8) / Echo Reply (Type 0) -> Ping 진단
-|   |-- Destination Unreachable (Type 3 Code 4: PMTUD Frag Needed)
-|   `-- Time Exceeded (Type 11 Code 0: TTL=0 만료 Traceroute)
-`-- 2. IGMP Multicast Management Layer (IP Protocol 2: 서브넷 호스트 <-> 멀티캐스트 라우터)
-    |-- IGMP Querier (대표 라우터: General Query 주기적 브로드캐스트/멀티캐스트 송출)
-    |-- IGMP Snooping Switch (L2 스위치: Report/Leave 패킷 감청, 포트별 MAC 포워딩 필터링)
-    `-- Multicast Host (가입 호스트: Membership Report 응답, Leave Group 탈퇴 통보)
+[ICMP·IGMP 구성]
+|-- ICMP 헤더
+|-- IGMP Querier
+|-- IGMP Snooping
+`-- IGMPv1 / v2 / v3
 ```
 
 선의 의미: 계층 및 ICMP는 라우터가 발신지로 오류를 반환하고, IGMP는 호스트와 라우터 간 멤버십을 L2 스위치가 감청하여 포워딩하는 구조
 
 | 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|
-| **ICMP 헤더** | Type(8b), Code(8b), 체크섬 및 **원래의 IP 헤더+64비트 페이로드를 포함하여 오류 보고** | IP 프로토콜 번호 1 |
-| **IGMP Querier** | 로컬 서브넷 내 호스트를 대상으로 **주기적 Membership Query를 발송하여 그룹 가용성 확인** | 최저 IP 라우터 선출 |
-| **IGMP Snooping** | L2 스위치가 **IGMP Report/Leave를 파싱하여 멀티캐스트 MAC 포워딩 테이블 구축** | L2 Flooding 방지 |
-| **IGMPv1 / v2 / v3** | v1(기본 질의/보고), **v2(명시적 Leave/Fast-Leave), v3(Source Filtering / SSM 지원)** | 버전별 확장 |
+| ICMP 헤더 | Type(8b), Code(8b), 체크섬 및 **원래의 IP 헤더+64비트 페이로드를 포함하여 오류 보고** | IP 프로토콜 번호 1 |
+| IGMP Querier | 로컬 서브넷 내 호스트를 대상으로 **주기적 Membership Query를 발송하여 그룹 가용성 확인** | 최저 IP 라우터 선출 |
+| IGMP Snooping | L2 스위치가 **IGMP Report/Leave를 파싱하여 멀티캐스트 MAC 포워딩 테이블 구축** | L2 Flooding 방지 |
+| IGMPv1 / v2 / v3 | v1(기본 질의/보고), **v2(명시적 Leave/Fast-Leave), v3(Source Filtering / SSM 지원)** | 버전별 확장 |
 
 #### 한줄 요약
 - ICMP 헤더, IGMP Querier, IGMP Snooping, 버전별 메시지가 결합된다.
@@ -122,11 +118,11 @@ ICMP 오류 처리(PMTUD) 및 IGMP 그룹 관리
 
 | 비교 항목 | 인터넷 제어 메시지 프로토콜 (ICMP) | 인터넷 그룹 관리 프로토콜 (IGMP) |
 |:---|:---|:---|
-| **프로토콜 핵심 목적**| **1:1 유니캐스트 IP 패킷 전달 오류 보고 및 진단** | **1:N 멀티캐스트 수신 그룹 멤버십 가입/유지/탈퇴** |
-| **동작 계층 및 번호** | **네트워크 계층 (L3 / IP 프로토콜 번호 1)** | **네트워크 계층 (L3 / IP 프로토콜 번호 2)** |
-| **주요 대표 메시지** | **Echo Request/Reply, Destination Unreachable, TTL 만료** | **Membership Query, Membership Report, Leave Group** |
-| **핵심 연동 장비** | 라우터, 방화벽, 종단 호스트 TCP/IP 스택 | **멀티캐스트 라우터(PIM), L2 스위치(IGMP Snooping)** |
-| **보안 위협 요소** | ICMP Flooding (Smurf, Ping of Death), 네트워크 정찰 | 비인가 멀티캐스트 플러딩, 불법 채널 가입 스푸핑 |
+| 프로토콜 핵심 목적 | **1:1 유니캐스트 IP 패킷 전달 오류 보고 및 진단** | **1:N 멀티캐스트 수신 그룹 멤버십 가입/유지/탈퇴** |
+| 동작 계층 및 번호 | **네트워크 계층 (L3 / IP 프로토콜 번호 1)** | **네트워크 계층 (L3 / IP 프로토콜 번호 2)** |
+| 주요 대표 메시지 | **Echo Request/Reply, Destination Unreachable, TTL 만료** | **Membership Query, Membership Report, Leave Group** |
+| 핵심 연동 장비 | 라우터, 방화벽, 종단 호스트 TCP/IP 스택 | **멀티캐스트 라우터(PIM), L2 스위치(IGMP Snooping)** |
+| 보안 위협 요소 | ICMP Flooding (Smurf, Ping of Death), 네트워크 정찰 | 비인가 멀티캐스트 플러딩, 불법 채널 가입 스푸핑 |
 
 #### 한줄 요약
 - ICMP는 유니캐스트 오류 피드백 및 진단을 수행하고, IGMP는 멀티캐스트 그룹 멤버십을 관리한다.
@@ -151,7 +147,7 @@ ICMP 오류 처리(PMTUD) 및 IGMP 그룹 관리
 
 ## Ⅶ. 결론
 
-- IP 네트워크의 안정성과 자원 효율성을 극대화하기 위해 **ICMP의 선별적 허용 정책을 통해 PMTUD 및 진단 가용성을 유지**하고, **대규모 IPTV/미디어 스트리밍 망에는 IGMPv3/SSM과 L2 IGMP Snooping 및 Fast-Leave**를 결합하여 대역폭 낭비를 차단하는 통합 L3/L2 제어 인프라 완성
+- 오류 진단은 **ICMP**, 멀티캐스트 멤버십은 **IGMP** 적용
 
 #### 한줄 요약
 - ICMP 오류 피드백과 IGMP/Snooping 멀티캐스트 최적화를 통해 고신뢰 네트워크 제어 및 고효율 미디어 전송을 실현한다.

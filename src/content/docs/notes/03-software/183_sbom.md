@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "SBOM 소프트웨어 자재명세서 (Software Bill of Materials)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:18:18+09:00"
 tags:
   - "notes-software"
 weight: 183
@@ -58,25 +58,21 @@ extra:
 </details>
 
 ```text
-[소프트웨어 자재명세서(SBOM) 생성 및 검증 구조]
-|-- 1. Source & Artifacts Layer (npm `package-lock.json`, Maven `pom.xml`, 컨테이너 이미지)
-`-- 2. Standard SBOM Document Layer (Syft / Trivy SCA 스캔)
-    |-- Standard Formats: SPDX (ISO/IEC 5962) 또는 CycloneDX (JSON 규격)
-    |-- Package Identifier: `pkg:npm/lodash@4.17.21` (purl) + SHA-256 Checksum
-    `-- Dependency Graph: 직접 의존성 및 전이 의존성(Transitive) 계층 트리
-`-- 3. Vulnerability & VEX Analysis Layer (NVD / Grype / Cosign 전자서명)
-    |-- CVE Vulnerability Matching (알려진 보안 취약점 대조)
-    `-- VEX Mapping (실제 런타임 악용 가능 여부 `not_affected` 판정)
+[SBOM 구성]
+|-- SCA 분석 도구
+|-- 표준 포맷
+|-- 패키지 식별자
+`-- VEX
 ```
 
 선의 의미: 계층 및 빌드 산출물에서 SCA 도구가 의존성을 추출해 표준 SBOM을 생성하고 취약점 DB 및 VEX와 교차 분석하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| **SCA 분석 도구 (Syft)** | 소스코드 매니페스트와 바이너리를 스캔하여 **직접/전이 의존성 및 라이선스 자동 추출** | 의존성 분석기 |
-| **표준 포맷 (SPDX/CycloneDX)**| 기계 판독 가능한 JSON/XML 스키마로 **부품명, 버전, 라이선스, 관계 그래프 표준화** | 표준 스키마 |
-| **패키지 식별자 (purl & Hash)**| 생태계와 무관하게 **전 세계 공통으로 패키지와 버전을 고유 식별(Package URL)** | 고유 식별 체계 |
-| **VEX (악용성 명세서)** | 발견된 CVE 취약점이 **실제 런타임 환경에서 악용 가능한지(Affected 여부) 상태 명시**| 오탐 제거 명세 |
+| SCA 분석 도구 | **직접·전이 의존성·라이선스** 자동 추출 | 의존성 분석기 |
+| 표준 포맷 | **부품·버전·라이선스·관계** 표준화 | SPDX, CycloneDX |
+| 패키지 식별자 | **purl·해시**로 패키지와 버전 식별 | 고유 식별 체계 |
+| VEX | CVE의 **실제 악용 가능 상태** 명시 | 오탐 제거 명세 |
 
 #### 한줄 요약
 - SCA 도구, 표준 포맷, 고유 식별자(purl), VEX 명세서가 결합된다.
@@ -144,7 +140,7 @@ CI/CD 빌드 파이프라인 가동
 
 ## Ⅶ. 결론
 
-- 글로벌 소프트웨어 공급망 보안 규제(미 행정명령 14028, EU CRA)에 대응하고 사이버 복원력을 강화하기 위해 **CI/CD 파이프라인 내 CycloneDX 표준 SBOM 자동 생성과 Cosign 전자서명 체계를 전사 의무화**하고, **VEX 기반의 취약점 오탐 정제 프로세스**를 결합하여 엔터프라이즈 공급망 보안 완성
+- 공급망 투명성은 **SBOM**, 취약점 우선순위는 **VEX** 선택
 
 #### 한줄 요약
 - SBOM은 소프트웨어의 부품 명세를 표준화하고 전자서명 및 VEX와 결합하여 오픈소스 취약점과 라이선스 위험을 완벽히 통제하는 핵심 공급망 보안 기술이다.

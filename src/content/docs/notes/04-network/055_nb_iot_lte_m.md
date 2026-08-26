@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "셀룰러 LPWAN 통신 표준 : NB-IoT vs LTE-M"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:51:43+09:00"
 tags:
   - "notes-network"
 weight: 55
@@ -58,15 +58,11 @@ extra:
 </details>
 
 ```text
-[셀룰러 LPWAN (NB-IoT / LTE-M) 엔드투엔드 네트워크 토폴로지]
-|-- IoT End Device (스마트 수도 계량기 / 차량 위치 트래커)
-|   `-- Low-Power Modem (PSM 딥슬립, eDRX 주기 페이징 대기)
-`-- Cellular Radio Access Network (eNodeB / gNodeB)
-|   |-- In-Band Deployment (LTE 주파수 대역 내 1개 PRB 180kHz 할당)
-|   |-- Guard-Band Deployment (LTE 인접 보호 대역 180kHz 활용)
-|   `-- Standalone Deployment (기존 2G GSM 200kHz 대역 재활용)
-`-- Evolved Packet Core (MME / SCEF / SGW -> 비-IP 데이터 전달 NIDD)
-`-- IoT Enterprise Application Server (원격 검침 관제 / 위치 추적 플랫폼)
+[셀룰러 LPWAN 구성]
+|-- IoT 단말
+|-- 무선 기지국
+|-- 코어망
+`-- IoT 관제 플랫폼
 ```
 
 선의 의미: 계층 및 단말이 기지국의 협대역 슬롯을 통해 MME/SCEF로 접속하여 저전력 데이터를 IoT 관제 서버로 전달하는 구조
@@ -105,7 +101,7 @@ extra:
 ```
 
 #### 한줄 요약
-- 모뎀 웨이크업 → 데이터 송출 → Active Time 대기 → PSM 딥슬립 진입 순으로 동작한다.
+- 웨이크업 및 접속 → 업링크 데이터 송출 → Active Time 페이징 수신 대기 → PSM 딥슬립 진입 → 초저전력 대기 유지 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -147,7 +143,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 사물인터넷(IoT)의 다양한 요구조건을 충족하기 위해 **지하 고정형 초저전력 검침에는 NB-IoT**를, **이동성 및 음성 지원이 요구되는 자산 추적에는 LTE-M**을 상호 보완적으로 이원화 구축하고, **PSM/eDRX 절전 파라미터 최적화와 SCEF 비-IP 전송 기술**을 결합하여 고효율 전국망 셀룰러 LPWAN 인프라 완성
+- 고정형 초저전력 검침은 **NB-IoT**, 이동·음성은 **LTE-M** 선택
 
 #### 한줄 요약
 - NB-IoT(고정 초협대역)와 LTE-M(이동 중대역)의 맞춤형 이원화를 통해 셀룰러 LPWAN 생태계를 구축한다.

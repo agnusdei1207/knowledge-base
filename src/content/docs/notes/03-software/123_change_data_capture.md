@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
-date: "2026-08-26T09:54:00+09:00"
+date: "2026-08-27T02:13:00+09:00"
 tags:
   - "notes-software"
 weight: 123
@@ -58,19 +58,17 @@ extra:
 </details>
 
 ```text
-[Log-based CDC 데이터 동기화 아키텍처]
-|-- Source DB (MySQL / PostgreSQL: 트랜잭션 로그 Binlog / WAL 기록)
-`-- Debezium CDC Connector (Kafka Connect 프레임워크 기반 Log 파싱)
-    |-- Schema History Topic (DDL 변경 이력 메타데이터 보관)
-    `-- Kafka Cluster (Event Topic: CUD 변경 JSON 이벤트 스트림)
-        |-- Elasticsearch (검색 인덱스 실시간 동기화)
-        |-- Redis Cache (캐시 데이터 자동 무효화 / 갱신)
-        `-- Snowflake / Iceberg (데이터 레이크하우스 실시간 적재)
+[Log-based CDC 구성]
+|-- 트랜잭션 로그
+|-- CDC 커넥터
+|-- 오프셋 저장소
+|-- 이벤트 브로커
+`-- 타깃 컨슈머
 ```
 
 선의 의미: 계층 및 Source DB의 로그가 Debezium을 통해 Kafka로 전파되고 타깃 시스템들로 다중 동기화되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 트랜잭션 로그 (Log) | 커밋된 순서대로 데이터 변경(CUD) 바이너리 기록을 **디스크에 영구 보관** | Binlog, WAL, Redo Log |
 | CDC 커넥터 (Debezium) | 트랜잭션 로그를 논블로킹 파싱하여 **표준 이벤트 포맷으로 변환 후 Kafka 발행** | Initial Snapshot + Streaming |

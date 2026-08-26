@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "데이터 링크 계층 표준 프로토콜 : HDLC (High-Level Data Link Control)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:56:49+09:00"
 tags:
   - "notes-network"
 weight: 71
@@ -59,16 +59,12 @@ extra:
 </details>
 
 ```text
-[HDLC 표준 프레임 구조 포맷]
-|-- Flag Field (8-bit: `01111110` -> 프레임 시작 경계 동기화)
-|-- Address Field (8-bit: 대상 종국 식별 주소 또는 브로드캐스트 `11111111`)
-|-- Control Field (8-bit / 16-bit)
-|   |-- I-Frame: [ 0 | N(S) (3-bit) | P/F | N(R) (3-bit) ] -> 사용자 데이터 및 ACK
-|   |-- S-Frame: [ 1 0 | Type (2-bit: RR/RNR/REJ/SREJ) | P/F | N(R) ] -> 흐름/오류 제어
-|   `-- U-Frame: [ 1 1 | Type (5-bit: SABM/DISC/UA) | P/F | Modifier ] -> 링크 관리
-|-- Information Field (가변 길이: 상위 L3 IP 패킷 페이로드)
-|-- FCS Field (16-bit / 32-bit: CRC-CCITT 오류 검출)
-`-- Flag Field (8-bit: `01111110` -> 프레임 종료 경계)
+[HDLC 프레임 구성]
+|-- Flag
+|-- Address
+|-- Control
+|-- Information
+`-- FCS
 ```
 
 선의 의미: 시작 플래그부터 종료 플래그까지 고정된 필드 배열을 통해 주소, 제어, 정보 페이로드, FCS를 엄격히 캡슐화하는 구조
@@ -101,13 +97,13 @@ HDLC 링크 수립, 데이터 전송 및 ARQ 재전송 파이프라인
         │
    3. [수신단 디스터핑 및 검증] 5연속 '1' 뒤 '0' 제거 후 FCS(CRC) 무결성 검증 수행
         │
-   ├─ [FCS 정상] ➔ S-프레임 RR($N(R)=1$) 회신 (정상 ACK 및 윈도우 전진)
-   ▼
-5. [FCS 오류] ➔ S-프레임 REJ($N(R)=0$) 회신 ➔ 송신단이 0번 프레임부터 Go-Back-N 일괄 재전송
+   4. [FCS 판정] CRC 계산값과 수신 FCS 비교
+   ├─ 정상: S-프레임 RR 회신 및 윈도우 전진
+   `─ 오류: S-프레임 REJ 회신 및 Go-Back-N 재전송
 ```
 
 #### 한줄 요약
-- U-프레임 링크 수립 → 비트 채움 I-프레임 전송 → 수신 디스터핑 → FCS 검증 → S-프레임 피드백 순으로 동작한다.
+- U-프레임 링크 수립 → 비트 채움 I-프레임 송출 → 수신단 디스터핑 및 검증 → FCS 판정 순으로 동작한다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -148,7 +144,7 @@ HDLC 링크 수립, 데이터 전송 및 ARQ 재전송 파이프라인
 
 ## Ⅶ. 결론
 
-- **HDLC**는 비트 지향 프레임 구조와 비트 스터핑, 슬라이딩 윈도우 ARQ를 통해 현대 컴퓨터 네트워크 데이터 링크 계층의 이론적 기반을 확립한 핵심 프로토콜이며, 이후 **X.25의 LAPB, ISDN의 LAPD, 인터넷의 PPP(Point-to-Point Protocol)** 및 이더넷 프레이밍 기술의 직접적인 모태로 발전
+- 점대다 주국 제어는 **NRM**, 대등 점대점 전이중은 **ABM** 선택
 
 #### 한줄 요약
 - HDLC는 비트 스터핑과 I/S/U 제어 체계를 통해 현대 WAN 데이터 링크 계층 프로토콜의 표준 기반을 확립하였다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "데이터 거버넌스 (Data Governance)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T02:51:00+09:00"
 tags:
   - "notes-software"
 weight: 135
@@ -58,19 +58,17 @@ extra:
 </details>
 
 ```text
-[데이터 거버넌스 운영 체계 구조]
-|-- Data Governance Council (최고 거버넌스 위원회: 전사 원칙, 표준, 분쟁 조정)
-|   |-- Data Owners (도메인 본부장: 데이터 최종 승인, 비즈니스 책임)
-|   `-- Data Stewards (실무 담당자: 메타데이터 관리, 품질 검증, 이슈 조치)
-`-- Automated Tooling Layer (거버넌스 자동화 기술 인프라)
-    |-- Data Catalog (OpenMetadata / DataHub: 전사 메타데이터 색인 및 계보)
-    |-- Data Quality Profiler (Great Expectations: 룰 기반 품질 측정)
-    `-- Policy Engine (Open Policy Agent: RBAC/ABAC 및 PII 동적 마스킹)
+[데이터 거버넌스 구성]
+|-- 거버넌스 위원회
+|-- 데이터 소유자
+|-- 데이터 스튜어드
+|-- 정책 엔진
+`-- 카탈로그 및 품질 도구
 ```
 
 선의 의미: 계층 및 위원회의 정책이 Owner/Steward 조직을 통해 수립되고 자동화 도구로 전사 시스템에 집행되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 거버넌스 위원회 (Council) | 전사 데이터 전략 수립, 표준 정책 제정 및 **도메인 간 데이터 분쟁 최종 조정** | C-Level 및 부서장 참여 |
 | 데이터 소유자 (Owner) | 특정 비즈니스 도메인 데이터의 **접근 승인, 데이터 품질 SLA, 보안 최종 책임** | 본부장/리더급 |
@@ -144,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 데이터 신뢰는 **데이터 거버넌스**, 통제는 **RACI** 선택
+- 책임 배분은 **RACI**, 정책 통제는 **Policy-as-Code** 선택
 
 #### 한줄 요약
 - 데이터 거버넌스는 조직, 정책, 프로세스, 자동화 도구를 융합하여 데이터의 신뢰성과 보안 무결성을 보장하는 최고 수준의 데이터 관리 프레임워크다.

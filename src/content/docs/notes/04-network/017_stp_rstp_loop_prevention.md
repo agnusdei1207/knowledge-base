@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "STP•RSTP 루프 방지 (Spanning Tree Protocol)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:40:05+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -147,7 +147,7 @@ STP 토폴로지 계산 및 루프 차단
 
 ## Ⅶ. 결론
 
-- L2 스위칭 인프라의 가용성과 루프 방지를 위해 **RSTP(IEEE 802.1w) 및 MSTP(IEEE 802.1s) 기반의 무루프 이중화 설계를 기본 표준화**하고, **루트 브리지 우선순위 고정(Priority 4096), PortFast/BPDU Guard 및 Root Guard, UDLD**의 4대 보호 메커니즘을 계층별로 결합하여 무결점 L2 인프라 완성
+- 단일 트리 고속 수렴은 **RSTP**, VLAN 분산은 **MSTP** 선택
 
 #### 한줄 요약
 - STP/RSTP는 BPDU 기반의 포트 차단과 고속 수렴을 통해 L2 루프를 방지하며, BPDU Guard 및 Root Guard와 결합하여 고가용성을 보장하는 핵심 L2 기술이다.

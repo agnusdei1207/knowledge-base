@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-26T09:47:00+09:00"
+date: "2026-08-27T01:35:00+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -59,20 +59,20 @@ extra:
 
 ```text
 [데이터베이스 4대 무결성 제약 구조]
-|-- 1. 개체 무결성 (Entity Integrity: PRIMARY KEY, UNIQUE, NOT NULL - 튜플의 유일 식별성 보장)
-|-- 2. 참조 무결성 (Referential Integrity: FOREIGN KEY, ON DELETE/UPDATE CASCADE/RESTRICT)
-|-- 3. 도메인 무결성 (Domain Integrity: DataType, NOT NULL, CHECK (age >= 0), DEFAULT)
-`-- 4. 사용자 정의 무결성 (User-Defined: Trigger, Stored Procedure, Application Logic)
+|-- 개체 무결성
+|-- 참조 무결성
+|-- 도메인 무결성
+`-- 사용자 정의 무결성
 ```
 
 선의 의미: 계층 및 4대 무결성 제약의 분류 및 DDL 매핑 구조
 
-| 무결성 제약조건 | DDL 선언 키워드 | 핵심 엔지니어링 책임 |
-|:---|:---|:---|
-| 개체 무결성 (Entity) | **`PRIMARY KEY`, `UNIQUE`** | 레코드의 고유 식별을 위해 **기본키의 유일성과 Not Null 강제** |
-| 참조 무결성 (Referential) | **`FOREIGN KEY`, `ON DELETE`** | 부모-자식 간 관계 유효성을 보장하고 **고아 데이터(Orphan) 차단** |
-| 도메인 무결성 (Domain) | **`NOT NULL`, `CHECK`, `DEFAULT`**| 속성값의 데이터 타입, 자릿수, **허용 범위(Check) 및 기본값 검증** |
-| 사용자 정의 무결성 | **`TRIGGER`, `STORED PROCEDURE`**| 단순 DDL로 표현 불가한 **복잡한 비즈니스 규칙 및 감사 로그 검증** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 개체 무결성 | **기본키 유일성·Null 금지**로 행 식별 보장 |
+| 참조 무결성 | **외래키**로 고아 데이터 발생 차단 |
+| 도메인 무결성 | **타입·범위·기본값**으로 속성 유효성 검증 |
+| 사용자 정의 무결성 | **트리거·프로시저**로 업무 규칙 검증 |
 
 #### 한줄 요약
 - 개체(행 유일성), 참조(관계 유효성), 도메인(값 범위), 사용자 정의(업무 규칙)로 무결성을 완성한다.

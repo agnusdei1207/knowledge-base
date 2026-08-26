@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-26T10:00:00+09:00"
+date: "2026-08-26T13:13:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -58,19 +58,17 @@ extra:
 </details>
 
 ```text
-[컨테이너 다계층 보안(Container Security) 아키텍처]
-|-- 1. Build Phase: Image Trust (Trivy CVE 스캔 + Cosign 이미지 서명 검증)
-|-- 2. Admission Phase: Policy Enforcement (OPA Gatekeeper / Kyverno)
-|   `-- Validating Webhook (특권 컨테이너 `privileged: true`, Root 계정 배포 즉시 거부)
-|-- 3. Runtime Phase: Kernel Isolation Layer
-|   |-- Seccomp (불필요한 300+ 시스템 콜 차단, `RuntimeDefault` 적용)
-|   `-- AppArmor / SELinux (파일, 디렉터리, 네트워크 강제 접근 제어 MAC)
-`-- 4. Observability: Runtime Detection (Falco eBPF 기반 비정상 쉘 실행 실시간 감시)
+[컨테이너 보안 구성]
+|-- 이미지 신뢰
+|-- 정책 엔진
+|-- 보안 컴퓨팅
+|-- 강제 접근 제어
+`-- 런타임 탐지
 ```
 
 선의 의미: 계층 및 이미지 빌드부터 API 서버 배포 검증, 런타임 커널 격리, 이상 탐지로 이어지는 심층 방어 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 이미지 신뢰 (Image Trust) | 베이스 이미지 CVE 취약점을 스캔하고 **Cosign 암호화 전자서명 무결성 검증** | Trivy, Cosign |
 | 정책 엔진 (OPA Gatekeeper) | K8s Admission Webhook에서 **특권(Privileged) 설정 및 Root 실행 파드 배포 차단**| Policy-as-Code |

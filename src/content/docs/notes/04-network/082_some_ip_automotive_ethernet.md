@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "차량용 이더넷 SOA 미들웨어 : SOME/IP 및 SOME/IP-SD"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T14:00:13+09:00"
 tags:
   - "notes-network"
 weight: 82
@@ -38,7 +38,7 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **Lightweight Serialization**: 헤더 오버헤드를 16바이트로 최소화하고 Big-Endian 기반 구조체 직렬화를 수행하는 경량 데이터 변환.
-- **E2E Protection (AUTOSAR)**: 통신 에러 검출을 위해 Data ID, 카운터, CRC를 패킷에 부가하여 ASIL-D 기능 안전을 보장하는 기술.
+- **E2E Protection (AUTOSAR)**: Data ID·카운터·CRC로 통신 오류를 검출하는 기능 안전 메커니즘.
 
 </details>
 
@@ -58,24 +58,24 @@ extra:
 </details>
 
 ```text
-[SOME/IP 차량용 서비스 지향 아키텍처(SOA) 토폴로지]
-|-- Client ECU (Application SW-C: 클라이언트 런타임)
-|   `-- SOME/IP-SD Client (FindService / SubscribeEventGroup 멀티캐스트)
-`-- Automotive Ethernet Switch (100BASE-T1 / 1000BASE-T1 TSN 패브릭)
-`-- Server ECU (Application SW-C: 서비스 호스트)
-    |-- SOME/IP-SD Server (OfferService 브로드캐스트 / Subscribe-ACK)
-    |-- SOME/IP Core (메서드 RPC 처리 / 이벤트 그룹 멀티캐스트 스트리밍)
-    `-- AUTOSAR E2E Module (Counter + Data ID + CRC 기반 ASIL-D 기능 안전 검증)
+[SOME/IP 통신 체계]
+|-- 클라이언트 ECU
+|-- 차량용 이더넷
+`-- 서버 ECU
+    |-- SOME/IP Core
+    |-- SOME/IP-SD
+    |-- E2E Protection
+    `-- AUTOSAR RTE
 ```
 
 선의 의미: Client와 Server가 SOME/IP-SD를 통해 서비스 위치를 파악하고 구독을 수립한 후 L4 UDP/TCP 상에서 SOME/IP 메시지를 송수신하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **SOME/IP Core** | 메시지 헤더 조립, **데이터 구조체 직렬화/역직렬화(Serialization) 및 RPC 라우팅** | L7 미들웨어 |
-| **SOME/IP-SD** | **서비스 광고(Offer), 서비스 탐색(Find), 이벤트 그룹 구독(Subscribe) 관리** | UDP 포트 30490 |
-| **E2E Protection**| ASIL-D 기능 안전 요건 충족을 위해 **데이터 카운터 및 CRC 계산/검증** | ISO 26262 준수 |
-| **AUTOSAR RTE** | 애플리케이션 SW-C와 **SOME/IP 통신 스택 간의 추상화 인터페이스 제공** | Adaptive/Classic |
+| 구성요소 | 책임 |
+|:---|:---|
+| **SOME/IP Core** | 직렬화와 RPC·이벤트 메시지 처리 |
+| **SOME/IP-SD** | 서비스 광고·탐색·구독 관리 |
+| **E2E Protection** | 카운터·Data ID·CRC 오류 검출 |
+| **AUTOSAR RTE** | 응용과 통신 스택 사이 인터페이스 제공 |
 
 #### 한줄 요약
 - SOME/IP Core, SOME/IP-SD 디스커버리, E2E 보호 모듈, AUTOSAR RTE가 결합된다.
@@ -103,6 +103,12 @@ SOME/IP-SD 서비스 탐색, 구독 및 이벤트 전송 파이프라인
 5. [TTL 수명주기 관리] 만료 전 주기적 갱신(Refresh) ➔ 장애로 인한 TTL 만료 시 세션 자동 폐기
 ```
 
+- 1. OfferService 공지: 서버 엔드포인트 광고
+- 2. 인터페이스 버전 대조: 계약 호환성 확인
+- 3. 이벤트 그룹 구독: 구독 요청 전송
+- 4. Subscribe-ACK 승인: 승인 후 이벤트 발행
+- 5. TTL 수명주기 관리: 갱신 또는 만료 처리
+
 #### 한줄 요약
 - OfferService 광고 → FindService 매칭 → Subscribe 구독 → E2E 보호 통신 → TTL 기반 갱신 순으로 동작한다.
 
@@ -116,10 +122,10 @@ SOME/IP-SD 서비스 탐색, 구독 및 이벤트 전송 파이프라인
 
 | 통신 메시지 유형 | Message Type 코드 | 통신 동작 및 특성 | 대표 적용 사례 |
 |:---|:---|:---|:---|
-| **Request / Response** | `REQUEST(0x00)` / `RESPONSE(0x80)` | **호출 후 서버가 연산 결과를 동기/비동기 응답** | 도어 락 제어, 진단 서비스(DoIP) |
-| **Fire & Forget** | `REQUEST_NO_RETURN(0x01)` | **호출만 수행하고 서버의 응답을 대기하지 않음** | 턴 시그널(방향지시등) 점멸 |
-| **Event Notification**| `NOTIFICATION(0x02)` | **상태 변경 또는 주기 도래 시 구독자에 데이터 발행** | 휠 스피드, 카메라 객체 인식 |
-| **Field Notification**| `NOTIFICATION(0x02)` | **Getter, Setter, Notifier를 결합한 속성 제어** | 공조 온도 설정(Set) 및 조회 |
+| Request / Response | `REQUEST` / `RESPONSE` | 호출과 결과 응답 | 도어 제어·진단 |
+| Fire & Forget | `REQUEST_NO_RETURN` | 응답 없는 단방향 호출 | 단순 제어 통보 |
+| Event Notification | `NOTIFICATION` | 구독자에 상태·주기 이벤트 발행 | 센서 상태 발행 |
+| Field | Getter·Setter·Notifier | 속성 조회·변경·통지 | 공조 설정·조회 |
 
 #### 한줄 요약
 - Request/Response는 양방향 제어, Fire & Forget은 단방향 통보, Notification은 데이터 스트리밍에 사용된다.
@@ -144,7 +150,7 @@ SOME/IP-SD 서비스 탐색, 구독 및 이벤트 전송 파이프라인
 
 ## Ⅶ. 결론
 
-- 자율주행 및 SDV(소프트웨어 정의 차량) 전환에 대응하여 차량 내부 E/E 아키텍처의 유연성을 극대화하기 위해 **SOME/IP 기반의 서비스 지향 아키텍처(SOA)를 표준 도입**하되, 실시간 기능 안전(ISO 26262) 및 보안 요건을 충족하기 위해 **AUTOSAR E2E Protection, SOME/IP-SD 트래픽 최적화, Automotive Ethernet(TSN)**과의 통합 연계를 통해 고성능 차량용 소프트웨어 플랫폼 완성
+- 동적 차량 서비스는 **SOME/IP-SD**, 오류 검출은 E2E 적용
 
 #### 한줄 요약
 - SOME/IP 미들웨어와 SOME/IP-SD 및 E2E 보호 기술을 결합하여 SDV 시대의 차량용 SOA 네트워크를 실현한다.

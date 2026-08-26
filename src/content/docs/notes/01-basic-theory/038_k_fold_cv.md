@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-26T09:27:00+09:00"
+date: "2026-08-26T12:08:57+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38
@@ -58,22 +58,6 @@ extra:
 - **파이프라인(Pipeline)**: 전처리 변환기(Scaler)와 모델(Estimator)을 하나로 묶어 교차 검증 루프 내부에서 독립적으로 `fit`과 `transform`을 수행하도록 보장하는 소프트웨어 구조.
 
 </details>
-
-```text
-[ K-Fold 교차 검증 (K=5) 순환 구조도 ]
-전체 데이터셋 ──► [ Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 ]
- 
- Iteration 1:   [  Val  | Train  | Train  | Train  | Train  ] ──► Score 1
- Iteration 2:   [ Train  |  Val  | Train  | Train  | Train  ] ──► Score 2
- Iteration 3:   [ Train  | Train  |  Val  | Train  | Train  ] ──► Score 3
- Iteration 4:   [ Train  | Train  | Train  |  Val  | Train  ] ──► Score 4
- Iteration 5:   [ Train  | Train  | Train  | Train  |  Val  ] ──► Score 5
-                                                                 │
-                                                                 ▼
-                                         [ 최종 CV 점수 = Mean(Score) ± Std(Score) ]
-```
-
-선의 의미: 데이터 분할, K회 훈련/검증 반복 실행 및 최종 점수 통계 집계 파이프라인.
 
 | 구성요소 | 책임 |
 |:---|:---|

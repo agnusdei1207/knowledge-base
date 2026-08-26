@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "RESTful/GraphQL API 보안 아키텍처 및 BOLA 방어 : 보안 API 설계 (Secure API Design & OWASP API Top 10)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:45:09+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: API 게이트웨이의 **외곽 경계 통제(Authentication, Throttling, Schema Validation)** 와 백엔드 자원 서버의 **심층 인가 통제(BOLA Ownership Check, Scope Enforcement, Audit Logging)** 를 분리 결합하는 **다계층 API 제로 트러스트 보안 아키텍처**
-- 배경/필요성: 단순한 게이트웨이 수준의 JWT 토큰 유효성 검사만으로는 토큰 내부 클레임과 요청 객체 간의 소유권 불일치(BOLA)를 적발할 수 없으며, 자동화된 봇넷에 의한 API 자원 고갈 및 데이터 대량 스크래핑을 방어할 수 없는 한계를 극복할 요구
+- 배경/필요성: 게이트웨이 JWT 검증만으로는 **BOLA** 소유권 위반 판별 불가
 
 #### 한줄 요약
 - 게이트웨이의 토큰/호출률 검증과 백엔드 자원 서버의 BOLA 객체 소유권 검증을 결합하여 안전한 API 생태계를 구축한다.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브와 마이크로서비스 환경에서 비즈니스의 핵심 접점으로 동작하는 **보안 API 설계 아키텍처**는 전사 데이터 보안의 최전선이며, 실무 구현 시 **API 게이트웨이 기반의 호출률 제한 및 토큰 스코프 검증**, **자원 서버 기반의 철저한 BOLA 객체 소유권 검증**, **OAuth 2.0 PKCE 및 DPoP 기반 토큰 탈취 방어**, **mTLS 채널 상호 암호화**를 결합하여 무결점 API 제로 트러스트 생태계를 완성
+- 공개 API는 **호출률 제한**, 객체 접근은 BOLA 검증, 토큰은 PKCE·DPoP 적용
 
 #### 한줄 요약
 - 게이트웨이 경계 통제와 백엔드 BOLA 소유권 검증 및 PKCE/DPoP를 결합하여 안전한 API 환경을 완성한다.

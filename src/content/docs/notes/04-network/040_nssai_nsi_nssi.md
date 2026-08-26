@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "5G 네트워크 슬라이스 식별 체계 : NSSAI•NSI•NSSI"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:47:36+09:00"
 tags:
   - "notes-network"
 weight: 40
@@ -60,13 +60,11 @@ extra:
 </details>
 
 ```text
-[5G 슬라이스 식별 체계 및 NSI / NSSI 계층 구조]
-|-- Terminal Layer (UE: S-NSSAI [SST 8-bit + SD 24-bit] 요청)
-`-- Control & Selection (AMF -> NSSF: 가입자 프로파일 대조 및 최적 NSI 매핑)
-`-- E2E Network Slice Instance (NSI: NSMF 오케스트레이터 관리)
-    |-- RAN NSSI (RAN NSSMF: gNB PRB 예약, 가변 SCS 슬라이스 서브넷)
-    |-- Transport NSSI (Transport NSSMF: FlexE / SRv6 저지연 전송 터널)
-    `-- Core NSSI (Core NSSMF: 컨테이너 기반 전용 UPF/SMF 인스턴스)
+[5G 슬라이스 식별 체계]
+|-- S-NSSAI
+|-- AMF / NSSF
+|-- NSI
+`-- NSSI
 ```
 
 선의 의미: 계층 및 단말의 S-NSSAI 요청을 NSSF가 검증하고 NSMF/NSSMF가 NSI와 하위 도메인 NSSI를 조립하여 바인딩하는 구조
@@ -85,7 +83,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **슬라이스 바인딩 4단계**: 1. S-NSSAI 요청 $\to$ 2. NSSF 가입자 검증 $\to$ 3. 가용 NSI 인스턴스 매핑 $\to$ 4. NSSI 하위 자원 상태 확인 및 PDU 세션 개통.
+- **슬라이스 바인딩 5단계**: S-NSSAI 요청 제출 $\to$ AMF/NSSF 검증 $\to$ 가용 NSI 인스턴스 매핑 $\to$ NSSI 자원 정합성 확인 $\to$ PDU 세션 개통.
 
 </details>
 
@@ -145,7 +143,7 @@ S-NSSAI 기반 슬라이스 인스턴스 매핑 파이프라인
 
 ## Ⅶ. 결론
 
-- 대규모 다중 테넌트 5G/6G 환경에서 맞춤형 통신 서비스를 실현하기 위해 **단말의 요구를 S-NSSAI로 정밀 식별**하고, **NSMF 오케스트레이터를 통해 E2E NSI와 도메인별 NSSI를 동적으로 조립·배포**하며, **NSSF 기반 지능형 매핑과 2차 슬라이스 인증 보안**을 결합하여 고신뢰·고효율 네트워크 슬라이싱 인프라 완성
+- 요청 식별은 **S-NSSAI**, E2E·도메인 자원은 **NSI·NSSI**로 관리
 
 #### 한줄 요약
 - NSSAI, NSI, NSSI는 5G 네트워크 슬라이싱의 식별, 종단간 조립, 서브넷 관리를 전담하는 핵심 3대 아키텍처 요소다.

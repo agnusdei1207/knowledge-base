@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "인공지능 소프트웨어 감리 (Artificial Intelligence Software Audit)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:29:18+09:00"
 tags:
   - "notes-software"
 weight: 228
@@ -58,12 +58,12 @@ extra:
 </details>
 
 ```text
-[인공지능 소프트웨어 전주기 신뢰성 감리 프레임워크]
-|-- 1. AI Governance & Risk Categorization (EU AI Act 기반 위험 등급 분류: High-Impact / Low-Risk)
-`-- 2. Data Lifecycle Audit Layer (데이터 출처 동의, 정제 라벨링 무결성, 계보 DVC 검증)
-`-- 3. Model Engineering Audit Layer (MLflow 모델 카드, 슬라이스 공정성, 적대적 공격 강건성)
-`-- 4. Deployment & Operation Audit Layer (Evidently Drift 감시, 설명가능성 XAI, 비상 킬 스위치)
-`-- 5. Audit Evidence & Remediation Ledger (감리 보고서, 결함 시정 조치 대장, 잔여 위험 승인)
+[인공지능 소프트웨어 감리 구성]
+|-- AI 거버넌스
+|-- 데이터 감리
+|-- 모델 감리
+|-- 운영 감리
+`-- 감리 증적
 ```
 
 선의 의미: 계층 및 위험 분류에 따라 데이터, 모델, 운영 통제를 독립 감사인이 점검하고 감리 보고서와 결함 시정 대장으로 보증하는 구조
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 공공 및 사회 핵심 인프라에 도입되는 인공지능의 안전성과 공정성을 보증하기 위해 **데이터, 모델, 운영 전 주기를 아우르는 위험 기반 AI 소프트웨어 감리를 제도화**하고, **XAI 설명가능성과 슬라이스 공정성 검증 및 인간 개입(HITL) 비상 킬 스위치**를 결합하여 국민이 신뢰할 수 있는 공공 AI 생태계 완성
+- 고영향 AI는 **전주기 감리**, 저위험 AI는 **표본 감리** 적용
 
 #### 한줄 요약
 - 인공지능 소프트웨어 감리는 데이터 적법성, 알고리즘 공정성, 운영 통제성을 독립적으로 검증하여 AI의 신뢰성을 보증하는 핵심 엔지니어링 감리 기술이다.

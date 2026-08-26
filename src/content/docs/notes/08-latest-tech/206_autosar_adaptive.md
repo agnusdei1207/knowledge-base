@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-26T09:19:00+09:00"
+date: "2026-08-26T17:39:07+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -22,14 +22,14 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행•관리하는 차량 소프트웨어 플랫폼로 정의된다.
-- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능의 센서 입력•연산•제어 출력을 담당하는 컴퓨터을 의미한다.
-- **이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX)**: 운영체제 간 호환 가능한 프로세스•파일•통신 인터페이스 표준을 의미한다.
+- **AUTOSAR Adaptive Platform(Automotive Open System Architecture Adaptive Platform)**: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행•관리하는 차량 소프트웨어 플랫폼이다.
+- **전자제어장치(Electronic Control Unit, ECU)**: 차량 기능의 센서 입력•연산•제어 출력을 담당하는 컴퓨터이다.
+- **이식 가능 운영체제 인터페이스(Portable Operating System Interface, POSIX)**: 운영체제 간 호환 가능한 프로세스•파일•통신 인터페이스 표준이다.
 
 </details>
 
-- 정의: 고성능 ECU 애플리케이션을 POSIX 프로세스와 동적 서비스로 실행하는 **AUTOSAR Adaptive Platform**임이다.
-- 배경/필요성: Classic의 정적 구성은 고성능 서비스의 **동적 배포•갱신** 수용이 어렵음.
+- 정의: 고성능 ECU 앱을 POSIX 프로세스•동적 서비스로 실행하는 **Adaptive Platform**
+- 배경/필요성: Classic 정적 구성으로는 **동적 배포•갱신** 수용 곤란
 
 #### 한줄 요약
 
@@ -44,8 +44,8 @@ extra:
 </details>
 
 - **POSIX** 기반 독립 프로세스 실행•자원 격리
-- `ara::com` 기반 **동적 서비스 탐색•통신** 핵심임.
-- 실행•건강•설정•갱신의 **플랫폼 생명주기 통합** 핵심임.
+- `ara::com` 기반 **동적 서비스 탐색•통신**
+- 실행•건강•설정•갱신의 **플랫폼 생명주기 통합**
 #### 한줄 요약
 
 - 고성능 차량 앱을 독립 프로세스로 실행하고 표준 서비스로 통신•상태•갱신을 관리한다.
@@ -54,15 +54,15 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **실행 관리(Execution Management)**: 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작•중지•상태를 관리하는 서비스을 의미한다.
-- **ara::com**: ARA에서 서비스 탐색과 이벤트•메서드•필드 통신을 제공하는 인터페이스을 의미한다.
-- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 간 기능•데이터 교환 규칙을 정의한 접점을 의미한다.
+- **실행 관리(Execution Management)**: 의존성과 실행 상태에 따라 Adaptive 프로세스의 시작•중지•상태를 관리하는 서비스이다.
+- **ara::com**: ARA에서 서비스 탐색과 이벤트•메서드•필드 통신을 제공하는 인터페이스이다.
+- **응용 프로그래밍 인터페이스(Application Programming Interface, API)**: 소프트웨어 간 기능•데이터 교환 규칙을 정의한 접점이다.
 - **업데이트•구성 관리(Update and Configuration Management, UCM)**: 소프트웨어 패키지와 차량 구성을 검증•설치•활성화•롤백하는 서비스이다.
 - **플랫폼 건강 관리(Platform Health Management, PHM)**: 애플리케이션과 플랫폼의 생존•기한•논리 상태를 감시하는 서비스이다.
 
 </details>
 
-**ARA•UCM•PHM•POSIX** Adaptive 애플리케이션의 실행 기반을 구성한다.
+ARA•UCM•PHM과 **POSIX 실행 기반**의 Adaptive 구조
 
 ```text
                 [ARA•ara::com]
@@ -76,29 +76,29 @@ extra:
                 [POSIX 운영체제]
 ```
 
-선의 의미: ARA•ara::com과 Execution Management가 애플리케이션 서비스 경계를 구성하고, UCM과 PHM이 POSIX 운영체제 위에서 갱신 및 건강 관리 기능을 제공한다.
+선의 의미: 애플리케이션 서비스 경계와 갱신•건강 관리 계층 관계
 
 | 구성요소 | 책임 |
 |:---|:---|
 | ARA•ara::com | 플랫폼 기능 접근과 **서비스 탐색•통신** |
 | Execution Management | 프로세스 **시작•중지•상태 관리** |
-| UCM | 패키지 **검증•설치•활성화•롤백** |
+| UCM | 패키지 **검증•활성화**와 설치•롤백 |
 | PHM | 애플리케이션•플랫폼의 **건강 상태 감시** |
-| POSIX 운영체제 | **프로세스•자원•격리 기반 제공** |
+| POSIX 운영체제 | **프로세스•자원 기반**과 격리 제공 |
 
 #### 한줄 요약
 
-- ARA가 앱과 실행•통신•진단•갱신 서비스를 연결해 하드웨어 차이를 감춘다.
+- ARA의 앱 연결과 **실행•통신 서비스 추상화**
 
 ## Ⅳ. 흐름도
 
 <details><summary>용어 설명</summary>
 
-- **매니페스트(Manifest)**: 애플리케이션•서비스•실행•배포 구성을 기계 판독 형식으로 선언한 명세을 의미한다.
+- **매니페스트(Manifest)**: 애플리케이션•서비스•실행•배포 구성을 기계 판독 형식으로 선언한 명세이다.
 
 </details>
 
-**UCM•PHM•ARA** 배포•통신•건강 상태를 관리한다.
+UCM•PHM•ARA의 **배포•통신 상태 관리**
 
 ```text
 [UCM]
@@ -117,25 +117,25 @@ extra:
 ### 동작 원리
 
 1. 검증 패키지•Manifest: 서명•호환성 확인 후 구성 설치
-2. 프로세스 시작: 의존성과 실행 상태에 따라 애플리케이션을 기동함.
-3. 서비스 탐색 요청: 런타임 위치와 제공 인스턴스를 탐색함.
-4. 건강 체크포인트: 생존•기한•논리 상태를 주기적으로 보고함.
-5. 오류 대응 지시: 재시작•기능 저하•안전 상태 전환을 결정함.
+2. 프로세스 시작: 의존성과 실행 상태에 따라 애플리케이션 기동
+3. 서비스 탐색 요청: 런타임 위치와 제공 인스턴스 탐색
+4. 건강 체크포인트: 생존•기한•논리 상태 주기적 보고
+5. 오류 대응 지시: 재시작•기능 저하•안전 상태 전환 결정
 
 #### 한줄 요약
 
-- 플랫폼이 앱을 시작해 서비스를 찾게 하고 상태를 감시하며 갱신 후 안전하게 재시작한다.
+- 앱 기동•서비스 탐색과 **건강 감시•안전 재시작**
 
 ## Ⅴ. 종류 및 비교
 
 <details><summary>용어 설명</summary>
 
-- **Classic Platform**: MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼로 정의된다.
+- **Classic Platform**: MCU 기반의 정적 구성과 결정적 실시간 제어에 적합한 AUTOSAR 플랫폼이다.
 - **마이크로컨트롤러 유닛(Microcontroller Unit, MCU)**: 프로세서•메모리•입출력을 단일 칩에 통합한 제어용 컴퓨터이다.
 
 </details>
 
-AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 실행 기반이 다르다.
+Classic•Adaptive의 **제어 특성•실행 기반** 비교
 
 | AUTOSAR 구성 | Classic Platform | Adaptive Platform | 혼합 아키텍처 |
 |:---|:---|:---|:---|
@@ -145,13 +145,13 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 
 #### 한줄 요약
 
-- 빠르고 결정적인 제어는 Classic, 고성능 동적 앱은 Adaptive가 담당한다.
+- 결정적 제어는 Classic, **고성능 동적 앱**은 Adaptive 배치
 
 ## Ⅵ. 실무 고려사항 및 대책
 
 <details><summary>용어 설명</summary>
 
-- **시간 예산**: 기능이 입력부터 출력까지 완료해야 하는 최대 허용 시간을 의미한다.
+- **시간 예산**: 기능이 입력부터 출력까지 완료해야 하는 최대 허용 시간이다.
 
 </details>
 
@@ -163,18 +163,18 @@ AUTOSAR Classic Platform과 POSIX 기반 Adaptive Platform은 제어 특성과 �
 
 #### 한줄 요약
 
-- 고성능 서비스와 결정적 제어의 시간•안전 책임을 분리하고 서비스 계약과 갱신 실패 시 복구 절차를 검증한다.
+- 시간•안전 책임 분리와 **서비스 계약•갱신 복구 검증**
 
 ## Ⅶ. 결론
 
 <details><summary>용어 설명</summary>
 
-- **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치하여 역할을 분리하는 구조을 의미 체계 적용
+- **혼합 아키텍처**: 결정적 제어를 Classic에, 고성능 동적 서비스를 Adaptive에 배치해 역할을 분리하는 구조이다.
 
 </details>
 
-- 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic** 기반 분리함.
+- 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic**으로 분리
 
 #### 한줄 요약
 
-- **통신•시간•안전 책임** Classic과 Adaptive 사이에 분리
+- **통신•시간 책임**과 안전 책임을 Classic•Adaptive 사이에 분리

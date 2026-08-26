@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "쿠버네티스 아키텍처 (Kubernetes Architecture)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:11:26+09:00"
 tags:
   - "notes-software"
 weight: 152
@@ -59,12 +59,12 @@ extra:
 
 ```text
 [쿠버네티스 마스터 제어면 및 워커 노드 아키텍처]
-|-- 1. Control Plane (마스터 제어면)
+|-- Control Plane (마스터 제어면)
 |   |-- kube-apiserver (중앙 REST API 게이트웨이, AuthN/AuthZ, etcd 통신 전담)
 |   |-- etcd (Raft 분산 Key-Value 저장소: 클러스터 상태 및 메타데이터 영속 저장)
 |   |-- kube-scheduler (Pod의 자원 요구량 분석 및 최적 워커 노드 필터링/바인딩)
 |   `-- kube-controller-manager (Node, Deployment, Endpoint 조정 루프 총괄)
-`-- 2. Worker Node (작업 노드)
+`-- Worker Node (작업 노드)
     |-- kubelet (노드 마스터 에이전트: CRI 호출을 통한 Pod 생명주기 및 헬스체크)
     |-- kube-proxy (iptables / IPVS 커널 라우팅을 통한 Service 트래픽 로드밸런싱)
     `-- Container Runtime (CRI 표준 containerd / CRI-O: 실제 Pod 컨테이너 기동)
@@ -72,7 +72,7 @@ extra:
 
 선의 의미: 계층 및 kube-apiserver를 중심으로 제어면 컴포넌트들이 상태를 동기화하고 워커 노드의 kubelet이 파드를 제어하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | kube-apiserver | 클러스터의 모든 요청을 접수하며 **인증(AuthN), 인가(AuthZ), 스키마 검증 및 etcd 접근 중계** | 수평 스케일아웃 |
 | etcd 저장소 | Raft 알고리즘 기반으로 **클러스터의 모든 오브젝트 명세와 현재 상태를 분산 영속 저장** | 3/5대 홀수 쿼럼 |

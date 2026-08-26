@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:37:53+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -60,21 +60,20 @@ extra:
 
 ```text
 [서버 커널 TCP 연결 관리 및 소켓 큐 구조]
-|-- Listen Socket (포트 80/443 수신 대기 상태)
-`-- TCP Connection Queues
-    |-- SYN Queue (Half-Open 상태: SYN_RCVD 소켓 보관, SYN Flood 타깃)
-    `-- Accept Queue (Fully Established 상태: ESTABLISHED 소켓 보관)
-`-- Application Layer (Web Server `accept()` 시스템 콜 호출 -> 비즈니스 스레드 할당)
+|-- 리슨 소켓 (연결 요청 수신)
+|-- SYN 큐 (Half-Open 소켓 보관)
+|-- Accept 큐 (ESTABLISHED 소켓 보관)
+`-- TCP 제어 플래그 (SYN·ACK·FIN·RST)
 ```
 
 선의 의미: 계층 및 클라이언트의 SYN이 SYN 큐에 임시 보관된 후 최종 ACK가 도착하면 Accept 큐로 이동하여 애플리케이션에 인계되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **리슨 소켓 (Listen)** | 지정된 로컬 포트(80, 443)에서 **클라이언트의 신규 SYN 연결 요청 패킷 감청 대기** | passive open |
-| **SYN 큐 (SYN Queue)** | SYN 수신 후 최종 ACK 도착 전까지 **반개방(Half-Open) 소켓 메타데이터를 임시 보관** | SYN_RCVD 보관 |
-| **Accept 큐** | 3-Way 핸드셰이크가 완결된 **완전한 연결(ESTABLISHED) 소켓을 애플리케이션 수락 대기** | accept() 대기 |
-| **TCP 제어 플래그** | 연결 요청(**SYN**), 수신 확인(**ACK**), 연결 종료(**FIN**), 강제 리셋(**RST**) 비트 제어 | 6비트 플래그 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 리슨 소켓 | 포트별 **신규 SYN 요청 수신** |
+| SYN 큐 | **Half-Open 소켓 정보 보관** |
+| Accept 큐 | **ESTABLISHED 소켓 수락 대기** |
+| TCP 제어 플래그 | **SYN·ACK·FIN·RST 상태 제어** |
 
 #### 한줄 요약
 - 리슨 소켓, SYN 큐, Accept 큐, TCP 제어 플래그가 결합된다.
@@ -97,7 +96,7 @@ TCP 3-Way Handshake 상태 머신
    3. [최종 ACK 전송] 클라이언트 -> 서버 (Seq=x+1, Ack=y+1, ACK=1) [클라이언트: ESTABLISHED]
         │
    ▼
-4. [서버 연결 확정] 서버 Accept 큐 적재 및 ESTABLISHED 전이 -> 양방향 전이중 데이터 통신 개시
+[서버 연결 확정] 서버 Accept 큐 적재 및 ESTABLISHED 전이 후 양방향 데이터 통신 개시
 ```
 
 #### 한줄 요약
@@ -113,10 +112,10 @@ TCP 3-Way Handshake 상태 머신
 
 | 비교 항목 | 연결 설정 (3-Way Handshake) | 연결 종료 (4-Way Handshake) |
 |:---|:---|:---|
-| **프로토콜 핵심 목적**| **양방향 도달성 검증, ISN 및 옵션 동기화** | **잔여 버퍼 데이터 송수신 완료 후 세션 정상 자원 회수** |
-| **사용 제어 플래그** | **SYN, ACK 플래그** | **FIN, ACK 플래그** |
-| **메시지 교환 횟수** | **3단계 (서버의 SYN과 ACK를 단일 패킷으로 통합)**| **4단계 (양방향 데이터 송신 완료 시점이 상이하여 분리)**|
-| **핵심 상태 전이** | `CLOSED` $\to$ `SYN_SENT` $\to$ `ESTABLISHED` | `ESTABLISHED` $\to$ `FIN_WAIT` $\to$ `TIME_WAIT` $\to$ `CLOSED` |
+| 프로토콜 핵심 목적 | **양방향 도달성 검증, ISN 및 옵션 동기화** | **잔여 버퍼 데이터 송수신 완료 후 세션 정상 자원 회수** |
+| 사용 제어 플래그 | **SYN, ACK 플래그** | **FIN, ACK 플래그** |
+| 메시지 교환 횟수 | **3단계 (서버의 SYN과 ACK를 단일 패킷으로 통합)**| **4단계 (양방향 데이터 송신 완료 시점이 상이하여 분리)**|
+| 핵심 상태 전이 | `CLOSED` $\to$ `SYN_SENT` $\to$ `ESTABLISHED` | `ESTABLISHED` $\to$ `FIN_WAIT` $\to$ `TIME_WAIT` $\to$ `CLOSED` |
 
 #### 한줄 요약
 - 연결 수립은 3회 교환으로 동기화하고, 연결 종료는 잔여 데이터 처리를 위해 4회 교환으로 분리 종료한다.
@@ -142,7 +141,7 @@ TCP 3-Way Handshake 상태 머신
 
 ## Ⅶ. 결론
 
-- 신뢰성 있는 전이중(Full-Duplex) 통신 환경을 구축하기 위해 **TCP 3-Way Handshake를 통한 ISN 무작위화와 MSS/윈도우스케일 협상을 표준 수행**하고, **SYN Cookie 가드레일과 TCP 타임아웃 파라미터 최적화**를 결합하여 고가용성·고성능 세션 관리 인프라 완성
+- 연결 수립은 **3-Way**, 종료는 잔여 송신을 위해 **4-Way** 선택
 
 #### 한줄 요약
 - TCP 3-Way Handshake는 SYN-ACK 3단계를 통해 양방향 도달성과 전송 옵션을 동기화하는 핵심 연결 수립 기술이다.

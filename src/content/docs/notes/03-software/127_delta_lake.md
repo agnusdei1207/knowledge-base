@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:25:00+09:00"
 tags:
   - "notes-software"
 weight: 127
@@ -58,19 +58,17 @@ extra:
 </details>
 
 ```text
-[Delta Lake 스토리지 및 트랜잭션 로그 구조]
-|-- MyTable/ (객체 스토리지 디렉터리)
-|   |-- _delta_log/ (트랜잭션 로그 디렉터리)
-|   |   |-- 00000000000000000000.json (Add: part-00001.parquet)
-|   |   |-- 00000000000000000001.json (Remove: part-00001, Add: part-00002)
-|   |   `-- 00000000000000000010.checkpoint.parquet (10개 커밋 압축 스냅샷)
-|   |-- part-00001-c000.snappy.parquet (과거 버전 물리 데이터 파일)
-|   `-- part-00002-c000.snappy.parquet (현재 유효 물리 데이터 파일)
+[Delta Lake 구성]
+|-- _delta_log
+|-- 체크포인트
+|-- Parquet 데이터 파일
+|-- OPTIMIZE & Z-Order
+`-- VACUUM 엔진
 ```
 
 선의 의미: 계층 및 Parquet 데이터 파일과 `_delta_log/` 트랜잭션 로그 파일이 결합하여 버전을 관리하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | `_delta_log` (커밋 로그) | 파일 추가/삭제(Add/Remove), **스키마 메타데이터 이력을 JSON 커밋으로 순차 기록** | 원자적 단일 진실 공급원 |
 | 체크포인트 (Checkpoint) | 10개 커밋마다 누적 상태를 **단일 Parquet 파일로 압축하여 쿼리 시작 시간 단축** | 로그 재생 부하 제거 |

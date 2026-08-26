@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클러스터드 인덱스•커버링 인덱스 (Clustered Covering Index)"
-date: "2026-08-26T09:48:00+09:00"
+date: "2026-08-27T01:44:00+09:00"
 tags:
   - "notes-software"
 weight: 94
@@ -57,20 +57,7 @@ extra:
 
 </details>
 
-```text
-[클러스터드 인덱스 vs 커버링 인덱스 아키텍처]
-|-- 1. 클러스터드 인덱스 (Clustered Index: InnoDB PK)
-|   |-- Root Node -> Branch Node -> Leaf Page (실제 테이블 데이터 행 100% 저장)
-|   `-- PK 순서대로 물리 디스크 블록 연속 정렬 (Sequential I/O 최적화)
-`-- 2. 커버링 인덱스 (Covering Index: Secondary Index 복합 구성)
-    |-- 질의: SELECT user_id, name, email FROM Users WHERE age = 30;
-    |-- 보조 인덱스: INDEX idx_users_covering (age, user_id, name, email)
-    `-- Leaf Node에 age, user_id, name, email이 모두 존재 -> 테이블 방문 없이 0.1ms 반환!
-```
-
-선의 의미: 계층 및 클러스터드 물리 정렬과 커버링 인덱스의 Zero Key Lookup 구조
-
-| 구성요소 | 핵심 엔지니어링 책임 | I/O 최적화 메커니즘 |
+| 구성요소 | 책임 | I/O 최적화 메커니즘 |
 |:---|:---|:---|
 | 클러스터드 인덱스 | 데이터 행을 키 순서대로 디스크에 정렬하여 **범위 검색(BETWEEN, <, >) 속도 극대화** | 리프 노드가 곧 실제 데이터 페이지 (테이블당 1개) |
 | 커버링 인덱스 | SELECT/WHERE/ORDER BY 컬럼을 인덱스에 포함하여 **2차 Table Access(Key Lookup) 완전 생략** | 실행 계획 Extra에 `Using index` 표시 |

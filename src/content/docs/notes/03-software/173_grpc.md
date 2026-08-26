@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-08-26T10:25:00+09:00"
+date: "2026-08-26T13:17:01+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -38,12 +38,12 @@ extra:
 <details><summary>용어 설명</summary>
 
 - **Multiplexing**: 단일 TCP 커넥션 위에서 수많은 양방향 요청/응답 스트림을 동시 교차 전송하는 HTTP/2 핵심 기능.
-- **Deadline Propagation**: 호출 체인 전체에 타임아웃 기한을 전파하여 특정 구간 지연 시 하위 요청을 즉시 자동 취소하는 메커니즘.
+- **Deadline Propagation**: 남은 호출 기한을 하위 RPC에 전달해 시간 예산을 공유하는 메커니즘.
 
 </details>
 
 - 단일 TCP 연결에서 다중 요청을 동시 교차 전송하는 **HTTP/2 멀티플렉싱**
-- JSON 대비 5~10배 빠르고 페이로드 크기를 대폭 압축하는 **Protobuf 이진 직렬화**
+- 필드 번호 기반의 간결한 **Protobuf 이진 직렬화**
 - `.proto` 단일 파일에서 다국어 클라이언트/서버 스텁 코드를 자동 생성하는 **Polyglot 지원**
 
 #### 한줄 요약
@@ -59,25 +59,24 @@ extra:
 
 ```text
 [gRPC 프로토콜 버퍼 및 HTTP/2 통신 아키텍처]
-|-- 1. Interface Definition Layer: `service.proto` (강타입 RPC 명세 정의)
-|-- 2. Code Generation Layer: `protoc` 컴파일러 -> Java / Go / Python Stub 자동 생성
-`-- 3. Client Channel & Stub Layer (클라이언트 애플리케이션)
+|-- Interface Definition Layer
+|-- Code Generation Layer
+|-- Client Channel & Stub Layer
     |-- Client Stub (로컬 메서드 호출 추상화)
     `-- Channel (HTTP/2 Multiplexing Connection Pool, TLS 관리)
-        `-- (Protobuf 이진 패킷 전송: HTTP/2 Binary Framing)
-`-- 4. Server Runtime Layer (gRPC Server)
+`-- Server Runtime Layer
     |-- Netty / HTTP/2 Server Handler (이진 패킷 역직렬화)
     `-- Service Implementation (실제 비즈니스 서비스 로직 실행)
 ```
 
 선의 의미: 계층 및 `.proto` 명세로부터 생성된 Client Stub이 Channel을 통해 HTTP/2 이진 패킷을 서버로 전송하여 비즈니스 로직을 실행하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| Protobuf IDL | Service, RPC Method, Message의 **필드 번호·데이터 타입 엄격 선언** | `.proto` 파일 규격 |
-| 코드 생성기 (protoc)| `.proto`를 컴파일하여 **다국어(Java, Go, C++) Stub 코드 자동 생성** | 컴파일 타임 검증 |
-| 채널 및 스텁 (Stub) | 네트워크 통신을 은닉하고 **로컬 함수 호출 인터페이스 및 HTTP/2 채널 연결 관리**| 프록시 추상화 |
-| 서버 런타임 (Server)| 수신된 이진 패킷을 역직렬화하여 **해당 서비스 핸들러 메서드로 디스패치 및 회신** | 비동기 고성능 서버 |
+| 구성요소 | 책임 |
+|:---|:---|
+| Protobuf IDL | 서비스·메서드·메시지 타입 계약 선언 |
+| 코드 생성기 | `.proto`에서 **클라이언트·서버 코드** 생성 |
+| 채널·스텁 | 로컬 호출 추상화와 HTTP/2 연결 관리 |
+| 서버 런타임 | 역직렬화·핸들러 디스패치·응답 처리 |
 
 #### 한줄 요약
 - Protobuf IDL, protoc 컴파일러, Channel/Stub, Server Runtime이 결합된다.
@@ -97,12 +96,19 @@ extra:
         │
    2. [Deadline 전파] 요청 메타데이터에 인증 토큰(JWT) 및 타임아웃 기한(Deadline) 주입
         │
-   3. [이진 직렬화 및 전송] Client Stub이 요청 객체를 Protobuf 이진 바이트로 압축하여 스트림 전송
+   3. [이진 직렬화 및 전송] 요청 객체를 Protobuf 바이트로 직렬화해 전송
         │
    4. [서버 로직 처리] 서버가 이진 패킷을 역직렬화하고 비즈니스 핸들러 연산 수행
         │
    처리 결과와 함께 gRPC Status Code(OK) 및 Trailer 메타데이터를 클라이언트에 회신
 ```
+
+동작 원리:
+
+1. 채널 및 세션 수립: HTTP/2와 TLS 연결 준비
+2. Deadline 전파: 인증 정보와 남은 기한 전달
+3. 이진 직렬화 및 전송: Protobuf 메시지 송신
+4. 서버 로직 처리: 핸들러 실행과 결과 생성
 
 #### 한줄 요약
 - 세션 수립 → Deadline 전파 → 이진 직렬화 → 서버 로직 처리 → Status 회신 순으로 진행된다.
@@ -117,7 +123,7 @@ extra:
 
 | 비교 항목 | REST API (JSON) | gRPC (Protocol Buffers) |
 |:---|:---|:---|
-| 데이터 포맷 및 크기 | **JSON 텍스트 포맷 (상대적 대용량)** | **Protobuf 이진 포맷 (JSON 대비 30~50% 용량)** |
+| 데이터 포맷 | **JSON 텍스트** | **Protobuf 이진 메시지** |
 | 통신 성능 및 속도 | 텍스트 직렬화 오버헤드로 상대적 느림 | **초고속 이진 직렬화 및 HTTP/2 멀티플렉싱** |
 | 계약 및 타입 검증 | OpenAPI/Swagger (약한 결합, 런타임 오류) | **`.proto` 강타입 계약 (컴파일 타임 오류 차단)** |
 | 스트리밍 지원 | 단방향 SSE 또는 별도 웹소켓 구축 필요 | **단항, 서버/클라이언트/양방향 스트리밍 네이티브**|
@@ -136,17 +142,17 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| HTTP/2 단일 연결 유지로 L4 로드밸런싱 실패 (트래픽 쏠림) | **Envoy 프록시 또는 Istio 서비스 메시 기반 L7 로드밸런싱 적용** | 파드 단위 완벽한 부하 분산 달성 |
-| 웹 브라우저의 HTTP/2 프레이밍 미지원으로 프론트 연동 불가 | **`gRPC-Web` 프록시 도입 또는 Envoy gRPC-JSON 트랜스코딩** | 브라우저 직접 호출 지원 |
-| 필드 삭제 후 동일 번호 재사용 시 구버전 클라이언트 충돌 | **`.proto` 파일에 `reserved` 키워드를 명시하여 번호 재사용 금지** | 하위 호환성 영구 보장 |
-| 연쇄 호출 중 지연 발생 시 서버 스레드 고갈 | **gRPC `Context`에 명시적 `Deadline`을 설정하고 하위 전파** | 무한 대기 및 연쇄 장애 차단 |
+| 장기 HTTP/2 연결의 L4 트래픽 편중 | **Envoy·서비스 메시 L7 분산** 적용 | 스트림 단위 백엔드 분산 지원 |
+| 브라우저 API의 gRPC 프로토콜 제약 | **gRPC-Web·JSON 트랜스코딩** 적용 | 브라우저 클라이언트 연계 |
+| 삭제 필드 번호 재사용에 따른 충돌 | **`reserved`로 번호·이름 예약** | 이전 메시지와의 충돌 방지 |
+| 연쇄 호출 지연에 따른 자원 고갈 | **Deadline 설정·하위 전파** | 호출 시간 예산과 취소 범위 통제 |
 
 #### 한줄 요약
 - L7 로드밸런싱 도입, gRPC-Web 프록시, reserved 키워드, Deadline 전파로 운영한다.
 
 ## Ⅶ. 결론
 
-- 대규모 마이크로서비스 환경에서 내부(East-West) 통신 지연을 극소화하기 위해 **HTTP/2 기반의 Protobuf gRPC 프레임워크를 전사 서비스 간 통신 표준으로 구축**하고, **Envoy/Istio L7 로드밸런싱과 Deadline 컨텍스트 전파**를 결합하여 고성능 엔터프라이즈 MSA 백본 완성
+- 내부 강타입 스트리밍은 **gRPC**, 공개 웹 자원은 **REST** 선택
 
 #### 한줄 요약
-- gRPC는 HTTP/2 전송과 Protobuf 이진 직렬화를 통해 컴파일 타임 강타입 검증과 초저지연 통신을 실현하는 현대 마이크로서비스의 핵심 RPC 기술이다.
+- 내부 RPC에는 Deadline·재시도·로드밸런싱 정책을 함께 설계한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 식별자 구문 및 데이터 모델 표준 : W3C DID Core 1.0 (DID Document & Resolution)"
-date: "2026-08-22T08:15:00+09:00"
+date: "2026-08-26T14:48:04+09:00"
 tags:
   - "notes-security"
 weight: 68
@@ -184,7 +184,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 플랫폼 종속 없는 디지털 주권과 암호학적 신뢰를 확립하는 **W3C DID Core 1.0 표준 아키텍처**는 미래 웹 및 분산 신원 생태계의 기초 규격이며, 실무 구현 시 **표준 URI 구문 및 JSON-LD DID Document 준수**, **용도별 검증 관계(assertion, auth)의 엄격한 분리**, **Pairwise DID를 통한 프라이버시 보호**, **소셜 복구 기반 키 라이프사이클 거버넌스**를 결합하여 완결성 높은 탈중앙화 신원 인프라를 완성
+- 상호운용성에는 **DID Core**, 추적 방지에는 쌍별 DID와 키 회전 적용
 
 #### 한줄 요약
 - W3C DID Core 1.0 표준과 검증 관계 분리 및 Universal Resolver를 통해 자기주권 분산 신원을 완성한다.

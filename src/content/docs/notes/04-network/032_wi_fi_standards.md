@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Wi-Fi 무선 LAN 표준 : 802.11ac•ax•be (Wi-Fi Standards)"
-date: "2026-08-25T12:00:00+09:00"
+date: "2026-08-26T13:42:33+09:00"
 tags:
   - "notes-network"
 weight: 32
@@ -85,7 +85,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Wi-Fi 접속 4단계**: 1. 매체 탐색(Scanning) $\to$ 2. 신원 인증(WPA3-SAE) $\to$ 3. 링크 결합(Association) $\to$ 4. 암호키 유도(4-Way Handshake).
+- **Wi-Fi 접속 5단계**: 매체 탐색 $\to$ 신원 인증 $\to$ 링크 결합 $\to$ 4-Way Handshake $\to$ 무선 통신 개시.
 
 </details>
 
@@ -148,7 +148,7 @@ Wi-Fi 단말 접속 및 보안 통신 수립 파이프라인
 
 ## Ⅶ. 결론
 
-- 고밀도 엔터프라이즈 및 캠퍼스 네트워크 환경에서 **Wi-Fi 6(802.11ax)의 OFDMA를 표준 구축하여 다중 접속 효율을 극대화**하고, 차세대 초고속·초저지연 워크로드(XR, 메타버스)를 위해 **Wi-Fi 7(802.11be)의 320MHz 채널과 MLO 다중 링크 결합 기술**을 단계적 도입하며 **WPA3 보안 거버넌스**를 통합 수립
+- 고밀도 접속은 **Wi-Fi 6**, 초저지연 다중 링크는 **Wi-Fi 7** 선택
 
 #### 한줄 요약
 - Wi-Fi 표준은 320MHz 대역폭, 4096-QAM, MLO 기술을 통해 진화하며, WPA3와 BSS Coloring을 결합하여 고품질·고보안 무선 인프라를 완성한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 카탈로그 (Data Catalog)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:45:00+09:00"
 tags:
   - "notes-software"
 weight: 133
@@ -58,19 +58,17 @@ extra:
 </details>
 
 ```text
-[데이터 카탈로그 아키텍처]
-|-- Data Sources (MySQL, Snowflake, Amazon S3, Spark, Kafka)
-`-- Ingestion Layer (Metadata Crawler, Profiler, OpenLineage Extractor)
-    `-- Core Engine Layer
-        |-- Search Engine (Elasticsearch: 테이블, 컬럼, 태그 전문 검색)
-        |-- Graph Database (Neo4j: 데이터 계보 Lineage 및 관계 그래프)
-        `-- Governance Engine (Business Glossary 용어집 + PII 자동 태깅)
-`-- User Interface Portal (Data Discovery UI + Data Lineage Graph + Access Request)
+[데이터 카탈로그 구성]
+|-- 메타데이터 크롤러
+|-- 계보 추출기
+|-- 검색 색인 엔진
+|-- 비즈니스 용어집
+`-- 거버넌스 엔진
 ```
 
 선의 의미: 계층 및 이종의 원천 소스로부터 메타데이터 크롤러가 수집한 정보를 검색엔진과 그래프 DB로 색인하여 포털에 제공하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 메타데이터 크롤러 | DB 스키마, 파티션, 프로파일링 통계를 **주기적 또는 이벤트 기반으로 자동 수집** | Glue, DataHub |
 | 계보 추출기 (Lineage) | Airflow/Spark SQL 파싱을 통해 **테이블 및 컬럼 간의 입출력 변환 관계 추출** | OpenLineage |

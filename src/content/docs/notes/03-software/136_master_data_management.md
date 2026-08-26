@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "마스터 데이터 관리 (Master Data Management, MDM)"
-date: "2026-08-26T09:56:00+09:00"
+date: "2026-08-27T02:54:00+09:00"
 tags:
   - "notes-software"
 weight: 136
@@ -58,20 +58,17 @@ extra:
 </details>
 
 ```text
-[마스터 데이터 관리(MDM) 통합 아키텍처]
-|-- Source Systems (ERP 고객, CRM 회원, 쇼핑몰 계정, POS 매장 데이터)
-`-- Master Data Management Hub (MDM 허브)
-    |-- Data Cleansing & Standardization (주소 정제, 전화번호/이름 표준화)
-    |-- Matching Engine (Blocking Key 기반 확정적/확률적 유사도 비교)
-    |-- Survivorship Engine (생존 규칙 기반 최신·최고 신뢰 속성 병합)
-    |-- Golden Record Store (승인된 단일 기준정보 및 이력 보관)
-    `-- Cross-Reference Engine (Master ID ◄──► Local ID 매핑 테이블)
-`-- Downstream Sync (Kafka CDC 실시간 동기화 -> 전사 원천 및 DW 배포)
+[MDM 구성]
+|-- 표준화 엔진
+|-- 매칭 엔진
+|-- 생존 규칙
+|-- 골든 레코드
+`-- 교차 참조
 ```
 
 선의 의미: 계층 및 다양한 원천 시스템의 레코드가 표준화와 매칭을 거쳐 골든 레코드로 합성되고 전사에 배포되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 표준화 엔진 (Cleansing) | 이름, 전화번호, 주소 포맷을 **전사 공통 표준 형식으로 정규화 및 정제** | 주소 정제 API 연동 |
 | 매칭 엔진 (Matching) | Blocking Key를 활용하여 **확정적/확률적 유사도 점수로 동일 개체 판정** | Jaro-Winkler, Levenshtein |

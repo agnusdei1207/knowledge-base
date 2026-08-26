@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 계약 (Data Contract)"
-date: "2026-08-26T09:57:00+09:00"
+date: "2026-08-27T03:06:00+09:00"
 tags:
   - "notes-software"
 weight: 140
@@ -58,18 +58,17 @@ extra:
 </details>
 
 ```text
-[Data Contract 선언적 YAML 명세 구조]
-|-- Dataset Metadata (dataset: "orders_v1", owner: "team-checkout@company.com")
-|-- Schema & Semantics (컬럼명, 데이터 타입, 필수 여부, 비즈니스 정의)
-|   |-- column: "order_id" (type: string, required: true, description: "주문 고유번호")
-|   `-- column: "amount" (type: decimal, required: true, description: "최종 결제 금액")
-|-- Quality Rules (Expectations: row_count > 1000, null_percentage == 0.0)
-`-- Service Level Agreements (freshness: "1 hour", availability: "99.9%")
+[Data Contract 구성]
+|-- 메타데이터 및 소유자
+|-- 스키마 및 의미론
+|-- 품질 검증 규칙
+|-- 서비스 수준 협약
+`-- 진화 정책
 ```
 
 선의 의미: 계층 및 메타데이터, 스키마, 품질 규칙, SLA가 하나의 파일에 통합 선언되는 규약 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 메타데이터 및 소유자 | 데이터셋 식별자, 버전 번호, **생산자 팀 및 소비자 책임 주체 명시** | Owner 이메일/채널 |
 | 스키마 및 의미론 | 컬럼명, 데이터 타입, Null 허용 여부, **비즈니스 업무 정의를 구조화 명세** | Syntax & Semantics |

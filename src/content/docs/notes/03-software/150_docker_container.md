@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
-date: "2026-08-26T09:59:00+09:00"
+date: "2026-08-26T13:17:31+09:00"
 tags:
   - "notes-software"
 weight: 150
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 호스트 OS 커널을 공유하면서 **리눅스 네임스페이스와 cgroups를 통해 애플리케이션과 의존성을 불변 이미지로 격리 실행하는 기술**
-- 배경/필요성: 개발-운영 환경 간 라이브러리 불일치 및 **기존 가상머신의 Guest OS 탑재에 따른 부팅 지연과 메모리 자원 낭비 해결 불가**
+- 배경/필요성: VM별 Guest OS로 **환경 불일치·부팅 지연·메모리 낭비**
 
 #### 한줄 요약
 - 호스트 커널을 공유하는 경량 프로세스 격리와 레이어드 불변 이미지로 환경 일치성을 보장한다.
@@ -59,25 +59,22 @@ extra:
 
 ```text
 [Docker 컨테이너 런타임 및 계층 아키텍처]
-|-- 1. Docker Management Engine
-|   |-- Docker CLI -> dockerd 데몬 -> containerd -> runc (OCI 런타임)
-|-- 2. Linux Kernel Isolation Layer
-|   |-- Namespaces (PID, NET, MNT, IPC, UTS, USER 독립 격리)
-|   `-- cgroups (CPU 코어 할당, Memory 상한, Disk I/O 대역폭 제한)
-`-- 3. Storage Layer (OverlayFS Union File System)
-    |-- Container Writable Layer (최상단 Copy-on-Write 임시 쓰기 계층)
-    `-- Read-Only Image Layers (App Code -> Python -> Alpine OS Base)
+|-- Docker Client·Daemon (생명주기 관리)
+|-- containerd·runc (OCI 프로세스 실행)
+|-- Namespaces (프로세스 가시 영역 격리)
+|-- cgroups (CPU·메모리·I/O 제한)
+`-- OverlayFS (이미지·쓰기 레이어 결합)
 ```
 
 선의 의미: 계층 및 Docker CLI 명령이 runc를 거쳐 커널 격리 프로세스를 생성하고 OverlayFS 레이어에 연결되는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| Docker Client & 데몬 | CLI 명령어를 수신하여 **이미지 빌드, 컨테이너 생성 및 네트워크 생명주기 총괄** | dockerd, REST API |
-| containerd & runc | OCI 표준에 따라 **호스트 커널 시스템 콜을 호출하여 격리된 컨테이너 프로세스 실행** | OCI 표준 런타임 |
-| 네임스페이스 (Namespaces) | 프로세스 ID(PID), 네트워크(NET), 파일시스템(MNT)의 **가시 영역을 독립 격리** | 프로세스 뷰 격리 |
-| 컨트롤 그룹 (cgroups) | 컨테이너별 **CPU 코어 수, RAM 최대 메모리, 디스크 I/O 대역폭 사용량 제한** | 자원 독점 방지 |
-| 스토리지 (OverlayFS) | 읽기 전용 이미지 레이어와 **컨테이너 전용 쓰기 레이어를 병합(CoW) 제공** | 레이어 재사용 |
+| 구성요소 | 책임 |
+|:---|:---|
+| Docker Client·Daemon | 이미지·컨테이너의 **생명주기 관리** |
+| containerd·runc | OCI 기반 **격리 프로세스 실행** |
+| Namespaces | PID·NET·MNT의 **가시 영역 격리** |
+| cgroups | **CPU·메모리·I/O 사용량 제한** |
+| OverlayFS | 읽기·쓰기 **레이어 병합·재사용** |
 
 #### 한줄 요약
 - Docker 데몬, OCI 런타임(runc), 커널 격리(NS/cgroups), OverlayFS 스토리지가 결합된다.
@@ -145,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 환경 일치성은 **Docker 컨테이너**, 경량화는 **멀티 스테이지** 선택
+- 커널 공유가 허용되면 **컨테이너**, 강한 격리는 **가상머신** 선택
 
 #### 한줄 요약
 - Docker 컨테이너는 리눅스 커널 격리와 레이어드 불변 이미지를 통해 환경 일치성과 경량 배포를 실현하는 클라우드 네이티브의 핵심 배포 기술이다.

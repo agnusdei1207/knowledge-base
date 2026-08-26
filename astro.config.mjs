@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeKatex from 'rehype-katex';
+import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
+import remarkCjkFriendlyGfmStrikethrough from 'remark-cjk-friendly-gfm-strikethrough/parseOnly';
 import remarkMath from 'remark-math';
 import mermaid from 'astro-mermaid';
 
@@ -57,7 +59,7 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkMath],
+    remarkPlugins: [remarkMath, remarkCjkFriendly, remarkCjkFriendlyGfmStrikethrough],
     rehypePlugins: [rehypeKatex],
   },
 });

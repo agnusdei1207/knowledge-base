@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "LLMOps (LLMOps)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:23:53+09:00"
 tags:
   - "notes-software"
 weight: 203
@@ -58,16 +58,12 @@ extra:
 </details>
 
 ```text
-[LLMOps 프롬프트 및 RAG 서빙 아키텍처 구조]
-|-- 1. Configuration & Experiment Layer (Langfuse / W&B Prompts)
-|   |-- Prompt Templates (버전 관리된 시스템/유저 프롬프트)
-|   `-- RAG Pipeline Configuration (임베딩 모델, 청킹 전략, 벡터 인덱스 파라미터)
-`-- 2. Automated Evaluation Layer (Ragas / DeepEval: Faithfulness, Hallucination 정량 검증)
-`-- 3. LLM Gateway & Guardrails Layer (LiteLLM / NeMo Guardrails)
-|   |-- Input Guard: Prompt Injection 방어, PII 마스킹
-|   |-- Semantic Caching: Redis 벡터 유사도 캐싱
-|   `-- Dynamic Model Router: 질문 난이도별 SLM(Llama-3) / LLM(GPT-4o) 자동 라우팅
-`-- 4. Observability & Tracing Layer (LangSmith / Arize Phoenix: 토큰 비용, 레이턴시 수집)
+[LLMOps 구성]
+|-- 구성 카탈로그
+|-- 자동 평가기
+|-- LLM 게이트웨이
+|-- 안전 가드레일
+`-- 관측성 플랫폼
 ```
 
 선의 의미: 계층 및 프롬프트와 RAG 구성을 평가하여 게이트웨이에 배포하고 가드레일과 시맨틱 캐시를 거쳐 호출된 결과를 관측 플랫폼에 기록하는 구조
@@ -152,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 생성형 AI 서비스를 실험실 프로토타입에서 신뢰할 수 있는 엔터프라이즈 프로덕션으로 전환하기 위해 **프롬프트와 RAG 파이프라인의 통합 버전 관리 체계를 구축**하고, **Ragas 기반의 정량적 자동 평가와 NeMo 입출력 가드레일 및 시맨틱 캐싱**을 결합하여 고품질·저비용 LLMOps 플랫폼 완성
+- 품질 변동에는 **Ragas**, 보안·비용 위험에는 **가드레일·캐싱** 적용
 
 #### 한줄 요약
 - LLMOps는 프롬프트/RAG 버전 관리, 통계적 평가, 가드레일, 시맨틱 캐싱을 통해 생성형 AI의 환각과 비용을 제어하는 핵심 AI 운영 체계다.

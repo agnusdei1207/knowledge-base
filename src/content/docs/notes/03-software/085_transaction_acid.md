@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-26T09:46:00+09:00"
+date: "2026-08-27T01:15:00+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -58,21 +58,21 @@ extra:
 </details>
 
 ```text
-[트랜잭션 ACID 4대 보장 메커니즘 체계]
-|-- 1. Atomicity (원자성)   -> Undo Log 버퍼 (실패 시 변경 사항을 역순 롤백)
-|-- 2. Consistency (일관성) -> DBMS 무결성 제약조건 (PK/FK, Check, Trigger, Cascade)
-|-- 3. Isolation (격리성)   -> 동시성 제어 엔진 (2PL 락 잠금, MVCC 다중 버전 읽기)
-`-- 4. Durability (지속성)  -> WAL 및 Redo Log (커밋 즉시 로그를 디스크에 fsync)
+[트랜잭션 ACID 보장 체계]
+|-- 원자성
+|-- 일관성
+|-- 격리성
+`-- 지속성
 ```
 
-선의 의미: 계층 및 4대 ACID 속성과 DBMS 내부 구현 메커니즘 매핑 구조
+선의 의미: 트랜잭션 무결성을 구성하는 네 가지 보장 속성
 
-| ACID 속성 | 핵심 정의 | DBMS 내부 구현 메커니즘 |
-|:---|:---|:---|
-| 원자성 (Atomicity) | 트랜잭션 연산 전체가 **완료되거나 전혀 실행되지 않아야 함 (All or Nothing)** | **Undo Log 기반 롤백**, Savepoint 지점 복원 |
-| 일관성 (Consistency) | 트랜잭션 전후에 **데이터베이스 무결성 제약조건이 항상 유지됨** | **기본키, 외래키, Check 제약조건**, 트리거 강제 |
-| 격리성 (Isolation) | 동시 실행 중인 타 트랜잭션이 **현재 작업 중간 상태를 침범하지 못함** | **2PL (2단계 락킹), MVCC (다중 버전 제어)** |
-| 지속성 (Durability) | 커밋 완료된 결과는 **시스템 장애나 전원 차단에도 영구 보존됨** | **WAL (Write-Ahead Log), Redo Log, Checkpoint** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 원자성 | 실패한 전체 연산을 **Undo Log**로 롤백 |
+| 일관성 | 전후 상태의 **무결성 제약조건** 유지 |
+| 격리성 | **2PL·MVCC**로 중간 상태 접근 차단 |
+| 지속성 | **WAL·Redo Log**로 커밋 결과 영구 보존 |
 
 #### 한줄 요약
 - Undo 로그(원자성), 제약조건(일관성), MVCC/2PL(격리성), WAL/Redo(지속성)가 유기적으로 결합된다.

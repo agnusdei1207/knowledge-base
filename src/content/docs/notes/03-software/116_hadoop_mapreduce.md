@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
-date: "2026-08-26T09:52:00+09:00"
+date: "2026-08-26T13:10:10+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -37,17 +37,17 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **3-Way Replication**: HDFS는 128MB 단위 블록을 서로 다른 랙(Rack)의 DataNode에 3중 복제하여 노드 장애 시에도 무손실을 보장.
+- **HDFS 복제**: 설정된 블록 크기와 복제 계수에 따라 여러 DataNode에 블록을 배치하는 기능.
 - **Shuffle & Sort**: Map 단계에서 생성된 중간 키-값 쌍을 동일한 키별로 네트워크를 통해 특정 Reducer로 모으고 정렬하는 핵심 단계.
 
 </details>
 
 - 대용량 데이터 이동을 최소화하는 **데이터 지역성(Data Locality) 연산**
-- 128MB 블록 3중 복제 및 실패 태스크 재시도를 통한 **강력한 결함 허용성(Fault-Tolerance)**
-- 범용 하드웨어를 수평 증설하는 **선형적 수평 확장(Scale-Out) 구조**
+- 블록 복제와 실패 태스크 재시도를 통한 **결함 허용성**
+- 범용 하드웨어를 수평 증설하는 **Scale-Out 구조**
 
 #### 한줄 요약
-- 데이터 지역성 기반 분산 연산과 블록 3중 복제로 페타바이트급 배치의 안정성을 보장한다.
+- 데이터 지역성·블록 복제·태스크 재시도로 배치 장애를 복구한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -58,20 +58,24 @@ extra:
 </details>
 
 ```text
-[Apache Hadoop 3대 계층 아키텍처]
-|-- Processing Layer (MapReduce: Mapper 변환 -> Shuffle & Sort 정렬 -> Reducer 집계)
-|-- Resource Management Layer (YARN: ResourceManager 전역 스케줄링 -> NodeManager 컨테이너)
-`-- Storage Layer (HDFS: Master NameNode 메타데이터 -> Worker DataNode 128MB 블록 3중 복제)
+[Apache Hadoop]
+|-- 처리 계층
+|   `-- MapReduce
+|-- 자원 관리 계층
+|   `-- YARN
+`-- 저장 계층
+    |-- NameNode
+    `-- DataNode
 ```
 
 선의 의미: 계층 및 HDFS 분산 저장, YARN 자원 관리, MapReduce 연산 실행 계층 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| NameNode (마스터) | HDFS 파일 네임스페이스 및 **블록 위치 매핑 메타데이터를 메모리에 관리** | Active/Standby 이중화 |
-| DataNode (워커) | 128MB 단위 블록을 로컬 디스크에 저장하고 **3중 복제 및 주기적 하트비트 보고** | 데이터 지역성 제공 |
-| ResourceManager (YARN) | 클러스터 전체 CPU/RAM 자원을 스케줄링하고 **애플리케이션 컨테이너 할당** | 클러스터 자원 오케스트레이션 |
-| MapReduce 엔진 | 데이터를 키-값으로 변환(Map), 셔플/정렬(Shuffle), **최종 집계(Reduce) 배치 수행** | 대용량 분산 배치 연산 |
+| 구성요소 | 책임 |
+|:---|:---|
+| NameNode | 파일·블록 위치 **메타데이터** 관리 |
+| DataNode | 데이터 블록 저장과 상태 보고 |
+| YARN | 클러스터 자원과 컨테이너 할당 |
+| MapReduce | Map·Shuffle·Reduce 배치 수행 |
 
 #### 한줄 요약
 - NameNode/DataNode(저장), YARN(자원 관리), MapReduce(연산)가 유기적으로 연동된다.
@@ -95,7 +99,7 @@ extra:
         │
    [Reduce 연산] Reducer가 정렬된 `<Key, List<Value>>` 집합을 받아 최종 집계 및 변환 연산 수행
         │
-   [HDFS 기록] 최종 연산 결과를 HDFS에 3중 복제 파일로 영구 커밋하고 작업 완료
+   [HDFS 기록] 결과를 설정된 복제 정책으로 저장
 ```
 
 #### 한줄 요약
@@ -112,8 +116,8 @@ extra:
 | 비교 항목 | Hadoop MapReduce (1세대) | Apache Spark (2세대) |
 |:---|:---|:---|
 | 중간 데이터 저장 | **매 단계마다 로컬 디스크 I/O 발생** | **인메모리(RAM) 캐싱 및 RDD 계보(Lineage)**|
-| 처리 속도 | 배치 처리에 적합 (상대적 저속) | **MapReduce 대비 최대 100배 고속 연산** |
-| 지원 워크로드 | 단순 대규모 일괄 배치 (Batch ETL) | **반복적 머신러닝, 실시간 스트리밍, 대화형 SQL**|
+| 처리 방식 | 단계별 디스크 중심 배치 | **인메모리 반복 연산** 지원 |
+| 지원 워크로드 | 대규모 일괄 배치 | 반복 ML·스트리밍·대화형 SQL |
 | 자원 오버헤드 | 메모리 요구량 낮음, 디스크 의존 | 대규모 RAM 클러스터 필요, OOM 관리 중요 |
 
 #### 한줄 요약
@@ -129,17 +133,17 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| Shuffle 단계에서 대량 데이터 네트워크 전송 폭주 | **Combiner(로컬 Mini-Reducer)를 적용하여 1차 사전 집계** | 네트워크 트래픽 80% 이상 절감 |
+| Shuffle 단계의 네트워크 전송 증가 | 결합 가능한 연산에 **Combiner** 적용 | 중간 데이터 전송량 감소 |
 | 특정 Key로 데이터가 쏠리는 Data Skew 현상 | **Custom Partitioner 작성 및 Salting(임의 접두사) 기법 적용** | Reducer 부하 균등 분산 |
 | 128MB 미만 Small File 수백만 개로 NameNode 메모리 고갈 | **SequenceFile 또는 HAR(Hadoop Archive)로 파일 묶음 압축** | NameNode 메타데이터 부하 해소 |
-| DataNode 장애 시 복제본 유실 위험 | **Rack-Awareness(랙 인식 복제 정책) 설정으로 타 랙에 분산 복제**| 랙 전체 다운 시에도 무손실 보장 |
+| DataNode 장애의 복제본 유실 위험 | **Rack-Awareness** 기반 분산 복제 | 단일 랙 장애의 데이터 손실 위험 감소 |
 
 #### 한줄 요약
 - Combiner 사전 집계, Salting 파티셔닝, 파일 아카이빙, 랙 인식 복제로 병목을 해소한다.
 
 ## Ⅶ. 결론
 
-- 대용량 배치는 **MapReduce**, 고속 연산은 **Spark** 선택
+- 디스크 중심 일괄 배치는 **MapReduce**, 반복 연산은 **Spark** 선택
 
 #### 한줄 요약
 - Hadoop은 HDFS의 분산 내구성과 MapReduce의 병렬 연산 모델을 통해 빅데이터 배치의 신뢰성을 완성하는 분산 컴퓨팅의 기초 프레임워크다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 패브릭 (Data Fabric)"
-date: "2026-08-26T09:55:00+09:00"
+date: "2026-08-27T02:42:00+09:00"
 tags:
   - "notes-software"
 weight: 132
@@ -58,18 +58,17 @@ extra:
 </details>
 
 ```text
-[데이터 패브릭 지능형 가상화 아키텍처]
-|-- 1. Business Consumer Layer (BI 대시보드, SQL 분석가, AI/ML 데이터 사이언티스트)
-|-- 2. Active Metadata & Knowledge Graph Layer (실시간 로그 분석, 계보 추적, AI 추천 카탈로그)
-|-- 3. Virtualization & Orchestration Layer (Trino / Denodo / Apache Airflow)
-|   |-- Data Virtualization (물리적 이동 없는 분산 쿼리 푸시다운)
-|   `-- Unified Policy Engine (RBAC / ABAC 및 PII 동적 마스킹)
-`-- 4. Hybrid Multi-Cloud Sources (AWS S3, Snowflake, Oracle, MySQL, Kafka)
+[데이터 패브릭 구성]
+|-- 데이터 원천
+|-- Active Metadata 엔진
+|-- 지식 그래프
+|-- 가상화 엔진
+`-- 정책 엔진
 ```
 
 선의 의미: 계층 및 이종의 멀티 클라우드 소스 데이터를 Active Metadata와 가상화 레이어를 거쳐 단일 패브릭으로 제공하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
+| 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
 | 데이터 원천 (Data Sources) | 하이브리드 멀티 클라우드 상의 **RDBMS, DW, Data Lake 데이터 제공** | 이종 데이터 분산 |
 | Active Metadata 엔진 | 실시간 쿼리 및 접근 패턴을 감지하여 **데이터 추천 및 파이프라인 자동 최적화** | AI 기반 동적 분석 |

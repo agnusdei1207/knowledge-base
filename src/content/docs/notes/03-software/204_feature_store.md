@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-08-25T11:00:00+09:00"
+date: "2026-08-26T13:24:11+09:00"
 tags:
   - "notes-software"
 weight: 204
@@ -58,12 +58,12 @@ extra:
 </details>
 
 ```text
-[피처 스토어(Feature Store) 온/오프라인 이중 저장 아키텍처]
-|-- 1. Feature Registry & Metadata Layer (Feast / Hopsworks: 피처 스키마, 계산식, 버전)
-`-- 2. Feature Transformation Engine (Spark Batch / Flink Streaming 단일 변환)
-    |-- 3. Offline Feature Store (Delta Lake / Parquet: 대용량 시계열 이력 + PIT Join 학습 데이터셋)
-    `-- 4. Online Feature Store (Redis / DynamoDB: 초저지연 <10ms 실시간 최신 피처 서빙)
-`-- 5. Feature Quality & Drift Monitoring Layer (결측치, 신선도 SLA, 온/오프라인 스큐 감시)
+[피처 스토어]
+|-- 피처 레지스트리
+|-- 변환 엔진
+|-- 오프라인 저장소
+|-- 온라인 저장소
+`-- 품질 모니터링
 ```
 
 선의 의미: 계층 및 Feature Registry의 정의에 따라 변환 엔진이 Offline(학습용)과 Online(추론용) 저장소에 동일한 피처값을 동기화 공급하는 구조
@@ -149,7 +149,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 머신러닝 시스템의 데이터 정합성과 엔지니어링 효율성을 극대화하기 위해 **Feature Registry 기반의 단일 계산 로직과 Offline/Online 이중 저장소 구조를 전사 표준 도입**하고, **PIT Join 기반의 데이터 누수 방지와 실시간 신선도 모니터링**을 결합하여 고품질 MLOps 데이터 백본 완성
+- 시계열 학습에는 **Offline·PIT Join**, 저지연 추론에는 **Online** 선택
 
 #### 한줄 요약
 - 피처 스토어는 단일 피처 정의, PIT Join, 온/오프라인 동기화를 통해 훈련-서빙 스큐와 데이터 누수를 해결하는 핵심 MLOps 데이터 인프라다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "마이크로서비스 아키텍처 MSA (Microservice Architecture)"
-date: "2026-08-26T09:37:00+09:00"
+date: "2026-08-27T00:26:00+09:00"
 tags:
   - "notes-software"
 weight: 39
@@ -59,15 +59,11 @@ extra:
 
 ```text
 [마이크로서비스(MSA) 분산 생태계 구조]
-|-- 외부 클라이언트 (Web / Mobile App)
-|-- API Gateway (단일 진입점: 인증/인가, Rate Limiting, SSL 종단, 라우팅)
-|-- 서비스 디스커버리 & 서비스 메시 (Service Mesh: Istio/Envoy - mTLS, 트래픽 제어)
-|-- 독립 도메인 마이크로서비스들 (Database-per-Service)
-|   |-- 주문 서비스 (Order Service -> Order DB: PostgreSQL)
-|   |-- 결제 서비스 (Payment Service -> Payment DB: MySQL)
-|   `-- 재고 서비스 (Stock Service -> Stock DB: Redis)
-|-- 비동기 이벤트 브로커 (Kafka / RabbitMQ -> Saga 분산 트랜잭션)
-`-- 분산 관측성 플랫폼 (Distributed Tracing: OpenTelemetry, Jaeger, Prometheus)
+|-- API Gateway
+|-- 서비스 디스커버리
+|-- 독립 마이크로서비스
+|-- 이벤트 브로커 (Kafka)
+`-- 분산 추적 (Jaeger)
 ```
 
 선의 의미: 계층 및 MSA 통신/관측성 인프라 파이프라인
