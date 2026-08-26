@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 40
   label: "040. API 게이트웨이"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "API 게이트웨이 (API Gateway)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:37:00+09:00"
 tags:
   - "notes-software"
 weight: 40
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **SSL 종단기** | HTTPS 암호화를 게이트웨이에서 해제하여 내부 백엔드 CPU 부하 절감 |
-| **인증/인가 엔진** | OAuth 2.0 / JWT 서명을 검증하고 미인증 요청을 **엣지(Edge)에서 즉시 차단** |
-| **트래픽 제어기** | **Token Bucket / Leaky Bucket** 기반 클라이언트별 Rate Limiting 강제 |
-| **동적 라우터** | URI 패스(`/api/orders/**`) 및 서비스 레지스트리를 조회하여 백엔드로 디스패치 |
+| SSL 종단기 | HTTPS 암호화를 게이트웨이에서 해제하여 내부 백엔드 CPU 부하 절감 |
+| 인증/인가 엔진 | OAuth 2.0 / JWT 서명을 검증하고 미인증 요청을 **엣지(Edge)에서 즉시 차단** |
+| 트래픽 제어기 | **Token Bucket / Leaky Bucket** 기반 클라이언트별 Rate Limiting 강제 |
+| 동적 라우터 | URI 패스(`/api/orders/**`) 및 서비스 레지스트리를 조회하여 백엔드로 디스패치 |
 
 #### 한줄 요약
 - SSL 종단, 인증 필터, 트래픽 제어기, 동적 라우터 파이프라인으로 구성된다.
@@ -91,17 +91,17 @@ extra:
 ```text
 클라이언트가 HTTPS로 API 호출 (예: GET /api/v1/orders/10)
         │
-   1. SSL/TLS 종단 및 HTTP 복호화 수행
+   SSL/TLS 종단 및 HTTP 복호화 수행
         │
-   2. JWT 토큰 서명 유효성 및 만료 시간 검증 (실패 시 401 Unauthorized 반환)
+   JWT 토큰 서명 유효성 및 만료 시간 검증 (실패 시 401 Unauthorized 반환)
         │
-   3. Token Bucket 기반 Rate Limiting 검사 (초과 시 429 Too Many Requests 반환)
+   Token Bucket 기반 Rate Limiting 검사 (초과 시 429 Too Many Requests 반환)
         │
-   4. 서비스 디스커버리(Eureka/Consul) 조회 -> 인스턴스 IP/Port 확인
+   서비스 디스커버리(Eureka/Consul) 조회 -> 인스턴스 IP/Port 확인
         │
-   5. 로드밸런싱(Round Robin) 적용하여 대상 마이크로서비스로 요청 전달
+   로드밸런싱(Round Robin) 적용하여 대상 마이크로서비스로 요청 전달
         │
-   6. 마이크로서비스 응답 수신 후 사후 필터(CORS 헤더 추가 등) 처리 후 클라이언트 반환
+   마이크로서비스 응답 수신 후 사후 필터(CORS 헤더 추가 등) 처리 후 클라이언트 반환
 ```
 
 #### 한줄 요약
@@ -117,10 +117,10 @@ extra:
 
 | 구현 솔루션 | 기반 기술 스택 | 핵심 특징 | 주 적용 환경 |
 |:---|:---|:---|:---|
-| **Spring Cloud Gateway** | Java / Spring WebFlux (Netty) | Spring 생태계 완벽 통합, 비동기 논블로킹 | Java/Spring 백엔드 엔터프라이즈 |
-| **Kong Gateway** | Nginx / OpenResty / Lua | **초저지연, 수만 RPS 초고성능**, 풍부한 플러그인 | 폴리글랏 환경, 대규모 글로벌 트래픽 |
-| **AWS API Gateway** | AWS 완전 관리형 클라우드 | 서버리스 연동(Lambda), 인프라 관리 0화 | AWS 클라우드 네이티브 서버리스 |
-| **Envoy Proxy** | C++ | 초경량 고성능, Service Mesh 사이드카 표준 | Kubernetes 이스티오(Istio) 인프라 |
+| Spring Cloud Gateway | Java / Spring WebFlux (Netty) | Spring 생태계 완벽 통합, 비동기 논블로킹 | Java/Spring 백엔드 엔터프라이즈 |
+| Kong Gateway | Nginx / OpenResty / Lua | **초저지연, 수만 RPS 초고성능**, 풍부한 플러그인 | 폴리글랏 환경, 대규모 글로벌 트래픽 |
+| AWS API Gateway | AWS 완전 관리형 클라우드 | 서버리스 연동(Lambda), 인프라 관리 0화 | AWS 클라우드 네이티브 서버리스 |
+| Envoy Proxy | C++ | 초경량 고성능, Service Mesh 사이드카 표준 | Kubernetes 이스티오(Istio) 인프라 |
 
 #### 한줄 요약
 - Java 환경은 Spring Cloud Gateway, 고성능 폴리글랏은 Kong, 서버리스는 AWS API Gateway를 채택한다.
@@ -145,7 +145,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 마이크로서비스 아키텍처는 **API 게이트웨이를 엣지 보안 및 L7 라우팅의 단일 진입점**으로 구축하고, 플랫폼별 요구는 **BFF 패턴**을 적용하여 보안성과 성능을 동시에 확보
+- 단일 진입점은 **API 게이트웨이**, 플랫폼 분기는 **BFF** 선택
 
 #### 한줄 요약
 - API 게이트웨이는 내부 마이크로서비스를 안전하게 은닉하고 횡단 정책을 일원화하여 분산 시스템의 복잡도를 해소하는 필수 관문이다.

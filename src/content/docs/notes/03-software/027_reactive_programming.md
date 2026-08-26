@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 27
   label: "027. 리액티브 프로그래밍"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
-date: "2026-08-25T10:48:00+09:00"
+date: "2026-08-26T09:35:00+09:00"
 tags:
   - "notes-software"
 weight: 27
@@ -77,10 +77,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **발행자 (Publisher)** | 데이터 스트림을 생성하고 구독자의 요청 수량에 맞춰 데이터 발행 |
-| **구독자 (Subscriber)** | 발행자로부터 이벤트를 수신하여 비즈니스 로직 처리 |
-| **구독 (Subscription)** | `request(n)`을 통해 **역압(Backpressure)** 수량을 전달하고 취소 관리 |
-| **프로세서 (Processor)** | 스트림 중간에서 데이터 변환, 필터링, 버퍼링 등 파이프라인 중계 |
+| 발행자 (Publisher) | 데이터 스트림을 생성하고 구독자의 요청 수량에 맞춰 데이터 발행 |
+| 구독자 (Subscriber) | 발행자로부터 이벤트를 수신하여 비즈니스 로직 처리 |
+| 구독 (Subscription) | `request(n)`을 통해 **역압(Backpressure)** 수량을 전달하고 취소 관리 |
+| 프로세서 (Processor) | 스트림 중간에서 데이터 변환, 필터링, 버퍼링 등 파이프라인 중계 |
 
 #### 한줄 요약
 - Publisher, Subscriber, Subscription(역압 매개체), Processor가 결합되어 동작한다.
@@ -96,17 +96,15 @@ extra:
 ```text
 Subscriber                      Publisher                   Subscription
     │                               │                             │
-    ├─── 1. subscribe(Subscriber) ─▶│                             │
-    │                               ├── 2. onSubscribe(sub) ─────▶│
-    │◀── 3. Subscription 객체 전달 ──┘                             │
+    ├─── subscribe(Subscriber) ────▶│                             │
+    │                               ├─── onSubscribe(sub) ───────▶│
+    │◀── Subscription 객체 전달 ────┘                             │
     │                                                             │
-    ├─── 4. request(n: 처리 가능 수량) ──────────────────────────▶│
+    ├─── request(n: 역압 수량) ──────────────────────────────────▶│
     │                                                             │
-    │◀── 5. onNext(data: 최대 n개 데이터 비동기 전달) ──────────────┤
+    │◀── onNext(data) 데이터 수신 ────────────────────────────────┤
     │                                                             │
-    ├─── 6. 추가 처리 가능 시 request(m) 재요청 ───────────────────▶│
-    │                                                             │
-    │◀── 7. onComplete() (스트림 정상 완료 통지) ─────────────────┘
+    │◀── onComplete() 완료 통지 ──────────────────────────────────┘
 ```
 
 #### 한줄 요약
@@ -151,7 +149,7 @@ Subscriber                      Publisher                   Subscription
 
 ## Ⅶ. 결론
 
-- 대규모 실시간 데이터 스트리밍 및 IoT 게이트웨이는 **리액티브 프로그래밍(WebFlux/R2DBC)** 을 적용하고, 레거시 블로킹 구간은 **전용 스케줄러 풀 격리 및 코루틴**을 결합하여 고가용성 파이프라인 확립
+- 실시간 스트리밍은 **리액티브**, 블로킹은 **스케줄러 격리** 선택
 
 #### 한줄 요약
 - 리액티브 프로그래밍은 역압 제어와 비차단 스트림을 통해 시스템 과부하를 방지하고 무중단 반응성을 실현하는 현대 분산 시스템의 핵심 패러다임이다.
