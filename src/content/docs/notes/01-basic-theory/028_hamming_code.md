@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "해밍 코드•오류 검출•정정 (Hamming Code Error Detection and Correction)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 28
@@ -177,7 +177,7 @@ $$
 
 </details>
 
-- 실시간 메모리 하드웨어 비트 정정에는 **SECDED**, 네트워크 및 스토리지 패킷 검증에는 **CRC**를 선택하여 데이터 무결성 보장
+- 메모리 하드웨어 정정은 **SECDED**, 패킷 검증은 **CRC** 선택
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "문맥 자유 문법 (Context-Free Grammar)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 21
@@ -186,7 +186,7 @@ extra:
 
 </details>
 
-- 재귀적 중첩 구문 분석은 **문맥 자유 문법(CFG)**, 선형 토큰 매칭은 **정규 문법**, 의미적 문맥 검증은 **문맥 의존 문법** 선택
+- 중첩 구문은 **문맥 자유 문법**, 선형 토큰은 **정규 문법** 선택
 
 #### 한줄 요약
 

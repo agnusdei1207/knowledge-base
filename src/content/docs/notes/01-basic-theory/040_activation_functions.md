@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "활성화 함수: ReLU•Sigmoid•Tanh (Activation Functions)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:28:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 40
@@ -176,7 +176,7 @@ extra:
 
 </details>
 
-- 심층 은닉층에는 **ReLU/GELU**, 이진 분류 최종 출력층에는 **Sigmoid**, 순환 상태 전이에는 **Tanh**를 배치하여 계층별 목적 최적화
+- 은닉층은 **ReLU/GELU**, 이진 출력층은 **Sigmoid**, 순환 상태는 **Tanh** 선택
 
 #### 한줄 요약
 

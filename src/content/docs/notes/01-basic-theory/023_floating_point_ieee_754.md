@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "부동소수점 표현: IEEE 754 (Floating Point IEEE 754)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 23
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- 금액/회계 계산은 **정수/10진 형식(Decimal)**, 광범위 과학/AI 연산은 **부동소수점(IEEE 754)** 선택
+- 금액 계산은 **10진 형식**, 과학•AI 연산은 **부동소수점** 선택
 
 #### 한줄 요약
 

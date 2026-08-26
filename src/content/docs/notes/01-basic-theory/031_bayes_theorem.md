@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "확률 기초: 베이즈 정리 (Bayes Theorem)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:27:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 31
@@ -176,7 +176,7 @@ extra:
 
 </details>
 
-- 불확실성/사전 지식 기반 추론은 **베이즈 정리(Bayesian)**, 대규모 반복 표본 검정은 **빈도주의(Frequentist)** 선택
+- 사전 지식 결합 추론은 **베이즈**, 반복 표본 검정은 **빈도주의** 선택
 
 #### 한줄 요약
 

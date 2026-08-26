@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
@@ -184,7 +184,7 @@ extra:
 
 </details>
 
-- 부울 함수 합성은 **만능 게이트(NAND/NOR)**, 패리티/가산은 **XOR 게이트**, 타이밍 최적화는 **정적 타이밍 분석(STA)** 선택
+- 함수 합성은 **NAND/NOR**, 패리티는 **XOR 게이트** 선택
 
 #### 한줄 요약
 

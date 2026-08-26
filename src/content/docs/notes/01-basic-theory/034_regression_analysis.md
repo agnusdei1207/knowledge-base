@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "회귀 분석 (Regression Analysis)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:27:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 34
@@ -176,7 +176,7 @@ extra:
 
 </details>
 
-- 수치 예측과 변수별 영향력 분석에는 **회귀 분석**, 단순 선형 연관성 강도 측정에는 **상관 분석** 선택하며 다중공선성 통제를 위해 **정규화(Ridge/Lasso)**와 결합
+- 수치 예측은 **회귀 분석**, 연관도 측정은 **상관 분석** 선택
 
 #### 한줄 요약
 

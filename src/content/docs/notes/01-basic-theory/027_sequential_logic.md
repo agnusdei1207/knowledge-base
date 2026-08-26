@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "순차 논리 회로: 플립플롭•레지스터 (Sequential Logic)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 27
@@ -181,7 +181,7 @@ $$
 
 </details>
 
-- 상태 기억 및 순차 제어는 **순차 논리 회로**, 타이밍 검증은 **STA(Setup/Hold)**, 이종 클록 도메인은 **2-FF 동기화기** 선택
+- 상태 제어는 **순차 회로**, 이종 클록은 **2-FF 동기화기** 선택
 
 #### 한줄 요약
 

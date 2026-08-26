@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "조합 논리 회로: 가산기•멀티플렉서 (Combinational Logic)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 26
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- 산술/선택/해독은 **조합 논리 회로**, 임계 경로 지연 단축은 **파이프라이닝 및 CLA 가산기** 선택
+- 무상태 연산은 **조합 논리**, 지연 단축은 **CLA•파이프라이닝** 선택
 
 #### 한줄 요약
 

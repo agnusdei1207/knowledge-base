@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "K-Fold 교차 검증 (K-Fold Cross-Validation)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:27:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 38
@@ -173,7 +173,7 @@ extra:
 
 </details>
 
-- 독립 표본은 **일반 K-Fold**, 불균형 분류는 **층화 K-Fold**, 시계열 데이터는 **시계열 분할(TimeSeriesSplit)** 선택하고 파이프라인으로 전처리를 격리하여 데이터 누출을 차단
+- 불균형은 **층화 K-Fold**, 시계열은 **시간 순서 분할** 선택
 
 #### 한줄 요약
 

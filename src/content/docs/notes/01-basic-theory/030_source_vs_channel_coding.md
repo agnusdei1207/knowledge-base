@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소스 코딩 vs 채널 코딩 (Source Coding vs Channel Coding)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:26:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 30
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- 일반 전송 및 저장 환경에는 **소스-채널 분리 부호화**, 초저지연 제약 및 극단적 무선 채널에는 **결합 소스-채널 코딩(JSCC)** 선택하여 대역폭과 신뢰성의 최적 균형 달성
+- 일반 전송은 **분리 부호화**, 초저지연은 **결합 코딩(JSCC)** 선택
 
 #### 한줄 요약
 
