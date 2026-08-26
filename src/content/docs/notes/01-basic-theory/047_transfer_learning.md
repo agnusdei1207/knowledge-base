@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "전이 학습 (Transfer Learning)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:28:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 47
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- 소량 라벨 환경에는 **백본 동결 특징 추출**, 도메인 격차 존재 시 **차등 학습률 미세 조정(PEFT/LoRA)** 선택
+- 소량 데이터는 **특징 추출**, 도메인 격차는 **미세 조정(LoRA)** 선택
 
 #### 한줄 요약
 

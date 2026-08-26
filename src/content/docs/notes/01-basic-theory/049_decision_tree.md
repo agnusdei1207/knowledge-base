@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "결정 트리 (Decision Tree)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:29:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 49
@@ -171,7 +171,7 @@ extra:
 
 </details>
 
-- 설명력 우선은 **가지치기 단일 결정 트리**, 예측 정확도 우선은 **트리 앙상블(Random Forest/GBDT)** 선택
+- 설명력 우선은 **단일 결정 트리**, 성능 우선은 **트리 앙상블** 선택
 
 #### 한줄 요약
 

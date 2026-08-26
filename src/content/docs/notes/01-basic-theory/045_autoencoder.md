@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오토인코더 (Autoencoder)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:28:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 45
@@ -173,7 +173,7 @@ extra:
 
 </details>
 
-- 비선형 차원 축소와 무라벨 이상 탐지에는 **오토인코더(DAE)**, 연속적 잠재 표현과 신규 샘플 생성에는 **변분 오토인코더(VAE)**를 선택
+- 이상 탐지는 **오토인코더(DAE)**, 신규 생성은 **VAE** 선택
 
 #### 한줄 요약
 

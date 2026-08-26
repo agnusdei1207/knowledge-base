@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "손실 함수: Cross-Entropy•MSE (Loss Functions)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-26T09:28:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 42
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- 확률 분류에는 **Cross-Entropy/Focal Loss**, 표준 회귀에는 **MSE**, 이상치 혼입 회귀에는 **Huber Loss**를 선택하여 과업 확률분포에 최적화
+- 분류는 **Cross-Entropy**, 일반 회귀는 **MSE**, 이상치는 **Huber 손실** 선택
 
 #### 한줄 요약
 
