@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **Reduce-Scatter·All-Gather**로 텐서를 동기화하는 집합 통신
-- 배경/필요성: Parameter Server의 중앙 대역폭 포화로 **GPU 확장성 제약**
+- 배경/필요성: Parameter Server 방식은 노드를 늘릴수록 **중앙 서버 대역폭이 먼저 포화되는 비용**을 치르므로, 모든 랭크가 부분 결과를 나눠 맡는 Reduce-Scatter·All-Gather 구조로 중앙 집중점 자체를 제거
 
 #### 한줄 요약
 - Reduce-Scatter와 All-Gather를 통해 노드 수와 무관한 일정한 통신량으로 그래디언트를 전역 동기화한다.
@@ -76,7 +76,7 @@ extra:
 | All-Gather 모듈 | **합산 청크 전역 복제** | 2nd Phase |
 
 #### 한줄 요약
-- 통신 랭크, 텐서 버킷 퓨전기, NCCL 엔진, Reduce-Scatter 모듈, All-Gather 모듈이 결합된다.
+- 텐서 버킷 퓨전기가 작은 그래디언트를 묶어 통신 호출 횟수를 줄이므로, 고정 지연 비용이 텐서 개수가 아니라 버킷 개수에 비례한다.
 
 ## Ⅳ. 흐름도
 
@@ -109,7 +109,7 @@ extra:
 - 5. 가중치 갱신
 
 #### 한줄 요약
-- 텐서 버킷화 → 통신 계약 검증 → Reduce-Scatter 축소 → All-Gather 수집 → 옵티마이저 갱신 순으로 동작한다.
+- Reduce-Scatter와 All-Gather 두 단계로 나눈 덕분에 노드가 늘어도 노드당 전송량은 일정하지만, 그 대가로 단계 수에 비례한 지연이 누적된다.
 
 ## Ⅴ. 종류 및 비교
 

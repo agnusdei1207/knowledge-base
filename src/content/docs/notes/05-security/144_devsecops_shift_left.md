@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 고품질의 안전한 소프트웨어를 신속 배포하기 위해 **Pre-commit 시크릿 스캔 $\rightarrow$ CI 빌드 시 SAST(정적 분석)/SCA(오픈소스 취약점) $\rightarrow$ 컨테이너/IaC 보안 검증 $\rightarrow$ CD 스테이징 시 DAST/IAST 동적 테스트 $\rightarrow$ SBOM 생성 및 이미지 서명(Cosign) $\rightarrow$ 런타임 RASP/EDR 연계** 를 집행하는 **전 주기 보안 자동화 파이프라인**
-- 배경/필요성: 배포 직전 보안 점검은 **재설계 비용**과 릴리스 지연 증가
+- 배경/필요성: 릴리스 직전 점검은 결함을 가장 비싼 시점에 찾아 수정 비용이 재설계로 번지므로, 커밋·빌드·스테이징 각 단계에 **자동 보안 게이트**를 나눠 심어 결함 발견 지점을 가장 싼 개발 초기로 옮긴 것
 
 #### 한줄 요약
 - DevSecOps Shift-Left는 CI/CD 파이프라인 전 단계에 보안 검증을 자동 내재화하여 결함 비용을 최소화한다.
@@ -93,7 +93,7 @@ DevSecOps 보안 도구 체계
 | **Operate (운영)** | RASP, Cloud Workload Protection (CWP), SIEM | 런타임 익스플로잇 실시간 차단 및 개발 환류 | Shield-Right |
 
 #### 한줄 요약
-- Pre-commit 시크릿 검사, SAST/SCA 빌드 검증, IaC/이미지 스캔, DAST 테스트, Admission Control 배포 통제로 구성된다.
+- 각 도구는 별도의 보안 승인 조직을 거치지 않고 파이프라인 단계 자체에 박혀 빌드 실패로 판정을 대신하므로, 검증 책임이 배포 직전의 관문에서 코드를 쓰는 시점으로 옮겨지고 Admission Control만이 마지막 서명 확인을 남긴다.
 
 ## Ⅳ. 흐름도
 
@@ -144,7 +144,7 @@ DevSecOps 보안 도구 체계
 5. **배포 검증 및 CD 롤아웃**: 서명·DAST 통과 아티팩트 배포
 
 #### 한줄 요약
-- Pre-commit 시크릿 검사, CI SAST/SCA 분석, Quality Gate 판정, 이미지 서명/SBOM 생성, K8s 배포 통제 순으로 동작한다.
+- 게이트를 앞단으로 옮길수록 수정 비용은 싸지지만 오탐이 개발 속도를 직접 깎으므로, 초기 단계일수록 차단 기준을 좁게 잡고 배포에 가까울수록 엄격히 하는 배치가 유효하다.
 
 ## Ⅴ. 종류 및 비교
 

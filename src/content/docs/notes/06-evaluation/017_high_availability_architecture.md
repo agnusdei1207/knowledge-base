@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 무중단 비즈니스 연속성을 달성하기 위해 **계층별 특성(Stateless vs Stateful) 분류 $\rightarrow$ 무상태 계층 Active-Active 부하 분산 $\rightarrow$ 상태 저장 계층 Active-Standby 동기 복제 $\rightarrow$ 하트비트 및 홀수 쿼럼($(N/2)+1$) 감시 $\rightarrow$ STONITH 노드 펜싱(Fencing) 기반 스플릿 브레인 방어 $\rightarrow$ 가상 IP(VIP) 자동 페일오버** 를 집행하는 **엔드투엔드 고가용성 엔지니어링 체계**
-- 배경/필요성: 단일 노드 장애로 **서비스 전체 중단** 발생
+- 배경/필요성: 단일 노드 하나의 고장이 **서비스 전체 중단**으로 번지면 사람이 원인을 찾아 수동 전환하는 시간 전체가 손실 비용이 되므로, 계층마다 예비 노드와 하트비트·쿼럼·펜싱을 배치한 이중화 계층을 트래픽 경로에 끼워 넣어 수동 복구를 자동 전환으로 대체할 필요
 
 #### 한줄 요약
 - 고가용성 설계는 Active-Active 및 Active-Standby 이중화와 펜싱 메커니즘을 통해 무중단 서비스 연속성을 보증한다.
@@ -80,7 +80,7 @@ extra:
 | **Cluster Management·Fencing Layer** | 쿼럼 감시·페일오버·STONITH 집행 |
 
 #### 한줄 요약
-- Anycast 로드밸런서, 무상태 Active-Active WAS, Active-Standby DB, Pacemaker 쿼럼, STONITH 펜싱으로 구성된다.
+- 무상태 계층은 세션을 공유 저장소로 밀어내 어느 노드로 보내도 되게 만들었기에 Active-Active로 갈 수 있고, 상태를 옮길 수 없는 데이터 계층만 Active-Standby로 남아 대기 자원과 절체 시간을 치르며 그 전환의 안전은 쿼럼·펜싱 계층이 대신 보증한다.
 
 ## Ⅳ. 흐름도
 
@@ -135,7 +135,7 @@ extra:
 5. **서비스 정상화 및 RTO 달성**: 재연결과 Failback 준비
 
 #### 한줄 요약
-- 정상 동기 복제, 하트비트 유실 감지, STONITH 펜싱 차단, Standby 마스터 승격, VIP 인계 및 RTO 0초 수렴 순으로 동작한다.
+- 하트비트 유실만으로는 노드 사망인지 네트워크 단절인지 갈리지 않으므로, 승격 전에 STONITH로 구 Primary의 전원을 끊어 이중 쓰기 위험을 4.5초의 복구 시간 비용으로 바꾼다.
 
 ## Ⅴ. 종류 및 비교
 
@@ -182,4 +182,4 @@ extra:
 - 무상태는 **Active-Active**, 상태 저장은 **Active-Standby** 선택
 
 #### 한줄 요약
-- 계층별 Active-Active/Standby 최적화와 쿼럼 펜싱을 통해 완벽한 고가용성 무중단 아키텍처를 완성한다.
+- Active-Active는 자원을 놀리지 않는 대신 상태 일관성 비용을 치르고 Active-Standby는 그 반대이므로, 계층의 상태 보유 여부가 구성 방식을 먼저 결정한다.

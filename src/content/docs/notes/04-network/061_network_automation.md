@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **YANG·NETCONF·RESTCONF·Ansible**로 장비 설정을 코드화한 NetDevOps
-- 배경/필요성: 장비별 수동 CLI 입력에 따른 **휴먼 에러 빈발, 대규모 망 설정 변경 시 수일의 지연 및 트랜잭션/자동 롤백 불가**
+- 배경/필요성: 장비별 수동 CLI 입력은 장비 수에 비례해 **휴먼 에러와 재작업 비용**을 반복 지불하고 실패 시 되돌릴 기준본이 없으므로, 설정 정본(SoT)을 상위에 두고 선언적 자동화 계층이 장비별 CLI 조작과 롤백을 대신 수행
 
 #### 한줄 요약
 - Git 기반 SoT와 NETCONF/YANG 트랜잭션을 통해 무중단 자동 프로비저닝 및 자동 롤백을 실현한다.
@@ -77,7 +77,7 @@ extra:
 | RESTCONF | YANG 모델의 **RESTful CRUD 제공** |
 
 #### 한줄 요약
-- SoT, 자동화 엔진, YANG 데이터 모델, NETCONF/RESTCONF 프로토콜이 결합된다.
+- SoT가 설정의 정본 자리를 차지하고 YANG·NETCONF가 그 정본을 장비 문법으로 옮기므로, 장비 CLI는 판단 주체가 아니라 최종 실행 수단으로만 남는다.
 
 ## Ⅳ. 흐름도
 
@@ -104,7 +104,7 @@ NetDevOps Confirmed Commit 및 자동 롤백 파이프라인
 ```
 
 #### 한줄 요약
-- Git PR 생성 → CI 사전 검증 → Candidate 설정 적재 → Confirmed Commit 검증 → 실패 시 자동 롤백 순으로 동작한다.
+- Confirmed Commit 시점에서 확정과 자동 롤백으로 갈리므로, 변경 실패 비용이 야간 수작업 복구가 아니라 타이머 만료 시간으로 한정된다.
 
 ## Ⅴ. 종류 및 비교
 
