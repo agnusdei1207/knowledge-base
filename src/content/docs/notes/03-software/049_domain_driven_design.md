@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "도메인 주도 설계 DDD (Domain-Driven Design)"
-date: "2026-08-26T17:26:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 49
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 비즈니스 도메인을 중심으로 **보편적 언어(Ubiquitous Language)와 바운디드 컨텍스트**를 정의하고 모델을 캡슐화하는 설계 방법론
-- 배경/필요성: 도메인 지식이 코드와 따로 관리되면 규칙이 바뀔 때마다 번역 오류가 코드 곳곳으로 퍼지므로, 전문가와 개발자가 같은 유비쿼터스 언어를 쓰고 그 언어를 모델·코드에 그대로 반영해 번역 단계 자체를 없앨 필요
+- 배경/필요성: 비즈니스 복잡도가 높은 소프트웨어에서 기획자·도메인 전문가와 개발자 간의 언어적 불일치(소통 단절), 서비스 클래스에 if-else 비즈니스 로직이 난립하는 빈혈 도메인 모델(Anemic Model) 및 무분별한 데이터베이스 중심 설계를 극복하고, 보편적 언어(Ubiquitous Language)와 전략적 설계(Bounded Context, Context Map), 전술적 패턴(Aggregate, Entity, VO, Repository)을 통해 **비즈니스 도메인의 본질을 풍부한 객체지향 모델(Rich Domain Model)로 캡슐화하고 시스템 복잡도를 제어**할 필요
 
 #### 한줄 요약
 - 비즈니스 도메인을 보편적 언어로 코드에 반영하고 전략/전술적 설계로 복잡도를 제어한다.
@@ -63,12 +63,12 @@ extra:
 |   |-- Bounded Context A (주문 컨텍스트) <--- [Context Map: ACL] ---> Bounded Context B (결제)
 |   `-- Ubiquitous Language (도메인 공통 어휘 사전)
 `-- 전술적 설계 (Tactical Design: Context 내부 객체 모델)
-    |-- Aggregate (주문 애그리게이트)
-    |   |-- Aggregate Root (Order Entity: 외부 접근 단일 진입점)
-    |   |-- 내부 Entity (OrderItem)
-    |   `-- Value Object (Address VO, Money VO - 불변 값 객체)
-    |-- Domain Service (복수 애그리게이트 간 비즈니스 로직)
-    `-- Repository (애그리게이트 단위 영속화 인터페이스)
+     |-- Aggregate (주문 애그리게이트)
+     |   |-- Aggregate Root (Order Entity: 외부 접근 단일 진입점)
+     |   |-- 내부 Entity (OrderItem)
+     |   `-- Value Object (Address VO, Money VO - 불변 값 객체)
+     |-- Domain Service (복수 애그리게이트 간 비즈니스 로직)
+     `-- Repository (애그리게이트 단위 영속화 인터페이스)
 ```
 
 선의 의미: 전략적 도메인 분할 및 전술적 객체 캡슐화 구조
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 복잡한 핵심 도메인은 **DDD**, 단순 지원 영역은 **CRUD** 선택
+- 마이크로서비스 아키텍처(MSA) 도메인 분할 및 엔터프라이즈 소프트웨어의 **핵심 도메인 모델링 설계 방법론**으로 정립되었으며, 실무 적용 시에는 **이벤트 스토밍(Event Storming)을 통한 Bounded Context 도출, 세터(Setter)를 배제한 불변식(Invariant) 캡슐화, 외부 레거시 오염을 막는 부패방지계층(ACL), 핵심 도메인(Core Domain)에 리소스를 집중하는 선별적 전략**을 결합하여 가치를 극대화
 
 #### 한줄 요약
 - 도메인 주도 설계(DDD)는 소프트웨어의 중심을 기술 인프라가 아닌 비즈니스 본질에 일치시키는 현대 소프트웨어 공학의 정수다.

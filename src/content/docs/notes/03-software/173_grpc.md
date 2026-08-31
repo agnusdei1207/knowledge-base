@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "gRPC (gRPC)"
-date: "2026-08-26T13:17:01+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 173
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: HTTP/2 전송 계층과 Protobuf 이진 직렬화를 기반으로 **마이크로서비스 간의 초고속 원격 프로시저 호출과 스트리밍을 제공하는 고성능 RPC 프레임워크**
-- 배경/필요성: 내부 호출에 텍스트 JSON과 HTTP/1.1을 쓰면 호출마다 직렬화 비용과 연결당 한 요청이라는 제약이 반복되므로, IDL로 계약을 고정해 이진 메시지로 줄이고 HTTP/2 스트림에 다중화하는 통신 계층을 서비스 간(East-West) 구간에 따로 둘 필요
+- 배경/필요성: 수백 개 이상의 마이크로서비스 간(East-West) 통신에 텍스트 기반 REST/JSON과 HTTP/1.1을 적용할 경우 발생하는 무거운 텍스트 파싱 오버헤드, 단일 TCP 연결 내 요청-응답 지연(Head-of-Line Blocking) 및 런타임 스키마 불일치 에러를 극복하기 위해, Protocol Buffers(Protobuf) 기반의 컴파일 타임 강타입 계약과 HTTP/2 스트림 멀티플렉싱 및 양방향 스트리밍을 제공하는 gRPC를 도입하여 **마이크로서비스 내부 호출의 초저지연·고성능 통신과 폴리글랏(Polyglot) 개발 생산성을 완성**할 필요
 
 #### 한줄 요약
 - HTTP/2 멀티플렉싱과 Protobuf 이진 직렬화로 마이크로서비스 내부 통신 속도를 극대화한다.
@@ -62,8 +62,8 @@ extra:
 |-- Interface Definition Layer
 |-- Code Generation Layer
 |-- Client Channel & Stub Layer
-    |-- Client Stub (로컬 메서드 호출 추상화)
-    `-- Channel (HTTP/2 Multiplexing Connection Pool, TLS 관리)
+|   |-- Client Stub (로컬 메서드 호출 추상화)
+|   `-- Channel (HTTP/2 Multiplexing Connection Pool, TLS 관리)
 `-- Server Runtime Layer
     |-- Netty / HTTP/2 Server Handler (이진 패킷 역직렬화)
     `-- Service Implementation (실제 비즈니스 서비스 로직 실행)
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 내부 강타입 스트리밍은 **gRPC**, 공개 웹 자원은 **REST** 선택
+- 클라우드 네이티브 마이크로서비스 아키텍처(MSA) 및 데이터 집약적 백엔드 시스템 간 내부 통신의 **가장 지배적인 고성능 분산 RPC 표준 프레임워크**로 확립되었으며, 실무 구축 시에는 **HTTP/2 단일 TCP 편중을 해소하는 Envoy/Istio 기반 L7 스트림 로드밸런싱, 연쇄 지연을 차단하는 Deadline 전파 및 지수 백오프 재시도, 스키마 호환성 붕괴를 방지하는 `reserved` 필드 관리, 웹 브라우저 연동을 지원하는 gRPC-Web/Envoy 트랜스코딩**을 결합하여 고속 처리 성능과 분산 시스템 회복 탄력성을 완벽히 조화
 
 #### 한줄 요약
 - 내부 RPC에는 Deadline·재시도·로드밸런싱 정책을 함께 설계한다.

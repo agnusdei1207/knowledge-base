@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OAuth 2.0•OIDC (OAuth 2.0 OIDC)"
-date: "2026-08-26T13:18:05+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 174
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 비밀번호 노출 없이 제3자 앱에 자원 접근 권한을 위임하는 **OAuth 2.0과 ID Token 기반 사용자 신원 인증을 제공하는 OIDC 표준 프로토콜**
-- 배경/필요성: 제3자 앱에 비밀번호를 그대로 넘기면 자격증명 하나가 전체 권한과 같아져 유출 시 피해 범위를 좁힐 수단이 없으므로, 앱과 자원 서버 사이에 인가 서버를 두어 범위와 수명이 제한된 토큰을 비밀번호 대신 유통시킬 필요
+- 배경/필요성: 서드파티 애플리케이션 및 모바일/SPA 환경에서 사용자의 패스워드를 직접 공유할 경우 발생하는 자격증명 유출, 과도한 전체 권한 부여 및 특정 서비스 접근 차단의 불가능성을 해결하고, 권한 위임(Authorization)과 사용자 신원 인증(Authentication)이 혼용되어 발생하는 보안 취약점을 방어하기 위해, 범위(Scope)와 수명이 제한된 Access Token을 발급하는 OAuth 2.0과 표준 JWT 기반 ID Token으로 사용자 신원을 증명하는 OIDC(OpenID Connect)를 도입하여 **안전한 권한 위임과 전사 통합 싱글 사인온(SSO)을 달성**할 필요
 
 #### 한줄 요약
 - 인가(권한 위임)의 OAuth 2.0과 인증(신원 증명)의 OIDC를 결합하여 안전한 로그인과 API 보안을 구현한다.
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- API 권한 위임은 **OAuth 2.0**, 로그인 신원은 **OIDC** 선택
+- 현대 웹, 모바일, SaaS 및 마이크로서비스 생태계에서 가장 기본적이고 필수적인 **글로벌 표준 인증·인가(AuthN/AuthZ) 인프라 프레임워크**로 확립되었으며, 실무 구축 시에는 **공개 클라이언트(SPA/Mobile)의 코드 탈취를 방어하는 PKCE(S256) 강제, CSRF 및 재생 공격을 차단하는 `state`/`nonce` 검증, 신원 확인용 ID Token과 API 인가용 Access Token의 엄격한 역할 분리, Access Token의 초단기 수명(15분) 및 Refresh Token Rotation(RTR)**을 결합하여 무결점 제로 트러스트 API 보안을 완성
 
 #### 한줄 요약
 - ID Token은 클라이언트, Access Token은 자원 서버에서 검증한다.

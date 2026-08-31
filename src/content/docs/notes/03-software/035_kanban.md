@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "칸반 (Kanban)"
-date: "2026-08-27T00:14:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 35
 extra:
   question_no: "035"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 50
   priority_note: "작업 흐름 시각화와 WIP 제한 기반 리드타임 단축"
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 작업을 시각화하고 **WIP Limit(진행 중 작업 제한)** 을 적용한 **당김 방식(Pull System)** 으로 공정 병목을 해소하는 작업 흐름 관리 기법
-- 배경/필요성: 착수 작업을 밀어 넣는 방식은 대기열 정체와 잦은 문맥 전환으로 리드타임을 늘리므로, 각 단계의 동시 작업 수를 제한하는 WIP 제한을 흐름 위에 두어 앞 단계가 뒤 단계의 여력만큼만 당겨 쓰게 할 필요
+- 배경/필요성: 공정 내 무분별한 작업 밀어넣기(Push System)와 과도한 멀티태스킹이 유발하는 잦은 문맥 전환(Context Switching), 대기열 정체 및 리드타임(Lead Time)의 예측 불가능성을 극복하고, 워크플로우 전 과정의 시각화와 WIP(Work In Progress) 제한을 통한 당김 방식(Pull System)을 적용하여 **리틀의 법칙(Little's Law)에 근거한 공정 병목 해소와 지속적 가치 흐름(Continuous Flow)을 실현**할 필요
 
 #### 한줄 요약
 - 작업 흐름을 시각화하고 WIP를 제한하여 지속적이고 안정적인 가치 흐름을 유지한다.
@@ -128,7 +128,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 운영 유지보수는 **칸반**, 리드타임 단축은 **WIP 제한** 선택
+- 린(Lean) 소프트웨어 공학 및 IT 운영·DevOps의 **핵심 지속적 흐름(Continuous Flow) 관리 프레임워크**로 확립되었으며, 실무 환경에서는 **컬럼별/인당 WIP Limit의 엄격한 준수를 통한 리드타임 단축, 누적 흐름도(CFD) 기반 실시간 병목 감시, 정체 작업 해소를 위한 팀 협업 스워밍(Swarming), 정기 릴리즈와 유연한 운영을 결합한 스크럼반(Scrumban)**을 적용하여 생산성을 극대화
 
 #### 한줄 요약
 - 칸반은 시각화와 WIP 제한을 통해 공정의 병목을 실시간 제거하고 가치 흐름을 극대화하는 린 프레임워크다.

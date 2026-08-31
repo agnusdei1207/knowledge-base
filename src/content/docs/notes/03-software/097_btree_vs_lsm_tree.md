@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "B-Tree vs LSM-Tree 비교 (B-Tree vs LSM-Tree)"
-date: "2026-08-27T01:53:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 97
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 디스크 페이지 제자리 수정 기반의 읽기 최적화 **B-Tree**와 메모리 버퍼링 및 순차 컴팩션 기반의 대규모 쓰기 최적화 **LSM-Tree** 스토리지 엔진
-- 배경/필요성: B-Tree는 페이지를 제자리에서 고쳐 읽기 경로를 짧게 유지하는 대신 변경마다 흩어진 위치에 랜덤 쓰기를 발생시키므로, 쓰기가 몰리는 워크로드에서는 변경을 메모리에 모아 순차로 흘려보내고 정렬 병합 비용을 백그라운드로 미루는 저장 계층이 필요
+- 배경/필요성: 전통적인 B-Tree 엔진이 제자리 덮어쓰기(In-Place Update) 방식으로 인해 유발하는 극심한 디스크 랜덤 I/O 및 높은 쓰기 증폭(Write Amplification)으로 대규모 쓰기 집중 워크로드에서 성능 병목을 겪는 한계를 극복하고, 메모리 버퍼(MemTable) 선기록 후 디스크 불변 파일(SSTable)로 순차 추가(Append-Only)하며 백그라운드 컴팩션(Compaction)으로 병합하는 LSM-Tree(Log-Structured Merge-Tree)를 도입하여 **초고속 쓰기 처리량(Write Throughput)과 높은 스토리지 압축률을 달성**할 필요
 
 #### 한줄 요약
 - 두 엔진은 쓰기 증폭과 읽기 증폭 중 어느 쪽을 감수할지의 선택이므로, 읽기 비용을 예측 가능하게 고정하려면 B-Tree를, 쓰기 비용을 낮추고 그만큼을 컴팩션으로 이월하려면 LSM-Tree를 택한다.
@@ -127,7 +127,7 @@ LSM-Tree 쓰기 및 읽기 처리 파이프라인
 
 ## Ⅶ. 결론
 
-- 조회 트랜잭션은 **B-Tree**, 대규모 쓰기는 **LSM-Tree** 선택
+- 현대 데이터베이스 스토리지 엔진의 **양대 핵심 읽기/쓰기 상충(Read vs Write) 아키텍처**로 확립되었으며, 실무 아키텍처 선정 시에는 **예측 가능한 낮은 읽기 지연(Latency)과 엄격한 트랜잭션이 요구되는 전통적 OLTP에는 B-Tree(MySQL InnoDB/PostgreSQL), IoT 시계열 데이터·분산 로그 수집·대규모 쓰기 중심 NoSQL/NewSQL 스토리지에는 블룸 필터(Bloom Filter)와 컴팩션 튜닝을 결합한 LSM-Tree(RocksDB/Cassandra)**를 워크로드 특성에 맞추어 전략적으로 선택
 
 #### 한줄 요약
 - B-Tree(읽기 최적화)와 LSM-Tree(쓰기 최적화)는 워크로드의 Read/Write 특성에 따라 상호 보완적으로 선택되는 스토리지 엔진의 핵심 아키텍처다.

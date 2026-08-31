@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 NetworkPolicy•CNI (Kubernetes NetworkPolicy CNI)"
-date: "2026-08-26T13:12:26+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 156
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 파드 간 네트워크 연결과 고유 IP를 할당하는 **CNI와 L3/L4 파드 트래픽 미세 격리(Micro-segmentation)를 수행하는 NetworkPolicy 보안 체계**
-- 배경/필요성: 기본 평면 네트워크는 모든 파드가 NAT 없이 서로 닿을 수 있어 파드 하나가 뚫리면 침해 비용이 클러스터 전체로 번지므로, CNI 데이터 플레인 위에 파드 라벨 단위 허용 목록을 강제하는 정책 계층을 끼워 넣어 측면 이동 경로 자체를 없앨 필요
+- 배경/필요성: 쿠버네티스 기본 평면(Flat) 네트워크 환경에서 모든 파드가 상호 무제한 통신이 가능함에 따라 발생하는 단일 파드 침해 시 공격자의 클러스터 내부 횡적 이동(Lateral Movement) 및 데이터 유출 위험을 원천 차단하기 위해, 파드 간 오버레이/직접 통신을 관장하는 CNI(Container Network Interface) 인프라 위에 파드 라벨, 네임스페이스, IP/Port 단위로 접근을 통제하는 NetworkPolicy를 선언하여 **제로 트러스트(Zero Trust) 기반의 미세 격리(Micro-segmentation) 방화벽을 구축**할 필요
 
 #### 한줄 요약
 - CNI가 통신망을 구성하고 NetworkPolicy가 제로 트러스트 기반의 방화벽 격리를 집행한다.
@@ -140,7 +140,7 @@ Frontend 파드에서 Backend 파드로 API 요청 전송
 
 ## Ⅶ. 결론
 
-- 통신망 구성은 **CNI**, 제로 트러스트 격리는 **NetworkPolicy** 선택
+- 엔터프라이즈 컨테이너 보안 및 ISMS-P/금융 망분리 컴플라이언스를 충족하는 **가장 핵심적인 내부 통신 격리 표준**으로 확립되었으며, 실무 구축 시에는 **모든 네임스페이스에 기본 적용하는 Default-Deny-All 화이트리스트 정책, 대규모 파드 통신 시 iptables 오버헤드를 제거하는 eBPF 기반 Cilium CNI 도입, 실시간 패킷 드롭 및 서비스 의존성을 관측하는 Hubble UI 연동, AWS VPC CNI IP 고갈을 방어하는 Secondary CIDR 커스텀 네트워킹**을 결합하여 초고속 패킷 처리 성능과 무결점 제로 트러스트 보안을 완성
 
 #### 한줄 요약
 - CNI와 NetworkPolicy는 파드 간 연결성과 제로 트러스트 미세 격리 방화벽을 제공하여 클러스터 내부 보안을 완성하는 핵심 네트워킹 기술이다.

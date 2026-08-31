@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "컨테이너 보안: Seccomp•AppArmor•OPA (Container Security)"
-date: "2026-08-26T13:13:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 158
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 컨테이너 이미지 빌드, 배포 승인, 런타임 전 주기에 걸쳐 **Seccomp, AppArmor, OPA를 적용하여 컨테이너 탈출과 악성 행위를 차단하는 다층 방어 체계**
-- 배경/필요성: 컨테이너는 호스트 커널을 공유하므로 침해 비용이 컨테이너 한 대가 아니라 노드 전체로 확대되고 런타임에서만 막으면 이미 실행된 뒤라 대응 비용이 커지므로, 빌드·배포 승인·커널이라는 서로 다른 시점에 검증 계층을 나눠 두어 침해 경로를 단계별로 끊을 필요
+- 배경/필요성: 컨테이너 환경이 호스트 OS 커널을 공유하는 구조적 특성으로 인해 단일 컨테이너 침해 시 발생하는 특권 상승 및 호스트 탈출(Container Escape), 이미지 공급망 오염(Supply Chain Attack), 악성 런타임 행위(WebShell, 비인가 시스템 콜)의 클러스터 전파 위험을 원천 차단하기 위해, 이미지 빌드 검증(Trivy/Cosign), 배포 시점 선언적 정책 강제(OPA Gatekeeper/Kyverno), 런타임 커널 시스템 콜 차단(Seccomp) 및 강제 접근 제어(AppArmor)를 결합한 **시프트 레프트(Shift-Left) 기반의 심층 방어(Defense-in-Depth) 컨테이너 보안 체계를 구축**할 필요
 
 #### 한줄 요약
 - 빌드부터 런타임까지 다계층 보안 통제를 적용하여 컨테이너 탈출과 악성 행위를 원천 차단한다.
@@ -149,7 +149,7 @@ API 서버가 요청을 Reject하고      워커 노드로 Pod 스펙 전달
 
 ## Ⅶ. 결론
 
-- 배포 통제는 **OPA**, 시스템콜 제약은 **Seccomp** 선택
+- 엔터프라이즈 클라우드 네이티브 환경에서 컨테이너 침해 사고를 원천 방어하는 **가장 포괄적이고 실증적인 다계층(Defense-in-Depth) 보안 프레임워크**로 확립되었으며, 실무 운영 시에는 **CI/CD 파이프라인 내 무서명 이미지 배포 차단(Cosign), OPA Admission Webhook 기반 `runAsNonRoot` 및 `readOnlyRootFilesystem` 강제, K8s 기본 `seccompProfile: RuntimeDefault` 적용, eBPF 기반 Falco 런타임 비인가 쉘 실시간 탐지·차단**을 결합하여 개발 생산성을 저해하지 않으면서 제로 트러스트 컨테이너 보안을 완성
 
 #### 한줄 요약
 - 컨테이너 보안은 배포 관문 통제와 커널 수준의 최소 권한 격리 및 실시간 위협 탐지를 결합하여 침해 확산을 원천 차단하는 핵심 클라우드 보안 기술이다.

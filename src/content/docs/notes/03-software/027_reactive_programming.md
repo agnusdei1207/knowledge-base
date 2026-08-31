@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
-date: "2026-08-26T16:50:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 27
 extra:
   question_no: "027"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 50
   priority_note: "비동기 데이터 스트림과 역압 흐름 제어"
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 비동기 데이터 스트림의 변화 전파와 **역압(Backpressure)** 제어로 시스템 자원을 최적화하는 선언적 프로그래밍 패러다임
-- 배경/필요성: 생산 속도가 소비를 넘어서면 중간 버퍼가 무한정 커지거나 소비자 스레드가 블로킹되는 비용을 치르므로, 소비자가 처리 가능한 양을 생산자에게 되돌려 요청하는 배압(Backpressure) 규약을 스트림 연결 지점에 둘 필요
+- 배경/필요성: 데이터 생산 속도가 소비 처리 속도를 초과할 때 발생하는 다운스트림 메모리 고갈(OOM) 및 소비자 스레드 블로킹 병목과, 비동기 파이프라인의 오류 전파 난제를 극복하고, 소비자가 수용 가능한 데이터 수량만큼만 요청하는 비차단 역압(Backpressure) 규약과 함수형 데이터 스트림(Reactive Streams)을 통해 **시스템 반응성(Responsive)과 탄력성(Elastic)을 보장**할 필요
 
 #### 한줄 요약
 - 비동기 데이터 스트림과 역압 제어를 통해 자원 효율성과 시스템 반응성을 보장한다.
@@ -149,7 +149,7 @@ Subscriber                      Publisher                   Subscription
 
 ## Ⅶ. 결론
 
-- 실시간 스트리밍은 **리액티브**, 블로킹은 **스케줄러 격리** 선택
+- 대규모 실시간 데이터 스트리밍(Kafka, WebSockets) 및 고동시성 마이크로서비스의 **핵심 비동기 스트림 처리 패러다임**으로 정립되었으며, 실무 엔터프라이즈 환경에서는 **완벽한 논블로킹 I/O(R2DBC, Netty) 기반 파이프라인 구축을 기본으로, 레거시 블로킹 구간의 `Schedulers.boundedElastic()` 격리, BlockHound 런타임 검증, Kotlin Coroutines(Flow)를 통한 코드 가독성 개선**을 결합하여 운영
 
 #### 한줄 요약
 - 리액티브 프로그래밍은 역압 제어와 비차단 스트림을 통해 시스템 과부하를 방지하고 무중단 반응성을 실현하는 현대 분산 시스템의 핵심 패러다임이다.

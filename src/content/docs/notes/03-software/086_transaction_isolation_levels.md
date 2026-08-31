@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-08-27T01:18:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 86
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 다중 트랜잭션 동시 실행 시 나타나는 읽기 이상 현상을 제어하기 위해 **Read Uncommitted부터 Serializable까지 4단계로 직렬화 수준을 규정**한 동시성 표준
-- 배경/필요성: 모든 트랜잭션을 직렬 실행하면 이상 현상은 사라지지만 처리량이 동시 요청 수만큼 깎이고 반대로 제어를 없애면 응용이 이상 현상을 직접 걸러내는 비용을 매 질의마다 치르므로, 어떤 이상 현상까지 허용할지를 4단계 눈금으로 규정해 정합성 비용을 워크로드별로 선택하게 하는 계층의 필요
+- 배경/필요성: 완벽한 직렬성(Serializable)만을 강제할 경우 발생하는 극심한 락 경합과 동시 처리량(Throughput) 급락, 반대로 동시성 제어가 부재할 때 발생하는 3대 읽기 이상 현상(Dirty Read, Non-Repeatable Read, Phantom Read)에 따른 데이터 왜곡을 방지하기 위해, ANSI/ISO SQL 표준 4단계 격리 수준(Read Uncommitted, Read Committed, Repeatable Read, Serializable)을 계층화하여 **애플리케이션 비즈니스 요구사항에 따라 데이터 일관성과 동시성 성능 간의 최적 트레이드오프를 선택**할 필요
 
 #### 한줄 요약
 - 4단계 격리 수준과 MVCC/Lock 메커니즘을 통해 동시 처리량과 정합성 간의 최적 균형을 달성한다.
@@ -132,7 +132,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 동시성 확보는 **RC 수준**, 정합성 보장은 **낙관적 락** 선택
+- 엔터프라이즈 RDBMS 트랜잭션 동시성 제어 및 병행 처리의 **핵심 표준 격리 메커니즘**으로 확립되었으며, 실무 운영 시에는 **높은 동시성을 제공하는 Read Committed(Oracle/PostgreSQL) 또는 MVCC 기반 Repeatable Read(MySQL)를 기본값으로 운용하고, 동시 갱신 분실(Lost Update) 및 비즈니스 정합성 훼손을 방지하기 위해 애플리케이션 레벨의 낙관적 락(`@Version`) 또는 비관적 락(`SELECT FOR UPDATE`)을 선별 결합**하여 시스템 처리량과 무결성을 극대화
 
 #### 한줄 요약
 - 트랜잭션 격리 수준은 성능과 정합성의 균형점을 결정하는 핵심 척도이며, MVCC와 락 기법을 적절히 결합하여 최적화해야 한다.

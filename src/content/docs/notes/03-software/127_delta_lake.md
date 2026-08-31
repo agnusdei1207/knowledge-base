@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
-date: "2026-08-27T02:25:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 127
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 객체 스토리지의 Parquet 파일 상에 **JSON 트랜잭션 로그(`_delta_log`)를 결합하여 ACID 트랜잭션, 타임트래블, MERGE INTO를 지원**하는 오픈 테이블 포맷
-- 배경/필요성: 객체 스토리지의 파일을 직접 고치면 부분 쓰기 실패를 되돌릴 방법이 없고 동시 쓰기의 순서를 정할 지점도 없어 정합성을 파일 시스템에 기댈 수 없으므로, 어떤 파일이 유효한지를 별도 JSON 커밋 로그에 기록하고 그 로그를 테이블 상태의 유일한 정본으로 삼을 필요
+- 배경/필요성: 클라우드 객체 스토리지 상의 Parquet 파일에 직접 쓰기 수행 시 발생하는 부분 쓰기 실패(Partial Failure)로 인한 데이터 손상, 동시 트랜잭션 충돌 및 변경 데이터 갱신(`MERGE INTO`) 처리의 비효율성을 극복하고, Parquet 파일 위에 JSON 기반 트랜잭션 로그(`_delta_log`)와 10회 주기 Checkpoint 메타데이터를 결합하여 **완전한 ACID 트랜잭션, 타임 트래블(Time Travel), 스키마 강제(Schema Enforcement) 및 배치/스트리밍 통합 처리를 보장**할 필요
 
 #### 한줄 요약
 - 데이터 파일을 불변으로 두고 유효성을 로그로만 판정하기에 갱신·삭제·타임트래블이 모두 같은 메커니즘 하나로 해결되지만, 그 대가로 읽기마다 로그를 재생하는 비용이 붙는다.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- Spark 기반 레이크는 **Delta Lake**, 정렬은 **Z-Order** 선택
+- Apache Spark 및 Databricks 생태계 중심의 **대표적인 고성능 오픈 테이블 포맷 스토리지 계층**으로 확립되었으며, 실무 운영 시에는 **다차원 데이터 건너뛰기를 실현하는 `OPTIMIZE ZORDER BY` 튜닝, 미사용 구버전 스토리지 비용을 회수하는 정기 `VACUUM` 정책, 스키마 오염을 방어하는 Schema Enforcement와 의도된 변경을 수용하는 `mergeSchema` 거버넌스**를 결합하여 대규모 데이터 레이크하우스의 정합성과 쿼리 성능을 동시 보장
 
 #### 한줄 요약
 - Delta Lake는 Parquet 파일과 JSON 트랜잭션 로그를 통해 객체 스토리지 상에서 무결점 ACID 트랜잭션과 고성능 UPSERT를 완성하는 대표 오픈 테이블 포맷이다.

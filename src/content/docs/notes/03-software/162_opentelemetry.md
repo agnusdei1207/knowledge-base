@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OpenTelemetry (OpenTelemetry)"
-date: "2026-08-26T13:14:39+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 162
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 메트릭·로그·추적을 **OTLP로 수집·가공·전송하는 표준 프레임워크**
-- 배경/필요성: 관측 백엔드를 바꿀 때마다 벤더 SDK에 묶인 계측 코드를 전 서비스에서 다시 쓰는 비용이 재발하므로, 애플리케이션과 백엔드 사이에 표준 API와 수집기 계층을 두어 교체 비용을 코드 수정이 아닌 설정 변경으로 낮출 필요
+- 배경/필요성: 과거 각 모니터링 상용 벤더(Datadog, Dynatrace, New Relic 등) 및 오픈소스(Jaeger, Prometheus)마다 독자적인 전용 SDK와 프로토콜을 사용함에 따라 발생했던 극심한 벤더 종속(Vendor Lock-in), 다중 에이전트 중복 설치로 인한 애플리케이션 성능 저하 및 백엔드 교체 시 소스코드 전면 재작성 비용을 해소하기 위해, 텔레메트리(Metrics, Logs, Traces)의 생성·수집·가공·전송을 표준화한 CNCF 오픈소스 프레임워크인 OpenTelemetry(OTel)를 도입하여 **단일 표준 API/SDK 및 OTLP 프로토콜 기반의 벤더 비종속 통합 관측 파이프라인을 확립**할 필요
 
 #### 한줄 요약
 - OTel 표준 SDK와 수집기로 **코드 수정 없이 다중 백엔드 전송**
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 벤더 종속 탈피는 **OpenTelemetry**, 데이터 수집 파이프라인은 **Collector** 기반 적용
+- 클라우드 네이티브 관측성(Observability) 생태계의 **가장 지배적인 글로벌 텔레메트리 사실상 표준(CNCF Graduate 프로젝트)**으로 확립되었으며, 실무 구축 시에는 **소스코드 무수정 Java/eBPF 자동 계측(Auto-Instrumentation), PII 민감정보 마스킹 및 OOM을 방어하는 OTel Collector `memory_limiter` 파이프라인, 노드 데몬셋(Agent)과 중앙 집계(Gateway) 2계층 토폴로지 구성, OTLP gRPC(포트 4317) 초고속 직렬화 전송**을 결합하여 애플리케이션 오버헤드를 최소화하면서 완전한 데이터 이식성과 보안 거버넌스를 달성
 
 #### 한줄 요약
 - OpenTelemetry는 단일 표준 API/SDK와 3단계 Collector 파이프라인을 통해 텔레메트리를 벤더 독립적으로 수집하는 핵심 기술이다.

@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-08-26T16:35:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 22
 extra:
   question_no: "022"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 50
   priority_note: "I/O 큐•디스크 스케줄링 지연 설계 가치"
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 저장 매체의 특성에 맞추어 I/O 요청을 재정렬(Sorting) 및 병합(Merging)하여 접근 지연을 최소화하는 **디스크 스케줄링** 메커니즘
-- 배경/필요성: HDD는 요청마다 헤드를 물리적으로 이동시켜 탐색 시간이 전체 응답을 지배하는 비용이 되므로, 요청을 도착순 그대로 내리지 않고 실린더 위치 기준으로 재배열하는 디스크 스케줄링 계층을 I/O 큐에 두어 총 헤드 이동 거리를 줄일 필요
+- 배경/필요성: 기계식 HDD의 물리적 헤드 이동(Seek Time) 및 회전 지연(Rotational Latency)으로 인한 극심한 I/O 병목과 차세대 NVMe SSD의 단일 큐 락 경합 한계를 극복하고, 블록 I/O 요청 병합(Merging) 및 실린더 정렬(C-LOOK/BFQ), 멀티코어 병렬 하드웨어 큐(blk-mq)를 통해 **스토리지 미디어 특성에 최적화된 I/O 처리량 극대화와 Tail Latency 최소화를 실현**할 필요
 
 #### 한줄 요약
 - I/O 요청을 병합·정렬하여 기계적 탐색 시간을 줄이고 미디어 특성에 맞춘 처리량을 확보한다.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- HDD는 **C-LOOK/BFQ**, NVMe는 **blk-mq/none** 선택
+- 운영체제 블록 스토리지 서브시스템의 **핵심 미디어별 I/O 최적화 제어 표준 기술**로 확립되었으며, 실무 환경에서는 **기계식 HDD에는 공정성과 탐색을 균형화한 BFQ/C-LOOK, 초고속 NVMe SSD에는 CPU 오버헤드를 제거하는 blk-mq `none`(kyber/mq-deadline) 스케줄러를 적용하고, `iostat` 지표 모니터링을 통한 큐 튜닝**을 결합하여 고부하 스토리지 성능을 최적화
 
 #### 한줄 요약
 - 디스크 스케줄링은 미디어의 물리적 구조(회전체 vs 플래시)에 맞춘 최적화 전략을 선택함으로써 I/O 병목을 완벽히 해소한다.

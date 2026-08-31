@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-27T00:44:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-software"
 weight: 55
 extra:
   question_no: "055"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 50
   priority_note: "선언적 인프라와 Git 기반 지속적 배포 및 자동 동기화"
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: Git 저장소를 **단일 진실 공급원(SSOT)** 으로 삼고, 클러스터 내부 컨트롤러가 목표 상태를 자동 수렴시키는 **GitOps** 운영 모델
-- 배경/필요성: `kubectl`로 클러스터를 직접 바꾸면 실제 상태와 문서가 어긋나는 형상 드리프트가 남고 CI 서버에 클러스터 관리자 권한까지 넘겨야 하므로, Git 저장소를 선언적 단일 원본으로 두고 클러스터 안 에이전트가 그 상태로 수렴시키는 풀 방식으로 바꿀 필요
+- 배경/필요성: 전통적인 Push 기반 CI/CD 파이프라인이 유발하는 CI 서버 내 클러스터 관리자(kubeconfig) 자격 증명 보관에 따른 보안 취약점, 수동 명령(`kubectl`) 조작으로 인한 형상 불일치(Configuration Drift) 및 불투명한 배포 감사 이력 문제를 극복하고, Git 저장소를 단일 진실 공급원(SSOT)으로 삼아 클러스터 내부 컨트롤러(ArgoCD/Flux)가 선언적 매니페스트를 지속적으로 동기화하는 풀(Pull) 기반 배포와 조정 루프(Reconciliation Loop)를 통해 **제로 트러스트 보안, 완벽한 감사 추적성 및 자가 치유(Self-Healing) 배포 환경을 실현**할 필요
 
 #### 한줄 요약
 - 선언적 인프라 명세를 Git에 버전 관리하고, 클러스터 내부 에이전트가 목표 상태를 자동 동기화한다.
@@ -142,7 +142,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 선언적 배포는 **GitOps**, 형상 일치는 **조정 루프** 선택
+- 쿠버네티스(K8s) 기반 클라우드 네이티브 인프라 및 애플리케이션 운영의 **표준 배포 운영 모델(Operating Model)**로 확립되었으며, 실무 구축 시에는 **애플리케이션 소스와 배포 매니페스트 저장소의 물리적 분리, Kustomize/Helm 기반 환경별(Dev/Stg/Prod) 오버레이 관리, Git 내 시크릿 암호화를 위한 Sealed Secrets/External Secrets Operator, ArgoCD의 지속적 조정 루프 및 Slack 알림**을 결합하여 운영 신뢰성을 극대화
 
 #### 한줄 요약
 - GitOps는 Git을 단일 진실 공급원으로 선언하고 자가 치유를 통해 인프라와 배포의 신뢰성을 극대화하는 클라우드 운영의 표준 패러다임이다.
