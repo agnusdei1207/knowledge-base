@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 191
   label: "191. Apache Iceberg"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-26T17:32:54+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 191
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 스냅샷•매니페스트 계층으로 파일과 스키마를 관리하는 **Apache Iceberg**
-- 배경/필요성: 파일 경로로 테이블을 정의하면 조회마다 디렉터리를 나열하는 탐색 비용이 파일 수에 비례해 커지고 **동시 커밋•스키마 진화 제약**까지 남으므로, 유효 파일 목록을 스냅샷 메타데이터로 미리 색인해 두고 포인터 교체로 커밋을 원자화하는 계층의 필요
+- 배경/필요성: 전통적인 하이브 메타스토어(Hive Metastore) 방식은 파일 시스템의 디렉터리 경로 구조로 파티션을 관리하여 대규모 데이터셋 쿼리 시 디렉터리 리스팅(O(N) 파일 스캔) 병목이 발생하고, 파티션 컬럼 변경 시 테이블 전체를 다시 써야 하며, 다중 작업자의 동시 쓰기 시 원자적 커밋(Atomic Commit)을 지원하지 못하는 근본적 한계에 직면함에 따라, 넷플릭스(Netflix)에서 시작되어 아파치 재단 표준으로 자리 잡은 오픈 테이블 포맷인 Apache Iceberg(Snapshot-Manifest Tree Architecture / Catalog $\rightarrow$ Table Metadata $\rightarrow$ Manifest List $\rightarrow$ Manifest File $\rightarrow$ Data/Delete Files, Hidden Partitioning, Partition Evolution, In-place Schema Evolution with Field-ID, Optimistic Concurrency Control, Row-level Deletes: Copy-on-Write vs Merge-on-Read, Time Travel)를 도입하여 **스냅샷 기반 계층형 매니페스트 트리(Tree of Manifests) 구조를 통한 $O(1)$ 초고속 메타데이터 프루닝 및 디렉터리 리스팅 오버헤드 100% 제거, 고유 Field-ID 기반의 인플레이스 스키마 진화 및 무중단 파티션 진화(Partition Evolution) 지원, 스파크(Spark), 트리노(Trino), 플링크(Flink), 스노우플레이크(Snowflake) 등 이기종 다중 컴퓨팅 엔진 간 완벽한 ACID 트랜잭션 상호운용성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -161,7 +161,7 @@ extra:
 
 </details>
 
-- 다중 엔진•파티션 진화는 **Iceberg**, 로그 중심 스트리밍은 **Delta Lake** 선택
+- 특정 벤더 종속 없이 글로벌 빅테크 및 클라우드 DW 진영(Snowflake, BigQuery, Databricks, AWS) 전체의 전폭적인 지지를 받으며 엔터프라이즈 레이크하우스의 실질적 표준으로 확립된 **차세대 개방형 테이블 포맷 및 대규모 분산 메타데이터 관리의 최고 표준(Apache Iceberg / Manifest Tree Metadata Architecture / Hidden Partitioning & Partition Evolution / Multi-Engine Decoupling / REST Catalog Specification)의 확고한 표준**으로 확고히 자리 잡았으며, 오픈 카탈로그(Apache Polaris, Tabular)와 연계된 전사 데이터 거버넌스로 진화하는 가운데, 실무 Apache Iceberg 구축 시에는 **공통 REST 카탈로그를 도입하여 다중 엔진 접근성을 단일화하고, Merge-on-Read(MoR) 삭제 파일로 인한 읽기 지연을 방지하기 위해 백그라운드 컴팩션(Compaction) 및 스냅샷 만료(Expire Snapshots) 주기를 자동화**를 결합하여 완벽한 데이터 신뢰성과 초고속 쿼리 성능을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Kubernetes (쿠버네티스)"
-date: "2026-08-26T17:27:44+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 158
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 컨테이너를 목표 상태로 조정•배치•복구하는 **K8s**이다.
-- 배경/필요성: 다중 노드를 사람이 직접 운영하면 장애•배포마다 배치와 복구를 다시 판단하는 비용이 재발생해 **배치•연결•복구 상태 불일치**로 이어지므로, 목표 상태를 선언으로 받아 실제 상태와의 차이를 기계가 반복 축소하는 제어 계층의 필요
+- 배경/필요성: 마이크로서비스 아키텍처(MSA)의 확산으로 수천~수만 개의 분산 컨테이너 인스턴스가 동적으로 생성•소멸하는 환경에서, 수동 스크립트나 정적 호스트 관리는 서버 장애 시 컨테이너 재배치 지연, IP 변경에 따른 서비스 연결 단절, 리소스 불균형 및 롤링 배포 실패 등 심각한 운영 중단과 인적 오류에 직면함에 따라, 원하는 시스템 목표 상태(Desired State)를 선언적 명세(Declarative YAML)로 정의하고 제어 루프(Reconciliation Loop)를 통해 클러스터 실제 상태를 자동으로 일치시키는 컨테이너 오케스트레이션 플랫폼인 Kubernetes(K8s / Master Control Plane: API Server, etcd, Controller Manager, Scheduler, Worker Node: kubelet, kube-proxy, CRI/CNI/CSI Standard, Operator Pattern)를 도입하여 **선언적 선언과 자가 치유(Self-healing: Auto-restart, Auto-rescheduling, Health Checks)를 통한 무중단 고가용성 보장, 레이블 셀렉터 기반의 서비스 디스커버리 및 L4 로드밸런싱 자동화, HPA/VPA 및 Cluster Autoscaler를 통한 지능형 탄력 확장**을 달성할 필요
 
 #### 한줄 요약
 
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- 무상태는 **Deployment**, 고정 식별•볼륨은 **StatefulSet** 선택
+- 클라우드 네이티브 컴퓨팅(CNCF) 생태계의 절대적 사실상 표준(De facto Standard)이자 차세대 엔터프라이즈 인프라의 OS로서 확고히 자리 잡은 **선언적 컨테이너 오케스트레이션 및 분산 인프라 제어 플랫폼의 최고 표준(Kubernetes: K8s / Declarative Reconciliation Loop / Control Plane & Worker Architecture / CRI, CNI, CSI Plugin Standards / Operator Framework & GitOps / Dynamic HPA & Multi-tenancy)의 확고한 표준**으로 확고히 자리 잡았으며, vLLM/KServe 기반의 AI 추론 및 대규모 분산 학습 오케스트레이션(Kueue, Volcano)으로 진화하는 가운데, 실무 프로덕션 K8s 클러스터 운영 시에는 **무상태 워크로드는 Deployment로, 상태 유지가 필요한 DB는 StatefulSet과 Operator로 격리 배포하며, 엄격한 Pod Disruption Budget(PDB), 자원 Limit/Request 설정, 그리고 ArgoCD 기반의 선언적 GitOps 파이프라인**을 결합하여 완벽한 배포 안정성과 무중단 클라우드 네이티브 인프라를 완성
 
 #### 한줄 요약
 

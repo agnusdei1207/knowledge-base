@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "영지식 증명 (Zero-Knowledge Proof, ZKP)"
-date: "2026-08-26T17:45:19+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 222
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 비밀 증거 공개 없이 명제의 참을 입증하는 **ZKP**
-- 배경/필요성: 조건을 확인하려고 원본을 그대로 제출하면 검증에 필요 없는 비밀번호•소득•거래 내역까지 넘어가 **과다 공개**와 그 보관 책임을 검증자마다 반복해서 지우므로, 명제가 참이라는 사실만 증명으로 만들어 원본 없이 확인하게 하는 계층의 필요
+- 배경/필요성: 기존 디지털 인증 및 데이터 검증 시스템은 특정 조건(성인 여부, 신용 점수, 금융 잔액, 비밀번호 일치 등)을 증명하기 위해 비밀 원본 데이터(주민등록번호, 전체 계좌 거래 내역, 평문 패스워드)를 검증자에게 통째로 제출해야 하므로, 데이터 전송 및 보관 과정에서의 대규모 개인정보 유출, 기업 기밀 노출 및 프라이버시 침해 사고가 구조적으로 발생하며, 블록체인 상에서는 모든 트랜잭션이 전원에게 공개되어 금융/의료 등 프라이버시 민감 분야의 온체인 적용이 불가능한 한계에 직면함에 따라, 증명자(Prover)가 자신의 비밀 정보(Witness)를 검증자(Verifier)에게 전혀 공개하지 않고도 해당 명제가 참(True)이라는 사실만을 수학적/암호학적으로 완벽히 입증하는 암호 프로토콜인 Zero-Knowledge Proof(Goldwasser, Micali, Rackoff / 3 Core Properties: Completeness, Soundness, Zero-Knowledge / Non-Interactive ZKP: NIZK via Fiat-Shamir Heuristic / zk-SNARK: Groth16, PLONK, Halo2 with Trusted Setup vs zk-STARK: Transparent & Post-Quantum Secure via FRI / ZK-Rollup: zkEVM, zk-Identity, Anonymous Credential)를 도입하여 **비밀 데이터의 노출 없는 완벽한 프라이버시 보존형 자격/신원 검증, 영지식 롤업(ZK-Rollup)을 통한 대규모 복잡한 연산을 단 하나의 간결한 유효성 증명(Validity Proof)으로 압축하여 블록체인 처리량 수만 TPS로 극대화, 머신러닝 모델의 올바른 추론을 증명하는 검증 가능한 AI(zkML) 및 탈중앙화 기밀 컴퓨팅 생태계 구축**을 달성할 필요
 
 #### 한줄 요약
 
@@ -163,7 +163,7 @@ extra:
 
 </details>
 
-- 작은 증명•온체인은 **zk-SNARK**, 투명 설정•대형 계산은 **zk-STARK** 선택
+- 개인정보보호(Privacy)와 대규모 확장성(Scalability)이라는 상충된 과제를 수학적으로 동시에 해결하는 **현대 암호학의 최고 정점 기술이자 Web3 및 차세대 기밀 컴퓨팅의 최고 핵심 표준(Zero-Knowledge Proof: ZKP / zk-SNARK & zk-STARK / Completeness, Soundness, Zero-Knowledge / Validity Proof Compression / Privacy-Preserving Computing)의 확고한 표준**으로 확고히 자리 잡았으며, zkML(영지식 머신러닝) 및 영지식 하드웨어 가속기(ZPU/FPGA)로 비약적 발전하는 가운데, 실무 ZKP 시스템 설계 시에는 **온체인 검증 비용과 증명 크기가 극도로 중요한 환경에는 zk-SNARK(PLONK)를 채택하고, 양자 내성 보안과 신뢰 설정 배제가 필수적인 대규모 연산에는 zk-STARK를 선택하며, 산술 회로(Arithmetic Circuit)의 형식 검증 및 ZK 전용 가속 하드웨어 파이프라인**을 결합하여 완벽한 암호학적 프라이버시와 초고속 증명 성능을 완성
 
 #### 한줄 요약
 

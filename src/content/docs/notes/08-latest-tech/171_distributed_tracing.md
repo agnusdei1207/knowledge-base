@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 171
   label: "171. 분산 추적 (Distributed Tracing)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "분산 추적 (Distributed Tracing)"
-date: "2026-08-26T17:23:15+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 171
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 스팬 관계로 종단 간 요청 경로를 재구성하는 **분산 추적**
-- 배경/필요성: 서비스마다 따로 남긴 로그는 한 요청을 서비스 수만큼 다시 맞춰 보는 비용을 장애마다 치르고도 **호출 관계•병목 구간**을 확정하지 못하므로, 요청 하나에 공통 문맥을 붙여 전 구간의 순서와 소요 시간을 한 번에 재구성할 계층의 필요
+- 배경/필요성: 수십~수백 개의 마이크로서비스가 비동기 메시지 큐와 gRPC/HTTP로 얽힌 분산 아키텍처 환경에서 개별 서버의 독립적 로그만으로는 단일 트랜잭션의 전체 실행 경로를 조망할 수 없고, 특정 서비스 지연이나 간헐적 장애 발생 시 인과관계 추적 및 병목 지점 식별이 불가능하여 MTTR(평균 복구 시간)이 수 시간 이상으로 지연되는 한계에 직면함에 따라, 요청 유입 시점부터 고유한 추적 식별자(Trace ID/Span ID)를 생성하고 네트워크 경계를 넘어 문맥을 전달(Context Propagation)하여 종단 간(End-to-End) 실행 그래프를 시각화하는 분산 추적(Distributed Tracing / W3C TraceContext, OpenTelemetry, Jaeger, Zipkin, Dapper Architecture, Span Tree, Critical Path Analysis, Tail-based Sampling) 기술을 도입하여 **분산 트랜잭션의 호출 계층 구조(Parent-Child Spans)와 임계 경로(Critical Path)를 실시간으로 재구성하여 지연 병목 및 장애 서비스 즉시 특정, 비동기 큐/스레드 경계를 관통하는 무결한 트랜잭션 가시성 확보, 테일 기반 샘플링을 통한 고지연/에러 트레이스 100% 포착 및 저장 비용 최적화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -71,12 +71,12 @@ Trace ID•Span ID의 **부모•자식 관계 보존** 구조
                        [스팬 컨텍스트]
                          /          \
                   [스팬 생성기]   [문맥 전파기]
-                         \          /
-                           [수집기]
-                              |
-                           [샘플러]
-                              |
-                       [추적 백엔드]
+                          \          /
+                            [수집기]
+                               |
+                            [샘플러]
+                               |
+                        [추적 백엔드]
 ```
 선의 의미: 추적 문맥 공유와 스팬 수집•선별•경로 재구성 관계
 
@@ -177,7 +177,7 @@ Trace ID•Span ID의 **부모•자식 관계 보존** 구조
 
 </details>
 
-- 전체 감사는 **전량 수집**, 오류•고지연 분석은 **테일 샘플링** 선택
+- 마이크로서비스 및 분산 클라우드 환경에서 서비스 간 인과관계와 지연 시간을 투명하게 밝히는 **분산 트랜잭션 관찰 가능성 및 성능 병목 분석의 최고 핵심 기술 표준(Distributed Tracing / OpenTelemetry & W3C TraceContext Standard / Parent-Child Span Graph / Critical Path Analysis / Jaeger & Tempo Backend / Tail-based Sampling Optimization)의 확고한 표준**으로 확고히 자리 잡았으며, eBPF 자동 계측 및 AI 기반 근본 원인 분석(RCA)과 결합하여 고도화되는 가운데, 실무 분산 추적 아키텍처 구축 시에는 **W3C TraceContext 표준 헤더 전파를 전사 통일하여 문맥 단절을 방지하고, 고카디널리티 태그를 배제하며, 트레이스 완료 시점에 오류 및 이상 지연 요청을 100% 선별 수집하는 테일 기반 샘플링(Tail-based Sampling) 파이프라인**을 결합하여 완벽한 엔드투엔드 가시성과 관측 인프라 TCO 최적화를 완성
 
 #### 한줄 요약
 

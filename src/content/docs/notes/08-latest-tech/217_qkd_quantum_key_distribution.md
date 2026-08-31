@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "양자키분배 (Quantum Key Distribution, QKD)"
-date: "2026-08-26T17:44:34+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 217
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 양자 상태의 측정 교란으로 도청을 탐지하는 **QKD 키 분배**
-- 배경/필요성: 계산 난이도에 안전을 건 기존 키 교환은 **도청 여부 확인 불가**라 기록된 트래픽이 나중에 풀릴 위험까지 떠안으므로, 관측하면 상태가 교란되는 양자 성질을 이용해 도청 시도를 오류율이라는 측정값으로 드러내는 키 분배 계층의 필요
+- 배경/필요성: 수학적 계산 복잡도(인수분해, 이산로그)에 안전성을 의존하는 고전 공개키 암호(RSA, ECC)는 양자 알고리즘(Shor)의 발전 및 컴퓨팅 파워 증대에 따라 언제든 무력화될 수 있는 '조건부 보안(Conditional Security)'에 불과하고 도청자의 중간 도청 여부를 사전에 감지할 수 없는 물리적 한계에 직면함에 따라, 양자역학의 근본 법칙인 단일 광자 복제 불가능성 정리(No-Cloning Theorem)와 하이젠베르크 불확정성 원리(Uncertainty Principle)를 활용하여 도청 시도의 물리적 흔적(상태 교란)을 완벽히 감지하면서 원거리 통신 당사자 간에 완벽한 무조건적 보안성(Information-Theoretic Security)을 갖는 대칭 암호키를 실시간 공유하는 Quantum Key Distribution(BB84 Protocol, E91 Entanglement Protocol, Decoy-State QKD, Continuous-Variable CV-QKD / Dual-Channel: Quantum Optical Channel + Authenticated Classical Channel / Key Sifting, Error Correction & Privacy Amplification / Quantum Bit Error Rate: QBER Threshold $\approx 11\%$ / Trusted Node & Quantum Repeater, Integration with One-Time Pad: OTP & AES-256) 통신 체계를 도입하여 **양자 상태 측정 교란에 따른 양자 비트 오류율(QBER) 감시를 통해 도청자의 존재를 100% 감지하고 도청 발견 시 즉각 세션 폐기, 기저 선별, 오류 정정, 프라이버시 증폭(Privacy Amplification)을 거쳐 정보이론적으로 안전한 비밀키를 실시간 생성/공급, OTP(일회용 패드) 및 고속 대칭키 암호(AES-256)와 결합하여 국가 기밀망, 금융망, 핵심 인프라 백본의 영구적 도청 불가능성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -157,7 +157,7 @@ extra:
 
 </details>
 
-- **거리•QBER•키율**을 충족하는 **고가치 전용 구간**에 QKD 적용
+- 수학적 난제가 아닌 물리 법칙에 기반하여 도청 시도를 원천 차단하는 **무조건적 보안성(Information-Theoretic Security)의 최고 정점 물리 계층 보안 인프라(Quantum Key Distribution: QKD / BB84 & Decoy-State Protocol / QBER Real-Time Detection / Information-Theoretic Key Distillation / Trusted Node Network)의 확고한 표준**으로 확고히 자리 잡았으며, 위성 기반 초장거리 QKD 및 양자 중계기(Quantum Repeater) 기반의 양자 인터넷(Quantum Internet)으로 진화하는 가운데, 실무 국가/금융 핵심 보안망 구축 시에는 **소프트웨어 계층의 양자내성암호(PQC)와 물리 계층의 양자키분배(QKD)를 결합하는 심층 방어(Defense-in-Depth) 하이브리드 아키텍처를 채택하고, QBER 실시간 임계치 감시 및 신뢰 노드(Trusted Node) 물리 보안**을 결합하여 완벽한 물리적 도청 방어와 무결점 장기 기밀성을 완성
 
 #### 한줄 요약
 

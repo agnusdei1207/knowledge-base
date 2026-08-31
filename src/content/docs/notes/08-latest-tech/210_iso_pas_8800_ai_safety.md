@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 210
   label: "210. ISO/PAS 8800 인공지능 안전"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "ISO/PAS 8800 인공지능 안전"
-date: "2026-08-26T17:43:18+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 210
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 차량 AI의 출력 부족•오류 위험을 수명주기로 관리하는 **ISO/PAS 8800**
-- 배경/필요성: 고장률 기반 분석은 부품이 고장 나는 상황만 다뤄 학습 데이터가 부족하거나 분포가 달라 생기는 AI의 **출력 부족•체계적 오류**를 확률로 입증할 수 없으므로, 데이터•모델•운영 전 수명주기에 걸쳐 AI의 한계를 증거로 관리하는 별도 안전 체계의 필요
+- 배경/필요성: 자율주행(ADS), 로보틱스, 첨단 ADAS 분야에 딥러닝 기반 인공지능(AI/ML) 모델이 광범위하게 적용되고 있으나, 전통적인 자동차 기능안전 표준(ISO 26262)은 하드웨어 고장과 소프트웨어 버그만을 다루고 의도된 기능의 안전성 표준(ISO 21448 SOTIF)은 고전적 알고리즘의 성능 한계만을 다루어, 딥러닝 AI 고유의 블랙박스 특성(비설명성), 데이터셋의 편향(Bias) 및 분포 변화(Distribution Drift), 적대적 공격(Adversarial Attack) 및 AI 성능 부족(AI Insufficiency)으로 인한 치명적 오인식 사고 위험을 체계적으로 보증하지 못하는 공백에 직면함에 따라, 도로 차량에 적용되는 인공지능의 안전성을 수명주기 전반에 걸쳐 보증하기 위해 ISO에서 제정한 국제 공개 사양 표준인 ISO/PAS 8800(Road Vehicles - Safety and Artificial Intelligence / AI Safety Lifecycle: Definition, AI Safety Requirements, Data Quality & Sufficiency, Model Training & Verification, Continuous Operation & Monitoring / AI Insufficiency & Triggering Conditions / Verification & Validation: V&V / Safety Assurance Argument & Safety Case / Interoperability with ISO 26262 & ISO 21448) 규격을 도입하여 **AI 기능의 성능 부족(AI Insufficiency) 및 위험 유발 조건(Triggering Conditions)을 체계적으로 식별하고 완화 요구사항을 도출, 훈련/검증 데이터셋의 완결성, 대표성, 무결성 보증 및 AI 모델의 강건성(Robustness), 설명가능성(XAI), 불확실성(Uncertainty)을 정량적으로 검증(V&V), 차량 배포 후 실시간 분포 변화(Drift) 감시 및 안전 케이스(Safety Case) 연속성 유지를 통한 도로 차량 AI의 완벽한 기능안전 보증**을 달성할 필요
 
 #### 한줄 요약
 
@@ -71,11 +71,11 @@ AI 안전 요구•V&V 증거의 **안전 보증 논증 연결**
                        |
               [AI 안전 요구•부족성]
                        |
-               [데이터셋•모델 개발]
+                [데이터셋•모델 개발]
                        |
                  [V&V•보증 논증]
                        |
-               [운영 감시•변경 통제]
+                [운영 감시•변경 통제]
 ```
 
 선의 의미: 시스템 맥락•안전 요구•개발•검증•운영 변경의 계층 관계
@@ -174,7 +174,7 @@ ISO/PAS 8800의 **AI 수명주기 안전 증거** 범위
 
 </details>
 
-- AI 출력 부족•변경 시 **V&V•안전 케이스 갱신**과 **대체 대응** 적용
+- 자율주행차 및 지능형 모빌리티에 탑재되는 딥러닝 AI의 안전성과 신뢰성을 검증하기 위한 전 세계 최초의 **자동차 인공지능(AI) 기능안전 및 성능 부족성 보증의 최고 국제 표준(ISO/PAS 8800 AI Safety / AI Insufficiency & Safety Case Framework / Data & Model Quality Verification / ISO 26262 & ISO 21448 Harmonization / Continuous Operational Monitoring)의 확고한 표준**으로 확고히 자리 잡았으며, 향후 ISO 정식 국제표준으로의 승격 및 AI 윤리/규제 컴플라이언스로 진화하는 가운데, 실무 자동차 AI 시스템 개발 시에는 **ISO 26262(고장 안전), ISO 21448(SOTIF 성능 한계), ISO/PAS 8800(AI 부족성)의 3대 안전 표준을 통합 적용하고, 데이터셋의 엣지 케이스 대표성 검증과 런타임 불확실성 감시 기반의 페일세이프 대체 대응(Fallback)**을 결합하여 완벽한 AI 주행 신뢰성과 글로벌 안전 인증을 완성
 
 #### 한줄 요약
 

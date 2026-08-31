@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 188
   label: "188. 소프트웨어 공급망 보안 (Software Supply Chain Security)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 공급망 보안 (Software Supply Chain Security)"
-date: "2026-08-26T17:36:02+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 188
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 소스•의존성•빌드•유통•배포의 변조를 통제하는 **공급망 보안**
-- 배경/필요성: 완성된 아티팩트만 검사하면 정상으로 보일 뿐 어느 단계에서 섞였는지 되짚을 수 없어 사고마다 **오염 경로•책임 주체 식별 곤란**을 사후 조사 비용으로 치르므로, 소스•의존성•빌드 각 단계에 증거를 남기고 배포 시점에 그 증거를 검증하는 구조의 필요
+- 배경/필요성: 오픈소스 저장소 오염(타이포스쿼팅, 계정 탈취), 빌드 파이프라인 침투(SolarWinds, Codecov 사건), 배포 이미지 위변조 등 소프트웨어 수명주기(SDLC) 전 구간을 겨냥한 공급망 공격(Supply Chain Attack)이 급증함에 따라, 최종 산출물에 대한 단순 안티바이러스 스캔이나 런타임 모니터링만으로는 빌드/배포 과정 중에 은밀히 주입된 백도어를 탐지할 수 없는 근본적 한계에 직면함에 따라, 소스 코드 작성부터 외부 의존성 반입, 격리 빌드, 패키징, 레지스트리 유통, 쿠버네티스 런타임 배포에 이르는 전 경로의 무결성을 암호학적으로 증명하고 통제하는 소프트웨어 공급망 보안(Software Supply Chain Security / SLSA: Supply-chain Levels for Software Artifacts v1.0, NIST SSDF: Secure Software Development Framework, In-toto Provenance, Sigstore/Cosign, OPA/Gatekeeper Admission Control, SBOM & VEX) 체계를 도입하여 **에펨럴 격리 빌드(Isolated Ephemeral Builder)를 통한 빌드 환경 침투 및 임의 코드 변조 원천 차단, 인토토(In-toto) 메타데이터 및 암호화 증명(Provenance Attestation)을 통한 빌드 산출물 출처 보증, 쿠버네티스 어드미션 컨트롤러(Admission Control) 기반의 무결성 검증되지 않은 컨테이너 이미지 클러스터 배포 100% 차단**을 달성할 필요
 #### 한줄 요약
 
 - 공급망 보안은 결과물 검사 대신 **승인 입력•빌드 증거**를 확인하는 쪽으로 판단 시점을 앞당긴 것이며, 그 대가로 모든 단계가 증거를 남기도록 파이프라인 전체를 다시 짜야 한다.
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- 출처가 검증된 빌드만 **배포 승인**, 취약 구성요소는 **SSDF 기반 재빌드•교체**
+- 국가 안보 수준의 소프트웨어 무결성 보증과 사이버 침해 방어를 위해 필수화된 **엔드투엔드 소프트웨어 개발 수명주기 보안 및 무결성 보증의 최고 체계 표준(Software Supply Chain Security / SLSA Level 3+ Framework / In-toto Provenance & Sigstore Cosign Attestation / NIST SP 800-218 SSDF / Zero Trust Admission Control)의 확고한 표준**으로 확고히 자리 잡았으며, AI 모델 파이프라인 공급망 보안(Model Provenance)으로 진화하는 가운데, 실무 엔터프라이즈 공급망 보안 구축 시에는 **빌드 파이프라인을 완전 격리된 단기 인프라로 전환하고, SLSA Provenance 생성 및 Sigstore 기반의 암호화 서명을 자동화하며, 쿠버네티스 정책 집행점(Gatekeeper/Kyverno)을 통해 서명 및 SBOM이 검증된 아티팩트만 배포 승인**을 결합하여 완벽한 소프트웨어 무결성과 침해 방어 거버넌스를 완성
 
 #### 한줄 요약
 

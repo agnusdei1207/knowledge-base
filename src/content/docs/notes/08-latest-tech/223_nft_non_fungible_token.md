@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "대체 불가능 토큰 (Non-Fungible Token)"
-date: "2026-08-26T17:47:00+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 223
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 블록체인에서 고유 식별자와 소유 상태를 기록하는 **NFT**
-- 배경/필요성: 중앙 서비스가 관리하는 자산은 소유 기록이 그 서비스 안에만 있어 **고유성•소유 이력 검증 불가**이고 서비스가 닫히면 기록도 함께 사라지므로, 소유 상태와 이전 이력을 공개 원장에 올려 발행자와 무관하게 검증할 수 있게 만들 필요
+- 배경/필요성: 기존 디지털 콘텐츠(이미지, 음원, 게임 아이템, 문서 등)는 한 번 생성되면 무한정 완벽한 복제가 가능하여 디지털 자산의 희소성(Scarcity)과 고유한 원본성을 증명할 수 없으며, 중앙화된 플랫폼 기업의 데이터베이스에만 소유 기록이 종속되어 플랫폼이 서비스를 종료하거나 계정을 정지할 경우 사용자의 디지털 자산이 완전히 소멸하고 타 플랫폼과의 상호운용성(Interoperability)이 불가능한 한계에 직면함에 따라, 블록체인 분산 원장 상에서 각각의 토큰마다 고유한 토큰 ID(Token ID)와 메타데이터(Metadata)를 부여하여 대체 불가능한 고유 소유권과 출처 이력을 영구적으로 증명하는 Non-Fungible Token(ERC-721 Standard: Unique Token ID & Ownership / ERC-1155 Multi-Token Standard: Semi-Fungible & Batch Transfer / Decentralized Storage: IPFS, Arweave Content-Addressing / Smart Contract Royalty Enforcement: ERC-2981 / Digital Provenance & Ownership vs Copyright Separation / RWA Real-World Asset Tokenization) 체계를 도입하여 **디지털 객체의 고유 식별 및 탈중앙화된 소유권(Self-Custodial Ownership) 증명 확보, 스마트 계약을 통한 창작자 로열티(Royalty) 자동 지급 및 투명한 2차 유통 시장 형성, 실물 자산 토큰화(RWA), 디지털 소유권 증명서, 회원권 및 메타버스 가상 자산의 크로스 플랫폼 상호운용성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- 고유 단일 자산은 **ERC-721**, 유형•수량 통합은 **ERC-1155** 선택
+- 디지털 공간에서 고유한 소유권과 프로그래머블 자산화를 실현하는 **Web3 디지털 자산 및 실물 연계 토큰화(RWA)의 최고 핵심 표준(Non-Fungible Token: NFT / ERC-721 & ERC-1155 Token Standards / IPFS & Arweave Content-Addressing / Smart Contract Royalty / Real-World Asset Digital Twin)의 확고한 표준**으로 확고히 자리 잡았으며, 동적 NFT(Dynamic NFT) 및 실물 자산(부동산, 채권, 탄소배출권) 토큰화(RWA)로 실용적 진화를 거듭하는 가운데, 실무 엔터프라이즈 NFT 발행 및 시스템 구축 시에는 **단일 고유 자산은 ERC-721, 게임/복합 아이템은 가스비 효율적인 ERC-1155를 선택하고, 메타데이터 및 원본 미디어는 IPFS/Arweave 기반 탈중앙 불변 저장소에 고정(Pinning)하며, 저작재산권과 온체인 토큰 소유권 간의 법적 권리 관계를 명확히 정의한 스마트 계약 거버넌스**를 결합하여 완벽한 디지털 자산 신뢰성과 지속 가능한 경제 가치를 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "양자컴퓨팅 (Quantum Computing)"
-date: "2026-08-26T17:39:32+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 212
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 큐비트의 중첩•얽힘•간섭을 게이트로 조작•측정하는 **양자컴퓨팅**
-- 배경/필요성: 인수분해•양자계 시뮬레이션 같은 일부 문제는 입력이 커질 때 **고전 알고리즘 계산량 급증**으로 시간이 지수적으로 늘어 하드웨어 증설로 따라잡을 수 없으므로, 중첩 상태에 확률 진폭을 실어 간섭으로 정답 쪽 확률만 키우는 다른 계산 모형의 필요
+- 배경/필요성: 기존 고전(폰 노이만) 슈퍼컴퓨팅 아키텍처는 비트(0 또는 1)의 결정론적 순차 연산에 기반하여, 거대 정수 소인수분해(RSA 암호 해독), 신약/신소재 개발을 위한 분자 다체 양자역학 시뮬레이션, 대규모 조합 최적화 등 지수적 탐색 공간($O(2^N)$)을 갖는 난제(NP-Hard/Intractable Problems)를 해결하는 데 수천 년 이상의 천문학적인 연산 시간과 에너지 한계에 직면함에 따라, 양자역학의 고유한 물리적 특성인 중첩(Superposition), 얽힘(Entanglement), 간섭(Interference)을 연산의 기본 원리로 활용하여 특정 계산 복잡도를 다항 시간($O(\text{poly}(N))$) 또는 제곱근 가속($O(\sqrt{N})$)으로 단축시키는 차세대 연산 패러다임인 Quantum Computing(Shor's Factoring Algorithm, Grover's Database Search Algorithm, VQE Variational Quantum Eigensolver, QAOA / Physical Modalities: Superconducting Transmon, Trapped Ion, Neutral Atom, Photonic, Silicon Spin / Quantum Gate & Circuit Model, Qubit Superposition $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$, Unitary Transformation & Quantum Interference) 아키텍처를 도입하여 **$N$개 큐비트로 $2^N$개의 상태를 동시에 병렬 표현하는 중첩 및 얽힘 상태의 양자 가속 연산, 양자 알고리즘을 통한 확률 진폭 보강(Constructive Interference) 및 오류 진폭 상쇄(Destructive Interference)를 통한 정답 도출 극대화, 화학 분자 시뮬레이션, 물류/금융 최적화 및 양자 내성 암호 시대로의 패러다임 전환을 이끄는 압도적 양자 우위(Quantum Supremacy/Advantage)**를 달성할 필요
 
 #### 한줄 요약
 
@@ -169,7 +169,7 @@ extra:
 
 </details>
 
-- 전체 실행시간•자원비에서 **양자 우위가 검증된 문제만 적용**
+- 반도체 미세화의 물리적 한계(무어의 법칙 종언)를 극복하고 고전 컴퓨팅이 도달할 수 없는 계산 영역을 개척하는 **차세대 연산 패러다임 및 미래 슈퍼컴퓨팅의 최고 핵심 기술(Quantum Computing / Gate-based QPU Architecture / Superposition, Entanglement & Interference / Shor & Grover Quantum Speedup / NISQ to FTQC Fault-Tolerant Transition)의 확고한 표준**으로 확고히 자리 잡았으며, 하이브리드 고전-양자 알고리즘(HPC-QC Integration) 및 양자 AI/ML로 진화하는 가운데, 실무 양자 컴퓨팅 도입 시에는 **단순 큐비트 수가 아닌 양자 볼륨(Quantum Volume)과 알고리즘 회로 깊이(Circuit Depth)를 기준으로 하드웨어를 선정하고, NISQ 시대의 노이즈 오류 완화(ZNE, PEC) 기법을 적용하며, 장기적으로 결함 허용 양자컴퓨팅(FTQC) 로드맵에 맞춘 양자 알고리즘 개발**을 결합하여 완벽한 계산 경쟁력과 양자 이점(Quantum Advantage)을 완성
 
 #### 한줄 요약
 

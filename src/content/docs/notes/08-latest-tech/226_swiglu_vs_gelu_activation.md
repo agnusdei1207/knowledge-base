@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "SwiGLU•GELU 활성화 함수 비교 (Activation Functions)"
-date: "2026-08-26T17:46:33+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 226
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 트랜스포머 **FFN**의 단일 활성과 게이트 결합을 비교하는 설계 문제
-- 배경/필요성: GELU 단일 경로는 모든 입력에 같은 비선형만 적용해 무엇을 통과시킬지 입력에 따라 조절할 수 없는 **곱셈 게이팅 불가**가 표현력 상한이 되므로, 별도 투영으로 만든 게이트를 값 경로에 곱해 특징 선택 자체를 학습시키는 구조의 필요
+- 배경/필요성: 트랜스포머(Transformer) 대규모 언어 모델(LLM)의 피드포워드 신경망(FFN) 계층에서 오랫동안 표준으로 사용된 GELU(Gaussian Error Linear Unit) 및 ReLU 활성화 함수는 단일 선형 투영 후 고정된 비선형성만을 적용하는 단일 경로 구조를 취하여, 입력 토큰의 문맥적 중요도에 따라 특정 특징 차원의 신호 흐름을 동적으로 제어(Filtering)하는 능력이 부족하고 모델의 표현력(Expressive Power)과 학습 수렴 속도에 한계에 직면함에 따라, 선형 변환 경로(Value)와 스위시(Swish) 활성화 경로(Gate)를 독립적으로 병렬 생성한 후 요소별 곱셈(Element-wise Product)으로 정보의 통과량을 동적으로 조절하는 게이트 선형 유닛 구조인 SwiGLU(Swish Gated Linear Unit / Noam Shazeer's GLU Variants / $\text{SwiGLU}(x) = (\text{Swish}(x W_{gate}) \otimes (x W_{up})) W_{down} / \text{Swish}_\beta(z) = z \cdot \sigma(\beta z)$ / LLaMA 1/2/3, PaLM, Mistral, Gemma LLM Standard / GELU FFN: 2 MatMuls vs SwiGLU FFN: 3 MatMuls / Hidden Dimension Scaling: $\frac{2}{3} \times 4d_{model} \approx \frac{8}{3}d_{model}$) 아키텍처를 도입하여 **스위시 게이팅 메커니즘을 통한 입력 적응적 특징 선택성(Feature Selection) 극대화 및 그래디언트 소실(Vanishing Gradient) 방지, 파라미터 수를 동등하게 맞춘 조건(은닉 차원 $8/3 d_{model}$ 축소)에서도 GELU 대비 동일 연산량 하에서 압도적으로 낮은 Perplexity(PPL) 및 다운스트림 벤치마크 정확도 향상, 최신 오픈소스 및 상용 최첨단 LLM의 기본 FFN 활성화 표준 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **품질 이득•커널 지원은 SwiGLU**, **단순성•호환성은 GELU** 선택
+- LLaMA, PaLM, Mistral, Gemma 등 현대 프론티어 대규모 언어 모델(LLM)의 FFN 계층에서 사실상의 표준(De Facto Standard)으로 자리 잡은 **차세대 신경망 활성화 함수 및 트랜스포머 표현력 극대화의 최고 핵심 기술(SwiGLU Activation / Gated Linear Unit Architecture / Swish Element-wise Gating / Parameter-Normalized Hidden Dimension Scaling / Frontier LLM Architecture Standard)의 확고한 표준**으로 확고히 자리 잡았으며, MoE(Mixture of Experts) 아키텍처의 개별 전문가 FFN과 결합 발전하는 가운데, 실무 LLM 사전 학습 및 서빙 파이프라인 구축 시에는 **동일 파라미터 예산에서 최고 성능을 발휘하는 SwiGLU를 기본 채택하되, 3회 행렬 곱셈으로 인한 GPU 메모리 대역폭 병목을 해소하기 위한 융합 커널(Fused SwiGLU CUDA/Triton Kernel) 및 FlashAttention 최적화**를 결합하여 완벽한 모델 수렴 성능과 초고속 추론 처리량을 완성
 
 #### 한줄 요약
 

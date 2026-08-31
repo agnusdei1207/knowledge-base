@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 190
   label: "190. 델타 레이크 (Delta Lake)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "델타 레이크 (Delta Lake)"
-date: "2026-08-26T17:37:51+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 190
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: Parquet 파일과 순차 로그로 **ACID 테이블**을 관리하는 Delta Lake
-- 배경/필요성: 객체 스토리지에 파일만 쌓으면 원자적 갱신 지점이 없어 쓰기가 겹칠 때마다 **동시 쓰기 충돌•부분 실패 복구 곤란**을 사람이 정리하는 비용으로 치르므로, 파일 목록의 변경을 순차 트랜잭션 로그에 기록하고 로그 버전 확정으로 커밋을 원자화하는 계층의 필요
+- 배경/필요성: 클라우드 객체 스토리지(S3, ADLS 등)에 Parquet 파일 형태로 데이터를 직접 저장할 경우, 파일 추가/삭제에 대한 원자적 커밋(Atomic Commit) 메커니즘이 없어 다중 작업자의 동시 쓰기 시 데이터 유실/중복(Dirty Read/Write), 작업 실패 시 불완전 파일 잔류, 스키마 불일치로 인한 쿼리 에러가 발생하는 치명적 한계에 직면함에 따라, Parquet 파일 위에 JSON 기반 순차 트랜잭션 로그(`_delta_log`)와 체크포인트를 결합하여 ACID 트랜잭션을 구현하는 오픈 테이블 포맷인 Delta Lake(Databricks 주도 오픈소스 / ACID Transactions: ARIES-like Commit Log, Snapshot Isolation, Optimistic Concurrency Control: OCC, Time Travel & Rollback, Schema Enforcement & Evolution, UniForm: Universal Format, Z-Order Clustering, Compaction OPTIMIZE)를 도입하여 **순차 트랜잭션 로그 기반의 완전한 ACID 트랜잭션 및 스냅샷 격리성(Snapshot Isolation) 보장, 배치와 실시간 스트리밍(Structured Streaming)의 단일 테이블 통합 읽기/쓰기(Exactly-once) 구현, 과거 특정 시점의 데이터로 롤백 및 재현 가능한 시간 여행(Time Travel) 및 Z-Order 클러스터링을 통한 초고속 쿼리 성능**을 달성할 필요
 #### 한줄 요약
 
 - 델타 레이크는 데이터 파일을 그대로 둔 채 로그만 정본으로 삼아 **변경 추적•스키마 관리•과거 상태 재현**을 얻는 대신, 로그와 체크포인트를 유지•정리하는 운영 비용을 새로 진다.
@@ -158,7 +158,7 @@ extra:
 
 </details>
 
-- 프로토콜 호환 엔진만 **채택**, 보존 스냅샷 참조 파일은 **삭제 제외**
+- 아파치 스파크(Apache Spark) 및 데이터브릭스 생태계의 핵심 엔진이자 엔터프라이즈 레이크하우스 구축을 선도하는 **오픈 테이블 포맷 및 트랜잭션 스토리지 계층의 최고 표준(Delta Lake / `_delta_log` Sequential Transaction Log & Checkpoint / ACID & Optimistic Concurrency Control / UniForm Multi-format Compatibility / Liquid Clustering & OPTIMIZE)의 확고한 표준**으로 확고히 자리 잡았으며, Iceberg/Hudi를 모두 수용하는 유니버설 포맷(UniForm)으로 진화하는 가운데, 실무 Delta Lake 운영 시에는 **스트리밍 수집과 배치 처리를 단일 메달리온(Bronze-Silver-Gold) 아키텍처로 통합하고, 주기적인 `OPTIMIZE` 파일 압축 및 `VACUUM` 보존 정책을 정교하게 스케줄링하여 과거 시점 쿼리(Time Travel) 안정성과 스토리지 비용 절감**을 결합하여 완벽한 데이터 신뢰성과 초고속 분석 성능을 완성
 
 #### 한줄 요약
 

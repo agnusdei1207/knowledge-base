@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 166
   label: "166. 웹어셈블리 (WebAssembly)"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "웹어셈블리 (WebAssembly)"
-date: "2026-08-26T17:28:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 166
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 이식형 바이트코드를 샌드박스에서 실행하는 **Wasm**
-- 배경/필요성: 네이티브 확장은 OS•CPU 조합마다 다시 빌드•검증하는 비용을 치르면서도 호스트 프로세스 권한을 그대로 물려받아 **이식성•권한 격리**가 함께 무너지므로, 검증 가능한 중간 바이트코드와 선형 메모리 경계를 두어 한 번 빌드한 모듈을 어디서나 제한된 권한으로 실행할 계층의 필요
+- 배경/필요성: 전통적인 네이티브 바이너리는 OS 및 CPU 아키텍처(x86, ARM, RISC-V) 종속성으로 인해 플랫폼별 재컴파일 비용이 발생하고, 런타임 시 호스트 시스템 전체 권한을 획득하여 취약점 발생 시 시스템 전체 침해로 이어지는 보안 위험이 존재하며, 반대로 컨테이너 가상화는 기동 지연(수백 $ms$)과 무거운 메모리 풋프린트로 인해 초경량 엣지/플러그인 환경에 부적합함에 따라, 다국어(C/C++, Rust, Go)로 작성된 코드를 네이티브에 준하는 고성능 바이트코드로 컴파일하여 안전한 선형 메모리(Linear Memory) 샌드박스에서 마이크로초 단위로 즉시 실행하는 Wasm(WebAssembly / W3C Standard, Wasmtime, Wasmer, WasmEdge, WASI: WebAssembly System Interface, WIT: Wasm Interface Type, Component Model) 런타임 기술을 도입하여 **단일 바이트코드 빌드로 브라우저, 서버, 엣지, 클라우드 네이티브를 아우르는 진정한 이식성(Write Once, Run Anywhere) 달성, 능력 기반 보안(Capability-based Security) 및 하드웨어 메모리 격리를 통한 제로 트러스트 샌드박스 구현, 밀리초 미만의 초고속 콜드스타트와 수십 KB 수준의 초경량 메모리 풋프린트**를 달성할 필요
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ Wasm 런타임
 
 </details>
 
-- 비신뢰 플러그인은 **Wasm**, 운영체제 환경 전체는 **컨테이너** 선택
+- 웹 브라우저의 성능 한계를 극복하고 차세대 클라우드 네이티브/엣지 컴퓨팅의 경량 샌드박스 런타임으로 진화한 **이식형 고성능 바이트코드 및 능력 기반 보안 표준(WebAssembly: Wasm / W3C Open Standard / WASI 0.2 Component Model / Microsecond Cold Start & Sub-MB Footprint / Wasm-in-K8s: Spin & WasmEdge)의 확고한 표준**으로 확고히 자리 잡았으며, 분산 FaaS 및 AI 모델 엣지 추론(WASI-NN)의 핵심 런타임으로 급부상하는 가운데, 실무 엔터프라이즈 Wasm 도입 시에는 **전체 OS 종속 앱은 OCI 컨테이너로, 초저지연 서버리스 함수/보안 플러그인(Envoy Proxy Wasm 필터)에는 Wasm 컴포넌트 모델을 선별 채택하고, WASI 인터페이스 권한 최소화(Least Privilege)**를 결합하여 완벽한 크로스 플랫폼 실행력과 초경량 보안 격리를 완성
 
 #### 한줄 요약
 

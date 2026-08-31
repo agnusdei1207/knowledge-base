@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Serverless Computing (서버리스 컴퓨팅)"
-date: "2026-08-26T17:29:16+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 160
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 공급자가 인프라•확장•계량을 맡는 **서버리스 컴퓨팅**이다.
-- 배경/필요성: 변동 워크로드에 최대치 기준 용량을 상시 확보하면 쓰지 않는 시간까지 **유휴 비용•패치 부담**을 계속 지불하므로, 실행 환경의 확보•축소와 운영 책임을 공급자 계층으로 넘겨 요청이 있는 구간만 과금되게 바꿀 필요
+- 배경/필요성: 전통적인 가상머신(IaaS)이나 상시 실행 컨테이너(PaaS) 인프라는 트래픽이 발생하지 않는 유휴(Idle) 시간에도 지속적인 서버 비용을 지불해야 하고, 트래픽 피크 시 오토스케일링 지연(수 분 소요)으로 인한 서비스 장애, OS 및 런타임 보안 패치 등 막대한 인프라 운영 오버헤드를 유발함에 따라, 클라우드 제공자가 서버 프로비저닝, 패치, 스케일링을 전담하고 이벤트가 발생할 때만 밀리초($ms$) 단위로 코드를 실행하며 사용한 자원만큼만 과금하는 서버리스 컴퓨팅(Serverless Computing / Function as a Service: FaaS - AWS Lambda, Google Cloud Functions, Azure Functions, Backend as a Service: BaaS, Serverless Container: Knative/Cloud Run, Event-driven Architecture, Scale-to-Zero, Pay-per-execution) 아키텍처를 도입하여 **유휴 시 자원을 제로(Scale-to-Zero)로 회수하여 인프라 비용을 극적으로 절감, 수 밀리초 내에 수천 개의 동시 실행 환경으로 즉시 확장되는 무제한 이벤트 반응성 확보, 인프라 관리 부담을 완전히 제거하여 개발자가 순수 비즈니스 로직 개발에만 집중(TTM 단축)**을 달성할 필요
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 짧은 이벤트는 **FaaS**, 완성 백엔드는 **BaaS** 선택
+- NoOps(운영 제로화) 비전을 현실화하고 클라우드 네이티브 이벤트 구동 아키텍처의 혁신을 이끈 **차세대 클라우드 컴퓨팅 및 온디맨드 리소스 실행 모델의 최고 표준(Serverless Computing / FaaS: AWS Lambda & Knative / BaaS: Managed Auth, DB, Storage / Scale-to-Zero & Event-Driven / Pay-per-Use Micro-billing / SnapStart Cold Start Elimination)의 확고한 표준**으로 확고히 자리 잡았으며, 서버리스 AI 추론(AWS Bedrock, Cloudflare Workers AI) 및 엣지 서버리스로 급속히 진화하는 가운데, 실무 서버리스 아키텍처 구축 시에는 **간헐적 이벤트 처리 및 API 백엔드에는 FaaS를, 장기 실행 및 커스텀 런타임에는 서버리스 컨테이너(Cloud Run/ECS Fargate)를 채택하고, 콜드 스타트 문제를 극복하기 위해 프로비저닝된 동시성(Provisioned Concurrency) 및 스냅샷 복원(SnapStart) 기술을 적용하며, 상태 저장은 분산 캐시/DB로 완전히 외부화**를 결합하여 완벽한 비용 효율성과 초저지연 확장성을 완성
 
 #### 한줄 요약
 

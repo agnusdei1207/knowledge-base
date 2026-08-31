@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "원격 직접 메모리 접근 (RDMA)"
-date: "2026-08-26T17:22:37+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 152
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 등록된 원격 메모리를 어댑터가 직접 조작하는 **RDMA**이다.
-- 배경/필요성: 소켓 통신은 전송마다 커널 경유•버퍼 복사•문맥 전환으로 **지연•CPU 부하** 발생을 반복 지불하므로, 미리 등록한 사용자 메모리를 네트워크 어댑터가 직접 읽고 쓰게 하여 커널과 CPU를 데이터 경로에서 제외
+- 배경/필요성: 기존 소켓(Socket) 기반 네트워크 통신은 송수신 시마다 OS 커널 공간과 유저 공간 간의 다단계 버퍼 복사(3-copy overhead), 잦은 인터럽트 처리 및 CPU 컨텍스트 스위칭을 발생시켜, 고성능 분산 스토리지(NVMe-oF) 및 분산 AI 학습 워크로드에서 CPU 자원의 30~50% 이상을 통신 처리에 낭비하고 밀리초($ms$) 단위 지연을 초래함에 따라, OS 커널과 호스트 CPU의 개입을 완전히 배제하고 네트워크 어댑터(RNIC/HCA)가 원격 노드의 메모리에 하드웨어 수준에서 직접 읽기/쓰기를 수행하는 RDMA(Remote Direct Memory Access / InfiniBand, RoCEv2, iWARP / Kernel Bypass, Zero-Copy, Memory Registration: MR, Queue Pair: QP/CQ, Local/Remote Key: L_Key/R_Key, GPUDirect RDMA) 기술을 도입하여 **송수신 단에서의 제로 카피(Zero-Copy) 및 커널 바이패스를 통한 마이크로초($\mu s$) 수준의 초저지연과 제로(Zero)에 가까운 CPU 오버헤드 달성, 메모리 사전 등록(Memory Registration) 및 암호화 키(R_Key) 검증을 통한 안전한 원격 하드웨어 직접 접근, GPUDirect RDMA를 통한 CPU 경유 없는 GPU VRAM 간 다이렉트 고속 전송**을 달성할 필요
 
 #### 한줄 요약
 - 커널 개입 없이 **등록 메모리**를 네트워크 어댑터가 직접 전송
@@ -159,7 +159,7 @@ RDMA 자원 관리자 ── 1. 메모리 등록•접근 키 발급 ──▶ �
 
 </details>
 
-- 원격 직접 조작은 **단측 RDMA**, 메시지 알림은 **양측 송수신** 선택
+- 클라우드 네이티브 고성능 스토리지 및 초대형 AI 가속 클러스터의 데이터 전송 계층을 근본적으로 혁신한 **무손실 초저지연 커널 바이패스 네트워크의 최고 기술 표준(Remote Direct Memory Access: RDMA / RoCEv2 & InfiniBand / Zero-Copy & Kernel Bypass / Queue Pair & Completion Queue Architecture / Memory Region Registration & R_Key Security / GPUDirect Storage & RDMA)의 확고한 표준**으로 확고히 자리 잡았으며, Ultra Ethernet 컨소시엄(UEC)의 차세대 전송 계층으로 발전하는 가운데, 실무 RDMA 기반 시스템 구축 시에는 **초고속 단방향 데이터 전송에는 단측(One-Sided) RDMA Read/Write를, 트랜잭션 동기화가 중요한 RPC에는 양측(Two-Sided) Send/Receive를 구분 적용하고, 메모리 고정(Pinning) 오버헤드를 완화하기 위한 메모리 풀링 및 QP 큐 고갈 방지 비동기 폴링 구조**를 결합하여 완벽한 네트워크 대역폭 활용과 호스트 CPU 효율을 완성
 
 #### 한줄 요약
 - 접근 범위•보안 키•**작업•완료 큐** 기반 RDMA 통제

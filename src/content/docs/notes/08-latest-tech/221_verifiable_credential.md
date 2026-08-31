@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 221
   label: "221. 검증가능 자격증명 (Verifiable Credential, VC)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "검증가능 자격증명 (Verifiable Credential, VC)"
-date: "2026-08-26T17:44:08+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 221
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 발급자 주장에 암호학적 증명을 결합해 보유자가 제시하는 **VC**
-- 배경/필요성: 증명서 원본을 통째로 내거나 발급 기관 API로 매번 조회하면 검증에 불필요한 정보까지 넘기고 기관이 조회 이력을 쥐는 **과다 공개•기관 종속** 비용을 검증마다 반복 지불하므로, 발급자 서명이 붙은 자격을 보유자가 들고 있다가 필요한 속성만 골라 제시하는 구조의 필요
+- 배경/필요성: 기존 종이 증명서나 중앙화된 전자기록 증명 방식은 위변조 방지를 위해 발급 기관의 중앙 API에 실시간 직접 조회를 요구하여 발급 기관 서버 장애 시 검증 불가(가용성 병목), 검증 시마다 사용자의 위치/신원 조회 이력이 발급 기관에 감시되는 프라이버시 침해(추적 가능성), 그리고 성인 인증 시 주민등록번호와 주소 등 불필요한 모든 개인정보가 무차별 노출되는 과다 공개(Over-sharing) 문제에 직면함에 따라, 발급자(Issuer)의 암호학적 디지털 서명이 포함된 자격 정보를 사용자(Holder)가 자신의 단말에 안전하게 소유하고, 검증자(Verifier)에게 제출 시 검증 목적에 필요한 속성만을 선택적으로 조합(VP)하여 중앙 기관의 개입 없이 독립적으로 검증할 수 있는 글로벌 표준 디지털 자격증명 체계인 Verifiable Credential(W3C VC Data Model v2.0 Standard / Trust Triangle: Issuer, Holder, Verifier / Verifiable Presentation: VP / Cryptographic Proofs: Ed25519Signature, JsonWebSignature2020 / Zero-Knowledge Proofs: BBS+ Signatures, Selective Disclosure & Predicate Proofs / Revocation Mechanisms: StatusList2021, BitstringStatusListEntry)을 도입하여 **발급 기관의 실시간 서버 접속 없이도 공개키 기반 오프라인/탈중앙 자격 검증을 통한 무중단 가용성 확보, 영지식 증명(BBS+) 기반 선택적 속성 공개(Selective Disclosure) 및 조건 증명(Predicate Proof: 19세 이상 여부만 참/거짓 증명)을 통한 완벽한 프라이버시 보호 및 데이터 최소화(Data Minimization) 원칙 실현, 모바일 신분증, 학위/자격증, 디지털 제품 여권(DPP) 등 글로벌 호환 디지털 자격증명 생태계 구축**을 달성할 필요
 
 #### 한줄 요약
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- 선택적 공개는 **W3C VC**, 기관 직접 조회는 **중앙 API** 선택
+- 온라인과 오프라인을 아우르는 디지털 신원 및 자격 검증의 글로벌 표준이자 데이터 주권(Self-Sovereignty)을 사용자에게 환원하는 **W3C 글로벌 표준 검증가능 자격증명 및 프라이버시 보존형 신원 증명의 최고 표준(Verifiable Credential: VC / W3C VC Data Model v2.0 / BBS+ Cryptographic Proofs / Selective Disclosure / StatusList Revocation Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 모바일 신분증, 디지털 배지(Open Badges), ESG/탄소 배출권 인증 및 AI 에이전트 자격 증명으로 전면 확장되는 가운데, 실무 VC/VP 시스템 구축 시에는 **주민등록번호 등 민감정보의 온체인 저장을 원천 배제하고, BBS+ 암호 스위트를 활용한 선택적 공개/영지식 증명을 구현하며, 대규모 사용자 조회가 가능한 프라이버시 보존형 상태 목록(Bitstring Status List) 폐기 관리**를 결합하여 완벽한 개인정보보호(GDPR)와 글로벌 자격 신뢰성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Container Orchestration (컨테이너 오케스트레이션)"
-date: "2026-08-26T17:28:29+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 159
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 다중 호스트 컨테이너를 목표 상태로 조정하는 **오케스트레이션**이다.
-- 배경/필요성: 개별 컨테이너 런타임은 자기 호스트만 알아 노드가 죽을 때마다 사람이 배치와 복구를 다시 결정하는 비용을 치르므로, 런타임 위에 여러 호스트의 목표 상태를 한곳에서 판단하는 조정 계층을 얹어 **분산 상태•장애 복구 통합 조정**을 자동화할 필요
+- 배경/필요성: 단일 호스트 중심의 컨테이너 런타임(Docker Engine, containerd)은 다중 서버 클러스터 환경에서 노드 간 자원 단편화, 노드 장애 시 인스턴스 고립, 동적 IP 변경에 따른 네트워크 라우팅 붕괴, 수동 스케일링의 한계로 인해 대규모 분산 엔터프라이즈 워크로드를 운영할 수 없는 물리적 한계에 직면함에 따라, 수백~수천 대의 이기종 호스트 노드를 단일 거대 가상 컴퓨팅 풀로 추상화하고 컨테이너의 생애주기를 중앙에서 자동 제어하는 컨테이너 오케스트레이션(Container Orchestration / Kubernetes, Docker Swarm, Nomad, Declarative Desired State, Dynamic Service Discovery, Intelligent Scheduling, Auto-scaling & Self-healing) 시스템을 도입하여 **클러스터 전체 자원(CPU, Memory, GPU) 상태를 실시간 스케줄링하여 인프라 집적도 및 활용률 극대화, 노드 결함 시 자동 재시작 및 타 노드 자동 재배치(Self-healing)를 통한 다운타임 제로화, 가상 오버레이 네트워크(CNI) 기반의 동적 서비스 디스커버리와 무중단 롤링 업데이트 자동화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -161,7 +161,7 @@ extra:
 
 </details>
 
-- 다중 호스트•동적 상태는 **오케스트레이션**, 단일 호스트는 **런타임** 선택
+- 모놀리식에서 마이크로서비스(MSA) 및 클라우드 네이티브로의 아키텍처 대전환을 실현한 **분산 인프라 자동화 및 대규모 컨테이너 생명주기 관리의 최고 핵심 기술 표준(Container Orchestration / CNCF Architecture / Kubernetes & Nomad / Declarative Control Loop / Dynamic Overlay CNI & Storage CSI / Auto-healing & Horizontal Scaling)의 확고한 표준**으로 확고히 자리 잡았으며, 서비스 메시(Service Mesh) 및 서버리스 컨테이너(Knative)와의 융합으로 고도화되는 가운데, 실무 클러스터 아키텍처 설계 시에는 **대규모 엔터프라이즈 및 풍부한 생태계가 요구되는 환경에는 Kubernetes를, 단순성과 경량 운영이 핵심인 환경에는 Nomad를 채택하고, 클러스터 제어면(Control Plane)의 3중화 고가용성(HA) 구성 및 CNI eBPF 가속**을 결합하여 완벽한 분산 서비스 확장성과 무중단 신뢰성을 완성
 
 #### 한줄 요약
 

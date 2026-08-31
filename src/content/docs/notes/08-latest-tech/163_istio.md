@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-08-26T17:24:45+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 제어•데이터 평면으로 통신 정책을 집행하는 **이스티오**
-- 배경/필요성: 서비스마다 통신 정책을 따로 구현하면 같은 규칙을 서비스 수만큼 **중복** 지불하고 **정책 불일치**가 남으므로, 정책 계산을 Istiod 단일 제어 평면으로 모으고 데이터 평면은 집행만 맡게 나눠 변경 비용을 한 곳으로 줄일 필요
+- 배경/필요성: 수천 개의 마이크로서비스가 상호작용하는 대규모 쿠버네티스 클러스터에서 각 파드 간의 안전한 통신 암호화(mTLS), 정교한 L7 트래픽 라우팅, 결함 주입 및 텔레메트리 수집을 각 워크로드마다 수동으로 관리하는 것은 극심한 설정 오류와 운영 부담을 초래함에 따라, 서비스 발견 및 정책 계산을 담당하는 중앙 집중형 제어 평면(Istiod)과 실제 네트워크 트래픽을 처리하는 고성능 데이터 평면(Envoy Proxy / Ambient Mesh)으로 분리하여 클러스터 전역의 서비스 메시를 단일 관리 체계로 일원화하는 Istio(Istio Service Mesh / Istiod Control Plane, Dynamic xDS Protocol, Sidecar Envoy Proxy, Ambient Mesh: ztunnel & waypoint proxy, VirtualService, DestinationRule, PeerAuthentication, Telemetry) 아키텍처를 도입하여 **선언적 CRD(VirtualService, DestinationRule) 기반의 무중단 카나리 배포 및 가중치 기반 트래픽 시프팅 자동화, 워크로드 단위 자동 인증서 발급/순환과 STRICT mTLS를 통한 완벽한 제로 트러스트 메시 구현, 분산 추적 및 메트릭 자동 수집을 통한 마이크로서비스 전역 관측성 극대화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -75,8 +75,8 @@ extra:
                         |
              +----------+----------+
              |                     |
-      [Sidecar Envoy]       [Ambient ztunnel]
-                                   |
+       [Sidecar Envoy]       [Ambient ztunnel]
+                                    |
                          [Ambient waypoint]
 ```
 
@@ -175,7 +175,7 @@ ztunnel ◀── 응답 ──────────────────�
 
 </details>
 
-- 워크로드별 격리는 **Sidecar**, 공용 L4•선택 L7은 **Ambient** 선택
+- 쿠버네티스 서비스 메시 생태계의 절대적인 사실상 표준이자 CNCF 졸업 프로젝트로서 엔터프라이즈 MSA 네트워크를 지배하는 **최고 수준의 서비스 메시 플랫폼 표준(Istio / Istiod Monolithic Control Plane / Dynamic xDS API / Sidecar Envoy & Ambient Sidecarless Mesh / VirtualService & DestinationRule / Zero Trust SPIFFE/SPIRE Identity)의 확고한 표준**으로 확고히 자리 잡았으며, 사이드카 자원 낭비를 원천 해결하는 Ambient Mesh(ztunnel L4 + waypoint L7)로 세대교체 중인 가운데, 실무 프로덕션 Istio 구축 시에는 **L4 암호화와 기본 정책에는 저비용 Ambient ztunnel을, 정교한 HTTP L7 조작이 필요한 핵심 도메인에는 Waypoint 프록시 또는 사이드카를 선별 적용하고, xDS 부하 경감을 위한 Sidecar Egress 범위 제한(ExportTo 설정)**을 결합하여 완벽한 트래픽 통제력과 최상의 클러스터 리소스 효율을 완성
 
 #### 한줄 요약
 

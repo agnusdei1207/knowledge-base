@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "디지털 제품 여권 (Digital Product Passport)"
-date: "2026-08-26T17:38:47+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 211
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 고유 식별자로 제품 생애주기를 추적하는 **DPP**이다.
-- 배경/필요성: 공급망이 여러 사업자로 쪼개지면 소재와 가공 이력이 각자 시스템에 갇혀 확인할 때마다 사업자를 거슬러 물어보는 비용을 치르는 **제품 이력•출처 검증** 곤란이 남으므로, 제품에 고유 식별자를 붙이고 생애주기 데이터를 그 식별자로 조회하게 만들어 확인을 조회 한 번으로 바꿀 필요
+- 배경/필요성: 유럽연합(EU)의 에코디자인 규정(ESPR) 및 배터리 규제(EU Battery Regulation) 등 글로벌 ESG/순환경제 컴플라이언스가 급격히 강화되는 반면, 기존 글로벌 공급망은 원자재 채굴, 부품 가공, 완제품 조립, 유통, 폐기/재활용에 이르는 데이터가 다수 이해관계자 간 사일로(Data Silo)로 분절되어, 탄소 발자국(Carbon Footprint), 유해물질 함유량, 재활용 원료 비율 및 인권/노동 공급망 실사를 투명하게 입증하지 못해 수출 차단 및 막대한 과징금 리스크에 직면함에 따라, 제품의 물리적 객체와 디지털 생애주기 데이터를 고유 식별자(UID)로 1:1 결합하여 전 생애주기 정보를 표준화된 분산 원장/클라우드에 투명하게 기록하고 공유하는 Digital Product Passport(EU ESPR DPP Standard / ISO/IEC Unique Identifier & Data Carrier: QR/NFC, GS1 Digital Link / Decentralized Identity: DID & VC / Decentralized Storage & Open API / Role-Based Access Control: RBAC / Circular Economy Metrics: Carbon Footprint, Recycled Content, Repairability, Material Origin) 체계를 도입하여 **위변조가 불가능한 GS1 디지털 링크 및 QR/NFC 데이터 캐리어를 통한 제품 단위 고유 식별성 확보, 역할 기반 접근 제어(RBAC) 및 선택적 공개(Selective Disclosure)를 통한 기업 영업비밀 보호와 글로벌 규제 당국/소비자용 공개 데이터의 완벽한 양립, 재제조/수리(Repair)/재활용 이력의 엔드투엔드 디지털 스레드(Digital Thread) 연결을 통한 순환경제(Circular Economy) 실현 및 EU 규제 100% 준수**를 달성할 필요
 
 #### 한줄 요약
 
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- 품목별 법령•이용자 역할에 따라 **정보 항목•공개 범위** 결정
+- EU ESPR 규제 발효와 함께 글로벌 공급망 수출 기업의 필수 여권이자 지속가능한 순환경제의 핵심 디지털 인프라로 확립된 **글로벌 디지털 제품 여권 및 엔드투엔드 공급망 투명성 관리의 최고 표준(Digital Product Passport: DPP / EU ESPR & Battery Regulation / GS1 Digital Link & DID/VC / RBAC Selective Disclosure / Circular Economy Life Cycle Assessment)의 확고한 표준**으로 확고히 자리 잡았으며, 공급망 탄소 회계 및 블록체인 기반 탄소 배출권 거래와 연계 발전하는 가운데, 실무 DPP 체계 구축 시에는 **GS1 표준 기반의 고유 식별자(UID) 및 데이터 캐리어(QR)를 선제 도입하고, 기업의 원가/협력사 기밀을 보호하기 위한 영지식 증명(ZKP)/RBAC 선택적 공개 체계를 구현하며, 공인 인증기관의 검증된 생애주기 평가(LCA) 데이터 파이프라인**을 결합하여 완벽한 글로벌 무역 컴플라이언스와 친환경 브랜드 가치를 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 식별자(Decentralized Identifier, DID)"
-date: "2026-08-26T17:45:36+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 220
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 중앙기관 없이 주체가 검증 수단•수명주기를 제어하는 **DID**
-- 배경/필요성: 서비스마다 발급한 계정에 신원이 묶이면 그 기관이 사라지거나 정책을 바꿀 때 축적한 **신원 관계**를 잃고 처음부터 다시 쌓는 비용을 치르므로, 식별자와 검증용 공개키를 주체가 직접 소유하고 서비스는 그 식별자를 참조만 하도록 신뢰 근거를 옮길 필요
+- 배경/필요성: 구글, 페이스북, 정부 기관 등 중앙화된 신원 공급자(IdP) 기반의 기존 디지털 신원 체계는 사용자의 개인정보가 중앙 서버에 집중되어 대규모 해킹/유출 사고 위험, 계정 삭제/정지 시 디지털 자산 및 신원 데이터의 전면 상실(플랫폼 종속), 사용자 동의 없는 무차별적인 크로스 플랫폼 활동 추적 및 프라이버시 침해라는 심각한 구조적 한계에 직면함에 따라, 중앙 등록 기관이나 인증 기관(CA)에 종속되지 않고 신원 주체(Holder)가 자신의 식별자와 개인키를 직접 생성/소유/통제하며 암호학적으로 검증 가능한 글로벌 표준 탈중앙화 식별자 체계인 Decentralized Identifier(W3C DID v1.0 Recommendation, DID Document & Verification Methods, DID Controller & DID Subject / DID Syntax: `did:method:method-specific-id` & Decentralized Resolvers / Self-Sovereign Identity: SSI & Trust Triangle: Issuer, Holder, Verifier / Verifiable Credentials: W3C VC & VP, Zero-Knowledge Proofs: ZKP, Selective Disclosure, Revocation Registry) 아키텍처를 도입하여 **중앙 기관 없이 블록체인/분산원장 상에서 공개키와 서비스 엔드포인트를 포함하는 DID 문서를 암호학적으로 해석/검증하는 자기주권 신원(SSI) 실현, 주체의 로컬 전자지갑(Wallet) 기반 개인키 통제를 통한 개인정보 유출 및 단일 실패점(SPOF) 원천 차단, W3C Verifiable Credentials(VC) 및 영지식 증명(ZKP)과의 결합을 통한 불필요한 개인정보 노출 없는 선택적 자격 증명(Selective Disclosure)**을 달성할 필요
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- 주체 식별에는 **DID**, 자격 주장에는 **VC**를 구분 적용
+- 중앙 집중형 빅테크 플랫폼의 신원 독점을 해체하고 사용자 중심의 자기주권 신원(SSI)을 구현하는 **W3C 글로벌 표준 탈중앙화 신원 인증 및 데이터 주권 보장의 최고 핵심 인프라(Decentralized Identifier: DID / W3C DID & VC Standard / Self-Sovereign Identity Architecture / DID Resolution & Document Lifecycle / ZKP Privacy-Preserving Verification)의 확고한 표준**으로 확고히 자리 잡았으며, 모바일 신분증(모바일 운전면허증/주민등록증), 전자서명, 메타버스/Web3 신원 및 AI 에이전트 신원 검증으로 전면 확장되는 가운데, 실무 엔터프라이즈 DID/VC 시스템 구축 시에는 **주체 식별(DID)과 자격 증명(VC)의 명확한 역할 분리, 개인정보의 블록체인 온체인 저장 전면 금지 및 오프체인 분산 저장, DID 문서의 주기적 키 회전(Key Rotation) 및 영지식 증명(ZKP) 기반 선택적 속성 공개**를 결합하여 완벽한 개인정보보호 컴플라이언스(GDPR)와 글로벌 상호운용성을 완성
 
 #### 한줄 요약
 

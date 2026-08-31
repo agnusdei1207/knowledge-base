@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "스마트 팩토리 (Smart Factory)"
-date: "2026-08-26T17:33:35+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 201
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 생산 데이터를 연결해 공정을 실시간 제어•최적화하는 **스마트 팩토리**
-- 배경/필요성: 설비마다 따로 자동화하면 공정 사이 데이터를 사람이 옮기는 비용이 남아 **데이터 단절•국소 최적화**로 개별 설비만 좋아지므로, 현장 제어부터 계획 시스템까지 데이터를 하나의 폐루프로 이어 공장 전체 기준으로 생산 조건을 되돌리는 구조의 필요
+- 배경/필요성: 다품종 소량 생산 및 글로벌 공급망 변동성이 일상화된 제조 환경에서 기존의 개별 설비 단위 단위 자동화(Islands of Automation) 방식은 공정 간 데이터 단절(Data Silo), 설비 국소 최적화에 따른 병목 전이, 수작업 기반의 생산 실적 집계 및 품질 이상 발생 시 사후 대응에 따른 막대한 스크랩 비용과 납기 지연에 직면함에 따라, ICT 기술(IoT, AI, 빅데이터, 클라우드, CPS)을 제조 전 과정에 융합하여 기획, 설계, 생산, 유통, 판매 전 과정을 실시간으로 연결하고 자율 최적화하는 Smart Factory(Industry 4.0 Standard / ISA-95 5-Level Architecture: Level 0~4 ERP-MES-SCADA-PLC-Sensor, Cyber-Physical Production System: CPPS, OPC UA / TSN, Industrial AI & Edge Computing, Digital Twin Simulation, Closed-loop Autonomous Optimization) 패러다임을 도입하여 **설비/공정(OT)부터 전사 경영 계획(IT)까지의 수직적 통합(Vertical Integration) 및 공급망 전체의 수평적 통합(Horizontal Integration)을 통한 전 공정 실시간 데이터 가시화, AI 기반 설비 예지보전(PdM) 및 폐루프(Closed-loop) 공정 제어를 통한 무인화•자율 제조 실현, 시장 수요 변동에 유연하게 대응하는 모듈형 가변 생산 체계(Flexible Manufacturing)**를 달성할 필요
 
 #### 한줄 요약
 
@@ -182,7 +182,7 @@ ERP 계획의 MES 작업 변환과 **SCADA•PLC 현장 제어**
 
 </details>
 
-- 설비•경영은 **수직 통합**, 공정•공급망은 **수평 통합** 적용
+- 제조업의 패러다임을 단순 대량 생산에서 지능형 자율 생산으로 전환시키는 **글로벌 4차 산업혁명 및 지능형 자율 제조의 최고 표준(Smart Factory / ISA-95 Vertical & Horizontal Integration / CPPS Closed-Loop Optimization / Industrial AI & Predictive Maintenance / Industrial Metaverse & Edge AI Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 산업용 생성형 AI와 휴머노이드 로봇이 융합된 무인 자율 공장(Lights-out Factory)으로 진화하는 가운데, 실무 스마트 팩토리 고도화 시에는 **ISA-95 표준 기반의 데이터 모델링을 선행하고, OT 네트워크 보안(IEC 62443)과 고속 결정론적 통신(TSN)을 구축하며, AI 예측 제어 시 오작동을 방지하는 물리 안전 인터록(Safety Interlock)**을 결합하여 완벽한 제조 유연성과 무결점 생산성을 완성
 
 #### 한줄 요약
 

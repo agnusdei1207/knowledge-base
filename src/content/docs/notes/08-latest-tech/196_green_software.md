@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "그린 소프트웨어 (Green Software)"
-date: "2026-08-26T17:38:46+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 196
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 서비스 품질을 유지하며 운영•내재 탄소를 줄이는 **그린 소프트웨어**
-- 배경/필요성: 성능•비용 지표만 보면 같은 기능을 더 빠르게 만들어도 소비 전력과 장비 생산에 든 배출은 계산에 잡히지 않아 **전력•내재 탄소의 설계 반영 곤란**이 남으므로, 기능 단위당 탄소를 지표로 세워 설계 선택이 곧바로 배출로 환산되게 하는 평가 계층의 필요
+- 배경/필요성: AI 모델 학습/추론 및 클라우드 데이터센터의 전력 소모 폭증으로 IT 부문의 글로벌 탄소 배출량이 항공 산업을 추월하고 ESG 탄소 중립 규제가 강화되는 반면, 기존 소프트웨어 엔지니어링은 성능(속도)과 비용에만 매몰되어 알고리즘의 에너지 비효율성, 유휴 컴퓨팅 낭비 및 하드웨어 조기 교체에 따른 내재 탄소(Embodied Carbon) 배출을 정량화하거나 통제하지 못하는 한계에 직면함에 따라, 소프트웨어 설계, 개발, 배포, 운영 전 과정에서 에너지 소비를 극소화하고 탄소 배출을 줄이는 친환경 소프트웨어 공학인 Green Software(Green Software Foundation, ISO/IEC 21031:2024 Standard / 3 Pillars: Energy Efficiency, Carbon Awareness, Hardware Efficiency / Software Carbon Intensity: $SCI = (E \times I + M) / R$, Carbon-aware Computing, Demand Shifting & Demand Shaping, Energy-efficient Coding: Wasm/Rust, Green CI/CD) 체계를 도입하여 **국제 표준 지표인 SCI(소프트웨어 탄소 집약도) 산정을 통한 기능 단위(R)당 운영 및 내재 탄소 배출의 객관적 정량화, 재생에너지 발전 비율이 높은 시간/지역으로 워크로드를 동적 이동시키는 탄소 인지 컴퓨팅(Carbon-aware Computing) 구현, 알고리즘 및 런타임 최적화를 통한 데이터센터 전력 소비(E) 및 하드웨어 수명 연장을 통한 내재 탄소(M) 극소화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- 지연 가능 작업은 **저탄소 시점 이동**, 품질 저하 시 **자동 복귀**
+- 기후 위기 대응 및 엔터프라이즈 지속가능경영(ESG)의 핵심 기술이자 소프트웨어 아키텍처의 필수 비기능 요구사항으로 정립된 **지속가능한 소프트웨어 엔지니어링 및 탄소 배출 최적화의 최고 국제 표준(Green Software / ISO/IEC 21031:2024 Software Carbon Intensity: SCI / Carbon-Aware Scheduling / Energy & Hardware Efficiency Synergy / GSF Principles)의 확고한 표준**으로 확고히 자리 잡았으며, AI 모델 경량화(Green AI) 및 지속가능한 인프라 관리와 융합 발전하는 가운데, 실무 그린 소프트웨어 구현 시에는 **기능 단위당 SCI 기준선(Baseline)을 CI 파이프라인에 통합 측정하고, 비실시간 배치/AI 학습 작업에 대한 탄소 인지(Carbon-aware) 시간/공간 스케줄링을 적용하며, 서비스 수준 목표(SLO)를 훼손하지 않는 범위 내에서 에너지 효율 최적화**를 결합하여 완벽한 비즈니스 성능과 글로벌 친환경 컴플라이언스를 완성
 
 #### 한줄 요약
 

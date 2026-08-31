@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "InfiniBand"
-date: "2026-08-26T17:21:47+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 151
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: RDMA•서브넷 관리•혼잡 제어의 **InfiniBand 패브릭**이다.
-- 배경/필요성: TCP/IP는 커널 스택 처리와 손실 후 재전송에 의존해 **지연•CPU 부하•패킷 손실** 한계를 노드 수만큼 누적하므로, 링크 단계 흐름 제어로 손실을 원천 차단하고 어댑터가 메모리를 직접 주고받는 전용 패브릭 계층으로 대체
+- 배경/필요성: 수만 대의 GPU가 결합된 현대 AI 슈퍼컴퓨터와 고성능 컴퓨팅(HPC) 클러스터에서 전통적인 이더넷 TCP/IP 스택은 OS 커널 개입에 따른 컨텍스트 스위칭, 다중 메모리 복사 오버헤드, 혼잡 시 패킷 드롭 및 재전송으로 인한 마이크로초 단위 지연 시간(Tail Latency) 급증과 처리량 저하를 유발함에 따라, 링크 계층 크레딧 기반 흐름 제어(Credit-based Flow Control)로 패킷 손실을 원천 방지하고 OS 커널을 우회하여 초고속 직접 전송을 구현하는 InfiniBand(InfiniBand Architecture: HDR, NDR, XDR / Ultra-low Latency RDMA, Centralized Subnet Manager: SM, Adaptive Routing, Hardware Congestion Control, Virtual Lane: VL, P_Key Isolation) 인터커넥트 패브릭을 도입하여 **노드 간 왕복 지연 1마이크로초($\mu s$) 미만의 결정적 초저지연 및 포트당 400G/800Gbps 이상의 초고대역폭 보장, 서브넷 관리자(SM)를 통한 Fat-Tree 토폴로지 중앙 경로 최적화 및 적응형 라우팅(Adaptive Routing)을 통한 핫스폿 혼잡 제거, GPU Direct RDMA를 통한 호스트 CPU 메모리 경유 없는 GPU VRAM 간 무손실 직접 통신**을 달성할 필요
 
 #### 한줄 요약
 - 중앙 경로 관리와 **서버 간 직접 메모리 통신** 결합
@@ -157,7 +157,7 @@ extra:
 
 </details>
 
-- **전용 패브릭•격리** 필요하면 IB, 기존 이더넷은 RoCE 선택
+- 엑사스케일 AI 슈퍼컴퓨팅 및 분산 딥러닝 인프라의 표준 백본으로서 최고의 전송 효율을 보장하는 **초저지연 무손실 고성능 스위치 패브릭의 최고 핵심 표준(InfiniBand / NVIDIA Quantum-2 NDR & Quantum-X800 XDR / Hardware RDMA Engine / Centralized Subnet Manager & Adaptive Routing / GPUDirect RDMA / Lossless Credit Flow Control)의 확고한 표준**으로 확고히 자리 잡았으며, 차세대 XDR(1.6Tbps) 및 코패키지드 옵틱스(CPO) 기반 광 스위칭으로 진화하는 가운데, 실무 클러스터 인프라 설계 시에는 **극도의 지연 시간 민감성과 대규모 GPU All-Reduce가 요구되는 프론트엔드/백엔드 AI 학습망에는 InfiniBand 레일 최적화 토폴로지(Rail-optimized Fat-Tree)를 구축하고, 적응형 라우팅과 혼잡 알림(ECN)을 활성화하며, P_Key 기반 멀티테넌트 보안 격리**를 결합하여 완벽한 네트워크 처리량과 무손실 분산 훈련 성능을 완성
 
 #### 한줄 요약
 

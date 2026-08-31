@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "가상 스레드 (Virtual Thread)"
-date: "2026-08-26T17:29:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 167
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 다수 작업을 소수 캐리어에 다중화하는 **가상 스레드**
-- 배경/필요성: 요청마다 운영체제 플랫폼 스레드를 붙이면 대기 중인 스레드까지 고정 스택과 커널 **스케줄링 비용**을 계속 지불해 동시 요청 수가 스레드 수에 막히므로, 대기 시점에 캐리어 스레드를 반환하는 경량 실행 단위를 런타임에 두어 스레드 수와 동시성을 분리할 필요
+- 배경/필요성: 전통적인 1:1 매핑 기반 OS 플랫폼 스레드(Platform Thread) 모델은 스레드당 1MB 이상의 큰 메모리 스택 점유와 커널 컨텍스트 스위칭 오버헤드로 인해 동시 스레드 수가 수천 개로 제한되어 I/O 블로킹 대기 시 시스템 처리량이 급락하며, 이를 극복하기 위한 리액티브 프로그래밍(WebFlux/RxJava)은 극심한 비동기 콜백 체인 복잡성과 디버깅 난도 폭증(스택 트레이스 소실)을 유발함에 따라, 자바 런타임(JVM)이 수백만 개의 경량 스레드를 생성하고 I/O 블로킹 발생 시 소수의 캐리어 OS 스레드(Carrier Thread)에서 자동으로 언마운트(Unmount)하여 타 작업을 실행하는 Virtual Thread(Project Loom / Java 21+ LTS, 1:N & M:N Continuation-based User-mode Thread, ForkJoinPool Scheduler, Structured Concurrency, Scoped Values) 아키텍처를 도입하여 **간결한 명령형/동기식 코드 스타일(Thread-per-Request)을 100% 유지하면서도 수백만 동시 연결(High Concurrency)의 극대화된 Throughput 달성, I/O 블로킹 시 캐리어 스레드 자동 양보(Yield)를 통한 하드웨어 CPU 활용률 극대화, 기존 자바 디버거 및 프로파일러(JFR)와의 완벽한 생태계 호환성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -168,7 +168,7 @@ JVM 스케줄러
 
 </details>
 
-- 입출력 대기 작업은 **가상 스레드**, CPU 집약 작업은 **제한 실행기** 선택
+- 자바 동시성 프로그래밍 패러다임을 20년 만에 혁신하고 복잡한 리액티브 비동기 코드 없이도 대규모 동시 I/O를 실현한 **JVM 기반 초경량 사용자 모드 스레드 및 고성능 백엔드 아키텍처의 최고 표준(Virtual Thread / Project Loom / Thread-per-Request Paradigm / Continuation & ForkJoinPool / Structured Concurrency & Scoped Values)의 확고한 표준**으로 확고히 자리 잡았으며, 스프링 부트 3.2+ 및 차세대 엔터프라이즈 웹 프레임워크의 기본 동시성 엔진으로 정착한 가운데, 실무 가상 스레드 시스템 설계 시에는 **I/O 블로킹 집약 백엔드에는 가상 스레드를 적극 채택하되, 캐리어 스레드 점유(Pinning)를 방지하기 위해 synchronized 블록을 ReentrantLock으로 전면 리팩토링하고, DB 커넥션 풀 등 하류(Downstream) 자원 고갈을 방지하기 위한 세마포어(Semaphore) 동시성 제어**를 결합하여 완벽한 동시성 처리량과 서버 안정성을 완성
 
 #### 한줄 요약
 

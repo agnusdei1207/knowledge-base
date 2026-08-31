@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 216
   label: "216. 양자내성암호 (Post-Quantum Cryptography)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "양자내성암호 (Post-Quantum Cryptography, PQC)"
-date: "2026-08-26T17:43:30+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 216
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 양자 공격에 안전한 고전 컴퓨터용 **PQC 공개키 암호**
-- 배경/필요성: **RSA•ECC**는 대규모 양자컴퓨터가 등장하면 한 번에 무력해지는데 오늘 오간 암호문은 그때까지 저장될 수 있어 **선취 후 복호화 위험**이 이미 현재 통신에 걸려 있으므로, 양자 공격에 견디는 수학 문제 기반 알고리즘으로 공개키 계층을 미리 갈아 끼울 필요
+- 배경/필요성: 현대 인터넷 보안(TLS, PKI, 전자서명)의 근간을 이루는 RSA(소인수분해 난제) 및 ECC(타원곡선 이산로그 난제) 공개키 암호 체계는 쇼어 알고리즘(Shor's Algorithm)을 실행하는 대규모 양자 컴퓨터가 등장할 경우 다항 시간($O(N^3)$) 내에 완전히 무력화되며, 공격자가 현재 전송되는 기밀 암호화 트래픽을 대량 수집/저장한 뒤 미래 양자컴퓨터로 사후 일괄 복호화하는 '선취 후 복호화(Harvest Now, Decrypt Later: HNDL)' 위협이 이미 현실화됨에 따라, 양자 컴퓨터로도 다항 시간 내에 풀 수 없는 고차원 격자(Lattice), 해시(Hash), 코드(Code), 다변수 다항식 난제에 기반하여 기존 디지털 통신망 및 고전 컴퓨터 인프라 위에서 직접 구동 가능한 암호 체계인 Post-Quantum Cryptography(NIST PQC Final Standards: FIPS 203 ML-KEM / Kyber, FIPS 204 ML-DSA / Dilithium, FIPS 205 SLH-DSA / SPHINCS+, FIPS 206 FN-DSA / Falcon, K-PQC / Hybrid Key Exchange & Hybrid Signature / Crypto-Agility Architecture & Crypto Inventory)를 도입하여 **기존 네트워크 인프라 변경 없이 소프트웨어/펌웨어 업그레이드만으로 쇼어 및 그로버 양자 알고리즘 공격에 대한 완전한 수학적 내결함성 확보, NIST/FIPS 국제 표준 PQC 알고리즘 채택을 통한 글로벌 호환성 보장, 레거시 공개키와 PQC를 결합하는 하이브리드 암호화(Hybrid Mode) 및 암호 민첩성(Crypto Agility) 설계를 통한 HNDL 공격 원천 차단 및 무중단 전환**을 달성할 필요
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **HNDL 위험•데이터 수명**이 큰 자산부터 ML-KEM•ML-DSA로 전환
+- 미국 NIST의 FIPS 203/204/205 표준 제정과 각국 정부(미국 NSA/CISA, 한국 K-PQC)의 PQC 전환 의무화 로드맵에 따라 전 세계 IT 인프라의 필수 기본 보안 규격으로 확립된 **차세대 암호학 및 양자 컴퓨팅 대응 사이버 보안의 최고 핵심 표준(Post-Quantum Cryptography: PQC / NIST FIPS 203 ML-KEM, FIPS 204 ML-DSA, FIPS 205 SLH-DSA / Hybrid Mode / Crypto-Agility Lifecycle)의 확고한 표준**으로 확고히 자리 잡았으며, TLS 1.3, SSH, IPSec, PKI 루트 인증서 및 코드 서명 전반으로 전면 확산되는 가운데, 실무 엔터프라이즈 PQC 전환 시에는 **전사 암호 자산 인벤토리(Crypto Inventory) 구축 및 HNDL 위험도 기반 우선순위 자산(장기 기밀 데이터) 식별, 기존 ECDH/RSA와 PQC를 결합하는 하이브리드 키 교환(X25519 + ML-KEM-768) 적용, 대용량 공개키/서명 크기로 인한 MTU 단편화 및 HSM 메모리 최적화**를 결합하여 완벽한 양자 내성 보안성과 무결점 서비스 연속성을 완성
 
 #### 한줄 요약
 

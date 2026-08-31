@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "스마트 계약 (Smart Contract)"
-date: "2026-08-26T17:44:38+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 219
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 블록체인 가상머신에서 결정적 상태 전이를 수행하는 **스마트 계약**
-- 배경/필요성: 중앙 운영자와 수작업 정산에 기대면 규칙이 사후에 바뀔 수 있고 처리도 사람 속도에 묶여 거래마다 **규칙 임의 변경•처리 지연** 비용을 치르므로, 합의된 코드를 원장 위에서 결정적으로 실행해 집행 주체 자체를 없애는 계층의 필요
+- 배경/필요성: 전통적인 계약 집행 방식은 법원, 은행, 공증인 등 중앙화된 제3자(Third Party)의 수작업 검증 및 사후 집행에 의존하여 막대한 중개 수수료, 처리 지연, 계약 불이행 위험, 국경 간 거래 분쟁 및 거래 내역의 임의 변조 가능성이라는 구조적 한계에 직면함에 따라, 블록체인 분산 원장 상에 프로그램 코드로 계약 조건을 명시하고 사전 정의된 조건이 충족되면 중개자 없이 분산 가상머신(EVM, WASM)을 통해 결정론적(Deterministic)으로 자동 체결/실행되는 프로그램인 Smart Contract(Nick Szabo's Concept, Ethereum Virtual Machine: EVM, Solidity/Vyper, State Transition & Bytecode Execution / Turing-Complete Execution & Gas Mechanism / Checks-Effects-Interactions: CEI Pattern & ReentrancyGuard / Oracle Integration: Chainlink Decentralized Oracle / Upgradeable Proxy Patterns: Transparent, UUPS / Formal Verification & Static Analysis: Slither, Mythril) 메커니즘을 도입하여 **신뢰할 수 있는 제3자(Trustless)의 개입 없이 코드에 의한 무결점 자동 계약 집행(Code is Law) 및 결제/정산 시간 단축(T+0), 튜링 완전 가상머신과 가스(Gas) 제한 메커니즘을 통한 무한 루프(DoS) 공격 방지 및 결정적 상태 전이 보장, 탈중앙화 금융(DeFi), 디지털 자산 토큰화(RWA), 공급망 자동 결제 및 DAO 거버넌스를 구현하는 프로그래머블 경제 생태계 구축**을 달성할 필요
 
 #### 한줄 요약
 
@@ -63,11 +63,11 @@ extra:
 **VM 결정적 실행**과 가스 기반 자원 사용 제한
 
 ```text
-                       [거버넌스]
-                       /        \
-               [명세•코드]   [접근•외부]
-                       \        /
-                       [VM•가스]
+                        [거버넌스]
+                        /        \
+                [명세•코드]   [접근•외부]
+                        \        /
+                        [VM•가스]
 ```
 
 선의 의미: 코드•외부 접근의 권한 통제와 결정적 실행•자원 제한 관계
@@ -98,7 +98,7 @@ extra:
                                   [VM•가스]
                                      │ 2. 결정적 계약 실행
                                      ▼
-                                 [스마트 계약]
+                                  [스마트 계약]
                                      │ 3. 상태 전이•이벤트
                                      ▼
 [블록체인 노드] ◀─ 4. 성공 확정•실패 되돌림 ─ [상태 저장소•이벤트]
@@ -160,7 +160,7 @@ extra:
 
 </details>
 
-- 오라클•권한 위험을 통제하고 복구 가능할 때만 **스마트 계약** 집행
+- Web3, 탈중앙화 금융(DeFi), 실물 자산 토큰화(RWA) 및 글로벌 공급망 자동 정산의 가장 핵심적이고 근본적인 **프로그래머블 분산 컴퓨팅 및 신뢰 기반 자동 계약 집행의 최고 표준(Smart Contract / EVM & WASM Deterministic Execution / Gas Limiting / CEI Security Pattern & Formal Verification / Decentralized Oracle Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 계정 추상화(ERC-4337) 및 영지식 롤업(zkEVM)과 결합 발전하는 가운데, 실무 스마트 계약 개발 및 배포 시에는 **배포 후 수정 불가능성(Immutability)에 대비하여 CEI 패턴 준수, 정적 분석/기호 실행 도구를 통한 취약점 전수 검증, 탈중앙화 오라클(Chainlink) 기반의 가격 조작 방지, 그리고 다중서명(Multi-sig)/타임락(Time-lock)이 결합된 UUPS 프록시 업그레이드 거버넌스**를 결합하여 완벽한 계약 보안성과 지속 가능한 서비스 운영을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "산업용 사물인터넷 (Industrial IoT)"
-date: "2026-08-26T17:35:39+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 203
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 산업 설비•센서를 연결해 공정을 감시•분석•제어하는 **IIoT 체계**
-- 배경/필요성: 고립된 설비는 상태를 사람이 현장에서 확인해야 해 점검 주기마다 인력 비용을 치르고도 고장 전 징후를 놓치므로, 설비 데이터를 에지에서 먼저 걸러 중앙 분석으로 잇되 안전 제어는 현장에 남겨 **예측 정비**를 가능하게 하는 구조의 필요
+- 배경/필요성: 석유화학, 철강, 자동차, 반도체 등 대규모 플랜트 및 제조 현장의 수많은 레거시 설비와 고온/고압/진동의 열악한 OT 환경에서, 설비 상태를 수작업 정기 점검(TBM)에 의존함에 따라 고장 징후 조기 포착 실패, 돌발 셧다운(Unplanned Downtime)에 따른 막대한 생산 손실, 현장 네트워크 단절 시 데이터 유실 및 OT망의 외부 사이버 공격 노출 위험에 직면함에 따라, 산업용 센서, 에지 컴퓨팅, 고신뢰 산업 통신 및 클라우드 AI 분석 플랫폼을 결합한 Industrial IoT(IIoT / IEC 62443 OT Security, Industrial Protocol Gateway: Modbus, Profinet, OPC UA / Edge AI & Stream Filtering / Store-and-Forward / Time-Series Big Data & Asset Hierarchy / Predictive Maintenance: PdM, Digital Thread, Remote Asset Monitoring) 체계를 도입하여 **스마트 진동/온도/압력 센서 및 산업용 게이트웨이를 통한 레거시 설비의 무중단 디지털화, 에지 단의 데이터 전처리 및 네트워크 단절 시에도 무결성을 보장하는 저장 후 전달(Store-and-Forward) 기반 데이터 연속성 확보, 시계열 AI 딥러닝 분석을 통한 설비 고장 사전 예측(PdM) 및 자율 에지 인터록 제어를 통한 돌발 셧다운 제로화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -185,7 +185,7 @@ IIoT•소비자 IoT•SCADA의 **적용 범위•제어 특성** 비교
 
 </details>
 
-- 저지연 안전 제어는 **에지**, 전사 예측•최적화는 **플랫폼** 배치
+- 전통적인 산업 현장의 중장비 및 물리 자산을 클라우드 지능과 실시간으로 연결하여 스마트 플랜트를 구현하는 **엔터프라이즈 산업 자산 지능화 및 예측 정비의 최고 핵심 아키텍처(Industrial IoT / Edge-to-Cloud Hybrid Architecture / Store-and-Forward Determinism / IEC 62443 Zone & Conduit Defense / Asset Performance Management)의 확고한 표준**으로 확고히 자리 잡았으며, 온디바이스 에지 AI 및 5G 특화망(P-5G)과 결합 발전하는 가운데, 실무 IIoT 구축 시에는 **밀리초(ms) 단위 초저지연 안전 제어는 현장 에지(Local Interlock)에 유지하고 전사 분석은 클라우드로 이원화하며, IEC 62443 기반 구역 분리(Zone & Conduit) 및 산업용 시계열 데이터 품질 플래그 체계**를 결합하여 완벽한 설비 신뢰성과 플랜트 생산성 극대화를 완성
 
 #### 한줄 요약
 

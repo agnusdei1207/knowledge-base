@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 175
   label: "175. 플랫폼 엔지니어링 (Platform Engineering)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "플랫폼 엔지니어링 (Platform Engineering)"
-date: "2026-08-26T17:26:48+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 175
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 공통 개발•운영 기능을 IDP•골든 패스로 제공하는 **플랫폼 엔지니어링**
-- 배경/필요성: 팀마다 도구를 직접 고르고 인프라를 티켓으로 요청하면 같은 판단과 대기를 팀 수만큼 반복 지불해 **인지부하•대기 시간**이 누적되므로, 검증된 경로를 내부 제품으로 묶어 한 번 내린 판단을 셀프서비스로 재사용하게 할 계층의 필요
+- 배경/필요성: DevOps의 'You Build It, You Run It' 철학이 확산되면서 개발팀이 인프라 프로비저닝, 쿠버네티스 YAML 작성, CI/CD 파이프라인, 보안 준수, 모니터링 설정까지 전담하게 됨에 따라 개발자의 인지 부하(Cognitive Overload)가 한계에 달하고, 인프라 팀에 티켓(Ticket)으로 요청하는 수동 프로세스로 인해 리드타임이 수 주씩 지연되는 병목에 직면함에 따라, 개발팀이 비즈니스 로직에만 전념할 수 있도록 표준화된 인프라 및 배포 워크플로우를 셀프서비스 내부 제품(Product)으로 구축하여 제공하는 플랫폼 엔지니어링(Platform Engineering / Internal Developer Platform: IDP, Golden Path / Golden Road, Port/Backstage Developer Portal, GitOps, Self-service Infrastructure as Code: Terraform/Crossplane, Cognitive Load Reduction, Escape Hatch) 공학 체계를 도입하여 **개발자가 티켓 승인 없이 수 분 만에 규정 준수된 개발/배포 환경을 직접 프로비저닝하는 셀프서비스(Self-service) 자동화, 보안 및 아키텍처 모범 사례가 내장된 최적의 기본 경로인 골든 패스(Golden Path) 제공을 통한 개발자 인지 부하 극적 절감, 특수 요구사항을 위한 탈출 경로(Escape Hatch) 보장을 통한 표준화와 엔지니어링 자율성의 완벽한 균형**을 달성할 필요
 
 #### 한줄 요약
 
@@ -183,7 +183,7 @@ IDP의 **DevOps 협업•SRE 신뢰성 운영** 지원
 
 </details>
 
-- 반복 공통 경로는 **골든 패스**, 특수 요구는 **탈출 경로** 제공
+- DevOps의 인지 부하 위기를 극복하고 개발자 경험(DevEx)과 전사적 엔지니어링 생산성을 극대화하는 **클라우드 네이티브 플랫폼 구축 및 내부 셀프서비스 아키텍처의 최고 표준(Platform Engineering / Internal Developer Platform: IDP / Golden Path & Backstage Portal / Infrastructure as Code & GitOps / Cognitive Load Reduction & Managed Escape Hatches)의 확고한 표준**으로 확고히 자리 잡았으며, AI 기반 개발자 어시스턴트 및 플랫폼 자동화와 융합 발전하는 가운데, 실무 플랫폼 엔지니어링 구축 시에는 **플랫폼을 내부 고객(개발자)을 위한 '제품(Product as a Service)'으로 취급하여 자발적 채택(Adoption)을 유도하고, Backstage 기반의 단일 개발자 포털과 엄격한 골든 패스를 제공하되 유연한 탈출 경로(Escape Hatch)를 반드시 개방**을 결합하여 완벽한 개발 민첩성과 엔터프라이즈 거버넌스를 완성
 
 #### 한줄 요약
 

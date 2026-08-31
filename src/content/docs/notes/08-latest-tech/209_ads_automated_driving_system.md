@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 209
   label: "209. 자동주행 시스템 (ADS)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "자동주행 시스템 (Automated Driving System, ADS)"
-date: "2026-08-26T17:42:15+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 209
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 정의된 ODD에서 전체 DDT와 대체 대응을 수행하는 **ADS**
-- 배경/필요성: 지원 기능과 자동주행을 같은 말로 부르면 범위를 벗어나거나 고장 났을 때 누가 운전을 이어받는지 정해지지 않아 **환경 감시•비상 대응 책임** 공백이 생기므로, ODD와 DDT, 대체 대응 주체를 기능마다 못 박아 책임이 이전되는 지점을 명시할 필요
+- 배경/필요성: 운전자가 항상 주행 환경을 감시하고 사고 책임을 전적으로 부담해야 하는 레벨 2 운전자 보조(ADAS) 시스템은 고속 주행이나 장거리 이동 시 운전자의 인지적 피로와 개입 지연을 근본적으로 해소하지 못하며, 인간 운전자의 개입을 전제로 하지 않는 완전한 이동성 혁신(로보택시, 무인 물류 배송)을 구현할 수 없는 한계에 직면함에 따라, 지정된 운행 조건(ODD) 내에서 인간 운전자의 상시 개입 없이 시스템이 전체 동적 주행 과업(DDT)과 비상 대응(DDT Fallback)을 스스로 수행하는 Automated Driving System(ADS / SAE J3016 Level 3 Conditional, Level 4 High, Level 5 Full Driving Automation / Operational Design Domain: ODD, Dynamic Driving Task: DDT & OEDR / Fail-Operational Redundant Architecture: Compute, Steering, Braking, Power / Minimal Risk Maneuver: MRM & Minimal Risk Condition: MRC / ISO 26262 & ISO 21448 SOTIF Standard)을 도입하여 **SAE 레벨 3(조건부 자동화: 비상 시 제어권 전환 요청 ToR) 및 레벨 4(고도 자동화: 무인 자율주행 및 시스템 자체 비상 대응) 체계를 통한 운전 주체의 인간에서 차량 시스템으로의 완전한 전환, 센서, 컴퓨팅, 조향, 제동의 이중화(Redundancy) 기반 결함 시에도 주행을 유지하는 고장 작동(Fail-Operational) 아키텍처 구축, 시스템 한계 도달이나 고장 발생 시 스스로 갓길 정차 등 안전 상태로 진입하는 최소위험기동(MRM $\rightarrow$ MRC) 구현을 통한 무인 이동 서비스 안전성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -67,10 +67,10 @@ ADS의 **ODD•OEDR 관리**와 MRM 수행 구조
                 [ODD•기능 관리자]   [안전 감시•기록]
                          \          /
                          [인지•OEDR]
-                              |
-                     [예측•계획•제어]
-                              |
-                       [DDT fallback]
+                               |
+                      [예측•계획•제어]
+                               |
+                        [DDT fallback]
 ```
 선의 의미: 작동 범위•독립 감시와 정상 DDT•대체 대응 경계
 
@@ -175,7 +175,7 @@ SAE Level 3의 **DMS•MRM 인계 조건** 검증
 
 </details>
 
-- SAE Level 3는 **운전자 인계**, Level 4 이상은 **시스템 MRM** 적용
+- 인류의 모빌리티 생태계를 운전 중심에서 이동 서비스(MaaS)와 로보택시로 재편하는 **완전 자율주행 시스템 및 지능형 무인 이동체 제어의 최고 기술 표준(Automated Driving System: ADS / SAE Level 3~5 Driving Automation / Full DDT & OEDR Execution / Fail-Operational Redundancy / MRM & MRC Safety Guarantee)의 확고한 표준**으로 확고히 자리 잡았으며, 대규모 파운데이션 모델(VLM/E2E Autonomous AI) 및 디지털 트윈 시뮬레이션 검증과 결합 발전하는 가운데, 실무 ADS 시스템 구축 시에는 **엄밀하게 정의된 ODD 범위 관리, 고장 발생 시 0.1초 이내 작동하는 전원/통신/조향/제동의 완벽한 하드웨어 이중화(Fail-Operational), 그리고 인계 실패 시 스스로 안전 지대에 정차하는 최소위험기동(MRM)**을 결합하여 완벽한 자율주행 신뢰성과 탑승자 생명 안전을 완성
 
 #### 한줄 요약
 

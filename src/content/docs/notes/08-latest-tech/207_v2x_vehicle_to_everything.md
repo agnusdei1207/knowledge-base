@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 207
   label: "207. 차량•사물 통신 (V2X)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "차량•사물 통신 (Vehicle-to-Everything, V2X)"
-date: "2026-08-26T17:40:00+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 207
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 차량이 주변 참여자•인프라•망과 위험 정보를 교환하는 **V2X 체계**
-- 배경/필요성: 탑재 센서는 가시선 안에서만 관측하므로 센서를 늘려도 **사각지대•가시거리 밖 위험**은 원리상 남아 그 한계를 성능으로 메우는 비용이 헛되므로, 다른 차량•도로 시설이 이미 아는 정보를 통신으로 받아 인지 범위를 센서 밖으로 넓히는 계층의 필요
+- 배경/필요성: 카메라, 레이더, 라이다 등 차량 자체 탑재 센서(In-vehicle Sensors)에만 의존하는 자율주행 인지 시스템은 가시선(Line-of-Sight, LoS) 영역에만 국한되어, 교차로 사각지대(Blind Spot), 대형 트럭 후방, 커브길, 악천후(폭설, 폭우, 안개) 등 물리적 시야 차단(Non-Line-of-Sight, NLoS) 상황에서 잠재적 충돌 위험을 사전에 인지할 수 없는 근본적 물리적 한계에 직면함에 따라, 차량이 주변의 모든 사물(차량, 인프라, 보행자, 네트워크)과 무선으로 안전/교통 정보를 실시간 교환하는 Vehicle-to-Everything(V2X / IEEE 802.11p DSRC/WAVE vs 3GPP C-V2X: LTE-V2X & 5G-V2X / V2V: Vehicle-to-Vehicle, V2I: Vehicle-to-Infrastructure, V2P: Vehicle-to-Pedestrian, V2N: Vehicle-to-Network / Direct PC5 Sidelink & Cellular Uu / SCMS Security Credential Management System, BSM, SPaT, MAP, Cooperative Driving & Sensor Sharing) 통신 체계를 도입하여 **PC5 사이드링크(Sidelink) 직접 통신을 통한 10ms 이하 초저지연 NLoS 위험 상황(전방 급제동, 교차로 충돌 경고) 사전 인지 및 협력 주행(Cooperative Autonomous Driving) 구현, 5G-V2X 기반의 고용량 센서 공유(Sensor Sharing) 및 군집 주행(Platooning) 지원, SCMS 공개키 기반구조(PKI) 익명 인증서를 통한 강력한 메시지 무결성/인증 및 차량 프라이버시 보호**를 달성할 필요
 
 #### 한줄 요약
 
@@ -177,7 +177,7 @@ DSRC•ITS-G5•C-V2X의 **직접•망 접속** 비교
 
 </details>
 
-- 인접 위험은 **PC5**, 광역 서비스는 **Uu**로 교환하고 PKI•센서로 검증
+- 개별 차량의 국소적 인지를 초월하여 집단 지성 기반의 협력형 자율주행(Cooperative Automated Driving)을 실현하는 **차세대 지능형 교통 시스템(C-ITS) 및 커넥티드 자율주행 통신의 최고 핵심 인프라(Vehicle-to-Everything: V2X / 5G NR C-V2X Sidelink Standard / V2V-V2I-V2P-V2N Convergence / SCMS PKI Trust Framework / Cooperative Perception Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 5G-Advanced 및 6G 기반의 초정밀 측위(Positioning)와 결합 발전하는 가운데, 실무 V2X 인프라 구축 시에는 **초저지연 안전 제어에는 PC5 사이드링크를, 광역 동적 지도(HD Map) 다운로드에는 Uu 셀룰러를 이원화 배치하고, SCMS 기반 인증서 유효성 검증 및 차량 탑재 센서(In-vehicle)와의 교차 융합 필터링(Plausibility Check)**을 결합하여 완벽한 교통 안전성과 통신 기만 공격 방어를 완성
 
 #### 한줄 요약
 

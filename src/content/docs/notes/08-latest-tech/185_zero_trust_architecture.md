@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "제로 트러스트 아키텍처 (Zero Trust Architecture)"
-date: "2026-08-26T17:33:08+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 185
 extra:
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 네트워크 위치를 신뢰하지 않고 자원별 접근을 검증하는 **ZTA**
-- 배경/필요성: 경계 안을 신뢰하는 구조는 한 번 뚫리면 내부 이동에 추가 검증 비용이 들지 않아 **과도한 권한•횡적 이동 차단 곤란**이 그대로 남으므로, 신뢰 판단을 네트워크 위치에서 떼어 내 자원 접근마다 주체•장치•맥락을 다시 확인하는 결정 계층의 필요
+- 배경/필요성: 클라우드 전환, 원격 근무 확산, 모바일 디바이스 증가로 인해 전통적인 성과 도랑(Castle-and-Moat) 모델인 경계 기반 보안(Perimeter Security)이 완전히 붕괴되었으며, 일단 내부망에 침투한 공격자가 암묵적 신뢰(Implicit Trust)를 악용하여 횡적 이동(Lateral Movement)을 통해 핵심 데이터를 탈취하는 랜섬웨어 및 APT 공격을 방어하지 못하는 치명적 한계에 직면함에 따라, '절대 신뢰하지 않고 항상 검증한다(Never Trust, Always Verify)'는 대원칙 하에 네트워크 위치와 상관없이 모든 접근 요청을 동적으로 평가하고 최소 권한만 부여하는 제로 트러스트 아키텍처인 ZTA(Zero Trust Architecture / NIST SP 800-207 Standard, Core Logic: Policy Engine, Policy Administrator, Policy Enforcement Point / 3 Core Principles: Continuous Verification, Limit Blast Radius, Assume Breach / Identity-centric, Micro-segmentation, Dynamic Context-aware Access Control)를 도입하여 **네트워크 위치 기반의 암묵적 신뢰를 100% 제거하고 사용자 신원, 기기 무결성, 실시간 위협 맥락 기반의 지속적 명시적 검증(Continuous Explicit Verification) 구현, 마이크로 세그멘테이션(Micro-segmentation) 및 최소 권한(Least Privilege) 원칙 적용을 통한 침해 확산 범위(Blast Radius)의 극소화, 침해를 기본 가정(Assume Breach)한 엔드투엔드 암호화 및 실시간 가시성 확보**를 달성할 필요
 
 #### 한줄 요약
 
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- 자원 민감도가 높으면 **접근별 검증**, 세션 위험이 커지면 **권한 회수**
+- 현대 사이버 보안 패러다임의 근본적 전환을 이끌고 국가 안보 및 엔터프라이즈 인프라 보호의 절대적 기본 원칙으로 확립된 **차세대 보안 체계 및 동적 접근 제어의 최고 아키텍처 표준(Zero Trust Architecture: ZTA / NIST SP 800-207 Universal Standard / Control-Data Plane Separation: PE-PA-PEP / Continuous Context-Aware Verification / Micro-segmentation & Least Privilege)의 확고한 표준**으로 확고히 자리 잡았으며, SASE, ZTNA 및 AI 기반 실시간 위협 대응과 결합하여 고도화되는 가운데, 실무 엔터프라이즈 제로 트러스트 전환 시에는 **단일 솔루션 도입이 아닌 성숙도 모델(CISA Zero Trust Maturity Model)에 기반하여 신원(IAM) $\rightarrow$ 기기 $\rightarrow$ 네트워크 $\rightarrow$ 워크로드 $\rightarrow$ 데이터 순으로 단계적 전환을 추진하고, 정책 집행점(PEP)과 실시간 정책 엔진(PE)을 통한 지속적 세션 재평가**를 결합하여 완벽한 사이버 탄력성과 제로 트러스트 거버넌스를 완성
 
 #### 한줄 요약
 

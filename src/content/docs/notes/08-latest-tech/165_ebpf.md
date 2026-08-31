@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "eBPF (Extended Berkeley Packet Filter)"
-date: "2026-08-26T17:26:48+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 165
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 검증된 프로그램을 커널 훅에서 실행하는 **eBPF**
-- 배경/필요성: 관측•네트워킹 기능을 커널 모듈로 넣으면 결함 하나가 **커널 전체 안정성**을 무너뜨리고 기능마다 재빌드•재부팅 비용을 다시 치르므로, 적재 전 검증을 통과한 프로그램만 정해진 훅에 붙여 실행하는 안전한 확장 계층의 필요
+- 배경/필요성: 전통적인 리눅스 커널 모듈(LKM) 개발은 미세한 코드 결함 하나만으로도 커널 패닉(Kernel Panic)과 시스템 전체 크래시를 유발하는 치명적 위험성을 지니며, 반대로 사용자 공간(User Space) 에이전트는 잦은 시스템 콜과 메모리 복사로 인해 고성능 클라우드/AI 인프라에서 심각한 CPU 및 지연 시간 오버헤드를 발생시키는 딜레마에 직면함에 따라, 커널 소스코드 수정이나 모듈 재컴파일 없이 리눅스 커널 내부의 샌드박스 가상머신에서 안전하게 정적 검증(Verifier)을 통과한 바이트코드를 동적으로 로드하여 커널 이벤트 훅에 부착 실행하는 eBPF(Extended Berkeley Packet Filter / In-Kernel Sandboxed Execution, In-Kernel Verifier: Safety & Termination Proof, JIT Compiler: Native Machine Code, eBPF Maps: Shared State, Kernel Hooks: XDP, TC, Kprobe, Tracepoints, Socket Layer, CO-RE: Compile Once - Run Everywhere) 혁신 기술을 도입하여 **커널 공간 내 네이티브 속도 실행을 통한 제로 카피(Zero-Copy) 및 마이크로초 단위 초저지연 네트워크 가속(XDP/Cilium), 커널 크래시 위험을 원천 차단하는 완전 무결한 런타임 안정성 보장, 시스템 콜 및 네트워크 패킷 수준의 심층 런타임 보안(Tetragon) 및 비침습적 전방위 관측성(Continuous Profiling)**을 달성할 필요
 
 #### 한줄 요약
 
@@ -176,7 +176,7 @@ eBPF 실행기•JIT ── 4. 정책 조회•상태 기록 ──▶ eBPF Map
 
 </details>
 
-- 동적 정책•관측은 **eBPF**, 깊은 기능 변경은 **커널 모듈** 선택
+- 리눅스 커널을 완벽히 프로그래밍 가능한(Programmable) 플랫폼으로 진화시키며 클라우드 네이티브 네트워킹, 보안, 관측 생태계의 판도를 바꾼 **커널 샌드박스 동적 확장 및 초고속 인프라 엔진의 최고 표준(Extended Berkeley Packet Filter: eBPF / In-Kernel Verifier & JIT Execution / XDP Packet Processing & Cilium CNI / Tetragon Runtime Security & Kprobe Profiling / CO-RE & BTF Portability)의 확고한 표준**으로 확고히 자리 잡았으며, 사이드카리스 서비스 메시 및 Windows 커널 확장으로 전방위 확산되는 가운데, 실무 eBPF 기반 엔터프라이즈 시스템 구축 시에는 **CO-RE(Compile Once - Run Everywhere)와 BTF를 적용하여 다종 커널 간 완벽한 이식성을 확보하고, 고빈도 훅 부착 시 커널 오버헤드를 최소화하기 위한 eBPF 맵(Map) 메모리 사전 할당 및 BPF LSM 기반의 무결성 접근 통제**를 결합하여 완벽한 커널 안전성과 극한의 시스템 가속 성능을 완성
 
 #### 한줄 요약
 

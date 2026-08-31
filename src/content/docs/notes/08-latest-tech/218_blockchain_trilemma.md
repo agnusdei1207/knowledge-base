@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "블록체인 트릴레마 (Blockchain Trilemma)"
-date: "2026-08-26T17:45:25+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 218
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: **탈중앙화•보안성•확장성**을 동시에 극대화하기 어려운 상충 관계
-- 배경/필요성: 처리량을 올리려 블록을 키우면 노드마다 검증•저장 비용이 함께 올라 감당 가능한 소수만 남는 **검증자 집중 위험**이 생기므로, 확장성•탈중앙화•보안 중 무엇을 어느 계층으로 옮겨 치를지 명시적으로 고르게 하는 설계 축의 필요
+- 배경/필요성: 비트코인, 이더리움 등 1세대/2세대 모놀리식 블록체인(Monolithic Blockchain) 아키텍처는 단일 레이어에서 합의(Consensus), 실행(Execution), 데이터 가용성(Data Availability), 정산(Settlement)을 모두 수행함에 따라, 트랜잭션 처리량(TPS)과 블록 크기를 늘리면 일반 노드의 하드웨어 검증/저장 비용이 급증하여 소수 고사양 노드만 남는 탈중앙성 훼손이 발생하고, 반대로 탈중앙성과 보안성을 극대화하면 초당 수십 건 수준의 극심한 처리량 병목과 가스비 폭증에 직면하는 근본적 상충 한계에 직면함에 따라, 블록체인 네트워크 설계 시 탈중앙화(Decentralization), 보안성(Security), 확장성(Scalability)의 세 가지 핵심 속성을 단일 레이어에서 동시에 극대화할 수 없다는 태생적 한계를 규명하고 해결책을 제시하는 Blockchain Trilemma(Vitalik Buterin's Trilemma Framework / Monolithic vs Modular Blockchain Architecture / Layer 1 Scaling: PoS, Sharding, State Pruning / Layer 2 Scaling: Optimistic Rollup with Fraud Proof, ZK-Rollup with Validity Proof / Data Availability Sampling: DAS, Proto-Danksharding EIP-4844 / Decentralization-Security-Scalability Trade-off Trade Space) 모델을 도입하여 **L1의 탈중앙성과 강력한 보안성(기본 합의 및 정산)을 온전히 계승하면서 L2 롤업(Rollup)을 통해 대규모 연산을 오프체인으로 분리하여 수천 TPS 이상의 확장성 달성, 모듈형 블록체인(Modular Blockchain: Celestia, EigenLayer) 및 Danksharding을 통한 데이터 가용성(DA) 비용의 획기적 절감, 블록체인의 3대 속성 간 정량적 트레이드오프 분석을 통한 최적의 분산 시스템 아키텍처 수립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-- **독립 검증•대량 처리•병렬 확장**에는 각각 **L1•L2•샤딩** 선택
+- 블록체인 아키텍처 진화의 방향성을 결정짓는 가장 핵심적이고 근본적인 **분산 원장 및 모듈형 블록체인 시스템 공학의 최고 핵심 설계 프레임워크(Blockchain Trilemma / Monolithic to Modular Paradigm Shift / L1 Security Settlement + L2 Rollup Execution / Data Availability Sampling / Decentralization-Security-Scalability Optimization)의 확고한 표준**으로 확고히 자리 잡았으며, 영지식 증명(ZK) 기반 모듈형 롤업 및 크로스체인 상호운용성으로 진화하는 가운데, 실무 엔터프라이즈 및 Web3 블록체인 설계 시에는 **단일 체인에서 무리하게 세 목표를 동시 추구하는 모놀리식 구조를 지양하고, L1(합의/보안)과 L2 롤업(확장 실행)을 분리하는 모듈형 아키텍처를 채택하며, 탈출 해치(Escape Hatch) 및 시퀀서 분산화를 통한 L2 검열 저항성**을 결합하여 완벽한 탈중앙 보안성과 엔터프라이즈급 확장성을 완성
 
 #### 한줄 요약
 

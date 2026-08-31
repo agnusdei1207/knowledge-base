@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-26T17:34:39+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 산업 데이터의 의미•통신•보안을 통합한 **OPC UA** 상호운용 표준
-- 배경/필요성: 공급사마다 태그 이름과 주소 체계가 달라 설비를 이을 때마다 의미를 사람이 대응시키는 매핑 비용을 조합 수만큼 치르는 **의미•주소 체계 불일치**가 남으므로, 값과 함께 값의 의미를 담는 공통 정보 모델과 보안 통신 규칙을 표준으로 두어 매핑 자체를 없앨 필요
+- 배경/필요성: 스마트 팩토리 및 스마트 제조 현장에서 지멘스(Siemens), 미쓰비시(Mitsubishi), 로크웰(Rockwell) 등 다수 벤더의 이기종 PLC, 센서, SCADA 장비가 각기 다른 독점(Proprietary) 필드버스 프로토콜과 단순 원시 데이터(Raw Tag Value)만을 사용하여, 상호 통신 시 복잡한 프로토콜 변환 게이트웨이가 필수적이고 데이터의 문맥적 의미(Contextual Semantics)가 상실되며 윈도우 OS 종속성(DCOM 취약점)에 노출되는 한계에 직면함에 따라, OPC Foundation에서 제정하고 IEC 62541 국제 표준으로 등록된 플랫폼 독립적 개방형 산업 상호운용성 표준인 OPC UA(OPC Unified Architecture / IEC 62541 Standard / AddressSpace Information Model: Object, Variable, Method, Reference, Semantic Typing / Client-Server & PubSub with TSN / Multi-layer Security: X.509 Certificate, Encryption, Signing, User Auth / Cross-platform: C, Java, .NET / Companion Specifications: Euromap, PackML) 규격을 도입하여 **노드 및 객체 지향 주소 공간(AddressSpace)을 통한 원시 데이터를 넘어선 풍부한 의미론적 메타데이터(Semantic Information)의 벤더 무관 표준 교환, 세션 기반 Client-Server 방식과 마이크로초 단위 초저지연 결정론적 통신(PubSub over TSN) 동시 지원, X.509 인증서 기반의 종단 간 강력한 암호화/무결성 검증을 통한 OT-IT 융합 보안**을 달성할 필요
 
 #### 한줄 요약
 
@@ -178,7 +178,7 @@ extra:
 
 </details>
 
-- 질의•명령은 **클라이언트-서버**, 다수 배포는 **PubSub** 선택 후 인증서 검증
+- OT(제조 운영기술)와 IT(정보기술) 영역의 프로토콜 사일로를 허물고 Industry 4.0 및 스마트 팩토리 상호운용성을 실현하는 **글로벌 산업용 통신 및 의미론적 데이터 상호운용성의 최고 표준(OPC UA / IEC 62541 International Standard / Semantic AddressSpace & Companion Specs / Client-Server & PubSub over TSN / End-to-End Security Architecture)의 확고한 표준**으로 확고히 자리 잡았으며, 클라우드 네이티브 MQTT 브로커 및 산업용 AI 데이터 파이프라인과 결합 발전하는 가운데, 실무 OPC UA 구축 시에는 **산업 도메인별 Companion Specification을 활용하여 표준 정보 모델을 설계하고, 제어 트래픽에는 PubSub over TSN을, 상위 시스템 연계에는 Client-Server를 최적 분리 적용하며, X.509 인증서 자동 갱신(GDS) 및 최소 권한 접근 제어**를 결합하여 완벽한 산업 상호운용성과 공장망 사이버 보안을 완성
 
 #### 한줄 요약
 

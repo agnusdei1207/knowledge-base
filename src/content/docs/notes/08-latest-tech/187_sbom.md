@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 187
   label: "187. 소프트웨어 자재명세서 (SBOM)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 자재명세서 (Software Bill of Materials, SBOM)"
-date: "2026-08-26T17:35:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 187
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 소프트웨어 구성요소•버전•의존 관계를 기록한 **SBOM**
-- 배경/필요성: 완성된 제품만 보고는 어떤 구성요소가 몇 단계 아래에 들어갔는지 알 수 없어 취약점이 공개될 때마다 전 제품을 다시 뒤지는 비용을 치르고도 **취약점•라이선스 영향 식별 곤란**이 남으므로, 구성요소와 의존 관계를 빌드 시점에 목록으로 남겨 영향 범위를 조회로 판정할 계층의 필요
+- 배경/필요성: 현대 소프트웨어 개발에서 오픈소스 컴포넌트 비중이 80~90% 이상으로 급증하면서, Log4Shell 및 SolarWinds 사태처럼 오픈소스 라이브러리 및 하위 간접 의존성(Transitive Dependencies)에 숨겨진 치명적 제로데이 취약점과 악성코드를 소프트웨어 배포 후에는 신속히 식별하거나 통제할 수 없는 소프트웨어 공급망 불투명성에 직면함에 따라, 소프트웨어를 구성하는 모든 오픈소스/상용 모듈, 패키지 버전, 라이선스, 의존성 관계 및 암호화 해시를 표준 형식으로 명세화하는 SBOM(Software Bill of Materials / SPDX: ISO/IEC 5962:2021, CycloneDX: OWASP, NTIA Minimum Elements / PURL, CPE, Hash, Cryptographic Signature, VEX: Vulnerability Exploitability eXchange) 체계를 도입하여 **빌드 파이프라인(CI)에서 기계 판독형 SBOM 자동 생성을 통한 공급망 투명성 100% 확보, 신규 CVE 취약점 공개 시 배포된 모든 시스템의 영향 범위를 수 분 내에 즉각 식별(Vulnerability Impact Analysis), 오픈소스 라이선스 충돌(GPL 등) 법적 리스크 사전 차단 및 글로벌 규제(미국 행정명령 EO 14028, EU CRA) 완벽 준수**를 달성할 필요
 #### 한줄 요약
 
 - SBOM은 구성요소를 미리 기록해 **취약점•라이선스 영향 범위** 판정을 전수 탐색에서 목록 조회로 바꾸는 사본 계층이며, 목록이 실제 빌드와 어긋나는 순간 그 조회 결과도 함께 틀어진다.
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- 구성요소는 **SBOM**으로 식별하고 **자산 매핑•VEX 영향**으로 조치 결정
+- 글로벌 소프트웨어 공급망 보안 규제(미국 EO 14028, 유럽 Cyber Resilience Act) 대응 및 소프트웨어 투명성 확보의 핵심 열쇠로 정착된 **소프트웨어 공급망 자산 식별 및 취약점 거버넌스의 최고 국제 표준(Software Bill of Materials: SBOM / SPDX & CycloneDX Dual Standards / NTIA Minimum Elements / Automated In-toto Attestation & Sigstore Signing / VEX Actionability Integration)의 확고한 표준**으로 확고히 자리 잡았으며, 런타임 SBOM 및 AI 모델 자재명세서(AIBOM)로 확장되는 가운데, 실무 엔터프라이즈 SBOM 구현 시에는 **빌드 시점(CI)에서 SPDX/CycloneDX 표준 SBOM을 자동 생성하고 배포 산출물에 전자서명 결속(Attestation)을 강제하며, 취약점 악용 가능성 교환(VEX)을 결합하여 실제 서비스 미영향 오탐에 따른 개발 피로도를 제거**를 결합하여 완벽한 공급망 무결성과 고속 취약점 대응 체계를 완성
 
 #### 한줄 요약
 

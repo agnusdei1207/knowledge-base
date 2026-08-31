@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-08-26T17:31:29+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 179
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 업무 가치•기술 조건에 따라 전환 전략을 고르는 **클라우드 6R**
-- 배경/필요성: 자산을 가리지 않고 일괄 이전하면 폐기했어야 할 시스템까지 옮겨 **불필요 자산 이전•재설계 비용**을 이전 후 운영에서도 계속 지불하므로, 자산마다 가치와 종속성을 먼저 판정해 폐기•유지•이전•재설계로 갈래를 나누는 결정 기준의 필요
+- 배경/필요성: 온프레미스 레거시 시스템을 클라우드로 마이그레이션할 때 명확한 아키텍처 전략 없이 모든 자산을 일괄 Lift-and-Shift로 이전할 경우 불필요하거나 중복된 레거시 시스템까지 클라우드로 전이되어 클라우드 비용이 오히려 급증하고, 반대로 모든 시스템을 전면 클라우드 네이티브로 재구축(Refactor)하려 하면 막대한 프로젝트 비용과 전환 기간 장기화로 프로젝트가 좌초되는 위험에 직면함에 따라, 엔터프라이즈 애플리케이션의 비즈니스 가치, 기술 부채, 아키텍처 복잡도, 데이터 종속성을 종합 평가하여 6가지 맞춤형 전환 경로(Retain, Retire, Rehost, Replatform, Refactor, Repurchase)를 수립하는 Cloud Migration 6R(Gartner 5R $\rightarrow$ AWS 6R/7R Framework: Retain, Retire, Rehost, Replatform, Refactor, Repurchase, Relocate / Migration Readiness Assessment: MRA, Landing Zone, Dependency Mapping, Cutover Wave Planning) 방법론을 도입하여 **시스템별 비즈니스 가치와 복잡도에 최적화된 마이그레이션 전략 수립을 통한 투자 대비 효과(ROI) 극대화, 철저한 시스템 종속성 분석(Dependency Mapping) 기반의 무중단 컷오버(Cutover) 및 이전 웨이브(Wave) 계획 실행, 규제 준수 시스템(Retain) 및 폐기 대상(Retire)의 조기 선별을 통한 마이그레이션 범위 및 인프라 TCO 최적화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- 가치 없음은 **Retire**, 빠른 이전은 **Rehost•Replatform**, 차별화는 Refactor•Repurchase 선택
+- 엔터프라이즈 대규모 클라우드 전환 프로젝트의 리스크를 최소화하고 단계적 현대화를 실현하는 **클라우드 마이그레이션 의사결정 및 아키텍처 전환 전략의 최고 프레임워크 표준(Cloud Migration 6R & 7R Framework / Retain-Retire-Rehost-Replatform-Refactor-Repurchase / Dependency Mapping & Landing Zone / Automated Wave Cutover)의 확고한 표준**으로 확고히 자리 잡았으며, 메인프레임 현대화 및 AI 네이티브 클라우드 전환과 결합 발전하는 가운데, 실무 대규모 마이그레이션 추진 시에는 **초기 평가 단계에서 CMDB 및 실시간 네트워크 트래픽 기반의 완벽한 종속성 지도를 구축하고, 비즈니스 핵심 코어는 Refactor/Replatform으로, 단순 워크로드는 Rehost 후 점진적 현대화로 분원하며, 철저한 증분 데이터 복제 및 컷오버(Cutover) 리허설**을 결합하여 완벽한 서비스 무중단성과 비즈니스 연속성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "논리 큐비트 (Logical Qubit)"
-date: "2026-08-26T17:42:34+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 215
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 오류 정정 **코드 공간**에 인코딩된 보호 양자 정보 단위
-- 배경/필요성: 물리 큐비트 하나는 연산마다 오류를 누적해 회로가 길어질수록 **계산 신뢰성 상실**에 이르므로, 여러 물리 큐비트가 이루는 코드 공간에 정보를 분산하고 정정을 반복하는 상위 단위를 두어 오류율을 회로 길이에서 떼어 낼 필요
+- 배경/필요성: 개별 물리 큐비트(Physical Qubit)는 극미세한 외부 열적/전자기적 잡음으로 인해 수백 마이크로초 이내에 양자 중첩과 위상이 붕괴(Decoherence)되며 연산 오류율($10^{-3}$)이 너무 높아, 의미 있는 암호 해독이나 양자 시뮬레이션에 필요한 수천만 회 이상의 연속 게이트 연산 시 연산 결과가 완전한 무작위 노이즈로 전락하는 한계에 직면함에 따라, 수십~수천 개의 물리 큐비트를 양자 오류 정정 부호(Surface Code, Color Code, Bosonic Code)의 공동 힐베르트 부분공간(Code Space)으로 결합하여 외부 잡음으로부터 완벽히 차폐되고 물리 큐비트보다 지수적으로 낮은 오류율($10^{-12} \sim 10^{-15}$)을 갖는 논리적 양자 연산 단위인 Logical Qubit(Fault-Tolerant Logic State $|\psi_L\rangle = \alpha|0_L\rangle + \beta|1_L\rangle$, Code Space & Non-local Quantum Information, Physical-to-Logical Qubit Overhead: $d^2 \sim 2d^2$ per Logical Qubit, Continuous Syndrome Extraction Cycle, Transversal Logic Gates & Magic State Distillation for Non-Clifford Gates, Logical Error Rate $P_L \propto (p/p_{th})^{(d+1)/2}$) 아키텍처를 도입하여 **국소적 물리 결함이 비국소적(Non-local)으로 분산된 논리 정보에 영향을 주지 못하도록 격리하여 양자 연산의 결맞음 수명을 무한히 연장, 물리 임계값 이하에서 코드 거리($d$) 확장을 통해 논리 오류율을 슈퍼컴퓨터 수준($10^{-15}$) 이하로 지수적 감쇄, 횡단 게이트(Transversal Gate) 및 격자 수술(Lattice Surgery) 기반의 완벽한 결함 허용(Fault-Tolerant) 범용 양자 연산**을 달성할 필요
 
 #### 한줄 요약
 
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-- 목표 **논리 오류율•해독 처리량**에 맞는 코드 규모 선택
+- 양자 컴퓨터의 실질적 계산 능력을 결정짓는 진정한 척도이자 결함 허용 양자 컴퓨팅(FTQC) 시대의 가장 기본적이고 핵심적인 **신뢰성 보증 양자 정보 및 결함 허용 양자 연산의 최고 표준 단위(Logical Qubit / Code Space Quantum Entanglement / Fault-Tolerant Universal Gate Set / Real-Time Error Correction Loop / Scalable FTQC Benchmark)의 확고한 표준**으로 확고히 자리 잡았으며, 단일 물리 공진기 기반의 보손 코드(Cat/GKP Qubit) 및 중성원자 셔플링과의 결합으로 진화하는 가운데, 실무 대규모 양자 컴퓨터 구축 시에는 **물리 큐비트의 절대적 수량 경쟁을 넘어 '신뢰할 수 있는 논리 큐비트 수량(Logical Qubit Count)'과 '논리 오류율'을 핵심 KPI로 설정하고, 1,000:1 이상의 물리 대 논리 자원 오버헤드를 극복하기 위한 고속 실시간 제어 스택 및 매직 상태 팩토리(Magic State Factory)**를 결합하여 완벽한 계산 신뢰성과 상용 양자 우위를 완성
 
 #### 한줄 요약
 

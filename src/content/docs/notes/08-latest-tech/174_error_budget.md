@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 174
   label: "174. 오류 예산 (Error Budget)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "오류 예산 (Error Budget)"
-date: "2026-08-26T17:25:44+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 174
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: SLO의 허용 실패량을 배포•안정화 우선순위에 연결하는 **오류 예산**
-- 배경/필요성: 신뢰성을 100%로 두면 중복 투자 비용이 끝없이 커지고 변경을 제한 없이 허용하면 장애 위험이 쌓여 **배포•안정화 충돌**을 사안마다 협상으로 푸는 비용이 남으므로, SLO가 허용하는 실패량을 미리 계산해 두고 잔여량으로 변경 속도를 자동 조절할 기준의 필요
+- 배경/필요성: 소프트웨어 시스템에서 100% 가용성(Zero Downtime)을 달성하려는 시도는 천문학적인 인프라 비용 대비 사용자 체감 이익이 미미하며 오히려 모든 혁신적인 기능 배포를 극단적으로 위축시키는 부작용을 낳고, 반대로 무분별한 배포는 빈번한 서비스 붕괴를 초래함에 따라, SLO 목표치에서 허용 가능한 비가용성 비율($1 - \text{SLO}$)을 합법적인 실패의 예산(Error Budget)으로 명량화하여 개발팀의 배포 속도와 운영팀의 안정화 활동을 객관적으로 조율하는 오류 예산(Error Budget / SRE Core Practice, Error Budget Policy: Feature Freeze vs Fast Deployment, Burn Rate Alerting, Rolling 30-Day Budget, Toil Elimination Priority) 정책을 도입하여 **신규 기능 출시와 안정성 사이의 조직적 갈등을 객관적 데이터 기반의 규칙(Policy)으로 자동 중재, 오류 예산이 충분할 때는 적극적인 기능 출시 및 카나리 배포 장려, 오류 예산 급속 소진 또는 고갈 시 신규 배포를 동결(Feature Freeze)하고 신뢰성 개선 및 기술 부채 청산에 엔지니어링 역량을 집중 투입하는 자율 규제**를 달성할 필요
 
 #### 한줄 요약
 
@@ -176,7 +176,7 @@ SLI **대표성•평가 경계**의 선행 검증
 
 </details>
 
-- **오류 예산** 충분하면 배포, 고갈 임계치 도달 시 **안정화** 우선
+- 개발과 운영 간의 고질적 대립을 종식시키고 비즈니스 민첩성과 시스템 신뢰성 사이의 최적 균형점을 제공하는 **SRE 정량적 의사결정 및 릴리즈 거버넌스의 최고 표준(Error Budget / 1 - SLO Allowed Unreliability / Multi-burn-rate Gating / Feature Freeze & Reliability Sprint Automation / 30-Day Rolling Window Budgeting)의 확고한 표준**으로 확고히 자리 잡았으며, 자동화된 CI/CD 파이프라인과 통합된 카나리 릴리즈 게이트로 고도화된 가운데, 실무 오류 예산 제도 운용 시에는 **예산 고갈 시 예외 없는 기능 배포 중단 및 신뢰성 개선 스프린트 전환에 대해 경영진-개발-운영 간의 사전 합의 정책(Error Budget Policy)을 명문화하고, 단순 잔여량이 아닌 소진 가속도(Burn Rate) 기반의 선제적 릴리즈 제어**를 결합하여 완벽한 비즈니스 경쟁력과 시스템 안정성을 완성
 
 #### 한줄 요약
 

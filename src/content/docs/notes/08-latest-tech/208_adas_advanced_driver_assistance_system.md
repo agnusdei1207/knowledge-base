@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 208
   label: "208. 첨단 운전자 지원 시스템 (ADAS)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "첨단 운전자 지원 시스템 (Advanced Driver Assistance System, ADAS)"
-date: "2026-08-26T17:41:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 208
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 환경•운전자 상태를 인지해 경고•조향•가감속을 보조하는 **ADAS**
-- 배경/필요성: 보조 기능이 늘수록 차량이 어디까지 해 주는지 경계가 흐려져 운전자가 감시를 늦추는 **기능 한계•감독 책임 혼동** 위험이 커지므로, 동작 가능 범위와 감독 책임을 기능마다 명시하고 범위를 벗어나면 단계적으로 제어를 되돌리는 설계의 필요
+- 배경/필요성: 운전자의 주행 피로, 전방 주시 태만, 졸음, 돌발 상황 반응 지연 등으로 인한 치명적 교통사고를 획기적으로 줄이기 위해 개발된 초기 수동형 안전장치(에어백, ABS)는 사고 발생 시 충격 완화에만 머물러 사고 자체를 능동적으로 회피하지 못하며, 단순 단일 센서 기반 시스템은 오경보(False Alarm) 및 악천후 인지 실패에 취약한 한계에 직면함에 따라, 다중 센서 융합과 실시간 제어 알고리즘을 통해 주행 환경과 운전자 상태를 능동적으로 감시하고 경고 및 부분 차량 제어를 수행하는 Advanced Driver Assistance System(ADAS / SAE J3016 Level 0~2 Driving Automation / Multi-Sensor Fusion: Camera, Radar, Ultrasonic / Core Functions: AEB Autonomous Emergency Braking, ACC Adaptive Cruise Control, LKA Lane Keeping Assist, BVM, HDA / Driver Monitoring System: DMS / Euro NCAP & NHTSA Safety Standards)을 도입하여 **카메라의 형상/차선 인식과 레이더의 거리/속도 측정 장점을 결합한 고신뢰 센서 융합(Sensor Fusion)을 통한 충돌 위험 사전 감지 및 자동 긴급 제동(AEB) 실행, 조향(횡방향)과 가감속(종방향)을 통합 제어하는 고속도로 주행 보조(HDA)를 통한 운전자 주행 피로도 획기적 경감, 운전자 모니터링 시스템(DMS)과의 연계를 통한 전방 주시 태만 방지 및 Level 2 운전자 감독 책임(Driver Responsibility)의 엄격한 준수**를 달성할 필요
 
 #### 한줄 요약
 
@@ -175,7 +175,7 @@ ADAS의 **ODD•DMS 검증**과 HMI 확인
 
 </details>
 
-- ODD•센서 한계 초과 시 **기능 저하•해제**, **운전자 감독 책임** 유지
+- 글로벌 신차 안전도 평가(Euro NCAP, KNCAP)의 필수 기본 탑재 기준이자 완전 자율주행(ADS)으로 진화하기 위한 필수 디딤돌인 **능동형 차량 안전 및 운전자 주행 보조의 최고 핵심 표준 기술(Advanced Driver Assistance System: ADAS / SAE Level 0~2 Automation / Camera-Radar Multi-Sensor Fusion / AEB & HDA Core Safety / DMS Driver Engagement Verification)의 확고한 표준**으로 확고히 자리 잡았으며, 엔드투엔드(E2E) AI 딥러닝 기반 통합 인지-판단 시스템으로 진화하는 가운데, 실무 ADAS 소프트웨어 설계 시에는 **시스템이 환경 감시와 최종 제어 책임을 지지 않는 Level 2의 한계를 운전자에게 명확히 고지(HMI)하고, 센서 오염/기상 악화 시 안전한 기능 저하(Graceful Degradation) 및 DMS 기반의 핸즈온(Hands-on)/시선 추적 감시**를 결합하여 완벽한 주행 편의성과 무결점 능동 안전성을 완성
 
 #### 한줄 요약
 

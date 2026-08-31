@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 패브릭 (Data Fabric)"
-date: "2026-08-26T17:36:51+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 194
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 활성 메타데이터로 분산 데이터 연결•정책을 자동화하는 **데이터 패브릭**
-- 배경/필요성: 소스마다 개별 도구로 연결하고 정책을 수작업으로 맞추면 소스 조합 수만큼 연결과 규칙을 다시 만드는 비용이 들어 **탐색 지연•통합 중복•정책 불일치**가 누적되므로, 자산의 메타데이터를 한곳에 모아 연결 경로와 접근 정책을 자동으로 도출하는 계층의 필요
+- 배경/필요성: 온프레미스, 멀티 클라우드, SaaS, 엣지 등 전사 곳곳에 분산된 이기종 데이터 소스를 개별 파이프라인으로 직접 연결하고 수작업으로 거버넌스를 적용하는 방식은, 데이터 사일로 심화, 극심한 데이터 통합 비용(ETL 스파게티), 메타데이터의 파편화 및 수작업 정책 집행에 따른 보안/컴플라이언스 위반 위험에 직면함에 따라, 전사 분산 데이터 환경 전체에 흩어진 정형/비정형 데이터를 물리적으로 이동/복제하지 않고 인공지능/머신러닝 기반의 활성 메타데이터(Active Metadata)와 지식 그래프(Knowledge Graph)를 통해 동적으로 연결하고 거버넌스를 자동화하는 Data Fabric(Gartner Top Tech Trend / Active Metadata, Semantic Knowledge Graph, Data Virtualization & Dynamic Integration, Automated Governance & Policy as Code, Continuous Machine Learning Data Discovery, Unified Data Fabric Control Plane) 아키텍처를 도입하여 **수동적 메타데이터를 넘어 실시간 사용 로그, 계보, 품질을 분석해 최적의 통합 파이프라인을 자동 추천/생성하는 지능형 활성 메타데이터 구현, 데이터 가상화(Data Virtualization) 기술을 통한 데이터 물리적 복제 없는 실시간 통합 쿼리 및 네트워크/스토리지 TCO 절감, 전사 데이터에 대한 단일 보안/거버넌스 정책의 자동화된 동적 집행**을 달성할 필요
 
 #### 한줄 요약
 
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- 이기종 자산 연결 자동화는 **데이터 패브릭**, 도메인 책임 분산은 **데이터 메시** 선택
+- 하이브리드 및 멀티 클라우드 환경에서 분산 데이터 자산의 통합 및 자동화 거버넌스를 실현하는 **지능형 엔터프라이즈 데이터 아키텍처 및 메타데이터 자동화의 최고 표준(Data Fabric / Active Metadata & Semantic Knowledge Graph Engine / Data Virtualization & Dynamic Pipelines / Policy as Code Automated Governance / Data Mesh Complementary Synergy)의 확고한 표준**으로 확고히 자리 잡았으며, 데이터 메시(Data Mesh)의 도메인 자율성을 지능적으로 뒷받침하는 핵심 기술 토대로 융합 발전하는 가운데, 실무 Data Fabric 구축 시에는 **분산 데이터 소스의 지식 그래프(Knowledge Graph) 기반 의미론적 연결을 선행하고, 데이터 가상화와 캐싱을 결합하여 쿼리 지연을 최소화하며, 고위험 보안/접근 정책 변경 시 사람의 승인(Human-in-the-Loop)을 결합한 지능형 거버넌스**를 결합하여 완벽한 데이터 상호운용성과 엔터프라이즈 데이터 인텔리전스를 완성
 
 #### 한줄 요약
 

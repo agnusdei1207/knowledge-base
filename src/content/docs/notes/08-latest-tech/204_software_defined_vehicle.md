@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "소프트웨어 정의 차량 (Software Defined Vehicle)"
-date: "2026-08-26T17:36:49+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 204
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 중앙 컴퓨팅•서비스 기반으로 차량 기능을 지속 갱신하는 **SDV 구조**
-- 배경/필요성: 기능마다 전용 ECU를 더하면 배선과 통합 검증 비용이 조합 수만큼 늘고 기능 하나를 고칠 때마다 부품 교체를 치러야 해 **통합 복잡도•변경 비용**이 상승하므로, 연산을 중앙 고성능 컴퓨터로 모아 기능 변경을 소프트웨어 갱신으로 바꾸는 구조의 필요
+- 배경/필요성: 전통적인 자동차 아키텍처는 기능 하나마다 개별 전자제어장치(ECU)를 추가하는 분산 ECU 구조(차량당 100개 이상)를 취하여, 차량 내부 와이어링 하네스(배선) 중량 폭증, 하드웨어-소프트웨어의 강한 결합(Tight-coupling)으로 인한 기능 추가/수정의 극심한 제약, 출고 후 차량 기능 고착화 및 자율주행/인포테인먼트의 대규모 AI 연산 수용 불가능이라는 구조적 한계에 직면함에 따라, 하드웨어와 소프트웨어를 완전 분리하고 중앙 집중형 컴퓨팅 및 서비스 지향 아키텍처(SOA)를 통해 차량의 기능, 주행 성능, 사용자 경험을 소프트웨어로 지속 진화시키는 SDV(Software Defined Vehicle / Centralized High-Performance Computing: HPC + Zonal Architecture / Vehicle OS & Middleware: AUTOSAR Adaptive, ROS2 / Vehicle API: COVESA VSS / Service-Oriented Architecture: SOA, Virtualization & Hypervisor / ASIL Mixed-Criticality Partitioning / Continuous OTA Evolution) 아키텍처를 도입하여 **수십 개의 분산 ECU를 소수의 중앙 HPC 및 위치 기반 존 컨트롤러(Zonal Controller)로 통합하여 차량 배선 중량 획기적 감축 및 제조 원가 절감, 하드웨어 추상화 계층(HAL) 및 표준 차량 API를 통한 하드웨어 독립적 소프트웨어 개발/배포 생태계 구축, 출고 후에도 무선(OTA) 업데이트를 통해 차량 성능, 자율주행 알고리즘, 인포테인먼트 기능을 스마트폰처럼 지속 업그레이드하는 구독형 비즈니스 모델(FaaS)**을 달성할 필요
 
 #### 한줄 요약
 
@@ -185,7 +185,7 @@ API•Vehicle OS•HPC의 **서비스 계약 기반 기능 실행**
 
 </details>
 
-- 변경이 잦은 기능은 **서비스화**, 안전 기능은 **격리 실행**하는 SDV 적용
+- 내연기관에서 전동화 및 자율주행으로 전환되는 글로벌 모빌리티 산업의 가장 핵심적이고 근본적인 패러다임 시프트인 **차세대 미래 모빌리티 아키텍처 및 자동차 소프트웨어 공학의 최고 표준(Software Defined Vehicle / Centralized HPC & Zonal Architecture / AUTOSAR Adaptive & SOA / ASIL-D Mixed-Criticality Isolation / End-to-End OTA Lifecycle)의 확고한 표준**으로 확고히 자리 잡았으며, 차량용 생성형 AI 에이전트 및 자율주행 파운데이션 모델과 융합 발전하는 가운데, 실무 SDV 아키텍처 설계 시에는 **ISO 26262 기능안전(ASIL-D) 및 ISO/SAE 21434 사이버 보안을 엄격히 준수하는 하이퍼바이저 기반 혼합 임계성(Mixed-criticality) 파티셔닝을 구현하고, COVESA VSS 표준 차량 API 도입 및 견고한 듀얼 뱅크(A/B) OTA 롤백 체계**를 결합하여 완벽한 주행 안전성과 지속 진화하는 모빌리티 가치를 완성
 
 #### 한줄 요약
 

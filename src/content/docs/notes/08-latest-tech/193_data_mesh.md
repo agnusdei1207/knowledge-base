@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 메시 (Data Mesh)"
-date: "2026-08-26T17:35:51+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 193
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 도메인 팀이 데이터 제품을 책임지는 **데이터 메시 운영 모델**
-- 배경/필요성: 중앙 데이터팀이 모든 요청을 처리하면 요청 수만큼 대기가 쌓이는 **처리 병목**에 더해 업무 맥락을 모르는 팀이 품질을 책임지는 **업무 의미•품질 책임 단절**이 남으므로, 데이터를 만든 도메인이 제품으로 소유하고 공통 플랫폼과 전사 규칙이 그 자율을 떠받치도록 책임을 재배치할 필요
+- 배경/필요성: 전사 데이터를 중앙 데이터 조직(Centralized Data Team)과 모놀리식 데이터 레이크/DW로 집중시키는 전통적 중앙 집중형 데이터 아키텍처는, 데이터 생산자와 소비자가 분리되어 비즈니스 도메인 지식의 단절, 중앙 데이터 엔지니어링 팀의 파이프라인 개발 병목, 데이터 품질 책임 주체 부재 및 비즈니스 변화 속도를 따라가지 못하는 확장성 붕괴에 직면함에 따라, 마이크로서비스 아키텍처(MSA) 및 도메인 주도 설계(DDD) 사상을 데이터 아키텍처에 적용하여 각 비즈니스 도메인 팀이 데이터를 독립적인 '제품(Data as a Product)'으로 직접 소유하고 관리하는 Data Mesh(Zhamak Dehghani 주창 4대 핵심 원칙: Domain Ownership, Data as a Product, Self-serve Data Platform, Federated Computational Governance / Data Contract, Data Product Quantum, Open Metadata, Semantic Catalog) 패러다임을 도입하여 **비즈니스 도메인 전문가가 데이터 품질, 수명주기, 메타데이터를 직접 소유(Domain Ownership)하여 데이터 의미 왜곡 및 품질 사고 원천 차단, 데이터 계약(Data Contract) 및 SLO 기반의 완성도 높은 데이터 제품(Data as a Product) 제공을 통한 부서 간 데이터 소비 편의성 극대화, 중앙 조직의 셀프서비스 인프라 플랫폼(Self-serve Platform) 및 자동화된 연합 거버넌스(Federated Governance) 지원을 통한 엔터프라이즈 데이터 민주화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -68,8 +68,8 @@ extra:
                   [도메인 제품팀]   [셀프서비스 플랫폼]
                            \          /
                           [데이터 제품]
-                               |
-                       [카탈로그•소비 계층]
+                                |
+                        [카탈로그•소비 계층]
 ```
 선의 의미: 연합 거버넌스는 도메인 제품팀과 셀프서비스 플랫폼에 공통 전역 규칙을 제공하고, 도메인 제품팀은 플랫폼의 공통 기능으로 데이터 제품을 소유•운영하며 카탈로그•소비 계층은 그 제품의 발견•접근 경계를 제공한다.
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- 도메인이 수명주기•SLO를 운영하면 **데이터 메시**, 아니면 **중앙 플랫폼** 선택
+- 대규모 엔터프라이즈의 데이터 사일로와 중앙 집중식 병목을 근본적으로 해소하고 전사 데이터 민주화를 실현하는 **차세대 분산 데이터 아키텍처 및 조직 운영 모델의 최고 표준(Data Mesh / 4 Core Principles: Domain Ownership, Data as a Product, Self-serve Platform, Federated Governance / Data Contract & SLO / Decentralized Data Quantum Architecture)의 확고한 표준**으로 확고히 자리 잡았으며, 데이터 패브릭(Data Fabric)의 메타데이터 자동화 기술과 결합하여 진화하는 가운데, 실무 Data Mesh 전환 시에는 **단순 기술 도입이 아닌 조직 문화 및 도메인 책임 모델의 혁신을 선행하고, 도메인 팀의 인지 부하를 줄이기 위한 고도화된 셀프서비스 데이터 플랫폼 구축 및 명확한 데이터 계약(Data Contract) 기반의 SLO 관리**를 결합하여 완벽한 데이터 민첩성과 엔터프라이즈 비즈니스 가치를 완성
 
 #### 한줄 요약
 

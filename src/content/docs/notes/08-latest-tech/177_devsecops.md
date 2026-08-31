@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-26T17:28:56+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 177
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 개발•보안•운영이 SDLC 보안을 공동 소유하는 **DevSecOps**
-- 배경/필요성: 릴리스 직전에만 수동 심사하면 설계 시점부터 쌓인 결함이 수정 비용이 가장 비싼 지점에서 드러나 **취약점 발견•배포 대응**이 함께 지연되므로, 보안 검사를 파이프라인 각 단계에 나눠 넣어 값싼 시점에 결함을 잡는 구조의 필요
+- 배경/필요성: 전통적인 폭포수식 보안 심사는 최종 배포 직전에 수동 검사(체크리스트, 침투 테스트)를 수행하여 심각한 취약점 발견 시 배포가 전면 지연되거나 결함 수정 비용이 개발 초기에 비해 수십 배 폭증하는 병목(Security Gatekeeper)을 초래하며, 현대의 일 수십 회 CI/CD 초고속 배포 속도를 보안이 따라가지 못하는 근본적 한계에 직면함에 따라, 소프트웨어 개발 수명주기(SDLC) 전 과정에 보안을 자동화된 코드로 내재화(Shift-Left & Shift-Right)하여 개발•보안•운영이 보안 책임을 공동 소유하는 DevSecOps(Development, Security, and Operations / Shift-Left Security: Threat Modeling, SAST, DAST, IAST, SCA, Secret Scanning / Shift-Right Security: RASP, Cloud Workload Protection, WAF / Policy as Code: OPA, SBOM & Sigstore Supply Chain Security) 체계를 도입하여 **빌드 및 CI 단계에서 자동화된 SAST/SCA/시크릿 스캔을 통해 결함 수정 비용을 극소화(Shift-Left), 위험도 기반 자동화 정책 게이트(Policy Gate)를 통한 무중단 초고속 배포 파이프라인 유지, SBOM 및 디지털 서명 검증을 통한 오픈소스 공급망 공격(Supply Chain Attack) 원천 차단**을 달성할 필요
 
 #### 한줄 요약
 
@@ -188,7 +188,7 @@ extra:
 
 </details>
 
-- 고위험은 **정책 게이트**로 차단, 허용 위험은 **소유자•만료일 예외**로 추적
+- 클라우드 네이티브 및 고속 CI/CD 환경에서 보안과 개발 민첩성을 동시에 달성하는 **전사적 보안 내재화 및 소프트웨어 공급망 보안 거버넌스의 최고 표준(DevSecOps / Shift-Left & Shift-Right Holistic Security / Automated Pipeline Scanning: SAST, DAST, SCA, Secret Detection / Policy as Code & SLSA Framework / SBOM & Cryptographic Attestation)의 확고한 표준**으로 확고히 자리 잡았으며, AI 기반 코드 보안 취약점 자동 패치(Remediation)로 진화하는 가운데, 실무 엔터프라이즈 DevSecOps 구현 시에는 **개발 초기 단계부터 보안 챔피언 제도를 운영하고, 오탐(False Positive)을 최소화하여 개발자의 파이프라인 차단 피로를 방지하며, 중요도(CVSS/EPSS) 기반의 자동 릴리즈 차단 게이트웨이 및 임시 예외 승인 시 기한부 추적 관리**를 결합하여 완벽한 소프트웨어 공급망 안전성과 최고 속도의 비즈니스 출시를 완성
 
 #### 한줄 요약
 

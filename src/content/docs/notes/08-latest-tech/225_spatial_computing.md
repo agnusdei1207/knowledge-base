@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "공간 컴퓨팅 (Spatial Computing)"
-date: "2026-08-26T17:47:06+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
 - "notes-latest-tech"
 weight: 225
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 물리 환경을 인식해 디지털 정보•동작을 좌표에 정합하는 **공간 컴퓨팅**
-- 배경/필요성: 평면 화면은 사용자와 사물의 위치 관계를 좌표로 갖고 있지 않아 모든 입력을 화면 좌표로 번역하는 비용을 치르고도 **공간 관계 상호작용**을 구현하지 못하므로, 센서로 물리 공간을 모델링해 디지털 정보를 실제 좌표에 정합시키는 계층의 필요
+- 배경/필요성: 키보드, 마우스, 2D 터치스크린 등 전통적인 평면 디스플레이 인터페이스는 인간이 살아가는 3차원 물리 공간과 단절되어 있어, 3D 엔지니어링 설계, 원격 수술, 로봇 자율 제어 및 복잡한 공간 데이터 분석 시 입체적 공간 맥락(Spatial Context)을 직관적으로 조작하지 못하고 심각한 인지적 오버헤드와 정보 왜곡을 초래하는 한계에 직면함에 따라, 다중 센서(RGB 카메라, LiDAR, IMU)와 컴퓨터 비전 알고리즘을 통해 사용자의 시선, 손동작, 음성 및 물리적 환경 전체를 3차원 공간 좌표계로 실시간 인식/매핑하고 가상 디지털 객체를 현실 물리 공간과 1:1 완벽하게 융합시키는 Spatial Computing(Vision Pro / HoloLens, 6DoF Six Degrees of Freedom Tracking / Spatial Mapping & Real-Time Meshing / SLAM: Visual-Inertial Odometry, LiDAR Sensor Fusion / Natural User Interface: Eye Tracking, Hand Gesture, Spatial Audio / Scene Understanding: Semantic Segmentation, Occlusion Handling, Physics Interaction / Industrial Robotics & Autonomous Systems) 아키텍처를 도입하여 **10ms 이하의 모션 투 포톤(Motion-to-Photon) 지연시간과 서브 밀리미터 단위의 초정밀 3차원 공간 정합성(Spatial Alignment) 확보, 현실 사물의 깊이와 가림(Occlusion) 및 물리 법칙을 완벽히 반영하는 자연스러운 혼합현실(MR) 구현, 컨트롤러 없는 시선-손동작 자연어 상호작용(NUI)을 통한 차세대 공간 인터페이스 혁신**을 달성할 필요
 
 #### 한줄 요약
 
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- 시각 정보 정렬은 **AR**, 공간 이해•입력•작동 연결은 **공간 컴퓨팅** 선택
+- 2D 평면 스크린의 한계를 넘어 물리적 현실 공간 자체를 컴퓨팅의 무한한 캔버스로 전환하는 **차세대 휴먼-컴퓨터 인터랙션(HCI) 및 지능형 공간 지각의 최고 핵심 패러다임(Spatial Computing / 6DoF SLAM & Spatial Mesh / Eye-Hand Natural Interface / Real-Time Physics & Occlusion / Spatial AI & Robotics Convergence)의 확고한 표준**으로 확고히 자리 잡았으며, 공간 인공지능(Spatial AI) 및 디지털 트윈 로보틱스와 결합 발전하는 가운데, 실무 공간 컴퓨팅 애플리케이션 개발 시에는 **공간 앵커(Spatial Anchor) 재관측을 통한 위치 드리프트 누적 방지, 실시간 시선 추적 기반 중심와 렌더링(Foveated Rendering)을 통한 GPU 렌더링 부하 최적화, 그리고 카메라 공간 지도 수집에 따른 민감 개인정보 온디바이스 암호화**를 결합하여 완벽한 공간 몰입감과 시스템 안전성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "물 사용 효과성 (Water Usage Effectiveness)"
-date: "2026-08-26T17:42:02+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 199
@@ -31,7 +31,7 @@ extra:
 $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비 에너지}(kWh)}$$
 
 - 정의: 같은 기간 물 사용량을 IT 에너지로 나눈 **L/kWh 단위 WUE**
-- 배경/필요성: 전력•냉각 효율 지표는 물을 세지 않아 수랭으로 바꿔 시설 전력을 줄이면 **현장 물 소비•지역 수자원 부담**이 대신 늘어도 드러나지 않으므로, IT 에너지당 물 사용량을 별도 지표로 세워 전력과 물의 상충을 함께 보게 할 필요
+- 배경/필요성: 데이터센터의 전력 효율(PUE)을 낮추기 위해 증발식 냉각탑(Evaporative Cooling Tower)이나 수랭식 냉각 방식을 대거 도입함에 따라 전력 소비는 감소하는 반면 천문학적인 냉각수 증발 및 취수가 발생하여, 극심한 가뭄 지역의 지하수 고갈, 지역사회 수자원 분쟁 및 환경 규제 리스크가 급증하는 '전력-물 상충(Power-Water Trade-off)' 문제에 직면함에 따라, The Green Grid에서 제정하고 국제 표준화된 데이터센터 수자원 소비 효율 지표인 WUE(Water Usage Effectiveness / ISO/IEC 30134-9:2022 Standard, $WUE = \text{Annual Water Usage (L)} / \text{IT Equipment Energy (kWh)}$, Site WUE vs Source WUE, Closed-loop Liquid Cooling, Reclaimed Water Usage, Water Balance Model)를 도입하여 **IT 장비 에너지 1kWh 소비당 소모되는 데이터센터 물 사용량(L/kWh)을 객관적으로 정량화하여 수자원 집약도 관리, 현장 소비 물(Site WUE)과 발전소 전력 생산 과정의 간접 물 소비(Source WUE)를 종합 평가하여 전력 절감과 물 절약 간의 최적 균형점 도출, 하수 재이용수(Reclaimed Water) 활용 및 폐쇄 루프(Closed-loop) 냉각 설비 도입을 통한 지역 생태계 수자원 영향 최소화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -170,7 +170,7 @@ $$WUE = \frac{\text{데이터센터 물 사용량}(L)}{\text{정보기술 장비
 
 </details>
 
-- 현장 물은 **site WUE**, 전력 생산 물까지 포함하면 **source WUE** 선택
+- 기후 변화로 인한 글로벌 수자원 위기 속에서 데이터센터의 사회적 책임과 생태계 지속가능성을 입증하는 **데이터센터 수자원 지속가능성 및 물 소비 효율 평가의 최고 국제 표준 지표(Water Usage Effectiveness: WUE / ISO/IEC 30134-9 Global Standard / Site & Source WUE Dual-Accounting / Closed-Loop & Dielectric Cooling / Power-Water Nexus Optimization)의 확고한 표준**으로 확고히 자리 잡았으며, 물을 전혀 소비하지 않는 무수(Water-free) 액침 냉각 기술로 진화하는 가운데, 실무 WUE 관리 시에는 **PUE 개선을 위한 무분별한 증발 냉각을 지양하고, 유역별 물 스트레스 지수를 반영한 계절별 가변 냉각 정책을 수립하며, 폐쇄형 직접 칩 냉각(D2C) 및 비음용수/재생수 100% 활용**을 결합하여 완벽한 수자원 안보와 친환경 데이터센터 거버넌스를 완성
 
 #### 한줄 요약
 

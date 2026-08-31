@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Tensor Parallelism (텐서 병렬)"
-date: "2026-08-26T17:26:47+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 157
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 한 모델 층의 가중치•연산을 텐서 축으로 나누는 **TP**이다.
-- 배경/필요성: 층 하나가 이미 **단일 장치 메모리•연산 용량 초과**라 계층 단위로 잘라서는 더 나눌 수 없으므로, 가중치 행렬을 행•열 축으로 갈라 여러 장치가 한 층을 공동 계산하고 그 대가로 연산마다 부분 결과 통신을 지불하는 구조의 필요
+- 배경/필요성: 트랜스포머 모델의 Multi-Head Attention(Q, K, V Projections) 및 MLP 블록(GeLU/SwiGLU)은 단일 행렬 크기가 수만x수만 차원에 달해 단일 레이어의 파라미터와 연산 중간 텐서만으로도 단일 GPU 메모리를 완전히 초과하며 계층 분할(PP)만으로는 단일 레이어 내 메모리 한계를 해소할 수 없는 구조적 병목에 직면함에 따라, 각 신경망 레이어 내부의 가중치 행렬을 행(Row) 또는 열(Column) 축으로 분할하여 여러 GPU가 텐서 곱셈을 병렬 수행하는 텐서 병렬화(Tensor Parallelism: TP / Megatron-LM Tensor Slicing, Column/Row Parallel Linear, Sequence Parallelism: SP, All-Reduce/All-Gather Communication Optimization, High-speed NVLink Integration) 기술을 도입하여 **단일 계층 연산과 파라미터 메모리를 GPU 수($TP$)만큼 완벽히 분할(1/TP 메모리 절감), Column Parallel과 Row Parallel을 결합하여 중간 All-Reduce 통신 횟수를 레이어당 1~2회로 최소화하는 계산-통신 최적화, 초고속 NVLink 도메인 내 전역 텐서 분할을 통한 단일 거대 GPU 가상화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- 단일 층이 장치 용량을 넘으면 **텐서 병렬**, 계층 분할은 **파이프라인 병렬** 선택
+- 초거대 트랜스포머 블록의 단일 계층 메모리 벽을 허물고 레이턴시를 비약적으로 단축하는 **단일 노드 내 텐서 축 분할 및 초고속 병렬 행렬 연산의 최고 표준(Tensor Parallelism / Megatron-LM Column-Row Slicing / Sequence Parallelism: SP Integration / Single-Node NVLink 8-GPU Full Mesh / Intra-node Fast All-Reduce)의 확고한 표준**으로 확고히 자리 잡았으며, 활성화 텐서의 시퀀스 차원까지 분할하는 시퀀스 병렬화(SP)와 결합하여 고도화된 가운데, 실무 초대형 모델 학습 및 서빙 설계 시에는 **초고속 NVLink 패브릭이 보장되는 단일 노드(TP=8 이내) 내에서만 텐서 병렬화를 적용하고, 노드 간 확장은 파이프라인/데이터 병렬화로 위임하며, Self-Attention과 MLP 블록 간 레이아웃 결합을 통해 중간 통신을 최소화**를 결합하여 완벽한 노드 내 텐서 가속과 최고 수준의 MFU를 완성
 
 #### 한줄 요약
 

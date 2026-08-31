@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 189
   label: "189. 데이터 레이크하우스 (Data Lakehouse)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 레이크하우스 (Data Lakehouse)"
-date: "2026-08-26T17:36:59+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 189
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 개방형 파일 저장소에 **ACID 테이블 관리**를 결합한 레이크하우스
-- 배경/필요성: 레이크와 웨어하우스를 따로 두면 같은 데이터를 두 벌 복제하고 적재 경로도 두 벌 유지하는 비용을 계속 지불하면서 **복제•버전 불일치•파이프라인 중복**이 남으므로, 객체 스토리지 위에 트랜잭션 테이블 계층을 얹어 한 벌의 데이터를 여러 엔진이 같은 정합성으로 읽게 만들 필요
+- 배경/필요성: 데이터 레이크(저비용 객체 스토리지, 대용량 비정형 데이터 지원, ACID 트랜잭션 및 스키마 부재)와 데이터 웨어하우스(고성능 SQL, 강력한 ACID 보장, 고비용 및 비정형 데이터/머신러닝 지원 한계)로 이원화된 2계층 데이터 아키텍처는 데이터의 중복 복제(ETL 파이프라인 지연), 데이터 정합성 불일치, 데이터 사일로 현상 및 천문학적인 스토리지/컴퓨팅 TCO를 유발함에 따라, 저비용 개방형 클라우드 오브젝트 스토리지(S3, GCS, ADLS) 위에 오픈 테이블 포맷을 도입하여 데이터 웨어하우스의 ACID 트랜잭션 및 데이터 거버넌스 기능을 결합하는 데이터 레이크하우스(Data Lakehouse / Open Table Format: Apache Iceberg, Delta Lake, Apache Hudi / Object Storage + Table Metadata Layer + Decoupled Multi-engine Compute: Spark, Trino, Flink, DuckDB, AI/ML / Unified Catalog: Unity Catalog, Polaris, Tabular / Z-Order, Compaction, Time Travel) 아키텍처를 도입하여 **단일 진실 공급원(Single Source of Truth) 데이터 사본 위에 BI 고속 SQL 분석과 AI/ML 모델 학습을 동시에 지원하는 진정한 데이터 플랫폼 통합, ACID 트랜잭션 및 시간 여행(Time Travel) 보장을 통한 데이터 파이프라인 신뢰성 극대화, 컴퓨팅과 스토리지의 완전한 분리 및 개방형 표준 채택을 통한 특정 DW 벤더 종속 탈피 및 TCO 대폭 절감**을 달성할 필요
 #### 한줄 요약
 
 - 레이크하우스는 저장을 한 벌로 줄여 **동일 테이블•정합성 공유**를 얻는 대신, 웨어하우스가 통합 엔진으로 보장하던 성능과 정합성을 테이블 포맷과 카탈로그 운영으로 직접 떠안는다.
@@ -98,7 +98,7 @@ extra:
 [테이블 메타데이터]
       │ 3. 원자 커밋 요청
       ▼
-  [카탈로그]
+   [카탈로그]
       │ 4. 확정 스냅샷
       ▼
  [읽기 엔진] ── 5. 유효 파일 조회 ──▶ [데이터 파일]
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- **BI•ML 통합** 레이크하우스, 고정 정형 분석은 **웨어하우스** 선택
+- 전통적인 DW와 Data Lake의 한계를 극복하고 현대 엔터프라이즈 AI 및 빅데이터 인프라의 표준 구조로 자리 잡은 **차세대 통합 데이터 아키텍처 및 개방형 스토리지 플랫폼의 최고 표준(Data Lakehouse / Open Table Formats Convergence / ACID & Time Travel over Cloud Storage / Compute-Storage Separation / Multi-Engine Interoperability: SQL + Streaming + AI/ML)의 확고한 표준**으로 확고히 자리 잡았으며, 오픈 카탈로그(Polaris/Unity)를 통한 통합 거버넌스로 진화하는 가운데, 실무 엔터프라이즈 레이크하우스 구축 시에는 **특정 벤더 종속이 없는 오픈 테이블 포맷(Apache Iceberg/Delta Lake)을 표준으로 선정하고, 작은 파일 병합(Compaction) 및 통계 기반 프루닝(Z-Order/Min-Max)을 주기적으로 자동 실행하며, 중앙 메타스토어 기반의 세밀한 권한 통제**를 결합하여 완벽한 질의 성능과 엔터프라이즈 데이터 거버넌스를 완성
 
 #### 한줄 요약
 

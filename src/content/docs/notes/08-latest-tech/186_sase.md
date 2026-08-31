@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SASE 보안접근서비스엣지 (Secure Access Service Edge)"
-date: "2026-08-26T17:33:55+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 186
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 분산 거점에서 **SD-WAN 연결•SSE 보안**을 통합한 SASE
-- 배경/필요성: 원격 사용자의 트래픽을 본사 보안 장비로 되돌리는 중앙 백홀은 목적지가 클라우드일수록 불필요한 왕복 비용을 세션마다 지불해 **접속 지연•병목•정책 편차**를 낳으므로, 검사 지점을 사용자 인근 접속 거점으로 흩어 놓고 정책만 중앙에서 배포해 경로와 통제를 분리할 필요
+- 배경/필요성: 클라우드(SaaS, IaaS) 확산과 하이브리드 원격 근무로 인해 모든 분산 지점 및 재택 트래픽을 중앙 데이터센터(HQ/DC)로 집중 경유시키는 전통적 허브 앤 스포크(Hub-and-Spoke) 및 VPN 백홀(Backhaul) 방식이 데이터센터 회선 병목, 극심한 레이턴시(초당 지연), 일관성 없는 보안 정책 파편화를 초래함에 따라, 광역 네트워크 기능(SD-WAN)과 클라우드 네이티브 보안 기능(SSE: ZTNA, CASB, SWG, FWaaS)을 글로벌 분산 엣지 PoP에 단일 서비스로 통합하는 SASE(Secure Access Service Edge / Gartner Framework, Network as a Service: SD-WAN, QoS, Routing + Security as a Service: SSE, ZTNA, CASB, SWG, FWaaS / Single-pass Architecture, Cloud-native Multi-tenant Microservices) 아키텍처를 도입하여 **사용자 인접 글로벌 PoP 기반의 직결 통신을 통한 네트워크 레이턴시 및 회선 비용 극소화, 단일 패스(Single-pass) 보안 검사를 통한 중복 패킷 복호화 오버헤드 제거 및 초고속 처리, 분산 사용자와 다중 클라우드 워크로드 전반에 대한 중앙 제어형 제로 트러스트(ZTNA) 보안 정책 일관성**을 달성할 필요
 #### 한줄 요약
 
 - SASE는 검사 지점을 사용자 인근으로 옮겨 백홀 왕복을 없애면서 **연결•보안 정책 통합 적용**을 유지하는 대신, 접속 성능이 사업자 거점 품질에 묶여 지연 개선을 공급자 종속으로 산다.
@@ -64,7 +64,7 @@ extra:
                       |
                [신원•정책 계층]
                       |
-              [분산 서비스 거점]
+               [분산 서비스 거점]
                       |
             +---------+---------+
             |                   |
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- 분산 연결•보안 통합은 **SASE**, 기존 WAN 보안 통합은 **SSE** 선택
+- 클라우드 네이티브 및 분산 하이브리드 근무 환경에서 엔터프라이즈 네트워크와 보안 인프라를 완전히 통합 재정의한 **차세대 엔터프라이즈 네트워킹 및 보안 통합 프레임워크의 최고 표준(SASE: Secure Access Service Edge / SD-WAN + SSE Convergence / ZTNA, CASB, SWG, FWaaS Single-Pass Engine / Global Distributed Edge PoP Architecture)의 확고한 표준**으로 확고히 자리 잡았으며, AI 기반 이상 트래픽 탐지 및 데스크톱-투-클라우드 경험 모니터링(DEM)과 융합 발전하는 가운데, 실무 SASE 도입 시에는 **전면 일괄 전환보다는 기존 WAN 라우터를 유지하며 SSE(보안)부터 도입하는 단계적 접근을 취하고, 글로벌 PoP 가용성 및 단일 패스 검사 아키텍처를 보유한 단일 벤더 솔루션 선정 및 철저한 페일오버(Failover) 이중화**를 결합하여 완벽한 네트워크 성능과 무결점 제로 트러스트 보안을 완성
 
 #### 한줄 요약
 

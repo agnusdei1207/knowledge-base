@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Pipeline Parallelism (파이프라인 병렬)"
-date: "2026-08-26T17:25:57+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 156
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 모델 층을 단계로 나눠 마이크로배치를 중첩하는 **PP**이다.
-- 배경/필요성: 모델을 계층으로 갈라 **단일 장치 메모리 초과**를 피하면 한 배치가 단계를 순서대로 지나는 동안 나머지 단계가 노는 **순차 층 분할 버블** 비용이 반복마다 재발생하므로, 배치를 마이크로배치로 잘라 연속 투입해 단계 사이 유휴를 채우는 스케줄 계층의 필요
+- 배경/필요성: 수백 개 트랜스포머 계층(Layer)으로 구성된 초거대 모델을 여러 GPU에 계층 단위로 단순 분할(Naive Layer Partitioning)할 경우, 앞선 단계가 계산을 마칠 때까지 후속 GPU가 유휴(Idle) 상태로 대기하여 시스템 전체 GPU 가동률이 1/N 수준으로 급락하는 극심한 파이프라인 버블(Pipeline Bubble) 문제에 직면함에 따라, 미니배치를 수십 개의 마이크로배치(Micro-batch)로 잘게 쪼개어 파이프라인 형태로 중첩 실행하는 파이프라인 병렬화(Pipeline Parallelism: PP / GPipe, 1F1B: One-Forward-One-Backward, Interleaved 1F1B, DualPipe, Activation Checkpointing, Cross-Node P2P Communication) 스케줄링 아키텍처를 도입하여 **연속적인 마이크로배치 주입을 통한 파이프라인 버블율($\frac{p-1}{m+p-1}$)의 획기적 최소화, 1F1B 스케줄링을 통해 메모리에 상주하는 활성화(Activation) 텐서 수를 파이프라인 깊이($p$) 이내로 엄격히 제한하는 VRAM 절감, 인접 파이프라인 단계 간 활성화/기울기 점대점(P2P) 비동기 통신을 통한 노드 간 네트워크 오버헤드 극소화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- 단순 동기 학습은 **GPipe**, 메모리•버블 절감은 **1F1B** 선택
+- 초거대 모델의 깊은 계층 구조를 다중 노드 클러스터로 확장하는 **분산 딥러닝 계층 분할 및 파이프라인 스케줄링의 최고 표준(Pipeline Parallelism / Megatron-LM 1F1B & Interleaved 1F1B / DeepSeek DualPipe / Activation Recomputation / Microbatch Pipelining / Bubble Zeroization)의 확고한 표준**으로 확고히 자리 잡았으며, 양방향 오버랩을 지원하는 차세대 DualPipe 및 비동기 파이프라인으로 진화하는 가운데, 실무 파이프라인 병렬화 인프라 구성 시에는 **활성화 메모리 폭증을 유발하는 GPipe 대신 1F1B 또는 인터리브드 1F1B를 기본 채택하고, 마이크로배치 수($m$)를 파이프라인 단계 수($p$)의 4~8배 이상으로 설정하여 버블 비율을 10% 미만으로 억제하며, 계층별 연산 시간과 파라미터를 균등하게 분할(Stage Balancing)**을 결합하여 완벽한 다중 노드 분산 학습 효율과 GPU 가동률을 완성
 
 #### 한줄 요약
 

@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 197
   label: "197. 그린 데이터센터 (Green Data Center)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "그린 데이터센터 (Green Data Center)"
-date: "2026-08-26T17:39:46+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 197
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 신뢰성을 유지하며 **IT•시설•물•탄소•장비 생애주기 영향**을 줄이는 **그린 데이터센터**
-- 배경/필요성: 랙당 밀도가 올라갈수록 냉각•배전에 드는 시설 전력과 물, 장비 교체에 따른 **전력•열•물•장비 탄소** 부담이 IT 부하보다 빠르게 늘므로, 개별 설비 효율이 아니라 전력•냉각•물•장비 수명을 한 경계에서 함께 계산해 감축 지점을 고르는 운영 체계의 필요
+- 배경/필요성: 생성형 AI(Generative AI) 가속기 및 고집적 GPU 서버 확산으로 랙당 전력 밀도가 10kW에서 40~100kW+ 수준으로 급증함에 따라, 전통적인 공랭식(Air Cooling) 방식으로는 극심한 발열을 해소할 수 없어 냉각 전력 소비가 폭증하고, 전력망(Grid) 용량 포화, 막대한 냉각수 증발 소비 및 탄소 배출 규제(RE100, ESG)를 충족할 수 없는 데이터센터 지속가능성 위기에 직면함에 따라, IT 장비, 냉각 설비, 전력 배전, 건물 구조 및 수자원 관리 전반을 친환경 고효율 구조로 혁신하는 Green Data Center(Next-Gen Eco-friendly DC Architecture / Liquid Cooling: Direct-to-Chip D2C, Immersion Cooling / High-efficiency Power: 415V AC / HVDC, Eco-mode UPS, Waste Heat Reuse / Renewable Energy & RE100 / Holistic Metric: PUE $\le$ 1.2, WUE, CUE, TUE) 체계를 도입하여 **D2C 액체 냉각 및 액침 냉각(Immersion Cooling) 도입을 통한 초고밀도 AI 랙 발열의 완벽한 제어 및 냉각 에너지 80%+ 절감, 직류(HVDC) 배전 및 고효율 UPS 적용을 통한 전력 변환 손실의 극소화(PUE 1.1x 달성), 100% 무탄소 재생에너지(RE100) 전환 및 서버 폐열을 인근 지역 난방/스마트팜으로 재활용하는 에너지 순환 생태계**를 달성할 필요
 
 #### 한줄 요약
 
@@ -68,7 +68,7 @@ IT 수요 감축과 **UPS 변환 손실 관리**
 
 ```text
                     [생애주기 거버넌스]
-                              |
+                               |
                     [에너지•탄소 계층]
                        /             \
                  [전력 계층]     [냉각•물 계층]
@@ -166,7 +166,7 @@ IT 수요 감축과 **UPS 변환 손실 관리**
 
 </details>
 
-- 전력 손실이 크면 **시설 효율**, 서버 저활용이면 **IT 효율** 우선 개선
+- AI 연산 폭증 시대에 전력망 한계와 기후 규제를 돌파하는 엔터프라이즈 및 클라우드 서비스 제공업체(CSP)의 핵심 인프라 전략인 **차세대 고효율•친환경 데이터센터 인프라 아키텍처의 최고 표준(Green Data Center / Liquid & Immersion Cooling Architecture / HVDC Power Distribution / Waste Heat Recovery / PUE-WUE-CUE Holistic Optimization)의 확고한 표준**으로 확고히 자리 잡았으며, 지능형 디지털 트윈 기반 실시간 시설 제어와 융합 발전하는 가운데, 실무 그린 데이터센터 설계 시에는 **공랭 한계를 넘어서는 D2C/액침 냉각 전환 로드맵을 수립하고, 냉각수 증발에 따른 지역 수자원 고갈(WUE)과 PUE 간의 트레이드오프를 면밀히 분석하며, 서버 폐열 재활용 및 RE100 전력 조달 계약(PPA)**을 결합하여 완벽한 운영 신뢰성과 탄소 중립 비즈니스를 완성
 
 #### 한줄 요약
 

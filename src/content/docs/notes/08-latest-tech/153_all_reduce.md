@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "All-Reduce 집단 통신"
-date: "2026-08-26T17:23:40+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 153
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 분산 값을 축약해 모든 참여자에게 배포하는 **All-Reduce**이다.
-- 배경/필요성: 중앙 집계 서버는 참여자 수에 비례해 집계 트래픽이 한 노드로 몰리는 **대역폭•처리 병목** 비용을 반복 지불하므로, 집계를 이웃 간 교환으로 나눠 노드당 통신량을 참여자 수와 무관하게 고정하는 분산 축약 계층의 필요
+- 배경/필요성: 데이터 병렬화(Data Parallelism) 기반 분산 딥러닝 학습 시, 중앙 파라미터 서버(Parameter Server) 구조는 수천 개의 워커 노드가 계산한 그래디언트를 단일 서버로 전송함에 따라 네트워크 대역폭 병목과 중앙 노드 메모리/연산 한계로 인해 선형적 확장이 불가능함에 따라, 중앙 서버 없이 참여하는 모든 연산 장치가 그래디언트를 분할 축약(Reduce)한 후 최종 결과를 전체 장치에 균등 배포(Broadcast)하는 집단 통신 프리미티브인 All-Reduce(Ring All-Reduce, Tree All-Reduce, Hierarchical All-Reduce, Reduce-Scatter + All-Gather, NVIDIA NCCL, SHARP In-Network Reduction) 알고리즘을 도입하여 **노드 수($N$)가 증가해도 노드당 통신량을 모델 파라미터 크기($2 \times \frac{N-1}{N} M \approx 2M$)에 비례하도록 일정하게 억제하는 완벽한 통신 확장성 확보, 노드 내부(NVLink)와 노드 간(InfiniBand RDMA)의 대역폭 차이를 고려한 계층형(Hierarchical) 분할 축약, 스위치 하드웨어 내부에서 그래디언트를 직접 합산하는 인네트워크 컴퓨팅(SHARP)을 통한 올리듀스 통신 지연의 획기적 단축**을 달성할 필요
 
 #### 한줄 요약
 - 중앙 서버를 없애 **분산 축약•결과 공유**로 대역폭 집중을 해소한 대가로 모든 참여자가 같은 통신 단계에 묶여, 가장 느린 링크 하나가 전체 동기화 시간을 결정한다.
@@ -165,7 +165,7 @@ All-Gather
 
 </details>
 
-- 큰 메시지는 **링**, 작은 메시지는 **트리**, 이종 링크는 계층형 선택
+- 수조 개 파라미터의 거대 언어 모델(LLM) 분산 훈련에서 통신 병목을 최소화하고 계산-통신 중첩을 완성하는 **분산 AI 집단 통신 및 분산 텐서 훈련의 최고 핵심 알고리즘 표준(All-Reduce / Ring & Double Binary Tree / Hierarchical Multi-tier All-Reduce / Reduce-Scatter + All-Gather / NVIDIA NCCL & Mellanox SHARP / Gradient Bucketing & Async Overlapping)의 확고한 표준**으로 확고히 자리 잡았으며, 대규모 GPU 클러스터의 분산 스케일아웃 효율을 결정하는 핵심 기술로 완성된 가운데, 실무 분산 학습 최적화 시에는 **대용량 그래디언트에는 링(Ring) 방식을, 레이턴시 민감 소형 메시지에는 트리(Tree) 방식을 채택하고, 역전파 계산과 통신을 완벽히 겹치는 그래디언트 버케팅(Gradient Bucketing) 및 NVLink/InfiniBand 계층형 NCCL 튜닝**을 결합하여 완벽한 선형 확장성(Near-linear Speedup)과 분산 학습 효율을 완성
 
 #### 한줄 요약
 

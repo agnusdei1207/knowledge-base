@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 206
   label: "206. AUTOSAR Adaptive Platform"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-26T17:39:07+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 고성능 ECU 앱을 POSIX 프로세스•동적 서비스로 실행하는 **Adaptive Platform**
-- 배경/필요성: Classic은 빌드 시점에 통신과 배치를 고정해 결정성을 얻는 대신 기능을 바꿀 때마다 전체를 다시 구성•검증하는 비용을 치러 **동적 배포•갱신**을 수용하지 못하므로, 서비스 탐색과 프로세스 단위 실행을 표준화해 고성능 제어기에서 앱만 따로 갱신할 수 있게 하는 플랫폼의 필요
+- 배경/필요성: 전통적인 AUTOSAR Classic Platform은 OSEK 기반 정적 스케줄링과 C 언어 기반 컴파일 시점 고정 구조를 취하여 마이크로컨트롤러(MCU) 단위의 엄격한 실시간성(Hard Real-time)은 보장하지만, 자율주행(AD/ADAS), 고성능 인포테인먼트(IVI), V2X, AI 딥러닝 연산에 요구되는 64비트 멀티코어 고성능 프로세서(HPC), 대용량 기가비트 이더넷 통신, 런타임 동적 프로세스 생성 및 무선 소프트웨어 업데이트(OTA)를 수용할 수 없는 근본적 한계에 직면함에 따라, 고성능 차량용 컴퓨팅 환경을 위한 서비스 지향 차량용 소프트웨어 표준 플랫폼인 AUTOSAR Adaptive Platform(POSIX PSE51 Compliant OS / C++14 Language Standard / Service-Oriented Architecture: SOA, SOME/IP, REST / ARA: AUTOSAR Runtime for Adaptive Applications / Execution Management, Platform Health Management: PHM, Update & Configuration Management: UCM, Identity & Access Management: IAM, Cryptography)을 도입하여 **POSIX 기반 독립 가상 주소 공간 및 멀티스레드 프로세스 격리를 통한 결함 격리성(Fault Isolation) 확보, `ara::com` 서비스 지향 통신(SOA)을 통한 분산 서비스의 동적 탐색/바인딩 및 이기종 이더넷 통신 지원, UCM(Update & Configuration Management)을 통한 차량 출고 후 개별 애플리케이션 단위의 안전한 무중단 무선(OTA) 배포/업데이트**를 달성할 필요
 
 #### 한줄 요약
 
@@ -173,7 +173,7 @@ Classic•Adaptive의 **제어 특성•실행 기반** 비교
 
 </details>
 
-- 고성능 서비스는 **Adaptive**, 결정적 제어는 **Classic**으로 분리
+- SDV(소프트웨어 정의 차량) 및 자율주행 고성능 중앙 집중형 컴퓨팅(HPC)의 핵심 소프트웨어 인프라로 확립된 **차세대 고성능 차량용 개방형 소프트웨어 플랫폼 및 서비스 지향 아키텍처(SOA)의 최고 표준(AUTOSAR Adaptive Platform / POSIX OS & C++14 Standard / ARA Service Interface / SOME/IP & DDS Communication / UCM OTA Standard)의 확고한 표준**으로 확고히 자리 잡았으며, ROS2 및 차량용 리눅스(AGL)와의 하이브리드 미들웨어 통합으로 진화하는 가운데, 실무 차량 E/E 아키텍처 구축 시에는 **밀리초(ms) 단위 하드 실시간 제어(파워트레인, 섀시)는 Classic에 유지하고, 인공지능/자율주행/OTA 서비스는 Adaptive에 배치하는 최적의 Classic-Adaptive 상호운용성(SOME/IP Gateway) 및 ISO 26262 ASIL-D 기능안전**을 결합하여 완벽한 차량 컴퓨팅 성능과 주행 안전성을 완성
 
 #### 한줄 요약
 

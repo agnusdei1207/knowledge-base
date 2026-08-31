@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "서비스형 함수 (Function as a Service, FaaS)"
-date: "2026-08-26T17:22:30+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 161
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 이벤트별 함수 코드를 격리 실행•자동 확장하는 **FaaS**
-- 배경/필요성: 간헐적으로만 실행되는 작업에 서버를 상시 띄우면 대기 시간 전체가 **유휴 비용•운영 부담**으로 반복 청구되므로, 배포 단위를 함수까지 줄여 이벤트가 도착한 순간에만 실행 환경을 붙였다 떼는 실행 계층의 필요
+- 배경/필요성: 전통적인 가상머신 및 컨테이너 기반 상시 실행 아키텍처는 간헐적이거나 불규칙한 이벤트 기반 워크로드(비동기 큐 처리, 웹훅, 주기적 배치 등)에서 유휴(Idle) 시간에도 지속적인 서버 비용을 지불해야 하고, 트래픽 폭증 시 인스턴스 부팅 지연으로 인한 처리 병목과 서버 관리 오버헤드를 유발함에 따라, 개발자가 인프라 프로비저닝 없이 순수 비즈니스 로직(함수)만 작성하여 배포하고 클라우드가 이벤트 발생 시에만 격리된 샌드박스 컨테이너(MicroVM, Firecracker)를 동적 할당하여 실행 후 즉시 회수하는 FaaS(Function as a Service / AWS Lambda, Google Cloud Functions, Azure Functions, OpenFaaS, Knative / Event-Driven Architecture, Micro-billing, Scale-to-Zero, Cold Start Mitigation, SnapStart) 기술을 도입하여 **이벤트 단위 밀리초($ms$) 단위 정확한 사용량 종량 과금(Pay-per-Execution)을 통한 인프라 TCO 극적 절감, Scale-to-Zero 및 무제한 동시 인스턴스 자동 스케일아웃을 통한 무결점 이벤트 처리, OS 패치 및 서버 런타임 유지보수 제로화(NoOps)**를 달성할 필요
 
 #### 한줄 요약
 
@@ -174,7 +174,7 @@ extra:
 
 </details>
 
-- 짧은 독립 이벤트는 **FaaS**, 지속 연결•장기 작업은 **상시 서비스** 선택
+- 서버리스 컴퓨팅 패러다임의 핵심 실행 계층이자 현대 마이크로서비스 및 이벤트 구동 파이프라인의 핵심 표준인 **함수 단위 온디맨드 클라우드 실행 모델(Function as a Service: FaaS / MicroVM & Container Sandbox / Event Triggers: HTTP, SQS, S3, Cron / Scale-to-Zero & Concurrent Auto-scaling / Idempotent Event Processing)의 확고한 표준**으로 확고히 자리 잡았으며, LLM 기반 Agentic 워크플로우 오케스트레이션 및 엣지 컴퓨팅(Cloudflare Workers)으로 진화하는 가운데, 실무 엔터프라이즈 FaaS 구축 시에는 **함수의 단일 책임(Single Responsibility) 및 완전한 무상태(Stateless) 아키텍처를 준수하고, 분산 락 및 멱등 키(Idempotency Key)를 통해 중복 실행을 원천 차단하며, 사전 워밍(Provisioned Concurrency) 및 SnapStart로 꼬리 지연(Tail Latency)을 극복**을 결합하여 완벽한 비용 효율성과 견고한 이벤트 처리 신뢰성을 완성
 
 #### 한줄 요약
 

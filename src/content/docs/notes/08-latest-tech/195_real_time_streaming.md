@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 195
   label: "195. 실시간 스트리밍 (Real-Time Streaming)"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "실시간 스트리밍 (Real-Time Streaming)"
-date: "2026-08-26T17:37:52+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 195
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 연속 이벤트의 시간•상태•복구를 관리하는 **실시간 스트리밍**
-- 배경/필요성: 배치 처리는 수집 주기가 끝나야 계산을 시작해 그 주기만큼 판단이 늦어지는 비용을 매번 치르며 **이상 거래•설비 변화 즉시 대응 곤란**을 남기므로, 이벤트가 도착하는 즉시 상태를 갱신하고 늦게 온 데이터만 워터마크로 보정하는 연속 처리 계층의 필요
+- 배경/필요성: 전통적인 배치(Batch) 기반 데이터 처리는 데이터가 수집 및 저장된 후 주기적(일/시간)으로 실행되어 처리 지연(Hours to Days)이 발생하며, 금융 이상 금융 거래(FDS), 실시간 이상 징후 탐지, IoT 센서 모니터링, 초개인화 실시간 추천 등 밀리초(ms) 단위의 즉각적인 의사결정이 요구되는 현대 비즈니스 요구를 충족하지 못하는 한계에 직면함에 따라, 연속적으로 유입되는 무한한 데이터 스트림(Unbounded Stream)을 이벤트 발생 즉시 인메모리에서 지속 처리하고 상태(State)와 시간을 엄밀히 관리하는 실시간 스트리밍(Real-Time Streaming / Apache Flink, Apache Spark Structured Streaming, Apache Kafka/Redpanda / Event-driven Architecture: Event Time vs Processing Time, Watermarks & Late Data Handling, Windowing: Tumbling, Sliding, Session / Stateful Stream Processing: RocksDB State Backend, Chandy-Lamport Distributed Checkpointing, Exactly-Once Semantics, Transactional Sinks) 아키텍처를 도입하여 **이벤트 발생 시점 기준(Event Time)의 워터마크(Watermark) 기반 엄밀한 시간 관리로 지연/역전 도착 데이터의 완벽한 집계 정합성 보장, 분산 비동기 체크포인팅(Chandy-Lamport) 및 2단계 커밋(2PC) 트랜잭션 싱크를 통한 장애 시에도 무결점 정확히 한 번(Exactly-Once) 처리 보장, 밀리초 단위 초저지연 상태 기반(Stateful) 실시간 복합 이벤트 처리(CEP) 및 실시간 인텔리전스**를 달성할 필요
 
 #### 한줄 요약
 
@@ -67,7 +67,7 @@ extra:
                        |
                 [시간•워터마크]
                        |
-               [윈도우•상태 연산]
+                [윈도우•상태 연산]
                    /          \
            [체크포인트]   [출력 저장소]
 ```
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- 초 단위 제어는 **레코드 스트리밍**, 수초•분 허용은 **마이크로배치** 선택
+- 빅데이터 및 AI 패러다임을 사후 일괄 분석에서 실시간 즉각 대응으로 전환시킨 **현대 이벤트 기반 아키텍처 및 실시간 데이터 처리의 최고 표준(Real-Time Stream Processing / Apache Flink & Kafka Ecosystem / Event Time & Watermark Determinism / Stateful Exactly-Once Guarantee / Kappa Architecture Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 실시간 RAG 및 스트리밍 AI 추론 파이프라인으로 진화하는 가운데, 실무 엔터프라이즈 실시간 스트리밍 구축 시에는 **지연 허용치에 따라 최적 엔진(초저지연/상태연산: Flink, 대용량 마이크로배치: Spark)을 선정하고, RocksDB 기반 상태 백엔드 튜닝 및 상태 TTL 설정을 통해 메모리 폭증을 방지하며, 멱등성 키와 2PC 트랜잭션 싱크를 통한 완벽한 Exactly-Once 파이프라인**을 결합하여 완벽한 데이터 정합성과 초저지연 실시간 비즈니스 의사결정을 완성
 
 #### 한줄 요약
 

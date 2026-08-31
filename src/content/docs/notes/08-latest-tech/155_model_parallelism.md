@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "모델 병렬화 (Model Parallelism)"
-date: "2026-08-26T17:25:13+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 155
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 모델 파라미터•연산•상태를 장치에 분할하는 **모델 병렬화**이다.
-- 배경/필요성: 대형 모델은 **파라미터•활성값•학습 상태**를 한 장치에 모두 올려야 해 복제 기반 데이터 병렬로는 메모리 한계를 넘지 못하므로, 모델 자체를 계층•텐서 축으로 갈라 장치마다 일부만 보관하고 그 대가로 장치 간 중간값 전송을 지불하는 구조의 필요
+- 배경/필요성: 수백억~수조 개 매개변수를 가진 최신 초거대 언어 모델(LLM)과 멀티모달 모델은 파라미터(FP16 가중치), 그래디언트, 옵티마이저 상태(Adam FP32 모멘텀/분산) 및 어텐션 활성화(Activation) 메모리 요구량이 수백 GB~수 TB에 달해 단일 GPU의 물리적 VRAM 용량(80GB~144GB)을 원천적으로 초과하며 단순 모델 복제 방식의 데이터 병렬화로는 아예 적재조차 불가능한 메모리 벽에 직면함에 따라, 거대 신경망 모델의 연산 그래프와 파라미터 자체를 여러 GPU 장치에 분할하여 배치하고 연산 단계마다 중간 활성화값과 그래디언트를 교환하며 협력 실행하는 모델 병렬화(Model Parallelism / Megatron-LM Tensor Parallelism: TP, GPipe/1F1B Pipeline Parallelism: PP, Sequence Parallelism: SP, Expert Parallelism: EP, 3D Parallelism Hybrid Architecture) 기술을 도입하여 **단일 GPU 메모리 한계를 완벽히 돌파하여 엑사스케일 초거대 AI 모델의 훈련 및 초저지연 서빙 구현, 노드 내 초고속 NVLink 패브릭을 활용한 텐서(행렬 분할) 병렬화 및 노드 간 파이프라인(계층 분할) 병렬화의 토폴로지 인지 최적 결합, 1F1B(One-Forward-One-Backward) 스케줄링을 통한 파이프라인 버블(Bubble) 최소화**를 달성할 필요
 
 #### 한줄 요약
 - 모델 병렬은 복제로 풀리지 않는 메모리 한계를 **계층•텐서 축** 분할로 넘는 대신 장치 간 실행 의존을 만들어, 통신 지연이 그대로 다른 장치의 계산 유휴로 바뀐다.
@@ -157,7 +157,7 @@ extra:
 
 </details>
 
-- 계층 분할은 **파이프라인**, 단일 계층 초과는 **텐서 병렬** 선택
+- 인공일반지능(AGI) 및 수조 파라미터 프론티어 파운데이션 모델 개발을 가능케 하는 **초대형 AI 신경망 분할 학습 및 서빙의 최고 핵심 분산 아키텍처 표준(Model Parallelism / Megatron-LM 3D Parallelism: TP + PP + DP / Sequence Parallelism & MoE Expert Parallelism / 1F1B Pipeline Bubble Minimization / NVLink-InfiniBand Hybrid Mapping)의 확고한 표준**으로 확고히 자리 잡았으며, 장문 맥락 처리를 위한 시퀀스/컨텍스트 병렬화 및 MoE 전문가 병렬화로 지속 확장되는 가운데, 실무 거대 모델 인프라 구축 시에는 **노드 내 고대역폭 NVLink(8 GPU)에는 텐서/시퀀스 병렬화를, 노드 간 InfiniBand(멀티 노드)에는 파이프라인 및 데이터(FSDP) 병렬화를 결합한 3D 병렬화 토폴로지 맵을 구성하고, 활성화 체크포인팅(Activation Checkpointing)으로 메모리 피크를 완벽히 통제**를 결합하여 완벽한 초거대 모델 학습 안정성과 최고의 MFU 성능을 완성
 
 #### 한줄 요약
 - 모델 병렬은 메모리 부족을 통신 비용으로 바꾸는 거래이므로, 고속 링크로 묶인 장치 안에서만 텐서 축을 쓰고 그 밖은 계층 축으로 나누는 선에서 **분할 축•배치**를 정한다.

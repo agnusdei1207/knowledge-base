@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "무선 업데이트 (Over-the-Air Update, OTA)"
-date: "2026-08-26T17:38:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 205
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 차량 소프트웨어를 원격 검증•설치•복구하는 **OTA Update 체계**
-- 배경/필요성: 방문•수동 갱신은 차량 대수만큼 정비 인력과 이동 비용을 다시 치러 **정비 비용 증가•결함 대응 지연**을 낳으므로, 서명된 패키지를 원격으로 내려보내고 설치•검증•복구까지 차량이 스스로 수행하게 해 갱신 단가를 대수와 분리할 필요
+- 배경/필요성: SDV 및 커넥티드 카의 소프트웨어 복잡성이 기하급수적으로 증가함에 따라 소프트웨어 결함 발생 시 전통적인 서비스 센터 방문 수동 리콜 방식은 천문학적인 비용, 고객 불편 및 치명적 보안 취약점 패치 지연으로 인한 안전사고 위험을 초래하며, 단순 파일 전송 방식의 원격 업데이트는 전송 중 변조/하이재킹(Man-in-the-Middle), 펌웨어 업데이트 중 벽돌 현상(Bricking) 및 주행 중 오작동 위험에 노출되는 한계에 직면함에 따라, 무선 통신망을 통해 차량 내 전체 제어기(ECU/HPC)의 펌웨어(FOTA) 및 소프트웨어(SOTA)를 원격으로 안전하게 배포, 검증, 설치, 롤백하는 무선 업데이트(Over-the-Air Update / UN R156 SUMS Standard / ISO 24089 Road Vehicles Software Update Engineering / Uptane Security Framework: Director & Image Repository, Dual-Key Signing / Delta OTA Compression / A/B Dual Slot Partitioning with Seamless Rollback / Safety Pre-condition Check: Parking, Battery) 체계를 도입하여 **Uptane 표준 기반의 다중 서명 검증을 통한 공급망 및 전송 구간 보안 위협 100% 차단, 증분(Delta) 패키징을 통한 데이터 전송량 및 다운로드 시간 극소화, A/B 듀얼 슬롯(Dual Slot) 파티셔닝 및 자동 헬스체크 기반 롤백 메커니즘을 통한 무중단/무결점 안전 설치 보장, UN R156 규제 인증을 만족하는 전 주기 소프트웨어 업데이트 관리(SUMS)**를 달성할 필요
 
 #### 한줄 요약
 
@@ -185,7 +185,7 @@ ECU의 **저장 공간•복구 요구**에 따른 설치 방식 선택
 
 </details>
 
-- 서명•호환성 검증 후 **A/B 슬롯**으로 **단계 배포•자동 롤백** 적용
+- SDV(소프트웨어 정의 차량)의 지속적인 기능 진화와 차량 수명주기 관리를 가능케 하는 **차량 원격 정비, 기능안전 및 무선 소프트웨어 수명주기 관리의 최고 국제 표준 체계(Over-the-Air Update: FOTA/SOTA / UN R156 SUMS Certification / Uptane Multi-Repository Security / A/B Dual-Slot Seamless Rollback / ISO 24089 Standard)의 확고한 표준**으로 확고히 자리 잡았으며, 기능 구독(Feature-on-Demand) 및 자율주행 AI 모델 무선 배포로 진화하는 가운데, 실무 엔터프라이즈 차량 OTA 구축 시에는 **UN R156 인증을 위한 전사 SUMS 프로세스를 확립하고, Uptane 프레임워크 기반 하드웨어 보안 모듈(HSM) 연계 서명 검증을 구현하며, 차량 정차/배터리 안전 조건 확인(Pre-conditions) 및 카나리(Canary) 단계적 배포 전략**을 결합하여 완벽한 차량 보안성과 무결점 업데이트 신뢰성을 완성
 
 #### 한줄 요약
 

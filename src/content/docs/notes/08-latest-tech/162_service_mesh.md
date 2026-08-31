@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "서비스 메시 (Service Mesh)"
-date: "2026-08-26T17:23:48+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 162
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 데이터 평면에서 서비스 간 정책을 집행하는 **서비스 메시**
-- 배경/필요성: 서비스마다 mTLS•재시도•관측을 각 언어 라이브러리로 다시 구현하면 서비스 수만큼 같은 통신 코드를 중복 지불하고 **언어 종속•정책 불일치**가 남으므로, 통신 기능을 프로세스 밖 데이터 평면으로 끌어내 한 벌의 정책을 모든 서비스에 동일하게 집행할 계층의 필요
+- 배경/필요성: 대규모 마이크로서비스 아키텍처(MSA) 환경에서 수백~수천 개의 다국어(Polyglot) 서비스 간 통신(East-West Traffic)이 폭증함에 따라, 애플리케이션 코드 내부에 mTLS 암호화, 서비스 디스커버리, 재시도/서킷브레이커, 분산 추적 로직을 중복 구현하는 방식은 언어별 SDK 유지보수 비용 폭증, 보안 정책 불일치, 그리고 서비스 간 장애 연쇄 전파(Cascading Failure)의 치명적 한계에 직면함에 따라, 애플리케이션 코드를 전혀 수정하지 않고 네트워크 인프라 계층에서 서비스 간 통신을 가로채어 보안, 트래픽 제어, 가시성을 중앙에서 일괄 집행하는 전용 인프라 계층인 서비스 메시(Service Mesh / Control Plane: Istiod, Consul, Linkerd vs Data Plane: Envoy Proxy, Ambient ztunnel, Cilium eBPF, Mutual TLS: mTLS, Layer 7 Traffic Management, Circuit Breaker, Distributed Tracing)를 도입하여 **제로 트러스트(Zero Trust) 기반 자동 상호 TLS(mTLS) 암호화 및 세분화된 인가(RBAC) 정책의 전사 일괄 적용, 카나리/A-B 배포 및 L7 동적 라우팅/서킷브레이커를 통한 서비스 복원력(Resilience) 극대화, 분산 추적(OpenTelemetry, Jaeger) 및 골든 시그널 지표 수집을 통한 전방위 가시성(Observability)**을 달성할 필요
 
 #### 한줄 요약
 
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 다언어 내부 통신은 **서비스 메시**, 외부 진입은 **API 게이트웨이** 선택
+- 클라우드 네이티브 엔터프라이즈 MSA의 내부(East-West) 네트워크 거버넌스 및 제로 트러스트 보안을 완성하는 **서비스 간 통신 제어 및 관측 인프라의 최고 핵심 표준(Service Mesh / CNCF Istio & Linkerd & Cilium / Control Plane-Data Plane Architecture / Universal mTLS & L7 Traffic Policy / Circuit Breaking & Fault Injection / Sidecar vs Ambient Mesh Evolution)의 확고한 표준**으로 확고히 자리 잡았으며, 사이드카 오버헤드를 극복하는 eBPF/앰비언트(Ambient) 사이드카리스 아키텍처로 급속히 전환되는 가운데, 실무 클러스터 서비스 메시 도입 시에는 **외부 진입(North-South)은 API Gateway로, 내부 통신(East-West)은 Service Mesh로 명확히 역할 분리하고, 재시도 폭풍(Retry Storm) 방지를 위한 계층별 서킷 브레이커 설정 및 mTLS 점진적 적용(PERMISSIVE $\rightarrow$ STRICT)**을 결합하여 완벽한 네트워크 보안과 초저지연 복원력을 완성
 
 #### 한줄 요약
 
