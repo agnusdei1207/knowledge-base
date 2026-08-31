@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "멀티모달 RAG (Multimodal RAG)"
-date: "2026-08-26T17:06:30+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 92
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 텍스트•시각 정보를 통합 검색하는 **멀티모달 RAG**
-- 배경/필요성: 문서를 텍스트로 변환해 색인하는 RAG은 **시각 구조•원본 위치** 보존 불가로 근거 확인을 사람이 원본에서 다시 하는 비용이 남으므로, 이미지•표를 그대로 임베딩하고 좌표를 함께 저장하는 색인 계층을 두어 검색에서 인용까지 연결
+- 배경/필요성: 기업 내 수많은 보고서, 논문, 매뉴얼, 설계 도면은 표(Table), 차트(Chart), 인포그래픽, 도면 등 복잡한 시각적 정보가 핵심을 이루고 있으나, 전통적인 텍스트 전용 RAG 파이프라인은 이를 단순 텍스트로 평탄화(Flattening)하여 추출하므로, 2차원 그리드 구조와 시각적 레이아웃이 완전히 유실되어 표 수치 왜곡이나 이미지 내 핵심 정보 누락이 발생하는 치명적 한계에 봉착함에 따라, 텍스트뿐 아니라 문서 페이지 이미지, 도표, 사진을 시각 임베딩(ColPali, CLIP) 또는 다중 모달 표현으로 직접 색인하고 VLM을 통해 종합 추론하는 멀티모달 RAG(Multimodal RAG / Vision-Language Retriever, Multi-Vector ColPali, Image-to-Text Captioning & Bounding-Box Attribution) 아키텍처를 도입하여 **문서 내 표/차트/다이어그램의 복잡한 2D 시각 구조와 공간 좌표(Bounding Box)를 완벽히 보존한 고정밀 멀티모달 근거 회수, 텍스트 질의로 이미지/도표를 찾고 이미지 질의로 텍스트 문맥을 회수하는 완벽한 교차 모달(Cross-Modal) 검색 실현, 생성된 답변의 정확한 원본 이미지 영역 하이라이팅을 통한 해석 가능성(Explainability) 및 검증 신뢰성 극대화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -167,8 +167,7 @@ extra:
 
 </details>
 
-- 시각 정보가 적으면 **텍스트 변환**, 의미 검색은 **공동 임베딩** 선택
-- 세부 영역 인용은 **다중 표현 검색•원본 좌표 보존** 적용
+- 텍스트 중심의 검색 증강 생성을 시각 문서, 도면, 복합 미디어 전체로 확장하여 엔터프라이즈 지식 활용도를 극대화하는 **차세대 멀티모달 엔터프라이즈 AI의 핵심 표준 아키텍처(Multimodal RAG / ColPali Multi-Vector Patch Retrieval / Vision-Language Model Grounding / Visual Document Chunking & Bounding Box Coordinates / Cross-Modal Evidence Verification)의 확고한 중추**로 확고히 자리 잡았으며, 오디오/비디오 RAG로 급속히 확장되는 가운데, 실무 Multimodal RAG 구축 시에는 **문서의 시각적 복잡도에 따라 텍스트 변환(LLM Summary/OCR) 방식과 이미지 직접 임베딩(ColPali/VLM) 방식을 적절히 결합하는 하이브리드 인덱싱을 채택하고, 답변 생성 시 정확한 원본 이미지 내 바운딩 박스(Bounding Box) 좌표를 동시 출력하여 감사 신뢰성을 확보하며, 고용량 이미지/패치 벡터 저장에 따른 벡터 DB 메모리 최적화**를 결합하여 완벽한 시각적 근거 추적성과 경제적인 인프라 안정성을 완성
 
 #### 한줄 요약
 - **시각 정보 비중•인용 단위** 대상 따라 검색 표현 결정

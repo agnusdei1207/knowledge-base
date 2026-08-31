@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "PEFT (매개변수 효율적 미세조정)"
-date: "2026-08-26T16:58:06+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 61
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 기반 가중치를 동결하고 소수 파라미터를 학습하는 **PEFT**
-- 배경/필요성: 전체 미세조정은 모든 가중치의 경사와 옵티마이저 상태를 들고 있어야 하고 과업 수만큼 모델 사본을 남겨 **학습•저장•배포 비용**을 과업마다 되풀이하므로, 기반 가중치는 동결한 채 소수의 추가 매개변수만 학습하는 어댑터 계층을 끼워 넣어 공유분과 과업별 차이를 분리
+- 배경/필요성: 수십억~수천억 파라미터 규모의 대규모 언어 모델(LLM)에 대해 전체 가중치를 재학습시키는 완전 파인튜닝(Full Fine-Tuning)을 적용할 경우, 모델 파라미터 수의 수배에 달하는 옵티마이저 상태(Optimizer States) 및 그래디언트 메모리 요구량으로 인해 막대한 GPU 클러스터가 강제되며, 다운스트림 태스크 수만큼 거대한 모델 체크포인트를 별도 저장/배포해야 하는 극심한 인프라 병목이 발생함에 따라, 사전학습된 기본 가중치를 완전 동결(Freeze)하고 0.01%~1% 미만의 극소수 파라미터만 선택적/추가적으로 학습시키는 매개변수 효율적 미세조정(PEFT: Parameter-Efficient Fine-Tuning / LoRA, QLoRA, Adapter, Prefix Tuning) 기술을 도입하여 **GPU 학습 메모리(VRAM) 및 학습 소요 시간의 획기적 절감, 단일 베이스 모델 메모리 상주 기반의 다중 도메인 어댑터 동적 스위칭(Multi-Tenant Adapter Serving) 실현, 파멸적 망각(Catastrophic Forgetting) 억제를 통한 모델의 고유 범용 지식 보존**을 달성할 필요
 
 #### 한줄 요약
 - 기반 모델을 고정한 채 **소수 파라미터 학습**만 하면 저장·배포 비용이 과업 수와 무관해지지만 기반 모델이 이미 모르는 능력은 얻을 수 없으므로, 적응은 되고 확장은 안 된다.
@@ -168,7 +168,7 @@ extra:
 
 </details>
 
-- 중간 표현은 **Adapter**, 입력 조정은 Prompt Tuning, 변화량은 **LoRA** 선택
+- 초거대 파운데이션 모델의 엔터프라이즈 맞춤형 커스터마이징을 비용 효율적이고 확장 가능한 구조로 전환시킨 **생성형 AI 모델 튜닝 및 서빙(Parameter-Efficient Fine-Tuning: PEFT / LoRA & QLoRA / Bottleneck Adapters & Prefix Tuning / Multi-LoRA Serving: S-LoRA & Punica)의 사실상 표준 패러다임**으로 확고히 자리 잡았으며, 다중 도메인 실시간 서빙 생태계로 진화하는 가운데, 실무 PEFT 도입 시에는 **추가적인 추론 지연(Inference Latency Overhead) 없이 가중치 병합(Zero-Latency Weight Merging)이 가능한 LoRA/QLoRA를 최우선 표준으로 채택하고, 다중 태넌트 환경에서는 단일 GPU 내에서 수백 개의 과업별 어댑터를 실시간 스케줄링하는 Multi-Adapter Serving 엔진 연계**를 결합하여 완벽한 파라미터 효율성과 경제적인 멀티태스킹 아키텍처를 완성
 
 #### 한줄 요약
 - **표현 범위•추론 경로•전환 비용** 대상 따라 PEFT 방식 결정

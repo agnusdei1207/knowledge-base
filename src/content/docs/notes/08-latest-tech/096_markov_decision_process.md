@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "마르코프 결정과정 (Markov Decision Process)"
-date: "2026-08-26T17:09:36+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 96
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 상태•행동•전이•보상으로 순차 결정을 표현한 **MDP**
-- 배경/필요성: 단발성 결정 모델은 **미래 상태•누적 보상** 반영 불가이고 전 이력을 조건으로 삼으면 경우의 수가 시간에 따라 폭증하므로, 마르코프 가정으로 상태•행동•전이•보상만 남긴 모델 계층을 두어 순차 결정을 유한한 재귀로 축소
+- 배경/필요성: 동적 제어 및 인공지능 에이전트의 순차적 의사결정(Sequential Decision Making) 문제에서 과거의 모든 이력(History)을 매 순간 조건으로 고려할 경우, 시간 경과에 따라 상태 공간(State Space)과 계산 복잡도가 지수적으로 폭증하는 차원의 저주(Curse of Dimensionality)가 발생함에 따라, "미래의 상태는 과거의 전체 이력이 아닌 오직 현재의 상태와 행동에 의해서만 결정된다"는 마르코프 성질(Markov Property)을 기반으로 수학적 5-튜플 $\langle S, A, P, R, \gamma \rangle$ 체계를 정립한 마르코프 결정과정(Markov Decision Process: MDP / Partially Observable MDP: POMDP / State-Action-Reward-Transition Dynamics)을 도입하여 **복잡한 시계열 동적 의사결정 문제를 현재 상태 기반의 간결하고 엄밀한 수학적 모델로 정형화, 할인율($\gamma$)을 반영한 장기 누적 보상 기댓값의 최적화 목적함수 도출, 동적 계획법(Dynamic Programming) 및 강화학습(RL) 알고리즘 적용을 위한 표준 이론적 토대 확립**을 달성할 필요
 
 #### 한줄 요약
 - 순차 의사결정의 **상태•행동•전이•보상** 모델링
@@ -158,8 +158,7 @@ extra:
 
 </details>
 
-- 상태 전이가 없으면 **밴딧**, 완전 관측 순차 결정은 **MDP** 선택
-- 부분 관측 환경은 **POMDP•믿음 상태** 적용
+- 모든 순차적 의사결정 문제와 현대 강화학습 이론의 수학적 근간을 이루며 자율주행, 금융 트레이딩, 로보틱스 제어의 상태 전이를 완벽히 모델링하는 **강화학습 및 최적 제어 이론의 핵심 표준 프레임워크(Markov Decision Process / 5-Tuple Formulation $\langle S, A, P, R, \gamma \rangle$ / Markov Property / Transition Dynamics & Reward Function / Discounted Return / POMDP & Belief State)의 확고한 기반**으로 확고히 자리 잡았으며, 고차원 연속 공간 딥러닝과 결합된 Deep RL로 진화하는 가운데, 실무 MDP 모델링 시에는 **센서 정보 누락이나 잡음으로 인한 마르코프성 결핍을 방어하기 위해 최근 $k$개 프레임 스태킹(Frame Stacking) 또는 RNN/트랜스포머 기반의 잠재 상태 표현을 도입하고, 환경의 불완전 관측 특성을 반영한 POMDP 및 믿음 상태(Belief State) 변환 적용, 의도치 않은 정책 편향을 방지하는 정밀한 보상 함수($R$) 정렬**을 결합하여 완벽한 상태 표현력과 현실 세계 제어 안정성을 완성
 
 #### 한줄 요약
 - **상태 전이•관측 가능성** 대상 따라 밴딧•MDP•POMDP 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "RAG (검색 증강 생성)"
-date: "2026-08-26T17:05:08+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 70
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 외부 문서를 검색해 근거로 답변하는 **RAG**
-- 배경/필요성: 지식을 가중치에만 담으면 사실이 바뀔 때마다 재학습 비용을 전액 치르고도 **최신성•전문성•출처**를 보장하지 못하므로, 모델 앞에 외부 문서를 검색해 문맥으로 주입하는 계층을 두어 지식 갱신을 학습이 아닌 색인 갱신 비용으로 대체
+- 배경/필요성: 사전학습된 거대 언어 모델(LLM)의 매개변수 지식(Parametric Memory)은 학습 컷오프 시점 이후의 최신 정보 부재, 기업 내부 비공개 데이터에 대한 접근 불가, 그리고 사실과 다른 그럴듯한 거짓말을 생성하는 환각(Hallucination) 현상이라는 근본적 한계를 내포하고 있음에 따라, 사용자 질의에 맞춰 외부 지식 베이스(Vector DB, 검색 엔진, 문서 저장소)로부터 관련 문서를 실시간 검색(Retrieve)하고 이를 LLM의 프롬프트 문맥(Context)에 주입하여 답변을 생성(Generate)하는 검색 증강 생성(RAG: Retrieval-Augmented Generation / Hybrid Search, Reranking, Vector DB, Chunking) 아키텍처를 도입하여 **고비용의 모델 재학습(Fine-Tuning) 없이도 최신 기업 내부 데이터 기반의 정확하고 전문적인 답변 생성, 인용 출처(Source Citation) 제공을 통한 답변 투명성 및 검증 가능성 확보, 사용자 및 부서별 보안/권한 필터링(Access Control)을 통한 안전한 엔터프라이즈 AI 서비스 구현**을 달성할 필요
 
 #### 한줄 요약
 - **오픈북 방식**은 지식 갱신을 재학습에서 색인 갱신으로 옮기는 대신 검색이 틀리면 근거까지 틀린 채 답이 나오므로, 품질의 상한은 생성기가 아니라 검색기가 정한다.
@@ -156,7 +156,7 @@ extra:
 
 </details>
 
-- 최신 근거•출처가 필요하면 **RAG**, 행동 내재화는 **미세조정** 선택
+- 생성형 AI를 엔터프라이즈 지식 관리 및 비즈니스 워크플로우에 성공적으로 안착시킨 **가장 실용적이고 필수적인 기업용 LLM 아키텍처(Retrieval-Augmented Generation: RAG / Hybrid Search: BM25 + Vector / Neural Reranker: Cross-Encoder / Chunking & Metadata Filtering / Context-Aware Generation / Agentic & Graph RAG Extensions)의 절대적 표준**으로 확고히 자리 잡았으며, Agentic RAG 및 Graph RAG와 같은 다단계 추론 체계로 급속히 진화하는 가운데, 실무 RAG 시스템 구축 시에는 **키워드와 의미론을 결합한 하이브리드 검색 및 Cross-Encoder 재순위화(Reranking) 파이프라인으로 검색 정확도 극대화, 기업 내 사용자별 권한(ACL) 메타데이터 필터링을 통한 보안 정보 노출 차단, Ragas/TruLens 기반의 검색 관련성(Context Relevance) 및 답변 충실성(Faithfulness) 지속 평가**를 결합하여 완벽한 신뢰성과 최상의 엔터프라이즈 생산성을 완성
 
 #### 한줄 요약
 - **최신성•출처•행동 내재화** 대상 따라 지식 반영 방식 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Diffusion Model (확산모델)"
-date: "2026-08-26T17:12:24+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 90
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 순방향 잡음 추가와 역방향 제거를 학습하는 **확산모델**이다.
-- 배경/필요성: 생성자와 판별자를 겨루게 하는 GAN 적대적 학습은 **학습 불안정·모드 붕괴 위험**을 반복적인 조율 비용으로 막아야 하므로, 잡음을 더하는 고정된 순방향 과정과 그 역방향 제거만 학습하는 단일 목표로 바꿔 안정성을 확보
+- 배경/필요성: 기존의 대표적 생성 모델인 GAN(Generative Adversarial Network)은 생성자(Generator)와 판별자(Discriminator) 간의 적대적 미니맥스 게임에 의존하므로, 학습 과정이 극도로 불안정하고 특정 패턴의 이미지만 반복 생성하는 모드 붕괴(Mode Collapse) 및 기울기 소실 문제가 빈번히 발생하는 치명적 한계가 존재함에 따라, 원본 데이터에 점진적으로 가우시안 잡음을 주입하는 순방향 과정(Forward Diffusion Process)과 신경망을 통해 잡음을 단계적으로 복원·제거하는 역방향 과정(Reverse Denoising Process)을 비평형 열역학 원리에 기반해 정립한 확산모델(Diffusion Model: DDPM, DDIM, Latent Diffusion Model: LDM, Stable Diffusion, Sora / Score-based Generative Models) 아키텍처를 도입하여 **모드 붕괴 없는 극도로 안정적인 우도(Likelihood) 기반 학습과 사실적인 초고화질 이미지/비디오/음성 합성 품질 달성, 텍스트/마스크 등 조건부 제어 신호(Classifier-Free Guidance) 주입을 통한 정밀한 타깃 생성 실현, 잠재 공간(Latent Space) 확산을 통한 연산 복잡도 최적화 및 상용 생성형 AI 생태계 구축**을 달성할 필요
 
 #### 한줄 요약
 - 무작위 잡음에서 **단계별 역방향 잡음 제거** 기반 표본 생성
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-- **생성 지연•표본 다양성•품질** 기반 DDPM•DDIM•단계 수 선택
+- 기존 GAN과 VAE의 이론적/학습적 한계를 완전히 극복하고 텍스트-투-이미지, 비디오 생성, 음성 합성 및 3D 모델링의 글로벌 산업 표준으로 군림한 **현대 시각 생성형 AI의 최고 핵심 원천 모델(Diffusion Model / DDPM & Non-Markovian DDIM / Latent Diffusion Model: LDM / Classifier-Free Guidance: CFG / Consistency Models & Flow Matching / High-Fidelity Generative Backbone)의 확고한 표준**으로 확고히 자리 잡았으며, 초고속 1-step/Few-step 생성 모델(Flow Matching, SDXL-Turbo, Flux)로 혁신되는 가운데, 실무 Diffusion 기반 생성 파이프라인 구축 시에는 **추론 지연 시간과 표본 품질 간의 최적 절충을 위해 결정론적 고속 샘플러(DDIM, DPM-Solver, Euler)를 채택하고, 프롬프트 일치도를 극대화하는 Classifier-Free Guidance 스케일($s=7.0\sim 8.5$) 튜닝을 적용하며, 실시간 상용 서빙을 위한 Latent 공간 최적화 및 LoRA/ControlNet 조건부 제어 어댑터 연계**를 결합하여 완벽한 시각적 사실성과 상용 수준의 고속 생성 파이프라인을 완성
 
 #### 한줄 요약
 - 다양성 우선은 **DDPM**, 속도•재현성 우선은 **DDIM** 선택

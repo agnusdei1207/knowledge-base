@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-26T17:21:30+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 운영 신호를 상관 분석해 사건•원인을 찾는 **AIOps**
-- 배경/필요성: 규칙 기반 개별 경보는 장애 하나가 수천 건으로 증폭돼 **경보 폭주•장애 상관관계** 해석 곤란하고 판단 비용이 운영자에게 몰리므로, 경보를 사건 단위로 묶고 원인 후보를 제시하는 분석 계층을 모니터링 위에 두어 해석 부담을 축소
+- 배경/필요성: 클라우드 네이티브, 마이크로서비스(MSA), 멀티 클라우드 및 하이브리드 인프라의 확산으로 인해 초당 수십만 건의 분산 로그, 메트릭, 분산 트레이스(Telemetry Data)가 쏟아지는 현대 IT 환경에서, 기존의 정적 임계값 기반 모니터링 및 규칙 기반 관제 시스템은 단일 장애 발생 시 수천 건의 연쇄 경보가 쏟아지는 '경보 폭주(Alert Fatigue)'를 유발하고, 복잡한 서비스 간 의존성 속에서 장애의 근본 원인(Root Cause)을 신속히 규명하지 못하여 MTTR(평균 복구 시간)이 급증하는 운영 한계에 직면함에 따라, 머신러닝 및 AI 알고리즘을 활용하여 대규모 운영 원격측정 데이터를 실시간 분석하고 장애 탐지, 상관분석, 원인 분석 및 자동 복구를 수행하는 AIOps(Artificial Intelligence for IT Operations / Dynamic Anomaly Detection, Topology-based Alert Correlation, Root Cause Analysis: RCA, Automated Self-Healing Runbooks, Generative AI Copilot) 아키텍처를 도입하여 **시계열 메트릭의 동적 기준선(Dynamic Baseline) 설정을 통한 노이즈 없는 지능형 이상 탐지, 서비스 토폴로지(Service Map) 기반 경보 군집화(Alert Clustering)를 통한 원인-결과 인과관계 규명, 검증된 런북(Runbook)의 자동 실행(Self-Healing)을 통한 장애 복구 시간(MTTR) 획기적 단축**을 달성할 필요
 
 #### 한줄 요약
 
@@ -69,10 +69,10 @@ extra:
               [관측 데이터 저장소]   [서비스 토폴로지]
                          \           /
                        [사건 분석 엔진]
-                              |
+                               |
                        [원인 추정 모델]
-                              |
-                    [런북•정책 제어기]
+                               |
+                     [런북•정책 제어기]
 ```
 선의 의미: 사건 분석 엔진은 관측 데이터 저장소의 신호와 서비스 토폴로지의 의존 관계를 함께 사용하고, 원인 추정 모델과 런북•정책 제어기는 사건의 진단•조치 통제 경계를 구성한다.
 
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- 신뢰도가 낮거나 가역성이 부족하면 **사람 승인**, 두 기준 충족 시 **런북 자동 실행**
+- 복잡 다변화된 대규모 분산 클라우드 환경에서 장애 대응을 사후 대응(Reactive)에서 선제적 예방(Proactive) 및 자율 운영(Autonomous)으로 혁신하는 **IT 운영 관리 및 SRE(Site Reliability Engineering)의 최고 핵심 플랫폼 표준(AIOps / Observability & Telemetry Big Data / Dynamic Anomaly Detection & ML Event Correlation / Topology-aware Root Cause Analysis / Automated Self-Healing & SRE Runbook Automation / GenAI Incident Copilot)의 확고한 표준**으로 확고히 자리 잡았으며, LLM 기반 장애 분석 코파일럿(Incident Copilot) 및 플랫폼 엔지니어링과 융합되는 가운데, 실무 AIOps 플랫폼 구축 시에는 **OpenTelemetry 기반으로 관측 데이터(Logs, Metrics, Traces)를 표준화하여 단일 데이터 레이크에 수집하고, 실시간 토폴로지 맵과 인과관계 그래프 분석을 결합해 근본 원인 신뢰도를 정량 제시하며, 조치 가역성이 보장된 저위험 런북은 자동 실행하고 고위험 조치는 운영자 승인(HITL)을 거치는 안전한 자율 운영 체계**를 결합하여 완벽한 서비스 무중단성과 운영 효율성을 완성
 
 #### 한줄 요약
 

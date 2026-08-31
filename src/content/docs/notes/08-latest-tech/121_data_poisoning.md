@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
-date: "2026-08-26T17:13:29+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 121
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 악성 표본으로 결정 경계를 조작하는 **데이터 오염**
-- 배경/필요성: 형식 검사는 값이 유효한 악성 표본을 통과시켜 **논리 오류•백도어** 탐지 곤란하고 오염이 가중치에 굳으면 회수 비용이 재학습 전체가 되므로, 수집 출처와 라벨 계보를 검증하는 계층을 학습 앞단에 두어 유입 시점에 차단
+- 배경/필요성: 현대 딥러닝 및 LLM 파이프라인은 웹 크롤링, 크라우드소싱, 외부 서드파티 데이터셋 등 개방형 소스로부터 수억 건의 대규모 데이터를 수집하여 학습에 사용하므로, 공격자가 훈련 데이터셋에 미세하게 조작된 악성 데이터(Poison Sample)를 주입할 경우, 정상적인 형식 검사를 완벽히 통과하면서도 전체 모델의 예측 성능을 급격히 떨어뜨리거나(가용성 공격) 특정 타겟 입력에 대해서만 의도된 오분류/백도어를 유발(무결성 공격)하여 배포 후 재학습에 막대한 비용을 발생시키는 치명적 보안 위협에 직면함에 따라, 데이터 수집 출처 인증, 라벨 계보 추적, 통계적 이상치 탐지 및 강건 학습(Robust Training)을 결합한 데이터 오염 방어(Data Poisoning Defense / Clean-label Detection, Data Sanitization, Certified Defenses: Randomized Smoothing, Differential Privacy Training) 체계를 도입하여 **데이터 수집 파이프라인의 엔드투엔드 무결성 및 데이터 출처 계보(Provenance & Lineage) 검증, 특징 공간(Feature Space) 내 악성 오염 표본의 조기 식별 및 격리, 오염 데이터가 일부 유입되더라도 모델 가중치에 미치는 영향을 수학적으로 상한 제한하는 강건 머신러닝 생태계 구축**을 달성할 필요
 
 #### 한줄 요약
 - 학습 데이터 무결성을 훼손해 **성능 저하•표적 오작동** 유도
@@ -154,7 +154,7 @@ extra:
 - **검증 데이터 재학습(Verified Retraining)**: 무결성이 입증된 안전한 데이터셋으로 모델을 다시 학습시키는 복구 방안
 </details>
 
-- 계보 불명•행동 변화가 크면 격리하고 **검증 데이터 재학습** 적용
+- 대규모 AI 데이터 공급망과 오픈 웹 크롤링 환경에서 모델의 학습 무결성을 위협하는 **AI 파이프라인 보안의 제1선 방어 대상(Data Poisoning / Availability vs Targeted Integrity vs Clean-Label Poisoning / Data Provenance & Lineage / Statistical Sanitization & DP-SGD Robust Learning / Verified Retraining & Pipeline Quarantine)의 확고한 표준**으로 확고히 자리 잡았으며, LLM 사전학습 코퍼스 및 RAG 벡터 DB 오염 방어로 급속히 확장되는 가운데, 실무 데이터 엔지니어링 파이프라인 구축 시에는 **기여자/데이터 소스별 비중을 엄격히 제한하고 암호학적 해시 기반의 데이터 계보를 유지하며, 학습 전 특징 공간 클러스터링 및 잔차 분석(Spectral Signature)을 통해 오염 의심 배치를 자동 격리하고, 검증된 클린 데이터셋 기반의 섀도우 모델 비교 검증**을 결합하여 완벽한 데이터 무결성과 신뢰할 수 있는 모델 학습을 완성
 
 #### 한줄 요약
 - 출처•행동 검증 실패 시 오염 배치 배제 후 **안전 버전** 복구

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "프롬프트 인젝션 (Prompt Injection)"
-date: "2026-08-26T17:10:20+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 116
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 비신뢰 입력으로 상위 지침•도구 행동을 교란하는 **프롬프트 인젝션**
-- 배경/필요성: 프롬프트가 지시와 데이터를 같은 토큰열로 받는 구조라 **신뢰 지시•비신뢰 데이터** 구분 실패가 권한 오용으로 이어지므로, SQL 삽입과 같은 계열의 위협으로 보고 입력 경계와 도구 권한을 모델 밖 통제 계층에서 분리할 필요
+- 배경/필요성: 거대 언어 모델(LLM)은 구조적으로 시스템 프롬프트(개발자 지시), 사용자 프롬프트(사용자 입력), 외부 검색 데이터(비신뢰 컨텍스트)를 동일한 단일 자연어 텍스트 시퀀스(Token Stream)로 입력받아 처리하므로, 폰 노이만 구조에서 코드와 데이터가 혼재되어 발생했던 SQL 인젝션처럼, 공격자가 입력한 악의적 텍스트를 시스템 상위 명령어로 오인하여 실행하는 근본적인 지시-데이터 분리 불가(Instruction-Data Inseparability) 취약점에 직면함에 따라, 신뢰 입력과 비신뢰 데이터의 컨텍스트를 구조적으로 격리하고 모델의 도구 호출 권한을 통제하는 프롬프트 인젝션(Prompt Injection / Direct & Indirect Injection / Dual LLM Architecture, Privilege Separation, Guardrail Filters, Strict Tool Calling Boundaries) 방어 아키텍처를 도입하여 **시스템 지침 무력화 및 악의적 명령 승격(Instruction Elevation)의 원천 차단, 최소 권한 원칙(Principle of Least Privilege)에 기반한 도구 실행 브로커 및 민감 API 권한 격리, 고위험 외부 행동(이메일 발송, 데이터 삭제) 전 인간 개입(Human-in-the-Loop) 승인 게이트웨이 확립**을 달성할 필요
 
 #### 한줄 요약
 - 참고 자료를 명령으로 오인해 **답변•행동** 조작
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 입력 신뢰도가 낮으면 **컨텍스트 격리**, 권한이 크면 **승인 게이트** 적용
+- 생성형 AI 및 LLM 애플리케이션 보안 분야에서 가장 치명적이고 빈번하게 발생하는 **OWASP Top 10 for LLM 제1위 보안 위협이자 시스템 무력화 공격(Prompt Injection / Direct & Indirect Prompt Injection / Instruction-Data Separation / Dual LLM & Guardrail Filtering / Privilege Broker & Strict Tool Authorization / Zero-Trust AI Architecture)의 최고 핵심 표준**으로 확고히 자리 잡았으며, 자율 AI 에이전트의 도구 연동 확대로 그 위험성이 기하급수적으로 증폭되는 가운데, 실무 프롬프트 인젝션 방어 체계 구축 시에는 **자연어 방어(시스템 프롬프트 강조)에 의존하지 않고 입력-데이터를 XML/JSON 태그로 구조적 격리하며, 도구 호출 시 인자 유효성 검증과 권한 브로커(Privilege Broker)를 강제하고, 고위험 트랜잭션에는 독립된 2차 검증 LLM(Dual LLM Pattern) 및 인간 승인(Human-in-the-Loop)**을 결합하여 완벽한 지시 격리와 시스템 무결성을 완성
 
 #### 한줄 요약
 - 공격 성공을 전제로 **정보•도구 권한** 다층 제한

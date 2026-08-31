@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "Large Language Model (대규모 언어 모델, LLM)"
-date: "2026-08-26T16:54:31+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 24
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 대규모 말뭉치의 토큰 관계를 사전학습한 **LLM**
-- 배경/필요성: 과업마다 전용 모델을 만들면 데이터 수집과 학습 연산을 과업 수만큼 반복 지불하고도 **지식·문맥 표현 재사용**이 되지 않으므로, 개별 과업 아래에 대규모 말뭉치로 한 번만 사전학습한 범용 언어 모델 계층을 두어 이후에는 프롬프트·미세조정만으로 전용화
+- 배경/필요성: 자연어 처리(NLP) 분야에서 과업별(분류, 번역, 요약 등)로 독립된 전용 모델을 개별 구축하던 기존 방식은 막대한 라벨링 데이터 구축 비용과 모델 간 지식 전이의 불가능이라는 근본적 한계가 존재함에 따라, 트랜스포머(Transformer) 아키텍처를 기반으로 웹 스케일의 대규모 텍스트 말뭉치에서 자기지도 학습(Self-supervised Learning)을 통해 범용 언어 지식과 추론 패턴을 사전학습한 대규모 언어 모델(LLM: Large Language Model)을 도입하여 **단일 모델 기반의 제로샷(Zero-shot)/퓨샷(Few-shot) 문맥 학습(In-context Learning) 역량 확보, 파인튜닝 및 프롬프트 엔지니어링을 통한 범용 과업 적응성 극대화, 자연어 기반 AI 에이전트 및 생성형 지능의 핵심 파운데이션 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -185,7 +185,7 @@ extra:
 
 </details>
 
-- 최신 지식은 **RAG**, 고위험은 검증형, 비용 제약은 **SLM** 선택
+- 인공지능 패러다임을 규칙 및 특정 과업 중심에서 범용 인지 및 자율 에이전트 생태계로 대전환시킨 **현대 인공지능의 핵심 기반 기술(Large Language Model: LLM / Transformer Decoder & Self-Attention / Autoregressive Generation & KV Cache / RAG & Tool Calling / SLM Routing)의 중심 축**으로 확고히 자리 잡았으며, 거대 모델의 다중 모달리티(Multimodal) 확장과 고효율 소형 언어 모델(SLM), 온디바이스 AI로 분화 발전하는 가운데, 실무 LLM 기반 엔터프라이즈 시스템 구축 시에는 **정적 파라미터 지식의 한계를 극복하는 검색 증강 생성(RAG) 및 도구 호출(Tool Calling) 연계, 추론 지연과 GPU 비용을 최적화하기 위한 KV Cache 관리, 양자화(Quantization: AWQ/GPTQ) 및 SLM 라우팅 아키텍처 적용, 환각(Hallucination) 방지를 위한 구조화된 출력(JSON Schema) 강제 및 엄격한 가드레일 구성**을 결합하여 완벽한 비즈니스 효용성과 추론 효율성을 완성
 
 #### 한줄 요약
 

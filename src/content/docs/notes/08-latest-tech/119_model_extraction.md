@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 추출 (Model Extraction)"
-date: "2026-08-26T17:13:33+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 119
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 반복 **API 응답**으로 원본 결정 경계•기능을 모방하는 모델 추출
-- 배경/필요성: 추론 API가 상세 점수를 무제한 반환하면 공격자의 **대체 모델 학습 비용**이 원본 학습 대비 크게 낮아져 질의만으로 자산이 복제되므로, 출력 정밀도와 질의량을 모델 가치에 맞춰 제한하는 노출 통제 계층이 필요
+- 배경/필요성: 막대한 자본과 독점 데이터, 고성능 GPU 인프라를 투입하여 개발된 상용 AI/LLM 모델이 블랙박스 API 형태로 서비스될 때, 공격자가 체계적으로 설계된 대량의 질의(Active Learning, Boundary Exploration)를 전송하고 반환되는 출력 확률(Logits, Soft Labels)이나 텍스트 응답을 교사 신호(Knowledge Distillation)로 수집하여 원본 모델의 기능, 성능, 결정 경계를 거의 완벽히 모방하는 대체 모델(Surrogate/Substitute Model)을 저비용으로 복제해내는 지식재산권(IP) 도난 위험에 직면함에 따라, API 출력 정보량 최소화, 비정상 대량 질의 탐지, 모델 지식재산권 보호를 위한 전자 워터마킹을 융합한 모델 추출 방어(Model Extraction Defense / Output Perturbation & Hard Labeling, Query Rate Limiting, Active Defense, Model Watermarking & Fingerprinting) 체계를 도입하여 **상세 확률 점수 축소 및 노이즈 주입을 통한 질의당 추출 정보량(Information Leakage) 최소화, 적응형 경계 탐색 질의 패턴의 실시간 탐지 및 차단, 모델 가중치/출력 내 보이지 않는 워터마크 삽입을 통한 복제 모델에 대한 법적 소유권 입증 증적 확보**를 달성할 필요
 
 #### 한줄 요약
 - 원본 파일 없이 API 응답만으로 **대체 모델** 학습
@@ -161,7 +161,7 @@ extra:
 
 </details>
 
-- 출력 상세도가 높으면 **응답 최소화**, 반복 질의에는 **행위 탐지** 적용
+- 수십~수백억 원의 가치를 지닌 엔터프라이즈 AI 모델의 지식재산권(IP)과 독점적 경쟁 우위를 외부 도난으로부터 수호하는 **AI 지식재산권 보호 및 MLOps 보안의 최고 핵심 방어 체계(Model Extraction Defense / Knowledge Distillation Attack Mitigation / Output Hardening & Logit Suppression / Adaptive Query Rate Limiting / Model Watermarking & Fingerprinting / IP Theft & License Provenance)의 확고한 표준**으로 확고히 자리 잡았으며, 오픈소스 모델의 무단 상업적 재증류 방어로 급속히 확대되는 가운데, 실무 모델 서비스 API 설계 시에는 **일반 사용자에게는 불필요한 소프트 레이블(Softmax Probabilities) 반환을 엄격히 금지하고 최종 하드 라벨/반올림 점수만 제공하며, 비정상적 결정 경계 탐색 질의를 식별하는 행동 분석 방화벽을 적용하고, 모델 출력 텍스트에 통계적 워터마크(Green/Red List Watermarking)를 삽입하여 사후 도용 입증 체계**를 결합하여 완벽한 지식재산권 보호와 서비스 안전성을 완성
 
 #### 한줄 요약
 

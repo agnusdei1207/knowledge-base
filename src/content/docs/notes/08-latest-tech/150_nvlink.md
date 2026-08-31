@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "NVLink"
-date: "2026-08-26T17:22:14+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 150
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: GPU 사이 고대역폭 데이터 교환을 제공하는 **NVLink**
-- 배경/필요성: PCIe는 GPU 간 전송이 호스트 루트 복합체를 경유해 **GPU 집단 통신 대역폭•지연** 제약을 동기화마다 반복 지불하므로, GPU를 직접 잇는 전용 링크와 스위치 계층을 두어 집단 통신을 CPU 경로 밖에서 완결
+- 배경/필요성: 수천억 개 매개변수를 가진 거대 언어 모델(LLM)을 분산 학습할 때 텐서 병렬화(TP) 및 올리듀스(All-Reduce) 통신은 단일 노드 내 GPU 간에 매 레이어마다 수백 기가바이트의 기울기와 활성화 텐서를 교환해야 하지만, 표준 PCIe Gen5 버스는 대역폭(양방향 128GB/s)이 턱없이 부족하고 호스트 CPU 루트 복합체(Root Complex)를 경유하면서 심각한 통신 지연과 병목을 유발함에 따라, GPU 간 직접 점대점(P2P) 및 전용 스위치 기반의 초고속 고대역폭 상호연결 패브릭인 NVLink 및 NVSwitch(NVIDIA NVLink 4/5 & NVSwitch Architecture / 900~1800 GB/s Bi-directional Bandwidth per GPU, Hardware-based SHARP In-network Reduction, Full-Mesh Single Memory Space, Multi-Node NVLink SuperPOD Expansion) 아키텍처를 도입하여 **PCIe 대비 최대 14배 이상 빠른 초당 1.8TB/s(NVLink 5) 초고속 양방향 대역폭을 통한 텐서 병렬화 통신 오버헤드 완벽 제거, 노드 내 8~72개 GPU를 단일 공유 메모리 주소 공간(Single Unified Address Space)으로 묶는 하드웨어 수준의 메모리 패브릭 구현, NVSwitch 내부에서 리덕션 연산을 직접 수행하는 인네트워크 컴퓨팅(SHARP)을 통한 올리듀스 지연 시간 극소화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ GPU 간 **링크 계층별 속도 차이** 반영
 
 </details>
 
-- 인접은 **직접 NVLink**, 도메인은 **NVSwitch**, 랙 간은 외부 패브릭 선택
+- 현대 초거대 생성형 AI 모델의 분산 학습과 초고속 추론을 가능케 하는 **글로벌 GPU 클러스터 및 AI 슈퍼컴퓨터의 절대적 핵심 고속 인터커넥트 표준(NVIDIA NVLink 5 & NVSwitch / 1.8 TB/s Bi-directional Bandwidth / Single Unified Memory Fabric & P2P / SHARP In-Network Reduction / NVLink Switch System & GB200 NVL72 Rack Scale Integration)의 확고한 표준**으로 확고히 자리 잡았으며, 단일 노드를 넘어 랙 스케일(GB200 NVL72) 72개 GPU를 단일 NVLink 도메인으로 통합하는 거대 패브릭으로 완성된 가운데, 실무 대규모 AI 인프라 구축 시에는 **노드 내 초고빈도 통신(텐서/파이프라인 병렬화)은 NVLink/NVSwitch 전용 도메인에 전담시키고, 노드 간 대규모 데이터 병렬화는 InfiniBand/RoCEv2 RDMA와 계층적으로 결합(Hierarchical All-Reduce)하며, NVSwitch SHARP 가속 엔진을 활성화**를 결합하여 완벽한 분산 훈련 확장성과 최고 수준의 연산 처리량을 완성
 
 #### 한줄 요약
 

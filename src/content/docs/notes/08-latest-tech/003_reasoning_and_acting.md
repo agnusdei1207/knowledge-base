@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "ReAct 패턴 (Reasoning and Acting)"
-date: "2026-08-26T16:47:09+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 3
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 개념: 외부 관찰을 다음 추론에 반영하는 **ReAct 패턴**
-- 배경/필요성: 내부 추론만으로 답하는 방식은 최신 외부 상태와의 불일치를 응답이 끝난 뒤 사람이 검증하는 비용을 매번 남기므로, 추론 단계 사이에 도구 행동과 그 관찰을 끼워 넣어 근거 확보를 생성 도중으로 앞당김
+- 배경/필요성: 거대언어모델이 내부 파라미터 지식에만 의존해 답변을 생성하는 순수 추론(Reasoning-only, CoT) 방식은 실시간 최신 정보 부재, 계산 오류, 치명적인 환각(Hallucination)을 유발하고, 반대로 추론 없이 외부 도구만 호출하는 순수 행동(Action-only) 방식은 복합 목표 분해와 예외 처리가 불가능한 결함이 존재함에 따라, 사고(Thought)와 외부 도구 행동(Action), 그리고 실행 결과 관찰(Observation)을 교차 반복하는 ReAct(Reasoning and Acting) 폐루프 패턴을 도입하여 **추론과 행동의 상호 보완을 통한 환각 현상 극복, 실시간 외부 데이터 기반의 사실성(Factuality) 및 근거성(Groundedness) 확보, 동적 오류 감지 및 실행 경로 자율 수정**을 달성할 필요
 
 #### 한줄 요약
 - **추론·행동 폐루프**는 관찰로 사실 오류를 줄이는 대신 단계마다 도구 지연과 토큰 비용을 더하므로, 외부 상태가 자주 바뀌는 과업일수록 그 교환이 이득이다.
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 외부 상태 검증은 **ReAct**, 내부 추론은 **CoT** 선택
+- 정적 언어 모델의 지식 한계와 환각을 극복하고 동적 외부 환경과의 상호작용을 매개하는 **에이전트 제어 루프의 표준 패턴(ReAct: Thought-Action-Observation Loop / Dynamic Grounding / Error Recovery / Max Iteration Guardrail)의 기초 아키텍처**로 확고히 자리 잡았으며, Plan-and-Solve 및 Tree of Thoughts(ToT) 등 진화된 추론 패턴과 결합되어 활용되는 가운데, 실무 ReAct 에이전트 구현 시에는 **정보 공백을 정밀히 식별하는 Thought 프롬프트 최적화, 표준 API 스키마 기반의 Action 도구 호출 및 비정형 관찰값(Observation)의 신뢰성 검증 필터링, 무한 루프와 API 비용 폭증을 방지하기 위한 최대 반복 횟수(Max Iterations) 및 조기 종료(Early Stopping) 메커니즘**을 결합하여 완벽한 사실성 검증과 실행 효율성을 완성
 
 #### 한줄 요약
 - **외부 의존성•근거 충분성** 대상 따라 패턴과 종료 결정

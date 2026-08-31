@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 52
   label: "052. Neural Processing Unit (NPU)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Neural Processing Unit (NPU)"
-date: "2026-08-26T16:56:25+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 52
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 신경망 텐서 연산을 병렬 처리하는 전용 **NPU**이다.
-- 배경/필요성: 범용 CPU는 명령어 인출·해독과 레지스터·메모리 왕복 비용을 곱셈누산 하나마다 되풀이 지불해 **전력 효율 제약**에 걸리므로, 연산기 배열과 온칩 버퍼를 붙여 데이터를 칩 안에서 재사용하는 전용 가속 계층을 두어 이동 자체를 줄임
+- 배경/필요성: 폰 노이만 구조 기반의 범용 CPU 및 대규모 병렬 GPU는 딥러닝 추론의 핵심인 대규모 행렬 곱셈 누산(MAC) 연산 시 명령어 인출/해독(Instruction Fetch/Decode) 오버헤드와 잦은 외부 DRAM 접근으로 인해 극심한 폰 노이만 병목과 막대한 전력 소비(TDP)를 유발하여 배터리 기반 엣지 디바이스 및 고밀도 데이터센터에 치명적인 한계가 발생함에 따라, 신경망 텐서 연산에 특화된 시스톨릭 어레이(Systolic Array) 및 대용량 온칩 SRAM 버퍼를 직접 집적하여 데이터 흐름(Dataflow) 방식으로 연산하는 신경망 처리장치(NPU: Neural Processing Unit) 아키텍처를 도입하여 **외부 메모리 액세스 최소화를 통한 데이터 재사용성(Data Reuse) 및 연산 집약도 극대화, 와트당 연산 처리량(TOPS/Watt)의 획기적 개선을 통한 초저전력 구동, 엣지 온디바이스부터 AI 서버 가속기까지의 도메인 특화 아키텍처(DSA) 확립**을 달성할 필요
 
 #### 한줄 요약
 - **MAC 병렬 연산•데이터 재사용**에 회로를 고정해 와트당 성능을 얻는 대신 연산 패턴이 바뀌면 그대로 쓰지 못하므로, 범용성을 내주고 전력 효율을 사는 구조다.
@@ -187,7 +187,7 @@ NPU
 
 </details>
 
-- **연산자 지원률•전력 예산** 기반 NPU 매핑과 **CPU 폴백 경계** 결정
+- 범용 컴퓨팅의 전력 한계를 돌파하고 인공지능 워크로드의 전력 대 성능비(TOPS/Watt)를 극대화하는 **도메인 특화 프로세서(DSA)이자 현대 AI 하드웨어 생태계(NPU / Systolic Array & MAC Units / On-Chip SRAM & DMA / Roofline Model & Operator Fusion / Compiler Graph Partitioning)의 핵심 전용 엔진**으로 확고히 자리 잡았으며, 온디바이스 NPU부터 데이터센터 스케일 가속 칩(TPU/Groq/Tenstorrent)까지 전방위로 진화하는 가운데, 실무 NPU 하드웨어-소프트웨어 스택 최적화 시에는 **모델 연산자(Operator)의 NPU 네이티브 지원률을 극대화하여 CPU/GPU 폴백(Fallback)으로 인한 인터페이스 오버헤드 억제, 컴파일러 레벨의 연산자 융합(Operator Fusion)을 통한 온칩 SRAM 데이터 상주율 향상, 하드웨어 특화 양자화(INT8/FP8) 기법의 정확도 회귀 검증**을 결합하여 완벽한 연산 효율과 에너지 경제성을 완성
 
 #### 한줄 요약
 

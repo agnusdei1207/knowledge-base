@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Vision-Language Model (시각언어모델)"
-date: "2026-08-26T17:10:39+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 88
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 이미지와 텍스트를 정렬해 판별•생성하는 **VLM**이다.
-- 배경/필요성: 시각 모델과 언어 모델을 따로 두면 객체·공간과 언어 의미의 **공동 해석 곤란**해 둘을 잇는 규칙을 과제마다 새로 만드는 비용이 들므로, 이미지와 텍스트를 같은 의미 공간에 사상하는 정렬 계층을 두어 질의•생성을 한 모델에서 완결
+- 배경/필요성: 시각 인식을 위한 컴퓨터 비전(CNN/ViT) 모델과 자연어 처리를 위한 대형 언어 모델(LLM)이 개별적으로 분리되어 동작할 경우, 이미지 내 객체의 공간적 관계, 복잡한 차트/도표 수치, 텍스트(OCR) 및 뉘앙스를 자연어로 깊이 있게 질의하고 추론하는 시각적 질의응답(VQA) 및 문서 분석(Document AI)을 통합 수행할 수 없는 구조적 단절이 발생함에 따라, 사전 학습된 시각 인코더(Vision Encoder: ViT)와 언어 디코더(LLM) 사이에 프로젝터/어댑터(Linear, MLP, Cross-Attention Connector: Q-Former)를 연결하여 시각 특징을 언어 토큰 공간으로 직접 투영하는 시각언어모델(Vision-Language Model: VLM / LLaVA, BLIP-2, Flamingo, GPT-4V / Visual Instruction Tuning) 기술을 도입하여 **이미지의 시각적 컨텍스트를 LLM 프롬프트에 완벽히 통합하여 자연어 기반의 정밀한 시각적 추론 및 설명 생성 실현, 차트/인포그래픽/UI/문서 이미지에 대한 심층 질의응답 및 다중 턴 인터랙션 지원, 시각 지시 튜닝(Visual Instruction Tuning)을 통한 범용 시각 인공지능 응용성 극대화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- **문자 정확도•공간 관계 충실성** 기반 VLM 판별•생성 방식 선택
+- 시각적 패치 토큰을 언어 모델의 문맥으로 직결하여 이미지 이해와 자연어 추론을 단일 신경망에서 완벽히 통합한 **멀티모달 생성형 AI의 핵심 프런티어 기술(Vision-Language Model / Vision Transformer: ViT / Multi-Modal Projector: MLP & Q-Former / Visual Instruction Tuning / Visual Question Answering: VQA & Document Intelligence)의 확고한 표준**으로 확고히 자리 잡았으며, 고해상도 다중 프레임 비디오 이해로 진화하는 가운데, 실무 VLM 솔루션 구축 시에는 **도표/문서 내 미세 텍스트 판독 오류를 방지하기 위한 고해상도 다이내믹 패칭(Dynamic High-Resolution Patching) 및 전문 OCR 파이프라인과의 하이브리드 연계, 이미지에 없는 사실을 지어내는 시각 환각(Visual Hallucination) 방어를 위한 Grounding 검증 계층 구축, 온디바이스 탑재를 위한 소형 VLM 경량화(VILA, MobileVLM)**를 결합하여 완벽한 시각 추론 정확도와 실시간 서비스 경제성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI 영향평가 (AI Impact Assessment)"
-date: "2026-08-26T17:12:21+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 108
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: AI의 권리•안전•기회 영향으로 출시 조건을 정하는 **AI 영향평가**이다.
-- 배경/필요성: 기술 성능 검증만 거치면 **차별•권리•안전 피해 사전 식별 곤란**해 배포 후 구제·재설계 비용을 치르므로, 영향 대상과 피해 수준•가역성을 도입 이전에 평가하는 절차 계층을 두어 설계로 되돌릴 수 있는 시점에 위험을 노출
+- 배경/필요성: 기업 및 공공기관이 AI 시스템을 도입할 때 단순한 기술적 기능성과 사업성만을 검증하고 상용 배포를 진행할 경우, AI의 자동화된 의사결정이 정보 주체의 기본권 침해, 차별 및 사회적 불평등 심화, 프라이버시 침해, 신체적/재산적 안전 위해 등 인간과 사회에 미칠 수 있는 광범위한 부정적 파급 효과를 사전에 예측하고 차단하지 못해 막대한 법적 제재와 사회적 비난에 직면함에 따라, AI 시스템의 기획 및 개발 초기 단계부터 시스템이 개인의 권리, 안전, 사회적 가치에 미치는 영향을 다각도로 예측·분석하고 완화 조치를 수립하는 AI 영향평가(AI Impact Assessment: AIA / Fundamental Rights Impact Assessment: FRIA, Algorithmic Impact Assessment / Scope Mapping, Harm Scenario, Mitigation & Remedy) 프로세스를 도입하여 **직접 사용자뿐 아니라 간접 영향자 및 취약 계층을 포괄하는 잠재적 피해 시나리오 사전 식별, 피해의 심각도·발생 가능성·가역성(Reversibility)에 기반한 정량/정성적 위험 수준 판정, 배포 전 필수 완화 조치 적용 및 잔여 영향(Residual Impact) 승인을 통한 조건부 출시 통제**를 달성할 필요
 
 #### 한줄 요약
 - **영향 대상•피해 수준•가역성•잔여 영향** 사전 평가
@@ -160,7 +160,7 @@ extra:
 
 </details>
 
-- 잔여 영향이 한도 이내면 **조건부 출시**, 초과하면 **재설계•중지**
+- 기술 도입에 앞서 인간의 존엄성과 사회적 기본권에 미칠 파급 효과를 사전에 철저히 검증하고 통제하는 **글로벌 고위험 AI 규제 대응 및 윤리적 인공지능 배포의 필수 선행 관문(AI Impact Assessment / Fundamental Rights Impact Assessment: FRIA / Stakeholder Mapping / Harm Severity & Reversibility / Residual Impact Governance & Stop Conditions / Integration with EU AI Act & ISO 42001)의 확고한 표준**으로 확고히 자리 잡았으며, EU AI Act의 고위험 AI 기본권 영향평가 의무화로 실효적 집행력을 확보한 가운데, 실무 AI 영향평가 수행 시에는 **기술 부서뿐 아니라 법무, 윤리, 도메인 전문가 및 외부 이해관계자가 참여하는 다학제적 평가단을 구성하고, 통제 조치 적용 후에도 남는 잔여 영향(Residual Impact)이 조직의 허용 기준을 초과할 경우 출시를 원천 중단하는 게이트웨이 운영, 서비스 변경 시 즉각적인 영향평가 재수행 체계**를 결합하여 완벽한 위험 사전 차단과 사회적 수용성을 완성
 
 #### 한줄 요약
 - **영향 범위•피해 수준•잔여 영향** 기반 출시•재평가 결정

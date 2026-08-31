@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Agent Guardrail (에이전트 가드레일)"
-date: "2026-08-26T16:45:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 22
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 입력•출력•도구 행동을 제한하는 **가드레일**
-- 배경/필요성: 비신뢰 지시와 과도한 권한이 만나면 **오판이 실제 피해**가 되어 사후 복구 비용을 치르므로, 입력·출력·도구 행동 각 경계마다 정책 검사 계층을 끼워 넣어 오판을 행동으로 옮겨지기 전에 차단
+- 배경/필요성: AI 에이전트가 웹 브라우징, 이메일, 문서 파싱 등을 통해 외부 비신뢰 데이터(Untrusted Data)를 소비할 때, 간접 프롬프트 주입(Indirect Prompt Injection), 악성 탈옥(Jailbreak), 민감 데이터 유출 및 비인가 시스템 조작 공격에 무방비로 노출되는 치명적인 보안 취약점이 존재함에 따라, 입력, 런타임 추론, 도구 실행, 최종 출력의 전 단계에 걸쳐 다계층 정책 필터를 강제하는 에이전트 가드레일(Agent Guardrail) 아키텍처를 도입하여 **심층 방어(Defense in Depth) 기반의 입력 악성 지시 사전 차단, 신뢰 지시와 외부 비신뢰 데이터의 엄격한 권한 분리(Privilege Separation), 도구 호출 직전 인자 검증 및 트립와이어(Tripwire)/HITL 기반의 비가역 피해 원천 방어**를 달성할 필요
 
 #### 한줄 요약
 
@@ -190,7 +190,7 @@ extra:
 
 </details>
 
-- 피해가 크고 비가역적인 도구는 **최소 권한•HITL** 후 실행
+- 자율 AI 에이전트의 강력한 실행력과 보안 안전성 사이의 균형을 유지하는 **심층 방어 기반 에이전트 보안 거버넌스(Agent Guardrail / Input & Output Filter / Indirect Injection Defense / Tool Policy Enforcement & Tripwire / HITL)의 필수 보호 체계**로 확고히 자리 잡았으며, Llama Guard, NeMo Guardrails 등 특화 안전 모델 및 런타임 가드레일 프레임워크로 표준화되는 가운데, 실무 가드레일 시스템 설계 시에는 **입력·런타임·도구·출력의 4계층 독립 방어선 구축, 외부 데이터에 포함된 명령 실행을 원천 차단하는 지시-데이터 격리(Data Tagging/Delimiters) 기법 적용, 오탐(False Positive)으로 인한 업무 마비를 방지하기 위한 위험 기반 차등 대응(허용·마스킹·차단·HITL 이관) 정책 및 주기적 레드티밍(Red Teaming)**을 결합하여 완벽한 서비스 가용성과 시스템 방어력을 완성
 
 #### 한줄 요약
 

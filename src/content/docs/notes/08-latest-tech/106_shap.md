@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SHAP 설명 기법 (SHapley Additive exPlanations)"
-date: "2026-08-26T17:11:08+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 106
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 기준값과 예측값 차이를 특징별로 분해하는 **SHAP**이다.
-- 배경/필요성: 특징을 하나씩 빼 보는 단순 중요도는 상호작용이 있으면 제거 순서에 따라 값이 달라지는 **기여도 배분 기준 부족**이 남으므로, 협조 게임의 배분 공리를 기준으로 모든 조합의 기여를 평균해 순서에 무관한 유일 배분값을 산출
+- 배경/필요성: 전통적인 특성 중요도(Feature Importance: Permutation Importance, Gain) 기법은 특성 간의 비선형 상호작용이나 다중공선성(Multicollinearity)이 존재할 경우 특성의 제거 순서나 트리 분할 위치에 따라 중요도가 심각하게 왜곡되며, "기본 예측값 대비 각 입력 특성이 출력에 얼마나 기여했는가"를 수학적으로 공정하고 일관되게 배분하지 못하는 이론적 결함에 직면함에 따라, 협조적 게임 이론(Cooperative Game Theory)의 샤플리 값(Shapley Value) 원리와 가산 공리(효율성, 대칭성, 더미, 가산성)를 머신러닝 해석에 최초로 적용한 SHAP(SHapley Additive exPlanations / TreeSHAP, KernelSHAP, DeepSHAP / Baseline Expected Value & Local Additivity) 알고리즘을 도입하여 **수학적으로 증명된 공정 배분 공리를 만족하는 유일한 특성 기여도(Shapley Value) 산출, 기준값(Base Value)과 특성 기여도의 합이 최종 예측값과 정확히 일치하는 가산 완전성(Local Accuracy/Additivity) 실현, 정형 데이터(TreeSHAP), 비정형 텍스트/이미지(DeepSHAP/KernelSHAP)를 아우르는 통합 설명 프레임워크 확립**을 달성할 필요
 
 #### 한줄 요약
 - **기준값•특징 기여도 합** 기반 개별 예측 설명
@@ -71,7 +71,7 @@ extra:
                          |
                 [연합 가치 계산기]
                          |
-                   [SHAP 계산기]
+                    [SHAP 계산기]
                          |
                 [설명 결과 저장소]
 ```
@@ -168,7 +168,7 @@ SHAP 계산기
 
 </details>
 
-- 범용 모델은 **Kernel SHAP**, 트리는 **Tree SHAP**, 신경망은 **Deep SHAP** 선택
+- 협조 게임 이론의 샤플리 공리를 기계학습 해석에 완벽히 이식하여 모델 예측의 특성 기여도 배분에 대한 수학적 유일성과 공정성을 보장한 **설명 가능한 AI(XAI) 분야의 최고 권위 표준 알고리즘(SHAP / Shapley Values / 4 Axioms: Efficiency, Symmetry, Dummy, Additivity / TreeSHAP $O(TLD^2)$ & KernelSHAP / Force Plot, Waterfall & Summary Plot)의 절대적 표준**으로 확고히 자리 잡았으며, LLM 어텐션 기여도 및 피처 어트리뷰션으로 진화하는 가운데, 실무 SHAP 분석 파이프라인 구축 시에는 **배경 데이터셋(Background Dataset)의 크기와 대표성을 정밀 검증하여 기준값 왜곡을 방지하고, 트리 기반 모델(XGBoost, LightGBM)에는 초고속 TreeSHAP을, 딥러닝에는 DeepSHAP/Integrated Gradients를 채택하여 계산 병목을 해소하며, 단일 인스턴스 해석(Force Plot)과 전역 피처 요약(Summary Plot)을 결합**하여 완벽한 설명 신뢰성과 전사적 모델 해석력을 완성
 
 #### 한줄 요약
 - **모델 구조•배경 대표성**에 따라 SHAP 계산기•해석 범위 결정

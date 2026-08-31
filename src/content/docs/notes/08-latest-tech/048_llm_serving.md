@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "LLM Serving (LLM 서빙)"
-date: "2026-08-26T16:56:46+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 48
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 다중 요청의 자원•지연•품질을 통제하는 **LLM Serving**
-- 배경/필요성: 요청마다 GPU를 전용 할당하면 가변 길이·동시 요청 탓에 **GPU 메모리•지연 변동**을 흡수하려고 자원을 최악값 기준으로 과다 확보하는 비용이 들므로, 모델과 요청 사이에 배칭·스케줄링·캐시 관리를 맡는 서빙 계층을 두어 자원을 요청들이 공유
+- 배경/필요성: 수십~수천억 파라미터를 가진 거대 언어 모델(LLM)을 엔터프라이즈 환경에서 서빙할 때 전통적인 고정 배치(Static Batching) 추론 방식을 적용할 경우, 입력 및 출력 시퀀스 길이의 극심한 가변성과 자기회귀 디코딩의 불균일한 종료 시점으로 인해 GPU 연산 코어 및 VRAM 대역폭의 70% 이상이 유휴(Idle) 상태로 낭비되는 치명적 자원 비효율이 발생함에 따라, 모델과 클라이언트 사이에 고효율 배치 스케줄링, 메모리 페이징 및 분산 병렬 처리를 전담하는 특화된 LLM 서빙(LLM Serving: vLLM, TensorRT-LLM, TGI, SGLang 등) 아키텍처를 도입하여 **연속 배치(Continuous/Iteration-level Batching) 및 PagedAttention을 통한 GPU VRAM 활용률 극대화, 텐서/파이프라인 병렬화(TP/PP) 및 KV 캐시 최적화 기반의 초고속 서빙 처리량(Goodput) 달성, 서비스 수준 목표(TTFT/TPOT SLO)를 보장하는 엔터프라이즈 추론 인프라 확립**을 달성할 필요
 
 #### 한줄 요약
 - **라우팅•스케줄링**으로 자원을 요청들이 공유하면 GPU 활용률은 오르지만 한 요청의 지연이 옆 요청에 좌우되므로, 서빙 설계는 처리량과 지연 예측 가능성의 배분 문제로 귀결된다.
@@ -174,7 +174,7 @@ extra:
 - **비동기 응용 프로그래밍 인터페이스(Asynchronous Application Programming Interface, Asynchronous API)**: 완료 시점이 유연한 대량 요청을 작업 큐로 처리하는 방식.
 </details>
 
-- 실시간은 **온라인 동적 배치**, 완료 유연•대량 작업은 **비동기•오프라인** 처리
+- 초거대 생성형 AI 모델을 경제적이고 예측 가능한 고가용성 프로덕션 서비스로 전환하는 **엔터프라이즈 AI 인프라 엔지니어링의 핵심 백본(LLM Serving / Continuous Batching & PagedAttention / Tensor & Pipeline Parallelism / Chunked Prefill & Prefix Caching / Multi-LoRA & Speculative Decoding)의 절대적 표준 프레임워크**로 확고히 자리 잡았으며, vLLM, TensorRT-LLM, SGLang 중심의 초고속 런타임 생태계로 진화하는 가운데, 실무 프로덕션 LLM 서빙 클러스터 구축 시에는 **실시간 대화형 서비스에는 연속 배치 기반 온라인 서빙을 배치하고 대량 배치 처리에는 오프라인 비동기 큐 파이프라인 분리, 다중 테넌트 환경에서의 SLA 보장을 위한 지능형 프리필/디코드 분리(Disaggregated Prefill/Decode) 아키텍처 도입, 인프라 장애 확산을 차단하는 서킷 브레이커 및 카나리 배포 체계 연계**를 결합하여 완벽한 GPU 리소스 밀도와 무중단 서빙 신뢰성을 완성
 
 #### 한줄 요약
 - **응답 시급성•작업량**에 따라 서빙 방식 결정

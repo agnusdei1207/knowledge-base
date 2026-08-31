@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "PagedAttention (페이지드 어텐션)"
-date: "2026-08-26T16:55:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 45
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: KV Cache를 비연속 블록에 할당•매핑하는 **PagedAttention**
-- 배경/필요성: KV 캐시를 요청별 연속 영역으로 최대 길이만큼 예약하면 **메모리 단편화•과다 예약**으로 실제 사용량보다 훨씬 큰 GPU 메모리를 묶어 두는 비용이 들므로, 운영체제 가상 메모리처럼 캐시를 고정 크기 블록으로 쪼개고 블록 테이블로 간접 참조하는 계층을 두어 연속성 요구 자체를 제거
+- 배경/필요성: 전통적인 LLM 서빙 시스템에서는 각 요청의 KV Cache를 위해 사전에 최대 문맥 길이(Max Sequence Length)에 맞춘 연속된 가상/물리 메모리 공간을 고정 할당함에 따라, 실제 생성 길이가 짧을 때 발생하는 과다 예약 낭비와 메모리 동적 할당/해제로 인한 심각한 외부 단편화(External Fragmentation)로 인해 전체 GPU VRAM의 60~80%가 낭비되는 치명적 서빙 병목이 존재함에 따라, 운영체제의 가상 메모리 페이징(Paging) 메커니즘을 어텐션 연산에 도입하여 KV Cache를 고정 크기의 비연속 물리 블록(Physical Blocks)에 동적 할당하고 블록 테이블(Block Table)로 매핑하는 PagedAttention(페이지드 어텐션) 아키텍처를 도입하여 **메모리 낭비를 제로에 가깝게 억제(내부 단편화 4% 미만 달성), 동일 프롬프트 접두사 및 빔 서치(Beam Search) 경로 간의 메모리 무복사 공유(Copy-on-Write: COW) 지원, 서빙 엔진(vLLM)의 동시 배치 처리량(Batch Size) 수배 증대**를 달성할 필요
 
 #### 한줄 요약
 - **비연속 물리 블록•블록 테이블**은 간접 참조 비용을 얹는 대신 예약 낭비와 단편화를 없애 동시 처리 요청 수를 늘리므로, 지연 한 건보다 처리량을 우선하는 서빙에서 이득이 크다.
@@ -68,7 +68,7 @@ extra:
                          |
                   [물리 블록 풀]
                          |
-                   [페이지드 커널]
+                    [페이지드 커널]
                          |
                      [공유•COW]
 ```
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- 가변•고동시성은 **PagedAttention**, 고정•저동시성은 **연속 할당** 선택
+- 운영체제의 가상 메모리 페이징 철학을 GPU 고성능 딥러닝 서빙에 성공적으로 이식하여 고동시성 LLM 인프라의 사실상 표준(De-facto Standard)으로 자리 잡은 **현대 LLM 서빙 프레임워크(PagedAttention / Virtual Memory Paging / Block Table & Physical Block Pool / Copy-on-Write & Prefix Sharing / vLLM Engine)의 핵심 기반 기술**로 확고히 자리 잡았으며, SGLang의 RadixAttention, TensorRT-LLM 등으로 확장 발전하는 가운데, 실무 프로덕션 LLM 클러스터 서빙 시에는 **요청 문맥 길이 분포에 맞춘 최적 물리 블록 크기(Block Size: 16 또는 32 토큰) 튜닝, 다중 세션 및 Few-shot 템플릿의 중복 연산을 제거하는 Prefix Caching 활성화, 슬라이딩 윈도우 및 청크 프리필(Chunked Prefill)과의 통합 메모리 관리**를 결합하여 완벽한 GPU 리소스 밀도와 초고속 서빙 처리량을 완성
 
 #### 한줄 요약
 - **길이 분포•동시성**과 조회 비용에 따라 할당 방식 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Long Context LLM (장문맥 LLM)"
-date: "2026-08-26T16:53:23+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 34
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 확장 문맥에서 **장거리 의존성**을 처리하는 LLM
-- 배경/필요성: 문맥창이 좁으면 긴 문서를 조각내고 조각 사이 관계를 검색·요약으로 다시 잇는 비용이 질의마다 발생하므로, 위치 인코딩 확장과 어텐션·KV 최적화로 창 자체를 넓혀 전역 관계를 분할 없이 한 문맥에서 처리
+- 배경/필요성: 기존의 짧은 컨텍스트 윈도우(2K~8K 토큰) 환경에서는 수백 페이지의 도서, 방대한 코드베이스, 법률 판례집 등 장문 문서를 처리하기 위해 문서를 임의 조각(Chunk)으로 분할해야 했고, 이로 인해 문서 전체에 걸쳐 흩어진 장거리 의존성(Long-range Dependency)과 거시적 인과 관계가 단절되는 RAG 검색의 구조적 한계가 발생함에 따라, 수십만~수백만 토큰(32K~1M+)을 단일 프롬프트로 직접 수용하는 장문맥 대규모 언어 모델(Long Context LLM) 기술을 도입하여 **문서 분할 없는 원문 전체의 전역적 문맥 이해 및 다중 추론(Multi-hop Reasoning) 역량 확보, RoPE 위치 보간(PI/YaRN) 및 FlashAttention 기반의 장문 인프라 최적화, 건초더미 속 바늘 찾기(NIAH) 전 구간에서의 정밀한 정보 회수율 달성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -190,7 +190,7 @@ extra:
 
 </details>
 
-- 전역 의존성은 **직접 장문 입력**, 일부 최신 근거는 **RAG** 선택
+- 방대한 지식 베이스와 대규모 코드베이스를 분할 없이 단일 추론 공간에 통합 수용하는 **차세대 인지 컴퓨팅 및 전역 분석의 핵심 파운데이션(Long Context LLM / Rotary Position Embedding & YaRN / FlashAttention-2 & Sparse Attention / KV Cache Paging & Prefix Caching / Needle in a Haystack: NIAH Benchmark)의 표준 아키텍처**로 확고히 자리 잡았으며, 백만 토큰 초장문맥(Gemini 1.5, Claude 3.5, Llama 3.1 등)이 실용화되는 가운데, 실무 장문맥 AI 서비스 구현 시에는 **문맥 전반에서의 실제 정보 인출 정확도를 검증하는 위치별 NIAH 및 멀티홉 벤치마킹 수행, 프리필 지연과 KV Cache GPU 메모리 폭증을 제어하는 프롬프트 캐싱 및 PagedAttention/vLLM 서빙 연계, 전체 문맥 분석은 Long Context로 수행하고 세부 사실 검증은 RAG로 필터링하는 협력적 아키텍처 설계**를 결합하여 완벽한 장문 분석 정확도와 운영 경제성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "AI 레드팀 (AI Red Teaming)"
-date: "2026-08-26T17:09:45+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 115
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 공격자 관점에서 피해 경로를 재현하는 **AI Red Teaming**
-- 배경/필요성: 정상 입력 기준 기능 평가는 공격자가 여러 취약점을 엮는 **복합 실패 경로** 탐지 곤란해 실제 사고로만 드러나는 비용이 남으므로, 격리 환경에서 공격을 먼저 재현하는 적대적 점검 계층을 배포 앞에 두어 피해 범위를 사전에 측정
+- 배경/필요성: 거대 언어 모델(LLM) 및 생성형 AI 기반 에이전트 시스템은 비결정론적이고 방대한 입력 공간을 가지므로, 기존의 벤치마크나 정상 시나리오 중심의 기능 테스트만으로는 적대적 프롬프트 인젝션(Direct/Indirect Prompt Injection), 탈옥(Jailbreak), 환각 유도, 학습 데이터 추출 및 권한 탈취(Privilege Escalation) 등 공격자가 취약점을 연쇄적으로 결합하는 복합 실패 경로를 사전에 감지할 수 없는 치명적 한계에 직면함에 따라, 고도로 훈련된 적대적 공격자 관점에서 실제 악의적 공격 기법을 모의 수행하여 AI 시스템의 안전성, 보안성, 프라이버시 취약점을 사전에 발굴하고 검증하는 AI 레드팀(AI Red Teaming / Adversarial Prompting, Automated LLM-assisted Fuzzing, Threat Modeling & Rules of Engagement: RoE, Holdout Regression Testing) 체계를 도입하여 **배포 전 복합 공격 시나리오를 통한 안전 가드레일 및 보안 경계의 취약점 선제적 도출, 발견된 실패 경로에 대한 원인별 근본 방어 통제(가드레일 강화, 시스템 프롬프트 재설계, 도구 권한 최소화) 적용, 미공개 홀드아웃 공격 코퍼스를 활용한 회귀 평가를 통해 거짓 완화(False Mitigation) 원천 차단**을 달성할 필요
 
 #### 한줄 요약
 - 격리 환경에서 공격을 재현해 **실제 피해 범위** 확인
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 회귀 후 잔여 위험이 허용 이하면 **배포**, 초과하면 **재완화**
+- 단순한 모델 평가를 넘어 생성형 AI 시스템 및 에이전트의 안전한 상용 배포를 검증하는 **글로벌 AI 안전 표준(NIST AI RMF, EU AI Act, 백악관 AI 행정명령)의 최고 핵심 필수 검증 체계(AI Red Teaming / Adversarial Robustness & Jailbreak Defense / Automated Multi-turn Fuzzing & Human Expert Attack / Rules of Engagement & Isolated Sandbox / Continuous Post-deployment Teaming & Bug Bounty)의 절대적 표준**으로 확고히 자리 잡았으며, 멀티모달 및 자율 에이전트 도구 침해 방어로 급속히 확장되는 가운데, 실무 AI 레드팀 운영 시에는 **명확한 교전 규칙(RoE) 하에 샌드박스 환경에서 평가를 진행하고, 자동화된 공격 하네스(LLM-based Automated Fuzzer)와 도메인 인간 전문가의 직관적 공격을 결합하며, 발견된 취약점은 홀드아웃 세트 기반의 엄격한 회귀 테스트를 거쳐 잔여 위험이 허용 기준 이하일 때만 프로덕션 배포를 승인하는 게이트웨이 운영**을 결합하여 완벽한 시스템 안전성과 적대적 공격 대응력을 완성
 
 #### 한줄 요약
 - 재현 조건과 **잔여 위험** 기준으로 배포 여부 결정

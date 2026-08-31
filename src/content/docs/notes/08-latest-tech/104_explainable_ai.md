@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Explainable AI (설명 가능한 AI)"
-date: "2026-08-26T17:09:45+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 104
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: AI 판단 근거를 이해•검증 가능하게 제공하는 **XAI**이다.
-- 배경/필요성: 예측값만 내놓는 모델은 **오류•편향•이의제기 근거 확인 곤란**해 원인 규명을 재현 실험으로 되풀이하는 비용이 들므로, 판단 근거를 규칙•특징 기여도•유사 사례로 되돌려 주는 설명 계층을 추론 옆에 두어 사후 재실험을 대체
+- 배경/필요성: 딥러닝 신경망, 앙상블 트리, 거대 언어 모델(LLM) 등 현대 고성능 AI 모델은 수억~수조 개의 파라미터로 구성된 복잡한 블랙박스(Black-box) 구조를 지니고 있어, 금융 대출 심사, 의료 진단, 자율주행, 채용 등 고위험 의사결정에서 "왜 이러한 예측 결과를 도출했는가"에 대한 논리적 인과관계를 설명하지 못해 규제 준수(설명요구권: GDPR, EU AI Act) 실패 및 치명적 판단 오류 검증 불가의 한계에 직면함에 따라, 블랙박스 모델의 내부 표현을 해석하거나 사후(Post-hoc) 대리 모델을 통해 개별 예측 및 전체 모델의 판단 근거를 인간이 이해할 수 있는 특성 기여도, 규칙, 히트맵 형태로 제공하는 설명 가능한 AI(Explainable AI: XAI / LIME, SHAP, Integrated Gradients, Grad-CAM, Counterfactual Explanations) 기술을 도입하여 **복잡한 AI 예측에 대한 투명한 판단 근거(Feature Attribution) 산출 및 모델의 디버깅/편향 감지 능력 획득, 고위험 의사결정에 대한 사용자 신뢰 및 법적 설명요구권 충족, 정확도(Accuracy)와 설명 가능성(Explainability) 간의 공학적 최적 절충 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 - **규칙•특징•사례** 기반 모델 판단 근거 제공
@@ -152,7 +152,7 @@ extra:
 
 </details>
 
-- 개별 이의제기는 **국소 설명**, 모델 감시는 **전역 설명** 선택
+- 블랙박스 인공지능의 불투명성을 해소하고 인간 전문가와 AI 간의 협력적 신뢰를 구축하며 글로벌 고위험 AI 규제의 핵심 요건을 만족시키는 **신뢰할 수 있는 인공지능(Trustworthy AI) 및 공학적 검증의 최고 핵심 기술(Explainable AI / Post-hoc & Intrinsic Methods / Local & Global Explanations / SHAP Shapley Values & LIME Perturbation / Visual Saliency & Counterfactuals / Regulatory Explainability Compliance)의 확고한 표준**으로 확고히 자리 잡았으며, LLM의 사고의 사슬(Chain-of-Thought) 및 메커니즘 해석학(Mechanistic Interpretability)으로 심화 발전하는 가운데, 실무 XAI 솔루션 구축 시에는 **개별 사용자의 이의제기 대응에는 게임이론 기반의 공정하고 일관된 특성 기여도를 보장하는 SHAP/LIME 국소 설명을 적용하고, 전사 모델 편향 감사에는 부분 의존도 플롯(PDP) 기반 전역 설명을 채택하며, 적대적 설명 조작 공격(Adversarial Explanation Attack)에 대비한 설명의 충실도(Fidelity) 및 안정성 검증**을 결합하여 완벽한 해석 신뢰성과 엔터프라이즈 규제 부합성을 완성
 
 #### 한줄 요약
 - **사용자•목적•범위**에 따라 국소•전역 설명 결정

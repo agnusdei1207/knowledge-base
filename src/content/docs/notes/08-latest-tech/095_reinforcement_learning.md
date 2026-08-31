@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "강화학습 (Reinforcement Learning)"
-date: "2026-08-26T17:08:51+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 95
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 환경 상호작용으로 누적 보상을 극대화하는 **강화학습**
-- 배경/필요성: 정답 라벨 없이 보상이 늦게 도착하는 환경은 개별 행동의 **장기 기여도** 직접 평가 불가여서 지도학습의 즉시 오차 신호를 쓸 수 없으므로, 누적 보상 기댓값을 가치 함수로 추정하는 계층을 두어 지연된 결과를 현재 행동에 배분
+- 배경/필요성: 정답 레이블(Ground Truth)이 사전에 주어지는 지도학습(Supervised Learning) 방식은 자율주행, 로봇 제어, 게임 AI, LLM 정렬과 같이 에이전트의 현재 행동이 미래의 상태 전이와 장기적 결과에 지속적으로 영향을 미치는 동적 순차 의사결정 문제(Sequential Decision Making)를 해결할 수 없고, 즉각적인 피드백 없이 지연된 보상(Delayed Reward)만이 주어지는 환경에서 최적의 행동 전략을 도출할 수 없는 근본적 한계가 존재함에 따라, 에이전트가 미지의 환경과의 능동적인 시행착오(Trial-and-Error) 상호작용을 통해 수신하는 환경 피드백 신호로부터 미래 누적 보상 기댓값(Expected Cumulative Reward)을 최대화하는 최적 정책(Optimal Policy)을 스스로 학습하는 강화학습(Reinforcement Learning: MDP, Value/Policy-based, Q-Learning, DQN, PPO, DDPG, RLHF) 패러다임을 도입하여 **복잡하고 동적인 미지 환경에서 장기적인 목표를 자율적으로 달성하는 최적 행동 전략 수립, 탐색(Exploration)과 활용(Exploitation)의 정밀한 균형을 통한 극대화된 보상 획득, LLM 인간 피드백 정렬(RLHF) 및 자율 에이전트의 자기 개선(Self-Improvement) 핵심 메커니즘 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -155,8 +155,7 @@ extra:
 
 </details>
 
-- 온라인 최신 경험은 **온정책**, 경험 재사용은 **오프정책** 선택
-- 실제 손상 가능 환경은 **시뮬레이터•안전 행동 제약** 우선 적용
+- 고정된 정답 학습을 넘어 환경과의 능동적 상호작용을 통해 최적의 장기 의사결정을 자율 탐색하는 **인공지능 및 자율 에이전트(Autonomous Agents)의 최고 핵심 학습 패러다임(Reinforcement Learning / Markov Decision Process: MDP / Bellman Optimality / Deep Q-Networks: DQN & Policy Gradient: PPO / Actor-Critic Framework / RLHF & Safe RL)의 확고한 기반**으로 확고히 자리 잡았으며, 오프라인 강화학습 및 거대 언어 모델의 자기 진화 추론(Self-Play & Reasoning RL: OpenAI o1)으로 급속히 진화하는 가운데, 실무 강화학습 시스템 구축 시에는 **에이전트가 의도치 않은 편법으로 보상만 극대화하는 보상 해킹(Reward Hacking)을 방어하기 위한 정밀한 다면 보상 함수 설계, 샘플 효율성을 극대화하기 위한 경험 재생 버퍼(Replay Buffer) 및 안정적인 PPO/오프정책 알고리즘 채택, 물리적 위험을 방지하기 위한 고정밀 시뮬레이터(Sim2Real) 및 안전 강화학습(Safe RL) 가드레일 결합**을 결합하여 완벽한 자율 판단력과 안전한 현실 세계 제어 성능을 완성
 
 #### 한줄 요약
 - **경험 재사용•탐색 위험** 대상 따라 정책 학습 방식 결정

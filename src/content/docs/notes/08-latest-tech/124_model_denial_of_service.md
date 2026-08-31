@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 서비스 거부 (Model Denial of Service)"
-date: "2026-08-26T17:16:14+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 124
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 고비용 작업을 반복해 가용성을 훼손하는 **Model DoS**
-- 배경/필요성: 요청 건수 기준 제한은 한 건의 비용 편차가 큰 추론에서 **토큰•시간•도구 비용** 고갈 포착 불가해 소수 요청만으로 자원이 마르므로, 토큰•실행 시간•도구 호출을 단위로 삼는 자원 회계 계층을 요청 계층 위에 추가
+- 배경/필요성: 전통적인 웹 서비스와 달리 거대 언어 모델(LLM) 및 생성형 AI 추론은 입력 문맥 길이(Context Window), 출력 생성 토큰 수, 멀티스텝 에이전트 도구 호출에 따라 단 한 건의 요청에도 수천 배 이상의 GPU 연산량, KV 캐시 메모리, 외부 API 비용이 소모되므로, 기존의 단순한 HTTP 요청 건수 기반 Rate Limiting(RPM) 방식만으로는 긴 컨텍스트 주입(Sponge Examples), 무한 루프 에이전트 호출, 장문 생성 유도 공격에 의해 순식간에 GPU 가용 메모리가 고갈되고 서비스 전체가 마비되는 모델 서비스 거부(Model Denial of Service: Model DoS / OWASP LLM10: Unbounded Consumption) 취약점에 직면함에 따라, 요청당/테넌트당 토큰 사용량과 실행 시간을 정밀 계량하고 멀티 테넌트 자원 격리를 수행하는 모델 DoS 방어(Model DoS Defense / Multi-dimensional Rate Limiting: TPM, RPM, Concurrent Request Caps, Dynamic KV Cache Eviction, Agent Step Budgets) 아키텍처를 도입하여 **입력/출력 토큰 및 GPU 실행 시간의 실시간 회계(Resource Accounting)를 통한 자원 독점 원천 차단, 테넌트별 독립 실행 풀(Execution Pool) 격리 및 공정 스케줄링(Fair Scheduling)을 통한 정상 요청 가용성(High Availability) 보장, 비정상적 재귀 호출 및 비용 폭증 시 즉각적인 회로 차단(Circuit Breaker) 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -177,7 +177,7 @@ Model DoS는 입력의 KV 캐시, 출력 생성 시간, 도구 반복 비용을 
 
 </details>
 
-- 주체별 **토큰•시간•동시성•도구 비용** 초과 시 격리•중단
+- 생성형 AI의 막대한 고비용 GPU 컴퓨팅 인프라를 악의적 자원 고갈 및 금융 비용 폭탄 공격(Denial of Wallet)으로부터 방어하는 **엔터프라이즈 MLOps 및 클라우드 AI 서비스 가용성 보장의 최고 핵심 인프라 보안 표준(Model Denial of Service / Unbounded Token & KV Cache Consumption / Multi-dimensional Rate Limiting: RPM & TPM / Tenant Execution Pool Sandboxing & Fair Queueing / Agentic Circuit Breakers & Timeout Limits)의 확고한 표준**으로 확고히 자리 잡았으며, 대규모 서빙 엔진(vLLM, TensorRT-LLM)의 페이징 KV 캐시(PagedAttention) 및 프리엠션(Preemption) 기법과 통합되는 가운데, 실무 AI 게이트웨이 구축 시에는 **사용자/API 키별로 분당 요청 수(RPM)와 분당 토큰 수(TPM)를 동시 강제하고, 에이전트 도구 호출에 최대 반복 횟수(Max Steps)와 타임아웃 예산을 설정하며, GPU 메모리 포화 시 저우선순위 요청을 자동 축출/큐잉하는 지능형 스케줄러**를 결합하여 완벽한 서비스 연속성과 클라우드 비용 통제력을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "OWASP LLM Top 10 (OWASP LLM Top 10)"
-date: "2026-08-26T17:17:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 125
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: OWASP가 정리한 LLM 응용의 **10대 위험•완화 지침**
-- 배경/필요성: 기존 웹 취약점 목록은 프롬프트•RAG•도구•자원이 얽힌 LLM 고유 경로를 담지 못해 **연쇄 위험 분류 곤란**하고 조직마다 용어를 새로 정하는 비용이 들므로, LLM 계층 전용 공통 식별자 목록을 두어 점검•보고 기준을 하나로 통일
+- 배경/필요성: 전통적인 웹/네트워크 보안 프레임워크(OWASP Top 10)는 자연어 프롬프트 처리, RAG 벡터 데이터베이스 연동, 비결정론적 추론, 자율 에이전트 도구 호출 등 생성형 AI 고유의 아키텍처적 특성에서 비롯되는 새로운 공격 표면(Attack Surface)과 연쇄적 취약점을 포괄하지 못하여, 기업들이 LLM 애플리케이션 도입 시 보안 위험을 체계적으로 식별, 분류, 대응하지 못하고 규제 컴플라이언스 공백에 노출되는 심각한 한계에 직면함에 따라, 글로벌 보안 표준 기구인 OWASP가 생성형 AI 및 거대 언어 모델 시스템의 10대 핵심 보안 취약점과 구체적 방어 통제를 표준화하여 발표한 OWASP Top 10 for LLM(OWASP LLM Top 10: 2025 Edition / LLM01: Prompt Injection ~ LLM10: Unbounded Consumption / Threat Modeling, Layered Defense, AI Security Assessment) 프레임워크를 도입하여 **LLM 전 수명주기(입력, 프롬프트, 모델, 출력, RAG, 도구, 인프라)에 걸친 위험 요소의 표준화된 분류 및 체계적 위험 매핑(Risk Mapping) 실현, 프롬프트 인젝션부터 에이전트 오용 및 비용 고갈까지 아우르는 다계층 심층 방어(Defense-in-Depth) 통제 수립, 글로벌 AI 거버넌스 및 보안 감사(Security Audit)를 위한 공통 평가 잣대 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -181,7 +181,7 @@ OWASP LLM Top 10은 판본별 번호와 명칭을 함께 관리한다.
 
 </details>
 
-- 현재 서비스에는 **2025판 항목** 매핑하고 실제 공격으로 통제 판정
+- 전 세계 엔터프라이즈와 보안 전문가들이 생성형 AI 및 LLM 애플리케이션을 설계, 구축, 감사할 때 가장 먼저 준수해야 할 **글로벌 AI 보안 취약점 분류 및 방어 아키텍처의 최고 권위 사실상 표준(OWASP Top 10 for LLM Applications 2025 / LLM01 Prompt Injection, LLM02 Sensitive Info, LLM03 Supply Chain, LLM04 Data Poisoning, LLM05 Improper Output, LLM06 Excessive Agency, LLM07 System Prompt Leakage, LLM08 Vector Weakness, LLM09 Misinformation, LLM10 Unbounded Consumption / Threat Modeling & Red Teaming Framework)의 절대적 표준**으로 확고히 자리 잡았으며, GenAI DevSecOps의 핵심 검증 게이트로 정착한 가운데, 실무 LLM 서비스 보안 구축 시에는 **2025 최신 판본의 10대 위험 항목을 아키텍처 데이터 흐름에 1:1 매핑하고, 입력단(LLM01, LLM07), 검색/데이터단(LLM03, LLM04, LLM08), 모델/출력단(LLM02, LLM05, LLM09), 에이전트/인프라단(LLM06, LLM10)의 4대 보안 경계별 다계층 통제를 적용하며, 지속적인 적대적 AI 레드팀(AI Red Teaming) 실측 평가**를 결합하여 완벽한 생성형 AI 보안 무결성과 엔터프라이즈 신뢰성을 완성
 
 #### 한줄 요약
 

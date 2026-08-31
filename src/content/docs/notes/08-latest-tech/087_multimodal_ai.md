@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Multimodal AI (멀티모달 AI)"
-date: "2026-08-26T17:09:47+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 87
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 여러 모달리티를 정렬•융합하는 **멀티모달 AI**이다.
-- 배경/필요성: 모달별로 모델을 따로 두면 신호가 누락·오염될 때 **보완 문맥 활용 불가**해 정확도 손실을 각 모달이 홀로 감당하므로, 텍스트•시각•음성을 하나의 표현 공간으로 모으는 정렬 계층을 두어 서로의 근거를 대신 쓰도록 연결
+- 배경/필요성: 단일 모달리티(Unimodal: 텍스트 전용) 인공지능 모델은 텍스트 이외의 시각 이미지, 비디오, 음성, 센서 데이터 등 현실 세계의 풍부한 이종 멀티모달 신호를 직접 인지하고 처리할 수 없어, 이미지 캡셔닝, 시각적 질의응답(VQA), 음성 대화, 자율주행과 같은 복합 환경에서의 종합적 상황 인식 및 추론에 근본적 한계를 노출함에 따라, 텍스트, 이미지, 오디오, 비디오 등 다중 이종 모달리티를 공통 잠재 공간(Joint Latent Space)에 정렬하고 상호 교차 어텐션(Cross-Attention)으로 융합하는 멀티모달 AI(Multimodal AI: Vision-Language Models, Speech-to-Speech, Any-to-Any Models / Early, Intermediate, Late Fusion) 아키텍처를 도입하여 **이종 모달 간의 교차 상관관계(Cross-Modal Correlation) 포착 및 인간과 유사한 다감각적 종합 인지·추론 능력 실현, 텍스트와 시각/음성 신호 간 상호 보완을 통한 불완전 신호에 대한 강건성(Robustness) 확보, 텍스트-투-이미지/비디오 및 Any-to-Any 생성형 AI 서비스의 기반 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- **모달 상호작용•누락 가능성** 기반 초기•중간•후기 융합 시점 결정
+- 텍스트 중심의 LLM을 넘어 시각, 청각, 공간 정보를 포괄적으로 인지하고 생성하는 **범용 인공지능(AGI) 및 차세대 생성형 AI의 핵심 표준(Multimodal AI / Cross-Modal Alignment & Joint Embedding / Cross-Attention Fusion / Vision-Language-Audio Integration / Any-to-Any Native Multimodality)의 확고한 중추**로 확고히 자리 잡았으며, 네이티브 옴니 모델(GPT-4o, Gemini 1.5 Pro)로 급속히 재편되는 가운데, 실무 멀티모달 AI 시스템 구축 시에는 **서비스의 요구사항(저지연 추론 vs 정밀 교차 추론)에 맞추어 적절한 융합 계층(초기/중간/후기 융합)을 선택하고, 특정 모달리티의 잡음이나 누락(Missing Modality) 시에도 안정적으로 동작하는 모달 드롭아웃 및 품질 가중 메커니즘을 적용하며, 모달 간 의미적 불일치(Misalignment)를 방지하기 위한 대규모 교차 모달 사전학습**을 결합하여 완벽한 다감각 인지력과 견고한 엔터프라이즈 실용성을 완성
 
 #### 한줄 요약
 

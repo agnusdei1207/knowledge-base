@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 114
   label: "114. 동형암호 (Homomorphic Encryption)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "동형암호 (Homomorphic Encryption)"
-date: "2026-08-26T17:09:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 114
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 암호문 연산 결과가 평문 연산과 대응하는 **HE** 기법
-- 배경/필요성: 일반 암호는 연산 직전 복호화가 필요해 위탁 계산마다 **평문 노출 위험**을 신뢰 계약과 감사 비용으로 대신 막아야 하므로, 암호문 상태에서 덧셈•곱셈이 성립하는 연산 계층을 두어 키는 넘기지 않고 계산만 위임
+- 배경/필요성: 전통적인 암호화 방식(AES, RSA)은 데이터의 저장(At-Rest) 및 전송(In-Transit) 구간에서는 안전하지만, 클라우드 위탁 연산 및 AI 추론을 수행하려면 반드시 복호화하여 평문 상태로 메모리에 올려야 하므로, 클라우드 관리자나 악의적 공격자에 의해 민감 데이터(의료 영상, 금융 거래, 개인정보)가 노출되는 '데이터 사용 중(In-Use) 보안 공백'에 직면함에 따라, 데이터를 복호화하지 않고 암호문(Ciphertext) 상태 그대로 덧셈과 곱셈 등 복잡한 수학 연산을 수행한 뒤 결과 암호문을 복호화하면 평문 연산 결과와 정확히 일치함을 수학적으로 보장하는 차세대 암호 기술인 동형암호(Homomorphic Encryption: HE / Fully Homomorphic Encryption: FHE / BGV, BFV, CKKS / Bootstrapping & RNS-Rescaling, Ciphertext Packing) 아키텍처를 도입하여 **외부 비신뢰 클라우드 환경에서도 데이터 평문 노출이 원천 차단되는 제로 트러스트 기밀 연산(Confidential Computing) 실현, 복호화 키의 외부 위임 없는 안전한 데이터 위탁 분석 및 프라이버시 보존 머신러닝(Privacy-Preserving ML) 완성, 금융·의료 분야의 규제 컴플라이언스 완벽 충족**을 달성할 필요
 
 #### 한줄 요약
 - 암호문 상태로 계산하고 키 소유자만 **결과 복호화**
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 단일•고정 깊이는 **부분•제한 동형**, 임의 깊이는 **완전 동형** 선택
+- 데이터의 사용 중(In-Use) 상태까지 암호화하여 외부 클라우드나 비신뢰 환경에서도 데이터 유출 걱정 없이 고성능 분석 및 AI 추론을 수행할 수 있게 하는 **차세대 기밀 컴퓨팅 및 프라이버시 강화 암호학의 최고 정점 기술(Homomorphic Encryption / Fully Homomorphic Encryption: FHE / CKKS Approximate Arithmetic for AI / BGV & BFV for Exact Integer / Gentry's Bootstrapping / GPU & ASIC Hardware Acceleration)의 확고한 표준**으로 확고히 자리 잡았으며, 양자 내성 격자 암호(LWE/RLWE) 기반의 PQC 보안성까지 확보한 가운데, 실무 동형암호 기반 AI 파이프라인 구축 시에는 **실수 연산 머신러닝에는 SIMD 패킹과 RNS 리스케일링을 지원하는 CKKS 스킴을 채택하고, 심층 신경망의 비선형 활성화 함수(ReLU)를 다항식 근사(Polynomial Approximation)로 변환하며, 부트스트래핑 연산 병목을 극복하기 위해 전용 GPU/FPGA/ASIC 하드웨어 가속기**를 결합하여 완벽한 데이터 기밀성과 실시간 처리 성능을 완성
 
 #### 한줄 요약
 - 회로 깊이•오차•지연에 맞춰 **동형 방식•매개변수** 결정

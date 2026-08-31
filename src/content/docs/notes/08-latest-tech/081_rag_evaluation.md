@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RAG 평가 (RAG Evaluation)"
-date: "2026-08-26T17:04:23+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 81
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 검색•생성•운영 품질을 분리 측정하는 **RAG 평가**이다.
-- 배경/필요성: 최종 답변 점수 하나로는 **검색 누락·생성 오류 구분 곤란**해 실패마다 전 구간을 다시 실험하는 비용을 치르므로, 검색과 생성 각 단계에 별도 지표 계층을 끼워 넣어 원인 구간을 좁힌 뒤 수정
+- 배경/필요성: RAG 시스템의 출력 결과를 단순 End-to-End 단일 점수나 정성적 휴먼 평가로만 측정할 경우, 최종 응답 오류가 1차 정보 검색 단계의 관련 문서 누락(Retrieval Failure) 때문인지, 아니면 LLM 생성 단계의 환각 및 맥락 무시(Generation Failure) 때문인지 원인을 명확히 진단하고 개선할 수 없는 블랙박스 한계가 존재함에 따라, 검색 모듈과 생성 모듈의 성능을 엄격히 분리하여 다차원 지표로 정량화하는 RAG 평가(RAG Evaluation / Triad Metrics: Context Recall, Context Precision, Faithfulness, Answer Relevance / LLM-as-a-Judge) 프레임워크를 도입하여 **검색 단계의 근거 회수율/정밀도와 생성 단계의 충실성/관련성을 개별 계측하여 파이프라인 병목 구간의 정확한 특정 및 신속한 디버깅 실현, RAG 아키텍처 변경 및 하이퍼파라미터(청크 크기, 임베딩 모델, Top-K) 튜닝에 대한 객관적 회귀 테스트(Regression Test) 보장, 프로덕션 RAG 서비스의 지속적인 품질 모니터링 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 - **검색•생성•운영 단계**별 오류 원인 분리
@@ -157,7 +157,7 @@ RAG 실행기
 
 </details>
 
-- 검색 회수•문맥 충실성•평가자 신뢰도로 **실패 단계•개선 우선순위** 결정
+- 검색과 생성을 분리 측정하여 RAG 시스템의 신뢰성과 성능 개선 사이클을 정량적으로 견인하는 **엔터프라이즈 생성형 AI MLOps/LLMOps의 최고 핵심 품질 보증 체계(RAG Evaluation / RAG Triad Metrics / LLM-as-a-Judge Automation / Golden Dataset Benchmarking / Automated Continuous Evaluation Pipeline)의 필수 표준**으로 확고히 자리 잡았으며, 프로덕션 실시간 평가로 고도화되는 가운데, 실무 RAG 평가 체계 구축 시에는 **대표성 있는 골든 데이터셋(Golden Dataset: 질의-근거-정답 쌍)을 체계적으로 구축하고, 고비용 LLM 평가자와 결정론적 통계 지표(ROUGE, BLEU, BERTScore)를 하이브리드로 결합하며, 평가 모델의 편향(Bias) 방지를 위한 정기적인 휴먼 인 더 루프(HITL) 교차 검증**을 결합하여 완벽한 평가 신뢰성과 지속 가능한 품질 개선 루프를 완성
 
 #### 한줄 요약
 - **검색•생성•운영 지표** 기반 우선 개선 단계 결정

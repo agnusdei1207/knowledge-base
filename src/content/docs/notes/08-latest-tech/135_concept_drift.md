@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "개념 드리프트 (Concept Drift)"
-date: "2026-08-26T17:17:15+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 135
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 입력•정답 관계 $P(Y\mid X)$가 변하는 **개념 드리프트**이다.
-- 배경/필요성: 입력 분포 감시는 입력이 그대로인 채 정답 관계만 뒤바뀌는 경우를 놓쳐 **행동•업무 규칙 변화 탐지 곤란**하므로, 예측과 실제 결과의 관계를 함께 추적하는 지표 계층을 분포 감시 위에 덧대어 감시가 비어 있던 구간을 보완
+- 배경/필요성: 금융 이상 거래(FUD), 전자상거래 추천, 질병 진단 등 실시간 동적 도메인에서는 입력 데이터의 통계적 분포 $P(X)$가 일정하게 유지되더라도, 공격자의 사기 수법 진화, 소비자 트렌드 급변, 법률/규제 개정으로 인해 입력 특징과 정답 레이블 간의 조건부 확률 관계 $P(Y \mid X)$ 자체가 근본적으로 뒤바뀌는 개념 드리프트(Concept Drift)가 발생하여, 입력 분포 기반 모니터링으로는 전혀 감지되지 않은 채 모델의 실제 예측 정확도가 치명적으로 붕괴하는 사각지대에 직면함에 따라, 예측 결과와 지연 확정 라벨 간의 관계 변화를 실시간 분석하고 적응형 학습을 수행하는 개념 드리프트 대응(Concept Drift Detection & Adaptation / Error-rate Drift Detection: DDM, EDDM, ADWIN, Sliding Window & Ensemble Retraining, Online Continual Learning) 아키텍처를 도입하여 **입력-라벨 간 인과관계 및 조건부 분포 $P(Y \mid X)$ 변화의 실시간 수학적 탐지, 전체 평균에 은폐되는 특정 세그먼트/부분집단(Subgroup Drift) 성능 저하의 정밀 식별, 개념 변화 유형(급격한 급변, 점진적 변화, 순환적 변동)에 최적화된 적응형 재학습(Adaptive Retraining) 및 앙상블 갱신**을 달성할 필요
 
 #### 한줄 요약
 
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-- **라벨 정책** 변화면 정의 수정, **부분집단 관계** 변화면 재학습
+- 비즈니스 규칙과 환경의 근본적 변화로 인해 모델의 지식과 판단 기준이 진부화(Model Obsolescence)되는 현상을 방어하는 **MLOps 모델 성능 유지 및 지속적 학습(Continual Learning)의 최고 핵심 표준(Concept Drift / Conditional Distribution Shift $P(Y \mid X)$ / DDM, EDDM & ADWIN Algorithms / Subgroup & Segment Drift Analysis / Adaptive Sliding Window & Online Ensemble Retraining)의 확고한 표준**으로 확고히 자리 잡았으며, 실시간 스트리밍 ML 및 온라인 학습 아키텍처와 결합되는 가운데, 실무 개념 드리프트 대응 체계 구축 시에는 **예측 오차율 통계적 모니터링(ADWIN/DDM)을 통해 경보와 드리프트 단계를 분리하고, 전체 집계 성능에 은폐된 서브그룹별 오분류를 다차원 슬라이싱 분석하며, 급격한 변화 시 윈도우 축소 후 즉시 재학습하고 점진적 변화 시 앙상블 가중치를 갱신**을 결합하여 완벽한 적응성과 모델의 지속적인 비즈니스 효용을 완성
 
 #### 한줄 요약
 

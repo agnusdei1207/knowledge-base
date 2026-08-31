@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Data Augmentation (데이터 증강)"
-date: "2026-08-26T17:04:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 69
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 라벨 보존 변형으로 학습셋을 넓히는 **데이터 증강**
-- 배경/필요성: 표본이 부족하면 모델이 원본의 우연한 패턴까지 외워 **변형 대응력 저하•과적합**을 낳고 이를 데이터 추가 수집으로 푸는 비용이 크므로, 학습 입력 직전에 라벨을 보존하는 변형을 가하는 계층을 두어 수집 없이 표본 다양성만 늘림
+- 배경/필요성: 머신러닝 및 딥러닝 모델 학습 시 한정된 원본 데이터 표본으로 인해 특정 배경, 조명, 문체, 어휘 등의 부수적 패턴에 과적합(Overfitting)되어 실제 운영 환경의 다양한 변형 입력에 대한 일반화(Generalization) 성능이 급격히 저하되는 문제가 발생함에 따라, 원본 데이터의 고유한 라벨 의미(Ground Truth Label)를 완벽히 보존하면서 규칙 기반 또는 신경망 기반의 다양한 기하학적·의미론적 변형을 가하는 데이터 증강(Data Augmentation: Image Geometric/Color Transforms, Mixup/CutMix, Text Back-Translation & EDA, Audio Time-Stretching) 기법을 도입하여 **추가적인 고비용 데이터 수집 없이도 학습 데이터셋의 다양성과 표본 공간을 획기적으로 확장, 입력 데이터의 회전/잡음/표현 변화에 강건한(Robust) 불변성(Invariance) 특징 학습 유도, 과적합 방지를 통한 실서비스 배포 시의 모델 정확도 및 신뢰성 극대화**를 달성할 필요
 
 #### 한줄 요약
 - **라벨 보존 변환**은 수집 없이 표본 다양성을 사지만 변형이 지나치면 라벨이 어긋나 잡음을 학습시키므로, 증강 강도는 도메인이 허용하는 불변성의 범위를 넘지 않아야 한다.
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 라벨을 보존하고 미증강 성능을 높이는 **변환 정책•혼합 비율** 선택
+- 비전, 언어, 음성, 시계열 등 모든 딥러닝 도메인에서 모델의 일반화 성능과 강건성을 확보하는 **기초적이면서도 필수적인 데이터 전처리 및 정규화(Data Augmentation / Geometric & Photometric Transforms / Mixup & CutMix / Text Back-Translation & Paraphrasing / AutoAugment Policy)의 핵심 기반 기법**으로 확고히 자리 잡았으며, 자동화된 정책 탐색(AutoAugment)과 생성형 증강(Generative Augmentation)으로 고도화되는 가운데, 실무 데이터 증강 파이프라인 구축 시에는 **도메인의 물리적/의미론적 불변성 경계를 준수하여 라벨 오염(Label Corruption)을 사전에 차단, 변형된 증강 데이터에 의해 실제 현실 평가가 왜곡되지 않도록 원본 분포를 유지한 독립 미증강 검증셋(Clean Validation Set)으로 성능 평가, 원본과 증강 표본 간의 최적 혼합(Blending) 비율 튜닝**을 결합하여 완벽한 데이터 효율성과 최고 수준의 모델 강건성을 완성
 
 #### 한줄 요약
 - **라벨 보존•미증강 성능** 기반 증강 정책 결정

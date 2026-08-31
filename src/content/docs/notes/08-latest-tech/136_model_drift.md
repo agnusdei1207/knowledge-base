@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 136
   label: "136. 모델 드리프트 (Model Drift)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 드리프트 (Model Drift)"
-date: "2026-08-26T17:17:52+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 136
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 데이터•개념•서빙 변화로 품질이 이탈하는 **모델 드리프트**이다.
-- 배경/필요성: 품질 이탈을 단일 정확도로만 보면 **데이터•개념•구성 원인 분리 곤란**해 재학습•롤백•파이프라인 수정을 모두 시도하는 비용이 들므로, 입력 분포•정답 관계•구성 변경을 각각 관측하는 지표 계층으로 원인 구간을 좁혀 조치를 하나만 선택
+- 배경/필요성: 프로덕션 환경에 서빙 중인 머신러닝/딥러닝 모델의 성능 지표(Accuracy, F1-Score, ROC-AUC)가 점진적 또는 급격하게 저하될 때, 그 원인이 입력 데이터 분포 변화(Data Drift)인지, 입력과 정답 간의 인과관계 변화(Concept Drift)인지, 아니면 상류 전처리 파이프라인 버그나 서빙 임계값 변경(Configuration Drift)인지 명확히 분리하지 못할 경우, 무의미한 모델 재학습(Retraining)으로 클라우드 GPU 비용만 낭비하거나 잘못된 롤백 조치로 시스템 장애를 심화시키는 운영 비효율에 직면함에 따라, 다차원 메트릭 분해, 정답 결합, 모델 계보 추적을 통해 성능 열화의 근본 원인을 계층적으로 규명하는 모델 드리프트 종합 진단 및 수명주기 거버넌스(Model Drift Diagnosis & Remediation / Metric Decomposition, Multi-root Cause Analysis: Data vs Concept vs Pipeline, Delayed Label Reconciliation, Subgroup Error Slicing, Automated Action Selection) 체계를 도입하여 **전체 집계 메트릭의 이탈뿐만 아니라 세부 부분집단(Subgroup)별 성능 편차와 확률 보정(Calibration Error)의 정밀 식별, 입력 분포 $P(X)$, 조건부 분포 $P(Y \mid X)$, 소프트웨어 파이프라인 변경 이력을 대조한 100% 원인 분리, 원인별 최적 대응 조치(파이프라인 버그 수정, 윈도우 기반 CT, 서빙 설정 롤백)의 자동화**를 달성할 필요
 
 #### 한줄 요약
 - 품질 이탈을 **데이터•개념•구성 원인** 기반 분리
@@ -61,7 +61,7 @@ extra:
 ```text
  [성능 기준선]   [추론 관측 저장소]   [정답 결합기]   [모델•버전•설정 계보]
           \             |                 |                 /
-                              [진단•복구기]
+                               [진단•복구기]
 ```
 
 | 구성요소 | 책임 |
@@ -156,7 +156,7 @@ extra:
 
 </details>
 
-- **데이터•개념•구성 원인**에 따라 원천 수정•재학습•설정 복원 선택
+- 머신러닝 시스템이 운영 환경에서 겪는 성능 열화를 단일 증상이 아닌 복합 시스템 장애로 접근하여 정확한 처방을 내리는 **MLOps 지속적 관측성(Observability) 및 자율 복구 거버넌스의 최고 표준(Model Drift / Root Cause Decomposition / Delayed Ground Truth Reconciliation / Subgroup Performance Slicing / Automated Remediation: Pipeline Fix, Selective Retraining, Config Rollback)의 확고한 표준**으로 확고히 자리 잡았으며, 거대 언어 모델(LLM)의 출력 품질 저하 모니터링으로 확장되는 가운데, 실무 모델 드리프트 관제 체계 구축 시에는 **지연 정답이 확정되는 즉시 성능 지표를 갱신하고, 입력 데이터 통계치와 모델 아티팩트 Git 계보를 동시에 대조하여 원인을 분리하며, 데이터 버그 시에는 상류 파이프라인을 즉각 수정하고 개념 변화 시에는 가중치 적응형 지속 학습(CT)**을 결합하여 완벽한 AI 서비스 신뢰성과 비용 효율적인 운영을 완성
 
 #### 한줄 요약
 - 원인 진단 후 **원천 수정•재학습•설정 복원** 선택

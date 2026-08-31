@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 40%"
     variant: note
 title: "LIME (국소 대리 설명)"
-date: "2026-08-26T17:10:18+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 105
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 입력 주변의 모델 행동을 단순 모델로 근사하는 **LIME**이다.
-- 배경/필요성: 내부 구조를 열 수 없는 모델은 **개별 예측의 특징 영향 식별 불가**여서 전역 재학습·재실험으로만 원인을 추정하는 비용이 들므로, 관심 표본 주변만 교란해 얻은 응답으로 국소 선형 대리 모델을 세워 그 지점의 근거만 저렴하게 복원
+- 배경/필요성: 복잡한 비선형 블랙박스 머신러닝 모델(Deep Neural Networks, Random Forest, XGBoost)은 모델 전체 차원에서는 극도로 복잡한 비선형 결정 경계(Decision Boundary)를 가지므로 전역적으로 해석하는 것이 불가능하며, 내부 가중치에 접근할 수 없는 상용 API 기반 모델의 경우 개별 데이터 포인트에 대한 예측 이유를 즉각적으로 규명할 수 없는 한계가 존재함에 따라, 해석하고자 하는 특정 데이터 인스턴스의 국소적 근방(Local Neighborhood)에 무작위 교란(Perturbation) 표본을 생성하고 지수 근접 커널 가중치와 단순 선형/의사결정트리 대리 모델(Interpretable Surrogate Model)을 학습시키는 LIME(Local Interpretable Model-agnostic Explanations: Sparse Linear Surrogate, Exponential Proximity Kernel, Submodular Pick) 알고리즘을 도입하여 **모델 구조나 학습 방식에 무관(Model-Agnostic)하게 텍스트, 이미지, 정형 데이터 등 모든 블랙박스 모델의 개별 예측에 대한 국소 특성 기여도(Local Feature Importance) 즉시 산출, 관심 영역 주변의 국소 결정 경계 근사를 통한 인간 친화적이고 직관적인 예측 근거 시각화, 모델 디버깅 및 이상 예측 원인 추적성 극대화**를 달성할 필요
 
 #### 한줄 요약
 - 교란 표본으로 **블랙박스 국소 경계**를 단순 모델로 근사
@@ -157,7 +157,7 @@ extra:
 
 </details>
 
-- 빠른 개별 설명은 **LIME**, 일관된 기여 배분은 **SHAP** 선택
+- 모델 불가지론(Model-Agnostic) 철학을 바탕으로 국소 선형 근사를 통해 임의의 복잡한 블랙박스 모델에 대한 개별 예측 해석의 지평을 연 **설명 가능한 AI(XAI) 분야의 대표적 국소 대리 모델링 알고리즘(LIME / Model-Agnostic Local Surrogate / Perturbation-based Sampling & Exponential Proximity Kernel / Sparse Linear Explanation / Image Superpixel & Text Word Masking / Fast Local Attribution)의 핵심 표준**으로 확고히 자리 잡았으며, 대규모 실시간 추론 해석 파이프라인으로 지속 활용되는 가운데, 실무 LIME 해석 파이프라인 구축 시에는 **무작위 표본 추출로 인해 설명 결과가 매 실행마다 미세하게 흔들리는 설명 변동성(Instability)을 제어하기 위해 충분한 교란 표본 수($N \ge 5,000$)와 난수 시드(Seed) 고정을 적용하고, 대상 도메인의 특성에 부합하는 커널 폭(Kernel Width) 최적화를 수행하며, 연산 속도가 중요할 때는 LIME을, 엄밀한 이론적 기여도 배분이 필요할 때는 TreeSHAP/KernelSHAP을 상호보완적으로 연계**를 결합하여 완벽한 설명 직관성과 안정적인 해석 품질을 완성
 
 #### 한줄 요약
 - **국소 충실도•설명 안정성**에 따라 교란 범위•커널 폭 결정

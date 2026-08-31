@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RLHF (인간 피드백 강화학습)"
-date: "2026-08-26T17:01:12+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 65
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 인간 선호 보상으로 생성 정책을 조정하는 **RLHF**
-- 배경/필요성: **SFT 모범 답안 모방**은 답안 하나를 정답으로 두므로 어느 응답이 더 나은지에 대한 판단을 사람이 사후에 매번 걸러 내는 비용으로 남기며, 이에 사람의 상대 비교를 보상 모델로 학습해 두고 그 보상으로 정책을 갱신하는 계층을 SFT 뒤에 붙여 선호를 학습 신호로 전환
+- 배경/필요성: 지도 파인튜닝(SFT)만으로는 인간이 작성한 모범 답안의 단순 모방에 그쳐, 개방형 생성 환경에서 모델이 생성하는 수많은 그럴듯한 거짓말(Hallucination), 유해성(Toxicity), 편향 및 사용자의 실제 지시 의도(Helpfulness, Honesty, Harmlessness: 3H)와의 불일치를 효과적으로 통제할 수 없는 근본적 한계가 존재함에 따라, 동일 입력에 대한 모델의 다중 생성 응답을 인간 평가자가 비교 평가한 선호 데이터(Preference Data)로 보상 모델(Reward Model)을 구축하고 강화학습(PPO)을 통해 모델 정책을 최적화하는 인간 피드백 강화학습(RLHF: Reinforcement Learning from Human Feedback) 방법론을 도입하여 **인간의 가치관, 유용성 및 안전성 기준에 완벽히 부합하는 AI 정렬(AI Alignment) 달성, 보상 극대화와 언어 모델 고유의 유창성을 보존하는 KL 발산(KL Divergence) 제약 기반의 안정적 정책 학습, 복잡한 다기준(Multi-Criteria) 선호도의 자율적 보상 학습을 통한 프런티어 챗봇의 대화 품질 완성**을 달성할 필요
 
 #### 한줄 요약
 - **인간 상대 선호•보상 모델**은 정답을 규정하지 않고도 유용성과 안전성을 학습시키지만 정책이 보상 모델의 허점을 파고들 수 있으므로, 원본 정책과의 거리 제약이 함께 필요하다.
@@ -170,7 +170,7 @@ extra:
 
 </details>
 
-- 탐색이 필요하면 **RLHF**, 고정 선호쌍 직접 학습은 **DPO** 선택
+- 단순 언어 모델을 인간의 의도와 윤리적 안전 가이드라인에 정렬된 신뢰할 수 있는 대화형 인공지능(ChatGPT, Claude, Gemini)으로 승화시킨 **현대 생성형 LLM 후학습(Post-Training Alignment)의 절대적 표준 프레임워크(RLHF / Reward Model: Bradley-Terry / PPO Algorithm & Value Network / KL Divergence Penalty / 3H: Helpful, Honest, Harmless)의 최고 핵심 방법론**으로 확고히 자리 잡았으며, DPO/KTO 및 RLAIF(AI Feedback)와 융합 발전하는 가운데, 실무 RLHF 정렬 파이프라인 구축 시에는 **평가자 간 일치도(Inter-Annotator Agreement)와 다양성을 확보하여 보상 모델 편향 방지, 모델이 비정상적으로 보상 점수만 높이는 보상 해킹(Reward Hacking)을 차단하기 위한 적응형 KL 페널티 계수($\beta$) 및 가치 모델 튜닝, 오프라인 정렬이 필요한 경우 DPO를 병용하는 하이브리드 포스트 트레이닝 체계 구축**을 결합하여 완벽한 안전성과 탁월한 지능적 유용성을 완성
 
 #### 한줄 요약
 - **정책 탐색•운영 복잡성** 대상 따라 선호 최적화 방식 결정

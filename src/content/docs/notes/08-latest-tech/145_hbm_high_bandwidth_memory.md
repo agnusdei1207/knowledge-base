@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "HBM (고대역폭 메모리)"
-date: "2026-08-26T17:17:54+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 145
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 적층 **DRAM**과 **초광폭 인터페이스**로 가속기에 고대역폭을 제공하는 근접 메모리
-- 배경/필요성: 보드 위 DRAM은 패키지 **핀 폭**과 긴 배선에 대역폭이 묶여 가속기 연산기에 데이터 **공급 불가**하므로, DRAM을 수직 적층하고 TSV로 초광폭 채널을 뚫어 메모리를 프로세서 패키지 안으로 끌어들이는 계층으로 이동
+- 배경/필요성: 현대 초거대 언어 모델(LLM)과 딥러닝 가속기의 연산 성능(FLOPS)은 기하급수적으로 발전한 반면, 기존 PCB 기판에 평면 실장되는 전통적 DRAM(DDR, GDDR)은 패키지 I/O 핀 수의 물리적 한계와 긴 배선 길이로 인한 신호 감쇠 및 전력 소모로 인해 데이터 전송 대역폭(Bandwidth)이 연산 속도를 전혀 따라가지 못하는 메모리 벽(Memory Wall) 현상에 직면함에 따라, 여러 개의 DRAM 다이를 실리콘 관통 전극(TSV)으로 수직 적층하고 실리콘 인터포저(Interposer)를 통해 프로세서와 1024비트 이상의 초광폭(Ultra-wide) 버스로 패키지 내 직접 연결하는 고대역폭 메모리인 HBM(High Bandwidth Memory / HBM3, HBM3E, HBM4 / TSV Vertical Stacking, 2.5D Advanced Packaging: CoWoS/I-Cube, 1024-2048 bit Ultra-wide Bus, 1.2~2.0+ TB/s per Stack) 아키텍처를 도입하여 **스택당 수 테라바이트(TB/s)급 초광폭 메모리 대역폭을 통한 AI 가속기 연산 유닛(Tensor Core)의 데이터 기아(Memory Starvation) 완벽 해결, 기존 GDDR 대비 전송 비트당 에너지 소비(pJ/bit) 획기적 절감, 2.5D 패키징 기반 실리콘 풋프린트 축소**를 달성할 필요
 
 #### 한줄 요약
 
@@ -167,7 +167,7 @@ HBM•GDDR•DDR의 **대역폭•비용•용량 확장성** 비교
 
 </details>
 
-- 대역폭 병목은 **HBM**, 용량 우선은 **DDR**로 메모리 계층 구성
+- 초거대 AI 학습 및 LLM KV 캐시 실시간 추론의 병목을 해소하는 **차세대 고성능 AI 반도체 및 이종 집적 패키징의 절대적 핵심 메모리 표준(High Bandwidth Memory: HBM3E & HBM4 / 3D TSV Stacking & 2.5D CoWoS Packaging / 1024-2048 bit Ultra-wide Channel / Memory Wall Breakthrough / Custom Base Die & Logic Process Integration)의 확고한 표준**으로 확고히 자리 잡았으며, 베이스 다이에 파운드리 로직 공정을 적용하는 HBM4 커스텀 메모리 및 CXL(Compute Express Link) 풀링 메모리와의 계층화로 진화하는 가운데, 실무 AI 하드웨어 시스템 설계 시에는 **메모리 집약적 트랜스포머 어텐션 연산에는 HBM 스택을 GPU 패키지에 최우선 배치하고, 2.5D 패키지 열 밀도 집중 문제를 해결하기 위해 마이크로범프 무결성 검증과 직냉식 수랭 쿨링을 결합하며, 대용량 파라미터 확장은 CXL 메모리 풀로 계층화**를 결합하여 완벽한 메모리 대역폭과 대용량 확장성을 완성
 
 #### 한줄 요약
 

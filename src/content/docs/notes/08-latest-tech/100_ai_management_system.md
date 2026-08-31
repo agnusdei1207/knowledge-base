@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-26T17:12:41+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 100
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: AIMS 수립•운영•개선 요구사항인 **ISO/IEC 42001**
-- 배경/필요성: 개별 모델 점검은 배포 이후 변화마다 검증 체계를 다시 짜는 비용이 들어 **AI 책임•위험** 지속 관리 곤란하므로, 정책•역할•심사•개선 주기를 규정한 경영시스템 계층을 조직 차원에 두어 점검을 반복 가능한 절차로 고정
+- 배경/필요성: 기업 내 AI 도입이 급증하면서 데이터 편향, 설명 가능성 부재, 보안 취약점, 규제 위반 등 복합적 위험이 상존하고 있으나, 기존의 품질(ISO 9001)이나 정보보안(ISO 27001) 경영시스템만으로는 AI 고유의 데이터 의존성, 자율성, 지속적 모델 드리프트(Model Drift) 및 윤리적 리스크를 체계적으로 관리할 수 없는 한계에 직면함에 따라, 국제표준화기구(ISO)와 국제전기기술위원회(IEC)가 제정한 세계 최초의 인공지능 경영시스템 국제 표준인 ISO/IEC 42001(Artificial Intelligence Management System: AIMS / Plan-Do-Check-Act: PDCA / Context, Leadership, Risk Assessment, AI Lifecycle Controls)을 도입하여 **조직 차원의 일관된 AI 정책, 목표, 역할 및 책임(R&R)을 수립하여 전사적 AI 신뢰성 및 책임성 확보, PDCA 순환 구조를 기반으로 AI 수명주기 전반의 위험 식별·처리 및 지속적 개선(Continual Improvement) 실현, 글로벌 표준 인증 획득을 통한 대외 고객 신뢰도 제고 및 EU AI Act 등 글로벌 AI 규제 법률에 대한 선제적 준수 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- 조직 AI 관리체계는 **ISO/IEC 42001**, 위험 지침은 **ISO/IEC 23894** 적용
+- 정보보안의 ISO 27001처럼 AI 시스템을 개발·공급·운영하는 모든 조직이 필수적으로 갖추어야 할 글로벌 인증이자 규제 대응의 공통 잣대로 자리매김한 **인공지능 경영시스템의 글로벌 최고 권위 국제 표준(ISO/IEC 42001 / Artificial Intelligence Management System: AIMS / PDCA Cycle / Risk-based AI Lifecycle Controls: Annex A / Context of Organization & Leadership / Integration with ISO/IEC 23894 & 27001)의 확고한 표준**으로 확고히 자리 잡았으며, 글로벌 AI 공급망의 필수 인증 요건으로 급부상하는 가운데, 실무 ISO/IEC 42001 인증 및 AIMS 운영 시에는 **조직의 비즈니스 맥락과 외부 AI 공급망까지 포괄하는 명확한 AIMS 적용 범위(Scope)를 정의하고, ISO/IEC 23894 기반의 AI 위험 평가 방법론과 부속서 A(Annex A) 통제 항목을 빈틈없이 이행하며, 내부 심사(Internal Audit)와 경영 검토를 통해 운영 증적을 체계적으로 축적하고 부적합 사항을 즉각 시정하는 지속적 개선 프로세스**를 결합하여 완벽한 국제 표준 적합성과 신뢰받는 엔터프라이즈 AI 운영 역량을 완성
 
 #### 한줄 요약
 - **조직 범위•AI 위험 수준** 대상 따라 AIMS 경계•통제 강도 결정

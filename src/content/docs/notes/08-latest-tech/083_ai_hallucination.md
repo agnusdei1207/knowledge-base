@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-26T17:06:10+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 83
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 모델이 사실•근거와 불일치한 내용을 생성하는 **AI 환각**이다.
-- 배경/필요성: 다음 토큰 확률만 따르는 생성은 **사실성·충실성 보장 불가**여서 오류 선별 비용을 매 답변마다 사람이 치르므로, 근거 검색과 출처 대조 계층을 생성 앞뒤에 두어 확률적 추정을 검증 가능한 참조에 묶는 접근이 필요
+- 배경/필요성: 대규모 언어 모델(LLM)은 통계적 확률 분포에 기반하여 다음 토큰(Next-Token)을 예측하도록 훈련되었기 때문에, 훈련 데이터의 오래된 정보, 편향, 지식 공백 또는 프롬프트의 유도성 질문에 직면했을 때 실제 사실과 다르거나 논리적으로 왜곡된 거짓 정보를 그럴듯하게 지어내는 환각(Hallucination: Factuality & Faithfulness Errors) 현상이 발생하여 미션 크리티컬한 금융, 의료, 법률 서비스 도입에 치명적 위험을 초래함에 따라, LLM의 확률적 생성 한계를 극복하고 사실성과 충실성을 강제하는 종합적 AI 환각 제어(AI Hallucination Mitigation / RAG Grounding, RLHF/DPO Alignment, Chain-of-Verification, Guardrails, Claim-Level Fact-Checking) 체계를 도입하여 **검증 가능한 외부 지식(RAG) 주입을 통한 사실 근거(Grounding) 기반 답변 생성 강제, 원자 주장(Atomic Claim) 단위의 사실 검증 및 인용 출처 대조를 통한 허위 정보 원천 차단, 가드레일(Guardrails) 및 불확실성 감지 기반의 안전한 답변 거절(Refusal) 메커니즘 확립**을 달성할 필요
 
 #### 한줄 요약
 - 생성 답변의 **사실•문맥•출처 일치성** 검증 필요
@@ -157,7 +157,7 @@ extra:
 
 </details>
 
-- 사실•문맥•출처 불일치와 위험도로 **환각 대응•출력 통제 수준** 결정
+- 생성형 AI의 안전성과 상용화 가능성을 좌우하는 가장 중대한 기술적 도전 과제이자 **신뢰할 수 있는 인공지능(Trustworthy AI) 구축의 최우선 통제 영역(AI Hallucination Mitigation / Factuality vs Faithfulness / RAG Grounding & Source Attribution / Chain-of-Verification: CoVe / Self-CheckGPT & NeMo Guardrails / Hallucination-Aware Refusal)의 핵심 아키텍처**로 확고히 자리 잡았으며, 다단계 추론 검증으로 진화하는 가운데, 실무 환각 방어 파이프라인 구축 시에는 **검색 증강(RAG)을 통한 신뢰할 수 있는 최신 컨텍스트 주입을 기본으로 하고, 생성 후 실시간 원자 주장(Atomic Claim) 분해 및 인용 일치도(Attribution Mapping) 검증 계층을 결합하며, 모델의 확신도(Confidence Score)가 임계값 미만일 경우 불확실성을 인정하고 안전하게 답변을 거절(I don't know)하는 정책**을 결합하여 완벽한 사실 신뢰성과 규제 준수성을 완성
 
 #### 한줄 요약
 - **오류 유형•업무 위험** 대상 따라 수정•보류•거절 결정

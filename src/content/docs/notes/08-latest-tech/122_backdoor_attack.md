@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "백도어 공격 (Backdoor Attack)"
-date: "2026-08-26T17:14:31+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 122
@@ -25,11 +25,12 @@ extra:
 - **백도어 공격(Backdoor Attack)**: 학습 데이터에 특정 트리거(Trigger)를 삽입하여, 평소에는 정상 동작하다가 해당 트리거 입력 시 공격자 의도대로 오분류를 수행하는 은밀한 공격
 - **조건부 모델 공격(Conditional Model Attack)**: 일반 입력은 정상 처리하나, 특정 조건(트리거)에서만 악성 행동을 활성화하는 기법
 - **인공지능(Artificial Intelligence, AI)**: 데이터를 기반으로 예측·생성·의사결정을 수행하는 지능형 시스템
+- **공격 성공률(Attack Success Rate, ASR)**: 트리거가 주어졌을 때 모델이 공격자가 의도한 목표 레이블이나 비인가 행동으로 유도되는 비율을 의미하는 지표
 
 </details>
 
 - 정의: 특정 트리거에서만 악성 행동을 유도하는 **백도어 공격**
-- 배경/필요성: 정상 표본 정확도만 보는 검수는 트리거가 있을 때만 발동하는 **조건부 악성 행동 식별 불가**해 잠복 기간만큼 피해가 누적되므로, 트리거 탐색과 뉴런 활성 분석 같은 조건부 동작 점검 계층을 배포 전에 별도로 배치
+- 배경/필요성: 서드파티 사전학습 모델(Hugging Face 등)의 다운로드 및 외부 위탁 학습이 일반화된 현대 AI 공급망 환경에서, 공격자가 모델 학습 시 미세한 트리거(특정 픽셀 패치, 특수 단어, 워터마크 등)를 악성 레이블과 결합하여 학습시킬 경우, 평상시 정상 입력에 대해서는 99% 이상의 완벽한 정상 정확도(Clean Accuracy)를 유지하여 일반 성능 검증을 완벽히 우회하다가, 공격자가 의도한 특정 트리거 패턴이 입력되는 순간에만 사전에 정의된 악성 행동(보안 검문 통과, 악성코드 실행, 자율주행 정지 표지판 오인식)을 수행하는 은밀한 백도어 공격(Backdoor/Trojan Attack)의 치명적 위협에 직면함에 따라, 모델 가중치 및 뉴런 활성화 상태를 역공학하여 숨겨진 트리거를 탐색하고 제거하는 백도어 방어(Backdoor Defense / Neural Cleanse, Fine-pruning, Activation Clustering, Trigger Inversion, Model Lineage Audit) 기술을 도입하여 **정상 성능 저하 없는 조건부 악성 행동(Conditional Malicious Behavior)의 사전 탐지 및 무력화, 역최적화(Trigger Inversion)를 통한 잠재적 트리거 크기 및 패턴의 시각적 규명, 모델 프루닝 및 미세 조정을 통한 백도어 뉴런 제거와 완벽한 모델 무결성 보증**을 달성할 필요
 
 #### 한줄 요약
 
@@ -174,7 +175,7 @@ ASR은 트리거 변형별 표적 행동 발생률을 측정하고, 은닉성은
 - **의심 모델 격리(Suspicious Model Isolation)**: 백도어 가능 모델을 운영 환경과 분리하여 변형별 ASR 및 무결성을 재검증하는 조치
 </details>
 
-- 계보 불명 또는 ASR 초과 모델은 **격리•정밀 재검증**
+- 정상 입력에서는 완벽한 정상 동작을 위장하면서 특정 트리거에만 파괴적인 오작동을 유발하는 **AI 공급망 및 파운데이션 모델 보안의 최고 은밀한 위협(Backdoor & Trojan Attack / Clean Accuracy vs Attack Success Rate: ASR / Clean-Label & Hardware Trojan / Neural Cleanse & Trigger Inversion / Fine-Pruning & STRIP / Model Provenance Certification)의 확고한 표준**으로 확고히 자리 잡았으며, 멀티모달 VLM 및 LLM 명령어 백도어로 진화하는 가운데, 실무 모델 인수 및 배포 파이프라인 구축 시에는 **출처가 불분명한 사전학습 모델의 가중치 무결성 및 암호학적 서명을 엄격히 검증하고, 뉴럴 클렌즈(Neural Cleanse) 기반으로 뉴런 활성 이상치와 잠재적 트리거 역공학을 수행하며, 미세 조정(Fine-tuning) 및 뉴런 프루닝을 결합하여 잔여 백도어를 완벽히 정화**를 결합하여 완벽한 모델 안전성과 무결성을 완성
 
 #### 한줄 요약
 

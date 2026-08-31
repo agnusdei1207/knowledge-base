@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 가속기 (AI Accelerator)"
-date: "2026-08-26T17:20:50+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 140
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 텐서 연산•데이터 이동에 특화한 **AI 가속기**이다.
-- 배경/필요성: 범용 CPU는 명령 해석•분기 예측에 면적과 전력을 쓰느라 대량 MAC 대비 **데이터 이동 효율** 부족하므로, 제어 회로를 걷어내고 연산기와 온칩 메모리를 텐서 연산 형태에 맞춰 배치한 전용 계층으로 같은 전력에서 처리량을 확대
+- 배경/필요성: 복잡한 제어 로직, 분기 예측, 대용량 캐시 계층에 다이(Die) 면적의 대부분을 사용하는 전통적 범용 CPU는 딥러닝의 핵심인 대규모 행렬 곱셈 및 텐서 연산(GEMM, Convolution)을 수행할 때 심각한 연산 병목과 막대한 에너지 낭비(폰 노이만 구조의 메모리 병목 현상)를 유발함에 따라, 딥러닝 연산에 불필요한 제어 회로를 대폭 축소하고 수천~수만 개의 곱셈-누산기(MAC)와 대용량 온칩 SRAM을 2차원/3차원 시스톨릭 배열(Systolic Array) 형태로 집적한 AI 가속기(AI Accelerator / GPU: Tensor Core, Google TPU: Matrix Multiply Unit, NPU: On-chip Dataflow & Low-precision INT8/FP8/FP4, FPGA, ASIC, Neuromorphic Chip) 하드웨어 아키텍처를 도입하여 **행렬/텐서 연산의 대규모 병렬 처리를 통한 와트당 성능(TOPS/Watt) 및 면적당 연산량(TOPS/$mm^2$)의 수십~수백 배 혁신, 온칩 데이터 재사용(Weight Stationary / Output Stationary Dataflow)을 통한 외부 DRAM 데이터 이동 전력 획기적 절감, 전용 컴파일러(XLA, TVM, TensorRT)를 통한 연산 융합(Operator Fusion) 및 하드웨어 가속 극대화**를 달성할 필요
 
 #### 한줄 요약
 - 반복 텐서 연산과 데이터 배치에 맞춘 **전용 하드웨어**
@@ -173,7 +173,7 @@ extra:
 
 </details>
 
-- **전력 효율•연산 지원 범위** 기반 GPU•NPU•ASIC•FPGA 선택
+- 무어의 법칙과 데너드 스케일링의 한계를 돌파하여 AI 시대의 기하급수적 연산 수요를 감당하는 **도메인 특화 아키텍처(DSA) 및 반도체 공학의 최고 핵심 패러다임 표준(AI Accelerator / GPU, TPU, NPU, FPGA, ASIC / Systolic Array & Tensor Core / Low-Precision FP8/FP4 Quantization / On-chip Dataflow Optimization / Energy-Efficiency TOPS/Watt & Roofline Model Alignment)의 확고한 표준**으로 확고히 자리 잡았으며, Processing-in-Memory(PIM) 및 뉴로모픽(Neuromorphic) 컴퓨팅으로 진화하는 가운데, 실무 AI 가속기 도입 및 시스템 설계 시에는 **학습 및 유연성이 중요한 데이터센터에는 GPU/TPU를, 전력과 폼팩터가 제한된 엣지/온디바이스 추론에는 저전력 NPU/ASIC을 선택하고, 모델 그래프 컴파일러(XLA/TensorRT)와 루프라인 모델(Roofline Model) 분석을 통한 메모리/연산 병목 최적화**를 결합하여 완벽한 비용 대 성능 및 에너지 효율을 완성
 
 #### 한줄 요약
 - 실제 모델의 **종단 지연•전력•정확도** 기반 가속기 결정

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "보안 집계 (Secure Aggregation)"
-date: "2026-08-26T17:07:53+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 112
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 개별 업데이트를 숨기고 합계만 복구하는 **보안 집계** 프로토콜
-- 배경/필요성: 연합학습 서버가 개별 업데이트를 그대로 보면 **데이터 특성•민감정보 추론**이 가능해 원본을 남겨 둔 이득이 사라지므로, 참가자끼리 상쇄되는 마스크를 씌워 서버가 합계만 복구하도록 집계 단계에 암호 계층을 삽입
+- 배경/필요성: 연합학습(FL)에서 원본 데이터를 서버로 전송하지 않더라도, 개별 클라이언트가 전송하는 로컬 가중치 업데이트(Gradient)를 집계 서버가 평문 상태로 직접 수신할 경우, 딥 릭(Deep Leakage from Gradients: DLG) 등 구배 역추론 공격을 통해 클라이언트의 원본 학습 이미지나 텍스트가 완벽히 복원되는 심각한 프라이버시 침해 위험에 직면함에 따라, 참여 클라이언트 간에 서로 상쇄되는 무작위 마스크(Pairwise Random Mask)를 추가하여 전송하고 샤미르 비밀 분산(Shamir's Secret Sharing) 기반으로 이탈자(Dropout) 마스크만 선별 제거하는 보안 집계(Secure Aggregation: SecAgg / Bonawitz Protocol / Pairwise Masking, $(t, n)$ Threshold Secret Sharing, Zero-Sum Cancellation) 암호 프로토콜을 도입하여 **중앙 집계 서버를 포함한 어떤 주체도 개별 클라이언트의 로컬 가중치를 절대 열람할 수 없는 완벽한 업데이트 기밀성 보장, 네트워크 불안정으로 인한 대규모 클라이언트 이탈 발생 시에도 정상적인 전체 합산(Sum of Updates) 가용성 유지, 원본 데이터 비이동 원칙의 실질적 암호학적 안전성 완성**을 달성할 필요
 
 #### 한줄 요약
 - 상쇄되는 마스크로 개별값을 숨기고 **전체 합계** 한정 복구
@@ -66,8 +66,8 @@ extra:
               [키•비밀 분산기]   [업데이트 마스커]
                        \             /
                          [집계 서버]
-                              |
-                        [이탈 복구기]
+                               |
+                         [이탈 복구기]
 ```
 
 선의 의미: 참여자 집합은 키•비밀 분산기와 업데이트 마스커를 개별값 보호 경계로 사용하고, 집계 서버는 마스킹된 합계만 보유하며 이탈 복구기는 생존 임계값 안에서 잔여 마스크를 관리한다.
@@ -164,7 +164,7 @@ extra:
 
 </details>
 
-- 이탈률•공모 위험이 높으면 **복구 임계값•강건 집계** 병행
+- 연합학습 환경에서 기울기 역추론 공격(Gradient Inversion Attack)을 원천 차단하고 중앙 서버의 악의적 프라이버시 침해를 무력화하는 **연합학습 보안 통신의 최고 핵심 암호학적 방어 프로토콜(Secure Aggregation / SecAgg / Pairwise Mask Cancellation / Shamir $(t, n)$ Secret Sharing / Dropout-Resilient Protocol / Zero-Knowledge Range Proofs / Privacy-Preserving FL Cornerstone)의 확고한 표준**으로 확고히 자리 잡았으며, 대규모 크로스 디바이스 연합학습의 기본 통신 계층으로 정착한 가운데, 실무 SecAgg 아키텍처 구현 시에는 **통신 및 연산 복잡도($O(N^2)$)를 최적화하는 SecAgg+ 또는 그래프 기반 마스킹 토폴로지를 적용하고, 악의적 참여자의 모델 중독 공격(Model Poisoning)에 대비한 영지식 범위 증명(ZK-Range Proof) 및 강건 집계(Robust Aggregation)를 병행하며, 클라이언트 이탈 임계값($t$)을 정밀 튜닝**을 결합하여 완벽한 업데이트 기밀성과 대규모 확장성을 완성
 
 #### 한줄 요약
 - **생존자•공모 범위**에 맞춰 비밀 조각 수•검증 방식 결정

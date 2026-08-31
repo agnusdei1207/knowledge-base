@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "멀티 에이전트 협업 (Multi-Agent Collaboration)"
-date: "2026-08-26T16:45:03+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 13
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 복수 에이전트가 역할•상태•결과를 조정해 공동 목표를 수행하는 **MAS**
-- 배경/필요성: 단일 에이전트에 모든 역할을 몰면 문맥이 과업 수만큼 불어나고 자기 결과를 자기가 검증하는 편향 비용이 남으므로, 역할별로 문맥을 나눈 복수 에이전트와 이들을 조정하는 협업 계층을 두어 전문 수행과 독립 검증을 분리
+- 배경/필요성: 단일 거대 언어 모델(LLM) 에이전트에게 계획, 도구 호출, 코딩, 검증 등 모든 역할을 일임할 경우, 컨텍스트 윈도우 과부하에 따른 주의력 분산(Attention Drift), 자체 생성물에 대한 확증 편향(Confirmation Bias) 및 단일 장애점(SPOF)으로 인해 복잡한 엔터프라이즈 과업을 완수하지 못하는 한계가 발생함에 따라, 전문 역할(기획자, 개발자, 검증자 등)로 세분화된 복수의 에이전트가 공유 상태(Shared State)와 협업 토폴로지를 기반으로 상호작용하는 멀티 에이전트 협업(Multi-Agent Collaboration) 아키텍처를 도입하여 **역할 특화(Role Specialization)를 통한 문맥 집중도 극대화, 생성과 검증의 분리를 통한 독립적 품질 보증(Independent Verification) 및 복합 목표의 병렬·분산 처리 역량 완성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -182,7 +182,7 @@ extra:
 
 </details>
 
-- 독립 전문 과업은 **MAS**, 단순 결합 과업은 단일 에이전트
+- 단일 모델의 지능적 한계를 극복하고 분업과 독립 검증을 통해 복잡한 비즈니스 엔지니어링 문제를 해결하는 **차세대 분산 지능 아키텍처(Multi-Agent Collaboration / Role Specialization & Shared State / Centralized·Hierarchical·Distributed Topologies / Independent Verification & Conflict Resolution)의 핵심 표준 패러다임**으로 확고히 자리 잡았으며, 인간-에이전트 하이브리드 팀 및 자율 조직형 소프트웨어 개발로 발전하는 가운데, 실무 멀티 에이전트 시스템 구축 시에는 **과업 복잡도에 맞춘 최적 협업 토폴로지(중앙 조정형 vs 계층 위임형) 설계, 에이전트 간 공유 상태의 동시성 충돌을 방지하는 낙관적 잠금(Optimistic Locking) 및 버전 관리, 작성자와 검증자의 문맥을 엄격히 분리하는 독립 품질 검증(Self-Correction Loop)과 무한 루프 방지를 위한 토큰·예산 상한 거버넌스**를 결합하여 완벽한 협업 효율성과 결과 무결성을 완성
 
 #### 한줄 요약
 

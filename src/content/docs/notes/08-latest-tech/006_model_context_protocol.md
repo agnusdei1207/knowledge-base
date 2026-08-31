@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "모델 컨텍스트 프로토콜 (Model Context Protocol, MCP)"
-date: "2026-08-26T16:49:52+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 6
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 개념: AI 호스트와 서버가 기능을 교환하는 **JSON-RPC 프로토콜**
-- 배경/필요성: 호스트와 도구를 맞춤 연동하면 기능 발견·메시지 처리 코드를 호스트×서버 조합 수만큼 중복 지불하므로, 양측 사이에 JSON-RPC 규격 하나를 공통 계약 계층으로 두어 연동 비용을 M×N에서 M+N으로 축소
+- 배경/필요성: 다양한 AI 애플리케이션(Claude Desktop, IDE, 챗봇 등)과 외부 데이터 소스 및 도구(DB, GitHub, 로컬 파일 등) 간의 연동이 파편화된 개별 API로 구현됨에 따라, 클라이언트와 서버의 추가마다 연동 복잡도가 $M \times N$으로 기하급수적으로 폭증하고 유지보수가 불가능해지는 생태계 고립 문제가 발생함에 따라, 앤트로픽(Anthropic)이 주도하여 AI 모델과 외부 시스템 간의 표준 개방형 연결 규격인 모델 컨텍스트 프로토콜(MCP: Model Context Protocol)을 정립하여 **JSON-RPC 2.0 기반의 도구(Tools)·리소스(Resources)·프롬프트(Prompts) 표준 인터페이스 확립, $M+N$ 복잡도의 개방형 AI 확장 생태계 구축 및 로컬(stdio)·원격(SSE/Streamable HTTP) 전송 계층 통일**을 달성할 필요
 
 #### 한줄 요약
 - **MCP**는 조합별 최적화 여지를 포기하는 대신 호스트와 서버가 서로를 모른 채 붙게 하여, 연동 비용을 조합 수가 아니라 참여자 수에 비례시킨다.
@@ -166,7 +166,7 @@ MCP 클라이언트
 
 </details>
 
-- 기능 발견•컨텍스트 교환은 **MCP**, 고정 계약은 **OpenAPI** 선택
+- AI 애플리케이션과 외부 데이터·도구를 레고 블록처럼 유연하고 안전하게 연결하여 개방형 AI 에이전트 생태계를 완성하는 **개방형 연결 프로토콜 표준(Model Context Protocol: MCP / Host-Client-Server Architecture / Tools·Resources·Prompts / JSON-RPC 2.0 & stdio/SSE)의 사실상 표준(De Facto Standard)**으로 확고히 자리 잡았으며, 엔터프라이즈 AI 허브 및 원격 멀티 에이전트 상호운용성으로 영역을 확장하는 가운데, 실무 MCP 기반 AI 시스템 설계 시에는 **서버의 능력을 동적으로 탐색하는 tools/list 및 resources/list 기반 기능 디스커버리 구현, 데이터 읽기(Resource)와 상태 변경(Tool) 간의 엄격한 역할 분리 및 최소 권한(Least Privilege) 원칙 적용, 로컬 프로세스(stdio)와 원격 보안 통신(Streamable HTTP/TLS & OAuth 2.0) 환경에 맞춘 최적 전송 계층 구성**을 결합하여 완벽한 상호운용성과 확장성을 완성
 
 #### 한줄 요약
 - **기능 발견 필요성•계약 고정성** 대상 따라 프로토콜 결정

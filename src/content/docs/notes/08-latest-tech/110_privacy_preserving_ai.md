@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "프라이버시 보존 AI (Privacy-Preserving AI)"
-date: "2026-08-26T17:13:47+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 110
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 데이터•중간값•출력 노출을 줄이는 **프라이버시 보존 AI**이다.
-- 배경/필요성: 원본을 한곳에 모아 학습하는 구조는 수집•학습•추론 각 단계에서 **개인정보 노출•재식별 위험** 유발해 사고 시 회복 비용이 데이터 전체에 미치므로, 분산 학습•잡음 추가•암호 연산을 단계별로 끼워 넣어 원본 접근 자체를 없애는 보호 계층을 구성
+- 배경/필요성: 중앙 집중식 머신러닝 파이프라인은 민감한 사용자 개인정보(의료 기록, 금융 거래, 대화 로그)를 단일 서버로 수집하여 학습하므로, 데이터 전송 및 저장 과정에서의 대규모 유출 위험, 모델 파라미터 역추론(Model Inversion Attack) 및 멤버십 추론 공격(Membership Inference Attack)을 통한 원본 데이터 재식별 위험에 노출되어 개인정보 보호법(GDPR, PIPA)을 준수하면서 고품질 AI를 개발하기 어려운 구조적 한계에 직면함에 따라, 원본 데이터를 로컬에 유지하는 연합학습(Federated Learning), 모델 출력에 수학적 노이즈를 주입하는 차등 프라이버시(Differential Privacy: DP-SGD), 암호화된 상태에서 직접 연산하는 동형암호(Homomorphic Encryption) 및 보안 다자간 계산(SMPC)을 유기적으로 융합한 프라이버시 보존 AI(Privacy-Preserving AI: PPAI / Privacy-Enhancing Technologies: PETs / Threat Modeling & Defense-in-Depth) 아키텍처를 도입하여 **데이터 수집, 모델 학습, 추론 서비스 전 수명주기에서 개인정보 원본 노출을 원천 차단하는 다층 방어 체계 구축, 수학적으로 증명 가능한 프라이버시 예산($\epsilon, \delta$) 기반의 정보 유출 상한 통제, 데이터 프라이버시 보호와 머신러닝 모델 효용성(Utility/Accuracy) 간의 최적 균형 달성**을 달성할 필요
 
 #### 한줄 요약
 - **원본•업데이트•출력** 단계별 노출 경계 보호
@@ -62,12 +62,12 @@ extra:
 
 ```text
                          [위협 모델]
-                              |
-                         [신뢰 경계]
-                        /           \
-                [분산 학습 계층]  [노이즈•암호 계층]
-                        \           /
-                      [공격•효용 평가기]
+                               |
+                          [신뢰 경계]
+                         /           \
+                 [분산 학습 계층]  [노이즈•암호 계층]
+                         \           /
+                       [공격•효용 평가기]
 ```
 
 | 구성요소 | 책임 |
@@ -161,8 +161,7 @@ extra:
 
 </details>
 
-- 원본 비이동은 **연합학습**, 개인 기여 은닉은 **차등 프라이버시** 선택
-- 업데이트 기밀성은 **보안 집계**, 암호 연산은 **동형암호** 적용
+- 데이터 사일로(Data Silo)와 엄격한 글로벌 개인정보 규제 환경 속에서 민감 데이터의 가치를 안전하게 활용할 수 있게 하는 **차세대 신뢰성 AI 및 프라이버시 강화 기술의 최고 핵심 아키텍처(Privacy-Preserving AI / Privacy-Enhancing Technologies: PETs / Federated Learning with Secure Aggregation / $(\epsilon, \delta)$-Differential Privacy & DP-SGD / Fully Homomorphic Encryption: FHE & SMPC / Privacy-Utility Trade-off)의 확고한 표준**으로 확고히 자리 잡았으며, 거대 언어 모델의 기밀 추론(Confidential Computing)으로 급속히 진화하는 가운데, 실무 PPAI 플랫폼 구축 시에는 **위협 모델(정직하지만 호기심 있는 서버 vs 악의적 참여자)에 맞추어 연합학습에 보안 집계(SecAgg)와 DP-SGD를 결합한 복합 다층 방어를 구축하고, 프라이버시 예산 소진을 방어하는 Renyi DP 기반의 엄밀한 예산 회계(Privacy Accountant) 적용, 동형암호의 연산 오버헤드를 완화하는 전용 가속 하드웨어 연계**를 결합하여 완벽한 데이터 기밀성과 고성능 AI 서비스의 상용화를 완성
 
 #### 한줄 요약
 - **관측 범위•보호 예산•효용 손실**에 따라 보호 기술 조합 결정

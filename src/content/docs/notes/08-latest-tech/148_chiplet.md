@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "칩렛 (Chiplet)"
-date: "2026-08-26T17:20:28+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 148
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 거대 칩을 기능별 다이로 나눠 패키지로 결합하는 **칩렛**
-- 배경/필요성: 대형 단일 다이는 면적이 커질수록 결함 확률이 올라 **수율•공정 선택•재사용**에 제약이 생기고 폐기 비용이 다이 전체가 되므로, 기능별로 작은 다이를 따로 제조해 패키지 안 고속 링크로 잇는 조립 계층으로 분해
+- 배경/필요성: 최신 AI 가속기와 고성능 CPU/GPU의 집적도 요구가 레티클 한계(Reticle Limit, ~858$mm^2$)에 도달함에 따라, 단일 거대 실리콘 다이(Monolithic Die)로 제작할 경우 웨이퍼 결함으로 인해 제조 수율(Yield)이 지수적으로 급락하고, 최첨단 미세공정(3nm/2nm)의 천문학적인 마스크 비용(NRE)을 아날로그 I/O나 메모리 컨트롤러 같은 비스케일링 영역까지 일괄 적용해야 하는 치명적인 비용 한계에 직면함에 따라, 거대 칩을 기능별(연산 코어, SRAM, I/O, 메모리 인터페이스) 소형 단위 칩(Chiplet)으로 분할 제조한 뒤 2.5D/3D 첨단 패키징으로 통합하는 칩렛(Chiplet / UCIe Standard, 2.5D Silicon Interposer: TSMC CoWoS, Intel EMIB, 3D Direct Stacking: SoIC, Die-to-Die Interconnect, Known Good Die: KGD) 공학 기술을 도입하여 **소형 다이 분할을 통한 제조 수율의 획기적 향상 및 실리콘 단가 대폭 절감, 연산 코어는 최선단(2nm/3nm) 공정으로, I/O 및 아날로그 블록은 성숙(6nm/14nm) 공정으로 이종 결합(Heterogeneous Integration)하는 비용 최적화, 사전 검증된 칩렛 모듈(KGD)의 레고 블록식 재사용을 통한 칩 개발 기간(TTM) 단축**을 달성할 필요
 
 #### 한줄 요약
 
@@ -175,7 +175,7 @@ extra:
 
 </details>
 
-- 공정 혼합•재사용은 **칩렛**, 면적•지연은 **모놀리식 SoC** 선택
+- 무어의 법칙 둔화를 물리적으로 돌파하여 'More than Moore' 시대를 견인하는 **차세대 고성능 반도체 설계 및 첨단 패키징(Advanced Packaging)의 최고 핵심 제조 표준(Chiplet / UCIe Open Standard / 2.5D CoWoS & EMIB / 3D Hybrid Bonding & TSMC SoIC / Heterogeneous Integration / Known Good Die & Advanced Testing)의 확고한 표준**으로 확고히 자리 잡았으며, 주요 팹리스(NVIDIA, AMD, Apple, Intel)의 플래그십 아키텍처로 전면 채택된 가운데, 실무 칩렛 반도체 아키텍처 설계 시에는 **표준 개방형 인터페이스(UCIe)를 채택하여 다이 간 상호운용성을 확보하고, 패키징 전 철저한 KGD 선별 시험으로 복합 결함을 차단하며, 열 팽창 계수(CTE) 불일치와 고밀도 핫스폿을 해소하기 위한 3D 열-응력 공동 시뮬레이션(Thermal-Mechanical Co-design)**을 결합하여 완벽한 반도체 경제성과 초고성능 시스템 집적을 완성
 
 #### 한줄 요약
 

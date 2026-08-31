@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 레지스트리 (Model Registry)"
-date: "2026-08-26T17:15:54+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 133
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 불변 버전•계보•평가•배포 상태의 **모델 레지스트리**이다.
-- 배경/필요성: 모델을 파일로만 보관하면 **학습 출처•평가 증적•롤백 근거** 추적 비용을 장애 때마다 사람이 치르므로, 버전•계보•승인 상태를 함께 기록하는 등록 계층을 학습과 배포 사이에 두어 승인된 버전만 나가도록 통제
+- 배경/필요성: 머신러닝 실험이 고도화됨에 따라 수백 개의 모델 가중치 파일(Checkpoint)과 바이너리 아티팩트가 생성되지만, 단순 파일 시스템이나 오브젝트 스토리지에 분산 저장될 경우 어떤 코드, 데이터셋, 하이퍼파라미터로 생성되었는지 계보(Lineage) 추적이 불가능하고, 품질 검증이나 규제 승인을 거치지 않은 미검증 모델이 운영 환경에 배포되거나 장애 시 신속한 롤백이 불가능한 거버넌스 위험에 직면함에 따라, 학습된 모델의 버전, 메타데이터, 평가 지표 및 배포 라이프사이클을 중앙에서 불변(Immutable) 상태로 관리하는 모델 레지스트리(Model Registry / MLflow Model Registry, Kubeflow Model Registry, Weights & Biases / Model Lineage, Stage & Alias Transition, Approval Gate, Model Card, SBOM Binding) 체계를 도입하여 **모델 산출물의 불변 암호학적 해시(Immutable Hash) 기반 버전 관리 및 학습 데이터/코드 완벽 계보 추적, 단계별 배포 게이트(Staging $\rightarrow$ Production) 및 원자적 별칭(Atomic Alias) 전환을 통한 무중단 카나리 배포와 1초 롤백 보장, 규제 기관 제출을 위한 모델 카드(Model Card) 및 감사 증적(Audit Trail) 자동화**를 달성할 필요
 
 #### 한줄 요약
 
@@ -64,12 +64,12 @@ extra:
 
 ```text
                          [모델 이름]
-                              |
-                         [불변 버전]
-                        /           \
-                   [계보 정보]    [상태•별칭]
-                                      |
-                                  [승인 정책]
+                               |
+                          [불변 버전]
+                         /           \
+                    [계보 정보]    [상태•별칭]
+                                       |
+                                   [승인 정책]
 ```
 | 구성요소 | 책임 |
 |:---|:---|
@@ -166,7 +166,8 @@ extra:
 - **롤백**: 운영 이상 시 배포 별칭을 이전에 승인된 모델 버전으로 되돌리는 조치이다.
 
 </details>
-- **승인 증적** 충족한 불변 버전만 승격하고 이상 시 롤백
+
+- 머신러닝 실험 단계와 프로덕션 서빙 단계를 안전하고 투명하게 연결하는 **MLOps 거버넌스 및 신뢰할 수 있는 AI 배포의 최고 핵심 중앙 통제 허브(Model Registry / MLflow & Kubeflow Model Registry / Immutable Artifact & Hash Verification / Model Lifecycle & Alias Routing / Production Approval Gate & Instant Rollback / Compliance Audit Trail)의 확고한 표준**으로 확고히 자리 잡았으며, 거대 언어 모델(LLM) 가중치 및 LoRA 어댑터 레지스트리로 확장된 가운데, 실무 모델 레지스트리 운영 시에는 **모든 모델 아티팩트에 학습 데이터/코드 Git 커밋 해시와 평가 벤치마크 지표를 필수로 바인딩하고, 프로덕션 승격 시에는 자동화된 가드레일/보안 검증 통과를 강제하며, 논리적 배포 별칭(e.g., @champion, @challenger)을 통한 무중단 롤아웃 및 즉각 롤백 체계**를 결합하여 완벽한 모델 수명주기 무결성과 무결점 배포를 완성
 
 #### 한줄 요약
 

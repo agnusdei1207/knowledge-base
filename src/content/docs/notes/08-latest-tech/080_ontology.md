@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "온톨로지 (Ontology)"
-date: "2026-08-26T17:06:21+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 80
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 도메인의 개념•관계•제약•공리를 명시한 **온톨로지**
-- 배경/필요성: 연결 대상이 늘수록 **용어•관계 해석 차이**를 메우는 쌍별 매핑 비용이 조합 수만큼 커지므로, 개별 스키마 위에 공유 개념 모델 계층을 두어 각 시스템이 그 하나에만 대응하도록 통합 비용을 축소
+- 배경/필요성: 이기종 시스템 간 데이터 연계 및 지식 통합 시 각 도메인과 조직마다 사용하는 어휘, 용어의 의미, 개념의 계층 구조 및 비즈니스 규칙이 상이하여 발생하는 시맨틱 상호운용성(Semantic Interoperability) 부재와, 시스템 수가 증가할 때마다 1:1 매핑 비용이 기하급수적으로 폭증($O(N^2)$)하는 한계에 봉착함에 따라, 특정 도메인 내의 개념(Class), 개념 간의 관계(Property), 속성 제약 및 공리(Axioms)를 정형화된 논리 체계로 명시적으로 정의하는 온톨로지(Ontology: OWL, RDF/RDFS, Description Logic, Reasoner, Protégé) 엔지니어링 방법론을 도입하여 **도메인 지식의 명확한 공유 개념 모델(Shared Conceptualization) 확립을 통한 이기종 시스템 간 완벽한 의미적 상호운용성 보장, 형식 논리(Formal Logic) 및 추론 엔진(Reasoner) 기반의 암묵 지식 자율 도출과 논리적 모순/일관성 검증 실현, 지식그래프(KG) 및 AI 에이전트의 정밀한 의미 해석을 위한 공식 스키마 표준 제공**을 달성할 필요
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 용어 계층만 필요하면 **분류체계**, 의미 제약•추론은 **온톨로지** 선택
+- 도메인 지식의 의미 구조를 컴퓨터가 처리 가능한 정형 논리로 명세하여 시맨틱 웹, 지식그래프 및 지능형 에이전트의 두뇌 역할을 담당하는 **지식 공학(Knowledge Engineering)의 최고 핵심 형식화 표준(Ontology / Web Ontology Language: OWL & RDFS / Description Logics & Axioms / Semantic Reasoners: Pellet & HermiT / SHACL Constraint Validation / Enterprise Knowledge Model)의 근간 방법론**으로 확고히 자리 잡았으며, LLM 시맨틱 검증 계층으로 확장되는 가운데, 실무 온톨로지 설계 및 운영 시에는 **도메인 전문가와 협업하여 개념 계층과 공리 복잡도를 최적화(추론 결정 가능성을 보장하는 OWL 2 DL/RL 프로파일 채택)하고, 지식 데이터의 의미적 무결성을 강제하는 SHACL 규칙 검증 결합, 비즈니스 환경 변화에 유연하게 대응하는 온톨로지 버전 관리 및 하위 호환성(Backward Compatibility) 체계 확립**을 결합하여 완벽한 시맨틱 상호운용성과 무결한 지식 추론을 완성
 
 #### 한줄 요약
 

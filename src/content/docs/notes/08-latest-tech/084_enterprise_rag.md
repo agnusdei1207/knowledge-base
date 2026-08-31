@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "기업 RAG (Enterprise RAG)"
-date: "2026-08-26T17:07:03+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 84
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 사내 지식의 버전•권한•계보를 통합한 **기업 RAG**이다.
-- 배경/필요성: 단일 색인만 두는 일반 RAG은 다중 원천의 **최신성·권한·감사 관리 곤란**을 원천마다 개별 조치로 메우는 비용이 원천 수만큼 늘므로, 수집•색인•검색 전 구간에 버전•권한•근거 계보를 함께 나르는 운영 계층을 덧대어 일괄 통제
+- 배경/필요성: 단순 프로토타입 수준의 RAG 아키텍처를 사내 다양한 이기종 데이터 소스(Confluence, Jira, ERP, 사내 드라이브, DB)가 혼재된 엔터프라이즈 환경에 그대로 도입할 경우, 실시간 데이터 변경에 따른 최신성(Freshness) 유지 실패, 사용자별 접근 권한(ACL) 무단 노출로 인한 보안 위협, 데이터 계보(Lineage) 및 감사 로그 부재에 따른 컴플라이언스 위반 등의 복합적 위기에 직면함에 따라, 대규모 사내 지식의 수집, 권한 인지 색인, 실시간 변경 동기화, 엔터프라이즈 보안 및 MLOps 관측성을 통합 제공하는 기업형 RAG(Enterprise RAG / Multi-Source Connectors, Permission-aware Indexing, Change Data Capture: CDC, Data Lineage & Audit, Enterprise Guardrails) 아키텍처를 도입하여 **수십 종의 사내 지식 원천과의 무중단 CDC 실시간 동기화를 통한 지식 최신성 완벽 보장, 부서 및 직급별 세분화된 접근 제어(RBAC/ABAC) 기반의 철저한 정보 격리 및 기밀 유출 차단, 모든 질의-생성-참조 경로에 대한 완전한 감사 추적성(Auditability) 및 엔터프라이즈 거버넌스 확립**을 달성할 필요
 
 #### 한줄 요약
 - 전 과정에서 **최신 버전·열람 권한·근거 계보** 유지
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- **지식 최신성•권한 일치•데이터 계보** 기반 동기화•검색•감사 경계 결정
+- 단순 검색-생성 데모를 넘어 사내 전사적 지식 자산을 안전하고 지능적으로 활용하는 **엔터프라이즈 AI 전환(Enterprise AI Transformation)의 최고 핵심 플랫폼 아키텍처(Enterprise RAG / Multi-Source CDC Connectors / RBAC & ABAC Permission Filtering / End-to-End Data Lineage / Audit Logging & Compliance / Hybrid Cloud & Air-gapped Deployment)의 확고한 표준**으로 확고히 자리 잡았으며, 지능형 전사 에이전트(Enterprise Agentic RAG)로 진화하는 가운데, 실무 Enterprise RAG 플랫폼 구축 시에는 **다양한 사내 저장소와의 실시간 증분 동기화(Incremental Sync) 및 권한 변경 즉시 반영(Permission Propagation) 파이프라인을 구축하고, 답변 생성 시 원본 문서의 정확한 섹션과 페이지를 하이퍼링크로 인용하는 데이터 계보 체계 확립, 사내 보안 규정에 맞춘 온프레미스/프라이빗 클라우드(Air-gapped) 격리 배포 지원**을 결합하여 완벽한 기업 보안성과 전사 업무 생산성 혁신을 완성
 
 #### 한줄 요약
 - **최신성•권한•계보 책임** 대상 따라 운영 경계 결정

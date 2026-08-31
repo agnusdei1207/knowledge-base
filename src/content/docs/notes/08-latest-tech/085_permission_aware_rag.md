@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "권한 인지 RAG (Permission-Aware RAG)"
-date: "2026-08-26T17:08:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 85
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 사용자 권한을 색인•검색•문맥•캐시에 적용하는 **권한 인지 RAG**이다.
-- 배경/필요성: 색인 시 원천 ACL을 버리면 **민감정보 노출 가능**을 답변 뒤 필터로 막는 비용이 매 질의마다 재발생하므로, 청크에 권한 메타데이터를 함께 저장해 검색 공간 자체를 사용자별로 좁히는 계층의 필요
+- 배경/필요성: 사내 지식 관리 시스템에는 대외비, 인사/연봉 정보, 연구개발 기밀 등 엄격한 사용자별 접근 제어(ACL)가 적용되어 있으나, 이를 RAG 벡터 데이터베이스에 무차별 인덱싱하고 권한 검증 없이 유사도 검색을 수행할 경우 권한이 없는 일반 사용자에게 최고 등급의 기밀 문서가 요약·생성되어 노출되는 심각한 데이터 유출(Data Leakage) 사고가 발생함에 따라, 사용자의 인증 신원(IAM)과 실시간 유효 권한을 검색 파이프라인의 색인, 쿼리, 캐시 및 생성 전 단계에 엄격히 반영하는 권한 인지 RAG(Permission-Aware RAG / ACL-based Metadata Pre-filtering, Post-filtering Double-Check, Permission-Isolated Cache, Dynamic RBAC/ABAC) 아키텍처를 도입하여 **벡터 검색 전 단계에서 사용자가 접근 가능한 문서 청크로만 탐색 공간을 한정하는 사전 필터링(Pre-filtering) 기반의 완벽한 정보 유출 차단, 원천 시스템의 권한 변경 즉시 색인 및 캐시에 동기화하는 실시간 권한 일관성 확보, 멀티테넌트 및 사용자별 캐시 오염(Cache Poisoning) 방지를 위한 권한 격리 캐싱 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 - **사용자 권한** 기반 검색 공간과 답변 근거 제한
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **ACL 최신성•사전 차단•정책 결정성** 기반 색인•검색•캐시 경계 결정
+- 엔터프라이즈 환경에서 생성형 AI와 RAG 시스템을 프로덕션에 도입하기 위한 가장 필수적인 보안 관문이자 **사내 정보 거버넌스 및 제로 트러스트(Zero Trust) 보안 아키텍처(Permission-Aware RAG / IAM Integration & Dynamic ACL / Metadata Pre-Filtering / Permission Validation at Retrieval & Generation / Permission-Aware Caching / RBAC & ABAC Policy Enforcement)의 절대적 핵심 기술**로 확고히 자리 잡았으며, 정밀한 속성 기반 접근 제어(ABAC)로 고도화되는 가운데, 실무 Permission-Aware RAG 구축 시에는 **사후 필터링 시 발생할 수 있는 로그/캐시 선노출 및 회수율 부족 문제를 원천 차단하기 위해 벡터 DB 메타데이터 기반의 '사전 필터링(Pre-filtering)'을 기본 채택하고, 생성 직전 최신 ACL을 재검증하는 이중 방어선 구축, 원천 ACL 변경 시 캐시를 즉시 무효화하는 권한 격리 캐시(Permission-Isolated Cache) 정책**을 결합하여 완벽한 기밀 유출 방어와 강력한 엔터프라이즈 규정 준수를 완성
 
 #### 한줄 요약
 - **원천•색인•검색•캐시•답변** 대상 동일 권한 정책 적용

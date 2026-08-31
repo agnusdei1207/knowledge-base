@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "GPU 클러스터 (GPU Cluster)"
-date: "2026-08-26T17:20:09+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 139
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 여러 GPU 서버를 고속망•저장소로 연결한 **GPU 클러스터**이다.
-- 배경/필요성: 단일 서버는 대형 모델의 **장치 메모리•학습 처리량 충족 불가**여서 모델을 쪼개야 하고 그 대가로 노드 간 통신 비용이 새로 생기므로, GPU를 고속 링크로 묶은 계층을 두고 병렬화 방식을 통신량 기준으로 선택해 분할 비용을 최소화
+- 배경/필요성: 대규모 언어 모델(LLM)과 비전 트랜스포머의 매개변수가 수백 기가바이트(GB)에서 수 테라바이트(TB)로 폭증함에 따라 단일 GPU의 VRAM(80GB~144GB) 용량 및 연산 한계를 초과하여 분산 병렬화가 필연적이지만, 수백~수천 대의 GPU 노드를 연결할 때 노드 간 통신 지연(Communication Overhead), 비효율적인 분산 스케줄링으로 인한 GPU 연산 유휴(Straggler Problem), 단일 노드 고장 시 전체 분산 학습이 중단되는 잦은 실패율(MTBF 저하)에 직면함에 따라, 수천 대의 GPU를 고속 인터커넥트 패브릭과 공유 스토리지로 묶고 3D 병렬화(3D Parallelism) 및 장애 복구 메커니즘을 결합한 GPU 클러스터(GPU Cluster / Multi-node GPU Networking: NVLink, NVSwitch, InfiniBand/RoCEv2, 3D Parallelism: DP, TP, PP & ZeRO, Gang Scheduling: Slurm/Kubernetes Volcano, Asynchronous Checkpointing) 아키텍처를 도입하여 **노드 내 초고속 NVLink와 노드 간 RoCEv2/InfiniBand를 결합한 계층적 통신 패브릭 구축, 텐서/파이프라인/데이터 병렬화(3D Parallelism)의 수학적 연산-통신 오버랩을 통한 GPU 연산 활용률(MFU) 극대화, 갱 스케줄링(Gang Scheduling) 및 비동기 체크포인팅(Async Checkpointing)을 통한 장애 시 수분 내 무손실 학습 재개**를 달성할 필요
 
 #### 한줄 요약
 - 대형 모델을 분할하고 **노드 간 통신 비용**까지 설계
@@ -155,7 +155,7 @@ extra:
 
 </details>
 
-- 모델 분할•통신•복구 비용으로 **병렬 전략•확장 규모** 결정
+- 초거대 AI 모델의 학습과 초저지연 분산 서빙을 지탱하는 **현대 AI 데이터센터 및 하이퍼스케일러의 핵심 연산 엔진 인프라 표준(GPU Cluster / Hierarchical Fabric: NVLink & InfiniBand / 3D Parallelism & DeepSpeed ZeRO-3 / Slurm & K8s Gang Scheduling / Asynchronous Checkpoint & Fault-Tolerant Training)의 확고한 표준**으로 확고히 자리 잡았으며, 멀티 테넌트 가상화(MIG, vGPU) 및 컨테이너 오케스트레이션과 융합되는 가운데, 실무 GPU 클러스터 구축 및 운영 시에는 **모델 아키텍처에 맞추어 연산/통신 비율을 최적화한 3D 병렬화 전략을 수립하고, 네트워크 토폴로지 인지 스케줄링(Topology-aware Scheduling)으로 노드 간 홉 수를 최소화하며, 고속 로컬 NVMe 기반 비동기 체크포인팅과 헬스체크 자동 격리**를 결합하여 완벽한 GPU 처리량과 무중단 학습 안정성을 완성
 
 #### 한줄 요약
 - 병렬 이득이 **통신•복구 비용**보다 큰 범위까지만 확장

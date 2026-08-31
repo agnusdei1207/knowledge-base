@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "LLM10 Unbounded Consumption (LLM10 Unbounded Consumption)"
-date: "2026-08-26T17:17:44+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 126
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 무제한 모델•도구 사용으로 자원을 소진하는 **LLM10 위험**
-- 배경/필요성: 요청 수만 세는 기존 속도 제한은 요청 하나가 지닌 **토큰•시간•도구 비용 편차** 포착 불가해 과금과 가용성이 함께 무너지므로, 입출력 토큰•추론 시간•도구 호출에 상한과 예산을 거는 계층을 두어 소비를 측정 가능한 단위로 환산
+- 배경/필요성: 생성형 AI 및 LLM 애플리케이션은 사용자의 프롬프트 설계나 에이전트 자율성에 따라 단일 API 요청이 수만 토큰의 컨텍스트 처리, 수백 초의 GPU 연산 시간, 반복적인 유료 서드파티 도구 호출(ReAct 루프)로 이어질 수 있어, 기존의 단순 HTTP 요청 건수 기반 Rate Limiting(RPM) 방식만으로는 단 몇 개의 고비용 요청만으로도 기업의 클라우드 API 사용료가 수백 배 폭증(Denial of Wallet)하거나 GPU 인프라 전체의 가용성이 마비되는 치명적 한계에 직면함에 따라, 다차원 자원 계량, 사전 예산 예약, 동적 한도 강제 및 자동 회로 차단기를 결합한 LLM10 무제한 소비 방어(LLM10: Unbounded Consumption Defense / Multi-dimensional Rate Limiting: RPM & TPM, Dynamic Context Budgeting, Cost Ledger & Reservation, Agent Loop Cutoff, Tenant Resource Sandboxing) 아키텍처를 도입하여 **토큰 수, 추론 시간, 도구 호출 횟수를 포괄하는 다차원 실시간 자원 회계(Resource Accounting) 확립, 테넌트/사용자별 일일/월간 비용 상한(Spend Cap) 및 사전 예산 잠금(Budget Reservation)을 통한 예산 초과 원천 차단, 에이전트의 무한 루프 발생 시 즉각적인 회로 차단(Circuit Breaker)과 자원 격리**를 달성할 필요
 
 #### 한줄 요약
 
@@ -41,6 +41,7 @@ extra:
 - **경제적 손실**: 과도한 모델•도구 호출이 사용료와 인프라 비용을 비정상적으로 증가시키는 피해이다.
 - **복합 자원 계량**: 토큰•시간•동시성•도구 비용을 주체별로 함께 측정하는 통제이다.
 - **격리 실행 풀**: 한 주체의 소비가 다른 사용자의 용량을 잠식하지 않도록 큐와 동시성을 분리한 자원 영역이다.
+- **거대 언어 모델(Large Language Model, LLM)**: 대규모 텍스트 데이터셋을 기반으로 사전 학습되어 인간 수준의 자연어 이해, 생성, 추론 및 코딩 능력을 수행하는 딥러닝 신경망 모델
 
 </details>
 
@@ -65,9 +66,9 @@ extra:
 ```text
                  [자원 게이트웨이]
                          |
-                    [예산 원장]
+                     [예산 원장]
                          |
-                   [입장 제어기]
+                    [입장 제어기]
                          |
               +----------+----------+
               |                     |
@@ -174,7 +175,7 @@ extra:
 
 </details>
 
-- 주체별 **토큰•시간•도구•동시성 상한** 초과 시 작업 중단
+- 생성형 AI 서비스의 재무적 지속가능성과 클라우드 인프라 가용성을 동시에 보장하는 **OWASP LLM Top 10의 핵심 경제적 보안 및 비용 거버넌스 표준(LLM10 Unbounded Consumption / Denial of Wallet & Resource Exhaustion Defense / Multi-Dimensional Rate Limiting: RPM, TPM & GPU Time / Real-time Budget Ledger & Circuit Breakers / FinOps for GenAI)의 확고한 표준**으로 확고히 자리 잡았으며, 멀티 에이전트 오케스트레이션 및 엔터프라이즈 FinOps 파이프라인과 통합되는 가운데, 실무 LLM 게이트웨이 구축 시에는 **사전 예산 예약(Budget Reservation)을 통한 입장 제어(Admission Control)를 수행하고, 에이전트 도구 호출에 엄격한 최대 깊이(Max Recursion Depth)와 비용 타임아웃을 강제하며, 실시간 비용 누적 모니터링을 통한 자동 격리/차단 정책**을 결합하여 완벽한 재무 건전성과 고가용성 인프라 운영을 완성
 
 #### 한줄 요약
 

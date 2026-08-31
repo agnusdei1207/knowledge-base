@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "EU AI Act (유럽연합 인공지능법)"
-date: "2026-08-26T17:13:17+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 101
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: AI 위험•공급망 역할별 의무를 정한 **EU AI Act**이다.
-- 배경/필요성: 모든 AI에 같은 규정을 적용하면 저위험까지 동일한 검증 비용을 물면서도 **AI 위험·공급망 책임별 통제 구분 곤란**이 남으므로, 용도별 위험 등급과 공급망 역할별 의무를 나눈 규제 계층을 두어 통제 강도를 위험에 비례해 배분
+- 배경/필요성: 인공지능 기술의 급속한 발전과 범용 AI(GPAI)의 확산으로 인해 사회적 차별, 인지 조작, 생체 감시, 기본권 침해 및 시스템적 위험(Systemic Risk)이 심각한 사회적 위협으로 대두되었으나, 기존의 개별 산업 법제나 비구속적 윤리 가이드라인만으로는 초국경적 AI 공급망 전체에 대한 법적 구속력과 실효성 있는 규제 집행을 담보할 수 없는 한계에 직면함에 따라, 유럽연합(EU)이 세계 최초로 AI 시스템의 위험 수준을 4단계(금지-고위험-투명성/제한된 위험-최소 위험)로 분류하고 공급망 주체(제공자, 배포자, 수입자)별 의무를 법제화한 포괄적 규제 법안인 EU AI Act(Regulation EU 2024/1689 / Extraterritorial Application, Conformity Assessment, Post-Market Monitoring, CE Marking)를 제정하여 **인간의 기본권 보호 및 신뢰할 수 있는 인간 중심 AI(Human-Centric AI) 생태계 구축, 위험 비례적(Risk-Proportional) 규제를 통한 혁신과 안전성의 조화, EU 시장 진출 기업에 대한 글로벌 표준 준수 강제 및 위반 시 최대 전 세계 매출 7% 과징금 제재를 통한 글로벌 AI 규제 질서 선도**를 달성할 필요
 
 #### 한줄 요약
 - AI 용도·사업자 역할별 **금지·검증·고지·감시 의무**
@@ -171,8 +171,7 @@ extra:
 
 </details>
 
-- 금지 관행은 **사용 중단**, 고위험 AI는 **적합성•사후 감시** 적용
-- 투명성 대상은 **AI 상호작용•합성물 고지** 적용
+- 유럽연합 시장을 넘어 전 세계 AI 규제 및 거버넌스의 사실상 표준(De Facto Standard)이자 글로벌 브뤼셀 효과(Brussels Effect)를 주도하는 **세계 최초이자 최고 권위의 포괄적 AI 규제 법률(EU AI Act / Regulation EU 2024/1689 / 4-Tier Risk-based Classification / Mandatory Conformity Assessment & CE Marking / Post-market Monitoring & Systemic Risk GPAI Rules / Global Penalties)의 절대적 표준**으로 확고히 자리 잡았으며, 단계적 시행(2024~2026년)에 따라 글로벌 시장의 필수 진입 요건으로 작동하는 가운데, 실무 EU AI Act 대응 전략 수립 시에는 **사내 및 고객용 AI 시스템의 정확한 위험 등급 분류(금지 관행 즉시 제거 및 고위험 AI 식별), 고위험 AI에 대한 위험관리시스템, 데이터 거버넌스, 기술 문서화, 로깅 및 인간 감독(Human Oversight) 증적 체계 구축, 파운데이션 모델/GPAI 제공자의 저작권 준수 요약 및 시스템적 위험 평가**를 결합하여 완벽한 법적 컴플라이언스와 글로벌 비즈니스 연속성을 완성
 
 #### 한줄 요약
 - 위험 유형·공급망 역할에 따라 **출시·감시 의무** 결정

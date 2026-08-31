@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "문서 AI (Document AI)"
-date: "2026-08-26T17:07:11+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 93
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 문자•레이아웃•의미를 업무 데이터로 바꾸는 **문서 AI**
-- 배경/필요성: OCR이 문자열만 남기면 **레이아웃•필드 관계** 복원 불가로 항목 추출 규칙을 서식마다 새로 만드는 비용이 서식 수만큼 들므로, 문자•좌표•배치를 함께 학습하는 계층을 OCR 위에 두어 서식 변화를 모델이 흡수
+- 배경/필요성: 전통적인 OCR(광학 문자 인식) 기술은 이미지에서 단순 텍스트 문자열만을 1차원적으로 전사하므로, 송장, 영수증, 계약서, 신청서 등 복잡한 2차원 서식 문서에서 표의 행-열 관계, Key-Value 필드 연결, 항목 간 논리적 계층 구조 및 읽기 순서(Reading Order)를 복원하지 못해 후속 업무 자동화(RPA/ERP) 연계 시 수작업 룰 코딩과 대규모 예외 처리가 발생하는 병목에 직면함에 따라, 텍스트(Text), 시각(Vision), 2D 레이아웃(Spatial Layout) 정보를 단일 트랜스포머 공간에서 다중 모달로 통합 사전학습한 문서 인공지능(Document AI: LayoutLM, Donut, DocFormer / Visual Information Extraction: VIE, Key-Value Extraction) 기술을 도입하여 **복잡한 비정형/반정형 서식 문서로부터 핵심 비즈니스 데이터(Key-Value, Table Entities)를 자동 추출하고 표준 JSON/스키마로 정밀 구조화 실현, 다양한 양식 변화와 왜곡/노이즈에 대해 강건한 제로샷/퓨샷 서식 이해력 확보, 사람 검토(Human-in-the-loop) 연계를 통한 기업 문서 처리 완전 자동화(Straight-Through Processing: STP)**를 달성할 필요
 
 #### 한줄 요약
 
@@ -160,8 +160,7 @@ extra:
 
 </details>
 
-- 고정 양식 반복 문서는 **문서 AI 자동 승인** 적용
-- 변동 양식•저신뢰 필드는 **사람 검토•원문 대조** 적용
+- 텍스트, 비주얼, 2D 공간 배치를 삼위일체로 융합하여 기업의 방대한 서식 문서를 지능형 정형 데이터로 변환하는 **엔터프라이즈 하이퍼오토메이션(Hyperautomation) 및 지능형 문서 처리(IDP: Intelligent Document Processing)의 최고 핵심 기술(Document AI / Multi-Modal LayoutLM & OCR-Free Donut / Visual Key-Value Extraction / Table Structure Recognition / Human-in-the-Loop Confidence Routing)의 확고한 표준**으로 확고히 자리 잡았으며, VLM 및 멀티모달 RAG과 융합되는 가운데, 실무 Document AI 파이프라인 구축 시에는 **필드별 신뢰도 점수(Confidence Score)와 비즈니스 유효성 검증 규칙(합계 검증, 사업자번호 유효성)을 결합하여 고신뢰 문서는 완전 자동 승인(STP)하고 저신뢰 문서는 작업자에게 원문 좌표 하이라이트 UI로 전달하는 HITL 라우팅 설계, 새로운 양식 유입 시 점진적 파인튜닝 체계**를 결합하여 완벽한 데이터 무결성과 전사적 업무 효율성 극대화를 완성
 
 #### 한줄 요약
 - **양식 변동성•필드 신뢰도** 대상 따라 자동화 범위 결정

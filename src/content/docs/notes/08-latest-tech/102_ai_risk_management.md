@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AI Risk Management (AI 위험관리)"
-date: "2026-08-26T17:14:12+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 102
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: AI 위험의 식별•평가•처리•감시를 반복하는 **AI 위험관리**이다.
-- 배경/필요성: 배포 전 1회 정확도 검증은 **용도·데이터·공격 변화 통제 곤란**해 사고가 난 뒤에야 수습하는 비용을 남기므로, 식별•분석•조치•감시를 순환시키는 관리 계층을 수명주기 전반에 두어 잔여 위험을 운영 중에도 갱신
+- 배경/필요성: AI 시스템은 정적 소프트웨어와 달리 학습 데이터의 편향, 운영 환경의 데이터/개념 드리프트(Data/Concept Drift), 적대적 프롬프트 인젝션 및 탈옥 공격, 복잡한 블랙박스 추론으로 인해 배포 전 단 한 번의 성능 검증만으로는 운영 중에 발생하는 예측 불가능한 안전 사고와 기본권 침해를 사전에 예방할 수 없는 치명적 한계가 존재함에 따라, 미국 NIST가 제정한 AI 위험관리 프레임워크(NIST AI RMF 1.0: Govern, Map, Measure, Manage) 및 ISO/IEC 23894 국제 표준을 기반으로 AI 전 수명주기에 걸쳐 위험을 식별, 측정, 완화, 감시하는 AI 위험관리(AI Risk Management / Context Mapping, TEVV: Test, Evaluation, Verification & Validation, Continuous Post-market Monitoring) 프로세스를 도입하여 **사용 맥락(Context)에 따른 구체적 위험 시나리오(신뢰성, 안전성, 편향, 보안)의 체계적 식별 및 정량/정성 평가 실현, 위험 완화 통제 조치 적용 후의 잔여 위험(Residual Risk) 승인 및 통제 추적성 확보, 운영 중 위험 지표 실시간 감시와 사고 발생 시 즉각적 회수/중단 체계 확립**을 달성할 필요
 
 #### 한줄 요약
 - AI의 **잠재 피해·잔여 위험·운영 변화**를 지속 관리
@@ -152,7 +152,7 @@ extra:
 
 </details>
 
-- 허용 한도 이내는 **위험 수용**, 초과 시 **완화**•**중단** 결정
+- 단순한 기술적 디버깅을 넘어 조직의 AI 신뢰성과 지속 가능성을 보장하는 **엔터프라이즈 AI 거버넌스의 최고 핵심 실행 체계(NIST AI RMF 1.0 / ISO/IEC 23894 / 4 Core Functions: Govern, Map, Measure, Manage / TEVV Framework / Residual Risk Treatment & Continuous Monitoring)의 확고한 표준**으로 확고히 자리 잡았으며, 생성형 AI 및 LLM 보안 리스크(OWASP Top 10 for LLM) 통제로 고도화되는 가운데, 실무 AI 위험관리 체계 구축 시에는 **조직의 위험 허용 한도(Risk Tolerance)에 부합하는 정밀한 위험 대장(Risk Register)을 상시 유지하고, 배포 전 적대적 레드팀 평가(AI Red Teaming) 및 TEVV 검증을 의무화하며, 운영 중 실시간 이상 징후 및 드리프트 감시를 통해 잔여 위험이 임계치를 초과할 경우 즉각 배포를 중단하는 킬스위치(Kill-Switch) 프로세스**를 결합하여 완벽한 위험 통제력과 비즈니스 안전성을 완성
 
 #### 한줄 요약
 - **위험 등급•잔여 위험•운영 변화** 기반 처리•재평가 결정

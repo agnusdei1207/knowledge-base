@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-26T17:08:55+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 86
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 질의 해석•복수 검색•재순위로 답변하는 **AI 검색**이다.
-- 배경/필요성: 키워드 일치 색인은 표현이 달라질 때마다 질의어를 사람이 바꿔 넣는 비용을 치르고도 복합 근거의 **통합 검색 곤란**이 남으므로, 의미 임베딩과 재순위•근거 생성 계층을 키워드 색인 위에 얹어 표현 차이를 검색 단계에서 흡수
+- 배경/필요성: 전통적인 웹 및 엔터프라이즈 검색 엔진은 단순 키워드 매칭(Lexical Match) 및 링크 분석(PageRank)을 통해 10개의 파란색 링크(10 Blue Links) 목록만을 제공하므로, 사용자가 복합적인 질문에 대한 답을 얻기 위해 수많은 웹페이지를 일일이 클릭하고 비교·요약해야 하는 막대한 인지적 오버헤드가 발생함에 따라, LLM의 심층 자연어 이해 및 생성 능력과 실시간 하이브리드 검색, 신경망 재순위화 및 RAG 아키텍처를 유기적으로 융합한 AI 검색(AI Search / Perplexity, Google Search Generative Experience: SGE, Bing Copilot) 서비스를 도입하여 **사용자의 복합 자연어 질문에 대해 실시간 웹/문서 검색 결과를 기반으로 출처가 명시된 직접적이고 정확한 종합 답변(Synthesized Answer) 즉시 생성, 다단계 대화형 후속 질의(Conversational Follow-up)를 통한 탐색적 정보 검색 지원, 검색 회수율과 답변 신뢰성을 동시에 극대화한 사용자 정보 소비 패러다임의 혁신**을 달성할 필요
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- **검색 회수율•답변 충실성** 분리 측정해 재순위•생성 경로 조정
+- 단순 링크 나열형 검색을 넘어 질문의 의도를 깊이 이해하고 실시간 검증된 출처를 기반으로 완성형 지식을 합성·제공하는 **차세대 인공지능 정보 검색(AI Search / Query Understanding & Intent Decomposition / Real-Time Hybrid Retrieval / Multi-Document Neural Reranking & Synthesis / Real-Time Citation Attribution)의 절대적 미래 표준**으로 확고히 자리 잡았으며, 멀티모달 및 에이전틱 자율 검색으로 급속히 진화하는 가운데, 실무 AI 검색 플랫폼 구축 시에는 **정보의 최신성을 보장하기 위한 실시간 웹 인덱싱 및 크롤링 파이프라인 구축, 생성된 모든 문장에 대해 클릭 가능한 정확한 출처 링크(Inline Citation)를 의무 매핑하는 신뢰성 확보, 사용자 질의 복잡도에 따라 단순 검색과 심층 추론(Deep Research)을 동적으로 분기하는 지능형 라우팅 아키텍처**를 결합하여 완벽한 검색 적합성과 생성 신뢰성을 완성
 
 #### 한줄 요약
 

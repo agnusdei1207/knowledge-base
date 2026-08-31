@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Mixture of Experts (전문가 혼합)"
-date: "2026-08-26T17:01:42+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 58
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 토큰별 일부 전문가만 선택하는 조건부 계산 **MoE**이다.
-- 배경/필요성: 밀집 모델은 매개변수를 늘린 만큼 토큰마다 전체를 활성화해 **연산·전력 비용**을 용량에 비례해 지불하므로, 피드포워드 층을 여러 전문가로 쪼개고 앞단 라우터가 토큰별로 일부만 고르게 하여 총 매개변수와 토큰당 연산량을 분리
+- 배경/필요성: 전통적인 밀집(Dense) 신경망 아키텍처는 모델의 파라미터 용량을 확장할 때마다 모든 입력 토큰에 대해 전체 가중치를 100% 연산해야 하므로, 모델 스케일업에 비례하여 FLOPs 연산 비용, GPU VRAM 대역폭 요구량 및 서빙 추론 지연이 선형적으로 폭증하는 확장성 한계에 봉착함에 따라, 피드포워드 계층을 복수의 독립된 전문가(FFN Expert) 네트워크로 분할하고 게이팅 라우터(Router)를 통해 각 토큰별로 최적의 소수 전문가(Top-k)만 선택적으로 활성화하는 전문가 혼합(MoE: Mixture of Experts / Sparse MoE) 아키텍처를 도입하여 **총 파라미터 수(Total Parameters) 대비 활성 파라미터 수(Active Parameters)를 획기적으로 낮춰 토큰당 추론 연산량 및 지연(Latency) 극소화, 수천억~조 단위 매개변수 용량 확장을 통한 모델 표현력 극대화, 전문가 병렬화(Expert Parallelism) 기반의 고효율 분산 서빙 인프라 확립**을 달성할 필요
 
 #### 한줄 요약
 - **Top-k 라우팅•부하 균형**은 토큰당 연산을 총 용량에서 떼어 내지만 전문가 전체를 메모리에 올려야 하므로, 연산은 아끼고 메모리와 통신 비용은 그대로 지불하는 구조다.
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 희소 활성 이득이 통신 비용보다 크면 **MoE**, 작으면 **밀집 FFN** 선택
+- 초거대 파운데이션 모델의 스케일링 법칙(Scaling Laws)을 연산 효율적으로 실현하며 현대 프런티어 LLM(Mixtral, GPT-4, DeepSeek-V3)의 사실상 표준 구조로 정착한 **조건부 희소 컴퓨팅(Sparse MoE / Top-k Routing / Load Balancing Loss & Auxiliary-free / Expert Parallelism & All-to-All Communication / DeepSeekMoE Fine-grained Experts)의 핵심 차세대 아키텍처**로 확고히 자리 잡았으며, 세분화된 전문가(Fine-grained Experts) 및 공유 전문가(Shared Experts) 구조로 급속히 진화하는 가운데, 실무 MoE 모델 서빙 및 분산 인프라 구축 시에는 **특정 전문가로 토큰이 쏠려 연산 병목이 발생하는 전문가 붕괴(Expert Collapse)를 방지하는 무보조 손실(Auxiliary-loss-free) 밸런싱 기법 도입, GPU 노드 간 All-to-All 통신 오버헤드를 은닉하는 오버랩 파이프라인 및 전문가 배치 최적화**를 결합하여 완벽한 초고용량 표현력과 압도적인 추론 서빙 효율성을 완성
 
 #### 한줄 요약
 - **희소 활성 이득•통신 비용** 대상 따라 구조 결정

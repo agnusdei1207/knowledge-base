@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "지식그래프 (Knowledge Graph)"
-date: "2026-08-26T17:05:35+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 79
@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의: 식별 개체•사실 관계를 그래프로 표현한 **지식그래프**
-- 배경/필요성: 질의마다 표•문서를 다시 조인해 관계를 복원하는 **다단계 관계 추적 곤란**이 반복되므로, 개체와 사실 관계를 간선으로 미리 고정한 지식 계층을 원천 위에 두어 반복 탐색을 한 번의 그래프 순회로 대체
+- 배경/필요성: 비정형 문서나 고립된 관계형 데이터베이스(RDB)에 분산 저장된 기업 지식은 개체(Entity) 간의 복잡한 다대다(N:M) 연관 관계를 직관적으로 표현하기 어렵고, 다단계 관계 추적 질의(Multi-Hop Queries) 시 수많은 조인(Join) 연산으로 인한 성능 저하와 의미 단절이 발생하는 한계가 존재함에 따라, 현실 세계의 실체(Entity)를 노드로, 실체 간의 사실 관계(Relation)를 방향성 간선으로 연결하여 구조화된 그래프 형태로 표현·저장하는 지식그래프(Knowledge Graph: RDF Triple, Property Graph, SPARQL/Cypher, Entity Linking, Graph Database: Neo4j) 기술을 도입하여 **복잡하게 얽힌 이기종 엔터프라이즈 데이터 간의 의미적 상호 연결성 및 다단계 관계 추적 경로(Multi-Hop Traversal) 초고속 질의 실현, 온톨로지(Ontology) 기반의 논리적 지식 검증 및 암묵적 사실 추론 능력 확보, 생성형 AI의 GraphRAG 연계를 통한 구조적 사실성 검증 및 환각(Hallucination) 방어**를 달성할 필요
 
 #### 한줄 요약
 
@@ -166,7 +166,7 @@ extra:
 
 </details>
 
-- 가변 관계•경로 추론은 **지식그래프**, 의미 제약 공유는 **온톨로지** 선택
+- 단편적 데이터를 고도로 구조화되고 연결된 엔터프라이즈 지식망으로 진화시켜 차세대 지능형 검색 및 AI 추론의 핵심 지식 기반으로 부상한 **시맨틱 웹 및 엔터프라이즈 데이터 아키텍처(Knowledge Graph / RDF Triples & Labeled Property Graphs: LPG / Entity Linking & Disambiguation / Graph Traversal & Cypher / GraphRAG & Explainable AI)의 핵심 표준**으로 확고히 자리 잡았으며, LLM과의 양방향 융합(GraphRAG, LLM-driven KG Construction)으로 급속히 발전하는 가운데, 실무 지식그래프 구축 시에는 **비정형 텍스트로부터의 자동 개체-관계 추출(OpenIE, LLM Extraction)과 도메인 온톨로지 스키마 매핑을 유기적으로 결합하고, 개체명 모호성을 해소하는 Entity Disambiguation 파이프라인 구축, 그래프 간선에 원문 출처(Provenance) 및 유효 기간 메타데이터를 필수 부여**를 결합하여 완벽한 지식 신뢰성과 설명 가능한 AI 추론을 완성
 
 #### 한줄 요약
 

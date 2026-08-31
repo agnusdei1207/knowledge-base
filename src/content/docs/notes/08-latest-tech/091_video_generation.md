@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "영상 생성 (Video Generation)"
-date: "2026-08-26T17:05:54+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 91
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 시공간 정보를 통합해 동적 프레임을 만드는 **영상 생성**
-- 배경/필요성: 프레임을 독립 합성하면 **시간 연속성•물리 개연성** 보장 불가로 흔들림을 후처리로 보정하는 비용이 프레임 수만큼 들므로, 공간 표현 위에 시간 축을 함께 다루는 시공간 계층을 두어 연속성을 생성 단계에서 확보
+- 배경/필요성: 전통적인 정적 2D 이미지 생성 모델을 단순히 프레임 단위로 반복 적용하여 영상을 합성할 경우, 프레임 간 객체의 형상이 급변하는 모핑(Morphing) 현상, 배경 떨림(Flickering), 복잡한 물리 법칙(중력, 충돌, 유체 역학) 무시 등 시간적 연속성(Temporal Continuity)과 물리적 일관성이 완전히 붕괴되는 한계가 존재함에 따라, 2D 공간 특징과 1D 시간 축을 결합한 3D 시공간 잠재 텐서(Spatiotemporal Latent Tensor) 및 시간축 어텐션(Temporal Attention) 메커니즘을 적용한 비디오 확산 모델(Video Diffusion Model & Diffusion Transformer: DiT / Sora, Runway Gen-3, Pika, Stable Video Diffusion) 기술을 도입하여 **수초~수십 초 동안 객체의 외형, 조명, 카메라 궤적 및 물리적 상호작용이 매끄럽게 유지되는 고화질 시공간 일관성(Temporal Consistency) 영상 합성 실현, 텍스트(Text-to-Video) 및 기준 이미지(Image-to-Video) 조건부 제어를 통한 정밀한 모션 디렉팅 지원, 물리 세계 시뮬레이터(World Simulator)로서의 차세대 생성형 AI 기반 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -163,8 +163,7 @@ extra:
 
 </details>
 
-- 프레임 편집은 **프레임별 생성**, 고품질 움직임은 **비디오 확산** 선택
-- 장편 영상은 **자기회귀 생성** 및 키프레임 검증 적용
+- 공간적 화질을 넘어 시간적 연속성과 물리 세계 시뮬레이션 능력을 통합하여 미디어, 엔터테인먼트, 로보틱스의 패러다임을 혁신하는 **시각 생성형 AI의 최고봉 프런티어 기술(Video Generation / Spatiotemporal DiT Architecture / 3D VAE Latent Video Encoding / Cross-Frame Temporal Attention / Classifier-Free Guidance / Physics-Informed Video Synthesis)의 핵심 표준**으로 확고히 자리 잡았으며, 장편 고화질 생성 및 인터랙티브 월드 모델(World Simulator)로 진화하는 가운데, 실무 비디오 생성 파이프라인 구축 시에는 **초기 프레임 오차가 후속 프레임으로 누적되는 자귀회귀적 드리프트를 방어하기 위한 계층적 키프레임 보간(Hierarchical Keyframe Interpolation) 및 슬라이딩 윈도우 생성 적용, 객체 왜곡을 실시간 감지·보정하는 시공간 일관성 평가기 구축, 대규모 비디오 렌더링 VRAM 비용 최적화를 위한 3D VAE 압축 및 분산 추론 가속**을 결합하여 완벽한 영상 일관성과 실용적인 제작 생산성을 완성
 
 #### 한줄 요약
 - **영상 길이•움직임 품질•제어 요구** 대상 따라 생성 방식 결정

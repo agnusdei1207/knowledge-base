@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "청킹 (Chunking)"
-date: "2026-08-26T17:03:59+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 77
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 원문을 의미가 유지되는 검색 단위로 나누는 **청킹**
-- 배경/필요성: 문서 전체를 매 질의마다 입력하면 **문맥 한도 초과•검색 잡음** 비용이 요청마다 반복되므로, 색인 이전에 의미 경계를 보존한 검색 단위로 잘라 두어 필요한 조각만 꺼내 쓰는 계층의 필요
+- 배경/필요성: 수십~수백 페이지에 달하는 방대한 엔터프라이즈 문서를 통째로 임베딩할 경우, LLM 및 임베딩 모델의 컨텍스트 윈도우 한계(Context Window Limit)를 초과할 뿐 아니라, 문서 내 다양한 주제가 혼재되어 벡터의 의미 표현이 희석되고 불필요한 검색 잡음(Search Noise)이 대량 유입되는 문제가 발생함에 따라, 원본 문서를 의미적 완결성을 유지하는 최적 크기의 텍스트 조각(Chunk)으로 체계적으로 분할하는 청킹(Chunking: Fixed-size, Recursive Character, Structure-aware, Semantic Chunking / Chunk Size & Overlap) 기술을 도입하여 **임베딩 벡터의 의미 선명도 극대화 및 고정밀 RAG 시맨틱 검색 회수율 확보, 문서 내 표/코드/문단/조항 등 계층적 구조 보존을 통한 문맥 단절(Context Disconnect) 방지, 청크 간 오버랩(Overlap) 설정을 통한 경계 영역 정보 손실 완벽 차단**을 달성할 필요
 
 #### 한줄 요약
 
@@ -159,7 +159,7 @@ extra:
 
 </details>
 
-- 정형 문서는 **구조 기반**, 주제 전환이 잦으면 **의미 기반 청킹** 선택
+- RAG 및 벡터 검색 시스템의 검색 정확도와 생성 품질의 상한을 결정짓는 **데이터 전처리 파이프라인의 최고 핵심 엔지니어링 단계(Document Chunking / Recursive Character & Markdown Chunking / Semantic Boundary Detection / Chunk Size & Overlap Optimization / Hierarchical Parent-Child Chunking & Rich Metadata Enrichment)의 필수 표준**으로 확고히 자리 잡았으며, 지능형 에이전틱 청킹으로 고도화되는 가운데, 실무 청킹 전략 수립 시에는 **문서의 유형(법률/규정/기술문서/표)에 따라 구조 기반 계층형 청킹(Structure-aware Chunking)을 기본 적용하고, 작은 청크로 정밀 검색 후 상위 부모 청크를 LLM에 전달하는 부모-자식 청킹(Parent-Document Retriever) 아키텍처 연계, 검색된 청크의 원문 역추적을 위한 풍부한 메타데이터(문서 ID, 페이지, 섹션 헤더) 보존**을 결합하여 완벽한 검색 정밀도와 풍부한 생성 문맥을 완성
 
 #### 한줄 요약
 

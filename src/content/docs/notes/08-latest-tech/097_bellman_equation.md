@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "벨만 방정식 (Bellman Equation)"
-date: "2026-08-26T17:10:17+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 97
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 현재 가치를 보상과 할인 미래로 분해한 **벨만 방정식**
-- 배경/필요성: 미래 경로를 끝까지 전개해 가치를 구하면 깊이만큼 **상태 공간•계산량** 폭증을 감수해야 하므로, 가치를 즉시 보상과 할인된 다음 상태 가치로 쪼개는 재귀 관계를 세워 전체 전개를 한 단계 갱신의 반복으로 대체
+- 배경/필요성: 순차적 의사결정 문제에서 에피소드가 종료될 때까지의 모든 미래 보상 경로를 무한히 전개하여 상태 가치(State Value)를 직접 계산할 경우, 탐색 트리의 깊이에 따라 계산 복잡도와 메모리 사용량이 지수적으로 폭증하여 계산이 불가능해지는 근본적 한계에 직면함에 따라, 현재 시점의 상태/행동 가치를 "즉각적인 1단계 보상(Immediate Reward)"과 "할인율($\gamma$)이 적용된 다음 상태 가치의 기댓값(Discounted Expected Future Value)"으로 분해하는 재귀적(Recursive) 관계식을 정립한 벨만 방정식(Bellman Equation: Bellman Expectation & Optimality Equations / Contraction Mapping Theorem / Value & Policy Iteration)을 도입하여 **무한한 미래 가치 계산을 단 1단계의 지역적 가치 갱신(Bootstrapping) 반복으로 완벽히 치환, 벨만 수축 매핑 정리(Contraction Mapping)를 통한 유일한 최적 가치 함수($V^*, Q^*$)로의 수학적 수렴 보장, Q-러닝, DQN, Actor-Critic 등 모든 현대 딥강화학습 알고리즘의 손실 함수(TD Error) 기반 제공**을 달성할 필요
 
 #### 한줄 요약
 
@@ -169,7 +169,7 @@ extra:
 
 </details>
 
-- 정책 평가는 **벨만 기대**, 최적 정책 탐색은 **벨만 최적 방정식** 선택
+- 미래의 무한한 장기 가치를 즉시 보상과 할인된 미래 가치의 재귀적 관계로 분해하여 동적 계획법과 현대 강화학습의 수학적 수렴성을 증명한 **강화학습 가치 갱신 및 정책 최적화의 최고 핵심 지배 방정식(Bellman Equation / Expectation & Optimality Equations / Value & Policy Iteration / Temporal Difference: TD Error / Contraction Mapping Theorem / Foundation of Q-Learning & Actor-Critic)의 확고한 표준**으로 확고히 자리 잡았으며, 연속 제어 및 거대 모델 RLHF로 확장되는 가운데, 실무 강화학습 가치망(Value Network) 학습 시에는 **수렴 안정성을 위해 과업의 타임호라이즌에 부합하는 정밀한 할인율($\gamma=0.95\sim 0.99$) 설정, 벨만 최적 연산자에서의 Max 연산으로 인한 과대평가(Overestimation) 편향을 억제하기 위한 Double DQN 및 타깃 네트워크(Target Network) 분리 설계, 부트스트래핑 오차 누적을 방지하는 Generalized Advantage Estimation(GAE)**을 결합하여 완벽한 수렴 속도와 고신뢰 가치 추정 성능을 완성
 
 #### 한줄 요약
 

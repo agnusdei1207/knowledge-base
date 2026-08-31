@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 역전 (Model Inversion)"
-date: "2026-08-26T17:14:13+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 120
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 출력•내부 신호로 학습 특징을 복원하는 **모델 역전 공격**
-- 배경/필요성: 모델이 학습 표본을 과도하게 기억한 채 상세 점수•기울기를 그대로 내주면 질의 응답만으로 **학습정보 노출**이 누적되므로, 일반화 강화와 출력 정보량 축소로 역추정에 쓸 수 있는 신호 자체를 줄이는 통제가 필요
+- 배경/필요성: 얼굴 인식, 의료 영상 진단, 금융 신용 평가 등 민감한 개인정보를 학습한 딥러닝 모델이 과적합(Overfitting)되거나 특정 학습 데이터를 과도하게 암기(Memorization)한 상태에서 상용 API로 서비스될 때, 공격자가 모델의 출력 신뢰도 점수(Confidence Score)나 기울기(Gradient) 정보를 활용하여 경사하강법 기반 역최적화(Optimization-based Reconstruction) 및 생성 모델(GAN)을 결합함으로써, 특정 인물의 얼굴 사진이나 민감한 의료 병력 등 원본 학습 데이터를 시각적으로 식별 가능한 수준으로 복원해내는 심각한 프라이버시 침해(Model Inversion Attack) 위협에 직면함에 따라, 모델의 과도한 암기를 방지하고 출력 정보의 역추적 경로를 차단하는 모델 역전 방어(Model Inversion Defense / DP-SGD Training, Confidence Truncation/Rounding, Representation Regularization, Purifying Reconstruction) 아키텍처를 도입하여 **학습 데이터셋 내 개인 식별 정보의 역추론 및 시각적 복원 위험 원천 차단, 차등 프라이버시(DP-SGD) 적용을 통한 모델의 학습 데이터 암기 방지 및 수학적 프라이버시 보증, 출력 점수의 정밀도 제한을 통한 관측 채널(Observation Channel)의 정보 유출 상한 통제**를 달성할 필요
 
 #### 한줄 요약
 - 모델 답변•점수에서 **학습 특징•민감 속성** 역추정
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- 출력 정보량이 많으면 **관측 채널** 제한, 재식별이 높으면 **프라이버시 학습** 적용
+- AI 모델의 예측 출력을 악용하여 학습 데이터에 포함된 민감한 개인의 원본 바이오 정보 및 의료 기록을 재현하는 공격을 차단하는 **프라이버시 보존 머신러닝(PPML) 및 AI 개인정보 보호의 최고 핵심 방어 표준(Model Inversion Defense / Privacy Leakage via Output Optimization / DP-SGD & Differential Privacy Guarantee / Output Confidence Rounding & Top-K Suppression / Adversarial Robustness against Reconstruction / Regulatory Compliance with GDPR & PIPA)의 확고한 표준**으로 확고히 자리 잡았으며, 생성형 AI의 훈련 데이터 추출 공격(Data Extraction Attack) 방어로 심화되는 가운데, 실무 모델 배포 및 학습 파이프라인 구축 시에는 **모델 학습 단계에서 DP-SGD를 적용하여 개별 표본 암기를 원천 방지하고, 추론 API에서는 소수점 이하 상세 신뢰도 점수 대신 Top-1 클래스 또는 거친 구간 점수(Coarse Score)만 반환하도록 제한하며, 실제 모델 역전 모의 공격(Inversion Red Teaming)을 수행하여 복원된 특징의 재식별 가능성을 지속 검증**을 결합하여 완벽한 프라이버시 보호와 고성능 모델 서비스를 완성
 
 #### 한줄 요약
 

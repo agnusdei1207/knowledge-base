@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
-date: "2026-08-26T17:21:25+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 149
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: **SNN**으로 뉴런•시냅스 상태를 갱신하는 뉴로모픽 컴퓨팅
-- 배경/필요성: 동기 클록으로 전체 배열을 매 주기 계산하는 밀집 연산은 변화가 드문 입력에도 같은 전력을 써 **희소 센서 이벤트•초저전력 처리** 곤란하므로, 변화가 있을 때만 스파이크를 전달하는 이벤트 구동 계층으로 계산이 일어나는 시점 자체를 축소
+- 배경/필요성: 전통적인 폰 노이만 컴퓨터와 인공신경망(ANN) 가속기는 입력의 변화 유무와 무관하게 고정 클록 주기에 따라 수천만 개의 가중치와 데이터를 메모리에서 반복 인출(Dense Matrix Fetch)하여 계산하므로, 배터리 구동 엣지 장치, IoT 센서, 상시 감시(Always-on) 비전 시스템에서 극심한 대기 전력(Static Power) 낭비와 에너지 비효율에 직면함에 따라, 인간 뇌의 1000억 개 뉴런과 100조 개 시냅스의 비동기 스파이크 신호 전달 및 병렬 적응 원리를 반도체로 모방한 뉴로모픽 컴퓨팅(Neuromorphic Computing / Spiking Neural Network: SNN, Event-driven Asynchronous Processing, Synaptic In-memory Computing, Spike-Timing-Dependent Plasticity: STDP, Event-based DVS Sensor Integration / Intel Loihi 2, BrainChip Akida, IBM TrueNorth) 아키텍처를 도입하여 **의미 있는 물리적 자극(이벤트)이 발생할 때만 스파이크를 발화하여 비동기 연산함으로써 대기 전력을 제로(Zero)에 가깝게 억제(밀리와트~마이크로와트급 초저전력), 뉴런과 시냅스 메모리가 공간적으로 밀접 결합된 비 폰 노이만(Non-von Neumann) 병렬 아키텍처 구현, 이벤트 기반 동적 비전 센서(DVS)와의 직접 결합을 통한 실시간 고속 인지**를 달성할 필요
 
 #### 한줄 요약
 
@@ -162,7 +162,7 @@ NC•GPU AI•엣지 MCU의 **전력•범용성•제어 복잡도** 비교
 
 </details>
 
-- 희소 이벤트•초저전력은 **NC**, 범용•저희소성은 **GPU** 선택
+- 디지털 폰 노이만 컴퓨팅의 전력 소비 한계를 극복하고 생체 모방 지능을 하드웨어로 구현하는 **초저전력 엣지 인공지능 및 차세대 비 폰 노이만 뇌 모방 컴퓨팅의 최고 선도 표준(Neuromorphic Computing / Spiking Neural Network: SNN / Event-Driven Asynchronous Processing / STDP On-chip Learning / DVS Event Sensor Fusion / Intel Loihi 2 & BrainChip Akida)의 확고한 표준**으로 확고히 자리 잡았으며, 아날로그 멤리스터(Memristor) 소자 및 뇌-컴퓨터 인터페이스(BCI)로 진화하는 가운데, 실무 뉴로모픽 시스템 설계 시에는 **시계열 스파이크 기반의 시간적 희소성(Sparsity > 90%)이 보장되는 DVS 오디오/비전 센싱에 우선 적용하고, 기존 딥러닝 ANN 모델을 SNN으로 손실 없이 양자화 변환(ANN-to-SNN Conversion)하거나 직접 대리 기울기(Surrogate Gradient) 학습을 적용하며, 온칩 비동기 라우터의 대역폭 병목을 사전 차단**을 결합하여 완벽한 초저전력 엣지 지능과 실시간 반응성을 완성
 
 #### 한줄 요약
 

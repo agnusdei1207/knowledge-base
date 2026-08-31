@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "RAGAS"
-date: "2026-08-26T17:05:17+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 82
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 구조화 표본과 자동 지표로 RAG 품질을 평가하는 **RAGAS**이다.
-- 배경/필요성: 설정을 바꿀 때마다 사람이 표본을 다시 읽는 수작업 평가는 **반복 실험 비용·판정 편차 증가**를 실험 수만큼 재지불하므로, 동일 표본과 고정된 지표 정의를 갖춘 자동 평가 계층을 파이프라인 옆에 두어 회귀 비교를 반복 가능하게 전환
+- 배경/필요성: RAG 파이프라인의 구성요소(임베딩, 청킹, 검색기, LLM 프롬프트)를 튜닝할 때마다 정답 레이블(Ground Truth)을 수작업으로 라벨링하고 사람이 일일이 채점하는 방식은 막대한 시간과 비용이 소요될 뿐 아니라 평가자 간 주관적 편차로 인해 지속적인 회귀 테스트가 불가능한 병목이 발생함에 따라, 정답 레이블이 없어도(Reference-free) 또는 최소한의 기준 정보만으로 LLM을 판정관으로 활용해 검색 및 생성 품질을 자동 채점하는 오픈소스 평가 프레임워크 RAGAS(Retrieval Augmented Generation Assessment: Faithfulness, Answer Relevance, Context Precision, Context Recall / Synthetic Testset Generation)를 도입하여 **정답 라벨링 비용 없는 무참조(Reference-free) 자동 평가를 통한 초고속 RAG 튜닝 및 CI/CD 배포 파이프라인 연계, 지식 그래프 기반의 합성 테스트 데이터셋(Synthetic Testset) 자동 생성 지원, RAG 핵심 4대 지표의 수학적/의미적 정량화를 통한 파이프라인 최적화 가속**을 달성할 필요
 
 #### 한줄 요약
 - 동일 표본•조건으로 **검색•생성 품질** 반복 평가
@@ -161,7 +161,7 @@ extra:
 
 </details>
 
-- **평가 목적•스키마 완전성•판정 일치도** 기반 지표•평가 모델 선택
+- RAG 시스템의 성능을 표준화된 4대 핵심 지표로 자동 정량화하여 글로벌 RAG 평가 방법론의 사실상 표준(De Facto Standard)으로 자리 잡은 **최고의 오픈소스 RAG 자동 평가 프레임워크(RAGAS / Reference-free LLM-as-a-Judge / Synthetic Data Generator / Context Precision & Recall / Faithfulness & Answer Relevance / CI/CD Pipeline Integration)의 핵심 도구**로 확고히 자리 잡았으며, 다국어 및 멀티모달 RAG 평가로 진화하는 가운데, 실무 RAGAS 적용 시에는 **평가용 LLM(Judge LLM: GPT-4o, Claude 3.5 Sonnet 등)의 채점 프롬프트 버전과 온도(Temperature=0)를 엄격히 고정하고, 자동 채점 결과와 사내 도메인 전문가 평가 간의 상관계수(Correlation)를 정기 실측하여 지표 신뢰성을 보정하며, 테스트셋 자동 생성 파이프라인과의 연계를 통한 테스트 커버리지 극대화**를 결합하여 완벽한 자동 평가 신뢰성과 민첩한 RAG 엔지니어링을 완성
 
 #### 한줄 요약
 - **스키마 완전성•인간 일치도** 대상 따라 평가 구성 결정

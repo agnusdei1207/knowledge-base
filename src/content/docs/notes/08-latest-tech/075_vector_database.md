@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Vector Database (벡터 데이터베이스)"
-date: "2026-08-26T17:02:23+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 75
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 벡터•원문•메타데이터와 ANN 색인을 관리하는 **벡터 DB**
-- 배경/필요성: 질의 벡터를 전체 벡터와 하나씩 비교하면 **검색 시간•연산량**이 데이터 건수에 정비례해 질의마다 전수 스캔 비용을 치르므로, 벡터 위에 근사 최근접 이웃 색인 계층을 얹어 정확도 일부를 내주고 후보를 미리 좁힘
+- 배경/필요성: 비정형 텍스트, 이미지, 음성 등으로부터 추출된 수억~수십억 개의 고차원 임베딩 벡터를 전통적인 관계형 데이터베이스(RDB)에 저장하고 선형 전수 탐색(KNN)을 수행할 경우, 데이터 증가에 비례하여 연산량($O(N)$)과 검색 지연이 기하급수적으로 폭증하여 실시간 서비스가 불가능한 한계가 존재함에 따라, 고차원 벡터의 저장, 효율적인 근사 최근접 이웃(ANN: Approximate Nearest Neighbor / HNSW, IVF-PQ) 색인, 메타데이터 필터링 및 분산 확장을 전문적으로 처리하는 벡터 데이터베이스(Vector Database: Milvus, Qdrant, Pinecone, Chroma, pgvector) 기술을 도입하여 **수백만~수억 건의 고차원 벡터에 대해 밀리초(ms) 단위의 초저지연 유사도 검색 실현, 메타데이터 사전/사후 필터링(Filtered Search) 기반의 정밀한 조건부 권한 제어, 데이터의 실시간 CRUD 동기화 및 분산 샤딩을 통한 무제한 수평 확장성(Horizontal Scalability) 확보**를 달성할 필요
 
 #### 한줄 요약
 - 근사 색인은 전수 비교 비용을 없애는 대신 정확한 최근접 이웃을 보장하지 않으므로, 벡터 DB 운영은 회수율과 지연 사이에서 색인 파라미터와 **변경 상태** 반영 주기를 고르는 일이다.
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 독립 확장은 **전용 벡터 DB**, 일관성•혼합 검색은 **관계형•검색 엔진** 선택
+- 대규모 고차원 임베딩을 효율적으로 색인하고 밀리초 단위로 회수하여 현대 LLM 및 RAG 시스템의 핵심 영속 계층(Memory Layer)으로 군림한 **생성형 AI 인프라의 최고 핵심 데이터베이스(Vector Database / ANN Index: HNSW & IVF-PQ / Scalar-Vector Hybrid Filtering / ACID Transaction & Distributed Sharding / Dedicated Vector DB: Milvus, Qdrant vs pgvector)의 표준 솔루션**으로 확고히 자리 잡았으며, 멀티모달 및 복합 검색 엔진으로 진화하는 가운데, 실무 벡터 DB 아키텍처 선정 시에는 **대규모 분산 확장성과 초고속 QPS가 요구되는 환경에서는 전용 벡터 DB(Milvus/Qdrant)를 채택하고 기존 RDB 트랜잭션 일관성과 관리 단순성이 중요한 환경에서는 pgvector를 활용하며, 검색 정확도(Recall)와 메모리(VRAM/RAM) 비용 간의 최적 균형을 위해 HNSW/IVF-PQ 파라미터 및 제품 양자화(PQ) 적용**을 결합하여 완벽한 검색 처리량과 경제적인 인프라 안정성을 완성
 
 #### 한줄 요약
 - **확장성•일관성**과 검색 신호에 따라 저장 방식 결정

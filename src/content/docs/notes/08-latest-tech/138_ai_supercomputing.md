@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AI 슈퍼컴퓨팅 (AI Supercomputing)"
-date: "2026-08-26T17:19:29+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 138
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의: 연산•통신•저장•전력•냉각을 통합한 **AI 슈퍼컴퓨팅**이다.
-- 배경/필요성: 단일 서버로는 대형 모델의 **연산•메모리•데이터 공급량 충족 불가**해 모델 규모가 장비 한 대의 한계에 갇히므로, 가속기•고속 인터커넥트•병렬 저장•전력 냉각을 하나의 설계 단위로 묶은 시설 계층을 두어 확장을 노드 추가로 대체
+- 배경/필요성: 수천억에서 수조 파라미터에 달하는 초대형 파운데이션 모델(LLM, Multimodal)의 사전 학습(Pre-training)과 대규모 배치 추론은 단일 서버나 단순 분산 클러스터의 연산 및 메모리 용량을 완전히 초과하며, 수만 개의 AI 가속기(GPU/TPU) 간 집단 통신(All-Reduce) 지연, 병렬 파일 시스템의 I/O 병목, 수십 메가와트(MW)에 달하는 초고밀도 랙 전력 소모 및 발열로 인해 전체 연산 효율(MFU)이 급격히 저하되는 인프라 한계에 직면함에 따라, 수만 개의 고성능 가속기, 초저지연 고대역폭 인터커넥트, 초고속 병렬 파일 스토리지, 지능형 랙 전력/액체 냉각(Liquid Cooling) 및 분산 스케줄러를 단일 유기적 거대 컴퓨터로 통합한 AI 슈퍼컴퓨팅(AI Supercomputing / Exascale AI Infrastructure / Ultra-high Bandwidth Fabric: InfiniBand NDR/XDR & RoCEv2, NVLink/NVSwitch, Parallel Storage: Lustre/GPFS & WEKA, Direct Liquid Cooling: DLC, Topology-aware Orchestration) 아키텍처를 도입하여 **수만 개 가속기 클러스터 간 통신 병목을 극복하는 초당 수십 테라바이트급 All-to-All 통신 대역폭 확보, 체크포인트 저장 및 데이터 로딩 시간을 최소화하는 테라바이트급 병렬 I/O 처리량 달성, 랙당 100kW+ 초고밀도 전력/액체 냉각 설계를 통한 PUE 1.1 수준의 에너지 효율 극대화**를 달성할 필요
 
 #### 한줄 요약
 - 연산•통신•저장•전력•냉각의 **통합 확장**
@@ -154,7 +154,7 @@ extra:
 
 </details>
 
-- **병목 자원 우선 확장** 기반 집단 통신•저장•전력 개선
+- 인류 역사상 가장 방대한 지능 모델을 학습시키는 현대 과학기술 및 AI 주권의 절대적 기반 인프라(AI Supercomputing / Exascale Infrastructure / InfiniBand & NVLink Full-Mesh Interconnect / Ultra-dense Liquid Cooling & PUE Optimization / Distributed Topology-aware Scheduling & Fast Checkpointing)의 최고 표준**으로 확고히 자리 잡았으며, 차세대 광학 인터커넥트(CPO) 및 초대형 하이브리드 클라우드 HPC로 진화하는 가운데, 실무 AI 슈퍼컴퓨터 아키텍처 설계 시에는 **단순 GPU 확장이 아닌 넌블로킹(Non-blocking) Fat-Tree 네트워크 토폴로지를 구축하고, 체크포인트 I/O를 위한 플래시 티어링과 계산-통신 중첩(Overlap)을 극대화하며, 랙 단위 직냉식 액체 냉각(Direct-to-Chip Liquid Cooling)과 지능형 전력 분배(PDU)**를 결합하여 완벽한 확장 효율(Scaling Efficiency)과 지속 가능한 초거대 AI 연산을 완성
 
 #### 한줄 요약
 - 가속기보다 **통신•저장•전력•냉각 병목** 우선 확장

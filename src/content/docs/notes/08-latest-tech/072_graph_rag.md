@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Graph RAG (지식그래프 융합형 RAG)"
-date: "2026-08-26T17:00:04+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 72
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 개체•관계•커뮤니티 요약을 검색하는 **GraphRAG**
-- 배경/필요성: 청크 단위 유사도 검색은 문서 사이에 걸친 관계를 조각마다 다시 잇는 비용을 생성기에 떠넘겨 **다중 홉 질의•전체 주제 탐색**에서 근거가 끊기므로, 색인 단계에서 개체·관계를 그래프로 미리 추출해 두고 질의 시 연결을 따라가는 탐색 계층으로 대체
+- 배경/필요성: 전통적인 벡터 유사도 기반 RAG는 문서를 독립된 청크(Chunk) 단위로 분할하여 검색하므로, 수많은 문서에 걸쳐 분산된 개체(Entity) 간의 복잡한 연결 관계를 파악해야 하는 다중 홉(Multi-Hop) 추론 질의나, 전체 코퍼스의 거시적 주제와 구조를 조망해야 하는 전역적 요약(Global Summarization) 질문에서 심각한 정보 단절 및 맥락 누락이 발생하는 한계가 존재함에 따라, LLM을 활용해 텍스트로부터 지식 그래프(Knowledge Graph: 노드-개체, 엣지-관계)를 자동 추출하고 그래프 커뮤니티 요약(Community Summarization)을 구축하여 검색하는 Graph RAG(지식그래프 융합형 검색 증강 생성: GraphRAG / Entity-Relation Extraction, Hierarchical Community Summary, Local & Global Search) 기술을 도입하여 **복잡하게 얽힌 다중 개체 간의 심층적인 관계 추적 및 높은 정확도의 다중 홉 추론 달성, 전체 코퍼스를 아우르는 거시적 주제 탐색 및 전역 질문에 대한 완벽한 포괄적 통찰 제공, 그래프 엣지의 원문 출처 연결을 통한 환각 억제 및 해석 가능성(Explainability) 극대화**를 달성할 필요
 
 #### 한줄 요약
 - **개체•관계**를 미리 뽑아 두면 다중 홉 질의의 연결 비용을 질의 시점에서 색인 시점으로 옮기지만 구축·갱신 비용이 커지므로, 문서가 자주 바뀌면 그 선지불이 회수되지 않는다.
@@ -66,7 +66,7 @@ extra:
                       |
                    [추출기]
                       |
-                [텍스트•출처]
+                 [텍스트•출처]
 ```
 
 선의 의미: 그래프 저장소는 정규화된 개체•관계와 검색 인터페이스를 함께 보유하고, 정규화부는 추출기가 텍스트•출처에서 식별한 개체•관계를 통합한다.
@@ -170,7 +170,7 @@ RAG는 근거 단위에 따라 그래프형•벡터형•하이브리드형으�
 
 </details>
 
-- 다중 홉•전역 질의는 **GraphRAG**, 독립 사실 질의는 **벡터 RAG** 선택
+- 기존 청크 기반 벡터 검색의 구조적 한계를 지식그래프와 계층적 요약으로 완벽히 보완한 **고난도 엔터프라이즈 지식 분석 및 복합 추론(Graph RAG / Entity Extraction & Disambiguation / Hierarchical Community Summarization / Local Entity Retrieval & Global Map-Reduce Search / Neo4j & NetworkX Integration)의 차세대 RAG 표준**으로 확고히 자리 잡았으며, 하이브리드 RAG 생태계의 핵심으로 부상한 가운데, 실무 Graph RAG 구축 시에는 **초기 지식 그래프 구축 및 LLM 요약 생성에 소요되는 고비용을 최적화하기 위한 캐싱 및 점진적 인덱싱(Incremental Indexing) 전략 적용, 단순 사실 조회에는 벡터 검색을 사용하고 관계 추론 및 전역 분석에는 GraphRAG를 라우팅하는 하이브리드 검색 아키텍처 채택, 개체명 모호성(Entity Ambiguity) 해소를 위한 정규화 파이프라인 구축**을 결합하여 완벽한 관계 분석력과 경제적인 운영 확장성을 완성
 
 #### 한줄 요약
 

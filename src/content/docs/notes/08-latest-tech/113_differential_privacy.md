@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
-date: "2026-08-26T17:08:32+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 113
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 개인 포함 여부에 따른 출력 분포 차이를 제한하는 **DP** 모델
-- 배경/필요성: 식별자만 지운 집계 공개는 배경지식과 결합될 때 **멤버십 추론•재식별**을 막지 못해 공개 횟수만큼 위험이 누적되므로, 개인 한 명의 포함 여부가 출력 분포를 거의 바꾸지 못하도록 잡음을 넣고 보호 수준을 예산으로 정량화
+- 배경/필요성: 전통적인 비식별화(K-익명성, L-다양성) 기법이나 통계적 집계 공개는 공격자가 임의의 외부 보조 정보(Auxiliary Background Knowledge)를 보유할 경우 연계 재식별 공격과 멤버십 추론 공격(Membership Inference Attack)에 의해 개별 정보 주체의 민감 데이터가 쉽게 노출되는 구조적 결함에 직면함에 따라, 특정 개인 데이터의 데이터셋 포함 여부($D$ vs $D'$)와 무관하게 쿼리 응답 및 머신러닝 모델의 출력 확률 분포가 수학적으로 엄밀한 상한 범위($e^\epsilon$) 내에서 유사하게 유지되도록 통계적 노이즈를 주입하는 차등 프라이버시(Differential Privacy: DP / Pure $(\epsilon)$-DP, Approximate $(\epsilon, \delta)$-DP, DP-SGD / Laplace & Gaussian Mechanism, Renyi DP Accountant) 수학적 모델을 도입하여 **공격자의 계산 능력이나 배경지식의 양에 구애받지 않는 수학적으로 증명 가능한 프라이버시 보호 보장, 반복 질의 및 학습 라운드에 따른 프라이버시 예산 소비량의 정밀 회계(Privacy Budget Accounting), 데이터 프라이버시 보호 강도($\epsilon$)와 데이터 분석/AI 모델 효용성(Utility) 간의 정량적 절충 및 통제**를 달성할 필요
 
 #### 한줄 요약
 - 개인 포함 여부와 무관한 **유사 출력 분포** 보장
@@ -162,7 +162,7 @@ extra:
 
 </details>
 
-- 중앙 신뢰 시 **Central DP**, 불신 시 **Local DP** 선택
+- 배경지식을 가진 적대적 공격자 앞에서도 통계적 무차별성을 보장하여 현대 데이터 과학 및 생성형 AI 전반에서 프라이버시 보호의 황금률(Gold Standard)로 인정받는 **수학적 프라이버시 보증의 최고 핵심 표준 프레임워크(Differential Privacy / $(\epsilon, \delta)$-DP / Laplace, Gaussian Mechanism & DP-SGD / Privacy Budget Management & Renyi DP Accountant / Central DP vs Local DP / Apple & Google Telemetry & US Census De-facto Standard)의 절대적 표준**으로 확고히 자리 잡았으며, 거대 언어 모델(LLM)의 훈련 데이터 암기(Memorization) 방어로 급속히 확장되는 가운데, 실무 DP 적용 시에는 **중앙 수집 서버의 신뢰도에 따라 Central DP(높은 효용)와 Local DP(제로 트러스트)를 적재적소에 선택하고, DP-SGD 적용 시 그래디언트 클리핑 임계값($C$)과 노이즈 승수($\sigma$)를 최적화하며, RDP(Rényi DP) 기반 엄밀한 프라이버시 회계를 통해 예산 조기 소진을 방지**를 결합하여 완벽한 수학적 안전성과 높은 머신러닝 성능을 완성
 
 #### 한줄 요약
 - 보호 단위•효용 한도에 맞춰 **잡음•공개 횟수** 배분

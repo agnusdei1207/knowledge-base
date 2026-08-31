@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Agent Observability (에이전트 관측성)"
-date: "2026-08-26T16:45:25+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 23
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 계획•모델•도구 신호를 연결하는 **에이전트 관측성**
-- 배경/필요성: 최종 결과만 남기면 **품질•오류•비용 구간** 중 어디서 문제가 났는지 재현 실험을 반복해 찾는 비용이 들므로, 계획·모델 호출·도구 실행 신호를 하나의 추적 식별자로 잇는 관측 계층을 두어 구간별 원인을 조회로 특정
+- 배경/필요성: 멀티 스텝 추론, 분산 멀티 에이전트 협업 및 비동기 도구 호출로 이루어진 복합 AI 시스템에서 장애나 성능 저하가 발생할 경우, 전통적인 단일 서비스 모니터링 방식으로는 어느 단계의 프롬프트, 도구 API, 모델 응답 또는 메모리 검색에서 병목과 오류가 발생했는지 파악할 수 없는 가시성 부재(Observability Gap) 문제가 발생함에 따라, 전체 실행 라이프사이클의 신호를 분산 추적 식별자(Trace ID)와 스팬(Span)으로 구조화하여 연계하는 에이전트 관측성(Agent Observability) 아키텍처를 구축하여 **사용자 의도부터 최종 산출물까지의 종단간 실행 경로(Trajectory) 가시화, 모델 토큰 비용·응답 지연·도구 오류의 실시간 계측 및 SLO 관리, 프롬프트 및 모델 버전별 성능 회귀(Regression) 원인 추적성 확보**를 달성할 필요
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- **SLO•사건 위험도**에 따라 추적•마스킹•샘플링 결정
+- 복잡하고 비결정론적인 분산 AI 에이전트 시스템의 내부 동작을 투명하게 계측하고 최적화하는 **AI 운영 엔지니어링의 핵심 관측 및 분석 인프라(Agent Observability / OpenTelemetry & Semantic Conventions / Distributed Tracing & Span Trees / Token Cost & Latency SLO / Adaptive Sampling)의 필수 프레임워크**로 확고히 자리 잡았으며, LangSmith, Arize Phoenix, OpenInference 등 전문 AI Observability 플랫폼으로 생태계가 확장되는 가운데, 실무 에이전트 관측 파이프라인 구축 시에는 **OpenTelemetry 기반의 표준 의미 규약(Semantic Conventions) 준수 및 계층적 Span 트리 구성, 민감 데이터 유출을 방지하기 위한 인라인 PII 마스킹 및 비용 절감을 위한 위험 기반 적응형 샘플링(Adaptive Sampling), 지연·오류·토큰 급증 시 즉각 대응할 수 있는 다차원 알림 파이프라인과 회귀 분석 연계**를 결합하여 완벽한 시스템 신뢰성과 운영 지속성을 완성
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 거버넌스 (AI Governance)"
-date: "2026-08-26T17:12:01+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 99
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 조직의 AI 의사결정권•책임•위험을 감독하는 **AI 거버넌스**
-- 배경/필요성: 프로젝트마다 판단 기준을 새로 정하면 **전사 위험•책임 통제** 곤란과 중복 심의 비용이 과제 수만큼 늘므로, 개별 개발 위에 책임자•승인•중지 권한을 규정한 감독 계층을 두어 판단 기준을 한 곳으로 수렴
+- 배경/필요성: 생성형 AI 및 딥러닝 모델이 기업의 핵심 의사결정과 대고객 서비스에 전면 도입됨에 따라, 알고리즘 편향성(Bias), 환각(Hallucination), 개인정보 침해, 저작권 분쟁, 사이버 보안 위협 등 전사적 리스크가 폭증하고 있으나, 개별 개발 팀 단위의 파편화된 대응으로는 규제 법률(EU AI Act, AI 기본법) 미준수로 인한 막대한 과징금 부과와 브랜드 신뢰도 추락을 방어할 수 없는 거버넌스 공백이 발생함에 따라, AI 시스템의 전 수명주기(기획-개발-검증-배포-운영-폐기)에 걸쳐 의사결정 권한, 위험 평가, 규정 준수, 윤리적 기준 및 감독 책임을 전사적으로 통제하는 AI 거버넌스(AI Governance / AI Committee, Risk Tiering, Mandatory Review Gate, Control Evidence & AI Inventory / Responsible AI Framework) 체계를 도입하여 **전사 AI 자산의 가시성(AI Inventory) 확보 및 위험 등급별(금지/고위험/저위험) 차등화된 통제 기준 확립, 개발-운영 단계별 독립 심의 게이트(Approval Body) 운영을 통한 리스크 사전 차단, 법적·윤리적 컴플라이언스 입증을 위한 감사 추적 증적(Audit Trail) 확보**를 달성할 필요
 
 #### 한줄 요약
 
@@ -167,8 +167,7 @@ AI 등록•위험 기준 위원회
 
 </details>
 
-- 고영향 AI는 **독립 승인•인간 재검토•중지 권한** 적용
-- 저영향 AI는 **표준 통제•운영 감시** 적용
+- 단순한 기술적 품질 관리를 넘어 전사적 리스크 통제, 법적 규제 준수, 사회적 신뢰 확보를 위한 조직의 최고 의사결정 및 감독 메커니즘으로 군림한 **전사 AI 거버넌스 및 책임 있는 AI(AI Governance / Cross-Functional AI Committee / Risk-Based Classification / Mandatory Approval Gates & Kill Switch / AI Inventory & Lineage Tracking / Compliance with EU AI Act & ISO 42001)의 확고한 표준**으로 확고히 자리 잡았으며, 글로벌 규제 법제화에 발맞춘 필수 운영 체계로 안착하는 가운데, 실무 AI 거버넌스 프레임워크 구축 시에는 **사내 모든 AI 활용 사례를 누락 없이 등록하는 AI 인벤토리(AI Inventory)를 상시 운영하고, 고위험 AI에 대해서는 배포 전 독립 위원회 심의 및 비상 중지 권한(Kill-Switch)을 제도화하며, 모델 변경 및 사고 발생 시 즉각적인 위험 재평가와 ISO/IEC 42001 AIMS 경영시스템과의 유기적 통합**을 결합하여 완벽한 규제 적합성과 지속 가능한 비즈니스 혁신을 완성
 
 #### 한줄 요약
 - **AI 영향도•조직 책임 범위** 대상 따라 승인•중지 체계 결정

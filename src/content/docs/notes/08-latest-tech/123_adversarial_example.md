@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "적대적 예제 (Adversarial Example)"
-date: "2026-08-26T17:15:18+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 123
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 제한 범위의 입력 조작으로 오분류를 유도하는 **적대적 예제**
-- 배경/필요성: 무작위 잡음 시험은 결정 경계에 가장 가까운 **최악 방향 교란** 검증 불가여서 실제 공격 성공률을 과소평가하는 비용이 남으므로, 기울기로 최악 방향을 직접 찾는 표본 생성 절차를 평가 계층에 두어 강건성을 하한으로 측정
+- 배경/필요성: 딥러닝 신경망은 고차원 입력 공간에서 국소적인 선형성(Linearity in High-dimensional Space)과 과신(Overconfidence) 특성을 지니고 있어, 사람의 눈이나 청각으로는 전혀 인지할 수 없는 극미한 수학적 노이즈(Perturbation, $L_p$ norm bounded)를 입력 데이터에 의도적으로 추가할 경우, 모델의 손실을 극대화하는 최악의 방향(Worst-case Direction)으로 결정 경계를 넘어가 자율주행 표지판 오인식, 안면 인식 위조 통과, 음성 명령 악의적 조작 등 치명적인 오분류를 유발하는 적대적 예제(Adversarial Example) 취약점에 직면함에 따라, 손실 함수의 기울기(Gradient)를 역이용하여 최악의 교란 표본을 능동적으로 생성하고 이를 학습 데이터에 포함시키는 적대적 훈련(Adversarial Training: PGD Training / FGSM, PGD, C&W Attack, Randomized Smoothing, Certified Robustness) 아키텍처를 도입하여 **공격자의 최악 교란 공격 앞에서도 오분류되지 않는 강건 정확도(Robust Accuracy)의 수학적 하한 확보, 공격 전이성(Transferability)을 차단하는 결정 경계의 평활화(Smoothing) 및 일반화 극대화, 물리적 환경(스티커, 패치)에서의 적대적 공격에 대한 실질적 방어 복원력 완성**을 달성할 필요
 
 #### 한줄 요약
 
@@ -165,7 +165,7 @@ FGSM, PGD, C&W는 탐색 반복과 교란 최적화 강도가 다르다.
 - **계산 강도(Computational Intensity)**: 교란 탐색을 위한 반복 횟수 및 연산 자원 수준
 </details>
 
-- 낮은 강건 정확도에는 **적대적 학습•입력 검증** 적용
+- 인간의 지각과 딥러닝 신경망 간의 근본적인 인식 격차를 드러내며 AI 신뢰성과 안전성을 검증하는 **컴퓨터 비전 및 딥러닝 보안의 최고 정통 적대적 머신러닝(Adversarial Robustness) 표준(Adversarial Example / Worst-case $L_p$-norm Perturbation / FGSM, PGD & Carlini-Wagner Attack / PGD Adversarial Training & Randomized Smoothing / Robust vs Clean Accuracy Trade-off)의 절대적 표준**으로 확고히 자리 잡았으며, 비전-언어 모델(VLM) 및 자율주행 안전성 표준(ISO/PAS 8800)의 핵심 평가 항목으로 확장된 가운데, 실무 고위험 AI 시스템 구축 시에는 **단순 무작위 노이즈가 아닌 PGD 다단계 반복 공격을 학습 파이프라인에 통합하는 적대적 훈련(Adversarial Training)을 기본 적용하고, 입력 전처리 단계의 고주파 노이즈 필터링/양자화를 병행하며, 클린 정확도(Clean Accuracy)와 강건 정확도 간의 공학적 최적 균형을 유지**를 결합하여 완벽한 방어 복원력과 높은 추론 신뢰성을 완성
 
 #### 한줄 요약
 

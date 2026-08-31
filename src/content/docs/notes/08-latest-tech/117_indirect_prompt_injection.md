@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "간접 프롬프트 인젝션 (Indirect Prompt Injection)"
-date: "2026-08-26T17:11:32+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 117
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 외부 콘텐츠의 숨은 지시로 행동을 조종하는 **간접 프롬프트 인젝션**
-- 배경/필요성: 검색•요약이 외부 문서를 문맥에 그대로 넣는 구조라 공격자가 사용자 입력을 거치지 않고도 **데이터•명령 혼동**을 유발하므로, 신뢰 경계가 사용자 입력에서 검색 원천까지 확장된 것으로 보고 출처별 권한을 나누는 통제가 필요
+- 배경/필요성: RAG(Retrieval-Augmented Generation), 웹 브라우징 에이전트, 이메일 요약 등 현대 LLM 시스템이 외부 비신뢰 데이터 소스(웹페이지, PDF, 데이터베이스, 이메일 본문)를 검색하여 프롬프트 컨텍스트에 직접 주입함에 따라, 공격자가 웹문서나 이메일 내에 숨겨둔 악의적 탈취 지시문이 검색 파이프라인을 거쳐 모델의 실행 컨텍스트로 유입되는 간접 프롬프트 인젝션(Indirect Prompt Injection) 공격에 의해 사용자의 직접적인 공격 의도 없이도 내부 데이터 유출(Data Exfiltration), 원격 코드 실행, 비인가 API 호출이 발생하는 치명적 보안 위협에 직면함에 따라, 외부 데이터의 출처 신뢰도 라벨링, 비신뢰 데이터 격리, 도구 호출 시 독립 정책 검증을 수행하는 간접 프롬프트 인젝션 다층 방어(Indirect Prompt Injection Defense / Provenance Tracking, Untrusted Data Sandboxing, Policy Broker, Out-of-Band Exfiltration Block) 아키텍처를 도입하여 **외부 비신뢰 콘텐츠의 실행 지시 승격(Data-to-Command Confusion) 원천 차단, RAG 검색 결과가 유발하는 지연 발동(Latent Trigger) 악성 도구 행동 차단, 모델 출력의 비인가 외부 반출 채널(Markdown Image Link, Webhook Exfiltration) 사전 무력화**를 달성할 필요
 
 #### 한줄 요약
 - 외부 자료의 숨은 명령으로 **모델•도구 행동** 조종
@@ -167,7 +167,7 @@ extra:
 
 </details>
 
-- 외부 자료는 **비신뢰 구역**에 격리, 불일치 행동은 **도구 게이트**로 차단
+- 검색 증강 생성(RAG)과 웹 기반 자율 에이전트 환경에서 외부 비신뢰 콘텐츠를 매개로 시스템 권한을 탈취하는 **엔터프라이즈 생성형 AI 생태계의 최고 고위험 복합 공격(Indirect Prompt Injection / Supply Chain & Data Source Poisoning / Data-to-Command Confusion / RAG Context Sandboxing / Output Exfiltration Blocking / Autonomous Agent Security)의 확고한 표준**으로 확고히 자리 잡았으며, 멀티모달(이미지/음성 내 프롬프트 은닉) 공격으로 급속히 확장되는 가운데, 실무 간접 프롬프트 인젝션 방어 시에는 **검색된 모든 외부 문서에 출처 메타데이터 라벨을 강제 부착하여 비신뢰 데이터 영역에 엄격히 격리하고, 도구 실행 전 사용자 본래의 프롬프트 의도(Original User Intent)와의 일치성을 검증하는 도구 게이트웨이를 운영하며, 마크다운 이미지 렌더링을 통한 데이터 은닉 유출(Out-of-Band Exfiltration)을 원천 차단하는 CSP(Content Security Policy)**를 결합하여 완벽한 데이터 격리와 안전한 RAG 에이전트 환경을 완성
 
 #### 한줄 요약
 

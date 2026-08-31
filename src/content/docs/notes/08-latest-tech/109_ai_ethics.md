@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "AI 윤리 (AI Ethics)"
-date: "2026-08-26T17:13:05+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 109
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: AI 목적•사용•영향을 인간 권리로 판단하는 **AI 윤리**이다.
-- 배경/필요성: 기술 가능성과 법적 최소 요건만 따르면 규정이 미치지 못하는 영역에서 **허용 사용•가치 충돌 판단 곤란**해 사안마다 개별 협의 비용이 재발생하므로, 인간 존엄•공정•투명 같은 상위 가치 기준을 두어 법규와 설계 사이의 판단 공백을 메움
+- 배경/필요성: 인공지능 기술의 비약적 발전으로 자율적 판단과 생성이 가능해짐에 따라, 기존 법률과 규제의 사각지대(Regulatory Gray Zone)에서 인간의 존엄성 훼손, 딥페이크 악용, 알고리즘 편향성, 데이터 착취 및 자율 무기 체계 등 법적 최소 요건 준수만으로는 통제할 수 없는 심각한 도덕적·철학적 딜레마가 대두됨에 따라, 유네스코(UNESCO), OECD, 대한민국 인공지능 윤리기준 등이 제시하는 보편적 가치(인간 존엄성, 사회적 공공복리, 기술의 합목적성)를 바탕으로 AI 연구·개발·활용의 도덕적 정당성과 금지선(Prohibition Boundary)을 제시하는 AI 윤리(AI Ethics / Principles of Fairness, Transparency, Accountability, Human Agency & Safety / Value Alignment / Moral Deliberation & Ethical Governance) 규범 체계를 도입하여 **기술 발전이 인간의 기본권과 인류 공동체의 번영에 기여하도록 이끄는 근본적 가치 나침반 확립, 법제화 이전 단계에서의 자율적 개발 가이드라인 및 절대적 금지 관행(Red Lines) 설정, 선언적 가치를 제품 설계와 엔지니어링 통제로 연결하는 실천적 윤리 체계 구축**을 달성할 필요
 
 #### 한줄 요약
 - AI 사용의 **정당성•피해•권리•금지 경계** 판단
@@ -160,7 +160,7 @@ extra:
 
 </details>
 
-- 강제 금지선 위반은 **AI 사용 중단**, 허용 영역은 **통제•구제 조건부 승인**
+- 추상적인 철학적 담론을 넘어 글로벌 규제 법제화(EU AI Act, AI 기본법)의 사상적 모태이자 책임 있는 AI(RAI)와 거버넌스를 지탱하는 **인공지능 사회의 최고 도덕적 규범 표준(AI Ethics / UNESCO & OECD AI Principles / Human Dignity & Common Good / Red Lines for Prohibited Practices / Value Alignment & Ethical Deliberation / Foundation of Responsible AI & Governance)의 확고한 중추**로 확고히 자리 잡았으며, 자율 에이전트 및 AGI 정렬(Alignment) 문제로 심화되는 가운데, 실무 AI 윤리 체계 구축 시에는 **사내 AI 윤리 헌장을 선언에 그치지 않고 구체적인 엔지니어링 체크리스트와 개발 게이트에 내재화하고, 가치 충돌(공정성 vs 정확도, 프라이버시 vs 보안) 발생 시 다학제적 윤리위원회의 숙의를 거쳐 우선순위를 기록하며, 인간 존엄성을 침해하는 위험 시나리오에 대한 무조건적 중단(Red Line) 원칙**을 결합하여 완벽한 도덕적 정당성과 지속 가능한 기술 혁신을 완성
 
 #### 한줄 요약
 - **법적 경계•가치 충돌•구제 가능성** 기반 허용•책임 구조 결정

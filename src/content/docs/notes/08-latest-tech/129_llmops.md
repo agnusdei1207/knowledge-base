@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "LLMOps (Large Language Model Operations)"
-date: "2026-08-26T17:20:38+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 129
@@ -30,7 +30,7 @@ extra:
 </details>
 
 - 정의: 프롬프트•RAG•모델•도구•평가를 연결하는 **LLMOps**
-- 배경/필요성: 자체 학습 모델을 전제한 MLOps는 사전학습 모델을 프롬프트•검색으로 조합하는 구성에서 **프롬프트•검색•생성 평가** 관리 곤란해 변경 영향을 추적하지 못하므로, 프롬프트와 검색 설정까지 버전•평가 대상으로 삼는 운영 계층을 MLOps 위에 추가
+- 배경/필요성: 정형 데이터와 지도학습 중심의 전통적 MLOps는 파운데이션 모델(LLM)을 기반으로 프롬프트 엔지니어링, RAG(검색 증강 생성) 벡터 인덱싱, 파인튜닝(LoRA), 외부 도구/에이전트 연동을 조합하는 복합 생성형 AI 아키텍처를 효과적으로 관리할 수 없어, 프롬프트 변경이나 임베딩 모델 교체 시 발생하는 응답 환각(Hallucination), 비결정론적 출력의 품질 저하, 비정상적 토큰 비용 폭증, 보안 취약점을 체계적으로 추적·통제할 수 없는 운영 공백에 직면함에 따라, 프롬프트·RAG·모델·평가·관측 전 수명주기를 포괄하는 거대 언어 모델 운영체계인 LLMOps(Large Language Model Operations / Prompt Registry, Vector Index Lifecycle, LLM-as-a-Judge Evaluation, Tracing: LangSmith/Phoenix, Gateway & Rate Limiting)를 도입하여 **프롬프트 템플릿, 모델 가중치, RAG 청킹/임베딩 설정을 단일 구성 버전(Configuration Version)으로 통합 관리 및 재현성 보장, 정답 라벨이 없는 비결정론적 생성물에 대한 다축(충실성, 관련성, 안전성, 지연, 비용) 자동 평가 및 인간 피드백(RLHF/RLAIF) 결합, 요청-검색-도구 호출-토큰 비용의 엔드투엔드 분산 트레이싱(Tracing) 확립**을 달성할 필요
 
 #### 한줄 요약
 
@@ -168,7 +168,7 @@ AI 운영에서 LLMOps는 생성 응답 구성을, MLOps는 예측 모델의 학
 
 </details>
 
-- **LLMOps 구성•실행 추적** 후 다축 평가 통과 구성만 승격
+- 단순한 래퍼(Wrapper) 앱을 넘어 엔터프라이즈급 고신뢰성 생성형 AI 애플리케이션 및 자율 에이전트를 안정적으로 서비스하는 **생성형 AI 시대 MLOps의 차세대 진화형 핵심 운영 표준(LLMOps / Prompt & Pipeline Versioning / RAG Index Lifecycle / LLM-as-a-Judge & RAG Triad Evaluation / End-to-End Tracing & Token Cost Accounting / Guardrails & Safe Deployment)의 절대적 표준**으로 확고히 자리 잡았으며, 다중 파운데이션 모델 라우팅 및 소형 언어 모델(SLM) 파인튜닝 파이프라인으로 급속히 확장되는 가운데, 실무 LLMOps 아키텍처 설계 시에는 **프롬프트-임베딩-검색 파라미터를 불변 아티팩트로 번들링하여 버전 관리하고, Ragas/TruLens 기반 RAG 삼각 평가(Context Precision/Recall, Faithfulness)를 CI/CD 게이트웨이에 통합하며, 실시간 런타임 가드레일(Guardrails AI)과 지능형 LLM 라우팅 게이트웨이**를 결합하여 완벽한 생성 품질과 비용 최적화를 완성
 
 #### 한줄 요약
 

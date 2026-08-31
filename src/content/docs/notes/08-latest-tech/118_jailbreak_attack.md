@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "탈옥 공격 (Jailbreak Attack)"
-date: "2026-08-26T17:12:57+09:00"
+date: "2026-08-31T15:08:00+09:00"
 tags:
   - "notes-latest_tech"
 weight: 118
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 변형 지시로 안전 정책•거부 규칙을 우회하는 **탈옥 공격**
-- 배경/필요성: 표현 목록에 의존하는 정적 필터는 **변형 지시**가 나올 때마다 규칙을 덧붙이는 비용을 치르면서 정상 요청까지 과잉 차단하므로, 의도 수준에서 판정하는 정렬 학습과 출력 단계 검사를 함께 두어 표현의 다양성을 규칙 밖에서 흡수
+- 배경/필요성: 거대 언어 모델(LLM)에 적용된 RLHF/DPO 기반 안전 정렬(Safety Alignment) 및 키워드 기반 정적 가드레일은, 공격자가 가상 시나리오 역할극(Role-play: DAN, hypothetical framing), 다국어/외국어 번역, Base64/Cipher 난독화 인코딩, 다단계 대화 유도(Multi-turn Persuasion) 등 교묘한 적대적 프롬프트 변형 기법을 사용할 경우 안전 경계가 쉽게 무력화되어 폭탄 제조, 악성코드 생성, 사이버 공격 지침 등 유해·위험 콘텐츠를 무제한 생성하는 정렬 탈옥(Jailbreak) 취약점에 직면함에 따라, 모델 내부 표현 수준의 정렬 강화와 외부 다계층 적대적 입력/출력 검증기를 결합한 종합 탈옥 방어(Jailbreak Defense / Adversarial Training, Constitutional AI, Guardrails AI, Output Moderation, Circuit Breakers) 체계를 도입하여 **교묘한 변형 의도 및 역할극 기반 탈옥 시도의 지능적 탐지 및 원천 차단, 정상적인 보안 연구 및 학술적 질의에 대한 과잉 거부(Over-refusal) 최소화와 유용성(Helpfulness) 유지, 지속적인 적대적 레드팀(AI Red Teaming) 평가를 통한 방어 가드레일의 선제적 강화**를 달성할 필요
 
 #### 한줄 요약
 - 역할극•인코딩으로 의도를 숨겨 **거부 정책** 우회
@@ -165,7 +165,7 @@ extra:
 
 </details>
 
-- 공격 성공률이 높으면 **안전 통제**, 과잉 거부율이 높으면 **예외 기준** 조정
+- 생성형 AI의 안전 정책과 사회적 윤리 가이드라인을 강제하고 적대적 악용을 차단하는 **LLM 안전성 및 정렬 보안(AI Safety & Alignment)의 최고 핵심 쟁점(Jailbreak Attack & Defense / Adversarial Prompting / Role-Play & Encoding Evasion / Llama Guard & NeMo Guardrails / Representation Engineering & Circuit Breakers / Over-refusal vs Safety Trade-off)의 확고한 표준**으로 확고히 자리 잡았으며, 자동화된 탈옥 프롬프트 생성(PAIR, GCG) 기법의 고도화에 대응하는 동적 방어로 진화하는 가운데, 실무 탈옥 방어 플랫폼 구축 시에는 **단일 키워드 필터링을 넘어 독립된 경량 안전 분류 모델(Llama Guard)을 입력과 출력 양단에 배치하고, 표현 엔지니어링(Representation Engineering) 기반 모델 내부 활성화 제어(Circuit Breakers)를 적용하며, 공격 성공률(ASR)과 과잉 거부율(Over-refusal Rate)을 동시에 추적하는 벤치마크 평가**를 결합하여 완벽한 유해성 차단과 최적의 사용자 경험을 완성
 
 #### 한줄 요약
 
