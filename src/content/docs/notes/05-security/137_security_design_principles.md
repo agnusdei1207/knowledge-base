@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "시스템 보안 아키텍처 8대 기본 설계 원칙 : Saltzer & Schroeder 원칙 (NIST SP 800-160 & SP 800-53)"
-date: "2026-08-26T15:15:53+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 137
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 안전한 시스템 아키텍처를 구현하기 위해 **안전한 기본값(Fail-safe Defaults / Default Deny) $\rightarrow$ 최소 권한(Least Privilege) $\rightarrow$ 완전 중재(Complete Mediation) $\rightarrow$ 메커니즘의 경제성(Economy of Mechanism) $\rightarrow$ 공개 설계(Open Design) $\rightarrow$ 권한 분리(Separation of Privilege) $\rightarrow$ 최소 공통 메커니즘 $\rightarrow$ 심리적 수용성** 을 내재화하는 **시스템 보안 공학 설계 패러다임**
-- 배경/필요성: 완성된 시스템에 통제를 덧대면 우회 경로가 발견될 때마다 개별 패치 비용이 반복되므로, 기본 거부·최소 권한·**완전 중재(Complete Mediation)** 같은 원칙을 아키텍처 단계에 못 박아 통제를 사후 부착물이 아닌 구조 자체로 옮긴 것
+- 배경/필요성: 시스템 개발 및 구축 완료 후 사후에 보안 솔루션을 덧붙이는 방식(Bolt-on Security)은 기본 허용(Default Allow) 설정 누락, 과도한 영구 관리자 권한(Over-privileged), 권한 검증 캐싱 누락 등으로 인해 단일 엔드포인트 침투만으로 전체 시스템이 장악되는 구조적 결함과 개별 패치 비용의 기하급수적 증가를 초래함에 따라, NIST SP 800-160 시스템 보안 공학에 기반하여 기획·설계 초기부터 안전한 기본값(Fail-safe Defaults/Default Deny), 최소 권한(Least Privilege), 매 요청 전수 실시간 검증(Complete Mediation), 메커니즘의 경제성 및 직무 분리(Separation of Privilege)를 내재화하는 Saltzer & Schroeder 8대 보안 설계 원칙을 도입하여 **공격 표면(Attack Surface) 원천 최소화, 횡적 이동(Lateral Movement) 차단 및 현대 제로 트러스트(Zero Trust) 아키텍처의 설계 신뢰성**을 달성할 필요
 
 #### 한줄 요약
 - Saltzer & Schroeder 8대 원칙은 설계 단계부터 기본 거부, 최소 권한, 완전 중재를 내재화하는 보안 원칙이다.
@@ -77,9 +77,9 @@ extra:
 │  ├─ Separation of Privilege
 │  └─ Least Privilege
 └─ 구조·사용성
-   ├─ Open Design
-   ├─ Least Common Mechanism
-   └─ Psychological Acceptability
+    ├─ Open Design
+    ├─ Least Common Mechanism
+    └─ Psychological Acceptability
 ```
 
 선의 의미: 기본 거부와 단순 설계 위에 완전 중재 및 최소 권한 검증을 거쳐, 공유 자원을 격리하고 사용자 수용성을 보장하는 구조
@@ -187,7 +187,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 모든 접근은 **기본 거부·완전 중재**, 권한은 과업 기간만 최소 부여
+- 사후 통제 덧붙이기의 한계를 극복하고 시스템 기획 및 코드 설계 초기부터 보안 내재화(Security by Design)를 강제하는 **컴퓨터 시스템 보안 공학 및 제로 트러스트 아키텍처(NIST SP 800-160 / Saltzer & Schroeder 8 Principles)의 불변의 기초 엔지니어링 표준**으로 확고히 자리 잡았으며, 클라우드 네이티브 및 AI/마이크로서비스 인프라 보호의 핵심 원리로 계승되는 가운데, 실무 엔터프라이즈 시스템 구축 시에는 **인프라 코드화(IaC) 단계의 기본 거부(Default Deny) 강제, JIT(Just-In-Time) 시한부 최소 권한 및 직무 분리(SoD) 결재선 확립, 제로 트러스트 PDP/PEP 기반의 매 요청 완전 중재(Complete Mediation) 실시간 검증**을 결합하여 완벽한 시스템 보안 복원력을 완성
 
 #### 한줄 요약
 - Saltzer & Schroeder 8대 원칙을 설계 초기부터 내재화하여 무결점 제로 트러스트 보안 아키텍처를 완성한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "소프트웨어 아키텍처 위협 식별 및 위험 평가 : 위협 모델링 (STRIDE & DREAD)"
-date: "2026-08-26T15:23:25+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 146
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 설계 단계부터 보안 내재화(Secure by Design)를 달성하기 위해 **DFD 시스템 분해 및 신뢰 경계 설정 $\rightarrow$ STRIDE 6대 위협 범주 식별 $\rightarrow$ DREAD/CVSS 정량적 위험 평가 $\rightarrow$ 완화 설계 패턴(Mitigation Pattern) 적용 $\rightarrow$ 보안 요구사항 추적성(Traceability) 확보** 를 집행하는 **선제적 위협 분석 프레임워크**
-- 배경/필요성: 설계 결함은 코드로 구현된 뒤에는 아키텍처 재작성 비용으로 커지고 위협 도출마저 담당자 경험에 좌우되므로, DFD 신뢰 경계 위에 **STRIDE 6대 범주**를 대입하는 절차를 두어 위협 열거를 개인 역량이 아닌 반복 가능한 공정으로 옮긴 것
+- 배경/필요성: 소프트웨어 개발 생명주기(SDLC)에서 단순 코딩 버그와 달리 인증 부재, 신뢰 경계 미분리 등 아키텍처 수준의 구조적 설계 결함(Design Flaws)은 개발 완료 후 사후 발견 시 전체 시스템을 재작성해야 하는 막대한 수정 비용을 초래하며, 보안 담당자의 주관적 경험에 의존한 위협 식별은 심각한 보안 누락을 야기함에 따라, Microsoft SDL 및 OWASP 표준에 기반하여 데이터 흐름도(DFD) 상의 신뢰 경계(Trust Boundary) 설정, STRIDE 6대 위협 범주(Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege) 전수 식별, DREAD 정량적 위험 평가 및 완화 설계 패턴을 결합하는 위협 모델링 프레임워크를 도입하여 **설계 단계의 보안 결함 사전 제거, 위협 도출의 반복 가능성·객관성 확보 및 코드형 위협 모델링(TMaC)을 통한 애자일 보안 내재화**를 달성할 필요
 
 #### 한줄 요약
 - 위협 모델링은 DFD와 STRIDE를 통해 설계 단계의 구조적 위협을 식별하고 DREAD로 위험을 평가한다.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 구조 위협은 **STRIDE**, 위험 우선순위는 **DREAD·CVSS**로 결정
+- 코딩 이전의 아키텍처 설계 단계부터 잠재적 위협을 구조적으로 분해하고 보안 요구사항을 선제 도출하는 **소프트웨어 설계 보안 및 위협 모델링(STRIDE & DREAD / Trust Boundary / TMaC)의 글로벌 핵심 엔지니어링 방법론**으로 확고히 자리 잡았으며, 클라우드 네이티브 MSA 및 DevSecOps 파이프라인의 자동화된 보안 설계 검증으로 진화하는 가운데, 실무 아키텍처 설계 시에는 **마이크로서비스 간 신뢰 경계(Trust Boundary) 전수 설정 및 mTLS 상호인증 강제, CVSS 기반 객관적 DREAD 위험 우선순위 산출, Git 변경과 연동되는 코드형 위협 모델링(Threat Modeling as Code) 자동화**를 결합하여 완벽한 설계 보안 복원력을 완성
 
 #### 한줄 요약
 - DFD 신뢰 경계와 STRIDE/DREAD 분석을 통해 설계 단계부터 무결점 위협 모델링을 완성한다.

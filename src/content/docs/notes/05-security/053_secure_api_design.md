@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "RESTful/GraphQL API 보안 아키텍처 및 BOLA 방어 : 보안 API 설계 (Secure API Design & OWASP API Top 10)"
-date: "2026-08-26T14:45:09+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 53
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: API 게이트웨이의 **외곽 경계 통제(Authentication, Throttling, Schema Validation)** 와 백엔드 자원 서버의 **심층 인가 통제(BOLA Ownership Check, Scope Enforcement, Audit Logging)** 를 분리 결합하는 **다계층 API 제로 트러스트 보안 아키텍처**
-- 배경/필요성: 게이트웨이는 요청마다 동일하게 판정되는 토큰 서명·스코프 같은 전역 조건만 무상태로 검사할 수 있고 어떤 객체가 누구 것인지는 데이터가 놓인 자리에서만 확인되므로, 소유권 대조를 자원 서버의 질의 조건(`AND owner_id = token.user_id`)으로 내려 인가를 경계 통제와 심층 통제 두 계층으로 나눠 맡길 필요
+- 배경/필요성: 클라우드 네이티브, 마이크로서비스 아키텍처(MSA) 및 모바일/SPA 생태계가 확산됨에 따라 외부로 노출된 수많은 RESTful/GraphQL API 엔드포인트가 주요 공격 표면(Attack Surface)으로 부상하였으나, 단순한 네트워크 방화벽이나 API 게이트웨이의 외곽 인증만으로는 URL 객체 식별자 변조를 통한 타인 데이터 무단 탈취(BOLA: Broken Object Level Authorization) 및 대규모 자원 고갈(DoS) 공격을 효과적으로 방어하지 못하는 한계를 드러냄에 따라, API 게이트웨이의 외곽 트래픽 제어(Rate Limiting/mTLS/JWT 검증)와 백엔드 자원 서버의 객체 수준 심층 인가(BOLA 방어), OAuth 2.0 PKCE 및 DPoP(RFC 9449)를 결합한 보안 API 설계(Secure API Design) 아키텍처를 도입하여 **OWASP API Top 10 위협 선제 차단, 무상태(Stateless) 토큰의 비인가 재사용 방지 및 데이터 소유권 기반의 완벽한 접근 통제**를 달성할 필요
 
 #### 한줄 요약
 - 게이트웨이의 토큰/호출률 검증과 백엔드 자원 서버의 BOLA 객체 소유권 검증을 결합하여 안전한 API 생태계를 구축한다.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 공개 API는 **호출률 제한**, 객체 접근은 BOLA 검증, 토큰은 PKCE·DPoP 적용
+- 디지털 전환과 오픈 API, 금융 마이데이터 및 MSA 환경에서 전사 비즈니스 자산을 외부에 안전하게 노출하고 보호하는 **현대 클라우드 소프트웨어 아키텍처 및 제로 트러스트(Zero Trust) API 생태계의 핵심 설계 표준**으로 확고히 자리 잡았으며, AI 기반 API 이상 행위 탐지 및 서비스 메시(Service Mesh) 기반 mTLS 통신으로 진화하는 가운데, 실무 보안 API 설계 시에는 **API 게이트웨이 전단에 슬라이딩 윈도우 호출률 제한(Rate Limiting) 및 OpenAPI 스키마 검증 구축, 자원 서버 계층에서 데이터베이스 질의 시 토큰 클레임 기반의 객체 소유권(BOLA/BFLA) 검증 100% 강제, 모바일/SPA 환경을 위한 OAuth 2.0 PKCE(RFC 9700) 및 암호학적 기기 바인딩 토큰 DPoP(RFC 9449) 적용**을 결합하여 무결점 엔드투엔드 API 보안 라이프사이클을 완성
 
 #### 한줄 요약
 - 게이트웨이 경계 통제와 백엔드 BOLA 소유권 검증 및 PKCE/DPoP를 결합하여 안전한 API 환경을 완성한다.

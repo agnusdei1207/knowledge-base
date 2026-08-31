@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "동적 다차원 속성 평가 및 세분화 인가 모델 : ABAC (Attribute-Based Access Control & NIST SP 800-162)"
-date: "2026-08-26T14:46:51+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 60
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: NIST SP 800-162 및 OASIS XACML 3.0 표준에 입각하여 **4대 속성 결합 $\rightarrow$ PEP(정책집행점) 트래픽 차단 $\rightarrow$ PDP(정책결정점) 논리식 평가 $\rightarrow$ PIP(속성정보점) 실시간 속성 동기화 $\rightarrow$ PAP(정책저장소) 룰셋 대조** 를 집행하는 **세분화 동적 인가(Fine-Grained Dynamic Authorization) 아키텍처**
-- 배경/필요성: RBAC은 인가 근거를 사전에 고정된 역할에 담아 두는 대신 요청 시점의 위치·시간·단말 상태를 판정에 넣지 못하고 예외마다 역할을 늘리는 비용을 치르므로, 판정 자체를 자원 앞의 **PDP(정책 결정점)** 로 빼내 요청마다 4대 속성을 조회해 계산하는 계층으로 옮길 필요
+- 배경/필요성: 전통적인 역할 기반 접근 제어(RBAC)는 사전에 정적으로 정의된 역할만을 평가하여 접속 시간, 단말 보안 상태(MDM/EDR 점수), IP 지리적 위치, 데이터 기밀 등급 등 실시간 런타임 문맥(Context)을 반영하지 못하고(Context Blindness), 비즈니스 예외마다 역할을 신설하다가 역할 폭발(Role Explosion)을 초래하는 근본적 한계를 노출함에 따라, 주체(Subject)·객체(Object)·행위(Action)·환경(Environment) 4대 다차원 속성과 논리적 정책을 런타임에 결합하는 NIST SP 800-162 및 OASIS XACML 3.0(PEP-PDP-PIP-PAP) 표준 기반의 ABAC을 도입하여 **제로 트러스트(Zero Trust) 실시간 동적 신뢰 평가, 세분화된 문맥 인식(Context-Aware) 인가 및 기본 거부(Deny-Overrides) 기반의 정밀한 접근 통제**를 달성할 필요
 
 #### 한줄 요약
 - 주체/객체/행위/환경의 4대 속성과 PEP-PDP-PIP-PAP 엔진을 통해 실시간 문맥 인식 동적 인가를 집행한다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 안정적 직무는 RBAC, 동적 위험은 **ABAC**으로 판정하고 기본 거부 적용
+- 사전 정의된 정적 경계를 넘어 실시간 환경 문맥과 다차원 속성을 결합하여 최소 권한을 동적으로 집행하는 **현대 제로 트러스트(Zero Trust) 및 클라우드 네이티브 세분화 인가(Fine-Grained Authorization)의 최상위 표준 모델**로 확고히 정립되었으며, OPA(Open Policy Agent) 및 Rego 기반의 선언적 정책 코드로 진화하는 가운데, 실무 엔터프라이즈 인가 아키텍처 설계 시에는 **1차 거시적 직무는 RBAC으로 고속 필터링하고 2차 미시적 환경 조건(시간/위치/기기)은 ABAC으로 정밀 판정하는 하이브리드(Hybrid RBAC-ABAC) 모델 구축, OPA 인메모리 캐싱을 통한 5ms 이내 판정 지연시간 보장, 웹훅 기반의 PIP 속성 캐시 즉각 무효화, 결함 발생 시 차단하는 Deny-Overrides 실패 안전(Fail-Safe) 정책**을 결합하여 완벽한 동적 인가 거버넌스를 완성
 
 #### 한줄 요약
 - 4대 속성 다차원 결합과 PEP-PDP 아키텍처 및 하이브리드 OPA 모델을 통해 제로 트러스트 동적 인가를 완성한다.

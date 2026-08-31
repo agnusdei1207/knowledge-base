@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 138
   label: "138. 만리장성 보안 모델 (Brewer-Nash Model)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "동적 이해충돌 방지 및 정보 격리 모델 : Brewer-Nash 모델 (Chinese Wall Model)"
-date: "2026-08-26T15:16:43+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 138
@@ -24,11 +24,13 @@ extra:
 
 - **Brewer-Nash 모델(만리장성 모델 / Chinese Wall Model / IEEE 1989)**: 금융, 법률, 회계 컨설팅 환경에서 컨설턴트가 특정 기업의 기밀 정보를 열람한 후 경쟁 기업의 기밀 정보를 추가로 열람함으로써 발생할 수 있는 이해충돌(Conflict of Interest)과 내부자 거래를 원천 방지하기 위해, 주체의 과거 접근 이력(Access History)에 따라 경쟁사 데이터에 대한 접근을 실시간 동적으로 차단하는 보안 모델.
 - **정적 역할 기반 통제(RBAC)의 이해충돌 방지 한계 결함(Static Privilege vs Dynamic Conflict Defect)**: 전통적인 강제적 접근 통제(MAC)나 역할 기반 통제(RBAC)는 직급이나 부서에 따라 고정된 권한을 부여하므로, 동일한 '기업 분석가' 역할을 가진 직원이 A금융사 데이터를 분석한 직후 경쟁 B금융사 데이터에 접근하여 영업 비밀을 유출하거나 악용하는 동적 이해충돌 시나리오를 방어할 수 없던 구조적 결함.
+- **만리장성 모델(Chinese Wall Model)**: 1989년 David Brewer와 Michael Nash가 발표한 상업용 접근 제어 모델로, 금융·투자은행·회계·법률 등에서 컨설턴트나 분석가가 경쟁사 간의 기밀을 동시에 열람하여 발생할 수 있는 이해충돌(Conflict of Interest)과 내부자 거래를 방지하기 위해 고안된 동적 보안 모델.
+- **이해충돌 클래스(Conflict of Interest Class, COI)**: 상호 경쟁 관계에 있는 기업들의 데이터셋 집합(예: 석유화학 COI = {A정유, B정유, C정유}).
 
 </details>
 
 - 정의/개념: 상호 경쟁 관계에 있는 기업 데이터의 교차 유출을 방지하기 위해 **객체 3계층 구조화(객체 $\rightarrow$ CD $\rightarrow$ COI) $\rightarrow$ 과거 접근 이력(Access History) 추적 $\rightarrow$ 단순 보안 읽기 규칙(Simple Security Rule) 적용 $\rightarrow$ 별표(*) 쓰기 규칙(Star-Property Rule)을 통한 간접 유출 차단 $\rightarrow$ 정제 데이터(Sanitized Data) 예외 처리**를 집행하는 **동적 정보 흐름 격리 보안 모델**
-- 배경/필요성: 역할 기반 권한은 접근 이전에 허용 범위를 고정해 컨설턴트가 경쟁사 자료를 차례로 열람하는 흐름을 막지 못하므로, 과거 **접근 이력(Access History)**을 권한 판단의 입력으로 넣어 열람할수록 허용 범위가 좁아지는 동적 통제로 옮긴 것
+- 배경/필요성: 전통적인 정적 역할 기반 통제(RBAC)나 강제적 접근 통제(MAC)는 직무나 보안 등급에 따라 권한을 사전에 고정 부여하므로, 동일한 권한을 가진 금융·법률·회계 분석가가 A기업의 기밀을 열람한 후 경쟁 B기업의 기밀을 연속 열람하여 내부자 거래나 영업 비밀 유출을 일으키는 동적 이해충돌(Conflict of Interest)을 방어할 수 없는 구조적 한계가 존재함에 따라, 3계층 객체 구조(객체 $\rightarrow$ 회사 데이터셋 CD $\rightarrow$ 이해충돌 클래스 COI), 주체의 과거 접근 이력(Access History) 추적, 단순 보안 읽기 규칙(Simple Security Rule) 및 간접 전파를 차단하는 별표(*) 쓰기 규칙을 결합하는 Brewer-Nash(만리장성) 동적 보안 모델을 도입하여 **상업적 이해충돌 원천 방지, 다자간 기업 기밀 격리 및 동적 정보 흐름 통제(NIST SP 800-53 AC-4)**를 달성할 필요
 
 #### 한줄 요약
 - Brewer-Nash 모델은 과거 접근 이력을 기반으로 경쟁사(COI) 간 데이터 접근을 동적으로 차단한다.
@@ -184,7 +186,7 @@ Brewer-Nash 모델
 
 ## Ⅶ. 결론
 
-- 경쟁 CD 첫 열람 뒤 **동일 COI** 타사 읽기와 외부 쓰기 차단
+- 과거 접근 이력에 따라 권한 범위를 실시간 재구성하여 상호 경쟁 기업 간 정보 유출과 이해충돌을 차단하는 **동적 상업 보안 및 정보 흐름 격리(Brewer-Nash / Chinese Wall Model / NIST SP 800-53 AC-4)의 핵심 이론적 모델**로 확고히 자리 잡았으며, 멀티테넌트 클라우드 환경 및 법무/금융 SaaS 플랫폼 보안의 핵심 접근제어 로직으로 계승되는 가운데, 실무 엔터프라이즈 시스템 구현 시에는 **접근 검증과 이력 갱신의 직렬화(Serializable) 원자적 트랜잭션 보장, 브라우저 재로그인 및 세션 분리를 통한 우회 차단용 영구 감사 원장 동기화, 정제 데이터(Sanitized Data) 공유 시 차분 프라이버시(Differential Privacy) 기반 재식별 방지**를 결합하여 완벽한 만리장성 격리 신뢰성을 완성
 
 #### 한줄 요약
 - Brewer-Nash 모델을 통해 과거 접근 이력 기반의 동적 만리장성을 구축하여 무결점 이해충돌 방지를 완성한다.

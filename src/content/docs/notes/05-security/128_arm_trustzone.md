@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "하드웨어 기반 시스템 공간 격리 및 TEE : ARM TrustZone (GlobalPlatform TEE & ARMv8-A)"
-date: "2026-08-26T15:01:28+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 128
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 단일 하드웨어 자원을 효율적으로 활용하기 위해 **AXI 버스 NS(Non-Secure) 비트 태깅 $\rightarrow$ EL3 보안 모니터(Secure Monitor / SMC 호출) $\rightarrow$ TZASC(메모리 주소 제어) 및 TZPC(주변장치 제어) $\rightarrow$ 보안 마이크로커널(Secure OS / OP-TEE) 구동 $\rightarrow$ 신뢰 애플리케이션(TA) 암호 연산** 을 집행하는 **하드웨어 기반 시스템 격리 아키텍처**
-- 배경/필요성: 범용 OS 커널이 침해되면 그 커널이 관리하는 소프트웨어 격리도 함께 무너지고 별도 보안 칩을 다는 것은 원가 부담이 되므로, 버스 NS 비트로 갈라 놓은 **Secure World**를 두어 키와 암호 연산을 리치 OS가 닿을 수 없는 하드웨어 경계 안으로 옮긴 것
+- 배경/필요성: 수천만 라인의 복잡한 코드베이스를 가진 안드로이드/리눅스 등 범용 리치 OS(REE)는 커널 취약점 공격으로 루트(Root) 권한이 탈취될 위험이 상존하며, OS 커널이 장악될 경우 소프트웨어 기반 샌드박스가 무력화되어 메모리 내 생체 인증 템플릿과 마스터 결제 암호키가 평문 유출되는 치명적 결함이 발생함에 따라, ARMv8-A 및 GlobalPlatform TEE 표준에 기반하여 단일 프로세서 코어와 AXI 시스템 버스를 NS(Non-Secure) 비트 신호로 하드웨어 격리하고, 최상위 EL3 보안 모니터(Secure Monitor), TZASC(메모리 공간 제어기) 및 TZPC(주변장치 제어기)를 결합하는 ARM TrustZone 아키텍처를 도입하여 **범용 OS 침해 시에도 안전한 보안 세계(Secure World / TEE) 격리, 고성능 생체/결제 암호 연산 보증 및 TCB(최소 신뢰 기반) 극소화**를 달성할 필요
 
 #### 한줄 요약
 - 단일 CPU와 AXI 버스를 NS 비트와 EL3 모니터로 분할하여 일반 세계와 격리된 하드웨어 TEE를 제공한다.
@@ -192,7 +192,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 대용량 보안 연산은 **TrustZone**, 물리 공격 저항은 **SE** 선택
+- 별도의 물리적 보안 칩 추가 없이 메인 SoC 내부에서 범용 OS와 완전히 격리된 고성능 신뢰 실행 환경(TEE)을 구축하는 **하드웨어 기반 시스템 공간 격리 및 프로세서 보안(ARM TrustZone / GlobalPlatform TEE / AXI NS Bit)의 핵심 플랫폼 아키텍처**로 확고히 자리 잡았으며, 모바일 결제, 지문/안면 인식, 스마트카 및 기밀 컴퓨팅(CCA: Realm Management)으로 진화하는 가운데, 실무 TrustZone TEE 시스템 설계 및 TA 개발 시에는 **초소형 마이크로커널(OP-TEE) 채택을 통한 TCB 최소화, 일반 세계와의 공유 메모리 통신 시 Double-fetch 방식을 통한 TOCTOU 경쟁 상태 공격 원천 차단, 세계 전환(SMC) 시 캐시 및 분기 예측기 플러시(Flush)를 통한 마이크로아키텍처 부채널 공격 방어**를 결합하여 완벽한 하드웨어 TEE 무결성을 완성
 
 #### 한줄 요약
 - AXI NS 비트와 EL3 모니터 및 TZASC/TZPC 하드웨어 제어를 통해 완벽한 ARM TrustZone TEE를 완성한다.

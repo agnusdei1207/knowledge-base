@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "비즈니스 주도형 엔터프라이즈 보안 아키텍처 방법론 : SABSA 프레임워크 (ISO/IEC/IEEE 42010)"
-date: "2026-08-26T15:17:26+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 139
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 비즈니스 가치 창출과 위험 통제를 일치시키기 위해 **비즈니스 속성(Business Attributes) 정의 $\rightarrow$ 6단계 수직 계층화(Contextual $\rightarrow$ Conceptual $\rightarrow$ Logical $\rightarrow$ Physical $\rightarrow$ Component $\rightarrow$ Operational) $\rightarrow$ 6대 관점(6W) 매트릭스 도출 $\rightarrow$ 양방향 추적성(Bidirectional Traceability) 확보 $\rightarrow$ 운영 지표(KPI/KRI) 기반 지속적 평가** 를 집행하는 **비즈니스 주도형 보안 아키텍처 프레임워크**
-- 배경/필요성: 통제를 기술 목록으로 나열하면 투자 근거를 사업 언어로 다시 설명하는 비용이 심의 때마다 반복되므로, 비즈니스 속성에서 출발해 6계층으로 내려가는 **양방향 추적성**을 두어 각 통제가 어떤 사업 위험에 대응하는지를 구조로 남긴 것
+- 배경/필요성: 기업의 비즈니스 전략과 핵심 위험을 고려하지 않은 채 특정 보안 솔루션의 기능 나열식으로 보안을 구축(Technology-centric Bolt-on)할 경우 수십억 원의 보안 투자에도 불구하고 실제 비즈니스 프로세스 보호 효과를 입증할 수 없고 조직의 사업 목표와 보안 투자가 단절되는 구조적 결함이 발생함에 따라, ISO/IEC/IEEE 42010 표준에 기반하여 비즈니스 속성 프로파일(BAP) 수립, 6단계 수직 아키텍처 계층화(Contextual $\rightarrow$ Conceptual $\rightarrow$ Logical $\rightarrow$ Physical $\rightarrow$ Component $\rightarrow$ Operational) 및 6대 관점(6W) 매트릭스를 결합하는 SABSA 프레임워크를 도입하여 **비즈니스 위험과 보안 통제 간의 완벽한 양방향 추적성(Bidirectional Traceability) 확보, 보안 투자의 사업적 타당성 입증 및 TOGAF 연계 전사 아키텍처 내재화**를 달성할 필요
 
 #### 한줄 요약
 - SABSA는 비즈니스 속성으로부터 출발하여 6대 계층과 6W 관점을 통해 보안 구현의 양방향 추적성을 완성한다.
@@ -188,7 +188,7 @@ SABSA 보안 아키텍처
 
 ## Ⅶ. 결론
 
-- 핵심 위험은 **BAP**로 정량화하고 통제·KPI를 양방향 추적
+- 보안을 기술적 통제에 국한하지 않고 기업의 비즈니스 목표 달성을 지원하고 위험을 상쇄하는 핵심 동력으로 재정의하는 **비즈니스 주도형 엔터프라이즈 보안 아키텍처 방법론(SABSA / Business Attributes Profile / 6x6 Matrix)의 독보적 글로벌 표준**으로 확고히 자리 잡았으며, 클라우드 거버넌스 및 제로 트러스트 전환을 위한 보안 엔터프라이즈 아키텍처(TOGAF ADM 연계)로 확산되는 가운데, 실무 엔터프라이즈 보안 아키텍처 수립 시에는 **핵심 비즈니스 위험을 반영한 Top 5 비즈니스 속성 프로파일(BAP) 정량화, TOGAF ADM 각 단계(Phase A~H)와 SABSA 6계층 산출물의 1:1 결합, 이해관계자별 뷰포인트(Viewpoint) 분리 및 운영 관제 KRI/KPI와 비즈니스 성과 간의 폐루프(Closed-loop) 환류**를 결합하여 완벽한 비즈니스 보안 정렬성을 완성
 
 #### 한줄 요약
 - SABSA 프레임워크를 통해 비즈니스 속성과 보안 구현의 완벽한 양방향 추적성을 완성한다.

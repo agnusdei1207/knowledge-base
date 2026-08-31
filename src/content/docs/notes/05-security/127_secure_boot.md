@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "부팅 신뢰 체인 및 펌웨어 무결성 검증 : Secure Boot (UEFI 2.11 & TCG TPM 2.0)"
-date: "2026-08-26T15:01:02+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 127
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 변조 불가능한 하드웨어 앵커(PK)를 바탕으로 **플랫폼 키(PK) $\rightarrow$ 키 교환 키(KEK) $\rightarrow$ 서명 데이터베이스(db/dbx) 대조 $\rightarrow$ 부트로더 및 커널 전자서명 검증 $\rightarrow$ 신뢰 사슬(Chain of Trust) 릴레이 확립 $\rightarrow$ TPM 2.0 기반 부팅 측정(Measured Boot)** 을 집행하는 **플랫폼 부팅 무결성 보증 아키텍처**
-- 배경/필요성: OS 위에서 도는 EDR은 자기보다 먼저 적재된 부트킷을 볼 수 없어 재설치로도 제거되지 않으므로, 각 단계가 다음 단계의 서명을 검증하는 **신뢰 사슬(Chain of Trust)**을 두어 검증 책임을 OS 이전 구간과 하드웨어 키(PK)로 옮긴 것
+- 배경/필요성: 운영체제(OS) 및 보안 백신이 로드되기 이전인 부팅 초기 단계에서 악성 부트킷(Bootkit)이나 루트킷이 먼저 실행될 경우, OS 커널 시스템 콜과 메모리를 하위 계층에서 조작하여 EDR의 탐지를 영구적으로 은폐하고 시스템 전체 제어권을 장악하는 치명적 맹점이 존재함에 따라, UEFI 2.11 및 TCG TPM 2.0 표준에 기반하여 마더보드 최상위 플랫폼 키(PK), 키 교환 키(KEK), 허용 서명 DB(db) 및 폐기 서명 DB(dbx) 4대 키 계층을 구축하고, 부트로더 $\rightarrow$ OS 커널 $\rightarrow$ 드라이버로 이어지는 신뢰의 사슬(Chain of Trust) 전자서명 릴레이 검증 및 TPM PCR 기반 측정 부팅(Measured Boot)을 결합하는 Secure Boot 아키텍처를 도입하여 **Pre-OS 구간 악성코드 실행 원천 차단, 부팅 전주기 무결성 보증 및 하드웨어 기반 원격 증명(Remote Attestation) 신뢰성**을 달성할 필요
 
 #### 한줄 요약
 - UEFI Secure Boot는 PK, KEK, db, dbx 키 계층을 통해 전자서명을 검증하여 부트킷을 차단하고 신뢰 사슬을 확립한다.
@@ -202,7 +202,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 실행 차단은 **Secure Boot**, 원격 증명은 **Measured Boot** 적용
+- 운영체제 이전(Pre-OS) 최하위 부팅 단계부터 악성 부트킷의 개입을 원천 차단하고 신뢰의 기점을 하드웨어로 확립하는 **플랫폼 부팅 무결성 및 신뢰 사슬(UEFI Secure Boot / PK·KEK·db·dbx / TCG TPM 2.0)의 핵심 방어 표준 아키텍처**로 확고히 자리 잡았으며, 제로 트러스트 기기 신원 검증 및 클라우드 가상 머신(vTPM) 보안으로 확장되는 가운데, 실무 엔터프라이즈 엔드포인트 및 서버 인프라 구축 시에는 **BlackLotus 등 알려진 취약 부트로더 차단을 위한 폐기 서명 DB(dbx) 주기적 최신 갱신 배포, 커스텀 리눅스 커널을 위한 MOK(Machine Owner Key) 보안 프로비저닝, TPM 2.0 PCR 레지스터 기반 측정 부팅(Measured Boot)과 연계한 네트워크 접근 제어(NAC/ZTNA 원격 증명)**를 결합하여 완벽한 하드웨어 부팅 신뢰성을 완성
 
 #### 한줄 요약
 - PK/KEK/db/dbx 4대 키 구조와 신뢰 사슬 릴레이 및 TPM Measured Boot를 통해 무결점 Secure Boot를 완성한다.

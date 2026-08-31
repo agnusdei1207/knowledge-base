@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "동적 자격증명 발급 및 비밀 생애주기 관리 : Secrets Management (HashiCorp Vault & AWS Secrets Manager)"
-date: "2026-08-26T14:49:44+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 77
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 고정된 비밀번호의 하드코딩을 원천 금지하고, **워크로드 신원(K8s SA/OIDC) 인증 $\rightarrow$ 동적 비밀(Dynamic Secrets) 온디맨드 실시간 발급 $\rightarrow$ 시한부 리스(Lease/TTL) 결속 $\rightarrow$ 자동 만료 및 침해 시 원클릭 폐기(Revocation)** 를 집행하는 **자격증명 제로 트러스트 관리 체계**
-- 배경/필요성: 고정 비밀은 한 번 배포되면 어디까지 복제됐는지 알 수 없어 회전·폐기 비용이 모든 사본으로 번지므로, 워크로드 신원 검증을 거쳐 TTL이 붙은 **동적 비밀**을 요청 시점마다 발급하는 계층을 두어 폐기를 만료로 대체한 것
+- 배경/필요성: 마이크로서비스 및 멀티 클라우드 환경에서 소스코드, Git 저장소, 환경변수(ConfigMap), CI/CD 파이프라인 전반에 DB 패스워드와 API 키가 평문 하드코딩되고 장기 고정 비밀(Long-lived Secrets)이 방치됨에 따라, 단 한 번의 자격증명 유출로도 전사 인프라가 연쇄 장악되는 치명적 보안 위협이 발생함에 따라, 워크로드 신원(K8s SA/OIDC) 기반의 무고정 자격증명(Zero Standing Privileges), 시한부 리스(Lease/TTL)가 결속된 동적 비밀(Dynamic Secrets) 온디맨드 발급 및 자동 회전을 집행하는 Secrets Management(HashiCorp Vault / AWS Secrets Manager) 아키텍처를 도입하여 **비밀 하드코딩 100% 제거, 자격증명 노출 시간 창의 극단적 단축 및 중앙 집중식 암호화 감사 추적**을 달성할 필요
 
 #### 한줄 요약
 - 코드 내 하드코딩을 배제하고, 워크로드 신원 기반의 일회성 동적 자격증명 발급과 자동 회전으로 비밀을 통제한다.
@@ -177,7 +177,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 짧은 작업은 **동적 비밀**, 고정 계정은 **단계적 회전** 적용
+- 애플리케이션과 인프라의 모든 자격증명 생애주기를 중앙에서 암호화 통제하고 고정 비밀번호를 완전히 제거하는 **현대 클라우드 네이티브 제로 트러스트(Zero Standing Privileges) 및 DevSecOps 비밀 거버넌스의 최상위 필수 프레임워크**로 확고히 자리 잡았으며, 머신 아이덴티티(Machine Identity) 및 Workload Identity Federation과의 통합으로 진화하는 가운데, 실무 엔터프라이즈 비밀 관리 시스템 구축 시에는 **K8s Service Account 및 CSP IAM을 활용한 워크로드 신원 기반 무암호 금고 인증, 타깃 DB와 연동한 1시간 시한부 동적 비밀(Dynamic Secrets) 발급, CSP KMS 연동 Auto-unseal을 통한 99.999% 무중단 가용성 확보, 다운타임 없는 Dual-Secret 단계적 자동 회전(Rotation)**을 결합하여 완벽한 디지털 기밀 무결성을 완성
 
 #### 한줄 요약
 - 워크로드 신원 인증과 동적 비밀 발급 및 리스 기반 자동 소멸을 통해 무결점 비밀 관리를 완성한다.

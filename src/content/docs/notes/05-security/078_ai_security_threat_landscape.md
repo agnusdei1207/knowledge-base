@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "인공지능 전주기 위협 모델링 및 4대 계층 보안 : AI Security Threat Landscape (NIST AI RMF & OWASP LLM Top 10)"
-date: "2026-08-26T14:49:59+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 78
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: NIST AI 100-1(AI RMF 1.0) 및 AI 600-1 가이드라인에 입각하여 **Data(데이터 오염/포이즈닝) $\rightarrow$ Model(가중치 탈취/역공학) $\rightarrow$ Application(프롬프트 인젝션/탈옥) $\rightarrow$ Agent(도구 오용/C2 유출)** 의 4대 계층 위협 모델을 정립하고, **3중 신뢰 경계(Prompt, RAG, Tool)와 LLM Guardrails** 를 구축하는 **AI 신뢰 보증 아키텍처**
-- 배경/필요성: 확률적 출력은 같은 규칙으로 모든 입력을 덮을 수 없어 정적 필터로는 사례 수만큼 예외를 늘리는 비용이 반복되므로, Data·Model·Application·Agent **4대 계층**마다 신뢰 경계를 그어 통제 지점을 모델 내부가 아닌 경계로 옮긴 것
+- 배경/필요성: 생성형 AI 및 LLM 기반 자율 에이전트의 급속한 도입으로 인해, 기존의 결정론적(Deterministic) 소프트웨어 보안 통제(WAF/IPS)로는 자연어 기반의 프롬프트 인젝션, 학습 데이터 포이즈닝, 모델 역공학, 에이전트의 비인가 도구 실행 및 기밀 유출과 같은 비결정론적 AI 위협을 방어하지 못하는 근본 한계가 노출됨에 따라, NIST AI RMF 1.0(AI 100-1/600-1) 및 OWASP Top 10 for LLM 표준에 기반하여 Data, Model, Application, Agent의 4대 계층 전주기 위협 모델과 3중 신뢰 경계(Prompt, RAG, Tool) 및 Guardrails를 통합하는 AI 보안 아키텍처를 도입하여 **AI 전 생애주기 위협의 체계적 식별, 비신뢰 입력 격리 및 Human-in-the-loop 기반의 신뢰 가능한 인공지능(Trustworthy AI) 거버넌스**를 달성할 필요
 
 #### 한줄 요약
 - Data, Model, Application, Agent의 4대 계층에 걸쳐 3중 신뢰 경계와 Guardrails를 구축하여 AI 전주기 위협을 방어한다.
@@ -183,7 +183,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 데이터·모델은 **무결성**, 앱·에이전트는 **신뢰 경계** 우선
+- 전통적인 IT 인프라 보안을 넘어 비결정론적 확률 모델과 자율 에이전트의 전 생애주기 위험을 포괄적으로 관리하는 **현대 생성형 AI 보안 및 신뢰성 거버넌스(NIST AI RMF / OWASP LLM Top 10)의 최상위 종합 프레임워크**로 확고히 자리 잡았으며, AI 레드티밍(Red Teaming) 자동화 및 멀티모달 가드레일로 진화하는 가운데, 실무 엔터프라이즈 AI 시스템 구축 시에는 **학습 데이터 계보(Lineage) 및 TEE 기반 모델 가중치 암호화, 시스템 지시어와 비신뢰 RAG 문맥을 분리하는 3중 신뢰 경계(Triple Trust Boundaries) 구축, NeMo Guardrails/Llama Guard 기반 입출력 실시간 필터링, 파괴적 도구 호출에 대한 Human-in-the-loop 최종 승인 파이프라인 강제**를 결합하여 완벽한 AI 보안 전주기 무결성을 완성
 
 #### 한줄 요약
 - 4대 계층 방어와 3중 신뢰 경계 및 Human-in-the-loop 승인을 결합하여 전주기 AI 보안을 완성한다.

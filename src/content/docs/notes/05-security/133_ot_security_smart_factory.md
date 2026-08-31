@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "산업제어시스템 및 스마트팩토리 운영기술 보안 : OT 보안 (IEC 62443 & NIST SP 800-82)"
-date: "2026-08-26T15:12:14+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 133
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 인명 안전과 생산 연속성을 보증하기 위해 **Purdue 엔터프라이즈 모델 기반 6계층 격리 $\rightarrow$ IEC 62443 영역(Zone) 및 통로(Conduit) 분할 $\rightarrow$ 산업 비무장지대(IDMZ Level 3.5) 중계 $\rightarrow$ 패치 불가 레거시 장비에 대한 보상 통제(Compensating Control) $\rightarrow$ 정비창(Maintenance Window) 기반 안전한 패치 배포** 를 집행하는 **산업 공정 복원력 아키텍처**
-- 배경/필요성: 제어망은 가용성 우선으로 설계돼 패치와 재기동이 생산 중단 비용을 부르는데 IT 연결이 늘며 폐쇄성이라는 전제까지 깨졌으므로, Purdue 계층과 **IDMZ·영역/통로 분할**을 중계 계층으로 두어 패치 대신 격리와 보상 통제로 위험을 억제한 것
+- 배경/필요성: 스마트팩토리 및 플랜트의 OT/ICS 망은 고가용성(Availability)과 결정론적 실시간성(Real-time)이 최우선시되어 수 초의 통신 지연이나 임의 재부팅만으로도 대규모 생산 중단 및 폭발 등 물리적 재난이 발생하며, 전통적인 에어갭(Air-gap) 폐쇄망 전제가 스마트화·원격 유지보수로 인해 허물어짐에 따라 IT 발 랜섬웨어가 PLC/SCADA 제어망으로 확산되는 구조적 위협이 발생함에 따라, IEC 62443 및 NIST SP 800-82 표준에 기반하여 Purdue 엔터프라이즈 모델(PERA Level 0~5) 계층화, Level 3.5 산업 비무장지대(IDMZ), 영역(Zone) 및 통로(Conduit) 분할, 노후 장비 대상 보상 통제(Compensating Control) 및 정비창(Maintenance Window) 패치 관리를 결합하는 OT 보안 아키텍처를 도입하여 **IT-OT 간 침해 확산 차단, 공정 가용성 100% 보증 및 산업 설비의 사이버-물리 복원력**을 달성할 필요
 
 #### 한줄 요약
 - IEC 62443 표준과 Purdue 모델 6계층 분할을 통해 안전성(Safety)과 고가용성 중심의 OT 보안을 확립한다.
@@ -206,7 +206,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 패치 가능 설비는 **정비창 배포**, 레거시는 **보상 통제** 적용
+- 전통적인 데이터 기밀성 중심의 IT 보안 패러다임을 탈피하여 물리적 안전성(Safety), 결정론적 무중단 가용성(Availability) 및 공정 무결성을 보증하는 **산업제어시스템 및 스마트팩토리 운영기술 보안(IEC 62443 / NIST SP 800-82 / Purdue IDMZ & Zone/Conduit)의 핵심 엔지니어링 표준**으로 확고히 자리 잡았으며, OT 제로 트러스트 및 AI 기반 산업 이상징후 탐지(XDR)로 진화하는 가운데, 실무 스마트팩토리 및 제어망 보안 아키텍처 구축 시에는 **Level 3.5 IDMZ(점프 호스트 & 데이터 다이오드)를 통한 IT-OT 완전 트래픽 단절, 패치 불가능한 노후 PLC/HMI 전면의 산업용 DPI 방화벽 기반 보상 통제(Compensating Control), SPAN 미러링 기반 비침습적 수동형(Passive) 관제 및 계획된 정비창(Maintenance Window) 중심의 안전한 변경 관리**를 결합하여 완벽한 산업 사이버 복원력을 완성
 
 #### 한줄 요약
 - IEC 62443 표준과 Purdue IDMZ 완충 격리 및 보상 통제를 통해 완벽한 스마트팩토리 OT 보안을 완성한다.

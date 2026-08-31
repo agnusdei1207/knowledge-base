@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이종 도메인 XML 연합 인증 및 싱글 사인온 : SAML 2.0 (Security Assertion Markup Language & OASIS)"
-date: "2026-08-26T14:46:22+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 신원 제공자(**IdP: Identity Provider**)와 서비스 제공자(**SP: Service Provider**) 간의 사전 신뢰(Metadata/공개키)를 기반으로, **인증 요청(AuthnRequest) $\rightarrow$ 사용자 인증 $\rightarrow$ XML 서명된 Assertion 발행 $\rightarrow$ SP 검증 및 로컬 세션 수립** 을 집행하는 **엔터프라이즈 연합 SSO 아키텍처**
-- 배경/필요성: 도메인마다 계정을 따로 두면 입·퇴사와 권한 변경 비용이 시스템 수만큼 되풀이되고 어느 한 곳의 회수 누락이 그대로 잔존 계정으로 남으므로, 인증을 IdP 한 곳으로 모으고 각 SP는 서명된 **Assertion**만 검증해 로컬 세션을 여는 신뢰 위임 계층으로 옮길 필요
+- 배경/필요성: 기업의 온프레미스 인프라와 외부 클라우드 서비스(SaaS) 간에 이종 도메인이 혼재된 엔터프라이즈 환경에서, 서비스마다 독립된 인증 체계를 운영할 경우 자격증명 파편화 및 중앙 집중식 계정 라이프사이클 관리가 불가능한 문제가 발생함에 따라, 신원 제공자(IdP)와 서비스 제공자(SP) 간의 사전 메타데이터(Metadata) 및 X.509 공개키 신뢰를 기반으로 XML 기반 보안 주장(Assertion)을 교환하는 SAML 2.0 표준을 도입하여 **전사 단일 로그인(SSO: Single Sign-On) 구현, W3C XML 디지털 서명을 통한 무결성/부인방지 보장 및 도메인 간 안전한 연합 신원(Federated Identity) 연계**를 달성할 필요
 
 #### 한줄 요약
 - IdP와 SP 간 사전 신뢰를 바탕으로 XML 기반 서명 Assertion을 교환하여 이종 도메인 SSO를 구현한다.
@@ -182,7 +182,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 레거시 웹 연합은 **SAML 2.0**을 유지하고 XSW·재전송 검증을 강화
+- 엔터프라이즈 기업 환경과 대규모 B2B SaaS 연동에서 가장 널리 검증되고 신뢰받는 **전통적 엔터프라이즈 연합 신원(Federated Identity) 및 웹 브라우저 SSO의 핵심 표준 프로토콜**로 확고히 자리 잡고 있으며, 클라우드 네이티브 환경의 OIDC/OAuth 2.0과 상호 보완적으로 공존하는 가운데, 실무 SAML 2.0 연합 시스템 운영 시에는 **XSW(XML 서명 래핑) 공격을 방어하는 엄격한 DOM 스키마 위치 검증, Assertion ID Redis 캐싱 및 유효기간(NotOnOrAfter) 단축을 통한 Replay 공격 차단, Recipient 및 AudienceRestriction 클레임의 전수 대조, SP-Initiated SSO 아키텍처 우선 채택**을 결합하여 완벽한 엔터프라이즈 싱글 사인온 무결성을 완성
 
 #### 한줄 요약
 - PKI 메타데이터 신뢰와 XML 디지털 서명 및 다계층 유효성 검증을 통해 안전한 SAML 2.0 연합 SSO를 완성한다.

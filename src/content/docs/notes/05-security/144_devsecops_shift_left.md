@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 개발 생명주기 보안 내재화 : DevSecOps 및 Shift-Left (NIST SP 800-218 SSDF)"
-date: "2026-08-26T15:21:59+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 144
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 고품질의 안전한 소프트웨어를 신속 배포하기 위해 **Pre-commit 시크릿 스캔 $\rightarrow$ CI 빌드 시 SAST(정적 분석)/SCA(오픈소스 취약점) $\rightarrow$ 컨테이너/IaC 보안 검증 $\rightarrow$ CD 스테이징 시 DAST/IAST 동적 테스트 $\rightarrow$ SBOM 생성 및 이미지 서명(Cosign) $\rightarrow$ 런타임 RASP/EDR 연계** 를 집행하는 **전 주기 보안 자동화 파이프라인**
-- 배경/필요성: 릴리스 직전 점검은 결함을 가장 비싼 시점에 찾아 수정 비용이 재설계로 번지므로, 커밋·빌드·스테이징 각 단계에 **자동 보안 게이트**를 나눠 심어 결함 발견 지점을 가장 싼 개발 초기로 옮긴 것
+- 배경/필요성: 소프트웨어 개발 생명주기(SDLC)의 마지막 배포 직전에 수동으로 수행하던 전통적인 사후 보안 감사 및 모의해킹 방식은 결함 발견 시점의 수정 비용을 설계 대비 최대 100배(Boehm's Law) 폭증시키고 릴리스 일정을 무기한 지연시키는 심각한 병목을 초래함에 따라, NIST SP 800-218(SSDF) 및 SLSA 프레임워크에 기반하여 코딩, 빌드, 패키징, 테스트 전 단계에 SAST, SCA, 시크릿 스캔, IaC 검증, SBOM 생성 및 컨테이너 전자서명(Cosign)을 CI/CD 파이프라인에 코드형 보안(Security as Code)으로 자동 통합하는 DevSecOps Shift-Left 아키텍처를 도입하여 **보안 취약점 조기 식별 및 수정 비용 최소화, 오픈소스 공급망 무결성 보증 및 민첩한 무중단 배포(Agile Delivery)**를 달성할 필요
 
 #### 한줄 요약
 - DevSecOps Shift-Left는 CI/CD 파이프라인 전 단계에 보안 검증을 자동 내재화하여 결함 비용을 최소화한다.
@@ -187,7 +187,7 @@ DevSecOps 보안 도구 체계
 
 ## Ⅶ. 결론
 
-- 초기 결함은 **Shift-Left**, 런타임 위협은 **Shield-Right** 적용
+- 보안을 개발과 배포의 장애물이 아닌 소프트웨어 품질의 필수 속성으로 내재화하여 민첩성과 안전성을 동시에 확보하는 **소프트웨어 개발 생명주기 보안 및 시프트 레프트(NIST SP 800-218 SSDF / SLSA / DevSecOps Pipeline)의 핵심 엔지니어링 표준**으로 확고히 자리 잡았으며, 클라우드 네이티브 환경의 CNAPP(Cloud Native Application Protection Platform) 및 AI 기반 코드 취약점 자동 패치(Remediation)로 진화하는 가운데, 실무 CI/CD 파이프라인 구축 시에는 **오탐 피로 방지를 위한 Critical/High 등급 한정의 품질 게이트(Quality Gate) 엄격 적용, TruffleHog 기반 로컬 Pre-commit 시크릿 유출 차단, CycloneDX SBOM 및 Sigstore Cosign 기반 컨테이너 이미지 무결성 입증**을 결합하여 완벽한 소프트웨어 공급망 보안을 완성
 
 #### 한줄 요약
 - CI/CD 전 단계 보안 자동화와 코드형 정책(PaC)을 통해 무결점 DevSecOps Shift-Left를 완성한다.

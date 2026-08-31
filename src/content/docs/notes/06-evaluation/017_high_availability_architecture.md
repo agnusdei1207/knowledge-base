@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "무중단 시스템 이중화 및 장애 복구 : 고가용성 아키텍처 (Active-Active vs Active-Standby & 펜싱)"
-date: "2026-08-26T15:33:06+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 17
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 무중단 비즈니스 연속성을 달성하기 위해 **계층별 특성(Stateless vs Stateful) 분류 $\rightarrow$ 무상태 계층 Active-Active 부하 분산 $\rightarrow$ 상태 저장 계층 Active-Standby 동기 복제 $\rightarrow$ 하트비트 및 홀수 쿼럼($(N/2)+1$) 감시 $\rightarrow$ STONITH 노드 펜싱(Fencing) 기반 스플릿 브레인 방어 $\rightarrow$ 가상 IP(VIP) 자동 페일오버** 를 집행하는 **엔드투엔드 고가용성 엔지니어링 체계**
-- 배경/필요성: 단일 노드 하나의 고장이 **서비스 전체 중단**으로 번지면 사람이 원인을 찾아 수동 전환하는 시간 전체가 손실 비용이 되므로, 계층마다 예비 노드와 하트비트·쿼럼·펜싱을 배치한 이중화 계층을 트래픽 경로에 끼워 넣어 수동 복구를 자동 전환으로 대체할 필요
+- 배경/필요성: 단일 서버나 인프라 노드 장애 시 전체 서비스가 즉각 중단되는 단일 장애점(SPOF) 결함이나, 이중화 환경에서 노드 간 하트비트 통신망 단절 시 양쪽 서버가 동시에 자신을 마스터로 선언하여 데이터베이스에 동시 쓰기를 수행함으로써 데이터를 영구 파괴하는 스플릿 브레인(Split-Brain) 재난이 발생하는 구조적 한계가 발생함에 따라, 무상태(Stateless) 계층에는 Active-Active 부하 분산을 적용하고 상태 저장(Stateful) 계층에는 Active-Standby 동기 복제와 홀수 쿼럼($(N/2)+1$) 및 STONITH 펜싱을 결합하는 고가용성(HA) 아키텍처를 도입하여 **단일 장애 발생 시 1초 내 자동 페일오버(Auto-Failover), 스플릿 브레인 원천 방어 및 N-1 예비 용량 확보를 통한 99.99% 이상의 무중단 비즈니스 연속성**을 달성할 필요
 
 #### 한줄 요약
 - 고가용성 설계는 Active-Active 및 Active-Standby 이중화와 펜싱 메커니즘을 통해 무중단 서비스 연속성을 보증한다.
@@ -179,7 +179,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 무상태는 **Active-Active**, 상태 저장은 **Active-Standby** 선택
+- 단일 결함에 의한 서비스 중단 위험을 원천 제거하고 99.99% 이상의 무중단 연속성을 수학적·구조적으로 보증하는 **무중단 시스템 이중화 및 장애 복구(High Availability Architecture / Active-Active & Active-Standby / Quorum & STONITH)의 핵심 인프라 표준**으로 확고히 자리 잡았으며, 클라우드 멀티 가용영역(Multi-AZ) 오토스케일링 및 글로벌 서비스 메시로 진화하는 가운데, 실무 고가용성 설계 및 구축 시에는 **무상태 웹/WAS의 완전한 Active-Active 및 Redis 공유 세션 중앙화, 상태 저장 DBMS의 홀수 쿼럼 기반 STONITH 하드웨어 펜싱을 통한 스플릿 브레인 방어, 단일 노드 셧다운 시에도 피크 트래픽을 완벽 수용하는 N-1 여유 용량(Headroom) 사이징**을 결합하여 완벽한 시스템 복원력을 완성
 
 #### 한줄 요약
-- Active-Active는 자원을 놀리지 않는 대신 상태 일관성 비용을 치르고 Active-Standby는 그 반대이므로, 계층의 상태 보유 여부가 구성 방식을 먼저 결정한다.
+- 계층별 이중화 구조와 쿼럼 펜싱 메커니즘을 통해 무중단 고가용성 시스템을 완성한다.

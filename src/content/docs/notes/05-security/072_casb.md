@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "SaaS 가시성 및 인라인/API 데이터 유출 방지 : CASB (Cloud Access Security Broker & Gartner 4대 기둥)"
-date: "2026-08-26T14:48:22+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-security"
 weight: 72
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 가트너 CASB 4대 핵심 기둥인 **가시성(Visibility) $\rightarrow$ 데이터 보안(DLP/암호화) $\rightarrow$ 위협 방지(Malware/UEBA) $\rightarrow$ 컴플라이언스(Compliance)** 를 바탕으로, **Forward/Reverse Proxy 및 API Connector** 를 하이브리드로 결합하여 SaaS 데이터 생애주기를 통제하는 **엔터프라이즈 SaaS 보안 아키텍처**
-- 배경/필요성: 데이터가 사내 서버를 떠나 SaaS 사업자 저장소에 놓이면 경계 방화벽이 볼 수 있는 것은 목적지 도메인뿐이어서 어떤 파일이 오갔고 누구에게 공유됐는지 확인할 수단이 사라지므로, 사용자와 SaaS 사이에는 트래픽을 복호화해 검사하는 프록시를, 사업자 저장소 쪽에는 API로 사후 점검하는 커넥터를 각각 끼워 통제 지점을 두 곳으로 나눠 둘 필요
+- 배경/필요성: 기업의 워크로드가 다수의 클라우드 SaaS(M365, Salesforce, Google Workspace 등)로 이전됨에 따라, 보안팀의 승인 없이 임직원이 임의의 클라우드 앱을 사용하는 그림자 IT(Shadow IT)가 급증하고, 기존의 경계 방화벽만으로는 암호화된 SaaS 트래픽 내 기밀 데이터 반출 및 비인가 외부 공유 링크 생성을 통제하지 못하는 심각한 보안 사각지대가 발생함에 따라, 인라인 프록시(Forward/Reverse Proxy)와 비동기 API 커넥터를 결합하여 Gartner 4대 기둥(가시성, 데이터 보안, 위협 방지, 컴플라이언스)을 집행하는 CASB(Cloud Access Security Broker)를 도입하여 **전사 SaaS 트래픽의 100% 가시성 확보, 맥락 인식형 실시간 DLP 및 비인가 외부 공유 링크의 자동 회수(Out-of-band Remediation)**를 달성할 필요
 
 #### 한줄 요약
 - CASB는 SaaS 내부를 직접 통제하지 못하는 대신 그 앞뒤에 검사 지점을 세운 구조이므로, 통제력은 프록시가 감수하는 지연과 API 커넥터가 도는 주기에서 갈린다.
@@ -189,7 +189,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 실시간 유출은 **인라인 프록시**, 저장 데이터는 **API 커넥터** 선택
+- 하이브리드 업무 환경에서 클라우드 SaaS 전반에 걸친 기업 핵심 데이터와 사용자 행위를 중앙에서 가시화하고 통제하는 **현대 클라우드 데이터 보안 및 SASE/SSE(Security Service Edge) 프레임워크의 3대 핵심 축**으로 확고히 자리 잡았으며, DSPM(Data Security Posture Management) 및 AI 기반 데이터 분류 엔진과의 결합으로 진화하는 가운데, 실무 엔터프라이즈 CASB 구축 시에는 **실시간 인라인 DLP를 위한 Forward/Reverse Proxy와 사후 저장 데이터 감사를 위한 Out-of-band API 커넥터를 결합한 Hybrid CASB 아키텍처 채택, 머신러닝 문서 지문(Fingerprinting) 기반 오탐 최소화, SaaS 웹훅 연동을 통한 비인가 외부 공유 링크의 1분 이내 자동 회수 파이프라인 구축**을 결합하여 완벽한 SaaS 데이터 거버넌스 생태계를 완성
 
 #### 한줄 요약
 - 실시간성이 필요한 유출은 지연을 감수하고 인라인으로, 이미 저장된 데이터는 성능을 지키며 API로 다루는 것이 CASB 배치의 기본 판단이다.
