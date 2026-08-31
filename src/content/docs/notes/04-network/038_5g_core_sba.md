@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 38
   label: "038. 5G 코어 SBA"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "5G 코어 서비스 기반 아키텍처 : SBA (Service Based Architecture)"
-date: "2026-08-26T13:46:55+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 38
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 5G 코어 제어 기능들을 독립적인 **NF(Network Function)로 모듈화하고 웹 표준 HTTP/2 REST API와 NRF로 상호 연동하는 클라우드 네이티브 코어 아키텍처**
-- 배경/필요성: 4G LTE EPC의 전용 장비 및 점대점(P2P) 바이너리 프로토콜 한계로 인한 **신규 기능 추가 시 전사 망 재구성 필요, 유연한 수평 확장 및 슬라이싱 제어 불가**를 겪으므로, 코어 제어 기능을 NF 단위로 쪼개고 그 사이를 HTTP/2 REST로 표준화한 뒤 등록·검색을 NRF에 위임해, 기능 추가 비용을 망 재구성에서 NF 배포 한 건으로 낮출 필요
+- 배경/필요성: 하드웨어 어플라이언스 기반의 4G LTE EPC 코어망이 갖는 점대점(Point-to-Point) 전용 바이너리 프로토콜(GTP-C, Diameter) 종속성으로 인해, 신규 통신 서비스 배포 시 전사적인 망 재구성이 요구되고 트래픽 급증 시의 탄력적 수평 확장(Auto-scaling)과 워크로드별 End-to-End 네트워크 슬라이싱 제어가 불가능한 한계를 극복하기 위해, 코어 제어 평면 기능(AMF, SMF, PCF, UDM 등)을 독립된 마이크로서비스(NF: Network Function)로 분할하고 표준 HTTP/2 RESTful API와 NRF(Network Repository Function) 기반 동적 서비스 검색(Service Discovery) 및 CUPS(제어·데이터 분리)를 적용한 5G 코어 SBA(Service Based Architecture)를 도입하여 **클라우드 네이티브 환경에서의 무중단 기능 배포(CI/CD), 고탄력 확장성 및 민첩한 5G 특화 서비스 개통**을 달성할 필요
 
 #### 한줄 요약
 - HTTP/2 REST API 통신, NRF 기반 동적 검색, CUPS 분리를 통해 코어망의 민첩성을 극대화한다.
@@ -148,7 +148,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 제어 기능 확장은 **SBA**, 사용자 평면 분산은 **CUPS** 적용
+- 이동통신 코어망을 독점적 하드웨어 중심에서 IT 표준 클라우드 네이티브(Cloud-Native) 컨테이너 및 마이크로서비스 생태계로 완전히 전환시킨 **5G 및 미래 6G 코어 네트워크의 가장 핵심적인 아키텍처 패러다임**으로 확립되었으며, 실무 시스템 운영 시에는 **NF 간 연쇄 장애를 방지하는 서킷 브레이커(Circuit Breaker) 패턴 적용, 제어 평면 보안을 위한 mTLS 및 OAuth 2.0 인가 의무화, NRF 기반 실시간 헬스체크, N4(PFCP) 기반 로컬 UPF 엣지 분산 오케스트레이션**을 결합하여 캐리어 그레이드(Carrier-Grade)의 고가용성과 신뢰성을 완성
 
 #### 한줄 요약
 - 5G 코어 SBA는 HTTP/2 REST API와 NRF를 통해 마이크로서비스 제어를 실현하며, CUPS와 서비스 메시를 결합하여 유연성과 가용성을 보장하는 핵심 차세대 코어 아키텍처다.

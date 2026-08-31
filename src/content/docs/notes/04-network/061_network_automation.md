@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 61
   label: "061. 네트워크 자동화"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "프로그래머블 네트워크 운영 자동화 : NetDevOps (Network Automation)"
-date: "2026-08-26T13:48:42+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 61
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **YANG·NETCONF·RESTCONF·Ansible**로 장비 설정을 코드화한 NetDevOps
-- 배경/필요성: 장비별 수동 CLI 입력은 장비 수에 비례해 **휴먼 에러와 재작업 비용**을 반복 지불하고 실패 시 되돌릴 기준본이 없으므로, 설정 정본(SoT)을 상위에 두고 선언적 자동화 계층이 장비별 CLI 조작과 롤백을 대신 수행
+- 배경/필요성: 수천 대의 이종 네트워크 스위치와 라우터를 운영자가 장비별 CLI(Telnet/SSH)로 수동 입력하고 텍스트 스크랩(Screen Scraping) 방식으로 관리하는 전통적 방식은 잦은 휴먼 에러로 인한 대형 방송사고 유발, 펌웨어 버전에 따른 명령어 구문 불일치, 설정 이력 관리의 부재 및 잘못된 설정 배포 시 신속한 원복(Rollback)이 불가능한 한계를 노출함에 따라, Git/NetBox를 단일 진실의 원천(SoT: Source of Truth)으로 삼고 IETF 표준 모델링 언어(YANG)와 프로그래머블 인터페이스(NETCONF/RESTCONF/gNMI) 및 CI/CD 파이프라인(Ansible/Terraform)을 결합한 NetDevOps 자동화 아키텍처를 도입하여 **선언적 멱등성(Idempotency) 보장, 트랜잭션 기반 자동 롤백(Confirmed Commit) 및 구성 드리프트(Configuration Drift) 제로화**를 달성할 필요
 
 #### 한줄 요약
 - Git 기반 SoT와 NETCONF/YANG 트랜잭션을 통해 무중단 자동 프로비저닝 및 자동 롤백을 실현한다.
@@ -99,7 +99,7 @@ NetDevOps Confirmed Commit 및 자동 롤백 파이프라인
    [Confirmed Commit 실행] `commit confirmed 120` 명령으로 120초 동안 헬스체크 수행
         │
    ├─ [정상 헬스체크 통과] ➔ 최종 `commit` 확정 ➔ 배포 성공 완료
-   ▼
+    ▼
 [단선/장애 발생] ➔ 120초 타임아웃 만료 시 장비가 이전 정상 설정으로 자동 롤백
 ```
 
@@ -146,7 +146,7 @@ NetDevOps Confirmed Commit 및 자동 롤백 파이프라인
 
 ## Ⅶ. 결론
 
-- 표준 모델 장비는 **NETCONF·RESTCONF**, 고위험 변경은 **Confirmed Commit·Canary**
+- 수작업 CLI 중심의 장인적 운영에서 소프트웨어 엔지니어링 기반의 IaC(Infrastructure as Code)로 **데이터센터 및 통신 인프라 엔지니어링의 표준 운영 패러다임(NetDevOps)**으로 완전히 진화하였으며, 향후 LLM 기반 AI Agent 및 생성형 IBN(Intent-Based Networking)과 융합하는 가운데, 실무 엔터프라이즈 환경 구축 시에는 **네트워크 단선 시 자동 원복을 보장하는 Confirmed Commit 타임아웃 필수 적용, 대규모 셧다운을 방지하는 카나리(Canary) 점진적 배포, 비인가 수동 변경을 실시간 감지하여 원복하는 Drift Detection 데몬 가동, 사전 모의 검증을 위한 가상 테스트베드(Containerlab/Batfish) CI 연계**를 결합하여 완벽한 무중단 네트워크 신뢰성을 완성
 
 #### 한줄 요약
 - SoT와 NETCONF/YANG 및 Confirmed Commit을 결합하여 고신뢰 네트워크 운영 자동화를 실현한다.

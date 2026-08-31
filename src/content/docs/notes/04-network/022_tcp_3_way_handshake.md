@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 22
   label: "022. TCP 3-way Handshake"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-08-26T13:37:53+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 송수신 호스트 간 **SYN, SYN-ACK, ACK 3단계 교환을 통해 양방향 도달성을 검증하고 ISN 및 옵션을 동기화하는 TCP 연결 설정 프로토콜**
-- 배경/필요성: 비연결형 전송 시 발생하는 **수신 호스트 준비 상태 미확인에 따른 세그먼트 유실, 순서 역전 및 버퍼 오버플로우 방어 불가**를 겪으므로, 데이터 전송에 앞서 3회 왕복만 선불로 치러 양방향 도달성과 초기 순서번호(ISN)·옵션을 한 번 합의해 두고 이후 모든 세그먼트가 그 합의를 재사용하게 할 연결 설정 단계의 필요
+- 배경/필요성: 신뢰성 없는 비연결형 IP 네트워크 위에서 송수신 호스트 간의 수신 준비 상태, 포트 개방 여부, 양방향 도달 가능성을 사전에 확인하지 않고 데이터를 송신할 때 발생하는 패킷 유실, 순서 뒤바뀜 및 세션 하이재킹 위험을 원천 방지하기 위해, SYN, SYN-ACK, ACK 3단계 메시지 교환을 통해 난수 기반 초기 순서 번호(ISN: Initial Sequence Number)를 동기화하고 MSS, Window Scale, SACK 등 필수 전송 파라미터를 상호 협상하는 TCP 3-Way Handshake를 도입하여 **신뢰성 있는 가상 전이중(Full-Duplex) 연결 채널 확립과 안전한 스트림 전송 보증**을 달성할 필요
 
 #### 한줄 요약
 - SYN-SYN+ACK-ACK 3단계를 통해 양방향 가용성과 난수 ISN을 동기화하여 신뢰성 세션을 연다.
@@ -95,7 +95,7 @@ TCP 3-Way Handshake 상태 머신
         │
    3. [최종 ACK 전송] 클라이언트 -> 서버 (Seq=x+1, Ack=y+1, ACK=1) [클라이언트: ESTABLISHED]
         │
-   ▼
+    ▼
 [서버 연결 확정] 서버 Accept 큐 적재 및 ESTABLISHED 전이 후 양방향 데이터 통신 개시
 ```
 
@@ -141,7 +141,7 @@ TCP 3-Way Handshake 상태 머신
 
 ## Ⅶ. 결론
 
-- 연결 수립은 **3-Way**, 종료는 잔여 송신을 위해 **4-Way** 선택
+- 인터넷과 엔터프라이즈 환경에서 웹, 데이터베이스, API 통신을 지탱하는 **가장 기본적이고 확고한 전송 계층 연결 수립 표준 프로토콜**로 확립되었으며, 최근 1-RTT 지연을 줄이기 위해 TLS 1.3 0-RTT 및 UDP 기반 QUIC(HTTP/3)으로의 진화가 가속화되고 있는 한편, 전통적인 TCP 운영 시에는 **대규모 SYN Flood DoS 공격을 방어하는 Linux 커널 SYN Cookie(tcp_syncookies=1) 활성화, 패킷 단편화를 방지하는 MSS Clamping 설정, Half-Open 세션 누적을 제어하는 SYN-ACK 재시도 튜닝**을 결합하여 고가용성 네트워크 세션을 완성
 
 #### 한줄 요약
 - TCP 3-Way Handshake는 SYN-ACK 3단계를 통해 양방향 도달성과 전송 옵션을 동기화하는 핵심 연결 수립 기술이다.

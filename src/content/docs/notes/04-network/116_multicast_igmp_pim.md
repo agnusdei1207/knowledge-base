@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 116
   label: "116. 멀티캐스트 IGMP•PIM"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "IP 멀티캐스트 라우팅 및 그룹 제어 : IGMP 및 PIM"
-date: "2026-08-26T14:16:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 116
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **IGMP 가입·PIM 트리** 기반 1:N 전송 기술
-- 배경/필요성: 동일 콘텐츠를 유니캐스트로 보내면 수신자 수만큼 **송신원과 백본의 복제 전송 비용**이 곱해지므로, 복제 지점을 분기 라우터로 내려 링크마다 사본이 1개만 흐르게 함
+- 배경/필요성: 실시간 IPTV 방송, 금융 거래 시세(Tick Data) 피드 및 대규모 화상 세미나와 같이 동일한 고용량 미디어/데이터 스트림을 수만 명의 수신자에게 동시 전송할 때, 유니캐스트(1:1) 방식을 사용하면 수신자 수에 비례하여 송신 서버 대역폭과 백본 링크 트래픽이 선형 폭증(Network Congestion)하고, 브로드캐스트(1:All) 방식을 사용하면 네트워크 전체에 불필요한 패킷 범람(Flooding)을 초래함에 따라, 호스트-라우터 간 그룹 가입 관리(IGMPv1/v2/v3)와 라우터 간 분배 트리 구축(PIM-SM/SSM) 및 RPF(Reverse Path Forwarding) 루프 방지 기술을 결합한 IP 멀티캐스트(1:N) 아키텍처를 도입하여 **송신원 단일 패킷 송출 및 분기 라우터 선별 복제를 통한 네트워크 대역폭 극대화, 수신자 최단 경로 분배 트리 수립 및 L2 스위치 IGMP Snooping 기반 비가입 포트 플러딩 원천 차단**을 달성할 필요
 
 #### 한줄 요약
 - IGMP 그룹 관리와 PIM 분배 트리를 통해 가입자 분기점에서만 패킷을 복제 전송한다.
@@ -90,7 +90,7 @@ IP Multicast
 ```text
 IGMP 가입, PIM 공유 트리 구축, RPF 검증 및 SPT 전환 파이프라인
         │
-       [IGMP 그룹 가입]
+        [IGMP 그룹 가입]
         │
    1. [IGMP Snooping 등록]
         │
@@ -125,6 +125,7 @@ IGMP 가입, PIM 공유 트리 구축, RPF 검증 및 SPT 전환 파이프라인
 | IGMP 조건 | v2·v3 | **v3 Source Include** | v1·v2 |
 | 초기 부하 | 가입 경로만 전송 | 송신원별 가입 경로 | **전역 범람** 가능 |
 | 주요 적용 | ASM 기업망 | **SSM 방송·시세** | 소규모 밀집 수신망 |
+| RFC 표준 | RFC 7761 | RFC 4607 | RFC 3973 |
 
 #### 한줄 요약
 - PIM-SM은 범용 풀 모델(RP 필요), PIM-SSM은 IPTV/금융 특화 최단 직결 모델(RP 불필요), PIM-DM은 레거시 플러딩 모델이다.
@@ -149,7 +150,7 @@ IGMP 가입, PIM 공유 트리 구축, RPF 검증 및 SPT 전환 파이프라인
 
 ## Ⅶ. 결론
 
-- 송신원 지정 서비스는 **PIM-SSM**, ASM은 **PIM-SM** 선택
+- 대규모 동시 다발적 실시간 스트리밍 및 초저지연 금융 시장 데이터 전송에서 네트워크 회선 비용을 획기적으로 절감하는 **전통적이면서도 가장 핵심적인 1:N 패킷 전송 및 라우팅 표준 기술(IETF RFC 3376 IGMPv3 및 RFC 7761 PIM)**로 확고히 정립되었으며, 클라우드 오버레이(VXLAN/EVPN Multicast) 및 BIER(Bit Indexed Explicit Replication) 무상태 멀티캐스트로 진화하는 가운데, 실무 IP 멀티캐스트 망 구축 시에는 **RP 경유 오버헤드를 제거하고 보안과 성능을 극대화하는 PIM-SSM(Source-Specific Multicast) 우선 적용, L2 스위치 브로드캐스트 플러딩을 방지하는 IGMP Snooping 및 Querier 활성화, 비대칭 라우팅 환경의 RPF(Reverse Path Forwarding) 실패를 방지하는 멀티캐스트 정적 경로(M-Route) 및 Anycast RP 이중화**를 결합하여 완벽한 실시간 멀티캐스트 전송 가용성을 완성
 
 #### 한줄 요약
 - IP 멀티캐스트는 IGMPv3와 PIM-SSM/SM 및 Anycast RP 이중화를 결합하여 고효율 무중단 1:N 스트리밍을 실현하는 핵심 네트워크 기술이다.

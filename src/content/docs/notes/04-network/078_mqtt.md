@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 78
   label: "078. MQTT 프로토콜"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "경량 IoT 메시징 프로토콜 : MQTT (Message Queuing Telemetry Transport)"
-date: "2026-08-26T14:05:00+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 78
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 2바이트 헤더와 **Pub/Sub·3단계 QoS**의 경량 프로토콜
-- 배경/필요성: HTTP는 요청마다 수백 바이트 헤더와 폴링 왕복을 반복해 **배터리·대역폭 비용**을 상시 지불하므로, 2바이트 고정 헤더와 브로커 중계를 두어 폴링 자체를 발행-구독 푸시로 대체
+- 배경/필요성: 배터리 용량과 메모리가 극도로 제한된 임베디드 IoT 센서 환경에서 전통적인 HTTP/1.1 프로토콜을 사용할 경우 요청마다 수백 바이트의 텍스트 헤더 오버헤드가 발생하고, 서버의 실시간 데이터 변경을 감지하기 위한 주기적 폴링(Polling)으로 인해 무선 대역폭 낭비와 배터리 조기 방전 및 1:N 다자간 브로드캐스팅 비효율을 초래하는 한계를 극복하기 위해, 최소 2바이트 고정 헤더와 단일 TCP 지속 연결(Persistent Connection) 기반의 발행-구독(Pub/Sub) 비동기 메시징 표준인 MQTT(ISO/IEC 20922)를 도입하여 **통신 오버헤드 90% 이상 절감, 브로커를 통한 송수신자 간 시간·공간적 결합 분리(Decoupling) 및 3단계 QoS(0/1/2) 기반 신뢰성 제어**를 달성할 필요
 
 #### 한줄 요약
 - **2바이트 헤더·Pub/Sub·3단계 QoS** 기반 IoT 통신
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 유실 허용 센서는 **QoS 0**, 중복 불가 제어는 **QoS 2·mTLS** 선택
+- 스마트홈(Matter/Home Assistant), 커넥티드 카 텔레메트리, 스마트 팩토리 센서망 및 클라우드 IoT 플랫폼(AWS IoT Core, Azure IoT Hub)의 **가장 지배적이고 사실상의 표준(De-facto Standard) 경량 메시징 프로토콜**로 확고히 자리잡았으며, MQTT 5.0의 사용자 속성(User Properties), 공유 구독(Shared Subscription), 메시지 만료 간격(Message Expiry) 기능을 통해 엔터프라이즈 확장성까지 확보한 가운데, 실무 브로커 클러스터(EMQX/HiveMQ) 운영 시에는 **대규모 단말 동시 재접속 시 브로커 마비를 방지하는 지수 백오프(Exponential Backoff) 및 지터(Jitter) 적용, 단말 탈취 및 도청을 방지하는 mTLS 상호 인증과 토픽 수준 RBAC, 백엔드 컨슈머 병목을 해소하는 MQTT 5.0 공유 구독 로드밸런싱**을 결합하여 완벽한 IoT 메시징 안정성을 완성
 
 #### 한줄 요약
 - **Pub/Sub·QoS** 선택으로 경량성과 전달 신뢰성 균형

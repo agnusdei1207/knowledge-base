@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 30
   label: "030. TCP TIME_WAIT 상태"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-26T13:47:24+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: TCP 4-Way Handshake에서 **능동 종료(Active Close) 측이 최종 ACK를 전송한 후 2MSL 동안 소켓 상태를 유지하는 대기 메커니즘**
-- 배경/필요성: 즉시 소켓 해제 시 발생하는 **최종 ACK 유실에 따른 상대방 LAST_ACK 교착 및 신규 세션으로 지연 패킷 혼입 오염 방어 불가**를 겪으므로, 능동 종료 측이 2MSL 동안 포트와 제어 블록을 붙잡아 두는 유예 구간을 종료 절차 끝에 끼워 넣어 지연 패킷 오염 위험을 소켓 자원 점유라는 비용으로 바꿔 치를 필요
+- 배경/필요성: TCP 4-Way Handshake 종료 시 능동 종료(Active Close) 측이 최종 ACK를 전송한 직후 소켓을 즉시 파기하면, 전송 중 최종 ACK가 유실되었을 때 상대방 호스트가 영구히 LAST_ACK 상태에 갇히는 교착(Deadlock) 현상이 발생하고, 네트워크 경로 상에 남아있던 이전 세션의 지연 패킷(Ghost Packet)이 신규 세션에 뒤늦게 혼입되어 데이터를 훼손하는 문제를 해결하기 위해, 패킷의 최대 생존 시간(MSL)의 2배(2MSL) 동안 소켓 제어 블록과 4-튜플 바인딩을 유지하는 TIME_WAIT 상태 메커니즘을 도입하여 **상대방 세션의 안전한 정상 종료 유도와 신규 세션의 데이터 무결성 보호**를 달성할 필요
 
 #### 한줄 요약
 - 최종 ACK 유실 재전송과 지연 패킷 소멸을 위해 능동 종료 측이 2MSL 동안 세션을 안전 유지한다.
@@ -143,7 +143,7 @@ TIME_WAIT 생명주기 및 예외 복구 흐름
 
 ## Ⅶ. 결론
 
-- TIME_WAIT은 유지하고 포트 고갈은 **Keep-Alive**, 검증 후 **tcp_tw_reuse**
+- TCP 프로토콜의 신뢰성과 데이터 정합성을 담보하는 **가장 필수적인 정상 안전 상태(Safety State)**로 자리잡고 있으나, 단기 연결(Short-lived HTTP)이 폭증하는 MSA 프록시 환경에서는 수만 개의 소켓이 누적되어 로컬 임시 포트 고갈(Ephemeral Port Exhaustion)을 유발할 수 있으므로, 실무 시스템 운영 시에는 **TIME_WAIT을 임의로 강제 삭제(SO_LINGER 0)하지 않고 HTTP Keep-Alive 커넥션 풀링을 최우선 적용하며, Linux 커널 tcp_tw_reuse=1(TCP Timestamp 검증 기반) 활성화 및 ip_local_port_range 확장**을 결합하여 가용성과 통신 신뢰성을 동시에 확보
 
 #### 한줄 요약
 - TIME_WAIT은 지연 패킷을 격리하고 정상 세션 종료를 보장하는 필수 안전 상태이며, 커넥션 풀링과 tcp_tw_reuse를 통해 포트 고갈을 방어한다.

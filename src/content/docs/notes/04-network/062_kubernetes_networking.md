@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 62
   label: "062. 쿠버네티스 네트워킹 - CNI•Ingress"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "쿠버네티스 컨테이너 네트워킹 : CNI•Service•Ingress"
-date: "2026-08-26T13:49:55+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 파드 간 무손실 직접 통신을 위한 **CNI, Service VIP 가상 로드밸런서, Ingress L7 게이트웨이, NetworkPolicy를 아우르는 컨테이너 네트워킹 아키텍처**
-- 배경/필요성: 호스트 포트 매핑은 파드가 재배치될 때마다 **포트 충돌 해소와 주소 재확인 비용**을 반복하므로, 파드마다 고유 IP를 부여한 평면 주소 공간 위에 Service VIP라는 고정 주소 계층을 두어 변동하는 엔드포인트 추적을 대신
+- 배경/필요성: 전통적인 단일 호스트 도커(Docker) 브리지 네트워크 환경에서는 컨테이너마다 호스트 포트를 수동 매핑(Port Mapping)함에 따른 포트 충돌, 컨테이너 동적 생성/소멸 시 IP 변동에 따른 서비스 디스커버리 단절, 수천 개 이상의 컨테이너가 분산된 멀티 노드 클러스터 간의 안전한 L3/L4/L7 라우팅 및 격리(Multi-Tenancy)가 불가능한 한계를 극복하기 위해, 모든 파드(Pod)에 NAT 없는 고유 IP를 부여하는 평면 네트워크 모델(Flat Network)과 플러그인 인터페이스(CNI: Container Network Interface), 영속적 고정 VIP 기반 서비스 로드밸런싱(Service/EndpointSlice) 및 L7 트래픽 라우팅 표준(Ingress/Gateway API)을 집대성한 쿠버네티스 네트워킹 아키텍처를 도입하여 **호스트 포트 충돌 없는 직접 파드 통신, 동적 서비스 디스커버리 및 제로 트러스트(NetworkPolicy) 기반 네트워크 격리**를 달성할 필요
 
 #### 한줄 요약
 - NAT 없는 평면 통신, Service VIP 기반 로드밸런싱, eBPF 커널 가속 및 NetworkPolicy 격리를 지원한다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 규모·정책·L7 요구에 따라 **Flannel·Calico·Cilium** 선택
+- 모놀리식에서 마이크로서비스 아키텍처(MSA)로 전환된 현대 클라우드 네이티브 생태계의 **가장 핵심적인 분산 애플리케이션 연결 및 통신 기반 구조**로 확립되었으며, 기존 iptables 기반 kube-proxy의 성능 병목을 극복하고 사이드카 없는(Sidecarless) 서비스 메시를 실현하는 Cilium eBPF CNI 및 Ingress를 고도화한 Gateway API로 진화하는 가운데, 실무 프로덕션 클러스터 운영 시에는 **대규모 노드에서의 $O(1)$ 초고속 패킷 처리를 위한 eBPF CNI 채택, 간헐적 5초 DNS 지연을 원천 방지하는 NodeLocal DNSCache 구성, 비인가 파드 횡적 이동을 차단하는 Default-Deny NetworkPolicy 선제 적용, 무중단 파드 롤링 업데이트를 위한 Readiness Probe 헬스체크 정밀 튜닝**을 결합하여 완벽한 쿠버네티스 네트워킹 가용성과 보안성을 완성
 
 #### 한줄 요약
 - 쿠버네티스 네트워킹은 CNI, Service, Gateway API 및 eBPF 가속을 결합하여 고성능 컨테이너 통신을 실현하는 핵심 클라우드 인프라다.

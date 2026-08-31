@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 79
   label: "079. OPC UA 산업 표준 통신"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "스마트 팩토리 상호운용 표준 : OPC UA (OPC Unified Architecture)"
-date: "2026-08-26T14:06:20+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 79
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **주소 공간·PKI·C/S·Pub/Sub**의 산업 통신 표준
-- 배경/필요성: OPC DA는 DCOM에 묶여 윈도우 이외 환경마다 **별도 게이트웨이 구축 비용**을 치르므로, 전송 방식과 분리된 시맨틱 주소 공간 모델을 두어 OS·벤더별 개별 연동 작업을 대신
+- 배경/필요성: 과거 공장 자동화에서 사용되던 레거시 OPC Classic(OPC DA/HDA)은 마이크로소프트 윈도우 독점 기술인 DCOM(Distributed COM)에 종속되어 방화벽 통과 불가, 리눅스/임베디드 설비 연동 불가 및 보안 취약점을 노출하고, 벤더별 제각각인 메모리 번지수 기반 원시 데이터 구조로 인해 상위 IT/클라우드 시스템과의 시맨틱(Semantic) 데이터 연동이 불가능했던 한계를 극복하기 위해, 플랫폼 독립적(OS-Agnostic) 객체 지향 주소 공간(Address Space) 모델과 내장형 다계층 보안(X.509 PKI/AES-256) 및 C/S와 Pub/Sub(TSN 결합) 듀얼 전송 체계를 표준화한 OPC UA(IEC 62541)를 도입하여 **이종 PLC/설비 간 완벽한 상호운용성(Interoperability), 스마트 팩토리 OT와 IT/클라우드의 심리스 융합 및 산업 제어 시스템 보안 강화**를 달성할 필요
 
 #### 한줄 요약
 - **플랫폼 독립·시맨틱 모델·다계층 보안** 제공
@@ -152,7 +152,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 정밀 설정은 **C/S**, 대규모 실시간 배포는 **Pub/Sub·TSN** 선택
+- 스마트 팩토리 인더스트리 4.0(RAMI 4.0)의 데이터 모델링과 제어 통신을 주도하며 **글로벌 스마트 제조 및 IT-OT 융합의 단일 표준 산업 통신 아키텍처(IEC 62541)**로 확고히 자리잡았으며, 필드버스(Fieldbus) 영역까지 완벽히 대체하기 위해 TSN(Time-Sensitive Networking)과 결합한 OPC UA over TSN 및 5G 사설망 연동으로 진화하는 가운데, 실무 스마트 제조 인프라 구축 시에는 **공작기계(umati), 로봇(VDMA) 등 산업군별 데이터 의미 표준화를 위한 컴패니언 명세(Companion Specification) 적용, 수천 개 설비의 인증서 만료 중단을 방지하는 GDS(Global Discovery Server) 자동 배포/갱신, 비인가 제어를 원천 차단하는 SignAndEncrypt 보안 프로파일과 RBAC 인가**를 결합하여 완벽한 산업 제조 신뢰성을 완성
 
 #### 한줄 요약
 - **주소 공간·PKI·TSN**으로 IT-OT 상호운용성 확보

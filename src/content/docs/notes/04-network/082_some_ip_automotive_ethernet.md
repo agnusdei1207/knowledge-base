@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 82
   label: "082. SOME/IP 차량 이더넷 미들웨어"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "차량용 이더넷 SOA 미들웨어 : SOME/IP 및 SOME/IP-SD"
-date: "2026-08-26T14:00:13+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 82
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 차량용 이더넷 상에서 ECU 간 **RPC, Pub/Sub 통신, SOME/IP-SD 서비스 탐색 및 E2E 보호를 제공하는 AUTOSAR 표준 SOA 미들웨어 기술**
-- 배경/필요성: CAN의 신호 기반 정적 브로드캐스팅은 기능을 추가할 때마다 **전 ECU의 메시지 정의를 함께 고치는 강한 결합(Tight Coupling) 비용**을 치르므로, 이더넷 위에 서비스 단위 인터페이스와 동적 디스커버리를 두어 통신 상대 결정을 실행 시점으로 미룸
+- 배경/필요성: 자율주행, ADAS, 고화질 인포테인먼트(IVI) 도입으로 인해 차량 내부 데이터 처리량이 수십 Mbps~수 Gbps로 급증하고 전자제어 아키텍처가 존(Zone) 기반의 소프트웨어 정의 차량(SDV)으로 전환되는 환경에서, 전통적인 CAN 버스의 신호 기반(Signal-based) 정적 브로드캐스팅 방식은 대역폭 한계와 신규 기능 추가 시 전 ECU의 데이터베이스(DBC)를 재빌드해야 하는 강한 결합(Tight Coupling)의 한계를 노출함에 따라, 차량용 이더넷(Automotive Ethernet) 상에서 서비스 인터페이스 기반으로 동작하는 AUTOSAR 표준 SOA 미들웨어인 SOME/IP 및 런타임 서비스 탐색 프로토콜(SOME/IP-SD)을 도입하여 **기가비트급 대용량 제어/센서 데이터 전송, 런타임 동적 플러그앤플레이 서비스 바인딩 및 기능 안전(E2E Protection) 보증**을 달성할 필요
 
 #### 한줄 요약
 - 경량 직렬화, SOME/IP-SD 동적 서비스 디스커버리, E2E 기능 안전 보호를 지원한다.
@@ -150,7 +150,7 @@ SOME/IP-SD 서비스 탐색, 구독 및 이벤트 전송 파이프라인
 
 ## Ⅶ. 결론
 
-- 동적 차량 서비스는 **SOME/IP-SD**, 오류 검출은 E2E 적용
+- 전통적인 분산 ECU 제어 방식에서 중앙 집중형 존(Zonal) 아키텍처와 소프트웨어 정의 차량(SDV: Software-Defined Vehicle)으로 전환되는 자동차 산업의 **가장 핵심적인 차량용 이더넷 서비스 지향 통신(SOA) 미들웨어 표준**으로 확립되었으며, 고성능 자율주행 컴퓨터의 DDS(Data Distribution Service) 및 차량-클라우드(V2C) 연동 프로토콜과 융합하는 가운데, 실무 SDV 플랫폼 구축 시에는 **차량 시동 시 브로드캐스트 스톰을 방지하는 SOME/IP-SD 지수 백오프(Exponential Backoff) 적용, 인터페이스 파편화 크래시를 방지하는 엄격한 Major/Minor 버전 계약 테스트(Contract Testing), ISO 26262 ASIL-D 기능 안전 무결성을 만족하는 AUTOSAR E2E Profile(CRC+Counter) 및 SecOC 암호화 인증, 대용량 센서 데이터 처리를 위한 SOME/IP-TP 세그멘테이션**을 결합하여 완벽한 차세대 차량 네트워크 신뢰성을 완성
 
 #### 한줄 요약
 - SOME/IP 미들웨어와 SOME/IP-SD 및 E2E 보호 기술을 결합하여 SDV 시대의 차량용 SOA 네트워크를 실현한다.

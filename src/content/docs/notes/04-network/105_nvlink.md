@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 105
   label: "105. NVLink 고대역폭 인터커넥트"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초고속 GPU 스케일업 인터커넥트 : NVLink 및 NVSwitch"
-date: "2026-08-26T14:15:01+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 105
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: GPU HBM을 공유 풀로 묶는 **고대역폭 스케일업 인터커넥트**
-- 배경/필요성: PCIe로 GPU를 잇는 방식은 텐서 병렬 통신마다 **제한된 대역폭과 그로 인한 GPU 유휴 시간**을 치르므로, GPU 사이에 전용 고대역 링크와 스위치를 두어 서로의 메모리를 직접 참조하게 함
+- 배경/필요성: 수천억 개 이상의 매개변수를 갖는 초대규모 거대언어모델(LLM) 및 MoE(Mixture of Experts) 모델을 훈련/추론할 때 GPU 간 가중치와 그래디언트를 실시간 교환하는 텐서 병렬화(Tensor Parallelism)가 필수적이나, 범용 PCIe 버스(Gen5 128GB/s)를 통한 GPU 간 인터커넥트는 심각한 대역폭 병목과 높은 지연을 초래하여 GPU 텐서 코어가 데이터 수신을 기다리며 멈추는 유휴 시간(Idle Overhead)을 발생시킴에 따라, GPU 간 직접 점대점 직렬 버스(NVLink)와 전용 NVSwitch 크로스바 스위칭 패브릭을 도입하여 **GPU당 최대 1.8TB/s의 초고대역폭 전송, 나노초($\le 100ns$)급 극단적 저지연 통신 및 단일 랙 내 72개 GPU(NVL72)를 거대한 단일 공유 메모리 풀(Unified Memory Pool)로 결합하는 하드웨어 가속 스케일업(Scale-Up)**을 달성할 필요
 
 #### 한줄 요약
 - PCIe 대비 14배 이상의 대역폭, NVSwitch 비차단 풀 메시, 단일 공유 메모리 풀을 제공한다.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 노드·랙 스케일업은 **NVLink·NVSwitch**, 노드 간은 **InfiniBand·RoCEv2** 선택
+- 단일 서버 섀시를 넘어 랙 스케일(NVL72) 전체를 하나의 거대한 단일 GPU 컴퓨터로 통합하는 **최첨단 AI 슈퍼컴퓨팅 및 초거대 모델 텐서 병렬화 가속의 독점적 핵심 스케일업(Scale-Up) 인터커넥트 표준**으로 확립되었으며, 스케일아웃 네트워크인 인피니밴드/RoCEv2 및 광 CPO(Co-Packaged Optics)와의 결합으로 진화하는 가운데, 실무 NVLink 인프라 구축 시에는 **물리적 차동 신호 오류로 인한 대역폭 반토막(Degraded Link)을 방지하는 패브릭 관리자(Fabric Manager) 실시간 감시 및 동적 링크 격리, GPU 랭크를 물리 최단 경로에 배치하는 NCCL 토폴로지 인식 매핑, 초고밀도 전력 발열에 대응하는 직접 액체 냉각(Direct Liquid Cooling) 및 노드 내-외 계층적(Hierarchical) All-Reduce 통신 최적화**를 결합하여 완벽한 GPU 클러스터 컴퓨팅 성능을 완성
 
 #### 한줄 요약
 - NVLink와 NVSwitch는 노드/랙 내부를 극저지연 공유 메모리로 결합하여 대규모 AI 모델의 텐서 병렬화를 가속하는 핵심 하드웨어 기술이다.

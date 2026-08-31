@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 108
   label: "108. HTTP/2•HTTP/3 비교"
@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "차세대 웹 전송 프로토콜 비교 : HTTP/2 vs HTTP/3"
-date: "2026-08-26T14:19:07+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 108
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: TCP 다중화와 **QUIC 독립 스트림**의 웹 전송 프로토콜
-- 배경/필요성: HTTP/2는 여러 스트림을 단일 TCP 연결에 얹어 **패킷 하나의 유실이 전체 스트림을 멈추는 비용(HoL)**을 치르므로, 전송 계층을 UDP 위 QUIC으로 옮겨 스트림별 독립 복구와 연결 식별자 기반 경로 이동을 확보
+- 배경/필요성: HTTP/1.1의 직렬 요청 병목을 개선한 HTTP/2가 단일 TCP 연결 상에서 바이너리 프레이밍 다중화(Multiplexing)를 도입했으나, 하부 TCP 프로토콜의 신뢰적 순차 전송 특성으로 인해 패킷 1개만 유실되어도 무관한 모든 스트림이 수신 버퍼에서 멈추는 TCP 헤드오브라인 블로킹(TCP HoL Blocking) 문제와 TCP+TLS 다단계 핸드셰이크(2~3 RTT 지연), 모바일 IP 변경 시 세션 단절 한계를 드러냄에 따라, 전송 계층을 UDP 기반의 QUIC(RFC 9000)으로 전면 교체한 HTTP/3(RFC 9114)를 도입하여 **스트림 간 완전 격리(Independent Streams)를 통한 HoL 블로킹 원천 제거, 0-RTT/1-RTT 초고속 암호화 연결 수립 및 Connection ID 기반 무단절 모바일 연결 마이그레이션(Connection Migration)**을 달성할 필요
 
 #### 한줄 요약
 - TCP HoL 블로킹을 해결하고 0-RTT 연결 수립과 연결 마이그레이션을 통해 무선망 전송 효율을 극대화한다.
@@ -155,7 +155,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 유선 안정망은 **HTTP/2**, 손실·망 전환 환경은 **HTTP/3·폴백** 선택
+- 유선 환경 중심의 TCP 웹 전송 시대를 마감하고 무선 모바일 및 분산 클라우드 환경에 최적화된 **차세대 글로벌 웹 통신 및 API 전송의 절대적 표준 프로토콜(IETF RFC 9114)**로 확고히 정립되었으며, 실시간 미디어 스트리밍(WebTransport) 및 CDN 엣지 컴퓨팅과의 결합으로 진화하는 가운데, 실무 HTTP/3 도입 시에는 **기업 방화벽의 UDP 443 포트 차단에 대비한 Happy Eyeballs(RFC 8305) 기반 HTTP/2 동적 폴백(Fallback) 보장, 0-RTT(Early Data) 재생 공격(Replay Attack)을 방지하기 위한 GET 멱등 요청 한정 적용, UDP 커널 패킷 오버헤드를 해소하는 UDP GSO(Generic Segmentation Offload) 및 eBPF/XDP 커널 바이패스 가속**을 결합하여 완벽한 차세대 웹 전송 신뢰성을 완성
 
 #### 한줄 요약
 - HTTP/3는 QUIC 기반의 독립 스트림과 0-RTT 연결 및 Connection ID를 통해 무선망 웹 전송 성능을 혁신하는 표준 프로토콜이다.

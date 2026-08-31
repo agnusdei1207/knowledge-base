@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 102
   label: "102. RDMA 원격 직접 메모리 접근"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초저지연 고대역폭 메모리 전송 : RDMA (Remote Direct Memory Access)"
-date: "2026-08-26T14:10:47+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 102
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: RNIC가 **커널 우회·제로 카피**로 원격 메모리에 직접 전송
-- 배경/필요성: TCP/IP 전송은 메시지마다 **시스템 호출과 커널-사용자 버퍼 복사 비용**을 CPU가 대신 치르므로, NIC가 원격 메모리에 직접 쓰는 경로를 열어 커널 개입과 복사 단계를 통째로 건너뜀
+- 배경/필요성: 초거대 AI 모델 분산 훈련(LLM Training) 및 고성능 컴퓨팅(HPC) 환경에서 수만 개의 GPU/서버가 초당 테라바이트급 텐서(Tensor) 데이터를 교환할 때, 전통적인 소켓 기반 TCP/IP 네트워크 스택은 잦은 OS 시스템 콜, 다단계 메모리 복사(User Space $\leftrightarrow$ Kernel Buffer) 및 인터럽트 컨텍스트 스위칭으로 인해 극심한 CPU 오버헤드와 수십 마이크로초($\mu s$) 수준의 통신 지연(Latency Bottleneck)을 초래함에 따라, OS 커널과 호스트 CPU의 개입 없이 네트워크 인터페이스 카드(RNIC)가 원격 노드의 물리 메모리에 직접 DMA 방식으로 읽기/쓰기를 수행하는 RDMA(Remote Direct Memory Access) 기술을 도입하여 **커널 우회(Kernel Bypass) 및 제로 카피(Zero-Copy) 기반 극단적 통신 지연 단축($\le 1\mu s$), 호스트 CPU 사용률 0% 수렴 및 초고속 대규모 AI 클러스터 확장성**을 달성할 필요
 
 #### 한줄 요약
 - 커널 우회, 제로 카피, CPU 오프로드를 통해 마이크로초 미만의 초저지연 메모리 전송을 실현한다.
@@ -151,7 +151,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 최고 성능 전용망은 **InfiniBand**, 이더넷 활용은 **RoCEv2·PFC** 선택
+- CPU와 OS 커널의 소프트웨어 병목을 물리적으로 우회하여 통신 대역폭을 하드웨어 와이어 속도(Wire-Speed)까지 끌어올리는 **AI/ML 분산 가속, 대규모 HPC 및 클라우드 초고속 스토리지(NVMe-oF)의 절대적 핵심 통신 표준 기술**로 확고히 정립되었으며, RoCEv2, Ultra Ethernet 및 CXL 패브릭과의 결합으로 진화하는 가운데, 실무 RDMA 클러스터 구축 시에는 **인터럽트 지연을 제거하는 완료 큐(CQ) 폴링 루프 및 버퍼 수명주기 동기화, 수만 개 노드 연결 시 RNIC 메모리(MTT) 고갈을 방지하는 공유 수신 큐(SRQ) 및 온디맨드 페이징(ODP) 적용, 이더넷 상의 패킷 유실을 방지하는 무손실 PFC(Priority-based Flow Control) 및 DCQCN 혼잡 제어 튜닝**을 결합하여 완벽한 초저지연 통신 신뢰성을 완성
 
 #### 한줄 요약
 - **커널 우회·제로 카피**로 CPU 병목 제거

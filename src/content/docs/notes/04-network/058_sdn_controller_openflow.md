@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 58
   label: "058. SDN 컨트롤러와 OpenFlow"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "SDN 제어 평면 : SDN 컨트롤러와 OpenFlow"
-date: "2026-08-26T13:54:14+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 전역 토폴로지를 관리하는 **SDN 컨트롤러와 Match-Action 파이프라인을 통해 스위치 TCAM에 룰을 프로그래밍하는 OpenFlow 표준 프로토콜**
-- 배경/필요성: 이종 스위치별 비표준 제어 인터페이스로 인한 **벤더 종속(Lock-in), 중앙 컨트롤러의 통합 프로그래밍 불가 및 실시간 동적 플로우 제어 한계**를 겪으므로, 컨트롤러와 스위치 사이에 Match-Action이라는 공통 추상을 표준 프로토콜로 못 박아 벤더별 제어 인터페이스를 따로 익히던 비용을 규격 하나로 수렴시킬 필요
+- 배경/필요성: 초기 SDN 환경에서 이종 네트워크 장비 제조사마다 서로 다른 독점(Proprietary) 제어 인터페이스와 관리 CLI를 제공함에 따라 벤더 종속성(Lock-in)이 심화되고, 중앙 컨트롤러가 물리 스위치 및 가상 스위치(OVS)의 하드웨어 포워딩 엔진을 표준화된 방식으로 직접 프로그래밍하지 못하는 한계를 극복하기 위해, 제어 평면의 중앙 SDN 컨트롤러와 데이터 평면의 스위치 간에 Match-Action 기반 다중 테이블 파이프라인(Multi-Table Pipeline)과 표준 메시지 규격을 정의한 OpenFlow(ONF) 프로토콜을 도입하여 **하드웨어 추상화, 실시간 플로우 단위 동적 경로 제어(Flow-Mod/Packet-In) 및 벤더 독립적 사우스바운드 제어 표준화**를 달성할 필요
 
 #### 한줄 요약
 - OpenFlow는 제어를 표준 추상으로 옮겨 벤더 종속을 끊는 대신, 플로우 규칙이 스위치 TCAM 용량에 갇히므로 규칙 세분화 정도와 수용 가능한 플로우 수가 서로를 제약한다.
@@ -144,7 +144,7 @@ OpenFlow Table-Miss 및 Flow-Mod 파이프라인
 
 ## Ⅶ. 결론
 
-- 동적 세션은 **Reactive**, 고정 백본은 **Proactive** 룰 선택
+- 소프트웨어 정의 네트워킹의 기초를 확립하고 데이터센터 가상 스위치(OVS) 및 통신사 연구망에서 **SDN 사우스바운드 표준 인터페이스의 상징적 레퍼런스 모델**로 기여하였으며, 최근 P4(Programming Protocol-independent Packet Processors) 및 gNMI/NETCONF 등 차세대 프로그래머블 데이터 플레인으로 확장·발전하는 가운데, 실무 컨트롤러-스위치 연동 설계 시에는 **Packet-In 폭풍을 억제하는 스위치 CoPP 레이트 리미팅, 하드웨어 TCAM 고갈을 방지하는 유휴 수명(Idle/Hard Timeout) 최적화, 제어 채널 단절 시 망 마비를 방지하는 Fail-Standalone 모드 및 컨트롤러 다중 연결, 상호 인증 TLS 암호화**를 결합하여 완벽한 제어 평면 안정성을 완성
 
 #### 한줄 요약
 - SDN 컨트롤러와 OpenFlow의 Match-Action 파이프라인을 결합하여 고신뢰 제어 평면을 구현한다.

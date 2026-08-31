@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar:
   order: 96
   label: "096. 위협 인텔리전스 (STIX/TAXII)"
@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "사이버 위협 인텔리전스 표현 및 전송 표준 : STIX 및 TAXII"
-date: "2026-08-26T14:09:09+09:00"
+date: "2026-08-31T10:48:00+09:00"
 tags:
   - "notes-network"
 weight: 96
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: **STIX 표현**과 **TAXII 전송** 기반 CTI 공유 표준
-- 배경/필요성: IoC를 기관마다 다른 형식으로 주고받으면 수신 측이 **매번 파싱·정규화 비용**을 치르고 차단 장비로 잇지 못하므로, 표현(STIX)과 전송(TAXII)을 표준으로 고정해 공유 자체를 기계가 처리하는 대상으로 전환
+- 배경/필요성: 글로벌 사이버 위협이 조직화·고도화됨에 따라 공격자(Threat Actor), 공격 기법(TTP), 침해 지표(IoC) 등의 사이버 위협 인텔리전스(CTI)를 유관 기관 및 보안 기업 간에 신속히 공유해야 하나, 과거에는 비정형 텍스트(이메일/PDF)나 벤더별 독점 XML 포맷으로 유통되어 수신 측에서 수동 파싱 및 정규화에 막대한 시간을 소모하고 방화벽·SIEM으로의 기계적 자동 연동이 불가능했던 한계를 극복하기 위해, 위협 정보를 JSON 기반 그래프 관계형 객체(SDO/SRO)로 표준 구조화하는 STIX(Structured Threat Information eXpression)와 이를 HTTPS REST API로 안전하게 실시간 교환하는 TAXII(Trusted Automated eXchange of Intelligence Information) 표준을 도입하여 **기계 판독 가능한(Machine-Readable) CTI 공유 자동화, SIEM/SOAR/방화벽 실시간 방어 정책 자동 주입 및 글로벌 집단 사이버 방어 생태계**를 달성할 필요
 
 #### 한줄 요약
 - STIX 구조화 언어와 TAXII 전송 프로토콜을 결합하여 위협 인텔리전스를 실시간 자동 공유한다.
@@ -153,7 +153,7 @@ CTI 생산자
 
 ## Ⅶ. 결론
 
-- 위협 표현은 **STIX**, 자동 교환은 **TAXII**, 공유 범위는 TLP 적용
+- 파편화된 사이버 위협 지표를 단일화된 글로벌 표준 규격으로 구조화하고 실시간 기계 간 자동 연동을 실현하는 **글로벌 사이버 위협 인텔리전스(CTI) 유통 및 집단 방어의 가장 보편적이고 핵심적인 표준 프레임워크(OASIS 표준)**로 확립되었으며, MITRE ATT&CK 프레임워크 및 위협 인텔리전스 플랫폼(TIP)과의 심층 결합으로 진화하는 가운데, 실무 STIX/TAXII 연동 인프라 구축 시에는 **과거 악성 IP가 정상 서비스로 재할당되었을 때 오차단을 방지하는 유효기간(valid_until/TTL) 기반 자동 룰 회수(Stale IoC 방지), 조직별 민감 정보 유출을 차단하는 TLP 2.0 기반 엄격한 접근 통제, 방화벽 하드웨어 TCAM 용량 고갈을 방지하는 신뢰도(Confidence Score) 기반 상위 지표 선별 주입**을 결합하여 완벽한 CTI 운영 신뢰성을 완성
 
 #### 한줄 요약
 - STIX/TAXII 표준과 TLP 거버넌스 및 SOAR 연동을 통해 실시간 지능형 위협 대응을 구현한다.
