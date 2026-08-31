@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트리 구조: B-Tree•AVL•Red-Black (Tree Data Structures)"
-date: "2026-08-26T11:58:55+09:00"
+date: "2026-08-31T10:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 8
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 노드 간 계층 관계와 **키 정렬 규칙**에 기반해 분기하여 데이터 **탐색 공간**을 축소하는 비선형 자료구조
-- 배경/필요성: 단순 이진 탐색 트리는 정렬된 순서로 키가 들어오면 **편향(Skewed)**되어 연결 리스트와 같은 $O(n)$ 비용으로 퇴화하므로, 삽입·삭제 연산 뒤에 높이 불변식을 되돌리는 균형 유지 단계를 덧붙여 갱신 비용을 조금 더 치르는 대신 탐색 상한을 $O(\log n)$에 고정
+- 배경/필요성: 단순 이진 탐색 트리(BST)의 데이터 삽입 순서에 따른 편향(Skewed Tree) 및 $O(n)$ 선형 퇴화 한계를 극복하고, 동적 회전(Rotation)·색상 규칙 및 다진 분기(Fan-out)를 통해 **최악의 경우에도 $O(\log n)$ 탐색/삽입/삭제 시간 및 정렬 범위 조회를 보장**할 필요
 
 #### 한줄 요약
 
@@ -180,7 +180,7 @@ extra:
 
 </details>
 
-- 디스크 인덱스는 **B-Tree**, 조회 중심은 **AVL**, 갱신 빈번 시 **레드블랙 트리** 선택
+- RDBMS 스토리지 엔진(InnoDB의 B+Tree), OS 커널 스케줄러(Linux CFS의 Red-Black Tree) 및 인메모리 심볼 테이블의 **핵심 인덱싱 표준 아키텍처**로 안착되었으며, 최근에는 SSD/플래시 메모리 I/O 최적화를 위해 **B+Tree와 LSM-Tree(Log-Structured Merge-tree) 간의 하이브리드 저장 계층**으로 진화
 
 #### 한줄 요약
 

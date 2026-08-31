@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "양자 알고리즘 — 쇼어·그로버 (Quantum Algorithms Shor Grover)"
-date: "2026-08-26T12:13:33+09:00"
+date: "2026-08-31T10:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 62
 extra:
   question_no: "062"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 70
   priority_note: "중첩·간섭과 양자 위상 추정"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 큐비트의 **중첩·간섭**으로 특정 문제를 가속하는 양자 알고리즘
-- 배경/필요성: 고전 계산은 후보를 하나씩 확인해야 해 큰 정수의 **소인수분해**는 준지수 시간을, 비정렬 탐색은 $N$에 비례하는 비용을 치르므로, 큐비트 중첩으로 후보 전체를 한 상태에 담고 간섭으로 오답 진폭을 상쇄시켜 확인 횟수 자체를 줄임
+- 배경/필요성: 고전 폰 노이만 컴퓨터가 소인수분해(준지수 시간) 및 비정렬 탐색($O(N)$)에서 직면하는 튜링 계산 복잡도 한계를 극복하고, 양자역학의 중첩(Superposition)과 간섭(Interference) 현상을 활용하여 **소인수분해의 다항 시간 지수적 가속($O(n^3)$) 및 비정렬 데이터베이스 탐색의 이차적 가속($O(\sqrt{N})$)을 실현**할 필요
 
 #### 한줄 요약
 
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- 장기 기밀 데이터는 **PQC**, 대칭키 보안강도는 **AES-256**으로 전환
+- 양자 컴퓨팅(Quantum Supremacy) 시대의 **핵심 양자 가속 표준 알고리즘(암호 해독 및 비정렬 검색)**으로 정립되었으며, 실무 보안 인프라에서는 **HNDL(Harvest Now, Decrypt Later) 공격에 대비한 NIST 표준 PQC(양자내성암호) 전환 및 대칭키 키 길이 상향(AES-128 $\to$ AES-256, SHA-256 $\to$ SHA-384/512)**을 즉시 실행
 
 #### 한줄 요약
 

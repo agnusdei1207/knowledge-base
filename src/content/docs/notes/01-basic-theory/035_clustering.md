@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "클러스터링: K-Means•DBSCAN (Clustering)"
-date: "2026-08-25T10:00:00+09:00"
+date: "2026-08-31T10:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 35
 extra:
   question_no: "035"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 50
   priority_note: "군집 형태•밀도에 따른 알고리즘 선택 기준"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 정답 레이블 없이 데이터 포인트 간의 거리 척도(Distance Metric) 또는 공간 밀도(Density)를 측정하여 유사 집단으로 분할하는 **비지도 머신러닝 분석 기법**
-- 배경/필요성: 레이블을 사람이 붙이면 데이터 규모에 비례하는 주석 비용이 계속 재발하고 아직 알려지지 않은 구조는 이름조차 붙일 수 없으므로, 레이블 자리에 거리와 밀도라는 데이터 내부 척도를 놓아 **내재적 기하 구조 및 밀도 패턴**이 스스로 드러나게 함
+- 배경/필요성: 대규모 미라벨링(Unlabeled) 데이터에 대한 수작업 주석(Annotation) 비용과 사전 정의 불가능한 잠재 패턴 탐색의 한계를 극복하고, 유클리드 거리 및 밀도 연결성(Density Reachability)을 통해 **데이터 내재적 기하 구조/군집을 자동 식별하고 이상치(Outlier)를 분리**할 필요
 
 #### 한줄 요약
 
@@ -181,7 +181,7 @@ extra:
 
 </details>
 
-- 구형 중심 분할은 **K-Means**, 기하학적 임의 형상/노이즈 분리는 **DBSCAN** 선택
+- 고객 세분화(Segmentation), 공간 지리 분석 및 비지도 이상 탐지(Anomaly Detection)의 **핵심 비지도 학습 알고리즘**으로 정립되었으며, 실무에서는 **데이터 분포 형상(구형 vs 비볼록)에 따른 K-Means/DBSCAN 선택, HDBSCAN을 통한 가변 밀도 대응 및 실루엣 계수 기반 검증**을 통해 최적 군집을 도출
 
 #### 한줄 요약
 

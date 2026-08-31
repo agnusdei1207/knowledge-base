@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "과적합•과소적합•편향-분산 트레이드오프 (Overfitting, Underfitting, and Bias-Variance Tradeoff)"
-date: "2026-08-26T12:08:57+09:00"
+date: "2026-08-31T10:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 39
 extra:
   question_no: "039"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 70
   priority_note: "일반화 실패 진단과 규제 선택"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 총 기대 오차 $E[(y - \hat{f}(x))^2] = \text{Bias}^2(\hat{f}(x)) + \text{Var}(\hat{f}(x)) + \sigma^2$ 분해식에 따라 편향과 분산의 합이 최소가 되는 **최적 모델 복잡도(Sweet Spot) 탐색 체계**
-- 배경/필요성: 훈련 오차만 낮추면 모델이 잡음까지 외워 미지 데이터에서 오차가 되레 치솟는 **과적합 통제 불가** 상태가 되므로, 총 오차를 편향·분산·기약 오차로 갈라 두고 복잡도를 움직일 때 어느 항이 줄고 어느 항이 느는지를 근거로 검증 오차 최소점을 판정
+- 배경/필요성: 머신러닝 모델 학습 시 훈련 손실(Training Loss) 극소화에만 집중할 경우 발생하는 무작위 노이즈 암기(과적합) 및 모델 표현력 부족(과소적합)을 극복하고, 총 기대 오차의 편향-분산-기약 오차 분해를 통해 **미지 데이터에 대한 일반화 오차(Generalization Error)가 최소화되는 최적의 모델 복잡도(Sweet Spot)를 탐색**할 필요
 
 #### 한줄 요약
 
@@ -176,7 +176,7 @@ extra:
 
 </details>
 
-- 고편향/과소적합은 **모델 용량 확대 및 특성 공학**, 고분산/과적합은 **L1/L2 규제 및 드롭아웃** 선택
+- 모든 머신러닝/딥러닝 모델 설계 및 하이퍼파라미터 튜닝의 **근본적 최적화 원칙**으로 정립되었으며, 실무에서는 **학습 곡선(Learning Curve) 진단을 기반으로 고편향 시 모델 용량 확대/특성 추가를, 고분산 시 가중치 감쇄(L2 Weight Decay), 드롭아웃(Dropout), 데이터 증강(Augmentation) 및 조기 종료(Early Stopping)**를 체계적으로 적용하여 일반화 성능을 극대화
 
 #### 한줄 요약
 

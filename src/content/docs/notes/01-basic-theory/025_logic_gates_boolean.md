@@ -6,13 +6,13 @@ sidebar:
     text: "미출 · 15%"
     variant: note
 title: "논리 게이트•부울 대수 (Logic Gates and Boolean Algebra)"
-date: "2026-08-26T18:53:00+09:00"
+date: "2026-08-31T10:30:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 25
 extra:
   question_no: "025"
-  source_status: "미출"
+  source_status: "기출"
   source_history: ""
   priority: 15
   priority_note: "부울식과 회로 구현을 연결하는 보조 주제"
@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: 이진 논리 관계를 부울 대수 및 카르노 맵으로 최소화하고 이를 표준 논리 게이트망으로 물리 합성하는 **디지털 조합 논리 설계 체계**
-- 배경/필요성: 진리표의 최소항을 그대로 회로로 옮기면 중복 곱항마다 게이트가 붙어 **면적•전력•전파지연 비효율**을 그대로 떠안으므로, 진리표와 게이트망 사이에 부울 대수·카르노 맵이라는 대수적 최소화 계층을 끼워 넣어 출력 등가성은 유지한 채 리터럴과 게이트 수를 줄임
+- 배경/필요성: 복잡한 디지털 시스템 사양을 무가공 게이트로 직접 구현할 때 발생하는 칩 면적(Area), 소비 전력(Power), 전파 지연(Timing)의 비효율을 극복하고, 부울 대수 법칙과 카르노 맵(K-Map)을 통해 **논리적 등가성을 유지하면서 최소 리터럴/게이트로 최적화된 2단/다단 논리 회로를 합성**할 필요
 
 #### 한줄 요약
 
@@ -172,7 +172,7 @@ extra:
 
 </details>
 
-- 함수 합성은 **NAND/NOR**, 패리티는 **XOR 게이트** 선택
+- 현대 반도체 VLSI 및 ASIC/FPGA 논리 설계의 **기초 수학적 토대**로 확립되었으며, 실무에서는 **Synopsys Design Compiler 등 EDA 합성 툴을 통한 PPA(Power-Performance-Area) 다차원 최적화, 정적 타이밍 분석(STA) 및 형식 등가성 검증(LEC)**을 통해 수십억 개 트랜지스터의 고신뢰성 칩을 구현
 
 #### 한줄 요약
 
