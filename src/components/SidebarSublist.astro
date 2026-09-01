@@ -225,6 +225,12 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
       line-height: 1.4;
       cursor: pointer;
       user-select: none;
+      border-radius: 0.25rem;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    summary:hover {
+      background-color: color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
     }
 
     summary::marker,
@@ -252,6 +258,7 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
       color: var(--sl-color-gray-2);
       padding: 0.3em var(--sl-sidebar-item-padding-inline);
       line-height: 1.4;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
 
     a[data-note-link='true'] {
@@ -276,6 +283,7 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
     a:hover,
     a:focus {
       color: var(--sl-color-white);
+      background-color: color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
     }
 
     a:focus-visible {
