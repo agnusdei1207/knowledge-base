@@ -14,14 +14,15 @@
 
 | 항목 | 값 |
 |:---|:---|
-| `08-latest-tech` 마지막 번호 | 227 (`227_splade.md`) |
-| 최근 신설 | 2026-08-28 SPLADE (학습형 희소 검색) |
+| `08-latest-tech` 마지막 번호 | 228 (`228_next_gen_memory.md`) |
+| 최근 신설 | 2026-09-03 차세대 메모리 기술: HBM · CXL · PIM (Next-Gen Memory) |
 
 ## 반영 완료
 
 | 키워드 | 노트 | 반영일 |
 |:---|:---|:---|
 | SPLADE (SParse Lexical AnD Expansion) | `08-latest-tech/227_splade.md` (+ `073_hybrid_search.md` 비교표 열 추가) | 2026-08-28 |
+| 차세대 메모리 기술 (HBM, CXL, PIM/PNM) | `08-latest-tech/228_next_gen_memory.md` (+ `02-hardware/022_memory_hierarchy.md` 연결) | 2026-09-03 |
 
 ## 후보 (미검증 — 작성 전 실재 확인 필요)
 
