@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 다중 트랜잭션 동시 실행 시 나타나는 읽기 이상 현상을 제어하기 위해 **Read Uncommitted부터 Serializable까지 4단계로 직렬화 수준을 규정**한 동시성 표준
-- 배경/필요성: 완벽한 직렬성(Serializable)만을 강제할 경우 발생하는 극심한 락 경합과 동시 처리량(Throughput) 급락, 반대로 동시성 제어가 부재할 때 발생하는 3대 읽기 이상 현상(Dirty Read, Non-Repeatable Read, Phantom Read)에 따른 데이터 왜곡을 방지하기 위해, ANSI/ISO SQL 표준 4단계 격리 수준(Read Uncommitted, Read Committed, Repeatable Read, Serializable)을 계층화하여 **애플리케이션 비즈니스 요구사항에 따라 데이터 일관성과 동시성 성능 간의 최적 트레이드오프를 선택**할 필요
+- 배경/필요성: 완벽한 직렬성 강제 시의 **극심한 락 경합 및 동시 처리량 급락과, 제어 부재 시의 3대 읽기 이상 현상(Dirty·Non-Repeatable·Phantom Read) 발생 한계**
 
 #### 한줄 요약
 - 4단계 격리 수준과 MVCC/Lock 메커니즘을 통해 동시 처리량과 정합성 간의 최적 균형을 달성한다.
