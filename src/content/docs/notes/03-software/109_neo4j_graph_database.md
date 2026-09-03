@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 복잡한 네트워크 관계를 표현하기 위해 **노드(Node), 관계(Edge), 속성(Property) 및 무색인 인접성(Index-Free Adjacency)** 을 제공하는 그래프 NoSQL
-- 배경/필요성: 관계형 데이터베이스(RDBMS)에서 3-Hop 이상의 다단계 연관 관계나 네트워크 경로를 탐색할 때 발생하는 극심한 Recursive Join I/O 및 지수적 성능 저하 문제를 극복하고, 개체(Node)와 연결(Relationship)을 일급 시민으로 취급하며 인덱스 검색 없이 물리 메모리 포인터로 인접 노드를 즉시 역참조하는 무색인 인접성(Index-Free Adjacency)과 선언적 Cypher 질의어를 도입하여 **이상거래 탐지(FDS), 지식 그래프(Knowledge Graph) 및 추천 시스템의 초고속 경로 순회(Graph Traversal)를 달성**할 필요
+- 배경/필요성: RDBMS에서 3-Hop 이상 다단계 관계 탐색 시의 **재귀 조인(Recursive Join) I/O 병목 및 지수적 성능 저하 한계**
 
 #### 한줄 요약
 - 무색인 인접성은 탐색 비용을 전체 데이터량에서 떼어내 방문한 이웃 수에만 묶는 구조이므로, 관계가 한쪽으로 몰린 슈퍼 노드에서는 그 전제가 그대로 무너진다.
