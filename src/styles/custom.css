@@ -653,3 +653,54 @@ mobile-starlight-toc nav {
   line-height: 1.5;
   margin: 0;
 }
+
+/* 5. 엔지니어링 & 지식 축적 명언 그리드 */
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-block: 1rem 3rem;
+}
+
+.quote-card {
+  background: var(--palette-surface);
+  border: 1px solid var(--palette-line);
+  border-left: 3px solid var(--palette-accent);
+  border-radius: 0 10px 10px 0;
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--palette-accent);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--palette-accent) 15%, transparent);
+}
+
+.quote-text {
+  font-family: Georgia, "Noto Serif KR", serif;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--palette-text);
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+.quote-note {
+  font-size: 0.82rem;
+  color: var(--palette-muted);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.quote-author {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--palette-accent);
+  text-align: right;
+  font-family: var(--sl-font-mono);
+  letter-spacing: 0.02em;
+}

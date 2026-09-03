@@ -3,7 +3,7 @@ title: "컴퓨터시스템응용기술사 지식 아카이브"
 description: "컴퓨터구조·소프트웨어·네트워크·정보보안·최신기술 전 영역 984개 핵심 토픽 기술사 정본 노트"
 template: splash
 hero:
-  tagline: "컴퓨터구조·소프트웨어·네트워크·정보보안·최신기술 전 영역 984개 핵심 토픽 기술사 정본 노트"
+  tagline: "단순함은 신뢰성의 전제 조건이며, 본질의 축적이 시스템 아키텍처의 격을 결정한다."
   actions:
     - text: "학습 노트 시작하기"
       link: "/study/notes/"
@@ -154,5 +154,36 @@ hero:
   <div class="principle-item">
     <div class="principle-title">3. 직관적 대조 메커니즘 설명</div>
     <div class="principle-desc">전문어를 또 다른 전문어로 치환하지 않고, 기존 방식(예: 전하 충전)과 물리적·논리적 대조(예: 회로 전압 상태 유지)를 선명하게 대비시켜 직관적으로 전달합니다.</div>
+  </div>
+</div>
+
+<div class="section-heading">
+  <h2>엔지니어링 사유와 축적의 격언</h2>
+  <span class="section-badge">Engineering Maxims</span>
+</div>
+
+<div class="quote-grid">
+  <div class="quote-card">
+    <div class="quote-text">"컴퓨터 과학이 컴퓨터에 관한 학문인 것은, 천문학이 망원경에 관한 학문인 것과 같다."</div>
+    <div class="quote-note">도구의 화려함이나 유행에 매몰되지 않고, 계산 모델과 시스템 아키텍처의 본질적 원리를 통찰하는 공학적 태도.</div>
+    <div class="quote-author">— Edsger W. Dijkstra</div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"내가 직접 만들어낼 수 없는 것은, 내가 진정으로 이해한 것이 아니다."</div>
+    <div class="quote-note">피상적인 키워드 암기를 넘어, 백지 위에 아키텍처 구성도와 시퀀스를 오롯이 손으로 그려낼 수 있는 지식의 내재화.</div>
+    <div class="quote-author">— Richard P. Feynman</div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"개념적 무결성(Conceptual Integrity)은 시스템 설계에서 가장 중요한 고려사항이다."</div>
+    <div class="quote-note">파편화된 기술 스펙의 단순 나열이 아닌, 전체 시스템이 하나의 일관된 설계 사상으로 관통되는 구조적 완성도.</div>
+    <div class="quote-author">— Frederick P. Brooks Jr.</div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">"반 걸음이라도 쌓이지 않으면 천 리를 갈 수 없고, 작은 물줄기가 모이지 않으면 강과 바다를 이룰 수 없다."</div>
+    <div class="quote-note">不積跬步 無以至千里 — 보이지 않는 매일의 축적이 임계점을 돌파할 때 비로소 압도적인 퀀텀 점프가 완성된다.</div>
+    <div class="quote-author">— 荀子 《勸學篇》</div>
   </div>
 </div>
