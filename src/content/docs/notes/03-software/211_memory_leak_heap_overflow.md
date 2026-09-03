@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 사용이 완료된 객체가 GC Root에 강한 참조(Strong Reference)로 묶여 가비지 컬렉터가 회수하지 못함으로써 힙 공간이 점진적으로 고갈되어 결국 OOM(OutOfMemoryError) 시스템 중단으로 이어지는 **소프트웨어 레벨 결함 및 성능 장애 현상**
-- 배경/필요성: 가비지 컬렉터(GC) 기반 언어(Java, Go, Node.js)에서도 Static 컬렉션 잔존, ThreadLocal 미해제, 이벤트 리스너 누락 등의 의도치 않은 강한 참조로 인해 Full GC 후에도 힙 메모리 기저선이 지속 우상향하여 서비스가 불시에 전면 마비되는 치명적 한계를 극복하기 위해, 실시간 APM 기반 GC 기저선 모니터링, `-XX:+HeapDumpOnOutOfMemoryError` 파라미터 적용 및 MAT(Memory Analyzer Tool) 기반 도미네이터 트리(Dominator Tree) 분석 체계를 도입하여 **메모리 누수 유발 GC Root 경로를 신속히 규명하고 무결점 힙 메모리 안정성을 확보**할 필요
+- 배경/필요성: GC 기반 언어에서도 의도치 않은 강한 참조(Static/ThreadLocal 등)로 인한 **Full GC 후 힙 기저선 지속 우상향, 메모리 고갈 및 불시의 OOM 서비스 중단 한계**
 
 #### 한줄 요약
 - 힙 덤프(Heap Dump) 분석과 Dominator Tree 역추적을 통해 GC Root 강한 참조를 제거하고 힙 안정성을 확보한다.
