@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: AI 모델 구조에 최적화된 연산 파이프라인과 커스텀 데이터 경로를 **비트스트림(Bitstream)**으로 프로그래밍하여 실행하는 **FPGA(Field-Programmable Gate Array) AI 가속 아키텍처**
-- 배경/필요성: 급변하는 AI 신경망 알고리즘에 대한 고정형 ASIC의 재설계 비용 부담과 GPU의 배치(Batch) 대기로 인한 **비결정론적 지연시간(Non-deterministic Latency)**을 극복할 필요성 대두
+- 배경/필요성: 급변하는 AI 알고리즘에 대한 고정형 ASIC의 재설계 비용 부담과 GPU의 배치 대기로 인한 **비결정론적 지연시간(Non-deterministic Latency) 한계**
 
 #### 한줄 요약
 - FPGA는 하드웨어 회로를 재구성하여 신경망 모델별 맞춤형 파이프라인과 결정적 초저지연을 실현하는 AI 가속기이다.

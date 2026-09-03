@@ -29,7 +29,7 @@ extra:
 </details>
 
 - 정의/개념: LBA를 PBA로 사상해 NAND 제약을 은닉하는 **FTL**
-- 배경/필요성: NAND 플래시 메모리의 쓰기 전 소거(Erase-before-Write) 및 비제자리 갱신(Out-of-Place Update) 등 하드웨어 물리적 특성을 호스트 파일 시스템의 논리 블록 모델에 투명하게 은닉할 필요성 대두
+- 배경/필요성: NAND 플래시 메모리의 쓰기 전 소거(Erase-before-Write) 및 비제자리 갱신(Out-of-Place Update)에 수반되는 **물리적 제약과 수명 편차 한계**
 
 #### 한줄 요약
 - FTL은 낸드 플래시의 물리적 제약을 감추고 고속 블록 스토리지처럼 동작하도록 만드는 SSD 컨트롤러 내부의 핵심 번역 계층이다.
