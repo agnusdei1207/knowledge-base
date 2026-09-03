@@ -1,0 +1,33 @@
+---
+import { Badge } from '@astrojs/starlight/components';
+import { normalizeNotePriority, getPriorityClass } from '../../utils/noteBadges';
+
+interface Props {
+  priority?: number | string | null;
+  prefix?: boolean | string;
+  size?: 'small' | 'medium' | 'large';
+  class?: string;
+}
+
+const {
+  priority: rawPriority,
+  prefix = false,
+  size = 'medium',
+  class: className,
+} = Astro.props;
+
+const priority = normalizeNotePriority(rawPriority);
+const priorityClass = priority !== undefined ? getPriorityClass(priority) : '';
+const prefixText = typeof prefix === 'string' ? prefix : prefix ? '예상 ' : '';
+---
+
+{
+  priority !== undefined && (
+    <Badge
+      variant="note"
+      size={size}
+      class:list={['priority-badge', priorityClass, className]}
+      text={`${prefixText}${priority}%`}
+    />
+  )
+}

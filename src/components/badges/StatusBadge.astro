@@ -1,0 +1,24 @@
+---
+import { Badge } from '@astrojs/starlight/components';
+import { normalizeNoteStatus, type NoteStatus } from '../../utils/noteBadges';
+
+interface Props {
+  status?: NoteStatus | string | null;
+  size?: 'small' | 'medium' | 'large';
+  class?: string;
+}
+
+const { status: rawStatus, size = 'medium', class: className } = Astro.props;
+const status = normalizeNoteStatus(rawStatus);
+---
+
+{
+  status && (
+    <Badge
+      variant={status === '기출' ? 'success' : 'caution'}
+      size={size}
+      class:list={['status-badge', `status-${status === '기출' ? 'passed' : 'pending'}`, className]}
+      text={status}
+    />
+  )
+}

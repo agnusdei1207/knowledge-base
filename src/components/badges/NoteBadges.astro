@@ -1,0 +1,61 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import PriorityBadge from './PriorityBadge.astro';
+import {
+  normalizeNoteStatus,
+  normalizeNotePriority,
+  parseNoteBadgeText,
+  type NoteStatus,
+} from '../../utils/noteBadges';
+
+interface Props {
+  status?: NoteStatus | string | null;
+  priority?: number | string | null;
+  badgeText?: string | null;
+  prefixPriority?: boolean | string;
+  size?: 'small' | 'medium' | 'large';
+  class?: string;
+}
+
+const {
+  status: propStatus,
+  priority: propPriority,
+  badgeText,
+  prefixPriority = false,
+  size = 'medium',
+  class: className,
+} = Astro.props;
+
+const parsed = badgeText ? parseNoteBadgeText(badgeText) : {};
+const status = normalizeNoteStatus(propStatus ?? parsed.status);
+const priority = normalizeNotePriority(propPriority ?? parsed.priority);
+const hasBadges = Boolean(status || priority !== undefined);
+---
+
+{
+  hasBadges && (
+    <div
+      class:list={['note-badges-group', className]}
+      role="group"
+      aria-label="출제 및 중요도 정보"
+    >
+      {status && <StatusBadge status={status} size={size} />}
+      {priority !== undefined && (
+        <PriorityBadge
+          priority={priority}
+          prefix={prefixPriority}
+          size={size}
+        />
+      )}
+    </div>
+  )
+}
+
+<style>
+  .note-badges-group {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+</style>

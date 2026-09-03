@@ -1,9 +1,10 @@
 ---
 import { Badge, Icon } from '@astrojs/starlight/components';
 import SidebarRestorePoint from '@astrojs/starlight/components/SidebarRestorePoint.astro';
+import NoteBadges from './badges/NoteBadges.astro';
+import { parseNoteBadgeText } from '../utils/noteBadges';
 
 type SidebarEntry = (typeof Astro.locals.starlightRoute.sidebar)[number];
-type SidebarBadge = NonNullable<SidebarEntry['badge']>;
 
 interface Props {
   sublist: SidebarEntry[];
@@ -21,29 +22,6 @@ function hasCurrentEntry(entries: SidebarEntry[]): boolean {
   return entries.some((entry) =>
     entry.type === 'link' ? entry.isCurrent : hasCurrentEntry(entry.entries)
   );
-}
-
-function splitBadge(badge?: SidebarBadge): SidebarBadge[] {
-  if (!badge) return [];
-
-  const match = badge.text.match(/^(기출|미출|미출제)\s*[·•]\s*(\d+)%$/);
-  if (!match) return [badge];
-
-  const status = match[1] === '기출' ? '기출' : '미출';
-  const priority = Number(match[2]);
-
-  return [
-    {
-      text: status,
-      variant: status === '기출' ? 'success' : 'caution',
-      class: badge.class,
-    },
-    {
-      text: `${priority}%`,
-      variant: 'note',
-      class: `priority-badge priority-${Math.min(100, Math.max(10, Math.floor(priority / 10) * 10))}`,
-    },
-  ];
 }
 
 function cleanEnglishCandidate(value: string): string {
@@ -135,7 +113,10 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
 <ul class:list={{ 'top-level': !nested }}>
   {
     sublist.map((entry) => {
-      const badges = splitBadge(entry.badge);
+      const parsedBadge = entry.badge ? parseNoteBadgeText(entry.badge.text) : {};
+      const isStructuredNoteBadge = Boolean(
+        parsedBadge.status || parsedBadge.priority !== undefined
+      );
       const noteLabel =
         entry.type === 'link' ? getNoteLabel(entry.label, entry.href) : undefined;
 
@@ -153,16 +134,20 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
               <span class={noteLabel ? 'note-link-label' : undefined}>
                 {noteLabel?.displayLabel ?? entry.label}
               </span>
-              {noteLabel && badges.length > 0 ? (
-                <span class="note-link-badges">
-                  {badges.map((badge) => (
-                    <Badge variant={badge.variant} class={badge.class} text={badge.text} />
-                  ))}
-                </span>
-              ) : (
-                badges.map((badge) => (
-                  <Badge variant={badge.variant} class={badge.class} text={badge.text} />
-                ))
+              {entry.badge && (
+                isStructuredNoteBadge ? (
+                  <NoteBadges
+                    badgeText={entry.badge.text}
+                    size="small"
+                    class="note-link-badges"
+                  />
+                ) : (
+                  <Badge
+                    variant={entry.badge.variant}
+                    class={entry.badge.class}
+                    text={entry.badge.text}
+                  />
+                )
               )}
               {noteLabel && (
                 <span class="last-read-indicator" hidden>최근 열람한 노트</span>
@@ -173,9 +158,21 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
               <summary>
                 <span class="group-label">
                   <span class="large">{entry.label}</span>
-                  {badges.map((badge) => (
-                    <Badge variant={badge.variant} class={badge.class} text={badge.text} />
-                  ))}
+                  {entry.badge && (
+                    isStructuredNoteBadge ? (
+                      <NoteBadges
+                        badgeText={entry.badge.text}
+                        size="small"
+                        class="note-link-badges"
+                      />
+                    ) : (
+                      <Badge
+                        variant={entry.badge.variant}
+                        class={entry.badge.class}
+                        text={entry.badge.text}
+                      />
+                    )
+                  )}
                 </span>
                 <Icon name="right-caret" class="caret" size="1.25rem" />
               </summary>
@@ -273,7 +270,7 @@ function getNoteLabel(label: string, href: string): NoteLabel | undefined {
       min-width: 0;
     }
 
-    .note-link-badges {
+    :global(.note-link-badges) {
       display: inline-flex;
       flex: 0 0 auto;
       gap: 0.25rem;
