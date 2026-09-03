@@ -26,7 +26,7 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: '흔들릴 때 다시 읽는 글',
+          label: '수험 전략 및 마인드셋',
           link: '/encouragement/',
         },
         {

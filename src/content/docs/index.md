@@ -1,64 +1,158 @@
 ---
-title: "컴퓨터 사이언스 노트"
-description: "컴퓨터 사이언스 핵심 주제를 영역별로 정리한 학습 노트"
+title: "컴퓨터시스템응용기술사 지식 아카이브"
+description: "컴퓨터구조·소프트웨어·네트워크·정보보안·최신기술 전 영역 984개 핵심 토픽 기술사 정본 노트"
 template: splash
 hero:
-  tagline: "배우지 않으면 재능을 넓힐 수 없고, 뜻이 없으면 배움을 이룰 수 없다. — 제갈량 《계자서》"
+  tagline: "컴퓨터구조·소프트웨어·네트워크·정보보안·최신기술 전 영역 984개 핵심 토픽 기술사 정본 노트"
   actions:
-    - text: "학습 노트 열기"
+    - text: "학습 노트 시작하기"
       link: "/study/notes/"
       icon: "right-arrow"
       variant: "primary"
-    - text: "흔들릴 때 다시 읽는 글"
+    - text: "수험 전략 및 마인드셋"
       link: "/study/encouragement/"
-      icon: "heart"
-      variant: "minimal"
+      icon: "rocket"
+      variant: "secondary"
 ---
 
-## 목표는 퀀텀 점프다
+<div class="dashboard-stats">
+  <div class="dashboard-stat-card">
+    <div class="dashboard-stat-num">984</div>
+    <div class="dashboard-stat-label">핵심 토픽 정본</div>
+  </div>
+  <div class="dashboard-stat-card">
+    <div class="dashboard-stat-num">8</div>
+    <div class="dashboard-stat-label">전산 전문 영역</div>
+  </div>
+  <div class="dashboard-stat-card">
+    <div class="dashboard-stat-num">ASCII</div>
+    <div class="dashboard-stat-label">필기 재현 청사진</div>
+  </div>
+  <div class="dashboard-stat-card">
+    <div class="dashboard-stat-num">SVG</div>
+    <div class="dashboard-stat-label">Observable 정량 차트</div>
+  </div>
+</div>
 
-전자는 에너지를 조금 받았다고 조금 위로 올라가지 않는다. 정해진 양을 다 채우기 전까지는 제자리에 있다가, 임계점을 넘는 순간 한 번에 다음 궤도로 건너뛴다.
+<div class="section-heading">
+  <h2>8대 전문 학습 영역</h2>
+  <span class="section-badge">Architecture & Topics</span>
+</div>
 
-**축적의 시간** — 도약은 아무것도 없던 자리에서 갑자기 일어나지 않는다. 밖에서 들어온 에너지가 충분히 쌓여 임계점을 넘을 때만 일어난다. 쌓이는 동안에는 겉으로 아무 변화도 보이지 않는다.
+<div class="subject-grid">
+  <a href="/study/notes/01-basic-theory/001_time_space_complexity/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 01</span>
+      <span class="subject-card-count">20 Topics</span>
+    </div>
+    <div class="subject-card-title">기초 전산이론</div>
+    <div class="subject-card-desc">시간·공간복잡도, 빅오 점근 표기, 트리·그래프 자료구조 및 최적화 탐색 알고리즘</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-**비연속성** — 기존 방식에서 조금 나아지는 것이 아니라 아예 차원이 다른 레벨로 넘어간다. 그래서 도약 직전과 직후는 매끄럽게 이어지지 않는다.
+  <a href="/study/notes/02-hardware/021_cache_memory/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 02</span>
+      <span class="subject-card-count">100 Topics</span>
+    </div>
+    <div class="subject-card-title">컴퓨터구조 및 하드웨어</div>
+    <div class="subject-card-desc">파이프라인 해저드, 캐시 일관성, DRAM vs SRAM, HBM3e/CXL 차세대 메모리 아키텍처</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-:::tip[그래서]
-변화가 보이지 않는 구간은 실패의 신호가 아니다. **그 구간이 곧 축적이다.**
-:::
+  <a href="/study/notes/03-software/001_process_vs_thread/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 03</span>
+      <span class="subject-card-count">200 Topics</span>
+    </div>
+    <div class="subject-card-title">소프트웨어공학 및 OS</div>
+    <div class="subject-card-desc">프로세스·스레드 동시성, 분산 트랜잭션(Saga vs 2PC), MSA, B-Tree vs LSM-Tree, 디자인 패턴</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-## 오래 걸리는 일을 견디게 하는 말
+  <a href="/study/notes/04-network/001_osi_7_layer/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 04</span>
+      <span class="subject-card-count">150 Topics</span>
+    </div>
+    <div class="subject-card-title">컴퓨터 네트워크</div>
+    <div class="subject-card-desc">TCP/IP, HTTP/2 vs HTTP/3 QUIC, 5G 코어 SBA, NVLink GPU 스케일업 패브릭, 엣지·포그 컴퓨팅</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-> 천 리 길도 발밑에서 시작된다.
->
-> — 《도덕경》 64장 (千里之行 始於足下)
+  <a href="/study/notes/05-security/001_cia_triad/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 05</span>
+      <span class="subject-card-count">160 Topics</span>
+    </div>
+    <div class="subject-card-title">정보보안 및 암호학</div>
+    <div class="subject-card-desc">공개키 암호, 제로 트러스트(ZTA), IDS vs IPS, NGFW·WAF·CASB 심층 방어, 위험 기반 취약점(EPSS/CVSS)</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-> 어려워서 감히 시도하지 못하는 것이 아니다. 감히 시도하지 않기에 어려운 것이다.
->
-> — 세네카, 《루킬리우스에게 보내는 편지》
+  <a href="/study/notes/06-evaluation/001_performance_evaluation/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 06</span>
+      <span class="subject-card-count">90 Topics</span>
+    </div>
+    <div class="subject-card-title">정보시스템 평가 및 품질</div>
+    <div class="subject-card-desc">암달의 법칙(Amdahl's Law), 고가용성(HA/DR 쿼럼), BMT 공정 비교 평가 방법론, ISO 29119 테스팅</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-> 나는 만 가지 발차기를 한 번씩 연습한 사람을 두려워하지 않는다. 한 가지 발차기를 만 번 연습한 사람을 두려워한다.
->
-> — 이소룡
+  <a href="/study/notes/07-law-policy/001_personal_information_protection_act/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 07</span>
+      <span class="subject-card-count">90 Topics</span>
+    </div>
+    <div class="subject-card-title">IT법제 및 거버넌스</div>
+    <div class="subject-card-desc">전사 아키텍처(EA), ISP·ISMP 발주 연계, 개인정보보호법 개정안, ITIL v4 서비스 가치 시스템</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
 
-> 우리는 반복적으로 행하는 것의 결과다. 그러므로 탁월함은 행위가 아니라 습관이다.
->
-> — 윌 듀런트, 《철학 이야기》에서 아리스토텔레스의 윤리학을 요약하며
+  <a href="/study/notes/08-latest-tech/001_generative_ai/" class="subject-card">
+    <div class="subject-card-header">
+      <span class="subject-card-code">DOMAIN 08</span>
+      <span class="subject-card-count">174 Topics</span>
+    </div>
+    <div class="subject-card-title">최신 디지털 기술 동향</div>
+    <div class="subject-card-desc">LLM 활성화(SwiGLU vs GELU), DevSecOps 거버넌스, 양자 컴퓨팅, AI 인프라 클러스터링, 공간 컴퓨팅</div>
+    <div class="subject-card-footer">
+      <span>노트 살펴보기 &rarr;</span>
+    </div>
+  </a>
+</div>
 
-> 왜 살아야 하는지 아는 사람은 거의 모든 어떻게를 견뎌낸다.
->
-> — 니체, 《우상의 황혼》
+<div class="section-heading">
+  <h2>기술사 답안 작성 3대 핵심 원칙</h2>
+  <span class="section-badge">Quality Gates</span>
+</div>
 
-> 하루라도 책을 읽지 않으면 입안에 가시가 돋는다.
->
-> — 안중근 (一日不讀書 口中生荊棘)
-
-> 인생에서 실패한 사람 중 다수는 포기할 때 자신이 성공에 얼마나 가까웠는지 몰랐던 사람들이다.
->
-> — 토머스 에디슨
-
-## 여덟 개 학습 영역
-
-알고리즘과 자료구조, 하드웨어, 소프트웨어, 네트워크, 보안, 시스템 평가, 정책·표준, 최신 기술을 한곳에서 살펴볼 수 있습니다.
-
-왼쪽 탐색 목록의 백분율은 각 주제의 학습 우선순위입니다.
+<div class="principles-container">
+  <div class="principle-item">
+    <div class="principle-title">1. 공통 상위 개념 선행 및 구조적 빌드업</div>
+    <div class="principle-desc">비교형 문제라도 다짜고짜 나열하지 않고 시스템적 상위 개념(Root Concept)에서 출발하여 소자·알고리즘 분기와 트레이드오프로 답안을 전개합니다.</div>
+  </div>
+  <div class="principle-item">
+    <div class="principle-title">2. 인과 기반의 사실 완결성</div>
+    <div class="principle-desc">단순한 키워드 나열(Jargon Throwing)을 배제하고, 구체적 결함 ➔ 동작 메커니즘 ➔ 상호보완적 배치 결과를 명확한 기술 명사구로 완결합니다.</div>
+  </div>
+  <div class="principle-item">
+    <div class="principle-title">3. 직관적 대조 메커니즘 설명</div>
+    <div class="principle-desc">전문어를 또 다른 전문어로 치환하지 않고, 기존 방식(예: 전하 충전)과 물리적·논리적 대조(예: 회로 전압 상태 유지)를 선명하게 대비시켜 직관적으로 전달합니다.</div>
+  </div>
+</div>
