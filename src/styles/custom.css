@@ -1,109 +1,49 @@
 @import 'katex/dist/katex.min.css';
 
-/* ============================================================
-   Semantic Palette System
-   3 palettes × light/dark = 6 variants
-   Palette: amber (default), teal, blue
-   ============================================================ */
-
-/* ---------- 1. Palette definitions (semantic) ---------- */
-:root[data-palette="amber"] {
-  --palette-accent: #e2a06e;
-  --palette-accent-deep: #a65b32;
-  --palette-accent-glow: #f5d0a9;
-  --palette-bg: #191715;
-  --palette-surface: #f2ece4;
-  --palette-text: #f2ece4;
-  --palette-muted: #8c867e;
-  --palette-line: #514c47;
-  --palette-code-bg: #2d2a27;
-}
-
-:root[data-palette="teal"] {
-  --palette-accent: #78c8b8;
-  --palette-accent-deep: #1f6f62;
-  --palette-accent-glow: #a8e6d8;
-  --palette-bg: #171916;
-  --palette-surface: #f4f1e9;
-  --palette-text: #eef0e8;
-  --palette-muted: #aeb4aa;
-  --palette-line: #3a4039;
-  --palette-code-bg: #292d28;
-}
-
-:root[data-palette="blue"] {
-  --palette-accent: #7c9cff;
-  --palette-accent-deep: #3b5fd9;
-  --palette-accent-glow: #b3c9ff;
-  --palette-bg: #161923;
-  --palette-surface: #f8f9fc;
-  --palette-text: #e8ecf4;
-  --palette-muted: #8b92a8;
-  --palette-line: #2d3348;
-  --palette-code-bg: #1e2330;
-}
-
-/* ---------- 2. Light mode overrides (same palette) ---------- */
-:root[data-theme='light'] {
-  --palette-bg: #f4efe3;
-  --palette-surface: #191715;
-  --palette-text: #191715;
-  --palette-muted: #8c867e;
-  --palette-line: #c5bcaa;
-  --palette-code-bg: #e5dec9;
-}
-
-/* teal light tweaks */
-:root[data-palette="teal"][data-theme='light'] {
-  --palette-bg: #f4f1e9;
-  --palette-surface: #171916;
-  --palette-text: #1a1c19;
-  --palette-muted: #6e7268;
-  --palette-line: #d4d8cf;
-  --palette-code-bg: #ece8dc;
-}
-
-/* blue light tweaks */
-:root[data-palette="blue"][data-theme='light'] {
-  --palette-bg: #f8f9fc;
-  --palette-surface: #161923;
-  --palette-text: #1a1d28;
-  --palette-muted: #7a829a;
-  --palette-line: #dde1eb;
-  --palette-code-bg: #eef0f7;
-}
-
-/* ---------- 3. Map semantic → Starlight variables ---------- */
 :root {
-  --sl-color-accent: var(--palette-accent);
-  --sl-color-accent-low: color-mix(in srgb, var(--palette-accent) 30%, var(--palette-bg));
-  --sl-color-accent-high: var(--palette-accent-glow);
-  --sl-color-white: var(--palette-surface);
-  --sl-color-black: var(--palette-text);
-  --sl-color-gray-1: var(--palette-line);
-  --sl-color-gray-2: color-mix(in srgb, var(--palette-line) 70%, transparent);
-  --sl-color-gray-3: color-mix(in srgb, var(--palette-muted) 80%, transparent);
-  --sl-color-gray-4: var(--palette-muted);
-  --sl-color-gray-5: color-mix(in srgb, var(--palette-muted) 50%, var(--palette-text));
-  --sl-color-gray-6: color-mix(in srgb, var(--palette-text) 70%, transparent);
-  --sl-color-bg: var(--palette-bg);
-  --sl-color-bg-nav: var(--palette-bg);
-  --sl-color-bg-sidebar: var(--palette-bg);
-  --sl-color-hairline-light: var(--palette-line);
-  --sl-color-hairline-shade: color-mix(in srgb, var(--palette-bg) 60%, var(--palette-text));
-  --sl-color-bg-inline-code: var(--palette-code-bg);
+  --sl-color-accent-low: #3b2a22;
+  --sl-color-accent: #e2a06e;
+  --sl-color-accent-high: #f5d0a9;
+  --sl-color-white: #f2ece4;
+  --sl-color-gray-1: #e8e2da;
+  --sl-color-gray-2: #d4cec5;
+  --sl-color-gray-3: #b6afa6;
+  --sl-color-gray-4: #8c867e;
+  --sl-color-gray-5: #514c47;
+  --sl-color-gray-6: #2d2a27;
+  --sl-color-black: #191715;
+  --sl-color-bg: #191715;
+  --sl-color-bg-nav: #191715;
+  --sl-color-bg-sidebar: #191715;
+  --sl-color-hairline-light: #514c47;
+  --sl-color-hairline-shade: #2d2a27;
+  --sl-color-bg-inline-code: #2d2a27;
   --sl-content-width: 55rem;
   --sl-text-5xl: 3rem;
   --sl-font: "Source Sans 3", "Noto Sans KR", system-ui, sans-serif;
   --sl-font-mono: "IBM Plex Mono", "Cascadia Code", ui-monospace, monospace;
-
-  /* palette selector colors (for UI buttons) */
-  --amber-swatch: #e2a06e;
-  --teal-swatch: #78c8b8;
-  --blue-swatch: #7c9cff;
 }
 
-/* ---------- 4. Base styles (unchanged) ---------- */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #eadbc8;
+  --sl-color-accent: #a65b32;
+  --sl-color-accent-high: #71391f;
+  --sl-color-white: #191715;
+  --sl-color-gray-1: #383228;
+  --sl-color-gray-2: #5e574c;
+  --sl-color-gray-3: #756d61;
+  --sl-color-gray-4: #8e8575;
+  --sl-color-gray-5: #c5bcaa;
+  --sl-color-gray-6: #e5dec9;
+  --sl-color-gray-7: #eee7d9;
+  --sl-color-black: #f4efe3;
+  --sl-color-bg: #f4efe3;
+  --sl-color-bg-nav: #f4efe3;
+  --sl-color-bg-sidebar: #f4efe3;
+  --sl-color-hairline-light: #c5bcaa;
+  --sl-color-hairline-shade: #e5dec9;
+  --sl-color-bg-inline-code: #e5dec9;
+}
 
 ::selection {
   color: var(--sl-color-white);
@@ -111,11 +51,12 @@
 }
 
 a:not([class]) {
-  color: var(--sl-color-accent);
   text-decoration-color: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
   text-underline-offset: 0.2em;
 }
 
+/* 실제 답안(Ⅰ~Ⅶ)의 채점 키워드와 미리 알고가기의 선행 용어를 한눈에 회수하기 위한 강조.
+   두 표기 모두 같은 굵은 글씨로 렌더링되는 것이 의도된 동작이다. */
 strong {
   color: var(--sl-color-accent-high);
   font-weight: 700;
@@ -127,85 +68,114 @@ strong {
   letter-spacing: 0.01em;
 }
 
+/* 표 셀 안의 키워드도 본문과 같은 강조를 유지한다. */
 .sl-markdown-content table strong {
   color: var(--sl-color-accent-high);
   font-weight: 700;
 }
 
+/* 인용 요약(> 요약:) 안의 키워드가 흐려지지 않게 대비를 유지한다. */
 .sl-markdown-content blockquote strong {
   color: var(--sl-color-accent-high);
   font-weight: 700;
 }
 
-/* ---------- 5. Badge colors (unchanged, accent-aware) ---------- */
 .sl-badge {
   font-variant-numeric: tabular-nums;
   border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
 }
 
+/* 출제 확률은 10% 구간마다 고유한 색을 사용한다.
+   15%는 10%, 85%는 80% 구간처럼 내림하여 같은 구간을 유지한다. */
 .sl-badge.priority-badge {
   color: var(--priority-text);
   background-color: var(--priority-bg);
   border-color: var(--priority-border);
 }
 
-.sl-badge.priority-10 { --priority-text: #075985; --priority-bg: #e0f2fe; --priority-border: #38bdf8; }
-.sl-badge.priority-20 { --priority-text: #155e75; --priority-bg: #cffafe; --priority-border: #22d3ee; }
-.sl-badge.priority-30 { --priority-text: #065f46; --priority-bg: #d1fae5; --priority-border: #34d399; }
-.sl-badge.priority-40 { --priority-text: #3f6212; --priority-bg: #ecfccb; --priority-border: #a3e635; }
-.sl-badge.priority-50 { --priority-text: #854d0e; --priority-bg: #fef9c3; --priority-border: #facc15; }
-.sl-badge.priority-60 { --priority-text: #9a3412; --priority-bg: #ffedd5; --priority-border: #fb923c; }
-.sl-badge.priority-70 { --priority-text: #991b1b; --priority-bg: #fee2e2; --priority-border: #f87171; }
-.sl-badge.priority-80 { --priority-text: #9d174d; --priority-bg: #fce7f3; --priority-border: #f472b6; }
-.sl-badge.priority-90 { --priority-text: #5b21b6; --priority-bg: #ede9fe; --priority-border: #a78bfa; }
-.sl-badge.priority-100 { --priority-text: #3730a3; --priority-bg: #e0e7ff; --priority-border: #818cf8; }
-
-/* ---------- 6. Palette selector UI ---------- */
-.palette-selector {
-  display: flex;
-  gap: 6px;
-  align-items: center;
+.sl-badge.priority-10 {
+  --priority-text: #075985;
+  --priority-bg: #e0f2fe;
+  --priority-border: #38bdf8;
 }
 
-.palette-selector .palette-btn {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  padding: 0;
-  cursor: pointer;
-  transition: border-color 0.2s, transform 0.15s;
-  position: relative;
+.sl-badge.priority-20 {
+  --priority-text: #155e75;
+  --priority-bg: #cffafe;
+  --priority-border: #22d3ee;
 }
 
-.palette-selector .palette-btn:hover {
-  transform: scale(1.15);
+.sl-badge.priority-30 {
+  --priority-text: #065f46;
+  --priority-bg: #d1fae5;
+  --priority-border: #34d399;
 }
 
-.palette-selector .palette-btn.active {
-  border-color: var(--palette-text);
-  box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-text);
+.sl-badge.priority-40 {
+  --priority-text: #3f6212;
+  --priority-bg: #ecfccb;
+  --priority-border: #a3e635;
 }
 
-.palette-btn[data-palette="amber"] { background: #e2a06e; }
-.palette-btn[data-palette="teal"]  { background: #78c8b8; }
-.palette-btn[data-palette="blue"]  { background: #7c9cff; }
+.sl-badge.priority-50 {
+  --priority-text: #854d0e;
+  --priority-bg: #fef9c3;
+  --priority-border: #facc15;
+}
 
-/* ---------- 7. Layout overrides (unchanged) ---------- */
+.sl-badge.priority-60 {
+  --priority-text: #9a3412;
+  --priority-bg: #ffedd5;
+  --priority-border: #fb923c;
+}
+
+.sl-badge.priority-70 {
+  --priority-text: #991b1b;
+  --priority-bg: #fee2e2;
+  --priority-border: #f87171;
+}
+
+.sl-badge.priority-80 {
+  --priority-text: #9d174d;
+  --priority-bg: #fce7f3;
+  --priority-border: #f472b6;
+}
+
+.sl-badge.priority-90 {
+  --priority-text: #5b21b6;
+  --priority-bg: #ede9fe;
+  --priority-border: #a78bfa;
+}
+
+.sl-badge.priority-100 {
+  --priority-text: #3730a3;
+  --priority-bg: #e0e7ff;
+  --priority-border: #818cf8;
+}
+
+/* 모바일 헤더에 라이트·다크 전환을 노출한다.
+   Starlight 기본값은 이 그룹을 50rem 미만에서 숨기고 햄버거 메뉴 안에만 두는데,
+   테마를 바꾸려고 매번 메뉴를 여는 동선이 모바일에서 불편하다. */
 @media (max-width: 49.9375rem) {
   .header .right-group {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
+
+  /* 좁은 화면에서는 제목과 검색 영역을 지키려고 소셜 아이콘과 구분선을 숨긴다. */
   .header .right-group .social-icons {
     display: none;
   }
+
+  /* 햄버거 메뉴 안의 중복 토글을 제거해 전환 지점을 헤더 하나로 통일한다.
+     소셜 아이콘은 메뉴에 그대로 남는다. */
   .mobile-preferences starlight-theme-select {
     display: none;
   }
 }
 
+/* Keep Starlight's mobile layout at every viewport width. */
 :root[data-has-sidebar] {
   --sl-content-inline-start: 0rem;
 }

@@ -56,9 +56,6 @@ export default defineConfig({
       },
       lastUpdated: true,
       pagefind: false,
-      head: [
-        { tag: 'script', attrs: { src: '/palette-app.js', defer: true } },
-      ],
     }),
   ],
   markdown: {
