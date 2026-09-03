@@ -27,7 +27,7 @@ extra:
 </details>
 
 - 정의/개념: 총 시설 전력 대비 순수 IT 소비 전력 비율을 정량화한 **PUE(Power Usage Effectiveness) 지표**
-- 배경/필요성: 데이터센터 총 수전 전력 중 냉각, 변전, 조명 등 비(非) IT 인프라에서 낭비되는 전력 오버헤드를 정량적으로 분리하여 **에너지 효율화 및 탄소 중립 TCO 개선** 필요
+- 배경/필요성: 데이터센터 총 수전 전력 중 냉각, 변전 등 비(非) IT 인프라에서 발생하는 **전력 낭비 오버헤드와 운영 비용(TCO) 증가 한계**
 
 $$
 \text{PUE} = \frac{\text{총 시설 전력 소비량 (Total Facility Energy)}}{\text{순수 IT 장비 전력 소비량 (IT Equipment Energy)}} = 1 + \frac{\text{비IT 인프라 손실 전력}}{\text{순수 IT 전력}} \quad (\text{이상적 목표: } 1.0)

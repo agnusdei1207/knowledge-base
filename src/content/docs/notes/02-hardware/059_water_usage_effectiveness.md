@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 연간 총 용수 소비량을 IT 전력량으로 나눈 **WUE(Water Usage Effectiveness) 지표**
-- 배경/필요성: PUE 최적화를 위한 증발식 냉각탑 과다 가동 시 발생하는 **수자원 대량 소비(Water-Energy Tradeoff) 및 지역 물 부족 환경 규제 리스크**를 통제할 필요성 대두
+- 배경/필요성: PUE 최적화를 위한 증발식 냉각탑 과다 가동 시 발생하는 **수자원 대량 소비(Water-Energy Tradeoff) 및 물 부족 규제 위험**
 
 $$
 \text{WUE} = \frac{\text{연간 총 용수 사용량 (Annual Water Usage, Liter)}}{\text{순수 IT 장비 전력 소비량 (IT Equipment Energy, kWh)}} \quad [\text{L/kWh}] \quad (\text{이상적 목표: } 0.0)
