@@ -183,7 +183,7 @@ hero:
 
   <div class="quote-card">
     <div class="quote-text">"반 걸음이라도 쌓이지 않으면 천 리를 갈 수 없고, 작은 물줄기가 모이지 않으면 강과 바다를 이룰 수 없다."</div>
-    <div class="quote-note">不積跬步 無以至千里 — 보이지 않는 매일의 축적이 임계점을 돌파할 때 비로소 압도적인 퀀텀 점프가 완성된다.</div>
-    <div class="quote-author">— 荀子 《勸學篇》</div>
+    <div class="quote-note">보이지 않는 매일의 작은 축적이 임계점을 돌파할 때 비로소 압도적인 퀀텀 점프가 완성된다.</div>
+    <div class="quote-author">— 순자 《권학편》</div>
   </div>
 </div>
