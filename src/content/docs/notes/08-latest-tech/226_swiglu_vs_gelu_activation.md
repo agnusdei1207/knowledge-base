@@ -29,8 +29,8 @@ extra:
 
 </details>
 
-- 정의: 트랜스포머 **FFN**의 단일 활성과 게이트 결합을 비교하는 설계 문제
-- 배경/필요성: 트랜스포머(Transformer) 대규모 언어 모델(LLM)의 피드포워드 신경망(FFN) 계층에서 오랫동안 표준으로 사용된 GELU(Gaussian Error Linear Unit) 및 ReLU 활성화 함수는 단일 선형 투영 후 고정된 비선형성만을 적용하는 단일 경로 구조를 취하여, 입력 토큰의 문맥적 중요도에 따라 특정 특징 차원의 신호 흐름을 동적으로 제어(Filtering)하는 능력이 부족하고 모델의 표현력(Expressive Power)과 학습 수렴 속도에 한계에 직면함에 따라, 선형 변환 경로(Value)와 스위시(Swish) 활성화 경로(Gate)를 독립적으로 병렬 생성한 후 요소별 곱셈(Element-wise Product)으로 정보의 통과량을 동적으로 조절하는 게이트 선형 유닛 구조인 SwiGLU(Swish Gated Linear Unit / Noam Shazeer's GLU Variants / $\text{SwiGLU}(x) = (\text{Swish}(x W_{gate}) \otimes (x W_{up})) W_{down} / \text{Swish}_\beta(z) = z \cdot \sigma(\beta z)$ / LLaMA 1/2/3, PaLM, Mistral, Gemma LLM Standard / GELU FFN: 2 MatMuls vs SwiGLU FFN: 3 MatMuls / Hidden Dimension Scaling: $\frac{2}{3} \times 4d_{model} \approx \frac{8}{3}d_{model}$) 아키텍처를 도입하여 **스위시 게이팅 메커니즘을 통한 입력 적응적 특징 선택성(Feature Selection) 극대화 및 그래디언트 소실(Vanishing Gradient) 방지, 파라미터 수를 동등하게 맞춘 조건(은닉 차원 $8/3 d_{model}$ 축소)에서도 GELU 대비 동일 연산량 하에서 압도적으로 낮은 Perplexity(PPL) 및 다운스트림 벤치마크 정확도 향상, 최신 오픈소스 및 상용 최첨단 LLM의 기본 FFN 활성화 표준 확립**을 달성할 필요
+- 정의/개념: 대규모 언어 모델(LLM)의 피드포워드 신경망(FFN)에서 표현력과 연산 효율을 최적화하기 위해, 단일 경로 선형 변환 후 정규분포 기반 비선형성을 적용하는 **GELU**와 스위시 게이트 경로의 원소별 곱셈으로 입력 적응적 신호 통과량을 제어하는 **SwiGLU**를 파라미터 예산과 수렴 속도 관점에서 비교하는 **신경망 활성화 함수 아키텍처**
+- 배경/필요성: GELU 기반 단일 경로 FFN의 입력 문맥에 따른 동적 특징 필터링 한계와 표현력 정체로 인한 **언어 모델 학습 수렴 지연 및 다운스트림 벤치마크 성능 한계 발생**
 
 #### 한줄 요약
 

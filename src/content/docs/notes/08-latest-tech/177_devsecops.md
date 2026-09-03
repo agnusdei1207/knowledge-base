@@ -28,8 +28,8 @@ extra:
 
 </details>
 
-- 정의: 개발•보안•운영이 SDLC 보안을 공동 소유하는 **DevSecOps**
-- 배경/필요성: 전통적인 폭포수식 보안 심사는 최종 배포 직전에 수동 검사(체크리스트, 침투 테스트)를 수행하여 심각한 취약점 발견 시 배포가 전면 지연되거나 결함 수정 비용이 개발 초기에 비해 수십 배 폭증하는 병목(Security Gatekeeper)을 초래하며, 현대의 일 수십 회 CI/CD 초고속 배포 속도를 보안이 따라가지 못하는 근본적 한계에 직면함에 따라, 소프트웨어 개발 수명주기(SDLC) 전 과정에 보안을 자동화된 코드로 내재화(Shift-Left & Shift-Right)하여 개발•보안•운영이 보안 책임을 공동 소유하는 DevSecOps(Development, Security, and Operations / Shift-Left Security: Threat Modeling, SAST, DAST, IAST, SCA, Secret Scanning / Shift-Right Security: RASP, Cloud Workload Protection, WAF / Policy as Code: OPA, SBOM & Sigstore Supply Chain Security) 체계를 도입하여 **빌드 및 CI 단계에서 자동화된 SAST/SCA/시크릿 스캔을 통해 결함 수정 비용을 극소화(Shift-Left), 위험도 기반 자동화 정책 게이트(Policy Gate)를 통한 무중단 초고속 배포 파이프라인 유지, SBOM 및 디지털 서명 검증을 통한 오픈소스 공급망 공격(Supply Chain Attack) 원천 차단**을 달성할 필요
+- 정의/개념: 초고속 지속적 통합·배포(CI/CD) 파이프라인에서 보안 병목을 제거하기 위해, 개발 초기 단계부터 보안을 자동화 코드로 내재화(Shift-Left)하고 운영 환경까지 실시간 감시(Shift-Right)하여 개발·보안·운영이 보안 책임을 공동 소유하는 **소프트웨어 개발 수명주기(SDLC) 통합 거버넌스 체계**
+- 배경/필요성: 최종 배포 직전에 수동 검사로 진행되는 전통적 보안 심사로 인한 **배포 지연 병목(Security Gatekeeper) 및 개발 후반 취약점 수정 비용 급증 발생**
 
 #### 한줄 요약
 
