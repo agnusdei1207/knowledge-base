@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 파드 간 네트워크 연결과 고유 IP를 할당하는 **CNI와 L3/L4 파드 트래픽 미세 격리(Micro-segmentation)를 수행하는 NetworkPolicy 보안 체계**
-- 배경/필요성: 쿠버네티스 기본 평면(Flat) 네트워크 환경에서 모든 파드가 상호 무제한 통신이 가능함에 따라 발생하는 단일 파드 침해 시 공격자의 클러스터 내부 횡적 이동(Lateral Movement) 및 데이터 유출 위험을 원천 차단하기 위해, 파드 간 오버레이/직접 통신을 관장하는 CNI(Container Network Interface) 인프라 위에 파드 라벨, 네임스페이스, IP/Port 단위로 접근을 통제하는 NetworkPolicy를 선언하여 **제로 트러스트(Zero Trust) 기반의 미세 격리(Micro-segmentation) 방화벽을 구축**할 필요
+- 배경/필요성: 쿠버네티스 기본 평면 네트워크의 전면 통신 허용으로 인한 **단일 파드 침해 시 공격자의 횡적 이동(Lateral Movement) 및 데이터 유출 위험 한계**
 
 #### 한줄 요약
 - CNI가 통신망을 구성하고 NetworkPolicy가 제로 트러스트 기반의 방화벽 격리를 집행한다.
