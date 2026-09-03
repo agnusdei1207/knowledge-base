@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의/개념: 소스코드 작성, 빌드, 패키징, 배포에 이르는 **SDLC 전 주기의 산출물 무결성과 출처를 암호학적으로 검증하는 소프트웨어 공급망 보안 체계**
-- 배경/필요성: SolarWinds, Codecov 사태 및 오픈소스 패키지 탈취(Typosquatting, Dependency Confusion)와 같이 개발자 엔드포인트, 소스 저장소, CI/CD 빌드 파이프라인 및 배포 레지스트리 전 구간을 침투하여 정상 배포망을 통해 악성코드를 은밀히 전파하는 지능형 공급망 공격(Software Supply Chain Attack)이 급증함에 따라, 소스코드 커밋부터 최종 운영 배포에 이르는 SDLC 전 과정에 SLSA(Supply-chain Levels for Software Artifacts) 프레임워크와 암호학적 전자서명 및 출처 증명(Provenance)을 도입하여 **종단 간(End-to-End) 소프트웨어 무결성과 검증 가능한 신뢰 사슬(Chain of Custody)을 확립**할 필요
+- 배경/필요성: 개발자 엔드포인트부터 CI/CD 파이프라인 전 구간에 침투하는 **지능형 공급망 공격(Software Supply Chain Attack) 급증 및 정상 배포망을 통한 악성코드 은밀 전파 한계**
 
 #### 한줄 요약
 - SLSA 프레임워크와 전자서명을 기반으로 소스부터 배포까지 종단 간(E2E) 무결성 신뢰 체인을 구축한다.
