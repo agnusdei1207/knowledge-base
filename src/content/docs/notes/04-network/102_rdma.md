@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초저지연 고대역폭 메모리 전송 : RDMA (Remote Direct Memory Access)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:02+09:00"
 tags:
   - "notes-network"
 weight: 102
@@ -68,13 +68,13 @@ extra:
 
 선의 의미: 양 호스트의 애플리케이션이 커널을 거치지 않고 User Space에서 직접 RNIC를 제어하여 원격 메모리로 DMA 전송을 수행하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| RNIC | **주소 변환·DMA 전송** | Hardware Offload |
-| 보호 도메인 | **QP·MR 접근 격리** | Protection Domain |
-| 메모리 영역 | **Page Pinning·lkey/rkey** | Memory Region |
-| 큐 페어 | **WQE·수신 버퍼 관리** | SQ + RQ |
-| 완료 큐 | **완료 이벤트 반환** | CQ Polling |
+| 구성요소 | 책임 |
+|:---|:---|
+| **RNIC** | 주소 변환과 **DMA 전송** |
+| **보호 도메인** | QP·MR **접근 격리** |
+| **메모리 영역** | Page Pinning과 **lkey/rkey** |
+| **큐 페어** | WQE와 **수신 버퍼 관리** |
+| **완료 큐** | 완료 **이벤트 반환** |
 
 #### 한줄 요약
 - 메모리 영역 등록과 보호 도메인이 접근 권한을 사전에 고정해 두므로, 전송 시점에는 커널의 권한 확인 없이 RNIC가 곧바로 DMA를 수행한다.

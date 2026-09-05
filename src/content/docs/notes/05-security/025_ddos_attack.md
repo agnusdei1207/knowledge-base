@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 분산 봇넷으로 자원을 고갈시키는 **서비스 거부 공격**
-- 배경/필요성: 인터넷에 노출된 온프레미스 경계 보안 장비(방화벽/IPS)는 수백 Gbps~Tbps 규모로 쏟아지는 대규모 분산 공격 트래픽이 인입 회선 대역폭 자체를 포화(Volumetric Flooding)시키거나, 수천만 개의 가짜 TCP SYN 요청으로 세션 백로그 큐를 고갈(State Exhaustion)시킬 경우 장비 자체의 폐기 능력과 무관하게 인터넷 회선이 마비되는 구조적 한계를 가짐에 따라, 글로벌 BGP Anycast 분산망, ISP 상류 스크러빙 센터(Scrubbing Center), L4 SYN Cookie 및 L7 웹/봇 완화 체계를 결합한 다계층 DDoS 방어 아키텍처를 도입하여 **네트워크 대역폭 포화 완화, 정상 TCP 세션 및 웹 서비스 가용성 보장, Tbps급 초대형 반사 증폭(DRDoS) 공격의 원천 흡수**를 달성할 필요
+- 정의/개념: 분산 봇넷으로 자원을 고갈시키는 서비스 거부 공격
+- 배경/필요성: 인터넷에 노출된 온프레미스 경계 보안 장비(방화벽/IPS)는 수백 Gbps~Tbps 규모로 쏟아지는 대규모 분산 공격 트래픽이 인입 회선 대역폭 자체를 포화(Volumetric Flooding)시키거나, 수천만 개의 가짜 TCP SYN 요청으로 세션 백로그 큐를 고갈(State Exhaustion)시킬 경우 장비 자체의 폐기 능력과 무관하게 인터넷 회선이 마비되는 구조적 한계를 가짐에 따라, 글로벌 BGP Anycast 분산망, ISP 상류 스크러빙 센터(Scrubbing Center), L4 SYN Cookie 및 L7 웹/봇 완화 체계를 결합한 다계층 DDoS 방어 아키텍처를 도입하여 네트워크 대역폭 포화 완화, 정상 TCP 세션 및 웹 서비스 가용성 보장, Tbps급 초대형 반사 증폭(DRDoS) 공격의 원천 흡수를 달성할 필요
 
 #### 한줄 요약
 - Anycast 분산망과 L4 SYN Cookie 및 L7 WAF를 통해 대규모 분산 공격을 계층별로 완화한다.
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- **다계층 복합 공격**: 회선·세션·**웹 자원 동시 고갈**
-- **반사 증폭**: DNS·NTP·Memcached의 **증폭률 악용**
-- **BGP Anycast 분산**: 공격을 여러 **엣지 PoP**으로 분산
+- 다계층 복합 공격: 회선·세션·웹 자원 동시 고갈
+- 반사 증폭: DNS·NTP·Memcached의 증폭률 악용
+- BGP Anycast 분산: 공격을 여러 엣지 PoP으로 분산
 
 #### 한줄 요약
 - 반사 증폭은 공격자가 치르는 대역폭보다 피해자가 받는 대역폭이 수십 배 크다는 비대칭에서 힘을 얻으므로, 방어도 단일 회선을 키우는 대신 수용 지점을 여러 PoP으로 늘려 비대칭을 되돌리는 쪽을 택한다.
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Anycast 망 | 공격 트래픽의 **지리적 분산** |
-| 스크러빙 센터 | Tbps 트래픽 **정제·폐기** |
-| SYN 방어기 | **SYN Cookie·Proxy**로 상태 보호 |
-| L7 봇 완화기 | **Rate Limit·JS Challenge** 적용 |
-| BGP Flowspec | ISP 상류에 **차단 규칙 배포** |
+| Anycast 망 | 공격 트래픽의 지리적 분산 |
+| 스크러빙 센터 | Tbps 트래픽 정제·폐기 |
+| SYN 방어기 | **SYN Cookie**·Proxy로 상태 보호 |
+| L7 봇 완화기 | Rate Limit·JS Challenge 적용 |
+| BGP Flowspec | ISP 상류에 차단 규칙 배포 |
 
 #### 한줄 요약
 - 구성요소는 공격 트래픽이 지나온 거리 순으로 배치되어 상류일수록 값싸게 많은 양을 걷어 내고 원본에 가까울수록 비싼 문맥 판정을 맡으므로, 앞단이 흘려보낸 만큼 뒷단의 연산 비용이 늘어난다.
@@ -116,10 +116,10 @@ extra:
 | 비교 항목 | 대역폭형 공격 (Volumetric) | 프로토콜 상태형 공격 (State Exhaustion) | 응용 계층형 공격 (Application / L7) |
 |:---|:---|:---|:---|
 | 주요 공격 표적 | 회선 대역폭 | 세션 테이블 | 웹·WAS·DB 자원 |
-| 핵심 공격 기법 | **UDP·반사 증폭** | **SYN·ACK Flood** | **HTTP Flood·Slowloris** |
+| 핵심 공격 기법 | UDP·반사 증폭 | SYN·ACK Flood | HTTP Flood·Slowloris |
 | 공격 규모 척도 | Gbps·Tbps | PPS·CPS | RPS·QPS |
 | 탐지 난이도 | 낮음 | 중간 | 정상 요청과 유사해 높음 |
-| 핵심 완화 대책 | **Anycast·스크러빙** | **SYN Cookie·Proxy** | **WAF·Rate Limit** |
+| 핵심 완화 대책 | Anycast·스크러빙 | **SYN Cookie**·Proxy | WAF·Rate Limit |
 
 #### 한줄 요약
 - 대역폭형은 회선 Gbps 포화, 프로토콜형은 상태 테이블 PPS 고갈, 응용형은 웹/DB RPS 연산 고갈을 노린다.
@@ -144,7 +144,7 @@ extra:
 
 ## Ⅶ. 결론
 
-- 기업의 온라인 비즈니스와 대고객 서비스의 가용성(Availability)을 마비시키는 분산 위협을 원천 흡수하고 정제하는 **엔터프라이즈 인프라 연속성 및 비즈니스 생존의 가장 필수적인 방어 체계**로 정립되었으며, 클라우드 엣지 기반의 자동화된 실시간 DDoS 완화 및 AI 봇 매니지먼트로 진화하는 가운데, 실무 DDoS 방어 전략 수립 시에는 **Tbps급 대역폭 공격을 상류에서 흡수·정제하는 글로벌 Anycast BGP 스크러빙 센터 연동, L4 TCP 세션 고갈을 방어하기 위한 커널 레벨 SYN Cookie(RFC 4987) 및 SYN Proxy 활성화, L7 HTTP Flooding 및 저속 공격(Slowloris)을 차단하는 WAF Rate Limiting 및 지능형 JS 챌린지 봇 완화**를 결합하여 완벽한 다계층 서비스 연속성을 완성
+- 기업의 온라인 비즈니스와 대고객 서비스의 가용성(Availability)을 마비시키는 분산 위협을 원천 흡수하고 정제하는 엔터프라이즈 인프라 연속성 및 비즈니스 생존의 가장 필수적인 방어 체계로 정립되었으며, 클라우드 엣지 기반의 자동화된 실시간 DDoS 완화 및 AI 봇 매니지먼트로 진화하는 가운데, 실무 DDoS 방어 전략 수립 시에는 Tbps급 대역폭 공격을 상류에서 흡수·정제하는 글로벌 Anycast BGP 스크러빙 센터 연동, L4 TCP 세션 고갈을 방어하기 위한 커널 레벨 SYN Cookie(RFC 4987) 및 SYN Proxy 활성화, L7 HTTP Flooding 및 저속 공격(Slowloris)을 차단하는 WAF Rate Limiting 및 지능형 JS 챌린지 봇 완화를 결합하여 완벽한 다계층 서비스 연속성을 완성
 
 #### 한줄 요약
 - DDoS 대응은 BGP Anycast 스크러빙, L4 SYN Cookie, L7 WAF 봇 완화를 결합하여 테라비트급 복합 공격을 완벽히 방어해야 한다.

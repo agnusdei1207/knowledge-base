@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 대규모 분산 처리를 위해 **인메모리 RDD와 DAG 실행 엔진 및 Catalyst 최적화기를 기반으로 고속 병렬 연산을 수행**하는 분산 컴퓨팅 프레임워크
+- 정의/개념: 대규모 분산 처리를 위해 인메모리 RDD와 DAG 실행 엔진 및 **Catalyst** 최적화기를 기반으로 고속 병렬 연산을 수행하는 분산 컴퓨팅 프레임워크
 - 배경/필요성: 1세대 Hadoop MapReduce의 매 단계 디스크 I/O 플러시로 인한 **심각한 지연 및 머신러닝/그래프 반복 연산 처리 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 메모리 상에서 중간 데이터를 유지하는 **인메모리 컴퓨팅(In-Memory Computing)**
+- 메모리 상에서 중간 데이터를 유지하는 인메모리 컴퓨팅(In-Memory Computing)
 - 연산 파이프라인을 최적화하여 한 번에 실행하는 **지연 평가(Lazy Evaluation)**
-- SQL, Streaming, 머신러닝(MLlib), 그래프(GraphX)를 아우르는 **통합 분산 데이터 플랫폼**
+- SQL, Streaming, 머신러닝(MLlib), 그래프(GraphX)를 아우르는 통합 분산 데이터 플랫폼
 
 #### 한줄 요약
 - 인메모리 RDD 계보 복원과 Catalyst 최적화를 통해 고속 반복 연산을 지원한다.
@@ -74,9 +74,9 @@ extra:
 | 구성요소 | 책임 |
 |:---|:---|
 | 드라이버 | DAG 생성과 태스크 스케줄링 조정 |
-| Catalyst 최적화기 | SQL·DataFrame의 **논리·물리 계획** 최적화 |
+| Catalyst 최적화기 | SQL·DataFrame의 논리·물리 계획 최적화 |
 | DAG 스케줄러 | 셔플 경계로 Stage·Task 분할 |
-| 실행기 | RDD 캐시와 **할당 태스크** 실행 |
+| 실행기 | RDD 캐시와 할당 태스크 실행 |
 
 #### 한줄 요약
 - Catalyst가 논리 계획을 다시 쓰고 DAG 스케줄러가 셔플 경계로 단계를 자르므로 작성한 코드 순서와 실제 실행 단위는 일치하지 않으며, 성능 판단의 기준도 코드 줄이 아니라 셔플 경계가 된다.
@@ -116,8 +116,8 @@ DataFrame / Spark SQL 쿼리 선언
 
 | 비교 항목 | Narrow Transformation (협소 변환) | Wide Transformation (광역 변환) |
 |:---|:---|:---|
-| 데이터 의존성 | **부모 파티션과 자식 파티션이 1:1 대응** | **부모 파티션이 다수의 자식 파티션에 전파 (N:M)**|
-| 네트워크 셔플 | **Shuffle 없음 (로컬 메모리 즉시 파이프라이닝)**| **네트워크를 통해 데이터를 재분배하는 Shuffle 필수** |
+| 데이터 의존성 | 부모 파티션과 자식 파티션이 1:1 대응 | 부모 파티션이 다수의 자식 파티션에 전파 (N:M)|
+| 네트워크 셔플 | Shuffle 없음 (로컬 메모리 즉시 파이프라이닝)| 네트워크를 통해 데이터를 재분배하는 Shuffle 필수 |
 | 대표 연산자 | `map()`, `flatMap()`, `filter()` | `groupByKey()`, `reduceByKey()`, `join()` |
 | 장애 복구 비용 | 유실된 단일 로컬 파티션만 즉시 재계산 | 이전 Stage 전체 재실행 또는 셔플 파일 재인출 |
 
@@ -134,10 +134,10 @@ DataFrame / Spark SQL 쿼리 선언
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| `collect()`에 따른 Driver OOM | 크기 확인 후 **`take`·분산 저장** 사용 | Driver 메모리 유입량 제한 |
-| 특정 조인 키 편향으로 인한 Executor Data Skew OOM | **조인 키에 Salting 난수 부여 및 Broadcast Hash Join 전환** | 파티션 메모리 부하 균등 분산 |
-| 다수 객체 생성에 따른 Java GC 지연 | **Kryo·Tungsten 메모리 관리** 적용 | 직렬화 크기와 GC 부담 감소 |
-| 소규모 파일에 따른 셔플 I/O 병목 | **`coalesce`·AQE 파티션 병합** 적용 | 셔플 파티션 수 조정 |
+| `collect()`에 따른 Driver OOM | 크기 확인 후 `take`·분산 저장 사용 | Driver 메모리 유입량 제한 |
+| 특정 조인 키 편향으로 인한 Executor Data Skew OOM | 조인 키에 **Salting** 난수 부여 및 Broadcast Hash Join 전환 | 파티션 메모리 부하 균등 분산 |
+| 다수 객체 생성에 따른 Java GC 지연 | Kryo·Tungsten 메모리 관리 적용 | 직렬화 크기와 GC 부담 감소 |
+| 소규모 파일에 따른 셔플 I/O 병목 | `coalesce`·AQE 파티션 병합 적용 | 셔플 파티션 수 조정 |
 
 #### 한줄 요약
 - collect 지양, Salting 및 Broadcast 조인, Kryo 직렬화, 파티션 자동 병합으로 운영한다.

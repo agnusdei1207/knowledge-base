@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 딥러닝 텐서 동기화 : 집합 통신 All-Reduce"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:06+09:00"
 tags:
   - "notes-network"
 weight: 106
@@ -67,13 +67,13 @@ extra:
 
 선의 의미: 4개의 GPU가 원형 링(Ring)으로 연결되어 이웃 GPU로만 데이터를 전달하며 합산과 배포를 완수하는 탈중앙화 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 통신 랭크 | **GPU 고유 식별자** | MPI / NCCL Rank |
-| 텐서 버킷 퓨전기 | **그래디언트 버킷 병합** | Bucket Engine |
-| NCCL 엔진 | **Ring·Tree·CollNet 선택** | NCCL Primitive |
-| Reduce-Scatter 모듈 | **청크 순환·누적 합산** | 1st Phase |
-| All-Gather 모듈 | **합산 청크 전역 복제** | 2nd Phase |
+| 구성요소 | 책임 |
+|:---|:---|
+| **통신 랭크** | GPU **고유 식별자** |
+| **텐서 버킷 퓨전기** | 그래디언트 **버킷 병합** |
+| **NCCL 엔진** | Ring·Tree·**CollNet 선택** |
+| **Reduce-Scatter 모듈** | 청크 순환과 **누적 합산** |
+| **All-Gather 모듈** | 합산 청크 **전역 복제** |
 
 #### 한줄 요약
 - 텐서 버킷 퓨전기가 작은 그래디언트를 묶어 통신 호출 횟수를 줄이므로, 고정 지연 비용이 텐서 개수가 아니라 버킷 개수에 비례한다.

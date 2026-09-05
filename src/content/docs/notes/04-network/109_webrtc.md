@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "웹 브라우저 기반 실시간 P2P 통신 : WebRTC"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:09+09:00"
 tags:
   - "notes-network"
 weight: 109
@@ -68,13 +68,13 @@ extra:
 
 선의 의미: 시그널링 서버를 통해 SDP와 ICE 후보를 교환하고 STUN/TURN을 활용해 NAT를 통과한 후 브라우저 간 직결 미디어 스트림을 전송하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 시그널링 서버 | **SDP·ICE Candidate 중계** | WebSocket / SIP |
-| STUN 서버 | **NAT 공인 매핑 식별** | UDP 3478 |
-| TURN 서버 | **홀펀칭 실패 시 릴레이** | UDP/TCP 3478 |
-| RTCPeerConnection | **코덱·혼잡·미디어 관리** | W3C API |
-| RTCDataChannel | **바이너리 데이터 전송** | SCTP over DTLS |
+| 구성요소 | 책임 |
+|:---|:---|
+| **시그널링 서버** | SDP·**ICE Candidate 중계** |
+| **STUN 서버** | NAT **공인 매핑 식별** |
+| **TURN 서버** | 홀펀칭 실패 시 **릴레이** |
+| **RTCPeerConnection** | 코덱·혼잡·**미디어 관리** |
+| **RTCDataChannel** | **바이너리 데이터** 전송 |
 
 #### 한줄 요약
 - 시그널링 서버는 연결 정보 교환까지만 관여하고 이후 미디어는 P2P 경로로 흐르므로, 서버가 감당하는 대역폭이 참가자 수에 비례하지 않는다.

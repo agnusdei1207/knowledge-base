@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: **이벤트 시간과 상태** 기반으로 연속 데이터를 처리하는 분산 스트림 엔진
+- 정의/개념: 이벤트 시간과 상태 기반으로 연속 데이터를 처리하는 분산 스트림 엔진
 - 배경/필요성: 마이크로배치 스트리밍 엔진의 초 단위 지연 및 **지연 도착 이벤트(Late-Arriving Data)의 윈도 정합성 미반영 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 이벤트 1건 단위로 즉시 연산하는 **네이티브 스트리밍(True Streaming)**
-- 네트워크 지연을 극복하는 **이벤트 시간(Event Time) 및 워터마크(Watermark) 제어**
-- 체크포인트와 호환 Source·Sink 기반 **Exactly-Once 처리** 지원
+- 이벤트 1건 단위로 즉시 연산하는 네이티브 스트리밍(True Streaming)
+- 네트워크 지연을 극복하는 이벤트 시간(**Event Time**) 및 워터마크(**Watermark**) 제어
+- 체크포인트와 호환 Source·Sink 기반 Exactly-Once 처리 지원
 
 #### 한줄 요약
 - 네이티브 스트리밍, 이벤트 시간 기반 윈도잉, RocksDB 상태 보존을 제공한다.
@@ -72,10 +72,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| JobManager | JobGraph·스케줄링·**체크포인트 조율** |
+| JobManager | JobGraph·스케줄링·체크포인트 조율 |
 | TaskManager | TaskSlot에서 연산자 병렬 실행 |
 | Watermark | 이벤트 시간 진행과 윈도 종료 판단 |
-| State Backend | **Keyed State** 저장과 스냅샷 지원 |
+| State Backend | Keyed State 저장과 스냅샷 지원 |
 | Checkpoint Storage | 연산자 상태와 메타데이터 보관 |
 
 #### 한줄 요약
@@ -116,10 +116,10 @@ extra:
 
 | 비교 항목 | Apache Flink (True Native Streaming) | Spark Streaming (Micro-Batch) |
 |:---|:---|:---|
-| 데이터 처리 방식 | **이벤트 1건 단위 즉시 파이프라이닝 (Event-by-Event)**| **N초 주기로 마이크로배치를 묶어 처리 (Micro-Batch)**|
-| 지연 특성 | **이벤트 단위 파이프라인** | 트리거 간격 기반 마이크로배치 |
+| 데이터 처리 방식 | 이벤트 1건 단위 즉시 파이프라이닝 (Event-by-Event)| N초 주기로 마이크로배치를 묶어 처리 (Micro-Batch)|
+| 지연 특성 | 이벤트 단위 파이프라인 | 트리거 간격 기반 마이크로배치 |
 | 상태 관리 | State Backend와 체크포인트 | 상태 저장소와 체크포인트 |
-| 시간 처리 모델 | **Event Time 및 Watermark 기본 최적화** | 워터마크 지원하나 배치 경계 의존적 |
+| 시간 처리 모델 | **Event Time** 및 **Watermark** 기본 최적화 | 워터마크 지원하나 배치 경계 의존적 |
 
 #### 한줄 요약
 - 극초저지연 실시간 연산은 Flink, 대용량 배치와의 통합 파이프라인은 Spark를 선택한다.
@@ -134,10 +134,10 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 하류 병목으로 인한 상류 파이프라인 **Backpressure** 차단 | **병목 Operator Parallelism(병렬도) 증설 및 키 Salting 분산** | 파이프라인 버퍼 막힘 해소 |
-| Keyed State 증가에 따른 저장 공간 고갈 | 비활성 상태에 **State TTL** 적용 | 상태 보존 기간과 크기 제한 |
-| 상태 스냅샷의 저장소 I/O 병목 | **Incremental Checkpointing** 적용 | 변경 상태 중심으로 전송량 감소 |
-| 늦은 이벤트에 따른 집계 누락 | **allowedLateness·Side Output** 적용 | 지연 데이터의 별도 처리 지원 |
+| 하류 병목으로 인한 상류 파이프라인 **Backpressure** 차단 | 병목 Operator Parallelism(병렬도) 증설 및 키 Salting 분산 | 파이프라인 버퍼 막힘 해소 |
+| Keyed State 증가에 따른 저장 공간 고갈 | 비활성 상태에 State TTL 적용 | 상태 보존 기간과 크기 제한 |
+| 상태 스냅샷의 저장소 I/O 병목 | Incremental Checkpointing 적용 | 변경 상태 중심으로 전송량 감소 |
+| 늦은 이벤트에 따른 집계 누락 | allowedLateness·Side Output 적용 | 지연 데이터의 별도 처리 지원 |
 
 #### 한줄 요약
 - 병렬도 증설, State TTL 설정, 증분 체크포인트, Side Output으로 실무 안정성을 확보한다.

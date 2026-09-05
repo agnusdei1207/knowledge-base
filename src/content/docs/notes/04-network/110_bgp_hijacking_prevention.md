@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "인터넷 경로 탈취 방어 및 라우팅 보안 : BGP 하이재킹 방지"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:10+09:00"
 tags:
   - "notes-network"
 weight: 110
@@ -68,13 +68,13 @@ extra:
 
 선의 의미: RIR 저장소의 ROA 데이터가 로컬 Validator에서 검증되어 RTR 프로토콜을 통해 보더 라우터로 전달되고 라우터가 Invalid BGP 광고를 즉시 차단하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| RIR Trust Anchor | **루트 인증서·ROA 저장소** | Global Repository |
-| RPKI Validator | **서명 검증·VRP 생성** | Routinator |
-| RTR 프로토콜 | **VRP 증분 동기화** | RFC 8210 |
-| ROV 필터 엔진 | **Origin AS·Prefix 검증** | Route Validation |
-| BGPsec | **AS-Path 서명 검증** | RFC 8205 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **RIR Trust Anchor** | 루트 인증서와 **ROA 저장소** |
+| **RPKI Validator** | 서명 검증과 **VRP 생성** |
+| **RTR 프로토콜** | VRP **증분 동기화** |
+| **ROV 필터 엔진** | Origin AS·Prefix **검증** |
+| **BGPsec** | AS-Path **서명 검증** |
 
 #### 한줄 요약
 - Validator가 RPKI 저장소 검증을 대신 수행하고 라우터에는 RTR로 판정 결과만 넘기므로, 라우터는 암호 연산 부담 없이 필터링만 집행한다.

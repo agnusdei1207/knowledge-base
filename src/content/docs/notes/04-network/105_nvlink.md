@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초고속 GPU 스케일업 인터커넥트 : NVLink 및 NVSwitch"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:05+09:00"
 tags:
   - "notes-network"
 weight: 105
@@ -68,13 +68,13 @@ extra:
 
 선의 의미: 8개의 GPU가 NVSwitch 패브릭을 통해 풀 메시로 결합되어 GPU 간 메모리 복사 없이 단일 공유 메모리 풀을 구성하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| NVLink 인터페이스 | **PAM4 PHY·링크 제어** | Point-to-Point |
-| NVSwitch ASIC | **GPU 간 비차단 교차 연결** | Crossbar Switch |
-| 통합 메모리 제어기 | **원격 HBM 주소 변환** | Unified Memory |
-| 패브릭 관리자 | **라우팅·토폴로지·링크 관리** | Fabric Manager |
-| NCCL 라이브러리 | **집합 연산 경로 최적화** | Collective Comm |
+| 구성요소 | 책임 |
+|:---|:---|
+| **NVLink 인터페이스** | PAM4 PHY와 **링크 제어** |
+| **NVSwitch ASIC** | GPU 간 **비차단 교차 연결** |
+| **통합 메모리 제어기** | 원격 HBM **주소 변환** |
+| **패브릭 관리자** | 라우팅·토폴로지·**링크 관리** |
+| **NCCL 라이브러리** | 집합 연산 **경로 최적화** |
 
 #### 한줄 요약
 - NVSwitch 크로스바가 GPU 쌍마다 필요하던 직접 연결을 대신하므로, GPU 수가 늘어도 임의의 두 GPU 사이 홉 수는 일정하게 유지된다.

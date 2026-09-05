@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: NIST AI 100-1(AI RMF 1.0) 및 AI 600-1 가이드라인에 입각하여 **Data(데이터 오염/포이즈닝) $\rightarrow$ Model(가중치 탈취/역공학) $\rightarrow$ Application(프롬프트 인젝션/탈옥) $\rightarrow$ Agent(도구 오용/C2 유출)** 의 4대 계층 위협 모델을 정립하고, **3중 신뢰 경계(Prompt, RAG, Tool)와 LLM Guardrails** 를 구축하는 **AI 신뢰 보증 아키텍처**
-- 배경/필요성: 생성형 AI 및 LLM 기반 자율 에이전트의 급속한 도입으로 인해, 기존의 결정론적(Deterministic) 소프트웨어 보안 통제(WAF/IPS)로는 자연어 기반의 프롬프트 인젝션, 학습 데이터 포이즈닝, 모델 역공학, 에이전트의 비인가 도구 실행 및 기밀 유출과 같은 비결정론적 AI 위협을 방어하지 못하는 근본 한계가 노출됨에 따라, NIST AI RMF 1.0(AI 100-1/600-1) 및 OWASP Top 10 for LLM 표준에 기반하여 Data, Model, Application, Agent의 4대 계층 전주기 위협 모델과 3중 신뢰 경계(Prompt, RAG, Tool) 및 Guardrails를 통합하는 AI 보안 아키텍처를 도입하여 **AI 전 생애주기 위협의 체계적 식별, 비신뢰 입력 격리 및 Human-in-the-loop 기반의 신뢰 가능한 인공지능(Trustworthy AI) 거버넌스**를 달성할 필요
+- 정의/개념: NIST AI 100-1(AI RMF 1.0) 및 AI 600-1 가이드라인에 입각하여 Data(데이터 오염/포이즈닝) $\rightarrow$ Model(가중치 탈취/역공학) $\rightarrow$ Application(프롬프트 인젝션/탈옥) $\rightarrow$ Agent(도구 오용/C2 유출) 의 4대 계층 위협 모델을 정립하고, 3중 신뢰 경계(Prompt, RAG, Tool)와 LLM Guardrails 를 구축하는 AI 신뢰 보증 아키텍처
+- 배경/필요성: 생성형 AI 및 LLM 기반 자율 에이전트의 급속한 도입으로 인해, 기존의 결정론적(Deterministic) 소프트웨어 보안 통제(WAF/IPS)로는 자연어 기반의 프롬프트 인젝션, 학습 데이터 포이즈닝, 모델 역공학, 에이전트의 비인가 도구 실행 및 기밀 유출과 같은 비결정론적 AI 위협을 방어하지 못하는 근본 한계가 노출됨에 따라, **NIST AI RMF** 1.0(AI 100-1/600-1) 및 OWASP Top 10 for LLM 표준에 기반하여 Data, Model, Application, Agent의 4대 계층 전주기 위협 모델과 3중 신뢰 경계(Prompt, RAG, Tool) 및 Guardrails를 통합하는 AI 보안 아키텍처를 도입하여 AI 전 생애주기 위협의 체계적 식별, 비신뢰 입력 격리 및 Human-in-the-loop 기반의 신뢰 가능한 인공지능(Trustworthy AI) 거버넌스를 달성할 필요
 
 #### 한줄 요약
 - Data, Model, Application, Agent의 4대 계층에 걸쳐 3중 신뢰 경계와 Guardrails를 구축하여 AI 전주기 위협을 방어한다.
@@ -44,12 +44,12 @@ extra:
 
 </details>
 
-- **전 생애주기 다계층 방어 (Code-to-Agent Defense)**: 데이터 수집부터 최종 에이전트 액션까지 계층별 맞춤형 보안 통제 적용
-- **능동적 적대적 평가 (Continuous Red Teaming)**: 자동화된 탈옥 프롬프트 및 인젝션 공격 도구를 통해 LLM의 안전성 한계를 지속적 벤치마킹
-- **Human-in-the-loop 기반 고위험 액션 차단**: 금융 이체, DB 레코드 삭제 등 파괴적 에이전트 명령 실행 시 반드시 인간 관리자의 최종 승인 강제
+- 전 생애주기 다계층 방어 (Code-to-Agent Defense): 데이터 수집부터 최종 에이전트 액션까지 계층별 맞춤형 보안 통제 적용
+- 능동적 적대적 평가 (Continuous Red Teaming): 자동화된 탈옥 프롬프트 및 인젝션 공격 도구를 통해 LLM의 안전성 한계를 지속적 벤치마킹
+- Human-in-the-loop 기반 고위험 액션 차단: 금융 이체, DB 레코드 삭제 등 파괴적 에이전트 명령 실행 시 반드시 인간 관리자의 최종 승인 강제
 
 #### 한줄 요약
-- 4대 계층 모델링, 3중 신뢰 경계(Prompt/RAG/Tool), 지속적 레드팀 평가, Human-in-the-loop 승인을 제공한다.
+- 4대 계층 모델링, **3중 신뢰 경계**(Prompt/RAG/Tool), 지속적 레드팀 평가, Human-in-the-loop 승인을 제공한다.
 
 ## Ⅲ. 구조 및 구성요소
 
@@ -91,11 +91,11 @@ extra:
 
 | 계층 | 핵심 위협 요소 | 주요 보안 대책 및 통제 | 비고 |
 |:---|:---|:---|:---|
-| **Data Level** | 학습 데이터 오염(Poisoning), PII 무단 수집 | 데이터 계보(Lineage) 검증, 정제(Sanitization), PII 마스킹 | Data Security |
-| **Model Level** | 모델 역공학(Inversion), 가중치 도난 탈취 | 가중치 AES-256 암호화, TEE 기밀 컴퓨팅, API 호출률 제한 | Model Security |
-| **App Level** | 직접/간접 프롬프트 인젝션, 시스템 탈옥 | 시스템 프롬프트 격리, NeMo Guardrails, LLM WAF | App Boundary |
-| **Agent Level**| 도구 오용(Tool Hijacking), C2 데이터 유출 | 최소 권한 IAM, 격리 샌드박스, Human-in-the-loop, Egress 통제| Agent Security |
-| **Governance** | 모델 편향, 환각 오용, 규제 미준수 | NIST AI RMF 1.0 준수, 상시 적대적 평가(Red Teaming) | AI Governance |
+| Data Level | 학습 데이터 오염(Poisoning), PII 무단 수집 | 데이터 계보(Lineage) 검증, 정제(Sanitization), PII 마스킹 | **Data Security** |
+| Model Level | 모델 역공학(Inversion), 가중치 도난 탈취 | 가중치 AES-256 암호화, TEE 기밀 컴퓨팅, API 호출률 제한 | **Model Security** |
+| App Level | 직접/간접 프롬프트 인젝션, 시스템 탈옥 | 시스템 프롬프트 격리, NeMo Guardrails, LLM WAF | App Boundary |
+| Agent Level| 도구 오용(Tool Hijacking), C2 데이터 유출 | 최소 권한 IAM, 격리 샌드박스, Human-in-the-loop, Egress 통제| Agent Security |
+| Governance | 모델 편향, 환각 오용, 규제 미준수 | NIST AI RMF 1.0 준수, 상시 적대적 평가(Red Teaming) | AI Governance |
 
 #### 한줄 요약
 - Data, Model, Application, Agent 계층별 통제와 Guardrails 및 지속적 거버넌스가 결합한다.
@@ -135,13 +135,11 @@ extra:
     └─ 모델 출력 텍스트의 PII/기밀 노출 여부를 최종 검사한 후 사용자에게 응답 반환
 ```
 
-**동작 원리**
-
-1. **입력 검증 및 가드레일**: 인젝션 입력 검사
-2. **권한 기반 RAG 검색**: 사용자 ACL로 문서 선별
-3. **LLM 모델 추론**: 응답과 도구 호출 제안 생성
-4. **도구 경계 정책 및 Human 승인**: 고위험 실행 인가
-5. **샌드박스 실행 및 안전 응답**: 출력 민감정보 검사
+1. 입력 검증 및 가드레일: 인젝션 입력 검사
+2. 권한 기반 RAG 검색: 사용자 ACL로 문서 선별
+3. LLM 모델 추론: 응답과 도구 호출 제안 생성
+4. 도구 경계 정책 및 Human 승인: 고위험 실행 인가
+5. 샌드박스 실행 및 안전 응답: 출력 민감정보 검사
 
 #### 한줄 요약
 - 검사 지점을 늘릴수록 응답 지연과 정상 요청 오차단이 함께 늘어나므로, 되돌릴 수 있는 출력에는 자동 가드레일을 두고 비가역 도구 실행에만 사람 승인을 배치하는 편이 비용 대비 실익이 크다.
@@ -156,10 +154,10 @@ extra:
 
 | 계층 | 대표적 공격 기법 | 침해 파급력 및 위험 | 핵심 보안 대책 |
 |:---|:---|:---|:---|
-| **Data Level** | **데이터 오염(Poisoning), 백도어 주입** | 모델 전체가 악성 의도대로 오동작 | **데이터 계보 검증, PII 필터링** |
-| **Model Level**| **가중치 탈취, 모델 역공학(Inversion)** | 수백억 원 규모의 AI 지적재산권 유출 | **가중치 암호화, TEE 기밀 컴퓨팅** |
-| **App Level** | **직접/간접 프롬프트 인젝션, 탈옥** | 시스템 프롬프트 무력화 및 환각 오용 | **3중 신뢰 경계, NeMo Guardrails** |
-| **Agent Level**| **도구 실행 하이재킹, C2 데이터 유출** | **실제 인프라 파괴, 비인가 DB 삭제** | **최소 권한, Human-in-the-loop** |
+| Data Level | 데이터 오염(Poisoning), 백도어 주입 | 모델 전체가 악성 의도대로 오동작 | 데이터 계보 검증, PII 필터링 |
+| Model Level| 가중치 탈취, 모델 역공학(Inversion) | 수백억 원 규모의 AI 지적재산권 유출 | 가중치 암호화, TEE 기밀 컴퓨팅 |
+| App Level | 직접/간접 프롬프트 인젝션, 탈옥 | 시스템 프롬프트 무력화 및 환각 오용 | 3중 신뢰 경계, NeMo Guardrails |
+| Agent Level| 도구 실행 하이재킹, C2 데이터 유출 | 실제 인프라 파괴, 비인가 DB 삭제 | 최소 권한, Human-in-the-loop |
 
 #### 한줄 요약
 - Data는 오염 방지, Model은 가중치 암호화, App은 프롬프트 격리, Agent는 권한 통제와 Human 승인으로 방어한다.
@@ -174,16 +172,16 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 전사 AI 거버넌스 체계 부재로 인해 **임직원이 비인가 생성형 AI에 기업 핵심 소스코드를 입력하여 발생하는 기밀 유출 사고** | **NIST AI 100-1 AI RMF 1.0** 프레임워크 전사 준용 및 **CASB/DLP 연동 기반 엔터프라이즈 AI 보안 게이트웨이 구축** | 기업 내부 기밀의 외부 AI 전송 100% 원천 차단 및 전사 AI 위험 가시성 확보 |
-| LLM을 활용한 RAG 애플리케이션에서 비신뢰 문서를 파싱하다 **간접 프롬프트 인젝션(Indirect Prompt Injection)에 의한 탈옥 발생** | **NIST AI 600-1** 가이드라인 준수, **프롬프트/RAG 3중 신뢰 경계 수립 및 NeMo Guardrails 입력/출력 검증 강제** | 악의적인 프롬프트 인젝션 및 시스템 지시어 무력화 100% 선제 차단 |
-| AI 자율 에이전트가 비인가 명령을 생성하여 **프로덕션 데이터베이스의 핵심 테이블을 삭제하거나 비인가 송금을 실행하는 대형 사고** | **에이전트 도구에 최소 권한(Least Privilege) 적용 및 파괴적/금융 고위험 액션 시 Human-in-the-loop 승인 강제** | 에이전트의 독단적 파괴 명령 실행 원천 차단 및 시스템 무결성 100% 보장 |
+| 전사 AI 거버넌스 체계 부재로 인해 임직원이 비인가 생성형 AI에 기업 핵심 소스코드를 입력하여 발생하는 기밀 유출 사고 | **NIST AI 100-1** AI RMF 1.0 프레임워크 전사 준용 및 CASB/DLP 연동 기반 엔터프라이즈 AI 보안 게이트웨이 구축 | 기업 내부 기밀의 외부 AI 전송 100% 원천 차단 및 전사 AI 위험 가시성 확보 |
+| LLM을 활용한 RAG 애플리케이션에서 비신뢰 문서를 파싱하다 간접 프롬프트 인젝션(Indirect Prompt Injection)에 의한 탈옥 발생 | NIST AI 600-1 가이드라인 준수, 프롬프트/RAG 3중 신뢰 경계 수립 및 NeMo Guardrails 입력/출력 검증 강제 | 악의적인 프롬프트 인젝션 및 시스템 지시어 무력화 100% 선제 차단 |
+| AI 자율 에이전트가 비인가 명령을 생성하여 프로덕션 데이터베이스의 핵심 테이블을 삭제하거나 비인가 송금을 실행하는 대형 사고 | 에이전트 도구에 최소 권한(Least Privilege) 적용 및 파괴적/금융 고위험 액션 시 Human-in-the-loop 승인 강제 | 에이전트의 독단적 파괴 명령 실행 원천 차단 및 시스템 무결성 100% 보장 |
 
 #### 한줄 요약
 - AI RMF로 거버넌스를 확립하고, 3중 신뢰 경계로 인젝션을 막으며, Human-in-the-loop로 에이전트 사고를 방지한다.
 
 ## Ⅶ. 결론
 
-- 전통적인 IT 인프라 보안을 넘어 비결정론적 확률 모델과 자율 에이전트의 전 생애주기 위험을 포괄적으로 관리하는 **현대 생성형 AI 보안 및 신뢰성 거버넌스(NIST AI RMF / OWASP LLM Top 10)의 최상위 종합 프레임워크**로 확고히 자리 잡았으며, AI 레드티밍(Red Teaming) 자동화 및 멀티모달 가드레일로 진화하는 가운데, 실무 엔터프라이즈 AI 시스템 구축 시에는 **학습 데이터 계보(Lineage) 및 TEE 기반 모델 가중치 암호화, 시스템 지시어와 비신뢰 RAG 문맥을 분리하는 3중 신뢰 경계(Triple Trust Boundaries) 구축, NeMo Guardrails/Llama Guard 기반 입출력 실시간 필터링, 파괴적 도구 호출에 대한 Human-in-the-loop 최종 승인 파이프라인 강제**를 결합하여 완벽한 AI 보안 전주기 무결성을 완성
+- 전통적인 IT 인프라 보안을 넘어 비결정론적 확률 모델과 자율 에이전트의 전 생애주기 위험을 포괄적으로 관리하는 현대 생성형 AI 보안 및 신뢰성 거버넌스(NIST AI RMF / OWASP LLM Top 10)의 최상위 종합 프레임워크로 확고히 자리 잡았으며, AI 레드티밍(Red Teaming) 자동화 및 멀티모달 가드레일로 진화하는 가운데, 실무 엔터프라이즈 AI 시스템 구축 시에는 학습 데이터 계보(Lineage) 및 TEE 기반 모델 가중치 암호화, 시스템 지시어와 비신뢰 RAG 문맥을 분리하는 3중 신뢰 경계(Triple Trust Boundaries) 구축, NeMo Guardrails/Llama Guard 기반 입출력 실시간 필터링, 파괴적 도구 호출에 대한 Human-in-the-loop 최종 승인 파이프라인 강제를 결합하여 완벽한 AI 보안 전주기 무결성을 완성
 
 #### 한줄 요약
 - 4대 계층 방어와 3중 신뢰 경계 및 Human-in-the-loop 승인을 결합하여 전주기 AI 보안을 완성한다.

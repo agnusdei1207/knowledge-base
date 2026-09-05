@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 신원 제공자(**IdP: Identity Provider**)와 서비스 제공자(**SP: Service Provider**) 간의 사전 신뢰(Metadata/공개키)를 기반으로, **인증 요청(AuthnRequest) $\rightarrow$ 사용자 인증 $\rightarrow$ XML 서명된 Assertion 발행 $\rightarrow$ SP 검증 및 로컬 세션 수립** 을 집행하는 **엔터프라이즈 연합 SSO 아키텍처**
-- 배경/필요성: 기업의 온프레미스 인프라와 외부 클라우드 서비스(SaaS) 간에 이종 도메인이 혼재된 엔터프라이즈 환경에서, 서비스마다 독립된 인증 체계를 운영할 경우 자격증명 파편화 및 중앙 집중식 계정 라이프사이클 관리가 불가능한 문제가 발생함에 따라, 신원 제공자(IdP)와 서비스 제공자(SP) 간의 사전 메타데이터(Metadata) 및 X.509 공개키 신뢰를 기반으로 XML 기반 보안 주장(Assertion)을 교환하는 SAML 2.0 표준을 도입하여 **전사 단일 로그인(SSO: Single Sign-On) 구현, W3C XML 디지털 서명을 통한 무결성/부인방지 보장 및 도메인 간 안전한 연합 신원(Federated Identity) 연계**를 달성할 필요
+- 정의/개념: 신원 제공자(IdP: Identity Provider)와 서비스 제공자(SP: Service Provider) 간의 사전 신뢰(Metadata/공개키)를 기반으로, 인증 요청(AuthnRequest) $\rightarrow$ 사용자 인증 $\rightarrow$ XML 서명된 Assertion 발행 $\rightarrow$ SP 검증 및 로컬 세션 수립 을 집행하는 엔터프라이즈 연합 SSO 아키텍처
+- 배경/필요성: 기업의 온프레미스 인프라와 외부 클라우드 서비스(SaaS) 간에 이종 도메인이 혼재된 엔터프라이즈 환경에서, 서비스마다 독립된 인증 체계를 운영할 경우 자격증명 파편화 및 중앙 집중식 계정 라이프사이클 관리가 불가능한 문제가 발생함에 따라, 신원 제공자(IdP)와 서비스 제공자(SP) 간의 사전 메타데이터(Metadata) 및 X.509 공개키 신뢰를 기반으로 XML 기반 보안 주장(Assertion)을 교환하는 **SAML 2.0** 표준을 도입하여 전사 단일 로그인(SSO: Single Sign-On) 구현, W3C XML 디지털 서명을 통한 무결성/부인방지 보장 및 도메인 간 안전한 연합 신원(Federated Identity) 연계를 달성할 필요
 
 #### 한줄 요약
 - IdP와 SP 간 사전 신뢰를 바탕으로 XML 기반 서명 Assertion을 교환하여 이종 도메인 SSO를 구현한다.
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **공개키 인프라(PKI) 기반 상호 신뢰**: IdP와 SP가 X.509 인증서가 포함된 메타데이터(Metadata XML)를 사전에 교환하여 신뢰 형성
-- **W3C XML Signature & Encryption 결합**: Assertion 전체 또는 내부 속성을 암호화(기밀성)하고 디지털 서명(무결성/부인방지)
-- **엄격한 수신자 및 재전송 방지 통제**: `Recipient`, `AudienceRestriction`, `InResponseTo`, `NotOnOrAfter` 유효성 전수 검증
+- 공개키 인프라(PKI) 기반 상호 신뢰: IdP와 SP가 X.509 인증서가 포함된 메타데이터(Metadata XML)를 사전에 교환하여 신뢰 형성
+- W3C XML Signature & Encryption 결합: Assertion 전체 또는 내부 속성을 암호화(기밀성)하고 디지털 서명(무결성/부인방지)
+- 엄격한 수신자 및 재전송 방지 통제: `Recipient`, `AudienceRestriction`, `InResponseTo`, `NotOnOrAfter` 유효성 전수 검증
 
 #### 한줄 요약
 - SP가 자격증명을 갖지 않는 대가로 IdP가 전사의 단일 신뢰점이자 단일 장애점이 되며, 그래서 프로토콜의 무게 중심이 서명 자체보다 수신자·유효시간 검증 쪽으로 기운다.
@@ -88,11 +88,11 @@ extra:
 
 | 구성요소 | 핵심 책임 및 역할 | 비고 |
 |:---|:---|:---|
-| **User Agent (브라우저)** | IdP와 SP 간의 통신에서 SAML 메시지(XML)를 HTTP Redirect/POST로 중계 | Client Agent |
-| **IdP (신원 제공자)** | 사용자 신원 인증, 권한 속성 매핑, X.509 서명된 SAML Assertion 발급 | Identity Authority|
-| **SP (서비스 제공자)** | AuthnRequest 생성, 수신된 Assertion 서명/수신자/유효기간 검증 및 로컬 세션 확립 | Service Endpoint |
-| **SAML Metadata** | IdP와 SP가 엔티티 ID, 엔드포인트 URL, 공개키 인증서를 상호 교환하기 위한 XML 명세 | Federation Trust |
-| **ACS (Assertion Consumer)**| SP 측에서 IdP로부터 전달된 SAML Response(HTTP POST)를 수신하는 전용 엔드포인트 | ACS URL |
+| User Agent (브라우저) | IdP와 SP 간의 통신에서 SAML 메시지(XML)를 HTTP Redirect/POST로 중계 | Client Agent |
+| IdP (신원 제공자) | 사용자 신원 인증, 권한 속성 매핑, X.509 서명된 **SAML Assertion** 발급 | Identity Authority|
+| SP (서비스 제공자) | AuthnRequest 생성, 수신된 Assertion 서명/수신자/유효기간 검증 및 로컬 세션 확립 | Service Endpoint |
+| SAML Metadata | IdP와 SP가 엔티티 ID, 엔드포인트 URL, 공개키 인증서를 상호 교환하기 위한 XML 명세 | Federation Trust |
+| ACS (Assertion Consumer)| SP 측에서 IdP로부터 전달된 SAML Response(HTTP POST)를 수신하는 전용 엔드포인트 | ACS URL |
 
 #### 한줄 요약
 - IdP와 SP는 직접 통신하지 않고 브라우저가 XML을 중계하므로 신뢰는 사전 교환한 메타데이터의 공개키 하나에 걸리고, 그만큼 검증 책임은 전적으로 SP 쪽에 남는다.
@@ -133,13 +133,11 @@ extra:
 6. [로컬 세션 발급] 검증 성공 ➔ 사용자 NameID로 매핑된 SP 로컬 애플리케이션 세션 쿠키 발급 완료
 ```
 
-**동작 원리**
-
-1. **상호 인증서 기반 무결성**: IdP의 개인키로 생성된 전자서명을 SP가 등록된 IdP 공개키로 수학적 검증
-2. **트랜잭션 1:1 결속**: SP가 발행한 `AuthnRequest` ID와 IdP 응답의 `InResponseTo` 속성을 바인딩하여 위조 방어
-3. **엄격한 수신자 제한**: 타 SP를 대상으로 발행된 Assertion이 다른 SP에서 재사용되는 토큰 혼용 공격 차단
-4. **시간 기반 공격 윈도우 축소**: 유효 시간을 수 분 이내로 제한하여 네트워크 스니핑 후 재전송 공격 무력화
-5. **무상태 엔터프라이즈 연합**: SP가 사용자의 패스워드를 전혀 알 필요 없이 IdP의 서명된 속성만으로 인가 완료
+1. 상호 인증서 기반 무결성: IdP의 개인키로 생성된 전자서명을 SP가 등록된 IdP 공개키로 수학적 검증
+2. 트랜잭션 1:1 결속: SP가 발행한 `AuthnRequest` ID와 IdP 응답의 `InResponseTo` 속성을 바인딩하여 위조 방어
+3. 엄격한 수신자 제한: 타 SP를 대상으로 발행된 Assertion이 다른 SP에서 재사용되는 토큰 혼용 공격 차단
+4. 시간 기반 공격 윈도우 축소: 유효 시간을 수 분 이내로 제한하여 네트워크 스니핑 후 재전송 공격 무력화
+5. 무상태 엔터프라이즈 연합: SP가 사용자의 패스워드를 전혀 알 필요 없이 IdP의 서명된 속성만으로 인가 완료
 
 #### 한줄 요약
 - 서명 검증만으로는 그 Assertion이 누구에게·언제·어느 요청에 대한 응답인지가 남지 않으므로, SAML의 안전성은 서명 강도가 아니라 수신자·유효시간·요청 ID 대조를 빠짐없이 수행하는지에서 갈린다.
@@ -152,13 +150,13 @@ extra:
 
 </details>
 
-| 비교 항목 | SAML 2.0 (Security Assertion Markup Language) | OpenID Connect (OIDC) |
+| 비교 항목 | **SAML 2.0** (Security Assertion Markup Language) | OpenID Connect (OIDC) |
 |:---|:---|:---|
-| **데이터 교환 포맷** | **XML (Extensible Markup Language)** | **JSON / JWT (JSON Web Token)** |
-| **디지털 서명 표준** | **W3C XML Signature (XML-DSig)** | **JSON Web Signature (JWS / RS256)** |
-| **주요 적용 생태계** | **엔터프라이즈 B2B, 레거시 사내망, 온프레미스 SSO**| **모바일 앱, 클라우드 네이티브, SPA, B2C** |
-| **메시지 페이로드 크기** | 무거움 (수 KB 이상 XML 파싱 오버헤드) | **가벼움 (수백 바이트 내외 초경량)** |
-| **모바일/API 친화성** | 낮음 (브라우저 리다이렉트에 강하게 의존) | **매우 높음 (RESTful API 및 SDK 연동 용이)**|
+| 데이터 교환 포맷 | XML (Extensible Markup Language) | JSON / JWT (JSON Web Token) |
+| 디지털 서명 표준 | W3C XML Signature (XML-DSig) | JSON Web Signature (JWS / RS256) |
+| 주요 적용 생태계 | 엔터프라이즈 B2B, 레거시 사내망, 온프레미스 SSO| 모바일 앱, 클라우드 네이티브, SPA, B2C |
+| 메시지 페이로드 크기 | 무거움 (수 KB 이상 XML 파싱 오버헤드) | 가벼움 (수백 바이트 내외 초경량) |
+| 모바일/API 친화성 | 낮음 (브라우저 리다이렉트에 강하게 의존) | 매우 높음 (RESTful API 및 SDK 연동 용이)|
 
 #### 한줄 요약
 - 둘은 같은 연합 신원 문제를 XML 서명과 JWT라는 다른 표현으로 푼 해법이며, SAML이 치르는 XML 파싱 비용이 곧 XSW 같은 파서 취약점의 원천이라 모바일·클라우드에서는 OIDC로 대체된다.
@@ -173,16 +171,16 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| SP의 XML 파서가 서명된 노드와 비즈니스 데이터 노드를 분리 파싱하여 **XML 서명 래핑(XSW) 권한 상승 사고 발생** | **W3C XML Signature 1.1** 지침 준수, XML 스키마 엄격 검증 및 **서명 대상 노드(Assertion ID)의 DOM 위치 강제 대조** | XSW 래핑 공격을 통한 관리자 권한 위조 및 서명 검증 우회 100% 원천 차단 |
-| 정상적인 SAML Response를 공격자가 가로채어 **타깃 SP에 재전송함으로써 세션을 무단 탈취하는 Replay 공격** | **Assertion ID를 메모리/Redis에 캐싱하여 중복 사용을 거부하고, `NotOnOrAfter` 유효시간을 3~5분으로 엄격 단축** | 이전에 발급된 정상 Assertion을 재사용한 세션 하이재킹 공격 100% 무력화 |
-| 타 SP 전용으로 발급된 SAML Assertion이 **수신자 검증 누락으로 인해 다른 자회사 SP에 정상 로그인되는 결함** | **SP의 ACS 수신 시 `Recipient` 및 `AudienceRestriction` 클레임이 자사 식별자와 일치하는지 전수 검증** | 가로채기 후 타 서비스로의 자격증명 오남용 및 도메인 간 혼용 침해 완벽 방어 |
+| SP의 XML 파서가 서명된 노드와 비즈니스 데이터 노드를 분리 파싱하여 XML 서명 래핑(XSW) 권한 상승 사고 발생 | W3C XML Signature 1.1 지침 준수, XML 스키마 엄격 검증 및 서명 대상 노드(Assertion ID)의 DOM 위치 강제 대조 | XSW 래핑 공격을 통한 관리자 권한 위조 및 서명 검증 우회 100% 원천 차단 |
+| 정상적인 SAML Response를 공격자가 가로채어 타깃 SP에 재전송함으로써 세션을 무단 탈취하는 Replay 공격 | Assertion ID를 메모리/Redis에 캐싱하여 중복 사용을 거부하고, `NotOnOrAfter` 유효시간을 3~5분으로 엄격 단축 | 이전에 발급된 정상 Assertion을 재사용한 세션 하이재킹 공격 100% 무력화 |
+| 타 SP 전용으로 발급된 SAML Assertion이 수신자 검증 누락으로 인해 다른 자회사 SP에 정상 로그인되는 결함 | SP의 ACS 수신 시 `Recipient` 및 `AudienceRestriction` 클레임이 자사 식별자와 일치하는지 전수 검증 | 가로채기 후 타 서비스로의 자격증명 오남용 및 도메인 간 혼용 침해 완벽 방어 |
 
 #### 한줄 요약
 - DOM 위치 검증으로 XSW 래핑을 막고, ID 캐싱으로 Replay를 차단하며, Recipient 대조로 혼용을 방지한다.
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 기업 환경과 대규모 B2B SaaS 연동에서 가장 널리 검증되고 신뢰받는 **전통적 엔터프라이즈 연합 신원(Federated Identity) 및 웹 브라우저 SSO의 핵심 표준 프로토콜**로 확고히 자리 잡고 있으며, 클라우드 네이티브 환경의 OIDC/OAuth 2.0과 상호 보완적으로 공존하는 가운데, 실무 SAML 2.0 연합 시스템 운영 시에는 **XSW(XML 서명 래핑) 공격을 방어하는 엄격한 DOM 스키마 위치 검증, Assertion ID Redis 캐싱 및 유효기간(NotOnOrAfter) 단축을 통한 Replay 공격 차단, Recipient 및 AudienceRestriction 클레임의 전수 대조, SP-Initiated SSO 아키텍처 우선 채택**을 결합하여 완벽한 엔터프라이즈 싱글 사인온 무결성을 완성
+- 엔터프라이즈 기업 환경과 대규모 B2B SaaS 연동에서 가장 널리 검증되고 신뢰받는 전통적 엔터프라이즈 연합 신원(Federated Identity) 및 웹 브라우저 SSO의 핵심 표준 프로토콜로 확고히 자리 잡고 있으며, 클라우드 네이티브 환경의 OIDC/OAuth 2.0과 상호 보완적으로 공존하는 가운데, 실무 SAML 2.0 연합 시스템 운영 시에는 XSW(XML 서명 래핑) 공격을 방어하는 엄격한 DOM 스키마 위치 검증, Assertion ID Redis 캐싱 및 유효기간(NotOnOrAfter) 단축을 통한 Replay 공격 차단, Recipient 및 AudienceRestriction 클레임의 전수 대조, **SP-Initiated SSO** 아키텍처 우선 채택을 결합하여 완벽한 엔터프라이즈 싱글 사인온 무결성을 완성
 
 #### 한줄 요약
 - PKI 메타데이터 신뢰와 XML 디지털 서명 및 다계층 유효성 검증을 통해 안전한 SAML 2.0 연합 SSO를 완성한다.

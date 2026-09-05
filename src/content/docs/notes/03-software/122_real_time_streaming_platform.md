@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 발생 즉시 흘러나오는 비동기 이벤트를 **수집(Ingestion), 분산 버퍼링(Broker), 실시간 연산(Processing), 서빙(Serving)까지 초저지연으로 통합 처리하는 파이프라인**
+- 정의/개념: 발생 즉시 흘러나오는 비동기 이벤트를 수집(Ingestion), 분산 버퍼링(Broker), 실시간 연산(Processing), 서빙(Serving)까지 초저지연으로 통합 처리하는 파이프라인
 - 배경/필요성: 전통적 배치 파이프라인(T+1일 주기)의 **데이터 반영 지연으로 인한 실시간 이상거래 탐지(FDS) 및 동적 의사결정 대응 불가 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 이벤트 발생부터 화면 반영까지 **1초 미만의 엔드투엔드 초저지연(Sub-second Latency)**
-- 각 계층 간의 장애 전파를 차단하는 **느슨한 결합(Decoupled Pipeline)**
-- 수십만 QPS 트래픽을 유실 없이 수용하는 **수평 확장(Scale-Out) 기반 고처리량**
+- 이벤트 발생부터 화면 반영까지 1초 미만의 엔드투엔드 초저지연(Sub-second Latency)
+- 각 계층 간의 장애 전파를 차단하는 느슨한 결합(Decoupled **Pipeline**)
+- 수십만 QPS 트래픽을 유실 없이 수용하는 수평 확장(Scale-Out) 기반 고처리량
 
 #### 한줄 요약
 - 초저지연, 계층 분리, 수평 확장을 통해 대규모 이벤트를 실시간으로 처리한다.
@@ -69,10 +69,10 @@ extra:
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| 수집 계층 (Ingestion) | RDB 트랜잭션 로그 및 앱 로그를 **실시간 이벤트 포맷으로 추출/발행** | Debezium, Kafka Connect |
-| 이벤트 브로커 (Broker) | 대량 이벤트를 디스크에 순차 보존하고 **생산자와 소비자의 속도 차이 버퍼링** | Kafka, Pulsar |
-| 스트림 처리기 (Engine) | 이벤트 시간 기준 윈도우 집계 및 **키별 상태(Keyed State) 실시간 계산** | Flink, Spark Streaming |
-| 서빙 저장소 (Serving) | 가공된 집계 결과를 색인하여 **최종 사용자/API에 10ms 이내 초고속 서빙** | Redis, Elasticsearch |
+| 수집 계층 (Ingestion) | RDB 트랜잭션 로그 및 앱 로그를 실시간 이벤트 포맷으로 추출/발행 | Debezium, Kafka Connect |
+| 이벤트 브로커 (Broker) | 대량 이벤트를 디스크에 순차 보존하고 생산자와 소비자의 속도 차이 버퍼링 | Kafka, Pulsar |
+| 스트림 처리기 (Engine) | 이벤트 시간 기준 윈도우 집계 및 키별 상태(Keyed State) 실시간 계산 | Flink, Spark Streaming |
+| 서빙 저장소 (Serving) | 가공된 집계 결과를 색인하여 최종 사용자/API에 10ms 이내 초고속 서빙 | Redis, Elasticsearch |
 
 #### 한줄 요약
 - 브로커가 생산 속도와 소비 속도를 떼어 놓기에 하류가 느려져도 상류가 멈추지 않지만, 그 완충은 보존 용량만큼만 유효하고 그 뒤에는 유실이나 역압으로 되돌아온다.
@@ -112,10 +112,10 @@ extra:
 
 | 비교 항목 | 배치 데이터 파이프라인 (Batch) | 실시간 스트리밍 플랫폼 (Streaming) |
 |:---|:---|:---|
-| 데이터 처리 주기 | **주기적 일괄 실행 (매일 자정, T+1일)** | **이벤트 발생 즉시 연속 실행 (밀리초 단위)** |
-| 핵심 저장/버퍼 | HDFS, S3 객체 스토리지 | **Apache Kafka, Apache Pulsar** |
-| 핵심 연산 엔진 | Hadoop MapReduce, Spark Batch | **Apache Flink, Spark Structured Streaming** |
-| 최적 적용 도메인 | **월간 결제 정산, 일일 재무 보고서** | **이상금융거래 탐지(FDS), 실시간 피드 추천**|
+| 데이터 처리 주기 | 주기적 일괄 실행 (매일 자정, T+1일) | 이벤트 발생 즉시 연속 실행 (밀리초 단위) |
+| 핵심 저장/버퍼 | HDFS, S3 객체 스토리지 | Apache Kafka, Apache Pulsar |
+| 핵심 연산 엔진 | Hadoop MapReduce, Spark Batch | Apache Flink, Spark Structured Streaming |
+| 최적 적용 도메인 | 월간 결제 정산, 일일 재무 보고서 | 이상금융거래 탐지(FDS), 실시간 피드 추천|
 
 #### 한줄 요약
 - 사후 분석은 배치 파이프라인, 즉시 대응이 필요한 서비스는 실시간 스트리밍 플랫폼을 선택한다.
@@ -130,10 +130,10 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 서빙 DB 병목으로 인한 파이프라인 **Backpressure** 차단 | **Async I/O 적용 및 서빙 DB 전면에 Redis 캐시 버퍼 배치** | 파이프라인 정체 해소 |
-| 네트워크 지연으로 인한 지연 이벤트(Late Data) 순서 왜곡 | **Watermark 튜닝 및 `allowedLateness` 지연 허용 버퍼 설정** | 지연 데이터 유실 없는 정확한 집계 |
-| 파이프라인 장애 복구 시 데이터 중복 표출 | **Kafka `acks=all` + Flink 2PC + 서빙 DB UPSERT 삼위일체 결합**| End-to-End Exactly-Once 달성 |
-| 트래픽 급증 시 브로커 파티션 병목 | **파티션 키 Salt 해싱 및 파티션 수 동적 확장** | 브로커 부하 균등 분산 |
+| 서빙 DB 병목으로 인한 파이프라인 **Backpressure** 차단 | Async I/O 적용 및 서빙 DB 전면에 Redis 캐시 버퍼 배치 | 파이프라인 정체 해소 |
+| 네트워크 지연으로 인한 지연 이벤트(Late Data) 순서 왜곡 | Watermark 튜닝 및 `allowedLateness` 지연 허용 버퍼 설정 | 지연 데이터 유실 없는 정확한 집계 |
+| 파이프라인 장애 복구 시 데이터 중복 표출 | Kafka `acks=all` + Flink 2PC + 서빙 DB UPSERT 삼위일체 결합| End-to-End Exactly-Once 달성 |
+| 트래픽 급증 시 브로커 파티션 병목 | 파티션 키 Salt 해싱 및 파티션 수 동적 확장 | 브로커 부하 균등 분산 |
 
 #### 한줄 요약
 - Async I/O, 워터마크 튜닝, End-to-End EOS 결합, 파티션 분산으로 파이프라인을 최적화한다.

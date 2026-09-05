@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "이더넷 기반 무손실 고속 전송 : RoCE 및 RoCEv2"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-06T00:10:03+09:00"
 tags:
   - "notes-network"
 weight: 103
@@ -68,13 +68,13 @@ extra:
 
 선의 의미: RoCEv2 데이터 패킷이 스위치 패브릭에서 ECN 마킹을 거쳐 수신단에 도착하고 수신 RNIC가 생성한 CNP 피드백을 통해 송신단이 레이트를 조절하는 구조
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| RoCEv2 RNIC | **UDP 캡슐화·DCQCN 제어** | ConnectX |
-| PFC 제어기 | **802.1Qbb PAUSE 전송** | Lossless Queue |
-| ECN 마킹 엔진 | **혼잡 패킷 CE 마킹** | RFC 3168 |
-| CNP 생성기 | **CE 감지·CNP 회신** | Congestion Signal |
-| ECMP 패브릭 | **엔트로피 기반 경로 분산** | Load Balancing |
+| 구성요소 | 책임 |
+|:---|:---|
+| **RoCEv2 RNIC** | UDP 캡슐화와 **DCQCN 제어** |
+| **PFC 제어기** | 802.1Qbb **PAUSE 전송** |
+| **ECN 마킹 엔진** | 혼잡 패킷 **CE 마킹** |
+| **CNP 생성기** | CE 감지와 **CNP 회신** |
+| **ECMP 패브릭** | 엔트로피 기반 **경로 분산** |
 
 #### 한줄 요약
 - PFC가 손실을 막는 최후 방어를 맡고 ECN·CNP가 그 정지 신호에 이르기 전에 송신 속도를 낮추므로, 무손실 유지와 데드락 회피가 서로 다른 계층에 나뉘어 담긴다.

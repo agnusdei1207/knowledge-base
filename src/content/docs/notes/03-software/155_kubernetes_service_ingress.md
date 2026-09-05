@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 동적으로 변하는 파드 IP를 추상화하여 **단일 진입 VIP를 제공하는 Service(L4)와 경로 기반 라우팅 및 TLS를 제공하는 Ingress(L7) 네트워킹 아키텍처**
-- 배경/필요성: 파드 IP의 잦은 변경에 따른 **호출 실패 및 서비스 디스커버리 붕괴, 개별 서비스마다 로드밸런서 생성 시의 인프라 비용 폭증 한계**
+- 정의/개념: 동적으로 변하는 파드 IP를 추상화하여 단일 진입 VIP를 제공하는 Service(L4)와 경로 기반 라우팅 및 TLS를 제공하는 Ingress(L7) 네트워킹 아키텍처
+- 배경/필요성: 파드 IP의 잦은 변경에 따른 호출 실패 및 서비스 디스커버리 붕괴, 개별 서비스마다 로드밸런서 생성 시의 인프라 비용 폭증 한계
 
 #### 한줄 요약
 - L4 가상 IP(Service)와 L7 경로 분기(Ingress)를 결합하여 안정적인 마이크로서비스 네트워킹을 구현한다.
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 파드가 교체되어도 변하지 않는 **안정적인 내부 가상 IP(VIP) 및 CoreDNS 도메인 제공**
-- 단일 IP/로드밸런서 뒤에서 복수의 마이크로서비스로 분기하는 **L7 URL 경로 기반 라우팅**
-- cert-manager 기반의 **SSL/TLS 인증서 자동 발급 및 갱신(TLS Termination)**
+- 파드가 교체되어도 변하지 않는 안정적인 내부 가상 IP(VIP) 및 CoreDNS 도메인 제공
+- 단일 IP/로드밸런서 뒤에서 복수의 마이크로서비스로 분기하는 L7 URL 경로 기반 라우팅
+- cert-manager 기반의 SSL/TLS 인증서 자동 발급 및 갱신(TLS Termination)
 
 #### 한줄 요약
 - 고정 가상 IP 로드밸런싱과 L7 호스트/경로 기반 프록시로 마이크로서비스 트래픽을 제어한다.
@@ -69,10 +69,10 @@ extra:
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| 인그레스 컨트롤러 (Ingress) | 외부 HTTP/HTTPS 트래픽을 접수하여 **TLS 복호화 및 도메인/URL 경로별 분기 라우팅** | NGINX, AWS ALB |
-| 쿠버네티스 서비스 (Service) | 파드 집합에 **고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4)** | ClusterIP, NodePort |
-| 엔드포인트슬라이스 | Readiness Probe를 통과한 **유효한 백엔드 파드들의 실제 IP/Port 목록 실시간 관리**| EndpointSlice |
-| kube-proxy (L4 프록시) | 노드의 커널 iptables 또는 IPVS 규칙을 갱신하여 **Service VIP 트래픽을 파드로 부하분산**| 커널 레벨 L4 분산 |
+| 인그레스 컨트롤러 (Ingress) | 외부 HTTP/HTTPS 트래픽을 접수하여 TLS 복호화 및 도메인/URL 경로별 분기 라우팅 | NGINX, AWS ALB |
+| 쿠버네티스 서비스 (Service) | 파드 집합에 고정 가상 IP(VIP)를 부여하고 내부 CoreDNS 질의를 지원(L4) | ClusterIP, NodePort |
+| 엔드포인트슬라이스 | Readiness Probe를 통과한 유효한 백엔드 파드들의 실제 IP/Port 목록 실시간 관리| EndpointSlice |
+| kube-proxy (L4 프록시) | 노드의 커널 iptables 또는 IPVS 규칙을 갱신하여 Service VIP 트래픽을 파드로 부하분산| 커널 레벨 L4 분산 |
 
 #### 한줄 요약
 - 인그레스가 L7 이름·경로 해석을, 서비스와 kube-proxy가 L4 주소 추상화를 대신 떠맡으므로 파드는 자신의 IP가 언제 바뀌는지 모르는 채로 트래픽을 받는다.
@@ -112,10 +112,10 @@ extra:
 
 | 비교 항목 | 쿠버네티스 서비스 (Service: L4) | 쿠버네티스 인그레스 (Ingress: L7) |
 |:---|:---|:---|
-| OSI 계층 | **4계층 전송 계층 (L4 TCP/UDP)** | **7계층 응용 계층 (L7 HTTP/HTTPS)** |
-| 핵심 라우팅 기준 | **고정 가상 IP (VIP) 및 포트 번호** | **도메인 호스트명(Host) 및 URL 경로(Path)** |
-| 주요 부가 기능 | 내부 서비스 탐색(CoreDNS), L4 분산 | **TLS Termination, 쿠키 기반 세션 고정, Rewrite**|
-| 최적 적용 대상 | **클러스터 내부 마이크로서비스 간 통신** | **대외 단일 진입점 도메인 및 웹/앱 트래픽 통합** |
+| OSI 계층 | 4계층 전송 계층 (L4 TCP/UDP) | 7계층 응용 계층 (L7 HTTP/HTTPS) |
+| 핵심 라우팅 기준 | 고정 가상 IP (VIP) 및 포트 번호 | 도메인 호스트명(Host) 및 URL 경로(Path) |
+| 주요 부가 기능 | 내부 서비스 탐색(CoreDNS), L4 분산 | TLS Termination, 쿠키 기반 세션 고정, Rewrite|
+| 최적 적용 대상 | 클러스터 내부 마이크로서비스 간 통신 | 대외 단일 진입점 도메인 및 웹/앱 트래픽 통합 |
 
 #### 한줄 요약
 - 내부 통신과 L4 로드밸런싱은 Service, 외부 웹 도메인 통합과 L7 라우팅은 Ingress를 선택한다.
@@ -130,17 +130,17 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| NodePort 경유로 인한 2단계 네트워크 점프 및 지연시간 증가 | **AWS ALB Ingress의 `target-type: ip` 설정으로 파드 직접 연결** | 네트워크 홉 제거 및 응답 지연 50% 단축 |
-| 마이크로서비스마다 LoadBalancer 생성 시 클라우드 비용 폭증 | **단일 Ingress Controller로 통합하고 Host/Path 기반 분기** | 클라우드 로드밸런서 비용 80% 이상 절감 |
-| SSL/TLS 인증서 갱신 누락으로 인한 서비스 접속 불가 사고 | **`cert-manager` 도입 및 Let's Encrypt 자동 갱신 파이프라인 구축** | 인증서 만료 장애 0건 보장 |
-| Ingress 갱신 시 iptables 수만 개 규칙으로 인한 성능 저하 | **kube-proxy 모드를 `iptables`에서 `IPVS` 모드로 전환 운영** | 대규모 클러스터 패킷 처리 성능 10배 향상 |
+| NodePort 경유로 인한 2단계 네트워크 점프 및 지연시간 증가 | AWS ALB Ingress의 `target-type: ip` 설정으로 파드 직접 연결 | 네트워크 홉 제거 및 응답 지연 50% 단축 |
+| 마이크로서비스마다 LoadBalancer 생성 시 클라우드 비용 폭증 | 단일 Ingress Controller로 통합하고 Host/Path 기반 분기 | 클라우드 로드밸런서 비용 80% 이상 절감 |
+| SSL/TLS 인증서 갱신 누락으로 인한 서비스 접속 불가 사고 | `cert-manager` 도입 및 Let's Encrypt 자동 갱신 파이프라인 구축 | 인증서 만료 장애 0건 보장 |
+| Ingress 갱신 시 iptables 수만 개 규칙으로 인한 성능 저하 | kube-proxy 모드를 `iptables`에서 `IPVS` 모드로 전환 운영 | 대규모 클러스터 패킷 처리 성능 10배 향상 |
 
 #### 한줄 요약
 - 네 대책은 모두 홉·로드밸런서·규칙 수라는 중복 비용을 한 지점으로 접어 얻은 이득이며, 그 대가로 인그레스가 트래픽과 장애가 집중되는 단일 지점이 된다.
 
 ## Ⅶ. 결론
 
-- 클라우드 네이티브 마이크로서비스(MSA) 네트워킹 및 외부 트래픽 유입 제어의 **핵심 표준 라우팅 아키텍처**로 정립되었으며, 실무 구축 시에는 **불필요한 네트워크 홉(Hop)을 제거하는 AWS ALB `target-type: ip` 직접 라우팅, 대규모 파드 환경에서 iptables 부하를 극복하는 IPVS/eBPF(Cilium) 기반 kube-proxy 가속, Let's Encrypt 인증서 생명주기를 자동화하는 cert-manager 연동 및 차세대 Gateway API로의 점진적 진화**를 결합하여 고성능 통신과 보안 거버넌스를 완벽히 보증
+- 클라우드 네이티브 마이크로서비스(MSA) 네트워킹 및 외부 트래픽 유입 제어의 핵심 표준 라우팅 아키텍처로 정립되었으며, 실무 구축 시에는 불필요한 네트워크 홉(Hop)을 제거하는 AWS ALB `target-type: ip` 직접 라우팅, 대규모 파드 환경에서 iptables 부하를 극복하는 IPVS/eBPF(Cilium) 기반 kube-proxy 가속, Let's Encrypt 인증서 생명주기를 자동화하는 cert-manager 연동 및 차세대 Gateway API로의 점진적 진화를 결합하여 고성능 통신과 보안 거버넌스를 완벽히 보증
 
 #### 한줄 요약
 - 쿠버네티스 서비스와 인그레스는 L4 가상 IP 로드밸런싱과 L7 경로 기반 라우팅을 결합하여 컨테이너 트래픽을 무결점으로 제어하는 핵심 네트워킹 기술이다.

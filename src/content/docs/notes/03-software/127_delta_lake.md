@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 객체 스토리지의 Parquet 파일 상에 **JSON 트랜잭션 로그(`_delta_log`)를 결합하여 ACID 트랜잭션, 타임트래블, MERGE INTO를 지원**하는 오픈 테이블 포맷
+- 정의/개념: 객체 스토리지의 Parquet 파일 상에 JSON 트랜잭션 로그(`_delta_log`)를 결합하여 **ACID** 트랜잭션, 타임트래블, MERGE INTO를 지원하는 오픈 테이블 포맷
 - 배경/필요성: 객체 스토리지 Parquet 파일 직접 쓰기 시 발생하는 **부분 쓰기 실패(Partial Failure)에 따른 데이터 손상 및 동시 트랜잭션 충돌 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 객체 스토리지 파일 쓰기에 대한 **완벽한 ACID 트랜잭션 및 스냅샷 격리**
-- RDBMS와 동일한 멱등성 병합 처리를 지원하는 **`MERGE INTO` (UPSERT) 지원**
-- Spark Structured Streaming과 완벽히 통합된 **배치 및 스트리밍 통합 처리**
+- 객체 스토리지 파일 쓰기에 대한 완벽한 **ACID** 트랜잭션 및 스냅샷 격리
+- RDBMS와 동일한 멱등성 병합 처리를 지원하는 `MERGE INTO` (UPSERT) 지원
+- Spark Structured Streaming과 완벽히 통합된 배치 및 스트리밍 통합 처리
 
 #### 한줄 요약
 - JSON 커밋 로그와 OCC 동시성 제어를 통해 객체 스토리지의 데이터 정합성을 보장한다.
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| `_delta_log` (커밋 로그) | 파일 추가/삭제(Add/Remove), **스키마 메타데이터 이력을 JSON 커밋으로 순차 기록** | 원자적 단일 진실 공급원 |
-| 체크포인트 (Checkpoint) | 10개 커밋마다 누적 상태를 **단일 Parquet 파일로 압축하여 쿼리 시작 시간 단축** | 로그 재생 부하 제거 |
-| Parquet 데이터 파일 | 테이블 레코드를 저장하는 **불변(Immutable) 열 지향 압축 파일** | Snappy 압축 지원 |
-| OPTIMIZE & Z-Order | 자잘한 파일을 512MB~1GB로 병합하고 **Z-Order 컬럼 기준으로 물리 데이터를 재정렬** | Data Skipping 극대화 |
-| VACUUM 엔진 | 타임 트래블 보존 기간(예: 7일)이 경과한 **미참조 물리 Parquet 파일을 영구 삭제** | 스토리지 비용 절감 |
+| `_delta_log` (커밋 로그) | 파일 추가/삭제(Add/Remove), 스키마 메타데이터 이력을 JSON 커밋으로 순차 기록 | 원자적 단일 진실 공급원 |
+| 체크포인트 (Checkpoint) | 10개 커밋마다 누적 상태를 단일 Parquet 파일로 압축하여 쿼리 시작 시간 단축 | 로그 재생 부하 제거 |
+| Parquet 데이터 파일 | 테이블 레코드를 저장하는 불변(Immutable) 열 지향 압축 파일 | Snappy 압축 지원 |
+| OPTIMIZE & Z-Order | 자잘한 파일을 512MB~1GB로 병합하고 Z-Order 컬럼 기준으로 물리 데이터를 재정렬 | Data Skipping 극대화 |
+| VACUUM 엔진 | 타임 트래블 보존 기간(예: 7일)이 경과한 미참조 물리 Parquet 파일을 영구 삭제 | 스토리지 비용 절감 |
 
 #### 한줄 요약
 - 로그가 길어질수록 재생 비용이 늘기에 체크포인트가 그 비용을 상수로 묶고, 무효화된 파일은 즉시 지워지지 않으므로 별도의 정리 작업이 저장 비용을 회수하는 역할을 맡는다.
@@ -114,10 +114,10 @@ extra:
 
 | 비교 항목 | Delta Lake (Databricks) | Apache Iceberg (Apache 재단) | Apache Hudi (Uber) |
 |:---|:---|:---|:---|
-| 메타데이터 아키텍처 | **JSON Log + Checkpoint Parquet** | **Avro Manifest List + Manifest File 트리** | **Timeline Commit Log (Avro 메타)** |
-| 주 연동 생태계 | **Apache Spark 및 Databricks 최적화** | **Trino, Flink, Spark 등 다중 엔진 중립** | **Flink / Spark 기반 대규모 CDC 스트리밍**|
-| 파티션 변경 지원 | 파티션 컬럼 변경 시 테이블 재생성 필요 | **Partition Evolution (무중단 파티션 변경)** | 파티션 변경 제한적 |
-| 갱신/병합 메커니즘 | Copy-on-Write (COW) 중심 | Copy-on-Write / Merge-on-Read 지원 | **Merge-on-Read (MOR) 초고속 쓰기 최적화** |
+| 메타데이터 아키텍처 | JSON Log + Checkpoint Parquet | Avro Manifest List + Manifest File 트리 | Timeline Commit Log (Avro 메타) |
+| 주 연동 생태계 | Apache Spark 및 Databricks 최적화 | Trino, Flink, Spark 등 다중 엔진 중립 | Flink / Spark 기반 대규모 CDC 스트리밍|
+| 파티션 변경 지원 | 파티션 컬럼 변경 시 테이블 재생성 필요 | Partition **Evolution** (무중단 파티션 변경) | 파티션 변경 제한적 |
+| 갱신/병합 메커니즘 | Copy-on-Write (COW) 중심 | Copy-on-Write / Merge-on-Read 지원 | Merge-on-Read (MOR) 초고속 쓰기 최적화 |
 
 #### 한줄 요약
 - Spark/Databricks 환경은 Delta Lake, 다중 엔진 중립성은 Iceberg, 스트리밍 증분 적재는 Hudi를 선택한다.
@@ -132,10 +132,10 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 스트리밍 인서트로 수만 개의 자잘한 Small File 누적 | **주기적 `OPTIMIZE table ZORDER BY (user_id)` 실행** | 파일 병합 및 데이터 건너뛰기 극대화 |
-| 타임 트래블 이력 누적으로 S3 스토리지 비용 폭증 | **`VACUUM table RETAIN 168 HOURS` (7일 보존) 정기 스케줄링** | 구버전 미사용 파일 정리 및 비용 절감 |
-| 다중 파이프라인 동시 쓰기 시 Concurrent Append 충돌 | **OCC 자동 재시도 활성화 및 쓰기 파티션 키 격리 분할** | 쓰기 충돌 에러 0건 달성 |
-| 잘못된 데이터 타입 유입으로 인한 테이블 오염 | **Schema Enforcement 기본 활성화 및 `mergeSchema` 선별 적용** | 데이터 무결성 100% 보존 |
+| 스트리밍 인서트로 수만 개의 자잘한 Small File 누적 | 주기적 `OPTIMIZE table ZORDER BY (user_id)` 실행 | 파일 병합 및 데이터 건너뛰기 극대화 |
+| 타임 트래블 이력 누적으로 S3 스토리지 비용 폭증 | `VACUUM table RETAIN 168 HOURS` (7일 보존) 정기 스케줄링 | 구버전 미사용 파일 정리 및 비용 절감 |
+| 다중 파이프라인 동시 쓰기 시 Concurrent Append 충돌 | OCC 자동 재시도 활성화 및 쓰기 파티션 키 격리 분할 | 쓰기 충돌 에러 0건 달성 |
+| 잘못된 데이터 타입 유입으로 인한 테이블 오염 | **Schema Enforcement** 기본 활성화 및 `mergeSchema` 선별 적용 | 데이터 무결성 100% 보존 |
 
 #### 한줄 요약
 - Z-Order 최적화, Vacuum 정기 실행, OCC 자동 재시도, 스키마 강제로 운영한다.

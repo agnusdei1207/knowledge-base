@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: **TBSCertificate·CA 서명** 기반 공개키 증명서
-- 배경/필요성: 네트워크를 통해 전달되는 원시 비트열 형태의 공개키는 소유자의 신원(주체), 유효기간, 허용된 암호화 용도(서명/키교환) 및 발급 기관에 대한 구조화된 메타데이터를 포함하지 않아 주체 식별 및 권한 제약 검증이 불가능한 한계를 가짐에 따라, ITU-T 및 IETF RFC 5280 표준에 따라 공개키와 주체 식별 정보(Subject), 발급자(Issuer), 유효기간(Validity) 및 확장 필드(SAN, Key Usage, Basic Constraints)를 ASN.1 DER 바이너리 구조로 캡슐화하고 발급 CA의 전자서명으로 봉인한 X.509 v3 디지털 인증서 포맷을 도입하여 **공개키와 신원의 암호학적 결속(Binding), 다중 도메인(SAN) 및 용도별 엄격한 권한 제약 집행, 글로벌 이기종 시스템 간 완벽한 상호운용성**을 달성할 필요
+- 정의/개념: **TBSCertificate**·CA 서명 기반 **X.509 v3** 공개키 증명서
+- 배경/필요성: 네트워크를 통해 전달되는 원시 비트열 형태의 공개키는 소유자의 신원(주체), 유효기간, 허용된 암호화 용도(서명/키교환) 및 발급 기관에 대한 구조화된 메타데이터를 포함하지 않아 주체 식별 및 권한 제약 검증이 불가능한 한계를 가짐에 따라, ITU-T 및 IETF RFC 5280 표준에 따라 공개키와 주체 식별 정보(Subject), 발급자(Issuer), 유효기간(Validity) 및 확장 필드(SAN, Key Usage, Basic Constraints)를 ASN.1 DER 바이너리 구조로 캡슐화하고 발급 CA의 전자서명으로 봉인한 X.509 v3 디지털 인증서 포맷을 도입하여 공개키와 신원의 암호학적 결속(Binding), 다중 도메인(SAN) 및 용도별 엄격한 권한 제약 집행, 글로벌 이기종 시스템 간 완벽한 상호운용성을 달성할 필요
 
 #### 한줄 요약
 - TBS 구조체와 CA 전자서명을 결합하여 공개키의 소유권과 신원을 암호학적으로 증명한다.
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- **ASN.1 DER** 기반 결정적 바이너리 인코딩
-- **SAN·Key Usage·Basic Constraints** 확장 제어
-- 상위 CA 공개키 기반 **SignatureValue 체인 검증**
+- ASN.1 DER 기반 결정적 바이너리 인코딩
+- **SAN**·Key Usage·**Basic Constraints** 확장 제어
+- 상위 CA 공개키 기반 SignatureValue 체인 검증
 
 #### 한줄 요약
 - DER의 결정적 인코딩은 사람이 읽기 어려운 대신 같은 인증서가 항상 같은 바이트열이 되게 하여 서명 대상이 흔들릴 여지를 없앤 선택이다.
@@ -73,13 +73,13 @@ X.509 Certificate
 
 | 구성요소 | 책임 |
 |:---|:---|
-| **Metadata** | 버전·일련번호·유효기간 정의 |
-| **Issuer and Subject** | 발급자와 주체 식별 |
+| Metadata | 버전·일련번호·유효기간 정의 |
+| Issuer and Subject | 발급자와 주체 식별 |
 | **SPKI** | 공개키 알고리즘과 키 보관 |
 | **Basic Constraints** | CA 여부와 경로 길이 제한 |
-| **SAN and Key Usage** | 이름과 허용 용도 제한 |
-| **AIA and CDP** | OCSP·CRL 위치 제공 |
-| **Signature** | TBSCertificate의 CA 서명 제공 |
+| SAN and Key Usage | 이름과 허용 용도 제한 |
+| AIA and CDP | OCSP·CRL 위치 제공 |
+| Signature | TBSCertificate의 CA 서명 제공 |
 
 #### 한줄 요약
 - 서명은 TBSCertificate 전체를 덮으므로 확장 필드에 적힌 제약도 함께 봉인되지만, 그 제약을 실제로 강제하는 책임은 검증자 구현에 남아 필드만으로는 아무것도 막지 못한다.
@@ -88,7 +88,7 @@ X.509 Certificate
 
 <details><summary>용어 설명</summary>
 
-- **RFC 5280 5단계 검증**: 1. 유효기간 점검, 2. SAN 도메인 대조, 3. CA 서명 체인 역추적, 4. EKU/KeyUsage 제약 확인, 5. OCSP/CRL 폐기 상태 판정.
+- **EKU (Extended Key Usage)**: 인증서가 쓰일 수 있는 목적(serverAuth, clientAuth, codeSigning 등)을 OID 목록으로 제한하는 확장 필드로, 검증자가 접속 목적과 대조해 다른 용도로 발급된 인증서의 전용을 거부하게 함.
 
 </details>
 
@@ -110,7 +110,7 @@ X.509 인증서 수신, 도메인 대조, 체인 역추적 및 OCSP 폐기 검�
 - 1. 유효기간 검증
 - 2. SAN 이름 대조
 - 3. CA 서명 체인 검증
-- 4. 확장 필드 및 폐기 검증
+- 4. 확장 필드(**EKU**·Basic Constraints) 및 폐기 검증
 
 #### 한줄 요약
 - 앞의 네 단계는 수신한 인증서만으로 국소 판정이 끝나지만 마지막 폐기 확인만 외부 응답에 의존하므로, 이 단계의 실패를 통과로 볼지 차단으로 볼지가 가용성과 안전성을 가르는 지점이 된다.
@@ -119,14 +119,14 @@ X.509 인증서 수신, 도메인 대조, 체인 역추적 및 OCSP 폐기 검�
 
 <details><summary>용어 설명</summary>
 
-- **DV (도메인 검증)** vs **OV (조직 검증)** vs **EV (확장 검증)**.
+- **DV (Domain Validation, 도메인 검증)**: CA가 DNS TXT 레코드나 HTTP 파일 챌린지로 신청자의 도메인 통제권만 확인해 발급하는 등급으로, 조직 실재는 검증하지 않아 사람 개입 없는 ACME 자동화가 가능함.
 
 </details>
 
 | 비교 항목 | 도메인 검증 (DV: Domain Validation) | 조직 검증 (OV: Organization Validation) | 확장 검증 (EV: Extended Validation) |
 |:---|:---|:---|:---|
 | 신원 심사 | 도메인 제어 확인 | 조직 실재 확인 | 강화된 조직 실재 확인 |
-| 자동화 | **ACME DV**에 적합 | CA 절차에 좌우 | CA 절차에 좌우 |
+| 자동화 | ACME **DV**에 적합 | CA 절차에 좌우 | CA 절차에 좌우 |
 | 주체 정보 | 도메인 중심 | 조직 정보 포함 | 검증된 조직 정보 포함 |
 | 주요 대상 | 일반 HTTPS·API | 조직 신원 표시 요구 | 강화된 심사 요구 |
 
@@ -143,17 +143,17 @@ X.509 인증서 수신, 도메인 대조, 체인 역추적 및 OCSP 폐기 검�
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| EKU 무시로 **인증서 용도 전용** | **EKU·Key Usage** 검증 | 허용 연산 제한 |
-| CN만 확인해 **도메인 스푸핑** | RFC 6125 **SAN 검증** | 접속 이름과 인증서 결합 |
-| 제약 누락으로 가짜 하위 CA | **Basic Constraints CA:FALSE** | 엔드 엔티티 발급 제한 |
-| 폐기 확인 실패 | **OCSP Must-Staple·Hard-Fail** | 폐기 상태 미확인 접속 제한 |
+| EKU 무시로 **Key Usage Abuse** | **EKU**·Key Usage 검증 | 허용 연산 제한 |
+| CN만 확인해 도메인 스푸핑 | RFC 6125 **SAN** 검증 | 접속 이름과 인증서 결합 |
+| 제약 누락으로 가짜 하위 CA | **Basic Constraints** CA:FALSE | 엔드 엔티티 발급 제한 |
+| 폐기 확인 실패 | OCSP Must-Staple(Hard-Fail) | 폐기 상태 미확인 접속 제한 |
 
 #### 한줄 요약
-- EKU/KeyUsage로 용도 전용을 막고, SAN 필드로 도메인을 검증하며, Basic Constraints로 가짜 CA를 차단한다.
+- 네 문제는 모두 인증서에 적힌 제약을 검증자가 읽지 않아 생기므로, X.509의 안전성은 발급 프로파일보다 검증 구현이 확장 필드를 얼마나 강제하느냐에 달린다.
 
 ## Ⅶ. 결론
 
-- 인터넷의 모든 엔드포인트(웹 서버, 클라이언트, IoT 기기, 컨테이너)의 신원을 암호학적으로 증명하는 **전 세계 표준 공인 디지털 신분증이자 PKI 생태계의 절대적 핵심 데이터 규격(ITU-T X.509 v3 / IETF RFC 5280)**으로 확고히 자리 잡았으며, 양자내성 복합 알고리즘(Composite PQC X.509)으로 진화하는 가운데, 실무 X.509 인증서 프로파일 설계 및 검증 시에는 **단일 도메인(CN) 폐지 및 RFC 6125 표준 SAN(Subject Alternative Name) 기반 다중 FQDN 바인딩, 일반 서버 인증서의 불법 하위 CA 생성을 원천 차단하는 Basic Constraints(CA:FALSE) 및 용도 제한(Key Usage/EKU) 강제, 실시간 폐기 검증 오버헤드를 제거하는 OCSP Stapling 및 Must-Staple 확장 적용**을 결합하여 완벽한 인증서 무결성을 완성
+- 인터넷의 모든 엔드포인트(웹 서버, 클라이언트, IoT 기기, 컨테이너)의 신원을 암호학적으로 증명하는 전 세계 표준 공인 디지털 신분증이자 PKI 생태계의 절대적 핵심 데이터 규격(ITU-T X.509 v3 / IETF RFC 5280)으로 확고히 자리 잡았으며, 양자내성 복합 알고리즘(Composite PQC X.509)으로 진화하는 가운데, 실무 X.509 인증서 프로파일 설계 및 검증 시에는 단일 도메인(CN) 폐지 및 RFC 6125 표준 SAN(Subject Alternative Name) 기반 다중 FQDN 바인딩, 일반 서버 인증서의 불법 하위 CA 생성을 원천 차단하는 Basic Constraints(CA:FALSE) 및 용도 제한(Key Usage/EKU) 강제, 실시간 폐기 검증 오버헤드를 제거하는 OCSP Stapling 및 Must-Staple 확장 적용을 결합하여 완벽한 인증서 무결성을 완성
 
 #### 한줄 요약
-- X.509 v3 인증서는 ASN.1 DER 표준 포맷과 CA 전자서명 및 엄격한 확장 필드 검증을 통해 무결점 디지털 신원 증명을 구현하는 핵심 규격이다.
+- 인증서 프로파일은 SAN·EKU·Basic Constraints 세 확장을 최소 권한으로 조이는 것이 기본이고, 여기서 느슨하게 둔 필드가 곧 공격자의 전용 경로가 된다.

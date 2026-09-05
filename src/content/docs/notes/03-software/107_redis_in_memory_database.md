@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 초저지연 처리를 위해 **모든 데이터를 RAM에 상주시키고 다양한 자료구조와 영속성(RDB/AOF)을 제공**하는 고성능 인메모리 Key-Value 데이터베이스
+- 정의/개념: 초저지연 처리를 위해 모든 데이터를 RAM에 상주시키고 다양한 자료구조와 영속성(RDB/AOF)을 제공하는 고성능 인메모리 Key-Value 데이터베이스
 - 배경/필요성: 디스크 기반 DB의 기계적 I/O 지연으로 인한 **실시간 세션 관리, 실시간 랭킹 산정 및 고빈도 캐싱 처리 지연 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 메인 메모리(RAM) 기반 **1ms 미만의 초저지연 응답 속도(Sub-millisecond Latency)**
-- Strings, Hashes, Lists, Sets, Sorted Sets(ZSet) 등 **풍부한 내장 자료구조 원자적 지원**
-- RDB 스냅샷 및 AOF 변경 로그를 통한 **인메모리 데이터의 디스크 영속성(Persistence) 보장**
+- 메인 메모리(RAM) 기반 1ms 미만의 초저지연 응답 속도(Sub-millisecond Latency)
+- Strings, Hashes, Lists, Sets, Sorted Sets(ZSet) 등 풍부한 내장 자료구조 원자적 지원
+- RDB 스냅샷 및 AOF 변경 로그를 통한 인메모리 데이터의 디스크 영속성(Persistence) 보장
 
 #### 한줄 요약
 - 단일 스레드 비동기 루프로 동시성 락 경합 없이 초고속 원자적 연산을 수행한다.
@@ -71,10 +71,10 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 이벤트 루프 | 명령의 **원자적 순차 실행** |
-| 인메모리 자료구조 | RAM 기반 **자료형 저장·연산** |
-| 영속성 엔진 | **RDB 스냅샷·AOF 기록** |
-| 만료 관리자 | TTL·LRU·LFU 기반 **키 회수** |
+| 이벤트 루프 | 명령의 원자적 순차 실행 |
+| 인메모리 자료구조 | RAM 기반 자료형 저장·연산 |
+| 영속성 엔진 | RDB 스냅샷·AOF 기록 |
+| 만료 관리자 | TTL·LRU·LFU 기반 키 회수 |
 
 #### 한줄 요약
 - 단일 스레드 이벤트 루프가 명령을 직렬로 처리하기에 잠금 없이 원자성이 성립하지만, 그 대가로 무거운 명령 하나가 나머지 모든 요청을 그대로 멈춰 세운다.
@@ -116,10 +116,10 @@ extra:
 
 | 비교 항목 | Redis (Remote Dictionary Server) | Memcached (정적 캐시 엔진) |
 |:---|:---|:---|
-| 지원 자료구조 | **Strings, Hashes, Lists, Sets, ZSets, Stream** | **단순 String (Key-Value)만 지원** |
-| 스레드 모델 | **단일 스레드 이벤트 루프 (Atomic 보장)** | **멀티스레드 모델 (멀티코어 CPU 활용)** |
-| 영속성 (Persistence)| **지원 (RDB 스냅샷 + AOF 로그)** | **미지원 (서버 재부팅 시 데이터 전멸)** |
-| 복제 및 클러스터 | **Redis Sentinel (HA), Redis Cluster (샤딩)** | 자체 미지원 (클라이언트 라이브러리 샤딩) |
+| 지원 자료구조 | Strings, Hashes, Lists, Sets, ZSets, Stream | 단순 String (Key-Value)만 지원 |
+| 스레드 모델 | 단일 스레드 이벤트 루프 (Atomic 보장) | 멀티스레드 모델 (멀티코어 CPU 활용) |
+| 영속성 (Persistence)| 지원 (RDB 스냅샷 + AOF 로그) | 미지원 (서버 재부팅 시 데이터 전멸) |
+| 복제 및 클러스터 | Redis Sentinel (HA), Redis Cluster (샤딩) | 자체 미지원 (클라이언트 라이브러리 샤딩) |
 
 #### 한줄 요약
 - 복합 자료형 연산과 영속성이 필요하면 Redis, 단순 정적 캐싱에는 Memcached를 선택한다.
@@ -134,10 +134,10 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| `KEYS *` 실행으로 인한 단일 스레드 전체 서버 락업(Lockup) | **운영 환경 `KEYS` 명령어 비활성화 및 `SCAN` 커서 명령 대체** | 무중단 커서 순회 처리 보장 |
-| 대량 캐시 TTL 동시 만료로 DB 다운 (**Cache Stampede**) | **TTL에 랜덤 지터(Random Jitter: $\pm 10\%$) 추가 및 Redlock 선점**| 백엔드 DB 과부하 원천 방지 |
-| 수십만 개 원소를 가진 Big Key로 인한 메모리/지연 병목 | **해시 태그 기반 키 분할(Sharding) 및 `MEMORY USAGE` 모니터링** | 메모리 접근 및 직렬화 병목 해소 |
-| Master 다운 시 데이터 유실 | **Redis Sentinel 자동 페일오버 및 `appendfsync everysec` 설정** | RPO 1초 이내 고가용성 달성 |
+| `KEYS *` 실행으로 인한 단일 스레드 전체 서버 락업(Lockup) | 운영 환경 `KEYS` 명령어 비활성화 및 `SCAN` 커서 명령 대체 | 무중단 커서 순회 처리 보장 |
+| 대량 캐시 TTL 동시 만료로 DB 다운 (**Cache Stampede**) | TTL에 랜덤 지터(Random Jitter: $\pm 10\%$) 추가 및 Redlock 선점| 백엔드 DB 과부하 원천 방지 |
+| 수십만 개 원소를 가진 Big Key로 인한 메모리/지연 병목 | 해시 태그 기반 키 분할(Sharding) 및 `MEMORY USAGE` 모니터링 | 메모리 접근 및 직렬화 병목 해소 |
+| Master 다운 시 데이터 유실 | Redis Sentinel 자동 페일오버 및 `appendfsync everysec` 설정 | RPO 1초 이내 고가용성 달성 |
 
 #### 한줄 요약
 - SCAN 대체, TTL 지터 부여, Big Key 분할, Sentinel 페일오버로 안전하게 운용한다.

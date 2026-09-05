@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 권한 위임 표준인 **OAuth 2.0(Access Token/Refresh Token)** 과 신원 증명 표준인 **OIDC(ID Token)** 를 계층적으로 결합하여, **인가 코드 발급 $\rightarrow$ PKCE 검증 $\rightarrow$ 토큰 교환 $\rightarrow$ JWT 서명/클레임 검증 $\rightarrow$ API 자원 접근** 을 수행하는 **현대 분산 신원 및 권한 관리(IAM) 아키텍처**
-- 배경/필요성: 서드파티 애플리케이션 및 클라우드 연동 환경에서 사용자의 원본 자격증명(패스워드)을 직접 전달할 경우, 과도한 권한 노출, 자격증명 유출 시 전면 침해 및 세분화된 접근 통제와 권한 회수가 불가능한 치명적 결함이 발생함에 따라, 인가 서버(Authorization Server)를 통해 최소 권한 범위(Scope)와 제한된 수명을 갖는 토큰 기반 권한 위임 프레임워크인 OAuth 2.0과 사용자 신원 증명(Authentication) 레이어인 OIDC(OpenID Connect)를 도입하여 **자격증명 직접 노출 방지, API 자원 접근 권한 위임(Access Token)과 싱글 사인온(SSO) 신원 증명(ID Token)의 명확한 기능적 분리 및 모바일/SPA 환경을 위한 PKCE(RFC 7636/9700) 기반 위조 방지**를 달성할 필요
+- 정의/개념: 권한 위임 표준인 **OAuth 2.0(Access Token/Refresh Token)** 과 신원 증명 표준인 **OIDC(ID Token)** 를 계층적으로 결합하여, 인가 코드 발급 $\rightarrow$ PKCE 검증 $\rightarrow$ 토큰 교환 $\rightarrow$ JWT 서명/클레임 검증 $\rightarrow$ API 자원 접근 을 수행하는 현대 분산 신원 및 권한 관리(IAM) 아키텍처
+- 배경/필요성: 서드파티 애플리케이션 및 클라우드 연동 환경에서 사용자의 원본 자격증명(패스워드)을 직접 전달할 경우, 과도한 권한 노출, 자격증명 유출 시 전면 침해 및 세분화된 접근 통제와 권한 회수가 불가능한 치명적 결함이 발생함에 따라, 인가 서버(Authorization Server)를 통해 최소 권한 범위(Scope)와 제한된 수명을 갖는 토큰 기반 권한 위임 프레임워크인 OAuth 2.0과 사용자 신원 증명(Authentication) 레이어인 OIDC(OpenID Connect)를 도입하여 자격증명 직접 노출 방지, API 자원 접근 권한 위임(Access Token)과 싱글 사인온(SSO) 신원 증명(ID Token)의 명확한 기능적 분리 및 모바일/SPA 환경을 위한 PKCE(RFC 7636/9700) 기반 위조 방지를 달성할 필요
 
 #### 한줄 요약
 - OAuth 2.0으로 API 자원 접근 권한을 위임하고, OIDC로 사용자 신원을 증명하여 패스워드 없는 안전한 연동을 구현한다.
@@ -44,9 +44,9 @@ extra:
 
 </details>
 
-- **권한 위임(AuthZ)과 신원 인증(AuthN)의 기능적 분리**: 인가(OAuth 2.0)와 인증(OIDC)의 목적별 토큰 이원화 관리
-- **모바일/SPA 보안 표준화 (PKCE 강제)**: RFC 9700 지침에 따라 모바일 앱 및 브라우저 기반 SPA 환경에서 PKCE 적용 의무화
-- **토큰 수명주기 및 회전 관리 (Refresh Token Rotation)**: Refresh Token 사용 시마다 새로운 Refresh Token으로 교체하여 탈취 시 지속 사용 차단
+- 권한 위임(AuthZ)과 신원 인증(AuthN)의 기능적 분리: 인가(OAuth 2.0)와 인증(OIDC)의 목적별 토큰 이원화 관리
+- 모바일/SPA 보안 표준화 (**PKCE** 강제): RFC 9700 지침에 따라 모바일 앱 및 브라우저 기반 SPA 환경에서 PKCE 적용 의무화
+- 토큰 수명주기 및 회전 관리 (Refresh Token Rotation): Refresh Token 사용 시마다 새로운 Refresh Token으로 교체하여 탈취 시 지속 사용 차단
 
 #### 한줄 요약
 - 토큰을 권한용과 신원용으로 쪼갠 대가로 검증 지점과 수명 관리가 둘로 늘지만, 그 분리 덕에 자원 서버는 사용자가 누구인지 알지 못한 채로도 무상태 인가를 끝낼 수 있다.
@@ -93,11 +93,11 @@ extra:
 
 | 구성요소 | 핵심 책임 및 역할 | 비고 |
 |:---|:---|:---|
-| **Resource Owner** | 자신의 신원을 인증하고 특정 권한 범위(Scope) 위임에 동의하는 사용자 | User |
-| **Client** | 사용자를 대리하여 인가 서버로부터 토큰을 발급받고 API를 호출하는 앱 | Relying Party |
-| **Authorization Server** | 사용자 인증, PKCE 검증, 인가 코드 발급, ID/Access/Refresh Token 생성 | OpenID Provider|
-| **Resource Server** | Access Token의 서명, 만료일, 스코프를 검증하고 실제 비즈니스 자원 제공 | API Server |
-| **JWKS 엔드포인트** | 비대칭 공개키 목록을 제공하여 자원 서버가 무상태(Stateless)로 토큰을 검증하도록 지원 | Key Discovery |
+| Resource Owner | 자신의 신원을 인증하고 특정 권한 범위(Scope) 위임에 동의하는 사용자 | User |
+| Client | 사용자를 대리하여 인가 서버로부터 토큰을 발급받고 API를 호출하는 앱 | Relying Party |
+| Authorization Server | 사용자 인증, PKCE 검증, 인가 코드 발급, ID/Access/Refresh Token 생성 | OpenID Provider|
+| Resource Server | Access Token의 서명, 만료일, 스코프를 검증하고 실제 비즈니스 자원 제공 | API Server |
+| JWKS 엔드포인트 | 비대칭 공개키 목록을 제공하여 자원 서버가 무상태(Stateless)로 토큰을 검증하도록 지원 | Key Discovery |
 
 #### 한줄 요약
 - 다섯 요소는 사용자와 자원 서버 사이에 인가 서버라는 중개 계층을 세워 신뢰를 그곳으로 모으며, JWKS는 그 신뢰를 공개키로 배포해 자원 서버가 매 요청마다 인가 서버에 묻는 비용을 없앤다.
@@ -135,13 +135,11 @@ extra:
     └─ 자원 서버: HTTP Header(`Authorization: Bearer <Access_Token>`) 수신 후 Scope 확인 및 데이터 반환
 ```
 
-**동작 원리**
-
-1. **비밀정보 비공개 원칙**: 사용자 패스워드가 제3자 클라이언트 애플리케이션으로 직접 전달되지 않음
-2. **동적 가로채기 방어**: 인가 코드가 중간에 탈취되더라도 공격자는 `code_verifier`를 알 수 없어 토큰 교환 불가
-3. **무상태 암호학적 신원 증명**: OIDC ID 토큰은 비대칭 서명(RS256)을 포함하여 서버 측 세션 조회 없이 클라이언트 자체 검증 가능
-4. **최소 권한 범위 제어**: 요청된 Scope 내의 기능만 Access Token에 인코딩하여 자원 서버 접근 한정
-5. **토큰 재사용 무력화**: Refresh Token 사용 시 기존 토큰을 즉시 무효화하고 새 토큰 발급(Rotation)
+1. 비밀정보 비공개 원칙: 사용자 패스워드가 제3자 클라이언트 애플리케이션으로 직접 전달되지 않음
+2. 동적 가로채기 방어: 인가 코드가 중간에 탈취되더라도 공격자는 `code_verifier`를 알 수 없어 토큰 교환 불가
+3. 무상태 암호학적 신원 증명: OIDC ID 토큰은 비대칭 서명(RS256)을 포함하여 서버 측 세션 조회 없이 클라이언트 자체 검증 가능
+4. 최소 권한 범위 제어: 요청된 Scope 내의 기능만 Access Token에 인코딩하여 자원 서버 접근 한정
+5. 토큰 재사용 무력화: Refresh Token 사용 시 기존 토큰을 즉시 무효화하고 새 토큰 발급(Rotation)
 
 #### 한줄 요약
 - 인가 코드는 브라우저 리다이렉트라는 관찰 가능한 경로를 지나므로 방어의 축이 탈취를 막는 쪽이 아니라 사전에 약속한 `code_verifier` 없이는 탈취해도 쓸모없게 만드는 쪽에 놓여 있다.
@@ -156,11 +154,11 @@ extra:
 
 | 비교 항목 | OAuth 2.0 (권한 위임 프레임워크) | OpenID Connect (신원 인증 프로토콜) |
 |:---|:---|:---|
-| **프로토콜의 핵심 목적** | **제3자 애플리케이션에 API 자원 접근 권한 위임** | **사용자의 신원 확인 및 싱글 사인온(SSO) 인증** |
-| **기반 표준 규격** | IETF RFC 6749, RFC 6750 | OpenID Connect Core 1.0 (OAuth 2.0 확장) |
-| **핵심 발행 토큰** | **Access Token (API 접근용), Refresh Token** | **ID Token (JWT 형식의 신원 증명서)** |
-| **토큰의 주요 수신자** | **자원 서버 (Resource Server / API)** | **클라이언트 애플리케이션 (Client App)** |
-| **주요 검증 항목** | **Scope (권한 범위), 유효기간(`exp`)** | **`iss`(발급자), `aud`(수신자), `nonce`, 서명** |
+| 프로토콜의 핵심 목적 | 제3자 애플리케이션에 API 자원 접근 권한 위임 | 사용자의 신원 확인 및 싱글 사인온(SSO) 인증 |
+| 기반 표준 규격 | IETF RFC 6749, RFC 6750 | OpenID Connect Core 1.0 (OAuth 2.0 확장) |
+| 핵심 발행 토큰 | Access Token (API 접근용), Refresh Token | **ID Token (JWT 형식의 신원 증명서)** |
+| 토큰의 주요 수신자 | 자원 서버 (Resource Server / API) | 클라이언트 애플리케이션 (Client App) |
+| 주요 검증 항목 | Scope (권한 범위), 유효기간(`exp`) | `iss`(발급자), `aud`(수신자), `nonce`, 서명 |
 
 #### 한줄 요약
 - 둘은 별개 표준이 아니라 같은 흐름 위에 얹힌 층이며, OAuth 2.0의 Access Token만으로 로그인을 구현하면 권한 증명을 신원 증명으로 오용하게 되므로 그 구분을 OIDC의 ID Token이 대신 떠맡는다.
@@ -175,16 +173,16 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 모바일 앱 환경에서 인가 코드가 가로채기 공격에 노출되어 **공격자가 불법적으로 Access Token을 교환/탈취** | **IETF RFC 9700** 지침에 따라 모바일 및 SPA 환경에서 **OAuth 2.0 PKCE(RFC 7636) 확장 규격 의무 적용** | 클라이언트 시크릿 부재 환경에서의 인가 코드 탈취 공격 100% 원천 차단 |
-| 서명 검증 없이 ID Token의 페이로드만 디코딩하여 사용하여 **위조된 사용자 신원으로 로그인되는 스푸핑 침해** | **OIDC Core 1.0** 준수, JWKS 기반 비대칭 서명 검증 및 **`iss`, `aud`, `exp`, `nonce` 클레임 전수 검증** | 위조 ID Token 주입 및 사용자 신원 도용(Replay) 공격 100% 무력화 |
-| 장기 수명의 Refresh Token이 탈취되어 **공격자가 정상 사용자의 Access Token을 지속 재발급받는 사고** | **Access Token 갱신 시마다 새 갱신 토큰을 발급하고 이전 토큰을 폐기하는 갱신 토큰 회전(RTR)** 적용 | 유출된 Refresh Token의 재사용을 탐지하고 해당 토큰 패밀리 전체를 즉각 무효화 |
+| 모바일 앱 환경에서 인가 코드가 가로채기 공격에 노출되어 공격자가 불법적으로 Access Token을 교환/탈취 | **IETF RFC 9700** 지침에 따라 모바일 및 SPA 환경에서 OAuth 2.0 PKCE(RFC 7636) 확장 규격 의무 적용 | 클라이언트 시크릿 부재 환경에서의 인가 코드 탈취 공격 100% 원천 차단 |
+| 서명 검증 없이 ID Token의 페이로드만 디코딩하여 사용하여 위조된 사용자 신원으로 로그인되는 스푸핑 침해 | OIDC Core 1.0 준수, JWKS 기반 비대칭 서명 검증 및 `iss`, `aud`, `exp`, `nonce` 클레임 전수 검증 | 위조 ID Token 주입 및 사용자 신원 도용(Replay) 공격 100% 무력화 |
+| 장기 수명의 Refresh Token이 탈취되어 공격자가 정상 사용자의 Access Token을 지속 재발급받는 사고 | Access Token 갱신 시마다 새 갱신 토큰을 발급하고 이전 토큰을 폐기하는 갱신 토큰 회전(RTR) 적용 | 유출된 Refresh Token의 재사용을 탐지하고 해당 토큰 패밀리 전체를 즉각 무효화 |
 
 #### 한줄 요약
 - PKCE로 인가 코드를 보호하고, OIDC 클레임을 전수 검증하며, RTR로 갱신 토큰 탈취를 방어한다.
 
 ## Ⅶ. 결론
 
-- 웹, 모바일, 클라우드 및 MSA 환경에서 전사 API 보안 연동과 분산 신원 관리를 표준화한 **현대 클라우드/인터넷 생태계의 가장 기본적이고 핵심적인 인가 및 싱글 사인온(SSO) 표준 프로토콜**로 확고히 안착하였으며, IETF RFC 9700 보안 모범 규준 및 DPoP(RFC 9449) 토큰 바인딩으로 진화하는 가운데, 실무 분산 인증/인가 인프라 구축 시에는 **권한 위임(OAuth 2.0 Access Token)과 신원 증명(OIDC ID Token)의 명확한 역할 분리, 모바일/SPA 클라이언트에 대한 OAuth 2.0 PKCE(RFC 7636) 강제 적용, JWKS 기반 비대칭 전자서명 및 클레임(iss/aud/nonce) 전수 검증, 리프레시 토큰 탈취에 대응하는 갱신 토큰 회전(RTR: Refresh Token Rotation) 정책**을 결합하여 완벽한 분산 신원 및 권한 관리 체계를 완성
+- 웹, 모바일, 클라우드 및 MSA 환경에서 전사 API 보안 연동과 분산 신원 관리를 표준화한 현대 클라우드/인터넷 생태계의 가장 기본적이고 핵심적인 인가 및 싱글 사인온(SSO) 표준 프로토콜로 확고히 안착하였으며, IETF RFC 9700 보안 모범 규준 및 DPoP(RFC 9449) 토큰 바인딩으로 진화하는 가운데, 실무 분산 인증/인가 인프라 구축 시에는 권한 위임(OAuth 2.0 Access Token)과 신원 증명(OIDC ID Token)의 명확한 역할 분리, 모바일/SPA 클라이언트에 대한 OAuth 2.0 PKCE(RFC 7636) 강제 적용, JWKS 기반 비대칭 전자서명 및 클레임(iss/aud/nonce) 전수 검증, 리프레시 토큰 탈취에 대응하는 갱신 토큰 회전(RTR: Refresh Token Rotation) 정책을 결합하여 완벽한 분산 신원 및 권한 관리 체계를 완성
 
 #### 한줄 요약
 - OAuth 2.0 권한 위임과 OIDC 신원 인증에 PKCE 및 RTR을 결합하여 안전한 분산 인증을 완성한다.

@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 호스트 OS 커널을 공유하면서 **리눅스 네임스페이스와 cgroups를 통해 애플리케이션과 의존성을 불변 이미지로 격리 실행하는 기술**
-- 배경/필요성: 전통적 가상머신(VM)의 Guest OS 중복 구동으로 인한 **막대한 메모리 오버헤드, 느린 부팅 지연 및 개발-운영 간 환경 불일치(Matrix of Hell) 한계**
+- 정의/개념: 호스트 OS 커널을 공유하면서 리눅스 네임스페이스와 cgroups를 통해 애플리케이션과 의존성을 불변 이미지로 격리 실행하는 기술
+- 배경/필요성: 전통적 가상머신(VM)의 Guest OS 중복 구동으로 인한 막대한 메모리 오버헤드, 느린 부팅 지연 및 개발-운영 간 환경 불일치(Matrix of Hell) 한계
 
 #### 한줄 요약
 - 컨테이너는 커널을 공유해 기동 시간과 메모리를 절감하는 대신 격리 경계가 그 커널 하나에 걸려 있으므로, 커널이 뚫리면 격리 자체가 무너지는 위험을 함께 산 것이다.
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- Guest OS 없이 프로세스 단위로 실행되어 **초 단위의 고속 부팅 및 경량성**
-- 불변 인프라(Immutable Infrastructure)를 보장하는 **Dockerfile 기반 이미지 빌드**
-- cgroups 및 Namespaces를 통한 **호스트 커널 수준의 정밀한 자원 격리**
+- Guest OS 없이 프로세스 단위로 실행되어 초 단위의 고속 부팅 및 경량성
+- 불변 인프라(Immutable Infrastructure)를 보장하는 Dockerfile 기반 이미지 빌드
+- cgroups 및 Namespaces를 통한 호스트 커널 수준의 정밀한 자원 격리
 
 #### 한줄 요약
 - 프로세스 수준의 경량 격리와 불변 이미지 빌드로 이식성과 자원 효율을 극대화한다.
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 책임 |
 |:---|:---|
-| Docker Client·Daemon | 이미지·컨테이너의 **생명주기 관리** |
-| containerd·runc | OCI 기반 **격리 프로세스 실행** |
-| Namespaces | PID·NET·MNT의 **가시 영역 격리** |
-| cgroups | **CPU·메모리·I/O 사용량 제한** |
-| OverlayFS | 읽기·쓰기 **레이어 병합·재사용** |
+| Docker Client·Daemon | 이미지·컨테이너의 생명주기 관리 |
+| containerd·runc | OCI 기반 격리 프로세스 실행 |
+| Namespaces | PID·NET·MNT의 가시 영역 격리 |
+| cgroups | CPU·메모리·I/O 사용량 제한 |
+| OverlayFS | 읽기·쓰기 레이어 병합·재사용 |
 
 #### 한줄 요약
 - Namespaces와 cgroups는 하이퍼바이저와 Guest OS가 맡던 격리를 호스트 커널 안에서 대신 세우고, OverlayFS는 이미지 전체 복제를 읽기 레이어 재사용으로 대신하여 배포 단위를 프로세스 수준까지 낮춘다.
@@ -114,10 +114,10 @@ extra:
 
 | 비교 항목 | 가상머신 (Virtual Machine) | Docker 컨테이너 (Container) |
 |:---|:---|:---|
-| 가상화 대상 계층 | **하드웨어 가상화 (Guest OS 독립 탑재)** | **OS 커널 가상화 (Host OS 커널 공유)** |
-| 부팅 및 시작 속도 | OS 부팅 필요로 수 분(Minutes) 소요 | **프로세스 기동 수준으로 수 초(Seconds) 이내** |
-| 이미지 용량 크기 | 수 GB ~ 수십 GB (Guest OS 포함) | **수십 MB ~ 수백 MB (경량 의존성만 포함)** |
-| 보안 격리 수준 | **하이퍼바이저 기반 완벽한 커널 격리** | 동일 커널 공유로 잠재적 취약점 전파 위험 |
+| 가상화 대상 계층 | 하드웨어 가상화 (Guest OS 독립 탑재) | OS 커널 가상화 (Host OS 커널 공유) |
+| 부팅 및 시작 속도 | OS 부팅 필요로 수 분(Minutes) 소요 | 프로세스 기동 수준으로 수 초(Seconds) 이내 |
+| 이미지 용량 크기 | 수 GB ~ 수십 GB (Guest OS 포함) | 수십 MB ~ 수백 MB (경량 의존성만 포함) |
+| 보안 격리 수준 | 하이퍼바이저 기반 완벽한 커널 격리 | 동일 커널 공유로 잠재적 취약점 전파 위험 |
 
 #### 한줄 요약
 - 완전한 커널 격리는 가상머신, 초고속 경량 배포와 마이크로서비스는 Docker 컨테이너를 선택한다.
@@ -132,17 +132,17 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 빌드 도구가 이미지에 남아 수 GB로 비대화 | **Multi-stage Build 적용 및 Distroless 최소 베이스 이미지 사용** | 이미지 용량 90% 축소 및 배포 가속 |
-| Root 권한 실행으로 인한 호스트 커널 탈출 해킹 위험 | **Dockerfile 내 `USER nonroot` 명시 및 Rootless 런타임 강제** | 컨테이너 권한 상승 원천 차단 |
-| 컨테이너 재시작 시 내부 생성 데이터 유실 | **호스트 볼륨 마운트 (`docker volume` / K8s PersistentVolume)** | 영속적 상태 데이터 무손실 보존 |
-| 컨테이너의 무제한 메모리 점유로 호스트 OOM 다운 | **cgroups 기반 `memory: 2Gi` 및 CPU Limit 리소스 상한 명시** | 노드 안정성 100% 확보 |
+| 빌드 도구가 이미지에 남아 수 GB로 비대화 | Multi-stage Build 적용 및 Distroless 최소 베이스 이미지 사용 | 이미지 용량 90% 축소 및 배포 가속 |
+| Root 권한 실행으로 인한 호스트 커널 탈출 해킹 위험 | Dockerfile 내 `USER nonroot` 명시 및 Rootless 런타임 강제 | 컨테이너 권한 상승 원천 차단 |
+| 컨테이너 재시작 시 내부 생성 데이터 유실 | 호스트 볼륨 마운트 (`docker volume` / K8s PersistentVolume) | 영속적 상태 데이터 무손실 보존 |
+| 컨테이너의 무제한 메모리 점유로 호스트 OOM 다운 | cgroups 기반 `memory: 2Gi` 및 CPU Limit 리소스 상한 명시 | 노드 안정성 100% 확보 |
 
 #### 한줄 요약
 - 멀티 스테이지 빌드, Non-root 실행, 외부 볼륨 마운트, 리소스 상한 설정으로 운영한다.
 
 ## Ⅶ. 결론
 
-- 현대 클라우드 네이티브 컴퓨팅, 마이크로서비스 아키텍처(MSA) 및 CI/CD 배포 파이프라인의 **가장 지배적인 표준 패키징·실행 단위 기술**로 확립되었으며, 실무 구축 시에는 **공격 표면을 최소화하는 Multi-stage 빌드 및 Distroless/Alpine 경량 베이스 이미지 채택, 컨테이너 탈출(Container Escape)을 방어하는 Non-root 유저 실행과 Seccomp/AppArmor 프로파일 적용, 리소스 독점을 방어하는 cgroups 메모리/CPU Limit 설정**을 결합하여 고속 배포성과 프로덕션 보안성을 동시 보증
+- 현대 클라우드 네이티브 컴퓨팅, 마이크로서비스 아키텍처(MSA) 및 CI/CD 배포 파이프라인의 가장 지배적인 표준 패키징·실행 단위 기술로 확립되었으며, 실무 구축 시에는 공격 표면을 최소화하는 Multi-stage 빌드 및 Distroless/Alpine 경량 베이스 이미지 채택, 컨테이너 탈출(Container Escape)을 방어하는 Non-root 유저 실행과 Seccomp/AppArmor 프로파일 적용, 리소스 독점을 방어하는 cgroups 메모리/CPU Limit 설정을 결합하여 고속 배포성과 프로덕션 보안성을 동시 보증
 
 #### 한줄 요약
 - Docker 컨테이너는 리눅스 커널 격리와 레이어드 불변 이미지를 통해 환경 일치성과 경량 배포를 실현하는 클라우드 네이티브의 핵심 배포 기술이다.

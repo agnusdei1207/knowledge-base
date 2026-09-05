@@ -27,8 +27,8 @@ extra:
 
 </details>
 
-- 정의/개념: 컨테이너 이미지 빌드, 배포 승인, 런타임 전 주기에 걸쳐 **Seccomp, AppArmor, OPA를 적용하여 컨테이너 탈출과 악성 행위를 차단하는 다층 방어 체계**
-- 배경/필요성: 호스트 OS 커널 공유 구조로 인한 **단일 컨테이너 침해 시 특권 상승/호스트 탈출(Container Escape), 공급망 오염 및 악성 런타임 행위 전파 위험 한계**
+- 정의/개념: 컨테이너 이미지 빌드, 배포 승인, 런타임 전 주기에 걸쳐 Seccomp, AppArmor, OPA를 적용하여 컨테이너 탈출과 악성 행위를 차단하는 다층 방어 체계
+- 배경/필요성: 호스트 OS 커널 공유 구조로 인한 단일 컨테이너 침해 시 특권 상승/호스트 탈출(Container Escape), 공급망 오염 및 악성 런타임 행위 전파 위험 한계
 
 #### 한줄 요약
 - 빌드부터 런타임까지 다계층 보안 통제를 적용하여 컨테이너 탈출과 악성 행위를 원천 차단한다.
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- 빌드 단계 취약점 스캔(Trivy)과 서명 검증(Cosign)을 통한 **공급망 보안(Supply Chain)**
-- OPA Gatekeeper를 활용하여 루트 권한 파드 배포를 차단하는 **배포 통제(Admission Control)**
-- Seccomp 및 AppArmor를 통한 **커널 시스템 콜 및 파일시스템 접근 최소화**
+- 빌드 단계 취약점 스캔(Trivy)과 서명 검증(Cosign)을 통한 공급망 보안(Supply Chain)
+- OPA Gatekeeper를 활용하여 루트 권한 파드 배포를 차단하는 배포 통제(Admission Control)
+- Seccomp 및 AppArmor를 통한 커널 시스템 콜 및 파일시스템 접근 최소화
 
 #### 한줄 요약
 - 공급망 신뢰 검증, 배포 관문 차단, 런타임 커널 제약을 결합하여 완벽한 방어막을 구축한다.
@@ -70,11 +70,11 @@ extra:
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| 이미지 신뢰 (Image Trust) | 베이스 이미지 CVE 취약점을 스캔하고 **Cosign 암호화 전자서명 무결성 검증** | Trivy, Cosign |
-| 정책 엔진 (OPA Gatekeeper) | K8s Admission Webhook에서 **특권(Privileged) 설정 및 Root 실행 파드 배포 차단**| Policy-as-Code |
-| 보안 컴퓨팅 (Seccomp) | 컨테이너가 호출 가능한 **리눅스 시스템 콜(System Call) 화이트리스트 필터링** | `RuntimeDefault` |
-| 강제 접근 제어 (AppArmor) | 컨테이너 프로세스의 **파일 읽기/쓰기, 네트워크 소켓, 실행 권한을 강제 제한**| MAC 프로필 적용 |
-| 런타임 탐지 (Falco) | eBPF 커널 이벤트를 모니터링하여 **컨테이너 내부 이상 쉘 실행 실시간 감시/경보** | 실시간 위협 탐지 |
+| 이미지 신뢰 (Image Trust) | 베이스 이미지 CVE 취약점을 스캔하고 Cosign 암호화 전자서명 무결성 검증 | Trivy, Cosign |
+| 정책 엔진 (OPA Gatekeeper) | K8s Admission Webhook에서 특권(Privileged) 설정 및 Root 실행 파드 배포 차단| Policy-as-Code |
+| 보안 컴퓨팅 (Seccomp) | 컨테이너가 호출 가능한 리눅스 시스템 콜(System Call) 화이트리스트 필터링 | `RuntimeDefault` |
+| 강제 접근 제어 (AppArmor) | 컨테이너 프로세스의 파일 읽기/쓰기, 네트워크 소켓, 실행 권한을 강제 제한| MAC 프로필 적용 |
+| 런타임 탐지 (Falco) | eBPF 커널 이벤트를 모니터링하여 컨테이너 내부 이상 쉘 실행 실시간 감시/경보 | 실시간 위협 탐지 |
 
 #### 한줄 요약
 - 같은 탈출 시나리오를 이미지 신뢰·배포 관문·커널 제약·런타임 탐지가 서로 다른 시점에서 나눠 막으므로, 한 계층이 뚫려도 다음 계층에서 공격 비용이 다시 부과된다.
@@ -121,10 +121,10 @@ API 서버가 요청을 Reject하고      워커 노드로 Pod 스펙 전달
 
 | 비교 항목 | OPA Gatekeeper / Kyverno | Seccomp (Secure Computing) | AppArmor / SELinux |
 |:---|:---|:---|:---|
-| 보안 적용 시점 | **배포 시점 (Admission Controller)** | **런타임 실행 시점 (Process Execution)** | **런타임 실행 시점 (Resource Access)** |
-| 핵심 통제 대상 | **K8s YAML 오브젝트 명세 (Root, Privileged)**| **리눅스 시스템 콜 (System Calls)** | **파일 경로, 네트워크, Capabilities** |
-| 강제 적용 방식 | Webhook 기반 API 배포 거부/차단 | **커널 레벨 시스템 콜 즉시 Drop/Kill** | **프로필 기반 파일 접근 Permission Denied**|
-| 실무 권장 설정 | Pod Security Standards (Restricted) | **`seccompProfile: RuntimeDefault`** | **`apparmor.net/profile: runtime/default`**|
+| 보안 적용 시점 | 배포 시점 (Admission Controller) | 런타임 실행 시점 (Process Execution) | 런타임 실행 시점 (Resource Access) |
+| 핵심 통제 대상 | K8s YAML 오브젝트 명세 (Root, Privileged)| 리눅스 시스템 콜 (System Calls) | 파일 경로, 네트워크, Capabilities |
+| 강제 적용 방식 | Webhook 기반 API 배포 거부/차단 | 커널 레벨 시스템 콜 즉시 Drop/Kill | 프로필 기반 파일 접근 Permission Denied|
+| 실무 권장 설정 | Pod Security Standards (Restricted) | `seccompProfile: RuntimeDefault` | `apparmor.net/profile: runtime/default`|
 
 #### 한줄 요약
 - OPA는 배포 명세를 검증하고, Seccomp는 시스템 콜을 제한하며, AppArmor는 파일 접근을 통제한다.
@@ -139,17 +139,17 @@ API 서버가 요청을 Reject하고      워커 노드로 Pod 스펙 전달
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 특권 파드 악용으로 호스트 커널 탈출 해킹 발생 | **OPA Gatekeeper로 `privileged: true` 및 HostPath 마운트 배포 차단** | 컨테이너 탈출 경로 원천 차단 |
-| 베이스 이미지의 무거운 패키지로 인한 CVE 취약점 노출 | **Distroless 또는 Chainguard 최소 패키징 이미지로 전면 교체** | 이미지 취약점 95% 이상 제거 |
-| DB 비밀번호가 컨테이너 이미지 또는 환경변수에 평문 노출 | **External Secrets Operator 연동 및 AWS Secrets Manager 주입** | 민감 크리덴셜 노출 원천 방지 |
-| 컨테이너 내부 침투 후 악성코드 다운로드 및 실행 | **`readOnlyRootFilesystem: true` 설정으로 불변 런타임 강제** | 악성 웹쉘/바이너리 저장 불가 |
+| 특권 파드 악용으로 호스트 커널 탈출 해킹 발생 | OPA Gatekeeper로 `privileged: true` 및 HostPath 마운트 배포 차단 | 컨테이너 탈출 경로 원천 차단 |
+| 베이스 이미지의 무거운 패키지로 인한 CVE 취약점 노출 | Distroless 또는 Chainguard 최소 패키징 이미지로 전면 교체 | 이미지 취약점 95% 이상 제거 |
+| DB 비밀번호가 컨테이너 이미지 또는 환경변수에 평문 노출 | External Secrets Operator 연동 및 AWS Secrets Manager 주입 | 민감 크리덴셜 노출 원천 방지 |
+| 컨테이너 내부 침투 후 악성코드 다운로드 및 실행 | `readOnlyRootFilesystem: true` 설정으로 불변 런타임 강제 | 악성 웹쉘/바이너리 저장 불가 |
 
 #### 한줄 요약
 - 네 대책은 컨테이너가 쓸 수 있는 권한과 공격 표면을 깎아 얻은 안전이며, 특권과 쓰기 가능 파일시스템을 포기한 만큼 운영 편의와 컨테이너 내부 디버깅 자유를 대가로 내준다.
 
 ## Ⅶ. 결론
 
-- 엔터프라이즈 클라우드 네이티브 환경에서 컨테이너 침해 사고를 원천 방어하는 **가장 포괄적이고 실증적인 다계층(Defense-in-Depth) 보안 프레임워크**로 확립되었으며, 실무 운영 시에는 **CI/CD 파이프라인 내 무서명 이미지 배포 차단(Cosign), OPA Admission Webhook 기반 `runAsNonRoot` 및 `readOnlyRootFilesystem` 강제, K8s 기본 `seccompProfile: RuntimeDefault` 적용, eBPF 기반 Falco 런타임 비인가 쉘 실시간 탐지·차단**을 결합하여 개발 생산성을 저해하지 않으면서 제로 트러스트 컨테이너 보안을 완성
+- 엔터프라이즈 클라우드 네이티브 환경에서 컨테이너 침해 사고를 원천 방어하는 가장 포괄적이고 실증적인 다계층(Defense-in-Depth) 보안 프레임워크로 확립되었으며, 실무 운영 시에는 CI/CD 파이프라인 내 무서명 이미지 배포 차단(Cosign), OPA Admission Webhook 기반 `runAsNonRoot` 및 `readOnlyRootFilesystem` 강제, K8s 기본 `seccompProfile: RuntimeDefault` 적용, eBPF 기반 Falco 런타임 비인가 쉘 실시간 탐지·차단을 결합하여 개발 생산성을 저해하지 않으면서 제로 트러스트 컨테이너 보안을 완성
 
 #### 한줄 요약
 - 컨테이너 보안은 배포 관문 통제와 커널 수준의 최소 권한 격리 및 실시간 위협 탐지를 결합하여 침해 확산을 원천 차단하는 핵심 클라우드 보안 기술이다.

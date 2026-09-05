@@ -27,7 +27,7 @@ extra:
 
 </details>
 
-- 정의/개념: 대규모 객체 스토리지 환경에서 **3계층 메타데이터 트리(Manifest)를 통해 ACID 트랜잭션, 숨김 파티셔닝, 스키마 진화를 제공**하는 오픈 테이블 포맷
+- 정의/개념: 대규모 객체 스토리지 환경에서 **3계층 메타데이터 트리**(Manifest)를 통해 ACID 트랜잭션, 숨김 파티셔닝, 스키마 진화를 제공하는 오픈 테이블 포맷
 - 배경/필요성: 기존 Hive 메타스토어의 디렉터리 기반 파일 목록 조회(`LIST`) 의존으로 인한 **극심한 O(N) I/O 병목 및 파티션 변경 시 테이블 전체 재작성 한계**
 
 #### 한줄 요약
@@ -42,9 +42,9 @@ extra:
 
 </details>
 
-- Metadata File $\to$ Manifest List $\to$ Manifest File의 **3계층 메타데이터 트리 아키텍처**
-- 사용자가 파티션 구조를 몰라도 최적 프루닝을 수행하는 **숨겨진 파티셔닝(Hidden Partitioning)**
-- Spark, Trino, Flink, Snowflake, BigQuery 등 **다양한 연산 엔진에 대한 완전한 중립성**
+- Metadata File $\to$ Manifest List $\to$ Manifest File의 **3계층 메타데이터 트리** 아키텍처
+- 사용자가 파티션 구조를 몰라도 최적 프루닝을 수행하는 숨겨진 파티셔닝(**Hidden Partitioning**)
+- Spark, Trino, Flink, Snowflake, BigQuery 등 다양한 연산 엔진에 대한 완전한 중립성
 
 #### 한줄 요약
 - 메타데이터 수준의 세밀한 통계와 엔진 중립성을 바탕으로 페타바이트급 테이블을 고속으로 관리한다.
@@ -71,11 +71,11 @@ extra:
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|
-| 카탈로그 (Catalog) | 테이블 이름과 **현재 최신 Metadata File(JSON)의 S3 위치 포인터 원자적 관리** | REST, AWS Glue 등 |
-| 메타데이터 파일 (Metadata) | 테이블 스키마, 파티션 규격(Spec), **전체 스냅샷 이력 및 현재 스냅샷 ID 보관** | JSON 포맷 |
-| 매니페스트 리스트 (List) | 특정 스냅샷을 구성하는 **Manifest File 목록과 파티션 범위 요약 통계 관리** | AVRO 포맷 |
-| 매니페스트 파일 (Manifest) | 실제 Parquet 파일의 경로, 상태(Add/Delete), **컬럼별 Min/Max 통계 정보 보관** | 파일 수준 Data Skipping |
-| 데이터 파일 (Data File) | 실제 비즈니스 레코드가 저장된 **불변(Immutable) Parquet/ORC 압축 파일** | 열 지향 포맷 |
+| 카탈로그 (Catalog) | 테이블 이름과 현재 최신 Metadata File(JSON)의 S3 위치 포인터 원자적 관리 | REST, AWS Glue 등 |
+| 메타데이터 파일 (Metadata) | 테이블 스키마, 파티션 규격(Spec), 전체 스냅샷 이력 및 현재 스냅샷 ID 보관 | JSON 포맷 |
+| 매니페스트 리스트 (List) | 특정 스냅샷을 구성하는 Manifest File 목록과 파티션 범위 요약 통계 관리 | AVRO 포맷 |
+| 매니페스트 파일 (Manifest) | 실제 Parquet 파일의 경로, 상태(Add/Delete), 컬럼별 Min/Max 통계 정보 보관 | 파일 수준 Data Skipping |
+| 데이터 파일 (Data File) | 실제 비즈니스 레코드가 저장된 불변(Immutable) Parquet/ORC 압축 파일 | 열 지향 포맷 |
 
 #### 한줄 요약
 - 3계층 트리는 스캔 범위를 위에서부터 단계적으로 잘라내는 구조라 상위 한 계층만으로도 대부분의 파일이 걸러지고, 그 덕분에 파일 수가 늘어도 질의 계획 비용이 선형으로 커지지 않는다.
@@ -115,10 +115,10 @@ extra:
 
 | 비교 항목 | Apache Iceberg (오픈 표준) | Delta Lake (Databricks) |
 |:---|:---|:---|
-| 메타데이터 계층 | **3계층 AVRO Manifest 트리 구조** | **단일 디렉터리 JSON 커밋 로그 + 체크포인트** |
-| 파티셔닝 유연성 | **Hidden Partitioning 및 Partition Evolution 지원**| 파티션 컬럼 물리 경로 종속, 변경 시 재작성 필요 |
-| 엔진 생태계 중립성| **Trino, Flink, Spark, Snowflake 등 완전 중립** | Spark / Databricks 중심 (UniForm 확장 중) |
-| 컬럼 진화 방식 | **고유 Field ID 기반 추적 (이름/순서 변경 무관)** | 컬럼명 매핑 기반 추적 |
+| 메타데이터 계층 | 3계층 AVRO Manifest 트리 구조 | 단일 디렉터리 JSON 커밋 로그 + 체크포인트 |
+| 파티셔닝 유연성 | **Hidden Partitioning** 및 **Partition Evolution** 지원| 파티션 컬럼 물리 경로 종속, 변경 시 재작성 필요 |
+| 엔진 생태계 중립성| Trino, Flink, Spark, Snowflake 등 완전 중립 | Spark / Databricks 중심 (UniForm 확장 중) |
+| 컬럼 진화 방식 | 고유 Field ID 기반 추적 (이름/순서 변경 무관) | 컬럼명 매핑 기반 추적 |
 
 #### 한줄 요약
 - 다중 엔진 중립성과 숨겨진 파티셔닝은 Iceberg, 강력한 Spark 네이티브 통합은 Delta Lake를 선택한다.
@@ -133,10 +133,10 @@ extra:
 
 | 문제 | 대책 | 효과 |
 |:---|:---|:---|
-| 빈번한 커밋으로 인한 수천 개의 Manifest File 누적 | **`rewrite_manifests()` 연산으로 Manifest 파일 정기 병합** | 메타데이터 조회 속도 극대화 |
-| 초 단위 스트리밍 쓰기로 인한 Small Data Files 폭발 | **`rewrite_data_files()` (Bin-packing) 작업 주기적 실행** | Parquet 파일 크기 512MB 표준화 |
-| 실패한 트랜잭션의 더미 파일 찌꺼기 누적 | **`remove_orphan_files()` 정기 스케줄링으로 고아 파일 삭제** | 미사용 S3 스토리지 비용 회수 |
-| 과거 스냅샷 누적으로 인한 메타데이터 크기 비대화 | **`expire_snapshots()` 프로시저로 7일 이전 구버전 스냅샷 정리** | 카탈로그 파싱 속도 개선 |
+| 빈번한 커밋으로 인한 수천 개의 Manifest File 누적 | `rewrite_manifests()` 연산으로 Manifest 파일 정기 병합 | 메타데이터 조회 속도 극대화 |
+| 초 단위 스트리밍 쓰기로 인한 Small Data Files 폭발 | `rewrite_data_files()` (Bin-packing) 작업 주기적 실행 | Parquet 파일 크기 512MB 표준화 |
+| 실패한 트랜잭션의 더미 파일 찌꺼기 누적 | `remove_orphan_files()` 정기 스케줄링으로 고아 파일 삭제 | 미사용 S3 스토리지 비용 회수 |
+| 과거 스냅샷 누적으로 인한 메타데이터 크기 비대화 | `expire_snapshots()` 프로시저로 7일 이전 구버전 스냅샷 정리 | 카탈로그 파싱 속도 개선 |
 
 #### 한줄 요약
 - 매니페스트 병합, 데이터 파일 컴팩션, 고아 파일 삭제, 스냅샷 만료로 클러스터를 최적화한다.
