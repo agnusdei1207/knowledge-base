@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "SPLADE: 학습형 희소 검색 (Sparse Lexical and Expansion Model)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-06T08:03:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 227
@@ -172,6 +172,13 @@ SPLADE 검색기
 - SPLADE 도입의 실제 판단점은 모델 정확도가 아니라 기존 역색인 엔진을 그대로 쓸 수 있느냐이며, 그 조건이 성립할 때만 밀집 검색 대비 인프라 비용 절감이 실현된다.
 
 ## Ⅶ. 결론
+
+<details><summary>용어 설명</summary>
+
+- **학습형 희소 검색(Neural Sparse Retrieval)**: 신경망이 용어 가중과 확장을 학습해 역색인에서 의미 검색을 수행하는 방식이다.
+- **역색인 호환성**: 별도의 벡터 데이터베이스 없이 기존 Lucene/Elasticsearch 역색인 엔진에서 검색을 수행할 수 있는 성질을 말한다.
+
+</details>
 
 - RAG(검색 증강 생성) 시스템 및 엔터프라이즈 검색 엔진에서 기존 BM25의 한계를 극복하고 벡터 DB의 인프라 오버헤드 없이 고품질 검색을 실현하는 **학습형 신경망 희소 검색(Neural Sparse Retrieval) 및 어휘-의미 하이브리드 검색의 최고 핵심 표준(SPLADE / BERT MLM Term Expansion & Weighting / FLOPS Regularization / Inverted Index Compatibility / Interpretable Lexical Sparse Architecture)의 확고한 표준**으로 확고히 자리 잡았으며, 밀집 임베딩과의 앙상블(Reciprocal Rank Fusion: RRF) 및 ColBERT와 결합 발전하는 가운데, 실무 RAG 검색 파이프라인 구축 시에는 **문서는 색인 시 사전 인코딩하고 질의는 지연시간에 따라 SPLADE 인코딩 여부를 결정(Doc-only vs Full SPLADE)하며, 도메인 전문 코퍼스에 대한 지식 증류(Distillation) 미세조정 및 FLOPS 정규화 가중치($\lambda$) 최적화**를 결합하여 완벽한 검색 정확도와 밀리초 단위 초저지연 응답성을 완성
 

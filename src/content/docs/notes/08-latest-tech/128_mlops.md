@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "MLOps (Machine Learning Operations)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-06T08:02:01+09:00"
 tags:
   - "notes-latest-tech"
 weight: 128
@@ -31,7 +31,7 @@ extra:
 </details>
 
 - 정의: 데이터•코드•학습•배포•관측을 연결하는 **MLOps**
-- 배경/필요성: 전통적인 소프트웨어 개발 방법론(**DevOps**)은 소스 코드와 인프라의 형상 관리 및 빌드·배포에 집중되어 있어, 데이터 분포의 동적 변화(Data Drift), 특징 가공(Feature Engineering), 하이퍼파라미터 튜닝, 비결정론적 모델 학습 및 배포 후 모델 성능 저하(Concept Drift)가 복합적으로 얽혀 있는 머신러닝 시스템의 특성을 수용하지 못하여, 실험 결과의 재현 불가(Lack of Reproducibility), 수작업 재학습 병목, 모델 운영 부채(Technical Debt in ML)가 누적되는 치명적 한계에 직면함에 따라, 데이터, 코드, 모델의 전 수명주기를 유기적으로 통합하고 자동화하는 MLOps(**Machine Learning** Operations / CI, CD, Continuous Training: CT / Feature Store, **Model Registry**, Pipeline Orchestration, Drift Monitoring & Feedback Loop) 엔지니어링 체계를 도입하여 데이터 수집부터 모델 배포 및 모니터링까지 전 단계 파이프라인의 엔드투엔드 자동화 및 재현성(Reproducibility) 확보, 모델 레지스트리 기반의 엄격한 승격 게이트(Promotion Gate)와 카나리/섀도우 단계적 배포 확립, 운영 환경 데이터/개념 드리프트 감지 시 무중단 자동 재학습(CT) 및 롤백 루프 완성을 달성할 필요
+- 배경/필요성: 전통적인 소프트웨어 개발 방법론(**DevOps**)은 소스 코드와 인프라의 형상 관리 및 빌드·배포에 집중되어 있어, 데이터 분포의 동적 변화(Data Drift), 특징 가공(Feature Engineering), 하이퍼파라미터 튜닝, 비결정론적 모델 학습 및 배포 후 모델 성능 저하(Concept Drift)가 복합적으로 얽혀 있는 머신러닝 시스템의 특성을 수용하지 못하여, 실험 결과의 재현 불가(Lack of Reproducibility), 수작업 재학습 병목, 모델 운영 부채(Technical Debt in ML)가 누적되는 치명적 한계에 직면함에 따라, 데이터, 코드, 모델의 전 수명주기를 유기적으로 통합하고 자동화하는 MLOps(Machine Learning Operations / CI, CD, Continuous Training: CT / Feature Store, **Model Registry**, Pipeline Orchestration, Drift Monitoring & Feedback Loop) 엔지니어링 체계를 도입하여 데이터 수집부터 모델 배포 및 모니터링까지 전 단계 파이프라인의 엔드투엔드 자동화 및 재현성(Reproducibility) 확보, 모델 레지스트리 기반의 엄격한 승격 게이트(Promotion Gate)와 카나리/섀도우 단계적 배포 확립, 운영 환경 데이터/개념 드리프트 감지 시 무중단 자동 재학습(CT) 및 롤백 루프 완성을 달성할 필요
 
 #### 한줄 요약
 
@@ -48,7 +48,7 @@ extra:
 </details>
 
 - 학습 결과를 재현•복구하는 코드•데이터•**모델 계보**
-- 검증된 모델만 배포하는 **CI**•**CT**•**CD**•**승격 게이트**
+- 검증된 모델만 배포하는 **CI•CT•CD 파이프라인**과 **승격 게이트**
 - 재학습•롤백을 정하는 드리프트•서비스 성능 관측
 
 #### 한줄 요약

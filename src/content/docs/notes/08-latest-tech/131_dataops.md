@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 운영 (DataOps)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-06T08:02:02+09:00"
 tags:
   - "notes-latest-tech"
 weight: 131
@@ -28,7 +28,7 @@ extra:
 </details>
 
 - 정의: 데이터 파이프라인의 검증•배포•관측을 자동화하는 **DataOps**이다.
-- 배경/필요성: 현대 기업의 데이터 생태계가 실시간 스트리밍, 대규모 데이터 레이크하우스, AI/ML 모델 및 셀프서비스 BI로 고도화됨에 따라, 소스 시스템의 스키마 변경, 불량 데이터 유입, 수작업 배포 오류로 인해 하류(Downstream) 비즈니스 대시보드와 AI 추론 파이프라인 전체에 침묵의 데이터 오염(Data Silent Failure)이 전파되는 심각한 품질 사고에 직면함에 따라, 애자일(Agile) **개발** 방식과 DevOps의 CI/CD 자동화 원칙을 데이터 수명주기 전반에 적용한 DataOps(Data Operations / Data Contract, Automated Data Testing: Great Expectations/Soda, Metadata & Lineage: OpenLineage, CI/CD for Data Pipelines, Idempotent Backfilling) 엔지니어링 방법론을 도입하여 데이터 파이프라인의 엔드투엔드 버전 관리, 빌드, 테스트 및 자동 배포를 통한 납기 주기(Cycle Time) 획기적 단축, 데이터 생산자-소비자 간 명시적 **데이터 계약**(Data Contract) 강제를 통한 스키마 브레이킹 체인지 원천 차단, 엔드투엔드 **데이터 계보**(Lineage) 및 옵저버빌리티(Data Observability) 확보를 달성할 필요
+- 배경/필요성: 현대 기업의 데이터 생태계가 실시간 스트리밍, 대규모 데이터 레이크하우스, AI/ML 모델 및 셀프서비스 BI로 고도화됨에 따라, 소스 시스템의 스키마 변경, 불량 데이터 유입, 수작업 배포 오류로 인해 하류(Downstream) 비즈니스 대시보드와 AI 추론 파이프라인 전체에 침묵의 데이터 오염(Data Silent Failure)이 전파되는 심각한 품질 사고에 직면함에 따라, 애자일(Agile) 개발 방식과 DevOps의 CI/CD 자동화 원칙을 데이터 수명주기 전반에 적용한 DataOps(Data Operations / Data Contract, Automated Data Testing: Great Expectations/Soda, Metadata & Lineage: OpenLineage, CI/CD for Data Pipelines, Idempotent Backfilling) 엔지니어링 방법론을 도입하여 데이터 파이프라인의 엔드투엔드 버전 관리, 빌드, 테스트 및 자동 배포를 통한 납기 주기(Cycle Time) 획기적 단축, 데이터 생산자-소비자 간 명시적 **데이터 계약**(Data Contract) 강제를 통한 스키마 브레이킹 체인지 원천 차단, 엔드투엔드 **데이터 계보**(Lineage) 및 옵저버빌리티(Data Observability) 확보를 달성할 필요
 
 #### 한줄 요약
 
