@@ -123,7 +123,7 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **고가용성(High Availability, HA)**: 장애 노드를 대기 노드로 전환해 중단 시간을 줄시키는 구조.
+- **고가용성(High Availability, HA)**: 장애 노드를 대기 노드로 전환해 중단 시간을 줄이는 구조.
 - **복구 시간 목표(Recovery Time Objective, RTO)**: 장애 후 서비스 복구까지 허용하는 최대 시간.
 
 </details>

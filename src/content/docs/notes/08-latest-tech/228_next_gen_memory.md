@@ -3,7 +3,7 @@ sidebar:
   order: 228
   label: "228. 차세대 메모리 기술 (Next-Gen Memory: HBM · CXL · PIM)"
   badge:
-    text: "미출 · 75%"
+    text: "미출 · 70%"
     variant: note
 title: "차세대 메모리 기술 (Next-Generation Memory Technologies: HBM, CXL, PIM)"
 date: "2026-09-03T11:55:00+09:00"
@@ -14,7 +14,7 @@ extra:
   question_no: "228"
   source_status: "미출"
   source_history: ""
-  priority: 75
+  priority: 70
   priority_note: "AI 대규모 모델 확산에 따른 메모리 벽(Memory Wall) 극복의 핵심 통합 아키텍처"
 ---
 
