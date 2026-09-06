@@ -117,7 +117,8 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **러너블(Runnable Entity)**: 타이머 틱이나 데이터 수신 이벤트에 의해 RTE로부터 트리거되어 실제 연산을 수행하는 SWC 내부의 최소 C 함수 단위.
+- **ECU 추출(ECU Extract)**: 전체 차량 통신 및 기능 시스템 모델(System Extract)로부터 특정 단일 ECU에 배치될 SWC와 신호만 추출한 정제된 ARXML 파일.
+- **복합 디바이스 드라이버(Complex Device Driver, CDD)**: 복잡한 센서나 엄격한 초저지연 타이밍 제어가 필요하여 표준 BSW/MCAL 계층을 우회하고 MCU 하드웨어 레지스터를 직접 다루는 특수 드라이버.
 
 </details>
 
@@ -144,32 +145,22 @@ extra:
 
 **동작 원리**
 
-1. 차량 OEM이 통신 매트릭스와 인터페이스 요구사항을 ARXML 표준 메타모델로 정의하여 Tier-1 부품사로 전달한다.
-2. 부품사는 타깃 MCU(MCAL)에 맞추어 OS 태스크 주기, CAN 통신 버퍼, NVRAM 블록 등의 세부 BSW 파라미터를 설정한다.
-3. AUTOSAR 전용 코드 생성 툴이 구성된 ARXML을 파싱하여 SWC와 BSW를 물리적으로 결합하는 최적화된 RTE C 소스 코드를 생성한다.
-4. 순수 제어 알고리즘이 구현된 SWC 소스 코드와 자동 생성된 BSW/RTE/MCAL 코드를 크로스 컴파일러로 통합 빌드한다.
-5. 완성된 바이너리를 ECU 롬에 플래싱하면 OS가 타이머 틱과 이벤트에 맞추어 SWC 내부의 러너블 함수를 주기적으로 호출하고 MCAL을 통해 액추에이터를 제어한다.
+1. OEM의 통신 매트릭스 및 인터페이스 요구사항 기반 ARXML 표준 메타모델 정의 및 Tier-1 부품사 전달
+2. 타깃 MCU 사양에 맞춘 OS 태스크 주기, CAN 통신 버퍼, NVRAM 블록 등 세부 BSW 파라미터 구성
+3. AUTOSAR 코드 생성 툴의 ARXML 파싱을 통한 SWC-BSW 결합 최적화 RTE C 소스 코드 자동 생성
+4. 제어 알고리즘 SWC 소스 코드와 자동 생성 BSW/RTE/MCAL 코드의 크로스 컴파일러 통합 정적 빌드
+5. 완성 바이너리 ECU 플래시 기록 후 OS 타이머 틱 기반 SWC 러너블(Runnable) 주기 호출 및 MCAL 하드웨어 제어
 
 #### 한줄 요약
 - 계층화는 하드웨어 교체 비용을 RTE 재생성으로 흡수하는 대신 ARXML 설정과 툴체인 복잡도를 새로 떠안으므로, 재사용할 ECU 자산이 많을수록 그 고정 비용이 회수된다.
 
 ## Ⅴ. 종류 및 비교
 
-<details><summary>용어 설명</summary>
-
-- **AUTOSAR Classic Platform(CP)**: OSEK/VDX 기반 정적 실시간 OS와 CAN/LIN 중심의 확정적 딥 임베디드 제어 플랫폼.
-- **AUTOSAR Adaptive Platform(AP)**: POSIX OS(Linux/QNX)와 SOME/IP 서비스 지향 통신(SOA) 기반의 초고성능 자율주행/SDV 플랫폼.
-
-</details>
-
-| 비교 항목 | AUTOSAR Classic Platform (CP) | AUTOSAR Adaptive Platform (AP) |
+| 대상 구분 | AUTOSAR Classic Platform (CP) | AUTOSAR Adaptive Platform (AP) |
 |:---|:---|:---|
 | 적용 기준 | 파워트레인 및 섀시 제동/조향 등 결정론적 딥 임베디드 제어 구축 시 | 자율주행 ADAS 및 SDV 중앙 제어기 등 고성능 서비스 지향(SOA) 환경 구축 시 |
-| 핵심 타깃 도메인 | 파워트레인, 섀시 제동/조향 | 자율주행 ADAS, SDV 중앙 게이트웨이 |
-| 운영체제 환경 | 정적 실시간 OSEK/VDX OS | POSIX 준수 OS(QNX, Linux) |
-| 통신 패러다임 | 신호 기반 정적 통신(CAN/LIN) | 서비스 지향 통신(SOME/IP) |
-| 하드웨어 요구사양 | 32비트 MCU(수 MB Flash) | 64비트 고성능 멀티코어 SoC |
-| 동적 업데이트(OTA) | 펌웨어 전체 플래싱 (정적 링크) | 서비스/앱 단위 동적 배포 |
+| 핵심 특징 | 정적 실시간 OSEK/VDX OS, 신호 기반 CAN/LIN 통신, 32비트 MCU(수 MB 메모리), 정적 링킹 및 펌웨어 일괄 플래싱 | POSIX 준수 OS(Linux/QNX), SOME/IP 서비스 지향 통신, 64비트 고성능 멀티코어 SoC, 서비스/앱 단위 동적 배포 |
+| 한계 | 정적 빌드 구조로 인한 동적 서비스 갱신 불가 및 대규모 비전/AI 연산 처리 한계 | POSIX 지연으로 마이크로초 단위 하드 실시간 보장 불가 및 고사양 고비용 하드웨어 필수 |
 
 #### 한줄 요약
 - 딥 임베디드 실시간 제어에는 Classic Platform이 쓰이고, 자율주행 및 SDV 중앙 집중형 제어기에는 Adaptive Platform이 쓰인다.
@@ -193,7 +184,15 @@ extra:
 
 ## Ⅶ. 결론
 
-- 차량용 분산 실시간 제어를 위한 Classic Platform과 SDV 기반 고성능 자율주행을 위한 Adaptive Platform을 아우르는 전장 소프트웨어의 글로벌 표준으로 안착되었으며, 최근에는 Zonal E/E 아키텍처 및 SOME/IP 서비스 지향 통신(SOA), 클라우드 연계 무선(OTA) 업데이트와의 통합이 가속화되고 있으므로 전장 아키텍트는 하드웨어 교체성을 보장하는 VFB 포트 설계와 ISO 26262 ASIL-D 수준의 E2E 보호 체계를 구축해야 한다.
+<details><summary>용어 설명</summary>
+
+- **SDV(Software Defined Vehicle)**: 소프트웨어를 통해 차량의 하드웨어 기능, 주행 성능, 사용자 경험을 지속적으로 업데이트하고 정의하는 차량 개발 패러다임.
+- **SOME/IP(Scalable service-Oriented MiddlewarE over IP)**: 차량용 이더넷 환경에서 제어기 간에 클라이언트-서버 기반 원격 프로시저 호출(RPC)과 이벤트 통지를 지원하는 표준 전장 통신 미들웨어.
+
+</details>
+
+- 차량용 분산 실시간 제어를 위한 Classic Platform과 SDV 기반 고성능 자율주행을 위한 Adaptive Platform을 아우르는 전장 소프트웨어의 글로벌 표준으로 안착되었으며, 최근에는 Zonal E/E 아키텍처 및 SOME/IP 서비스 지향 통신(SOA), 클라우드 연계 무선(OTA) 업데이트와의 통합이 급속 진화 중.
+- 전장 소프트웨어 아키텍처 수립 시 하드웨어 독립성을 보장하는 VFB 포트 설계와 ISO 26262 ASIL-D 수준의 E2E 데이터 무결성 보호 체계 구축 필수.
 
 #### 한줄 요약
 - AUTOSAR는 SDV 전장 소프트웨어 표준의 핵심이며, Classic과 Adaptive의 상호 보완적 융합을 통해 완성된다.
