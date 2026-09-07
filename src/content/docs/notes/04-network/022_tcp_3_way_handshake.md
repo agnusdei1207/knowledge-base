@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP 3-way Handshake (TCP 3-way Handshake)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 22
@@ -59,21 +59,30 @@ extra:
 </details>
 
 ```text
-[서버 커널 TCP 연결 관리 및 소켓 큐 구조]
-|-- 리슨 소켓 (연결 요청 수신)
-|-- SYN 큐 (Half-Open 소켓 보관)
-|-- Accept 큐 (ESTABLISHED 소켓 보관)
-`-- TCP 제어 플래그 (SYN·ACK·FIN·RST)
+[TCP 3-Way Handshake 연결 수립 아키텍처]
+  │
+  ├─ [호스트 상태 전이부] (FSM Engine)
+  │     ├─ 클라이언트 상태 (CLOSED -> SYN_SENT -> ESTABLISHED)
+  │     └─ 서버 상태 (LISTEN -> SYN_RCVD -> ESTABLISHED)
+  │
+  ├─ [커널 소켓 대기열] (Kernel Connection Queues)
+  │     ├─ SYN 큐 (Half-Open 상태 소켓 임시 보관, SYN Cookie 완화)
+  │     └─ Accept 큐 (3-Way 완료 소켓 보관, accept() 시스템콜 인계)
+  │
+  └─ [동기화 매개변수 협상] (Parameter Negotiation)
+        ├─ ISN 동기화 (난수 기반 32비트 시작 순서 번호 합의)
+        ├─ MSS 협상 (경로 MTU 맞춤 최대 세그먼트 크기 결정)
+        └─ 전송 옵션 합의 (Window Scaling, SACK, 타임스탬프)
 ```
 
-선의 의미: 계층 및 클라이언트의 SYN이 SYN 큐에 임시 보관된 후 최종 ACK가 도착하면 Accept 큐로 이동하여 애플리케이션에 인계되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 리슨 소켓 | 포트별 **신규 SYN 요청 수신** |
-| SYN 큐 | **Half-Open 소켓 정보 보관** |
-| Accept 큐 | **ESTABLISHED 소켓 수락 대기** |
-| TCP 제어 플래그 | **SYN·ACK·FIN·RST 상태 제어** |
+| 리슨 소켓 | 포트별 바인딩 및 외부 신규 SYN 연결 요청 수신 대기 |
+| SYN 큐 | SYN-ACK 전송 후 최종 ACK 도달 전까지 Half-Open 소켓 상태 임시 보관 |
+| Accept 큐 | 3-Way Handshake 완료 후 애플리케이션의 accept() 호출 대기 |
+| TCP 제어 플래그 | SYN, ACK, FIN, RST 플래그를 통한 세션 라이프사이클 전이 제어 |
 
 #### 한줄 요약
 - SYN 큐가 리슨 소켓과 응용의 수락 사이에 끼어들어 반개방 상태를 커널이 대신 보관하므로, 응용이 즉시 받아내지 못해도 연결은 유지되지만 그 큐 길이가 곧 감당 한계가 된다.

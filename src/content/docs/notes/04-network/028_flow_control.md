@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "TCP 흐름•혼잡 제어 (Flow & Congestion Control)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 28
@@ -58,14 +58,23 @@ extra:
 </details>
 
 ```text
-[TCP 송신단 이중 전송 제어(rwnd / cwnd) 아키텍처]
-|-- 흐름 제어 (rwnd 관리)
-|-- 혼잡 제어 (cwnd·ssthresh 관리)
-|-- 유효 전송 윈도우 (최솟값 산출)
-`-- ECN 마킹 엔진 (혼잡 조기 통보)
+[TCP 이중 전송 제어 아키텍처]
+  │
+  ├─ [흐름 제어부] ── Flow Control (수신단 보호)
+  │     ├─ 수신 버퍼 계측 (가용 공간 크기 측정)
+  │     └─ 수신 윈도우 통보 (rwnd 헤더 피드백)
+  │
+  ├─ [혼잡 제어부] ── Congestion Control (네트워크 보호)
+  │     ├─ 혼잡 윈도우 조절 (cwnd, Slow Start & AIMD)
+  │     ├─ 임계치 관리 (ssthresh 동적 갱신)
+  │     └─ 조기 혼잡 감지 (3 Dup ACK, ECN 마킹 수신)
+  │
+  └─ [유효 전송 제어] ── Effective Window Engine
+        ├─ 전송 상한 산출 (min(rwnd, cwnd) 계산)
+        └─ 파이프라인 송출 (슬라이딩 윈도우 패킷 방출)
 ```
 
-선의 의미: 계층 및 송신단이 rwnd와 cwnd를 계산하여 유효 윈도우로 패킷을 송출하고 수신단이 rwnd를 피드백하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

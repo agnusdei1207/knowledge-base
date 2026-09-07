@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VLAN•트렁크•액세스 포트 (VLAN Trunk Access Port)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 16
@@ -58,27 +58,33 @@ extra:
 </details>
 
 ```text
-[VLAN 액세스 포트, 802.1Q 트렁크 포트 및 SVI 아키텍처]
-|-- Access Port (Untagged: 단말 PC 연결, PVID 10 매핑)
-`-- L2 / L3 Switch A
-    |-- 802.1Q Tagging Engine (4 Bytes Header: TPID `0x8100` + VID 10)
-    `-- Trunk Port (Tagged Frame 송출, Native VLAN 1은 Untagged)
-`-- 802.1Q Trunk Link (단일 물리 케이블로 VLAN 10, 20, 30 멀티플렉싱 전송)
-`-- L3 Switch B
-    |-- Trunk Port (Allowed VLAN List 검증 및 태그 파싱)
-    `-- SVI Gateway (VLAN 10 IP <-> VLAN 20 IP Inter-VLAN 하드웨어 라우팅)
+[VLAN 및 802.1Q 트렁킹 아키텍처]
+  │
+  ├─ [단말 접속부 (Access Port)] (Untagged 처리)
+  │     ├─ 단말 인터페이스 연결 (PC, 서버, 프린터)
+  │     ├─ PVID 매핑 (유입 비태그 프레임에 소속 VLAN ID 할당)
+  │     └─ 태그 제거 송출 (단말 방향 송출 시 VLAN 태그 탈락)
+  │
+  ├─ [스위치 백본부 (Trunk Port)] (Tagged 멀티플렉싱)
+  │     ├─ IEEE 802.1Q 태깅 엔진 (4B 태그: TPID 0x8100 + VID 12bit)
+  │     ├─ Native VLAN 제어 (트렁크 구간 비태그 전송 기본 VLAN)
+  │     └─ Allowed VLAN 필터 (통과 허용 VLAN 목록 명시적 제한)
+  │
+  └─ [VLAN 간 라우팅부 (Inter-VLAN)] (L3 스위칭)
+        ├─ SVI (Switched Virtual Interface, 논리 게이트웨이 IP)
+        └─ L3 라우팅 엔진 (ASIC 기반 VLAN 간 라인레이트 라우팅)
 ```
 
-선의 의미: 계층 및 단말의 비태그 프레임이 PVID로 분류되어 트렁크에서 802.1Q 태깅되어 전송되고 SVI를 통해 라우팅되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **액세스 포트 (Access)** | 종단 단말(PC/서버) 연결, **비태그 프레임에 PVID를 매핑하고 송출 시 태그 제거(Untag)** | 단일 VLAN 수용 |
-| **트렁크 포트 (Trunk)** | 스위치 간 백본 연결, **4바이트 802.1Q 태그를 부착하여 복수 VLAN 트래픽 멀티플렉싱** | 1~4094 VLAN 수용 |
-| **PVID (Port VLAN ID)**| 액세스 포트로 유입되는 **비태그(Untagged) 프레임의 소속 VLAN ID 결정** | 포트 기본 속성 |
-| **Native VLAN** | 트렁크 링크 상에서 **태그 없이(Untagged) 전송되는 기본 VLAN (양단 스위치 일치 필수)** | 기본값 VLAN 1 |
-| **허용 VLAN 목록 (Allowed)**| 트렁크 링크를 통과할 수 있는 **VLAN ID 범위를 명시적으로 제한하여 대역폭 최적화** | 트래픽 필터링 |
-| **SVI (L3 가상 인터페이스)**| L3 스위치 내부에서 **VLAN 간 패킷 라우팅을 수행하는 논리적 IP 게이트웨이 제공** | Inter-VLAN 라우팅 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 액세스 포트 (Access) | 종단 단말 연결, 비태그 프레임에 PVID 매핑 및 송출 시 태그 제거 |
+| 트렁크 포트 (Trunk) | 스위치 간 백본 연결, 4바이트 802.1Q 태그를 통한 복수 VLAN 다중화 전송 |
+| PVID (Port VLAN ID) | 액세스 포트로 유입되는 비태그 프레임의 소속 VLAN ID 결정 |
+| Native VLAN | 트렁크 링크 상에서 태그 없이(Untagged) 전송되는 기본 VLAN |
+| 허용 VLAN 목록 (Allowed) | 트렁크 링크를 통과할 수 있는 VLAN 범위를 제한하여 대역폭 최적화 |
+| SVI (L3 가상 인터페이스) | L3 스위치 내부에서 VLAN 간 패킷 라우팅을 수행하는 논리적 게이트웨이 제공 |
 
 #### 한줄 요약
 - 802.1Q 태그가 프레임 안에 소속 도메인을 실어 나르므로, VLAN마다 따로 깔아야 했을 물리 링크를 트렁크 한 가닥과 양단의 PVID·허용 VLAN 목록 설정이 대신한다.

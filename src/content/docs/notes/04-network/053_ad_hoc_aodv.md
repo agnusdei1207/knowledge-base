@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "애드혹 라우팅 프로토콜 : AODV (Ad Hoc On-Demand Distance Vector)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 53
@@ -57,12 +57,32 @@ extra:
 
 </details>
 
-| 메시지 유형 | 전송 방식 | 주요 포함 필드 | 역할 및 책임 |
-|:---|:---|:---|:---|
-| **RREQ** (Route Request)| 브로드캐스트 (Flooding) | 출발지 IP/SeqNum, 목적지 IP/SeqNum, Hop Count | 경로 탐색 개시 및 중간 노드 역방향 포인터 구축 |
-| RREP (Route Reply) | 유니캐스트 (Unicast) | 목적지 IP/DestSeqNum, Hop Count, Lifetime | 최신 경로 확정 및 순방향 포워딩 엔트리 확정 |
-| **RERR (Route Error)** | 유니캐스트/브로드캐스트 | 도달 불가 목적지 IP 리스트 및 DestSeqNum | 링크 단절 통보 및 무효화된 경로 테이블 엔트리 삭제 |
-| **Hello 패킷** | 로컬 브로드캐스트 (1-Hop) | 송신 노드 IP, 유효 시간 | 인접 1홉 이웃 노드와의 무선 링크 생존 여부 감시 |
+```text
+[AODV 라우팅 아키텍처]
+  │
+  ├─ [경로 탐색 메커니즘] ── Route Discovery
+  │     ├─ RREQ 플러딩 (Route Request, 역방향 포인터 설정)
+  │     ├─ RREP 유니캐스트 (Route Reply, 순방향 경로 수립)
+  │     └─ 확장 링 탐색 (Expanding Ring Search, TTL 제어)
+  │
+  ├─ [루프 방지 및 신선도 제어] ── Loop-Free Control
+  │     ├─ 목적지 시퀀스 번호 (DestSeqNum 단조 증가)
+  │     └─ 홉 카운트 메트릭 (최단 홉 수 기반 경로 선택)
+  │
+  └─ [경로 유지 및 복구] ── Route Maintenance
+        ├─ Hello 비콘 (1-Hop 이웃 노드 링크 생존 감시)
+        ├─ RERR 경로 에러 (Route Error 링크 단절 즉시 전파)
+        └─ 로컬 복구 (Local Repair, 중간 노드 부분 재탐색)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
+
+| 구성요소 | 책임 |
+|:---|:---|
+| RREQ (경로 요청) | 플러딩을 통한 **경로 탐색 및 중간 노드 역방향 포인터 수립** |
+| RREP (경로 응답) | 유니캐스트 회신을 통한 **최신 경로 확정 및 순방향 포워딩 설정** |
+| RERR (경로 에러) | 노드 이동 링크 단절 시 **선행 노드 통보 및 무효 엔트리 삭제** |
+| Hello 패킷 | 1-Hop 로컬 브로드캐스트 기반 **인접 이웃 노드 링크 생존 감시** |
 
 #### 한줄 요약
 - RREQ 브로드캐스트가 중간 노드에 남긴 역방향 포인터를 RREP가 그대로 되짚어 오므로, 탐색 과정 자체가 회신 경로 계산을 대신해 준다.

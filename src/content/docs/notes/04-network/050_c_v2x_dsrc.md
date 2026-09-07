@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "차량 사물 통신 표준 비교 : C-V2X vs DSRC (C-V2X vs DSRC)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 50
@@ -58,15 +58,20 @@ extra:
 </details>
 
 ```text
-[V2X 무선 표준]
-|-- C-V2X
-|   |-- PC5 사이드링크
-|   `-- Uu 셀룰러 링크
-`-- DSRC·WAVE
-    `-- 802.11p 직접 링크
+[차량 무선 통신 표준 구조]
+  │
+  ├─ [C-V2X 셀룰러 표준 체계] ── 3GPP Cellular V2X
+  │     ├─ PC5 사이드링크 (단말 간 직접 무선, SPS Mode 4 스케줄링)
+  │     ├─ Uu 셀룰러 링크 (기지국 경유 광역 통신 및 V2N 교통 관제)
+  │     └─ 5G NR V2X 진화 (초저지연 Mini-slot 및 슬라이싱 연계)
+  │
+  └─ [DSRC / WAVE 표준 체계] ── IEEE 802.11p WAVE
+        ├─ 802.11p PHY/MAC (5.9GHz 대역 전파 및 OFDM 변조)
+        ├─ CSMA/CA 경합 접속 (반송파 감지 기반 임의 백오프)
+        └─ WAVE 통신 스택 (IEEE 1609.x 네트워크/전송 규격)
 ```
 
-선의 의미: C-V2X는 직접 통신(PC5)과 광역 셀룰러(Uu)를 동시 지원하고 DSRC는 단일 직접 통신만을 지원하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

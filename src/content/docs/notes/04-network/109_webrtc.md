@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "웹 브라우저 기반 실시간 P2P 통신 : WebRTC"
-date: "2026-09-06T00:10:09+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 109
@@ -58,15 +58,22 @@ extra:
 </details>
 
 ```text
-[WebRTC 정적 구성]
-|-- 시그널링 서버
-|-- STUN 서버
-|-- TURN 서버
-|-- RTCPeerConnection
-`-- RTCDataChannel
+[WebRTC 통신 구조]
+  │
+  ├─ [세션 제어 평면]
+  │    ├─ 시그널링 서버 (SDP 교환)
+  │    └─ ICE 프레임워크 (경로 결정)
+  │
+  ├─ [NAT/방화벽 탐색]
+  │    ├─ STUN 서버 (공인 IP 매핑)
+  │    └─ TURN 서버 (릴레이 중계)
+  │
+  └─ [데이터·미디어 평면]
+       ├─ RTCPeerConnection (SRTP 미디어)
+       └─ RTCDataChannel (SCTP/DTLS)
 ```
 
-선의 의미: 시그널링 서버를 통해 SDP와 ICE 후보를 교환하고 STUN/TURN을 활용해 NAT를 통과한 후 브라우저 간 직결 미디어 스트림을 전송하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

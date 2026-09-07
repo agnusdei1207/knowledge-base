@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 딥러닝 텐서 동기화 : 집합 통신 All-Reduce"
-date: "2026-09-06T00:10:06+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 106
@@ -57,15 +57,22 @@ extra:
 </details>
 
 ```text
-[All-Reduce 정적 구성]
-|-- 통신 랭크
-|-- 텐서 버킷 퓨전기
-|-- NCCL 엔진
-|-- Reduce-Scatter 모듈
-`-- All-Gather 모듈
+[All-Reduce 집합 통신]
+  │
+  ├─ [노드 및 데이터 제어]
+  │    ├─ 통신 랭크 (GPU 식별)
+  │    └─ 텐서 버킷 퓨전기 (병합)
+  │
+  ├─ [통신 가속 엔진]
+  │    ├─ NCCL 엔진 (토폴로지 최적화)
+  │    └─ In-Network 가속 (SHARP)
+  │
+  └─ [2단계 집합 알고리즘]
+       ├─ Reduce-Scatter 모듈
+       └─ All-Gather 모듈
 ```
 
-선의 의미: 4개의 GPU가 원형 링(Ring)으로 연결되어 이웃 GPU로만 데이터를 전달하며 합산과 배포를 완수하는 탈중앙화 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

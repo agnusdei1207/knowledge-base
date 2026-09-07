@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "방화벽 : 패킷 필터•상태기반•NGFW (Firewall Types)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 20
@@ -59,25 +59,31 @@ extra:
 </details>
 
 ```text
-[방화벽 보안 존 분리 및 계층별 패킷 검사 아키텍처]
-|-- Untrust Zone (외부 인터넷 / 공중망)
-`-- Firewall Security Gateway
-    |-- Zone-Based Policy Router (Untrust -> DMZ, Untrust -> Trust 인입 식별)
-    |-- Stateful Session Engine (State Table 선행 조회 -> 기존 세션 자동 통과)
-    |-- Rulebase Policy Engine (Top-Down 순차적 ACL 매칭 -> Allow / Deny 판정)
-    `-- DPI & Threat Engine (L7 App-ID, IPS, Antivirus, SSL Decryption)
-|-- DMZ Zone (외부 공개 서버군: Web, DNS, Mail)
-`-- Trust Zone (사내 내부 업무망 / 데이터베이스 서버군)
+[방화벽 보안 아키텍처]
+  │
+  ├─ [보안 존 구획부 (Security Zone)] (신뢰 수준 분리)
+  │     ├─ Untrust Zone (외부 공중망 및 인터넷)
+  │     ├─ DMZ Zone (외부 공개 서비스 서버군: Web/Mail/DNS)
+  │     └─ Trust Zone (사내 업무망 및 핵심 데이터베이스)
+  │
+  ├─ [상태 기반 엔진 (Stateful Engine)] (세션 문맥 추적)
+  │     ├─ 상태 테이블 (5-Tuple 활성 세션 상태 및 타이머 관리)
+  │     └─ 회신 트래픽 패스트패스 (기존 세션 패킷 즉시 통과)
+  │
+  └─ [차세대 심층 검사 엔진 (NGFW Engine)] (L7 심층 방어)
+        ├─ 정책 룰베이스 (Top-Down 순차적 ACL 매칭 판정)
+        ├─ DPI & App-ID (포트 독립적 L7 애플리케이션 식별)
+        └─ 통합 위협 방어 (SSL 복호화, IPS 연동, 악성코드 차단)
 ```
 
-선의 의미: 계층 및 외부 Untrust 패킷이 세션 테이블 조회와 Top-Down ACL 매칭 및 DPI 검사를 거쳐 DMZ 또는 내부 Trust로 전달되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **보안 존 (Security Zone)**| 신뢰 수준별 네트워크 구획화(**Trust 업무망, Untrust 외부망, DMZ 공개망**) | 존 기반 정책 |
-| **정책 규칙 베이스 (ACL)**| 상단부터 순차적으로 평가되는 **패킷 허용/차단/로깅 규칙 집합 (Top-Down 순차 평가)** | 순차 룰 매칭 |
-| **상태 테이블 (State Table)**| 활성 세션의 **5-튜플 및 TCP 연결 상태를 메모리에 유지하여 회신 트래픽 자동 통과** | 메모리 상주 |
-| **DPI 위협 엔진 (NGFW)** | L7 애플리케이션 제어(**App-ID**), IPS 시그니처 검사, 안티바이러스 및 SSL 복호화 | 심층 보안 검사 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 보안 존 (Security Zone) | 신뢰 수준별 네트워크 구획화(Trust 업무망, Untrust 외부망, DMZ 공개망) |
+| 상태 테이블 (State Table) | 활성 세션의 5-튜플 및 TCP 연결 상태를 유지하여 회신 트래픽 자동 통과 |
+| 정책 규칙 베이스 (ACL) | 상단부터 순차적으로 평가되는 패킷 허용/차단/로깅 규칙 집합(Top-Down 매칭) |
+| DPI 위협 엔진 (NGFW) | L7 애플리케이션 제어(App-ID), IPS 시그니처 검사, SSL 복호화 및 위협 차단 |
 
 #### 한줄 요약
 - 상태 테이블은 규칙 베이스 앞에 놓인 세션 사본 계층이라 이미 허용된 연결의 회신 패킷은 Top-Down ACL 전수 평가를 건너뛰고, 세션 첫 패킷만 DPI까지 이르는 온전한 검사 비용을 치른다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "5G 종단간 네트워크 슬라이싱 (5G Network Slicing)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 39
@@ -59,23 +59,35 @@ extra:
 </details>
 
 ```text
-[5G 네트워크 슬라이싱 구성]
-|-- CSMF / NSMF
-|-- NSSMF
-|-- NSSF
-|-- RAN 슬라이싱
-`-- 전송망 슬라이싱
+[5G 종단간 네트워크 슬라이싱 구조]
+  │
+  ├─ [오케스트레이션 계층] ── Orchestration & Management
+  │     ├─ CSMF / NSMF (B2B SLA 접수 및 E2E 슬라이스 생성)
+  │     ├─ NSSMF (RAN, Transport, Core 도메인별 서브넷 제어)
+  │     └─ NSSF (S-NSSAI 분석 기반 최적 슬라이스/AMF 선택)
+  │
+  ├─ [무선 접속망 슬라이싱] ── RAN Slicing (gNB)
+  │     ├─ PRB 자원 분할 (하드 슬라이싱 물리 자원 블록 할당)
+  │     └─ 가변 뉴머롤로지 (SCS 15/30/60kHz 스케줄링 격리)
+  │
+  ├─ [전송망 슬라이싱] ── Transport Slicing
+  │     ├─ FlexE 타임슬롯 분할 (TDM 기반 물리적 하드 격리)
+  │     └─ SRv6 터널링 (Segment Routing 기반 QoS 경로 보장)
+  │
+  └─ [코어망 슬라이싱] ── 5G Core Slicing
+        ├─ 제어 평면 공유/전용 (AMF/SMF 인스턴스 격리)
+        └─ 사용자 평면 분기 (eMBB 대용량 UPF / URLLC 로컬 UPF)
 ```
 
-선의 의미: 계층 및 E2E 오케스트레이터가 도메인별 NSSMF를 통해 RAN, Transport, Core 인프라를 서비스별로 매핑하여 종단간 가상 파이프라인을 완성하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **CSMF / NSMF** | B2B 서비스 SLA를 접수하여 **E2E 네트워크 슬라이스 인스턴스(NSI)를 총괄 생성 및 수명주기 관리** | E2E 오케스트레이터 |
-| **NSSMF (도메인 관리자)**| RAN, Transport, Core 각 도메인별 **하위 서브넷 슬라이스(NSSI)의 자원 할당 및 설정 제어** | 도메인별 관리자 |
-| **NSSF (슬라이스 선택)** | 단말 접속 시 **S-NSSAI를 분석하여 최적의 AMF 인스턴스 및 슬라이스 세트 선택 매핑** | 5G Core NF |
-| **RAN 슬라이싱 (gNB)** | 무선 물리 자원 블록(PRB)을 **슬라이스별로 전용 할당하거나 가변 뉴머롤로지로 스케줄링** | 무선 자원 격리 |
-| **전송망 슬라이싱** | **FlexE(Flexible Ethernet) 타임슬롯 분할 및 SRv6 기반 QoS 보장 터널링** | 전송망 분할 |
+| 구성요소 | 책임 |
+|:---|:---|
+| CSMF / NSMF | B2B 서비스 SLA 기반 **E2E 네트워크 슬라이스(NSI) 총괄 생성·관리** |
+| NSSMF (도메인 관리자) | RAN, Transport, Core 각 도메인 **하위 슬라이스(NSSI) 자원 제어** |
+| NSSF (슬라이스 선택) | 단말 접속 시 **S-NSSAI 분석 기반 최적 AMF 및 슬라이스 매핑** |
+| RAN 슬라이싱 (gNB) | 무선 물리 자원 블록(PRB)의 **슬라이스별 전용 할당 및 격리** |
+| 전송망 슬라이싱 | **FlexE 타임슬롯 물리 분할 및 SRv6 기반 QoS 보장 터널링** |
 
 #### 한줄 요약
 - NSMF가 SLA 한 건을 도메인별 NSSMF 요청으로 분해해 RAN·전송망·코어를 따로 설정하던 일을 대신하고, NSSF는 단말이 접속하는 순간 어느 슬라이스와 AMF로 보낼지의 판단을 절차 안으로 끌어들인다.

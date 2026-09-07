@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "차세대 웹 전송 프로토콜 비교 : HTTP/2 vs HTTP/3"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 108
@@ -58,26 +58,28 @@ extra:
 </details>
 
 ```text
-[HTTP/2 vs HTTP/3 프로토콜 스택 비교 구조]
-|-- HTTP/2 Protocol Stack (RFC 9113)
-|   |-- HTTP/2 Binary Framing & HPACK Header Compression
-|   |-- TLS 1.2 / 1.3 (별도 암호화 핸드셰이크)
-|   `-- TCP (단일 연결 순차 바이트 스트림 -> 1개 손실 시 HoL 발생)
-`-- HTTP/3 Protocol Stack (RFC 9114)
-    |-- HTTP/3 Frames & QPACK Header Compression
-    |-- QUIC Core (RFC 9000: TLS 1.3 내장 암호화, 독립 스트림 프레이밍, Connection ID)
-    `-- UDP (L4 비연결형 데이터그램)
+[HTTP/2 vs HTTP/3 스택]
+  │
+  ├─ [HTTP/2 스택 (RFC 9113)]
+  │    ├─ HTTP/2 프레이밍·HPACK
+  │    ├─ TLS 1.2 / 1.3 계층
+  │    └─ TCP 계층 (HoL 취약)
+  │
+  └─ [HTTP/3 스택 (RFC 9114)]
+       ├─ HTTP/3 프레임·QPACK
+       ├─ QUIC 코어 (TLS 1.3 내장)
+       └─ UDP 계층 (독립 스트림)
 ```
 
-선의 의미: HTTP/2는 TCP 상에서 TLS와 다중화가 개별 계층으로 적재되나 HTTP/3는 UDP 상에서 QUIC이 스트림 다중화, 혼잡 제어, TLS 1.3 보안을 단일 계층으로 통합한 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | HTTP/2 (RFC 9113) | HTTP/3 (RFC 9114) | 비고 |
-|:---|:---|:---|:---|
-| 전송 계층 프로토콜 | **TCP** | **UDP** | L4 전송 |
-| 연결 및 보안 계층 | TCP·별도 TLS | **QUIC·TLS 1.3** | 연결 지연 |
-| 다중화 구현 방식 | TCP 논리 프레임 | **QUIC 독립 스트림** | Multiplexing |
-| 헤더 압축 알고리즘 | **HPACK** | **QPACK** | Header Compression |
-| 연결 식별자 | 4-Tuple | **Connection ID** | Mobility Support |
+| 구성요소 | 책임 |
+|:---|:---|
+| **전송 계층 프로토콜** | HTTP/2의 **TCP 신뢰성 제어** vs HTTP/3의 **UDP 기반 독립 데이터그램** |
+| **연결 및 보안 계층** | HTTP/2의 **TCP+TLS 개별 핸드셰이크** vs HTTP/3의 **QUIC+TLS 1.3 통합 0-RTT** |
+| **다중화 구현 방식** | HTTP/2의 **단일 연결 논리 분할** vs HTTP/3의 **QUIC 독립 스트림 분리** |
+| **헤더 압축 알고리즘** | HTTP/2의 **동기식 HPACK** vs HTTP/3의 **비동기 순서 역전 지원 QPACK** |
+| **연결 식별자** | HTTP/2의 **IP 4-Tuple 바인딩** vs HTTP/3의 **Connection ID 기반 마이그레이션** |
 
 #### 한줄 요약
 - QUIC이 전송·암호화·다중화를 한 계층에 합쳐 TCP와 TLS가 따로 치르던 핸드셰이크를 하나로 묶으므로, 계층 분리의 대가였던 연결 수립 왕복이 사라진다.

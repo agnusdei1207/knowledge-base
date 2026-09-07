@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "네트워크 기능 가상화 : NFV (Network Functions Virtualization)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 57
@@ -58,23 +58,33 @@ extra:
 </details>
 
 ```text
-[NFV 구성]
-|-- NFVO
-|-- VNFM
-|-- VIM
-|-- VNF / CNF
-`-- NFVI
+[ETSI NFV 표준 아키텍처]
+  │
+  ├─ [MANO 오케스트레이션] ── Management & Orchestration
+  │     ├─ NFVO (NFV Orchestrator, E2E 서비스 조율 및 자원 인가)
+  │     ├─ VNFM (VNF Manager, 개별 VNF 생애주기 LCM 제어)
+  │     └─ VIM (Virtualised Infrastructure Manager, 자원 할당)
+  │
+  ├─ [가상 네트워크 기능] ── VNF / CNF Layer
+  │     ├─ VNF 인스턴스 (vFirewall, vRouter, vUPF 가상 머신)
+  │     ├─ CNF 클라우드 네이티브 (마이크로서비스 컨테이너)
+  │     └─ SFC 체이닝 (Service Function Chaining 경로 조향)
+  │
+  └─ [가상화 인프라 계층] ── NFVI (NFV Infrastructure)
+        ├─ 하드웨어 자원 (COTS x86/ARM 서버, 스토리지, 고속 NIC)
+        ├─ 가상화 계층 (KVM, ESXi 하이퍼바이저 / K8s 컨테이너 런타임)
+        └─ 하드웨어 가속 (DPDK 커널 우회 및 SR-IOV 직접 매핑)
 ```
 
-선의 의미: MANO 계층(NFVO/VNFM/VIM)이 NFVI 물리/가상 자원을 제어하여 VNF를 인스턴스화하고 SFC로 연계하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **NFVO (오케스트레이터)** | E2E 네트워크 서비스(NS) 템플릿(NSD) 해석 및 **전역 가상 자원 인가·조율** | MANO 계층 |
-| **VNFM (VNF 매니저)** | 개별 VNF의 인스턴스화, 구성 갱신, 스케일아웃, 자가 치유(LCM) | VNF 수명주기 관리 |
-| **VIM (인프라 매니저)** | 물리 하드웨어(NFVI) 자원 가상화 풀 관리 및 **VM/컨테이너 자원 할당** | OpenStack, K8s |
-| **VNF / CNF** | 방화벽, vEPC, vUPF, vBRAS 등 소프트웨어로 구현된 네트워크 기능 | 가상 네트워크 기능 |
-| **NFVI (인프라)** | COTS x86 서버 하드웨어, 고속 이더넷 패브릭 및 가상화 계층 | 물리/가상 인프라 |
+| 구성요소 | 책임 |
+|:---|:---|
+| NFVO (오케스트레이터) | E2E 네트워크 서비스(NS) 조율 및 **전역 가상 자원 인가·할당 총괄** |
+| VNFM (VNF 매니저) | 개별 VNF 인스턴스화, **스케일아웃 및 자가 치유(LCM) 수행** |
+| VIM (인프라 매니저) | NFVI 물리/가상 풀 관리 및 **VM·컨테이너 컴퓨트/네트워크 자원 할당** |
+| VNF / CNF | 방화벽, vEPC, vUPF 등 **소프트웨어로 구현된 네트워크 기능 엔티티** |
+| NFVI (가상화 인프라) | COTS 서버 하드웨어, 고속 패브릭 및 **하이퍼바이저/컨테이너 가상화 계층** |
 
 #### 한줄 요약
 - VNF가 전용 하드웨어 장비의 자리를 소프트웨어로 채우고, MANO 3요소가 장비를 새로 들여놓던 절차를 자원 예약과 인스턴스화로 대신한다.

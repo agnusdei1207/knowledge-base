@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "차량용 이더넷 SOA 미들웨어 : SOME/IP 및 SOME/IP-SD"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 82
@@ -59,16 +59,17 @@ extra:
 
 ```text
 [SOME/IP 통신 체계]
-|-- 클라이언트 ECU
-|-- 차량용 이더넷
-`-- 서버 ECU
-    |-- SOME/IP Core
-    |-- SOME/IP-SD
-    |-- E2E Protection
-    `-- AUTOSAR RTE
+  ├── [클라이언트] ───────── [클라이언트 ECU (RTE)]
+  │                           │
+  ├── [전송 매체] ───────── [차량용 이더넷(UDP/TCP)]
+  │                           │
+  └── [서버 스택] ───────── [서버 ECU]
+        ├── [메시징 코어] ─ [SOME/IP Core]
+        ├── [동적 탐색] ─── [SOME/IP-SD]
+        └── [기능 안전] ─── [E2E Protection]
 ```
 
-선의 의미: Client와 Server가 SOME/IP-SD를 통해 서비스 위치를 파악하고 구독을 수립한 후 L4 UDP/TCP 상에서 SOME/IP 메시지를 송수신하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

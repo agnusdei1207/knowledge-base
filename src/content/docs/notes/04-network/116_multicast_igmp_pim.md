@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "IP 멀티캐스트 라우팅 및 그룹 제어 : IGMP 및 PIM"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 116
@@ -58,15 +58,21 @@ extra:
 </details>
 
 ```text
-IP Multicast
-|-- IGMP
-|-- PIM Router
-|-- RP
-|-- RPF Engine
-`-- IGMP Snooping
+[IP 멀티캐스트 아키텍처]
+  │
+  ├─ [호스트 접속 계층]
+  │    ├─ IGMP 프로토콜 (v1/v2/v3)
+  │    └─ L2 IGMP Snooping 스위치
+  │
+  ├─ [코어 라우팅 계층: PIM]
+  │    ├─ PIM 라우터 (SM/SSM)
+  │    └─ 랑데부 포인트 (RP 집결점)
+  │
+  └─ [루프 방어 계층]
+       └─ RPF 검증 엔진 (FIB 대조)
 ```
 
-선의 의미: 송신원이 보낸 단일 패킷이 PIM 코어망의 RPF 검증과 분배 트리를 거쳐 L2 스위치의 IGMP Snooping을 통해 실제 가입 단말로만 선택 복제되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

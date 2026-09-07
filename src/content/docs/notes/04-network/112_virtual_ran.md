@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "클라우드 네이티브 기지국 가상화 : vRAN"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 112
@@ -58,17 +58,25 @@ extra:
 </details>
 
 ```text
-vRAN
-|-- COTS Server
-|   |-- Accelerator
-|   `-- Real-Time Platform
-|       |-- DPDK and SR-IOV
-|       |-- vCU
-|       `-- vDU
-`-- RU
+[vRAN 아키텍처]
+  │
+  ├─ [하드웨어 계층]
+  │    ├─ COTS x86/ARM 서버
+  │    └─ 하드웨어 가속기 (FPGA/ASIC)
+  │
+  ├─ [실시간 가상화 플랫폼]
+  │    ├─ PREEMPT_RT / K8s
+  │    └─ DPDK & SR-IOV (커널 우회)
+  │
+  ├─ [가상 기지국 소프트웨어]
+  │    ├─ vCU (RRC / PDCP CNF)
+  │    └─ vDU (RLC / MAC / High-PHY)
+  │
+  └─ [무선 종단]
+       └─ RU (Open Fronthaul eCPRI)
 ```
 
-선의 의미: 범용 x86 하드웨어 위에 RTOS 및 K8s 플랫폼이 탑재되어 vCU와 vDU가 컨테이너로 격리 구동되고 가속기를 통해 RU와 초저지연 통신을 수행하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

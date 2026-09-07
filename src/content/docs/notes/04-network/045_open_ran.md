@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "개방형 무선 접속망 : 오픈랜 (O-RAN)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 45
@@ -59,16 +59,26 @@ extra:
 </details>
 
 ```text
-[O-RAN]
-|-- SMO·Non-RT RIC
-|-- Near-RT RIC
-`-- RAN 노드
-    |-- O-CU
-    |-- O-DU
-    `-- O-RU
+[O-RAN 개방형 무선망 아키텍처]
+  │
+  ├─ [오케스트레이션 및 지능 계층] ── SMO & Non-RT RIC
+  │     ├─ SMO (Service Management & Orchestration)
+  │     ├─ Non-RT RIC (장기 정책 및 AI/ML rApp 구동)
+  │     └─ A1 인터페이스 (Near-RT RIC 정책 전달)
+  │
+  ├─ [준실시간 지능 제어기] ── Near-RT RIC
+  │     ├─ 준실시간 제어 (10ms~1s 무선 자원 최적화)
+  │     ├─ xApp 마이크로서비스 (핸드오버/부하분산 앱)
+  │     └─ E2 인터페이스 (O-CU/DU 제어 연동)
+  │
+  └─ [분할 무선 기지국 노드] ── Disaggregated RAN Nodes
+        ├─ O-CU (중앙 유닛, RRC/PDCP 프로토콜 처리)
+        ├─ O-DU (분산 유닛, RLC/MAC/High-PHY 가상화)
+        ├─ 개방형 프론트홀 (Option 7-2x, eCPRI 기반)
+        └─ O-RU (무선 유닛, Low-PHY/RF 및 안테나 방사)
 ```
 
-선의 의미: 계층 및 SMO에서 A1으로 정책을 하달하고 Near-RT RIC이 E2로 O-CU/DU를 제어하며 7-2x 프론트홀로 O-RU에 연결되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 정의 네트워킹 : SDN (Software-Defined Networking)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 56
@@ -59,23 +59,31 @@ extra:
 </details>
 
 ```text
-[SDN 구성]
-|-- 응용 계층
-|-- 노스바운드 API
-|-- 제어 계층
-|-- 사우스바운드 API
-`-- 인프라 계층
+[SDN 3계층 아키텍처]
+  │
+  ├─ [응용 계층] ── Application Layer
+  │     ├─ 네트워크 비즈니스 앱 (트래픽 엔지니어링, 보안 모니터링)
+  │     └─ 노스바운드 API (NBI: RESTful, gRPC 프로그램 인터페이스)
+  │
+  ├─ [제어 계층] ── Control Layer (Network OS)
+  │     ├─ 중앙 집중 컨트롤러 (ONOS, OpenDaylight, 전역 토폴로지)
+  │     ├─ 경로 연산 및 흐름 제어 (최적 플로우 규칙 산출)
+  │     └─ 사우스바운드 API (SBI: OpenFlow, P4Runtime, NETCONF)
+  │
+  └─ [인프라 계층] ── Data Plane Infrastructure
+        ├─ 플로우 테이블 (Flow Table, TCAM 기반 라인 레이트 매칭)
+        └─ 화이트박스 스위치 (Open vSwitch, COTS 하드웨어 스위치)
 ```
 
-선의 의미: 상위 비즈니스 앱 요구사항이 NBI를 통해 제어 계층으로 전달되고 계산된 흐름 규칙이 SBI를 통해 인프라 스위치로 하향 주입되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 계층 | 주요 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|:---|
-| 응용 계층 (Application) | 트래픽 엔지니어링, 보안 모니터링, 가상 네트워크 | 비즈니스 SLA 정책 정의 및 NBI REST API 호출 | 비즈니스 로직 |
-| 노스바운드 API (NBI) | RESTful API, gRPC, Java SDK | 응용 프로그램과 제어 계층 간의 추상화 인터페이스 제공 | 개방형 프로그래밍 |
-| 제어 계층 (Controller) | ONOS, OpenDaylight, Ryu, 클라우드 컨트롤러 | 전역 토폴로지 관리, 최적 경로 연산, 흐름 규칙 생성 | Network OS |
-| 사우스바운드 API (SBI) | **OpenFlow**, P4 Runtime, NETCONF, gNMI | 컨트롤러의 흐름 규칙을 스위치 하드웨어 TCAM에 프로그래밍 | 장치 제어 표준 |
-| 인프라 계층 (Data Plane) | Open vSwitch(OVS), 화이트박스 ASIC 스위치 | Flow Table 매칭에 따른 라인 레이트 고속 패킷 포워딩 | 고속 패킷 전달 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 응용 계층 (Application) | 비즈니스 SLA 정책 정의 및 **NBI API 호출 제어** |
+| 노스바운드 API (NBI) | 응용과 컨트롤러 간 **프로그래머블 REST/gRPC 추상화 인터페이스 제공** |
+| 제어 계층 (Controller) | 전역 토폴로지 관리, **최적 경로 연산 및 플로우 규칙 생성** |
+| 사우스바운드 API (SBI) | 컨트롤러 플로우 규칙을 **스위치 하드웨어(TCAM)에 하향 프로그래밍** |
+| 인프라 계층 (Data Plane) | Flow Table 매칭 기반 **라인 레이트 고속 패킷 포워딩 수행** |
 
 #### 한줄 요약
 - 컨트롤러가 스위치마다 흩어져 있던 경로 계산을 걷어와 전역 토폴로지 하나로 대신 풀고 NBI와 SBI가 장비별 개별 설정을 표준 호출로 바꾸므로, 응용은 규칙이 어느 하드웨어 TCAM에 실리는지 알 필요가 없다.

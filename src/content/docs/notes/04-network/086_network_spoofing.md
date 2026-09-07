@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "네트워크 식별자 위변조 방어 : ARP, IP, DNS 스푸핑"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 86
@@ -59,16 +59,15 @@ extra:
 </details>
 
 ```text
-[계층별 스푸핑 공격 및 방어 아키텍처]
-|-- L7 Application Layer (DNS Spoofing / Cache Poisoning)
-|   `-- Defense: DNSSEC (공개키 전자서명 RRSIG 검증, 신뢰 체인 DS/DNSKEY)
-|-- L3 Network Layer (IP Spoofing / DRDoS 반사 공격)
-|   `-- Defense: uRPF (Strict/Loose 역경로 검사) + BCP 38 (Ingress Filtering)
-`-- L2 Data Link Layer (ARP Spoofing / Gratuitous ARP 변조)
-    `-- Defense: DAI (Dynamic ARP Inspection) + DHCP Snooping Binding Table
+[네트워크 스푸핑 방어 체계]
+  ├── [L7 응용 계층] ─────── [DNSSEC 검증]
+  │                           │
+  ├── [L3 네트워크 계층] ─── [uRPF / BCP 38 필터링]
+  │                           │
+  └── [L2 데이터링크 계층] ─ [DAI / DHCP Snooping]
 ```
 
-선의 의미: L2부터 L7까지 발생하는 계층별 식별자 위조 공격을 각 계층의 전용 검증 엔진(DAI, uRPF, DNSSEC)으로 차단하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "인터넷 경로 탈취 방어 및 라우팅 보안 : BGP 하이재킹 방지"
-date: "2026-09-06T00:10:10+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 110
@@ -58,15 +58,22 @@ extra:
 </details>
 
 ```text
-[BGP 경로 검증 정적 구성]
-|-- RIR Trust Anchor
-|-- RPKI Validator
-|-- RTR 프로토콜
-|-- ROV 필터 엔진
-`-- BGPsec
+[BGP 경로 검증 체계]
+  │
+  ├─ [공인 인증 계층]
+  │    ├─ RIR Trust Anchor
+  │    └─ ROA 암호 서명 객체
+  │
+  ├─ [검증 및 전송 평면]
+  │    ├─ RPKI Validator (VRP 생성)
+  │    └─ RTR 프로토콜 (RFC 8210)
+  │
+  └─ [라우터 필터 평면]
+       ├─ ROV 필터 엔진 (Drop Invalid)
+       └─ BGPsec (AS-Path 검증)
 ```
 
-선의 의미: RIR 저장소의 ROA 데이터가 로컬 Validator에서 검증되어 RTR 프로토콜을 통해 보더 라우터로 전달되고 라우터가 Invalid BGP 광고를 즉시 차단하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

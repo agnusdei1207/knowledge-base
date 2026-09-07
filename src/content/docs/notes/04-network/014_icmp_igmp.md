@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "ICMP•IGMP (ICMP IGMP)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 14
@@ -59,21 +59,28 @@ extra:
 </details>
 
 ```text
-[ICMP·IGMP 구성]
-|-- ICMP 헤더
-|-- IGMP Querier
-|-- IGMP Snooping
-`-- IGMPv1 / v2 / v3
+[ICMP 및 IGMP 제어 프로토콜 아키텍처]
+  │
+  ├─ [ICMP 제어 및 진단 체계] (오류 피드백 & 상태 진단)
+  │     ├─ 오류 보고 메시지 (Type 3 도달불가, Type 11 시간초과)
+  │     ├─ 진단 질의/응답 메시지 (Type 8/0 Echo Ping, Traceroute)
+  │     └─ 경로 MTU 탐색 PMTUD (Type 3 Code 4 단편화 필요)
+  │
+  └─ [IGMP 멀티캐스트 제어 체계] (로컬 서브넷 그룹 관리)
+        ├─ IGMP 라우터 (Querier: 주기적 Membership Query 발송)
+        ├─ 호스트 멤버십 (Report 가입 보고, Leave 신속 탈퇴)
+        ├─ IGMP Snooping (L2 스위치 감청 및 선별 포워딩)
+        └─ IGMPv3 확장 (Source-Specific Multicast SSM 지원)
 ```
 
-선의 의미: 계층 및 ICMP는 라우터가 발신지로 오류를 반환하고, IGMP는 호스트와 라우터 간 멤버십을 L2 스위치가 감청하여 포워딩하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| ICMP 헤더 | Type(8b), Code(8b), 체크섬 및 **원래의 IP 헤더+64비트 페이로드를 포함하여 오류 보고** | IP 프로토콜 번호 1 |
-| IGMP Querier | 로컬 서브넷 내 호스트를 대상으로 **주기적 Membership Query를 발송하여 그룹 가용성 확인** | 최저 IP 라우터 선출 |
-| IGMP Snooping | L2 스위치가 **IGMP Report/Leave를 파싱하여 멀티캐스트 MAC 포워딩 테이블 구축** | L2 Flooding 방지 |
-| IGMPv1 / v2 / v3 | v1(기본 질의/보고), **v2(명시적 Leave/Fast-Leave), v3(Source Filtering / SSM 지원)** | 버전별 확장 |
+| 구성요소 | 책임 |
+|:---|:---|
+| ICMP 헤더 | Type/Code, 체크섬 및 원본 IP 헤더를 포함하여 패킷 전달 오류 보고 |
+| IGMP Querier | 로컬 서브넷 내 주기적 Query를 발송하여 멀티캐스트 활성 수신자 상태 확인 |
+| IGMP Snooping | L2 스위치가 IGMP 패킷을 감청하여 멀티캐스트 MAC 포워딩 테이블 구축 |
+| IGMPv1/v2/v3 | 기본 가입/보고, 명시적 Leave 및 송신자 필터링(SSM) 버전별 지원 |
 
 #### 한줄 요약
 - IGMP Snooping이 L2 스위치 안에 끼어들어 멤버십 메시지를 엿봄으로써, 라우터만 알던 그룹 가입 여부를 스위치가 대신 판단해 포트 단위 플러딩을 걷어낸다.

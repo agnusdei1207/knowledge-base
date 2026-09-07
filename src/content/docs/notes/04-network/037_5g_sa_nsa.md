@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "5G SA(독립형)와 NSA(비독립형) (5G SA vs NSA)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 37
@@ -59,26 +59,28 @@ extra:
 </details>
 
 ```text
-[5G NSA (Option 3x) vs 5G SA (Option 2) 아키텍처 비교]
-|-- NSA Mode (Option 3x)
-|   |-- UE -> Dual Radio (EN-DC: 4G C-Plane + 5G U-Plane)
-|   |-- 4G eNB (Master Node: S1-C 제어 신호 앵커)
-|   |-- 5G gNB (Secondary Node: S1-U 고속 데이터 포워딩)
-|   `-- 4G EPC Core (MME / SGW / PGW 레거시 하드웨어 코어)
-`-- SA Mode (Option 2)
-    |-- UE -> Single NR Radio (통합 C/U-Plane)
-    |-- 5G gNB (Standalone Node: N2 C-Plane / N3 U-Plane 직결)
-    `-- 5G 5GC Core (AMF / SMF / UPF / NSSF 클라우드 네이티브 SBA 코어)
+[5G 배치 아키텍처 비교]
+  │
+  ├─ [NSA 구조 (Option 3x)] ── Non-Standalone
+  │     ├─ 이중 무선 접속 (EN-DC, 4G+5G 듀얼 라디오)
+  │     ├─ 마스터 노드 (4G eNB 제어 평면 앵커)
+  │     ├─ 보조 노드 (5G gNB 데이터 고속 전송)
+  │     └─ 레거시 코어 (4G EPC, MME/SGW/PGW 연동)
+  │
+  └─ [SA 구조 (Option 2)] ── Standalone
+        ├─ 단일 무선 접속 (순수 5G NR 라디오 제어/데이터)
+        ├─ 독립 기지국 (5G gNB 단독, N2/N3 직결)
+        └─ 5G 코어망 (5GC, SBA 기반 AMF/SMF/UPF)
 ```
 
-선의 의미: 계층 및 NSA는 제어와 데이터가 4G 코어와 5G 기지국으로 분기되고 SA는 5G 기지국과 5GC가 직결되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | NSA (Option 3x) 역할 | SA (Option 2) 역할 |
-|:---|:---|:---|
-| **단말 (UE)** | LTE 및 5G NR 라디오를 동시 구동 (**EN-DC 이중 무선**) | **5G NR 단일 라디오로 제어/데이터 통합 송수신** |
-| **무선 접속망 (RAN)**| 4G eNB(Master) + 5G gNB(Secondary) 협력 | **5G gNB 단독 운용 (N2 제어 / N3 데이터 직결)** |
-| **코어 네트워크** | **4G EPC (MME, SGW, PGW-U/C 레거시 코어)** | **5G 5GC (AMF, SMF, UPF, NSSF 가상화 코어)** |
-| **제어 평면 앵커** | 4G LTE 무선망 및 MME (4G 앵커) | **5G New Radio 및 AMF (5G 앵커)** |
+| 구성요소 | 책임 |
+|:---|:---|
+| 사용자 단말 (UE) | NSA의 EN-DC 이중 무선 접속 및 SA의 **단일 NR 제어·데이터 통합 송수신** |
+| 무선 접속망 (RAN) | NSA의 eNB/gNB 이중 분담 및 SA의 **5G gNB 단독 직결 운용** |
+| 코어 네트워크 | NSA의 4G EPC 레거시 제어 및 SA의 **5GC SBA 기반 가상화 코어 서비스** |
+| 제어 평면 앵커 | NSA의 4G eNB/MME 기반 앵커링 및 SA의 **5G gNB/AMF 직접 제어 수행** |
 
 #### 한줄 요약
 - NSA는 EPC와 eNB가 제어 앵커를 맡고, SA는 5GC와 gNB가 제어 및 데이터를 전담한다.

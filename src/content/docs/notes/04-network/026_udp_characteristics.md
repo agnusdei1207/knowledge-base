@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "UDP 특성 및 활용 사례 (User Datagram Protocol)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 26
@@ -58,14 +58,20 @@ extra:
 </details>
 
 ```text
-[UDP 데이터그램 8바이트 고정 헤더 및 페이로드 구조]
-|-- Source Port (16-bit, 2 Bytes)
-|-- Destination Port (16-bit, 2 Bytes)
-|-- Length (16-bit, 2 Bytes)
-`-- Checksum (16-bit, 2 Bytes)
+[UDP 데이터그램 구조]
+  │
+  ├─ [고정 헤더] ── 8바이트 최소 오버헤드
+  │     ├─ 출발지 포트 Source Port (16-bit)
+  │     ├─ 목적지 포트 Destination Port (16-bit)
+  │     ├─ 전체 길이 Length (16-bit, 헤더+페이로드)
+  │     └─ 오류 검출 Checksum (16-bit, 의사헤더 결합)
+  │
+  └─ [응용 페이로드] ── Application Data
+        ├─ 메시지 경계 보존 (No-Stream, 단일 버퍼)
+        └─ 응용 계층 제어 (신뢰성/혼잡제어 직접 구현)
 ```
 
-선의 의미: 계층 및 16비트 포트 번호 2개, 길이, 체크섬으로 구성된 8바이트 헤더 뒤에 응용 데이터가 캡슐화되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

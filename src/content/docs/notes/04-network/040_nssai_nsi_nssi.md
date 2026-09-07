@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "5G 네트워크 슬라이스 식별 체계 : NSSAI•NSI•NSSI"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 40
@@ -60,21 +60,30 @@ extra:
 </details>
 
 ```text
-[5G 슬라이스 식별 체계]
-|-- S-NSSAI
-|-- AMF / NSSF
-|-- NSI
-`-- NSSI
+[5G 슬라이스 식별 및 관리 체계]
+  │
+  ├─ [단말 요청 식별자] ── NSSAI Parameters
+  │     ├─ SST Slice/Service Type (8-bit, 서비스 유형 식별)
+  │     └─ SD Slice Differentiator (24-bit, 테넌트 분별자)
+  │
+  ├─ [E2E 슬라이스 인스턴스] ── NSI (End-to-End Slice)
+  │     ├─ SLA 보장 가상망 (단말부터 데이터망까지 E2E 결합)
+  │     └─ NSMF 총괄 관리 (수명주기 오케스트레이션)
+  │
+  └─ [도메인별 서브넷 인스턴스] ── NSSI (Subnet Slices)
+        ├─ RAN NSSI (무선 기지국 자원 및 가변 슬롯)
+        ├─ Transport NSSI (FlexE 및 SRv6 전송 터널)
+        └─ Core NSSI (AMF/SMF/UPF 가상화 코어 자원)
 ```
 
-선의 의미: 계층 및 단말의 S-NSSAI 요청을 NSSF가 검증하고 NSMF/NSSMF가 NSI와 하위 도메인 NSSI를 조립하여 바인딩하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **S-NSSAI** | 단말이 요청하는 SST(8비트 서비스 유형) + SD(24비트 테넌트 식별자) 32비트 식별자 | 단말당 최대 8개 |
-| **AMF / NSSF** | 단말의 S-NSSAI를 수신하여 가입자 UDM 정보를 대조하고 최적의 NSI 인스턴스 선택 매핑 | 슬라이스 선택 NF |
-| **NSI (E2E 인스턴스)** | RAN, Transport, Core 도메인을 엮어 단말부터 데이터망까지 종단간 개통된 완전한 가상 네트워크| E2E 슬라이스 실체 |
-| **NSSI (서브넷 인스턴스)**| 무선망, 전송망, 코어망 각 도메인에서 독립적으로 생성·관리되는 하위 자원 파티션 조각 | 도메인별 단위 블록 |
+| 구성요소 | 책임 |
+|:---|:---|
+| S-NSSAI (슬라이스 식별자) | 단말 요청 서비스(SST 8비트) 및 테넌트(SD 24비트) **32비트 글로벌 식별** |
+| AMF / NSSF (선택 제어) | 단말 S-NSSAI와 UDM 대조 기반 **최적 NSI 인스턴스 선택 매핑** |
+| NSI (E2E 슬라이스) | RAN, Transport, Core 도메인을 결합한 **종단간 가상 네트워크 완성체** |
+| NSSI (서브넷 인스턴스) | 무선·전송·코어 각 도메인별 **독립 생성·관리되는 하위 자원 조각** |
 
 #### 한줄 요약
 - NSSI를 도메인 단위 부품으로 떼어 두었기에 슬라이스마다 코어망을 새로 세우지 않고 공용 서브넷을 재사용할 수 있고, 단말은 32비트 S-NSSAI 하나만 실어 보내 그 조립 결과인 NSI를 지목한다.

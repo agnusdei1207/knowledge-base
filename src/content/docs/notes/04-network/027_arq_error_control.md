@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "ARQ 오류 제어 (ARQ Error Control)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 27
@@ -58,14 +58,25 @@ extra:
 </details>
 
 ```text
-[ARQ 오류 제어 파이프라인 및 송수신 윈도우 구조]
-|-- 송신 윈도우 (미확인 프레임 관리)
-|-- 수신 윈도우 (비순서 프레임 버퍼링)
-|-- 순서 번호 (중복·순서 식별)
-`-- 재전송 타이머 (ACK 대기·재전송)
+[ARQ 오류 제어 아키텍처]
+  │
+  ├─ [송신 측 제어부] ── Sender Control
+  │     ├─ 순서 번호 부여 Sequence Number (중복/역전 방지)
+  │     ├─ 송신 윈도우 Sender Window (파이프라인 미확인 큐)
+  │     └─ 재전송 타이머 RTO Timer (ACK 타임아웃 감지)
+  │
+  ├─ [수신 측 제어부] ── Receiver Control
+  │     ├─ 오류 검출 Checksum / CRC (비트 오류 무결성 검증)
+  │     ├─ 수신 윈도우 Receiver Window (순서 정렬 및 버퍼링)
+  │     └─ 피드백 응답 ACK / NAK (누적 또는 선택적 응답)
+  │
+  └─ [ARQ 운용 방식] ── Operation Modes
+        ├─ 정지-대기 Stop-and-Wait (W=1 단순 제어)
+        ├─ 연속적 재전송 Go-Back-N (수신버퍼 1, 오류 이후 일괄 재전송)
+        └─ 선택적 재전송 Selective Repeat (수신버퍼 N, 손실 프레임 개별 재전송)
 ```
 
-선의 의미: 계층 및 송신단에서 전송된 프레임의 무결성을 수신단이 검증하고 피드백을 전달하여 윈도우를 전진시키는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "STP•RSTP 루프 방지 (Spanning Tree Protocol)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 17
@@ -58,27 +58,33 @@ extra:
 </details>
 
 ```text
-[STP / RSTP 무루프 활성 트리 토폴로지 구조]
-|-- Root Bridge (최저 Bridge ID 보유 스위치, 모든 포트 DP Forwarding)
-|   |-- Designated Port 1 (DP: Segment A 포워딩)
-|   `-- Designated Port 2 (DP: Segment B 포워딩)
-|-- Non-Root Switch A
-|   |-- Root Port (RP: 루트 브리지로 향하는 최저 비용 포트, Forwarding)
-|   `-- Designated Port (DP: Segment C 포워딩)
-`-- Non-Root Switch B
-    |-- Root Port (RP: 루트 브리지로 향하는 포트, Forwarding)
-    `-- Alternate Port (AP: 루프 방지를 위해 논리 차단 Discarding/Blocking)
+[STP/RSTP 무루프 활성 트리 아키텍처]
+  │
+  ├─ [루트 브리지 (Root Bridge)] (트리의 기준점)
+  │     ├─ 최저 BID 보유 스위치 (Priority + MAC 기준 선출)
+  │     └─ 모든 활성 포트 지정 포트화 (DP Forwarding)
+  │
+  ├─ [비루트 스위치 (Non-Root Switch)] (경로 결정)
+  │     ├─ 루트 포트 RP (루트 브리지 도달 최단 비용 포트)
+  │     └─ 지정 포트 DP (해당 세그먼트 대표 포워딩 포트)
+  │
+  ├─ [루프 차단 격리 포트] (Loop Prevention)
+  │     └─ 대체 포트 AP (Alternate Port, 논리 차단 Discarding/Blocking)
+  │
+  └─ [BPDU 제어 및 수렴 엔진] (802.1D / 802.1w)
+        ├─ BPDU 교환 (2초 주기 토폴로지 동기화)
+        └─ Proposal/Agreement 핸드셰이크 (RSTP 1초 미만 고속 수렴)
 ```
 
-선의 의미: 계층 및 루트 브리지로부터 BPDU가 전파되어 RP, DP는 활성화되고 잉여 링크의 AP는 차단되어 루프가 제거되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **루트 브리지 (Root)** | 전체 L2 브로드캐스트 도메인의 기준점이 되는 **최상위 스위치로 모든 활성 포트가 지정 포트(DP)** | 최저 BID 선출 |
-| **루트 포트 (RP)** | 비루트 스위치에서 **루트 브리지로 향하는 최소 누적 경로 비용을 가진 유일한 수신 포트** | Forwarding 상태 |
-| **지정 포트 (DP)** | 각 물리 링크 세그먼트마다 **루트 도달 비용이 가장 낮은 스위치의 프레임 송출 포트** | Forwarding 상태 |
-| **대체 포트 (AP)** | RP나 DP로 선출되지 못하고 **루프 방지를 위해 프레임을 차단하고 대기하는 예비 백업 포트** | Discarding / Blocking |
-| **BPDU 프레임** | 루트 ID, 송신자 BID, **경로 비용, 포트 ID를 담아 2초 주기로 멀티캐스트 송출하는 제어 PDU** | 802.1D / 802.1w |
+| 구성요소 | 책임 |
+|:---|:---|
+| 루트 브리지 (Root) | 전체 L2 브로드캐스트 도메인의 최상위 기준점 역할 및 모든 포트 지정 포트화 |
+| 루트 포트 (RP) | 비루트 스위치에서 루트 브리지로 향하는 최소 비용 수신 포트 |
+| 지정 포트 (DP) | 각 물리 세그먼트마다 루트 도달 비용이 가장 낮은 스위치의 프레임 송출 포트 |
+| 대체 포트 (AP) | 루프 방지를 위해 프레임을 차단(Discarding/Blocking)하고 대기하는 예비 포트 |
+| BPDU 프레임 | 루트 ID, 송신자 BID, 경로 비용을 담아 2초 주기로 교환하는 토폴로지 제어 PDU |
 
 #### 한줄 요약
 - 대체 포트는 물리적으로 살아 있는 잉여 링크 앞에 논리 차단을 끼워 넣은 상태라, 케이블을 걷어내지 않고도 루프를 없애면서 장애 시 즉시 승격할 예비 경로를 남긴다.

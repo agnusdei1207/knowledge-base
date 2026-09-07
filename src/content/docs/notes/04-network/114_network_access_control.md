@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "엔드포인트 무결성 및 접근 통제 : NAC"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 114
@@ -58,15 +58,25 @@ extra:
 </details>
 
 ```text
-NAC
-|-- Endpoint
-|-- NAS
-|-- Policy Server
-|-- Directory and MDM
-`-- Remediation Server
+[NAC 접근 제어 시스템]
+  │
+  ├─ [단말 계층: Endpoint]
+  │    ├─ 에이전트 / 에이전트리스
+  │    └─ 포스처 수집기 (무결성 진단)
+  │
+  ├─ [집행 계층: NAS]
+  │    ├─ L2/L3 스위치 및 무선 AP
+  │    └─ 동적 VLAN / dACL 필터
+  │
+  ├─ [정책 및 인증 평면]
+  │    ├─ 정책 서버 (AAA / RADIUS)
+  │    └─ 디렉터리 & MDM 연동
+  │
+  └─ [치료 평면]
+       └─ Remediation Server (격리망)
 ```
 
-선의 의미: 단말의 접속 요청이 스위치를 통해 NAC 정책 서버로 전달되어 포스처 평가를 거치고 결과에 따라 정상 업무망 또는 격리 치료망이 스위치 포트에 주입되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

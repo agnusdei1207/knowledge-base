@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "포트 번호•소켓 통신 (Port Socket Communication)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 29
@@ -58,14 +58,25 @@ extra:
 </details>
 
 ```text
-[서버 프로세스 소켓 생명주기 및 1:다 다중화 아키텍처]
-|-- 리슨 소켓 (신규 연결 수신)
-|-- 연결 소켓 (1:1 데이터 송수신)
-|-- 백로그 큐 (완료 연결 대기)
-`-- 파일 디스크립터 (소켓 객체 식별)
+[포트 및 소켓 아키텍처]
+  │
+  ├─ [포트 분류 체계] ── 16비트 포트 체계 (0~65535)
+  │     ├─ 잘 알려진 포트 Well-Known (0~1023, HTTP/HTTPS 등)
+  │     ├─ 등록 포트 Registered (1024~49151, 사용자/벤더 등록)
+  │     └─ 동적/사설 포트 Dynamic (49152~65535, 클라이언트 임시)
+  │
+  ├─ [소켓 추상화 엔진] ── Kernel Socket Subsystem
+  │     ├─ 5-튜플 식별자 (Proto, Src IP, Src Port, Dst IP, Dst Port)
+  │     ├─ 파일 디스크립터 FD (프로세스 내 소켓 파일 참조)
+  │     └─ 소켓 버퍼 (송수신 커널 링 버퍼)
+  │
+  └─ [서버 소켓 생명주기] ── Server Connection Handling
+        ├─ 리슨 소켓 Listen Socket (바인딩 및 SYN 연결 청취)
+        ├─ 백로그 큐 Backlog Queue (SYN/ESTABLISHED 대기 큐)
+        └─ 연결 소켓 Connected Socket (accept() 후 1:1 세션 전담)
 ```
 
-선의 의미: 계층 및 클라이언트의 SYN이 리슨 소켓에 수신되어 큐를 거쳐 accept() 호출 시 1:1 독립 연결 소켓으로 생성되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

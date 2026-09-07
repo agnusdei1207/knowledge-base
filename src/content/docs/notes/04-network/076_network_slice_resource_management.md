@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "5G/6G E2E 네트워크 슬라이스 자원 관리 : Resource Management"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 76
@@ -58,23 +58,26 @@ extra:
 </details>
 
 ```text
-[슬라이스 관리 구조]
-|-- CSMF
-`-- NSMF
-    |-- RAN NSSMF
-    |-- TN NSSMF
-    `-- CN NSSMF
+[슬라이스 관리 체계]
+  ├── [서비스 계층] ─────── [CSMF (서비스 관리)]
+  │                           │
+  ├── [총괄 관리] ───────── [NSMF (E2E 슬라이스)]
+  │                           │
+  └── [도메인 제어] ─────── [NSSMF 계층]
+        ├── [무선망] ─────── [RAN NSSMF (PRB)]
+        ├── [전송망] ─────── [TN NSSMF (SRv6/TSN)]
+        └── [코어망] ─────── [CN NSSMF (vUPF)]
 ```
 
-선의 의미: CSMF에서 접수된 고객 요구사항이 NSMF를 통해 분해되고 각 도메인 NSSMF를 거쳐 물리/가상 NSSI 자원으로 인스턴스화되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| CSMF | 서비스 요구를 **SLS 템플릿으로 변환** | 3GPP 관리 계층 |
-| **NSMF** | 수용 제어·NSI 오케스트레이션 | TS 28.531 표준 |
-| RAN NSSMF | PRB·빔·스케줄링 자원 할당 | RAN NSSI |
-| TN NSSMF | FlexE·SRv6·TSN 자원 할당 | TN NSSI |
-| CN NSSMF | vUPF·AMF·SMF 자원 배치 | CN NSSI |
+| 구성요소 | 책임 |
+|:---|:---|
+| CSMF | 고객 서비스 요구를 표준 SLS 템플릿으로 변환 관리 |
+| **NSMF** | 수용 제어 및 도메인 통합 E2E NSI 라이프사이클 오케스트레이션 |
+| RAN NSSMF | 무선 기지국의 PRB, 빔포밍 및 스케줄링 자원 할당 (RAN NSSI) |
+| TN NSSMF | 전송망의 FlexE, SRv6, TSN 대역폭 및 지연 보증 자원 할당 (TN NSSI) |
+| CN NSSMF | 5G 코어망의 vUPF, AMF, SMF 가상화 인스턴스 자원 배치 (CN NSSI) |
 
 #### 한줄 요약
 - NSMF가 고객 요구와 도메인별 NSSMF 사이에 놓여 E2E SLS를 도메인 자원 할당으로 번역하므로, 각 도메인은 전체 서비스 맥락을 알지 못해도 자기 몫만 집행한다.

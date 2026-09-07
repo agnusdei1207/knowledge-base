@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "스마트홈 IoT 표준 : Zigbee, Thread, Matter"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 54
@@ -60,19 +60,33 @@ extra:
 </details>
 
 ```text
-[스마트홈 IoT 계층]
-|-- 애플리케이션 계층
-|-- 네트워크/전송 계층
-`-- 물리/데이터링크 계층
+[스마트홈 IoT 프로토콜 아키텍처]
+  │
+  ├─ [애플리케이션 계층] ── Matter (CSA 표준)
+  │     ├─ 공통 데이터 모델 (제조사 무관 통합 명령 제어)
+  │     ├─ Multi-Admin 제어 (다중 스마트홈 플랫폼 동시 연동)
+  │     └─ 기기 보안 인증 (DAC 하드웨어 인증서 검증)
+  │
+  ├─ [네트워크 및 전송 계층] ── Transport Layer
+  │     ├─ Thread (6LoWPAN 기반 저전력 IPv6 메시)
+  │     ├─ Wi-Fi / Ethernet (대용량 고속 IP 전송)
+  │     └─ Thread Border Router (메시망-LAN 무변환 라우팅)
+  │
+  └─ [물리 및 링크 계층] ── PHY & MAC
+        ├─ IEEE 802.15.4 (2.4GHz 저전력 무선 메시)
+        ├─ IEEE 802.11 (초고속 무선 LAN)
+        └─ 레거시 Zigbee 브리지 (비-IP 기기 Matter 연동)
 ```
 
-선의 의미: 계층 및 제어 단말이 Matter 공통 프로토콜을 통해 Wi-Fi 기기, Matter 브리지 경유 Zigbee 기기, 보더 라우터 경유 Thread 기기를 단일 인터페이스로 제어하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 계층 | 기술 표준 | 핵심 엔지니어링 책임 | 주관 단체 |
-|:---|:---|:---|:---|
-| 애플리케이션 계층 | **Matter** | 공통 디바이스 데이터 모델, 클러스터 제어, 기기 인증(DAC), Multi-Admin | CSA |
-| 네트워크/전송 계층 | **Thread / Wi-Fi**| IPv6, 6LoWPAN, UDP, CoAP, 자가 치유 메시 라우팅 (MLE/RPL) | Thread Group, WFA |
-| 물리/데이터링크 계층 | 802.15.4 / 802.11 | 2.4GHz 무선 변복조, O-QPSK, DSSS, CSMA/CA 매체 접근 제어 | IEEE 802 위원회 |
+| 구성요소 | 책임 |
+|:---|:---|
+| Matter (응용 계층) | 공통 데이터 모델, 기기 인증(DAC) 및 **Multi-Admin 다중 플랫폼 통합 제어** |
+| Thread (네트워크 계층) | **6LoWPAN 기반 IPv6 지원** 및 자가 치유 메시 라우팅 제공 |
+| Thread Border Router | Thread 메시망과 Wi-Fi/Ethernet 간 **IPv6 무변환 양방향 라우팅** |
+| IEEE 802.15.4 / 802.11 | 2.4GHz 무선 변복조 및 **저전력 매체 접근 제어(CSMA/CA)** |
+| Matter Bridge (레거시 연동) | Zigbee/Z-Wave 비-IP 기기를 **Matter 공통 모델로 변환 중계** |
 
 #### 한줄 요약
 - Matter가 응용 계층에 자리해 아래 전송 매체의 차이를 흡수하고 보더 라우터는 IPv6를 변환 없이 라우팅하므로, Zigbee가 기기마다 치르던 게이트웨이 L7 프로토콜 변환은 브리지를 거치는 레거시 기기에만 남는다.

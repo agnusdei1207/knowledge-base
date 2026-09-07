@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "포트 기반 네트워크 접근 제어 표준 : IEEE 802.1X 및 EAP"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 115
@@ -58,17 +58,22 @@ extra:
 </details>
 
 ```text
-IEEE 802.1X
-|-- Supplicant
-|-- Authenticator
-|   |-- Uncontrolled Port
-|   `-- Controlled Port
-|-- Authentication Server
-|-- Identity Store
-`-- Port Policy
+[IEEE 802.1X 인증 체계]
+  │
+  ├─ [단말: Supplicant]
+  │    └─ EAPOL 클라이언트
+  │
+  ├─ [인증자: Authenticator]
+  │    ├─ Uncontrolled Port (EAPOL 허용)
+  │    └─ Controlled Port (데이터 인가)
+  │
+  └─ [인증 서버: RADIUS]
+       ├─ EAP 인증 엔진 (TLS/PEAP)
+       ├─ Identity Store (PKI/AD)
+       └─ Port Policy (VLAN/dACL 하달)
 ```
 
-선의 의미: 단말이 EAPOL로 보낸 인증 요청이 스위치에서 RADIUS 패킷으로 변환되어 인증 서버로 전달되고 인증 성공 시 포트가 개방되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

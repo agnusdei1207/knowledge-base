@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "L2•L3•L4•L7 스위칭 계층 (Network Switches)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 18
@@ -58,21 +58,33 @@ extra:
 </details>
 
 ```text
-[L2~L7 스위칭 계층 및 패킷 분석 깊이 아키텍처]
-|-- L7 Application Switch (HTTP URL, Host Header, Cookie, Payload 파싱 -> 콘텐츠 라우팅)
-|-- L4 Transport Switch (TCP/UDP Port, 5-Tuple Session Table -> 서버 부하 분산 SLB)
-|-- L3 Network Switch (IP Address, TCAM / FIB Routing -> Inter-VLAN 하드웨어 라우팅)
-`-- L2 Data Link Switch (48-bit MAC Address, CAM Table -> 동일 VLAN 프레임 스위칭)
+[L2~L7 네트워크 스위칭 계층 아키텍처]
+  │
+  ├─ [L2 스위치 (Data Link)] (동일 VLAN 스위칭)
+  │     ├─ 식별 기준: 48비트 MAC 주소
+  │     └─ 주요 책임: CAM 테이블 기반 동일 도메인 프레임 포워딩
+  │
+  ├─ [L3 스위치 (Network)] (Inter-VLAN 라우팅)
+  │     ├─ 식별 기준: 32/128비트 IP 주소
+  │     └─ 주요 책임: TCAM/FIB 하드웨어 기반 고속 패킷 라우팅
+  │
+  ├─ [L4 스위치 (Transport)] (서버 부하 분산 SLB)
+  │     ├─ 식별 기준: 5-Tuple (IP, Port, Protocol)
+  │     └─ 주요 책임: 전송 계층 세션 테이블 기반 부하 분산 및 헬스체크
+  │
+  └─ [L7 스위치 (Application)] (콘텐츠 기반 스위칭)
+        ├─ 식별 기준: URL, Host 헤더, Cookie, 페이로드
+        └─ 주요 책임: 마이크로서비스 라우팅, SSL 오프로딩 및 보안 필터링
 ```
 
-선의 의미: 계층 및 하위 L2에서 상위 L7으로 올라갈수록 패킷 파싱 깊이와 상태 관리 복잡도가 증가하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 식별 기준 |
-|:---|:---|:---|
-| **L2 스위치** | CAM 테이블 조회를 통한 **동일 브로드캐스트 도메인(VLAN) 내 프레임 하드웨어 포워딩** | 48비트 MAC 주소 |
-| **L3 스위치** | TCAM/FIB 하드웨어 기반 **서브넷 간 고속 인터-VLAN 라우팅 및 패킷 전달** | 32/128비트 IP 주소 |
-| **L4 스위치** | 전송 계층 세션 식별 및 **백엔드 서버 팜 대상 트래픽 부하 분산(SLB)과 헬스 체크** | **5-튜플**, TCP/UDP 포트 |
-| **L7 스위치** | 애플리케이션 계층 데이터 파싱 및 **정밀 콘텐츠 기반 서비스 분기, TLS 오프로딩** | URL, Header, Cookie |
+| 구성요소 | 책임 |
+|:---|:---|
+| L2 스위치 | 48비트 MAC 주소 기반 동일 브로드캐스트 도메인(VLAN) 내 프레임 하드웨어 포워딩 |
+| L3 스위치 | 32/128비트 IP 주소 기반 서브넷 간 고속 인터-VLAN 패킷 라우팅 |
+| L4 스위치 | 5-튜플(IP/Port) 기반 백엔드 서버 팜 대상 트래픽 부하 분산(SLB) 및 헬스체크 |
+| L7 스위치 | URL, 헤더, 쿠키 분석을 통한 정밀 콘텐츠 기반 라우팅 및 SSL/TLS 가속 오프로딩 |
 
 #### 한줄 요약
 - 같은 전달 경로 위의 장비가 들여다보는 깊이를 한 계층 더할 때마다 상위 계층이 하던 판단을 대신 떠맡지만, 그만큼 세션 상태를 유지할 책임도 함께 넘겨받는다.

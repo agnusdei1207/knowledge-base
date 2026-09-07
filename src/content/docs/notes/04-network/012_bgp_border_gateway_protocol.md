@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "경계 게이트웨이 프로토콜: BGP (Border Gateway Protocol)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 12
@@ -58,23 +58,32 @@ extra:
 </details>
 
 ```text
-[BGP 구성]
-|-- BGP 피어
-|-- 경로 속성
-|-- 인바운드 정책 필터
-|-- 최선 경로 선정기
-`-- 아웃바운드 정책 필터
+[BGP 정책 기반 라우팅 아키텍처]
+  │
+  ├─ [세션 및 피어링 계층] (BGP Peering)
+  │     ├─ eBGP 피어 (상이한 AS 간 외부 피어링, TTL=1)
+  │     ├─ iBGP 피어 (동일 AS 내부 피어링, Full-Mesh/Route Reflector)
+  │     └─ TCP 179 전송 세션 (Keepalive 및 점진적 Update)
+  │
+  ├─ [정책 제어 및 필터링] (Policy Engine)
+  │     ├─ 인바운드 정책 필터 (Local_Pref 조작 -> 송신 트래픽 제어)
+  │     ├─ BGP 경로 속성군 (Weight, Local_Pref, AS_PATH, MED)
+  │     └─ 아웃바운드 정책 필터 (AS_PATH Prepending -> 수신 트래픽 제어)
+  │
+  └─ [최선 경로 선발 엔진] (Best Path Selection)
+        ├─ BGP 의사결정 프로세스 (Weight -> Local_Pref -> AS_PATH -> MED)
+        └─ BGP 라우팅 테이블 (Adj-RIB-In -> Loc-RIB -> Adj-RIB-Out)
 ```
 
-선의 의미: 계층 및 인접 피어로부터 유입된 경로가 인바운드 정책을 거쳐 Loc-RIB에서 최선 경로로 선발된 후 아웃바운드 정책을 통해 재전파되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| BGP 피어 (Neighbor) | TCP 179번 포트를 통해 **피어링을 맺고 Open/Update/Keepalive 메시지 교환** | TCP 179 수신 |
-| 경로 속성 (Attributes) | 경로의 선호도와 제약 조건을 명시하는 **메타데이터 (Weight, Local_Pref, AS_PATH, MED)** | 정책 제어 핵심 |
-| 인바운드 정책 필터 | 유입된 경로 중 비인가 프리픽스를 차단하고 **Local_Pref를 조작하여 아웃바운드 트래픽 제어** | 유출 경로 제어 |
-| 최선 경로 선정기 | 10단계 이상의 정형화된 **BGP 의사결정 프로세스를 통해 프리픽스당 최적 경로 1개 선출** | Loc-RIB 적재 |
-| 아웃바운드 정책 필터 | 선출된 최선 경로에 **AS_PATH Prepend를 적용하여 인바운드 유입 트래픽 경로 유도** | 유입 트래픽 제어 |
+| 구성요소 | 책임 |
+|:---|:---|
+| BGP 피어 (Neighbor) | TCP 179번 포트를 통해 피어링을 수립하고 BGP 메시지 교환 |
+| 경로 속성 (Attributes) | 경로의 선호도와 제약 조건을 명시하는 정책 메타데이터 제공 |
+| 인바운드 정책 필터 | 유입 경로 검증 및 Local_Pref 조작을 통한 아웃바운드 트래픽 제어 |
+| 최선 경로 선정기 | BGP 의사결정 알고리즘을 통해 프리픽스당 단일 최적 경로 선출 |
+| 아웃바운드 정책 필터 | AS_PATH Prepend 등을 적용하여 인바운드 유입 트래픽 경로 유도 |
 
 #### 한줄 요약
 - 인바운드·아웃바운드 필터가 피어와 Loc-RIB 사이에 끼어들어, IGP라면 링크 비용이 정하던 경로 선택을 계약 관계를 반영한 속성 조작으로 대신한다.

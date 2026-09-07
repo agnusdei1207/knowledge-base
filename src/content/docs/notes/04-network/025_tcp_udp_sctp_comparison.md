@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "TCP•UDP•SCTP 비교 (Transport Protocols)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 25
@@ -57,6 +57,25 @@ extra:
 - **SCTP Chunk (청크)**: SCTP 패킷 내에 포함되는 데이터 단위로, 제어 청크(INIT, SACK)와 데이터 청크(Payload)로 구성.
 
 </details>
+
+```text
+[L4 전송 계층 프로토콜 체계]
+  │
+  ├─ [TCP] ── 연결 지향 바이트 스트림
+  │     ├─ 신뢰성 보장 (3-Way Handshake, Go-Back-N / SACK)
+  │     └─ 부하 제어 (Sliding Window 흐름제어, 혼잡제어)
+  │
+  ├─ [UDP] ── 비연결 초경량 데이터그램
+  │     ├─ 단순 헤더 (8 Byte 오버헤드 극소화)
+  │     └─ 실시간 전송 (No-ACK, 브로드캐스트/멀티캐스트)
+  │
+  └─ [SCTP] ── 메시지 지향 고가용성 전송
+        ├─ 보안 연결 (4-Way Handshake, Cookie 인증)
+        ├─ 멀티호밍 (복수 IP 바인딩, 무중단 자동 절체)
+        └─ 멀티스트리밍 (독립 스트림 병합, HoL 블로킹 방지)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "로드 밸런서 L4•L7 (Load Balancer L4 L7)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 19
@@ -59,28 +59,32 @@ extra:
 </details>
 
 ```text
-[L4 / L7 로드 밸런서 트래픽 분산 및 헬스체크 아키텍처]
-|-- Client Layer (HTTPS 443 -> VIP:443 Request 인입)
-`-- Load Balancer Engine (L4 NLB / L7 ALB)
-    |-- VIP Listener (Port 80/443 수신, SSL/TLS Termination)
-    |-- Health Check Engine (L3 ICMP, L4 TCP 3-Way, L7 HTTP GET `/health`)
-    |-- Scheduling Algorithm (Round-Robin, Least Connection, IP Hash)
-    `-- Session Affinity Module (Cookie / Source IP Sticky Session)
-`-- Backend Server Target Group
-    |-- Server 1 (Active / Healthy: 정상 트래픽 분산)
-    |-- Server 2 (Active / Healthy: 정상 트래픽 분산)
-    `-- Server 3 (Inactive / Unhealthy: 헬스체크 실패로 트래픽 차단 격리)
+[L4 및 L7 로드 밸런서 아키텍처]
+  │
+  ├─ [프런트엔드 관문부] (VIP Listener)
+  │     ├─ VIP (가상 IP 대표 단일 진입점)
+  │     ├─ 포트 리스너 (HTTP 80, HTTPS 443 수신)
+  │     └─ SSL/TLS 가속기 (SSL Termination 오프로딩)
+  │
+  ├─ [부하 분산 제어부] (Load Balancing Engine)
+  │     ├─ 스케줄러 (Round-Robin, Least-Connection, IP Hash)
+  │     ├─ 헬스체크 엔진 (L3 ICMP, L4 TCP, L7 HTTP 200 감시)
+  │     └─ 세션 지속성 모듈 (Cookie/IP 기반 Sticky Session)
+  │
+  └─ [백엔드 타겟 그룹] (Backend Server Pool)
+        ├─ 정상 서버군 (Active: 트래픽 분산 처리)
+        └─ 장애 서버군 (Unhealthy: 실시간 격리 및 제외)
 ```
 
-선의 의미: 계층 및 클라이언트의 VIP 요청이 리스너와 스케줄러를 거쳐 헬스체크가 검증된 정상 백엔드 서버로 전달되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **VIP / 리스너** | 클라이언트 트래픽을 단일 IP로 수신하고 **SSL/TLS 암복호화 및 포트별 세션 인입 관리** | 프런트엔드 관문 |
-| **스케줄러 엔진** | 라운드 로빈(RR), **최소 연결(Least Connection), 가중치 기반 최적 백엔드 서버 결정** | LB 알고리즘 |
-| **백엔드 서버 풀** | 분산된 요청을 실질적으로 처리하는 **복수 개의 워크로드 서버(EC2/컨테이너) 집합** | 타겟 그룹 |
-| **상태 확인 (Health Check)**| L4(TCP 핸드셰이크), **L7(HTTP 200 OK) 상태를 주기적으로 계측하여 결함 서버 자동 격리**| 결함 탐지 |
-| **세션 지속성 모듈** | 클라이언트 IP 해시 또는 **쿠키(Cookie)를 기반으로 동일 백엔드 서버로의 연결 바인딩 유지**| Sticky Session |
+| 구성요소 | 책임 |
+|:---|:---|
+| VIP / 리스너 | 클라이언트 트래픽을 단일 IP로 수신하고 SSL/TLS 암복호화 및 세션 인입 관리 |
+| 스케줄러 엔진 | 라운드로빈, 최소 연결, IP 해시 등 분산 알고리즘으로 최적 백엔드 결정 |
+| 백엔드 서버 풀 | 분산된 요청을 처리하는 복수 워크로드 서버(VM/컨테이너) 타겟 그룹 |
+| 상태 확인 (Health Check) | L4(TCP), L7(HTTP 200 OK) 상태를 주기적으로 계측하여 결함 서버 자동 격리 |
+| 세션 지속성 모듈 | 클라이언트 IP 해시 또는 쿠키 기반 동일 백엔드로의 세션 바인딩 유지 |
 
 #### 한줄 요약
 - VIP 리스너가 클라이언트와 서버 풀 사이에 끼어들어 개별 서버 주소를 알아야 할 이유를 없애고, 헬스 체크가 결함 서버를 미리 격리해 클라이언트가 치를 실패 재시도 비용을 대신 흡수한다.

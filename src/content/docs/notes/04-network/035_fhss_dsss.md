@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "대역 확산 통신 : FHSS•DSSS (Spread Spectrum)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 35
@@ -60,26 +60,31 @@ extra:
 </details>
 
 ```text
-[대역 확산 송수신 파이프라인 및 역확산 아키텍처]
-|-- Transmitter Engine
-|   |-- Baseband Data Generator (원본 디지털 비트)
-|   |-- Spreading Code Generator (LFSR: Gold Code / m-sequence / Hopping Synthesizer)
-|   `-- RF Modulator (DSSS: 고속 칩 XOR 믹서 / FHSS: 주파수 도약 반송파 합성)
-`-- Wireless Radio Channel (Noise Floor 이하 저전력 밀도 전송, 외부 간섭 혼입)
-`-- Receiver Engine
-    |-- Sync & Tracking Unit (Acquisition 대략 포착 -> DLL 미세 추적)
-    |-- Despreading Demodulator (동일 PN 코드 재승산 -> 원신호 협대역화 + 잡음 광대역화)
-    `-- Bandpass Filter & Decoder (BPF 필터링으로 잡음 제거 -> 원본 데이터 복원)
+[대역 확산 통신 구조]
+  │
+  ├─ [송신단 확산 처리] ── Transmitter
+  │     ├─ 기저대역 데이터원 (원본 디지털 비트열)
+  │     ├─ 확산 코드 생성기 (LFSR 기반 PN 코드 / 도약 패턴)
+  │     └─ 확산 변조기 (DSSS 칩 승산 / FHSS 반송파 합성)
+  │
+  ├─ [무선 전송 채널] ── Channel
+  │     ├─ 저전력 밀도 전송 (Noise Floor 이하 송출)
+  │     └─ 항재밍 공간 (협대역 간섭 및 도청 차단)
+  │
+  └─ [수신단 역확산 처리] ── Receiver
+        ├─ 동기 포착 및 추적 (DLL 기반 위상 일치)
+        ├─ 역확산 복조기 (동일 PN 코드 재승산, 신호 집중)
+        └─ BPF 필터 및 복호기 (잡음 분산 제거, 원본 데이터 복원)
 ```
 
-선의 의미: 계층 및 송신단의 PN 코드 믹싱을 통한 광대역 송출과 수신단의 위상 동기화 및 역확산 곱셈을 통한 원신호 복원 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **확산 코드 생성기 (PN/Hop)**| LFSR 기반으로 **직교성이 우수한 의사잡음(PN) 시퀀스 또는 의사난수 도약 패턴 생성** | m-sequence, Gold |
-| **확산 변조기 (Spreader)** | 원본 비트에 고속 칩 코드를 승산(DSSS)하거나 **주파수 합성기로 반송파를 도약(FHSS)** | 대역 확산 송출 |
-| **동기 포착 및 추적부 (Sync)**| 수신 신호와 로컬 PN 코드 간의 **대략 위상(Acquisition) 및 미세 위상(Tracking, DLL) 일치** | 위상 동기화 |
-| **역확산 복조기 (Despreader)**| 동기화된 PN 코드를 수신 신호에 재승산하여 **원신호 전력을 집중시키고 처리 이득($PG$) 달성** | 신호 복원 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 확산 코드 생성기 (PN/Hop) | LFSR 기반 **직교 의사잡음(PN) 시퀀스·도약 패턴 생성** |
+| 확산 변조기 (Spreader) | 원본에 고속 칩 승산(DSSS) 또는 **반송파 주파수 고속 도약(FHSS)** |
+| 동기 포착 및 추적부 (Sync) | 수신 신호와 로컬 PN 간 **대략 위상(Acquisition)·미세 추적(DLL) 일치** |
+| 역확산 복조기 (Despreader) | 동기 PN 코드 재승산으로 **원신호 전력 집중 및 처리 이득($PG$) 달성** |
 
 #### 한줄 요약
 - 같은 확산 코드를 가진 수신기만 역확산을 성립시킬 수 있어 코드 공유가 접근 통제 역할을 대신하고, 그 대가로 동기 포착·추적부가 위상을 맞추는 부담을 떠맡는다.

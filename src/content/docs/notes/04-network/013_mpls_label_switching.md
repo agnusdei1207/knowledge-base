@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MPLS 레이블 스위칭 (Multiprotocol Label Switching)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 13
@@ -59,23 +59,32 @@ extra:
 </details>
 
 ```text
-[MPLS 구성]
-|-- 인입 LER
-|-- 코어 LSR
-|-- 송출 LER
-|-- 직전 홉 제거
-`-- MPLS Shim Header
+[MPLS 레이블 스위칭 아키텍처]
+  │
+  ├─ [에지 영역] (LER, Label Edge Router)
+  │     ├─ 인입 LER (Ingress: FEC 분류 및 32비트 레이블 Push)
+  │     └─ 송출 LER (Egress: 최종 레이블 Pop 및 L3 IP 복원)
+  │
+  ├─ [코어 영역] (LSR, Label Switching Router)
+  │     ├─ 코어 LSR (LFIB 기반 초고속 레이블 Swap)
+  │     └─ 직전 홉 라우터 (PHP: 송출 LER 부하 경감 선제 제거)
+  │
+  └─ [32비트 Shim Header 포맷] (2.5계층 헤더)
+        ├─ Label ID (20비트: 실제 포워딩 식별자)
+        ├─ TC / Exp (3비트: QoS 및 트래픽 클래스)
+        ├─ S 비트 (1비트: Bottom of Stack 스택 종료 표시)
+        └─ TTL (8비트: 루프 방지 Time To Live)
 ```
 
-선의 의미: 계층 및 인입 LER에서 레이블이 Push되고 코어 LSR에서 LFIB 기반 Swap된 후 송출 LER에서 Pop되어 일반 IP로 복원되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 인입 LER (Ingress) | 패킷의 목적지 IP를 검사하여 FEC를 결정하고 **32비트 Shim Header 레이블 삽입(Push)** | Push 연산 |
-| 코어 LSR (Transit) | 하드웨어 LFIB를 참조하여 **인입 레이블을 송출 레이블로 고속 교체(Swap)하여 포워딩** | Swap 연산 |
-| 송출 LER (Egress) | 최종 레이블을 제거(**Pop**)하여 원본 IP 패킷을 복원한 후 목적지 일반 IP 라우팅 | Pop 연산 |
-| 직전 홉 제거 (PHP) | 송출 LER의 레이블 팝 및 IP 룩업 이중 부하를 방지하기 위해 **직전 홉에서 외곽 레이블 선제 제거**| Label 3 (Implicit Null) |
-| MPLS Shim Header | L2 프레임과 L3 패킷 사이에 삽입되는 **32비트 헤더 (Label:20B, Exp/QoS:3B, S:1B, TTL:8B)** | 4바이트 고정 포맷 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 인입 LER (Ingress) | 목적지 IP 검사 후 FEC 분류 및 32비트 Shim Header 레이블 삽입(Push) |
+| 코어 LSR (Transit) | 하드웨어 LFIB를 참조하여 인입 레이블을 송출 레이블로 고속 교체(Swap) |
+| 송출 LER (Egress) | 최종 레이블을 제거(Pop)하여 원본 IP 패킷 복원 후 일반 IP 포워딩 |
+| 직전 홉 제거 (PHP) | 송출 LER의 이중 룩업 방지를 위해 직전 홉에서 외곽 레이블 선제 제거 |
+| MPLS Shim Header | L2와 L3 사이에 삽입되는 32비트 고속 스위칭 및 QoS 태그 헤더 |
 
 #### 한줄 요약
 - 인입 LER만 FEC 판정이라는 비싼 IP 검색을 떠맡고 코어 LSR은 Shim Header 한 장만 교환하므로, 레이블 계층이 홉마다의 L3 룩업 자리를 대신 차지한다.

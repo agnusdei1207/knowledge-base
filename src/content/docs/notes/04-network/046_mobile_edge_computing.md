@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모바일 엣지 컴퓨팅 : MEC (Multi-access Edge Computing)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 46
@@ -59,18 +59,24 @@ extra:
 </details>
 
 ```text
-[MEC 시스템]
-|-- MEC 오케스트레이터
-|-- MEC 호스트
-|   |-- MEC 플랫폼
-|   `-- MEC 응용
-`-- 5G 연계
-    |-- gNB
-    |-- Local UPF
-    `-- 중앙 코어
+[MEC 아키텍처]
+  │
+  ├─ [오케스트레이션 계층] ── System Level
+  │     ├─ MEC 오케스트레이터 MEO (전체 엣지 자원 통합 관리)
+  │     └─ 운영 지원 시스템 OSS (사업자 인프라 정책 연동)
+  │
+  ├─ [엣지 호스트 영역] ── Host Level (Edge Site)
+  │     ├─ MEC 플랫폼 MEP (RNIS, 위치 서비스 REST API)
+  │     ├─ MEC 가상화 인프라 (컨테이너/가상머신 런타임)
+  │     └─ MEC 응용 앱 (초저지연 AI 분석/V2X 로컬 제어)
+  │
+  └─ [5G 통신망 연동 계층] ── 5G Integration
+        ├─ 무선 기지국 gNB (사용자 단말 초접속)
+        ├─ Local UPF (로컬 트래픽 브레이크아웃 LBO)
+        └─ 중앙 코어망 5GC (중앙 집중형 과금 및 인증 연계)
 ```
 
-선의 의미: 계층 및 기지국에서 수신된 트래픽 중 초저지연 요청은 Local UPF를 통해 MEC Host로 즉시 분기되고 일반 트래픽은 중앙 5GC로 전송되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "상호 전송 계층 보안 : mTLS (Mutual TLS)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 31
@@ -59,26 +59,32 @@ extra:
 </details>
 
 ```text
-[mTLS 양방향 상호 인증 및 서비스 메시 아키텍처]
-|-- Common Root CA / SPIFFE Trust Anchor (공통 신뢰 앵커)
-|-- Client Workload (Service A Envoy Sidecar)
-|   |-- Client Certificate + Private Key (X.509 SVID 신원)
-|   `-- Trust Store (Root CA 공개키 보관)
-`-- Server Workload (Service B Envoy Sidecar)
-    |-- Server Certificate + Private Key (X.509 SVID 신원)
-    `-- Trust Store (Root CA 공개키 보관)
-`-- Encrypted Data Channel (ECDHE 키 교환 -> AES-256-GCM 대칭 세션 키 통신)
+[mTLS 상호 인증 아키텍처]
+  │
+  ├─ [신뢰 인프라] ── Trust Infrastructure
+  │     ├─ 공통 Root CA (사설 PKI / SPIFFE Trust Anchor)
+  │     └─ 인증서 발급 관리 (X.509 SVID 수명주기 갱신)
+  │
+  ├─ [상호 엔드포인트] ── Mutual Endpoints
+  │     ├─ 클라이언트 워크로드 (Client Cert & 개인키 전자서명)
+  │     ├─ 서버 워크로드 (Server Cert & 개인키 키 교환)
+  │     └─ 신뢰 저장소 Trust Store (로컬 보관 Root CA 목록)
+  │
+  └─ [암호 통신 채널] ── Secure Channel
+        ├─ 양방향 검증 (CertRequest / CertVerify 핸드셰이크)
+        ├─ 키 교환 (ECDHE 기반 임시 키 교환)
+        └─ 데이터 암호화 (AES-256-GCM 고속 대칭 암호화)
 ```
 
-선의 의미: 계층 및 공통 Root CA를 신뢰하는 양측 워크로드가 상호 인증서를 검증하고 세션 키를 유도하여 통신하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **인증기관 (CA)** | 사설 PKI 또는 SPIFFE 기반으로 **워크로드 인증서를 자동 발급 및 수명주기 갱신 관리** | Trust Anchor |
-| **클라이언트 인증서/개인키**| 클라이언트 워크로드의 신원을 증명하는 **X.509 인증서와 개인키 기반 전자서명 생성** | 클라이언트 신원 |
-| **서버 인증서/개인키** | 서버 도메인/서비스 신원을 나타내는 **X.509 인증서와 ECDHE 키 교환용 개인키** | 서버 신원 |
-| **신뢰 저장소 (Trust Store)**| 상대방 인증서 체인의 유효성을 검증하기 위해 **로컬에 보관하는 공통 CA 인증서 목록** | 검증 기준 정본 |
-| **대칭 세션 키** | 상호 인증 완료 후 키 교환을 통해 생성된 **전송 구간 초고속 대칭 암호화 키 (AES-GCM)** | 기밀성/무결성 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 공통 인증기관 (CA) | 워크로드 인증서 **자동 발급·수명주기 갱신 관리** |
+| 클라이언트 신원 체계 | 클라이언트 워크로드 **X.509 인증·개인키 전자서명** |
+| 서버 신원 체계 | 서버 도메인 **X.509 인증·ECDHE 키 교환** |
+| 신뢰 저장소 (Trust Store) | 로컬 보관 Root CA 기반 **인증서 체인 유효성 검증** |
+| 대칭 세션 키 | 상호 인증 완료 후 **AES-GCM 구간 암호화** |
 
 #### 한줄 요약
 - 신뢰 저장소에 공통 CA 하나만 두면 상대 인증서를 그 체인으로 검증할 수 있으므로, 워크로드 쌍마다 신원을 따로 등록하던 일을 인증기관이 대신한다.

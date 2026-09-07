@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "쿠버네티스 컨테이너 네트워킹 : CNI•Service•Ingress"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 62
@@ -58,15 +58,17 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 다계층 네트워킹 및 트래픽 라우팅 아키텍처]
-|-- Ingress·Gateway API (L7 진입)
-|-- Service (고정 VIP·EndpointSlice)
-|-- NetworkPolicy (통신 인가)
-|-- CNI 플러그인 (파드 연결·IPAM)
-`-- eBPF 커널 엔진 (서비스 포워딩)
+[쿠버네티스 네트워킹]
+  ├── [외부 진입] ───────── [Ingress / Gateway API]
+  │                           │
+  ├── [서비스 추상화] ───── [Service VIP / Endpoint]
+  │                           │
+  ├── [보안 정책] ───────── [NetworkPolicy]
+  │                           │
+  └── [데이터 평면] ─────── [CNI / eBPF 엔진]
 ```
 
-선의 의미: 계층 및 외부 트래픽이 Ingress에서 L7 라우팅된 후 Service VIP를 거쳐 NetworkPolicy 검증을 통과하고 CNI 패브릭을 통해 파드로 전달되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

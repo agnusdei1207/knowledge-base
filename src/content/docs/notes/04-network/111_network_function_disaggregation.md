@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "5G 기지국 아키텍처 혁신 : 네트워크 기능 분리"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 111
@@ -58,15 +58,22 @@ extra:
 </details>
 
 ```text
-5G 기지국
-|-- CU
-|   `-- F1
-|-- DU
-|   `-- Open Fronthaul
-`-- RU
+[5G 기지국 기능 분리]
+  │
+  ├─ [중앙 장치: CU]
+  │    ├─ RRC / SDAP / PDCP 계층
+  │    └─ F1 인터페이스 (Midhaul)
+  │
+  ├─ [분산 장치: DU]
+  │    ├─ RLC / MAC / High-PHY
+  │    └─ eCPRI 프론트홀 (7-2x)
+  │
+  └─ [무선 장치: RU]
+       ├─ Low-PHY 디지털 빔포밍
+       └─ RF 송수신 및 안테나 방사
 ```
 
-선의 의미: 5G gNB가 코어망부터 안테나까지 Backhaul, Midhaul(F1), Fronthaul(eCPRI) 계층으로 세분화되어 기능별로 배치된 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

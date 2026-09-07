@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "차량용 무선 통신 규격 : IEEE 802.11p WAVE"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 51
@@ -58,25 +58,30 @@ extra:
 </details>
 
 ```text
-[IEEE 802.11p WAVE 프로토콜 스택 아키텍처]
-|-- Application Layer (BSM 긴급 안전 메시지 / CAM / DENM)
-`-- WAVE Upper Layers (IEEE 1609 Family)
-|   |-- IEEE 1609.2 (보안: ECDSA 기반 가명 인증서 전자서명 및 익명성 보장)
-|   |-- IEEE 1609.3 (네트워크: IP 헤더 없는 초경량 WSMP 퀵 라우팅)
-|   `-- IEEE 1609.4 (멀티채널 운용: 50ms 주기 CCH 제어 / SCH 서비스 채널 스위칭)
-`-- Lower Layers (IEEE 802.11p)
-    |-- MAC Layer (EDCA 차등화 매체 접근 제어, OCB 모드, CSMA/CA)
-    `-- PHY Layer (5.9GHz ITS 대역, 10MHz OFDM 채널, 64-FFT, 8.0㎲ 심볼)
+[IEEE 802.11p WAVE 스택 구조]
+  │
+  ├─ [응용 계층] ── Application Layer
+  │     ├─ BSM 기본 안전 메시지 (위치/속도/방향 브로드캐스트)
+  │     └─ CAM / DENM (돌발 상황 긴급 경보 메시지)
+  │
+  ├─ [WAVE 상위 규격] ── IEEE 1609 Protocol Family
+  │     ├─ IEEE 1609.2 보안 (ECDSA 가명 인증서 전자서명)
+  │     ├─ IEEE 1609.3 네트워킹 (초경량 WSMP 라우팅)
+  │     └─ IEEE 1609.4 다중채널 (50ms CCH/SCH 스위칭)
+  │
+  └─ [무선 물리·MAC] ── IEEE 802.11p
+        ├─ MAC 계층 (OCB 모드, EDCA 차등 매체 접속)
+        └─ PHY 계층 (5.9GHz 대역, 10MHz 반채널 OFDM)
 ```
 
-선의 의미: 계층 및 응용 안전 메시지가 1609 상위 스택을 거쳐 802.11p OCB 무선 계층을 통해 즉각 전파되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 계층 표준 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| IEEE 1609.2 (보안) | ECDSA 타원곡선 전자서명 및 SCMS 가명 인증서 검증을 통한 위변조 차단 | 보안 계층 |
-| IEEE 1609.3 (네트워크)| 복잡한 TCP/IP 헤더를 배제하고 초경량 WSMP 프로토콜로 1ms 내 라우팅 | 네트워크 계층 |
-| IEEE 1609.4 (채널 제어)| 50ms 단위로 긴급 안전 채널(**CCH**)과 일반 서비스 채널(SCH)을 시분할 스위칭 | 다중 채널 관리 |
-| IEEE 802.11p (PHY/MAC) | BSS 결합을 생략하는 OCB 모드 및 10MHz OFDM 무선 신호 송출 | 무선 물리 계층 |
+| 구성요소 | 책임 |
+|:---|:---|
+| IEEE 1609.2 (보안) | ECDSA 타원곡선 전자서명 및 **가명 인증서 위변조 차단** |
+| IEEE 1609.3 (네트워크) | 복잡한 TCP/IP를 우회하는 **초경량 WSMP 1ms 라우팅** |
+| IEEE 1609.4 (채널 제어) | 50ms 단위 **긴급 제어(CCH) 및 서비스(SCH) 시분할 스위칭** |
+| IEEE 802.11p (PHY/MAC) | BSS 결합 생략 **OCB 모드 및 10MHz 반채널 OFDM 송출** |
 
 #### 한줄 요약
 - 1609.3의 WSMP가 TCP/IP 헤더와 그 연결 수립 절차를 걷어내고 802.11p의 OCB가 BSS 결합 자체를 생략하므로, 스쳐 지나가는 차량은 접속 협상에 쓸 시간 없이 곧바로 안전 메시지를 뿌린다.

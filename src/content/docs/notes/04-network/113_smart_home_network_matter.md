@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "스마트 홈 상호운용성 표준 : Matter"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 113
@@ -58,16 +58,22 @@ extra:
 </details>
 
 ```text
-Matter Home
-|-- Controller
-|-- IPv6 Network
-|   |-- Thread Border Router
-|   |-- Endpoint
-|   `-- Matter Bridge
-`-- DCL
+[Matter 홈 네트워크]
+  │
+  ├─ [관리 및 신뢰 평면]
+  │    ├─ Matter Controller
+  │    └─ DCL (분산 컴플라이언스 원장)
+  │
+  ├─ [IPv6 전송 패브릭]
+  │    ├─ Wi-Fi / Ethernet 서브넷
+  │    └─ Thread Border Router (802.15.4)
+  │
+  └─ [스마트 홈 기기 계층]
+       ├─ Matter Endpoint (공통 데이터 모델)
+       └─ Matter Bridge (Zigbee/Z-Wave 변환)
 ```
 
-선의 의미: Matter 응용 계층이 IPv6를 통해 Wi-Fi와 Thread 무선 서브넷으로 분기되어 고대역 기기와 저전력 센서 노드를 단일 제어 평면으로 통합하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

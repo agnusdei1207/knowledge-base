@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "초고속 GPU 스케일업 인터커넥트 : NVLink 및 NVSwitch"
-date: "2026-09-06T00:10:05+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 105
@@ -58,15 +58,22 @@ extra:
 </details>
 
 ```text
-[NVLink 정적 구성]
-|-- NVLink 인터페이스
-|-- NVSwitch ASIC
-|-- 통합 메모리 제어기
-|-- 패브릭 관리자
-`-- NCCL 라이브러리
+[NVLink 스케일업 패브릭]
+  │
+  ├─ [물리 인터커넥트]
+  │    ├─ NVLink 인터페이스 (PAM4 PHY)
+  │    └─ NVSwitch ASIC (풀 메시)
+  │
+  ├─ [메모리 계층]
+  │    ├─ 통합 메모리 제어기
+  │    └─ 단일 공유 메모리 풀 (SHMEM)
+  │
+  └─ [소프트웨어·제어 평면]
+       ├─ 패브릭 관리자 (Fabric Manager)
+       └─ 통신 라이브러리 (NCCL)
 ```
 
-선의 의미: 8개의 GPU가 NVSwitch 패브릭을 통해 풀 메시로 결합되어 GPU 간 메모리 복사 없이 단일 공유 메모리 풀을 구성하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "TCP/IP 4계층 모델 (TCP/IP Model)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 2
@@ -58,14 +58,28 @@ extra:
 </details>
 
 ```text
-[TCP/IP 프로토콜 스택]
-|-- 응용 계층 | HTTP·DNS·TLS
-|-- 전송 계층 | TCP·UDP
-|-- 인터넷 계층 | IPv4·IPv6·ICMP
-`-- 네트워크 접근 계층 | Ethernet·Wi-Fi
+[TCP/IP 4계층 프로토콜 스택]
+  │
+  ├─ [응용 계층 (Application)] (사용자 서비스 및 인터페이스)
+  │     ├─ 고수준 프로토콜 (HTTP, HTTPS, DNS, SMTP)
+  │     └─ PDU (Data/Message 단위 처리)
+  │
+  ├─ [전송 계층 (Transport)] (종단 간 신뢰성 및 다중화)
+  │     ├─ 연결형 신뢰성 제어 (TCP, 흐름/혼잡 제어)
+  │     ├─ 비연결형 고속 전송 (UDP, 초저지연 데이터그램)
+  │     └─ PDU (Segment, Datagram 단위 처리)
+  │
+  ├─ [인터넷 계층 (Internet - Thin-Waist)] (최적 경로 라우팅)
+  │     ├─ 논리 주소 지정 및 포워딩 (IPv4, IPv6)
+  │     ├─ 망 제어 및 진단 (ICMP, IGMP, ARP)
+  │     └─ PDU (Packet/IP Datagram 단위 처리)
+  │
+  └─ [네트워크 인터페이스 계층 (Network Interface)] (물리적 링크 전송)
+        ├─ 인접 노드 간 프레임 전송 (Ethernet, Wi-Fi, 802.11)
+        └─ PDU (Frame, Bit 단위 물리 매체 송출)
 ```
 
-선의 의미: TCP/IP 계층과 프로토콜의 정적 포함 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

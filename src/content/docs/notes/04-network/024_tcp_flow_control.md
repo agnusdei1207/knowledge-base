@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "TCP 흐름 제어 : 슬라이딩 윈도우 (TCP Flow Control)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 24
@@ -57,6 +57,26 @@ extra:
 - **Window Scale Option (RFC 7323)**: 16비트(64KB) 기본 윈도우 헤더 한계를 극복하여 최대 1GB까지 윈도우 버퍼를 확장하는 TCP 옵션.
 
 </details>
+
+```text
+[TCP 흐름 제어 아키텍처]
+  │
+  ├─ [송신 측 제어부] (Sender Control)
+  │     ├─ 유효 윈도우 산출 (min(rwnd, cwnd) 계산)
+  │     ├─ 슬라이딩 윈도우 관리기 (ACK 수신 시 우측 전진)
+  │     └─ 지속 타이머 Persist Timer (제로 윈도우 시 Probe 송출)
+  │
+  ├─ [수신 측 제어부] (Receiver Control)
+  │     ├─ 수신 소켓 버퍼 (가용 공간 실시간 계측)
+  │     ├─ rwnd 통보 (ACK 헤더 Window 필드 피드백)
+  │     └─ 윈도우 스케일 옵션 (Window Scaling 최대 1GB 확장)
+  │
+  └─ [버퍼 오버플로우 방지 메커니즘]
+        ├─ 실시간 피드백 루프 (송신 속도 동적 감속)
+        └─ 교착 상태 방지 (Window Probe를 통한 rwnd=0 해제)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

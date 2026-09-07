@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "채널 용량 : 섀넌 한계 (Shannon Channel Capacity)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 65
@@ -58,15 +58,15 @@ extra:
 </details>
 
 ```text
-[섀넌 채널 용량 공식 및 파라미터 구조]
-|-- Channel Capacity: C (bps, 이론적 최대 무오류 데이터 전송률)
-|-- Bandwidth Factor: B (Hz, 가용 주파수 대역폭 -> 선형 비례 인자)
-`-- Logarithmic SNR Term: \log_2 (1 + S / N)
-    |-- Signal Power: S (Watt, 수신 유효 신호 전력)
-    `-- Noise Power: N = N_0 \times B (Watt, 열잡음 밀도와 대역폭의 곱)
+[섀넌 채널 용량]
+  ├── [대역폭 인자] ─────── [대역폭(B)]
+  │                           │
+  └── [SNR 인자] ────────── [log2(1 + S/N)]
+        ├── [신호 전력] ─── [수신 신호(S)]
+        └── [잡음 전력] ─── [열잡음(N = N0 * B)]
 ```
 
-선의 의미: 대역폭($B$), 신호 전력($S$), 잡음 전력($N$)이 결합하여 최종 채널 용량($C$)을 산출하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

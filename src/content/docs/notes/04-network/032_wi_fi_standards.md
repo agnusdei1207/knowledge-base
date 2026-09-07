@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Wi-Fi 무선 LAN 표준 : 802.11ac•ax•be (Wi-Fi Standards)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 32
@@ -59,24 +59,31 @@ extra:
 </details>
 
 ```text
-[Wi-Fi 무선 LAN 인프라 토폴로지 및 MLO 링크 결합]
-|-- Wireless Stations (STA: Smart Phone / AR Glass / Laptop)
-|   `-- MLO Engine (2.4GHz + 5GHz + 6GHz 다중 대역 동시 링크 결합 송수신)
-`-- Access Point (AP: 802.11be Tri-Band Wi-Fi 7 기지국)
-    |-- Radio Interfaces (2.4GHz, 5GHz, 6GHz 독립 RF 모듈)
-    |-- MAC / PHY Controller (OFDMA Multi-RU 스케줄링, 4096-QAM 변복조)
-    `-- Security Engine (WPA3-SAE 동시 인증)
-`-- Distribution System (DS: 유선 백본 스위칭망 / 게이트웨이 라우터)
+[Wi-Fi 무선 LAN 아키텍처]
+  │
+  ├─ [무선 단말 영역] ── Stations (STA)
+  │     ├─ 단말 무선 NIC (트라이밴드 2.4/5/6GHz 지원)
+  │     └─ MLO 제어기 (다중 주파수 대역 동시 결합)
+  │
+  ├─ [무선 접속점 영역] ── Access Point (AP)
+  │     ├─ RF 트랜시버 (독립 다중 RF 인터페이스)
+  │     ├─ MAC/PHY 스케줄러 (OFDMA Multi-RU, 4096-QAM)
+  │     └─ BSS 관리 셀 (Basic Service Set 커버리지)
+  │
+  └─ [유선 분배 백본] ── Distribution System (DS)
+        ├─ 유선 스위칭망 (AP 간 802.3 이더넷 연결)
+        ├─ 로밍 브리지 (BSS 간 무단절 핸드오버)
+        └─ 게이트웨이 연동 (WAN/인터넷 백본 접속)
 ```
 
-선의 의미: 계층 및 무선 단말이 3개 주파수 대역을 MLO로 결합하여 AP에 접속하고 AP가 유선 DS 백본망으로 프레임을 중계하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **무선 단말 (STA)** | 무선 NIC를 탑재하여 AP와 결합하고 **MLO 다중 대역을 동시 결합 송수신** | 스마트폰, IoT |
-| **무선 접근점 (AP)** | 802.11 무선 프레임과 802.3 이더넷 프레임을 **상호 브리지하고 무선 매체 스케줄링 제어** | 무선 기지국 |
-| **기본 서비스 세트 (BSS)**| 단일 AP의 무선 전파 도달 범위 내에서 **수립된 기본 무선 통신 셀 도메인 (BSSID)** | 기본 통신 셀 |
-| **분배 시스템 (DS)** | 복수 BSS 간의 **무선 단말 로밍 및 유선 네트워크 연결을 제공하는 고속 백본망** | 유선 스위칭망 |
+| 구성요소 | 책임 |
+|:---|:---|
+| 무선 단말 (STA) | AP와 결합하여 **MLO 다중 대역 동시 결합 송수신** |
+| 무선 접근점 (AP) | 802.11/802.3 **프레임 상호 브리지 및 무선 매체 스케줄링** |
+| 기본 서비스 세트 (BSS) | 단일 AP 전파 도달 범위 내 **무선 통신 셀 도메인 유지** |
+| 분배 시스템 (DS) | 복수 BSS 간 **단말 로밍 및 유선 백본 연결 제공** |
 
 #### 한줄 요약
 - AP는 802.11 무선 프레임을 802.3 이더넷 프레임으로 옮겨 싣는 브리지로 BSS 하나의 전파 도달 범위까지만 책임지고, 그 경계를 넘는 로밍은 유선 DS 백본이 BSS 사이를 이어 대신 감당한다.

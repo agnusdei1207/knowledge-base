@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "TCP 4-way Handshake (TCP 4-way Handshake)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 23
@@ -57,12 +57,31 @@ extra:
 
 </details>
 
+```text
+[TCP 4-Way Handshake 연결 해제 체계]
+  │
+  ├─ [능동 종료 호스트 (Active Close)] (송신 채널 선제 종료)
+  │     ├─ FIN_WAIT_1 (자체 FIN 전송 후 상대 ACK 대기)
+  │     ├─ FIN_WAIT_2 (상대 ACK 수신 후 상대 FIN 대기)
+  │     └─ TIME_WAIT (상대 FIN에 최종 ACK 전송 후 2MSL 대기)
+  │
+  ├─ [수동 종료 호스트 (Passive Close)] (수신 및 잔여 처리)
+  │     ├─ CLOSE_WAIT (상대 FIN 수신 후 잔여 데이터 송신 처리)
+  │     └─ LAST_ACK (자체 FIN 전송 후 최종 ACK 수신 대기)
+  │
+  └─ [정합성 및 자원 회수 제어] (Reliability & Clean-up)
+        ├─ Half-Close 메커니즘 (단방향 송신 채널만 독립 폐쇄)
+        └─ 2MSL 타이머 (지연 패킷 소멸 대기 및 최종 ACK 유실 대비)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
+
 | 구성요소 | 책임 |
 |:---|:---|
-| 능동 종료 호스트 | 최종 ACK 후 **TIME_WAIT 유지** |
-| 수동 종료 호스트 | 잔여 송신 후 **자체 FIN 전송** |
-| 반쪽 종료 | 송신 종료 후 **역방향 수신 유지** |
-| TIME_WAIT | 재전송 FIN 응답과 **지연 패킷 소멸 대기** |
+| 능동 종료 호스트 | 자체 송신 채널 종료(FIN 전송) 및 최종 ACK 후 TIME_WAIT 상태 유지 |
+| 수동 종료 호스트 | 상대 FIN 수신 후 애플리케이션 잔여 데이터 송신 및 자체 FIN 전송 |
+| 반쪽 종료 (Half-Close) | 송신 채널을 닫은 후에도 상대방의 미전송 잔여 데이터 수신 유지 |
+| TIME_WAIT (2MSL) | 네트워크 지연 패킷 소멸 대기 및 서버의 재전송 FIN에 대한 최종 ACK 보장 |
 
 #### 한줄 요약
 - 능동 종료 측은 FIN_WAIT/TIME_WAIT, 수동 종료 측은 CLOSE_WAIT/LAST_ACK를 거쳐 정상 종료된다.

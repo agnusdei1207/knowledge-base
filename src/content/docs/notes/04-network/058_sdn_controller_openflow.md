@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "SDN 제어 평면 : SDN 컨트롤러와 OpenFlow"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 58
@@ -58,23 +58,33 @@ extra:
 </details>
 
 ```text
-[SDN 제어 평면 구성]
-|-- SDN 컨트롤러
-|-- OpenFlow 채널
-|-- 흐름 테이블
-|-- 그룹 테이블
-`-- 미터 테이블
+[SDN 컨트롤러 및 OpenFlow 구조]
+  │
+  ├─ [제어 평면 두뇌] ── SDN Controller
+  │     ├─ 전역 토폴로지 분석기 (LLDP 기반 망 구조 인지)
+  │     ├─ 경로 연산 엔진 (Dijkstra 최적 플로우 경로 산출)
+  │     └─ Flow-Mod 생성기 (스위치 하향 규칙 생성기)
+  │
+  ├─ [보안 사우스바운드 채널] ── Secure Channel
+  │     ├─ TLS 상호 인증 채널 (TCP 6653 포트 보안 링크)
+  │     ├─ 비동기 메시지 (Packet-In, Port-Status 이벤트)
+  │     └─ 동기 제어 메시지 (Flow-Mod, Packet-Out 명령)
+  │
+  └─ [데이터 평면 파이프라인] ── Multi-Table Pipeline
+        ├─ 흐름 테이블 Flow Table (Match-Action TCAM 검색)
+        ├─ 그룹 테이블 Group Table (Fast-Failover 및 복제)
+        └─ 미터 테이블 Meter Table (Rate Limiting QoS 대역폭 측정)
 ```
 
-선의 의미: TLS 보안 채널을 통해 제어 평면의 지시가 데이터 평면의 다중 테이블 파이프라인으로 적재되어 패킷을 처리하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| **SDN 컨트롤러** | 전역 토폴로지 분석, 최적 경로 계산, Flow-Mod 명령 생성 및 상태 모니터링 | 제어 평면 |
-| **OpenFlow 채널** | 컨트롤러와 스위치 간 메시지(대칭형/비동기/동기)를 교환하는 보안 링크 | TLS / TCP 6653 |
-| 흐름 테이블 (Flow Table)| 매칭 필드와 액션 인스트럭션을 저장하여 **라인 레이트 패킷 스위칭 수행** | TCAM 메모리 |
-| 그룹 테이블 (**Group Table**)| 플러딩, 멀티캐스트 복제, 링크 단선 시 즉각 우회(Fast-Failover) 처리 | L2/L3 다중화 |
-| 미터 테이블 (Meter Table)| 플로우별 최대 대역폭 측정(Rate Limiter) 및 **초과 패킷 DSCP 마킹/드롭** | QoS 제어 |
+| 구성요소 | 책임 |
+|:---|:---|
+| SDN 컨트롤러 | 전역 토폴로지 분석, **최적 경로 계산 및 Flow-Mod 명령 생성** |
+| OpenFlow 보안 채널 | 컨트롤러와 스위치 간 **TLS(TCP 6653) 상호 인증 메시지 교환** |
+| 흐름 테이블 (Flow Table) | 매칭 필드와 액션 인스트럭션 기반 **라인 레이트 패킷 스위칭** |
+| 그룹 테이블 (Group Table) | 멀티캐스트 복제 및 링크 단선 시 **Fast-Failover 즉각 우회 처리** |
+| 미터 테이블 (Meter Table) | 플로우별 최대 대역폭 계측 및 **초과 패킷 마킹·드롭(QoS)** |
 
 #### 한줄 요약
 - 그룹 테이블과 미터 테이블은 우회 전환과 대역폭 제한 판단을 스위치 안에 미리 심어 둔 계층이라 컨트롤러 왕복 없이 데이터 평면에서 끝나고, 흐름 테이블 TCAM은 매칭과 전달에만 전념한다.

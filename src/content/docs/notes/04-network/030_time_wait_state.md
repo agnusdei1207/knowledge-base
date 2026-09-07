@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "TCP TIME_WAIT 상태 (TIME_WAIT State)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-network"
 weight: 30
@@ -58,14 +58,24 @@ extra:
 </details>
 
 ```text
-[TIME_WAIT 상태 제어 및 2MSL 타이머 구조]
-|-- TIME_WAIT 상태 (능동 종료 대기)
-|-- 2MSL 타이머 (지연 패킷 소멸)
-|-- 4-튜플 식별자 (소켓 바인딩 유지)
-`-- ACK 재전송기 (재수신 FIN 응답)
+[TCP TIME_WAIT 메커니즘]
+  │
+  ├─ [대기 제어 엔진] ── Wait Control
+  │     ├─ 능동 종료 감지 (Active Close 후 진입)
+  │     ├─ 2MSL 타이머 (Maximum Segment Lifetime 2배 대기)
+  │     └─ 4-튜플 바인딩 보류 (소켓 제어 블록 TCB 일시 보존)
+  │
+  ├─ [보호 기능] ── Protection Facilities
+  │     ├─ 최종 ACK 보장 (상대방 재전송 FIN에 ACK 즉시 재응답)
+  │     └─ 지연 패킷 소멸 (이전 연결 Ghost Packet 완전 폐기)
+  │
+  └─ [커널 튜닝 및 부작용 대응] ── Kernel Optimization
+        ├─ 포트 고갈 방지 (Ephemeral Port 고갈 완화)
+        ├─ tcp_tw_reuse (안전한 타임스탬프 기반 소켓 재활용)
+        └─ SO_LINGER 제어 (필요 시 RST 강제 종료)
 ```
 
-선의 의미: 계층 및 2MSL 타이머가 가동되는 동안 지연 패킷을 폐기하고 상대방 재전송 FIN에 ACK를 재회신하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
