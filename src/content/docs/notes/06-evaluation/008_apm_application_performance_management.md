@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 환경 관측성 및 트랜잭션 추적 : APM (W3C Trace Context & OpenTelemetry)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 8
@@ -64,21 +64,20 @@ extra:
 </details>
 
 ```text
-[APM 플랫폼]
-|
-+-- [계측 계층]
-|   `-- Agent·SDK·eBPF
-+-- [수집·처리 계층]
-|   `-- OTel Collector
-+-- [저장 계층]
-|   +-- Trace 저장소
-|   +-- Metric 저장소
-|   `-- Log 저장소
-`-- [분석 계층]
-    `-- 서비스 맵·플레임 그래프
+[APM 관측성 플랫폼]
+├── [계측 계층 (Instrumentation)]
+│   └── 바이트코드 Agent · OTel SDK · eBPF
+├── [수집·처리 계층 (Processing)]
+│   └── OpenTelemetry Collector (파이프라인)
+├── [저장 계층 (Storage Layer)]
+│   ├── 분산 추적 저장소 (Traces)
+│   ├── 시계열 메트릭 저장소 (Metrics)
+│   └── 중앙 로그 저장소 (Logs)
+└── [시각화 및 분석 계층]
+    └── 서비스 토폴로지 맵 및 플레임 그래프
 ```
 
-선의 의미: APM 플랫폼의 계층별 포함 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

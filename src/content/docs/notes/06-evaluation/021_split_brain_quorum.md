@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "분산 클러스터 정합성 및 이중 마스터 방어 : 스플릿 브레인과 쿼럼 (Split-Brain & Quorum Fencing)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 21
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-스플릿 브레인 방어 체계
-├─ Consensus·Quorum Layer
-├─ Monotonic Epoch Tracker
-├─ Storage Fencing Layer
-└─ Power Fencing Layer
+[스플릿 브레인 방어 체계]
+├── [Consensus·Quorum Layer]
+│   └── 과반수 합의 및 Witness 투표
+├── [Monotonic Epoch Tracker]
+│   └── 세대 번호 기반 지연 쓰기 차단
+├── [Storage Fencing Layer]
+│   └── SCSI-3 PR 기반 디스크 락
+└── [Power Fencing Layer]
+    └── STONITH 기반 전원 강제 차단
 ```
 
-선의 의미: 네트워크 단절 시 다수 진영(Node 2+3)이 과반수 쿼럼을 형성하여 Node 1을 STONITH로 전원 차단하고 단일 쓰기를 사수하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

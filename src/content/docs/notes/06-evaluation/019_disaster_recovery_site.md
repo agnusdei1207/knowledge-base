@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "광역 재난 대응 및 비즈니스 연속성 : 재해 복구(DR) 사이트 구축 전략 (Mirror•Hot•Warm•Cold & ISO 22301)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 19
@@ -65,14 +65,18 @@ extra:
 </details>
 
 ```text
-재해 복구 아키텍처
-├─ Primary DC Layer
-├─ Dedicated WAN Network
-├─ Secondary DR Site
-└─ Traffic·Governance Layer
+[재해 복구 아키텍처]
+├── [Primary DC Layer]
+│   └── 주 운영 인프라 및 CDC 변경 로그
+├── [Dedicated WAN Network]
+│   └── 원격지 실시간 데이터 복제망
+├── [Secondary DR Site]
+│   └── 대기 인프라 및 복제 데이터베이스
+└── [Traffic·Governance Layer]
+    └── 재해 선언·GSLB 전환·BCP 런북
 ```
 
-선의 의미: 주 센터에서 100km 떨어진 원격 DR 센터로 데이터를 실시간 복제하고 재해 시 GSLB를 통해 트래픽을 자동 우회 전환하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

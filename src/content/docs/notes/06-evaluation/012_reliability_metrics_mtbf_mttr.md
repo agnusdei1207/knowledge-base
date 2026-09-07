@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "시스템 신뢰성 및 가용성 정량 평가 : MTBF, MTTR, MTTF 지표 (IEC 60050-192 & 욕조 곡선)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 12
@@ -64,18 +64,18 @@ extra:
 </details>
 
 ```text
-신뢰성 지표 체계
-├─ MTBF
-│  └─ MTTF + MTTR
-├─ Availability
-│  └─ MTTF / MTBF
-├─ Failure Rate λ
-│  └─ 1 / MTTF
-└─ Repair Rate μ
-   └─ 1 / MTTR
+[시스템 신뢰성 지표 체계]
+├── [평균 무고장 시간 (MTBF)]
+│   └── 평균 고장 시간(MTTF) + 평균 수리 복구 시간(MTTR)
+├── [시스템 가용성 (Availability)]
+│   └── MTTF / (MTTF + MTTR) = MTTF / MTBF
+├── [고장률 (Failure Rate λ)]
+│   └── 우발 고장 빈도 역수 (1 / MTTF)
+└── [복구율 (Repair Rate μ)]
+    └── 평균 수리 복구 빈도 (1 / MTTR)
 ```
 
-선의 의미: 정상 가동(MTTF)과 복구(MTTR)가 결합하여 MTBF를 이루며, MTTR은 탐지, 식별, 조치, 검증의 4단계로 분해되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

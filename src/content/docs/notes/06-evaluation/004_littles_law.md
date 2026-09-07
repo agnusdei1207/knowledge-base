@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "동시성 및 대기열 수리 모델링 : 리틀의 법칙 (Little's Law: L = λW)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 4
@@ -62,6 +62,21 @@ extra:
   3. **서비스(Server) 레벨**: $L_s = \lambda \times W_s = \frac{\lambda}{\mu} = \rho$ (서버 가동률/비지 상태 서버 수).
 
 </details>
+
+```text
+[리틀의 법칙 수리 체계]
+├── [평균 재공량 (L)]
+│   ├── 시스템 전체 작업 수 (L_sys)
+│   └── 큐 대기 작업 수 (L_q)
+├── [평균 처리율 (λ)]
+│   ├── 단위 시간당 유입율 (Arrival Rate)
+│   └── 시스템 배출 처리량 (Throughput)
+└── [평균 체류시간 (W)]
+    ├── 총 응답시간 (W_sys)
+    └── 큐 대기시간 (W_q)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

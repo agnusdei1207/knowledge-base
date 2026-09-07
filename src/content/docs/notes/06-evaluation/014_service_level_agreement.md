@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "IT 서비스 품질 거버넌스 및 계약 프레임워크 : 서비스 수준 협약 SLA (ISO/IEC 20000-1 & ITIL 4)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 14
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-SLA 계약 프레임워크
-├─ Scope·Definition Layer
-├─ Metrics·Criteria Layer
-├─ Measurement·Exclusion Layer
-└─ Governance·Credit Layer
+[SLA 계약 프레임워크]
+├── [Scope·Definition Layer]
+│   └── 서비스 범위 및 카탈로그 정의
+├── [Metrics·Criteria Layer]
+│   └── 가용성·지연시간·MTTR 목표
+├── [Measurement·Exclusion Layer]
+│   └── 데이터 원천·산식·면책 조건
+└── [Governance·Credit Layer]
+    └── 보고·분쟁 해결·크레딧 정산
 ```
 
-선의 의미: 계약 범위 확정 후 SLI 실측치, SLO 내부 목표, SLA 법적 기준을 계층화하고 미달 시 크레딧을 차감 정산하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "사이트 신뢰성 공학(SRE) 품질 지표 및 목표 거버넌스 : SLI 및 SLO (Google SRE & CUJ 기반)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 15
@@ -66,14 +66,18 @@ extra:
 </details>
 
 ```text
-SLI·SLO 관리 체계
-├─ CUJ Layer
-├─ SLI Specification Layer
-├─ Aggregation·Window Layer
-└─ Governance·Decision Layer
+[SLI·SLO 관리 체계]
+├── [CUJ Layer]
+│   └── 핵심 사용자 여정 식별
+├── [SLI Specification Layer]
+│   └── Good·Valid Total 이벤트 명세
+├── [Aggregation·Window Layer]
+│   └── 이동 측정 창(Rolling Window) 집계
+└── [Governance·Decision Layer]
+    └── 에러 예산 연계 배포 승인·동결
 ```
 
-선의 의미: 사용자 여정에서 SLI를 측정하고 30일 이동 창에서 SLO 목표 및 에러 예산과 대조하여 배포 여부를 제어하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "무중단 시스템 이중화 및 장애 복구 : 고가용성 아키텍처 (Active-Active vs Active-Standby & 펜싱)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 17
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-고가용성 아키텍처
-├─ Traffic·Routing Layer
-├─ Stateless Compute Layer
-├─ Stateful Data Layer
-└─ Cluster Management·Fencing Layer
+[고가용성 아키텍처]
+├── [Traffic·Routing Layer]
+│   └── VIP 및 로드밸런서 이중화
+├── [Stateless Compute Layer]
+│   └── Active-Active 부하 분산
+├── [Stateful Data Layer]
+│   └── Active-Standby 동기 복제
+└── [Cluster Management Layer]
+    └── 쿼럼 감시 및 STONITH 펜싱
 ```
 
-선의 의미: 로드밸런서가 무상태 WAS로 트래픽을 분산하고, 상태 저장 DB는 액티브-스탠바이 동기 복제와 쿼럼 펜싱으로 무중단 가용성을 보장하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

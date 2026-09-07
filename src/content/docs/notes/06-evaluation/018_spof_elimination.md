@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "시스템 전 구간 결함 회피 및 무중단 설계 : 단일 장애점(SPOF) 제거 (Failure Domain & Chaos Engineering)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 18
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-전 계층 SPOF 제거 체계
-├─ Entry·Network Tier
-├─ Compute Tier
-├─ Data·Storage Tier
-└─ Control·External Tier
+[전 계층 SPOF 제거 체계]
+├── [Entry·Network Tier]
+│   └── DNS·회선·VRRP 이중화
+├── [Compute Tier]
+│   └── Multi-AZ 및 N+1 예비 용량
+├── [Data·Storage Tier]
+│   └── 동기 복제 및 자동 절체
+└── [Control·External Tier]
+    └── 분산 쿼럼 및 서킷 브레이커
 ```
 
-선의 의미: 진입부터 네트워크, Multi-AZ 컴퓨트, 분산 DB 쿼럼, 외부 연계까지 전 구간의 단일 결함점을 격리하고 이중화한 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "시스템 한계 및 내구성 종합 검증 : 4대 성능 테스트 유형 (Load, Stress, Soak, Spike Testing)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 6
@@ -63,6 +63,20 @@ extra:
   4. **Spike Test Curve**: 평시 부하 $\rightarrow$ 수직 상승(Spike) $\rightarrow$ 급강하 $\rightarrow$ 정상 회복 관측.
 
 </details>
+
+```text
+[성능 테스트 4대 유형 체계]
+├── [용량 검증 (Load)]
+│   └── 피크 트래픽 환경 및 목표 SLO 충족 검증
+├── [한계 탐색 (Stress)]
+│   └── 계단식 과부하 및 Knee / Break Point 식별
+├── [내구성 검증 (Soak)]
+│   └── 24~72시간 지속 부하 및 메모리 누수 탐지
+└── [복원력 검증 (Spike)]
+    └── 순간 폭주 트래픽 및 오토스케일링·복구력 검증
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

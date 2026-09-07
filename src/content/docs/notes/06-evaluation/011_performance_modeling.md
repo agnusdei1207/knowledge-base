@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "시스템 아키텍처 사전 성능 예측 및 용량 최적화 : 성능 모델링 (Analytical vs Simulation Models)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-evaluation"
 weight: 11
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-성능 모델링 체계
-├─ Workload Model
-├─ Software Contention Model
-├─ Hardware Platform Model
-└─ Solver·Calibration Engine
+[성능 모델링 체계]
+├── [부하 모델 (Workload Model)]
+│   └── 트랜잭션 도착률 · 생각시간 · 업무 믹스
+├── [소프트웨어 경합 모델 (LQN)]
+│   └── 스레드 풀 · 커넥션 풀 · DB 락(Lock)
+├── [하드웨어 플랫폼 모델]
+│   └── CPU 코어 · 메모리 · 스토리지 IOPS · 대역폭
+└── [해석 및 보정 엔진 (Solver)]
+    └── MVA 수식 풀이 · DES 시뮬레이션 · 오차 보정
 ```
 
-선의 의미: 워크로드와 플랫폼 파라미터를 입력받아 계층형 큐잉 모델(LQN)로 추상화하고 MVA 엔진으로 해석하여 병목과 성능을 도출하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
