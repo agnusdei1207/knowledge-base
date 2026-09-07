@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "디지털 신원 증명 표준 포맷 : ITU-T X.509 v3 인증서"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 8
@@ -58,18 +58,20 @@ extra:
 </details>
 
 ```text
-X.509 Certificate
-|-- TBSCertificate
-|   |-- Metadata
-|   |-- Issuer and Subject
-|   |-- SPKI
-|   |-- Basic Constraints
-|   |-- SAN and Key Usage
-|   `-- AIA and CDP
-`-- Signature
+[X.509 v3 인증서]
+  │
+  ├─ [TBSCertificate (서명 대상)]
+  │    ├─ 기본 메타데이터 (Version/SN/Validity)
+  │    ├─ 주체 및 발급자 (Subject/Issuer DN)
+  │    ├─ 공개키 정보 (SPKI: OID & Key)
+  │    └─ 표준 확장 필드 (SAN/KeyUsage/Basic)
+  │
+  └─ [전자서명 블록]
+       ├─ 서명 알고리즘 (AlgorithmIdentifier)
+       └─ 서명값 (CA 개인키 SignatureValue)
 ```
 
-선의 의미: TBSCertificate 블록 전체를 해싱한 후 CA의 개인키로 서명하여 SignatureValue를 생성하고 클라이언트는 Issuer 공개키로 이를 검증하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

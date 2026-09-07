@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "사이버 위협 정보 표준 표현 및 자동 교환 규격 : STIX 및 TAXII"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 32
@@ -58,26 +58,27 @@ extra:
 </details>
 
 ```text
-STIX·TAXII 공유 체계
-|-- CTI 생산자
-|   `-- STIX SDO·SRO
-|-- TAXII 서버
-|   |-- API Root
-|   |-- Collection
-|   `-- 접근 통제
-`-- CTI 소비자
-    `-- STIX 파서
+[STIX·TAXII 공유 체계]
+├─ CTI 생산 계층
+│  └─ STIX 표현 모델 (SDO·SRO 객체)
+├─ TAXII 전송 허브
+│  ├─ API Root (REST API 진입점)
+│  ├─ Collection (논리 데이터 저장소)
+│  └─ 접근 통제 (mTLS·TLP 마킹)
+└─ CTI 소비 계층
+   ├─ STIX 파서 (그래프 객체 역직렬화)
+   └─ 보안 집행 솔루션 (SIEM·SOAR·방화벽)
 ```
 
-선의 의미: 생산자가 STIX 2.1 그래프 객체를 생성하여 TAXII 서버에 게시하면 소비자가 API를 통해 증분 조회하여 방화벽/SOAR에 자동 반영하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| STIX SDO | 위협 행위자·지표 등 도메인 객체 정의 | STIX 2.1 |
-| STIX SRO | SDO 간 관계 객체 표현 | Relationship |
-| TAXII API Root | REST API 진입점 제공 | Endpoint |
-| TAXII Collection | STIX 객체의 논리 저장소 제공 | Data Store |
-| TLP 마킹 | 공유 허용 범위 통제 | Data Marking |
+| 구성요소 | 책임 |
+|:---|:---|
+| STIX SDO (Domain Objects) | 위협 행위자·악성코드·침해지표 등 18종 도메인 실체 객체 정의 |
+| STIX SRO (Relationship Objects) | SDO 간 연관 관계(indicates, targets 등) 그래프 연결 표현 |
+| TAXII API Root | RESTful HTTPS API 서비스 진입점 및 버전 협상 엔드포인트 제공 |
+| TAXII Collection | 클라이언트 인가 권한에 따른 STIX 객체 논리 저장소 및 쿼리 엔드포인트 |
+| TLP 마킹 (Data Marking) | TLP 2.0 규격 기반 정보 공유 허용 범위(RED~CLEAR) 통제 |
 
 #### 한줄 요약
 - 위협의 의미는 SDO가 아니라 SRO에 담기므로, 관계 객체 없이 지표만 주고받으면 표준을 써도 결국 IoC 나열로 되돌아간다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "위협 노출면 지속 평가 및 폐쇄 루프 감축 프레임워크 : CTEM"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 40
@@ -57,13 +57,27 @@ extra:
 
 </details>
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 범위 설정 모듈 (Scoping)| 비즈니스 프로세스에 따라 평가 대상 인프라 정의 | Governance |
-| 전방위 발견 엔진 (Discovery)| EASM, CSPM, 취약점 스캐너를 통합해 디지털 자산 식별 | Multi-Scanner |
-| 우선순위화 엔진 | KEV, EPSS, 자산 중요도를 융합해 실질적 조치 우선순위 산출 | Risk Scoring |
-| BAS 검증기 (Validation)| MITRE ATT&CK 기반 모의 공격으로 침투 경로 성립 여부 실증 | BAS Simulation |
-| 동원 및 환류 (Mobilization)| ITSM 연동으로 패치를 강제하고 재시뮬레이션으로 차단 검증 | Closed-Loop |
+```text
+[지속적 위협 노출 관리 (CTEM)]
+├─ 기획 및 탐색 계층
+│  ├─ 범위 설정 (Scoping: 평가 대상 자산 지정)
+│  └─ 전방위 발견 (Discovery: 노출 자산 식별)
+├─ 정밀 평가 계층
+│  ├─ 우선순위화 (Prioritization: KEV·EPSS 분석)
+│  └─ 실증 검증 (Validation: BAS 모의 공격)
+└─ 조치 환류 계층
+   └─ 동원 및 환류 (Mobilization: 폐쇄 루프 조치)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
+
+| 구성요소 | 책임 |
+|:---|:---|
+| 범위 설정 모듈 (Scoping) | 비즈니스 프로세스 및 자산 중요도에 따라 분기별 평가 대상 인프라 정의 |
+| 전방위 발견 엔진 (Discovery) | EASM, CSPM, 취약점 스캐너를 통합해 관리/미관리 디지털 자산 전수 식별 |
+| 우선순위화 엔진 (Prioritization) | CISA KEV, EPSS 점수, 내부 자산 도달성을 융합해 실질적 조치 우선순위 산출 |
+| BAS 검증기 (Validation) | MITRE ATT&CK 기반 모의 공격 시뮬레이션으로 공격 경로 유효성 실증 |
+| 동원 및 환류 (Mobilization) | ITSM 연동으로 긴급 패치를 강제(SLA)하고 재시뮬레이션으로 차단 완결 검증 |
 
 #### 한줄 요약
 - 발견 엔진과 조치 사이에 우선순위화·BAS 검증 두 필터가 직렬로 놓여 있어, CTEM의 실효성은 스캐너 성능이 아니라 이 두 필터가 얼마나 정확히 걸러 내느냐로 결정된다.

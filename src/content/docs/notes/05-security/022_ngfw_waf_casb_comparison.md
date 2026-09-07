@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "계층별 보안 통제 아키텍처 비교 : NGFW vs WAF vs CASB"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 22
@@ -58,14 +58,22 @@ extra:
 </details>
 
 ```text
-[다계층 보안 통제]
-|-- NGFW       : 네트워크 경계·DPI 통제
-|-- WAF        : 웹·API 공격 통제
-|-- CASB       : SaaS 접근·DLP 통제
-`-- SIEM/SOAR  : 이벤트 상관·대응
+[다계층 보안 통제 체계]
+  │
+  ├─ [네트워크 경계 통제]
+  │    └─ NGFW (L3-L7 DPI / IP 통제)
+  │
+  ├─ [애플리케이션 보호]
+  │    └─ WAF (L7 웹 / API OWASP 방어)
+  │
+  ├─ [클라우드 거버넌스]
+  │    └─ CASB (SaaS DLP / Shadow IT)
+  │
+  └─ [통합 관제 평면]
+       └─ SIEM / SOAR (상관 분석·대응)
 ```
 
-선의 의미: 인입되는 전체 네트워크 트래픽을 NGFW가 1차 정제하고 웹 서버 대상 패킷은 WAF가, 외부 클라우드 접속은 CASB가 정밀 검사하는 계층형 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

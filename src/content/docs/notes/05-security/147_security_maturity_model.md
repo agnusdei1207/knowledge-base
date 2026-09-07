@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "엔터프라이즈 사이버보안 역량 평가 및 개선 프레임워크 : 보안 성숙도 모델 (SAMM vs BSIMM vs C2M2)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 147
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-보안 성숙도 평가 프레임워크
-├─ Scoping·Target Profiler
-├─ Capability Assessment Matrix
-├─ Artifact Collector
-└─ Risk-based Roadmap Engine
+[보안 성숙도 평가 프레임워크]
+├── [범위·목표 정의]
+│   └── Scoping 및 Target Profiler
+├── [역량 평가 매트릭스]
+│   └── Capability Assessment Matrix
+├── [객관적 증거 수집]
+│   └── Artifact Collector (CI/CD 로그·정책)
+└── [로드맵 수립 및 환류]
+    └── Risk-based Roadmap Engine (격차·ROI)
 ```
 
-선의 의미: 목표 프로파일 설정 후 역량 매트릭스를 통해 아티팩트 기반으로 현재 수준을 진단하고, 격차 분석을 통해 지속적 개선 로드맵을 환류하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

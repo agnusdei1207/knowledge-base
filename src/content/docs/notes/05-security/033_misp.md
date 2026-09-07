@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오픈소스 사이버 위협 인텔리전스 공유 플랫폼 : MISP"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 33
@@ -58,28 +58,29 @@ extra:
 </details>
 
 ```text
-MISP 플랫폼
-|-- 이벤트 데이터 모델
-|   |-- 속성·객체
-|   `-- Taxonomy·Galaxy
-|-- 검증 엔진
-|   |-- Warninglist
-|   `-- Sighting
-`-- 공유·연동 계층
-    |-- Sharing Group
-    `-- STIX·TAXII 브리지
+[MISP 위협 공유 플랫폼]
+├─ 이벤트 데이터 모델
+│  ├─ 이벤트 컨테이너 (단일 침해 사건 캡슐화)
+│  ├─ 속성·객체 (IoC 기술 지표 정의)
+│  └─ 택소노미·갤럭시 (TLP·공격자 TTP 태깅)
+├─ 검증 및 정제 엔진
+│  ├─ Warninglist (정상 공용 지표 오탐 방지)
+│  └─ Sighting 엔진 (커뮤니티 관측 피드백 수렴)
+└─ 공유 및 상호연동 계층
+   ├─ Sharing Group (인가된 신뢰 그룹별 복제)
+   └─ STIX·TAXII 브리지 (글로벌 표준 연동 전송)
 ```
 
-선의 의미: MISP가 이벤트를 생성하고 Warninglist와 Sighting으로 검증한 후 공유그룹 정책에 따라 타 기관 MISP 및 사내 보안 장비로 전송하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 이벤트 (Event) | 단일 침해사고 맥락(Context)을 캡슐화하는 최상위 컨테이너 | Event Container |
-| 속성 및 객체 | 침해 지표(IP, Domain, File Hash, YARA 룰)의 구체적 기술 값 정의 | IoC Data |
-| 택소노미 및 갤럭시| TLP 공유 등급 및 MITRE ATT&CK TTP, APT 행위자 맥락 맵핑 | Taxonomy/Galaxy |
-| 경고목록 (Warninglist)| 정상 공용 IP/도메인 매칭 시 경고 플래그를 부착하여 오차단 방지 | False Positive |
-| 사이팅 엔진 (Sighting)| 커뮤니티의 실제 관측 피드백을 수집하여 신뢰도 점수 및 수명 갱신 | Feedback Metric |
-| STIX/TAXII 브릿지 | 외부 이종 보안 플랫폼과의 글로벌 표준 상호운용성 보장 | Interoperability |
+| 구성요소 | 책임 |
+|:---|:---|
+| 이벤트 (Event) | 단일 침해사고 맥락(Context)을 캡슐화하는 최상위 컨테이너 관리 |
+| 속성 및 객체 (Attributes/Objects) | IP·도메인·파일 해시·YARA 룰 등 구체적 기술 지표 값 정의 |
+| 택소노미 및 갤럭시 (Taxonomy/Galaxy) | TLP 공유 등급 및 MITRE ATT&CK TTP, APT 행위자 맥락 매핑 |
+| 경고목록 (Warninglist) | 정상 공용 IP/도메인 매칭 시 경고 플래그를 부착하여 오차단 방지 |
+| 사이팅 엔진 (Sighting) | 커뮤니티의 실제 관측 피드백을 수집하여 신뢰도 점수 및 유효기간 갱신 |
+| STIX/TAXII 브릿지 | 외부 이기종 CTI 보안 플랫폼과의 글로벌 표준 상호운용성 보장 |
 
 #### 한줄 요약
 - 데이터 모델과 공유 계층 사이에 Warninglist·Sighting 검증 엔진이 끼어들어 있어, MISP는 지표를 전달만 하는 STIX/TAXII와 달리 전달 전에 품질을 거르는 비용을 자체 부담한다.

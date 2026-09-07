@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "인증기관 아키텍처 및 발급 절차 : CA"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 9
@@ -58,16 +58,20 @@ extra:
 </details>
 
 ```text
-CA
-|-- Root CA
-|   `-- Intermediate CA
-|       `-- Issuing CA
-|           |-- RA
-|           |-- HSM
-|           `-- CT Log Client
+[인증기관 (CA) 아키텍처]
+  │
+  ├─ [3계층 인증 체인]
+  │    ├─ Root CA (에어갭 오프라인)
+  │    ├─ Intermediate CA (정책 위임)
+  │    └─ Issuing CA (실시간 발급)
+  │
+  └─ [발급 및 감사 인프라]
+       ├─ 등록 대행 기관 (RA 심사)
+       ├─ HSM (FIPS 140-3 키 보호)
+       └─ CT Log Client (SCT 영수증)
 ```
 
-선의 의미: 오프라인 Root CA가 최상위 신뢰를 제공하고 Intermediate CA가 정책을 통제하며 온라인 Issuing CA/RA가 가입자의 인증서를 발급하고 CT 로그에 기록하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

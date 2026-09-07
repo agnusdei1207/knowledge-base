@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "공개키 신뢰 사슬 및 인증서 생명주기 관리 : PKI"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 7
@@ -58,15 +58,21 @@ extra:
 </details>
 
 ```text
-PKI
-|-- Root CA
-|   `-- Intermediate CA
-|       |-- RA
-|       `-- Certificate Repository
-`-- Trust Store
+[PKI 공개키 기반구조]
+  │
+  ├─ [인증 체인 계층]
+  │    ├─ Root CA (최상위 신뢰 앵커)
+  │    └─ Intermediate CA (발급 대행)
+  │
+  ├─ [운영 및 저장 계층]
+  │    ├─ 등록 대행 기관 (RA)
+  │    └─ 인증서 저장소 (CRL/OCSP)
+  │
+  └─ [클라이언트 신뢰점]
+       └─ Trust Store (내장 루트 저장소)
 ```
 
-선의 의미: 신청자의 CSR이 RA의 신원 검증을 통과한 후 발급 CA의 HSM 서명을 거쳐 X.509 인증서로 발행되고 최상위 Root CA가 신뢰의 앵커를 제공하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

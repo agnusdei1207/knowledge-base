@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "키 교환과 대용량 데이터 전송의 결합 : 하이브리드 암호"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 3
@@ -58,14 +58,22 @@ extra:
 </details>
 
 ```text
-Hybrid Cryptography
-|-- Authentication Module
-|-- KEM Module
-|-- KDF Module
-`-- DEM Module
+[하이브리드 암호 체계]
+  │
+  ├─ [인증 평면]
+  │    └─ 인증 모듈 (인증서·서명)
+  │
+  ├─ [키 교환 평면: KEM]
+  │    └─ 비대칭 KEM (공유 비밀 합의)
+  │
+  ├─ [키 유도 평면: KDF]
+  │    └─ HKDF (방향별 대칭키 도출)
+  │
+  └─ [데이터 평면: DEM]
+       └─ 대칭 DEM (AEAD 고속 암호화)
 ```
 
-선의 의미: KEM 계층에서 비대칭 암호화로 공유 비밀을 교환하고 KDF 계층에서 방향별 대칭키를 도출한 후 DEM 계층에서 대용량 데이터를 초고속 AEAD 암호화하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

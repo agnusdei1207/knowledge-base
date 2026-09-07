@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "분산 식별자 구문 및 데이터 모델 표준 : W3C DID Core 1.0 (DID Document & Resolution)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 68
@@ -64,41 +64,31 @@ extra:
 </details>
 
 ```text
-[ DID 주체 / 제어자 (Subject / Controller) ]
-                      │ (1. DID 생성 및 개인키 제어)
-                      ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. DID 식별자 표준 URI 구문 (did:method:method-specific-id) ]        │
-│  ├─ `did`: 표준 URI 스킴 접두사                                        │
-│  ├─ `method`: 특정 블록체인/DLT 구현체 식별자 (예: `ion`, `indy`, `key`)│
-│  └─ `id`: 해당 분산 원장 내부의 고유 암호학적 식별자 문자열             │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (2. DID Resolution 질의)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. DID 해석기 (Universal DID Resolver) ]                              │
-│  └─ DID Method 드라이버를 로드하여 대상 분산 원장(DLT)에서 상태 조회     │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (3. DID Document 역직렬화 반환)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 3. DID 문서 (DID Document: W3C JSON-LD Data Model) ]                  │
-│  ├─ `id`: `did:example:123456789abcdefghi`                              │
-│  ├─ `verificationMethod`: [ 공개키 1, 공개키 2 ]                        │
-│  ├─ `authentication`: [ "#key-1" ] (로그인 인증 전용)                   │
-│  └─ `assertionMethod`: [ "#key-2" ] (VC 자격증명 서명 전용)              │
-└─────────────────────────────────────────────────────────────────────────┘
+[W3C DID 아키텍처]
+├─ DID 식별자 URI 구문
+│  ├─ 스킴 접두사 (Scheme: did)
+│  ├─ 메소드 식별자 (Method: ion, indy 등)
+│  └─ 메소드 특화 식별자 (Specific-id)
+├─ Universal DID 해석기 (Resolver)
+│  ├─ URI 구문 파싱 및 라우팅
+│  ├─ Method별 원장 드라이버 구동
+│  └─ DLT 상태 조회 및 DID 문서 반환
+└─ DID 문서 (DID Document)
+   ├─ 식별자 및 제어자 (id, controller)
+   ├─ 공개키 집합 (verificationMethod)
+   ├─ 검증 관계 (assertionMethod, authentication)
+   └─ 상호작용 엔드포인트 (service)
 ```
 
-선의 의미: DID 식별자가 Resolver를 통해 대상 DID Method 드라이버를 거쳐 분산 원장에서 조회된 후, 표준 DID Document로 해소되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 책임 및 역할 | 비고 |
-|:---|:---|:---|
-| DID 식별자 (URI) | `did:method:id` 고유 문자열 구조로 전역 식별성 및 조회 방법 지정 매핑 | W3C URI Scheme |
-| 제어자 (Controller) | 개인키를 소유하여 DID 문서의 생성, 공개키 회전, 비활성화를 암호학적으로 통제 | Controller |
-| **DID 방법 (Method)** | 특정 분산 원장(Ethereum, Sovrin 등) 상에서 DID 문서 CRUD 인터페이스 명세 정의 | Implementation |
-| DID 해석기 (Resolver) | DID URI를 파싱하고 대상 Method 드라이버를 구동하여 최신 DID 문서를 반환 | Resolution Engine |
-| **검증 관계** 매핑 | `assertionMethod`, `authentication` 등 공개키의 구체적 보안 사용 목적을 한정 | Key Purpose Map |
+| 구성요소 | 책임 |
+|:---|:---|
+| DID 식별자 (URI) | `did:method:id` 고유 문자열 구조로 전역 유일성과 분산 원장 조회 방법을 지정하는 W3C URI |
+| 제어자 (Controller) | 개인키를 소유하여 DID 문서의 생성, 공개키 회전, 비활성화를 암호학적으로 통제하는 주체 |
+| DID 방법 (Method) | 특정 분산 원장 상에서 DID 문서의 생성·조회·갱신·비활성화(CRUD) 인터페이스 명세를 정의 |
+| DID 해석기 (Resolver) | DID URI를 파싱하고 대상 Method 드라이버를 구동하여 최신 DID 문서를 반환하는 엔진 |
+| 검증 관계 매핑 | assertionMethod, authentication 등 공개키의 구체적인 보안 사용 목적을 분리 한정 |
 
 #### 한줄 요약
 - 해석기가 Method 드라이버를 갈아 끼우는 지점이므로, 새 분산 원장이 등장해도 애플리케이션은 그대로 두고 드라이버만 추가하는 확장 비용으로 끝난다.

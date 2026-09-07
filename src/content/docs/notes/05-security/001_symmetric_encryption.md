@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "고속 블록/스트림 데이터 암호화 : 대칭키 암호화"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 1
@@ -58,15 +58,19 @@ extra:
 </details>
 
 ```text
-AEAD
-|-- Secret Key
-|-- Nonce
-|-- AEAD Engine
-|-- Authentication Tag
-`-- KMS and HSM
+[대칭키 암호화 체계]
+  │
+  ├─ [키 및 난수 관리]
+  │    ├─ Secret Key (공유 비밀키)
+  │    ├─ Nonce (일회용 고유 난수)
+  │    └─ KMS / HSM (키 수명주기)
+  │
+  └─ [AEAD 암복호화 엔진]
+       ├─ 암호화 엔진 (AES-GCM)
+       └─ 인증 태그 (GHASH 무결성)
 ```
 
-선의 의미: KMS에서 할당된 키와 논스를 바탕으로 AEAD 모듈이 암호문과 인증 태그를 동시 생성하고 수신단이 태그를 우선 검증한 후 복호화하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

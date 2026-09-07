@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 네이티브 네트워크 및 보안 융합 아키텍처 : SASE 및 SSE (NIST SP 800-207 & MEF 117)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 141
@@ -64,15 +64,18 @@ extra:
 </details>
 
 ```text
-SASE 아키텍처
-├─ Edge Client·Branch SD-WAN
-├─ Global PoP Fabric
-├─ Security Service Edge
-│  └─ SWG·CASB·ZTNA·FWaaS·DLP·RBI
-└─ Unified Cloud Control Plane
+[SASE 융합 아키텍처]
+├── [에지 인입 계층]
+│   └── 에지 클라이언트 및 지사 SD-WAN 라우터
+├── [글로벌 PoP 패브릭]
+│   └── 전 세계 분산 초저지연 노드 (Anycast)
+├── [보안 서비스 에지 (SSE)]
+│   └── SWG · CASB · ZTNA · FWaaS · DLP · RBI
+└── [통합 클라우드 제어 평면]
+    └── 중앙 집중형 정책 엔진 및 위협 관제
 ```
 
-선의 의미: 엔드포인트가 가장 가까운 PoP로 연결되어 단일 패스 검사와 중앙 정책 판정을 거친 후 최적 경로로 앱에 연결되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

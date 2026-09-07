@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "메모리 재사용 및 제어 흐름 변조 방어 : 쉘코드 및 ROP"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 50
@@ -58,27 +58,28 @@ extra:
 </details>
 
 ```text
-쉘코드·ROP 방어 구조
-|-- CPU 하드웨어
-|   |-- DEP·NX
-|   `-- Intel CET
-|       |-- IBT
-|       `-- Shadow Stack
-|-- 운영체제
-|   `-- ASLR
-`-- 컴파일러
-    `-- PIE·CFI
+[쉘코드 및 ROP 다계층 방어]
+├─ CPU 하드웨어 계층
+│  ├─ DEP·NX (데이터 실행 방지)
+│  └─ Intel CET (하드웨어 CFI)
+│     ├─ Shadow Stack (복귀 주소 검증)
+│     └─ IBT (간접 분기 추적)
+├─ 운영체제 계층
+│  └─ ASLR (주소 공간 무작위화)
+└─ 컴파일러 계층
+   ├─ PIE (위치 독립 실행)
+   └─ 소프트웨어 CFI (제어 흐름 무결성)
 ```
 
-선의 의미: DEP/NX가 쉘코드를 차단하고 ASLR이 가젯 탐색을 방해하며 Intel CET의 IBT 및 Shadow Stack이 ROP 실행을 최종 하드웨어 차단하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| 하드웨어 DEP/NX | 스택/힙 메모리에 No-Execute를 설정해 주입된 쉘코드의 CPU 실행 거부 | CPU Hardware |
-| ASLR / PIE | 공유 라이브러리 가상 주소를 난수화해 ROP 가젯 주소 산출 차단 | OS Kernel |
-| 제어 흐름 무결성 (CFI)| 정상 제어 흐름 그래프(CFG)를 벗어난 비인가 함수 호출 및 분기 탐지 | Compiler Spec |
-| **Intel CET Shadow Stack**| 격리된 하드웨어 스택을 유지해 `ret` 실행 시 복귀 주소 무결성 검증 | CET Hardware |
-| **Intel CET IBT** | `ENDBR64`로 시작하지 않는 비정상적인 간접 호출/점프 하드웨어 차단 | Indirect Branch |
+| 구성요소 | 책임 |
+|:---|:---|
+| 하드웨어 DEP/NX | 스택/힙 메모리에 No-Execute를 설정해 주입된 쉘코드의 CPU 실행 원천 차단 |
+| ASLR / PIE | 공유 라이브러리 및 코드 가상 주소를 난수화해 ROP 가젯 주소 산출 차단 |
+| 제어 흐름 무결성 (CFI) | 정상 제어 흐름 그래프(CFG)를 벗어난 비인가 함수 호출 및 분기 탐지 |
+| Intel CET Shadow Stack | 격리된 하드웨어 스택을 유지해 `ret` 실행 시 복귀 주소 변조 여부 실시간 검증 |
+| Intel CET IBT | `ENDBR64`로 시작하지 않는 비정상적인 간접 호출/점프 명령 하드웨어 차단 |
 
 #### 한줄 요약
 - 다섯 요소 중 DEP/NX와 ASLR은 공격 비용을 높이는 확률적 완화에 머무는 반면, 복귀 주소를 하드웨어에 이중 보관하는 Shadow Stack만이 주소 유출 여부와 무관하게 결정적으로 차단한다.

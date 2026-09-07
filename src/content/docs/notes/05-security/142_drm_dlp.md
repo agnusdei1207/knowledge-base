@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "엔터프라이즈 데이터 보안 및 정보 유출 방지 : DRM vs DLP (ISO/IEC 27001 & NIST SP 800-53)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 142
@@ -66,17 +66,17 @@ extra:
 </details>
 
 ```text
-DRM·DLP 융합 아키텍처
-├─ DRM 보호
-│  ├─ DRM 패키징·암호 엔진
-│  └─ KMS·Clearinghouse
-└─ DLP 보호
-   ├─ Endpoint DLP Agent
-   ├─ Network DLP Gateway
-   └─ Discovery·Classification Engine
+[DRM · DLP 융합 데이터 보안 체계]
+├── [DRM 원천 보호 계층]
+│   ├── DRM 패키징 및 암호화 엔진 (AES-256)
+│   └── KMS 및 클리어링하우스 (권한 통제)
+└── [DLP 유출 차단 계층]
+    ├── 엔드포인트 DLP 에이전트 (매체·화면 통제)
+    ├── 네트워크 DLP 게이트웨이 (EDM·IDM 검사)
+    └── 데이터 탐색·분류 엔진 (저장 데이터 스캔)
 ```
 
-선의 의미: DRM으로 파일을 원천 암호화하고, DLP가 엔드포인트/네트워크에서 채널을 검사하며, 하이브리드 연동으로 암호화 파일의 내용까지 검증하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

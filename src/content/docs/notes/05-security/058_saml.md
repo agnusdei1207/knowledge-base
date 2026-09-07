@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "이종 도메인 XML 연합 인증 및 싱글 사인온 : SAML 2.0 (Security Assertion Markup Language & OASIS)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 58
@@ -63,36 +63,29 @@ extra:
 </details>
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. Identity Provider (IdP: 본사 엔터프라이즈 신원 서버) ]             │
-│  ├─ 메타데이터 관리: SP의 X.509 인증서 및 Assertion Consumer Service URL │
-│  ├─ 사용자 인증: LDAP / Active Directory / MFA 연계 인증 집행            │
-│  └─ [ SAML Assertion 생성 ➔ 개인키(Private Key)로 XML 디지털 서명 ]     │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (SAML Response 전송 / Browser POST Binding)
-                                     ▼
-[ User Agent (웹 브라우저: HTTP POST 데이터 중계) ]
-                                     │
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. Service Provider (SP: 타깃 클라우드/자회사 웹 애플리케이션) ]      │
-│  ├─ XML 서명 무결성 검증: IdP의 공개키로 XML Signature 검증            │
-│  ├─ 수신자 검증: `Recipient == SP_ACS_URL`, `Audience == SP_Entity_ID` │
-│  ├─ 유효 시간 검증: `NotBefore <= Current_Time < NotOnOrAfter`          │
-│  ├─ 재전송 검증: `InResponseTo == AuthnRequest_ID` 및 Assertion ID 캐싱 │
-│  └─ [ 전 항목 통과 ➔ SP 로컬 로그인 세션(Cookie) 생성 및 인가 ]        │
-└─────────────────────────────────────────────────────────────────────────┘
+[SAML 2.0 연합 SSO 아키텍처]
+├─ 신원 제공자 (Identity Provider)
+│  ├─ 사용자 인증 모듈 (LDAP·AD·MFA)
+│  └─ Assertion 발행기 (XML 서명·암호화)
+├─ 중계 클라이언트 (User Agent)
+│  └─ 웹 브라우저 (HTTP Redirect·POST 중계)
+├─ 서비스 제공자 (Service Provider)
+│  ├─ ACS 엔드포인트 (Response 수신)
+│  ├─ 무결성 검증기 (XML Signature 검증)
+│  └─ 수신자·시간 검증기 (Audience·NotOnOrAfter)
+└─ 신뢰 기반 명세
+   └─ SAML Metadata (X.509 인증서 상호 교환)
 ```
 
-선의 의미: IdP가 인증 후 XML 서명된 Assertion을 발행하면 브라우저를 거쳐 SP에 전달되고, SP가 엄격한 서명 및 유효성 검증을 거쳐 로컬 세션을 발급하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 책임 및 역할 | 비고 |
-|:---|:---|:---|
-| User Agent (브라우저) | IdP와 SP 간의 통신에서 SAML 메시지(XML)를 HTTP Redirect/POST로 중계 | Client Agent |
-| IdP (신원 제공자) | 사용자 신원 인증, 권한 속성 매핑, X.509 서명된 **SAML Assertion** 발급 | Identity Authority|
-| SP (서비스 제공자) | AuthnRequest 생성, 수신된 Assertion 서명/수신자/유효기간 검증 및 로컬 세션 확립 | Service Endpoint |
-| SAML Metadata | IdP와 SP가 엔티티 ID, 엔드포인트 URL, 공개키 인증서를 상호 교환하기 위한 XML 명세 | Federation Trust |
-| ACS (Assertion Consumer)| SP 측에서 IdP로부터 전달된 SAML Response(HTTP POST)를 수신하는 전용 엔드포인트 | ACS URL |
+| 구성요소 | 책임 |
+|:---|:---|
+| User Agent (브라우저) | IdP와 SP 간의 통신에서 SAML 메시지(XML)를 HTTP Redirect/POST로 중계 |
+| IdP (신원 제공자) | 사용자 신원 인증, 권한 속성 매핑, X.509 서명된 SAML Assertion 발급 |
+| SP (서비스 제공자) | AuthnRequest 생성, 수신된 Assertion 서명/수신자/유효기간 검증 및 로컬 세션 확립 |
+| SAML Metadata | IdP와 SP가 엔티티 ID, 엔드포인트 URL, 공개키 인증서를 상호 교환하기 위한 XML 명세 |
+| ACS (Assertion Consumer) | SP 측에서 IdP로부터 전달된 SAML Response(HTTP POST)를 수신하는 전용 엔드포인트 |
 
 #### 한줄 요약
 - IdP와 SP는 직접 통신하지 않고 브라우저가 XML을 중계하므로 신뢰는 사전 교환한 메타데이터의 공개키 하나에 걸리고, 그만큼 검증 책임은 전적으로 SP 쪽에 남는다.

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "시스템 보안 아키텍처 8대 기본 설계 원칙 : Saltzer & Schroeder 원칙 (NIST SP 800-160 & SP 800-53)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 137
@@ -68,32 +68,32 @@ extra:
 </details>
 
 ```text
-보안 설계 원칙
-├─ 단순성·기본선
-│  ├─ Economy of Mechanism
-│  └─ Fail-safe Defaults
-├─ 접근 통제
-│  ├─ Complete Mediation
-│  ├─ Separation of Privilege
-│  └─ Least Privilege
-└─ 구조·사용성
-    ├─ Open Design
-    ├─ Least Common Mechanism
-    └─ Psychological Acceptability
+[시스템 보안 8대 설계 원칙]
+├── [단순성 및 기본 통제]
+│   ├── 메커니즘의 경제성 (TCB 최소화)
+│   └── 안전한 기본값 (Default Deny)
+├── [접근 및 권한 통제]
+│   ├── 완전 중재 (우회 없는 전수 검사)
+│   ├── 직무·권한 분리 (다중 승인 강제)
+│   └── 최소 권한 부여 (JIT 권한 할당)
+└── [구조 격리 및 수용성]
+    ├── 공개 설계 원칙 (비밀키 기반 안전)
+    ├── 최소 공통 메커니즘 (테넌트 격리)
+    └── 심리적 수용성 (사용 편의성 보장)
 ```
 
-선의 의미: 기본 거부와 단순 설계 위에 완전 중재 및 최소 권한 검증을 거쳐, 공유 자원을 격리하고 사용자 수용성을 보장하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 설계 원칙 | 핵심 정의 및 내용 | 현대적 구현 기술 및 표준 | 비고 |
-|:---|:---|:---|:---|
-| **Economy of Mechanism** | 보안 메커니즘을 최대한 작고 단순하게 설계하여 검증 오류 최소화 | 마이크로커널(Microkernel), TCB 최소화 | Simplicity |
-| **Fail-safe Defaults** | 기본 상태를 접근 거부(Deny)로 설정하고 명시적 허용 시에만 개방 | 방화벽 Default Drop, 제로 트러스트 | Baseline |
-| **Complete Mediation** | 모든 주체의 모든 객체 접근을 캐싱 없이 매번 인터셉트 검증 | 제로 트러스트 PEP/PDP, IAM 정책 엔진 | Mediation |
-| **Open Design** | 설계가 공개되어도 암호키만 안전하면 시스템 보안성 유지 | Kerckhoffs의 원리, AES/RSA 표준 암호 | Transparency |
-| **Separation of Privilege** | 단일 권한으로 치명적 동작 불가, 2인 이상의 다중 조건 승인 강제 | 직무 분리(SoD), 다중 서명(Multisig) | Separation |
-| **Least Privilege** | 직무 수행에 필요한 최소한의 권한만 부여하고 과권한 방지 | RBAC, ABAC, Just-In-Time(JIT) 권한 | Authorization |
-| **Least Common Mechanism** | 서로 다른 사용자 간 공유하는 메커니즘을 최소화하여 상호 간섭 방지 | 컨테이너 격리, 가상화 멀티테넌시 | Isolation |
-| **Psychological Acceptability**| 보안 통제가 사용자 업무를 과도하게 방해하지 않도록 설계 | 패스키(Passkey), FIDO2 생체인증 | Usability |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Economy of Mechanism** | 메커니즘을 단순화하여 검증 용이성 확보 및 TCB 최소화 |
+| **Fail-safe Defaults** | 명시적 허용 전까지 기본 거부(Default Deny) 및 안전 잠금 유지 |
+| **Complete Mediation** | 모든 자원 접근을 캐싱 없이 매번 인터셉트하여 전수 검증 |
+| **Open Design** | 알고리즘 공개 상태에서 비밀키만으로 시스템 안전성 보증 |
+| **Separation of Privilege** | 단일 권한 남용 방지를 위한 다중 조건 승인 및 직무 분리 강제 |
+| **Least Privilege** | 과업 수행에 필요한 최소한의 권한과 유효 시간만 부여 |
+| **Least Common Mechanism** | 사용자 간 공유 메커니즘을 최소화하여 상호 간섭 및 부채널 차단 |
+| **Psychological Acceptability** | 통제 우회를 방지하도록 사용 편의성과 마찰 없는 수용성 보장 |
 
 #### 한줄 요약
 - 완전 중재는 캐싱을 포기하고 매 접근마다 검증 비용을 치르는 대가로 우회 경로를 없애고 권한 분리는 신속성을 내주며, 심리적 수용성은 나머지 원칙이 우회당하지 않게 만드는 전제 조건이라 사용자가 피해 가는 통제는 없는 통제와 같다.

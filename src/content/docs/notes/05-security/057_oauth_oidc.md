@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "인가 위임 및 분산 신원 인증 표준 : OAuth 2.0 및 OIDC (OpenID Connect & RFC 6749/7636)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 57
@@ -64,40 +64,29 @@ extra:
 </details>
 
 ```text
-[ 자원 소유자 (Resource Owner / User) ]
-                 │ (1. 로그인 및 권한 위임 동의)
-                 ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. 클라이언트 (Client: 모바일 앱 / SPA 프론트엔드) ]                 │
-│  ├─ `code_verifier` 생성 ➔ `code_challenge = SHA256(verifier)` 계산   │
-│  └─ [ 인가 요청 전송: `/authorize?client_id=...&code_challenge=...` ] │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (2. 인가 코드 발급 ➔ 토큰 교환 요청)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. 인가 서버 / 신원 제공자 (Authorization Server / OpenID Provider) ]│
-│  ├─ Redirect URI 엄격 대조 및 PKCE `code_verifier` 수학적 일치성 검증   │
-│  ├─ OIDC 레이어: 사용자 신원 증명 **ID Token (JWT)** 발급 (RS256 서명)  │
-│  └─ OAuth 레이어: API 자원 접근용 **Access Token** & **Refresh Token** 발급│
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (3. Access Token 첨부 API 호출)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 3. 자원 서버 (Resource Server: REST API 백엔드) ]                     │
-│  ├─ JWKS(JSON Web Key Set) 기반 서명 무결성 및 만료(`exp`), Scope 검증 │
-│  └─ [ 권한 검증 통과 ➔ 비즈니스 API 데이터 정상 응답 반환 ]            │
-└─────────────────────────────────────────────────────────────────────────┘
+[OAuth 2.0 및 OIDC 아키텍처]
+├─ 신원 및 권한 주체
+│  └─ 자원 소유자 (Resource Owner: 사용자)
+├─ 클라이언트 계층 (Client)
+│  ├─ 앱 프론트엔드 (모바일·SPA)
+│  └─ PKCE 모듈 (verifier·challenge 생성)
+├─ 인가 및 신원 서버 (AS / OP)
+│  ├─ OIDC 신원 인증 (ID Token 발급)
+│  ├─ OAuth 권한 위임 (Access·Refresh Token)
+│  └─ JWKS 엔드포인트 (공개키 목록 제공)
+└─ 자원 서버 계층 (Resource Server)
+   └─ API 엔드포인트 (토큰 서명·스코프 검증)
 ```
 
-선의 의미: 클라이언트가 PKCE 챌린지로 인가 코드를 교환하여 ID/Access 토큰을 발급받고, 자원 서버에서 서명 검증을 거쳐 API 데이터를 제공받는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 책임 및 역할 | 비고 |
-|:---|:---|:---|
-| Resource Owner | 자신의 신원을 인증하고 특정 권한 범위(Scope) 위임에 동의하는 사용자 | User |
-| Client | 사용자를 대리하여 인가 서버로부터 토큰을 발급받고 API를 호출하는 앱 | Relying Party |
-| Authorization Server | 사용자 인증, PKCE 검증, 인가 코드 발급, ID/Access/Refresh Token 생성 | OpenID Provider|
-| Resource Server | Access Token의 서명, 만료일, 스코프를 검증하고 실제 비즈니스 자원 제공 | API Server |
-| JWKS 엔드포인트 | 비대칭 공개키 목록을 제공하여 자원 서버가 무상태(Stateless)로 토큰을 검증하도록 지원 | Key Discovery |
+| 구성요소 | 책임 |
+|:---|:---|
+| Resource Owner | 자신의 신원을 인증하고 특정 권한 범위(Scope) 위임에 동의하는 주체 |
+| Client | 사용자를 대리하여 인가 서버로부터 토큰을 발급받고 자원 서버 API를 호출하는 앱 |
+| Authorization Server | 사용자 인증, PKCE 검증, 인가 코드 발급, ID/Access/Refresh Token 생성 및 발급 |
+| Resource Server | Access Token의 서명, 만료일, 스코프를 검증하고 실제 비즈니스 자원 API 제공 |
+| JWKS 엔드포인트 | 비대칭 공개키 목록을 제공하여 자원 서버가 무상태(Stateless)로 토큰을 검증하도록 지원 |
 
 #### 한줄 요약
 - 다섯 요소는 사용자와 자원 서버 사이에 인가 서버라는 중개 계층을 세워 신뢰를 그곳으로 모으며, JWKS는 그 신뢰를 공개키로 배포해 자원 서버가 매 요청마다 인가 서버에 묻는 비용을 없앤다.

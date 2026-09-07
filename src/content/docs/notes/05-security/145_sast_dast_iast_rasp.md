@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "애플리케이션 보안 테스팅 및 런타임 자가 방어 : SAST vs DAST vs IAST vs RASP (OWASP Top 10 & CWE)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 145
@@ -65,25 +65,25 @@ extra:
 </details>
 
 ```text
-애플리케이션 보안 기술
-├─ SAST Engine
-│  └─ AST·CFG·DFG·Taint Analyzer
-├─ DAST Engine
-│  └─ Crawler·Fuzzer·Response Analyzer
-├─ IAST Agent
-│  └─ Bytecode Transformer·Taint Tracker
-└─ RASP Engine
-   └─ Method Hook·Context Analyzer·Action Engine
+[애플리케이션 보안 테스팅 및 자가 방어]
+├── [정적 분석 계층 (SAST)]
+│   └── AST · CFG/DFG 및 Taint 오염 분석기
+├── [동적 분석 계층 (DAST)]
+│   └── 크롤러 · 퍼저 및 HTTP 응답 분석기
+├── [상호작용 계층 (IAST)]
+│   └── 바이트코드 계측기 및 런타임 추적기
+└── [자가 방어 계층 (RASP)]
+    └── 메서드 후킹 매니저 및 쿼리 차단기
 ```
 
-선의 의미: 소스코드 SAST 분석을 거쳐 스테이징 DAST/IAST 계측 테스트를 통과하고, 프로덕션 RASP 자가 방어로 이어지는 파이프라인 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 기술 구분 | 분석 대상 및 위치 | 핵심 탐지 메커니즘 | 대표 도구 |
-|:---|:---|:---|:---|
-| **SAST** | 소스코드, 바이트코드 (CI 단계) | AST 파싱, CFG/DFG 데이터 흐름 Taint 분석 | SonarQube, Checkmarx, Fortify |
-| **DAST** | 실행 중인 웹/API (Staging 단계) | 크롤링, 퍼징 페이로드 주입, 응답 분석 | OWASP ZAP, Burp Suite Enterprise |
-| **IAST** | WAS 런타임 내부 (QA 단계) | 바이트코드 계측(ASM), 런타임 Taint 트래킹 | Contrast Security, Seeker |
-| **RASP** | 프로덕션 WAS 내부 (Operate 단계) | 시스템 콜/API 후킹, 런타임 쿼리 구문 파싱 | Imperva RASP, Contrast Protect |
+| 구성요소 | 책임 |
+|:---|:---|
+| **SAST (정적 분석)** | CI 빌드 단계에서 AST 및 데이터 흐름(Taint) 분석으로 소스코드 결함 식별 |
+| **DAST (동적 분석)** | 스테이징 환경에서 외부 퍼징 페이로드 주입 및 응답 패턴 분석으로 취약점 탐지 |
+| **IAST (상호작용 분석)** | QA 테스트 중 WAS 바이트코드 계측을 통해 런타임 실행 경로 및 오염 전파 계측 |
+| **RASP (런타임 자가방어)** | 프로덕션 환경에서 시스템 콜 및 API를 후킹하여 제로데이 공격을 실시간 차단 |
 
 #### 한줄 요약
 - 네 엔진은 같은 취약점을 서로 다른 지점에서 보는데, SAST가 실행 없이 코드 구조로 추정하던 자리를 IAST와 RASP는 애플리케이션 내부로 들어가 실제 데이터 흐름으로 대신하고, DAST는 바깥에 남아 공격자와 같은 시야만 확보한다.

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "차량 사이버보안 관리체계 및 V2X 무선 위협 대응 : 차량 사이버보안 (ISO/SAE 21434 & UN R155/R156)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 134
@@ -65,19 +65,19 @@ extra:
 </details>
 
 ```text
-차량 사이버보안 경계
-├─ 외부 연결
-│  └─ V2X SCMS·TCU·OTA
-├─ 중앙 보안 경계
-│  └─ 보안 게이트웨이
-├─ 차량 제어 경계
-│  ├─ AUTOSAR SecOC·ECU HSM
-│  └─ 차량 EDR·CAN-IDS
-└─ 관제 경계
-   └─ vSOC·CSMS·SUMS
+[차량 사이버보안 아키텍처]
+├── [외부 연결 경계]
+│   └── V2X SCMS · TCU · OTA
+├── [중앙 보안 경계]
+│   └── 중앙 보안 게이트웨이 (CSGW)
+├── [차량 제어 경계]
+│   ├── AUTOSAR SecOC 및 ECU HSM
+│   └── 차량 EDR 및 CAN-IDS
+└── [클라우드 관제 경계]
+    └── vSOC · CSMS · SUMS
 ```
 
-선의 의미: 외부 무선 트래픽이 보안 게이트웨이(CSGW)에서 필터링된 후 AUTOSAR SecOC를 통해 내부 ECU로 전달되며, vSOC에서 플릿을 관제하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

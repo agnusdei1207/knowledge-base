@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "동적 자격증명 발급 및 비밀 생애주기 관리 : Secrets Management (HashiCorp Vault & AWS Secrets Manager)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 77
@@ -62,35 +62,33 @@ extra:
 </details>
 
 ```text
-[ 마이크로서비스 워크로드 (Kubernetes Pod) ]
-                     │ (1. K8s Service Account JWT 토큰 제출)
-                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. 중앙 비밀 관리 금고 (HashiCorp Vault / AWS Secrets Manager) ]     │
-│  ├─ Auth Method: K8s API 서버와 통신하여 Pod 신원 무결성 검증          │
-│  ├─ Policy Engine: 해당 Pod에 부여된 인가 룰(`path "database/creds/app"`) 대조│
-│  └─ [ Secrets Engine 구동 ➔ 타깃 DB와 실시간 관리자 통신 ]              │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (2. 일회성 임시 계정 생성 명령: CREATE USER)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. 타깃 백엔드 데이터베이스 (Target Database: MySQL / PostgreSQL) ]   │
-│  └─ [ `user_temp_9876` 계정 및 난수 패스워드 생성 완료 ]                │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (3. 1시간 유효 Lease ID + 자격증명 반환)
-                                     ▼
-[ 워크로드 ➔ 임시 자격증명으로 DB 작업 수행 ➔ 1시간 후 Vault가 DB에서 계정 자동 DROP ]
+[비밀 관리 (Secrets Management) 체계]
+├─ 워크로드 신원 인증 (Auth Method)
+│  ├─ K8s Service Account 토큰 검증
+│  ├─ CSP IAM Role 및 OIDC 연동
+│  └─ AppRole 및 단기 신원 바인딩
+├─ 중앙 정책 및 접근 제어 엔진
+│  ├─ 경로(Path)별 선언적 ACL 정책
+│  └─ 최소 권한(Least Privilege) 인가 판정
+├─ 동적 비밀 엔진 (Secrets Engines)
+│  ├─ 타깃 DB 관리자 API 실시간 통신
+│  ├─ 일회용 임시 계정·패스워드 동적 생성
+│  └─ 단기 PKI 인증서 온디맨드 발급
+└─ 리스 및 스토리지 수명주기 코어
+   ├─ Lease ID 및 TTL 시한부 수명 결속
+   ├─ 만료 계정 타깃 백엔드 자동 삭제 (Drop)
+   └─ 마스터 키 봉인 (Auto-unseal / Shamir)
 ```
 
-선의 의미: 워크로드가 K8s 신원으로 금고에 인증하면, 비밀 엔진이 타깃 DB에 임시 계정을 생성하여 워크로드에 리스 결속 자격증명을 반환하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 책임 및 역할 | 비고 |
-|:---|:---|:---|
-| 워크로드 신원 인증기 | K8s SA, AWS IAM, OIDC 토큰을 검증하여 애플리케이션의 신원을 무결하게 식별 | Auth Method |
-| 정책 엔진 (Policy Engine)| 비밀 경로(Path) 및 수행 연산(Read/List)에 대한 최소 권한 인가 정책 판정 | Policy Core |
-| 동적 비밀 엔진 | 타깃 DB, CSP, PKI와 API로 연동하여 일회용 계정 및 단기 인증서 실시간 발급 | Dynamic Engine |
-| 리스 관리자 (Lease Manager)| 발급된 자격증명의 TTL 만료 감시, 리스 갱신 및 침해 시 원클릭 긴급 폐기 집행 | Lifecycle Core |
-| 암호화 스토리지 (Storage)| 저장된 마스터 암호키 및 정적 비밀을 AES-256-GCM으로 봉인 격리 보관 | Storage Engine |
+| 구성요소 | 책임 |
+|:---|:---|
+| 워크로드 신원 인증기 | K8s SA, AWS IAM, OIDC 토큰을 검증하여 애플리케이션의 신원을 무결하게 식별 |
+| 정책 엔진 (Policy Engine) | 비밀 경로(Path) 및 수행 연산에 대한 최소 권한 인가 정책을 선언적으로 판정 |
+| 동적 비밀 엔진 | 타깃 DB, CSP, PKI와 API로 연동하여 일회용 계정 및 단기 인증서를 실시간 발급 |
+| 리스 관리자 (Lease Manager) | 발급된 자격증명의 TTL 만료를 감시하고 만료 시 계정 삭제 및 긴급 폐기를 집행 |
+| 암호화 스토리지 (Storage) | 저장된 마스터 암호키 및 정적 비밀을 AES-256-GCM으로 봉인 격리 보관 |
 
 #### 한줄 요약
 - 워크로드 인증기, 정책 엔진, 동적 비밀 엔진, 리스 관리자, 암호화 스토리지가 결합한다.

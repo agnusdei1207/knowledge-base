@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "브라우저 자동 자격증명 악용 및 비승인 상태 변경 방어 : CSRF"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 48
@@ -58,23 +58,27 @@ extra:
 </details>
 
 ```text
-[CSRF 다계층 방어 및 트랜잭션 무결성 아키텍처]
-|-- 외부 요청 경계
-`-- Layer 1: Browser Defense (SameSite=Lax/Strict 정책)
-`-- Layer 2: Network & Gateway (Origin / Referer 헤더 신뢰 도메인 검증)
-`-- Layer 3: Application Server (Anti-CSRF Token Interceptor -> 세션 토큰 불일치 시 403 차단)
-`-- Layer 4: High-Risk Action (Step-Up 재인증 / OTP 확인 후 최종 상태 변경)
+[CSRF 다계층 방어 체계]
+├─ 클라이언트 브라우저 계층
+│  └─ SameSite 쿠키 정책 (Lax·Strict)
+├─ 네트워크 게이트웨이 계층
+│  └─ 헤더 검증 필터 (Origin·Referer 대조)
+├─ 애플리케이션 계층
+│  ├─ Anti-CSRF 인터셉터 (동기화 토큰 대조)
+│  └─ 안전 메서드 라우터 (GET CUD 금지)
+└─ 고위험 트랜잭션 계층
+   └─ Step-Up 재인증기 (OTP·추가 인증)
 ```
 
-선의 의미: 공격자의 위조 요청이 SameSite 쿠키 필터, Origin 검증, Anti-CSRF 토큰 대조, 단계별 재인증을 거쳐 완벽히 차단되는 심층 방어 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| SameSite 쿠키 엔진 | 교차 사이트 요청에 대해 인증 쿠키 전송을 브라우저에서 차단 | RFC 6265bis |
-| Origin/Referer 필터| 요청 헤더의 발신 도메인이 자사 신뢰 도메인과 일치하는지 검증 | Origin Check |
-| Anti-CSRF 인터셉터 | 폼 또는 헤더의 일회성 난수와 서버 세션 난수 일치성 검증 | Token Check |
-| 안전 메서드 라우터 | `GET` 요청을 통한 DB 상태 변경(CUD)을 아키텍처 수준에서 원천 금지 | Safe Methods |
-| Step-Up 재인증기 | 비밀번호 변경, 거액 이체 시 OTP 또는 재인증을 강제 집행 | Step-Up Auth |
+| 구성요소 | 책임 |
+|:---|:---|
+| SameSite 쿠키 엔진 | 교차 사이트 요청에 대해 인증 쿠키 전송을 브라우저 수준에서 제한 차단 |
+| Origin/Referer 필터 | 요청 헤더의 발신 도메인이 자사 신뢰 도메인과 일치하는지 네트워크 인라인 검증 |
+| Anti-CSRF 인터셉터 | 폼 또는 헤더의 일회성 난수와 서버 세션 난수의 일치성을 백엔드에서 검증 |
+| 안전 메서드 라우터 | `GET` 요청을 통한 DB 상태 변경(CUD)을 아키텍처 수준에서 원천 금지 |
+| Step-Up 재인증기 | 비밀번호 변경, 거액 이체 등 고위험 트랜잭션 시 OTP 또는 재인증 강제 집행 |
 
 #### 한줄 요약
 - 동일한 위조 요청을 브라우저·게이트웨이·애플리케이션·거래 시점 네 곳에서 차례로 거르며, 앞 계층이 호환성이나 헤더 삭제로 뚫릴 때 뒤 계층이 더 비싼 검증을 대신 떠맡는다.

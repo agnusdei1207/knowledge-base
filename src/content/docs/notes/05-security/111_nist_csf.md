@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "사이버보안 위험 관리 및 전사 거버넌스 프레임워크 : NIST CSF 2.0 (Govern & 6 Functions)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 111
@@ -66,20 +66,24 @@ extra:
 </details>
 
 ```text
-NIST CSF 2.0
-├─ CSF Core
-│  ├─ Govern
-│  ├─ Identify
-│  ├─ Protect
-│  ├─ Detect
-│  ├─ Respond
-│  └─ Recover
-├─ Profiles
-├─ Tiers
-└─ Informative References
+[NIST CSF 2.0]
+├── [CSF Core (6대 기능)]
+│   ├── Govern (지배·전략)
+│   ├── Identify (자산·위험 식별)
+│   ├── Protect (방어·접근통제)
+│   ├── Detect (이상 징후 탐지)
+│   ├── Respond (사고 대응 완화)
+│   └── Recover (업무 복구·복원)
+├── [Profiles (조직 프로파일)]
+│   ├── 현재 상태 프로파일 (Current)
+│   └── 목표 상태 프로파일 (Target)
+├── [Tiers (구현 티어)]
+│   └── Tier 1(부분) ~ Tier 4(적응)
+└── [Informative References]
+    └── ISO 27001·NIST SP 800-53 연계
 ```
 
-선의 의미: 가지는 NIST CSF 2.0에 포함된 구성요소를 표시
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

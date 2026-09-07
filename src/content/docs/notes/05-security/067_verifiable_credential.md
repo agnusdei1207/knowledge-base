@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "위변조 불가능한 디지털 자격증명 표준 : W3C Verifiable Credentials (VC Data Model 2.0 & Bitstring Status List)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 67
@@ -65,36 +65,32 @@ extra:
 </details>
 
 ```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 1. Verifiable Credential (VC: 발급자 전자서명 원본 데이터) ]          │
-│  ├─ `@context`: `https://www.w3.org/ns/credentials/v2`                 │
-│  ├─ `issuer`: `did:example:police-department` (발급자 DID)              │
-│  ├─ `credentialSubject`: { `id`: `did:holder`, `license`: "Class-1" }   │
-│  ├─ `credentialStatus`: { `type`: "BitstringStatusListEntry", ... }     │
-│  └─ `proof`: Ed25519 비대칭 전자서명 블록 (위변조 100% 방어)            │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (보유자 지갑에 저장 및 선택적 가공)
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ [ 2. Verifiable Presentation (VP: 검증자 제출용 프레젠테이션) ]         │
-│  ├─ `type`: `VerifiablePresentation`                                    │
-│  ├─ `verifiableCredential`: [ 선택적 추출된 VC 속성 블록 ]              │
-│  └─ `proof`: 보유자(Holder)의 챌린지 Nonce 서명 (재전송 공격 방어)     │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │ (검증자 전송)
-                                     ▼
-[ 검증자 (Verifier) ➔ 발급자 공개키 및 Bitstring Status List 조회 후 최종 인가 ]
+[검증가능 자격증명 (VC Data Model)]
+├─ 메타데이터 및 식별자
+│  ├─ 컨텍스트 및 유형 (@context, type)
+│  ├─ 자격증명 고유 식별자 (id)
+│  └─ 발급자 식별자 (issuer DID)
+├─ 자격 주장 본문 (Credential Subject)
+│  ├─ 신원 보유자 식별자 (subject id)
+│  └─ 단언 속성 집합 (Claims: 면허·자격)
+├─ 자격 상태 관리 (Credential Status)
+│  ├─ 상태 목록 진입점 (Bitstring Status List)
+│  └─ 폐기 및 정지 비트 인덱스
+└─ 암호학적 증명 블록 (Proof)
+   ├─ 서명 알고리즘 명세 (type, created)
+   ├─ 발급자 서명값 (JWS / Ed25519Signature)
+   └─ 비트 단위 서명 무결성 검증
 ```
 
-선의 의미: 발급자의 서명이 포함된 VC가 보유자 지갑에서 검증자 요구에 맞춘 VP로 조립되어, 분산 원장의 공개키/폐기 목록 조회를 통해 인가되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 책임 및 역할 | 비고 |
-|:---|:---|:---|
-| 발급자 (Issuer) | 주체의 원천 자격을 확인하고 W3C 규격에 따라 서명(Proof)을 포함한 VC 발행 | Issuer |
-| **VC (자격증명 데이터)** | 주체의 자격 주장(Claims), 발급자 식별자, 폐기 포인터, 전자서명이 결합된 표준 구조 | Credential Spec |
-| 보유자 지갑 (Holder) | 스마트폰 보안 영역에 VC를 저장하고, 사용자 동의 하에 최소 속성만 추출하여 VP 생성 | Edge Wallet |
-| VP (프레젠테이션) | 검증자의 챌린지(Nonce)와 최소 요구 속성을 결합하고 보유자가 직접 서명한 제출 객체 | Presentation |
-| Bitstring Status List | 수백만 건의 자격 폐기 상태를 비트 단위로 압축 호스팅하여 초고속 폐기 조회 지원 | Revocation List |
+| 구성요소 | 책임 |
+|:---|:---|
+| 발급자 (Issuer) | 주체의 원천 자격을 확인하고 W3C 규격에 따라 전자서명(Proof)을 포함한 VC 발행 |
+| VC (자격증명 데이터) | 주체의 속성 주장, 발급자 식별자, 폐기 포인터, 전자서명이 결합된 W3C 표준 데이터 구조 |
+| 보유자 지갑 (Holder) | 모바일 단말 보안 영역에 VC를 저장하고, 동의 하에 최소 속성만 추출하여 VP를 생성하는 주체 |
+| VP (프레젠테이션) | 검증자의 일회용 난수(Nonce)와 최소 요구 속성을 결합하고 보유자가 직접 서명한 제출 객체 |
+| Bitstring Status List | 수백만 건의 자격 폐기 상태를 비트 단위로 압축 호스팅하여 초고속 폐기 조회를 지원하는 표준 |
 
 #### 한줄 요약
 - VC와 VP를 분리한 덕에 원본은 지갑에 남고 제출본만 목적에 맞게 깎이므로, 검증자가 보관하게 되는 개인정보의 양 자체가 구조적으로 줄어든다.

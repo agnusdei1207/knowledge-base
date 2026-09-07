@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "수학적 개인정보 비식별화 표준 : 차등 프라이버시"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 18
@@ -58,16 +58,22 @@ extra:
 </details>
 
 ```text
-[중앙형 차등 프라이버시 질의 및 노이즈 주입 아키텍처]
-|-- Raw Database (원본 데이터셋 D) -> True Query Result: y = f(D)
-`-- Differential Privacy Engine
-    |-- 1. Sensitivity Analyzer (전역 민감도 Delta f = max |f(D) - f(D')| 산정)
-    |-- 2. Privacy Accountant (예산 잔여량 eps_total - sum(eps_i) 추적 및 초과 차단)
-    `-- 3. Noise Generator (Laplace(0, Delta f / eps) 또는 Gaussian(0, sigma^2) 난수 생성)
-`-- Output Layer (노이즈 가산: y_tilde = y + Noise -> 사용자/분석가에게 안전한 통계값 반환)
+[차등 프라이버시 체계]
+  │
+  ├─ [데이터 저장 계층]
+  │    └─ 원본 데이터베이스 (D)
+  │
+  ├─ [DP 보호 엔진]
+  │    ├─ 민감도 산정기 (Delta f)
+  │    ├─ 프라이버시 회계사 (예산 eps)
+  │    ├─ 기여도 클리핑기 (상한 고정)
+  │    └─ 노이즈 생성기 (Laplace/Gauss)
+  │
+  └─ [안전한 출력 계층]
+       └─ 노이즈 가산 통계값 반환
 ```
 
-선의 의미: 데이터베이스 질의 결과에 전역 민감도와 프라이버시 예산에 비례하는 수학적 노이즈를 주입하고 회계사를 통해 누적 손실을 추적하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

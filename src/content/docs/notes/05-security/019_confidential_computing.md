@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "하드웨어 격리 기반 사용 중 데이터 보호 : 기밀 컴퓨팅"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 19
@@ -58,16 +58,22 @@ extra:
 </details>
 
 ```text
-[기밀 컴퓨팅 TEE 및 원격 증명(RATS) 아키텍처]
-|-- Untrusted Cloud Host (호스트 OS, 하이퍼바이저 관리자 침해 영역)
-`-- Hardware TEE (Intel TDX / AMD SEV-SNP / NVIDIA H100)
-    |-- Protected Workload (기밀 가상머신 CVM / Enclave)
-    `-- Memory Encryption Engine (AES-128/256 하드웨어 메모리 실시간 암호화)
-`-- Remote Attestation Verifier (RFC 9334 RATS: 칩셋 제조사 서명 및 해시 검증)
-`-- Key Broker Service (KBS: 증명 통과 시 TEE 전용으로 Key Wrapping하여 주입)
+[기밀 컴퓨팅 아키텍처]
+  │
+  ├─ [비신뢰 인프라 계층]
+  │    └─ 호스트 OS / 하이퍼바이저
+  │
+  ├─ [하드웨어 신뢰 실행 환경: TEE]
+  │    ├─ 보호 워크로드 (CVM / Enclave)
+  │    ├─ 메모리 암호화 엔진 (MKTME)
+  │    └─ PCIe IDE (가속기 버스 보호)
+  │
+  └─ [원격 증명 및 키 주입: RATS]
+       ├─ 원격 증명 검증기 (RFC 9334)
+       └─ 키 브로커 서비스 (KBS)
 ```
 
-선의 의미: 신뢰할 수 없는 클라우드 호스트 상의 TEE가 하드웨어 측정값을 검증기에 제출하여 승인을 받고 KBS로부터 안전하게 암호키를 주입받아 연산을 개시하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "안전한 대칭키 합의 프로토콜 : 디피-헬만 키 교환"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 5
@@ -58,15 +58,23 @@ extra:
 </details>
 
 ```text
-Diffie-Hellman
-|-- Domain Parameters
-|-- Ephemeral Private Values
-|-- Public Values
-|-- Signature Engine
-`-- HKDF Module
+[디피-헬만 키 교환 체계]
+  │
+  ├─ [수학적 파라미터]
+  │    └─ 도메인 파라미터 (소수 p, 생성원 g)
+  │
+  ├─ [임시 키 쌍 (ECDHE)]
+  │    ├─ 임시 개인값 (비공개 난수)
+  │    └─ 공개 좌표값 (교환용 공개값)
+  │
+  ├─ [인증 계층]
+  │    └─ 전자서명 엔진 (MITM 방어)
+  │
+  └─ [키 도출 평면]
+       └─ HKDF 모듈 (공유 비밀 유도)
 ```
 
-선의 의미: Alice와 Bob이 각각 임시 난수를 뽑아 공개값을 계산하고 전자서명을 첨부하여 상호 교환한 후 양단에서 동일한 $g^{ab} \bmod p$를 도출하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

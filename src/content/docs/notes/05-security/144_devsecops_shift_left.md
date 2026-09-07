@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "소프트웨어 개발 생명주기 보안 내재화 : DevSecOps 및 Shift-Left (NIST SP 800-218 SSDF)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 144
@@ -66,31 +66,31 @@ extra:
 </details>
 
 ```text
-DevSecOps 보안 도구 체계
-├─ Code
-│  └─ Pre-commit·Secret Scan
-├─ Build
-│  └─ SAST·SCA·Quality Gate
-├─ Package
-│  └─ IaC·Image Scan·SBOM
-├─ Test
-│  └─ DAST·IAST
-├─ Deploy
-│  └─ Admission Control·Cosign
-└─ Operate
-   └─ RASP·WAF·SIEM
+[DevSecOps 보안 파이프라인]
+├── [Code 단계 (사전 검증)]
+│   └── Pre-commit 및 Secret Scan
+├── [Build 단계 (정적 분석)]
+│   └── SAST · SCA 및 Quality Gate
+├── [Package 단계 (패키징)]
+│   └── IaC 검증 · 컨테이너 스캔 · SBOM
+├── [Test 단계 (동적 분석)]
+│   └── DAST 및 IAST 런타임 테스트
+├── [Deploy 단계 (배포 통제)]
+│   └── Admission Control 및 Cosign 서명
+└── [Operate 단계 (운영 방어)]
+    └── RASP · WAF · SIEM 및 개발 환류
 ```
 
-선의 의미: 코딩부터 빌드, 패키징, 테스트, 배포, 운영까지 단계별 보안 게이트를 거쳐 런타임 결과를 개발로 환류하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| SDLC 단계 | 주요 보안 도구 및 기법 | 핵심 탐지 및 통제 영역 | 비고 |
-|:---|:---|:---|:---|
-| **Code (코딩)** | Pre-commit Hook, TruffleHog, Git-secrets | 하드코딩된 API Key, SSH 키, 토큰 유출 차단 | Secret Scan |
-| **Build (빌드)** | SonarQube, Checkmarx, Snyk, Grype | CWE 시큐어코딩 위반, Log4j 등 오픈소스 CVE 탐지 | SAST / SCA |
-| **Package (패키지)**| Trivy, Checkov, KICS, Syft, Cosign | Docker 이미지 CVE, Terraform 보안 설정 오류, SBOM | IaC / Image |
-| **Test (테스트)** | OWASP ZAP, Burp Enterprise, Contrast IAST | 런타임 SQLi, XSS, 비즈니스 로직 취약점 퍼징 | DAST / IAST |
-| **Deploy (배포)** | OPA Gatekeeper, Kyverno, Sigstore | 서명 무결성 검증, 루트 권한 컨테이너 배포 차단 | Admission Ctrl |
-| **Operate (운영)** | RASP, Cloud Workload Protection (CWP), SIEM | 런타임 익스플로잇 실시간 차단 및 개발 환류 | Shield-Right |
+| 구성요소 | 책임 |
+|:---|:---|
+| **Code (코딩)** | Pre-commit 훅 기반 하드코딩된 시크릿 및 토큰 유출 차단 |
+| **Build (빌드)** | SAST 시큐어코딩 검증과 SCA 오픈소스 취약점(CVE) 탐지 |
+| **Package (패키지)** | 컨테이너 이미지 스캔, IaC 설정 오류 점검 및 SBOM 생성 |
+| **Test (테스트)** | DAST 및 IAST 기반 동적 모의 침투 및 취약점 퍼징 |
+| **Deploy (배포)** | 전자서명 무결성 검증 및 어드미션 컨트롤 기반 안전 배포 |
+| **Operate (운영)** | RASP 및 WAF 기반 런타임 공격 방어와 취약점 개발 환류 |
 
 #### 한줄 요약
 - 각 도구는 별도의 보안 승인 조직을 거치지 않고 파이프라인 단계 자체에 박혀 빌드 실패로 판정을 대신하므로, 검증 책임이 배포 직전의 관문에서 코드를 쓰는 시점으로 옮겨지고 Admission Control만이 마지막 서명 확인을 남긴다.

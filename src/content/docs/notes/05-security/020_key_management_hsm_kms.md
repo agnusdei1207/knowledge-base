@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "암호키 생애주기 거버넌스 및 엔벨로프 암호화 : HSM 및 KMS"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 20
@@ -59,16 +59,24 @@ extra:
 </details>
 
 ```text
-[엔벨로프 암호화 및 KMS/HSM 상호작용 아키텍처]
-|-- Application (1. KMS로 GenerateDataKey API 요청 전송)
-`-- KMS / FIPS 140-3 Level 3 HSM
-    |-- KEK (Key Encryption Key: HSM 내부 영구 격리)
-    |-- TRNG (하드웨어 난수 발생기로 평문 DEK 생성)
-    `-- KEK로 DEK 암호화 -> [ 래핑된 DEK (Ciphertext DEK) ]
-`-- App Memory Execution (2. 평문 DEK로 DB 데이터 암호화 -> 3. 암호문+래핑된 DEK 저장 -> 4. 메모리 제로화 0x00)
+[키 관리 및 엔벨로프 암호화]
+  │
+  ├─ [하드웨어 보안 모듈: HSM]
+  │    ├─ TRNG (하드웨어 난수 발생기)
+  │    ├─ KEK (마스터 암호키 온칩 격리)
+  │    └─ 탬퍼 감지 제로화 (Zeroization)
+  │
+  ├─ [키 관리 평면: KMS]
+  │    ├─ 키 생애주기 관리 (NIST SP 800-57)
+  │    └─ 접근 제어 및 감사 정책
+  │
+  └─ [애플리케이션 계층]
+       ├─ 평문 DEK 데이터 암호화
+       ├─ 래핑된 DEK 영구 저장
+       └─ 사용 후 메모리 제로화
 ```
 
-선의 의미: KMS/HSM이 평문 DEK와 KEK로 암호화된 DEK를 발급하고 앱이 데이터 암호화 후 래핑된 DEK와 함께 저장하며 평문 DEK는 메모리에서 즉시 제로화하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

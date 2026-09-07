@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "산업별 사이버 위협 인텔리전스 공유 플랫폼 : ISAC (STIX 2.1 & TAXII 2.1)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 143
@@ -64,18 +64,18 @@ extra:
 </details>
 
 ```text
-ISAC 플랫폼
-├─ Data Collection Layer
-│  └─ TAXII Inbox·MISP·Webhook
-├─ Processing·Enrichment Layer
-│  └─ 비식별화·OSINT·ATT&CK 매핑
-├─ Storage Layer
-│  └─ STIX Repository·Graph DB
-└─ Distribution Layer
-   └─ TAXII Collection·TLP·SOAR
+[ISAC 위협 정보 공유 플랫폼]
+├── [수집 계층 (Data Collection)]
+│   └── TAXII Inbox · MISP · Webhook
+├── [처리·보강 계층 (Processing & Enrichment)]
+│   └── 민감정보 비식별화 및 ATT&CK 매핑
+├── [저장 계층 (Storage Layer)]
+│   └── STIX 2.1 레포지토리 및 그래프 DB
+└── [배포 계층 (Distribution Layer)]
+    └── TLP 등급 필터 및 회원사 SOAR 연동
 ```
 
-선의 의미: 회원사 및 CTI에서 수집된 위협 데이터를 정제/보강하여 그래프 DB에 저장하고, TLP 권한 필터링을 거쳐 회원사 SOAR로 자동 배포하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

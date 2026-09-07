@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "디지털 신원 인증 및 부인방지 : 전자서명"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 6
@@ -58,15 +58,21 @@ extra:
 </details>
 
 ```text
-Digital Signature
-|-- Canonicalization Module
-|-- Hash Engine
-|-- HSM Signature Engine
-|-- Certificate Repository
-`-- TSA
+[전자서명 체계]
+  │
+  ├─ [전처리 및 해시 계층]
+  │    ├─ 정규화 모듈 (C14N)
+  │    └─ 해시 엔진 (SHA-256)
+  │
+  ├─ [서명 생성 평면]
+  │    ├─ HSM 서명 엔진 (개인키)
+  │    └─ TSA (시점 확인 토큰)
+  │
+  └─ [검증 및 신뢰 평면]
+       └─ 인증서 저장소 (PKI 체인)
 ```
 
-선의 의미: 송신자가 정규화된 문서 해시를 개인키로 서명하여 전송하고 수신자가 공개키로 복호화한 해시값과 원문 해시값을 비교 판정하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

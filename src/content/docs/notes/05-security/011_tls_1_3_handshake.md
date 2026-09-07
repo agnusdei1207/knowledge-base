@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "초저지연 고보안 전송 계층 보안 프로토콜 : TLS 1.3 핸드셰이크"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-security"
 weight: 11
@@ -59,23 +59,31 @@ extra:
 </details>
 
 ```text
-[TLS 1.3 정적 구성]
-|-- ClientHello / Key_Share
-|-- ServerHello / Key_Share
-|-- Certificate / CertVerify
-|-- Finished 메시지
-`-- HKDF 키 스케줄러
+[TLS 1.3 핸드셰이크 체계]
+  │
+  ├─ [1-RTT 키 교환 평면]
+  │    ├─ ClientHello (Key Share 선제 전송)
+  │    └─ ServerHello (Key Share 및 확정)
+  │
+  ├─ [암호화 인증 평면]
+  │    ├─ EncryptedExtensions
+  │    ├─ Certificate (인증서 암호화)
+  │    └─ CertificateVerify (Transcript 서명)
+  │
+  └─ [키 유도 및 무결성 검증]
+       ├─ Finished 메시지 (HMAC 검증)
+       └─ HKDF 키 스케줄러 (단계별 키 도출)
 ```
 
-선의 의미: 클라이언트의 첫 패킷에 ECDHE 공개키가 실려 전송되고 서버가 공개키와 암호화된 인증서를 즉시 회신하여 1-RTT 만에 데이터 통신이 개시되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
-| 구성요소 | 핵심 엔지니어링 책임 | 주요 특징 |
-|:---|:---|:---|
-| ClientHello / Key_Share | 클라이언트 ECDHE 키 전송 | 1-RTT |
-| ServerHello / Key_Share | 서버 키·공유 비밀 확정 | Shared Secret |
-| Certificate / CertVerify | Transcript Hash 서명 | Server Auth |
-| Finished 메시지 | 핸드셰이크 HMAC 검증 | Integrity Check |
-| HKDF 키 스케줄러 | Handshake·Application 키 도출 | RFC 5869 |
+| 구성요소 | 책임 |
+|:---|:---|
+| **ClientHello / Key_Share** | 클라이언트 임시 ECDHE 공개키 선제 전송 (1-RTT 개시) |
+| **ServerHello / Key_Share** | 서버 키 선택 및 양단 공유 비밀(Shared Secret) 확정 |
+| **Certificate / CertVerify** | 암호화된 서버 인증서 제시 및 Transcript Hash 서명 |
+| **Finished 메시지** | 전체 핸드셰이크 트랜스크립트 HMAC 무결성 최종 검증 |
+| **HKDF 키 스케줄러** | Early/Handshake/Application 단계별 암호키 유도 (RFC 5869) |
 
 #### 한줄 요약
 - Key Share를 첫 메시지에 얹어 협상과 키 교환을 한 왕복으로 합친 대신, 클라이언트가 서버가 지원할 곡선을 미리 찍어야 해 빗나가면 재시도 왕복이 되돌아온다.
