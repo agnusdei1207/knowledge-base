@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AI Risk Management (AI 위험관리)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 102
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[위험 기준•승인]──[AI 목록•맥락]──[위험 대장•평가]
-                                        │
-                                [통제•담당자]──[감시•사고 대응]
+[AI Risk Management System]
+├── [거버넌스 및 기준 계층]
+│   ├── [위험 기준·승인 (Criteria)]
+│   └── [AI 목록·맥락 (Context)]
+├── [위험 평가 계층]
+│   └── [위험 대장·평가 (Register)]
+└── [통제 및 감시 계층]
+    ├── [통제·담당자 (Controls)]
+    └── [감시·사고 대응 (Monitor)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

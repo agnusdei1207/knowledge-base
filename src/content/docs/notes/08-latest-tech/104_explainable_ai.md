@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "Explainable AI (설명 가능한 AI)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 104
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[설명 대상 모델]──[설명 범위]──[설명 기법]
-                                    │
-                             [설명 산출물]──[품질 평가]
+[Explainable AI Architecture]
+├── [설명 대상 및 범위 정의]
+│   ├── [설명 대상 모델 (Target Model)]
+│   └── [설명 범위 (Local & Global)]
+├── [설명 생성 엔진]
+│   └── [설명 기법 (XAI Method)]
+└── [해석 및 검증 계층]
+    ├── [설명 산출물 (Explanation)]
+    └── [품질 평가 (Fidelity Eval)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Synthetic Data (합성 데이터)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 68
@@ -61,14 +61,18 @@ extra:
 </details>
 
 ```text
-                         [품질 필터]
-                         /           \
-                    [생성기]       [실제 기준셋]
-                   /       \
-           [생성 요구]   [출처 기록]
+[Synthetic Data System]
+├── [요구/계보 계층]
+│   ├── [생성 요구 (Requirements)]
+│   └── [출처 기록 (Provenance)]
+├── [생성 계층]
+│   └── [생성기 (Generator)]
+└── [검증/기준 계층]
+    ├── [품질 필터 (Quality Filter)]
+    └── [실제 기준셋 (Anchor Set)]
 ```
 
-선의 의미: 품질 필터는 생성기의 표본을 실제 기준셋과 대조하고, 생성기는 생성 요구를 적용하여 각 표본을 출처 기록과 연결함.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Diffusion Model (확산모델)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 90
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[잡음 스케줄]──[시점별 잡음 상태]──[잡음 제거 모델]
-                                      │
-                              [역전이 규칙]──[샘플러]
+[Diffusion System]
+├── [순방향 확산 계층]
+│   ├── [잡음 스케줄 (Noise Schedule)]
+│   └── [시점별 잡음 상태 (Latent State)]
+├── [신경망 예측 계층]
+│   └── [잡음 제거 모델 (Denoiser/U-Net)]
+└── [역방향 복원 계층]
+    ├── [역전이 규칙 (Reverse Transition)]
+    └── [샘플러 (DDPM/DDIM Sampler)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI 영향평가 (AI Impact Assessment)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 108
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[시스템 맥락]──[영향 집단]──[피해 시나리오]
-                                │
-                        [완화•구제 조치]──[잔여 영향 관리]
+[AI Impact Assessment Architecture]
+├── [맥락 및 대상 계층]
+│   ├── [시스템 맥락 (System Context)]
+│   └── [영향 집단 (Stakeholder Group)]
+├── [영향 및 피해 분석 계층]
+│   └── [피해 시나리오 (Harm Scenario)]
+└── [완화 및 사후 관리 계층]
+    ├── [완화·구제 조치 (Mitigation & Remedy)]
+    └── [잔여 영향 관리 (Residual Impact)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

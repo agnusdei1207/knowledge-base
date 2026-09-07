@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Vision-Language Model (시각언어모델)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 88
@@ -63,16 +63,18 @@ extra:
 </details>
 
 ```text
-                [이미지 인코더]   [텍스트 인코더]
-                         \         /
-                          [연결 계층]
-                               |
-                         [언어 디코더]
-                               |
-                           [출력 계층]
+[Vision-Language Model]
+├── [모달 인코딩 계층]
+│   ├── [이미지 인코더 (ViT)]
+│   └── [텍스트 인코더 (Text Enc)]
+├── [교차 투영 계층]
+│   └── [연결 계층 (Projector/Q-Former)]
+└── [언어 생성/출력 계층]
+    ├── [언어 디코더 (LLM Backbone)]
+    └── [출력 계층 (Output Layer)]
 ```
 
-선의 의미: 시각•언어 표현과 연결•디코더•출력 계층의 결합 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

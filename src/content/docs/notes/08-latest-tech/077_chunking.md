@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "청킹 (Chunking)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 77
@@ -63,10 +63,18 @@ extra:
 </details>
 
 ```text
-[구조 파서]──[경계 정책기]──[크기 정책기]
-                    │
-             [중첩 정책기]──[메타데이터 기록기]
+[Chunking System]
+├── [구조 분석 계층]
+│   └── [구조 파서 (Structure Parser)]
+├── [분할 정책 계층]
+│   ├── [경계 정책기 (Boundary Policy)]
+│   └── [크기 정책기 (Size Policy)]
+└── [문맥/출처 보존 계층]
+    ├── [중첩 정책기 (Overlap Policy)]
+    └── [메타데이터 기록기 (Metadata Recorder)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Vector Database (벡터 데이터베이스)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 75
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-                   [변경 관리]
-                     /     \
-          [벡터 저장소] ----- [근사 색인]
-                              /       \
-                       [거리 함수]   [필터부]
+[Vector Database]
+├── [저장/관리 계층]
+│   ├── [벡터 저장소]
+│   └── [변경 관리 (CRUD/Sync)]
+├── [색인 계층]
+│   └── [근사 색인 (ANN Index)]
+└── [연산/필터링 계층]
+    ├── [거리 함수 (Distance Function)]
+    └── [필터부 (Metadata Filter)]
 ```
 
-선의 의미: 저장소•근사 색인의 버전을 거리 함수•필터와 함께 관리하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

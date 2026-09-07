@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "AI 윤리 (AI Ethics)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 109
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[가치 헌장]──[영향평가]──[이해관계자 숙의]
-                              │
-                       [결정 기록]──[통제•구제]
+[AI Ethics Governance]
+├── [규범 및 기준 계층]
+│   ├── [가치 헌장 (Value Charter)]
+│   └── [영향평가 (Impact Assessment)]
+├── [숙의 및 의사결정 계층]
+│   ├── [이해관계자 숙의 (Deliberation)]
+│   └── [결정 기록 (Decision Log)]
+└── [이행 및 구제 계층]
+    └── [통제·구제 (Control & Remedy)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

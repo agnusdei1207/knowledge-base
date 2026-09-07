@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Responsible AI (책임 있는 AI)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 103
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-[책임•감독]---[공정성•프라이버시]---[안전•보안]
-      |                  |                  |
-      +-----------[투명성•설명]------------+
-                         |
-                    [증적 관리]
+[Responsible AI Framework]
+├── [거버넌스 및 통제 계층]
+│   ├── [책임·감독 (Accountability)]
+│   └── [공정성·프라이버시 (Fairness)]
+├── [기술 안전 및 투명성 계층]
+│   ├── [안전·보안 (Safety & Security)]
+│   └── [투명성·설명 (Transparency)]
+└── [신뢰성 보증 계층]
+    └── [증적 관리 (Evidence Mgmt)]
 ```
 
-선의 의미: 책임•공정성•프라이버시•안전•투명성과 증적의 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

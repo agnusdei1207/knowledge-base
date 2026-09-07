@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "마르코프 결정과정 (Markov Decision Process)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 96
@@ -61,14 +61,17 @@ extra:
 </details>
 
 ```text
-                  [상태 저장소] ----- [행동 선택기]
-                     \                   /      \
-                  [정책•가치 평가기]       [전이 모델]
-                                                |
-                                           [보상 함수]
+[Markov Decision Process]
+├── [의사결정 계층]
+│   ├── [상태 저장소 (State S)]
+│   ├── [행동 선택기 (Action A)]
+│   └── [정책·가치 평가기 (Policy π)]
+└── [환경 동역학 계층]
+    ├── [전이 모델 (Transition P)]
+    └── [보상 함수 (Reward R)]
 ```
 
-선의 의미: 상태•행동•전이•보상•정책•가치의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

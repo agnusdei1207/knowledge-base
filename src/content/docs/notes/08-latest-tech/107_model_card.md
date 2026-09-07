@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "모델 카드 (Model Card)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 107
@@ -61,16 +61,18 @@ extra:
 </details>
 
 ```text
-                  [모델 세부정보]
-                         |
-                    [용도•사용자]
-                         |
-                  [평가 설계•결과]
-                         |
-                  [한계•잔여 위험]
-                         |
-                  [관리•갱신 책임]
+[Model Card Specification]
+├── [모델 식별 및 범위 계층]
+│   ├── [모델 세부정보 (Model Details)]
+│   └── [용도·사용자 (Intended Use)]
+├── [검증 및 한계 분석 계층]
+│   ├── [평가 설계·결과 (Evaluation)]
+│   └── [한계·잔여 위험 (Limitations)]
+└── [거버넌스 및 운영 계층]
+    └── [관리·갱신 책임 (Governance)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

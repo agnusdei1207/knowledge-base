@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 드리프트 (Model Drift)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 136
@@ -59,10 +59,18 @@ extra:
 </details>
 
 ```text
- [성능 기준선]   [추론 관측 저장소]   [정답 결합기]   [모델•버전•설정 계보]
-          \             |                 |                 /
-                               [진단•복구기]
+[Model Drift Diagnosis System]
+├── [기준선 및 계보 계층]
+│   ├── [성능 기준선 (Performance Baseline)]
+│   └── [모델·버전·설정 계보 (Model Lineage)]
+├── [운영 관측 및 피드백 계층]
+│   ├── [추론 관측 저장소 (Telemetry Store)]
+│   └── [정답 결합기 (Ground Truth Joiner)]
+└── [진단 및 복구 계층]
+    └── [진단·복구기 (Remediation Engine)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

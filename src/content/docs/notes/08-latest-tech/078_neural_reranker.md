@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "신경망 재순위 모델 (Neural Reranker)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 78
@@ -63,10 +63,18 @@ extra:
 </details>
 
 ```text
-[1차 검색기]──[입력 구성기]──[신경망 재순위기]
-                                 │
-                         [점수 정렬기]──[반환 정책기]
+[Neural Reranker System]
+├── [후보 수집 계층]
+│   └── [1차 검색기 (Bi-Encoder)]
+├── [교차 추론 계층]
+│   ├── [입력 구성기 (Pair Builder)]
+│   └── [신경망 재순위기 (Cross-Encoder)]
+└── [순위/반환 계층]
+    ├── [점수 정렬기 (Score Sorter)]
+    └── [반환 정책기 (Truncation Policy)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

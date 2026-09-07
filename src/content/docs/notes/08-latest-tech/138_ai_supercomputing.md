@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AI 슈퍼컴퓨팅 (AI Supercomputing)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 138
@@ -60,12 +60,18 @@ extra:
 </details>
 
 ```text
-                         [작업 스케줄러]
-                         /             \
-              [가속기 노드] ----- [고속 연결망]
-                    |                   |
-          [전력•냉각 계층]      [병렬 파일 시스템]
+[AI Supercomputing Infrastructure]
+├── [오케스트레이션 및 스케줄링]
+│   └── [작업 스케줄러 (Job Scheduler)]
+├── [컴퓨팅 및 패브릭 계층]
+│   ├── [가속기 노드 (Accelerator Node)]
+│   └── [고속 연결망 (High-Speed Fabric)]
+└── [스토리지 및 설비 인프라]
+    ├── [병렬 파일 시스템 (Parallel FS)]
+    └── [전력·냉각 계층 (Power & Cooling)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

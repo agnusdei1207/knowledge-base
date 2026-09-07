@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "간접 프롬프트 인젝션 (Indirect Prompt Injection)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 117
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
-[출처 라벨] ----- [비신뢰 구역]
-                         |
-                    [정책 판정]
-                     /       \
-              [도구 게이트] [반출 검사]
+[Indirect Injection Defense]
+├── [콘텐츠 격리 및 라벨링 계층]
+│   ├── [출처 라벨 (Provenance Tag)]
+│   └── [비신뢰 구역 (Untrusted Data Zone)]
+├── [정책 및 검증 계층]
+│   └── [정책 판정 (Policy Arbiter)]
+└── [도구 제어 및 반출 방지 계층]
+    ├── [도구 게이트 (Tool Execution Gate)]
+    └── [반출 검사 (Exfiltration Filter)]
 ```
 
-선의 의미: 출처 라벨은 외부 콘텐츠를 비신뢰 구역에 귀속시키고, 정책 판정은 사용자 목적과 출처 신뢰도를 바탕으로 도구 게이트와 반출 검사의 권한•정보 경계를 함께 통제하는 정적 방어 구조를 뜻한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

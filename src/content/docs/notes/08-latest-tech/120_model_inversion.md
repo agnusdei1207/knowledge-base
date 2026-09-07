@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 역전 (Model Inversion)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 120
@@ -62,14 +62,18 @@ extra:
 </details>
 
 ```text
- [복원 대상]       [관측 채널]       [보조 정보]
-          \             |             /
-                       [복원 함수]
-                            |
-                       [통제 장치]
+[Model Inversion Defense]
+├── [입력 및 관측 계층]
+│   ├── [복원 대상 (Target Attribute)]
+│   ├── [관측 채널 (Observation Channel)]
+│   └── [보조 정보 (Auxiliary Knowledge)]
+├── [복원 및 역최적화 계층]
+│   └── [복원 함수 (Inversion Objective)]
+└── [보안 통제 계층]
+    └── [통제 장치 (Privacy Control)]
 ```
 
-선의 의미: 복원 함수의 정보 결합과 통제 장치의 노출 제한 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

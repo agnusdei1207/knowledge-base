@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "피처 스토어 (Feature Store)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 132
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                          [레지스트리]
-                         /           \
-                [오프라인 저장소]  [처리 엔진]
-                                       |
-                                [온라인 저장소]
-                                       |
-                                   [피처 서버]
+[Feature Store Architecture]
+├── [메타데이터 및 정의 계층]
+│   └── [피처 레지스트리 (Feature Registry)]
+├── [배치 및 시점 저장 계층]
+│   └── [오프라인 저장소 (Offline Store)]
+└── [스트리밍 및 서빙 계층]
+    ├── [처리 엔진 (Transformation Engine)]
+    ├── [온라인 저장소 (Online Store)]
+    └── [피처 서버 (Feature Server)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 | 구성요소 | 책임 |
 |:---|:---|
 | 레지스트리 | 피처 정의•버전 정보 관리 |

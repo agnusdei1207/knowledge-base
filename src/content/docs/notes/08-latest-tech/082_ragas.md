@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "RAGAS"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 82
@@ -62,14 +62,18 @@ extra:
 </details>
 
 ```text
-[평가 데이터셋]---[지표 모음]---[평가 모델]
-        |                |             |
-        +-----------[평가 실행기]-----+
-                         |
-                   [결과 저장소]
+[RAGAS System]
+├── [입력/데이터 계층]
+│   └── [평가 데이터셋 (Evaluation Dataset)]
+├── [평가 정의 계층]
+│   ├── [지표 모음 (Metrics Suite)]
+│   └── [평가 모델 (Judge/Embedding LLM)]
+└── [실행/결과 계층]
+    ├── [평가 실행기 (Evaluation Runner)]
+    └── [결과 저장소 (Result Store)]
 ```
 
-선의 의미: 실행기가 표본•지표•모델을 결합하고 결과를 저장한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

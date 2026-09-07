@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "몬테카를로 트리탐색 (Monte Carlo Tree Search)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 98
@@ -69,14 +69,18 @@ extra:
 </details>
 
 ```text
-                         [탐색 예산 제어기]
-                                  |
- [롤아웃 정책] ----- [탐색 트리] ----- [노드 통계 저장소]
-                           \              /
-                         [UCT 선택기]
+[MCTS System]
+├── [제어/예산 계층]
+│   └── [탐색 예산 제어기]
+├── [트리 및 통계 계층]
+│   ├── [탐색 트리 (Search Tree)]
+│   └── [노드 통계 저장소 (Visit/Reward)]
+└── [선택 및 평가 계층]
+    ├── [UCT 선택기 (Selection Policy)]
+    └── [롤아웃 정책 (Rollout Policy)]
 ```
 
-선의 의미: 트리•통계•UCT•롤아웃•예산 제어의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

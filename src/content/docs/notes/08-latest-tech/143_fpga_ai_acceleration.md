@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "FPGA AI Acceleration (FPGA AI 가속)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 143
@@ -62,17 +62,19 @@ extra:
 
 </details>
 
-LUT•DSP 블록•BRAM을 조합한 **맞춤 데이터 경로**
-
 ```text
-[재구성 로직]---[곱셈•누산 블록]---[온칩 메모리]
-      |                    |                |
-      +------------[외부 인터페이스]--------+
-      |
-  [구현 도구]
+[FPGA AI Acceleration Architecture]
+├── [개발 및 툴체인 계층]
+│   └── [구현 도구 (HLS & Bitstream Tool)]
+├── [프로그래머블 로직 계층]
+│   ├── [재구성 로직 (LUT Fabric)]
+│   └── [곱셈·누산 블록 (DSP Slice)]
+└── [온칩 및 인터페이스 계층]
+    ├── [온칩 메모리 (BRAM & URAM)]
+    └── [외부 인터페이스 (PCIe & I/O)]
 ```
 
-선의 의미: 맞춤 데이터 경로와 회로 구성을 정의하는 구현 도구 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "차등 프라이버시 (Differential Privacy)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 113
@@ -66,6 +66,20 @@ extra:
 - **예산 회계 기준**: $\epsilon$과 $\delta$로 반복 처리의 누적 허용 한도를 정하는 정책이다.
 
 </details>
+
+```text
+[Differential Privacy System]
+├── [보호 단위 및 민감도 계층]
+│   ├── [인접성 정의기 (Neighbor Definition)]
+│   └── [민감도·클리핑기 (Clipping & Bound)]
+├── [노이즈 주입 계층]
+│   └── [잡음 메커니즘 (Noise Mechanism)]
+└── [예산 관리 및 통제 계층]
+    ├── [프라이버시 회계기 (DP Accountant)]
+    └── [공개 판정기 (Release Gate)]
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

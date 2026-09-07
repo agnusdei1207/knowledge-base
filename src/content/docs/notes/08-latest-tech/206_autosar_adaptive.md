@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "AUTOSAR Adaptive Platform"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 206
@@ -62,21 +62,19 @@ extra:
 
 </details>
 
-ARA•UCM•PHM과 **POSIX 실행 기반**의 Adaptive 구조
-
 ```text
-                [ARA•ara::com]
-                       |
-             [Execution Management]
-                       |
-                      [UCM]
-                       |
-                      [PHM]
-                       |
-                [POSIX 운영체제]
+[AUTOSAR Adaptive 아키텍처]
+├── [애플리케이션 인터페이스]
+│   └── [ARA•ara::com]
+├── [플랫폼 관리 서비스]
+│   ├── [Execution Management]
+│   ├── [UCM]
+│   └── [PHM]
+└── [기반 운영체제]
+    └── [POSIX 운영체제]
 ```
 
-선의 의미: 애플리케이션 서비스 경계와 갱신•건강 관리 계층 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

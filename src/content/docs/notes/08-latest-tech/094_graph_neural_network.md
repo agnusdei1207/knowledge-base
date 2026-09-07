@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "그래프 신경망 (Graph Neural Network)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 94
@@ -63,12 +63,18 @@ extra:
 </details>
 
 ```text
-[특징 저장소]──[메시지 함수]──[집계 함수]
-                                  │
-                            [갱신 함수]──[읽기 함수]
+[Graph Neural Network]
+├── [그래프 데이터 계층]
+│   └── [특징 저장소 (Node/Edge Feature)]
+├── [메시지 전달 계층]
+│   ├── [메시지 함수 (Message Function)]
+│   ├── [집계 함수 (Aggregate Function)]
+│   └── [갱신 함수 (Update Function)]
+└── [출력/해석 계층]
+    └── [읽기 함수 (Readout Function)]
 ```
 
-선의 의미: 특징•메시지•집계•갱신•읽기 책임의 정적 연결
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

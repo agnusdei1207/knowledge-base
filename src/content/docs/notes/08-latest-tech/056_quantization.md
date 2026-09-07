@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Quantization (양자화)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 56
@@ -66,20 +66,30 @@ extra:
 </details>
 
 ```text
-[분포 관측기]──[형식 설계기]──[양자화 변환기]
-                                    │
-                                 [복원기]──[실행 커널]
+[신경망 양자화(Quantization) 아키텍처]
+├── [동적 범위 관측 (Calibration & Profiling)]
+│   ├── 가중치/활성화 값 범위 및 이상치 계측
+│   └── 대표 데이터셋(Calibration Set) 분포 추출
+├── [양자화 파라미터 설계기 (Parameter Config)]
+│   ├── 스케일(Scale) 및 영점(Zero-point) 연산
+│   └── 세분성 설정 (Per-Tensor / Per-Channel / Per-Group)
+├── [양자화 변환 엔진 (Quantization Engine)]
+│   ├── 훈련 후 양자화 (PTQ: Post-Training Quantization)
+│   ├── 양자화 인지 학습 (QAT: Quantization-Aware Training)
+│   └── 고급 알고리즘 (AWQ / GPTQ / SmoothQuant)
+└── [타깃 실행 커널 (Hardware Execution Kernel)]
+    ├── 저정밀 텐서 코어 연산 (INT8/INT4/FP8 GEMM)
+    └── 혼합 정밀도 역양자화(Dequantization) 파이프라인
 ```
 
-선의 의미: 분포•형식•코드 변환•복원•실행 책임의 정적 연결을 나타냄.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 분포 관측기 | 대표 표본의 **값 범위** 측정 |
-| 형식 설계기 | **스케일•영점•세분성** 결정 |
-| 양자화 변환기 | 실숫값을 **정수 코드** 기반 변환 |
-| 복원기 | 정수 코드의 **근사 실숫값** 변환 |
-| 실행 커널 | 장비의 **저정밀 연산** 수행 |
+| 동적 범위 관측기 | 대표 데이터셋을 통과시켜 가중치 및 활성값의 텐서 분포와 이상치 계측 |
+| 파라미터 설계기 | 클리핑 범위 설정 및 스케일(Scale), 영점(Zero-point), 그룹 세분성 결정 |
+| 양자화 변환 엔진 | PTQ, QAT, AWQ/GPTQ 알고리즘을 통해 실숫값을 저비트 정수 코드로 변환 |
+| 타깃 실행 커널 | NPU/GPU의 INT8/INT4/FP8 하드웨어 텐서 코어를 통한 고속 행렬곱 실행 |
 
 #### 한줄 요약
 - **분포•스케일•영점•코드•저정밀 커널** 구성

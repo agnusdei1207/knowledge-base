@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "적대적 예제 (Adversarial Example)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 123
@@ -61,14 +61,18 @@ extra:
 </details>
 
 ```text
-[위협 모델 저장소]──[목적함수]──[교란 제약기]
-          │             │            │
-          └─────[공격 알고리즘]──────┘
-                        │
-                 [강건성 평가기]
+[Adversarial Evaluation Framework]
+├── [위협 모델 및 제약 계층]
+│   ├── [위협 모델 저장소 (Threat Model)]
+│   ├── [목적함수 (Loss Objective)]
+│   └── [교란 제약기 (Norm Constraint)]
+├── [공격 생성 계층]
+│   └── [공격 알고리즘 (Attack Algorithm)]
+└── [평가 및 계측 계층]
+    └── [강건성 평가기 (Robustness Evaluator)]
 ```
 
-선의 의미: 위협 모델과 목적함수 및 제약기가 공격 알고리즘을 통제하고, 강건성 평가기가 생성된 교란의 방어 성능을 측정한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

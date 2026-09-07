@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "벨만 방정식 (Bellman Equation)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 97
@@ -67,12 +67,17 @@ extra:
 </details>
 
 ```text
- [정책 저장소]   [전이 모델]   [보상 함수]   [가치 함수]
-          \          |          |          /
-                       [벨만 연산자]
+[Bellman Equation System]
+├── [환경/정책 계층]
+│   ├── [정책 저장소 (Policy π)]
+│   ├── [전이 모델 (Transition P)]
+│   └── [보상 함수 (Reward R)]
+└── [가치/연산 계층]
+    ├── [가치 함수 (Value V/Q)]
+    └── [벨만 연산자 (Bellman Operator T)]
 ```
 
-선의 의미: 정책•전이•보상•가치와 벨만 연산자의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

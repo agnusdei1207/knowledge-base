@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "LLM 평가자 (LLM-as-a-Judge)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 137
@@ -59,10 +59,18 @@ extra:
 </details>
 
 ```text
-[평가 표본] ----- [블라인드 변환기]
-                           |
- [평가 기준표] ----- [LLM 판정기] ----- [인간 교정 집합]
+[LLM-as-a-Judge Architecture]
+├── [입력 및 전처리 계층]
+│   ├── [평가 표본 (Evaluation Sample)]
+│   └── [블라인드 변환기 (Blind Transformer)]
+├── [평가 기준 및 추론 계층]
+│   ├── [평가 기준표 (Evaluation Rubric)]
+│   └── [LLM 판정기 (Judge Model)]
+└── [교정 및 신뢰성 검증 계층]
+    └── [인간 교정 집합 (Human Calibration)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

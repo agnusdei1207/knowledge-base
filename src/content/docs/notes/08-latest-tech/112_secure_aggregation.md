@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "보안 집계 (Secure Aggregation)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 112
@@ -61,16 +61,17 @@ extra:
 </details>
 
 ```text
-                        [참여자 집합]
-                       /             \
-              [키•비밀 분산기]   [업데이트 마스커]
-                       \             /
-                         [집계 서버]
-                               |
-                         [이탈 복구기]
+[Secure Aggregation Architecture]
+├── [클라이언트 보안 계층]
+│   ├── [참여자 집합 (Client Cohort)]
+│   ├── [키·비밀 분산기 (Secret Sharing)]
+│   └── [업데이트 마스커 (Masking Engine)]
+└── [서버 집계 및 복구 계층]
+    ├── [집계 서버 (Aggregator)]
+    └── [이탈 복구기 (Dropout Recovery)]
 ```
 
-선의 의미: 참여자 집합은 키•비밀 분산기와 업데이트 마스커를 개별값 보호 경계로 사용하고, 집계 서버는 마스킹된 합계만 보유하며 이탈 복구기는 생존 임계값 안에서 잔여 마스크를 관리한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

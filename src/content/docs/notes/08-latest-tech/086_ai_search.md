@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "AI Search (AI 검색)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 86
@@ -61,12 +61,20 @@ extra:
 </details>
 
 ```text
-                    [질의 이해 계층]
-                      /           \
-             [희소 검색기]──[밀집 검색기]
-                      \           /
-                    [후보 융합 계층]──[재순위기]──[답변 생성기]
+[AI Search System]
+├── [질의 분석 계층]
+│   └── [질의 이해 계층 (Query Understanding)]
+├── [다중 검색 계층]
+│   ├── [희소 검색기 (Sparse/BM25)]
+│   └── [밀집 검색기 (Dense/Vector)]
+├── [융합/재순위 계층]
+│   ├── [후보 융합 계층 (RRF/Fusion)]
+│   └── [재순위기 (Cross-Encoder Reranker)]
+└── [응답 생성 계층]
+    └── [답변 생성기 (Grounded Generator)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

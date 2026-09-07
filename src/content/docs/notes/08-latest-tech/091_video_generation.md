@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "영상 생성 (Video Generation)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 91
@@ -62,14 +62,18 @@ extra:
 </details>
 
 ```text
-                         [영상 생성 모델]
-                ┌───────────────┴───────────────┐
-          [조건 인코더]  [시공간 저장소]  [움직임 제어기]
-                └───────────────┬───────────────┘
-                         [일관성 평가기]
+[Video Generation System]
+├── [조건/제어 입력 계층]
+│   ├── [조건 인코더 (Condition Encoder)]
+│   └── [움직임 제어기 (Motion Controller)]
+├── [시공간 생성 계층]
+│   ├── [시공간 표현 저장소 (Latent Tensor)]
+│   └── [영상 생성 모델 (Video DiT/UNet)]
+└── [품질/검증 계층]
+    └── [일관성 평가기 (Temporal Consistency)]
 ```
 
-선의 의미: 생성 모델과 조건•표현•제어•평가 요소의 정적 결합 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "AI 레드팀 (AI Red Teaming)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 115
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                         [승인•교전 규칙]
-                         /             \
-                  [위협 모델]     [완화•회귀 체계]
-                        |                |
-             [공격 코퍼스•하네스] ----- [증거 저장소]
+[AI Red Teaming Framework]
+├── [거버넌스 및 규칙 계층]
+│   └── [승인·교전 규칙 (Rules of Engagement)]
+├── [위협 모델 및 공격 계층]
+│   ├── [위협 모델 (Threat Model)]
+│   └── [공격 코퍼스·하네스 (Attack Harness)]
+└── [검증 및 사후 완화 계층]
+    ├── [증거 저장소 (Evidence Repository)]
+    └── [완화·회귀 체계 (Regression Test)]
 ```
 
-선의 의미: 교전 규칙 아래 위협•공격•증거•완화 경계를 연결한 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

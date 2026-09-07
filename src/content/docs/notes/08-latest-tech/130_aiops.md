@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "AIOps (Artificial Intelligence for IT Operations)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 130
@@ -66,15 +66,18 @@ extra:
 </details>
 
 ```text
-              [관측 데이터 저장소]   [서비스 토폴로지]
-                         \           /
-                       [사건 분석 엔진]
-                               |
-                       [원인 추정 모델]
-                               |
-                     [런북•정책 제어기]
+[AIOps Architecture]
+├── [관측 데이터 및 토폴로지 계층]
+│   ├── [관측 데이터 저장소 (Telemetry Store)]
+│   └── [서비스 토폴로지 (Service Topology)]
+├── [분석 및 원인 추정 계층]
+│   ├── [사건 분석 엔진 (Incident Engine)]
+│   └── [원인 추정 모델 (RCA Model)]
+└── [조치 및 자동화 계층]
+    └── [런북·정책 제어기 (Runbook Controller)]
 ```
-선의 의미: 사건 분석 엔진은 관측 데이터 저장소의 신호와 서비스 토폴로지의 의존 관계를 함께 사용하고, 원인 추정 모델과 런북•정책 제어기는 사건의 진단•조치 통제 경계를 구성한다.
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

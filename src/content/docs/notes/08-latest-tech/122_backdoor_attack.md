@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "백도어 공격 (Backdoor Attack)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 122
@@ -65,19 +65,19 @@ extra:
 
 </details>
 
-ASR은 트리거 변형별 표적 행동 발생률을 측정하고, 은닉성은 정상 입력 성능으로 평가한다.
-
 ```text
-[트리거 생성기]---[표적 행동 정의부]
-        |                  |
-        +----------[주입 채널]
-                         |
-                    [손상 모델]
-                         |
-                    [이중 평가기]
+[Backdoor Attack Pipeline]
+├── [공격 정의 계층]
+│   ├── [트리거 생성기 (Trigger Generator)]
+│   └── [표적 행동 정의부 (Target Behavior)]
+├── [주입 및 모델 계층]
+│   ├── [주입 채널 (Injection Channel)]
+│   └── [손상 모델 (Compromised Model)]
+└── [검증 및 평가 계층]
+    └── [이중 평가기 (Dual Evaluator)]
 ```
 
-선의 의미: 트리거 생성기와 표적 행동 정의부가 주입 채널에 결합되고, 손상 모델과 이중 평가기가 조건부 악성 행동 및 정상 성능의 검증 경계를 구성한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

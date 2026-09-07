@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 레지스트리 (Model Registry)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 133
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                         [모델 이름]
-                               |
-                          [불변 버전]
-                         /           \
-                    [계보 정보]    [상태•별칭]
-                                       |
-                                   [승인 정책]
+[Model Registry Architecture]
+├── [모델 네임스페이스 계층]
+│   └── [모델 이름 (Model Namespace)]
+├── [버전 및 아티팩트 계층]
+│   ├── [불변 버전 (Immutable Version)]
+│   └── [계보 정보 (Lineage Metadata)]
+└── [거버넌스 및 배포 상태 계층]
+    ├── [상태·별칭 (Stage & Alias)]
+    └── [승인 정책 (Promotion Gate)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 | 구성요소 | 책임 |
 |:---|:---|
 | **모델 이름** | 버전 묶음의 고유 이름 공간 |

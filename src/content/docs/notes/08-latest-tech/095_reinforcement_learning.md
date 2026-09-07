@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "강화학습 (Reinforcement Learning)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 95
@@ -63,12 +63,17 @@ extra:
 </details>
 
 ```text
-[가치 함수] ── [정책] ── [에이전트] ── [환경]
-                                         │
-                                   [보상 함수]
+[Reinforcement Learning System]
+├── [에이전트 계층]
+│   ├── [에이전트 (Agent)]
+│   ├── [정책 (Policy)]
+│   └── [가치 함수 (Value Function)]
+└── [환경 계층]
+    ├── [환경 (Environment)]
+    └── [보상 함수 (Reward Function)]
 ```
 
-선의 의미: 정책•가치•에이전트•환경•보상 함수의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

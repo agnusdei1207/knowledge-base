@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "이스티오 (Istio)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 163
@@ -69,18 +69,18 @@ extra:
 구성 **API** 의도의 xDS 전달과 데이터 평면의 **L4•L7 정책 집행**
 
 ```text
-                    [구성 API]
-                        |
-                     [Istiod]
-                        |
-             +----------+----------+
-             |                     |
-       [Sidecar Envoy]       [Ambient ztunnel]
-                                    |
-                         [Ambient waypoint]
+[Istio 아키텍처]
+├── [제어면 (Control Plane)]
+│   ├── [구성 API]
+│   └── [Istiod]
+└── [데이터면 (Data Plane)]
+    ├── [Sidecar Envoy]
+    └── [Ambient Mesh]
+        ├── [Ambient ztunnel]
+        └── [Ambient waypoint]
 ```
 
-선의 의미: 구성 API와 Istiod가 제어 평면을 이루고, Sidecar Envoy 또는 Ambient ztunnel이 데이터 평면을 구성하며 Ambient waypoint가 선택 범위의 L7 정책 경계를 제공한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

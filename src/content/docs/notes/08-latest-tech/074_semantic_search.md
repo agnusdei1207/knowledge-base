@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Semantic Search (의미 검색)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 74
@@ -61,12 +61,18 @@ extra:
 </details>
 
 ```text
-               [표현 모델]-----[의미 색인]-----[유사도 함수]
-                                      |
-                              [문자열 경로]-----[메타데이터 필터]
+[Semantic Search System]
+├── [벡터 임베딩 계층]
+│   └── [표현 모델 (Embedding Model)]
+├── [색인/저장 계층]
+│   ├── [의미 색인 (Vector Index)]
+│   └── [문자열 경로 (Keyword Fallback)]
+└── [유사도/필터링 계층]
+    ├── [유사도 함수 (Similarity Metric)]
+    └── [메타데이터 필터 (Metadata Filter)]
 ```
 
-선의 의미: 표현 모델과 의미 색인•유사도 함수가 공동 벡터 공간을 구성하고, 문자열 경로와 메타데이터 필터가 의미 후보의 식별자•접근 조건을 보완한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

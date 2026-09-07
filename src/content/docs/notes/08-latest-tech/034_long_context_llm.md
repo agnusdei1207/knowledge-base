@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Long Context LLM (장문맥 LLM)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 34
@@ -70,24 +70,33 @@ extra:
 </details>
 
 ```text
-                       [장문 학습 데이터]
-                        /           \
-              [위치 표현 계층]   [효율적 어텐션 계층]
-                        \           /
-                       [프리필•KV Cache]
-                              |
-                       [장문맥 평가 계층]
+[장문맥 LLM(Long Context LLM) 아키텍처]
+├── [장문 학습 데이터 (Long-Context Data)]
+│   ├── 대용량 장문 말뭉치 (Book, Code, Docs)
+│   └── 합성 장거리 추론 및 질의응답 데이터
+├── [위치 표현 계층 (Positional Scaling)]
+│   ├── RoPE 위치 보간 (Linear / NTK-aware PI)
+│   └── 주파수 스케일링 (YaRN / LongRoPE)
+├── [효율적 어텐션 계층 (Efficient Attention)]
+│   ├── 하드웨어 가속 어텐션 (FlashAttention)
+│   └── 블록/희소/윈도우 어텐션 (Sparse Attention)
+├── [메모리 및 서빙 계층 (Memory & Serving)]
+│   ├── 분산 KV Cache 관리 (PagedAttention)
+│   └── 청크 기반 프리필 (Chunked Prefill)
+└── [장문맥 평가 계층 (Evaluation & Benchmark)]
+    ├── 건초더미 바늘 찾기 (NIAH 벤치마크)
+    └── 장거리 다중 근거 추론 평가 (Multi-hop QA)
 ```
 
-선의 의미: 장문 학습 데이터는 위치 표현과 효율적 어텐션의 학습 기반이고, 두 계층의 계산 상태는 프리필•KV Cache에 결합되며, 장문맥 평가 계층은 전체 구성의 유효 문맥 품질을 검증한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
-| 위치 표현 계층 | **위치 보간**•스케일링으로 위치 확장 |
-| 효율적 어텐션 계층 | **희소 어텐션**•**윈도우 어텐션** 적용 |
-| 장문 학습 데이터 | 멀리 떨어진 근거 연결 과업 제공 |
-| 프리필•KV Cache | **프리필** 및 **KV Cache** 기반 상태 재사용 |
-| 장문맥 평가 계층 | 위치별 인출•다중 근거•지연 검증 |
+| 장문 학습 데이터 | 수만~수백만 토큰 장거리 문맥 데이터셋 및 다중 추론 과업 제공 |
+| 위치 표현 계층 | RoPE 위치 보간(PI/YaRN)을 통해 학습 범위를 초과하는 위치 좌표 확장 |
+| 효율적 어텐션 계층 | FlashAttention 및 희소/윈도우 어텐션으로 $O(N^2)$ 연산 부하 완화 |
+| 메모리 및 서빙 계층 | PagedAttention 및 청크 프리필로 초장문 KV Cache 메모리 파편화 방지 |
+| 장문맥 평가 계층 | NIAH 및 Multi-hop QA 벤치마크로 위치별 정보 회수율 및 품질 검증 |
 
 #### 한줄 요약
 

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "권한 인지 RAG (Permission-Aware RAG)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 85
@@ -60,16 +60,18 @@ extra:
 </details>
 
 ```text
-[신원 문맥]---[원천 ACL 저장소]
-     |                 |
-     |          [권한 동기화기]
-     |                 |
-     +----------[권한 검색기]
-                       |
-                [문맥•캐시 통제기]
+[Permission-Aware RAG]
+├── [신원/권한 관리 계층]
+│   ├── [신원 문맥 (Identity Context)]
+│   ├── [원천 ACL 저장소]
+│   └── [권한 동기화기]
+├── [권한 기반 검색 계층]
+│   └── [권한 검색기 (Pre-filter Retriever)]
+└── [문맥/캐시 통제 계층]
+    └── [문맥·캐시 통제기 (Post-check & Cache)]
 ```
 
-선의 의미: 신원•ACL•동기화•검색•캐시 통제의 정적 결합 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

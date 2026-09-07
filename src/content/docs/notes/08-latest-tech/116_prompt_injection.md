@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "프롬프트 인젝션 (Prompt Injection)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 116
@@ -64,14 +64,18 @@ extra:
 </details>
 
 ```text
- [신뢰 채널]       [비신뢰 컨텍스트]
-          \             /
-              [권한 브로커] ----- [승인 게이트]
-                     |
-                [격리•감사]
+[Prompt Injection Defense]
+├── [입력 채널 격리 계층]
+│   ├── [신뢰 채널 (System Prompt)]
+│   └── [비신뢰 컨텍스트 (Untrusted Input)]
+├── [권한 통제 계층]
+│   ├── [권한 브로커 (Privilege Broker)]
+│   └── [승인 게이트 (Approval Gate)]
+└── [실행 및 감사 계층]
+    └── [격리·감사 (Sandbox & Audit)]
 ```
 
-선의 의미: 신뢰 채널과 비신뢰 컨텍스트는 분리된 입력 경계를 이루고, 권한 브로커는 승인 게이트 및 격리•감사 통제를 결합해 모델의 도구 권한과 피해 범위를 제한하는 정적 방어 구조를 뜻한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 | :--- | :--- |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "개념 드리프트 (Concept Drift)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 135
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
- [기준 개념 창]       [예측 로그]       [정답 저장소]
-          \                |                /
-                      [드리프트 검출기] ----- [적응 정책]
+[Concept Drift Detection]
+├── [관측 및 참조 데이터 계층]
+│   ├── [기준 개념 창 (Baseline Window)]
+│   ├── [예측 로그 (Inference Log)]
+│   └── [정답 저장소 (Ground Truth Store)]
+├── [분석 및 검출 계층]
+│   └── [드리프트 검출기 (Drift Detector)]
+└── [적응 및 통제 계층]
+    └── [적응 정책 (Adaptation Policy)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

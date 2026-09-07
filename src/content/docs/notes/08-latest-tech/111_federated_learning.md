@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "연합학습 (Federated Learning)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 111
@@ -63,16 +63,17 @@ extra:
 </details>
 
 ```text
-                        [연합 조정자]
-                       /             \
-             [글로벌 모델 저장소]  [집계•보호기]
-                       \             /
-                    [참여 클라이언트]
-                              |
-                        [로컬 학습기]
+[Federated Learning Architecture]
+├── [중앙 오케스트레이션 계층]
+│   ├── [연합 조정자 (FL Coordinator)]
+│   ├── [글로벌 모델 저장소 (Global Model)]
+│   └── [집계·보호기 (Secure Aggregator)]
+└── [분산 클라이언트 계층]
+    ├── [참여 클라이언트 (Clients)]
+    └── [로컬 학습기 (Local Trainer)]
 ```
 
-선의 의미: 조정자 아래 글로벌 모델•집계기•클라이언트•학습기를 연결한 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

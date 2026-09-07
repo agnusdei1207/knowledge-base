@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 드리프트 (Data Drift)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 134
@@ -63,12 +63,18 @@ extra:
 </details>
 
 ```text
-                  [기준 프로필]     [현재 구간]
-                         \           /
-                         [분포 비교기]
-                          /         \
-                    [문맥 정책]   [정답 저장소]
+[Data Drift Detection]
+├── [입력 및 기준 분포 계층]
+│   ├── [기준 프로필 (Baseline Profile)]
+│   └── [현재 구간 (Current Window)]
+├── [통계 비교 및 분석 계층]
+│   └── [분포 비교기 (Distribution Comparator)]
+└── [정책 및 검증 계층]
+    ├── [문맥 정책 (Context Policy)]
+    └── [정답 저장소 (Ground Truth Store)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 | 구성요소 | 책임 |
 |:---|:---|
 | **기준 프로필** | 정상 구간의 분포•품질 정보 |

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Kubernetes (쿠버네티스)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 158
@@ -63,12 +63,17 @@ extra:
 </details>
 
 ```text
-                         [API 서버]
-                    /        |        \
-              [etcd] [컨트롤러 관리자] [스케줄러]
-                                              |
-                                          [kubelet]
+[Kubernetes 아키텍처]
+├── [제어면 (Control Plane)]
+│   ├── [API 서버]
+│   ├── [etcd]
+│   ├── [컨트롤러 관리자]
+│   └── [스케줄러]
+└── [노드 계층 (Worker Node)]
+    └── [kubelet]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

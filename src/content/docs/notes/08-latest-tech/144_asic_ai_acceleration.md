@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 60%"
     variant: note
 title: "ASIC AI Acceleration (ASIC AI 가속)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 144
@@ -62,14 +62,18 @@ extra:
 </details>
 
 ```text
-[고정 연산 배열]---[온칩 메모리]
-        |                  |
-   [데이터 연결망]---[명령•제어기]
-        |
-    [전력 제어]
+[ASIC AI Acceleration]
+├── [연산 및 온칩 메모리 계층]
+│   ├── [고정 연산 배열 (Fixed Compute Array)]
+│   └── [온칩 메모리 (On-Chip SRAM)]
+├── [데이터 이동 및 제어 계층]
+│   ├── [데이터 연결망 (Interconnect)]
+│   └── [명령·제어기 (Command Controller)]
+└── [전력 및 설비 계층]
+    └── [전력 제어 (Power & Thermal)]
 ```
 
-선의 의미: 연산•메모리 연결망과 외부 요청•전력 경계의 정적 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

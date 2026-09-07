@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 추출 (Model Extraction)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 119
@@ -63,15 +63,19 @@ extra:
 
 </details>
 
-원본 모델의 라벨•점수•로짓을 반복 수집하는 **대상 API** 접점
-
 ```text
-[대상 API] ----- [표본 생성기] ----- [응답 데이터셋] ----- [대체 모델]
-      \                                                       /
-                       [탐지•검증 통제]
+[Model Extraction Defense]
+├── [API 노출 및 질의 계층]
+│   ├── [대상 API (Target API)]
+│   └── [표본 생성기 (Query Generator)]
+├── [데이터셋 및 대체 학습 계층]
+│   ├── [응답 데이터셋 (Stolen Dataset)]
+│   └── [대체 모델 (Substitute Model)]
+└── [보안 감시 및 추적 계층]
+    └── [탐지·검증 통제 (Watermark & RateLimit)]
 ```
 
-선의 의미: 기능 모방의 정보 의존망과 질의•워터마크 감시 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

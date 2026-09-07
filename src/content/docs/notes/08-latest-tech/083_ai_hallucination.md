@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 환각 (AI Hallucination)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 83
@@ -61,10 +61,18 @@ extra:
 </details>
 
 ```text
-[생성 모델]──[주장 분해기]──[사실 검증기]
-                              │
-                     [근거 귀속기]──[대응 정책]
+[AI Hallucination Mitigation System]
+├── [생성/분해 계층]
+│   ├── [생성 모델 (Generator)]
+│   └── [주장 분해기 (Claim Decomposer)]
+├── [검증 계층]
+│   ├── [사실 검증기 (Fact Checker)]
+│   └── [근거 귀속기 (Attribution Mapper)]
+└── [통제 계층]
+    └── [대응 정책 (Mitigation Policy)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

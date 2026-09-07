@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Data Augmentation (데이터 증강)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 69
@@ -60,13 +60,18 @@ extra:
 </details>
 
 ```text
-[데이터 증강 체계]
- ├─ [원본 데이터]
- ├─ [변환 정책]──[보존 규칙]
- └─ [증강 선택기]──[혼합 비율]
+[Data Augmentation System]
+├── [원본 데이터 관리]
+│   └── [원본 데이터 (Raw Data)]
+├── [변환 정책 계층]
+│   ├── [변환 정책 (Augmentation Policy)]
+│   └── [보존 규칙 (Preservation Rules)]
+└── [공급/선택 계층]
+    ├── [증강 선택기 (Aug Selector)]
+    └── [혼합 비율 (Mixing Ratio)]
 ```
 
-선의 의미: 원본을 기준으로 변환•보존 검사•공급 비율을 소유한 정적 책임을 나타냄.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

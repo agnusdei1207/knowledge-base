@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "LLMOps (Large Language Model Operations)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 129
@@ -64,16 +64,19 @@ extra:
 
 </details>
 
-RAG 파이프라인의 실행 추적 연결 요소: **구성 레지스트리**•**평가 하네스**•**모델 게이트웨이**
-
 ```text
-                       [구성 레지스트리]
-                      /        |        \
-             [RAG 파이프라인] [모델 게이트웨이] [평가 하네스]
-                      \        |        /
-                    [추적•피드백 저장소]
+[LLMOps Architecture]
+├── [형상 및 자산 관리 계층]
+│   └── [구성 레지스트리 (Config Registry)]
+├── [파이프라인 및 서빙 계층]
+│   ├── [RAG 파이프라인 (RAG Pipeline)]
+│   ├── [모델 게이트웨이 (Model Gateway)]
+│   └── [평가 하네스 (Evaluation Harness)]
+└── [관측 및 피드백 계층]
+    └── [추적·피드백 저장소 (Tracing & Feedback)]
 ```
-선의 의미: 구성 레지스트리는 RAG 파이프라인, 모델 게이트웨이, 평가 하네스의 실행 조합을 관리하고, 추적•피드백 저장소는 세 구성요소의 근거•호출•평가 기록을 결합한다.
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

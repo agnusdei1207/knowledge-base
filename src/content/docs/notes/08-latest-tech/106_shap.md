@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "SHAP 설명 기법 (SHapley Additive exPlanations)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 106
@@ -65,16 +65,18 @@ extra:
 </details>
 
 ```text
-                   [모델 출력기]
-                         |
-                [배경 분포•마스커]
-                         |
-                [연합 가치 계산기]
-                         |
-                    [SHAP 계산기]
-                         |
-                [설명 결과 저장소]
+[SHAP Architecture]
+├── [모델 및 배경 입력 계층]
+│   ├── [모델 출력기 (Model Output)]
+│   └── [배경 분포·마스커 (Masker)]
+├── [가치 및 기여도 계산 계층]
+│   ├── [연합 가치 계산기 (Value Function)]
+│   └── [SHAP 계산기 (Shapley Kernel)]
+└── [해석 결과 계층]
+    └── [설명 결과 저장소 (Attribution)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

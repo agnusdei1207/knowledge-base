@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "GPU 클러스터 (GPU Cluster)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 139
@@ -60,12 +60,18 @@ extra:
 </details>
 
 ```text
-                         [갱 스케줄러]
-                               |
-[체크포인트 저장소] ----- [GPU 연산 노드] ----- [고속 패브릭]
-                                                   |
-                                          [집단 통신 계층]
+[GPU Cluster Architecture]
+├── [오케스트레이션 계층]
+│   └── [갱 스케줄러 (Gang Scheduler)]
+├── [컴퓨팅 및 인터커넥트 계층]
+│   ├── [GPU 연산 노드 (Compute Node)]
+│   └── [고속 패브릭 (High-Speed Fabric)]
+└── [통신 라이브러리 및 스토리지]
+    ├── [집단 통신 계층 (Collective Comm)]
+    └── [체크포인트 저장소 (Checkpoint Store)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 60%"
     variant: note
 title: "OpenTelemetry"
-date: "2026-09-06T08:03:06+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags: ["notes-latest-tech"]
 weight: 170
 extra:
@@ -66,17 +66,19 @@ extra:
 </details>
 
 ```text
-                    [맥락 전파]   [시맨틱 규약]
-                          \       /
-                            [API]
-                              |
-                            [SDK]
-                              |
-                            [OTLP]
-                              |
-                         [Collector]
+[OpenTelemetry 아키텍처]
+├── [표준 규약 계층]
+│   ├── [맥락 전파]
+│   └── [시맨틱 규약]
+├── [애플리케이션 계측]
+│   ├── [API]
+│   └── [SDK]
+└── [전송 및 파이프라인]
+    ├── [OTLP]
+    └── [Collector]
 ```
-선의 의미: 맥락 전파와 시맨틱 규약은 API의 요청 관계와 속성 의미를 표준화하고, SDK는 API 신호의 처리 정책을 구현하며 OTLP는 SDK와 Collector 사이의 공급자 중립 전송 경계를 제공한다.
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

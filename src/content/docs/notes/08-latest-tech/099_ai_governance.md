@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 거버넌스 (AI Governance)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 99
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                     [위험 기준 위원회]
-                              |
-                         [AI 등록부]
-                    /          |          \
-             [승인 기구] [수명주기 통제부] [사고 대응부]
+[AI Governance Framework]
+├── [정책/기준 수립 계층]
+│   └── [위험 기준 위원회 (AI Committee)]
+├── [자산 식별/분류 계층]
+│   └── [AI 등록부 (AI Inventory)]
+└── [통제 및 집행 계층]
+    ├── [승인 기구 (Approval Body)]
+    ├── [수명주기 통제부 (Lifecycle Control)]
+    └── [사고 대응부 (Incident Response)]
 ```
 
-선의 의미: 위험 기준•등록부•승인•수명주기•사고 대응의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

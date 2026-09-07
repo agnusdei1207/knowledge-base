@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "RAG 평가 (RAG Evaluation)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 81
@@ -63,10 +63,19 @@ extra:
 </details>
 
 ```text
-[평가 데이터셋]──[RAG 실행기]──[실행 기록]
-                        │
-              [검색 평가기]──[생성 평가기]──[실패 분석기]
+[RAG Evaluation System]
+├── [데이터/실행 계층]
+│   ├── [평가 데이터셋]
+│   ├── [RAG 실행기]
+│   └── [실행 기록 (Run Logs)]
+├── [품질 계측 계층]
+│   ├── [검색 평가기 (Context Metrics)]
+│   └── [생성 평가기 (Answer Metrics)]
+└── [진단/분석 계층]
+    └── [실패 분석기 (Failure Attribution)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

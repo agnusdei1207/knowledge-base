@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 운영 (DataOps)"
-date: "2026-09-06T08:02:02+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 131
@@ -63,12 +63,18 @@ extra:
 </details>
 
 ```text
-                        [오케스트레이터]
-                     /         |         \
-               [버전 저장소] [품질 게이트] [메타데이터 계보]
-                     \         |         /
-                         [데이터 관측]
+[DataOps Architecture]
+├── [오케스트레이션 및 통제 계층]
+│   └── [오케스트레이터 (Pipeline Orchestrator)]
+├── [품질 및 형상 관리 계층]
+│   ├── [버전 저장소 (Version Repository)]
+│   ├── [품질 게이트 (Quality Gate)]
+│   └── [메타데이터 계보 (Metadata Lineage)]
+└── [데이터 관측 계층]
+    └── [데이터 관측 (Data Observability)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 | 구성요소 | 책임 |
 |:---|:---|
 | 버전 저장소 | 코드•스키마•규칙의 변경 이력 보관 |

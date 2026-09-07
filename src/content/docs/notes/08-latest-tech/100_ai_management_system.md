@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "ISO/IEC 42001 AI 경영시스템 (AI Management System)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 100
@@ -65,14 +65,17 @@ extra:
 </details>
 
 ```text
-                      [범위•정책 기구]
-                              |
-                    [리더십•자원 책임자]
-                    /          |          \
-             [위험 평가부] [운영 통제부] [성과•개선부]
+[ISO/IEC 42001 AIMS]
+├── [거버넌스 및 리더십]
+│   ├── [범위·정책 기구 (Scope & Policy)]
+│   └── [리더십·자원 책임자 (Leadership)]
+└── [수명주기 통제 및 운영]
+    ├── [위험 평가부 (Risk Assessment)]
+    ├── [운영 통제부 (Operational Control)]
+    └── [성과·개선부 (Performance & Improvement)]
 ```
 
-선의 의미: 범위•정책•리더십•위험•운영•성과 개선의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

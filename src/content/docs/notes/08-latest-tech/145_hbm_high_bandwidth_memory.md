@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "HBM (고대역폭 메모리)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 145
@@ -62,21 +62,19 @@ extra:
 
 </details>
 
-**인터포저**로 가속기와 HBM을 연결하고 **TSV**로 DRAM 다이를 수직 연결
-
 ```text
-                 [적층 DRAM]
-                      |
-                     [TSV]
-                      |
-                 [인터포저]
-                      |
-                 [독립 채널]
-                      |
-               [열•전력 관리]
+[HBM Architecture]
+├── [3D 적층 메모리 다이]
+│   ├── [적층 DRAM (DRAM Core Die)]
+│   └── [TSV (Through-Silicon Via)]
+├── [패키징 및 채널 인터페이스]
+│   ├── [인터포저 (Silicon Interposer)]
+│   └── [독립 채널 (Pseudo Channel)]
+└── [패키지 신뢰성 통제]
+    └── [열·전력 관리 (Thermal Management)]
 ```
 
-선의 의미: 수직 적층•가속기 데이터 경로와 패키지 운영 경계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

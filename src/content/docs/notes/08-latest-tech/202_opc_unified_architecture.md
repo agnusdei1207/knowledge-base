@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "OPC UA 산업 표준 통신 (OPC Unified Architecture)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 202
@@ -64,23 +64,21 @@ extra:
 
 </details>
 
-**AddressSpace 탐색**과 **PubSub 데이터셋 배포**를 지원하는 OPC UA 구조
-
 ```text
-                    [Client]
-                       |
-                    [Server]
-                       |
-                 [AddressSpace]
-                       |
-              +--------+--------+
-              |                 |
-         [Publisher]       [Subscriber]
-              |
-       [인증서•신뢰 체계]
+[OPC UA 통합 아키텍처]
+├── [클라이언트-서버 모델]
+│   ├── [Client]
+│   └── [Server]
+├── [정보 모델 계층]
+│   └── [AddressSpace]
+├── [PubSub 통신 모델]
+│   ├── [Publisher]
+│   └── [Subscriber]
+└── [보안 인프라]
+    └── [인증서•신뢰 체계]
 ```
 
-선의 의미: 정보 모델 공유•데이터셋 배포와 신원•보호 경계 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

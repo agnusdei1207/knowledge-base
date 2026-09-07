@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Agent to Agent Protocol (에이전트 간 통신 프로토콜)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T15:40:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 12
@@ -66,12 +66,22 @@ extra:
 </details>
 
 ```text
-                          [A2A 서버]
-                    /        |        |        \
-       [A2A 클라이언트] [에이전트 카드] [작업•메시지] [결과물]
+[A2A 프로토콜 체계]
+├── [능력 발견 및 보안 (Discovery)]
+│   ├── 에이전트 카드 (Agent Card 명세)
+│   ├── 엔드포인트 및 인증 요구사항
+│   └── 캡슐화된 기능 인터페이스
+├── [통신 및 전송 바인딩 (Transport)]
+│   ├── A2A-Version 헤더 협상
+│   └── JSON-RPC / gRPC / HTTP 바인딩
+└── [상태형 작업 및 산출물 (State)]
+    ├── 단발 메시지(Message) 교환
+    ├── 상태형 작업(Stateful Task ID)
+    ├── 진행 상태 스트리밍 및 웹훅 푸시
+    └── 결과물(Artifact) 및 파트 전달
 ```
 
-선의 의미: A2A 서버가 카드•작업•결과물을 하나의 원격 경계로 제공하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

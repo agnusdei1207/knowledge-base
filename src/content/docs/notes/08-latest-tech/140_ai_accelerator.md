@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "AI 가속기 (AI Accelerator)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 140
@@ -73,12 +73,19 @@ extra:
 </details>
 
 ```text
-[컴파일러] ----- [런타임]
-                     |
-             [MAC•텐서 배열] ----- [온칩 메모리] ----- [외부 메모리 인터페이스]
-                     |
-              [전력•열 제어기]
+[AI Accelerator Architecture]
+├── [소프트웨어 스택 계층]
+│   ├── [컴파일러 (Graph Compiler)]
+│   └── [런타임 (Execution Runtime)]
+├── [컴퓨팅 및 메모리 계층]
+│   ├── [MAC·텐서 배열 (Compute Array)]
+│   ├── [온칩 메모리 (SRAM Buffer)]
+│   └── [외부 메모리 인터페이스 (HBM/DRAM)]
+└── [하드웨어 제어 계층]
+    └── [전력·열 제어기 (Power & Thermal)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

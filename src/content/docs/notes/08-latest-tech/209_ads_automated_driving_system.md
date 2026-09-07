@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "자동주행 시스템 (Automated Driving System, ADS)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 209
@@ -61,18 +61,19 @@ extra:
 
 </details>
 
-ADS의 **ODD•OEDR 관리**와 MRM 수행 구조
-
 ```text
-                [ODD•기능 관리자]   [안전 감시•기록]
-                         \          /
-                         [인지•OEDR]
-                               |
-                      [예측•계획•제어]
-                               |
-                        [DDT fallback]
+[ADS 아키텍처]
+├── [조건 및 감시 계층]
+│   ├── [ODD•기능 관리자]
+│   └── [안전 감시•기록]
+├── [인지 및 주행 과업 계층]
+│   ├── [인지•OEDR]
+│   └── [예측•계획•제어]
+└── [안전 대체 대응 계층]
+    └── [DDT fallback]
 ```
-선의 의미: 작동 범위•독립 감시와 정상 DDT•대체 대응 경계
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

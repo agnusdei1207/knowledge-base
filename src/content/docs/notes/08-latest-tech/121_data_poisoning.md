@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터 오염 (Data Poisoning)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 121
@@ -50,18 +50,18 @@ extra:
 </details>
 
 ```text
-             [기여자 권한 관리기]
-                      │
-             [데이터 계보 저장소]
-                      │
-               [격리 데이터셋]
-                      │
-                [버전 저장소]
-                      │
-                [기준 평가기]
+[Data Poisoning Defense]
+├── [수집 및 계보 관리 계층]
+│   ├── [기여자 권한 관리기 (Access Control)]
+│   └── [데이터 계보 저장소 (Data Lineage)]
+├── [데이터 격리 및 버전 계층]
+│   ├── [격리 데이터셋 (Sanitization Quarantine)]
+│   └── [버전 저장소 (Dataset Versioning)]
+└── [검증 및 평가 계층]
+    └── [기준 평가기 (Benchmark Evaluator)]
 ```
 
-선의 의미: 권한•계보•격리•버전•평가 책임의 정적 연결
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

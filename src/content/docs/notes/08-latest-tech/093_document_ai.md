@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "문서 AI (Document AI)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 93
@@ -64,12 +64,18 @@ extra:
 </details>
 
 ```text
-[문서 분류기]──[레이아웃 분석기]──[문자 인식기]
-                                      │
-                              [정보 추출기]──[검토 라우터]
+[Document AI System]
+├── [문서 인입/분류 계층]
+│   └── [문서 분류기 (Document Classifier)]
+├── [시각/문자 인식 계층]
+│   ├── [레이아웃 분석기 (Layout Analyzer)]
+│   └── [문자 인식기 (OCR Engine)]
+└── [정보 추출/검증 계층]
+    ├── [정보 추출기 (Information Extractor)]
+    └── [검토 라우터 (Review Router)]
 ```
 
-선의 의미: 분류•구조•인식•추출•검토 책임의 정적 연결
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

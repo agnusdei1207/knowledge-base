@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "멀티모달 RAG (Multimodal RAG)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 92
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                           [모달 색인]
-                          /           \
-                   [모달 정렬기]    [검색•융합기]
-                          |              |
-                    [모달 추출기]    [근거 연결부]
+[Multimodal RAG System]
+├── [데이터 추출/파싱 계층]
+│   ├── [모달 추출기 (Modal Extractor)]
+│   └── [모달 정렬기 (VLM Aligner)]
+├── [멀티모달 색인 계층]
+│   └── [모달 색인 (Multimodal Index)]
+└── [검색/근거 생성 계층]
+    ├── [검색·융합기 (Cross-Modal Fusion)]
+    └── [근거 연결부 (Evidence Linker)]
 ```
 
-선의 의미: 추출•정렬•색인•검색•근거 연결 요소의 정적 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

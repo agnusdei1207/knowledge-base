@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "탈옥 공격 (Jailbreak Attack)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 118
@@ -63,14 +63,18 @@ extra:
 </details>
 
 ```text
-                       [안전 정책]
-                       /         \
-                [정렬 모델] ----- [독립 판정기] ----- [권한 게이트]
-                                        |
-                                   [평가 체계]
+[Jailbreak Defense Architecture]
+├── [보안 정책 계층]
+│   └── [안전 정책 (Safety Policy)]
+├── [모델 및 판정 계층]
+│   ├── [정렬 모델 (Aligned Model)]
+│   └── [독립 판정기 (Moderator Gate)]
+└── [실행 및 평가 계층]
+    ├── [권한 게이트 (Tool Authority Gate)]
+    └── [적대 평가 체계 (Evaluation Suite)]
 ```
 
-선의 의미: 안전 정책은 공통 기준, 독립 판정기는 실행 통제•평가와 결합
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

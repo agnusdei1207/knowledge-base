@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "프라이버시 보존 AI (Privacy-Preserving AI)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 110
@@ -61,14 +61,18 @@ extra:
 </details>
 
 ```text
-                         [위협 모델]
-                               |
-                          [신뢰 경계]
-                         /           \
-                 [분산 학습 계층]  [노이즈•암호 계층]
-                         \           /
-                       [공격•효용 평가기]
+[Privacy-Preserving AI]
+├── [보안 모델링 및 정책 계층]
+│   ├── [위협 모델 (Threat Model)]
+│   └── [신뢰 경계 (Trust Boundary)]
+├── [프라이버시 보호 계층]
+│   ├── [분산 학습 계층 (Federated)]
+│   └── [노이즈·암호 계층 (DP & HE)]
+└── [평가 및 검증 계층]
+    └── [공격·효용 평가기 (Evaluation)]
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

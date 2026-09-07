@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 80%"
     variant: note
 title: "Multimodal AI (멀티모달 AI)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 87
@@ -62,18 +62,19 @@ extra:
 </details>
 
 ```text
-                   [모달 인코더]
-                         |
-                     [표현 정렬]
-                         |
-                     [융합 모듈]
-                         |
-                     [공유 추론]
-                         |
-                     [출력 계층]
+[Multimodal AI System]
+├── [신호 입력/인코딩 계층]
+│   └── [모달 인코더 (Modality Encoder)]
+├── [교차 모달 정렬 계층]
+│   └── [표현 정렬 (Cross-Modal Alignment)]
+├── [특징 융합 계층]
+│   └── [융합 모듈 (Fusion Module)]
+└── [추론/생성 계층]
+    ├── [공유 추론 (Joint Reasoning)]
+    └── [출력 계층 (Output Layer)]
 ```
 
-선의 의미: 인코더•정렬•융합•추론•출력 계층의 정적 결합 관계이다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

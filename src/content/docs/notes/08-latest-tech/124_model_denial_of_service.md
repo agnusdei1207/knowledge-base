@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모델 서비스 거부 (Model Denial of Service)"
-date: "2026-08-31T15:08:00+09:00"
+date: "2026-09-07T16:00:00+09:00"
 tags:
   - "notes-latest-tech"
 weight: 124
@@ -63,18 +63,18 @@ extra:
 </details>
 
 ```text
-                 [요청 게이트웨이]
-                         |
-                  [작업량 계량기]
-                         |
-                [대기열•스케줄러]
-                         |
-              +----------+----------+
-              |                     |
-         [추론 실행기]          [도구 실행기]
+[Model DoS Defense System]
+├── [인입 및 계량 계층]
+│   ├── [요청 게이트웨이 (Request Gateway)]
+│   └── [작업량 계량기 (Resource Meter)]
+├── [스케줄링 및 큐 계층]
+│   └── [대기열·스케줄러 (Queue & Scheduler)]
+└── [실행 및 격리 계층]
+    ├── [추론 실행기 (Inference Executor)]
+    └── [도구 실행기 (Tool Runner)]
 ```
 
-선의 의미: 요청 게이트웨이와 작업량 계량기가 주체별 소비를 통제하고, 대기열•스케줄러가 추론 실행기와 도구 실행기의 격리된 자원 경계를 관리한다.
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
