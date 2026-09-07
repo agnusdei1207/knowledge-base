@@ -163,13 +163,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **SDV(Software Defined Vehicle)**: 소프트웨어를 통해 차량의 하드웨어 기능, 주행 성능, 사용자 경험을 지속적으로 업데이트하고 정의하는 차량 개발 패러다임.
-- **SOME/IP(Scalable service-Oriented MiddlewarE over IP)**: 차량용 이더넷 환경에서 제어기 간에 클라이언트-서버 기반 원격 프로시저 호출(RPC)과 이벤트 통지를 지원하는 표준 전장 통신 미들웨어.
+- **소프트웨어 정의 차량(Software-Defined Vehicle, SDV)**: 소프트웨어를 통해 차량의 하드웨어 기능, 주행 성능, 사용자 경험을 지속적으로 업데이트하고 정의하는 미래 자동차 개발 패러다임.
+- **차량용 서비스 지향 미들웨어(Scalable service-Oriented MiddlewarE over IP, SOME/IP)**: 차량용 이더넷 환경에서 제어기 간 원격 프로시저 호출(RPC)과 이벤트 통지를 지원하는 표준 전장 통신 프로토콜.
 
 </details>
 
-- 차량용 분산 실시간 제어를 위한 Classic Platform과 SDV 기반 고성능 자율주행을 위한 Adaptive Platform을 아우르는 전장 소프트웨어의 글로벌 표준으로 안착되었으며, 최근에는 Zonal E/E 아키텍처 및 SOME/IP 서비스 지향 통신(SOA), 클라우드 연계 무선(OTA) 업데이트와의 통합이 급속 진화 중.
-- 전장 소프트웨어 아키텍처 수립 시 하드웨어 독립성을 보장하는 VFB 포트 설계와 ISO 26262 ASIL-D 수준의 E2E 데이터 무결성 보호 체계 구축 필수.
+- 실시간 분산 제어 중심의 클래식 플랫폼과 SDV 고성능 자율주행을 위한 어댑티브 플랫폼의 공존 체계를 바탕으로, 영역 기반 E/E 아키텍처 및 SOME/IP 서비스 지향 통신, 클라우드 연계 OTA와의 통합 가속화 추세.
+- 하드웨어 독립성을 보장하는 VFB 포트 모델링과 함께, ISO 26262 ASIL-D 수준의 E2E 데이터 무결성 검증 및 BSW 메모리 최적화 거버넌스 확보 필요.
 
 #### 한줄 요약
-- AUTOSAR는 SDV 전장 소프트웨어 표준의 핵심이며, Classic과 Adaptive의 상호 보완적 융합을 통해 완성된다.
+- 클래식과 어댑티브 플랫폼의 상호 보완적 융합 및 SOME/IP 기반 통신을 통해 SDV 고성능 컴퓨팅과 기능 안전 무결성을 동시 달성해야 한다.

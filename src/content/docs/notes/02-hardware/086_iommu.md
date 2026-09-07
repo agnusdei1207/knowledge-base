@@ -181,12 +181,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Arm SMMU(System MMU)**: Arm 아키텍처 환경에서 온칩 가속기 및 PCIe 디바이스의 DMA 주소 변환과 스테이지 1/2 가상화 격리를 전담하는 하드웨어 IOMMU 유닛.
-- **SR-IOV(Single Root I/O Virtualization)**: 단일 물리 PCIe 어댑터를 여러 개의 가상 기능(VF)으로 분할하여 IOMMU를 통해 각 VM에 직접 매핑하는 가상화 표준.
+- **시스템 메모리 관리 장치(System Memory Management Unit, Arm SMMU)**: Arm 아키텍처 환경에서 온칩 가속기 및 PCIe 디바이스의 DMA 주소 변환과 2단계 가상화 격리를 전담하는 하드웨어 유닛.
+- **단일 루트 입출력 가상화(Single Root I/O Virtualization, SR-IOV)**: 단일 물리 PCIe 어댑터를 여러 가상 기능(VF)으로 분할하여 IOMMU를 통해 VM에 직결하는 가상화 표준.
 
 </details>
 
-- IOMMU는 PCIe BDF 기반 도메인 격리와 IOTLB 가속을 통해 I/O 가상화 패스스루(SR-IOV, GPU Passthrough) 및 제로 트러스트 하드웨어 보안의 실리콘 표준(Intel VT-d, AMD-Vi, Arm SMMU)으로 확립되었으며, 향후 CXL 메모리 풀링 및 DPU/IPU 인프라 가속 환경의 복합 이종 메모리 격리 장치로 진화하고 있어, 시스템 아키텍처 설계 시 보안 요구등급에 따른 Strict/Lazy 모드 분기와 Huge Pages 기반 IOTLB 튜닝을 병행하는 정밀한 공학적 절충 필수.
+- PCIe 장치 식별자(BDF) 기반 도메인 격리와 IOTLB 캐시 가속을 바탕으로 I/O 패스스루 및 제로 트러스트 보안 표준으로 안착되었으며, CXL 메모리 풀링 및 DPU/IPU 가속 환경의 복합 이종 메모리 격리 장치로의 진화 추세.
+- 워크로드 보안 등급에 따른 엄격 모드와 지연 무효화 모드의 선별적 적용과 함께, 대용량 페이지 기반 IOTLB 적중률 튜닝을 병행하는 정밀한 공학적 절충 필요.
 
 #### 한줄 요약
-- IOMMU는 CPU의 MMU와 대등하게 I/O 서브시스템의 가상화와 메모리 보안을 책임지는 핵심 하드웨어 아키텍처다.
+- PCIe 도메인 격리와 IOTLB 캐싱으로 악성 DMA를 차단하고 워크로드별 모드 선별 및 대용량 페이지 튜닝으로 보안과 I/O 처리율을 동시 달성해야 한다.

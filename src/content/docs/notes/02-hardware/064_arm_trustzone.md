@@ -161,13 +161,13 @@ extra:
 
 <details><summary>용어 설명</summary>
 
-- **Arm CCA(Confidential Compute Architecture)**: TrustZone을 넘어 하이퍼바이저도 접근할 수 없는 동적 기밀 실행 공간(Realm)을 제공하는 최신 하드웨어 아키텍처.
-- **SMMU(System Memory Management Unit)**: CPU뿐만 아니라 DMA 주변장치의 메모리 접근에 대해서도 가상화 주소 변환과 보안 NS 비트 검증을 수행하는 하드웨어 장치.
+- **Arm 기밀 컴퓨팅 아키텍처(Arm Confidential Compute Architecture, CCA)**: TrustZone을 확장하여 하이퍼바이저조차 접근할 수 없는 하드웨어 격리 실행 공간(Realm)을 제공하는 차세대 보안 아키텍처.
+- **시스템 메모리 관리 장치(System Memory Management Unit, SMMU)**: CPU뿐만 아니라 DMA 주변장치의 메모리 접근에 대해서도 가상 주소 변환과 보안 속성을 하드웨어적으로 검증하는 장치.
 
 </details>
 
-- 모바일 및 차량용 SoC의 하드웨어 기반 신뢰 실행 환경(TEE) 구축을 위한 지배적 산업 표준으로 안착되었으며, 향후 Armv9 기밀 컴퓨팅 아키텍처(CCA)의 렐름(Realm) 관리 확장과 결합하여 클라우드 및 멀티테넌트 엣지 기밀 보호로 급속 진화 중.
-- 임베디드 보안 아키텍처 수립 시 공유 메모리 안전 복사를 통한 TOCTOU 공격 차단과 SMMU 기반 버스 마스터 주변장치 보안 속성 강제 격리 체계의 초기 부팅 시점 확립 필수.
+- 모바일 및 차량용 SoC의 신뢰 실행 환경(TEE) 구축을 위한 지배적 산업 표준 안착과 함께, 하이퍼바이저로부터도 메모리를 격리하는 Armv9 기밀 컴퓨팅 아키텍처(CCA)의 렐름 가상화 체계로의 진화 추세.
+- 공유 메모리 내부 복사를 통한 TOCTOU 변조 차단과 함께, 시스템 메모리 관리 장치(SMMU) 기반 주변장치 DMA 버스 마스터 격리를 결합한 하드웨어 신뢰 루트 확보 필요.
 
 #### 한줄 요약
-- Arm TrustZone은 버스 신호 레벨의 물리적 격리를 통해 일반 OS 침해 시에도 핵심 암호 자산을 보호하는 모바일 보안의 핵심 뼈대다.
+- 버스 레벨의 물리적 신뢰 실행 환경을 기반으로 Arm CCA 렐름 및 SMMU DMA 격리를 결합하여 단일 SoC 내 최고 수준의 기밀성을 달성해야 한다.
