@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "5G 국제 표준 — 3GPP•IMT-2020 (5G International Standards)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 43
@@ -64,14 +64,20 @@ extra:
 </details>
 
 ```text
-                       [ITU-R•IMT-2020]
-                         /           \
-                  [3GPP RAN]     [3GPP SA•CT]
-                         \           /
-                    [지역 표준•산업 생태계]
+[5G 국제 표준화 체계]
+├── [글로벌 비전 및 요구 (ITU-R)]
+│   ├── IMT-2020 지표 (20Gbps, 1ms, 100만)
+│   └── 3대 시나리오 (eMBB, URLLC, mMTC)
+├── [세부 기술 규격 개발 (3GPP)]
+│   ├── RAN WG (5G-NR 무선망 규격)
+│   ├── SA WG (SBA 코어망 아키텍처)
+│   └── CT WG (단말-코어 프로토콜)
+└── [지역 표준화 및 상용화]
+    ├── 지역 SDO (TTA, ETSI, ARIB 등)
+    └── 릴리즈 동결 (Rel-15~Rel-18)
 ```
 
-선의 의미: 국제 성능 요구를 무선•시스템 규격으로 구체화해 지역에 적용하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

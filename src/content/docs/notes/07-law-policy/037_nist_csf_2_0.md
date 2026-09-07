@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "NIST Cybersecurity Framework 2.0 (NIST CSF 2.0)"
-date: "2026-09-06T08:00:04+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 37
@@ -48,16 +48,21 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```text
-┌────────────── NIST CSF 2.0 ──────────────┐
-│                                         │
-│              [Govern]                   │
-│     ├── [Identify]                      │
-│     ├── [Protect]                       │
-│     ├── [Detect]                        │
-│     ├── [Respond]                       │
-│     └── [Recover]                       │
-└─────────────────────────────────────────┘
+[NIST CSF 2.0 체계]
+├── [최고위 총괄 거버넌스]
+│   └── Govern (거버넌스·전략·공급망)
+├── [운영 핵심 기능 (5 Functions)]
+│   ├── Identify (자산·위험 식별)
+│   ├── Protect (예방 통제 및 보호)
+│   ├── Detect (이상 탐지·모니터링)
+│   ├── Respond (사고 분석·억제·대응)
+│   └── Recover (업무 복구·개선)
+└── [실행 및 평가 도구]
+    ├── 구현 등급 (Tier 1~4 성숙도)
+    └── 프로파일 (현재 vs 목표 갭분석)
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

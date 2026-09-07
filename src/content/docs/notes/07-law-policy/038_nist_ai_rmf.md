@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "NIST AI RMF AI 위험 관리 프레임워크 (NIST AI RMF)"
-date: "2026-09-06T08:00:05+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-law-policy"
 weight: 38
@@ -40,13 +40,20 @@ extra:
 ## Ⅲ. 구조 및 구성요소
 
 ```text
-┌────────────── NIST AI RMF ──────────────┐
-│              [Govern]                   │
-│       ├── [Map]                         │
-│       ├── [Measure]                     │
-│       └── [Manage]                      │
-└─────────────────────────────────────────┘
+[NIST AI RMF 체계]
+├── [총괄 및 기반]
+│   └── Govern (거버넌스·책임·위험수준)
+├── [위험 수명주기 3대 기능]
+│   ├── Map (맥락 및 잠재적 위험 매핑)
+│   ├── Measure (TEVV 기반 정량/정성 평가)
+│   └── Manage (위험 완화·대응·의사결정)
+└── [신뢰할 수 있는 AI 특성]
+    ├── 유효성 및 신뢰성 (Reliability)
+    ├── 안전성·보안성 (Safety/Security)
+    └── 공정성·프라이버시 (Fairness/Privacy)
 ```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
