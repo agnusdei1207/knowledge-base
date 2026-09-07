@@ -6,7 +6,7 @@ sidebar:
     text: "토픽 · 75%"
     variant: note
 title: "UCIe (Universal Chiplet Interconnect Express)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:40:00+09:00"
 tags:
   - "notes-hardware"
 weight: 50
@@ -60,23 +60,27 @@ extra:
 
 ```text
 [UCIe 3계층 모듈형 통신 아키텍처]
- ├─ 프로토콜 계층 (Protocol Layer)
- │   ├─ PCIe 6.0 / CXL.io (I/O 트랜잭션)
- │   ├─ CXL.mem / CXL.cache (일관성 메모리 풀링)
- │   └─ 스트리밍 프로토콜 (독자 패킷 캡슐화)
- ├─ 다이 간 어댑터 계층 (D2D Adapter Layer)
- │   ├─ FDI 인터페이스 (프로토콜-어댑터 연동)
- │   ├─ Flit 패킷화 및 크레딧 기반 흐름 제어
- │   └─ CRC 에러 검출 및 재전송 제어 (무손실 보장)
- ├─ 물리 계층 (Physical Layer: PHY)
- │   ├─ RDI 인터페이스 (어댑터-PHY 연동)
- │   ├─ 메인밴드 레인 어레이 (Data/Clock/DQS)
- │   ├─ 사이드밴드 채널 (링크 훈련/협상/레인 리맵)
- │   └─ AFE (Analog Front-End 송수신기)
- └─ 패키지 물리 채널 (Advanced 2.5D 및 Standard 2D)
+  │
+  ├─ [프로토콜 계층] (Protocol Layer)
+  │     ├─ [PCIe 6.0 / CXL.io] (표준 I/O 트랜잭션)
+  │     ├─ [CXL.mem / CXL.cache] (일관성 메모리 풀링)
+  │     └─ [사용자 정의 스트리밍] (독자 패킷 캡슐화)
+  │
+  ├─ [다이 간 어댑터 계층] (D2D Adapter Layer)
+  │     ├─ [FDI 인터페이스] (프로토콜-어댑터 표준 연동)
+  │     ├─ [Flit 패킷화 & 흐름 제어] (크레딧 기반 전송)
+  │     └─ [CRC 에러 검출 & 재전송] (하드웨어 무손실 보장)
+  │
+  ├─ [물리 계층] (Physical Layer: PHY)
+  │     ├─ [RDI 인터페이스] (어댑터-PHY 표준 연동)
+  │     ├─ [메인밴드 레인 어레이] (Data/Clock 초고속 전송)
+  │     ├─ [사이드밴드 채널] (링크 훈련/협상/레인 리맵)
+  │     └─ [AFE 아날로그 프론트엔드] (초저전력 드라이버/수신기)
+  │
+  └─ [패키지 물리 채널] (Advanced 2.5D 및 Standard 2D)
 ```
 
-선의 의미: 가지(`├─`, `└─`)는 하드웨어 소속 및 포함 관계를 나타냄
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

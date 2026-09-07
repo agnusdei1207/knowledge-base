@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "고속 직렬 인터페이스: USB•Thunderbolt (High-Speed Serial Interface)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 88
@@ -61,18 +61,24 @@ extra:
 </details>
 
 ```text
-[USB4 / Thunderbolt 고속 직렬 인터페이스 아키텍처]
- ├── 호스트 시스템 계층 ───────────── CPU 코어 + 시스템 메인 DRAM + PCIe 루트 컴플렉스
- ├── 하드웨어 IOMMU 보안 계층 ─────── Kernel DMA Protection (Thunderspy 물리 해킹 차단)
- ├── USB4 / TB 호스트 라우터 패브릭
- │   ├── PCIe 패킷 터널링 엔진 ───── PCIe TLP 트랜잭션 캡슐화 (eGPU/NVMe 연결)
- │   ├── DisplayPort Alt Mode 스위치 ─ 비디오 스트림 네이티브 매핑 (8K 모니터)
- │   ├── USB3 데이터 터널링 엔진 ─── 대용량 파일 전송 프로토콜
- │   └── USB PD & CC 핀 제어기 ───── 플러그 방향 감지 + 240W 전력 프로파일 협상
- └── Type-C 물리 인터커넥트 계층 ──── 24-Pin 커넥터 + e-Marker 인증 IC 내장 케이블
+[USB4/Thunderbolt 고속 직렬 아키텍처]
+  │
+  ├─ [호스트 시스템 및 보안]
+  │     ├─ [호스트 시스템] (CPU, DRAM, PCIe RC)
+  │     └─ [IOMMU 보안 계층] (Kernel DMA Protection)
+  │
+  ├─ [호스트 라우터 패브릭] (다중 프로토콜 캡슐화)
+  │     ├─ [PCIe 터널링 엔진] (eGPU/NVMe TLP 캡슐화)
+  │     ├─ [DP Alt Mode 스위치] (고해상도 영상 네이티브 매핑)
+  │     ├─ [USB3 데이터 엔진] (대용량 파일 전송 프로토콜)
+  │     └─ [USB PD/CC 제어기] (방향 감지 및 240W 전력 협상)
+  │
+  └─ [Type-C 물리 계층] (물리 매체)
+        ├─ [24-Pin Type-C 커넥터] (대칭형 물리 인터페이스)
+        └─ [e-Marker 인증 IC] (케이블 전류/대역폭 사양 식별)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 하드웨어 소속 및 패킷 다중화 파이프라인; 호스트 라우터가 PCIe/DP/USB3 트래픽을 캡슐화하여 Type-C 케이블로 전송하고 IOMMU가 메모리를 보호함
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 계층 및 위치 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "AMBA 버스 프로토콜 (AMBA Bus Protocol)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 78
@@ -60,14 +60,17 @@ extra:
 
 ```text
 [AMBA 온칩 버스 계층 아키텍처]
-├── AXI 고성능 마스터 계층: CPU 코어, GPU, NPU, DMA 엔진
-├── AXI 크로스바 상호연결망 (Interconnect): 주소 디코더, 다중 중재기
-│   ├── 고속 메모리 슬레이브: LPDDR5/DDR5 컨트롤러, 온칩 SRAM
-│   └── AXI-to-APB 브리지 (Bridge): 속도 정합 비동기 FIFO, 프로토콜 변환기
-└── APB 저속 주변장치 버스 계층: UART, SPI, I2C, 타이머, GPIO
+  │
+  ├─ [AXI 고성능 마스터] (CPU, GPU, NPU, DMA 엔진)
+  │
+  ├─ [AXI 크로스바 상호연결망] (다중 중재/디코더)
+  │     ├─ [고속 메모리 슬레이브] (DDR5 컨트롤러/SRAM)
+  │     └─ [AXI-to-APB 브리지] (속도 정합 및 변환기)
+  │
+  └─ [APB 저속 주변장치] (UART, SPI, I2C, GPIO)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 계층별 하드웨어 소속 및 상호연결 관계; 고속 AXI 마스터의 요청이 크로스바를 거쳐 메모리로 가거나 APB 브리지를 통해 주변장치로 전달됨
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

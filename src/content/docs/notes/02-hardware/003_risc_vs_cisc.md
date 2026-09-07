@@ -5,8 +5,8 @@ sidebar:
   badge:
     text: "미출 · 50%"
     variant: note
-title: "명령어 집합 구조: RISC와 CISC (RISC and CISC Instruction Set Architectures)"
-date: "2026-08-31T09:55:00+09:00"
+title: "명령어 집합 구조: RISC vs CISC (Instruction Set Architecture)"
+date: "2026-09-07T09:28:00+09:00"
 tags:
   - "notes-hardware"
 weight: 3
@@ -62,12 +62,22 @@ extra:
 </details>
 
 ```text
-명령어 집합 구조(ISA) 실행 계층
-├── RISC 방식 (고정 32비트 포맷, 하드와이어드 디코더, Load/Store 엔진)
-└── CISC 방식 (가변 바이트 포맷, μ-op 디코더/마이크로코드 ROM, 비순서 백엔드)
+[ISA 실행 계층 구조]
+  │
+  ├─ [RISC 아키텍처]
+  │     ├─ [고정 포맷] (32비트 단순 인코딩)
+  │     ├─ [디코더 회로] (하드와이어드 고속 해석)
+  │     ├─ [레지스터 파일] (대용량 범용 레지스터)
+  │     └─ [메모리 접근] (순수 Load/Store 엔진)
+  │
+  └─ [CISC 아키텍처]
+        ├─ [가변 포맷] (1~15바이트 복합 인코딩)
+        ├─ [디코더 회로] (μ-op 변환기 및 ROM)
+        ├─ [레지스터 파일] (특수 목적 중심 적은 수)
+        └─ [메모리 접근] (직접 메모리 피연산자)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 RISC와 CISC의 하드웨어 실행 계층 구조를 나타냄
+선의 의미: RISC와 CISC의 하드웨어 실행 계층 및 구성요소 소속 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

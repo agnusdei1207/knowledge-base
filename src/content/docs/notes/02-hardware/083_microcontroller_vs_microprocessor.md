@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "마이크로컨트롤러 vs 마이크로프로세서 (Microcontroller vs Microprocessor)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 83
@@ -58,19 +58,21 @@ extra:
 </details>
 
 ```text
-[MCU vs MPU 하드웨어 시스템 아키텍처 비교]
-├── 마이크로컨트롤러 (MCU: 원칩 올인원 구조)
-│   ├── 경량 연산 코어 (ARM Cortex-M, RISC-V RV32)
-│   ├── 온칩 내장 메모리 (Flash ROM, SRAM)
-│   └── 온칩 주변장치 (ADC, DAC, PWM, CAN, SPI, WDT)
-└── 마이크로프로세서 (MPU: 고성능 확장 구조)
-    ├── 고성능 멀티코어 (ARM Cortex-A, x86-64, L1/L2/L3 캐시)
-    ├── 메모리 관리 장치 (MMU: 가상 메모리 페이징 및 프로세스 격리)
-    ├── 고속 메모리 인터페이스 (외장 DDR4/DDR5 컨트롤러)
-    └── 고속 I/O 버스 (PCIe, USB 3.0, eMMC/UFS)
+[MCU vs MPU 시스템 아키텍처 비교]
+  │
+  ├─ [마이크로컨트롤러 (MCU)] (원칩 올인원 제어)
+  │     ├─ [경량 연산 코어] (ARM Cortex-M, RISC-V)
+  │     ├─ [온칩 내장 메모리] (SRAM, Flash ROM)
+  │     └─ [온칩 주변장치] (ADC, PWM, CAN, WDT)
+  │
+  └─ [마이크로프로세서 (MPU)] (고성능 확장 컴퓨팅)
+        ├─ [고성능 멀티코어] (ARM Cortex-A, x86 캐시)
+        ├─ [메모리 관리 장치] (MMU 가상 메모리/격리)
+        ├─ [외장 메모리 인터페이스] (DDR4/DDR5 컨트롤러)
+        └─ [고속 I/O 버스] (PCIe, USB 3.0, UFS)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 하드웨어 소속 및 구조 비교; MCU는 단일 칩에 모든 자원을 내장하며, MPU는 외부 메모리와 스토리지를 결합하여 구동됨
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 비교 항목 | MCU (마이크로컨트롤러) | MPU (마이크로프로세서) |
 |:---|:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "PCIe 스위칭 아키텍처 (PCIe Switching)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 79
@@ -59,17 +59,20 @@ extra:
 </details>
 
 ```text
-[PCIe 스위칭 패브릭 서버 아키텍처]
-├── 호스트 루트 컴플렉스 (Root Complex): Host CPU 및 시스템 DRAM
-├── PCIe 스위치 패브릭 (PCIe Switch IC)
-│   ├── 업스트림 포트 (USP): Host CPU 연결 포트
-│   ├── 스위칭 패브릭 코어: Non-blocking TLP 크로스바 라우팅 엔진
-│   ├── ACS 보안 검증 엔진: P2P 권한 검증 및 IOMMU 리다이렉트 통제
-│   └── 다운스트림 포트 어레이 (DSP): x4/x8/x16 물리 레인 인터페이스
-└── 엔드포인트 디바이스군: GPU 가속기, NVMe SSD, DPU
+[PCIe 스위칭 패브릭 아키텍처]
+  │
+  ├─ [호스트 루트 컴플렉스] (Host CPU 및 시스템 DRAM)
+  │
+  ├─ [PCIe 스위치 패브릭] (스위치 IC)
+  │     ├─ [업스트림 포트 (USP)] (Host CPU 연결 포트)
+  │     ├─ [스위칭 패브릭 코어] (Non-blocking 크로스바)
+  │     ├─ [ACS 보안 엔진] (P2P 검증 및 IOMMU 리다이렉트)
+  │     └─ [다운스트림 포트 (DSP)] (x4/x8/x16 물리 인터페이스)
+  │
+  └─ [엔드포인트 디바이스] (GPU, NVMe SSD, DPU)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 계층별 하드웨어 소속 및 패킷 스위칭 구조; GPU와 NVMe가 Host CPU를 거치지 않고 스위치 내부 크로스바에서 P2P로 직접 통신함
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

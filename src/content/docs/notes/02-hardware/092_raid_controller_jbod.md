@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "RAID 컨트롤러•JBOD (RAID Controller and JBOD)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 92
@@ -58,18 +58,20 @@ extra:
 </details>
 
 ```text
-[HW RAID vs JBOD/SDS 스토리지 계층 구조 비교]
- ├── HW RAID 아키텍처 (하드웨어 책임 모델)
- │   ├── 호스트 운영체제 ──────────── 단일 Virtual LUN 블록 디바이스로 인식
- │   ├── HW RAID 컨트롤러 카드 ────── 전용 하드웨어 ASIC + FBWC 캐시 메모리
- │   └── 물리 드라이브 어레이 ──────── SAS/SATA 드라이브 (RAID 5/6/10 바인딩)
- └── JBOD / SDS 아키텍처 (소프트웨어 책임 모델)
-     ├── 분산 SDS 엔진 / 파일시스템 ── Ceph, ZFS, MinIO (복제/Erasure Coding 연산)
-     ├── HBA 컨트롤러 (IT 모드) ────── 단순 프로토콜 변환기 (RAID 로직 배제)
-     └── 개별 원시 물리 디스크 ─────── Raw Disks (1:1 개별 디바이스 노출)
+[스토리지 제어 아키텍처 비교]
+  │
+  ├─ [HW RAID 아키텍처] (하드웨어 책임 모델)
+  │     ├─ [호스트 OS 계층] (단일 Virtual LUN 인식)
+  │     ├─ [HW RAID 컨트롤러] (패리티 ASIC, FBWC 캐시)
+  │     └─ [물리 드라이브 어레이] (RAID 5/6/10 바인딩)
+  │
+  └─ [JBOD / SDS 아키텍처] (소프트웨어 책임 모델)
+        ├─ [분산 SDS 엔진] (Ceph/ZFS 복제 및 코딩)
+        ├─ [HBA 컨트롤러 (IT 모드)] (단순 프로토콜 변환기)
+        └─ [개별 원시 디스크] (Raw Disks 1:1 직결 노출)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 하드웨어 소속 및 제어 주체; HW RAID는 컨트롤러가 패리티와 캐시를 전담하고, JBOD는 단순 HBA를 통해 상위 소프트웨어에 원시 디스크를 직결함
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

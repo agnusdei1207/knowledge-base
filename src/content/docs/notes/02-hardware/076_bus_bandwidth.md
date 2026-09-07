@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "버스 대역폭과 전송률 계산 (Bus Bandwidth)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 76
@@ -63,16 +63,18 @@ $$
 </details>
 
 ```text
-[고속 직렬 버스(PCIe/CXL) 대역폭 계층 아키텍처]
-├── 응용 및 DMA 계층: 순수 유효 페이로드 생성 (Application Data)
-├── 트랜잭션 계층 (Transaction): TLP 패킷 생성 (64비트 주소 헤더 + ECRC)
-├── 데이터 링크 계층 (Data Link): 시퀀스 번호 + LCRC 부착 + FLIT 패킷화
-└── 물리 계층 (Physical Layer)
-    ├── PCS (Physical Coding Sublayer): 128b/130b 코딩, PAM4 그레이 코딩, FEC 엔진
-    └── PMA (Physical Medium Attachment): SerDes 직렬화, 차동 신호 레인
+[직렬 버스 대역폭 프로토콜 계층]
+  │
+  ├─ [응용 및 DMA 계층] (순수 유효 페이로드 생성)
+  ├─ [트랜잭션 계층] (TLP 패킷 캡슐화 및 ECRC)
+  ├─ [데이터 링크 계층] (LCRC 부착 및 FLIT 흐름 제어)
+  │
+  └─ [물리 계층 (PHY)] (신호 전송 및 변조)
+        ├─ [PCS 부계층] (128b/130b 코딩 및 FEC 엔진)
+        └─ [PMA 부계층] (SerDes 직렬화 및 차동 레인)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 계층별 하드웨어 소속 및 패킷 캡슐화 구조; 상위 페이로드에 각 계층 헤더와 코딩 오버헤드가 누적되어 물리 신호로 송출됨
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 소속 및 위치 | 핵심 엔지니어링 책임 | 주요 특징 |
 |:---|:---|:---|:---|

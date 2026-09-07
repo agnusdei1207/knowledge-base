@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "멀티소켓 서버•SMP (Multi-Socket Server•SMP)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 93
@@ -59,19 +59,22 @@ extra:
 </details>
 
 ```text
-[2-소켓 ccNUMA 서버 하드웨어 아키텍처]
- ├── NUMA 노드 0 (소켓 0)
- │   ├── CPU 코어 클러스터 (L1 / L2 / L3 캐시)
- │   ├── 로컬 메모리 컨트롤러 ────────── 로컬 DRAM 채널 0 (~80ns 초저지연)
- │   └── 소켓 0 로컬 PCIe Root Complex ─ 로컬 NVMe SSD / NIC 0
- ├── 소켓 간 인터커넥트 패브릭 ──────── 점대점 패브릭 (Intel UPI / AMD IF, ~140ns)
- └── NUMA 노드 1 (소켓 1)
-     ├── CPU 코어 클러스터 (L1 / L2 / L3 캐시)
-     ├── 로컬 메모리 컨트롤러 ────────── 로컬 DRAM 채널 1 (~80ns 초저지연)
-     └── 소켓 1 로컬 PCIe Root Complex ─ 로컬 NVMe SSD / NIC 1
+[2-소켓 ccNUMA 서버 아키텍처]
+  │
+  ├─ [NUMA 노드 0 (소켓 0)]
+  │     ├─ [CPU 코어 클러스터] (L1/L2/L3 캐시)
+  │     ├─ [로컬 메모리 컨트롤러] (로컬 DRAM 채널)
+  │     └─ [로컬 PCIe RC] (로컬 NVMe SSD / NIC 0)
+  │
+  ├─ [소켓 간 인터커넥트] (Intel UPI / AMD IF)
+  │
+  └─ [NUMA 노드 1 (소켓 1)]
+        ├─ [CPU 코어 클러스터] (L1/L2/L3 캐시)
+        ├─ [로컬 메모리 컨트롤러] (로컬 DRAM 채널)
+        └─ [로컬 PCIe RC] (로컬 NVMe SSD / NIC 1)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 하드웨어 소속 및 소켓 간 연결 관계; 로컬 메모리는 80ns에 직접 접근하며 원격 메모리는 **UPI**/IF 패브릭을 경유하여 140ns 지연으로 접근함
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

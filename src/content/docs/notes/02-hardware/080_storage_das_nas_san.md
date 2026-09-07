@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "스토리지 계층: DAS•NAS•SAN (Storage DAS NAS SAN)"
-date: "2026-08-31T09:55:00+09:00"
+date: "2026-09-07T09:45:00+09:00"
 tags:
   - "notes-hardware"
 weight: 80
@@ -63,15 +63,20 @@ extra:
 
 ```text
 [엔터프라이즈 스토리지 계층 구조]
-├── DAS 계층 (Direct Attached): 단일 호스트, SAS/PCIe 직결 케이블, JBOD
-├── NAS 계층 (Network Attached): 다중 클라이언트, TCP/IP LAN, NAS 컨트롤러(NFS/SMB)
-└── SAN 계층 (Storage Area Network)
-    ├── 호스트 클러스터: 서버별 HBA 카드
-    ├── SAN 스위칭 패브릭: 광 파이버 채널(FC Switch), 100GbE RoCEv2
-    └── All-Flash 스토리지 어레이: 듀얼 컨트롤러, LUN 1~N 블록 볼륨
+  │
+  ├─ [DAS 계층 (Direct Attached)]
+  │     └─ [단일 호스트 직결] (SAS/PCIe 케이블, JBOD)
+  │
+  ├─ [NAS 계층 (Network Attached)]
+  │     └─ [다중 클라이언트 파일 공유] (TCP/IP LAN, NFS/SMB)
+  │
+  └─ [SAN 계층 (Storage Area Network)]
+        ├─ [호스트 클러스터] (서버별 HBA 카드)
+        ├─ [SAN 스위칭 패브릭] (FC Switch, RoCEv2)
+        └─ [All-Flash 어레이] (듀얼 컨트롤러, LUN 볼륨)
 ```
 
-선의 의미: 가지(`├──`, `└──`)는 하드웨어 소속 및 연결 토폴로지; DAS는 점대점 직결, NAS는 범용 LAN 파일 공유, SAN은 전용 패브릭 기반 블록 볼륨 할당을 수행함
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
