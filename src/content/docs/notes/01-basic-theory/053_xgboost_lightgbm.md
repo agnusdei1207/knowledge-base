@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "XGBoost·LightGBM (XGBoost and LightGBM)"
-date: "2026-08-31T10:30:00+09:00"
+date: "2026-09-07T14:00:00+09:00"
 tags:
   - "notes-basic-theory"
 weight: 53
@@ -63,17 +63,20 @@ extra:
 </details>
 
 ```text
-[ XGBoost: Level-wise (수평 균형 분할) ]      [ LightGBM: Leaf-wise (수직 비대칭 분할) ]
-                ( 루트 )                                      ( 루트 )
-               ┌───┴───┐                                     ┌───┴───┐
-             ( 노드 ) ( 노드 )                             ( 노드 ) [ 리프 ]
-            ┌──┴──┐   ┌──┴──┐                               ┌──┴──┐
-          [ L ] [ L ] [ L ] [ L ]                         ( 노드 ) [ L ]
-          (동일 깊이 일괄 분기)                            ┌──┴──┐
-                                                         [ L ] [ L ] (최대 손실 리프 집중)
+[XGBoost 및 LightGBM 구조]
+  │
+  ├─ [XGBoost 체계] (정밀 제어 및 Level-wise)
+  │     ├─ 2차 테일러 근사 (1차 기울기 g 및 2차 헤시안 h 산출)
+  │     ├─ 정규화 목적함수 (리프 수 γ 및 L1/L2 페널티)
+  │     └─ Level-wise 분할 (균형 트리 수평 확장)
+  │
+  └─ [LightGBM 체계] (대규모 고속화 및 Leaf-wise)
+        ├─ 히스토그램 버킷팅 (연속형 값 이산화 정렬 제거)
+        ├─ GOSS & EFB (기울기 기반 샘플링 및 특징 압축)
+        └─ Leaf-wise 분할 (최대 손실 감소 노드 우선 확장)
 ```
 
-선의 의미: 프레임워크별 트리 확장 방식에 따른 노드 생성 및 데이터 분할 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
