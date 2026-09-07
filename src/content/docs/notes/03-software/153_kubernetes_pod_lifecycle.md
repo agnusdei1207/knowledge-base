@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "쿠버네티스 Pod 생명주기 (Kubernetes Pod Lifecycle)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 153
@@ -56,6 +56,22 @@ extra:
 - **Pod 생명주기 3대 감시 구조**: Init Phase(초기화 컨테이너), Probe Monitoring(Startup/Liveness/Readiness), Traffic Routing(Service/Endpoints).
 
 </details>
+
+```text
+[쿠버네티스 Pod 수명주기 및 헬스체크]
+├─ [초기화 및 기동 단계]
+│  ├─ 초기화 컨테이너 (Init Container)
+│  └─ 스타트업 프로브 (Startup Probe)
+├─ [실행 및 서비스 단계]
+│  ├─ 라이브니스 프로브 (Liveness: 데드락 재시작)
+│  └─ 레디니스 프로브 (Readiness: 트래픽 투입·격리)
+└─ [안전 종료 단계 (Graceful Shutdown)]
+   ├─ preStop 훅 (트래픽 차단 및 드레인)
+   ├─ SIGTERM (유예 시간 내 커넥션 정리)
+   └─ SIGKILL (강제 프로세스 종료)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

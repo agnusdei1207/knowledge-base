@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Cassandra 컬럼 패밀리 데이터베이스 (Cassandra Column Family)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 108
@@ -58,17 +58,21 @@ extra:
 </details>
 
 ```text
-[Cassandra P2P 토큰 링 및 노드 내부 스토리지 구조]
-|-- Masterless P2P 토큰 링 (Consistent Hashing Hash Ring)
-|   |-- Node 1 (Token 0~1000) ◄──(Gossip Protocol 상태 교환)──► Node 2 (Token 1001~2000)
-|   `-- Node 4 (Token 3001~4000) ◄─────────────────────────► Node 3 (Token 2001~3000)
-`-- 노드 내부 쓰기 엔진 (LSM-Tree 구조)
-    |-- CommitLog (디스크 순차 추가 Append-Only 로그: 크래시 복구용)
-    |-- MemTable (인메모리 SkipList 정렬 버퍼)
-    `-- SSTable (디스크 불변 정렬 파일: Flush 및 Background Compaction)
+[Cassandra 아키텍처]
+├─ [클러스터 계층 (Masterless P2P)]
+│  ├─ 일관된 해시 토큰 링 (토폴로지)
+│  ├─ 가십 프로토콜 (Gossip 노드 감시)
+│  └─ 코디네이터 노드 (요청 분기·취합)
+├─ [노드 스토리지 계층 (LSM-Tree)]
+│  ├─ CommitLog (크래시 복구 순차 로그)
+│  ├─ MemTable (인메모리 정렬 버퍼)
+│  └─ SSTable (디스크 불변 파일·컴팩션)
+└─ [데이터 모델]
+   ├─ 파티션 키 (노드 분산 배치)
+   └─ 클러스터링 키 (노드 내 물리 정렬)
 ```
 
-선의 의미: 계층 및 P2P 토큰 링으로 데이터 노드를 분산하고 노드 내부에서는 CommitLog와 MemTable로 순차 쓰기를 수행하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

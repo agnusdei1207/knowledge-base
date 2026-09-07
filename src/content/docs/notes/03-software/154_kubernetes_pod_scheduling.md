@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "쿠버네티스 Pod 스케줄링 (Kubernetes Pod Scheduling)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 154
@@ -56,6 +56,21 @@ extra:
 - **스케줄링 3단계 파이프라인**: Scheduling Queue(우선순위 정렬), Filtering(Hard 제약 검사), Scoring(Soft 가중치 채점), Binding(노드 확정).
 
 </details>
+
+```text
+[쿠버네티스 Pod 스케줄링 파이프라인]
+├─ [대기 및 우선순위]
+│  └─ 스케줄링 큐 (PriorityClass 기반 정렬)
+├─ [2단계 노드 평가]
+│  ├─ 필터링 (Hard: 자원요구량·Taint 탈락)
+│  └─ 스코어링 (Soft: 어피니티·자원균형 채점)
+└─ [배치 제약 및 확정]
+   ├─ 어피니티 / 안티어피니티 (위치 선호·분산)
+   ├─ 테인트 / 톨러레이션 (전용 노드 격리)
+   └─ 바인딩 (최종 1등 노드 etcd 기록)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

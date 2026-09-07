@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "인덱스 구조: B+Tree•해시•복합 (Index Structure)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 93
@@ -56,6 +56,20 @@ extra:
 - **B+Tree 3계층 구조**: Root Node(최상위), Branch Node(인덱스 탐색 경로), Leaf Node(실제 키-ROWID 저장 및 양방향 링크드 리스트).
 
 </details>
+
+```text
+[데이터베이스 인덱스 구조]
+├─ [B+Tree 인덱스]
+│  ├─ 루트/브랜치 노드 (키 라우팅 전용)
+│  └─ 리프 노드 (키-포인터 & 양방향 체인)
+├─ [해시 인덱스 (Hash Index)]
+│  └─ 해시 함수 & 버킷 (O(1) 동등 검색)
+└─ [복합 인덱스 (Composite Index)]
+   ├─ 선두 컬럼 (Leading Column 정렬 기준)
+   └─ 후행 컬럼 (추가 필터링 조건)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 인덱스 구성요소 | 책임 | 탐색 복잡도 및 특징 |
 |:---|:---|:---|

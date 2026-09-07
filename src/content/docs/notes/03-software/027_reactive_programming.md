@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "리액티브 프로그래밍 (Reactive Programming)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 27
@@ -59,21 +59,24 @@ extra:
 </details>
 
 ```text
-[리액티브 스트림즈 4대 인터페이스 구조]
-|-- 발행자 (Publisher)
-|   `-- subscribe(Subscriber) -> Subscription 객체 생성 및 전달
-|-- 구독 (Subscription)
-|   |-- request(n) -> 소비자가 수용 가능한 데이터 수량 n 역압 전달
-|   `-- cancel() -> 스트림 구독 즉시 취소
-|-- 구독자 (Subscriber)
-|   |-- onSubscribe(Subscription) -> 구독 시작
-|   |-- onNext(Item) -> 데이터 수신 처리
-|   |-- onError(Throwable) -> 에러 처리
-|   `-- onComplete() -> 스트림 완료 처리
-`-- 프로세스 (Processor - Publisher와 Subscriber의 결합 중간 파이프라인)
+[리액티브 스트림즈 체계]
+  │
+  ├─ [발행자 Publisher] (데이터 스트림 생성)
+  │     └─ [subscribe] (구독 연결 및 객체 전달)
+  │
+  ├─ [구독 Subscription] (역압 및 취소 제어)
+  │     ├─ [request(n)] (수요 기반 역압 신호)
+  │     └─ [cancel] (스트림 구독 즉시 취소)
+  │
+  ├─ [구독자 Subscriber] (이벤트 수신 및 소비)
+  │     ├─ [onNext] (데이터 수신 처리)
+  │     ├─ [onError] (예외 발생 통지)
+  │     └─ [onComplete] (스트림 완료 처리)
+  │
+  └─ [프로세서 Processor] (변환 파이프라인 중계)
 ```
 
-선의 의미: 계층 및 구독/역압 제어 파이프라인
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

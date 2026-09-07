@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 85%"
     variant: note
 title: "쿠버네티스 아키텍처 (Kubernetes Architecture)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 152
@@ -58,19 +58,19 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 마스터 제어면 및 워커 노드 아키텍처]
-|-- Control Plane (마스터 제어면)
-|   |-- kube-apiserver (중앙 REST API 게이트웨이, AuthN/AuthZ, etcd 통신 전담)
-|   |-- etcd (Raft 분산 Key-Value 저장소: 클러스터 상태 및 메타데이터 영속 저장)
-|   |-- kube-scheduler (Pod의 자원 요구량 분석 및 최적 워커 노드 필터링/바인딩)
-|   `-- kube-controller-manager (Node, Deployment, Endpoint 조정 루프 총괄)
-`-- Worker Node (작업 노드)
-    |-- kubelet (노드 마스터 에이전트: CRI 호출을 통한 Pod 생명주기 및 헬스체크)
-    |-- kube-proxy (iptables / IPVS 커널 라우팅을 통한 Service 트래픽 로드밸런싱)
-    `-- Container Runtime (CRI 표준 containerd / CRI-O: 실제 Pod 컨테이너 기동)
+[쿠버네티스 분산 아키텍처]
+├─ [Control Plane (마스터 제어면)]
+│  ├─ kube-apiserver (중앙 통신 창구)
+│  ├─ etcd (Raft 기반 상태 저장소)
+│  ├─ kube-scheduler (노드 필터링·스코어링)
+│  └─ kube-controller-manager (조정 루프)
+└─ [Worker Node (작업 노드)]
+   ├─ kubelet (CRI 연동 Pod 수명주기 관리)
+   ├─ kube-proxy (L4 iptables/IPVS 라우팅)
+   └─ Container Runtime (containerd/CRI-O)
 ```
 
-선의 의미: 계층 및 kube-apiserver를 중심으로 제어면 컴포넌트들이 상태를 동기화하고 워커 노드의 kubelet이 파드를 제어하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

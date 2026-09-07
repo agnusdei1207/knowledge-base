@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 격리 수준 4단계 (Transaction Isolation Levels)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 86
@@ -56,6 +56,19 @@ extra:
 - **4단계 격리 수준 매트릭스**: Level 0(RU) $\to$ Level 1(RC) $\to$ Level 2(RR) $\to$ Level 3(Serializable).
 
 </details>
+
+```text
+[트랜잭션 격리 수준 4단계 체계]
+  │
+  ├─ [Level 0: Read Uncommitted] (Dirty Read 발생·커밋 전 변경 노출)
+  │
+  ├─ [Level 1: Read Committed] (Dirty Read 차단·Oracle/PG 기본값)
+  │
+  ├─ [Level 2: Repeatable Read] (Non-Repeatable Read 차단·MySQL 기본값)
+  │
+  └─ [Level 3: Serializable] (Phantom Read 차단·완전 직렬화 실행)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 격리 수준 | Dirty Read | Non-Repeatable Read | Phantom Read | 주요 DBMS 기본값 |
 |:---|:---:|:---:|:---:|:---|

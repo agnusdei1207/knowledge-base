@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "파일 시스템: FAT•NTFS•ext4•APFS (File System)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 20
 extra:
@@ -57,17 +57,23 @@ extra:
 </details>
 
 ```text
-[파일 시스템 4계층 아키텍처]
-|-- 사용자 애플리케이션 (POSIX API: open, write, fsync)
-|-- VFS 추상화 계층 (Inode, Dentry, File, Superblock 구조체)
-|-- 파일 시스템 구현체
-|   |-- 메타데이터 관리자 (ext4 Inode / NTFS MFT 레코드)
-|   |-- 블록 할당기 (Extent Allocator - 연속 블록 배정)
-|   `-- 일관성 트랜잭션 관리자 (JBD2 저널링 / COW B-Tree)
-`-- 페이지 캐시 (Page Cache) & 물리 블록 디바이스 드라이버
+[파일 시스템 계층 체계]
+  │
+  ├─ [사용자 애플리케이션] (POSIX API)
+  │
+  ├─ [VFS 추상화 계층] (Inode·Dentry·File)
+  │
+  ├─ [파일 시스템 구현체] (구체 파일 엔진)
+  │     ├─ [메타데이터 관리자] (Inode/MFT)
+  │     ├─ [블록 할당기] (Extent Allocator)
+  │     └─ [일관성 관리자] (저널링/COW)
+  │
+  └─ [저장 인터페이스] (캐시 및 드라이버)
+        ├─ [페이지 캐시] (DRAM 파일 블록 캐싱)
+        └─ [블록 디바이스 드라이버] (물리 I/O)
 ```
 
-선의 의미: 계층 및 I/O 요청 전달 파이프라인
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

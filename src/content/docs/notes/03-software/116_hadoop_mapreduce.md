@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "빅데이터 분산 처리: Hadoop•MapReduce•HDFS"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 116
@@ -58,17 +58,17 @@ extra:
 </details>
 
 ```text
-[Apache Hadoop]
-|-- 처리 계층
-|   `-- MapReduce
-|-- 자원 관리 계층
-|   `-- YARN
-`-- 저장 계층
-    |-- NameNode
-    `-- DataNode
+[Apache Hadoop 생태계]
+├─ [분산 처리 계층]
+│  └─ MapReduce (Map·Shuffle·Reduce 배치)
+├─ [자원 관리 계층]
+│  └─ YARN (클러스터 자원·컨테이너 관리)
+└─ [분산 저장 계층 (HDFS)]
+   ├─ NameNode (메타데이터·블록 맵 관리)
+   └─ DataNode (실제 블록 저장·복제본 유지)
 ```
 
-선의 의미: 계층 및 HDFS 분산 저장, YARN 자원 관리, MapReduce 연산 실행 계층 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

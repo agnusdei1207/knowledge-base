@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "DevSecOps"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 57
@@ -56,6 +56,21 @@ extra:
 - **SBOM(Software Bill of Materials)**: 애플리케이션에 포함된 모든 오픈소스 컴포넌트, 버전, 라이선스 목록을 기록한 소프트웨어 자재명세서.
 
 </details>
+
+```text
+[DevSecOps 보안 내재화 체계]
+  │
+  ├─ [Code 단계] (시큐어 코딩·Secret 유출 차단)
+  │
+  ├─ [Build 단계] (SAST 정적분석·SCA 오픈소스 취약점)
+  │
+  ├─ [Package 단계] (Trivy 컨테이너 이미지 CVE 검증)
+  │
+  ├─ [Deploy 단계] (Policy as Code·보안 게이트 집행)
+  │
+  └─ [Operate 단계] (DAST 동적분석·RASP 런타임 방어)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "바운디드 컨텍스트 (Bounded Context)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 50
@@ -60,18 +60,21 @@ extra:
 </details>
 
 ```text
-[Context Map 및 통합 패턴 구조]
-|-- 업스트림 컨텍스트 (Upstream: 상품/결제 컨텍스트)
-|   `-- OHS / PL (Open Host Service: 표준 REST API 및 도메인 이벤트 발행)
-|-- 컨텍스트 맵 경계 (Context Map Boundary)
-|   |-- Shared Kernel (공통 공유 커널 - 상호 합의 필수)
-|   |-- Customer-Supplier (고객-공급자 협력 관계)
-|   `-- ACL (Anti-Corruption Layer: 다운스트림 도메인 오염 방지 번역기)
-`-- 다운스트림 컨텍스트 (Downstream: 주문/배송 컨텍스트)
-    `-- 순수 내부 도메인 모델 (Order Aggregate)
+[바운디드 컨텍스트 통합 체계]
+  │
+  ├─ [업스트림: Upstream]
+  │     └─ [OHS / PL] (표준 공개 서비스·발행 언어)
+  │
+  ├─ [컨텍스트 맵: Context Map]
+  │     ├─ [Shared Kernel] (공유 커널·상호 합의)
+  │     ├─ [Customer-Supplier] (고객-공급자 협력)
+  │     ├─ [Conformist] (상류 모델 그대로 수용)
+  │     └─ [ACL] (오염방지 계층·모델 격리 번역)
+  │
+  └─ [다운스트림: Downstream]
+        └─ [독립 도메인 모델] (순수 비즈니스 로직 격리)
 ```
-
-선의 의미: 계층 및 컨텍스트 간 Upstream-Downstream 통합 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

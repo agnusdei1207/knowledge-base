@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터베이스 용량 산정 (Database Capacity Planning)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 101
@@ -58,14 +58,19 @@ extra:
 </details>
 
 ```text
-[데이터베이스 4대 자원 축 용량 산정 체계]
-|-- 1. 스토리지 (Storage: 테이블 레코드 크기 + 인덱스 40% + WAL/Redo 로그 + 백업본)
-|-- 2. 메모리 (Memory / RAM: InnoDB Buffer Pool -> 활성 워킹셋 100% 수용, Hit Ratio >= 99%)
-|-- 3. 스토리지 대역폭 (IOPS: 피크 타임 읽기/쓰기 IOPS 실측 -> SSD / Provisioned IOPS 산정)
-`-- 4. 처리 능력 (CPU: 피크 동시 쿼리 수 * 쿼리당 CPU 시간 -> 피크 사용률 70% 이하 유지 코어 수)
+[DB 용량 산정 체계 (Capacity)]
+├─ [저장 용량 (Storage)]
+│  ├─ 테이블 데이터 + 인덱스
+│  └─ WAL/Redo 로그 + 백업 복제본
+├─ [메모리 (Memory)]
+│  └─ 버퍼 풀 (워킹셋 100% 수용)
+├─ [입출력 대역폭 (IOPS)]
+│  └─ 피크 읽기/쓰기 IOPS 실측
+└─ [컴퓨팅 파워 (CPU)]
+   └─ 피크 동시 쿼리 처리 코어 수
 ```
 
-선의 의미: 계층 및 4대 핵심 자원 축과 세부 산정 항목 매핑 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

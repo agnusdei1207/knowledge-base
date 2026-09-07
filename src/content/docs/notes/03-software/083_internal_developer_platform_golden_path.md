@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "내부 개발자 플랫폼 골든 패스 (Internal Developer Platform Golden Path)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 83
@@ -58,14 +58,17 @@ extra:
 </details>
 
 ```text
-[골든 패스(Golden Path) 4대 구성 체계]
-|-- 시작 템플릿 (Scaffolder)
-|-- 권장 워크플로우 (CI/CD)
-|-- 정책 가드레일 (OPA)
-|-- 탈출구 (Escape Hatch)
+[IDP 골든 패스 체계]
+  │
+  ├─ [시작 템플릿: Scaffolder] (Spring/Go 표준 킷 원클릭 생성)
+  │
+  ├─ [권장 워크플로우: CI/CD] (빌드·서명·카나리 배포 자동화)
+  │
+  ├─ [정책 가드레일: OPA] (보안 및 FinOps 예산 한도 강제)
+  │
+  └─ [탈출구: Escape Hatch] (특수 워크로드 직접 제어 예외 승인)
 ```
-
-선의 의미: 계층 및 표준 템플릿-파이프라인-가드레일 결합과 탈출구 우회 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

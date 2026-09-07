@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터베이스 복제: 마스터-슬레이브•멀티마스터 (Database Replication)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 100
@@ -58,14 +58,18 @@ extra:
 </details>
 
 ```text
-[데이터베이스 복제 구성]
-|-- Primary 노드
-|-- I/O Thread
-|-- SQL Thread
-`-- 장애 감지기
+[데이터베이스 복제 구조 (Replication)]
+├─ [Primary 노드 (쓰기 원본)]
+│  ├─ CUD 트랜잭션 전담 (SSOT)
+│  └─ Binary Log (Binlog 변경 기록)
+├─ [Replica 노드 (읽기 복제본)]
+│  ├─ I/O Thread (Binlog 수신 ➔ Relay Log)
+│  └─ SQL Thread (Relay Log ➔ 엔진 재생)
+└─ [고가용성 관리]
+   └─ 장애 감지기 (Orchestrator 페일오버)
 ```
 
-선의 의미: 변경 로그 복제와 장애 전환을 담당하는 구성
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

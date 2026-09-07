@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 공유 책임 모델 (Shared Responsibility Model)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 145
@@ -58,18 +58,18 @@ extra:
 </details>
 
 ```text
-[클라우드 공유 책임 모델 분계선 구조]
-|-- Customer Responsibility (Security IN the Cloud)
-|   |-- Customer Data Assets (데이터 분류 및 KMS 암호화)
-|   |-- Platform & IAM Management (MFA, RBAC/ABAC 최소 권한 통제)
-|   `-- OS / Network Firewall Configuration (OS 보안 패치, Security Group 포트 통제)
-`-- CSP Responsibility (Security OF the Cloud)
-    |-- Foundation Services (Compute, Storage, Database 인프라 소프트웨어)
-    |-- Virtualization Layer (Hypervisor 격리 및 내부 네트워크 인프라)
-    `-- Global Physical Infrastructure (리전/AZ 데이터센터 건물 출입, 전력, 공조)
+[클라우드 공유 책임 모델]
+├─ [고객 책임 (Security IN)]
+│  ├─ 데이터 자산 (분류 및 KMS 암호화)
+│  ├─ IAM 및 접근제어 (MFA·최소권한)
+│  └─ OS 및 네트워크 (패치·보안그룹)
+└─ [CSP 책임 (Security OF)]
+   ├─ 기반 서비스 (Compute·DB 엔진)
+   ├─ 가상화 계층 (하이퍼바이저 격리)
+   └─ 물리 인프라 (IDC 출입·전력·공조)
 ```
 
-선의 의미: 계층 및 상단의 고객 통제 영역과 하단의 CSP 인프라 통제 영역을 서비스 모델별로 분계하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

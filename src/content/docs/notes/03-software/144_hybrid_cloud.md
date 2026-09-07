@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "하이브리드 클라우드 (Hybrid Cloud)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 144
@@ -58,16 +58,20 @@ extra:
 </details>
 
 ```text
-[하이브리드 클라우드 계층 아키텍처 구조]
-|-- Private IDC (코어 뱅킹 원장 DB, 개인정보, 폐쇄망 레거시 시스템)
-|   `-- [Dedicated Direct Connect (10Gbps) + IPsec VPN Backup]
-|-- Network Hub (AWS Transit Gateway: BGP 동적 라우팅 및 암호화 터널)
-`-- Public Cloud (AWS / Azure Public VPC)
-    |-- Frontend / API Gateway (EKS 오토스케일링 웹/앱)
-    `-- Caching Layer (Redis Cluster: 온프레미스 원장 쿼리 부하 차단)
+[하이브리드 클라우드 아키텍처]
+├─ [Private IDC (온프레미스)]
+│  ├─ 코어 원장 DB (데이터 주권)
+│  └─ 폐쇄망 레거시 시스템
+├─ [연결 및 네트워크 허브]
+│  ├─ Direct Connect (10Gbps 전용선)
+│  ├─ IPSec VPN (백업 암호화 터널)
+│  └─ Transit Gateway (BGP 동적 라우팅)
+└─ [Public Cloud (VPC)]
+   ├─ API Gateway / EKS (탄력 서빙)
+   └─ 분산 캐시 (온프레미스 부하 차단)
 ```
 
-선의 의미: 계층 및 프라이빗의 민감 데이터와 퍼블릭의 대외 애플리케이션이 전용망과 게이트웨이를 통해 상호 통신하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

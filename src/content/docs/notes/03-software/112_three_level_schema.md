@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "3단계 스키마 - 외부•개념•내부 (Three-Level Schema)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 112
@@ -58,15 +58,18 @@ extra:
 </details>
 
 ```text
-[ANSI/SPARC 3단계 스키마 아키텍처]
-|-- 외부 스키마 (External Schema: User A View, User B View - N개 존재)
-|   `-- [외부-개념 사상]
-|-- 개념 스키마 (Conceptual Schema: 통합 엔티티, 속성, 관계, 무결성 규칙 - 1개 존재)
-|   `-- [개념-내부 사상]
-`-- 내부 스키마 (Internal Schema: B+Tree 인덱스, 파일 블록, 파티셔닝, 압축 - 1개 존재)
+[ANSI/SPARC 3단계 스키마]
+├─ [외부 스키마 (External: N개)]
+│  ├─ 사용자별 서브셋 View
+│  └─ 외부-개념 사상 (논리 독립성)
+├─ [개념 스키마 (Conceptual: 1개)]
+│  ├─ 조직 전체 통합 데이터 모델
+│  └─ 개념-내부 사상 (물리 독립성)
+└─ [내부 스키마 (Internal: 1개)]
+   └─ 물리적 저장 구조 (인덱스·블록)
 ```
 
-선의 의미: 계층 및 3개 스키마 계층을 2개 변환 매핑이 중계하여 계층 간 독립성을 제공하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

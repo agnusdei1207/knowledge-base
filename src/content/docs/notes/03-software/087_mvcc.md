@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "MVCC 다중 버전 동시성 제어 (Multi-Version Concurrency Control)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 87
@@ -58,14 +58,17 @@ extra:
 </details>
 
 ```text
-[MVCC 버전 관리 구조]
-|-- DB_TRX_ID
-|-- DB_ROLL_PTR
-|-- Undo Log 공간
-`-- Read View
+[MVCC (다중 버전 동시성 제어)]
+├─ [숨은 시스템 컬럼]
+│  ├─ DB_TRX_ID (트랜잭션 식별자)
+│  └─ DB_ROLL_PTR (롤백 포인터)
+├─ [버전 저장소]
+│  └─ Undo Log (이전 버전 스냅샷 보존)
+└─ [가시성 제어]
+   └─ Read View (활성 트랜잭션 가시성 판정)
 ```
 
-선의 의미: 현재 행과 과거 버전의 가시성을 판정하는 구성
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

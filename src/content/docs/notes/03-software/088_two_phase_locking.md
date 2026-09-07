@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "락 관리: 2단계 잠금 프로토콜 (Two-Phase Locking, 2PL)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 88
@@ -56,6 +56,22 @@ extra:
 - **Lock Manager & Wait-for Graph**: 잠금 상태를 관리하는 테이블과 교착 상태를 감지하기 위해 트랜잭션 대기 관계를 추적하는 방향 그래프.
 
 </details>
+
+```text
+[2단계 잠금 프로토콜 (2PL)]
+├─ [성장 단계 (Growing Phase)]
+│  ├─ S-Lock / X-Lock 점진 획득
+│  └─ 락 해제 불가 (획득 전용)
+├─ [임계 시점 (Lock Point)]
+│  └─ 마지막 락 획득 완료 (전환점)
+├─ [축소 단계 (Shrinking Phase)]
+│  ├─ 보유 락 점진 해제 (Unlock)
+│  └─ 신규 락 획득 불가 (해제 전용)
+└─ [교착 제어 (Deadlock Control)]
+   └─ 교착 탐지기 (Wait-for Graph 순환 탐색)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

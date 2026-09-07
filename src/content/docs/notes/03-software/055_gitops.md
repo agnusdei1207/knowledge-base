@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "GitOps"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 55
@@ -58,14 +58,17 @@ extra:
 </details>
 
 ```text
-[GitOps 아키텍처 및 Pull 동기화 구조]
-|-- Git 배포 저장소 (SSOT)
-|-- GitOps 컨트롤러 (ArgoCD)
-|-- Reconciliation Engine
-`-- CI 파이프라인
+[GitOps 동기화 체계]
+  │
+  ├─ [CI 파이프라인] (빌드 후 Git 매니페스트 태그 갱신)
+  │
+  ├─ [Git 배포 저장소] (선언적 SSOT·K8s YAML 버전 관리)
+  │
+  ├─ [GitOps 컨트롤러: ArgoCD] (Git 감시·Drift 감지 및 Sync)
+  │
+  └─ [Reconciliation Engine] (K8s API 호출·Self-Healing)
 ```
-
-선의 의미: 계층 및 클러스터 내부 컨트롤러의 아웃바운드 Pull 동기화 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

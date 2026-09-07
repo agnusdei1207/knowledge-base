@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "데이터베이스 무결성 제약 조건 (Database Integrity Constraints)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 91
@@ -58,14 +58,18 @@ extra:
 </details>
 
 ```text
-[데이터베이스 4대 무결성 제약 구조]
-|-- 개체 무결성
-|-- 참조 무결성
-|-- 도메인 무결성
-`-- 사용자 정의 무결성
+[데이터베이스 무결성 제약 조건]
+├─ [개체 무결성 (Entity)]
+│  └─ PRIMARY KEY (유일성·NOT NULL 강제)
+├─ [참조 무결성 (Referential)]
+│  └─ FOREIGN KEY (부모-자식 참조 유지)
+├─ [도메인 무결성 (Domain)]
+│  └─ CHECK / DEFAULT / NOT NULL (값 범위)
+└─ [사용자 정의 무결성 (User-Defined)]
+   └─ TRIGGER / 프로시저 (업무 규칙 강제)
 ```
 
-선의 의미: 계층 및 4대 무결성 제약의 분류 및 DDL 매핑 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "ISO 29119 테스트 설계 (ISO 29119 Test Design)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 79
@@ -58,19 +58,21 @@ extra:
 </details>
 
 ```text
-[ISO/IEC/IEEE 29119-4 테스트 설계 기법 체계]
-|-- 1. 명세 기반 기법 (Specification-Based: 블랙박스 테스트)
-|   |-- 동등 분할 (Equivalence Partitioning) / 경계값 분석 (BVA)
-|   `-- 의사결정 테이블 (Decision Table) / 상태 전이 테스팅 (State Transition)
-|-- 2. 구조 기반 기법 (Structure-Based: 화이트박스 테스트)
-|   |-- 구문 커버리지 (Statement: C0) / 분기 커버리지 (Branch: C1)
-|   `-- 조건 커버리지 (Condition: C2) / MC/DC (Modified Condition/Decision)
-`-- 3. 경험 기반 기법 (Experience-Based: 직관적 결함 탐색)
-    |-- 오류 추정 (Error Guessing)
-    `-- 탐색적 테스팅 (Exploratory Testing: 세션 기반 검증)
+[ISO 29119-4 테스트 설계 체계]
+  │
+  ├─ [1. 명세 기반 기법] (블랙박스)
+  │     ├─ [동등 분할 / 경계값 분석] (EP / BVA)
+  │     └─ [의사결정표 / 상태 전이] (Decision Table / FSM)
+  │
+  ├─ [2. 구조 기반 기법] (화이트박스)
+  │     ├─ [구문 / 분기 커버리지] (C0 / C1)
+  │     └─ [조건 / MC/DC 커버리지] (C2 / 안전 표준)
+  │
+  └─ [3. 경험 기반 기법] (테스터 직관)
+        ├─ [오류 추정] (Error Guessing)
+        └─ [탐색적 테스팅] (Exploratory Testing)
 ```
-
-선의 의미: 계층 및 3대 테스트 설계 기법 분류
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

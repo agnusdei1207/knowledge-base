@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "조인 알고리즘: NLJ•Hash Join•Merge Join (Join Algorithms)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 96
@@ -56,6 +56,21 @@ extra:
 - **Build Phase & Probe Phase**: 작은 테이블을 읽어 메모리 해시 테이블을 생성하는 Build 단계와 큰 테이블을 읽으며 해시 버킷을 매칭하는 Probe 단계.
 
 </details>
+
+```text
+[물리 조인 알고리즘 (Join)]
+├─ [중첩 루프 조인 (NLJ)]
+│  ├─ 드라이빙 테이블 순차 탐색
+│  └─ 드리븐 B+Tree 인덱스 반복 룩업
+├─ [해시 조인 (Hash Join)]
+│  ├─ Build Phase (소용량 해시 빌드)
+│  └─ Probe Phase (대용량 해시 매칭)
+└─ [정렬 머지 조인 (Sort Merge)]
+   ├─ 조인 키 사전 정렬 (Sort)
+   └─ 투 포인터 순차 병합 (Merge)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 조인 알고리즘 | 핵심 작동 메커니즘 | 최적 성능 조건 | 시간 복잡도 |
 |:---|:---|:---|:---|

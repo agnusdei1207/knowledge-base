@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "소프트웨어 안전: GAMAB•ALARP (Software Safety GAMAB ALARP)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 77
@@ -58,14 +58,16 @@ extra:
 </details>
 
 ```text
-[ALARP 3대 위험 영역 및 GAMAB 비교 구조]
-|-- 1. Intolerable Region (불허용 영역: 위험 극심, 어떤 비용으로도 용납 불가, 무조건 제거)
-|-- 2. ALARP Region (합리적 저감 영역: 비용과 편익이 극단적 불균형이 아닌 한 위험 저감 필수)
-|   `-- [GAMAB 원칙 적용] 신규 시스템의 위험도가 기존 레퍼런스 시스템 대비 동등 이하로 유지
-`-- 3. Broadly Acceptable Region (광범위 허용 영역: 위험이 극히 미미하여 추가 대책 없이 수용)
+[소프트웨어 안전성 평가 체계]
+  │
+  ├─ [1. 불허용 영역] (Intolerable·무조건 위험 제거)
+  │
+  ├─ [2. ALARP 영역] (합리적 실행 가능 수준 저감)
+  │     └─ [GAMAB 원칙] (기존 레퍼런스 대비 동등 이상 안전)
+  │
+  └─ [3. 광범위 허용 영역] (Acceptable·잔여 위험 공식 수용)
 ```
-
-선의 의미: 계층 및 상위 고위험부터 하위 잔여 위험 수용까지의 3단계 통제 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

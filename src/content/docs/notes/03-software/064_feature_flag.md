@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "피처 플래그 (Feature Flag)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 64
@@ -58,17 +58,19 @@ extra:
 </details>
 
 ```text
-[피처 플래그 중앙 관리 및 런타임 평가 구조]
-|-- 중앙 플래그 관리 콘솔 (LaunchDarkly / Unleash Server)
-|   |-- 플래그 상태 설정 (ON / OFF / Percentage Rollout)
-|   `-- 타겟팅 룰셋 정의 (예: user.grade == 'VIP' or user.id % 100 < 20)
-|-- 클라이언트/서버 애플리케이션 (Feature Flag SDK 내장)
-|   |-- 로컬 룰셋 캐시 (Local Rule Cache: 네트워크 장애 방어)
-|   `-- 플래그 평가 엔진 (Flag Evaluation Engine)
-`-- 분석 플랫폼 (Datadog / Google Analytics: A/B 테스트 전환율 지표 수집)
+[피처 플래그 런타임 체계]
+  │
+  ├─ [중앙 플래그 콘솔] (LaunchDarkly/Unleash)
+  │     ├─ [상태 설정] (ON/OFF·카나리 비율 제어)
+  │     └─ [타겟팅 룰셋] (사용자 등급·조건 정의)
+  │
+  ├─ [애플리케이션 SDK]
+  │     ├─ [로컬 룰셋 캐시] (초저지연 평가·장애 방어)
+  │     └─ [평가 엔진] (사용자 컨텍스트 조건 분기)
+  │
+  └─ [분석 플랫폼] (전환율 측정 및 감사 로그 추적)
 ```
-
-선의 의미: 가지는 플래그 관리 체계의 포함 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

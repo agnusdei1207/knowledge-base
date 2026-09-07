@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "변경 데이터 캡처 CDC (Change Data Capture)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 123
@@ -58,15 +58,19 @@ extra:
 </details>
 
 ```text
-[Log-based CDC 구성]
-|-- 트랜잭션 로그
-|-- CDC 커넥터
-|-- 오프셋 저장소
-|-- 이벤트 브로커
-`-- 타깃 컨슈머
+[로그 기반 CDC 구조 (Change Data Capture)]
+├─ [원천 저장 계층]
+│  └─ 트랜잭션 로그 (Binlog / WAL / Redo)
+├─ [추출 및 변환 계층]
+│  ├─ CDC 커넥터 (Debezium 로그 파싱)
+│  └─ 오프셋 저장소 (파싱 위치 보존)
+├─ [이벤트 전송 계층]
+│  └─ 이벤트 브로커 (Kafka Topic 파티션)
+└─ [타깃 반영 계층]
+   └─ 타깃 컨슈머 (캐시·검색엔진·DW 동기화)
 ```
 
-선의 의미: 계층 및 Source DB의 로그가 Debezium을 통해 Kafka로 전파되고 타깃 시스템들로 다중 동기화되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "Redis 인메모리 데이터베이스 (Redis In-Memory Database)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 107
@@ -58,16 +58,23 @@ extra:
 </details>
 
 ```text
-[Redis 인메모리 엔진 및 클러스터 아키텍처]
-|-- 클라이언트 요청 (epoll / kqueue 기반 논블로킹 I/O 멀티플렉싱)
-`-- Redis Core Engine (단일 스레드 비동기 이벤트 루프)
-    |-- 인메모리 자료구조 (Strings, Hashes, Lists, Sets, ZSets, Bitmaps, HyperLogLog)
-    |-- 만료 및 축출 관리자 (TTL Expire 타이머 + Maxmemory LRU/LFU 정책)
-    |-- 영속성 서브시스템 (RDB bgsave 백그라운드 포크 + AOF appendfsync 쓰기)
-    `-- 분산 클러스터링 (Redis Sentinel 자동 페일오버 + Redis Cluster 16384 슬롯 샤딩)
+[Redis 인메모리 아키텍처]
+├─ [접근 계층]
+│  └─ I/O 멀티플렉싱 (epoll/kqueue)
+├─ [코어 엔진 계층]
+│  └─ 단일 스레드 이벤트 루프 (Lock-Free)
+├─ [인메모리 저장소]
+│  ├─ 풍부한 자료구조 (String, List, Set, ZSet)
+│  └─ 만료·축출 관리자 (TTL, LRU/LFU)
+├─ [영속성 계층 (Persistence)]
+│  ├─ RDB (주기적 메모리 스냅샷)
+│  └─ AOF (명령어 순차 추가 로그)
+└─ [고가용성·분산]
+   ├─ Redis Sentinel (모니터링·페일오버)
+   └─ Redis Cluster (16384 슬롯 샤딩)
 ```
 
-선의 의미: 계층 및 단일 스레드 이벤트 루프가 메모리 자료구조, 영속성, 만료 관리를 총괄하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

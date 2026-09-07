@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "오픈 테이블 포맷 비교 (Open Table Format)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 129
@@ -58,14 +58,20 @@ extra:
 </details>
 
 ```text
-[오픈 테이블 포맷 구성]
-|-- 카탈로그
-|-- 메타데이터 계층
-|-- 데이터 파일
-`-- 삭제 파일
+[오픈 테이블 포맷 아키텍처]
+├─ [카탈로그 계층 (Catalog)]
+│  └─ REST / Glue (최신 메타 포인터)
+├─ [메타데이터 계층 (Metadata)]
+│  ├─ 스냅샷 및 스키마 진화 관리
+│  └─ 파일별 통계 (Min/Max Skipping)
+├─ [물리 데이터 계층 (Data Files)]
+│  └─ 불변 Parquet / ORC 데이터 파일
+└─ [삭제 처리 계층 (Delete Files)]
+   ├─ CoW (Copy-on-Write 재기록)
+   └─ MoR (Merge-on-Read 델타 병합)
 ```
 
-선의 의미: 계층 및 이종의 처리 엔진들이 오픈 테이블 포맷 메타데이터를 거쳐 S3 파일에 연산을 수행하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

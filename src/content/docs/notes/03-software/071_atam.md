@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "ATAM 아키텍처 트레이드오프 분석 방법 (Architecture Tradeoff Analysis Method)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 71
@@ -58,20 +58,22 @@ extra:
 </details>
 
 ```text
-[ATAM 분석 프레임워크 및 유틸리티 트리 구조]
-|-- 비즈니스 동인 (Business Drivers: 시장 진입 속도, 금융 무결성)
-|-- 유틸리티 트리 (Utility Tree: 품질 속성 계층화)
-|   |-- 성능 (Performance: 초당 1,000건 주문 인입 시 99% 응답 < 200ms)
-|   |-- 가용성 (Availability: DB 장애 시 10초 내 Standby Failover)
-|   `-- 보안성 (Security: 결제 패킷 100% AES-256 종단 간 암호화)
-`-- 아키텍처 4대 평가 산출물
-    |-- Sensitivity Point (민감점: DB 인덱싱 전략 -> 성능에 민감)
-    |-- Tradeoff Point (절충점: 전송 구간 암호화 -> 보안 상승, 성능 저하)
-    |-- Risk (위험 요소: 단일 Redis 클러스터 장애 시 전체 세션 유실)
-    `-- Non-Risk (비위험 요소: 표준 OAuth 2.0 도입으로 인증 안전)
+[ATAM 평가 분석 체계]
+  │
+  ├─ [비즈니스 동인] (Business Drivers)
+  │
+  ├─ [유틸리티 트리: Utility Tree]
+  │     ├─ [성능] (응답시간·처리량 시나리오)
+  │     ├─ [가용성] (장애 복구·Failover 시나리오)
+  │     └─ [보안성] (데이터 암호화·접근 통제)
+  │
+  └─ [4대 평가 산출물]
+        ├─ [민감점] (단일 속성 영향 아키텍처 결정)
+        ├─ [절충점] (복수 품질 상충 의사결정)
+        ├─ [위험점 Risk] (품질 저해 잠재적 결함)
+        └─ [비위험점 Non-Risk] (품질 지원 안전 결정)
 ```
-
-선의 의미: 계층 및 비즈니스 동인-유틸리티 트리-4대 산출물 연계 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

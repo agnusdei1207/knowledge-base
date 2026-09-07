@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "오토 스케일링 HPA•VPA (Auto Scaling HPA VPA)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 149
@@ -58,15 +58,18 @@ extra:
 </details>
 
 ```text
-[쿠버네티스 오토스케일링(HPA / VPA) 아키텍처]
-|-- Metrics Provider (CPU, Memory, QPS)
-|-- HPA Controller (복제본 수 산정)
-|-- VPA Controller (자원 요청량 산정)
-|-- Workload Controller (Pod 명세 관리)
-`-- Node Scaler (워커 노드 용량 관리)
+[쿠버네티스 오토스케일링]
+├─ [지표 수집 계층]
+│  └─ Metrics Provider (CPU·메모리·QPS)
+├─ [스케일링 제어 계층]
+│  ├─ HPA Controller (수평: 복제본 개수)
+│  └─ VPA Controller (수직: 요청 스펙)
+└─ [반영 및 인프라 계층]
+   ├─ Workload Controller (Deployment 갱신)
+   └─ Node Autoscaler (Pending 시 노드 증설)
 ```
 
-선의 의미: 계층 및 지표 수집기에서 받은 메트릭을 바탕으로 HPA/VPA가 Pod를 확장하고 자원 부족 시 노드 스케일러가 연동되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

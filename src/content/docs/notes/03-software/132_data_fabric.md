@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 패브릭 (Data Fabric)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 132
@@ -58,15 +58,20 @@ extra:
 </details>
 
 ```text
-[데이터 패브릭 구성]
-|-- 데이터 원천
-|-- Active Metadata 엔진
-|-- 지식 그래프
-|-- 가상화 엔진
-`-- 정책 엔진
+[데이터 패브릭 구조 (Data Fabric)]
+├─ [소비 계층 (Consumer Layer)]
+│  └─ 분석가·BI·AI 모델 (단일 SQL 접점)
+├─ [가상화 계층 (Virtualization)]
+│  └─ 가상화 엔진 (Trino 푸시다운 쿼리)
+├─ [지능형 메타데이터 계층]
+│  ├─ Active Metadata 엔진 (동적 학습)
+│  ├─ 지식 그래프 (계보·의미론적 연관성)
+│  └─ 정책 엔진 (RBAC/ABAC 보안 집행)
+└─ [데이터 원천 (Data Sources)]
+   └─ 하이브리드 멀티클라우드 (RDB·DW·레이크)
 ```
 
-선의 의미: 계층 및 이종의 멀티 클라우드 소스 데이터를 Active Metadata와 가상화 레이어를 거쳐 단일 패브릭으로 제공하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

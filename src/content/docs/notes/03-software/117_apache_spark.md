@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Spark"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 117
@@ -59,17 +59,18 @@ extra:
 
 ```text
 [Apache Spark 클러스터 아키텍처]
-|-- Driver Program (애플리케이션 진입점: SparkSession)
-|   |-- Catalyst Optimizer (논리/물리 쿼리 최적화 및 코드 생성)
-|   `-- DAG Scheduler (Stage 분할 및 TaskSet 생성)
-`-- Cluster Manager (YARN / Kubernetes / Standalone: 자원 할당)
-    |-- Worker Node 1
-    |   `-- Executor 1
-    `-- Worker Node 2
-        `-- Executor 2
+├─ [드라이버 프로그램 (Driver)]
+│  ├─ SparkSession (진입점)
+│  ├─ Catalyst Optimizer (쿼리 최적화)
+│  └─ DAG Scheduler (Stage/Task 분할)
+├─ [클러스터 관리자 (Cluster Manager)]
+│  └─ YARN / Kubernetes (자원 할당)
+└─ [워커 노드 (Worker Nodes)]
+   ├─ Executor (태스크 병렬 실행)
+   └─ RDD BlockManager (인메모리 캐시)
 ```
 
-선의 의미: 계층 및 Driver가 DAG를 수립하고 Cluster Manager를 통해 Executor들로 분산 실행하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

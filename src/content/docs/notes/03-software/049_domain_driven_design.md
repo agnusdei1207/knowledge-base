@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "도메인 주도 설계 DDD (Domain-Driven Design)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 49
@@ -58,20 +58,20 @@ extra:
 </details>
 
 ```text
-[DDD 전략적·전술적 설계 계층 구조]
-|-- 전략적 설계 (Strategic Design: 전사 도메인 수준)
-|   |-- Bounded Context A (주문 컨텍스트) <--- [Context Map: ACL] ---> Bounded Context B (결제)
-|   `-- Ubiquitous Language (도메인 공통 어휘 사전)
-`-- 전술적 설계 (Tactical Design: Context 내부 객체 모델)
-     |-- Aggregate (주문 애그리게이트)
-     |   |-- Aggregate Root (Order Entity: 외부 접근 단일 진입점)
-     |   |-- 내부 Entity (OrderItem)
-     |   `-- Value Object (Address VO, Money VO - 불변 값 객체)
-     |-- Domain Service (복수 애그리게이트 간 비즈니스 로직)
-     `-- Repository (애그리게이트 단위 영속화 인터페이스)
+[도메인 주도 설계 DDD 체계]
+  │
+  ├─ [전략적 설계: Strategic]
+  │     ├─ [Bounded Context] (도메인 모델 경계 분할)
+  │     ├─ [Context Map] (컨텍스트 간 관계·ACL)
+  │     └─ [Ubiquitous Language] (전사 공통 어휘)
+  │
+  └─ [전술적 설계: Tactical]
+        ├─ [Aggregate & Root] (불변식 보장·변경 단위)
+        ├─ [Entity & VO] (식별자 객체·불변 값 객체)
+        ├─ [Domain Service] (도메인 간 협력 로직)
+        └─ [Repository] (애그리게이트 영속화)
 ```
-
-선의 의미: 전략적 도메인 분할 및 전술적 객체 캡슐화 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

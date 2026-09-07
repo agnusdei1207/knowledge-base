@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "정확히 한 번 처리 Exactly-Once (Exactly-Once Semantics)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 121
@@ -58,14 +58,19 @@ extra:
 </details>
 
 ```text
-[End-to-End EOS 구성]
-|-- 재생 가능 소스
-|-- 상태 유지 엔진
-|-- 트랜잭션 조정자
-`-- 트랜잭션/멱등 Sink
+[정확히 한 번 처리 (End-to-End EOS)]
+├─ [재생 가능 소스 (Source)]
+│  └─ Kafka / Kinesis (오프셋 기반 재공급)
+├─ [상태 유지 엔진 (Engine)]
+│  └─ Flink / Spark (체크포인트 스냅샷)
+├─ [트랜잭션 조정자 (Coordinator)]
+│  └─ 2PC 동기화 (체크포인트-커밋 연동)
+└─ [트랜잭션/멱등 싱크 (Sink)]
+   ├─ 2PC Transactional Sink (원자 커밋)
+   └─ Idempotent Sink (UPSERT 중복 무해화)
 ```
 
-선의 의미: 계층 및 Source의 오프셋 재생, Engine의 상태 스냅샷, Sink의 2PC 확정이 결합된 3단 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

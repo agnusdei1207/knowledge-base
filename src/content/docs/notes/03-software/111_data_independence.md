@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 독립성 - 논리•물리 (Data Independence)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 111
@@ -58,15 +58,18 @@ extra:
 </details>
 
 ```text
-[ANSI/SPARC 3단계 스키마 및 2단계 사상 구조]
-|-- 외부 스키마 (External Schema: 사용자별 View 1, View 2)
-|   `-- [외부-개념 사상]
-|-- 개념 스키마 (Conceptual Schema: 통합 엔티티, 속성, 관계, 무결성 제약조건)
-|   `-- [개념-내부 사상]
-`-- 내부 스키마 (Internal Schema: B+Tree 인덱스, 데이터 파일, 파티션, 디스크 블록)
+[데이터 독립성 (Data Independence)]
+├─ [외부 계층 (External)]
+│  ├─ 외부 스키마 (사용자별 View)
+│  └─ 외부-개념 사상 (논리적 독립성)
+├─ [개념 계층 (Conceptual)]
+│  ├─ 개념 스키마 (통합 엔티티·제약)
+│  └─ 개념-내부 사상 (물리적 독립성)
+└─ [내부 계층 (Internal)]
+   └─ 내부 스키마 (물리 인덱스·저장소)
 ```
 
-선의 의미: 계층 및 3단계 스키마 사이의 2단계 사상(Mapping)을 통한 변경 전파 차단 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

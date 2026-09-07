@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "동적 애플리케이션 보안 테스트 DAST (Dynamic Application Security Testing)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 68
@@ -58,17 +58,21 @@ extra:
 </details>
 
 ```text
-[DAST 동적 모의 침투 아키텍처 구조]
-|-- 공격 대상 (Running Web App: 스테이징/QA 환경 URL 엔드포인트)
-|-- 공격 표면 수집기 (Spider / Crawler: OpenAPI 명세 및 HTML Form 파싱)
-|-- 인증 세션 관리자 (Auth Manager: JWT 토큰, OAuth, 쿠키 세션 자동 갱신)
-|-- 퍼징 및 페이로드 주입기 (Fuzzing & Payload Injector)
-|   |-- Passive Scanner (비침습적 헤더, SSL/TLS 암호 스위트 검사)
-|   `-- Active Scanner (침습적 SQLi, XSS, SSRF 공격 페이로드 전송)
-`-- 취약점 판정 엔진 (Response Analyzer: HTTP 상태코드, 에러 메시지 분석 및 PoC 생성)
+[DAST 동적 분석 체계]
+  │
+  ├─ [공격 대상 엔드포인트] (실행 중인 Web App/API)
+  │
+  ├─ [공격 표면 수집기] (스파이더/크롤러·OpenAPI 파싱)
+  │
+  ├─ [인증 세션 관리자] (JWT/OAuth/쿠키 세션 자동 갱신)
+  │
+  ├─ [페이로드 주입기]
+  │     ├─ [Passive] (비침습적 헤더/암호 스위트 점검)
+  │     └─ [Active] (침습적 SQLi/XSS 공격 페이로드)
+  │
+  └─ [취약점 판정 엔진] (응답 분석·PoC 생성·오탐 필터링)
 ```
-
-선의 의미: 가지는 동적 분석 체계의 구성 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

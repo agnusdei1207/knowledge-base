@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "이벤트 소싱•CQRS (Event Sourcing CQRS)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 43
@@ -59,19 +59,19 @@ extra:
 </details>
 
 ```text
-[이벤트 소싱 & CQRS 아키텍처]
-|-- 쓰기 파이프라인 (Command Side)
-|   |-- 클라이언트 변경 명령 (Command: CreateOrder)
-|   |-- 커맨드 핸들러 (비즈니스 규칙 검증 및 도메인 이벤트 생성)
-|   `-- 이벤트 저장소 (Event Store: Append-Only 불변 로그 DB)
-|-- 메시지 브로커 & 프로젝션 엔진 (Kafka / RabbitMQ -> 비동기 이벤트 스트리밍)
-`-- 읽기 파이프라인 (Query Side)
-    |-- 프로젝션 핸들러 (이벤트를 역정규화 뷰 모델로 변환)
-    |-- 조회 전용 DB (Read Model: MongoDB, Elasticsearch, Redis)
-    `-- 클라이언트 쿼리 요청 (Query: GetOrderDetails -> 초고속 조회)
+[이벤트 소싱·CQRS 체계]
+  │
+  ├─ [쓰기 모델: Command Side]
+  │     ├─ [커맨드 핸들러] (규칙 검증·도메인 이벤트 생성)
+  │     └─ [이벤트 저장소] (Append-Only 불변 로그 영속화)
+  │
+  ├─ [이벤트 브로커] (Kafka·비동기 스트리밍 전파)
+  │
+  └─ [읽기 모델: Query Side]
+        ├─ [프로젝션 엔진] (이벤트 기반 비정규화 뷰 갱신)
+        └─ [조회 전용 DB] (Redis/ES·초고속 읽기 모델)
 ```
-
-선의 의미: 계층 및 Command-Event-Query 비동기 파이프라인
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

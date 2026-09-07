@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CI/CD 파이프라인 (CI/CD Pipeline)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 53
@@ -56,6 +56,21 @@ extra:
 - **품질 게이트(Quality Gate)**: SonarQube 등에서 코드 커버리지, 코드 냄새, 보안 취약점 기준을 검사하여 미달 시 빌드를 강제 중단하는 관문.
 
 </details>
+
+```text
+[CI/CD 파이프라인 체계]
+  │
+  ├─ [소스 저장소] (Git·Pipeline as Code)
+  │
+  ├─ [CI 러너] (빌드·단위/통합 테스트 자동화)
+  │
+  ├─ [품질 게이트] (SonarQube 정적분석·Fail-Fast)
+  │
+  ├─ [아티팩트 저장소] (Harbor·불변 컨테이너 이미지)
+  │
+  └─ [CD 배포 제어기] (ArgoCD·무중단 배포 오케스트레이션)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

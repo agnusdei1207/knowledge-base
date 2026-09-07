@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "NoSQL 유형: 문서•키값•컬럼•그래프 (NoSQL Types)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 102
@@ -58,14 +58,22 @@ extra:
 </details>
 
 ```text
-[NoSQL 4대 데이터 모델 구조]
-|-- 1. Key-Value Store: [Key] -> [Value] (Redis, DynamoDB / O(1) 단순 룩업, 인메모리 캐시)
-|-- 2. Document Store: [Document ID] -> {JSON / BSON 중첩 객체} (MongoDB / 상품 카탈로그)
-|-- 3. Wide-Column Store: [Row Key] -> [Column Family: Dynamic Columns] (Cassandra / 시계열 센서)
-`-- 4. Graph Store: (Node) -[Edge: Property]-> (Node) (Neo4j / 소셜 친구 추천, FDS 사기 탐지)
+[NoSQL 4대 데이터 모델]
+├─ [Key-Value Store]
+│  ├─ O(1) 단순 키 룩업
+│  └─ 대표: Redis, DynamoDB
+├─ [Document Store]
+│  ├─ JSON/BSON 중첩 객체 저장
+│  └─ 대표: MongoDB, Couchbase
+├─ [Wide-Column Store]
+│  ├─ 동적 컬럼 패밀리·시계열 분산
+│  └─ 대표: Cassandra, HBase
+└─ [Graph Store]
+   ├─ 노드·간선 기반 고속 관계 순회
+   └─ 대표: Neo4j, Amazon Neptune
 ```
 
-선의 의미: 계층 및 4대 NoSQL 데이터 모델과 대표 제품/활용처 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

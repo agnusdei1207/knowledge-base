@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "데이터 파이프라인 오케스트레이션: Airflow (Data Pipeline Orchestration)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 139
@@ -58,15 +58,17 @@ extra:
 </details>
 
 ```text
-[Apache Airflow 구성]
-|-- 스케줄러
-|-- 메타데이터 DB
-|-- 실행기
-|-- 워커
-`-- 웹서버
+[Apache Airflow 오케스트레이션]
+├─ [제어 및 관리 계층]
+│  ├─ 웹서버 (Webserver GUI)
+│  ├─ 스케줄러 (DAG 파싱·의존성 평가)
+│  └─ 메타데이터 DB (상태·이력 보관)
+└─ [작업 실행 계층]
+   ├─ 실행기 (Executor: 큐 분산 할당)
+   └─ 워커 (Worker: 분산 태스크 실행)
 ```
 
-선의 의미: 계층 및 Scheduler가 DAG를 해석하여 DB에 상태를 기록하고 Executor를 통해 Worker 노드로 작업을 분산 실행하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

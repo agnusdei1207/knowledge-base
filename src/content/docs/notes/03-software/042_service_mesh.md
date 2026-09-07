@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "서비스 메시: Istio•Envoy (Service Mesh)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 42
@@ -58,18 +58,20 @@ extra:
 </details>
 
 ```text
-[Istio / Envoy 서비스 메시 아키텍처]
-|-- 컨트롤 플레인 (Control Plane: Istiod)
-|   |-- 파일럿 (Pilot: xDS API 기반 Envoy 동적 라우팅 설정 배포)
-|   |-- 시타델 (Citadel: mTLS CA 인증서 자동 발급 및 순환)
-|   `-- 갤리 (Galley: K8s 매니페스트 설정 검증 및 변환)
-`-- 데이터 플레인 (Data Plane: Envoy Sidecar)
-    |-- [주문 Pod] -> 비즈니스 컨테이너 <-> Envoy 사이드카 (iptables 트래픽 가로채기)
-    |                     │ (mTLS 암호화 통신 & Trace ID 주입)
-    `-- [결제 Pod] -> Envoy 사이드카 <-> 비즈니스 컨테이너
+[서비스 메시 체계]
+  │
+  ├─ [컨트롤 플레인] (Istiod)
+  │     ├─ [Pilot] (xDS 동적 라우팅 규칙 배포)
+  │     ├─ [Citadel] (mTLS CA 인증서 발급·순환)
+  │     └─ [Galley] (K8s 설정 검증 및 주입)
+  │
+  ├─ [데이터 플레인] (Envoy Sidecar)
+  │     ├─ [트래픽 프록시] (iptables 기반 송수신 가로채기)
+  │     └─ [보안/회복성] (mTLS 암호화·서킷 브레이커)
+  │
+  └─ [관측성 플랫폼] (Jaeger/Prometheus 메트릭 집계)
 ```
-
-선의 의미: 계층 및 컨트롤 플레인-데이터 플레인 간 통신 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

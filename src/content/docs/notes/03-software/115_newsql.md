@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "NewSQL: CockroachDB•Spanner (NewSQL)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 115
@@ -58,14 +58,20 @@ extra:
 </details>
 
 ```text
-[NewSQL (CockroachDB / Spanner) 계층 아키텍처]
-|-- SQL Execution Layer (PostgreSQL 호환 SQL 파서 및 분산 CBO 옵티마이저)
-|-- Distributed Transaction Layer (2PC + MVCC + Concurrency Control)
-|-- Raft Consensus Layer (Range별 독립 Raft 합의 복제 그룹: 3~5벌 복제)
-`-- Distributed Storage Engine (Pebble / RocksDB 기반 LSM-Tree 순차 저장)
+[NewSQL 계층 구조]
+├─ [SQL 실행 계층]
+│  └─ SQL 파서 및 분산 CBO 옵티마이저
+├─ [분산 트랜잭션 계층]
+│  └─ 2PC + MVCC + Concurrency Control
+├─ [합의 복제 계층 (Consensus)]
+│  └─ Raft/Paxos (Range별 3~5벌 복제)
+├─ [시간 동기화 계층 (Time)]
+│  └─ TrueTime / HLC (글로벌 순서 보장)
+└─ [분산 저장 계층 (Storage)]
+   └─ LSM-Tree 스토리지 (Pebble/RocksDB)
 ```
 
-선의 의미: 계층 및 SQL 실행 계층부터 분산 트랜잭션, Raft 합의, LSM 스토리지로 이어지는 수직 계층 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

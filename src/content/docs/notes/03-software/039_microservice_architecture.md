@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "마이크로서비스 아키텍처 MSA (Microservice Architecture)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 39
@@ -58,15 +58,19 @@ extra:
 </details>
 
 ```text
-[마이크로서비스(MSA) 분산 생태계 구조]
-|-- API Gateway
-|-- 서비스 디스커버리
-|-- 독립 마이크로서비스
-|-- 이벤트 브로커 (Kafka)
-`-- 분산 추적 (Jaeger)
+[마이크로서비스 MSA 생태계]
+  │
+  ├─ [API Gateway] (단일 진입점·인증·라우팅)
+  │
+  ├─ [서비스 디스커버리] (동적 인스턴스 위치 등록·탐색)
+  │
+  ├─ [독립 마이크로서비스] (도메인 로직·Database-per-Service)
+  │
+  ├─ [이벤트 브로커] (Kafka/RabbitMQ·비동기 메시징)
+  │
+  └─ [분산 추적/관측성] (Trace/Span ID 기반 병목 시각화)
 ```
-
-선의 의미: 계층 및 MSA 통신/관측성 인프라 파이프라인
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Neo4j 그래프 데이터베이스 (Neo4j Graph Database)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 109
@@ -58,16 +58,19 @@ extra:
 </details>
 
 ```text
-[Neo4j Property Graph 데이터 모델 구조]
-|-- Node (개체 실체: User, Product, BankAccount)
-|   |-- Label (노드 그룹화 및 인덱싱 식별자: :User, :Company)
-|   `-- Property (노드 속성: {id: 101, name: "Alice", age: 30})
-`-- Relationship (노드 간의 방향성 연결 포인터)
-    |-- Relationship Type (관계 유형: :TRANSFERRED_TO, :FRIEND_OF)
-    `-- Relationship Property (관계 속성: {amount: 50000, since: "2026-08"})
+[Neo4j 프로퍼티 그래프 모델]
+├─ [노드 (Node: 개체 실체)]
+│  ├─ Label (노드 범주화 식별자)
+│  └─ Property (키-값 속성 맵)
+├─ [관계 (Relationship: 간선)]
+│  ├─ Type (관계 식별 유형)
+│  ├─ 방향성 (단방향/양방향 포인터)
+│  └─ Property (관계 자체 속성 맵)
+└─ [물리 저장 계층]
+   └─ 무색인 인접성 (포인터 O(1) 순회)
 ```
 
-선의 의미: 계층 및 노드와 관계가 속성을 보유하며 물리적 포인터로 연결되는 그래프 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

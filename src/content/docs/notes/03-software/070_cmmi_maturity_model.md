@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "CMMI 성숙도 모델 (Capability Maturity Model Integration)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 70
@@ -58,15 +58,19 @@ extra:
 </details>
 
 ```text
-[CMMI 5단계 성숙도 피라미드 구조]
-|-- Level 5: Optimizing (최적화: 결함 근본 원인 제거, 프로세스 혁신 및 자동화)
-|-- Level 4: Quantitatively Managed (정량적 관리: 통계적 공정 제어 및 메트릭 분석)
-|-- Level 3: Defined (정의됨: 전사 표준 프로세스 수립, 조직 공정 자산 PAL, 테일러링)
-|-- Level 2: Managed (관리됨: 프로젝트 단위 계획, 요구사항 추적, 형상 관리)
-`-- Level 1: Initial (초기: 비공식적 프로세스, 개인의 영웅적 역량 의존, 혼돈)
+[CMMI 5단계 성숙도 체계]
+  │
+  ├─ [Level 1: Initial] (비공식 프로세스·개인 역량 의존)
+  │
+  ├─ [Level 2: Managed] (프로젝트 단위 관리·일정/형상 통제)
+  │
+  ├─ [Level 3: Defined] (전사 표준화·PAL 자산화·테일러링)
+  │
+  ├─ [Level 4: Quantitatively Managed] (통계적 공정 제어)
+  │
+  └─ [Level 5: Optimizing] (지속적 혁신·원인 분석 및 개선)
 ```
-
-선의 의미: 가지는 성숙도 수준의 서열 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

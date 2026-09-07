@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "워킹 셋•페이지 폴트 (Working Set•Page Fault)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 16
 extra:
@@ -57,16 +57,21 @@ extra:
 </details>
 
 ```text
-[워킹 셋 및 PFF 동적 프레임 제어 아키텍처]
-|-- 참조 윈도우 추적기 (최근 $\Delta$ 동안의 참조 비트 벡터 분석 -> $WS(t, \Delta)$ 산출)
-|-- PFF 계측 엔진 (Page Fault 인터럽트 발생 간격 $T = t_{\text{current}} - t_{\text{prev}}$ 측정)
-`-- 동적 프레임 할당기
-    |-- $T < T_{\text{min}}$ (PFF 상한 초과) -> 물리 프레임 추가 할당 (Fault 억제)
-    |-- $T > T_{\text{max}}$ (PFF 하한 미달) -> 비활성 프레임 회수 (메모리 재활용)
-    `-- $T_{\text{min}} \le T \le T_{\text{max}}$ -> 현재 할당 프레임 수 유지
+[워킹 셋 및 PFF 제어 체계]
+  │
+  ├─ [참조 윈도우 추적기] (시간창 d 내 워킹 셋 크기 산출)
+  │
+  ├─ [PFF 계측 엔진] (폴트 발생 간격 T 측정)
+  │
+  ├─ [동적 프레임 할당기] (PFF 기반 가감)
+  │     ├─ [프레임 추가] (T < Tmin 시 폴트 억제)
+  │     ├─ [프레임 회수] (T > Tmax 시 메모리 회수)
+  │     └─ [할당 유지] (Tmin <= T <= Tmax)
+  │
+  └─ [희생자 선택기] (LRU/Clock 기반 스왑아웃)
 ```
 
-선의 의미: 계층 및 PFF 피드백 제어 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

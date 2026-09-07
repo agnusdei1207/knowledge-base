@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "소프트웨어 개발 생명주기 SDLC (Software Development Lifecycle)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 30
@@ -58,17 +58,22 @@ extra:
 </details>
 
 ```text
-[SDLC 공학적 수명주기 및 V-Model 구조]
-|-- 요구사항 분석 (Requirements) <---------------- (인수 테스트: Acceptance Test)
-|   `-- RTM 요구사항 기준선 확정
-|-- 시스템/SW 아키텍처 설계 (Architecture) <-------- (시스템 테스트: System Test)
-|   `-- 고수준/저수준 인터페이스 명세
-|-- 모듈 상세 설계 (Detailed Design) <------------- (통합 테스트: Integration Test)
-`-- 소프트웨어 구현 (Implementation) -------------> (단위 테스트: Unit Test)
-    `-- 시큐어 코딩 및 정적 코드 분석
+[SDLC 수명주기 통제 체계]
+  │
+  ├─ [공정 전략 모델] (Waterfall·Spiral·Agile)
+  │
+  ├─ [단계별 엔지니어링] (개발-검증 대응 V-Model)
+  │     ├─ [요구사항 분석] ── [인수 테스트 대응]
+  │     ├─ [아키텍처 설계] ── [시스템 테스트 대응]
+  │     ├─ [모듈 상세설계] ── [통합 테스트 대응]
+  │     └─ [소프트웨어 구현] ── [단위 테스트 대응]
+  │
+  ├─ [단계 게이트] (Stage Gate 산출물 심의)
+  │
+  └─ [RTM 형상 관리] (요구-검증 양방향 추적성)
 ```
 
-선의 의미: 계층 및 개발 단계와 테스트 단계 간 대칭적 검증/추적성 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

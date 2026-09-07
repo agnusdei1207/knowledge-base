@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "12 팩터 앱 (12 Factor App)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 45
@@ -58,22 +58,27 @@ extra:
 </details>
 
 ```text
-[12 Factor Cloud-Native 아키텍처]
-|-- I. 코드베이스 (Codebase: 단일 Git 저장소에서 여러 환경 배포)
-|-- II. 의존성 (Dependencies: 명시적 의존성 선언 및 격리)
-|-- III. 설정 (Config: 환경 변수 - ENV로 설정 분리)
-|-- IV. 지원 서비스 (Backing Services: DB/Redis를 탈부착 가능한 자원 취급)
-|-- V. 빌드/릴리즈/실행 (Build -> Release -> Run 분리)
-|-- VI. 프로세스 (Processes: 무상태 - Stateless 프로세스)
-|-- VII. 포트 바인딩 (Port Binding: 자체 웹 서버 포트 리스닝)
-|-- VIII. 동시성 (Concurrency: 프로세스 모델 기반 Scale-out)
-|-- IX. 폐기 가능성 (Disposability: 빠른 시작 & Graceful Shutdown)
-|-- X. 개발/운영 동등성 (Dev/Prod Parity: 환경 간 차이 극소화)
-|-- XI. 로그 (Logs: stdout 이벤트 스트림 배출)
-`-- XII. 관리 프로세스 (Admin Processes: 일회성 관리 작업 격리)
+[12 Factor 원칙 체계]
+  │
+  ├─ [코드/의존성/설정]
+  │     ├─ [I. 코드베이스] (단일 Git 저장소)
+  │     ├─ [II. 의존성] (명시적 패키지 격리)
+  │     ├─ [III. 설정] (환경변수 ENV 주입)
+  │     └─ [IV. 지원 서비스] (URL 자원 탈부착)
+  │
+  ├─ [빌드/실행/프로세스]
+  │     ├─ [V. 빌드/릴리즈/실행] (단계 엄격 분리)
+  │     ├─ [VI. 무상태 프로세스] (Shared-Nothing)
+  │     ├─ [VII. 포트 바인딩] (자체 포트 리스닝)
+  │     ├─ [VIII. 동시성] (프로세스 단위 확장)
+  │     └─ [IX. 폐기 가능성] (Graceful Shutdown)
+  │
+  └─ [환경/운영/로그]
+        ├─ [X. 환경 동등성] (Dev/Prod 격차 해소)
+        ├─ [XI. 로그] (stdout 스트림 배출)
+        └─ [XII. 관리 프로세스] (일회성 작업 격리)
 ```
-
-선의 의미: 12대 핵심 원칙 계층 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

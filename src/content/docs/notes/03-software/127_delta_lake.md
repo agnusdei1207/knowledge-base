@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Delta Lake (Delta Lake)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 127
@@ -58,15 +58,18 @@ extra:
 </details>
 
 ```text
-[Delta Lake 구성]
-|-- _delta_log
-|-- 체크포인트
-|-- Parquet 데이터 파일
-|-- OPTIMIZE & Z-Order
-`-- VACUUM 엔진
+[Delta Lake 저장 구조]
+├─ [트랜잭션 로그 계층 (_delta_log)]
+│  ├─ JSON 커밋 로그 (Add/Remove 파일 기록)
+│  └─ Parquet 체크포인트 (10회 주기 상태 압축)
+├─ [물리 데이터 계층]
+│  └─ 불변 Parquet 데이터 파일 (Snappy 압축)
+└─ [스토리지 최적화 엔진]
+   ├─ OPTIMIZE & Z-Order (파일 병합·군집화)
+   └─ VACUUM (과거 만료 파일 물리 삭제)
 ```
 
-선의 의미: 계층 및 Parquet 데이터 파일과 `_delta_log/` 트랜잭션 로그 파일이 결합하여 버전을 관리하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

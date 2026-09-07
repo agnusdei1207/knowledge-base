@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "스레드 스케줄링•스레드 풀 (Thread Scheduling•Thread Pool)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 8
 extra:
@@ -58,16 +58,19 @@ extra:
 </details>
 
 ```text
-[스레드 풀(Executor Framework) 아키텍처]
-|-- 작업 제출자 (Client / Producer - execute/submit 호출)
-|-- 스레드 풀 실행기 (ThreadPoolExecutor)
-|   |-- 코어 워커 스레드 풀 (Core Threads)
-|   |-- 유한 작업 큐 (Bounded Work Queue - BlockingQueue)
-|   |-- 동적 확장 워커 풀 (Max Threads)
-|   `-- 포화 거절 처리기 (RejectedExecutionHandler)
+[스레드 풀 실행 체계]
+  │
+  ├─ [작업 제출자] (Client 작업 제출)
+  │
+  ├─ [스레드 풀 실행기] (ThreadPoolExecutor)
+  │     ├─ [유한 작업 큐] (BlockingQueue 대기열)
+  │     ├─ [워커 스레드] (Core/Max 워커 풀)
+  │     └─ [포화 거절 처리기] (RejectedExecutionHandler)
+  │
+  └─ [동시성 자원 관리] (Keep-Alive 수명 제어)
 ```
 
-선의 의미: 가지는 실행기와 하위 구성요소의 포함 관계
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

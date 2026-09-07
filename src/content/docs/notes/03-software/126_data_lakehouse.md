@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "데이터 레이크하우스 (Data Lakehouse)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 126
@@ -58,14 +58,18 @@ extra:
 </details>
 
 ```text
-[데이터 레이크하우스 구성]
-|-- 다중 연산 엔진
-|-- 오픈 테이블 포맷
-|-- 메타데이터 카탈로그
-`-- 객체 스토리지
+[데이터 레이크하우스 아키텍처]
+├─ [연산 계층 (Compute Layer)]
+│  └─ 다중 쿼리 엔진 (Spark, Trino, Flink)
+├─ [테이블 관리 계층 (Table Format)]
+│  ├─ 오픈 테이블 포맷 (Delta, Iceberg, Hudi)
+│  └─ 메타데이터 카탈로그 (Glue, Unity)
+└─ [저장 계층 (Storage Layer)]
+   ├─ 클라우드 객체 스토리지 (S3, GCS)
+   └─ 불변 데이터 파일 (Parquet / ORC)
 ```
 
-선의 의미: 계층 및 다중 연산 엔진이 오픈 테이블 포맷 메타데이터를 통해 S3의 Parquet 파일에 직접 접근하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

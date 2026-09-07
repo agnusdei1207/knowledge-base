@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "가상화•하이퍼바이저 (Virtualization•Hypervisor)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 18
 extra:
@@ -57,19 +57,20 @@ extra:
 </details>
 
 ```text
-[하이퍼바이저 아키텍처 비교]
-|-- Type 1 하이퍼바이저 (Bare-Metal / Native)
-|   |-- 물리 하드웨어 (CPU VT-x, Memory EPT, NIC SR-IOV)
-|   |-- Type 1 하이퍼바이저 커널 (KVM, ESXi, Xen, Hyper-V)
-|   `-- 게스트 VM 1, 게스트 VM 2 (독립 게스트 OS 및 앱)
-`-- Type 2 하이퍼바이저 (Hosted)
-    |-- 물리 하드웨어
-    |-- 호스트 OS (Windows, macOS, Linux)
-    |-- Type 2 하이퍼바이저 앱 (VirtualBox, VMware Workstation)
-    `-- 게스트 VM 1, 게스트 VM 2
+[하이퍼바이저 가상화 체계]
+  │
+  ├─ [Type 1 베어메탈] (하드웨어 직결형)
+  │     ├─ [물리 하드웨어] (VT-x·EPT·SR-IOV)
+  │     ├─ [하이퍼바이저 커널] (KVM·ESXi·Xen)
+  │     └─ [게스트 VM군] (독립 OS 및 vCPU)
+  │
+  └─ [Type 2 호스트형] (OS 애플리케이션형)
+        ├─ [호스트 OS] (기존 커널 시스템 콜)
+        ├─ [가상화 엔진] (VirtualBox·Workstation)
+        └─ [게스트 VM군] (에뮬레이션 격리)
 ```
 
-선의 의미: 계층 및 가상화 실행 아키텍처
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

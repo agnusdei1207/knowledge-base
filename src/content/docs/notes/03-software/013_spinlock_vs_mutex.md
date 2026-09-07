@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "스핀락 vs 뮤텍스 (Spinlock vs Mutex)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 13
 extra:
@@ -57,20 +57,21 @@ extra:
 </details>
 
 ```text
-[스핀락 vs 뮤텍스 대기 구조 아키텍처]
-|-- 하드웨어 원자 명령어 (Atomic CAS / TAS)
-|   |-- 락 획득 성공 -> 즉시 임계 구역 진입
-|   `-- 락 획득 실패 시 분기:
-|-- 스핀락 경로 (Spinlock)
-|   |-- CPU 코어에서 `PAUSE` 명령어와 함께 `while(locked)` 루프 반복
-|   `-- 커널 개입 없음 (문맥 전환 0, CPU 점유율 100%)
-`-- 뮤텍스 경로 (Mutex)
-    |-- `futex` 시스템 콜 호출 -> 커널 대기 큐(Wait Queue) 등록
-    |-- 현재 스레드 Sleep 상태 전환 및 타 스레드로 CPU 문맥 전환
-    `-- 락 해제 시 시그널 수신 후 깨어남 (Wakeup)
+[상호 배제 락 대기 체계]
+  │
+  ├─ [원자 명령어 계층] (Atomic CAS/TAS)
+  │     └─ [선점 비활성화] (코어 인터럽트 선점 차단)
+  │
+  ├─ [스핀락 경로] (바쁜 대기 Busy-Waiting)
+  │     ├─ [스핀 루프] (PAUSE 명령어 감시 루프)
+  │     └─ [문맥 전환 생략] (CPU 100% 점유·0ns 지연)
+  │
+  └─ [뮤텍스 경로] (수면 대기 Sleep & Block)
+        ├─ [커널 대기 큐] (futex 기반 Wait Queue 등록)
+        └─ [문맥 전환 발생] (CPU 양보 및 시그널 Wakeup)
 ```
 
-선의 의미: 계층 및 락 획득 실패 시 처리 분기
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "파일 시스템 저널링 (File System Journaling)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 21
@@ -58,19 +58,21 @@ extra:
 </details>
 
 ```text
-[파일 시스템 저널링(JBD2) 트랜잭션 구조]
-|-- 파일 I/O 변경 요청 (Inode, 블록 할당 비트맵 수정)
-|-- JBD2 트랜잭션 관리자 (메타데이터 변경을 원자적 트랜잭션으로 그룹화)
-|-- 저널 디바이스 (Journal Device - 순환 로그 버퍼)
-|   |-- Descriptor Block (트랜잭션에 포함된 블록들의 위치 정보)
-|   |-- Data / Metadata Payload (실제 변경 내용 블록)
-|   `-- Commit Block (트랜잭션 쓰기 완료 확정 마커)
-`-- 동기화 및 복구 처리기
-    |-- 정상 운용: 비동기 체크포인트 (Checkpoint -> Home Block 반영)
-    `-- 장애 재부팅: 저널 리플레이 (Commit Block 확인 후 REDO 복원)
+[파일 시스템 저널링 체계]
+  │
+  ├─ [트랜잭션 관리자] (JBD2 원자적 그룹화)
+  │
+  ├─ [저널 디바이스] (순환 로그 버퍼)
+  │     ├─ [Descriptor Block] (블록 위치 정보)
+  │     ├─ [Metadata Payload] (변경 내용 블록)
+  │     └─ [Commit Block] (쓰기 완료 마커)
+  │
+  └─ [동기화 및 복구] (사후 처리기)
+        ├─ [체크포인트] (Home Block 반영)
+        └─ [저널 리플레이] (장애 시 REDO 복구)
 ```
 
-선의 의미: 계층 및 저널 트랜잭션 파이프라인
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

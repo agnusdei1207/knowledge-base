@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "지속적 배포 (Continuous Deployment)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 54
@@ -56,6 +56,19 @@ extra:
 - **Argo Rollouts**: Kubernetes 환경에서 Blue/Green, Canary, 실험적 배포 및 메트릭 기반 자동 롤백을 지원하는 고급 배포 컨트롤러.
 
 </details>
+
+```text
+[지속적 배포 CD 체계]
+  │
+  ├─ [GitOps 배포 엔진] (ArgoCD·선언적 K8s 자동 동기화)
+  │
+  ├─ [카나리 트래픽 제어기] (Ingress/Service Mesh 점진 개방)
+  │
+  ├─ [관측성 플랫폼] (Prometheus·5xx 에러율 및 P99 감시)
+  │
+  └─ [자동 롤백 엔진] (Argo Rollouts·가드레일 위반 시 복구)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

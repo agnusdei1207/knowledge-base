@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "Docker 컨테이너 (Docker Container)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 150
@@ -58,15 +58,20 @@ extra:
 </details>
 
 ```text
-[Docker 컨테이너 런타임 및 계층 아키텍처]
-|-- Docker Client·Daemon (생명주기 관리)
-|-- containerd·runc (OCI 프로세스 실행)
-|-- Namespaces (프로세스 가시 영역 격리)
-|-- cgroups (CPU·메모리·I/O 제한)
-`-- OverlayFS (이미지·쓰기 레이어 결합)
+[Docker 컨테이너 런타임]
+├─ [제어 및 관리 계층]
+│  ├─ Docker Client (CLI 인터페이스)
+│  └─ Docker Daemon (API 및 빌드 관리)
+├─ [OCI 런타임 계층]
+│  ├─ containerd (컨테이너 수명주기 제어)
+│  └─ runc (OCI 표준 프로세스 생성)
+└─ [리눅스 커널 격리 계층]
+   ├─ Namespaces (PID·NET·MNT 뷰 격리)
+   ├─ cgroups (CPU·메모리 자원 제한)
+   └─ OverlayFS (CoW 레이어 결합)
 ```
 
-선의 의미: 계층 및 Docker CLI 명령이 runc를 거쳐 커널 격리 프로세스를 생성하고 OverlayFS 레이어에 연결되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

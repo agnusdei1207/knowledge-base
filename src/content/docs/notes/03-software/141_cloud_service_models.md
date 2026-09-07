@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 서비스 모델: IaaS•PaaS•SaaS (Cloud Service Models)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 141
@@ -58,18 +58,19 @@ extra:
 </details>
 
 ```text
-[클라우드 서비스 모델별 책임 경계 구조]
-|-- IaaS (Infrastructure as a Service: AWS EC2, GCP Compute Engine)
-|   |-- [고객 책임] Applications, Data, Runtime, Middleware, OS 패치
-|   `-- [CSP 책임] Virtualization, Servers, Storage, Networking
-|-- PaaS (Platform as a Service: AWS Elastic Beanstalk, Heroku)
-|   |-- [고객 책임] Applications, Data
-|   `-- [CSP 책임] Runtime, Middleware, OS, Virtualization, Hardware
-`-- SaaS (Software as a Service: Google Workspace, Salesforce, Microsoft 365)
-    `-- [CSP 책임] 애플리케이션부터 물리 인프라까지 전 계층 관리 (고객은 계정/데이터 사용)
+[클라우드 서비스 모델 (NIST)]
+├─ [IaaS (인프라 제공)]
+│  ├─ 고객: App·Data·OS·미들웨어 관리
+│  └─ CSP: 서버·가상화·스토리지·네트워크
+├─ [PaaS (플랫폼 제공)]
+│  ├─ 고객: Application 및 Data 관리
+│  └─ CSP: 런타임·OS·서버·물리 인프라
+└─ [SaaS (소프트웨어 제공)]
+   ├─ 고객: 계정·접근권한·데이터 활용
+   └─ CSP: 앱부터 물리 장비까지 전 계층
 ```
 
-선의 의미: 계층 및 IaaS(OS 이상 고객), PaaS(앱/데이터만 고객), SaaS(완제품 CSP 관리)의 관리 책임 경계 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

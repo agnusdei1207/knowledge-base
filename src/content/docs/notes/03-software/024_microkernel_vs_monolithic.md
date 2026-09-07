@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "마이크로커널 vs 모놀리식 커널 (Microkernel vs Monolithic)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 24
@@ -58,20 +58,18 @@ extra:
 </details>
 
 ```text
-[마이크로커널 vs 모놀리식 커널 아키텍처]
-|-- 마이크로커널 (Microkernel: QNX, seL4, Mach)
-|   |-- 유저 공간 (User Space: Ring 3)
-|   |   |-- 응용 프로그램
-|   |   |-- 파일 시스템 서버 (VFS Daemon)
-|   |   |-- 네트워크 프로토콜 서버 (TCP/IP Daemon)
-|   |   `-- 디바이스 드라이버 서버 (Disk/NIC Driver)
-|   `-- 커널 공간 (Microkernel: Ring 0) -> IPC, 기본 가상메모리, 스케줄러만 상주
-`-- 모놀리식 커널 (Monolithic Kernel: Linux, FreeBSD)
-    |-- 유저 공간 (Ring 3) -> 사용자 응용 프로그램
-    `-- 커널 공간 (Ring 0) -> VFS, 드라이버, 네트워크, 메모리, 스케줄러 전체 통합
+[커널 아키텍처 모델 체계]
+  │
+  ├─ [마이크로커널 모델] (결함 격리 및 안전성)
+  │     ├─ [유저 공간 Ring 3] (파일·망·드라이버 서버)
+  │     └─ [초소형 커널 Ring 0] (스케줄러·메모리·IPC)
+  │
+  └─ [모놀리식 커널 모델] (직접 호출 및 고성능)
+        ├─ [유저 공간 Ring 3] (사용자 응용 프로그램)
+        └─ [단일 커널 Ring 0] (VFS·드라이버·네트워크 통합)
 ```
 
-선의 의미: 계층 및 커널/유저 공간 서비스 배치 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 마이크로커널 (Microkernel) | 모놀리식 커널 (Monolithic) |
 |:---|:---|:---|

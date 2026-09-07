@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "멀티 클라우드 전략 (Multi Cloud Strategy)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 143
@@ -58,18 +58,19 @@ extra:
 </details>
 
 ```text
-[멀티 클라우드 통합 관리 및 추상화 구조]
-|-- Governance & Abstraction Layer (통합 오케스트레이션 및 거버넌스)
-|   |-- Terraform (IaC 멀티 클라우드 인프라 코드화)
-|   |-- Kubernetes (CaaS 컨테이너 기반 워크로드 표준화)
-|   `-- HashiCorp Vault (OIDC 기반 중앙 시크릿 및 IAM 통제)
-|-- Global Traffic Layer (GSLB 기반 DNS 트래픽 라우팅)
-`-- Multi-CSP Workload Layer
-    |-- Primary CSP: AWS (EKS 대외 웹/앱 + Aurora 주 결제 원장)
-    `-- Secondary CSP: GCP (BigQuery 데이터 분석 + Vertex AI 머신러닝)
+[멀티 클라우드 아키텍처]
+├─ [거버넌스 및 추상화 계층]
+│  ├─ Terraform (멀티 IaC 인프라 선언)
+│  ├─ Kubernetes (컨테이너 표준 실행)
+│  └─ 중앙 시크릿·IAM (Vault 통합 통제)
+├─ [글로벌 트래픽 계층]
+│  └─ GSLB (DNS 트래픽 분기·장애 절체)
+└─ [이종 CSP 워크로드 계층]
+   ├─ Primary CSP (대외 트랜잭션·원장)
+   └─ Secondary CSP (특화 AI·빅데이터)
 ```
 
-선의 의미: 계층 및 이종 CSP 클라우드를 상단의 Terraform, Kubernetes 추상화 레이어로 묶어 제어하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

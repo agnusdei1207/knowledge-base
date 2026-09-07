@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "Apache Flink 스트림 처리 (Apache Flink)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 120
@@ -58,17 +58,18 @@ extra:
 </details>
 
 ```text
-[Apache Flink 분산 스트리밍 아키텍처]
-|-- JobManager (마스터 노드: JobGraph 분석, 리소스 스케줄링, Checkpoint Coordinator)
-`-- TaskManager Cluster (워커 노드들: TaskSlot 단위 병렬 실행)
-    |-- TaskManager 1
-    |   `-- TaskSlot·Local State
-    |-- TaskManager 2
-    |   `-- TaskSlot·Local State
-    `-- Checkpoint Storage (S3 / HDFS: 비동기 Chandy-Lamport 스냅샷 파일 영구 저장)
+[Apache Flink 아키텍처]
+├─ [관리 계층 (JobManager)]
+│  ├─ JobGraph 분석 및 스케줄링
+│  └─ Checkpoint Coordinator (ABS 조율)
+├─ [실행 계층 (TaskManager)]
+│  ├─ TaskSlot (연산자 병렬 실행 단위)
+│  └─ State Backend (메모리/RocksDB 상태)
+└─ [스토리지 계층]
+   └─ Checkpoint Storage (S3/HDFS 스냅샷 영구 저장)
 ```
 
-선의 의미: 계층 및 JobManager가 체크포인트를 주입하고 TaskManager들이 로컬 상태를 영구 스토리지에 비동기 복제하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

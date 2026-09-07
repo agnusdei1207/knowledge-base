@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "I/O 관리•디스크 스케줄링 (I/O Management Disk Scheduling)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 22
@@ -58,19 +58,21 @@ extra:
 </details>
 
 ```text
-[블록 I/O 계층 및 디스크 스케줄러 구조]
-|-- VFS (가상 파일 시스템) -> 블록 I/O 계층 (BIO Layer)
-|-- 디스크 스케줄러 계층
-|   |-- 단일 큐 / HDD 경로: I/O 요청 큐 (Request Queue)
-|   |   |-- 블록 병합기 (Request Merging: Front/Back Merge)
-|   |   `-- 엘리베이터 정렬기 (SCAN / C-LOOK / BFQ)
-|   `-- 멀티 큐 / NVMe 경로: blk-mq 레이어
-|       |-- CPU 코어별 소프트웨어 스테이징 큐 (Software Queue)
-|       `-- 하드웨어 제출/완료 큐 (Hardware Submission/Completion Queue)
-`-- 디바이스 드라이버 & 물리 스토리지 컨트롤러 (HDD / NVMe SSD)
+[블록 I/O 스케줄링 체계]
+  │
+  ├─ [블록 I/O 계층] (BIO 기반 요청 접수)
+  │
+  ├─ [단일 큐 스케줄러] (HDD 탐색 최적화)
+  │     ├─ [I/O 요청 큐] (버퍼링 및 재배치)
+  │     ├─ [블록 병합기] (Front/Back Merging)
+  │     └─ [엘리베이터 정렬기] (SCAN/C-LOOK/BFQ)
+  │
+  └─ [멀티 큐 계층] (NVMe 초고속 병렬 blk-mq)
+        ├─ [소프트웨어 큐] (코어별 스테이징)
+        └─ [하드웨어 큐] (제출 및 완료 큐)
 ```
 
-선의 의미: 계층 및 단일/멀티 큐 디스크 스케줄링 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

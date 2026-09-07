@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "DevOps 파이프라인 (DevOps Pipeline)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 56
@@ -56,6 +56,19 @@ extra:
 - **DevOps Toolchain**: Jira(기획) $\to$ Git(코드) $\to$ Jenkins(빌드) $\to$ ArgoCD(배포) $\to$ K8s(운영) $\to$ Prometheus(모니터링)로 연결된 도구 집합.
 
 </details>
+
+```text
+[DevOps 파이프라인 체계]
+  │
+  ├─ [Plan & Code] (Jira 요구사항·Git 협업 및 PR)
+  │
+  ├─ [Build & Test] (CI 러너·품질 게이트·보안 스캔)
+  │
+  ├─ [Release & Deploy] (불변 이미지·GitOps 무중단 배포)
+  │
+  └─ [Operate & Monitor] (K8s 클러스터·SLO 감시 및 피드백)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "형상 관리: Git•브랜치 전략 (Configuration Management Git)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 52
@@ -58,14 +58,17 @@ extra:
 </details>
 
 ```text
-[Git 3단계 영역 및 원격 저장소 구조]
-|-- 작업 디렉터리 (Working Directory: 실제 소스 코드 수정 공간)
-|-- 스테이징 영역 (Staging Area / Index: `git add`로 선별된 스냅샷)
-|-- 로컬 저장소 (Local Repository: `git commit`으로 생성된 객체 DB - Blob, Tree, Commit)
-`-- 원격 저장소 (Remote Repository: GitHub/GitLab - `git push` 및 PR 코드리뷰)
+[Git 형상 관리 영역 체계]
+  │
+  ├─ [작업 디렉터리] (Working Tree·로컬 코드 편집)
+  │
+  ├─ [스테이징 영역] (Staging Area/Index·스냅샷 선별)
+  │
+  ├─ [로컬 저장소] (Commit/Tree/Blob 객체 DB)
+  │
+  └─ [원격 저장소] (GitHub/GitLab·중앙 협업 및 PR)
 ```
-
-선의 의미: 계층 및 단계별 Git 커밋 생명주기
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

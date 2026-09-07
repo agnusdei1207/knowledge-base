@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "클라우드 데이터베이스 - RDS•Aurora•DynamoDB 비교"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 113
@@ -58,19 +58,19 @@ extra:
 </details>
 
 ```text
-[클라우드 데이터베이스 3대 아키텍처 모델]
-|-- 1. Amazon RDS (전통적 단일 인스턴스형)
-|   |-- Primary 인스턴스
-|   `-- Standby 인스턴스
-|-- 2. Amazon Aurora (컴퓨팅-스토리지 분리형 클라우드 네이티브 RDBMS)
-|   |-- Writer·Read Replica
-|   `-- 6-Way 분산 스토리지 계층 (3개 AZ에 6벌 복제, 4/6 쓰기 쿼럼)
-`-- 3. Amazon DynamoDB (완전관리형 서버리스 NoSQL)
-    |-- Request Router
-    `-- 자동 파티션 노드
+[클라우드 데이터베이스 모델]
+├─ [Amazon RDS (인스턴스형 RDBMS)]
+│  ├─ Primary 인스턴스 (단일 호스트)
+│  └─ Multi-AZ Standby (동기 복제본)
+├─ [Amazon Aurora (컴퓨팅-스토리지 분리)]
+│  ├─ Writer / Reader 컴퓨팅 인스턴스
+│  └─ 6-Way 분산 스토리지 (3개 AZ, 쿼럼)
+└─ [Amazon DynamoDB (서버리스 NoSQL)]
+   ├─ Request Router (자동 라우팅)
+   └─ 자동 샤딩·수평 분산 파티션 노드
 ```
 
-선의 의미: 계층 및 인스턴스형(RDS), 스토리지 분리형(Aurora), 서버리스 분산형(DynamoDB) 아키텍처 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

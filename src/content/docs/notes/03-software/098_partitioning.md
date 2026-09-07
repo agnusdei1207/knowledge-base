@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "파티셔닝: 범위•해시•리스트 (Partitioning)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 98
@@ -56,6 +56,23 @@ extra:
 - **3대 파티셔닝 전략**: Range(연속 범위/날짜), Hash(해시 균등 분산), List(이산 코드값/지역).
 
 </details>
+
+```text
+[데이터베이스 파티셔닝 (Partitioning)]
+├─ [파티셔닝 전략]
+│  ├─ Range (날짜·연속 범위 기준)
+│  ├─ Hash (해시 균등 분산 기준)
+│  ├─ List (지역·코드 이산값 기준)
+│  └─ Composite (범위+해시 복합 분할)
+├─ [색인 관리]
+│  ├─ Local Index (파티션별 독립 색인)
+│  └─ Global Index (전체 파티션 통합 색인)
+└─ [최적화 메커니즘]
+   ├─ 파티션 프루닝 (불필요 블록 배제)
+   └─ DROP PARTITION (고속 수명주기 정리)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 파티셔닝 유형 | 분할 기준 키 (Partition Key) | 핵심 특징 및 적용 워크로드 |
 |:---|:---|:---|

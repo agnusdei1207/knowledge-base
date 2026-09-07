@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "전가상화•반가상화•컨테이너 (Virtualization Comparison)"
-date: "2026-08-31T10:45:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags: [notes-software]
 weight: 19
 extra:
@@ -57,20 +57,23 @@ extra:
 </details>
 
 ```text
-[가상화 3대 모델 아키텍처 비교]
-|-- 전가상화 (Full Virtualization)
-|   |-- 하드웨어 (VT-x)
-|   |-- 하이퍼바이저 (KVM/ESXi)
-|   `-- 미수정 게스트 OS와 애플리케이션
-|-- 반가상화 (Para-virtualization)
-|   |-- 하드웨어와 하이퍼바이저 (Xen)
-|   `-- 하이퍼콜 수정 커널과 애플리케이션
-`-- 컨테이너 가상화 (Container)
-    |-- 하드웨어와 호스트 OS 커널
-    `-- 컨테이너 엔진과 격리 애플리케이션
+[가상화 3대 모델 체계]
+  │
+  ├─ [전가상화 모델] (Full Virtualization)
+  │     ├─ [하드웨어 가속] (Intel VT-x/AMD-V)
+  │     ├─ [하이퍼바이저] (KVM·ESXi)
+  │     └─ [미수정 게스트] (독립 OS 및 앱)
+  │
+  ├─ [반가상화 모델] (Para-virtualization)
+  │     ├─ [하이퍼콜 인터페이스] (Xen 하이퍼바이저)
+  │     └─ [수정 게스트 커널] (특권 호출 최적화)
+  │
+  └─ [컨테이너 모델] (OS 수준 가상화)
+        ├─ [호스트 OS 커널] (Namespaces·cgroups)
+        └─ [컨테이너 런타임] (프로세스 격리 환경)
 ```
 
-선의 의미: 계층 및 가상화 추상화 수준
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "AI 코드 생성: GitHub Copilot (AI Code Generation)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 81
@@ -56,6 +56,21 @@ extra:
 - **Public Code Matching**: 생성된 코드가 공개 오픈소스(GPL 등)와 150자 이상 일치할 경우 추천을 자동 차단하는 지식재산권 보호 필터.
 
 </details>
+
+```text
+[AI 코드 생성 아키텍처 체계]
+  │
+  ├─ [IDE 클라이언트] (VS Code/IntelliJ 플러그인)
+  │     └─ [컨텍스트 추출기] (커서 FIM·인접 파일 수집)
+  │
+  ├─ [AI 추론 백엔드]
+  │     └─ [LLM 추론 엔진] (고품질 코드 후보 실시간 생성)
+  │
+  └─ [안전/보안 게이트]
+        ├─ [보안/정책 필터] (Secret 유출·학습 방지)
+        └─ [오픈소스 매칭 필터] (GPL 라이선스 오염 차단)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

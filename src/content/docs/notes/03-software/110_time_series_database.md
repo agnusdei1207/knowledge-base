@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "시계열 데이터베이스 (Time Series Database)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 110
@@ -58,16 +58,19 @@ extra:
 </details>
 
 ```text
-[TSDB 시계열 데이터 저장 및 수명주기 파이프라인]
-|-- Ingestion Layer (고속 수집기: 초당 수십만 메트릭 버퍼링)
-`-- Time-Series Storage Engine
-    |-- Tag Index (역색인 / Inverted Index: host, region 등 다차원 필터링)
-    |-- Time Partitioning (시간 단위 파티션 분할: 일별/주별 청크 생성)
-    |-- Columnar Compressed Chunk (Gorilla XOR + Double Delta 압축)
-    `-- Lifecycle Engine (Downsampling 집계 + Retention 자동 만료 파기)
+[TSDB (시계열 데이터베이스)]
+├─ [수집 계층 (Ingestion)]
+│  └─ 고속 수집 버퍼 (Append-Only)
+├─ [저장 엔진 (Storage Engine)]
+│  ├─ Tag Index (다차원 메타 역색인)
+│  ├─ 시간 파티션 (시간대별 청크 분할)
+│  └─ Gorilla 압축 (XOR + Delta)
+└─ [수명주기 관리 (Lifecycle)]
+   ├─ 다운샘플링 (Downsampling 요약)
+   └─ 보존 정책 (Retention 자동 파기)
 ```
 
-선의 의미: 계층 및 수집된 시계열 데이터가 태그 인덱싱과 시간 파티션을 거쳐 압축·보존 관리되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

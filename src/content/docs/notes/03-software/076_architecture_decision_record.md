@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "아키텍처 결정 기록 ADR (Architecture Decision Record)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 76
@@ -58,17 +58,19 @@ extra:
 </details>
 
 ```text
-[ADR 문서 구조 및 Nygard 템플릿]
-|-- Title (제목: ADR-0005: Event Sourcing & CQRS 패턴 도입)
-|-- Status (상태: Proposed / Accepted / Superseded / Deprecated)
-|-- Context (배경 맥락: RDB 트랜잭션 한계 및 비즈니스 감사 로그 요구사항 발생)
-|-- Decision (결정 내용: Kafka + MongoDB 기반 CQRS 아키텍처 채택)
-`-- Consequences (결과 및 파급효과)
-    |-- (+) 장점: 조회 성능 10배 향상 및 완벽한 이벤트 이력 보존
-    `-- (-) 단점: Eventual Consistency 결과적 일관성 지연 처리 오버헤드 감수
+[ADR 아키텍처 결정 기록 체계]
+  │
+  ├─ [Title] (식별 번호 및 핵심 결정 명칭)
+  │
+  ├─ [Status] (Proposed / Accepted / Superseded)
+  │
+  ├─ [Context] (당시 기술 배경·비즈니스 제약)
+  │
+  ├─ [Decision] (선택한 대안 및 채택 근거)
+  │
+  └─ [Consequences] (기대 효과 및 감수할 트레이드오프)
 ```
-
-선의 의미: 계층 및 1개 ADR 파일 내부의 표준 필드 구성
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

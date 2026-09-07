@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "XP: 페어 프로그래밍•TDD (Extreme Programming)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 34
@@ -58,22 +58,26 @@ extra:
 </details>
 
 ```text
-[XP(Extreme Programming) 4대 실천 영역 아키텍처]
-|-- 개발 실천 영역 (Engineering Practices)
-|   |-- TDD (Test-Driven Development: Red / Green / Refactor)
-|   |-- 짝 프로그래밍 (Pair Programming: Driver & Navigator)
-|   `-- 리팩토링 (Refactoring: 기능 보존 코드 개선)
-|-- 통합 및 빌드 영역 (Integration Practices)
-|   |-- 지속적 통합 (Continuous Integration: 하루 수십 회 자동 빌드/테스트)
-|   `-- 공동 코드 소유 (Collective Ownership: 전원 수정 권한)
-|-- 프로세스 및 관리 영역 (Management Practices)
-|   |-- 계획 게임 (Planning Game: 사용자 스토리 기반 릴리즈 계획)
-|   |-- 작은 릴리즈 (Small Releases: 1~2주 주기 배포)
-|   `-- 주 40시간 작업 (Sustainable Pace: 팀 번아웃 방지)
-`-- 고객 협업 영역 (Customer Practices: 상주 고객 - On-site Customer)
+[XP 4대 실천 체계]
+  │
+  ├─ [개발 실천 영역] (엔지니어링 무결성)
+  │     ├─ [TDD] (Red-Green-Refactor 루프)
+  │     ├─ [짝 프로그래밍] (Driver & Navigator)
+  │     └─ [리팩토링] (기능 보존 구조 개선)
+  │
+  ├─ [통합 및 빌드 영역] (지속적 검증)
+  │     ├─ [지속적 통합] (하루 수십 회 자동 빌드)
+  │     └─ [공동 코드 소유] (팀 전체 수정 권한)
+  │
+  ├─ [프로세스 및 관리] (지속 가능 공정)
+  │     ├─ [계획 게임] (스토리 기반 릴리즈 계획)
+  │     ├─ [작은 릴리즈] (1~2주 주기 점진 배포)
+  │     └─ [지속 가능한 속도] (주 40시간 페이스)
+  │
+  └─ [고객 협업 영역] (상주 고객 즉시 피드백)
 ```
 
-선의 의미: 계층 및 12대 세부 실천법 연계 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "CAP 정리 (CAP Theorem)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 103
@@ -58,17 +58,20 @@ extra:
 </details>
 
 ```text
-[CAP 정리 및 CP / AP 분기 아키텍처]
-|-- Partition Tolerance (P: 네트워크 단절 발생 - 분산 시스템 필수 전제)
-|   |-- CP 시스템 (일관성 선택: MongoDB, HBase, Spanner)
-|   |   |-- 정족수(Quorum) 과반수 미달 시 쓰기/읽기 차단 (에러 반환)
-|   |   `-- 모든 클라이언트에게 100% 최신 일관된 데이터만 제공
-|   `-- AP 시스템 (가용성 선택: Cassandra, DynamoDB, CouchDB)
-|       |-- 분할 중에도 살아있는 로컬 복제본 노드가 무조건 성공 응답 반환
-|       `-- Stale Data 허용 및 네트워크 복구 후 최종 일관성(Eventual) 수렴
+[CAP 정리 (분산 시스템 절충)]
+├─ [P: 분할 내성 (필수 전제)]
+│  └─ 네트워크 단절·패킷 유실 수용
+├─ [CP 시스템 (일관성 선택)]
+│  ├─ 과반수 정족수 미달 시 차단 (에러)
+│  ├─ 100% 최신 일관성 보장
+│  └─ 대표: MongoDB, HBase, Spanner
+└─ [AP 시스템 (가용성 선택)]
+   ├─ 로컬 노드 무조건 성공 응답
+   ├─ 최종 일관성(Eventual) 수렴
+   └─ 대표: Cassandra, DynamoDB
 ```
 
-선의 의미: 계층 및 네트워크 분할(P) 발생 시 CP 경로와 AP 경로로 분기되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

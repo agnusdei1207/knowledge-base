@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "UML 다이어그램 분류•표기법 (UML Diagrams)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 37
@@ -59,19 +59,22 @@ extra:
 </details>
 
 ```text
-[UML 2.x 다이어그램 14종 분류 체계]
-|-- 구조 다이어그램 (Structural Diagrams: 7종 - 정적 뼈대)
-|   |-- 클래스 (Class), 객체 (Object), 패키지 (Package)
-|   |-- 컴포넌트 (Component), 복합체 구조 (Composite Structure)
-|   `-- 배치 (Deployment), 프로파일 (Profile)
-`-- 행위 다이어그램 (Behavioral Diagrams: 7종 - 동적 실행)
-    |-- 유스케이스 (Use Case), 활동 (Activity), 상태 머신 (State Machine)
-    `-- 상호작용 다이어그램 (Interaction Diagrams: 4종)
-        |-- 시퀀스 (Sequence), 통신 (Communication)
-        `-- 상호작용 개요 (Interaction Overview), 타이밍 (Timing)
+[UML 2.x 다이어그램 14종 체계]
+  │
+  ├─ [구조 다이어그램] (정적 시스템 뼈대 7종)
+  │     ├─ [클래스·객체·패키지] (논리적 모듈 구조)
+  │     ├─ [컴포넌트·복합체] (물리적 컴포넌트)
+  │     └─ [배치·프로파일] (하드웨어 배치·확장)
+  │
+  └─ [행위 다이어그램] (동적 실행 흐름 7종)
+        ├─ [유스케이스] (사용자 관점 기능)
+        ├─ [활동·상태 머신] (업무 흐름·상태 전이)
+        └─ [상호작용 다이어그램] (객체 간 메시지 4종)
+              ├─ [시퀀스·통신] (시간순·링크순 메시지)
+              └─ [상호작용개요·타이밍] (흐름·시간 제약)
 ```
 
-선의 의미: 계층 및 UML 2.x 상하위 다이어그램 분류
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

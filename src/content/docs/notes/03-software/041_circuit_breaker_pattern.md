@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "서킷 브레이커 패턴 (Circuit Breaker Pattern)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 41
@@ -58,18 +58,20 @@ extra:
 </details>
 
 ```text
-[서킷 브레이커 인터셉터 아키텍처]
-|-- 클라이언트 호출 요청
-|-- 서킷 브레이커 인터셉터 (Resilience4j / Envoy)
-|   |-- 슬라이딩 윈도우 계측기 (Count-based / Time-based Ring Buffer)
-|   `-- 서킷 상태 머신 (State Machine)
-|       |-- [Closed 상태] -> 정상 원격 마이크로서비스 호출 디스패치
-|       |-- [Open 상태] -> 원격 호출 즉시 차단 (Fast-Fail) 및 Fallback 실행
-|       `-- [Half-Open 상태] -> 제한된 시험 호출(Probe)로 서비스 복구 검증
-`-- 격벽 격리기 (Bulkhead Thread Pool / Semaphore)
+[서킷 브레이커 체계]
+  │
+  ├─ [호출 인터셉터] (프록시 기반 요청 가로채기·차단)
+  │
+  ├─ [슬라이딩 윈도우] (링버퍼 기반 실패율·지연 집계)
+  │
+  ├─ [상태 관리 머신]
+  │     ├─ [Closed] (정상 원격 호출 허용)
+  │     ├─ [Open] (호출 즉시 차단·Fallback 실행)
+  │     └─ [Half-Open] (시험 호출 기반 복구 검증)
+  │
+  └─ [격벽 격리기] (Bulkhead·스레드 풀 자원 격리)
 ```
-
-선의 의미: 계층 및 상태별 호출 분기 파이프라인
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

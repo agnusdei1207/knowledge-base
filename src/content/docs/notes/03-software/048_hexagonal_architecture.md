@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "헥사고날 아키텍처: 포트•어댑터 (Hexagonal Architecture)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 48
@@ -59,19 +59,20 @@ extra:
 </details>
 
 ```text
-[헥사고날(Ports & Adapters) 아키텍처 구조]
-|-- 인바운드 어댑터 (Driving / Inbound Adapters: 외부 진입점)
-|   |-- REST Controller (HTTP JSON 요청)
-|   `-- Kafka Consumer (메시지 이벤트 수신)
-|-- 인바운드 포트 (Inbound Port: UseCase Interface)
-|-- 도메인 코어 (Domain Core: 순수 POJO Entity & Domain Service)
-|-- 아웃바운드 포트 (Outbound Port: SPI Interface - Repository, MailSender)
-`-- 아웃바운드 어댑터 (Driven / Outbound Adapters: 인프라 구현체)
-    |-- JPA Repository Adapter (RDBMS 영속화)
-    `-- Kafka Event Producer Adapter (외부 이벤트 발행)
+[헥사고날 아키텍처 체계]
+  │
+  ├─ [인바운드 영역: Driving]
+  │     ├─ [인바운드 어댑터] (REST / Kafka Consumer)
+  │     └─ [인바운드 포트] (UseCase 인터페이스)
+  │
+  ├─ [도메인 코어: Core]
+  │     └─ [순수 비즈니스 로직] (POJO Entity·Domain Service)
+  │
+  └─ [아웃바운드 영역: Driven]
+        ├─ [아웃바운드 포트] (Repository SPI 규격)
+        └─ [아웃바운드 어댑터] (JPA / Kafka Producer)
 ```
-
-선의 의미: 계층 및 의존성 역전(DIP) 안쪽 진입 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

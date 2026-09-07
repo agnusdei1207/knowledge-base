@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "CRDT 충돌 없는 복제 데이터 (Conflict-free Replicated Data Type)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 105
@@ -58,17 +58,20 @@ extra:
 </details>
 
 ```text
-[CRDT 동시 편집 및 결정적 병합 아키텍처]
-|-- 클라이언트 A (로컬 수정 즉시 확정) ──┐
-|                                        ├──► [P2P / WebRTC / WebSocket 메시지 전파]
-|-- 클라이언트 B (로컬 수정 즉시 확정) ──┘           │
-`-- 결정적 병합 엔진 (Deterministic Merge Function: Join-Semilattice)
-    |-- G-Counter / PN-Counter (Max 연산자 기반 카운터)
-    |-- OR-Set / LWW-Element-Set (UUID 태그 기반 삽입/삭제 추적 집합)
-    `-- RGA / Yjs / Automerge (텍스트 시퀀스 동시 편집 트리 구조)
+[CRDT (충돌 없는 복제 데이터)]
+├─ [복제 상태 계층]
+│  ├─ 로컬 즉시 반영 (Lock-Free)
+│  └─ 메타데이터 (논리 시계·식별자)
+├─ [전파 방식 (Replication)]
+│  ├─ CvRDT (State-based, 전체 상태)
+│  └─ CmRDT (Operation-based, 연산자)
+└─ [결정적 병합 엔진 (Merge)]
+   ├─ Counter (G-Counter, PN-Counter)
+   ├─ Set (OR-Set, LWW-Element-Set)
+   └─ Sequence (RGA, Yjs, Automerge)
 ```
 
-선의 의미: 계층 및 클라이언트의 독립 수정과 결합 함수를 통한 결정적 수렴 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

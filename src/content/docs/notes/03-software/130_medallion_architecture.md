@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "메달리온 아키텍처 (Medallion Architecture)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 130
@@ -56,6 +56,22 @@ extra:
 - **메달리온 4대 구성요소**: Bronze(원시 덤프), Silver(정제/표준화), Gold(비즈니스 마트), Quarantine(오류 격리).
 
 </details>
+
+```text
+[메달리온 아키텍처 (Medallion)]
+├─ [브론즈 계층 (Bronze: 원시 저장)]
+│  ├─ Append-Only 원천 포맷 보존
+│  └─ 수집 타임스탬프 및 메타데이터
+├─ [실버 계층 (Silver: 정제·표준화)]
+│  ├─ Null/이상치 정제 및 중복 제거
+│  ├─ 스키마 표준화 (단일 진실 공급원)
+│  └─ 격리 테이블 (Quarantine 오류 보관)
+└─ [골드 계층 (Gold: 비즈니스 집계)]
+   ├─ 스타 스키마 차원 모델링
+   └─ 초고속 BI 리포트 및 AI 서빙
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

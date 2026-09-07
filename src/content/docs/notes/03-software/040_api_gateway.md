@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "API 게이트웨이 (API Gateway)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 40
@@ -56,6 +56,19 @@ extra:
 - **필터 체인(Filter Chain)**: 요청이 인입되어 라우팅되기 전후에 Pre-Filter(인증/로깅), Routing-Filter, Post-Filter(응답 가공)를 거치는 파이프라인.
 
 </details>
+
+```text
+[API 게이트웨이 파이프라인]
+  │
+  ├─ [SSL 종단기] (HTTPS 복호화·CPU 부하 절감)
+  │
+  ├─ [인증/인가 엔진] (JWT/OAuth 검증·엣지 차단)
+  │
+  ├─ [트래픽 제어기] (Token Bucket·Rate Limiting)
+  │
+  └─ [동적 라우터] (URI 매핑·백엔드 디스패치)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

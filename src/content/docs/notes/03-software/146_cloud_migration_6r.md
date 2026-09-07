@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 마이그레이션 6R (Cloud Migration 6R)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 146
@@ -58,19 +58,19 @@ extra:
 </details>
 
 ```text
-[클라우드 마이그레이션 6R 전략 구조]
-|-- Technical Migration (기술 인프라 이전)
-|   |-- Rehost (Lift-and-Shift: 코드 수정 0%, EC2 VM 복제)
-|   `-- Replatform (Lift-and-Tweak: 관리형 RDS/PaaS 교체)
-|-- Modernization (클라우드 네이티브 현대화)
-|   `-- Refactor (Re-architect: MSA, K8s 컨테이너, 서버리스 전면 재개발)
-`-- Business Disposition (비즈니스 및 자산 정제)
-    |-- Repurchase (Drop-and-Shop: 상용 SaaS 완제품 도입)
-    |-- Retain (Do Nothing: 규제 및 잔존 감가상각으로 현행 유지)
-    `-- Retire (Decommission: 중복 및 불필요 레거시 자산 영구 폐기)
+[클라우드 마이그레이션 6R]
+├─ [인프라 기술 이전]
+│  ├─ Rehost (Lift & Shift: VM 복제)
+│  └─ Replatform (PaaS 교체·부분수정)
+├─ [애플리케이션 현대화]
+│  └─ Refactor (MSA·K8s 전면 재설계)
+└─ [비즈니스·자산 정제]
+   ├─ Repurchase (SaaS 완제품 대체)
+   ├─ Retain (규제·의존성 현행 유지)
+   └─ Retire (불필요 자산 영구 폐기)
 ```
 
-선의 의미: 계층 및 전사 레거시 자산을 기술 이전, 현대화, 비즈니스 정제의 3대 영역 6가지 전략으로 분기 배치하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

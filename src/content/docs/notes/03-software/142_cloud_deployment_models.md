@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "클라우드 배포 모델: 퍼블릭•프라이빗•하이브리드•멀티 (Cloud Deployment Models)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 142
@@ -58,15 +58,19 @@ extra:
 </details>
 
 ```text
-[하이브리드·멀티 클라우드 정적 연결 구조]
-|-- Private Cloud (규제 데이터·폐쇄망)
-|   `-- 전용 연결망 (Direct Connect·IPSec VPN)
-|       |-- Public Cloud A (탄력적 서비스)
-|       `-- Public Cloud B (분석·재해복구)
-`-- 통합 관리 계층 (OIDC·Kubernetes)
+[클라우드 배포 모델 (Deployment)]
+├─ [단일 배포 환경]
+│  ├─ 퍼블릭 (멀티테넌시·비용효율)
+│  └─ 프라이빗 (단독인프라·규제준수)
+├─ [복합 배포 환경]
+│  ├─ 하이브리드 (IDC-Cloud 전용망 연계)
+│  └─ 멀티 클라우드 (복수 CSP·락인방지)
+└─ [통합 관리 계층]
+   ├─ 연결망 (Direct Connect·IPSec VPN)
+   └─ 거버넌스 (통합 IAM·멀티 클러스터 K8s)
 ```
 
-선의 의미: 계층 및 프라이빗 인프라와 복수의 퍼블릭 클라우드가 전용선과 통합 네트워크로 연결된 하이브리드·멀티 클라우드 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "모놀리식 vs 마이크로서비스 (Monolith vs Microservice)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 51
@@ -56,6 +56,17 @@ extra:
 - **Strangler Fig 패턴**: 레거시 모놀리스를 한 번에 교체하지 않고 특정 도메인 기능을 하나씩 MSA로 분리하여 점진적으로 교체하는 전략.
 
 </details>
+
+```text
+[아키텍처 진화 및 비교 체계]
+  │
+  ├─ [모놀리식: Monolith] (단일 바이너리·공유 DB·ACID 보장)
+  │
+  ├─ [모듈러 모놀리스: Modulith] (단일 배포·모듈/스키마 논리 격리)
+  │
+  └─ [마이크로서비스: MSA] (독립 배포·Database-per-Service)
+```
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "개체 무결성•참조 무결성 (Entity Referential Integrity)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 92
@@ -56,6 +56,23 @@ extra:
 - **부모-자식 관계 모델**: 기본키를 가진 부모 테이블(Users)과 이를 외래키로 참조하는 자식 테이블(Orders).
 
 </details>
+
+```text
+[개체 무결성 및 참조 무결성]
+├─ [개체 무결성 (Entity Integrity)]
+│  ├─ 기본키 (Primary Key)
+│  ├─ 유일성 (Uniqueness, 중복 배제)
+│  └─ 실체성 (Not Null 강제)
+└─ [참조 무결성 (Referential Integrity)]
+   ├─ 외래키 (Foreign Key, 부모 참조)
+   ├─ 연쇄 정책 (ON DELETE / UPDATE)
+   │  ├─ RESTRICT / NO ACTION (차단)
+   │  ├─ CASCADE (연쇄 처리)
+   │  └─ SET NULL (널 초기화)
+   └─ 외래키 인덱스 (FK Index 조회 최적화)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 제약조건 위반 시 동작 |
 |:---|:---|:---|

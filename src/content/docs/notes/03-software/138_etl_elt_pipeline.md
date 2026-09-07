@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "ETL•ELT 파이프라인 (ETL ELT Pipeline)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 138
@@ -58,15 +58,17 @@ extra:
 </details>
 
 ```text
-[파이프라인 구성]
-|-- 추출기
-|-- 변환기
-|-- 적재기
-|-- 오케스트레이터
-`-- 품질 및 계보 검증기
+[ETL·ELT 데이터 파이프라인]
+├─ [파이프라인 코어]
+│  ├─ 추출기 (Extractor)
+│  ├─ 변환기 (Transformer)
+│  └─ 적재기 (Loader)
+└─ [제어 및 관리 계층]
+   ├─ 오케스트레이터 (스케줄링·의존성)
+   └─ 품질 및 계보 검증기 (Contract)
 ```
 
-선의 의미: 계층 및 Extractor가 소스를 읽어 Transformer(ETL) 또는 Loader(ELT)를 거쳐 타깃에 적재되고 Orchestrator가 이를 통제하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

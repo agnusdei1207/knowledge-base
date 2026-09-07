@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "BASE vs ACID (BASE vs ACID)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 104
@@ -58,17 +58,19 @@ extra:
 </details>
 
 ```text
-[ACID + BASE 하이브리드 아키텍처]
-|-- 1. 주문 서비스 (Order Service: 단일 DB Local ACID 트랜잭션)
-|   |-- Order Table Insert + Outbox Table Insert (단일 트랜잭션 원자 커밋)
-|   `-- CDC 커넥터 (Debezium -> Kafka 이벤트 브로커로 무손실 발행)
-`-- 2. 후속 분산 서비스 (BASE 최종 일관성 수렴)
-    |-- 결제 서비스 (Payment: 멱등성 보장 컨슈머 + 로컬 DB 반영)
-    |-- 배송 서비스 (Delivery: 주문 이벤트 수신 후 배송 준비)
-    `-- 실패 시 보상 트랜잭션 (Saga Compensating Event 발행으로 주문 취소)
+[ACID vs BASE 트랜잭션 모델]
+├─ [ACID 모델 (강한 일관성)]
+│  ├─ Atomicity (원자성)
+│  ├─ Consistency (일관성)
+│  ├─ Isolation (고립성)
+│  └─ Durability (영속성)
+└─ [BASE 모델 (최종 일관성)]
+   ├─ Basically Available (기본 가용성)
+   ├─ Soft-State (과도기 상태 허용)
+   └─ Eventual Consistency (최종 수렴)
 ```
 
-선의 의미: 계층 및 단일 서비스의 ACID 확정과 분산 서비스 간의 BASE 비동기 수렴 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

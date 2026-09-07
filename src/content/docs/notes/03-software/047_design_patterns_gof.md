@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "디자인 패턴: GoF 23종 (Design Patterns GoF)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 47
@@ -60,20 +60,23 @@ extra:
 </details>
 
 ```text
-[GoF 23종 디자인 패턴 분류 트리]
-|-- 생성 패턴 (Creational: 5종 - 객체 생성 캡슐화)
-|   |-- Singleton, Factory Method, Abstract Factory
-|   `-- Builder, Prototype
-|-- 구조 패턴 (Structural: 7종 - 클래스/객체 합성)
-|   |-- Adapter, Bridge, Composite, Decorator
-|   `-- Facade, Flyweight, Proxy
-`-- 행위 패턴 (Behavioral: 11종 - 책임 분배 및 알고리즘 교체)
-    |-- Strategy, Template Method, Observer, State
-    |-- Command, Chain of Responsibility, Iterator
-    `-- Mediator, Memento, Visitor, Interpreter
+[GoF 23종 디자인 패턴 체계]
+  │
+  ├─ [생성 패턴 5종] (객체 생성 캡슐화)
+  │     ├─ Singleton / Prototype
+  │     ├─ Factory Method / Abstract Factory
+  │     └─ Builder
+  │
+  ├─ [구조 패턴 7종] (클래스·객체 합성 유연화)
+  │     ├─ Adapter / Bridge / Composite
+  │     └─ Decorator / Facade / Flyweight / Proxy
+  │
+  └─ [행위 패턴 11종] (알고리즘 교체·책임 분배)
+        ├─ Strategy / Template Method / State
+        ├─ Observer / Command / CoR / Iterator
+        └─ Mediator / Memento / Visitor / Interpreter
 ```
-
-선의 의미: 23종 디자인 패턴의 목적별 3대 계층 분류
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 30%"
     variant: note
 title: "관계형 데이터베이스 기본: 릴레이션•키•제약조건 (Relational Database)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 84
@@ -58,17 +58,22 @@ extra:
 </details>
 
 ```text
-[릴레이션 및 3대 무결성 제약조건 구조]
-|-- 부모 릴레이션: Users (사용자)
-|   |-- [PK: user_id] -> 개체 무결성 (Entity Integrity: Null 불가, 고유성)
-|   |-- [name]        -> 도메인 무결성 (Domain Integrity: 허용 타입/범위 준수)
-|   `-- [email]       -> 고유 무결성 (Unique Constraint: 중복 금지)
-`-- 자식 릴레이션: Orders (주문)
-    |-- [PK: order_id]
-    `-- [FK: user_id] -> 참조 무결성 (Referential Integrity: Users.user_id 참조 또는 Null)
+[관계형 DB 무결성 제약 체계]
+  │
+  ├─ [개체 무결성: Entity]
+  │     └─ [기본키 PK] (유일성 보장·Null 불가)
+  │
+  ├─ [참조 무결성: Referential]
+  │     └─ [외래키 FK] (부모 PK 참조·고아 레코드 방지)
+  │
+  ├─ [도메인 무결성: Domain]
+  │     └─ [속성 값 제약] (데이터 타입·허용 범위 준수)
+  │
+  └─ [키 계층 구조]
+        ├─ [슈퍼키 ➔ 후보키 ➔ 기본키]
+        └─ [대체키 / 외래키]
 ```
-
-선의 의미: Users 릴레이션의 PK(user_id)를 Orders 릴레이션의 FK가 참조하는 관계
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

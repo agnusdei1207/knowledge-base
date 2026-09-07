@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 70%"
     variant: note
 title: "Apache Kafka"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 119
@@ -58,18 +58,18 @@ extra:
 </details>
 
 ```text
-[Apache Kafka 분산 스트리밍 아키텍처]
-|-- Producer (메시지 키 기반 파티셔너 라우팅 및 배치 압축 전송)
-`-- Kafka Broker Cluster (KRaft Raft 쿼럼 기반 메타데이터 관리)
-    |-- Broker 1
-    |   `-- Topic A - Partition 0
-    |-- Broker 2
-    |   `-- Topic A - Partition 1
-    `-- Broker 3
-        `-- ISR Follower 복제본
+[Apache Kafka 아키텍처]
+├─ [발행 계층 (Producer)]
+│  └─ 메시지 키 기반 파티셔너 라우팅
+├─ [브로커 클러스터 (Broker Cluster)]
+│  ├─ KRaft 컨트롤러 (쿼럼 메타데이터 관리)
+│  ├─ Topic & Partition (Append-Only 로그)
+│  └─ ISR 복제본 (Leader-Follower 동기화)
+└─ [소비 계층 (Consumer Group)]
+   └─ 파티션 1:1 매핑 병렬 소비 및 오프셋 관리
 ```
 
-선의 의미: 계층 및 Producer의 발행, Broker 파티션 저장 및 ISR 복제, Consumer Group의 병렬 구독 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

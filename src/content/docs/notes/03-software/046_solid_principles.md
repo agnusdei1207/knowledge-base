@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "객체지향 설계 원칙 SOLID (SOLID Principles)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:00:00+09:00"
 tags:
   - "notes-software"
 weight: 46
@@ -61,18 +61,20 @@ extra:
 </details>
 
 ```text
-[SOLID 5대 원칙 상호 연계 구조]
-|-- 응집도 강화 영역 (Cohesion)
-|   |-- SRP (Single Responsibility: 클래스당 단일 책임 캡슐화)
-|   `-- ISP (Interface Segregation: 역할별 작고 명확한 인터페이스 분리)
-|-- 결합도 완화 및 확장 영역 (Coupling & Extensibility)
-|   |-- DIP (Dependency Inversion: 구체 구현체가 아닌 추상 인터페이스 의존)
-|   `-- OCP (Open-Closed: 전략 패턴 기반 기존 코드 무수정 신규 확장)
-`-- 다형성 무결성 보장 영역 (Polymorphism Safety)
-    `-- LSP (Liskov Substitution: 부모의 행위 계약을 위반하지 않는 자식 구현)
+[SOLID 5대 원칙 체계]
+  │
+  ├─ [응집도 강화]
+  │     ├─ [SRP] (단일 책임·단일 변경 사유)
+  │     └─ [ISP] (인터페이스 분리·역할별 세분화)
+  │
+  ├─ [결합도 완화 및 확장]
+  │     ├─ [DIP] (의존역전·추상화 인터페이스 의존)
+  │     └─ [OCP] (개방폐쇄·기존 코드 무수정 확장)
+  │
+  └─ [다형성 계약 준수]
+        └─ [LSP] (리스코프 치환·행위 무결성 보장)
 ```
-
-선의 의미: 5대 원칙 간의 품질 속성 연계 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

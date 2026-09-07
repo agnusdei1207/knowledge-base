@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "실행 계획•쿼리 최적화 (Query Execution Plan Optimization)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 95
@@ -56,6 +56,21 @@ extra:
 - **EXPLAIN 6대 핵심 컬럼**: id(연산 순서), select_type(단순/서브쿼리), table(참조 테이블), type(조인/스캔 방식), rows(예상 행수), Extra(부가 정보).
 
 </details>
+
+```text
+[쿼리 실행 계획 및 최적화]
+├─ [접근 유형 (Access Type)]
+│  ├─ const / system (단건 O(1) 조회)
+│  ├─ eq_ref / ref (인덱스 조인 및 참조)
+│  ├─ range (인덱스 범위 스캔)
+│  └─ index / ALL (인덱스/테이블 풀스캔)
+└─ [실행 계획 분석 (EXPLAIN)]
+   ├─ rows (예상 처리 행 수 통계)
+   ├─ key / key_len (선택 인덱스 정보)
+   └─ Extra (Using index, filesort 등)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 접근 방식 (type) | 의미 및 성능 수준 | 발생 상황 및 판정 기준 |
 |:---|:---|:---|

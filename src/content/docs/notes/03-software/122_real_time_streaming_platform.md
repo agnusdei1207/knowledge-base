@@ -6,7 +6,7 @@ sidebar:
     text: "미출 · 50%"
     variant: note
 title: "실시간 스트리밍 플랫폼 (Real-Time Streaming Platform)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 122
@@ -58,14 +58,19 @@ extra:
 </details>
 
 ```text
-[실시간 스트리밍 플랫폼 구성]
-|-- 수집 계층
-|-- 이벤트 브로커
-|-- 스트림 처리기
-`-- 서빙 저장소
+[실시간 스트리밍 플랫폼 파이프라인]
+├─ [1. 수집 계층 (Ingestion)]
+│  └─ Debezium CDC / Kafka Connect
+├─ [2. 이벤트 브로커 (Broker)]
+│  └─ Apache Kafka / Apache Pulsar
+├─ [3. 스트림 처리기 (Processing)]
+│  └─ Apache Flink / Spark Streaming
+└─ [4. 서빙 저장소 (Serving)]
+   ├─ Redis (초저지연 인메모리 서빙)
+   └─ Elasticsearch (실시간 검색·색인)
 ```
 
-선의 의미: 계층 및 수집된 원천 이벤트가 브로커 버퍼와 연산 엔진을 거쳐 서빙 DB로 파이프라이닝되는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

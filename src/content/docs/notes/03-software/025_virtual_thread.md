@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 50%"
     variant: note
 title: "가상 스레드: Java Project Loom (Virtual Thread)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T09:55:00+09:00"
 tags:
   - "notes-software"
 weight: 25
@@ -58,19 +58,21 @@ extra:
 </details>
 
 ```text
-[가상 스레드 M:N 다중화 아키텍처]
-|-- 가상 스레드 풀 (수백만 개 VT: JVM 힙 메모리에 스택 저장)
-|   |-- VT 1 (비즈니스 로직 실행 중)
-|   |-- VT 2 (I/O 대기 중 -> Unmount 상태로 힙에 보관)
-|   `-- VT 3 (실행 대기 큐)
-|-- JVM 스케줄러 (ForkJoinPool - Work-Stealing)
-|   |-- Mount : 유휴 캐리어 스레드에 VT 탑재
-|   `-- Unmount : I/O 블로킹 시 Continuation 힙 저장 후 캐리어 반환
-`-- 캐리어 스레드 풀 (OS 플랫폼 스레드 = CPU 코어 수만큼 상주)
-    `-- CPU 코어 1, 코어 2 ... 코어 N
+[가상 스레드 M:N 체계]
+  │
+  ├─ [가상 스레드 계층] (수백만 개 VT 풀)
+  │     ├─ [힙 콜 스택] (수백 바이트 경량 스택)
+  │     └─ [Continuation 엔진] (스택 저장·복원)
+  │
+  ├─ [JVM 스케줄러] (ForkJoinPool)
+  │     ├─ [마운트] (유휴 캐리어에 VT 결합)
+  │     └─ [언마운트] (I/O 시 캐리어 즉시 반납)
+  │
+  └─ [캐리어 스레드 풀] (OS 플랫폼 스레드)
+        └─ [CPU 물리 코어군] (명령어 실제 실행)
 ```
 
-선의 의미: 계층 및 M:N 매핑 구조
+선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

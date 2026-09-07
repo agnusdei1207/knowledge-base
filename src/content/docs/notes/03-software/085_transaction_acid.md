@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "트랜잭션 ACID (Transaction ACID)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 85
@@ -58,14 +58,17 @@ extra:
 </details>
 
 ```text
-[트랜잭션 ACID 보장 체계]
-|-- 원자성
-|-- 일관성
-|-- 격리성
-`-- 지속성
+[트랜잭션 ACID 체계]
+  │
+  ├─ [원자성: Atomicity] (All-or-Nothing·Undo Log 롤백)
+  │
+  ├─ [일관성: Consistency] (무결성 제약조건·도메인 불변식)
+  │
+  ├─ [격리성: Isolation] (MVCC / 2PL·동시성 제어)
+  │
+  └─ [지속성: Durability] (WAL·Redo Log 기반 영구 보존)
 ```
-
-선의 의미: 트랜잭션 무결성을 구성하는 네 가지 보장 속성
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|

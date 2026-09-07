@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 70%"
     variant: note
 title: "VM vs 컨테이너 비교 (VM vs Container)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 151
@@ -56,6 +56,22 @@ extra:
 - **가상화 스택 구조**: VM 계층(App + Guest OS + Hypervisor), Container 계층(App + containerd/runc + Host Kernel).
 
 </details>
+
+```text
+[서버 가상화 패러다임 비교]
+├─ [가상머신 (VM) 아키텍처]
+│  ├─ 하이퍼바이저 (Type 1/2 HW 가상화)
+│  ├─ Guest OS (독립 커널 구동)
+│  └─ 애플리케이션 및 의존 라이브러리
+├─ [컨테이너 (Container) 아키텍처]
+│  ├─ Host OS 커널 공유 (시스템 콜 호출)
+│  ├─ 리눅스 격리 (Namespaces·cgroups)
+│  └─ OCI 런타임 (경량 프로세스 구동)
+└─ [하이브리드 대안 (MicroVM)]
+   └─ Firecracker / Kata (초경량 커널 격리)
+```
+
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

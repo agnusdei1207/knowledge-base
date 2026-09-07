@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "Apache Iceberg"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 128
@@ -58,16 +58,18 @@ extra:
 </details>
 
 ```text
-[Apache Iceberg 메타데이터 트리]
-|-- 카탈로그
-`-- 메타데이터 계층
-    |-- 메타데이터 파일
-    |-- 매니페스트 리스트
-    `-- 매니페스트 파일
-        `-- 데이터 파일
+[Apache Iceberg 3계층 메타데이터]
+├─ [카탈로그 계층 (Catalog)]
+│  └─ REST / Glue (현재 스냅샷 포인터 관리)
+├─ [메타데이터 계층 (Metadata Tree)]
+│  ├─ Metadata File (테이블 스키마·스냅샷 목록)
+│  ├─ Manifest List (스냅샷별 Manifest 요약)
+│  └─ Manifest File (파일 경로 및 Min/Max 통계)
+└─ [데이터 계층 (Data Files)]
+   └─ Parquet / ORC (불변 데이터 파일)
 ```
 
-선의 의미: 계층 및 Catalog가 메타데이터 파일을 가리키고 Manifest List와 Manifest File을 거쳐 실제 데이터 파일로 접근하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 | 주요 특징 |
 |:---|:---|:---|

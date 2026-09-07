@@ -6,7 +6,7 @@ sidebar:
     text: "기출 · 30%"
     variant: note
 title: "MongoDB 문서 데이터베이스 (MongoDB Document Database)"
-date: "2026-08-31T10:48:00+09:00"
+date: "2026-09-07T10:05:00+09:00"
 tags:
   - "notes-software"
 weight: 106
@@ -58,15 +58,21 @@ extra:
 </details>
 
 ```text
-[MongoDB 샤딩 및 레플리카 세트 아키텍처]
-|-- 클라이언트 애플리케이션 (Node.js / Java Spring)
-`-- Mongos 쿼리 라우터 (Query Router / Stateless 프록시)
-    |-- Config Server Replica Set (샤드 키 매핑 메타데이터 및 청크 관리)
-    |-- [Shard 1 (Replica Set)] -> Primary ◄──(Oplog 복제)──► Secondary 1, 2
-    `-- [Shard 2 (Replica Set)] -> Primary ◄──(Oplog 복제)──► Secondary 1, 2
+[MongoDB 아키텍처]
+├─ [접근 계층]
+│  └─ Mongos (쿼리 라우터·무상태 프록시)
+├─ [메타데이터 계층]
+│  └─ Config Server (샤드 키·청크 메타데이터)
+├─ [데이터 저장 계층 (Shard)]
+│  ├─ Shard Replica Set (데이터 분할 저장)
+│  │  ├─ Primary (쓰기 전담)
+│  │  └─ Secondary (Oplog 비동기 복제)
+│  └─ WiredTiger 엔진 (문서 레벨 락·압축)
+└─ [데이터 모델]
+   └─ BSON 도큐먼트 (단일 문서 원자성)
 ```
 
-선의 의미: 계층 및 Mongos 라우터가 Config Server 메타데이터를 참조하여 각 샤드로 쿼리를 분기하는 구조
+- 선의 의미: 계층 구조 및 상하위 포함 관계를 나타낸다.
 
 | 구성요소 | 책임 |
 |:---|:---|
